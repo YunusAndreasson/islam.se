@@ -1,0 +1,70 @@
+{
+	"$schema": "http://json-schema.org/draft-07/schema#",
+	"title": "DraftOutput",
+	"type": "object",
+	"required": ["title", "body", "wordCount", "quotesUsed"],
+	"properties": {
+		"title": {
+			"type": "string",
+			"description": "Article title"
+		},
+		"subtitle": {
+			"type": "string",
+			"description": "Optional subtitle or deck"
+		},
+		"body": {
+			"type": "string",
+			"description": "Full article text in markdown"
+		},
+		"wordCount": {
+			"type": "integer",
+			"minimum": 1500,
+			"maximum": 4000,
+			"description": "Word count of the article"
+		},
+		"quotesUsed": {
+			"type": "array",
+			"minItems": 4,
+			"items": {
+				"type": "object",
+				"required": ["quoteId", "position"],
+				"properties": {
+					"quoteId": {
+						"type": "string",
+						"description": "ID from quote database"
+					},
+					"position": {
+						"type": "string",
+						"description": "Where in the article"
+					},
+					"integrationNote": {
+						"type": "string",
+						"description": "How the quote serves the narrative"
+					}
+				}
+			}
+		},
+		"sourcesReferenced": {
+			"type": "array",
+			"items": { "type": "string" },
+			"description": "Source IDs from research"
+		},
+		"selfCritique": {
+			"type": "object",
+			"properties": {
+				"strengths": {
+					"type": "array",
+					"items": { "type": "string" }
+				},
+				"concerns": {
+					"type": "array",
+					"items": { "type": "string" }
+				},
+				"aiPatternCheck": {
+					"type": "string",
+					"description": "Assessment of human-like quality"
+				}
+			}
+		}
+	}
+}

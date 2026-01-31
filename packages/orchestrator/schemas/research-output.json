@@ -1,0 +1,94 @@
+{
+	"$schema": "http://json-schema.org/draft-07/schema#",
+	"title": "ResearchOutput",
+	"type": "object",
+	"required": ["topic", "summary", "sources", "quotes", "perspectives", "facts"],
+	"properties": {
+		"topic": {
+			"type": "string",
+			"description": "The original research topic"
+		},
+		"summary": {
+			"type": "string",
+			"description": "2-3 sentence summary of findings"
+		},
+		"sources": {
+			"type": "array",
+			"minItems": 5,
+			"items": {
+				"type": "object",
+				"required": ["id", "url", "title", "credibility", "keyFindings"],
+				"properties": {
+					"id": { "type": "string" },
+					"url": { "type": "string", "format": "uri" },
+					"title": { "type": "string" },
+					"author": { "type": "string" },
+					"publication": { "type": "string" },
+					"date": { "type": "string" },
+					"credibility": { "enum": ["high", "medium", "low"] },
+					"credibilityReason": { "type": "string" },
+					"keyFindings": {
+						"type": "array",
+						"items": { "type": "string" }
+					}
+				}
+			}
+		},
+		"quotes": {
+			"type": "array",
+			"minItems": 5,
+			"items": {
+				"type": "object",
+				"required": ["id", "text", "author", "language", "relevance"],
+				"properties": {
+					"id": { "type": "string" },
+					"text": { "type": "string" },
+					"author": { "type": "string" },
+					"source": { "type": "string" },
+					"language": { "enum": ["swedish", "arabic", "norse", "english"] },
+					"relevance": { "type": "string" },
+					"standaloneScore": { "type": "number", "minimum": 1, "maximum": 5 }
+				}
+			}
+		},
+		"perspectives": {
+			"type": "array",
+			"minItems": 2,
+			"items": {
+				"type": "object",
+				"required": ["name", "description"],
+				"properties": {
+					"name": { "type": "string" },
+					"description": { "type": "string" },
+					"supportingSources": {
+						"type": "array",
+						"items": { "type": "string" }
+					}
+				}
+			}
+		},
+		"facts": {
+			"type": "array",
+			"items": {
+				"type": "object",
+				"required": ["claim", "sources"],
+				"properties": {
+					"claim": { "type": "string" },
+					"sources": {
+						"type": "array",
+						"items": { "type": "string" }
+					},
+					"confidence": { "enum": ["high", "medium", "low"] }
+				}
+			}
+		},
+		"suggestedAngles": {
+			"type": "array",
+			"items": { "type": "string" }
+		},
+		"warnings": {
+			"type": "array",
+			"items": { "type": "string" }
+		}
+	}
+}

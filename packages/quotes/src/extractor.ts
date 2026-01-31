@@ -1,0 +1,391 @@
+import { existsSync, mkdirSync, writeFileSync } from "node:fs";
+import { dirname, join } from "node:path";
+import { fileURLToPath } from "node:url";
+import Anthropic from "@anthropic-ai/sdk";
+import { z } from "zod";
+
+// Find the project root (where this package is installed)
+const __dirname = dirname(fileURLToPath(import.meta.url));
+const PROJECT_ROOT = join(__dirname, "..", "..", "..");
+const EXTRACTED_DIR = join(PROJECT_ROOT, "data", "extracted");
+
+// Valid categories for Swedish quotes
+const VALID_CATEGORIES = [
+	"tro",
+	"tålamod",
+	"tacksamhet",
+	"prövningar",
+	"ödmjukhet",
+	"döden",
+	"mening",
+	"kunskap",
+	"karaktär",
+	"gemenskap",
+	"rättvisa",
+	"barmhärtighet",
+	"naturen",
+	"självrannsakan",
+	"hopp",
+	"kärlek",
+	"girighet",
+	"högmod",
+] as const;
+
+// Valid tones
+const VALID_TONES = ["hopeful", "somber", "reflective", "ironic", "warning", "neutral"] as const;
+
+/**
+ * Schema for a single extracted quote
+ */
+export const QuoteSchema = z.object({
+	text: z.string().describe("The quote text"),
+	author: z.string().describe("The author of the work"),
+	workTitle: z.string().describe("The title of the work"),
+	category: z
+		.string()
+		.transform((c) => {
+			const lower = c.toLowerCase();
+			return VALID_CATEGORIES.includes(lower as (typeof VALID_CATEGORIES)[number])
+				? lower
+				: "övrigt";
+		})
+		.describe("Thematic category"),
+	keywords: z.array(z.string()).describe("2-3 search keywords"),
+	tone: z
+		.string()
+		.transform((t) => {
+			const lower = t.toLowerCase();
+			return VALID_TONES.includes(lower as (typeof VALID_TONES)[number]) ? lower : "neutral";
+		})
+		.describe("Emotional tone"),
+	standalone: z.number().min(1).max(5).describe("How well quote works without context (1-5)"),
+});
+
+export type Quote = z.infer<typeof QuoteSchema>;
+
+/**
+ * Schema for extraction result
+ */
+export const ExtractionResultSchema = z.object({
+	quotes: z.array(QuoteSchema),
+	sourceUrl: z.string(),
+	extractedAt: z.string(),
+});
+
+export type ExtractionResult = z.infer<typeof ExtractionResultSchema>;
+
+/**
+ * Splits text into chunks, trying paragraph boundaries first, then sentences, then hard splits
+ */
+function splitIntoChunks(text: string, maxChunkSize: number): string[] {
+	const chunks: string[] = [];
+
+	// First split by double newlines (paragraphs)
+	let segments = text.split(/\n\n+/);
+
+	// If we only got one segment or segments are too large, try single newlines
+	if (segments.length === 1 || segments.some((s) => s.length > maxChunkSize)) {
+		segments = text.split(/\n+/);
+	}
+
+	let currentChunk = "";
+	for (const segment of segments) {
+		// If a single segment is too large, split it by sentences or hard split
+		if (segment.length > maxChunkSize) {
+			// First, push current chunk if any
+			if (currentChunk.trim()) {
+				chunks.push(currentChunk.trim());
+				currentChunk = "";
+			}
+
+			// Try to split long segment by sentences
+			const sentences = segment.split(/(?<=[.!?])\s+/);
+			for (const sentence of sentences) {
+				if (sentence.length > maxChunkSize) {
+					// Hard split if even a sentence is too long
+					for (let i = 0; i < sentence.length; i += maxChunkSize) {
+						chunks.push(sentence.slice(i, i + maxChunkSize));
+					}
+				} else if (currentChunk.length + sentence.length > maxChunkSize) {
+					if (currentChunk.trim()) {
+						chunks.push(currentChunk.trim());
+					}
+					currentChunk = sentence;
+				} else {
+					currentChunk += (currentChunk ? " " : "") + sentence;
+				}
+			}
+		} else if (currentChunk.length + segment.length > maxChunkSize && currentChunk.length > 0) {
+			chunks.push(currentChunk.trim());
+			currentChunk = segment;
+		} else {
+			currentChunk += (currentChunk ? "\n\n" : "") + segment;
+		}
+	}
+
+	if (currentChunk.trim()) {
+		chunks.push(currentChunk.trim());
+	}
+
+	return chunks;
+}
+
+/**
+ * Sleep for a given number of milliseconds
+ */
+function sleep(ms: number): Promise<void> {
+	return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+/**
+ * Extracts quotes from a single chunk of text with retry logic for rate limits
+ */
+async function extractFromChunk(
+	client: Anthropic,
+	chunk: string,
+	chunkIndex: number,
+	totalChunks: number,
+	metadata?: { author?: string; title?: string },
+	onProgress?: (message: string) => void,
+): Promise<Quote[]> {
+	const systemPrompt = `You are extracting quotes for use in Islamic spiritual and philosophical writing in Swedish.
+
+Extract quotes that:
+- Express profound truths about human nature, existence, morality, or the human condition
+- Reflect on themes relevant to spiritual life: faith, patience, gratitude, trials, purpose, mortality
+- Could illustrate Islamic concepts even if from non-Islamic sources
+- Capture universal wisdom about life, death, suffering, hope, and relationships
+
+CATEGORIES (Swedish):
+tro, tålamod, tacksamhet, prövningar, ödmjukhet, döden, mening, kunskap, karaktär, gemenskap, rättvisa, barmhärtighet, naturen, självrannsakan, hopp, kärlek, girighet, högmod
+
+TONE options:
+- hopeful (optimistic, encouraging)
+- somber (serious, heavy)
+- reflective (contemplative, thoughtful)
+- ironic (paradoxical, with hidden meaning)
+- warning (cautionary)
+- neutral (matter-of-fact wisdom)
+
+For each quote extract:
+1. text: Exact Swedish text (1-4 sentences)
+2. author: Use provided author
+3. workTitle: Use provided title
+4. category: ONE from list above
+5. keywords: 2-3 Swedish search terms (beyond category)
+6. tone: ONE from options above
+7. standalone: 1-5 score (5 = works perfectly alone, 1 = needs much context)
+
+Extract 30-50 quotes prioritizing DEPTH. SKIP mundane dialogue and shallow content.
+
+Output ONLY valid JSON.`;
+
+	const userPrompt = `Extract quotes from this text (section ${chunkIndex + 1} of ${totalChunks}).
+
+Author: ${metadata?.author ?? "Unknown"}
+Title: ${metadata?.title ?? "Unknown"}
+
+Text:
+---
+${chunk}
+---
+
+Output JSON:
+{
+  "quotes": [
+    {
+      "text": "Exact Swedish quote",
+      "author": "${metadata?.author ?? "Author"}",
+      "workTitle": "${metadata?.title ?? "Title"}",
+      "category": "Swedish category from list",
+      "keywords": ["keyword1", "keyword2"],
+      "tone": "hopeful|somber|reflective|ironic|warning|neutral",
+      "standalone": 1-5
+    }
+  ]
+}
+
+Extract 30-50 quotes. Output ONLY JSON.`;
+
+	// Retry logic with exponential backoff for rate limits
+	const maxRetries = 5;
+	let lastError: Error | null = null;
+
+	for (let attempt = 0; attempt < maxRetries; attempt++) {
+		try {
+			const response = await client.messages.create({
+				model: "claude-haiku-4-5-20251001",
+				max_tokens: 8192,
+				messages: [
+					{
+						role: "user",
+						content: userPrompt,
+					},
+				],
+				// Use prompt caching for system prompt (90% cost reduction on cache hits)
+				system: [
+					{
+						type: "text",
+						text: systemPrompt,
+						cache_control: { type: "ephemeral" },
+					},
+				],
+			});
+
+			const content = response.content[0];
+			if (!content || content.type !== "text") {
+				throw new Error("Unexpected response type from Claude");
+			}
+
+			let jsonStr = content.text.trim();
+			if (jsonStr.startsWith("```json")) {
+				jsonStr = jsonStr.slice(7);
+			}
+			if (jsonStr.startsWith("```")) {
+				jsonStr = jsonStr.slice(3);
+			}
+			if (jsonStr.endsWith("```")) {
+				jsonStr = jsonStr.slice(0, -3);
+			}
+			jsonStr = jsonStr.trim();
+
+			// Try to fix common JSON issues
+			// 1. Remove trailing commas before } or ]
+			jsonStr = jsonStr.replace(/,\s*([}\]])/g, "$1");
+			// 2. Fix unescaped quotes in strings (common LLM error)
+			// This is tricky - try parsing first, fix only if needed
+
+			try {
+				const parsed = JSON.parse(jsonStr);
+				return z.array(QuoteSchema).parse(parsed.quotes);
+			} catch (parseError) {
+				// Try to extract quotes array from malformed wrapper JSON
+				const quotesMatch = jsonStr.match(/"quotes"\s*:\s*\[/);
+				if (quotesMatch) {
+					const startIdx = jsonStr.indexOf("[", quotesMatch.index);
+					let depth = 0;
+					let endIdx = startIdx;
+					for (let i = startIdx; i < jsonStr.length; i++) {
+						if (jsonStr[i] === "[") depth++;
+						if (jsonStr[i] === "]") depth--;
+						if (depth === 0) {
+							endIdx = i + 1;
+							break;
+						}
+					}
+					const quotesArray = jsonStr.slice(startIdx, endIdx);
+					const fixedArray = quotesArray.replace(/,\s*([}\]])/g, "$1");
+					const quotes = JSON.parse(fixedArray);
+					return z.array(QuoteSchema).parse(quotes);
+				}
+				throw parseError;
+			}
+		} catch (error) {
+			lastError = error instanceof Error ? error : new Error(String(error));
+
+			// Use typed error classes for better error handling (modern SDK pattern)
+			if (error instanceof Anthropic.RateLimitError) {
+				if (attempt < maxRetries - 1) {
+					// Exponential backoff: 60s, 120s, 240s, 480s
+					const waitTime = 60000 * 2 ** attempt;
+					const waitMinutes = Math.round(waitTime / 60000);
+					onProgress?.(
+						`Rate limited. Waiting ${waitMinutes} minute(s) before retry ${attempt + 2}/${maxRetries}...`,
+					);
+					await sleep(waitTime);
+					continue;
+				}
+			} else if (error instanceof Anthropic.APIError) {
+				// Log API error details for debugging
+				onProgress?.(`API Error: ${error.status} - ${error.message}`);
+			}
+
+			throw lastError;
+		}
+	}
+
+	throw lastError || new Error("Max retries exceeded");
+}
+
+/**
+ * Extracts meaningful quotes from a literary text using Claude.
+ * Processes text in chunks for longer works to ensure comprehensive coverage.
+ */
+export async function extractQuotes(
+	text: string,
+	sourceUrl: string,
+	metadata?: { author?: string; title?: string },
+	onProgress?: (message: string) => void,
+): Promise<ExtractionResult> {
+	const apiKey = process.env.ANTHROPIC_API_KEY;
+	if (!apiKey) {
+		throw new Error("ANTHROPIC_API_KEY environment variable is required");
+	}
+
+	const client = new Anthropic({ apiKey });
+
+	// Split into chunks of ~40k chars (roughly ~50k tokens with Swedish text)
+	// This leaves room for the prompt and stays under Claude's 200k token limit
+	const maxChunkSize = 40000;
+	const chunks = splitIntoChunks(text, maxChunkSize);
+
+	const allQuotes: Quote[] = [];
+
+	let failedChunks = 0;
+	for (let i = 0; i < chunks.length; i++) {
+		const chunk = chunks[i];
+		if (!chunk) continue;
+
+		onProgress?.(`Processing chunk ${i + 1}/${chunks.length}...`);
+
+		try {
+			const quotes = await extractFromChunk(client, chunk, i, chunks.length, metadata, onProgress);
+			allQuotes.push(...quotes);
+			onProgress?.(`  Found ${quotes.length} quotes in chunk ${i + 1}`);
+		} catch (error) {
+			failedChunks++;
+			onProgress?.(
+				`  ⚠️ Chunk ${i + 1} failed: ${error instanceof Error ? error.message : "Unknown error"}`,
+			);
+			onProgress?.(`  Continuing with remaining chunks...`);
+			// Continue processing other chunks instead of failing entirely
+		}
+	}
+
+	if (failedChunks > 0) {
+		onProgress?.(
+			`Note: ${failedChunks}/${chunks.length} chunks failed, but extracted ${allQuotes.length} quotes from successful chunks`,
+		);
+	}
+
+	// Deduplicate quotes by text (in case of overlap at chunk boundaries)
+	const seenTexts = new Set<string>();
+	const uniqueQuotes = allQuotes.filter((quote) => {
+		const normalized = quote.text.toLowerCase().trim();
+		if (seenTexts.has(normalized)) {
+			return false;
+		}
+		seenTexts.add(normalized);
+		return true;
+	});
+
+	return {
+		quotes: uniqueQuotes,
+		sourceUrl,
+		extractedAt: new Date().toISOString(),
+	};
+}
+
+/**
+ * Saves extraction result to a JSON file for review
+ */
+export function saveExtractionResult(result: ExtractionResult, filename: string): string {
+	if (!existsSync(EXTRACTED_DIR)) {
+		mkdirSync(EXTRACTED_DIR, { recursive: true });
+	}
+
+	const outputPath = join(EXTRACTED_DIR, filename.replace(/\.txt$/, ".json"));
+	writeFileSync(outputPath, JSON.stringify(result, null, 2), "utf-8");
+
+	return outputPath;
+}

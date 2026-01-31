@@ -1,0 +1,112 @@
+{
+	"$schema": "http://json-schema.org/draft-07/schema#",
+	"title": "FactCheckOutput",
+	"type": "object",
+	"required": ["overallCredibility", "verdict", "summary", "verifiedClaims", "sourceAssessment"],
+	"properties": {
+		"overallCredibility": {
+			"type": "number",
+			"minimum": 0,
+			"maximum": 10,
+			"description": "Overall credibility score"
+		},
+		"verdict": {
+			"enum": ["pass", "revise", "reject"],
+			"description": "Verification verdict"
+		},
+		"summary": {
+			"type": "string",
+			"description": "Brief summary of verification results"
+		},
+		"verifiedClaims": {
+			"type": "array",
+			"items": {
+				"type": "object",
+				"required": ["claim", "status"],
+				"properties": {
+					"claim": { "type": "string" },
+					"status": { "const": "verified" },
+					"originalSource": { "type": "string" },
+					"confirmingSources": {
+						"type": "array",
+						"items": { "type": "string" }
+					},
+					"notes": { "type": "string" }
+				}
+			}
+		},
+		"partiallyVerified": {
+			"type": "array",
+			"items": {
+				"type": "object",
+				"required": ["claim", "status"],
+				"properties": {
+					"claim": { "type": "string" },
+					"status": { "const": "partial" },
+					"verified": { "type": "string" },
+					"unverified": { "type": "string" },
+					"recommendation": { "type": "string" }
+				}
+			}
+		},
+		"unverifiedClaims": {
+			"type": "array",
+			"items": {
+				"type": "object",
+				"required": ["claim", "status", "reason", "severity"],
+				"properties": {
+					"claim": { "type": "string" },
+					"status": { "const": "unverified" },
+					"reason": { "type": "string" },
+					"severity": { "enum": ["high", "medium", "low"] },
+					"recommendation": { "type": "string" }
+				}
+			}
+		},
+		"flaggedIssues": {
+			"type": "array",
+			"items": {
+				"type": "object",
+				"required": ["type", "description", "severity"],
+				"properties": {
+					"type": { "enum": ["bias", "outdated", "misattribution", "context", "other"] },
+					"description": { "type": "string" },
+					"severity": { "enum": ["high", "medium", "low"] },
+					"affectedSources": {
+						"type": "array",
+						"items": { "type": "string" }
+					},
+					"recommendation": { "type": "string" }
+				}
+			}
+		},
+		"quoteVerification": {
+			"type": "array",
+			"items": {
+				"type": "object",
+				"required": ["quoteId", "verified"],
+				"properties": {
+					"quoteId": { "type": "string" },
+					"verified": { "type": "boolean" },
+					"contextAppropriate": { "type": "boolean" },
+					"notes": { "type": "string" }
+				}
+			}
+		},
+		"sourceAssessment": {
+			"type": "object",
+			"required": ["totalSources", "highCredibility"],
+			"properties": {
+				"totalSources": { "type": "integer" },
+				"highCredibility": { "type": "integer" },
+				"mediumCredibility": { "type": "integer" },
+				"lowCredibility": { "type": "integer" },
+				"rejected": { "type": "integer" }
+			}
+		},
+		"recommendations": {
+			"type": "array",
+			"items": { "type": "string" }
+		}
+	}
+}

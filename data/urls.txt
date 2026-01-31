@@ -1,0 +1,91 @@
+# Swedish Literature from Project Gutenberg
+# Curated for philosophical/spiritual quote extraction
+# Format: URL (one per line)
+
+# === AUGUST STRINDBERG (1849-1912) ===
+# Sweden's most influential author, deep psychological and philosophical works
+# DONE https://www.gutenberg.org/cache/epub/30078/pg30078.txt
+# Hemsöborna - already imported
+# DONE https://www.gutenberg.org/cache/epub/57052/pg57052.txt
+# Röda rummet (The Red Room) - satirical novel about Stockholm bohemian life
+# DONE https://www.gutenberg.org/cache/epub/29935/pg29935.txt
+# Inferno - autobiographical spiritual crisis
+# DONE https://www.gutenberg.org/cache/epub/48052/pg48052.txt
+# I Havsbandet - novel about isolation and nature
+# DONE https://www.gutenberg.org/cache/epub/30080/pg30080.txt
+# Skärkarlsliv - archipelago life stories
+
+# === VIKTOR RYDBERG (1828-1895) ===
+# Philosopher, theologian, novelist - deep spiritual themes
+# DONE https://www.gutenberg.org/cache/epub/10117/pg10117.txt
+# Den siste Atenaren (The Last Athenian) - philosophical historical novel
+# DONE https://www.gutenberg.org/cache/epub/28610/pg28610.txt
+# Singoalla - romantic novel with spiritual themes
+
+# === SELMA LAGERLÖF (1858-1940) ===
+# Nobel Prize winner, moral and spiritual storytelling
+# DONE https://www.gutenberg.org/cache/epub/39147/pg39147.txt
+# Bannlyst (The Outcast) - themes of guilt and redemption
+
+# === HJALMAR SÖDERBERG (1869-1941) ===
+# Melancholic, philosophical short prose
+# DONE https://www.gutenberg.org/cache/epub/21862/pg21862.txt
+# Förvillelser - psychological novel
+
+# === VICTORIA BENEDICTSSON (1850-1888) ===
+# Realist author, human condition themes
+# DONE https://www.gutenberg.org/cache/epub/48676/pg48676.txt
+# Den bergtagna
+# DONE https://www.gutenberg.org/cache/epub/15703/pg15703.txt
+# Modern (Pengar/Money)
+
+# === HJALMAR BERGMAN (1883-1931) ===
+# Psychological depth, human nature
+# DONE https://www.gutenberg.org/cache/epub/12613/pg12613.txt
+# Eros' begravning
+# DONE https://www.gutenberg.org/cache/epub/17015/pg17015.txt
+# Mor i Sutre
+
+# === DAN ANDERSSON (1888-1920) ===
+# Spiritual, mystical poetry and prose
+# DONE https://www.gutenberg.org/cache/epub/18317/pg18317.txt
+# David Ramms arv
+
+# === ESAIAS TEGNÉR (1782-1846) ===
+# Bishop and poet, moral themes
+# DONE https://www.gutenberg.org/cache/epub/8518/pg8518.txt
+# Fritiofs Saga - epic poem
+
+# === GUSTAF AF GEIJERSTAM (1858-1909) ===
+# Realist, family and moral themes
+# DONE https://www.gutenberg.org/cache/epub/28473/pg28473.txt
+# Boken om lille-bror
+
+# === VERNER VON HEIDENSTAM (1859-1940) ===
+# Nobel Prize winner, national romantic poet and novelist
+# DONE https://www.gutenberg.org/cache/epub/13371/pg13371.txt
+# Folkungaträdet - historical saga with moral themes
+
+# === SELMA LAGERLÖF (Additional) ===
+# DONE https://www.gutenberg.org/cache/epub/51440/pg51440.txt
+# Valda Berättelser - selected stories with moral themes
+
+# === VIKTOR RYDBERG (Additional) ===
+# DONE https://www.gutenberg.org/cache/epub/9827/pg9827.txt
+# De vandrande djäknarne - wandering students, philosophical
+
+# === SWEDISH PROVERBS ===
+# Traditional wisdom in proverb form
+# DONE https://www.gutenberg.org/cache/epub/56567/pg56567.txt
+# Samling af Swenska Ordspråk - Collection of Swedish proverbs
+
+# === NEW - Matching Arabic themes (love, psychology, human nature) ===
+
+# August Strindberg - Götiska rummen (intellectual conflicts, identity)
+# DONE https://www.gutenberg.org/ebooks/48060.txt.utf-8
+
+# August Strindberg - Svarta fanor (human nature, social dynamics)
+# DONE https://www.gutenberg.org/ebooks/48071.txt.utf-8
+
+# C.J.L. Almqvist - Det går an (love, independence - matches Ibn Hazm)
+# DONE https://www.gutenberg.org/ebooks/14670.txt.utf-8

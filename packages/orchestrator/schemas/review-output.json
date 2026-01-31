@@ -1,0 +1,117 @@
+{
+	"$schema": "http://json-schema.org/draft-07/schema#",
+	"title": "ReviewOutput",
+	"type": "object",
+	"required": ["scores", "finalScore", "verdict", "summary"],
+	"properties": {
+		"scores": {
+			"type": "object",
+			"required": ["swedish", "islamic", "literary", "humanAuthenticity"],
+			"properties": {
+				"swedish": {
+					"type": "object",
+					"required": ["score"],
+					"properties": {
+						"score": { "type": "number", "minimum": 0, "maximum": 10 },
+						"grammar": { "type": "number", "minimum": 0, "maximum": 10 },
+						"vocabulary": { "type": "number", "minimum": 0, "maximum": 10 },
+						"readability": { "type": "number", "minimum": 0, "maximum": 10 },
+						"issues": {
+							"type": "array",
+							"items": {
+								"type": "object",
+								"properties": {
+									"location": { "type": "string" },
+									"issue": { "type": "string" },
+									"suggestion": { "type": "string" }
+								}
+							}
+						}
+					}
+				},
+				"islamic": {
+					"type": "object",
+					"required": ["score"],
+					"properties": {
+						"score": { "type": "number", "minimum": 0, "maximum": 10 },
+						"terminology": { "type": "number", "minimum": 0, "maximum": 10 },
+						"concepts": { "type": "number", "minimum": 0, "maximum": 10 },
+						"sensitivity": { "type": "number", "minimum": 0, "maximum": 10 },
+						"issues": { "type": "array" }
+					}
+				},
+				"literary": {
+					"type": "object",
+					"required": ["score"],
+					"properties": {
+						"score": { "type": "number", "minimum": 0, "maximum": 10 },
+						"structure": { "type": "number", "minimum": 0, "maximum": 10 },
+						"quoteIntegration": { "type": "number", "minimum": 0, "maximum": 10 },
+						"voice": { "type": "number", "minimum": 0, "maximum": 10 },
+						"issues": { "type": "array" }
+					}
+				},
+				"humanAuthenticity": {
+					"type": "object",
+					"required": ["score"],
+					"properties": {
+						"score": { "type": "number", "minimum": 0, "maximum": 10 },
+						"aiPatternsFound": {
+							"type": "array",
+							"items": { "type": "string" }
+						},
+						"humanMarkersFound": {
+							"type": "array",
+							"items": { "type": "string" }
+						},
+						"issues": { "type": "array" }
+					}
+				}
+			}
+		},
+		"finalScore": {
+			"type": "number",
+			"minimum": 0,
+			"maximum": 10
+		},
+		"verdict": {
+			"enum": ["publish", "revise", "reject"]
+		},
+		"summary": {
+			"type": "string"
+		},
+		"strengths": {
+			"type": "array",
+			"items": { "type": "string" }
+		},
+		"criticalIssues": {
+			"type": "array",
+			"items": {
+				"type": "object",
+				"required": ["severity", "category", "description"],
+				"properties": {
+					"severity": { "enum": ["high", "medium", "low"] },
+					"category": { "enum": ["swedish", "islamic", "literary", "authenticity"] },
+					"description": { "type": "string" },
+					"location": { "type": "string" },
+					"fix": { "type": "string" }
+				}
+			}
+		},
+		"minorIssues": {
+			"type": "array",
+			"items": {
+				"type": "object",
+				"properties": {
+					"category": { "type": "string" },
+					"description": { "type": "string" },
+					"suggestion": { "type": "string" }
+				}
+			}
+		},
+		"revisedText": {
+			"type": ["string", "null"],
+			"description": "Corrected version if verdict is revise"
+		}
+	}
+}

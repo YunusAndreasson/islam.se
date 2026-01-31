@@ -1,0 +1,21 @@
+{
+	"name": "@islam-se/cli",
+	"version": "0.0.1",
+	"type": "module",
+	"bin": {
+		"islam-cli": "./dist/index.js"
+	},
+	"scripts": {
+		"build": "tsc",
+		"dev": "tsc --watch",
+		"cli": "tsx src/index.ts"
+	},
+	"dependencies": {
+		"@islam-se/quotes": "workspace:*",
+		"commander": "^14.0.2",
+		"dotenv": "^17.2.3"
+	},
+	"devDependencies": {
+		"tsx": "^4.21.0"
+	}
+}

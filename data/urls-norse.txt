@@ -1,0 +1,36 @@
+# Norse/Viking Wisdom Texts from Project Gutenberg
+# Curated for wisdom and philosophical quote extraction
+# Format: URL (one per line)
+
+# === POETIC EDDA ===
+# Collection of Old Norse poems, wisdom of the gods
+
+# The Poetic Edda - Voluspa, Havamal, and other wisdom poems
+https://www.gutenberg.org/cache/epub/73533/pg73533.txt
+
+# === PROSE EDDA ===
+# Snorri Sturluson's collection including mythological wisdom
+
+# The Younger Edda (Prose Edda) - includes mythological wisdom
+https://www.gutenberg.org/cache/epub/18947/pg18947.txt
+
+# === SAGAS ===
+# Icelandic sagas with wisdom and life lessons
+
+# The Story of the Volsungs - epic saga with moral themes
+# DONE https://www.gutenberg.org/cache/epub/1152/pg1152.txt
+
+# The Story of Burnt Njal - wisdom, law, and friendship
+https://www.gutenberg.org/cache/epub/17919/pg17919.txt
+
+# The Saga of Grettir the Strong - outlaw wisdom and strength
+https://www.gutenberg.org/cache/epub/347/pg347.txt
+
+# === MYTHOLOGY & HISTORY ===
+# Norse gods, kings, and mythological wisdom
+
+# Heimskringla - Chronicle of the Kings of Norway by Snorri Sturluson
+https://www.gutenberg.org/cache/epub/598/pg598.txt
+
+# Myths of the Norsemen - From the Eddas and Sagas
+# DONE https://www.gutenberg.org/cache/epub/28497/pg28497.txt

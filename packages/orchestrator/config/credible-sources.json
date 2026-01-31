@@ -1,0 +1,45 @@
+{
+	"swedish_academic": [
+		"lu.se",
+		"ctr.lu.se",
+		"su.se",
+		"uu.se",
+		"lnu.se",
+		"gu.se",
+		"sh.se",
+		"umu.se",
+		"cmes.lu.se"
+	],
+	"swedish_academic_journals": ["tifoislam.dk", "nsmes.org"],
+	"swedish_media_tier1": ["dn.se", "svd.se", "gp.se", "sr.se", "svt.se"],
+	"swedish_media_tier2": ["expressen.se", "aftonbladet.se", "metro.se"],
+	"swedish_government": ["scb.se", "regeringen.se", "myndighetensst.se", "levandehistoria.se"],
+	"swedish_islamic": ["islamguiden.se", "sverigesmuslimskaforbund.se"],
+	"international_academic": [
+		"scholar.google.com",
+		"jstor.org",
+		"researchgate.net",
+		"oxfordislamicstudies.com",
+		"azhar.eg"
+	],
+	"international_media_tier1": [
+		"bbc.com",
+		"bbc.co.uk",
+		"theguardian.com",
+		"reuters.com",
+		"apnews.com",
+		"npr.org"
+	],
+	"blacklist": [
+		"wikipedia.org",
+		"blog.*",
+		"blogspot.com",
+		"wordpress.com",
+		"medium.com",
+		"facebook.com",
+		"twitter.com",
+		"x.com",
+		"reddit.com"
+	],
+	"edu_domain_suffix": ".edu"
+}

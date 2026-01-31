@@ -1,0 +1,98 @@
+# Arabic Islamic Texts from OpenITI
+# Curated for spiritual/wisdom quote extraction
+# Format: GitHub raw URL (one per line)
+
+# ══════════════════════════════════════════════════════════════
+# ETHICS, PSYCHOLOGY & PHILOSOPHY
+# ══════════════════════════════════════════════════════════════
+
+# === IBN HAZM (d. 456 AH / 1064 CE) ===
+# Andalusian polymath - psychology, ethics, love
+
+# Tawq al-Hamama - The Ring of the Dove (classic on love and emotions)
+# DONE https://raw.githubusercontent.com/OpenITI/0475AH/master/data/0456IbnHazm/0456IbnHazm.TawqHamama/0456IbnHazm.TawqHamama.Shamela0010518-ara1.mARkdown
+
+# Fasl fi Ma'rifat al-Nafs - On Knowing the Soul
+# DONE https://raw.githubusercontent.com/OpenITI/0475AH/master/data/0456IbnHazm/0456IbnHazm.FaslFiMacrifatNafs/0456IbnHazm.FaslFiMacrifatNafs.JK009342-ara1.mARkdown
+
+# ══════════════════════════════════════════════════════════════
+# HADITH, PIETY & SPIRITUAL WARNINGS
+# ══════════════════════════════════════════════════════════════
+
+# === IBN AL-JAWZI (d. 597 AH / 1201 CE) ===
+# Prolific Hanbali scholar, preacher
+
+# Talbis Iblis - The Devil's Deception (spiritual warnings)
+# DONE https://raw.githubusercontent.com/OpenITI/0600AH/master/data/0597IbnJawzi/0597IbnJawzi.TalbisIblis/0597IbnJawzi.TalbisIblis.Shamela0011438-ara1.mARkdown
+
+# Sifat al-Safwa - Characteristics of the Elite (biographies of the righteous)
+# DONE https://raw.githubusercontent.com/OpenITI/0600AH/master/data/0597IbnJawzi/0597IbnJawzi.SifatSafwa/0597IbnJawzi.SifatSafwa.Shamela0012031-ara1.mARkdown
+
+# === AL-NAWAWI (d. 676 AH / 1277 CE) ===
+# Great hadith scholar
+
+# Al-Arba'in al-Nawawiyya - The Forty Hadiths
+# DONE https://raw.githubusercontent.com/OpenITI/0700AH/master/data/0676Nawawi/0676Nawawi.ArbacunaNawawiyya/0676Nawawi.ArbacunaNawawiyya.Shamela0012836-ara1.mARkdown
+
+# Riyad al-Salihin - Gardens of the Righteous (comprehensive hadith collection)
+# DONE https://raw.githubusercontent.com/OpenITI/0700AH/master/data/0676Nawawi/0676Nawawi.RiyadSalihin/0676Nawawi.RiyadSalihin.Shamela0012014-ara1.mARkdown
+
+# ══════════════════════════════════════════════════════════════
+# TAFSIR & QURANIC SCIENCES
+# ══════════════════════════════════════════════════════════════
+
+# === IBN KATHIR (d. 774 AH / 1373 CE) ===
+# Famous historian and Quran commentator
+
+# Tafsir al-Quran al-Azim - Comprehensive Quranic exegesis (SKIPPED - too large, 8.9M chars)
+# https://raw.githubusercontent.com/OpenITI/0775AH/master/data/0774IbnKathir/0774IbnKathir.TafsirQuran/0774IbnKathir.TafsirQuran.Shamela0008473-ara1.mARkdown
+
+# === AL-SUYUTI (d. 911 AH / 1505 CE) ===
+# Prolific polymath, Quranic sciences expert
+
+# Al-Itqan fi Ulum al-Quran - The Perfection in Quranic Sciences
+# DONE https://raw.githubusercontent.com/OpenITI/0925AH/master/data/0911Suyuti/0911Suyuti.Itqan/0911Suyuti.Itqan.Shamela0011728-ara1
+
+# ══════════════════════════════════════════════════════════════
+# HADITH COLLECTIONS & COMMENTARY
+# ══════════════════════════════════════════════════════════════
+
+# === AL-HAYTHAMI (d. 807 AH / 1405 CE) ===
+# Hadith scholar, compiler of extended hadith collections
+
+# Majma al-Zawaid - Collection of Additional Hadiths (SKIPPED - too large, 7M chars, 161 chunks)
+# https://raw.githubusercontent.com/OpenITI/0825AH/master/data/0807NurDinHaythami/0807NurDinHaythami.MajmacZawaid/0807NurDinHaythami.MajmacZawaid.Shamela0000061-ara1
+
+# === IBN HAJAR AL-ASQALANI (d. 852 AH / 1449 CE) ===
+# Master hadith scholar and commentator
+
+# Fath al-Bari - Commentary on Sahih al-Bukhari (SKIPPED - too large, 18.6M chars)
+# https://raw.githubusercontent.com/OpenITI/0875AH/master/data/0852IbnHajarCasqalani/0852IbnHajarCasqalani.FathBari/0852IbnHajarCasqalani.FathBari.Shamela0001673-ara1
+
+# ══════════════════════════════════════════════════════════════
+# SPIRITUALITY & THEOLOGY
+# ══════════════════════════════════════════════════════════════
+
+# === AL-GHAZALI (d. 505 AH / 1111 CE) ===
+# Theologian, philosopher, spiritual master
+
+# Ihya Ulum al-Din - Revival of the Religious Sciences (SKIPPED - too large, 4.5M chars, 110 chunks)
+# https://raw.githubusercontent.com/OpenITI/0525AH/master/data/0505Ghazali/0505Ghazali.IhyaCulumDin/0505Ghazali.IhyaCulumDin.Shamela0009472-ara1.completed
+
+# === IBN QAYYIM AL-JAWZIYYA (d. 751 AH / 1350 CE) ===
+# Student of Ibn Taymiyyah, orthodox Hanbali, spiritual depth
+
+# Al-Wabil al-Sayyib - Beneficial Words on Dhikr (short, quote-rich)
+# DONE https://raw.githubusercontent.com/OpenITI/0775AH/master/data/0751IbnQayyimJawziyya/0751IbnQayyimJawziyya.WabilSayyib/0751IbnQayyimJawziyya.WabilSayyib.Shamela0000216-ara1
+
+# Al-Fawaid - Collection of Wisdom Benefits
+# DONE https://raw.githubusercontent.com/OpenITI/0775AH/master/data/0751IbnQayyimJawziyya/0751IbnQayyimJawziyya.Fawaid/0751IbnQayyimJawziyya.Fawaid.Shamela0006832-ara1
+
+# Al-Da' wa al-Dawa - The Disease and the Cure (spiritual psychology)
+# DONE https://raw.githubusercontent.com/OpenITI/0775AH/master/data/0751IbnQayyimJawziyya/0751IbnQayyimJawziyya.DaWaDawa/0751IbnQayyimJawziyya.DaWaDawa.Shamela0000158-ara1
+
+# Uddat al-Sabirin - Patience and Gratitude
+# DONE https://raw.githubusercontent.com/OpenITI/0775AH/master/data/0751IbnQayyimJawziyya/0751IbnQayyimJawziyya.CuddatSabirin/0751IbnQayyimJawziyya.CuddatSabirin.JK000057-ara1
+
+# Rawdat al-Muhibbin - Garden of Lovers (on love, orthodox perspective)
+# DONE https://raw.githubusercontent.com/OpenITI/0775AH/master/data/0751IbnQayyimJawziyya/0751IbnQayyimJawziyya.RawdatMuhibbin/0751IbnQayyimJawziyya.RawdatMuhibbin.JK000063-ara1
