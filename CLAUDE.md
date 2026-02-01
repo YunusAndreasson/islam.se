@@ -1,41 +1,72 @@
-# Islam.se - Text Production Platform
+# CLAUDE.md
+
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
 ## Project Overview
-TypeScript monorepo for building a quote database from literary texts using Claude for extraction and OpenAI for embeddings.
 
-## Current Phase: Quote Database
-Building a semantic search database of literary quotes.
+TypeScript monorepo for building a semantic quote database and AI-powered content production pipeline. Extracts quotes from literary texts (Gutenberg, OpenITI), generates local embeddings, and produces articles through a multi-stage Claude pipeline with quality gates.
 
-## Architecture
-- `packages/quotes` - Quote fetching, extraction, embeddings, storage
-- `apps/cli` - Command-line interface
+## Commands
 
-## Key Commands
 ```bash
 pnpm install                    # Install dependencies
 pnpm build                      # Build all packages
 pnpm check                      # Run Biome linting
+pnpm check:fix                  # Fix linting issues
 
-# Quote import
-pnpm cli import-url <url>       # Import from single Gutenberg URL
-pnpm cli import-urls urls.txt   # Batch import from URL list
+# Quote database
+pnpm cli import-url <url>       # Import from single URL
+pnpm cli import-urls <file>     # Batch import (marks done with "# DONE ")
+pnpm cli import-arabic <file>   # Import Arabic texts (OpenITI)
+pnpm cli import-norse <file>    # Import Norse sagas
+pnpm cli search <query>         # Semantic search
+pnpm cli stats                  # Database statistics
 
-# Search & stats
-pnpm cli search <query>         # Search quotes semantically
-pnpm cli stats                  # Show database statistics
+# Content production
+pnpm produce article <topic>    # Full 4-stage pipeline
+pnpm produce research-only <topic>  # Research stage only
 ```
 
-## Development Workflow
-1. Add Gutenberg URLs to `data/urls.txt` (one per line)
-2. Run `pnpm cli import-urls data/urls.txt`
-3. Review extracted quotes in `data/extracted/`
-4. Quotes are stored in `data/quotes.db` with embeddings
+## Architecture
+
+```
+packages/
+├── quotes/          # Core library: fetching, extraction, embeddings, SQLite storage
+│   ├── database.ts      # SQLite + sqlite-vec for vector search
+│   ├── embeddings-local.ts  # HuggingFace transformers (multilingual-e5-small)
+│   ├── extractor.ts     # Swedish quote extraction (Claude)
+│   ├── extractor-arabic.ts  # Arabic extraction
+│   └── fetcher.ts       # URL text fetching
+├── orchestrator/    # Multi-stage content pipeline
+│   ├── claude-runner.ts     # Spawns Claude CLI subprocess
+│   ├── orchestrator.ts      # 4-stage pipeline controller
+│   ├── quote-service.ts     # Quote search integration
+│   └── prompts/             # Stage prompts (research, fact-check, author, review)
+apps/
+├── cli/             # Quote management CLI (Commander)
+└── content-producer/  # Article production CLI
+```
+
+**Data flow:** URL → Fetch → Claude extraction → Local embeddings → SQLite → Search/Content pipeline
+
+**Pipeline stages:** Research → Fact-Check → Author → Review → Final article
+
+## Key Technical Details
+
+- **Embeddings:** Local HuggingFace (384 dimensions, no API cost) with OpenAI fallback
+- **Vector search:** sqlite-vec extension on `data/quotes.db`
+- **Languages:** Swedish (sv), Arabic (ar), Norse/English (en)
+- **Batch import:** Resumable via "# DONE " prefix markers in URL files
+- **Quality gates:** Fact-check credibility ≥7, review score ≥8 to publish
 
 ## Environment Variables
-- `ANTHROPIC_API_KEY` - Required for Claude extraction
-- `OPENAI_API_KEY` - Required for embeddings
 
-## Code Style
-- TypeScript strict mode
-- Biome for linting & formatting
-- Zod for runtime validation
+- `ANTHROPIC_API_KEY` - Required for Claude extraction and pipeline
+- `OPENAI_API_KEY` - Optional fallback for embeddings (local preferred)
+
+## Data Files
+
+- `data/urls.txt` - Gutenberg URLs for Swedish texts
+- `data/urls-arabic.txt` - OpenITI URLs for Arabic texts
+- `data/quotes.db` - Main quote database (~55MB, ~20,500 quotes)
+- `data/extracted/` - Raw extraction outputs for review
