@@ -4,11 +4,10 @@
  */
 
 import {
-	findByCategory,
+	type FormattedQuoteWithId,
 	findQuotesByFilter,
 	findQuotesLocal,
 	findQuotesPaired,
-	type FormattedQuoteWithId,
 	getCategories,
 	getInventory,
 	type Inventory,
@@ -53,25 +52,23 @@ export async function searchQuotesComprehensive(
 	// 1. Get inventory to understand what's available
 	const inventory = getInventory();
 
-	// 2. Semantic search using local embeddings (no API required)
-	const semanticMatches = await findQuotesLocal(topic, {
-		limit: semanticLimit,
-		minStandalone,
-		diverse: true,
-	});
-
-	// 3. Get paired Swedish + Arabic quotes if enabled
-	let pairedQuotes: { swedish: FormattedQuoteWithId[]; arabic: FormattedQuoteWithId[] } = {
-		swedish: [],
-		arabic: [],
-	};
-
-	if (includeArabic) {
-		pairedQuotes = await findQuotesPaired(topic, {
-			limitPerLanguage: pairedLimit,
+	// 2. Run semantic search and paired quotes in parallel (both are async)
+	const [semanticMatches, pairedQuotes] = await Promise.all([
+		findQuotesLocal(topic, {
+			limit: semanticLimit,
 			minStandalone,
-		});
-	}
+			diverse: true,
+		}),
+		includeArabic
+			? findQuotesPaired(topic, {
+					limitPerLanguage: pairedLimit,
+					minStandalone,
+				})
+			: Promise.resolve({
+					swedish: [] as FormattedQuoteWithId[],
+					arabic: [] as FormattedQuoteWithId[],
+				}),
+	]);
 
 	// 4. Find relevant categories and get category-based quotes
 	const categories = getCategories();
@@ -80,7 +77,8 @@ export async function searchQuotesComprehensive(
 	// Find matching categories
 	const matchingCategories = categories.filter((cat) =>
 		topicWords.some(
-			(word) => cat.category.toLowerCase().includes(word) || word.includes(cat.category.toLowerCase()),
+			(word) =>
+				cat.category.toLowerCase().includes(word) || word.includes(cat.category.toLowerCase()),
 		),
 	);
 
@@ -125,7 +123,10 @@ Total quotes: ${result.inventory.total}
 Languages: Swedish (${result.inventory.languages.sv}), Arabic (${result.inventory.languages.ar}), English (${result.inventory.languages.en})
 High quality (standalone ≥4): ${result.inventory.quality.standalone4Plus}
 
-Top categories: ${result.inventory.categories.slice(0, 10).map((c) => `${c.name} (${c.count})`).join(", ")}
+Top categories: ${result.inventory.categories
+		.slice(0, 10)
+		.map((c) => `${c.name} (${c.count})`)
+		.join(", ")}
 `);
 
 	// Semantic matches
@@ -195,9 +196,7 @@ function formatQuoteList(quotes: FormattedQuoteWithId[]): string {
 /**
  * Converts quote search results to JSON format for the research output.
  */
-export function quotesToResearchFormat(
-	result: QuoteSearchResult,
-): Array<{
+export function quotesToResearchFormat(result: QuoteSearchResult): Array<{
 	id: string;
 	text: string;
 	author: string;

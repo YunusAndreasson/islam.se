@@ -1,4 +1,6 @@
 import { spawn } from "node:child_process";
+import { readFileSync } from "node:fs";
+import { type ZodType, type ZodTypeDef, z } from "zod";
 
 export interface ClaudeRunOptions {
 	/** Path to prompt file or prompt content */
@@ -83,15 +85,8 @@ export class ClaudeRunner {
 	private buildArgs(options: ClaudeRunOptions): string[] {
 		const args: string[] = [];
 
-		// Prompt (either file path or content)
-		if (options.prompt.endsWith(".md") || options.prompt.endsWith(".txt")) {
-			// Assume it's a file path
-			args.push("-p", options.prompt);
-		} else {
-			// It's prompt content - need to pass differently
-			// For now, assume file paths only
-			args.push("-p", options.prompt);
-		}
+		// Enable print mode (non-interactive)
+		args.push("--print");
 
 		// Model
 		args.push("--model", options.model);
@@ -116,21 +111,97 @@ export class ClaudeRunner {
 			args.push("--max-tokens", options.maxTokens.toString());
 		}
 
+		// Prompt is the last positional argument
+		// If it's a file path, read its content
+		let promptContent = options.prompt;
+		if (options.prompt.endsWith(".md") || options.prompt.endsWith(".txt")) {
+			try {
+				promptContent = readFileSync(options.prompt, "utf-8");
+			} catch (error) {
+				console.error(`Failed to read prompt file: ${options.prompt}`, error);
+			}
+		}
+		args.push(promptContent);
+
 		return args;
 	}
 
 	/**
-	 * Parse JSON output from Claude
+	 * Extract JSON from text that may have surrounding content
+	 */
+	private extractJSON(text: string): string | null {
+		// First try markdown code blocks
+		const codeBlockMatch = text.match(/```json\s*\n([\s\S]*?)\n```/);
+		if (codeBlockMatch?.[1]) {
+			return codeBlockMatch[1];
+		}
+
+		// Find the first { and try to extract balanced JSON
+		const startIdx = text.indexOf("{");
+		if (startIdx === -1) return null;
+
+		let braceCount = 0;
+		let inString = false;
+		let escapeNext = false;
+
+		for (let i = startIdx; i < text.length; i++) {
+			const char = text[i];
+
+			if (escapeNext) {
+				escapeNext = false;
+				continue;
+			}
+
+			if (char === "\\") {
+				escapeNext = true;
+				continue;
+			}
+
+			if (char === '"') {
+				inString = !inString;
+				continue;
+			}
+
+			if (!inString) {
+				if (char === "{") braceCount++;
+				if (char === "}") {
+					braceCount--;
+					if (braceCount === 0) {
+						return text.slice(startIdx, i + 1);
+					}
+				}
+			}
+		}
+
+		return null;
+	}
+
+	/**
+	 * Parse JSON output from Claude CLI
 	 */
 	public parseJSONOutput<T = unknown>(output: string): T | null {
 		try {
-			// Claude might wrap JSON in markdown code blocks
-			const jsonMatch = output.match(/```json\s*\n([\s\S]*?)\n```/);
-			if (jsonMatch?.[1]) {
-				return JSON.parse(jsonMatch[1]);
+			// Claude CLI with --output-format json returns structured output
+			// The actual response is in the "result" field
+			const cliOutput = JSON.parse(output);
+			if (cliOutput && typeof cliOutput === "object" && "result" in cliOutput) {
+				const resultText = cliOutput.result as string;
+
+				// Extract JSON from the result (may have surrounding text)
+				const jsonStr = this.extractJSON(resultText);
+				if (jsonStr) {
+					return JSON.parse(jsonStr);
+				}
+
+				return null;
 			}
 
-			// Or it might be raw JSON
+			// Fallback: direct parsing (for non-CLI usage)
+			const jsonStr = this.extractJSON(output);
+			if (jsonStr) {
+				return JSON.parse(jsonStr);
+			}
+
 			return JSON.parse(output);
 		} catch {
 			return null;
@@ -138,19 +209,30 @@ export class ClaudeRunner {
 	}
 
 	/**
-	 * Validate output against JSON schema
+	 * Validate output against a Zod schema.
+	 * Returns the validated data if successful, or null with error logged if failed.
 	 */
-	public validateOutput(output: unknown, _schema: object): boolean {
-		// Simple validation - in production, use a library like Ajv
-		// For now, just check that output is an object
-		return typeof output === "object" && output !== null;
+	public validateOutput<T>(
+		output: unknown,
+		schema: ZodType<T, ZodTypeDef, unknown>,
+	): { success: true; data: T } | { success: false; error: string } {
+		const result = schema.safeParse(output);
+		if (result.success) {
+			return { success: true, data: result.data };
+		}
+		const errorMessages = result.error.issues
+			.map((issue) => `${issue.path.join(".")}: ${issue.message}`)
+			.join("; ");
+		return { success: false, error: `Validation failed: ${errorMessages}` };
 	}
 
 	/**
-	 * Run with JSON output and parsing
+	 * Run with JSON output and parsing.
+	 * Optionally validates output against a Zod schema for improved reliability.
 	 */
 	public async runJSON<T = unknown>(
 		options: ClaudeRunOptions,
+		schema?: ZodType<T, ZodTypeDef, unknown>,
 	): Promise<ClaudeRunResult & { data?: T }> {
 		const result = await this.run({
 			...options,
@@ -158,10 +240,42 @@ export class ClaudeRunner {
 		});
 
 		if (result.success && result.output) {
-			const data = this.parseJSONOutput<T>(result.output);
-			return { ...result, data: data || undefined };
+			const parsed = this.parseJSONOutput<unknown>(result.output);
+			if (!parsed) {
+				// Debug: Log first 500 chars of output if parsing failed
+				console.log(
+					`   [DEBUG] JSON parsing failed. Output preview: ${result.output.slice(0, 500)}...`,
+				);
+				return { ...result, data: undefined };
+			}
+
+			// Validate against schema if provided
+			if (schema) {
+				const validation = this.validateOutput(parsed, schema);
+				if (!validation.success) {
+					console.log(`   [DEBUG] Schema validation failed: ${validation.error}`);
+					return {
+						success: false,
+						error: validation.error,
+						output: result.output,
+						exitCode: result.exitCode,
+					};
+				}
+				return { ...result, data: validation.data };
+			}
+
+			// No schema provided, return parsed data as-is
+			return { ...result, data: parsed as T };
+		}
+
+		// Debug: Log error if CLI failed
+		if (!result.success) {
+			console.log(`   [DEBUG] Claude CLI failed: ${result.error}`);
 		}
 
 		return result;
 	}
 }
+
+// Export Zod helper for creating schemas
+export { z };

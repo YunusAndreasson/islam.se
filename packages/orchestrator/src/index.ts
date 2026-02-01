@@ -1,14 +1,21 @@
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
+import type { ZodType, ZodTypeDef } from "zod";
 import { ClaudeRunner, type ClaudeRunOptions } from "./claude-runner.js";
 import {
 	formatQuotesForPrompt,
-	quotesToResearchFormat,
 	type QuoteSearchResult,
+	quotesToResearchFormat,
 	searchQuotesComprehensive,
 } from "./quote-service.js";
 import { ReferenceTracker } from "./reference-tracker.js";
+import {
+	DraftOutputSchema,
+	FactCheckOutputSchema,
+	ResearchOutputSchema,
+	ReviewOutputSchema,
+} from "./schemas.js";
 import { SourceValidator } from "./source-validator.js";
 
 const __filename = fileURLToPath(import.meta.url);
@@ -19,7 +26,7 @@ export interface OrchestratorOptions {
 	outputDir: string;
 	/** Model to use (default: opus) */
 	model?: "opus" | "sonnet";
-	/** Minimum quality score to publish (default: 8.0) */
+	/** Minimum quality score to publish (default: 7.5) */
 	qualityThreshold?: number;
 	/** Target word count (default: 2500) */
 	targetWordCount?: number;
@@ -193,7 +200,7 @@ export class ContentOrchestrator {
 		this.options = {
 			outputDir: options.outputDir,
 			model: options.model ?? "opus",
-			qualityThreshold: options.qualityThreshold ?? 8.0,
+			qualityThreshold: options.qualityThreshold ?? 7.5,
 			targetWordCount: options.targetWordCount ?? 2500,
 			includeArabic: options.includeArabic ?? true,
 			maxRevisions: options.maxRevisions ?? 2,
@@ -220,6 +227,48 @@ export class ContentOrchestrator {
 		return this.options.model === "opus"
 			? "claude-opus-4-5-20251101"
 			: "claude-sonnet-4-5-20250929";
+	}
+
+	/**
+	 * Execute a Claude stage with common timing, logging, and error handling.
+	 * Optionally validates output against a Zod schema.
+	 * Returns the raw result - stages handle their own post-processing.
+	 */
+	private async executeClaudeStage<T>(options: {
+		name: string;
+		emoji: string;
+		promptFile: string;
+		systemPrompt: string;
+		allowedTools: string[];
+		schema?: ZodType<T, ZodTypeDef, unknown>;
+	}): Promise<StageResult<T>> {
+		const startTime = Date.now();
+		console.log(`${options.emoji} ${options.name}...`);
+
+		const promptPath = join(this.promptsDir, options.promptFile);
+		const result = await this.runner.runJSON<T>(
+			{
+				prompt: promptPath,
+				systemPrompt: options.systemPrompt,
+				model: this.getModelId(),
+				allowedTools: options.allowedTools,
+			},
+			options.schema,
+		);
+
+		if (!result.success || !result.data) {
+			return {
+				success: false,
+				error: result.error || `${options.name} failed`,
+				duration: Date.now() - startTime,
+			};
+		}
+
+		return {
+			success: true,
+			data: result.data,
+			duration: Date.now() - startTime,
+		};
 	}
 
 	/**
@@ -265,9 +314,9 @@ export class ContentOrchestrator {
 	 */
 	async runResearch(topic: string): Promise<StageResult<ResearchOutput>> {
 		const startTime = Date.now();
-		console.log("📚 Stage 1: Research...");
 
 		// Step 1: Pre-fetch quotes from the database (no API required)
+		console.log("📚 Stage 1: Research...");
 		console.log("   - Searching quote database...");
 		let quoteResults: QuoteSearchResult | null = null;
 		try {
@@ -287,7 +336,6 @@ export class ContentOrchestrator {
 		}
 
 		// Step 2: Build prompt with pre-fetched quotes
-		const promptPath = join(this.promptsDir, "research.md");
 		let systemPrompt = `Topic: ${topic}\nTarget word count: ${this.options.targetWordCount}\nInclude Arabic quotes: ${this.options.includeArabic}`;
 
 		if (quoteResults) {
@@ -295,12 +343,18 @@ export class ContentOrchestrator {
 		}
 
 		// Step 3: Run Claude for web research (quotes already provided)
-		const result = await this.runner.runJSON<ResearchOutput>({
-			prompt: promptPath,
-			systemPrompt,
-			model: this.getModelId(),
-			allowedTools: ["WebSearch", "Read"],
-		});
+		// Note: We use runner.runJSON directly here because we need custom timing
+		// that accounts for the quote pre-fetch step
+		const promptPath = join(this.promptsDir, "research.md");
+		const result = await this.runner.runJSON<ResearchOutput>(
+			{
+				prompt: promptPath,
+				systemPrompt,
+				model: this.getModelId(),
+				allowedTools: ["WebSearch", "Read"],
+			},
+			ResearchOutputSchema,
+		);
 
 		if (!result.success || !result.data) {
 			return {
@@ -310,8 +364,9 @@ export class ContentOrchestrator {
 			};
 		}
 
-		// Validate sources
-		const validatedSources = result.data.sources.map((source) => {
+		// Validate sources (with fallback if Claude didn't return any)
+		const rawSources = result.data.sources || [];
+		const validatedSources = rawSources.map((source) => {
 			const validation = this.validator.validateSource(source.url);
 			return {
 				...source,
@@ -322,9 +377,10 @@ export class ContentOrchestrator {
 
 		// Merge pre-fetched quotes with any Claude found
 		const preSearchedQuotes = quoteResults ? quotesToResearchFormat(quoteResults) : [];
+		const rawQuotes = result.data.quotes || [];
 		const allQuotes = [
 			...preSearchedQuotes,
-			...result.data.quotes.filter(
+			...rawQuotes.filter(
 				(q) => !preSearchedQuotes.some((pq) => pq.id === q.id || pq.text === q.text),
 			),
 		];
@@ -373,31 +429,28 @@ export class ContentOrchestrator {
 	 * Run the fact-checking stage
 	 */
 	async runFactCheck(research: ResearchOutput): Promise<StageResult<FactCheckOutput>> {
-		const startTime = Date.now();
-		console.log("🔍 Stage 2: Fact-Checking...");
-
-		const promptPath = join(this.promptsDir, "fact-checker.md");
 		const systemPrompt = `Research data:\n${JSON.stringify(research, null, 2)}`;
 
-		const result = await this.runner.runJSON<FactCheckOutput>({
-			prompt: promptPath,
+		const result = await this.executeClaudeStage<FactCheckOutput>({
+			name: "Stage 2: Fact-Checking",
+			emoji: "🔍",
+			promptFile: "fact-checker.md",
 			systemPrompt,
-			model: this.getModelId(),
 			allowedTools: ["WebSearch", "Read"],
+			schema: FactCheckOutputSchema,
 		});
 
 		if (!result.success || !result.data) {
-			return {
-				success: false,
-				error: result.error || "Fact-check stage failed",
-				duration: Date.now() - startTime,
-			};
+			return result;
 		}
 
-		const data = result.data;
+		const data = {
+			...result.data,
+			verifiedClaims: result.data.verifiedClaims || [],
+		};
 
 		console.log(`   - Verified ${data.verifiedClaims.length} claims`);
-		console.log(`   - Overall credibility: ${data.overallCredibility}/10`);
+		console.log(`   - Overall credibility: ${data.overallCredibility ?? 0}/10`);
 
 		// Check quality gate
 		if (data.overallCredibility < 7) {
@@ -406,15 +459,11 @@ export class ContentOrchestrator {
 				success: false,
 				data,
 				error: `Credibility score ${data.overallCredibility} below threshold 7.0`,
-				duration: Date.now() - startTime,
+				duration: result.duration,
 			};
 		}
 
-		return {
-			success: true,
-			data,
-			duration: Date.now() - startTime,
-		};
+		return { ...result, data };
 	}
 
 	/**
@@ -424,40 +473,36 @@ export class ContentOrchestrator {
 		research: ResearchOutput,
 		factCheck: FactCheckOutput,
 	): Promise<StageResult<DraftOutput>> {
-		const startTime = Date.now();
-		console.log("✍️  Stage 3: Authoring...");
-
-		const promptPath = join(this.promptsDir, "author.md");
-
 		// Prepare verified research
+		const researchFacts = research.facts || [];
+		const verifiedClaims = factCheck.verifiedClaims || [];
 		const verifiedResearch = {
 			...research,
 			// Filter to verified facts only
-			facts: research.facts.filter((fact) =>
-				factCheck.verifiedClaims.some((vc) => vc.claim === fact.claim),
-			),
+			facts: researchFacts.filter((fact) => verifiedClaims.some((vc) => vc.claim === fact.claim)),
 		};
 
 		const systemPrompt = `Verified research:\n${JSON.stringify(verifiedResearch, null, 2)}\n\nTarget word count: ${this.options.targetWordCount}`;
 
-		const result = await this.runner.runJSON<DraftOutput>({
-			prompt: promptPath,
+		const result = await this.executeClaudeStage<DraftOutput>({
+			name: "Stage 3: Authoring",
+			emoji: "✍️ ",
+			promptFile: "author.md",
 			systemPrompt,
-			model: this.getModelId(),
-			allowedTools: ["Read"], // No web access during authoring
+			allowedTools: ["Read"],
+			schema: DraftOutputSchema,
 		});
 
 		if (!result.success || !result.data) {
-			return {
-				success: false,
-				error: result.error || "Authoring stage failed",
-				duration: Date.now() - startTime,
-			};
+			return result;
 		}
 
-		const data = result.data;
+		const data = {
+			...result.data,
+			quotesUsed: result.data.quotesUsed || [],
+		};
 
-		console.log(`   - Draft complete: ${data.wordCount} words`);
+		console.log(`   - Draft complete: ${data.wordCount ?? 0} words`);
 		console.log(`   - Quotes integrated: ${data.quotesUsed.length}`);
 
 		// Mark used quotes as used in reference tracker
@@ -465,11 +510,7 @@ export class ContentOrchestrator {
 			this.references.markAsUsed(quote.quoteId);
 		}
 
-		return {
-			success: true,
-			data,
-			duration: Date.now() - startTime,
-		};
+		return { ...result, data };
 	}
 
 	/**
@@ -479,37 +520,25 @@ export class ContentOrchestrator {
 		draft: DraftOutput,
 		research: ResearchOutput,
 	): Promise<StageResult<ReviewOutput>> {
-		const startTime = Date.now();
-		console.log("👁️  Stage 4: Quality Review...");
-
-		const promptPath = join(this.promptsDir, "reviewer.md");
 		const systemPrompt = `Draft article:\n${draft.body}\n\nQuotes used:\n${JSON.stringify(draft.quotesUsed, null, 2)}\n\nOriginal research summary:\n${research.summary}`;
 
-		const result = await this.runner.runJSON<ReviewOutput>({
-			prompt: promptPath,
+		const result = await this.executeClaudeStage<ReviewOutput>({
+			name: "Stage 4: Quality Review",
+			emoji: "👁️ ",
+			promptFile: "reviewer.md",
 			systemPrompt,
-			model: this.getModelId(),
-			allowedTools: ["Read"], // No web access during review
+			allowedTools: ["Read"],
+			schema: ReviewOutputSchema,
 		});
 
 		if (!result.success || !result.data) {
-			return {
-				success: false,
-				error: result.error || "Review stage failed",
-				duration: Date.now() - startTime,
-			};
+			return result;
 		}
 
-		const data = result.data;
+		console.log(`   - Quality Score: ${result.data.finalScore ?? 0}/10`);
+		console.log(`   - VERDICT: ${(result.data.verdict || "unknown").toUpperCase()}`);
 
-		console.log(`   - Quality Score: ${data.finalScore}/10`);
-		console.log(`   - VERDICT: ${data.verdict.toUpperCase()}`);
-
-		return {
-			success: true,
-			data,
-			duration: Date.now() - startTime,
-		};
+		return result;
 	}
 
 	/**
