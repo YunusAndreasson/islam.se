@@ -308,7 +308,7 @@ program
 			closeDatabase();
 
 			if (!interrupted) {
-				console.log("\n" + "─".repeat(60));
+				console.log(`\n${"─".repeat(60)}`);
 				console.log("🎉 All done!\n");
 			}
 		} catch (error) {
@@ -495,7 +495,7 @@ program
 			closeDatabase();
 
 			if (!interrupted) {
-				console.log("\n" + "─".repeat(60));
+				console.log(`\n${"─".repeat(60)}`);
 				console.log("🎉 All done!\n");
 			}
 		} catch (error) {
@@ -634,7 +634,7 @@ program
 			closeDatabase();
 
 			if (!interrupted) {
-				console.log("\n" + "-".repeat(60));
+				console.log(`\n${"-".repeat(60)}`);
 				console.log("All done!\n");
 			}
 		} catch (error) {

@@ -89,3 +89,41 @@
 
 # C.J.L. Almqvist - Det går an (love, independence - matches Ibn Hazm)
 # DONE https://www.gutenberg.org/ebooks/14670.txt.utf-8
+
+# ══════════════════════════════════════════════════════════════
+# PROJECT RUNEBERG - SWEDISH SPIRITUAL & PHILOSOPHICAL WORKS
+# All authors Swedish, all texts in Swedish (not translations)
+# ══════════════════════════════════════════════════════════════
+
+# === ELLEN KEY (1849-1926) ===
+# Swedish feminist philosopher - "livstro" (life faith) philosophy
+# Themes: Love ethics, spirituality, beauty, human development
+
+# Livslinjer Part 1: Kärleken och äktenskapet (Love and Marriage, 1903) - 751KB
+# DONE https://runeberg.org/download.pl?mode=ocrtext&work=livslinjer/1
+
+# Livslinjer Part 2-1: Människan och Gud (Humanity and God, 1905) - 487KB
+https://runeberg.org/download.pl?mode=ocrtext&work=livslinjer/2-1
+
+# Livslinjer Part 3: Lyckan och skönheten (Happiness and Beauty, 1906) - 847KB
+# DONE https://runeberg.org/download.pl?mode=ocrtext&work=livslinjer/3
+
+# Barnets århundrade (The Century of the Child, 1900) - 285KB
+# DONE https://runeberg.org/download.pl?mode=ocrtext&work=barnets
+
+# === CARL JONAS LOVE ALMQVIST (1793-1866) ===
+# Swedish author - Swedenborgian spiritual/philosophical themes
+
+# Det går an (It's Acceptable, 1839) - Love and independence - 200KB
+# DONE https://runeberg.org/download.pl?mode=ocrtext&work=detgaran1
+
+# Det går an (alternative edition) - 215KB
+# DONE https://runeberg.org/download.pl?mode=ocrtext&work=detgaran2
+
+# === EMANUEL SWEDENBORG (1688-1772) ===
+# Swedish scientist, mystic, theologian - founded Swedenborgianism
+# NOTE: Most theological works written in Latin, only including original Swedish
+
+# Svedenborgs Drömmar 1744 (Swedenborg's Dreams 1744) - 161KB
+# Original Swedish spiritual diary during his mystical transformation
+# DONE https://runeberg.org/download.pl?mode=ocrtext&work=sveddrom44

@@ -155,3 +155,10 @@ Topic: "Tålamod i islamisk tradition"
 - Record access date for all web sources
 - If a source is paywalled, note this in warnings
 - If topic is controversial, ensure balanced perspectives
+
+## CRITICAL OUTPUT REQUIREMENT
+Your ENTIRE response MUST be ONLY the JSON object described in OUTPUT SCHEMA above.
+- Do NOT include any text before or after the JSON
+- Do NOT use markdown code blocks (no \`\`\`json)
+- Output ONLY the raw JSON object starting with { and ending with }
+- The JSON must be valid and parseable

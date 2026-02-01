@@ -117,9 +117,9 @@ Final = (Swedish × 0.4) + (Islamic × 0.3) + (Literary × 0.2) + (Human × 0.1)
 ```
 
 **Verdicts:**
-- **PUBLISH** (≥8.0): Ready for publication
-- **REVISE** (6.0-7.9): Return with specific fixes
-- **REJECT** (<6.0): Requires complete rewrite
+- **PUBLISH** (≥7.5): Ready for publication
+- **REVISE** (5.5-7.4): Return with specific fixes
+- **REJECT** (<5.5): Requires complete rewrite
 
 ## OUTPUT SCHEMA
 
@@ -182,24 +182,26 @@ Final = (Swedish × 0.4) + (Islamic × 0.3) + (Literary × 0.2) + (Human × 0.1)
       "suggestion": "Fix"
     }
   ],
-  "revisedText": "If verdict is 'revise', provide corrected version with tracked changes or null if publish/reject"
+  "revisedText": "REQUIRED if verdict is 'revise': Provide the COMPLETE CORRECTED article text with all issues fixed. For 'publish' or 'reject', set to null."
 }
 ```
 
+**IMPORTANT**: When verdict is "revise", you MUST include the complete `revisedText` field with the full corrected article. Do not just list issues - provide the actual fixed text.
+
 ## QUALITY THRESHOLDS
 
-### Publication Ready (≥8.0)
-- [ ] Swedish language: No errors, natural flow
+### Publication Ready (≥7.5)
+- [ ] Swedish language: Minor issues acceptable, natural flow
 - [ ] Islamic content: Accurate, well-researched
 - [ ] Literary quality: Engaging, well-structured
 - [ ] Human authenticity: Reads as human-written
 
-### Needs Revision (6.0-7.9)
+### Needs Revision (5.5-7.4)
 - Minor issues that can be fixed with editing
 - No fundamental structural problems
 - Clear path to improvement
 
-### Reject (<6.0)
+### Reject (<5.5)
 - ❌ Multiple grammatical errors
 - ❌ Islamic inaccuracies
 - ❌ Poor structure or narrative
@@ -252,3 +254,10 @@ When verdict is REJECT, provide:
 - Acknowledge what works well
 - Consider the author's intent
 - A good review helps improve, not just criticize
+
+## CRITICAL OUTPUT REQUIREMENT
+Your ENTIRE response MUST be ONLY the JSON object described in OUTPUT SCHEMA above.
+- Do NOT include any text before or after the JSON
+- Do NOT use markdown code blocks (no \`\`\`json)
+- Output ONLY the raw JSON object starting with { and ending with }
+- The JSON must be valid and parseable

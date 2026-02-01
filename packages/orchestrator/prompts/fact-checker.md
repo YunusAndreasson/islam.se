@@ -195,3 +195,10 @@ Assign scores based on:
 - Better to over-verify than under-verify
 - Document your verification process
 - Note if verification required subscription access
+
+## CRITICAL OUTPUT REQUIREMENT
+Your ENTIRE response MUST be ONLY the JSON object described in OUTPUT SCHEMA above.
+- Do NOT include any text before or after the JSON
+- Do NOT use markdown code blocks (no \`\`\`json)
+- Output ONLY the raw JSON object starting with { and ending with }
+- The JSON must be valid and parseable

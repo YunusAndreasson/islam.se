@@ -17,7 +17,7 @@ program
 	.description("Produce a complete article on a topic")
 	.argument("<topic>", "The topic to write about")
 	.option("-l, --length <words>", "Target word count", "2500")
-	.option("-q, --quality <score>", "Minimum quality score (1-10)", "8")
+	.option("-q, --quality <score>", "Minimum quality score (1-10)", "7.5")
 	.option("--no-arabic", "Exclude Arabic quotes")
 	.option("-m, --model <model>", "Model to use (opus|sonnet)", "opus")
 	.option("-o, --output <dir>", "Output directory", "./output")
