@@ -40,15 +40,22 @@ For each source:
 3. Note the author and publication date
 4. Record the exact URL
 
-### Step 3: Quote Database Search
-Use the quote database to find relevant literary quotes:
+### Step 3: Quote Curation
+You will receive 50-80 pre-fetched quotes from the local database. Your task is to CURATE the best ones:
 
-1. **Get inventory first** - Understand what categories and sources are available
-2. **Semantic search** - Search for quotes related to the topic
-3. **Paired search** - Find Swedish + Arabic quote pairs if appropriate
-4. **Category browsing** - Explore thematic categories
+1. **Review all candidates** - Scan through semantic matches, paired quotes, and category matches
+2. **Select 15-20 best quotes** - Choose those most relevant to your topic and narrative potential
+3. **Prioritize quality** - Prefer standaloneScore ≥ 4 (works well out of context)
+4. **Balance sources** - Mix Swedish, Arabic, classical, and contemporary voices
+5. **Consider integration** - Think about which quotes could anchor article sections
 
-Target: 10-15 high-quality quotes (minStandalone ≥ 4)
+Selection criteria:
+- Direct relevance to topic themes (not tangential)
+- Literary quality and quotability
+- Diverse authors and traditions
+- Mix of inspirational, reflective, and authoritative tones
+
+Target: 15-20 curated quotes in your output (the author will use 6-10 in the final article)
 
 ### Step 4: Compile Perspectives
 Identify at least 3 different perspectives on the topic:
@@ -121,27 +128,31 @@ Identify at least 3 different perspectives on the topic:
 
 ### Success Metrics
 - [ ] Minimum 10 credible sources (at least 5 high credibility)
-- [ ] Minimum 10 relevant quotes from database
+- [ ] 15-20 curated quotes from the pre-fetched database candidates
 - [ ] At least 3 distinct perspectives identified
 - [ ] All sources validated and URL accessible
 - [ ] Mix of Swedish and international sources
 - [ ] Facts have source attribution
+- [ ] Quote selection balances languages and sources
 
 ### Failure Conditions
 - ❌ Fewer than 5 high-credibility sources
 - ❌ Using blacklisted sources (Wikipedia, blogs, social media)
 - ❌ All sources from same perspective/bias
 - ❌ No Swedish-language sources
-- ❌ Quotes unrelated to topic
+- ❌ Fewer than 15 curated quotes
+- ❌ Quotes unrelated to topic or low standalone scores
+- ❌ All quotes from same language or author
 
 ## EXAMPLES
 
 ### Good Research Output
 Topic: "Tålamod i islamisk tradition"
 - 12 sources including Lund University research, DN article, Islamic texts
-- 15 quotes about patience from Swedish translations and Arabic originals
+- 18 curated quotes (from 60+ candidates): mix of Swedish ordspråk, Arabic hadith, classical scholars
 - Perspectives: Academic (virtue ethics), Traditional (Quranic basis), Contemporary (Swedish Muslim practice)
 - Clear fact attribution with multiple confirming sources
+- Quote selection rationale: 8 Swedish, 7 Arabic, 3 Norse/comparative traditions
 
 ### Bad Research Output
 - Only 3 sources, all from same website

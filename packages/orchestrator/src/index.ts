@@ -323,8 +323,11 @@ export class ContentOrchestrator {
 			quoteResults = await searchQuotesComprehensive({
 				topic,
 				includeArabic: this.options.includeArabic,
-				semanticLimit: 15,
-				pairedLimit: 5,
+				// Fetch generously - local search is free, Claude will curate
+				semanticLimit: 40,
+				pairedLimit: 15,
+				categoryLimit: 25,
+				textLimit: 10,
 				minStandalone: 4,
 			});
 			console.log(
@@ -339,7 +342,29 @@ export class ContentOrchestrator {
 		let systemPrompt = `Topic: ${topic}\nTarget word count: ${this.options.targetWordCount}\nInclude Arabic quotes: ${this.options.includeArabic}`;
 
 		if (quoteResults) {
-			systemPrompt += `\n\n# PRE-FETCHED QUOTES FROM DATABASE\n\n${formatQuotesForPrompt(quoteResults)}\n\nIMPORTANT: Use the quotes above. They have been pre-selected for relevance to your topic. Do NOT search for additional quotes - these are from your database.`;
+			const totalQuotes =
+				quoteResults.semanticMatches.length +
+				quoteResults.pairedQuotes.swedish.length +
+				quoteResults.pairedQuotes.arabic.length +
+				quoteResults.categoryMatches.length +
+				quoteResults.textMatches.length;
+
+			systemPrompt += `\n\n# PRE-FETCHED QUOTES FROM DATABASE (${totalQuotes} candidates)
+
+${formatQuotesForPrompt(quoteResults)}
+
+## QUOTE SELECTION INSTRUCTIONS
+You have been provided with ${totalQuotes} quote candidates from the local database.
+Your task is to CURATE the best 15-20 quotes for this article:
+
+1. **Select for relevance** - Choose quotes that directly illuminate the topic
+2. **Prefer high standalone scores** (4-5) - These work well out of context
+3. **Balance languages** - Mix Swedish, Arabic, and any other available
+4. **Diversify sources** - Don't over-rely on one author or work
+5. **Consider narrative potential** - Which quotes can anchor sections?
+
+IMPORTANT: Do NOT search for additional quotes. Select from what's provided above.
+Include your curated selection in the "quotes" array of your output.`;
 		}
 
 		// Step 3: Run Claude for web research (quotes already provided)

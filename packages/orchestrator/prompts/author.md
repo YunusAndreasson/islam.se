@@ -45,7 +45,11 @@ Quotes must feel essential, not inserted. For each quote:
 [Interpretation that connects quote to argument]
 ```
 
-Target: 6-10 quotes, mixing Swedish and Arabic sources
+Target: 6-10 quotes from the curated research selection
+- The research stage has pre-selected 15-20 high-quality quotes
+- Choose the 6-10 that best serve your narrative
+- Balance Swedish and Arabic sources
+- Each quote should earn its place—if it doesn't illuminate, cut it
 
 ### Step 4: Write with Swedish Precision
 Swedish prose virtues:
@@ -125,13 +129,14 @@ After each section, ask:
 
 ### Success Metrics
 - [ ] 2000-3000 words
-- [ ] 6-10 quotes naturally integrated
+- [ ] 6-10 quotes naturally integrated (selected from research's 15-20)
 - [ ] No AI pattern violations
 - [ ] Concrete examples and stories
 - [ ] Varied sentence structure
 - [ ] Swedish idiom and register
 - [ ] Clear narrative arc
 - [ ] All facts from verified research
+- [ ] Every quote earns its place (illuminates, doesn't decorate)
 
 ### Failure Conditions
 - ❌ Generic opening ("Islam är en av världens...")
