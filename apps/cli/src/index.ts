@@ -5,21 +5,32 @@ import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import {
 	closeDatabase,
+	closeQuranDatabase,
 	extractArabicQuotes,
 	extractNorseQuotes,
 	extractQuotes,
 	fetchText,
 	findQuotesLocal,
+	generateLocalEmbedding,
 	generateLocalEmbeddings,
+	getParseStats,
+	getQuranStats,
 	getStats,
 	initDatabase,
+	initQuranDatabase,
 	insertEmbedding,
 	insertQuote,
+	insertVerse,
+	insertVerseEmbedding,
 	parseOpenITIUri,
+	parseQuranText,
 	saveArabicExtractionResult,
 	saveExtractionResult,
 	saveNorseExtractionResult,
+	searchVerses,
+	searchVersesSemantic,
 } from "@islam-se/quotes";
+import { SourceValidator } from "@islam-se/orchestrator";
 import { Command } from "commander";
 import { config } from "dotenv";
 
@@ -726,6 +737,221 @@ program
 
 			console.log();
 			closeDatabase();
+		} catch (error) {
+			console.error("Error:", error instanceof Error ? error.message : error);
+			process.exit(1);
+		}
+	});
+
+/**
+ * Import Quran from extracted text file
+ */
+program
+	.command("import-quran")
+	.description("Import Quran verses from extracted text file")
+	.argument("[file]", "Path to extracted Quran text file", "./data/extracted/koranen-sv.txt")
+	.option("--translator <name>", "Translator name", "Kent Asante Wennerström")
+	.option("--embeddings", "Generate embeddings for verses")
+	.action(async (fileArg: string, options: { translator: string; embeddings?: boolean }) => {
+		const file = resolvePath(fileArg);
+
+		try {
+			console.log(`\n📖 Importing Quran from: ${file}\n`);
+
+			// Parse the text file
+			console.log("   Parsing Quran text...");
+			const verses = parseQuranText(file, options.translator);
+			const stats = getParseStats(verses);
+
+			console.log(`   Found ${stats.totalVerses} verses across ${stats.surahs} surahs`);
+			console.log(`   Verses with commentary: ${stats.versesWithCommentary}`);
+
+			// Store in database
+			console.log("\n   Storing in Quran database...");
+			initQuranDatabase();
+
+			let stored = 0;
+			let skipped = 0;
+			const versesToEmbed: { id: number; text: string }[] = [];
+
+			for (const verse of verses) {
+				const verseId = insertVerse(verse);
+				if (verseId !== null) {
+					stored++;
+					if (options.embeddings) {
+						versesToEmbed.push({ id: verseId, text: verse.textSwedish });
+					}
+				} else {
+					skipped++;
+				}
+			}
+
+			console.log(`   Stored: ${stored}, Skipped (duplicates): ${skipped}`);
+
+			// Generate embeddings if requested
+			if (options.embeddings && versesToEmbed.length > 0) {
+				console.log(`\n   Generating embeddings for ${versesToEmbed.length} verses...`);
+
+				// Process in batches of 100
+				const batchSize = 100;
+				for (let i = 0; i < versesToEmbed.length; i += batchSize) {
+					const batch = versesToEmbed.slice(i, i + batchSize);
+					const texts = batch.map((v) => v.text);
+					const embeddings = await generateLocalEmbeddings(texts);
+
+					for (let j = 0; j < batch.length; j++) {
+						const verse = batch[j];
+						const embedding = embeddings[j];
+						if (verse && embedding) {
+							insertVerseEmbedding(verse.id, embedding);
+						}
+					}
+
+					const progress = Math.min(i + batchSize, versesToEmbed.length);
+					console.log(`   Progress: ${progress}/${versesToEmbed.length}`);
+				}
+			}
+
+			closeQuranDatabase();
+
+			console.log("\n✅ Quran import complete!\n");
+		} catch (error) {
+			console.error("Error:", error instanceof Error ? error.message : error);
+			process.exit(1);
+		}
+	});
+
+/**
+ * Show Quran database statistics
+ */
+program
+	.command("quran-stats")
+	.description("Show Quran database statistics")
+	.action(() => {
+		try {
+			initQuranDatabase();
+			const stats = getQuranStats();
+
+			console.log("\n📖 Quran Database Statistics\n");
+			console.log(`   Total verses:          ${stats.totalVerses}`);
+			console.log(`   Surahs:                ${stats.surahs}`);
+			console.log(`   With commentary:       ${stats.versesWithCommentary}`);
+			console.log(`   With Arabic text:      ${stats.versesWithArabic}`);
+			console.log(`   Translators:           ${stats.translators.join(", ") || "none"}`);
+			console.log();
+
+			closeQuranDatabase();
+		} catch (error) {
+			console.error("Error:", error instanceof Error ? error.message : error);
+			process.exit(1);
+		}
+	});
+
+/**
+ * Search Quran verses (semantic search by theme)
+ */
+program
+	.command("quran-search")
+	.description("Search Quran verses by theme (semantic search)")
+	.argument("<query>", "Search query (theme, concept, or keywords)")
+	.option("-n, --limit <number>", "Number of results", "10")
+	.option("--text", "Use text search instead of semantic search")
+	.action(async (query: string, options: { limit: string; text?: boolean }) => {
+		try {
+			const limit = Number.parseInt(options.limit, 10);
+
+			console.log(`\nSearching Quran for: "${query}"${options.text ? " (text search)" : " (semantic)"}\n`);
+
+			initQuranDatabase();
+
+			let results;
+			if (options.text) {
+				// Text-based search
+				results = searchVerses(query, limit).map(v => ({ ...v, score: 1 }));
+			} else {
+				// Semantic search using embeddings
+				const queryEmbedding = await generateLocalEmbedding(query);
+				results = searchVersesSemantic(queryEmbedding, limit);
+			}
+
+			if (results.length === 0) {
+				console.log("No results found.");
+				closeQuranDatabase();
+				return;
+			}
+
+			for (const verse of results) {
+				const score = "score" in verse ? ` [${(verse.score as number).toFixed(3)}]` : "";
+				console.log(`📖 ${verse.surahNumber}:${verse.verseNumber} (${verse.surahNameSwedish})${score}`);
+				console.log(`   "${verse.textSwedish}"`);
+				if (verse.commentary) {
+					const shortCommentary = verse.commentary.length > 150
+						? verse.commentary.slice(0, 150) + "..."
+						: verse.commentary;
+					console.log(`   💬 ${shortCommentary}`);
+				}
+				console.log();
+			}
+
+			closeQuranDatabase();
+		} catch (error) {
+			console.error("Error:", error instanceof Error ? error.message : error);
+			process.exit(1);
+		}
+	});
+
+/**
+ * Verify URLs in a research JSON file
+ */
+program
+	.command("verify-research")
+	.description("Verify that URLs in a research JSON file are valid (not hallucinated)")
+	.argument("<file>", "Path to research JSON file")
+	.action(async (fileArg: string) => {
+		const file = resolvePath(fileArg);
+
+		try {
+			console.log(`\n🔍 Verifying URLs in: ${file}\n`);
+
+			const content = readFileSync(file, "utf-8");
+			const research = JSON.parse(content);
+
+			if (!research.sources || !Array.isArray(research.sources)) {
+				console.error("Error: No sources array found in research file");
+				process.exit(1);
+			}
+
+			const urls = research.sources.map((s: { url: string }) => s.url);
+			console.log(`   Found ${urls.length} URLs to verify\n`);
+
+			const validator = new SourceValidator();
+			const result = await validator.verifyUrls(urls);
+
+			// Display results
+			console.log("Results:");
+			for (const r of result.results) {
+				const status = r.exists ? "✅" : "❌";
+				const info = r.error || `HTTP ${r.status}`;
+				const urlDisplay = r.url.length > 70 ? r.url.substring(0, 67) + "..." : r.url;
+				console.log(`   ${status} ${urlDisplay}`);
+				console.log(`      ${info}`);
+			}
+
+			console.log("\n📊 Summary:");
+			console.log(`   Total:    ${result.stats.total}`);
+			console.log(`   Valid:    ${result.stats.verified}`);
+			console.log(`   Invalid:  ${result.stats.failed}`);
+
+			if (result.stats.failedUrls.length > 0) {
+				console.log("\n⚠️  Failed URLs (likely hallucinated):");
+				for (const url of result.stats.failedUrls) {
+					console.log(`   - ${url}`);
+				}
+				console.log("\nThese URLs should be removed or replaced with valid sources.");
+				process.exit(1);
+			} else {
+				console.log("\n✅ All URLs verified successfully!\n");
+			}
 		} catch (error) {
 			console.error("Error:", error instanceof Error ? error.message : error);
 			process.exit(1);

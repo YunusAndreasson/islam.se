@@ -11,6 +11,7 @@
 		"cli": "tsx src/index.ts"
 	},
 	"dependencies": {
+		"@islam-se/orchestrator": "workspace:*",
 		"@islam-se/quotes": "workspace:*",
 		"commander": "^14.0.2",
 		"dotenv": "^17.2.3"

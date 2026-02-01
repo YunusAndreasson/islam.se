@@ -11,6 +11,13 @@ export interface SourceValidation {
 	reason: string;
 }
 
+export interface UrlVerification {
+	url: string;
+	exists: boolean;
+	status?: number;
+	error?: string;
+}
+
 interface CredibleSourcesConfig {
 	swedish_academic: string[];
 	swedish_academic_journals: string[];
@@ -194,5 +201,101 @@ export class SourceValidator {
 		};
 
 		return { validations, stats };
+	}
+
+	/**
+	 * Verify that a URL actually exists via HTTP HEAD request
+	 */
+	public async verifyUrl(url: string, timeoutMs = 10000): Promise<UrlVerification> {
+		try {
+			const controller = new AbortController();
+			const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
+
+			const response = await fetch(url, {
+				method: "HEAD",
+				signal: controller.signal,
+				redirect: "follow",
+				headers: {
+					"User-Agent":
+						"Mozilla/5.0 (compatible; IslamSE/1.0; +https://islam.se)",
+				},
+			});
+
+			clearTimeout(timeoutId);
+
+			// Consider 2xx and 3xx as existing, also 403 (some sites block HEAD but exist)
+			const exists =
+				response.ok || response.status === 403 || response.status === 405;
+
+			return {
+				url,
+				exists,
+				status: response.status,
+			};
+		} catch (error) {
+			// Extract the full error chain (Node fetch wraps errors in cause)
+			let errorMessage = "Unknown error";
+			if (error instanceof Error) {
+				errorMessage = error.message;
+				// Check nested cause for DNS errors
+				const cause = (error as Error & { cause?: Error }).cause;
+				if (cause?.message) {
+					errorMessage = cause.message;
+				}
+			}
+
+			// Check if it's a DNS/network error (hallucinated domain)
+			const isDnsError =
+				errorMessage.includes("ENOTFOUND") ||
+				errorMessage.includes("getaddrinfo") ||
+				errorMessage.includes("ECONNREFUSED") ||
+				errorMessage.includes("ERR_NAME_NOT_RESOLVED");
+
+			return {
+				url,
+				exists: false,
+				error: isDnsError ? "Domain does not exist (DNS lookup failed)" : errorMessage,
+			};
+		}
+	}
+
+	/**
+	 * Verify multiple URLs in parallel with concurrency limit
+	 */
+	public async verifyUrls(
+		urls: string[],
+		options: { concurrency?: number; timeoutMs?: number } = {},
+	): Promise<{
+		results: UrlVerification[];
+		stats: {
+			total: number;
+			verified: number;
+			failed: number;
+			failedUrls: string[];
+		};
+	}> {
+		const { concurrency = 5, timeoutMs = 10000 } = options;
+		const results: UrlVerification[] = [];
+
+		// Process in batches to limit concurrency
+		for (let i = 0; i < urls.length; i += concurrency) {
+			const batch = urls.slice(i, i + concurrency);
+			const batchResults = await Promise.all(
+				batch.map((url) => this.verifyUrl(url, timeoutMs)),
+			);
+			results.push(...batchResults);
+		}
+
+		const failed = results.filter((r) => !r.exists);
+
+		return {
+			results,
+			stats: {
+				total: results.length,
+				verified: results.filter((r) => r.exists).length,
+				failed: failed.length,
+				failedUrls: failed.map((r) => r.url),
+			},
+		};
 	}
 }

@@ -391,14 +391,37 @@ Include your curated selection in the "quotes" array of your output.`;
 
 		// Validate sources (with fallback if Claude didn't return any)
 		const rawSources = result.data.sources || [];
-		const validatedSources = rawSources.map((source) => {
-			const validation = this.validator.validateSource(source.url);
-			return {
-				...source,
-				credibility:
-					validation.credibility === "rejected" ? ("low" as const) : validation.credibility,
-			};
-		});
+
+		// Step 4: Verify URLs actually exist (catches hallucinated URLs)
+		console.log("   - Verifying URLs...");
+		const urlsToVerify = rawSources.map((s) => s.url);
+		const verification = await this.validator.verifyUrls(urlsToVerify);
+
+		if (verification.stats.failed > 0) {
+			console.log(
+				`   - ⚠️  ${verification.stats.failed} URL(s) failed verification:`,
+			);
+			for (const url of verification.stats.failedUrls) {
+				const result = verification.results.find((r) => r.url === url);
+				console.log(`     - ${url} (${result?.error || "unreachable"})`);
+			}
+		}
+
+		// Filter out sources with invalid URLs
+		const verifiedUrls = new Set(
+			verification.results.filter((r) => r.exists).map((r) => r.url),
+		);
+
+		const validatedSources = rawSources
+			.filter((source) => verifiedUrls.has(source.url))
+			.map((source) => {
+				const validation = this.validator.validateSource(source.url);
+				return {
+					...source,
+					credibility:
+						validation.credibility === "rejected" ? ("low" as const) : validation.credibility,
+				};
+			});
 
 		// Merge pre-fetched quotes with any Claude found
 		const preSearchedQuotes = quoteResults ? quotesToResearchFormat(quoteResults) : [];
