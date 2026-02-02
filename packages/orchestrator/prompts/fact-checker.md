@@ -48,13 +48,12 @@ For each historical claim:
 </step>
 
 <step name="verify_quotes">
-For each quote:
-1. If from database: Verify it exists in the original text
-2. If from web: Access the original source and confirm exact wording
-3. Check context—is the quote being used appropriately?
-4. Verify attribution (correct author, work, date)
+For quotes from WEB SOURCES ONLY (not from our internal database):
+1. Access the original source and confirm exact wording
+2. Check context—is the quote being used appropriately?
+3. Verify attribution (correct author, work, date)
 
-Misattributed or out-of-context quotes damage credibility more than most errors.
+Database quotes (quote-id, passage-id) are pre-verified—skip them.
 </step>
 
 <step name="verify_theological">
@@ -109,10 +108,10 @@ Fundamental sourcing problems:
 </standard>
 
 <standard type="quotes">
+For web-sourced quotes only (database quotes are pre-verified):
 - Exact wording must match
 - Context must be preserved
 - Attribution must be correct
-- Translation accuracy (if translated)
 </standard>
 
 <standard type="theological">
@@ -186,11 +185,11 @@ Fundamental sourcing problems:
       "recommendation": "How to address"
     }
   ],
-  "quoteVerification": [
+  "webQuoteVerification": [
     {
-      "quoteId": "quote-id",
+      "quote": "The quoted text",
+      "source": "URL or publication",
       "verified": true,
-      "contextAppropriate": true,
       "notes": "Verification notes"
     }
   ],
