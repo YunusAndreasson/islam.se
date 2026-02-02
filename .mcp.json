@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "quotes": {
+      "type": "stdio",
+      "command": "node",
+      "args": ["apps/mcp-quotes/dist/index.js"]
+    }
+  }
+}

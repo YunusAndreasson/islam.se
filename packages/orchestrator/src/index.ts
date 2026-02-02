@@ -2,20 +2,7 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import type { ZodType, ZodTypeDef } from "zod";
-import {
-	type BookSearchResult,
-	formatBooksForPrompt,
-	hasBookContent,
-	passagesToResearchFormat,
-	searchBooksComprehensive,
-} from "./book-service.js";
 import { ClaudeRunner, type ClaudeRunOptions } from "./claude-runner.js";
-import {
-	formatQuotesForPrompt,
-	type QuoteSearchResult,
-	quotesToResearchFormat,
-	searchQuotesComprehensive,
-} from "./quote-service.js";
 import { ReferenceTracker } from "./reference-tracker.js";
 import {
 	DraftOutputSchema,
@@ -289,90 +276,47 @@ export class ContentOrchestrator {
 
 	/**
 	 * Run the research stage
+	 * Uses MCP quote tools for intelligent, targeted searching
 	 */
 	async runResearch(topic: string): Promise<StageResult<ResearchOutput>> {
 		const startTime = Date.now();
-
-		// Step 1: Pre-fetch quotes from the database (no API required)
 		console.log("📚 Stage 1: Research...");
-		console.log("   - Searching quote database...");
-		let quoteResults: QuoteSearchResult | null = null;
-		try {
-			quoteResults = await searchQuotesComprehensive({
-				topic,
-				includeArabic: this.options.includeArabic,
-				// Fetch generously - local search is free, Claude will curate
-				semanticLimit: 40,
-				pairedLimit: 15,
-				categoryLimit: 25,
-				textLimit: 10,
-				minStandalone: 4,
-			});
-			console.log(
-				`   - Found ${quoteResults.semanticMatches.length} semantic matches, ${quoteResults.pairedQuotes.swedish.length + quoteResults.pairedQuotes.arabic.length} paired quotes`,
-			);
-		} catch (error) {
-			console.log(`   - Quote search failed: ${error}`);
-			// Continue without quotes - web research can still proceed
-		}
+		console.log("   - Claude will search quote database via MCP tools");
 
-		// Step 1b: Pre-fetch book passages (all local = free)
-		let bookResults: BookSearchResult | null = null;
-		if (hasBookContent()) {
-			console.log("   - Searching book database...");
-			try {
-				bookResults = await searchBooksComprehensive({
-					topic,
-					passageLimit: 20,
-					conceptLimit: 5,
-					minScore: 0.35,
-				});
-				console.log(
-					`   - Found ${bookResults.passages.length} passages, ${bookResults.concepts.length} concept matches`,
-				);
-			} catch (error) {
-				console.log(`   - Book search failed: ${error}`);
-			}
-		}
+		// Build system prompt with topic and search guidance
+		const systemPrompt = `Topic: ${topic}
 
-		// Step 2: Build prompt with pre-fetched quotes and book passages
-		let systemPrompt = `Topic: ${topic}`;
+You have access to MCP tools for searching the quote database (~30k quotes).
+Use them strategically based on the specific angle you develop.
 
-		if (quoteResults) {
-			const totalQuotes =
-				quoteResults.semanticMatches.length +
-				quoteResults.pairedQuotes.swedish.length +
-				quoteResults.pairedQuotes.arabic.length +
-				quoteResults.categoryMatches.length +
-				quoteResults.textMatches.length;
+SEARCH STRATEGY:
+1. First call get_inventory to see what's available
+2. Use search_quotes for semantic/meaning-based search (best for themes)
+3. Use search_by_filter to find quotes from specific authors or categories
+4. Use search_text for exact word/phrase matching
 
-			systemPrompt += `\n\n# QUOTES FROM DATABASE (${totalQuotes} candidates)
+Search based on YOUR thesis, not just the topic. For example:
+- Topic "patience" → develop angle "patience as resistance" → search "sabr adversity", then "Strindberg uthållighet"
+- Topic "death" → develop angle "death as teacher" → search "death wisdom learning", filter author "Ibn Qayyim"`;
 
-${formatQuotesForPrompt(quoteResults)}
-
-Curate the best quotes for this topic. Select from above—do not search for more.`;
-		}
-
-		if (bookResults && bookResults.passages.length > 0) {
-			systemPrompt += `\n\n# BOOK PASSAGES (${bookResults.passages.length} candidates)
-
-${formatBooksForPrompt(bookResults)}
-
-Curate the best passages for this topic. Include book title, author, and chapter in output.`;
-		}
-
-		// Step 3: Run Claude for web research (quotes already provided)
-		// Note: We use runner.runJSON directly here because we need custom timing
-		// that accounts for the quote pre-fetch step
+		// Run Claude with MCP quote tools + web tools
 		const promptPath = join(this.promptsDir, "research.md");
 		const result = await this.runner.runJSON<ResearchOutput>(
 			{
 				prompt: promptPath,
 				systemPrompt,
 				model: this.getModelId(),
-				allowedTools: ["WebSearch", "Read"],
+				// MCP tools + standard tools
+				allowedTools: [
+					"mcp__quotes__search_quotes",
+					"mcp__quotes__search_by_filter",
+					"mcp__quotes__search_text",
+					"mcp__quotes__get_inventory",
+					"WebSearch",
+					"Read",
+				],
 				jsonSchema: getResearchJsonSchema(),
-				maxBudgetUsd: 3.0, // Increased from 2.0 to handle complex research with many web searches
+				maxBudgetUsd: 3.0,
 				fallbackModel: "sonnet",
 				noSessionPersistence: true,
 			},
@@ -419,31 +363,12 @@ Curate the best passages for this topic. Include book title, author, and chapter
 			});
 		// Trust LLM's credibility assessment for non-blacklisted sources
 
-		// Merge pre-fetched quotes with any Claude found
-		const preSearchedQuotes = quoteResults ? quotesToResearchFormat(quoteResults) : [];
-		const rawQuotes = result.data.quotes || [];
-		const allQuotes = [
-			...preSearchedQuotes,
-			...rawQuotes.filter(
-				(q) => !preSearchedQuotes.some((pq) => pq.id === q.id || pq.text === q.text),
-			),
-		];
-
-		// Merge pre-fetched book passages with any Claude curated
-		const preSearchedPassages = bookResults ? passagesToResearchFormat(bookResults) : [];
-		const rawPassages = result.data.bookPassages || [];
-		const allPassages = [
-			...preSearchedPassages,
-			...rawPassages.filter(
-				(p) => !preSearchedPassages.some((pp) => pp.id === p.id || pp.text === p.text),
-			),
-		];
-
+		// Use quotes and passages that Claude found via MCP tools
 		const data = {
 			...result.data,
 			sources: validatedSources,
-			quotes: allQuotes,
-			bookPassages: allPassages,
+			quotes: result.data.quotes || [],
+			bookPassages: result.data.bookPassages || [],
 		};
 
 		// Add sources to reference tracker
