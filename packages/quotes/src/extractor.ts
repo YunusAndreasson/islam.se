@@ -148,64 +148,122 @@ async function extractFromChunk(
 	metadata?: { author?: string; title?: string },
 	onProgress?: (message: string) => void,
 ): Promise<Quote[]> {
-	const systemPrompt = `You are extracting quotes for use in Islamic spiritual and philosophical writing in Swedish.
+	const systemPrompt = `<role>
+You are extracting quotes for use in Islamic spiritual and philosophical writing in Swedish.
+</role>
 
+<extraction_criteria>
 Extract quotes that:
 - Express profound truths about human nature, existence, morality, or the human condition
 - Reflect on themes relevant to spiritual life: faith, patience, gratitude, trials, purpose, mortality
 - Could illustrate Islamic concepts even if from non-Islamic sources
 - Capture universal wisdom about life, death, suffering, hope, and relationships
+</extraction_criteria>
 
-CATEGORIES (Swedish):
+<categories>
 tro, tålamod, tacksamhet, prövningar, ödmjukhet, döden, mening, kunskap, karaktär, gemenskap, rättvisa, barmhärtighet, naturen, självrannsakan, hopp, kärlek, girighet, högmod
+</categories>
 
-TONE options:
-- hopeful (optimistic, encouraging)
-- somber (serious, heavy)
-- reflective (contemplative, thoughtful)
-- ironic (paradoxical, with hidden meaning)
-- warning (cautionary)
-- neutral (matter-of-fact wisdom)
+<tone_options>
+- hopeful: optimistic, encouraging
+- somber: serious, heavy
+- reflective: contemplative, thoughtful
+- ironic: paradoxical, with hidden meaning
+- warning: cautionary
+- neutral: matter-of-fact wisdom
+</tone_options>
 
-For each quote extract:
+<output_fields>
 1. text: Exact Swedish text (1-4 sentences)
 2. author: Use provided author
 3. workTitle: Use provided title
-4. category: ONE from list above
+4. category: ONE from categories list
 5. keywords: 2-3 Swedish search terms (beyond category)
-6. tone: ONE from options above
+6. tone: ONE from tone_options
 7. standalone: 1-5 score (5 = works perfectly alone, 1 = needs much context)
+</output_fields>
 
-Extract 30-50 quotes prioritizing DEPTH. SKIP mundane dialogue and shallow content.
+<quality_examples>
+<example standalone="5" category="kunskap">
+{
+  "text": "Den som söker sanningen måste vara redo att överge allt han tror sig veta.",
+  "author": "Hjalmar Söderberg",
+  "workTitle": "Doktor Glas",
+  "category": "kunskap",
+  "keywords": ["sanning", "visdom", "ödmjukhet"],
+  "tone": "reflective",
+  "standalone": 5
+}
+<why_good>Complete thought that resonates universally. No context needed to understand or appreciate.</why_good>
+</example>
+
+<example standalone="5" category="döden">
+{
+  "text": "Döden är den enda sanningen som aldrig ljuger.",
+  "author": "Pär Lagerkvist",
+  "workTitle": "Dvärgen",
+  "category": "döden",
+  "keywords": ["sanning", "liv", "förgänglighet"],
+  "tone": "somber",
+  "standalone": 5
+}
+<why_good>Memorable aphorism. Works as standalone wisdom.</why_good>
+</example>
+
+<example standalone="3" category="prövningar">
+{
+  "text": "Det var i mörkret hon lärde sig att se.",
+  "author": "Selma Lagerlöf",
+  "workTitle": "Gösta Berlings saga",
+  "category": "prövningar",
+  "keywords": ["lidande", "insikt", "utveckling"],
+  "tone": "hopeful",
+  "standalone": 3
+}
+<why_lower>Beautiful but "hon" creates curiosity about context. Still usable.</why_lower>
+</example>
+</quality_examples>
+
+<quality_guidance>
+Prioritize standalone score 4-5. A score of 5 means a reader encountering this quote in isolation understands its meaning without needing to know the plot, characters, or context.
+
+Skip:
+- Mundane dialogue ("Han nickade och gick ut")
+- Plot-dependent statements ("Efter det som hänt kunde hon aldrig...")
+- Character-specific references without universal application
+</quality_guidance>
+
+Extract 30-50 quotes prioritizing DEPTH.
 
 Output ONLY valid JSON.`;
 
-	const userPrompt = `Extract quotes from this text (section ${chunkIndex + 1} of ${totalChunks}).
-
+	const userPrompt = `<input>
+Section ${chunkIndex + 1} of ${totalChunks}
 Author: ${metadata?.author ?? "Unknown"}
 Title: ${metadata?.title ?? "Unknown"}
 
-Text:
----
+<text>
 ${chunk}
----
+</text>
+</input>
 
-Output JSON:
+<output_format>
 {
   "quotes": [
     {
-      "text": "Exact Swedish quote",
+      "text": "Exact Swedish quote (1-4 sentences)",
       "author": "${metadata?.author ?? "Author"}",
       "workTitle": "${metadata?.title ?? "Title"}",
-      "category": "Swedish category from list",
-      "keywords": ["keyword1", "keyword2"],
+      "category": "category from list",
+      "keywords": ["Swedish keyword1", "keyword2"],
       "tone": "hopeful|somber|reflective|ironic|warning|neutral",
-      "standalone": 1-5
+      "standalone": 4
     }
   ]
 }
+</output_format>
 
-Extract 30-50 quotes. Output ONLY JSON.`;
+Extract 30-50 quotes. Prioritize standalone scores 4-5. Output ONLY JSON.`;
 
 	// Retry logic with exponential backoff for rate limits
 	const maxRetries = 5;

@@ -1,0 +1,10 @@
+# Ibn al-Jawzi (d. 597 AH) - Additional Works
+
+# Sayd al-Khatir (Personal Reflections)
+# DONE https://raw.githubusercontent.com/OpenITI/0600AH/master/data/0597IbnJawzi/0597IbnJawzi.SaydKhatir/0597IbnJawzi.SaydKhatir.JK010547-ara1
+
+# Al-Adhkiya (The Intelligent Ones)
+# DONE https://raw.githubusercontent.com/OpenITI/0600AH/master/data/0597IbnJawzi/0597IbnJawzi.Adhkiya/0597IbnJawzi.Adhkiya.JK000910-ara1
+
+# Dhamm al-Hawa (Blame of Desire)
+# DONE https://raw.githubusercontent.com/OpenITI/0600AH/master/data/0597IbnJawzi/0597IbnJawzi.DhammHawa/0597IbnJawzi.DhammHawa.JK000003-ara1

@@ -2,6 +2,13 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import type { ZodType, ZodTypeDef } from "zod";
+import {
+	type BookSearchResult,
+	formatBooksForPrompt,
+	hasBookContent,
+	passagesToResearchFormat,
+	searchBooksComprehensive,
+} from "./book-service.js";
 import { ClaudeRunner, type ClaudeRunOptions } from "./claude-runner.js";
 import {
 	formatQuotesForPrompt,
@@ -13,6 +20,10 @@ import { ReferenceTracker } from "./reference-tracker.js";
 import {
 	DraftOutputSchema,
 	FactCheckOutputSchema,
+	getDraftJsonSchema,
+	getFactCheckJsonSchema,
+	getResearchJsonSchema,
+	getReviewJsonSchema,
 	ResearchOutputSchema,
 	ReviewOutputSchema,
 } from "./schemas.js";
@@ -46,38 +57,29 @@ export interface StageResult<T = unknown> {
 export interface ResearchOutput {
 	topic: string;
 	summary: string;
-	sources: Array<{
-		id: string;
-		url: string;
-		title: string;
-		author?: string;
-		publication?: string;
-		date?: string;
-		credibility: "high" | "medium" | "low";
-		credibilityReason?: string;
-		keyFindings: string[];
+	quranReferences: Array<{
+		surah: string;
+		ayah: string;
+		text: string;
 	}>;
 	quotes: Array<{
 		id: string;
 		text: string;
 		author: string;
 		source?: string;
-		language: "swedish" | "arabic" | "norse" | "english";
-		relevance: string;
-		standaloneScore?: number;
 	}>;
-	perspectives: Array<{
-		name: string;
-		description: string;
-		supportingSources?: string[];
+	bookPassages: Array<{
+		id: string;
+		text: string;
+		bookTitle: string;
+		author: string;
 	}>;
-	facts: Array<{
-		claim: string;
-		sources: string[];
-		confidence?: "high" | "medium" | "low";
+	sources: Array<{
+		id: string;
+		url: string;
+		title: string;
+		keyFindings: string[];
 	}>;
-	suggestedAngles?: string[];
-	warnings?: string[];
 }
 
 export interface FactCheckOutput {
@@ -87,85 +89,33 @@ export interface FactCheckOutput {
 	verifiedClaims: Array<{
 		claim: string;
 		status: "verified";
-		originalSource?: string;
-		confirmingSources?: string[];
 		notes?: string;
-	}>;
-	partiallyVerified?: Array<{
-		claim: string;
-		status: "partial";
-		verified: string;
-		unverified: string;
-		recommendation?: string;
 	}>;
 	unverifiedClaims?: Array<{
 		claim: string;
 		status: "unverified";
 		reason: string;
-		severity: "high" | "medium" | "low";
-		recommendation?: string;
-	}>;
-	flaggedIssues?: Array<{
-		type: string;
-		description: string;
-		severity: "high" | "medium" | "low";
-		affectedSources?: string[];
-		recommendation?: string;
 	}>;
 	sourceAssessment: {
 		totalSources: number;
 		highCredibility: number;
-		mediumCredibility?: number;
-		lowCredibility?: number;
-		rejected?: number;
 	};
 	recommendations?: string[];
 }
 
 export interface DraftOutput {
 	title: string;
-	subtitle?: string;
 	body: string;
-	wordCount: number;
-	quotesUsed: Array<{
-		quoteId: string;
-		position: string;
-		integrationNote?: string;
-	}>;
-	sourcesReferenced?: string[];
-	selfCritique?: {
-		strengths?: string[];
-		concerns?: string[];
-		aiPatternCheck?: string;
-	};
+	wordCount?: number;
+	reflection?: string;
 }
 
 export interface ReviewOutput {
-	scores: {
-		swedish: {
-			score: number;
-			issues?: Array<{ location: string; issue: string; suggestion: string }>;
-		};
-		islamic: { score: number; issues?: unknown[] };
-		literary: { score: number; issues?: unknown[] };
-		humanAuthenticity: { score: number; aiPatternsFound?: string[]; humanMarkersFound?: string[] };
-	};
 	finalScore: number;
 	verdict: "publish" | "revise" | "reject";
 	summary: string;
 	strengths?: string[];
-	criticalIssues?: Array<{
-		severity: "high" | "medium" | "low";
-		category: string;
-		description: string;
-		location?: string;
-		fix?: string;
-	}>;
-	minorIssues?: Array<{
-		category: string;
-		description: string;
-		suggestion?: string;
-	}>;
+	issues?: string[];
 	revisedText?: string | null;
 }
 
@@ -233,6 +183,7 @@ export class ContentOrchestrator {
 	 * Execute a Claude stage with common timing, logging, and error handling.
 	 * Optionally validates output against a Zod schema.
 	 * Returns the raw result - stages handle their own post-processing.
+	 * Includes retry logic for transient validation failures.
 	 */
 	private async executeClaudeStage<T>(options: {
 		name: string;
@@ -241,22 +192,48 @@ export class ContentOrchestrator {
 		systemPrompt: string;
 		allowedTools: string[];
 		schema?: ZodType<T, ZodTypeDef, unknown>;
+		jsonSchema?: object;
+		maxBudgetUsd?: number;
+		maxRetries?: number;
 	}): Promise<StageResult<T>> {
 		const startTime = Date.now();
+		const maxRetries = options.maxRetries ?? 2;
 		console.log(`${options.emoji} ${options.name}...`);
 
 		const promptPath = join(this.promptsDir, options.promptFile);
-		const result = await this.runner.runJSON<T>(
-			{
-				prompt: promptPath,
-				systemPrompt: options.systemPrompt,
-				model: this.getModelId(),
-				allowedTools: options.allowedTools,
-			},
-			options.schema,
-		);
 
-		if (!result.success || !result.data) {
+		for (let attempt = 1; attempt <= maxRetries; attempt++) {
+			const result = await this.runner.runJSON<T>(
+				{
+					prompt: promptPath,
+					systemPrompt: options.systemPrompt,
+					model: this.getModelId(),
+					allowedTools: options.allowedTools,
+					jsonSchema: options.jsonSchema,
+					maxBudgetUsd: options.maxBudgetUsd,
+					fallbackModel: "sonnet",
+					noSessionPersistence: true,
+				},
+				options.schema,
+			);
+
+			if (result.success && result.data) {
+				return {
+					success: true,
+					data: result.data,
+					duration: Date.now() - startTime,
+				};
+			}
+
+			// Only retry on validation failures (transient issues)
+			const isValidationError = result.error?.includes("Validation failed");
+			if (isValidationError && attempt < maxRetries) {
+				const delay = 2000 * attempt; // exponential backoff: 2s, 4s
+				console.log(`   ⚠️  Validation failed, retry ${attempt}/${maxRetries - 1} in ${delay / 1000}s...`);
+				await new Promise((resolve) => setTimeout(resolve, delay));
+				continue;
+			}
+
 			return {
 				success: false,
 				error: result.error || `${options.name} failed`,
@@ -264,9 +241,10 @@ export class ContentOrchestrator {
 			};
 		}
 
+		// Should never reach here, but satisfy TypeScript
 		return {
-			success: true,
-			data: result.data,
+			success: false,
+			error: `${options.name} failed after ${maxRetries} attempts`,
 			duration: Date.now() - startTime,
 		};
 	}
@@ -338,8 +316,27 @@ export class ContentOrchestrator {
 			// Continue without quotes - web research can still proceed
 		}
 
-		// Step 2: Build prompt with pre-fetched quotes
-		let systemPrompt = `Topic: ${topic}\nTarget word count: ${this.options.targetWordCount}\nInclude Arabic quotes: ${this.options.includeArabic}`;
+		// Step 1b: Pre-fetch book passages (all local = free)
+		let bookResults: BookSearchResult | null = null;
+		if (hasBookContent()) {
+			console.log("   - Searching book database...");
+			try {
+				bookResults = await searchBooksComprehensive({
+					topic,
+					passageLimit: 20,
+					conceptLimit: 5,
+					minScore: 0.35,
+				});
+				console.log(
+					`   - Found ${bookResults.passages.length} passages, ${bookResults.concepts.length} concept matches`,
+				);
+			} catch (error) {
+				console.log(`   - Book search failed: ${error}`);
+			}
+		}
+
+		// Step 2: Build prompt with pre-fetched quotes and book passages
+		let systemPrompt = `Topic: ${topic}`;
 
 		if (quoteResults) {
 			const totalQuotes =
@@ -349,22 +346,19 @@ export class ContentOrchestrator {
 				quoteResults.categoryMatches.length +
 				quoteResults.textMatches.length;
 
-			systemPrompt += `\n\n# PRE-FETCHED QUOTES FROM DATABASE (${totalQuotes} candidates)
+			systemPrompt += `\n\n# QUOTES FROM DATABASE (${totalQuotes} candidates)
 
 ${formatQuotesForPrompt(quoteResults)}
 
-## QUOTE SELECTION INSTRUCTIONS
-You have been provided with ${totalQuotes} quote candidates from the local database.
-Your task is to CURATE the best 15-20 quotes for this article:
+Curate the best quotes for this topic. Select from above—do not search for more.`;
+		}
 
-1. **Select for relevance** - Choose quotes that directly illuminate the topic
-2. **Prefer high standalone scores** (4-5) - These work well out of context
-3. **Balance languages** - Mix Swedish, Arabic, and any other available
-4. **Diversify sources** - Don't over-rely on one author or work
-5. **Consider narrative potential** - Which quotes can anchor sections?
+		if (bookResults && bookResults.passages.length > 0) {
+			systemPrompt += `\n\n# BOOK PASSAGES (${bookResults.passages.length} candidates)
 
-IMPORTANT: Do NOT search for additional quotes. Select from what's provided above.
-Include your curated selection in the "quotes" array of your output.`;
+${formatBooksForPrompt(bookResults)}
+
+Curate the best passages for this topic. Include book title, author, and chapter in output.`;
 		}
 
 		// Step 3: Run Claude for web research (quotes already provided)
@@ -377,6 +371,10 @@ Include your curated selection in the "quotes" array of your output.`;
 				systemPrompt,
 				model: this.getModelId(),
 				allowedTools: ["WebSearch", "Read"],
+				jsonSchema: getResearchJsonSchema(),
+				maxBudgetUsd: 3.0, // Increased from 2.0 to handle complex research with many web searches
+				fallbackModel: "sonnet",
+				noSessionPersistence: true,
 			},
 			ResearchOutputSchema,
 		);
@@ -398,9 +396,7 @@ Include your curated selection in the "quotes" array of your output.`;
 		const verification = await this.validator.verifyUrls(urlsToVerify);
 
 		if (verification.stats.failed > 0) {
-			console.log(
-				`   - ⚠️  ${verification.stats.failed} URL(s) failed verification:`,
-			);
+			console.log(`   - ⚠️  ${verification.stats.failed} URL(s) failed verification:`);
 			for (const url of verification.stats.failedUrls) {
 				const result = verification.results.find((r) => r.url === url);
 				console.log(`     - ${url} (${result?.error || "unreachable"})`);
@@ -408,20 +404,20 @@ Include your curated selection in the "quotes" array of your output.`;
 		}
 
 		// Filter out sources with invalid URLs
-		const verifiedUrls = new Set(
-			verification.results.filter((r) => r.exists).map((r) => r.url),
-		);
+		const verifiedUrls = new Set(verification.results.filter((r) => r.exists).map((r) => r.url));
 
 		const validatedSources = rawSources
 			.filter((source) => verifiedUrls.has(source.url))
-			.map((source) => {
+			.filter((source) => {
+				// Only reject blacklisted sources
 				const validation = this.validator.validateSource(source.url);
-				return {
-					...source,
-					credibility:
-						validation.credibility === "rejected" ? ("low" as const) : validation.credibility,
-				};
+				if (validation.credibility === "rejected") {
+					console.log(`   - Rejected blacklisted source: ${source.url}`);
+					return false;
+				}
+				return true;
 			});
+		// Trust LLM's credibility assessment for non-blacklisted sources
 
 		// Merge pre-fetched quotes with any Claude found
 		const preSearchedQuotes = quoteResults ? quotesToResearchFormat(quoteResults) : [];
@@ -433,22 +429,29 @@ Include your curated selection in the "quotes" array of your output.`;
 			),
 		];
 
+		// Merge pre-fetched book passages with any Claude curated
+		const preSearchedPassages = bookResults ? passagesToResearchFormat(bookResults) : [];
+		const rawPassages = result.data.bookPassages || [];
+		const allPassages = [
+			...preSearchedPassages,
+			...rawPassages.filter(
+				(p) => !preSearchedPassages.some((pp) => pp.id === p.id || pp.text === p.text),
+			),
+		];
+
 		const data = {
 			...result.data,
 			sources: validatedSources,
 			quotes: allQuotes,
+			bookPassages: allPassages,
 		};
 
 		// Add sources to reference tracker
 		for (const source of data.sources) {
 			this.references.addReference({
-				type: source.publication ? "media" : "web",
+				type: "web",
 				title: source.title,
 				url: source.url,
-				author: source.author,
-				publication: source.publication,
-				date: source.date,
-				credibility: source.credibility,
 				accessDate: new Date().toISOString(),
 			});
 		}
@@ -459,7 +462,6 @@ Include your curated selection in the "quotes" array of your output.`;
 				type: "quote",
 				title: quote.source || "Unknown",
 				author: quote.author,
-				credibility: "high",
 			});
 		}
 
@@ -486,6 +488,8 @@ Include your curated selection in the "quotes" array of your output.`;
 			systemPrompt,
 			allowedTools: ["WebSearch", "Read"],
 			schema: FactCheckOutputSchema,
+			jsonSchema: getFactCheckJsonSchema(),
+			maxBudgetUsd: 2.0,
 		});
 
 		if (!result.success || !result.data) {
@@ -521,16 +525,28 @@ Include your curated selection in the "quotes" array of your output.`;
 		research: ResearchOutput,
 		factCheck: FactCheckOutput,
 	): Promise<StageResult<DraftOutput>> {
-		// Prepare verified research
-		const researchFacts = research.facts || [];
-		const verifiedClaims = factCheck.verifiedClaims || [];
-		const verifiedResearch = {
-			...research,
-			// Filter to verified facts only
-			facts: researchFacts.filter((fact) => verifiedClaims.some((vc) => vc.claim === fact.claim)),
-		};
+		// Use research directly - fact-check has already validated
+		const verifiedResearch = research;
 
-		const systemPrompt = `Verified research:\n${JSON.stringify(verifiedResearch, null, 2)}\n\nTarget word count: ${this.options.targetWordCount}`;
+		let systemPrompt = `## CONTEXT
+You are writing for islam.se. The purpose is to promote Islamic thought intelligently to Swedish readers.
+
+Key requirements:
+- ONE clear thematic thread from start to finish
+- Compelling subtitles that make readers want to continue
+- Let quotes and passages earn their place
+- Reference the Quran where relevant
+- Let classical Islamic scholars shine
+- Swedish/Western authors strengthen the Islamic stance
+- Use markdown blockquotes and footnotes
+
+Verified research:
+${JSON.stringify(verifiedResearch, null, 2)}`;
+
+		if (research.bookPassages && research.bookPassages.length > 0) {
+			systemPrompt += `\n\n## BOOK PASSAGES AVAILABLE
+${research.bookPassages.length} book passages available for integration.`;
+		}
 
 		const result = await this.executeClaudeStage<DraftOutput>({
 			name: "Stage 3: Authoring",
@@ -539,26 +555,18 @@ Include your curated selection in the "quotes" array of your output.`;
 			systemPrompt,
 			allowedTools: ["Read"],
 			schema: DraftOutputSchema,
+			jsonSchema: getDraftJsonSchema(),
+			maxBudgetUsd: 1.0,
 		});
 
 		if (!result.success || !result.data) {
 			return result;
 		}
 
-		const data = {
-			...result.data,
-			quotesUsed: result.data.quotesUsed || [],
-		};
+		const wordCount = result.data.wordCount ?? result.data.body.split(/\s+/).length;
+		console.log(`   - Draft complete: ${wordCount} words`);
 
-		console.log(`   - Draft complete: ${data.wordCount ?? 0} words`);
-		console.log(`   - Quotes integrated: ${data.quotesUsed.length}`);
-
-		// Mark used quotes as used in reference tracker
-		for (const quote of data.quotesUsed) {
-			this.references.markAsUsed(quote.quoteId);
-		}
-
-		return { ...result, data };
+		return result;
 	}
 
 	/**
@@ -568,7 +576,7 @@ Include your curated selection in the "quotes" array of your output.`;
 		draft: DraftOutput,
 		research: ResearchOutput,
 	): Promise<StageResult<ReviewOutput>> {
-		const systemPrompt = `Draft article:\n${draft.body}\n\nQuotes used:\n${JSON.stringify(draft.quotesUsed, null, 2)}\n\nOriginal research summary:\n${research.summary}`;
+		const systemPrompt = `Draft article:\n${draft.body}\n\nOriginal research summary:\n${research.summary}`;
 
 		const result = await this.executeClaudeStage<ReviewOutput>({
 			name: "Stage 4: Quality Review",
@@ -577,6 +585,8 @@ Include your curated selection in the "quotes" array of your output.`;
 			systemPrompt,
 			allowedTools: ["Read"],
 			schema: ReviewOutputSchema,
+			jsonSchema: getReviewJsonSchema(),
+			maxBudgetUsd: 1.0, // Increased from 0.5 to handle revision loops
 		});
 
 		if (!result.success || !result.data) {
@@ -649,8 +659,8 @@ Include your curated selection in the "quotes" array of your output.`;
 
 			// Check verdict
 			if (reviewResult.data.verdict === "publish") {
-				// Success!
-				const finalText = reviewResult.data.revisedText || currentDraft.body;
+				// Success! Always prefer polished version
+				const finalText = reviewResult.data.revisedText ?? currentDraft.body;
 				this.saveOutput(outputDir, "final.md", finalText);
 
 				// Generate bibliography
@@ -663,7 +673,6 @@ Include your curated selection in the "quotes" array of your output.`;
 					producedAt: new Date().toISOString(),
 					qualityScore: reviewResult.data.finalScore,
 					wordCount: currentDraft.wordCount,
-					quotesUsed: currentDraft.quotesUsed.length,
 					revisionCount,
 				});
 
@@ -777,8 +786,25 @@ Include your curated selection in the "quotes" array of your output.`;
 	}
 }
 
+export {
+	formatBooksForPrompt,
+	hasBookContent,
+	passagesToResearchFormat,
+	searchBooksComprehensive,
+} from "./book-service.js";
 // Re-export utilities
 export { ClaudeRunner } from "./claude-runner.js";
+// Export ideation service
+export {
+	type EnrichedIdea,
+	type EnrichedIdeationOutput,
+	type EnrichedQuote,
+	enrichIdeasWithQuotes,
+	generateIdeas,
+	type Idea,
+	type IdeationOutput,
+	IdeationService,
+} from "./ideation-service.js";
 export {
 	formatQuotesForPrompt,
 	quotesToResearchFormat,

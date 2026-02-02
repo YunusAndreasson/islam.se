@@ -7,7 +7,7 @@ export interface Reference {
 	publication?: string;
 	date?: string;
 	accessDate?: string;
-	credibility: "high" | "medium" | "low";
+	credibility?: "high" | "medium" | "low";
 	used: boolean;
 }
 
@@ -164,7 +164,9 @@ export class ReferenceTracker {
 
 		for (const ref of all) {
 			byType[ref.type] = (byType[ref.type] || 0) + 1;
-			byCredibility[ref.credibility] = (byCredibility[ref.credibility] || 0) + 1;
+			if (ref.credibility) {
+				byCredibility[ref.credibility] = (byCredibility[ref.credibility] || 0) + 1;
+			}
 		}
 
 		return {

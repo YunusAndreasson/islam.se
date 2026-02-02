@@ -96,3 +96,31 @@
 
 # Rawdat al-Muhibbin - Garden of Lovers (on love, orthodox perspective)
 # DONE https://raw.githubusercontent.com/OpenITI/0775AH/master/data/0751IbnQayyimJawziyya/0751IbnQayyimJawziyya.RawdatMuhibbin/0751IbnQayyimJawziyya.RawdatMuhibbin.JK000063-ara1
+
+# ══════════════════════════════════════════════════════════════
+# ENGLISH TRANSLATIONS - Islamic Literature
+# Orthodox Islamic scholarship - English translations from Gutenberg/Archive
+# ══════════════════════════════════════════════════════════════
+
+# === AL-GHAZALI (1058-1111) ===
+# Major Sunni theologian and philosopher
+# Themes: Ethics, self-improvement, Islamic theology
+
+# The Confessions of Al Ghazzali - autobiographical spiritual journey
+# DONE https://www.gutenberg.org/cache/epub/58977/pg58977.txt
+
+# Some Religious and Moral Teachings of Al-Ghazzali
+# Extracts from Ihya Ulum al-Din (Revival of Religious Sciences)
+# DONE https://www.gutenberg.org/cache/epub/73140/pg73140.txt
+
+# === IBN KHALDUN (1332-1406) ===
+# Historian, philosopher - founder of sociology
+# Muqaddimah - philosophy of history and civilization
+# NOTE: Internet Archive djvu.txt format - may need manual download
+# DONE https://archive.org/stream/in.ernet.dli.2015.280274/2015.280274.Ibn-Khaldun_djvu.txt
+
+# === IBN BATTUTA (1304-1369) ===
+# Explorer and scholar - 30 years of travel across Islamic world
+# Rihla (The Travels) - Gibb translation, covers North Africa, Middle East, India, China
+# NOTE: Internet Archive djvu.txt format - may need manual download
+# DONE https://archive.org/stream/in.ernet.dli.2015.62617/2015.62617.Ibn-Battuta-Travels-In-Asia-And-Africa-1325-1354_djvu.txt

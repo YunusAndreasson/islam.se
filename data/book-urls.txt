@@ -1,0 +1,363 @@
+# Book Database for RAG Import
+# Books to enrich islam.se with literary, philosophical and historical references
+# Format: URL (one per line), use "# DONE " prefix after successful import
+#
+# Run import with: pnpm cli import-books data/book-urls.txt
+# Or individual: pnpm cli import-book <url>
+
+# ============================================================================
+# SWEDISH LITERATURE
+# ============================================================================
+
+# === AUGUST STRINDBERG (1849-1912) ===
+# Sweden's most influential author, psychological and philosophical works
+
+# Röda rummet - Satirical novel about Stockholm bohemian life
+https://www.gutenberg.org/cache/epub/57052/pg57052.txt
+
+# Hemsöborna och Skärkarlsliv - Archipelago life, nature and isolation
+https://www.gutenberg.org/cache/epub/30080/pg30080.txt
+
+# Inferno - Autobiographical spiritual crisis
+https://www.gutenberg.org/cache/epub/29935/pg29935.txt
+
+# I Havsbandet - Novel about isolation and nature
+https://www.gutenberg.org/cache/epub/30078/pg30078.txt
+
+# Skärkarlsliv - Archipelago stories
+https://www.gutenberg.org/cache/epub/30079/pg30079.txt
+
+# === SELMA LAGERLÖF (1858-1940) ===
+# Nobel Prize 1909, moral and spiritual storytelling
+
+# Bannlyst (The Outcast) - Themes of guilt and redemption
+https://www.gutenberg.org/cache/epub/39147/pg39147.txt
+
+# Valda Berättelser - Selected stories
+https://www.gutenberg.org/cache/epub/51440/pg51440.txt
+
+# === VIKTOR RYDBERG (1828-1895) ===
+# Philosopher, theologian, novelist - deep spiritual and mythological themes
+
+# Den siste Atenaren - Philosophical historical novel about faith vs philosophy
+https://www.gutenberg.org/cache/epub/10117/pg10117.txt
+
+# Singoalla - Romantic novel with spiritual themes
+https://www.gutenberg.org/cache/epub/28610/pg28610.txt
+
+# === VERNER VON HEIDENSTAM (1859-1940) ===
+# Nobel Prize 1916, Swedish history and national romanticism
+
+# Folkungaträdet - Historical novel about medieval Swedish dynasty
+https://www.gutenberg.org/cache/epub/13371/pg13371.txt
+
+# === C.J.L. ALMQVIST (1793-1866) ===
+# Radical romantic, early feminist themes
+
+# Det går an - Controversial novel about free relationships
+https://www.gutenberg.org/cache/epub/14670/pg14670.txt
+
+# === ESAIAS TEGNÉR (1782-1846) ===
+# Bishop and poet, romantic nationalism
+
+# Fritiofs Saga - Epic poem, Norse mythology themes
+https://www.gutenberg.org/cache/epub/8518/pg8518.txt
+
+# === JOHAN LUDVIG RUNEBERG (1804-1877) ===
+# Finland-Swedish poet, national poet of Finland
+
+# Samlade arbeten I - Collected works
+https://www.gutenberg.org/cache/epub/13100/pg13100.txt
+
+# ============================================================================
+# SWEDISH HISTORY (English)
+# ============================================================================
+
+# The Swedish Revolution Under Gustavus Vasa - Paul Barron Watson
+# Founding of modern Sweden, Reformation era
+https://www.gutenberg.org/cache/epub/22458/pg22458.txt
+
+# Sweden - Victor Nilsson (comprehensive history)
+https://www.gutenberg.org/cache/epub/44624/pg44624.txt
+
+# Sweden - William Liddle (history and culture)
+https://www.gutenberg.org/cache/epub/43454/pg43454.txt
+
+# ============================================================================
+# SVEN HEDIN - EXPLORER (English)
+# Wrote about Persia, Tibet, Central Asia - valuable for Middle East context
+# ============================================================================
+
+# From Pole to Pole - Travel narrative covering Asia
+https://www.gutenberg.org/cache/epub/20709/pg20709.txt
+
+# Trans-Himalaya Vol 1 - Tibet exploration
+https://www.gutenberg.org/cache/epub/43497/pg43497.txt
+
+# Trans-Himalaya Vol 2 - Tibet exploration
+https://www.gutenberg.org/cache/epub/43549/pg43549.txt
+
+# ============================================================================
+# RUSSIAN LITERATURE - DOSTOEVSKY
+# Deep philosophical and spiritual themes
+# ============================================================================
+
+# Crime and Punishment - Guilt, redemption, moral struggle
+https://www.gutenberg.org/cache/epub/2554/pg2554.txt
+
+# The Idiot - Christian goodness in a corrupt world
+https://www.gutenberg.org/cache/epub/2638/pg2638.txt
+
+# Notes from Underground - Existential crisis, free will
+https://www.gutenberg.org/cache/epub/600/pg600.txt
+
+# The Possessed (Demons) - Nihilism, political extremism
+https://www.gutenberg.org/cache/epub/8117/pg8117.txt
+
+# The Gambler - Addiction, self-destruction
+https://www.gutenberg.org/cache/epub/2197/pg2197.txt
+
+# Short Stories - Various philosophical themes
+https://www.gutenberg.org/cache/epub/40745/pg40745.txt
+
+# ============================================================================
+# RUSSIAN LITERATURE - TOLSTOY
+# Moral philosophy, spiritual seeking
+# ============================================================================
+
+# Anna Karenina - Love, society, moral choices
+https://www.gutenberg.org/cache/epub/1399/pg1399.txt
+
+# War and Peace - History, fate, meaning of life
+https://www.gutenberg.org/cache/epub/2600/pg2600.txt
+
+# Resurrection - Redemption, social justice
+https://www.gutenberg.org/cache/epub/17352/pg17352.txt
+
+# The Kingdom of God Is Within You - Christian anarchism, nonviolence
+https://www.gutenberg.org/cache/epub/4602/pg4602.txt
+
+# The Death of Ivan Ilyich - Mortality, meaning of life
+https://www.gutenberg.org/cache/epub/43424/pg43424.txt
+
+# Master and Man - Self-sacrifice, redemption
+https://www.gutenberg.org/cache/epub/986/pg986.txt
+
+# The Kreutzer Sonata - Marriage, jealousy, morality
+https://www.gutenberg.org/cache/epub/689/pg689.txt
+
+# ============================================================================
+# RUSSIAN LITERATURE - OTHER MASTERS
+# ============================================================================
+
+# Chekhov - Uncle Vanya (drama, meaning of life)
+https://www.gutenberg.org/cache/epub/1756/pg1756.txt
+
+# Chekhov - The Cherry Orchard (change, loss)
+https://www.gutenberg.org/cache/epub/7986/pg7986.txt
+
+# Gogol - Dead Souls (Russian society, morality)
+https://www.gutenberg.org/cache/epub/1081/pg1081.txt
+
+# Turgenev - Fathers and Sons (generational conflict, nihilism)
+https://www.gutenberg.org/cache/epub/30723/pg30723.txt
+
+# Best Russian Short Stories - Anthology (Pushkin, Gogol, Turgenev, Dostoevsky, Tolstoy, Chekhov)
+https://www.gutenberg.org/cache/epub/13437/pg13437.txt
+
+# ============================================================================
+# STOIC PHILOSOPHY
+# Timeless wisdom on virtue, resilience, inner peace
+# ============================================================================
+
+# Marcus Aurelius - Meditations
+https://www.gutenberg.org/cache/epub/2680/pg2680.txt
+
+# Epictetus - Enchiridion (Manual)
+https://www.gutenberg.org/cache/epub/45109/pg45109.txt
+
+# Epictetus - Discourses
+https://www.gutenberg.org/cache/epub/10661/pg10661.txt
+
+# Seneca - Letters from a Stoic (Moral Letters)
+https://www.gutenberg.org/cache/epub/97867/pg97867.txt
+
+# ============================================================================
+# CLASSICAL PHILOSOPHY - PLATO
+# Foundational Western philosophy
+# ============================================================================
+
+# The Republic - Justice, ideal society, philosopher-kings
+https://www.gutenberg.org/cache/epub/1497/pg1497.txt
+
+# Symposium - Love, beauty, wisdom
+https://www.gutenberg.org/cache/epub/1600/pg1600.txt
+
+# Apology - Socrates' defense, examined life
+https://www.gutenberg.org/cache/epub/1656/pg1656.txt
+
+# Phaedo - Soul, immortality, death
+https://www.gutenberg.org/cache/epub/1658/pg1658.txt
+
+# ============================================================================
+# EXISTENTIALIST PHILOSOPHY
+# Meaning, freedom, authenticity
+# ============================================================================
+
+# Kierkegaard - Selections (faith, individual, anxiety)
+https://www.gutenberg.org/cache/epub/60333/pg60333.txt
+
+# Nietzsche - Thus Spake Zarathustra
+https://www.gutenberg.org/cache/epub/1998/pg1998.txt
+
+# Nietzsche - Beyond Good and Evil
+https://www.gutenberg.org/cache/epub/4363/pg4363.txt
+
+# ============================================================================
+# WORLD LITERATURE - OTHER CLASSICS
+# ============================================================================
+
+# Dante - Divine Comedy (spiritual journey)
+https://www.gutenberg.org/cache/epub/8800/pg8800.txt
+
+# Milton - Paradise Lost (fall, redemption)
+https://www.gutenberg.org/cache/epub/26/pg26.txt
+
+# Goethe - Faust (knowledge, temptation, redemption)
+https://www.gutenberg.org/cache/epub/14591/pg14591.txt
+
+# Shakespeare - Hamlet (mortality, meaning, revenge)
+https://www.gutenberg.org/cache/epub/1524/pg1524.txt
+
+# ============================================================================
+# CARL LINNAEUS (1707-1778) - "Father of Taxonomy"
+# Swedish scientist who saw nature as God's creation - parallels to Islamic tafakkur!
+# ============================================================================
+
+# Lachesis Lapponica Vol 1 - Tour in Lapland (his famous expedition journal)
+# Observing God's creation in the Swedish wilderness
+https://www.gutenberg.org/cache/epub/34779/pg34779.txt
+
+# Lachesis Lapponica Vol 2 - Tour in Lapland continued
+https://www.gutenberg.org/cache/epub/36059/pg36059.txt
+
+# Species Plantarum I-III - Foundation of botanical classification
+https://www.gutenberg.org/cache/epub/20771/pg20771.txt
+
+# Species Plantarum IV-V
+https://www.gutenberg.org/cache/epub/27049/pg27049.txt
+
+# Species Plantarum VI-X
+https://www.gutenberg.org/cache/epub/30104/pg30104.txt
+
+# Species Plantarum XI-XIII
+https://www.gutenberg.org/cache/epub/31010/pg31010.txt
+
+# ============================================================================
+# SWEDENBORG - SWEDISH MYSTIC (1688-1772)
+# Visions of afterlife - remarkable parallels with Islamic concepts!
+# ============================================================================
+
+# Heaven and Hell - Detailed account of afterlife, angels, spirits
+https://www.gutenberg.org/cache/epub/17368/pg17368.txt
+
+# Divine Providence - God's governance of creation
+https://www.gutenberg.org/cache/epub/21687/pg21687.txt
+
+# ============================================================================
+# SELMA LAGERLÖF - RELIGIOUS & SPIRITUAL WORKS
+# Nobel laureate's religious storytelling - incredible for Islamic parallels
+# ============================================================================
+
+# Christ Legends - Religious stories, Holy Land narratives
+https://www.gutenberg.org/cache/epub/44818/pg44818.txt
+
+# Jerusalem - Novel inspired by her visit to Jerusalem!
+https://www.gutenberg.org/cache/epub/15837/pg15837.txt
+
+# The Story of Gösta Berling - Her masterpiece, redemption themes
+https://www.gutenberg.org/cache/epub/56158/pg56158.txt
+
+# The Wonderful Adventures of Nils - Every Swede knows this from school
+https://www.gutenberg.org/cache/epub/10935/pg10935.txt
+
+# The Miracles of Antichrist - Religious/social themes
+https://www.gutenberg.org/cache/epub/54615/pg54615.txt
+
+# ============================================================================
+# NORSE MYTHOLOGY & VIKING SAGAS
+# Swedish/Scandinavian heritage - connecting to monotheism concepts
+# ============================================================================
+
+# The Prose Edda (Younger Edda) - Core Norse mythology
+https://www.gutenberg.org/cache/epub/18947/pg18947.txt
+
+# The Poetic Edda - Ancient Norse poems, gods and heroes
+https://www.gutenberg.org/cache/epub/73533/pg73533.txt
+
+# Elder & Younger Eddas Combined - Complete mythology
+https://www.gutenberg.org/cache/epub/14726/pg14726.txt
+
+# Heimskringla - Chronicle of Norse Kings
+https://www.gutenberg.org/cache/epub/598/pg598.txt
+
+# Njal's Saga - Greatest Icelandic saga, honor and fate
+https://www.gutenberg.org/cache/epub/17919/pg17919.txt
+
+# Laxdaela Saga - Love, tragedy, fate
+https://www.gutenberg.org/cache/epub/17803/pg17803.txt
+
+# Myths of the Norsemen - Accessible retelling
+https://www.gutenberg.org/cache/epub/28497/pg28497.txt
+
+# Viktor Rydberg - Teutonic Mythology Vol 1 (Swedish scholar on Norse gods)
+https://www.gutenberg.org/cache/epub/37876/pg37876.txt
+
+# Viktor Rydberg - Teutonic Mythology Vol 2
+https://www.gutenberg.org/cache/epub/58829/pg58829.txt
+
+# ============================================================================
+# SWEDISH FOLK TALES & LEGENDS
+# Deep cultural roots - universal themes of morality and magic
+# ============================================================================
+
+# Swedish Fairy Tales by Herman Hofberg
+https://www.gutenberg.org/cache/epub/73093/pg73093.txt
+
+# The Swedish Fairy Book - Trolls, magic, wisdom
+https://www.gutenberg.org/cache/epub/37193/pg37193.txt
+
+# Folk-Lore and Legends: Scandinavian
+https://www.gutenberg.org/cache/epub/15186/pg15186.txt
+
+# Stories by Foreign Authors: Scandinavian
+https://www.gutenberg.org/cache/epub/5336/pg5336.txt
+
+# ============================================================================
+# SWEDISH POETRY
+# ============================================================================
+
+# Svensk diktning II - Anthology: Malmström to Karlfeldt (Fröding, Rydberg, Heidenstam, Levertin)
+https://www.gutenberg.org/cache/epub/15753/pg15753.txt
+
+# Lärkan: Poetisk kalender - Poetry calendar/anthology
+https://www.gutenberg.org/cache/epub/54571/pg54571.txt
+
+# J.J. Wecksell - Samlade dikter (Collected poems, Finland-Swedish romantic)
+https://www.gutenberg.org/cache/epub/58368/pg58368.txt
+
+# Mosaiker - Poetry anthology
+https://www.gutenberg.org/cache/epub/52765/pg52765.txt
+
+# Pehr Thomasson - Samlade skaldeförsök (Collected poetry attempts)
+https://www.gutenberg.org/cache/epub/61835/pg61835.txt
+
+# Jarl Hemmer - Rågens rike (Finland-Swedish poet, Nobel nominee)
+https://www.gutenberg.org/cache/epub/72567/pg72567.txt
+
+# Carl Michael Bellman - Lauluja ja Loiluja (Finnish translation, but iconic Swedish poet)
+https://www.gutenberg.org/cache/epub/47267/pg47267.txt
+
+# Gustaf Fröding biography by Ida Bäckmann (about Sweden's beloved poet)
+https://www.gutenberg.org/cache/epub/75504/pg75504.txt
+

@@ -21,6 +21,8 @@ export interface UrlVerification {
 interface CredibleSourcesConfig {
 	swedish_academic: string[];
 	swedish_academic_journals: string[];
+	swedish_museums: string[];
+	swedish_science: string[];
 	swedish_media_tier1: string[];
 	swedish_media_tier2: string[];
 	swedish_government: string[];
@@ -127,6 +129,24 @@ export class SourceValidator {
 			};
 		}
 
+		// 5b. Check Swedish museums
+		if (this.isInList(domain, this.config.swedish_museums)) {
+			return {
+				allowed: true,
+				credibility: "high",
+				reason: "Swedish national or regional museum",
+			};
+		}
+
+		// 5c. Check Swedish science publications
+		if (this.isInList(domain, this.config.swedish_science)) {
+			return {
+				allowed: true,
+				credibility: "high",
+				reason: "Swedish science publication",
+			};
+		}
+
 		// 6. Check Swedish media tier 1
 		if (this.isInList(domain, this.config.swedish_media_tier1)) {
 			return {
@@ -216,16 +236,14 @@ export class SourceValidator {
 				signal: controller.signal,
 				redirect: "follow",
 				headers: {
-					"User-Agent":
-						"Mozilla/5.0 (compatible; IslamSE/1.0; +https://islam.se)",
+					"User-Agent": "Mozilla/5.0 (compatible; IslamSE/1.0; +https://islam.se)",
 				},
 			});
 
 			clearTimeout(timeoutId);
 
 			// Consider 2xx and 3xx as existing, also 403 (some sites block HEAD but exist)
-			const exists =
-				response.ok || response.status === 403 || response.status === 405;
+			const exists = response.ok || response.status === 403 || response.status === 405;
 
 			return {
 				url,
@@ -280,9 +298,7 @@ export class SourceValidator {
 		// Process in batches to limit concurrency
 		for (let i = 0; i < urls.length; i += concurrency) {
 			const batch = urls.slice(i, i + concurrency);
-			const batchResults = await Promise.all(
-				batch.map((url) => this.verifyUrl(url, timeoutMs)),
-			);
+			const batchResults = await Promise.all(batch.map((url) => this.verifyUrl(url, timeoutMs)));
 			results.push(...batchResults);
 		}
 

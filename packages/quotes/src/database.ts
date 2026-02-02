@@ -313,6 +313,61 @@ export function getStats(): DatabaseStats {
 }
 
 /**
+ * Gets unique source URLs for quotes with Unknown author
+ */
+export function getUnknownAuthorSourceUrls(): string[] {
+	if (!db) {
+		throw new Error("Database not initialized. Call initDatabase() first.");
+	}
+
+	const rows = db
+		.prepare(
+			`SELECT DISTINCT source_url FROM quotes
+			 WHERE (author = 'Unknown' OR author IS NULL OR author = '')
+			 AND source_url IS NOT NULL
+			 AND source_url != ''`,
+		)
+		.all() as { source_url: string }[];
+
+	return rows.map((r) => r.source_url);
+}
+
+/**
+ * Updates author and work_title for all quotes from a given source URL
+ */
+export function updateQuoteMetadataBySource(
+	sourceUrl: string,
+	metadata: { author?: string; title?: string },
+): number {
+	if (!db) {
+		throw new Error("Database not initialized. Call initDatabase() first.");
+	}
+
+	let updated = 0;
+
+	if (metadata.author) {
+		const result = db
+			.prepare(
+				`UPDATE quotes SET author = ?
+				 WHERE source_url = ?
+				 AND (author = 'Unknown' OR author IS NULL OR author = '')`,
+			)
+			.run(metadata.author, sourceUrl);
+		updated = result.changes;
+	}
+
+	if (metadata.title) {
+		db.prepare(
+			`UPDATE quotes SET work_title = ?
+			 WHERE source_url = ?
+			 AND (work_title = 'Unknown' OR work_title IS NULL OR work_title = '')`,
+		).run(metadata.title, sourceUrl);
+	}
+
+	return updated;
+}
+
+/**
  * Closes the database connection
  */
 export function closeDatabase(): void {

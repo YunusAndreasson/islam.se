@@ -163,64 +163,123 @@ async function extractFromChunk(
 	metadata?: { author?: string; title?: string },
 	onProgress?: (message: string) => void,
 ): Promise<ArabicQuote[]> {
-	const systemPrompt = `You are extracting quotes from classical Arabic Islamic texts.
+	const systemPrompt = `<role>
+You are extracting quotes from classical Arabic Islamic texts for use in contemporary Islamic writing.
+</role>
 
+<extraction_criteria>
 Extract quotes that:
 - Express profound wisdom about the soul, faith, and life
 - Address spiritual themes: monotheism, asceticism, repentance, patience, gratitude, humility
 - Are suitable for citation in contemporary Islamic writing
 - Are self-contained and understandable on their own
+</extraction_criteria>
 
-CATEGORIES (use English):
+<categories>
 faith, patience, gratitude, repentance, humility, asceticism, remembrance, supplication, character, relationships, heart, soul, worldly-life, afterlife, death, love, fear, hope, knowledge, wisdom
+</categories>
 
-TONE options:
-- hopeful (optimistic, encouraging)
-- somber (serious, weighty)
-- reflective (contemplative, thoughtful)
-- ironic (paradoxical, with deeper meaning)
-- warning (cautionary)
-- neutral (matter-of-fact wisdom)
+<tone_options>
+- hopeful: optimistic, encouraging
+- somber: serious, weighty
+- reflective: contemplative, thoughtful
+- ironic: paradoxical, with deeper meaning
+- warning: cautionary
+- neutral: matter-of-fact wisdom
+</tone_options>
 
-For each quote extract:
+<output_fields>
 1. text: The exact Arabic text (1-4 sentences)
 2. author: Author name in Arabic script
 3. workTitle: Book title in Arabic script
-4. category: ONE English category from the list above
+4. category: ONE English category from categories list
 5. keywords: 2-3 Arabic keywords for search
-6. tone: ONE from options above
+6. tone: ONE from tone_options
 7. standalone: 1-5 score (5 = works perfectly alone)
+</output_fields>
 
-Extract 30-50 quotes. Skip detailed fiqh rulings and chains of narration (isnad).
+<quality_examples>
+<example standalone="5" category="patience">
+{
+  "text": "الصبر نصف الإيمان، والشكر النصف الآخر",
+  "author": "ابن القيم",
+  "workTitle": "مدارج السالكين",
+  "category": "patience",
+  "keywords": ["صبر", "إيمان", "شكر"],
+  "tone": "reflective",
+  "standalone": 5
+}
+<why_good>Complete aphorism. Universal spiritual truth that needs no context.</why_good>
+</example>
+
+<example standalone="5" category="heart">
+{
+  "text": "القلب يصدأ كما يصدأ الحديد، وجلاؤه الاستغفار",
+  "author": "الحسن البصري",
+  "workTitle": "موعظة",
+  "category": "heart",
+  "keywords": ["قلب", "استغفار", "تزكية"],
+  "tone": "warning",
+  "standalone": 5
+}
+<why_good>Vivid metaphor. Self-contained wisdom about spiritual purification.</why_good>
+</example>
+
+<example standalone="4" category="knowledge">
+{
+  "text": "العلم بلا عمل كالشجرة بلا ثمر",
+  "author": "الغزالي",
+  "workTitle": "إحياء علوم الدين",
+  "category": "knowledge",
+  "keywords": ["علم", "عمل", "فائدة"],
+  "tone": "warning",
+  "standalone": 4
+}
+<why_good>Clear analogy. Works standalone though context enriches understanding.</why_good>
+</example>
+</quality_examples>
+
+<quality_guidance>
+Prioritize standalone score 4-5. A score of 5 means a reader encountering this quote in isolation understands its meaning without needing the surrounding text.
+
+Skip:
+- Detailed fiqh rulings requiring legal context
+- Chains of narration (isnad)
+- Text-specific references ("كما ذكرنا سابقاً...")
+- Incomplete thoughts that depend on what follows
+</quality_guidance>
+
+Extract 30-50 quotes prioritizing DEPTH and standalone wisdom.
 
 Output ONLY valid JSON.`;
 
-	const userPrompt = `Extract quotes from this text (section ${chunkIndex + 1} of ${totalChunks}).
-
+	const userPrompt = `<input>
+Section ${chunkIndex + 1} of ${totalChunks}
 Author: ${metadata?.author ?? "Unknown"}
 Book: ${metadata?.title ?? "Unknown"}
 
-Text:
----
+<text>
 ${chunk}
----
+</text>
+</input>
 
-Output JSON:
+<output_format>
 {
   "quotes": [
     {
-      "text": "Arabic quote text",
+      "text": "Arabic quote text (1-4 sentences)",
       "author": "${metadata?.author ?? "المؤلف"}",
       "workTitle": "${metadata?.title ?? "الكتاب"}",
       "category": "English category from list",
       "keywords": ["كلمة1", "كلمة2"],
       "tone": "hopeful|somber|reflective|ironic|warning|neutral",
-      "standalone": 1-5
+      "standalone": 4
     }
   ]
 }
+</output_format>
 
-Extract 30-50 quotes. Output ONLY JSON.`;
+Extract 30-50 quotes. Prioritize standalone scores 4-5. Output ONLY JSON.`;
 
 	const maxRetries = 5;
 	let lastError: Error | null = null;

@@ -3,19 +3,27 @@
 import { readFileSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
+import { SourceValidator } from "@islam-se/orchestrator";
 import {
+	closeBookDatabase,
 	closeDatabase,
 	closeQuranDatabase,
 	extractArabicQuotes,
+	extractMetadataFromUrl,
 	extractNorseQuotes,
 	extractQuotes,
 	fetchText,
 	findQuotesLocal,
 	generateLocalEmbedding,
 	generateLocalEmbeddings,
+	getBookStats,
 	getParseStats,
 	getQuranStats,
 	getStats,
+	getUnknownAuthorSourceUrls,
+	importBook,
+	importBooksFromFile,
+	initBookDatabase,
 	initDatabase,
 	initQuranDatabase,
 	insertEmbedding,
@@ -27,10 +35,11 @@ import {
 	saveArabicExtractionResult,
 	saveExtractionResult,
 	saveNorseExtractionResult,
+	searchBooks,
 	searchVerses,
 	searchVersesSemantic,
+	updateQuoteMetadataBySource,
 } from "@islam-se/quotes";
-import { SourceValidator } from "@islam-se/orchestrator";
 import { Command } from "commander";
 import { config } from "dotenv";
 
@@ -248,9 +257,15 @@ program
 					const result = await fetchText(url);
 					console.log(`   ${result.cached ? "📁 Cached" : "⬇️  Downloaded"}: ${result.filename}`);
 
-					// Extract
+					// Extract (use metadata from Gutenberg header if available)
 					console.log("   🤖 Extracting quotes with Claude...");
-					const extraction = await extractQuotes(result.text, url, undefined, (msg) =>
+					if (result.metadata?.author) {
+						console.log(`      Author: ${result.metadata.author}`);
+					}
+					if (result.metadata?.title) {
+						console.log(`      Title: ${result.metadata.title}`);
+					}
+					const extraction = await extractQuotes(result.text, url, result.metadata, (msg) =>
 						console.log(`      ${msg}`),
 					);
 					console.log(`   📝 Found ${extraction.quotes.length} unique quotes`);
@@ -860,14 +875,16 @@ program
 		try {
 			const limit = Number.parseInt(options.limit, 10);
 
-			console.log(`\nSearching Quran for: "${query}"${options.text ? " (text search)" : " (semantic)"}\n`);
+			console.log(
+				`\nSearching Quran for: "${query}"${options.text ? " (text search)" : " (semantic)"}\n`,
+			);
 
 			initQuranDatabase();
 
 			let results;
 			if (options.text) {
 				// Text-based search
-				results = searchVerses(query, limit).map(v => ({ ...v, score: 1 }));
+				results = searchVerses(query, limit).map((v) => ({ ...v, score: 1 }));
 			} else {
 				// Semantic search using embeddings
 				const queryEmbedding = await generateLocalEmbedding(query);
@@ -882,12 +899,15 @@ program
 
 			for (const verse of results) {
 				const score = "score" in verse ? ` [${(verse.score as number).toFixed(3)}]` : "";
-				console.log(`📖 ${verse.surahNumber}:${verse.verseNumber} (${verse.surahNameSwedish})${score}`);
+				console.log(
+					`📖 ${verse.surahNumber}:${verse.verseNumber} (${verse.surahNameSwedish})${score}`,
+				);
 				console.log(`   "${verse.textSwedish}"`);
 				if (verse.commentary) {
-					const shortCommentary = verse.commentary.length > 150
-						? verse.commentary.slice(0, 150) + "..."
-						: verse.commentary;
+					const shortCommentary =
+						verse.commentary.length > 150
+							? verse.commentary.slice(0, 150) + "..."
+							: verse.commentary;
 					console.log(`   💬 ${shortCommentary}`);
 				}
 				console.log();
@@ -951,6 +971,313 @@ program
 				process.exit(1);
 			} else {
 				console.log("\n✅ All URLs verified successfully!\n");
+			}
+		} catch (error) {
+			console.error("Error:", error instanceof Error ? error.message : error);
+			process.exit(1);
+		}
+	});
+
+// ============================================================================
+// Book RAG Commands
+// ============================================================================
+
+/**
+ * Import a single book into the RAG database
+ */
+program
+	.command("import-book")
+	.description("Import a book into the RAG database (free local embeddings)")
+	.argument("<url>", "URL or local file path to import")
+	.option("--title <title>", "Override detected title")
+	.option("--author <author>", "Override detected author")
+	.option("--language <lang>", "Language: sv, ar, en (default: auto-detect)")
+	.option("--summarize", "Enable Claude summarization (uses API, adds concept search)")
+	.option("--force", "Re-import even if book already exists")
+	.action(
+		async (
+			url: string,
+			options: {
+				title?: string;
+				author?: string;
+				language?: "sv" | "ar" | "en";
+				summarize?: boolean;
+				force?: boolean;
+			},
+		) => {
+			try {
+				console.log(`\n📚 Importing book: ${url}\n`);
+
+				const result = await importBook(url, {
+					title: options.title,
+					author: options.author,
+					language: options.language,
+					skipSummarization: !options.summarize,
+					forceReimport: options.force,
+					onProgress: (msg) => console.log(`   ${msg}`),
+				});
+
+				if (result.success) {
+					console.log("\n✅ Import complete!");
+					console.log(`   Book ID: ${result.bookId}`);
+					console.log(`   Chapters: ${result.chaptersImported}`);
+					console.log(`   Passages: ${result.passagesImported}`);
+				} else {
+					console.error(`\n❌ Import failed: ${result.error}`);
+					process.exit(1);
+				}
+
+				closeBookDatabase();
+			} catch (error) {
+				console.error("Error:", error instanceof Error ? error.message : error);
+				process.exit(1);
+			}
+		},
+	);
+
+/**
+ * Import multiple books from a file containing URLs
+ */
+program
+	.command("import-books")
+	.description("Import multiple books from a URL file (resumable)")
+	.argument("<file>", "File containing URLs (one per line)")
+	.option("--summarize", "Enable Claude summarization (uses API)")
+	.option("--language <lang>", "Force language for all books: sv, ar, en")
+	.action(
+		async (fileArg: string, options: { summarize?: boolean; language?: "sv" | "ar" | "en" }) => {
+			const file = resolvePath(fileArg);
+
+			try {
+				console.log(`\n📚 Importing books from: ${file}\n`);
+
+				const result = await importBooksFromFile(file, {
+					language: options.language,
+					skipSummarization: !options.summarize,
+					onProgress: (msg) => console.log(msg),
+				});
+
+				console.log("\n" + "─".repeat(60));
+				console.log("📊 Import Summary:");
+				console.log(`   Imported: ${result.imported}`);
+				console.log(`   Skipped (already done): ${result.skipped}`);
+				console.log(`   Failed: ${result.failed}`);
+
+				closeBookDatabase();
+			} catch (error) {
+				console.error("Error:", error instanceof Error ? error.message : error);
+				process.exit(1);
+			}
+		},
+	);
+
+/**
+ * Search books using hybrid search
+ */
+program
+	.command("book-search")
+	.description("Search books semantically (all searches are free - local embeddings)")
+	.argument("<query>", "Search query")
+	.option("-n, --limit <number>", "Number of passage results", "10")
+	.option("--mode <mode>", "Search mode: hybrid, passages, concepts", "hybrid")
+	.option("--language <lang>", "Filter by language: sv, ar, en")
+	.action(
+		async (
+			query: string,
+			options: { limit: string; mode: string; language?: "sv" | "ar" | "en" },
+		) => {
+			try {
+				const limit = Number.parseInt(options.limit, 10);
+
+				console.log(`\n🔍 Searching books for: "${query}" (mode: ${options.mode})\n`);
+
+				initBookDatabase();
+
+				const results = await searchBooks(query, {
+					passageLimit: limit,
+					conceptLimit: 5,
+					minScore: 0.3,
+					language: options.language,
+				});
+
+				if (results.combined.length === 0 && results.concepts.length === 0) {
+					console.log("No results found.");
+					closeBookDatabase();
+					return;
+				}
+
+				// Show concept matches first
+				if (
+					(options.mode === "hybrid" || options.mode === "concepts") &&
+					results.concepts.length > 0
+				) {
+					console.log("📚 Relevant Themes:\n");
+					for (const concept of results.concepts) {
+						const title =
+							concept.type === "book"
+								? concept.bookTitle
+								: `${concept.bookTitle}, Ch. ${concept.chapterNumber}`;
+						console.log(`   ${title} [${(concept.score * 100).toFixed(0)}%]`);
+						console.log(`   ${concept.summary.slice(0, 100)}...`);
+						console.log(`   Key concepts: ${concept.keyConcepts.slice(0, 3).join(", ")}`);
+						console.log();
+					}
+				}
+
+				// Show passage matches
+				if (
+					(options.mode === "hybrid" || options.mode === "passages") &&
+					results.combined.length > 0
+				) {
+					console.log("📖 Matching Passages:\n");
+					const passages = options.mode === "hybrid" ? results.combined : results.passages;
+					for (let i = 0; i < passages.length; i++) {
+						const p = passages[i];
+						if (!p) continue;
+						console.log(
+							`${i + 1}. [${(p.score * 100).toFixed(0)}%] ${p.bookTitle} by ${p.bookAuthor}`,
+						);
+						if (p.chapterTitle) {
+							console.log(`   Chapter: ${p.chapterTitle}`);
+						}
+						// Show first 200 chars of passage
+						const preview = p.text.length > 200 ? p.text.slice(0, 200) + "..." : p.text;
+						console.log(`   "${preview}"`);
+						console.log();
+					}
+				}
+
+				closeBookDatabase();
+			} catch (error) {
+				console.error("Error:", error instanceof Error ? error.message : error);
+				process.exit(1);
+			}
+		},
+	);
+
+/**
+ * Show book database statistics
+ */
+program
+	.command("book-stats")
+	.description("Show book database statistics")
+	.action(() => {
+		try {
+			initBookDatabase();
+			const stats = getBookStats();
+
+			console.log("\n📚 Book Database Statistics\n");
+			console.log(`   Total books:     ${stats.totalBooks}`);
+			console.log(`   Total chapters:  ${stats.totalChapters}`);
+			console.log(`   Total passages:  ${stats.totalPassages}`);
+			console.log(`   Chars indexed:   ${(stats.totalCharsIndexed / 1_000_000).toFixed(1)}M`);
+
+			console.log("\n📖 By Language:");
+			console.log(`   Swedish (sv):    ${stats.byLanguage.swedish}`);
+			console.log(`   Arabic (ar):     ${stats.byLanguage.arabic}`);
+			console.log(`   English (en):    ${stats.byLanguage.english}`);
+
+			console.log();
+			closeBookDatabase();
+		} catch (error) {
+			console.error("Error:", error instanceof Error ? error.message : error);
+			process.exit(1);
+		}
+	});
+
+/**
+ * Fix metadata for quotes with Unknown author (FREE - no API calls)
+ * Fetches Gutenberg headers to extract author/title and updates database
+ */
+program
+	.command("fix-metadata")
+	.description("Fix author/title for Unknown quotes by re-fetching Gutenberg headers (free)")
+	.option("--dry-run", "Show what would be updated without making changes")
+	.option("--limit <n>", "Process only first N URLs (for testing)")
+	.action(async (options: { dryRun?: boolean; limit?: string }) => {
+		try {
+			initDatabase();
+
+			console.log("🔍 Finding quotes with Unknown author...\n");
+			const sourceUrls = getUnknownAuthorSourceUrls();
+			console.log(`Found ${sourceUrls.length} unique source URLs with Unknown author\n`);
+
+			if (sourceUrls.length === 0) {
+				console.log("No quotes need fixing!");
+				closeDatabase();
+				return;
+			}
+
+			const limit = options.limit ? Number.parseInt(options.limit, 10) : sourceUrls.length;
+			const urlsToProcess = sourceUrls.slice(0, limit);
+
+			let totalUpdated = 0;
+			let urlsFixed = 0;
+
+			for (let i = 0; i < urlsToProcess.length; i++) {
+				const url = urlsToProcess[i];
+				if (!url) continue;
+
+				console.log(`[${i + 1}/${urlsToProcess.length}] ${url}`);
+
+				try {
+					// First try to extract from known sources (no fetch needed)
+					let metadata = extractMetadataFromUrl(url);
+
+					// If no known metadata, fetch header and try to extract
+					if (!metadata.author && !metadata.title) {
+						// Skip archive.org HTML pages - they don't have raw text headers
+						if (url.includes("archive.org/stream")) {
+							console.log("   ⚠️  Archive.org stream URL - using known metadata lookup");
+							continue;
+						}
+
+						// Fetch only the header (first 5000 bytes)
+						const response = await fetch(url, {
+							headers: { Range: "bytes=0-5000" },
+						});
+
+						if (!response.ok) {
+							console.log("   ⚠️  Could not fetch URL");
+							continue;
+						}
+
+						const header = await response.text();
+						metadata = extractMetadataFromUrl(url, header);
+					}
+
+					const { author, title } = metadata;
+
+					if (!author && !title) {
+						console.log("   ⚠️  No metadata found");
+						continue;
+					}
+
+					console.log(`   Author: ${author || "(not found)"}`);
+					console.log(`   Title: ${title || "(not found)"}`);
+
+					if (options.dryRun) {
+						console.log("   (dry run - no changes made)");
+					} else {
+						const updated = updateQuoteMetadataBySource(url, { author, title });
+						totalUpdated += updated;
+						if (updated > 0) {
+							urlsFixed++;
+							console.log(`   ✅ Updated ${updated} quotes`);
+						}
+					}
+				} catch (error) {
+					console.log(`   ❌ Error: ${error instanceof Error ? error.message : error}`);
+				}
+			}
+
+			closeDatabase();
+
+			console.log(`\n${"─".repeat(60)}`);
+			if (options.dryRun) {
+				console.log("Dry run complete. No changes made.");
+			} else {
+				console.log(`✅ Fixed ${urlsFixed} URLs, updated ${totalUpdated} quotes`);
 			}
 		} catch (error) {
 			console.error("Error:", error instanceof Error ? error.message : error);

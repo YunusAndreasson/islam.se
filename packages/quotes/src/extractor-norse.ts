@@ -147,67 +147,125 @@ async function extractFromChunk(
 	metadata?: { author?: string; title?: string },
 	onProgress?: (message: string) => void,
 ): Promise<NorseQuote[]> {
-	const systemPrompt = `You are extracting wisdom quotes from Old Norse sagas and Eddic poetry (in English translation).
+	const systemPrompt = `<role>
+You are extracting wisdom quotes from Old Norse sagas and Eddic poetry (in English translation).
+</role>
 
+<extraction_criteria>
 Extract quotes that:
 - Express profound truths about life, fate, honor, and human nature
 - Contain timeless wisdom relevant across cultures (Hávamál is especially rich)
 - Reflect on themes: courage, hospitality, friendship, death, cunning, perseverance
 - Could resonate with modern readers seeking ancient wisdom
 - Are self-contained and understandable without extensive context
+</extraction_criteria>
 
-CATEGORIES:
+<categories>
 wisdom, fate, courage, honor, kinship, death, nature, cunning, hospitality, vengeance, loyalty, humility, perseverance, moderation, friendship, speech, wealth, gods
+</categories>
 
-TONE options:
-- hopeful (optimistic, encouraging)
-- somber (serious, heavy)
-- reflective (contemplative, thoughtful)
-- ironic (paradoxical, with hidden meaning)
-- warning (cautionary)
-- neutral (matter-of-fact wisdom)
+<tone_options>
+- hopeful: optimistic, encouraging
+- somber: serious, heavy
+- reflective: contemplative, thoughtful
+- ironic: paradoxical, with hidden meaning
+- warning: cautionary
+- neutral: matter-of-fact wisdom
+</tone_options>
 
-For each quote extract:
+<output_fields>
 1. text: Exact English text (1-4 sentences, preserve poetic line breaks if present)
 2. author: Use "Hávamál", "Völuspá", saga name, or provided source
 3. workTitle: Specific section like "Poetic Edda" or "Prose Edda"
-4. category: ONE from list above
+4. category: ONE from categories list
 5. keywords: 2-3 English search terms
-6. tone: ONE from options above
+6. tone: ONE from tone_options
 7. standalone: 1-5 score (5 = works perfectly alone, 1 = needs much context)
+</output_fields>
 
-Extract 30-50 quotes prioritizing DEPTH and UNIVERSAL WISDOM. Skip genealogies, battle logistics, and mundane narrative.
+<quality_examples>
+<example standalone="5" category="wisdom">
+{
+  "text": "Cattle die, kindred die,\\nEvery man is mortal:\\nBut the good name never dies\\nOf one who has done well.",
+  "author": "Hávamál",
+  "workTitle": "Poetic Edda",
+  "category": "wisdom",
+  "keywords": ["mortality", "legacy", "reputation"],
+  "tone": "reflective",
+  "standalone": 5
+}
+<why_good>Complete philosophical statement about mortality and legacy. Universal truth that needs no context.</why_good>
+</example>
 
-IMPORTANT: Hávamál (Sayings of the High One) is a goldmine - extract extensively from it if present.
+<example standalone="5" category="hospitality">
+{
+  "text": "Fire is needed by the newcomer\\nWhose knees are frozen numb;\\nMeat and clean linen a man needs\\nWho has fared across the fells.",
+  "author": "Hávamál",
+  "workTitle": "Poetic Edda",
+  "category": "hospitality",
+  "keywords": ["guest", "warmth", "care"],
+  "tone": "neutral",
+  "standalone": 5
+}
+<why_good>Practical wisdom about hospitality. Vivid imagery, universally applicable.</why_good>
+</example>
+
+<example standalone="4" category="fate">
+{
+  "text": "No man can escape the fate the Norns have spun for him.",
+  "author": "Völsunga saga",
+  "workTitle": "Saga Literature",
+  "category": "fate",
+  "keywords": ["destiny", "Norns", "inevitability"],
+  "tone": "somber",
+  "standalone": 4
+}
+<why_good>Clear statement about fate. Minor context helps (Norns) but meaning is clear.</why_good>
+</example>
+</quality_examples>
+
+<quality_guidance>
+Prioritize standalone score 4-5. A score of 5 means a reader encountering this quote in isolation understands its meaning without needing saga context.
+
+Skip:
+- Genealogies ("He was the son of X, who was the son of Y...")
+- Battle logistics ("They positioned their ships...")
+- Plot-dependent statements without universal application
+
+IMPORTANT: Hávamál (Sayings of the High One) is a goldmine of standalone wisdom - extract extensively from it if present.
+</quality_guidance>
+
+Extract 30-50 quotes prioritizing DEPTH and UNIVERSAL WISDOM.
 
 Output ONLY valid JSON.`;
 
-	const userPrompt = `Extract quotes from this text (section ${chunkIndex + 1} of ${totalChunks}).
-
+	const userPrompt = `<input>
+Section ${chunkIndex + 1} of ${totalChunks}
 Source: ${metadata?.author ?? "Unknown"}
 Work: ${metadata?.title ?? "Unknown"}
 
-Text:
----
+<text>
 ${chunk}
----
+</text>
+</input>
 
-Output JSON:
+<output_format>
 {
   "quotes": [
     {
-      "text": "Exact quote text",
+      "text": "Exact quote text (preserve line breaks with \\\\n)",
       "author": "${metadata?.author ?? "Source"}",
       "workTitle": "${metadata?.title ?? "Title"}",
       "category": "category from list",
       "keywords": ["keyword1", "keyword2"],
       "tone": "hopeful|somber|reflective|ironic|warning|neutral",
-      "standalone": 1-5
+      "standalone": 4
     }
   ]
 }
+</output_format>
 
-Extract 30-50 quotes. Output ONLY JSON.`;
+Extract 30-50 quotes. Prioritize standalone scores 4-5. Output ONLY JSON.`;
 
 	// Retry logic with exponential backoff for rate limits
 	const maxRetries = 5;

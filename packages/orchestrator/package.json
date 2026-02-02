@@ -11,7 +11,8 @@
 	},
 	"dependencies": {
 		"@islam-se/quotes": "workspace:*",
-		"zod": "^3.22.4"
+		"zod": "^3.22.4",
+		"zod-to-json-schema": "^3.24.5"
 	},
 	"devDependencies": {
 		"@types/node": "^20.11.5",

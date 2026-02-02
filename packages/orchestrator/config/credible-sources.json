@@ -2,25 +2,52 @@
 	"swedish_academic": [
 		"lu.se",
 		"ctr.lu.se",
+		"journals.lub.lu.se",
 		"su.se",
 		"uu.se",
 		"lnu.se",
 		"gu.se",
 		"sh.se",
 		"umu.se",
-		"cmes.lu.se"
+		"cmes.lu.se",
+		"kth.se",
+		"chalmers.se"
 	],
 	"swedish_academic_journals": ["tifoislam.dk", "nsmes.org"],
+	"swedish_museums": [
+		"historiska.se",
+		"nordiskamuseet.se",
+		"varldskulturmuseerna.se",
+		"stockholmslansmuseum.se",
+		"gotlandsmuseum.se"
+	],
+	"swedish_science": [
+		"fof.se",
+		"vetenskaphalsa.se"
+	],
 	"swedish_media_tier1": ["dn.se", "svd.se", "gp.se", "sr.se", "svt.se"],
-	"swedish_media_tier2": ["expressen.se", "aftonbladet.se", "metro.se"],
-	"swedish_government": ["scb.se", "regeringen.se", "myndighetensst.se", "levandehistoria.se"],
+	"swedish_media_tier2": [
+		"expressen.se",
+		"aftonbladet.se",
+		"metro.se",
+		"varldenshistoria.se",
+		"historiensvarld.se",
+		"so-rummet.se",
+		"popularhistoria.se"
+	],
+	"swedish_government": ["scb.se", "regeringen.se", "myndighetensst.se", "levandehistoria.se", "riksarkivet.se"],
 	"swedish_islamic": ["islamguiden.se", "sverigesmuslimskaforbund.se"],
 	"international_academic": [
 		"scholar.google.com",
 		"jstor.org",
 		"researchgate.net",
 		"oxfordislamicstudies.com",
-		"azhar.eg"
+		"azhar.eg",
+		"ox.ac.uk",
+		"cam.ac.uk",
+		"harvard.edu",
+		"yale.edu",
+		"sciencenorway.no"
 	],
 	"international_media_tier1": [
 		"bbc.com",

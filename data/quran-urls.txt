@@ -1,0 +1,9 @@
+# Quran Sources
+# Separate file for Quran text imports
+# Format: path or URL (one per line)
+
+# === Swedish Translation (2023) ===
+# Translator: Kent Asante Wennerström
+# Publisher: Skandinaviska stiftelsen för utbildning (SSFU)
+# Based on classical tafsir: at-Tabari, al-Bagawi, Ibn Kathir
+./data/extracted/koranen-sv.txt

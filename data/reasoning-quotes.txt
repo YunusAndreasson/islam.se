@@ -1,0 +1,7 @@
+# Reasoning & Argumentation - Orthodox Sunni
+
+# Ibn Hazm (d. 456 AH) - Introduction to Logic
+# DONE https://raw.githubusercontent.com/OpenITI/0475AH/master/data/0456IbnHazm/0456IbnHazm.TaqribLiHaddMantiq/0456IbnHazm.TaqribLiHaddMantiq.JK009305-ara1
+
+# Ibn Taymiyyah (d. 728 AH) - Illuminating Principles (Legal Reasoning)
+# DONE https://raw.githubusercontent.com/OpenITI/0750AH/master/data/0728IbnTaymiyya/0728IbnTaymiyya.QawacidNuraniyya/0728IbnTaymiyya.QawacidNuraniyya.JK000976-ara1

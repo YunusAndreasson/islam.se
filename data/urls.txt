@@ -103,7 +103,7 @@
 # DONE https://runeberg.org/download.pl?mode=ocrtext&work=livslinjer/1
 
 # Livslinjer Part 2-1: Människan och Gud (Humanity and God, 1905) - 487KB
-https://runeberg.org/download.pl?mode=ocrtext&work=livslinjer/2-1
+# DONE https://runeberg.org/download.pl?mode=ocrtext&work=livslinjer/2-1
 
 # Livslinjer Part 3: Lyckan och skönheten (Happiness and Beauty, 1906) - 847KB
 # DONE https://runeberg.org/download.pl?mode=ocrtext&work=livslinjer/3
@@ -129,48 +129,20 @@ https://runeberg.org/download.pl?mode=ocrtext&work=livslinjer/2-1
 # DONE https://runeberg.org/download.pl?mode=ocrtext&work=sveddrom44
 
 # ══════════════════════════════════════════════════════════════
-# TRADITIONAL ISLAMIC LITERATURE
-# Orthodox Islamic scholarship - English translations
-# ══════════════════════════════════════════════════════════════
-
-# === AL-GHAZALI (1058-1111) ===
-# Major Sunni theologian and philosopher
-# Themes: Ethics, self-improvement, Islamic theology
-
-# The Confessions of Al Ghazzali - autobiographical spiritual journey
-https://www.gutenberg.org/cache/epub/58977/pg58977.txt
-
-# Some Religious and Moral Teachings of Al-Ghazzali
-# Extracts from Ihya Ulum al-Din (Revival of Religious Sciences)
-https://www.gutenberg.org/cache/epub/73140/pg73140.txt
-
-# === IBN KHALDUN (1332-1406) ===
-# Historian, philosopher - founder of sociology
-# Muqaddimah - philosophy of history and civilization
-# NOTE: Internet Archive djvu.txt format - may need manual download
-https://archive.org/stream/in.ernet.dli.2015.280274/2015.280274.Ibn-Khaldun_djvu.txt
-
-# === IBN BATTUTA (1304-1369) ===
-# Explorer and scholar - 30 years of travel across Islamic world
-# Rihla (The Travels) - Gibb translation, covers North Africa, Middle East, India, China
-# NOTE: Internet Archive djvu.txt format - may need manual download
-https://archive.org/stream/in.ernet.dli.2015.62617/2015.62617.Ibn-Battuta-Travels-In-Asia-And-Africa-1325-1354_djvu.txt
-
-# ══════════════════════════════════════════════════════════════
 # ADDITIONAL SWEDISH LITERATURE
 # ══════════════════════════════════════════════════════════════
 
 # === SELMA LAGERLÖF (Additional works) ===
 
 # Gösta Berlings saga (1891) - Her masterpiece, redemption and moral themes
-https://runeberg.org/download.pl?mode=ocrtext&work=berling
+# DONE https://runeberg.org/download.pl?mode=ocrtext&work=berling
 
 # Kejsarn av Portugallien (1914) - Faith, love, and madness
-https://runeberg.org/download.pl?mode=ocrtext&work=portugal
+# DONE https://runeberg.org/download.pl?mode=ocrtext&work=portugal
 
 # === FREDRIKA BREMER (1801-1865) ===
 # Pioneer of Swedish feminism, spiritual and moral themes
 
 # Sjelfbiografiska anteckningar, bref och efterlemnade skrifter (1868)
 # Autobiographical notes, letters and posthumous writings
-https://runeberg.org/download.pl?mode=ocrtext&work=fbremer
+# DONE https://runeberg.org/download.pl?mode=ocrtext&work=fbremer

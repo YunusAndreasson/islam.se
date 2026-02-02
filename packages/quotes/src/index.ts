@@ -1,5 +1,67 @@
 // Fetcher
 
+// Book Chunking
+export {
+	type ChapterInfo,
+	type ChunkInfo,
+	type ChunkingOptions,
+	type ChunkingResult,
+	chunkBook,
+	chunkText,
+	detectChapters,
+	estimatePassageCount,
+} from "./book-chunker.js";
+// Book Database (RAG)
+export {
+	type Book,
+	type BookDatabaseStats,
+	type BookWithScore,
+	type Chapter,
+	type ChapterWithScore,
+	closeBookDatabase,
+	deleteBook,
+	getAllBooks,
+	getBook,
+	getBookByUrl,
+	getBookStats,
+	getChaptersByBook,
+	getPassage,
+	getPassagesByBook,
+	getPassagesByChapter,
+	initBookDatabase,
+	insertBook,
+	insertChapter,
+	insertPassage,
+	insertPassageEmbedding,
+	insertSummaryEmbedding,
+	type Passage,
+	type PassageWithContext,
+	type PassageWithScore,
+	updateBook,
+	updateChapter,
+} from "./book-database.js";
+// Book Import
+export {
+	type ImportOptions,
+	type ImportResult,
+	importBook,
+	importBooksFromFile,
+} from "./book-importer.js";
+// Book Search
+export {
+	type BookInventory,
+	type ConceptMatch,
+	type ConceptSearchOptions,
+	getBookInventory,
+	getBookPassages,
+	type HybridSearchOptions,
+	type HybridSearchResult,
+	type PassageSearchOptions,
+	searchBooks,
+	searchConcepts,
+	searchPassages,
+	searchPassagesText,
+} from "./book-search.js";
 // Database
 export {
 	closeDatabase,
@@ -7,12 +69,14 @@ export {
 	getAllQuotes,
 	getQuote,
 	getStats,
+	getUnknownAuthorSourceUrls,
 	type InsertQuoteOptions,
 	initDatabase,
 	insertEmbedding,
 	insertQuote,
 	type QuoteWithScore,
 	type StoredQuote,
+	updateQuoteMetadataBySource,
 } from "./database.js";
 // Embeddings (OpenAI - requires API key)
 export { generateEmbedding, generateEmbeddings, getEmbeddingDimensions } from "./embeddings.js";
@@ -52,8 +116,35 @@ export {
 	NorseQuoteSchema,
 	saveNorseExtractionResult,
 } from "./extractor-norse.js";
-export { type FetchResult, fetchText, fetchTexts } from "./fetcher.js";
-
+export {
+	extractMetadataFromUrl,
+	type FetchResult,
+	fetchText,
+	fetchTexts,
+	type TextMetadata,
+} from "./fetcher.js";
+// Quran Database
+export {
+	closeQuranDatabase,
+	getAllVerses,
+	getQuranStats,
+	getSurah,
+	getVerse,
+	initQuranDatabase,
+	insertVerse,
+	insertVerseEmbedding,
+	type QuranStats,
+	type QuranVerse,
+	type StoredVerse,
+	searchVerses,
+	searchVersesSemantic,
+	type VerseWithScore,
+} from "./quran-database.js";
+// Quran Extractor
+export {
+	getParseStats,
+	parseQuranText,
+} from "./quran-extractor.js";
 // Search
 export {
 	type FormattedQuote,

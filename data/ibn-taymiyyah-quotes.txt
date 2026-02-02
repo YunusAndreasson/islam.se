@@ -1,0 +1,4 @@
+# DONE https://raw.githubusercontent.com/OpenITI/0750AH/master/data/0728IbnTaymiyya/0728IbnTaymiyya.QacidaFiSabr/0728IbnTaymiyya.QacidaFiSabr.Shamela0012153-ara1
+# DONE https://raw.githubusercontent.com/OpenITI/0750AH/master/data/0728IbnTaymiyya/0728IbnTaymiyya.Tawba/0728IbnTaymiyya.Tawba.JK000903-ara1
+# DONE https://raw.githubusercontent.com/OpenITI/0750AH/master/data/0728IbnTaymiyya/0728IbnTaymiyya.WasiyyaKubra/0728IbnTaymiyya.WasiyyaKubra.ShamAY0034401-ara1
+# DONE https://raw.githubusercontent.com/OpenITI/0750AH/master/data/0728IbnTaymiyya/0728IbnTaymiyya.Cubudiyya/0728IbnTaymiyya.Cubudiyya.Shamela0022647-ara1

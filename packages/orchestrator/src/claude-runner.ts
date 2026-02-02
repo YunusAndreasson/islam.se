@@ -10,13 +10,19 @@ export interface ClaudeRunOptions {
 	/** Tools to allow (e.g., ['WebSearch', 'Read']) */
 	allowedTools?: string[];
 	/** Output format (currently only 'json' supported) */
-	outputFormat?: "json";
-	/** JSON schema for output validation */
+	outputFormat?: "json" | "text";
+	/** JSON schema for built-in output validation (uses --json-schema flag) */
 	jsonSchema?: object;
 	/** Model to use */
 	model: "claude-opus-4-5-20251101" | "claude-sonnet-4-5-20250929";
 	/** Maximum tokens for output */
 	maxTokens?: number;
+	/** Maximum budget in USD for this stage (uses --max-budget-usd flag) */
+	maxBudgetUsd?: number;
+	/** Fallback model if primary is unavailable (uses --fallback-model flag) */
+	fallbackModel?: string;
+	/** Disable session persistence for stateless runs (uses --no-session-persistence flag) */
+	noSessionPersistence?: boolean;
 }
 
 export interface ClaudeRunResult {
@@ -101,14 +107,33 @@ export class ClaudeRunner {
 			args.push("--allowedTools", options.allowedTools.join(","));
 		}
 
-		// Output format
-		if (options.outputFormat === "json") {
+		// JSON schema for built-in validation (implies json output format)
+		if (options.jsonSchema) {
+			args.push("--json-schema", JSON.stringify(options.jsonSchema));
+			args.push("--output-format", "json");
+		} else if (options.outputFormat === "json") {
+			// Only add output format if no schema (schema implies json)
 			args.push("--output-format", "json");
 		}
 
 		// Max tokens
 		if (options.maxTokens) {
 			args.push("--max-tokens", options.maxTokens.toString());
+		}
+
+		// Cost control
+		if (options.maxBudgetUsd) {
+			args.push("--max-budget-usd", options.maxBudgetUsd.toString());
+		}
+
+		// Model fallback for resilience
+		if (options.fallbackModel) {
+			args.push("--fallback-model", options.fallbackModel);
+		}
+
+		// Stateless sessions for pipeline runs
+		if (options.noSessionPersistence) {
+			args.push("--no-session-persistence");
 		}
 
 		// Prompt is the last positional argument
@@ -182,8 +207,19 @@ export class ClaudeRunner {
 	public parseJSONOutput<T = unknown>(output: string): T | null {
 		try {
 			// Claude CLI with --output-format json returns structured output
-			// The actual response is in the "result" field
 			const cliOutput = JSON.parse(output);
+
+			// When --json-schema is used, structured_output contains validated JSON directly
+			if (
+				cliOutput &&
+				typeof cliOutput === "object" &&
+				"structured_output" in cliOutput &&
+				cliOutput.structured_output !== undefined
+			) {
+				return cliOutput.structured_output as T;
+			}
+
+			// Fallback for non-schema responses: extract JSON from result field
 			if (cliOutput && typeof cliOutput === "object" && "result" in cliOutput) {
 				const resultText = cliOutput.result as string;
 
@@ -254,6 +290,8 @@ export class ClaudeRunner {
 				const validation = this.validateOutput(parsed, schema);
 				if (!validation.success) {
 					console.log(`   [DEBUG] Schema validation failed: ${validation.error}`);
+					console.log(`   [DEBUG] Parsed object keys: ${Object.keys(parsed as object).join(", ") || "(empty)"}`);
+					console.log(`   [DEBUG] Parsed preview: ${JSON.stringify(parsed, null, 2).slice(0, 500)}...`);
 					return {
 						success: false,
 						error: validation.error,

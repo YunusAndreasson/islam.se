@@ -13,6 +13,7 @@
 		"produce": "node --no-warnings dist/index.js"
 	},
 	"dependencies": {
+		"@clack/prompts": "^0.7.0",
 		"@islam-se/orchestrator": "workspace:*",
 		"commander": "^12.0.0"
 	},

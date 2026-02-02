@@ -2,7 +2,13 @@
 
 import { existsSync } from "node:fs";
 import { resolve } from "node:path";
-import { ContentOrchestrator } from "@islam-se/orchestrator";
+import * as p from "@clack/prompts";
+import {
+	ContentOrchestrator,
+	type EnrichedIdea,
+	type EnrichedIdeationOutput,
+	IdeationService,
+} from "@islam-se/orchestrator";
 import { Command } from "commander";
 
 const program = new Command();
@@ -126,8 +132,8 @@ program
 				console.log("Research complete!");
 				console.log(`  Sources: ${result.data.sources.length}`);
 				console.log(`  Quotes: ${result.data.quotes.length}`);
-				console.log(`  Perspectives: ${result.data.perspectives.length}`);
-				console.log(`  Facts: ${result.data.facts.length}`);
+				console.log(`  Book passages: ${result.data.bookPassages.length}`);
+				console.log(`  Quran references: ${result.data.quranReferences.length}`);
 				console.log("");
 				console.log("Summary:");
 				console.log(result.data.summary);
@@ -141,6 +147,239 @@ program
 			process.exit(1);
 		}
 	});
+
+program
+	.command("ideate")
+	.description("Generate sophisticated article ideas with quote enrichment")
+	.argument("<topic>", "Broad topic to ideate on")
+	.option("-m, --model <model>", "Model to use (opus|sonnet)", "opus")
+	.option("-o, --output <dir>", "Output directory", "./output")
+	.option("--no-quotes", "Skip quote enrichment")
+	.option("--fast", "Fast mode: skip research, go straight to authoring with quotes")
+	.action(async (topic: string, options) => {
+		const outputDir = resolve(options.output);
+
+		console.log("");
+		console.log("╔══════════════════════════════════════════════════════════╗");
+		console.log("║           Islam.se Creative Ideation                     ║");
+		console.log("╚══════════════════════════════════════════════════════════╝");
+		console.log("");
+		console.log(`Topic: ${topic}`);
+		console.log(`Model: ${options.model}`);
+		console.log("");
+
+		const ideationService = new IdeationService({
+			outputDir,
+			model: options.model as "opus" | "sonnet",
+		});
+
+		try {
+			// Generate and enrich ideas
+			p.intro("Generating sophisticated ideas...");
+
+			const spinner = p.spinner();
+			spinner.start("Calling Claude for ideation...");
+
+			const result = await ideationService.ideate(topic, {
+				skipQuotes: options.quotes === false,
+			});
+
+			if (!result.success || !result.data) {
+				spinner.stop("Ideation failed");
+				console.error("Error:", result.error);
+				process.exit(1);
+			}
+
+			spinner.stop(`Generated ${result.data.ideas.length} ideas`);
+
+			// Display ideas summary
+			displayIdeasSummary(result.data);
+
+			// Interactive selection
+			const selection = await promptIdeaSelection(result.data.ideas);
+
+			if (selection === "save_exit") {
+				console.log("");
+				console.log(`Ideas saved to: ${result.outputDir}/ideation.json`);
+				p.outro("Done! Review your ideas and run ideate again to select one.");
+				process.exit(0);
+			}
+
+			// User selected an idea
+			const selectedIdea = result.data.ideas.find((i) => i.id === selection);
+			if (!selectedIdea) {
+				console.error("Invalid selection");
+				process.exit(1);
+			}
+
+			// Save selected idea
+			const topicSlug = topic
+				.toLowerCase()
+				.replace(/[åä]/g, "a")
+				.replace(/[ö]/g, "o")
+				.replace(/[^a-z0-9]+/g, "-")
+				.replace(/^-|-$/g, "")
+				.slice(0, 50);
+
+			ideationService.saveSelectedIdea(topicSlug, selectedIdea);
+
+			console.log("");
+			console.log("╔══════════════════════════════════════════════════════════╗");
+			console.log("║           Selected Idea                                  ║");
+			console.log("╚══════════════════════════════════════════════════════════╝");
+			console.log("");
+			console.log(`Title: ${selectedIdea.title}`);
+			console.log(`Thesis: ${selectedIdea.thesis}`);
+			console.log("");
+
+			// Ask if user wants to proceed to authoring
+			const proceedChoice = await p.select({
+				message: "What would you like to do next?",
+				options: [
+					{
+						value: "full",
+						label: "Full pipeline (Research → Fact-check → Author → Review)",
+					},
+					{
+						value: "fast",
+						label: "Fast mode (Skip research, use quotes from ideation)",
+						hint: "Experimental - for quick drafts",
+					},
+					{ value: "exit", label: "Exit (save selection for later)" },
+				],
+			});
+
+			if (p.isCancel(proceedChoice) || proceedChoice === "exit") {
+				console.log("");
+				console.log(`Selection saved to: ${result.outputDir}/selected-idea.json`);
+				p.outro("Done! Run 'pnpm produce article' with your selected idea later.");
+				process.exit(0);
+			}
+
+			// Proceed to authoring
+			console.log("");
+
+			if (proceedChoice === "fast" || options.fast) {
+				// Fast mode: direct to authoring with idea context
+				console.log("Fast mode is experimental. Starting direct authoring...");
+				console.log("(Full implementation would pass idea context to author stage)");
+				// TODO: Implement runAuthoringFromIdea in orchestrator
+				console.log("");
+				console.log("For now, use the full pipeline:");
+				console.log(`  pnpm produce article "${selectedIdea.title}"`);
+			} else {
+				// Full pipeline with idea context
+				console.log("Starting full pipeline with idea context...");
+				console.log("");
+
+				const orchestrator = new ContentOrchestrator({
+					outputDir,
+					model: options.model as "opus" | "sonnet",
+					qualityThreshold: 7.5,
+					targetWordCount: 2500,
+					includeArabic: true,
+					maxRevisions: 2,
+				});
+
+				// Use the selected idea's thesis as the refined topic
+				const refinedTopic = `${selectedIdea.title}: ${selectedIdea.thesis}`;
+				const pipelineResult = await orchestrator.produce(refinedTopic);
+
+				console.log("");
+				console.log("══════════════════════════════════════════════════════════");
+				console.log("                       PRODUCTION SUMMARY");
+				console.log("══════════════════════════════════════════════════════════");
+				console.log("");
+
+				if (pipelineResult.success) {
+					console.log("Status: ✅ SUCCESS");
+					console.log(`Output: ${pipelineResult.outputDir}`);
+				} else {
+					console.log("Status: ❌ FAILED");
+					if (pipelineResult.stages.research && !pipelineResult.stages.research.success) {
+						console.log(`Research failed: ${pipelineResult.stages.research.error}`);
+					}
+				}
+
+				process.exit(pipelineResult.success ? 0 : 1);
+			}
+		} catch (error) {
+			console.error("Fatal error:", error);
+			process.exit(1);
+		}
+	});
+
+/**
+ * Display a summary of generated ideas
+ */
+function displayIdeasSummary(data: EnrichedIdeationOutput): void {
+	console.log("");
+	console.log("══════════════════════════════════════════════════════════");
+	console.log("                    Generated Ideas");
+	console.log("══════════════════════════════════════════════════════════");
+	console.log("");
+
+	for (const idea of data.ideas) {
+		const quoteCount = idea.quotes?.length || 0;
+		const quoteIndicator = quoteCount > 0 ? ` [${quoteCount} quotes]` : "";
+
+		console.log(`┌─────────────────────────────────────────────────────────┐`);
+		console.log(`│ ${idea.id}. ${truncate(idea.title, 50)}`);
+		console.log(`│    ${truncate(idea.thesis, 55)}`);
+		if (quoteIndicator) {
+			console.log(`│    ${quoteIndicator}`);
+		}
+		console.log(`└─────────────────────────────────────────────────────────┘`);
+	}
+
+	console.log("");
+	console.log("Guidance:", data.selectionGuidance);
+	console.log("");
+}
+
+/**
+ * Truncate text to max length with ellipsis
+ */
+function truncate(text: string, maxLength: number): string {
+	if (text.length <= maxLength) return text;
+	return text.slice(0, maxLength - 3) + "...";
+}
+
+/**
+ * Prompt user to select an idea
+ */
+async function promptIdeaSelection(ideas: EnrichedIdea[]): Promise<number | "save_exit"> {
+	const ideaOptions: Array<{ value: number; label: string; hint?: string }> = ideas.map((idea) => ({
+		value: idea.id,
+		label: `${idea.id}. ${truncate(idea.title, 45)}`,
+	}));
+
+	// Add save and exit option
+	const options = [
+		...ideaOptions,
+		{
+			value: -1,
+			label: "Save all and exit",
+			hint: "Review ideas later",
+		},
+	];
+
+	const selection = await p.select({
+		message: "Select an idea to develop",
+		options,
+	});
+
+	if (p.isCancel(selection)) {
+		p.cancel("Operation cancelled");
+		process.exit(0);
+	}
+
+	if (selection === -1) {
+		return "save_exit";
+	}
+
+	return selection as number;
+}
 
 program
 	.command("status")
