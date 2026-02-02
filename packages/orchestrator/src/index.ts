@@ -482,14 +482,14 @@ Curate the best passages for this topic. Include book title, author, and chapter
 		const systemPrompt = `Research data:\n${JSON.stringify(research, null, 2)}`;
 
 		const result = await this.executeClaudeStage<FactCheckOutput>({
-			name: "Stage 2: Fact-Checking",
+			name: "Stage 2: Quality Review",
 			emoji: "🔍",
 			promptFile: "fact-checker.md",
 			systemPrompt,
-			allowedTools: ["WebSearch", "Read"],
+			allowedTools: [], // No tools - pure analysis of existing research
 			schema: FactCheckOutputSchema,
 			jsonSchema: getFactCheckJsonSchema(),
-			maxBudgetUsd: 2.0,
+			maxBudgetUsd: 0.5, // Reduced - no web searches
 		});
 
 		if (!result.success || !result.data) {
