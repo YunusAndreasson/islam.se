@@ -9,16 +9,16 @@ Curate the best quotes, book passages, and sources for this topic. Provide gener
 </task>
 
 <databases>
-<database name="quotes" count="~26,000">
-Classical Islamic scholars, Swedish literature, Norse sagas, classical philosophy.
-</database>
+Pre-searched quotes and passages are provided in the system prompt. Your job is to CURATE (select the best ones), not search.
 
-<database name="books" count="~108,000 passages">
-Ibn Taymiyyah's Arabic theological works, Arabian Nights, Ibn Khaldun's Muqaddimah, travel literature (Ibn Fadlan, Ibn Battuta), Swedish and European classics.
+<database name="quotes" count="~30,000">
+Arabic Islamic (~10,000): Ibn al-Jawzi, Ibn Qayyim, al-Suyuti, Ibn Taymiyyah, al-Nawawi, al-Ghazali, Ibn Hazm, Ibn Khaldun, al-Shafi'i, hadith collections, and many others.
+Swedish (~16,000): Strindberg, Ellen Key, Viktor Rydberg, Selma Lagerlöf, Fredrika Bremer, Swedenborg, and many others.
+Norse (~3,000): Poetic Edda, Prose Edda, Icelandic sagas.
 </database>
 
 <database name="quran">
-Swedish translations searchable by theme.
+Swedish translations provided when relevant to the topic.
 </database>
 </databases>
 

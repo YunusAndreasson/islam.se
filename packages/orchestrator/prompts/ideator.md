@@ -7,31 +7,23 @@ The goal is counter-intuitive ideas that make readers say "I never thought about
 </context>
 
 <available_sources>
-Your ideas will be enriched with quotes from a database containing ~26,000 quotes. Generate ideas that can leverage these sources:
+Your ideas will be enriched with quotes from a database containing ~30,000 quotes across 1,850+ authors and 570 works. The database is broad—think creatively about what might exist.
 
-**Arabic Islamic texts (~6,300 quotes):**
-- Ibn al-Qayyim: Uddat al-Sabirin (patience), Madarij al-Salikin, Al-Fawaid
-- Al-Ghazali: Ihya Ulum al-Din (ethics, knowledge, worship)
-- Ibn Taymiyyah, Ibn Kathir, al-Nawawi, classical scholars
-- Themes: sabr, tawba, taqwa, ilm, akhlaq, qalb, nafs, dunya, akhira
+**Arabic Islamic texts (~10,000 quotes):**
+Major authors (by volume): Ibn al-Jawzi, Ibn Qayyim al-Jawziyya, al-Suyuti, Ibn Taymiyyah, al-Nawawi, al-Ghazali, Ibn Hazm, Ibn Khaldun, Ibn Battuta, al-Shafi'i, plus hadith collections and many others.
+Themes: sabr, tawba, taqwa, ilm, akhlaq, qalb, nafs, dunya, akhira, zuhd, shukr, dhikr, death, knowledge, ethics.
 
-**Swedish literature (~16,400 quotes):**
-- August Strindberg (novels, plays, essays)
-- Selma Lagerlöf, Viktor Rydberg, Verner von Heidenstam
-- Swedish philosophers, poets, cultural critics
-- Themes: existential questions, nature, society, morality
+**Swedish literature (~16,000 quotes):**
+Major authors: Strindberg (2,800+), Ellen Key (2,100+), Viktor Rydberg, Selma Lagerlöf, Fredrika Bremer, Hjalmar Bergman, Victoria Benedictsson, Verner von Heidenstam, Dan Andersson, Hjalmar Söderberg, C.J.L. Almqvist, Emanuel Swedenborg, Esaias Tegnér, plus many others.
+Themes: existential questions, nature, society, morality, death, love, faith, doubt.
 
-**Norse/Icelandic sagas (~3,100 quotes):**
-- Elder Edda, Poetic Edda (Hávamál, Völuspá, Grimnismál)
-- Prose Edda, Icelandic sagas
-- Themes: wisdom, fate, honor, death, courage, counsel
+**Norse/Icelandic texts (~3,000 quotes):**
+Poetic Edda (Hávamál, Völuspá, etc.), Prose Edda, sagas (Njál's, Völsunga, Laxdaela), Saxo Grammaticus.
+Themes: wisdom, fate, honor, death, courage, counsel, revenge, loyalty.
 
-**Quran verses** (with Swedish and Arabic)
+**Quran verses** (Swedish translations searchable by theme)
 
-Ideas that connect Islamic and Swedish/Norse themes will find the richest quote pairings. For example:
-- Sabr (patience) ↔ Norse stoicism in Hávamál
-- Islamic death meditation ↔ Strindberg's existentialism
-- Prophetic poverty ↔ Swedish lagom/moderation
+IMPORTANT: These are representative examples, not exhaustive. Search broadly—the database likely contains relevant material you haven't considered.
 </available_sources>
 
 <role>
@@ -180,23 +172,23 @@ Keywords: ["friluftsliv", "itikaf", "stillhet", "retreat", "natur"]
 </examples>
 
 <keyword_guidance>
-Keywords are used to search the quote database (~26k quotes). Generate 4-5 keywords that will find relevant quotes from available sources:
+Keywords are used to search the quote database (~30k quotes). Generate 4-5 keywords that will find relevant quotes.
 
 GOOD keywords (match our database):
-- Arabic terms in our collection: "sabr", "tawba", "taqwa", "ilm", "qalb", "nafs", "shukr", "zuhd"
-- Scholar names: "Ibn al-Qayyim", "al-Ghazali", "Ibn Taymiyyah", "al-Nawawi"
-- Swedish authors: "Strindberg", "Lagerlöf"
-- Norse/Edda terms: "visdom", "öde", "ära", "mod"
-- Thematic Swedish: "döden", "själ", "tålamod", "rikedom", "kunskap"
+- Arabic terms: "sabr", "tawba", "taqwa", "ilm", "qalb", "nafs", "shukr", "zuhd", "akhlaq", "dunya", "akhira"
+- Arabic scholars: "Ibn al-Jawzi", "Ibn Qayyim", "al-Suyuti", "Ibn Taymiyyah", "al-Nawawi", "al-Ghazali", "Ibn Hazm", "Ibn Khaldun"
+- Swedish authors: "Strindberg", "Ellen Key", "Viktor Rydberg", "Lagerlöf", "Fredrika Bremer", "Swedenborg"
+- Norse/Edda: "Hávamál", "visdom", "öde", "ära", "mod", "Edda"
+- Thematic: "döden", "själ", "tålamod", "rikedom", "kunskap", "kärlek", "lidande"
 
 BAD keywords (won't find quotes):
-- "islam", "muslim", "religion", "tradition" (too generic)
-- Modern terms not in classical texts: "AI", "algoritm", "internet", "burnout", "dopamin", "Silicon Valley", "KBT"
-- Abstract concepts: "beroende", "relation", "process", "politik"
+- Too generic: "islam", "muslim", "religion", "tradition"
+- Modern terms: "AI", "algoritm", "internet", "burnout", "dopamin"
+- Abstract: "beroende", "relation", "process", "politik"
 
-CRITICAL: Keywords are used to SEARCH classical texts. If a keyword didn't exist before 1900, it won't match anything. Even if your idea is ABOUT AI or burnout, your keywords must be classical terms that relate to it (e.g., for AI: "själ", "ruh", "förstånd"; for burnout: "sabr", "vila", "trötthet").
+CRITICAL: Keywords search classical texts. Modern terms won't match. For modern topics, use classical equivalents (AI → "själ", "ruh", "förstånd"; burnout → "sabr", "vila", "trötthet").
 
-Strategy: Include at least one Arabic term AND one Swedish/Norse term to enable cross-cultural quote pairing.
+Strategy: Include at least one Arabic term AND one Swedish/Norse term for cross-cultural pairing.
 </keyword_guidance>
 
 <difficulty_levels>
