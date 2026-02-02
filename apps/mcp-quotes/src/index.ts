@@ -14,9 +14,13 @@ import {
   searchQuotesText,
   getInventory,
   getCategories,
+  preloadLocalModel,
   type FormattedQuoteWithId,
 } from '@islam-se/quotes';
 import * as z from 'zod';
+
+// Preload embedding model at startup (don't block server start)
+preloadLocalModel().catch(console.error);
 
 const server = new McpServer({
   name: 'quote-database',
@@ -61,7 +65,7 @@ Tips:
   },
   async ({ query, language, limit }) => {
     const quotes = await findQuotesLocal(query, {
-      limit: limit ?? 5,
+      limit: limit ?? 15,
       language,
       minStandalone: 3,
       diverse: true,
@@ -179,6 +183,47 @@ ${inventory.authors.slice(0, 20).map(a => `- ${a.name}: ${a.count}`).join('\n')}
 - Use search_quotes for semantic/meaning-based search
 - Use search_by_filter for author/category filtering
 - Use search_text for exact word matching`;
+
+    return {
+      content: [{ type: 'text', text: output }],
+    };
+  }
+);
+
+// Tool 5: Bulk search - multiple queries in parallel
+server.registerTool(
+  'bulk_search',
+  {
+    title: 'Bulk Semantic Search',
+    description: `Run multiple semantic searches in parallel. Much faster than calling search_quotes multiple times.
+
+Example: bulk_search(["patience adversity", "death mortality", "knowledge wisdom"])
+
+Returns results grouped by query. Use this when you need quotes from multiple themes.`,
+    inputSchema: {
+      queries: z.array(z.string()).min(1).max(5).describe('Array of search queries (1-5 queries)'),
+      limit_per_query: z.number().min(1).max(15).optional().describe('Results per query (default: 10)'),
+    },
+  },
+  async ({ queries, limit_per_query }) => {
+    const limit = limit_per_query ?? 10;
+
+    // Run all searches in parallel
+    const results = await Promise.all(
+      queries.map(async (query) => {
+        const quotes = await findQuotesLocal(query, {
+          limit,
+          minStandalone: 3,
+          diverse: true,
+        });
+        return { query, quotes };
+      })
+    );
+
+    // Format output grouped by query
+    const output = results.map(({ query, quotes }) => {
+      return `## "${query}" (${quotes.length} results)\n\n${formatQuotes(quotes)}`;
+    }).join('\n\n---\n\n');
 
     return {
       content: [{ type: 'text', text: output }],

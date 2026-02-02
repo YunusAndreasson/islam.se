@@ -30,6 +30,12 @@ Example: search_by_filter(author="Ibn Qayyim", language="ar") → Arabic quotes 
 Literal text matching. Use for exact words or phrases.
 Example: search_text("الصبر") → quotes containing the Arabic word for patience
 </tool>
+
+<tool name="bulk_search">
+Run multiple semantic searches in PARALLEL. Much faster than sequential searches.
+Example: bulk_search(["sabr adversity", "death wisdom", "Strindberg suffering"])
+Use this to gather quotes from multiple angles at once.
+</tool>
 </mcp_tools>
 
 <search_strategy>
@@ -40,12 +46,16 @@ Example: search_text("الصبر") → quotes containing the Arabic word for pat
    - Author-specific search for scholars who wrote on this
    - Cross-cultural search (Arabic + Swedish/Norse) for comparison articles
 4. Refine searches based on what you find
+5. Do MULTIPLE searches to gather 15-25 quotes for the author to choose from
 
 Example for topic "patience":
 - Develop angle: "Patience as active resistance, not passive acceptance"
 - Search: "sabr adversity resistance" → Arabic quotes
 - Search: "Strindberg uthållighet" → Swedish literary perspective
 - Filter: author="Ibn Qayyim" → his specific teachings on patience
+- Filter: category="صبر" → more Arabic quotes on patience
+
+AIM FOR: 15-25 quotes total (mix of Arabic, Swedish, Norse if relevant)
 </search_strategy>
 
 <web_research>

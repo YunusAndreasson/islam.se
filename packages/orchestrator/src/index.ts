@@ -312,6 +312,7 @@ Search based on YOUR thesis, not just the topic. For example:
 					"mcp__quotes__search_by_filter",
 					"mcp__quotes__search_text",
 					"mcp__quotes__get_inventory",
+					"mcp__quotes__bulk_search",
 					"WebSearch",
 					"Read",
 				],
