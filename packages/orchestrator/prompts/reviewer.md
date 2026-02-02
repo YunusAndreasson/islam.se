@@ -9,7 +9,7 @@ Polish the article. Fix issues, tighten prose, strengthen weak sections. Return 
 </task>
 
 <instructions>
-Don't just evaluate—**improve**. The user will do final review. Your job is to hand them the best possible version.
+Don't just evaluate—**improve**. The user will do final judgement call if the text will be published. Your job is to hand them the best possible version.
 
 <polish_for>
 - Clarity and flow
@@ -25,21 +25,16 @@ Don't just evaluate—**improve**. The user will do final review. Your job is to
 - Sections that lose momentum
 - Quotes that don't land
 - Awkward phrasing
+- Statements not aligned with Sunni Islam
 </fix_issues>
 </instructions>
 
 <output_format>
 {
-  "finalScore": 8.0,
-  "verdict": "publish|revise|reject",
   "summary": "What you improved",
   "revisedText": "The complete polished article"
 }
 </output_format>
-
-<constraints>
-Always provide `revisedText` with your improvements, regardless of verdict.
-</constraints>
 
 <output_instruction>
 Your ENTIRE response MUST be ONLY the JSON object. No text before or after. No markdown code blocks. Start with { and end with }.

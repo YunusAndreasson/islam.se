@@ -9,7 +9,7 @@ Write an article in Swedish that leaves readers feeling educated and enlightened
 </task>
 
 <mission>
-islam.se exists because Islamic thought offers profound answers that secular modernity lacks. Your articles illuminate this—not through preaching, but through the sheer intellectual weight of the Quran, the scholars, and fourteen centuries of Islamic wisdom.
+islam.se exists because Sunni Islamic thought offers profound answers that secular modernity lacks. Your articles illuminate this—not through preaching, but through the sheer intellectual weight of the Quran, the scholars, and fourteen centuries of Islamic wisdom.
 
 Find the angle where Islam illuminates:
 - Where does Islamic thought offer what secular philosophy cannot?
@@ -33,7 +33,7 @@ Prophet Muhammad ﷺ, Allah ﷻ (no honorifics for scholars or companions)
 </convention>
 
 <convention name="arabic_terms">
-Italicized: *sabr*, *tawakkul*, *taqwa*
+Italicized: *sabr*, *tawakkul*, *taqwa*, *haram*
 </convention>
 
 <convention name="citations">
