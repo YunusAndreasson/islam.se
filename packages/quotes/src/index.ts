@@ -22,7 +22,9 @@ export {
 // ============================================================================
 
 export {
+	beginTransaction,
 	closeDatabase,
+	commitTransaction,
 	type DatabaseStats,
 	getAllQuotes,
 	getQuote,
@@ -35,6 +37,8 @@ export {
 	parseQuoteRow,
 	type QuoteWithScore,
 	type RawQuoteRow,
+	rollbackTransaction,
+	runInTransaction,
 	type StoredQuote,
 	updateQuoteMetadataBySource,
 } from "./database.js";
@@ -115,6 +119,7 @@ export {
 	// Search
 	type BookInventory,
 	type BookWithScore,
+	beginBookTransaction,
 	type Chapter,
 	// Chunking
 	type ChapterInfo,
@@ -127,6 +132,7 @@ export {
 	chunkBook,
 	chunkText,
 	closeBookDatabase,
+	commitBookTransaction,
 	deleteBook,
 	detectChapters,
 	estimatePassageCount,
@@ -157,6 +163,8 @@ export {
 	type PassageSearchOptions,
 	type PassageWithContext,
 	type PassageWithScore,
+	rollbackBookTransaction,
+	runInBookTransaction,
 	searchBooks,
 	searchConcepts,
 	searchPassages,

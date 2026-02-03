@@ -18,6 +18,8 @@ import { fetchText } from "../fetcher.js";
 import { type ChunkingOptions, chunkBook } from "./chunker.js";
 import {
 	type Book,
+	beginBookTransaction,
+	commitBookTransaction,
 	deleteBook,
 	getBookByUrl,
 	initBookDatabase,
@@ -26,6 +28,7 @@ import {
 	insertPassage,
 	insertPassageEmbedding,
 	insertSummaryEmbedding,
+	rollbackBookTransaction,
 	updateBook,
 	updateChapter,
 } from "./database.js";
@@ -392,19 +395,27 @@ interface ChunkData {
 function insertChaptersAndGetMap(chapters: ChapterData[], bookId: number): Map<number, number> {
 	const chapterIdMap = new Map<number, number>();
 
-	for (let i = 0; i < chapters.length; i++) {
-		const chapter = chapters[i];
-		if (!chapter) continue;
-		const chapterId = insertChapter({
-			bookId,
-			chapterNumber: chapter.number,
-			title: chapter.title,
-			summary: null,
-			keyConcepts: [],
-			startPosition: chapter.startPosition,
-			endPosition: chapter.endPosition,
-		});
-		chapterIdMap.set(i, chapterId);
+	// Wrap all chapter inserts in a transaction for 10-50x speedup
+	beginBookTransaction();
+	try {
+		for (let i = 0; i < chapters.length; i++) {
+			const chapter = chapters[i];
+			if (!chapter) continue;
+			const chapterId = insertChapter({
+				bookId,
+				chapterNumber: chapter.number,
+				title: chapter.title,
+				summary: null,
+				keyConcepts: [],
+				startPosition: chapter.startPosition,
+				endPosition: chapter.endPosition,
+			});
+			chapterIdMap.set(i, chapterId);
+		}
+		commitBookTransaction();
+	} catch (error) {
+		rollbackBookTransaction();
+		throw error;
 	}
 
 	return chapterIdMap;
@@ -419,29 +430,45 @@ async function insertPassagesWithEmbeddings(
 	const passageTexts: string[] = [];
 	const passageIds: number[] = [];
 
-	for (const chunk of chunks) {
-		const chapterId = chunk.chapterIndex !== null ? chapterIdMap.get(chunk.chapterIndex) : null;
-		const passageId = insertPassage({
-			bookId,
-			chapterId: chapterId ?? null,
-			passageNumber: chunk.passageNumber,
-			text: chunk.text,
-			startPosition: chunk.startPosition,
-			endPosition: chunk.endPosition,
-		});
-		passageTexts.push(chunk.text);
-		passageIds.push(passageId);
+	// Wrap all passage inserts in a transaction for 10-50x speedup
+	beginBookTransaction();
+	try {
+		for (const chunk of chunks) {
+			const chapterId = chunk.chapterIndex !== null ? chapterIdMap.get(chunk.chapterIndex) : null;
+			const passageId = insertPassage({
+				bookId,
+				chapterId: chapterId ?? null,
+				passageNumber: chunk.passageNumber,
+				text: chunk.text,
+				startPosition: chunk.startPosition,
+				endPosition: chunk.endPosition,
+			});
+			passageTexts.push(chunk.text);
+			passageIds.push(passageId);
+		}
+		commitBookTransaction();
+	} catch (error) {
+		rollbackBookTransaction();
+		throw error;
 	}
 
 	onProgress(`  Generating embeddings for ${passageTexts.length} passages...`);
 	const passageEmbeddings = await generateLocalEmbeddings(passageTexts, "passage");
 
-	for (let i = 0; i < passageIds.length; i++) {
-		const passageId = passageIds[i];
-		const embedding = passageEmbeddings[i];
-		if (passageId !== undefined && embedding) {
-			insertPassageEmbedding(passageId, embedding);
+	// Wrap all embedding inserts in a transaction
+	beginBookTransaction();
+	try {
+		for (let i = 0; i < passageIds.length; i++) {
+			const passageId = passageIds[i];
+			const embedding = passageEmbeddings[i];
+			if (passageId !== undefined && embedding) {
+				insertPassageEmbedding(passageId, embedding);
+			}
 		}
+		commitBookTransaction();
+	} catch (error) {
+		rollbackBookTransaction();
+		throw error;
 	}
 }
 

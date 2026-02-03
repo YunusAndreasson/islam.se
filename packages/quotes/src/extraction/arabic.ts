@@ -3,6 +3,8 @@ import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import Anthropic from "@anthropic-ai/sdk";
 import { z } from "zod";
+import { SENTENCE_PATTERNS, splitIntoChunks } from "./chunker.js";
+import { parseQuotesResponse, sleep } from "./json-utils.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const PROJECT_ROOT = join(__dirname, "..", "..", "..", "..");
@@ -41,54 +43,6 @@ export const ArabicExtractionResultSchema = z.object({
 });
 
 export type ArabicExtractionResult = z.infer<typeof ArabicExtractionResultSchema>;
-
-function sleep(ms: number): Promise<void> {
-	return new Promise((resolve) => setTimeout(resolve, ms));
-}
-
-function cleanJsonString(text: string): string {
-	let jsonStr = text.trim();
-	if (jsonStr.startsWith("```json")) jsonStr = jsonStr.slice(7);
-	if (jsonStr.startsWith("```")) jsonStr = jsonStr.slice(3);
-	if (jsonStr.endsWith("```")) jsonStr = jsonStr.slice(0, -3);
-	return jsonStr.trim().replace(/,\s*([}\]])/g, "$1");
-}
-
-function extractQuotesArray(jsonStr: string): string | null {
-	const quotesMatch = jsonStr.match(/"quotes"\s*:\s*\[/);
-	if (!quotesMatch) return null;
-
-	const startIdx = jsonStr.indexOf("[", quotesMatch.index);
-	let depth = 0;
-	let endIdx = startIdx;
-
-	for (let i = startIdx; i < jsonStr.length; i++) {
-		if (jsonStr[i] === "[") depth++;
-		if (jsonStr[i] === "]") depth--;
-		if (depth === 0) {
-			endIdx = i + 1;
-			break;
-		}
-	}
-
-	return jsonStr.slice(startIdx, endIdx).replace(/,\s*([}\]])/g, "$1");
-}
-
-function parseArabicQuotesResponse(responseText: string): ArabicQuote[] {
-	const jsonStr = cleanJsonString(responseText);
-
-	try {
-		const parsed = JSON.parse(jsonStr);
-		return z.array(ArabicQuoteSchema).parse(parsed.quotes);
-	} catch {
-		const quotesArray = extractQuotesArray(jsonStr);
-		if (quotesArray) {
-			const quotes = JSON.parse(quotesArray);
-			return z.array(ArabicQuoteSchema).parse(quotes);
-		}
-		throw new Error("Failed to parse quotes from response");
-	}
-}
 
 /**
  * Clean OpenITI mARkdown format to plain text
@@ -148,84 +102,6 @@ export function cleanOpenITIText(text: string): string {
 			.replace(/\n{3,}/g, "\n\n")
 			.trim()
 	);
-}
-
-function hardSplitText(text: string, maxSize: number): string[] {
-	const parts: string[] = [];
-	for (let i = 0; i < text.length; i += maxSize) {
-		parts.push(text.slice(i, i + maxSize));
-	}
-	return parts;
-}
-
-interface ChunkBuilder {
-	chunks: string[];
-	current: string;
-}
-
-function flushChunk(builder: ChunkBuilder): void {
-	if (builder.current.trim()) {
-		builder.chunks.push(builder.current.trim());
-		builder.current = "";
-	}
-}
-
-function processArabicSentence(
-	sentence: string,
-	maxChunkSize: number,
-	builder: ChunkBuilder,
-): void {
-	if (sentence.length > maxChunkSize) {
-		builder.chunks.push(...hardSplitText(sentence, maxChunkSize));
-		return;
-	}
-	if (builder.current.length + sentence.length > maxChunkSize) {
-		flushChunk(builder);
-		builder.current = sentence;
-	} else {
-		builder.current += (builder.current ? " " : "") + sentence;
-	}
-}
-
-function processOversizedArabicSegment(
-	segment: string,
-	maxChunkSize: number,
-	builder: ChunkBuilder,
-): void {
-	flushChunk(builder);
-	const sentences = segment.split(/(?<=[.؟!])\s+/);
-	for (const sentence of sentences) {
-		processArabicSentence(sentence, maxChunkSize, builder);
-	}
-}
-
-/**
- * Splits Arabic text into chunks at paragraph/section boundaries
- */
-function splitIntoChunks(text: string, maxChunkSize: number): string[] {
-	let segments = text.split(/\n\n+/);
-	if (segments.length === 1 || segments.some((s) => s.length > maxChunkSize)) {
-		segments = text.split(/\n+/);
-	}
-
-	const builder: ChunkBuilder = { chunks: [], current: "" };
-
-	for (const segment of segments) {
-		if (segment.length > maxChunkSize) {
-			processOversizedArabicSegment(segment, maxChunkSize, builder);
-		} else if (
-			builder.current.length + segment.length > maxChunkSize &&
-			builder.current.length > 0
-		) {
-			builder.chunks.push(builder.current.trim());
-			builder.current = segment;
-		} else {
-			builder.current += (builder.current ? "\n\n" : "") + segment;
-		}
-	}
-
-	flushChunk(builder);
-	return builder.chunks;
 }
 
 async function extractFromChunk(
@@ -377,7 +253,7 @@ Extract 30-50 quotes. Prioritize standalone scores 4-5. Output ONLY JSON.`;
 				throw new Error("Unexpected response type from Claude");
 			}
 
-			return parseArabicQuotesResponse(content.text);
+			return parseQuotesResponse(content.text, ArabicQuoteSchema);
 		} catch (error) {
 			lastError = error instanceof Error ? error : new Error(String(error));
 
@@ -477,34 +353,44 @@ export async function extractArabicQuotes(
 	};
 
 	const maxChunkSize = 40000;
-	const chunks = splitIntoChunks(cleanedText, maxChunkSize);
+	const chunks = splitIntoChunks(cleanedText, maxChunkSize, {
+		sentenceSplitPattern: SENTENCE_PATTERNS.arabic,
+	});
 
 	const allQuotes: ArabicQuote[] = [];
+
+	// Process chunks in parallel batches of 3 for ~70% faster extraction
+	const CONCURRENCY = 3;
 	let failedChunks = 0;
 
-	for (let i = 0; i < chunks.length; i++) {
-		const chunk = chunks[i];
-		if (!chunk) continue;
+	for (let batchStart = 0; batchStart < chunks.length; batchStart += CONCURRENCY) {
+		const batchEnd = Math.min(batchStart + CONCURRENCY, chunks.length);
+		const batch = chunks.slice(batchStart, batchEnd);
 
-		onProgress?.(`Processing chunk ${i + 1}/${chunks.length}...`);
+		onProgress?.(
+			`Processing chunks ${batchStart + 1}-${batchEnd}/${chunks.length} (batch of ${batch.length})...`,
+		);
 
-		try {
-			const quotes = await extractFromChunk(
-				client,
-				chunk,
-				i,
-				chunks.length,
-				finalMetadata,
-				onProgress,
-			);
-			allQuotes.push(...quotes);
-			onProgress?.(`  Found ${quotes.length} quotes in chunk ${i + 1}`);
-		} catch (error) {
-			failedChunks++;
-			onProgress?.(
-				`  ⚠️ Chunk ${i + 1} failed: ${error instanceof Error ? error.message : "Unknown error"}`,
-			);
-			onProgress?.("  Continuing with remaining chunks...");
+		const results = await Promise.allSettled(
+			batch.map((chunk, idx) => {
+				const globalIdx = batchStart + idx;
+				if (!chunk) return Promise.resolve([]);
+				return extractFromChunk(client, chunk, globalIdx, chunks.length, finalMetadata, onProgress);
+			}),
+		);
+
+		for (let i = 0; i < results.length; i++) {
+			const result = results[i];
+			const chunkIdx = batchStart + i + 1;
+			if (result?.status === "fulfilled") {
+				allQuotes.push(...result.value);
+				onProgress?.(`  Chunk ${chunkIdx}: ${result.value.length} quotes`);
+			} else if (result?.status === "rejected") {
+				failedChunks++;
+				onProgress?.(
+					`  Chunk ${chunkIdx} failed: ${result.reason instanceof Error ? result.reason.message : "Unknown error"}`,
+				);
+			}
 		}
 	}
 

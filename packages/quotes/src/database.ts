@@ -350,6 +350,51 @@ export function updateQuoteMetadataBySource(
 	return updated;
 }
 
+// ============================================================================
+// Transaction Helpers
+// ============================================================================
+
+/**
+ * Begins a database transaction for bulk operations.
+ * Wrap multiple inserts in a transaction for 10-50x speedup.
+ */
+export function beginTransaction(): void {
+	const database = initDatabase();
+	database.exec("BEGIN TRANSACTION");
+}
+
+/**
+ * Commits the current transaction.
+ */
+export function commitTransaction(): void {
+	const database = initDatabase();
+	database.exec("COMMIT");
+}
+
+/**
+ * Rolls back the current transaction.
+ */
+export function rollbackTransaction(): void {
+	const database = initDatabase();
+	database.exec("ROLLBACK");
+}
+
+/**
+ * Executes a function within a transaction.
+ * Automatically commits on success or rolls back on error.
+ */
+export function runInTransaction<T>(fn: () => T): T {
+	beginTransaction();
+	try {
+		const result = fn();
+		commitTransaction();
+		return result;
+	} catch (error) {
+		rollbackTransaction();
+		throw error;
+	}
+}
+
 /**
  * Closes the database connection
  */

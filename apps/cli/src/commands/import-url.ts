@@ -1,11 +1,14 @@
 import {
+	beginTransaction,
 	closeDatabase,
+	commitTransaction,
 	extractQuotes,
 	fetchText,
 	generateLocalEmbeddings,
 	initDatabase,
 	insertEmbedding,
 	insertQuote,
+	rollbackTransaction,
 	saveExtractionResult,
 } from "@islam-se/quotes";
 import type { Command } from "commander";
@@ -48,17 +51,25 @@ export function registerImportUrlCommand(program: Command): void {
 				const quotesToEmbed: { id: number; text: string }[] = [];
 				let skipped = 0;
 
-				for (const quote of extraction.quotes) {
-					const quoteId = insertQuote(quote, {
-						sourceUrl: url,
-						language: "sv",
-						sourceType: "gutenberg",
-					});
-					if (quoteId !== null) {
-						quotesToEmbed.push({ id: quoteId, text: quote.text });
-					} else {
-						skipped++;
+				// Wrap quote inserts in a transaction for 10-50x speedup
+				beginTransaction();
+				try {
+					for (const quote of extraction.quotes) {
+						const quoteId = insertQuote(quote, {
+							sourceUrl: url,
+							language: "sv",
+							sourceType: "gutenberg",
+						});
+						if (quoteId !== null) {
+							quotesToEmbed.push({ id: quoteId, text: quote.text });
+						} else {
+							skipped++;
+						}
 					}
+					commitTransaction();
+				} catch (error) {
+					rollbackTransaction();
+					throw error;
 				}
 
 				// Batch generate embeddings (1 API call instead of N)
@@ -67,12 +78,20 @@ export function registerImportUrlCommand(program: Command): void {
 					const texts = quotesToEmbed.map((q) => q.text);
 					const embeddings = await generateLocalEmbeddings(texts);
 
-					for (let j = 0; j < quotesToEmbed.length; j++) {
-						const quote = quotesToEmbed[j];
-						const embedding = embeddings[j];
-						if (quote && embedding) {
-							insertEmbedding(quote.id, embedding);
+					// Wrap embedding inserts in a transaction
+					beginTransaction();
+					try {
+						for (let j = 0; j < quotesToEmbed.length; j++) {
+							const quote = quotesToEmbed[j];
+							const embedding = embeddings[j];
+							if (quote && embedding) {
+								insertEmbedding(quote.id, embedding);
+							}
 						}
+						commitTransaction();
+					} catch (error) {
+						rollbackTransaction();
+						throw error;
 					}
 				}
 

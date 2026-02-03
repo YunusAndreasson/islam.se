@@ -523,6 +523,51 @@ export function getBookStats(): BookDatabaseStats {
 }
 
 // ============================================================================
+// Transaction Helpers
+// ============================================================================
+
+/**
+ * Begins a database transaction for bulk operations.
+ * Wrap multiple inserts in a transaction for 10-50x speedup.
+ */
+export function beginBookTransaction(): void {
+	const database = initBookDatabase();
+	database.exec("BEGIN TRANSACTION");
+}
+
+/**
+ * Commits the current transaction.
+ */
+export function commitBookTransaction(): void {
+	const database = initBookDatabase();
+	database.exec("COMMIT");
+}
+
+/**
+ * Rolls back the current transaction.
+ */
+export function rollbackBookTransaction(): void {
+	const database = initBookDatabase();
+	database.exec("ROLLBACK");
+}
+
+/**
+ * Executes a function within a transaction.
+ * Automatically commits on success or rolls back on error.
+ */
+export function runInBookTransaction<T>(fn: () => T): T {
+	beginBookTransaction();
+	try {
+		const result = fn();
+		commitBookTransaction();
+		return result;
+	} catch (error) {
+		rollbackBookTransaction();
+		throw error;
+	}
+}
+
+// ============================================================================
 // Cleanup
 // ============================================================================
 
