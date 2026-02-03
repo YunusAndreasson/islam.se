@@ -93,6 +93,85 @@ export class SourceValidator {
 	}
 
 	/**
+	 * High credibility source categories
+	 */
+	private readonly highCredibilitySources: Array<{
+		list: keyof CredibleSourcesConfig;
+		reason: string;
+	}> = [
+		{ list: "swedish_academic", reason: "Swedish academic institution" },
+		{ list: "swedish_open_access", reason: "Swedish open access research portal" },
+		{ list: "swedish_academic_journals", reason: "Swedish peer-reviewed journal" },
+		{ list: "swedish_government", reason: "Swedish government source" },
+		{ list: "swedish_islamic", reason: "Swedish Islamic organization" },
+		{ list: "swedish_research_institutes", reason: "Swedish research institute" },
+		{ list: "swedish_law", reason: "Swedish legal source" },
+		{ list: "swedish_statistics", reason: "Swedish statistics source" },
+		{ list: "nordic_scandinavian", reason: "Nordic/Scandinavian academic or reference source" },
+		{ list: "swedish_museums", reason: "Swedish national or regional museum" },
+		{ list: "swedish_archives_libraries", reason: "Swedish archive or library" },
+		{ list: "swedish_science", reason: "Swedish science publication" },
+		{ list: "swedish_media_tier1", reason: "Swedish quality media" },
+		{ list: "international_academic", reason: "International academic source" },
+		{ list: "open_access_research", reason: "Open access research platform" },
+		{ list: "islamic_sources", reason: "Islamic scholarly source" },
+		{ list: "international_media_tier1", reason: "International quality media" },
+		{ list: "digital_archives", reason: "Digital archive or library" },
+		{ list: "international_organizations", reason: "International organization" },
+		{ list: "fact_checking", reason: "Fact-checking organization" },
+		{ list: "wikipedia", reason: "Wikipedia - comprehensive encyclopedia" },
+	];
+
+	/**
+	 * Medium credibility source categories
+	 */
+	private readonly mediumCredibilitySources: Array<{
+		list: keyof CredibleSourcesConfig;
+		reason: string;
+	}> = [
+		{ list: "swedish_media_tier2", reason: "Swedish media - verify claims independently" },
+		{
+			list: "international_media_tier2",
+			reason: "International media - verify claims independently",
+		},
+		{
+			list: "reference_encyclopedias",
+			reason: "Reference encyclopedia - verify claims with primary sources",
+		},
+	];
+
+	/**
+	 * Check high credibility sources
+	 */
+	private checkHighCredibility(domain: string): SourceValidation | null {
+		// Special case: .edu domains
+		if (domain.endsWith(this.config.edu_domain_suffix)) {
+			return { allowed: true, credibility: "high", reason: "International academic source" };
+		}
+
+		for (const source of this.highCredibilitySources) {
+			const list = this.config[source.list];
+			if (Array.isArray(list) && this.isInList(domain, list)) {
+				return { allowed: true, credibility: "high", reason: source.reason };
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * Check medium credibility sources
+	 */
+	private checkMediumCredibility(domain: string): SourceValidation | null {
+		for (const source of this.mediumCredibilitySources) {
+			const list = this.config[source.list];
+			if (Array.isArray(list) && this.isInList(domain, list)) {
+				return { allowed: true, credibility: "medium", reason: source.reason };
+			}
+		}
+		return null;
+	}
+
+	/**
 	 * Validate source credibility
 	 */
 	public validateSource(url: string): SourceValidation {
@@ -100,238 +179,19 @@ export class SourceValidator {
 
 		// 1. Check blacklist first
 		if (this.isBlacklisted(domain)) {
-			return {
-				allowed: false,
-				credibility: "rejected",
-				reason: "Blacklisted source",
-			};
+			return { allowed: false, credibility: "rejected", reason: "Blacklisted source" };
 		}
 
-		// 2. Check Swedish academic institutions
-		if (this.isInList(domain, this.config.swedish_academic)) {
-			return {
-				allowed: true,
-				credibility: "high",
-				reason: "Swedish academic institution",
-			};
-		}
+		// 2. Check high credibility sources
+		const highResult = this.checkHighCredibility(domain);
+		if (highResult) return highResult;
 
-		// 2b. Check Swedish open access portals
-		if (this.isInList(domain, this.config.swedish_open_access)) {
-			return {
-				allowed: true,
-				credibility: "high",
-				reason: "Swedish open access research portal",
-			};
-		}
+		// 3. Check medium credibility sources
+		const mediumResult = this.checkMediumCredibility(domain);
+		if (mediumResult) return mediumResult;
 
-		// 3. Check Swedish academic journals
-		if (this.isInList(domain, this.config.swedish_academic_journals)) {
-			return {
-				allowed: true,
-				credibility: "high",
-				reason: "Swedish peer-reviewed journal",
-			};
-		}
-
-		// 4. Check Swedish government sources
-		if (this.isInList(domain, this.config.swedish_government)) {
-			return {
-				allowed: true,
-				credibility: "high",
-				reason: "Swedish government source",
-			};
-		}
-
-		// 5. Check Swedish Islamic organizations
-		if (this.isInList(domain, this.config.swedish_islamic)) {
-			return {
-				allowed: true,
-				credibility: "high",
-				reason: "Swedish Islamic organization",
-			};
-		}
-
-		// 5a. Check Swedish research institutes
-		if (this.isInList(domain, this.config.swedish_research_institutes)) {
-			return {
-				allowed: true,
-				credibility: "high",
-				reason: "Swedish research institute",
-			};
-		}
-
-		// 5b. Check Swedish law sources
-		if (this.isInList(domain, this.config.swedish_law)) {
-			return {
-				allowed: true,
-				credibility: "high",
-				reason: "Swedish legal source",
-			};
-		}
-
-		// 5c. Check Swedish statistics
-		if (this.isInList(domain, this.config.swedish_statistics)) {
-			return {
-				allowed: true,
-				credibility: "high",
-				reason: "Swedish statistics source",
-			};
-		}
-
-		// 5d. Check Nordic/Scandinavian sources
-		if (this.isInList(domain, this.config.nordic_scandinavian)) {
-			return {
-				allowed: true,
-				credibility: "high",
-				reason: "Nordic/Scandinavian academic or reference source",
-			};
-		}
-
-		// 5e. Check Swedish museums
-		if (this.isInList(domain, this.config.swedish_museums)) {
-			return {
-				allowed: true,
-				credibility: "high",
-				reason: "Swedish national or regional museum",
-			};
-		}
-
-		// 5c. Check Swedish archives and libraries
-		if (this.isInList(domain, this.config.swedish_archives_libraries)) {
-			return {
-				allowed: true,
-				credibility: "high",
-				reason: "Swedish archive or library",
-			};
-		}
-
-		// 5d. Check Swedish science publications
-		if (this.isInList(domain, this.config.swedish_science)) {
-			return {
-				allowed: true,
-				credibility: "high",
-				reason: "Swedish science publication",
-			};
-		}
-
-		// 6. Check Swedish media tier 1
-		if (this.isInList(domain, this.config.swedish_media_tier1)) {
-			return {
-				allowed: true,
-				credibility: "high",
-				reason: "Swedish quality media",
-			};
-		}
-
-		// 7. Check Swedish media tier 2
-		if (this.isInList(domain, this.config.swedish_media_tier2)) {
-			return {
-				allowed: true,
-				credibility: "medium",
-				reason: "Swedish media - verify claims independently",
-			};
-		}
-
-		// 8. Check international academic
-		if (
-			domain.endsWith(this.config.edu_domain_suffix) ||
-			this.isInList(domain, this.config.international_academic)
-		) {
-			return {
-				allowed: true,
-				credibility: "high",
-				reason: "International academic source",
-			};
-		}
-
-		// 9. Check open access research platforms
-		if (this.isInList(domain, this.config.open_access_research)) {
-			return {
-				allowed: true,
-				credibility: "high",
-				reason: "Open access research platform",
-			};
-		}
-
-		// 10. Check Islamic scholarly sources
-		if (this.isInList(domain, this.config.islamic_sources)) {
-			return {
-				allowed: true,
-				credibility: "high",
-				reason: "Islamic scholarly source",
-			};
-		}
-
-		// 11. Check international media tier 1
-		if (this.isInList(domain, this.config.international_media_tier1)) {
-			return {
-				allowed: true,
-				credibility: "high",
-				reason: "International quality media",
-			};
-		}
-
-		// 12. Check international media tier 2
-		if (this.isInList(domain, this.config.international_media_tier2)) {
-			return {
-				allowed: true,
-				credibility: "medium",
-				reason: "International media - verify claims independently",
-			};
-		}
-
-		// 13. Check digital archives
-		if (this.isInList(domain, this.config.digital_archives)) {
-			return {
-				allowed: true,
-				credibility: "high",
-				reason: "Digital archive or library",
-			};
-		}
-
-		// 14. Check international organizations
-		if (this.isInList(domain, this.config.international_organizations)) {
-			return {
-				allowed: true,
-				credibility: "high",
-				reason: "International organization",
-			};
-		}
-
-		// 15. Check fact-checking sites
-		if (this.isInList(domain, this.config.fact_checking)) {
-			return {
-				allowed: true,
-				credibility: "high",
-				reason: "Fact-checking organization",
-			};
-		}
-
-		// 16. Check Wikipedia (high credibility for research)
-		if (this.isInList(domain, this.config.wikipedia)) {
-			return {
-				allowed: true,
-				credibility: "high",
-				reason: "Wikipedia - comprehensive encyclopedia",
-			};
-		}
-
-		// 17. Check other reference encyclopedias
-		if (this.isInList(domain, this.config.reference_encyclopedias)) {
-			return {
-				allowed: true,
-				credibility: "medium",
-				reason: "Reference encyclopedia - verify claims with primary sources",
-			};
-		}
-
-		// 17. Default: unknown source (low credibility, but not rejected)
-		return {
-			allowed: true,
-			credibility: "low",
-			reason: "Unknown source - use with caution",
-		};
+		// 4. Default: unknown source (low credibility, but not rejected)
+		return { allowed: true, credibility: "low", reason: "Unknown source - use with caution" };
 	}
 
 	/**
