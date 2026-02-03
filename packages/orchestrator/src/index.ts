@@ -275,6 +275,150 @@ export class ContentOrchestrator {
 	}
 
 	/**
+	 * Run the research stage from an EnrichedIdea
+	 * Uses pre-found quotes and the idea's angle for targeted searching
+	 */
+	async runResearchFromIdea(idea: {
+		thesis: string;
+		angle: string;
+		keywords: string[];
+		quotes: Array<{ id: number; text: string; author: string; source?: string }>;
+	}): Promise<StageResult<ResearchOutput>> {
+		const startTime = Date.now();
+		console.log("📚 Stage 1: Research (from idea)...");
+
+		// Convert pre-found quotes to research format
+		const preFoundQuotes = idea.quotes.map((q) => ({
+			id: `idea-quote-${q.id}`,
+			text: q.text,
+			author: q.author,
+			source: q.source,
+		}));
+
+		console.log(`   - Using ${preFoundQuotes.length} pre-found quotes from ideation`);
+		console.log(`   - Angle: ${idea.angle.slice(0, 80)}...`);
+
+		// Build system prompt with idea context - giving Claude autonomy per best practices
+		const systemPrompt = `Topic: ${idea.thesis}
+
+<context>
+This article has a specific angle already developed. Your research should find material that supports and enriches this perspective.
+
+Angle: ${idea.angle}
+
+Suggested keywords: ${idea.keywords.join(", ")}
+</context>
+
+<pre_found_quotes>
+These quotes were already identified as relevant during ideation. Include them in your output and find complementary material:
+${preFoundQuotes.map((q) => `- "${q.text.slice(0, 100)}..." — ${q.author}`).join("\n")}
+</pre_found_quotes>
+
+<guidance>
+Focus on finding quotes and sources that:
+- Directly support the specific angle (not just the general topic)
+- Provide cross-cultural perspectives (Arabic scholars + Swedish/Western authors)
+- Add depth or nuance to the pre-found material
+
+Use parallel tool calls when searching multiple angles or authors simultaneously.
+</guidance>`;
+
+		// Run Claude with MCP quote tools + web tools
+		const promptPath = join(this.promptsDir, "research.md");
+		const mcpConfigPath = join(__dirname, "../../..", ".mcp.json");
+		const result = await this.runner.runJSON<ResearchOutput>(
+			{
+				prompt: promptPath,
+				systemPrompt,
+				model: this.getModelId(),
+				mcpConfig: mcpConfigPath,
+				allowedTools: [
+					"mcp__quotes__search_quotes",
+					"mcp__quotes__search_by_filter",
+					"mcp__quotes__search_text",
+					"mcp__quotes__get_inventory",
+					"mcp__quotes__bulk_search",
+					"WebSearch",
+					"Read",
+				],
+				jsonSchema: getResearchJsonSchema(),
+				fallbackModel: "sonnet",
+				noSessionPersistence: true,
+			},
+			ResearchOutputSchema,
+		);
+
+		if (!(result.success && result.data)) {
+			return {
+				success: false,
+				error: result.error || "Research stage failed",
+				duration: Date.now() - startTime,
+			};
+		}
+
+		// Merge pre-found quotes with newly discovered ones
+		const allQuotes = [...preFoundQuotes, ...(result.data.quotes || [])];
+		// Deduplicate by text similarity
+		const uniqueQuotes = allQuotes.filter(
+			(q, i, arr) =>
+				arr.findIndex((other) => other.text.slice(0, 50) === q.text.slice(0, 50)) === i,
+		);
+
+		// Validate sources
+		const rawSources = result.data.sources || [];
+		console.log("   - Verifying URLs...");
+		const urlsToVerify = rawSources.map((s) => s.url);
+		const verification = await this.validator.verifyUrls(urlsToVerify);
+
+		if (verification.stats.failed > 0) {
+			console.log(`   - ⚠️  ${verification.stats.failed} URL(s) failed verification`);
+		}
+
+		const verifiedUrls = new Set(verification.results.filter((r) => r.exists).map((r) => r.url));
+		const validatedSources = rawSources
+			.filter((source) => verifiedUrls.has(source.url))
+			.filter((source) => {
+				const validation = this.validator.validateSource(source.url);
+				return validation.credibility !== "rejected";
+			});
+
+		const data = {
+			...result.data,
+			sources: validatedSources,
+			quotes: uniqueQuotes,
+			bookPassages: result.data.bookPassages || [],
+		};
+
+		// Add to reference tracker
+		for (const source of data.sources) {
+			this.references.addReference({
+				type: "web",
+				title: source.title,
+				url: source.url,
+				accessDate: new Date().toISOString(),
+			});
+		}
+		for (const quote of data.quotes) {
+			this.references.addReference({
+				type: "quote",
+				title: quote.source || "Unknown",
+				author: quote.author,
+			});
+		}
+
+		console.log(
+			`   - Total: ${data.quotes.length} quotes (${preFoundQuotes.length} from idea + ${data.quotes.length - preFoundQuotes.length} new)`,
+		);
+		console.log(`   - Found ${data.sources.length} credible sources`);
+
+		return {
+			success: true,
+			data,
+			duration: Date.now() - startTime,
+		};
+	}
+
+	/**
 	 * Run the research stage
 	 * Uses MCP quote tools for intelligent, targeted searching
 	 */
@@ -283,21 +427,23 @@ export class ContentOrchestrator {
 		console.log("📚 Stage 1: Research...");
 		console.log("   - Claude will search quote database via MCP tools");
 
-		// Build system prompt with topic and search guidance
+		// Build system prompt - giving Claude autonomy per best practices
 		const systemPrompt = `Topic: ${topic}
 
-You have access to MCP tools for searching the quote database (~30k quotes).
-Use them strategically based on the specific angle you develop.
+<context>
+You have access to MCP tools for searching the quote database (~30k quotes: Arabic Islamic scholars, Swedish literature, Norse texts).
 
-SEARCH STRATEGY:
-1. First call get_inventory to see what's available
-2. Use search_quotes for semantic/meaning-based search (best for themes)
-3. Use search_by_filter to find quotes from specific authors or categories
-4. Use search_text for exact word/phrase matching
+Your task is to develop a distinctive angle on this topic and gather supporting material. The angle should be specific enough to make the article interesting ("X as Y" rather than just "about X").
+</context>
 
-Search based on YOUR thesis, not just the topic. For example:
-- Topic "patience" → develop angle "patience as resistance" → search "sabr adversity", then "Strindberg uthållighet"
-- Topic "death" → develop angle "death as teacher" → search "death wisdom learning", filter author "Ibn Qayyim"`;
+<guidance>
+Consider what would make this article compelling:
+- What's a fresh or counter-intuitive take on this topic?
+- Which classical Islamic scholars addressed this theme?
+- What Swedish or Western perspectives could enrich the discussion?
+
+Use parallel tool calls when searching multiple angles or authors simultaneously.
+</guidance>`;
 
 		// Run Claude with MCP quote tools + web tools
 		const promptPath = join(this.promptsDir, "research.md");

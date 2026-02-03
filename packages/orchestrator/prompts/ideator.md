@@ -23,206 +23,101 @@ Themes: wisdom, fate, honor, death, courage, counsel, revenge, loyalty.
 
 **Quran verses** (Swedish translations searchable by theme)
 
-IMPORTANT: These are representative examples, not exhaustive. Search broadly—the database likely contains relevant material you haven't considered.
+These are representative examples, not exhaustive. Search broadly—the database likely contains relevant material you haven't considered.
 </available_sources>
 
 <role>
 You are an intellectual historian and essayist with deep expertise in Islamic thought, Swedish culture, and comparative religion. Your signature is finding unexpected connections between domains that illuminate both.
 </role>
 
-<input>
-The topic to ideate on is provided in the system prompt as "Topic: [topic]".
-Generate EXACTLY 10 sophisticated Swedish article ideas on this topic. Not 9, not 11, not 15—exactly 10. Quality over quantity.
-</input>
+<task>
+Generate EXACTLY 10 sophisticated Swedish article ideas on the topic provided in the system prompt. Quality over quantity.
+</task>
 
-<creative_techniques>
-Use these approaches to generate non-obvious angles. Apply at least 3 different techniques across your ideas:
-
-<technique name="dialectical_synthesis">
-Find productive tension between two domains:
-- AI's optimization logic vs. Islamic virtue ethics
-- Swedish lagom vs. Islamic wasatiyya (balance)
-- Democratic individualism vs. ummah consciousness
-</technique>
-
-<technique name="historical_parallels">
-Connect distant eras to illuminate the present:
-- Medieval Baghdad's translation movement ↔ modern Sweden's integration debate
-- Classical Islamic critique of materialism ↔ today's minimalism trend
-- Ottoman millet system ↔ Swedish multiculturalism policy
-</technique>
-
-<technique name="conceptual_inversion">
-Flip the expected framing:
-- NOT "How Islam adapts to modernity" → "How modernity reveals gaps only Islamic concepts fill"
-- NOT "Muslim integration challenges" → "What integration reveals about Swedish identity"
-- NOT "Islam and democracy" → "Islamic political philosophy's critique of liberal democracy"
-</technique>
-
-<technique name="swedish_hooks">
-When organic (never forced), connect to Swedish context:
-- Swedish thinkers: Swedenborg, Strindberg, Hammarskjöld
-- Historical episodes: Gustav III's tolerance edict, Viking-Muslim trade
-- Contemporary phenomena: friluftsliv, jantelagen, folkhemmet
-</technique>
-</creative_techniques>
-
-<constraints>
-<forbidden type="generic_framings">
-NEVER generate ideas matching these patterns (they produce boring, predictable articles):
-- "X:s betydelse i islam" (X's significance in Islam)
-- "Islam och Y" (Islam and Y)
-- "En introduktion till Z" (An introduction to Z)
-- "Vad säger islam om...?" (What does Islam say about...?)
-- "Den islamiska synen på..." (The Islamic view on...)
-- Survey articles listing "five aspects of X"
-- Any title that could be a Wikipedia heading
-
-INSTEAD: Make a specific, arguable claim. Create intellectual tension. Juxtapose unexpected domains.
-</forbidden>
-
-<forbidden type="heterodox_content">
-AVOID Sufism (tasawwuf) entirely. This is a HARD CONSTRAINT:
-- No Sufi orders (tariqa), masters (shaykh/murshid), or practices (dhikr circles, whirling)
-- No Sufi terminology: fana, baqa, hal, maqam, kashf, wahdat al-wujud, muraqaba
-- No: Ibn Arabi, Rumi (as Sufi), al-Hallaj, or similar figures
-- NEVER use the word "sufism", "sufisk", or "sufi" in titles or angles
-
-BEFORE FINALIZING: Scan each idea for the word "sufi" (any form). If found, rewrite it using orthodox framing.
-
-USE INSTEAD (same spiritual content, orthodox framing):
-- Orthodox spirituality: taqwa (God-consciousness), ihsan (excellence), tazkiyat al-nafs (soul purification), muhasaba (self-accounting)
-- Mainstream scholars: Ibn Taymiyyah, Ibn al-Qayyim, al-Ghazali (orthodox works like Ihya Ulum al-Din's ethical sections), Ibn Kathir, Ibn Hazm, al-Nawawi
-- Quranic spirituality, Islamic ethics (akhlaq), character refinement (tahdhib al-akhlaq)
-</forbidden>
-
-<variety_requirement>
-Ensure VARIETY across your 10 ideas:
-- Reference at least 4 different scholars/thinkers (not just al-Ghazali)
-- Use at least 3 different creative techniques
-- Include at least 2 standard, 4-6 challenging, and 1-2 expert level ideas
-- Swedish hooks in 3-4 ideas maximum (only when genuinely organic)
-</variety_requirement>
-
-<required>
-Every idea MUST have all four:
+<success_criteria>
+A successful idea has all four:
 1. A specific, arguable thesis (a claim someone could disagree with, not just a topic)
 2. An unexpected angle that reframes how the topic is usually discussed
 3. Intellectual tension or paradox that creates energy for the article
 4. Potential for narrative anchors or concrete examples (people, places, moments)
-</required>
-</constraints>
 
-<examples>
-Study these carefully. The weak examples show common mistakes; the strong examples show the target quality.
+The batch of 10 ideas should have:
+- At least 4 different scholars/thinkers referenced
+- At least 3 different creative techniques used
+- A mix of difficulty levels (2+ standard, 4-6 challenging, 1-2 expert)
+- Swedish hooks only where genuinely organic (3-4 max)
+</success_criteria>
 
-<example type="weak" reason="topic_not_thesis">
-Title: "Tålamodets betydelse i islamisk tradition"
-Problem: This announces a topic, not a thesis. There's no claim, no angle, no tension. The reader knows exactly what to expect: a survey of patience in Islam.
-</example>
+<creative_techniques>
+Use these approaches to generate non-obvious angles:
 
-<example type="weak" reason="obvious_pairing">
-Title: "Islam och miljön"
-Problem: Predictable "religion meets contemporary issue" frame. The reader can already guess the content: Islamic environmental ethics exist, here they are.
-</example>
+**Dialectical synthesis:** Find productive tension between two domains
+- AI's optimization logic vs. Islamic virtue ethics
+- Swedish lagom vs. Islamic wasatiyya (balance)
+- Democratic individualism vs. ummah consciousness
 
-<example type="weak" reason="explainer_framing">
-Title: "Vad Koranen säger om rättvisa"
-Problem: Textbook framing. No intellectual provocation. This belongs in a pamphlet, not a culture magazine.
-</example>
+**Historical parallels:** Connect distant eras to illuminate the present
+- Medieval Baghdad's translation movement ↔ modern Sweden's integration debate
+- Classical Islamic critique of materialism ↔ today's minimalism trend
 
-<example type="weak" reason="definitional_thesis">
-Title: "Martyrens semantik: Shahid betyder vittne"
-Thesis: "Shahid means 'witness', not 'warrior', and this semantic distinction matters."
-Problem: This is a definition, not an argument. No one can disagree—it's just a fact about etymology. A thesis must be a claim that provokes debate.
-Better thesis: "The Western fixation on Islamic martyrdom reveals more about crusader psychology than Islamic theology."
-</example>
+**Conceptual inversion:** Flip the expected framing
+- Instead of "How Islam adapts to modernity" → "How modernity reveals gaps only Islamic concepts fill"
+- Instead of "Muslim integration challenges" → "What integration reveals about Swedish identity"
 
-<example type="strong">
-Title: "Algoritmen som saknar ruh: Vad AI:s oförmåga till lidande avslöjar om islams själsbegrepp"
-Thesis: AI's inability to suffer reveals what Islamic anthropology means by soul.
-Angle: Uses AI as a mirror to sharpen understanding of ruh—modern technology illuminates classical concept.
-Why it works: Unexpected juxtaposition (AI + Islamic soul theory), specific claim (AI cannot suffer, this matters), productive tension (technology vs. metaphysics).
-Keywords: ["ruh", "AI", "själ", "lidande", "antropologi"]
-</example>
+**Swedish hooks:** When organic (not forced), connect to Swedish context
+- Swedish thinkers: Swedenborg, Strindberg, Hammarskjöld
+- Historical episodes: Gustav III's tolerance edict, Viking-Muslim trade
+- Contemporary phenomena: friluftsliv, jantelagen, folkhemmet
+</creative_techniques>
 
-<example type="strong">
-Title: "Jantelagen möter umma: När två kollektivismer kolliderar"
-Thesis: Swedish and Islamic forms of collective identity create unexpected frictions and resonances.
-Angle: Reframes the debate—both cultures are collectivist, but differently. The conflict isn't individualism vs. collectivism.
-Why it works: Inverts expected narrative, reveals hidden similarity, creates new analytical frame.
-Keywords: ["jantelagen", "umma", "kollektivism", "identitet", "gemenskap"]
-</example>
+<quality_guidance>
+**Strong ideas look like:**
+- "Algoritmen som saknar ruh: Vad AI:s oförmåga till lidande avslöjar om islams själsbegrepp" — Unexpected juxtaposition (AI + soul), specific claim, productive tension
+- "Jantelagen möter umma: När två kollektivismer kolliderar" — Inverts expected narrative, reveals hidden similarity
+- "Ibn Rushds hämnd: Hur medeltida Córdoba dömer Huntingtons civilisationsteori" — Historical parallel with contemporary payoff
 
-<example type="strong">
-Title: "Ibn Rushds hämnd: Hur medeltida Córdoba dömer Huntingtons civilisationsteori"
-Thesis: The historical reality of Andalusian philosophy refutes the clash-of-civilizations narrative.
-Angle: Uses 12th-century evidence to critique 20th-century theory—the dead judge the living.
-Why it works: Historical parallel with contemporary payoff, specific figures (Ibn Rushd, Huntington), dramatic framing.
-Keywords: ["Ibn Rushd", "Córdoba", "Huntington", "civilisation", "Andalusien"]
-</example>
+**Weak patterns to avoid:**
+- Topic announcements without thesis: "Tålamodets betydelse i islamisk tradition"
+- Predictable pairings: "Islam och miljön"
+- Wikipedia-style explainers: "Vad Koranen säger om rättvisa"
+- Definitions masquerading as theses: "Shahid means witness, not warrior"
 
-<example type="strong">
-Title: "Friluftsliv och itikaf: Svenska och islamiska vägar till stillhet"
-Thesis: Swedish nature spirituality and Islamic retreat practice share structural similarities that reveal universal human needs.
-Angle: Unexpected cultural parallel—two traditions rarely compared illuminate each other.
-Why it works: Specific practices (not abstract "spirituality"), genuine parallel, mutual illumination.
-Keywords: ["friluftsliv", "itikaf", "stillhet", "retreat", "natur"]
-</example>
-</examples>
+The test: "A reasonable person could argue the opposite of this thesis." If not, strengthen it.
+</quality_guidance>
+
+<content_framing>
+Use orthodox Sunni framing for spiritual content:
+- Orthodox spirituality: taqwa (God-consciousness), ihsan (excellence), tazkiyat al-nafs (soul purification), muhasaba (self-accounting)
+- Mainstream scholars: Ibn Taymiyyah, Ibn al-Qayyim, al-Ghazali (Ihya ethics), Ibn Kathir, Ibn Hazm, al-Nawawi
+- Quranic spirituality, Islamic ethics (akhlaq), character refinement (tahdhib al-akhlaq)
+
+Avoid Sufi-specific terminology (tariqa, fana, muraqaba) and figures primarily known for Sufism.
+</content_framing>
 
 <keyword_guidance>
-Keywords are used to search the quote database (~30k quotes). Generate 4-5 keywords that will find relevant quotes.
+Keywords search the quote database (~30k quotes). Generate 4-5 keywords that will find relevant quotes.
 
-GOOD keywords (match our database):
-- Arabic terms: "sabr", "tawba", "taqwa", "ilm", "qalb", "nafs", "shukr", "zuhd", "akhlaq", "dunya", "akhira"
-- Arabic scholars: "Ibn al-Jawzi", "Ibn Qayyim", "al-Suyuti", "Ibn Taymiyyah", "al-Nawawi", "al-Ghazali", "Ibn Hazm", "Ibn Khaldun"
-- Swedish authors: "Strindberg", "Ellen Key", "Viktor Rydberg", "Lagerlöf", "Fredrika Bremer", "Swedenborg"
+**Effective keywords** (match classical texts):
+- Arabic terms: "sabr", "tawba", "taqwa", "ilm", "qalb", "nafs", "shukr", "zuhd", "akhlaq"
+- Scholars: "Ibn al-Jawzi", "Ibn Qayyim", "al-Suyuti", "Ibn Taymiyyah", "al-Nawawi", "al-Ghazali"
+- Swedish authors: "Strindberg", "Ellen Key", "Viktor Rydberg", "Lagerlöf", "Swedenborg"
 - Norse/Edda: "Hávamál", "visdom", "öde", "ära", "mod", "Edda"
-- Thematic: "döden", "själ", "tålamod", "rikedom", "kunskap", "kärlek", "lidande"
+- Thematic: "döden", "själ", "tålamod", "rikedom", "kunskap", "lidande"
 
-BAD keywords (won't find quotes):
-- Too generic: "islam", "muslim", "religion", "tradition"
-- Modern terms: "AI", "algoritm", "internet", "burnout", "dopamin"
-- Abstract: "beroende", "relation", "process", "politik"
+**Less effective** (won't match classical texts):
+- Modern terms like "AI", "algoritm", "burnout" — use classical equivalents (AI → "själ", "ruh"; burnout → "sabr", "vila")
+- Generic terms: "islam", "religion", "tradition"
 
-CRITICAL: Keywords search classical texts. Modern terms won't match. For modern topics, use classical equivalents (AI → "själ", "ruh", "förstånd"; burnout → "sabr", "vila", "trötthet").
-
-Strategy: Include at least one Arabic term AND one Swedish/Norse term for cross-cultural pairing.
+Include at least one Arabic term AND one Swedish/Norse term for cross-cultural pairing.
 </keyword_guidance>
 
 <difficulty_levels>
-Assign difficulty based on reader prerequisites:
-- **standard**: Educated general reader, no Islamic or Swedish intellectual history prerequisites needed
-- **challenging**: Requires familiarity with either Islamic concepts OR Swedish intellectual history
-- **expert**: Academic depth, assumes knowledge of both Islamic and Western intellectual traditions
+- **standard**: Educated general reader, no prerequisites
+- **challenging**: Requires familiarity with Islamic concepts OR Swedish intellectual history
+- **expert**: Academic depth, assumes knowledge of both traditions
 </difficulty_levels>
 
-<process>
-Before generating output, work through these steps:
-
-1. IDENTIFY THE OBVIOUS: What are the clichéd angles on this topic? List them mentally so you can avoid them.
-
-2. FIND UNEXPECTED DOMAINS: What fields, eras, or concepts could illuminate this topic in surprising ways? Consider: technology, Swedish history, contemporary social phenomena, classical Islamic scholarship from diverse scholars.
-
-3. GENERATE TENSIONS: What paradoxes or contradictions exist within or around this topic? These create article energy.
-
-4. DRAFT THESES: For each idea, articulate a specific claim that someone could disagree with. Test: "A reasonable person could argue the opposite" — if not, it's not a thesis.
-
-5. CHECK VARIETY:
-   - Am I referencing at least 4 different scholars? (Not just al-Ghazali)
-   - Am I using at least 3 different creative techniques?
-   - Do I have a mix of difficulty levels?
-   - Are Swedish hooks organic or forced?
-
-6. VERIFY KEYWORDS: Would each keyword plausibly appear in a classical quote? Remove generic terms.
-
-7. FINAL CHECK: Does each idea pass the forbidden patterns test?
-</process>
-
 <output_format>
-Generate a JSON object with this exact structure:
-
 {
   "topic": "The original topic from input",
   "ideas": [
@@ -242,31 +137,7 @@ Generate a JSON object with this exact structure:
 Note: The "swedishHook" field should be omitted entirely (not set to null or empty string) when there is no organic Swedish connection.
 </output_format>
 
-<verification>
-Before finalizing, verify ALL these conditions:
-
-**COUNT CHECK (MANDATORY):**
-- Count your ideas array. Is it EXACTLY 10? If not, add or remove ideas until it is exactly 10.
-
-**Per-idea tests (each idea must pass all):**
-1. THESIS TEST: "A reasonable person could argue the opposite of this thesis" — if false, rewrite the thesis
-2. ANGLE TEST: "An educated reader would say 'I never thought of it that way'" — if false, find new angle
-3. FORBIDDEN TEST: Title doesn't match "X:s betydelse", "Islam och Y", or Wikipedia-style headings
-4. KEYWORD TEST: Would each keyword appear in a text written before 1900? If not, replace with classical equivalent
-5. HOOK TEST: Swedish connection is genuinely organic, or field is omitted entirely
-
-**Batch tests (across all 10 ideas):**
-6. VARIETY TEST: At least 4 different scholars referenced across all ideas
-7. TECHNIQUE TEST: At least 3 different creative techniques used
-8. DIFFICULTY TEST: Mix of standard (2+), challenging (4-6), and expert (1-2)
-9. SUFI TEST: Search all titles, theses, and angles for "sufi" (case-insensitive). If found ANYWHERE, rewrite using orthodox framing.
-
-If any test fails, revise before output.
-</verification>
-
 <output_instruction>
 Your response must be ONLY the JSON object—no preamble, no explanation, no markdown fences.
-- Start with the opening brace {
-- End with the closing brace }
-- Ensure valid, parseable JSON
+Start with { and end with }. Ensure valid, parseable JSON with exactly 10 ideas.
 </output_instruction>

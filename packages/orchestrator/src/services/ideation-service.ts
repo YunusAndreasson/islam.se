@@ -178,19 +178,22 @@ export class IdeationService {
 		const enrichedIdeas: EnrichedIdea[] = [];
 
 		for (const idea of ideas) {
-			// Build search query from title and keywords
-			const searchQuery = `${idea.title} ${idea.keywords.join(" ")}`;
+			// Use thesis + keywords for better semantic matching
+			// The thesis captures the core argument; keywords target specific terms
+			// Avoid using the full title which contains Swedish filler words
+			const searchQuery = `${idea.thesis} ${idea.keywords.join(" ")}`;
 
 			try {
-				// Search for relevant quotes
+				// Search for relevant quotes with higher threshold
 				const quotes = await findQuotesLocal(searchQuery, {
-					limit: quotesPerIdea * 2, // Fetch extra to allow selection
+					limit: quotesPerIdea * 3, // Fetch extra to filter by quality
 					minStandalone: 3,
 					diverse: true,
 				});
 
-				// Select top quotes by relevance
+				// Filter for higher relevance and select top quotes
 				const enrichedQuotes: EnrichedQuote[] = quotes
+					.filter((q: FormattedQuoteWithId) => q.score >= 0.85) // Higher threshold
 					.slice(0, quotesPerIdea)
 					.map((q: FormattedQuoteWithId) => {
 						// Extract author from attribution
@@ -206,6 +209,24 @@ export class IdeationService {
 							relevanceScore: q.score,
 						};
 					});
+
+				// If high-threshold filtering returned too few, fall back to top results
+				if (enrichedQuotes.length < quotesPerIdea) {
+					const fallbackQuotes = quotes
+						.slice(0, quotesPerIdea)
+						.filter((q: FormattedQuoteWithId) => !enrichedQuotes.some((eq) => eq.id === q.id))
+						.map((q: FormattedQuoteWithId) => {
+							const authorMatch = q.attribution.replace(/^—\s*/, "").split(/[,،]/);
+							return {
+								id: q.id,
+								text: q.text,
+								author: authorMatch[0]?.trim() || "Unknown",
+								source: authorMatch[1]?.trim(),
+								relevanceScore: q.score,
+							};
+						});
+					enrichedQuotes.push(...fallbackQuotes.slice(0, quotesPerIdea - enrichedQuotes.length));
+				}
 
 				enrichedIdeas.push({
 					...idea,

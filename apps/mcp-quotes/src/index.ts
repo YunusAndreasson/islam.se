@@ -11,10 +11,17 @@ import {
 	type FormattedQuoteWithId,
 	findQuotesByFilter,
 	findQuotesLocal,
+	generateLocalEmbedding,
 	getCategories,
 	getInventory,
+	initBookDatabase,
+	initQuranDatabase,
 	preloadLocalModel,
+	// Book search
+	searchPassages,
 	searchQuotesText,
+	// Quran search
+	searchVersesSemantic,
 } from "@islam-se/quotes";
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
@@ -22,6 +29,14 @@ import * as z from "zod";
 
 // Preload embedding model at startup (don't block server start)
 preloadLocalModel().catch(console.error);
+
+// Initialize book and quran databases (synchronous)
+try {
+	initBookDatabase();
+	initQuranDatabase();
+} catch (e) {
+	console.error("Failed to initialize databases:", e);
+}
 
 const server = new McpServer({
 	name: "quote-database",
@@ -253,6 +268,122 @@ Returns results grouped by query. Use this when you need quotes from multiple th
 		const output = results
 			.map(({ query, quotes }) => {
 				return `## "${query}" (${quotes.length} results)\n\n${formatQuotes(quotes)}`;
+			})
+			.join("\n\n---\n\n");
+
+		return {
+			content: [{ type: "text", text: output }],
+		};
+	},
+);
+
+// Tool 6: Book passage search - finds relevant passages from full books
+server.registerTool(
+	"search_books",
+	{
+		title: "Book Passage Search",
+		description: `Search for relevant passages from the book database (107k+ passages from 136 books).
+
+The book database contains full texts from:
+- Swedish literature (Strindberg, Lagerlöf, Key, Bremer, etc.)
+- Arabic Islamic classics (Ibn Qayyim, al-Ghazali, Ibn Taymiyyah, etc.)
+
+Use this for:
+- Finding extended context around a theme
+- Discovering passages that support your article's argument
+- Getting richer material than short quotes
+
+Examples:
+- "the nature of the soul and its purification" → finds relevant passages from Islamic psychology texts
+- "death and meaning in Swedish literature" → finds passages from Swedish authors on mortality`,
+		inputSchema: {
+			query: z
+				.string()
+				.describe('Descriptive search query (e.g., "spiritual struggle against the ego")'),
+			language: z
+				.enum(["sv", "ar"])
+				.optional()
+				.describe("Filter by language: sv=Swedish, ar=Arabic"),
+			limit: z
+				.number()
+				.min(1)
+				.max(10)
+				.optional()
+				.describe("Number of results (default: 5, max: 10)"),
+		},
+	},
+	async ({ query, language, limit }) => {
+		const passages = await searchPassages(query, {
+			limit: limit ?? 5,
+			language,
+		});
+
+		if (passages.length === 0) {
+			return {
+				content: [{ type: "text", text: "No book passages found matching your query." }],
+			};
+		}
+
+		const output = passages
+			.map((p, i) => {
+				return `[${i + 1}] ID: ${p.id}
+Book: ${p.bookTitle} by ${p.bookAuthor}
+Chapter: ${p.chapterTitle || "N/A"}
+
+"${p.text.slice(0, 500)}${p.text.length > 500 ? "..." : ""}"
+
+Score: ${p.score.toFixed(3)}`;
+			})
+			.join("\n\n---\n\n");
+
+		return {
+			content: [{ type: "text", text: output }],
+		};
+	},
+);
+
+// Tool 7: Quran verse search - finds relevant Quran verses
+server.registerTool(
+	"search_quran",
+	{
+		title: "Quran Verse Search",
+		description: `Search for relevant Quran verses by meaning.
+
+Use this to find Quranic support for themes in your article. Returns verses with Swedish translation.
+
+Examples:
+- "patience and perseverance" → finds verses about sabr
+- "knowledge and wisdom" → finds verses about ilm
+- "death and resurrection" → finds verses about akhira`,
+		inputSchema: {
+			query: z.string().describe('Theme to search for (e.g., "gratitude and thankfulness")'),
+			limit: z
+				.number()
+				.min(1)
+				.max(10)
+				.optional()
+				.describe("Number of results (default: 5, max: 10)"),
+		},
+	},
+	async ({ query, limit }) => {
+		// Generate embedding for the query
+		const embedding = await generateLocalEmbedding(query);
+		const verses = searchVersesSemantic(embedding, limit ?? 5);
+
+		if (verses.length === 0) {
+			return {
+				content: [{ type: "text", text: "No Quran verses found matching your query." }],
+			};
+		}
+
+		const output = verses
+			.map((v, i) => {
+				return `[${i + 1}] ${v.surahNameSwedish} ${v.surahNumber}:${v.verseNumber}
+
+Arabic: ${v.textArabic}
+Swedish: ${v.textSwedish}
+
+Score: ${(1 - v.score).toFixed(3)}`;
 			})
 			.join("\n\n---\n\n");
 
