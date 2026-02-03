@@ -27,8 +27,25 @@ async function fetchMetadataForUrl(
 		return null;
 	}
 
-	// Fetch header and parse
-	const response = await fetch(url, { headers: { Range: "bytes=0-5000" } });
+	// Fetch header and parse with timeout
+	const controller = new AbortController();
+	const timeout = setTimeout(() => controller.abort(), 15000);
+	let response: Response;
+	try {
+		response = await fetch(url, {
+			headers: { Range: "bytes=0-5000" },
+			signal: controller.signal,
+		});
+	} catch (error) {
+		if (error instanceof Error && error.name === "AbortError") {
+			console.log("   ⚠️  Request timed out");
+		} else {
+			console.log("   ⚠️  Could not fetch URL");
+		}
+		return null;
+	} finally {
+		clearTimeout(timeout);
+	}
 	if (!response.ok) {
 		console.log("   ⚠️  Could not fetch URL");
 		return null;

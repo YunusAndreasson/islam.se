@@ -1,4 +1,4 @@
-import { readFileSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import { SourceValidator } from "@islam-se/orchestrator";
 import type { Command } from "commander";
 import { resolvePath } from "../utils/index.js";
@@ -14,15 +14,32 @@ export function registerVerifyResearchCommand(program: Command): void {
 			try {
 				console.log(`\n🔍 Verifying URLs in: ${file}\n`);
 
-				const content = readFileSync(file, "utf-8");
-				const research = JSON.parse(content);
+				if (!existsSync(file)) {
+					throw new Error(`File not found: ${file}`);
+				}
 
-				if (!(research.sources && Array.isArray(research.sources))) {
+				const content = readFileSync(file, "utf-8");
+				let research: unknown;
+				try {
+					research = JSON.parse(content);
+				} catch {
+					throw new Error(`Invalid JSON in ${file}`);
+				}
+
+				if (
+					!(
+						research &&
+						typeof research === "object" &&
+						"sources" in research &&
+						Array.isArray((research as { sources: unknown }).sources)
+					)
+				) {
 					console.error("Error: No sources array found in research file");
 					process.exit(1);
 				}
 
-				const urls = research.sources.map((s: { url: string }) => s.url);
+				const sources = (research as { sources: { url: string }[] }).sources;
+				const urls = sources.map((s) => s.url);
 				console.log(`   Found ${urls.length} URLs to verify\n`);
 
 				const validator = new SourceValidator();

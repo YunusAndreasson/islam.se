@@ -78,11 +78,12 @@ export function registerImportUrlCommand(program: Command): void {
 
 				console.log(`  Stored: ${quotesToEmbed.length}, Skipped (duplicates): ${skipped}`);
 
-				closeDatabase();
 				console.log("\nDone!");
 			} catch (error) {
 				console.error("Error:", error instanceof Error ? error.message : error);
 				process.exit(1);
+			} finally {
+				closeDatabase();
 			}
 		});
 }

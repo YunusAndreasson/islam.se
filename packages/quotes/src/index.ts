@@ -92,20 +92,15 @@ export {
 export {
 	type FormattedQuote,
 	type FormattedQuoteWithId,
-	findByCategory,
 	findQuotesByFilter,
 	findQuotesForLLM,
-	findQuotesForTopic,
 	findQuotesLocal,
 	findQuotesPaired,
-	findSimilarQuotes,
 	getCategories,
 	getInventory,
-	getRandomQuote,
 	type Inventory,
 	type SearchOptions,
 	searchQuotes,
-	searchQuotesByText,
 	searchQuotesText,
 } from "./search.js";
 

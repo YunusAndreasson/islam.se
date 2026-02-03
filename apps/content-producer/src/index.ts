@@ -155,7 +155,6 @@ program
 	.option("-m, --model <model>", "Model to use (opus|sonnet)", "opus")
 	.option("-o, --output <dir>", "Output directory", "./output")
 	.option("--no-quotes", "Skip quote enrichment")
-	.option("--fast", "Fast mode: skip research, go straight to authoring with quotes")
 	.action(async (topic: string, options) => {
 		const outputDir = resolve(options.output);
 
@@ -240,11 +239,6 @@ program
 						value: "full",
 						label: "Full pipeline (Research → Fact-check → Author → Review)",
 					},
-					{
-						value: "fast",
-						label: "Fast mode (Skip research, use quotes from ideation)",
-						hint: "Experimental - for quick drafts",
-					},
 					{ value: "exit", label: "Exit (save selection for later)" },
 				],
 			});
@@ -256,53 +250,41 @@ program
 				process.exit(0);
 			}
 
-			// Proceed to authoring
+			// Proceed to authoring - full pipeline with idea context
+			console.log("");
+			console.log("Starting full pipeline with idea context...");
 			console.log("");
 
-			if (proceedChoice === "fast" || options.fast) {
-				// Fast mode: direct to authoring with idea context
-				console.log("Fast mode is experimental. Starting direct authoring...");
-				console.log("(Full implementation would pass idea context to author stage)");
-				// TODO: Implement runAuthoringFromIdea in orchestrator
-				console.log("");
-				console.log("For now, use the full pipeline:");
-				console.log(`  pnpm produce article "${selectedIdea.title}"`);
+			const orchestrator = new ContentOrchestrator({
+				outputDir,
+				model: options.model as "opus" | "sonnet",
+				qualityThreshold: 7.5,
+				targetWordCount: 2500,
+				includeArabic: true,
+				maxRevisions: 2,
+			});
+
+			// Use the selected idea's thesis as the refined topic
+			const refinedTopic = `${selectedIdea.title}: ${selectedIdea.thesis}`;
+			const pipelineResult = await orchestrator.produce(refinedTopic);
+
+			console.log("");
+			console.log("══════════════════════════════════════════════════════════");
+			console.log("                       PRODUCTION SUMMARY");
+			console.log("══════════════════════════════════════════════════════════");
+			console.log("");
+
+			if (pipelineResult.success) {
+				console.log("Status: ✅ SUCCESS");
+				console.log(`Output: ${pipelineResult.outputDir}`);
 			} else {
-				// Full pipeline with idea context
-				console.log("Starting full pipeline with idea context...");
-				console.log("");
-
-				const orchestrator = new ContentOrchestrator({
-					outputDir,
-					model: options.model as "opus" | "sonnet",
-					qualityThreshold: 7.5,
-					targetWordCount: 2500,
-					includeArabic: true,
-					maxRevisions: 2,
-				});
-
-				// Use the selected idea's thesis as the refined topic
-				const refinedTopic = `${selectedIdea.title}: ${selectedIdea.thesis}`;
-				const pipelineResult = await orchestrator.produce(refinedTopic);
-
-				console.log("");
-				console.log("══════════════════════════════════════════════════════════");
-				console.log("                       PRODUCTION SUMMARY");
-				console.log("══════════════════════════════════════════════════════════");
-				console.log("");
-
-				if (pipelineResult.success) {
-					console.log("Status: ✅ SUCCESS");
-					console.log(`Output: ${pipelineResult.outputDir}`);
-				} else {
-					console.log("Status: ❌ FAILED");
-					if (pipelineResult.stages.research && !pipelineResult.stages.research.success) {
-						console.log(`Research failed: ${pipelineResult.stages.research.error}`);
-					}
+				console.log("Status: ❌ FAILED");
+				if (pipelineResult.stages.research && !pipelineResult.stages.research.success) {
+					console.log(`Research failed: ${pipelineResult.stages.research.error}`);
 				}
-
-				process.exit(pipelineResult.success ? 0 : 1);
 			}
+
+			process.exit(pipelineResult.success ? 0 : 1);
 		} catch (error) {
 			console.error("Fatal error:", error);
 			process.exit(1);

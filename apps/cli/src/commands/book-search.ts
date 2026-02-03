@@ -69,7 +69,7 @@ export function registerBookSearchCommand(program: Command): void {
 				options: { limit: string; mode: string; language?: "sv" | "ar" | "en" },
 			) => {
 				try {
-					const limit = Number.parseInt(options.limit, 10);
+					const limit = Math.max(1, Number.parseInt(options.limit, 10));
 					console.log(`\n🔍 Searching books for: "${query}" (mode: ${options.mode})\n`);
 
 					initBookDatabase();
@@ -83,7 +83,6 @@ export function registerBookSearchCommand(program: Command): void {
 					const hasResults = results.combined.length > 0 || results.concepts.length > 0;
 					if (!hasResults) {
 						console.log("No results found.");
-						closeBookDatabase();
 						return;
 					}
 
@@ -101,11 +100,11 @@ export function registerBookSearchCommand(program: Command): void {
 						const passages = options.mode === "hybrid" ? results.combined : results.passages;
 						displayPassages(passages);
 					}
-
-					closeBookDatabase();
 				} catch (error) {
 					console.error("Error:", error instanceof Error ? error.message : error);
 					process.exit(1);
+				} finally {
+					closeBookDatabase();
 				}
 			},
 		);

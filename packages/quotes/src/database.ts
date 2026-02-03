@@ -76,13 +76,19 @@ export function initDatabase(): Database.Database {
 	// Migration: Add language column if it doesn't exist (for existing databases)
 	try {
 		db.exec(`ALTER TABLE quotes ADD COLUMN language TEXT NOT NULL DEFAULT 'sv'`);
-	} catch {
-		// Column already exists, ignore
+	} catch (error) {
+		// Only ignore "duplicate column" errors
+		if (!(error instanceof Error && error.message.includes("duplicate column"))) {
+			throw error;
+		}
 	}
 	try {
 		db.exec("ALTER TABLE quotes ADD COLUMN source_type TEXT");
-	} catch {
-		// Column already exists, ignore
+	} catch (error) {
+		// Only ignore "duplicate column" errors
+		if (!(error instanceof Error && error.message.includes("duplicate column"))) {
+			throw error;
+		}
 	}
 
 	// Create virtual table for vector search

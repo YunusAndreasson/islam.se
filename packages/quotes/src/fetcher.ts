@@ -246,8 +246,20 @@ export async function fetchText(url: string): Promise<FetchResult> {
 		return { url, filename, text, cached: true };
 	}
 
-	// Fetch from URL
-	const response = await fetch(url);
+	// Fetch from URL with timeout
+	const controller = new AbortController();
+	const timeout = setTimeout(() => controller.abort(), 30000);
+	let response: Response;
+	try {
+		response = await fetch(url, { signal: controller.signal });
+	} catch (error) {
+		if (error instanceof Error && error.name === "AbortError") {
+			throw new Error(`Request timed out after 30s: ${url}`);
+		}
+		throw error;
+	} finally {
+		clearTimeout(timeout);
+	}
 	if (!response.ok) {
 		throw new Error(`Failed to fetch ${url}: ${response.status} ${response.statusText}`);
 	}

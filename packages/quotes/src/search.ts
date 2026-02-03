@@ -1,11 +1,4 @@
-import {
-	getQuote,
-	initDatabase,
-	parseQuoteRow,
-	type QuoteWithScore,
-	type RawQuoteRow,
-	type StoredQuote,
-} from "./database.js";
+import { initDatabase, parseQuoteRow, type QuoteWithScore, type RawQuoteRow } from "./database.js";
 import { generateEmbedding, generateLocalEmbedding } from "./embeddings/index.js";
 
 // ============================================================================
@@ -120,6 +113,14 @@ export async function searchQuotes(
 	query: string,
 	options?: SearchOptions | number,
 ): Promise<QuoteWithScore[]> {
+	// Input validation
+	if (!query?.trim()) {
+		throw new Error("Search query cannot be empty");
+	}
+	if (query.length > 10000) {
+		throw new Error("Search query too long (max 10000 characters)");
+	}
+
 	const database = initDatabase();
 
 	// Handle backward compatibility: if options is a number, treat it as limit
@@ -168,40 +169,6 @@ export async function searchQuotes(
 }
 
 /**
- * Searches quotes by text using full-text search (exact/partial match)
- */
-export function searchQuotesByText(query: string, limit = 10): StoredQuote[] {
-	const database = initDatabase();
-
-	const stmt = database.prepare(`
-		SELECT id, text, author, work_title as workTitle, category, keywords, tone, standalone, length, created_at as createdAt
-		FROM quotes
-		WHERE text LIKE ? OR author LIKE ? OR work_title LIKE ? OR keywords LIKE ?
-		LIMIT ?
-	`);
-
-	const pattern = `%${query}%`;
-	return (stmt.all(pattern, pattern, pattern, pattern, limit) as RawQuoteRow[]).map(parseQuoteRow);
-}
-
-/**
- * Finds quotes by category
- */
-export function findByCategory(category: string, limit = 10): StoredQuote[] {
-	const database = initDatabase();
-
-	const stmt = database.prepare(`
-		SELECT id, text, author, work_title as workTitle, category, keywords, tone, standalone, length, created_at as createdAt
-		FROM quotes
-		WHERE category = ? OR category LIKE ?
-		ORDER BY RANDOM()
-		LIMIT ?
-	`);
-
-	return (stmt.all(category, `%${category}%`, limit) as RawQuoteRow[]).map(parseQuoteRow);
-}
-
-/**
  * Gets all available categories with counts
  */
 export function getCategories(): { category: string; count: number }[] {
@@ -231,98 +198,6 @@ export interface FormattedQuote {
 	length: "short" | "medium" | "long";
 	language: "sv" | "ar" | "en";
 	score: number;
-}
-
-/**
- * For author agent: Find quotes matching a topic and return them formatted for use in text.
- * Supports both Swedish and Arabic quotes with proper attribution format.
- */
-export async function findQuotesForTopic(
-	topic: string,
-	options?: {
-		limit?: number;
-		language?: "sv" | "ar" | "en";
-		category?: string;
-		tone?: string;
-		minScore?: number;
-		minStandalone?: number;
-		length?: "short" | "medium" | "long";
-	},
-): Promise<FormattedQuote[]> {
-	const limit = options?.limit ?? 5;
-	const minScore = options?.minScore ?? 0.1;
-	const minStandalone = options?.minStandalone ?? 1;
-
-	let results = await searchQuotes(topic, { limit: limit * 3, language: options?.language });
-
-	// Filter by minimum score
-	results = results.filter((r) => r.score >= minScore);
-
-	// Filter by standalone score
-	results = results.filter((r) => (r.standalone ?? 5) >= minStandalone);
-
-	// Filter by category if specified
-	if (options?.category) {
-		const categoryFilter = options.category.toLowerCase();
-		results = results.filter((r) => r.category?.toLowerCase().includes(categoryFilter));
-	}
-
-	// Filter by tone if specified
-	if (options?.tone) {
-		results = results.filter((r) => r.tone === options.tone);
-	}
-
-	// Filter by length if specified
-	if (options?.length) {
-		results = results.filter((r) => r.length === options.length);
-	}
-
-	// Take top results
-	results = results.slice(0, limit);
-
-	// Format for use in text with language-appropriate attribution
-	return results.map((q) => ({
-		text: q.text,
-		attribution:
-			q.language === "ar"
-				? `— ${q.author}، ${q.workTitle}` // Arabic comma
-				: `— ${q.author}, ${q.workTitle}`, // Swedish/Latin comma
-		category: q.category ?? (q.language === "ar" ? "غير مصنف" : "okategoriserad"),
-		keywords: q.keywords ?? [],
-		tone: q.tone ?? "neutral",
-		standalone: q.standalone ?? 3,
-		length: q.length ?? "medium",
-		language: q.language ?? "sv",
-		score: q.score,
-	}));
-}
-
-/**
- * Get a random quote, optionally filtered by category
- */
-export function getRandomQuote(category?: string): StoredQuote | null {
-	const database = initDatabase();
-
-	if (category) {
-		const stmt = database.prepare(`
-			SELECT id, text, author, work_title as workTitle, category, keywords, tone, standalone, length, created_at as createdAt
-			FROM quotes
-			WHERE category = ? OR category LIKE ?
-			ORDER BY RANDOM()
-			LIMIT 1
-		`);
-		const row = stmt.get(category, `%${category}%`) as RawQuoteRow | undefined;
-		return row ? parseQuoteRow(row) : null;
-	}
-
-	const stmt = database.prepare(`
-		SELECT id, text, author, work_title as workTitle, category, keywords, tone, standalone, length, created_at as createdAt
-		FROM quotes
-		ORDER BY RANDOM()
-		LIMIT 1
-	`);
-	const row = stmt.get() as RawQuoteRow | undefined;
-	return row ? parseQuoteRow(row) : null;
 }
 
 // ============================================================================
@@ -496,21 +371,6 @@ function cosineSimilarity(a: Float32Array, b: Float32Array): number {
 }
 
 /**
- * Gets the embedding for a quote by ID
- */
-function getQuoteEmbedding(quoteId: number): Float32Array | null {
-	const database = initDatabase();
-	const stmt = database.prepare(`
-		SELECT embedding FROM quote_embeddings WHERE rowid = ?
-	`);
-	const row = stmt.get(quoteId) as { embedding: Buffer } | undefined;
-	if (!row) return null;
-
-	// Convert Buffer back to Float32Array
-	return new Float32Array(row.embedding.buffer, row.embedding.byteOffset, row.embedding.length / 4);
-}
-
-/**
  * Applies MMR (Maximal Marginal Relevance) to select diverse results.
  * Balances relevance with diversity from already-selected quotes.
  */
@@ -578,6 +438,14 @@ export async function findQuotesForLLM(
 		diverse?: boolean;
 	},
 ): Promise<FormattedQuoteWithId[]> {
+	// Input validation
+	if (!topic?.trim()) {
+		throw new Error("Search topic cannot be empty");
+	}
+	if (topic.length > 10000) {
+		throw new Error("Search topic too long (max 10000 characters)");
+	}
+
 	const database = initDatabase();
 	const limit = options?.limit ?? 5;
 	const minStandalone = options?.minStandalone ?? 4;
@@ -672,82 +540,6 @@ export async function findQuotesForLLM(
 }
 
 /**
- * Finds quotes similar to a given quote.
- * Useful for finding alternatives once an LLM finds a good quote.
- */
-export async function findSimilarQuotes(
-	quoteId: number,
-	options?: {
-		limit?: number;
-		excludeSameAuthor?: boolean;
-		excludeSameWork?: boolean;
-		minStandalone?: number;
-	},
-): Promise<QuoteWithScore[]> {
-	const database = initDatabase();
-	const limit = options?.limit ?? 5;
-	const excludeSameAuthor = options?.excludeSameAuthor ?? false;
-	const excludeSameWork = options?.excludeSameWork ?? false;
-	const minStandalone = options?.minStandalone ?? 1;
-
-	// Get the source quote and its embedding
-	const sourceQuote = getQuote(quoteId);
-	if (!sourceQuote) {
-		throw new Error(`Quote with ID ${quoteId} not found`);
-	}
-
-	const sourceEmbedding = getQuoteEmbedding(quoteId);
-	if (!sourceEmbedding) {
-		throw new Error(`Embedding for quote ${quoteId} not found`);
-	}
-
-	// Fetch more results to account for filtering
-	const fetchLimit = limit * 3;
-	const queryBuffer = Buffer.from(new Uint8Array(sourceEmbedding.buffer));
-
-	const stmt = database.prepare(`
-		SELECT
-			q.id,
-			q.text,
-			q.author,
-			q.work_title as workTitle,
-			q.category,
-			q.keywords,
-			q.tone,
-			q.standalone,
-			q.length,
-			q.language,
-			q.source_type as sourceType,
-			q.created_at as createdAt,
-			vec_distance_cosine(e.embedding, ?) as distance
-		FROM quote_embeddings e
-		JOIN quotes q ON e.rowid = q.id
-		WHERE q.id != ? AND q.standalone >= ?
-		ORDER BY distance ASC
-		LIMIT ?
-	`);
-
-	const rows = stmt.all(queryBuffer, quoteId, minStandalone, fetchLimit) as (RawQuoteRow & {
-		distance: number;
-	})[];
-
-	let results = rows.map((row) => ({
-		...parseQuoteRow(row),
-		score: 1 - row.distance,
-	}));
-
-	// Apply exclusion filters
-	if (excludeSameAuthor) {
-		results = results.filter((r) => r.author !== sourceQuote.author);
-	}
-	if (excludeSameWork) {
-		results = results.filter((r) => r.workTitle !== sourceQuote.workTitle);
-	}
-
-	return results.slice(0, limit);
-}
-
-/**
  * LLM-optimized quote search using LOCAL embeddings - NO API key required.
  * Uses multilingual-e5-small model which supports Swedish and Arabic.
  *
@@ -766,6 +558,14 @@ export async function findQuotesLocal(
 		diverse?: boolean;
 	},
 ): Promise<FormattedQuoteWithId[]> {
+	// Input validation
+	if (!topic?.trim()) {
+		throw new Error("Search topic cannot be empty");
+	}
+	if (topic.length > 10000) {
+		throw new Error("Search topic too long (max 10000 characters)");
+	}
+
 	const database = initDatabase();
 	const limit = options?.limit ?? 5;
 	const minStandalone = options?.minStandalone ?? 4;

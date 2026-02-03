@@ -168,8 +168,6 @@ export function registerImportUrlsCommand(program: Command): void {
 					});
 				}
 
-				closeDatabase();
-
 				if (!interrupt.state.interrupted) {
 					console.log(`\n${"─".repeat(60)}`);
 					console.log("🎉 All done!\n");
@@ -178,6 +176,7 @@ export function registerImportUrlsCommand(program: Command): void {
 				console.error("Error:", error instanceof Error ? error.message : error);
 				process.exit(1);
 			} finally {
+				closeDatabase();
 				interrupt.detach();
 			}
 		});

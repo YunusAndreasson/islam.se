@@ -145,6 +145,7 @@ export async function searchPassages(
 /**
  * Search by concepts/themes via summary embeddings.
  * Uses local embeddings (FREE).
+ * Optimized with JOINs to avoid N+1 queries.
  */
 export async function searchConcepts(
 	query: string,
@@ -166,14 +167,38 @@ export async function searchConcepts(
 
 	const results: ConceptMatch[] = [];
 
-	// Search summary embeddings
+	// Build type filter
+	const typeConditions: string[] = [];
+	if (includeBookSummaries) typeConditions.push("'book'");
+	if (includeChapterSummaries) typeConditions.push("'chapter'");
+	if (typeConditions.length === 0) return [];
+
+	const typeFilter = `m.entity_type IN (${typeConditions.join(", ")})`;
+
+	// Single query with JOINs to fetch all data at once
 	const sql = `
 		SELECT
 			m.entity_type as entityType,
 			m.entity_id as entityId,
-			vec_distance_cosine(e.embedding, ?) as distance
+			vec_distance_cosine(e.embedding, ?) as distance,
+			-- Book fields (for both book and chapter results)
+			b.id as bookId,
+			b.title as bookTitle,
+			b.author as bookAuthor,
+			b.summary as bookSummary,
+			b.key_concepts as bookKeyConcepts,
+			-- Chapter fields (NULL for book results)
+			c.id as chapterId,
+			c.chapter_number as chapterNumber,
+			c.title as chapterTitle,
+			c.summary as chapterSummary,
+			c.key_concepts as chapterKeyConcepts
 		FROM summary_embeddings e
 		JOIN summary_embedding_meta m ON e.rowid = m.id
+		LEFT JOIN books b ON (m.entity_type = 'book' AND m.entity_id = b.id)
+			OR (m.entity_type = 'chapter' AND b.id = (SELECT book_id FROM chapters WHERE id = m.entity_id))
+		LEFT JOIN chapters c ON m.entity_type = 'chapter' AND m.entity_id = c.id
+		WHERE ${typeFilter}
 		ORDER BY distance ASC
 		LIMIT ?
 	`;
@@ -182,77 +207,47 @@ export async function searchConcepts(
 		entityType: "book" | "chapter";
 		entityId: number;
 		distance: number;
+		bookId: number;
+		bookTitle: string;
+		bookAuthor: string;
+		bookSummary: string | null;
+		bookKeyConcepts: string | null;
+		chapterId: number | null;
+		chapterNumber: number | null;
+		chapterTitle: string | null;
+		chapterSummary: string | null;
+		chapterKeyConcepts: string | null;
 	}[];
 
 	for (const row of rows) {
 		const score = 1 - row.distance;
 		if (score < minScore) continue;
+		if (bookId && row.bookId !== bookId) continue;
 
-		if (row.entityType === "book" && includeBookSummaries) {
-			const book = database
-				.prepare(
-					`SELECT id, title, author, summary, key_concepts as keyConcepts
-					 FROM books WHERE id = ?`,
-				)
-				.get(row.entityId) as
-				| {
-						id: number;
-						title: string;
-						author: string;
-						summary: string;
-						keyConcepts: string;
-				  }
-				| undefined;
-
-			if (book && (!bookId || book.id === bookId)) {
-				results.push({
-					type: "book",
-					entityId: book.id,
-					bookId: book.id,
-					bookTitle: book.title,
-					bookAuthor: book.author,
-					summary: book.summary ?? "",
-					keyConcepts: JSON.parse(book.keyConcepts || "[]"),
-					score,
-				});
-			}
-		} else if (row.entityType === "chapter" && includeChapterSummaries) {
-			const chapter = database
-				.prepare(
-					`SELECT c.id, c.book_id as bookId, c.chapter_number as chapterNumber,
-							c.title, c.summary, c.key_concepts as keyConcepts,
-							b.title as bookTitle, b.author as bookAuthor
-					 FROM chapters c
-					 JOIN books b ON c.book_id = b.id
-					 WHERE c.id = ?`,
-				)
-				.get(row.entityId) as
-				| {
-						id: number;
-						bookId: number;
-						chapterNumber: number;
-						title: string | null;
-						summary: string;
-						keyConcepts: string;
-						bookTitle: string;
-						bookAuthor: string;
-				  }
-				| undefined;
-
-			if (chapter && (!bookId || chapter.bookId === bookId)) {
-				results.push({
-					type: "chapter",
-					entityId: chapter.id,
-					bookId: chapter.bookId,
-					bookTitle: chapter.bookTitle,
-					bookAuthor: chapter.bookAuthor,
-					chapterNumber: chapter.chapterNumber,
-					chapterTitle: chapter.title ?? undefined,
-					summary: chapter.summary ?? "",
-					keyConcepts: JSON.parse(chapter.keyConcepts || "[]"),
-					score,
-				});
-			}
+		if (row.entityType === "book") {
+			results.push({
+				type: "book",
+				entityId: row.entityId,
+				bookId: row.bookId,
+				bookTitle: row.bookTitle,
+				bookAuthor: row.bookAuthor,
+				summary: row.bookSummary ?? "",
+				keyConcepts: JSON.parse(row.bookKeyConcepts || "[]"),
+				score,
+			});
+		} else if (row.entityType === "chapter" && row.chapterId !== null) {
+			results.push({
+				type: "chapter",
+				entityId: row.chapterId,
+				bookId: row.bookId,
+				bookTitle: row.bookTitle,
+				bookAuthor: row.bookAuthor,
+				chapterNumber: row.chapterNumber ?? undefined,
+				chapterTitle: row.chapterTitle ?? undefined,
+				summary: row.chapterSummary ?? "",
+				keyConcepts: JSON.parse(row.chapterKeyConcepts || "[]"),
+				score,
+			});
 		}
 	}
 

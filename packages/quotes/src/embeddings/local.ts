@@ -46,6 +46,7 @@ export async function generateLocalEmbedding(
 /**
  * Generates embeddings for multiple texts in a batch.
  * More efficient than calling generateLocalEmbedding multiple times.
+ * Processes items in parallel within each batch for better performance.
  */
 export async function generateLocalEmbeddings(
 	texts: string[],
@@ -61,14 +62,19 @@ export async function generateLocalEmbeddings(
 	const results: Float32Array[] = [];
 
 	// Process in batches to avoid memory issues
+	// Each batch is processed in parallel for better performance
 	const batchSize = 32;
 	for (let i = 0; i < prefixedTexts.length; i += batchSize) {
 		const batch = prefixedTexts.slice(i, i + batchSize);
 
-		for (const text of batch) {
-			const output = await ext(text, { pooling: "mean", normalize: true });
-			results.push(new Float32Array(output.data as Float32Array));
-		}
+		// Process batch items in parallel
+		const batchResults = await Promise.all(
+			batch.map(async (text) => {
+				const output = await ext(text, { pooling: "mean", normalize: true });
+				return new Float32Array(output.data as Float32Array);
+			}),
+		);
+		results.push(...batchResults);
 	}
 
 	return results;

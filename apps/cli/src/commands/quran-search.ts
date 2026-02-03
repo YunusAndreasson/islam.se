@@ -17,7 +17,7 @@ export function registerQuranSearchCommand(program: Command): void {
 		.option("--text", "Use text search instead of semantic search")
 		.action(async (query: string, options: { limit: string; text?: boolean }) => {
 			try {
-				const limit = Number.parseInt(options.limit, 10);
+				const limit = Math.max(1, Number.parseInt(options.limit, 10));
 
 				console.log(
 					`\nSearching Quran for: "${query}"${options.text ? " (text search)" : " (semantic)"}\n`,
@@ -37,7 +37,6 @@ export function registerQuranSearchCommand(program: Command): void {
 
 				if (results.length === 0) {
 					console.log("No results found.");
-					closeQuranDatabase();
 					return;
 				}
 
@@ -56,11 +55,11 @@ export function registerQuranSearchCommand(program: Command): void {
 					}
 					console.log();
 				}
-
-				closeQuranDatabase();
 			} catch (error) {
 				console.error("Error:", error instanceof Error ? error.message : error);
 				process.exit(1);
+			} finally {
+				closeQuranDatabase();
 			}
 		});
 }

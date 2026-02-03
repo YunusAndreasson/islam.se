@@ -10,7 +10,7 @@ export function registerSearchCommand(program: Command): void {
 		.option("--lang <language>", "Filter by language (sv, ar, or en)")
 		.action(async (query: string, options: { limit: string; lang?: string }) => {
 			try {
-				const limit = Number.parseInt(options.limit, 10);
+				const limit = Math.max(1, Number.parseInt(options.limit, 10));
 				const language = options.lang as "sv" | "ar" | "en" | undefined;
 
 				console.log(`Searching for: "${query}"\n`);
@@ -24,7 +24,6 @@ export function registerSearchCommand(program: Command): void {
 
 				if (results.length === 0) {
 					console.log("No results found.");
-					closeDatabase();
 					return;
 				}
 
@@ -42,11 +41,11 @@ export function registerSearchCommand(program: Command): void {
 					);
 					console.log();
 				}
-
-				closeDatabase();
 			} catch (error) {
 				console.error("Error:", error instanceof Error ? error.message : error);
 				process.exit(1);
+			} finally {
+				closeDatabase();
 			}
 		});
 }
