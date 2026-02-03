@@ -1,20 +1,20 @@
 {
-  "name": "@islam-se/mcp-quotes",
-  "version": "0.0.1",
-  "type": "module",
-  "bin": {
-    "mcp-quotes": "./dist/index.js"
-  },
-  "scripts": {
-    "build": "tsc",
-    "start": "node dist/index.js"
-  },
-  "dependencies": {
-    "@islam-se/quotes": "workspace:*",
-    "@modelcontextprotocol/sdk": "^1.12.0",
-    "zod": "^3.24.1"
-  },
-  "devDependencies": {
-    "typescript": "^5.8.3"
-  }
+	"name": "@islam-se/mcp-quotes",
+	"version": "0.0.1",
+	"type": "module",
+	"bin": {
+		"mcp-quotes": "./dist/index.js"
+	},
+	"scripts": {
+		"build": "tsc",
+		"start": "node dist/index.js"
+	},
+	"dependencies": {
+		"@islam-se/quotes": "workspace:*",
+		"@modelcontextprotocol/sdk": "^1.12.0",
+		"zod": "^3.24.1"
+	},
+	"devDependencies": {
+		"typescript": "^5.8.3"
+	}
 }

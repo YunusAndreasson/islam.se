@@ -5,7 +5,7 @@ import Anthropic from "@anthropic-ai/sdk";
 import { z } from "zod";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
-const PROJECT_ROOT = join(__dirname, "..", "..", "..");
+const PROJECT_ROOT = join(__dirname, "..", "..", "..", "..");
 const EXTRACTED_DIR = join(PROJECT_ROOT, "data", "extracted");
 
 /**

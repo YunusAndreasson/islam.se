@@ -1,0 +1,24 @@
+{
+	"$schema": "https://unpkg.com/knip@5/schema.json",
+	"workspaces": {
+		"packages/core": {
+			"project": ["src/**/*.ts"]
+		},
+		"packages/quotes": {
+			"project": ["src/**/*.ts"]
+		},
+		"packages/orchestrator": {
+			"project": ["src/**/*.ts", "prompts/**/*.md"]
+		},
+		"apps/cli": {
+			"project": ["src/**/*.ts"]
+		},
+		"apps/content-producer": {
+			"project": ["src/**/*.ts"]
+		},
+		"apps/mcp-quotes": {
+			"project": ["src/**/*.ts"]
+		}
+	},
+	"ignore": ["**/dist/**"]
+}

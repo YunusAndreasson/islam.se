@@ -98,12 +98,6 @@ export const ReviewOutputSchema = z.object({
 	revisedText: z.string().nullable().optional(),
 });
 
-// Type exports
-export type ResearchOutputValidated = z.infer<typeof ResearchOutputSchema>;
-export type FactCheckOutputValidated = z.infer<typeof FactCheckOutputSchema>;
-export type DraftOutputValidated = z.infer<typeof DraftOutputSchema>;
-export type ReviewOutputValidated = z.infer<typeof ReviewOutputSchema>;
-
 // JSON Schema generation functions
 export function getResearchJsonSchema(): object {
 	return zodToJsonSchema(ResearchOutputSchema, { target: "jsonSchema7" });

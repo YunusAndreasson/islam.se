@@ -6,7 +6,7 @@ import { z } from "zod";
 
 // Find the project root (where this package is installed)
 const __dirname = dirname(fileURLToPath(import.meta.url));
-const PROJECT_ROOT = join(__dirname, "..", "..", "..");
+const PROJECT_ROOT = join(__dirname, "..", "..", "..", "..");
 const EXTRACTED_DIR = join(PROJECT_ROOT, "data", "extracted");
 
 // Valid categories for Swedish quotes

@@ -10,9 +10,12 @@
  * 6. Embed passages + summaries locally (free)
  */
 
+import { spawn } from "node:child_process";
 import { readFileSync } from "node:fs";
 import { z } from "zod";
-import { type ChunkingOptions, chunkBook } from "./book-chunker.js";
+import { generateLocalEmbedding, generateLocalEmbeddings } from "../embeddings/local.js";
+import { fetchText } from "../fetcher.js";
+import { type ChunkingOptions, chunkBook } from "./chunker.js";
 import {
 	type Book,
 	deleteBook,
@@ -25,9 +28,7 @@ import {
 	insertSummaryEmbedding,
 	updateBook,
 	updateChapter,
-} from "./book-database.js";
-import { generateLocalEmbedding, generateLocalEmbeddings } from "./embeddings-local.js";
-import { fetchText } from "./fetcher.js";
+} from "./database.js";
 
 // ============================================================================
 // Types
@@ -58,8 +59,6 @@ export interface ImportResult {
 // ============================================================================
 // Claude Runner (inline for simplicity - avoids cross-package import)
 // ============================================================================
-
-import { spawn } from "node:child_process";
 
 interface ClaudeRunOptions {
 	prompt: string;

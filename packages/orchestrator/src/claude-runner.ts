@@ -1,6 +1,6 @@
 import { spawn } from "node:child_process";
 import { readFileSync } from "node:fs";
-import { type ZodType, type ZodTypeDef, z } from "zod";
+import type { ZodType, ZodTypeDef } from "zod";
 
 export interface ClaudeRunOptions {
 	/** Path to prompt file or prompt content */
@@ -19,10 +19,14 @@ export interface ClaudeRunOptions {
 	maxTokens?: number;
 	/** Maximum budget in USD for this stage (uses --max-budget-usd flag) */
 	maxBudgetUsd?: number;
+	/** Maximum agentic turns before stopping (uses --max-turns flag) */
+	maxTurns?: number;
 	/** Fallback model if primary is unavailable (uses --fallback-model flag) */
 	fallbackModel?: string;
 	/** Disable session persistence for stateless runs (uses --no-session-persistence flag) */
 	noSessionPersistence?: boolean;
+	/** MCP config file path (uses --mcp-config flag) */
+	mcpConfig?: string;
 }
 
 export interface ClaudeRunResult {
@@ -42,11 +46,7 @@ export class ClaudeRunner {
 		return new Promise((resolve) => {
 			const child = spawn("claude", args, {
 				stdio: ["ignore", "pipe", "pipe"],
-				env: {
-					...process.env,
-					// Ensure headless mode
-					ANTHROPIC_HEADLESS: "1",
-				},
+				env: process.env,
 			});
 
 			let stdout = "";
@@ -97,6 +97,11 @@ export class ClaudeRunner {
 		// Model
 		args.push("--model", options.model);
 
+		// MCP config for quote tools and other MCP servers
+		if (options.mcpConfig) {
+			args.push("--mcp-config", options.mcpConfig);
+		}
+
 		// System prompt
 		if (options.systemPrompt) {
 			args.push("--append-system-prompt", options.systemPrompt);
@@ -124,6 +129,11 @@ export class ClaudeRunner {
 		// Cost control
 		if (options.maxBudgetUsd) {
 			args.push("--max-budget-usd", options.maxBudgetUsd.toString());
+		}
+
+		// Turn limit for agentic loops
+		if (options.maxTurns) {
+			args.push("--max-turns", options.maxTurns.toString());
 		}
 
 		// Model fallback for resilience
@@ -290,8 +300,12 @@ export class ClaudeRunner {
 				const validation = this.validateOutput(parsed, schema);
 				if (!validation.success) {
 					console.log(`   [DEBUG] Schema validation failed: ${validation.error}`);
-					console.log(`   [DEBUG] Parsed object keys: ${Object.keys(parsed as object).join(", ") || "(empty)"}`);
-					console.log(`   [DEBUG] Parsed preview: ${JSON.stringify(parsed, null, 2).slice(0, 500)}...`);
+					console.log(
+						`   [DEBUG] Parsed object keys: ${Object.keys(parsed as object).join(", ") || "(empty)"}`,
+					);
+					console.log(
+						`   [DEBUG] Parsed preview: ${JSON.stringify(parsed, null, 2).slice(0, 500)}...`,
+					);
 					return {
 						success: false,
 						error: validation.error,
@@ -314,6 +328,3 @@ export class ClaudeRunner {
 		return result;
 	}
 }
-
-// Export Zod helper for creating schemas
-export { z };

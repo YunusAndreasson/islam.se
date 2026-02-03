@@ -13,14 +13,26 @@ pnpm install                    # Install dependencies
 pnpm build                      # Build all packages
 pnpm check                      # Run Biome linting
 pnpm check:fix                  # Fix linting issues
+pnpm knip                       # Find dead code/unused exports
 
 # Quote database
 pnpm cli import-url <url>       # Import from single URL
 pnpm cli import-urls <file>     # Batch import (marks done with "# DONE ")
 pnpm cli import-arabic <file>   # Import Arabic texts (OpenITI)
 pnpm cli import-norse <file>    # Import Norse sagas
-pnpm cli search <query>         # Semantic search
-pnpm cli stats                  # Database statistics
+pnpm cli import-quran <file>    # Import Quran verses
+pnpm cli search <query>         # Semantic search quotes
+pnpm cli stats                  # Quote database statistics
+
+# Book RAG
+pnpm cli import-book <url>      # Import single book
+pnpm cli import-books <file>    # Batch import books
+pnpm cli book-search <query>    # Search book passages
+pnpm cli book-stats             # Book database statistics
+
+# Quran
+pnpm cli quran-search <query>   # Search Quran verses
+pnpm cli quran-stats            # Quran statistics
 
 # Content production
 pnpm produce article <topic>    # Full 4-stage pipeline
@@ -32,21 +44,31 @@ pnpm produce ideate <topic>     # Generate 10 article ideas with quote enrichmen
 
 ```
 packages/
-├── quotes/          # Core library: fetching, extraction, embeddings, SQLite storage
-│   ├── database.ts      # SQLite + sqlite-vec for vector search
-│   ├── embeddings-local.ts  # HuggingFace transformers (multilingual-e5-small)
-│   ├── extractor.ts     # Swedish quote extraction (Claude)
-│   ├── extractor-arabic.ts  # Arabic extraction
-│   └── fetcher.ts       # URL text fetching
-├── orchestrator/    # Multi-stage content pipeline
-│   ├── claude-runner.ts     # Spawns Claude CLI subprocess
-│   ├── orchestrator.ts      # 4-stage pipeline controller
-│   ├── ideation-service.ts  # Article idea generation
-│   ├── quote-service.ts     # Quote search integration
+├── core/                # Shared TypeScript types
+│   └── src/types/       # quote.ts, book.ts, quran.ts, search.ts
+├── quotes/              # Core library: fetching, extraction, embeddings, storage
+│   ├── src/
+│   │   ├── extraction/      # Swedish, Arabic, Norse quote extractors
+│   │   ├── embeddings/      # Local (HuggingFace) and OpenAI embeddings
+│   │   ├── books/           # Book RAG: database, chunker, importer, search
+│   │   ├── quran/           # Quran database and extractor
+│   │   ├── database.ts      # SQLite + sqlite-vec for vector search
+│   │   ├── search.ts        # Quote search functions
+│   │   └── fetcher.ts       # URL text fetching
+├── orchestrator/        # Multi-stage content pipeline
+│   ├── src/
+│   │   ├── services/        # quote-service, book-service, ideation-service
+│   │   ├── claude-runner.ts # Spawns Claude CLI subprocess
+│   │   └── index.ts         # ContentOrchestrator (4-stage pipeline)
 │   └── prompts/             # Stage prompts (ideator, research, fact-check, author, review)
 apps/
-├── cli/             # Quote management CLI (Commander)
-└── content-producer/  # Article production CLI
+├── cli/                 # Quote management CLI (Commander)
+│   └── src/
+│       ├── commands/        # 17 command modules
+│       └── utils/           # path, url-file, interrupt helpers
+├── content-producer/    # Article production CLI
+├── mcp-quotes/          # MCP server for quote search tools
+└── web/                 # Future web app placeholder
 ```
 
 **Data flow:** URL → Fetch → Claude extraction → Local embeddings → SQLite → Search/Content pipeline
@@ -55,11 +77,12 @@ apps/
 
 ## Key Technical Details
 
-- **Embeddings:** Local HuggingFace (384 dimensions, no API cost) with OpenAI fallback
-- **Vector search:** sqlite-vec extension on `data/quotes.db`
+- **Embeddings:** Local HuggingFace multilingual-e5-small (384 dimensions, no API cost) with OpenAI fallback
+- **Vector search:** sqlite-vec extension on `data/quotes.db` and `data/books.db`
 - **Languages:** Swedish (sv), Arabic (ar), Norse/English (en)
 - **Batch import:** Resumable via "# DONE " prefix markers in URL files
 - **Quality gates:** Fact-check credibility ≥7, review score ≥8 to publish
+- **MCP server:** Provides search_quotes, search_by_filter, search_text, get_inventory, bulk_search tools
 
 ## Environment Variables
 
@@ -68,9 +91,11 @@ apps/
 
 ## Data Files
 
+- `data/quotes.db` - Main quote database (~30k quotes)
+- `data/books.db` - Book RAG database
+- `data/quran.db` - Quran verses database
 - `data/urls.txt` - Gutenberg URLs for Swedish texts
 - `data/urls-arabic.txt` - OpenITI URLs for Arabic texts
-- `data/quotes.db` - Main quote database (~55MB, ~20,500 quotes)
 - `data/extracted/` - Raw extraction outputs for review
 
 ## Content Guidelines
@@ -80,4 +105,4 @@ The content is for islam.se, a Swedish publication targeting educated readers (A
 - **Avoid Sufism entirely:** No Sufi terminology (fana, muraqaba, tariqa), no Sufi figures (Ibn Arabi, Rumi as Sufi, al-Hallaj)
 - **Use orthodox framing instead:** taqwa, ihsan, tazkiyat al-nafs, muhasaba; scholars like Ibn Taymiyyah, Ibn al-Qayyim, al-Ghazali (Ihya ethics), al-Nawawi
 - **Counter-intuitive angles:** Ideas should make readers say "I never thought of it that way" — avoid survey overviews or basic explainers
-- **Quote database has ~26k quotes:** Arabic Islamic (~6,300), Swedish literature (~16,400), Norse/Edda (~3,100)
+- **Quote database:** Swedish literature (~16k), Arabic Islamic (~10k), Norse/Edda (~3k)

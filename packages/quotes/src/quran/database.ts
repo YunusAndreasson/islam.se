@@ -6,7 +6,7 @@ import * as sqliteVec from "sqlite-vec";
 
 // Find the project root
 const __dirname = dirname(fileURLToPath(import.meta.url));
-const PROJECT_ROOT = join(__dirname, "..", "..", "..");
+const PROJECT_ROOT = join(__dirname, "..", "..", "..", "..");
 const DB_PATH = join(PROJECT_ROOT, "data", "quran.db");
 const EMBEDDING_DIMENSIONS = 384; // Local multilingual-e5-small model
 

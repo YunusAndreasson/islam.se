@@ -3,7 +3,7 @@ import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import Database from "better-sqlite3";
 import * as sqliteVec from "sqlite-vec";
-import type { Quote } from "./extractor.js";
+import type { Quote } from "./extraction/index.js";
 
 // Find the project root (where this package is installed)
 const __dirname = dirname(fileURLToPath(import.meta.url));

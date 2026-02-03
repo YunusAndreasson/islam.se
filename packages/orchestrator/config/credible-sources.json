@@ -21,10 +21,7 @@
 		"stockholmslansmuseum.se",
 		"gotlandsmuseum.se"
 	],
-	"swedish_science": [
-		"fof.se",
-		"vetenskaphalsa.se"
-	],
+	"swedish_science": ["fof.se", "vetenskaphalsa.se"],
 	"swedish_media_tier1": ["dn.se", "svd.se", "gp.se", "sr.se", "svt.se"],
 	"swedish_media_tier2": [
 		"expressen.se",
@@ -35,7 +32,13 @@
 		"so-rummet.se",
 		"popularhistoria.se"
 	],
-	"swedish_government": ["scb.se", "regeringen.se", "myndighetensst.se", "levandehistoria.se", "riksarkivet.se"],
+	"swedish_government": [
+		"scb.se",
+		"regeringen.se",
+		"myndighetensst.se",
+		"levandehistoria.se",
+		"riksarkivet.se"
+	],
 	"swedish_islamic": ["islamguiden.se", "sverigesmuslimskaforbund.se"],
 	"international_academic": [
 		"scholar.google.com",

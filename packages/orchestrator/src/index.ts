@@ -180,7 +180,6 @@ export class ContentOrchestrator {
 		allowedTools: string[];
 		schema?: ZodType<T, ZodTypeDef, unknown>;
 		jsonSchema?: object;
-		maxBudgetUsd?: number;
 		maxRetries?: number;
 	}): Promise<StageResult<T>> {
 		const startTime = Date.now();
@@ -197,7 +196,6 @@ export class ContentOrchestrator {
 					model: this.getModelId(),
 					allowedTools: options.allowedTools,
 					jsonSchema: options.jsonSchema,
-					maxBudgetUsd: options.maxBudgetUsd,
 					fallbackModel: "sonnet",
 					noSessionPersistence: true,
 				},
@@ -216,7 +214,9 @@ export class ContentOrchestrator {
 			const isValidationError = result.error?.includes("Validation failed");
 			if (isValidationError && attempt < maxRetries) {
 				const delay = 2000 * attempt; // exponential backoff: 2s, 4s
-				console.log(`   ⚠️  Validation failed, retry ${attempt}/${maxRetries - 1} in ${delay / 1000}s...`);
+				console.log(
+					`   ⚠️  Validation failed, retry ${attempt}/${maxRetries - 1} in ${delay / 1000}s...`,
+				);
 				await new Promise((resolve) => setTimeout(resolve, delay));
 				continue;
 			}
@@ -301,11 +301,15 @@ Search based on YOUR thesis, not just the topic. For example:
 
 		// Run Claude with MCP quote tools + web tools
 		const promptPath = join(this.promptsDir, "research.md");
+		// MCP config is in project root (3 levels up from packages/orchestrator/src)
+		const mcpConfigPath = join(__dirname, "../../..", ".mcp.json");
 		const result = await this.runner.runJSON<ResearchOutput>(
 			{
 				prompt: promptPath,
 				systemPrompt,
 				model: this.getModelId(),
+				// MCP config for quote database tools (absolute path)
+				mcpConfig: mcpConfigPath,
 				// MCP tools + standard tools
 				allowedTools: [
 					"mcp__quotes__search_quotes",
@@ -317,7 +321,6 @@ Search based on YOUR thesis, not just the topic. For example:
 					"Read",
 				],
 				jsonSchema: getResearchJsonSchema(),
-				maxBudgetUsd: 3.0,
 				fallbackModel: "sonnet",
 				noSessionPersistence: true,
 			},
@@ -412,10 +415,9 @@ Search based on YOUR thesis, not just the topic. For example:
 			emoji: "🔍",
 			promptFile: "fact-checker.md",
 			systemPrompt,
-			allowedTools: [], // No tools - pure analysis of existing research
+			allowedTools: ["WebFetch"], // URL verification only
 			schema: FactCheckOutputSchema,
 			jsonSchema: getFactCheckJsonSchema(),
-			maxBudgetUsd: 0.5, // Reduced - no web searches
 		});
 
 		if (!result.success || !result.data) {
@@ -449,7 +451,7 @@ Search based on YOUR thesis, not just the topic. For example:
 	 */
 	async runAuthoring(
 		research: ResearchOutput,
-		factCheck: FactCheckOutput,
+		_factCheck: FactCheckOutput,
 	): Promise<StageResult<DraftOutput>> {
 		// Use research directly - fact-check has already validated
 		const verifiedResearch = research;
@@ -482,7 +484,6 @@ ${research.bookPassages.length} book passages available for integration.`;
 			allowedTools: ["Read"],
 			schema: DraftOutputSchema,
 			jsonSchema: getDraftJsonSchema(),
-			maxBudgetUsd: 1.0,
 		});
 
 		if (!result.success || !result.data) {
@@ -512,7 +513,6 @@ ${research.bookPassages.length} book passages available for integration.`;
 			allowedTools: ["Read"],
 			schema: ReviewOutputSchema,
 			jsonSchema: getReviewJsonSchema(),
-			maxBudgetUsd: 1.0, // Increased from 0.5 to handle revision loops
 		});
 
 		if (!result.success || !result.data) {
@@ -712,29 +712,33 @@ ${research.bookPassages.length} book passages available for integration.`;
 	}
 }
 
-export {
-	formatBooksForPrompt,
-	hasBookContent,
-	passagesToResearchFormat,
-	searchBooksComprehensive,
-} from "./book-service.js";
 // Re-export utilities
 export { ClaudeRunner } from "./claude-runner.js";
-// Export ideation service
+export { ReferenceTracker } from "./reference-tracker.js";
+// Re-export services
 export {
+	// Book service
+	type BookSearchOptions,
+	type BookSearchResult,
+	// Ideation service
 	type EnrichedIdea,
 	type EnrichedIdeationOutput,
 	type EnrichedQuote,
 	enrichIdeasWithQuotes,
+	formatBooksForPrompt,
+	// Quote service
+	formatQuotesForPrompt,
 	generateIdeas,
+	hasBookContent,
 	type Idea,
 	type IdeationOutput,
 	IdeationService,
-} from "./ideation-service.js";
-export {
-	formatQuotesForPrompt,
+	type IdeationServiceOptions,
+	passagesToResearchFormat,
+	type QuoteSearchOptions,
+	type QuoteSearchResult,
 	quotesToResearchFormat,
+	searchBooksComprehensive,
 	searchQuotesComprehensive,
-} from "./quote-service.js";
-export { ReferenceTracker } from "./reference-tracker.js";
+} from "./services/index.js";
 export { SourceValidator } from "./source-validator.js";

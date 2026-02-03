@@ -6,8 +6,7 @@ import {
 	type RawQuoteRow,
 	type StoredQuote,
 } from "./database.js";
-import { generateEmbedding } from "./embeddings.js";
-import { generateLocalEmbedding } from "./embeddings-local.js";
+import { generateEmbedding, generateLocalEmbedding } from "./embeddings/index.js";
 
 // ============================================================================
 // Inventory
@@ -487,8 +486,8 @@ function cosineSimilarity(a: Float32Array, b: Float32Array): number {
 	let normA = 0;
 	let normB = 0;
 	for (let i = 0; i < a.length; i++) {
-		const aVal = a[i]!;
-		const bVal = b[i]!;
+		const aVal = a[i] ?? 0;
+		const bVal = b[i] ?? 0;
 		dot += aVal * bVal;
 		normA += aVal * aVal;
 		normB += bVal * bVal;
@@ -527,7 +526,8 @@ function applyMMR(
 	const remaining = [...candidates];
 
 	// Select first item (highest relevance)
-	selected.push(remaining.shift()!);
+	const first = remaining.shift();
+	if (first) selected.push(first);
 
 	// Select remaining items using MMR
 	while (selected.length < limit && remaining.length > 0) {
@@ -535,7 +535,8 @@ function applyMMR(
 		let bestScore = -Infinity;
 
 		for (let i = 0; i < remaining.length; i++) {
-			const candidate = remaining[i]!;
+			const candidate = remaining[i];
+			if (!candidate) continue;
 			const relevance = candidate.score;
 
 			// Find max similarity to any selected quote

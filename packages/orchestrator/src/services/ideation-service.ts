@@ -6,12 +6,12 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { type FormattedQuoteWithId, findQuotesLocal } from "@islam-se/quotes";
-import { ClaudeRunner, type ClaudeRunOptions } from "./claude-runner.js";
+import { ClaudeRunner, type ClaudeRunOptions } from "../claude-runner.js";
 import {
 	getIdeationJsonSchema,
 	IdeationOutputSchema,
 	type IdeationOutputValidated,
-} from "./schemas.js";
+} from "../schemas.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -63,7 +63,8 @@ export class IdeationService {
 
 	constructor(options: IdeationServiceOptions) {
 		this.runner = new ClaudeRunner();
-		this.promptsDir = join(__dirname, "../prompts");
+		// Adjusted path: services/ is one level deeper, so go up one more level
+		this.promptsDir = join(__dirname, "../../prompts");
 		this.options = {
 			outputDir: options.outputDir,
 			model: options.model ?? "opus",

@@ -5,7 +5,7 @@ import Database from "better-sqlite3";
 import * as sqliteVec from "sqlite-vec";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
-const PROJECT_ROOT = join(__dirname, "..", "..", "..");
+const PROJECT_ROOT = join(__dirname, "..", "..", "..", "..");
 const DB_PATH = join(PROJECT_ROOT, "data", "books.db");
 const EMBEDDING_DIMENSIONS = 384; // Local multilingual-e5-small model
 

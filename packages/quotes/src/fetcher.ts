@@ -117,7 +117,7 @@ function extractGutenbergMetadata(text: string): TextMetadata {
 	if (!metadata.author) {
 		const translatorMatch = text.match(/^Translator:\s*(.+?)$/m);
 		if (translatorMatch?.[1]) {
-			metadata.author = translatorMatch[1].trim() + " (translator)";
+			metadata.author = `${translatorMatch[1].trim()} (translator)`;
 		}
 	}
 

@@ -1,68 +1,26 @@
-// Fetcher
+/**
+ * @islam-se/quotes
+ *
+ * Core library for fetching, extracting, storing, and searching quotes
+ * with local embeddings support.
+ */
 
-// Book Chunking
+// ============================================================================
+// Fetcher
+// ============================================================================
+
 export {
-	type ChapterInfo,
-	type ChunkInfo,
-	type ChunkingOptions,
-	type ChunkingResult,
-	chunkBook,
-	chunkText,
-	detectChapters,
-	estimatePassageCount,
-} from "./book-chunker.js";
-// Book Database (RAG)
-export {
-	type Book,
-	type BookDatabaseStats,
-	type BookWithScore,
-	type Chapter,
-	type ChapterWithScore,
-	closeBookDatabase,
-	deleteBook,
-	getAllBooks,
-	getBook,
-	getBookByUrl,
-	getBookStats,
-	getChaptersByBook,
-	getPassage,
-	getPassagesByBook,
-	getPassagesByChapter,
-	initBookDatabase,
-	insertBook,
-	insertChapter,
-	insertPassage,
-	insertPassageEmbedding,
-	insertSummaryEmbedding,
-	type Passage,
-	type PassageWithContext,
-	type PassageWithScore,
-	updateBook,
-	updateChapter,
-} from "./book-database.js";
-// Book Import
-export {
-	type ImportOptions,
-	type ImportResult,
-	importBook,
-	importBooksFromFile,
-} from "./book-importer.js";
-// Book Search
-export {
-	type BookInventory,
-	type ConceptMatch,
-	type ConceptSearchOptions,
-	getBookInventory,
-	getBookPassages,
-	type HybridSearchOptions,
-	type HybridSearchResult,
-	type PassageSearchOptions,
-	searchBooks,
-	searchConcepts,
-	searchPassages,
-	searchPassagesText,
-} from "./book-search.js";
+	extractMetadataFromUrl,
+	type FetchResult,
+	fetchText,
+	fetchTexts,
+	type TextMetadata,
+} from "./fetcher.js";
+
+// ============================================================================
 // Database
+// ============================================================================
+
 export {
 	closeDatabase,
 	type DatabaseStats,
@@ -74,78 +32,63 @@ export {
 	initDatabase,
 	insertEmbedding,
 	insertQuote,
+	parseQuoteRow,
 	type QuoteWithScore,
+	type RawQuoteRow,
 	type StoredQuote,
 	updateQuoteMetadataBySource,
 } from "./database.js";
-// Embeddings (OpenAI - requires API key)
-export { generateEmbedding, generateEmbeddings, getEmbeddingDimensions } from "./embeddings.js";
-// Embeddings (Local - no API key required)
+
+// ============================================================================
+// Embeddings
+// ============================================================================
+
+// OpenAI embeddings (requires API key)
+// Local embeddings (no API key required)
 export {
+	generateEmbedding,
+	generateEmbeddings,
 	generateLocalEmbedding,
 	generateLocalEmbeddings,
+	getEmbeddingDimensions,
 	getLocalEmbeddingDimensions,
 	preloadLocalModel,
-} from "./embeddings-local.js";
-// Extractor (Swedish)
-export {
-	type ExtractionResult,
-	ExtractionResultSchema,
-	extractQuotes,
-	type Quote,
-	QuoteSchema,
-	saveExtractionResult,
-} from "./extractor.js";
-// Extractor (Arabic)
+} from "./embeddings/index.js";
+
+// ============================================================================
+// Extraction
+// ============================================================================
+
+// Swedish extraction
+// Arabic extraction
+// Norse extraction
 export {
 	type ArabicExtractionResult,
 	ArabicExtractionResultSchema,
 	type ArabicQuote,
 	ArabicQuoteSchema,
 	cleanOpenITIText,
+	type ExtractionResult,
+	ExtractionResultSchema,
 	extractArabicQuotes,
-	parseOpenITIUri,
-	saveArabicExtractionResult,
-} from "./extractor-arabic.js";
-// Extractor (Norse)
-export {
 	extractNorseQuotes,
+	extractQuotes,
 	type NorseExtractionResult,
 	NorseExtractionResultSchema,
 	type NorseQuote,
 	NorseQuoteSchema,
+	parseOpenITIUri,
+	type Quote,
+	QuoteSchema,
+	saveArabicExtractionResult,
+	saveExtractionResult,
 	saveNorseExtractionResult,
-} from "./extractor-norse.js";
-export {
-	extractMetadataFromUrl,
-	type FetchResult,
-	fetchText,
-	fetchTexts,
-	type TextMetadata,
-} from "./fetcher.js";
-// Quran Database
-export {
-	closeQuranDatabase,
-	getAllVerses,
-	getQuranStats,
-	getSurah,
-	getVerse,
-	initQuranDatabase,
-	insertVerse,
-	insertVerseEmbedding,
-	type QuranStats,
-	type QuranVerse,
-	type StoredVerse,
-	searchVerses,
-	searchVersesSemantic,
-	type VerseWithScore,
-} from "./quran-database.js";
-// Quran Extractor
-export {
-	getParseStats,
-	parseQuranText,
-} from "./quran-extractor.js";
+} from "./extraction/index.js";
+
+// ============================================================================
 // Search
+// ============================================================================
+
 export {
 	type FormattedQuote,
 	type FormattedQuoteWithId,
@@ -153,16 +96,99 @@ export {
 	findQuotesByFilter,
 	findQuotesForLLM,
 	findQuotesForTopic,
-	// No-API-required functions
 	findQuotesLocal,
 	findQuotesPaired,
 	findSimilarQuotes,
 	getCategories,
-	// LLM-optimized functions
 	getInventory,
 	getRandomQuote,
 	type Inventory,
+	type SearchOptions,
 	searchQuotes,
 	searchQuotesByText,
 	searchQuotesText,
 } from "./search.js";
+
+// ============================================================================
+// Books (RAG)
+// ============================================================================
+
+export {
+	// Database
+	type Book,
+	type BookDatabaseStats,
+	// Search
+	type BookInventory,
+	type BookWithScore,
+	type Chapter,
+	// Chunking
+	type ChapterInfo,
+	type ChapterWithScore,
+	type ChunkInfo,
+	type ChunkingOptions,
+	type ChunkingResult,
+	type ConceptMatch,
+	type ConceptSearchOptions,
+	chunkBook,
+	chunkText,
+	closeBookDatabase,
+	deleteBook,
+	detectChapters,
+	estimatePassageCount,
+	getAllBooks,
+	getBook,
+	getBookByUrl,
+	getBookInventory,
+	getBookPassages,
+	getBookStats,
+	getChaptersByBook,
+	getPassage,
+	getPassagesByBook,
+	getPassagesByChapter,
+	type HybridSearchOptions,
+	type HybridSearchResult,
+	// Import
+	type ImportOptions,
+	type ImportResult,
+	importBook,
+	importBooksFromFile,
+	initBookDatabase,
+	insertBook,
+	insertChapter,
+	insertPassage,
+	insertPassageEmbedding,
+	insertSummaryEmbedding,
+	type Passage,
+	type PassageSearchOptions,
+	type PassageWithContext,
+	type PassageWithScore,
+	searchBooks,
+	searchConcepts,
+	searchPassages,
+	searchPassagesText,
+	updateBook,
+	updateChapter,
+} from "./books/index.js";
+
+// ============================================================================
+// Quran
+// ============================================================================
+
+export {
+	closeQuranDatabase,
+	getAllVerses,
+	getParseStats,
+	getQuranStats,
+	getSurah,
+	getVerse,
+	initQuranDatabase,
+	insertVerse,
+	insertVerseEmbedding,
+	parseQuranText,
+	type QuranStats,
+	type QuranVerse,
+	type StoredVerse,
+	searchVerses,
+	searchVersesSemantic,
+	type VerseWithScore,
+} from "./quran/index.js";

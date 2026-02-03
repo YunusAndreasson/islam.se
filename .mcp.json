@@ -1,9 +1,10 @@
 {
-  "mcpServers": {
-    "quotes": {
-      "type": "stdio",
-      "command": "node",
-      "args": ["apps/mcp-quotes/dist/index.js"]
-    }
-  }
+	"mcpServers": {
+		"quotes": {
+			"type": "stdio",
+			"command": "node",
+			"args": ["/home/yunus/Work/islam.se/apps/mcp-quotes/dist/index.js"],
+			"cwd": "/home/yunus/Work/islam.se"
+		}
+	}
 }

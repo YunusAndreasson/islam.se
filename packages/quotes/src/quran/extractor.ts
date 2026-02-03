@@ -1,5 +1,5 @@
 import { readFileSync } from "node:fs";
-import type { QuranVerse } from "./quran-database.js";
+import type { QuranVerse } from "./database.js";
 
 // Surah names mapping (number -> Arabic name, Swedish name)
 const SURAH_NAMES: Record<number, { arabic: string; swedish: string }> = {
@@ -119,13 +119,6 @@ const SURAH_NAMES: Record<number, { arabic: string; swedish: string }> = {
 	114: { arabic: "الناس", swedish: "Människorna" },
 };
 
-interface ParsedVerse {
-	surahNumber: number;
-	verseNumber: number;
-	text: string;
-	commentary?: string;
-}
-
 /**
  * Removes Arabic characters and diacritics from text
  */
@@ -183,7 +176,7 @@ export function parseQuranText(
 
 		// Check for surah header
 		const surahMatch = cleanLine.match(surahPattern);
-		if (surahMatch && surahMatch[1]) {
+		if (surahMatch?.[1]) {
 			// Save previous verse if exists
 			if (currentSurah > 0 && currentVerseNum > 0 && currentVerseText) {
 				verses.push(
@@ -208,7 +201,7 @@ export function parseQuranText(
 
 		// Check for verse start
 		const verseMatch = cleanLine.match(versePattern);
-		if (verseMatch && verseMatch[1] && verseMatch[2] && currentSurah > 0) {
+		if (verseMatch?.[1] && verseMatch[2] && currentSurah > 0) {
 			// Save previous verse if exists
 			if (currentVerseNum > 0 && currentVerseText) {
 				verses.push(
@@ -249,7 +242,7 @@ export function parseQuranText(
 				currentCommentary += (currentCommentary ? " " : "") + cleanLine;
 			} else {
 				// Still part of verse text
-				currentVerseText += " " + cleanLine;
+				currentVerseText += ` ${cleanLine}`;
 			}
 		}
 	}

@@ -9,12 +9,8 @@
  * 3. searchBooks() - hybrid combining both
  */
 
-import {
-	initBookDatabase,
-	type PassageWithContext,
-	type PassageWithScore,
-} from "./book-database.js";
-import { generateLocalEmbedding } from "./embeddings-local.js";
+import { generateLocalEmbedding } from "../embeddings/local.js";
+import { initBookDatabase, type PassageWithContext, type PassageWithScore } from "./database.js";
 
 // ============================================================================
 // Types

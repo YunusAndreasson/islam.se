@@ -12,16 +12,18 @@ Analyze the research output for quality issues. DO NOT do additional web searche
 You will receive research.json containing sources, quotes, facts, and perspectives from the research stage.
 </input>
 
-<constraint type="no_external_search">
-DO NOT use WebSearch. The research stage just ran web searches minutes ago. Analyze what's already gathered.
+<constraint type="verification_focus">
+Your role is verification, not new research. Use WebFetch to verify that URLs from the research stage actually exist and contain the claimed content. Do not use WebSearch to find new sources — only verify existing ones.
 </constraint>
 
 <process>
 <step name="review_sources">
-For each web source, check:
-- Is the URL plausible (not a future date, not malformed)?
+For each web source, USE WEBFETCH to verify:
+- Does the URL actually exist and return content?
+- Does the page contain the claimed information?
 - Is the source appropriate for the claim it supports?
 - Is the source outdated (>3 years for demographics, >5 years for general)?
+Mark sources as "url_verified: false" if WebFetch fails or content doesn't match claims.
 </step>
 
 <step name="review_theological">
