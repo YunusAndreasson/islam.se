@@ -74,60 +74,79 @@ export const ExtractionResultSchema = z.object({
 
 export type ExtractionResult = z.infer<typeof ExtractionResultSchema>;
 
+function hardSplitText(text: string, maxSize: number): string[] {
+	const parts: string[] = [];
+	for (let i = 0; i < text.length; i += maxSize) {
+		parts.push(text.slice(i, i + maxSize));
+	}
+	return parts;
+}
+
+interface ChunkBuilder {
+	chunks: string[];
+	current: string;
+}
+
+function flushChunk(builder: ChunkBuilder): void {
+	if (builder.current.trim()) {
+		builder.chunks.push(builder.current.trim());
+		builder.current = "";
+	}
+}
+
+function processSentence(sentence: string, maxChunkSize: number, builder: ChunkBuilder): void {
+	if (sentence.length > maxChunkSize) {
+		builder.chunks.push(...hardSplitText(sentence, maxChunkSize));
+		return;
+	}
+
+	if (builder.current.length + sentence.length > maxChunkSize) {
+		flushChunk(builder);
+		builder.current = sentence;
+	} else {
+		builder.current += (builder.current ? " " : "") + sentence;
+	}
+}
+
+function processOversizedSegment(
+	segment: string,
+	maxChunkSize: number,
+	builder: ChunkBuilder,
+): void {
+	flushChunk(builder);
+	const sentences = segment.split(/(?<=[.!?])\s+/);
+	for (const sentence of sentences) {
+		processSentence(sentence, maxChunkSize, builder);
+	}
+}
+
 /**
  * Splits text into chunks, trying paragraph boundaries first, then sentences, then hard splits
  */
 function splitIntoChunks(text: string, maxChunkSize: number): string[] {
-	const chunks: string[] = [];
-
-	// First split by double newlines (paragraphs)
 	let segments = text.split(/\n\n+/);
-
-	// If we only got one segment or segments are too large, try single newlines
 	if (segments.length === 1 || segments.some((s) => s.length > maxChunkSize)) {
 		segments = text.split(/\n+/);
 	}
 
-	let currentChunk = "";
-	for (const segment of segments) {
-		// If a single segment is too large, split it by sentences or hard split
-		if (segment.length > maxChunkSize) {
-			// First, push current chunk if any
-			if (currentChunk.trim()) {
-				chunks.push(currentChunk.trim());
-				currentChunk = "";
-			}
+	const builder: ChunkBuilder = { chunks: [], current: "" };
 
-			// Try to split long segment by sentences
-			const sentences = segment.split(/(?<=[.!?])\s+/);
-			for (const sentence of sentences) {
-				if (sentence.length > maxChunkSize) {
-					// Hard split if even a sentence is too long
-					for (let i = 0; i < sentence.length; i += maxChunkSize) {
-						chunks.push(sentence.slice(i, i + maxChunkSize));
-					}
-				} else if (currentChunk.length + sentence.length > maxChunkSize) {
-					if (currentChunk.trim()) {
-						chunks.push(currentChunk.trim());
-					}
-					currentChunk = sentence;
-				} else {
-					currentChunk += (currentChunk ? " " : "") + sentence;
-				}
-			}
-		} else if (currentChunk.length + segment.length > maxChunkSize && currentChunk.length > 0) {
-			chunks.push(currentChunk.trim());
-			currentChunk = segment;
+	for (const segment of segments) {
+		if (segment.length > maxChunkSize) {
+			processOversizedSegment(segment, maxChunkSize, builder);
+		} else if (
+			builder.current.length + segment.length > maxChunkSize &&
+			builder.current.length > 0
+		) {
+			builder.chunks.push(builder.current.trim());
+			builder.current = segment;
 		} else {
-			currentChunk += (currentChunk ? "\n\n" : "") + segment;
+			builder.current += (builder.current ? "\n\n" : "") + segment;
 		}
 	}
 
-	if (currentChunk.trim()) {
-		chunks.push(currentChunk.trim());
-	}
-
-	return chunks;
+	flushChunk(builder);
+	return builder.chunks;
 }
 
 /**
@@ -135,6 +154,50 @@ function splitIntoChunks(text: string, maxChunkSize: number): string[] {
  */
 function sleep(ms: number): Promise<void> {
 	return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+function cleanJsonString(text: string): string {
+	let jsonStr = text.trim();
+	if (jsonStr.startsWith("```json")) jsonStr = jsonStr.slice(7);
+	if (jsonStr.startsWith("```")) jsonStr = jsonStr.slice(3);
+	if (jsonStr.endsWith("```")) jsonStr = jsonStr.slice(0, -3);
+	return jsonStr.trim().replace(/,\s*([}\]])/g, "$1");
+}
+
+function extractQuotesArray(jsonStr: string): string | null {
+	const quotesMatch = jsonStr.match(/"quotes"\s*:\s*\[/);
+	if (!quotesMatch) return null;
+
+	const startIdx = jsonStr.indexOf("[", quotesMatch.index);
+	let depth = 0;
+	let endIdx = startIdx;
+
+	for (let i = startIdx; i < jsonStr.length; i++) {
+		if (jsonStr[i] === "[") depth++;
+		if (jsonStr[i] === "]") depth--;
+		if (depth === 0) {
+			endIdx = i + 1;
+			break;
+		}
+	}
+
+	return jsonStr.slice(startIdx, endIdx).replace(/,\s*([}\]])/g, "$1");
+}
+
+function parseQuotesResponse(responseText: string): Quote[] {
+	const jsonStr = cleanJsonString(responseText);
+
+	try {
+		const parsed = JSON.parse(jsonStr);
+		return z.array(QuoteSchema).parse(parsed.quotes);
+	} catch {
+		const quotesArray = extractQuotesArray(jsonStr);
+		if (quotesArray) {
+			const quotes = JSON.parse(quotesArray);
+			return z.array(QuoteSchema).parse(quotes);
+		}
+		throw new Error("Failed to parse quotes from response");
+	}
 }
 
 /**
@@ -295,49 +358,7 @@ Extract 30-50 quotes. Prioritize standalone scores 4-5. Output ONLY JSON.`;
 				throw new Error("Unexpected response type from Claude");
 			}
 
-			let jsonStr = content.text.trim();
-			if (jsonStr.startsWith("```json")) {
-				jsonStr = jsonStr.slice(7);
-			}
-			if (jsonStr.startsWith("```")) {
-				jsonStr = jsonStr.slice(3);
-			}
-			if (jsonStr.endsWith("```")) {
-				jsonStr = jsonStr.slice(0, -3);
-			}
-			jsonStr = jsonStr.trim();
-
-			// Try to fix common JSON issues
-			// 1. Remove trailing commas before } or ]
-			jsonStr = jsonStr.replace(/,\s*([}\]])/g, "$1");
-			// 2. Fix unescaped quotes in strings (common LLM error)
-			// This is tricky - try parsing first, fix only if needed
-
-			try {
-				const parsed = JSON.parse(jsonStr);
-				return z.array(QuoteSchema).parse(parsed.quotes);
-			} catch (parseError) {
-				// Try to extract quotes array from malformed wrapper JSON
-				const quotesMatch = jsonStr.match(/"quotes"\s*:\s*\[/);
-				if (quotesMatch) {
-					const startIdx = jsonStr.indexOf("[", quotesMatch.index);
-					let depth = 0;
-					let endIdx = startIdx;
-					for (let i = startIdx; i < jsonStr.length; i++) {
-						if (jsonStr[i] === "[") depth++;
-						if (jsonStr[i] === "]") depth--;
-						if (depth === 0) {
-							endIdx = i + 1;
-							break;
-						}
-					}
-					const quotesArray = jsonStr.slice(startIdx, endIdx);
-					const fixedArray = quotesArray.replace(/,\s*([}\]])/g, "$1");
-					const quotes = JSON.parse(fixedArray);
-					return z.array(QuoteSchema).parse(quotes);
-				}
-				throw parseError;
-			}
+			return parseQuotesResponse(content.text);
 		} catch (error) {
 			lastError = error instanceof Error ? error : new Error(String(error));
 
@@ -405,7 +426,7 @@ export async function extractQuotes(
 			onProgress?.(
 				`  ⚠️ Chunk ${i + 1} failed: ${error instanceof Error ? error.message : "Unknown error"}`,
 			);
-			onProgress?.(`  Continuing with remaining chunks...`);
+			onProgress?.("  Continuing with remaining chunks...");
 			// Continue processing other chunks instead of failing entirely
 		}
 	}

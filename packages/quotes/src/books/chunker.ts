@@ -72,40 +72,33 @@ function getChapterPattern(language: "sv" | "ar" | "en"): RegExp {
 // Chapter Detection
 // ============================================================================
 
-export function detectChapters(text: string, language: "sv" | "ar" | "en" = "sv"): ChapterInfo[] {
-	const pattern = getChapterPattern(language);
-	const chapters: ChapterInfo[] = [];
-	const matches: { index: number; title: string }[] = [];
+interface ChapterMatch {
+	index: number;
+	title: string;
+}
 
-	// Find all chapter markers
+function findChapterMatches(text: string, pattern: RegExp): ChapterMatch[] {
+	const matches: ChapterMatch[] = [];
 	let match = pattern.exec(text);
+
 	while (match !== null) {
-		// Extract the chapter title (the line containing the match)
 		const lineStart = text.lastIndexOf("\n", match.index) + 1;
 		const lineEnd = text.indexOf("\n", match.index);
 		const title = text
 			.slice(lineStart, lineEnd === -1 ? undefined : lineEnd)
 			.trim()
-			.replace(/^#+\s*/, ""); // Remove markdown headers
+			.replace(/^#+\s*/, "");
 
 		matches.push({ index: match.index, title });
 		match = pattern.exec(text);
 	}
 
-	// If no chapters found, treat entire text as one chapter
-	if (matches.length === 0) {
-		return [
-			{
-				number: 1,
-				title: null,
-				startPosition: 0,
-				endPosition: text.length,
-				text: text,
-			},
-		];
-	}
+	return matches;
+}
 
-	// Create chapters from matches
+function createChaptersFromMatches(matches: ChapterMatch[], text: string): ChapterInfo[] {
+	const chapters: ChapterInfo[] = [];
+
 	for (let i = 0; i < matches.length; i++) {
 		const current = matches[i];
 		if (!current) continue;
@@ -121,26 +114,59 @@ export function detectChapters(text: string, language: "sv" | "ar" | "en" = "sv"
 		});
 	}
 
-	// If first chapter doesn't start at 0, add a preamble chapter
+	return chapters;
+}
+
+function getPreambleTitle(language: "sv" | "ar" | "en"): string {
+	if (language === "sv") return "Förord";
+	if (language === "ar") return "مقدمة";
+	return "Preface";
+}
+
+function addPreambleIfNeeded(
+	chapters: ChapterInfo[],
+	text: string,
+	language: "sv" | "ar" | "en",
+): void {
 	const firstChapter = chapters[0];
-	if (firstChapter && firstChapter.startPosition > 0) {
-		const preambleText = text.slice(0, firstChapter.startPosition).trim();
-		if (preambleText.length > 100) {
-			// Only add if substantial
-			chapters.unshift({
-				number: 0,
-				title: language === "sv" ? "Förord" : language === "ar" ? "مقدمة" : "Preface",
-				startPosition: 0,
-				endPosition: firstChapter.startPosition,
-				text: preambleText,
-			});
-			// Renumber chapters
-			for (let idx = 0; idx < chapters.length; idx++) {
-				const ch = chapters[idx];
-				if (ch) ch.number = idx;
-			}
-		}
+	if (!firstChapter || firstChapter.startPosition <= 0) return;
+
+	const preambleText = text.slice(0, firstChapter.startPosition).trim();
+	if (preambleText.length <= 100) return;
+
+	chapters.unshift({
+		number: 0,
+		title: getPreambleTitle(language),
+		startPosition: 0,
+		endPosition: firstChapter.startPosition,
+		text: preambleText,
+	});
+
+	// Renumber chapters
+	for (let idx = 0; idx < chapters.length; idx++) {
+		const ch = chapters[idx];
+		if (ch) ch.number = idx;
 	}
+}
+
+export function detectChapters(text: string, language: "sv" | "ar" | "en" = "sv"): ChapterInfo[] {
+	const pattern = getChapterPattern(language);
+	const matches = findChapterMatches(text, pattern);
+
+	if (matches.length === 0) {
+		return [
+			{
+				number: 1,
+				title: null,
+				startPosition: 0,
+				endPosition: text.length,
+				text: text,
+			},
+		];
+	}
+
+	const chapters = createChaptersFromMatches(matches, text);
+	addPreambleIfNeeded(chapters, text, language);
 
 	return chapters;
 }

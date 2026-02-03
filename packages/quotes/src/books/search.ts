@@ -126,7 +126,7 @@ export async function searchPassages(
 		sql += ` WHERE ${conditions.join(" AND ")}`;
 	}
 
-	sql += ` ORDER BY distance ASC LIMIT ?`;
+	sql += " ORDER BY distance ASC LIMIT ?";
 	params.push(limit * 2); // Fetch extra for filtering
 
 	const stmt = database.prepare(sql);
@@ -377,7 +377,7 @@ export function getBookInventory(): BookInventory {
 	).count;
 
 	const languageRows = database
-		.prepare(`SELECT language, COUNT(*) as count FROM books GROUP BY language`)
+		.prepare("SELECT language, COUNT(*) as count FROM books GROUP BY language")
 		.all() as { language: string; count: number }[];
 
 	const byLanguage: Record<string, number> = {};
@@ -437,11 +437,11 @@ export function searchPassagesText(
 	const params: (string | number)[] = [`%${query}%`];
 
 	if (bookId !== undefined) {
-		sql += ` AND p.book_id = ?`;
+		sql += " AND p.book_id = ?";
 		params.push(bookId);
 	}
 
-	sql += ` LIMIT ?`;
+	sql += " LIMIT ?";
 	params.push(limit);
 
 	return database.prepare(sql).all(...params) as PassageWithContext[];

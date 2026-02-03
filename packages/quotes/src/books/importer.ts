@@ -138,6 +138,42 @@ async function fetchGutenbergMetadata(
 	}
 }
 
+function detectLanguageFromGutenberg(header: string, text: string): "sv" | "ar" | "en" {
+	const langMatch = header.match(/^Language:\s*(.+)$/im);
+	const langField = langMatch?.[1]?.toLowerCase() ?? "";
+
+	if (langField.includes("swedish") && !langField.includes("english")) return "sv";
+	if (langField.includes("english") && !langField.includes("swedish")) return "en";
+	if (/[åäöÅÄÖ]/.test(text.slice(0, 5000))) return "sv";
+	return "en";
+}
+
+function detectLanguage(text: string, url: string, header: string): "sv" | "ar" | "en" {
+	if (url.includes("openiti") || /[\u0600-\u06FF]/.test(text.slice(0, 1000))) {
+		return "ar";
+	}
+	if (url.includes("gutenberg.org")) {
+		return detectLanguageFromGutenberg(header, text);
+	}
+	return "sv";
+}
+
+function extractWithPatterns(
+	header: string,
+	patterns: RegExp[],
+	cleaner?: (s: string) => string,
+): string | null {
+	for (const pattern of patterns) {
+		const match = header.match(pattern);
+		if (match?.[1]) {
+			let value = match[1].trim();
+			if (cleaner) value = cleaner(value);
+			if (value && value.length > 2) return value;
+		}
+	}
+	return null;
+}
+
 /**
  * Attempts to detect book metadata from text content.
  * Works with Gutenberg and OpenITI formats.
@@ -146,68 +182,27 @@ function detectMetadata(
 	text: string,
 	url: string,
 ): { title: string; author: string; language: "sv" | "ar" | "en" } {
-	let title = "Unknown Title";
-	let author = "Unknown Author";
-	let language: "sv" | "ar" | "en" = "sv";
-
-	// Only look at the header section (first 3000 chars)
 	const header = text.slice(0, 3000);
+	const language = detectLanguage(text, url, header);
 
-	// Detect language from URL or content
-	if (url.includes("openiti") || /[\u0600-\u06FF]/.test(text.slice(0, 1000))) {
-		language = "ar";
-	} else if (url.includes("gutenberg.org")) {
-		// Check Language field first, then content
-		const langMatch = header.match(/^Language:\s*(.+)$/im);
-		const langField = langMatch?.[1]?.toLowerCase() ?? "";
-		if (langField.includes("swedish") && !langField.includes("english")) {
-			language = "sv";
-		} else if (langField.includes("english") && !langField.includes("swedish")) {
-			language = "en";
-		} else if (/[åäöÅÄÖ]/.test(text.slice(0, 5000))) {
-			// Bilingual or unclear - check content for Swedish characters
-			language = "sv";
-		} else {
-			language = "en";
-		}
-	}
-
-	// Try to extract title - Gutenberg format: "Title: X" on its own line
 	const titlePatterns = [
 		/^Title:\s*(.+)$/im,
 		/The Project Gutenberg eBook of ([^,\n]+)/i,
 		/^#\s+(.+)$/m,
 	];
-	for (const pattern of titlePatterns) {
-		const match = header.match(pattern);
-		if (match?.[1]) {
-			// Clean up the title
-			let t = match[1].trim();
-			// Remove trailing "by Author" if present
-			t = t.replace(/,?\s+by\s+.+$/i, "");
-			if (t && t.length > 2) {
-				title = t;
-				break;
-			}
-		}
-	}
+	const title =
+		extractWithPatterns(header, titlePatterns, (t) => t.replace(/,?\s+by\s+.+$/i, "")) ??
+		"Unknown Title";
 
-	// Try to extract author - Gutenberg format: "Author: X" on its own line
 	const authorPatterns = [
 		/^Author:\s*(.+)$/im,
 		/^Creator:\s*(.+)$/im,
 		/eBook of .+,?\s+by\s+([^\n]+)/i,
 	];
-	for (const pattern of authorPatterns) {
-		const match = header.match(pattern);
-		if (match?.[1]) {
-			const a = match[1].trim();
-			if (a && a.length > 2 && !a.toLowerCase().includes("unknown")) {
-				author = a;
-				break;
-			}
-		}
-	}
+	const author =
+		extractWithPatterns(header, authorPatterns, (a) =>
+			a.toLowerCase().includes("unknown") ? "" : a,
+		) ?? "Unknown Author";
 
 	return { title, author, language };
 }
@@ -307,7 +302,7 @@ Respond with JSON only:
 			"You are a literary analyst. Extract key themes and create concise summaries. Respond with valid JSON only, no markdown.",
 	});
 
-	if (!result.success || !result.output) {
+	if (!(result.success && result.output)) {
 		return null;
 	}
 
@@ -360,7 +355,7 @@ Respond with JSON only:
 			"You are a literary analyst. Create comprehensive book summaries. Respond with valid JSON only, no markdown.",
 	});
 
-	if (!result.success || !result.output) {
+	if (!(result.success && result.output)) {
 		return null;
 	}
 
@@ -372,6 +367,131 @@ Respond with JSON only:
 	} catch {
 		return null;
 	}
+}
+
+// ============================================================================
+// Import Helper Functions
+// ============================================================================
+
+interface ChapterData {
+	number: number;
+	title: string | null;
+	text: string;
+	startPosition: number;
+	endPosition: number;
+}
+
+interface ChunkData {
+	chapterIndex: number | null;
+	passageNumber: number;
+	text: string;
+	startPosition: number;
+	endPosition: number;
+}
+
+function insertChaptersAndGetMap(chapters: ChapterData[], bookId: number): Map<number, number> {
+	const chapterIdMap = new Map<number, number>();
+
+	for (let i = 0; i < chapters.length; i++) {
+		const chapter = chapters[i];
+		if (!chapter) continue;
+		const chapterId = insertChapter({
+			bookId,
+			chapterNumber: chapter.number,
+			title: chapter.title,
+			summary: null,
+			keyConcepts: [],
+			startPosition: chapter.startPosition,
+			endPosition: chapter.endPosition,
+		});
+		chapterIdMap.set(i, chapterId);
+	}
+
+	return chapterIdMap;
+}
+
+async function insertPassagesWithEmbeddings(
+	chunks: ChunkData[],
+	bookId: number,
+	chapterIdMap: Map<number, number>,
+	onProgress: (msg: string) => void,
+): Promise<void> {
+	const passageTexts: string[] = [];
+	const passageIds: number[] = [];
+
+	for (const chunk of chunks) {
+		const chapterId = chunk.chapterIndex !== null ? chapterIdMap.get(chunk.chapterIndex) : null;
+		const passageId = insertPassage({
+			bookId,
+			chapterId: chapterId ?? null,
+			passageNumber: chunk.passageNumber,
+			text: chunk.text,
+			startPosition: chunk.startPosition,
+			endPosition: chunk.endPosition,
+		});
+		passageTexts.push(chunk.text);
+		passageIds.push(passageId);
+	}
+
+	onProgress(`  Generating embeddings for ${passageTexts.length} passages...`);
+	const passageEmbeddings = await generateLocalEmbeddings(passageTexts, "passage");
+
+	for (let i = 0; i < passageIds.length; i++) {
+		const passageId = passageIds[i];
+		const embedding = passageEmbeddings[i];
+		if (passageId !== undefined && embedding) {
+			insertPassageEmbedding(passageId, embedding);
+		}
+	}
+}
+
+async function generateSummaries(
+	chapters: ChapterData[],
+	chapterIdMap: Map<number, number>,
+	bookId: number,
+	bookTitle: string,
+	bookAuthor: string,
+	language: "sv" | "ar" | "en",
+	onProgress: (msg: string) => void,
+): Promise<void> {
+	onProgress("Generating summaries via Claude (subscription)...");
+	const chapterSummaries: { title: string | null; summary: string }[] = [];
+
+	for (let i = 0; i < chapters.length; i++) {
+		const chapter = chapters[i];
+		if (!chapter) continue;
+		onProgress(`  Summarizing chapter ${i + 1}/${chapters.length}...`);
+
+		const summary = await summarizeChapter(chapter.text, chapter.title, bookTitle, language);
+		if (!summary) continue;
+
+		const chapterId = chapterIdMap.get(i);
+		if (chapterId === undefined) continue;
+
+		updateChapter(chapterId, { summary: summary.summary, keyConcepts: summary.keyConcepts });
+
+		const summaryEmbedding = await generateLocalEmbedding(
+			`${chapter.title ?? `Chapter ${chapter.number}`}: ${summary.summary}`,
+			"passage",
+		);
+		insertSummaryEmbedding("chapter", chapterId, summaryEmbedding);
+
+		chapterSummaries.push({ title: chapter.title, summary: summary.summary });
+	}
+
+	if (chapterSummaries.length === 0) return;
+
+	onProgress("  Generating book summary...");
+	const bookSummary = await summarizeBook(chapterSummaries, bookTitle, bookAuthor, language);
+	if (!bookSummary) return;
+
+	updateBook(bookId, { summary: bookSummary.summary, keyConcepts: bookSummary.keyConcepts });
+
+	const bookSummaryEmbedding = await generateLocalEmbedding(
+		`${bookTitle} by ${bookAuthor}: ${bookSummary.summary}`,
+		"passage",
+	);
+	insertSummaryEmbedding("book", bookId, bookSummaryEmbedding);
 }
 
 // ============================================================================
@@ -388,16 +508,14 @@ export async function importBook(
 	const {
 		title: overrideTitle,
 		author: overrideAuthor,
-		skipSummarization = true, // Default to skip (no API cost)
+		skipSummarization = true,
 		onProgress = console.log,
 		forceReimport = false,
 		...chunkingOptions
 	} = options;
 
-	// Initialize database
 	initBookDatabase();
 
-	// Check if already imported
 	const existing = getBookByUrl(urlOrPath);
 	if (existing && !forceReimport) {
 		onProgress(`Book already imported: "${existing.title}" (ID: ${existing.id})`);
@@ -411,31 +529,26 @@ export async function importBook(
 	}
 
 	if (existing && forceReimport) {
-		onProgress(`Removing existing book for re-import...`);
+		onProgress("Removing existing book for re-import...");
 		deleteBook(existing.id);
 	}
 
 	try {
-		// Step 1: Fetch text
 		onProgress(`Fetching text from ${urlOrPath}...`);
 		const { text } = await fetchText(urlOrPath);
 		onProgress(`  Fetched ${text.length.toLocaleString()} characters`);
 
-		// Step 2: Detect metadata (with API fallback for Gutenberg)
-		onProgress(`  Detecting metadata...`);
+		onProgress("  Detecting metadata...");
 		const detected = await detectMetadataWithFallback(text, urlOrPath);
 		const bookTitle = overrideTitle ?? detected.title;
 		const bookAuthor = overrideAuthor ?? detected.author;
 		const language = chunkingOptions.language ?? detected.language;
-
 		onProgress(`  Detected: "${bookTitle}" by ${bookAuthor} (${language})`);
 
-		// Step 3: Chunk the book
-		onProgress(`Chunking text...`);
+		onProgress("Chunking text...");
 		const { chapters, chunks } = chunkBook(text, { ...chunkingOptions, language });
 		onProgress(`  Found ${chapters.length} chapters, ${chunks.length} passages`);
 
-		// Step 4: Insert book record
 		const bookId = insertBook({
 			title: bookTitle,
 			author: bookAuthor,
@@ -447,110 +560,22 @@ export async function importBook(
 			totalPassages: chunks.length,
 		});
 
-		// Step 5: Insert chapters
-		onProgress(`Importing chapters...`);
-		const chapterIdMap = new Map<number, number>(); // chapterIndex -> chapterId
+		onProgress("Importing chapters...");
+		const chapterIdMap = insertChaptersAndGetMap(chapters, bookId);
 
-		for (let i = 0; i < chapters.length; i++) {
-			const chapter = chapters[i];
-			if (!chapter) continue;
-			const chapterId = insertChapter({
-				bookId,
-				chapterNumber: chapter.number,
-				title: chapter.title,
-				summary: null,
-				keyConcepts: [],
-				startPosition: chapter.startPosition,
-				endPosition: chapter.endPosition,
-			});
-			chapterIdMap.set(i, chapterId);
-		}
+		onProgress("Importing passages and generating embeddings...");
+		await insertPassagesWithEmbeddings(chunks, bookId, chapterIdMap, onProgress);
 
-		// Step 6: Insert passages and generate embeddings
-		onProgress(`Importing passages and generating embeddings...`);
-		const passageTexts: string[] = [];
-		const passageIds: number[] = [];
-
-		for (const chunk of chunks) {
-			const chapterId = chunk.chapterIndex !== null ? chapterIdMap.get(chunk.chapterIndex) : null;
-			const passageId = insertPassage({
-				bookId,
-				chapterId: chapterId ?? null,
-				passageNumber: chunk.passageNumber,
-				text: chunk.text,
-				startPosition: chunk.startPosition,
-				endPosition: chunk.endPosition,
-			});
-			passageTexts.push(chunk.text);
-			passageIds.push(passageId);
-		}
-
-		// Generate embeddings in batches (free - local)
-		onProgress(`  Generating embeddings for ${passageTexts.length} passages...`);
-		const passageEmbeddings = await generateLocalEmbeddings(passageTexts, "passage");
-
-		for (let i = 0; i < passageIds.length; i++) {
-			const passageId = passageIds[i];
-			const embedding = passageEmbeddings[i];
-			if (passageId !== undefined && embedding) {
-				insertPassageEmbedding(passageId, embedding);
-			}
-		}
-
-		// Step 7: Summarization (optional, uses subscription)
 		if (!skipSummarization) {
-			onProgress(`Generating summaries via Claude (subscription)...`);
-
-			const chapterSummaries: { title: string | null; summary: string }[] = [];
-
-			for (let i = 0; i < chapters.length; i++) {
-				const chapter = chapters[i];
-				if (!chapter) continue;
-				onProgress(`  Summarizing chapter ${i + 1}/${chapters.length}...`);
-
-				const summary = await summarizeChapter(chapter.text, chapter.title, bookTitle, language);
-
-				if (summary) {
-					const chapterId = chapterIdMap.get(i);
-					if (chapterId === undefined) continue;
-					updateChapter(chapterId, {
-						summary: summary.summary,
-						keyConcepts: summary.keyConcepts,
-					});
-
-					// Generate embedding for chapter summary
-					const summaryEmbedding = await generateLocalEmbedding(
-						`${chapter.title ?? `Chapter ${chapter.number}`}: ${summary.summary}`,
-						"passage",
-					);
-					insertSummaryEmbedding("chapter", chapterId, summaryEmbedding);
-
-					chapterSummaries.push({
-						title: chapter.title,
-						summary: summary.summary,
-					});
-				}
-			}
-
-			// Generate book summary from chapter summaries
-			if (chapterSummaries.length > 0) {
-				onProgress(`  Generating book summary...`);
-				const bookSummary = await summarizeBook(chapterSummaries, bookTitle, bookAuthor, language);
-
-				if (bookSummary) {
-					updateBook(bookId, {
-						summary: bookSummary.summary,
-						keyConcepts: bookSummary.keyConcepts,
-					});
-
-					// Generate embedding for book summary
-					const bookSummaryEmbedding = await generateLocalEmbedding(
-						`${bookTitle} by ${bookAuthor}: ${bookSummary.summary}`,
-						"passage",
-					);
-					insertSummaryEmbedding("book", bookId, bookSummaryEmbedding);
-				}
-			}
+			await generateSummaries(
+				chapters,
+				chapterIdMap,
+				bookId,
+				bookTitle,
+				bookAuthor,
+				language,
+				onProgress,
+			);
 		}
 
 		onProgress(`✓ Successfully imported "${bookTitle}"`);
@@ -579,12 +604,7 @@ export async function importBook(
 	} catch (error) {
 		const message = error instanceof Error ? error.message : String(error);
 		onProgress(`✗ Import failed: ${message}`);
-		return {
-			success: false,
-			chaptersImported: 0,
-			passagesImported: 0,
-			error: message,
-		};
+		return { success: false, chaptersImported: 0, passagesImported: 0, error: message };
 	}
 }
 

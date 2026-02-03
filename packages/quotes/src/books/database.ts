@@ -278,7 +278,7 @@ export function deleteBook(id: number): void {
 		id: number;
 	}[];
 	for (const passage of passages) {
-		database.prepare(`DELETE FROM passage_embeddings WHERE rowid = ?`).run(passage.id);
+		database.prepare("DELETE FROM passage_embeddings WHERE rowid = ?").run(passage.id);
 	}
 
 	// Delete summary embeddings
@@ -288,7 +288,7 @@ export function deleteBook(id: number): void {
 		)
 		.all(id) as { id: number }[];
 	for (const meta of chapterMetas) {
-		database.prepare(`DELETE FROM summary_embeddings WHERE rowid = ?`).run(meta.id);
+		database.prepare("DELETE FROM summary_embeddings WHERE rowid = ?").run(meta.id);
 	}
 	database
 		.prepare(
@@ -300,7 +300,7 @@ export function deleteBook(id: number): void {
 		.prepare("SELECT id FROM summary_embedding_meta WHERE entity_type = 'book' AND entity_id = ?")
 		.get(id) as { id: number } | undefined;
 	if (bookMeta) {
-		database.prepare(`DELETE FROM summary_embeddings WHERE rowid = ?`).run(bookMeta.id);
+		database.prepare("DELETE FROM summary_embeddings WHERE rowid = ?").run(bookMeta.id);
 		database
 			.prepare("DELETE FROM summary_embedding_meta WHERE entity_type = 'book' AND entity_id = ?")
 			.run(id);

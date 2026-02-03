@@ -6,6 +6,7 @@ import {
 	initDatabase,
 	insertEmbedding,
 	insertQuote,
+	type Quote,
 	saveExtractionResult,
 } from "@islam-se/quotes";
 import type { Command } from "commander";
@@ -17,6 +18,96 @@ import {
 	resolvePath,
 } from "../utils/index.js";
 
+async function storeQuotesWithEmbeddings(
+	quotes: Quote[],
+	url: string,
+): Promise<{ stored: number; skipped: number }> {
+	const quotesToEmbed: { id: number; text: string }[] = [];
+	let skipped = 0;
+
+	for (const quote of quotes) {
+		if (!quote) continue;
+		const quoteId = insertQuote(quote, {
+			sourceUrl: url,
+			language: "sv",
+			sourceType: "gutenberg",
+		});
+		if (quoteId !== null) {
+			quotesToEmbed.push({ id: quoteId, text: quote.text });
+		} else {
+			skipped++;
+		}
+	}
+
+	if (quotesToEmbed.length > 0) {
+		console.log(`   🔢 Generating ${quotesToEmbed.length} embeddings in batch...`);
+		const texts = quotesToEmbed.map((q) => q.text);
+		const embeddings = await generateLocalEmbeddings(texts);
+
+		for (let j = 0; j < quotesToEmbed.length; j++) {
+			const quote = quotesToEmbed[j];
+			const embedding = embeddings[j];
+			if (quote && embedding) {
+				insertEmbedding(quote.id, embedding);
+			}
+		}
+	}
+
+	return { stored: quotesToEmbed.length, skipped };
+}
+
+async function processUrl(url: string): Promise<void> {
+	const result = await fetchText(url);
+	console.log(`   ${result.cached ? "📁 Cached" : "⬇️  Downloaded"}: ${result.filename}`);
+
+	console.log("   🤖 Extracting quotes with Claude...");
+	if (result.metadata?.author) console.log(`      Author: ${result.metadata.author}`);
+	if (result.metadata?.title) console.log(`      Title: ${result.metadata.title}`);
+
+	const extraction = await extractQuotes(result.text, url, result.metadata, (msg) =>
+		console.log(`      ${msg}`),
+	);
+	console.log(`   📝 Found ${extraction.quotes.length} unique quotes`);
+
+	saveExtractionResult(extraction, result.filename);
+	initDatabase();
+
+	console.log("   💾 Storing quotes...");
+	const { stored, skipped } = await storeQuotesWithEmbeddings(extraction.quotes, url);
+	console.log(`   ✅ Stored: ${stored}, Skipped (duplicates): ${skipped}`);
+}
+
+interface UrlProcessContext {
+	file: string;
+	url: string;
+	index: number;
+	doneCount: number;
+	total: number;
+	delaySeconds: number;
+	isLast: boolean;
+	interrupted: boolean;
+}
+
+async function processSingleUrl(ctx: UrlProcessContext): Promise<boolean> {
+	console.log(`\n[${ctx.doneCount + ctx.index + 1}/${ctx.total}] 📖 ${ctx.url}`);
+
+	try {
+		await processUrl(ctx.url);
+		markUrlAsDone(ctx.file, ctx.url);
+		console.log("   ✓ Marked as done");
+
+		if (!ctx.isLast && ctx.delaySeconds > 0 && !ctx.interrupted) {
+			console.log(`   ⏳ Waiting ${ctx.delaySeconds}s before next URL (rate limit protection)...`);
+			await new Promise((resolve) => setTimeout(resolve, ctx.delaySeconds * 1000));
+		}
+		return true;
+	} catch (error) {
+		console.error(`   ❌ Error: ${error instanceof Error ? error.message : error}`);
+		console.log("   ⚠️  URL not marked as done - will retry on next run");
+		return false;
+	}
+}
+
 export function registerImportUrlsCommand(program: Command): void {
 	program
 		.command("import-urls")
@@ -27,7 +118,6 @@ export function registerImportUrlsCommand(program: Command): void {
 		.action(async (fileArg: string, options: { reset?: boolean; delay: string }) => {
 			const file = resolvePath(fileArg);
 
-			// Handle reset option
 			if (options.reset) {
 				resetUrlFile(file);
 				console.log("Reset all done markers. Run again without --reset to import.\n");
@@ -40,7 +130,7 @@ export function registerImportUrlsCommand(program: Command): void {
 			try {
 				const { pending, done, total } = parseUrlFile(file);
 
-				console.log(`\n📚 URL Import Status:`);
+				console.log("\n📚 URL Import Status:");
 				console.log(`   Total URLs: ${total}`);
 				console.log(`   Already done: ${done.length}`);
 				console.log(`   Remaining: ${pending.length}\n`);
@@ -54,96 +144,28 @@ export function registerImportUrlsCommand(program: Command): void {
 				console.log(`Starting import of ${pending.length} URLs...\n`);
 				console.log("─".repeat(60));
 
+				const delaySeconds = Number.parseInt(options.delay, 10);
+
 				for (let i = 0; i < pending.length; i++) {
 					if (interrupt.state.interrupted) {
 						console.log(`\n⏸️  Stopped. ${pending.length - i} URLs remaining.`);
-						console.log(`   Run the command again to resume.\n`);
+						console.log("   Run the command again to resume.\n");
 						break;
 					}
 
 					const url = pending[i];
 					if (!url) continue;
 
-					const progress = `[${done.length + i + 1}/${total}]`;
-					console.log(`\n${progress} 📖 ${url}`);
-
-					try {
-						// Fetch
-						const result = await fetchText(url);
-						console.log(`   ${result.cached ? "📁 Cached" : "⬇️  Downloaded"}: ${result.filename}`);
-
-						// Extract (use metadata from Gutenberg header if available)
-						console.log("   🤖 Extracting quotes with Claude...");
-						if (result.metadata?.author) {
-							console.log(`      Author: ${result.metadata.author}`);
-						}
-						if (result.metadata?.title) {
-							console.log(`      Title: ${result.metadata.title}`);
-						}
-						const extraction = await extractQuotes(result.text, url, result.metadata, (msg) =>
-							console.log(`      ${msg}`),
-						);
-						console.log(`   📝 Found ${extraction.quotes.length} unique quotes`);
-
-						// Save extraction
-						saveExtractionResult(extraction, result.filename);
-
-						// Store in database
-						initDatabase();
-
-						// First pass: insert quotes and collect those that need embeddings
-						const quotesToEmbed: { id: number; text: string }[] = [];
-						let skipped = 0;
-
-						console.log("   💾 Storing quotes...");
-						for (const quote of extraction.quotes) {
-							if (!quote) continue;
-							const quoteId = insertQuote(quote, {
-								sourceUrl: url,
-								language: "sv",
-								sourceType: "gutenberg",
-							});
-							if (quoteId !== null) {
-								quotesToEmbed.push({ id: quoteId, text: quote.text });
-							} else {
-								skipped++;
-							}
-						}
-
-						// Batch generate embeddings (much cheaper - 1 API call instead of N)
-						if (quotesToEmbed.length > 0) {
-							console.log(`   🔢 Generating ${quotesToEmbed.length} embeddings in batch...`);
-							const texts = quotesToEmbed.map((q) => q.text);
-							const embeddings = await generateLocalEmbeddings(texts);
-
-							// Store embeddings
-							for (let j = 0; j < quotesToEmbed.length; j++) {
-								const quote = quotesToEmbed[j];
-								const embedding = embeddings[j];
-								if (quote && embedding) {
-									insertEmbedding(quote.id, embedding);
-								}
-							}
-						}
-
-						console.log(`   ✅ Stored: ${quotesToEmbed.length}, Skipped (duplicates): ${skipped}`);
-
-						// Mark as done in the file
-						markUrlAsDone(file, url);
-						console.log("   ✓ Marked as done");
-
-						// Delay before next URL to avoid rate limits
-						const delaySeconds = Number.parseInt(options.delay, 10);
-						if (i < pending.length - 1 && delaySeconds > 0 && !interrupt.state.interrupted) {
-							console.log(
-								`   ⏳ Waiting ${delaySeconds}s before next URL (rate limit protection)...`,
-							);
-							await new Promise((resolve) => setTimeout(resolve, delaySeconds * 1000));
-						}
-					} catch (error) {
-						console.error(`   ❌ Error: ${error instanceof Error ? error.message : error}`);
-						console.log("   ⚠️  URL not marked as done - will retry on next run");
-					}
+					await processSingleUrl({
+						file,
+						url,
+						index: i,
+						doneCount: done.length,
+						total,
+						delaySeconds,
+						isLast: i === pending.length - 1,
+						interrupted: interrupt.state.interrupted,
+					});
 				}
 
 				closeDatabase();

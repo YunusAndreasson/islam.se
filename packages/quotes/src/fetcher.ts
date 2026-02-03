@@ -256,7 +256,7 @@ export async function fetchText(url: string): Promise<FetchResult> {
 
 	// Extract metadata: first try known sources, then parse headers
 	let metadata = extractKnownMetadata(url);
-	if (!metadata || (!metadata.author && !metadata.title)) {
+	if (!(metadata?.author || metadata?.title)) {
 		metadata = extractGutenbergMetadata(rawText);
 	}
 

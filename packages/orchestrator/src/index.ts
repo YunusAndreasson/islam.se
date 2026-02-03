@@ -327,7 +327,7 @@ Search based on YOUR thesis, not just the topic. For example:
 			ResearchOutputSchema,
 		);
 
-		if (!result.success || !result.data) {
+		if (!(result.success && result.data)) {
 			return {
 				success: false,
 				error: result.error || "Research stage failed",
@@ -420,7 +420,7 @@ Search based on YOUR thesis, not just the topic. For example:
 			jsonSchema: getFactCheckJsonSchema(),
 		});
 
-		if (!result.success || !result.data) {
+		if (!(result.success && result.data)) {
 			return result;
 		}
 
@@ -486,7 +486,7 @@ ${research.bookPassages.length} book passages available for integration.`;
 			jsonSchema: getDraftJsonSchema(),
 		});
 
-		if (!result.success || !result.data) {
+		if (!(result.success && result.data)) {
 			return result;
 		}
 
@@ -515,7 +515,7 @@ ${research.bookPassages.length} book passages available for integration.`;
 			jsonSchema: getReviewJsonSchema(),
 		});
 
-		if (!result.success || !result.data) {
+		if (!(result.success && result.data)) {
 			return result;
 		}
 
@@ -543,7 +543,7 @@ ${research.bookPassages.length} book passages available for integration.`;
 		// Stage 1: Research
 		const researchResult = await this.runResearch(topic);
 		result.stages.research = researchResult;
-		if (!researchResult.success || !researchResult.data) {
+		if (!(researchResult.success && researchResult.data)) {
 			result.totalDuration = Date.now() - startTime;
 			return result;
 		}
@@ -552,7 +552,7 @@ ${research.bookPassages.length} book passages available for integration.`;
 		// Stage 2: Fact-Check
 		const factCheckResult = await this.runFactCheck(researchResult.data);
 		result.stages.factCheck = factCheckResult;
-		if (!factCheckResult.success || !factCheckResult.data) {
+		if (!(factCheckResult.success && factCheckResult.data)) {
 			result.totalDuration = Date.now() - startTime;
 			return result;
 		}
@@ -561,7 +561,7 @@ ${research.bookPassages.length} book passages available for integration.`;
 		// Stage 3: Authoring
 		const authoringResult = await this.runAuthoring(researchResult.data, factCheckResult.data);
 		result.stages.authoring = authoringResult;
-		if (!authoringResult.success || !authoringResult.data) {
+		if (!(authoringResult.success && authoringResult.data)) {
 			result.totalDuration = Date.now() - startTime;
 			return result;
 		}
@@ -576,7 +576,7 @@ ${research.bookPassages.length} book passages available for integration.`;
 			const reviewResult = await this.runReview(currentDraft, researchResult.data);
 			result.stages.review = reviewResult;
 
-			if (!reviewResult.success || !reviewResult.data) {
+			if (!(reviewResult.success && reviewResult.data)) {
 				result.totalDuration = Date.now() - startTime;
 				return result;
 			}

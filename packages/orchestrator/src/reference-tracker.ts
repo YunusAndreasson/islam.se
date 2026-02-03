@@ -11,6 +11,85 @@ export interface Reference {
 	used: boolean;
 }
 
+const SWEDISH_MONTHS = [
+	"januari",
+	"februari",
+	"mars",
+	"april",
+	"maj",
+	"juni",
+	"juli",
+	"augusti",
+	"september",
+	"oktober",
+	"november",
+	"december",
+];
+
+function formatSwedishDate(dateStr: string): string {
+	const date = new Date(dateStr);
+	const day = date.getDate();
+	const month = SWEDISH_MONTHS[date.getMonth()];
+	const year = date.getFullYear();
+	return `${day} ${month} ${year}`;
+}
+
+function formatQuoteCitation(ref: Reference): string {
+	let citation = `— ${ref.author || "Okänd"}. ${ref.title}.`;
+	if (ref.publication) {
+		citation += `\n  (${ref.publication})`;
+	}
+	return citation;
+}
+
+function formatAcademicCitation(ref: Reference): string {
+	let citation = ref.author ? `${ref.author}. "${ref.title}".` : `"${ref.title}".`;
+	if (ref.publication) {
+		citation += ` ${ref.publication}`;
+		if (ref.date) citation += `, ${ref.date}`;
+		citation += ".";
+	}
+	if (ref.url && ref.accessDate) {
+		citation += `\n  ${ref.url} (Hämtad ${formatSwedishDate(ref.accessDate)})`;
+	}
+	return citation;
+}
+
+function formatMediaCitation(ref: Reference): string {
+	let citation = ref.author ? `${ref.author}. "${ref.title}".` : `"${ref.title}".`;
+	if (ref.publication) citation += ` ${ref.publication}`;
+	if (ref.date) citation += `, ${ref.date}`;
+	citation += ".";
+	if (ref.url && ref.accessDate) {
+		citation += `\n  Hämtad ${formatSwedishDate(ref.accessDate)}.`;
+	}
+	return citation;
+}
+
+function formatWebCitation(ref: Reference): string {
+	let citation = `"${ref.title}".`;
+	if (ref.url) {
+		citation += `\n  ${ref.url}`;
+		if (ref.accessDate) {
+			citation += ` (Hämtad ${formatSwedishDate(ref.accessDate)})`;
+		}
+	}
+	return citation;
+}
+
+function formatCitation(ref: Reference): string {
+	switch (ref.type) {
+		case "quote":
+			return formatQuoteCitation(ref);
+		case "academic":
+			return formatAcademicCitation(ref);
+		case "media":
+			return formatMediaCitation(ref);
+		default:
+			return formatWebCitation(ref);
+	}
+}
+
 export class ReferenceTracker {
 	private references: Map<string, Reference> = new Map();
 	private idCounter = 0;
@@ -61,90 +140,13 @@ export class ReferenceTracker {
 	public formatSwedishBibliography(onlyUsed = true): string {
 		const refs = onlyUsed ? this.getUsedReferences() : this.getAllReferences();
 
-		// Sort by author/title
 		const sorted = [...refs].sort((a, b) => {
 			const aKey = a.author || a.title;
 			const bKey = b.author || b.title;
 			return aKey.localeCompare(bKey, "sv");
 		});
 
-		const formatted: string[] = [];
-
-		for (const ref of sorted) {
-			let citation = "";
-
-			if (ref.type === "quote") {
-				// Quote from database
-				citation = `— ${ref.author || "Okänd"}. ${ref.title}.`;
-				if (ref.publication) {
-					citation += `\n  (${ref.publication})`;
-				}
-			} else if (ref.type === "academic") {
-				// Academic paper/book
-				citation = ref.author ? `${ref.author}. "${ref.title}".` : `"${ref.title}".`;
-				if (ref.publication) {
-					citation += ` ${ref.publication}`;
-					if (ref.date) {
-						citation += `, ${ref.date}`;
-					}
-					citation += ".";
-				}
-				if (ref.url && ref.accessDate) {
-					citation += `\n  ${ref.url} (Hämtad ${this.formatSwedishDate(ref.accessDate)})`;
-				}
-			} else if (ref.type === "media") {
-				// News article
-				citation = ref.author ? `${ref.author}. "${ref.title}".` : `"${ref.title}".`;
-				if (ref.publication) {
-					citation += ` ${ref.publication}`;
-				}
-				if (ref.date) {
-					citation += `, ${ref.date}`;
-				}
-				citation += ".";
-				if (ref.url && ref.accessDate) {
-					citation += `\n  Hämtad ${this.formatSwedishDate(ref.accessDate)}.`;
-				}
-			} else {
-				// Web source
-				citation = `"${ref.title}".`;
-				if (ref.url) {
-					citation += `\n  ${ref.url}`;
-					if (ref.accessDate) {
-						citation += ` (Hämtad ${this.formatSwedishDate(ref.accessDate)})`;
-					}
-				}
-			}
-
-			formatted.push(citation);
-		}
-
-		return formatted.join("\n\n");
-	}
-
-	/**
-	 * Format date in Swedish (e.g., "31 januari 2026")
-	 */
-	private formatSwedishDate(dateStr: string): string {
-		const date = new Date(dateStr);
-		const day = date.getDate();
-		const months = [
-			"januari",
-			"februari",
-			"mars",
-			"april",
-			"maj",
-			"juni",
-			"juli",
-			"augusti",
-			"september",
-			"oktober",
-			"november",
-			"december",
-		];
-		const month = months[date.getMonth()];
-		const year = date.getFullYear();
-		return `${day} ${month} ${year}`;
+		return sorted.map(formatCitation).join("\n\n");
 	}
 
 	/**

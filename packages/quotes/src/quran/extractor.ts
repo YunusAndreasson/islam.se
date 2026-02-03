@@ -145,6 +145,114 @@ function cleanText(text: string): string {
 		.trim();
 }
 
+// Pattern to match surah headers like "Sura 1 Inledningen" or "Sura 2 Kon"
+const SURAH_PATTERN = /^\s*Sura\s+(\d+)\s+/i;
+
+// Pattern to match verse numbers like "1. " at the start of a line
+const VERSE_PATTERN = /^(\d+)\.\s+(.+)/;
+
+// Patterns that indicate commentary text
+const COMMENTARY_START_PATTERN =
+	/^(Allah|Den|De |Det |Han |Hon |Här |Detta|Dessa|Som |Se |Se även|Med |I |Om |På |För |Av |Till |Från |Ur |Eller )/;
+
+interface ParseState {
+	verses: QuranVerse[];
+	currentSurah: number;
+	currentVerseNum: number;
+	currentVerseText: string;
+	currentCommentary: string;
+	inVerse: boolean;
+	inCommentary: boolean;
+	translator: string;
+}
+
+function createParseState(translator: string): ParseState {
+	return {
+		verses: [],
+		currentSurah: 0,
+		currentVerseNum: 0,
+		currentVerseText: "",
+		currentCommentary: "",
+		inVerse: false,
+		inCommentary: false,
+		translator,
+	};
+}
+
+function saveCurrentVerse(state: ParseState): void {
+	if (state.currentSurah > 0 && state.currentVerseNum > 0 && state.currentVerseText) {
+		state.verses.push(
+			createVerse(
+				state.currentSurah,
+				state.currentVerseNum,
+				state.currentVerseText,
+				state.currentCommentary,
+				state.translator,
+			),
+		);
+	}
+}
+
+function isCommentaryLine(line: string): boolean {
+	if (!/^[A-ZÅÄÖ][a-zåäö]/.test(line)) return false;
+	return (
+		line.includes("(T)") ||
+		line.includes("(B)") ||
+		line.includes("(K)") ||
+		line.includes("(Ö)") ||
+		line.length > 100 ||
+		COMMENTARY_START_PATTERN.test(line)
+	);
+}
+
+function processSurahHeader(state: ParseState, surahNum: number): void {
+	saveCurrentVerse(state);
+	state.currentSurah = surahNum;
+	state.currentVerseNum = 0;
+	state.currentVerseText = "";
+	state.currentCommentary = "";
+	state.inVerse = false;
+	state.inCommentary = false;
+}
+
+function processVerseStart(state: ParseState, verseNum: number, verseText: string): void {
+	saveCurrentVerse(state);
+	state.currentVerseNum = verseNum;
+	state.currentVerseText = verseText;
+	state.currentCommentary = "";
+	state.inVerse = true;
+	state.inCommentary = false;
+}
+
+function processVerseContinuation(state: ParseState, line: string): void {
+	if (!state.inVerse || state.currentSurah === 0 || line.length === 0) return;
+
+	if (isCommentaryLine(line) || state.inCommentary) {
+		state.inCommentary = true;
+		state.currentCommentary += (state.currentCommentary ? " " : "") + line;
+	} else {
+		state.currentVerseText += ` ${line}`;
+	}
+}
+
+function processLine(state: ParseState, line: string): void {
+	const cleanLine = removeArabic(line);
+
+	const surahMatch = cleanLine.match(SURAH_PATTERN);
+	if (surahMatch?.[1]) {
+		processSurahHeader(state, parseInt(surahMatch[1], 10));
+		return;
+	}
+
+	const verseMatch = cleanLine.match(VERSE_PATTERN);
+	if (verseMatch?.[1] && verseMatch[2] && state.currentSurah > 0) {
+		processVerseStart(state, parseInt(verseMatch[1], 10), verseMatch[2]);
+		return;
+	}
+
+	processVerseContinuation(state, cleanLine);
+}
+
 /**
  * Parses the extracted Quran text file
  */
@@ -154,107 +262,14 @@ export function parseQuranText(
 ): QuranVerse[] {
 	const content = readFileSync(filePath, "utf-8");
 	const lines = content.split("\n");
+	const state = createParseState(translator);
 
-	const verses: QuranVerse[] = [];
-	let currentSurah = 0;
-	let currentVerseNum = 0;
-	let currentVerseText = "";
-	let currentCommentary = "";
-	let inVerse = false;
-	let inCommentary = false;
-
-	// Pattern to match surah headers like "Sura 1 Inledningen" or "Sura 2 Kon"
-	const surahPattern = /^\s*Sura\s+(\d+)\s+/i;
-
-	// Pattern to match verse numbers like "1. " at the start of a line
-	const versePattern = /^(\d+)\.\s+(.+)/;
-
-	for (let i = 0; i < lines.length; i++) {
-		const line = lines[i];
-		if (!line) continue;
-		const cleanLine = removeArabic(line);
-
-		// Check for surah header
-		const surahMatch = cleanLine.match(surahPattern);
-		if (surahMatch?.[1]) {
-			// Save previous verse if exists
-			if (currentSurah > 0 && currentVerseNum > 0 && currentVerseText) {
-				verses.push(
-					createVerse(
-						currentSurah,
-						currentVerseNum,
-						currentVerseText,
-						currentCommentary,
-						translator,
-					),
-				);
-			}
-
-			currentSurah = parseInt(surahMatch[1], 10);
-			currentVerseNum = 0;
-			currentVerseText = "";
-			currentCommentary = "";
-			inVerse = false;
-			inCommentary = false;
-			continue;
-		}
-
-		// Check for verse start
-		const verseMatch = cleanLine.match(versePattern);
-		if (verseMatch?.[1] && verseMatch[2] && currentSurah > 0) {
-			// Save previous verse if exists
-			if (currentVerseNum > 0 && currentVerseText) {
-				verses.push(
-					createVerse(
-						currentSurah,
-						currentVerseNum,
-						currentVerseText,
-						currentCommentary,
-						translator,
-					),
-				);
-			}
-
-			currentVerseNum = parseInt(verseMatch[1], 10);
-			currentVerseText = verseMatch[2];
-			currentCommentary = "";
-			inVerse = true;
-			inCommentary = false;
-			continue;
-		}
-
-		// Continue building verse or commentary
-		if (inVerse && currentSurah > 0 && cleanLine.length > 0) {
-			// Check if this looks like commentary (contains tafsir markers or explanatory text)
-			const isCommentary =
-				/^[A-ZÅÄÖ][a-zåäö]/.test(cleanLine) &&
-				(cleanLine.includes("(T)") ||
-					cleanLine.includes("(B)") ||
-					cleanLine.includes("(K)") ||
-					cleanLine.includes("(Ö)") ||
-					cleanLine.length > 100 ||
-					/^(Allah|Den|De |Det |Han |Hon |Här |Detta|Dessa|Som |Se |Se även|Med |I |Om |På |För |Av |Till |Från |Ur |Eller )/.test(
-						cleanLine,
-					));
-
-			if (isCommentary || inCommentary) {
-				inCommentary = true;
-				currentCommentary += (currentCommentary ? " " : "") + cleanLine;
-			} else {
-				// Still part of verse text
-				currentVerseText += ` ${cleanLine}`;
-			}
-		}
+	for (const line of lines) {
+		if (line) processLine(state, line);
 	}
 
-	// Don't forget the last verse
-	if (currentSurah > 0 && currentVerseNum > 0 && currentVerseText) {
-		verses.push(
-			createVerse(currentSurah, currentVerseNum, currentVerseText, currentCommentary, translator),
-		);
-	}
-
-	return verses;
+	saveCurrentVerse(state);
+	return state.verses;
 }
 
 function createVerse(

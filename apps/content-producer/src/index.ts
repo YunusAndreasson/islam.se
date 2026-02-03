@@ -184,7 +184,7 @@ program
 				skipQuotes: options.quotes === false,
 			});
 
-			if (!result.success || !result.data) {
+			if (!(result.success && result.data)) {
 				spinner.stop("Ideation failed");
 				console.error("Error:", result.error);
 				process.exit(1);
@@ -323,13 +323,13 @@ function displayIdeasSummary(data: EnrichedIdeationOutput): void {
 		const quoteCount = idea.quotes?.length || 0;
 		const quoteIndicator = quoteCount > 0 ? ` [${quoteCount} quotes]` : "";
 
-		console.log(`┌─────────────────────────────────────────────────────────┐`);
+		console.log("┌─────────────────────────────────────────────────────────┐");
 		console.log(`│ ${idea.id}. ${truncate(idea.title, 50)}`);
 		console.log(`│    ${truncate(idea.thesis, 55)}`);
 		if (quoteIndicator) {
 			console.log(`│    ${quoteIndicator}`);
 		}
-		console.log(`└─────────────────────────────────────────────────────────┘`);
+		console.log("└─────────────────────────────────────────────────────────┘");
 	}
 
 	console.log("");

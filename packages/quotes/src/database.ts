@@ -80,7 +80,7 @@ export function initDatabase(): Database.Database {
 		// Column already exists, ignore
 	}
 	try {
-		db.exec(`ALTER TABLE quotes ADD COLUMN source_type TEXT`);
+		db.exec("ALTER TABLE quotes ADD COLUMN source_type TEXT");
 	} catch {
 		// Column already exists, ignore
 	}

@@ -156,7 +156,7 @@ export class IdeationService {
 			IdeationOutputSchema,
 		);
 
-		if (!result.success || !result.data) {
+		if (!(result.success && result.data)) {
 			return {
 				success: false,
 				error: result.error || "Ideation failed",
@@ -244,7 +244,7 @@ export class IdeationService {
 		console.log("   - Generating sophisticated ideas...");
 		const ideaResult = await this.generateIdeas(topic);
 
-		if (!ideaResult.success || !ideaResult.data) {
+		if (!(ideaResult.success && ideaResult.data)) {
 			return {
 				success: false,
 				error: ideaResult.error || "Idea generation failed",

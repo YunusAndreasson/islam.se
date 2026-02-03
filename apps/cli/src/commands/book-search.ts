@@ -1,6 +1,60 @@
 import { closeBookDatabase, initBookDatabase, searchBooks } from "@islam-se/quotes";
 import type { Command } from "commander";
 
+interface SearchResults {
+	combined: Array<{
+		score: number;
+		bookTitle: string;
+		bookAuthor: string;
+		chapterTitle?: string | null;
+		text: string;
+	}>;
+	passages: Array<{
+		score: number;
+		bookTitle: string;
+		bookAuthor: string;
+		chapterTitle?: string | null;
+		text: string;
+	}>;
+	concepts: Array<{
+		type: string;
+		bookTitle: string;
+		chapterNumber?: number;
+		score: number;
+		summary: string;
+		keyConcepts: string[];
+	}>;
+}
+
+function displayConcepts(results: SearchResults): void {
+	console.log("📚 Relevant Themes:\n");
+	for (const concept of results.concepts) {
+		const title =
+			concept.type === "book"
+				? concept.bookTitle
+				: `${concept.bookTitle}, Ch. ${concept.chapterNumber}`;
+		console.log(`   ${title} [${(concept.score * 100).toFixed(0)}%]`);
+		console.log(`   ${concept.summary.slice(0, 100)}...`);
+		console.log(`   Key concepts: ${concept.keyConcepts.slice(0, 3).join(", ")}`);
+		console.log();
+	}
+}
+
+function displayPassages(passages: SearchResults["passages"]): void {
+	console.log("📖 Matching Passages:\n");
+	for (let i = 0; i < passages.length; i++) {
+		const p = passages[i];
+		if (!p) continue;
+		console.log(`${i + 1}. [${(p.score * 100).toFixed(0)}%] ${p.bookTitle} by ${p.bookAuthor}`);
+		if (p.chapterTitle) {
+			console.log(`   Chapter: ${p.chapterTitle}`);
+		}
+		const preview = p.text.length > 200 ? `${p.text.slice(0, 200)}...` : p.text;
+		console.log(`   "${preview}"`);
+		console.log();
+	}
+}
+
 export function registerBookSearchCommand(program: Command): void {
 	program
 		.command("book-search")
@@ -16,11 +70,9 @@ export function registerBookSearchCommand(program: Command): void {
 			) => {
 				try {
 					const limit = Number.parseInt(options.limit, 10);
-
 					console.log(`\n🔍 Searching books for: "${query}" (mode: ${options.mode})\n`);
 
 					initBookDatabase();
-
 					const results = await searchBooks(query, {
 						passageLimit: limit,
 						conceptLimit: 5,
@@ -28,51 +80,26 @@ export function registerBookSearchCommand(program: Command): void {
 						language: options.language,
 					});
 
-					if (results.combined.length === 0 && results.concepts.length === 0) {
+					const hasResults = results.combined.length > 0 || results.concepts.length > 0;
+					if (!hasResults) {
 						console.log("No results found.");
 						closeBookDatabase();
 						return;
 					}
 
-					// Show concept matches first
-					if (
+					const showConcepts =
 						(options.mode === "hybrid" || options.mode === "concepts") &&
-						results.concepts.length > 0
-					) {
-						console.log("📚 Relevant Themes:\n");
-						for (const concept of results.concepts) {
-							const title =
-								concept.type === "book"
-									? concept.bookTitle
-									: `${concept.bookTitle}, Ch. ${concept.chapterNumber}`;
-							console.log(`   ${title} [${(concept.score * 100).toFixed(0)}%]`);
-							console.log(`   ${concept.summary.slice(0, 100)}...`);
-							console.log(`   Key concepts: ${concept.keyConcepts.slice(0, 3).join(", ")}`);
-							console.log();
-						}
+						results.concepts.length > 0;
+					if (showConcepts) {
+						displayConcepts(results);
 					}
 
-					// Show passage matches
-					if (
+					const showPassages =
 						(options.mode === "hybrid" || options.mode === "passages") &&
-						results.combined.length > 0
-					) {
-						console.log("📖 Matching Passages:\n");
+						results.combined.length > 0;
+					if (showPassages) {
 						const passages = options.mode === "hybrid" ? results.combined : results.passages;
-						for (let i = 0; i < passages.length; i++) {
-							const p = passages[i];
-							if (!p) continue;
-							console.log(
-								`${i + 1}. [${(p.score * 100).toFixed(0)}%] ${p.bookTitle} by ${p.bookAuthor}`,
-							);
-							if (p.chapterTitle) {
-								console.log(`   Chapter: ${p.chapterTitle}`);
-							}
-							// Show first 200 chars of passage
-							const preview = p.text.length > 200 ? `${p.text.slice(0, 200)}...` : p.text;
-							console.log(`   "${preview}"`);
-							console.log();
-						}
+						displayPassages(passages);
 					}
 
 					closeBookDatabase();

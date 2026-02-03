@@ -17,7 +17,7 @@ export function registerVerifyResearchCommand(program: Command): void {
 				const content = readFileSync(file, "utf-8");
 				const research = JSON.parse(content);
 
-				if (!research.sources || !Array.isArray(research.sources)) {
+				if (!(research.sources && Array.isArray(research.sources))) {
 					console.error("Error: No sources array found in research file");
 					process.exit(1);
 				}

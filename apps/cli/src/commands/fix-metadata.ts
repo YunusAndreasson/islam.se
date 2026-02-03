@@ -7,6 +7,83 @@ import {
 } from "@islam-se/quotes";
 import type { Command } from "commander";
 
+interface ProcessResult {
+	urlsFixed: number;
+	totalUpdated: number;
+}
+
+async function fetchMetadataForUrl(
+	url: string,
+): Promise<{ author?: string; title?: string } | null> {
+	// First try known sources
+	let metadata = extractMetadataFromUrl(url);
+	if (metadata.author || metadata.title) {
+		return metadata;
+	}
+
+	// Skip archive.org HTML pages
+	if (url.includes("archive.org/stream")) {
+		console.log("   ⚠️  Archive.org stream URL - using known metadata lookup");
+		return null;
+	}
+
+	// Fetch header and parse
+	const response = await fetch(url, { headers: { Range: "bytes=0-5000" } });
+	if (!response.ok) {
+		console.log("   ⚠️  Could not fetch URL");
+		return null;
+	}
+
+	const header = await response.text();
+	metadata = extractMetadataFromUrl(url, header);
+	return metadata.author || metadata.title ? metadata : null;
+}
+
+function applyMetadataUpdate(
+	url: string,
+	metadata: { author?: string; title?: string },
+	dryRun: boolean,
+): number {
+	console.log(`   Author: ${metadata.author || "(not found)"}`);
+	console.log(`   Title: ${metadata.title || "(not found)"}`);
+
+	if (dryRun) {
+		console.log("   (dry run - no changes made)");
+		return 0;
+	}
+
+	const updated = updateQuoteMetadataBySource(url, metadata);
+	if (updated > 0) {
+		console.log(`   ✅ Updated ${updated} quotes`);
+	}
+	return updated;
+}
+
+async function processUrls(urls: string[], dryRun: boolean): Promise<ProcessResult> {
+	let totalUpdated = 0;
+	let urlsFixed = 0;
+
+	for (let i = 0; i < urls.length; i++) {
+		const url = urls[i];
+		if (!url) continue;
+
+		console.log(`[${i + 1}/${urls.length}] ${url}`);
+
+		try {
+			const metadata = await fetchMetadataForUrl(url);
+			if (!metadata) continue;
+
+			const updated = applyMetadataUpdate(url, metadata, dryRun);
+			totalUpdated += updated;
+			if (updated > 0) urlsFixed++;
+		} catch (error) {
+			console.log(`   ❌ Error: ${error instanceof Error ? error.message : error}`);
+		}
+	}
+
+	return { urlsFixed, totalUpdated };
+}
+
 export function registerFixMetadataCommand(program: Command): void {
 	program
 		.command("fix-metadata")
@@ -30,65 +107,7 @@ export function registerFixMetadataCommand(program: Command): void {
 				const limit = options.limit ? Number.parseInt(options.limit, 10) : sourceUrls.length;
 				const urlsToProcess = sourceUrls.slice(0, limit);
 
-				let totalUpdated = 0;
-				let urlsFixed = 0;
-
-				for (let i = 0; i < urlsToProcess.length; i++) {
-					const url = urlsToProcess[i];
-					if (!url) continue;
-
-					console.log(`[${i + 1}/${urlsToProcess.length}] ${url}`);
-
-					try {
-						// First try to extract from known sources (no fetch needed)
-						let metadata = extractMetadataFromUrl(url);
-
-						// If no known metadata, fetch header and try to extract
-						if (!metadata.author && !metadata.title) {
-							// Skip archive.org HTML pages - they don't have raw text headers
-							if (url.includes("archive.org/stream")) {
-								console.log("   ⚠️  Archive.org stream URL - using known metadata lookup");
-								continue;
-							}
-
-							// Fetch only the header (first 5000 bytes)
-							const response = await fetch(url, {
-								headers: { Range: "bytes=0-5000" },
-							});
-
-							if (!response.ok) {
-								console.log("   ⚠️  Could not fetch URL");
-								continue;
-							}
-
-							const header = await response.text();
-							metadata = extractMetadataFromUrl(url, header);
-						}
-
-						const { author, title } = metadata;
-
-						if (!author && !title) {
-							console.log("   ⚠️  No metadata found");
-							continue;
-						}
-
-						console.log(`   Author: ${author || "(not found)"}`);
-						console.log(`   Title: ${title || "(not found)"}`);
-
-						if (options.dryRun) {
-							console.log("   (dry run - no changes made)");
-						} else {
-							const updated = updateQuoteMetadataBySource(url, { author, title });
-							totalUpdated += updated;
-							if (updated > 0) {
-								urlsFixed++;
-								console.log(`   ✅ Updated ${updated} quotes`);
-							}
-						}
-					} catch (error) {
-						console.log(`   ❌ Error: ${error instanceof Error ? error.message : error}`);
-					}
-				}
+				const { urlsFixed, totalUpdated } = await processUrls(urlsToProcess, !!options.dryRun);
 
 				closeDatabase();
 

@@ -46,6 +46,50 @@ function sleep(ms: number): Promise<void> {
 	return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
+function cleanJsonString(text: string): string {
+	let jsonStr = text.trim();
+	if (jsonStr.startsWith("```json")) jsonStr = jsonStr.slice(7);
+	if (jsonStr.startsWith("```")) jsonStr = jsonStr.slice(3);
+	if (jsonStr.endsWith("```")) jsonStr = jsonStr.slice(0, -3);
+	return jsonStr.trim().replace(/,\s*([}\]])/g, "$1");
+}
+
+function extractQuotesArray(jsonStr: string): string | null {
+	const quotesMatch = jsonStr.match(/"quotes"\s*:\s*\[/);
+	if (!quotesMatch) return null;
+
+	const startIdx = jsonStr.indexOf("[", quotesMatch.index);
+	let depth = 0;
+	let endIdx = startIdx;
+
+	for (let i = startIdx; i < jsonStr.length; i++) {
+		if (jsonStr[i] === "[") depth++;
+		if (jsonStr[i] === "]") depth--;
+		if (depth === 0) {
+			endIdx = i + 1;
+			break;
+		}
+	}
+
+	return jsonStr.slice(startIdx, endIdx).replace(/,\s*([}\]])/g, "$1");
+}
+
+function parseArabicQuotesResponse(responseText: string): ArabicQuote[] {
+	const jsonStr = cleanJsonString(responseText);
+
+	try {
+		const parsed = JSON.parse(jsonStr);
+		return z.array(ArabicQuoteSchema).parse(parsed.quotes);
+	} catch {
+		const quotesArray = extractQuotesArray(jsonStr);
+		if (quotesArray) {
+			const quotes = JSON.parse(quotesArray);
+			return z.array(ArabicQuoteSchema).parse(quotes);
+		}
+		throw new Error("Failed to parse quotes from response");
+	}
+}
+
 /**
  * Clean OpenITI mARkdown format to plain text
  */
@@ -106,53 +150,82 @@ export function cleanOpenITIText(text: string): string {
 	);
 }
 
+function hardSplitText(text: string, maxSize: number): string[] {
+	const parts: string[] = [];
+	for (let i = 0; i < text.length; i += maxSize) {
+		parts.push(text.slice(i, i + maxSize));
+	}
+	return parts;
+}
+
+interface ChunkBuilder {
+	chunks: string[];
+	current: string;
+}
+
+function flushChunk(builder: ChunkBuilder): void {
+	if (builder.current.trim()) {
+		builder.chunks.push(builder.current.trim());
+		builder.current = "";
+	}
+}
+
+function processArabicSentence(
+	sentence: string,
+	maxChunkSize: number,
+	builder: ChunkBuilder,
+): void {
+	if (sentence.length > maxChunkSize) {
+		builder.chunks.push(...hardSplitText(sentence, maxChunkSize));
+		return;
+	}
+	if (builder.current.length + sentence.length > maxChunkSize) {
+		flushChunk(builder);
+		builder.current = sentence;
+	} else {
+		builder.current += (builder.current ? " " : "") + sentence;
+	}
+}
+
+function processOversizedArabicSegment(
+	segment: string,
+	maxChunkSize: number,
+	builder: ChunkBuilder,
+): void {
+	flushChunk(builder);
+	const sentences = segment.split(/(?<=[.؟!])\s+/);
+	for (const sentence of sentences) {
+		processArabicSentence(sentence, maxChunkSize, builder);
+	}
+}
+
 /**
  * Splits Arabic text into chunks at paragraph/section boundaries
  */
 function splitIntoChunks(text: string, maxChunkSize: number): string[] {
-	const chunks: string[] = [];
 	let segments = text.split(/\n\n+/);
-
 	if (segments.length === 1 || segments.some((s) => s.length > maxChunkSize)) {
 		segments = text.split(/\n+/);
 	}
 
-	let currentChunk = "";
+	const builder: ChunkBuilder = { chunks: [], current: "" };
+
 	for (const segment of segments) {
 		if (segment.length > maxChunkSize) {
-			if (currentChunk.trim()) {
-				chunks.push(currentChunk.trim());
-				currentChunk = "";
-			}
-			// Split by Arabic sentence endings
-			const sentences = segment.split(/(?<=[.؟!])\s+/);
-			for (const sentence of sentences) {
-				if (sentence.length > maxChunkSize) {
-					for (let i = 0; i < sentence.length; i += maxChunkSize) {
-						chunks.push(sentence.slice(i, i + maxChunkSize));
-					}
-				} else if (currentChunk.length + sentence.length > maxChunkSize) {
-					if (currentChunk.trim()) {
-						chunks.push(currentChunk.trim());
-					}
-					currentChunk = sentence;
-				} else {
-					currentChunk += (currentChunk ? " " : "") + sentence;
-				}
-			}
-		} else if (currentChunk.length + segment.length > maxChunkSize && currentChunk.length > 0) {
-			chunks.push(currentChunk.trim());
-			currentChunk = segment;
+			processOversizedArabicSegment(segment, maxChunkSize, builder);
+		} else if (
+			builder.current.length + segment.length > maxChunkSize &&
+			builder.current.length > 0
+		) {
+			builder.chunks.push(builder.current.trim());
+			builder.current = segment;
 		} else {
-			currentChunk += (currentChunk ? "\n\n" : "") + segment;
+			builder.current += (builder.current ? "\n\n" : "") + segment;
 		}
 	}
 
-	if (currentChunk.trim()) {
-		chunks.push(currentChunk.trim());
-	}
-
-	return chunks;
+	flushChunk(builder);
+	return builder.chunks;
 }
 
 async function extractFromChunk(
@@ -304,41 +377,7 @@ Extract 30-50 quotes. Prioritize standalone scores 4-5. Output ONLY JSON.`;
 				throw new Error("Unexpected response type from Claude");
 			}
 
-			let jsonStr = content.text.trim();
-			if (jsonStr.startsWith("```json")) jsonStr = jsonStr.slice(7);
-			if (jsonStr.startsWith("```")) jsonStr = jsonStr.slice(3);
-			if (jsonStr.endsWith("```")) jsonStr = jsonStr.slice(0, -3);
-			jsonStr = jsonStr.trim();
-			jsonStr = jsonStr.replace(/,\s*([}\]])/g, "$1");
-
-			try {
-				const parsed = JSON.parse(jsonStr);
-				return z.array(ArabicQuoteSchema).parse(parsed.quotes);
-			} catch (parseError) {
-				// Try to recover quotes from malformed JSON
-				const quotesMatch = jsonStr.match(/"quotes"\s*:\s*\[/);
-				if (quotesMatch) {
-					const startIdx = jsonStr.indexOf("[", quotesMatch.index);
-					let depth = 0;
-					let endIdx = startIdx;
-					for (let i = startIdx; i < jsonStr.length; i++) {
-						if (jsonStr[i] === "[") depth++;
-						if (jsonStr[i] === "]") depth--;
-						if (depth === 0) {
-							endIdx = i + 1;
-							break;
-						}
-					}
-					try {
-						const fixedArray = jsonStr.slice(startIdx, endIdx).replace(/,\s*([}\]])/g, "$1");
-						const quotes = JSON.parse(fixedArray);
-						return z.array(ArabicQuoteSchema).parse(quotes);
-					} catch {
-						// Skip recovery
-					}
-				}
-				throw parseError;
-			}
+			return parseArabicQuotesResponse(content.text);
 		} catch (error) {
 			lastError = error instanceof Error ? error : new Error(String(error));
 
@@ -465,7 +504,7 @@ export async function extractArabicQuotes(
 			onProgress?.(
 				`  ⚠️ Chunk ${i + 1} failed: ${error instanceof Error ? error.message : "Unknown error"}`,
 			);
-			onProgress?.(`  Continuing with remaining chunks...`);
+			onProgress?.("  Continuing with remaining chunks...");
 		}
 	}
 

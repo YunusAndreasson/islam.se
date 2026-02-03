@@ -24,7 +24,7 @@ export function registerImportStatusCommand(program: Command): void {
 				}
 
 				if (pending.length > 0) {
-					console.log(`\n   Next up:`);
+					console.log("\n   Next up:");
 					for (let i = 0; i < Math.min(3, pending.length); i++) {
 						console.log(`   ${i + 1}. ${pending[i]}`);
 					}
