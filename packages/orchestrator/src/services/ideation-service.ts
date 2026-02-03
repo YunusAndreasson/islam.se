@@ -33,8 +33,17 @@ export interface EnrichedQuote {
 	relevanceScore: number;
 }
 
+export interface IdeaProductionStatus {
+	status: "pending" | "in_progress" | "done" | "failed";
+	producedAt?: string;
+	articleSlug?: string;
+	failedAt?: string;
+	failureReason?: string;
+}
+
 export interface EnrichedIdea extends Idea {
 	quotes: EnrichedQuote[];
+	productionStatus?: IdeaProductionStatus;
 }
 
 export interface IdeationOutput {
@@ -334,11 +343,47 @@ export class IdeationService {
 	}
 
 	/**
+	 * Update the production status of an idea in ideation.json
+	 */
+	updateIdeaStatus(topicSlug: string, ideaId: number, status: IdeaProductionStatus): boolean {
+		const ideationPath = join(this.options.outputDir, "ideas", topicSlug, "ideation.json");
+
+		if (!existsSync(ideationPath)) {
+			console.warn(`Ideation file not found: ${ideationPath}`);
+			return false;
+		}
+
+		try {
+			const data: EnrichedIdeationOutput = JSON.parse(readFileSync(ideationPath, "utf-8"));
+			const idea = data.ideas.find((i) => i.id === ideaId);
+
+			if (!idea) {
+				console.warn(`Idea ${ideaId} not found in ${topicSlug}`);
+				return false;
+			}
+
+			idea.productionStatus = status;
+			writeFileSync(ideationPath, JSON.stringify(data, null, 2), "utf-8");
+			return true;
+		} catch (error) {
+			console.error(`Failed to update idea status: ${error}`);
+			return false;
+		}
+	}
+
+	/**
 	 * Get the output directory path for a topic
 	 */
 	getOutputDir(topic: string): string {
 		const topicSlug = this.slugify(topic);
 		return join(this.options.outputDir, "ideas", topicSlug);
+	}
+
+	/**
+	 * Get a topic slug from text
+	 */
+	getSlug(text: string): string {
+		return this.slugify(text);
 	}
 }
 

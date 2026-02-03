@@ -14,6 +14,8 @@ import {
 	ResearchOutputSchema,
 	ReviewOutputSchema,
 } from "./schemas.js";
+import { ArticlePublisher } from "./services/article-publisher.js";
+import { IdeationService } from "./services/ideation-service.js";
 import { SourceValidator } from "./source-validator.js";
 
 const __filename = fileURLToPath(import.meta.url);
@@ -119,6 +121,12 @@ export interface ProductionResult {
 	finalArticle?: string;
 	bibliography?: string;
 	totalDuration?: number;
+	publishedSlug?: string;
+}
+
+export interface IdeaContext {
+	topicSlug: string;
+	ideaId: number;
 }
 
 export class ContentOrchestrator {
@@ -682,9 +690,58 @@ ${research.bookPassages.length} book passages available for integration.`;
 	}
 
 	/**
-	 * Run the complete content production pipeline
+	 * Publish article and update idea status
 	 */
-	async produce(topic: string): Promise<ProductionResult> {
+	private publishArticle(
+		outputDir: string,
+		topicSlug: string,
+		draft: DraftOutput,
+		qualityScore: number,
+		ideaContext?: IdeaContext,
+	): string | undefined {
+		// Publish to web-accessible directory
+		try {
+			const publisher = new ArticlePublisher();
+			publisher.publish(outputDir, topicSlug, {
+				title: draft.title,
+				wordCount: draft.wordCount,
+				qualityScore,
+				sourceIdea: ideaContext
+					? { topic: ideaContext.topicSlug, ideaId: ideaContext.ideaId }
+					: undefined,
+			});
+			console.log(`   📤 Published to data/articles/${topicSlug}.md`);
+		} catch (publishError) {
+			console.warn(`   ⚠️  Failed to publish article: ${publishError}`);
+			return undefined;
+		}
+
+		// Update idea status if context provided
+		if (ideaContext) {
+			try {
+				const ideationService = new IdeationService({
+					outputDir: this.options.outputDir,
+				});
+				ideationService.updateIdeaStatus(ideaContext.topicSlug, ideaContext.ideaId, {
+					status: "done",
+					producedAt: new Date().toISOString(),
+					articleSlug: topicSlug,
+				});
+				console.log(`   ✓ Marked idea #${ideaContext.ideaId} as done`);
+			} catch (statusError) {
+				console.warn(`   ⚠️  Failed to update idea status: ${statusError}`);
+			}
+		}
+
+		return topicSlug;
+	}
+
+	/**
+	 * Run the complete content production pipeline
+	 * @param topic - The article topic
+	 * @param ideaContext - Optional context linking to source idea for status tracking
+	 */
+	async produce(topic: string, ideaContext?: IdeaContext): Promise<ProductionResult> {
 		const startTime = Date.now();
 		const topicSlug = this.slugify(topic);
 		const outputDir = this.ensureOutputDir(topicSlug);
@@ -757,6 +814,15 @@ ${research.bookPassages.length} book passages available for integration.`;
 					wordCount: currentDraft.wordCount,
 					revisionCount,
 				});
+
+				// Publish to web-accessible directory and update idea status
+				result.publishedSlug = this.publishArticle(
+					outputDir,
+					topicSlug,
+					currentDraft,
+					reviewResult.data.finalScore,
+					ideaContext,
+				);
 
 				result.success = true;
 				result.finalArticle = finalText;
@@ -873,6 +939,9 @@ export { ClaudeRunner } from "./claude-runner.js";
 export { ReferenceTracker } from "./reference-tracker.js";
 // Re-export services
 export {
+	type ArticleIndex,
+	// Article publisher
+	ArticlePublisher,
 	// Book service
 	type BookSearchOptions,
 	type BookSearchResult,
@@ -887,9 +956,11 @@ export {
 	generateIdeas,
 	hasBookContent,
 	type Idea,
+	type IdeaProductionStatus,
 	type IdeationOutput,
 	IdeationService,
 	type IdeationServiceOptions,
+	type PublishedArticle,
 	passagesToResearchFormat,
 	type QuoteSearchOptions,
 	type QuoteSearchResult,

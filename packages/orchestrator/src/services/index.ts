@@ -2,6 +2,12 @@
  * Orchestrator services - integrations with quote and book databases
  */
 
+// Article publisher
+export {
+	type ArticleIndex,
+	ArticlePublisher,
+	type PublishedArticle,
+} from "./article-publisher.js";
 // Book service
 export {
 	type BookSearchOptions,
@@ -19,6 +25,7 @@ export {
 	enrichIdeasWithQuotes,
 	generateIdeas,
 	type Idea,
+	type IdeaProductionStatus,
 	type IdeationOutput,
 	IdeationService,
 	type IdeationServiceOptions,
