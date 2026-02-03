@@ -7,6 +7,7 @@ import { fileURLToPath } from "node:url";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const PROJECT_ROOT = join(__dirname, "..", "..", "..");
 const SOURCES_DIR = join(PROJECT_ROOT, "data", "sources");
+const FETCH_TIMEOUT_MS = 30000;
 
 /**
  * Checks if a path/URL refers to a local file
@@ -248,13 +249,13 @@ export async function fetchText(url: string): Promise<FetchResult> {
 
 	// Fetch from URL with timeout
 	const controller = new AbortController();
-	const timeout = setTimeout(() => controller.abort(), 30000);
+	const timeout = setTimeout(() => controller.abort(), FETCH_TIMEOUT_MS);
 	let response: Response;
 	try {
 		response = await fetch(url, { signal: controller.signal });
 	} catch (error) {
 		if (error instanceof Error && error.name === "AbortError") {
-			throw new Error(`Request timed out after 30s: ${url}`);
+			throw new Error(`Request timed out after ${FETCH_TIMEOUT_MS / 1000}s: ${url}`);
 		}
 		throw error;
 	} finally {

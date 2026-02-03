@@ -9,7 +9,7 @@ export type Language = "sv" | "ar" | "en";
 export type QuoteLength = "short" | "medium" | "long";
 
 /** Source type for imported quotes */
-export type SourceType = "gutenberg" | "openiti" | string;
+export type SourceType = "gutenberg" | "openiti";
 
 /**
  * A quote stored in the database

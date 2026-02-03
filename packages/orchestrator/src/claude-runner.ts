@@ -1,6 +1,6 @@
 import { spawn } from "node:child_process";
 import { readFileSync } from "node:fs";
-import type { ZodType, ZodTypeDef } from "zod";
+import type { z } from "zod";
 
 export interface ClaudeRunOptions {
 	/** Path to prompt file or prompt content */
@@ -260,7 +260,7 @@ export class ClaudeRunner {
 	 */
 	public validateOutput<T>(
 		output: unknown,
-		schema: ZodType<T, ZodTypeDef, unknown>,
+		schema: z.ZodSchema<T>,
 	): { success: true; data: T } | { success: false; error: string } {
 		const result = schema.safeParse(output);
 		if (result.success) {
@@ -278,7 +278,7 @@ export class ClaudeRunner {
 	 */
 	public async runJSON<T = unknown>(
 		options: ClaudeRunOptions,
-		schema?: ZodType<T, ZodTypeDef, unknown>,
+		schema?: z.ZodSchema<T>,
 	): Promise<ClaudeRunResult & { data?: T }> {
 		const result = await this.run({
 			...options,
@@ -288,10 +288,6 @@ export class ClaudeRunner {
 		if (result.success && result.output) {
 			const parsed = this.parseJSONOutput<unknown>(result.output);
 			if (!parsed) {
-				// Debug: Log first 500 chars of output if parsing failed
-				console.log(
-					`   [DEBUG] JSON parsing failed. Output preview: ${result.output.slice(0, 500)}...`,
-				);
 				return { ...result, data: undefined };
 			}
 
@@ -299,13 +295,6 @@ export class ClaudeRunner {
 			if (schema) {
 				const validation = this.validateOutput(parsed, schema);
 				if (!validation.success) {
-					console.log(`   [DEBUG] Schema validation failed: ${validation.error}`);
-					console.log(
-						`   [DEBUG] Parsed object keys: ${Object.keys(parsed as object).join(", ") || "(empty)"}`,
-					);
-					console.log(
-						`   [DEBUG] Parsed preview: ${JSON.stringify(parsed, null, 2).slice(0, 500)}...`,
-					);
 					return {
 						success: false,
 						error: validation.error,
@@ -318,11 +307,6 @@ export class ClaudeRunner {
 
 			// No schema provided, return parsed data as-is
 			return { ...result, data: parsed as T };
-		}
-
-		// Debug: Log error if CLI failed
-		if (!result.success) {
-			console.log(`   [DEBUG] Claude CLI failed: ${result.error}`);
 		}
 
 		return result;

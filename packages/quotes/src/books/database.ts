@@ -487,48 +487,38 @@ export interface BookDatabaseStats {
 export function getBookStats(): BookDatabaseStats {
 	const database = initBookDatabase();
 
-	const totalBooks = (
-		database.prepare("SELECT COUNT(*) as count FROM books").get() as { count: number }
-	).count;
+	// Get all counts in a single query
+	const totals = database
+		.prepare(
+			`SELECT
+				(SELECT COUNT(*) FROM books) as totalBooks,
+				(SELECT COUNT(*) FROM chapters) as totalChapters,
+				(SELECT COUNT(*) FROM passages) as totalPassages,
+				(SELECT COALESCE(SUM(LENGTH(text)), 0) FROM passages) as totalCharsIndexed`,
+		)
+		.get() as {
+		totalBooks: number;
+		totalChapters: number;
+		totalPassages: number;
+		totalCharsIndexed: number;
+	};
 
-	const totalChapters = (
-		database.prepare("SELECT COUNT(*) as count FROM chapters").get() as { count: number }
-	).count;
-
-	const totalPassages = (
-		database.prepare("SELECT COUNT(*) as count FROM passages").get() as { count: number }
-	).count;
-
-	const swedish = (
-		database.prepare("SELECT COUNT(*) as count FROM books WHERE language = 'sv'").get() as {
-			count: number;
-		}
-	).count;
-
-	const arabic = (
-		database.prepare("SELECT COUNT(*) as count FROM books WHERE language = 'ar'").get() as {
-			count: number;
-		}
-	).count;
-
-	const english = (
-		database.prepare("SELECT COUNT(*) as count FROM books WHERE language = 'en'").get() as {
-			count: number;
-		}
-	).count;
-
-	const totalCharsIndexed = (
-		database.prepare("SELECT COALESCE(SUM(LENGTH(text)), 0) as total FROM passages").get() as {
-			total: number;
-		}
-	).total;
+	// Language breakdown with GROUP BY (single query instead of 3)
+	const languageCounts = database
+		.prepare("SELECT language, COUNT(*) as count FROM books GROUP BY language")
+		.all() as { language: string; count: number }[];
+	const byLanguageMap = new Map(languageCounts.map((r) => [r.language, r.count]));
 
 	return {
-		totalBooks,
-		totalChapters,
-		totalPassages,
-		byLanguage: { swedish, arabic, english },
-		totalCharsIndexed,
+		totalBooks: totals.totalBooks,
+		totalChapters: totals.totalChapters,
+		totalPassages: totals.totalPassages,
+		byLanguage: {
+			swedish: byLanguageMap.get("sv") ?? 0,
+			arabic: byLanguageMap.get("ar") ?? 0,
+			english: byLanguageMap.get("en") ?? 0,
+		},
+		totalCharsIndexed: totals.totalCharsIndexed,
 	};
 }
 

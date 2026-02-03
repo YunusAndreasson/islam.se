@@ -1,7 +1,7 @@
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
-import type { ZodType, ZodTypeDef } from "zod";
+import type { z } from "zod";
 import { ClaudeRunner, type ClaudeRunOptions } from "./claude-runner.js";
 import { ReferenceTracker } from "./reference-tracker.js";
 import {
@@ -178,7 +178,7 @@ export class ContentOrchestrator {
 		promptFile: string;
 		systemPrompt: string;
 		allowedTools: string[];
-		schema?: ZodType<T, ZodTypeDef, unknown>;
+		schema?: z.ZodSchema<T>;
 		jsonSchema?: object;
 		maxRetries?: number;
 	}): Promise<StageResult<T>> {
@@ -269,9 +269,10 @@ export class ContentOrchestrator {
 		}
 		const content = readFileSync(filepath, "utf-8");
 		if (filename.endsWith(".json")) {
-			return JSON.parse(content);
+			return JSON.parse(content) as T;
 		}
-		return content as unknown as T;
+		// For non-JSON files, content is the raw string
+		return content as T;
 	}
 
 	/**
@@ -358,11 +359,14 @@ Use parallel tool calls when searching multiple angles or authors simultaneously
 
 		// Merge pre-found quotes with newly discovered ones
 		const allQuotes = [...preFoundQuotes, ...(result.data.quotes || [])];
-		// Deduplicate by text similarity
-		const uniqueQuotes = allQuotes.filter(
-			(q, i, arr) =>
-				arr.findIndex((other) => other.text.slice(0, 50) === q.text.slice(0, 50)) === i,
-		);
+		// Deduplicate by text prefix (O(n) with Set instead of O(n²) with findIndex)
+		const seenPrefixes = new Set<string>();
+		const uniqueQuotes = allQuotes.filter((q) => {
+			const prefix = q.text.slice(0, 50);
+			if (seenPrefixes.has(prefix)) return false;
+			seenPrefixes.add(prefix);
+			return true;
+		});
 
 		// Validate sources
 		const rawSources = result.data.sources || [];
@@ -374,7 +378,10 @@ Use parallel tool calls when searching multiple angles or authors simultaneously
 			console.log(`   - ⚠️  ${verification.stats.failed} URL(s) failed verification`);
 		}
 
-		const verifiedUrls = new Set(verification.results.filter((r) => r.exists).map((r) => r.url));
+		const verifiedUrls = new Set<string>();
+		for (const r of verification.results) {
+			if (r.exists) verifiedUrls.add(r.url);
+		}
 		const validatedSources = rawSources
 			.filter((source) => verifiedUrls.has(source.url))
 			.filter((source) => {
@@ -498,7 +505,10 @@ Use parallel tool calls when searching multiple angles or authors simultaneously
 		}
 
 		// Filter out sources with invalid URLs
-		const verifiedUrls = new Set(verification.results.filter((r) => r.exists).map((r) => r.url));
+		const verifiedUrls = new Set<string>();
+		for (const r of verification.results) {
+			if (r.exists) verifiedUrls.add(r.url);
+		}
 
 		const validatedSources = rawSources
 			.filter((source) => verifiedUrls.has(source.url))

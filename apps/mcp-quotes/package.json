@@ -11,10 +11,10 @@
 	},
 	"dependencies": {
 		"@islam-se/quotes": "workspace:*",
-		"@modelcontextprotocol/sdk": "^1.12.0",
-		"zod": "^3.24.1"
+		"@modelcontextprotocol/sdk": "^1.25.3",
+		"zod": "^4.3.6"
 	},
 	"devDependencies": {
-		"typescript": "^5.8.3"
+		"typescript": "^5.9.3"
 	}
 }

@@ -13,7 +13,7 @@
 	"dependencies": {
 		"@islam-se/orchestrator": "workspace:*",
 		"@islam-se/quotes": "workspace:*",
-		"commander": "^14.0.2",
+		"commander": "^14.0.3",
 		"dotenv": "^17.2.3"
 	},
 	"devDependencies": {

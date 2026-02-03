@@ -18,7 +18,8 @@
 				"useCollapsedElseIf": "warn",
 				"useConsistentBuiltinInstantiation": "warn",
 				"useThrowOnlyError": "warn",
-				"noUnusedTemplateLiteral": "warn"
+				"noUnusedTemplateLiteral": "warn",
+				"noNonNullAssertion": "warn"
 			},
 			"suspicious": {
 				"noEmptyBlockStatements": "warn"

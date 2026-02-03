@@ -3,7 +3,6 @@
  * Simplified schemas that give the LLM freedom while ensuring valid structure.
  */
 import { z } from "zod";
-import { zodToJsonSchema } from "zod-to-json-schema";
 
 // Research output - simplified
 export const ResearchOutputSchema = z.object({
@@ -98,21 +97,21 @@ export const ReviewOutputSchema = z.object({
 	revisedText: z.string().nullable().optional(),
 });
 
-// JSON Schema generation functions
+// JSON Schema generation functions (using zod v4 built-in toJSONSchema)
 export function getResearchJsonSchema(): object {
-	return zodToJsonSchema(ResearchOutputSchema, { target: "jsonSchema7" });
+	return z.toJSONSchema(ResearchOutputSchema, { target: "draft-07" });
 }
 
 export function getFactCheckJsonSchema(): object {
-	return zodToJsonSchema(FactCheckOutputSchema, { target: "jsonSchema7" });
+	return z.toJSONSchema(FactCheckOutputSchema, { target: "draft-07" });
 }
 
 export function getDraftJsonSchema(): object {
-	return zodToJsonSchema(DraftOutputSchema, { target: "jsonSchema7" });
+	return z.toJSONSchema(DraftOutputSchema, { target: "draft-07" });
 }
 
 export function getReviewJsonSchema(): object {
-	return zodToJsonSchema(ReviewOutputSchema, { target: "jsonSchema7" });
+	return z.toJSONSchema(ReviewOutputSchema, { target: "draft-07" });
 }
 
 // Ideation schemas
@@ -133,5 +132,5 @@ export const IdeationOutputSchema = z.object({
 export type IdeationOutputValidated = z.infer<typeof IdeationOutputSchema>;
 
 export function getIdeationJsonSchema(): object {
-	return zodToJsonSchema(IdeationOutputSchema, { target: "jsonSchema7" });
+	return z.toJSONSchema(IdeationOutputSchema, { target: "draft-07" });
 }

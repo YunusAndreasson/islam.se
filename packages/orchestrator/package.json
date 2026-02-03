@@ -11,11 +11,10 @@
 	},
 	"dependencies": {
 		"@islam-se/quotes": "workspace:*",
-		"zod": "^3.22.4",
-		"zod-to-json-schema": "^3.24.5"
+		"zod": "^4.3.6"
 	},
 	"devDependencies": {
-		"@types/node": "^20.11.5",
-		"typescript": "^5.3.3"
+		"@types/node": "^25.2.0",
+		"typescript": "^5.9.3"
 	}
 }

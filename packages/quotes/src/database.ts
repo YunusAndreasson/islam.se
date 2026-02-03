@@ -251,64 +251,41 @@ export interface DatabaseStats {
 export function getStats(): DatabaseStats {
 	const database = initDatabase();
 
-	const totalQuotes = (
-		database.prepare("SELECT COUNT(*) as count FROM quotes").get() as { count: number }
-	).count;
+	// Get totals, distinct authors, and distinct works in one query
+	const totals = database
+		.prepare(
+			`SELECT
+				COUNT(*) as totalQuotes,
+				COUNT(DISTINCT author) as authors,
+				COUNT(DISTINCT work_title) as works
+			FROM quotes`,
+		)
+		.get() as { totalQuotes: number; authors: number; works: number };
 
-	const authors = (
-		database.prepare("SELECT COUNT(DISTINCT author) as count FROM quotes").get() as {
-			count: number;
-		}
-	).count;
+	// Language breakdown with GROUP BY (single query instead of 3)
+	const languageCounts = database
+		.prepare("SELECT language, COUNT(*) as count FROM quotes GROUP BY language")
+		.all() as { language: string; count: number }[];
+	const byLanguageMap = new Map(languageCounts.map((r) => [r.language, r.count]));
 
-	const works = (
-		database.prepare("SELECT COUNT(DISTINCT work_title) as count FROM quotes").get() as {
-			count: number;
-		}
-	).count;
+	// Source type breakdown with GROUP BY (single query instead of 2)
+	const sourceTypeCounts = database
+		.prepare("SELECT source_type, COUNT(*) as count FROM quotes GROUP BY source_type")
+		.all() as { source_type: string | null; count: number }[];
+	const bySourceMap = new Map(sourceTypeCounts.map((r) => [r.source_type, r.count]));
 
-	// Language breakdown
-	const swedishQuotes = (
-		database.prepare("SELECT COUNT(*) as count FROM quotes WHERE language = 'sv'").get() as {
-			count: number;
-		}
-	).count;
-
-	const arabicQuotes = (
-		database.prepare("SELECT COUNT(*) as count FROM quotes WHERE language = 'ar'").get() as {
-			count: number;
-		}
-	).count;
-
-	const norseQuotes = (
-		database.prepare("SELECT COUNT(*) as count FROM quotes WHERE language = 'en'").get() as {
-			count: number;
-		}
-	).count;
-
-	// Source type breakdown
-	const gutenbergQuotes = (
-		database
-			.prepare("SELECT COUNT(*) as count FROM quotes WHERE source_type = 'gutenberg'")
-			.get() as { count: number }
-	).count;
-
-	const openitiQuotes = (
-		database
-			.prepare("SELECT COUNT(*) as count FROM quotes WHERE source_type = 'openiti'")
-			.get() as { count: number }
-	).count;
-
-	const otherQuotes = totalQuotes - gutenbergQuotes - openitiQuotes;
+	const gutenbergQuotes = bySourceMap.get("gutenberg") ?? 0;
+	const openitiQuotes = bySourceMap.get("openiti") ?? 0;
+	const otherQuotes = totals.totalQuotes - gutenbergQuotes - openitiQuotes;
 
 	return {
-		totalQuotes,
-		authors,
-		works,
+		totalQuotes: totals.totalQuotes,
+		authors: totals.authors,
+		works: totals.works,
 		byLanguage: {
-			swedish: swedishQuotes,
-			arabic: arabicQuotes,
-			norse: norseQuotes,
+			swedish: byLanguageMap.get("sv") ?? 0,
+			arabic: byLanguageMap.get("ar") ?? 0,
+			norse: byLanguageMap.get("en") ?? 0,
 		},
 		bySourceType: {
 			gutenberg: gutenbergQuotes,

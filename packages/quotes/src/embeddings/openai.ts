@@ -1,20 +1,27 @@
 import OpenAI from "openai";
 
 const EMBEDDING_MODEL = "text-embedding-3-small";
-const EMBEDDING_DIMENSIONS = 384; // Now using local embeddings
+const EMBEDDING_DIMENSIONS = 384; // Match local multilingual-e5-small dimensions
+
+// Singleton client to reuse HTTP connections
+let client: OpenAI | null = null;
+
+function getClient(): OpenAI {
+	if (!client) {
+		const apiKey = process.env.OPENAI_API_KEY;
+		if (!apiKey) {
+			throw new Error("OPENAI_API_KEY environment variable is required");
+		}
+		client = new OpenAI({ apiKey });
+	}
+	return client;
+}
 
 /**
  * Generates an embedding vector for a given text using OpenAI's API
  */
 export async function generateEmbedding(text: string): Promise<Float32Array> {
-	const apiKey = process.env.OPENAI_API_KEY;
-	if (!apiKey) {
-		throw new Error("OPENAI_API_KEY environment variable is required");
-	}
-
-	const client = new OpenAI({ apiKey });
-
-	const response = await client.embeddings.create({
+	const response = await getClient().embeddings.create({
 		model: EMBEDDING_MODEL,
 		input: text,
 		dimensions: EMBEDDING_DIMENSIONS,
@@ -37,14 +44,7 @@ export async function generateEmbeddings(texts: string[]): Promise<Float32Array[
 		return [];
 	}
 
-	const apiKey = process.env.OPENAI_API_KEY;
-	if (!apiKey) {
-		throw new Error("OPENAI_API_KEY environment variable is required");
-	}
-
-	const client = new OpenAI({ apiKey });
-
-	const response = await client.embeddings.create({
+	const response = await getClient().embeddings.create({
 		model: EMBEDDING_MODEL,
 		input: texts,
 		dimensions: EMBEDDING_DIMENSIONS,
