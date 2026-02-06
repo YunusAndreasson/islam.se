@@ -22,7 +22,6 @@ program
 	.command("article")
 	.description("Produce a complete article on a topic")
 	.argument("<topic>", "The topic to write about")
-	.option("-l, --length <words>", "Target word count", "2500")
 	.option("-q, --quality <score>", "Minimum quality score (1-10)", "7.5")
 	.option("--no-arabic", "Exclude Arabic quotes")
 	.option("-m, --model <model>", "Model to use (opus|sonnet)", "opus")
@@ -38,7 +37,6 @@ program
 		console.log("");
 		console.log(`Topic: ${topic}`);
 		console.log(`Model: ${options.model}`);
-		console.log(`Target: ${options.length} words`);
 		console.log(`Quality threshold: ${options.quality}/10`);
 		console.log(`Arabic quotes: ${options.arabic !== false ? "Yes" : "No"}`);
 		console.log("");
@@ -47,7 +45,6 @@ program
 			outputDir,
 			model: options.model as "opus" | "sonnet",
 			qualityThreshold: Number.parseFloat(options.quality),
-			targetWordCount: Number.parseInt(options.length, 10),
 			includeArabic: options.arabic !== false,
 			maxRevisions: Number.parseInt(options.revisions, 10),
 		});
@@ -259,7 +256,6 @@ program
 				outputDir,
 				model: options.model as "opus" | "sonnet",
 				qualityThreshold: 7.5,
-				targetWordCount: 2500,
 				includeArabic: true,
 				maxRevisions: 2,
 			});

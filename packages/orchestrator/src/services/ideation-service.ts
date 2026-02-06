@@ -63,6 +63,8 @@ export interface EnrichedIdeationOutput {
 export interface IdeationServiceOptions {
 	outputDir: string;
 	model?: "opus" | "sonnet";
+	/** Suppress console output (for TUI mode) */
+	quiet?: boolean;
 }
 
 export class IdeationService {
@@ -77,7 +79,20 @@ export class IdeationService {
 		this.options = {
 			outputDir: options.outputDir,
 			model: options.model ?? "opus",
+			quiet: options.quiet ?? false,
 		};
+	}
+
+	private log(message: string): void {
+		if (!this.options.quiet) {
+			console.log(message);
+		}
+	}
+
+	private warn(message: string): void {
+		if (!this.options.quiet) {
+			console.warn(message);
+		}
 	}
 
 	/**
@@ -97,9 +112,7 @@ export class IdeationService {
 	 * Get model ID for Claude CLI
 	 */
 	private getModelId(): ClaudeRunOptions["model"] {
-		return this.options.model === "opus"
-			? "claude-opus-4-5-20251101"
-			: "claude-sonnet-4-5-20250929";
+		return this.options.model === "opus" ? "claude-opus-4-6" : "claude-sonnet-4-5-20250929";
 	}
 
 	/**
@@ -271,7 +284,7 @@ export class IdeationService {
 		const outputDir = this.ensureOutputDir(topicSlug);
 
 		// Step 1: Generate ideas
-		console.log("   - Generating sophisticated ideas...");
+		this.log("   - Generating sophisticated ideas...");
 		const ideaResult = await this.generateIdeas(topic);
 
 		if (!(ideaResult.success && ideaResult.data)) {
@@ -283,7 +296,7 @@ export class IdeationService {
 		}
 
 		const rawIdeas = ideaResult.data;
-		console.log(`   - Generated ${rawIdeas.ideas.length} ideas`);
+		this.log(`   - Generated ${rawIdeas.ideas.length} ideas`);
 
 		// Step 2: Enrich with quotes (unless skipped)
 		let enrichedIdeas: EnrichedIdea[];
@@ -295,10 +308,10 @@ export class IdeationService {
 				quotes: [],
 			}));
 		} else {
-			console.log("   - Enriching with quotes...");
+			this.log("   - Enriching with quotes...");
 			enrichedIdeas = await this.enrichIdeasWithQuotes(rawIdeas.ideas);
 			const totalQuotes = enrichedIdeas.reduce((sum, idea) => sum + idea.quotes.length, 0);
-			console.log(`   - Attached ${totalQuotes} quotes to ${enrichedIdeas.length} ideas`);
+			this.log(`   - Attached ${totalQuotes} quotes to ${enrichedIdeas.length} ideas`);
 		}
 
 		// Step 3: Build output
@@ -349,7 +362,7 @@ export class IdeationService {
 		const ideationPath = join(this.options.outputDir, "ideas", topicSlug, "ideation.json");
 
 		if (!existsSync(ideationPath)) {
-			console.warn(`Ideation file not found: ${ideationPath}`);
+			this.warn(`Ideation file not found: ${ideationPath}`);
 			return false;
 		}
 
@@ -358,7 +371,7 @@ export class IdeationService {
 			const idea = data.ideas.find((i) => i.id === ideaId);
 
 			if (!idea) {
-				console.warn(`Idea ${ideaId} not found in ${topicSlug}`);
+				this.warn(`Idea ${ideaId} not found in ${topicSlug}`);
 				return false;
 			}
 
@@ -366,7 +379,7 @@ export class IdeationService {
 			writeFileSync(ideationPath, JSON.stringify(data, null, 2), "utf-8");
 			return true;
 		} catch (error) {
-			console.error(`Failed to update idea status: ${error}`);
+			this.warn(`Failed to update idea status: ${error}`);
 			return false;
 		}
 	}

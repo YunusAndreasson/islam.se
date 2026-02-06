@@ -1,6 +1,12 @@
 import { spawn } from "node:child_process";
+import { EventEmitter } from "node:events";
 import { readFileSync } from "node:fs";
 import type { z } from "zod";
+
+export interface ClaudeStreamChunk {
+	type: "text" | "tool_use" | "tool_result";
+	content: string;
+}
 
 export interface ClaudeRunOptions {
 	/** Path to prompt file or prompt content */
@@ -14,7 +20,9 @@ export interface ClaudeRunOptions {
 	/** JSON schema for built-in output validation (uses --json-schema flag) */
 	jsonSchema?: object;
 	/** Model to use */
-	model: "claude-opus-4-5-20251101" | "claude-sonnet-4-5-20250929";
+	model: "claude-opus-4-6" | "claude-sonnet-4-5-20250929";
+	/** Effort level for adaptive thinking (Opus 4.6 only) */
+	effort?: "low" | "medium" | "high" | "max";
 	/** Maximum tokens for output */
 	maxTokens?: number;
 	/** Maximum budget in USD for this stage (uses --max-budget-usd flag) */
@@ -27,6 +35,8 @@ export interface ClaudeRunOptions {
 	noSessionPersistence?: boolean;
 	/** MCP config file path (uses --mcp-config flag) */
 	mcpConfig?: string;
+	/** Skip all permission checks for trusted pipeline runs (uses --dangerously-skip-permissions flag) */
+	skipPermissions?: boolean;
 }
 
 export interface ClaudeRunResult {
@@ -36,7 +46,7 @@ export interface ClaudeRunResult {
 	exitCode?: number;
 }
 
-export class ClaudeRunner {
+export class ClaudeRunner extends EventEmitter {
 	/**
 	 * Execute a headless Claude session
 	 */
@@ -44,9 +54,13 @@ export class ClaudeRunner {
 		const args = this.buildArgs(options);
 
 		return new Promise((resolve) => {
+			const env = options.effort
+				? { ...process.env, CLAUDE_CODE_EFFORT_LEVEL: options.effort }
+				: process.env;
+
 			const child = spawn("claude", args, {
 				stdio: ["ignore", "pipe", "pipe"],
-				env: process.env,
+				env,
 			});
 
 			let stdout = "";
@@ -83,6 +97,268 @@ export class ClaudeRunner {
 				});
 			});
 		});
+	}
+
+	/**
+	 * Execute with streaming - emits 'chunk' events with text fragments
+	 */
+	public async runWithStreaming(
+		options: ClaudeRunOptions,
+		onChunk?: (chunk: ClaudeStreamChunk) => void,
+	): Promise<ClaudeRunResult> {
+		const args = this.buildStreamingArgs(options);
+
+		return new Promise((resolve) => {
+			const env = options.effort
+				? { ...process.env, CLAUDE_CODE_EFFORT_LEVEL: options.effort }
+				: process.env;
+
+			const child = spawn("claude", args, {
+				stdio: ["ignore", "pipe", "pipe"],
+				env,
+			});
+
+			let fullOutput = "";
+			let stderr = "";
+			let lineBuffer = "";
+
+			child.stdout?.on("data", (data) => {
+				const text = data.toString();
+				lineBuffer += text;
+
+				// Process complete lines (stream-json outputs one JSON object per line)
+				const lines = lineBuffer.split("\n");
+				lineBuffer = lines.pop() || ""; // Keep incomplete line in buffer
+
+				for (const line of lines) {
+					if (!line.trim()) continue;
+					try {
+						const event = JSON.parse(line);
+						this.processStreamEvent(event, onChunk);
+
+						// Accumulate result content from assistant messages
+						if (event.type === "assistant" && event.message?.content) {
+							for (const block of event.message.content) {
+								if (block.type === "text") {
+									fullOutput += block.text;
+								}
+							}
+						}
+
+						// Capture final result - could be in different formats
+						if (event.type === "result") {
+							// Structured output from --json-schema
+							if (event.structured_output !== undefined) {
+								fullOutput = JSON.stringify(event.structured_output);
+							} else if (event.result) {
+								fullOutput = event.result;
+							}
+						}
+
+						// Capture errors
+						if (event.type === "error" && event.error) {
+							stderr += typeof event.error === "string" ? event.error : JSON.stringify(event.error);
+						}
+					} catch {
+						// Not JSON, might be raw output - accumulate it
+						fullOutput += line;
+					}
+				}
+			});
+
+			child.stderr?.on("data", (data) => {
+				stderr += data.toString();
+			});
+
+			child.on("close", (code) => {
+				// Process any remaining buffer
+				if (lineBuffer.trim()) {
+					try {
+						const event = JSON.parse(lineBuffer);
+						if (event.type === "result") {
+							if (event.structured_output !== undefined) {
+								fullOutput = JSON.stringify(event.structured_output);
+							} else if (event.result) {
+								fullOutput = event.result;
+							}
+						}
+						if (event.type === "error" && event.error) {
+							stderr += typeof event.error === "string" ? event.error : JSON.stringify(event.error);
+						}
+					} catch {
+						fullOutput += lineBuffer;
+					}
+				}
+
+				if (code === 0 && !stderr) {
+					resolve({
+						success: true,
+						output: fullOutput.trim(),
+						exitCode: code ?? undefined,
+					});
+				} else {
+					resolve({
+						success: false,
+						error: stderr || `Process exited with code ${code}`,
+						output: fullOutput.trim(), // Include output even on failure for debugging
+						exitCode: code ?? undefined,
+					});
+				}
+			});
+
+			child.on("error", (err) => {
+				resolve({
+					success: false,
+					error: err.message,
+				});
+			});
+		});
+	}
+
+	/**
+	 * Process streaming events and extract interesting content
+	 * Focus on actual output (quotes, text) rather than tool requests
+	 */
+	private processStreamEvent(
+		event: Record<string, unknown>,
+		onChunk?: (chunk: ClaudeStreamChunk) => void,
+	): void {
+		if (!onChunk) return;
+
+		// Handle assistant text output (Claude's writing)
+		if (event.type === "assistant" && event.message) {
+			const message = event.message as {
+				content?: Array<{ type: string; text?: string; name?: string }>;
+			};
+			if (message.content) {
+				for (const block of message.content) {
+					if (block.type === "text" && block.text) {
+						// Extract all interesting snippets from the text
+						const snippets = this.extractAllSnippets(block.text);
+						for (const snippet of snippets) {
+							onChunk({ type: "text", content: snippet });
+						}
+					}
+					// Skip tool_use - we want results, not requests
+				}
+			}
+		}
+
+		// Handle tool results - this is where the good content is!
+		if (event.type === "user" && event.message) {
+			const message = event.message as { content?: Array<{ type: string; content?: string }> };
+			if (message.content) {
+				for (const block of message.content) {
+					if (block.type === "tool_result" && block.content) {
+						const snippets = this.extractToolResultSnippets(block.content);
+						for (const snippet of snippets) {
+							onChunk({ type: "tool_result", content: snippet });
+						}
+					}
+				}
+			}
+		}
+	}
+
+	/**
+	 * Extract multiple interesting snippets from text
+	 */
+	private extractAllSnippets(text: string): string[] {
+		const snippets: string[] = [];
+
+		// Look for all quoted text - full length
+		const quoteMatches = text.matchAll(/"([^"]{30,})"/g);
+		for (const match of quoteMatches) {
+			if (match[1]) {
+				snippets.push(`"${match[1]}"`);
+			}
+		}
+
+		// Look for Arabic text (often quotes) - full length
+		const arabicMatch = text.match(/[\u0600-\u06FF]{20,}/);
+		if (arabicMatch) {
+			snippets.push(arabicMatch[0]);
+		}
+
+		// Look for findings/conclusions
+		const keyTerms = /(?:found|discovered|reveals|shows|argues|claims|concludes|demonstrates)/i;
+		const sentences = text.split(/[.!?]+/);
+		for (const sentence of sentences) {
+			const trimmed = sentence.trim();
+			if (keyTerms.test(trimmed) && trimmed.length > 40) {
+				snippets.push(trimmed);
+				break; // Just one finding per chunk
+			}
+		}
+
+		return snippets.slice(0, 3); // Max 3 per event
+	}
+
+	/**
+	 * Extract multiple snippets from tool results (quotes, passages, etc.)
+	 */
+	private extractToolResultSnippets(content: string): string[] {
+		const snippets: string[] = [];
+
+		try {
+			const data = JSON.parse(content);
+
+			// Quote search results - extract full quotes
+			if (Array.isArray(data)) {
+				for (const item of data.slice(0, 3)) {
+					if (item?.text && item?.author) {
+						snippets.push(`"${item.text}" — ${item.author}`);
+					} else if (item?.passage || item?.content) {
+						snippets.push(item.passage || item.content);
+					}
+				}
+			}
+
+			// Single result object
+			if (data && typeof data === "object" && !Array.isArray(data)) {
+				if (data.text && data.author) {
+					snippets.push(`"${data.text}" — ${data.author}`);
+				}
+				if (data.summary) {
+					snippets.push(data.summary);
+				}
+				if (data.content && typeof data.content === "string") {
+					snippets.push(data.content);
+				}
+			}
+		} catch {
+			// Not JSON - might be plain text result
+			if (content.length > 50) {
+				// Look for quote-like patterns
+				const quoteMatch = content.match(/"([^"]{30,})"/);
+				if (quoteMatch?.[1]) {
+					snippets.push(`"${quoteMatch[1]}"`);
+				} else {
+					snippets.push(content);
+				}
+			}
+		}
+
+		return snippets;
+	}
+
+	/**
+	 * Build args for streaming mode
+	 */
+	private buildStreamingArgs(options: ClaudeRunOptions): string[] {
+		const args = this.buildArgs(options);
+		// Replace output format with stream-json (requires --verbose with --print)
+		const formatIdx = args.indexOf("--output-format");
+		if (formatIdx !== -1) {
+			args[formatIdx + 1] = "stream-json";
+		} else {
+			args.push("--output-format", "stream-json");
+		}
+		// Add --verbose flag required for stream-json with --print
+		if (!args.includes("--verbose")) {
+			args.push("--verbose");
+		}
+		return args;
 	}
 
 	/**
@@ -146,14 +422,19 @@ export class ClaudeRunner {
 			args.push("--no-session-persistence");
 		}
 
+		// Skip permission checks for trusted pipeline runs
+		if (options.skipPermissions) {
+			args.push("--dangerously-skip-permissions");
+		}
+
 		// Prompt is the last positional argument
 		// If it's a file path, read its content
 		let promptContent = options.prompt;
 		if (options.prompt.endsWith(".md") || options.prompt.endsWith(".txt")) {
 			try {
 				promptContent = readFileSync(options.prompt, "utf-8");
-			} catch (error) {
-				console.error(`Failed to read prompt file: ${options.prompt}`, error);
+			} catch {
+				// Silently fall back to using prompt as content
 			}
 		}
 		args.push(promptContent);

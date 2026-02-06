@@ -21,6 +21,12 @@ import { SourceValidator } from "./source-validator.js";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
+export interface PreviewChunk {
+	stage: "research" | "factCheck" | "authoring" | "review";
+	type: "text" | "tool_use" | "tool_result";
+	content: string;
+}
+
 export interface OrchestratorOptions {
 	/** Output directory for generated content */
 	outputDir: string;
@@ -28,12 +34,14 @@ export interface OrchestratorOptions {
 	model?: "opus" | "sonnet";
 	/** Minimum quality score to publish (default: 7.5) */
 	qualityThreshold?: number;
-	/** Target word count (default: 2500) */
-	targetWordCount?: number;
 	/** Include Arabic quotes (default: true) */
 	includeArabic?: boolean;
 	/** Maximum revision attempts (default: 2) */
 	maxRevisions?: number;
+	/** Suppress console output (for TUI mode) */
+	quiet?: boolean;
+	/** Callback for streaming preview snippets during execution */
+	onPreview?: (chunk: PreviewChunk) => void;
 }
 
 export interface StageResult<T = unknown> {
@@ -133,7 +141,8 @@ export class ContentOrchestrator {
 	private runner: ClaudeRunner;
 	private validator: SourceValidator;
 	private references: ReferenceTracker;
-	private options: Required<OrchestratorOptions>;
+	private options: Required<Omit<OrchestratorOptions, "onPreview">> &
+		Pick<OrchestratorOptions, "onPreview">;
 	private promptsDir: string;
 
 	constructor(options: OrchestratorOptions) {
@@ -146,10 +155,29 @@ export class ContentOrchestrator {
 			outputDir: options.outputDir,
 			model: options.model ?? "opus",
 			qualityThreshold: options.qualityThreshold ?? 7.5,
-			targetWordCount: options.targetWordCount ?? 2500,
 			includeArabic: options.includeArabic ?? true,
 			maxRevisions: options.maxRevisions ?? 2,
+			quiet: options.quiet ?? false,
+			onPreview: options.onPreview,
 		};
+	}
+
+	/**
+	 * Log message to console (suppressed in quiet mode)
+	 */
+	private log(message: string): void {
+		if (!this.options.quiet) {
+			console.log(message);
+		}
+	}
+
+	/**
+	 * Log warning to console (suppressed in quiet mode)
+	 */
+	private warn(message: string): void {
+		if (!this.options.quiet) {
+			console.warn(message);
+		}
 	}
 
 	/**
@@ -169,9 +197,67 @@ export class ContentOrchestrator {
 	 * Get model ID for Claude CLI
 	 */
 	private getModelId(): ClaudeRunOptions["model"] {
-		return this.options.model === "opus"
-			? "claude-opus-4-5-20251101"
-			: "claude-sonnet-4-5-20250929";
+		return this.options.model === "opus" ? "claude-opus-4-6" : "claude-sonnet-4-5-20250929";
+	}
+
+	/**
+	 * Run Claude with optional streaming for preview chunks
+	 */
+	private async runWithOptionalStreaming<T>(
+		options: ClaudeRunOptions,
+		schema: z.ZodSchema<T>,
+		stage: PreviewChunk["stage"],
+	): Promise<Awaited<ReturnType<typeof this.runner.runJSON<T>>>> {
+		if (this.options.onPreview) {
+			const streamResult = await this.runner.runWithStreaming(options, (chunk) => {
+				this.options.onPreview?.({
+					stage,
+					type: chunk.type,
+					content: chunk.content,
+				});
+			});
+
+			// If the streaming call itself failed, return the error
+			if (!streamResult.success) {
+				return {
+					success: false,
+					error: streamResult.error || "Claude process failed",
+					output: streamResult.output,
+					exitCode: streamResult.exitCode,
+				};
+			}
+
+			// If no output, something went wrong
+			if (!streamResult.output) {
+				return {
+					success: false,
+					error: "No output received from Claude",
+					output: "",
+				};
+			}
+
+			// Try to parse the JSON output
+			const parsed = this.runner.parseJSONOutput<T>(streamResult.output);
+			if (!parsed) {
+				// Show a snippet of what we got to help debug
+				const snippet = streamResult.output.slice(0, 500);
+				return {
+					success: false,
+					error: `Failed to parse JSON output. Got: ${snippet}...`,
+					output: streamResult.output,
+				};
+			}
+
+			// Validate against schema
+			const validation = this.runner.validateOutput(parsed, schema);
+			if (!validation.success) {
+				return { success: false, error: validation.error, output: streamResult.output };
+			}
+
+			return { ...streamResult, data: validation.data };
+		}
+
+		return this.runner.runJSON<T>(options, schema);
 	}
 
 	/**
@@ -179,9 +265,11 @@ export class ContentOrchestrator {
 	 * Optionally validates output against a Zod schema.
 	 * Returns the raw result - stages handle their own post-processing.
 	 * Includes retry logic for transient validation failures.
+	 * When onPreview is configured, uses streaming to emit preview snippets.
 	 */
 	private async executeClaudeStage<T>(options: {
 		name: string;
+		stage: PreviewChunk["stage"];
 		emoji: string;
 		promptFile: string;
 		systemPrompt: string;
@@ -189,26 +277,78 @@ export class ContentOrchestrator {
 		schema?: z.ZodSchema<T>;
 		jsonSchema?: object;
 		maxRetries?: number;
+		skipPermissions?: boolean;
+		mcpConfig?: string;
+		effort?: ClaudeRunOptions["effort"];
 	}): Promise<StageResult<T>> {
 		const startTime = Date.now();
 		const maxRetries = options.maxRetries ?? 2;
-		console.log(`${options.emoji} ${options.name}...`);
+		this.log(`${options.emoji} ${options.name}...`);
 
 		const promptPath = join(this.promptsDir, options.promptFile);
+		const useStreaming = !!this.options.onPreview;
 
 		for (let attempt = 1; attempt <= maxRetries; attempt++) {
-			const result = await this.runner.runJSON<T>(
-				{
-					prompt: promptPath,
-					systemPrompt: options.systemPrompt,
-					model: this.getModelId(),
-					allowedTools: options.allowedTools,
-					jsonSchema: options.jsonSchema,
-					fallbackModel: "sonnet",
-					noSessionPersistence: true,
-				},
-				options.schema,
-			);
+			let result: Awaited<ReturnType<typeof this.runner.runJSON<T>>>;
+
+			if (useStreaming) {
+				// Use streaming to emit preview chunks
+				const streamResult = await this.runner.runWithStreaming(
+					{
+						prompt: promptPath,
+						systemPrompt: options.systemPrompt,
+						model: this.getModelId(),
+						allowedTools: options.allowedTools,
+						mcpConfig: options.mcpConfig,
+						jsonSchema: options.jsonSchema,
+						effort: options.effort,
+						fallbackModel: "sonnet",
+						noSessionPersistence: true,
+						skipPermissions: options.skipPermissions ?? true, // Default to skipping for pipeline
+					},
+					(chunk) => {
+						this.options.onPreview?.({
+							stage: options.stage,
+							type: chunk.type,
+							content: chunk.content,
+						});
+					},
+				);
+
+				// Parse the output
+				if (streamResult.success && streamResult.output) {
+					const parsed = this.runner.parseJSONOutput<T>(streamResult.output);
+					if (parsed && options.schema) {
+						const validation = this.runner.validateOutput(parsed, options.schema);
+						if (validation.success) {
+							result = { ...streamResult, data: validation.data };
+						} else {
+							result = { success: false, error: validation.error, output: streamResult.output };
+						}
+					} else {
+						result = { ...streamResult, data: parsed as T };
+					}
+				} else {
+					result = streamResult;
+				}
+			} else {
+				// Non-streaming mode
+				result = await this.runner.runJSON<T>(
+					{
+						prompt: promptPath,
+						systemPrompt: options.systemPrompt,
+						model: this.getModelId(),
+						allowedTools: options.allowedTools,
+						mcpConfig: options.mcpConfig,
+						jsonSchema: options.jsonSchema,
+						effort: options.effort,
+						fallbackModel: "sonnet",
+						noSessionPersistence: true,
+						skipPermissions: options.skipPermissions ?? true, // Default to skipping for pipeline
+					},
+					options.schema,
+				);
+			}
 
 			if (result.success && result.data) {
 				return {
@@ -222,7 +362,7 @@ export class ContentOrchestrator {
 			const isValidationError = result.error?.includes("Validation failed");
 			if (isValidationError && attempt < maxRetries) {
 				const delay = 2000 * attempt; // exponential backoff: 2s, 4s
-				console.log(
+				this.log(
 					`   ⚠️  Validation failed, retry ${attempt}/${maxRetries - 1} in ${delay / 1000}s...`,
 				);
 				await new Promise((resolve) => setTimeout(resolve, delay));
@@ -291,23 +431,12 @@ export class ContentOrchestrator {
 		thesis: string;
 		angle: string;
 		keywords: string[];
-		quotes: Array<{ id: number; text: string; author: string; source?: string }>;
 	}): Promise<StageResult<ResearchOutput>> {
 		const startTime = Date.now();
-		console.log("📚 Stage 1: Research (from idea)...");
+		this.log("📚 Stage 1: Research (from idea)...");
+		this.log(`   - Angle: ${idea.angle.slice(0, 80)}...`);
 
-		// Convert pre-found quotes to research format
-		const preFoundQuotes = idea.quotes.map((q) => ({
-			id: `idea-quote-${q.id}`,
-			text: q.text,
-			author: q.author,
-			source: q.source,
-		}));
-
-		console.log(`   - Using ${preFoundQuotes.length} pre-found quotes from ideation`);
-		console.log(`   - Angle: ${idea.angle.slice(0, 80)}...`);
-
-		// Build system prompt with idea context - giving Claude autonomy per best practices
+		// Simple system prompt - let research find the best material autonomously
 		const systemPrompt = `Topic: ${idea.thesis}
 
 <context>
@@ -318,16 +447,12 @@ Angle: ${idea.angle}
 Suggested keywords: ${idea.keywords.join(", ")}
 </context>
 
-<pre_found_quotes>
-These quotes were already identified as relevant during ideation. Include them in your output and find complementary material:
-${preFoundQuotes.map((q) => `- "${q.text.slice(0, 100)}..." — ${q.author}`).join("\n")}
-</pre_found_quotes>
-
 <guidance>
-Focus on finding quotes and sources that:
-- Directly support the specific angle (not just the general topic)
-- Provide cross-cultural perspectives (Arabic scholars + Swedish/Western authors)
-- Add depth or nuance to the pre-found material
+Find the best material for this specific angle:
+- Quotes from scholars/authors (Arabic + Swedish/Western perspectives)
+- Quran verses relevant to the angle
+- Book passages for extended context
+- Web sources for contemporary perspectives
 
 Use parallel tool calls when searching multiple angles or authors simultaneously.
 </guidance>`;
@@ -335,7 +460,7 @@ Use parallel tool calls when searching multiple angles or authors simultaneously
 		// Run Claude with MCP quote tools + web tools
 		const promptPath = join(this.promptsDir, "research.md");
 		const mcpConfigPath = join(__dirname, "../../..", ".mcp.json");
-		const result = await this.runner.runJSON<ResearchOutput>(
+		const result = await this.runWithOptionalStreaming<ResearchOutput>(
 			{
 				prompt: promptPath,
 				systemPrompt,
@@ -347,14 +472,20 @@ Use parallel tool calls when searching multiple angles or authors simultaneously
 					"mcp__quotes__search_text",
 					"mcp__quotes__get_inventory",
 					"mcp__quotes__bulk_search",
+					"mcp__quotes__search_quran",
+					"mcp__quotes__search_books",
+					"mcp__quotes__fetch_wikipedia",
 					"WebSearch",
 					"Read",
 				],
 				jsonSchema: getResearchJsonSchema(),
+				effort: "high",
 				fallbackModel: "sonnet",
 				noSessionPersistence: true,
+				skipPermissions: true, // Trusted pipeline - skip MCP permission prompts
 			},
 			ResearchOutputSchema,
+			"research",
 		);
 
 		if (!(result.success && result.data)) {
@@ -365,25 +496,14 @@ Use parallel tool calls when searching multiple angles or authors simultaneously
 			};
 		}
 
-		// Merge pre-found quotes with newly discovered ones
-		const allQuotes = [...preFoundQuotes, ...(result.data.quotes || [])];
-		// Deduplicate by text prefix (O(n) with Set instead of O(n²) with findIndex)
-		const seenPrefixes = new Set<string>();
-		const uniqueQuotes = allQuotes.filter((q) => {
-			const prefix = q.text.slice(0, 50);
-			if (seenPrefixes.has(prefix)) return false;
-			seenPrefixes.add(prefix);
-			return true;
-		});
-
 		// Validate sources
 		const rawSources = result.data.sources || [];
-		console.log("   - Verifying URLs...");
+		this.log("   - Verifying URLs...");
 		const urlsToVerify = rawSources.map((s) => s.url);
 		const verification = await this.validator.verifyUrls(urlsToVerify);
 
 		if (verification.stats.failed > 0) {
-			console.log(`   - ⚠️  ${verification.stats.failed} URL(s) failed verification`);
+			this.log(`   - ⚠️  ${verification.stats.failed} URL(s) failed verification`);
 		}
 
 		const verifiedUrls = new Set<string>();
@@ -400,7 +520,7 @@ Use parallel tool calls when searching multiple angles or authors simultaneously
 		const data = {
 			...result.data,
 			sources: validatedSources,
-			quotes: uniqueQuotes,
+			quotes: result.data.quotes || [],
 			bookPassages: result.data.bookPassages || [],
 		};
 
@@ -421,10 +541,7 @@ Use parallel tool calls when searching multiple angles or authors simultaneously
 			});
 		}
 
-		console.log(
-			`   - Total: ${data.quotes.length} quotes (${preFoundQuotes.length} from idea + ${data.quotes.length - preFoundQuotes.length} new)`,
-		);
-		console.log(`   - Found ${data.sources.length} credible sources`);
+		this.log(`   - Found ${data.quotes.length} quotes, ${data.sources.length} sources`);
 
 		return {
 			success: true,
@@ -439,8 +556,8 @@ Use parallel tool calls when searching multiple angles or authors simultaneously
 	 */
 	async runResearch(topic: string): Promise<StageResult<ResearchOutput>> {
 		const startTime = Date.now();
-		console.log("📚 Stage 1: Research...");
-		console.log("   - Claude will search quote database via MCP tools");
+		this.log("📚 Stage 1: Research...");
+		this.log("   - Claude will search quote database via MCP tools");
 
 		// Build system prompt - giving Claude autonomy per best practices
 		const systemPrompt = `Topic: ${topic}
@@ -464,7 +581,7 @@ Use parallel tool calls when searching multiple angles or authors simultaneously
 		const promptPath = join(this.promptsDir, "research.md");
 		// MCP config is in project root (3 levels up from packages/orchestrator/src)
 		const mcpConfigPath = join(__dirname, "../../..", ".mcp.json");
-		const result = await this.runner.runJSON<ResearchOutput>(
+		const result = await this.runWithOptionalStreaming<ResearchOutput>(
 			{
 				prompt: promptPath,
 				systemPrompt,
@@ -478,14 +595,20 @@ Use parallel tool calls when searching multiple angles or authors simultaneously
 					"mcp__quotes__search_text",
 					"mcp__quotes__get_inventory",
 					"mcp__quotes__bulk_search",
+					"mcp__quotes__search_quran",
+					"mcp__quotes__search_books",
+					"mcp__quotes__fetch_wikipedia",
 					"WebSearch",
 					"Read",
 				],
 				jsonSchema: getResearchJsonSchema(),
+				effort: "high",
 				fallbackModel: "sonnet",
 				noSessionPersistence: true,
+				skipPermissions: true, // Trusted pipeline - skip MCP permission prompts
 			},
 			ResearchOutputSchema,
+			"research",
 		);
 
 		if (!(result.success && result.data)) {
@@ -500,15 +623,15 @@ Use parallel tool calls when searching multiple angles or authors simultaneously
 		const rawSources = result.data.sources || [];
 
 		// Step 4: Verify URLs actually exist (catches hallucinated URLs)
-		console.log("   - Verifying URLs...");
+		this.log("   - Verifying URLs...");
 		const urlsToVerify = rawSources.map((s) => s.url);
 		const verification = await this.validator.verifyUrls(urlsToVerify);
 
 		if (verification.stats.failed > 0) {
-			console.log(`   - ⚠️  ${verification.stats.failed} URL(s) failed verification:`);
+			this.log(`   - ⚠️  ${verification.stats.failed} URL(s) failed verification:`);
 			for (const url of verification.stats.failedUrls) {
 				const result = verification.results.find((r) => r.url === url);
-				console.log(`     - ${url} (${result?.error || "unreachable"})`);
+				this.log(`     - ${url} (${result?.error || "unreachable"})`);
 			}
 		}
 
@@ -524,7 +647,7 @@ Use parallel tool calls when searching multiple angles or authors simultaneously
 				// Only reject blacklisted sources
 				const validation = this.validator.validateSource(source.url);
 				if (validation.credibility === "rejected") {
-					console.log(`   - Rejected blacklisted source: ${source.url}`);
+					this.log(`   - Rejected blacklisted source: ${source.url}`);
 					return false;
 				}
 				return true;
@@ -558,8 +681,8 @@ Use parallel tool calls when searching multiple angles or authors simultaneously
 			});
 		}
 
-		console.log(`   - Found ${data.sources.length} credible sources`);
-		console.log(`   - Retrieved ${data.quotes.length} quotes total`);
+		this.log(`   - Found ${data.sources.length} credible sources`);
+		this.log(`   - Retrieved ${data.quotes.length} quotes total`);
 
 		return {
 			success: true,
@@ -574,14 +697,18 @@ Use parallel tool calls when searching multiple angles or authors simultaneously
 	async runFactCheck(research: ResearchOutput): Promise<StageResult<FactCheckOutput>> {
 		const systemPrompt = `Research data:\n${JSON.stringify(research, null, 2)}`;
 
+		const mcpConfigPath = join(__dirname, "../../..", ".mcp.json");
 		const result = await this.executeClaudeStage<FactCheckOutput>({
 			name: "Stage 2: Quality Review",
+			stage: "factCheck",
 			emoji: "🔍",
 			promptFile: "fact-checker.md",
 			systemPrompt,
-			allowedTools: ["WebFetch"], // URL verification only
+			allowedTools: ["WebFetch", "mcp__quotes__fetch_wikipedia"], // URL verification + Wikipedia
+			mcpConfig: mcpConfigPath,
 			schema: FactCheckOutputSchema,
 			jsonSchema: getFactCheckJsonSchema(),
+			effort: "medium",
 		});
 
 		if (!(result.success && result.data)) {
@@ -593,16 +720,16 @@ Use parallel tool calls when searching multiple angles or authors simultaneously
 			verifiedClaims: result.data.verifiedClaims || [],
 		};
 
-		console.log(`   - Verified ${data.verifiedClaims.length} claims`);
-		console.log(`   - Overall credibility: ${data.overallCredibility ?? 0}/10`);
+		this.log(`   - Verified ${data.verifiedClaims.length} claims`);
+		this.log(`   - Overall credibility: ${data.overallCredibility ?? 0}/10`);
 
 		// Check quality gate
-		if (data.overallCredibility < 7) {
-			console.log("   ❌ Credibility below threshold (7.0)");
+		if (data.overallCredibility < this.options.qualityThreshold) {
+			this.log(`   ❌ Credibility below threshold (${this.options.qualityThreshold})`);
 			return {
 				success: false,
 				data,
-				error: `Credibility score ${data.overallCredibility} below threshold 7.0`,
+				error: `Credibility score ${data.overallCredibility} below threshold ${this.options.qualityThreshold}`,
 				duration: result.duration,
 			};
 		}
@@ -642,12 +769,14 @@ ${research.bookPassages.length} book passages available for integration.`;
 
 		const result = await this.executeClaudeStage<DraftOutput>({
 			name: "Stage 3: Authoring",
+			stage: "authoring",
 			emoji: "✍️ ",
 			promptFile: "author.md",
 			systemPrompt,
-			allowedTools: ["Read"],
+			allowedTools: ["Read", "think"], // think tool for mid-writing reflection
 			schema: DraftOutputSchema,
 			jsonSchema: getDraftJsonSchema(),
+			effort: "max",
 		});
 
 		if (!(result.success && result.data)) {
@@ -655,7 +784,7 @@ ${research.bookPassages.length} book passages available for integration.`;
 		}
 
 		const wordCount = result.data.wordCount ?? result.data.body.split(/\s+/).length;
-		console.log(`   - Draft complete: ${wordCount} words`);
+		this.log(`   - Draft complete: ${wordCount} words`);
 
 		return result;
 	}
@@ -670,21 +799,23 @@ ${research.bookPassages.length} book passages available for integration.`;
 		const systemPrompt = `Draft article:\n${draft.body}\n\nOriginal research summary:\n${research.summary}`;
 
 		const result = await this.executeClaudeStage<ReviewOutput>({
-			name: "Stage 4: Quality Review",
+			name: "Stage 4: Polish",
+			stage: "review",
 			emoji: "👁️ ",
 			promptFile: "reviewer.md",
 			systemPrompt,
-			allowedTools: ["Read"],
+			allowedTools: ["think"], // Only reflection, no searching - facts already verified
 			schema: ReviewOutputSchema,
 			jsonSchema: getReviewJsonSchema(),
+			effort: "high",
 		});
 
 		if (!(result.success && result.data)) {
 			return result;
 		}
 
-		console.log(`   - Quality Score: ${result.data.finalScore ?? 0}/10`);
-		console.log(`   - VERDICT: ${(result.data.verdict || "unknown").toUpperCase()}`);
+		this.log(`   - Quality Score: ${result.data.finalScore ?? 0}/10`);
+		this.log(`   - VERDICT: ${(result.data.verdict || "unknown").toUpperCase()}`);
 
 		return result;
 	}
@@ -710,9 +841,9 @@ ${research.bookPassages.length} book passages available for integration.`;
 					? { topic: ideaContext.topicSlug, ideaId: ideaContext.ideaId }
 					: undefined,
 			});
-			console.log(`   📤 Published to data/articles/${topicSlug}.md`);
+			this.log(`   📤 Published to data/articles/${topicSlug}.md`);
 		} catch (publishError) {
-			console.warn(`   ⚠️  Failed to publish article: ${publishError}`);
+			this.warn(`   ⚠️  Failed to publish article: ${publishError}`);
 			return undefined;
 		}
 
@@ -727,9 +858,9 @@ ${research.bookPassages.length} book passages available for integration.`;
 					producedAt: new Date().toISOString(),
 					articleSlug: topicSlug,
 				});
-				console.log(`   ✓ Marked idea #${ideaContext.ideaId} as done`);
+				this.log(`   ✓ Marked idea #${ideaContext.ideaId} as done`);
 			} catch (statusError) {
-				console.warn(`   ⚠️  Failed to update idea status: ${statusError}`);
+				this.warn(`   ⚠️  Failed to update idea status: ${statusError}`);
 			}
 		}
 
@@ -831,13 +962,13 @@ ${research.bookPassages.length} book passages available for integration.`;
 			}
 
 			if (reviewResult.data.verdict === "reject") {
-				console.log("   ❌ Article rejected - requires complete rewrite");
+				this.log("   ❌ Article rejected - requires complete rewrite");
 				break;
 			}
 
 			// Verdict is 'revise'
 			if (revisionCount >= this.options.maxRevisions) {
-				console.log(`   ⚠️  Max revisions (${this.options.maxRevisions}) reached`);
+				this.log(`   ⚠️  Max revisions (${this.options.maxRevisions}) reached`);
 				break;
 			}
 
@@ -848,9 +979,9 @@ ${research.bookPassages.length} book passages available for integration.`;
 					body: reviewResult.data.revisedText,
 				};
 				revisionCount++;
-				console.log(`   📝 Revision ${revisionCount} applied, re-reviewing...`);
+				this.log(`   📝 Revision ${revisionCount} applied, re-reviewing...`);
 			} else {
-				console.log("   ⚠️  Revisions requested but no revised text provided");
+				this.log("   ⚠️  Revisions requested but no revised text provided");
 				break;
 			}
 		}
@@ -858,9 +989,9 @@ ${research.bookPassages.length} book passages available for integration.`;
 		result.totalDuration = Date.now() - startTime;
 
 		if (result.success) {
-			console.log("✅ Content production complete!");
+			this.log("✅ Content production complete!");
 		} else {
-			console.log("❌ Content production failed");
+			this.log("❌ Content production failed");
 		}
 
 		return result;
