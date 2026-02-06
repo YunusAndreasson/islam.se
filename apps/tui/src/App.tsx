@@ -5,7 +5,11 @@ import { IdeaListScreen } from "./screens/IdeaListScreen.js";
 import { PipelineScreen } from "./screens/PipelineScreen.js";
 import { TopicListScreen } from "./screens/TopicListScreen.js";
 import { deleteIdea, loadIdeation, loadTopics } from "./services/ideaLoader.js";
-import { type StageEvent, TuiPipelineRunner } from "./services/pipelineRunner.js";
+import {
+	type PreviewEvent,
+	type StageEvent,
+	TuiPipelineRunner,
+} from "./services/pipelineRunner.js";
 import type {
 	AppState,
 	EnrichedIdea,
@@ -32,6 +36,11 @@ export function App(): React.ReactElement {
 	const [pipelineCompleted, setPipelineCompleted] = useState(false);
 	const [pipelineSuccess, setPipelineSuccess] = useState(false);
 	const [pipelineError, setPipelineError] = useState<string | undefined>();
+	const [pipelineResult, setPipelineResult] = useState<{
+		articleSlug?: string;
+		wordCount?: number;
+		qualityScore?: number;
+	}>({});
 	const [terminalHeight, setTerminalHeight] = useState(stdout?.rows ?? 24);
 
 	// Track terminal size changes
@@ -83,6 +92,7 @@ export function App(): React.ReactElement {
 			setPipelineCompleted(false);
 			setPipelineSuccess(false);
 			setPipelineError(undefined);
+			setPipelineResult({});
 
 			const initialStatus: PipelineStatus = {
 				topic: idea.thesis,
@@ -95,6 +105,7 @@ export function App(): React.ReactElement {
 					review: { status: "pending" },
 				},
 				logs: [],
+				previews: [],
 				startedAt: new Date(),
 			};
 
@@ -142,25 +153,60 @@ export function App(): React.ReactElement {
 				});
 			});
 
-			runner.on("complete", (result: { success: boolean; error?: string }) => {
-				setPipelineCompleted(true);
-				setPipelineSuccess(result.success);
-				setPipelineError(result.error);
-
-				// Reload topics and ideas to update status
-				const topics = loadTopics();
-				if (state.selectedTopic) {
-					const ideation = loadIdeation(state.selectedTopic);
-					setState((s) => ({
+			runner.on("preview", (event: PreviewEvent) => {
+				setState((s) => {
+					if (!s.pipelineStatus) return s;
+					// Keep last 15 previews for a richer view
+					const newPreview = {
+						stage: event.stage,
+						type: event.type,
+						content: event.content,
+						timestamp: Date.now(),
+					};
+					const previews = [...s.pipelineStatus.previews, newPreview].slice(-15);
+					return {
 						...s,
-						topics,
-						currentIdeation: ideation ?? s.currentIdeation,
-						currentIdeas: ideation?.ideas ?? s.currentIdeas,
-					}));
-				} else {
-					setState((s) => ({ ...s, topics }));
-				}
+						pipelineStatus: {
+							...s.pipelineStatus,
+							previews,
+						},
+					};
+				});
 			});
+
+			runner.on(
+				"complete",
+				(result: {
+					success: boolean;
+					error?: string;
+					articleSlug?: string;
+					wordCount?: number;
+					qualityScore?: number;
+				}) => {
+					setPipelineCompleted(true);
+					setPipelineSuccess(result.success);
+					setPipelineError(result.error);
+					setPipelineResult({
+						articleSlug: result.articleSlug,
+						wordCount: result.wordCount,
+						qualityScore: result.qualityScore,
+					});
+
+					// Reload topics and ideas to update status
+					const topics = loadTopics();
+					if (state.selectedTopic) {
+						const ideation = loadIdeation(state.selectedTopic);
+						setState((s) => ({
+							...s,
+							topics,
+							currentIdeation: ideation ?? s.currentIdeation,
+							currentIdeas: ideation?.ideas ?? s.currentIdeas,
+						}));
+					} else {
+						setState((s) => ({ ...s, topics }));
+					}
+				},
+			);
 
 			// Pass topicSlug so the idea can be marked as done
 			runner.produce(idea, state.selectedTopic ?? undefined).catch((err) => {
@@ -263,6 +309,9 @@ export function App(): React.ReactElement {
 						completed={pipelineCompleted}
 						success={pipelineSuccess}
 						error={pipelineError}
+						articleSlug={pipelineResult.articleSlug}
+						wordCount={pipelineResult.wordCount}
+						qualityScore={pipelineResult.qualityScore}
 						onBack={handleBack}
 					/>
 				);

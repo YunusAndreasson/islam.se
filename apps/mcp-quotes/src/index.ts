@@ -393,6 +393,143 @@ Score: ${(1 - v.score).toFixed(3)}`;
 	},
 );
 
+// Tool 8: Fetch Wikipedia article content via API (bypasses bot blocking)
+server.registerTool(
+	"fetch_wikipedia",
+	{
+		title: "Fetch Wikipedia Article",
+		description: `Fetch content from a Wikipedia article URL. Uses Wikipedia's REST API to bypass bot blocking.
+
+Accepts any Wikipedia URL like:
+- https://en.wikipedia.org/wiki/Ibn_Khaldun
+- https://sv.wikipedia.org/wiki/Koranen
+- https://ar.wikipedia.org/wiki/ابن_خلدون
+
+Returns the article summary and optionally full content for fact-checking.`,
+		inputSchema: {
+			url: z.string().describe("Wikipedia article URL (any language)"),
+			full: z
+				.boolean()
+				.optional()
+				.describe("Get full article text instead of summary (default: false)"),
+		},
+	},
+	async ({ url, full }) => {
+		try {
+			// Parse Wikipedia URL to extract language and title
+			const match = url.match(/https?:\/\/([a-z]{2,3})\.wikipedia\.org\/wiki\/(.+?)(?:#.*)?$/);
+			if (!match) {
+				return {
+					content: [
+						{
+							type: "text",
+							text: `Invalid Wikipedia URL: ${url}\nExpected format: https://{lang}.wikipedia.org/wiki/{title}`,
+						},
+					],
+				};
+			}
+
+			const [, lang, rawTitle] = match;
+			const title = decodeURIComponent(rawTitle);
+
+			if (full) {
+				// Use MediaWiki API for full text
+				const apiUrl = `https://${lang}.wikipedia.org/w/api.php?action=query&titles=${encodeURIComponent(title)}&prop=extracts&explaintext=1&format=json`;
+				const response = await fetch(apiUrl, {
+					headers: { "User-Agent": "IslamSE/1.0 (https://islam.se)" },
+				});
+
+				if (!response.ok) {
+					return {
+						content: [
+							{
+								type: "text",
+								text: `Wikipedia API error: ${response.status} ${response.statusText}`,
+							},
+						],
+					};
+				}
+
+				const data = (await response.json()) as {
+					query: {
+						pages: Record<string, { title: string; extract?: string }>;
+					};
+				};
+				const pages = data.query.pages;
+				const page = Object.values(pages)[0];
+
+				if (!page?.extract) {
+					return {
+						content: [{ type: "text", text: `No content found for: ${title}` }],
+					};
+				}
+
+				// Truncate to ~8000 chars to avoid overwhelming context
+				const extract =
+					page.extract.length > 8000
+						? `${page.extract.slice(0, 8000)}\n\n[Truncated — full article is ${page.extract.length} chars]`
+						: page.extract;
+
+				return {
+					content: [
+						{
+							type: "text",
+							text: `# ${page.title}\nSource: ${url}\n\n${extract}`,
+						},
+					],
+				};
+			}
+
+			// Default: summary endpoint (fast, concise)
+			const apiUrl = `https://${lang}.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(title)}`;
+			const response = await fetch(apiUrl, {
+				headers: { "User-Agent": "IslamSE/1.0 (https://islam.se)" },
+			});
+
+			if (!response.ok) {
+				return {
+					content: [
+						{
+							type: "text",
+							text: `Wikipedia API error: ${response.status} ${response.statusText}`,
+						},
+					],
+				};
+			}
+
+			const data = (await response.json()) as {
+				title: string;
+				description?: string;
+				extract: string;
+			};
+
+			const output = [
+				`# ${data.title}`,
+				`Source: ${url}`,
+				data.description ? `Description: ${data.description}` : "",
+				"",
+				data.extract,
+			]
+				.filter(Boolean)
+				.join("\n");
+
+			return {
+				content: [{ type: "text", text: output }],
+			};
+		} catch (error) {
+			const message = error instanceof Error ? error.message : "Unknown error";
+			return {
+				content: [
+					{
+						type: "text",
+						text: `Failed to fetch Wikipedia article: ${message}`,
+					},
+				],
+			};
+		}
+	},
+);
+
 // Connect via stdio
 const transport = new StdioServerTransport();
 await server.connect(transport);

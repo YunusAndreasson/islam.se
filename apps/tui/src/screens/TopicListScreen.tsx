@@ -15,17 +15,19 @@ interface TopicListScreenProps {
 function TopicRow({
 	topic,
 	focused,
+	doneCount,
 }: {
 	topic: TopicSummary;
 	focused: boolean;
+	doneCount: number;
 }): React.ReactElement {
-	// Status indicator
+	// Status indicator based on completion
 	let statusIcon: string;
 	let statusColor: string;
-	if (topic.articleStatus.stages.final) {
+	if (doneCount === topic.ideaCount) {
 		statusIcon = "✓";
 		statusColor = "green";
-	} else if (topic.articleStatus.exists) {
+	} else if (doneCount > 0) {
 		statusIcon = "◐";
 		statusColor = "yellow";
 	} else {
@@ -36,18 +38,35 @@ function TopicRow({
 	return (
 		<Box gap={1}>
 			<Text
-				backgroundColor={focused ? "blue" : undefined}
-				color={focused ? "white" : undefined}
+				backgroundColor={focused ? "cyan" : undefined}
+				color={focused ? "black" : undefined}
 				bold={focused}
 			>
 				{focused ? "❯" : " "} {topic.name}
 			</Text>
 			<Spacer />
-			<Text dimColor>{topic.ideaCount} ideas</Text>
+			<Text dimColor>
+				{doneCount}/{topic.ideaCount} done
+			</Text>
 			<Text color={statusColor}>{statusIcon}</Text>
 		</Box>
 	);
 }
+
+const ASCII_BANNER = [
+	"                                                                                  ",
+	"        `7MMF'  .M\"\"\"bgd `7MMF'              db      `7MMM.     ,MMF'             ",
+	'          MM   ,MI    "Y   MM               ;MM:       MMMb    dPMM               ',
+	"          MM   `MMb.       MM              ,V^MM.      M YM   ,M MM               ",
+	"          MM     `YMMNq.   MM             ,M  `MM      M  Mb  M' MM               ",
+	"          MM   .     `MM   MM      ,      AbmmmqMA     M  YM.P'  MM               ",
+	"          MM   Mb     dM   MM     ,M     A'     VML    M  `YM'   MM               ",
+	'        .JMML. P"Ybmmd"  .JMMmmmmMMM   .AMA.   .AMMA..JML. `\'  .JMML.             ',
+	"        _______________________________________________________________          ",
+	"                                                                                  ",
+	"           ::: c o n t e n t   s t u d i o  :::  e s t   2 0 2 5 :::             ",
+	"        _______________________________________________________________          ",
+];
 
 export function TopicListScreen({
 	topics,
@@ -63,18 +82,20 @@ export function TopicListScreen({
 
 	return (
 		<Box flexDirection="column" paddingX={1}>
-			{/* Header */}
-			<Box
-				marginBottom={1}
-				borderStyle="double"
-				borderColor="cyan"
-				paddingX={2}
-				paddingY={0}
-				justifyContent="center"
-			>
-				<Text bold color="cyan">
-					🕌 Islam.se Content Studio
-				</Text>
+			{/* ASCII Banner */}
+			<Box flexDirection="column" marginBottom={1}>
+				<Text> </Text>
+				<Text color="cyan">{ASCII_BANNER[1]}</Text>
+				<Text color="cyan">{ASCII_BANNER[2]}</Text>
+				<Text color="cyanBright">{ASCII_BANNER[3]}</Text>
+				<Text color="cyanBright">{ASCII_BANNER[4]}</Text>
+				<Text color="white">{ASCII_BANNER[5]}</Text>
+				<Text color="white">{ASCII_BANNER[6]}</Text>
+				<Text color="cyan">{ASCII_BANNER[7]}</Text>
+				<Text color="gray">{ASCII_BANNER[8]}</Text>
+				<Text> </Text>
+				<Text color="yellow">{ASCII_BANNER[10]}</Text>
+				<Text color="gray">{ASCII_BANNER[11]}</Text>
 			</Box>
 
 			{/* Legend */}
@@ -114,7 +135,9 @@ export function TopicListScreen({
 				) : (
 					<SelectableList
 						items={topics}
-						renderItem={(topic, focused) => <TopicRow topic={topic} focused={focused} />}
+						renderItem={(topic, focused) => (
+							<TopicRow topic={topic} focused={focused} doneCount={topic.doneCount} />
+						)}
 						onSelect={onSelectTopic}
 						maxVisible={15}
 					/>
@@ -130,7 +153,6 @@ export function TopicListScreen({
 					{ key: "Enter", label: "Select" },
 					{ key: "q", label: "Quit" },
 				]}
-				title="Islam.se TUI v0.1"
 			/>
 		</Box>
 	);

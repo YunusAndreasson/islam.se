@@ -39,6 +39,7 @@ You have MCP tools for searching quotes, books, Quran, and the web:
 
 **Web tools:**
 - `WebSearch` - Search the web for contemporary sources and verification
+- `fetch_wikipedia` - Fetch Wikipedia article content (bypasses bot blocking). Use for background context on historical figures, concepts, etc.
 
 Use tools in whatever order makes sense for your research approach. Make independent tool calls in parallel when possible for efficiency.
 

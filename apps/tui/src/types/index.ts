@@ -8,6 +8,7 @@ export interface TopicSummary {
 	slug: string;
 	name: string;
 	ideaCount: number;
+	doneCount: number;
 	articleStatus: ArticleStatus;
 	generatedAt: string;
 }
@@ -37,6 +38,13 @@ export interface StageInfo {
 	error?: string;
 }
 
+export interface PreviewSnippet {
+	stage: "research" | "factCheck" | "authoring" | "review";
+	type: "text" | "tool_use" | "tool_result";
+	content: string;
+	timestamp: number;
+}
+
 export interface PipelineStatus {
 	topic: string;
 	ideaTitle: string;
@@ -48,6 +56,7 @@ export interface PipelineStatus {
 		review: StageInfo;
 	};
 	logs: string[];
+	previews: PreviewSnippet[];
 	startedAt: Date;
 }
 

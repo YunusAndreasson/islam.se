@@ -48,12 +48,6 @@ function findOutputDir(): string {
 		dir = dirname(dir);
 	}
 
-	// Last resort: use absolute path
-	const absolutePath = "/home/yunus/Work/islam.se/apps/content-producer/output";
-	if (existsSync(join(absolutePath, "ideas"))) {
-		return absolutePath;
-	}
-
 	return join(process.cwd(), "apps/content-producer/output");
 }
 
@@ -84,10 +78,16 @@ export function loadTopics(): TopicSummary[] {
 			});
 			const articleStatus = orchestrator.getStatus(dir.name);
 
+			// Count ideas with done status
+			const doneCount = ideation.ideas.filter(
+				(idea) => idea.productionStatus?.status === "done",
+			).length;
+
 			topics.push({
 				slug: dir.name,
 				name: ideation.topic,
 				ideaCount: ideation.ideas.length,
+				doneCount,
 				articleStatus: articleStatus as ArticleStatus,
 				generatedAt: ideation.generatedAt,
 			});

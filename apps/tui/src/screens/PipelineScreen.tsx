@@ -10,6 +10,9 @@ interface PipelineScreenProps {
 	completed: boolean;
 	success: boolean;
 	error?: string;
+	articleSlug?: string;
+	wordCount?: number;
+	qualityScore?: number;
 	onBack: () => void;
 }
 
@@ -18,6 +21,9 @@ export function PipelineScreen({
 	completed,
 	success,
 	error,
+	articleSlug,
+	wordCount,
+	qualityScore,
 	onBack,
 }: PipelineScreenProps): React.ReactElement {
 	useInput((_input, key) => {
@@ -64,8 +70,25 @@ export function PipelineScreen({
 				)}
 
 				{completed && success && (
-					<Box marginTop={1}>
-						<StatusMessage variant="success">Article saved to output directory</StatusMessage>
+					<Box flexDirection="column" marginTop={1} gap={1}>
+						<StatusMessage variant="success">Article published successfully!</StatusMessage>
+						<Box flexDirection="column" paddingLeft={2}>
+							{articleSlug && (
+								<Text>
+									<Text dimColor>Article:</Text> data/articles/{articleSlug}.md
+								</Text>
+							)}
+							{wordCount && (
+								<Text>
+									<Text dimColor>Words:</Text> {wordCount.toLocaleString()}
+								</Text>
+							)}
+							{qualityScore && (
+								<Text>
+									<Text dimColor>Quality:</Text> {qualityScore}/10
+								</Text>
+							)}
+						</Box>
 					</Box>
 				)}
 			</Box>

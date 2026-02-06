@@ -1,7 +1,21 @@
-import { ProgressBar, Spinner } from "@inkjs/ui";
+import { ProgressBar } from "@inkjs/ui";
 import { Box, Text } from "ink";
 import type React from "react";
+import { useEffect, useState } from "react";
 import type { PipelineStatus, StageInfo } from "../types/index.js";
+
+// Slow spinner that updates every 500ms instead of 80ms to reduce screen flashing
+const SPINNER_FRAMES = ["◐", "◓", "◑", "◒"];
+function SlowSpinner(): React.ReactElement {
+	const [frame, setFrame] = useState(0);
+	useEffect(() => {
+		const interval = setInterval(() => {
+			setFrame((f) => (f + 1) % SPINNER_FRAMES.length);
+		}, 500);
+		return () => clearInterval(interval);
+	}, []);
+	return <Text color="cyan">{SPINNER_FRAMES[frame]}</Text>;
+}
 
 const STAGES = ["research", "factCheck", "authoring", "review"] as const;
 const STAGE_LABELS: Record<(typeof STAGES)[number], string> = {
@@ -43,7 +57,7 @@ function StageIndicator({
 			color = "green";
 			break;
 		case "running":
-			statusIcon = <Spinner />;
+			statusIcon = <SlowSpinner />;
 			color = "cyan";
 			break;
 		case "failed":
@@ -59,17 +73,21 @@ function StageIndicator({
 	const summary = info.summary ?? "";
 
 	return (
-		<Box gap={1}>
-			<Box width={3}>{statusIcon}</Box>
-			<Text color={color}>
-				{icon} {STAGE_LABELS[stage]}
-			</Text>
-			{summary && <Text dimColor>— {summary}</Text>}
-			{duration && <Text dimColor>({duration})</Text>}
-			{info.error && (
-				<Text color="red" dimColor>
-					{info.error}
+		<Box flexDirection="column">
+			<Box gap={1}>
+				<Box width={3}>{statusIcon}</Box>
+				<Text color={color}>
+					{icon} {STAGE_LABELS[stage]}
 				</Text>
+				{summary && <Text dimColor>— {summary}</Text>}
+				{duration && <Text dimColor>({duration})</Text>}
+			</Box>
+			{info.error && (
+				<Box paddingLeft={4}>
+					<Text color="red" wrap="wrap">
+						⚠ {info.error}
+					</Text>
+				</Box>
 			)}
 		</Box>
 	);
@@ -80,12 +98,25 @@ interface PipelineProgressProps {
 }
 
 export function PipelineProgress({ status }: PipelineProgressProps): React.ReactElement {
-	const elapsed = Date.now() - status.startedAt.getTime();
+	// Use state for elapsed time with throttled updates to prevent glitching
+	const [elapsed, setElapsed] = useState(() => Date.now() - status.startedAt.getTime());
+
+	useEffect(() => {
+		const interval = setInterval(() => {
+			setElapsed(Date.now() - status.startedAt.getTime());
+		}, 5000); // Update every 5 seconds to reduce flicker
+
+		return () => clearInterval(interval);
+	}, [status.startedAt]);
 
 	// Calculate overall progress (0-100)
 	const completedStages = STAGES.filter((s) => status.stages[s].status === "complete").length;
 	const runningStage = STAGES.find((s) => status.stages[s].status === "running");
 	const progress = Math.round((completedStages / STAGES.length) * 100 + (runningStage ? 12.5 : 0));
+
+	// Get last 3 logs with stable indices for keys
+	const recentLogs = status.logs.slice(-3);
+	const logStartIndex = Math.max(0, status.logs.length - 3);
 
 	return (
 		<Box flexDirection="column" gap={1}>
@@ -113,16 +144,29 @@ export function PipelineProgress({ status }: PipelineProgressProps): React.React
 				<Text dimColor>Elapsed: {formatDuration(elapsed)}</Text>
 			</Box>
 
-			{status.logs.length > 0 && (
-				<Box flexDirection="column" borderStyle="round" borderColor="gray" paddingX={1}>
-					<Text bold dimColor>
-						Recent logs:
+			{/* Live preview - quotes, findings, and generated text from Claude */}
+			{status.previews.length > 0 && (
+				<Box
+					flexDirection="column"
+					borderStyle="round"
+					borderColor="cyan"
+					paddingX={1}
+					minHeight={8}
+				>
+					<Text bold color="cyan">
+						💭 Live Output
 					</Text>
-					{status.logs.slice(-3).map((log) => (
-						<Text key={log} dimColor>
-							{log}
-						</Text>
-					))}
+					{status.previews.slice(-6).map((preview, i) => {
+						const icon = preview.type === "tool_result" ? "📜" : "✍️";
+						const color = preview.type === "tool_result" ? "yellow" : "white";
+						return (
+							<Box key={preview.timestamp + i} paddingLeft={1} marginTop={i > 0 ? 0 : 0}>
+								<Text color={color} wrap="wrap">
+									{icon} {preview.content}
+								</Text>
+							</Box>
+						);
+					})}
 				</Box>
 			)}
 		</Box>

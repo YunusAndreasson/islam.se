@@ -29,6 +29,9 @@ export function IdeaDetailScreen({
 	onProduce,
 	onBack,
 }: IdeaDetailScreenProps): React.ReactElement {
+	const status = idea.productionStatus;
+	const isDone = status?.status === "done";
+
 	useInput((input, key) => {
 		if (input === "p") {
 			onProduce();
@@ -40,10 +43,19 @@ export function IdeaDetailScreen({
 
 	return (
 		<Box flexDirection="column" paddingX={1}>
-			<Box marginBottom={1}>
+			<Box marginBottom={1} gap={2}>
 				<Text bold color="cyan">
 					Idea #{idea.id}
 				</Text>
+				{isDone && (
+					<Text color="green">
+						✓ Published{status.articleSlug ? ` as ${status.articleSlug}` : ""}
+					</Text>
+				)}
+				{status?.status === "in_progress" && <Text color="yellow">◐ In progress</Text>}
+				{status?.status === "failed" && (
+					<Text color="red">✗ Failed{status.failureReason ? `: ${status.failureReason}` : ""}</Text>
+				)}
 			</Box>
 
 			<Box flexDirection="column" marginBottom={1}>
@@ -88,8 +100,20 @@ export function IdeaDetailScreen({
 				</Box>
 			)}
 
+			{isDone && status.producedAt && (
+				<Box flexDirection="column" marginBottom={1}>
+					<Text bold>Production Info:</Text>
+					<Box paddingLeft={2} flexDirection="column">
+						<Text dimColor>Produced: {new Date(status.producedAt).toLocaleString()}</Text>
+						{status.articleSlug && (
+							<Text dimColor>Article: data/articles/{status.articleSlug}.md</Text>
+						)}
+					</Box>
+				</Box>
+			)}
+
 			<Box marginTop={1} borderStyle="single" borderColor="gray" paddingX={1}>
-				<Text dimColor>[p] Produce article [Esc] Back</Text>
+				<Text dimColor>[p] {isDone ? "Re-produce" : "Produce"} article [Esc] Back</Text>
 			</Box>
 		</Box>
 	);

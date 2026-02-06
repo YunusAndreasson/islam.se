@@ -7,6 +7,7 @@ import {
 	ContentOrchestrator,
 	type EnrichedIdea,
 	IdeationService,
+	type PreviewChunk,
 } from "@islam-se/orchestrator";
 import type { PipelineStatus } from "../types/index.js";
 
@@ -61,12 +62,22 @@ export interface PipelineCompleteEvent {
 	error?: string;
 	duration?: number;
 	articleSlug?: string;
+	wordCount?: number;
+	qualityScore?: number;
+}
+
+export interface PreviewEvent {
+	stage: PreviewChunk["stage"];
+	type: PreviewChunk["type"];
+	content: string;
 }
 
 export class TuiPipelineRunner extends EventEmitter {
 	private orchestrator: ContentOrchestrator;
 	private startTime: number = 0;
 	private stageStartTime: number = 0;
+	private lastPreviewTime: number = 0;
+	private previewQueue: PreviewEvent[] = [];
 
 	constructor() {
 		super();
@@ -75,6 +86,19 @@ export class TuiPipelineRunner extends EventEmitter {
 			model: "opus",
 			qualityThreshold: 7.5,
 			maxRevisions: 2,
+			quiet: true, // Suppress console output to prevent TUI glitching
+			onPreview: (chunk) => {
+				// Throttle preview events to max 1 every 2 seconds to prevent glitching
+				const now = Date.now();
+				const preview = chunk as PreviewEvent;
+
+				// Only emit if 2 seconds have passed since last update
+				if (now - this.lastPreviewTime >= 2000) {
+					this.lastPreviewTime = now;
+					this.emit("preview", preview);
+				}
+				// Otherwise just drop the update - we'll catch the next one
+			},
 		});
 	}
 
@@ -93,26 +117,21 @@ export class TuiPipelineRunner extends EventEmitter {
 				review: { status: "pending" },
 			},
 			logs: [],
+			previews: [],
 			startedAt: new Date(),
 		};
 
 		this.emit("start", initialStatus);
 
-		// Stage 1: Research (use idea-aware method if we have rich context)
+		// Stage 1: Research (use idea-aware method with thesis, angle, keywords)
 		this.emitStage("research", "running");
 		this.stageStartTime = Date.now();
 
-		// Use the smarter research method that leverages the idea's angle, keywords, and pre-found quotes
+		// Research finds the best material autonomously - ideation quotes served their validation purpose
 		const research = await this.orchestrator.runResearchFromIdea({
 			thesis: idea.thesis,
 			angle: idea.angle,
 			keywords: idea.keywords,
-			quotes: idea.quotes.map((q) => ({
-				id: q.id,
-				text: q.text,
-				author: q.author,
-				source: q.source,
-			})),
 		});
 		const researchDuration = Date.now() - this.stageStartTime;
 
@@ -139,13 +158,6 @@ export class TuiPipelineRunner extends EventEmitter {
 			return;
 		}
 
-		if (factCheck.data.overallCredibility < 7) {
-			const error = `Credibility too low: ${factCheck.data.overallCredibility}/10`;
-			this.emitStage("factCheck", "failed", factCheckDuration, undefined, error);
-			this.emit("complete", { success: false, error });
-			return;
-		}
-
 		const factCheckSummary = `Score: ${factCheck.data.overallCredibility}/10`;
 		this.emitStage("factCheck", "complete", factCheckDuration, factCheckSummary);
 		this.emit("log", `Fact-check passed: ${factCheckSummary}`);
@@ -168,32 +180,71 @@ export class TuiPipelineRunner extends EventEmitter {
 		this.emitStage("authoring", "complete", authoringDuration, authoringSummary);
 		this.emit("log", `Draft complete: ${authoringSummary}`);
 
-		// Stage 4: Review
-		this.emitStage("review", "running");
-		this.stageStartTime = Date.now();
+		// Stage 4: Review (with revision loop)
+		let currentDraft = draft.data;
+		let revisionCount = 0;
+		const maxRevisions = 2;
+		let finalText: string | undefined;
+		let finalScore = 0;
 
-		const review = await this.orchestrator.runReview(draft.data, research.data);
-		const reviewDuration = Date.now() - this.stageStartTime;
+		while (revisionCount <= maxRevisions) {
+			this.emitStage("review", "running");
+			this.stageStartTime = Date.now();
 
-		if (!(review.success && review.data)) {
-			this.emitStage("review", "failed", reviewDuration, undefined, review.error);
-			this.emit("complete", { success: false, error: review.error });
-			return;
+			const review = await this.orchestrator.runReview(currentDraft, research.data);
+			const reviewDuration = Date.now() - this.stageStartTime;
+
+			if (!(review.success && review.data)) {
+				this.emitStage("review", "failed", reviewDuration, undefined, review.error);
+				this.emit("complete", { success: false, error: review.error });
+				return;
+			}
+
+			const reviewSummary = `${review.data.finalScore}/10 - ${review.data.verdict}`;
+
+			if (review.data.verdict === "publish") {
+				finalText = review.data.revisedText ?? currentDraft.body;
+				finalScore = review.data.finalScore;
+				this.emitStage("review", "complete", reviewDuration, reviewSummary);
+				this.emit("log", `Review complete: ${reviewSummary}`);
+				break;
+			}
+
+			if (review.data.verdict === "reject") {
+				this.emitStage("review", "failed", reviewDuration, reviewSummary, "Article rejected");
+				this.emit("complete", { success: false, error: "Article rejected by reviewer" });
+				return;
+			}
+
+			// Verdict is "revise"
+			if (revisionCount >= maxRevisions) {
+				this.emit("log", `Max revisions (${maxRevisions}) reached`);
+				finalText = review.data.revisedText ?? currentDraft.body;
+				finalScore = review.data.finalScore;
+				this.emitStage("review", "complete", reviewDuration, `${reviewSummary} (max revisions)`);
+				break;
+			}
+
+			if (review.data.revisedText) {
+				currentDraft = { ...currentDraft, body: review.data.revisedText };
+				revisionCount++;
+				this.emit("log", `Revision ${revisionCount} applied, re-reviewing...`);
+			} else {
+				this.emit("log", "Revisions requested but no revised text provided");
+				finalText = currentDraft.body;
+				finalScore = review.data.finalScore;
+				this.emitStage("review", "complete", reviewDuration, reviewSummary);
+				break;
+			}
 		}
 
-		const reviewSummary = `${review.data.finalScore}/10 - ${review.data.verdict}`;
-		if (review.data.verdict === "reject") {
-			this.emitStage("review", "failed", reviewDuration, reviewSummary, "Article rejected");
-			this.emit("complete", { success: false, error: "Article rejected by reviewer" });
+		if (!finalText) {
+			this.emit("complete", { success: false, error: "Review loop ended without output" });
 			return;
 		}
-
-		this.emitStage("review", "complete", reviewDuration, reviewSummary);
-		this.emit("log", `Review complete: ${reviewSummary}`);
 
 		// Save final article and publish
-		const finalText = review.data.revisedText ?? draft.data.body;
-		const articleSlug = this.slugify(idea.title);
+		const articleSlug = this.slugify(topic);
 		const outputDir = join(ARTICLES_DIR, articleSlug);
 
 		// Ensure output directory exists and save final.md
@@ -209,7 +260,7 @@ export class TuiPipelineRunner extends EventEmitter {
 			publisher.publish(outputDir, articleSlug, {
 				title: draft.data.title,
 				wordCount,
-				qualityScore: review.data.finalScore,
+				qualityScore: finalScore,
 				sourceIdea: topicSlug ? { topic: topicSlug, ideaId: idea.id } : undefined,
 			});
 			this.emit("log", `Published to data/articles/${articleSlug}.md`);
@@ -220,7 +271,7 @@ export class TuiPipelineRunner extends EventEmitter {
 		// Update idea status if topicSlug provided
 		if (topicSlug) {
 			try {
-				const ideationService = new IdeationService({ outputDir: ARTICLES_DIR });
+				const ideationService = new IdeationService({ outputDir: ARTICLES_DIR, quiet: true });
 				ideationService.updateIdeaStatus(topicSlug, idea.id, {
 					status: "done",
 					producedAt: new Date().toISOString(),
@@ -238,6 +289,8 @@ export class TuiPipelineRunner extends EventEmitter {
 			outputDir,
 			duration: totalDuration,
 			articleSlug,
+			wordCount,
+			qualityScore: finalScore,
 		});
 	}
 

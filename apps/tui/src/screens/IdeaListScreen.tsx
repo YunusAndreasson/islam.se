@@ -21,8 +21,8 @@ function IdeaRow({ idea, focused }: { idea: EnrichedIdea; focused: boolean }): R
 	return (
 		<Box gap={1}>
 			<Text
-				backgroundColor={focused ? "blue" : undefined}
-				color={focused ? "white" : isDone ? "gray" : undefined}
+				backgroundColor={focused ? "cyan" : undefined}
+				color={focused ? "black" : isDone ? "gray" : undefined}
 				bold={focused}
 			>
 				{focused ? "❯ " : "  "}

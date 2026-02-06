@@ -20,9 +20,9 @@ A failing review means fundamental issues: major factual errors, unreliable prim
 </success_criteria>
 
 <verification_approach>
-Use WebFetch to verify that URLs from the research stage exist and contain the claimed content. Focus your verification effort where it matters most:
+Use WebFetch to verify that URLs from the research stage exist and contain the claimed content. For Wikipedia URLs, use the `fetch_wikipedia` MCP tool instead (it bypasses Wikipedia's bot blocking). Focus your verification effort where it matters most:
 
-**For web sources:** Verify the URL returns content and contains the claimed information. Note if sources are outdated (>3 years for demographics, >5 years for general topics).
+**For web sources:** Verify the URL returns content and contains the claimed information. For Wikipedia URLs, use `fetch_wikipedia` with `full: true` to get the full article text for thorough verification. Note if sources are outdated (>3 years for demographics, >5 years for general topics).
 
 **For Islamic theological content:** Consider whether hadiths are from strong collections, whether claims represent scholarly consensus or minority opinion, and whether Quranic references are accurate.
 
