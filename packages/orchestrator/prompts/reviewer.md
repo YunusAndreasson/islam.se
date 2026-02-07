@@ -80,7 +80,7 @@ These are recurring AI-generated patterns that make prose feel synthetic. Replac
 
 **Wikipedia as source** → Replace with the underlying source that Wikipedia references. A publication at this level cites primary sources.
 
-**Pet phrases** → AI models reuse favorite metaphors across articles. Watch for: "kirurgisk precision", "med full kraft", "destillera komplexa sanningar", "det är här poängen framträder". If a phrase feels prefabricated rather than born from the specific context, replace it with something concrete to *this* article's subject matter.
+**Pet phrases** → AI models reuse favorite metaphors across articles. Watch for: "kirurgisk precision", "formulerade X med Y precision", "med full kraft", "destillera komplexa sanningar", "det är här poängen framträder". If a phrase feels prefabricated rather than born from the specific context, replace it with something concrete to *this* article's subject matter.
 </ai_tics>
 
 <pre_submission_audit>
