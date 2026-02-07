@@ -171,9 +171,11 @@ export class IdeationService {
 				model: this.getModelId(),
 				allowedTools: [],
 				jsonSchema: getIdeationJsonSchema(),
+				effort: "high",
 				maxBudgetUsd: 1.0,
 				fallbackModel: "sonnet",
 				noSessionPersistence: true,
+				skipPermissions: true,
 			},
 			IdeationOutputSchema,
 		);

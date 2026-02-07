@@ -56,16 +56,6 @@ export interface StageEvent {
 	error?: string;
 }
 
-export interface PipelineCompleteEvent {
-	success: boolean;
-	outputDir?: string;
-	error?: string;
-	duration?: number;
-	articleSlug?: string;
-	wordCount?: number;
-	qualityScore?: number;
-}
-
 export interface PreviewEvent {
 	stage: PreviewChunk["stage"];
 	type: PreviewChunk["type"];
@@ -77,7 +67,6 @@ export class TuiPipelineRunner extends EventEmitter {
 	private startTime: number = 0;
 	private stageStartTime: number = 0;
 	private lastPreviewTime: number = 0;
-	private previewQueue: PreviewEvent[] = [];
 
 	constructor() {
 		super();
@@ -153,8 +142,11 @@ export class TuiPipelineRunner extends EventEmitter {
 		const factCheckDuration = Date.now() - this.stageStartTime;
 
 		if (!(factCheck.success && factCheck.data)) {
-			this.emitStage("factCheck", "failed", factCheckDuration, undefined, factCheck.error);
-			this.emit("complete", { success: false, error: factCheck.error });
+			const detail = factCheck.data?.summary
+				? `${factCheck.error}\n${factCheck.data.summary}`
+				: factCheck.error;
+			this.emitStage("factCheck", "failed", factCheckDuration, undefined, detail);
+			this.emit("complete", { success: false, error: detail });
 			return;
 		}
 
