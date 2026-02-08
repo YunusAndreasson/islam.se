@@ -1,7 +1,6 @@
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
-import type { z } from "zod";
 import { ClaudeRunner, type ClaudeRunOptions } from "./claude-runner.js";
 import { ReferenceTracker } from "./reference-tracker.js";
 import {
@@ -9,20 +8,40 @@ import {
 	FactCheckOutputSchema,
 	getDraftJsonSchema,
 	getFactCheckJsonSchema,
+	getPolishJsonSchema,
 	getResearchJsonSchema,
 	getReviewJsonSchema,
+	PolishOutputSchema,
 	ResearchOutputSchema,
 	ReviewOutputSchema,
 } from "./schemas.js";
 import { ArticlePublisher } from "./services/article-publisher.js";
 import { IdeationService } from "./services/ideation-service.js";
 import { SourceValidator } from "./source-validator.js";
+import {
+	createLogger,
+	getModelId,
+	loadOutput,
+	RESEARCH_ALLOWED_TOOLS,
+	saveOutput,
+	slugify,
+} from "./utils.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
+export type StageName = "research" | "factCheck" | "authoring" | "review" | "polish";
+
+export interface StageProgress {
+	stage: StageName;
+	status: "running" | "complete" | "failed";
+	duration?: number;
+	summary?: string;
+	error?: string;
+}
+
 export interface PreviewChunk {
-	stage: "research" | "factCheck" | "authoring" | "review";
+	stage: StageName;
 	type: "text" | "tool_use" | "tool_result";
 	content: string;
 }
@@ -34,14 +53,14 @@ export interface OrchestratorOptions {
 	model?: "opus" | "sonnet";
 	/** Minimum quality score to publish (default: 7.5) */
 	qualityThreshold?: number;
-	/** Include Arabic quotes (default: true) */
-	includeArabic?: boolean;
 	/** Maximum revision attempts (default: 2) */
 	maxRevisions?: number;
 	/** Suppress console output (for TUI mode) */
 	quiet?: boolean;
 	/** Callback for streaming preview snippets during execution */
 	onPreview?: (chunk: PreviewChunk) => void;
+	/** Callback for stage lifecycle events (starting, completed, failed) */
+	onStageChange?: (progress: StageProgress) => void;
 }
 
 export interface StageResult<T = unknown> {
@@ -118,6 +137,14 @@ export interface ReviewOutput {
 	revisedText?: string | null;
 }
 
+export interface PolishOutput {
+	sectionScores: string;
+	strongestSentence: string;
+	weakestSentence: string;
+	body: string;
+	edits: string;
+}
+
 export interface ProductionResult {
 	success: boolean;
 	topic: string;
@@ -127,6 +154,7 @@ export interface ProductionResult {
 		factCheck?: StageResult<FactCheckOutput>;
 		authoring?: StageResult<DraftOutput>;
 		review?: StageResult<ReviewOutput>;
+		polish?: StageResult<PolishOutput>;
 	};
 	finalArticle?: string;
 	bibliography?: string;
@@ -139,12 +167,22 @@ export interface IdeaContext {
 	ideaId: number;
 }
 
+export interface IdeaBrief {
+	title: string;
+	thesis: string;
+	angle: string;
+	keywords: string[];
+	difficulty: "standard" | "challenging" | "expert";
+	seedQuotes?: Array<{ text: string; author: string; source?: string }>;
+}
+
 export class ContentOrchestrator {
 	private runner: ClaudeRunner;
 	private validator: SourceValidator;
 	private references: ReferenceTracker;
-	private options: Required<Omit<OrchestratorOptions, "onPreview">> &
-		Pick<OrchestratorOptions, "onPreview">;
+	private logger: ReturnType<typeof createLogger>;
+	private options: Required<Omit<OrchestratorOptions, "onPreview" | "onStageChange">> &
+		Pick<OrchestratorOptions, "onPreview" | "onStageChange">;
 	private promptsDir: string;
 
 	constructor(options: OrchestratorOptions) {
@@ -157,109 +195,12 @@ export class ContentOrchestrator {
 			outputDir: options.outputDir,
 			model: options.model ?? "opus",
 			qualityThreshold: options.qualityThreshold ?? 7.5,
-			includeArabic: options.includeArabic ?? true,
 			maxRevisions: options.maxRevisions ?? 2,
 			quiet: options.quiet ?? false,
 			onPreview: options.onPreview,
+			onStageChange: options.onStageChange,
 		};
-	}
-
-	/**
-	 * Log message to console (suppressed in quiet mode)
-	 */
-	private log(message: string): void {
-		if (!this.options.quiet) {
-			console.log(message);
-		}
-	}
-
-	/**
-	 * Log warning to console (suppressed in quiet mode)
-	 */
-	private warn(message: string): void {
-		if (!this.options.quiet) {
-			console.warn(message);
-		}
-	}
-
-	/**
-	 * Generate a URL-safe slug from topic
-	 */
-	private slugify(text: string): string {
-		return text
-			.toLowerCase()
-			.replace(/[åä]/g, "a")
-			.replace(/[ö]/g, "o")
-			.replace(/[^a-z0-9]+/g, "-")
-			.replace(/^-|-$/g, "")
-			.slice(0, 50);
-	}
-
-	/**
-	 * Get model ID for Claude CLI
-	 */
-	private getModelId(): ClaudeRunOptions["model"] {
-		return this.options.model === "opus" ? "claude-opus-4-6" : "claude-sonnet-4-5-20250929";
-	}
-
-	/**
-	 * Run Claude with optional streaming for preview chunks
-	 */
-	private async runWithOptionalStreaming<T>(
-		options: ClaudeRunOptions,
-		schema: z.ZodSchema<T>,
-		stage: PreviewChunk["stage"],
-	): Promise<Awaited<ReturnType<typeof this.runner.runJSON<T>>>> {
-		if (this.options.onPreview) {
-			const streamResult = await this.runner.runWithStreaming(options, (chunk) => {
-				this.options.onPreview?.({
-					stage,
-					type: chunk.type,
-					content: chunk.content,
-				});
-			});
-
-			// If the streaming call itself failed, return the error
-			if (!streamResult.success) {
-				return {
-					success: false,
-					error: streamResult.error || "Claude process failed",
-					output: streamResult.output,
-					exitCode: streamResult.exitCode,
-				};
-			}
-
-			// If no output, something went wrong
-			if (!streamResult.output) {
-				return {
-					success: false,
-					error: "No output received from Claude",
-					output: "",
-				};
-			}
-
-			// Try to parse the JSON output
-			const parsed = this.runner.parseJSONOutput<T>(streamResult.output);
-			if (!parsed) {
-				// Show a snippet of what we got to help debug
-				const snippet = streamResult.output.slice(0, 500);
-				return {
-					success: false,
-					error: `Failed to parse JSON output. Got: ${snippet}...`,
-					output: streamResult.output,
-				};
-			}
-
-			// Validate against schema
-			const validation = this.runner.validateOutput(parsed, schema);
-			if (!validation.success) {
-				return { success: false, error: validation.error, output: streamResult.output };
-			}
-
-			return { ...streamResult, data: validation.data };
-		}
-
-		return this.runner.runJSON<T>(options, schema);
+		this.logger = createLogger(this.options.quiet);
 	}
 
 	/**
@@ -276,7 +217,7 @@ export class ContentOrchestrator {
 		promptFile: string;
 		systemPrompt: string;
 		allowedTools: string[];
-		schema?: z.ZodSchema<T>;
+		schema?: import("zod").ZodSchema<T>;
 		jsonSchema?: object;
 		maxRetries?: number;
 		skipPermissions?: boolean;
@@ -286,40 +227,37 @@ export class ContentOrchestrator {
 	}): Promise<StageResult<T>> {
 		const startTime = Date.now();
 		const maxRetries = options.maxRetries ?? 2;
-		this.log(`${options.emoji} ${options.name}...`);
+		this.logger.log(`${options.emoji} ${options.name}...`);
 
 		const promptPath = join(this.promptsDir, options.promptFile);
 		const useStreaming = !!this.options.onPreview;
+
+		const runOptions: ClaudeRunOptions = {
+			prompt: promptPath,
+			systemPrompt: options.systemPrompt,
+			model: getModelId(this.options.model),
+			allowedTools: options.allowedTools,
+			mcpConfig: options.mcpConfig,
+			jsonSchema: options.jsonSchema,
+			effort: options.effort,
+			maxTurns: options.maxTurns,
+			fallbackModel: "sonnet",
+			noSessionPersistence: true,
+			skipPermissions: options.skipPermissions ?? true,
+		};
 
 		for (let attempt = 1; attempt <= maxRetries; attempt++) {
 			let result: Awaited<ReturnType<typeof this.runner.runJSON<T>>>;
 
 			if (useStreaming) {
-				// Use streaming to emit preview chunks
-				const streamResult = await this.runner.runWithStreaming(
-					{
-						prompt: promptPath,
-						systemPrompt: options.systemPrompt,
-						model: this.getModelId(),
-						allowedTools: options.allowedTools,
-						mcpConfig: options.mcpConfig,
-						jsonSchema: options.jsonSchema,
-						effort: options.effort,
-						maxTurns: options.maxTurns,
-						fallbackModel: "sonnet",
-						noSessionPersistence: true,
-						skipPermissions: options.skipPermissions ?? true, // Default to skipping for pipeline
-					},
-					(chunk) => {
-						this.options.onPreview?.({
-							stage: options.stage,
-							type: chunk.type,
-							content: chunk.content,
-						});
-					},
-				);
+				const streamResult = await this.runner.runWithStreaming(runOptions, (chunk) => {
+					this.options.onPreview?.({
+						stage: options.stage,
+						type: chunk.type,
+						content: chunk.content,
+					});
+				});
 
-				// Parse the output
 				if (streamResult.success && streamResult.output) {
 					const parsed = this.runner.parseJSONOutput<T>(streamResult.output);
 					if (parsed && options.schema) {
@@ -332,7 +270,6 @@ export class ContentOrchestrator {
 					} else if (parsed) {
 						result = { ...streamResult, data: parsed as T };
 					} else {
-						// JSON parsing failed — treat as validation error so retry logic kicks in
 						const snippet = streamResult.output.slice(0, 300);
 						result = {
 							success: false,
@@ -344,23 +281,7 @@ export class ContentOrchestrator {
 					result = streamResult;
 				}
 			} else {
-				// Non-streaming mode
-				result = await this.runner.runJSON<T>(
-					{
-						prompt: promptPath,
-						systemPrompt: options.systemPrompt,
-						model: this.getModelId(),
-						allowedTools: options.allowedTools,
-						mcpConfig: options.mcpConfig,
-						jsonSchema: options.jsonSchema,
-						effort: options.effort,
-						maxTurns: options.maxTurns,
-						fallbackModel: "sonnet",
-						noSessionPersistence: true,
-						skipPermissions: options.skipPermissions ?? true, // Default to skipping for pipeline
-					},
-					options.schema,
-				);
+				result = await this.runner.runJSON<T>(runOptions, options.schema);
 			}
 
 			if (result.success && result.data) {
@@ -375,7 +296,7 @@ export class ContentOrchestrator {
 			const isValidationError = result.error?.includes("Validation failed");
 			if (isValidationError && attempt < maxRetries) {
 				const delay = 2000 * attempt; // exponential backoff: 2s, 4s
-				this.log(
+				this.logger.log(
 					`   ⚠️  Validation failed, retry ${attempt}/${maxRetries - 1} in ${delay / 1000}s...`,
 				);
 				await new Promise((resolve) => setTimeout(resolve, delay));
@@ -409,31 +330,71 @@ export class ContentOrchestrator {
 	}
 
 	/**
-	 * Save stage output to file
+	 * Post-process research results: URL verification, source validation, reference tracking
 	 */
-	private saveOutput(dir: string, filename: string, data: unknown): void {
-		const filepath = join(dir, filename);
-		if (typeof data === "string") {
-			writeFileSync(filepath, data, "utf-8");
-		} else {
-			writeFileSync(filepath, JSON.stringify(data, null, 2), "utf-8");
+	private async processResearchResult(
+		rawResult: StageResult<ResearchOutput>,
+		startTime: number,
+	): Promise<StageResult<ResearchOutput>> {
+		if (!(rawResult.success && rawResult.data)) {
+			return {
+				success: false,
+				error: rawResult.error || "Research stage failed",
+				duration: Date.now() - startTime,
+			};
 		}
-	}
 
-	/**
-	 * Load stage output from file
-	 */
-	private loadOutput<T>(dir: string, filename: string): T | null {
-		const filepath = join(dir, filename);
-		if (!existsSync(filepath)) {
-			return null;
+		const rawSources = rawResult.data.sources || [];
+		this.logger.log("   - Verifying URLs...");
+		const urlsToVerify = rawSources.map((s) => s.url);
+		const verification = await this.validator.verifyUrls(urlsToVerify);
+
+		if (verification.stats.failed > 0) {
+			this.logger.log(`   - ⚠️  ${verification.stats.failed} URL(s) failed verification`);
 		}
-		const content = readFileSync(filepath, "utf-8");
-		if (filename.endsWith(".json")) {
-			return JSON.parse(content) as T;
+
+		const verifiedUrls = new Set<string>();
+		for (const r of verification.results) {
+			if (r.exists) verifiedUrls.add(r.url);
 		}
-		// For non-JSON files, content is the raw string
-		return content as T;
+
+		const validatedSources = rawSources
+			.filter((source) => verifiedUrls.has(source.url))
+			.filter((source) => {
+				const validation = this.validator.validateSource(source.url);
+				return validation.credibility !== "rejected";
+			});
+
+		const data: ResearchOutput = {
+			...rawResult.data,
+			sources: validatedSources,
+			quotes: rawResult.data.quotes || [],
+			bookPassages: rawResult.data.bookPassages || [],
+		};
+
+		for (const source of data.sources) {
+			this.references.addReference({
+				type: "web",
+				title: source.title,
+				url: source.url,
+				accessDate: new Date().toISOString(),
+			});
+		}
+		for (const quote of data.quotes) {
+			this.references.addReference({
+				type: "quote",
+				title: quote.source || "Unknown",
+				author: quote.author,
+			});
+		}
+
+		this.logger.log(`   - Found ${data.quotes.length} quotes, ${data.sources.length} sources`);
+
+		return {
+			success: true,
+			data,
+			duration: Date.now() - startTime,
+		};
 	}
 
 	/**
@@ -444,13 +405,11 @@ export class ContentOrchestrator {
 		thesis: string;
 		angle: string;
 		keywords: string[];
+		seedQuotes?: Array<{ text: string; author: string; source?: string }>;
 	}): Promise<StageResult<ResearchOutput>> {
 		const startTime = Date.now();
-		this.log("📚 Stage 1: Research (from idea)...");
-		this.log(`   - Angle: ${idea.angle.slice(0, 80)}...`);
 
-		// Simple system prompt - let research find the best material autonomously
-		const systemPrompt = `Topic: ${idea.thesis}
+		let systemPrompt = `Topic: ${idea.thesis}
 
 <context>
 This article has a specific angle already developed. Your research should find material that supports and enriches this perspective.
@@ -471,99 +430,35 @@ Use parallel tool calls when searching multiple angles or authors simultaneously
 IMPORTANT: When using WebFetch, skip URLs ending in .pdf — the tool cannot read PDF files and will return binary garbage.
 </guidance>`;
 
-		// Run Claude with MCP quote tools + web tools
-		const promptPath = join(this.promptsDir, "research.md");
+		if (idea.seedQuotes && idea.seedQuotes.length > 0) {
+			const formatted = idea.seedQuotes
+				.map((q) => `- "${q.text}" — ${q.author}${q.source ? ` (${q.source})` : ""}`)
+				.join("\n");
+			systemPrompt += `
+
+<seed_material>
+These quotes were pre-found during ideation as a starting point. Use them if relevant, but search for richer and more diverse material — they are not the complete set.
+
+${formatted}
+</seed_material>`;
+		}
+
 		const mcpConfigPath = join(__dirname, "../../..", ".mcp.json");
-		const result = await this.runWithOptionalStreaming<ResearchOutput>(
-			{
-				prompt: promptPath,
-				systemPrompt,
-				model: this.getModelId(),
-				mcpConfig: mcpConfigPath,
-				allowedTools: [
-					"mcp__quotes__search_quotes",
-					"mcp__quotes__search_by_filter",
-					"mcp__quotes__search_text",
-					"mcp__quotes__get_inventory",
-					"mcp__quotes__bulk_search",
-					"mcp__quotes__search_quran",
-					"mcp__quotes__search_books",
-					"mcp__quotes__fetch_wikipedia",
-					"WebSearch",
-					"WebFetch",
-					"Read",
-				],
-				jsonSchema: getResearchJsonSchema(),
-				effort: "high",
-				maxTurns: 20,
-				fallbackModel: "sonnet",
-				noSessionPersistence: true,
-				skipPermissions: true, // Trusted pipeline - skip MCP permission prompts
-			},
-			ResearchOutputSchema,
-			"research",
-		);
+		const result = await this.executeClaudeStage<ResearchOutput>({
+			name: "Stage 1: Research (from idea)",
+			stage: "research",
+			emoji: "📚",
+			promptFile: "research.md",
+			systemPrompt,
+			allowedTools: RESEARCH_ALLOWED_TOOLS,
+			mcpConfig: mcpConfigPath,
+			schema: ResearchOutputSchema,
+			jsonSchema: getResearchJsonSchema(),
+			effort: "max",
+			maxTurns: 20,
+		});
 
-		if (!(result.success && result.data)) {
-			return {
-				success: false,
-				error: result.error || "Research stage failed",
-				duration: Date.now() - startTime,
-			};
-		}
-
-		// Validate sources
-		const rawSources = result.data.sources || [];
-		this.log("   - Verifying URLs...");
-		const urlsToVerify = rawSources.map((s) => s.url);
-		const verification = await this.validator.verifyUrls(urlsToVerify);
-
-		if (verification.stats.failed > 0) {
-			this.log(`   - ⚠️  ${verification.stats.failed} URL(s) failed verification`);
-		}
-
-		const verifiedUrls = new Set<string>();
-		for (const r of verification.results) {
-			if (r.exists) verifiedUrls.add(r.url);
-		}
-		const validatedSources = rawSources
-			.filter((source) => verifiedUrls.has(source.url))
-			.filter((source) => {
-				const validation = this.validator.validateSource(source.url);
-				return validation.credibility !== "rejected";
-			});
-
-		const data = {
-			...result.data,
-			sources: validatedSources,
-			quotes: result.data.quotes || [],
-			bookPassages: result.data.bookPassages || [],
-		};
-
-		// Add to reference tracker
-		for (const source of data.sources) {
-			this.references.addReference({
-				type: "web",
-				title: source.title,
-				url: source.url,
-				accessDate: new Date().toISOString(),
-			});
-		}
-		for (const quote of data.quotes) {
-			this.references.addReference({
-				type: "quote",
-				title: quote.source || "Unknown",
-				author: quote.author,
-			});
-		}
-
-		this.log(`   - Found ${data.quotes.length} quotes, ${data.sources.length} sources`);
-
-		return {
-			success: true,
-			data,
-			duration: Date.now() - startTime,
-		};
+		return this.processResearchResult(result, startTime);
 	}
 
 	/**
@@ -572,10 +467,7 @@ IMPORTANT: When using WebFetch, skip URLs ending in .pdf — the tool cannot rea
 	 */
 	async runResearch(topic: string): Promise<StageResult<ResearchOutput>> {
 		const startTime = Date.now();
-		this.log("📚 Stage 1: Research...");
-		this.log("   - Claude will search quote database via MCP tools");
 
-		// Build system prompt - giving Claude autonomy per best practices
 		const systemPrompt = `Topic: ${topic}
 
 <context>
@@ -594,120 +486,22 @@ Use parallel tool calls when searching multiple angles or authors simultaneously
 IMPORTANT: When using WebFetch, skip URLs ending in .pdf — the tool cannot read PDF files and will return binary garbage.
 </guidance>`;
 
-		// Run Claude with MCP quote tools + web tools
-		const promptPath = join(this.promptsDir, "research.md");
-		// MCP config is in project root (3 levels up from packages/orchestrator/src)
 		const mcpConfigPath = join(__dirname, "../../..", ".mcp.json");
-		const result = await this.runWithOptionalStreaming<ResearchOutput>(
-			{
-				prompt: promptPath,
-				systemPrompt,
-				model: this.getModelId(),
-				// MCP config for quote database tools (absolute path)
-				mcpConfig: mcpConfigPath,
-				// MCP tools + standard tools
-				allowedTools: [
-					"mcp__quotes__search_quotes",
-					"mcp__quotes__search_by_filter",
-					"mcp__quotes__search_text",
-					"mcp__quotes__get_inventory",
-					"mcp__quotes__bulk_search",
-					"mcp__quotes__search_quran",
-					"mcp__quotes__search_books",
-					"mcp__quotes__fetch_wikipedia",
-					"WebSearch",
-					"WebFetch",
-					"Read",
-				],
-				jsonSchema: getResearchJsonSchema(),
-				effort: "high",
-				maxTurns: 20,
-				fallbackModel: "sonnet",
-				noSessionPersistence: true,
-				skipPermissions: true, // Trusted pipeline - skip MCP permission prompts
-			},
-			ResearchOutputSchema,
-			"research",
-		);
+		const result = await this.executeClaudeStage<ResearchOutput>({
+			name: "Stage 1: Research",
+			stage: "research",
+			emoji: "📚",
+			promptFile: "research.md",
+			systemPrompt,
+			allowedTools: RESEARCH_ALLOWED_TOOLS,
+			mcpConfig: mcpConfigPath,
+			schema: ResearchOutputSchema,
+			jsonSchema: getResearchJsonSchema(),
+			effort: "max",
+			maxTurns: 20,
+		});
 
-		if (!(result.success && result.data)) {
-			return {
-				success: false,
-				error: result.error || "Research stage failed",
-				duration: Date.now() - startTime,
-			};
-		}
-
-		// Validate sources (with fallback if Claude didn't return any)
-		const rawSources = result.data.sources || [];
-
-		// Step 4: Verify URLs actually exist (catches hallucinated URLs)
-		this.log("   - Verifying URLs...");
-		const urlsToVerify = rawSources.map((s) => s.url);
-		const verification = await this.validator.verifyUrls(urlsToVerify);
-
-		if (verification.stats.failed > 0) {
-			this.log(`   - ⚠️  ${verification.stats.failed} URL(s) failed verification:`);
-			for (const url of verification.stats.failedUrls) {
-				const result = verification.results.find((r) => r.url === url);
-				this.log(`     - ${url} (${result?.error || "unreachable"})`);
-			}
-		}
-
-		// Filter out sources with invalid URLs
-		const verifiedUrls = new Set<string>();
-		for (const r of verification.results) {
-			if (r.exists) verifiedUrls.add(r.url);
-		}
-
-		const validatedSources = rawSources
-			.filter((source) => verifiedUrls.has(source.url))
-			.filter((source) => {
-				// Only reject blacklisted sources
-				const validation = this.validator.validateSource(source.url);
-				if (validation.credibility === "rejected") {
-					this.log(`   - Rejected blacklisted source: ${source.url}`);
-					return false;
-				}
-				return true;
-			});
-		// Trust LLM's credibility assessment for non-blacklisted sources
-
-		// Use quotes and passages that Claude found via MCP tools
-		const data = {
-			...result.data,
-			sources: validatedSources,
-			quotes: result.data.quotes || [],
-			bookPassages: result.data.bookPassages || [],
-		};
-
-		// Add sources to reference tracker
-		for (const source of data.sources) {
-			this.references.addReference({
-				type: "web",
-				title: source.title,
-				url: source.url,
-				accessDate: new Date().toISOString(),
-			});
-		}
-
-		// Add quotes to reference tracker
-		for (const quote of data.quotes) {
-			this.references.addReference({
-				type: "quote",
-				title: quote.source || "Unknown",
-				author: quote.author,
-			});
-		}
-
-		this.log(`   - Found ${data.sources.length} credible sources`);
-		this.log(`   - Retrieved ${data.quotes.length} quotes total`);
-
-		return {
-			success: true,
-			data,
-			duration: Date.now() - startTime,
-		};
+		return this.processResearchResult(result, startTime);
 	}
 
 	/**
@@ -745,7 +539,7 @@ Score fairly based on what you can actually verify:
 			mcpConfig: mcpConfigPath,
 			schema: FactCheckOutputSchema,
 			jsonSchema: getFactCheckJsonSchema(),
-			effort: "high",
+			effort: "max",
 			maxTurns: 15,
 		});
 
@@ -758,23 +552,23 @@ Score fairly based on what you can actually verify:
 			verifiedClaims: result.data.verifiedClaims || [],
 		};
 
-		this.log(`   - Verified ${data.verifiedClaims.length} claims`);
-		this.log(`   - Overall credibility: ${data.overallCredibility ?? 0}/10`);
+		this.logger.log(`   - Verified ${data.verifiedClaims.length} claims`);
+		this.logger.log(`   - Overall credibility: ${data.overallCredibility ?? 0}/10`);
 
 		// Check quality gate
 		if (data.overallCredibility < this.options.qualityThreshold) {
-			this.log(`   ❌ Credibility below threshold (${this.options.qualityThreshold})`);
-			this.log(`   Summary: ${data.summary}`);
+			this.logger.log(`   ❌ Credibility below threshold (${this.options.qualityThreshold})`);
+			this.logger.log(`   Summary: ${data.summary}`);
 			if (data.unverifiedClaims && data.unverifiedClaims.length > 0) {
-				this.log(`   Unverified claims (${data.unverifiedClaims.length}):`);
+				this.logger.log(`   Unverified claims (${data.unverifiedClaims.length}):`);
 				for (const claim of data.unverifiedClaims) {
-					this.log(`     - ${claim.claim}: ${claim.reason}`);
+					this.logger.log(`     - ${claim.claim}: ${claim.reason}`);
 				}
 			}
 			if (data.recommendations && data.recommendations.length > 0) {
-				this.log("   Recommendations:");
+				this.logger.log("   Recommendations:");
 				for (const rec of data.recommendations) {
-					this.log(`     - ${rec}`);
+					this.logger.log(`     - ${rec}`);
 				}
 			}
 			return {
@@ -794,8 +588,37 @@ Score fairly based on what you can actually verify:
 	async runAuthoring(
 		research: ResearchOutput,
 		factCheck: FactCheckOutput,
+		ideaBrief?: IdeaBrief,
 	): Promise<StageResult<DraftOutput>> {
-		let systemPrompt = `## CONTEXT
+		let systemPrompt = "";
+
+		if (ideaBrief) {
+			const difficultyGuidance: Record<string, string> = {
+				standard:
+					"Accessible but never condescending. A well-read generalist should follow every argument. Define technical terms on first use.",
+				challenging:
+					"Assume readers know basic Islamic terminology (taqwa, fitna, tazkiya). Move quickly through fundamentals to reach the insight.",
+				expert:
+					"Write for specialists. Use technical vocabulary freely. The value is in the original synthesis, not in explaining established concepts.",
+			};
+
+			systemPrompt += `## CREATIVE DIRECTION
+This is your creative compass, not handcuffs — deviate where the material demands it.
+
+**Working title** (improve it if you find something sharper): ${ideaBrief.title}
+
+**Thesis:** ${ideaBrief.thesis}
+
+**Angle:** ${ideaBrief.angle}
+
+**Register:** ${difficultyGuidance[ideaBrief.difficulty] ?? difficultyGuidance.standard}
+
+The research below was gathered to support this angle.
+
+`;
+		}
+
+		systemPrompt += `## CONTEXT
 You are writing for islam.se. The purpose is to promote Islamic thought intelligently to Swedish readers.
 
 Key requirements:
@@ -811,8 +634,14 @@ Key requirements:
 Verified research:
 ${JSON.stringify(research, null, 2)}`;
 
-		// Pass only actionable guidance from fact-checker (not bad data)
+		// Pass actionable guidance from fact-checker
 		const guidance: string[] = [];
+		if (factCheck.unverifiedClaims && factCheck.unverifiedClaims.length > 0) {
+			guidance.push(
+				"UNVERIFIED CLAIMS (do NOT use these without rewording or independent support):\n" +
+					factCheck.unverifiedClaims.map((c) => `- ${c.claim}: ${c.reason}`).join("\n"),
+			);
+		}
 		if (factCheck.missingPerspectives && factCheck.missingPerspectives.length > 0) {
 			guidance.push(
 				"MISSING PERSPECTIVES (consider addressing):\n" +
@@ -830,8 +659,13 @@ ${JSON.stringify(research, null, 2)}`;
 		}
 
 		if (research.bookPassages && research.bookPassages.length > 0) {
-			systemPrompt += `\n\n## BOOK PASSAGES AVAILABLE
-${research.bookPassages.length} book passages available for integration.`;
+			const formatted = research.bookPassages
+				.map((p) => `### ${p.bookTitle} — ${p.author}\n${p.text}`)
+				.join("\n\n---\n\n");
+			systemPrompt += `\n\n## BOOK PASSAGES FOR INTEGRATION
+These extended passages from the book database support your argument. Weave the strongest ones into your prose — quote directly when the original language is powerful, paraphrase when you need to maintain flow. Cite as footnotes (Author, *Work*, chapter/section).
+
+${formatted}`;
 		}
 
 		const result = await this.executeClaudeStage<DraftOutput>({
@@ -851,7 +685,7 @@ ${research.bookPassages.length} book passages available for integration.`;
 		}
 
 		const wordCount = result.data.wordCount ?? result.data.body.split(/\s+/).length;
-		this.log(`   - Draft complete: ${wordCount} words`);
+		this.logger.log(`   - Draft complete: ${wordCount} words`);
 
 		return result;
 	}
@@ -862,6 +696,9 @@ ${research.bookPassages.length} book passages available for integration.`;
 	async runReview(
 		draft: DraftOutput,
 		research: ResearchOutput,
+		factCheck?: FactCheckOutput,
+		ideaBrief?: IdeaBrief,
+		previousReview?: ReviewOutput,
 	): Promise<StageResult<ReviewOutput>> {
 		const researchQuotes = research.quotes
 			.map((q) => `- "${q.text}" — ${q.author}${q.source ? `, ${q.source}` : ""}`)
@@ -869,7 +706,57 @@ ${research.bookPassages.length} book passages available for integration.`;
 		const quranRefs = research.quranReferences
 			.map((q) => `- ${q.surah} ${q.ayah}: ${q.text}`)
 			.join("\n");
-		const systemPrompt = `Article title: ${draft.title}\n\nDraft article:\n${draft.body}\n\nOriginal research summary:\n${research.summary}\n\nResearch quotes (for cross-reference — verify the article uses these accurately):\n${researchQuotes}\n\nQuran references found:\n${quranRefs}
+		let systemPrompt = "";
+
+		// If this is a re-review after revision, provide focused context
+		if (previousReview) {
+			systemPrompt += `## REVISION CONTEXT
+This is a **re-review**. You previously scored this article ${previousReview.finalScore}/10 and requested revisions. Your edits have been applied to the text below.
+
+**Your previous summary:** ${previousReview.summary}
+
+**Issues you flagged:**
+${(previousReview.issues || []).map((i) => `- ${i}`).join("\n")}
+
+**Your task now:** Evaluate whether your specific issues are resolved. If they are, the score should reflect the improvement. Do NOT re-discover the same issues — focus on whether the revised text addresses them. If the prose is now at publish quality, verdict "publish".
+
+`;
+		}
+
+		if (ideaBrief) {
+			systemPrompt += `## INTENDED DIRECTION
+Assess whether the draft delivers on this promise — or drifted into a generic overview.
+
+**Thesis:** ${ideaBrief.thesis}
+**Angle:** ${ideaBrief.angle}
+**Keywords for thematic cross-reference:** ${ideaBrief.keywords.join(", ")}
+
+`;
+		}
+
+		systemPrompt += `Article title: ${draft.title}\n\nDraft article:\n${draft.body}\n\nOriginal research summary:\n${research.summary}\n\nResearch quotes (for cross-reference — verify the article uses these accurately):\n${researchQuotes}\n\nQuran references found:\n${quranRefs}`;
+
+		// Pass fact-check context so reviewer can verify author addressed issues
+		if (factCheck) {
+			const fcContext: string[] = [];
+			if (factCheck.unverifiedClaims && factCheck.unverifiedClaims.length > 0) {
+				fcContext.push(
+					"Unverified claims (verify the author avoided or reworded these):\n" +
+						factCheck.unverifiedClaims.map((c) => `- ${c.claim}`).join("\n"),
+				);
+			}
+			if (factCheck.missingPerspectives && factCheck.missingPerspectives.length > 0) {
+				fcContext.push(
+					"Missing perspectives flagged:\n" +
+						factCheck.missingPerspectives.map((p) => `- ${p}`).join("\n"),
+				);
+			}
+			if (fcContext.length > 0) {
+				systemPrompt += `\n\n## FACT-CHECK FLAGS\nThe fact-checker flagged these issues. Check whether the author addressed them:\n${fcContext.join("\n\n")}`;
+			}
+		}
+
+		systemPrompt += `
 
 <language_quality>
 This article is for a Swedish publication. Watch for and fix anglicisms — English-influenced phrasing that sounds unnatural in Swedish:
@@ -903,8 +790,32 @@ If the draft has anglicisms, fix them in revisedText.
 			return result;
 		}
 
-		this.log(`   - Quality Score: ${result.data.finalScore ?? 0}/10`);
-		this.log(`   - VERDICT: ${(result.data.verdict || "unknown").toUpperCase()}`);
+		this.logger.log(`   - Quality Score: ${result.data.finalScore ?? 0}/10`);
+		this.logger.log(`   - VERDICT: ${(result.data.verdict || "unknown").toUpperCase()}`);
+
+		return result;
+	}
+
+	/**
+	 * Run the polish stage — final prose refinement by a Swedish literary master matched to content
+	 */
+	async runPolish(articleBody: string): Promise<StageResult<PolishOutput>> {
+		this.logger.log("   🖊️  Polish: prose rhythm, momentum, voice");
+
+		const systemPrompt = `Du är en erfaren svensk essäist och redaktör. Du läser den här texten som en krävande läsare, inte som en redigerare.\n\n## TEXTEN\n\n${articleBody}`;
+
+		const result = await this.executeClaudeStage<PolishOutput>({
+			name: "Stage 5: Polish",
+			stage: "polish",
+			emoji: "🖊️ ",
+			promptFile: "polish.md",
+			systemPrompt,
+			allowedTools: ["think"],
+			schema: PolishOutputSchema,
+			jsonSchema: getPolishJsonSchema(),
+			effort: "high",
+			maxTurns: 3,
+		});
 
 		return result;
 	}
@@ -930,9 +841,9 @@ If the draft has anglicisms, fix them in revisedText.
 					? { topic: ideaContext.topicSlug, ideaId: ideaContext.ideaId }
 					: undefined,
 			});
-			this.log(`   📤 Published to data/articles/${topicSlug}.md`);
+			this.logger.log(`   📤 Published to data/articles/${topicSlug}.md`);
 		} catch (publishError) {
-			this.warn(`   ⚠️  Failed to publish article: ${publishError}`);
+			this.logger.warn(`   ⚠️  Failed to publish article: ${publishError}`);
 			return undefined;
 		}
 
@@ -947,9 +858,9 @@ If the draft has anglicisms, fix them in revisedText.
 					producedAt: new Date().toISOString(),
 					articleSlug: topicSlug,
 				});
-				this.log(`   ✓ Marked idea #${ideaContext.ideaId} as done`);
+				this.logger.log(`   ✓ Marked idea #${ideaContext.ideaId} as done`);
 			} catch (statusError) {
-				this.warn(`   ⚠️  Failed to update idea status: ${statusError}`);
+				this.logger.warn(`   ⚠️  Failed to update idea status: ${statusError}`);
 			}
 		}
 
@@ -961,9 +872,13 @@ If the draft has anglicisms, fix them in revisedText.
 	 * @param topic - The article topic
 	 * @param ideaContext - Optional context linking to source idea for status tracking
 	 */
-	async produce(topic: string, ideaContext?: IdeaContext): Promise<ProductionResult> {
+	async produce(
+		topic: string,
+		ideaContext?: IdeaContext,
+		ideaBrief?: IdeaBrief,
+	): Promise<ProductionResult> {
 		const startTime = Date.now();
-		const topicSlug = this.slugify(topic);
+		const topicSlug = slugify(topic);
 		const outputDir = this.ensureOutputDir(topicSlug);
 
 		const result: ProductionResult = {
@@ -973,94 +888,159 @@ If the draft has anglicisms, fix them in revisedText.
 			stages: {},
 		};
 
+		// Save idea brief for audit trail
+		if (ideaBrief) {
+			saveOutput(outputDir, "idea-brief.json", ideaBrief);
+		}
+
 		// Stage 1: Research
-		const researchResult = await this.runResearch(topic);
+		this.options.onStageChange?.({ stage: "research", status: "running" });
+		const researchResult = ideaBrief
+			? await this.runResearchFromIdea({
+					thesis: ideaBrief.thesis,
+					angle: ideaBrief.angle,
+					keywords: ideaBrief.keywords,
+					seedQuotes: ideaBrief.seedQuotes,
+				})
+			: await this.runResearch(topic);
 		result.stages.research = researchResult;
 		if (!(researchResult.success && researchResult.data)) {
+			this.options.onStageChange?.({
+				stage: "research",
+				status: "failed",
+				duration: researchResult.duration,
+				error: researchResult.error,
+			});
 			result.totalDuration = Date.now() - startTime;
 			return result;
 		}
-		this.saveOutput(outputDir, "research.json", researchResult.data);
+		this.options.onStageChange?.({
+			stage: "research",
+			status: "complete",
+			duration: researchResult.duration,
+			summary: `${researchResult.data.sources.length} sources, ${researchResult.data.quotes.length} quotes`,
+		});
+		saveOutput(outputDir, "research.json", researchResult.data);
 
 		// Stage 2: Fact-Check
+		this.options.onStageChange?.({ stage: "factCheck", status: "running" });
 		const factCheckResult = await this.runFactCheck(researchResult.data);
 		result.stages.factCheck = factCheckResult;
 		// Always save fact-check output for debugging (even on failure)
 		if (factCheckResult.data) {
-			this.saveOutput(outputDir, "fact-check.json", factCheckResult.data);
+			saveOutput(outputDir, "fact-check.json", factCheckResult.data);
 		}
 		if (!(factCheckResult.success && factCheckResult.data)) {
+			this.options.onStageChange?.({
+				stage: "factCheck",
+				status: "failed",
+				duration: factCheckResult.duration,
+				error: factCheckResult.error,
+			});
 			result.totalDuration = Date.now() - startTime;
 			return result;
 		}
+		this.options.onStageChange?.({
+			stage: "factCheck",
+			status: "complete",
+			duration: factCheckResult.duration,
+			summary: `Score: ${factCheckResult.data.overallCredibility}/10`,
+		});
 
 		// Stage 3: Authoring
-		const authoringResult = await this.runAuthoring(researchResult.data, factCheckResult.data);
+		this.options.onStageChange?.({ stage: "authoring", status: "running" });
+		const authoringResult = await this.runAuthoring(
+			researchResult.data,
+			factCheckResult.data,
+			ideaBrief,
+		);
 		result.stages.authoring = authoringResult;
 		if (!(authoringResult.success && authoringResult.data)) {
+			this.options.onStageChange?.({
+				stage: "authoring",
+				status: "failed",
+				duration: authoringResult.duration,
+				error: authoringResult.error,
+			});
 			result.totalDuration = Date.now() - startTime;
 			return result;
 		}
-		this.saveOutput(outputDir, "draft.md", authoringResult.data.body);
-		this.saveOutput(outputDir, "draft-meta.json", authoringResult.data);
+		const wordCount =
+			authoringResult.data.wordCount ?? authoringResult.data.body.split(/\s+/).length;
+		this.options.onStageChange?.({
+			stage: "authoring",
+			status: "complete",
+			duration: authoringResult.duration,
+			summary: `${wordCount} words`,
+		});
+		saveOutput(outputDir, "draft.md", authoringResult.data.body);
+		saveOutput(outputDir, "draft-meta.json", authoringResult.data);
 
 		// Stage 4: Review (with potential revision loop)
 		let currentDraft = authoringResult.data;
 		let revisionCount = 0;
+		let lastReviewData: ReviewOutput | undefined;
+
+		this.options.onStageChange?.({ stage: "review", status: "running" });
 
 		while (revisionCount <= this.options.maxRevisions) {
-			const reviewResult = await this.runReview(currentDraft, researchResult.data);
+			const reviewResult = await this.runReview(
+				currentDraft,
+				researchResult.data,
+				factCheckResult.data,
+				ideaBrief,
+				lastReviewData, // Pass previous review for focused re-evaluation
+			);
 			result.stages.review = reviewResult;
 
 			if (!(reviewResult.success && reviewResult.data)) {
+				this.options.onStageChange?.({
+					stage: "review",
+					status: "failed",
+					duration: reviewResult.duration,
+					error: reviewResult.error,
+				});
 				result.totalDuration = Date.now() - startTime;
 				return result;
 			}
 
-			this.saveOutput(outputDir, "review.json", reviewResult.data);
+			lastReviewData = reviewResult.data;
+			saveOutput(outputDir, "review.json", reviewResult.data);
+			const reviewSummary = `${reviewResult.data.finalScore}/10 — ${reviewResult.data.verdict}`;
 
 			// Check verdict
 			if (reviewResult.data.verdict === "publish") {
-				// Success! Always prefer polished version
-				const finalText = reviewResult.data.revisedText ?? currentDraft.body;
-				this.saveOutput(outputDir, "final.md", finalText);
-
-				// Generate bibliography
-				const bibliography = this.references.formatSwedishBibliography();
-				this.saveOutput(outputDir, "references.md", `# Referenser\n\n${bibliography}`);
-
-				// Save metadata
-				this.saveOutput(outputDir, "metadata.json", {
-					topic,
-					producedAt: new Date().toISOString(),
-					qualityScore: reviewResult.data.finalScore,
-					wordCount: currentDraft.wordCount,
-					revisionCount,
+				this.options.onStageChange?.({
+					stage: "review",
+					status: "complete",
+					duration: reviewResult.duration,
+					summary: reviewSummary,
 				});
-
-				// Publish to web-accessible directory and update idea status
-				result.publishedSlug = this.publishArticle(
-					outputDir,
-					topicSlug,
-					currentDraft,
-					reviewResult.data.finalScore,
-					ideaContext,
-				);
-
-				result.success = true;
-				result.finalArticle = finalText;
-				result.bibliography = bibliography;
 				break;
 			}
 
 			if (reviewResult.data.verdict === "reject") {
-				this.log("   ❌ Article rejected - requires complete rewrite");
-				break;
+				this.options.onStageChange?.({
+					stage: "review",
+					status: "failed",
+					duration: reviewResult.duration,
+					summary: reviewSummary,
+					error: "Article rejected",
+				});
+				this.logger.log("   ❌ Article rejected - requires complete rewrite");
+				result.totalDuration = Date.now() - startTime;
+				return result;
 			}
 
 			// Verdict is 'revise'
 			if (revisionCount >= this.options.maxRevisions) {
-				this.log(`   ⚠️  Max revisions (${this.options.maxRevisions}) reached`);
+				this.options.onStageChange?.({
+					stage: "review",
+					status: "complete",
+					duration: reviewResult.duration,
+					summary: `${reviewSummary} (max revisions)`,
+				});
+				this.logger.log(`   ⚠️  Max revisions (${this.options.maxRevisions}) reached`);
 				break;
 			}
 
@@ -1071,20 +1051,94 @@ If the draft has anglicisms, fix them in revisedText.
 					body: reviewResult.data.revisedText,
 				};
 				revisionCount++;
-				this.log(`   📝 Revision ${revisionCount} applied, re-reviewing...`);
+				this.logger.log(`   📝 Revision ${revisionCount} applied, re-reviewing...`);
 			} else {
-				this.log("   ⚠️  Revisions requested but no revised text provided");
+				this.options.onStageChange?.({
+					stage: "review",
+					status: "complete",
+					duration: reviewResult.duration,
+					summary: reviewSummary,
+				});
+				this.logger.log("   ⚠️  Revisions requested but no revised text provided");
 				break;
 			}
 		}
 
+		// After review loop — reject already returned early above, so we have text to polish + publish
+		if (!lastReviewData) {
+			result.totalDuration = Date.now() - startTime;
+			return result;
+		}
+		const reviewData = lastReviewData;
+		let finalText = reviewData.revisedText ?? currentDraft.body;
+
+		// Stage 5: Polish — final prose refinement by a Swedish literary master
+		this.options.onStageChange?.({ stage: "polish", status: "running" });
+		const polishResult = await this.runPolish(finalText);
+		result.stages.polish = polishResult;
+		if (polishResult.success && polishResult.data) {
+			finalText = polishResult.data.body;
+			const editCount = polishResult.data.edits.split("\n").filter((l) => l.trim()).length;
+			this.logger.log(
+				`   - Polish: ${editCount} edits, weakest: "${polishResult.data.weakestSentence.slice(0, 60)}..."`,
+			);
+			saveOutput(outputDir, "polish.json", polishResult.data);
+			this.options.onStageChange?.({
+				stage: "polish",
+				status: "complete",
+				duration: polishResult.duration,
+				summary: `${editCount} edits`,
+			});
+		} else {
+			this.options.onStageChange?.({
+				stage: "polish",
+				status: "complete",
+				duration: polishResult.duration,
+				summary: "skipped (non-fatal)",
+			});
+		}
+
+		saveOutput(outputDir, "final.md", finalText);
+
+		// Generate bibliography (include all tracked references)
+		const bibliography = this.references.formatSwedishBibliography(false);
+		if (bibliography.trim()) {
+			saveOutput(outputDir, "references.md", `# Referenser\n\n${bibliography}`);
+		}
+
+		// Save metadata with stage timings
+		saveOutput(outputDir, "metadata.json", {
+			topic,
+			producedAt: new Date().toISOString(),
+			qualityScore: reviewData.finalScore,
+			wordCount: currentDraft.wordCount,
+			revisionCount,
+			stageDurations: {
+				research: researchResult.duration,
+				factCheck: factCheckResult.duration,
+				authoring: authoringResult.duration,
+				review: result.stages.review?.duration,
+				polish: polishResult.duration,
+				total: Date.now() - startTime,
+			},
+		});
+
+		// Publish to web-accessible directory and update idea status
+		result.publishedSlug = this.publishArticle(
+			outputDir,
+			topicSlug,
+			currentDraft,
+			reviewData.finalScore,
+			ideaContext,
+		);
+
+		result.success = true;
+		result.finalArticle = finalText;
+		result.bibliography = bibliography;
+
 		result.totalDuration = Date.now() - startTime;
 
-		if (result.success) {
-			this.log("✅ Content production complete!");
-		} else {
-			this.log("❌ Content production failed");
-		}
+		this.logger.log("✅ Content production complete!");
 
 		return result;
 	}
@@ -1093,12 +1147,12 @@ If the draft has anglicisms, fix them in revisedText.
 	 * Run research only (no writing)
 	 */
 	async researchOnly(topic: string): Promise<StageResult<ResearchOutput>> {
-		const topicSlug = this.slugify(topic);
+		const topicSlug = slugify(topic);
 		const outputDir = this.ensureOutputDir(topicSlug);
 
 		const result = await this.runResearch(topic);
 		if (result.success && result.data) {
-			this.saveOutput(outputDir, "research.json", result.data);
+			saveOutput(outputDir, "research.json", result.data);
 		}
 
 		return result;
@@ -1137,7 +1191,7 @@ If the draft has anglicisms, fix them in revisedText.
 			};
 		}
 
-		const metadata = this.loadOutput<{
+		const metadata = loadOutput<{
 			producedAt: string;
 			qualityScore: number;
 			wordCount: number;
@@ -1157,26 +1211,17 @@ If the draft has anglicisms, fix them in revisedText.
 	}
 }
 
-// Re-export utilities
-export { ClaudeRunner } from "./claude-runner.js";
-export { ReferenceTracker } from "./reference-tracker.js";
 // Re-export services
 export {
 	type ArticleIndex,
-	// Article publisher
 	ArticlePublisher,
-	// Book service
 	type BookSearchOptions,
 	type BookSearchResult,
-	// Ideation service
 	type EnrichedIdea,
 	type EnrichedIdeationOutput,
 	type EnrichedQuote,
-	enrichIdeasWithQuotes,
 	formatBooksForPrompt,
-	// Quote service
 	formatQuotesForPrompt,
-	generateIdeas,
 	hasBookContent,
 	type Idea,
 	type IdeaProductionStatus,

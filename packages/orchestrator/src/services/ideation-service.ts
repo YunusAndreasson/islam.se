@@ -2,16 +2,32 @@
  * Ideation Service - Generates sophisticated article ideas with quote enrichment.
  */
 
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import {
+	existsSync,
+	mkdirSync,
+	readdirSync,
+	readFileSync,
+	renameSync,
+	writeFileSync,
+} from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { type FormattedQuoteWithId, findQuotesLocal } from "@islam-se/quotes";
-import { ClaudeRunner, type ClaudeRunOptions } from "../claude-runner.js";
 import {
+	type FormattedQuoteWithId,
+	findQuotesByFilter,
+	findQuotesLocal,
+	searchQuotesText,
+} from "@islam-se/quotes";
+import { ClaudeRunner } from "../claude-runner.js";
+import {
+	getIdeationCritiqueJsonSchema,
 	getIdeationJsonSchema,
+	IdeationCritiqueSchema,
+	type IdeationCritiqueValidated,
 	IdeationOutputSchema,
 	type IdeationOutputValidated,
 } from "../schemas.js";
+import { createLogger, getModelId, saveOutput, slugify } from "../utils.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -23,6 +39,8 @@ export interface Idea {
 	thesis: string;
 	angle: string;
 	keywords: string[];
+	score: number;
+	difficulty: "standard" | "challenging" | "expert";
 }
 
 export interface EnrichedQuote {
@@ -56,6 +74,8 @@ export interface EnrichedIdeationOutput {
 	topic: string;
 	generatedAt: string;
 	model: "opus" | "sonnet";
+	batchVersion: number;
+	previousVersions: string[];
 	ideas: EnrichedIdea[];
 	selectionGuidance: string;
 }
@@ -69,6 +89,7 @@ export interface IdeationServiceOptions {
 
 export class IdeationService {
 	private runner: ClaudeRunner;
+	private logger: ReturnType<typeof createLogger>;
 	private promptsDir: string;
 	private options: Required<IdeationServiceOptions>;
 
@@ -81,38 +102,7 @@ export class IdeationService {
 			model: options.model ?? "opus",
 			quiet: options.quiet ?? false,
 		};
-	}
-
-	private log(message: string): void {
-		if (!this.options.quiet) {
-			console.log(message);
-		}
-	}
-
-	private warn(message: string): void {
-		if (!this.options.quiet) {
-			console.warn(message);
-		}
-	}
-
-	/**
-	 * Generate a URL-safe slug from text
-	 */
-	private slugify(text: string): string {
-		return text
-			.toLowerCase()
-			.replace(/[åä]/g, "a")
-			.replace(/[ö]/g, "o")
-			.replace(/[^a-z0-9]+/g, "-")
-			.replace(/^-|-$/g, "")
-			.slice(0, 50);
-	}
-
-	/**
-	 * Get model ID for Claude CLI
-	 */
-	private getModelId(): ClaudeRunOptions["model"] {
-		return this.options.model === "opus" ? "claude-opus-4-6" : "claude-sonnet-4-5-20250929";
+		this.logger = createLogger(this.options.quiet);
 	}
 
 	/**
@@ -127,33 +117,130 @@ export class IdeationService {
 	}
 
 	/**
-	 * Save output to file
+	 * Archive existing ideation.json before writing a new batch.
+	 * Returns the new batch version number and list of previous version filenames.
 	 */
-	private saveOutput(dir: string, filename: string, data: unknown): void {
-		const filepath = join(dir, filename);
-		if (typeof data === "string") {
-			writeFileSync(filepath, data, "utf-8");
-		} else {
-			writeFileSync(filepath, JSON.stringify(data, null, 2), "utf-8");
+	private archiveExistingBatch(dir: string): { batchVersion: number; previousVersions: string[] } {
+		const ideationPath = join(dir, "ideation.json");
+		if (!existsSync(ideationPath)) {
+			return { batchVersion: 1, previousVersions: [] };
+		}
+
+		// Read existing batch to get its version info
+		let existingVersion = 1;
+		let existingPrevious: string[] = [];
+		try {
+			const existing: EnrichedIdeationOutput = JSON.parse(readFileSync(ideationPath, "utf-8"));
+			existingVersion = existing.batchVersion ?? 1;
+			existingPrevious = existing.previousVersions ?? [];
+		} catch {
+			// Malformed file, treat as v1
+		}
+
+		// Rename current to versioned filename
+		const versionedName = `ideation.v${existingVersion}.json`;
+		renameSync(ideationPath, join(dir, versionedName));
+		this.logger.log(`   - Archived existing batch as ${versionedName}`);
+
+		return {
+			batchVersion: existingVersion + 1,
+			previousVersions: [...existingPrevious, versionedName],
+		};
+	}
+
+	/**
+	 * Item 1: Search the quote DB for seed quotes to inspire ideation
+	 */
+	async getSeedQuotes(topic: string): Promise<FormattedQuoteWithId[]> {
+		try {
+			const [sv, ar, en] = await Promise.all([
+				findQuotesLocal(topic, { limit: 4, language: "sv", diverse: true, minStandalone: 4 }),
+				findQuotesLocal(topic, { limit: 4, language: "ar", diverse: true, minStandalone: 4 }),
+				findQuotesLocal(topic, { limit: 3, language: "en", diverse: true, minStandalone: 4 }),
+			]);
+			return [...sv, ...ar, ...en];
+		} catch {
+			return [];
 		}
 	}
 
 	/**
-	 * Load output from file
+	 * Item 5: Load previously generated ideas to avoid repetition.
+	 * Loads ALL batches (current + versioned) across all topics.
 	 */
-	loadOutput<T>(dir: string, filename: string): T | null {
-		const filepath = join(dir, filename);
-		if (!existsSync(filepath)) {
-			return null;
+	loadPreviousIdeas(): string[] {
+		const ideasDir = join(this.options.outputDir, "ideas");
+		if (!existsSync(ideasDir)) return [];
+
+		const summaries: string[] = [];
+		try {
+			const topicDirs = readdirSync(ideasDir, { withFileTypes: true }).filter((d) =>
+				d.isDirectory(),
+			);
+
+			for (const dir of topicDirs) {
+				const topicPath = join(ideasDir, dir.name);
+
+				// Load all ideation files: ideation.json + ideation.v*.json
+				const files = readdirSync(topicPath).filter(
+					(f) => f === "ideation.json" || /^ideation\.v\d+\.json$/.test(f),
+				);
+
+				for (const file of files) {
+					try {
+						const data: EnrichedIdeationOutput = JSON.parse(
+							readFileSync(join(topicPath, file), "utf-8"),
+						);
+						for (const idea of data.ideas) {
+							summaries.push(`${idea.title}: ${idea.thesis}`);
+						}
+					} catch {
+						// Skip malformed files
+					}
+				}
+			}
+		} catch {
+			// Directory read failed
 		}
-		const content = readFileSync(filepath, "utf-8");
-		return JSON.parse(content);
+		return summaries;
+	}
+
+	/**
+	 * Build system prompt with seed quotes and previous ideas context
+	 */
+	private buildSystemPrompt(
+		topic: string,
+		seedQuotes: FormattedQuoteWithId[],
+		previousIdeas: string[],
+	): string {
+		const parts: string[] = [`Topic: ${topic}`];
+
+		if (seedQuotes.length > 0) {
+			const quotesBlock = seedQuotes
+				.map((q, i) => `${i + 1}. "${q.text}" — ${q.attribution}`)
+				.join("\n");
+			parts.push(
+				`\n## SEED QUOTES FROM DATABASE\nThe following quotes are available in the database for this topic. Use them as inspiration.\n\n${quotesBlock}`,
+			);
+		}
+
+		if (previousIdeas.length > 0) {
+			// Limit to last 30 ideas to avoid overwhelming the prompt
+			const recentIdeas = previousIdeas.slice(-30);
+			const ideasBlock = recentIdeas.map((s) => `- ${s}`).join("\n");
+			parts.push(`\n## PREVIOUSLY GENERATED IDEAS (avoid similar angles)\n${ideasBlock}`);
+		}
+
+		return parts.join("\n");
 	}
 
 	/**
 	 * Generate sophisticated article ideas for a topic
 	 */
-	async generateIdeas(topic: string): Promise<{
+	async generateIdeas(
+		topic: string,
+		context?: { seedQuotes?: FormattedQuoteWithId[]; previousIdeas?: string[] },
+	): Promise<{
 		success: boolean;
 		data?: IdeationOutput;
 		error?: string;
@@ -162,16 +249,20 @@ export class IdeationService {
 		const startTime = Date.now();
 
 		const promptPath = join(this.promptsDir, "ideator.md");
-		const systemPrompt = `Topic: ${topic}`;
+		const systemPrompt = this.buildSystemPrompt(
+			topic,
+			context?.seedQuotes ?? [],
+			context?.previousIdeas ?? [],
+		);
 
 		const result = await this.runner.runJSON<IdeationOutputValidated>(
 			{
 				prompt: promptPath,
 				systemPrompt,
-				model: this.getModelId(),
+				model: getModelId(this.options.model),
 				allowedTools: [],
 				jsonSchema: getIdeationJsonSchema(),
-				effort: "high",
+				effort: "max",
 				maxBudgetUsd: 1.0,
 				fallbackModel: "sonnet",
 				noSessionPersistence: true,
@@ -196,84 +287,358 @@ export class IdeationService {
 	}
 
 	/**
-	 * Enrich ideas with quotes from the database
+	 * Convert a FormattedQuoteWithId to an EnrichedQuote
+	 */
+	private toEnrichedQuote(q: FormattedQuoteWithId): EnrichedQuote {
+		const authorMatch = q.attribution.replace(/^—\s*/, "").split(/[,،]/);
+		return {
+			id: q.id,
+			text: q.text,
+			author: authorMatch[0]?.trim() || "Unknown",
+			source: authorMatch[1]?.trim(),
+			relevanceScore: q.score,
+		};
+	}
+
+	/**
+	 * Known authors in the quote DB (used to detect author keywords)
+	 */
+	private static readonly KNOWN_AUTHORS = new Set([
+		"strindberg",
+		"ellen key",
+		"viktor rydberg",
+		"lagerlöf",
+		"selma lagerlöf",
+		"swedenborg",
+		"fredrika bremer",
+		"hjalmar bergman",
+		"victoria benedictsson",
+		"heidenstam",
+		"dan andersson",
+		"hjalmar söderberg",
+		"almqvist",
+		"tegnér",
+		"ibn al-jawzi",
+		"ibn qayyim",
+		"ibn taymiyyah",
+		"al-ghazali",
+		"al-nawawi",
+		"ibn khaldun",
+		"ibn hazm",
+		"ibn battuta",
+		"al-suyuti",
+		"al-shafi'i",
+		"al-mawardi",
+	]);
+
+	/**
+	 * Known works in the quote DB (used to detect work-title keywords)
+	 */
+	private static readonly KNOWN_WORKS = new Set([
+		"inferno",
+		"röda rummet",
+		"hemsöborna",
+		"bannlyst",
+		"lifslinjer",
+		"barnets århundrade",
+		"den siste atenaren",
+		"hávamál",
+		"völuspá",
+		"edda",
+		"talbis iblis",
+		"muqaddimah",
+		"ihya",
+		"madarij",
+		"njál",
+	]);
+
+	/**
+	 * Classify keywords into authors, works, and thematic terms
+	 */
+	private classifyKeywords(keywords: string[]): {
+		authors: string[];
+		works: string[];
+		themes: string[];
+	} {
+		const authors: string[] = [];
+		const works: string[] = [];
+		const themes: string[] = [];
+
+		for (const kw of keywords) {
+			const lower = kw.toLowerCase();
+			if (IdeationService.KNOWN_AUTHORS.has(lower)) {
+				authors.push(kw);
+			} else if (IdeationService.KNOWN_WORKS.has(lower)) {
+				works.push(kw);
+			} else {
+				themes.push(kw);
+			}
+		}
+		return { authors, works, themes };
+	}
+
+	/**
+	 * Score a text-search quote based on how well it matches the idea's keywords.
+	 * Base score 0.75, boosted by matching work title or multiple keyword hits.
+	 */
+	private scoreTextResult(q: FormattedQuoteWithId, keywords: string[]): number {
+		let score = 0.75;
+		const source = q.attribution.toLowerCase();
+
+		for (const kw of keywords) {
+			const lower = kw.toLowerCase();
+			// Boost if quote's work title matches a keyword
+			if (source.includes(lower)) {
+				score += 0.08;
+			}
+			// Boost if quote text contains the keyword
+			if (q.text.toLowerCase().includes(lower)) {
+				score += 0.04;
+			}
+		}
+
+		return Math.min(score, 0.95);
+	}
+
+	/**
+	 * Per-keyword search — hybrid semantic (thesis) + targeted text/filter (keywords).
+	 * Detects author/work pairs and searches specifically for those combinations.
+	 */
+	private async searchQuotesForIdea(idea: Idea): Promise<EnrichedQuote[]> {
+		const seen = new Set<number>();
+		const candidates: EnrichedQuote[] = [];
+
+		const addCandidate = (q: FormattedQuoteWithId, score?: number) => {
+			if (seen.has(q.id)) return;
+			seen.add(q.id);
+			const enriched = this.toEnrichedQuote(q);
+			if (score !== undefined) enriched.relevanceScore = score;
+			candidates.push(enriched);
+		};
+
+		// 1. Semantic search on thesis (captures conceptual angle)
+		try {
+			const semanticResults = await findQuotesLocal(idea.thesis, {
+				limit: 6,
+				diverse: true,
+				minStandalone: 3,
+			});
+			for (const q of semanticResults) {
+				addCandidate(q); // Keeps real semantic score (typically 0.83-0.90)
+			}
+		} catch {
+			// Semantic search failed
+		}
+
+		// 2. Classify keywords to search smarter
+		const { authors, works, themes } = this.classifyKeywords(idea.keywords);
+
+		// 3. Author+work targeted search — if we know both, get quotes from that specific work
+		for (const author of authors) {
+			try {
+				const results = findQuotesByFilter({
+					author,
+					limit: 6,
+					minStandalone: 3,
+				});
+				for (const q of results) {
+					addCandidate(q, this.scoreTextResult(q, idea.keywords));
+				}
+			} catch {
+				// Filter search failed
+			}
+		}
+
+		// 4. Work-title text search (for works not tied to a specific author keyword)
+		for (const work of works) {
+			try {
+				const results = searchQuotesText(work, { limit: 4, minStandalone: 3 });
+				for (const q of results) {
+					addCandidate(q, this.scoreTextResult(q, idea.keywords));
+				}
+			} catch {
+				// Work search failed
+			}
+		}
+
+		// 5. Thematic text search (non-author, non-work keywords)
+		for (const theme of themes) {
+			try {
+				const results = searchQuotesText(theme, { limit: 3, minStandalone: 3 });
+				for (const q of results) {
+					addCandidate(q, this.scoreTextResult(q, idea.keywords));
+				}
+			} catch {
+				// Theme search failed
+			}
+		}
+
+		// Sort by relevance score descending
+		return candidates.sort((a, b) => b.relevanceScore - a.relevanceScore);
+	}
+
+	/**
+	 * Item 2: Apply author diversity across all ideas' quotes.
+	 * Caps any single author to max 2 ideas. Processes higher-scored ideas first.
+	 */
+	private applyAuthorDiversity(
+		ideas: { idea: EnrichedIdea; candidates: EnrichedQuote[] }[],
+		quotesPerIdea: number,
+	): EnrichedIdea[] {
+		// Process ideas by score descending so best ideas get first pick
+		const sorted = [...ideas].sort((a, b) => (b.idea.score || 0) - (a.idea.score || 0));
+		const authorUsage = new Map<string, number>();
+		const result: EnrichedIdea[] = [];
+
+		for (const { idea, candidates } of sorted) {
+			const selectedQuotes: EnrichedQuote[] = [];
+
+			// First pass: pick quotes from underused authors
+			for (const candidate of candidates) {
+				if (selectedQuotes.length >= quotesPerIdea) break;
+				const usage = authorUsage.get(candidate.author) ?? 0;
+				if (usage >= 2) continue;
+				selectedQuotes.push(candidate);
+			}
+
+			// Fallback: if diversity filtering was too aggressive, fill remaining
+			if (selectedQuotes.length < quotesPerIdea) {
+				for (const candidate of candidates) {
+					if (selectedQuotes.length >= quotesPerIdea) break;
+					if (selectedQuotes.some((q) => q.id === candidate.id)) continue;
+					selectedQuotes.push(candidate);
+				}
+			}
+
+			// Update author usage counts
+			for (const q of selectedQuotes) {
+				authorUsage.set(q.author, (authorUsage.get(q.author) ?? 0) + 1);
+			}
+
+			result.push({ ...idea, quotes: selectedQuotes });
+		}
+
+		// Restore original order (by idea ID)
+		return result.sort((a, b) => a.id - b.id);
+	}
+
+	/**
+	 * Enrich ideas with quotes from the database.
+	 * Uses per-keyword search (item 3) and author diversity (item 2).
 	 */
 	async enrichIdeasWithQuotes(ideas: Idea[], quotesPerIdea = 2): Promise<EnrichedIdea[]> {
-		const enrichedIdeas: EnrichedIdea[] = [];
+		const ideasWithCandidates: { idea: EnrichedIdea; candidates: EnrichedQuote[] }[] = [];
 
 		for (const idea of ideas) {
-			// Use thesis + keywords for better semantic matching
-			// The thesis captures the core argument; keywords target specific terms
-			// Avoid using the full title which contains Swedish filler words
-			const searchQuery = `${idea.thesis} ${idea.keywords.join(" ")}`;
-
 			try {
-				// Search for relevant quotes with higher threshold
-				const quotes = await findQuotesLocal(searchQuery, {
-					limit: quotesPerIdea * 3, // Fetch extra to filter by quality
-					minStandalone: 3,
-					diverse: true,
-				});
-
-				// Filter for higher relevance and select top quotes
-				const enrichedQuotes: EnrichedQuote[] = quotes
-					.filter((q: FormattedQuoteWithId) => q.score >= 0.85) // Higher threshold
-					.slice(0, quotesPerIdea)
-					.map((q: FormattedQuoteWithId) => {
-						// Extract author from attribution
-						const authorMatch = q.attribution.replace(/^—\s*/, "").split(/[,،]/);
-						const author = authorMatch[0]?.trim() || "Unknown";
-						const source = authorMatch[1]?.trim();
-
-						return {
-							id: q.id,
-							text: q.text,
-							author,
-							source,
-							relevanceScore: q.score,
-						};
-					});
-
-				// If high-threshold filtering returned too few, fall back to top results
-				if (enrichedQuotes.length < quotesPerIdea) {
-					const fallbackQuotes = quotes
-						.slice(0, quotesPerIdea)
-						.filter((q: FormattedQuoteWithId) => !enrichedQuotes.some((eq) => eq.id === q.id))
-						.map((q: FormattedQuoteWithId) => {
-							const authorMatch = q.attribution.replace(/^—\s*/, "").split(/[,،]/);
-							return {
-								id: q.id,
-								text: q.text,
-								author: authorMatch[0]?.trim() || "Unknown",
-								source: authorMatch[1]?.trim(),
-								relevanceScore: q.score,
-							};
-						});
-					enrichedQuotes.push(...fallbackQuotes.slice(0, quotesPerIdea - enrichedQuotes.length));
-				}
-
-				enrichedIdeas.push({
-					...idea,
-					quotes: enrichedQuotes,
+				const candidates = await this.searchQuotesForIdea(idea);
+				ideasWithCandidates.push({
+					idea: { ...idea, quotes: [] },
+					candidates,
 				});
 			} catch {
-				// If quote search fails, add idea without quotes
-				enrichedIdeas.push({
-					...idea,
-					quotes: [],
+				ideasWithCandidates.push({
+					idea: { ...idea, quotes: [] },
+					candidates: [],
 				});
 			}
 		}
 
-		return enrichedIdeas;
+		return this.applyAuthorDiversity(ideasWithCandidates, quotesPerIdea);
 	}
 
 	/**
-	 * Run complete ideation flow: generate ideas and enrich with quotes
+	 * Item 4: Self-critique pass — review batch and replace weak ideas
+	 */
+	async critiqueAndRefine(
+		topic: string,
+		ideas: Idea[],
+		context?: { seedQuotes?: FormattedQuoteWithId[]; previousIdeas?: string[] },
+	): Promise<Idea[]> {
+		const promptPath = join(this.promptsDir, "ideation-critique.md");
+
+		// Build system prompt with the ideas to critique
+		const ideasBlock = ideas
+			.map(
+				(idea) =>
+					`#${idea.id} [score:${idea.score}, ${idea.difficulty}] "${idea.title}"\n  Thesis: ${idea.thesis}\n  Angle: ${idea.angle}\n  Keywords: ${idea.keywords.join(", ")}`,
+			)
+			.join("\n\n");
+
+		const systemParts: string[] = [`Topic: ${topic}`, `\n## IDEAS TO REVIEW\n${ideasBlock}`];
+
+		if (context?.seedQuotes && context.seedQuotes.length > 0) {
+			const quotesBlock = context.seedQuotes
+				.map((q, i) => `${i + 1}. "${q.text}" — ${q.attribution}`)
+				.join("\n");
+			systemParts.push(`\n## AVAILABLE QUOTES\n${quotesBlock}`);
+		}
+
+		if (context?.previousIdeas && context.previousIdeas.length > 0) {
+			const recentIdeas = context.previousIdeas.slice(-30);
+			systemParts.push(
+				`\n## PREVIOUSLY GENERATED IDEAS (replacements should also avoid these)\n${recentIdeas.map((s) => `- ${s}`).join("\n")}`,
+			);
+		}
+
+		const result = await this.runner.runJSON<IdeationCritiqueValidated>(
+			{
+				prompt: promptPath,
+				systemPrompt: systemParts.join("\n"),
+				model: getModelId(this.options.model),
+				allowedTools: [],
+				jsonSchema: getIdeationCritiqueJsonSchema(),
+				effort: "max",
+				maxBudgetUsd: 0.5,
+				fallbackModel: "sonnet",
+				noSessionPersistence: true,
+				skipPermissions: true,
+			},
+			IdeationCritiqueSchema,
+		);
+
+		if (!(result.success && result.data) || result.data.replacements.length === 0) {
+			if (result.data) {
+				this.logger.log(`   - Critique: ${result.data.analysis}`);
+			}
+			return ideas;
+		}
+
+		const critique = result.data;
+		this.logger.log(`   - Critique: ${critique.analysis}`);
+		this.logger.log(`   - Replacing ${critique.replacements.length} weak ideas`);
+
+		// Apply replacements
+		const refined = [...ideas];
+		for (const replacement of critique.replacements) {
+			const idx = refined.findIndex((i) => i.id === replacement.replacesId);
+			if (idx !== -1) {
+				refined[idx] = {
+					id: replacement.replacesId,
+					title: replacement.title,
+					thesis: replacement.thesis,
+					angle: replacement.angle,
+					keywords: replacement.keywords,
+					score: replacement.score,
+					difficulty: replacement.difficulty,
+				};
+			}
+		}
+
+		return refined;
+	}
+
+	/**
+	 * Run complete ideation flow with all 5 improvements:
+	 * 1. Seed quotes from DB
+	 * 2. Author-diverse enrichment
+	 * 3. Per-keyword search
+	 * 4. Self-critique pass
+	 * 5. Cross-batch deduplication
 	 */
 	async ideate(
 		topic: string,
-		options: { skipQuotes?: boolean } = {},
+		options: { skipQuotes?: boolean; skipCritique?: boolean } = {},
 	): Promise<{
 		success: boolean;
 		data?: EnrichedIdeationOutput;
@@ -282,12 +647,25 @@ export class IdeationService {
 		duration?: number;
 	}> {
 		const startTime = Date.now();
-		const topicSlug = this.slugify(topic);
+		const topicSlug = slugify(topic);
 		const outputDir = this.ensureOutputDir(topicSlug);
 
-		// Step 1: Generate ideas
-		this.log("   - Generating sophisticated ideas...");
-		const ideaResult = await this.generateIdeas(topic);
+		// Step 1: Load previous ideas for deduplication (item 5)
+		const previousIdeas = this.loadPreviousIdeas();
+		if (previousIdeas.length > 0) {
+			this.logger.log(`   - Loaded ${previousIdeas.length} previous ideas for deduplication`);
+		}
+
+		// Step 2: Get seed quotes from DB (item 1)
+		this.logger.log("   - Searching for seed quotes...");
+		const seedQuotes = await this.getSeedQuotes(topic);
+		if (seedQuotes.length > 0) {
+			this.logger.log(`   - Found ${seedQuotes.length} seed quotes across languages`);
+		}
+
+		// Step 3: Generate ideas with context (items 1, 5)
+		this.logger.log("   - Generating sophisticated ideas...");
+		const ideaResult = await this.generateIdeas(topic, { seedQuotes, previousIdeas });
 
 		if (!(ideaResult.success && ideaResult.data)) {
 			return {
@@ -297,36 +675,41 @@ export class IdeationService {
 			};
 		}
 
-		const rawIdeas = ideaResult.data;
-		this.log(`   - Generated ${rawIdeas.ideas.length} ideas`);
+		let ideas = ideaResult.data.ideas;
+		this.logger.log(`   - Generated ${ideas.length} ideas`);
 
-		// Step 2: Enrich with quotes (unless skipped)
+		// Step 4: Self-critique and refine (item 4)
+		if (!options.skipCritique) {
+			this.logger.log("   - Running self-critique...");
+			ideas = await this.critiqueAndRefine(topic, ideas, { seedQuotes, previousIdeas });
+		}
+
+		// Step 5: Enrich with quotes using per-keyword search + author diversity (items 2, 3)
 		let enrichedIdeas: EnrichedIdea[];
 
 		if (options.skipQuotes) {
-			// Add empty quotes array to each idea
-			enrichedIdeas = rawIdeas.ideas.map((idea) => ({
-				...idea,
-				quotes: [],
-			}));
+			enrichedIdeas = ideas.map((idea) => ({ ...idea, quotes: [] }));
 		} else {
-			this.log("   - Enriching with quotes...");
-			enrichedIdeas = await this.enrichIdeasWithQuotes(rawIdeas.ideas);
+			this.logger.log("   - Enriching with quotes (per-keyword + author diversity)...");
+			enrichedIdeas = await this.enrichIdeasWithQuotes(ideas);
 			const totalQuotes = enrichedIdeas.reduce((sum, idea) => sum + idea.quotes.length, 0);
-			this.log(`   - Attached ${totalQuotes} quotes to ${enrichedIdeas.length} ideas`);
+			this.logger.log(`   - Attached ${totalQuotes} quotes to ${enrichedIdeas.length} ideas`);
 		}
 
-		// Step 3: Build output
+		// Step 6: Archive existing batch (if any) and build new output
+		const { batchVersion, previousVersions } = this.archiveExistingBatch(outputDir);
+
 		const output: EnrichedIdeationOutput = {
-			topic: rawIdeas.topic,
+			topic: ideaResult.data.topic,
 			generatedAt: new Date().toISOString(),
 			model: this.options.model,
+			batchVersion,
+			previousVersions,
 			ideas: enrichedIdeas,
-			selectionGuidance: rawIdeas.selectionGuidance,
+			selectionGuidance: ideaResult.data.selectionGuidance,
 		};
 
-		// Step 4: Save output
-		this.saveOutput(outputDir, "ideation.json", output);
+		saveOutput(outputDir, "ideation.json", output);
 
 		return {
 			success: true,
@@ -364,7 +747,7 @@ export class IdeationService {
 		const ideationPath = join(this.options.outputDir, "ideas", topicSlug, "ideation.json");
 
 		if (!existsSync(ideationPath)) {
-			this.warn(`Ideation file not found: ${ideationPath}`);
+			this.logger.warn(`Ideation file not found: ${ideationPath}`);
 			return false;
 		}
 
@@ -373,7 +756,7 @@ export class IdeationService {
 			const idea = data.ideas.find((i) => i.id === ideaId);
 
 			if (!idea) {
-				this.warn(`Idea ${ideaId} not found in ${topicSlug}`);
+				this.logger.warn(`Idea ${ideaId} not found in ${topicSlug}`);
 				return false;
 			}
 
@@ -381,7 +764,7 @@ export class IdeationService {
 			writeFileSync(ideationPath, JSON.stringify(data, null, 2), "utf-8");
 			return true;
 		} catch (error) {
-			this.warn(`Failed to update idea status: ${error}`);
+			this.logger.warn(`Failed to update idea status: ${error}`);
 			return false;
 		}
 	}
@@ -390,7 +773,7 @@ export class IdeationService {
 	 * Get the output directory path for a topic
 	 */
 	getOutputDir(topic: string): string {
-		const topicSlug = this.slugify(topic);
+		const topicSlug = slugify(topic);
 		return join(this.options.outputDir, "ideas", topicSlug);
 	}
 
@@ -398,27 +781,6 @@ export class IdeationService {
 	 * Get a topic slug from text
 	 */
 	getSlug(text: string): string {
-		return this.slugify(text);
+		return slugify(text);
 	}
-}
-
-// Export standalone functions for simpler usage
-export async function generateIdeas(
-	topic: string,
-	model: "opus" | "sonnet" = "opus",
-): Promise<{
-	success: boolean;
-	data?: IdeationOutput;
-	error?: string;
-}> {
-	const service = new IdeationService({ outputDir: "./output", model });
-	return service.generateIdeas(topic);
-}
-
-export async function enrichIdeasWithQuotes(
-	ideas: Idea[],
-	quotesPerIdea = 2,
-): Promise<EnrichedIdea[]> {
-	const service = new IdeationService({ outputDir: "./output" });
-	return service.enrichIdeasWithQuotes(ideas, quotesPerIdea);
 }

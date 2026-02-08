@@ -104,23 +104,6 @@ export class ReferenceTracker {
 	}
 
 	/**
-	 * Mark reference as used
-	 */
-	public markAsUsed(id: string): void {
-		const ref = this.references.get(id);
-		if (ref) {
-			ref.used = true;
-		}
-	}
-
-	/**
-	 * Get reference by ID
-	 */
-	public getReference(id: string): Reference | undefined {
-		return this.references.get(id);
-	}
-
-	/**
 	 * Get all references
 	 */
 	public getAllReferences(): Reference[] {
@@ -128,19 +111,21 @@ export class ReferenceTracker {
 	}
 
 	/**
-	 * Get only used references
-	 */
-	public getUsedReferences(): Reference[] {
-		return this.getAllReferences().filter((ref) => ref.used);
-	}
-
-	/**
 	 * Format references in Swedish style
 	 */
 	public formatSwedishBibliography(onlyUsed = true): string {
-		const refs = onlyUsed ? this.getUsedReferences() : this.getAllReferences();
+		const all = this.getAllReferences();
+		const refs = onlyUsed ? all.filter((ref) => ref.used) : all;
 
-		const sorted = [...refs].sort((a, b) => {
+		const seen = new Set<string>();
+		const deduped = refs.filter((r) => {
+			const key = `${r.author ?? ""}|${r.title}`;
+			if (seen.has(key)) return false;
+			seen.add(key);
+			return true;
+		});
+
+		const sorted = deduped.sort((a, b) => {
 			const aKey = a.author || a.title;
 			const bKey = b.author || b.title;
 			return aKey.localeCompare(bKey, "sv");
@@ -149,55 +134,4 @@ export class ReferenceTracker {
 		return sorted.map(formatCitation).join("\n\n");
 	}
 
-	/**
-	 * Get statistics
-	 */
-	public getStats(): {
-		total: number;
-		used: number;
-		byType: Record<string, number>;
-		byCredibility: Record<string, number>;
-	} {
-		const all = this.getAllReferences();
-		const used = this.getUsedReferences();
-
-		const byType: Record<string, number> = {};
-		const byCredibility: Record<string, number> = {};
-
-		for (const ref of all) {
-			byType[ref.type] = (byType[ref.type] || 0) + 1;
-			if (ref.credibility) {
-				byCredibility[ref.credibility] = (byCredibility[ref.credibility] || 0) + 1;
-			}
-		}
-
-		return {
-			total: all.length,
-			used: used.length,
-			byType,
-			byCredibility,
-		};
-	}
-
-	/**
-	 * Export references as JSON
-	 */
-	public toJSON(): Reference[] {
-		return this.getAllReferences();
-	}
-
-	/**
-	 * Import references from JSON
-	 */
-	public fromJSON(refs: Reference[]): void {
-		this.references.clear();
-		for (const ref of refs) {
-			this.references.set(ref.id, ref);
-			// Update counter to avoid ID collisions
-			const num = Number.parseInt(ref.id.replace("ref-", ""), 10);
-			if (!Number.isNaN(num) && num > this.idCounter) {
-				this.idCounter = num;
-			}
-		}
-	}
 }

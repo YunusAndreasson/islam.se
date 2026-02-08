@@ -22,8 +22,6 @@ export {
 	type EnrichedIdea,
 	type EnrichedIdeationOutput,
 	type EnrichedQuote,
-	enrichIdeasWithQuotes,
-	generateIdeas,
 	type Idea,
 	type IdeaProductionStatus,
 	type IdeationOutput,

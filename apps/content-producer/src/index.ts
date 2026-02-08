@@ -7,6 +7,7 @@ import {
 	ContentOrchestrator,
 	type EnrichedIdea,
 	type EnrichedIdeationOutput,
+	type IdeaBrief,
 	IdeationService,
 } from "@islam-se/orchestrator";
 import { Command } from "commander";
@@ -23,7 +24,6 @@ program
 	.description("Produce a complete article on a topic")
 	.argument("<topic>", "The topic to write about")
 	.option("-q, --quality <score>", "Minimum quality score (1-10)", "7.5")
-	.option("--no-arabic", "Exclude Arabic quotes")
 	.option("-m, --model <model>", "Model to use (opus|sonnet)", "opus")
 	.option("-o, --output <dir>", "Output directory", "./output")
 	.option("-r, --revisions <count>", "Max revision attempts", "2")
@@ -38,14 +38,12 @@ program
 		console.log(`Topic: ${topic}`);
 		console.log(`Model: ${options.model}`);
 		console.log(`Quality threshold: ${options.quality}/10`);
-		console.log(`Arabic quotes: ${options.arabic !== false ? "Yes" : "No"}`);
 		console.log("");
 
 		const orchestrator = new ContentOrchestrator({
 			outputDir,
 			model: options.model as "opus" | "sonnet",
 			qualityThreshold: Number.parseFloat(options.quality),
-			includeArabic: options.arabic !== false,
 			maxRevisions: Number.parseInt(options.revisions, 10),
 		});
 
@@ -104,7 +102,6 @@ program
 	.command("research-only")
 	.description("Run research stage only (no writing)")
 	.argument("<topic>", "The topic to research")
-	.option("--no-arabic", "Exclude Arabic quotes")
 	.option("-m, --model <model>", "Model to use (opus|sonnet)", "opus")
 	.option("-o, --output <dir>", "Output directory", "./output")
 	.action(async (topic: string, options) => {
@@ -118,7 +115,6 @@ program
 		const orchestrator = new ContentOrchestrator({
 			outputDir,
 			model: options.model as "opus" | "sonnet",
-			includeArabic: options.arabic !== false,
 		});
 
 		try {
@@ -188,6 +184,10 @@ program
 
 			spinner.stop(`Generated ${result.data.ideas.length} ideas`);
 
+			if (result.data.batchVersion > 1) {
+				console.log(`Batch version: ${result.data.batchVersion} (${result.data.previousVersions.length} previous versions archived)`);
+			}
+
 			// Display ideas summary
 			displayIdeasSummary(result.data);
 
@@ -256,13 +256,27 @@ program
 				outputDir,
 				model: options.model as "opus" | "sonnet",
 				qualityThreshold: 7.5,
-				includeArabic: true,
 				maxRevisions: 2,
 			});
 
-			// Use the selected idea's thesis as the refined topic
+			// Build IdeaBrief from the selected idea
+			const ideaBrief: IdeaBrief = {
+				title: selectedIdea.title,
+				thesis: selectedIdea.thesis,
+				angle: selectedIdea.angle,
+				keywords: selectedIdea.keywords,
+				difficulty: selectedIdea.difficulty,
+				seedQuotes: selectedIdea.quotes
+					?.filter((q) => q.relevanceScore >= 0.6)
+					.map((q) => ({ text: q.text, author: q.author, source: q.source })),
+			};
+
 			const refinedTopic = `${selectedIdea.title}: ${selectedIdea.thesis}`;
-			const pipelineResult = await orchestrator.produce(refinedTopic);
+			const pipelineResult = await orchestrator.produce(
+				refinedTopic,
+				{ topicSlug, ideaId: selectedIdea.id },
+				ideaBrief,
+			);
 
 			console.log("");
 			console.log("══════════════════════════════════════════════════════════");
