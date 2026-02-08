@@ -279,7 +279,7 @@ export function searchVerses(query: string, limit = 20): StoredVerse[] {
 /**
  * Semantic search for verses using embeddings
  */
-export function searchVersesSemantic(queryEmbedding: Float32Array, limit = 10): VerseWithScore[] {
+export function searchVersesSemantic(queryEmbedding: Float32Array, limit = 10, minScore = 0.3): VerseWithScore[] {
 	const database = initQuranDatabase();
 
 	// Convert Float32Array to Buffer for sqlite-vec
@@ -301,10 +301,12 @@ export function searchVersesSemantic(queryEmbedding: Float32Array, limit = 10): 
 	const rows = stmt.all(buffer, limit) as (StoredVerse & { distance: number })[];
 
 	// Convert distance to similarity score (1 - distance for cosine)
-	return rows.map((row) => ({
-		...row,
-		score: 1 - row.distance,
-	}));
+	return rows
+		.map((row) => ({
+			...row,
+			score: 1 - row.distance,
+		}))
+		.filter((row) => row.score >= minScore);
 }
 
 /**

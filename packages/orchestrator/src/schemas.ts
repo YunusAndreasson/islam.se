@@ -49,7 +49,7 @@ export const ResearchOutputSchema = z.object({
 		.default([]),
 });
 
-// Fact check output - keep as is, it's already focused
+// Fact check output - adversarial verification
 export const FactCheckOutputSchema = z.object({
 	overallCredibility: z.number(),
 	verdict: z.enum(["pass", "revise", "reject"]),
@@ -59,6 +59,7 @@ export const FactCheckOutputSchema = z.object({
 			z.object({
 				claim: z.string(),
 				status: z.literal("verified"),
+				method: z.string().optional(),
 				notes: z.string().optional(),
 			}),
 		)
@@ -72,6 +73,7 @@ export const FactCheckOutputSchema = z.object({
 			}),
 		)
 		.optional(),
+	missingPerspectives: z.array(z.string()).optional(),
 	sourceAssessment: z.object({
 		totalSources: z.number(),
 		highCredibility: z.number(),
@@ -97,6 +99,15 @@ export const ReviewOutputSchema = z.object({
 	revisedText: z.string().nullable().optional(),
 });
 
+// Polish output - final prose refinement with section diagnosis
+export const PolishOutputSchema = z.object({
+	sectionScores: z.string(),
+	strongestSentence: z.string(),
+	weakestSentence: z.string(),
+	body: z.string(),
+	edits: z.string(),
+});
+
 // JSON Schema generation functions (using zod v4 built-in toJSONSchema)
 export function getResearchJsonSchema(): object {
 	return z.toJSONSchema(ResearchOutputSchema, { target: "draft-07" });
@@ -114,6 +125,10 @@ export function getReviewJsonSchema(): object {
 	return z.toJSONSchema(ReviewOutputSchema, { target: "draft-07" });
 }
 
+export function getPolishJsonSchema(): object {
+	return z.toJSONSchema(PolishOutputSchema, { target: "draft-07" });
+}
+
 // Ideation schemas
 export const IdeationOutputSchema = z.object({
 	topic: z.string(),
@@ -124,6 +139,8 @@ export const IdeationOutputSchema = z.object({
 			thesis: z.string(),
 			angle: z.string(),
 			keywords: z.array(z.string()),
+			score: z.number().min(1).max(10),
+			difficulty: z.enum(["standard", "challenging", "expert"]),
 		}),
 	),
 	selectionGuidance: z.string(),
@@ -133,4 +150,27 @@ export type IdeationOutputValidated = z.infer<typeof IdeationOutputSchema>;
 
 export function getIdeationJsonSchema(): object {
 	return z.toJSONSchema(IdeationOutputSchema, { target: "draft-07" });
+}
+
+// Ideation critique schema (self-critique pass)
+export const IdeationCritiqueSchema = z.object({
+	analysis: z.string(),
+	replacements: z.array(
+		z.object({
+			replacesId: z.number(),
+			reason: z.string(),
+			title: z.string(),
+			thesis: z.string(),
+			angle: z.string(),
+			keywords: z.array(z.string()),
+			score: z.number().min(1).max(10),
+			difficulty: z.enum(["standard", "challenging", "expert"]),
+		}),
+	),
+});
+
+export type IdeationCritiqueValidated = z.infer<typeof IdeationCritiqueSchema>;
+
+export function getIdeationCritiqueJsonSchema(): object {
+	return z.toJSONSchema(IdeationCritiqueSchema, { target: "draft-07" });
 }

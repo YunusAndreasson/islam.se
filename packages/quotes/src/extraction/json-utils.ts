@@ -8,7 +8,7 @@ import type { z } from "zod";
 /**
  * Cleans JSON string from Claude's response, removing markdown fences and trailing commas.
  */
-export function cleanJsonString(text: string): string {
+function cleanJsonString(text: string): string {
 	let jsonStr = text.trim();
 	if (jsonStr.startsWith("```json")) jsonStr = jsonStr.slice(7);
 	if (jsonStr.startsWith("```")) jsonStr = jsonStr.slice(3);
@@ -20,7 +20,7 @@ export function cleanJsonString(text: string): string {
  * Extracts the quotes array from a JSON string by finding matching brackets.
  * Used as fallback when standard JSON parsing fails.
  */
-export function extractQuotesArray(jsonStr: string): string | null {
+function extractQuotesArray(jsonStr: string): string | null {
 	const quotesMatch = jsonStr.match(/"quotes"\s*:\s*\[/);
 	if (!quotesMatch) return null;
 

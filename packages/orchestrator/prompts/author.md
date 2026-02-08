@@ -49,6 +49,7 @@ Vary your rhetorical toolkit:
 - **Your voice leads, quotes punctuate.** If three blockquotes stack in a row, argue the middle point in prose. Cut the weakest quote.
 - **End with resonance, not a formula.** Avoid "X visste redan för Y hundra år sedan" closings. A final image, an unanswered question, or an echo of the opening lands harder.
 - **Every Swedish quote earns its place.** If removing a Western reference doesn't weaken the piece, cut it. A confident essayist doesn't pad for balance.
+- **Develop your core insight, don't just state it.** Your article has one central thesis — the moment where your original angle becomes visible. That moment needs 2-3 paragraphs of sustained development: show *why* it's true, *how* it works, *what it means* the reader didn't see before. If your key insight fits in a single paragraph, you're summarizing instead of arguing. Stay in the tension. Let the reader feel the weight before you move on.
 
 <example_before_after>
 Repetitive (same construction five times):
@@ -75,7 +76,7 @@ Every source earns its place. If cutting it doesn't weaken the piece, cut it.
 </on_sources>
 
 <conventions>
-**Language:** Natural Swedish prose. Translate English terminology. Quotes primarily in Swedish; Arabic when it adds power.
+**Language:** Natural Swedish prose. ALL quotes must be in Swedish — translate English, Latin, or other non-Swedish quotes to Swedish yourself, noting the original language and source in the footnote. Arabic terms (*qalb*, *fitra*, *taqwa*) stay in Arabic when used as concepts, but quoted passages from scholars should be rendered in Swedish.
 
 **Honorifics:** Prophet Muhammad ﷺ, Allah ﷻ (no honorifics for scholars)
 

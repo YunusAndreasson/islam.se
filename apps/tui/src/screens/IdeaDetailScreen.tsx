@@ -1,31 +1,19 @@
 import { Box, Text, useInput } from "ink";
 import type React from "react";
+import { QuoteBlock } from "../components/QuoteBlock.js";
+import { ScreenLayout } from "../components/ScreenLayout.js";
 import type { EnrichedIdea } from "../types/index.js";
 
 interface IdeaDetailScreenProps {
 	idea: EnrichedIdea;
+	topicName?: string;
 	onProduce: () => void;
 	onBack: () => void;
 }
 
-function QuoteBlock({ quote }: { quote: EnrichedIdea["quotes"][number] }): React.ReactElement {
-	return (
-		<Box flexDirection="column" marginY={1} paddingLeft={2}>
-			<Text italic color="gray">
-				"{quote.text.slice(0, 200)}
-				{quote.text.length > 200 ? "..." : ""}"
-			</Text>
-			<Text dimColor>
-				{" "}
-				— {quote.author}
-				{quote.source ? `, ${quote.source}` : ""}
-			</Text>
-		</Box>
-	);
-}
-
 export function IdeaDetailScreen({
 	idea,
+	topicName,
 	onProduce,
 	onBack,
 }: IdeaDetailScreenProps): React.ReactElement {
@@ -36,17 +24,31 @@ export function IdeaDetailScreen({
 		if (input === "p") {
 			onProduce();
 		}
-		if (key.escape) {
+		if (input === "q" || key.escape) {
 			onBack();
 		}
 	});
 
 	return (
-		<Box flexDirection="column" paddingX={1}>
+		<ScreenLayout
+			shortcuts={[
+				{ key: "p", label: isDone ? "Re-produce" : "Produce" },
+				{ key: "q", label: "Back" },
+			]}
+			breadcrumb={topicName ? `Ideas > ${topicName} > #${idea.id}` : `Ideas > #${idea.id}`}
+		>
 			<Box marginBottom={1} gap={2}>
-				<Text bold color="cyan">
+				<Text bold color="#06b6d4">
 					Idea #{idea.id}
 				</Text>
+				{idea.score != null && (
+					<Text bold color={idea.score >= 8 ? "#22c55e" : idea.score >= 6 ? "#eab308" : "#ef4444"}>
+						Score: {idea.score}/10
+					</Text>
+				)}
+				{idea.difficulty && (
+					<Text dimColor>[{idea.difficulty}]</Text>
+				)}
 				{isDone && (
 					<Text color="green">
 						✓ Published{status.articleSlug ? ` as ${status.articleSlug}` : ""}
@@ -90,7 +92,9 @@ export function IdeaDetailScreen({
 				<Box flexDirection="column" marginBottom={1}>
 					<Text bold>Related Quotes ({idea.quotes.length}):</Text>
 					{idea.quotes.slice(0, 3).map((quote) => (
-						<QuoteBlock key={quote.text} quote={quote} />
+						<Box key={quote.text} marginY={1}>
+							<QuoteBlock text={quote.text} author={quote.author} source={quote.source} />
+						</Box>
 					))}
 					{idea.quotes.length > 3 && (
 						<Box paddingLeft={2}>
@@ -111,10 +115,6 @@ export function IdeaDetailScreen({
 					</Box>
 				</Box>
 			)}
-
-			<Box marginTop={1} borderStyle="single" borderColor="gray" paddingX={1}>
-				<Text dimColor>[p] {isDone ? "Re-produce" : "Produce"} article [Esc] Back</Text>
-			</Box>
-		</Box>
+		</ScreenLayout>
 	);
 }

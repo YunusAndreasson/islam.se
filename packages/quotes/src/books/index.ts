@@ -53,6 +53,8 @@ export {
 	type ImportResult,
 	importBook,
 	importBooksFromFile,
+	summarizeAllUnsummarized,
+	summarizeExistingBook,
 } from "./importer.js";
 
 // Search

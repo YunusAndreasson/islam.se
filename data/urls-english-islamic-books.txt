@@ -1,0 +1,14 @@
+# English Islamic Book Translations for RAG Database
+# Import with: pnpm cli import-books data/urls-english-islamic-books.txt --language en --summarize
+
+# Al-Ghazali - The Confessions (spiritual autobiography)
+# DONE https://www.gutenberg.org/cache/epub/58977/pg58977.txt
+
+# Al-Ghazali - Some Religious and Moral Teachings (extracts from Ihya)
+# DONE https://www.gutenberg.org/cache/epub/73140/pg73140.txt
+
+# Ibn Khaldun - Muqaddimah (philosophy of history and civilization)
+# FAILED (archive.org serves HTML, not text) https://archive.org/stream/in.ernet.dli.2015.280274/2015.280274.Ibn-Khaldun_djvu.txt
+
+# Ibn Battuta - Travels in Asia and Africa 1325-1354
+# FAILED (archive.org serves HTML, not text) https://archive.org/stream/in.ernet.dli.2015.62617/2015.62617.Ibn-Battuta-Travels-In-Asia-And-Africa-1325-1354_djvu.txt

@@ -1,0 +1,79 @@
+# Arabic Islamic Books for RAG Database
+# Import with: pnpm cli import-books data/urls-arabic-books.txt --language ar --summarize
+# These are OpenITI texts — already used for quote extraction, now importing as book passages
+
+# ══════════════════════════════════════════════════════════════
+# IBN HAZM (d. 456 AH / 1064 CE) - Andalusian polymath
+# ══════════════════════════════════════════════════════════════
+
+# Tawq al-Hamama - The Ring of the Dove (classic on love and emotions)
+# DONE https://raw.githubusercontent.com/OpenITI/0475AH/master/data/0456IbnHazm/0456IbnHazm.TawqHamama/0456IbnHazm.TawqHamama.Shamela0010518-ara1.mARkdown
+
+# Fasl fi Ma'rifat al-Nafs - On Knowing the Soul
+# DONE https://raw.githubusercontent.com/OpenITI/0475AH/master/data/0456IbnHazm/0456IbnHazm.FaslFiMacrifatNafs/0456IbnHazm.FaslFiMacrifatNafs.JK009342-ara1.mARkdown
+
+# ══════════════════════════════════════════════════════════════
+# AL-MAWARDI (d. 450 AH / 1058 CE) - Political and ethical thought
+# ══════════════════════════════════════════════════════════════
+
+# Adab al-Dunya wal-Din - Ethics of Worldly and Religious Life
+# DONE https://raw.githubusercontent.com/OpenITI/0450AH/master/data/0450AbuHasanMawardi/0450AbuHasanMawardi.AdabDunyaWaDin/0450AbuHasanMawardi.AdabDunyaWaDin.Shamela0000765-ara1
+
+# ══════════════════════════════════════════════════════════════
+# AL-GHAZALI (d. 505 AH / 1111 CE) - Theologian, philosopher
+# ══════════════════════════════════════════════════════════════
+
+# Kimiya al-Sa'ada - Alchemy of Happiness
+# DONE https://raw.githubusercontent.com/OpenITI/0525AH/master/data/0505Ghazali/0505Ghazali.KimiyaSacada/0505Ghazali.KimiyaSacada.Shamela0009261-ara1
+
+# Bidayat al-Hidaya - Beginning of Guidance
+# DONE https://raw.githubusercontent.com/OpenITI/0525AH/master/data/0505Ghazali/0505Ghazali.BidayatHidaya/0505Ghazali.BidayatHidaya.Shamela0012718-ara1
+
+# ══════════════════════════════════════════════════════════════
+# IBN AL-JAWZI (d. 597 AH / 1201 CE) - Prolific Hanbali scholar
+# ══════════════════════════════════════════════════════════════
+
+# Talbis Iblis - The Devil's Deception (spiritual warnings)
+# DONE https://raw.githubusercontent.com/OpenITI/0600AH/master/data/0597IbnJawzi/0597IbnJawzi.TalbisIblis/0597IbnJawzi.TalbisIblis.Shamela0011438-ara1.mARkdown
+
+# Sifat al-Safwa - Characteristics of the Elite (biographies of the righteous)
+# DONE https://raw.githubusercontent.com/OpenITI/0600AH/master/data/0597IbnJawzi/0597IbnJawzi.SifatSafwa/0597IbnJawzi.SifatSafwa.Shamela0012031-ara1.mARkdown
+
+# ══════════════════════════════════════════════════════════════
+# AL-NAWAWI (d. 676 AH / 1277 CE) - Great hadith scholar
+# ══════════════════════════════════════════════════════════════
+
+# Al-Arba'in al-Nawawiyya - The Forty Hadiths
+# DONE https://raw.githubusercontent.com/OpenITI/0700AH/master/data/0676Nawawi/0676Nawawi.ArbacunaNawawiyya/0676Nawawi.ArbacunaNawawiyya.Shamela0012836-ara1.mARkdown
+
+# Riyad al-Salihin - Gardens of the Righteous
+# DONE https://raw.githubusercontent.com/OpenITI/0700AH/master/data/0676Nawawi/0676Nawawi.RiyadSalihin/0676Nawawi.RiyadSalihin.Shamela0012014-ara1.mARkdown
+
+# ══════════════════════════════════════════════════════════════
+# IBN QAYYIM AL-JAWZIYYA (d. 751 AH / 1350 CE) - Orthodox Hanbali
+# ══════════════════════════════════════════════════════════════
+
+# Al-Wabil al-Sayyib - Beneficial Words on Dhikr
+# DONE https://raw.githubusercontent.com/OpenITI/0775AH/master/data/0751IbnQayyimJawziyya/0751IbnQayyimJawziyya.WabilSayyib/0751IbnQayyimJawziyya.WabilSayyib.Shamela0000216-ara1
+
+# Al-Fawaid - Collection of Wisdom Benefits
+# DONE https://raw.githubusercontent.com/OpenITI/0775AH/master/data/0751IbnQayyimJawziyya/0751IbnQayyimJawziyya.Fawaid/0751IbnQayyimJawziyya.Fawaid.Shamela0006832-ara1
+
+# Al-Da' wa al-Dawa - The Disease and the Cure (spiritual psychology)
+# DONE https://raw.githubusercontent.com/OpenITI/0775AH/master/data/0751IbnQayyimJawziyya/0751IbnQayyimJawziyya.DaWaDawa/0751IbnQayyimJawziyya.DaWaDawa.Shamela0000158-ara1
+
+# Uddat al-Sabirin - Patience and Gratitude
+# DONE https://raw.githubusercontent.com/OpenITI/0775AH/master/data/0751IbnQayyimJawziyya/0751IbnQayyimJawziyya.CuddatSabirin/0751IbnQayyimJawziyya.CuddatSabirin.JK000057-ara1
+
+# Rawdat al-Muhibbin - Garden of Lovers
+# DONE https://raw.githubusercontent.com/OpenITI/0775AH/master/data/0751IbnQayyimJawziyya/0751IbnQayyimJawziyya.RawdatMuhibbin/0751IbnQayyimJawziyya.RawdatMuhibbin.JK000063-ara1
+
+# Madarij al-Salikin - Stations of the Seekers (large, 2 volumes)
+# DONE https://raw.githubusercontent.com/OpenITI/0775AH/master/data/0751IbnQayyimJawziyya/0751IbnQayyimJawziyya.MadarijSalikin/0751IbnQayyimJawziyya.MadarijSalikin.Shamela0008370-ara1
+
+# ══════════════════════════════════════════════════════════════
+# AL-SUYUTI (d. 911 AH / 1505 CE) - Polymath, Quranic sciences
+# ══════════════════════════════════════════════════════════════
+
+# Al-Itqan fi Ulum al-Quran - The Perfection in Quranic Sciences
+# DONE https://raw.githubusercontent.com/OpenITI/0925AH/master/data/0911Suyuti/0911Suyuti.Itqan/0911Suyuti.Itqan.Shamela0011728-ara1

@@ -6,7 +6,7 @@
 /**
  * Hard splits text into fixed-size parts when no natural boundaries exist.
  */
-export function hardSplitText(text: string, maxSize: number): string[] {
+function hardSplitText(text: string, maxSize: number): string[] {
 	const parts: string[] = [];
 	for (let i = 0; i < text.length; i += maxSize) {
 		parts.push(text.slice(i, i + maxSize));
@@ -19,7 +19,7 @@ export interface ChunkBuilder {
 	current: string;
 }
 
-export function flushChunk(builder: ChunkBuilder): void {
+function flushChunk(builder: ChunkBuilder): void {
 	if (builder.current.trim()) {
 		builder.chunks.push(builder.current.trim());
 		builder.current = "";

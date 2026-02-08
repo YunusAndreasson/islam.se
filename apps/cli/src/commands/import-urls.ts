@@ -94,6 +94,9 @@ async function processUrl(url: string): Promise<void> {
 	console.log("   💾 Storing quotes...");
 	const { stored, skipped } = await storeQuotesWithEmbeddings(extraction.quotes, url);
 	console.log(`   ✅ Stored: ${stored}, Skipped (duplicates): ${skipped}`);
+	if (stored === 0 && skipped === 0) {
+		throw new Error("No quotes extracted — API may have failed");
+	}
 }
 
 interface UrlProcessContext {

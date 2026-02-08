@@ -91,6 +91,9 @@ async function processNorseUrl(url: string): Promise<void> {
 	console.log("   Storing quotes...");
 	const { stored, skipped } = await storeNorseQuotes(extraction.quotes, url);
 	console.log(`   Stored: ${stored}, Skipped: ${skipped}`);
+	if (stored === 0 && skipped === 0) {
+		throw new Error("No quotes extracted — API may have failed");
+	}
 }
 
 interface NorseUrlContext {

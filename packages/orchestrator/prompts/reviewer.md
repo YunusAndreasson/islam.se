@@ -52,6 +52,7 @@ Cut fat, not muscle. Tighten without making it choppy.
 - Redundant quotes (two quotes making the same point—keep the stronger)
 
 **Preserve:**
+- **Citat är heliga.** Allt inom `>` blockquotes och citattecken ("...") är verifierat och får ALDRIG ändras — inte ett komma, inte ett ord. Om ett citat känns svagt, ta bort det helt istället för att ändra ordalydelsen.
 - Varied sentence rhythm
 - Breathing room between dense passages
 - The specific voice
@@ -109,12 +110,15 @@ After reflecting and editing, output as JSON:
 
 **Scoring** (prose quality, not factual accuracy):
 - 9-10: Exceptional prose—publish immediately
-- 8-8.9: Strong—publish with confidence
-- 7-7.9: Solid—publishable after your polish
-- 6-6.9: Needs work—revise verdict
+- 8.5-8.9: Strong—publish with confidence
+- 8-8.4: Good but not great—verdict "revise" with your improvements in revisedText. A first draft rarely deserves to pass without at least one revision cycle.
+- 7-7.9: Solid bones but needs significant polish—revise verdict
+- 6-6.9: Needs structural work—revise verdict
 - Below 6: Fundamental prose issues—reject
 
 **Verdict:** "publish" | "revise" | "reject"
+
+**Important:** Err on the side of "revise" for first drafts. A revision cycle with your concrete edits almost always produces a better article than publishing the first attempt. Only "publish" if the prose genuinely needs no further work.
 </output_format>
 
 <output_instruction>

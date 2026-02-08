@@ -97,6 +97,164 @@
 # Rawdat al-Muhibbin - Garden of Lovers (on love, orthodox perspective)
 # DONE https://raw.githubusercontent.com/OpenITI/0775AH/master/data/0751IbnQayyimJawziyya/0751IbnQayyimJawziyya.RawdatMuhibbin/0751IbnQayyimJawziyya.RawdatMuhibbin.JK000063-ara1
 
+# Madarij al-Salikin - Stations of the Seekers (Ibn Qayyim's masterwork on spiritual journey)
+# DONE https://raw.githubusercontent.com/OpenITI/0775AH/master/data/0751IbnQayyimJawziyya/0751IbnQayyimJawziyya.MadarijSalikin/0751IbnQayyimJawziyya.MadarijSalikin.Shamela0008370-ara1
+
+# ══════════════════════════════════════════════════════════════
+# IBN TAYMIYYAH (d. 728 AH / 1328 CE) - Additional works
+# Hanbali theologian, reformer - diverse themes
+# ══════════════════════════════════════════════════════════════
+
+# Amrad al-Qulub - Diseases of the Hearts (spiritual psychology)
+# DONE https://raw.githubusercontent.com/OpenITI/0750AH/master/data/0728IbnTaymiyya/0728IbnTaymiyya.AmradQulub/0728IbnTaymiyya.AmradQulub.JK000079-ara1
+
+# Kitab al-Iman - Book of Faith (core theology)
+# DONE https://raw.githubusercontent.com/OpenITI/0750AH/master/data/0728IbnTaymiyya/0728IbnTaymiyya.Iman/0728IbnTaymiyya.Iman.Sham19Y0020587-ara1
+
+# al-Siyasa al-Shar'iyya - Political Governance in Islam (political philosophy)
+# DONE https://raw.githubusercontent.com/OpenITI/0750AH/master/data/0728IbnTaymiyya/0728IbnTaymiyya.SiyasaSharciyya/0728IbnTaymiyya.SiyasaSharciyya.JK000008-ara1
+
+# al-Furqan bayna Awliya al-Rahman wa Awliya al-Shaytan (distinguishing true piety)
+# DONE https://raw.githubusercontent.com/OpenITI/0750AH/master/data/0728IbnTaymiyya/0728IbnTaymiyya.FurqanBaynaAwliya/0728IbnTaymiyya.FurqanBaynaAwliya.ShamAY0034364-ara1
+
+# al-Aqida al-Wasitiyya - Wasitiyyah Creed (concise creed statement)
+# DONE https://raw.githubusercontent.com/OpenITI/0750AH/master/data/0728IbnTaymiyya/0728IbnTaymiyya.CaqidaWasitiyya/0728IbnTaymiyya.CaqidaWasitiyya.JK000359-ara1
+
+# al-Istighatha - On Seeking Help (against saint veneration)
+# DONE https://raw.githubusercontent.com/OpenITI/0750AH/master/data/0728IbnTaymiyya/0728IbnTaymiyya.Istighatha/0728IbnTaymiyya.Istighatha.JK000385-ara1
+
+# al-Kalim al-Tayyib - Good Words (prayers and supplications)
+# DONE https://raw.githubusercontent.com/OpenITI/0750AH/master/data/0728IbnTaymiyya/0728IbnTaymiyya.KalimTayyib/0728IbnTaymiyya.KalimTayyib.JK001440-ara1
+
+# al-Hisba fi al-Islam - Public Welfare in Islam (governance and accountability)
+# DONE https://raw.githubusercontent.com/OpenITI/0750AH/master/data/0728IbnTaymiyya/0728IbnTaymiyya.Hisba/0728IbnTaymiyya.Hisba.JK006982-ara1
+
+# Radd ala al-Mantiqiyyin - Refutation of the Logicians (epistemology)
+# DONE https://raw.githubusercontent.com/OpenITI/0750AH/master/data/0728IbnTaymiyya/0728IbnTaymiyya.RaddCalaMantiqiyyin/0728IbnTaymiyya.RaddCalaMantiqiyyin.JK000371-ara1
+
+# Risala fi al-Nusayriyya - On the Nusayri/Alawite Sect
+# DONE https://raw.githubusercontent.com/OpenITI/0750AH/master/data/0728IbnTaymiyya/0728IbnTaymiyya.Nusayriyya/0728IbnTaymiyya.Nusayriyya.Shamela0008596-ara1
+
+# ══════════════════════════════════════════════════════════════
+# AL-MAWARDI (d. 450 AH / 1058 CE)
+# Shafi'i jurist, political theorist - adds author diversity
+# ══════════════════════════════════════════════════════════════
+
+# Adab al-Dunya wal-Din - Ethics of Religion and Worldly Life
+# DONE https://raw.githubusercontent.com/OpenITI/0450AH/master/data/0450AbuHasanMawardi/0450AbuHasanMawardi.AdabDunyaWaDin/0450AbuHasanMawardi.AdabDunyaWaDin.Shamela0000765-ara1
+
+# al-Ahkam al-Sultaniyya - Political Governance (Islamic political theory)
+# DONE https://raw.githubusercontent.com/OpenITI/0450AH/master/data/0450AbuHasanMawardi/0450AbuHasanMawardi.AhkamSultaniyya/0450AbuHasanMawardi.AhkamSultaniyya.Shamela0022881-ara1.mARkdown
+
+# Amthal wa-Hikam - Proverbs and Wisdom
+# DONE https://raw.githubusercontent.com/OpenITI/0450AH/master/data/0450AbuHasanMawardi/0450AbuHasanMawardi.AmthalWaHikam/0450AbuHasanMawardi.AmthalWaHikam.Sham19Y0016759-ara1
+
+# ══════════════════════════════════════════════════════════════
+# IBN RAJAB AL-HANBALI (d. 795 AH / 1393 CE)
+# Hanbali scholar, student of Ibn Taymiyyah tradition
+# Ethics, wisdom, hadith commentary, spiritual psychology
+# ══════════════════════════════════════════════════════════════
+
+# Jami' al-'Ulum wal-Hikam - Commentary on 42 hadiths (ethics, wisdom, spirituality)
+# DONE https://raw.githubusercontent.com/OpenITI/0800AH/master/data/0795IbnRajabHanbali/0795IbnRajabHanbali.JamicCulumWaHikam/0795IbnRajabHanbali.JamicCulumWaHikam.Shamela0004268-ara1
+
+# Lata'if al-Ma'arif - Seasonal devotions, beautiful reflections
+# DONE https://raw.githubusercontent.com/OpenITI/0800AH/master/data/0795IbnRajabHanbali/0795IbnRajabHanbali.LataifMacarif/0795IbnRajabHanbali.LataifMacarif.Shamela0011363-ara1
+
+# Fadl 'Ilm al-Salaf - On the superiority of knowledge of the predecessors
+# DONE https://raw.githubusercontent.com/OpenITI/0800AH/master/data/0795IbnRajabHanbali/0795IbnRajabHanbali.FadlCilmSalaf/0795IbnRajabHanbali.FadlCilmSalaf.Shamela0000132-ara1
+
+# Kashf al-Kurba - Removing distress
+# DONE https://raw.githubusercontent.com/OpenITI/0800AH/master/data/0795IbnRajabHanbali/0795IbnRajabHanbali.KashfKurba/0795IbnRajabHanbali.KashfKurba.Shamela0010782-ara1
+
+# Asbab al-Maghfira - Causes of forgiveness
+# DONE https://raw.githubusercontent.com/OpenITI/0800AH/master/data/0795IbnRajabHanbali/0795IbnRajabHanbali.AsbabMaghfira/0795IbnRajabHanbali.AsbabMaghfira.Shamela0000200-ara1
+
+# Takhwif min al-Nar - Warning about Hellfire (vivid imagery)
+# DONE https://raw.githubusercontent.com/OpenITI/0800AH/master/data/0795IbnRajabHanbali/0795IbnRajabHanbali.TakhwifMinNar/0795IbnRajabHanbali.TakhwifMinNar.Shamela0004033-ara1
+
+# ══════════════════════════════════════════════════════════════
+# AL-SHAFI'I (d. 204 AH / 820 CE)
+# Founder of Shafi'i school - poetry
+# ══════════════════════════════════════════════════════════════
+
+# Diwan al-Shafi'i - Poetry collection
+# DONE https://raw.githubusercontent.com/OpenITI/0225AH/master/data/0204Shafici/0204Shafici.Diwan/0204Shafici.Diwan.JK007599-ara1
+
+# ══════════════════════════════════════════════════════════════
+# IBN ABI AL-DUNYA (d. 281 AH / 894 CE)
+# Early Hanbali, specialist in spiritual topics
+# ══════════════════════════════════════════════════════════════
+
+# Kitab al-Sabr - On Patience
+# DONE https://raw.githubusercontent.com/OpenITI/0300AH/master/data/0281IbnAbiDunya/0281IbnAbiDunya.Sabr/0281IbnAbiDunya.Sabr.ShamAY0038138-ara1
+
+# Kitab al-Samt - On Silence
+# DONE https://raw.githubusercontent.com/OpenITI/0300AH/master/data/0281IbnAbiDunya/0281IbnAbiDunya.Samt/0281IbnAbiDunya.Samt.JK000054-ara1
+
+# Kitab al-Shukr - On Gratitude
+# DONE https://raw.githubusercontent.com/OpenITI/0300AH/master/data/0281IbnAbiDunya/0281IbnAbiDunya.Shukr/0281IbnAbiDunya.Shukr.Shamela0013036-ara1
+
+# ══════════════════════════════════════════════════════════════
+# IBN HIBBAN (d. 354 AH / 965 CE)
+# Hadith scholar - ethics and wisdom
+# ══════════════════════════════════════════════════════════════
+
+# Rawdat al-Uqala - Garden of the Wise
+# DONE https://raw.githubusercontent.com/OpenITI/0375AH/master/data/0354IbnHibbanBusti/0354IbnHibbanBusti.RawdatCuqala/0354IbnHibbanBusti.RawdatCuqala.JK000834-ara1
+
+# ══════════════════════════════════════════════════════════════
+# AL-GHAZALI (d. 505 AH / 1111 CE) - Arabic works
+# Theologian, philosopher - smaller tractates
+# ══════════════════════════════════════════════════════════════
+
+# Asnaf al-Maghrurin - Categories of the Deluded
+# DONE https://raw.githubusercontent.com/OpenITI/0525AH/master/data/0505Ghazali/0505Ghazali.AsnafMaghrurin/0505Ghazali.AsnafMaghrurin.JK010255-ara1
+
+# Bidayat al-Hidaya - Beginning of Guidance (practical ethics)
+# DONE https://raw.githubusercontent.com/OpenITI/0525AH/master/data/0505Ghazali/0505Ghazali.BidayatHidaya/0505Ghazali.BidayatHidaya.Shamela0012718-ara1
+
+# Kimiya al-Sa'ada - Alchemy of Happiness
+# DONE https://raw.githubusercontent.com/OpenITI/0525AH/master/data/0505Ghazali/0505Ghazali.KimiyaSacada/0505Ghazali.KimiyaSacada.Shamela0009261-ara1
+
+# Mishkat al-Anwar - Niche of Lights (light metaphysics)
+# DONE https://raw.githubusercontent.com/OpenITI/0525AH/master/data/0505Ghazali/0505Ghazali.MishkatAnwar/0505Ghazali.MishkatAnwar.JK009401-ara1
+
+# al-Munqidh min al-Dalal - Deliverance from Error (spiritual autobiography)
+# DONE https://raw.githubusercontent.com/OpenITI/0525AH/master/data/0505Ghazali/0505Ghazali.Munqidh/0505Ghazali.Munqidh.JK009330-ara1
+
+# ══════════════════════════════════════════════════════════════
+# IBN AL-JAWZI (d. 597 AH / 1201 CE) - Additional works
+# ══════════════════════════════════════════════════════════════
+
+# Kitab al-Adhkiya - The Book of the Clever
+# DONE https://raw.githubusercontent.com/OpenITI/0600AH/master/data/0597IbnJawzi/0597IbnJawzi.Adhkiya/0597IbnJawzi.Adhkiya.JK000910-ara1
+
+# Dhamm al-Hawa - Condemning Desire
+# DONE https://raw.githubusercontent.com/OpenITI/0600AH/master/data/0597IbnJawzi/0597IbnJawzi.DhammHawa/0597IbnJawzi.DhammHawa.JK000003-ara1
+
+# Sayd al-Khatir - Catching Thoughts (personal notebook)
+# DONE https://raw.githubusercontent.com/OpenITI/0600AH/master/data/0597IbnJawzi/0597IbnJawzi.SaydKhatir/0597IbnJawzi.SaydKhatir.JK010547-ara1
+
+# ══════════════════════════════════════════════════════════════
+# IBN TAYMIYYAH - Additional smaller treatises
+# ══════════════════════════════════════════════════════════════
+
+# al-Ubudiyya - On Servitude to God
+# DONE https://raw.githubusercontent.com/OpenITI/0750AH/master/data/0728IbnTaymiyya/0728IbnTaymiyya.Cubudiyya/0728IbnTaymiyya.Cubudiyya.Shamela0022647-ara1
+
+# Qa'ida fi al-Sabr - Treatise on Patience
+# DONE https://raw.githubusercontent.com/OpenITI/0750AH/master/data/0728IbnTaymiyya/0728IbnTaymiyya.QacidaFiSabr/0728IbnTaymiyya.QacidaFiSabr.Shamela0012153-ara1
+
+# al-Qawa'id al-Nuraniyya - Illuminating Principles
+# DONE https://raw.githubusercontent.com/OpenITI/0750AH/master/data/0728IbnTaymiyya/0728IbnTaymiyya.QawacidNuraniyya/0728IbnTaymiyya.QawacidNuraniyya.JK000976-ara1
+
+# Kitab al-Tawba - On Repentance
+# DONE https://raw.githubusercontent.com/OpenITI/0750AH/master/data/0728IbnTaymiyya/0728IbnTaymiyya.Tawba/0728IbnTaymiyya.Tawba.JK000903-ara1
+
+# al-Wasiyya al-Kubra - The Major Counsel
+# DONE https://raw.githubusercontent.com/OpenITI/0750AH/master/data/0728IbnTaymiyya/0728IbnTaymiyya.WasiyyaKubra/0728IbnTaymiyya.WasiyyaKubra.ShamAY0034401-ara1
+
 # ══════════════════════════════════════════════════════════════
 # ENGLISH TRANSLATIONS - Islamic Literature
 # Orthodox Islamic scholarship - English translations from Gutenberg/Archive

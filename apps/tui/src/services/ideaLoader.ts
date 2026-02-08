@@ -1,55 +1,8 @@
 import { existsSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
-import { dirname, join } from "node:path";
-import { fileURLToPath } from "node:url";
+import { join } from "node:path";
 import { ContentOrchestrator, type EnrichedIdeationOutput } from "@islam-se/orchestrator";
 import type { ArticleStatus, TopicSummary } from "../types/index.js";
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-
-// Find output directory by looking for the ideas folder
-function findOutputDir(): string {
-	// Allow override via environment variable
-	if (process.env.ISLAM_OUTPUT_DIR && existsSync(join(process.env.ISLAM_OUTPUT_DIR, "ideas"))) {
-		return process.env.ISLAM_OUTPUT_DIR;
-	}
-
-	// Try relative paths from different locations
-	const candidates = [
-		// From dist/services/ (built) - up to apps/, then sibling
-		join(__dirname, "../../../content-producer/output"),
-		// From src/services/ (tsx dev mode) - up to apps/, then sibling
-		join(__dirname, "../../..", "content-producer/output"),
-		// From monorepo root
-		join(process.cwd(), "apps/content-producer/output"),
-		// If run from content-producer
-		join(process.cwd(), "output"),
-	];
-
-	for (const candidate of candidates) {
-		const ideasPath = join(candidate, "ideas");
-		if (existsSync(ideasPath)) {
-			return candidate;
-		}
-	}
-
-	// Traverse up from __dirname looking for apps/content-producer/output
-	let dir = __dirname;
-	for (let i = 0; i < 10; i++) {
-		const ideasPath = join(dir, "apps/content-producer/output/ideas");
-		if (existsSync(ideasPath)) {
-			return join(dir, "apps/content-producer/output");
-		}
-		// Also check for sibling
-		const siblingPath = join(dir, "content-producer/output/ideas");
-		if (existsSync(siblingPath)) {
-			return join(dir, "content-producer/output");
-		}
-		dir = dirname(dir);
-	}
-
-	return join(process.cwd(), "apps/content-producer/output");
-}
+import { findOutputDir } from "../utils/paths.js";
 
 const OUTPUT_DIR = findOutputDir();
 const IDEAS_DIR = join(OUTPUT_DIR, "ideas");
@@ -88,6 +41,7 @@ export function loadTopics(): TopicSummary[] {
 				name: ideation.topic,
 				ideaCount: ideation.ideas.length,
 				doneCount,
+				batchVersion: ideation.batchVersion ?? 1,
 				articleStatus: articleStatus as ArticleStatus,
 				generatedAt: ideation.generatedAt,
 			});

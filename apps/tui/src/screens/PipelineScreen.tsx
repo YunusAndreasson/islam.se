@@ -1,8 +1,8 @@
 import { StatusMessage } from "@inkjs/ui";
-import { Box, Spacer, Text, useInput } from "ink";
+import { Box, Text, useInput } from "ink";
 import type React from "react";
 import { PipelineProgress } from "../components/PipelineProgress.js";
-import { StatusBar } from "../components/StatusBar.js";
+import { ScreenLayout } from "../components/ScreenLayout.js";
 import type { PipelineStatus } from "../types/index.js";
 
 interface PipelineScreenProps {
@@ -26,14 +26,21 @@ export function PipelineScreen({
 	qualityScore,
 	onBack,
 }: PipelineScreenProps): React.ReactElement {
-	useInput((_input, key) => {
-		if (key.escape || (completed && key.return)) {
+	useInput((input, key) => {
+		if (completed && (input === "q" || key.escape || key.return)) {
 			onBack();
 		}
 	});
 
 	return (
-		<Box flexDirection="column" paddingX={1}>
+		<ScreenLayout
+			shortcuts={
+				completed
+					? [{ key: "q", label: "Back" }]
+					: []
+			}
+			breadcrumb="Pipeline"
+		>
 			{/* Header */}
 			<Box
 				marginBottom={1}
@@ -60,52 +67,36 @@ export function PipelineScreen({
 			</Box>
 
 			{/* Progress */}
-			<Box flexDirection="column" flexGrow={1}>
-				<PipelineProgress status={status} />
+			<PipelineProgress status={status} />
 
-				{completed && error && (
-					<Box marginTop={1}>
-						<StatusMessage variant="error">{error}</StatusMessage>
+			{completed && error && (
+				<Box marginTop={1}>
+					<StatusMessage variant="error">{error}</StatusMessage>
+				</Box>
+			)}
+
+			{completed && success && (
+				<Box flexDirection="column" marginTop={1} gap={1}>
+					<StatusMessage variant="success">Article published successfully!</StatusMessage>
+					<Box flexDirection="column" paddingLeft={2}>
+						{articleSlug && (
+							<Text>
+								<Text dimColor>Article:</Text> data/articles/{articleSlug}.md
+							</Text>
+						)}
+						{wordCount && (
+							<Text>
+								<Text dimColor>Words:</Text> {wordCount.toLocaleString()}
+							</Text>
+						)}
+						{qualityScore && (
+							<Text>
+								<Text dimColor>Quality:</Text> {qualityScore}/10
+							</Text>
+						)}
 					</Box>
-				)}
-
-				{completed && success && (
-					<Box flexDirection="column" marginTop={1} gap={1}>
-						<StatusMessage variant="success">Article published successfully!</StatusMessage>
-						<Box flexDirection="column" paddingLeft={2}>
-							{articleSlug && (
-								<Text>
-									<Text dimColor>Article:</Text> data/articles/{articleSlug}.md
-								</Text>
-							)}
-							{wordCount && (
-								<Text>
-									<Text dimColor>Words:</Text> {wordCount.toLocaleString()}
-								</Text>
-							)}
-							{qualityScore && (
-								<Text>
-									<Text dimColor>Quality:</Text> {qualityScore}/10
-								</Text>
-							)}
-						</Box>
-					</Box>
-				)}
-			</Box>
-
-			<Spacer />
-
-			{/* Status bar */}
-			<StatusBar
-				shortcuts={
-					completed
-						? [
-								{ key: "Enter", label: "Back" },
-								{ key: "Esc", label: "Back" },
-							]
-						: [{ key: "Esc", label: "Cancel" }]
-				}
-			/>
-		</Box>
+				</Box>
+			)}
+		</ScreenLayout>
 	);
 }

@@ -21,7 +21,11 @@ import {
 	beginBookTransaction,
 	commitBookTransaction,
 	deleteBook,
+	getAllBooks,
+	getBook,
 	getBookByUrl,
+	getChaptersByBook,
+	getPassagesByChapter,
 	initBookDatabase,
 	insertBook,
 	insertChapter,
@@ -76,19 +80,21 @@ interface ClaudeRunResult {
 }
 
 async function runClaude(options: ClaudeRunOptions): Promise<ClaudeRunResult> {
-	const args = ["--print", "--model", options.model ?? "claude-opus-4-5-20251101"];
+	const args = ["--print", "--model", options.model ?? "claude-opus-4-6"];
 
 	if (options.systemPrompt) {
 		args.push("--append-system-prompt", options.systemPrompt);
 	}
 
-	args.push(options.prompt);
-
+	// Pass prompt via stdin to avoid shell argument length/encoding issues with Arabic text
 	return new Promise((resolve) => {
 		const child = spawn("claude", args, {
-			stdio: ["ignore", "pipe", "pipe"],
+			stdio: ["pipe", "pipe", "pipe"],
 			env: { ...process.env, ANTHROPIC_HEADLESS: "1" },
 		});
+
+		child.stdin?.write(options.prompt);
+		child.stdin?.end();
 
 		let stdout = "";
 		let stderr = "";
@@ -105,7 +111,7 @@ async function runClaude(options: ClaudeRunOptions): Promise<ClaudeRunResult> {
 			if (code === 0) {
 				resolve({ success: true, output: stdout.trim() });
 			} else {
-				resolve({ success: false, error: stderr || `Exit code: ${code}` });
+				resolve({ success: false, error: stderr || stdout || `Exit code: ${code}` });
 			}
 		});
 
@@ -181,6 +187,50 @@ function extractWithPatterns(
  * Attempts to detect book metadata from text content.
  * Works with Gutenberg and OpenITI formats.
  */
+const OPENITI_AUTHORS: Record<string, string> = {
+	"0450AbuHasanMawardi": "al-Mawardi",
+	"0456IbnHazm": "Ibn Hazm",
+	"0505Ghazali": "al-Ghazali",
+	"0597IbnJawzi": "Ibn al-Jawzi",
+	"0676Nawawi": "al-Nawawi",
+	"0728IbnTawordsymiyya": "Ibn Taymiyyah",
+	"0751IbnQayyimJawziyya": "Ibn Qayyim",
+	"0911Suyuti": "al-Suyuti",
+};
+
+const OPENITI_TITLES: Record<string, string> = {
+	TawqHamama: "Tawq al-Hamama (The Ring of the Dove)",
+	FaslFiMacrifatNafs: "Fasl fi Ma'rifat al-Nafs (On Knowing the Soul)",
+	AdabDunyaWaDin: "Adab al-Dunya wal-Din (Ethics of Religion and Worldly Life)",
+	KimiyaSacada: "Kimiya al-Sa'ada (Alchemy of Happiness)",
+	BidayatHidaya: "Bidayat al-Hidaya (Beginning of Guidance)",
+	TalbisIblis: "Talbis Iblis (The Devil's Deception)",
+	SifatSafwa: "Sifat al-Safwa (Characteristics of the Elite)",
+	ArbacunaNawawiyya: "al-Arba'in al-Nawawiyya (The Forty Hadiths)",
+	RiyadSalihin: "Riyad al-Salihin (Gardens of the Righteous)",
+	WabilSayyib: "al-Wabil al-Sayyib (Beneficial Words on Dhikr)",
+	Fawaid: "al-Fawaid (Collection of Wisdom Benefits)",
+	DaWaDawa: "al-Da' wa al-Dawa (The Disease and the Cure)",
+	CuddatSabirin: "Uddat al-Sabirin (Patience and Gratitude)",
+	RawdatMuhibbin: "Rawdat al-Muhibbin (Garden of Lovers)",
+	MadarijSalikin: "Madarij al-Salikin (Stations of the Seekers)",
+	Itqan: "al-Itqan fi Ulum al-Quran (Perfection in Quranic Sciences)",
+};
+
+function parseOpenITIUrl(url: string): { author: string; title: string } | null {
+	// Pattern: 0456IbnHazm.TawqHamama in the URL path
+	const match = url.match(/(\d{4}[A-Za-z]+)\.([A-Za-z]+)/);
+	if (!match) return null;
+
+	const authorCode = match[1] ?? "";
+	const titleCode = match[2] ?? "";
+
+	const author = OPENITI_AUTHORS[authorCode] ?? authorCode.replace(/^\d+/, "");
+	const title = OPENITI_TITLES[titleCode] ?? titleCode;
+
+	return { author, title };
+}
+
 function detectMetadata(
 	text: string,
 	url: string,
@@ -237,6 +287,19 @@ async function detectMetadataWithFallback(
 					language: detected.language,
 				};
 			}
+		}
+	}
+
+	// OpenITI URL fallback: extract author/title from URL path
+	if (url.includes("OpenITI") || url.includes("openiti")) {
+		const parsed = parseOpenITIUrl(url);
+		if (parsed) {
+			// OpenITI metadata is more reliable than text detection for Arabic
+			return {
+				title: parsed.title,
+				author: parsed.author,
+				language: detected.language,
+			};
 		}
 	}
 
@@ -306,16 +369,21 @@ Respond with JSON only:
 	});
 
 	if (!(result.success && result.output)) {
+		console.error(`    [warn] Claude failed: ${result.error ?? "no output"}`);
 		return null;
 	}
 
 	try {
 		// Extract JSON from response
 		const jsonMatch = result.output.match(/\{[\s\S]*\}/);
-		if (!jsonMatch) return null;
+		if (!jsonMatch) {
+			console.error(`    [warn] No JSON in response (${result.output.length} chars): ${result.output.slice(0, 150)}`);
+			return null;
+		}
 		const parsed = JSON.parse(jsonMatch[0]);
 		return ChapterSummarySchema.parse(parsed);
-	} catch {
+	} catch (err) {
+		console.error(`    [warn] Parse error: ${err instanceof Error ? err.message : err}`);
 		return null;
 	}
 }
@@ -489,8 +557,14 @@ async function generateSummaries(
 		if (!chapter) continue;
 		onProgress(`  Summarizing chapter ${i + 1}/${chapters.length}...`);
 
-		const summary = await summarizeChapter(chapter.text, chapter.title, bookTitle, language);
-		if (!summary) continue;
+		let summary = await summarizeChapter(chapter.text, chapter.title, bookTitle, language);
+		if (!summary) {
+			// Rate limiting or parse failure — wait before retrying
+			onProgress("    Retrying after 5s delay...");
+			await new Promise((r) => setTimeout(r, 5000));
+			summary = await summarizeChapter(chapter.text, chapter.title, bookTitle, language);
+			if (!summary) continue;
+		}
 
 		const chapterId = chapterIdMap.get(i);
 		if (chapterId === undefined) continue;
@@ -633,6 +707,116 @@ export async function importBook(
 		onProgress(`✗ Import failed: ${message}`);
 		return { success: false, chaptersImported: 0, passagesImported: 0, error: message };
 	}
+}
+
+/**
+ * Generate summaries for an existing book that was imported without --summarize.
+ * Reconstructs chapter text from passages, then runs the same summarization pipeline.
+ */
+export async function summarizeExistingBook(
+	bookId: number,
+	options: { onProgress?: (msg: string) => void } = {},
+): Promise<{ success: boolean; error?: string }> {
+	const { onProgress = console.log } = options;
+
+	initBookDatabase();
+
+	const book = getBook(bookId);
+	if (!book) {
+		return { success: false, error: `Book ID ${bookId} not found` };
+	}
+
+	if (book.summary) {
+		onProgress(`Book "${book.title}" already has a summary — skipping`);
+		return { success: true };
+	}
+
+	onProgress(`Summarizing "${book.title}" by ${book.author} (${book.language})...`);
+
+	const chapters = getChaptersByBook(bookId);
+	if (chapters.length === 0) {
+		return { success: false, error: "No chapters found for this book" };
+	}
+
+	// Reconstruct chapter text from passages
+	const chapterData: ChapterData[] = chapters.map((ch) => {
+		const passages = getPassagesByChapter(ch.id);
+		const text = passages.map((p) => p.text).join("\n\n");
+		return {
+			number: ch.chapterNumber,
+			title: ch.title,
+			text,
+			startPosition: ch.startPosition,
+			endPosition: ch.endPosition,
+		};
+	});
+
+	// Build chapter ID map (chapterIndex → database ID)
+	const chapterIdMap = new Map<number, number>();
+	for (let i = 0; i < chapters.length; i++) {
+		const ch = chapters[i];
+		if (ch) chapterIdMap.set(i, ch.id);
+	}
+
+	await generateSummaries(
+		chapterData,
+		chapterIdMap,
+		bookId,
+		book.title,
+		book.author,
+		book.language as "sv" | "ar" | "en",
+		onProgress,
+	);
+
+	// Verify summary was actually saved
+	const updated = getBook(bookId);
+	if (!updated?.summary) {
+		onProgress(`✗ Summary generation failed for "${book.title}" (Claude calls may have returned invalid data)`);
+		return { success: false, error: "Summary not saved — Claude output could not be parsed" };
+	}
+
+	onProgress(`✓ Summaries generated for "${book.title}"`);
+	return { success: true };
+}
+
+/**
+ * Generate summaries for all books that don't have them yet.
+ */
+export async function summarizeAllUnsummarized(
+	options: { onProgress?: (msg: string) => void; maxChapters?: number } = {},
+): Promise<{ summarized: number; skipped: number; failed: number }> {
+	const { onProgress = console.log, maxChapters } = options;
+
+	initBookDatabase();
+	const books = getAllBooks().filter((b) => !b.summary);
+
+	if (books.length === 0) {
+		onProgress("All books already have summaries.");
+		return { summarized: 0, skipped: 0, failed: 0 };
+	}
+
+	onProgress(`Found ${books.length} books without summaries.\n`);
+
+	let summarized = 0;
+	let skipped = 0;
+	let failed = 0;
+
+	for (const book of books) {
+		if (maxChapters && book.totalChapters > maxChapters) {
+			onProgress(`⏭ Skipping "${book.title}" (${book.totalChapters} chapters > ${maxChapters} limit)`);
+			skipped++;
+			continue;
+		}
+		const result = await summarizeExistingBook(book.id, { onProgress });
+		if (result.success) {
+			summarized++;
+		} else {
+			onProgress(`  ✗ Failed: ${result.error}`);
+			failed++;
+		}
+	}
+
+	return { summarized, skipped, failed };
 }
 
 /**

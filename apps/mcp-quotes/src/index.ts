@@ -18,6 +18,8 @@ import {
 	initQuranDatabase,
 	preloadLocalModel,
 	// Book search
+	searchBooks,
+	searchConcepts,
 	searchPassages,
 	searchQuotesText,
 	// Quran search
@@ -97,7 +99,7 @@ Tips:
 		const quotes = await findQuotesLocal(query, {
 			limit: limit ?? 15,
 			language,
-			minStandalone: 3,
+			minStandalone: 4,
 			diverse: true,
 		});
 
@@ -137,7 +139,7 @@ Top authors by quote count:
 			category,
 			language,
 			limit: limit ?? 10,
-			minStandalone: 3,
+			minStandalone: 4,
 		});
 
 		const output = formatQuotes(quotes);
@@ -172,7 +174,7 @@ Note: This is literal text matching, not semantic. For meaning-based search, use
 		const quotes = searchQuotesText(query, {
 			language,
 			limit: limit ?? 10,
-			minStandalone: 3,
+			minStandalone: 4,
 		});
 
 		const output = formatQuotes(quotes);
@@ -257,7 +259,7 @@ Returns results grouped by query. Use this when you need quotes from multiple th
 			queries.map(async (query) => {
 				const quotes = await findQuotesLocal(query, {
 					limit,
-					minStandalone: 3,
+					minStandalone: 4,
 					diverse: true,
 				});
 				return { query, quotes };
@@ -300,10 +302,10 @@ Examples:
 			query: z
 				.string()
 				.describe('Descriptive search query (e.g., "spiritual struggle against the ego")'),
-			language: z
-				.enum(["sv", "ar"])
+			languages: z
+				.array(z.enum(["sv", "ar", "en"]))
 				.optional()
-				.describe("Filter by language: sv=Swedish, ar=Arabic"),
+				.describe("Filter by languages (e.g. [\"sv\", \"ar\"] for both Swedish and Arabic). Omit for all languages."),
 			limit: z
 				.number()
 				.min(1)
@@ -312,25 +314,81 @@ Examples:
 				.describe("Number of results (default: 5, max: 10)"),
 		},
 	},
-	async ({ query, language, limit }) => {
-		const passages = await searchPassages(query, {
-			limit: limit ?? 5,
-			language,
-		});
+	async ({ query, languages, limit }) => {
+		const requestedLimit = limit ?? 5;
 
-		if (passages.length === 0) {
+		// Run parallel searches per language, then merge
+		const langs = languages && languages.length > 0 ? languages : [undefined];
+		const results = await Promise.all(
+			langs.map((lang) =>
+				searchBooks(query, {
+					passageLimit: requestedLimit * 3,
+					conceptLimit: 3,
+					language: lang,
+				}),
+			),
+		);
+
+		// Merge results across languages, filtering out metadata noise and duplicates
+		const isMetadata = (text: string) => text.includes("#META#") || text.includes("DownloadSource");
+		const seenPassageIds = new Set<number>();
+		const allCombined = results
+			.flatMap((r) => r.combined)
+			.filter((p) => {
+				if (isMetadata(p.text) || seenPassageIds.has(p.id)) return false;
+				seenPassageIds.add(p.id);
+				return true;
+			});
+		const seenConceptKeys = new Set<string>();
+		const allConcepts = results
+			.flatMap((r) => r.concepts)
+			.filter((c) => {
+				const key = `${c.type}:${c.entityId}`;
+				if (seenConceptKeys.has(key)) return false;
+				seenConceptKeys.add(key);
+				return true;
+			});
+		allCombined.sort((a, b) => b.score - a.score);
+		allConcepts.sort((a, b) => b.score - a.score);
+
+		const result = {
+			combined: allCombined,
+			concepts: allConcepts.slice(0, 5),
+		};
+
+		if (result.combined.length === 0) {
 			return {
 				content: [{ type: "text", text: "No book passages found matching your query." }],
 			};
 		}
 
-		const output = passages
+		// Apply author diversity: max 3 passages per author
+		const authorCounts = new Map<string, number>();
+		const diverse: typeof result.combined = [];
+		for (const p of result.combined) {
+			const count = authorCounts.get(p.bookAuthor) ?? 0;
+			if (count >= 3) continue;
+			authorCounts.set(p.bookAuthor, count + 1);
+			diverse.push(p);
+			if (diverse.length >= requestedLimit) break;
+		}
+
+		// Show concept matches first for orientation
+		let output = "";
+		if (result.concepts.length > 0) {
+			const conceptLines = result.concepts
+				.map((c) => `- ${c.bookTitle} by ${c.bookAuthor} (${c.type}, score: ${c.score.toFixed(3)})`)
+				.join("\n");
+			output += `## Thematically relevant books/chapters:\n${conceptLines}\n\n## Passages (ranked by hybrid relevance):\n\n`;
+		}
+
+		output += diverse
 			.map((p, i) => {
 				return `[${i + 1}] ID: ${p.id}
 Book: ${p.bookTitle} by ${p.bookAuthor}
 Chapter: ${p.chapterTitle || "N/A"}
 
-"${p.text.slice(0, 500)}${p.text.length > 500 ? "..." : ""}"
+"${p.text}"
 
 Score: ${p.score.toFixed(3)}`;
 			})
@@ -383,7 +441,7 @@ Examples:
 Arabic: ${v.textArabic}
 Swedish: ${v.textSwedish}
 
-Score: ${(1 - v.score).toFixed(3)}`;
+Score: ${v.score.toFixed(3)}`;
 			})
 			.join("\n\n---\n\n");
 

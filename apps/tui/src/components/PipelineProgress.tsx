@@ -1,5 +1,5 @@
 import { ProgressBar } from "@inkjs/ui";
-import { Box, Text } from "ink";
+import { Box, Text, useStdout } from "ink";
 import type React from "react";
 import { useEffect, useState } from "react";
 import type { PipelineStatus, StageInfo } from "../types/index.js";
@@ -14,15 +14,16 @@ function SlowSpinner(): React.ReactElement {
 		}, 500);
 		return () => clearInterval(interval);
 	}, []);
-	return <Text color="cyan">{SPINNER_FRAMES[frame]}</Text>;
+	return <Text color="#06b6d4">{SPINNER_FRAMES[frame]}</Text>;
 }
 
-const STAGES = ["research", "factCheck", "authoring", "review"] as const;
+const STAGES = ["research", "factCheck", "authoring", "review", "polish"] as const;
 const STAGE_LABELS: Record<(typeof STAGES)[number], string> = {
 	research: "Research",
 	factCheck: "Fact-Check",
 	authoring: "Authoring",
 	review: "Review",
+	polish: "Polish",
 };
 
 const STAGE_ICONS: Record<(typeof STAGES)[number], string> = {
@@ -30,6 +31,7 @@ const STAGE_ICONS: Record<(typeof STAGES)[number], string> = {
 	factCheck: "🔍",
 	authoring: "✍️",
 	review: "👁️",
+	polish: "🖊️",
 };
 
 function formatDuration(ms: number): string {
@@ -58,7 +60,7 @@ function StageIndicator({
 			break;
 		case "running":
 			statusIcon = <SlowSpinner />;
-			color = "cyan";
+			color = "#06b6d4";
 			break;
 		case "failed":
 			statusIcon = <Text color="red">✗</Text>;
@@ -98,6 +100,10 @@ interface PipelineProgressProps {
 }
 
 export function PipelineProgress({ status }: PipelineProgressProps): React.ReactElement {
+	const { stdout } = useStdout();
+	const terminalWidth = stdout?.columns ?? 80;
+	const progressBarWidth = Math.max(15, Math.floor(terminalWidth * 0.3));
+
 	// Use state for elapsed time with throttled updates to prevent glitching
 	const [elapsed, setElapsed] = useState(() => Date.now() - status.startedAt.getTime());
 
@@ -113,10 +119,6 @@ export function PipelineProgress({ status }: PipelineProgressProps): React.React
 	const completedStages = STAGES.filter((s) => status.stages[s].status === "complete").length;
 	const runningStage = STAGES.find((s) => status.stages[s].status === "running");
 	const progress = Math.round((completedStages / STAGES.length) * 100 + (runningStage ? 12.5 : 0));
-
-	// Get last 3 logs with stable indices for keys
-	const recentLogs = status.logs.slice(-3);
-	const logStartIndex = Math.max(0, status.logs.length - 3);
 
 	return (
 		<Box flexDirection="column" gap={1}>
@@ -136,7 +138,7 @@ export function PipelineProgress({ status }: PipelineProgressProps): React.React
 			<Box flexDirection="column" gap={0}>
 				<Box gap={1}>
 					<Text dimColor>Progress:</Text>
-					<Box width={30}>
+					<Box width={progressBarWidth}>
 						<ProgressBar value={progress} />
 					</Box>
 					<Text dimColor>{progress}%</Text>
@@ -144,31 +146,32 @@ export function PipelineProgress({ status }: PipelineProgressProps): React.React
 				<Text dimColor>Elapsed: {formatDuration(elapsed)}</Text>
 			</Box>
 
-			{/* Live preview - quotes, findings, and generated text from Claude */}
-			{status.previews.length > 0 && (
-				<Box
-					flexDirection="column"
-					borderStyle="round"
-					borderColor="cyan"
-					paddingX={1}
-					minHeight={8}
-				>
-					<Text bold color="cyan">
-						💭 Live Output
-					</Text>
-					{status.previews.slice(-6).map((preview, i) => {
-						const icon = preview.type === "tool_result" ? "📜" : "✍️";
-						const color = preview.type === "tool_result" ? "yellow" : "white";
-						return (
-							<Box key={preview.timestamp + i} paddingLeft={1} marginTop={i > 0 ? 0 : 0}>
-								<Text color={color} wrap="wrap">
-									{icon} {preview.content}
-								</Text>
-							</Box>
-						);
-					})}
-				</Box>
-			)}
+			{/* Live preview - always rendered to prevent layout shift */}
+			<Box
+				flexDirection="column"
+				borderStyle="round"
+				borderColor="#0891b2"
+				paddingX={1}
+				minHeight={8}
+			>
+				<Text bold color="#06b6d4">
+					💭 Live Output
+				</Text>
+				{status.previews.length === 0 && (
+					<Text dimColor italic>Waiting for output...</Text>
+				)}
+				{status.previews.slice(-6).map((preview) => {
+					const icon = preview.type === "tool_result" ? "📜" : "✍️";
+					const color = preview.type === "tool_result" ? "yellow" : "white";
+					return (
+						<Box key={preview.timestamp} paddingLeft={1}>
+							<Text color={color} wrap="wrap">
+								{icon} {preview.content}
+							</Text>
+						</Box>
+					);
+				})}
+			</Box>
 		</Box>
 	);
 }

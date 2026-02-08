@@ -146,3 +146,241 @@
 # Sjelfbiografiska anteckningar, bref och efterlemnade skrifter (1868)
 # Autobiographical notes, letters and posthumous writings
 # DONE https://runeberg.org/download.pl?mode=ocrtext&work=fbremer
+
+# ══════════════════════════════════════════════════════════════
+# NEW AUTHORS - EXPANDING SWEDISH QUOTE DIVERSITY
+# ══════════════════════════════════════════════════════════════
+
+# === GUSTAF FRÖDING (1860-1911) ===
+# NOTE: Poetry collections not available as OCR text on Runeberg (scans only)
+# Skipped: dragharm, gfnyadik, stanflik, gralstan (all return 0 bytes)
+
+# === KARIN BOYE (1900-1941) ===
+# Poet and novelist, existential depth, spiritual crisis themes
+# From Archive.org / Litteraturbanken
+
+# Kris (1934) - Novel about spiritual crisis, faith and doubt
+# DONE https://archive.org/download/arkivkopia.se-littbank-BoyeK_Kris/BoyeK_Kris_djvu.txt
+
+# Kallocain (1940) - Dystopian novel, surveillance state, inner freedom
+# DONE https://archive.org/download/arkivkopia.se-littbank-BoyeK_Kallocain/BoyeK_Kallocain_djvu.txt
+
+# Moln (1922) - Poetry collection, early lyrical work
+# DONE https://archive.org/download/arkivkopia.se-littbank-BoyeK_Moln/BoyeK_Moln_djvu.txt
+
+# Astarte (1931) - Novel about passion, identity, and self-knowledge
+# DONE https://archive.org/download/arkivkopia.se-littbank-BoyeK_Astarte/BoyeK_Astarte_djvu.txt
+
+# Merit vaknar (1933) - Novel about awakening and moral consciousness
+# DONE https://archive.org/download/arkivkopia.se-littbank-BoyeK_MeritVaknar/BoyeK_MeritVaknar_djvu.txt
+
+# === JOHAN LUDVIG RUNEBERG (1804-1877) ===
+# Finnish-Swedish national poet, patriotic and moral depth
+# Samlade arbeten (Collected Works) volumes I and II
+
+# Samlade arbeten I - poetry, drama, philosophy
+# DONE https://www.gutenberg.org/cache/epub/13100/pg13100.txt
+
+# Samlade arbeten II - further collected works
+# DONE https://www.gutenberg.org/cache/epub/13101/pg13101.txt
+
+# === ZACHARIAS TOPELIUS (1818-1898) ===
+# Finnish-Swedish storyteller, fairy tales with moral/spiritual themes
+
+# Sagor af Z. Topelius - fairy tales
+# DONE https://www.gutenberg.org/cache/epub/52780/pg52780.txt
+
+# Stjärnornas kungabarn 1 - epic historical novel
+# DONE https://www.gutenberg.org/cache/epub/49996/pg49996.txt
+
+# Stjärnornas kungabarn 2
+# DONE https://www.gutenberg.org/cache/epub/49997/pg49997.txt
+
+# Stjärnornas kungabarn 3
+# DONE https://www.gutenberg.org/cache/epub/50367/pg50367.txt
+
+# === ANNE CHARLOTTE LEFFLER (1849-1892) ===
+# Feminist philosopher, existential and ethical depth
+
+# Kvinnlighet och erotik I - essays on feminism and human nature
+# DONE https://www.gutenberg.org/cache/epub/40557/pg40557.txt
+
+# Kvinnlighet och erotik II
+# DONE https://www.gutenberg.org/cache/epub/41301/pg41301.txt
+
+# === AUGUST BLANCHE (1811-1868) ===
+# Social realist, Stockholm life, human nature
+
+# Sonen af söder och nord, förra delen
+# DONE https://www.gutenberg.org/cache/epub/65801/pg65801.txt
+
+# Sonen af söder och nord, sednare delen
+# DONE https://www.gutenberg.org/cache/epub/65802/pg65802.txt
+
+# === PER HALLSTRÖM (1866-1960) ===
+# Literary essayist, Nobel committee member
+
+# Döda fallet - philosophical fiction
+# DONE https://www.gutenberg.org/cache/epub/48665/pg48665.txt
+
+# Purpur - literary prose
+# DONE https://www.gutenberg.org/cache/epub/65344/pg65344.txt
+
+# === MINNA CANTH (1844-1897) ===
+# Finnish social realist, strong ethical voice
+
+# Arbetarens hustru - social justice themes
+# DONE https://www.gutenberg.org/cache/epub/48627/pg48627.txt
+
+# Blindskär - short fiction
+# DONE https://www.gutenberg.org/cache/epub/26547/pg26547.txt
+
+# Lifsbilder från finska hem 1 - domestic realism
+# DONE https://www.gutenberg.org/cache/epub/20518/pg20518.txt
+
+# Noveller - short stories
+# DONE https://www.gutenberg.org/cache/epub/26546/pg26546.txt
+
+# === ALBERT ENGSTRÖM (1869-1940) ===
+# Satirist, sharp observations on human nature
+
+# Mitt lif och lefverne - autobiography with wit
+# DONE https://www.gutenberg.org/cache/epub/50149/pg50149.txt
+
+# Äventyr och hugskott - adventures and reflections
+# DONE https://www.gutenberg.org/cache/epub/64096/pg64096.txt
+
+# === ESTER BLENDA NORDSTRÖM (1891-1948) ===
+# Pioneering journalist, social commentary
+
+# En piga bland pigor - undercover as a maid, social observation
+# DONE https://www.gutenberg.org/cache/epub/48961/pg48961.txt
+
+# Kåtornas folk - Sami people, ethnographic
+# DONE https://www.gutenberg.org/cache/epub/62806/pg62806.txt
+
+# === HJALMAR BERGMAN (Additional) ===
+
+# Dansen på Frötjärn - psychological drama
+# DONE https://www.gutenberg.org/cache/epub/48526/pg48526.txt
+
+# Vi Bookar, Krokar och Rothar - family saga
+# DONE https://www.gutenberg.org/cache/epub/15724/pg15724.txt
+
+# === GUSTAF AF GEIJERSTAM (Additional) ===
+
+# Nils Tufvesson och hans moder - moral themes
+# DONE https://www.gutenberg.org/cache/epub/49720/pg49720.txt
+
+# ══════════════════════════════════════════════════════════════
+# LITTERATURBANKEN / ARCHIVE.ORG - PHILOSOPHICAL & SPIRITUAL
+# ══════════════════════════════════════════════════════════════
+
+# === HJALMAR SÖDERBERG (Additional - 1869-1941) ===
+# Melancholic philosopher, moral dilemmas, religious doubt
+
+# Doktor Glas - moral philosophy, ethics, God and conscience
+# DONE https://archive.org/download/arkivkopia.se-littbank-SoderbergH_DoktorGlas/SoderbergH_DoktorGlas_djvu.txt
+
+# Den allvarsamma leken - love, meaning, existential melancholy
+# DONE https://archive.org/download/arkivkopia.se-littbank-SoderbergH_DenAllvarsamma/SoderbergH_DenAllvarsamma_djvu.txt
+
+# Martin Bircks ungdom - existential coming-of-age
+# DONE https://archive.org/download/arkivkopia.se-littbank-SoderbergH_MartinBircks/SoderbergH_MartinBircks_djvu.txt
+
+# Jesus Barabbas - religious doubt and faith
+# DONE https://archive.org/download/arkivkopia.se-littbank-SoderbergH_JesusBarabbas/SoderbergH_JesusBarabbas_djvu.txt
+
+# Historietter - philosophical short stories
+# DONE https://archive.org/download/arkivkopia.se-littbank-SoderbergH_Historietter/SoderbergH_Historietter_djvu.txt
+
+# Vers och varia - essays and aphorisms
+# DONE https://archive.org/download/arkivkopia.se-littbank-SoderbergH_VersOchVaria/SoderbergH_VersOchVaria_djvu.txt
+
+# === EDITH SÖDERGRAN (1892-1923) ===
+# Finnish-Swedish modernist poet, existential/spiritual depth
+
+# Dikter (1916) - death, beauty, transcendence, the divine
+# DONE https://archive.org/download/arkivkopia.se-littbank-SodergranE_Dikter/SodergranE_Dikter_djvu.txt
+
+# Septemberlyran (1918) - war, beauty, spiritual longing
+# DONE https://archive.org/download/arkivkopia.se-littbank-SodergranE_Septemberlyran/SodergranE_Septemberlyran_djvu.txt
+
+# Landet som icke är - posthumous, "The Land That Is Not"
+# DONE https://archive.org/download/arkivkopia.se-littbank-SodergranE_LandetSomIcke/SodergranE_LandetSomIcke_djvu.txt
+
+# === OSCAR LEVERTIN (1862-1906) ===
+# Literary essayist, poet - dreams, legends, philosophy
+
+# Diktare och drömmare - essays on poets and philosophy
+# DONE https://archive.org/download/arkivkopia.se-littbank-LevertinO_DiktareDrommare/LevertinO_DiktareDrommare_djvu.txt
+
+# Kung Salomo och Morolf - King Solomon theme
+# DONE https://archive.org/download/arkivkopia.se-littbank-LevertinO_KungSalomoOch/LevertinO_KungSalomoOch_djvu.txt
+
+# Legender och visor - legends and ballads
+# DONE https://archive.org/download/arkivkopia.se-littbank-LevertinO_LegenderOchVisor/LevertinO_LegenderOchVisor_djvu.txt
+
+# === BIRGER SJÖBERG (1885-1929) ===
+# Existential poet, philosophical crises
+
+# Kriser och kransar - existential struggle, philosophical depth
+# DONE https://archive.org/download/arkivkopia.se-littbank-SjobergB_KriserOchKransar/SjobergB_KriserOchKransar_djvu.txt
+
+# === NATHAN SÖDERBLOM (1866-1931) ===
+# Theologian, comparative religion, Nobel Peace Prize 1930
+
+# Främmande religionsurkunder - comparative religion texts (1908)
+# DONE https://archive.org/download/frmmandereligio00sdgoog/frmmandereligio00sdgoog_djvu.txt
+
+# Uppenbarelsereligion - Religion of Revelation (1910)
+# DONE https://archive.org/download/soderblom-1910-uppenbarelse/S%C3%B6derblom%201910%20Uppenbarelse_djvu.txt
+
+# === CARL VON LINNÉ (1707-1778) ===
+# Naturalist who saw God in nature, divine providence
+
+# Nemesis Divina - private notes on divine retribution and providence
+# DONE https://archive.org/stream/arkivkopia.se-runeberg-friesnem/friesnem_djvu.txt
+
+# Egenhändiga anteckningar - autobiography, personal/theological reflections
+# DONE https://archive.org/stream/egenhandigaante00linn/egenhandigaante00linn_djvu.txt
+
+# Öländska resa (1741) - island journey, nature with theological eye
+# DONE https://archive.org/stream/carlvonlinns00linnuoft/carlvonlinns00linnuoft_djvu.txt
+
+# === HANS RUIN (1891-1962) ===
+# Philosopher of aesthetics and mysticism
+
+# Poesiens mystik - The Mysticism of Poetry
+# DONE https://archive.org/stream/arkivkopia.se-littbank-RuinH_PoesiensMystik/RuinH_PoesiensMystik_djvu.txt
+
+# === VIKTOR RYDBERG (additional works) ===
+
+# Medeltidens magi - Medieval magic and superstition
+# DONE https://archive.org/stream/arkivkopia.se-littbank-RydbergV_MedeltidensMagi/RydbergV_MedeltidensMagi_djvu.txt
+
+# === ERIK GUSTAF GEIJER (1783-1847) ===
+# Historian, philosopher, political thought
+
+# Samlade skrifter - Collected writings (political philosophy, freedom)
+# DONE https://archive.org/stream/erikgustafgeije01geijgoog/erikgustafgeije01geijgoog_djvu.txt
+
+# === GUSTAF FRÖDING (1860-1911) ===
+# Metaphysical speculation
+
+# Om lifsmonader - On life monads (philosophy of soul/life)
+# DONE https://archive.org/stream/arkivkopia.se-littbank-FrodingG_OmLifsmonader/FrodingG_OmLifsmonader_djvu.txt
+
+# === KARIN BOYE (additional works) ===
+
+# För trädets skull (1935) - most famous poetry collection ("Ja visst gör det ont")
+# DONE https://archive.org/download/arkivkopia.se-littbank-BoyeK_ForTradetsSkull/BoyeK_ForTradetsSkull_djvu.txt
+
+# Gömda land (1924) - poetry
+# DONE https://archive.org/download/arkivkopia.se-littbank-BoyeK_GomdaLand/BoyeK_GomdaLand_djvu.txt
+
+# Härdarna (1927) - poetry
+# DONE https://archive.org/download/arkivkopia.se-littbank-BoyeK_Hardarna/BoyeK_Hardarna_djvu.txt
+
+# Språket bortom logiken (1932) - essays on language and logic
+# DONE https://archive.org/download/arkivkopia.se-littbank-BoyeK_SpraketBortomLogiken/BoyeK_SpraketBortomLogiken_djvu.txt

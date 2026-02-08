@@ -14,6 +14,7 @@ import { registerQuranSearchCommand } from "./quran-search.js";
 import { registerQuranStatsCommand } from "./quran-stats.js";
 import { registerSearchCommand } from "./search.js";
 import { registerStatsCommand } from "./stats.js";
+import { registerSummarizeBooksCommand } from "./summarize-books.js";
 import { registerVerifyResearchCommand } from "./verify-research.js";
 
 /**
@@ -35,6 +36,7 @@ export function registerAllCommands(program: Command): void {
 	// Book RAG commands
 	registerImportBookCommand(program);
 	registerImportBooksCommand(program);
+	registerSummarizeBooksCommand(program);
 	registerBookStatsCommand(program);
 	registerBookSearchCommand(program);
 

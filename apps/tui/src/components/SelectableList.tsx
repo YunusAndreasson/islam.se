@@ -33,14 +33,8 @@ export function SelectableList<T>({
 		}
 	}, [items.length, selectedIndex]);
 
-	// Notify parent of initial focus on mount only
-	// biome-ignore lint/correctness/useExhaustiveDependencies: intentionally runs only on mount
-	useEffect(() => {
-		const firstItem = items[0];
-		if (onFocusChange && firstItem) {
-			onFocusChange(firstItem, 0);
-		}
-	}, []);
+	// Parents should initialize their focused state to items[0] directly.
+	// No mount-time onFocusChange callback — it causes a redundant re-render.
 
 	const handleNavigation = useCallback(
 		(newIndex: number) => {
@@ -74,9 +68,9 @@ export function SelectableList<T>({
 		(input, key) => {
 			if (!isFocused || items.length === 0) return;
 
-			if (key.upArrow || (key.ctrl && input === "p")) {
+			if (key.upArrow || input === "k" || (key.ctrl && input === "p")) {
 				handleNavigation(Math.max(0, selectedIndex - 1));
-			} else if (key.downArrow || (key.ctrl && input === "n")) {
+			} else if (key.downArrow || input === "j" || (key.ctrl && input === "n")) {
 				handleNavigation(Math.min(items.length - 1, selectedIndex + 1));
 			} else if (key.return) {
 				handleSelect();
@@ -113,11 +107,9 @@ export function SelectableList<T>({
 
 	return (
 		<Box flexDirection="column">
-			{showTopIndicator && (
-				<Text color="gray">
-					{"  "}↑ {startIndex} more
-				</Text>
-			)}
+			<Text color="gray">
+				{showTopIndicator ? `  ↑ ${startIndex} more` : " "}
+			</Text>
 			{visibleItems.map((item, i) => {
 				const actualIndex = startIndex + i;
 				return (
@@ -126,11 +118,9 @@ export function SelectableList<T>({
 					</Box>
 				);
 			})}
-			{showBottomIndicator && (
-				<Text color="gray">
-					{"  "}↓ {items.length - endIndex} more
-				</Text>
-			)}
+			<Text color="gray">
+				{showBottomIndicator ? `  ↓ ${items.length - endIndex} more` : " "}
+			</Text>
 		</Box>
 	);
 }

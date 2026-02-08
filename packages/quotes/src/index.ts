@@ -153,6 +153,8 @@ export {
 	type ImportResult,
 	importBook,
 	importBooksFromFile,
+	summarizeAllUnsummarized,
+	summarizeExistingBook,
 	initBookDatabase,
 	insertBook,
 	insertChapter,

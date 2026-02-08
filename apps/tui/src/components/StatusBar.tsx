@@ -1,7 +1,7 @@
 import { Box, Text } from "ink";
 import type React from "react";
 
-interface Shortcut {
+export interface Shortcut {
 	key: string;
 	label: string;
 }
@@ -13,19 +13,16 @@ interface StatusBarProps {
 
 export function StatusBar({ shortcuts, title }: StatusBarProps): React.ReactElement {
 	return (
-		<Box borderStyle="single" borderColor="gray" paddingX={1} justifyContent="space-between">
-			<Box gap={2}>
-				{shortcuts.map((shortcut, i) => (
-					<Box key={shortcut.key} gap={1}>
-						<Text backgroundColor="gray" color="white">
-							{" "}
-							{shortcut.key}{" "}
-						</Text>
-						<Text dimColor>{shortcut.label}</Text>
-						{i < shortcuts.length - 1 && <Text dimColor>│</Text>}
-					</Box>
-				))}
-			</Box>
+		<Box gap={2}>
+			{shortcuts.map((shortcut) => (
+				<Box key={shortcut.key} gap={1}>
+					<Text backgroundColor="#0891b2" color="#000" bold>
+						{" "}
+						{shortcut.key}{" "}
+					</Text>
+					<Text dimColor>{shortcut.label}</Text>
+				</Box>
+			))}
 			{title && (
 				<Text dimColor italic>
 					{title}

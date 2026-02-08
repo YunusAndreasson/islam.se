@@ -34,6 +34,8 @@ export interface ConceptSearchOptions {
 	minScore?: number;
 	/** Filter by book ID */
 	bookId?: number;
+	/** Filter by language */
+	language?: "sv" | "ar" | "en";
 	/** Include book-level summaries (default: true) */
 	includeBookSummaries?: boolean;
 	/** Include chapter-level summaries (default: true) */
@@ -155,6 +157,7 @@ export async function searchConcepts(
 		limit = 10,
 		minScore = 0.3,
 		bookId,
+		language,
 		includeBookSummaries = true,
 		includeChapterSummaries = true,
 	} = options;
@@ -174,6 +177,7 @@ export async function searchConcepts(
 	if (typeConditions.length === 0) return [];
 
 	const typeFilter = `m.entity_type IN (${typeConditions.join(", ")})`;
+	const langFilter = language ? " AND b.language = ?" : "";
 
 	// Single query with JOINs to fetch all data at once
 	const sql = `
@@ -198,12 +202,16 @@ export async function searchConcepts(
 		LEFT JOIN books b ON (m.entity_type = 'book' AND m.entity_id = b.id)
 			OR (m.entity_type = 'chapter' AND b.id = (SELECT book_id FROM chapters WHERE id = m.entity_id))
 		LEFT JOIN chapters c ON m.entity_type = 'chapter' AND m.entity_id = c.id
-		WHERE ${typeFilter}
+		WHERE ${typeFilter}${langFilter}
 		ORDER BY distance ASC
 		LIMIT ?
 	`;
 
-	const rows = database.prepare(sql).all(queryBuffer, limit * 3) as {
+	const params: (Buffer | number | string)[] = [queryBuffer];
+	if (language) params.push(language);
+	params.push(limit * 3);
+
+	const rows = database.prepare(sql).all(...params) as {
 		entityType: "book" | "chapter";
 		entityId: number;
 		distance: number;
@@ -284,6 +292,7 @@ export async function searchBooks(
 			limit: conceptLimit,
 			minScore,
 			bookId,
+			language,
 		}),
 	]);
 
@@ -296,7 +305,10 @@ export async function searchBooks(
 	}
 
 	// Re-rank passages using concept relevance
+	// If no concepts found, use raw passage scores (don't penalize)
+	const hasConcepts = bookRelevance.size > 0;
 	const combined = passages.map((passage) => {
+		if (!hasConcepts) return { ...passage };
 		const conceptBoost = bookRelevance.get(passage.bookId) ?? 0;
 		const combinedScore = passageWeight * passage.score + (1 - passageWeight) * conceptBoost;
 		return { ...passage, score: combinedScore };

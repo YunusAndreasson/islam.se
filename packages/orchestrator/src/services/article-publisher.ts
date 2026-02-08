@@ -2,7 +2,7 @@
  * Article Publisher - Manages publishing articles to web-accessible directory
  */
 
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, readFileSync, unlinkSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -19,6 +19,7 @@ export interface PublishedArticle {
 	};
 	wordCount: number;
 	qualityScore?: number;
+	category?: string;
 }
 
 export interface ArticleIndex {
@@ -218,5 +219,71 @@ export class ArticlePublisher {
 			return null;
 		}
 		return readFileSync(path, "utf-8");
+	}
+
+	/**
+	 * Set category for an article
+	 */
+	setCategory(slug: string, category: string): PublishedArticle | null {
+		const index = this.loadIndex();
+		const article = index.articles.find((a) => a.slug === slug);
+		if (!article) return null;
+
+		article.category = category || undefined;
+		this.saveIndex(index);
+		return article;
+	}
+
+	/**
+	 * Remove an article from the index and optionally delete the file
+	 */
+	unpublish(slug: string, deleteFile = false): boolean {
+		const index = this.loadIndex();
+		const before = index.articles.length;
+		index.articles = index.articles.filter((a) => a.slug !== slug);
+
+		if (index.articles.length === before) return false;
+
+		this.saveIndex(index);
+
+		if (deleteFile) {
+			const path = join(this.articlesDir, `${slug}.md`);
+			if (existsSync(path)) {
+				unlinkSync(path);
+			}
+		}
+
+		return true;
+	}
+
+	/**
+	 * List categories with article counts
+	 */
+	listCategories(): Array<{ name: string; count: number }> {
+		const articles = this.loadIndex().articles;
+		const counts = new Map<string, number>();
+
+		for (const article of articles) {
+			const cat = article.category || "";
+			counts.set(cat, (counts.get(cat) ?? 0) + 1);
+		}
+
+		const result: Array<{ name: string; count: number }> = [];
+
+		// Inbox (empty category) always first
+		if (counts.has("")) {
+			result.push({ name: "", count: counts.get("")! });
+			counts.delete("");
+		} else {
+			result.push({ name: "", count: 0 });
+		}
+
+		// Rest alphabetical
+		const sorted = [...counts.entries()].sort((a, b) => a[0].localeCompare(b[0], "sv"));
+		for (const [name, count] of sorted) {
+			result.push({ name, count });
+		}
+
+		return result;
 	}
 }

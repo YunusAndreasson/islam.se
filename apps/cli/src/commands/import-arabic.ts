@@ -100,6 +100,9 @@ async function processArabicUrl(
 	console.log("   💾 Storing quotes...");
 	const { stored, skipped } = await storeArabicQuotes(extraction.quotes, url);
 	console.log(`   ✅ Stored: ${stored}, Skipped: ${skipped}`);
+	if (stored === 0 && skipped === 0) {
+		throw new Error("No quotes extracted — API may have failed");
+	}
 }
 
 interface ArabicUrlContext {
