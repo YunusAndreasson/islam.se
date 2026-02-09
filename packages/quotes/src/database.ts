@@ -48,8 +48,11 @@ export function initDatabase(): Database.Database {
 
 	db = new Database(DB_PATH);
 
-	// Enable WAL mode for better concurrent performance (modern best practice)
+	// Performance pragmas
 	db.pragma("journal_mode = WAL");
+	db.pragma("synchronous = NORMAL");
+	db.pragma("cache_size = -64000");
+	db.pragma("foreign_keys = ON");
 
 	// Load sqlite-vec extension
 	sqliteVec.load(db);
@@ -99,7 +102,239 @@ export function initDatabase(): Database.Database {
 		)
 	`);
 
+	// FTS5 full-text search (external content, synced via triggers)
+	db.exec(`
+		CREATE VIRTUAL TABLE IF NOT EXISTS quotes_fts USING fts5(
+			text, author, work_title, keywords,
+			content='quotes', content_rowid='id',
+			tokenize='unicode61'
+		)
+	`);
+
+	// Triggers to keep FTS5 in sync with quotes table
+	db.exec(`
+		CREATE TRIGGER IF NOT EXISTS quotes_fts_ai AFTER INSERT ON quotes BEGIN
+			INSERT INTO quotes_fts(rowid, text, author, work_title, keywords)
+			VALUES (new.id, new.text, new.author, new.work_title, new.keywords);
+		END;
+
+		CREATE TRIGGER IF NOT EXISTS quotes_fts_au AFTER UPDATE ON quotes BEGIN
+			INSERT INTO quotes_fts(quotes_fts, rowid, text, author, work_title, keywords)
+			VALUES ('delete', old.id, old.text, old.author, old.work_title, old.keywords);
+			INSERT INTO quotes_fts(rowid, text, author, work_title, keywords)
+			VALUES (new.id, new.text, new.author, new.work_title, new.keywords);
+		END;
+	`);
+
+	// Indexes for common query patterns (filter, text, and vector search WHERE clauses)
+	db.exec(`
+		CREATE INDEX IF NOT EXISTS idx_quotes_language_standalone ON quotes(language, standalone);
+		CREATE INDEX IF NOT EXISTS idx_quotes_author ON quotes(author);
+		CREATE INDEX IF NOT EXISTS idx_quotes_category ON quotes(category);
+		CREATE INDEX IF NOT EXISTS idx_quotes_standalone ON quotes(standalone);
+	`);
+
+	// One-time migration: normalize Swedish categories to English
+	// Check if migration is needed (presence of Swedish category "karaktär")
+	const needsCategoryMigration = (
+		db.prepare("SELECT COUNT(*) as c FROM quotes WHERE category = 'karaktär'").get() as {
+			c: number;
+		}
+	).c;
+	if (needsCategoryMigration > 0) {
+		normalizeCategoryLanguages(db);
+	}
+
+	// One-time migration: fix Norse quotes misclassified as Swedish
+	const needsNorseFix = (
+		db
+			.prepare(
+				"SELECT COUNT(*) as c FROM quotes WHERE language = 'sv' AND author = 'Sæmundur fróði'",
+			)
+			.get() as { c: number }
+	).c;
+	if (needsNorseFix > 0) {
+		reclassifyNorseQuotes(db);
+	}
+
+	// One-time migration: fix romanized Arabic work titles
+	const needsTitleFix = (
+		db
+			.prepare(
+				"SELECT COUNT(*) as c FROM quotes WHERE language = 'ar' AND work_title = 'MadarijSalikin'",
+			)
+			.get() as { c: number }
+	).c;
+	if (needsTitleFix > 0) {
+		fixRomanizedArabicTitles(db);
+	}
+
 	return db;
+}
+
+/**
+ * Normalizes all categories to English. Swedish categories are mapped to English equivalents.
+ * Misspelled variants (especially of "självrannsakan") are also normalized.
+ */
+function normalizeCategoryLanguages(database: Database.Database): void {
+	const mapping: Record<string, string> = {
+		// Main Swedish → English
+		"karaktär": "character",
+		"kunskap": "knowledge",
+		"tro": "faith",
+		"döden": "death",
+		"prövningar": "trials",
+		"rättvisa": "justice",
+		"kärlek": "love",
+		"mening": "meaning",
+		"ödmjukhet": "humility",
+		"gemenskap": "community",
+		"visdom": "wisdom",
+		"övrigt": "other",
+		"hopp": "hope",
+		"barmhärtighet": "mercy",
+		"högmod": "pride",
+		"naturen": "nature",
+		"tålamod": "patience",
+		"självrannsakan": "self-accountability",
+		"girighet": "greed",
+		"tacksamhet": "gratitude",
+		"frihet": "freedom",
+		"ensamhet": "solitude",
+		"varning": "warning",
+		"samvete": "conscience",
+		"skam": "shame",
+		"sorg": "grief",
+		"lidande": "suffering",
+		"hopplöshet": "despair",
+		"fruktan": "fear",
+		"ungdom": "youth",
+		"längtan": "longing",
+		"ironi": "irony",
+		"öde": "fate",
+		"minne": "memory",
+		"resignation": "resignation",
+		"manipulation": "manipulation",
+		"mod": "courage",
+		"sanning": "truth",
+		"moderskap": "motherhood",
+		"förändring": "change",
+		"förtvivlan": "despair",
+		"försoning": "reconciliation",
+		"tröst": "solace",
+		"makt": "power",
+		"förfall": "decay",
+		"skuld": "guilt",
+		"lycka": "happiness",
+		"glädje": "joy",
+		"förnyelse": "renewal",
+		"desperation": "despair",
+		"arv": "legacy",
+		"äktenskap": "marriage",
+		"styrka": "strength",
+		"skönhet": "beauty",
+		"skapande": "creation",
+		"moral": "morality",
+		"förlåtelse": "forgiveness",
+		"fred": "peace",
+		"dygd": "virtue",
+		"ansvar": "responsibility",
+		"andlighet": "spirituality",
+		"bön": "supplication",
+		"etik": "ethics",
+		"fattigdom": "poverty",
+		"frestelse": "temptation",
+		"insikt": "insight",
+		"medkänsla": "compassion",
+		"plikt": "duty",
+		"respekt": "respect",
+		"ångest": "anguish",
+		"stolthet": "pride",
+		"tvivel": "doubt",
+		"rädsla": "fear",
+		"smärta": "pain",
+		"ärlighet": "honesty",
+		"integritet": "integrity",
+		"omsorg": "care",
+		"falskhet": "hypocrisy",
+		"befrielse": "liberation",
+	};
+
+	const stmt = database.prepare("UPDATE quotes SET category = ? WHERE category = ?");
+	const updateLike = database.prepare("UPDATE quotes SET category = ? WHERE category LIKE ?");
+
+	const transaction = database.transaction(() => {
+		for (const [sv, en] of Object.entries(mapping)) {
+			stmt.run(en, sv);
+		}
+		// Normalize all misspelled variants of självrannsakan
+		updateLike.run("self-accountability", "själ%ranns%");
+		updateLike.run("self-accountability", "sel%ranns%");
+		updateLike.run("self-accountability", "samvetsranns%");
+		// Normalize minor typos
+		updateLike.run("patience", "tålmod%");
+		updateLike.run("knowledge", "kuskap%");
+		updateLike.run("knowledge", "kunskapen");
+		updateLike.run("character", "karaktern");
+		updateLike.run("death", "död");
+		updateLike.run("fate", "ödet");
+		updateLike.run("grief", "sorgen");
+		updateLike.run("grief", "sorger");
+		updateLike.run("grief", "sorgsamt");
+		updateLike.run("grief", "sorgsamhet");
+		updateLike.run("nature", "naturens");
+		updateLike.run("love", "kärleken");
+		updateLike.run("hope", "hopplighet");
+		updateLike.run("humility", "öd mjukhet");
+		updateLike.run("pride", "höglighet");
+		updateLike.run("pride", "högtidlighet");
+		updateLike.run("decay", "förfäll");
+		updateLike.run("solitude", "ensomhet");
+	});
+	transaction();
+}
+
+/**
+ * Reclassifies Norse/Eddic quotes from language='sv' to language='en'.
+ * These are Old Norse texts in English translation, not Swedish literature.
+ */
+function reclassifyNorseQuotes(database: Database.Database): void {
+	database.exec(`
+		UPDATE quotes SET language = 'en'
+		WHERE language = 'sv' AND (
+			author IN ('Snorri Sturluson', 'Sæmundur fróði', 'Rasmus B. Anderson', 'Sigrdrifa', 'Manikka-vasagar')
+			OR author LIKE 'Henry Adams Bellows%'
+			OR work_title LIKE '%Volsunga Saga%'
+			OR (work_title LIKE '%Edda%' AND author NOT LIKE '%Tegnér%' AND author NOT LIKE '%Geijer%')
+		)
+	`);
+}
+
+/**
+ * Fixes romanized OpenITI work titles in Arabic quotes to proper Arabic script.
+ */
+function fixRomanizedArabicTitles(database: Database.Database): void {
+	const titleMap: Record<string, string> = {
+		"MadarijSalikin": "مدارج السالكين",
+		"JamicCulumWaHikam": "جامع العلوم والحكم",
+		"LataifMacarif": "لطائف المعارف",
+		"Lataif al-Macarif": "لطائف المعارف",
+		"TaqribLiHaddMantiq": "التقريب لحد المنطق",
+		"RawdatMuhibbin": "روضة المحبين ونزهة المشتاقين",
+		"CuddatSabirin": "عدة الصابرين وذخيرة الشاكرين",
+		"TakhwifMinNar": "التخويف من النار",
+		"WabilSayyib": "الوابل الصيب من الكلم الطيب",
+		"AdabDunyaWaDin": "أدب الدنيا والدين",
+		"RawdatCuqala": "روضة العقلاء ونزهة الفضلاء",
+	};
+
+	const stmt = database.prepare("UPDATE quotes SET work_title = ? WHERE work_title = ?");
+	const transaction = database.transaction(() => {
+		for (const [romanized, arabic] of Object.entries(titleMap)) {
+			stmt.run(arabic, romanized);
+		}
+	});
+	transaction();
 }
 
 /**
@@ -393,6 +628,15 @@ export function runInTransaction<T>(fn: () => T): T {
 		rollbackTransaction();
 		throw error;
 	}
+}
+
+/**
+ * Rebuilds the FTS5 index from existing quote data.
+ * Call this once after adding FTS5 to a database with existing quotes.
+ */
+export function rebuildFts(): void {
+	const database = initDatabase();
+	database.exec("INSERT INTO quotes_fts(quotes_fts) VALUES('rebuild')");
 }
 
 /**

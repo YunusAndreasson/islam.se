@@ -60,6 +60,30 @@ export function createTestDatabase(): Database.Database {
 		)
 	`);
 
+	// FTS5 full-text search (external content, synced via triggers)
+	db.exec(`
+		CREATE VIRTUAL TABLE IF NOT EXISTS quotes_fts USING fts5(
+			text, author, work_title, keywords,
+			content='quotes', content_rowid='id',
+			tokenize='unicode61'
+		)
+	`);
+
+	// Triggers to keep FTS5 in sync with quotes table
+	db.exec(`
+		CREATE TRIGGER IF NOT EXISTS quotes_fts_ai AFTER INSERT ON quotes BEGIN
+			INSERT INTO quotes_fts(rowid, text, author, work_title, keywords)
+			VALUES (new.id, new.text, new.author, new.work_title, new.keywords);
+		END;
+
+		CREATE TRIGGER IF NOT EXISTS quotes_fts_au AFTER UPDATE ON quotes BEGIN
+			INSERT INTO quotes_fts(quotes_fts, rowid, text, author, work_title, keywords)
+			VALUES ('delete', old.id, old.text, old.author, old.work_title, old.keywords);
+			INSERT INTO quotes_fts(rowid, text, author, work_title, keywords)
+			VALUES (new.id, new.text, new.author, new.work_title, new.keywords);
+		END;
+	`);
+
 	return db;
 }
 

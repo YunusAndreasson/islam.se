@@ -1,7 +1,9 @@
 import type { Command } from "commander";
 import { registerBookSearchCommand } from "./book-search.js";
 import { registerBookStatsCommand } from "./book-stats.js";
+import { registerCleanQuranCommand } from "./clean-quran.js";
 import { registerFixMetadataCommand } from "./fix-metadata.js";
+import { registerFtsValidateCommand } from "./fts-validate.js";
 import { registerImportArabicCommand } from "./import-arabic.js";
 import { registerImportBookCommand } from "./import-book.js";
 import { registerImportBooksCommand } from "./import-books.js";
@@ -30,6 +32,7 @@ export function registerAllCommands(program: Command): void {
 
 	// Quran commands
 	registerImportQuranCommand(program);
+	registerCleanQuranCommand(program);
 	registerQuranStatsCommand(program);
 	registerQuranSearchCommand(program);
 
@@ -46,5 +49,6 @@ export function registerAllCommands(program: Command): void {
 
 	// Utilities
 	registerFixMetadataCommand(program);
+	registerFtsValidateCommand(program);
 	registerVerifyResearchCommand(program);
 }

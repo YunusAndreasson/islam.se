@@ -34,6 +34,7 @@ export {
 	getPassagesByChapter,
 	initBookDatabase,
 	insertBook,
+	rebuildBooksFts,
 	insertChapter,
 	insertPassage,
 	insertPassageEmbedding,

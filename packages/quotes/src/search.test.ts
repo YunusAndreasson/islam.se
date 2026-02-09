@@ -315,6 +315,135 @@ describe("database-integrated search tests", () => {
 		});
 	});
 
+	describe("FTS5 full-text search", () => {
+		it("finds quotes by text content", () => {
+			const results = db
+				.prepare(
+					`SELECT q.id, q.text, rank
+					 FROM quotes_fts fts
+					 JOIN quotes q ON q.id = fts.rowid
+					 WHERE quotes_fts MATCH '"tålamod"'
+					 ORDER BY rank`,
+				)
+				.all() as Array<{ id: number; text: string; rank: number }>;
+
+			expect(results.length).toBeGreaterThan(0);
+			expect(results[0]?.text).toContain("Tålamod");
+		});
+
+		it("finds quotes by author", () => {
+			const results = db
+				.prepare(
+					`SELECT q.id, q.author, rank
+					 FROM quotes_fts fts
+					 JOIN quotes q ON q.id = fts.rowid
+					 WHERE quotes_fts MATCH 'author : "Strindberg"'
+					 ORDER BY rank`,
+				)
+				.all() as Array<{ id: number; author: string; rank: number }>;
+
+			expect(results.length).toBeGreaterThan(0);
+			expect(results[0]?.author).toContain("Strindberg");
+		});
+
+		it("finds quotes by keyword", () => {
+			const results = db
+				.prepare(
+					`SELECT q.id, q.keywords, rank
+					 FROM quotes_fts fts
+					 JOIN quotes q ON q.id = fts.rowid
+					 WHERE quotes_fts MATCH 'keywords : "motgång"'
+					 ORDER BY rank`,
+				)
+				.all() as Array<{ id: number; keywords: string; rank: number }>;
+
+			expect(results.length).toBeGreaterThan(0);
+			expect(results[0]?.keywords).toContain("motgång");
+		});
+
+		it("returns BM25-ranked results (best match first)", () => {
+			// Insert an extra quote with "tålamod" in multiple fields for stronger match
+			db.prepare(
+				`INSERT INTO quotes (text, author, work_title, category, keywords, tone, standalone, length, language)
+				 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+			).run(
+				"Tålamod och tålamod och åter tålamod.",
+				"Test",
+				"Test",
+				"patience",
+				'["tålamod"]',
+				"neutral",
+				5,
+				"short",
+				"sv",
+			);
+
+			const results = db
+				.prepare(
+					`SELECT q.id, q.text, rank
+					 FROM quotes_fts fts
+					 JOIN quotes q ON q.id = fts.rowid
+					 WHERE quotes_fts MATCH '"tålamod"'
+					 ORDER BY rank`,
+				)
+				.all() as Array<{ id: number; text: string; rank: number }>;
+
+			expect(results.length).toBeGreaterThanOrEqual(2);
+			// BM25 rank is negative; best match has lowest (most negative) rank
+			expect(results[0]?.rank).toBeLessThanOrEqual(results[1]?.rank ?? 0);
+		});
+
+		it("handles Arabic text properly", () => {
+			const results = db
+				.prepare(
+					`SELECT q.id, q.text, rank
+					 FROM quotes_fts fts
+					 JOIN quotes q ON q.id = fts.rowid
+					 WHERE quotes_fts MATCH '"الصبر"'
+					 ORDER BY rank`,
+				)
+				.all() as Array<{ id: number; text: string; rank: number }>;
+
+			expect(results.length).toBeGreaterThan(0);
+			expect(results[0]?.text).toContain("الصبر");
+		});
+
+		it("prefix search works", () => {
+			const results = db
+				.prepare(
+					`SELECT q.id, q.text, rank
+					 FROM quotes_fts fts
+					 JOIN quotes q ON q.id = fts.rowid
+					 WHERE quotes_fts MATCH '"tålam" *'
+					 ORDER BY rank`,
+				)
+				.all() as Array<{ id: number; text: string; rank: number }>;
+
+			expect(results.length).toBeGreaterThan(0);
+		});
+
+		it("FTS5 index stays in sync via triggers", () => {
+			const countBefore = (
+				db
+					.prepare("SELECT COUNT(*) as c FROM quotes_fts WHERE quotes_fts MATCH '\"test_sync\"'")
+					.get() as { c: number }
+			).c;
+			expect(countBefore).toBe(0);
+
+			db.prepare(
+				`INSERT INTO quotes (text, author, work_title, keywords, standalone, length, language)
+				 VALUES (?, ?, ?, ?, ?, ?, ?)`,
+			).run("test_sync unique content", "SyncAuthor", "SyncWork", "[]", 5, "short", "sv");
+
+			const countAfter = (
+				db
+					.prepare("SELECT COUNT(*) as c FROM quotes_fts WHERE quotes_fts MATCH '\"test_sync\"'")
+					.get() as { c: number }
+			).c;
+			expect(countAfter).toBe(1);
+		});
+	});
+
 	describe("vector search prerequisites", () => {
 		it("stores embeddings correctly", () => {
 			const embeddings = db

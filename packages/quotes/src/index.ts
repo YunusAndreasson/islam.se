@@ -37,6 +37,7 @@ export {
 	parseQuoteRow,
 	type QuoteWithScore,
 	type RawQuoteRow,
+	rebuildFts,
 	rollbackTransaction,
 	runInTransaction,
 	type StoredQuote,
@@ -153,10 +154,9 @@ export {
 	type ImportResult,
 	importBook,
 	importBooksFromFile,
-	summarizeAllUnsummarized,
-	summarizeExistingBook,
 	initBookDatabase,
 	insertBook,
+	rebuildBooksFts,
 	insertChapter,
 	insertPassage,
 	insertPassageEmbedding,
@@ -171,6 +171,8 @@ export {
 	searchConcepts,
 	searchPassages,
 	searchPassagesText,
+	summarizeAllUnsummarized,
+	summarizeExistingBook,
 	updateBook,
 	updateChapter,
 } from "./books/index.js";
@@ -180,7 +182,9 @@ export {
 // ============================================================================
 
 export {
+	cleanVerseText,
 	closeQuranDatabase,
+	deleteAllVerseEmbeddings,
 	getAllVerses,
 	getParseStats,
 	getQuranStats,
@@ -192,6 +196,7 @@ export {
 	parseQuranText,
 	type QuranStats,
 	type QuranVerse,
+	rebuildQuranFts,
 	type StoredVerse,
 	searchVerses,
 	searchVersesSemantic,

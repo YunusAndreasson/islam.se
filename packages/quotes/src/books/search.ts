@@ -418,7 +418,20 @@ export function getBookInventory(): BookInventory {
 }
 
 /**
- * Text-based search (for exact phrase matching).
+ * Builds an FTS5 query from user input with prefix matching.
+ */
+function buildBooksFts5Query(query: string): string {
+	const tokens = query
+		.split(/\s+/)
+		.filter((t) => t.length > 0);
+	if (tokens.length === 0) return "";
+	return tokens
+		.map((token) => `"${token.replace(/"/g, '""')}"*`)
+		.join(" ");
+}
+
+/**
+ * Text-based search using FTS5 with BM25 ranking.
  * No embeddings needed (FREE).
  */
 export function searchPassagesText(
@@ -428,6 +441,9 @@ export function searchPassagesText(
 	const { limit = 10, bookId } = options;
 	const database = initBookDatabase();
 
+	const ftsQuery = buildBooksFts5Query(query);
+	if (!ftsQuery) return [];
+
 	let sql = `
 		SELECT
 			p.id, p.book_id as bookId, p.chapter_id as chapterId,
@@ -435,20 +451,21 @@ export function searchPassagesText(
 			p.start_position as startPosition, p.end_position as endPosition,
 			b.title as bookTitle, b.author as bookAuthor,
 			c.title as chapterTitle, c.chapter_number as chapterNumber
-		FROM passages p
+		FROM passages_fts fts
+		JOIN passages p ON p.id = fts.rowid
 		JOIN books b ON p.book_id = b.id
 		LEFT JOIN chapters c ON p.chapter_id = c.id
-		WHERE p.text LIKE ?
+		WHERE passages_fts MATCH ?
 	`;
 
-	const params: (string | number)[] = [`%${query}%`];
+	const params: (string | number)[] = [ftsQuery];
 
 	if (bookId !== undefined) {
 		sql += " AND p.book_id = ?";
 		params.push(bookId);
 	}
 
-	sql += " LIMIT ?";
+	sql += " ORDER BY rank LIMIT ?";
 	params.push(limit);
 
 	return database.prepare(sql).all(...params) as PassageWithContext[];

@@ -4,7 +4,9 @@
 
 // Database
 export {
+	cleanVerseText,
 	closeQuranDatabase,
+	deleteAllVerseEmbeddings,
 	getAllVerses,
 	getQuranStats,
 	getSurah,
@@ -14,6 +16,7 @@ export {
 	insertVerseEmbedding,
 	type QuranStats,
 	type QuranVerse,
+	rebuildQuranFts,
 	type StoredVerse,
 	searchVerses,
 	searchVersesSemantic,

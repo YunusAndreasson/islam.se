@@ -86,6 +86,9 @@ export function initBookDatabase(): Database.Database {
 
 	db = new Database(DB_PATH);
 	db.pragma("journal_mode = WAL");
+	db.pragma("synchronous = NORMAL");
+	db.pragma("cache_size = -64000");
+	db.pragma("foreign_keys = ON");
 	sqliteVec.load(db);
 
 	// Books table
@@ -158,6 +161,30 @@ export function initBookDatabase(): Database.Database {
 			entity_id INTEGER NOT NULL,
 			UNIQUE(entity_type, entity_id)
 		)
+	`);
+
+	// FTS5 full-text search on passages (external content, synced via triggers)
+	db.exec(`
+		CREATE VIRTUAL TABLE IF NOT EXISTS passages_fts USING fts5(
+			text,
+			content='passages', content_rowid='id',
+			tokenize='unicode61'
+		)
+	`);
+
+	// Triggers to keep FTS5 in sync with passages table
+	db.exec(`
+		CREATE TRIGGER IF NOT EXISTS passages_fts_ai AFTER INSERT ON passages BEGIN
+			INSERT INTO passages_fts(rowid, text)
+			VALUES (new.id, new.text);
+		END;
+
+		CREATE TRIGGER IF NOT EXISTS passages_fts_au AFTER UPDATE ON passages BEGIN
+			INSERT INTO passages_fts(passages_fts, rowid, text)
+			VALUES ('delete', old.id, old.text);
+			INSERT INTO passages_fts(rowid, text)
+			VALUES (new.id, new.text);
+		END;
 	`);
 
 	// Create indexes for performance
@@ -273,38 +300,34 @@ export function getAllBooks(): Book[] {
 export function deleteBook(id: number): void {
 	const database = initBookDatabase();
 
-	// Delete associated embeddings first
-	const passages = database.prepare("SELECT id FROM passages WHERE book_id = ?").all(id) as {
-		id: number;
-	}[];
-	for (const passage of passages) {
-		database.prepare("DELETE FROM passage_embeddings WHERE rowid = ?").run(passage.id);
-	}
-
-	// Delete summary embeddings
-	const chapterMetas = database
+	// Delete passage embeddings in bulk
+	database
 		.prepare(
-			"SELECT id FROM summary_embedding_meta WHERE entity_type = 'chapter' AND entity_id IN (SELECT id FROM chapters WHERE book_id = ?)",
+			"DELETE FROM passage_embeddings WHERE rowid IN (SELECT id FROM passages WHERE book_id = ?)",
 		)
-		.all(id) as { id: number }[];
-	for (const meta of chapterMetas) {
-		database.prepare("DELETE FROM summary_embeddings WHERE rowid = ?").run(meta.id);
-	}
+		.run(id);
+
+	// Delete chapter summary embeddings in bulk
+	database
+		.prepare(
+			"DELETE FROM summary_embeddings WHERE rowid IN (SELECT id FROM summary_embedding_meta WHERE entity_type = 'chapter' AND entity_id IN (SELECT id FROM chapters WHERE book_id = ?))",
+		)
+		.run(id);
 	database
 		.prepare(
 			"DELETE FROM summary_embedding_meta WHERE entity_type = 'chapter' AND entity_id IN (SELECT id FROM chapters WHERE book_id = ?)",
 		)
 		.run(id);
 
-	const bookMeta = database
-		.prepare("SELECT id FROM summary_embedding_meta WHERE entity_type = 'book' AND entity_id = ?")
-		.get(id) as { id: number } | undefined;
-	if (bookMeta) {
-		database.prepare("DELETE FROM summary_embeddings WHERE rowid = ?").run(bookMeta.id);
-		database
-			.prepare("DELETE FROM summary_embedding_meta WHERE entity_type = 'book' AND entity_id = ?")
-			.run(id);
-	}
+	// Delete book summary embedding
+	database
+		.prepare(
+			"DELETE FROM summary_embeddings WHERE rowid IN (SELECT id FROM summary_embedding_meta WHERE entity_type = 'book' AND entity_id = ?)",
+		)
+		.run(id);
+	database
+		.prepare("DELETE FROM summary_embedding_meta WHERE entity_type = 'book' AND entity_id = ?")
+		.run(id);
 
 	// Delete book (cascades to chapters and passages)
 	database.prepare("DELETE FROM books WHERE id = ?").run(id);
@@ -565,6 +588,14 @@ export function runInBookTransaction<T>(fn: () => T): T {
 		rollbackBookTransaction();
 		throw error;
 	}
+}
+
+/**
+ * Rebuilds the FTS5 index for book passages from existing data.
+ */
+export function rebuildBooksFts(): void {
+	const database = initBookDatabase();
+	database.exec("INSERT INTO passages_fts(passages_fts) VALUES('rebuild')");
 }
 
 // ============================================================================

@@ -48,8 +48,11 @@ export function initQuranDatabase(): Database.Database {
 
 	db = new Database(DB_PATH);
 
-	// Enable WAL mode for better concurrent performance
+	// Performance pragmas
 	db.pragma("journal_mode = WAL");
+	db.pragma("synchronous = NORMAL");
+	db.pragma("cache_size = -64000");
+	db.pragma("foreign_keys = ON");
 
 	// Load sqlite-vec extension
 	sqliteVec.load(db);
@@ -82,6 +85,30 @@ export function initQuranDatabase(): Database.Database {
 		CREATE VIRTUAL TABLE IF NOT EXISTS verse_embeddings USING vec0(
 			embedding float[${EMBEDDING_DIMENSIONS}]
 		)
+	`);
+
+	// FTS5 full-text search on verses (external content, synced via triggers)
+	db.exec(`
+		CREATE VIRTUAL TABLE IF NOT EXISTS verses_fts USING fts5(
+			text_swedish, text_arabic, commentary,
+			content='verses', content_rowid='id',
+			tokenize='unicode61'
+		)
+	`);
+
+	// Triggers to keep FTS5 in sync with verses table
+	db.exec(`
+		CREATE TRIGGER IF NOT EXISTS verses_fts_ai AFTER INSERT ON verses BEGIN
+			INSERT INTO verses_fts(rowid, text_swedish, text_arabic, commentary)
+			VALUES (new.id, new.text_swedish, new.text_arabic, new.commentary);
+		END;
+
+		CREATE TRIGGER IF NOT EXISTS verses_fts_au AFTER UPDATE ON verses BEGIN
+			INSERT INTO verses_fts(verses_fts, rowid, text_swedish, text_arabic, commentary)
+			VALUES ('delete', old.id, old.text_swedish, old.text_arabic, old.commentary);
+			INSERT INTO verses_fts(rowid, text_swedish, text_arabic, commentary)
+			VALUES (new.id, new.text_swedish, new.text_arabic, new.commentary);
+		END;
 	`);
 
 	return db;
@@ -255,31 +282,60 @@ export function getQuranStats(): QuranStats {
 }
 
 /**
- * Searches verses by text (simple LIKE search)
+ * Builds an FTS5 query from user input with prefix matching.
+ */
+function buildQuranFts5Query(query: string): string {
+	const tokens = query
+		.split(/\s+/)
+		.filter((t) => t.length > 0);
+	if (tokens.length === 0) return "";
+	return tokens
+		.map((token) => `"${token.replace(/"/g, '""')}"*`)
+		.join(" ");
+}
+
+/**
+ * Searches verses using FTS5 with BM25 ranking.
+ * Searches Swedish text, Arabic text, and commentary.
  */
 export function searchVerses(query: string, limit = 20): StoredVerse[] {
 	const database = initQuranDatabase();
 
+	const ftsQuery = buildQuranFts5Query(query);
+	if (!ftsQuery) return [];
+
 	const stmt = database.prepare(`
 		SELECT
-			id, surah_number as surahNumber, surah_name_arabic as surahNameArabic,
-			surah_name_swedish as surahNameSwedish, verse_number as verseNumber,
-			text_swedish as textSwedish, text_arabic as textArabic,
-			commentary, translator, created_at as createdAt
-		FROM verses
-		WHERE text_swedish LIKE ? OR commentary LIKE ?
-		ORDER BY surah_number, verse_number
+			v.id, v.surah_number as surahNumber, v.surah_name_arabic as surahNameArabic,
+			v.surah_name_swedish as surahNameSwedish, v.verse_number as verseNumber,
+			v.text_swedish as textSwedish, v.text_arabic as textArabic,
+			v.commentary, v.translator, v.created_at as createdAt
+		FROM verses_fts fts
+		JOIN verses v ON v.id = fts.rowid
+		WHERE verses_fts MATCH ?
+		ORDER BY rank
 		LIMIT ?
 	`);
 
-	const pattern = `%${query}%`;
-	return stmt.all(pattern, pattern, limit) as StoredVerse[];
+	return stmt.all(ftsQuery, limit) as StoredVerse[];
+}
+
+/**
+ * Rebuilds the FTS5 index for Quran verses from existing data.
+ */
+export function rebuildQuranFts(): void {
+	const database = initQuranDatabase();
+	database.exec("INSERT INTO verses_fts(verses_fts) VALUES('rebuild')");
 }
 
 /**
  * Semantic search for verses using embeddings
  */
-export function searchVersesSemantic(queryEmbedding: Float32Array, limit = 10, minScore = 0.3): VerseWithScore[] {
+export function searchVersesSemantic(
+	queryEmbedding: Float32Array,
+	limit = 10,
+	minScore = 0.3,
+): VerseWithScore[] {
 	const database = initQuranDatabase();
 
 	// Convert Float32Array to Buffer for sqlite-vec
@@ -307,6 +363,49 @@ export function searchVersesSemantic(queryEmbedding: Float32Array, limit = 10, m
 			score: 1 - row.distance,
 		}))
 		.filter((row) => row.score >= minScore);
+}
+
+/**
+ * Strips invisible Unicode characters from all verse text and commentary in-place.
+ * Returns the number of verses that were modified.
+ */
+export function cleanVerseText(stripPattern: RegExp): number {
+	const database = initQuranDatabase();
+	const verses = database.prepare("SELECT id, text_swedish, commentary FROM verses").all() as {
+		id: number;
+		text_swedish: string;
+		commentary: string | null;
+	}[];
+
+	const update = database.prepare(
+		"UPDATE verses SET text_swedish = ?, commentary = ? WHERE id = ?",
+	);
+
+	let modified = 0;
+	for (const verse of verses) {
+		const cleanedText = verse.text_swedish.replace(stripPattern, "");
+		const cleanedCommentary = verse.commentary?.replace(stripPattern, "") ?? null;
+
+		if (cleanedText !== verse.text_swedish || cleanedCommentary !== verse.commentary) {
+			update.run(cleanedText, cleanedCommentary, verse.id);
+			modified++;
+		}
+	}
+
+	return modified;
+}
+
+/**
+ * Deletes all verse embeddings to allow re-generation on cleaned text.
+ * Returns the number of embeddings deleted.
+ */
+export function deleteAllVerseEmbeddings(): number {
+	const database = initQuranDatabase();
+	const count = (
+		database.prepare("SELECT COUNT(*) as count FROM verse_embeddings").get() as { count: number }
+	).count;
+	database.exec("DELETE FROM verse_embeddings");
+	return count;
 }
 
 /**

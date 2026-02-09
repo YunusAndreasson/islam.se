@@ -252,12 +252,12 @@ export function findQuotesByFilter(options: {
 		params.push(options.length);
 	}
 	if (options.keywords && options.keywords.length > 0) {
-		// Search for any of the keywords in the keywords JSON array
-		const keywordConditions = options.keywords.map(() => "keywords LIKE ?");
-		conditions.push(`(${keywordConditions.join(" OR ")})`);
-		for (const kw of options.keywords) {
-			params.push(`%${kw}%`);
-		}
+		// Use FTS5 column-scoped search for keywords
+		const ftsTerms = options.keywords
+			.map((kw) => `keywords : "${kw.replace(/"/g, '""')}"`)
+			.join(" OR ");
+		conditions.push("id IN (SELECT rowid FROM quotes_fts WHERE quotes_fts MATCH ?)");
+		params.push(ftsTerms);
 	}
 
 	const whereClause = conditions.join(" AND ");
@@ -294,8 +294,25 @@ export function findQuotesByFilter(options: {
 }
 
 /**
- * Text search across quote content - NO embedding API required.
- * Searches quote text, author, work title for matching terms.
+ * Builds an FTS5 query from user input.
+ * Each token gets a prefix wildcard (*) so partial words match
+ * (e.g. "tålam" matches "tålamod"). Prefix search implicitly covers exact matches.
+ */
+function buildFts5Query(query: string): string {
+	const tokens = query
+		.split(/\s+/)
+		.filter((t) => t.length > 0);
+	if (tokens.length === 0) return "";
+
+	// Use prefix matching for each token — "word"* matches "word" and "wording"
+	return tokens
+		.map((token) => `"${token.replace(/"/g, '""')}"*`)
+		.join(" ");
+}
+
+/**
+ * Text search across quote content using FTS5 - NO embedding API required.
+ * Searches quote text, author, work title, and keywords with BM25 ranking.
  */
 export function searchQuotesText(
 	query: string,
@@ -309,15 +326,14 @@ export function searchQuotesText(
 	const limit = options?.limit ?? 10;
 	const minStandalone = options?.minStandalone ?? 4;
 
-	const conditions: string[] = [
-		"standalone >= ?",
-		"(text LIKE ? OR author LIKE ? OR work_title LIKE ? OR keywords LIKE ?)",
-	];
-	const pattern = `%${query}%`;
-	const params: (string | number)[] = [minStandalone, pattern, pattern, pattern, pattern];
+	const ftsQuery = buildFts5Query(query);
+	if (!ftsQuery) return [];
+
+	const conditions: string[] = ["q.standalone >= ?"];
+	const params: (string | number)[] = [minStandalone, ftsQuery];
 
 	if (options?.language) {
-		conditions.push("language = ?");
+		conditions.push("q.language = ?");
 		params.push(options.language);
 	}
 
@@ -325,18 +341,29 @@ export function searchQuotesText(
 
 	const stmt = database.prepare(`
 		SELECT
-			id, text, author, work_title as workTitle, category, keywords,
-			tone, standalone, length, language, created_at as createdAt
-		FROM quotes
-		WHERE ${conditions.join(" AND ")}
-		ORDER BY standalone DESC
+			q.id, q.text, q.author, q.work_title as workTitle, q.category, q.keywords,
+			q.tone, q.standalone, q.length, q.language, q.created_at as createdAt,
+			rank
+		FROM quotes_fts fts
+		JOIN quotes q ON q.id = fts.rowid
+		WHERE quotes_fts MATCH ?
+			AND ${conditions[0]}
+			${options?.language ? "AND q.language = ?" : ""}
+		ORDER BY rank
 		LIMIT ?
 	`);
 
-	const rows = stmt.all(...params) as RawQuoteRow[];
+	const rows = stmt.all(...params) as (RawQuoteRow & { rank: number })[];
+
+	// Normalize BM25 rank to 0–1 score (rank is negative, lower = better match)
+	const minRank = rows.length > 0 ? Math.min(...rows.map((r) => r.rank)) : 0;
+	const maxRank = rows.length > 0 ? Math.max(...rows.map((r) => r.rank)) : 0;
+	const rankRange = maxRank - minRank || 1;
 
 	return rows.map((row) => {
 		const q = parseQuoteRow(row);
+		// Invert and normalize: best match (most negative rank) → score ~1.0
+		const score = 1 - (row.rank - minRank) / rankRange;
 		return {
 			id: q.id,
 			text: q.text,
@@ -348,7 +375,7 @@ export function searchQuotesText(
 			standalone: q.standalone ?? 3,
 			length: q.length ?? "medium",
 			language: q.language ?? "sv",
-			score: 1.0,
+			score,
 		};
 	});
 }
