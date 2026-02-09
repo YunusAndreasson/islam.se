@@ -3,16 +3,28 @@ import { join } from "node:path";
 import type { ClaudeRunOptions } from "./claude-runner.js";
 
 /**
- * Generate a URL-safe slug from text
+ * Generate a URL-safe slug from text.
+ * Handles Swedish characters and falls back to a hash for non-Latin text (e.g. Arabic).
  */
 export function slugify(text: string): string {
-	return text
+	let slug = text
 		.toLowerCase()
 		.replace(/[åä]/g, "a")
 		.replace(/[ö]/g, "o")
 		.replace(/[^a-z0-9]+/g, "-")
 		.replace(/^-|-$/g, "")
 		.slice(0, 50);
+
+	// Fallback for text with no Latin characters (e.g. Arabic topics)
+	if (!slug) {
+		let hash = 0;
+		for (let i = 0; i < text.length; i++) {
+			hash = ((hash << 5) - hash + text.charCodeAt(i)) | 0;
+		}
+		slug = `topic-${Math.abs(hash).toString(36)}`;
+	}
+
+	return slug;
 }
 
 /**

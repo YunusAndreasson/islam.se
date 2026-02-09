@@ -37,6 +37,8 @@ export interface ClaudeRunOptions {
 	mcpConfig?: string;
 	/** Skip all permission checks for trusted pipeline runs (uses --dangerously-skip-permissions flag) */
 	skipPermissions?: boolean;
+	/** Timeout in milliseconds for the subprocess (default: 600000 = 10 min) */
+	timeout?: number;
 }
 
 export interface ClaudeRunResult {
@@ -48,10 +50,24 @@ export interface ClaudeRunResult {
 
 export class ClaudeRunner extends EventEmitter {
 	/**
-	 * Execute a headless Claude session
+	 * Execute a headless Claude session.
+	 * Sends prompt and system prompt via stdin to avoid CLI argument size/encoding
+	 * issues with non-ASCII text (Arabic quotes cause silent exit code 1 as args).
 	 */
 	public async run(options: ClaudeRunOptions): Promise<ClaudeRunResult> {
-		const args = this.buildArgs(options);
+		let args: string[];
+		let stdinContent: string;
+		try {
+			args = this.buildArgs(options);
+			stdinContent = this.buildStdinContent(options);
+		} catch (err) {
+			return {
+				success: false,
+				error: `Setup failed: ${err instanceof Error ? err.message : String(err)}`,
+			};
+		}
+
+		const timeoutMs = options.timeout ?? 900000; // 15 min default
 
 		return new Promise((resolve) => {
 			const env = options.effort
@@ -59,12 +75,23 @@ export class ClaudeRunner extends EventEmitter {
 				: process.env;
 
 			const child = spawn("claude", args, {
-				stdio: ["ignore", "pipe", "pipe"],
+				stdio: ["pipe", "pipe", "pipe"],
 				env,
 			});
 
 			let stdout = "";
 			let stderr = "";
+			let timedOut = false;
+
+			// Write prompt via stdin (handles Arabic/non-ASCII safely)
+			child.stdin.write(stdinContent);
+			child.stdin.end();
+
+			// Subprocess timeout
+			const timer = setTimeout(() => {
+				timedOut = true;
+				child.kill("SIGTERM");
+			}, timeoutMs);
 
 			child.stdout?.on("data", (data) => {
 				stdout += data.toString();
@@ -75,6 +102,7 @@ export class ClaudeRunner extends EventEmitter {
 			});
 
 			child.on("close", (code) => {
+				clearTimeout(timer);
 				if (code === 0) {
 					resolve({
 						success: true,
@@ -82,15 +110,19 @@ export class ClaudeRunner extends EventEmitter {
 						exitCode: code ?? undefined,
 					});
 				} else {
+					const error = timedOut
+						? `Subprocess timed out after ${timeoutMs / 1000}s`
+						: stderr || `Process exited with code ${code}`;
 					resolve({
 						success: false,
-						error: stderr || `Process exited with code ${code}`,
+						error,
 						exitCode: code ?? undefined,
 					});
 				}
 			});
 
 			child.on("error", (err) => {
+				clearTimeout(timer);
 				resolve({
 					success: false,
 					error: err.message,
@@ -106,7 +138,19 @@ export class ClaudeRunner extends EventEmitter {
 		options: ClaudeRunOptions,
 		onChunk?: (chunk: ClaudeStreamChunk) => void,
 	): Promise<ClaudeRunResult> {
-		const args = this.buildStreamingArgs(options);
+		let args: string[];
+		let stdinContent: string;
+		try {
+			args = this.buildStreamingArgs(options);
+			stdinContent = this.buildStdinContent(options);
+		} catch (err) {
+			return {
+				success: false,
+				error: `Setup failed: ${err instanceof Error ? err.message : String(err)}`,
+			};
+		}
+
+		const timeoutMs = options.timeout ?? 900000; // 15 min default
 
 		return new Promise((resolve) => {
 			const env = options.effort
@@ -114,9 +158,21 @@ export class ClaudeRunner extends EventEmitter {
 				: process.env;
 
 			const child = spawn("claude", args, {
-				stdio: ["ignore", "pipe", "pipe"],
+				stdio: ["pipe", "pipe", "pipe"],
 				env,
 			});
+
+			let timedOut = false;
+
+			// Write prompt via stdin
+			child.stdin.write(stdinContent);
+			child.stdin.end();
+
+			// Subprocess timeout
+			const timer = setTimeout(() => {
+				timedOut = true;
+				child.kill("SIGTERM");
+			}, timeoutMs);
 
 			let fullOutput = "";
 			let stderr = "";
@@ -171,6 +227,7 @@ export class ClaudeRunner extends EventEmitter {
 			});
 
 			child.on("close", (code) => {
+				clearTimeout(timer);
 				// Process any remaining buffer
 				if (lineBuffer.trim()) {
 					try {
@@ -190,16 +247,19 @@ export class ClaudeRunner extends EventEmitter {
 					}
 				}
 
-				if (code === 0 && !stderr) {
+				if (code === 0) {
 					resolve({
 						success: true,
 						output: fullOutput.trim(),
 						exitCode: code ?? undefined,
 					});
 				} else {
+					const error = timedOut
+						? `Subprocess timed out after ${timeoutMs / 1000}s`
+						: stderr || `Process exited with code ${code}`;
 					resolve({
 						success: false,
-						error: stderr || `Process exited with code ${code}`,
+						error,
 						output: fullOutput.trim(), // Include output even on failure for debugging
 						exitCode: code ?? undefined,
 					});
@@ -207,6 +267,7 @@ export class ClaudeRunner extends EventEmitter {
 			});
 
 			child.on("error", (err) => {
+				clearTimeout(timer);
 				resolve({
 					success: false,
 					error: err.message,
@@ -362,7 +423,9 @@ export class ClaudeRunner extends EventEmitter {
 	}
 
 	/**
-	 * Build command-line arguments for claude CLI
+	 * Build command-line arguments for claude CLI.
+	 * System prompt and prompt content are sent via stdin (see buildStdinContent)
+	 * to avoid argument size/encoding issues with non-ASCII text.
 	 */
 	private buildArgs(options: ClaudeRunOptions): string[] {
 		const args: string[] = [];
@@ -378,10 +441,9 @@ export class ClaudeRunner extends EventEmitter {
 			args.push("--mcp-config", options.mcpConfig);
 		}
 
-		// System prompt
-		if (options.systemPrompt) {
-			args.push("--append-system-prompt", options.systemPrompt);
-		}
+		// System prompt and prompt content sent via stdin — not as CLI args.
+		// Arabic text in CLI args causes silent exit code 1 on some systems,
+		// and large research JSON can exceed MAX_ARG_STRLEN (128KB).
 
 		// Allowed tools
 		if (options.allowedTools && options.allowedTools.length > 0) {
@@ -427,19 +489,28 @@ export class ClaudeRunner extends EventEmitter {
 			args.push("--dangerously-skip-permissions");
 		}
 
-		// Prompt is the last positional argument
-		// If it's a file path, read its content
+		return args;
+	}
+
+	/**
+	 * Build stdin content combining system prompt and prompt.
+	 * Throws on missing prompt files (instead of silently falling back to the path string).
+	 */
+	private buildStdinContent(options: ClaudeRunOptions): string {
+		const parts: string[] = [];
+
+		if (options.systemPrompt) {
+			parts.push(options.systemPrompt);
+		}
+
 		let promptContent = options.prompt;
 		if (options.prompt.endsWith(".md") || options.prompt.endsWith(".txt")) {
-			try {
-				promptContent = readFileSync(options.prompt, "utf-8");
-			} catch {
-				// Silently fall back to using prompt as content
-			}
+			// Let readFileSync throw on missing files — caller gets a clear error
+			promptContent = readFileSync(options.prompt, "utf-8");
 		}
-		args.push(promptContent);
+		parts.push(promptContent);
 
-		return args;
+		return parts.join("\n\n");
 	}
 
 	/**

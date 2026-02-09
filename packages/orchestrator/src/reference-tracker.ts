@@ -28,6 +28,9 @@ const SWEDISH_MONTHS = [
 
 function formatSwedishDate(dateStr: string): string {
 	const date = new Date(dateStr);
+	if (Number.isNaN(date.getTime())) {
+		return dateStr; // Return raw string for invalid dates
+	}
 	const day = date.getDate();
 	const month = SWEDISH_MONTHS[date.getMonth()];
 	const year = date.getFullYear();
@@ -133,5 +136,4 @@ export class ReferenceTracker {
 
 		return sorted.map(formatCitation).join("\n\n");
 	}
-
 }

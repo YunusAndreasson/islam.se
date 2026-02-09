@@ -194,7 +194,7 @@ export class ContentOrchestrator {
 		this.options = {
 			outputDir: options.outputDir,
 			model: options.model ?? "opus",
-			qualityThreshold: options.qualityThreshold ?? 7.5,
+			qualityThreshold: options.qualityThreshold ?? 7,
 			maxRevisions: options.maxRevisions ?? 2,
 			quiet: options.quiet ?? false,
 			onPreview: options.onPreview,
@@ -292,9 +292,16 @@ export class ContentOrchestrator {
 				};
 			}
 
-			// Only retry on validation failures (transient issues)
-			const isValidationError = result.error?.includes("Validation failed");
-			if (isValidationError && attempt < maxRetries) {
+			// Retry on validation failures and transient errors
+			const isRetryable =
+				result.error?.includes("Validation failed") ||
+				result.error?.includes("rate limit") ||
+				result.error?.includes("429") ||
+				result.error?.includes("503") ||
+				result.error?.includes("overloaded") ||
+				result.error?.includes("timed out") ||
+				result.error?.includes("ECONNRESET");
+			if (isRetryable && attempt < maxRetries) {
 				const delay = 2000 * attempt; // exponential backoff: 2s, 4s
 				this.logger.log(
 					`   ⚠️  Validation failed, retry ${attempt}/${maxRetries - 1} in ${delay / 1000}s...`,
@@ -517,7 +524,7 @@ Score fairly based on what you can actually verify:
 - Claims from web sources you can fetch and confirm are verified
 - Claims you cannot independently verify are NOT automatically unverified — they may simply be common scholarly knowledge
 - Only mark claims "unverified" if you find contradicting evidence or the claim is extraordinary and unsourced
-- The threshold to pass is 7.0 — award that score if the research has no fabrications and reasonable sourcing
+- The threshold to pass is 7 — award that score if the research has no fabrications and reasonable sourcing
 - When using WebFetch, skip URLs ending in .pdf — the tool cannot read PDFs
 </review_guidance>`;
 
@@ -775,7 +782,7 @@ If the draft has anglicisms, fix them in revisedText.
 </language_quality>`;
 
 		const result = await this.executeClaudeStage<ReviewOutput>({
-			name: "Stage 4: Polish",
+			name: "Stage 4: Review",
 			stage: "review",
 			emoji: "👁️ ",
 			promptFile: "reviewer.md",
@@ -813,8 +820,7 @@ If the draft has anglicisms, fix them in revisedText.
 			allowedTools: ["think"],
 			schema: PolishOutputSchema,
 			jsonSchema: getPolishJsonSchema(),
-			effort: "high",
-			maxTurns: 3,
+			effort: "max",
 		});
 
 		return result;
@@ -1092,8 +1098,9 @@ If the draft has anglicisms, fix them in revisedText.
 		} else {
 			this.options.onStageChange?.({
 				stage: "polish",
-				status: "complete",
+				status: "failed",
 				duration: polishResult.duration,
+				error: polishResult.error,
 				summary: "skipped (non-fatal)",
 			});
 		}
@@ -1107,11 +1114,12 @@ If the draft has anglicisms, fix them in revisedText.
 		}
 
 		// Save metadata with stage timings
+		const finalWordCount = finalText.split(/\s+/).filter((w) => w.length > 0).length;
 		saveOutput(outputDir, "metadata.json", {
 			topic,
 			producedAt: new Date().toISOString(),
 			qualityScore: reviewData.finalScore,
-			wordCount: currentDraft.wordCount,
+			wordCount: finalWordCount,
 			revisionCount,
 			stageDurations: {
 				research: researchResult.duration,
