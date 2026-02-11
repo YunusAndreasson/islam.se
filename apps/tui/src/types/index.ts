@@ -68,7 +68,14 @@ export interface PreviewSnippet {
 export interface PipelineStatus {
 	topic: string;
 	ideaTitle: string;
-	currentStage: "research" | "factCheck" | "authoring" | "review" | "polish" | "complete" | "failed";
+	currentStage:
+		| "research"
+		| "factCheck"
+		| "authoring"
+		| "review"
+		| "polish"
+		| "complete"
+		| "failed";
 	stages: {
 		research: StageInfo;
 		factCheck: StageInfo;

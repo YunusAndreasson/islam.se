@@ -31,8 +31,12 @@ export function registerSummarizeBooksCommand(program: Command): void {
 						process.exit(1);
 					}
 				} else if (options.all) {
-					const maxChapters = options.maxChapters ? Number.parseInt(options.maxChapters, 10) : undefined;
-					console.log(`\n📚 Summarizing all unsummarized books...${maxChapters ? ` (max ${maxChapters} chapters)` : ""}\n`);
+					const maxChapters = options.maxChapters
+						? Number.parseInt(options.maxChapters, 10)
+						: undefined;
+					console.log(
+						`\n📚 Summarizing all unsummarized books...${maxChapters ? ` (max ${maxChapters} chapters)` : ""}\n`,
+					);
 					const result = await summarizeAllUnsummarized({
 						onProgress: (msg) => console.log(msg),
 						maxChapters,

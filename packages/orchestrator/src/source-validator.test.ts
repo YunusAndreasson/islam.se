@@ -160,11 +160,11 @@ describe("SourceValidator", () => {
 			const { validations, stats } = validator.validateSources(urls);
 
 			expect(validations).toHaveLength(4);
-			expect(stats.total).toBe(4);
-			expect(stats.high).toBe(2); // lu.se, wikipedia.org
-			expect(stats.medium).toBe(1); // aftonbladet.se
-			expect(stats.rejected).toBe(0);
-			expect(stats.low).toBe(1); // random-site.com
+			expect(stats.total, "Total should count all input URLs").toBe(4);
+			expect(stats.high, "lu.se + wikipedia.org should be high credibility").toBe(2);
+			expect(stats.medium, "aftonbladet.se should be medium credibility").toBe(1);
+			expect(stats.rejected, "No URLs should be rejected").toBe(0);
+			expect(stats.low, "random-site.com should be low credibility").toBe(1);
 		});
 
 		it("returns empty stats for empty input", () => {
@@ -300,10 +300,12 @@ describe("SourceValidator", () => {
 				]);
 
 				expect(results).toHaveLength(3);
-				expect(stats.total).toBe(3);
-				expect(stats.verified).toBe(2);
-				expect(stats.failed).toBe(1);
-				expect(stats.failedUrls).toContain("https://invalid.com");
+				expect(stats.total, "Total should count all URLs verified").toBe(3);
+				expect(stats.verified, "Two URLs returned 200, should be verified").toBe(2);
+				expect(stats.failed, "One URL returned 404, should be failed").toBe(1);
+				expect(stats.failedUrls, "Failed URL list should include the 404 URL").toContain(
+					"https://invalid.com",
+				);
 			} finally {
 				globalThis.fetch = originalFetch;
 			}

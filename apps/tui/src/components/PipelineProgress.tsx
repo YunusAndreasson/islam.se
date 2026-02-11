@@ -158,7 +158,9 @@ export function PipelineProgress({ status }: PipelineProgressProps): React.React
 					💭 Live Output
 				</Text>
 				{status.previews.length === 0 && (
-					<Text dimColor italic>Waiting for output...</Text>
+					<Text dimColor italic>
+						Waiting for output...
+					</Text>
 				)}
 				{status.previews.slice(-6).map((preview) => {
 					const icon = preview.type === "tool_result" ? "📜" : "✍️";

@@ -21,7 +21,11 @@ export interface PreviewEvent {
 export class TuiPipelineRunner extends EventEmitter {
 	private lastPreviewTime: number = 0;
 
-	async produce(idea: EnrichedIdea, topicSlug?: string): Promise<void> {
+	async produce(
+		idea: EnrichedIdea,
+		topicSlug?: string,
+		options?: { resume?: boolean },
+	): Promise<void> {
 		// Build IdeaBrief from enriched idea
 		const ideaBrief: IdeaBrief = {
 			title: idea.title,
@@ -67,6 +71,7 @@ export class TuiPipelineRunner extends EventEmitter {
 			`${idea.title}: ${idea.thesis}`,
 			ideaContext,
 			ideaBrief,
+			{ resume: options?.resume },
 		);
 
 		if (result.success) {

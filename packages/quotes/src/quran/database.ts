@@ -109,6 +109,11 @@ export function initQuranDatabase(): Database.Database {
 			INSERT INTO verses_fts(rowid, text_swedish, text_arabic, commentary)
 			VALUES (new.id, new.text_swedish, new.text_arabic, new.commentary);
 		END;
+
+		CREATE TRIGGER IF NOT EXISTS verses_fts_ad AFTER DELETE ON verses BEGIN
+			INSERT INTO verses_fts(verses_fts, rowid, text_swedish, text_arabic, commentary)
+			VALUES ('delete', old.id, old.text_swedish, old.text_arabic, old.commentary);
+		END;
 	`);
 
 	return db;
@@ -285,12 +290,15 @@ export function getQuranStats(): QuranStats {
  * Builds an FTS5 query from user input with prefix matching.
  */
 function buildQuranFts5Query(query: string): string {
-	const tokens = query
-		.split(/\s+/)
-		.filter((t) => t.length > 0);
+	const tokens = query.split(/\s+/).filter((t) => t.length > 0);
 	if (tokens.length === 0) return "";
 	return tokens
-		.map((token) => `"${token.replace(/"/g, '""')}"*`)
+		.map((token) => {
+			const cleaned = token.replace(/["""(){}[\]:^~+\-!]/g, "").trim();
+			if (!cleaned) return null;
+			return `"${cleaned}"*`;
+		})
+		.filter(Boolean)
 		.join(" ");
 }
 

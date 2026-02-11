@@ -1,6 +1,5 @@
 import { Box, Text, useStdout } from "ink";
-import React from "react";
-import { useMemo, useState } from "react";
+import React, { useMemo, useState } from "react";
 import { ConfirmDialog } from "../components/ConfirmDialog.js";
 import { QuoteBlock } from "../components/QuoteBlock.js";
 import { ScreenLayout } from "../components/ScreenLayout.js";
@@ -45,7 +44,10 @@ function IdeaRow({
 		<Box>
 			<Text color={selected ? "#06b6d4" : undefined}>{selectMarker}</Text>
 			<Text color={!focused && isDone ? "green" : undefined}>{prefix}</Text>
-			<Text color={focused ? "#000" : scoreColor(idea.score)} backgroundColor={focused ? "#06b6d4" : undefined}>
+			<Text
+				color={focused ? "#000" : scoreColor(idea.score)}
+				backgroundColor={focused ? "#06b6d4" : undefined}
+			>
 				{" "}
 				{String(idea.score).padStart(2)}
 			</Text>
@@ -88,22 +90,30 @@ const IdeaPreview = React.memo(
 
 				<Box flexDirection="column" marginBottom={1}>
 					<Text bold>Title</Text>
-					<Text dimColor wrap="wrap">{idea.title}</Text>
+					<Text dimColor wrap="wrap">
+						{idea.title}
+					</Text>
 				</Box>
 
 				<Box flexDirection="column" marginBottom={1}>
 					<Text bold>Thesis</Text>
-					<Text dimColor wrap="wrap">{idea.thesis}</Text>
+					<Text dimColor wrap="wrap">
+						{idea.thesis}
+					</Text>
 				</Box>
 
 				<Box flexDirection="column" marginBottom={1}>
 					<Text bold>Angle</Text>
-					<Text dimColor wrap="wrap">{idea.angle}</Text>
+					<Text dimColor wrap="wrap">
+						{idea.angle}
+					</Text>
 				</Box>
 
 				<Box flexDirection="column" marginBottom={1}>
 					<Text bold>Keywords</Text>
-					<Text color="yellow" wrap="wrap">{idea.keywords.join(", ")}</Text>
+					<Text color="yellow" wrap="wrap">
+						{idea.keywords.join(", ")}
+					</Text>
 				</Box>
 
 				{idea.quotes && idea.quotes.length > 0 && (
@@ -111,12 +121,15 @@ const IdeaPreview = React.memo(
 						<Text bold>Quotes ({idea.quotes.length})</Text>
 						{idea.quotes.slice(0, 2).map((quote) => (
 							<Box key={quote.id} marginTop={1}>
-								<QuoteBlock text={quote.text} author={quote.author} source={quote.source} maxLength={120} />
+								<QuoteBlock
+									text={quote.text}
+									author={quote.author}
+									source={quote.source}
+									maxLength={120}
+								/>
 							</Box>
 						))}
-						{idea.quotes.length > 2 && (
-							<Text dimColor>... and {idea.quotes.length - 2} more</Text>
-						)}
+						{idea.quotes.length > 2 && <Text dimColor>... and {idea.quotes.length - 2} more</Text>}
 					</Box>
 				)}
 			</Box>
@@ -180,16 +193,19 @@ export function IdeaListScreen({
 	};
 
 	const shortcuts = pendingDelete
-		? [{ key: "Y", label: "Confirm" }, { key: "N", label: "Cancel" }]
+		? [
+				{ key: "Y", label: "Confirm" },
+				{ key: "N", label: "Cancel" },
+			]
 		: [
-			{ key: "j/k", label: "Navigate" },
-			{ key: "Space", label: "Queue" },
-			{ key: "b", label: batchQueue.length > 0 ? `Batch ${batchQueue.length}` : "Batch" },
-			{ key: "Enter", label: "Details" },
-			{ key: "p", label: "Produce" },
-			{ key: "d", label: "Delete" },
-			{ key: "q", label: "Back" },
-		];
+				{ key: "j/k", label: "Navigate" },
+				{ key: "Space", label: "Queue" },
+				{ key: "b", label: batchQueue.length > 0 ? `Batch ${batchQueue.length}` : "Batch" },
+				{ key: "Enter", label: "Details" },
+				{ key: "p", label: "Produce" },
+				{ key: "d", label: "Delete" },
+				{ key: "q", label: "Back" },
+			];
 
 	return (
 		<ScreenLayout shortcuts={shortcuts} breadcrumb={`Ideas > ${topicName}`} fullWidth>

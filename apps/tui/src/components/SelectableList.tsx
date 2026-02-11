@@ -107,9 +107,7 @@ export function SelectableList<T>({
 
 	return (
 		<Box flexDirection="column">
-			<Text color="gray">
-				{showTopIndicator ? `  ↑ ${startIndex} more` : " "}
-			</Text>
+			<Text color="gray">{showTopIndicator ? `  ↑ ${startIndex} more` : " "}</Text>
 			{visibleItems.map((item, i) => {
 				const actualIndex = startIndex + i;
 				return (
@@ -118,9 +116,7 @@ export function SelectableList<T>({
 					</Box>
 				);
 			})}
-			<Text color="gray">
-				{showBottomIndicator ? `  ↓ ${items.length - endIndex} more` : " "}
-			</Text>
+			<Text color="gray">{showBottomIndicator ? `  ↓ ${items.length - endIndex} more` : " "}</Text>
 		</Box>
 	);
 }

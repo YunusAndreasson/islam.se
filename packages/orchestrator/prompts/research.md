@@ -14,14 +14,14 @@ A successful research output has:
 - 15-25 quotes from diverse sources (Arabic scholars, Swedish authors, Norse texts)
 - 3-5 relevant Quran verses with Swedish translation
 - 2-4 book passages providing extended context (longer than quotes)
-- At least 2-3 credible web sources with verifiable URLs
+- At least 4-6 credible web sources with verifiable URLs (academic, Swedish media, Wikipedia, institutional)
 - Material that supports a cohesive narrative thread
 </success_criteria>
 
 <tools_available>
 You have MCP tools for searching quotes, books, Quran, and the web:
 
-**Quote database tools (~30k quotes):**
+**Quote database tools (~59k quotes: 32k Swedish, 20k Arabic, 7k English/Norse):**
 - `get_inventory` - See available categories, authors, language distribution
 - `search_quotes` - Semantic search by meaning (best for themes)
 - `search_by_filter` - Filter by author, category, or language
@@ -41,7 +41,9 @@ You have MCP tools for searching quotes, books, Quran, and the web:
 - `WebSearch` - Search the web for contemporary sources and verification
 - `fetch_wikipedia` - Fetch Wikipedia article content (bypasses bot blocking). Use for background context on historical figures, concepts, etc.
 
-Use tools in whatever order makes sense for your research approach. Make independent tool calls in parallel when possible for efficiency.
+Use tools in whatever order makes sense for your research approach. You can run multiple MCP searches in parallel (e.g., several `search_quotes` calls).
+
+**CRITICAL — never mix web and MCP tools in the same parallel batch.** WebSearch and WebFetch can timeout, and when ANY tool in a parallel batch fails, ALL sibling calls in that batch are killed — including MCP searches that would have succeeded. Always do web calls in a SEPARATE batch from MCP calls. Sequence: first do your MCP searches (quotes, books, Quran), then do web searches separately.
 
 REQUIRED: You MUST use all three primary source tools:
 1. `search_quotes` or `bulk_search` - for concise scholarly quotes
@@ -49,6 +51,11 @@ REQUIRED: You MUST use all three primary source tools:
 3. `search_quran` - for Quranic references
 
 These provide the authoritative primary source material that distinguishes islam.se articles.
+
+**CRITICAL — always filter by language:** Semantic search is biased toward the query language. An English query without a language filter will mostly return English/Norse quotes, missing the 34k Swedish and 20k Arabic quotes. Always search each language separately:
+- Use `bulk_search` with language-specific queries, OR
+- Call `search_quotes` multiple times with `language: "sv"`, `language: "ar"`, etc.
+- Category names are in English for all languages (e.g., "patience", "faith", "character")
 </tools_available>
 
 <research_approach>
@@ -60,7 +67,7 @@ Develop your own research strategy based on the topic. Consider:
 
 As you gather material, evaluate what you're finding and adjust your approach. If initial searches yield few results, try different terms or angles.
 
-**Translation priority:** The final article is in Swedish. When you find key quotes in English, Arabic, or other languages, note them — but also search for Swedish translations when possible. The author will translate remaining foreign quotes, but providing Swedish versions saves effort and improves accuracy.
+**Translation requirement:** The final article is written entirely in Swedish. EVERY quote you include MUST have a Swedish translation in the `textSv` field. If the quote database returns a quote in Arabic or English, translate it to Swedish yourself. The author stage should NOT need to translate quotes — it should focus entirely on prose craft. Untranslated quotes waste the most expensive pipeline stage.
 </research_approach>
 
 <source_quality>
@@ -83,7 +90,7 @@ Important: Only include URLs that come from your WebSearch results. This ensures
     { "surah": "Name", "ayah": "Number", "text": "Swedish translation" }
   ],
   "quotes": [
-    { "id": "quote-id", "text": "Quote text", "author": "Author", "source": "Work title" }
+    { "id": "quote-id", "text": "Original text", "textSv": "Swedish translation (required)", "author": "Author", "source": "Work title" }
   ],
   "bookPassages": [
     { "id": "passage-id", "text": "Passage", "bookTitle": "Title", "author": "Author" }

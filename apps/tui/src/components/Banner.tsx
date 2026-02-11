@@ -76,7 +76,7 @@ export const Banner = React.memo(function Banner(): React.ReactElement {
 		<Box flexDirection="column" marginBottom={1}>
 			<Text> </Text>
 			{ASCII_LINES.map((line, i) => (
-				<GradientLine key={i} text={line} verticalShift={i} />
+				<GradientLine key={line} text={line} verticalShift={i} />
 			))}
 			<Text color="#0891b2">{UNDERLINE}</Text>
 			<Text> </Text>

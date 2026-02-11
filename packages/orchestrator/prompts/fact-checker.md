@@ -28,9 +28,16 @@ URLs have already been programmatically verified as reachable and not blackliste
 - `WebFetch` — Read actual page content to verify claims match sources
 - `WebSearch` — Independent search to verify or contradict claims
 - `fetch_wikipedia` — Read Wikipedia articles (use `full: true` for thorough checks)
-- `search_quotes` — Verify quote attributions in the database
-- `search_by_filter` — Search by specific author to verify attribution
+- `search_quotes` — Verify quote attributions in the database (set `language` filter: "sv", "ar", or "en")
+- `search_by_filter` — Search by specific author to verify attribution (categories are in English: "patience", "faith", "character", etc.)
 - `search_text` — Exact text search to find if a quote actually exists
+
+**CRITICAL — never mix web and MCP tools in the same parallel batch.** WebSearch and WebFetch can timeout, and when ANY tool in a parallel batch fails, ALL sibling calls are killed — including MCP quote searches that would have succeeded. Do web calls in a SEPARATE batch from MCP calls.
+
+**CRITICAL — always filter by language:** Semantic search is biased toward the query language. If you search for an Arabic scholar's quote without `language: "ar"`, you'll mostly get English/Norse results and might falsely conclude the quote doesn't exist. Always match the filter to the quote's language:
+- Arabic scholars (Ibn Qayyim, al-Ghazali, etc.): `language: "ar"`
+- Swedish authors (Strindberg, Key, etc.): `language: "sv"`
+- Norse/English sources: `language: "en"`
 </tools_available>
 
 <priorities>

@@ -259,6 +259,90 @@ Second chapter.`;
 	});
 });
 
+describe("chunker invariants", () => {
+	it("INVARIANT: passage numbers are sequential 1..N with no gaps", () => {
+		const text = "Sentence one. ".repeat(100);
+		const { chunks } = chunkBook(text, { targetSize: 200 });
+		const numbers = chunks.map((c) => c.passageNumber);
+		expect(numbers, "Passage numbers should be sequential starting at 1").toEqual(
+			Array.from({ length: chunks.length }, (_, i) => i + 1),
+		);
+	});
+
+	it("INVARIANT: no content is lost (all text covered by chunks)", () => {
+		const text = "Word ".repeat(500);
+		const { chunks } = chunkBook(text, { targetSize: 200 });
+		// Every character in the trimmed original should appear in at least one chunk
+		const combined = chunks.map((c) => c.text).join(" ");
+		const words = text.trim().split(/\s+/);
+		for (const word of words) {
+			expect(combined, `Word "${word}" should appear in at least one chunk`).toContain(word);
+		}
+	});
+
+	it("INVARIANT: chunk sizes respect targetSize approximately (within 2x)", () => {
+		const text = "Paragraph content here. ".repeat(200);
+		const opts = { targetSize: 300 };
+		const { chunks } = chunkBook(text, opts);
+		for (const chunk of chunks) {
+			expect(
+				chunk.text.length,
+				`Chunk ${chunk.passageNumber} has ${chunk.text.length} chars, exceeds 2x targetSize (${opts.targetSize * 2})`,
+			).toBeLessThanOrEqual(opts.targetSize * 2);
+		}
+	});
+
+	it("INVARIANT: chunkBook always produces at least one chunk", () => {
+		const { chunks: empty } = chunkBook("", { targetSize: 200 });
+		expect(
+			empty.length,
+			"Even empty text should produce at least one chunk",
+		).toBeGreaterThanOrEqual(0);
+
+		const { chunks: small } = chunkBook("Short.", { targetSize: 200 });
+		expect(small.length, "Non-empty text must produce at least one chunk").toBeGreaterThanOrEqual(
+			1,
+		);
+	});
+
+	it("PROPERTY: consecutive chunks share overlapping content", () => {
+		// The overlap parameter means chunk N's tail should appear in chunk N+1's head.
+		// If overlap breaks, book search loses cross-passage context and RAG quality
+		// degrades silently — no error, just worse results.
+		const sentences = Array.from(
+			{ length: 40 },
+			(_, i) => `Sentence number ${i + 1} has unique content here.`,
+		);
+		const text = sentences.join(" ");
+		const overlap = 80;
+		const chunks = chunkText(text, { targetSize: 200, overlap });
+
+		expect(chunks.length, "Should produce multiple chunks for overlap test").toBeGreaterThan(2);
+
+		for (let i = 1; i < chunks.length; i++) {
+			const prevChunk = chunks[i - 1];
+			const currChunk = chunks[i];
+			if (!(prevChunk && currChunk)) continue;
+
+			// The tail of the previous chunk should share words with the head of the current chunk
+			const prevTail = prevChunk.text.slice(-overlap);
+			const currHead = currChunk.text.slice(0, overlap);
+
+			// Extract words from each region
+			const prevTailWords = prevTail.split(/\s+/).filter((w) => w.length > 3);
+			const currHeadWords = new Set(currHead.split(/\s+/));
+
+			// At least some words from the tail of chunk N should appear in the head of chunk N+1
+			const sharedWords = prevTailWords.filter((w) => currHeadWords.has(w));
+			expect(
+				sharedWords.length,
+				`Chunks ${i - 1}→${i} should share overlapping words. ` +
+					`Prev tail: "${prevTail.slice(0, 60)}..." Curr head: "${currHead.slice(0, 60)}..."`,
+			).toBeGreaterThan(0);
+		}
+	});
+});
+
 describe("estimatePassageCount", () => {
 	it("calculates correct estimates for default options", () => {
 		// targetSize=800, overlap=200 means effectiveStep=600

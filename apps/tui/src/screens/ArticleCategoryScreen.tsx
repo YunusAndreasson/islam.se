@@ -31,7 +31,10 @@ function CategoryRow({
 			>
 				{focused ? "❯" : " "} {icon} {fixedWidth(category.displayName, 40)}
 			</Text>
-			<Text dimColor> {countLabel} {category.count === 1 ? "article " : "articles"}</Text>
+			<Text dimColor>
+				{" "}
+				{countLabel} {category.count === 1 ? "article " : "articles"}
+			</Text>
 		</Box>
 	);
 }

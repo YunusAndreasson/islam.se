@@ -126,11 +126,7 @@ export function BatchPipelineScreen({
 
 	return (
 		<ScreenLayout
-			shortcuts={
-				completed
-					? [{ key: "q", label: "Back" }]
-					: []
-			}
+			shortcuts={completed ? [{ key: "q", label: "Back" }] : []}
 			breadcrumb="Batch Production"
 		>
 			{/* Header */}
@@ -175,7 +171,9 @@ export function BatchPipelineScreen({
 								<Text dimColor> {fixedWidth(item.topicName, 20)}</Text>
 								{result.success ? (
 									<Text dimColor>
-										{" "}{String(result.wordCount ?? 0).padStart(5)}w {(result.qualityScore ?? 0).toFixed(1)}/10 ({formatDuration(result.duration)})
+										{" "}
+										{String(result.wordCount ?? 0).padStart(5)}w{" "}
+										{(result.qualityScore ?? 0).toFixed(1)}/10 ({formatDuration(result.duration)})
 									</Text>
 								) : (
 									<Text color="red"> {truncate(result.error ?? "Failed", 30)}</Text>
@@ -205,9 +203,7 @@ export function BatchPipelineScreen({
 						<Box key={`${item.topicSlug}:${item.idea.id}`}>
 							<Text color="gray">○</Text>
 							<Text dimColor> {String(i + 1).padStart(2)}. </Text>
-							<Text color="gray">
-								{fixedWidth(item.idea.title, 55)}
-							</Text>
+							<Text color="gray">{fixedWidth(item.idea.title, 55)}</Text>
 							<Text dimColor> {fixedWidth(item.topicName, 20)}</Text>
 						</Box>
 					);

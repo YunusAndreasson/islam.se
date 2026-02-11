@@ -106,6 +106,7 @@ export {
 	type Inventory,
 	type SearchOptions,
 	searchQuotes,
+	searchQuotesHybrid,
 	searchQuotesText,
 } from "./search.js";
 
@@ -156,7 +157,6 @@ export {
 	importBooksFromFile,
 	initBookDatabase,
 	insertBook,
-	rebuildBooksFts,
 	insertChapter,
 	insertPassage,
 	insertPassageEmbedding,
@@ -165,6 +165,7 @@ export {
 	type PassageSearchOptions,
 	type PassageWithContext,
 	type PassageWithScore,
+	rebuildBooksFts,
 	rollbackBookTransaction,
 	runInBookTransaction,
 	searchBooks,

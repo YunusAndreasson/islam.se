@@ -1,3 +1,4 @@
+import type Database from "better-sqlite3";
 import { initDatabase, parseQuoteRow, type QuoteWithScore, type RawQuoteRow } from "./database.js";
 import { generateEmbedding, generateLocalEmbedding } from "./embeddings/index.js";
 
@@ -18,8 +19,8 @@ export interface Inventory {
  * Returns an inventory of the quote database.
  * Helps LLMs understand the "palette" before searching.
  */
-export function getInventory(): Inventory {
-	const database = initDatabase();
+export function getInventory(db?: Database.Database): Inventory {
+	const database = db ?? initDatabase();
 
 	// Total quotes
 	const total = (
@@ -171,8 +172,8 @@ export async function searchQuotes(
 /**
  * Gets all available categories with counts
  */
-export function getCategories(): { category: string; count: number }[] {
-	const database = initDatabase();
+export function getCategories(db?: Database.Database): { category: string; count: number }[] {
+	const database = db ?? initDatabase();
 
 	const stmt = database.prepare(`
 		SELECT category, COUNT(*) as count
@@ -213,17 +214,20 @@ export interface FormattedQuoteWithId extends FormattedQuote {
  * Searches by category, keywords, tone, author without needing embeddings.
  * Use this when you want to browse/filter without semantic search.
  */
-export function findQuotesByFilter(options: {
-	category?: string;
-	tone?: string;
-	author?: string;
-	keywords?: string[];
-	language?: "sv" | "ar" | "en";
-	length?: "short" | "medium" | "long";
-	minStandalone?: number;
-	limit?: number;
-}): FormattedQuoteWithId[] {
-	const database = initDatabase();
+export function findQuotesByFilter(
+	options: {
+		category?: string;
+		tone?: string;
+		author?: string;
+		keywords?: string[];
+		language?: "sv" | "ar" | "en";
+		length?: "short" | "medium" | "long";
+		minStandalone?: number;
+		limit?: number;
+	},
+	db?: Database.Database,
+): FormattedQuoteWithId[] {
+	const database = db ?? initDatabase();
 	const limit = options.limit ?? 10;
 	const minStandalone = options.minStandalone ?? 4;
 
@@ -288,7 +292,7 @@ export function findQuotesByFilter(options: {
 			standalone: q.standalone ?? 3,
 			length: q.length ?? "medium",
 			language: q.language ?? "sv",
-			score: 1.0, // No semantic score for filter-based search
+			score: 0.5, // No semantic ranking for filter-based search
 		};
 	});
 }
@@ -298,15 +302,19 @@ export function findQuotesByFilter(options: {
  * Each token gets a prefix wildcard (*) so partial words match
  * (e.g. "tålam" matches "tålamod"). Prefix search implicitly covers exact matches.
  */
-function buildFts5Query(query: string): string {
-	const tokens = query
-		.split(/\s+/)
-		.filter((t) => t.length > 0);
+export function buildFts5Query(query: string): string {
+	const tokens = query.split(/\s+/).filter((t) => t.length > 0);
 	if (tokens.length === 0) return "";
 
 	// Use prefix matching for each token — "word"* matches "word" and "wording"
+	// Strip chars that can break FTS5 parsing even inside quotes
 	return tokens
-		.map((token) => `"${token.replace(/"/g, '""')}"*`)
+		.map((token) => {
+			const cleaned = token.replace(/["""(){}[\]:^~+\-!]/g, "").trim();
+			if (!cleaned) return null;
+			return `"${cleaned}"*`;
+		})
+		.filter(Boolean)
 		.join(" ");
 }
 
@@ -321,16 +329,17 @@ export function searchQuotesText(
 		minStandalone?: number;
 		limit?: number;
 	},
+	db?: Database.Database,
 ): FormattedQuoteWithId[] {
-	const database = initDatabase();
+	const database = db ?? initDatabase();
 	const limit = options?.limit ?? 10;
 	const minStandalone = options?.minStandalone ?? 4;
 
 	const ftsQuery = buildFts5Query(query);
 	if (!ftsQuery) return [];
 
-	const conditions: string[] = ["q.standalone >= ?"];
-	const params: (string | number)[] = [minStandalone, ftsQuery];
+	const conditions: string[] = ["quotes_fts MATCH ?", "q.standalone >= ?"];
+	const params: (string | number)[] = [ftsQuery, minStandalone];
 
 	if (options?.language) {
 		conditions.push("q.language = ?");
@@ -346,9 +355,7 @@ export function searchQuotesText(
 			rank
 		FROM quotes_fts fts
 		JOIN quotes q ON q.id = fts.rowid
-		WHERE quotes_fts MATCH ?
-			AND ${conditions[0]}
-			${options?.language ? "AND q.language = ?" : ""}
+		WHERE ${conditions.join(" AND ")}
 		ORDER BY rank
 		LIMIT ?
 	`);
@@ -362,8 +369,9 @@ export function searchQuotesText(
 
 	return rows.map((row) => {
 		const q = parseQuoteRow(row);
-		// Invert and normalize: best match (most negative rank) → score ~1.0
-		const score = 1 - (row.rank - minRank) / rankRange;
+		// Invert and normalize: best match (most negative rank) → score ~0.75
+		// Capped at 0.75 because text matches are inherently less precise than semantic matches
+		const score = 0.75 * (1 - (row.rank - minRank) / rankRange);
 		return {
 			id: q.id,
 			text: q.text,
@@ -378,6 +386,80 @@ export function searchQuotesText(
 			score,
 		};
 	});
+}
+
+/**
+ * Hybrid search combining FTS5 text matching with semantic vector search.
+ * Uses Reciprocal Rank Fusion (RRF) to merge results from both rankers.
+ *
+ * This finds quotes that match by keyword AND by meaning, producing
+ * better results than either approach alone:
+ * - FTS5 catches exact matches that semantic search might rank low
+ * - Semantic catches conceptual matches without the exact keyword
+ * - RRF merges by rank position, avoiding score calibration issues
+ */
+export async function searchQuotesHybrid(
+	query: string,
+	options?: {
+		language?: "sv" | "ar" | "en";
+		minStandalone?: number;
+		limit?: number;
+	},
+): Promise<FormattedQuoteWithId[]> {
+	if (!query?.trim()) return [];
+
+	const limit = options?.limit ?? 10;
+	// Fetch more candidates from each source for better fusion
+	const fetchLimit = limit * 3;
+
+	// Run FTS5 (may fail on unusual input) and semantic search
+	let ftsResults: FormattedQuoteWithId[];
+	try {
+		ftsResults = searchQuotesText(query, { ...options, limit: fetchLimit });
+	} catch {
+		ftsResults = []; // Graceful fallback to semantic-only
+	}
+
+	const semanticResults = await findQuotesLocal(query, {
+		limit: fetchLimit,
+		language: options?.language,
+		minStandalone: options?.minStandalone ?? 4,
+		diverse: false, // RRF handles diversity; skip MMR
+	});
+
+	// Reciprocal Rank Fusion (k=60 is standard)
+	const k = 60;
+	const rrfScores = new Map<number, { score: number; quote: FormattedQuoteWithId }>();
+
+	for (let i = 0; i < ftsResults.length; i++) {
+		const quote = ftsResults[i];
+		if (!quote) continue;
+		const rrfScore = 1 / (k + i + 1);
+		const existing = rrfScores.get(quote.id);
+		if (existing) {
+			existing.score += rrfScore;
+		} else {
+			rrfScores.set(quote.id, { score: rrfScore, quote });
+		}
+	}
+
+	for (let i = 0; i < semanticResults.length; i++) {
+		const quote = semanticResults[i];
+		if (!quote) continue;
+		const rrfScore = 1 / (k + i + 1);
+		const existing = rrfScores.get(quote.id);
+		if (existing) {
+			existing.score += rrfScore;
+		} else {
+			rrfScores.set(quote.id, { score: rrfScore, quote });
+		}
+	}
+
+	// Sort by combined RRF score (highest first) and take top N
+	return [...rrfScores.values()]
+		.sort((a, b) => b.score - a.score)
+		.slice(0, limit)
+		.map(({ score, quote }) => ({ ...quote, score }));
 }
 
 /**

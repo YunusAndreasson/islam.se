@@ -139,6 +139,7 @@ function removeArabic(text: string): string {
  */
 function cleanText(text: string): string {
 	return text
+		.replace(/[\u200B-\u200F\u202A-\u202E\u2060-\u2069\uFEFF]/g, "") // Strip bidi/invisible chars
 		.replace(/\s+/g, " ") // Normalize whitespace
 		.replace(/­/g, "") // Remove soft hyphens
 		.replace(/\s+([,.;:!?])/g, "$1") // Fix spacing before punctuation

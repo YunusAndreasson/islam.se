@@ -1,6 +1,6 @@
 import type Database from "better-sqlite3";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
-
+import { parseQuoteRow, type RawQuoteRow } from "./database.js";
 // We need to test the database module, but it uses a singleton pattern with
 // a file-based database. We'll test the logic by creating isolated test databases.
 import {
@@ -329,5 +329,78 @@ describe("database operations", () => {
 
 			expect(embedding1).not.toEqual(embedding2);
 		});
+	});
+});
+
+describe("parseQuoteRow resilience", () => {
+	const baseRow: RawQuoteRow = {
+		id: 1,
+		text: "Test quote",
+		author: "Test Author",
+		workTitle: "Test Work",
+		category: "wisdom",
+		keywords: '["keyword1", "keyword2"]',
+		tone: "neutral",
+		standalone: 4,
+		length: "medium",
+		language: "sv",
+		sourceType: null,
+		createdAt: "2026-01-01T00:00:00Z",
+	};
+
+	it("parses valid keywords JSON correctly", () => {
+		const result = parseQuoteRow(baseRow);
+		expect(result.keywords).toEqual(["keyword1", "keyword2"]);
+	});
+
+	it("handles empty keywords string by defaulting to empty array", () => {
+		const row = { ...baseRow, keywords: "" };
+		const result = parseQuoteRow(row);
+		expect(result.keywords, "Empty keywords string should parse to []").toEqual([]);
+	});
+
+	it("handles null-ish keywords via fallback", () => {
+		// The || "[]" fallback handles falsy values
+		const row = { ...baseRow, keywords: "" };
+		expect(() => parseQuoteRow(row)).not.toThrow();
+	});
+
+	it("throws on malformed keywords JSON — this is the crash risk", () => {
+		// Bug documentation: if a quote has non-JSON keywords in the DB,
+		// every search returning that quote crashes with a JSON.parse error.
+		// This test documents the current behavior (throws) so any fix is intentional.
+		const row = { ...baseRow, keywords: "not valid json" };
+		expect(
+			() => parseQuoteRow(row),
+			"Malformed keywords JSON should throw — this is the known crash risk in parseQuoteRow",
+		).toThrow();
+	});
+
+	it("preserves all other fields unchanged", () => {
+		const result = parseQuoteRow(baseRow);
+		expect(result.id).toBe(1);
+		expect(result.text).toBe("Test quote");
+		expect(result.author).toBe("Test Author");
+		expect(result.workTitle).toBe("Test Work");
+		expect(result.category).toBe("wisdom");
+		expect(result.tone).toBe("neutral");
+		expect(result.standalone).toBe(4);
+		expect(result.length).toBe("medium");
+		expect(result.language).toBe("sv");
+	});
+
+	it("handles Arabic content in all fields", () => {
+		const arabicRow: RawQuoteRow = {
+			...baseRow,
+			text: "الصبر مفتاح الفرج",
+			author: "علي بن أبي طالب",
+			workTitle: "نهج البلاغة",
+			category: "صبر",
+			keywords: '["صبر", "حكمة"]',
+			language: "ar",
+		};
+		const result = parseQuoteRow(arabicRow);
+		expect(result.keywords).toEqual(["صبر", "حكمة"]);
+		expect(result.author).toBe("علي بن أبي طالب");
 	});
 });

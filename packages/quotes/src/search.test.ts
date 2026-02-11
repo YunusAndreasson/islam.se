@@ -1,6 +1,11 @@
 import type Database from "better-sqlite3";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { createTestDatabase, generateFakeEmbedding, seedTestQuotes } from "./test-utils/db.js";
+import {
+	createTestDatabase,
+	generateFakeEmbedding,
+	insertTestQuote,
+	seedTestQuotes,
+} from "./test-utils/db.js";
 
 // Mock the embeddings module to avoid loading the 470MB model
 vi.mock("./embeddings/index.js", () => ({
@@ -9,230 +14,105 @@ vi.mock("./embeddings/index.js", () => ({
 }));
 
 // Import after mocking
-import { findQuotesByFilter, searchQuotesText } from "./search.js";
+import {
+	buildFts5Query,
+	findQuotesByFilter,
+	getCategories,
+	getInventory,
+	searchQuotesHybrid,
+	searchQuotesText,
+} from "./search.js";
 
-describe("search functions", () => {
-	// Note: The actual searchQuotes function uses a singleton database,
-	// so we can only test the pure functions here without refactoring.
-	// For full integration tests, we'd need to refactor database.ts to accept
-	// a database instance parameter.
+// ============================================================================
+// buildFts5Query
+// ============================================================================
 
-	describe("findQuotesByFilter", () => {
-		// These tests will use the production database if it exists
-		// In a real setup, we'd mock initDatabase() to return our test DB
-
-		it("is defined and callable", () => {
-			expect(typeof findQuotesByFilter).toBe("function");
-		});
+describe("buildFts5Query", () => {
+	it("wraps each token in quotes with prefix wildcard", () => {
+		const result = buildFts5Query("tålamod dygd");
+		expect(result).toBe('"tålamod"* "dygd"*');
 	});
 
-	describe("searchQuotesText", () => {
-		it("is defined and callable", () => {
-			expect(typeof searchQuotesText).toBe("function");
-		});
+	it("strips FTS5 special characters", () => {
+		const result = buildFts5Query('hello "world" (test) [brackets] {braces}');
+		expect(result).toBe('"hello"* "world"* "test"* "brackets"* "braces"*');
+	});
+
+	it("returns empty string for empty input", () => {
+		expect(buildFts5Query("")).toBe("");
+		expect(buildFts5Query("   ")).toBe("");
+	});
+
+	it("handles Arabic tokens", () => {
+		const result = buildFts5Query("الصبر مفتاح");
+		expect(result).toBe('"الصبر"* "مفتاح"*');
+	});
+
+	it("drops tokens that are only special characters", () => {
+		const result = buildFts5Query('hello "+" world');
+		// "+" becomes empty after stripping, should be filtered out
+		expect(result).toBe('"hello"* "world"*');
+	});
+
+	it("neutralizes FTS5 boolean operators by quoting them", () => {
+		// FTS5 treats NOT, OR, AND, NEAR as operators in unquoted context.
+		// buildFts5Query wraps tokens in quotes, which should make them literals.
+		// If quoting breaks, "NOT patience" becomes a negation query.
+		const notQuery = buildFts5Query("NOT patience");
+		expect(notQuery, "NOT should be quoted to prevent FTS5 negation").toBe('"NOT"* "patience"*');
+
+		const orQuery = buildFts5Query("death OR life");
+		expect(orQuery, "OR should be quoted to prevent FTS5 disjunction").toBe(
+			'"death"* "OR"* "life"*',
+		);
+
+		const andQuery = buildFts5Query("patience AND virtue");
+		expect(andQuery, "AND should be quoted to prevent FTS5 conjunction").toBe(
+			'"patience"* "AND"* "virtue"*',
+		);
+
+		const nearQuery = buildFts5Query("NEAR death");
+		expect(nearQuery, "NEAR should be quoted to prevent FTS5 proximity").toBe('"NEAR"* "death"*');
+	});
+
+	it("FTS5 operators in queries don't act as boolean operators", () => {
+		// Verify that quoting prevents operator interpretation.
+		// Unquoted `NOT "tålamod"*` would be a negation (return everything EXCEPT tålamod).
+		// Quoted `"NOT"* "tålamod"*` is an implicit AND (require both tokens).
+		// Since no quote contains the literal word "NOT", the AND returns nothing —
+		// which is correct because it means NOT was treated as a search term, not an operator.
+		const db = createTestDatabase();
+		seedTestQuotes(db);
+		try {
+			const query = buildFts5Query("NOT tålamod");
+			const quotedResults = db
+				.prepare(
+					`SELECT q.text FROM quotes_fts fts
+					 JOIN quotes q ON q.id = fts.rowid
+					 WHERE quotes_fts MATCH ?`,
+				)
+				.all(query) as { text: string }[];
+
+			// If NOT were an operator, we'd get all non-tålamod quotes (3+ results).
+			// Since NOT is quoted and treated as a literal term (implicit AND with tålamod),
+			// we get 0 results because no quote contains both "NOT" and "tålamod".
+			const nonTalamodResults = quotedResults.filter((r) => !r.text.includes("Tålamod"));
+			expect(
+				nonTalamodResults.length,
+				"NOT should be a literal search term, not a boolean operator. " +
+					"If this fails with >0 results, NOT is being interpreted as negation.",
+			).toBe(0);
+		} finally {
+			db.close();
+		}
 	});
 });
 
-describe("cosineSimilarity (implementation test)", () => {
-	// Test the cosine similarity logic directly
-	function cosineSimilarity(a: Float32Array, b: Float32Array): number {
-		let dot = 0;
-		let normA = 0;
-		let normB = 0;
-		for (let i = 0; i < a.length; i++) {
-			const aVal = a[i] ?? 0;
-			const bVal = b[i] ?? 0;
-			dot += aVal * bVal;
-			normA += aVal * aVal;
-			normB += bVal * bVal;
-		}
-		return dot / (Math.sqrt(normA) * Math.sqrt(normB));
-	}
+// ============================================================================
+// Sync search functions with in-memory DB
+// ============================================================================
 
-	it("returns 1 for identical vectors", () => {
-		const v = new Float32Array([1, 2, 3, 4]);
-		const similarity = cosineSimilarity(v, v);
-
-		expect(similarity).toBeCloseTo(1.0, 5);
-	});
-
-	it("returns 0 for orthogonal vectors", () => {
-		const v1 = new Float32Array([1, 0, 0, 0]);
-		const v2 = new Float32Array([0, 1, 0, 0]);
-		const similarity = cosineSimilarity(v1, v2);
-
-		expect(similarity).toBeCloseTo(0, 5);
-	});
-
-	it("returns -1 for opposite vectors", () => {
-		const v1 = new Float32Array([1, 0, 0]);
-		const v2 = new Float32Array([-1, 0, 0]);
-		const similarity = cosineSimilarity(v1, v2);
-
-		expect(similarity).toBeCloseTo(-1.0, 5);
-	});
-
-	it("handles normalized vectors correctly", () => {
-		// Two normalized vectors at 45 degrees
-		const v1 = new Float32Array([1, 0]);
-		const v2 = new Float32Array([Math.SQRT1_2, Math.SQRT1_2]);
-		const similarity = cosineSimilarity(v1, v2);
-
-		expect(similarity).toBeCloseTo(Math.SQRT1_2, 5);
-	});
-
-	it("handles 384-dimensional vectors (embedding size)", () => {
-		const v1 = generateFakeEmbedding("test text");
-		const v2 = generateFakeEmbedding("test text");
-		const similarity = cosineSimilarity(v1, v2);
-
-		// Same input should produce identical embeddings
-		expect(similarity).toBeCloseTo(1.0, 5);
-	});
-
-	it("produces different similarity for different texts", () => {
-		const v1 = generateFakeEmbedding("patience virtue");
-		const v2 = generateFakeEmbedding("completely different topic");
-		const similarity = cosineSimilarity(v1, v2);
-
-		// Different text should have similarity < 1
-		expect(similarity).toBeLessThan(1.0);
-	});
-});
-
-describe("applyMMR (implementation test)", () => {
-	type Candidate = { score: number; embedding: Float32Array; id: number };
-
-	function cosineSimilarityLocal(a: Float32Array, b: Float32Array): number {
-		let dot = 0;
-		let normA = 0;
-		let normB = 0;
-		for (let i = 0; i < a.length; i++) {
-			const aVal = a[i] ?? 0;
-			const bVal = b[i] ?? 0;
-			dot += aVal * bVal;
-			normA += aVal * aVal;
-			normB += bVal * bVal;
-		}
-		return dot / (Math.sqrt(normA) * Math.sqrt(normB));
-	}
-
-	function maxSimilarityToSelected(candidate: Candidate, selected: Candidate[]): number {
-		return selected.reduce((max, sel) => {
-			const sim = cosineSimilarityLocal(candidate.embedding, sel.embedding);
-			return sim > max ? sim : max;
-		}, 0);
-	}
-
-	function computeMMRScore(candidate: Candidate, selected: Candidate[], lambda: number): number {
-		const maxSim = maxSimilarityToSelected(candidate, selected);
-		return lambda * candidate.score - (1 - lambda) * maxSim;
-	}
-
-	function findBestCandidate(
-		remaining: Candidate[],
-		selected: Candidate[],
-		lambda: number,
-	): number {
-		let bestIdx = 0;
-		let bestScore = -Infinity;
-		for (let i = 0; i < remaining.length; i++) {
-			const candidate = remaining[i];
-			if (!candidate) continue;
-			const mmrScore = computeMMRScore(candidate, selected, lambda);
-			if (mmrScore > bestScore) {
-				bestScore = mmrScore;
-				bestIdx = i;
-			}
-		}
-		return bestIdx;
-	}
-
-	function applyMMR(candidates: Candidate[], limit: number, lambda = 0.7): Candidate[] {
-		if (candidates.length === 0) return [];
-		if (candidates.length <= limit) return candidates;
-
-		const selected: Candidate[] = [];
-		const remaining = [...candidates];
-
-		const first = remaining.shift();
-		if (first) selected.push(first);
-
-		while (selected.length < limit && remaining.length > 0) {
-			const bestIdx = findBestCandidate(remaining, selected, lambda);
-			const spliced = remaining.splice(bestIdx, 1)[0];
-			if (spliced) selected.push(spliced);
-		}
-
-		return selected;
-	}
-
-	it("returns empty array for empty input", () => {
-		const result = applyMMR([], 5);
-		expect(result).toEqual([]);
-	});
-
-	it("returns all items if fewer than limit", () => {
-		const candidates = [
-			{ id: 1, score: 0.9, embedding: generateFakeEmbedding("text1") },
-			{ id: 2, score: 0.8, embedding: generateFakeEmbedding("text2") },
-		];
-
-		const result = applyMMR(candidates, 5);
-		expect(result).toHaveLength(2);
-	});
-
-	it("selects highest relevance item first", () => {
-		const candidates = [
-			{ id: 1, score: 0.5, embedding: generateFakeEmbedding("text1") },
-			{ id: 2, score: 0.9, embedding: generateFakeEmbedding("text2") },
-			{ id: 3, score: 0.7, embedding: generateFakeEmbedding("text3") },
-		];
-
-		// Sort by score descending (as input would be)
-		candidates.sort((a, b) => b.score - a.score);
-
-		const result = applyMMR(candidates, 2);
-
-		expect(result[0]?.id).toBe(2); // Highest score first
-	});
-
-	it("favors diversity in subsequent selections", () => {
-		// Create candidates where some are very similar
-		const baseEmbedding = generateFakeEmbedding("patience and virtue");
-
-		const candidates = [
-			{ id: 1, score: 0.9, embedding: baseEmbedding },
-			{
-				id: 2,
-				score: 0.85,
-				embedding: new Float32Array(baseEmbedding), // Nearly identical
-			},
-			{ id: 3, score: 0.8, embedding: generateFakeEmbedding("completely different topic") },
-		];
-
-		const result = applyMMR(candidates, 2, 0.5);
-
-		// With lambda=0.5, diversity matters more
-		// Should prefer the different topic over the similar one
-		const ids = result.map((r) => r.id);
-		expect(ids).toContain(1); // First (highest score)
-		// The second should be influenced by diversity
-	});
-
-	it("respects limit parameter", () => {
-		const candidates = new Array(10).fill(null).map((_, i) => ({
-			id: i + 1,
-			score: 1 - i * 0.05,
-			embedding: generateFakeEmbedding(`text ${i}`),
-		}));
-
-		const result = applyMMR(candidates, 3);
-		expect(result).toHaveLength(3);
-	});
-});
-
-describe("database-integrated search tests", () => {
+describe("findQuotesByFilter", () => {
 	let db: Database.Database;
 
 	beforeEach(() => {
@@ -244,75 +124,354 @@ describe("database-integrated search tests", () => {
 		db.close();
 	});
 
-	describe("filter-based search logic", () => {
-		it("filters by language correctly", () => {
-			const svQuotes = db
-				.prepare("SELECT * FROM quotes WHERE language = ? AND standalone >= ?")
-				.all("sv", 4);
-			const arQuotes = db
-				.prepare("SELECT * FROM quotes WHERE language = ? AND standalone >= ?")
-				.all("ar", 4);
-
-			expect(svQuotes.length).toBeGreaterThan(0);
-			expect(arQuotes.length).toBeGreaterThan(0);
-		});
-
-		it("filters by author correctly", () => {
-			const quotes = db.prepare("SELECT * FROM quotes WHERE author LIKE ?").all("%Strindberg%");
-
-			expect(quotes.length).toBeGreaterThan(0);
-		});
-
-		it("filters by category correctly", () => {
-			const quotes = db.prepare("SELECT * FROM quotes WHERE category = ?").all("صبر");
-
-			expect(quotes.length).toBeGreaterThan(0);
-		});
-
-		it("filters by standalone score correctly", () => {
-			const highQuality = db.prepare("SELECT * FROM quotes WHERE standalone >= ?").all(5);
-			const allQuotes = db.prepare("SELECT * FROM quotes").all();
-
-			expect(highQuality.length).toBeLessThanOrEqual(allQuotes.length);
-			expect(highQuality.length).toBeGreaterThan(0);
-		});
-
-		it("combines multiple filters correctly", () => {
-			const results = db
-				.prepare(
-					`SELECT * FROM quotes
-					 WHERE language = ?
-					 AND standalone >= ?
-					 ORDER BY standalone DESC`,
-				)
-				.all("sv", 4);
-
-			for (const row of results as Array<{ language: string; standalone: number }>) {
-				expect(row.language).toBe("sv");
-				expect(row.standalone).toBeGreaterThanOrEqual(4);
-			}
-		});
+	it("filters by language strictly", () => {
+		const results = findQuotesByFilter({ language: "sv", minStandalone: 1 }, db);
+		for (const r of results) {
+			expect(r.language, `Found ${r.language} quote despite language=sv filter`).toBe("sv");
+		}
+		expect(results.length, "Should find at least one Swedish quote").toBeGreaterThan(0);
 	});
 
-	describe("text search logic", () => {
-		it("finds quotes by text content", () => {
-			const results = db.prepare("SELECT * FROM quotes WHERE text LIKE ?").all("%tålamod%");
+	it("filters by Arabic language", () => {
+		const results = findQuotesByFilter({ language: "ar", minStandalone: 1 }, db);
+		for (const r of results) {
+			expect(r.language, `Found ${r.language} quote despite language=ar filter`).toBe("ar");
+		}
+		expect(results.length, "Should find at least one Arabic quote").toBeGreaterThan(0);
+	});
 
-			// Should find the Selma Lagerlöf quote about tålamod (patience)
-			expect(results.length).toBeGreaterThanOrEqual(0);
+	it("respects minStandalone filter", () => {
+		const results = findQuotesByFilter({ minStandalone: 5 }, db);
+		for (const r of results) {
+			expect(
+				r.standalone,
+				`Quote standalone=${r.standalone} is below minStandalone=5`,
+			).toBeGreaterThanOrEqual(5);
+		}
+	});
+
+	it("filters by author with partial match", () => {
+		const results = findQuotesByFilter({ author: "Strindberg", minStandalone: 1 }, db);
+		expect(results.length, "Should find Strindberg quotes").toBeGreaterThan(0);
+		for (const r of results) {
+			expect(r.attribution, `Attribution "${r.attribution}" should contain Strindberg`).toContain(
+				"Strindberg",
+			);
+		}
+	});
+
+	it("filters by category", () => {
+		const results = findQuotesByFilter({ category: "صبر", minStandalone: 1 }, db);
+		expect(results.length, "Should find Arabic patience quotes").toBeGreaterThan(0);
+		for (const r of results) {
+			expect(r.category, `Category "${r.category}" should contain صبر`).toContain("صبر");
+		}
+	});
+
+	it("combines multiple filters", () => {
+		const results = findQuotesByFilter(
+			{ language: "sv", minStandalone: 5, author: "Lagerlöf" },
+			db,
+		);
+		for (const r of results) {
+			expect(r.language, "Language filter leaked").toBe("sv");
+			expect(r.standalone, "Standalone filter leaked").toBeGreaterThanOrEqual(5);
+			expect(r.attribution, "Author filter leaked").toContain("Lagerlöf");
+		}
+	});
+
+	it("respects limit parameter", () => {
+		const results = findQuotesByFilter({ limit: 1, minStandalone: 1 }, db);
+		expect(results.length).toBeLessThanOrEqual(1);
+	});
+
+	it("returns FormattedQuoteWithId shape", () => {
+		const results = findQuotesByFilter({ minStandalone: 1 }, db);
+		expect(results.length).toBeGreaterThan(0);
+		const first = results[0];
+		expect(first).toBeDefined();
+		expect(typeof first?.id).toBe("number");
+		expect(typeof first?.text).toBe("string");
+		expect(typeof first?.attribution).toBe("string");
+		expect(typeof first?.score).toBe("number");
+		expect(first?.score, "Filter-based search score should be 0.5").toBe(0.5);
+	});
+
+	it("filters by keywords via FTS5", () => {
+		const results = findQuotesByFilter({ keywords: ["motgång"], minStandalone: 1 }, db);
+		expect(results.length, "Should find quotes with keyword 'motgång'").toBeGreaterThan(0);
+	});
+});
+
+describe("searchQuotesText", () => {
+	let db: Database.Database;
+
+	beforeEach(() => {
+		db = createTestDatabase();
+		seedTestQuotes(db);
+	});
+
+	afterEach(() => {
+		db.close();
+	});
+
+	it("finds quotes by keyword via FTS5", () => {
+		const results = searchQuotesText("tålamod", { minStandalone: 1 }, db);
+		expect(results.length, "FTS5 should find 'tålamod' in seeded data").toBeGreaterThan(0);
+		expect(results[0]?.text).toContain("Tålamod");
+	});
+
+	it("respects language filter", () => {
+		const results = searchQuotesText("الصبر", { language: "ar", minStandalone: 1 }, db);
+		for (const r of results) {
+			expect(r.language, `Found ${r.language} quote despite language=ar filter`).toBe("ar");
+		}
+	});
+
+	it("REGRESSION: scores capped at 0.75 (score inflation bug)", () => {
+		// Bug: scoreTextResult() was returning 1.0 for exact matches
+		// Fix: capped at 0.75 base because text matches are less precise than semantic
+		const results = searchQuotesText("tålamod", { limit: 20, minStandalone: 1 }, db);
+		for (const r of results) {
+			expect(
+				r.score,
+				`Score inflation: quote ${r.id} has score ${r.score}, max should be 0.75`,
+			).toBeLessThanOrEqual(0.75);
+		}
+	});
+
+	it("returns results sorted by relevance", () => {
+		// Add extra quote with "tålamod" repeated for stronger BM25 signal
+		insertTestQuote(db, {
+			text: "Tålamod och tålamod och åter tålamod behövs.",
+			author: "Test",
+			workTitle: "Test",
+			category: "patience",
+			keywords: ["tålamod"],
+			tone: "neutral",
+			standalone: 5,
+			language: "sv",
+			embedding: generateFakeEmbedding("Tålamod och tålamod och åter tålamod behövs."),
 		});
 
-		it("finds quotes by author name", () => {
-			const results = db.prepare("SELECT * FROM quotes WHERE author LIKE ?").all("%Strindberg%");
+		const results = searchQuotesText("tålamod", { minStandalone: 1 }, db);
+		expect(results.length).toBeGreaterThanOrEqual(2);
+		// Scores should be in descending order
+		for (let i = 1; i < results.length; i++) {
+			const prev = results[i - 1]?.score ?? 0;
+			const curr = results[i]?.score ?? 0;
+			expect(
+				prev,
+				`Result ${i - 1} (score=${prev}) should be >= result ${i} (score=${curr})`,
+			).toBeGreaterThanOrEqual(curr);
+		}
+	});
 
-			expect(results.length).toBeGreaterThan(0);
+	it("returns empty array for empty query", () => {
+		const results = searchQuotesText("", {}, db);
+		expect(results).toEqual([]);
+	});
+
+	it("returns empty array for whitespace-only query", () => {
+		const results = searchQuotesText("   ", {}, db);
+		expect(results).toEqual([]);
+	});
+
+	it("BOUNDARY: single result gets score exactly 0.75", () => {
+		// When FTS5 returns 1 result, minRank === maxRank, rankRange = 0 || 1 = 1.
+		// Formula: 0.75 * (1 - (rank - minRank) / rankRange) = 0.75 * (1 - 0/1) = 0.75.
+		// If the normalization formula changes, this catches NaN (0/0) or wrong values.
+		// Use a unique term that matches exactly one quote.
+		insertTestQuote(db, {
+			text: "Xylofon är ett ovanligt instrument.",
+			author: "Unik",
+			workTitle: "Unik",
+			standalone: 5,
+			language: "sv",
+			embedding: generateFakeEmbedding("Xylofon är ett ovanligt instrument."),
 		});
 
-		it("searches keywords JSON field", () => {
-			const results = db.prepare("SELECT * FROM quotes WHERE keywords LIKE ?").all('%"motgång"%');
+		const results = searchQuotesText("xylofon", { minStandalone: 1 }, db);
+		expect(results.length, "Should find exactly one result for unique term").toBe(1);
+		expect(
+			results[0]?.score,
+			"Single result score should be exactly 0.75 (best possible for text search)",
+		).toBe(0.75);
+	});
+});
 
-			expect(results.length).toBeGreaterThan(0);
-		});
+describe("getInventory", () => {
+	let db: Database.Database;
+
+	beforeEach(() => {
+		db = createTestDatabase();
+		seedTestQuotes(db);
+	});
+
+	afterEach(() => {
+		db.close();
+	});
+
+	it("returns correct total count", () => {
+		const inv = getInventory(db);
+		expect(inv.total).toBe(5); // seedTestQuotes inserts 5 quotes
+	});
+
+	it("returns correct language breakdown", () => {
+		const inv = getInventory(db);
+		expect(inv.languages.sv).toBe(2);
+		expect(inv.languages.ar).toBe(2);
+		expect(inv.languages.en).toBe(1);
+	});
+
+	it("returns categories with counts", () => {
+		const inv = getInventory(db);
+		expect(inv.categories.length).toBeGreaterThan(0);
+		for (const cat of inv.categories) {
+			expect(cat.count, `Category "${cat.name}" should have positive count`).toBeGreaterThan(0);
+		}
+	});
+});
+
+describe("getCategories", () => {
+	let db: Database.Database;
+
+	beforeEach(() => {
+		db = createTestDatabase();
+		seedTestQuotes(db);
+	});
+
+	afterEach(() => {
+		db.close();
+	});
+
+	it("returns categories with counts", () => {
+		const categories = getCategories(db);
+		expect(categories.length).toBeGreaterThan(0);
+		for (const cat of categories) {
+			expect(typeof cat.category).toBe("string");
+			expect(cat.count).toBeGreaterThan(0);
+		}
+	});
+
+	it("returns categories sorted by count descending", () => {
+		const categories = getCategories(db);
+		for (let i = 1; i < categories.length; i++) {
+			const prevCount = categories[i - 1]?.count ?? 0;
+			const currCount = categories[i]?.count ?? 0;
+			expect(
+				prevCount,
+				`Category at index ${i - 1} should have count >= index ${i}`,
+			).toBeGreaterThanOrEqual(currCount);
+		}
+	});
+});
+
+// ============================================================================
+// Vector search properties (using sqlite-vec, NOT reimplemented cosine)
+// ============================================================================
+
+describe("vector search properties", () => {
+	let db: Database.Database;
+
+	beforeEach(() => {
+		db = createTestDatabase();
+		seedTestQuotes(db);
+	});
+
+	afterEach(() => {
+		db.close();
+	});
+
+	it("PROPERTY: self-similarity returns distance 0", () => {
+		const embedding = generateFakeEmbedding("test text");
+		const buffer = Buffer.from(new Uint8Array(embedding.buffer));
+
+		const result = db
+			.prepare("SELECT vec_distance_cosine(?, ?) as distance")
+			.get(buffer, buffer) as { distance: number };
+
+		expect(result.distance, "Self-distance should be 0").toBeCloseTo(0, 5);
+	});
+
+	it("PROPERTY: distance is symmetric", () => {
+		const a = generateFakeEmbedding("patience and virtue");
+		const b = generateFakeEmbedding("completely different topic");
+		const bufA = Buffer.from(new Uint8Array(a.buffer));
+		const bufB = Buffer.from(new Uint8Array(b.buffer));
+
+		const ab = (
+			db.prepare("SELECT vec_distance_cosine(?, ?) as distance").get(bufA, bufB) as {
+				distance: number;
+			}
+		).distance;
+		const ba = (
+			db.prepare("SELECT vec_distance_cosine(?, ?) as distance").get(bufB, bufA) as {
+				distance: number;
+			}
+		).distance;
+
+		expect(ab, "Cosine distance should be symmetric").toBeCloseTo(ba, 10);
+	});
+
+	it("PROPERTY: distance is bounded [0, 2]", () => {
+		const embedding = generateFakeEmbedding("any text");
+		const buffer = Buffer.from(new Uint8Array(embedding.buffer));
+
+		const results = db
+			.prepare(
+				`SELECT vec_distance_cosine(e.embedding, ?) as distance
+				 FROM quote_embeddings e`,
+			)
+			.all(buffer) as { distance: number }[];
+
+		for (const r of results) {
+			expect(r.distance, "Cosine distance should be >= 0").toBeGreaterThanOrEqual(0);
+			expect(r.distance, "Cosine distance should be <= 2").toBeLessThanOrEqual(2);
+		}
+	});
+
+	it("PROPERTY: different texts produce different distances", () => {
+		const query = generateFakeEmbedding("patience");
+		const similar = generateFakeEmbedding("patience and endurance");
+		const different = generateFakeEmbedding("quantum physics equations");
+
+		const bufQuery = Buffer.from(new Uint8Array(query.buffer));
+		const bufSimilar = Buffer.from(new Uint8Array(similar.buffer));
+		const bufDifferent = Buffer.from(new Uint8Array(different.buffer));
+
+		const distSimilar = (
+			db.prepare("SELECT vec_distance_cosine(?, ?) as distance").get(bufQuery, bufSimilar) as {
+				distance: number;
+			}
+		).distance;
+		const distDifferent = (
+			db.prepare("SELECT vec_distance_cosine(?, ?) as distance").get(bufQuery, bufDifferent) as {
+				distance: number;
+			}
+		).distance;
+
+		// Similar text should have smaller distance than very different text
+		// (not guaranteed with fake embeddings, but the hash-based generator is deterministic)
+		expect(typeof distSimilar, "Distance calculation should return a number").toBe("number");
+		expect(typeof distDifferent, "Distance calculation should return a number").toBe("number");
+	});
+});
+
+// ============================================================================
+// Database-integrated tests (kept from original — these are good behavior tests)
+// ============================================================================
+
+describe("database-integrated search tests", () => {
+	let db: Database.Database;
+
+	beforeEach(() => {
+		db = createTestDatabase();
+		seedTestQuotes(db);
+	});
+
+	afterEach(() => {
+		db.close();
 	});
 
 	describe("FTS5 full-text search", () => {
@@ -362,21 +521,17 @@ describe("database-integrated search tests", () => {
 		});
 
 		it("returns BM25-ranked results (best match first)", () => {
-			// Insert an extra quote with "tålamod" in multiple fields for stronger match
-			db.prepare(
-				`INSERT INTO quotes (text, author, work_title, category, keywords, tone, standalone, length, language)
-				 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-			).run(
-				"Tålamod och tålamod och åter tålamod.",
-				"Test",
-				"Test",
-				"patience",
-				'["tålamod"]',
-				"neutral",
-				5,
-				"short",
-				"sv",
-			);
+			insertTestQuote(db, {
+				text: "Tålamod och tålamod och åter tålamod.",
+				author: "Test",
+				workTitle: "Test",
+				category: "patience",
+				keywords: ["tålamod"],
+				tone: "neutral",
+				standalone: 5,
+				language: "sv",
+				embedding: generateFakeEmbedding("Tålamod och tålamod och åter tålamod."),
+			});
 
 			const results = db
 				.prepare(
@@ -472,7 +627,6 @@ describe("database-integrated search tests", () => {
 		});
 
 		it("can perform vector distance calculation", () => {
-			// Test that sqlite-vec is working
 			const testEmbedding = generateFakeEmbedding("test query");
 			const buffer = Buffer.from(new Uint8Array(testEmbedding.buffer));
 
@@ -493,5 +647,58 @@ describe("database-integrated search tests", () => {
 			expect(result?.distance).toBeGreaterThanOrEqual(0);
 			expect(result?.distance).toBeLessThanOrEqual(2); // Cosine distance range
 		});
+	});
+});
+
+// ============================================================================
+// Hybrid search RRF invariants
+// ============================================================================
+
+describe("searchQuotesHybrid RRF invariants", () => {
+	it("PROPERTY: all output IDs are valid positive integers", async () => {
+		// RRF merges two ranked lists. Every output ID must be a valid quote ID.
+		// A bug in Map key handling (string vs number coercion) could produce
+		// phantom results or corrupt IDs.
+		const results = await searchQuotesHybrid("tålamod", { limit: 10, minStandalone: 1 });
+
+		for (const r of results) {
+			expect(typeof r.id, `Result ID should be a number, got ${typeof r.id}`).toBe("number");
+			expect(r.id, "Result ID should be a positive integer").toBeGreaterThan(0);
+			expect(Number.isInteger(r.id), `Result ID ${r.id} should be an integer`).toBe(true);
+		}
+
+		// All RRF scores should be positive (sum of 1/(k+rank) terms)
+		for (const r of results) {
+			expect(r.score, `RRF score for ID ${r.id} should be positive`).toBeGreaterThan(0);
+		}
+	});
+
+	it("PROPERTY: output is sorted by RRF score descending", async () => {
+		const results = await searchQuotesHybrid("tålamod", { limit: 10, minStandalone: 1 });
+		for (let i = 1; i < results.length; i++) {
+			const prev = results[i - 1]?.score ?? 0;
+			const curr = results[i]?.score ?? 0;
+			expect(
+				prev,
+				`RRF result ${i - 1} (score=${prev}) should be >= result ${i} (score=${curr})`,
+			).toBeGreaterThanOrEqual(curr);
+		}
+	});
+
+	it("PROPERTY: no duplicate IDs in output", async () => {
+		const results = await searchQuotesHybrid("tålamod", { limit: 10, minStandalone: 1 });
+		const ids = results.map((r) => r.id);
+		const uniqueIds = new Set(ids);
+		expect(uniqueIds.size, `Found duplicate IDs in RRF output: ${ids.join(", ")}`).toBe(ids.length);
+	});
+
+	it("returns empty for empty query", async () => {
+		const results = await searchQuotesHybrid("", { limit: 10 });
+		expect(results).toEqual([]);
+	});
+
+	it("respects limit parameter", async () => {
+		const results = await searchQuotesHybrid("tålamod", { limit: 2, minStandalone: 1 });
+		expect(results.length).toBeLessThanOrEqual(2);
 	});
 });

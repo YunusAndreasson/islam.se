@@ -185,6 +185,11 @@ export function initBookDatabase(): Database.Database {
 			INSERT INTO passages_fts(rowid, text)
 			VALUES (new.id, new.text);
 		END;
+
+		CREATE TRIGGER IF NOT EXISTS passages_fts_ad AFTER DELETE ON passages BEGIN
+			INSERT INTO passages_fts(passages_fts, rowid, text)
+			VALUES ('delete', old.id, old.text);
+		END;
 	`);
 
 	// Create indexes for performance

@@ -1,6 +1,119 @@
 {
-  "updatedAt": "2026-02-08T20:51:53.248Z",
+  "updatedAt": "2026-02-10T20:23:30.198Z",
   "articles": [
+    {
+      "slug": "silvertarnans-hijra-70-000-km-utan-karta-och-utan-",
+      "title": "Silvertärnans hijra: 70 000 km utan försäkring",
+      "publishedAt": "2026-02-10T20:23:30.198Z",
+      "wordCount": 1870,
+      "qualityScore": 8.5,
+      "sourceIdea": {
+        "topic": "flyttfaglar-navigation-och-tillit-silvertarnan-tor",
+        "ideaId": 2
+      }
+    },
+    {
+      "slug": "ljusfororening-som-andlig-kategori-om-koranens-lju",
+      "title": "Ljusförorening som andlig kategori: när mörkret försvinner försvinner också villkoret för att se",
+      "publishedAt": "2026-02-10T19:32:05.620Z",
+      "wordCount": 2290,
+      "qualityScore": 8.5,
+      "sourceIdea": {
+        "topic": "polarnatt-midnattssol-och-det-heliga-ljuset",
+        "ideaId": 7
+      }
+    },
+    {
+      "slug": "levertins-paradox-verkligheten-behover-inte-religi",
+      "title": "Levertins paradox: den som känner törsten men vägrar vattnet",
+      "publishedAt": "2026-02-09T21:00:42.158Z",
+      "wordCount": 1850,
+      "qualityScore": 8.7,
+      "sourceIdea": {
+        "topic": "tawhid-islamisk-monoteism-som-logisk-slutsats-kora",
+        "ideaId": 9
+      }
+    },
+    {
+      "slug": "strindbergs-enda-steg-ateismens-instabilitet-som-t",
+      "title": "Ateismens enda steg: Strindbergs Inferno och den omöjliga neutraliteten",
+      "publishedAt": "2026-02-09T19:45:30.815Z",
+      "wordCount": 2180,
+      "qualityScore": 8.4,
+      "sourceIdea": {
+        "topic": "tawhid-islamisk-monoteism-som-logisk-slutsats-kora",
+        "ideaId": 6
+      }
+    },
+    {
+      "slug": "vart-ni-an-vander-er-qibla-i-ett-land-utan-riktnin",
+      "title": "Vart ni än vänder er: när riktningen ersätter platsen",
+      "publishedAt": "2026-02-09T17:22:05.521Z",
+      "wordCount": 1890,
+      "qualityScore": 8.7,
+      "sourceIdea": {
+        "topic": "den-svenska-mosk-n",
+        "ideaId": 3
+      }
+    },
+    {
+      "slug": "karin-boyes-kallocainska-gudsbild-den-gud-som-ser-",
+      "title": "Sanningsserumet och det allseende ögat: Kallocain som inverterad ihsan",
+      "publishedAt": "2026-02-09T11:23:43.273Z",
+      "wordCount": 1950,
+      "qualityScore": 8.7,
+      "sourceIdea": {
+        "topic": "den-rationella-monoteismen-tawhid-islamiska-argume",
+        "ideaId": 9
+      }
+    },
+    {
+      "slug": "tystnadens-kraft-nar-orden-skadar-mer-an-de-helar-",
+      "title": "Tungan som gränsfästning — om tystnadens dubbla ansikte i islamisk och svensk tradition",
+      "publishedAt": "2026-02-09T10:25:06.101Z",
+      "wordCount": 2187,
+      "qualityScore": 8.7
+    },
+    {
+      "slug": "avund-och-missunnsamhet-hasad-som-sjalens-cancer-i",
+      "title": "Den enda synden som dödar sin värd",
+      "publishedAt": "2026-02-09T09:36:13.878Z",
+      "wordCount": 2150,
+      "qualityScore": 8.5
+    },
+    {
+      "slug": "varfor-odin-offrade-ett-oga-for-kunskap-men-inte-s",
+      "title": "Varför Odin offrade satisföga för kunskap men inte sitt minne",
+      "publishedAt": "2026-02-08T22:45:38.127Z",
+      "wordCount": 1850,
+      "qualityScore": 8.9,
+      "sourceIdea": {
+        "topic": "memorering-minne-och-larande",
+        "ideaId": 3
+      }
+    },
+    {
+      "slug": "fyra-lager-av-oforstaelse-ibn-abbas-tolkningsteori",
+      "title": "Det omöjliga fjärde: Ibn Abbas och kunskapens inbyggda tak",
+      "publishedAt": "2026-02-08T22:07:46.995Z",
+      "wordCount": 1930,
+      "qualityScore": 8.7,
+      "sourceIdea": {
+        "topic": "arabiska-spraket-som-teologiskt-instrument",
+        "ideaId": 4
+      }
+    },
+    {
+      "slug": "linn-s-hemliga-gud-nemesis-divina-som-islamisk-teo",
+      "title": "Linnés hemliga Gud",
+      "publishedAt": "2026-02-08T21:34:31.470Z",
+      "wordCount": 1780,
+      "qualityScore": 8.7,
+      "sourceIdea": {
+        "topic": "tawhid-som-filosofisk-nodvandighet-varfor-en-enda-",
+        "ideaId": 1
+      }
+    },
     {
       "slug": "ibn-al-qayyims-periodiska-system-for-karlek-ibn-al",
       "title": "Kärlekens periodiska system: Ibn al-Qayyim och det språk vi saknar",

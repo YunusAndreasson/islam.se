@@ -1,0 +1,149 @@
+{
+  "version": 1,
+  "domains": {
+    "seekersguidance.org": {
+      "total": 1,
+      "ok": 1,
+      "failed": 0,
+      "lastChecked": "2026-02-10T22:07:33.590Z"
+    },
+    "www.islamreligion.com": {
+      "total": 1,
+      "ok": 1,
+      "failed": 0,
+      "lastChecked": "2026-02-10T22:07:33.590Z"
+    },
+    "academic.oup.com": {
+      "total": 1,
+      "ok": 1,
+      "failed": 0,
+      "lastChecked": "2026-02-10T22:07:33.590Z"
+    },
+    "www.utrujj.org": {
+      "total": 1,
+      "ok": 1,
+      "failed": 0,
+      "lastChecked": "2026-02-10T22:07:33.590Z"
+    },
+    "www.spiritualityandpractice.com": {
+      "total": 1,
+      "ok": 1,
+      "failed": 0,
+      "lastChecked": "2026-02-10T22:07:33.590Z"
+    },
+    "www.soderbergsallskapet.se": {
+      "total": 1,
+      "ok": 1,
+      "failed": 0,
+      "lastChecked": "2026-02-10T22:07:33.590Z"
+    },
+    "vikingr.org": {
+      "total": 1,
+      "ok": 1,
+      "failed": 0,
+      "lastChecked": "2026-02-10T22:07:33.590Z"
+    },
+    "thehumblei.com": {
+      "total": 1,
+      "ok": 1,
+      "failed": 0,
+      "lastChecked": "2026-02-10T22:24:32.198Z"
+    },
+    "en.wikipedia.org": {
+      "total": 6,
+      "ok": 6,
+      "failed": 0,
+      "lastChecked": "2026-02-11T21:53:18.539Z"
+    },
+    "www.academia.edu": {
+      "total": 1,
+      "ok": 1,
+      "failed": 0,
+      "lastChecked": "2026-02-10T22:24:32.198Z"
+    },
+    "philosophybreak.com": {
+      "total": 1,
+      "ok": 1,
+      "failed": 0,
+      "lastChecked": "2026-02-10T22:24:32.198Z"
+    },
+    "plato.stanford.edu": {
+      "total": 1,
+      "ok": 1,
+      "failed": 0,
+      "lastChecked": "2026-02-10T22:24:32.198Z"
+    },
+    "islamqa.org": {
+      "total": 1,
+      "ok": 1,
+      "failed": 0,
+      "lastChecked": "2026-02-10T22:24:32.198Z"
+    },
+    "solal.hypotheses.org": {
+      "total": 1,
+      "ok": 1,
+      "failed": 0,
+      "lastChecked": "2026-02-11T19:36:58.813Z"
+    },
+    "fof.se": {
+      "total": 1,
+      "ok": 1,
+      "failed": 0,
+      "lastChecked": "2026-02-11T19:36:58.813Z"
+    },
+    "www.slu.se": {
+      "total": 1,
+      "ok": 1,
+      "failed": 0,
+      "lastChecked": "2026-02-11T19:36:58.813Z"
+    },
+    "link.springer.com": {
+      "total": 2,
+      "ok": 2,
+      "failed": 0,
+      "lastChecked": "2026-02-11T21:53:18.539Z"
+    },
+    "popularhistoria.se": {
+      "total": 1,
+      "ok": 1,
+      "failed": 0,
+      "lastChecked": "2026-02-11T19:36:58.813Z"
+    },
+    "hal.science": {
+      "total": 1,
+      "ok": 1,
+      "failed": 0,
+      "lastChecked": "2026-02-11T19:36:58.813Z"
+    },
+    "www.hemtrevligt.se": {
+      "total": 1,
+      "ok": 1,
+      "failed": 0,
+      "lastChecked": "2026-02-11T21:53:18.539Z"
+    },
+    "via.tt.se": {
+      "total": 1,
+      "ok": 1,
+      "failed": 0,
+      "lastChecked": "2026-02-11T21:53:18.539Z"
+    },
+    "uu.diva-portal.org": {
+      "total": 1,
+      "ok": 1,
+      "failed": 0,
+      "lastChecked": "2026-02-11T21:53:18.539Z"
+    },
+    "www.statista.com": {
+      "total": 1,
+      "ok": 1,
+      "failed": 0,
+      "lastChecked": "2026-02-11T21:53:18.539Z"
+    },
+    "www.regeringen.se": {
+      "total": 1,
+      "ok": 1,
+      "failed": 0,
+      "lastChecked": "2026-02-11T21:53:18.539Z"
+    }
+  }
+}

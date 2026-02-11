@@ -27,7 +27,3 @@ export function setArticleCategory(slug: string, category: string): boolean {
 export function unpublishArticle(slug: string): boolean {
 	return publisher.unpublish(slug);
 }
-
-export function loadAllArticles(): PublishedArticle[] {
-	return publisher.listPublished();
-}

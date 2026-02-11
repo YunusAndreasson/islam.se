@@ -377,7 +377,9 @@ Respond with JSON only:
 		// Extract JSON from response
 		const jsonMatch = result.output.match(/\{[\s\S]*\}/);
 		if (!jsonMatch) {
-			console.error(`    [warn] No JSON in response (${result.output.length} chars): ${result.output.slice(0, 150)}`);
+			console.error(
+				`    [warn] No JSON in response (${result.output.length} chars): ${result.output.slice(0, 150)}`,
+			);
 			return null;
 		}
 		const parsed = JSON.parse(jsonMatch[0]);
@@ -771,7 +773,9 @@ export async function summarizeExistingBook(
 	// Verify summary was actually saved
 	const updated = getBook(bookId);
 	if (!updated?.summary) {
-		onProgress(`✗ Summary generation failed for "${book.title}" (Claude calls may have returned invalid data)`);
+		onProgress(
+			`✗ Summary generation failed for "${book.title}" (Claude calls may have returned invalid data)`,
+		);
 		return { success: false, error: "Summary not saved — Claude output could not be parsed" };
 	}
 
@@ -803,7 +807,9 @@ export async function summarizeAllUnsummarized(
 
 	for (const book of books) {
 		if (maxChapters && book.totalChapters > maxChapters) {
-			onProgress(`⏭ Skipping "${book.title}" (${book.totalChapters} chapters > ${maxChapters} limit)`);
+			onProgress(
+				`⏭ Skipping "${book.title}" (${book.totalChapters} chapters > ${maxChapters} limit)`,
+			);
 			skipped++;
 			continue;
 		}

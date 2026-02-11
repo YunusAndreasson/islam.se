@@ -21,7 +21,7 @@ export function registerFtsValidateCommand(program: Command): void {
 				try {
 					const testResult = database
 						.prepare(
-							"SELECT COUNT(*) as c FROM quotes_fts WHERE quotes_fts MATCH '\"a\" OR \"the\" OR \"och\"' LIMIT 1",
+							'SELECT COUNT(*) as c FROM quotes_fts WHERE quotes_fts MATCH \'"a" OR "the" OR "och"\' LIMIT 1',
 						)
 						.get() as { c: number };
 					hasContent = testResult.c > 0;
@@ -29,26 +29,20 @@ export function registerFtsValidateCommand(program: Command): void {
 					hasContent = false;
 				}
 
-				if (!hasContent) {
+				if (hasContent) {
+					const ftsCount = (
+						database.prepare("SELECT COUNT(*) as c FROM quotes_fts").get() as { c: number }
+					).c;
+					console.log(`FTS5 index has ${ftsCount} entries.\n`);
+				} else {
 					console.log("FTS5 index needs rebuilding...");
 					const start = performance.now();
 					rebuildFts();
 					const elapsed = performance.now() - start;
 					const newCount = (
-						database
-							.prepare("SELECT COUNT(*) as c FROM quotes_fts")
-							.get() as { c: number }
+						database.prepare("SELECT COUNT(*) as c FROM quotes_fts").get() as { c: number }
 					).c;
-					console.log(
-						`Rebuilt FTS5 index with ${newCount} entries in ${elapsed.toFixed(0)}ms.\n`,
-					);
-				} else {
-					const ftsCount = (
-						database
-							.prepare("SELECT COUNT(*) as c FROM quotes_fts")
-							.get() as { c: number }
-					).c;
-					console.log(`FTS5 index has ${ftsCount} entries.\n`);
+					console.log(`Rebuilt FTS5 index with ${newCount} entries in ${elapsed.toFixed(0)}ms.\n`);
 				}
 
 				const queries = [
@@ -79,21 +73,12 @@ export function registerFtsValidateCommand(program: Command): void {
 					const likeSet = new Set(likeResult.topIds);
 					const ftsSet = new Set(ftsResult.topIds);
 					const overlap = [...likeSet].filter((id) => ftsSet.has(id)).length;
-					const overlapPct =
-						likeSet.size > 0
-							? ((overlap / likeSet.size) * 100).toFixed(0)
-							: "N/A";
+					const overlapPct = likeSet.size > 0 ? ((overlap / likeSet.size) * 100).toFixed(0) : "N/A";
 
 					console.log(`\n${label}: "${query}"`);
-					console.log(
-						`  LIKE: ${likeResult.count} results in ${likeResult.timeMs.toFixed(1)}ms`,
-					);
-					console.log(
-						`  FTS5: ${ftsResult.count} results in ${ftsResult.timeMs.toFixed(1)}ms`,
-					);
-					console.log(
-						`  Overlap: ${overlap}/${likeSet.size} (${overlapPct}%)`,
-					);
+					console.log(`  LIKE: ${likeResult.count} results in ${likeResult.timeMs.toFixed(1)}ms`);
+					console.log(`  FTS5: ${ftsResult.count} results in ${ftsResult.timeMs.toFixed(1)}ms`);
+					console.log(`  Overlap: ${overlap}/${likeSet.size} (${overlapPct}%)`);
 
 					if (ftsResult.timeMs > 0 && likeResult.timeMs > 0) {
 						const speedup = likeResult.timeMs / ftsResult.timeMs;
@@ -104,10 +89,7 @@ export function registerFtsValidateCommand(program: Command): void {
 				console.log(`\n${"=".repeat(80)}`);
 				console.log("Done.");
 			} catch (error) {
-				console.error(
-					"Error:",
-					error instanceof Error ? error.message : error,
-				);
+				console.error("Error:", error instanceof Error ? error.message : error);
 				process.exit(1);
 			} finally {
 				closeDatabase();
@@ -146,12 +128,8 @@ function timeFtsSearch(
 	limit: number,
 ): TimedResult {
 	// Build FTS5 query with prefix matching
-	const tokens = query
-		.split(/\s+/)
-		.filter((t) => t.length > 0);
-	const ftsQuery = tokens
-		.map((token) => `"${token.replace(/"/g, '""')}"*`)
-		.join(" ");
+	const tokens = query.split(/\s+/).filter((t) => t.length > 0);
+	const ftsQuery = tokens.map((token) => `"${token.replace(/"/g, '""')}"*`).join(" ");
 
 	if (!ftsQuery) return { count: 0, timeMs: 0, topIds: [] };
 

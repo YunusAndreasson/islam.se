@@ -104,11 +104,56 @@ apps/
 - `data/extracted/` - Raw extraction outputs for review
 - `data/articles/` - Published articles with `index.json` metadata
 
-## Content Guidelines
+## The Only Question That Matters
 
-The content is for islam.se, a Swedish publication targeting educated readers (Axess/Respons level). Key constraints for the ideator and content pipeline:
+Every change to this codebase exists to serve one outcome: the pipeline produces a better article for the reader. Before writing code, refactoring, adding a feature, or optimizing something, ask:
 
-- **Avoid Sufism entirely:** No Sufi terminology (fana, muraqaba, tariqa), no Sufi figures (Ibn Arabi, Rumi as Sufi, al-Hallaj)
-- **Use orthodox framing instead:** taqwa, ihsan, tazkiyat al-nafs, muhasaba; scholars like Ibn Taymiyyah, Ibn al-Qayyim, Ibn Rajab al-Hanbali, al-Ghazali (Ihya ethics), al-Nawawi
-- **Counter-intuitive angles:** Ideas should make readers say "I never thought of it that way" — avoid survey overviews or basic explainers
-- **Quote database:** Swedish literature (~34k: Strindberg, Key, Söderberg, Runeberg, Bergman, Topelius, Rydberg, Blanche, Boye, Lagerlöf, Geijer, Bremer, Söderblom, Hans Ruin, Geijerstam, Canth, Benedictsson, Levertin, Hallström, Heidenstam, Almqvist, Tegnér, Andersson, Södergran, Linné, Sjöberg, Fröding), Arabic Islamic (~20k: Ibn Qayyim, Ibn Taymiyyah, Ibn al-Jawzi, Ibn Rajab, al-Suyuti, al-Mawardi, Ibn Hazm, al-Nawawi, al-Ghazali, Ibn Hibban, Ibn Abi al-Dunya, al-Shafi'i), Norse/English (~5k)
+**"Will this change make the published article better?"**
+
+"Better" means: more compelling prose, more accurate sourcing, richer quote integration, fewer pipeline failures that waste a 25-minute run, or faster iteration so the human can review more drafts. If a change doesn't connect to one of these, it probably shouldn't be made.
+
+This applies at every level:
+- **Prompt engineering** — Does this instruction actually change what Claude writes, or is it just more words? Test with a real run.
+- **Schema/type changes** — Does the pipeline need this field, or is it speculative structure? Dead fields are noise the LLM has to work around.
+- **Infrastructure work** — Does this make the pipeline more reliable (fewer crashes, better error recovery), or is it engineering for its own sake?
+- **Test additions** — Does this test catch a bug that would silently corrupt article quality, or is it testing an implementation detail that will change next week?
+
+The codebase is a tool. The article is the product. Never confuse the two.
+
+## Testing Philosophy
+
+Tests are the primary feedback loop for LLM-driven development. They serve as cross-session memory, machine-speed verification, and the executable specification that makes high-velocity iteration possible.
+
+### Principles
+
+- **Test behavior through public interfaces, not implementation details.** Functions get refactored constantly. Assertions against observable outputs survive; assertions against internal state break on every change.
+- **Minimize mocking.** Use in-memory SQLite (via `createTestDatabase()` in `packages/quotes/src/test-utils/db.ts`) instead of mocking the database layer. Only mock truly external dependencies (HTTP, Claude CLI subprocess). If something is mockable with an in-memory substitute, prefer the real implementation.
+- **Failure messages are cross-session documentation.** The next session reads the failure output, not the test name. Make failure messages describe what invariant broke and why it matters, not just "expected X got Y."
+- **Bug fix tests must describe the bug.** When fixing a regression, the test should comment what went wrong and why — this is the only durable memory that prevents a future session from "improving" the code back into the same bug.
+- **Never write tests that mirror implementation logic.** If the test reconstructs the same algorithm as the code, it verifies nothing. Test the contract (given input X, output should be Y), not the steps.
+- **Prefer property-based assertions over single examples where applicable.** For pure functions (chunking, scoring, embedding distance), assert invariants (`output.length <= maxSize`, `score >= 0 && score <= 1`, `symmetry: distance(a,b) === distance(b,a)`) alongside example-based tests.
+
+### Test speed matters
+
+Test execution time is the bottleneck for iteration velocity. Keep the full suite under 5 seconds. Never add I/O, network calls, or sleeps to tests. The existing pattern of in-memory SQLite + fake embeddings (`generateFakeEmbedding()`) is correct — maintain it.
+
+### What to test (and not)
+
+**Always test (machine domain, no human review needed):**
+- Database operations: insert, query, search, FTS, vector similarity
+- Business logic: scoring algorithms, chunking, length categorization, slug generation
+- Parsing and validation: JSON extraction from Claude responses, Zod schema validation
+- Edge cases: Unicode/Arabic text handling, empty inputs, boundary conditions
+
+**Structural code (human must review, tests are secondary):**
+- Zod schemas in `packages/orchestrator/src/schemas.ts` — these define pipeline contracts. A wrong schema makes all derived tests wrong. Changes to these schemas require human approval.
+- TypeScript types in `packages/core/src/types/` — shared across all packages. Changes cascade everywhere.
+- Database schema definitions in `database.ts`, `books/database.ts`, `quran/database.ts` — define persisted data shape. Schema changes are effectively migrations.
+- Quality gate thresholds (credibility ≥7, review score ≥8) — business decisions, not implementation.
+
+### Existing test infrastructure
+
+- **Framework:** Vitest with `globals: true`, `environment: "node"`, 10s timeout
+- **Test utils:** `packages/quotes/src/test-utils/db.ts` — `createTestDatabase()`, `insertTestQuote()`, `generateFakeEmbedding()`, `seedTestQuotes()`
+- **Pattern:** In-memory SQLite for isolation, fake embeddings to avoid model downloads, minimal mocking
+- **Run:** `pnpm test` (vitest run, ~270 tests)

@@ -1,9 +1,10 @@
 import { spawn } from "node:child_process";
 import { EventEmitter } from "node:events";
 import { readFileSync } from "node:fs";
+import { tmpdir } from "node:os";
 import type { z } from "zod";
 
-export interface ClaudeStreamChunk {
+interface ClaudeStreamChunk {
 	type: "text" | "tool_use" | "tool_result";
 	content: string;
 }
@@ -37,11 +38,11 @@ export interface ClaudeRunOptions {
 	mcpConfig?: string;
 	/** Skip all permission checks for trusted pipeline runs (uses --dangerously-skip-permissions flag) */
 	skipPermissions?: boolean;
-	/** Timeout in milliseconds for the subprocess (default: 600000 = 10 min) */
+	/** Timeout in milliseconds for the subprocess (default: 900000 = 15 min) */
 	timeout?: number;
 }
 
-export interface ClaudeRunResult {
+interface ClaudeRunResult {
 	success: boolean;
 	output?: string;
 	error?: string;
@@ -77,6 +78,7 @@ export class ClaudeRunner extends EventEmitter {
 			const child = spawn("claude", args, {
 				stdio: ["pipe", "pipe", "pipe"],
 				env,
+				cwd: tmpdir(),
 			});
 
 			let stdout = "";
@@ -160,6 +162,7 @@ export class ClaudeRunner extends EventEmitter {
 			const child = spawn("claude", args, {
 				stdio: ["pipe", "pipe", "pipe"],
 				env,
+				cwd: tmpdir(),
 			});
 
 			let timedOut = false;
@@ -192,8 +195,11 @@ export class ClaudeRunner extends EventEmitter {
 						const event = JSON.parse(line);
 						this.processStreamEvent(event, onChunk);
 
-						// Accumulate result content from assistant messages
-						if (event.type === "assistant" && event.message?.content) {
+						// Accumulate result content from assistant messages.
+						// Skip when jsonSchema is set — the only valid output is
+						// structured_output from the result event. Accumulating prose
+						// ("I'll research this topic...") causes parse failures.
+						if (!options.jsonSchema && event.type === "assistant" && event.message?.content) {
 							for (const block of event.message.content) {
 								if (block.type === "text") {
 									fullOutput += block.text;
@@ -206,7 +212,8 @@ export class ClaudeRunner extends EventEmitter {
 							// Structured output from --json-schema
 							if (event.structured_output !== undefined) {
 								fullOutput = JSON.stringify(event.structured_output);
-							} else if (event.result) {
+							} else if (!options.jsonSchema && event.result) {
+								// Only use prose result when no schema expected
 								fullOutput = event.result;
 							}
 						}
@@ -235,7 +242,7 @@ export class ClaudeRunner extends EventEmitter {
 						if (event.type === "result") {
 							if (event.structured_output !== undefined) {
 								fullOutput = JSON.stringify(event.structured_output);
-							} else if (event.result) {
+							} else if (!options.jsonSchema && event.result) {
 								fullOutput = event.result;
 							}
 						}
@@ -441,9 +448,14 @@ export class ClaudeRunner extends EventEmitter {
 			args.push("--mcp-config", options.mcpConfig);
 		}
 
-		// System prompt and prompt content sent via stdin — not as CLI args.
-		// Arabic text in CLI args causes silent exit code 1 on some systems,
-		// and large research JSON can exceed MAX_ARG_STRLEN (128KB).
+		// System prompt as --append-system-prompt flag (named args handle Unicode fine;
+		// the Arabic exit-code-1 bug only affects the positional prompt argument).
+		if (options.systemPrompt) {
+			args.push("--append-system-prompt", options.systemPrompt);
+		}
+
+		// User prompt is sent via stdin (see buildStdinContent) to avoid the
+		// positional-argument encoding bug with non-ASCII text.
 
 		// Allowed tools
 		if (options.allowedTools && options.allowedTools.length > 0) {
@@ -493,24 +505,59 @@ export class ClaudeRunner extends EventEmitter {
 	}
 
 	/**
-	 * Build stdin content combining system prompt and prompt.
+	 * Build stdin content with the user prompt only.
+	 * System prompt is passed via --append-system-prompt flag (see buildArgs).
 	 * Throws on missing prompt files (instead of silently falling back to the path string).
 	 */
 	private buildStdinContent(options: ClaudeRunOptions): string {
-		const parts: string[] = [];
-
-		if (options.systemPrompt) {
-			parts.push(options.systemPrompt);
-		}
-
 		let promptContent = options.prompt;
 		if (options.prompt.endsWith(".md") || options.prompt.endsWith(".txt")) {
 			// Let readFileSync throw on missing files — caller gets a clear error
 			promptContent = readFileSync(options.prompt, "utf-8");
 		}
-		parts.push(promptContent);
+		return promptContent;
+	}
 
-		return parts.join("\n\n");
+	/**
+	 * Parse output in frontmatter + markdown body format.
+	 * Expected format:
+	 *   ---
+	 *   { "title": "...", "reflection": "..." }
+	 *   ---
+	 *
+	 *   # Article body in markdown...
+	 *
+	 * The frontmatter between --- markers is JSON metadata.
+	 * Everything after the closing --- is the markdown body.
+	 * Any preamble text before the first --- is ignored (Claude thinking).
+	 */
+	public parseMarkdownWithMeta(output: string): { meta: unknown; body: string } | null {
+		// Find the first JSON object enclosed in --- markers
+		const fmMatch = output.match(/---[ \t]*\n([\s\S]*?)\n---/);
+		if (!fmMatch?.[1]) return null;
+
+		const rawMeta = fmMatch[1].trim();
+
+		// Try to parse as JSON directly
+		let meta: unknown;
+		try {
+			meta = JSON.parse(rawMeta);
+		} catch {
+			// Frontmatter exists but isn't valid JSON — try extracting JSON from it
+			const extracted = this.extractJSON(rawMeta);
+			if (!extracted) return null;
+			try {
+				meta = JSON.parse(extracted);
+			} catch {
+				return null;
+			}
+		}
+
+		// Body is everything after the closing ---
+		const closingIdx = output.indexOf(fmMatch[0]) + fmMatch[0].length;
+		const body = output.slice(closingIdx).trim();
+
+		return { meta, body };
 	}
 
 	/**

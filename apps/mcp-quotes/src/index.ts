@@ -10,19 +10,15 @@
 import {
 	type FormattedQuoteWithId,
 	findQuotesByFilter,
-	findQuotesLocal,
 	generateLocalEmbedding,
 	getCategories,
 	getInventory,
 	initBookDatabase,
 	initQuranDatabase,
 	preloadLocalModel,
-	// Book search
 	searchBooks,
-	searchConcepts,
-	searchPassages,
+	searchQuotesHybrid,
 	searchQuotesText,
-	// Quran search
 	searchVersesSemantic,
 } from "@islam-se/quotes";
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
@@ -53,7 +49,7 @@ function formatQuotes(quotes: FormattedQuoteWithId[]): string {
 
 	return quotes
 		.map((q, i) => {
-			return `[${i + 1}] ID: ${q.id}
+			return `[${i + 1}] ID: ${q.id} | Score: ${q.score.toFixed(2)} | Lang: ${q.language}
 "${q.text}"
 ${q.attribution}
 Category: ${q.category}`;
@@ -76,7 +72,8 @@ Examples:
 Tips:
 - Use descriptive phrases, not single words
 - Combine concepts for more specific results
-- Works across all languages (Swedish, Arabic, English)`,
+- ALWAYS set the language filter — results are biased toward the query language without it
+- For cross-language coverage, make separate calls with language: "sv", "ar", "en"`,
 		inputSchema: {
 			query: z
 				.string()
@@ -96,11 +93,10 @@ Tips:
 		},
 	},
 	async ({ query, language, limit }) => {
-		const quotes = await findQuotesLocal(query, {
-			limit: limit ?? 15,
+		const quotes = await searchQuotesHybrid(query, {
+			limit: limit ?? 5,
 			language,
 			minStandalone: 4,
-			diverse: true,
 		});
 
 		const output = formatQuotes(quotes);
@@ -117,18 +113,22 @@ server.registerTool(
 		title: "Filter Quote Search",
 		description: `Search quotes by specific criteria like author, category, or language.
 
-Available categories (top ones):
-- زهد (asceticism), صبر (patience), توبة (repentance), تقوى (God-consciousness)
-- علم (knowledge), أخلاق (ethics), قلب (heart), نفس (soul)
-- Swedish categories vary by work
+Available categories (all in English):
+- character, knowledge, faith, death, trials, justice, love, meaning
+- humility, community, wisdom, hope, mercy, pride, nature, patience
+- self-accountability, greed, gratitude, honor, fear, soul, heart
+- asceticism, repentance, relationships, remembrance, warning, courage
 
 Top authors by quote count:
 - Arabic: Ibn al-Jawzi, Ibn Qayyim, al-Suyuti, Ibn Taymiyyah, al-Nawawi, al-Ghazali
-- Swedish: Strindberg, Ellen Key, Viktor Rydberg, Selma Lagerlöf, Fredrika Bremer
-- Norse: Sæmundur fróði, Snorri Sturluson, Hávamál`,
+- Swedish: Strindberg, Ellen Key, Söderberg, Runeberg, Bergman, Rydberg, Lagerlöf
+- Norse: Hávamál, Poetic Edda, Njáls saga`,
 		inputSchema: {
 			author: z.string().optional().describe("Author name (partial match works)"),
-			category: z.string().optional().describe('Category/theme (e.g., "صبر", "توبة")'),
+			category: z
+				.string()
+				.optional()
+				.describe('Category/theme in English (e.g., "patience", "faith", "character")'),
 			language: z.enum(["sv", "ar", "en"]).optional().describe("Filter by language"),
 			limit: z.number().min(1).max(20).optional().describe("Number of results (default: 10)"),
 		},
@@ -240,9 +240,15 @@ server.registerTool(
 
 Example: bulk_search(["patience adversity", "death mortality", "knowledge wisdom"])
 
-Returns results grouped by query. Use this when you need quotes from multiple themes.`,
+Returns results grouped by query. Use this when you need quotes from multiple themes.
+
+IMPORTANT: Semantic search is biased toward the query language. Always set the language filter, or run separate bulk_search calls per language (sv, ar, en) for cross-language coverage.`,
 		inputSchema: {
 			queries: z.array(z.string()).min(1).max(5).describe("Array of search queries (1-5 queries)"),
+			language: z
+				.enum(["sv", "ar", "en"])
+				.optional()
+				.describe("Filter by language: sv=Swedish, ar=Arabic, en=English/Norse"),
 			limit_per_query: z
 				.number()
 				.min(1)
@@ -251,16 +257,16 @@ Returns results grouped by query. Use this when you need quotes from multiple th
 				.describe("Results per query (default: 10)"),
 		},
 	},
-	async ({ queries, limit_per_query }) => {
+	async ({ queries, language, limit_per_query }) => {
 		const limit = limit_per_query ?? 10;
 
 		// Run all searches in parallel
 		const results = await Promise.all(
 			queries.map(async (query) => {
-				const quotes = await findQuotesLocal(query, {
+				const quotes = await searchQuotesHybrid(query, {
 					limit,
+					language,
 					minStandalone: 4,
-					diverse: true,
 				});
 				return { query, quotes };
 			}),
@@ -305,7 +311,9 @@ Examples:
 			languages: z
 				.array(z.enum(["sv", "ar", "en"]))
 				.optional()
-				.describe("Filter by languages (e.g. [\"sv\", \"ar\"] for both Swedish and Arabic). Omit for all languages."),
+				.describe(
+					'Filter by languages (e.g. ["sv", "ar"] for both Swedish and Arabic). Omit for all languages.',
+				),
 			limit: z
 				.number()
 				.min(1)
@@ -409,12 +417,16 @@ server.registerTool(
 
 Use this to find Quranic support for themes in your article. Returns verses with Swedish translation.
 
+IMPORTANT: The verse database is in Swedish. Always search in Swedish for best results.
+
 Examples:
-- "patience and perseverance" → finds verses about sabr
-- "knowledge and wisdom" → finds verses about ilm
-- "death and resurrection" → finds verses about akhira`,
+- "tålamod och uthållighet" → finds verses about sabr
+- "kunskap och visdom" → finds verses about ilm
+- "döden och uppståndelsen" → finds verses about akhira`,
 		inputSchema: {
-			query: z.string().describe('Theme to search for (e.g., "gratitude and thankfulness")'),
+			query: z
+				.string()
+				.describe('Theme to search for IN SWEDISH (e.g., "tacksamhet och ödmjukhet")'),
 			limit: z
 				.number()
 				.min(1)

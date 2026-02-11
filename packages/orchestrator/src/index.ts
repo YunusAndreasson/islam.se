@@ -1,25 +1,34 @@
 import { existsSync, mkdirSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
+import { getQuote } from "@islam-se/quotes";
 import { ClaudeRunner, type ClaudeRunOptions } from "./claude-runner.js";
+import {
+	formatBlockedDomainsPrompt,
+	formatDomainReputation,
+	getBlockedDomains,
+	loadDomainTracker,
+	recordPublishedArticle,
+	saveDomainTracker,
+	updateDomainTracker,
+} from "./domain-tracker.js";
 import { ReferenceTracker } from "./reference-tracker.js";
 import {
+	DraftFrontmatterSchema,
 	DraftOutputSchema,
 	FactCheckOutputSchema,
-	getDraftJsonSchema,
 	getFactCheckJsonSchema,
-	getPolishJsonSchema,
 	getResearchJsonSchema,
-	getReviewJsonSchema,
-	PolishOutputSchema,
+	PolishFrontmatterSchema,
 	ResearchOutputSchema,
-	ReviewOutputSchema,
+	ReviewFrontmatterSchema,
 } from "./schemas.js";
 import { ArticlePublisher } from "./services/article-publisher.js";
 import { IdeationService } from "./services/ideation-service.js";
 import { SourceValidator } from "./source-validator.js";
 import {
 	createLogger,
+	formatDuration,
 	getModelId,
 	loadOutput,
 	RESEARCH_ALLOWED_TOOLS,
@@ -63,12 +72,9 @@ export interface OrchestratorOptions {
 	onStageChange?: (progress: StageProgress) => void;
 }
 
-export interface StageResult<T = unknown> {
-	success: boolean;
-	data?: T;
-	error?: string;
-	duration?: number;
-}
+export type StageResult<T = unknown> =
+	| { success: true; data: T; error?: undefined; duration?: number }
+	| { success: false; error: string; data?: T; duration?: number };
 
 export interface ResearchOutput {
 	topic: string;
@@ -126,6 +132,8 @@ export interface DraftOutput {
 	body: string;
 	wordCount?: number;
 	reflection?: string;
+	struggles?: string;
+	efficiencySuggestions?: string;
 }
 
 export interface ReviewOutput {
@@ -217,13 +225,22 @@ export class ContentOrchestrator {
 		promptFile: string;
 		systemPrompt: string;
 		allowedTools: string[];
+		/** Zod schema for full output validation (JSON mode) */
 		schema?: import("zod").ZodSchema<T>;
+		/** JSON Schema for Claude --json-schema flag (JSON mode only) */
 		jsonSchema?: object;
+		/** Markdown mode: frontmatter+body output instead of JSON.
+		 * When set, jsonSchema is ignored. Output is parsed as frontmatter+markdown. */
+		markdownMode?: {
+			frontmatterSchema: import("zod").ZodSchema;
+			combine: (meta: Record<string, unknown>, body: string) => T;
+		};
 		maxRetries?: number;
 		skipPermissions?: boolean;
 		mcpConfig?: string;
 		effort?: ClaudeRunOptions["effort"];
 		maxTurns?: number;
+		timeout?: number;
 	}): Promise<StageResult<T>> {
 		const startTime = Date.now();
 		const maxRetries = options.maxRetries ?? 2;
@@ -231,6 +248,7 @@ export class ContentOrchestrator {
 
 		const promptPath = join(this.promptsDir, options.promptFile);
 		const useStreaming = !!this.options.onPreview;
+		const isMarkdown = !!options.markdownMode;
 
 		const runOptions: ClaudeRunOptions = {
 			prompt: promptPath,
@@ -238,16 +256,25 @@ export class ContentOrchestrator {
 			model: getModelId(this.options.model),
 			allowedTools: options.allowedTools,
 			mcpConfig: options.mcpConfig,
-			jsonSchema: options.jsonSchema,
+			// JSON mode: pass schema for server-side validation
+			// Markdown mode: no schema, no json output format
+			jsonSchema: isMarkdown ? undefined : options.jsonSchema,
 			effort: options.effort,
 			maxTurns: options.maxTurns,
+			timeout: options.timeout,
 			fallbackModel: "sonnet",
 			noSessionPersistence: true,
 			skipPermissions: options.skipPermissions ?? true,
 		};
 
 		for (let attempt = 1; attempt <= maxRetries; attempt++) {
-			let result: Awaited<ReturnType<typeof this.runner.runJSON<T>>>;
+			let result: {
+				success: boolean;
+				output?: string;
+				error?: string;
+				data?: T;
+				exitCode?: number;
+			};
 
 			if (useStreaming) {
 				const streamResult = await this.runner.runWithStreaming(runOptions, (chunk) => {
@@ -259,28 +286,22 @@ export class ContentOrchestrator {
 				});
 
 				if (streamResult.success && streamResult.output) {
-					const parsed = this.runner.parseJSONOutput<T>(streamResult.output);
-					if (parsed && options.schema) {
-						const validation = this.runner.validateOutput(parsed, options.schema);
-						if (validation.success) {
-							result = { ...streamResult, data: validation.data };
-						} else {
-							result = { success: false, error: validation.error, output: streamResult.output };
-						}
-					} else if (parsed) {
-						result = { ...streamResult, data: parsed as T };
-					} else {
-						const snippet = streamResult.output.slice(0, 300);
-						result = {
-							success: false,
-							error: `Validation failed: Could not parse JSON from streaming output. Got: ${snippet}...`,
-							output: streamResult.output,
-						};
-					}
+					result = isMarkdown
+						? this.parseMarkdownResult(streamResult, options.markdownMode!)
+						: this.parseJsonResult(streamResult, options.schema);
 				} else {
 					result = streamResult;
 				}
+			} else if (isMarkdown) {
+				// Markdown mode: raw run, parse frontmatter+body
+				const rawResult = await this.runner.run(runOptions);
+				if (rawResult.success && rawResult.output) {
+					result = this.parseMarkdownResult(rawResult, options.markdownMode!);
+				} else {
+					result = rawResult;
+				}
 			} else {
+				// JSON mode: runJSON with schema validation
 				result = await this.runner.runJSON<T>(runOptions, options.schema);
 			}
 
@@ -325,6 +346,59 @@ export class ContentOrchestrator {
 		};
 	}
 
+	/** Parse JSON mode result from streaming or runJSON output */
+	private parseJsonResult<T>(
+		rawResult: { success: boolean; output?: string; error?: string },
+		schema?: import("zod").ZodSchema<T>,
+	): { success: boolean; output?: string; error?: string; data?: T } {
+		const output = rawResult.output ?? "";
+		const parsed = this.runner.parseJSONOutput<T>(output);
+		if (parsed && schema) {
+			const validation = this.runner.validateOutput(parsed, schema);
+			if (validation.success) {
+				return { ...rawResult, data: validation.data };
+			}
+			return { success: false, error: validation.error, output };
+		}
+		if (parsed) {
+			return { ...rawResult, data: parsed as T };
+		}
+		const snippet = output.slice(0, 300);
+		return {
+			success: false,
+			error: `Output parse failed: no structured_output in stream result.${snippet ? ` Got: ${snippet}...` : " Output was empty."}`,
+			output,
+		};
+	}
+
+	/** Parse markdown frontmatter+body result */
+	private parseMarkdownResult<T>(
+		rawResult: { success: boolean; output?: string; error?: string },
+		markdownMode: {
+			frontmatterSchema: import("zod").ZodSchema;
+			combine: (meta: Record<string, unknown>, body: string) => T;
+		},
+	): { success: boolean; output?: string; error?: string; data?: T } {
+		const output = rawResult.output ?? "";
+		const parsed = this.runner.parseMarkdownWithMeta(output);
+		if (!parsed) {
+			const snippet = output.slice(0, 200);
+			return {
+				success: false,
+				error: `Output parse failed: no frontmatter block found.${snippet ? ` Got: ${snippet}...` : " Output was empty."}`,
+				output,
+			};
+		}
+
+		const validation = this.runner.validateOutput(parsed.meta, markdownMode.frontmatterSchema);
+		if (!validation.success) {
+			return { success: false, error: validation.error, output };
+		}
+
+		const data = markdownMode.combine(validation.data as Record<string, unknown>, parsed.body);
+		return { ...rawResult, data };
+	}
+
 	/**
 	 * Ensure output directory exists
 	 */
@@ -338,26 +412,48 @@ export class ContentOrchestrator {
 
 	/**
 	 * Post-process research results: URL verification, source validation, reference tracking
+	 * Returns both the stage result and a formatted summary with timing breakdown.
 	 */
 	private async processResearchResult(
 		rawResult: StageResult<ResearchOutput>,
 		startTime: number,
-	): Promise<StageResult<ResearchOutput>> {
+	): Promise<{ result: StageResult<ResearchOutput>; summary: string }> {
 		if (!(rawResult.success && rawResult.data)) {
 			return {
-				success: false,
-				error: rawResult.error || "Research stage failed",
-				duration: Date.now() - startTime,
+				result: {
+					success: false,
+					error: rawResult.error || "Research stage failed",
+					duration: Date.now() - startTime,
+				},
+				summary: "",
 			};
 		}
 
+		const claudeDuration = rawResult.duration ?? Date.now() - startTime;
+
+		// URL verification
+		this.options.onStageChange?.({
+			stage: "research",
+			status: "running",
+			summary: "Verifying URLs...",
+		});
 		const rawSources = rawResult.data.sources || [];
 		this.logger.log("   - Verifying URLs...");
+		const verifyStart = Date.now();
 		const urlsToVerify = rawSources.map((s) => s.url);
 		const verification = await this.validator.verifyUrls(urlsToVerify);
 
 		if (verification.stats.failed > 0) {
 			this.logger.log(`   - ⚠️  ${verification.stats.failed} URL(s) failed verification`);
+		}
+
+		// Persist URL verification results for future blocklist
+		try {
+			const tracker = loadDomainTracker();
+			updateDomainTracker(tracker, verification.results);
+			saveDomainTracker(tracker);
+		} catch (e) {
+			this.logger.warn(`   - ⚠️  Failed to save domain tracker: ${e}`);
 		}
 
 		const verifiedUrls = new Set<string>();
@@ -371,11 +467,39 @@ export class ContentOrchestrator {
 				const validation = this.validator.validateSource(source.url);
 				return validation.credibility !== "rejected";
 			});
+		const urlVerifyDuration = Date.now() - verifyStart;
+
+		// Quote verification
+		this.options.onStageChange?.({
+			stage: "research",
+			status: "running",
+			summary: "Checking quotes...",
+		});
+		const quoteVerifyStart = Date.now();
+		const rawQuotes = rawResult.data.quotes || [];
+		let verifiedCount = 0;
+		for (const quote of rawQuotes) {
+			const numericId = Number.parseInt(String(quote.id).replace(/^quote-/, ""), 10);
+			if (Number.isNaN(numericId)) {
+				this.logger.log(`   - ⚠️  Quote has invalid ID: ${quote.id}`);
+			} else {
+				const dbQuote = getQuote(numericId);
+				if (dbQuote) {
+					verifiedCount++;
+				} else {
+					this.logger.log(`   - ⚠️  Quote ID ${quote.id} not found in database`);
+				}
+			}
+		}
+		if (rawQuotes.length > 0) {
+			this.logger.log(`   - Verified ${verifiedCount}/${rawQuotes.length} quotes against database`);
+		}
+		const quoteVerifyDuration = Date.now() - quoteVerifyStart;
 
 		const data: ResearchOutput = {
 			...rawResult.data,
 			sources: validatedSources,
-			quotes: rawResult.data.quotes || [],
+			quotes: rawQuotes,
 			bookPassages: rawResult.data.bookPassages || [],
 		};
 
@@ -397,10 +521,19 @@ export class ContentOrchestrator {
 
 		this.logger.log(`   - Found ${data.quotes.length} quotes, ${data.sources.length} sources`);
 
+		// Build summary with timing breakdown
+		const verifyTotal = urlVerifyDuration + quoteVerifyDuration;
+		const counts = `${data.sources.length} sources, ${data.quotes.length} quotes`;
+		const timing = `LLM ${formatDuration(claudeDuration)}, verify ${formatDuration(verifyTotal)}`;
+		this.logger.log(`   - Timing: ${timing}`);
+
 		return {
-			success: true,
-			data,
-			duration: Date.now() - startTime,
+			result: {
+				success: true,
+				data,
+				duration: Date.now() - startTime,
+			},
+			summary: `${counts} | ${timing}`,
 		};
 	}
 
@@ -413,8 +546,10 @@ export class ContentOrchestrator {
 		angle: string;
 		keywords: string[];
 		seedQuotes?: Array<{ text: string; author: string; source?: string }>;
-	}): Promise<StageResult<ResearchOutput>> {
+	}): Promise<{ result: StageResult<ResearchOutput>; summary: string }> {
 		const startTime = Date.now();
+
+		const blocklist = formatBlockedDomainsPrompt(getBlockedDomains(loadDomainTracker()));
 
 		let systemPrompt = `Topic: ${idea.thesis}
 
@@ -433,9 +568,12 @@ Find the best material for this specific angle:
 - Book passages for extended context
 - Web sources for contemporary perspectives
 
-Use parallel tool calls when searching multiple angles or authors simultaneously.
-IMPORTANT: When using WebFetch, skip URLs ending in .pdf — the tool cannot read PDF files and will return binary garbage.
-</guidance>`;
+Run multiple MCP searches in parallel, but do NOT mix WebFetch/WebSearch with MCP calls in the same batch — a web timeout kills sibling calls.
+IMPORTANT WebFetch limitations:
+- Skip URLs ending in .pdf — returns binary garbage.
+- Skip litteraturbanken.se — JavaScript SPA, returns empty shell HTML.
+- Skip any URL that returned empty/useless content on the first try.
+</guidance>${blocklist}`;
 
 		if (idea.seedQuotes && idea.seedQuotes.length > 0) {
 			const formatted = idea.seedQuotes
@@ -461,8 +599,8 @@ ${formatted}
 			mcpConfig: mcpConfigPath,
 			schema: ResearchOutputSchema,
 			jsonSchema: getResearchJsonSchema(),
-			effort: "max",
-			maxTurns: 20,
+			effort: "high",
+			maxTurns: 15,
 		});
 
 		return this.processResearchResult(result, startTime);
@@ -472,8 +610,12 @@ ${formatted}
 	 * Run the research stage
 	 * Uses MCP quote tools for intelligent, targeted searching
 	 */
-	async runResearch(topic: string): Promise<StageResult<ResearchOutput>> {
+	async runResearch(
+		topic: string,
+	): Promise<{ result: StageResult<ResearchOutput>; summary: string }> {
 		const startTime = Date.now();
+
+		const blocklist = formatBlockedDomainsPrompt(getBlockedDomains(loadDomainTracker()));
 
 		const systemPrompt = `Topic: ${topic}
 
@@ -489,9 +631,12 @@ Consider what would make this article compelling:
 - Which classical Islamic scholars addressed this theme?
 - What Swedish or Western perspectives could enrich the discussion?
 
-Use parallel tool calls when searching multiple angles or authors simultaneously.
-IMPORTANT: When using WebFetch, skip URLs ending in .pdf — the tool cannot read PDF files and will return binary garbage.
-</guidance>`;
+Run multiple MCP searches in parallel, but do NOT mix WebFetch/WebSearch with MCP calls in the same batch — a web timeout kills sibling calls.
+IMPORTANT WebFetch limitations:
+- Skip URLs ending in .pdf — returns binary garbage.
+- Skip litteraturbanken.se — JavaScript SPA, returns empty shell HTML.
+- Skip any URL that returned empty/useless content on the first try.
+</guidance>${blocklist}`;
 
 		const mcpConfigPath = join(__dirname, "../../..", ".mcp.json");
 		const result = await this.executeClaudeStage<ResearchOutput>({
@@ -504,8 +649,8 @@ IMPORTANT: When using WebFetch, skip URLs ending in .pdf — the tool cannot rea
 			mcpConfig: mcpConfigPath,
 			schema: ResearchOutputSchema,
 			jsonSchema: getResearchJsonSchema(),
-			effort: "max",
-			maxTurns: 20,
+			effort: "high",
+			maxTurns: 15,
 		});
 
 		return this.processResearchResult(result, startTime);
@@ -515,6 +660,10 @@ IMPORTANT: When using WebFetch, skip URLs ending in .pdf — the tool cannot rea
 	 * Run the fact-checking stage
 	 */
 	async runFactCheck(research: ResearchOutput): Promise<StageResult<FactCheckOutput>> {
+		// Build domain reputation context for source credibility assessment
+		const sourceUrls = (research.sources || []).map((s) => s.url);
+		const reputation = formatDomainReputation(loadDomainTracker(), sourceUrls);
+
 		// Provide research data with framing that guides balanced assessment
 		const systemPrompt = `Research data to review:\n${JSON.stringify(research, null, 2)}
 
@@ -525,8 +674,8 @@ Score fairly based on what you can actually verify:
 - Claims you cannot independently verify are NOT automatically unverified — they may simply be common scholarly knowledge
 - Only mark claims "unverified" if you find contradicting evidence or the claim is extraordinary and unsourced
 - The threshold to pass is 7 — award that score if the research has no fabrications and reasonable sourcing
-- When using WebFetch, skip URLs ending in .pdf — the tool cannot read PDFs
-</review_guidance>`;
+- WebFetch cannot read PDFs (.pdf) or JS-rendered sites (litteraturbanken.se)
+</review_guidance>${reputation}`;
 
 		const mcpConfigPath = join(__dirname, "../../..", ".mcp.json");
 		const result = await this.executeClaudeStage<FactCheckOutput>({
@@ -546,8 +695,8 @@ Score fairly based on what you can actually verify:
 			mcpConfig: mcpConfigPath,
 			schema: FactCheckOutputSchema,
 			jsonSchema: getFactCheckJsonSchema(),
-			effort: "max",
-			maxTurns: 15,
+			effort: "high",
+			maxTurns: 12,
 		});
 
 		if (!(result.success && result.data)) {
@@ -625,7 +774,10 @@ The research below was gathered to support this angle.
 `;
 		}
 
-		systemPrompt += `## CONTEXT
+		systemPrompt += `## DEVELOPED ANGLE
+${research.summary}
+
+## CONTEXT
 You are writing for islam.se. The purpose is to promote Islamic thought intelligently to Swedish readers.
 
 Key requirements:
@@ -636,10 +788,40 @@ Key requirements:
 - Let classical Islamic scholars shine
 - Swedish/Western authors strengthen the Islamic stance
 - Use markdown blockquotes and footnotes
-- Write natural Swedish prose — avoid anglicisms like "i termer av", "adressera", "baserat på", calque constructions. Prefer Swedish idiom and rhythm (Axess/Respons register).
+- Write natural Swedish prose — avoid anglicisms like "i termer av", "adressera", "baserat på", calque constructions. Prefer Swedish idiom and rhythm (Axess/Respons register).`;
 
-Verified research:
-${JSON.stringify(research, null, 2)}`;
+		// Format quotes readably
+		if (research.quotes.length > 0) {
+			const formatted = research.quotes
+				.map((q) => `- "${q.text}" — ${q.author}${q.source ? `, *${q.source}*` : ""}`)
+				.join("\n");
+			systemPrompt += `\n\n## QUOTES\n${formatted}`;
+		}
+
+		// Format Quran references readably
+		if (research.quranReferences.length > 0) {
+			const formatted = research.quranReferences
+				.map((q) => `- ${q.surah} ${q.ayah}: "${q.text}"`)
+				.join("\n");
+			systemPrompt += `\n\n## QURAN REFERENCES\n${formatted}`;
+		}
+
+		// Format book passages with full text for weaving in
+		if (research.bookPassages && research.bookPassages.length > 0) {
+			const formatted = research.bookPassages
+				.map((p) => `### ${p.bookTitle} — ${p.author}\n${p.text}`)
+				.join("\n\n---\n\n");
+			systemPrompt += `\n\n## BOOK PASSAGES
+Weave the strongest into your prose — quote directly when the original language is powerful, paraphrase for flow. Cite as footnotes (Author, *Work*, chapter/section).
+
+${formatted}`;
+		}
+
+		// Format web sources for footnotes (title + URL only)
+		if (research.sources.length > 0) {
+			const formatted = research.sources.map((s) => `- ${s.title}: ${s.url}`).join("\n");
+			systemPrompt += `\n\n## WEB SOURCES (for footnotes)\n${formatted}`;
+		}
 
 		// Pass actionable guidance from fact-checker
 		const guidance: string[] = [];
@@ -665,16 +847,6 @@ ${JSON.stringify(research, null, 2)}`;
 			systemPrompt += `\n\n## FACT-CHECK GUIDANCE\n${guidance.join("\n\n")}`;
 		}
 
-		if (research.bookPassages && research.bookPassages.length > 0) {
-			const formatted = research.bookPassages
-				.map((p) => `### ${p.bookTitle} — ${p.author}\n${p.text}`)
-				.join("\n\n---\n\n");
-			systemPrompt += `\n\n## BOOK PASSAGES FOR INTEGRATION
-These extended passages from the book database support your argument. Weave the strongest ones into your prose — quote directly when the original language is powerful, paraphrase when you need to maintain flow. Cite as footnotes (Author, *Work*, chapter/section).
-
-${formatted}`;
-		}
-
 		const result = await this.executeClaudeStage<DraftOutput>({
 			name: "Stage 3: Authoring",
 			stage: "authoring",
@@ -682,9 +854,17 @@ ${formatted}`;
 			promptFile: "author.md",
 			systemPrompt,
 			allowedTools: ["Read", "think"], // think tool for mid-writing reflection
-			schema: DraftOutputSchema,
-			jsonSchema: getDraftJsonSchema(),
+			markdownMode: {
+				frontmatterSchema: DraftFrontmatterSchema,
+				combine: (meta, body) =>
+					({
+						...meta,
+						body,
+						wordCount: body.split(/\s+/).filter((w) => w.length > 0).length,
+					}) as DraftOutput,
+			},
 			effort: "max",
+			timeout: 1800000, // 30 min — authoring with effort:max needs room
 		});
 
 		if (!(result.success && result.data)) {
@@ -693,6 +873,12 @@ ${formatted}`;
 
 		const wordCount = result.data.wordCount ?? result.data.body.split(/\s+/).length;
 		this.logger.log(`   - Draft complete: ${wordCount} words`);
+		if (result.data.struggles) {
+			this.logger.log(`   - Struggles: ${result.data.struggles.slice(0, 200)}`);
+		}
+		if (result.data.efficiencySuggestions) {
+			this.logger.log(`   - Suggestions: ${result.data.efficiencySuggestions.slice(0, 200)}`);
+		}
 
 		return result;
 	}
@@ -702,17 +888,11 @@ ${formatted}`;
 	 */
 	async runReview(
 		draft: DraftOutput,
-		research: ResearchOutput,
+		_research: ResearchOutput,
 		factCheck?: FactCheckOutput,
 		ideaBrief?: IdeaBrief,
 		previousReview?: ReviewOutput,
 	): Promise<StageResult<ReviewOutput>> {
-		const researchQuotes = research.quotes
-			.map((q) => `- "${q.text}" — ${q.author}${q.source ? `, ${q.source}` : ""}`)
-			.join("\n");
-		const quranRefs = research.quranReferences
-			.map((q) => `- ${q.surah} ${q.ayah}: ${q.text}`)
-			.join("\n");
 		let systemPrompt = "";
 
 		// If this is a re-review after revision, provide focused context
@@ -736,14 +916,17 @@ Assess whether the draft delivers on this promise — or drifted into a generic 
 
 **Thesis:** ${ideaBrief.thesis}
 **Angle:** ${ideaBrief.angle}
-**Keywords for thematic cross-reference:** ${ideaBrief.keywords.join(", ")}
 
 `;
 		}
 
-		systemPrompt += `Article title: ${draft.title}\n\nDraft article:\n${draft.body}\n\nOriginal research summary:\n${research.summary}\n\nResearch quotes (for cross-reference — verify the article uses these accurately):\n${researchQuotes}\n\nQuran references found:\n${quranRefs}`;
+		systemPrompt += `## ARTICLE TO REVIEW
 
-		// Pass fact-check context so reviewer can verify author addressed issues
+**Title:** ${draft.title}
+
+${draft.body}`;
+
+		// Only pass actionable fact-check flags, not raw data
 		if (factCheck) {
 			const fcContext: string[] = [];
 			if (factCheck.unverifiedClaims && factCheck.unverifiedClaims.length > 0) {
@@ -752,14 +935,8 @@ Assess whether the draft delivers on this promise — or drifted into a generic 
 						factCheck.unverifiedClaims.map((c) => `- ${c.claim}`).join("\n"),
 				);
 			}
-			if (factCheck.missingPerspectives && factCheck.missingPerspectives.length > 0) {
-				fcContext.push(
-					"Missing perspectives flagged:\n" +
-						factCheck.missingPerspectives.map((p) => `- ${p}`).join("\n"),
-				);
-			}
 			if (fcContext.length > 0) {
-				systemPrompt += `\n\n## FACT-CHECK FLAGS\nThe fact-checker flagged these issues. Check whether the author addressed them:\n${fcContext.join("\n\n")}`;
+				systemPrompt += `\n\n## FACT-CHECK FLAGS\n${fcContext.join("\n\n")}`;
 			}
 		}
 
@@ -778,7 +955,7 @@ This article is for a Swedish publication. Watch for and fix anglicisms — Engl
 - "implementera" → "genomföra", "tillämpa"
 - Stiff calque constructions: rephrase for natural Swedish prose rhythm
 - Prefer Swedish conjunctions and flow over English sentence patterns
-If the draft has anglicisms, fix them in revisedText.
+If the draft has anglicisms, fix them in the revised article.
 </language_quality>`;
 
 		const result = await this.executeClaudeStage<ReviewOutput>({
@@ -788,8 +965,14 @@ If the draft has anglicisms, fix them in revisedText.
 			promptFile: "reviewer.md",
 			systemPrompt,
 			allowedTools: ["think"], // Only reflection, no searching - facts already verified
-			schema: ReviewOutputSchema,
-			jsonSchema: getReviewJsonSchema(),
+			markdownMode: {
+				frontmatterSchema: ReviewFrontmatterSchema,
+				combine: (meta, body) =>
+					({
+						...meta,
+						revisedText: body || null,
+					}) as ReviewOutput,
+			},
 			effort: "max",
 		});
 
@@ -818,8 +1001,14 @@ If the draft has anglicisms, fix them in revisedText.
 			promptFile: "polish.md",
 			systemPrompt,
 			allowedTools: ["think"],
-			schema: PolishOutputSchema,
-			jsonSchema: getPolishJsonSchema(),
+			markdownMode: {
+				frontmatterSchema: PolishFrontmatterSchema,
+				combine: (meta, body) =>
+					({
+						...meta,
+						body,
+					}) as PolishOutput,
+			},
 			effort: "max",
 		});
 
@@ -834,6 +1023,7 @@ If the draft has anglicisms, fix them in revisedText.
 		topicSlug: string,
 		draft: DraftOutput,
 		qualityScore: number,
+		finalWordCount: number,
 		ideaContext?: IdeaContext,
 	): string | undefined {
 		// Publish to web-accessible directory
@@ -841,7 +1031,7 @@ If the draft has anglicisms, fix them in revisedText.
 			const publisher = new ArticlePublisher();
 			publisher.publish(outputDir, topicSlug, {
 				title: draft.title,
-				wordCount: draft.wordCount,
+				wordCount: finalWordCount,
 				qualityScore,
 				sourceIdea: ideaContext
 					? { topic: ideaContext.topicSlug, ideaId: ideaContext.ideaId }
@@ -882,10 +1072,12 @@ If the draft has anglicisms, fix them in revisedText.
 		topic: string,
 		ideaContext?: IdeaContext,
 		ideaBrief?: IdeaBrief,
+		options?: { resume?: boolean },
 	): Promise<ProductionResult> {
 		const startTime = Date.now();
 		const topicSlug = slugify(topic);
 		const outputDir = this.ensureOutputDir(topicSlug);
+		const resume = options?.resume ?? false;
 
 		const result: ProductionResult = {
 			success: false,
@@ -900,90 +1092,143 @@ If the draft has anglicisms, fix them in revisedText.
 		}
 
 		// Stage 1: Research
-		this.options.onStageChange?.({ stage: "research", status: "running" });
-		const researchResult = ideaBrief
-			? await this.runResearchFromIdea({
-					thesis: ideaBrief.thesis,
-					angle: ideaBrief.angle,
-					keywords: ideaBrief.keywords,
-					seedQuotes: ideaBrief.seedQuotes,
-				})
-			: await this.runResearch(topic);
-		result.stages.research = researchResult;
-		if (!(researchResult.success && researchResult.data)) {
+		let researchResult: StageResult<ResearchOutput>;
+		const cachedResearch = resume ? loadOutput<ResearchOutput>(outputDir, "research.json") : null;
+		if (cachedResearch && ResearchOutputSchema.safeParse(cachedResearch).success) {
+			this.logger.log("📚 Stage 1: Research — loaded from checkpoint");
+			researchResult = { success: true, data: cachedResearch, duration: 0 };
 			this.options.onStageChange?.({
 				stage: "research",
-				status: "failed",
-				duration: researchResult.duration,
-				error: researchResult.error,
+				status: "complete",
+				duration: 0,
+				summary: `${cachedResearch.sources.length} sources, ${cachedResearch.quotes.length} quotes (cached)`,
 			});
-			result.totalDuration = Date.now() - startTime;
-			return result;
+		} else {
+			this.options.onStageChange?.({ stage: "research", status: "running" });
+			const research = ideaBrief
+				? await this.runResearchFromIdea({
+						thesis: ideaBrief.thesis,
+						angle: ideaBrief.angle,
+						keywords: ideaBrief.keywords,
+						seedQuotes: ideaBrief.seedQuotes,
+					})
+				: await this.runResearch(topic);
+			researchResult = research.result;
+			if (!(researchResult.success && researchResult.data)) {
+				this.options.onStageChange?.({
+					stage: "research",
+					status: "failed",
+					duration: researchResult.duration,
+					error: researchResult.error,
+				});
+				result.stages.research = researchResult;
+				result.totalDuration = Date.now() - startTime;
+				return result;
+			}
+			this.options.onStageChange?.({
+				stage: "research",
+				status: "complete",
+				duration: researchResult.duration,
+				summary: research.summary,
+			});
+			saveOutput(outputDir, "research.json", researchResult.data);
 		}
-		this.options.onStageChange?.({
-			stage: "research",
-			status: "complete",
-			duration: researchResult.duration,
-			summary: `${researchResult.data.sources.length} sources, ${researchResult.data.quotes.length} quotes`,
-		});
-		saveOutput(outputDir, "research.json", researchResult.data);
+		result.stages.research = researchResult;
 
 		// Stage 2: Fact-Check
-		this.options.onStageChange?.({ stage: "factCheck", status: "running" });
-		const factCheckResult = await this.runFactCheck(researchResult.data);
-		result.stages.factCheck = factCheckResult;
-		// Always save fact-check output for debugging (even on failure)
-		if (factCheckResult.data) {
-			saveOutput(outputDir, "fact-check.json", factCheckResult.data);
-		}
-		if (!(factCheckResult.success && factCheckResult.data)) {
+		let factCheckResult: StageResult<FactCheckOutput>;
+		const cachedFactCheck = resume
+			? loadOutput<FactCheckOutput>(outputDir, "fact-check.json")
+			: null;
+		if (
+			cachedFactCheck &&
+			FactCheckOutputSchema.safeParse(cachedFactCheck).success &&
+			cachedFactCheck.overallCredibility >= this.options.qualityThreshold
+		) {
+			this.logger.log("🔍 Stage 2: Quality Review — loaded from checkpoint");
+			factCheckResult = { success: true, data: cachedFactCheck, duration: 0 };
 			this.options.onStageChange?.({
 				stage: "factCheck",
-				status: "failed",
-				duration: factCheckResult.duration,
-				error: factCheckResult.error,
+				status: "complete",
+				duration: 0,
+				summary: `Score: ${cachedFactCheck.overallCredibility}/10 (cached)`,
 			});
-			result.totalDuration = Date.now() - startTime;
-			return result;
+		} else {
+			this.options.onStageChange?.({ stage: "factCheck", status: "running" });
+			factCheckResult = await this.runFactCheck(researchResult.data);
+			// Always save fact-check output for debugging (even on failure)
+			if (factCheckResult.data) {
+				saveOutput(outputDir, "fact-check.json", factCheckResult.data);
+			}
+			if (!(factCheckResult.success && factCheckResult.data)) {
+				this.options.onStageChange?.({
+					stage: "factCheck",
+					status: "failed",
+					duration: factCheckResult.duration,
+					error: factCheckResult.error,
+				});
+				result.stages.factCheck = factCheckResult;
+				result.totalDuration = Date.now() - startTime;
+				return result;
+			}
+			this.options.onStageChange?.({
+				stage: "factCheck",
+				status: "complete",
+				duration: factCheckResult.duration,
+				summary: `Score: ${factCheckResult.data.overallCredibility}/10`,
+			});
 		}
-		this.options.onStageChange?.({
-			stage: "factCheck",
-			status: "complete",
-			duration: factCheckResult.duration,
-			summary: `Score: ${factCheckResult.data.overallCredibility}/10`,
-		});
+		result.stages.factCheck = factCheckResult;
 
 		// Stage 3: Authoring
-		this.options.onStageChange?.({ stage: "authoring", status: "running" });
-		const authoringResult = await this.runAuthoring(
-			researchResult.data,
-			factCheckResult.data,
-			ideaBrief,
-		);
-		result.stages.authoring = authoringResult;
-		if (!(authoringResult.success && authoringResult.data)) {
+		let authoringResult: StageResult<DraftOutput>;
+		const cachedDraft = resume ? loadOutput<DraftOutput>(outputDir, "draft-meta.json") : null;
+		if (cachedDraft && DraftOutputSchema.safeParse(cachedDraft).success) {
+			this.logger.log("✍️  Stage 3: Authoring — loaded from checkpoint");
+			const cachedWordCount = cachedDraft.wordCount ?? cachedDraft.body.split(/\s+/).length;
+			authoringResult = { success: true, data: cachedDraft, duration: 0 };
 			this.options.onStageChange?.({
 				stage: "authoring",
-				status: "failed",
-				duration: authoringResult.duration,
-				error: authoringResult.error,
+				status: "complete",
+				duration: 0,
+				summary: `${cachedWordCount} words (cached)`,
 			});
-			result.totalDuration = Date.now() - startTime;
-			return result;
+		} else {
+			this.options.onStageChange?.({ stage: "authoring", status: "running" });
+			authoringResult = await this.runAuthoring(
+				researchResult.data,
+				factCheckResult.data,
+				ideaBrief,
+			);
+			if (!(authoringResult.success && authoringResult.data)) {
+				this.options.onStageChange?.({
+					stage: "authoring",
+					status: "failed",
+					duration: authoringResult.duration,
+					error: authoringResult.error,
+				});
+				result.stages.authoring = authoringResult;
+				result.totalDuration = Date.now() - startTime;
+				return result;
+			}
+			const wordCount =
+				authoringResult.data.wordCount ?? authoringResult.data.body.split(/\s+/).length;
+			this.options.onStageChange?.({
+				stage: "authoring",
+				status: "complete",
+				duration: authoringResult.duration,
+				summary: `${wordCount} words`,
+			});
+			saveOutput(outputDir, "draft.md", authoringResult.data.body);
+			saveOutput(outputDir, "draft-meta.json", authoringResult.data);
 		}
-		const wordCount =
-			authoringResult.data.wordCount ?? authoringResult.data.body.split(/\s+/).length;
-		this.options.onStageChange?.({
-			stage: "authoring",
-			status: "complete",
-			duration: authoringResult.duration,
-			summary: `${wordCount} words`,
-		});
-		saveOutput(outputDir, "draft.md", authoringResult.data.body);
-		saveOutput(outputDir, "draft-meta.json", authoringResult.data);
+		result.stages.authoring = authoringResult;
 
 		// Stage 4: Review (with potential revision loop)
+		// All three are guaranteed non-null: either loaded from cache or ran successfully
 		let currentDraft = authoringResult.data;
+		const researchData = researchResult.data;
+		const factCheckData = factCheckResult.data;
 		let revisionCount = 0;
 		let lastReviewData: ReviewOutput | undefined;
 
@@ -992,8 +1237,8 @@ If the draft has anglicisms, fix them in revisedText.
 		while (revisionCount <= this.options.maxRevisions) {
 			const reviewResult = await this.runReview(
 				currentDraft,
-				researchResult.data,
-				factCheckResult.data,
+				researchData,
+				factCheckData,
 				ideaBrief,
 				lastReviewData, // Pass previous review for focused re-evaluation
 			);
@@ -1137,8 +1382,24 @@ If the draft has anglicisms, fix them in revisedText.
 			topicSlug,
 			currentDraft,
 			reviewData.finalScore,
+			finalWordCount,
 			ideaContext,
 		);
+
+		// Record domain quality for published articles
+		if (result.publishedSlug && researchData.sources.length > 0) {
+			try {
+				const tracker = loadDomainTracker();
+				recordPublishedArticle(
+					tracker,
+					researchData.sources.map((s) => s.url),
+					reviewData.finalScore,
+				);
+				saveDomainTracker(tracker);
+			} catch (e) {
+				this.logger.warn(`   ⚠️  Failed to record domain quality: ${e}`);
+			}
+		}
 
 		result.success = true;
 		result.finalArticle = finalText;
@@ -1158,7 +1419,7 @@ If the draft has anglicisms, fix them in revisedText.
 		const topicSlug = slugify(topic);
 		const outputDir = this.ensureOutputDir(topicSlug);
 
-		const result = await this.runResearch(topic);
+		const { result } = await this.runResearch(topic);
 		if (result.success && result.data) {
 			saveOutput(outputDir, "research.json", result.data);
 		}

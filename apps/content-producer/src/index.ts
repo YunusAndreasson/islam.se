@@ -185,7 +185,9 @@ program
 			spinner.stop(`Generated ${result.data.ideas.length} ideas`);
 
 			if (result.data.batchVersion > 1) {
-				console.log(`Batch version: ${result.data.batchVersion} (${result.data.previousVersions.length} previous versions archived)`);
+				console.log(
+					`Batch version: ${result.data.batchVersion} (${result.data.previousVersions.length} previous versions archived)`,
+				);
 			}
 
 			// Display ideas summary

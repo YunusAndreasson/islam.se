@@ -5,7 +5,7 @@ import { fileURLToPath } from "node:url";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-export interface SourceValidation {
+interface SourceValidation {
 	allowed: boolean;
 	credibility: "high" | "medium" | "low" | "rejected";
 	reason: string;

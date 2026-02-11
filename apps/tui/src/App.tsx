@@ -71,6 +71,10 @@ export function App(): React.ReactElement {
 	const { stdout } = useStdout();
 	const [state, setState] = useState<AppState>(initialState);
 	const [pipelineOutcome, setPipelineOutcome] = useState<PipelineOutcome>(initialPipelineOutcome);
+	const [lastPipelineIdea, setLastPipelineIdea] = useState<{
+		idea: EnrichedIdea;
+		topicSlug?: string;
+	} | null>(null);
 	const [terminalHeight, setTerminalHeight] = useState(stdout?.rows ?? 24);
 
 	// Track terminal size changes
@@ -148,8 +152,9 @@ export function App(): React.ReactElement {
 	}, []);
 
 	const handleProduceIdea = useCallback(
-		(idea: EnrichedIdea) => {
+		(idea: EnrichedIdea, options?: { resume?: boolean }) => {
 			setPipelineOutcome(initialPipelineOutcome);
+			setLastPipelineIdea({ idea, topicSlug: state.selectedTopic ?? undefined });
 
 			const initialStatus: PipelineStatus = {
 				topic: idea.thesis,
@@ -267,16 +272,23 @@ export function App(): React.ReactElement {
 			);
 
 			// Pass topicSlug so the idea can be marked as done
-			runner.produce(idea, state.selectedTopic ?? undefined).catch((err) => {
-				setPipelineOutcome({
-					completed: true,
-					success: false,
-					error: err instanceof Error ? err.message : "Unknown error",
+			runner
+				.produce(idea, state.selectedTopic ?? undefined, { resume: options?.resume })
+				.catch((err) => {
+					setPipelineOutcome({
+						completed: true,
+						success: false,
+						error: err instanceof Error ? err.message : "Unknown error",
+					});
 				});
-			});
 		},
 		[state.selectedTopic, reloadTopicsAndIdeas],
 	);
+
+	const handleRetryPipeline = useCallback(() => {
+		if (!lastPipelineIdea) return;
+		handleProduceIdea(lastPipelineIdea.idea, { resume: true });
+	}, [lastPipelineIdea, handleProduceIdea]);
 
 	const handleDeleteIdea = useCallback(
 		(idea: EnrichedIdea) => {
@@ -658,6 +670,7 @@ export function App(): React.ReactElement {
 						wordCount={pipelineOutcome.wordCount}
 						qualityScore={pipelineOutcome.qualityScore}
 						onBack={handleBack}
+						onRetry={handleRetryPipeline}
 					/>
 				);
 

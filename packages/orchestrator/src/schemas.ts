@@ -22,6 +22,7 @@ export const ResearchOutputSchema = z.object({
 			z.object({
 				id: z.string(),
 				text: z.string(),
+				textSv: z.string().optional(),
 				author: z.string(),
 				source: z.string().optional(),
 			}),
@@ -81,30 +82,38 @@ export const FactCheckOutputSchema = z.object({
 	recommendations: z.array(z.string()).optional(),
 });
 
-// Draft output - simplified
+// Draft output — full type (frontmatter + body combined in code)
 export const DraftOutputSchema = z.object({
 	title: z.string(),
 	body: z.string(),
 	wordCount: z.number().optional(),
 	reflection: z.string().optional(),
+	struggles: z.string().optional(),
+	efficiencySuggestions: z.string().optional(),
 });
 
-// Review output - simplified
-export const ReviewOutputSchema = z.object({
+// Draft frontmatter — validated from --- block (body comes from markdown)
+export const DraftFrontmatterSchema = z.object({
+	title: z.string(),
+	reflection: z.string().optional(),
+	struggles: z.string().optional(),
+	efficiencySuggestions: z.string().optional(),
+});
+
+// Review frontmatter — validated from --- block (revisedText comes from markdown body)
+export const ReviewFrontmatterSchema = z.object({
 	finalScore: z.number(),
 	verdict: z.enum(["publish", "revise", "reject"]),
 	summary: z.string(),
 	strengths: z.array(z.string()).optional(),
 	issues: z.array(z.string()).optional(),
-	revisedText: z.string().nullable().optional(),
 });
 
-// Polish output - final prose refinement with section diagnosis
-export const PolishOutputSchema = z.object({
+// Polish frontmatter — validated from --- block (body comes from markdown)
+export const PolishFrontmatterSchema = z.object({
 	sectionScores: z.string(),
 	strongestSentence: z.string(),
 	weakestSentence: z.string(),
-	body: z.string(),
 	edits: z.string(),
 });
 
@@ -115,18 +124,6 @@ export function getResearchJsonSchema(): object {
 
 export function getFactCheckJsonSchema(): object {
 	return z.toJSONSchema(FactCheckOutputSchema, { target: "draft-07" });
-}
-
-export function getDraftJsonSchema(): object {
-	return z.toJSONSchema(DraftOutputSchema, { target: "draft-07" });
-}
-
-export function getReviewJsonSchema(): object {
-	return z.toJSONSchema(ReviewOutputSchema, { target: "draft-07" });
-}
-
-export function getPolishJsonSchema(): object {
-	return z.toJSONSchema(PolishOutputSchema, { target: "draft-07" });
 }
 
 // Ideation schemas

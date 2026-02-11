@@ -95,6 +95,22 @@ describe("ClaudeRunner", () => {
 			expect(result).toEqual({ key: "value" });
 		});
 
+		it("PROPERTY: round-trip identity for valid JSON objects", () => {
+			const objects = [
+				{ simple: "value" },
+				{ nested: { deep: { value: 42 } }, arr: [1, 2, 3] },
+				{ swedish: "Tålamod", arabic: "الصبر", norse: "Hávamál" },
+				{ empty: {}, emptyArr: [], zero: 0, falsy: false, nul: null },
+			];
+			for (const obj of objects) {
+				const cliOutput = JSON.stringify({ structured_output: obj });
+				expect(
+					runner.parseJSONOutput(cliOutput),
+					`Round-trip failed for: ${JSON.stringify(obj).slice(0, 80)}`,
+				).toEqual(obj);
+			}
+		});
+
 		it("handles nested braces in JSON", () => {
 			const cliOutput = JSON.stringify({
 				result: '{"outer": {"middle": {"inner": "deep"}}}',
@@ -242,6 +258,65 @@ describe("ClaudeRunner", () => {
 			const result = runner.parseJSONOutput<{ text: string }>(cliOutput);
 
 			expect(result?.text).toBe("Line 1\nLine 2\nLine 3");
+		});
+	});
+
+	describe("parseMarkdownWithMeta", () => {
+		it("extracts frontmatter JSON and markdown body", () => {
+			const output = `---\n{"title": "Test Article", "reflection": "It works"}\n---\n\n# Test Article\n\nBody text here.`;
+			const result = runner.parseMarkdownWithMeta(output);
+
+			expect(result).not.toBeNull();
+			expect(result?.meta).toEqual({ title: "Test Article", reflection: "It works" });
+			expect(result?.body).toBe("# Test Article\n\nBody text here.");
+		});
+
+		it("ignores preamble text before frontmatter", () => {
+			const output = `Let me think about this...\n\nOk here's the article:\n\n---\n{"title": "Test"}\n---\n\nBody.`;
+			const result = runner.parseMarkdownWithMeta(output);
+
+			expect(result?.meta).toEqual({ title: "Test" });
+			expect(result?.body).toBe("Body.");
+		});
+
+		it("handles nested JSON in frontmatter", () => {
+			const output = `---\n{"score": 8.5, "issues": ["weak opening", "flat ending"]}\n---\n\nArticle text.`;
+			const result = runner.parseMarkdownWithMeta(output);
+
+			expect(result?.meta).toEqual({ score: 8.5, issues: ["weak opening", "flat ending"] });
+		});
+
+		it("handles Unicode in both frontmatter and body", () => {
+			const output = `---\n{"title": "Tålamodets konst", "reflection": "الصبر"}\n---\n\n# Tålamodets konst\n\nIbn al-Qayyim skrev om الصبر.`;
+			const result = runner.parseMarkdownWithMeta(output);
+
+			expect(result?.meta).toEqual({ title: "Tålamodets konst", reflection: "الصبر" });
+			expect(result?.body).toContain("الصبر");
+		});
+
+		it("returns null for output without frontmatter markers", () => {
+			const output = "Just plain text without any markers.";
+			expect(runner.parseMarkdownWithMeta(output)).toBeNull();
+		});
+
+		it("returns null for invalid JSON in frontmatter", () => {
+			const output = "---\nnot valid json\n---\n\nBody.";
+			expect(runner.parseMarkdownWithMeta(output)).toBeNull();
+		});
+
+		it("handles empty body after frontmatter", () => {
+			const output = `---\n{"verdict": "reject", "summary": "Too weak"}\n---\n`;
+			const result = runner.parseMarkdownWithMeta(output);
+
+			expect(result?.meta).toEqual({ verdict: "reject", summary: "Too weak" });
+			expect(result?.body).toBe("");
+		});
+
+		it("handles multiline JSON in frontmatter", () => {
+			const output = `---\n{\n  "title": "Test",\n  "score": 9\n}\n---\n\nBody.`;
+			const result = runner.parseMarkdownWithMeta(output);
+
+			expect(result?.meta).toEqual({ title: "Test", score: 9 });
 		});
 	});
 });

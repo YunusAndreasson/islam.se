@@ -14,7 +14,7 @@ function hardSplitText(text: string, maxSize: number): string[] {
 	return parts;
 }
 
-export interface ChunkBuilder {
+interface ChunkBuilder {
 	chunks: string[];
 	current: string;
 }
@@ -26,7 +26,7 @@ function flushChunk(builder: ChunkBuilder): void {
 	}
 }
 
-export interface SplitOptions {
+interface SplitOptions {
 	/**
 	 * Regex pattern for splitting sentences.
 	 * Default: /(?<=[.!?])\s+/ for Western languages

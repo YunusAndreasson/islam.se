@@ -14,6 +14,7 @@ interface PipelineScreenProps {
 	wordCount?: number;
 	qualityScore?: number;
 	onBack: () => void;
+	onRetry?: () => void;
 }
 
 export function PipelineScreen({
@@ -25,22 +26,26 @@ export function PipelineScreen({
 	wordCount,
 	qualityScore,
 	onBack,
+	onRetry,
 }: PipelineScreenProps): React.ReactElement {
 	useInput((input, key) => {
 		if (completed && (input === "q" || key.escape || key.return)) {
 			onBack();
 		}
+		if (completed && !success && onRetry && input === "r") {
+			onRetry();
+		}
 	});
 
+	const shortcuts = completed
+		? [
+				...(onRetry && !success ? [{ key: "r", label: "Retry from checkpoint" }] : []),
+				{ key: "q", label: "Back" },
+			]
+		: [];
+
 	return (
-		<ScreenLayout
-			shortcuts={
-				completed
-					? [{ key: "q", label: "Back" }]
-					: []
-			}
-			breadcrumb="Pipeline"
-		>
+		<ScreenLayout shortcuts={shortcuts} breadcrumb="Pipeline">
 			{/* Header */}
 			<Box
 				marginBottom={1}

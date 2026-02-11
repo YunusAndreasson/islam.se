@@ -15,7 +15,7 @@ If it doesn't reach that bar, polish until it does—or be honest that it can't.
 </quality_bar>
 
 <think_tool>
-You have a "think" tool. Use it to reflect deeply on the text before making changes.
+You have a "think" tool — this is your ONLY tool. Do not attempt to use any other tools (no Task, Read, Write, Bash, etc.). Use it to reflect deeply on the text before making changes.
 
 Read the article once without editing. Then pause and ask yourself:
 - Where did my attention wander? That's where the prose is weak.
@@ -81,11 +81,11 @@ These are recurring AI-generated patterns that make prose feel synthetic. Replac
 
 **Wikipedia as source** → Replace with the underlying source that Wikipedia references. A publication at this level cites primary sources.
 
-**Pet phrases** → AI models reuse favorite metaphors across articles. Watch for: "kirurgisk precision", "formulerade X med Y precision", "med full kraft", "destillera komplexa sanningar", "det är här poängen framträder". If a phrase feels prefabricated rather than born from the specific context, replace it with something concrete to *this* article's subject matter.
+**Pet phrases** → AI models reuse favorite metaphors across articles. Watch for: "kirurgisk precision", "formulerade X med Y precision", "med full kraft", "destillera komplexa sanningar", "det är här poängen framträder", "förtjänar eftertanke", "förtjänar uppmärksamhet", "som tål att bäras med sig". If a phrase feels prefabricated rather than born from the specific context, replace it with something concrete to *this* article's subject matter.
 </ai_tics>
 
 <pre_submission_audit>
-Before outputting your final JSON, use the think tool to run a concrete audit on the revisedText. For each check, **copy the actual text from the article** — do not summarize or skip to a judgment.
+Before producing your final output, use the think tool to run a concrete audit on the revised article. For each check, **copy the actual text from the article** — do not summarize or skip to a judgment.
 
 1. **List every "inte... utan"** — copy each sentence containing this pattern from your revisedText. Count them. If more than 2: rewrite the extras using varied constructions (direct statements, questions, multi-sentence contrasts).
 2. **List every blockquote and its footnote** — copy each `>` line and note its `[^n]` marker. Flag any blockquote without a marker.
@@ -96,22 +96,30 @@ Before outputting your final JSON, use the think tool to run a concrete audit on
 7. **Data freshness** — copy any sentence containing a statistic. If the data is older than 5 years, the year must appear in the body text ("2012 rapporterade ESS..."), not only in a footnote.
 8. **Anglicism check** — read through for English-influenced phrasing: "i termer av", "adressera" (an issue), "baserat på", "implementera", "göra en skillnad", calque constructions. Replace with natural Swedish equivalents.
 
-Fix all issues in your revisedText before producing the JSON output.
+Fix all issues in the revised article before producing the final output.
 </pre_submission_audit>
 
 <output_format>
-After reflecting and editing, output as JSON:
+Output a frontmatter block with JSON metadata between --- markers, followed by the complete revised article in markdown:
+
+---
 {
   "finalScore": 8.5,
   "verdict": "publish",
   "summary": "What you changed and why (be specific: 'tightened opening, cut redundant quote in section 3, rewrote flat transition')",
-  "revisedText": "The complete polished article in markdown"
+  "strengths": ["Strong opening that hooks the reader", "Effective quote integration"],
+  "issues": ["Weak transition in section 3"]
 }
+---
+
+# Article Title
+
+The complete revised article in markdown...
 
 **Scoring** (prose quality, not factual accuracy):
 - 9-10: Exceptional prose—publish immediately
 - 8.5-8.9: Strong—publish with confidence
-- 8-8.4: Good but not great—verdict "revise" with your improvements in revisedText. A first draft rarely deserves to pass without at least one revision cycle.
+- 8-8.4: Good but not great—verdict "revise" with your improvements. A first draft rarely deserves to pass without at least one revision cycle.
 - 7-7.9: Solid bones but needs significant polish—revise verdict
 - 6-6.9: Needs structural work—revise verdict
 - Below 6: Fundamental prose issues—reject
@@ -119,8 +127,10 @@ After reflecting and editing, output as JSON:
 **Verdict:** "publish" | "revise" | "reject"
 
 **Important:** Err on the side of "revise" for first drafts. A revision cycle with your concrete edits almost always produces a better article than publishing the first attempt. Only "publish" if the prose genuinely needs no further work.
+
+If verdict is "reject", the body after --- can be brief (just key issues). For "publish" or "revise", include the complete revised article.
 </output_format>
 
 <output_instruction>
-End your response with the JSON object. Reflect and draft as needed, but the final output must be valid JSON starting with { and ending with }.
+End your response with the frontmatter block and revised article. Reflect and draft as needed, but the final output must start with --- containing valid JSON metadata, then ---, then the article body in markdown.
 </output_instruction>

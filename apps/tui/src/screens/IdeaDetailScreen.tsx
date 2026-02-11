@@ -46,9 +46,7 @@ export function IdeaDetailScreen({
 						Score: {idea.score}/10
 					</Text>
 				)}
-				{idea.difficulty && (
-					<Text dimColor>[{idea.difficulty}]</Text>
-				)}
+				{idea.difficulty && <Text dimColor>[{idea.difficulty}]</Text>}
 				{isDone && (
 					<Text color="green">
 						✓ Published{status.articleSlug ? ` as ${status.articleSlug}` : ""}

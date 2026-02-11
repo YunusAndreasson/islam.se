@@ -70,13 +70,6 @@ export function loadIdeation(slug: string): EnrichedIdeationOutput | null {
 	}
 }
 
-export function getArticleStatus(slug: string): ArticleStatus {
-	const orchestrator = new ContentOrchestrator({
-		outputDir: ARTICLES_DIR,
-	});
-	return orchestrator.getStatus(slug) as ArticleStatus;
-}
-
 export function deleteIdea(slug: string, ideaId: number): EnrichedIdeationOutput | null {
 	const ideationPath = join(IDEAS_DIR, slug, "ideation.json");
 	if (!existsSync(ideationPath)) {

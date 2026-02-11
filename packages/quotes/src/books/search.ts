@@ -421,12 +421,15 @@ export function getBookInventory(): BookInventory {
  * Builds an FTS5 query from user input with prefix matching.
  */
 function buildBooksFts5Query(query: string): string {
-	const tokens = query
-		.split(/\s+/)
-		.filter((t) => t.length > 0);
+	const tokens = query.split(/\s+/).filter((t) => t.length > 0);
 	if (tokens.length === 0) return "";
 	return tokens
-		.map((token) => `"${token.replace(/"/g, '""')}"*`)
+		.map((token) => {
+			const cleaned = token.replace(/["""(){}[\]:^~+\-!]/g, "").trim();
+			if (!cleaned) return null;
+			return `"${cleaned}"*`;
+		})
+		.filter(Boolean)
 		.join(" ");
 }
 

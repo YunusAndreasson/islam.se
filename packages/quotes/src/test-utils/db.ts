@@ -82,6 +82,11 @@ export function createTestDatabase(): Database.Database {
 			INSERT INTO quotes_fts(rowid, text, author, work_title, keywords)
 			VALUES (new.id, new.text, new.author, new.work_title, new.keywords);
 		END;
+
+		CREATE TRIGGER IF NOT EXISTS quotes_fts_ad AFTER DELETE ON quotes BEGIN
+			INSERT INTO quotes_fts(quotes_fts, rowid, text, author, work_title, keywords)
+			VALUES ('delete', old.id, old.text, old.author, old.work_title, old.keywords);
+		END;
 	`);
 
 	return db;

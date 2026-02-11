@@ -1,6 +1,5 @@
 import { Box, Text } from "ink";
-import React from "react";
-import { useMemo, useState } from "react";
+import React, { useMemo, useState } from "react";
 import { ArticleMeta } from "../components/ArticleMeta.js";
 import { CategoryPickerDialog } from "../components/CategoryPickerDialog.js";
 import { ConfirmDialog } from "../components/ConfirmDialog.js";
@@ -46,7 +45,11 @@ function ArticleRow({
 	);
 }
 
-const ArticlePreview = React.memo(function ArticlePreview({ article }: { article: PublishedArticle }): React.ReactElement {
+const ArticlePreview = React.memo(function ArticlePreview({
+	article,
+}: {
+	article: PublishedArticle;
+}): React.ReactElement {
 	const preview = useMemo(() => {
 		const content = loadArticleContent(article.slug);
 		if (!content) return "(Could not load content)";
@@ -116,19 +119,15 @@ export function ArticleListScreen({
 	const shortcuts = isDialog
 		? [{ key: "Y/N", label: "Confirm/Cancel" }]
 		: [
-			{ key: "j/k", label: "Navigate" },
-			{ key: "Enter", label: "Read" },
-			{ key: "m", label: "Move" },
-			{ key: "u", label: "Unpublish" },
-			{ key: "q", label: "Back" },
-		];
+				{ key: "j/k", label: "Navigate" },
+				{ key: "Enter", label: "Read" },
+				{ key: "m", label: "Move" },
+				{ key: "u", label: "Unpublish" },
+				{ key: "q", label: "Back" },
+			];
 
 	return (
-		<ScreenLayout
-			shortcuts={shortcuts}
-			breadcrumb={`Articles > ${displayName}`}
-			fullWidth
-		>
+		<ScreenLayout shortcuts={shortcuts} breadcrumb={`Articles > ${displayName}`} fullWidth>
 			{pendingUnpublish ? (
 				<ConfirmDialog
 					message={`Unpublish "${truncate(pendingUnpublish.title, 50)}"?`}
@@ -162,7 +161,9 @@ export function ArticleListScreen({
 							) : (
 								<SelectableList
 									items={articles}
-									renderItem={(article, focused) => <ArticleRow article={article} focused={focused} />}
+									renderItem={(article, focused) => (
+										<ArticleRow article={article} focused={focused} />
+									)}
 									onSelect={onReadArticle}
 									onBack={onBack}
 									onKey={handleKey}

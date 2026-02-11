@@ -76,6 +76,17 @@ export function loadOutput<T>(dir: string, filename: string): T | null {
 }
 
 /**
+ * Format milliseconds as a human-readable duration (e.g. "2m 30s", "45s")
+ */
+export function formatDuration(ms: number): string {
+	const seconds = Math.round(ms / 1000);
+	if (seconds < 60) return `${seconds}s`;
+	const minutes = Math.floor(seconds / 60);
+	const remainingSeconds = seconds % 60;
+	return remainingSeconds > 0 ? `${minutes}m ${remainingSeconds}s` : `${minutes}m`;
+}
+
+/**
  * MCP tools allowed during the research stage
  */
 export const RESEARCH_ALLOWED_TOOLS = [
