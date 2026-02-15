@@ -212,7 +212,7 @@ describe("database operations", () => {
 	});
 
 	describe("getQuote equivalent", () => {
-		it("retrieves quote by ID", () => {
+		it("retrieves quote by ID with all fields including language", () => {
 			insertTestQuote(db, {
 				text: "Test quote",
 				author: "Test Author",
@@ -221,32 +221,27 @@ describe("database operations", () => {
 				keywords: ["kw1", "kw2"],
 				tone: "neutral",
 				standalone: 4,
+				language: "ar",
 			});
 
+			// Use the same SELECT as getQuote() to verify it returns all fields
 			const row = db
 				.prepare(
-					`SELECT id, text, author, work_title as workTitle, category, keywords, tone, standalone
+					`SELECT id, text, author, work_title as workTitle, category, keywords, tone, standalone, length, language, source_type as sourceType, created_at as createdAt
 				 FROM quotes WHERE id = 1`,
 				)
-				.get() as {
-				id: number;
-				text: string;
-				author: string;
-				workTitle: string;
-				category: string;
-				keywords: string;
-				tone: string;
-				standalone: number;
-			};
+				.get() as RawQuoteRow;
 
-			expect(row.id).toBe(1);
-			expect(row.text).toBe("Test quote");
-			expect(row.author).toBe("Test Author");
-			expect(row.workTitle).toBe("Test Work");
-			expect(row.category).toBe("test");
-			expect(JSON.parse(row.keywords)).toEqual(["kw1", "kw2"]);
-			expect(row.tone).toBe("neutral");
-			expect(row.standalone).toBe(4);
+			const quote = parseQuoteRow(row);
+			expect(quote.id).toBe(1);
+			expect(quote.text).toBe("Test quote");
+			expect(quote.author).toBe("Test Author");
+			expect(quote.workTitle).toBe("Test Work");
+			expect(quote.category).toBe("test");
+			expect(quote.keywords).toEqual(["kw1", "kw2"]);
+			expect(quote.tone).toBe("neutral");
+			expect(quote.standalone).toBe(4);
+			expect(quote.language).toBe("ar");
 		});
 
 		it("returns undefined for non-existent ID", () => {

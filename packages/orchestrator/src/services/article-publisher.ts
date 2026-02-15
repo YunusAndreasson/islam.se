@@ -1,8 +1,16 @@
 /**
- * Article Publisher - Manages publishing articles to web-accessible directory
+ * Article Publisher - Manages publishing articles to web-accessible directory.
+ * Markdown frontmatter is the single source of truth — no separate index file.
  */
 
-import { existsSync, mkdirSync, readFileSync, unlinkSync, writeFileSync } from "node:fs";
+import {
+	existsSync,
+	mkdirSync,
+	readdirSync,
+	readFileSync,
+	unlinkSync,
+	writeFileSync,
+} from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -13,32 +21,63 @@ export interface PublishedArticle {
 	slug: string;
 	title: string;
 	publishedAt: string;
-	sourceIdea?: {
-		topic: string;
-		ideaId: number;
-	};
+	description?: string;
 	wordCount: number;
 	qualityScore?: number;
 	category?: string;
 }
 
-export interface ArticleIndex {
-	updatedAt: string;
-	articles: PublishedArticle[];
+/**
+ * Parse YAML frontmatter from a markdown file.
+ * Handles our controlled format: flat key-value pairs with JSON-quoted strings and bare numbers.
+ * Skips nested structures (e.g. sourceIdea) since they're not part of PublishedArticle.
+ */
+export function parseFrontmatter(content: string): { data: Record<string, unknown>; body: string } {
+	const match = content.match(/^---\n([\s\S]*?)\n---\n?([\s\S]*)$/);
+	if (!match) return { data: {}, body: content };
+
+	const frontmatterBlock = match[1] ?? "";
+	const data: Record<string, unknown> = {};
+	for (const line of frontmatterBlock.split("\n")) {
+		// Skip indented lines (nested YAML children)
+		if (line.startsWith(" ") || line.startsWith("\t")) continue;
+
+		const colonIdx = line.indexOf(":");
+		if (colonIdx === -1) continue;
+
+		const key = line.slice(0, colonIdx).trim();
+		const rawValue = line.slice(colonIdx + 1).trim();
+
+		// Skip keys with no inline value (nested structure headers like "sourceIdea:")
+		if (!rawValue) continue;
+
+		// Parse value
+		if (rawValue.startsWith('"')) {
+			try {
+				data[key] = JSON.parse(rawValue);
+			} catch {
+				data[key] = rawValue;
+			}
+		} else if (Number.isNaN(Number(rawValue))) {
+			data[key] = rawValue;
+		} else {
+			data[key] = Number(rawValue);
+		}
+	}
+
+	return { data, body: match[2] ?? "" };
 }
 
 /**
  * Find the project data directory
  */
 function findDataDir(): string {
-	// Try environment variable first
 	if (process.env.ISLAM_DATA_DIR && existsSync(process.env.ISLAM_DATA_DIR)) {
 		return process.env.ISLAM_DATA_DIR;
 	}
 
-	// Try relative paths from this file's location
 	const candidates = [
-		join(__dirname, "../../../../data"), // From dist/services/ or src/services/
+		join(__dirname, "../../../../data"),
 		join(__dirname, "../../../data"),
 		join(process.cwd(), "data"),
 	];
@@ -49,7 +88,6 @@ function findDataDir(): string {
 		}
 	}
 
-	// Traverse up looking for data directory
 	let dir = __dirname;
 	for (let i = 0; i < 10; i++) {
 		const dataPath = join(dir, "data");
@@ -59,24 +97,18 @@ function findDataDir(): string {
 		dir = dirname(dir);
 	}
 
-	// Default fallback
 	return join(process.cwd(), "data");
 }
 
 export class ArticlePublisher {
 	private articlesDir: string;
-	private indexPath: string;
 
 	constructor(dataDir?: string) {
 		const baseDir = dataDir || findDataDir();
 		this.articlesDir = join(baseDir, "articles");
-		this.indexPath = join(this.articlesDir, "index.json");
 		this.ensureDir();
 	}
 
-	/**
-	 * Ensure articles directory exists
-	 */
 	private ensureDir(): void {
 		if (!existsSync(this.articlesDir)) {
 			mkdirSync(this.articlesDir, { recursive: true });
@@ -84,38 +116,32 @@ export class ArticlePublisher {
 	}
 
 	/**
-	 * Load the article index
+	 * Read a single article's metadata from its markdown frontmatter.
 	 */
-	private loadIndex(): ArticleIndex {
-		if (!existsSync(this.indexPath)) {
-			return { updatedAt: new Date().toISOString(), articles: [] };
-		}
-		try {
-			return JSON.parse(readFileSync(this.indexPath, "utf-8"));
-		} catch {
-			return { updatedAt: new Date().toISOString(), articles: [] };
-		}
+	private readArticle(slug: string): PublishedArticle | null {
+		const filePath = join(this.articlesDir, `${slug}.md`);
+		if (!existsSync(filePath)) return null;
+
+		const content = readFileSync(filePath, "utf-8");
+		const { data } = parseFrontmatter(content);
+
+		return {
+			slug,
+			title: (data.title as string) || slug,
+			publishedAt: (data.publishedAt as string) || "",
+			description: data.description as string | undefined,
+			wordCount: (data.wordCount as number) || 0,
+			qualityScore: data.qualityScore as number | undefined,
+			category: data.category as string | undefined,
+		};
 	}
 
-	/**
-	 * Save the article index
-	 */
-	private saveIndex(index: ArticleIndex): void {
-		index.updatedAt = new Date().toISOString();
-		writeFileSync(this.indexPath, JSON.stringify(index, null, 2), "utf-8");
-	}
-
-	/**
-	 * Extract title from markdown content
-	 */
 	private extractTitle(markdown: string): string {
-		// Try to find H1 header
 		const h1Match = markdown.match(/^#\s+(.+)$/m);
 		if (h1Match?.[1]) {
 			return h1Match[1].trim();
 		}
 
-		// Try to find first line of content
 		const lines = markdown.split("\n").filter((l) => l.trim());
 		const firstLine = lines[0];
 		if (firstLine) {
@@ -126,21 +152,82 @@ export class ArticlePublisher {
 	}
 
 	/**
-	 * Count words in markdown
+	 * Extract a plain-text description from the article body.
+	 * Takes complete sentences up to ~300 chars, never cuts mid-sentence.
 	 */
+	private getDescription(body: string): string {
+		const plain = body
+			.replace(/^#+ .+$/gm, "")
+			.replace(/\[([^\]]+)\]\([^)]+\)/g, "$1")
+			.replace(/\[\^[^\]]+\]/g, "")
+			.replace(/[*_`]/g, "")
+			.replace(/^>\s?/gm, "")
+			.replace(/\n+/g, " ")
+			.trim();
+
+		const sentences = plain.match(/[^.!?]+[.!?]+/g);
+		if (!sentences) return plain.slice(0, 300);
+
+		let result = "";
+		for (const sentence of sentences) {
+			if (result.length + sentence.trimStart().length > 300 && result.length > 0) break;
+			result += (result ? " " : "") + sentence.trimStart();
+		}
+		return result || plain.slice(0, 300);
+	}
+
 	private countWords(markdown: string): number {
-		// Remove markdown syntax and count words
 		const text = markdown
-			.replace(/```[\s\S]*?```/g, "") // Remove code blocks
-			.replace(/`[^`]+`/g, "") // Remove inline code
-			.replace(/\[([^\]]+)\]\([^)]+\)/g, "$1") // Extract link text
-			.replace(/[#*_~>\-|]/g, " "); // Remove markdown chars
+			.replace(/```[\s\S]*?```/g, "")
+			.replace(/`[^`]+`/g, "")
+			.replace(/\[([^\]]+)\]\([^)]+\)/g, "$1")
+			.replace(/[#*_~>\-|]/g, " ");
 
 		return text.split(/\s+/).filter((w) => w.length > 0).length;
 	}
 
 	/**
-	 * Publish an article to the web-accessible directory
+	 * Normalize footnote section: ensure --- separator before footnotes,
+	 * remove stray blank lines between footnote definitions.
+	 */
+	private normalizeFootnotes(body: string): string {
+		const firstFootnote = body.search(/^\[\^\d+\]:/m);
+		if (firstFootnote === -1) return body;
+
+		const prose = body.slice(0, firstFootnote).replace(/\s+$/, "");
+		const footnotesRaw = body.slice(firstFootnote).trim();
+
+		const footnotes = footnotesRaw.replace(/\n{2,}(?=\[\^\d+\]:)/g, "\n");
+		const proseClean = prose.replace(/\n---\s*$/, "");
+
+		return `${proseClean}\n\n---\n\n${footnotes}\n`;
+	}
+
+	/**
+	 * Build YAML frontmatter string from article metadata.
+	 */
+	private buildFrontmatter(article: PublishedArticle): string {
+		const lines = [
+			"---",
+			`title: ${JSON.stringify(article.title)}`,
+			`publishedAt: ${JSON.stringify(article.publishedAt)}`,
+			`wordCount: ${article.wordCount}`,
+		];
+		if (article.qualityScore != null) {
+			lines.push(`qualityScore: ${article.qualityScore}`);
+		}
+		if (article.description) {
+			lines.push(`description: ${JSON.stringify(article.description)}`);
+		}
+		if (article.category) {
+			lines.push(`category: ${JSON.stringify(article.category)}`);
+		}
+		lines.push("---", "");
+		return lines.join("\n");
+	}
+
+	/**
+	 * Publish an article to the web-accessible directory.
 	 */
 	publish(
 		outputDir: string,
@@ -156,111 +243,109 @@ export class ArticlePublisher {
 		const content = readFileSync(finalPath, "utf-8");
 		const targetPath = join(this.articlesDir, `${slug}.md`);
 
-		// Copy the article
-		writeFileSync(targetPath, content, "utf-8");
+		const title = metadata?.title || this.extractTitle(content);
+		const wordCount = metadata?.wordCount || this.countWords(content);
 
-		// Build article metadata
+		let body = content.replace(/^#\s+.+\n+/, "");
+		body = this.normalizeFootnotes(body);
+		const description = this.getDescription(body);
+
 		const article: PublishedArticle = {
 			slug,
-			title: metadata?.title || this.extractTitle(content),
+			title,
 			publishedAt: new Date().toISOString(),
-			wordCount: metadata?.wordCount || this.countWords(content),
+			description,
+			wordCount,
 			qualityScore: metadata?.qualityScore,
-			sourceIdea: metadata?.sourceIdea,
+			category: metadata?.category,
 		};
 
-		// Update index
-		const index = this.loadIndex();
-		const existingIndex = index.articles.findIndex((a) => a.slug === slug);
-
-		if (existingIndex >= 0) {
-			index.articles[existingIndex] = article;
-		} else {
-			index.articles.push(article);
-		}
-
-		// Sort by date (newest first)
-		index.articles.sort(
-			(a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime(),
-		);
-
-		this.saveIndex(index);
+		writeFileSync(targetPath, this.buildFrontmatter(article) + body, "utf-8");
 
 		return article;
 	}
 
 	/**
-	 * List all published articles
+	 * List all published articles by reading markdown frontmatter.
 	 */
 	listPublished(): PublishedArticle[] {
-		return this.loadIndex().articles;
+		const files = readdirSync(this.articlesDir).filter((f) => f.endsWith(".md"));
+		const articles: PublishedArticle[] = [];
+
+		for (const file of files) {
+			const slug = file.replace(/\.md$/, "");
+			const article = this.readArticle(slug);
+			if (article) articles.push(article);
+		}
+
+		return articles.sort(
+			(a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime(),
+		);
 	}
 
-	/**
-	 * Check if an article exists
-	 */
 	exists(slug: string): boolean {
 		return existsSync(join(this.articlesDir, `${slug}.md`));
 	}
 
-	/**
-	 * Get the path to the articles directory
-	 */
 	getArticlesDir(): string {
 		return this.articlesDir;
 	}
 
-	/**
-	 * Get article content by slug
-	 */
 	getArticle(slug: string): string | null {
-		const path = join(this.articlesDir, `${slug}.md`);
-		if (!existsSync(path)) {
-			return null;
-		}
-		return readFileSync(path, "utf-8");
+		const filePath = join(this.articlesDir, `${slug}.md`);
+		if (!existsSync(filePath)) return null;
+		return readFileSync(filePath, "utf-8");
 	}
 
 	/**
-	 * Set category for an article
+	 * Set category for an article by updating its frontmatter.
 	 */
 	setCategory(slug: string, category: string): PublishedArticle | null {
-		const index = this.loadIndex();
-		const article = index.articles.find((a) => a.slug === slug);
-		if (!article) return null;
+		const filePath = join(this.articlesDir, `${slug}.md`);
+		if (!existsSync(filePath)) return null;
 
-		article.category = category || undefined;
-		this.saveIndex(index);
-		return article;
+		let content = readFileSync(filePath, "utf-8");
+
+		if (category) {
+			const categoryLine = `category: ${JSON.stringify(category)}`;
+			if (/^category: .+$/m.test(content)) {
+				content = content.replace(/^category: .+$/m, categoryLine);
+			} else {
+				// Insert before closing ---
+				content = content.replace(/\n---\n/, `\n${categoryLine}\n---\n`);
+			}
+		} else {
+			// Remove category line
+			content = content.replace(/^category: .+\n/m, "");
+		}
+
+		writeFileSync(filePath, content, "utf-8");
+		return this.readArticle(slug);
 	}
 
 	/**
-	 * Remove an article from the index and optionally delete the file
+	 * Write raw content (frontmatter + body) to an article file.
 	 */
-	unpublish(slug: string, deleteFile = false): boolean {
-		const index = this.loadIndex();
-		const before = index.articles.length;
-		index.articles = index.articles.filter((a) => a.slug !== slug);
+	writeArticle(slug: string, content: string): void {
+		const filePath = join(this.articlesDir, `${slug}.md`);
+		writeFileSync(filePath, content, "utf-8");
+	}
 
-		if (index.articles.length === before) return false;
-
-		this.saveIndex(index);
-
-		if (deleteFile) {
-			const path = join(this.articlesDir, `${slug}.md`);
-			if (existsSync(path)) {
-				unlinkSync(path);
-			}
-		}
-
+	/**
+	 * Remove a published article by deleting its file.
+	 */
+	unpublish(slug: string): boolean {
+		const filePath = join(this.articlesDir, `${slug}.md`);
+		if (!existsSync(filePath)) return false;
+		unlinkSync(filePath);
 		return true;
 	}
 
 	/**
-	 * List categories with article counts
+	 * List categories with article counts.
 	 */
 	listCategories(): Array<{ name: string; count: number }> {
-		const articles = this.loadIndex().articles;
+		const articles = this.listPublished();
 		const counts = new Map<string, number>();
 
 		for (const article of articles) {
@@ -270,7 +355,6 @@ export class ArticlePublisher {
 
 		const result: Array<{ name: string; count: number }> = [];
 
-		// Inbox (empty category) always first
 		if (counts.has("")) {
 			result.push({ name: "", count: counts.get("")! });
 			counts.delete("");
@@ -278,7 +362,6 @@ export class ArticlePublisher {
 			result.push({ name: "", count: 0 });
 		}
 
-		// Rest alphabetical
 		const sorted = [...counts.entries()].sort((a, b) => a[0].localeCompare(b[0], "sv"));
 		for (const [name, count] of sorted) {
 			result.push({ name, count });

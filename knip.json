@@ -18,7 +18,10 @@
 		},
 		"apps/mcp-quotes": {
 			"project": ["src/**/*.ts"]
+		},
+		"apps/web": {
+			"ignoreDependencies": ["sharp"]
 		}
 	},
-	"ignore": ["**/dist/**"]
+	"ignore": ["**/dist/**", "**/.astro/**", ".markdownlint-rules/**"]
 }

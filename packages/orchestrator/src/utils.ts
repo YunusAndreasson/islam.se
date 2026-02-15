@@ -12,8 +12,14 @@ export function slugify(text: string): string {
 		.replace(/[åä]/g, "a")
 		.replace(/[ö]/g, "o")
 		.replace(/[^a-z0-9]+/g, "-")
-		.replace(/^-|-$/g, "")
-		.slice(0, 50);
+		.replace(/^-|-$/g, "");
+
+	// Truncate at word boundary (hyphen) within limit, never leave trailing hyphen
+	if (slug.length > 50) {
+		const lastHyphen = slug.lastIndexOf("-", 50);
+		slug = lastHyphen > 10 ? slug.slice(0, lastHyphen) : slug.slice(0, 50);
+	}
+	slug = slug.replace(/-$/, "");
 
 	// Fallback for text with no Latin characters (e.g. Arabic topics)
 	if (!slug) {
@@ -93,6 +99,7 @@ export const RESEARCH_ALLOWED_TOOLS = [
 	"mcp__quotes__search_quotes",
 	"mcp__quotes__search_by_filter",
 	"mcp__quotes__search_text",
+	"mcp__quotes__get_quote_by_id",
 	"mcp__quotes__get_inventory",
 	"mcp__quotes__bulk_search",
 	"mcp__quotes__search_quran",

@@ -21,8 +21,8 @@ Do NOT redo this work. Assume facts are correct. Assume quotes are verified. Ass
 The standard: Strindberg's essays, Lagerlöf's meditations, *Axess* and *Respons*. Prose where the writing itself is part of the argument. If a sentence merely conveys information without any craft, it fails the bar.
 </quality_bar>
 
-<think_tool>
-You have a "think" tool — this is your ONLY tool. Do not attempt to use any other tools (no Task, Read, Write, Bash, etc.). Use it to read the text once without editing. Then reflect:
+<reflection>
+Do not attempt to use any tools (no Task, Read, Write, Bash, etc.). Read the text once without editing. Then reflect:
 
 - Where did my attention wander? That's where the prose dies.
 - Which sentence stopped me cold (in a good way)? Protect it.
@@ -31,7 +31,7 @@ You have a "think" tool — this is your ONLY tool. Do not attempt to use any ot
 - Where is the text predictable? Where could it surprise?
 
 Trust your instincts as a reader. They're more valuable than any checklist.
-</think_tool>
+</reflection>
 
 <section_diagnosis>
 Before touching anything, score each section (rubrik) 1–5:
@@ -53,11 +53,22 @@ Identify: the single strongest sentence and the single weakest sentence.
 - Every paragraph opening with a subject-verb pattern ("Ibn al-Qayyim skriver", "Al-Ghazali hävdar", "Koranen säger") — vary: use colons, start with the content, let the source follow
 - Missing silence — after a long passage of argumentation, a short sentence creates breathing room
 
-**LLM patterns** — The residue of machine writing:
-- "Inte X utan Y" used more than twice — keep the strongest, rewrite the rest
-- Balanced tricolons ("det A, det B, det C") repeated — make asymmetric or cut to two
+**LLM patterns** — The residue of machine writing. These are the actual tics found across dozens of published articles. Hunt them aggressively:
+
+- **"Inte för att X — utan för att Y"** — the single most overused contrast formula. Appears ~20 times across 18+ articles. Keep at most ONE per article. Rewrite the rest: restructure the sentence, use "eftersom", reverse the clause order, or simply cut the negation and state the positive directly.
+- **"Inte X utan Y"** used more than twice — keep the strongest, rewrite the rest.
+- **Em-dash addiction** — articles average 21 em-dashes each. The pattern "*statement — parenthetical — continuation*" becomes a metronome when every other sentence does it. Audit: if a paragraph has 3+ em-dashes, rewrite at least one into a subordinate clause, a colon, or a new sentence. The em-dash should surprise, not numb.
+- **"*Arabiskt begrepp* — svensk förklaring"** — the italic-term-then-gloss pattern appears ~125 times across 40 articles. Introduce a term once with its gloss, then trust the reader to remember. On second and later uses, just use the term without re-explaining. Vary how you introduce: sometimes weave the meaning into the sentence instead of appending it after a dash.
+- **"Snarare än"** — appears 28+ times as the default contrast word. Swedish has alternatives: "istället för", "framför", "mer än", or restructure to avoid the comparison entirely. Max 2 per article.
+- **"Skillnaden är [avgörande/allt/subtil/kvalitativ/inte...]"** — formulaic contrast opener. 22+ occurrences. Vary: sometimes *show* the difference instead of announcing it. Sometimes let the reader see the difference without being told "skillnaden är".
+- **"Frågan är inte X. Frågan är Y."** — rhetorical pivot that appears in 8 articles. Effective once per corpus. If the text already does this, rewrite to something less mechanical: a direct question, a colon, or just the assertion.
+- **"Paradox/paradoxen"** — 34 uses across 18 articles, often for things that aren't paradoxes at all (they're contrasts, tensions, or ironies). Only use "paradox" when both sides genuinely contradict. Otherwise: "spänning", "ironi", the specific tension itself without a label.
+- **"Kanske är det..."** as soft closer — hedging the conclusion signals the writer doesn't trust the argument. If the essay earns its conclusion, state it. If it hasn't, fix the essay, not the closing.
+- **"Det handlar inte om X. Det handlar om Y."** — formulaic pivot found in 5+ articles. Cut the negative frame; just say what it *does* handle.
+- **"Inte [en] metafor" / "inte metaforiskt"** — appears in 7 articles, insisting the text means literally. If the argument is strong, the reader knows. Saying "this is not a metaphor" *is* a metaphor for weak conviction. Cut it.
+- Balanced tricolons ("det A, det B, det C") repeated — make asymmetric or cut to two.
 - "Det som gör X så Y är att Z" — this roundabout construction is a tell. Write directly.
-- Every contrast following the same formula — a skilled essayist has ten ways to build a contrast
+- Every contrast following the same formula — a skilled essayist has ten ways to build a contrast.
 
 **DO NOT introduce these phrases** — The reviewer already hunted them. If you rewrite a sentence into one of these, you're undoing earlier work:
 - "Notera:", "Märk väl:", "Lägg märke till:" — hand-holding. Let the prose carry the point.
@@ -97,7 +108,7 @@ With silence:
 <sacred_boundaries>
 **NEVER touch:**
 - Blockquote content — everything after `>` is verified source text. Not a comma. Not a word.
-- Inline quotes in `"..."` — same rule.
+- Inline quotes in `"..."` — same rule. All quotes must use straight double quotes. Replace any guillemets (`»«`) with `"..."`.
 - Footnote markers `[^N]` — keep numbering intact.
 - Footnote content (the `[^N]:` lines at the bottom).
 - Section order or headings.
@@ -133,5 +144,7 @@ The JSON between the --- markers is diagnostic metadata. The polished article fo
 </output_format>
 
 <output_instruction>
-End your response with the frontmatter block and polished article. Reflect and draft as needed, but the final output must start with --- containing valid JSON metadata, then ---, then the article body in markdown.
+Your output must be ONLY the frontmatter block and polished article — nothing else. No preamble, no reflection text, no analysis before the frontmatter. Do all reflection and diagnosis in your internal thinking.
+
+Your output starts with --- on the first line, followed by valid JSON metadata, then ---, then the complete polished article in markdown. Nothing before the opening ---.
 </output_instruction>

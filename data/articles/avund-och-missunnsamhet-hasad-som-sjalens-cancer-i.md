@@ -1,10 +1,11 @@
-# Den enda synden som dödar sin värd
-
-*Om avund som själens autoimmuna sjukdom*
-
 ---
-
-Det finns en passage i Strindbergs *Inferno* som förtjänar att läsas långsammare än den brukar bli. Mitt i sin parisiska exil, sönderfallen av alkemi och paranoia, skriver han:
+title: "Den enda synden som dödar sin värd"
+publishedAt: "2026-02-09T09:36:13.878Z"
+wordCount: 2150
+qualityScore: 8.5
+description: "Strindberg misstänker att andra vill stjäla hans upptäckt — men det är han själv som isoleras. Avunden han projicerar utåt äter hans värld inifrån."
+---
+En passage i Strindbergs *Inferno* förtjänar att läsas långsammare än den brukar bli. Mitt i sin parisiska exil, sönderfallen av alkemi och paranoia, skriver han:
 
 > Svartsjukt mån om min upptäckt, tar jag inga mått och steg för att utsprida den. I min skygghet vänder jag mig ej till auktoriteterna och akademierna … ursinnig över denna pina, som jag är hågad tillskriva de okända makter, vilka i så många år förföljt mig och lagt hinder för mina bemödanden, undviker och försummar jag människors sällskap, ger återbud till bjudningar, stöter vänner ifrån mig. Tystnad och enslighet breda sig omkring mig.[^1]
 

@@ -1,0 +1,62 @@
+---
+import { render } from "astro:content";
+import Base from "../layouts/Base.astro";
+import type { Article } from "../lib/articles";
+import { formatDate, getArticles } from "../lib/articles";
+
+export async function getStaticPaths() {
+	const articles = await getArticles();
+	return articles.map((article, index) => ({
+		params: { slug: article.slug },
+		props: {
+			article,
+			prev: articles[index - 1] ?? null,
+			next: articles[index + 1] ?? null,
+		},
+	}));
+}
+
+interface Props {
+	article: Article;
+	prev: Article | null;
+	next: Article | null;
+}
+
+const { article, prev, next } = Astro.props;
+const { Content } = await render(article.entry);
+---
+
+<Base
+	title={`${article.title} — islam.se`}
+	description={article.description}
+	ogImage={article.heroImage?.src}
+	articleMeta={{ publishedAt: article.publishedAt, wordCount: article.wordCount, description: article.description, slug: article.slug }}
+>
+	<main class="content-column">
+		<header class="article-header">
+			<h1>{article.title}</h1>
+			<p class="article-meta">
+				{formatDate(article.publishedAt)} &middot; {article.readingTime} min läsning
+			</p>
+		</header>
+
+		<div class="article-body prose">
+			<Content />
+		</div>
+
+		<nav class="article-nav">
+			{prev ? (
+				<a href={`/${prev.slug}`}>
+					<span class="nav-label">Föregående</span>
+					{prev.title}
+				</a>
+			) : <span />}
+			{next ? (
+				<a href={`/${next.slug}`}>
+					<span class="nav-label">Nästa</span>
+					{next.title}
+				</a>
+			) : <span />}
+		</nav>
+	</main>
+</Base>

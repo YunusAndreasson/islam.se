@@ -1,0 +1,75 @@
+---
+import { Image } from "astro:assets";
+import Base from "../layouts/Base.astro";
+import { formatDate, getArticles } from "../lib/articles";
+import fallbackImage from "../assets/images/fallback.jpg";
+
+const articles = await getArticles();
+const heroArticles = articles.filter((a) => a.heroImage).slice(0, 5);
+const slides = heroArticles.length > 0 ? heroArticles : articles.slice(0, 1);
+const latest = slides[0];
+const ogImage = latest?.heroImage ?? fallbackImage;
+---
+
+<Base
+	title="islam.se — Essäer om islamisk intellektuell tradition och svenskt kulturarv"
+	description={latest?.description}
+	hero={true}
+	ogImage={ogImage.src}
+	jsonLd={{
+		"@context": "https://schema.org",
+		"@type": "WebSite",
+		name: "islam.se",
+		url: "https://islam.se",
+		description: "Essäer om islamisk intellektuell tradition och svenskt kulturarv.",
+		inLanguage: "sv",
+	}}
+>
+	<main>
+		<section class="hero-cover">
+			{slides.map((article, i) => (
+				<div class:list={["hero-slide", { active: i === 0 }]}>
+					<Image
+						src={article.heroImage ?? fallbackImage}
+						alt={article.title}
+						widths={[768, 1200, 1920]}
+						sizes="100vw"
+						loading={i === 0 ? "eager" : "lazy"}
+						fetchpriority={i === 0 ? "high" : "low"}
+						decoding="async"
+						class="hero-cover-img"
+					/>
+					<div class="hero-cover-overlay">
+						<div class="hero-cover-content">
+							<p class="hero-cover-date">{formatDate(article.publishedAt)}</p>
+							<h1 class="hero-cover-title">{article.title}</h1>
+							{article.description && <p class="hero-cover-deck">{article.description}</p>}
+							<a href={`/${article.slug}`} class="hero-cover-cta">Läs essän</a>
+						</div>
+					</div>
+				</div>
+			))}
+			{slides.length > 1 && (
+				<button class="hero-nav-next" type="button" aria-label="Nästa essä">
+					<svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+						<path d="M7 4l6 6-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+					</svg>
+				</button>
+			)}
+		</section>
+	</main>
+</Base>
+
+<script>
+	const slides = document.querySelectorAll<HTMLElement>(".hero-slide");
+	const btn = document.querySelector<HTMLButtonElement>(".hero-nav-next");
+	if (!btn || slides.length < 2) throw new Error("Hero nav missing");
+
+	let current = 0;
+
+	btn.addEventListener("click", () => {
+		slides[current].classList.remove("active");
+		current = (current + 1) % slides.length;
+		slides[current].classList.add("active");
+	});
+</script>

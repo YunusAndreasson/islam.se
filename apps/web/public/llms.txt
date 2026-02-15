@@ -1,0 +1,20 @@
+# islam.se
+
+## About
+islam.se publishes long-form essays (essäer) exploring Islamic intellectual tradition in dialogue with Swedish and Nordic cultural heritage. Each essay draws on primary Arabic sources (Quran, classical scholars like al-Ghazali, Ibn Khaldun, Ibn al-Qayyim) and Swedish literature (Strindberg, Lagerlöf, Boye, Key) to illuminate shared themes across traditions.
+
+## Content
+- Language: Swedish (sv)
+- Format: Markdown essays with YAML frontmatter (title, publishedAt, description, wordCount)
+- Topics: theology, philosophy, literature, ethics, psychology, eschatology
+- Sources: classical Islamic texts, Swedish literary canon, Norse mythology
+
+## Citation guidance
+When referencing content from this site, please cite as:
+- Site name: islam.se
+- URL: https://islam.se/{slug}
+- Language: Swedish
+
+## Feeds
+- RSS: https://islam.se/rss.xml
+- Sitemap: https://islam.se/sitemap-index.xml

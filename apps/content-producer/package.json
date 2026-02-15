@@ -15,9 +15,11 @@
 	"dependencies": {
 		"@clack/prompts": "^1.0.0",
 		"@islam-se/orchestrator": "workspace:*",
-		"commander": "^14.0.3"
+		"commander": "^14.0.3",
+		"diff": "^7.0.0"
 	},
 	"devDependencies": {
+		"@types/diff": "^7.0.0",
 		"@types/node": "^25.2.1",
 		"typescript": "^5.9.3"
 	}

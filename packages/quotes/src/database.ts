@@ -445,7 +445,7 @@ export function getQuote(id: number): StoredQuote | null {
 	const database = initDatabase();
 
 	const stmt = database.prepare(`
-		SELECT id, text, author, work_title as workTitle, category, keywords, tone, standalone, length, created_at as createdAt
+		SELECT id, text, author, work_title as workTitle, category, keywords, tone, standalone, length, language, source_type as sourceType, created_at as createdAt
 		FROM quotes
 		WHERE id = ?
 	`);

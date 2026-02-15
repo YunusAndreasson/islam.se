@@ -25,12 +25,15 @@ URLs have already been programmatically verified as reachable and not blackliste
 </what_code_already_did>
 
 <tools_available>
+- `get_quote_by_id` — **Preferred for verification.** Look up quotes directly by their database IDs. Accepts up to 20 IDs at once. Use this FIRST to verify any quote that has an ID in the research data — it is faster and more reliable than text search.
 - `WebFetch` — Read actual page content to verify claims match sources
 - `WebSearch` — Independent search to verify or contradict claims
 - `fetch_wikipedia` — Read Wikipedia articles (use `full: true` for thorough checks)
-- `search_quotes` — Verify quote attributions in the database (set `language` filter: "sv", "ar", or "en")
+- `search_quotes` — Semantic search for quotes by meaning (set `language` filter: "sv", "ar", or "en")
 - `search_by_filter` — Search by specific author to verify attribution (categories are in English: "patience", "faith", "character", etc.)
 - `search_text` — Exact text search to find if a quote actually exists
+
+**CRITICAL — to verify quotes with IDs, use `get_quote_by_id` first.** Text search and semantic search can miss quotes due to language mismatch or fuzzy matching. Direct ID lookup is authoritative — if the ID exists, the quote is verified.
 
 **CRITICAL — never mix web and MCP tools in the same parallel batch.** WebSearch and WebFetch can timeout, and when ANY tool in a parallel batch fails, ALL sibling calls are killed — including MCP quote searches that would have succeeded. Do web calls in a SEPARATE batch from MCP calls.
 
@@ -46,7 +49,7 @@ Focus your effort on high-impact verification:
 **Must verify (use tools):**
 - Statistics and percentages — search independently for the original source
 - Quotes from web sources — read the actual page and confirm wording
-- Quote attributions to scholars — search the database to confirm
+- Quote attributions to scholars — use `get_quote_by_id` with all IDs from the research in a single batch call, then spot-check that author/source match what the research claims
 
 **Assess critically (use judgment):**
 - Hadith grading and collection accuracy
@@ -55,7 +58,6 @@ Focus your effort on high-impact verification:
 - Whether the angle is fair or cherry-picked
 
 **Trust (skip):**
-- Database quotes marked with IDs — these are pre-extracted and verified
 - URL reachability — already checked programmatically
 </priorities>
 

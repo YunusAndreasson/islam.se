@@ -4,13 +4,16 @@ import { existsSync } from "node:fs";
 import { resolve } from "node:path";
 import * as p from "@clack/prompts";
 import {
+	ArticlePublisher,
 	ContentOrchestrator,
 	type EnrichedIdea,
 	type EnrichedIdeationOutput,
 	type IdeaBrief,
 	IdeationService,
+	parseFrontmatter,
 } from "@islam-se/orchestrator";
 import { Command } from "commander";
+import { createPatch } from "diff";
 
 const program = new Command();
 
@@ -416,6 +419,378 @@ program
 			console.log(`  Quality:  ${status.metadata.qualityScore}/10`);
 			console.log(`  Words:    ${status.metadata.wordCount}`);
 		}
+
+		process.exit(0);
+	});
+
+program
+	.command("re-polish")
+	.description("Re-run the polish stage on published articles to fix AI writing tics")
+	.argument("<slug>", 'Article slug or "all" for all articles')
+	.option("--dry-run", "Preview diffs without writing changes")
+	.option("--no-confirm", "Auto-accept changes (skip interactive prompt)")
+	.option("-m, --model <model>", "Model to use (opus|sonnet)", "opus")
+	.action(async (slug: string, options) => {
+		const publisher = new ArticlePublisher();
+		const orchestrator = new ContentOrchestrator({
+			outputDir: "./output",
+			model: options.model as "opus" | "sonnet",
+		});
+
+		// Determine which articles to process
+		let slugs: string[];
+		if (slug === "all") {
+			const articles = publisher.listPublished();
+			slugs = articles.map((a) => a.slug);
+			console.log(`\nFound ${slugs.length} articles to re-polish.\n`);
+		} else {
+			if (!publisher.exists(slug)) {
+				console.error(`Article not found: ${slug}`);
+				process.exit(1);
+			}
+			slugs = [slug];
+		}
+
+		let processed = 0;
+		let changed = 0;
+		let skipped = 0;
+
+		for (const articleSlug of slugs) {
+			processed++;
+			if (slugs.length > 1) {
+				console.log(`\n[${processed}/${slugs.length}] ${articleSlug}`);
+				console.log("─".repeat(60));
+			}
+
+			const content = publisher.getArticle(articleSlug);
+			if (!content) {
+				console.log("  Could not read article, skipping.");
+				skipped++;
+				continue;
+			}
+
+			// Split frontmatter from body
+			const frontmatterMatch = content.match(/^(---\n[\s\S]*?\n---\n?)([\s\S]*)$/);
+			if (!frontmatterMatch) {
+				console.log("  No frontmatter found, skipping.");
+				skipped++;
+				continue;
+			}
+			const originalFrontmatter = frontmatterMatch[1] as string;
+			const originalBody = frontmatterMatch[2] as string;
+
+			// Run polish stage
+			console.log("  Running polish stage...");
+			const polishResult = await orchestrator.runPolish(originalBody);
+
+			if (!(polishResult.success && polishResult.data)) {
+				console.log(`  Polish failed: ${polishResult.error ?? "unknown error"}`);
+				skipped++;
+				continue;
+			}
+
+			const polishedBody = polishResult.data.body;
+
+			// Check if anything changed
+			if (polishedBody.trim() === originalBody.trim()) {
+				console.log("  No changes — article already clean.");
+				skipped++;
+				continue;
+			}
+
+			// Integrity checks: blockquotes and footnotes
+			const origBlockquotes = (originalBody.match(/^>/gm) || []).length;
+			const polishedBlockquotes = (polishedBody.match(/^>/gm) || []).length;
+			const origFootnotes = (originalBody.match(/\[\^\d+\]/g) || []).length;
+			const polishedFootnotes = (polishedBody.match(/\[\^\d+\]/g) || []).length;
+
+			if (origBlockquotes !== polishedBlockquotes || origFootnotes !== polishedFootnotes) {
+				console.log("");
+				console.log("  ⚠️  INTEGRITY WARNING:");
+				if (origBlockquotes !== polishedBlockquotes) {
+					console.log(`     Blockquotes: ${origBlockquotes} → ${polishedBlockquotes}`);
+				}
+				if (origFootnotes !== polishedFootnotes) {
+					console.log(`     Footnote refs: ${origFootnotes} → ${polishedFootnotes}`);
+				}
+				console.log("");
+			}
+
+			// Show diff
+			const patch = createPatch(
+				`${articleSlug}.md`,
+				originalBody,
+				polishedBody,
+				"original",
+				"polished",
+			);
+			console.log("");
+			for (const line of patch.split("\n")) {
+				if (line.startsWith("+") && !line.startsWith("+++")) {
+					console.log(`\x1b[32m${line}\x1b[0m`);
+				} else if (line.startsWith("-") && !line.startsWith("---")) {
+					console.log(`\x1b[31m${line}\x1b[0m`);
+				} else if (line.startsWith("@@")) {
+					console.log(`\x1b[36m${line}\x1b[0m`);
+				} else {
+					console.log(line);
+				}
+			}
+
+			if (polishResult.data.edits) {
+				console.log("\n  Editor notes:");
+				console.log(`  ${polishResult.data.edits.split("\n").join("\n  ")}`);
+			}
+
+			if (options.dryRun) {
+				console.log("\n  [dry-run] Would write changes.");
+				changed++;
+				continue;
+			}
+
+			// Prompt for confirmation unless --no-confirm
+			let accept = !options.confirm; // --no-confirm sets options.confirm = false
+			if (options.confirm !== false) {
+				const choice = await p.select({
+					message: "Accept changes?",
+					options: [
+						{ value: "accept", label: "Accept" },
+						{ value: "skip", label: "Skip" },
+						{ value: "abort", label: "Abort (stop processing)" },
+					],
+				});
+
+				if (p.isCancel(choice) || choice === "abort") {
+					console.log("\nAborted.");
+					process.exit(0);
+				}
+				accept = choice === "accept";
+			}
+
+			if (accept) {
+				// Update wordCount in frontmatter
+				const { data: fmData } = parseFrontmatter(content);
+				const oldWordCount = fmData.wordCount as number | undefined;
+				const newWordCount = polishedBody
+					.replace(/```[\s\S]*?```/g, "")
+					.replace(/`[^`]+`/g, "")
+					.replace(/\[([^\]]+)\]\([^)]+\)/g, "$1")
+					.replace(/[#*_~>\-|]/g, " ")
+					.split(/\s+/)
+					.filter((w) => w.length > 0).length;
+
+				let updatedFrontmatter = originalFrontmatter;
+				if (oldWordCount && oldWordCount !== newWordCount) {
+					updatedFrontmatter = originalFrontmatter.replace(
+						/^wordCount: \d+$/m,
+						`wordCount: ${newWordCount}`,
+					);
+				}
+
+				publisher.writeArticle(articleSlug, updatedFrontmatter + polishedBody);
+				console.log(`  Written. (${oldWordCount} → ${newWordCount} words)`);
+				changed++;
+			} else {
+				console.log("  Skipped.");
+				skipped++;
+			}
+		}
+
+		console.log("\n══════════════════════════════════════════════════════════");
+		console.log(`  Done. ${changed} changed, ${skipped} skipped out of ${processed} articles.`);
+		console.log("══════════════════════════════════════════════════════════\n");
+
+		process.exit(0);
+	});
+
+program
+	.command("review-aqeedah")
+	.description(
+		"Review published articles for theological compliance (Sufi, Ashari/Maturidi, non-mainstream ideas)",
+	)
+	.argument("<slug>", 'Article slug or "all" for all articles')
+	.option("--dry-run", "Preview issues and diffs without writing changes")
+	.option("--no-confirm", "Auto-accept changes (skip interactive prompt)")
+	.option("-m, --model <model>", "Model to use (opus|sonnet)", "opus")
+	.action(async (slug: string, options) => {
+		const publisher = new ArticlePublisher();
+		const orchestrator = new ContentOrchestrator({
+			outputDir: "./output",
+			model: options.model as "opus" | "sonnet",
+		});
+
+		// Determine which articles to process
+		let slugs: string[];
+		if (slug === "all") {
+			const articles = publisher.listPublished();
+			slugs = articles.map((a) => a.slug);
+			console.log(`\nFound ${slugs.length} articles to review.\n`);
+		} else {
+			if (!publisher.exists(slug)) {
+				console.error(`Article not found: ${slug}`);
+				process.exit(1);
+			}
+			slugs = [slug];
+		}
+
+		let processed = 0;
+		let rewritten = 0;
+		let clean = 0;
+		let skipped = 0;
+
+		for (const articleSlug of slugs) {
+			processed++;
+			if (slugs.length > 1) {
+				console.log(`\n[${processed}/${slugs.length}] ${articleSlug}`);
+				console.log("─".repeat(60));
+			}
+
+			const content = publisher.getArticle(articleSlug);
+			if (!content) {
+				console.log("  Could not read article, skipping.");
+				skipped++;
+				continue;
+			}
+
+			// Split frontmatter from body
+			const frontmatterMatch = content.match(/^(---\n[\s\S]*?\n---\n?)([\s\S]*)$/);
+			if (!frontmatterMatch) {
+				console.log("  No frontmatter found, skipping.");
+				skipped++;
+				continue;
+			}
+			const originalFrontmatter = frontmatterMatch[1] as string;
+			const originalBody = frontmatterMatch[2] as string;
+
+			// Run aqeedah review stage
+			console.log("  Running aqeedah review...");
+			const reviewResult = await orchestrator.runAqeedahReview(originalBody);
+
+			if (!(reviewResult.success && reviewResult.data)) {
+				console.log(`  Review failed: ${reviewResult.error ?? "unknown error"}`);
+				skipped++;
+				continue;
+			}
+
+			const { verdict, issuesFound, summary, body: reviewedBody } = reviewResult.data;
+
+			// Show summary
+			console.log(`  Verdict: ${verdict}`);
+			console.log(`  Summary: ${summary}`);
+
+			if (verdict === "clean") {
+				console.log("  No theological issues found.");
+				clean++;
+				continue;
+			}
+
+			// Show issues found
+			console.log(`\n  Issues found (${issuesFound.length}):`);
+			for (const issue of issuesFound) {
+				console.log(`\n  [\x1b[33m${issue.type}\x1b[0m] ${issue.location}`);
+				console.log(`    Original: ${issue.original}`);
+				console.log(`    Issue: ${issue.issue}`);
+				console.log(`    Fix: ${issue.fix}`);
+			}
+
+			// Show diff
+			const patch = createPatch(
+				`${articleSlug}.md`,
+				originalBody,
+				reviewedBody,
+				"original",
+				"reviewed",
+			);
+			console.log("");
+			for (const line of patch.split("\n")) {
+				if (line.startsWith("+") && !line.startsWith("+++")) {
+					console.log(`\x1b[32m${line}\x1b[0m`);
+				} else if (line.startsWith("-") && !line.startsWith("---")) {
+					console.log(`\x1b[31m${line}\x1b[0m`);
+				} else if (line.startsWith("@@")) {
+					console.log(`\x1b[36m${line}\x1b[0m`);
+				} else {
+					console.log(line);
+				}
+			}
+
+			// Integrity checks: blockquotes and footnotes
+			const origBlockquotes = (originalBody.match(/^>/gm) || []).length;
+			const reviewedBlockquotes = (reviewedBody.match(/^>/gm) || []).length;
+			const origFootnotes = (originalBody.match(/\[\^\d+\]/g) || []).length;
+			const reviewedFootnotes = (reviewedBody.match(/\[\^\d+\]/g) || []).length;
+
+			if (origBlockquotes !== reviewedBlockquotes || origFootnotes !== reviewedFootnotes) {
+				console.log("");
+				console.log("  INTEGRITY WARNING:");
+				if (origBlockquotes !== reviewedBlockquotes) {
+					console.log(`     Blockquotes: ${origBlockquotes} → ${reviewedBlockquotes}`);
+				}
+				if (origFootnotes !== reviewedFootnotes) {
+					console.log(`     Footnote refs: ${origFootnotes} → ${reviewedFootnotes}`);
+				}
+				console.log("");
+			}
+
+			if (options.dryRun) {
+				console.log("\n  [dry-run] Would write changes.");
+				rewritten++;
+				continue;
+			}
+
+			// Prompt for confirmation unless --no-confirm
+			let accept = !options.confirm; // --no-confirm sets options.confirm = false
+			if (options.confirm !== false) {
+				const choice = await p.select({
+					message: "Accept changes?",
+					options: [
+						{ value: "accept", label: "Accept" },
+						{ value: "skip", label: "Skip" },
+						{ value: "abort", label: "Abort (stop processing)" },
+					],
+				});
+
+				if (p.isCancel(choice) || choice === "abort") {
+					console.log("\nAborted.");
+					process.exit(0);
+				}
+				accept = choice === "accept";
+			}
+
+			if (accept) {
+				// Update wordCount in frontmatter
+				const { data: fmData } = parseFrontmatter(content);
+				const oldWordCount = fmData.wordCount as number | undefined;
+				const newWordCount = reviewedBody
+					.replace(/```[\s\S]*?```/g, "")
+					.replace(/`[^`]+`/g, "")
+					.replace(/\[([^\]]+)\]\([^)]+\)/g, "$1")
+					.replace(/[#*_~>\-|]/g, " ")
+					.split(/\s+/)
+					.filter((w) => w.length > 0).length;
+
+				let updatedFrontmatter = originalFrontmatter;
+				if (oldWordCount && oldWordCount !== newWordCount) {
+					updatedFrontmatter = originalFrontmatter.replace(
+						/^wordCount: \d+$/m,
+						`wordCount: ${newWordCount}`,
+					);
+				}
+
+				publisher.writeArticle(articleSlug, updatedFrontmatter + reviewedBody);
+				console.log(`  Written. (${oldWordCount} → ${newWordCount} words)`);
+				rewritten++;
+			} else {
+				console.log("  Skipped.");
+				skipped++;
+			}
+		}
+
+		console.log("\n══════════════════════════════════════════════════════════");
+		console.log(
+			`  Done. ${rewritten} rewritten, ${clean} clean, ${skipped} skipped out of ${processed} articles.`,
+		);
+		console.log("══════════════════════════════════════════════════════════\n");
 
 		process.exit(0);
 	});

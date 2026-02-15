@@ -1,0 +1,68 @@
+{
+	// markdownlint config for islam.se article essays
+	// Run: pnpm lint:articles
+	"globs": ["data/articles/*.md"],
+	"config": {
+		// --- Enabled rules ---
+
+		// Headings must use ## (atx style)
+		"heading-style": { "style": "atx" },
+		// Only ## allowed in body (title is in frontmatter)
+		"heading-increment": true,
+		// Space required after ##
+		"no-missing-space-atx": true,
+		// No multiple consecutive blank lines
+		"no-multiple-blanks": true,
+		// No trailing whitespace
+		"no-trailing-spaces": true,
+		// No hard tabs
+		"no-hard-tabs": true,
+		// Blanks around headings
+		"blanks-around-headings": true,
+		// Consistent emphasis (*italic* not _italic_)
+		"emphasis-style": { "style": "asterisk" },
+		// Consistent strong (**bold** not __bold__)
+		"strong-style": { "style": "asterisk" },
+
+		// --- Disabled rules (not applicable to essays) ---
+
+		// Italic taglines after frontmatter are intentional
+		"no-emphasis-as-heading": false,
+		// Duplicate headings allowed (essay conclusion can echo title)
+		"no-duplicate-heading": false,
+		// markdownlint doesn't understand footnote [^1] syntax
+		"link-image-reference-definitions": false,
+		// Arabic + Swedish blockquotes use blank lines between languages
+		"no-blanks-blockquote": false,
+		// We don't use H1 in body — title is in frontmatter
+		"first-line-heading": false,
+		// Line length — prose essays, not code docs
+		"line-length": false,
+		// We don't use lists
+		"ul-style": false,
+		"ol-prefix": false,
+		"list-indent": false,
+		"ul-indent": false,
+		"no-bare-urls": false,
+		// Inline HTML — not used, no need to flag
+		"no-inline-html": false,
+		// Blanks around fences — not used
+		"blanks-around-fences": false,
+		// Link/image style — not relevant
+		"no-space-in-links": false,
+		// Code blocks — not used in essays
+		"code-block-style": false,
+		"fenced-code-language": false,
+		"code-fence-style": false,
+		// Single H1 — we have none (title in frontmatter)
+		"single-h1": false,
+		// Link fragments — footnotes handle this
+		"link-fragments": false
+	},
+	// Custom rules for islam.se conventions
+	"customRules": [
+		"./.markdownlint-rules/no-guillemets.cjs",
+		"./.markdownlint-rules/no-italic-quotes.cjs",
+		"./.markdownlint-rules/heading-level-max.cjs"
+	]
+}

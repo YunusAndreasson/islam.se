@@ -41,7 +41,7 @@ export class TuiPipelineRunner extends EventEmitter {
 		const orchestrator = new ContentOrchestrator({
 			outputDir: ARTICLES_DIR,
 			model: "opus",
-			qualityThreshold: 7.5,
+			qualityThreshold: 7,
 			maxRevisions: 2,
 			quiet: true,
 			onPreview: (chunk) => {

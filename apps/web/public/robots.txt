@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://islam.se/sitemap-index.xml

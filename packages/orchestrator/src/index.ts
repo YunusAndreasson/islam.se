@@ -14,6 +14,7 @@ import {
 } from "./domain-tracker.js";
 import { ReferenceTracker } from "./reference-tracker.js";
 import {
+	AqeedahReviewFrontmatterSchema,
 	DraftFrontmatterSchema,
 	DraftOutputSchema,
 	FactCheckOutputSchema,
@@ -153,6 +154,19 @@ export interface PolishOutput {
 	edits: string;
 }
 
+export interface AqeedahReviewOutput {
+	verdict: "clean" | "rewritten";
+	issuesFound: Array<{
+		type: "sufi" | "ashari" | "other";
+		location: string;
+		original: string;
+		issue: string;
+		fix: string;
+	}>;
+	summary: string;
+	body: string;
+}
+
 export interface ProductionResult {
 	success: boolean;
 	topic: string;
@@ -224,7 +238,7 @@ export class ContentOrchestrator {
 		emoji: string;
 		promptFile: string;
 		systemPrompt: string;
-		allowedTools: string[];
+		allowedTools?: string[];
 		/** Zod schema for full output validation (JSON mode) */
 		schema?: import("zod").ZodSchema<T>;
 		/** JSON Schema for Claude --json-schema flag (JSON mode only) */
@@ -600,7 +614,8 @@ ${formatted}
 			schema: ResearchOutputSchema,
 			jsonSchema: getResearchJsonSchema(),
 			effort: "high",
-			maxTurns: 15,
+			maxTurns: 25,
+			timeout: 1800000, // 30 min — research is the most tool-intensive stage
 		});
 
 		return this.processResearchResult(result, startTime);
@@ -650,7 +665,8 @@ IMPORTANT WebFetch limitations:
 			schema: ResearchOutputSchema,
 			jsonSchema: getResearchJsonSchema(),
 			effort: "high",
-			maxTurns: 15,
+			maxTurns: 25,
+			timeout: 1800000, // 30 min — research is the most tool-intensive stage
 		});
 
 		return this.processResearchResult(result, startTime);
@@ -691,12 +707,14 @@ Score fairly based on what you can actually verify:
 				"mcp__quotes__search_quotes",
 				"mcp__quotes__search_by_filter",
 				"mcp__quotes__search_text",
+				"mcp__quotes__get_quote_by_id",
 			], // Content verification + independent search + quote attribution checks
 			mcpConfig: mcpConfigPath,
 			schema: FactCheckOutputSchema,
 			jsonSchema: getFactCheckJsonSchema(),
 			effort: "high",
-			maxTurns: 12,
+			maxTurns: 20,
+			timeout: 1800000, // 30 min — fact-check verifies sources via web + MCP
 		});
 
 		if (!(result.success && result.data)) {
@@ -853,7 +871,7 @@ ${formatted}`;
 			emoji: "✍️ ",
 			promptFile: "author.md",
 			systemPrompt,
-			allowedTools: ["Read", "think"], // think tool for mid-writing reflection
+			allowedTools: ["Read"],
 			markdownMode: {
 				frontmatterSchema: DraftFrontmatterSchema,
 				combine: (meta, body) =>
@@ -863,7 +881,7 @@ ${formatted}`;
 						wordCount: body.split(/\s+/).filter((w) => w.length > 0).length,
 					}) as DraftOutput,
 			},
-			effort: "max",
+			effort: "high",
 			timeout: 1800000, // 30 min — authoring with effort:max needs room
 		});
 
@@ -888,7 +906,7 @@ ${formatted}`;
 	 */
 	async runReview(
 		draft: DraftOutput,
-		_research: ResearchOutput,
+		research: ResearchOutput,
 		factCheck?: FactCheckOutput,
 		ideaBrief?: IdeaBrief,
 		previousReview?: ReviewOutput,
@@ -926,13 +944,36 @@ Assess whether the draft delivers on this promise — or drifted into a generic 
 
 ${draft.body}`;
 
-		// Only pass actionable fact-check flags, not raw data
+		// Pass condensed research quotes for cross-referencing
+		if (research.quotes.length > 0) {
+			const quoteList = research.quotes
+				.map(
+					(q) =>
+						`- [ID ${q.id}] ${q.author}${q.source ? `, *${q.source}*` : ""}: "${q.text.slice(0, 80)}${q.text.length > 80 ? "..." : ""}"`,
+				)
+				.join("\n");
+			systemPrompt += `\n\n## VERIFIED QUOTES (from research)\nCross-reference the article's blockquotes against this list. Flag any quoted passage not found here — it may be invented.\n\n${quoteList}`;
+		}
+
+		// Pass fact-check flags so reviewer can verify author addressed them
 		if (factCheck) {
 			const fcContext: string[] = [];
 			if (factCheck.unverifiedClaims && factCheck.unverifiedClaims.length > 0) {
 				fcContext.push(
-					"Unverified claims (verify the author avoided or reworded these):\n" +
+					"**Unverified claims** (verify the author avoided or reworded these):\n" +
 						factCheck.unverifiedClaims.map((c) => `- ${c.claim}`).join("\n"),
+				);
+			}
+			if (factCheck.recommendations && factCheck.recommendations.length > 0) {
+				fcContext.push(
+					"**Recommendations** (check whether the author addressed each — flag any that were silently ignored):\n" +
+						factCheck.recommendations.map((r) => `- ${r}`).join("\n"),
+				);
+			}
+			if (factCheck.missingPerspectives && factCheck.missingPerspectives.length > 0) {
+				fcContext.push(
+					"**Missing perspectives** (check whether the author engaged with these — flag significant omissions):\n" +
+						factCheck.missingPerspectives.map((p) => `- ${p}`).join("\n"),
 				);
 			}
 			if (fcContext.length > 0) {
@@ -964,7 +1005,6 @@ If the draft has anglicisms, fix them in the revised article.
 			emoji: "👁️ ",
 			promptFile: "reviewer.md",
 			systemPrompt,
-			allowedTools: ["think"], // Only reflection, no searching - facts already verified
 			markdownMode: {
 				frontmatterSchema: ReviewFrontmatterSchema,
 				combine: (meta, body) =>
@@ -973,7 +1013,7 @@ If the draft has anglicisms, fix them in the revised article.
 						revisedText: body || null,
 					}) as ReviewOutput,
 			},
-			effort: "max",
+			effort: "high",
 		});
 
 		if (!(result.success && result.data)) {
@@ -1000,7 +1040,6 @@ If the draft has anglicisms, fix them in the revised article.
 			emoji: "🖊️ ",
 			promptFile: "polish.md",
 			systemPrompt,
-			allowedTools: ["think"],
 			markdownMode: {
 				frontmatterSchema: PolishFrontmatterSchema,
 				combine: (meta, body) =>
@@ -1009,7 +1048,36 @@ If the draft has anglicisms, fix them in the revised article.
 						body,
 					}) as PolishOutput,
 			},
-			effort: "max",
+			effort: "high",
+		});
+
+		return result;
+	}
+
+	/**
+	 * Review article for aqeedah compliance (Sufi, Ashari/Maturidi, non-mainstream ideas).
+	 * Returns the article body with problematic passages rewritten.
+	 */
+	async runAqeedahReview(articleBody: string): Promise<StageResult<AqeedahReviewOutput>> {
+		this.logger.log("   📖 Aqeedah review: theological compliance check");
+
+		const systemPrompt = `Du granskar en publicerad artikel för islam.se. Analysera texten teologiskt och skriv om problematiska avsnitt enligt instruktionerna.\n\n## TEXTEN\n\n${articleBody}`;
+
+		const result = await this.executeClaudeStage<AqeedahReviewOutput>({
+			name: "Aqeedah Review",
+			stage: "polish", // reuse polish stage type for streaming
+			emoji: "📖",
+			promptFile: "aqeedah-review.md",
+			systemPrompt,
+			markdownMode: {
+				frontmatterSchema: AqeedahReviewFrontmatterSchema,
+				combine: (meta, body) =>
+					({
+						...meta,
+						body,
+					}) as AqeedahReviewOutput,
+			},
+			effort: "high",
 		});
 
 		return result;
@@ -1020,24 +1088,24 @@ If the draft has anglicisms, fix them in the revised article.
 	 */
 	private publishArticle(
 		outputDir: string,
-		topicSlug: string,
+		_topicSlug: string,
 		draft: DraftOutput,
 		qualityScore: number,
 		finalWordCount: number,
 		ideaContext?: IdeaContext,
 	): string | undefined {
+		// Derive slug from final title, not the working topic slug
+		const articleSlug = slugify(draft.title);
+
 		// Publish to web-accessible directory
 		try {
 			const publisher = new ArticlePublisher();
-			publisher.publish(outputDir, topicSlug, {
+			publisher.publish(outputDir, articleSlug, {
 				title: draft.title,
 				wordCount: finalWordCount,
 				qualityScore,
-				sourceIdea: ideaContext
-					? { topic: ideaContext.topicSlug, ideaId: ideaContext.ideaId }
-					: undefined,
 			});
-			this.logger.log(`   📤 Published to data/articles/${topicSlug}.md`);
+			this.logger.log(`   📤 Published to data/articles/${articleSlug}.md`);
 		} catch (publishError) {
 			this.logger.warn(`   ⚠️  Failed to publish article: ${publishError}`);
 			return undefined;
@@ -1052,7 +1120,7 @@ If the draft has anglicisms, fix them in the revised article.
 				ideationService.updateIdeaStatus(ideaContext.topicSlug, ideaContext.ideaId, {
 					status: "done",
 					producedAt: new Date().toISOString(),
-					articleSlug: topicSlug,
+					articleSlug,
 				});
 				this.logger.log(`   ✓ Marked idea #${ideaContext.ideaId} as done`);
 			} catch (statusError) {
@@ -1060,7 +1128,7 @@ If the draft has anglicisms, fix them in the revised article.
 			}
 		}
 
-		return topicSlug;
+		return articleSlug;
 	}
 
 	/**
@@ -1482,7 +1550,6 @@ If the draft has anglicisms, fix them in the revised article.
 
 // Re-export services
 export {
-	type ArticleIndex,
 	ArticlePublisher,
 	type BookSearchOptions,
 	type BookSearchResult,
@@ -1498,6 +1565,7 @@ export {
 	IdeationService,
 	type IdeationServiceOptions,
 	type PublishedArticle,
+	parseFrontmatter,
 	passagesToResearchFormat,
 	type QuoteSearchOptions,
 	type QuoteSearchResult,

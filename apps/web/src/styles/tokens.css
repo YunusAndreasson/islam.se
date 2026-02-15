@@ -1,0 +1,52 @@
+@font-face {
+	font-family: "Literata";
+	src: url("/fonts/literata-roman.woff2") format("woff2");
+	font-weight: 200 900;
+	font-style: normal;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: "Literata";
+	src: url("/fonts/literata-italic.woff2") format("woff2");
+	font-weight: 200 900;
+	font-style: italic;
+	font-display: swap;
+}
+
+:root {
+	color-scheme: light dark;
+
+	/* Colors — 4 maximum per DESIGN.md */
+	--color-text: light-dark(#1a1a1a, #e0ddd8);
+	--color-bg: light-dark(#faf8f5, #1a1917);
+	--color-accent: light-dark(#3a3a3a, #c8c4be);
+	--color-muted: light-dark(#7a7a7a, #8a8880);
+	--color-divider: color-mix(in srgb, var(--color-muted), transparent 80%);
+
+	/* Type scale — 1.2 ratio (minor third) from 18px base */
+	--step-0: 1.125rem; /* 18px — body */
+	--step-1: 1.35rem; /* 21.6px */
+	--step-2: 1.62rem; /* 25.9px — h2 */
+	--step-4: 2.333rem; /* 37.3px — h1 */
+
+	/* Spacing — derived from body line-height (1.6 × 18px = 28.8px ≈ 1.8rem) */
+	--space-unit: 1.8rem;
+	--space-half: 0.9rem;
+	--space-double: 3.6rem;
+	--space-triple: 5.4rem;
+
+	/* Layout */
+	--content-width: 38rem;
+	--padding-inline: 1.5rem;
+
+	/* Font families */
+	--font-body: "Literata", Georgia, "Times New Roman", serif;
+	--font-heading: system-ui, sans-serif;
+}
+
+@media (width <= 768px) {
+	:root {
+		--padding-inline: 1.25rem;
+	}
+}

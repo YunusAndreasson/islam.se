@@ -4,9 +4,9 @@
 
 // Article publisher
 export {
-	type ArticleIndex,
 	ArticlePublisher,
 	type PublishedArticle,
+	parseFrontmatter,
 } from "./article-publisher.js";
 // Book service
 export {

@@ -1,0 +1,21 @@
+---
+interface Props {
+	hero?: boolean;
+}
+
+const { hero = false } = Astro.props;
+const path = Astro.url.pathname;
+const isHome = path === "/";
+const isOm = path === "/om" || path === "/om/";
+const isEssaer = !isHome && !isOm;
+---
+
+<header class:list={["site-header", { "site-header--hero": hero }]}>
+	<nav class="site-nav">
+		<a href="/" class:list={[{ "site-nav-active": isHome }]}>islam.se</a>
+		<div class="site-nav-right">
+			<a href="/essaer" class:list={[{ "site-nav-active": isEssaer }]}>Essäer</a>
+			<a href="/om" class:list={[{ "site-nav-active": isOm }]}>Om</a>
+		</div>
+	</nav>
+</header>

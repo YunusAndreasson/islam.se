@@ -22,10 +22,8 @@ export interface ClaudeRunOptions {
 	jsonSchema?: object;
 	/** Model to use */
 	model: "claude-opus-4-6" | "claude-sonnet-4-5-20250929";
-	/** Effort level for adaptive thinking (Opus 4.6 only) */
-	effort?: "low" | "medium" | "high" | "max";
-	/** Maximum tokens for output */
-	maxTokens?: number;
+	/** Effort level for adaptive thinking */
+	effort?: "low" | "medium" | "high";
 	/** Maximum budget in USD for this stage (uses --max-budget-usd flag) */
 	maxBudgetUsd?: number;
 	/** Maximum agentic turns before stopping (uses --max-turns flag) */
@@ -71,13 +69,9 @@ export class ClaudeRunner extends EventEmitter {
 		const timeoutMs = options.timeout ?? 900000; // 15 min default
 
 		return new Promise((resolve) => {
-			const env = options.effort
-				? { ...process.env, CLAUDE_CODE_EFFORT_LEVEL: options.effort }
-				: process.env;
-
 			const child = spawn("claude", args, {
 				stdio: ["pipe", "pipe", "pipe"],
-				env,
+				env: process.env,
 				cwd: tmpdir(),
 			});
 
@@ -155,13 +149,9 @@ export class ClaudeRunner extends EventEmitter {
 		const timeoutMs = options.timeout ?? 900000; // 15 min default
 
 		return new Promise((resolve) => {
-			const env = options.effort
-				? { ...process.env, CLAUDE_CODE_EFFORT_LEVEL: options.effort }
-				: process.env;
-
 			const child = spawn("claude", args, {
 				stdio: ["pipe", "pipe", "pipe"],
-				env,
+				env: process.env,
 				cwd: tmpdir(),
 			});
 
@@ -472,10 +462,6 @@ export class ClaudeRunner extends EventEmitter {
 		}
 
 		// Max tokens
-		if (options.maxTokens) {
-			args.push("--max-tokens", options.maxTokens.toString());
-		}
-
 		// Cost control
 		if (options.maxBudgetUsd) {
 			args.push("--max-budget-usd", options.maxBudgetUsd.toString());
@@ -499,6 +485,11 @@ export class ClaudeRunner extends EventEmitter {
 		// Skip permission checks for trusted pipeline runs
 		if (options.skipPermissions) {
 			args.push("--dangerously-skip-permissions");
+		}
+
+		// Effort level for adaptive thinking
+		if (options.effort) {
+			args.push("--effort", options.effort);
 		}
 
 		return args;

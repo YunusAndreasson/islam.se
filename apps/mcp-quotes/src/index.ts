@@ -13,6 +13,7 @@ import {
 	generateLocalEmbedding,
 	getCategories,
 	getInventory,
+	getQuote,
 	initBookDatabase,
 	initQuranDatabase,
 	preloadLocalModel,
@@ -231,7 +232,41 @@ ${inventory.authors
 	},
 );
 
-// Tool 5: Bulk search - multiple queries in parallel
+// Tool 5: Get quote by ID - direct lookup for verification
+server.registerTool(
+	"get_quote_by_id",
+	{
+		title: "Get Quote by ID",
+		description: `Look up one or more quotes by their database IDs. Use this to verify that a quote exists and check its exact text, author, and source.
+
+This is the most reliable way to verify quotes referenced in research — faster and more accurate than text search.
+
+Accepts any number of IDs for batch verification.`,
+		inputSchema: {
+			ids: z
+				.array(z.number().int().positive())
+				.min(1)
+				.describe("Array of quote IDs to look up (e.g., [25079, 25080])"),
+		},
+	},
+	async ({ ids }) => {
+		const results = ids.map((id) => {
+			const quote = getQuote(id);
+			if (!quote) {
+				return `ID ${id}: NOT FOUND`;
+			}
+			return `ID ${id} | Lang: ${quote.language} | Author: ${quote.author} | Work: ${quote.workTitle}
+"${quote.text}"
+Category: ${quote.category} | Keywords: ${quote.keywords.join(", ")}`;
+		});
+
+		return {
+			content: [{ type: "text", text: results.join("\n\n") }],
+		};
+	},
+);
+
+// Tool 6: Bulk search - multiple queries in parallel
 server.registerTool(
 	"bulk_search",
 	{

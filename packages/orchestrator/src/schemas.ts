@@ -114,7 +114,24 @@ export const PolishFrontmatterSchema = z.object({
 	sectionScores: z.string(),
 	strongestSentence: z.string(),
 	weakestSentence: z.string(),
-	edits: z.string(),
+	edits: z
+		.union([z.string(), z.array(z.string())])
+		.transform((v) => (Array.isArray(v) ? v.join("\n") : v)),
+});
+
+// Aqeedah review frontmatter — validated from --- block (body comes from markdown)
+export const AqeedahReviewFrontmatterSchema = z.object({
+	verdict: z.enum(["clean", "rewritten"]),
+	issuesFound: z.array(
+		z.object({
+			type: z.enum(["sufi", "ashari", "other"]),
+			location: z.string(),
+			original: z.string(),
+			issue: z.string(),
+			fix: z.string(),
+		}),
+	),
+	summary: z.string(),
 });
 
 // JSON Schema generation functions (using zod v4 built-in toJSONSchema)

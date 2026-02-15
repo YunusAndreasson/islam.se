@@ -1,0 +1,26 @@
+---
+import Base from "../layouts/Base.astro";
+import { formatDate, getArticles } from "../lib/articles";
+
+const articles = await getArticles();
+---
+
+<Base title="Essäer — islam.se" description="Samtliga essäer om islamisk intellektuell tradition och svenskt kulturarv. Al-Ghazali, Ibn Khaldun, Strindberg, Lagerlöf och fler.">
+	<main class="content-column">
+		<header class="article-header">
+			<h1>Essäer</h1>
+		</header>
+
+		<ul class="archive-list">
+			{articles.map((article) => (
+				<li class="archive-item">
+					<a href={`/${article.slug}`}>{article.title}</a>
+					<p class="archive-meta">
+						{formatDate(article.publishedAt)} &middot; {article.readingTime} min läsning
+					</p>
+					{article.description && <p class="archive-description">{article.description}</p>}
+				</li>
+			))}
+		</ul>
+	</main>
+</Base>

@@ -14,7 +14,7 @@ export function registerImportQuranCommand(program: Command): void {
 	program
 		.command("import-quran")
 		.description("Import Quran verses from extracted text file")
-		.argument("[file]", "Path to extracted Quran text file", "./data/extracted/koranen-sv.txt")
+		.argument("[file]", "Path to extracted Quran text file", "./data/extracted/sv/koranen-sv.txt")
 		.option("--translator <name>", "Translator name", "Kent Asante Wennerström")
 		.option("--embeddings", "Generate embeddings for verses")
 		.action(async (fileArg: string, options: { translator: string; embeddings?: boolean }) => {
