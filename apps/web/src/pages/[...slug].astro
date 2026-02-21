@@ -33,16 +33,18 @@ const { Content } = await render(article.entry);
 	articleMeta={{ publishedAt: article.publishedAt, wordCount: article.wordCount, description: article.description, slug: article.slug }}
 >
 	<main class="content-column">
-		<header class="article-header">
-			<h1>{article.title}</h1>
-			<p class="article-meta">
-				{formatDate(article.publishedAt)} &middot; {article.readingTime} min läsning
-			</p>
-		</header>
+		<article>
+			<header class="article-header">
+				<h1>{article.title}</h1>
+				<p class="article-meta">
+					<time datetime={article.publishedAt}>{formatDate(article.publishedAt)}</time> &middot; {article.readingTime} min läsning
+				</p>
+			</header>
 
-		<div class="article-body prose">
-			<Content />
-		</div>
+			<div class="article-body prose">
+				<Content />
+			</div>
+		</article>
 
 		<nav class="article-nav">
 			{prev ? (

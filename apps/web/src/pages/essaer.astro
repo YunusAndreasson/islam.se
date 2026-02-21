@@ -16,7 +16,7 @@ const articles = await getArticles();
 				<li class="archive-item">
 					<a href={`/${article.slug}`}>{article.title}</a>
 					<p class="archive-meta">
-						{formatDate(article.publishedAt)} &middot; {article.readingTime} min läsning
+						<time datetime={article.publishedAt}>{formatDate(article.publishedAt)}</time> &middot; {article.readingTime} min läsning
 					</p>
 					{article.description && <p class="archive-description">{article.description}</p>}
 				</li>

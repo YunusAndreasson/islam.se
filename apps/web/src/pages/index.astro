@@ -41,7 +41,7 @@ const ogImage = latest?.heroImage ?? fallbackImage;
 					/>
 					<div class="hero-cover-overlay">
 						<div class="hero-cover-content">
-							<p class="hero-cover-date">{formatDate(article.publishedAt)}</p>
+							<p class="hero-cover-date"><time datetime={article.publishedAt}>{formatDate(article.publishedAt)}</time></p>
 							<h1 class="hero-cover-title">{article.title}</h1>
 							{article.description && <p class="hero-cover-deck">{article.description}</p>}
 							<a href={`/${article.slug}`} class="hero-cover-cta">Läs essän</a>
@@ -63,13 +63,14 @@ const ogImage = latest?.heroImage ?? fallbackImage;
 <script>
 	const slides = document.querySelectorAll<HTMLElement>(".hero-slide");
 	const btn = document.querySelector<HTMLButtonElement>(".hero-nav-next");
-	if (!btn || slides.length < 2) throw new Error("Hero nav missing");
 
-	let current = 0;
+	if (btn && slides.length >= 2) {
+		let current = 0;
 
-	btn.addEventListener("click", () => {
-		slides[current].classList.remove("active");
-		current = (current + 1) % slides.length;
-		slides[current].classList.add("active");
-	});
+		btn.addEventListener("click", () => {
+			slides[current].classList.remove("active");
+			current = (current + 1) % slides.length;
+			slides[current].classList.add("active");
+		});
+	}
 </script>

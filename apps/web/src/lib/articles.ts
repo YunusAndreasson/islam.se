@@ -19,21 +19,17 @@ export interface Article {
 }
 
 // Hero images keyed by slug — images live in src/assets/images/
-const heroImages = import.meta.glob<{ default: ImageMetadata }>(
-	"../assets/images/*.{jpg,jpeg,png,webp}",
-	{ eager: true },
+const heroImageMap = new Map(
+	Object.entries(
+		import.meta.glob<{ default: ImageMetadata }>(
+			"../assets/images/*.{jpg,jpeg,png,webp}",
+			{ eager: true },
+		),
+	).map(([path, mod]) => [
+		path.split("/").pop()?.replace(/\.[^.]+$/, ""),
+		mod.default,
+	]),
 );
-
-function findHeroImage(slug: string): ImageMetadata | undefined {
-	for (const [path, mod] of Object.entries(heroImages)) {
-		const filename = path
-			.split("/")
-			.pop()
-			?.replace(/\.[^.]+$/, "");
-		if (filename === slug) return mod.default;
-	}
-	return undefined;
-}
 
 export async function getArticles(): Promise<Article[]> {
 	const entries = await getCollection("articles");
@@ -46,7 +42,7 @@ export async function getArticles(): Promise<Article[]> {
 			wordCount: entry.data.wordCount,
 			readingTime: Math.ceil(entry.data.wordCount / 200),
 			description: entry.data.description,
-			heroImage: findHeroImage(entry.id),
+			heroImage: heroImageMap.get(entry.id),
 			entry,
 		}))
 		.sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime());
