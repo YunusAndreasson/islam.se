@@ -134,6 +134,57 @@ export const AqeedahReviewFrontmatterSchema = z.object({
 	summary: z.string(),
 });
 
+// Proofread frontmatter — validated from --- block (body comes from markdown)
+export const ProofreadFrontmatterSchema = z.object({
+	verdict: z.enum(["clean", "corrected"]),
+	issuesFound: z.array(
+		z.object({
+			type: z.enum(["spelling", "grammar", "punctuation", "terminology", "clarity"]),
+			location: z.string(),
+			original: z.string(),
+			correction: z.string(),
+			reason: z.string(),
+		}),
+	),
+	summary: z.string(),
+});
+
+// Swedish voice review frontmatter — validated from --- block (body comes from markdown)
+export const SwedishVoiceFrontmatterSchema = z.object({
+	verdict: z.enum(["clean", "corrected"]),
+	correctedTitle: z.string().optional(),
+	correctedDescription: z.string().optional(),
+	issuesFound: z.array(
+		z.object({
+			type: z.enum(["anglicism", "rhetoric", "repetition", "overexplain", "rhythm", "idiom", "hedging", "connector", "abstraction"]),
+			location: z.string(),
+			original: z.string(),
+			correction: z.string(),
+			reason: z.string(),
+		}),
+	),
+	summary: z.string(),
+});
+
+// Title/ingress improvement frontmatter — validated from --- block
+export const TitleIngressFrontmatterSchema = z.object({
+	currentTitleAssessment: z.string(),
+	titleSuggestions: z.array(
+		z.object({
+			title: z.string(),
+			reasoning: z.string(),
+		}),
+	),
+	currentDescriptionAssessment: z.string(),
+	descriptionSuggestions: z.array(
+		z.object({
+			description: z.string(),
+			reasoning: z.string(),
+		}),
+	),
+	recommendation: z.string(),
+});
+
 // JSON Schema generation functions (using zod v4 built-in toJSONSchema)
 export function getResearchJsonSchema(): object {
 	return z.toJSONSchema(ResearchOutputSchema, { target: "draft-07" });

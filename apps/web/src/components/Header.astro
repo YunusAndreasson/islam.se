@@ -10,8 +10,8 @@ const isOm = path === "/om" || path === "/om/";
 const isEssaer = !isHome && !isOm;
 ---
 
-<header class:list={["site-header", { "site-header--hero": hero }]}>
-	<nav class="site-nav">
+<header class:list={["site-header", { "site-header--hero": hero }]} transition:persist>
+	<nav class="site-nav" aria-label="Huvudnavigering">
 		<a href="/" class:list={[{ "site-nav-active": isHome }]}>islam.se</a>
 		<div class="site-nav-right">
 			<a href="/essaer" class:list={[{ "site-nav-active": isEssaer }]}>Essäer</a>
@@ -19,3 +19,51 @@ const isEssaer = !isHome && !isOm;
 		</div>
 	</nav>
 </header>
+
+<script>
+	let scrollCtrl: AbortController | null = null;
+
+	function updateHeader() {
+		const header = document.querySelector('.site-header');
+		if (!header) return;
+
+		const path = window.location.pathname;
+		const isHome = path === '/';
+		const isOm = path === '/om' || path === '/om/';
+		const isEssaer = !isHome && !isOm;
+
+		// Update hero/sticky variant
+		header.classList.toggle('site-header--hero', isHome);
+		header.classList.remove('header-hidden');
+
+		// Update active nav link
+		const links = header.querySelectorAll('.site-nav a');
+		links[0]?.classList.toggle('site-nav-active', isHome);
+		links[1]?.classList.toggle('site-nav-active', isEssaer);
+		links[2]?.classList.toggle('site-nav-active', isOm);
+
+		// Rebind scroll listener for non-hero pages
+		scrollCtrl?.abort();
+		scrollCtrl = null;
+
+		if (!isHome) {
+			let lastY = 0;
+			const threshold = 10;
+			scrollCtrl = new AbortController();
+
+			window.addEventListener('scroll', () => {
+				const y = window.scrollY;
+				if (y < threshold) {
+					header.classList.remove('header-hidden');
+				} else if (y > lastY) {
+					header.classList.add('header-hidden');
+				} else if (lastY - y > threshold) {
+					header.classList.remove('header-hidden');
+				}
+				lastY = y;
+			}, { passive: true, signal: scrollCtrl.signal });
+		}
+	}
+
+	document.addEventListener('astro:page-load', updateHeader);
+</script>

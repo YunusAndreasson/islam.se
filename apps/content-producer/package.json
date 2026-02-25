@@ -13,14 +13,14 @@
 		"produce": "node --no-warnings dist/index.js"
 	},
 	"dependencies": {
-		"@clack/prompts": "^1.0.0",
+		"@clack/prompts": "^1.0.1",
 		"@islam-se/orchestrator": "workspace:*",
 		"commander": "^14.0.3",
 		"diff": "^7.0.0"
 	},
 	"devDependencies": {
-		"@types/diff": "^7.0.0",
-		"@types/node": "^25.2.1",
+		"@types/diff": "^7.0.2",
+		"@types/node": "^25.3.0",
 		"typescript": "^5.9.3"
 	}
 }

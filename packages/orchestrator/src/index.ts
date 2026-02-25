@@ -15,6 +15,9 @@ import {
 import { ReferenceTracker } from "./reference-tracker.js";
 import {
 	AqeedahReviewFrontmatterSchema,
+	ProofreadFrontmatterSchema,
+	SwedishVoiceFrontmatterSchema,
+	TitleIngressFrontmatterSchema,
 	DraftFrontmatterSchema,
 	DraftOutputSchema,
 	FactCheckOutputSchema,
@@ -165,6 +168,48 @@ export interface AqeedahReviewOutput {
 	}>;
 	summary: string;
 	body: string;
+}
+
+export interface ProofreadOutput {
+	verdict: "clean" | "corrected";
+	issuesFound: Array<{
+		type: "spelling" | "grammar" | "punctuation" | "terminology" | "clarity";
+		location: string;
+		original: string;
+		correction: string;
+		reason: string;
+	}>;
+	summary: string;
+	body: string;
+}
+
+export interface SwedishVoiceOutput {
+	verdict: "clean" | "corrected";
+	correctedTitle?: string;
+	correctedDescription?: string;
+	issuesFound: Array<{
+		type: "anglicism" | "rhetoric" | "repetition" | "overexplain" | "rhythm" | "idiom" | "hedging" | "connector" | "abstraction";
+		location: string;
+		original: string;
+		correction: string;
+		reason: string;
+	}>;
+	summary: string;
+	body: string;
+}
+
+export interface TitleIngressOutput {
+	currentTitleAssessment: string;
+	titleSuggestions: Array<{
+		title: string;
+		reasoning: string;
+	}>;
+	currentDescriptionAssessment: string;
+	descriptionSuggestions: Array<{
+		description: string;
+		reasoning: string;
+	}>;
+	recommendation: string;
 }
 
 export interface ProductionResult {
@@ -1076,6 +1121,128 @@ If the draft has anglicisms, fix them in the revised article.
 						...meta,
 						body,
 					}) as AqeedahReviewOutput,
+			},
+			effort: "high",
+		});
+
+		return result;
+	}
+
+	/**
+	 * Proofread article for spelling, grammar, punctuation, and terminology consistency.
+	 * Returns the article body with corrections applied.
+	 */
+	async runProofread(articleBody: string): Promise<StageResult<ProofreadOutput>> {
+		this.logger.log("   🔤 Proofread: spelling, grammar, terminology");
+
+		const systemPrompt = `Du korrekturläser en publicerad artikel för islam.se. Kontrollera stavning, grammatik, interpunktion och terminologisk konsekvens enligt instruktionerna.\n\n## TEXTEN\n\n${articleBody}`;
+
+		const result = await this.executeClaudeStage<ProofreadOutput>({
+			name: "Proofread",
+			stage: "polish", // reuse polish stage type for streaming
+			emoji: "🔤",
+			promptFile: "proofread.md",
+			systemPrompt,
+			markdownMode: {
+				frontmatterSchema: ProofreadFrontmatterSchema,
+				combine: (meta, body) =>
+					({
+						...meta,
+						body,
+					}) as ProofreadOutput,
+			},
+			effort: "high",
+		});
+
+		return result;
+	}
+
+	/**
+	 * Review article for Swedish naturalness — fix anglicisms, AI rhetoric patterns,
+	 * repetition loops, overexplanation, and English sentence rhythm.
+	 */
+	async runSwedishVoice(
+		articleBody: string,
+		meta?: { title?: string; description?: string },
+		mode: "fix" | "enrich" = "fix",
+	): Promise<StageResult<SwedishVoiceOutput>> {
+		const modeLabel = mode === "enrich" ? "enrich: inversion, compounds, rhythm" : "anglicisms, rhetoric, rhythm";
+		this.logger.log(`   🇸🇪 Swedish voice: ${modeLabel}`);
+
+		let metaSection = "";
+		if (meta?.title || meta?.description) {
+			metaSection = "\n\n## TITEL OCH INGRESS\n";
+			if (meta.title) metaSection += `**Titel:** ${meta.title}\n`;
+			if (meta.description) metaSection += `**Ingress:** ${meta.description}\n`;
+		}
+
+		const modeDirective = mode === "enrich"
+			? `Du berikar en publicerad artikel för islam.se. Ditt HUVUDUPPDRAG är sektion 16 i prompten — "Svenskans egna verktyg". Aktivt använd:
+
+- **Inversion (V2-regeln)** — flytta fram tidsadverbial, platsadverbial, objekt för betoning och flöde
+- **Sammansatta ord** — slå ihop prepositionsfraser till energiska sammansättningar
+- **Participkonstruktioner** — skapa eleganta bryggor mellan meningar
+- **Semantiska konnektorer** (därav, häri, därmed, nämligen, likväl, sålunda) — komprimera logik
+- **Etymologiskt djup** — aktivera ords dubbelmeningar där ämnet korsar rotbetydelsen
+- **Meningsrytm** — skapa kontrast mellan korta och långa meningar, bryt monotoni
+
+Sektionerna 1–15 (anglicismer, retoriska mönster etc.) är sekundära — åtgärda dem om du ser dem, men din huvuduppgift är att BERIKA texten med svenskans unika verktyg. Målet är att texten ska kännas som om den skrevs av en svensk essäist som medvetet utnyttjar språkets resurser.`
+			: `Du granskar en publicerad artikel för islam.se. Identifiera och åtgärda mönster som avslöjar att texten tänkts på engelska.`;
+
+		const systemPrompt = `${modeDirective}${metaSection}\n\n## TEXTEN\n\n${articleBody}`;
+
+		const result = await this.executeClaudeStage<SwedishVoiceOutput>({
+			name: "Swedish Voice",
+			stage: "polish", // reuse polish stage type for streaming
+			emoji: "🇸🇪",
+			promptFile: "swedish-voice.md",
+			systemPrompt,
+			markdownMode: {
+				frontmatterSchema: SwedishVoiceFrontmatterSchema,
+				combine: (meta, body) =>
+					({
+						...meta,
+						body,
+					}) as SwedishVoiceOutput,
+			},
+			effort: "high",
+			maxRetries: 3,
+		});
+
+		return result;
+	}
+
+	/**
+	 * Generate improved title and ingress suggestions for a published article.
+	 * Returns ranked alternatives — does not modify the article directly.
+	 */
+	async runTitleIngress(
+		articleBody: string,
+		meta: { title: string; description: string },
+	): Promise<StageResult<TitleIngressOutput>> {
+		this.logger.log("   ✏️  Title & ingress: generating suggestions");
+
+		const systemPrompt = `Du förbättrar titel och ingress för en publicerad artikel på islam.se.
+
+## NUVARANDE TITEL
+${meta.title}
+
+## NUVARANDE INGRESS
+${meta.description}
+
+## ARTIKELN
+
+${articleBody}`;
+
+		const result = await this.executeClaudeStage<TitleIngressOutput>({
+			name: "Title & Ingress",
+			stage: "polish",
+			emoji: "✏️",
+			promptFile: "title-ingress.md",
+			systemPrompt,
+			markdownMode: {
+				frontmatterSchema: TitleIngressFrontmatterSchema,
+				combine: (meta) => meta as unknown as TitleIngressOutput,
 			},
 			effort: "high",
 		});

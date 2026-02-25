@@ -15,20 +15,34 @@ export interface Article {
 	readingTime: number;
 	description: string;
 	heroImage?: ImageMetadata;
+	mobileHeroImage?: ImageMetadata;
 	entry: Awaited<ReturnType<typeof getCollection>>[number];
 }
 
 // Hero images keyed by slug — images live in src/assets/images/
+const imageEntries = Object.entries(
+	import.meta.glob<{ default: ImageMetadata }>(
+		"../assets/images/*.{jpg,jpeg,png,webp}",
+		{ eager: true },
+	),
+);
+
 const heroImageMap = new Map(
-	Object.entries(
-		import.meta.glob<{ default: ImageMetadata }>(
-			"../assets/images/*.{jpg,jpeg,png,webp}",
-			{ eager: true },
-		),
-	).map(([path, mod]) => [
-		path.split("/").pop()?.replace(/\.[^.]+$/, ""),
-		mod.default,
-	]),
+	imageEntries
+		.filter(([path]) => !path.includes("-mobile."))
+		.map(([path, mod]) => [
+			path.split("/").pop()?.replace(/\.[^.]+$/, ""),
+			mod.default,
+		]),
+);
+
+const mobileImageMap = new Map(
+	imageEntries
+		.filter(([path]) => path.includes("-mobile."))
+		.map(([path, mod]) => [
+			path.split("/").pop()?.replace(/-mobile\.[^.]+$/, ""),
+			mod.default,
+		]),
 );
 
 export async function getArticles(): Promise<Article[]> {
@@ -43,6 +57,7 @@ export async function getArticles(): Promise<Article[]> {
 			readingTime: Math.ceil(entry.data.wordCount / 200),
 			description: entry.data.description,
 			heroImage: heroImageMap.get(entry.id),
+			mobileHeroImage: mobileImageMap.get(entry.id),
 			entry,
 		}))
 		.sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime());

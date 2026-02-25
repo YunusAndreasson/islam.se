@@ -1,3 +1,12 @@
+:target {
+	scroll-margin-top: 5rem;
+}
+
+::selection {
+	background: light-dark(rgb(176 160 144 / 0.3), rgb(106 94 74 / 0.35));
+	color: var(--color-text);
+}
+
 /* Body */
 body {
 	font-family: var(--font-body);
@@ -67,11 +76,12 @@ a {
 	}
 }
 
-/* Block quotes — accent border, same size as body */
+/* Block quotes — warm border, italic for quoted voices */
 blockquote {
-	border-left: 3px solid var(--color-accent);
-	padding-left: var(--space-unit);
-	margin-block: calc(var(--space-unit) * 1.5);
+	border-inline-start: 3px solid light-dark(#b0a090, #6a5e4a);
+	padding-inline-start: var(--space-unit);
+	margin-block: var(--space-double);
+	font-style: italic;
 
 	p:last-child {
 		margin-bottom: 0;
@@ -138,7 +148,7 @@ hr:has(+ .footnotes) {
 
 	ol {
 		list-style: decimal;
-		padding-left: 1.5em;
+		padding-inline-start: 1.5em;
 	}
 
 	li {
@@ -156,17 +166,28 @@ hr:has(+ .footnotes) {
 
 .data-footnote-backref {
 	text-decoration: none;
-	margin-left: 0.25em;
+	margin-inline-start: 0.25em;
 }
 
 /* ============================================================
    Prose — article body content
    ============================================================ */
 .prose {
+	hyphens: auto;
+
+	/* Book-style paragraph rhythm: indent consecutive paragraphs, tighten gap */
+	> p:has(+ p) {
+		margin-bottom: 0.5em;
+	}
+
+	> p + p:not([class]) {
+		text-indent: 1.5em;
+	}
+
 	ul,
 	ol {
 		list-style: revert;
-		padding-left: 1.5em;
+		padding-inline-start: 1.5em;
 		margin-bottom: var(--space-unit);
 	}
 
@@ -198,7 +219,7 @@ hr:has(+ .footnotes) {
 	}
 
 	blockquote {
-		padding-left: var(--space-half);
+		padding-inline-start: var(--space-half);
 	}
 }
 

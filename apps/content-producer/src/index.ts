@@ -795,4 +795,650 @@ program
 		process.exit(0);
 	});
 
+program
+	.command("proofread")
+	.description(
+		"Proofread published articles for spelling, grammar, punctuation, and terminology consistency",
+	)
+	.argument("<slug>", 'Article slug or "all" for all articles')
+	.option("--dry-run", "Preview issues and diffs without writing changes")
+	.option("--no-confirm", "Auto-accept changes (skip interactive prompt)")
+	.option("-m, --model <model>", "Model to use (opus|sonnet)", "opus")
+	.action(async (slug: string, options) => {
+		const publisher = new ArticlePublisher();
+		const orchestrator = new ContentOrchestrator({
+			outputDir: "./output",
+			model: options.model as "opus" | "sonnet",
+		});
+
+		// Determine which articles to process
+		let slugs: string[];
+		if (slug === "all") {
+			const articles = publisher.listPublished();
+			slugs = articles.map((a) => a.slug);
+			console.log(`\nFound ${slugs.length} articles to proofread.\n`);
+		} else {
+			if (!publisher.exists(slug)) {
+				console.error(`Article not found: ${slug}`);
+				process.exit(1);
+			}
+			slugs = [slug];
+		}
+
+		let processed = 0;
+		let corrected = 0;
+		let clean = 0;
+		let skipped = 0;
+
+		const typeColors: Record<string, string> = {
+			spelling: "\x1b[31m", // red
+			grammar: "\x1b[33m", // yellow
+			punctuation: "\x1b[36m", // cyan
+			terminology: "\x1b[35m", // magenta
+			clarity: "\x1b[34m", // blue
+		};
+
+		for (const articleSlug of slugs) {
+			processed++;
+			if (slugs.length > 1) {
+				console.log(`\n[${processed}/${slugs.length}] ${articleSlug}`);
+				console.log("─".repeat(60));
+			}
+
+			const content = publisher.getArticle(articleSlug);
+			if (!content) {
+				console.log("  Could not read article, skipping.");
+				skipped++;
+				continue;
+			}
+
+			// Split frontmatter from body
+			const frontmatterMatch = content.match(/^(---\n[\s\S]*?\n---\n?)([\s\S]*)$/);
+			if (!frontmatterMatch) {
+				console.log("  No frontmatter found, skipping.");
+				skipped++;
+				continue;
+			}
+			const originalFrontmatter = frontmatterMatch[1] as string;
+			const originalBody = frontmatterMatch[2] as string;
+
+			// Run proofread stage
+			console.log("  Running proofread...");
+			const proofreadResult = await orchestrator.runProofread(originalBody);
+
+			if (!(proofreadResult.success && proofreadResult.data)) {
+				console.log(`  Proofread failed: ${proofreadResult.error ?? "unknown error"}`);
+				skipped++;
+				continue;
+			}
+
+			const { verdict, issuesFound, summary, body: proofreadBody } = proofreadResult.data;
+
+			// Show summary
+			console.log(`  Verdict: ${verdict}`);
+			console.log(`  Summary: ${summary}`);
+
+			if (verdict === "clean") {
+				console.log("  No issues found.");
+				clean++;
+				continue;
+			}
+
+			// Show issues found with color-coded types
+			console.log(`\n  Issues found (${issuesFound.length}):`);
+			for (const issue of issuesFound) {
+				const color = typeColors[issue.type] || "";
+				console.log(`\n  [${color}${issue.type}\x1b[0m] ${issue.location}`);
+				console.log(`    Original:   ${issue.original}`);
+				console.log(`    Correction: ${issue.correction}`);
+				console.log(`    Reason:     ${issue.reason}`);
+			}
+
+			// Show diff
+			const patch = createPatch(
+				`${articleSlug}.md`,
+				originalBody,
+				proofreadBody,
+				"original",
+				"proofread",
+			);
+			console.log("");
+			for (const line of patch.split("\n")) {
+				if (line.startsWith("+") && !line.startsWith("+++")) {
+					console.log(`\x1b[32m${line}\x1b[0m`);
+				} else if (line.startsWith("-") && !line.startsWith("---")) {
+					console.log(`\x1b[31m${line}\x1b[0m`);
+				} else if (line.startsWith("@@")) {
+					console.log(`\x1b[36m${line}\x1b[0m`);
+				} else {
+					console.log(line);
+				}
+			}
+
+			// Integrity checks: blockquotes and footnotes
+			const origBlockquotes = (originalBody.match(/^>/gm) || []).length;
+			const proofreadBlockquotes = (proofreadBody.match(/^>/gm) || []).length;
+			const origFootnotes = (originalBody.match(/\[\^\d+\]/g) || []).length;
+			const proofreadFootnotes = (proofreadBody.match(/\[\^\d+\]/g) || []).length;
+
+			if (origBlockquotes !== proofreadBlockquotes || origFootnotes !== proofreadFootnotes) {
+				console.log("");
+				console.log("  INTEGRITY WARNING:");
+				if (origBlockquotes !== proofreadBlockquotes) {
+					console.log(`     Blockquotes: ${origBlockquotes} → ${proofreadBlockquotes}`);
+				}
+				if (origFootnotes !== proofreadFootnotes) {
+					console.log(`     Footnote refs: ${origFootnotes} → ${proofreadFootnotes}`);
+				}
+				console.log("");
+			}
+
+			if (options.dryRun) {
+				console.log("\n  [dry-run] Would write changes.");
+				corrected++;
+				continue;
+			}
+
+			// Prompt for confirmation unless --no-confirm
+			let accept = !options.confirm; // --no-confirm sets options.confirm = false
+			if (options.confirm !== false) {
+				const choice = await p.select({
+					message: "Accept changes?",
+					options: [
+						{ value: "accept", label: "Accept" },
+						{ value: "skip", label: "Skip" },
+						{ value: "abort", label: "Abort (stop processing)" },
+					],
+				});
+
+				if (p.isCancel(choice) || choice === "abort") {
+					console.log("\nAborted.");
+					process.exit(0);
+				}
+				accept = choice === "accept";
+			}
+
+			if (accept) {
+				// Update wordCount in frontmatter
+				const { data: fmData } = parseFrontmatter(content);
+				const oldWordCount = fmData.wordCount as number | undefined;
+				const newWordCount = proofreadBody
+					.replace(/```[\s\S]*?```/g, "")
+					.replace(/`[^`]+`/g, "")
+					.replace(/\[([^\]]+)\]\([^)]+\)/g, "$1")
+					.replace(/[#*_~>\-|]/g, " ")
+					.split(/\s+/)
+					.filter((w) => w.length > 0).length;
+
+				let updatedFrontmatter = originalFrontmatter;
+				if (oldWordCount && oldWordCount !== newWordCount) {
+					updatedFrontmatter = originalFrontmatter.replace(
+						/^wordCount: \d+$/m,
+						`wordCount: ${newWordCount}`,
+					);
+				}
+
+				publisher.writeArticle(articleSlug, updatedFrontmatter + proofreadBody);
+				console.log(`  Written. (${oldWordCount} → ${newWordCount} words)`);
+				corrected++;
+			} else {
+				console.log("  Skipped.");
+				skipped++;
+			}
+		}
+
+		console.log("\n══════════════════════════════════════════════════════════");
+		console.log(
+			`  Done. ${corrected} corrected, ${clean} clean, ${skipped} skipped out of ${processed} articles.`,
+		);
+		console.log("══════════════════════════════════════════════════════════\n");
+
+		process.exit(0);
+	});
+
+program
+	.command("title-ingress")
+	.description(
+		"Generate improved title and ingress suggestions for published articles",
+	)
+	.argument("<slug>", 'Article slug or "all" for all articles')
+	.option("--no-confirm", "Auto-accept best suggestion (skip interactive prompt)")
+	.option("-m, --model <model>", "Model to use (opus|sonnet)", "opus")
+	.action(async (slug: string, options) => {
+		const publisher = new ArticlePublisher();
+		const orchestrator = new ContentOrchestrator({
+			outputDir: "./output",
+			model: options.model as "opus" | "sonnet",
+		});
+
+		let slugs: string[];
+		if (slug === "all") {
+			const articles = publisher.listPublished();
+			slugs = articles.map((a) => a.slug);
+			console.log(`\nFound ${slugs.length} articles.\n`);
+		} else {
+			if (!publisher.exists(slug)) {
+				console.error(`Article not found: ${slug}`);
+				process.exit(1);
+			}
+			slugs = [slug];
+		}
+
+		let processed = 0;
+		let updated = 0;
+		let skipped = 0;
+
+		for (const articleSlug of slugs) {
+			processed++;
+			if (slugs.length > 1) {
+				console.log(`\n[${processed}/${slugs.length}] ${articleSlug}`);
+				console.log("─".repeat(60));
+			}
+
+			const content = publisher.getArticle(articleSlug);
+			if (!content) {
+				console.log("  Could not read article, skipping.");
+				skipped++;
+				continue;
+			}
+
+			const frontmatterMatch = content.match(/^(---\n[\s\S]*?\n---\n?)([\s\S]*)$/);
+			if (!frontmatterMatch) {
+				console.log("  No frontmatter found, skipping.");
+				skipped++;
+				continue;
+			}
+			const originalFrontmatter = frontmatterMatch[1] as string;
+			const originalBody = frontmatterMatch[2] as string;
+
+			const { data: fmMeta } = parseFrontmatter(content);
+			const currentTitle = (fmMeta.title as string) || "";
+			const currentDescription = (fmMeta.description as string) || "";
+
+			if (!currentTitle) {
+				console.log("  No title in frontmatter, skipping.");
+				skipped++;
+				continue;
+			}
+
+			console.log(`  Current title:   ${currentTitle}`);
+			console.log(`  Current ingress: ${currentDescription.slice(0, 80)}...`);
+			console.log("  Generating suggestions...");
+
+			const result = await orchestrator.runTitleIngress(originalBody, {
+				title: currentTitle,
+				description: currentDescription,
+			});
+
+			if (!(result.success && result.data)) {
+				console.log(`  Failed: ${result.error ?? "unknown error"}`);
+				skipped++;
+				continue;
+			}
+
+			const data = result.data;
+
+			// Show assessments
+			console.log(`\n  \x1b[33mTitle assessment:\x1b[0m ${data.currentTitleAssessment}`);
+			console.log(`  \x1b[33mIngress assessment:\x1b[0m ${data.currentDescriptionAssessment}`);
+
+			// Show title suggestions
+			console.log("\n  Title suggestions:");
+			for (let i = 0; i < data.titleSuggestions.length; i++) {
+				const s = data.titleSuggestions[i]!;
+				console.log(`    ${i + 1}. \x1b[32m${s.title}\x1b[0m`);
+				console.log(`       ${s.reasoning}`);
+			}
+
+			// Show description suggestions
+			console.log("\n  Ingress suggestions:");
+			for (let i = 0; i < data.descriptionSuggestions.length; i++) {
+				const s = data.descriptionSuggestions[i]!;
+				console.log(`    ${i + 1}. \x1b[32m${s.description}\x1b[0m`);
+				console.log(`       ${s.reasoning}`);
+			}
+
+			console.log(`\n  \x1b[36mRecommendation:\x1b[0m ${data.recommendation}`);
+
+			// Build selection options for title
+			const titleOptions: Array<{ value: number; label: string }> = [
+				{ value: -1, label: `Keep current: "${currentTitle}"` },
+				...data.titleSuggestions.map((s, i) => ({
+					value: i,
+					label: `${i + 1}. ${s.title}`,
+				})),
+			];
+
+			// Build selection options for description
+			const descOptions: Array<{ value: number; label: string }> = [
+				{ value: -1, label: `Keep current` },
+				...data.descriptionSuggestions.map((s, i) => ({
+					value: i,
+					label: `${i + 1}. ${s.description.slice(0, 70)}...`,
+				})),
+			];
+
+			let selectedTitle = currentTitle;
+			let selectedDescription = currentDescription;
+
+			if (options.confirm === false) {
+				// --no-confirm: pick first suggestions
+				if (data.titleSuggestions.length > 0) {
+					selectedTitle = data.titleSuggestions[0]!.title;
+				}
+				if (data.descriptionSuggestions.length > 0) {
+					selectedDescription = data.descriptionSuggestions[0]!.description;
+				}
+			} else {
+				const titleChoice = await p.select({
+					message: "Select title",
+					options: titleOptions,
+				});
+				if (p.isCancel(titleChoice)) {
+					console.log("\nAborted.");
+					process.exit(0);
+				}
+				if ((titleChoice as number) >= 0) {
+					selectedTitle = data.titleSuggestions[titleChoice as number]!.title;
+				}
+
+				const descChoice = await p.select({
+					message: "Select ingress",
+					options: descOptions,
+				});
+				if (p.isCancel(descChoice)) {
+					console.log("\nAborted.");
+					process.exit(0);
+				}
+				if ((descChoice as number) >= 0) {
+					selectedDescription = data.descriptionSuggestions[descChoice as number]!.description;
+				}
+			}
+
+			// Check if anything changed
+			if (selectedTitle === currentTitle && selectedDescription === currentDescription) {
+				console.log("  No changes selected.");
+				skipped++;
+				continue;
+			}
+
+			// Apply changes to frontmatter
+			let updatedFrontmatter = originalFrontmatter;
+			if (selectedTitle !== currentTitle) {
+				updatedFrontmatter = updatedFrontmatter.replace(
+					`title: "${currentTitle}"`,
+					`title: "${selectedTitle}"`,
+				);
+			}
+			if (selectedDescription !== currentDescription) {
+				updatedFrontmatter = updatedFrontmatter.replace(
+					`description: "${currentDescription}"`,
+					`description: "${selectedDescription}"`,
+				);
+			}
+
+			publisher.writeArticle(articleSlug, updatedFrontmatter + originalBody);
+			const changes: string[] = [];
+			if (selectedTitle !== currentTitle) changes.push(`title: "${selectedTitle}"`);
+			if (selectedDescription !== currentDescription) changes.push("description updated");
+			console.log(`  ✓ Written. (${changes.join(", ")})`);
+			updated++;
+		}
+
+		console.log("\n══════════════════════════════════════════════════════════");
+		console.log(
+			`  Done. ${updated} updated, ${skipped} skipped out of ${processed} articles.`,
+		);
+		console.log("══════════════════════════════════════════════════════════\n");
+
+		process.exit(0);
+	});
+
+program
+	.command("swedish-voice")
+	.description(
+		"Review published articles for Swedish naturalness — fix anglicisms, AI rhetoric, repetition loops, and English rhythm",
+	)
+	.argument("<slug>", 'Article slug or "all" for all articles')
+	.option("--dry-run", "Preview issues and diffs without writing changes")
+	.option("--no-confirm", "Auto-accept changes (skip interactive prompt)")
+	.option("--enrich", "Focus on enriching prose with Swedish language tools (inversion, compounds, connectors, rhythm) rather than fixing problems")
+	.option("-m, --model <model>", "Model to use (opus|sonnet)", "opus")
+	.action(async (slug: string, options) => {
+		const publisher = new ArticlePublisher();
+		const orchestrator = new ContentOrchestrator({
+			outputDir: "./output",
+			model: options.model as "opus" | "sonnet",
+		});
+
+		const mode: "fix" | "enrich" = options.enrich ? "enrich" : "fix";
+
+		// Determine which articles to process
+		let slugs: string[];
+		if (slug === "all") {
+			const articles = publisher.listPublished();
+			slugs = articles.map((a) => a.slug);
+			const modeLabel = mode === "enrich" ? "Swedish enrichment" : "Swedish voice review";
+			console.log(`\nFound ${slugs.length} articles for ${modeLabel}.\n`);
+		} else {
+			if (!publisher.exists(slug)) {
+				console.error(`Article not found: ${slug}`);
+				process.exit(1);
+			}
+			slugs = [slug];
+		}
+
+		let processed = 0;
+		let corrected = 0;
+		let clean = 0;
+		let skipped = 0;
+
+		const typeColors: Record<string, string> = {
+			anglicism: "\x1b[31m", // red
+			rhetoric: "\x1b[33m", // yellow
+			repetition: "\x1b[36m", // cyan
+			overexplain: "\x1b[35m", // magenta
+			rhythm: "\x1b[34m", // blue
+			idiom: "\x1b[32m", // green
+			hedging: "\x1b[33;1m", // bright yellow
+			connector: "\x1b[34;1m", // bright blue
+			abstraction: "\x1b[31;1m", // bright red
+		};
+
+		for (const articleSlug of slugs) {
+			processed++;
+			if (slugs.length > 1) {
+				console.log(`\n[${processed}/${slugs.length}] ${articleSlug}`);
+				console.log("─".repeat(60));
+			}
+
+			const content = publisher.getArticle(articleSlug);
+			if (!content) {
+				console.log("  Could not read article, skipping.");
+				skipped++;
+				continue;
+			}
+
+			// Split frontmatter from body
+			const frontmatterMatch = content.match(/^(---\n[\s\S]*?\n---\n?)([\s\S]*)$/);
+			if (!frontmatterMatch) {
+				console.log("  No frontmatter found, skipping.");
+				skipped++;
+				continue;
+			}
+			const originalFrontmatter = frontmatterMatch[1] as string;
+			const originalBody = frontmatterMatch[2] as string;
+
+			// Extract title and description from frontmatter
+			const { data: fmMeta } = parseFrontmatter(content);
+			const articleTitle = fmMeta.title as string | undefined;
+			const articleDescription = fmMeta.description as string | undefined;
+
+			// Run swedish voice stage
+			const modeLog = mode === "enrich" ? "Swedish enrichment" : "Swedish voice review";
+			console.log(`  Running ${modeLog}...`);
+			let voiceResult: Awaited<ReturnType<typeof orchestrator.runSwedishVoice>>;
+			try {
+				voiceResult = await orchestrator.runSwedishVoice(originalBody, {
+					title: articleTitle,
+					description: articleDescription,
+				}, mode);
+			} catch (err) {
+				console.log(`  Swedish voice crashed: ${err}`);
+				skipped++;
+				continue;
+			}
+
+			if (!(voiceResult.success && voiceResult.data)) {
+				console.log(`  Swedish voice failed: ${voiceResult.error ?? "unknown error"}`);
+				skipped++;
+				continue;
+			}
+
+			const { verdict, correctedTitle, correctedDescription, issuesFound, summary, body: voiceBody } =
+				voiceResult.data;
+
+			// Show summary
+			console.log(`  Verdict: ${verdict}`);
+			if (correctedTitle) {
+				console.log(`  Title: "${articleTitle}" → "${correctedTitle}"`);
+			}
+			if (correctedDescription) {
+				console.log(`  Description: "${articleDescription?.slice(0, 60)}..." → "${correctedDescription.slice(0, 60)}..."`);
+			}
+			console.log(`  Summary: ${summary}`);
+
+			if (verdict === "clean") {
+				console.log("  No issues found — article sounds naturally Swedish.");
+				clean++;
+				continue;
+			}
+
+			// Show issues found with color-coded types
+			console.log(`\n  Issues found (${issuesFound.length}):`);
+			for (const issue of issuesFound) {
+				const color = typeColors[issue.type] || "";
+				console.log(`\n  [${color}${issue.type}\x1b[0m] ${issue.location}`);
+				console.log(`    Original:   ${issue.original}`);
+				console.log(`    Correction: ${issue.correction}`);
+				console.log(`    Reason:     ${issue.reason}`);
+			}
+
+			// Show diff
+			const patch = createPatch(
+				`${articleSlug}.md`,
+				originalBody,
+				voiceBody,
+				"original",
+				"swedish-voice",
+			);
+			console.log("");
+			for (const line of patch.split("\n")) {
+				if (line.startsWith("+") && !line.startsWith("+++")) {
+					console.log(`\x1b[32m${line}\x1b[0m`);
+				} else if (line.startsWith("-") && !line.startsWith("---")) {
+					console.log(`\x1b[31m${line}\x1b[0m`);
+				} else if (line.startsWith("@@")) {
+					console.log(`\x1b[36m${line}\x1b[0m`);
+				} else {
+					console.log(line);
+				}
+			}
+
+			// Integrity checks: blockquotes and footnotes
+			const origBlockquotes = (originalBody.match(/^>/gm) || []).length;
+			const voiceBlockquotes = (voiceBody.match(/^>/gm) || []).length;
+			const origFootnotes = (originalBody.match(/\[\^\d+\]/g) || []).length;
+			const voiceFootnotes = (voiceBody.match(/\[\^\d+\]/g) || []).length;
+
+			if (origBlockquotes !== voiceBlockquotes || origFootnotes !== voiceFootnotes) {
+				console.log("");
+				console.log("  INTEGRITY WARNING:");
+				if (origBlockquotes !== voiceBlockquotes) {
+					console.log(`     Blockquotes: ${origBlockquotes} → ${voiceBlockquotes}`);
+				}
+				if (origFootnotes !== voiceFootnotes) {
+					console.log(`     Footnote refs: ${origFootnotes} → ${voiceFootnotes}`);
+				}
+				console.log("");
+			}
+
+			if (options.dryRun) {
+				console.log("\n  [dry-run] Would write changes.");
+				corrected++;
+				continue;
+			}
+
+			// Prompt for confirmation unless --no-confirm
+			let accept = !options.confirm; // --no-confirm sets options.confirm = false
+			if (options.confirm !== false) {
+				const choice = await p.select({
+					message: "Accept changes?",
+					options: [
+						{ value: "accept", label: "Accept" },
+						{ value: "skip", label: "Skip" },
+						{ value: "abort", label: "Abort (stop processing)" },
+					],
+				});
+
+				if (p.isCancel(choice) || choice === "abort") {
+					console.log("\nAborted.");
+					process.exit(0);
+				}
+				accept = choice === "accept";
+			}
+
+			if (accept) {
+				// Update frontmatter fields
+				const oldWordCount = fmMeta.wordCount as number | undefined;
+				const newWordCount = voiceBody
+					.replace(/```[\s\S]*?```/g, "")
+					.replace(/`[^`]+`/g, "")
+					.replace(/\[([^\]]+)\]\([^)]+\)/g, "$1")
+					.replace(/[#*_~>\-|]/g, " ")
+					.split(/\s+/)
+					.filter((w) => w.length > 0).length;
+
+				let updatedFrontmatter = originalFrontmatter;
+				if (oldWordCount && oldWordCount !== newWordCount) {
+					updatedFrontmatter = updatedFrontmatter.replace(
+						/^wordCount: \d+$/m,
+						`wordCount: ${newWordCount}`,
+					);
+				}
+				if (correctedTitle && articleTitle) {
+					updatedFrontmatter = updatedFrontmatter.replace(
+						`title: "${articleTitle}"`,
+						`title: "${correctedTitle}"`,
+					);
+				}
+				if (correctedDescription && articleDescription) {
+					updatedFrontmatter = updatedFrontmatter.replace(
+						`description: "${articleDescription}"`,
+						`description: "${correctedDescription}"`,
+					);
+				}
+
+				publisher.writeArticle(articleSlug, updatedFrontmatter + voiceBody);
+				const changes: string[] = [];
+				if (oldWordCount !== newWordCount) changes.push(`words: ${oldWordCount} → ${newWordCount}`);
+				if (correctedTitle) changes.push("title updated");
+				if (correctedDescription) changes.push("description updated");
+				console.log(`  Written. (${changes.join(", ")})`);
+				corrected++;
+			} else {
+				console.log("  Skipped.");
+				skipped++;
+			}
+		}
+
+		console.log("\n══════════════════════════════════════════════════════════");
+		console.log(
+			`  Done. ${corrected} corrected, ${clean} clean, ${skipped} skipped out of ${processed} articles.`,
+		);
+		console.log("══════════════════════════════════════════════════════════\n");
+
+		process.exit(0);
+	});
+
 program.parse();

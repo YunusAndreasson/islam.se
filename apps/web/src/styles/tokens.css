@@ -17,6 +17,10 @@
 :root {
 	color-scheme: light dark;
 
+	/* Hero overlay — channel-only for rgb() composition */
+	--hero-white: 245 240 232;
+	--hero-black: 20 18 14;
+
 	/* Colors — 4 maximum per DESIGN.md */
 	--color-text: light-dark(#1a1a1a, #e0ddd8);
 	--color-bg: light-dark(#faf8f5, #1a1917);

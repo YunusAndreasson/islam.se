@@ -46,19 +46,33 @@ const { Content } = await render(article.entry);
 			</div>
 		</article>
 
-		<nav class="article-nav">
-			{prev ? (
-				<a href={`/${prev.slug}`}>
+		<nav class="article-nav" aria-label="Föregående och nästa essä">
+			{prev && (
+				<a href={`/${prev.slug}`} rel="prev">
 					<span class="nav-label">Föregående</span>
 					{prev.title}
 				</a>
-			) : <span />}
-			{next ? (
-				<a href={`/${next.slug}`}>
+			)}
+			{next && (
+				<a href={`/${next.slug}`} rel="next">
 					<span class="nav-label">Nästa</span>
 					{next.title}
 				</a>
-			) : <span />}
+			)}
 		</nav>
 	</main>
 </Base>
+
+<script>
+	import { navigate } from "astro:transitions/client";
+
+	document.addEventListener("astro:page-load", () => {
+		if (!document.querySelector(".article-body")) return;
+		const ctrl = new AbortController();
+		document.addEventListener("keydown", (e) => {
+			if (e.target instanceof HTMLElement && e.target.matches("input, textarea, select")) return;
+			if (e.key === "Escape") navigate("/essaer");
+		}, { signal: ctrl.signal });
+		document.addEventListener("astro:before-swap", () => ctrl.abort(), { once: true });
+	});
+</script>

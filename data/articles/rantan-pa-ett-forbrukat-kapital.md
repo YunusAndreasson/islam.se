@@ -1,37 +1,37 @@
 ---
-title: "Räntan på ett förbrukat kapital"
-publishedAt: "2026-02-13T22:50:38.962Z"
-wordCount: 1473
+title: "Galningen på torget"
+publishedAt: "2025-12-02T12:00:00.000Z"
+wordCount: 1425
 qualityScore: 8.6
-description: "Nietzsche lät ingen filosof förkunna Guds död — han lät en galning göra det. Den moderna västvärlden behöll moralen men glömde grunden."
+description: "År 1882 lät Nietzsche inte en filosof utan en galning springa ut på torget med en lykta mitt på ljusa dagen för att förkunna Guds död. Han förstod vad hans beundrare sällan erkänner: att utan Gud är inte bara teologin utan hela den moraliska ordningen i fritt fall."
 ---
 Nietzsche lät ingen filosof förkunna Guds död. Han lät en galning göra det — med en lykta i handen, mitt på ljusa dagen, ropande på torget:
 
 > Vi har dödat honom — ni och jag. Vi är alla hans mördare. Men hur har vi gjort detta? Hur förmådde vi dricka upp havet? Vem gav oss svampen att sopa bort hela horisonten?[^1]
 
-Nietzsche förstod vad hans beundrare sällan vill erkänna: att om Gud är död, så är inte bara teologin utan hela den moraliska ordningen i fritt fall. Horisonten är borta.
+Nietzsche förstod vad hans beundrare sällan vill erkänna: att om Gud är död, så faller teologin — och med den hela den moraliska ordningen. Horisonten är borta.
 
-Den moderna västvärlden behöll moralen men glömde grunden. Den fortsatte tala om mänskligt värde, om alla människors lika värdighet, om rättigheter, men slutade fråga *varför*.
+Den moderna västvärlden behöll moralen men glömde grunden. Alltjämt talade den om mänskligt värde, om alla människors lika värdighet, om rättigheter — men slutade fråga *varför*.
 
 ## Grundlagens tysta förutsättning
 
-Regeringsformens första kapitel, andra paragrafen, slår fast att den offentliga makten ska utövas "med respekt för alla människors lika värde." Det är en av den svenska statsordningens mest centrala satser. Men den besvarar inte frågan som verkligen spelar roll: *varför* har människor lika värde?
+Regeringsformens första kapitel, andra paragrafen, slår fast att den offentliga makten ska utövas "med respekt för alla människors lika värde." Få satser väger tyngre i den svenska statsordningen. Men frågan som verkligen spelar roll besvarar den inte: *varför* har människor lika värde?
 
-Paragrafen fungerar som ett axiom: en sats som förutsätts men aldrig bevisas. Svensk grundlag hävdar inte att människor *borde* behandlas som om de hade lika värde. Den hävdar att de *har* det. Ett ontologiskt påstående, ett påstående om verklighetens natur. Men utan varje spår av ontologisk grund.[^2]
+Paragrafen fungerar som ett axiom: en sats som förutsätts men aldrig bevisas. Svensk grundlag hävdar inte att människor *borde* behandlas som om de hade lika värde. Den hävdar att de *har* det — ett påstående om verklighetens natur, men utan förankring i verkligheten själv.[^2]
 
 Hjalmar Söderberg lade fingret på sprickan redan 1905:
 
 > Moral kommer af mores, seder; den hvilar helt och hållet på seden, bruket; den har ingen annan grund.[^3]
 
-Om han hade rätt, om moral bara är vana, då är "alla människors lika värde" en konvention. Och konventioner kan bytas ut.
+Om han hade rätt, om moral bara är vana, då är "alla människors lika värde" en konvention — och konventioner kan bytas ut.
 
 ## Moralen efter moralen
 
-Filosofen Alasdair MacIntyre diagnostiserade samma sjukdom i *After Virtue*. Hans tes: den moderna moraldebatten är olöslig, inte för att frågorna är svåra utan för att vi argumenterar med fragment av system som förlorat sin kontext. Vi har kvar orden *rättvisa*, *plikt*, *dygd*. Vi har tappat ramverken som gav dem mening.[^4]
+I *After Virtue* diagnostiserade filosofen Alasdair MacIntyre samma sjukdom. Hans tes: den moderna moraldebatten är olöslig, inte för att frågorna är svåra utan för att vi argumenterar med fragment av system som förlorat sitt sammanhang. Vi har kvar orden *rättvisa*, *plikt*, *dygd*. Vi har tappat ramverken som gav dem mening.[^4]
 
-MacIntyres lösning var en återgång till aristotelisk dygdetik inom en levande tradition, i hans fall den thomistiska. Moralen behöver ett sammanhang, en berättelse, en gemenskap som bär den över generationerna. Men diagnosen pekar längre än han själv drog den. Om moralen kräver en levande tradition: vilken tradition levererar faktiskt det som krävs?
+MacIntyres lösning var en återgång till aristotelisk dygdetik inom en levande tradition, i hans fall den thomistiska. Moralen behöver ett sammanhang, en berättelse, en gemenskap som bär den över generationerna. Men diagnosen når längre än han själv drog den. Om moralen kräver en levande tradition: vilken tradition förmår ge det som krävs?
 
-Invändningen ligger nära till hands. Derek Parfit argumenterade i *On What Matters* för att moraliska sanningar existerar oberoende av både Gud och mänsklig överenskommelse, liksom matematiska sanningar.[^5] Men det svarar inte på frågan om *kraft*. Att en moralisk sanning existerar är en sak. Att den formar levande människors handlingar, att den bärs genom sekler, att den motstår maktens och begärets tryck — det kräver något annat. Det kräver det som Ibn Khaldun beskrev:
+Invändningen ligger nära till hands. I *On What Matters* argumenterade Derek Parfit för att moraliska sanningar existerar oberoende av både Gud och mänsklig överenskommelse, liksom matematiska sanningar.[^5] Men det svarar inte på frågan om *kraft*. Att en moralisk sanning existerar är en sak. Att den formar levande människors handlingar, att den bärs genom sekler, att den motstår maktens och begärets tryck — det kräver något annat. Det kräver det som Ibn Khaldun beskrev:
 
 > När generationer växer upp under samma villkor blir dessa villkor till del av deras natur och karaktär.[^6]
 
@@ -39,27 +39,27 @@ Viljan formas inte av abstrakta sanningar. Den formas av det man lever i.
 
 ## Frågan filosofin inte ställer
 
-Här finns den punkt som sekulär moralfilosofi konsekvent undviker. Den kan formulera principer, ibland briljanta sådana. Men den kan inte förklara varför just *dessa* principer binder oss. Varför ska jag respektera andras autonomi? Varför ska den svages rätt väga lika tungt som den starkes? Kants kategoriska imperativ säger att jag ska handla efter principer som kan universaliseras. Men det säger ingenting om *varför* jag borde bry mig om universaliserbarhet. Det förutsätter en moralisk aktör som redan vill handla rätt. Det förutsätter vad det skulle bevisa.
+Här finns den punkt som sekulär moralfilosofi konsekvent undviker. Visserligen kan den formulera principer, ibland briljanta sådana. Men varför just *dessa* principer binder oss, det förklarar den inte. Varför ska jag respektera andras autonomi? Varför ska den svages rätt väga lika tungt som den starkes? Kants kategoriska imperativ säger att jag ska handla efter principer som kan universaliseras. Men *varför* jag borde bry mig om universaliserbarhet — därom tiger det. Det förutsätter en moralisk aktör som redan vill handla rätt — och därmed just det som skulle bevisas.
 
-Euthyfrons gamla dilemma — är det goda gott för att Gud befaller det, eller befaller Gud det för att det är gott? — har riktats mot varje teistisk etik i tvåtusen år. Men dilemmat bygger på en falsk dikotomi. Guds befallningar är varken godtyckliga påbud utan grund eller underkastelse under en extern standard ovanför Honom. I den islamiska teologin, som Ibn Taymiyyah klargjorde, befaller Gud det goda i kraft av Sin vishet, Sin barmhärtighet och Sin godhet — verkliga egenskaper som tillkommer Honom så som de beskrivs i Koranen och Sunnah. Det goda är förankrat i Guds egna fullkomliga attribut.[^7] Han formulerade det med ytterligare klarhet: förnuftets och den skapade naturens särskilda egenskap är att erkänna det goda som gott och det onda som ont.[^8] *Fitrah*, den medfödda dispositionen, är inte blind instinkt. Den är ett inre kompass som pekar mot sin källa.
+Euthyfrons gamla dilemma — är det goda gott för att Gud befaller det, eller befaller Gud det för att det är gott? — har riktats mot varje teistisk etik i tvåtusen år. Men dilemmat bygger på en skenbar motsättning. Guds befallningar är varken godtyckliga påbud utan grund eller underkastelse under en yttre norm ovanför Honom. I den islamiska teologin, som Ibn Taymiyyah klargjorde, befaller Gud det goda i kraft av Sin vishet, Sin barmhärtighet och Sin godhet — verkliga egenskaper som tillkommer Honom så som de beskrivs i Koranen och Sunna.[^7] Han skärpte tanken: förnuftets och den skapade naturens särskilda egenskap är att erkänna det goda som gott och det onda som ont.[^8] *Fitrah*, den medfödda dispositionen, är inte blind instinkt. Den är en inre kompass som pekar mot sin källa.
 
 ## Det Koranen faktiskt säger
 
-Koranen behandlar inte moral som en mänsklig uppfinning i behov av filosofisk grund. Den behandlar den som en del av skapelsens arkitektur:
+Koranen behandlar inte moral som en mänsklig uppfinning som behöver filosofisk grund, utan som en del av skapelsens arkitektur:
 
 > Vi har skapat människan i den bästa skapnad.[^9]
 
-Människan är skapad med en värdighet som inte behöver motiveras utifrån — den är inbyggd. Och hon är skapad med en kapacitet att känna igen det goda, en *fitrah* som föregår varje kulturell konvention. Men denna kapacitet är otillräcklig på egen hand:
+Människan är skapad med en värdighet som inte behöver motiveras utifrån — den är inbyggd. Hon rymmer också en förmåga att känna igen det goda, en *fitrah* som föregår varje kulturell konvention. Men denna förmåga räcker inte i sig:
 
 > Därefter satte Vi dig på föreskriftens tydliga väg. Rätta dig därför efter den och rätta dig inte efter begären hos dem som ingenting vet.[^10]
 
-*Shariah* betyder bokstavligen väg: en stig till vatten i öknen. Människan har törst, men törsten allena hittar inte källan. Vägen dit måste visas. Det är detta den sekulära ordningen saknar.
+*Sharia* betyder bokstavligen väg: en stig till vatten i öknen. Människan har törst, men törsten allena hittar inte källan. Vägen dit måste visas. Häri brister den sekulära ordningen.
 
-Ibn Qayyim al-Jawziyyah:
+Ibn Qayyim al-Jawziyya:
 
 > Människan rymmer drifter som drar henne nedåt och en ande som drar henne uppåt. Hon liknar rovdjuret i sin vrede, djuret i sin begärelse, och ängeln i sin strävan mot kunskap och lydnad. Den som låter begärelsen styra sjunker under djuren; den som låter förnuftet och uppenbarelsen styra stiger till det högsta.[^11]
 
-Människan är ett slagfält. Utan vägledning vinner de lägre krafterna, inte för att de är starkare utan för att de är mer omedelbara. Ibn Qayyim drog slutsatsen: "Människans fullkomning ligger i nyttig kunskap och gott handlande — det vill säga vägledning och sann religion."[^12]
+Människan är ett slagfält. Utan vägledning vinner de lägre krafterna, inte för att de är starkare utan för att de är mer omedelbara. Därav hans slutsats: "Människans fullkomning ligger i nyttig kunskap och gott handlande — det vill säga vägledning och sann religion."[^12]
 
 ## Huset utan grund
 
@@ -77,15 +77,15 @@ Meningen är avgörande. Den säger inte att religion *också* värnar den svage
 
 ## Den tredje generationen
 
-Ellen Key varnade: "Det är ej af fördragsamhet utan af grundsatser, sedligheten får fasthet."[^15] Tolerans utan princip är likgiltighet. Och likgiltighet är moralens frånvaro.
+Ellen Key varnade: "Det är ej af fördragsamhet utan af grundsatser, sedligheten får fasthet."[^15] Tolerans utan princip är likgiltighet — och likgiltighet är moralens frånvaro.
 
-Ibn Khaldun beskrev mönstret med en historikers blick: civilisationer förlorar sin moraliska kraft genom inre erosion, generation för generation, när grundvalarna glöms och bara vanorna finns kvar.
+Med en historikers blick beskrev Ibn Khaldun mönstret: civilisationer förlorar sin moraliska kraft genom inre erosion, generation för generation, när grundvalarna glöms och bara vanorna finns kvar.
 
 > Makt utan kunskap om religionen leder till orättvisa.[^16]
 
-En maktordning utan transcendent referenspunkt saknar gränser för sin egen expansion. Frågan är inte huruvida staten behöver teologi. Frågan är vad som återstår när den sista resten av teologi försvunnit ur statens grund.
+Utan transcendent referenspunkt saknar en maktordning gränser för sin egen expansion. Frågan är inte huruvida staten behöver teologi — utan vad som återstår när den sista resten av teologi försvunnit ur statens grund.
 
-Sverige lever nu i det som kan kallas den tredje generationen: den som varken tror på grunden eller minns att det en gång fanns en. Axiomen är kvar. Institutionerna fungerar ännu. Orden om mänskligt värde upprepas i läroplaner och regeringsförklaringar. Men fråga en riksdagsledamot *varför* alla människor har lika värde, och svaret blir tyst — eller cirkulärt. De har lika värde för att de har lika värde. En bekännelse utan teologi.
+Sverige lever i den tredje generationen: den som varken tror på grunden eller minns att det en gång fanns en. Axiomen är kvar. Ännu fungerar institutionerna. I läroplaner och regeringsförklaringar upprepas orden om mänskligt värde. Men ber man en riksdagsledamot förklara *varför* alla människor har lika värde, blir svaret tyst — eller cirkulärt. De har lika värde för att de har lika värde. En bekännelse utan teologi.
 
 Koranen ställer frågan utan omsvep:
 

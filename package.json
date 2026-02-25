@@ -12,15 +12,17 @@
 		"test:watch": "vitest",
 		"cli": "pnpm --filter @islam-se/cli run cli",
 		"produce": "pnpm --filter @islam-se/content-producer run produce",
-		"tui": "ISLAM_OUTPUT_DIR=$(pwd)/apps/content-producer/output pnpm --filter @islam-se/tui run dev"
+		"tui": "ISLAM_OUTPUT_DIR=$(pwd)/apps/content-producer/output pnpm --filter @islam-se/tui run dev",
+		"ship": "pnpm build && wrangler pages deploy apps/web/dist --project-name islam-se"
 	},
 	"devDependencies": {
-		"@biomejs/biome": "^2.3.15",
-		"@types/node": "^25.2.3",
-		"knip": "^5.83.1",
+		"@biomejs/biome": "^2.4.4",
+		"@types/node": "^25.3.0",
+		"knip": "^5.85.0",
 		"markdownlint-cli2": "^0.20.0",
 		"typescript": "^5.9.3",
-		"vitest": "^4.0.18"
+		"vitest": "^4.0.18",
+		"wrangler": "^4.68.1"
 	},
 	"packageManager": "pnpm@9.15.0"
 }
