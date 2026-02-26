@@ -51,14 +51,14 @@ describe("DomainTracker", () => {
 			{ url: "https://other.org/article", exists: true, status: 200 },
 		]);
 
-		const ex = data.domains["example.com"]!;
-		expect(ex.total).toBe(2);
-		expect(ex.ok).toBe(1);
-		expect(ex.failed).toBe(1);
-		expect(ex.lastError).toBe("404 Not Found");
-		const ot = data.domains["other.org"]!;
-		expect(ot.total).toBe(1);
-		expect(ot.ok).toBe(1);
+		const ex = data.domains["example.com"];
+		expect(ex?.total).toBe(2);
+		expect(ex?.ok).toBe(1);
+		expect(ex?.failed).toBe(1);
+		expect(ex?.lastError).toBe("404 Not Found");
+		const ot = data.domains["other.org"];
+		expect(ot?.total).toBe(1);
+		expect(ot?.ok).toBe(1);
 	});
 
 	it("accumulates stats across multiple updates", () => {
@@ -69,9 +69,9 @@ describe("DomainTracker", () => {
 		data = updateDomainTracker(data, [
 			{ url: "https://bad.example/b", exists: false, error: "DNS fail" },
 		]);
-		const bad = data.domains["bad.example"]!;
-		expect(bad.total).toBe(2);
-		expect(bad.failed).toBe(2);
+		const bad = data.domains["bad.example"];
+		expect(bad?.total).toBe(2);
+		expect(bad?.failed).toBe(2);
 	});
 
 	it("getBlockedDomains blocks high-failure domains", () => {
@@ -108,13 +108,13 @@ describe("DomainTracker", () => {
 			},
 		};
 		recordPublishedArticle(data, ["https://good.com/page1", "https://other.com/x"], 8.5);
-		expect(data.domains["good.com"]!.publishedIn).toBe(1);
-		expect(data.domains["good.com"]!.avgScore).toBe(8.5);
+		expect(data.domains["good.com"]?.publishedIn).toBe(1);
+		expect(data.domains["good.com"]?.avgScore).toBe(8.5);
 
 		// Second article with different score
 		recordPublishedArticle(data, ["https://good.com/page2"], 9.0);
-		expect(data.domains["good.com"]!.publishedIn).toBe(2);
-		expect(data.domains["good.com"]!.avgScore).toBeCloseTo(8.75);
+		expect(data.domains["good.com"]?.publishedIn).toBe(2);
+		expect(data.domains["good.com"]?.avgScore).toBeCloseTo(8.75);
 	});
 
 	it("recordPublishedArticle ignores unknown domains", () => {

@@ -37,7 +37,13 @@ const { Content } = await render(article.entry);
 			<header class="article-header">
 				<h1>{article.title}</h1>
 				<p class="article-meta">
-					<time datetime={article.publishedAt}>{formatDate(article.publishedAt)}</time> &middot; {article.readingTime} min läsning
+					<time datetime={article.publishedAt}>{formatDate(article.publishedAt)}</time> &middot; {article.readingTime} min läsning &middot;
+					<button class="share-btn" type="button" aria-label="Dela essän">
+						<svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+							<path d="M5 6.5L8 3m0 0l3 3.5M8 3v8M3 10v2a1 1 0 001 1h8a1 1 0 001-1v-2" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" />
+						</svg>
+						Dela
+					</button>
 				</p>
 			</header>
 
@@ -73,6 +79,46 @@ const { Content } = await render(article.entry);
 			if (e.target instanceof HTMLElement && e.target.matches("input, textarea, select")) return;
 			if (e.key === "Escape") navigate("/essaer");
 		}, { signal: ctrl.signal });
+
+		const shareBtn = document.querySelector<HTMLButtonElement>(".share-btn");
+		if (shareBtn) {
+			shareBtn.addEventListener("click", async () => {
+				const title = document.querySelector("h1")?.textContent ?? "";
+				const url = window.location.href;
+				if (navigator.share) {
+					await navigator.share({ title, url }).catch(() => {});
+				} else {
+					await navigator.clipboard.writeText(url);
+					const label = shareBtn.querySelector("svg")?.nextSibling;
+					if (label) {
+						const orig = label.textContent;
+						label.textContent = " Kopierad!";
+						setTimeout(() => { label.textContent = orig; }, 2000);
+					}
+				}
+			}, { signal: ctrl.signal });
+		}
+
+		// Swipe between articles
+		const prevLink = document.querySelector<HTMLAnchorElement>(".article-nav a[rel=prev]");
+		const nextLink = document.querySelector<HTMLAnchorElement>(".article-nav a[rel=next]");
+		if (prevLink || nextLink) {
+			let startX = 0;
+			let startY = 0;
+			document.addEventListener("touchstart", (e) => {
+				startX = e.touches[0].clientX;
+				startY = e.touches[0].clientY;
+			}, { passive: true, signal: ctrl.signal });
+			document.addEventListener("touchend", (e) => {
+				const dx = e.changedTouches[0].clientX - startX;
+				const dy = e.changedTouches[0].clientY - startY;
+				if (Math.abs(dx) > 80 && Math.abs(dx) > Math.abs(dy) * 2) {
+					if (dx > 0 && prevLink) navigate(prevLink.href);
+					else if (dx < 0 && nextLink) navigate(nextLink.href);
+				}
+			}, { passive: true, signal: ctrl.signal });
+		}
+
 		document.addEventListener("astro:before-swap", () => ctrl.abort(), { once: true });
 	});
 </script>

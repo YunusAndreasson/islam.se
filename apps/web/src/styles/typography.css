@@ -23,7 +23,7 @@ body {
 	overflow-wrap: break-word;
 }
 
-/* Headings — reset font-variant to avoid onum leaking into system-ui */
+/* Headings — reset font-variant to avoid onum leaking into Inter */
 h1,
 h2,
 h3 {
@@ -112,6 +112,8 @@ sup {
 		color: var(--color-accent);
 		text-decoration: none;
 		font-weight: 500;
+		padding: 0.5em;
+		margin: -0.5em;
 
 		&:hover {
 			text-decoration: underline;
@@ -167,6 +169,14 @@ hr:has(+ .footnotes) {
 .data-footnote-backref {
 	text-decoration: none;
 	margin-inline-start: 0.25em;
+	font-size: 0;
+
+	&::after {
+		content: "↑";
+		font-size: 0.875rem;
+		font-family: var(--font-heading);
+		font-style: normal;
+	}
 }
 
 /* ============================================================
@@ -202,7 +212,6 @@ hr:has(+ .footnotes) {
 @media (width <= 768px) {
 	body {
 		font-size: 1.0625rem; /* 17px */
-		line-height: 1.5;
 	}
 
 	h1 {
@@ -220,6 +229,7 @@ hr:has(+ .footnotes) {
 
 	blockquote {
 		padding-inline-start: var(--space-half);
+		margin-block: var(--space-unit);
 	}
 }
 
@@ -228,9 +238,9 @@ hr:has(+ .footnotes) {
 	*,
 	*::before,
 	*::after {
-		animation-duration: 0.01ms !important;
-		animation-iteration-count: 1 !important;
-		transition-duration: 0.01ms !important;
-		scroll-behavior: auto !important;
+		animation-duration: 0.01ms;
+		animation-iteration-count: 1;
+		transition-duration: 0.01ms;
+		scroll-behavior: auto;
 	}
 }

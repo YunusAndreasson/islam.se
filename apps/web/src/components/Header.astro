@@ -12,10 +12,10 @@ const isEssaer = !isHome && !isOm;
 
 <header class:list={["site-header", { "site-header--hero": hero }]} transition:persist>
 	<nav class="site-nav" aria-label="Huvudnavigering">
-		<a href="/" class:list={[{ "site-nav-active": isHome }]}>islam.se</a>
+		<a href="/" aria-current={isHome ? "page" : undefined}>islam.se</a>
 		<div class="site-nav-right">
-			<a href="/essaer" class:list={[{ "site-nav-active": isEssaer }]}>Essäer</a>
-			<a href="/om" class:list={[{ "site-nav-active": isOm }]}>Om</a>
+			<a href="/essaer" aria-current={isEssaer ? "page" : undefined}>Essäer</a>
+			<a href="/om" aria-current={isOm ? "page" : undefined}>Om</a>
 		</div>
 	</nav>
 </header>
@@ -36,11 +36,15 @@ const isEssaer = !isHome && !isOm;
 		header.classList.toggle('site-header--hero', isHome);
 		header.classList.remove('header-hidden');
 
-		// Update active nav link
-		const links = header.querySelectorAll('.site-nav a');
-		links[0]?.classList.toggle('site-nav-active', isHome);
-		links[1]?.classList.toggle('site-nav-active', isEssaer);
-		links[2]?.classList.toggle('site-nav-active', isOm);
+		// Update active nav link via aria-current (drives both a11y and styling)
+		for (const link of header.querySelectorAll<HTMLAnchorElement>('.site-nav a[href]')) {
+			const active =
+				link.pathname === '/' ? isHome :
+				link.pathname.startsWith('/om') ? isOm :
+				isEssaer;
+			if (active) link.setAttribute('aria-current', 'page');
+			else link.removeAttribute('aria-current');
+		}
 
 		// Rebind scroll listener for non-hero pages
 		scrollCtrl?.abort();

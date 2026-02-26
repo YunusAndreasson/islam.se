@@ -21,17 +21,19 @@ export interface Article {
 
 // Hero images keyed by slug — images live in src/assets/images/
 const imageEntries = Object.entries(
-	import.meta.glob<{ default: ImageMetadata }>(
-		"../assets/images/*.{jpg,jpeg,png,webp}",
-		{ eager: true },
-	),
+	import.meta.glob<{ default: ImageMetadata }>("../assets/images/*.{jpg,jpeg,png,webp}", {
+		eager: true,
+	}),
 );
 
 const heroImageMap = new Map(
 	imageEntries
 		.filter(([path]) => !path.includes("-mobile."))
 		.map(([path, mod]) => [
-			path.split("/").pop()?.replace(/\.[^.]+$/, ""),
+			path
+				.split("/")
+				.pop()
+				?.replace(/\.[^.]+$/, ""),
 			mod.default,
 		]),
 );
@@ -40,7 +42,10 @@ const mobileImageMap = new Map(
 	imageEntries
 		.filter(([path]) => path.includes("-mobile."))
 		.map(([path, mod]) => [
-			path.split("/").pop()?.replace(/-mobile\.[^.]+$/, ""),
+			path
+				.split("/")
+				.pop()
+				?.replace(/-mobile\.[^.]+$/, ""),
 			mod.default,
 		]),
 );

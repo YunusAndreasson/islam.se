@@ -171,6 +171,7 @@ export class ClaudeRunner extends EventEmitter {
 			let stderr = "";
 			let lineBuffer = "";
 
+			// biome-ignore lint/complexity/noExcessiveCognitiveComplexity: streaming event parser with multiple format branches
 			child.stdout?.on("data", (data) => {
 				const text = data.toString();
 				lineBuffer += text;
@@ -223,6 +224,7 @@ export class ClaudeRunner extends EventEmitter {
 				stderr += data.toString();
 			});
 
+			// biome-ignore lint/complexity/noExcessiveCognitiveComplexity: exit handler with multiple output format paths
 			child.on("close", (code) => {
 				clearTimeout(timer);
 				// Process any remaining buffer
@@ -277,6 +279,7 @@ export class ClaudeRunner extends EventEmitter {
 	 * Process streaming events and extract interesting content
 	 * Focus on actual output (quotes, text) rather than tool requests
 	 */
+	// biome-ignore lint/complexity/noExcessiveCognitiveComplexity: event type dispatcher with many branches
 	private processStreamEvent(
 		event: Record<string, unknown>,
 		onChunk?: (chunk: ClaudeStreamChunk) => void,
@@ -355,6 +358,7 @@ export class ClaudeRunner extends EventEmitter {
 	/**
 	 * Extract multiple snippets from tool results (quotes, passages, etc.)
 	 */
+	// biome-ignore lint/complexity/noExcessiveCognitiveComplexity: multi-format content extraction
 	private extractToolResultSnippets(content: string): string[] {
 		const snippets: string[] = [];
 

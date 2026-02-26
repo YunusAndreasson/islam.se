@@ -356,7 +356,7 @@ export class ArticlePublisher {
 		const result: Array<{ name: string; count: number }> = [];
 
 		if (counts.has("")) {
-			result.push({ name: "", count: counts.get("")! });
+			result.push({ name: "", count: counts.get("") ?? 0 });
 			counts.delete("");
 		} else {
 			result.push({ name: "", count: 0 });

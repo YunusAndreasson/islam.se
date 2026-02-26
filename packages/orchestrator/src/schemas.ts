@@ -156,7 +156,17 @@ export const SwedishVoiceFrontmatterSchema = z.object({
 	correctedDescription: z.string().optional(),
 	issuesFound: z.array(
 		z.object({
-			type: z.enum(["anglicism", "rhetoric", "repetition", "overexplain", "rhythm", "idiom", "hedging", "connector", "abstraction"]),
+			type: z.enum([
+				"anglicism",
+				"rhetoric",
+				"repetition",
+				"overexplain",
+				"rhythm",
+				"idiom",
+				"hedging",
+				"connector",
+				"abstraction",
+			]),
 			location: z.string(),
 			original: z.string(),
 			correction: z.string(),

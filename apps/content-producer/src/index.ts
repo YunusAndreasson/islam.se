@@ -430,6 +430,7 @@ program
 	.option("--dry-run", "Preview diffs without writing changes")
 	.option("--no-confirm", "Auto-accept changes (skip interactive prompt)")
 	.option("-m, --model <model>", "Model to use (opus|sonnet)", "opus")
+	// biome-ignore lint/complexity/noExcessiveCognitiveComplexity: sequential CLI pipeline handler
 	.action(async (slug: string, options) => {
 		const publisher = new ArticlePublisher();
 		const orchestrator = new ContentOrchestrator({
@@ -612,6 +613,7 @@ program
 	.option("--dry-run", "Preview issues and diffs without writing changes")
 	.option("--no-confirm", "Auto-accept changes (skip interactive prompt)")
 	.option("-m, --model <model>", "Model to use (opus|sonnet)", "opus")
+	// biome-ignore lint/complexity/noExcessiveCognitiveComplexity: sequential CLI pipeline handler
 	.action(async (slug: string, options) => {
 		const publisher = new ArticlePublisher();
 		const orchestrator = new ContentOrchestrator({
@@ -804,6 +806,7 @@ program
 	.option("--dry-run", "Preview issues and diffs without writing changes")
 	.option("--no-confirm", "Auto-accept changes (skip interactive prompt)")
 	.option("-m, --model <model>", "Model to use (opus|sonnet)", "opus")
+	// biome-ignore lint/complexity/noExcessiveCognitiveComplexity: sequential CLI pipeline handler
 	.action(async (slug: string, options) => {
 		const publisher = new ArticlePublisher();
 		const orchestrator = new ContentOrchestrator({
@@ -998,12 +1001,11 @@ program
 
 program
 	.command("title-ingress")
-	.description(
-		"Generate improved title and ingress suggestions for published articles",
-	)
+	.description("Generate improved title and ingress suggestions for published articles")
 	.argument("<slug>", 'Article slug or "all" for all articles')
 	.option("--no-confirm", "Auto-accept best suggestion (skip interactive prompt)")
 	.option("-m, --model <model>", "Model to use (opus|sonnet)", "opus")
+	// biome-ignore lint/complexity/noExcessiveCognitiveComplexity: sequential CLI pipeline handler
 	.action(async (slug: string, options) => {
 		const publisher = new ArticlePublisher();
 		const orchestrator = new ContentOrchestrator({
@@ -1084,16 +1086,14 @@ program
 
 			// Show title suggestions
 			console.log("\n  Title suggestions:");
-			for (let i = 0; i < data.titleSuggestions.length; i++) {
-				const s = data.titleSuggestions[i]!;
+			for (const [i, s] of data.titleSuggestions.entries()) {
 				console.log(`    ${i + 1}. \x1b[32m${s.title}\x1b[0m`);
 				console.log(`       ${s.reasoning}`);
 			}
 
 			// Show description suggestions
 			console.log("\n  Ingress suggestions:");
-			for (let i = 0; i < data.descriptionSuggestions.length; i++) {
-				const s = data.descriptionSuggestions[i]!;
+			for (const [i, s] of data.descriptionSuggestions.entries()) {
 				console.log(`    ${i + 1}. \x1b[32m${s.description}\x1b[0m`);
 				console.log(`       ${s.reasoning}`);
 			}
@@ -1111,7 +1111,7 @@ program
 
 			// Build selection options for description
 			const descOptions: Array<{ value: number; label: string }> = [
-				{ value: -1, label: `Keep current` },
+				{ value: -1, label: "Keep current" },
 				...data.descriptionSuggestions.map((s, i) => ({
 					value: i,
 					label: `${i + 1}. ${s.description.slice(0, 70)}...`,
@@ -1124,9 +1124,11 @@ program
 			if (options.confirm === false) {
 				// --no-confirm: pick first suggestions
 				if (data.titleSuggestions.length > 0) {
+					// biome-ignore lint/style/noNonNullAssertion: length guard ensures element exists
 					selectedTitle = data.titleSuggestions[0]!.title;
 				}
 				if (data.descriptionSuggestions.length > 0) {
+					// biome-ignore lint/style/noNonNullAssertion: length guard ensures element exists
 					selectedDescription = data.descriptionSuggestions[0]!.description;
 				}
 			} else {
@@ -1139,6 +1141,7 @@ program
 					process.exit(0);
 				}
 				if ((titleChoice as number) >= 0) {
+					// biome-ignore lint/style/noNonNullAssertion: index bounds checked above
 					selectedTitle = data.titleSuggestions[titleChoice as number]!.title;
 				}
 
@@ -1151,6 +1154,7 @@ program
 					process.exit(0);
 				}
 				if ((descChoice as number) >= 0) {
+					// biome-ignore lint/style/noNonNullAssertion: index bounds checked above
 					selectedDescription = data.descriptionSuggestions[descChoice as number]!.description;
 				}
 			}
@@ -1186,9 +1190,7 @@ program
 		}
 
 		console.log("\n══════════════════════════════════════════════════════════");
-		console.log(
-			`  Done. ${updated} updated, ${skipped} skipped out of ${processed} articles.`,
-		);
+		console.log(`  Done. ${updated} updated, ${skipped} skipped out of ${processed} articles.`);
 		console.log("══════════════════════════════════════════════════════════\n");
 
 		process.exit(0);
@@ -1202,8 +1204,12 @@ program
 	.argument("<slug>", 'Article slug or "all" for all articles')
 	.option("--dry-run", "Preview issues and diffs without writing changes")
 	.option("--no-confirm", "Auto-accept changes (skip interactive prompt)")
-	.option("--enrich", "Focus on enriching prose with Swedish language tools (inversion, compounds, connectors, rhythm) rather than fixing problems")
+	.option(
+		"--enrich",
+		"Focus on enriching prose with Swedish language tools (inversion, compounds, connectors, rhythm) rather than fixing problems",
+	)
 	.option("-m, --model <model>", "Model to use (opus|sonnet)", "opus")
+	// biome-ignore lint/complexity/noExcessiveCognitiveComplexity: sequential CLI pipeline handler
 	.action(async (slug: string, options) => {
 		const publisher = new ArticlePublisher();
 		const orchestrator = new ContentOrchestrator({
@@ -1279,10 +1285,14 @@ program
 			console.log(`  Running ${modeLog}...`);
 			let voiceResult: Awaited<ReturnType<typeof orchestrator.runSwedishVoice>>;
 			try {
-				voiceResult = await orchestrator.runSwedishVoice(originalBody, {
-					title: articleTitle,
-					description: articleDescription,
-				}, mode);
+				voiceResult = await orchestrator.runSwedishVoice(
+					originalBody,
+					{
+						title: articleTitle,
+						description: articleDescription,
+					},
+					mode,
+				);
 			} catch (err) {
 				console.log(`  Swedish voice crashed: ${err}`);
 				skipped++;
@@ -1295,8 +1305,14 @@ program
 				continue;
 			}
 
-			const { verdict, correctedTitle, correctedDescription, issuesFound, summary, body: voiceBody } =
-				voiceResult.data;
+			const {
+				verdict,
+				correctedTitle,
+				correctedDescription,
+				issuesFound,
+				summary,
+				body: voiceBody,
+			} = voiceResult.data;
 
 			// Show summary
 			console.log(`  Verdict: ${verdict}`);
@@ -1304,7 +1320,9 @@ program
 				console.log(`  Title: "${articleTitle}" → "${correctedTitle}"`);
 			}
 			if (correctedDescription) {
-				console.log(`  Description: "${articleDescription?.slice(0, 60)}..." → "${correctedDescription.slice(0, 60)}..."`);
+				console.log(
+					`  Description: "${articleDescription?.slice(0, 60)}..." → "${correctedDescription.slice(0, 60)}..."`,
+				);
 			}
 			console.log(`  Summary: ${summary}`);
 

@@ -480,6 +480,7 @@ export class IdeationService {
 	 * Item 2: Apply author diversity across all ideas' quotes.
 	 * Caps any single author to max 2 ideas. Processes higher-scored ideas first.
 	 */
+	// biome-ignore lint/complexity/noExcessiveCognitiveComplexity: diversity algorithm with nested scoring
 	private applyAuthorDiversity(
 		ideas: { idea: EnrichedIdea; candidates: EnrichedQuote[] }[],
 		quotesPerIdea: number,

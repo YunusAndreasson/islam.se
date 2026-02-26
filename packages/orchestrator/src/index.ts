@@ -15,17 +15,17 @@ import {
 import { ReferenceTracker } from "./reference-tracker.js";
 import {
 	AqeedahReviewFrontmatterSchema,
-	ProofreadFrontmatterSchema,
-	SwedishVoiceFrontmatterSchema,
-	TitleIngressFrontmatterSchema,
 	DraftFrontmatterSchema,
 	DraftOutputSchema,
 	FactCheckOutputSchema,
 	getFactCheckJsonSchema,
 	getResearchJsonSchema,
 	PolishFrontmatterSchema,
+	ProofreadFrontmatterSchema,
 	ResearchOutputSchema,
 	ReviewFrontmatterSchema,
+	SwedishVoiceFrontmatterSchema,
+	TitleIngressFrontmatterSchema,
 } from "./schemas.js";
 import { ArticlePublisher } from "./services/article-publisher.js";
 import { IdeationService } from "./services/ideation-service.js";
@@ -188,7 +188,16 @@ export interface SwedishVoiceOutput {
 	correctedTitle?: string;
 	correctedDescription?: string;
 	issuesFound: Array<{
-		type: "anglicism" | "rhetoric" | "repetition" | "overexplain" | "rhythm" | "idiom" | "hedging" | "connector" | "abstraction";
+		type:
+			| "anglicism"
+			| "rhetoric"
+			| "repetition"
+			| "overexplain"
+			| "rhythm"
+			| "idiom"
+			| "hedging"
+			| "connector"
+			| "abstraction";
 		location: string;
 		original: string;
 		correction: string;
@@ -277,6 +286,7 @@ export class ContentOrchestrator {
 	 * Includes retry logic for transient validation failures.
 	 * When onPreview is configured, uses streaming to emit preview snippets.
 	 */
+	// biome-ignore lint/complexity/noExcessiveCognitiveComplexity: multi-mode stage executor with retry logic
 	private async executeClaudeStage<T>(options: {
 		name: string;
 		stage: PreviewChunk["stage"];
@@ -307,7 +317,8 @@ export class ContentOrchestrator {
 
 		const promptPath = join(this.promptsDir, options.promptFile);
 		const useStreaming = !!this.options.onPreview;
-		const isMarkdown = !!options.markdownMode;
+		const { markdownMode } = options;
+		const isMarkdown = !!markdownMode;
 
 		const runOptions: ClaudeRunOptions = {
 			prompt: promptPath,
@@ -345,17 +356,18 @@ export class ContentOrchestrator {
 				});
 
 				if (streamResult.success && streamResult.output) {
-					result = isMarkdown
-						? this.parseMarkdownResult(streamResult, options.markdownMode!)
-						: this.parseJsonResult(streamResult, options.schema);
+					result =
+						isMarkdown && markdownMode
+							? this.parseMarkdownResult(streamResult, markdownMode)
+							: this.parseJsonResult(streamResult, options.schema);
 				} else {
 					result = streamResult;
 				}
-			} else if (isMarkdown) {
+			} else if (isMarkdown && markdownMode) {
 				// Markdown mode: raw run, parse frontmatter+body
 				const rawResult = await this.runner.run(runOptions);
 				if (rawResult.success && rawResult.output) {
-					result = this.parseMarkdownResult(rawResult, options.markdownMode!);
+					result = this.parseMarkdownResult(rawResult, markdownMode);
 				} else {
 					result = rawResult;
 				}
@@ -1166,7 +1178,8 @@ If the draft has anglicisms, fix them in the revised article.
 		meta?: { title?: string; description?: string },
 		mode: "fix" | "enrich" = "fix",
 	): Promise<StageResult<SwedishVoiceOutput>> {
-		const modeLabel = mode === "enrich" ? "enrich: inversion, compounds, rhythm" : "anglicisms, rhetoric, rhythm";
+		const modeLabel =
+			mode === "enrich" ? "enrich: inversion, compounds, rhythm" : "anglicisms, rhetoric, rhythm";
 		this.logger.log(`   🇸🇪 Swedish voice: ${modeLabel}`);
 
 		let metaSection = "";
@@ -1176,8 +1189,9 @@ If the draft has anglicisms, fix them in the revised article.
 			if (meta.description) metaSection += `**Ingress:** ${meta.description}\n`;
 		}
 
-		const modeDirective = mode === "enrich"
-			? `Du berikar en publicerad artikel för islam.se. Ditt HUVUDUPPDRAG är sektion 16 i prompten — "Svenskans egna verktyg". Aktivt använd:
+		const modeDirective =
+			mode === "enrich"
+				? `Du berikar en publicerad artikel för islam.se. Ditt HUVUDUPPDRAG är sektion 16 i prompten — "Svenskans egna verktyg". Aktivt använd:
 
 - **Inversion (V2-regeln)** — flytta fram tidsadverbial, platsadverbial, objekt för betoning och flöde
 - **Sammansatta ord** — slå ihop prepositionsfraser till energiska sammansättningar
@@ -1187,7 +1201,7 @@ If the draft has anglicisms, fix them in the revised article.
 - **Meningsrytm** — skapa kontrast mellan korta och långa meningar, bryt monotoni
 
 Sektionerna 1–15 (anglicismer, retoriska mönster etc.) är sekundära — åtgärda dem om du ser dem, men din huvuduppgift är att BERIKA texten med svenskans unika verktyg. Målet är att texten ska kännas som om den skrevs av en svensk essäist som medvetet utnyttjar språkets resurser.`
-			: `Du granskar en publicerad artikel för islam.se. Identifiera och åtgärda mönster som avslöjar att texten tänkts på engelska.`;
+				: "Du granskar en publicerad artikel för islam.se. Identifiera och åtgärda mönster som avslöjar att texten tänkts på engelska.";
 
 		const systemPrompt = `${modeDirective}${metaSection}\n\n## TEXTEN\n\n${articleBody}`;
 
@@ -1303,6 +1317,7 @@ ${articleBody}`;
 	 * @param topic - The article topic
 	 * @param ideaContext - Optional context linking to source idea for status tracking
 	 */
+	// biome-ignore lint/complexity/noExcessiveCognitiveComplexity: multi-stage pipeline orchestrator
 	async produce(
 		topic: string,
 		ideaContext?: IdeaContext,

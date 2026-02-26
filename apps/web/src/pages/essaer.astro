@@ -9,11 +9,10 @@ const articles = await getArticles();
 	<main class="content-column">
 		<header class="article-header">
 			<h1>Essäer</h1>
+			<p class="archive-stats" aria-live="polite"></p>
 		</header>
 
-		<p class="archive-stats" aria-live="polite"></p>
-
-		<ul class="archive-list">
+		<ul class="archive-list" id="list-all">
 			{articles.map((article) => (
 				<li class="archive-item" data-slug={article.slug}>
 					<a href={`/${article.slug}`} data-astro-prefetch="viewport">
@@ -31,30 +30,53 @@ const articles = await getArticles();
 
 <script>
 	document.addEventListener("astro:page-load", () => {
-		const items = document.querySelectorAll<HTMLElement>(".archive-item[data-slug]");
+		const list = document.getElementById("list-all") as HTMLUListElement | null;
+		if (!list) return;
+
+		const items = list.querySelectorAll<HTMLElement>(".archive-item[data-slug]");
 		if (!items.length) return;
 
-		let read = 0;
-		const total = items.length;
+		const unreadItems: HTMLElement[] = [];
+		const readItems: HTMLElement[] = [];
 
-		// Double rAF: ensure initial paint (width: 0) before setting progress → triggers transition
-		requestAnimationFrame(() => {
-			requestAnimationFrame(() => {
-				items.forEach((item) => {
-					const slug = item.dataset.slug;
-					if (!slug) return;
-					const pct = +(localStorage.getItem(`rp:${slug}`) || 0);
-					if (pct > 0.03) {
-						item.style.setProperty("--progress", String(Math.min(pct, 1)));
-					}
-					if (pct > 0.85) read++;
-				});
+		for (const item of items) {
+			const pct = +(localStorage.getItem(`rp:${item.dataset.slug}`) || 0);
+			if (pct > 0.03) {
+				item.style.setProperty("--progress", String(Math.min(pct, 1)));
+			}
+			if (pct > 0.85) {
+				readItems.push(item);
+			} else {
+				unreadItems.push(item);
+			}
+		}
 
-				const stats = document.querySelector<HTMLElement>(".archive-stats");
-				if (stats && read > 0) {
-					stats.textContent = `${read} av ${total} lästa`;
-				}
-			});
-		});
+		const stats = document.querySelector<HTMLElement>(".archive-stats");
+		if (stats && readItems.length > 0) {
+			stats.textContent = `${readItems.length} av ${items.length} lästa`;
+			stats.style.setProperty("--progress", String(readItems.length / items.length));
+		}
+
+		if (readItems.length > 0 && unreadItems.length > 0) {
+			const makeSection = (heading: string, sectionItems: HTMLElement[]) => {
+				const section = document.createElement("section");
+				section.className = "archive-section";
+				const h2 = document.createElement("h2");
+				h2.className = "archive-section-heading";
+				h2.textContent = heading;
+				const ul = document.createElement("ul");
+				ul.className = "archive-list";
+				section.append(h2, ul);
+				ul.append(...sectionItems);
+				return section;
+			};
+
+			const fragment = document.createDocumentFragment();
+			fragment.append(
+				makeSection("Att läsa", unreadItems),
+				makeSection("Lästa", readItems),
+			);
+			list.replaceWith(fragment);
+		}
 	});
 </script>
