@@ -11,16 +11,51 @@ const articles = await getArticles();
 			<h1>Essäer</h1>
 		</header>
 
+		<p class="archive-stats" aria-live="polite"></p>
+
 		<ul class="archive-list">
-			{articles.map((article) => (
-				<li class="archive-item">
-					<a href={`/${article.slug}`}>{article.title}</a>
-					<p class="archive-meta">
-						<time datetime={article.publishedAt}>{formatDate(article.publishedAt)}</time> &middot; {article.readingTime} min läsning
-					</p>
-					{article.description && <p class="archive-description">{article.description}</p>}
+			{articles.map((article, i) => (
+				<li class="archive-item" data-slug={article.slug}>
+					<a href={`/${article.slug}`} data-astro-prefetch="viewport">
+						<span class="archive-num">{articles.length - i}</span>
+						<span class="archive-title">{article.title}</span>
+						<p class="archive-meta">
+							<time datetime={article.publishedAt}>{formatDate(article.publishedAt)}</time> &middot; {article.readingTime} min läsning
+						</p>
+						{article.description && <p class="archive-description">{article.description}</p>}
+					</a>
 				</li>
 			))}
 		</ul>
 	</main>
 </Base>
+
+<script>
+	document.addEventListener("astro:page-load", () => {
+		const items = document.querySelectorAll<HTMLElement>(".archive-item[data-slug]");
+		if (!items.length) return;
+
+		let read = 0;
+		const total = items.length;
+
+		// Double rAF: ensure initial paint (width: 0) before setting progress → triggers transition
+		requestAnimationFrame(() => {
+			requestAnimationFrame(() => {
+				items.forEach((item) => {
+					const slug = item.dataset.slug;
+					if (!slug) return;
+					const pct = +(localStorage.getItem(`rp:${slug}`) || 0);
+					if (pct > 0.03) {
+						item.style.setProperty("--progress", String(Math.min(pct, 1)));
+					}
+					if (pct > 0.85) read++;
+				});
+
+				const stats = document.querySelector<HTMLElement>(".archive-stats");
+				if (stats && read > 0) {
+					stats.textContent = `${read} av ${total} lästa`;
+				}
+			});
+		});
+	});
+</script>
