@@ -429,7 +429,7 @@
 }
 
 .archive-item {
-	padding-bottom: var(--space-unit);
+	padding-bottom: var(--space-double);
 
 	a {
 		display: block;
