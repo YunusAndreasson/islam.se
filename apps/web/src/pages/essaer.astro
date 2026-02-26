@@ -17,10 +17,9 @@ const articles = await getArticles();
 			{articles.map((article, i) => (
 				<li class="archive-item" data-slug={article.slug}>
 					<a href={`/${article.slug}`} data-astro-prefetch="viewport">
-						<span class="archive-num">{articles.length - i}</span>
 						<span class="archive-title">{article.title}</span>
 						<p class="archive-meta">
-							<time datetime={article.publishedAt}>{formatDate(article.publishedAt)}</time> &middot; {article.readingTime} min läsning
+							<span class="archive-num">{articles.length - i}</span> &middot; <time datetime={article.publishedAt}>{formatDate(article.publishedAt)}</time> &middot; {article.readingTime} min läsning
 						</p>
 						{article.description && <p class="archive-description">{article.description}</p>}
 					</a>

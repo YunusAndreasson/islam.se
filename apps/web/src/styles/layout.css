@@ -441,18 +441,6 @@
 		}
 	}
 
-	.archive-num {
-		display: block;
-		font-family: var(--font-heading);
-		font-size: 0.6875rem;
-		font-weight: 500;
-		letter-spacing: 0.1em;
-		text-transform: uppercase;
-		color: var(--color-muted);
-		opacity: 0.6;
-		margin-bottom: 0.25rem;
-	}
-
 	.archive-title {
 		display: block;
 		color: var(--color-accent);
