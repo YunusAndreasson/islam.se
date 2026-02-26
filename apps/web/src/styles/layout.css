@@ -356,7 +356,7 @@
    ============================================================ */
 .article-header {
 	margin-top: var(--space-double);
-	margin-bottom: var(--space-double);
+	margin-bottom: var(--space-unit);
 
 	h1 {
 		margin-bottom: var(--space-half);
@@ -418,13 +418,13 @@
 	letter-spacing: 0.08em;
 	text-transform: uppercase;
 	color: var(--color-muted);
-	margin-top: var(--space-unit);
+	margin-top: var(--space-half);
 	min-height: 1.2em;
 }
 
 /* Archive list */
 .archive-list {
-	margin-top: var(--space-double);
+	margin-top: var(--space-unit);
 	margin-bottom: var(--space-triple);
 }
 
