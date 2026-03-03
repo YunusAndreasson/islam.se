@@ -32,6 +32,9 @@ h3 {
 	text-wrap: balance;
 	font-variant-numeric: normal;
 	font-variant-ligatures: normal;
+	/* cv11: single-storey 'a'/'ä' — humanist warmth at headline scale;
+	   ss03: round commas/apostrophes — for any punctuated titles */
+	font-feature-settings: "cv11" 1, "ss03" 1;
 }
 
 h1 {
@@ -93,6 +96,12 @@ strong {
 	font-weight: 600;
 }
 
+/* Abbreviations — small caps via Literata's smcp/c2sc glyphs, classical convention */
+abbr {
+	font-variant-caps: all-small-caps;
+	letter-spacing: 0.04em;
+}
+
 /* Horizontal rule */
 hr {
 	border: none;
@@ -100,13 +109,16 @@ hr {
 	margin-block: var(--space-double);
 }
 
-/* Footnote references — small, not disruptive */
+/* Footnote references — native Literata sups glyphs (optically drawn for
+   superscript position). font-size: 1em because the sups glyph is already
+   compact; scaling it again would make it too small. */
 sup {
-	font-size: 0.75em;
+	font-feature-settings: "sups" 1;
+	font-size: 1em;
 	line-height: 0;
 	position: relative;
 	vertical-align: baseline;
-	top: -0.4em;
+	top: 0;
 
 	a {
 		color: var(--color-accent);
@@ -151,6 +163,8 @@ hr:has(+ .footnotes) {
 	ol {
 		list-style: decimal;
 		padding-inline-start: 1.5em;
+		/* lining tabular figures for aligned list numbers — overrides body onum */
+		font-variant-numeric: lining-nums tabular-nums;
 	}
 
 	li {
@@ -174,7 +188,9 @@ hr:has(+ .footnotes) {
 	&::after {
 		content: "↑";
 		font-size: 0.875rem;
-		font-family: var(--font-heading);
+		/* Literata's ↑ glyph is optically drawn for body text scale —
+		   harmonises with the footnote text instead of Inter's geometric arrow */
+		font-family: var(--font-body);
 		font-style: normal;
 	}
 }
@@ -241,6 +257,11 @@ hr:has(+ .footnotes) {
 		animation-duration: 0.01ms;
 		animation-iteration-count: 1;
 		transition-duration: 0.01ms;
+		scroll-behavior: auto;
+	}
+
+	/* Override html { scroll-behavior: smooth } in reset.css (higher specificity needed) */
+	html {
 		scroll-behavior: auto;
 	}
 }

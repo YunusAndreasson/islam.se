@@ -1,7 +1,7 @@
 ---
 title: "Alis princip"
 publishedAt: "2025-11-12T12:00:00.000Z"
-wordCount: 1708
+wordCount: 1717
 qualityScore: 8.6
 description: "År 1955 röstade svenska folket för att avskaffa Brattsystemet trots läkarnas varningar. Tjugofem år senare fick väljarna tre alternativ i kärnkraftsfrågan — inget av dem ett rent nej. Koranen ställde diagnosen långt före båda omröstningarna: de flesta följer antaganden, inte kunskap."
 ---
@@ -25,7 +25,7 @@ Sverige erbjuder två talande exempel. År 1955 röstade svenska folket för att
 
 Tjugofem år senare, 1980, folkomröstade Sverige om kärnkraften. Tre alternativ presenterades. Inget av dem var ett rent nej. Väljarna fick välja mellan tre varianter av ja, med olika avvecklingstakt, och resultatet tolkades sedan som en avvecklingsplan som aldrig genomfördes fullt ut.[^6] Demokratin hade gett ett svar, men ingen sanning. Proceduren var oklanderlig — kunskapen obefintlig.
 
-Koranen skiljer inte mellan rätt och fel som politiska kategorier utan mellan *kunskap* och *antagande*: *'ilm* och *zann*. "Befatta dig inte med något du inte har kunskap om", lyder uppmaningen i sura *al-Isra*. "Hörseln, synen och hjärtat — alla dessa kommer att tillfrågas."[^7] Ansvaret gäller inte bara handlingen utan kunskapsgrunden: *visste du, eller antog du bara?*
+Koranen skiljer inte mellan rätt och fel som politiska kategorier utan mellan *kunskap* och *antagande*: *ʿilm* och *ẓann*. "Befatta dig inte med något du inte har kunskap om", lyder uppmaningen i sura *al-Isrāʾ*. "Hörseln, synen och hjärtat — alla dessa kommer att tillfrågas."[^7] Ansvaret gäller inte bara handlingen utan kunskapsgrunden: *visste du, eller antog du bara?*
 
 ## Antagandets anatomi
 
@@ -33,9 +33,9 @@ Varför följer de flesta antaganden? Frågan verkar enkel. Svaret som Koranen o
 
 Ibn Qayyim al-Jawziyya urskiljer två svagheter: bristande insikt och bristande tålamod.[^8] Insikt kräver ansträngning. Tålamod kräver att man uthärdar obehaget av att stå ensam. Antagandet erbjuder genvägen: en åsikt utan arbete, en övertygelse utan prövning.
 
-Men det finns något djupare än lättja. Ibn al-Jawzi: "Begäret förblindar och gör döv för sanning och riktighet."[^9] Begäret — *hawa* — förvränger aktivt omdömet. Människan ser inte fel *trots* sin intelligens utan *på grund av* sina begär. Den smarta människan som följer sitt begär blir okunnig; den starka blir svag.[^10]
+Men det finns något djupare än lättja. Ibn al-Jawzi: "Begäret förblindar och gör döv för sanning och riktighet."[^9] Begäret — *hawā* — förvränger aktivt omdömet. Människan ser inte fel *trots* sin intelligens utan *på grund av* sina begär. Den smarta människan som följer sitt begär blir okunnig; den starka blir svag.[^10]
 
-Utan kännedom om denna tradition landade Gustave Le Bon i samma slutsats från ett annat håll: "I en folkmassa blir skeptikern troende, den ärliga människan en förbrytare, den fege en hjälte."[^11] Massan upplöser inte bara individuellt omdöme. Den ställer det på huvudet. Le Bon beskrev mekanismen. Den koraniska analysen blottlägger drivkraften: *hawa*, det oreflekterade begäret som intar kunskapens plats.
+Utan kännedom om denna tradition landade Gustave Le Bon i samma slutsats från ett annat håll: "I en folkmassa blir skeptikern troende, den ärliga människan en förbrytare, den fege en hjälte."[^11] Massan upplöser inte bara individuellt omdöme. Den ställer det på huvudet. Le Bon beskrev mekanismen. Den koraniska analysen blottlägger drivkraften: *hawā*, det oreflekterade begäret som intar kunskapens plats.
 
 Koranen formulerar det med en direkthet som gör omskrivningar överflödiga: "Vem är mer vilse än den som följer sitt begär utan någon vägledning från Allah?"[^12] Det som fördöms är inte begäret i sig — det är begäret *utan vägledning*. Islam förutsätter inte att människan kan leva utan begär. Den förutsätter att hon behöver en ordning som ställer sanningen över hennes impulser.
 
@@ -47,7 +47,7 @@ Formuleringen ser enkel ut. Den är förödande.
 
 Den vänder upp och ned på det sätt vi normalt orienterar oss i världen. Vi bedömer påståenden efter vem som framför dem: auktoriteten, experten, majoriteten, den karismatiske ledaren. Alis princip kräver det motsatta: bedöm påståendet först, *sedan* avsändaren. Sanningen har varken ansikte, meriter eller parti. Den är sann oavsett vem som yttrar den eller hur många som förnekar den.
 
-Ibn Taymiyyah fördjupade denna princip i flera av sina verk. Den som gör människor till måttstock för sanningen — istället för att pröva människors påståenden mot sanningen — begår det mest grundläggande tankefelet.[^14] Det spelar ingen roll om auktoriteten är en lärd, en ledare eller en majoritet: den som accepterar ett påstående *för att* det framförs av en viss person, utan att pröva det mot uppenbarelsen och det sunda förnuftet, har vänt kunskapsordningen upp och ned. Ibn Taymiyyah återkommer till detta i *Majmu' al-Fatawa*: varje människa kan tas ifrån eller ges rätt, utom Profeten, fred vare med honom. Ingen annan åtnjuter ofelbarhet. Sanningen är kriteriet för människor, inte människor för sanningen.
+Ibn Taymiyyah fördjupade denna princip i flera av sina verk. Den som gör människor till måttstock för sanningen — istället för att pröva människors påståenden mot sanningen — begår det mest grundläggande tankefelet.[^14] Det spelar ingen roll om auktoriteten är en lärd, en ledare eller en majoritet: den som accepterar ett påstående *för att* det framförs av en viss person, utan att pröva det mot uppenbarelsen och det sunda förnuftet, har vänt kunskapsordningen upp och ned. Ibn Taymiyyah återkommer till detta i *Majmūʿ al-Fatāwā*: varje människa kan tas ifrån eller ges rätt, utom Profeten, fred vare med honom. Ingen annan åtnjuter ofelbarhet. Sanningen är kriteriet för människor, inte människor för sanningen.
 
 Det demokratiska samhället gör just detta — inte av illvilja utan av struktur. Omröstningen frågar inte: *vad är sant?* Den frågar: *vad tycker de flesta?* Och den behandlar svaret som om det vore samma sak.
 
@@ -55,9 +55,9 @@ Det demokratiska samhället gör just detta — inte av illvilja utan av struktu
 
 En invändning förtjänar ett ärligt svar. Habermas menade att rationell diskurs — det herraväldesfria samtalet — kan leda till sanning genom procedur, om alla deltagare argumenterar ärligt och på lika villkor.[^15] Den deliberativa demokratin påstår att rätt samtal ger rätt svar.
 
-Men Habermas förutsätter just det som Koranen ifrågasätter: att människan, lämnad åt sitt förnuft och sina procedurer, dras mot sanning snarare än antagande. Det herraväldesfria samtalet finns inte i verkligheten, eftersom *hawa* är universell. Begäret talar alltid med i rummet, osynligt, oerkänt, förklätt till rationalitet. Ibn Taymiyyah påpekade att "fantasin ljuger oftare än den talar sanning"[^16] — och fantasin är som mest aktiv när vi tror oss vara som mest förnuftiga.
+Men Habermas förutsätter just det som Koranen ifrågasätter: att människan, lämnad åt sitt förnuft och sina procedurer, dras mot sanning snarare än antagande. Det herraväldesfria samtalet finns inte i verkligheten, eftersom *hawā* är universell. Begäret talar alltid med i rummet, osynligt, oerkänt, förklätt till rationalitet. Ibn Taymiyyah påpekade att "fantasin ljuger oftare än den talar sanning"[^16] — och fantasin är som mest aktiv när vi tror oss vara som mest förnuftiga.
 
-Islam föreslår heller inte att sanningen ska dikteras uppifrån. "Deras angelägenheter avgörs genom samråd sinsemellan"[^17] — *shura*, samråd, är en styrande princip. Men i islamisk tradition är samrådets funktion inte att fastställa sanningen genom röstning. Det är att söka den bästa tillämpningen av en sanning som redan är given. I *shura* är sanningen konstant och tillämpningen diskuteras. I demokratin är sanningen det som diskussionen frambringar.
+Islam föreslår heller inte att sanningen ska dikteras uppifrån. "Deras angelägenheter avgörs genom samråd sinsemellan"[^17] — *shūrā*, samråd, är en styrande princip. Men i islamisk tradition är samrådets funktion inte att fastställa sanningen genom röstning. Det är att söka den bästa tillämpningen av en sanning som redan är given. I *shūrā* är sanningen konstant och tillämpningen diskuteras. I demokratin är sanningen det som diskussionen frambringar.
 
 Karin Boye skrev i *Kallocain*: "Sanningen kunde vara en bro mellan människa och människa — så länge den är frivillig, ja — så länge den ges som en gåva och tas emot som en gåva."[^18] Sanningen *som bro* förutsätter att den existerar oberoende av de människor den förbinder. En bro som uppfinns i stunden den beträds är ingen bro.
 
@@ -71,7 +71,7 @@ Just detta har det demokratiska samhället institutionaliserat och döpt till pl
 
 ## Det tysta vittnesmålet
 
-Koranen har ett ord för dem som kan skilja sanning från antagande: *ulu al-albab* — de med kärna. "Han ger visdom till den Han vill, och den som ges visdom har förvisso getts mycket gott. Men ingen låter sig förmanas utom de med förstånd."[^22] Visheten beskrivs som en gåva, inte en merit, inte en produkt av utbildning eller procedur, utan något som *ges*. Det kunskapsteoretiska fundamentet är nämligen inte mänskligt utan gudomligt: sanningen kommer inte från människan utan *till* människan.
+Koranen har ett ord för dem som kan skilja sanning från antagande: *ūlū al-albāb* — de med kärna. "Han ger visdom till den Han vill, och den som ges visdom har förvisso getts mycket gott. Men ingen låter sig förmanas utom de med förstånd."[^22] Visheten beskrivs som en gåva, inte en merit, inte en produkt av utbildning eller procedur, utan något som *ges*. Det kunskapsteoretiska fundamentet är nämligen inte mänskligt utan gudomligt: sanningen kommer inte från människan utan *till* människan.
 
 Demokratin antar att sanningen skapas — genom samtal, genom konsensus, genom procedur. Den koraniska kunskapsteorin antar att sanningen *finns*, oavsett om någon upptäcker den, erkänner den eller röstar för den.
 
@@ -82,25 +82,25 @@ Den som räknar huvuden istället för att pröva argument har redan förlorat d
 
 ---
 
-[^1]: Koranen, Yunus 10:36.
+[^1]: Koranen, Yūnus 10:36.
 [^2]: August Strindberg, *Götiska rummen*, Stockholm, 1904.
 [^3]: Ellen Key, *Lifslinjer*, första delen, Stockholm, 1903.
 [^4]: Gustave Le Bon, *Massans psykologi*, kap. 2.
 [^5]: Brattsystemet avskaffades genom folkomröstning 1955. Systembolagets historik dokumenterar den efterföljande konsumtionsökningen.
 [^6]: Folkomröstningen om kärnkraften genomfördes den 23 mars 1980. De tre alternativen innebar olika tidsplaner för avveckling, men inget alternativ motsvarade ett rent nej till avveckling.
-[^7]: Koranen, al-Isra 17:36.
-[^8]: Ibn Qayyim al-Jawziyyah, *al-Da' wa al-Dawa'*.
-[^9]: Ibn al-Jawzi, *Dhamm al-Hawa*.
-[^10]: Ibn al-Jawzi, *Dhamm al-Hawa*.
+[^7]: Koranen, al-Isrāʾ 17:36.
+[^8]: Ibn Qayyim al-Jawziyyah, *al-Dāʾ wa-l-Dawāʾ* (Sjukdomen och botemedlet).
+[^9]: Ibn al-Jawzī, *Dhamm al-Hawā* (Fördömandet av begäret).
+[^10]: Ibn al-Jawzī, *Dhamm al-Hawā*.
 [^11]: Gustave Le Bon, *Massans psykologi*, kap. 2.
-[^12]: Koranen, al-Qasas 28:50.
-[^13]: Ali ibn Abi Talib, citerad i Ibn al-Jawzi, *Talbis Iblis*.
-[^14]: Ibn Taymiyyah, *Majmu' al-Fatawa* och *al-Radd 'ala al-Mantiqiyyin*. Ibn Taymiyyah betonar upprepade gånger att sanning prövas mot Koranen och Sunnah, inte mot personers status, och att varje människa utom Profeten ﷺ kan ha rätt eller fel.
+[^12]: Koranen, al-Qaṣaṣ 28:50.
+[^13]: Ali ibn Abi Talib, citerad i Ibn al-Jawzī, *Talbīs Iblīs* (Iblīs' bedrägerier).
+[^14]: Ibn Taymiyyah, *Majmūʿ al-Fatāwā* (Samlade rättsutlåtanden) och *al-Radd ʿalā al-Manṭiqiyyīn* (Vederläggning av logikerna). Ibn Taymiyyah betonar upprepade gånger att sanning prövas mot Koranen och Sunnah, inte mot personers status, och att varje människa utom Profeten ﷺ kan ha rätt eller fel.
 [^15]: Jürgen Habermas, *The Philosophical Discourse of Modernity*, MIT Press, 1987.
-[^16]: Ibn Taymiyyah, *al-Radd ala al-Mantiqiyyin*.
-[^17]: Koranen, al-Shura 42:38.
+[^16]: Ibn Taymiyyah, *al-Radd ʿalā al-Manṭiqiyyīn*.
+[^17]: Koranen, al-Shūrā 42:38.
 [^18]: Karin Boye, *Kallocain*, Stockholm, 1940.
-[^19]: Koranen, Ta-Ha 20:124.
+[^19]: Koranen, Ṭā-Hā 20:124.
 [^20]: Hjalmar Söderberg, *Jesus Barabbas*, Stockholm, 1928.
-[^21]: Ibn Khaldun, *Muqaddimah*.
-[^22]: Koranen, al-Baqara 2:269.
+[^21]: Ibn Khaldūn, *Muqaddimah*.
+[^22]: Koranen, al-Baqarah 2:269.

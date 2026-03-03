@@ -28,7 +28,7 @@ const ogImage = latest?.heroImage ?? fallbackImage;
 	<main>
 		<section class="hero-cover">
 			{slides.map((article, i) => (
-				<div class:list={["hero-slide", { active: i === 0 }]}>
+				<div class:list={["hero-slide", { active: i === 0 }]} aria-hidden={i !== 0 ? "true" : undefined}>
 					{article.mobileHeroImage ? (
 						<picture>
 							<source
@@ -64,7 +64,10 @@ const ogImage = latest?.heroImage ?? fallbackImage;
 					<div class="hero-cover-overlay">
 						<div class="hero-cover-content">
 							<p class="hero-cover-date"><time datetime={article.publishedAt}>{formatDate(article.publishedAt)}</time></p>
-							<h1 class="hero-cover-title">{article.title}</h1>
+							{i === 0
+							? <h1 class="hero-cover-title">{article.title}</h1>
+							: <p class="hero-cover-title">{article.title}</p>
+						}
 							{article.description && <p class="hero-cover-deck">{article.description}</p>}
 							<a href={`/${article.slug}`} class="hero-cover-cta">Läs essän</a>
 						</div>
@@ -108,10 +111,12 @@ const ogImage = latest?.heroImage ?? fallbackImage;
 				const next = current + delta;
 				if (next < 0 || next > last) return;
 				slides[current].classList.remove("active");
+				slides[current].setAttribute("aria-hidden", "true");
 				current = next;
 				const img = slides[current].querySelector("img");
 				if (img) { img.style.animation = "none"; img.offsetHeight; img.style.animation = ""; }
 				slides[current].classList.add("active");
+				slides[current].removeAttribute("aria-hidden");
 				update();
 			}
 

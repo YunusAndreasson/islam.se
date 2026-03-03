@@ -4,6 +4,7 @@ import { fileURLToPath } from "node:url";
 import sitemap from "@astrojs/sitemap";
 import { defineConfig } from "astro/config";
 import remarkSmartypants from "remark-smartypants";
+import { remarkAbbr } from "./src/plugins/remark-abbr";
 
 const articlesDir = fileURLToPath(new URL("../../data/articles", import.meta.url));
 const articleDates: Record<string, string> = {};
@@ -24,7 +25,7 @@ export default defineConfig({
 	output: "static",
 	prefetch: { defaultStrategy: "hover" },
 	markdown: {
-		remarkPlugins: [remarkSmartypants],
+		remarkPlugins: [remarkSmartypants, remarkAbbr],
 	},
 	integrations: [
 		sitemap({

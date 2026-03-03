@@ -87,7 +87,7 @@
 			color: var(--color-accent);
 		}
 
-		&[aria-current="page"] {
+		&[aria-current] {
 			color: var(--color-accent);
 			text-decoration: underline;
 			text-decoration-thickness: 1px;
@@ -231,6 +231,7 @@
 	letter-spacing: -0.02em;
 	color: rgb(var(--hero-white));
 	text-shadow: 0 1px 3px rgb(var(--hero-black) / 0.3);
+	font-feature-settings: "cv11" 1, "ss03" 1;
 }
 
 .hero-cover-deck {
@@ -488,6 +489,12 @@
 	text-transform: uppercase;
 	font-feature-settings: "case";
 	color: var(--color-accent);
+	margin-top: 0;
+}
+
+/* Hide section entirely when its list is empty (e.g. "Lästa" with 0 read articles) */
+.archive-section:has(> .archive-list:empty) {
+	display: none;
 }
 
 .archive-section .archive-list {
@@ -524,6 +531,7 @@
 		font-family: var(--font-heading);
 		font-weight: 600;
 		line-height: 1.3;
+		font-feature-settings: "cv11" 1, "ss03" 1;
 	}
 
 	.archive-meta {

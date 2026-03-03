@@ -101,6 +101,7 @@ if (articleMeta) {
 		<meta name="apple-mobile-web-app-capable" content="yes" />
 		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 		<link rel="preload" href="/fonts/literata-roman.woff2" as="font" type="font/woff2" crossorigin />
+		<link rel="preload" href="/fonts/inter-roman.woff2" as="font" type="font/woff2" crossorigin />
 		<link rel="prefetch" href="/fonts/literata-italic.woff2" as="font" type="font/woff2" crossorigin />
 		<title>{title}</title>
 		<meta name="description" content={description} />
@@ -182,7 +183,8 @@ if (articleMeta) {
 				}, { passive: true, signal: ctrl.signal });
 
 				btn.addEventListener("click", () => {
-					window.scrollTo({ top: 0, behavior: "smooth" });
+					const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+					window.scrollTo({ top: 0, behavior: reduced ? "instant" : "smooth" });
 				}, { signal: ctrl.signal });
 
 				document.addEventListener("visibilitychange", () => {
