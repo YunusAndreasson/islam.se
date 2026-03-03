@@ -176,6 +176,136 @@ export const SwedishVoiceFrontmatterSchema = z.object({
 	summary: z.string(),
 });
 
+// Elevate frontmatter — intellectual density layer
+export const ElevateFrontmatterSchema = z.object({
+	verdict: z.enum(["clean", "elevated"]),
+	changesCount: z.number(),
+	changes: z.array(
+		z.object({
+			location: z.string(),
+			original: z.string(),
+			replacement: z.string(),
+			why: z.string(),
+		}),
+	),
+	summary: z.string(),
+});
+
+// Flow frontmatter — sentence structure and transitions
+export const FlowFrontmatterSchema = z.object({
+	verdict: z.enum(["clean", "restructured"]),
+	changesCount: z.number(),
+	changes: z.array(
+		z.object({
+			type: z.string(),
+			location: z.string(),
+			original: z.string(),
+			replacement: z.string(),
+			why: z.string(),
+		}),
+	),
+	summary: z.string(),
+});
+
+// Ground frontmatter — grounding abstract concepts in concrete moments
+export const GroundFrontmatterSchema = z.object({
+	verdict: z.enum(["clean", "grounded"]),
+	changesCount: z.number(),
+	changes: z.array(
+		z.object({
+			location: z.string(),
+			original: z.string(),
+			addition: z.string(),
+			why: z.string(),
+		}),
+	),
+	summary: z.string(),
+});
+
+// Cohesion frontmatter — narrative coherence and readability
+export const CohesionFrontmatterSchema = z.object({
+	verdict: z.enum(["cohesive", "revised"]),
+	changesCount: z.number(),
+	changes: z.array(
+		z.object({
+			type: z.string(),
+			location: z.string(),
+			problem: z.string(),
+			fix: z.string(),
+		}),
+	),
+	summary: z.string(),
+});
+
+// Compress frontmatter — lexical compression (multi-word → single precise word)
+export const CompressFrontmatterSchema = z.object({
+	verdict: z.enum(["clean", "compressed"]),
+	changesCount: z.number(),
+	changes: z.array(
+		z.object({
+			location: z.string(),
+			original: z.string(),
+			replacement: z.string(),
+			why: z.string(),
+		}),
+	),
+	summary: z.string(),
+});
+
+// Transliterate frontmatter — academic Arabic transliteration corrections
+export const TransliterateFrontmatterSchema = z.object({
+	verdict: z.enum(["clean", "corrected"]),
+	changesCount: z.number(),
+	changes: z.array(
+		z.object({
+			original: z.string(),
+			corrected: z.string(),
+			occurrences: z.number(),
+			locations: z.array(z.string()),
+		}),
+	),
+	summary: z.string(),
+});
+
+// Scaffold frontmatter — decorative grounding sentences trimmed
+export const ScaffoldFrontmatterSchema = z.object({
+	verdict: z.enum(["clean", "trimmed"]),
+	changesCount: z.number(),
+	changes: z.array(
+		z.object({
+			action: z.enum(["remove", "absorb"]),
+			location: z.string(),
+			original: z.string(),
+			result: z.string(),
+			why: z.string(),
+		}),
+	),
+	summary: z.string(),
+});
+
+// Brilliance frontmatter — exceptional additions only
+export const BrillianceFrontmatterSchema = z.object({
+	verdict: z.enum(["clean", "enriched"]),
+	additionsCount: z.number(),
+	additions: z.array(
+		z.object({
+			type: z.enum(["quote", "reference", "argument"]),
+			location: z.string(),
+			content: z.string(),
+			source: z.string(),
+			why: z.string(),
+		}),
+	),
+	searchesPerformed: z.array(
+		z.object({
+			tool: z.string(),
+			query: z.string(),
+			result: z.string(),
+		}),
+	),
+	summary: z.string(),
+});
+
 // Title/ingress improvement frontmatter — validated from --- block
 export const TitleIngressFrontmatterSchema = z.object({
 	currentTitleAssessment: z.string(),

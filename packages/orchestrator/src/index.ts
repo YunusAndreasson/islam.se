@@ -15,20 +15,36 @@ import {
 import { ReferenceTracker } from "./reference-tracker.js";
 import {
 	AqeedahReviewFrontmatterSchema,
+	BrillianceFrontmatterSchema,
+	CohesionFrontmatterSchema,
+	CompressFrontmatterSchema,
 	DraftFrontmatterSchema,
 	DraftOutputSchema,
+	ElevateFrontmatterSchema,
 	FactCheckOutputSchema,
+	FlowFrontmatterSchema,
+	GroundFrontmatterSchema,
 	getFactCheckJsonSchema,
 	getResearchJsonSchema,
 	PolishFrontmatterSchema,
 	ProofreadFrontmatterSchema,
 	ResearchOutputSchema,
 	ReviewFrontmatterSchema,
+	ScaffoldFrontmatterSchema,
 	SwedishVoiceFrontmatterSchema,
 	TitleIngressFrontmatterSchema,
+	TransliterateFrontmatterSchema,
 } from "./schemas.js";
 import { ArticlePublisher } from "./services/article-publisher.js";
 import { IdeationService } from "./services/ideation-service.js";
+import {
+	formatBooksForPrompt,
+	formatQuotesForPrompt,
+	formatQuranForPrompt,
+	searchBooksComprehensive,
+	searchQuotesComprehensive,
+	searchQuranComprehensive,
+} from "./services/index.js";
 import { SourceValidator } from "./source-validator.js";
 import {
 	createLogger,
@@ -42,6 +58,40 @@ import {
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
+
+/**
+ * Extract 2-3 search queries from an article's structure (H1, H2s, first sentence).
+ * Used for pre-fetching from local databases.
+ */
+function extractSearchQueries(articleBody: string): string[] {
+	const queries: string[] = [];
+
+	// Extract H1 title
+	const h1Match = articleBody.match(/^#\s+(.+)$/m);
+	if (h1Match?.[1]) {
+		queries.push(h1Match[1]);
+	}
+
+	// Extract H2 subheadings
+	const h2Matches = articleBody.matchAll(/^##\s+(.+)$/gm);
+	for (const match of h2Matches) {
+		if (match[1] && queries.length < 3) {
+			queries.push(match[1]);
+		}
+	}
+
+	// Fallback: first sentence if no headings found
+	if (queries.length === 0) {
+		const firstSentence = articleBody.match(/[^#\n][^\n.!?]*[.!?]/);
+		if (firstSentence) {
+			queries.push(firstSentence[0].trim());
+		} else {
+			queries.push(articleBody.slice(0, 300));
+		}
+	}
+
+	return queries;
+}
 
 export type StageName = "research" | "factCheck" | "authoring" | "review" | "polish";
 
@@ -207,6 +257,118 @@ export interface SwedishVoiceOutput {
 	body: string;
 }
 
+export interface ElevateOutput {
+	verdict: "clean" | "elevated";
+	changesCount: number;
+	changes: Array<{
+		location: string;
+		original: string;
+		replacement: string;
+		why: string;
+	}>;
+	summary: string;
+	body: string;
+}
+
+export interface FlowOutput {
+	verdict: "clean" | "restructured";
+	changesCount: number;
+	changes: Array<{
+		type: string;
+		location: string;
+		original: string;
+		replacement: string;
+		why: string;
+	}>;
+	summary: string;
+	body: string;
+}
+
+export interface CompressOutput {
+	verdict: "clean" | "compressed";
+	changesCount: number;
+	changes: Array<{
+		location: string;
+		original: string;
+		replacement: string;
+		why: string;
+	}>;
+	summary: string;
+	body: string;
+}
+
+export interface GroundOutput {
+	verdict: "clean" | "grounded";
+	changesCount: number;
+	changes: Array<{
+		location: string;
+		original: string;
+		addition: string;
+		why: string;
+	}>;
+	summary: string;
+	body: string;
+}
+
+export interface ScaffoldOutput {
+	verdict: "clean" | "trimmed";
+	changesCount: number;
+	changes: Array<{
+		action: "remove" | "absorb";
+		location: string;
+		original: string;
+		result: string;
+		why: string;
+	}>;
+	summary: string;
+	body: string;
+}
+
+export interface TransliterateOutput {
+	verdict: "clean" | "corrected";
+	changesCount: number;
+	changes: Array<{
+		original: string;
+		corrected: string;
+		occurrences: number;
+		locations: string[];
+	}>;
+	summary: string;
+	body: string;
+}
+
+export interface CohesionOutput {
+	verdict: "cohesive" | "revised";
+	changesCount: number;
+	changes: Array<{
+		type: string;
+		location: string;
+		problem: string;
+		fix: string;
+	}>;
+	summary: string;
+	body: string;
+}
+
+export interface BrillianceOutput {
+	verdict: "clean" | "enriched";
+	additionsCount: number;
+	additions: Array<{
+		type: "quote" | "reference" | "argument";
+		location: string;
+		content: string;
+		source: string;
+		why: string;
+	}>;
+	searchesPerformed: Array<{
+		tool: string;
+		query: string;
+		result: string;
+	}>;
+	summary: string;
+	body: string;
+}
+
 export interface TitleIngressOutput {
 	currentTitleAssessment: string;
 	titleSuggestions: Array<{
@@ -308,8 +470,10 @@ export class ContentOrchestrator {
 		skipPermissions?: boolean;
 		mcpConfig?: string;
 		effort?: ClaudeRunOptions["effort"];
-		maxTurns?: number;
 		timeout?: number;
+		/** Content appended to the user prompt (article body, pre-fetched material).
+		 *  Keeps article text out of --append-system-prompt so Claude never echoes the prefix. */
+		userContent?: string;
 	}): Promise<StageResult<T>> {
 		const startTime = Date.now();
 		const maxRetries = options.maxRetries ?? 2;
@@ -323,6 +487,7 @@ export class ContentOrchestrator {
 		const runOptions: ClaudeRunOptions = {
 			prompt: promptPath,
 			systemPrompt: options.systemPrompt,
+			userContent: options.userContent,
 			model: getModelId(this.options.model),
 			allowedTools: options.allowedTools,
 			mcpConfig: options.mcpConfig,
@@ -330,7 +495,6 @@ export class ContentOrchestrator {
 			// Markdown mode: no schema, no json output format
 			jsonSchema: isMarkdown ? undefined : options.jsonSchema,
 			effort: options.effort,
-			maxTurns: options.maxTurns,
 			timeout: options.timeout,
 			fallbackModel: "sonnet",
 			noSessionPersistence: true,
@@ -396,7 +560,7 @@ export class ContentOrchestrator {
 			if (isRetryable && attempt < maxRetries) {
 				const delay = 2000 * attempt; // exponential backoff: 2s, 4s
 				this.logger.log(
-					`   ⚠️  Validation failed, retry ${attempt}/${maxRetries - 1} in ${delay / 1000}s...`,
+					`   ⚠️  ${result.error?.slice(0, 200) ?? "Validation failed"}, retry ${attempt}/${maxRetries - 1} in ${delay / 1000}s...`,
 				);
 				await new Promise((resolve) => setTimeout(resolve, delay));
 				continue;
@@ -453,10 +617,11 @@ export class ContentOrchestrator {
 		const output = rawResult.output ?? "";
 		const parsed = this.runner.parseMarkdownWithMeta(output);
 		if (!parsed) {
-			const snippet = output.slice(0, 200);
+			const head = output.slice(0, 500);
+			const tail = output.slice(-300);
 			return {
 				success: false,
-				error: `Output parse failed: no frontmatter block found.${snippet ? ` Got: ${snippet}...` : " Output was empty."}`,
+				error: `Output parse failed: no frontmatter block found. Length: ${output.length} chars.\nHEAD: ${head}\nTAIL: ${tail}`,
 				output,
 			};
 		}
@@ -671,7 +836,6 @@ ${formatted}
 			schema: ResearchOutputSchema,
 			jsonSchema: getResearchJsonSchema(),
 			effort: "high",
-			maxTurns: 25,
 			timeout: 1800000, // 30 min — research is the most tool-intensive stage
 		});
 
@@ -722,7 +886,6 @@ IMPORTANT WebFetch limitations:
 			schema: ResearchOutputSchema,
 			jsonSchema: getResearchJsonSchema(),
 			effort: "high",
-			maxTurns: 25,
 			timeout: 1800000, // 30 min — research is the most tool-intensive stage
 		});
 
@@ -770,7 +933,6 @@ Score fairly based on what you can actually verify:
 			schema: FactCheckOutputSchema,
 			jsonSchema: getFactCheckJsonSchema(),
 			effort: "high",
-			maxTurns: 20,
 			timeout: 1800000, // 30 min — fact-check verifies sources via web + MCP
 		});
 
@@ -1089,7 +1251,8 @@ If the draft has anglicisms, fix them in the revised article.
 	async runPolish(articleBody: string): Promise<StageResult<PolishOutput>> {
 		this.logger.log("   🖊️  Polish: prose rhythm, momentum, voice");
 
-		const systemPrompt = `Du är en erfaren svensk essäist och redaktör. Du läser den här texten som en krävande läsare, inte som en redigerare.\n\n## TEXTEN\n\n${articleBody}`;
+		const systemPrompt =
+			"Du är en erfaren svensk essäist och redaktör. Du läser den här texten som en krävande läsare, inte som en redigerare.";
 
 		const result = await this.executeClaudeStage<PolishOutput>({
 			name: "Stage 5: Polish",
@@ -1097,6 +1260,7 @@ If the draft has anglicisms, fix them in the revised article.
 			emoji: "🖊️ ",
 			promptFile: "polish.md",
 			systemPrompt,
+			userContent: `## TEXTEN\n\n${articleBody}`,
 			markdownMode: {
 				frontmatterSchema: PolishFrontmatterSchema,
 				combine: (meta, body) =>
@@ -1118,7 +1282,8 @@ If the draft has anglicisms, fix them in the revised article.
 	async runAqeedahReview(articleBody: string): Promise<StageResult<AqeedahReviewOutput>> {
 		this.logger.log("   📖 Aqeedah review: theological compliance check");
 
-		const systemPrompt = `Du granskar en publicerad artikel för islam.se. Analysera texten teologiskt och skriv om problematiska avsnitt enligt instruktionerna.\n\n## TEXTEN\n\n${articleBody}`;
+		const systemPrompt =
+			"Du granskar en publicerad artikel för islam.se. Analysera texten teologiskt och skriv om problematiska avsnitt enligt instruktionerna.";
 
 		const result = await this.executeClaudeStage<AqeedahReviewOutput>({
 			name: "Aqeedah Review",
@@ -1126,6 +1291,7 @@ If the draft has anglicisms, fix them in the revised article.
 			emoji: "📖",
 			promptFile: "aqeedah-review.md",
 			systemPrompt,
+			userContent: `## TEXTEN\n\n${articleBody}`,
 			markdownMode: {
 				frontmatterSchema: AqeedahReviewFrontmatterSchema,
 				combine: (meta, body) =>
@@ -1147,7 +1313,8 @@ If the draft has anglicisms, fix them in the revised article.
 	async runProofread(articleBody: string): Promise<StageResult<ProofreadOutput>> {
 		this.logger.log("   🔤 Proofread: spelling, grammar, terminology");
 
-		const systemPrompt = `Du korrekturläser en publicerad artikel för islam.se. Kontrollera stavning, grammatik, interpunktion och terminologisk konsekvens enligt instruktionerna.\n\n## TEXTEN\n\n${articleBody}`;
+		const systemPrompt =
+			"Du korrekturläser en publicerad artikel för islam.se. Kontrollera stavning, grammatik, interpunktion och terminologisk konsekvens enligt instruktionerna.";
 
 		const result = await this.executeClaudeStage<ProofreadOutput>({
 			name: "Proofread",
@@ -1155,6 +1322,7 @@ If the draft has anglicisms, fix them in the revised article.
 			emoji: "🔤",
 			promptFile: "proofread.md",
 			systemPrompt,
+			userContent: `## TEXTEN\n\n${articleBody}`,
 			markdownMode: {
 				frontmatterSchema: ProofreadFrontmatterSchema,
 				combine: (meta, body) =>
@@ -1203,7 +1371,7 @@ If the draft has anglicisms, fix them in the revised article.
 Sektionerna 1–15 (anglicismer, retoriska mönster etc.) är sekundära — åtgärda dem om du ser dem, men din huvuduppgift är att BERIKA texten med svenskans unika verktyg. Målet är att texten ska kännas som om den skrevs av en svensk essäist som medvetet utnyttjar språkets resurser.`
 				: "Du granskar en publicerad artikel för islam.se. Identifiera och åtgärda mönster som avslöjar att texten tänkts på engelska.";
 
-		const systemPrompt = `${modeDirective}${metaSection}\n\n## TEXTEN\n\n${articleBody}`;
+		const systemPrompt = `${modeDirective}${metaSection}`;
 
 		const result = await this.executeClaudeStage<SwedishVoiceOutput>({
 			name: "Swedish Voice",
@@ -1211,6 +1379,7 @@ Sektionerna 1–15 (anglicismer, retoriska mönster etc.) är sekundära — åt
 			emoji: "🇸🇪",
 			promptFile: "swedish-voice.md",
 			systemPrompt,
+			userContent: `## TEXTEN\n\n${articleBody}`,
 			markdownMode: {
 				frontmatterSchema: SwedishVoiceFrontmatterSchema,
 				combine: (meta, body) =>
@@ -1221,6 +1390,275 @@ Sektionerna 1–15 (anglicismer, retoriska mönster etc.) är sekundära — åt
 			},
 			effort: "high",
 			maxRetries: 3,
+		});
+
+		return result;
+	}
+
+	/**
+	 * Run the elevate stage — raise intellectual density of prose.
+	 * Smarter word choices, conceptual sentence links, compression, resonance.
+	 */
+	async runElevate(articleBody: string): Promise<StageResult<ElevateOutput>> {
+		this.logger.log("   🧠 Elevate: intellectual density, word precision, resonance");
+
+		const systemPrompt =
+			"Du är en stilmedveten svensk essäist med öra för intellektuell precision. Du höjer den intellektuella densiteten i varje mening som tål det.";
+
+		const result = await this.executeClaudeStage<ElevateOutput>({
+			name: "Elevate",
+			stage: "polish",
+			emoji: "🧠",
+			promptFile: "elevate.md",
+			systemPrompt,
+			userContent: `## TEXTEN\n\n${articleBody}`,
+			markdownMode: {
+				frontmatterSchema: ElevateFrontmatterSchema,
+				combine: (meta, body) =>
+					({
+						...meta,
+						body,
+					}) as ElevateOutput,
+			},
+			effort: "high",
+		});
+
+		return result;
+	}
+
+	/**
+	 * Run the flow stage — sentence architecture and transitions.
+	 * Splits overloaded sentences, merges choppy ones, fixes inter-sentence bridges.
+	 * Enforces Swedish writing rules (satsradning, kommatering, bisatsordning).
+	 */
+	async runFlow(articleBody: string): Promise<StageResult<FlowOutput>> {
+		this.logger.log("   🌊 Flow: sentence boundaries, transitions, Swedish sentence law");
+
+		const systemPrompt =
+			"Du är en svensk stilredaktör specialiserad på meningsarkitektur. Du granskar meningsgränser och övergångar — ingenting annat. Varje AI-genererad text har meningsarkitekturproblem. Hitta dem.";
+
+		// Flow uses the configured model (opus/sonnet) — but note that Opus can be slow
+		// on this task because it evaluates every sentence boundary in extended thinking.
+		// If Opus consistently times out, consider running with --model sonnet.
+		const result = await this.executeClaudeStage<FlowOutput>({
+			name: "Flow",
+			stage: "polish",
+			emoji: "🌊",
+			promptFile: "flow.md",
+			systemPrompt,
+			userContent: `Här är texten att granska:\n\n${articleBody}`,
+			markdownMode: {
+				frontmatterSchema: FlowFrontmatterSchema,
+				combine: (meta, body) =>
+					({
+						...meta,
+						body,
+					}) as FlowOutput,
+			},
+			effort: "high",
+			timeout: 900000, // 15 min — Opus needs time for sentence-by-sentence analysis
+		});
+
+		return result;
+	}
+
+	async runCompress(articleBody: string): Promise<StageResult<CompressOutput>> {
+		this.logger.log("   🔧 Compress: multi-word phrases → single precise Swedish words");
+
+		const systemPrompt =
+			"Du är en svensk stilredaktör specialiserad på lexikal komprimering. Du söker fraser på 2–5 ord som kan ersättas med ett enda mer precist ord — ingenting annat.";
+
+		const result = await this.executeClaudeStage<CompressOutput>({
+			name: "Compress",
+			stage: "polish",
+			emoji: "🔧",
+			promptFile: "compress.md",
+			systemPrompt,
+			userContent: `Här är texten att granska:\n\n${articleBody}`,
+			markdownMode: {
+				frontmatterSchema: CompressFrontmatterSchema,
+				combine: (meta, body) =>
+					({
+						...meta,
+						body,
+					}) as CompressOutput,
+			},
+			effort: "high",
+			timeout: 900000,
+		});
+
+		return result;
+	}
+
+	async runGround(articleBody: string): Promise<StageResult<GroundOutput>> {
+		this.logger.log("   🌱 Ground: anchoring abstract concepts in concrete human moments");
+
+		const systemPrompt =
+			"Du är en svensk essäredaktör specialiserad på att förankra abstrakt filosofi i konkreta mänskliga ögonblick. Du lägger till EN mening där ett begrepp svävar utan förankring — ingenting annat.";
+
+		const result = await this.executeClaudeStage<GroundOutput>({
+			name: "Ground",
+			stage: "polish",
+			emoji: "🌱",
+			promptFile: "ground.md",
+			systemPrompt,
+			userContent: `Här är texten att granska:\n\n${articleBody}`,
+			markdownMode: {
+				frontmatterSchema: GroundFrontmatterSchema,
+				combine: (meta, body) =>
+					({
+						...meta,
+						body,
+					}) as GroundOutput,
+			},
+			effort: "high",
+			timeout: 900000,
+		});
+
+		return result;
+	}
+
+	async runCohesion(articleBody: string): Promise<StageResult<CohesionOutput>> {
+		this.logger.log("   🧵 Cohesion: orphan quotes, topic jumps, loose endings, unprepared intros");
+
+		const systemPrompt =
+			"Du är en svensk redaktör specialiserad på textkoherens och läsbarhet. Du granskar om essäns delar hänger ihop för läsaren — ingenting annat.";
+
+		const result = await this.executeClaudeStage<CohesionOutput>({
+			name: "Cohesion",
+			stage: "polish",
+			emoji: "🧵",
+			promptFile: "cohesion.md",
+			systemPrompt,
+			userContent: `Här är texten att granska:\n\n${articleBody}`,
+			markdownMode: {
+				frontmatterSchema: CohesionFrontmatterSchema,
+				combine: (meta, body) =>
+					({
+						...meta,
+						body,
+					}) as CohesionOutput,
+			},
+			effort: "high",
+			timeout: 900000,
+		});
+
+		return result;
+	}
+
+	async runScaffold(articleBody: string): Promise<StageResult<ScaffoldOutput>> {
+		this.logger.log('   🪓 Scaffold: trimming decorative "Det är den som..." / ". Som..." closers');
+
+		const systemPrompt =
+			'Du är en svensk stilredaktör. Du söker fristående illustrerande meningar — "Det är den som..." och ". Som [scenario]." — som blivit dekorativa genom sin frekvens. Du tar bort eller absorberar de överflödiga och behåller de genuint starka.';
+
+		const result = await this.executeClaudeStage<ScaffoldOutput>({
+			name: "Scaffold",
+			stage: "polish",
+			emoji: "🪓",
+			promptFile: "scaffold.md",
+			systemPrompt,
+			userContent: `Här är texten att granska:\n\n${articleBody}`,
+			markdownMode: {
+				frontmatterSchema: ScaffoldFrontmatterSchema,
+				combine: (meta, body) =>
+					({
+						...meta,
+						body,
+					}) as ScaffoldOutput,
+			},
+			effort: "high",
+			timeout: 900000,
+		});
+
+		return result;
+	}
+
+	async runTransliterate(articleBody: string): Promise<StageResult<TransliterateOutput>> {
+		this.logger.log("   🔤 Transliterate: verifying academic Arabic transliteration");
+
+		const systemPrompt =
+			"Du är en arabisk lingvist specialiserad på akademisk translitterering (ISO 233-2 / DIN 31635). Du kontrollerar att alla arabiska termer i texten har korrekta diakritiska tecken — ā, ī, ū, ḥ, ṣ, ḍ, ṭ, ẓ, ʿ, ʾ — ingenting annat.";
+
+		const result = await this.executeClaudeStage<TransliterateOutput>({
+			name: "Transliterate",
+			stage: "polish",
+			emoji: "🔤",
+			promptFile: "transliterate.md",
+			systemPrompt,
+			userContent: `Här är texten att granska:\n\n${articleBody}`,
+			markdownMode: {
+				frontmatterSchema: TransliterateFrontmatterSchema,
+				combine: (meta, body) =>
+					({
+						...meta,
+						body,
+					}) as TransliterateOutput,
+			},
+			effort: "high",
+			timeout: 900000,
+		});
+
+		return result;
+	}
+
+	/**
+	 * Run the brilliance stage — search for exceptional additions (quotes, references, arguments)
+	 * that would make the article significantly more convincing for a secular Swedish reader.
+	 * Most articles pass through unchanged — the threshold is doctoral-thesis level.
+	 *
+	 * Pre-fetches from quote/book/quran databases locally (~200ms, free),
+	 * embeds results in system prompt, and lets Claude use only WebSearch.
+	 */
+	async runBrilliance(articleBody: string): Promise<StageResult<BrillianceOutput>> {
+		this.logger.log("   💎 Brilliance: pre-fetching local databases");
+
+		// Extract search queries from article structure
+		const queries = extractSearchQueries(articleBody);
+		this.logger.log(`      Queries: ${queries.map((q) => `"${q}"`).join(", ")}`);
+
+		// Pre-fetch all three databases in parallel (local embeddings = free, ~200ms)
+		const [quoteResult, bookResult, quranResult] = await Promise.all([
+			searchQuotesComprehensive({ topic: queries[0] ?? articleBody.slice(0, 300) }),
+			searchBooksComprehensive({ topic: queries[0] ?? articleBody.slice(0, 300) }),
+			searchQuranComprehensive({ queries, limit: 10 }),
+		]);
+
+		this.logger.log(
+			`      Pre-fetched: ${quoteResult.semanticMatches.length} quotes, ${bookResult.combined.length} book passages, ${quranResult.verses.length} Quran verses`,
+		);
+
+		// Format pre-fetched material
+		const prefetchedMaterial = [
+			"# PRE-FETCHED SOURCE MATERIAL",
+			"",
+			"The following quotes, book passages, and Quran verses were retrieved from local databases using semantic search on the article's key themes. Review them for exceptional additions.",
+			"",
+			formatQuotesForPrompt(quoteResult),
+			formatBooksForPrompt(bookResult),
+			formatQuranForPrompt(quranResult),
+		].join("\n");
+
+		const systemPrompt =
+			"Du söker efter exceptionella tillägg — citat, referenser, argument — som skulle göra denna artikel märkbart starkare för en bildad sekulär svensk läsare. Tröskeln är doktorsavhandlingsnivå. Varje text har minst en lucka — hitta den.";
+
+		const result = await this.executeClaudeStage<BrillianceOutput>({
+			name: "Brilliance",
+			stage: "polish",
+			emoji: "💎",
+			promptFile: "brilliance.md",
+			systemPrompt,
+			userContent: `## TEXTEN\n\n${articleBody}\n\n${prefetchedMaterial}`,
+			markdownMode: {
+				frontmatterSchema: BrillianceFrontmatterSchema,
+				combine: (meta, body) =>
+					({
+						...meta,
+						body,
+					}) as BrillianceOutput,
+			},
+			effort: "high",
+			timeout: 600000, // 10 min (down from 30)
 		});
 
 		return result;

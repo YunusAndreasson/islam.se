@@ -377,6 +377,14 @@
 	}
 }
 
+.basmala {
+	text-align: center;
+	font-size: 2rem;
+	line-height: 1;
+	margin: 0;
+	color: var(--color-muted);
+}
+
 .article-meta {
 	font-family: var(--font-heading);
 	font-variant-numeric: normal;

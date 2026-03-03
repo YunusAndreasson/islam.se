@@ -26,8 +26,6 @@ export interface ClaudeRunOptions {
 	effort?: "low" | "medium" | "high";
 	/** Maximum budget in USD for this stage (uses --max-budget-usd flag) */
 	maxBudgetUsd?: number;
-	/** Maximum agentic turns before stopping (uses --max-turns flag) */
-	maxTurns?: number;
 	/** Fallback model if primary is unavailable (uses --fallback-model flag) */
 	fallbackModel?: string;
 	/** Disable session persistence for stateless runs (uses --no-session-persistence flag) */
@@ -38,6 +36,9 @@ export interface ClaudeRunOptions {
 	skipPermissions?: boolean;
 	/** Timeout in milliseconds for the subprocess (default: 900000 = 15 min) */
 	timeout?: number;
+	/** Content appended to the user prompt (e.g., article body). Kept out of
+	 *  --append-system-prompt to prevent Claude from echoing prefix text. */
+	userContent?: string;
 }
 
 interface ClaudeRunResult {
@@ -471,11 +472,6 @@ export class ClaudeRunner extends EventEmitter {
 			args.push("--max-budget-usd", options.maxBudgetUsd.toString());
 		}
 
-		// Turn limit for agentic loops
-		if (options.maxTurns) {
-			args.push("--max-turns", options.maxTurns.toString());
-		}
-
 		// Model fallback for resilience
 		if (options.fallbackModel) {
 			args.push("--fallback-model", options.fallbackModel);
@@ -509,6 +505,9 @@ export class ClaudeRunner extends EventEmitter {
 		if (options.prompt.endsWith(".md") || options.prompt.endsWith(".txt")) {
 			// Let readFileSync throw on missing files — caller gets a clear error
 			promptContent = readFileSync(options.prompt, "utf-8");
+		}
+		if (options.userContent) {
+			promptContent += `\n\n${options.userContent}`;
 		}
 		return promptContent;
 	}

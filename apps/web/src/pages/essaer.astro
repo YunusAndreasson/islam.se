@@ -29,11 +29,10 @@ const articles = await getArticles();
 </Base>
 
 <script>
-	document.addEventListener("astro:page-load", () => {
-		const list = document.getElementById("list-all") as HTMLUListElement | null;
-		if (!list) return;
-
-		const items = list.querySelectorAll<HTMLElement>(".archive-item[data-slug]");
+	function splitSections() {
+		// Fresh page: items in #list-all. Bfcache restore: items in existing sections.
+		const list = document.getElementById("list-all");
+		const items = document.querySelectorAll<HTMLElement>(".content-column .archive-item[data-slug]");
 		if (!items.length) return;
 
 		const unreadItems: HTMLElement[] = [];
@@ -52,31 +51,40 @@ const articles = await getArticles();
 		}
 
 		const stats = document.querySelector<HTMLElement>(".archive-stats");
-		if (stats && readItems.length > 0) {
+		if (stats) {
 			stats.textContent = `${readItems.length} av ${items.length} lästa`;
 			stats.style.setProperty("--progress", String(readItems.length / items.length));
 		}
 
-		if (readItems.length > 0 && unreadItems.length > 0) {
-			const makeSection = (heading: string, sectionItems: HTMLElement[]) => {
-				const section = document.createElement("section");
-				section.className = "archive-section";
-				const h2 = document.createElement("h2");
-				h2.className = "archive-section-heading";
-				h2.textContent = heading;
-				const ul = document.createElement("ul");
-				ul.className = "archive-list";
-				section.append(h2, ul);
-				ul.append(...sectionItems);
-				return section;
-			};
+		const makeSection = (heading: string, sectionItems: HTMLElement[]) => {
+			const section = document.createElement("section");
+			section.className = "archive-section";
+			const h2 = document.createElement("h2");
+			h2.className = "archive-section-heading";
+			h2.textContent = heading;
+			const ul = document.createElement("ul");
+			ul.className = "archive-list";
+			section.append(h2, ul);
+			if (sectionItems.length) ul.append(...sectionItems);
+			return section;
+		};
 
-			const fragment = document.createDocumentFragment();
-			fragment.append(
-				makeSection("Att läsa", unreadItems),
-				makeSection("Lästa", readItems),
-			);
+		const fragment = document.createDocumentFragment();
+		fragment.append(
+			makeSection("Att läsa", unreadItems),
+			makeSection("Lästa", readItems),
+		);
+
+		if (list) {
 			list.replaceWith(fragment);
+		} else {
+			for (const s of document.querySelectorAll(".archive-section")) s.remove();
+			document.querySelector(".article-header")?.after(fragment);
 		}
+	}
+
+	document.addEventListener("astro:page-load", splitSections);
+	window.addEventListener("pageshow", (e) => {
+		if ((e as PageTransitionEvent).persisted) splitSections();
 	});
 </script>

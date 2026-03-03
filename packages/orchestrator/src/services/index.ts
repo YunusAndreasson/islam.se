@@ -36,3 +36,5 @@ export {
 	quotesToResearchFormat,
 	searchQuotesComprehensive,
 } from "./quote-service.js";
+// Quran service
+export { formatQuranForPrompt, searchQuranComprehensive } from "./quran-service.js";

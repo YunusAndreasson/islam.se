@@ -423,6 +423,141 @@ program
 		process.exit(0);
 	});
 
+// ─── Article loop utilities ──────────────────────────────────────────────────
+
+/** Count words in a markdown body (strips code blocks, links, markup) */
+function countWords(body: string): number {
+	return body
+		.replace(/```[\s\S]*?```/g, "")
+		.replace(/`[^`]+`/g, "")
+		.replace(/\[([^\]]+)\]\([^)]+\)/g, "$1")
+		.replace(/[#*_~>\-|]/g, " ")
+		.split(/\s+/)
+		.filter((w) => w.length > 0).length;
+}
+
+/** Resolve a slug argument to an array of article slugs. Exits on error. */
+function resolveArticleSlugs(slug: string, publisher: ArticlePublisher, verb: string): string[] {
+	if (slug === "all") {
+		const articles = publisher.listPublished();
+		const slugs = articles.map((a) => a.slug);
+		console.log(`\nFound ${slugs.length} articles to ${verb}.\n`);
+		return slugs;
+	}
+	if (!publisher.exists(slug)) {
+		console.error(`Article not found: ${slug}`);
+		process.exit(1);
+	}
+	return [slug];
+}
+
+/** Read an article and split frontmatter from body. Returns null (and logs) on failure. */
+function readArticle(
+	publisher: ArticlePublisher,
+	articleSlug: string,
+): { content: string; originalFrontmatter: string; originalBody: string } | null {
+	const content = publisher.getArticle(articleSlug);
+	if (!content) {
+		console.log("  Could not read article, skipping.");
+		return null;
+	}
+	const m = content.match(/^(---\n[\s\S]*?\n---\n?)([\s\S]*)$/);
+	if (!m) {
+		console.log("  No frontmatter found, skipping.");
+		return null;
+	}
+	return { content, originalFrontmatter: m[1] as string, originalBody: m[2] as string };
+}
+
+/** Print a colored unified diff to stdout. */
+function printDiff(slug: string, original: string, updated: string, label: string): void {
+	const patch = createPatch(`${slug}.md`, original, updated, "original", label);
+	console.log("");
+	for (const line of patch.split("\n")) {
+		if (line.startsWith("+") && !line.startsWith("+++")) console.log(`\x1b[32m${line}\x1b[0m`);
+		else if (line.startsWith("-") && !line.startsWith("---")) console.log(`\x1b[31m${line}\x1b[0m`);
+		else if (line.startsWith("@@")) console.log(`\x1b[36m${line}\x1b[0m`);
+		else console.log(line);
+	}
+}
+
+/** Warn if blockquote or footnote counts changed between original and updated body. */
+function checkIntegrity(original: string, updated: string): void {
+	const origBq = (original.match(/^>/gm) || []).length;
+	const updBq = (updated.match(/^>/gm) || []).length;
+	const origFn = (original.match(/\[\^\d+\]/g) || []).length;
+	const updFn = (updated.match(/\[\^\d+\]/g) || []).length;
+	if (origBq === updBq && origFn === updFn) return;
+	console.log("");
+	console.log("  INTEGRITY WARNING:");
+	if (origBq !== updBq) console.log(`     Blockquotes: ${origBq} → ${updBq}`);
+	if (origFn !== updFn) console.log(`     Footnote refs: ${origFn} → ${updFn}`);
+	console.log("");
+}
+
+/**
+ * Handle dry-run / confirm / write for a polish-style command.
+ * Writes newBody with updated wordCount frontmatter on accept.
+ * Returns "written", "dry-run", or "skipped". Calls process.exit(0) on abort.
+ */
+async function confirmAndWrite(
+	publisher: ArticlePublisher,
+	articleSlug: string,
+	fullContent: string,
+	originalFrontmatter: string,
+	newBody: string,
+	options: { dryRun?: boolean; confirm: boolean },
+	extraFrontmatterUpdate?: (fm: string) => string,
+): Promise<"written" | "dry-run" | "skipped"> {
+	if (options.dryRun) {
+		console.log("\n  [dry-run] Would write changes.");
+		return "dry-run";
+	}
+
+	let accept = !options.confirm;
+	if (options.confirm !== false) {
+		const choice = await p.select({
+			message: "Accept changes?",
+			options: [
+				{ value: "accept", label: "Accept" },
+				{ value: "skip", label: "Skip" },
+				{ value: "abort", label: "Abort (stop processing)" },
+			],
+		});
+		if (p.isCancel(choice) || choice === "abort") {
+			console.log("\nAborted.");
+			process.exit(0);
+		}
+		accept = choice === "accept";
+	}
+
+	if (!accept) {
+		console.log("  Skipped.");
+		return "skipped";
+	}
+
+	const { data: fmData } = parseFrontmatter(fullContent);
+	const oldWordCount = fmData.wordCount as number | undefined;
+	const newWordCount = countWords(newBody);
+
+	let updatedFrontmatter = originalFrontmatter;
+	if (oldWordCount && oldWordCount !== newWordCount) {
+		updatedFrontmatter = updatedFrontmatter.replace(
+			/^wordCount: \d+$/m,
+			`wordCount: ${newWordCount}`,
+		);
+	}
+	if (extraFrontmatterUpdate) {
+		updatedFrontmatter = extraFrontmatterUpdate(updatedFrontmatter);
+	}
+
+	publisher.writeArticle(articleSlug, updatedFrontmatter + newBody);
+	console.log(`  Written. (${oldWordCount} → ${newWordCount} words)`);
+	return "written";
+}
+
+// ─── Polish commands ──────────────────────────────────────────────────────────
+
 program
 	.command("re-polish")
 	.description("Re-run the polish stage on published articles to fix AI writing tics")
@@ -438,20 +573,7 @@ program
 			model: options.model as "opus" | "sonnet",
 		});
 
-		// Determine which articles to process
-		let slugs: string[];
-		if (slug === "all") {
-			const articles = publisher.listPublished();
-			slugs = articles.map((a) => a.slug);
-			console.log(`\nFound ${slugs.length} articles to re-polish.\n`);
-		} else {
-			if (!publisher.exists(slug)) {
-				console.error(`Article not found: ${slug}`);
-				process.exit(1);
-			}
-			slugs = [slug];
-		}
-
+		const slugs = resolveArticleSlugs(slug, publisher, "re-polish");
 		let processed = 0;
 		let changed = 0;
 		let skipped = 0;
@@ -463,24 +585,13 @@ program
 				console.log("─".repeat(60));
 			}
 
-			const content = publisher.getArticle(articleSlug);
-			if (!content) {
-				console.log("  Could not read article, skipping.");
+			const article = readArticle(publisher, articleSlug);
+			if (!article) {
 				skipped++;
 				continue;
 			}
+			const { content, originalFrontmatter, originalBody } = article;
 
-			// Split frontmatter from body
-			const frontmatterMatch = content.match(/^(---\n[\s\S]*?\n---\n?)([\s\S]*)$/);
-			if (!frontmatterMatch) {
-				console.log("  No frontmatter found, skipping.");
-				skipped++;
-				continue;
-			}
-			const originalFrontmatter = frontmatterMatch[1] as string;
-			const originalBody = frontmatterMatch[2] as string;
-
-			// Run polish stage
 			console.log("  Running polish stage...");
 			const polishResult = await orchestrator.runPolish(originalBody);
 
@@ -491,116 +602,35 @@ program
 			}
 
 			const polishedBody = polishResult.data.body;
-
-			// Check if anything changed
 			if (polishedBody.trim() === originalBody.trim()) {
 				console.log("  No changes — article already clean.");
 				skipped++;
 				continue;
 			}
 
-			// Integrity checks: blockquotes and footnotes
-			const origBlockquotes = (originalBody.match(/^>/gm) || []).length;
-			const polishedBlockquotes = (polishedBody.match(/^>/gm) || []).length;
-			const origFootnotes = (originalBody.match(/\[\^\d+\]/g) || []).length;
-			const polishedFootnotes = (polishedBody.match(/\[\^\d+\]/g) || []).length;
-
-			if (origBlockquotes !== polishedBlockquotes || origFootnotes !== polishedFootnotes) {
-				console.log("");
-				console.log("  ⚠️  INTEGRITY WARNING:");
-				if (origBlockquotes !== polishedBlockquotes) {
-					console.log(`     Blockquotes: ${origBlockquotes} → ${polishedBlockquotes}`);
-				}
-				if (origFootnotes !== polishedFootnotes) {
-					console.log(`     Footnote refs: ${origFootnotes} → ${polishedFootnotes}`);
-				}
-				console.log("");
-			}
-
-			// Show diff
-			const patch = createPatch(
-				`${articleSlug}.md`,
-				originalBody,
-				polishedBody,
-				"original",
-				"polished",
-			);
-			console.log("");
-			for (const line of patch.split("\n")) {
-				if (line.startsWith("+") && !line.startsWith("+++")) {
-					console.log(`\x1b[32m${line}\x1b[0m`);
-				} else if (line.startsWith("-") && !line.startsWith("---")) {
-					console.log(`\x1b[31m${line}\x1b[0m`);
-				} else if (line.startsWith("@@")) {
-					console.log(`\x1b[36m${line}\x1b[0m`);
-				} else {
-					console.log(line);
-				}
-			}
+			checkIntegrity(originalBody, polishedBody);
+			printDiff(articleSlug, originalBody, polishedBody, "polished");
 
 			if (polishResult.data.edits) {
 				console.log("\n  Editor notes:");
 				console.log(`  ${polishResult.data.edits.split("\n").join("\n  ")}`);
 			}
 
-			if (options.dryRun) {
-				console.log("\n  [dry-run] Would write changes.");
-				changed++;
-				continue;
-			}
-
-			// Prompt for confirmation unless --no-confirm
-			let accept = !options.confirm; // --no-confirm sets options.confirm = false
-			if (options.confirm !== false) {
-				const choice = await p.select({
-					message: "Accept changes?",
-					options: [
-						{ value: "accept", label: "Accept" },
-						{ value: "skip", label: "Skip" },
-						{ value: "abort", label: "Abort (stop processing)" },
-					],
-				});
-
-				if (p.isCancel(choice) || choice === "abort") {
-					console.log("\nAborted.");
-					process.exit(0);
-				}
-				accept = choice === "accept";
-			}
-
-			if (accept) {
-				// Update wordCount in frontmatter
-				const { data: fmData } = parseFrontmatter(content);
-				const oldWordCount = fmData.wordCount as number | undefined;
-				const newWordCount = polishedBody
-					.replace(/```[\s\S]*?```/g, "")
-					.replace(/`[^`]+`/g, "")
-					.replace(/\[([^\]]+)\]\([^)]+\)/g, "$1")
-					.replace(/[#*_~>\-|]/g, " ")
-					.split(/\s+/)
-					.filter((w) => w.length > 0).length;
-
-				let updatedFrontmatter = originalFrontmatter;
-				if (oldWordCount && oldWordCount !== newWordCount) {
-					updatedFrontmatter = originalFrontmatter.replace(
-						/^wordCount: \d+$/m,
-						`wordCount: ${newWordCount}`,
-					);
-				}
-
-				publisher.writeArticle(articleSlug, updatedFrontmatter + polishedBody);
-				console.log(`  Written. (${oldWordCount} → ${newWordCount} words)`);
-				changed++;
-			} else {
-				console.log("  Skipped.");
-				skipped++;
-			}
+			const outcome = await confirmAndWrite(
+				publisher,
+				articleSlug,
+				content,
+				originalFrontmatter,
+				polishedBody,
+				options,
+			);
+			if (outcome === "skipped") skipped++;
+			else changed++;
 		}
 
 		console.log("\n══════════════════════════════════════════════════════════");
 		console.log(`  Done. ${changed} changed, ${skipped} skipped out of ${processed} articles.`);
 		console.log("══════════════════════════════════════════════════════════\n");
-
 		process.exit(0);
 	});
 
@@ -621,20 +651,7 @@ program
 			model: options.model as "opus" | "sonnet",
 		});
 
-		// Determine which articles to process
-		let slugs: string[];
-		if (slug === "all") {
-			const articles = publisher.listPublished();
-			slugs = articles.map((a) => a.slug);
-			console.log(`\nFound ${slugs.length} articles to review.\n`);
-		} else {
-			if (!publisher.exists(slug)) {
-				console.error(`Article not found: ${slug}`);
-				process.exit(1);
-			}
-			slugs = [slug];
-		}
-
+		const slugs = resolveArticleSlugs(slug, publisher, "review");
 		let processed = 0;
 		let rewritten = 0;
 		let clean = 0;
@@ -647,24 +664,13 @@ program
 				console.log("─".repeat(60));
 			}
 
-			const content = publisher.getArticle(articleSlug);
-			if (!content) {
-				console.log("  Could not read article, skipping.");
+			const article = readArticle(publisher, articleSlug);
+			if (!article) {
 				skipped++;
 				continue;
 			}
+			const { content, originalFrontmatter, originalBody } = article;
 
-			// Split frontmatter from body
-			const frontmatterMatch = content.match(/^(---\n[\s\S]*?\n---\n?)([\s\S]*)$/);
-			if (!frontmatterMatch) {
-				console.log("  No frontmatter found, skipping.");
-				skipped++;
-				continue;
-			}
-			const originalFrontmatter = frontmatterMatch[1] as string;
-			const originalBody = frontmatterMatch[2] as string;
-
-			// Run aqeedah review stage
 			console.log("  Running aqeedah review...");
 			const reviewResult = await orchestrator.runAqeedahReview(originalBody);
 
@@ -676,7 +682,6 @@ program
 
 			const { verdict, issuesFound, summary, body: reviewedBody } = reviewResult.data;
 
-			// Show summary
 			console.log(`  Verdict: ${verdict}`);
 			console.log(`  Summary: ${summary}`);
 
@@ -686,7 +691,6 @@ program
 				continue;
 			}
 
-			// Show issues found
 			console.log(`\n  Issues found (${issuesFound.length}):`);
 			for (const issue of issuesFound) {
 				console.log(`\n  [\x1b[33m${issue.type}\x1b[0m] ${issue.location}`);
@@ -695,97 +699,19 @@ program
 				console.log(`    Fix: ${issue.fix}`);
 			}
 
-			// Show diff
-			const patch = createPatch(
-				`${articleSlug}.md`,
-				originalBody,
+			printDiff(articleSlug, originalBody, reviewedBody, "reviewed");
+			checkIntegrity(originalBody, reviewedBody);
+
+			const outcome = await confirmAndWrite(
+				publisher,
+				articleSlug,
+				content,
+				originalFrontmatter,
 				reviewedBody,
-				"original",
-				"reviewed",
+				options,
 			);
-			console.log("");
-			for (const line of patch.split("\n")) {
-				if (line.startsWith("+") && !line.startsWith("+++")) {
-					console.log(`\x1b[32m${line}\x1b[0m`);
-				} else if (line.startsWith("-") && !line.startsWith("---")) {
-					console.log(`\x1b[31m${line}\x1b[0m`);
-				} else if (line.startsWith("@@")) {
-					console.log(`\x1b[36m${line}\x1b[0m`);
-				} else {
-					console.log(line);
-				}
-			}
-
-			// Integrity checks: blockquotes and footnotes
-			const origBlockquotes = (originalBody.match(/^>/gm) || []).length;
-			const reviewedBlockquotes = (reviewedBody.match(/^>/gm) || []).length;
-			const origFootnotes = (originalBody.match(/\[\^\d+\]/g) || []).length;
-			const reviewedFootnotes = (reviewedBody.match(/\[\^\d+\]/g) || []).length;
-
-			if (origBlockquotes !== reviewedBlockquotes || origFootnotes !== reviewedFootnotes) {
-				console.log("");
-				console.log("  INTEGRITY WARNING:");
-				if (origBlockquotes !== reviewedBlockquotes) {
-					console.log(`     Blockquotes: ${origBlockquotes} → ${reviewedBlockquotes}`);
-				}
-				if (origFootnotes !== reviewedFootnotes) {
-					console.log(`     Footnote refs: ${origFootnotes} → ${reviewedFootnotes}`);
-				}
-				console.log("");
-			}
-
-			if (options.dryRun) {
-				console.log("\n  [dry-run] Would write changes.");
-				rewritten++;
-				continue;
-			}
-
-			// Prompt for confirmation unless --no-confirm
-			let accept = !options.confirm; // --no-confirm sets options.confirm = false
-			if (options.confirm !== false) {
-				const choice = await p.select({
-					message: "Accept changes?",
-					options: [
-						{ value: "accept", label: "Accept" },
-						{ value: "skip", label: "Skip" },
-						{ value: "abort", label: "Abort (stop processing)" },
-					],
-				});
-
-				if (p.isCancel(choice) || choice === "abort") {
-					console.log("\nAborted.");
-					process.exit(0);
-				}
-				accept = choice === "accept";
-			}
-
-			if (accept) {
-				// Update wordCount in frontmatter
-				const { data: fmData } = parseFrontmatter(content);
-				const oldWordCount = fmData.wordCount as number | undefined;
-				const newWordCount = reviewedBody
-					.replace(/```[\s\S]*?```/g, "")
-					.replace(/`[^`]+`/g, "")
-					.replace(/\[([^\]]+)\]\([^)]+\)/g, "$1")
-					.replace(/[#*_~>\-|]/g, " ")
-					.split(/\s+/)
-					.filter((w) => w.length > 0).length;
-
-				let updatedFrontmatter = originalFrontmatter;
-				if (oldWordCount && oldWordCount !== newWordCount) {
-					updatedFrontmatter = originalFrontmatter.replace(
-						/^wordCount: \d+$/m,
-						`wordCount: ${newWordCount}`,
-					);
-				}
-
-				publisher.writeArticle(articleSlug, updatedFrontmatter + reviewedBody);
-				console.log(`  Written. (${oldWordCount} → ${newWordCount} words)`);
-				rewritten++;
-			} else {
-				console.log("  Skipped.");
-				skipped++;
-			}
+			if (outcome === "skipped") skipped++;
+			else rewritten++;
 		}
 
 		console.log("\n══════════════════════════════════════════════════════════");
@@ -793,7 +719,6 @@ program
 			`  Done. ${rewritten} rewritten, ${clean} clean, ${skipped} skipped out of ${processed} articles.`,
 		);
 		console.log("══════════════════════════════════════════════════════════\n");
-
 		process.exit(0);
 	});
 
@@ -814,20 +739,7 @@ program
 			model: options.model as "opus" | "sonnet",
 		});
 
-		// Determine which articles to process
-		let slugs: string[];
-		if (slug === "all") {
-			const articles = publisher.listPublished();
-			slugs = articles.map((a) => a.slug);
-			console.log(`\nFound ${slugs.length} articles to proofread.\n`);
-		} else {
-			if (!publisher.exists(slug)) {
-				console.error(`Article not found: ${slug}`);
-				process.exit(1);
-			}
-			slugs = [slug];
-		}
-
+		const slugs = resolveArticleSlugs(slug, publisher, "proofread");
 		let processed = 0;
 		let corrected = 0;
 		let clean = 0;
@@ -848,24 +760,13 @@ program
 				console.log("─".repeat(60));
 			}
 
-			const content = publisher.getArticle(articleSlug);
-			if (!content) {
-				console.log("  Could not read article, skipping.");
+			const article = readArticle(publisher, articleSlug);
+			if (!article) {
 				skipped++;
 				continue;
 			}
+			const { content, originalFrontmatter, originalBody } = article;
 
-			// Split frontmatter from body
-			const frontmatterMatch = content.match(/^(---\n[\s\S]*?\n---\n?)([\s\S]*)$/);
-			if (!frontmatterMatch) {
-				console.log("  No frontmatter found, skipping.");
-				skipped++;
-				continue;
-			}
-			const originalFrontmatter = frontmatterMatch[1] as string;
-			const originalBody = frontmatterMatch[2] as string;
-
-			// Run proofread stage
 			console.log("  Running proofread...");
 			const proofreadResult = await orchestrator.runProofread(originalBody);
 
@@ -877,7 +778,6 @@ program
 
 			const { verdict, issuesFound, summary, body: proofreadBody } = proofreadResult.data;
 
-			// Show summary
 			console.log(`  Verdict: ${verdict}`);
 			console.log(`  Summary: ${summary}`);
 
@@ -887,7 +787,6 @@ program
 				continue;
 			}
 
-			// Show issues found with color-coded types
 			console.log(`\n  Issues found (${issuesFound.length}):`);
 			for (const issue of issuesFound) {
 				const color = typeColors[issue.type] || "";
@@ -897,97 +796,19 @@ program
 				console.log(`    Reason:     ${issue.reason}`);
 			}
 
-			// Show diff
-			const patch = createPatch(
-				`${articleSlug}.md`,
-				originalBody,
+			printDiff(articleSlug, originalBody, proofreadBody, "proofread");
+			checkIntegrity(originalBody, proofreadBody);
+
+			const outcome = await confirmAndWrite(
+				publisher,
+				articleSlug,
+				content,
+				originalFrontmatter,
 				proofreadBody,
-				"original",
-				"proofread",
+				options,
 			);
-			console.log("");
-			for (const line of patch.split("\n")) {
-				if (line.startsWith("+") && !line.startsWith("+++")) {
-					console.log(`\x1b[32m${line}\x1b[0m`);
-				} else if (line.startsWith("-") && !line.startsWith("---")) {
-					console.log(`\x1b[31m${line}\x1b[0m`);
-				} else if (line.startsWith("@@")) {
-					console.log(`\x1b[36m${line}\x1b[0m`);
-				} else {
-					console.log(line);
-				}
-			}
-
-			// Integrity checks: blockquotes and footnotes
-			const origBlockquotes = (originalBody.match(/^>/gm) || []).length;
-			const proofreadBlockquotes = (proofreadBody.match(/^>/gm) || []).length;
-			const origFootnotes = (originalBody.match(/\[\^\d+\]/g) || []).length;
-			const proofreadFootnotes = (proofreadBody.match(/\[\^\d+\]/g) || []).length;
-
-			if (origBlockquotes !== proofreadBlockquotes || origFootnotes !== proofreadFootnotes) {
-				console.log("");
-				console.log("  INTEGRITY WARNING:");
-				if (origBlockquotes !== proofreadBlockquotes) {
-					console.log(`     Blockquotes: ${origBlockquotes} → ${proofreadBlockquotes}`);
-				}
-				if (origFootnotes !== proofreadFootnotes) {
-					console.log(`     Footnote refs: ${origFootnotes} → ${proofreadFootnotes}`);
-				}
-				console.log("");
-			}
-
-			if (options.dryRun) {
-				console.log("\n  [dry-run] Would write changes.");
-				corrected++;
-				continue;
-			}
-
-			// Prompt for confirmation unless --no-confirm
-			let accept = !options.confirm; // --no-confirm sets options.confirm = false
-			if (options.confirm !== false) {
-				const choice = await p.select({
-					message: "Accept changes?",
-					options: [
-						{ value: "accept", label: "Accept" },
-						{ value: "skip", label: "Skip" },
-						{ value: "abort", label: "Abort (stop processing)" },
-					],
-				});
-
-				if (p.isCancel(choice) || choice === "abort") {
-					console.log("\nAborted.");
-					process.exit(0);
-				}
-				accept = choice === "accept";
-			}
-
-			if (accept) {
-				// Update wordCount in frontmatter
-				const { data: fmData } = parseFrontmatter(content);
-				const oldWordCount = fmData.wordCount as number | undefined;
-				const newWordCount = proofreadBody
-					.replace(/```[\s\S]*?```/g, "")
-					.replace(/`[^`]+`/g, "")
-					.replace(/\[([^\]]+)\]\([^)]+\)/g, "$1")
-					.replace(/[#*_~>\-|]/g, " ")
-					.split(/\s+/)
-					.filter((w) => w.length > 0).length;
-
-				let updatedFrontmatter = originalFrontmatter;
-				if (oldWordCount && oldWordCount !== newWordCount) {
-					updatedFrontmatter = originalFrontmatter.replace(
-						/^wordCount: \d+$/m,
-						`wordCount: ${newWordCount}`,
-					);
-				}
-
-				publisher.writeArticle(articleSlug, updatedFrontmatter + proofreadBody);
-				console.log(`  Written. (${oldWordCount} → ${newWordCount} words)`);
-				corrected++;
-			} else {
-				console.log("  Skipped.");
-				skipped++;
-			}
+			if (outcome === "skipped") skipped++;
+			else corrected++;
 		}
 
 		console.log("\n══════════════════════════════════════════════════════════");
@@ -995,7 +816,6 @@ program
 			`  Done. ${corrected} corrected, ${clean} clean, ${skipped} skipped out of ${processed} articles.`,
 		);
 		console.log("══════════════════════════════════════════════════════════\n");
-
 		process.exit(0);
 	});
 
@@ -1037,21 +857,12 @@ program
 				console.log("─".repeat(60));
 			}
 
-			const content = publisher.getArticle(articleSlug);
-			if (!content) {
-				console.log("  Could not read article, skipping.");
+			const article = readArticle(publisher, articleSlug);
+			if (!article) {
 				skipped++;
 				continue;
 			}
-
-			const frontmatterMatch = content.match(/^(---\n[\s\S]*?\n---\n?)([\s\S]*)$/);
-			if (!frontmatterMatch) {
-				console.log("  No frontmatter found, skipping.");
-				skipped++;
-				continue;
-			}
-			const originalFrontmatter = frontmatterMatch[1] as string;
-			const originalBody = frontmatterMatch[2] as string;
+			const { content, originalFrontmatter, originalBody } = article;
 
 			const { data: fmMeta } = parseFrontmatter(content);
 			const currentTitle = (fmMeta.title as string) || "";
@@ -1218,13 +1029,12 @@ program
 		});
 
 		const mode: "fix" | "enrich" = options.enrich ? "enrich" : "fix";
+		const modeLabel = mode === "enrich" ? "Swedish enrichment" : "Swedish voice review";
 
-		// Determine which articles to process
 		let slugs: string[];
 		if (slug === "all") {
 			const articles = publisher.listPublished();
 			slugs = articles.map((a) => a.slug);
-			const modeLabel = mode === "enrich" ? "Swedish enrichment" : "Swedish voice review";
 			console.log(`\nFound ${slugs.length} articles for ${modeLabel}.\n`);
 		} else {
 			if (!publisher.exists(slug)) {
@@ -1258,39 +1068,23 @@ program
 				console.log("─".repeat(60));
 			}
 
-			const content = publisher.getArticle(articleSlug);
-			if (!content) {
-				console.log("  Could not read article, skipping.");
+			const article = readArticle(publisher, articleSlug);
+			if (!article) {
 				skipped++;
 				continue;
 			}
+			const { content, originalFrontmatter, originalBody } = article;
 
-			// Split frontmatter from body
-			const frontmatterMatch = content.match(/^(---\n[\s\S]*?\n---\n?)([\s\S]*)$/);
-			if (!frontmatterMatch) {
-				console.log("  No frontmatter found, skipping.");
-				skipped++;
-				continue;
-			}
-			const originalFrontmatter = frontmatterMatch[1] as string;
-			const originalBody = frontmatterMatch[2] as string;
-
-			// Extract title and description from frontmatter
 			const { data: fmMeta } = parseFrontmatter(content);
 			const articleTitle = fmMeta.title as string | undefined;
 			const articleDescription = fmMeta.description as string | undefined;
 
-			// Run swedish voice stage
-			const modeLog = mode === "enrich" ? "Swedish enrichment" : "Swedish voice review";
-			console.log(`  Running ${modeLog}...`);
+			console.log(`  Running ${modeLabel}...`);
 			let voiceResult: Awaited<ReturnType<typeof orchestrator.runSwedishVoice>>;
 			try {
 				voiceResult = await orchestrator.runSwedishVoice(
 					originalBody,
-					{
-						title: articleTitle,
-						description: articleDescription,
-					},
+					{ title: articleTitle, description: articleDescription },
 					mode,
 				);
 			} catch (err) {
@@ -1314,11 +1108,8 @@ program
 				body: voiceBody,
 			} = voiceResult.data;
 
-			// Show summary
 			console.log(`  Verdict: ${verdict}`);
-			if (correctedTitle) {
-				console.log(`  Title: "${articleTitle}" → "${correctedTitle}"`);
-			}
+			if (correctedTitle) console.log(`  Title: "${articleTitle}" → "${correctedTitle}"`);
 			if (correctedDescription) {
 				console.log(
 					`  Description: "${articleDescription?.slice(0, 60)}..." → "${correctedDescription.slice(0, 60)}..."`,
@@ -1332,7 +1123,6 @@ program
 				continue;
 			}
 
-			// Show issues found with color-coded types
 			console.log(`\n  Issues found (${issuesFound.length}):`);
 			for (const issue of issuesFound) {
 				const color = typeColors[issue.type] || "";
@@ -1342,112 +1132,32 @@ program
 				console.log(`    Reason:     ${issue.reason}`);
 			}
 
-			// Show diff
-			const patch = createPatch(
-				`${articleSlug}.md`,
-				originalBody,
+			printDiff(articleSlug, originalBody, voiceBody, "swedish-voice");
+			checkIntegrity(originalBody, voiceBody);
+
+			const outcome = await confirmAndWrite(
+				publisher,
+				articleSlug,
+				content,
+				originalFrontmatter,
 				voiceBody,
-				"original",
-				"swedish-voice",
+				options,
+				(fm) => {
+					let updated = fm;
+					if (correctedTitle && articleTitle) {
+						updated = updated.replace(`title: "${articleTitle}"`, `title: "${correctedTitle}"`);
+					}
+					if (correctedDescription && articleDescription) {
+						updated = updated.replace(
+							`description: "${articleDescription}"`,
+							`description: "${correctedDescription}"`,
+						);
+					}
+					return updated;
+				},
 			);
-			console.log("");
-			for (const line of patch.split("\n")) {
-				if (line.startsWith("+") && !line.startsWith("+++")) {
-					console.log(`\x1b[32m${line}\x1b[0m`);
-				} else if (line.startsWith("-") && !line.startsWith("---")) {
-					console.log(`\x1b[31m${line}\x1b[0m`);
-				} else if (line.startsWith("@@")) {
-					console.log(`\x1b[36m${line}\x1b[0m`);
-				} else {
-					console.log(line);
-				}
-			}
-
-			// Integrity checks: blockquotes and footnotes
-			const origBlockquotes = (originalBody.match(/^>/gm) || []).length;
-			const voiceBlockquotes = (voiceBody.match(/^>/gm) || []).length;
-			const origFootnotes = (originalBody.match(/\[\^\d+\]/g) || []).length;
-			const voiceFootnotes = (voiceBody.match(/\[\^\d+\]/g) || []).length;
-
-			if (origBlockquotes !== voiceBlockquotes || origFootnotes !== voiceFootnotes) {
-				console.log("");
-				console.log("  INTEGRITY WARNING:");
-				if (origBlockquotes !== voiceBlockquotes) {
-					console.log(`     Blockquotes: ${origBlockquotes} → ${voiceBlockquotes}`);
-				}
-				if (origFootnotes !== voiceFootnotes) {
-					console.log(`     Footnote refs: ${origFootnotes} → ${voiceFootnotes}`);
-				}
-				console.log("");
-			}
-
-			if (options.dryRun) {
-				console.log("\n  [dry-run] Would write changes.");
-				corrected++;
-				continue;
-			}
-
-			// Prompt for confirmation unless --no-confirm
-			let accept = !options.confirm; // --no-confirm sets options.confirm = false
-			if (options.confirm !== false) {
-				const choice = await p.select({
-					message: "Accept changes?",
-					options: [
-						{ value: "accept", label: "Accept" },
-						{ value: "skip", label: "Skip" },
-						{ value: "abort", label: "Abort (stop processing)" },
-					],
-				});
-
-				if (p.isCancel(choice) || choice === "abort") {
-					console.log("\nAborted.");
-					process.exit(0);
-				}
-				accept = choice === "accept";
-			}
-
-			if (accept) {
-				// Update frontmatter fields
-				const oldWordCount = fmMeta.wordCount as number | undefined;
-				const newWordCount = voiceBody
-					.replace(/```[\s\S]*?```/g, "")
-					.replace(/`[^`]+`/g, "")
-					.replace(/\[([^\]]+)\]\([^)]+\)/g, "$1")
-					.replace(/[#*_~>\-|]/g, " ")
-					.split(/\s+/)
-					.filter((w) => w.length > 0).length;
-
-				let updatedFrontmatter = originalFrontmatter;
-				if (oldWordCount && oldWordCount !== newWordCount) {
-					updatedFrontmatter = updatedFrontmatter.replace(
-						/^wordCount: \d+$/m,
-						`wordCount: ${newWordCount}`,
-					);
-				}
-				if (correctedTitle && articleTitle) {
-					updatedFrontmatter = updatedFrontmatter.replace(
-						`title: "${articleTitle}"`,
-						`title: "${correctedTitle}"`,
-					);
-				}
-				if (correctedDescription && articleDescription) {
-					updatedFrontmatter = updatedFrontmatter.replace(
-						`description: "${articleDescription}"`,
-						`description: "${correctedDescription}"`,
-					);
-				}
-
-				publisher.writeArticle(articleSlug, updatedFrontmatter + voiceBody);
-				const changes: string[] = [];
-				if (oldWordCount !== newWordCount) changes.push(`words: ${oldWordCount} → ${newWordCount}`);
-				if (correctedTitle) changes.push("title updated");
-				if (correctedDescription) changes.push("description updated");
-				console.log(`  Written. (${changes.join(", ")})`);
-				corrected++;
-			} else {
-				console.log("  Skipped.");
-				skipped++;
-			}
+			if (outcome === "skipped") skipped++;
+			else corrected++;
 		}
 
 		console.log("\n══════════════════════════════════════════════════════════");
@@ -1455,7 +1165,779 @@ program
 			`  Done. ${corrected} corrected, ${clean} clean, ${skipped} skipped out of ${processed} articles.`,
 		);
 		console.log("══════════════════════════════════════════════════════════\n");
+		process.exit(0);
+	});
 
+program
+	.command("elevate")
+	.description(
+		"Elevate prose intelligence — smarter word choices, conceptual sentence links, compression, resonance",
+	)
+	.argument("<slug>", 'Article slug or "all" for all articles')
+	.option("--dry-run", "Preview diffs without writing changes")
+	.option("--no-confirm", "Auto-accept changes (skip interactive prompt)")
+	.option("-m, --model <model>", "Model to use (opus|sonnet)", "opus")
+	// biome-ignore lint/complexity/noExcessiveCognitiveComplexity: sequential CLI pipeline handler
+	.action(async (slug: string, options) => {
+		const publisher = new ArticlePublisher();
+		const orchestrator = new ContentOrchestrator({
+			outputDir: "./output",
+			model: options.model as "opus" | "sonnet",
+		});
+
+		const slugs = resolveArticleSlugs(slug, publisher, "elevate");
+		let processed = 0;
+		let elevated = 0;
+		let clean = 0;
+		let skipped = 0;
+
+		for (const articleSlug of slugs) {
+			processed++;
+			if (slugs.length > 1) {
+				console.log(`\n[${processed}/${slugs.length}] ${articleSlug}`);
+				console.log("─".repeat(60));
+			}
+
+			const article = readArticle(publisher, articleSlug);
+			if (!article) {
+				skipped++;
+				continue;
+			}
+			const { content, originalFrontmatter, originalBody } = article;
+
+			console.log("  Running elevate...");
+			let elevateResult: Awaited<ReturnType<typeof orchestrator.runElevate>>;
+			try {
+				elevateResult = await orchestrator.runElevate(originalBody);
+			} catch (err) {
+				console.log(`  Elevate crashed: ${err}`);
+				skipped++;
+				continue;
+			}
+
+			if (!(elevateResult.success && elevateResult.data)) {
+				console.log(`  Elevate failed: ${elevateResult.error ?? "unknown error"}`);
+				skipped++;
+				continue;
+			}
+
+			const { verdict, changesCount, changes, summary, body: elevatedBody } = elevateResult.data;
+
+			console.log(`  Verdict: ${verdict} (${changesCount} changes)`);
+			console.log(`  Summary: ${summary}`);
+
+			if (verdict === "clean") {
+				console.log("  No improvements found — text already intellectually dense.");
+				clean++;
+				continue;
+			}
+
+			console.log(`\n  Changes (${changes.length}):`);
+			for (const change of changes) {
+				console.log(`\n  [\x1b[36m${change.location}\x1b[0m]`);
+				console.log(`    \x1b[31m- ${change.original}\x1b[0m`);
+				console.log(`    \x1b[32m+ ${change.replacement}\x1b[0m`);
+				console.log(`    \x1b[33m  ${change.why}\x1b[0m`);
+			}
+
+			printDiff(articleSlug, originalBody, elevatedBody, "elevated");
+			checkIntegrity(originalBody, elevatedBody);
+
+			const outcome = await confirmAndWrite(
+				publisher,
+				articleSlug,
+				content,
+				originalFrontmatter,
+				elevatedBody,
+				options,
+			);
+			if (outcome === "skipped") skipped++;
+			else elevated++;
+		}
+
+		console.log("\n══════════════════════════════════════════════════════════");
+		console.log(
+			`  Done. ${elevated} elevated, ${clean} clean, ${skipped} skipped out of ${processed} articles.`,
+		);
+		console.log("══════════════════════════════════════════════════════════\n");
+		process.exit(0);
+	});
+
+program
+	.command("flow")
+	.description(
+		"Perfect sentence architecture — split overloaded sentences, merge choppy ones, fix transitions between every sentence pair",
+	)
+	.argument("<slug>", 'Article slug or "all" for all articles')
+	.option("--dry-run", "Preview diffs without writing changes")
+	.option("--no-confirm", "Auto-accept changes (skip interactive prompt)")
+	.option("-m, --model <model>", "Model to use (opus|sonnet)", "opus")
+	// biome-ignore lint/complexity/noExcessiveCognitiveComplexity: sequential CLI pipeline handler
+	.action(async (slug: string, options) => {
+		const publisher = new ArticlePublisher();
+		const orchestrator = new ContentOrchestrator({
+			outputDir: "./output",
+			model: options.model as "opus" | "sonnet",
+		});
+
+		const slugs = resolveArticleSlugs(slug, publisher, "check flow");
+		let processed = 0;
+		let restructured = 0;
+		let clean = 0;
+		let skipped = 0;
+
+		for (const articleSlug of slugs) {
+			processed++;
+			if (slugs.length > 1) {
+				console.log(`\n[${processed}/${slugs.length}] ${articleSlug}`);
+				console.log("─".repeat(60));
+			}
+
+			const article = readArticle(publisher, articleSlug);
+			if (!article) {
+				skipped++;
+				continue;
+			}
+			const { content, originalFrontmatter, originalBody } = article;
+
+			console.log("  Running flow...");
+			let flowResult: Awaited<ReturnType<typeof orchestrator.runFlow>>;
+			try {
+				flowResult = await orchestrator.runFlow(originalBody);
+			} catch (err) {
+				console.log(`  Flow crashed: ${err}`);
+				skipped++;
+				continue;
+			}
+
+			if (!(flowResult.success && flowResult.data)) {
+				console.log(`  Flow failed: ${flowResult.error ?? "unknown error"}`);
+				skipped++;
+				continue;
+			}
+
+			const { verdict, changesCount, changes, summary, body: flowBody } = flowResult.data;
+
+			console.log(`  Verdict: ${verdict} (${changesCount} changes)`);
+			console.log(`  Summary: ${summary}`);
+
+			if (verdict === "clean") {
+				console.log("  Sentence structure already flawless.");
+				clean++;
+				continue;
+			}
+
+			console.log(`\n  Changes (${changes.length}):`);
+			for (const change of changes) {
+				console.log(`\n  [\x1b[36m${change.type}\x1b[0m] ${change.location}`);
+				console.log(`    \x1b[31m- ${change.original}\x1b[0m`);
+				console.log(`    \x1b[32m+ ${change.replacement}\x1b[0m`);
+				console.log(`    \x1b[33m  ${change.why}\x1b[0m`);
+			}
+
+			printDiff(articleSlug, originalBody, flowBody, "flow");
+			checkIntegrity(originalBody, flowBody);
+
+			const outcome = await confirmAndWrite(
+				publisher,
+				articleSlug,
+				content,
+				originalFrontmatter,
+				flowBody,
+				options,
+			);
+			if (outcome === "skipped") skipped++;
+			else restructured++;
+		}
+
+		console.log("\n══════════════════════════════════════════════════════════");
+		console.log(
+			`  Done. ${restructured} restructured, ${clean} clean, ${skipped} skipped out of ${processed} articles.`,
+		);
+		console.log("══════════════════════════════════════════════════════════\n");
+		process.exit(0);
+	});
+
+program
+	.command("compress")
+	.description(
+		"Compress verbose phrases into precise single words — particle-verbs, weak verb+noun, adverbial phrases",
+	)
+	.argument("<slug>", 'Article slug or "all" for all articles')
+	.option("--dry-run", "Preview diffs without writing changes")
+	.option("--no-confirm", "Auto-accept changes (skip interactive prompt)")
+	.option("-m, --model <model>", "Model to use (opus|sonnet)", "opus")
+	.action(async (slug: string, options) => {
+		const publisher = new ArticlePublisher();
+		const orchestrator = new ContentOrchestrator({
+			outputDir: "./output",
+			model: options.model as "opus" | "sonnet",
+		});
+
+		const slugs = resolveArticleSlugs(slug, publisher, "compress");
+		let processed = 0;
+		let compressed = 0;
+		let clean = 0;
+		let skipped = 0;
+
+		for (const articleSlug of slugs) {
+			processed++;
+			if (slugs.length > 1) {
+				console.log(`\n[${processed}/${slugs.length}] ${articleSlug}`);
+				console.log("─".repeat(60));
+			}
+
+			const article = readArticle(publisher, articleSlug);
+			if (!article) {
+				skipped++;
+				continue;
+			}
+			const { content, originalFrontmatter, originalBody } = article;
+
+			console.log("  Running compress...");
+			let compressResult: Awaited<ReturnType<typeof orchestrator.runCompress>>;
+			try {
+				compressResult = await orchestrator.runCompress(originalBody);
+			} catch (err) {
+				console.log(`  Compress crashed: ${err}`);
+				skipped++;
+				continue;
+			}
+
+			if (!(compressResult.success && compressResult.data)) {
+				console.log(`  Compress failed: ${compressResult.error ?? "unknown error"}`);
+				skipped++;
+				continue;
+			}
+
+			const { verdict, changesCount, changes, summary, body: compressedBody } = compressResult.data;
+
+			console.log(`  Verdict: ${verdict} (${changesCount} changes)`);
+			console.log(`  Summary: ${summary}`);
+
+			if (verdict === "clean") {
+				console.log("  No compressions found — text already lexically precise.");
+				clean++;
+				continue;
+			}
+
+			console.log(`\n  Changes (${changes.length}):`);
+			for (const change of changes) {
+				console.log(`\n  [\x1b[36m${change.location}\x1b[0m]`);
+				console.log(`    \x1b[31m- ${change.original}\x1b[0m`);
+				console.log(`    \x1b[32m+ ${change.replacement}\x1b[0m`);
+				console.log(`    \x1b[33m  ${change.why}\x1b[0m`);
+			}
+
+			printDiff(articleSlug, originalBody, compressedBody, "compressed");
+			checkIntegrity(originalBody, compressedBody);
+
+			const outcome = await confirmAndWrite(
+				publisher,
+				articleSlug,
+				content,
+				originalFrontmatter,
+				compressedBody,
+				options,
+			);
+			if (outcome === "skipped") skipped++;
+			else compressed++;
+		}
+
+		console.log("\n══════════════════════════════════════════════════════════");
+		console.log(
+			`  Done. ${compressed} compressed, ${clean} clean, ${skipped} skipped out of ${processed} articles.`,
+		);
+		console.log("══════════════════════════════════════════════════════════\n");
+		process.exit(0);
+	});
+
+program
+	.command("cohesion")
+	.description(
+		"Check narrative coherence — orphan quotes, abrupt topic jumps, loose endings, unprepared introductions",
+	)
+	.argument("<slug>", 'Article slug or "all" for all articles')
+	.option("--dry-run", "Preview diffs without writing changes")
+	.option("--no-confirm", "Auto-accept changes (skip interactive prompt)")
+	.option("-m, --model <model>", "Model to use (opus|sonnet)", "opus")
+	.action(async (slug: string, options) => {
+		const publisher = new ArticlePublisher();
+		const orchestrator = new ContentOrchestrator({
+			outputDir: "./output",
+			model: options.model as "opus" | "sonnet",
+		});
+
+		const slugs = resolveArticleSlugs(slug, publisher, "check cohesion");
+		let processed = 0;
+		let revised = 0;
+		let clean = 0;
+		let skipped = 0;
+
+		for (const articleSlug of slugs) {
+			processed++;
+			if (slugs.length > 1) {
+				console.log(`\n[${processed}/${slugs.length}] ${articleSlug}`);
+				console.log("─".repeat(60));
+			}
+
+			const article = readArticle(publisher, articleSlug);
+			if (!article) {
+				skipped++;
+				continue;
+			}
+			const { content, originalFrontmatter, originalBody } = article;
+
+			console.log("  Running cohesion check...");
+			let cohesionResult: Awaited<ReturnType<typeof orchestrator.runCohesion>>;
+			try {
+				cohesionResult = await orchestrator.runCohesion(originalBody);
+			} catch (err) {
+				console.log(`  Cohesion crashed: ${err}`);
+				skipped++;
+				continue;
+			}
+
+			if (!(cohesionResult.success && cohesionResult.data)) {
+				console.log(`  Cohesion failed: ${cohesionResult.error ?? "unknown error"}`);
+				skipped++;
+				continue;
+			}
+
+			const { verdict, changesCount, changes, summary, body: revisedBody } = cohesionResult.data;
+
+			console.log(`  Verdict: ${verdict} (${changesCount} changes)`);
+			console.log(`  Summary: ${summary}`);
+
+			if (verdict === "cohesive") {
+				console.log("  Essay already reads coherently.");
+				clean++;
+				continue;
+			}
+
+			console.log(`\n  Issues fixed (${changes.length}):`);
+			for (const change of changes) {
+				console.log(`\n  [\x1b[33m${change.type}\x1b[0m] ${change.location}`);
+				console.log(`    \x1b[31mProblem:\x1b[0m ${change.problem}`);
+				console.log(`    \x1b[32mFix:\x1b[0m    ${change.fix}`);
+			}
+
+			printDiff(articleSlug, originalBody, revisedBody, "cohesion");
+			checkIntegrity(originalBody, revisedBody);
+
+			const outcome = await confirmAndWrite(
+				publisher,
+				articleSlug,
+				content,
+				originalFrontmatter,
+				revisedBody,
+				options,
+			);
+			if (outcome === "skipped") skipped++;
+			else revised++;
+		}
+
+		console.log("\n══════════════════════════════════════════════════════════");
+		console.log(
+			`  Done. ${revised} revised, ${clean} clean, ${skipped} skipped out of ${processed} articles.`,
+		);
+		console.log("══════════════════════════════════════════════════════════\n");
+		process.exit(0);
+	});
+
+program
+	.command("ground")
+	.description(
+		"Anchor abstract concepts in concrete human moments — Islamic terms, psychological states, historical observations",
+	)
+	.argument("<slug>", 'Article slug or "all" for all articles')
+	.option("--dry-run", "Preview diffs without writing changes")
+	.option("--no-confirm", "Auto-accept changes (skip interactive prompt)")
+	.option("-m, --model <model>", "Model to use (opus|sonnet)", "sonnet")
+	.action(async (slug: string, options) => {
+		const publisher = new ArticlePublisher();
+		const orchestrator = new ContentOrchestrator({
+			outputDir: "./output",
+			model: options.model as "opus" | "sonnet",
+		});
+
+		const slugs = resolveArticleSlugs(slug, publisher, "ground");
+		let processed = 0;
+		let grounded = 0;
+		let clean = 0;
+		let skipped = 0;
+
+		for (const articleSlug of slugs) {
+			processed++;
+			if (slugs.length > 1) {
+				console.log(`\n[${processed}/${slugs.length}] ${articleSlug}`);
+				console.log("─".repeat(60));
+			}
+
+			const article = readArticle(publisher, articleSlug);
+			if (!article) {
+				skipped++;
+				continue;
+			}
+			const { content, originalFrontmatter, originalBody } = article;
+
+			console.log("  Running ground...");
+			let groundResult: Awaited<ReturnType<typeof orchestrator.runGround>>;
+			try {
+				groundResult = await orchestrator.runGround(originalBody);
+			} catch (err) {
+				console.log(`  Ground crashed: ${err}`);
+				skipped++;
+				continue;
+			}
+
+			if (!(groundResult.success && groundResult.data)) {
+				console.log(`  Ground failed: ${groundResult.error ?? "unknown error"}`);
+				skipped++;
+				continue;
+			}
+
+			const { verdict, changesCount, changes, summary, body: groundedBody } = groundResult.data;
+
+			console.log(`  Verdict: ${verdict} (${changesCount} additions)`);
+			console.log(`  Summary: ${summary}`);
+
+			if (verdict === "clean") {
+				console.log("  No floating abstractions found — text already well grounded.");
+				clean++;
+				continue;
+			}
+
+			console.log(`\n  Additions (${changes.length}):`);
+			for (const change of changes) {
+				console.log(`\n  [\x1b[36m${change.location}\x1b[0m]`);
+				console.log(`    \x1b[33m  Anchor: ${change.original}\x1b[0m`);
+				console.log(`    \x1b[32m+ ${change.addition}\x1b[0m`);
+				console.log(`    \x1b[33m  ${change.why}\x1b[0m`);
+			}
+
+			printDiff(articleSlug, originalBody, groundedBody, "grounded");
+			checkIntegrity(originalBody, groundedBody);
+
+			const outcome = await confirmAndWrite(
+				publisher,
+				articleSlug,
+				content,
+				originalFrontmatter,
+				groundedBody,
+				options,
+			);
+			if (outcome === "skipped") skipped++;
+			else grounded++;
+		}
+
+		console.log("\n══════════════════════════════════════════════════════════");
+		console.log(
+			`  Done. ${grounded} grounded, ${clean} clean, ${skipped} skipped out of ${processed} articles.`,
+		);
+		console.log("══════════════════════════════════════════════════════════\n");
+		process.exit(0);
+	});
+
+program
+	.command("scaffold")
+	.description(
+		'Trim decorative "Det är den som..." and ". Som [scenario]." closers that have become formulaic through overuse',
+	)
+	.argument("<slug>", 'Article slug or "all" for all articles')
+	.option("--dry-run", "Preview diffs without writing changes")
+	.option("--no-confirm", "Auto-accept changes (skip interactive prompt)")
+	.option("-m, --model <model>", "Model to use (opus|sonnet)", "sonnet")
+	// biome-ignore lint/complexity/noExcessiveCognitiveComplexity: sequential CLI pipeline handler
+	.action(async (slug: string, options) => {
+		const publisher = new ArticlePublisher();
+		const orchestrator = new ContentOrchestrator({
+			outputDir: "./output",
+			model: options.model as "opus" | "sonnet",
+		});
+
+		const slugs = resolveArticleSlugs(slug, publisher, "scaffold");
+		let processed = 0;
+		let trimmed = 0;
+		let clean = 0;
+		let skipped = 0;
+
+		for (const articleSlug of slugs) {
+			processed++;
+			if (slugs.length > 1) {
+				console.log(`\n[${processed}/${slugs.length}] ${articleSlug}`);
+				console.log("─".repeat(60));
+			}
+
+			const article = readArticle(publisher, articleSlug);
+			if (!article) {
+				skipped++;
+				continue;
+			}
+			const { content, originalFrontmatter, originalBody } = article;
+
+			console.log("  Running scaffold...");
+			let scaffoldResult: Awaited<ReturnType<typeof orchestrator.runScaffold>>;
+			try {
+				scaffoldResult = await orchestrator.runScaffold(originalBody);
+			} catch (err) {
+				console.log(`  Scaffold crashed: ${err}`);
+				skipped++;
+				continue;
+			}
+
+			if (!(scaffoldResult.success && scaffoldResult.data)) {
+				console.log(`  Scaffold failed: ${scaffoldResult.error ?? "unknown error"}`);
+				skipped++;
+				continue;
+			}
+
+			const { verdict, changesCount, changes, summary, body: trimmedBody } = scaffoldResult.data;
+
+			console.log(`  Verdict: ${verdict} (${changesCount} removals)`);
+			console.log(`  Summary: ${summary}`);
+
+			if (verdict === "clean") {
+				console.log("  No decorative scaffolding found — text already lean.");
+				clean++;
+				continue;
+			}
+
+			console.log(`\n  Changes (${changes.length}):`);
+			for (const change of changes) {
+				const actionColor = change.action === "remove" ? "\x1b[31m" : "\x1b[33m";
+				const actionLabel = change.action === "remove" ? "REMOVE" : "ABSORB";
+				console.log(`\n  [${actionColor}${actionLabel}\x1b[0m] \x1b[36m${change.location}\x1b[0m`);
+				console.log(`    \x1b[31m- ${change.original}\x1b[0m`);
+				if (change.action === "absorb") {
+					console.log(`    \x1b[32m+ ${change.result}\x1b[0m`);
+				}
+				console.log(`    \x1b[33m  ${change.why}\x1b[0m`);
+			}
+
+			printDiff(articleSlug, originalBody, trimmedBody, "trimmed");
+			checkIntegrity(originalBody, trimmedBody);
+
+			const outcome = await confirmAndWrite(
+				publisher,
+				articleSlug,
+				content,
+				originalFrontmatter,
+				trimmedBody,
+				options,
+			);
+			if (outcome === "skipped") skipped++;
+			else trimmed++;
+		}
+
+		console.log("\n══════════════════════════════════════════════════════════");
+		console.log(
+			`  Done. ${trimmed} trimmed, ${clean} clean, ${skipped} skipped out of ${processed} articles.`,
+		);
+		console.log("══════════════════════════════════════════════════════════\n");
+		process.exit(0);
+	});
+
+program
+	.command("transliterate")
+	.description(
+		"Verify and correct academic Arabic transliteration with full diacritical marks (ā, ī, ū, ḥ, ṣ, ḍ, ṭ, ẓ, ʿ, ʾ)",
+	)
+	.argument("<slug>", 'Article slug or "all" for all articles')
+	.option("--dry-run", "Preview diffs without writing changes")
+	.option("--no-confirm", "Auto-accept changes (skip interactive prompt)")
+	.option("-m, --model <model>", "Model to use (opus|sonnet)", "sonnet")
+	// biome-ignore lint/complexity/noExcessiveCognitiveComplexity: sequential CLI pipeline handler
+	.action(async (slug: string, options) => {
+		const publisher = new ArticlePublisher();
+		const orchestrator = new ContentOrchestrator({
+			outputDir: "./output",
+			model: options.model as "opus" | "sonnet",
+		});
+
+		const slugs = resolveArticleSlugs(slug, publisher, "transliterate");
+		let processed = 0;
+		let corrected = 0;
+		let clean = 0;
+		let skipped = 0;
+
+		for (const articleSlug of slugs) {
+			processed++;
+			if (slugs.length > 1) {
+				console.log(`\n[${processed}/${slugs.length}] ${articleSlug}`);
+				console.log("─".repeat(60));
+			}
+
+			const article = readArticle(publisher, articleSlug);
+			if (!article) {
+				skipped++;
+				continue;
+			}
+			const { content, originalFrontmatter, originalBody } = article;
+
+			console.log("  Running transliterate...");
+			let result: Awaited<ReturnType<typeof orchestrator.runTransliterate>>;
+			try {
+				result = await orchestrator.runTransliterate(originalBody);
+			} catch (err) {
+				console.log(`  Transliterate crashed: ${err}`);
+				skipped++;
+				continue;
+			}
+
+			if (!(result.success && result.data)) {
+				console.log(`  Transliterate failed: ${result.error ?? "unknown error"}`);
+				skipped++;
+				continue;
+			}
+
+			const { verdict, changesCount, changes, summary, body: correctedBody } = result.data;
+
+			console.log(`  Verdict: ${verdict} (${changesCount} corrections)`);
+			console.log(`  Summary: ${summary}`);
+
+			if (verdict === "clean") {
+				console.log("  All transliteration already correct.");
+				clean++;
+				continue;
+			}
+
+			console.log(`\n  Corrections (${changes.length} unique terms):`);
+			for (const change of changes) {
+				console.log(
+					`    \x1b[31m${change.original}\x1b[0m → \x1b[32m${change.corrected}\x1b[0m  (${change.occurrences}x in ${change.locations.join(", ")})`,
+				);
+			}
+
+			printDiff(articleSlug, originalBody, correctedBody, "transliterated");
+			checkIntegrity(originalBody, correctedBody);
+
+			const outcome = await confirmAndWrite(
+				publisher,
+				articleSlug,
+				content,
+				originalFrontmatter,
+				correctedBody,
+				options,
+			);
+			if (outcome === "skipped") skipped++;
+			else corrected++;
+		}
+
+		console.log("\n══════════════════════════════════════════════════════════");
+		console.log(
+			`  Done. ${corrected} corrected, ${clean} clean, ${skipped} skipped out of ${processed} articles.`,
+		);
+		console.log("══════════════════════════════════════════════════════════\n");
+		process.exit(0);
+	});
+
+program
+	.command("brilliance")
+	.description(
+		"Search for exceptional additions (quotes, references, arguments) that would make articles significantly stronger for a secular Swedish reader",
+	)
+	.argument("<slug>", 'Article slug or "all" for all articles')
+	.option("--dry-run", "Preview additions without writing changes")
+	.option("--no-confirm", "Auto-accept changes (skip interactive prompt)")
+	.option("-m, --model <model>", "Model to use (opus|sonnet)", "opus")
+	// biome-ignore lint/complexity/noExcessiveCognitiveComplexity: sequential CLI pipeline handler
+	.action(async (slug: string, options) => {
+		const publisher = new ArticlePublisher();
+		const orchestrator = new ContentOrchestrator({
+			outputDir: "./output",
+			model: options.model as "opus" | "sonnet",
+		});
+
+		const slugs = resolveArticleSlugs(slug, publisher, "search for brilliance");
+		let processed = 0;
+		let enriched = 0;
+		let clean = 0;
+		let skipped = 0;
+
+		for (const articleSlug of slugs) {
+			processed++;
+			if (slugs.length > 1) {
+				console.log(`\n[${processed}/${slugs.length}] ${articleSlug}`);
+				console.log("─".repeat(60));
+			}
+
+			const article = readArticle(publisher, articleSlug);
+			if (!article) {
+				skipped++;
+				continue;
+			}
+			const { content, originalFrontmatter, originalBody } = article;
+
+			console.log("  Running brilliance search...");
+			let brillianceResult: Awaited<ReturnType<typeof orchestrator.runBrilliance>>;
+			try {
+				brillianceResult = await orchestrator.runBrilliance(originalBody);
+			} catch (err) {
+				console.log(`  Brilliance crashed: ${err}`);
+				skipped++;
+				continue;
+			}
+
+			if (!(brillianceResult.success && brillianceResult.data)) {
+				console.log(`  Brilliance failed: ${brillianceResult.error ?? "unknown error"}`);
+				skipped++;
+				continue;
+			}
+
+			const {
+				verdict,
+				additionsCount,
+				additions,
+				searchesPerformed,
+				summary,
+				body: enrichedBody,
+			} = brillianceResult.data;
+
+			console.log(`\n  Searches (${searchesPerformed.length}):`);
+			for (const search of searchesPerformed) {
+				console.log(`    [${search.tool}] ${search.query}`);
+				console.log(`      → ${search.result}`);
+			}
+
+			console.log(`\n  Verdict: ${verdict} (${additionsCount} additions)`);
+			console.log(`  Summary: ${summary}`);
+
+			if (verdict === "clean") {
+				console.log("  No exceptional additions found.");
+				clean++;
+				continue;
+			}
+
+			console.log(`\n  Additions (${additions.length}):`);
+			for (const addition of additions) {
+				console.log(`\n  [\x1b[36m${addition.type}\x1b[0m] ${addition.location}`);
+				console.log(
+					`    \x1b[32m+ ${addition.content.slice(0, 200)}${addition.content.length > 200 ? "..." : ""}\x1b[0m`,
+				);
+				console.log(`    \x1b[34m  Source: ${addition.source}\x1b[0m`);
+				console.log(`    \x1b[33m  ${addition.why}\x1b[0m`);
+			}
+
+			printDiff(articleSlug, originalBody, enrichedBody, "enriched");
+
+			const outcome = await confirmAndWrite(
+				publisher,
+				articleSlug,
+				content,
+				originalFrontmatter,
+				enrichedBody,
+				options,
+			);
+			if (outcome === "skipped") skipped++;
+			else enriched++;
+		}
+
+		console.log("\n══════════════════════════════════════════════════════════");
+		console.log(
+			`  Done. ${enriched} enriched, ${clean} clean, ${skipped} skipped out of ${processed} articles.`,
+		);
+		console.log("══════════════════════════════════════════════════════════\n");
 		process.exit(0);
 	});
 

@@ -185,6 +185,10 @@ if (articleMeta) {
 					window.scrollTo({ top: 0, behavior: "smooth" });
 				}, { signal: ctrl.signal });
 
+				document.addEventListener("visibilitychange", () => {
+					if (document.visibilityState === "hidden") saveProgress();
+				}, { signal: ctrl.signal });
+
 				document.addEventListener("astro:before-swap", () => {
 					saveProgress();
 					ctrl.abort();
