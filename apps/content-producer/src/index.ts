@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
-import { existsSync } from "node:fs";
+import { execSync } from "node:child_process";
+import { appendFileSync, existsSync, readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import * as p from "@clack/prompts";
 import {
@@ -554,6 +555,181 @@ async function confirmAndWrite(
 	publisher.writeArticle(articleSlug, updatedFrontmatter + newBody);
 	console.log(`  Written. (${oldWordCount} → ${newWordCount} words)`);
 	return "written";
+}
+
+// ─── Spellcheck helpers ──────────────────────────────────────────────────────
+
+interface SpellIssue {
+	word: string;
+	line: number;
+	context: string;
+	suggestions: string[];
+}
+
+/** Returns true if a word looks like an Arabic/Islamic transliteration. */
+function isTransliteration(word: string): boolean {
+	// Has diacritical marks common in Arabic transliteration
+	if (/[āīūṣḍṭẓḥʿʾṃṅšğçñżőŻŠĆŃŁ]/.test(word)) return true;
+	// Contains Arabic Unicode characters (including ﷻ ﷺ)
+	if (/[\u0600-\u06FF\uFE70-\uFEFF\uFD3E-\uFDFF]/.test(word)) return true;
+	// Common Arabic/Islamic terms without diacritics
+	if (
+		/^(al-|ibn-?|abu-?)/i.test(word) ||
+		/^(tawakkul|dhikr|qiblah?|qadr|qadar|sunnah?|tawbah?|waswas|nafs|fitrah|fitra|qalb|quwwah|hasad|ghibtah|hisab|muhasaba|sharia|shari|hadith|iman|ihsan|salah|salat|zakat|sawm|hajj|umrah|halal|haram|fiqh|fatwa|ijtihad|ijma|qiyas|maqasid|khalifah?|ummah?|akhirah?|jannah|jahannam|barzakh|isnad|matn|sahih|hasan|daif|mawdu|tafsir|tajwid|tilawah|khutbah?|nikah|talaq|waqf|zuhd|taqwa|sabr|shukr|rida|tawba|istighfar|muezzin|minbar|mihrab|qibla|adhan|iqamah|wudu|ghusl|tayammum|janazah|fidyah|kaffarah|sadaqah?|khums|barakah?|niyyah?|ikhlas|riya|ujb|kibr|hasad|hirs|bukhl|israf|ghafla|ghaflah)s?$/i.test(
+			word.replace(/\.$/, ""),
+		)
+	)
+		return true;
+	return false;
+}
+
+/** Returns true if a word is likely a proper name (capitalized, not sentence-start). */
+function isLikelyProperName(word: string): boolean {
+	return /^[A-ZÄÖÅÉÈ][a-zäöåéèü]/.test(word) && word.length > 1;
+}
+
+/** Load custom wordlist from file (one word per line, # comments, blank lines skipped). */
+function loadWordlist(path: string): Set<string> {
+	if (!existsSync(path)) return new Set();
+	const lines = readFileSync(path, "utf-8").split("\n");
+	const words = new Set<string>();
+	for (const line of lines) {
+		const trimmed = line.trim();
+		if (trimmed && !trimmed.startsWith("#")) words.add(trimmed);
+	}
+	return words;
+}
+
+/** Append words to the custom wordlist file. */
+function appendToWordlist(path: string, words: string[]): void {
+	const content = `\n${words.join("\n")}\n`;
+	appendFileSync(path, content, "utf-8");
+}
+
+/** Strip markdown formatting to extract checkable text, preserving line numbers. */
+function stripMarkdown(body: string): string {
+	const lines = body.split("\n");
+	return lines
+		.map((line) => {
+			// Keep line structure for line-number tracking
+			// Remove footnote definitions entirely
+			if (/^\[\^\d+\]:/.test(line)) return "";
+			let l = line;
+			// Remove footnote references
+			l = l.replace(/\[\^\d+\]/g, "");
+			// Remove blockquote markers
+			l = l.replace(/^>\s*/, "");
+			// Remove heading markers
+			l = l.replace(/^#{1,6}\s+/, "");
+			// Remove bold/italic markers (keep text)
+			l = l.replace(/\*{1,3}([^*]+)\*{1,3}/g, "$1");
+			// Remove links [text](url) -> text
+			l = l.replace(/\[([^\]]+)\]\([^)]+\)/g, "$1");
+			// Remove URLs
+			l = l.replace(/https?:\/\/\S+/g, "");
+			return l;
+		})
+		.join("\n");
+}
+
+/** Run hunspell on article body and return filtered misspellings with context. */
+function spellcheckBody(
+	body: string,
+	dictPath: string,
+	customWords: Set<string>,
+): SpellIssue[] {
+	const stripped = stripMarkdown(body);
+	const bodyLines = body.split("\n");
+
+	// Run hunspell in pipe mode (-a) for per-word results with suggestions
+	let hunspellOutput: string;
+	try {
+		hunspellOutput = execSync(`hunspell -d ${dictPath} -a`, {
+			input: stripped,
+			encoding: "utf-8",
+			maxBuffer: 10 * 1024 * 1024,
+		});
+	} catch {
+		return [];
+	}
+
+	const issues: SpellIssue[] = [];
+	const seen = new Set<string>();
+	const outputLines = hunspellOutput.split("\n");
+
+	// hunspell -a output: first line is version, then for each input line:
+	// * = correct, & word count offset: suggestions, # word offset (no suggestions), empty line = next input line
+	let currentLine = 0; // 0-indexed into bodyLines (offset by frontmatter lines already stripped)
+
+	for (const ol of outputLines) {
+		if (ol === "") {
+			currentLine++;
+			continue;
+		}
+		if (ol.startsWith("@") || ol.startsWith("*") || ol.startsWith("+") || ol.startsWith("-")) {
+			continue;
+		}
+
+		let word = "";
+		let suggestions: string[] = [];
+
+		if (ol.startsWith("& ")) {
+			// & word count offset: suggestion1, suggestion2, ...
+			const parts = ol.match(/^& (\S+) \d+ \d+: (.*)$/);
+			if (parts?.[1] && parts[2]) {
+				word = parts[1];
+				suggestions = parts[2].split(", ").map((s) => s.trim());
+			}
+		} else if (ol.startsWith("# ")) {
+			// # word offset (no suggestions)
+			const parts = ol.match(/^# (\S+)/);
+			if (parts?.[1]) word = parts[1];
+		}
+
+		if (!word) continue;
+
+		// Strip trailing punctuation for matching purposes
+		const cleanWord = word.replace(/[.,;:!?)]+$/, "");
+		if (!cleanWord) continue;
+
+		// Filter: skip if in custom wordlist (try with and without punctuation)
+		if (
+			customWords.has(word) ||
+			customWords.has(word.toLowerCase()) ||
+			customWords.has(cleanWord) ||
+			customWords.has(cleanWord.toLowerCase())
+		)
+			continue;
+		// Filter: skip Arabic/Islamic transliterations
+		if (isTransliteration(word) || isTransliteration(cleanWord)) continue;
+		// Filter: skip likely proper names (capitalized)
+		if (isLikelyProperName(word)) continue;
+		// Filter: skip words inside blockquotes (archaic Swedish in historical quotes)
+		const contextLineIdx0 = Math.max(0, Math.min(currentLine, bodyLines.length - 1));
+		if (bodyLines[contextLineIdx0]?.startsWith(">")) continue;
+		// Filter: skip short English/Latin common words
+		if (/^[a-z]+$/.test(cleanWord) && cleanWord.length <= 3) continue;
+		// Filter: skip if already reported this word on this line
+		const key = `${cleanWord}:${currentLine}`;
+		if (seen.has(key)) continue;
+		seen.add(key);
+
+		// Get context line from original body
+		const contextRaw = bodyLines[contextLineIdx0] ?? "";
+		const context =
+			contextRaw.length > 100
+				? `${contextRaw.slice(0, 100)}…`
+				: contextRaw;
+
+		issues.push({
+			word: cleanWord,
+			line: contextLineIdx0 + 1,
+			context,
+			suggestions,
+		});
+	}
+
+	return issues;
 }
 
 // ─── Polish commands ──────────────────────────────────────────────────────────
@@ -2136,6 +2312,105 @@ program
 			`  Done. ${enriched} enriched, ${clean} clean, ${skipped} skipped out of ${processed} articles.`,
 		);
 		console.log("══════════════════════════════════════════════════════════\n");
+		process.exit(0);
+	});
+
+program
+	.command("spellcheck")
+	.description(
+		"Run Swedish spell-check on articles using hunspell — catches misspellings, skips Arabic transliterations and English references",
+	)
+	.argument("<slug>", 'Article slug or "all" for all articles')
+	.option(
+		"--wordlist <path>",
+		"Path to custom wordlist file (one word per line)",
+		"data/hunspell/wordlist.txt",
+	)
+	.option("--add", "Interactively add unknown words to the custom wordlist")
+	.action(async (slug: string, options) => {
+		const publisher = new ArticlePublisher();
+		const slugs = resolveArticleSlugs(slug, publisher, "spellcheck");
+
+		// Find project root by walking up to find data/hunspell/sv.aff
+		let projectRoot = process.cwd();
+		for (let i = 0; i < 10; i++) {
+			if (existsSync(resolve(projectRoot, "data/hunspell/sv.aff"))) break;
+			const parent = resolve(projectRoot, "..");
+			if (parent === projectRoot) break;
+			projectRoot = parent;
+		}
+		const dictPath = resolve(projectRoot, "data/hunspell/sv");
+		// Verify hunspell + dictionary exist
+		try {
+			execSync(`hunspell -d ${dictPath} -l <<< "test"`, {
+				encoding: "utf-8",
+			});
+		} catch {
+			console.error(
+				"hunspell not found or Swedish dictionary missing at data/hunspell/sv.{aff,dic}",
+			);
+			console.error("Install hunspell: pacman -S hunspell (Arch) / apt install hunspell (Debian)");
+			process.exit(1);
+		}
+
+		// Load custom wordlist
+		const wordlistPath = resolve(projectRoot, options.wordlist as string);
+		const customWords = loadWordlist(wordlistPath);
+		console.log(`Custom wordlist: ${customWords.size} words from ${wordlistPath}\n`);
+
+		let totalIssues = 0;
+		let cleanCount = 0;
+		const allNewWords: Set<string> = new Set();
+
+		for (const articleSlug of slugs) {
+			const article = readArticle(publisher, articleSlug);
+			if (!article) continue;
+			const { originalBody } = article;
+
+			const misspelled = spellcheckBody(originalBody, dictPath, customWords);
+
+			if (misspelled.length === 0) {
+				cleanCount++;
+				continue;
+			}
+
+			console.log(`\x1b[1m${articleSlug}\x1b[0m (${misspelled.length} issues):`);
+			for (const { word, line, context, suggestions } of misspelled) {
+				const suggStr =
+					suggestions.length > 0 ? ` → ${suggestions.slice(0, 3).join(", ")}` : "";
+				console.log(`  L${line}: \x1b[31m${word}\x1b[0m${suggStr}`);
+				console.log(`         \x1b[90m${context}\x1b[0m`);
+			}
+			console.log("");
+			totalIssues += misspelled.length;
+
+			if (options.add) {
+				for (const { word } of misspelled) {
+					allNewWords.add(word);
+				}
+			}
+		}
+
+		console.log("══════════════════════════════════════════════════════════");
+		console.log(
+			`  ${slugs.length} articles checked. ${cleanCount} clean, ${totalIssues} issues found.`,
+		);
+		console.log("══════════════════════════════════════════════════════════\n");
+
+		if (options.add && allNewWords.size > 0) {
+			const result = await p.multiselect({
+				message: "Select words to add to custom wordlist:",
+				options: [...allNewWords].sort().map((w) => ({ value: w, label: w })),
+			});
+			if (!p.isCancel(result)) {
+				const toAdd = result as string[];
+				if (toAdd.length > 0) {
+					appendToWordlist(wordlistPath, toAdd);
+					console.log(`Added ${toAdd.length} words to ${wordlistPath}`);
+				}
+			}
+		}
+
 		process.exit(0);
 	});
 
