@@ -118,9 +118,9 @@ Linné fick inte tala. Men tystnaden talar.
 [^5]: Carl von Linné, *Nemesis Divina*.
 [^6]: Carl von Linné, *Nemesis Divina*.
 [^7]: Carl von Linné, *Nemesis Divina*.
-[^8]: Koranen, *al-Zalzalah* 99:7–8.
+[^8]: Koranen, al-Zalzalah 99:7–8.
 [^9]: Carl von Linné, *Nemesis Divina*.
-[^10]: Koranen, *al-Taghābun* 64:1.
+[^10]: Koranen, al-Taghābun 64:1.
 [^11]: ʿUmar ibn al-Khaṭṭāb, citerad av Ibn Abī al-Dunyā och återgiven av Ibn Qayyim al-Jawziyyah i *Ighāthat al-Lahfān*.
 [^12]: Ibn Qayyim al-Jawziyyah, *Madārij al-Sālikīn*, avsnittet om *muḥāsabah* (självrannsakan).
 [^13]: Processen riktades mot kyrkoherden Gabriel Beyer och docenten Johan Rosén i Göteborg, 1768–70. Swedenborgs skrifter förbjöds till distribution i Sverige.

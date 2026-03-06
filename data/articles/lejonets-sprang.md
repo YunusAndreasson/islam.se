@@ -35,7 +35,7 @@ I *Rawḍat al-Muḥibbīn* utvecklar han denna princip genom en spegelmetafor: 
 
 Sinnet är inte ett neutralt instrument som råkar vara mer eller mindre kalibrerat. Det är en spegel vars klarhet bestäms av ägarens liv — synden fördunklar den, *taqwā* (gudsfruktan) polerar den.
 
-Ibn Rajab al-Hanbali, som samlade och kommenterade profettraditionerna i *Jāmiʿ al-ʿUlūm wa-l-Ḥikam*, förankrade principen i Koranens eget löfte: "Frukta Gud, och Gud skall undervisa er" (al-Baqarah 2:282). Den som lever i *taqwā*, skrev Ibn Rajab, ges ett ljus genom vilket han kan skilja sanning från falskhet — en kunskap som inte kommer genom böcker utan genom gudsfruktan.[^9]
+Ibn Rajab al-Ḥanbalī, som samlade och kommenterade profettraditionerna i *Jāmiʿ al-ʿUlūm wa-l-Ḥikam*, förankrade principen i Koranens eget löfte: "Frukta Gud, och Gud skall undervisa er" (al-Baqarah 2:282). Den som lever i *taqwā*, skrev Ibn Rajab, ges ett ljus genom vilket han kan skilja sanning från falskhet — en kunskap som inte kommer genom böcker utan genom gudsfruktan.[^9]
 
 Koranen själv befäster sambandet. I sura al-Hajj: "Har de inte färdats på jorden med hjärtan med vilka de förstår och öron med vilka de hör? Men det är inte ögonen som är blinda utan hjärtat som finns i bröstet."[^10] Och i sura al-Hadid det löfte som binder samman tro och perception: "Ni som har antagit tron! Frukta Allah ﷻ och tro på Hans sändebud! Då skall Han ge er dubbla mått av Sin nåd, skaffa er ett ljus ni kan ta hjälp av när ni vandrar."[^11]
 

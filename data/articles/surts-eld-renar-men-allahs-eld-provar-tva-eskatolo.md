@@ -41,7 +41,7 @@ Elden *åtskiljer* — den varken förstör urskillningslöst eller speglar pass
 
 Varken den nordiska elden eller Swedenborgs korrespondenser når denna urskillning. Den koraniska elden *prövar*. Redan den grekiske filosofen Herakleitos tillskrev elden förmågan att döma — men hans eld är opersonlig *logos*, utan blick för den enskilde.[^16]
 
-Den hanbalitiske lärde Ibn Rajab al-Hanbali driver tanken till dess spets i *al-Takhwīf min al-Nār*:
+Den hanbalitiske lärde Ibn Rajab al-Ḥanbalī driver tanken till dess spets i *al-Takhwīf min al-Nār*:
 
 > Elden känner igen den troende från den otroende bättre än en förälder känner sitt barn, och griper dem i proportion till deras synder.[^8]
 
@@ -78,7 +78,7 @@ Eskatologins mest obekväma fråga: inte om det *finns* en eld, utan — vad är
 [^5]: August Strindberg, *Inferno* (1897).
 [^6]: August Strindberg, *Inferno* (1897).
 [^7]: Koranen, al-Raʿd 13:17.
-[^8]: Ibn Rajab al-Hanbali, *al-Takhwīf min al-Nār* (Varning för Elden).
+[^8]: Ibn Rajab al-Ḥanbalī, *al-Takhwīf min al-Nār* (Varning för Elden).
 [^9]: Koranen, al-Ḥajj 22:22.
 [^10]: Denna position — att syndiga troende slutligen frigörs ur Jahannam — är väletablerad i sunnitisk teologi och stöds bland annat av hadither i Ṣaḥīḥ al-Bukhārī och Ṣaḥīḥ Muslim om *shafāʿah* (förbön) och om de som bär ett sennapskorns vikt av tro i hjärtat.
 [^11]: Ibn Qayyim al-Jawziyyah, *Madārij al-Sālikīn* (De vandrandes stationer).

@@ -96,17 +96,17 @@ Den som vänder sig mot Gud i nattens mörker bär spår av det mötet i sitt an
 [^2]: Naomi Wolf, *The Beauty Myth: How Images of Beauty Are Used Against Women* (1990), inledningen. Wolfs bok förblir ett inflytelserikt feministiskt verk, även om författarens senare offentliga karriär har blivit kontroversiell.
 [^3]: Ibn Qayyim al-Jawziyyah, *Rawḍat al-Muḥibbīn*.
 [^4]: Ibn Qayyim al-Jawziyyah, *Rawḍat al-Muḥibbīn*.
-[^5]: Koranen, *al-Tīn* 95:4.
+[^5]: Koranen, al-Tīn 95:4.
 [^6]: al-Māwardī, *Adab al-Dunyā wa-l-Dīn*. Al-Mawardis uttalande speglar en bredare islamisk tradition som uppskattar fysisk skönhet som en gudomlig gåva — den inre skönhetens företräde innebär inte att den yttre föraktas.
 [^7]: Ibn Qayyim al-Jawziyyah, *Rawḍat al-Muḥibbīn*.
 [^8]: Ibn Qayyim al-Jawziyyah, *Rawḍat al-Muḥibbīn*.
 [^9]: Ibn Qayyim al-Jawziyyah, *Rawḍat al-Muḥibbīn*.
 [^10]: Återgiven i Ibn Rajab al-Ḥanbalī, *Jāmiʿ al-ʿUlūm wa-l-Ḥikam*.
-[^11]: Koranen, *ʿAbasa* 80:38–39.
+[^11]: Koranen, ʿAbasa 80:38–39.
 [^12]: Fredrika Bremer, *Fredrika Bremers Brev*, brevsamling.
 [^13]: Anne Charlotte Leffler, *Kvinnlighet och erotik* (1890).
 [^14]: Karin Boye, *Astarte*.
-[^15]: Koranen, *al-Aḥzāb* 33:43.
+[^15]: Koranen, al-Aḥzāb 33:43.
 [^16]: al-Ḥasan al-Baṣrī, citerad i Ibn Qayyim al-Jawziyyah, *Rawḍat al-Muḥibbīn*, angående Koranen *al-Qiyāmah* 75:22–23.
 [^17]: Sahih Muslim, *Kitāb al-Īmān*, nr 91.
 [^18]: al-Fuḍayl ibn ʿIyāḍ, citerad i Ibn Rajab al-Ḥanbalī, *Jāmiʿ al-ʿUlūm wa-l-Ḥikam*.
@@ -115,5 +115,5 @@ Den som vänder sig mot Gud i nattens mörker bär spår av det mötet i sitt an
 [^21]: Erik Gustaf Geijer, i en biografisk text om Friherre Malte Ramel.
 [^22]: Enligt branschrapporter uppgår den globala skönhetsindustrins värde till över 400 miljarder dollar. Se bl.a. McKinsey & Company, *The State of Fashion: Beauty* (2025).
 [^23]: Ibn Qayyim al-Jawziyyah, *Rawḍat al-Muḥibbīn*.
-[^24]: Koranen, *al-Fatḥ* 48:29.
+[^24]: Koranen, al-Fatḥ 48:29.
 [^25]: Viktor Frankl, *Man's Search for Meaning* (1946), förord till 1984 års utgåva.

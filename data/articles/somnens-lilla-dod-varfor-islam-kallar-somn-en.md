@@ -43,7 +43,7 @@ Den islamiska traditionen har ett ord för denna överlåtelse, och det är i lj
 
 Det är ingen sömnbön i den mening vi tänker oss, inget lugnande mantra, ingen avslappningsövning. Det är en dödsförberedelse. Ordagrant: *laka mamātuhā wa-maḥyāhā*, dess död och dess liv tillhör Dig. Att somna, i denna tradition, är att öva sig i att dö.
 
-Ordet för denna överlåtelse är *tawakkul*. Ibn Qayyim al-Jawziyyah definierade det som "hjärtats sanna förlitan på Allah ﷻ ensam"[^6] och Ibn Rajab al-Hanbali preciserade: "hjärtats uppriktiga förtröstan på Allah ﷻ i att söka det goda och avvärja det skadliga".[^7] Det är den som lägger huvudet mot kudden fast morgondagen är olöst.
+Ordet för denna överlåtelse är *tawakkul*. Ibn Qayyim al-Jawziyyah definierade det som "hjärtats sanna förlitan på Allah ﷻ ensam"[^6] och Ibn Rajab al-Ḥanbalī preciserade: "hjärtats uppriktiga förtröstan på Allah ﷻ i att söka det goda och avvärja det skadliga".[^7] Det är den som lägger huvudet mot kudden fast morgondagen är olöst.
 
 Häri ligger sömnens hemlighet. Den sömnlösa människan, den moderna, sekulära, upplysta människan, lider inte av brist på melatonin. Bristen är av annat slag: för mycket kontroll. Hon kan inte somna för att hon inte förmår *tawakkul*, inte förmår lita på att världen bär henne när hon släpper.
 
@@ -112,7 +112,7 @@ Kanske är det det enda sättet att leva.
 [^1]: Folkhälsomyndigheten, "Varannan vuxen har sömnbesvär" (2024). Statistiken inkluderar alla grader av sömnbesvär; majoriteten beskriver sina problem som lättare.
 [^2]: Hadith återgiven av al-Bazzār i *Musnad al-Bazzār*. Al-Haythamī bedömde dess berättarkedja som tillförlitlig i *Majmaʿ al-Zawāʾid*. Hadithen återfinns inte i de sex kanoniska samlingarna.
 [^3]: Ibn Taymiyyah, *al-Radd ʿalā al-Manṭiqiyyīn* (Genmälet till logikerna). Min översättning.
-[^4]: Koranen, *al-Zumar* 39:42.
+[^4]: Koranen, al-Zumar 39:42.
 [^5]: Sahih Muslim, *Kitāb al-Dhikr wa-l-Duʿāʾ*, ur den profetiska kvällsbönen.
 [^6]: Ibn Qayyim al-Jawziyyah, *al-Fawāʾid* (Nyttigheterna). Min översättning.
 [^7]: Ibn Rajab al-Ḥanbalī, *Jāmiʿ al-ʿUlūm wa-l-Ḥikam* (Kompendium av kunskap och visdom). Min översättning.
@@ -125,9 +125,9 @@ Kanske är det det enda sättet att leva.
 [^14]: Fredrika Bremer, "Vagga och graf".
 [^15]: Ibn Qayyim al-Jawziyyah, *al-Wābil al-Ṣayyib* (Det strömmande regnet). Min översättning.
 [^16]: Ali ibn Abi Talib, citerad av al-Ghazālī i *The Confessions of Al Ghazzali*. Hadithvetare (al-Subkī i *Ṭabaqāt al-Shāfiʿiyyah*, al-Sakhāwī i *al-Maqāṣid al-Ḥasanah*) identifierar detta som Ali ibn Abi Talibs ord, inte ett profetiskt uttalande.
-[^17]: Koranen, *al-Furqān* 25:47.
+[^17]: Koranen, al-Furqān 25:47.
 [^18]: Muhammad ibn al-Nadr al-Ḥārithī, citerad i *Ṣifat al-Ṣafwah* (De renlärigas egenskaper). Min översättning.
 [^19]: Erik Gustaf Geijer, *Minnen*.
-[^20]: Koranen, *al-Sajdah* 32:16. Min översättning.
+[^20]: Koranen, al-Sajdah 32:16. Min översättning.
 [^21]: Ibn Kathīr, *Tafsīr al-Qurʾān al-ʿAẓīm*, kommentar till *al-Sajdah* 32:16. Min översättning.
 [^22]: Blaise Pascal, *Pensées*, fragment 139 (Brunschvicg). Min översättning.

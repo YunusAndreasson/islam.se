@@ -71,7 +71,7 @@ Leo Kall hade ett ögonblick av klarhet. Mot romanens slut, när hans uppfinning
 
 Men det språket har funnits i fjorton sekler, finslipat av tänkare som hedrade kroppen genom att vägra reducera den. Kroppen som riddjur, hjärtat som kunskapsplats, existensen som anförtrott lån: det är en begreppsram för att bebo en materiell verklighet utan att förlora sig i den.
 
-Den svenska litteraturen hade känt på samma förlust, om än utan språket att benämna den. Strindberg lät i *Röda rummet* sin berättare utbrista att "arbetets fördelning leder till släktets framgång och individens död" — han såg problemets konturer.[^14] Boye tecknade dess konsekvenser. Ibn Rajab al-Hanbali, hanbalitisk andlig lärare på 1300-talet, fångade dess innersta lager: "Min kropp är med mig, men min ande är hos er — kroppen lever i främlingskap, anden i sin hemort."[^15]
+Den svenska litteraturen hade känt på samma förlust, om än utan språket att benämna den. Strindberg lät i *Röda rummet* sin berättare utbrista att "arbetets fördelning leder till släktets framgång och individens död" — han såg problemets konturer.[^14] Boye tecknade dess konsekvenser. Ibn Rajab al-Ḥanbalī, hanbalitisk andlig lärare på 1300-talet, fångade dess innersta lager: "Min kropp är med mig, men min ande är hos er — kroppen lever i främlingskap, anden i sin hemort."[^15]
 
 Det är den meningen som skiljer den optimerade kroppen från den anförtrodda. Den ena jagar perfektion i vad den redan har. Den andra vet att hon befinner sig på resa, och att hon inte råder över resans villkor.
 

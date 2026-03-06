@@ -55,7 +55,7 @@ Denna distinktion mellan automatiserad och icke-automatiserad kunskap bekräftas
 
 Den islamiska pedagogiska traditionen hade formulerat denna ordning århundraden tidigare. Den damascenske lärde Ibn Qayyim al-Jawziyyah från 1300-talet beskrev kunskapens steg i *Miftāḥ Dār al-Saʿādah*: först lyssnande, därpå förståelse, sedan memorering, slutligen tillämpning — varje steg bygger på det föregående, och inget kan kringgås utan att helheten faller.[^10] Ordningen är ingen slump: förståelsen föregår memoreringen, men memoreringen befäster förståelsen och öppnar för tillämpning. Utan det tredje steget förblir det andra flyktigt.
 
-Ibn Rajab al-Hanbali fångade slutresultatet i en enda bild: "Ju starkare kunskapen blir, desto mer flödar åminnelsen på den åminnandes tunga utan ansträngning."[^11] *Malaka* fulländad: kunskap lika naturlig som andning.
+Ibn Rajab al-Ḥanbalī fångade slutresultatet i en enda bild: "Ju starkare kunskapen blir, desto mer flödar åminnelsen på den åminnandes tunga utan ansträngning."[^11] *Malaka* fulländad: kunskap lika naturlig som andning.
 
 ## V. Den svenska kollapsen
 

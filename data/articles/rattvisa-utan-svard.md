@@ -78,7 +78,7 @@ Svärdet kan skydda rättvisan. Det kan aldrig vara den.
 [^5]: al-Māwardī, *al-Aḥkām al-Sulṭāniyyah*, kapitlet om *maẓālim*.
 [^6]: al-Māwardī, *al-Aḥkām al-Sulṭāniyyah*, kapitlet om *maẓālim*.
 [^7]: al-Māwardī, *al-Aḥkām al-Sulṭāniyyah*, kapitlet om *ḥisbah*.
-[^8]: Koranen, Imrans ätt 3:104.
+[^8]: Koranen, Āl ʿImrān 3:104.
 [^9]: al-Māwardī, *al-Aḥkām al-Sulṭāniyyah*, kapitlet om *ḥisbah*.
 [^10]: al-Māwardī, *al-Aḥkām al-Sulṭāniyyah*, kapitlet om *ḥisbah*.
 [^11]: al-Māwardī, *al-Aḥkām al-Sulṭāniyyah*, kapitlet om *ḥisbah*.
@@ -91,5 +91,5 @@ Svärdet kan skydda rättvisan. Det kan aldrig vara den.
 [^18]: Abu Bakr al-Siddiq, återgiven i Ibn al-Jawzī, *Ṣifat al-Ṣafwah*.
 [^19]: Ibn Khaldūn, *Muqaddimah*.
 [^20]: Jfr historiska studier av *ḥisbah*-ämbetets praktiska tillämpning under senabbasidisk tid.
-[^21]: Koranen, Kvinnorna 4:58.
+[^21]: Koranen, al-Nisāʾ 4:58.
 [^22]: C.S. Lewis, "The Humanitarian Theory of Punishment" (1949).

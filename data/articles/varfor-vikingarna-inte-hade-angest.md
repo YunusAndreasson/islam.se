@@ -89,14 +89,14 @@ Gunnar på Hlíðarendi vände sig i sadeln — hans lugn sprang ur vissheten at
 [^4]: Kairos Future, *Svenskarna, vardagen och meningslöshetens mörker* (2023).
 [^5]: Karin Boye, *Kris* (1934).
 [^6]: Hjalmar Söderberg, *Förvillelser* (1895).
-[^7]: Koranen, *al-Taghābun* 64:11.
-[^8]: Koranen, *Luqmān* 31:34.
-[^9]: Ibn Qayyim al-Jawziyyahh, *al-Fawāʾid*.
-[^10]: Ibn Qayyim al-Jawziyyahh, *al-Fawāʾid*.
+[^7]: Koranen, al-Taghābun 64:11.
+[^8]: Koranen, Luqmān 31:34.
+[^9]: Ibn Qayyim al-Jawziyyah, *al-Fawāʾid*.
+[^10]: Ibn Qayyim al-Jawziyyah, *al-Fawāʾid*.
 [^11]: Ibn al-Jawzī, *Talbīs Iblīs*.
-[^12]: Koranen, *al-Ṭalāq* 65:3.
+[^12]: Koranen, al-Ṭalāq 65:3.
 [^13]: Karin Boye, *Kris* (1934).
-[^14]: Koranen, *al-Tawbah* 9:129.
+[^14]: Koranen, al-Tawbah 9:129.
 [^15]: *Tusen och en natt*, vol. 11. Berättelsen om den besegrade fursten och eremiten.
 [^16]: Søren Kierkegaard, *Begreppet ångest* (1844).
 [^17]: Dag Hammarskjöld, *Vägmärken* (1963).
