@@ -1,7 +1,7 @@
 ---
 title: "Alis princip"
 publishedAt: "2025-11-12T12:00:00.000Z"
-wordCount: 1717
+wordCount: 1770
 qualityScore: 8.6
 description: "År 1955 röstade svenska folket för att avskaffa Brattsystemet trots läkarnas varningar. Tjugofem år senare fick väljarna tre alternativ i kärnkraftsfrågan — inget av dem ett rent nej. Koranen ställde diagnosen långt före båda omröstningarna: de flesta följer antaganden, inte kunskap."
 ---
@@ -11,7 +11,7 @@ En mening i Koranen borde oroa varje demokrat:
 
 Iakttagelsen är ren och osentimental: de flesta människor följer antaganden, och antaganden är inte sanning.
 
-Påståendet är inte unikt för Koranen. Strindberg formulerade samma misstanke i *Götiska rummen*: "Det är majoriteten, det trogna folket, det sunda förståndet som bara är oförstånd; det är de rättänkande, de stilla i landet, kärnan av befolkningen."[^2] Ellen Key skrev om "massdumheten, massfegheten och masslögnen" som tillsammans åstadkommer sådant som nästan varje enskild individ i massan skulle tveka inför.[^3] Le Bon beskrev hur en människa som inträder i en folkmassa förlorar sina individuella egenskaper och upptar massans.[^4]
+Påståendet är inte unikt för Koranen. Strindberg formulerade samma misstanke i *Götiska rummen*: "Det är majoriteten, det trogna folket, det sunda förståndet som bara är oförstånd; det är de rättänkande, de stilla i landet, kärnan av befolkningen."[^2] Ellen Key skrev om "massdumheten, massfegheten och masslögnen" som tillsammans åstadkommer sådant som nästan varje enskild individ i massan skulle tveka inför.[^3] Le Bon beskrev hur en människa som inträder i en folkmassa förlorar sina individuella egenskaper och övertar massans.[^4]
 
 Strindberg observerade, Key kritiserade, Le Bon analyserade — men Koranen förklarar *varför*.
 
@@ -21,7 +21,7 @@ Den liberala demokratin vilar på en outtalad premiss: att folkviljan, genom rä
 
 Premissen har aldrig bevisats — bara antagits.
 
-Sverige erbjuder två talande exempel. År 1955 röstade svenska folket för att avskaffa motbokssystemet, det så kallade Brattsystemet, trots att den medicinska expertisen varnade för konsekvenserna. Alkoholkonsumtionen steg. Skadorna följde. Folket hade talat, och folket hade fel.[^5] Men saken är inte enkel: Brattsystemet var också ett instrument för klassförtryck och övervakning, där läkare och byråkrater godtyckligt begränsade fattiga medborgares inköp medan överklassen drack obehindrat. Experternas sanning var verklig, men den förmedlades genom en struktur av förnedring. Demokratin löste ett rättviseproblem genom att skapa ett folkhälsoproblem och saknade medel att hantera konflikten.
+Sverige ger två talande exempel. År 1955 röstade svenska folket för att avskaffa motbokssystemet, det så kallade Brattsystemet, trots att den medicinska expertisen varnade för konsekvenserna. Alkoholkonsumtionen steg. Skadorna följde. Folket hade talat, och folket hade fel.[^5] Men saken är inte enkel: Brattsystemet var också ett instrument för klassförtryck och övervakning, där läkare och byråkrater godtyckligt begränsade fattiga medborgares inköp medan överklassen drack obehindrat. Experternas sanning var verklig, men den förmedlades genom en struktur av förnedring. Demokratin löste ett rättviseproblem genom att skapa ett folkhälsoproblem och saknade medel att hantera konflikten.
 
 Tjugofem år senare, 1980, folkomröstade Sverige om kärnkraften. Tre alternativ presenterades. Inget av dem var ett rent nej. Väljarna fick välja mellan tre varianter av ja, med olika avvecklingstakt, och resultatet tolkades sedan som en avvecklingsplan som aldrig genomfördes fullt ut.[^6] Demokratin hade gett ett svar, men ingen sanning. Proceduren var oklanderlig — kunskapen obefintlig.
 
@@ -31,11 +31,11 @@ Koranen skiljer inte mellan rätt och fel som politiska kategorier utan mellan *
 
 Varför följer de flesta antaganden? Frågan verkar enkel. Svaret som Koranen och den islamiska intellektuella traditionen ger är det inte.
 
-Ibn Qayyim al-Jawziyya urskiljer två svagheter: bristande insikt och bristande tålamod.[^8] Insikt kräver ansträngning. Tålamod kräver att man uthärdar obehaget av att stå ensam. Antagandet erbjuder genvägen: en åsikt utan arbete, en övertygelse utan prövning.
+Ibn Qayyim al-Jawziyya urskiljer två svagheter: bristande insikt och bristande tålamod.[^8] Insikt kräver ansträngning. Tålamod kräver att man uthärdar obehaget av att stå ensam. Antagandet ger en genväg: en åsikt utan arbete, en övertygelse utan prövning.
 
 Men det finns något djupare än lättja. Ibn al-Jawzi: "Begäret förblindar och gör döv för sanning och riktighet."[^9] Begäret — *hawā* — förvränger aktivt omdömet. Människan ser inte fel *trots* sin intelligens utan *på grund av* sina begär. Den smarta människan som följer sitt begär blir okunnig; den starka blir svag.[^10]
 
-Utan kännedom om denna tradition landade Gustave Le Bon i samma slutsats från ett annat håll: "I en folkmassa blir skeptikern troende, den ärliga människan en förbrytare, den fege en hjälte."[^11] Massan upplöser inte bara individuellt omdöme. Den ställer det på huvudet. Le Bon beskrev mekanismen. Den koraniska analysen blottlägger drivkraften: *hawā*, det oreflekterade begäret som intar kunskapens plats.
+Utan kännedom om denna tradition landade Gustave Le Bon i samma slutsats från ett annat håll: "I en folkmassa blir skeptikern troende, den ärliga människan en förbrytare, den fege en hjälte."[^11] Massan upplöser inte bara individuellt omdöme. Den ställer det på huvudet. Le Bon beskrev mekanismen, men hans analys börjar för sent: den utgår från folkmassan som om förvrängningen uppstår när individen träder in i gruppen. Den koraniska analysen visar att *hawā* verkar redan innan massan samlas — massan skapar inte irrationalitet utan ger det begär som redan finns en kollektiv ursäkt. Just därför når Le Bons analys bara *vad* som sker, inte *varför*: hans enhet är gruppen, och sjukdomen föregår gruppen.
 
 Koranen formulerar det med en direkthet som gör omskrivningar överflödiga: "Vem är mer vilse än den som följer sitt begär utan någon vägledning från Allah?"[^12] Det som fördöms är inte begäret i sig — det är begäret *utan vägledning*. Islam förutsätter inte att människan kan leva utan begär. Den förutsätter att hon behöver en ordning som ställer sanningen över hennes impulser.
 
@@ -47,7 +47,7 @@ Formuleringen ser enkel ut. Den är förödande.
 
 Den vänder upp och ned på det sätt vi normalt orienterar oss i världen. Vi bedömer påståenden efter vem som framför dem: auktoriteten, experten, majoriteten, den karismatiske ledaren. Alis princip kräver det motsatta: bedöm påståendet först, *sedan* avsändaren. Sanningen har varken ansikte, meriter eller parti. Den är sann oavsett vem som yttrar den eller hur många som förnekar den.
 
-Ibn Taymiyyah fördjupade denna princip i flera av sina verk. Den som gör människor till måttstock för sanningen — istället för att pröva människors påståenden mot sanningen — begår det mest grundläggande tankefelet.[^14] Det spelar ingen roll om auktoriteten är en lärd, en ledare eller en majoritet: den som accepterar ett påstående *för att* det framförs av en viss person, utan att pröva det mot uppenbarelsen och det sunda förnuftet, har vänt kunskapsordningen upp och ned. Ibn Taymiyyah återkommer till detta i *Majmūʿ al-Fatāwā*: varje människa kan tas ifrån eller ges rätt, utom Profeten, fred vare med honom. Ingen annan åtnjuter ofelbarhet. Sanningen är kriteriet för människor, inte människor för sanningen.
+Ibn Taymiyyah fördjupade denna princip i flera av sina verk. Den som gör människor till måttstock för sanningen — istället för att pröva människors påståenden mot sanningen — begår det mest grundläggande tankefelet.[^14] Det spelar ingen roll om auktoriteten är en lärd, en ledare eller en majoritet: den som accepterar ett påstående *för att* det framförs av en viss person, utan att pröva det mot uppenbarelsen och det sunda förnuftet, har vänt kunskapsordningen upp och ned. Ibn Taymiyyah återkommer till detta i *Majmūʿ al-Fatāwā*: varje människa kan ha fel eller rätt, utom Profeten, fred vare med honom. Ingen annan åtnjuter ofelbarhet. Sanningen är kriteriet för människor, inte människor för sanningen.
 
 Det demokratiska samhället gör just detta — inte av illvilja utan av struktur. Omröstningen frågar inte: *vad är sant?* Den frågar: *vad tycker de flesta?* Och den behandlar svaret som om det vore samma sak.
 
@@ -63,7 +63,7 @@ Karin Boye skrev i *Kallocain*: "Sanningen kunde vara en bro mellan människa oc
 
 Koranen använder ett oväntat ord för det liv som väntar den som vänder sig bort från vägledningen: *dank* — trånghet, snävhet. "Den som vänder sig bort från Min påminnelse ska sannerligen leva ett trångt liv."[^19] Inte ett syndigt, inte ett straffat — ett *trångt* liv.
 
-Hjalmar Söderberg fångade samma fenomen, speglat: "Sanningen är fattig som Job, ofruktbar som ökensanden och tråkig som en gammal antikvarisk bokhandlare. Men lögnen är rik som påven i Rom!"[^20] Söderberg menade det ironiskt, men ironin bär på en oavsiktlig sanning. Lögnen *är* rik — rik på löften, rik på bekvämlighet, rik på den tillfälliga lättnaden att inte behöva tänka. Sanningen erbjuder inget av detta. Den erbjuder bara sig själv.
+Hjalmar Söderberg fångade samma fenomen, speglat: "Sanningen är fattig som Job, ofruktbar som ökensanden och tråkig som en gammal antikvarisk bokhandlare. Men lögnen är rik som påven i Rom!"[^20] Söderberg menade det ironiskt, men ironin bär på en oavsiktlig sanning. Lögnen *är* rik — rik på löften, rik på bekvämlighet, rik på den tillfälliga lättnaden att inte behöva tänka. Sanningen ger inget av detta. Den ger bara sig själv.
 
 Ibn Khaldun formulerade sambandet mellan sanningens enhet och lögnens mångfald: "Sanningen är bara en form, medan falskheten är många former. Därför är det lätt att begå orättvisa men svårt att uppfylla rättvisa."[^21] Majoriteten följer inte lögnen för att den är övertygande utan för att den är mångfaldig: det finns alltid en variant som passar just ditt begär, just din bekvämlighet, just din tid.
 

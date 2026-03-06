@@ -1359,6 +1359,101 @@ program
 	});
 
 program
+	.command("language")
+	.description(
+		"Check word/phrase level Swedish naturalness — non-existent words, anglicisms, AI filler phrases, gender errors, preposition calques",
+	)
+	.argument("<slug>", 'Article slug or "all" for all articles')
+	.option("--dry-run", "Preview diffs without writing changes")
+	.option("--no-confirm", "Auto-accept changes (skip interactive prompt)")
+	.option("-m, --model <model>", "Model to use (opus|sonnet)", "sonnet")
+	// biome-ignore lint/complexity/noExcessiveCognitiveComplexity: sequential CLI pipeline handler
+	.action(async (slug: string, options) => {
+		const publisher = new ArticlePublisher();
+		const orchestrator = new ContentOrchestrator({
+			outputDir: "./output",
+			model: options.model as "opus" | "sonnet",
+		});
+
+		const slugs = resolveArticleSlugs(slug, publisher, "check language");
+		let processed = 0;
+		let corrected = 0;
+		let clean = 0;
+		let skipped = 0;
+
+		for (const articleSlug of slugs) {
+			processed++;
+			if (slugs.length > 1) {
+				console.log(`\n[${processed}/${slugs.length}] ${articleSlug}`);
+				console.log("─".repeat(60));
+			}
+
+			const article = readArticle(publisher, articleSlug);
+			if (!article) {
+				skipped++;
+				continue;
+			}
+			const { content, originalFrontmatter, originalBody } = article;
+
+			console.log("  Running language check...");
+			let languageResult: Awaited<ReturnType<typeof orchestrator.runLanguage>>;
+			try {
+				languageResult = await orchestrator.runLanguage(originalBody);
+			} catch (err) {
+				console.log(`  Language check crashed: ${err}`);
+				skipped++;
+				continue;
+			}
+
+			if (!(languageResult.success && languageResult.data)) {
+				console.log(`  Language check failed: ${languageResult.error ?? "unknown error"}`);
+				skipped++;
+				continue;
+			}
+
+			const { verdict, issuesFound, summary, body: languageBody } = languageResult.data;
+
+			console.log(`  Verdict: ${verdict} (${issuesFound.length} issues)`);
+			console.log(`  Summary: ${summary}`);
+
+			if (verdict === "clean") {
+				console.log("  Language already natural — no issues found.");
+				clean++;
+				continue;
+			}
+
+			console.log(`\n  Issues (${issuesFound.length}):`);
+			for (const issue of issuesFound) {
+				console.log(`\n  [\x1b[36m${issue.type}\x1b[0m] ${issue.location}`);
+				console.log(`    \x1b[31m- ${issue.original}\x1b[0m`);
+				console.log(`    \x1b[32m+ ${issue.correction}\x1b[0m`);
+				console.log(`    \x1b[33m  ${issue.reason}\x1b[0m`);
+			}
+
+			printDiff(articleSlug, originalBody, languageBody, "language");
+			checkIntegrity(originalBody, languageBody);
+
+			const outcome = await confirmAndWrite(
+				publisher,
+				articleSlug,
+				content,
+				originalFrontmatter,
+				languageBody,
+				options,
+			);
+			if (outcome === "skipped") skipped++;
+			else corrected++;
+		}
+
+		console.log("\n══════════════════════════════════════════════════════════");
+		console.log(
+			`  Done. ${corrected} corrected, ${clean} clean, ${skipped} skipped out of ${processed} articles.`,
+		);
+		console.log("══════════════════════════════════════════════════════════\n");
+		process.exit(0);
+	});
+
+program
 	.command("compress")
 	.description(
 		"Compress verbose phrases into precise single words — particle-verbs, weak verb+noun, adverbial phrases",
@@ -1827,6 +1922,109 @@ program
 		console.log("\n══════════════════════════════════════════════════════════");
 		console.log(
 			`  Done. ${corrected} corrected, ${clean} clean, ${skipped} skipped out of ${processed} articles.`,
+		);
+		console.log("══════════════════════════════════════════════════════════\n");
+		process.exit(0);
+	});
+
+program
+	.command("deepen")
+	.description(
+		"Find where the essay illustrates rather than argues, and add the missing reasoning steps",
+	)
+	.argument("<slug>", 'Article slug or "all" for all articles')
+	.option("--dry-run", "Preview diffs without writing changes")
+	.option("--no-confirm", "Auto-accept changes (skip interactive prompt)")
+	.option("-m, --model <model>", "Model to use (opus|sonnet)", "opus")
+	// biome-ignore lint/complexity/noExcessiveCognitiveComplexity: sequential CLI pipeline handler
+	.action(async (slug: string, options) => {
+		const publisher = new ArticlePublisher();
+		const orchestrator = new ContentOrchestrator({
+			outputDir: "./output",
+			model: options.model as "opus" | "sonnet",
+		});
+
+		const slugs = resolveArticleSlugs(slug, publisher, "deepen");
+		let processed = 0;
+		let deepened = 0;
+		let clean = 0;
+		let skipped = 0;
+
+		for (const articleSlug of slugs) {
+			processed++;
+			if (slugs.length > 1) {
+				console.log(`\n[${processed}/${slugs.length}] ${articleSlug}`);
+				console.log("─".repeat(60));
+			}
+
+			const article = readArticle(publisher, articleSlug);
+			if (!article) {
+				skipped++;
+				continue;
+			}
+			const { content, originalFrontmatter, originalBody } = article;
+
+			console.log("  Running deepen...");
+			let deepenResult: Awaited<ReturnType<typeof orchestrator.runDeepen>>;
+			try {
+				deepenResult = await orchestrator.runDeepen(originalBody);
+			} catch (err) {
+				console.log(`  Deepen crashed: ${err}`);
+				skipped++;
+				continue;
+			}
+
+			if (!(deepenResult.success && deepenResult.data)) {
+				console.log(`  Deepen failed: ${deepenResult.error ?? "unknown error"}`);
+				skipped++;
+				continue;
+			}
+
+			const { verdict, thesis, gaps, changes, changesCount, summary, body: deepenedBody } =
+				deepenResult.data;
+
+			console.log(`  Thesis: ${thesis}`);
+			console.log(`  Verdict: ${verdict} (${changesCount} changes)`);
+			console.log(`  Summary: ${summary}`);
+
+			if (verdict === "clean") {
+				console.log("  No argumentation gaps found — essay already argues well.");
+				clean++;
+				continue;
+			}
+
+			console.log(`\n  Gaps (${gaps.length}):`);
+			for (const gap of gaps) {
+				console.log(`    [\x1b[36m${gap.type}\x1b[0m] ${gap.location}`);
+				console.log(`      ${gap.description.slice(0, 120)}${gap.description.length > 120 ? "..." : ""}`);
+			}
+
+			console.log(`\n  Changes (${changes.length}):`);
+			for (const change of changes) {
+				console.log(`\n  [\x1b[36m${change.type}\x1b[0m] ${change.location}`);
+				console.log(`    \x1b[31m- ${change.before.slice(0, 120)}${change.before.length > 120 ? "..." : ""}\x1b[0m`);
+				console.log(`    \x1b[32m+ ${change.after.slice(0, 120)}${change.after.length > 120 ? "..." : ""}\x1b[0m`);
+				console.log(`    \x1b[33m  ${change.reasoning}\x1b[0m`);
+			}
+
+			printDiff(articleSlug, originalBody, deepenedBody, "deepened");
+			checkIntegrity(originalBody, deepenedBody);
+
+			const outcome = await confirmAndWrite(
+				publisher,
+				articleSlug,
+				content,
+				originalFrontmatter,
+				deepenedBody,
+				options,
+			);
+			if (outcome === "skipped") skipped++;
+			else deepened++;
+		}
+
+		console.log("\n══════════════════════════════════════════════════════════");
+		console.log(
+			`  Done. ${deepened} deepened, ${clean} clean, ${skipped} skipped out of ${processed} articles.`,
 		);
 		console.log("══════════════════════════════════════════════════════════\n");
 		process.exit(0);

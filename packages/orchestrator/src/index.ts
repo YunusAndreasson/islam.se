@@ -18,6 +18,7 @@ import {
 	BrillianceFrontmatterSchema,
 	CohesionFrontmatterSchema,
 	CompressFrontmatterSchema,
+	DeepenFrontmatterSchema,
 	DraftFrontmatterSchema,
 	DraftOutputSchema,
 	ElevateFrontmatterSchema,
@@ -26,6 +27,7 @@ import {
 	GroundFrontmatterSchema,
 	getFactCheckJsonSchema,
 	getResearchJsonSchema,
+	LanguageFrontmatterSchema,
 	PolishFrontmatterSchema,
 	ProofreadFrontmatterSchema,
 	ResearchOutputSchema,
@@ -220,6 +222,19 @@ export interface AqeedahReviewOutput {
 	body: string;
 }
 
+export interface LanguageOutput {
+	verdict: "clean" | "corrected";
+	issuesFound: Array<{
+		type: "nonexistent-word" | "anglicism" | "ai-phrase" | "gender" | "preposition";
+		location: string;
+		original: string;
+		correction: string;
+		reason: string;
+	}>;
+	summary: string;
+	body: string;
+}
+
 export interface ProofreadOutput {
 	verdict: "clean" | "corrected";
 	issuesFound: Array<{
@@ -346,6 +361,27 @@ export interface CohesionOutput {
 		problem: string;
 		fix: string;
 	}>;
+	summary: string;
+	body: string;
+}
+
+export interface DeepenOutput {
+	verdict: "clean" | "deepened";
+	thesis: string;
+	argumentChain: string[];
+	gaps: Array<{
+		location: string;
+		type: string;
+		description: string;
+	}>;
+	changes: Array<{
+		location: string;
+		type: string;
+		before: string;
+		after: string;
+		reasoning: string;
+	}>;
+	changesCount: number;
 	summary: string;
 	body: string;
 }
@@ -1338,6 +1374,37 @@ If the draft has anglicisms, fix them in the revised article.
 	}
 
 	/**
+	 * Check word/phrase level Swedish naturalness — non-existent words, anglicisms,
+	 * AI filler phrases, gender errors, and preposition calques from English.
+	 */
+	async runLanguage(articleBody: string): Promise<StageResult<LanguageOutput>> {
+		this.logger.log("   🇸🇪 Language: ord som inte finns, anglicismer, AI-fraser");
+
+		const systemPrompt =
+			"Du är en infödd svensk redaktör. Du letar efter ord och fraser som inte är naturlig svenska: påhittade ord, anglicismer, AI-klyscheér på frasnivå, genusfel och calques från engelska. Ingenting annat.";
+
+		const result = await this.executeClaudeStage<LanguageOutput>({
+			name: "Language",
+			stage: "polish",
+			emoji: "🇸🇪",
+			promptFile: "language.md",
+			systemPrompt,
+			userContent: `## TEXTEN\n\n${articleBody}`,
+			markdownMode: {
+				frontmatterSchema: LanguageFrontmatterSchema,
+				combine: (meta, body) =>
+					({
+						...meta,
+						body,
+					}) as LanguageOutput,
+			},
+			effort: "high",
+		});
+
+		return result;
+	}
+
+	/**
 	 * Review article for Swedish naturalness — fix anglicisms, AI rhetoric patterns,
 	 * repetition loops, overexplanation, and English sentence rhythm.
 	 */
@@ -1597,6 +1664,38 @@ Sektionerna 1–15 (anglicismer, retoriska mönster etc.) är sekundära — åt
 			},
 			effort: "high",
 			timeout: 900000,
+		});
+
+		return result;
+	}
+
+	/**
+	 * Run the deepen stage — find where the essay illustrates rather than argues,
+	 * and add the missing reasoning steps. 1–2 surgical changes per article.
+	 */
+	async runDeepen(articleBody: string): Promise<StageResult<DeepenOutput>> {
+		this.logger.log("   🔬 Deepen: finding illustration where argumentation is needed");
+
+		const systemPrompt =
+			"Du är en filosof och argumentationsanalytiker. Du söker avsnitt som illustrerar sin tes istället för att argumentera för den — och lägger till det saknade resonemangssteget.";
+
+		const result = await this.executeClaudeStage<DeepenOutput>({
+			name: "Deepen",
+			stage: "polish",
+			emoji: "🔬",
+			promptFile: "deepen.md",
+			systemPrompt,
+			userContent: `## TEXTEN\n\n${articleBody}`,
+			markdownMode: {
+				frontmatterSchema: DeepenFrontmatterSchema,
+				combine: (meta, body) =>
+					({
+						...meta,
+						body,
+					}) as DeepenOutput,
+			},
+			effort: "high",
+			timeout: 600000, // 10 min — Opus needs extended thinking for argument analysis
 		});
 
 		return result;

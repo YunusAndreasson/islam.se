@@ -1,7 +1,7 @@
 ---
 title: "Nattens bokslut"
 publishedAt: "2026-02-20T12:00:00.000Z"
-wordCount: 1702
+wordCount: 1752
 qualityScore: 8.4
 description: "Varje kväll i årtionden satte sig Zacharias Topelius vid sitt skrivbord och avslutade dagen med bön och självrannsakan, en vana hans mor grundlagt i Nykarleby. I Bagdad på 1000-talet föreskrev rättslärden al-Mawardi samma övning med andra ord: granska dina gärningar, ty natten skärper tanken."
 ---
@@ -53,11 +53,11 @@ Man kan invända att evidensbaserade verktyg utan teologiska krav borde rimligen
 
 ## Den lilla döden
 
-Koranen kallar natten "en klädnad" och sömnen "en avkoppling".[^17] Bilden är intim: natten sveper in människan, och sömnen upplöser dagens knutar. Men Koranen tillägger: "Det är Han som tar er om natten."[^18] Sömnen är en anförtrodd överlåtelse.
+Koranen kallar natten "en klädnad" och sömnen "en avkoppling".[^17] Bilden är intim: natten sveper in människan, och sömnen upplöser dagens knutar. Men Koranen tillägger: "Det är Han som tar er om natten."[^18] Sömnen är en anförtrodd överlåtelse. Och om varje natt är en liten död, är varje kvälls *muḥāsabah* en repetition av den slutliga räkenskapen — det *ḥisāb* som Umar varnade för. Praktikens slitstyrka vilar där: den som granskar sig varje kväll förbereder sig inte bara för morgondagen utan för den Morgondag då inget återstår utom svaret.
 
 Kvar står granskning, riktning och överlåtelse. Koranen ger grunden, Profetens ﷺ praktik formen, och den troendes vana hållbarheten.
 
-Den moderna människan som ligger sömnlös och scrollar har inte ett sömnproblem. Hon har ett kvällsproblem. Lösningen finns inte i en ny app, utan i en mycket gammal fråga: vad har jag skickat framför mig för morgondagen?
+Den moderna människan som ligger sömnlös och bläddrar har inte ett sömnproblem. Hon har ett kvällsproblem. Lösningen finns inte i en ny app, utan i en mycket gammal fråga: vad har jag skickat framför mig för morgondagen?
 
 
 ---

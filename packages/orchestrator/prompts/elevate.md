@@ -60,7 +60,7 @@ Generiska verb döljer tänkandet. Ett "säger" berättar inget om *hur* persone
 
 ## 3. Kompression — åtta ord istället för femton
 
-Intellektuell prosa är tät. Den litar på läsaren. Hitta meningar som säger samma sak med för många ord och komprimera dem utan att förlora nyans.
+Intellektuell prosa är tät. Den litar på läsaren. Hitta meningar som säger samma sak med för många ord och komprimera dem utan att förlora nyans. (Ren lexikal komprimering — fraser som ersätts med enstaka ord — hanteras av ett separat compress-steg. Fokusera här på konceptuell kompression: meningar som förkortas utan att tappa innebörd.)
 
 **Före:** "Det som gör denna distinktion så viktig är det faktum att den ställer hela frågan i ett helt nytt ljus."
 **Efter:** "Distinktionen omvandlar frågan."

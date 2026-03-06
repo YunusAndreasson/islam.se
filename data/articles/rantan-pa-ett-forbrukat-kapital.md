@@ -1,7 +1,7 @@
 ---
 title: "Galningen på torget"
 publishedAt: "2025-12-02T12:00:00.000Z"
-wordCount: 1530
+wordCount: 1591
 qualityScore: 8.6
 description: "År 1882 lät Nietzsche inte en filosof utan en galning springa ut på torget med en lykta mitt på ljusa dagen för att förkunna Guds död. Han förstod vad hans beundrare sällan erkänner: att utan Gud är inte bara teologin utan hela den moraliska ordningen i fritt fall."
 ---
@@ -11,7 +11,7 @@ Nietzsche lät ingen filosof förkunna Guds död. Han lät en galning göra det 
 
 Nietzsche förstod vad hans beundrare sällan vill erkänna: att om Gud är död, så faller teologin — och med den hela den moraliska ordningen. Horisonten är borta.
 
-Den moderna västvärlden ärvde moralen men lät grunden vittra. Alltjämt åberopade den mänskligt värde, alla människors lika värdighet, rättigheter — men slutade fråga *varför*. Denna spricka mellan arv och grund får sin tydligaste juridiska gestalt i den svenska statsordningen.
+Den moderna västvärlden ärvde moralen men lät grunden vittra. Alltjämt åberopade den människovärdet, alla människors lika värdighet, rättigheter — men slutade fråga *varför*. Denna spricka mellan arv och grund får sin tydligaste juridiska gestalt i den svenska statsordningen.
 
 ## Grundlagens tysta förutsättning
 
@@ -43,7 +43,7 @@ Viljan formas inte av abstrakta sanningar utan av det man lever i.
 
 Här finns den punkt som sekulär moralfilosofi konsekvent undviker. Visserligen kan den formulera principer, ibland bländande sådana. Men varför just *dessa* principer binder oss, det förklarar den inte. Varför ska jag respektera andras autonomi? Varför ska den svages rätt väga lika tungt som den starkes? Kants kategoriska imperativ föreskriver att jag ska handla efter principer som kan universaliseras. Men *varför* jag borde bry mig om universaliserbarhet — därom tiger det. Det förutsätter en moralisk aktör som redan vill handla rätt — och därmed just det som skulle bevisas.
 
-Euthyfrons gamla dilemma — är det goda gott för att Gud befaller det, eller befaller Gud det för att det är gott? — har riktats mot varje teistisk etik i tvåtusen år. Men dilemmat vilar på en skenbar motsättning. Guds befallningar är varken godtyckliga påbud utan grund eller underkastelse under en yttre norm ovanför Honom. I den islamiska teologin, som den medeltida teologen Ibn Taymiyyah (1263–1328) klargjorde, befaller Gud det goda i kraft av Sin vishet, Sin barmhärtighet och Sin godhet — verkliga egenskaper som tillkommer Honom så som de beskrivs i Koranen och *Sunnah*.[^7] Han skärpte tanken: förnuftets och den skapade naturens särskilda egenskap är att erkänna det goda som gott och det onda som ont.[^8] *Fiṭrah*, den medfödda dispositionen, är inte blind instinkt utan en inre kompass som pekar mot sin källa.
+Euthyfrons gamla dilemma — är det goda gott för att Gud befaller det, eller befaller Gud det för att det är gott? — har riktats mot varje teistisk etik i tvåtusen år. Men dilemmat vilar på en skenbar motsättning. Guds befallningar är varken godtyckliga påbud utan grund eller underkastelse under en yttre norm ovanför Honom. I den islamiska teologin, som den medeltida teologen Ibn Taymiyyah (1263–1328) klargjorde, befaller Gud det goda i kraft av Sin vishet, Sin barmhärtighet och Sin godhet — verkliga egenskaper som tillkommer Honom så som de beskrivs i Koranen och *Sunnah*.[^7] Han preciserade tanken: förnuftets och den skapade naturens särskilda egenskap är att erkänna det goda som gott och det onda som ont.[^8] *Fiṭrah*, den medfödda dispositionen, är inte blind instinkt utan en inre kompass som pekar mot sin källa.
 
 ## Det Koranen faktiskt säger
 
@@ -69,13 +69,13 @@ August Strindberg — själv ateist, själv plågad av sin ateism — skrev i *I
 
 > Jag har nämligen blivit ateist under årens lopp, när jag märkt hur de okända makterna lämnat världen åt dess öde utan att giva ett livstecken ifrån sig. Någon att tacka! Det finnes ingen tillstädes, och min tvungna otacksamhet trycker mig som en börda![^13]
 
-*Tvungen otacksamhet.* Orden blottlägger vad den moderna ateismen sällan erkänner: att avsaknaden av Gud inte upplevs som frihet utan som skuld utan adressat, tacksamhet utan mottagare, mening utan sammanhang.
+*Tvungen otacksamhet.* Ordet *tvungen* bär hela vittnesmålet. En tacksamhet som överlever sin egen intellektuella förnekelse är inte en vana — den är en konstitution. Orden avslöjar vad den moderna ateismen sällan erkänner: att avsaknaden av Gud inte upplevs som frihet utan som skuld utan adressat, tacksamhet utan mottagare, mening utan sammanhang.
 
 Erik Gustaf Geijer hade tecknat motbilden:
 
 > Olyckans helgd — aktning för den svages rätt är öfveralt religionens första moraliska resultat.[^14]
 
-Meningen är avgörande. Den säger inte att religion *också* värnar den svage, utan att aktningen för den svages rätt *uppstår* ur det heliga. Utan det sakrala finns bara makt.
+Meningen är avgörande. Den säger inte att religion *också* värnar den svage, utan att aktningen för den svages rätt *uppstår* ur det heliga. Den starke behöver ingen transcendent grund för sina anspråk — han har sin styrka. Det är den svages rätt som kräver en förankring bortom mänsklig makt, för en rätt som den starke kan upphäva är inte en rätt utan ett medgivande. Utan det sakrala finns bara makt.
 
 ## Den tredje generationen
 
@@ -87,7 +87,7 @@ Ibn Khaldun kartlade mönstret: civilisationer förlorar sin moraliska kraft gen
 
 Utan transcendent referenspunkt saknar en maktordning gränser för sin egen expansion. Frågan är inte huruvida staten behöver teologi — utan vad som återstår när det sista spåret av teologi försvunnit ur statens grund.
 
-Det mönstret spelar sig nu ut i nordeuropeisk skepnad. Sverige lever i den tredje generationen: den som varken tror på grunden eller minns att det en gång fanns en. Axiomen är kvar. Institutionerna fungerar — ännu. I läroplaner och regeringsförklaringar ekar orden om mänskligt värde. Men ber man en riksdagsledamot förklara *varför* alla människor har lika värde, blir svaret tyst — eller cirkulärt. De har lika värde för att de har lika värde. En bekännelse utan teologi.
+Det mönstret spelar sig nu ut i nordeuropeisk skepnad. Sverige lever i den tredje generationen: den som varken tror på grunden eller minns att det en gång fanns en. Axiomen är kvar. Institutionerna fungerar — ännu. I läroplaner och regeringsförklaringar ekar orden om människovärdet. Men ber man en riksdagsledamot förklara *varför* alla människor har lika värde, blir svaret tyst — eller cirkulärt. De har lika värde för att de har lika värde. En bekännelse utan teologi.
 
 Koranen ställer frågan utan omsvep:
 

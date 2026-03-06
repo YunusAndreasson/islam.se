@@ -114,4 +114,6 @@ Your output must be ONLY the frontmatter block and article — nothing else. No 
 Output starts with --- on the first line. Nothing before it.
 
 The article body starts with the original first line of the article (usually the first paragraph). Do NOT add any headers like "# TEXTEN" or similar — output the article exactly as it was given, with only your structural changes applied.
+
+Use verdict "clean" when no changes were needed (changesCount: 0, changes: []). Use verdict "restructured" when changes were made.
 </output_instruction>

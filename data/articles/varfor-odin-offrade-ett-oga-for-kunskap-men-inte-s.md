@@ -1,7 +1,7 @@
 ---
 title: "Odins blinda fläck"
 publishedAt: "2025-07-25T12:00:00.000Z"
-wordCount: 2110
+wordCount: 2187
 qualityScore: 8.9
 description: "Ett öga ligger på botten av Mimers brunn, pantsatt av Odin själv i utbyte mot en klunk av all världens visdom. Snorre Sturlason nedtecknade myten i Prosaeddan — men den fråga som sällan ställs är varför den högste guden lämnade brunnen som precis samma gud han var när han kom."
 ---
@@ -13,7 +13,7 @@ Men frågan som sällan ställs är varför just ett öga — och, framför allt
 
 Den Snorre Sturlason som nedtecknade myten i *Prosaeddan* var noggrann med detaljerna. Brunnen ligger under Yggdrasils andra rot, i jättarnas värld. Den bevakas av Mimer – vars namn, *Mímir*, är besläktat med fornisländskans *minni*: minne, hågkomst.[^1] Brunnen innehåller *visdom och förstånd*. Odin får dricka ur den först efter att ha lämnat sitt öga som pant.
 
-Vad slags transaktion är det? Viktor Rydberg, som ägnade decennier åt att systematisera den nordiska mytologin, blottlade dess logik:
+Vad slags transaktion är det? Viktor Rydberg, som ägnade decennier åt att systematisera den nordiska mytologin, avslöjade dess logik:
 
 > Odin måste underkasta sig stora lidanden och offer för att dricka ur brunnen, och det är som en gåva eller ett lån han därefter mottar den livgivande och själsinspirerade drycken. Över brunnen och dess territorium utövar Mimer oinskränkt kontroll, en auktoritet som gudarna aldrig tycks ha ifrågasatt.[^2]
 
@@ -39,7 +39,7 @@ Samma dikt fördjupar insikten några strofer längre fram:
 
 Här talar Hávamál om den vise, men diagnosen är dårens. Kunskapen fyller utan att befria — insikt som ansamlas ger tyngd, inte lätthet. Den nordiska kunskapsekonomin erkänner själv sin gräns: det finns ett mått bortom vilket mer kunskap betyder mer sorg.
 
-Den nordiska traditionen inser kunskapens faror — Hávamál är skarpögd. Men lösningen den erbjuder är *måttlighet*: var lagom vis, grubba inte för mycket. Den radikala frågan – om kunskapens egentliga pris är mer än ett sinnesorgan – ställs aldrig.
+Den nordiska traditionen inser kunskapens faror — Hávamál är skarpögd. Men lösningen den ger är *måttlighet*: var lagom vis, grubba inte för mycket. Den radikala frågan – om kunskapens egentliga pris är mer än ett sinnesorgan – ställs aldrig.
 
 ## En annan ekonomi
 
@@ -47,11 +47,11 @@ I den islamiska traditionen ställs frågan annorlunda från grunden. Ibn Qayyim
 
 > Den som betraktar det som finns i honom själv av svagheter och brister, och det som finns hos sin Herre av fullkomlighet och majestät — han vet att hans liv inte kan rättas till och hans hjärta inte kan nå fram utom genom att söka sin tillflykt hos sin Herres dörr, och att han är den mest behövande av alla skapade varelser inför sin Herre.[^5]
 
-Där Odin offrar ett sinnesorgan men behåller sitt jag, kräver Ibn Qayyim att den sökande genomskådar jagets anspråk som sådana. Den som nöjer sig med att inventera sina förmågor, sina tillgångar, sin ställning, har ännu inte börjat *se*. Kunskap som leder till Skaparen – *baṣīrah*, den inre synen som Koranen talar om – börjar först när frågan vänds inåt med en skärpa som brunnen vid Yggdrasil aldrig kräver. Det är den som ser sin egen hand i varje misstag snarare än omständigheternas. Inte "vad kan jag förvärva?" utan "hur fattig är jag inför min Herre?"
+Där Odin offrar ett sinnesorgan men behåller sitt jag, kräver Ibn Qayyim att den sökande genomskådar jagets anspråk som sådana. Den som nöjer sig med att inventera sina förmågor, sina tillgångar, sin ställning, har ännu inte börjat *se*. Kunskap som leder till Skaparen – *baṣīrah*, den inre synen som Koranen talar om – börjar först när frågan ställs skarpt inåt, på ett sätt som brunnen vid Yggdrasil aldrig kräver. Det är den som ser sin egen hand i varje misstag snarare än omständigheternas. Inte "vad kan jag förvärva?" utan "hur fattig är jag inför min Herre?"
 
 Koranen själv anvisar denna rörelse. Allah ﷻ, den Upphöjde, säger: *Och i era egna själva — ser ni inte?*[^6] Att se in i sig själv är här inte en mystisk resa mot det okända, utan en uppmaning att se det uppenbara som människan ständigt flyr: sin egen svaghet, sitt eget beroende, sin egen dödlighet.
 
-Ibn al-Jawzī, tolvte århundradets lärdomsman i Bagdad, formulerar det i *Ṣayd al-Khāṭir* med en skärpa som inte lämnar utrymme för kompromiss:
+Ibn al-Jawzī, tolvte århundradets lärdomsman i Bagdad, formulerar det i *Ṣayd al-Khāṭir* i formuleringar som inte lämnar utrymme för kompromiss:
 
 > Den som begrundar sig själv en dag — med en sanningssökares begrundan — ställer sig till svars innan han ställs till svars, och väger sig själv innan han vägs.[^7]
 
@@ -63,7 +63,7 @@ Koranen formulerar relationen mellan kunskap och själv med en logik som saknar 
 
 > Och var inte som dem som glömde Allah ﷻ, så att Han lät dem glömma sig själva. Dessa är de ogudaktiga.[^8]
 
-Versens struktur är dess argument. Den som glömmer Gud glömmer sig själv – men detta är en annan glömska än Hávamáls dåres. Dåren grubblar, minns, samlar på sig. Koranens glömska är djupare: den som vänder sig bort från det som överskrider jaget förlorar tillgången till sitt eget inre — inte sitt minne, utan sin verklighet.
+Versens struktur är dess argument. Den som glömmer Gud glömmer sig själv – men detta är en annan glömska än Hávamáls dåres. Dåren grubblar, minns, samlar på sig. Koranens glömska är djupare: den som vänder sig bort från det som överskrider jaget förlorar tillgången till sitt eget inre — inte sitt minne, utan sin verklighet. Logiken är inte godtycklig. Om det djupaste i människan är hennes skapadhet — att hon är beroende, ändlig, given — då kan hon bara känna sig själv genom att känna den hon skapades av. Ta bort den referenspunkten och självkännedomen förlorar sin måttstock. Kvar står ett jag som inte längre vet vad det mäter sig mot.
 
 I den nordiska traditionen är minnet kunskapens bevarare: Mimer vaktar brunnen. Det man dricker ur den tillförs det man redan är. I Koranens kunskapslära är en riktad glömska kunskapens *förutsättning*: att glömma sin förträfflighet, sin suveränitet, sin självtillräcklighet. Först den som upphör att fylla rummet med sig själv kan höra något annat.
 
@@ -73,13 +73,13 @@ Ibn Qayyim, som i *Madārij al-Sālikīn* kartlade hjärtats stationer i ljuset 
 
 Kunskapen rör sig här inte uppåt, från okunnighet till insikt, som i Odins klättring mot visdomens höjder. Den rör sig *nedåt*: genom tilltagande insikt om den egna svagheten, tills det som återstår av jaget är *mindre*. Och i detta mindre – i insikten om den egna svagheten, oförmågan, ringheten – öppnar sig en kunskap som aldrig hade rymts i ett själv som redan var fullt av sig självt. Ibn Qayyim kallar detta *ʿubūdiyyah*: tjänarskap. Det är att böja sig i bön och känna lättnad snarare än förlust. Inte att jaget upphör, utan att det intar sin rätta plats – som skapad varelse inför sin Skapare.
 
-Al-Māwardī, den elevärdige juristen och etikern, skrev i *Adab al-Dunyā wa-l-Dīn*:
+Al-Māwardī, den högt ansedde juristen och etikern, skrev i *Adab al-Dunyā wa-l-Dīn*:
 
 > Den ödmjuke bland kunskapssökarna besitter mest kunskap, liksom den lågläntaste platsen samlar mest vatten.[^10]
 
 Bilden är geologisk. Kunskapen flödar nedåt. Den samlas inte hos den som klättrar högst – Odin på Yggdrasils stam – utan hos den som befinner sig lägst. Att ta emot kräver att något annat först har tömts. Det vet den som stod i ett fullt rum och inte kunde höra sitt eget namn.
 
-Denna insikt – att kunskapen kräver tömning snarare än fyllnad – har bekräftats av tänkare långt utanför islams geografiska rum. Simone Weil, den franska filosofen, nådde samma slutsats genom en helt annan väg. Hon gav den ett namn: *décréation* — att det skapade töms på sina anspråk, inte för att förintas utan för att kunna ta emot.[^15] Det är att sluta försvara sig — och märka att det som återstår väger mindre.
+Denna insikt – att kunskapen kräver tömning snarare än fyllnad – har bekräftats av tänkare långt utanför islams geografiska rum. Simone Weil, den franska filosofen, nådde samma slutsats genom en helt annan väg. Hon gav den ett namn: *décréation* — att det skapade töms på sina anspråk, inte för att förintas utan för att kunna ta emot.[^15] Men Weils tömning förblir en viljeakt — jaget *beslutar* att stiga åt sidan. I den islamiska traditionen upptäcker jaget sin litenhet ställt inför uppenbarelsen; det är skillnaden mellan en generös reträtt och ett oundvikligt erkännande.
 
 ## Strindberg vid kunskapens höjder
 

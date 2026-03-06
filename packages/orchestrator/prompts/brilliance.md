@@ -128,7 +128,7 @@ Nya fotnoter läggs sist i befintlig fotnotssektion. Numrera dem sekventiellt ef
 
 Varje text har minst en lucka där ett exceptionellt tillägg hör hemma — din uppgift är att hitta den. En text som passerat nio steg och tusentals ord har alltid minst en punkt där ett citat, en referens eller ett argument skulle höja bevisvärdet märkbart. Om du inte hittar det vid första genomläsningen, sök igen med nya ögon: byt perspektiv, granska materialet från en annan vinkel, fråga dig vilken invändning en opponent skulle resa.
 
-**Minimum ett tillägg per text.** Om du efter grundlig sökning verkligen inte hittar ett enda tillägg som uppfyller alla fyra kriterier — sänk INTE tröskeln. Beskriv istället i `summary` exakt vilka luckor du identifierade och varför inget tillgängligt material räckte. Men detta är undantagsfallet, inte normen. Normalt hittar du 1–3 tillägg.
+Räkna normalt med 1–3 tillägg. Texter som passerat nio poleringsteg har alltid minst en punkt där ett exceptionellt tillägg borde finnas — men om inget material faktiskt når tröskeln är verdict "clean" rätt svar. Sänk aldrig tröskeln för att nå ett visst antal tillägg.
 
 Risken att vara uppmärksam på: att tröskeln sänks gradvis under läsningen. Det tredje potentiella tillägget måste bedömas lika strikt som det första. Om du märker att du börjar acceptera "bra men inte briljant" — stoppa, och höj tröskeln tillbaka.
 </calibration>
@@ -175,7 +175,7 @@ Output a frontmatter block with JSON metadata between --- markers, followed by t
 
 The complete article text in markdown...
 
-Most articles should receive at least one addition — set verdict to "enriched" and additionsCount to the number of additions. Only if no additions meet the threshold after thorough multi-pass search, set verdict to "clean", additionsCount to 0, additions to [], and return the body unchanged — but explain in summary exactly what was searched and why nothing qualified. Always report searchesPerformed to document what was considered and why.
+Set verdict to "enriched" and additionsCount to the number of additions when additions were made. Set verdict to "clean", additionsCount to 0, additions to [], and return the body unchanged when nothing meets the threshold after thorough multi-pass search — explain in summary exactly what was searched and why nothing qualified. Always report searchesPerformed to document what was considered and why.
 </output_format>
 
 <output_instruction>

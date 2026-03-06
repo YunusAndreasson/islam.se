@@ -1,7 +1,7 @@
 ---
-title: "Natten som aldrig kom"
+title: "Ljusa blå natt"
 publishedAt: "2025-10-03T12:00:00.000Z"
-wordCount: 1725
+wordCount: 1803
 qualityScore: 8.7
 description: "Sommaren 1905 lade Hjalmar Söderberg en sömnlös midsommarnatt i doktor Glas' dagbok. Ljuset vägrade försvinna, gränsen mellan dag och natt upplöstes, och med den försvann den vila som natten är till för. I Koranen beskrivs hur dagen flås ur natten som ett skinn."
 ---
@@ -27,15 +27,15 @@ Den beklämningen bar Strindberg också. I *Inferno* skriver han om sömnlöshet
 
 > Solen skiner, vardagslivet går sin gilla gång, arbetarnas buller stämmer sinnena till glädje. [...] Men om natten falla tystnaden och ensligheten över en, övermodet skingras, hjärtat slår hörbart och bröstet beklämmes.[^5]
 
-Strindbergs natt bär på religiös fruktan – hans plågoande har ett ansikte. Glas saknar den trösten - hans natt är tom på allt utom sig själv.
+Strindbergs natt bär på religiös fruktan – det som plågar honom har ett ansikte. Glas saknar den trösten - hans natt är tom på allt utom sig själv.
 
 ## En Koran som klyver natten
 
 I den tomheten hörs en röst som Söderberg aldrig lyssnade till, men som besvarar just hans fråga.
 
-"Han är klyvaren av gryningen och har gjort natten för vila och solen och månen för tideräkning."[^6] Natten har en uppgift: *sakan*, vila, stillhet. I suran *Yā Sīn* framträder bilden med en kroppslighet som slår hårt: "Ett tecken för dem är natten; Vi drar undan dagen ur den och då sveps de i mörker."[^7]
+"Han är klyvaren av gryningen och har gjort natten för vila och solen och månen för tideräkning."[^6] Natten har en uppgift: *sakan*, vila, stillhet. I suran *Yā Sīn* framträder bilden med en tydlig kroppslighet: "Ett tecken för dem är natten; Vi drar undan dagen ur den och då sveps de i mörker."[^7]
 
-Det arabiska verbet *naslakh* – att dra bort, flå av – behåller hela sin våldsamma konkretion. Kvar blir mörker, och i det mörkret: vila, gräns, slut.
+Det arabiska verbet *naslakh* – att dra bort, flå av – behåller hela sin våldsamma konkrethet. Kvar blir mörker, och i det mörkret: vila, gräns, slut.
 
 "Och till Hans tecken hör er sömn om natten och att ni under dagen söker Hans goda."[^8]
 
@@ -49,29 +49,29 @@ Redan på 1000-talet fångade den andalusiske teologen Ibn Hazm tidens innersta 
 
 Mot slutet kommer det nakna erkännandet: "Mig gick lifvet förbi."[^11]
 
-Glas sitter inte stilla medan livet passerar. Han tänker, observerar, skriver, planerar till och med ett mord. Ändå lever han inte i sin tid utan bredvid den – alltid analyserande, alltid på avstånd. Dagboken blir ett monument över en människa som protokollför sitt eget frånfälle ur nuet.
+Glas sitter inte stilla medan livet passerar. Han tänker, observerar, skriver, planerar till och med ett mord. Ändå lever han inte i sin tid utan bredvid den – alltid analyserande, alltid på avstånd. Dagboken blir ett monument över en människa som protokollför sin egen frånvaro från nuet.
 
 Ibn Hazms tidskollaps diagnostiserar problemet; Ibn Qayyim, trehundra år före Söderberg, gav det ett namn.
 
 ## Att vara sin tids barn
 
-Ibn Qayyim utvecklade i sitt storverk *Madārij al-Sālikīn* en systematisk tidsfilosofi ur ett äldre arv. Imamen al-Shafi'i (d. 820) lär ha sagt att det mest värdefulla han lärde sig av sufijerna var att "tiden är ett svärd: antingen skär du den, eller skär den dig."[^12] Ibn Qayyim för tanken vidare bortom aforism.
+Ibn Qayyim utvecklade i sitt storverk *Madārij al-Sālikīn* en systematisk tidsfilosofi ur ett äldre arv. Imamen al-Shafi'i (d. 820) lär ha sagt att det mest värdefulla han lärde sig av sufierna var att "tiden är ett svärd: antingen skär du den, eller skär den dig."[^12] Ibn Qayyim för tanken vidare bortom aforism.
 
-*Waqt* – ögonblicket, den levda tiden – utgör ett av de bärande begreppen i islamisk andlig psykologi. Det betecknar det närvarande ögonblickets krav, den plikt och det tillstånd som hör till just denna stund. Den som söker Gud är *ibn waqtihi*: sin tids barn. Vandrarens strävan överskrider aldrig det nuvarandes uppgift; han ägnar sig åt den plikt som hans stund fordrar. Bönen som bryter gryningen, arbetet under ljuset, vilan under mörkret.
+*Waqt* – ögonblicket, den levda tiden – utgör ett av de bärande begreppen i islamisk andlig psykologi. Det betecknar det närvarande ögonblickets krav, den plikt och det tillstånd som hör till just denna stund. Den som söker Gud är *ibn waqtihi*: ett barn av sin tid. Vandrarens strävan överskrider aldrig nuets uppgift; han ägnar sig åt den plikt som hans stund fordrar. Bönen som bryter gryningen, arbetet under ljuset, vilan under mörkret.
 
-Så kommer vändningen. Den som upptas av det förflutna och det kommande förlorar det nuvarande. Varje gång ett nytt nu anländer upptas han av de bägge ändarna – det som var och det som ska bli – tills alla hans stunder rinner ut.[^14]
+Så kommer vändningen. Den som upptas av det förflutna och det kommande förlorar nuet. Varje gång ett nytt nu anländer upptas han av de bägge ändarna – det som var och det som ska bli – tills alla hans stunder rinner ut.[^14]
 
-Samma diagnos ställde Pascal trehundra år senare, utan kännedom om Ibn Qayyim: "Vi håller oss aldrig till det närvarande. Vi irrar i tider som inte är våra och tänker inte på den enda som tillhör oss."[^25]
+Samma diagnos ställde Pascal trehundra år senare, utan kännedom om Ibn Qayyim: "Vi håller oss aldrig till det närvarande. Vi irrar i tider som inte är våra och tänker inte på den enda som tillhör oss."[^25] Men för Pascal är nuet tomt — vi flyr det *därför att* det är outhärdligt i sig. För Ibn Qayyim är nuet laddat: vi flyr det därför att vi inte ser vad det bär. Samma symptom, motsatt etiologi.
 
 Så lever Glas: i minnet av en ungdom som aldrig infriades och i förväntningen på en framtid han inte tror på. Hans dagbok pendlar ständigt mellan dem. Varje konkret nu glider honom ur händerna medan han registrerar det – "Lif, jag förstår dig inte," skriver han.[^15] Bekännelsen biter just för att den kommer från en intelligent, bildad man - förståelsen borde vara inom räckhåll. Men *waqt* kräver något annat än förstånd.
 
 Denna närvaro – det som Ibn Qayyim kallar övervakningens ljus, *nūr al-murāqabah*, det inre ljus som uppstår ur medveten närvaro inför Gud – slocknar genom förspilld tid.
 
-Det yttre ljuset som vägrar försvinna utanför Glas' fönster, och det inre ljuset som redan har slocknat: de pekar åt samma håll — från motsatta riktningar. Det yttre ger synlighet utan mening. Det inre ger mening utan flykt.
+Det yttre ljuset som vägrar försvinna utanför Glas' fönster, och det inre ljuset som redan har slocknat: de pekar åt samma håll — från motsatta riktningar. Det yttre ger synlighet utan mening. Det inre ger mening utan flykt. Sambandet är inte bara poetiskt — det är kausalt: midsommarljuset plågar just den vars inre ljus har slocknat. För den närvarande vore samma natt ett tecken att betrakta; ljuset blir outhärdligt först när det belyser ett inre utan riktning.
 
 ## Ångestens anatomi
 
-Kierkegaard definierade ångesten som "frihetens svindel" – den yrsel som griper den som stirrar ned i sina möjligheter.[^17] Det stämmer för Glas. Men Kierkegaards analys stannar vid svindeln - hans berömda *trosprång* pekar ut ur förlamningen utan att säga vad den som landar ska göra med sin tid. Ibn Qayyim går längre: han ger ögonblicket självt arkitektur.
+Søren Kierkegaard definierade ångesten som "frihetens svindel" – den yrsel som griper den som stirrar ned i sina möjligheter.[^17] Det stämmer för Glas. Men Kierkegaards analys stannar vid svindeln - hans berömda *trosprång* pekar ut ur förlamningen utan att säga vad den som landar ska göra med sin tid. Ibn Qayyim går längre: han ger ögonblicket självt arkitektur.
 
 Den sanningssökandes *waqt* är ramen för allt tillblivande, den tidsliga behållare i vilken det mänskliga livet tar form.[^18] Människans tid är i verkligheten hennes liv – det material av vilket hennes eviga tillvaro formas.[^19] Bönen vid gryningen, ordet vid måltidens bord, steget tillbaka från ilskan.
 
@@ -85,7 +85,7 @@ Ibn al-Jawzi, den store Baghdadpredikanten, fastslog att "förspilld tid är den
 
 Vila kräver natt. Den koraniska arkitekturen är entydig: natten är dagens villkor. Utan mörker, ingen gryning. Utan sömn, ingen vakenhet.
 
-Söderberg förstod detta med konstnärens intuition. "Från mörker till mörker," skriver Glas.[^22] Det är en naken observation av livets båge, men Glas stannar vid den och saknar det som Ibn Qayyim kallar den resas egentliga innehåll: varje stations unika krav, varje ögonblicks specifika uppgift. Mellan de två mörkren – födelsens och dödens – ligger *waqt* efter *waqt*, vart och ett laddat med mening för den som förmår ta emot det.
+Söderberg förstod detta med konstnärens intuition. "Från mörker till mörker," skriver Glas.[^22] Det är en naken observation av livets båge, men Glas stannar vid den och saknar det som Ibn Qayyim kallar resans egentliga innehåll: varje stations unika krav, varje ögonblicks specifika uppgift. Mellan de två mörkren – födelsens och dödens – ligger *waqt* efter *waqt*, vart och ett laddat med mening för den som förmår ta emot det.
 
 "Stillastående och förblifvande är oss icke gifvet," noterar Glas.[^23] Sant, men en sak är att kastas framåt av tidens ström utan fotfäste, en annan att vandra – *sālik* – genom stationerna med medveten närvaro. Båda rör sig. Bara den ene lever.
 
@@ -93,11 +93,11 @@ Söderberg förstod detta med konstnärens intuition. "Från mörker till mörke
 
 Alltjämt lyser midsommarnatten. Glas' fråga hänger kvar i luften med samma envishet som ljuset: *hvarför ligger du nu som en ångest öfver mitt bröst?*
 
-Koranen svarar med en bild. Natten dras undan ur dagen. Mörkret sveper in. I det mörkret – inte trots det – finner människan den vila hon skapades för.
+Koranen svarar med en bild. Dagen dras undan ur natten. Mörkret sveper in. I det mörkret – inte trots det – finner människan den vila hon skapades för.
 
 *Var din tids barn*, manar Ibn Qayyim.[^24] Inte igår, inte imorgon – utan nu, med just detta ögonblicks ljus eller mörker, dess givna plikt.
 
-Men för den som förlorat nattens gräns, som lever i ett oavbrutet, oartikulerat nu utan struktur och utan slut, återstår det Glas gör: skriva. Inte för att förstå. För att överleva en natt som inte vill ta slut.
+Men för den som förlorat nattens gräns, som lever i ett oavbrutet, oartikulerat nu utan struktur och utan slut, återstår det Glas gör: skriva. Inte för att förstå, utan för att överleva en natt som inte vill ta slut.
 
 ---
 

@@ -1,7 +1,7 @@
 ---
 title: "Rättigheterna utan grund"
 publishedAt: "2025-11-17T12:00:00.000Z"
-wordCount: 1686
+wordCount: 1774
 qualityScore: 8.6
 description: "År 1948 enades FN:s delegater om att människan äger okränkbara rättigheter, men inte om varför. Den katolske filosofen Jacques Maritain, som deltog i arbetet, formulerade villkoret: överenskommelsen gällde under förutsättning att ingen frågade på vilken grund den vilade."
 ---
@@ -21,7 +21,7 @@ Hjalmar Söderberg ställde samma diagnos, fast med omvänt förtecken. I *Dokto
 
 Söderberg menade det som en befrielse: moralen är konvention, inget mer. Den bör inte härska över den enskilda människan. Men om han har rätt, om moralen bara är sed och bruk, då har mänskliga rättigheter ingen annan auktoritet än den som rådande konsensus ger dem — och konsensus skiftar.
 
-Upplysningsfilosofin försökte andra vägar. Kant förankrade människans värdighet i hennes förnuftskapacitet – i förmågan att vara moralisk lagstiftare.[^4] Men om värdigheten är knuten till förnuftskapacitet, vad händer med dem vars kapacitet är outvecklad, skadad eller ännu inte född? Och varifrån kommer *plikten* att respektera denna värdighet – ur förnuftet självt? Cirkeln sluter sig aldrig.
+Upplysningsfilosofin prövade andra vägar. Kant förankrade människans värdighet i hennes förnuftskapacitet – i förmågan att vara moralisk lagstiftare.[^4] Men om värdigheten är knuten till förnuftskapacitet, vad händer med dem vars kapacitet är outvecklad, skadad eller ännu inte född? Och varifrån kommer *plikten* att respektera denna värdighet – ur förnuftet självt? Cirkeln sluter sig aldrig.
 
 Rawls' *overlapping consensus* prövade ytterligare en omväg: rättigheter behöver ingen gemensam metafysisk grund, utan kan bäras av att olika livsåskådningar sammanfaller i samma praktiska slutsatser.[^5] Men detta förskjuter frågan: *varför* sammanfaller de? Om rättigheter saknar en gemensam rot, är deras samstämmighet en lycklig slump – eller parasiterar den på något bakomliggande som Rawls' teori inte förmår redovisa?
 
@@ -47,7 +47,7 @@ Här uppstår den uppenbara invändningen: om *fiṭrah* grundar universella rä
 
 ## Samvetets vittnesbörd
 
-*Fiṭrah* förklarar något som sekulär moralfilosofi bara kan konstatera: att människor lever som om det fanns en moralisk ordning, även när de saknar teoretisk grund för den. De rycker undan handen från det orättfärdiga även när ingen ser, känner skuld för tanken ingen hörde. Rättighetstänkandet *fungerar* – inte tack vare sina filosofiska grunder, utan för att det väcker något som redan finns i människan.
+*Fiṭrah* förklarar något som sekulär moralfilosofi bara kan konstatera: att människor lever som om det fanns en moralisk ordning, även när de saknar teoretisk grund för den. De rycker undan handen från det orättfärdiga även när ingen ser, känner skuld för tanken ingen hörde. En evolutionär redogörelse kan förklara tendensen — men inte skuldens specifika karaktär av *svek*. En vana som bryts ger obehag; en skapad orientering som förträngs ger skuld. Skillnaden är vad som gör *fiṭrah* till förklaring, inte bara beskrivning. Rättighetstänkandet *fungerar* – inte tack vare sina filosofiska grunder, utan för att det väcker något som redan finns i människan.
 
 Strindberg spetsade frågan om samvetets grund med sedvanlig obarmhärtighet:
 
@@ -62,6 +62,8 @@ Erik Gustaf Geijer berörde samma insikt om personlighetens inneboende värdighe
 Det vittnesbörd som *fiṭrah* pekar på framträder också i modern tid, ofta utan teologiskt språk. FN:s generalsekreterare Dag Hammarskjöld formulerade i *Vägmärken* ett sådant vittnesbörd som, utan att namnge källan, ekar denna insikt:
 
 > Jag vet inte vem — eller vad — som ställde frågan, jag vet inte när den ställdes. Jag minns inte att jag svarade. Men en gång sade jag ja till någon — eller något — och från den stunden var jag viss om att tillvaron är meningsfull och att mitt liv, därför, i underkastelse, har ett mål.[^17]
+
+Vad Hammarskjöld beskriver har samma struktur som Koranens förbund: ett svar som föregick medvetenheten om frågan, ett ja som grundlade allt. Att den man som ledde den institution vars grunddokument inte kunde namnge denna grund ändå vittnade om den visar att *fiṭrah* inte behöver erkännas för att vara verksam.
 
 ## Det tysta lånet
 

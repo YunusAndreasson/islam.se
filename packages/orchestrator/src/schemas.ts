@@ -134,6 +134,21 @@ export const AqeedahReviewFrontmatterSchema = z.object({
 	summary: z.string(),
 });
 
+// Language review frontmatter — word/phrase level naturalness check
+export const LanguageFrontmatterSchema = z.object({
+	verdict: z.enum(["clean", "corrected"]),
+	issuesFound: z.array(
+		z.object({
+			type: z.enum(["nonexistent-word", "anglicism", "ai-phrase", "gender", "preposition"]),
+			location: z.string(),
+			original: z.string(),
+			correction: z.string(),
+			reason: z.string(),
+		}),
+	),
+	summary: z.string(),
+});
+
 // Proofread frontmatter — validated from --- block (body comes from markdown)
 export const ProofreadFrontmatterSchema = z.object({
 	verdict: z.enum(["clean", "corrected"]),
@@ -280,6 +295,31 @@ export const ScaffoldFrontmatterSchema = z.object({
 			why: z.string(),
 		}),
 	),
+	summary: z.string(),
+});
+
+// Deepen frontmatter — argumentative deepening (illustration → argumentation)
+export const DeepenFrontmatterSchema = z.object({
+	verdict: z.enum(["clean", "deepened"]),
+	thesis: z.string(),
+	argumentChain: z.array(z.string()),
+	gaps: z.array(
+		z.object({
+			location: z.string(),
+			type: z.string(),
+			description: z.string(),
+		}),
+	),
+	changes: z.array(
+		z.object({
+			location: z.string(),
+			type: z.string(),
+			before: z.string(),
+			after: z.string(),
+			reasoning: z.string(),
+		}),
+	),
+	changesCount: z.number(),
 	summary: z.string(),
 });
 

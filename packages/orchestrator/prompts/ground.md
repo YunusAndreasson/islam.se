@@ -18,6 +18,8 @@ En term introduceras (waqt, sabr, fitra, tawbah, mahabbah, 'ubudiyyah, dhikr...)
 
 **Test:** Kan läsaren efter tre meningar se, höra eller känna vad detta begrepp *är* — inte vad det *betyder*? Om nej — lägg till ett ögonblick.
 
+**Placering:** Förankringsmeningen läggs alltid EFTER den abstrakta definitionen/påståendet — aldrig före. Den korta konkreta meningen är textens landning, inte dess inledning.
+
 **Före:** "Ibn Qayyim definierar sabr som att hålla själen borta från det som Gud förbjudit, att hålla tungan borta från klagan, att hålla kroppen ifrån att göra det passionen kräver."
 
 **Efter:** "Ibn Qayyim definierar sabr som att hålla själen borta från det som Gud förbjudit, att hålla tungan borta från klagan, att hålla kroppen ifrån att göra det passionen kräver. Det är den som sitter kvar vid bordet tills vreden sjunker. Den som stänger fliken."

@@ -1,7 +1,42 @@
 ---
+{
+  "verdict": "deepened",
+  "thesis": "Amānah — the moral trust offered to and refused by the mountains — requires a conscious bearer who can tremble, choose, and fail; by delegating decisions to algorithms, we hollow out the capacity that makes us human.",
+  "argumentChain": [
+    "Step 1: The Quran presents amānah as a burden requiring a bearer who can tremble, choose, and fail — the mountains refused because they understood this.",
+    "Step 2: Ibn Qayyim's heart-as-king metaphor defines decision as conscious governance, not computation — the heart must be awake and ruling.",
+    "Step 3: AI replaces the king with an algorithm; formal human oversight (EU AI Act) masks the reality that the king's power has shifted to the advisor.",
+    "Step 4: Algorithmic delegation creates a responsibility gap (Matthias/Arendt) where no one bears full accountability — Islam insists on individual, indivisible responsibility.",
+    "Step 5: The deeper danger is ghaflah: not that AI lacks consciousness, but that the human who delegates loses the habit of being awake — amānah empties from within.",
+    "Step 6: As khalīfah, humans must answer for their decisions; algorithms cannot answer because they have no rūḥ to be judged — and entrusting affairs to the unqualified signals the end times.",
+    "Step 7: Islamic jurisprudence allows tools and advisors, but the decision moment must remain human — a rubber-stamped click is not a decision.",
+    "Step 8: The offer still stands; each conscious decision bears amānah, and automating it away is slowly revoking the yes that made us human."
+  ],
+  "gaps": [
+    {
+      "location": "Ställföreträdandets villkor, paragraph 4 (precision vs. justice)",
+      "type": "missing-step",
+      "description": "The essay claims 'precision is not justice' but doesn't connect this back to the opening scene. The mountains' flawless obedience and the algorithm's precision are disqualified by the same logic — amānah requires the possibility of failure — but this crucial parallel is never made explicit. The reader must infer it."
+    }
+  ],
+  "changes": [
+    {
+      "location": "Ställföreträdandets villkor, paragraph 4",
+      "type": "added-step",
+      "before": "En algoritm kan vara mer *precis* än en människa. Men precision är inte rättvisa. Ibn Taymiyyah definierade rättvisa",
+      "after": "En algoritm kan vara mer *precis* än en människa. Men precision är inte rättvisa. Bergen lydde redan felfritt — och det var just det som diskvalificerade dem. *Amānah* förutsätter att bäraren kan svika förtroendet. Det är valmöjligheten, inte utfallet, som gör ett beslut moraliskt. Ibn Taymiyyah definierade rättvisa",
+      "reasoning": "Makes explicit the parallel between the mountains' flawless obedience and the algorithm's precision — both disqualified by the same logic — closing the gap between the essay's opening scene and its central AI argument."
+    }
+  ],
+  "changesCount": 1,
+  "summary": "The essay argues well throughout, with one gap: the crucial parallel between the mountains (who obeyed flawlessly but couldn't bear amānah) and algorithms (which calculate precisely but can't bear moral responsibility) was implied but never stated. Three sentences now make this connection explicit in the precision-vs-justice passage, transforming the mountains from a framing device into the core argument against algorithmic moral agency."
+}
+---
+
+---
 title: "Bergen som vägrade"
 publishedAt: "2025-12-27T12:00:00.000Z"
-wordCount: 2008
+wordCount: 1937
 qualityScore: 8.7
 description: "I sura al-Ahzab ställs himlarna, jorden och bergen inför ett erbjudande: att bära det moraliska ansvaret. De vägrar, inte av trots utan av insikt. Människan säger ja, trots sin benägenhet till synd och tanklöshet — och fjorton århundraden senare delegerar hon allt fler av sina beslut till maskiner som inte kan bäva inför dem."
 ---
@@ -37,7 +72,7 @@ Ibn Hazm fastslog principen rättsligt: rättvisa i domslutet kräver att man h�
 
 Mer än synd fruktade de klassiska lärda ett tillstånd: *ghaflah*. Ibn Qayyim al-Jawziyya definierade det som hjärtats sömn eller dess död — en slöja där människan rör sig i världen utan att vara närvarande i sina handlingar.[^11] Det är den som signerar dokumentet medan tanken redan är någon annanstans.
 
-*Ghaflah* är inte okunskap. Det är något värre: den medvetna varelsen som upphör att vara medveten. Hjärtat slår, kroppen fungerar — men konungen sover. Och i den sömnen töms *amānah* inifrån — inte genom att den tas bort, utan genom att ingen längre bär den. Det är detta som gör *ghaflah* farligare än synden. Den som syndar väljer fel — men hon väljer. Hennes hjärta är vaket nog att avvika. *Ghaflah* upphäver själva valet. Och den som inte längre väljer kan inte längre bära, oavsett hur korrekt hennes handlingar ser ut utifrån.
+*Ghaflah* är inte okunskap. Det är något värre: den medvetna varelsen som upphör att vara medveten. Hjärtat slår, kroppen fungerar — men konungen sover. Och i den sömnen töms *amānah* inifrån — inte genom att den tas bort, utan genom att ingen längre bär den.
 
 Algoritmisk delegering är inte *ghaflah*. Inget AI-system sover — inget har vakenheten att somna från. Faran är vad som händer med *människan* som delegerar. Varje beslut som överlåts till ett system är ett som hjärtat inte längre beslutar, varje automatiserad bedömning ett ögonblick där konungen inte behöver vara vaken. Vanan att inte vara vaken — det är vad Ibn Qayyim kallade *ghaflah*.
 

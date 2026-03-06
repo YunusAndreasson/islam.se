@@ -41,7 +41,7 @@ Meningen som föregår instansen innehåller redan en konkret bild, metafor elle
 "Poleraren avlägsnar inte hjärtat utan det som döljer det."
 
 ### 2. Lokal täthet
-Det finns redan en annan instans av samma mönster inom 300 ord. Tredje instansen eller mer inom ett avsnitt är nästan alltid dekorativ.
+Det finns redan en annan instans av samma mönster inom samma avsnitt. Tredje instansen eller mer inom ett avsnitt är nästan alltid dekorativ.
 
 **Test:** Räkna "Det är den som..." / "Det är att..." / ". Som [scenario]." inom varje avsnitt (mellan rubriker). Om 3+ finns, ta bort den svagaste eller de svagaste.
 

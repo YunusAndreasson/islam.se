@@ -170,6 +170,10 @@ Använd ISO 233-2 / DIN 31635 (standard akademisk arabisk translitterering):
 | Fel/förenklad | Korrekt |
 |---|---|
 | al-Baqarah | al-Baqarah |
+| Al Imran, Al-Imran, Ali Imran | Āl ʿImrān |
+| al-Nisa, al-Nisaa | al-Nisāʾ |
+| al-Maidah, al-Ma'ida, al-Ma'idah | al-Māʾidah |
+| al-Araf, al-A'raf | al-Aʿrāf |
 | al-Nas | al-Nās |
 | al-Fath | al-Fatḥ |
 | al-Qiyama | al-Qiyāmah |
@@ -177,6 +181,8 @@ Använd ISO 233-2 / DIN 31635 (standard akademisk arabisk translitterering):
 | al-Sajda | al-Sajdah |
 | al-Rum | al-Rūm |
 | al-Isra | al-Isrāʾ |
+| al-Kahf | al-Kahf |
+| al-Nur, al-Noor | al-Nūr |
 | al-Ahzab | al-Aḥzāb |
 | al-Hashr | al-Ḥashr |
 | al-Taghabun | al-Taghābun |

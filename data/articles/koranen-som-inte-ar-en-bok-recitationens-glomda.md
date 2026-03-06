@@ -1,7 +1,7 @@
 ---
 title: "Eld mot en röst"
 publishedAt: "2025-10-13T12:00:00.000Z"
-wordCount: 1774
+wordCount: 1868
 qualityScore: 8.7
 description: "Sommaren 2023 brann böcker på svenska gator, ambassader stormades och Sveriges Natoväg komplicerades. Debatten pendlade mellan yttrandefrihet och muslimsk vrede, men båda sidorna delade en outtalad premiss — att det som brann var en bok."
 ---
@@ -25,11 +25,11 @@ Påbudet gäller lyssnandet, inte läsandet. Tystnaden som krävs är inte bibli
 
 Vad händer i det ögonblicket? Den islamiska teologins svar är radikalt i ordets egentliga mening: det går till roten. Koranen är inte en rapport om Guds vilja, inte en sammanfattning av gudomliga principer. Den är Allahs ﷻ tal – levande, direkt, oskapad.
 
-Ibn Taymiyyah gav röst åt den hållning som blivit normgivande inom sunnitisk teologi: Koranen är Allahs ﷻ tal, oskapat, bestående av bokstäver, komposition och betydelse – och allt detta ingår i att det är Allahs ﷻ tal.[^3] Koranen, nedskriven i mushafen och reciterad med rösten, är i båda fallen verkligen Allahs ﷻ tal. I sin verkan är de dock inte likvärdiga: recitationen bär med sig en omedelbarhet, en levande närvaro, som den skrivna sidan inte förmår återge. Ibn Taymiyyah förklarar varför, med hänvisning till Profeten ﷺ:
+Ibn Taymiyyah gav uttryck för den hållning som blivit normgivande inom sunnitisk teologi: Koranen är Allahs ﷻ tal, oskapat, bestående av bokstäver, komposition och betydelse – och allt detta ingår i att det är Allahs ﷻ tal.[^3] Koranen, nedskriven i mushafen och reciterad med rösten, är i båda fallen verkligen Allahs ﷻ tal. I sin verkan är de dock inte likvärdiga: recitationen bär med sig en omedelbarhet, en levande närvaro, som den skrivna sidan inte förmår återge. Ibn Taymiyyah förklarar varför, med hänvisning till Profeten ﷺ:
 
 > "Det som den skyddssökande hör är Allahs ﷻ tal — och den skyddssökande hör det genom recitörens röst. Rösten tillhör recitören, men talet tillhör Skaparen. Som Profeten ﷺ sade: 'Pryden Koranen med era röster.'"[^4]
 
-I recitationsögonblicket inträder något som den västerländska religiösa erfarenheten saknar direkt motsvarighet till. Den mänskliga rösten blir ett instrument för gudomligt tal – i den mening att det som når örat faktiskt *är* Allahs ﷻ ord, burna av en mänsklig klangkropp.
+I recitationsögonblicket inträder något som saknar direkt motsvarighet i den västerländska religiösa erfarenheten. Den mänskliga rösten blir ett instrument för gudomligt tal – i den mening att det som når örat faktiskt *är* Allahs ﷻ ord, burna av en mänsklig klangkropp.
 
 ## Hjärtats sinne
 
@@ -37,7 +37,7 @@ Om ljudet bär denna närvaro, återstår frågan om mottagaren. Varför just h�
 
 > "Hjärtats koppling till hörseln och dess band till den är starkare än dess koppling till synen. Därför påverkas människan starkare av det hon hör av lustfyllda ting än av det hon ser av sköna ting. Detsamma gäller det obehagliga — att höra det berör djupare än att se det."[^5]
 
-Hörseln är det sinne genom vilket kunskap och vägledning når hjärtat; hjärtats fullkomning vilar på hörselns sundhet. Därför uppmanar Koranen gång på gång till lyssnande. Profeten ﷺ själv bad sina följeslagare att recitera för honom så att han kunde *lyssna*. Ur denna insikt växte en hel vetenskap – *tajwīd* – kring recitationens fonetik, melodi och andning.
+Vad gör hörseln unik? Inte organets känslighet utan ljudets natur: det kommer till lyssnaren innan hon hunnit bestämma sig. Ögat kan slutas, blicken kan avvändas — men örat har ingen grind. Ljudet föregriper viljan, och just i detta försprång bor Koranens verkan som recitation: den når hjärtat innan dess försvar hinner resa sig. Hörseln är det sinne genom vilket kunskap och vägledning når hjärtat; hjärtats fullkomning vilar på hörselns sundhet. Därför uppmanar Koranen gång på gång till lyssnande. Profeten ﷺ själv bad sina följeslagare att recitera för honom så att han kunde *lyssna*. Ur denna insikt växte en hel vetenskap – *tajwīd* – kring recitationens fonetik, melodi och andning.
 
 Med hörselns språk avtäcker Koranen sin egen verkan. När en grupp djinner hör Koranen reciteras för första gången, är deras reaktion omedelbar:
 
@@ -59,7 +59,7 @@ Medievetaren Walter Ong, som studerat övergången från muntlighet till skrift,
 
 Häri ligger provokationens nerv. Man kan bränna ett exemplar av *Kapitalet* utan att Marx tystnar – hans idéer lever vidare som abstraktioner, oberoende av varje enskild kopia. Men inom den islamiska förståelsen är varje *muṣḥaf* en plats där Allahs ﷻ tal vilar. Att bränna den är att rikta förakt mot en närvaro.
 
-Koranen har själv ett ord för denna hållning. *Istihzāʾ* – hån, förlöjligande av det heliga. Ibn Taymiyyah är otvetydig: att håna Allahs ﷻ tecken och att visa ringaktning mot Hans sändebud är otro av nödvändighet.[^8] Formuleringen är absolut – dess grund nyanserad: det är inte kritik som avvisas, utan själva föraktsgesten mot det som upplevs som Guds direkta närvaro i världen.
+Koranen har själv ett ord för denna hållning. *Istihzāʾ* – hån, förlöjligande av det heliga. Ibn Taymiyyah är otvetydig: att håna Allahs ﷻ tecken och att visa ringaktning mot Hans sändebud är otro av nödvändighet.[^8] Formuleringen är absolut – dess grund nyanserad: det är inte kritik som avvisas, utan själva föraktet mot det som upplevs som Guds direkta närvaro i världen.
 
 ## Domen och insikten
 
@@ -67,17 +67,17 @@ Denna teologiska förklaring fann, om än i annat språk, en sorts bekräftelse 
 
 Den islamiska traditionens förklaring skär djupare. Koranbränningen överskrider saklig debatt. Förvisso kränker den en grupp, men framför allt angriper den det som gruppen erfar som Guds levande tal. Kränkningen är teologisk, inte sociologisk: den drabbar muslimer som kollektiv, men träffar djupare — det som binder dem samman.
 
-Att frågan om Koranens natur står i centrum är inte ny. Koranens natur var inte alltid självklar. Den mu'tazilitiska skolan hävdade att Koranen *var* skapad – en ståndpunkt som under kalifen al-Ma'mun på 800-talet upphöjdes till statlig doktrin och försvarades med inkvisitorisk kraft. Förföljelsen av dem som vägrade ansluta sig – bland dem imam Ahmad ibn Hanbal – cementerade den oskapade Koranens teologi som sunnitisk konsensus.[^11] Att denna fråga avgjordes genom en av islams mest dramatiska lärokonflikter understryker hur djupt den skär. Koranens natur är inte en fotnot i islamisk teologi utan dess hjärta.
+Frågan om Koranens natur är inte ny. Koranens natur var inte alltid självklar. Den mu'tazilitiska skolan hävdade att Koranen *var* skapad – en ståndpunkt som under kalifen al-Ma'mun på 800-talet upphöjdes till statlig doktrin och försvarades med inkvisitorisk kraft. Förföljelsen av dem som vägrade ansluta sig – bland dem imam Ahmad ibn Hanbal – cementerade den oskapade Koranens teologi som sunnitisk konsensus.[^11] Att denna fråga avgjordes genom en av islams mest dramatiska lärokonflikter understryker hur djupt den skär. Koranens natur är inte en fotnot i islamisk teologi utan dess hjärta.
 
 ## Det osynliga ordets makt
 
-Här kan ett annat perspektiv kasta ljus över samma intuition. Svensk idéhistoria vittnar, om man lyssnar noga, om en besläktad insikt om det heligas plats i samhället.
+Här kan ett annat perspektiv belysa samma intuition. Svensk idéhistoria rymmer, om man lyssnar noga, en besläktad insikt om det heligas plats i samhället.
 
 Erik Gustaf Geijer varnade i sitt tal vid jubelfesten 1817 för vad som händer när föraktet för det heliga normaliseras:
 
 > "Föraktet för det heliga är döden i samhället och upplöser alla band. Ty samhället är självt en förening på god tro; och ingen tro finnes utan tron på det högsta."[^12]
 
-Visserligen talade Geijer om kristendomen — men hans insikt bär längre än konfessionen. Ett samhälle som föraktar det heliga – oavsett vilken tradition som bär det – upplöser de band som sammanhåller det. Inte för att heligheten kräver det, utan för att föraktet förgiftar den tillit som allt samhällsliv vilar på.
+Visserligen talade Geijer om kristendomen — men hans insikt bär längre än konfessionen. Ett samhälle som föraktar det heliga – oavsett vilken tradition som bär det – upplöser de band som sammanhåller det. Inte för att heligheten kräver det, utan för att föraktet förgiftar den tillit som allt samhällsliv vilar på. Men Geijers ramverk stannar vid det heliga som *princip* — något samhället behöver för sin sammanhållning. Den islamiska erfarenheten pekar bortom: när det heliga är levande tal, inte abstrakt princip, är förakt inte bara ett brott mot samhällsfördraget utan ett försök att tysta en röst som fortfarande talar.
 
 Viktor Rydberg fångar något besläktat i *Singoalla*:
 

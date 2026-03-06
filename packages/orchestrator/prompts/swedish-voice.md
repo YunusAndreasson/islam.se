@@ -159,6 +159,10 @@ AI-text inleder varannat stycke med "Dock", "Dessutom", "Samtidigt", "Vidare", "
 **Före:** "Dessutom menade Ibn Khaldun att..." → "Ibn Khaldun menade att..."
 **Före:** "Vidare kan det konstateras att..." → Stryk helt eller integrera poängen i föregående stycke.
 
+**"Denna" som styckeskropp:** AI-text inleder stycken med "Denna [substantiv] [verb]" för att skapa kontinuitet från föregående stycke — men när det upprepas i text efter text blir det en igenkännlig formel. Räkna förekomster: om 3+ stycken börjar med "Denna/Detta/Denne" i en artikel, variera: "I detta", "Precis denna", drop connector och börja med ett substantiv eller verb istället.
+
+**"skär djupare" som övergång:** Formeln "X skär djupare [än Y]" används som en standardövergång för att presentera det islamiska argumentet som mer genomträngande. Om det förekommer mer än en gång i artikeln — ersätt. Alternativ: "går längre", "når ner till", "träffar hårdare", eller bygg om meningen så att djupet visas istället för annonseras.
+
 ### 10. "Inte bara X utan också Y" — AI:s favoritkonstruktion
 Konstruktionen "inte bara... utan också/även" är korrekt svenska men förekommer 3–5 gånger per AI-artikel. Det avslöjar maskinursprunget.
 

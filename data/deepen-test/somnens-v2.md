@@ -1,7 +1,54 @@
 ---
+{
+  "verdict": "deepened",
+  "thesis": "Modern sleeplessness is fundamentally a crisis of tawakkul — the soul cannot surrender control, and the Islamic tradition addresses this through its understanding of sleep as daily rehearsal for death.",
+  "argumentChain": [
+    "Step 1: Sweden's sleep epidemic persists despite optimal technological conditions — standard explanations (screens, stress) describe symptoms, not causes",
+    "Step 2: The Islamic tradition identifies sleep as the soul's literal departure from the body — death's brother, not its metaphor (Ibn Taymiyyah's ontological reading)",
+    "Step 3: The same Quranic verb (yatawaffā) covers both death and sleep — the distinction is degree, not kind",
+    "Step 4: Sleeping requires tawakkul — surrendering control — which modernity has systematically replaced with systems of control",
+    "Step 5: Night strips away daytime self-sufficiency, exposing the need for surrender (Strindberg, Hávamál)",
+    "Step 6: The prophetic evening ritual is a daily death-ceremony — practiced confrontation with mortality, not theoretical",
+    "Step 7: Death-anxiety paradox: the same anxiety that produces insomnia in the modern person becomes the path to rest for the God-fearing",
+    "Step 8: The problem isn't being awake but being awake without knowing whom to call upon"
+  ],
+  "gaps": [
+    {
+      "location": "Kvällsbönens ontologi, paragraph after Bremer quote",
+      "type": "flat-comparison",
+      "description": "Bremer is introduced as a Nordic voice that 'recognized the same pattern' — a textbook flat comparison. The essay never asks what her image cannot do that the Islamic formulation can. Her anonymous cherubs and the Quran's named divine agent are treated as equivalent, but the difference between impersonal guardianship and named agency is precisely what makes tawakkul possible."
+    },
+    {
+      "location": "Att öva sig i att dö, paragraph with al-Harithi quote",
+      "type": "missing-step",
+      "description": "The essay claims that death-anxiety is 'the path to rest' for the God-fearing but never shows the mechanism. The reader is told the paradox but not how it resolves. The missing step: same anxiety, opposite direction — modern anxiety tightens the grip on control, the God-fearing's anxiety loosens it. Direction determines whether anxiety becomes insomnia or surrender."
+    }
+  ],
+  "changes": [
+    {
+      "location": "Kvällsbönens ontologi, paragraph after Bremer blockquote",
+      "type": "sharpened-comparison",
+      "before": "[Bremer blockquote]\n\n*Adhkār al-nawm*, kvällens åminnelser, är inte avslappning.",
+      "after": "[Bremer blockquote]\n\nMen Bremers bild stannar vid det anonyma: dunkla keruber med sänkta facklor, en vakt utan ansikte. Det islamiska perspektivet namnger agenten — det är Allah ﷻ som tar själen och Allah ﷻ som sänder den tillbaka. Och det är just namngivandet som gör överlåtelsen möjlig: du kan inte utöva *tawakkul* gentemot en anonym kraft, bara gentemot Den du kan tillropa.\n\n*Adhkār al-nawm*, kvällens åminnelser, är inte avslappning.",
+      "reasoning": "Turns a flat comparison ('the Nordic tradition also recognized this') into an argument: Bremer's impersonal guardianship image cannot ground the practice of tawakkul because trust requires a named agent, not anonymous forces."
+    },
+    {
+      "location": "Att öva sig i att dö, after the death-anxiety paradox claim",
+      "type": "added-step",
+      "before": "Detta är dödsmedvetenhetens paradox: den ångest som den moderna människan flyr — och som håller henne vaken — är för den gudfruktiga vägen till vila.\n\nErik Gustaf Geijer skrev",
+      "after": "Detta är dödsmedvetenhetens paradox: den ångest som den moderna människan flyr — och som håller henne vaken — är för den gudfruktiga vägen till vila. Skillnaden är riktningen. Den moderna ångesten klamrar sig fast vid dagen, vid kontrollen, vid morgondagen som måste säkras. De gudfruktigas ångest rör sig åt motsatt håll: den fjärmar dem från världen, som al-Harithi säger, och det fjärmandet *är* rörelsen mot överlåtelse. Samma ångest — men den ena griper tag, den andra släpper.\n\nErik Gustaf Geijer skrev",
+      "reasoning": "Provides the missing mechanism for the essay's central paradox: anxiety is directional — when it tightens the grip on control it produces insomnia, when it loosens the grip on the world it becomes tawakkul."
+    }
+  ],
+  "changesCount": 2,
+  "summary": "Two gaps found. The Bremer comparison was flat ('the Nordic tradition also saw this') — sharpened by showing that her anonymous cherubs cannot ground tawakkul, which requires a named agent. The death-anxiety paradox claimed that anxiety becomes rest for the God-fearing but never showed how — added the mechanism: same anxiety, opposite direction, one grips tighter and the other lets go."
+}
+---
+
+---
 title: "Att öva sig i att dö"
 publishedAt: "2025-10-18T12:00:00.000Z"
-wordCount: 2346
+wordCount: 2294
 qualityScore: 8.4
 description: "Nästan varannan vuxen svensk har sömnbesvär enligt Folkhälsomyndigheten, en fördubbling på trettio år. Ibn Taymiyyah behandlade fenomenet redan på 1300-talet i al-Radd ala al-Mantiqiyyin, men hans diagnos var en annan: sömnen är dödens broder, och själen lämnar faktiskt kroppen varje natt."
 ---
@@ -79,6 +126,8 @@ Denna bön-död-uppståndelse-struktur är inte unik för den islamiska traditio
 
 > "Vagga och grav — tvillingbröder, / dunkla keruber, / med facklorna sänkta, / kring er stå vakt: / sömnen och döden."[^14]
 
+Men Bremers bild stannar vid det anonyma: dunkla keruber med sänkta facklor, en vakt utan ansikte. Det islamiska perspektivet namnger agenten — det är Allah ﷻ som tar själen och Allah ﷻ som sänder den tillbaka. Och det är just namngivandet som gör överlåtelsen möjlig: du kan inte utöva *tawakkul* gentemot en anonym kraft, bara gentemot Den du kan tillropa.
+
 *Adhkār al-nawm*, kvällens åminnelser, är inte avslappning. De är en daglig övning i den existentiella grundhållning som den moderna världen har förlorat: att du inte äger ditt nästa andetag. Att medvetandet som du förväxlar med *dig* kan återkallas i natt. Att du, trots detta, kan lägga dig ner i frid, eftersom du litar på Den som har det.
 
 Ibn Qayyim skrev att "åminnelsen väcker hjärtat ur dess sömn och reser det ur dess slummer".[^15] *Dhikr* väcker hjärtat för att kroppen ska kunna sova. Den moderna sömnlösheten är ett hjärta som sover, bedövat av distraktioner, dövat av underhållning, i en kropp som ligger vaken. Du upprepar Namnet tills tankarnas cirkel bryts.
@@ -93,7 +142,7 @@ Koranen kallar natten *libās*, en klädnad:
 
 Tre ord som rymmer en hel världsbild. *Libās*: klädnaden som omsluter, skyddar, döljer. *Subāt*: vila, avbrott, sömnens avklädning av dagens identiteter. *Nushūr*: uppståndelse, uppresning. Varje morgon en liten domedagsprolog.
 
-Men det är just här den moderna förståelsen och den islamiska traditionen skiljs åt. Muhammad ibn al-Nadr al-Harithi tecknade de gudfruktigas förhållande till döden: "Medvetenheten om döden upptog de gudfruktigas hjärtan och fjärmade dem från denna värld — vid Allah ﷻ, de återvände aldrig till glädje efter att ha känt dess ångest."[^18] Detta är dödsmedvetenhetens paradox: den ångest som den moderna människan flyr — och som håller henne vaken — är för den gudfruktiga vägen till vila. Men det är inte samma ångest. Den modernas är skräcken för utplåning — och skräck klamrar sig fast, vid kontrollen, vid skärmen, vid den vaka som upprätthåller illusionen att du fortfarande finns. Den gudfruktigas ångest är vördnad inför återkomsten — och vördnad kan vila, ty den har redan släppt det som skräcken håller fast vid.
+Men det är just här den moderna förståelsen och den islamiska traditionen skiljs åt. Muhammad ibn al-Nadr al-Harithi tecknade de gudfruktigas förhållande till döden: "Medvetenheten om döden upptog de gudfruktigas hjärtan och fjärmade dem från denna värld — vid Allah ﷻ, de återvände aldrig till glädje efter att ha känt dess ångest."[^18] Detta är dödsmedvetenhetens paradox: den ångest som den moderna människan flyr — och som håller henne vaken — är för den gudfruktiga vägen till vila. Skillnaden är riktningen. Den moderna ångesten klamrar sig fast vid dagen, vid kontrollen, vid morgondagen som måste säkras. De gudfruktigas ångest rör sig åt motsatt håll: den fjärmar dem från världen, som al-Harithi säger, och det fjärmandet *är* rörelsen mot överlåtelse. Samma ångest — men den ena griper tag, den andra släpper.
 
 Erik Gustaf Geijer skrev att "det hörer till sorgens väsende att ej vilja släppa sitt föremål".[^19] Sömnlösheten är en sorg som inte vet vad den sörjer. Den klänger sig fast vid dagen, vid kontrollen, vid den illusion av permanens som medvetandet upprätthåller. Som om att hålla ögonen öppna kunde stoppa tiden.
 
