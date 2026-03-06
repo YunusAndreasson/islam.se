@@ -1,7 +1,7 @@
 ---
 title: "Domaren utan svärd"
 publishedAt: "2026-01-11T12:00:00.000Z"
-wordCount: 1623
+wordCount: 1380
 qualityScore: 8.6
 description: "Abu al-Hasan al-Mawardi verkade som överdomare i Bagdad på 1000-talet, i en tid då kalifens makt redan glidit in i sultanernas händer. Hans tredelning av rättsväsendet — med skarpa befogenhetsgränser för varje ämbete — föregick Montesquieus maktdelningslära med närmare sjuhundra år."
 ---

@@ -1,7 +1,7 @@
 ---
 title: "Att öva sig i att dö"
 publishedAt: "2025-10-18T12:00:00.000Z"
-wordCount: 2346
+wordCount: 2011
 qualityScore: 8.4
 description: "Nästan varannan vuxen svensk har sömnbesvär enligt Folkhälsomyndigheten, en fördubbling på trettio år. Ibn Taymiyyah behandlade fenomenet redan på 1300-talet i al-Radd ala al-Mantiqiyyin, men hans diagnos var en annan: sömnen är dödens broder, och själen lämnar faktiskt kroppen varje natt."
 ---

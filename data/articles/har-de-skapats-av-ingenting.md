@@ -1,7 +1,7 @@
 ---
 title: "Strindbergs demon"
 publishedAt: "2025-12-07T12:00:00.000Z"
-wordCount: 1592
+wordCount: 1437
 qualityScore: 8.6
 description: "I Inferno beskriver Strindberg hur han under årens lopp tvingades till ateism av vad han upplevde som Guds tystnad, för att sedan falla i vad han själv kallade den fullständigaste vidskepelse. Fjorton sekler före honom hade tre koranverser i sura al-Tur redan ställt samma fråga — med bara tre möjliga svar."
 ---

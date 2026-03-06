@@ -1,7 +1,7 @@
 ---
 title: "Själens infärgning"
 publishedAt: "2025-09-28T12:00:00.000Z"
-wordCount: 2399
+wordCount: 2010
 qualityScore: 8.5
 description: "År 1377 jämförde historikern Ibn Khaldun kunskap med ett infärgat tyg: färgen sitter kvar tills tyget förstörs. Begreppet han formulerade i Tunis — *malaka*, bemästrande — rymmer en pedagogisk insikt som den svenska skoldebatten saknat i över ett sekel."
 ---

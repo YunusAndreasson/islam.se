@@ -1,7 +1,7 @@
 ---
 title: "Tungans fästning"
 publishedAt: "2025-08-04T12:00:00.000Z"
-wordCount: 2883
+wordCount: 2341
 qualityScore: 8.7
 description: "I 1300-talslärden Ibn Qayyim al-Jawziyyahs skildring samlar Satan sina trupper och pekar ut ett mål framför alla andra: tungans fästning. Den kan erövras på två sätt — genom den som sprider lögner och genom den som tiger när sanningen behöver sägas."
 ---

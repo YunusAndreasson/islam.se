@@ -1,7 +1,7 @@
 ---
 title: "Vintergatan vi släckte"
 publishedAt: "2025-08-24T12:00:00.000Z"
-wordCount: 2008
+wordCount: 1742
 qualityScore: 8.5
 description: "År 2016 kartlade Fabio Falchi och hans kollegor det artificiella nattljuset över hela jorden i Science Advances. En tredjedel av mänskligheten har aldrig sett Vintergatan, och i Europa lever nittio procent under himlar så genomlysta att stjärnhimlen reducerats till ett fåtal punkter."
 ---

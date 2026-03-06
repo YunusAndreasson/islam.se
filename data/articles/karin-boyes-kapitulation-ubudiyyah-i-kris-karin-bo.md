@@ -1,7 +1,7 @@
 ---
 title: "Karin Boyes kapitulation"
 publishedAt: "2025-09-03T12:00:00.000Z"
-wordCount: 1967
+wordCount: 1774
 qualityScore: 8.6
 description: "År 1934 gav Karin Boye ut romanen *Kris*, där huvudpersonen Malin Forst genomlever en andlig kapitulation som hon kallar 'en befrielse, ett under'. Det Boye formulerade — egenviljans utplånande som vägen till frihet — hade Ibn Taymiyyah kartlagt på 1300-talet i sin lära om *ubudiyyah*."
 ---

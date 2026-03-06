@@ -1,7 +1,7 @@
 ---
 title: "Undergång utan domare"
 publishedAt: "2026-02-05T12:00:00.000Z"
-wordCount: 1513
+wordCount: 1281
 qualityScore: 8.4
 description: "I Inferno öppnar August Strindberg fönstret och draget hotar att släcka lampan. Han stänger, och lampan börjar kvida — inget läge fungerar. Koranen har ett ord för tillståndet: halū'an, en rastlöshet inbyggd i människan som inget skapat kan stilla."
 ---

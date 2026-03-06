@@ -1,7 +1,7 @@
 ---
 title: "Galningen på torget"
 publishedAt: "2025-12-02T12:00:00.000Z"
-wordCount: 1591
+wordCount: 1417
 qualityScore: 8.6
 description: "År 1882 lät Nietzsche inte en filosof utan en galning springa ut på torget med en lykta mitt på ljusa dagen för att förkunna Guds död. Han förstod vad hans beundrare sällan erkänner: att utan Gud är inte bara teologin utan hela den moraliska ordningen i fritt fall."
 ---

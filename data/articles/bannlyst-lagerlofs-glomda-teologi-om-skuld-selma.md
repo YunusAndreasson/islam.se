@@ -1,7 +1,7 @@
 ---
 title: "Bannlyst och renad"
 publishedAt: "2026-01-31T12:00:00.000Z"
-wordCount: 1274
+wordCount: 1110
 qualityScore: 8.4
 description: "I slutet av Selma Lagerlöfs Bannlyst från 1918 bekänner Sven Elversson ett dråp han burit genom hela romanen — frivilligt, trots att friheten ligger inom räckhåll. Lagerlöf beskriver honom efteråt som 'renad, frigjord från synd', ett ordval som pekar bortom den lutherdom romanen skrevs i."
 ---

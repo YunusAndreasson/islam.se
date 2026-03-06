@@ -1,7 +1,7 @@
 ---
 title: "Fångad i skallen"
 publishedAt: "2025-09-18T12:00:00.000Z"
-wordCount: 1906
+wordCount: 1768
 qualityScore: 8.7
 description: "Sedan 2024 bär försökspersoner Elon Musks hjärnchip och styr datorer med tankekraft. I 1300-talets Damaskus beskrev Ibn Qayyim al-Jawziyyah samma kvävningskänsla men pekade åt motsatt håll: problemet var inte att kroppen begränsade hjärnan, utan att den tyngde ner själen."
 ---

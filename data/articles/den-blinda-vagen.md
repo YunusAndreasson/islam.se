@@ -1,7 +1,7 @@
 ---
 title: "Den starkaste tjänaren"
 publishedAt: "2026-01-01T12:00:00.000Z"
-wordCount: 1568
+wordCount: 1336
 qualityScore: 8.4
 description: "I november 2024 avslöjade Lighthouse Reports och Svenska Dagbladet att Försäkringskassans maskininlärningsmodell systematiskt flaggade kvinnor mer än dubbelt så ofta som män för misstänkt fusk med föräldrapenningen. Systemet hade varit i drift sedan 2013."
 ---

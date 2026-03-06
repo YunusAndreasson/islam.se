@@ -1,7 +1,7 @@
 ---
 title: "Serumet och blicken"
 publishedAt: "2025-08-09T12:00:00.000Z"
-wordCount: 1787
+wordCount: 1631
 qualityScore: 8.7
 description: "I november 1940 publicerar Karin Boye Kallocain, romanen om ett sanningsserum som blottlägger varje medborgares innersta tankar. Fem månader senare tar hon sitt liv. Den islamiska traditionen utgår från samma premiss — att ingenting är dolt — men drar en diametralt motsatt slutsats."
 ---

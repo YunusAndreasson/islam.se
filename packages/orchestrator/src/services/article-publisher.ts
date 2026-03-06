@@ -180,6 +180,8 @@ export class ArticlePublisher {
 		const text = markdown
 			.replace(/```[\s\S]*?```/g, "")
 			.replace(/`[^`]+`/g, "")
+			.replace(/^\[\^\d+\]:.*$/gm, "")
+			.replace(/\[\^[^\]]+\]/g, "")
 			.replace(/\[([^\]]+)\]\([^)]+\)/g, "$1")
 			.replace(/[#*_~>\-|]/g, " ");
 
@@ -200,7 +202,25 @@ export class ArticlePublisher {
 		const footnotes = footnotesRaw.replace(/\n{2,}(?=\[\^\d+\]:)/g, "\n");
 		const proseClean = prose.replace(/\n---\s*$/, "");
 
-		return `${proseClean}\n\n---\n\n${footnotes}\n`;
+		let result = `${proseClean}\n\n---\n\n${footnotes}\n`;
+
+		// Renumber footnotes sequentially (fix gaps like 10→12)
+		const usedIds = [...result.matchAll(/\[\^(\d+)\]/g)].map((m) => m[1]!);
+		const uniqueIds = [...new Set(usedIds)];
+		const sorted = uniqueIds.sort((a, b) => Number(a) - Number(b));
+		for (let i = 0; i < sorted.length; i++) {
+			const oldId = sorted[i]!;
+			const newId = String(i + 1);
+			if (oldId !== newId) {
+				result = result.replace(
+					new RegExp(`\\[\\^${oldId}\\]`, "g"),
+					`[^__${newId}__]`,
+				);
+			}
+		}
+		result = result.replace(/\[\^__(\d+)__\]/g, "[^$1]");
+
+		return result;
 	}
 
 	/**

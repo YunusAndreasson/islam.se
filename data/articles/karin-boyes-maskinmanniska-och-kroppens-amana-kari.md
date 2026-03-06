@@ -1,7 +1,7 @@
 ---
 title: "Chipet och riddjuret"
 publishedAt: "2025-09-23T12:00:00.000Z"
-wordCount: 1849
+wordCount: 1647
 qualityScore: 8.7
 description: "Över fem tusen svenskar bär mikrochip under huden — ingreppet tar sekunder och görs ofta på teknikkonferenser. Att kroppen är råmaterial att uppgradera var samma premiss som bar Karin Boyes dystopi 1940, och som Ibn al-Jawzī i Bagdad avvisade redan på 1100-talet."
 ---

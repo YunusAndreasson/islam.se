@@ -1,7 +1,7 @@
 ---
 title: "Det enögda begäret"
 publishedAt: "2025-11-02T12:00:00.000Z"
-wordCount: 1684
+wordCount: 1394
 qualityScore: 8.6
 description: "I sitt verk Rawdat al-Muhibbin bygger den damascenske 1300-talsgelärde Ibn Qayyim en hel perceptionsteori kring en enkel distinktion: den första blicken händer dig, den andra gör du. Ögat är inte en ingång utan en spegel — det speglar hjärtats eget tillstånd."
 ---

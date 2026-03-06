@@ -1,7 +1,7 @@
 ---
 title: "Guden som bokför"
 publishedAt: "2026-01-16T12:00:00.000Z"
-wordCount: 1810
+wordCount: 1572
 qualityScore: 8.7
 description: "Under sina sista årtionden förde Carl von Linné hemliga anteckningar — inte om naturens systematik utan om människor som gjort ont och straffet som drabbat dem. Med en botanikers metodik försökte han bevisa att Guds rättvisa verkar med naturlags exakthet, en övertygelse som aldrig fick lämna hans skrivbord."
 ---

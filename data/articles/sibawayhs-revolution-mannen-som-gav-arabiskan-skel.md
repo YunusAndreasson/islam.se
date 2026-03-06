@@ -1,7 +1,7 @@
 ---
 title: "Sibawayhs brytning"
 publishedAt: "2025-09-13T12:00:00.000Z"
-wordCount: 1733
+wordCount: 1382
 qualityScore: 8.5
 description: "I en *hadith*-diskussion i 700-talets Basra gjorde den unge persen Sibawayh ett grammatiskt fel. Skammen drev honom till språkvetenskapen, och resultatet blev al-Kitab — den första systematiska arabiska grammatiken, som fjorton århundraden av arabiskfödda grammatiker aldrig har ersatt."
 ---

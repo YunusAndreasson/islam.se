@@ -1,7 +1,7 @@
 ---
 title: "Nattbönens ansikte"
 publishedAt: "2026-02-15T12:00:00.000Z"
-wordCount: 1846
+wordCount: 1527
 qualityScore: 8.6
 description: "I Rawdat al-Muhibbin berättar Ibn Qayyim al-Jawziyyah om en kvinna som vaknade mitt i natten för att be. Tillfrågad om varför svarade hon att bönen förskönar ansiktet. Det var i 1300-talets Damaskus, men hennes svar vänder den moderna skönhetsindustrins logik upp och ner."
 sourceIdea:

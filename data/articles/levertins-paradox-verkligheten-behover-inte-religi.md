@@ -1,7 +1,7 @@
 ---
 title: "Frågan Levertin aldrig ställde"
 publishedAt: "2025-08-19T12:00:00.000Z"
-wordCount: 1827
+wordCount: 1558
 qualityScore: 8.7
 description: "Oscar Levertin studerade 1898 den antike materialisten Lucretius och fann att den som med störst lidelse förnekar gudarna avslöjar att behovet av dem överlever förnekelsen. Iakttagelsen blev den svenska hållningens grundformel — en religiositet som överlever varje religion men aldrig frågar varifrån den kommer."
 ---

@@ -1,7 +1,7 @@
 ---
 title: "Kunskapens tak"
 publishedAt: "2025-07-20T12:00:00.000Z"
-wordCount: 2424
+wordCount: 2068
 qualityScore: 8.7
 description: "Abd Allah ﷻ ibn Abbas, Profetens ﷺ kusin och en av islams mest respekterade korantolkare, delade in Koranens mening i fyra skikt. De tre första kan människor nå — genom språkkänsla, trosplikt eller lärdom. Det fjärde tillhör ingen utom Gud."
 ---

@@ -1,7 +1,7 @@
 ---
 title: "Nattens teleskop"
 publishedAt: "2025-10-23T12:00:00.000Z"
-wordCount: 2483
+wordCount: 2083
 qualityScore: 8.4
 description: "År 1953 upptäckte Eugene Aserinsky vid Chicagouniversitetet att sovande försökspersoners ögon rörde sig vilt bakom slutna lock, och att hjärnan under dessa perioder var minst lika aktiv som i vaket tillstånd. Sexhundra år tidigare hade den tunisiske historikern Ibn Khaldun redan beskrivit fenomenet i al-Muqaddimah — och erbjudit en förklaring."
 ---

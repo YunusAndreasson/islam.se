@@ -1,7 +1,7 @@
 ---
 title: "Alis princip"
 publishedAt: "2025-11-12T12:00:00.000Z"
-wordCount: 1770
+wordCount: 1537
 qualityScore: 8.6
 description: "År 1955 röstade svenska folket för att avskaffa Brattsystemet trots läkarnas varningar. Tjugofem år senare fick väljarna tre alternativ i kärnkraftsfrågan — inget av dem ett rent nej. Koranen ställde diagnosen långt före båda omröstningarna: de flesta följer antaganden, inte kunskap."
 ---

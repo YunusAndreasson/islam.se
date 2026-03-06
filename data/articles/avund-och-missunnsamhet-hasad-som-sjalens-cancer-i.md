@@ -1,7 +1,7 @@
 ---
 title: "Ormboet i hjärtat"
 publishedAt: "2025-07-30T12:00:00.000Z"
-wordCount: 2189
+wordCount: 1917
 qualityScore: 8.5
 description: "I sin parisiska exil 1897 stöter August Strindberg bort vänner och drar sig undan, övertygad om att okända makter förföljer honom. Sex århundraden tidigare hade Ibn Taymiyyah redan ställt diagnosen: avund är en sjukdom med en förstörelseordning — den börjar i själen och arbetar sig utåt."
 ---

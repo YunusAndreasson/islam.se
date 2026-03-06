@@ -1,7 +1,7 @@
 ---
 title: "Ett öga öppet, ett slutet"
 publishedAt: "2026-01-26T12:00:00.000Z"
-wordCount: 2103
+wordCount: 1767
 qualityScore: 8.5
 description: "Silvertärnan väger knappt hundra gram och har en hjärna stor som en ärta. Varje höst lämnar den Arktis, navigerar med jordens magnetfält och stjärnmönster, och flyger 70 000 kilometer till Antarktis och tillbaka — den längsta dokumenterade resan i djurriket."
 ---

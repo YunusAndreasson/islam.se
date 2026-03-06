@@ -1,7 +1,7 @@
 ---
 title: "De ostadiga planeterna"
 publishedAt: "2025-12-17T12:00:00.000Z"
-wordCount: 1559
+wordCount: 1318
 qualityScore: 8.4
 description: "År 1889 skrev Zacharias Topelius att planeterna är ostadiga som ett människoliv. Det var kosmologi formulerad för barn, i en roman där astronomen Sigfrid Forsius läser stjärnhimlen som en solvisare — inte som en karta för rymdkolonisering."
 ---

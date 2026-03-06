@@ -1,7 +1,7 @@
 ---
 title: "Rösten över taken"
 publishedAt: "2025-10-08T12:00:00.000Z"
-wordCount: 1815
+wordCount: 1584
 qualityScore: 8.7
 description: "I en riksdagsmotion från 2024 formulerar Hans Eklind en ovanlig distinktion: kyrkklockor är en 'oartikulerad ljudsignal', medan böneutropet innehåller 'artikulerade ord med ett religiöst budskap'. Två religiösa ljud i det offentliga rummet ska alltså behandlas olika — för att det ena bär ord."
 ---

@@ -1,7 +1,7 @@
 ---
 title: "Vikingen och den Barmhärtige"
 publishedAt: "2026-02-10T12:00:00.000Z"
-wordCount: 1436
+wordCount: 1310
 qualityScore: 8.6
 description: "Gunnar på Hlíðarendi är dömd till landsflykt, men när han vänder sig i sadeln och ser ut över ängarna stiger han av och stannar — väl medveten om att beslutet kostar honom livet. Hans lugn vilade på nornornas väv, en kosmisk ordning som den moderna svensken har förlorat."
 ---

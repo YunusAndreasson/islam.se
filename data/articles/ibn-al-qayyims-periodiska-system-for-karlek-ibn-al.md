@@ -1,7 +1,7 @@
 ---
 title: "Passionens klängväxt"
 publishedAt: "2025-07-15T12:00:00.000Z"
-wordCount: 1887
+wordCount: 1673
 qualityScore: 8.7
 description: "I Doktor Glas skiljer Hjalmar Söderberg kärleken från drömmen om den, men svenskan ger honom bara ett ord att arbeta med. Sjuhundra år tidigare hade den damascenske juristen Ibn Qayyim al-Jawziyyah redan kartlagt närmare sextio arabiska namn, ordnade inte som synonymer utan som stadier, symptom och prognoser."
 ---

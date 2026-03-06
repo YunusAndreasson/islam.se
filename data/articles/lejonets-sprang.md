@@ -1,7 +1,7 @@
 ---
 title: "Lejonet i hjärtat"
 publishedAt: "2025-12-22T12:00:00.000Z"
-wordCount: 1777
+wordCount: 1496
 qualityScore: 8.6
 description: "Under 1300-talets första hälft i Damaskus ägnade Ibn Qayyim al-Jawziyyah ett kapitel i sitt storverk Madarij al-Salikin åt begreppet *firasa* — en insikt som slår ner i hjärtat som ett lejon slår ner sitt byte, och vars skärpa han menade beror på betraktarens moraliska liv."
 ---

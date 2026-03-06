@@ -1,7 +1,7 @@
 ---
 title: "Skummet och metallen"
 publishedAt: "2025-09-08T12:00:00.000Z"
-wordCount: 1654
+wordCount: 1387
 qualityScore: 8.5
 description: "Under krisåren i Paris upptäckte August Strindberg Swedenborgs skrifter och kände genast igen sig: helvetets eld var begäret efter framgång, en glöd som urholkar meningen inifrån. Men Swedenborg var bara en av tre traditioner som brottats med frågan om vad elden egentligen gör med den som brinner."
 ---

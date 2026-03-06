@@ -1,7 +1,7 @@
 ---
 title: "Själen under skalpellen"
 publishedAt: "2025-11-27T12:00:00.000Z"
-wordCount: 1550
+wordCount: 1321
 qualityScore: 8.6
 description: "Som en av 1700-talets mest framsynta hjärnforskare kartlade Emanuel Swedenborg hjärnbarkens funktioner hundra år före sin tid. Hans anatomiska verk De Cerebro var en imponerande materialistisk kartläggning — men själen, det han egentligen letade efter, fann han aldrig under skalpellen."
 ---

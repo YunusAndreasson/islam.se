@@ -1,7 +1,7 @@
 ---
 title: "Nattens bokslut"
 publishedAt: "2026-02-20T12:00:00.000Z"
-wordCount: 1752
+wordCount: 1465
 qualityScore: 8.4
 description: "Varje kväll i årtionden satte sig Zacharias Topelius vid sitt skrivbord och avslutade dagen med bön och självrannsakan, en vana hans mor grundlagt i Nykarleby. I Bagdad på 1000-talet föreskrev rättslärden al-Mawardi samma övning med andra ord: granska dina gärningar, ty natten skärper tanken."
 ---

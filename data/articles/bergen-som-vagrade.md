@@ -1,7 +1,7 @@
 ---
 title: "Bergen som vägrade"
 publishedAt: "2025-12-27T12:00:00.000Z"
-wordCount: 2008
+wordCount: 1701
 qualityScore: 8.7
 description: "I sura al-Ahzab ställs himlarna, jorden och bergen inför ett erbjudande: att bära det moraliska ansvaret. De vägrar, inte av trots utan av insikt. Människan säger ja, trots sin benägenhet till synd och tanklöshet — och fjorton århundraden senare delegerar hon allt fler av sina beslut till maskiner som inte kan bäva inför dem."
 ---
