@@ -7,13 +7,13 @@ description: "I Inferno öppnar August Strindberg fönstret och draget hotar att
 ---
 Tre vintrar utan sommar. Bröder som dödar varandra för småpengar. Solen som slocknar, stjärnorna som faller — och elden som slukar allt.
 
-Völuspá. Eller IPCC:s femte synthesrapport.
+Völuspá. Eller IPCC:s femte syntesrapport.
 
 Likheten är verklig — och just därför vilseledande. Ragnarök är inte klimatångesten i mytisk förklädnad. Det är dess raka motsats. Och i den skillnaden bor vår tids egentliga kris.
 
 ## Elden som renar
 
-Völuspás undergångsscen är brutal och vacker. Solen svartnar. Jorden sjunker i havet. Lågorna slickar himlen. Men mitt i förödelsen sker något den moderna läsaren knappt förmår urskilja: förstörelsen *tjänar* något. Surts eld förintar det onda — och bara det onda. Denna selektivitet i undergången, där förstörelsen särskiljer mellan det som förtjänar att dö och det som förtjänar att överleva — elden som tar det ruttna men lämner trädet — fångade Viktor Rydberg träffsäkert:
+Völuspás undergångsscen är brutal och vacker. Solen svartnar. Jorden sjunker i havet. Lågorna slickar himlen. Men mitt i förödelsen sker något den moderna läsaren knappt förmår urskilja: förstörelsen *tjänar* något. Surts eld förintar det onda — och bara det onda. Denna selektivitet i undergången, där förstörelsen särskiljer mellan det som förtjänar att dö och det som förtjänar att överleva — elden som tar det ruttna men lämnar trädet — fångade Viktor Rydberg träffsäkert:
 
 > Den germanska mytologin har inte betraktat världens pånyttfödelse som en ny skapelse. Det liv som i tidens morgon utvecklades ur kaos förintas inte av Surts lågor, utan räddar sig, renat, för den kommande tidsåldern.[^1]
 

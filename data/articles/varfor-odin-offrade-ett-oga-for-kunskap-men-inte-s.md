@@ -51,7 +51,7 @@ Där Odin offrar ett sinnesorgan men behåller sitt jag, kräver Ibn Qayyim att 
 
 Koranen själv anvisar denna rörelse. Allah ﷻ, den Upphöjde, säger: *Och i era egna själva — ser ni inte?*[^6] Att se in i sig själv är här inte en mystisk resa mot det okända, utan en uppmaning att se det uppenbara som människan ständigt flyr: sin egen svaghet, sitt eget beroende, sin egen dödlighet.
 
-Ibn al-Jawzī, tolvte århundradets lärdomsman i Bagdad, formulerar det i *Ṣayd al-Khāṭir* i formuleringar som inte lämnar utrymme för kompromiss:
+Ibn al-Jawzī, tolfte århundradets lärdomsman i Bagdad, formulerar det i *Ṣayd al-Khāṭir* i formuleringar som inte lämnar utrymme för kompromiss:
 
 > Den som begrundar sig själv en dag — med en sanningssökares begrundan — ställer sig till svars innan han ställs till svars, och väger sig själv innan han vägs.[^7]
 

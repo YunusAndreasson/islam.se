@@ -85,7 +85,7 @@ Emerson ställde redan 1836 den omvända frågan: om stjärnorna visade sig en e
 
 För hundra år sedan bodde åttio procent av svenskarna på landsbygden; idag bor åttio procent i städer.[^22] Under ett enda sekel har den svenska erfarenheten av verkligt mörker gått från livsbetingelse till kuriositet. Det som varje bonde kände i kroppen varje vinternatt har blivit exotiskt.
 
-Abdullah ibn Masʿūd, Profetens ﷺ följeslagare, sade: "Hos er Herre finns varken natt eller dag; himlarnas ljus utgår från Hans ansiktes ljus."[^23] Det yttersta ljuset finns bortom alla kontraster. Men *vägen dit* går genom mörker — genom nätter under öpen himmel, genom Allmaktens natt som är bättre än tusen månader, genom den nattliga bönen som hålls när staden sover.
+Abdullah ibn Masʿūd, Profetens ﷺ följeslagare, sade: "Hos er Herre finns varken natt eller dag; himlarnas ljus utgår från Hans ansiktes ljus."[^23] Det yttersta ljuset finns bortom alla kontraster. Men *vägen dit* går genom mörker — genom nätter under öppen himmel, genom Allmaktens natt som är bättre än tusen månader, genom den nattliga bönen som hålls när staden sover.
 
 Vi har inte bara förorenat himlen. Vi har utplånat det villkor under vilket vandringen börjar.
 

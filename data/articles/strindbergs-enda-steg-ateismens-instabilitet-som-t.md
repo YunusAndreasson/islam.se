@@ -81,7 +81,7 @@ Koranen beskriver också det motsatta: de som hör och vänder bort.
 
 ## Vad Strindberg inte visste
 
-Strindberg landade, bekanligen, i Swedenborg, inte i islam, inte i ortodox kristendom, utan i en synkretistisk blandning av andeskåderi, korrespondenstänkande och personlig mytologibildning.[^15] *Fiṭrah*-argumentet gäller inte *vart* pendeln slår utan *att* den slår. Att Strindberg sökte sig till Swedenborg snarare än till Koranen tyder inte på gudskunskapens natur utan på hans kulturella horisont.
+Strindberg landade, bekantligen, i Swedenborg, inte i islam, inte i ortodox kristendom, utan i en synkretistisk blandning av andeskåderi, korrespondenstänkande och personlig mytologibildning.[^15] *Fiṭrah*-argumentet gäller inte *vart* pendeln slår utan *att* den slår. Att Strindberg sökte sig till Swedenborg snarare än till Koranen tyder inte på gudskunskapens natur utan på hans kulturella horisont.
 
 Ibn Taymiyyah hade redan formulerat problemet: Profeterna, skriver han, "slog liknelser som kompletterade *fiṭrah* med det den inte uppmärksammat eller som den korrumperade åsikter och begär hade fördunklat."[^16] *Fiṭrah* ger riktningen, mot Gud. Uppenbarelsen ger precisionen: *vilken* Gud, *hur* man närmar sig, *vad* Han kräver. Utan uppenbarelse är *fiṭrah* en kompass utan karta. Den pekar rätt men kan inte visa vägen.
 

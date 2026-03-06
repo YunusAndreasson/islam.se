@@ -77,7 +77,7 @@ Fågeln har medel men ingen herre utom den som formade den. Den förbereder sig 
 
 ## Fågel Jag
 
-Även den svenska litteraturen kredsade kring denna bild. Dan Andersson lade den i romanfigurens mun, vandraren David Ramm som ropar: "Låt oss antaga att jag har en själ... när jag dör flyger det likt en fågel ur kroppen. Vart skall han då ta vägen, den konstiga Fågel Jag?"[^18] Frågan flyger mot samma öppna rymd som silvertärnan — och det finns inget försäkringsbolag som tar emot den.
+Även den svenska litteraturen kretsade kring denna bild. Dan Andersson lade den i romanfigurens mun, vandraren David Ramm som ropar: "Låt oss antaga att jag har en själ... när jag dör flyger det likt en fågel ur kroppen. Vart skall han då ta vägen, den konstiga Fågel Jag?"[^18] Frågan flyger mot samma öppna rymd som silvertärnan — och det finns inget försäkringsbolag som tar emot den.
 
 Den svenska författaren Fredrika Bremer gav ett svar i mitten av 1800-talet:
 
