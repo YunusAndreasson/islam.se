@@ -3,7 +3,7 @@ title: "Strindbergs enda steg"
 publishedAt: "2026-01-21T12:00:00.000Z"
 wordCount: 2488
 qualityScore: 8.4
-description: "Sommaren 1896, i ett hotellrum i österrikiska Klam, skriver August Strindberg en mening som hans samtida läser som feber: 'Min tvungna otacksamhet trycker mig som en börda.' Ibn Qayyim al-Jawziyya hade ställt samma diagnos sju sekler tidigare — inte som litteratur utan som antropologi."
+description: "Sommaren 1896, i ett hotellrum i österrikiska Klam, skriver August Strindberg en mening som hans samtida läser som feber: 'Min tvungna otacksamhet trycker mig som en börda.' Ibn Qayyim al-Jawziyyah hade ställt samma diagnos sju sekler tidigare — inte som litteratur utan som antropologi."
 ---
 Sommaren 1896, i ett hotellrum i österrikiska Klam, nedtecknar August Strindberg en mening som hans samtida läser som feber och hans eftervärld som symptom: "Från ateism till Swedenborg tycks det bara vara ett steg!"[^1]
 

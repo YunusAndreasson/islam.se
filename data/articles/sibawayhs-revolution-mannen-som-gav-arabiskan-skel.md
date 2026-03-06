@@ -93,7 +93,7 @@ Fjorton århundraden senare har hans verk inte ersatts. Frågan han gestaltade s
 
 > "Den som sökte kunskap fann heder utan svärd."[^18]
 
-Ibn al-Jawzi behövde inte nämna varifrån kunskapssökaren kom. Det spelade ingen roll. Det spelar fortfarande ingen roll.
+Ibn al-Jawzī behövde inte nämna varifrån kunskapssökaren kom. Det spelade ingen roll. Det spelar fortfarande ingen roll.
 
 ---
 

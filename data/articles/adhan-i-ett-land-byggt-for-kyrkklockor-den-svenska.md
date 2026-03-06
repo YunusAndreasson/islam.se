@@ -75,7 +75,7 @@ Kyrkklockans ljud är en kropp utan själ — ett tomt kärl som lyssnaren fylle
 
 ## Att höra det man inte vill förstå
 
-Ibn Qayyim al-Jawziyya, medeltida islamisk teolog, beskriver lyssnandets kraft med en formulering som kortsluter den moderna distinktionen mellan privat tro och offentligt ljud:
+Ibn Qayyim al-Jawziyyah, medeltida islamisk teolog, beskriver lyssnandets kraft med en formulering som kortsluter den moderna distinktionen mellan privat tro och offentligt ljud:
 
 > "Lyssnandet är trons budbärare till hjärtat — dess kallare, dess lärare."[^14]
 

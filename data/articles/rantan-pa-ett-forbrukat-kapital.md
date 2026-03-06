@@ -57,7 +57,7 @@ Människan är skapad med en värdighet som inte behöver motiveras utifrån —
 
 *Sharīʿah* betyder bokstavligen väg: en stig till vatten i öknen. Människan har törst, men törsten allene finner inte källan. Vägen dit måste uppenbaras. Häri brister den sekulära ordningen.
 
-Den medeltida islamiska lärde Ibn Qayyim al-Jawziyya, elev till Ibn Taymiyyah, skrev:
+Den medeltida islamiska lärde Ibn Qayyim al-Jawziyyah, elev till Ibn Taymiyyah, skrev:
 
 > Människan rymmer drifter som drar henne nedåt och en ande som drar henne uppåt. Hon liknar rovdjuret i sin vrede, djuret i sin begärelse, och ängeln i sin strävan mot kunskap och lydnad. Den som låter begärelsen styra sjunker under djuren; den som låter förnuftet och uppenbarelsen styra stiger till det högsta.[^11]
 

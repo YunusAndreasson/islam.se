@@ -3,7 +3,7 @@ title: "Fångad i skallen"
 publishedAt: "2025-09-18T12:00:00.000Z"
 wordCount: 1906
 qualityScore: 8.7
-description: "Sedan 2024 bär försökspersoner Elon Musks hjärnchip och styr datorer med tankekraft. I 1300-talets Damaskus beskrev Ibn Qayyim al-Jawziyya samma kvävningskänsla men pekade åt motsatt håll: problemet var inte att kroppen begränsade hjärnan, utan att den tyngde ner själen."
+description: "Sedan 2024 bär försökspersoner Elon Musks hjärnchip och styr datorer med tankekraft. I 1300-talets Damaskus beskrev Ibn Qayyim al-Jawziyyah samma kvävningskänsla men pekade åt motsatt håll: problemet var inte att kroppen begränsade hjärnan, utan att den tyngde ner själen."
 ---
 En människa, kopplad till en maskin, tänker en tanke — och tanken blir handling utan att bromsas av kroppens tröghet. Fingrarna behöver inte röra sig, stämbanden behöver inte vibrera. Hjärnan, äntligen befriad från sitt biologiska fängelse, talar direkt till världen.
 
@@ -15,13 +15,13 @@ Men det obehag Neuralink lovar att lösa — känslan av att sitta fast i en kro
 
 ## Själen som inte tål att vara inspärrad
 
-Den diagnosen finns formulerad redan i den islamiska traditionen. I 1100-talets Bagdad satt den islamiske lärde Ibn al-Jawzi och skrev ner sina tankar i det som skulle bli *Ṣayd al-Khāṭir*, en av den arabiska litteraturens mest ovanliga böcker — en ström av reflexioner nedtecknade i det ögonblick de uppstod, innan eftertanken hann polera dem. Mitt i detta flöde slår han fast:
+Den diagnosen finns formulerad redan i den islamiska traditionen. I 1100-talets Bagdad satt den islamiske lärde Ibn al-Jawzī och skrev ner sina tankar i det som skulle bli *Ṣayd al-Khāṭir*, en av den arabiska litteraturens mest ovanliga böcker — en ström av reflexioner nedtecknade i det ögonblick de uppstod, innan eftertanken hann polera dem. Mitt i detta flöde slår han fast:
 
 > "Själarna drabbas inte av förgängelse, och kropparna är intet."[^1]
 
 Påståendet är ingen metafor utan ontologi. Kroppen är *intet* — inte i betydelsen värdelös, utan i betydelsen tillfällig, genomskinlig, en parentes i själens existens.
 
-Inom den parentesen kartlade Ibn al-Jawzi begärets mekanik:
+Inom den parentesen kartlade Ibn al-Jawzī begärets mekanik:
 
 > "Själen stannar aldrig vid en gräns, utan eftersträvar njutningar utan ände — och allt den uppnår svalnar snart, varpå den söker något annat."[^2]
 
@@ -29,7 +29,7 @@ Den insikten saknar transhumanismen helt. Problemet är inte att kroppen begrän
 
 ## Fängelset som blir bekvämare
 
-Det är en annan islamisk lärd, Ibn Qayyim al-Jawziyya, verksam i Damaskus två sekler senare, som driver denna insikt till dess yttersta konsekvens. I *al-Fawāʾid* beskriver han ett kosmiskt dragkraftsfält mellan kropp och själ:
+Det är en annan islamisk lärd, Ibn Qayyim al-Jawziyyah, verksam i Damaskus två sekler senare, som driver denna insikt till dess yttersta konsekvens. I *al-Fawāʾid* beskriver han ett kosmiskt dragkraftsfält mellan kropp och själ:
 
 > "När kroppen mättas, njuter och sover, och man ägnar sig åt dess bekvämlighet och vila, sjunker kroppen till den plats den skapades av och drar med sig själen, som hamnar i ett fängelse."[^3]
 
@@ -77,7 +77,7 @@ Och det är precis detta tyranni som transhumanismen upphöjer till program.
 
 Även från sekulärt håll hörs samma diagnos. Filosofen Pär Segerdahl vid Uppsala universitet har skrivit: "Transhumanismen ÄR det mänskliga missnöjet." Dess drivkraft är "hetsen, stressen, ångesten, avundsjukan, otåligheten". Flykten till framtiden är, skriver Segerdahl, "mönstret för eländet, inte vägen ut".[^12]
 
-Niohundra år tidigare diagnostiserade Ibn al-Jawzi samma rastlöshet — men med en avgörande skillnad. Segerdahls diagnos är deskriptiv: missnöjet *är* mönstret. Ibn al-Jawzis är riktad: rastlösheten har ett objekt. Själen "stannar aldrig vid en gräns" inte för att den är defekt, utan för att inget ändligt kan mätta det den egentligen söker. Och en hjärna kopplad direkt till internet stillar inte den hungern — den föder den. Mer data, mer stimulans, mer kontroll, och ändå: tomheten kvarstår. Allt är tillgängligt, och inget räcker till. Den var aldrig teknisk till sin natur.
+Niohundra år tidigare diagnostiserade Ibn al-Jawzī samma rastlöshet — men med en avgörande skillnad. Segerdahls diagnos är deskriptiv: missnöjet *är* mönstret. Ibn al-Jawzīs är riktad: rastlösheten har ett objekt. Själen "stannar aldrig vid en gräns" inte för att den är defekt, utan för att inget ändligt kan mätta det den egentligen söker. Och en hjärna kopplad direkt till internet stillar inte den hungern — den föder den. Mer data, mer stimulans, mer kontroll, och ändå: tomheten kvarstår. Allt är tillgängligt, och inget räcker till. Den var aldrig teknisk till sin natur.
 
 Med en vers som skär genom seklernas brus namnger Koranen tillståndet:
 

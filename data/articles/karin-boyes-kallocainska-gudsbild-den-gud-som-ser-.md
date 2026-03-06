@@ -49,9 +49,9 @@ Kallocainets allvetande tillhör en stat vars enda intresse är kontroll; dess b
 
 Koranens allvetande tillhör *al-Raḥmān*, den Barmhärtige, vars blick genomlyser hjärtat som en Skapares — en som känner det skapade bättre än det känner sig självt. "Din Herre vet vad deras bröst rymmer likaväl som vad de öppet visar," säger Koranen.[^8] Sammanhanget är omsorg: Gud vet *för att* Han vårdar.
 
-Den sufiske teologen Ibn Qayyim al-Jawziyya (d. 1350) preciserar sambandet: "Den som vakar över Gud i sina hemliga tankar, honom bevarar Gud i hans lemmars rörelser."[^9] Den formuleringen vränger Kallocainets logik. I Boyes roman avslöjar serumet tanken och förstör handlingsfriheten. I Ibn Qayyims universum är det medvetenheten om att tanken redan är genomlyst som *möjliggör* handlingens integritet. Den som vet att tanken ses behöver inte städa den innan den blir handling. Den som vet att Gud ser behöver inte dölja – och den som inte döljer behöver inte frukta.
+Den sufiske teologen Ibn Qayyim al-Jawziyyah (d. 1350) preciserar sambandet: "Den som vakar över Gud i sina hemliga tankar, honom bevarar Gud i hans lemmars rörelser."[^9] Den formuleringen vränger Kallocainets logik. I Boyes roman avslöjar serumet tanken och förstör handlingsfriheten. I Ibn Qayyims universum är det medvetenheten om att tanken redan är genomlyst som *möjliggör* handlingens integritet. Den som vet att tanken ses behöver inte städa den innan den blir handling. Den som vet att Gud ser behöver inte dölja – och den som inte döljer behöver inte frukta.
 
-Rättslärden och predikanten Ibn al-Jawzi (d. 1201) tillspetsar resonemanget till en sentens: "Gudsfruktan hindrar rädslan för människor."[^10] Påståendet verkar paradoxalt bara om man antar att all fruktan är av samma slag. *Taqwā*, den medvetna vördnaden inför Gud, rymmer tillit; den statliga rädslan rymmer bara underkastelse. Åtskillnaden är ontologisk: den gäller vem som ser och varför.
+Rättslärden och predikanten Ibn al-Jawzī (d. 1201) tillspetsar resonemanget till en sentens: "Gudsfruktan hindrar rädslan för människor."[^10] Påståendet verkar paradoxalt bara om man antar att all fruktan är av samma slag. *Taqwā*, den medvetna vördnaden inför Gud, rymmer tillit; den statliga rädslan rymmer bara underkastelse. Åtskillnaden är ontologisk: den gäller vem som ser och varför.
 
 ## Gåvan som inte kan tvångas
 

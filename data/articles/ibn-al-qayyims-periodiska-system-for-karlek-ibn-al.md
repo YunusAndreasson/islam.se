@@ -3,13 +3,13 @@ title: "Passionens klängväxt"
 publishedAt: "2025-07-15T12:00:00.000Z"
 wordCount: 1887
 qualityScore: 8.7
-description: "I Doktor Glas skiljer Hjalmar Söderberg kärleken från drömmen om den, men svenskan ger honom bara ett ord att arbeta med. Sjuhundra år tidigare hade den damascenske juristen Ibn Qayyim al-Jawziyya redan kartlagt närmare sextio arabiska namn, ordnade inte som synonymer utan som stadier, symptom och prognoser."
+description: "I Doktor Glas skiljer Hjalmar Söderberg kärleken från drömmen om den, men svenskan ger honom bara ett ord att arbeta med. Sjuhundra år tidigare hade den damascenske juristen Ibn Qayyim al-Jawziyyah redan kartlagt närmare sextio arabiska namn, ordnade inte som synonymer utan som stadier, symptom och prognoser."
 ---
 "Den källan heter icke kärleken, utan den heter: drömmen om kärlek."[^1]
 
 Hjalmar Söderberg satte fingret på problemet — men hans språk gav honom inte redskapet att följa det till botten. Vad är skillnaden mellan kärleken och drömmen om den? Söderberg visste att det fanns en. Han hade bara ett ord att arbeta med — *kärlek* — ett enda ord som ska täcka allt: förälderns nattliga vaka, den erotiska besattheten, den tysta troheten som överlever årtionden, den gudomliga hängivenheten. Modersmålet tvingar oss att tänka med tumvantar.
 
-Sjuhundra år före Söderberg öppnade den damascenske juristen och teologen Ibn Qayyim al-Jawziyya (d. 1350) sin bok *Rawḍat al-Muḥibbīn* — Älskarnas trädgård — och förtecknade närmare sextio arabiska namn för det vi kallar kärlek.[^2] Inte sextio synonymer. Sextio diagnoser.
+Sjuhundra år före Söderberg öppnade den damascenske juristen och teologen Ibn Qayyim al-Jawziyyah (d. 1350) sin bok *Rawḍat al-Muḥibbīn* — Älskarnas trädgård — och förtecknade närmare sextio arabiska namn för det vi kallar kärlek.[^2] Inte sextio synonymer. Sextio diagnoser.
 
 ## Namnens vetenskap
 
@@ -49,7 +49,7 @@ Diagnosen fångar det som romanen ägnar hundratals sidor åt att kretsa kring u
 
 Om Arvid förlamades av *ʿishq*, mötte Strindberg samma kraft från andra hållet — våldsamt, destruktivt, okontrollerbart. I *Inferno*: "Jag älskar henne och hon mig, och vi hata varandra med ett vildsint hat av kärlek."[^13]
 
-Ibn al-Jawzi, den store bagdadiske predikanten som skrev *Dhamm al-Hawā* två generationer före Ibn Qayyim, hade ett exakt ord för detta: *hawā* — rått begär utan riktning, kraft utan form. "Begäret är en dold fälla som leder sin ägare i fördärvet", skriver han — och tillägger: "Begäret är ett mörker som skymmer hjärtat från vishetens ljus."[^14] Strindbergs äktenskapliga krig, den kärlek som brinner utan att värma, som binder utan att bära: *hawā* utan *ḥubb*, eld utan ljus.
+Ibn al-Jawzī, den store bagdadiske predikanten som skrev *Dhamm al-Hawā* två generationer före Ibn Qayyim, hade ett exakt ord för detta: *hawā* — rått begär utan riktning, kraft utan form. "Begäret är en dold fälla som leder sin ägare i fördärvet", skriver han — och tillägger: "Begäret är ett mörker som skymmer hjärtat från vishetens ljus."[^14] Strindbergs äktenskapliga krig, den kärlek som brinner utan att värma, som binder utan att bära: *hawā* utan *ḥubb*, eld utan ljus.
 
 Ändå — mitt i *Infernos* kaos: "Att älska ett barn är för en man att bliva kvinna, det är att avlägga det manliga, att erfara himlainnevånarnes könlösa kärlek, såsom Swedenborg kallar det."[^15] Utan tillgång till terminologin snuddar Strindberg vid något som Ibn Qayyims system benämner exakt: kärlekens förmåga att *förvandla* sin bärare. Föräldrakärleken som avväpnar, som upplöser det hårda — en rörelse mot *raḥmah*, den barmhärtighet Koranen för samman med kärleken som dess tvillingsyster:
 
@@ -69,7 +69,7 @@ Den som säger *ʿishq* varnar redan. Den som säger *mawaddah* lovar redan. Den
 
 Denna diagnostiska precision har ett högre syfte. Ibn Qayyims ordning är teologisk: den finns till för att avslöja att den mänskliga kärlekens hela spektrum — från den mildaste tillgivenhet till det vildaste vansinne — pekar mot ett centrum: kärleken till Allah ﷻ. Inte genom att varje form av kärlek leder dit — de flesta leder bort. Utan genom att varje diagnos i hans katalog implicerar det hälsotillstånd den avviker ifrån. *ʿIshq* är parasitär just för att den fäster vid det som inte kan bära den; *hawā* är blind för att den saknar rätt föremål. Att katalogisera sjukdomarna är att avteckna, i negativ, den hälsa som bara ett föremål kan ge. "Det finns inget ljuvare, inget ädlare, inget sötare för hjärtat och själen än kärleken till Allah ﷻ och hängivenheten till Honom allena", skriver han.[^19] Annorstädes preciserar han detta med brutal klarhet: "Det är omöjligt att kärlek till den Högste och *ʿishq* för bilderna någonsin sammanstrålar i ett hjärta — de är motsatser som aldrig möts."[^20]
 
-Ibn al-Jawzi citerar Platon med ett ord som fortfarande bränner: "*ʿIshq* är en tom själs rörelse utan tanke."[^21] Ibn Qayyim själv: "*ʿIshq* tar inte säte utom i ett tomt hjärta."[^22]
+Ibn al-Jawzī citerar Platon med ett ord som fortfarande bränner: "*ʿIshq* är en tom själs rörelse utan tanke."[^21] Ibn Qayyim själv: "*ʿIshq* tar inte säte utom i ett tomt hjärta."[^22]
 
 Det hjärta som är fullt — fullt av *dhikr*, av närvaro inför Allah ﷻ, det som sitter kvar på mattan när bönen slutat och världen återvänder långsamt — det hjärtat lämnar ingen jord åt den parasitära passionens klängväxt. Men det tomma hjärtat, det som saknar centrum, det som den moderna sekulariteten berömmer sig av att ha befriat från alla dogmer — det hjärtat är värnlöst mot precis den sortens kärlek som förtär utan att nära, som binder utan att bära.
 

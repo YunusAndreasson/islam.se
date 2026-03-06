@@ -3,7 +3,7 @@ title: "Nattbönens ansikte"
 publishedAt: "2026-02-15T12:00:00.000Z"
 wordCount: 1846
 qualityScore: 8.6
-description: "I Rawdat al-Muhibbin berättar Ibn Qayyim al-Jawziyya om en kvinna som vaknade mitt i natten för att be. Tillfrågad om varför svarade hon att bönen förskönar ansiktet. Det var i 1300-talets Damaskus, men hennes svar vänder den moderna skönhetsindustrins logik upp och ner."
+description: "I Rawdat al-Muhibbin berättar Ibn Qayyim al-Jawziyyah om en kvinna som vaknade mitt i natten för att be. Tillfrågad om varför svarade hon att bönen förskönar ansiktet. Det var i 1300-talets Damaskus, men hennes svar vänder den moderna skönhetsindustrins logik upp och ner."
 sourceIdea:
   topic: "form-skonhet-och-det-forbjudna"
   ideaId: 6
@@ -12,7 +12,7 @@ Mitt i natten vaknar en kvinna. Inte för att sminka sig – för att be. Hon st
 
 När hon tillfrågas varför, svarar hon: "Den förskönar ansiktet, och jag älskar att mitt ansikte är vackert."[^1]
 
-Historien berättas av den medeltida islamiske lärde Ibn Qayyim al-Jawziyya (d. 1350) i *Rawḍat al-Muḥibbīn*, *De älskandes trädgård* — den underkänner allt vi tror oss veta om skönhet.
+Historien berättas av den medeltida islamiske lärde Ibn Qayyim al-Jawziyyah (d. 1350) i *Rawḍat al-Muḥibbīn*, *De älskandes trädgård* — den underkänner allt vi tror oss veta om skönhet.
 
 ## En industri som säljer brist
 

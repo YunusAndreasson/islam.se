@@ -15,7 +15,7 @@ För detta fenomen har den islamiska traditionen ett namn — och en diagnos som
 
 ## Sjukdomen som angriper sin värd
 
-Ibn Taymiyyah — den hanbalistiske teologen vars intellekt saknar motstycke i den medeltida världen — ägnade ett helt verk åt hjärtats sjukdomar. I *Amrāḍ al-Qulūb wa-Shifāʾuhā* diagnostiserar han med oförsonlig tydlighet:
+Ibn Taymiyyah — den hanbalitiske teologen vars intellekt saknar motstycke i den medeltida världen — ägnade ett helt verk åt hjärtats sjukdomar. I *Amrāḍ al-Qulūb wa-Shifāʾuhā* diagnostiserar han med oförsonlig tydlighet:
 
 > Avunden är en sjukdom bland själens sjukdomar som fördärvar dess bärares religion och ära, och som sedan kan fördärva hans förstånd och slutligen hans kropp.[^2]
 

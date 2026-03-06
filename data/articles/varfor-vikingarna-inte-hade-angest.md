@@ -55,7 +55,7 @@ Islam rymmer något som varken Orlog eller den moderna friheten kan ge — men d
 
 Men den troende vilar i något väsensskilt: en relation till den som är *al-Raḥmān*, *al-Raḥīm* — den Barmhärtige, den Nåderike. När nöden kommer vänder han sig till någon som hör och svarar.
 
-Den medeltida teologen Ibn Qayyim al-Jawziyya definierade *tawakkul* som "hjärtats fulla förlitan på Allah ﷻ allena".[^9] Men *tawakkul* har ofta missförståtts som passivitet — som om tillit till Allah ﷻ skulle betyda att sluta handla. Ibn Qayyim avvisade detta likhetstecken: "*tawakkul* hör till de starkaste orsakerna för att uppnå det man önskar och avvärja det man fruktar — det är den starkaste orsaken överhuvudtaget."[^10] Den hanbalitiske lärde Ibn al-Jawzi skar igenom varje kvarvarande missförstånd: "*tawakkul* upphävs inte genom att vidta tillåtna åtgärder. Den som berövar sig själv nödvändigheter under förevändning av *tawakkul* har brutit mot *sunnah*."[^11]
+Den medeltida teologen Ibn Qayyim al-Jawziyyah definierade *tawakkul* som "hjärtats fulla förlitan på Allah ﷻ allena".[^9] Men *tawakkul* har ofta missförståtts som passivitet — som om tillit till Allah ﷻ skulle betyda att sluta handla. Ibn Qayyim avvisade detta likhetstecken: "*tawakkul* hör till de starkaste orsakerna för att uppnå det man önskar och avvärja det man fruktar — det är den starkaste orsaken överhuvudtaget."[^10] Den hanbalitiske lärde Ibn al-Jawzī skar igenom varje kvarvarande missförstånd: "*tawakkul* upphävs inte genom att vidta tillåtna åtgärder. Den som berövar sig själv nödvändigheter under förevändning av *tawakkul* har brutit mot *sunnah*."[^11]
 
 Liksom Orlog befriade vikingahjältarna frigör tilliten den troende för handling — skillnaden ligger i vad man vilar i. Vikingen vilar i det oundvikliga, den troende i den Barmhärtige. Att överlåta sitt öde åt en blind lag kräver stoisk hårdhet — för att uthärda lidande från en likgiltig källa måste du tysta den del av dig som frågar *varför*. Att anförtro det åt Allah ﷻ, med Koranens ord "den som sätter sin lit till Allah ﷻ, Han räcker honom"[^12], kräver ingen sådan tystnad: frågan har ett svar även när du inte känner det. Det är detta som ger något stoicismen aldrig kan nå: ro utan hårdhet, mod utan cynism, handling utan den kvävande känslan att allt hänger på en själv. Det är modern som kan somna trots att barnet är sjukt, för utfallet inte är hennes att bära ensam.
 
@@ -91,8 +91,8 @@ Gunnar på Hlíðarendi vände sig i sadeln — hans lugn sprang ur vissheten at
 [^6]: Hjalmar Söderberg, *Förvillelser* (1895).
 [^7]: Koranen, *al-Taghābun* 64:11.
 [^8]: Koranen, *Luqmān* 31:34.
-[^9]: Ibn Qayyim al-Jawziyyah, *al-Fawāʾid*.
-[^10]: Ibn Qayyim al-Jawziyyah, *al-Fawāʾid*.
+[^9]: Ibn Qayyim al-Jawziyyahh, *al-Fawāʾid*.
+[^10]: Ibn Qayyim al-Jawziyyahh, *al-Fawāʾid*.
 [^11]: Ibn al-Jawzī, *Talbīs Iblīs*.
 [^12]: Koranen, *al-Ṭalāq* 65:3.
 [^13]: Karin Boye, *Kris* (1934).

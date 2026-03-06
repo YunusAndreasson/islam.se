@@ -3,7 +3,7 @@ title: "Längtan heter ångest"
 publishedAt: "2025-10-28T12:00:00.000Z"
 wordCount: 1830
 qualityScore: 8.6
-description: "Under 1300-talets första hälft ägnade sig Ibn Qayyim al-Jawziyya i Damaskus åt att diagnostisera hjärtats sjukdomar. I al-Da' wa al-Dawa beskrev han hur synden försvagar hjärtat — inte som en katastrof utan som en tilltagande bedövning där den sjuke till slut inte ens märker att han är sjuk."
+description: "Under 1300-talets första hälft ägnade sig Ibn Qayyim al-Jawziyyah i Damaskus åt att diagnostisera hjärtats sjukdomar. I al-Da' wa al-Dawa beskrev han hur synden försvagar hjärtat — inte som en katastrof utan som en tilltagande bedövning där den sjuke till slut inte ens märker att han är sjuk."
 ---
 Den moderna människan har ett automatiskt svar på ångest: gör dig av med den — medicinera, meditera, distrahera. Hela terapiindustrin vilar på antagandet att ångest är ett systemfel – en störning att korrigera så att vi kan återgå till det normala.
 
@@ -11,7 +11,7 @@ Tänk om antagandet är fel — fel i grunden.
 
 ## Hjärtats diagnos
 
-Ibn Qayyim al-Jawziyya, verksam i Damaskus under 1300-talets första hälft, ägnade sitt livsverk åt vad han kallade hjärtats sjukdomar – *amrāḍ al-qulūb*. För Ibn Qayyim var hjärtat (*qalb*) ett verkligt organ för andlig varseblivning, lika sårbart för sjukdom som kroppen, och lika beroende av korrekt diagnos. I *al-Dāʾ wa-l-Dawāʾ* visar han syndens mekanism:
+Ibn Qayyim al-Jawziyyah, verksam i Damaskus under 1300-talets första hälft, ägnade sitt livsverk åt vad han kallade hjärtats sjukdomar – *amrāḍ al-qulūb*. För Ibn Qayyim var hjärtat (*qalb*) ett verkligt organ för andlig varseblivning, lika sårbart för sjukdom som kroppen, och lika beroende av korrekt diagnos. I *al-Dāʾ wa-l-Dawāʾ* visar han syndens mekanism:
 
 > Synderna försvagar hjärtats vandring mot Gud och det tillkommande — de hindrar det, stoppar det och avskär dess färd, så att det inte tar ett enda steg mot Gud. Om de inte vänder det bakåt.[^1]
 

@@ -27,7 +27,7 @@ Kroppen är alltså inget hinder som själen flyr ifrån utan ett instrument som
 
 ## Hjärtat mellan rost och klarhet
 
-Ibn Qayyim al-Jawziyya fördjupar samma grundtanke med en bild hämtad direkt ur den profetiska traditionen. I *al-Wābil al-Ṣayyib* beskriver han hjärtat som en spegel vars yta antingen rostas av synder och försummelse eller poleras av lydnad och åminnelse av Allah ﷻ:
+Ibn Qayyim al-Jawziyyah fördjupar samma grundtanke med en bild hämtad direkt ur den profetiska traditionen. I *al-Wābil al-Ṣayyib* beskriver han hjärtat som en spegel vars yta antingen rostas av synder och försummelse eller poleras av lydnad och åminnelse av Allah ﷻ:
 
 > Hjärtat rostas liksom koppar och silver rostas, och det poleras genom åminnelse (*dhikr*). Hjärtat är likt en spegel: när det poleras reflekterar det sanningen som den är, och när det rostas förvrängs bilderna och förmörkas.[^4]
 

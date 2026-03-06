@@ -3,7 +3,7 @@ title: "Tungans fästning"
 publishedAt: "2025-08-04T12:00:00.000Z"
 wordCount: 2883
 qualityScore: 8.7
-description: "I 1300-talslärden Ibn Qayyim al-Jawziyyas skildring samlar Satan sina trupper och pekar ut ett mål framför alla andra: tungans fästning. Den kan erövras på två sätt — genom den som sprider lögner och genom den som tiger när sanningen behöver sägas."
+description: "I 1300-talslärden Ibn Qayyim al-Jawziyyahs skildring samlar Satan sina trupper och pekar ut ett mål framför alla andra: tungans fästning. Den kan erövras på två sätt — genom den som sprider lögner och genom den som tiger när sanningen behöver sägas."
 ---
 Ett ord slungat i vrede, viskat i avund eller bara släppt i förbifarten — sedan faller det genom tillvaron som en sten genom vatten: nedåt, oåterkalleligt, med ringar som sprider sig långt bortom den punkt där stenen försvann. Profeten Muhammad ﷺ beskrev det så: en människa kan yttra ett ord utan att begrunda det. Det ordet störtar henne i Elden längre bort än avståndet mellan öster och väster.[^1]
 
@@ -11,7 +11,7 @@ Vi lever i en tid som präglas av tal. Kommentarsfält, poddar, det ständiga br
 
 ## Tungan som det största gränsfästet
 
-Den islamiska traditionen förstod tungans strategiska betydelse — inte som ett isolerat organ utan som en fästning vars vakthållning avgör hela det inre livets skick. Ibn Qayyim al-Jawziyya — 1300-talets skarpaste analytiker av det inre livet — iscensätter i *al-Dāʾ wa-l-Dawāʾ* en militär stabsgenomgång där Satan själv avslöjar sin strategi. Satan samlar sina trupper och tilldelar varje avdelning sitt mål. Sedan säger han:
+Den islamiska traditionen förstod tungans strategiska betydelse — inte som ett isolerat organ utan som en fästning vars vakthållning avgör hela det inre livets skick. Ibn Qayyim al-Jawziyyah — 1300-talets skarpaste analytiker av det inre livet — iscensätter i *al-Dāʾ wa-l-Dawāʾ* en militär stabsgenomgång där Satan själv avslöjar sin strategi. Satan samlar sina trupper och tilldelar varje avdelning sitt mål. Sedan säger han:
 
 > Ställ er vid tungans gränsfästning, ty det är den största fästningen, belägen mitt emot kungens port. Låt det flöda över den allt tal som skadar honom och inte gagnar honom, och hindra allt som gagnar honom: åminnelse av Allah ﷻ, bön om förlåtelse, läsning av Hans bok, uppriktigt råd till Hans tjänare, och tal grundat i nyttig kunskap. I denna fästning erbjuds er två stora segrar — det gör detsamma vilken ni vinner: den första är att han talar falskt, ty den som talar falskt är en av era bröder och bland era största soldater. Den andra är att han tiger om sanningen, ty den som tiger om sanningen är en stum broder till er.[^3]
 

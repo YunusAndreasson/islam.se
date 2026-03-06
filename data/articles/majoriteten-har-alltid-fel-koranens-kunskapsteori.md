@@ -31,9 +31,9 @@ Koranen skiljer inte mellan rätt och fel som politiska kategorier utan mellan *
 
 Varför följer de flesta antaganden? Frågan verkar enkel. Svaret som Koranen och den islamiska intellektuella traditionen ger är det inte.
 
-Ibn Qayyim al-Jawziyya urskiljer två svagheter: bristande insikt och bristande tålamod.[^8] Insikt kräver ansträngning. Tålamod kräver att man uthärdar obehaget av att stå ensam. Antagandet ger en genväg: en åsikt utan arbete, en övertygelse utan prövning.
+Ibn Qayyim al-Jawziyyah urskiljer två svagheter: bristande insikt och bristande tålamod.[^8] Insikt kräver ansträngning. Tålamod kräver att man uthärdar obehaget av att stå ensam. Antagandet ger en genväg: en åsikt utan arbete, en övertygelse utan prövning.
 
-Men det finns något djupare än lättja. Ibn al-Jawzi: "Begäret förblindar och gör döv för sanning och riktighet."[^9] Begäret — *hawā* — förvränger aktivt omdömet. Människan ser inte fel *trots* sin intelligens utan *på grund av* sina begär. Den smarta människan som följer sitt begär blir okunnig; den starka blir svag.[^10]
+Men det finns något djupare än lättja. Ibn al-Jawzī: "Begäret förblindar och gör döv för sanning och riktighet."[^9] Begäret — *hawā* — förvränger aktivt omdömet. Människan ser inte fel *trots* sin intelligens utan *på grund av* sina begär. Den smarta människan som följer sitt begär blir okunnig; den starka blir svag.[^10]
 
 Utan kännedom om denna tradition landade Gustave Le Bon i samma slutsats från ett annat håll: "I en folkmassa blir skeptikern troende, den ärliga människan en förbrytare, den fege en hjälte."[^11] Massan upplöser inte bara individuellt omdöme. Den ställer det på huvudet. Le Bon beskrev mekanismen, men hans analys börjar för sent: den utgår från folkmassan som om förvrängningen uppstår när individen träder in i gruppen. Den koraniska analysen visar att *hawā* verkar redan innan massan samlas — massan skapar inte irrationalitet utan ger det begär som redan finns en kollektiv ursäkt. Just därför når Le Bons analys bara *vad* som sker, inte *varför*: hans enhet är gruppen, och sjukdomen föregår gruppen.
 

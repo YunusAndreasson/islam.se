@@ -41,7 +41,7 @@ Men gemenskapen definieras av en riktning, inte av en plats. Den enskilde muslim
 
 Hur exakt måste riktningen vara?
 
-Ibn Taymiyyah, den skarpaste juridiska tänkaren i den hanbalistiska traditionen, anför i *al-Radd ʿalā al-Manṭiqiyyīn* Följeslagarnas praxis. Damaskusmoskén, som Följeslagarna själva bad i, har en liten avvikelse från exakt riktning mot Kaba. Det var av vishet:
+Ibn Taymiyyah, den skarpaste juridiska tänkaren i den hanbalitiska traditionen, anför i *al-Radd ʿalā al-Manṭiqiyyīn* Följeslagarnas praxis. Damaskusmoskén, som Följeslagarna själva bad i, har en liten avvikelse från exakt riktning mot Kaba. Det var av vishet:
 
 > Det har aldrig rapporterats att Följeslagarna ålade folk att i bönen beräkna exakt efter Polstjärnan... Den som befinner sig i Syrien och liknande områden behöver bara vända väster om sin högra sida och öster om sin vänstra, och hans bön är giltig. Ty Allah ﷻ har bara befallt att man vänder sig mot den Helgade moskéns sida.[^8]
 
@@ -110,7 +110,7 @@ Den svenska poeten Karin Boye skrev: "Det finns en tid, då Riltuna kyrka låg m
 [^7]: Koranen, al-Baqarah 2:143.
 [^8]: Ibn Taymiyyah, *al-Radd ʿalā al-Manṭiqiyyīn*, avsnitt om *qiblah*-bestämning.
 [^9]: Ibn Taymiyyah, *al-Radd ʿalā al-Manṭiqiyyīn*, avsnitt om Följeslagarnas metoder.
-[^10]: Principen att *ijtihad* räcker för *qiblah*-bestämning är etablerad i hanbalistisk och shafiʿitisk *fiqh*.
+[^10]: Principen att *ijtihad* räcker för *qiblah*-bestämning är etablerad i hanbalitisk och shafiʿitisk *fiqh*.
 [^12]: Johan Ludvig Runeberg, dikt ur samlade verk.
 [^13]: Salman al-Farisi, citerad i Ibn al-Jawzī, *Ṣifat al-Ṣafwah* (De utvaldas egenskaper); jfr Mālik, *al-Muwaṭṭaʾ* (Den jämnade vägen).
 [^14]: Bön i Profetens ﷺ moské i Medina räknas som tusen böner jämfört med bön på annan plats (Sahih al-Bukhari, nr. 1190). Poängen kvarstår: den enskilda bönen på vilken plats som helst är fullt giltig.

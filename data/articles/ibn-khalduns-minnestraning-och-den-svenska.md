@@ -53,7 +53,7 @@ Det är Ibn Khalduns *malaka* i modern terminologi: upprepning som gradvis förv
 
 Denna distinktion mellan automatiserad och icke-automatiserad kunskap bekräftas av nyare forskning, som tillägger en avgörande detalj: aktiv återkallelse ur minnet — recitation, förhör, självprövning — stärker minnesspåren avsevärt mer än passiv omläsning.[^26]
 
-Den islamiska pedagogiska traditionen hade formulerat denna ordning århundraden tidigare. Den damascenske lärde Ibn Qayyim al-Jawziyya från 1300-talet beskrev kunskapens steg i *Miftāḥ Dār al-Saʿādah*: först lyssnande, därpå förståelse, sedan memorering, slutligen tillämpning — varje steg bygger på det föregående, och inget kan kringgås utan att helheten faller.[^10] Ordningen är ingen slump: förståelsen föregår memoreringen, men memoreringen befäster förståelsen och öppnar för tillämpning. Utan det tredje steget förblir det andra flyktigt.
+Den islamiska pedagogiska traditionen hade formulerat denna ordning århundraden tidigare. Den damascenske lärde Ibn Qayyim al-Jawziyyah från 1300-talet beskrev kunskapens steg i *Miftāḥ Dār al-Saʿādah*: först lyssnande, därpå förståelse, sedan memorering, slutligen tillämpning — varje steg bygger på det föregående, och inget kan kringgås utan att helheten faller.[^10] Ordningen är ingen slump: förståelsen föregår memoreringen, men memoreringen befäster förståelsen och öppnar för tillämpning. Utan det tredje steget förblir det andra flyktigt.
 
 Ibn Rajab al-Hanbali fångade slutresultatet i en enda bild: "Ju starkare kunskapen blir, desto mer flödar åminnelsen på den åminnandes tunga utan ansträngning."[^11] *Malaka* fulländad: kunskap lika naturlig som andning.
 
@@ -75,7 +75,7 @@ I den islamiska traditionen är memorering aldrig enbart kognitiv. Den är *dhik
 
 Att lära sig Koranen utantill — att bli *ḥāfiẓ* — är en process genom vilken den heliga texten bokstavligen blir en del av den lärdes kropp, andning, rytm.
 
-Ibn Qayyim al-Jawziyya fördjupade denna insikt i *Madārij al-Sālikīn* med en analys av förhållandet mellan ihågkomst (*tadhakkur*) och eftertanke (*tafakkur*):
+Ibn Qayyim al-Jawziyyah fördjupade denna insikt i *Madārij al-Sālikīn* med en analys av förhållandet mellan ihågkomst (*tadhakkur*) och eftertanke (*tafakkur*):
 
 > Ihågkomst och eftertanke är två stationer som bär frukt i alla sorters kunskap, trons sanningar och godhetens verkligheter. Den kunnige upphör aldrig att återvända med sin eftertanke till sin ihågkomst, och med sin ihågkomst till sin eftertanke, tills hans hjärtas lås öppnas.[^16]
 

@@ -43,7 +43,7 @@ Den islamiska traditionen har ett ord för denna överlåtelse, och det är i lj
 
 Det är ingen sömnbön i den mening vi tänker oss, inget lugnande mantra, ingen avslappningsövning. Det är en dödsförberedelse. Ordagrant: *laka mamātuhā wa-maḥyāhā*, dess död och dess liv tillhör Dig. Att somna, i denna tradition, är att öva sig i att dö.
 
-Ordet för denna överlåtelse är *tawakkul*. Ibn Qayyim al-Jawziyya definierade det som "hjärtats sanna förlitan på Allah ﷻ ensam"[^6] och Ibn Rajab al-Hanbali preciserade: "hjärtats uppriktiga förtröstan på Allah ﷻ i att söka det goda och avvärja det skadliga".[^7] Det är den som lägger huvudet mot kudden fast morgondagen är olöst.
+Ordet för denna överlåtelse är *tawakkul*. Ibn Qayyim al-Jawziyyah definierade det som "hjärtats sanna förlitan på Allah ﷻ ensam"[^6] och Ibn Rajab al-Hanbali preciserade: "hjärtats uppriktiga förtröstan på Allah ﷻ i att söka det goda och avvärja det skadliga".[^7] Det är den som lägger huvudet mot kudden fast morgondagen är olöst.
 
 Häri ligger sömnens hemlighet. Den sömnlösa människan, den moderna, sekulära, upplysta människan, lider inte av brist på melatonin. Bristen är av annat slag: för mycket kontroll. Hon kan inte somna för att hon inte förmår *tawakkul*, inte förmår lita på att världen bär henne när hon släpper.
 
