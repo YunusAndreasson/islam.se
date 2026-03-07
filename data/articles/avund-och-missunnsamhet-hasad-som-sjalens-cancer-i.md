@@ -27,7 +27,7 @@ Ibn Qayyim, Ibn Taymiyyahs mest begåvade elev, förtätade bilden till en enda 
 
 > Avunden bränner den avundsjuke före den avundade, så som elden bränner veden.[^4]
 
-*Före* — inte vid sidan av, inte som en bieffekt. Den avundsjuke är det första offret. Al-Mawardi, den abbasidiske juristen och politiske tänkaren, drev logiken till sin paradox:
+*Före* — inte vid sidan av, inte som en bieffekt. Den avundsjuke är det första offret. Al-Māwardī, den abbasidiske juristen och politiske tänkaren, drev logiken till sin paradox:
 
 > Det finns inget bland ondskans egenskaper som är rättvisare än avunden: den dödar den avundsjuke innan den når den avundade.[^5]
 
@@ -37,7 +37,7 @@ Observationen är inte uteslutande islamisk. Thomas av Aquino nådde samma sluts
 
 ## Den första synden, två gånger
 
-Den islamiska traditionens mest slående insikt om avund är inte psykologisk utan kosmisk. Al-Mawardi pekar ut avund som den arketypiska synden — den som satte hela den kosmiska tragedin i rörelse, både i himlen och på jorden:
+Den islamiska traditionens mest slående insikt om avund är inte psykologisk utan kosmisk. Al-Māwardī pekar ut avund som den arketypiska synden — den som satte hela den kosmiska tragedin i rörelse, både i himlen och på jorden:
 
 > Avund var den första synden som begicks mot Allah i himlen — det vill säga Iblis' avund mot Adam, frid vare med honom — och den första synden som begicks mot Allah ﷻ på jorden — det vill säga Adams sons avund mot sin bror, tills han dödade honom.[^7]
 
@@ -47,7 +47,7 @@ Koranens femte sura berättar hur det gick till. Kain och Abel bär fram var sit
 
 "Hans inre drev honom." Inte en plan, inte ett strategiskt beslut — en kraft inifrån, starkare än förnuftet. Och resultatet: broderns död och att Kain själv blev "en av förlorarna" — *min al-khāsirīn*. Formuleringen bär en dubbel dom: mordet dödade Abel — men förstörde något i Kain.
 
-Genom att para ihop dessa två berättelser — Iblis i himlen, Kain på jorden — pekar al-Mawardi ut avund som den arketypiska synden, den som satte hela den kosmiska tragedin i rörelse. Iblis vägrade buga inför Adam av ren avund: hur kunde denna varelse av lera föredras framför honom, skapad av eld?[^9] Avund är, i denna läsning, en anklagelse mot Guds fördelning — en protest mot den ordning där andra får det man själv anser sig förtjäna.
+Genom att para ihop dessa två berättelser — Iblis i himlen, Kain på jorden — pekar al-Māwardī ut avund som den arketypiska synden, den som satte hela den kosmiska tragedin i rörelse. Iblis vägrade buga inför Adam av ren avund: hur kunde denna varelse av lera föredras framför honom, skapad av eld?[^9] Avund är, i denna läsning, en anklagelse mot Guds fördelning — en protest mot den ordning där andra får det man själv anser sig förtjäna.
 
 ## Ormboet
 
@@ -55,11 +55,11 @@ Viktor Rydberg, den svenske 1800-talsförfattaren som aldrig slutade brottas med
 
 > Svartsjukan är en gruvlig plåga, Rakel. Tacka din Gud, att hon icke hemsökt dig. Hon förvandlar hjärtat till ett ormbo, varur tusen giftiga gaddar framsticka och sarga vårt inre.[^10]
 
-Ormboet — inte en orm som bits en gång, utan ett helt bo — en myllrande källa till gift som oupphörligt alstrar nytt och som inte behöver yttre fiender för att skada. Ibn Hibban, den store hadithvetaren, för Rydbergs bild från boet till branden — en eld som aldrig slocknar:
+Ormboet — inte en orm som bits en gång, utan ett helt bo — en myllrande källa till gift som oupphörligt alstrar nytt och som inte behöver yttre fiender för att skada. Ibn Ḥibbān, den store hadithvetaren, för Rydbergs bild från boet till branden — en eld som aldrig slocknar:
 
 > Varje brand har något som kan släcka den, men avundens eld kan inte släckas.[^11]
 
-Och samma Ibn Hibban spårar avundens kedja av förstörelse med obarmhärtig logik:
+Och samma Ibn Ḥibbān spårar avundens kedja av förstörelse med obarmhärtig logik:
 
 > Ur avunden föds hatet, och hatet är ondskans rot.[^12]
 
@@ -87,7 +87,7 @@ Ingen förklaring, ingen ursäkt — bara det nakna konstaterandet: en annan mä
 
 ## *Ghibṭah* — avundens motsats
 
-Den islamiska traditionen gör en åtskillnad som den moderna psykologin sent har börjat formulera. Al-Mawardi skiljer mellan *ḥasad* — destruktiv avund — och *munāfasah*, en sund strävan:
+Den islamiska traditionen gör en åtskillnad som den moderna psykologin sent har börjat formulera. Al-Māwardī skiljer mellan *ḥasad* — destruktiv avund — och *munāfasah*, en sund strävan:
 
 > Tävlan är att söka likna de förträffliga utan att tillfoga dem skada, medan avund är riktad mot att skada.[^16]
 
@@ -95,7 +95,7 @@ Skillnaden är kvalitativ, inte graduell. *Ghibṭah*, den tillåtna formen, ser
 
 En experimentell studie publicerad i *Emotion* 2009 bekräftade att avund utgör två kvalitativt skilda emotioner: en som driver självförbättring, en som söker den andres fall.[^24]
 
-Al-Hasan al-Basri, den legendariske asketen från Basra, erbjöd tröst med en avgörande nyansering:
+al-Ḥasan al-Baṣrī, den legendariske asketen från Basra, erbjöd tröst med en avgörande nyansering:
 
 > Det finns ingen bland Adams barn som inte skapats med avund i sig. Men den som varken följer den i ord eller handling — inget [ont] följer av den.[^17]
 
@@ -115,7 +115,7 @@ Koranens näst sista sura, *al-Falaq* (Gryningsljuset), är en bön om skydd. De
 
 Att avund nämns i denna korta sura — fem verser, inte fler — bland kosmiska faror som nattens mörker, ger avunden en dignitet som den sällan tillmäts i modern diskussion. Koranen behandlar den som en kraft man behöver Guds skydd mot.
 
-Ibn Khaldun, den tunisiske historiografen vars *Muqaddimah* föregick den moderna sociologin med fyra århundraden, såg samma allvar:
+Ibn Khaldūn, den tunisiske historiografen vars *Muqaddimah* föregick den moderna sociologin med fyra århundraden, såg samma allvar:
 
 > Högmod och avund är fiender till enighet, men religionen kan besegra dem båda.[^20]
 
@@ -125,7 +125,7 @@ Och botemedlet:
 
 Avund frodas när blicken riktas mot *dunyā* — världen som mål i sig själv. Hjärtan som vänds mot sanningen finner varandra. Avunden behöver jämförelsen för att andas. Den som slutar mäta sig mot andra och börjar mäta sig mot sina egna löften till Gud tar syret från avunden.
 
-Häri bottnar Ibn Taymiyyahs diagnos: avund är en hjärtsjukdom. Hjärtat — *al-qalb* — är i islamisk psykologi den punkt där människans förhållande till Gud avgörs. Ett sjukt hjärta ser världen snett: andras välsignelser blir hot, Guds gåvor till andra blir personliga förolämpningar. Al-Mawardi avslutade med en mening som tål att bäras med sig:
+Häri bottnar Ibn Taymiyyahs diagnos: avund är en hjärtsjukdom. Hjärtat — *al-qalb* — är i islamisk psykologi den punkt där människans förhållande till Gud avgörs. Ett sjukt hjärta ser världen snett: andras välsignelser blir hot, Guds gåvor till andra blir personliga förolämpningar. Al-Māwardī avslutade med en mening som tål att bäras med sig:
 
 > Den som är tillfreds med Guds beslut gör ingen honom vred; och den som nöjer sig med Hans gåvor, där tar avunden ingen plats.[^22]
 

@@ -73,7 +73,7 @@ Efter diagnosen av förstörelsen — och den meningslöshet vår tid bundit vid
 
 Upprepningen är inte utfyllnad utan princip: svårigheten *föder* lättnaden, liksom Ragnaröks eld föder den förnyade jorden. Skillnaden är att Koranen vet *varför*.
 
-Islam ger vad varken Ragnarök eller klimatrörelsen förmår: ett handlingsmotiv bortom fatalism och febril aktivism. Begreppet *khalīfa* — människan som skapelsens förvaltare — förankrar omsorgen om jorden i ansvar inför den som anförtrott den, inte i undergångsångest.[^12] Profeten Muhammad ﷺ lärde att om timmen kommer medan du håller en planta i handen, ska du plantera den.[^13] Handlingen behöver inte rädda världen för att vara meningsfull — den är meningsfull för att den svarar mot ett förtroende.
+Islam ger vad varken Ragnarök eller klimatrörelsen förmår: ett handlingsmotiv bortom fatalism och febril aktivism. Begreppet *khalīfa* — människan som skapelsens förvaltare — förankrar omsorgen om jorden i ansvar inför den som anförtrott den, inte i undergångsångest.[^12] Profeten Muḥammad ﷺ lärde att om timmen kommer medan du håller en planta i handen, ska du plantera den.[^13] Handlingen behöver inte rädda världen för att vara meningsfull — den är meningsfull för att den svarar mot ett förtroende.
 
 Samma impuls — att möta katastrofen med meningsskapande handling — drev Ragnaröks skapare. År 536, när en vulkanvinter förmörkade solen över Skandinavien, kan någon ha rest Rökstenen i Östergötland — inte som klagan utan som myt, som meningsskapande mitt i katastrofen.[^14] Tolkningen är omtvistad, men impulsen är igenkännbar: vi berättar oss *genom* mörkret.
 

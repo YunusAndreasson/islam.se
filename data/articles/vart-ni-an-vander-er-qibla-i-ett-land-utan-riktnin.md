@@ -15,7 +15,7 @@ Denna rumsliga ordning vilar på ett sällan uttalat axiom: att det heliga kräv
 
 Islam bygger inte på en plats — utan på en riktning.
 
-Skillnaden kan låta abstrakt, men den är arkitektonisk. Varje punkt på jordens yta — varje parkeringsplats, varje skolkorridor, varje åkerfåra — kan vara en böneplats. Profeten Muhammad ﷺ sade: "Hela jorden har gjorts till en plats för bön och till ett reningsmedel — den som drabbas av bönetid kan be var han än befinner sig."[^3] Det är ett arkitektoniskt program.
+Skillnaden kan låta abstrakt, men den är arkitektonisk. Varje punkt på jordens yta — varje parkeringsplats, varje skolkorridor, varje åkerfåra — kan vara en böneplats. Profeten Muḥammad ﷺ sade: "Hela jorden har gjorts till en plats för bön och till ett reningsmedel — den som drabbas av bönetid kan be var han än befinner sig."[^3] Det är ett arkitektoniskt program.
 
 Den europeiska sakralarkitekturen vilar på motsatt logik: det heliga kräver en fast punkt, en bestämd plats — katedralen, templet, det heliga berget — genom vilken det gudomliga kanaliseras och utan vilken tillbedjan blir ogiltig.[^4] Religionshistorikern Mircea Eliade upphöjde den fasta punkten till universalprincip: varje heligt rum förutsätter en *axis mundi*, en kosmisk axel utan vilken det gudomliga saknar fäste i världen.[^23] Islams grundlogik kräver ingen sådan fast punkt. Den ger den bedjande en kompassbäring, inte en adress.
 
@@ -41,15 +41,15 @@ Men gemenskapen definieras av en riktning, inte av en plats. Den enskilde muslim
 
 Hur exakt måste riktningen vara?
 
-Ibn Taymiyyah, den skarpaste juridiska tänkaren i den hanbalitiska traditionen, anför i *al-Radd ʿalā al-Manṭiqiyyīn* Följeslagarnas praxis. Damaskusmoskén, som Följeslagarna själva bad i, har en liten avvikelse från exakt riktning mot Kaba. Det var av vishet:
+Ibn Taymiyyah, den skarpaste juridiska tänkaren i den hanbalitiska traditionen, anför i *al-Radd ʿalā al-Manṭiqiyyīn* Följeslagarnas praxis. Damaskusmoskén, som Följeslagarna själva bad i, har en liten avvikelse från exakt riktning mot Kaʿba. Det var av vishet:
 
 > Det har aldrig rapporterats att Följeslagarna ålade folk att i bönen beräkna exakt efter Polstjärnan... Den som befinner sig i Syrien och liknande områden behöver bara vända väster om sin högra sida och öster om sin vänstra, och hans bön är giltig. Ty Allah ﷻ har bara befallt att man vänder sig mot den Helgade moskéns sida.[^8]
 
-Nyckeln är det arabiska ordet *shatr* — "sida", "allmän riktning". Gud befaller att man vänder sig mot Kaba-hållet — inte att man beräknar en exakt kompassbäring med trigonometriska tabeller.
+Nyckeln är det arabiska ordet *shaṭr* — "sida", "allmän riktning". Gud befaller att man vänder sig mot Kaʿba-hållet — inte att man beräknar en exakt kompassbäring med trigonometriska tabeller.
 
 Ibn Taymiyyah förstärker argumentet. Allt som behövs för att bestämma böneriktningen kan läras "genom de kända metoder som Följeslagarna och deras efterföljare brukade, utan att behöva något annat. Ändå har många människor infört nya metoder, och många av dem tror att man inte kan förstå den religiösa lagen utan dessa — och detta beror på deras okunnighet."[^9] Kritiken riktar sig mot dem som gör *qiblah*-bestämningen onödigt komplicerad — mot dem som behandlar riktningen som om den vore en punkt.
 
-Islam avvisar kravet på en exakt plats; den ungefärliga riktningen räcker. Bönen kräver inte GPS-koordinater. Den kräver att den bedjande orienterar sig — i ordets bokstavliga mening — mot Mecka. Kan han inte avgöra riktningen alls, använder han sitt eget omdöme — sin *ijtihad* — och bönen förblir giltig.[^10] Han står där han står och gissar bäst han kan.
+Islam avvisar kravet på en exakt plats; den ungefärliga riktningen räcker. Bönen kräver inte GPS-koordinater. Den kräver att den bedjande orienterar sig — i ordets bokstavliga mening — mot Mecka. Kan han inte avgöra riktningen alls, använder han sitt eget omdöme — sin *ijtihād* — och bönen förblir giltig.[^10] Han står där han står och gissar bäst han kan.
 
 ## Platsens teologi, riktningens teologi
 
@@ -61,7 +61,7 @@ Runeberg fångar den djupa samhörigheten mellan människa och sockenkyrka i en 
 
 Den som inte hör till en sockenkyrka hör inte till någonstans. Platsen är identiteten.
 
-Islam spegelvänder denna logik. "Hela jorden är gjord till en moské" — principen upphäver behovet av ett byggt sakralt centrum. Den omkullkastar relationen mellan människa och mark. Salman al-Farisi, en av Profetens ﷺ närmaste följeslagare — själv en man som vandrat från Persien genom kristendomen till islam — slog fast:
+Islam spegelvänder denna logik. "Hela jorden är gjord till en moské" — principen upphäver behovet av ett byggt sakralt centrum. Den omkullkastar relationen mellan människa och mark. Salmān al-Fārisī, en av Profetens ﷺ närmaste följeslagare — själv en man som vandrat från Persien genom kristendomen till islam — slog fast:
 
 > Jorden helgar ingen — det är människans handlingar som helgar henne.[^12]
 
@@ -73,7 +73,7 @@ Den industrilokal där en arbetare fäller sina armbågar mot golvet i *sujūd* 
 
 Om varje rum kan bli en moské — varför kämpar muslimer för att bygga dem?
 
-I hela den islamiska geografin finns tre platser som bär en sakral kvalitet i sig: Masjid al-Haram i Mecka, Profetens ﷺ moské i Medina och Masjid al-Aqsa i Jerusalem. Bön i Masjid al-Haram räknas som hundratusen böner.[^14] Men även dessa tre är undantag, inte regel: islam har *platser*, men dess grundlogik är riktning.
+I hela den islamiska geografin finns tre platser som bär en sakral kvalitet i sig: Masjid al-Ḥarām i Mecka, Profetens ﷺ moské i Medina och Masjid al-Aqṣā i Jerusalem. Bön i Masjid al-Ḥarām räknas som hundratusen böner.[^14] Men även dessa tre är undantag, inte regel: islam har *platser*, men dess grundlogik är riktning.
 
 Moskébygget tjänar gemenskapen — *jamāʿah* — inte platsen. Axel vid axel i rader, ingen ber ensam. Profeten ﷺ sade: "Den som bygger en moské för Allahs ﷻ skull, bygger Allah ﷻ ett hus åt i paradiset."[^15] Men han varnade också: "Stunden kommer inte förrän människor tävlar om sina moskéer."[^16] Moskén är ett redskap för kollektiv bön, inte en helgedom som monopoliserar det sakrala. Just den skillnaden gör moskédebatten i Sverige så svårhanterlig. En religion vars grundprincip är att varje rum kan helgas genom bön passar illa i en detaljplans kategorier.
 
@@ -110,9 +110,9 @@ Den svenska poeten Karin Boye skrev: "Det finns en tid, då Riltuna kyrka låg m
 [^7]: Koranen, al-Baqarah 2:143.
 [^8]: Ibn Taymiyyah, *al-Radd ʿalā al-Manṭiqiyyīn*, avsnitt om *qiblah*-bestämning.
 [^9]: Ibn Taymiyyah, *al-Radd ʿalā al-Manṭiqiyyīn*, avsnitt om Följeslagarnas metoder.
-[^10]: Principen att *ijtihad* räcker för *qiblah*-bestämning är etablerad i hanbalitisk och shafiʿitisk *fiqh*.
+[^10]: Principen att *ijtihād* räcker för *qiblah*-bestämning är etablerad i hanbalitisk och shafiʿitisk *fiqh*.
 [^11]: Johan Ludvig Runeberg, dikt ur samlade verk.
-[^12]: Salman al-Farisi, citerad i Ibn al-Jawzī, *Ṣifat al-Ṣafwah* (De utvaldas egenskaper); jfr Mālik, *al-Muwaṭṭaʾ* (Den jämnade vägen).
+[^12]: Salmān al-Fārisī, citerad i Ibn al-Jawzī, *Ṣifat al-Ṣafwah* (De utvaldas egenskaper); jfr Mālik, *al-Muwaṭṭaʾ* (Den jämnade vägen).
 [^13]: Bön i Profetens ﷺ moské i Medina räknas som tusen böner jämfört med bön på annan plats (Sahih al-Bukhari, nr. 1190). Poängen kvarstår: den enskilda bönen på vilken plats som helst är fullt giltig.
 [^14]: Sahih Muslim, nr. 1394; Ibn Maja, nr. 1406.
 [^15]: Sahih al-Bukhari, nr. 450; Sahih Muslim, nr. 533. Citerad i Ibn Taymiyyah, *al-Qawāʿid al-Nūrāniyyah al-Fiqhiyyah*.
@@ -120,7 +120,7 @@ Den svenska poeten Karin Boye skrev: "Det finns en tid, då Riltuna kyrka låg m
 [^17]: Alingsås Tidning, "Muslimska elever kämpar för böneplats på Alströmergymnasiet" (2024).
 [^18]: Fredrika Bremer, *Brev*, samlade utgåvan.
 [^19]: Ibn Taymiyyah, *al-Istighāthah* (Om att söka hjälp), avsnitt om profeternas böneplatser.
-[^20]: *Qiblah*-beräkning utifrån Stockholms latitud (59.33°N) och longitud (18.07°O) i relation till Kaba (21.42°N, 39.83°O).
+[^20]: *Qiblah*-beräkning utifrån Stockholms latitud (59.33°N) och longitud (18.07°O) i relation till Kaʿba (21.42°N, 39.83°O).
 [^21]: al-Bīrūnī, *Kitāb Taḥdīd Nihāyāt al-Amākin* (Om bestämningen av platsers koordinater), ca. 1025.
 [^22]: Karin Boye, *Astarte* (1931).
 [^23]: Mircea Eliade, *Det heliga och det profana* (1957), om *axis mundi* som grundstruktur för religiös rumserfarenhet.

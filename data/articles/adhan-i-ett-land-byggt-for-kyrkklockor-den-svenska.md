@@ -87,7 +87,7 @@ Den koraniska kritiken riktar sig inte mot dem som vägrar lyssna — utan mot d
 
 Det svenska samhället har inte avsakraliserat det religiösa ljudet — det har bara glömt att kyrkklockan en gång också bar mening. I det tysta har klockorna genomgått en lång sekularisering: från Guds basuner till stadsatmosfär, från kallelse till kuliss. *Adhān* har inte genomgått den processen — den har burit samma mening i fjorton århundraden. Just denna envisa vägran — att aldrig bli bara ljud — provocerar.
 
-Al-Mawardi, medeltida islamisk rättslärd, uttrycker principen utan omsvep:
+Al-Māwardī, medeltida islamisk rättslärd, uttrycker principen utan omsvep:
 
 > *Adhān* och *iqāmah* och församlingsbönen i moskén hör till islams yttre tecken, genom vilka Guds sändebud ﷺ skilde islams land från otrons land.[^16]
 

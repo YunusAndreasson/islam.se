@@ -3,7 +3,7 @@ title: "Nattens bokslut"
 publishedAt: "2026-02-20T12:00:00.000Z"
 wordCount: 1465
 qualityScore: 8.4
-description: "Varje kväll i årtionden satte sig Zacharias Topelius vid sitt skrivbord och avslutade dagen med bön och självrannsakan, en vana hans mor grundlagt i Nykarleby. I Bagdad på 1000-talet föreskrev rättslärden al-Mawardi samma övning med andra ord: granska dina gärningar, ty natten skärper tanken."
+description: "Varje kväll i årtionden satte sig Zacharias Topelius vid sitt skrivbord och avslutade dagen med bön och självrannsakan, en vana hans mor grundlagt i Nykarleby. I Bagdad på 1000-talet föreskrev rättslärden al-Māwardī samma övning med andra ord: granska dina gärningar, ty natten skärper tanken."
 ---
 Varje kväll, i årtionden, satte sig Zacharias Topelius vid sitt skrivbord och avslutade dagen med bön och självrannsakan. Hans mor hade bett aftonbön med honom varje kväll som barn i Nykarleby. Vanan växte med honom, närd av den pietistiska väckelsen i Österbotten, och blev med åren det han själv kallade en böneskola.[^1] År 1868, efter att tre av hans barn dött i tidig ålder, fick bönen vad han kallade "en särskild plats i tillvaron".[^2]
 
@@ -11,7 +11,7 @@ Vi betraktar gärna sådana vanor som reliker, fromhetsövningar från en tid so
 
 ## Kvällens granskning
 
-Daglig granskning av det levda livet är inte en kristen säregenhet. Den islamiska traditionen kodifierade samma praktik, och gjorde det tidigt. Al-Mawardi, den islamiske rättslärde som dog i Bagdad 1058, skrev en passage som en modern sömnforskare kunde ha undertecknat:
+Daglig granskning av det levda livet är inte en kristen säregenhet. Den islamiska traditionen kodifierade samma praktik, och gjorde det tidigt. Al-Māwardī, den islamiske rättslärde som dog i Bagdad 1058, skrev en passage som en modern sömnforskare kunde ha undertecknat:
 
 > Sedan bör han på kvällen granska vad som framkommit av hans dagsgärningar, ty natten skärper tanken och samlar eftertanken. Om gärningen var lovvärd, låt honom fullfölja den och följa upp med dess like. Om den var klandervärd, låt honom rätta till den om möjligt och avhålla sig från dess like i framtiden.[^3]
 
@@ -33,21 +33,21 @@ I den kristna världen saknade Topelius och pietisterna inte föregångare. På 
 
 ## Profetens ﷺ sänggåendepraxis
 
-Den islamiska kvällsrutinen är mer än reflektion — den är *dhikr*, åminnelse av Gud, uttalad med tungan och känd i hjärtat. Profeten Muhammad ﷺ brukade, när han lade sig, säga: "I Ditt namn, o Gud, dör jag och lever." När han vaknade sade han: "Pris vare Gud som gett oss liv efter att ha låtit oss dö, och till Honom är återkomsten." Varje natt samlade han sina händer, blåste i dem och läste de avslutande surorna ur Koranen. Sedan strök han med händerna över sin kropp.[^11]
+Den islamiska kvällsrutinen är mer än reflektion — den är *dhikr*, åminnelse av Gud, uttalad med tungan och känd i hjärtat. Profeten Muḥammad ﷺ brukade, när han lade sig, säga: "I Ditt namn, o Gud, dör jag och lever." När han vaknade sade han: "Pris vare Gud som gett oss liv efter att ha låtit oss dö, och till Honom är återkomsten." Varje natt samlade han sina händer, blåste i dem och läste de avslutande surorna ur Koranen. Sedan strök han med händerna över sin kropp.[^11]
 
 Språket är anmärkningsvärt: sömnen kallas en liten död — ett tillfälligt anförtroende av själen till Gud. Koranen förstärker bilden: "Det är Han som tar er om natten och som vet vad ni uträttar om dagen. Sedan uppväcker Han er för att en fastställd tidsgräns skall infalla."[^12] Den som överlämnar sig medvetet, med ord, granskning och tacksamhet, gör något väsensskilt från den som somnar framför en skärm.
 
-Denna medvetenhet är vad Ibn Qayyim menade när han skrev att åminnelsen "väcker hjärtat ur dess sömn".[^13] Spänningen är avsiktlig: den som minns Gud innan den fysiska sömnen kommer, vaknar i egentlig mening. Den klarhet som al-Mawardi tillskrev natten tillhör den som avslutar dagen med medvetenhet, inte med bedövning.
+Denna medvetenhet är vad Ibn Qayyim menade när han skrev att åminnelsen "väcker hjärtat ur dess sömn".[^13] Spänningen är avsiktlig: den som minns Gud innan den fysiska sömnen kommer, vaknar i egentlig mening. Den klarhet som al-Māwardī tillskrev natten tillhör den som avslutar dagen med medvetenhet, inte med bedövning.
 
 ## Sömnforskningens återupptäckt
 
-Det denna medvetna överlåtelse gör med sinnet — den omstrukturering av tankar och orosmoment som al-Mawardi och Ibn Qayyim beskrev — är vad modern sömnforskning nu mäter. År 2009 visade Alex Wood och hans kollegor i Journal of Psychosomatic Research att tacksamhet förbättrar sömnen. De identifierade också mekanismen. Tacksamhet förskjuter vad människor tänker på i gränslandet mellan vakenhet och sömn: fler positiva tankar, färre negativa, precis vid insomningsögonblicket. Därav förbättringen — kortare insomning, längre sömn, bättre sömnkvalitet.[^14]
+Det denna medvetna överlåtelse gör med sinnet — den omstrukturering av tankar och orosmoment som al-Māwardī och Ibn Qayyim beskrev — är vad modern sömnforskning nu mäter. År 2009 visade Alex Wood och hans kollegor i Journal of Psychosomatic Research att tacksamhet förbättrar sömnen. De identifierade också mekanismen. Tacksamhet förskjuter vad människor tänker på i gränslandet mellan vakenhet och sömn: fler positiva tankar, färre negativa, precis vid insomningsögonblicket. Därav förbättringen — kortare insomning, längre sömn, bättre sömnkvalitet.[^14]
 
 2018 påvisade Scullin med kollegor vid Baylor University, i en polysomnografisk studie, att fem minuters skrivande före sänggåendet förkortar insomningen mätbart. Deltagare som nedskrev vad de behövde göra dagen efter somnade i genomsnitt nio minuter snabbare än de som skrev om vad de redan gjort. Ju mer detaljerad listan, desto snabbare insomning.[^15] Mekanismen kallas kognitiv avlastning: att flytta det oavslutade från huvud till papper frigör sinnet. Det som skulle cirkulera i huvudet vilar nu på pappret.
 
 Modern kognitiv beteendeterapi mot sömnlöshet — CBT-I, som American College of Physicians rekommenderar som förstahandsbehandling — bygger på samma princip. Den innebär kognitiv omstrukturering av ångestdrivna tankar, avslappningsövningar och strikta rutiner som bryter kopplingen mellan sängen och vakenhet.[^16] Sjuttio till åttio procent av patienterna förbättras av den.
 
-Varken Wood, Scullin eller CBT-I-manualen erkänner sina föregångare. Redan den romerske filosofen Seneca, snart två tusen år före dem, granskade varje kväll hela sin dag. Han vittnade om sömnen som följde: "hur lugn, hur djup och fri".[^19] Al-Mawardi föreskrev en strukturerad kvällsgranskning: ordna tankarna, skilja det lovvärda från det klandervärda, rikta sinnet framåt. Denna praktik *är* den kognitiva avlastning som sömnforskningen nu mäter med polysomnografi. I Topelius' aftonböner med sin mor i Nykarleby ryms den tacksamhetspraktik som Woods studie bekräftar. Profetens ﷺ ord vid sänggåendet — "I Ditt namn dör jag och lever" — är en överlåtelsehandling som fullbordar vad CBT-I:s stimuluskontroll eftersträvar: att göra sängen till en plats för vila, inte för oro.
+Varken Wood, Scullin eller CBT-I-manualen erkänner sina föregångare. Redan den romerske filosofen Seneca, snart två tusen år före dem, granskade varje kväll hela sin dag. Han vittnade om sömnen som följde: "hur lugn, hur djup och fri".[^19] Al-Māwardī föreskrev en strukturerad kvällsgranskning: ordna tankarna, skilja det lovvärda från det klandervärda, rikta sinnet framåt. Denna praktik *är* den kognitiva avlastning som sömnforskningen nu mäter med polysomnografi. I Topelius' aftonböner med sin mor i Nykarleby ryms den tacksamhetspraktik som Woods studie bekräftar. Profetens ﷺ ord vid sänggåendet — "I Ditt namn dör jag och lever" — är en överlåtelsehandling som fullbordar vad CBT-I:s stimuluskontroll eftersträvar: att göra sängen till en plats för vila, inte för oro.
 
 Man kan invända att evidensbaserade verktyg utan teologiska krav borde rimligen vara en förbättring, tillgängliga för alla oavsett tro. Likväl talar hållbarheten ett annat språk. Sömnappars användare faller bort efter veckor. Topelius bad i sextio år. Den troende muslimen granskar sig varje kväll livet ut. En praktik som besvarar frågan *varför* med "för att du ska stå inför din Skapare" visar sig slitstarkare än en som svarar med "för att du ska sova bättre". Det djupare motivet bär det ytligare som bieffekt.
 

@@ -3,7 +3,7 @@ title: "Strindbergs demon"
 publishedAt: "2025-12-07T12:00:00.000Z"
 wordCount: 1437
 qualityScore: 8.6
-description: "I Inferno beskriver Strindberg hur han under årens lopp tvingades till ateism av vad han upplevde som Guds tystnad, för att sedan falla i vad han själv kallade den fullständigaste vidskepelse. Fjorton sekler före honom hade tre koranverser i sura al-Tur redan ställt samma fråga — med bara tre möjliga svar."
+description: "I Inferno beskriver Strindberg hur han under årens lopp tvingades till ateism av vad han upplevde som Guds tystnad, för att sedan falla i vad han själv kallade den fullständigaste vidskepelse. Fjorton sekler före honom hade tre koranverser i sura al-Ṭūr redan ställt samma fråga — med bara tre möjliga svar."
 ---
 Strindberg var ärlig nog att formulera problemet. I *Inferno* skriver han: "Jag har nämligen blivit ateist under årens lopp, när jag märkt hur de okända makterna lämnat världen åt dess öde utan att giva ett livstecken ifrån sig."[^1] En mening man kan respektera — inte för att den är sann, utan för att den visar vad ateismen kostar den som tar den på allvar. Strindberg ville inte vara ateist. Dit tvingades han av vad han upplevde som Guds tystnad. Han kunde inte stanna där.
 

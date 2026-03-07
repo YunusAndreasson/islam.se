@@ -1,3 +1,12 @@
+/* Label — Inter small-caps utility (meta lines, stats, colophons, nav labels) */
+.label {
+	font-family: var(--font-heading);
+	font-variant-numeric: normal;
+	font-size: 0.8125rem;
+	letter-spacing: 0.08em;
+	color: var(--color-muted);
+}
+
 /* Content column — centered, constrained measure */
 .content-column {
 	max-width: var(--content-width);
@@ -71,15 +80,22 @@
 .site-nav a:first-child {
 	display: inline-flex;
 	align-items: center;
-	gap: 0.25em;
+	gap: 0.15em;
+	letter-spacing: 0.08em;
+	font-weight: 600;
+}
+
+.site-tld {
+	font-weight: 400;
+	font-size: 0.85em;
 }
 
 .nav-rub {
 	display: inline-block;
 	font-size: 1.3em;
 	line-height: 1;
-	opacity: 0.4;
-	transform: translateY(-0.05em);
+	opacity: 0.35;
+	transform: translateY(-0.12em);
 }
 
 .site-nav {
@@ -232,10 +248,6 @@
 }
 
 .hero-cover-date {
-	font-family: var(--font-heading);
-	font-variant-numeric: normal;
-	font-size: 0.8125rem;
-	letter-spacing: 0.08em;
 	text-transform: uppercase;
 	font-feature-settings: "case";
 	color: rgb(var(--hero-white) / 0.7);
@@ -304,33 +316,9 @@
 	z-index: 20;
 	width: 0;
 	height: 2px;
-	background: light-dark(#b0a090, #6a5e4a);
+	background: var(--color-warm);
 	transition: none;
 	pointer-events: none;
-}
-
-/* Share button */
-.share-btn {
-	display: inline-flex;
-	align-items: center;
-	vertical-align: -0.125em;
-	gap: 0.4em;
-	font-family: var(--font-heading);
-	font-size: 0.8125rem;
-	letter-spacing: 0.08em;
-	text-transform: uppercase;
-	font-feature-settings: "case";
-	color: var(--color-muted);
-	background: none;
-	border: none;
-	cursor: pointer;
-	padding: 0;
-	transition: color 0.15s;
-
-	&:hover,
-	&:active {
-		color: var(--color-text);
-	}
 }
 
 /* Back to top */
@@ -364,19 +352,15 @@
 	&:hover,
 	&:active {
 		color: var(--color-text);
-		border-color: light-dark(#b0a090, #6a5e4a);
+		border-color: var(--color-warm);
 	}
 }
 
 .about-colophon {
 	margin-top: 0;
 	text-align: center;
-	font-family: var(--font-heading);
-	font-size: 0.8125rem;
-	letter-spacing: 0.08em;
 	text-transform: uppercase;
 	font-feature-settings: "case";
-	color: var(--color-muted);
 	margin-bottom: var(--space-triple);
 }
 
@@ -405,16 +389,6 @@
 	letter-spacing: 0.02em;
 	margin-top: var(--space-unit);
 	margin-bottom: var(--space-double);
-	color: var(--color-muted);
-}
-
-.article-meta {
-	font-family: var(--font-heading);
-	font-variant-numeric: normal;
-	font-size: 0.8125rem;
-	letter-spacing: 0.08em;
-	text-transform: uppercase;
-	font-feature-settings: "case";
 	color: var(--color-muted);
 }
 
@@ -452,9 +426,7 @@
 	.nav-label {
 		display: block;
 		font-size: 0.75rem;
-		color: var(--color-muted);
 		text-transform: uppercase;
-		letter-spacing: 0.08em;
 		font-feature-settings: "case";
 		margin-bottom: 0.25rem;
 	}
@@ -462,12 +434,8 @@
 
 /* Archive stats — progress subtitle inside article-header */
 .archive-stats {
-	font-family: var(--font-heading);
-	font-size: 0.8125rem;
-	letter-spacing: 0.08em;
 	text-transform: uppercase;
 	font-feature-settings: "case";
-	color: var(--color-muted);
 
 	&:empty {
 		display: none;
@@ -483,7 +451,7 @@
 		vertical-align: -3px;
 		margin-right: 0.5em;
 		background: conic-gradient(
-			light-dark(#b0a090, #6a5e4a) calc(var(--progress, 0) * 360deg),
+			var(--color-warm) calc(var(--progress, 0) * 360deg),
 			var(--color-divider) calc(var(--progress, 0) * 360deg)
 		);
 		-webkit-mask: radial-gradient(
@@ -502,15 +470,23 @@
 
 .archive-section + .archive-section {
 	margin-top: 0;
-	padding-top: var(--space-unit);
-	border-top: 1px solid var(--color-divider);
+	padding-top: 0;
+}
+
+.archive-section + .archive-section::before {
+	content: "";
+	display: block;
+	width: 10rem;
+	height: 1.5rem;
+	margin: var(--space-unit) auto;
+	background: var(--color-divider);
+	-webkit-mask: url("/ornament.svg?v=2") center / 100% 100% no-repeat;
+	mask: url("/ornament.svg?v=2") center / 100% 100% no-repeat;
 }
 
 .archive-section-heading {
-	font-family: var(--font-heading);
 	font-size: 0.875rem;
 	font-weight: 500;
-	letter-spacing: 0.08em;
 	text-transform: uppercase;
 	font-feature-settings: "case";
 	color: var(--color-accent);
@@ -560,11 +536,6 @@
 	}
 
 	.archive-meta {
-		font-family: var(--font-heading);
-		font-variant-numeric: normal;
-		font-size: 0.8125rem;
-		letter-spacing: 0.08em;
-		color: var(--color-muted);
 		margin-top: 0.125rem;
 		margin-bottom: 0;
 
@@ -578,7 +549,7 @@
 			vertical-align: -1px;
 			margin-right: 0.5em;
 			background: conic-gradient(
-				light-dark(#b0a090, #6a5e4a) calc(var(--progress, 0) * 360deg),
+				var(--color-warm) calc(var(--progress, 0) * 360deg),
 				var(--color-divider) calc(var(--progress, 0) * 360deg)
 			);
 			-webkit-mask: radial-gradient(

@@ -3,7 +3,7 @@ title: "Att öva sig i att dö"
 publishedAt: "2025-10-18T12:00:00.000Z"
 wordCount: 2011
 qualityScore: 8.4
-description: "Nästan varannan vuxen svensk har sömnbesvär enligt Folkhälsomyndigheten, en fördubbling på trettio år. Ibn Taymiyyah behandlade fenomenet redan på 1300-talet i al-Radd ala al-Mantiqiyyin, men hans diagnos var en annan: sömnen är dödens broder, och själen lämnar faktiskt kroppen varje natt."
+description: "Nästan varannan vuxen svensk har sömnbesvär enligt Folkhälsomyndigheten, en fördubbling på trettio år. Ibn Taymiyyah behandlade fenomenet redan på 1300-talet i al-Radd ʿalā al-Manṭiqiyyīn, men hans diagnos var en annan: sömnen är dödens broder, och själen lämnar faktiskt kroppen varje natt."
 ---
 Klockan är tre på natten och du ligger vaken. Kroppen är trött. Tankarna vägrar stanna. Du vrider dig, byter sida, kontrollerar telefonen — alltid telefonen. Du vet att du gör det värre. Ändå kan du inte sluta.
 
@@ -19,7 +19,7 @@ Orsaken sitter längre in. Förvisso finns sömnstörningar med rent fysiologisk
 
 ## Att somna är att dö
 
-I den islamiska traditionen finns ett perspektiv som saknas i modern sömnforskning. Profeten Muhammad ﷺ lärde att sömnen är dödens broder — *al-nawm akhū al-mawt*.[^2] Ibn Taymiyyah avvisade metaforen. I *al-Radd ʿalā al-Manṭiqiyyīn* behandlade han profetens ord som ren ontologi: själen lämnar faktiskt kroppen under sömnen, i en åtskillnad som speglar döden. Du faller in i drömmen och tappar greppet om att du är du.
+I den islamiska traditionen finns ett perspektiv som saknas i modern sömnforskning. Profeten Muḥammad ﷺ lärde att sömnen är dödens broder — *al-nawm akhū al-mawt*.[^2] Ibn Taymiyyah avvisade metaforen. I *al-Radd ʿalā al-Manṭiqiyyīn* behandlade han profetens ord som ren ontologi: själen lämnar faktiskt kroppen under sömnen, i en åtskillnad som speglar döden. Du faller in i drömmen och tappar greppet om att du är du.
 
 > Det är känt att den sovandes själ skiljs från kroppen i en form av separation, ty sömnen är dödens broder.[^3]
 
@@ -57,7 +57,7 @@ Men sömnen vägrar. Du kan inte förhandla dig till sömn, inte köpa den, inte
 
 ## Natten avslöjar
 
-Ibn Qayyim kartlade sömnens inre liv i *Madārij al-Sālikīn*: själen äger under sömnen en förnimmelse skild från den vakna världens. Profeten ﷺ sade: "Den goda drömmen är en fyrtiosjättedel av profetskapet."[^8] Drömmen är inte medvetandets frånvaro — den är dess omriktning. Du vaknar och vet något du inte visste innan, fast ingen lärt dig det. Under sömnen tystnar sinnenas buller, och själen förnimmer det den under dagen är för distraherad för att uppfatta. Ibn Khaldun diagnostiserade hindret: "Det mest stora hindret för människans perception är de yttre sinnena, och därför skapade Gud sömnen som en naturlig funktion för att lyfta denna slöja."[^9] Ingen mystisk portal öppnas — snarare är det vad profeten ﷺ beskrev: att den sanna drömmen är ett ljus som Allah ﷻ kastar i den troendes hjärta, en rest av profetians budskap som fortlever efter profetkedjans slut.
+Ibn Qayyim kartlade sömnens inre liv i *Madārij al-Sālikīn*: själen äger under sömnen en förnimmelse skild från den vakna världens. Profeten ﷺ sade: "Den goda drömmen är en fyrtiosjättedel av profetskapet."[^8] Drömmen är inte medvetandets frånvaro — den är dess omriktning. Du vaknar och vet något du inte visste innan, fast ingen lärt dig det. Under sömnen tystnar sinnenas buller, och själen förnimmer det den under dagen är för distraherad för att uppfatta. Ibn Khaldūn diagnostiserade hindret: "Det mest stora hindret för människans perception är de yttre sinnena, och därför skapade Gud sömnen som en naturlig funktion för att lyfta denna slöja."[^9] Ingen mystisk portal öppnas — snarare är det vad profeten ﷺ beskrev: att den sanna drömmen är ett ljus som Allah ﷻ kastar i den troendes hjärta, en rest av profetians budskap som fortlever efter profetkedjans slut.
 
 Den svenska litteraturen har anat detta sambandet mellan natt och sårbarhet, mellan mörker och den själsliga exponeringen som dagsljuset döljer. August Strindberg i *Inferno*:
 
@@ -93,7 +93,7 @@ Koranen kallar natten *libās*, en klädnad:
 
 Tre ord som rymmer en hel världsbild. *Libās*: klädnaden som omsluter, skyddar, döljer. *Subāt*: vila, avbrott, sömnens avklädning av dagens identiteter. *Nushūr*: uppståndelse, uppresning. Varje morgon en liten domedagsprolog.
 
-Men det är just här den moderna förståelsen och den islamiska traditionen skiljs åt. Muhammad ibn al-Nadr al-Harithi tecknade de gudfruktigas förhållande till döden: "Medvetenheten om döden upptog de gudfruktigas hjärtan och fjärmade dem från denna värld — vid Allah ﷻ, de återvände aldrig till glädje efter att ha känt dess ångest."[^18] Detta är dödsmedvetenhetens paradox: den ångest som den moderna människan flyr — och som håller henne vaken — är för den gudfruktiga vägen till vila. Men det är inte samma ångest. Den modernas är skräcken för utplåning — och skräck klamrar sig fast, vid kontrollen, vid skärmen, vid den vaka som upprätthåller illusionen att du fortfarande finns. Den gudfruktigas ångest är vördnad inför återkomsten — och vördnad kan vila, ty den har redan släppt det som skräcken håller fast vid.
+Men det är just här den moderna förståelsen och den islamiska traditionen skiljs åt. Muḥammad ibn al-Naḍr al-Ḥārithī tecknade de gudfruktigas förhållande till döden: "Medvetenheten om döden upptog de gudfruktigas hjärtan och fjärmade dem från denna värld — vid Allah ﷻ, de återvände aldrig till glädje efter att ha känt dess ångest."[^18] Detta är dödsmedvetenhetens paradox: den ångest som den moderna människan flyr — och som håller henne vaken — är för den gudfruktiga vägen till vila. Men det är inte samma ångest. Den modernas är skräcken för utplåning — och skräck klamrar sig fast, vid kontrollen, vid skärmen, vid den vaka som upprätthåller illusionen att du fortfarande finns. Den gudfruktigas ångest är vördnad inför återkomsten — och vördnad kan vila, ty den har redan släppt det som skräcken håller fast vid.
 
 Erik Gustaf Geijer skrev att "det hörer till sorgens väsende att ej vilja släppa sitt föremål".[^19] Sömnlösheten är en sorg som inte vet vad den sörjer. Den klänger sig fast vid dagen, vid kontrollen, vid den illusion av permanens som medvetandet upprätthåller. Som om att hålla ögonen öppna kunde stoppa tiden.
 
@@ -126,7 +126,7 @@ Kanske är det det enda sättet att leva.
 [^15]: Ibn Qayyim al-Jawziyyah, *al-Wābil al-Ṣayyib* (Det strömmande regnet). Min översättning.
 [^16]: Ali ibn Abi Talib, citerad av al-Ghazālī i *The Confessions of Al Ghazzali*. Hadithvetare (al-Subkī i *Ṭabaqāt al-Shāfiʿiyyah*, al-Sakhāwī i *al-Maqāṣid al-Ḥasanah*) identifierar detta som Ali ibn Abi Talibs ord, inte ett profetiskt uttalande.
 [^17]: Koranen, al-Furqān 25:47.
-[^18]: Muhammad ibn al-Nadr al-Ḥārithī, citerad i *Ṣifat al-Ṣafwah* (De renlärigas egenskaper). Min översättning.
+[^18]: Muḥammad ibn al-Nadr al-Ḥārithī, citerad i *Ṣifat al-Ṣafwah* (De renlärigas egenskaper). Min översättning.
 [^19]: Erik Gustaf Geijer, *Minnen*.
 [^20]: Koranen, al-Sajdah 32:16. Min översättning.
 [^21]: Ibn Kathīr, *Tafsīr al-Qurʾān al-ʿAẓīm*, kommentar till *al-Sajdah* 32:16. Min översättning.

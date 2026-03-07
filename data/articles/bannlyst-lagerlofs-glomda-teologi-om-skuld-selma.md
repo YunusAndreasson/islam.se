@@ -43,7 +43,7 @@ Sven Elversson bekänner — skuldens tyngd går inte att bära utan att sanning
 
 Även långt från religiös tradition nådde Ludwig Wittgenstein samma insikt: bekännelsen tillhör inte det gamla livet — den är en del av det nya.[^14]
 
-Den islamiska traditionen går längre. Profeten Muhammad ﷺ sade: "Den som ångrar sig från synden är som den utan synd."[^9] Orden är radikala: inte *nästan* utan synd, inte *förlåten trots* synd – utan synd. Som om synden aldrig funnits. Formuleringen avslöjar vad som skiljer *tawbah* från förlåtelse: förlåtelse riktas till samma person som syndade — skulden efterskänks men subjektet består. *Tawbah* konstituerar ett annat subjekt genom vändningens fullständighet; synden tillhör den riktning personen inte längre har. Därför inte *förlåten* utan *utan synd*. Just detta gestaltar Lagerlöf: en man som är *renad*.
+Den islamiska traditionen går längre. Profeten Muḥammad ﷺ sade: "Den som ångrar sig från synden är som den utan synd."[^9] Orden är radikala: inte *nästan* utan synd, inte *förlåten trots* synd – utan synd. Som om synden aldrig funnits. Formuleringen avslöjar vad som skiljer *tawbah* från förlåtelse: förlåtelse riktas till samma person som syndade — skulden efterskänks men subjektet består. *Tawbah* konstituerar ett annat subjekt genom vändningens fullständighet; synden tillhör den riktning personen inte längre har. Därför inte *förlåten* utan *utan synd*. Just detta gestaltar Lagerlöf: en man som är *renad*.
 
 ## Skuldens verklighet
 

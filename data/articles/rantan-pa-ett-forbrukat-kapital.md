@@ -33,7 +33,7 @@ I *After Virtue* diagnostiserade filosofen Alasdair MacIntyre samma sjukdom: den
 
 MacIntyre ordinerade en återgång till aristotelisk dygdetik inom en levande tradition, i hans fall den thomistiska. Moralen behöver ett sammanhang, en berättelse, en gemenskap som bär den över generationerna. Men diagnosen räcker längre än receptet. Om moralen kräver en levande tradition: vilken tradition förmår ge det som krävs?
 
-Invändningen väntar redan: i *On What Matters* argumenterade den samtida filosofen Derek Parfit för att moraliska sanningar existerar oberoende av både Gud och mänsklig överenskommelse, liksom matematiska sanningar.[^5] Men den invändningen svarar inte på frågan om *kraft*. Att en moralisk sanning existerar är en sak. Att den formar levande människors handlingar, att den bärs genom sekler, att den motstår maktens och begärets tryck — det kräver något annat. Det kräver vad traditionerna själva förmår ge — det som Ibn Khaldun iakttog:
+Invändningen väntar redan: i *On What Matters* argumenterade den samtida filosofen Derek Parfit för att moraliska sanningar existerar oberoende av både Gud och mänsklig överenskommelse, liksom matematiska sanningar.[^5] Men den invändningen svarar inte på frågan om *kraft*. Att en moralisk sanning existerar är en sak. Att den formar levande människors handlingar, att den bärs genom sekler, att den motstår maktens och begärets tryck — det kräver något annat. Det kräver vad traditionerna själva förmår ge — det som Ibn Khaldūn iakttog:
 
 > När generationer växer upp under samma villkor blir dessa villkor del av deras natur och karaktär.[^6]
 
@@ -81,7 +81,7 @@ Meningen är avgörande. Den säger inte att religion *också* värnar den svage
 
 Ellen Key varnade: "Det är ej af fördragsamhet utan af grundsatser, sedligheten får fasthet."[^15] Tolerans utan princip är likgiltighet — och likgiltighet är moralens frånvaro.
 
-Ibn Khaldun kartlade mönstret: civilisationer förlorar sin moraliska kraft genom inre erosion, generation för generation, när grundvalarna glöms och bara vanorna består.
+Ibn Khaldūn kartlade mönstret: civilisationer förlorar sin moraliska kraft genom inre erosion, generation för generation, när grundvalarna glöms och bara vanorna består.
 
 > Makt utan kunskap om religionen leder till orättvisa.[^16]
 

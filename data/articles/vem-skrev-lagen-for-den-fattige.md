@@ -41,7 +41,7 @@ Om rättvisan är förutsättningen för samhällets bestånd, vad händer när 
 
 ## Den farliga mellanhanden
 
-Gudomlig lag bryter förvisso den onda cirkeln — rättens källa kan inte ägas av en klass — men väcker en ny fråga: vem tolkar den? Tolkningsansvaret är tungt, och faran är uppenbar. Muhammad ibn al-Munkadir, en av Medinas stora rättslärda i första seklet efter *hijrah*, sade: "Den rättslärde träder in mellan Gud och Hans tjänare — låt honom se till hur han träder in."[^13]
+Gudomlig lag bryter förvisso den onda cirkeln — rättens källa kan inte ägas av en klass — men väcker en ny fråga: vem tolkar den? Tolkningsansvaret är tungt, och faran är uppenbar. Muḥammad ibn al-Munkadir, en av Medinas stora rättslärda i första seklet efter *hijrah*, sade: "Den rättslärde träder in mellan Gud och Hans tjänare — låt honom se till hur han träder in."[^13]
 
 En varning, inte en fromhetsfras. Tolkaren kan bli den nye lagstiftaren, den som klär sitt godtycke i rättens formar — precis det Strindberg avslöjar hos sina häradshövdingar och grosshandlare. Makten byter adress, inte natur. Saknar auktoriteten integritet, har inget vunnits.
 
@@ -71,7 +71,7 @@ Koranens bild är en våg, inte ett svärd. Svärdet avgör. Vågen mäter. Den 
 [^10]: Ibn Taymiyyah, *al-Radd ʿalā al-Manṭiqiyyīn* (Genmäle mot logikerna). Egen översättning från arabiska.
 [^11]: Ibn Taymiyyah, *al-Radd ʿalā al-Manṭiqiyyīn*. Egen översättning från arabiska.
 [^12]: Koranen, al-Anʿām 6:123.
-[^13]: Muhammad ibn al-Munkadir, citerad i Ibn al-Jawzī, *Ṣifat al-Ṣafwah* (De renlärigas egenskaper). Egen översättning från arabiska.
+[^13]: Muḥammad ibn al-Munkadir, citerad i Ibn al-Jawzī, *Ṣifat al-Ṣafwah* (De renlärigas egenskaper). Egen översättning från arabiska.
 [^14]: Erik Gustaf Geijer, citerad i *Frihet och framsteg: Erik Gustaf Geijer i urval* (Timbro förlag).
 [^15]: Selma Lagerlöf, *Bannlyst* (1918).
 [^16]: Ibn Khaldūn, *Muqaddimah*, bok 3.

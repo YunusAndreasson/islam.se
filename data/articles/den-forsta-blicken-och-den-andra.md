@@ -3,11 +3,11 @@ title: "Det enögda begäret"
 publishedAt: "2025-11-02T12:00:00.000Z"
 wordCount: 1394
 qualityScore: 8.6
-description: "I sitt verk Rawdat al-Muhibbin bygger den damascenske 1300-talsgelärde Ibn Qayyim en hel perceptionsteori kring en enkel distinktion: den första blicken händer dig, den andra gör du. Ögat är inte en ingång utan en spegel — det speglar hjärtats eget tillstånd."
+description: "I sitt verk Rawḍat al-Muḥibbīn bygger den damascenske 1300-talsgelärde Ibn Qayyim en hel perceptionsteori kring en enkel distinktion: den första blicken händer dig, den andra gör du. Ögat är inte en ingång utan en spegel — det speglar hjärtats eget tillstånd."
 ---
 Ett ögonblick innan begäret — ett kort, omärkligt mellanrum, en bråkdels sekund mellan att se och att vilja se. Det mesta av det vi kallar frihet avgörs där.
 
-Den islamiska traditionen har namn på varje fas i denna sekvens. Där modern psykologi talar vagt om "attraktion" och "stimuli", där samtida filosofi ägnar hundratals sidor åt blickens fenomenologi, koncentrerar Profeten Muhammad ﷺ allt i en formel som nästan verkar för enkel:
+Den islamiska traditionen har namn på varje fas i denna sekvens. Där modern psykologi talar vagt om "attraktion" och "stimuli", där samtida filosofi ägnar hundratals sidor åt blickens fenomenologi, koncentrerar Profeten Muḥammad ﷺ allt i en formel som nästan verkar för enkel:
 
 > Den första blicken är ett misstag, den andra är avsiktlig, den tredje förstör.[^1]
 
@@ -19,7 +19,7 @@ I *Rawḍat al-Muḥibbīn* gör Ibn Qayyim denna distinktion till grundval för
 
 Ögat är inte en ingång varigenom fara intränger utan en *spegel*: det återkastar hjärtats eget tillstånd. Blicken som fästs vid ett objekt tillför inte begäret utifrån utan väcker vad som redan vilar i betraktaren. Därför ser två personer samma sak och bara en av dem fastnar. Därför är den andra blicken farligare än den första: den ser inte mer, men den *bygger* mer.
 
-Ali-hadithen i Tirmidhi uttrycker det klart:
+Ali-hadithen i al-Tirmidhī uttrycker det klart:
 
 > Låt inte den ena blicken följa den andra, för den första tillhör dig men den andra är emot dig.[^3]
 
@@ -95,7 +95,7 @@ En invändning anmäler sig: *ghaḍḍ al-baṣar* är enbart en juridisk regel
 
 ---
 
-[^1]: Profeten Muhammad ﷺ, återgiven i Ibn al-Jawzī, *Dhamm al-Hawā* (Klandret av begäret). Hadithen återfinns inte i de sex kanoniska samlingarna; dess autenticitetsgrad diskuteras bland hadithvetare. Den starkare Ali-hadithen (fotnot 3) bekräftar samma princip med solidare kedja.
+[^1]: Profeten Muḥammad ﷺ, återgiven i Ibn al-Jawzī, *Dhamm al-Hawā* (Klandret av begäret). Hadithen återfinns inte i de sex kanoniska samlingarna; dess autenticitetsgrad diskuteras bland hadithvetare. Den starkare Ali-hadithen (fotnot 3) bekräftar samma princip med solidare kedja.
 [^2]: Ibn Qayyim al-Jawziyyah, *Rawḍat al-Muḥibbīn* (De älskandes trädgård), kapitlet om blickens regler och faror.
 [^3]: Hadith återgiven via Tirmidhi (nr 2701), bedömd som *hasan* av al-Arna'ut. Även citerad i al-Māwardī, *Adab al-Dunyā wa-l-Dīn* (Den världsliga och religiösa uppförandets regler).
 [^4]: Ibn al-Jawzī, *Dhamm al-Hawā*: "Begärets öga är enögd" (*ʿayn al-hawā ʿawrāʾ*).

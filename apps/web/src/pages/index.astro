@@ -63,7 +63,7 @@ const ogImage = latest?.heroImage ?? fallbackImage;
 					)}
 					<div class="hero-cover-overlay">
 						<div class="hero-cover-content">
-							<p class="hero-cover-date"><time datetime={article.publishedAt}>{formatDate(article.publishedAt)}</time></p>
+							<p class="label hero-cover-date"><time datetime={article.publishedAt}>{formatDate(article.publishedAt)}</time></p>
 							{i === 0
 							? <h1 class="hero-cover-title">{article.title}</h1>
 							: <p class="hero-cover-title">{article.title}</p>

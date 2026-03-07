@@ -59,7 +59,7 @@ Boyes insikt och den islamiska traditionen sammanfaller i en punkt: sanningens v
 
 Koranen inskärper det i otaliga variationer – "det finns inget tvång i religionen"[^11]. Hela *iḥsān*-begreppets struktur vilar på denna frivillighet. Att dyrka Gud "som om du ser Honom" förutsätter en ansträngning, ett val, ett medvetet riktande av uppmärksamheten. Det kan inte frampressas med ett serum. Det är, med Boyes eget ord, en *gåva*.
 
-Sufyan al-Thawri (d. 778), en av de tidiga rättslärda och asketerna, formulerade kontrasten:
+Sufyān al-Thawrī (d. 778), en av de tidiga rättslärda och asketerna, formulerade kontrasten:
 
 > Om det bland er fanns någon som rapporterade era ord till sultanen, skulle ni då tala? Med er finns Den som rapporterar era ord till Gud.[^12]
 

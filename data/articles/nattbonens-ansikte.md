@@ -3,7 +3,7 @@ title: "Nattbönens ansikte"
 publishedAt: "2026-02-15T12:00:00.000Z"
 wordCount: 1527
 qualityScore: 8.6
-description: "I Rawdat al-Muhibbin berättar Ibn Qayyim al-Jawziyyah om en kvinna som vaknade mitt i natten för att be. Tillfrågad om varför svarade hon att bönen förskönar ansiktet. Det var i 1300-talets Damaskus, men hennes svar vänder den moderna skönhetsindustrins logik upp och ner."
+description: "I Rawḍat al-Muḥibbīn berättar Ibn Qayyim al-Jawziyyah om en kvinna som vaknade mitt i natten för att be. Tillfrågad om varför svarade hon att bönen förskönar ansiktet. Det var i 1300-talets Damaskus, men hennes svar vänder den moderna skönhetsindustrins logik upp och ner."
 sourceIdea:
   topic: "form-skonhet-och-det-forbjudna"
   ideaId: 6
@@ -28,9 +28,9 @@ Ibn Qayyim inleder sin analys med en distinktion som räcker längre än den fö
 
 Det är generositeten som får främlingen att slappna av vid bordet, modet man ser i ryggen som inte böjs.
 
-Den yttre skönheten, skriver han, är en utsmyckning som Gud ger vissa gestalter framför andra.[^4] Den är verklig — islam förnekar den inte, nedvärderar den inte. Koranen slår fast: "Vi har skapat människan i den bästa skapnad."[^5] Al-Mawardi, den store statsrättstänkaren, fastslår att en vacker gestalt är lyckans första tecken.[^6] Ingen asketism i islams syn på kroppen, ingen misstro mot det fysiskt sköna — den yttre skönheten är förvisso en gudomlig gåva, värd tacksamhet.
+Den yttre skönheten, skriver han, är en utsmyckning som Gud ger vissa gestalter framför andra.[^4] Den är verklig — islam förnekar den inte, nedvärderar den inte. Koranen slår fast: "Vi har skapat människan i den bästa skapnad."[^5] Al-Māwardī, den store statsrättstänkaren, fastslår att en vacker gestalt är lyckans första tecken.[^6] Ingen asketism i islams syn på kroppen, ingen misstro mot det fysiskt sköna — den yttre skönheten är förvisso en gudomlig gåva, värd tacksamhet.
 
-Men det finns en rangordning. Al-Mawardi och Ibn Qayyim talar inte mot varandra. Den ene ser tecknet, den andre källan. Och källan omformar tecknet:
+Men det finns en rangordning. Al-Māwardī och Ibn Qayyim talar inte mot varandra. Den ene ser tecknet, den andre källan. Och källan omformar tecknet:
 
 > Denna inre skönhet förskönar den yttre gestalten även om den saknar fysisk fägring, och klär sin ägare i skönhet, värdighet och behag proportionellt med vad själen iklätt sig av dessa egenskaper.[^7]
 
@@ -46,7 +46,7 @@ Påståendet är skandalöst i moderna ögon — skönhet genom sömnbrist, geno
 
 Vad händer i nattbönen?
 
-Profeten Muhammad ﷺ sade: "Den troendes ära är nattbönen, och hans värdighet är att vara oberoende av människorna."[^10] Nattbönen är den bön ingen ser, den som inte ger socialt kapital, den som inte kan fotograferas. Den är ren i sin avsikt som få handlingar kan vara. Det enda vittnet är Gud.
+Profeten Muḥammad ﷺ sade: "Den troendes ära är nattbönen, och hans värdighet är att vara oberoende av människorna."[^10] Nattbönen är den bön ingen ser, den som inte ger socialt kapital, den som inte kan fotograferas. Den är ren i sin avsikt som få handlingar kan vara. Det enda vittnet är Gud.
 
 Och det förändrar vad bönen gör med den bedjande. Ansiktet är kroppens mest sociala yta — det arbetar ständigt för sin publik, bevakar hur det uppfattas, arrangerar sina uttryck. I nattens ensamhet upphör det arbetet. Den som regelbundet övar sig i att stå utan åskådare övar sig i att vara utan mask — och det är den övningen som genomlyser huden. Härom talar Koranen upprepat: ansikten som strålar, ansikten som lyser. "Ansikten skall den Dagen vara glänsande, leende, fyllda av glädje."[^11] Strålningen börjar inte först på Domedagen — den börjar här, i nattens ensamhet. En annan koranvers gör det konkret: "Deras kännetecken syns i ansiktena — spåren av nedfallandet i bön."[^24]
 
@@ -76,7 +76,7 @@ Skillnaden är den mellan en människa som förskönar sig för att bli sedd och
 
 ## Ansiktets vittnesbörd
 
-Al-Fudayl ibn 'Iyad formulerade samma sambands skuggsida: "Tjänaren begår en synd och berövas därigenom nattbönen."[^18] Om godhet lyser upp ansiktet, släcker synden dess ljus. Ansiktet vittnar; det kan inte ljuga som ord kan. Vem har inte känt skillnaden mellan den som säger 'välkommen' med orden och den som säger det med ansiktet? Ibn Qayyim citerar versraden: "O du med vackert ansikte, sky det skamliga — byt inte skönheten mot skam!"[^19]
+al-Fuḍayl ibn ʿIyāḍ formulerade samma sambands skuggsida: "Tjänaren begår en synd och berövas därigenom nattbönen."[^18] Om godhet lyser upp ansiktet, släcker synden dess ljus. Ansiktet vittnar; det kan inte ljuga som ord kan. Vem har inte känt skillnaden mellan den som säger 'välkommen' med orden och den som säger det med ansiktet? Ibn Qayyim citerar versraden: "O du med vackert ansikte, sky det skamliga — byt inte skönheten mot skam!"[^19]
 
 Luqman sade: "Den som ljuger förlorar sin fägring."[^20] Erik Gustaf Geijer skrev att "den äkta skönheten renar sinnet och har ett stort moraliskt inflytande".[^21] Geijer menade det estetiskt: konsten förädlar. Ibn Qayyim vänder på sambandet: förädling skapar skönhet, och rörelsen går inifrån och ut.
 
@@ -97,7 +97,7 @@ Den som vänder sig mot Gud i nattens mörker bär spår av det mötet i sitt an
 [^3]: Ibn Qayyim al-Jawziyyah, *Rawḍat al-Muḥibbīn*.
 [^4]: Ibn Qayyim al-Jawziyyah, *Rawḍat al-Muḥibbīn*.
 [^5]: Koranen, al-Tīn 95:4.
-[^6]: al-Māwardī, *Adab al-Dunyā wa-l-Dīn*. Al-Mawardis uttalande speglar en bredare islamisk tradition som uppskattar fysisk skönhet som en gudomlig gåva — den inre skönhetens företräde innebär inte att den yttre föraktas.
+[^6]: al-Māwardī, *Adab al-Dunyā wa-l-Dīn*. al-Māwardīs uttalande speglar en bredare islamisk tradition som uppskattar fysisk skönhet som en gudomlig gåva — den inre skönhetens företräde innebär inte att den yttre föraktas.
 [^7]: Ibn Qayyim al-Jawziyyah, *Rawḍat al-Muḥibbīn*.
 [^8]: Ibn Qayyim al-Jawziyyah, *Rawḍat al-Muḥibbīn*.
 [^9]: Ibn Qayyim al-Jawziyyah, *Rawḍat al-Muḥibbīn*.

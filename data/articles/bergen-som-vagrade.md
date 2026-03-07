@@ -3,7 +3,7 @@ title: "Bergen som vägrade"
 publishedAt: "2025-12-27T12:00:00.000Z"
 wordCount: 1701
 qualityScore: 8.7
-description: "I sura al-Ahzab ställs himlarna, jorden och bergen inför ett erbjudande: att bära det moraliska ansvaret. De vägrar, inte av trots utan av insikt. Människan säger ja, trots sin benägenhet till synd och tanklöshet — och fjorton århundraden senare delegerar hon allt fler av sina beslut till maskiner som inte kan bäva inför dem."
+description: "I sura al-Aḥzāb ställs himlarna, jorden och bergen inför ett erbjudande: att bära det moraliska ansvaret. De vägrar, inte av trots utan av insikt. Människan säger ja, trots sin benägenhet till synd och tanklöshet — och fjorton århundraden senare delegerar hon allt fler av sina beslut till maskiner som inte kan bäva inför dem."
 ---
 Scenen saknar motstycke. Himlar, jord, berg erbjuds ett förtroende. De vägrar. Inte av trots utan av insikt: de förstår vad bördan innebär. Sedan träder människan fram och säger ja.
 
@@ -31,7 +31,7 @@ AI tvingar fram vad filosofen Andreas Matthias 2004 kallade en *ansvarslucka*: v
 
 Ingen sådan upplösning tillåter Koranen. "Varje själ är ansvarig för vad den har gjort"[^8] — formuleringen är enskild, odelbar. Ansvaret kan inte fördelas, delegeras, automatiseras. En syndare bär inte en annan syndares börda.[^9] Häri ligger *amānahs* kärna: förtroendet gavs till varje människa, inte till institutioner, inte till system, inte till processer.
 
-Ibn Hazm fastslog principen rättsligt: rättvisa i domslutet kräver att man hör båda parter innan man fäller domen.[^10] Det låter enkelt. Men *höra* i moralisk mening — förstå en människas belägenhet, väga hennes omständigheter, erkänna hennes värdighet — det kräver det hjärta Ibn Qayyim beskrev: konungen som måste vara närvarande, vaken, styrande. En algoritm sorterar.
+Ibn Ḥazm fastslog principen rättsligt: rättvisa i domslutet kräver att man hör båda parter innan man fäller domen.[^10] Det låter enkelt. Men *höra* i moralisk mening — förstå en människas belägenhet, väga hennes omständigheter, erkänna hennes värdighet — det kräver det hjärta Ibn Qayyim beskrev: konungen som måste vara närvarande, vaken, styrande. En algoritm sorterar.
 
 ## Sömnen som dödar inifrån
 
@@ -63,7 +63,7 @@ Det islamiska perspektivet är dock inte entydigt avvisande. *Maqāṣid al-shar
 
 AI-frågans särart ligger i delegeringens form: det mänskliga beslutsögonblicket försvinner. En domare som följer en rådgivares rekommendation har alltjämt fattat beslutet. En domare vars system automatiskt genererar utfall som hon bekräftar med ett klick har inte det. Hon utför en gest, till formen mänsklig men till substansen maskinell.
 
-Ibn Khaldun varnade: "De som inte är kvalificerade för domstolen bör inte bli domare, så att de inte vilseleder dem som söker rätt väg."[^17] Kvalifikationen han krävde var inte teknisk utan moralisk: förmågan att bära ansvarets fulla tyngd — en förmåga som inte kan programmeras, bara bäras.
+Ibn Khaldūn varnade: "De som inte är kvalificerade för domstolen bör inte bli domare, så att de inte vilseleder dem som söker rätt väg."[^17] Kvalifikationen han krävde var inte teknisk utan moralisk: förmågan att bära ansvarets fulla tyngd — en förmåga som inte kan programmeras, bara bäras.
 
 ## Erbjudandet som står kvar
 

@@ -5,11 +5,11 @@ import { formatDate, getArticles } from "../lib/articles";
 const articles = await getArticles();
 ---
 
-<Base title="Essäer — islam.se" description="Samtliga essäer om islamisk intellektuell tradition och svenskt kulturarv. Al-Ghazali, Ibn Khaldun, Strindberg, Lagerlöf och fler.">
+<Base title="Essäer — islam.se" description="Samtliga essäer om islamisk intellektuell tradition och svenskt kulturarv. Al-Ghazālī, Ibn Khaldūn, Strindberg, Lagerlöf och fler.">
 	<main class="content-column">
 		<header class="article-header">
 			<h1>Essäer</h1>
-			<p class="archive-stats" aria-live="polite"></p>
+			<p class="label archive-stats" aria-live="polite"></p>
 		</header>
 
 		<ul class="archive-list" id="list-all">
@@ -17,7 +17,7 @@ const articles = await getArticles();
 				<li class="archive-item" data-slug={article.slug}>
 					<a href={`/${article.slug}`} data-astro-prefetch="viewport">
 						<span class="archive-title">{article.title}</span>
-						<p class="archive-meta">
+						<p class="label archive-meta">
 							<time datetime={article.publishedAt}>{formatDate(article.publishedAt)}</time> &middot; {article.readingTime} min läsning
 						</p>
 						{article.description && <p class="archive-description">{article.description}</p>}
@@ -60,7 +60,7 @@ const articles = await getArticles();
 			const section = document.createElement("section");
 			section.className = "archive-section";
 			const h2 = document.createElement("h2");
-			h2.className = "archive-section-heading";
+			h2.className = "label archive-section-heading";
 			h2.textContent = heading;
 			const ul = document.createElement("ul");
 			ul.className = "archive-list";

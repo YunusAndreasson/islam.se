@@ -43,7 +43,7 @@ Glas saknar det mörker som ger vila. Midsommarnattens ljus upplöser den gräns
 
 ## Tidens fånge
 
-Redan på 1000-talet fångade den andalusiske teologen Ibn Hazm tidens innersta logik: "När det kommande anländer blir det som nyss var nu till det förflutna, och de förenas."[^9] Tiden kollapsar ständigt in i sig själv. Det är att titta upp från skärmen när dagen är slut och inte minnas att den började. Det som verkade vara tre storheter – förflutet, nu, framtid – är samma punkt, fångad i rörelse.
+Redan på 1000-talet fångade den andalusiske teologen Ibn Ḥazm tidens innersta logik: "När det kommande anländer blir det som nyss var nu till det förflutna, och de förenas."[^9] Tiden kollapsar ständigt in i sig själv. Det är att titta upp från skärmen när dagen är slut och inte minnas att den började. Det som verkade vara tre storheter – förflutet, nu, framtid – är samma punkt, fångad i rörelse.
 
 "Lifvet är kort, men timmarne äro långa," antecknar Glas.[^10] För den sömnlöse är det en exakt beskrivning.
 
@@ -51,7 +51,7 @@ Mot slutet kommer det nakna erkännandet: "Mig gick lifvet förbi."[^11]
 
 Glas sitter inte stilla medan livet passerar. Han tänker, observerar, skriver, planerar till och med ett mord. Ändå lever han inte i sin tid utan bredvid den – alltid analyserande, alltid på avstånd. Dagboken blir ett monument över en människa som protokollför sin egen frånvaro från nuet.
 
-Ibn Hazms tidskollaps diagnostiserar problemet; Ibn Qayyim, trehundra år före Söderberg, gav det ett namn.
+Ibn Ḥazms tidskollaps diagnostiserar problemet; Ibn Qayyim, trehundra år före Söderberg, gav det ett namn.
 
 ## Att vara sin tids barn
 

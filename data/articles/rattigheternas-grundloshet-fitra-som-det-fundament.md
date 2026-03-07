@@ -31,7 +31,7 @@ Mitt i denna grundvalskris reser sig ett begrepp som gör anspråk på att säkr
 
 > Vänd dig till den rena, ursprungliga tron, Guds skapelseplan enligt vilken Han skapade människan. Det finns ingen förändring i Guds skapelse. Detta är den rätta tron, men de flesta människor vet inte.[^6]
 
-*Fiṭrah* – den medfödda moraliska och andliga orienteringen i denna vers – betecknar själva den ordning enligt vilken människan är skapad. Profeten Muhammad ﷺ sade: "Varje barn föds i rätt tillstånd (*fiṭrah*), men dess föräldrar gör det till jude, kristen eller magier."[^7]
+*Fiṭrah* – den medfödda moraliska och andliga orienteringen i denna vers – betecknar själva den ordning enligt vilken människan är skapad. Profeten Muḥammad ﷺ sade: "Varje barn föds i rätt tillstånd (*fiṭrah*), men dess föräldrar gör det till jude, kristen eller magier."[^7]
 
 Modern utvecklingspsykologi bekräftar denna insikt: spädbarn uppvisar moraliska preferenser — de föredrar hjälpare framför förhindrare — redan innan språk och kultur format dem.[^16]
 

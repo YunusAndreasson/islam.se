@@ -49,7 +49,7 @@ Det Ibn al-Jawzī tar för givet — att medel och tillit kan samverka — förn
 
 ## Fåglarna i Koranen
 
-Det ord Kierkegaards tradition saknade fanns i Profetens ﷺ konkreta språk. Profeten Muhammad ﷺ visste att bilden behövde vara konkret:
+Det ord Kierkegaards tradition saknade fanns i Profetens ﷺ konkreta språk. Profeten Muḥammad ﷺ visste att bilden behövde vara konkret:
 
 > Om ni förlitade er på Gud med sann förlitan, skulle Han försörja er som Han försörjer fåglarna: de flyger ut hungriga på morgonen och återvänder mätta på kvällen.[^12]
 

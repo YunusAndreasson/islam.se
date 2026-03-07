@@ -29,7 +29,7 @@ En koranisk vers slår an tonen:
 
 > Ägna hela ditt jag åt religionen som en sann *ḥanīf*! Den är Allahs ﷻ naturliga väg som Han ingjutit i människorna. Ingen förändring skall ske i Allahs ﷻ skapelse.[^9]
 
-*Fiṭrah* — här översatt "naturlig väg" — betecknar den medfödda konstitution med vilken varje människa föds: en orientering mot sin Skapare som föregår all uppfostran och kultur — ett antropologiskt anspråk, mer grundläggande än ett teologiskt postulat. Det är barnet som frågar vem som gjorde träden innan det lärt sig ordet Gud. Profeten Muhammad ﷺ formulerade det i en berömd *ḥadīth*: "Varje barn föds med *fiṭrah*; det är föräldrarna som gör det till jude, kristen eller zoroastrier."[^10]
+*Fiṭrah* — här översatt "naturlig väg" — betecknar den medfödda konstitution med vilken varje människa föds: en orientering mot sin Skapare som föregår all uppfostran och kultur — ett antropologiskt anspråk, mer grundläggande än ett teologiskt postulat. Det är barnet som frågar vem som gjorde träden innan det lärt sig ordet Gud. Profeten Muḥammad ﷺ formulerade det i en berömd *ḥadīth*: "Varje barn föds med *fiṭrah*; det är föräldrarna som gör det till jude, kristen eller zoroastrier."[^10]
 
 Om *fiṭrah* verkligen är universell och medfödd borde den kunna spåras empiriskt. Modern kognitionsforskning bekräftar bilden: Justin Barrett fann att barn i alla undersökta kulturer spontant utvecklar gudsbegrepp oberoende av uppfostran — födda troende, som han kallade dem.[^24]
 

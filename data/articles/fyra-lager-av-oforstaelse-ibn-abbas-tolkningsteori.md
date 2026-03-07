@@ -3,7 +3,7 @@ title: "Kunskapens tak"
 publishedAt: "2025-07-20T12:00:00.000Z"
 wordCount: 2068
 qualityScore: 8.7
-description: "Abd Allah ﷻ ibn Abbas, Profetens ﷺ kusin och en av islams mest respekterade korantolkare, delade in Koranens mening i fyra skikt. De tre första kan människor nå — genom språkkänsla, trosplikt eller lärdom. Det fjärde tillhör ingen utom Gud."
+description: "ʿAbd Allāh ibn ʿAbbās, Profetens ﷺ kusin och en av islams mest respekterade korantolkare, delade in Koranens mening i fyra skikt. De tre första kan människor nå — genom språkkänsla, trosplikt eller lärdom. Det fjärde tillhör ingen utom Gud."
 ---
 Sverige har en grundlag som vilar på en ovanlig övertygelse: att allt som angår medborgarna kan och bör tillgängliggöras. Offentlighetsprincipen, inskriven sedan 1766, är inte bara en juridisk regel — den uttrycker en grundmurad kulturell tro. Information ska vara tillgänglig, mening kan alltid göras begriplig, hemligheter är blott provisoriska.[^1]
 
@@ -11,11 +11,11 @@ En annan tradition, fjorton sekler gammal, bygger på rakt motsatt grund. Den ut
 
 ## En klassificering av det begripliga
 
-I den islamiska traditionens hjärta ligger en klassificering av vad som överhuvudtaget kan förstås. Abd Allah ﷻ ibn Abbas, Profetens ﷺ kusin och en av de mest respekterade korantolkarna i islams historia, formulerade en indelning som överlevt fjorton sekler. Al-Suyuti (d. 1505) citerar den i sitt monumentala koranvetenskapliga verk; Ibn Taymiyyah (d. 1328) åberopar den i sin kritik av logikerna. Klassificeringen lyder:
+I den islamiska traditionens hjärta ligger en klassificering av vad som överhuvudtaget kan förstås. ʿAbd Allāh ibn ʿAbbās, Profetens ﷺ kusin och en av de mest respekterade korantolkarna i islams historia, formulerade en indelning som överlevt fjorton sekler. Al-Suyūṭī (d. 1505) citerar den i sitt monumentala koranvetenskapliga verk; Ibn Taymiyyah (d. 1328) åberopar den i sin kritik av logikerna. Klassificeringen lyder:
 
 > Tolkningen har fyra aspekter: en tolkning som araberna känner genom sitt eget språk, en tolkning som ingen är ursäktad att inte veta, en tolkning som de lärda känner, och en tolkning som ingen utom Allah ﷻ den Högste känner.[^2]
 
-Vid första anblick en trappa. Nedtill det som varje arabisktalande begriper genom språkkänslan — idiom, syntax, retoriska figurer. Därovan det obligatoriska: trons grundartiklar, de entydiga påbuden och förbuden, det al-Suyuti kallar omedelbart fattbar mening, "ty var och en begriper innebörden av monoteismen genom Hans ord: *Vet att det inte finns någon gud utom Allah ﷻ*."[^3] Det tredje skiktet kräver ansträngning — *ijtihād* — det som Ibn Taymiyyah identifierar som "de kategorier som inte kan förstås genom bara språket, såsom de religiöst-rättsliga termerna."[^4]
+Vid första anblick en trappa. Nedtill det som varje arabisktalande begriper genom språkkänslan — idiom, syntax, retoriska figurer. Därovan det obligatoriska: trons grundartiklar, de entydiga påbuden och förbuden, det al-Suyūṭī kallar omedelbart fattbar mening, "ty var och en begriper innebörden av monoteismen genom Hans ord: *Vet att det inte finns någon gud utom Allah ﷻ*."[^3] Det tredje skiktet kräver ansträngning — *ijtihād* — det som Ibn Taymiyyah identifierar som "de kategorier som inte kan förstås genom bara språket, såsom de religiöst-rättsliga termerna."[^4]
 
 Sedan det fjärde skiktet — och hela landskapet förskjuts.
 
@@ -23,23 +23,23 @@ Sedan det fjärde skiktet — och hela landskapet förskjuts.
 
 *Tafsirun la ya'lamuhu illa Allah ﷻ.* En tolkning som ingen utom Gud känner.
 
-Den säger inte "det som ännu inte förståtts." Den stakar ut en absolut gräns — en kunskapens mur som inte är provisorisk utan principiell. Al-Suyuti klargör: "Det som ingen utom Allah ﷻ den Högste vet är det som hör till det fördoldas sfär — *al-ghuyūb*."[^3]
+Den säger inte "det som ännu inte förståtts." Den stakar ut en absolut gräns — en kunskapens mur som inte är provisorisk utan principiell. Al-Suyūṭī klargör: "Det som ingen utom Allah ﷻ den Högste vet är det som hör till det fördoldas sfär — *al-ghuyūb*."[^3]
 
 Koranen själv gör distinktionen. I sura Āl ʿImrān skiljer Gud mellan verserna:
 
 > Det är Han som har uppenbarat Boken för dig. I den finns fast och klart formulerade verser — de utgör Bokens kärna — och andra som är tvetydiga. De vars hjärtan har avvikit följer det tvetydiga, i önskan att skapa splittring och i önskan att tyda dess innersta mening, men ingen utom Gud vet dess innersta mening. De som är grundfasta i kunskap säger: "Vi tror på den; allt är från vår Herre."[^5]
 
-*Muḥkamāt* och *mutashābihāt* — det klara och det tvetydiga. Det tvetydiga definieras inte som bristfälligt formulerat. Det är avsiktligt. Och det svar Koranen föreskriver de lärda är inte ansträngning, inte tolkning, utan tro: *Vi tror på den; allt är från vår Herre*. Al-Zarkashi, den store koranvetaren, fastslog att Ibn Abbas' indelning utgjorde "en korrekt klassificering."[^6]
+*Muḥkamāt* och *mutashābihāt* — det klara och det tvetydiga. Det tvetydiga definieras inte som bristfälligt formulerat. Det är avsiktligt. Och det svar Koranen föreskriver de lärda är inte ansträngning, inte tolkning, utan tro: *Vi tror på den; allt är från vår Herre*. Al-Zarkashi, den store koranvetaren, fastslog att Ibn ʿAbbās' indelning utgjorde "en korrekt klassificering."[^6]
 
 Den klassiska traditionen tillämpade denna hållning på det som hör till det fördolda — *al-ghuyūb* — och på de verser som beskriver Allahs ﷻ attribut. Men traditionen rymmer här en avgörande distinktion. De tidiga generationerna — *salaf* — bekräftade att dessa versers mening är känd: *istawā* betyder att Allah ﷻ reste sig över tronen, *yad* betyder hand, *wajh* betyder ansikte. De bekräftade innebörden såsom den framgår av språket. Det de överlät till Allah ﷻ var *kayfiyyah* — sättet, modaliteten, det *hur* som ingen skapad varelse kan fatta. Imam Malik gav principen dess normgivande formulering när han tillfrågades om *istiwāʾ*: "Istiwāʾ är känt, hur-et är okänt, att tro på det är obligatoriskt, och att fråga om det är en innovation."[^7] Ibn Taymiyyah klargjorde att denna hållning — att bekräfta mening men överlåta modalitet — var de tidiga generationernas samstämmiga ståndpunkt. Den senare idén att inte ens meningen är känd, *tafwīḍ al-maʿnā*, var en avvikelse. Den tillskrev Koranens folk en okunnighet värre än de okunniga folkens.[^7]
 
-Det fjärde skiktet i Ibn Abbas' klassificering avser alltså inte attributversernas grundbetydelse — den är begriplig — utan det fördoldas verkligheter: Domedagens exakta tid, Paradisets och Eldens sanna natur, det som hör till *al-ghuyūb* i deras fulla förverkligande. Där faller kunskapen bortom mänskligt ljus.
+Det fjärde skiktet i Ibn ʿAbbās' klassificering avser alltså inte attributversernas grundbetydelse — den är begriplig — utan det fördoldas verkligheter: Domedagens exakta tid, Paradisets och Eldens sanna natur, det som hör till *al-ghuyūb* i deras fulla förverkligande. Där faller kunskapen bortom mänskligt ljus.
 
 ## En epistemologi med tak
 
 Vad händer med en civilisations syn på kunskap när dess heligaste text vilar på premissen att delar av den aldrig kan förstås?
 
-Okunnighet blir något annat än ett problem — ibland ett korrekt svar på verkligheten. Det fjärde skiktet vänder på logiken: den som stannar vid gränsen har inte misslyckats med att förstå — utan läst korrekt, ty gränsen är en del av textens mening. Att säga 'jag vet inte' är inte resignation utan lydnad. 1300-talstänkaren Ibn Qayyim al-Jawziyyah, Ibn Abbas' tanketraditions store arvtagare, skrev: "Att känna gränserna för det Gud uppenbarat för Sin sändebud hör till trons fullkomlighet."[^8] Inte innehållet, utan gränserna — att veta var man ska sluta fråga hör till trons mognad.
+Okunnighet blir något annat än ett problem — ibland ett korrekt svar på verkligheten. Det fjärde skiktet vänder på logiken: den som stannar vid gränsen har inte misslyckats med att förstå — utan läst korrekt, ty gränsen är en del av textens mening. Att säga 'jag vet inte' är inte resignation utan lydnad. 1300-talstänkaren Ibn Qayyim al-Jawziyyah, Ibn ʿAbbās' tanketraditions store arvtagare, skrev: "Att känna gränserna för det Gud uppenbarat för Sin sändebud hör till trons fullkomlighet."[^8] Inte innehållet, utan gränserna — att veta var man ska sluta fråga hör till trons mognad.
 
 Ibn Qayyim trängde djupast in i detta landskap. I *Miftāḥ Dār al-Saʿādah* hävdade han att förnuftet, hur mäktigt det än är, har en given räckvidd — och att uppenbarelsen öppnar dörrar som förnuftet ensamt aldrig finner. Inte för att förnuftet är defekt, utan för att verkligheten överstiger det. Ibn Qayyim skrev: "Förnuftets relation till uppenbarelsens kunskap är som ögats relation till solljuset — ögat kan inte se utan ljus, och förnuftet kan inte nå dessa sanningar utan uppenbarelsens ledning."[^9] Ögat kan inte höra. Örat kan inte se. Och förnuftet kan tänka, men det kan inte beröra allt som finns.
 
@@ -67,7 +67,7 @@ I den islamiska traditionen är taket inte skandalöst. Det är arkitektoniskt. 
 
 Ibn Rajab al-Ḥanbalī, den store kommentatorn av profettraditionerna, påminde om att Profeten ﷺ sade: "En tjänare uppnår inte den sanna taqwans verklighet förrän han lämnar det som inte angår honom." Han tillade: "Bland det som inte angår en människa är att tala om det som hon inte fått kunskap om, och att tvista om det som hennes förstånd inte rymmer."[^17] Kunskap har en riktning: nedåt, mot djupet, mot det dolda. Och vid en viss punkt faller den bortom mänskligt ljus. Ibn Qayyim formulerade det med en bild som rymmer hela principen: "Allahs ﷻ storhet kan inte inneslutas av de skapades förstånd, precis som Hans väsen inte kan inneslutas av de skapades blickar — och detta tillhör Hans fullkomlighets egenskaper, inte en brist hos Honom."[^18]
 
-Al-Mawardi, den islamiska statsrättens mästare, kondenserade hela principen till en enda mening: "Den som kände sitt eget mått har aldrig gått under."[^19] Måttet — qadr — inte som begränsning av ambition utan som förutsättning för överlevnad.
+Al-Māwardī, den islamiska statsrättens mästare, kondenserade hela principen till en enda mening: "Den som kände sitt eget mått har aldrig gått under."[^19] Måttet — qadr — inte som begränsning av ambition utan som förutsättning för överlevnad.
 
 Koranen återkommer till denna punkt: "Ni har redan tvistat om det ni har kunskap om, så varför tvistar ni nu om det ni inte har kunskap om? Allah ﷻ vet, men ni vet inte."[^20] Och: "Dessa liknelser framställer Vi för människorna. Men de uppfattas inte av andra än de med kunskap."[^21]
 
@@ -81,14 +81,14 @@ Koranen nämner denna slöja utan omsvep: "När du reciterar Koranen sätter Vi 
 
 Erik Gustaf Geijer, kanske den djupaste av de svenska idealisterna, närmade sig samma insikt från sitt håll: "En trogen, sanningsälskande forskning alltid leder till detta mysterium, ifrån hvad riktning den också börjar och hvad färg den ock bär."[^23]
 
-Men Geijer formulerade detta som en personlig observation. Ibn Abbas formulerade det som ett system. Ena sidan en anomali, andra sidan en arkitektur. Att enstaka svenska tänkare nått samma tröskel visar att tröskeln är verklig. Den islamiska traditionens hela hermeneutik kring den visar att det går att leva med den — att den kan bära en civilisation snarare än undergräva den.
+Men Geijer formulerade detta som en personlig observation. Ibn ʿAbbās formulerade det som ett system. Ena sidan en anomali, andra sidan en arkitektur. Att enstaka svenska tänkare nått samma tröskel visar att tröskeln är verklig. Den islamiska traditionens hela hermeneutik kring den visar att det går att leva med den — att den kan bära en civilisation snarare än undergräva den.
 
-Den moderna informationskultens grundläggande premiss: allt okänt är tillfälligt okänt. Ge oss tillräckligt med data, och varje mysterium reduceras till ett ännu-inte. Ibn Abbas' fjärde skikt säger det motsatta: det mest väsentliga kanske aldrig upphör att vara fördolt.
+Den moderna informationskultens grundläggande premiss: allt okänt är tillfälligt okänt. Ge oss tillräckligt med data, och varje mysterium reduceras till ett ännu-inte. Ibn ʿAbbās' fjärde skikt säger det motsatta: det mest väsentliga kanske aldrig upphör att vara fördolt.
 
 ---
 
 [^1]: Offentlighetsprincipen, grundlagsskyddad sedan Tryckfrihetsförordningen 1766, ger var och en rätt att ta del av allmänna handlingar.
-[^2]: Ibn Abbas, bevarad i al-Suyūṭī, *al-Itqān fī ʿUlūm al-Qurʾān*, och Ibn Taymiyyah, *al-Radd ʿalā al-Manṭiqiyyīn*.
+[^2]: Ibn ʿAbbās, bevarad i al-Suyūṭī, *al-Itqān fī ʿUlūm al-Qurʾān*, och Ibn Taymiyyah, *al-Radd ʿalā al-Manṭiqiyyīn*.
 [^3]: al-Suyūṭī, *al-Itqān fī ʿUlūm al-Qurʾān*, kapitlet om tafsirens kategorier.
 [^4]: Ibn Taymiyyah, *al-Radd ʿalā al-Manṭiqiyyīn*.
 [^5]: Koranen, Āl ʿImrān 3:7.

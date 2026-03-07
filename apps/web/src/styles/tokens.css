@@ -34,6 +34,7 @@
 	--color-bg: light-dark(#faf8f5, #1a1917);
 	--color-accent: light-dark(#3a3830, #c8c4be);
 	--color-muted: light-dark(#847a6e, #8a8880);
+	--color-warm: light-dark(#b0a090, #6a5e4a);
 	--color-divider: color-mix(in srgb, var(--color-muted), transparent 80%);
 
 	/* Type scale — 1.2 ratio (minor third) from 18px base */

@@ -3,7 +3,7 @@
 }
 
 ::selection {
-	background: light-dark(rgb(176 160 144 / 0.3), rgb(106 94 74 / 0.35));
+	background: color-mix(in srgb, var(--color-warm), transparent 70%);
 	color: var(--color-text);
 }
 
@@ -92,7 +92,7 @@ a {
 
 /* Block quotes — warm border, italic for quoted voices */
 blockquote {
-	border-inline-start: 3px solid light-dark(#b0a090, #6a5e4a);
+	border-inline-start: 3px solid var(--color-warm);
 	padding-inline-start: var(--space-unit);
 	margin-block: var(--space-double);
 	font-style: italic;

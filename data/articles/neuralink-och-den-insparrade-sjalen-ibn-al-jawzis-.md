@@ -65,7 +65,7 @@ Själen har ett ursprung och ett mål: den kommer från Gud, och den återvände
 
 ## Kroppens rätt, själens längtan
 
-Här krävs en nyansering som den islamiska traditionen själv betonar. Kroppen är ett fängelse — och kroppen är en *amānah*, en gåva anförtrodd av Gud. Profeten Muhammad ﷺ sade: "Din kropp har rätt över dig."[^10], och islam förbjuder självskadande asketism lika bestämt som hämningslös njutning.
+Här krävs en nyansering som den islamiska traditionen själv betonar. Kroppen är ett fängelse — och kroppen är en *amānah*, en gåva anförtrodd av Gud. Profeten Muḥammad ﷺ sade: "Din kropp har rätt över dig."[^10], och islam förbjuder självskadande asketism lika bestämt som hämningslös njutning.
 
 Spänningen är avsiktlig. Kroppen är en prövning *och* ett instrument. Bönen kräver kroppen — knäna, pannan, händerna. Fastan disciplinerar den utan att förneka den, och pilgrimsfärden är en fysisk akt med andlig innebörd. Den islamiska vägen är inte flykt från kroppen utan vägran att *låta den bli herre*. Ibn Qayyims poäng: bekvämligheten ska inte förväxlas med frihet.
 
@@ -103,7 +103,7 @@ Transhumanismen svarar: in i maskinen, in i molnet, in i en server i Nevada där
 
 Islam svarar: hem — tillbaka till den som blåste in dig, genom dödens port, inte förbi den.
 
-Den nordafrikanske historikern Ibn Khaldun observerade att en man som växte upp i fängelse inte kunde förstå något djur större än en råtta, ty hans erfarenhet var hans gräns.[^16] Det är transhumanismens blindhet: ett civilisationsprojekt som försöker bygga ett bättre fängelse, för att det aldrig sett något utanför murarna.
+Den nordafrikanske historikern Ibn Khaldūn observerade att en man som växte upp i fängelse inte kunde förstå något djur större än en råtta, ty hans erfarenhet var hans gräns.[^16] Det är transhumanismens blindhet: ett civilisationsprojekt som försöker bygga ett bättre fängelse, för att det aldrig sett något utanför murarna.
 
 Men själen minns. Den flaxar, som Topelius skrev, mot fönsterrutan. Den väntar, med ett tålamod som ingen teknik kan simulera, på att få flyga.
 
