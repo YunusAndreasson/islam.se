@@ -105,7 +105,7 @@ Ibn al-Jawzī behövde inte nämna varifrån kunskapssökaren kom. Det spelade i
 [^6]: Imam al-Shāfiʿī, *Ṣifat al-Ṣafwah*. Egen översättning från arabiska.
 [^7]: Imam al-Shāfiʿī, *Dīwān al-Imām al-Shāfiʿī*. Egen översättning från arabiska.
 [^8]: *Shuʿūbiyyah* var en rörelse bland icke-arabiska muslimer, främst perser, som hävdade kulturell och intellektuell likvärdighet med araberna. Rörelsen var mest framträdande under abbasidperioden (750–1258 e.Kr.).
-[^9]: al-Suyūṭī, *al-Itqān fī ʿUlūm al-Qurʾān*. al-Suyūṭī citerar al-Shāfiʿī: "Ingen behärskar språket fullständigt utom en profet."
+[^9]: al-Suyūṭī, *al-Itqān fī ʿUlūm al-Qurʾān*. Al-Suyūṭī citerar al-Shāfiʿī: "Ingen behärskar språket fullständigt utom en profet."
 [^10]: Koranen, al-Ḥujurāt 49:13.
 [^11]: Ibn Taymiyyah, *al-Radd ʿalā al-Manṭiqiyyīn*. Egen översättning från arabiska.
 [^12]: Ibn Taymiyyah, *al-Radd ʿalā al-Manṭiqiyyīn*. Egen översättning från arabiska.

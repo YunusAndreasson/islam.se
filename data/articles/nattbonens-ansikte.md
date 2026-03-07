@@ -76,7 +76,7 @@ Skillnaden är den mellan en människa som förskönar sig för att bli sedd och
 
 ## Ansiktets vittnesbörd
 
-al-Fuḍayl ibn ʿIyāḍ formulerade samma sambands skuggsida: "Tjänaren begår en synd och berövas därigenom nattbönen."[^18] Om godhet lyser upp ansiktet, släcker synden dess ljus. Ansiktet vittnar; det kan inte ljuga som ord kan. Vem har inte känt skillnaden mellan den som säger 'välkommen' med orden och den som säger det med ansiktet? Ibn Qayyim citerar versraden: "O du med vackert ansikte, sky det skamliga — byt inte skönheten mot skam!"[^19]
+Al-Fuḍayl ibn ʿIyāḍ formulerade samma sambands skuggsida: "Tjänaren begår en synd och berövas därigenom nattbönen."[^18] Om godhet lyser upp ansiktet, släcker synden dess ljus. Ansiktet vittnar; det kan inte ljuga som ord kan. Vem har inte känt skillnaden mellan den som säger 'välkommen' med orden och den som säger det med ansiktet? Ibn Qayyim citerar versraden: "O du med vackert ansikte, sky det skamliga — byt inte skönheten mot skam!"[^19]
 
 Luqman sade: "Den som ljuger förlorar sin fägring."[^20] Erik Gustaf Geijer skrev att "den äkta skönheten renar sinnet och har ett stort moraliskt inflytande".[^21] Geijer menade det estetiskt: konsten förädlar. Ibn Qayyim vänder på sambandet: förädling skapar skönhet, och rörelsen går inifrån och ut.
 
@@ -97,7 +97,7 @@ Den som vänder sig mot Gud i nattens mörker bär spår av det mötet i sitt an
 [^3]: Ibn Qayyim al-Jawziyyah, *Rawḍat al-Muḥibbīn*.
 [^4]: Ibn Qayyim al-Jawziyyah, *Rawḍat al-Muḥibbīn*.
 [^5]: Koranen, al-Tīn 95:4.
-[^6]: al-Māwardī, *Adab al-Dunyā wa-l-Dīn*. al-Māwardīs uttalande speglar en bredare islamisk tradition som uppskattar fysisk skönhet som en gudomlig gåva — den inre skönhetens företräde innebär inte att den yttre föraktas.
+[^6]: al-Māwardī, *Adab al-Dunyā wa-l-Dīn*. Al-Māwardīs uttalande speglar en bredare islamisk tradition som uppskattar fysisk skönhet som en gudomlig gåva — den inre skönhetens företräde innebär inte att den yttre föraktas.
 [^7]: Ibn Qayyim al-Jawziyyah, *Rawḍat al-Muḥibbīn*.
 [^8]: Ibn Qayyim al-Jawziyyah, *Rawḍat al-Muḥibbīn*.
 [^9]: Ibn Qayyim al-Jawziyyah, *Rawḍat al-Muḥibbīn*.

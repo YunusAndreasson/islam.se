@@ -95,7 +95,7 @@ Skillnaden är kvalitativ, inte graduell. *Ghibṭah*, den tillåtna formen, ser
 
 En experimentell studie publicerad i *Emotion* 2009 bekräftade att avund utgör två kvalitativt skilda emotioner: en som driver självförbättring, en som söker den andres fall.[^24]
 
-al-Ḥasan al-Baṣrī, den legendariske asketen från Basra, erbjöd tröst med en avgörande nyansering:
+Al-Ḥasan al-Baṣrī, den legendariske asketen från Basra, erbjöd tröst med en avgörande nyansering:
 
 > Det finns ingen bland Adams barn som inte skapats med avund i sig. Men den som varken följer den i ord eller handling — inget [ont] följer av den.[^17]
 
