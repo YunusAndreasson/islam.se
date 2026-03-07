@@ -79,6 +79,7 @@
 	line-height: 1;
 	opacity: 0.4;
 	transform: translateY(-0.05em);
+	text-decoration: none;
 }
 
 .site-nav {
