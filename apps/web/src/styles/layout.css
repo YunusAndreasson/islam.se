@@ -87,49 +87,41 @@
 
 .site-tld {
 	font-weight: 400;
-	font-size: 0.85em;
 }
 
 .nav-rub {
-	display: inline-block;
 	font-size: 1.3em;
 	line-height: 1;
 	opacity: 0.35;
-	transform: translateY(-0.12em);
+	translate: 0 -0.06em;
 }
 
 .site-nav {
 	display: flex;
 	justify-content: space-between;
+	align-items: center;
 	width: 100%;
 	font-family: var(--font-heading);
 	font-size: 0.9375rem;
 	font-weight: 500;
+	line-height: 1;
 	letter-spacing: 0.04em;
 	text-transform: uppercase;
 	font-feature-settings: "case";
+}
 
-	a {
-		color: var(--color-text);
-		text-decoration: none;
-		transition: color 0.15s;
+.site-nav a {
+	color: var(--color-text);
+	text-decoration: none;
+	transition: color 0.15s;
+}
 
-		&:hover {
-			color: var(--color-accent);
-		}
+.site-nav a:hover {
+	color: var(--color-accent);
+}
 
-		&[aria-current] {
-			color: var(--color-accent);
-			text-decoration: underline;
-			text-decoration-thickness: 1px;
-			text-underline-offset: 0.25em;
-		}
-
-		/* Home link is the site logo — never underline */
-		&:first-child[aria-current] {
-			text-decoration: none;
-		}
-	}
+.site-nav a[aria-current] {
+	color: var(--color-accent);
 }
 
 /* ============================================================
@@ -194,8 +186,8 @@
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	width: 2.5rem;
-	height: 2.5rem;
+	width: 2.75rem;
+	height: 2.75rem;
 	border: 1px solid rgb(var(--hero-white) / 0.6);
 	border-radius: 50%;
 	background: transparent;
@@ -244,7 +236,23 @@
 }
 
 .hero-cover-content {
+	display: block;
 	max-width: 48rem;
+	text-decoration: none;
+	color: inherit;
+	cursor: pointer;
+
+	&:hover,
+	&:visited,
+	&:active {
+		text-decoration: none;
+		color: inherit;
+	}
+
+	&:focus-visible {
+		outline: 2px solid rgb(var(--hero-white) / 0.8);
+		outline-offset: 4px;
+	}
 }
 
 .hero-cover-date {
@@ -277,37 +285,6 @@
 	text-shadow: 0 1px 2px rgb(var(--hero-black) / 0.2);
 }
 
-.hero-cover-cta {
-	display: inline-block;
-	margin-top: var(--space-unit);
-	padding: 0.75em 2em;
-	font-family: var(--font-heading);
-	font-size: 0.9375rem;
-	font-weight: 500;
-	letter-spacing: 0.1em;
-	text-transform: uppercase;
-	font-feature-settings: "case";
-	color: rgb(var(--hero-white));
-	background-color: rgb(var(--hero-white) / 0.1);
-	border: 1px solid rgb(var(--hero-white) / 0.6);
-	text-decoration: none;
-	transition:
-		background-color 0.15s,
-		border-color 0.15s;
-
-	&:hover,
-	&:active {
-		background-color: rgb(var(--hero-white) / 0.2);
-		border-color: rgb(var(--hero-white));
-		text-decoration: none;
-	}
-
-	&:focus-visible {
-		outline: 2px solid rgb(var(--hero-white) / 0.8);
-		outline-offset: 2px;
-	}
-}
-
 /* Reading progress bar */
 .reading-progress {
 	position: fixed;
@@ -330,8 +307,8 @@
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	width: 2.5rem;
-	height: 2.5rem;
+	width: 2.75rem;
+	height: 2.75rem;
 	border: 1px solid var(--color-divider);
 	border-radius: 50%;
 	background-color: var(--color-bg);
@@ -381,15 +358,10 @@
 }
 
 .basmala {
-	text-align: center;
 	font-family: var(--font-body);
-	font-size: 0.9375rem;
-	font-style: italic;
+	font-variant-caps: small-caps;
 	line-height: 1.6;
 	letter-spacing: 0.02em;
-	margin-top: var(--space-unit);
-	margin-bottom: var(--space-double);
-	color: var(--color-muted);
 }
 
 .article-body {
@@ -607,12 +579,21 @@
 		text-shadow: 0 1px 4px rgb(var(--hero-black) / 0.4);
 	}
 
-	.hero-cover-cta {
-		margin-top: 0.75rem;
+	/* Move nav arrows below ingress text, right-aligned for thumb reach */
+	.hero-nav {
+		top: auto;
+		translate: none;
+		flex-direction: row;
+	}
+
+	.hero-cover-overlay {
+		padding-bottom: calc(var(--padding-inline) + env(safe-area-inset-bottom, 0px) + 3.5rem);
 	}
 
 	.article-nav a {
 		font-size: 0.8125rem;
+		padding: 0.75rem 0;
+		margin: -0.75rem 0;
 	}
 
 	.archive-item .archive-title {
@@ -624,7 +605,20 @@
 		padding: 0.5rem 0.25rem;
 	}
 
+	/* Compensate tap-target padding so logo aligns with content column */
+	.site-nav a:first-child {
+		margin-left: -0.25rem;
+	}
+
 	.site-nav-right {
 		gap: 0.25rem;
+	}
+
+	.section-ornament {
+		margin-inline: auto;
+	}
+
+	.about-colophon {
+		text-align: center;
 	}
 }
