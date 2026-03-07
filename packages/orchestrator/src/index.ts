@@ -19,6 +19,7 @@ import {
 	CohesionFrontmatterSchema,
 	CompressFrontmatterSchema,
 	DeepenFrontmatterSchema,
+	DetoxFrontmatterSchema,
 	DraftFrontmatterSchema,
 	DraftOutputSchema,
 	ElevateFrontmatterSchema,
@@ -382,6 +383,21 @@ export interface DeepenOutput {
 		reasoning: string;
 	}>;
 	changesCount: number;
+	summary: string;
+	body: string;
+}
+
+export interface DetoxOutput {
+	verdict: "clean" | "detoxed";
+	changesCount: number;
+	changes: Array<{
+		pattern: string;
+		location: string;
+		original: string;
+		replacement: string;
+		why: string;
+	}>;
+	patternCounts: Record<string, { before: number | string; after: number | string }>;
 	summary: string;
 	body: string;
 }
@@ -1696,6 +1712,40 @@ Sektionerna 1–15 (anglicismer, retoriska mönster etc.) är sekundära — åt
 			},
 			effort: "high",
 			timeout: 600000, // 10 min — Opus needs extended thinking for argument analysis
+		});
+
+		return result;
+	}
+
+	/**
+	 * Run the detox stage — remove AI vocabulary and structural tics from published articles.
+	 * Targets specific patterns identified through corpus analysis of 44 articles:
+	 * "inte X utan Y" overuse, vocabulary monotony, attribution verb repetition,
+	 * em-dash saturation, convergence formulas, dramatic one-liner endings.
+	 */
+	async runDetox(articleBody: string): Promise<StageResult<DetoxOutput>> {
+		this.logger.log("   🧹 Detox: hunting AI vocabulary and structural tics");
+
+		const systemPrompt =
+			"Du rensar specifika, mätbara AI-språkmönster från en publicerad artikel. Du är inte en allmän stilredaktör — du jagar exakt de mönster som listas i prompten och ersätter dem med naturlig svensk variation. Varje ändring måste bevara meningens exakta innebörd.";
+
+		const result = await this.executeClaudeStage<DetoxOutput>({
+			name: "Detox",
+			stage: "polish",
+			emoji: "🧹",
+			promptFile: "detox.md",
+			systemPrompt,
+			userContent: `Här är texten att rensa:\n\n${articleBody}`,
+			markdownMode: {
+				frontmatterSchema: DetoxFrontmatterSchema,
+				combine: (meta, body) =>
+					({
+						...meta,
+						body,
+					}) as DetoxOutput,
+			},
+			effort: "high",
+			timeout: 1200000, // 20 min — Opus extended thinking for pattern counting + full rewrite
 		});
 
 		return result;

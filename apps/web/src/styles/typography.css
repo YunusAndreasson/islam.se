@@ -21,6 +21,7 @@ body {
 	text-wrap: pretty;
 	hanging-punctuation: first last;
 	overflow-wrap: break-word;
+	quotes: "»" "«" "›" "‹";
 }
 
 /* Headings — reset font-variant to avoid onum leaking into Inter */
@@ -95,7 +96,6 @@ blockquote {
 	border-inline-start: 3px solid var(--color-warm);
 	padding-inline-start: var(--space-unit);
 	margin-block: var(--space-double);
-	font-style: italic;
 	font-size: 0.95em;
 
 	p:last-child {
@@ -244,6 +244,7 @@ hr:has(+ .footnotes) {
    Prose — article body content
    ============================================================ */
 .prose {
+	-webkit-hyphens: auto;
 	hyphens: auto;
 
 	/* Book-style paragraph rhythm: indent consecutive paragraphs, tighten gap */
@@ -311,6 +312,15 @@ article .prose > p:first-child::first-line {
 	}
 }
 
+/* External link indicator — subtle ↗ for links leaving the site */
+.prose a[href^="http"]::after {
+	content: " ↗";
+	font-size: 0.7em;
+	opacity: 0.35;
+	text-decoration: none;
+	display: inline;
+}
+
 /* ============================================================
    Mobile adjustments
    ============================================================ */
@@ -335,6 +345,63 @@ article .prose > p:first-child::first-line {
 	blockquote {
 		padding-inline-start: var(--space-half);
 		margin-block: var(--space-unit);
+	}
+}
+
+/* ============================================================
+   Print — clean black-on-white for essay printing
+   ============================================================ */
+@media print {
+	*,
+	*::before,
+	*::after {
+		background: transparent !important;
+		color: #000 !important;
+		box-shadow: none !important;
+		text-shadow: none !important;
+	}
+
+	body {
+		font-size: 11pt;
+		line-height: 1.5;
+	}
+
+	h1,
+	h2,
+	h3 {
+		page-break-after: avoid;
+	}
+
+	blockquote,
+	img,
+	pre {
+		page-break-inside: avoid;
+	}
+
+	.site-header,
+	.site-header--hero,
+	.reading-progress,
+	.back-to-top,
+	.hero-nav,
+	.article-nav,
+	.section-ornament {
+		display: none !important;
+	}
+
+	.prose a[href^="http"]::after {
+		content: " (" attr(href) ")";
+		font-size: 0.8em;
+		opacity: 1;
+		word-break: break-all;
+	}
+
+	.content-column {
+		max-width: none;
+		padding: 0;
+	}
+
+	.footnotes {
+		font-size: 9pt;
 	}
 }
 

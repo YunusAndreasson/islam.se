@@ -12,7 +12,7 @@ const ogImage = latest?.heroImage ?? fallbackImage;
 
 <Base
 	title="islam.se — Essäer om islamisk intellektuell tradition och svenskt kulturarv"
-	description={latest?.description}
+	description="Essäer om islamisk intellektuell tradition och svenskt kulturarv."
 	hero={true}
 	ogImage={ogImage.src}
 	jsonLd={{
@@ -62,11 +62,11 @@ const ogImage = latest?.heroImage ?? fallbackImage;
 					)}
 					<div class="hero-cover-overlay">
 						<a href={`/${article.slug}`} class="hero-cover-content" data-astro-prefetch="viewport">
-							<p class="label hero-cover-date"><time datetime={article.publishedAt}>{formatDate(article.publishedAt)}</time> &middot; {article.readingTime} min läsning</p>
 							{i === 0
 							? <h1 class="hero-cover-title">{article.title}</h1>
 							: <p class="hero-cover-title">{article.title}</p>
 						}
+							<p class="label hero-cover-date"><time datetime={article.publishedAt}>{formatDate(article.publishedAt)}</time> &middot; {article.readingTime} min läsning</p>
 							{article.description && <p class="hero-cover-deck">{article.description}</p>}
 						</a>
 					</div>
@@ -74,12 +74,12 @@ const ogImage = latest?.heroImage ?? fallbackImage;
 			))}
 			{slides.length > 1 && (
 				<div class="hero-nav">
-					<button class="hero-nav-prev" type="button" aria-label="Föregående essä" disabled>
+					<button class="btn-circle hero-nav-prev" type="button" aria-label="Föregående essä" disabled>
 						<svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
 							<path d="M13 4l-6 6 6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
 						</svg>
 					</button>
-					<button class="hero-nav-next" type="button" aria-label="Nästa essä">
+					<button class="btn-circle hero-nav-next" type="button" aria-label="Nästa essä">
 						<svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
 							<path d="M7 4l6 6-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
 						</svg>

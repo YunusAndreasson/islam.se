@@ -26,7 +26,14 @@ export default defineConfig({
 	output: "static",
 	prefetch: { defaultStrategy: "hover" },
 	markdown: {
-		remarkPlugins: [remarkSmartypants, remarkAbbr],
+		remarkPlugins: [
+			[remarkSmartypants, {
+				openingQuotes: { double: "»", single: "\u2019" },
+				closingQuotes: { double: "«", single: "\u2019" },
+				dashes: "oldschool",
+			}],
+			remarkAbbr,
+		],
 		rehypePlugins: [rehypeHonorific],
 	},
 	integrations: [

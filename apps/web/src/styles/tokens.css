@@ -53,6 +53,15 @@
 	--content-width: 38rem;
 	--padding-inline: 1.5rem;
 
+	/* Safe-area-aware padding (used by header, hero, content column, FABs) */
+	--safe-top: calc(var(--padding-inline) + env(safe-area-inset-top, 0px));
+	--safe-right: calc(var(--padding-inline) + env(safe-area-inset-right, 0px));
+	--safe-bottom: calc(var(--padding-inline) + env(safe-area-inset-bottom, 0px));
+	--safe-left: calc(var(--padding-inline) + env(safe-area-inset-left, 0px));
+
+	/* Circular action button (hero nav, back-to-top) */
+	--btn-size: 2.75rem;
+
 	/* Font families */
 	--font-body: "Literata", Georgia, "Times New Roman", serif;
 	--font-heading: "Inter", system-ui, sans-serif;

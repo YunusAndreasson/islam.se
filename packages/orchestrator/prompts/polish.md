@@ -69,6 +69,11 @@ Identify: the single strongest sentence and the single weakest sentence.
 - Balanced tricolons ("det A, det B, det C") repeated — make asymmetric or cut to two.
 - "Det som gör X så Y är att Z" — this roundabout construction is a tell. Write directly.
 - Every contrast following the same formula — a skilled essayist has ten ways to build a contrast.
+- **Vocabulary monotony** — These words are AI tells through overuse across the corpus. Count and replace when over limits: "insikt" (max 2; use iakttagelse, slutsats, observation), "diagnos/diagnosticerar" (max 1; reserve for medical contexts), "rymmer" (max 2; use bär, visar, döljer), "avslöjar" (max 2; use visar, blottlägger, röjer), "skarp/skarpare" (max 1; describe what's sharp instead of labelling), "bortom" (max 2; use utanför, ovanför, or restructure), "häri ligger" (max 1; cut or state directly), "alltjämt/likväl/förvisso" (max 1 each).
+- **Attribution verb monotony** — "sammanfattade", "fastslog", "fångade" introduce nearly every thinker. If any verb appears 3+ times, replace extras with: *skrev*, *hävdade*, *menade*, *noterade*, *invände*, *svarade*, *lade till*, or a colon.
+- **"Nådde samma" convergence formula** — max 1 per article. Let the reader discover parallels through juxtaposition, not announcement.
+- **Dramatic one-liner endings** — Nearly every published article ends with a zinger. Sometimes a longer resonant paragraph, an unresolved thought, or a lingering image serves the specific article better.
+- **"Den som..." anaphora** — max 2 per article. Vary sentence openings: start with the verb, the object, a prepositional phrase.
 
 **DO NOT introduce these phrases** — The reviewer already hunted them. If you rewrite a sentence into one of these, you're undoing earlier work:
 - "Notera:", "Märk väl:", "Lägg märke till:" — hand-holding. Let the prose carry the point.

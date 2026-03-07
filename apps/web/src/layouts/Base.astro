@@ -32,6 +32,7 @@ const canonicalUrl = new URL(Astro.url.pathname, Astro.site);
 const ogImageUrl = ogImage
 	? new URL(ogImage, Astro.site).href
 	: new URL("/og-default.png", Astro.site).href;
+const pageTitle = title.replace(/ — islam\.se$/, "").replace(/^islam\.se — /, "");
 
 const jsonLdBlocks: Record<string, unknown>[] = [];
 
@@ -79,7 +80,7 @@ if (articleMeta) {
 			{
 				"@type": "ListItem",
 				position: 3,
-				name: title.replace(/ — islam\.se$/, ""),
+				name: pageTitle,
 				item: canonicalUrl.href,
 			},
 		],
@@ -109,20 +110,20 @@ if (articleMeta) {
 
 		<!-- Open Graph -->
 		<meta property="og:type" content={articleMeta ? "article" : "website"} />
-		<meta property="og:title" content={title.replace(/ — islam\.se$/, "")} />
+		<meta property="og:title" content={pageTitle} />
 		<meta property="og:description" content={description} />
 		<meta property="og:url" content={canonicalUrl.href} />
 		<meta property="og:site_name" content="islam.se" />
 		<meta property="og:locale" content="sv_SE" />
 		<meta property="og:image" content={ogImageUrl} />
-		<meta property="og:image:width" content="1200" />
-		<meta property="og:image:height" content="630" />
+		{!ogImage && <meta property="og:image:width" content="1200" />}
+		{!ogImage && <meta property="og:image:height" content="630" />}
 		{articleMeta && <meta property="article:published_time" content={articleMeta.publishedAt} />}
 		{articleMeta && <meta property="article:author" content="https://islam.se" />}
 
 		<!-- Twitter -->
 		<meta name="twitter:card" content="summary_large_image" />
-		<meta name="twitter:title" content={title.replace(/ — islam\.se$/, "")} />
+		<meta name="twitter:title" content={pageTitle} />
 		<meta name="twitter:description" content={description} />
 		<meta name="twitter:image" content={ogImageUrl} />
 
@@ -141,7 +142,7 @@ if (articleMeta) {
 		<div class="reading-progress" aria-hidden="true" data-slug={articleMeta?.slug} />
 		<Header hero={hero} />
 		<slot />
-		<button class="back-to-top" type="button" aria-label="Tillbaka till toppen">
+		<button class="btn-circle back-to-top" type="button" aria-label="Tillbaka till toppen">
 			<svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
 				<path d="M4 11l5-5 5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
 			</svg>

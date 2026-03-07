@@ -323,6 +323,23 @@ export const DeepenFrontmatterSchema = z.object({
 	summary: z.string(),
 });
 
+// Detox frontmatter — AI vocabulary/structural tic cleanup
+export const DetoxFrontmatterSchema = z.object({
+	verdict: z.enum(["clean", "detoxed"]),
+	changesCount: z.number(),
+	changes: z.array(
+		z.object({
+			pattern: z.string(),
+			location: z.string(),
+			original: z.string(),
+			replacement: z.string(),
+			why: z.string(),
+		}),
+	),
+	patternCounts: z.record(z.string(), z.object({ before: z.union([z.number(), z.string()]), after: z.union([z.number(), z.string()]) })),
+	summary: z.string(),
+});
+
 // Brilliance frontmatter — exceptional additions only
 export const BrillianceFrontmatterSchema = z.object({
 	verdict: z.enum(["clean", "enriched"]),

@@ -1,7 +1,7 @@
 ---
 title: "Ljusa blå natt"
 publishedAt: "2025-10-03T12:00:00.000Z"
-wordCount: 1561
+wordCount: 1805
 qualityScore: 8.7
 description: "Sommaren 1905 lade Hjalmar Söderberg en sömnlös midsommarnatt i doktor Glas' dagbok. Ljuset vägrade försvinna, gränsen mellan dag och natt upplöstes, och med den försvann den vila som natten är till för. I Koranen beskrivs hur dagen flås ur natten som ett skinn."
 ---
@@ -55,19 +55,19 @@ Ibn Ḥazms tidskollaps diagnostiserar problemet; Ibn Qayyim, trehundra år för
 
 ## Att vara sin tids barn
 
-Ibn Qayyim utvecklade i sitt storverk *Madārij al-Sālikīn* en systematisk tidsfilosofi ur ett äldre arv. Imamen al-Shafi'i (d. 820) lär ha sagt att det mest värdefulla han lärde sig av sufierna var att "tiden är ett svärd: antingen skär du den, eller skär den dig."[^12] Ibn Qayyim för tanken vidare bortom aforism.
+Ibn Qayyim utvecklade i sitt storverk *Madārij al-Sālikīn* en systematisk tidsfilosofi ur ett äldre arv. Imamen al-Shāfiʿī (d. 820) lär ha sagt att det mest värdefulla han lärde sig av sufierna var att "tiden är ett svärd: antingen skär du den, eller skär den dig."[^12] Ibn Qayyim för tanken vidare bortom aforism.
 
 *Waqt* – ögonblicket, den levda tiden – utgör ett av de bärande begreppen i islamisk andlig psykologi. Det betecknar det närvarande ögonblickets krav, den plikt och det tillstånd som hör till just denna stund. Den som söker Gud är *ibn waqtihi*: ett barn av sin tid. Vandrarens strävan överskrider aldrig nuets uppgift; han ägnar sig åt den plikt som hans stund fordrar. Bönen som bryter gryningen, arbetet under ljuset, vilan under mörkret.
 
 Så kommer vändningen. Den som upptas av det förflutna och det kommande förlorar nuet. Varje gång ett nytt nu anländer upptas han av de bägge ändarna – det som var och det som ska bli – tills alla hans stunder rinner ut.[^14]
 
-Samma diagnos ställde Pascal trehundra år senare, utan kännedom om Ibn Qayyim: "Vi håller oss aldrig till det närvarande. Vi irrar i tider som inte är våra och tänker inte på den enda som tillhör oss."[^25] Men för Pascal är nuet tomt — vi flyr det *därför att* det är outhärdligt i sig. För Ibn Qayyim är nuet laddat: vi flyr det därför att vi inte ser vad det bär. Samma symptom, motsatt etiologi.
+Samma diagnos ställde Pascal trehundra år senare, utan kännedom om Ibn Qayyim: "Vi håller oss aldrig till det närvarande. Vi irrar i tider som inte är våra och tänker inte på den enda som tillhör oss."[^25] Men för Pascal är nuet tomt – vi flyr det *därför att* det är outhärdligt i sig. För Ibn Qayyim är nuet laddat: vi flyr det därför att vi inte ser vad det bär. Samma symptom, motsatt etiologi.
 
 Så lever Glas: i minnet av en ungdom som aldrig infriades och i förväntningen på en framtid han inte tror på. Hans dagbok pendlar ständigt mellan dem. Varje konkret nu glider honom ur händerna medan han registrerar det – "Lif, jag förstår dig inte," skriver han.[^15] Bekännelsen biter just för att den kommer från en intelligent, bildad man - förståelsen borde vara inom räckhåll. Men *waqt* kräver något annat än förstånd.
 
 Denna närvaro – det som Ibn Qayyim kallar övervakningens ljus, *nūr al-murāqabah*, det inre ljus som uppstår ur medveten närvaro inför Gud – slocknar genom förspilld tid.
 
-Det yttre ljuset som vägrar försvinna utanför Glas' fönster, och det inre ljuset som redan har slocknat: de pekar åt samma håll — från motsatta riktningar. Det yttre ger synlighet utan mening. Det inre ger mening utan flykt. Sambandet är inte bara poetiskt — det är kausalt: midsommarljuset plågar just den vars inre ljus har slocknat. För den närvarande vore samma natt ett tecken att betrakta; ljuset blir outhärdligt först när det belyser ett inre utan riktning.
+Det yttre ljuset som vägrar försvinna utanför Glas' fönster, och det inre ljuset som redan har slocknat: de pekar åt samma håll – från motsatta riktningar. Det yttre ger synlighet utan mening. Det inre ger mening utan flykt. Sambandet är inte bara poetiskt – det är kausalt: midsommarljuset plågar just den vars inre ljus har slocknat. För den närvarande vore samma natt ett tecken att betrakta; ljuset blir outhärdligt först när det belyser ett inre utan riktning.
 
 ## Ångestens anatomi
 
@@ -112,7 +112,7 @@ Men för den som förlorat nattens gräns, som lever i ett oavbrutet, oartikuler
 [^9]: Ibn Ḥazm, *al-Taqrīb li-Ḥadd al-Manṭiq*.
 [^10]: Söderberg, *Doktor Glas*, dagboken 14 augusti.
 [^11]: Söderberg, *Doktor Glas*, dagboken 7 september.
-[^12]: al-Shāfiʿīs ord om sufijerna återges av Ibn Qayyim al-Jawziyyah i *Madārij al-Sālikīn*, avsnittet om *waqt*.
+[^12]: al-Shāfiʿīs ord om sufijerna återges av Ibn Qayyim al-Jawziyyah i *Madārij al-Sālikīn* (De vandrandes stationer), avsnittet om *waqt*.
 [^13]: Ibn Qayyim al-Jawziyyah, *Madārij al-Sālikīn*, avsnittet om *waqt* (tidens station).
 [^14]: Ibn Qayyim al-Jawziyyah, *Madārij al-Sālikīn*, avsnittet om *waqt*.
 [^15]: Söderberg, *Doktor Glas*, dagboken 17 juni.

@@ -115,6 +115,24 @@ These are recurring AI-generated patterns that make prose feel synthetic. Replac
 **"Det handlar inte om X. Det handlar om Y."** → Formulaic pivot. Cut the negative frame; state what it *does* handle.
 
 **"Inte [en] metafor / inte metaforiskt"** → Over-insistence that something is literal. If the argument is strong, the reader knows. Cut the disclaimer.
+
+**Vocabulary monotony** — These words are AI tells through sheer frequency across the corpus (44 articles). Flag and replace when over limits:
+- "insikt" (max 2) → iakttagelse, slutsats, observation, poäng, tanke
+- "diagnos/diagnosticerar" (max 1) → beskriver, identifierar, pekar ut — reserve "diagnos" for medical contexts
+- "rymmer" (max 2) → bär, visar, döljer, pekar mot, öppnar
+- "avslöjar" (max 2) → visar, blottlägger, röjer, synliggör
+- "skarp/skarpare" (max 1) → precis, träffsäker, distinkt
+- "bortom" (max 2) → utanför, ovanför, över — or restructure
+- "häri ligger/bottnar" (max 1) → cut the transition, just state the point
+- "alltjämt", "likväl", "förvisso" (max 1 each) → fine once for flavor, more signals a single voice
+
+**Attribution verb monotony** → "sammanfattade", "fastslog", "fångade" introduce nearly every thinker. If the same verb appears 3+ times, replace extras with: *skrev*, *hävdade*, *menade*, *noterade*, *invände*, *svarade*, *lade till*, *påpekade*, or a colon after the name.
+
+**"Nådde samma" convergence formula** → "X nådde samma insikt/slutsats/punkt" appears 36 times across the corpus. Max 1 per article. Let the reader discover parallels through juxtaposition, not announcement.
+
+**Structural monotony** → If the article opens with a Swedish literary figure and then reveals the Islamic source "already said it better," flag it. The formula works but is overused. Sometimes starting with the Islamic source, or skipping the comparison frame, serves the article better.
+
+**Dramatic one-liner endings** → Nearly every published article ends with a short punchy sentence or rhetorical question. If the ending is a zinger, consider whether a longer resonant paragraph, an unresolved thought, or a lingering image would serve *this* article better. Not every article earns a mic-drop.
 </ai_tics>
 
 <pre_submission_audit>
@@ -127,6 +145,13 @@ Before producing your final output, use the think tool to run a concrete audit o
    - "paradox/paradoxen" (max 1, and only if it's a genuine paradox)
    - "Skillnaden är..." (max 1)
    - em-dashes per paragraph (flag any paragraph with 3+)
+   - "insikt" (max 2)
+   - "diagnos/diagnosticerar" (max 1)
+   - "rymmer" (max 2)
+   - "avslöjar" (max 2)
+   - "skarp/skarpare" (max 1)
+   - "bortom" (max 2)
+   - same attribution verb 3+ times (sammanfattade, fastslog, fångade, etc.)
    If over the limits: rewrite the extras using varied constructions.
 2. **List every blockquote and its footnote** — copy each `>` line and note its `[^n]` marker. Flag any blockquote without a marker.
 3. **Verify footnotes are sequential** — list them in order. No gaps, no letters (like [^8b]).

@@ -2316,6 +2316,108 @@ program
 	});
 
 program
+	.command("detox")
+	.description(
+		"Remove AI vocabulary and structural tics (inte-utan overuse, vocabulary monotony, em-dash saturation, attribution verb repetition) from published articles",
+	)
+	.argument("<slug>", 'Article slug or "all" for all articles')
+	.option("--dry-run", "Preview changes without writing")
+	.option("--no-confirm", "Auto-accept changes (skip interactive prompt)")
+	.option("-m, --model <model>", "Model to use (opus|sonnet)", "opus")
+	// biome-ignore lint/complexity/noExcessiveCognitiveComplexity: sequential CLI pipeline handler
+	.action(async (slug: string, options) => {
+		const publisher = new ArticlePublisher();
+		const orchestrator = new ContentOrchestrator({
+			outputDir: "./output",
+			model: options.model as "opus" | "sonnet",
+		});
+
+		const slugs = resolveArticleSlugs(slug, publisher, "detox");
+		let processed = 0;
+		let detoxed = 0;
+		let clean = 0;
+		let skipped = 0;
+
+		for (const articleSlug of slugs) {
+			processed++;
+			if (slugs.length > 1) {
+				console.log(`\n[${processed}/${slugs.length}] ${articleSlug}`);
+				console.log("─".repeat(60));
+			}
+
+			const article = readArticle(publisher, articleSlug);
+			if (!article) {
+				skipped++;
+				continue;
+			}
+			const { content, originalFrontmatter, originalBody } = article;
+
+			console.log("  Running detox...");
+			let detoxResult: Awaited<ReturnType<typeof orchestrator.runDetox>>;
+			try {
+				detoxResult = await orchestrator.runDetox(originalBody);
+			} catch (err) {
+				console.log(`  Detox crashed: ${err}`);
+				skipped++;
+				continue;
+			}
+
+			if (!(detoxResult.success && detoxResult.data)) {
+				console.log(`  Detox failed: ${detoxResult.error ?? "unknown error"}`);
+				skipped++;
+				continue;
+			}
+
+			const { verdict, changesCount, changes, patternCounts, summary, body: detoxedBody } = detoxResult.data;
+
+			console.log(`  Verdict: ${verdict} (${changesCount} changes)`);
+			console.log(`  Summary: ${summary}`);
+
+			if (patternCounts && Object.keys(patternCounts).length > 0) {
+				console.log("\n  Pattern counts (before → after):");
+				for (const [pattern, counts] of Object.entries(patternCounts)) {
+					console.log(`    ${pattern}: ${counts.before} → ${counts.after}`);
+				}
+			}
+
+			if (verdict === "clean") {
+				console.log("  No AI tics over limits — article already clean.");
+				clean++;
+				continue;
+			}
+
+			console.log(`\n  Changes (${changes.length}):`);
+			for (const change of changes) {
+				console.log(`\n  [\x1b[36m${change.pattern}\x1b[0m] ${change.location}`);
+				console.log(`    \x1b[31m- ${change.original.slice(0, 150)}${change.original.length > 150 ? "..." : ""}\x1b[0m`);
+				console.log(`    \x1b[32m+ ${change.replacement.slice(0, 150)}${change.replacement.length > 150 ? "..." : ""}\x1b[0m`);
+				console.log(`    \x1b[33m  ${change.why}\x1b[0m`);
+			}
+
+			printDiff(articleSlug, originalBody, detoxedBody, "detoxed");
+			checkIntegrity(originalBody, detoxedBody);
+
+			const outcome = await confirmAndWrite(
+				publisher,
+				articleSlug,
+				content,
+				originalFrontmatter,
+				detoxedBody,
+				options,
+			);
+			if (outcome === "skipped") skipped++;
+			else detoxed++;
+		}
+
+		console.log("\n══════════════════════════════════════════════════════════");
+		console.log(
+			`  Done. ${detoxed} detoxed, ${clean} clean, ${skipped} skipped out of ${processed} articles.`,
+		);
+		console.log("══════════════════════════════════════════════════════════\n");
+		process.exit(0);
+	});
+
+program
 	.command("spellcheck")
 	.description(
 		"Run Swedish spell-check on articles using hunspell — catches misspellings, skips Arabic transliterations and English references",

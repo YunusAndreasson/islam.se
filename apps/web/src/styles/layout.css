@@ -1,9 +1,11 @@
 /* Label — Inter small-caps utility (meta lines, stats, colophons, nav labels) */
 .label {
 	font-family: var(--font-heading);
-	font-variant-numeric: normal;
+	font-variant-numeric: lining-nums tabular-nums;
 	font-size: 0.8125rem;
-	letter-spacing: 0.08em;
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+	font-feature-settings: "case";
 	color: var(--color-muted);
 }
 
@@ -11,8 +13,8 @@
 .content-column {
 	max-width: var(--content-width);
 	margin-inline: auto;
-	padding-left: calc(var(--padding-inline) + env(safe-area-inset-left, 0px));
-	padding-right: calc(var(--padding-inline) + env(safe-area-inset-right, 0px));
+	padding-left: var(--safe-left);
+	padding-right: var(--safe-right);
 }
 
 /* ============================================================
@@ -22,8 +24,8 @@
    ============================================================ */
 .site-header {
 	padding: var(--padding-inline);
-	padding-left: calc(var(--padding-inline) + env(safe-area-inset-left, 0px));
-	padding-right: calc(var(--padding-inline) + env(safe-area-inset-right, 0px));
+	padding-left: var(--safe-left);
+	padding-right: var(--safe-right);
 	display: flex;
 	justify-content: space-between;
 	align-items: baseline;
@@ -51,7 +53,7 @@
 .site-header--hero {
 	position: absolute;
 	inset: 0 0 auto;
-	padding-top: calc(var(--padding-inline) + env(safe-area-inset-top, 0px));
+	padding-top: var(--safe-top);
 	background-color: transparent;
 
 	&::after {
@@ -134,6 +136,7 @@
 	height: 100dvh;
 	overflow: hidden;
 	overscroll-behavior: none;
+	touch-action: manipulation;
 	margin-top: calc(-1 * env(safe-area-inset-top, 0px));
 }
 
@@ -173,26 +176,42 @@
 	}
 }
 
+/* ============================================================
+   Circular action button — shared by hero nav and back-to-top
+   ============================================================ */
+.btn-circle {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: var(--btn-size);
+	height: var(--btn-size);
+	border: 1px solid;
+	border-radius: 50%;
+	background: transparent;
+	cursor: pointer;
+
+	&:focus-visible {
+		outline-offset: 2px;
+	}
+
+	&:disabled {
+		opacity: 0.25;
+		cursor: default;
+	}
+}
+
 .hero-nav {
 	position: absolute;
-	right: calc(var(--padding-inline) + env(safe-area-inset-right, 0px));
-	bottom: calc(var(--padding-inline) + env(safe-area-inset-bottom, 0px));
+	right: var(--safe-right);
+	bottom: var(--safe-bottom);
 	z-index: 2;
 	display: flex;
 	gap: 0.5rem;
 }
 
 .hero-nav button {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	width: 2.75rem;
-	height: 2.75rem;
-	border: 1px solid rgb(var(--hero-white) / 0.6);
-	border-radius: 50%;
-	background: transparent;
+	border-color: rgb(var(--hero-white) / 0.6);
 	color: rgb(var(--hero-white) / 0.8);
-	cursor: pointer;
 	transition:
 		color 0.15s,
 		border-color 0.15s,
@@ -206,12 +225,6 @@
 
 	&:focus-visible {
 		outline: 2px solid rgb(var(--hero-white) / 0.8);
-		outline-offset: 2px;
-	}
-
-	&:disabled {
-		opacity: 0.25;
-		cursor: default;
 	}
 }
 
@@ -222,9 +235,9 @@
 	display: flex;
 	align-items: flex-end;
 	padding: var(--padding-inline);
-	padding-left: calc(var(--padding-inline) + env(safe-area-inset-left, 0px));
-	padding-right: calc(var(--padding-inline) + env(safe-area-inset-right, 0px));
-	padding-bottom: calc(var(--padding-inline) + env(safe-area-inset-bottom, 0px));
+	padding-left: var(--safe-left);
+	padding-right: var(--safe-right);
+	padding-bottom: var(--safe-bottom);
 	background:
 		linear-gradient(to bottom, rgb(var(--hero-black) / 0.4) 0%, transparent 20%),
 		linear-gradient(
@@ -256,10 +269,9 @@
 }
 
 .hero-cover-date {
-	text-transform: uppercase;
-	font-feature-settings: "case";
 	color: rgb(var(--hero-white) / 0.7);
-	margin-bottom: var(--space-half);
+	margin-top: var(--space-half);
+	margin-bottom: 0;
 	text-shadow: 0 1px 2px rgb(var(--hero-black) / 0.2);
 }
 
@@ -272,6 +284,7 @@
 	color: rgb(var(--hero-white));
 	text-shadow: 0 1px 3px rgb(var(--hero-black) / 0.3);
 	font-feature-settings: "cv11" 1, "ss03" 1;
+	margin-bottom: 0;
 }
 
 .hero-cover-deck {
@@ -279,9 +292,10 @@
 	font-size: clamp(0.9375rem, 1.5vw, 1.0625rem);
 	font-weight: 400;
 	line-height: 1.5;
-	color: rgb(var(--hero-white) / 0.75);
+	color: rgb(var(--hero-white) / 0.85);
 	max-width: 36rem;
 	margin-top: var(--space-half);
+	margin-bottom: 0;
 	text-shadow: 0 1px 2px rgb(var(--hero-black) / 0.2);
 }
 
@@ -301,19 +315,12 @@
 /* Back to top */
 .back-to-top {
 	position: fixed;
-	right: calc(var(--padding-inline) + env(safe-area-inset-right, 0px));
-	bottom: calc(var(--padding-inline) + env(safe-area-inset-bottom, 0px));
+	right: var(--safe-right);
+	bottom: var(--safe-bottom);
 	z-index: 10;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	width: 2.75rem;
-	height: 2.75rem;
-	border: 1px solid var(--color-divider);
-	border-radius: 50%;
+	border-color: var(--color-divider);
 	background-color: var(--color-bg);
 	color: var(--color-muted);
-	cursor: pointer;
 	opacity: 0;
 	pointer-events: none;
 	transition:
@@ -336,8 +343,6 @@
 .about-colophon {
 	margin-top: 0;
 	text-align: center;
-	text-transform: uppercase;
-	font-feature-settings: "case";
 	margin-bottom: var(--space-triple);
 }
 
@@ -398,40 +403,50 @@
 	.nav-label {
 		display: block;
 		font-size: 0.75rem;
-		text-transform: uppercase;
-		font-feature-settings: "case";
 		margin-bottom: 0.25rem;
 	}
 }
 
+/* ============================================================
+   Progress ring — conic-gradient ring reused for archive stats
+   and per-article reading progress.
+   Set --ring-size and --ring-stroke on the element; --progress
+   is set via JS (0–1).
+   ============================================================ */
+.progress-ring::before {
+	content: "";
+	display: inline-block;
+	width: var(--ring-size);
+	height: var(--ring-size);
+	border-radius: 50%;
+	margin-right: 0.5em;
+	background: conic-gradient(
+		var(--color-warm) calc(var(--progress, 0) * 360deg),
+		var(--color-divider) calc(var(--progress, 0) * 360deg)
+	);
+	-webkit-mask: radial-gradient(
+		farthest-side,
+		transparent calc(100% - var(--ring-stroke)),
+		#000 calc(100% - var(--ring-stroke))
+	);
+	mask: radial-gradient(
+		farthest-side,
+		transparent calc(100% - var(--ring-stroke)),
+		#000 calc(100% - var(--ring-stroke))
+	);
+}
+
 /* Archive stats — progress subtitle inside article-header */
 .archive-stats {
-	text-transform: uppercase;
-	font-feature-settings: "case";
+	--ring-size: 1.25rem;
+	--ring-stroke: 2.5px;
 
 	&:empty {
 		display: none;
 	}
 
-	/* Overall progress ring — same visual language as per-article rings, scaled up */
 	&::before {
-		content: "";
-		display: inline-block;
-		width: 1.25rem;
-		height: 1.25rem;
-		border-radius: 50%;
 		vertical-align: -3px;
-		margin-right: 0.5em;
-		background: conic-gradient(
-			var(--color-warm) calc(var(--progress, 0) * 360deg),
-			var(--color-divider) calc(var(--progress, 0) * 360deg)
-		);
-		-webkit-mask: radial-gradient(
-			farthest-side,
-			transparent calc(100% - 2.5px),
-			#000 calc(100% - 2.5px)
-		);
-		mask: radial-gradient(farthest-side, transparent calc(100% - 2.5px), #000 calc(100% - 2.5px));
 	}
 }
 
@@ -459,13 +474,11 @@
 .archive-section-heading {
 	font-size: 0.875rem;
 	font-weight: 500;
-	text-transform: uppercase;
-	font-feature-settings: "case";
 	color: var(--color-accent);
 	margin-top: 0;
 }
 
-/* Hide section entirely when its list is empty (e.g. "Lästa" with 0 read articles) */
+/* Hide section entirely when its list is empty (e.g. "Lasta" with 0 read articles) */
 .archive-section:has(> .archive-list:empty) {
 	display: none;
 }
@@ -485,7 +498,16 @@
 }
 
 .archive-item {
-	padding-bottom: var(--space-double);
+	padding-block: var(--space-unit);
+	border-bottom: 1px solid var(--color-divider);
+
+	&:first-child {
+		padding-top: 0;
+	}
+
+	&:last-child {
+		border-bottom: none;
+	}
 
 	a {
 		display: block;
@@ -508,38 +530,23 @@
 	}
 
 	.archive-meta {
-		margin-top: 0.125rem;
+		--ring-size: 0.75rem;
+		--ring-stroke: 2px;
+		font-size: 0.75rem;
+		margin-top: 0.25rem;
 		margin-bottom: 0;
 
-		/* Reading progress ring */
 		&::before {
-			content: "";
-			display: inline-block;
-			width: 0.75rem;
-			height: 0.75rem;
-			border-radius: 50%;
 			vertical-align: -1px;
-			margin-right: 0.5em;
-			background: conic-gradient(
-				var(--color-warm) calc(var(--progress, 0) * 360deg),
-				var(--color-divider) calc(var(--progress, 0) * 360deg)
-			);
-			-webkit-mask: radial-gradient(
-				farthest-side,
-				transparent calc(100% - 2px),
-				#000 calc(100% - 2px)
-			);
-			mask: radial-gradient(farthest-side, transparent calc(100% - 2px), #000 calc(100% - 2px));
 		}
 	}
 
 	.archive-description {
 		font-family: var(--font-body);
-		font-size: var(--step-0);
+		font-size: 0.9375rem;
 		font-weight: 400;
-		font-style: italic;
-		color: color-mix(in srgb, var(--color-text), var(--color-muted));
-		line-height: 1.5;
+		color: color-mix(in srgb, var(--color-text) 70%, var(--color-muted));
+		line-height: 1.45;
 		margin-top: 0.375rem;
 		margin-bottom: 0;
 	}
@@ -554,6 +561,7 @@
 	}
 
 	.hero-cover-overlay {
+		padding-bottom: calc(var(--safe-bottom) + 3.5rem);
 		background:
 			linear-gradient(to bottom, rgb(var(--hero-black) / 0.35) 0%, transparent 18%),
 			linear-gradient(
@@ -570,13 +578,20 @@
 	}
 
 	.hero-cover-deck {
-		margin-top: 0.375rem;
-		color: rgb(var(--hero-white) / 0.85);
+		margin-top: 0.25rem;
 		text-shadow: 0 1px 4px rgb(var(--hero-black) / 0.4);
 	}
 
 	.hero-cover-date {
+		margin-top: 0.25rem;
 		text-shadow: 0 1px 4px rgb(var(--hero-black) / 0.4);
+	}
+
+	/* Landscape mobile — too short for deck text */
+	@media (orientation: landscape) {
+		.hero-cover-deck {
+			display: none;
+		}
 	}
 
 	/* Move nav arrows below ingress text, right-aligned for thumb reach */
@@ -584,10 +599,6 @@
 		top: auto;
 		translate: none;
 		flex-direction: row;
-	}
-
-	.hero-cover-overlay {
-		padding-bottom: calc(var(--padding-inline) + env(safe-area-inset-bottom, 0px) + 3.5rem);
 	}
 
 	.article-nav a {
@@ -614,11 +625,4 @@
 		gap: 0.25rem;
 	}
 
-	.section-ornament {
-		margin-inline: auto;
-	}
-
-	.about-colophon {
-		text-align: center;
-	}
 }
