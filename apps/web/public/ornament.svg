@@ -1,12 +1,12 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 18">
 	<!--
-		Rub el hizb (۞): two interlocking square outlines —
-		the Quranic section marker. Center dot anchors the geometry.
-		Used as CSS mask — white = visible.
+		Rub el hizb (۞): two interlocking square outlines.
+		Sized to fill the vertical space so the two-square
+		construction is clearly visible at rendered scale.
 	-->
-	<line x1="0" y1="9" x2="51" y2="9" stroke="white" stroke-width="0.75" stroke-linecap="round"/>
-	<rect x="55.5" y="4.5" width="9" height="9" stroke="white" stroke-width="1" fill="none"/>
-	<rect x="55.5" y="4.5" width="9" height="9" stroke="white" stroke-width="1" fill="none" transform="rotate(45 60 9)"/>
-	<circle cx="60" cy="9" r="1.5" fill="white"/>
-	<line x1="69" y1="9" x2="120" y2="9" stroke="white" stroke-width="0.75" stroke-linecap="round"/>
+	<line x1="0" y1="9" x2="44" y2="9" stroke="white" stroke-width="0.75" stroke-linecap="round"/>
+	<rect x="53" y="2" width="14" height="14" stroke="white" stroke-width="1.25" fill="none"/>
+	<rect x="53" y="2" width="14" height="14" stroke="white" stroke-width="1.25" fill="none" transform="rotate(45 60 9)"/>
+	<circle cx="60" cy="9" r="2" fill="white"/>
+	<line x1="76" y1="9" x2="120" y2="9" stroke="white" stroke-width="0.75" stroke-linecap="round"/>
 </svg>

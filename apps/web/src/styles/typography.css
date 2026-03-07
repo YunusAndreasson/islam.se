@@ -276,8 +276,8 @@ hr:has(+ .footnotes) {
 	height: 1.5rem;
 	margin: var(--space-double) auto;
 	background: var(--color-divider);
-	-webkit-mask: url("/ornament.svg") center / 100% 100% no-repeat;
-	mask: url("/ornament.svg") center / 100% 100% no-repeat;
+	-webkit-mask: url("/ornament.svg?v=2") center / 100% 100% no-repeat;
+	mask: url("/ornament.svg?v=2") center / 100% 100% no-repeat;
 }
 
 .article-nav::before {
