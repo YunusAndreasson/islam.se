@@ -153,8 +153,14 @@ const { Content } = await render(article.entry);
 			positionPopover(ref.closest("sup") ?? ref);
 		}
 
+		const honorificTitles: Record<string, string> = {
+			swt: "Jalla jalāluhu — upphöjd är Hans majestät",
+			saw: "Ṣallallāhu ʿalayhi wa-sallam — Guds frid och välsignelser vare med honom",
+		};
+
 		function showHonorificPopover(el: HTMLElement) {
-			const title = el.getAttribute("title");
+			const code = el.classList.contains("honorific--swt") ? "swt" : el.classList.contains("honorific--saw") ? "saw" : null;
+			const title = code ? honorificTitles[code] : null;
 			if (!title) return;
 			if (hideTimer) { clearTimeout(hideTimer); hideTimer = null; }
 			popover.textContent = title;
