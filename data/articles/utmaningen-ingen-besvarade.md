@@ -21,7 +21,7 @@ Före Koranen var poesin arabernas nationalkonst, deras historieskrivning, deras
 
 I denna kultur, där varje barn växte upp med örat skärpt för metrisk precision, kom en text som undandrog sig allt de bemästrade. Koranens arabiska följer inte de etablerade versformerna, har inget genomgående metrum, binder sig inte till qasidans konventioner. Men den är heller inte vardaglig, obunden prosa. Texten bär en inre rytm, en strukturell logik, en klanglig arkitektur som varken poeter eller prosaskribenter kunde inordna i sina kategorier.
 
-Den tidig-islamiske teologen al-Khattabi framhöll att Koranens motståndare famlade efter klassificeringar: "Ibland kallade de den poesi, ibland magi — just för att de fann sig oförmögna inför den."[^5] Ordet de stannade vid var *sihr* – magi.
+Den tidig-islamiske teologen al-Khaṭṭābī framhöll att Koranens motståndare famlade efter klassificeringar: "Ibland kallade de den poesi, ibland magi — just för att de fann sig oförmögna inför den."[^5] Ordet de stannade vid var *sihr* – magi.
 
 ## Walīd ibn al-Mughīras vittnesbörd
 

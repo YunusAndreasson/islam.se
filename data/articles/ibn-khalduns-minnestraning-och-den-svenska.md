@@ -79,9 +79,9 @@ Ibn Qayyim al-Jawziyyah fördjupade denna insikt i *Madārij al-Sālikīn* med e
 
 > Ihågkomst och eftertanke är två stationer som bär frukt i alla sorters kunskap, trons sanningar och godhetens verkligheter. Den kunnige upphör aldrig att återvända med sin eftertanke till sin ihågkomst, och med sin ihågkomst till sin eftertanke, tills hans hjärtas lås öppnas.[^16]
 
-Rörelsen är cirkulär. Al-Hasan al-Basri sammanfattade insikten: "Kunskapens folk upphörde aldrig att återvända med ihågkomst till eftertanke, och med eftertanke till ihågkomst, och talade till hjärtana tills de talade."[^17]
+Rörelsen är cirkulär. Al-Ḥasan al-Baṣrī sammanfattade insikten: "Kunskapens folk upphörde aldrig att återvända med ihågkomst till eftertanke, och med eftertanke till ihågkomst, och talade till hjärtana tills de talade."[^17]
 
-*Tills de talade.* Hjärtat är inte en passiv mottagare. Det är ett organ som kan lära sig tala, men bara genom det tålmodiga, upprepade arbetet med åminnelse och reflektion. Det är när svaret kommer av sig själv, när insikten dyker upp innan man gräver efter den. Ali ibn Abi Talib uttryckte det så: "Hjärtana är kärl, och de bästa av dem är de som rymmer mest kunskap. Bevara det jag säger dig."[^18]
+*Tills de talade.* Hjärtat är inte en passiv mottagare. Det är ett organ som kan lära sig tala, men bara genom det tålmodiga, upprepade arbetet med åminnelse och reflektion. Det är när svaret kommer av sig själv, när insikten dyker upp innan man gräver efter den. ʿAlī ibn Abī Ṭālib uttryckte det så: "Hjärtana är kärl, och de bästa av dem är de som rymmer mest kunskap. Bevara det jag säger dig."[^18]
 
 Det arabiska ordet för hjärta, *qalb*, delar rot med ordet för förändring — ett lingvistiskt vittnesbörd om att hjärtat formas och omformas. Om hjärtat till sitt väsen är *det som vänder sig*, är det aldrig neutralt: det formas alltid av något. Frågan är inte om upprepning formar — utan vad som upprepas. Den islamiska traditionen har alltid vetat att det som formar det är upprepning: av kunskap, av bön, av recitation, av åminnelse — den process genom vilken det yttre blir inre, det inlärda blir levt.
 

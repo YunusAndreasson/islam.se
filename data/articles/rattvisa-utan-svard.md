@@ -45,7 +45,7 @@ Ibn Taymiyyah, som ett sekel efter al-Māwardī vidareutvecklade hans ramverk, p
 
 ## Rädslan för den rättfärdige
 
-Al-Māwardīs uppdelning rymmer en skarpare insikt än Montesquieus. Montesquieu separerade statens funktioner för att förhindra tyranni. Al-Māwardī separerade rättvisans funktioner för att skydda rättvisan från dess egna försvarare. Ensam om denna insikt var han inte — både Ibn Taymiyyah i *al-Siyāsah al-Sharʿiyyah* och Abu Yusuf, en av grundarna av den tidiga islamiska rättsläran, i *Kitāb al-Kharāj* identifierade samma fara: makt utan institutionella gränser.[^16] Al-Māwardī fastslog i sin etik att det som hindrar människor från orättvisa alltid är en av fyra saker: "antingen ett förstånd som avhåller, en tro som hindrar, en härskare som hejdar, eller en oförmåga som stoppar".[^17] Härskarens tvångsmakt är det kraftfullaste medlet — och det farligaste.
+Al-Māwardīs uppdelning rymmer en skarpare insikt än Montesquieus. Montesquieu separerade statens funktioner för att förhindra tyranni. Al-Māwardī separerade rättvisans funktioner för att skydda rättvisan från dess egna försvarare. Ensam om denna insikt var han inte — både Ibn Taymiyyah i *al-Siyāsah al-Sharʿiyyah* och Abū Yūsuf, en av grundarna av den tidiga islamiska rättsläran, i *Kitāb al-Kharāj* identifierade samma fara: makt utan institutionella gränser.[^16] Al-Māwardī fastslog i sin etik att det som hindrar människor från orättvisa alltid är en av fyra saker: "antingen ett förstånd som avhåller, en tro som hindrar, en härskare som hejdar, eller en oförmåga som stoppar".[^17] Härskarens tvångsmakt är det kraftfullaste medlet — och det farligaste.
 
 Insikten är inte bunden till en tid eller tradition. C.S. Lewis nådde samma slutsats nio sekler senare, i en essä om straffteori:
 
@@ -53,7 +53,7 @@ Insikten är inte bunden till en tid eller tradition. C.S. Lewis nådde samma sl
 
 Lewis namngav faran — men stannade vid diagnosen. Al-Māwardīs ramverk går steget längre: det räcker inte att veta att den rättfärdige är farlig, man måste bygga institutioner som skiljer hans övertygelse från hans befogenhet. *Ḥisbah* är exakt det — den låter den övertygade tala men nekar honom svärdet.
 
-Abu Bakr al-Siddiq, den förste kalifen efter Profeten ﷺ, satte ord på principen redan i sitt tillträdestal: "Den starkaste bland er är i mina ögon den svagaste tills jag har tagit hans rätt ifrån honom, och den svagaste bland er är i mina ögon den starkaste tills jag har gett honom hans rätt."[^18] Inte ställningen avgör vem som är stark — utan förhållandet till rätten. Den som upprätthåller rätten måste veta att samma makt som bär den också kan krossa den.
+Abū Bakr al-Ṣiddīq, den förste kalifen efter Profeten ﷺ, satte ord på principen redan i sitt tillträdestal: "Den starkaste bland er är i mina ögon den svagaste tills jag har tagit hans rätt ifrån honom, och den svagaste bland er är i mina ögon den starkaste tills jag har gett honom hans rätt."[^18] Inte ställningen avgör vem som är stark — utan förhållandet till rätten. Den som upprätthåller rätten måste veta att samma makt som bär den också kan krossa den.
 
 Ibn Khaldūn, historikern och samhällsteoretikern, sammanfattade principen: "Rättvisa är en balans som upprättas bland människorna. Herren upprättade den och utsåg en övervakare för den, och den övervakaren är härskaren."[^19] Övervakaren — inte ägaren. Skillnaden är allt.
 
@@ -86,9 +86,9 @@ Svärdet kan skydda rättvisan. Det kan aldrig vara den.
 [^13]: Hjalmar Söderberg, *Historietter*.
 [^14]: Ibn Taymiyyah, *al-Ḥisbah fī al-Islām*.
 [^15]: Ibn Taymiyyah, *al-Ḥisbah fī al-Islām*.
-[^16]: Ibn Taymiyyah, *al-Siyāsah al-Sharʿiyyah*; Abu Yusuf, *Kitāb al-Kharāj*.
+[^16]: Ibn Taymiyyah, *al-Siyāsah al-Sharʿiyyah*; Abū Yūsuf, *Kitāb al-Kharāj*.
 [^17]: al-Māwardī, *Adab al-Dunyā wa-l-Dīn*.
-[^18]: Abu Bakr al-Siddiq, återgiven i Ibn al-Jawzī, *Ṣifat al-Ṣafwah*.
+[^18]: Abū Bakr al-Ṣiddīq, återgiven i Ibn al-Jawzī, *Ṣifat al-Ṣafwah*.
 [^19]: Ibn Khaldūn, *Muqaddimah*.
 [^20]: Jfr historiska studier av *ḥisbah*-ämbetets praktiska tillämpning under senabbasidisk tid.
 [^21]: Koranen, al-Nisāʾ 4:58.

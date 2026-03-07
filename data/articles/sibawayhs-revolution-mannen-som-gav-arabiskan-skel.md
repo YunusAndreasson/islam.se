@@ -11,7 +11,7 @@ Hans namn var Sībawayh.
 
 ## En persers väg till det heliga språket
 
-Abu Bishr Amr ibn Uthman ibn Qanbar — kallad Sībawayh, "äppeldoften", ett persiskt smeknamn — föddes i Shiraz och kom till Basra som ung man.[^1] Han hade tänkt studera islamisk rättsvetenskap, *fiqh*. Men han gjorde ett grammatiskt fel i en *ḥadīth*-diskussion. Skammen drev honom till språkvetenskapen — till besatthet. Att studera grammatik till besatthet är att se språkets struktur i varje yttrande — poetens vers, profetens tal, marknadens rop.
+Abū Bishr ʿAmr ibn ʿUthmān ibn Qanbar — kallad Sībawayh, "äppeldoften", ett persiskt smeknamn — föddes i Shiraz och kom till Basra som ung man.[^1] Han hade tänkt studera islamisk rättsvetenskap, *fiqh*. Men han gjorde ett grammatiskt fel i en *ḥadīth*-diskussion. Skammen drev honom till språkvetenskapen — till besatthet. Att studera grammatik till besatthet är att se språkets struktur i varje yttrande — poetens vers, profetens tal, marknadens rop.
 
 Hans lärare blev al-Khalil ibn Ahmad al-Farahidi, en arabisk lingvist från Oman som hade avlyssnat prosodins lagar i en kopparslagares hammarslag.[^2] Rytmen i metallen blev nyckeln till rytmen i språket. Att al-Khalil var arab och Sībawayh perser är ingen bisats i berättelsen. Det är poängen.
 
@@ -85,7 +85,7 @@ Om det gäller arabiskan, Koranens språk, det språk Gud valde för sin sista u
 
 Mönstret gäller även västerut: Joseph Conrad lärde sig engelska i tjugoårsåldern och formade den moderna engelska romanens språk — utan att vara engelsman.[^19]
 
-Ali ibn Abi Talib sade: "Tungan är kroppens roder — om den rättar sig, rättar sig alla lemmar."[^17] Disciplin, övning, lärande — aldrig rätt föräldrar.
+ʿAlī ibn Abī Ṭālib sade: "Tungan är kroppens roder — om den rättar sig, rättar sig alla lemmar."[^17] Disciplin, övning, lärande — aldrig rätt föräldrar.
 
 Sībawayh dog ung — knappt fyrtio. Han lämnade inga lärjungar i vanlig mening — han lämnade *al-Kitāb*. Det räckte.
 
@@ -97,7 +97,7 @@ Ibn al-Jawzī behövde inte nämna varifrån kunskapssökaren kom. Det spelade i
 
 ---
 
-[^1]: Sībawayh (Abu Bishr Amr ibn Uthman ibn Qanbar, d. ca 796 e.Kr.) föddes i Shiraz i provinsen Fars, Persien, och flyttade till Basra för studier. Se Carter, M.G., *Sibawayhi*, I.B. Tauris, 2004.
+[^1]: Sībawayh (Abū Bishr ʿAmr ibn ʿUthmān ibn Qanbar, d. ca 796 e.Kr.) föddes i Shiraz i provinsen Fars, Persien, och flyttade till Basra för studier. Se Carter, M.G., *Sibawayhi*, I.B. Tauris, 2004.
 [^2]: al-Khalīl ibn Aḥmad al-Farāhīdī (d. ca 786 e.Kr.). Anekdoten om kopparslagaren återges i Ibn Khallikān, *Wafayāt al-Aʿyān*.
 [^3]: *al-Kitāb* ("Boken") omfattar fyra volymer och behandlar arabisk syntax (*naḥw*) och morfologi (*ṣarf*). Det förblev den arabiska grammatikens oöverträffade referensverk.
 [^4]: Koranen, al-Shuʿarāʾ 26:195.

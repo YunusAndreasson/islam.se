@@ -37,7 +37,7 @@ Koranen formulerar det med en direkthet som gör omskrivningar överflödiga: "V
 
 ## Sanningen känns inte igen genom människor
 
-Ett uttalande tillskrivet Ali ibn Abi Talib, den fjärde kalifen, sammanfattar hela den islamiska kunskapsteorin i en enda mening: "Sanningen känns inte igen genom människor — känn igen sanningen, så känner du igen dess folk."[^13]
+Ett uttalande tillskrivet ʿAlī ibn Abī Ṭālib, den fjärde kalifen, sammanfattar hela den islamiska kunskapsteorin i en enda mening: "Sanningen känns inte igen genom människor — känn igen sanningen, så känner du igen dess folk."[^13]
 
 Formuleringen ser enkel ut. Den är förödande.
 
@@ -90,7 +90,7 @@ Den som räknar huvuden istället för att pröva argument har redan förlorat d
 [^10]: Ibn al-Jawzī, *Dhamm al-Hawā*.
 [^11]: Gustave Le Bon, *Massans psykologi*, kap. 2.
 [^12]: Koranen, al-Qaṣaṣ 28:50.
-[^13]: Ali ibn Abi Talib, citerad i Ibn al-Jawzī, *Talbīs Iblīs* (Iblīs' bedrägerier).
+[^13]: ʿAlī ibn Abī Ṭālib, citerad i Ibn al-Jawzī, *Talbīs Iblīs* (Iblīs' bedrägerier).
 [^14]: Ibn Taymiyyah, *Majmūʿ al-Fatāwā* (Samlade rättsutlåtanden) och *al-Radd ʿalā al-Manṭiqiyyīn* (Vederläggning av logikerna). Ibn Taymiyyah betonar upprepade gånger att sanning prövas mot Koranen och Sunnah, inte mot personers status, och att varje människa utom Profeten ﷺ kan ha rätt eller fel.
 [^15]: Jürgen Habermas, *The Philosophical Discourse of Modernity*, MIT Press, 1987.
 [^16]: Ibn Taymiyyah, *al-Radd ʿalā al-Manṭiqiyyīn*.

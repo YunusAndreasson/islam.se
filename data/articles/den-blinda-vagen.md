@@ -5,13 +5,13 @@ wordCount: 1336
 qualityScore: 8.4
 description: "I november 2024 avslöjade Lighthouse Reports och Svenska Dagbladet att Försäkringskassans maskininlärningsmodell systematiskt flaggade kvinnor mer än dubbelt så ofta som män för misstänkt fusk med föräldrapenningen. Systemet hade varit i drift sedan 2013."
 ---
-Umar ibn al-Khattab — den andre kalifen, känd för att vandra genom Medinas gränder nattetid för att med egna ögon se hur undersåtarna levde — vände sig till Gud med orden: "Jag beklagar inför Dig den lastbares djärvhet och den pålitliges svaghet."[^1] Den som kan, vill inte rätt. Den som vill rätt, förmår inte.
+ʿUmar ibn al-Khaṭṭāb — den andre kalifen, känd för att vandra genom Medinas gränder nattetid för att med egna ögon se hur undersåtarna levde — vände sig till Gud med orden: "Jag beklagar inför Dig den lastbares djärvhet och den pålitliges svaghet."[^1] Den som kan, vill inte rätt. Den som vill rätt, förmår inte.
 
-Fjorton sekel senare har vi byggt en aktör som ger Umars klagan kropp: algoritmen. Ofelbart kompetent, ofelbart ogenomskådlig — den starkaste och minst pålitliga tjänaren en förvaltning någonsin haft.
+Fjorton sekel senare har vi byggt en aktör som ger ʿUmars klagan kropp: algoritmen. Ofelbart kompetent, ofelbart ogenomskådlig — den starkaste och minst pålitliga tjänaren en förvaltning någonsin haft.
 
 ## Två pelare, en tom plats
 
-Ibn Taymiyyah formulerade Umars klagan som ett politiskt system. I *al-Siyāsah al-Sharʿiyyah*, hans avhandling om rättvis styrning, hävdar han att varje ämbete vilar på två pelare: *quwwah*, styrka, kompetens, förmåga att verkställa, och *amānah*, pålitlighet, trovärdighet, det inre rättesnöre som tyglar makten.[^2]
+Ibn Taymiyyah formulerade ʿUmars klagan som ett politiskt system. I *al-Siyāsah al-Sharʿiyyah*, hans avhandling om rättvis styrning, hävdar han att varje ämbete vilar på två pelare: *quwwah*, styrka, kompetens, förmåga att verkställa, och *amānah*, pålitlighet, trovärdighet, det inre rättesnöre som tyglar makten.[^2]
 
 > Att styrka och pålitlighet förenas i samma person är sällsynt bland människor.[^3]
 

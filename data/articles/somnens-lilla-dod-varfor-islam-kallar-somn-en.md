@@ -83,7 +83,7 @@ Denna bön-död-uppståndelse-struktur är inte unik för den islamiska traditio
 
 Ibn Qayyim skrev att "åminnelsen väcker hjärtat ur dess sömn och reser det ur dess slummer".[^15] *Dhikr* väcker hjärtat för att kroppen ska kunna sova. Den moderna sömnlösheten är ett hjärta som sover, bedövat av distraktioner, dövat av underhållning, i en kropp som ligger vaken. Du upprepar Namnet tills tankarnas cirkel bryts.
 
-Med en koncentration som gränsar till koan formulerade Ali ibn Abi Talib det: "Människor sover; när de dör vaknar de."[^16] Den som inte kan somna har redan börjat vakna — men utan vägledning, utan riktning, utan den tillitens grammatik som gör uppvaknandet uthärdligt. Grammatiken är att veta vart man vänder sitt rop.
+Med en koncentration som gränsar till koan formulerade ʿAlī ibn Abī Ṭālib det: "Människor sover; när de dör vaknar de."[^16] Den som inte kan somna har redan börjat vakna — men utan vägledning, utan riktning, utan den tillitens grammatik som gör uppvaknandet uthärdligt. Grammatiken är att veta vart man vänder sitt rop.
 
 ## Att öva sig i att dö
 
@@ -124,7 +124,7 @@ Kanske är det det enda sättet att leva.
 [^13]: Ṣaḥīḥ al-Bukhārī, *Kitāb al-Daʿawāt*. Profetens ﷺ morgonbön vid uppvaknande.
 [^14]: Fredrika Bremer, "Vagga och graf".
 [^15]: Ibn Qayyim al-Jawziyyah, *al-Wābil al-Ṣayyib* (Det strömmande regnet). Min översättning.
-[^16]: Ali ibn Abi Talib, citerad av al-Ghazālī i *The Confessions of Al Ghazzali*. Hadithvetare (al-Subkī i *Ṭabaqāt al-Shāfiʿiyyah*, al-Sakhāwī i *al-Maqāṣid al-Ḥasanah*) identifierar detta som Ali ibn Abi Talibs ord, inte ett profetiskt uttalande.
+[^16]: ʿAlī ibn Abī Ṭālib, citerad av al-Ghazālī i *The Confessions of Al Ghazzali*. Hadithvetare (al-Subkī i *Ṭabaqāt al-Shāfiʿiyyah*, al-Sakhāwī i *al-Maqāṣid al-Ḥasanah*) identifierar detta som ʿAlī ibn Abī Ṭālibs ord, inte ett profetiskt uttalande.
 [^17]: Koranen, al-Furqān 25:47.
 [^18]: Muḥammad ibn al-Nadr al-Ḥārithī, citerad i *Ṣifat al-Ṣafwah* (De renlärigas egenskaper). Min översättning.
 [^19]: Erik Gustaf Geijer, *Minnen*.
