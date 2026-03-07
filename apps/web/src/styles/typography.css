@@ -268,10 +268,11 @@ hr:has(+ .footnotes) {
 
 /* Section ornament — eight-pointed star flanked by thin rules */
 .prose .footnotes::before,
-.article-nav::before {
+.article-nav::before,
+.section-ornament {
 	content: "";
 	display: block;
-	width: 8rem;
+	width: 10rem;
 	height: 1.5rem;
 	margin: var(--space-double) auto;
 	background: var(--color-divider);

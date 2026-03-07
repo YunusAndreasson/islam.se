@@ -1,11 +1,12 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 18">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 18">
 	<!--
-		Eight-pointed star (rub el hizb) flanked by thin rules.
-		Star: 16-vertex polygon, outer radius 7, inner radius 2.9
-		(ratio ≈ √2 − 1, the octagonal geometric constant).
-		Used as a CSS mask — white = visible, transparent = hidden.
+		Islamic medallion divider: eight-pointed star (rub el hizb)
+		inscribed in a thin circle, flanked by rules.
+		Star: 16-vertex polygon, r_outer=7, r_inner=2.9 (ratio ≈ √2−1).
+		Used as CSS mask — white = visible.
 	-->
-	<line x1="0" y1="9" x2="39" y2="9" stroke="white" stroke-width="0.75" stroke-linecap="round"/>
-	<polygon points="48,2 49.1,6.3 52.9,4.1 50.7,7.9 55,9 50.7,10.1 52.9,13.9 49.1,11.7 48,16 46.9,11.7 43.1,13.9 45.3,10.1 41,9 45.3,7.9 43.1,4.1 46.9,6.3" fill="white"/>
-	<line x1="57" y1="9" x2="96" y2="9" stroke="white" stroke-width="0.75" stroke-linecap="round"/>
+	<line x1="0" y1="9" x2="49" y2="9" stroke="white" stroke-width="0.75" stroke-linecap="round"/>
+	<circle cx="60" cy="9" r="8.5" stroke="white" stroke-width="0.75" fill="none"/>
+	<polygon points="60,2 61.1,6.3 64.9,4.1 62.7,7.9 67,9 62.7,10.1 64.9,13.9 61.1,11.7 60,16 58.9,11.7 55.1,13.9 57.3,10.1 53,9 57.3,7.9 55.1,4.1 58.9,6.3" fill="white"/>
+	<line x1="71" y1="9" x2="120" y2="9" stroke="white" stroke-width="0.75" stroke-linecap="round"/>
 </svg>
