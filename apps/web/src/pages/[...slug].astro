@@ -119,61 +119,91 @@ const { Content } = await render(article.entry);
 			}, { passive: true, signal: ctrl.signal });
 		}
 
-		// Footnote popovers — show content inline instead of jumping to bottom
+		// Footnote popovers — hover on desktop, click on touch
 		const popover = document.createElement("div");
 		popover.className = "fn-popover";
 		popover.setAttribute("role", "tooltip");
 		document.body.appendChild(popover);
+		let hideTimer: ReturnType<typeof setTimeout> | null = null;
+		let isTouch = false;
+
+		function showPopover(ref: HTMLAnchorElement) {
+			const fnId = ref.getAttribute("href")?.replace("#", "");
+			if (!fnId) return;
+			const fnLi = document.getElementById(fnId);
+			if (!fnLi) return;
+
+			if (hideTimer) { clearTimeout(hideTimer); hideTimer = null; }
+
+			const clone = fnLi.cloneNode(true) as HTMLElement;
+			for (const backref of clone.querySelectorAll(".data-footnote-backref")) backref.remove();
+			popover.innerHTML = clone.innerHTML;
+			popover.setAttribute("data-fn-id", fnId);
+
+			const sup = ref.closest("sup") ?? ref;
+			const rect = sup.getBoundingClientRect();
+			popover.classList.add("fn-popover--visible");
+
+			const popW = popover.offsetWidth;
+			const pad = 12;
+			let left = rect.left + window.scrollX + rect.width / 2 - popW / 2;
+			left = Math.max(pad, Math.min(left, window.innerWidth - popW - pad));
+			popover.style.top = `${rect.bottom + window.scrollY + 8}px`;
+			popover.style.left = `${left}px`;
+		}
 
 		function dismissPopover() {
 			popover.classList.remove("fn-popover--visible");
 			popover.removeAttribute("data-fn-id");
 		}
 
+		function scheduleDismiss() {
+			hideTimer = setTimeout(dismissPopover, 200);
+		}
+
+		// Detect touch devices
+		document.addEventListener("touchstart", () => { isTouch = true; }, { once: true, passive: true, signal: ctrl.signal });
+
+		// Hover: show on mouseenter, hide on mouseleave (with grace period)
+		document.addEventListener("mouseenter", (e) => {
+			if (isTouch) return;
+			const ref = (e.target as HTMLElement).closest<HTMLAnchorElement>("a[data-footnote-ref]");
+			if (ref) showPopover(ref);
+		}, { capture: true, signal: ctrl.signal });
+
+		document.addEventListener("mouseleave", (e) => {
+			if (isTouch) return;
+			const ref = (e.target as HTMLElement).closest<HTMLAnchorElement>("a[data-footnote-ref]");
+			if (ref) scheduleDismiss();
+		}, { capture: true, signal: ctrl.signal });
+
+		// Keep popover visible while hovering over it
+		popover.addEventListener("mouseenter", () => {
+			if (hideTimer) { clearTimeout(hideTimer); hideTimer = null; }
+		});
+		popover.addEventListener("mouseleave", scheduleDismiss);
+
+		// Click: prevent default jump; on touch devices toggle popover
 		document.addEventListener("click", (e) => {
 			const ref = (e.target as HTMLElement).closest<HTMLAnchorElement>("a[data-footnote-ref]");
-			if (!ref) { dismissPopover(); return; }
-
-			e.preventDefault();
-			const fnId = ref.getAttribute("href")?.replace("#", "");
-			if (!fnId) return;
-
-			// Toggle if same footnote clicked again
-			if (popover.getAttribute("data-fn-id") === fnId && popover.classList.contains("fn-popover--visible")) {
+			if (ref) {
+				e.preventDefault();
+				if (isTouch) {
+					const fnId = ref.getAttribute("href")?.replace("#", "");
+					if (popover.getAttribute("data-fn-id") === fnId && popover.classList.contains("fn-popover--visible")) {
+						dismissPopover();
+					} else {
+						showPopover(ref);
+					}
+				}
+			} else if (!popover.contains(e.target as Node)) {
 				dismissPopover();
-				return;
 			}
-
-			const fnLi = document.getElementById(fnId);
-			if (!fnLi) return;
-
-			// Clone content, strip backref link
-			const clone = fnLi.cloneNode(true) as HTMLElement;
-			for (const backref of clone.querySelectorAll(".data-footnote-backref")) backref.remove();
-			popover.innerHTML = clone.innerHTML;
-			popover.setAttribute("data-fn-id", fnId);
-
-			// Position below the sup element
-			const sup = ref.closest("sup") ?? ref;
-			const rect = sup.getBoundingClientRect();
-			const scrollY = window.scrollY;
-			const scrollX = window.scrollX;
-
-			popover.classList.add("fn-popover--visible");
-
-			// Center on the sup, but clamp to viewport
-			const popW = popover.offsetWidth;
-			let left = rect.left + scrollX + rect.width / 2 - popW / 2;
-			const pad = 12;
-			left = Math.max(pad + scrollX, Math.min(left, window.innerWidth + scrollX - popW - pad));
-
-			popover.style.top = `${rect.bottom + scrollY + 8}px`;
-			popover.style.left = `${left}px`;
 		}, { signal: ctrl.signal });
 
 		document.addEventListener("keydown", (e) => {
 			if (e.key === "Escape" && popover.classList.contains("fn-popover--visible")) {
-				e.stopPropagation(); // Don't navigate away
+				e.stopPropagation();
 				dismissPopover();
 			}
 		}, { capture: true, signal: ctrl.signal });
