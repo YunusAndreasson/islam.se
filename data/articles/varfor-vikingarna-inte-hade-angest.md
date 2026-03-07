@@ -21,7 +21,7 @@ Och i *Hávámal*:
 
 Den ordning de beskriver utesluter den moderna fantasin att allt kan bli annorlunda om man bara väljer rätt. Nornornas dom är given. Men inom den givna ramen är människan fri att handla. Hur denna ödestro formade den fornnordiska livshållningen har tolkats olika — men den avgörande frågan är hur vissheten om ödets orubbliga grund påverkade själva *erfarenheten* av att leva och välja. I sin introduktion till den engelska översättningen av *Njáls saga* 1861 formulerade George Webbe Dasent det så:
 
-> "Där kunde han visa sin fria vilja; och sålunda lämnade ödets blinda, obevekliga natur inget utrymme för något ångestfyllt grubblande över ting som en gång för alla var bestämda att ske."[^3]
+> Där kunde han visa sin fria vilja; och sålunda lämnade ödets blinda, obevekliga natur inget utrymme för något ångestfyllt grubblande över ting som en gång för alla var bestämda att ske.[^3]
 
 Ångesten försvinner inte trots att utfallet är givet — den försvinner *därför att* utfallet är givet. När utgången inte längre är ditt ansvar samlas all kraft i nuets handling.
 
@@ -37,7 +37,7 @@ Redan 1844 benämnde Kierkegaard tillståndet: ångesten är frihetens svindel.[
 
 Vad den friheten kostar visste Karin Boye. I *Kris* skrev hon:
 
-> "Aldrig, aldrig går den förbi, det kommer ny och ny tid med samma ångest, den tar aldrig slut, den är outtömlig."[^5]
+> Aldrig, aldrig går den förbi, det kommer ny och ny tid med samma ångest, den tar aldrig slut, den är outtömlig.[^5]
 
 Valets ångest: varje morgon kräver att du själv skapar din mening, ditt syfte, ditt existensberättigande. Hjalmar Söderberg gav valets ångest konkret gestalt: "Det föll över henne en frossbrytning av ångest, var gång hon tänkte på allt det onda, som nästa morgon eller nästa nyår kan hålla i beredskap åt oss, utan att vi vete det och utan att vi kunna göra något."[^6]
 
@@ -63,17 +63,17 @@ Liksom Orlog befriade vikingahjältarna frigör tilliten den troende för handli
 
 Den ro som Orlog gav vikingen, och som *tawakkul* ger den troende — efter den har också sekulära svenskar sökt. Karin Boye, samma Karin Boye som beskrev ångesten som outtömlig, fann ett ögonblicks klarhet i *Kris*. Två ord som bär allt:
 
-> "Det oundvikligas ro. Det inre ödets ro."[^13]
+> Det oundvikligas ro. Det inre ödets ro.[^13]
 
 Boye nådde insikten men kunde inte stanna kvar i den. Överlåtelse utan mottagare är bara uppgivenhet — den som släpper taget utan att någon tar vid faller. Boye saknade den relation till något bortom självet som förvandlar överlåtelse till tillit. Hon såg det oundvikligas ro i vissa stunder men vaknade i samma ångest. Dag Hammarskjöld fann den strukturen i kristen tro. I *Vägmärken* beskrev han ögonblicket:
 
-> "Jag vet inte vem — eller vad — som ställde frågan, jag vet inte när den ställdes. Jag minns inte att jag svarade. Men en gång svarade jag ja till någon — eller något — och från den stunden har jag varit viss om att tillvaron är meningsfull och att mitt liv, i underkastelse, har ett mål."[^17]
+> Jag vet inte vem — eller vad — som ställde frågan, jag vet inte när den ställdes. Jag minns inte att jag svarade. Men en gång svarade jag ja till någon — eller något — och från den stunden har jag varit viss om att tillvaron är meningsfull och att mitt liv, i underkastelse, har ett mål.[^17]
 
 Vikingarna kunde stanna, men deras struktur var kall, opersonlig, utan löfte om mening bortom äran. När de dog fanns inget bortom — bara namnet. Den moderna svensken saknar både insikten och strukturen. Bara friheten, och den frossbrytning av ångest som Söderberg beskrev.
 
 Koranen varnar för vad som händer när tillit fästs vid det skapade istället för Skaparen:
 
-> "Men om de vänder om skall du säga: 'Allah ﷻ är tillräcklig för mig; ingen gud finns utom Han. Till Honom sätter jag min lit, och Han är Herre över den väldiga tronen.'"[^14]
+> Men om de vänder om skall du säga: 'Allah ﷻ är tillräcklig för mig; ingen gud finns utom Han. Till Honom sätter jag min lit, och Han är Herre över den väldiga tronen.'[^14]
 
 I *Tusen och en natt* illustreras konsekvensen av att sätta sin lit till det felaktiga. En besegrad furste uppsöker en eremit och klagar över sitt öde. Eremiten frågar om han vet varför han besegrades, men fursten vet inte. "Därför att du satte din lit till dina truppernas antal", svarar eremiten, "och inte förlitade dig på Allah ﷻ den Allrahögste. Hade du satt din lit till den Allsmäktige, hade din fiende aldrig kunnat besegra dig."[^15]
 

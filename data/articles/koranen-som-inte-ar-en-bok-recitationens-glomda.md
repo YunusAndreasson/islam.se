@@ -17,7 +17,7 @@ När ängeln Jibril kom till Profeten Muhammad ﷺ i grottan Hira var budet inte
 
 Här öppnar sig en klyfta. Den västerländska traditionen, formad av Gutenbergs press och protestantismens *sola scriptura*, tänker sig helig text som i grunden skrift. Bibeln är en bok; den studeras, tolkas, trycks. Koranen tillhör en annan ordning: den hör hemma i luften mellan munnen och örat, i det ögonblick då rösten bär fram de gudomliga orden. Det är denna verklighet Koranen själv fastslår när den manar till lyssnande, inte läsande:
 
-> "När Koranen reciteras skall ni lyssna till den och vara tysta så att ni kan få nåd."[^2]
+> När Koranen reciteras skall ni lyssna till den och vara tysta så att ni kan få nåd.[^2]
 
 Påbudet gäller lyssnandet, inte läsandet. Tystnaden som krävs är inte bibliotekets utan konsertsalens – den tystnad som uppstår inför något som händer *nu*.
 
@@ -27,7 +27,7 @@ Vad händer i det ögonblicket? Den islamiska teologins svar är radikalt i orde
 
 Ibn Taymiyyah gav uttryck för den hållning som blivit normgivande inom sunnitisk teologi: Koranen är Allahs ﷻ tal, oskapat, bestående av bokstäver, komposition och betydelse – och allt detta ingår i att det är Allahs ﷻ tal.[^3] Koranen, nedskriven i mushafen och reciterad med rösten, är i båda fallen verkligen Allahs ﷻ tal. I sin verkan är de dock inte likvärdiga: recitationen bär med sig en omedelbarhet, en levande närvaro, som den skrivna sidan inte förmår återge. Ibn Taymiyyah förklarar varför, med hänvisning till Profeten ﷺ:
 
-> "Det som den skyddssökande hör är Allahs ﷻ tal — och den skyddssökande hör det genom recitörens röst. Rösten tillhör recitören, men talet tillhör Skaparen. Som Profeten ﷺ sade: 'Pryden Koranen med era röster.'"[^4]
+> Det som den skyddssökande hör är Allahs ﷻ tal — och den skyddssökande hör det genom recitörens röst. Rösten tillhör recitören, men talet tillhör Skaparen. Som Profeten ﷺ sade: 'Pryden Koranen med era röster.'[^4]
 
 I recitationsögonblicket inträder något som saknar direkt motsvarighet i den västerländska religiösa erfarenheten. Den mänskliga rösten blir ett instrument för gudomligt tal – i den mening att det som når örat faktiskt *är* Allahs ﷻ ord, burna av en mänsklig klangkropp.
 
@@ -35,19 +35,19 @@ I recitationsögonblicket inträder något som saknar direkt motsvarighet i den 
 
 Om ljudet bär denna närvaro, återstår frågan om mottagaren. Varför just hörseln? Varför inte skriften, den beständiga och oföränderliga? Ibn Qayyim föregår i *Madārij al-Sālikīn* modern perceptionsforskning med sju sekler:
 
-> "Hjärtats koppling till hörseln och dess band till den är starkare än dess koppling till synen. Därför påverkas människan starkare av det hon hör av lustfyllda ting än av det hon ser av sköna ting. Detsamma gäller det obehagliga — att höra det berör djupare än att se det."[^5]
+> Hjärtats koppling till hörseln och dess band till den är starkare än dess koppling till synen. Därför påverkas människan starkare av det hon hör av lustfyllda ting än av det hon ser av sköna ting. Detsamma gäller det obehagliga — att höra det berör djupare än att se det.[^5]
 
 Vad gör hörseln unik? Inte organets känslighet utan ljudets natur: det kommer till lyssnaren innan hon hunnit bestämma sig. Ögat kan slutas, blicken kan avvändas — men örat har ingen grind. Ljudet föregriper viljan, och just i detta försprång bor Koranens verkan som recitation: den når hjärtat innan dess försvar hinner resa sig. Hörseln är det sinne genom vilket kunskap och vägledning når hjärtat; hjärtats fullkomning vilar på hörselns sundhet. Därför uppmanar Koranen gång på gång till lyssnande. Profeten ﷺ själv bad sina följeslagare att recitera för honom så att han kunde *lyssna*. Ur denna insikt växte en hel vetenskap – *tajwīd* – kring recitationens fonetik, melodi och andning.
 
 Med hörselns språk avtäcker Koranen sin egen verkan. När en grupp djinner hör Koranen reciteras för första gången, är deras reaktion omedelbar:
 
-> "Vi har sannerligen hört en underbar Koran — den vägleder till det rätta, och vi har trott på den."[^6]
+> Vi har sannerligen hört en underbar Koran — den vägleder till det rätta, och vi har trott på den.[^6]
 
 De läste ingenting — de *hörde*, och det räckte.
 
 I samma verk beskriver Ibn Qayyim vad som sker när en människa lyssnar – inte hör, utan *lyssnar* – med hela sitt väsen:
 
-> "När själen har renats och är redo, och hjärtat tagit emot betydelsens ande, och människan med hela sitt väsen vänder sig mot det som hörs — kastar sitt öra med full närvaro — och därtill bistås av recitörens vackra röst: då är hjärtat nära att lämna denna värld och träda in i en annan."[^7]
+> När själen har renats och är redo, och hjärtat tagit emot betydelsens ande, och människan med hela sitt väsen vänder sig mot det som hörs — kastar sitt öra med full närvaro — och därtill bistås av recitörens vackra röst: då är hjärtat nära att lämna denna värld och träda in i en annan.[^7]
 
 Dessa ord tecknar inte en estetisk upplevelse utan hjärtats uppvaknande – det ögonblick då Allahs ﷻ egna ord tränger genom glömskan och hårdnackheten och gör hjärtat levande, draget nära sin Skapare. Generationer av muslimer bär denna erfarenhet med sig. Det är handen som stannar, steget som fryser när verserna träffar. Den gör Koranen till något mer än en bok.
 
@@ -75,13 +75,13 @@ Här kan ett annat perspektiv belysa samma intuition. Svensk idéhistoria rymmer
 
 Erik Gustaf Geijer varnade i sitt tal vid jubelfesten 1817 för vad som händer när föraktet för det heliga normaliseras:
 
-> "Föraktet för det heliga är döden i samhället och upplöser alla band. Ty samhället är självt en förening på god tro; och ingen tro finnes utan tron på det högsta."[^12]
+> Föraktet för det heliga är döden i samhället och upplöser alla band. Ty samhället är självt en förening på god tro; och ingen tro finnes utan tron på det högsta.[^12]
 
 Visserligen talade Geijer om kristendomen — men hans insikt bär längre än konfessionen. Ett samhälle som föraktar det heliga – oavsett vilken tradition som bär det – upplöser de band som sammanhåller det. Inte för att heligheten kräver det, utan för att föraktet förgiftar den tillit som allt samhällsliv vilar på. Men Geijers ramverk stannar vid det heliga som *princip* — något samhället behöver för sin sammanhållning. Den islamiska erfarenheten pekar bortom: när det heliga är levande tal, inte abstrakt princip, är förakt inte bara ett brott mot samhällsfördraget utan ett försök att tysta en röst som fortfarande talar.
 
 Viktor Rydberg fångar något besläktat i *Singoalla*:
 
-> "Med halvt viskande röst, som ljöd högtidlig och hemlighetsfull i det av lampan matt upplysta valvet, talade han om andens herravälde över det lekamliga, om det osynliga ordets makt över seniga armar och trotsiga sinnen, över furstar och herrar, över alla världens härar."[^13]
+> Med halvt viskande röst, som ljöd högtidlig och hemlighetsfull i det av lampan matt upplysta valvet, talade han om andens herravälde över det lekamliga, om det osynliga ordets makt över seniga armar och trotsiga sinnen, över furstar och herrar, över alla världens härar.[^13]
 
 *Det osynliga ordets makt.* Vad är Koranen i den islamiska erfarenheten om inte detta – det osynliga ordet som härskar över det synliga, den röst som ingen kan se men ingen kan undgå?
 
@@ -89,7 +89,7 @@ Viktor Rydberg fångar något besläktat i *Singoalla*:
 
 Det är denna makt – ordets, inte bokens – som den islamiska traditionen återkommande gestaltat. Ibn Qayyim återvänder i *al-Wābil al-Ṣayyib* till en bild som i sin enkelhet bär hela den islamiska recitationstraditionen:
 
-> "Trons kallelse hade verkligen hörts, om den träffat lyhörda öron, och Koranens förmaningar hade verkligen botat, om de mött tomma hjärtan. Och Koranen är lik regnet som ger liv åt jorden, växterna och djuren — så ger Koranen liv åt hjärtana."[^14]
+> Trons kallelse hade verkligen hörts, om den träffat lyhörda öron, och Koranens förmaningar hade verkligen botat, om de mött tomma hjärtan. Och Koranen är lik regnet som ger liv åt jorden, växterna och djuren — så ger Koranen liv åt hjärtana.[^14]
 
 Koranen reciteras – i moskéer, i hem, i bilar på motorvägen, i telefoner som spelar *Sūrat al-Kahf* på fredagsmorgnar. Den faller som regn.
 

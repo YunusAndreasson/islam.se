@@ -13,7 +13,7 @@ Fjorton sekel senare har vi byggt en aktör som ger Umars klagan kropp: algoritm
 
 Ibn Taymiyyah formulerade Umars klagan som ett politiskt system. I *al-Siyāsah al-Sharʿiyyah*, hans avhandling om rättvis styrning, hävdar han att varje ämbete vilar på två pelare: *quwwah*, styrka, kompetens, förmåga att verkställa, och *amānah*, pålitlighet, trovärdighet, det inre rättesnöre som tyglar makten.[^2]
 
-> "Att styrka och pålitlighet förenas i samma person är sällsynt bland människor."[^3]
+> Att styrka och pålitlighet förenas i samma person är sällsynt bland människor.[^3]
 
 Härskaren måste avväga. Vilken pelare väger tyngst för det specifika ämbetet? I militärt befäl prioriteras styrka — även en moraliskt bristfällig befälhavare vars tapperhet skyddar samfundet väger tyngre än en from men svag ledare vars rättskaffenhet bara gagnar honom själv.[^4] I finansiell förvaltning, där andras tillgångar ska bevaras, prioriteras pålitlighet. Och när ingen enskild person besitter båda egenskaperna tillräckligt? Då kombinerar man flera: en stark uppbördsman som driver in medlen, en pålitlig skrivare som bevakar dem.[^5]
 
@@ -35,7 +35,7 @@ Kybernetikens grundare Norbert Wiener identifierade samma struktur: maskinens fa
 
 Försäkringskassan-fallet rymmer mer än en teknisk skandal. Det avslöjar välfärdsstatens outtalade löfte. En medborgare som vänder sig till en myndighet med en ansökan ingår ett förtroendeavtal — inte ett juridiskt kontrakt, utan något äldre. Hon utlämnar information om sitt liv, sin hälsa, sin familjesituation — och litar på att den behandlas rättvist. För detta har Koranen ett ord: *al-amānah*, förtroendeuppdraget — som den oupplösligt kopplar till rättvis dom:
 
-> "Allah befaller er att återlämna allt ni anförtrotts till dess rättmätiga ägare och att, när ni dömer mellan människor, döma med rättvisa."[^11]
+> Allah befaller er att återlämna allt ni anförtrotts till dess rättmätiga ägare och att, när ni dömer mellan människor, döma med rättvisa.[^11]
 
 Att förvalta andras angelägenheter kräver därför inte bara korrekthet utan också trovärdighet — den som dömer måste kunna visa *att* hon dömer rätt. En algoritm som fattar korrekta beslut i sjuttio procent av fallen men inte kan redogöra för något av dem uppfyller möjligen ett effektivitetskriterium men den uppfyller inte *amānah*.
 
@@ -51,7 +51,7 @@ Häri ger Ibn Taymiyyahs analys just ett sådant språk. Hans svar på *quwwah*-
 
 Rättvisa som ständig kalibrering mellan motsatta krav — detta fångar Ibn al-Jawzī i en bild:
 
-> "Prisad vare Den som välsignat folk som, varje gång en njutning lockar dem, ställer upp förståndets våg och betraktar vad den kan kosta, och väger det klokaste valet tyngst."[^15]
+> Prisad vare Den som välsignat folk som, varje gång en njutning lockar dem, ställer upp förståndets våg och betraktar vad den kan kosta, och väger det klokaste valet tyngst.[^15]
 
 Bilden av vågen — *al-mīzān* — är bärande. I islamisk tradition är rättvisa inte en abstrakt princip utan en handling: att väga, att pröva, att ständigt kalibrera.
 

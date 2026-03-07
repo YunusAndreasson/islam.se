@@ -9,7 +9,7 @@ description: "När Walid ibn al-Mughira, en av Quraysh-stammens främsta poesik�
 
 Koranen själv formulerar utmaningen:
 
-> "Och om ni hyser tvivel om vad Vi har sänt ned till Vår tjänare, åstadkom då en sura av samma slag och tillkalla era vittnen, andra än Allah ﷻ, om ni är sannfärdiga."[^1]
+> Och om ni hyser tvivel om vad Vi har sänt ned till Vår tjänare, åstadkom då en sura av samma slag och tillkalla era vittnen, andra än Allah ﷻ, om ni är sannfärdiga.[^1]
 
 Utmaningen trappas ned i tre steg. Först: frambringa en hel skrift som denna, även om människor och djinner förenade sig.[^2] Sedan: tio suror.[^3] Slutligen: en enda. Tre verser räcker: sura *al-Kawthar*, Koranens kortaste, är tre verser lång. Al-Suyuti konstaterar att dess *iʿjāz* är likvärdigt med sura *al-Baqarah*, den längsta.[^4] Utmaningen är inte kvantitativ.
 
@@ -63,7 +63,7 @@ Uppenbarad för en man som varken kunde läsa eller skriva, i en kultur där den
 
 Den medeltida historikern och rättslärd Ibn Khaldun sammanfattade denna paradox:
 
-> "Koranen är i sig själv både beviset och det som skall bevisas."[^13]
+> Koranen är i sig själv både beviset och det som skall bevisas.[^13]
 
 ## Tystnadens bevisföring
 

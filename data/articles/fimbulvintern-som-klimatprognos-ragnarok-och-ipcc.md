@@ -79,7 +79,7 @@ Samma impuls — att möta katastrofen med meningsskapande handling — drev Rag
 
 Berättelsen om den förnyade jorden på Idavallen stannar vid hoppet utan att namnge dess källa — islam nämner den:
 
-> "Mina söner!" ropar Jakob i Koranen. "Ge aldrig upp hoppet om Allahs barmhärtighet. Ingen ger upp hoppet om Allahs barmhärtighet utom otrogna människor."[^15]
+> Mina söner!" ropar Jakob i Koranen. "Ge aldrig upp hoppet om Allahs barmhärtighet. Ingen ger upp hoppet om Allahs barmhärtighet utom otrogna människor.[^15]
 
 Klimatångesten *är* frågan: vad händer med en civilisation som behåller apokalypsen men avskaffar hoppet? Svaret syns redan: förlamad sorg, skuld utan förlåtelse, aktivism som förtär sig själv.
 

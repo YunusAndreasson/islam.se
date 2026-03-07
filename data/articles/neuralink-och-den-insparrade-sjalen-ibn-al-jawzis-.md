@@ -17,13 +17,13 @@ Men det obehag Neuralink lovar att lösa — känslan av att sitta fast i en kro
 
 Den diagnosen finns formulerad redan i den islamiska traditionen. I 1100-talets Bagdad satt den islamiske lärde Ibn al-Jawzī och skrev ner sina tankar i det som skulle bli *Ṣayd al-Khāṭir*, en av den arabiska litteraturens mest ovanliga böcker — en ström av reflexioner nedtecknade i det ögonblick de uppstod, innan eftertanken hann polera dem. Mitt i detta flöde slår han fast:
 
-> "Själarna drabbas inte av förgängelse, och kropparna är intet."[^1]
+> Själarna drabbas inte av förgängelse, och kropparna är intet.[^1]
 
 Påståendet är ingen metafor utan ontologi. Kroppen är *intet* — inte i betydelsen värdelös, utan i betydelsen tillfällig, genomskinlig, en parentes i själens existens.
 
 Inom den parentesen kartlade Ibn al-Jawzī begärets mekanik:
 
-> "Själen stannar aldrig vid en gräns, utan eftersträvar njutningar utan ände — och allt den uppnår svalnar snart, varpå den söker något annat."[^2]
+> Själen stannar aldrig vid en gräns, utan eftersträvar njutningar utan ände — och allt den uppnår svalnar snart, varpå den söker något annat.[^2]
 
 Den insikten saknar transhumanismen helt. Problemet är inte att kroppen begränsar hjärnan — utan att den begränsar *själen*. Den hedonistiska trappan, det ständiga sökandet efter nästa stimulans, är inte ett fel i systemet som kan åtgärdas med ett hjärnchip — utan själens grundläggande villkor i materian. Det är den som scrollar vidare innan videon är slut, den som öppnar nästa flik innan den första laddat klart.
 
@@ -31,11 +31,11 @@ Den insikten saknar transhumanismen helt. Problemet är inte att kroppen begrän
 
 Det är en annan islamisk lärd, Ibn Qayyim al-Jawziyyah, verksam i Damaskus två sekler senare, som driver denna insikt till dess yttersta konsekvens. I *al-Fawāʾid* beskriver han ett kosmiskt dragkraftsfält mellan kropp och själ:
 
-> "När kroppen mättas, njuter och sover, och man ägnar sig åt dess bekvämlighet och vila, sjunker kroppen till den plats den skapades av och drar med sig själen, som hamnar i ett fängelse."[^3]
+> När kroppen mättas, njuter och sover, och man ägnar sig åt dess bekvämlighet och vila, sjunker kroppen till den plats den skapades av och drar med sig själen, som hamnar i ett fängelse.[^3]
 
 Bilden är fysikalisk i sin logik: kroppen har gravitation. Ju mer den tillfredsställs, desto tyngre blir den — och desto djupare sjunker själen.
 
-> "Ju lättare kroppen blir, desto mer förfinas själen och söker sin himmelska hemvist; och ju tyngre kroppen blir genom begär och bekvämlighet, desto tyngre blir själen och sjunker från sin värld och blir jordisk och låg."[^4]
+> Ju lättare kroppen blir, desto mer förfinas själen och söker sin himmelska hemvist; och ju tyngre kroppen blir genom begär och bekvämlighet, desto tyngre blir själen och sjunker från sin värld och blir jordisk och låg.[^4]
 
 Sexhundra år senare, i det moderna Frankrike, formulerade filosofen Simone Weil samma insikt med samma metafor — utan kännedom om den damascenske lärde: "Alla själens naturliga rörelser styrs av lagar analoga med den materiella tyngdkraftens. Nåden är det enda undantaget."[^17] Men Weils *enda undantag* avslöjar hennes ramverks gräns: gravitationen är absolut, och själen kan ingenting annat än vänta på en nåd som kommer utifrån. Ibn Qayyim beskriver samma gravitation — men i hans system finns handlingar som lättar kroppens tyngd inifrån. Själen är inte passiv inför sin egen fångenskap.
 
@@ -59,7 +59,7 @@ I Dan Anderssons David Ramm formuleras frågan med barnets nakenhet: "Låt oss a
 
 Topelius visste att själen flaxade, men inte varför fönstret var stängt. Den islamiska traditionen rymmer den förklaring dessa röster famlade efter: själen är inte en poetisk metafor utan en andlig verklighet, inblåst av Gud själv. Koranen är otvetydig:
 
-> "Sedan fulländade Han henne och blåste in i henne av Sin ande och gav er hörsel och syn och inre sinnen. Så lite ni visar tacksamhet!"[^9]
+> Sedan fulländade Han henne och blåste in i henne av Sin ande och gav er hörsel och syn och inre sinnen. Så lite ni visar tacksamhet![^9]
 
 Själen har ett ursprung och ett mål: den kommer från Gud, och den återvänder till Gud. Kroppen är resvägen, inte hemmet. Kvävningen är inte en psykologisk störning att medicinera bort, utan en kosmisk hemlängtan att hörsamma.
 
@@ -81,7 +81,7 @@ Niohundra år tidigare diagnostiserade Ibn al-Jawzī samma rastlöshet — men m
 
 Med en vers som skär genom seklernas brus namnger Koranen tillståndet:
 
-> "Varje själ skall smaka döden. Och ni skall sannerligen få era belöningar i fullt mått på Uppståndelsens dag. Den som avlägsnas från Elden och förs in i paradiset har förvisso segrat. Det jordiska livet är inte annat än en bedräglig njutning."[^13]
+> Varje själ skall smaka döden. Och ni skall sannerligen få era belöningar i fullt mått på Uppståndelsens dag. Den som avlägsnas från Elden och förs in i paradiset har förvisso segrat. Det jordiska livet är inte annat än en bedräglig njutning.[^13]
 
 *Matāʿ al-ghurūr* — en bedräglig njutning. Inte en njutning som är verklig men otillräcklig — utan en som *bedrar*. Transhumanismens löfte är *matāʿ al-ghurūr* i sin renaste form: bedrägeriet förstärkt med miljarder dollar i riskkapital.
 

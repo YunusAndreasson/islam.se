@@ -21,7 +21,7 @@ Orsaken sitter längre in. Förvisso finns sömnstörningar med rent fysiologisk
 
 I den islamiska traditionen finns ett perspektiv som saknas i modern sömnforskning. Profeten Muhammad ﷺ lärde att sömnen är dödens broder — *al-nawm akhū al-mawt*.[^2] Ibn Taymiyyah avvisade metaforen. I *al-Radd ʿalā al-Manṭiqiyyīn* behandlade han profetens ord som ren ontologi: själen lämnar faktiskt kroppen under sömnen, i en åtskillnad som speglar döden. Du faller in i drömmen och tappar greppet om att du är du.
 
-> "Det är känt att den sovandes själ skiljs från kroppen i en form av separation, ty sömnen är dödens broder."[^3]
+> Det är känt att den sovandes själ skiljs från kroppen i en form av separation, ty sömnen är dödens broder.[^3]
 
 Ibn Taymiyyahs tolkning förklarar något den moderna sömnforskningen inte kan: varför det är så svårt att somna i en tid som har avskaffat döden. Inte den biologiska döden, förstås — men döden som närvaro, som daglig påminnelse, som existentiellt faktum. Döendet har förvisats till sjukhus, begravningen till begravningsbyråer, sorgen till terapirummet. Vi har organiserat bort döden ur vardagen — och med den, förmågan att somna.
 
@@ -29,7 +29,7 @@ Den moderna neurofysiologin beskriver sömnen som ett förändrat medvetandetill
 
 Det som neurofysiologin beskriver som process beskriver Koranen som ontologisk händelse:
 
-> "Allah ﷻ tar människors själar när deras dödsstund är kommen; och den [själ] som inte dör [tar han] när den sover. Han kvarhåller sedan de [själar] vars död Han bestämt och sänder tillbaka de andra [själarna] fram till en utsatt tid. I detta finns sannerligen tecken för människor som tänker efter."[^4]
+> Allah ﷻ tar människors själar när deras dödsstund är kommen; och den [själ] som inte dör [tar han] när den sover. Han kvarhåller sedan de [själar] vars död Han bestämt och sänder tillbaka de andra [själarna] fram till en utsatt tid. I detta finns sannerligen tecken för människor som tänker efter.[^4]
 
 Samma verb — *yatawaffā*, att ta tillbaka — används om både döden och sömnen. Distinktionen är inte en artskillnad utan en gradskillnad: i döden kvarhåller Allah ﷻ själen, i sömnen sänder Han den tillbaka. Varje natt genomgår du dödens rörelse. Varje morgon återföds du.
 
@@ -39,7 +39,7 @@ Vad krävs för att somna? Att det sympatiska nervsystemet trappas ner, att kort
 
 Den islamiska traditionen har ett ord för denna överlåtelse, och det är i ljuset av detta ord som profetens kvällsbön framträder som något mer än ett lugnande mantra. Profeten ﷺ bad varje kväll innan han lade sig:
 
-> "O Allah ﷻ, Du har skapat min själ och Du tar den tillbaka. Dess död och dess liv tillhör Dig. Om Du kvarhåller den, förbarma Dig över den. Om Du sänder den tillbaka, skydda den med det som Du skyddar Dina rättfärdiga tjänare."[^5]
+> O Allah ﷻ, Du har skapat min själ och Du tar den tillbaka. Dess död och dess liv tillhör Dig. Om Du kvarhåller den, förbarma Dig över den. Om Du sänder den tillbaka, skydda den med det som Du skyddar Dina rättfärdiga tjänare.[^5]
 
 Det är ingen sömnbön i den mening vi tänker oss, inget lugnande mantra, ingen avslappningsövning. Det är en dödsförberedelse. Ordagrant: *laka mamātuhā wa-maḥyāhā*, dess död och dess liv tillhör Dig. Att somna, i denna tradition, är att öva sig i att dö.
 
@@ -51,7 +51,7 @@ Den moderna sömnkrisen växer ur historiens mest systematiska försök att avsk
 
 Den franska filosofen Blaise Pascal ställde diagnosen redan på 1600-talet, i en aforism om rastlöshetens rot:
 
-> "All mänsklig olycka springer ur en enda sak: oförmågan att sitta stilla i ett rum."[^22]
+> All mänsklig olycka springer ur en enda sak: oförmågan att sitta stilla i ett rum.[^22]
 
 Men sömnen vägrar. Du kan inte förhandla dig till sömn, inte köpa den, inte tvinga den. Du kan bara släppa. Och i en civilisation som har organiserat sig kring att aldrig släppa, blir den enklaste av alla mänskliga handlingar — att somna — den svåraste.
 
@@ -61,13 +61,13 @@ Ibn Qayyim kartlade sömnens inre liv i *Madārij al-Sālikīn*: själen äger u
 
 Den svenska litteraturen har anat detta sambandet mellan natt och sårbarhet, mellan mörker och den själsliga exponeringen som dagsljuset döljer. August Strindberg i *Inferno*:
 
-> "Men om natten falla tystnaden och ensligheten över en, övermodet skingras, hjärtat slår hörbart och bröstet beklämmes. Då, fall på knä i törnhäcken utanför ditt fönster; gå och sök läkare eller få fatt på en kamrat som vill sova i samma rum som du!"[^10]
+> Men om natten falla tystnaden och ensligheten över en, övermodet skingras, hjärtat slår hörbart och bröstet beklämmes. Då, fall på knä i törnhäcken utanför ditt fönster; gå och sök läkare eller få fatt på en kamrat som vill sova i samma rum som du![^10]
 
 Dagtidens övermod, den sekulära självtillräckligheten, skingras när mörkret faller. Strindbergs lösning — sök en läkare, sök en kamrat — avslöjar dilemmat: han vet att han behöver hjälp, men han har inget språk för vem han egentligen ropar till.
 
 Den gamla norrönna *Hávamál* identifierar i en enda strof samma grundproblem — att sömnlösheten inte är ett besvär utan ett tecken på tillitsbrist:
 
-> "Den ovise ligger vaken hela natten, / oroar sig för allting; / när morgonen kommer är han utsliten / och hans bekymmer lika stora som förut."[^11]
+> Den ovise ligger vaken hela natten, / oroar sig för allting; / när morgonen kommer är han utsliten / och hans bekymmer lika stora som förut.[^11]
 
 Ovisheten är inte kunskapsbrist utan tillitsbrist. Den ovise ligger vaken för att han bär hela världens vikt själv.
 
@@ -77,7 +77,7 @@ Profeten ﷺ somnade inte — han överlämnade sig. Varje kväll en liten döds
 
 Denna bön-död-uppståndelse-struktur är inte unik för den islamiska traditionen. Den nordiska litteraturen har känt igen samma mönster. Fredrika Bremer fångade sambandet:
 
-> "Vagga och grav — tvillingbröder, / dunkla keruber, / med facklorna sänkta, / kring er stå vakt: / sömnen och döden."[^14]
+> Vagga och grav — tvillingbröder, / dunkla keruber, / med facklorna sänkta, / kring er stå vakt: / sömnen och döden.[^14]
 
 *Adhkār al-nawm*, kvällens åminnelser, är inte avslappning. De är en daglig övning i den existentiella grundhållning som den moderna världen har förlorat: att du inte äger ditt nästa andetag. Att medvetandet som du förväxlar med *dig* kan återkallas i natt. Att du, trots detta, kan lägga dig ner i frid, eftersom du litar på Den som har det.
 
@@ -89,7 +89,7 @@ Med en koncentration som gränsar till koan formulerade Ali ibn Abi Talib det: "
 
 Koranen kallar natten *libās*, en klädnad:
 
-> "Och det är Han som gör natten till en klädnad för er och sömnen till en avkoppling och gör dagen till en uppståndelse."[^17]
+> Och det är Han som gör natten till en klädnad för er och sömnen till en avkoppling och gör dagen till en uppståndelse.[^17]
 
 Tre ord som rymmer en hel världsbild. *Libās*: klädnaden som omsluter, skyddar, döljer. *Subāt*: vila, avbrott, sömnens avklädning av dagens identiteter. *Nushūr*: uppståndelse, uppresning. Varje morgon en liten domedagsprolog.
 

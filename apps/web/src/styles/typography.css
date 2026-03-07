@@ -46,6 +46,8 @@ h1 {
 h2 {
 	font-size: var(--step-2);
 	font-weight: 600;
+	letter-spacing: -0.01em;
+	color: var(--color-accent);
 	margin-top: var(--space-triple);
 	margin-bottom: var(--space-half);
 }
@@ -53,6 +55,8 @@ h2 {
 h3 {
 	font-size: var(--step-1);
 	font-weight: 500;
+	letter-spacing: -0.01em;
+	color: var(--color-accent);
 	margin-top: var(--space-double);
 	margin-bottom: var(--space-half);
 }
@@ -85,6 +89,7 @@ blockquote {
 	padding-inline-start: var(--space-unit);
 	margin-block: var(--space-double);
 	font-style: italic;
+	font-size: 0.95em;
 
 	p:last-child {
 		margin-bottom: 0;
@@ -254,22 +259,28 @@ hr:has(+ .footnotes) {
 		margin-bottom: calc(var(--space-unit) * 0.25);
 	}
 
-	/* End-of-essay mark — diamond flanked by thin rules (SVG mask for stability) */
 	.footnotes {
 		border-top: none;
 		padding-top: 0;
-
-		&::before {
-			content: "";
-			display: block;
-			width: 6rem;
-			height: 9px;
-			margin: var(--space-double) auto var(--space-triple);
-			background: var(--color-divider);
-			-webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 96 9'%3E%3Cline x1='0' y1='4.5' x2='42' y2='4.5' stroke='white' stroke-width='1'/%3E%3Crect x='45.5' y='2' width='5' height='5' transform='rotate(45 48 4.5)' fill='white'/%3E%3Cline x1='54' y1='4.5' x2='96' y2='4.5' stroke='white' stroke-width='1'/%3E%3C/svg%3E") center / 100% 100% no-repeat;
-			mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 96 9'%3E%3Cline x1='0' y1='4.5' x2='42' y2='4.5' stroke='white' stroke-width='1'/%3E%3Crect x='45.5' y='2' width='5' height='5' transform='rotate(45 48 4.5)' fill='white'/%3E%3Cline x1='54' y1='4.5' x2='96' y2='4.5' stroke='white' stroke-width='1'/%3E%3C/svg%3E") center / 100% 100% no-repeat;
-		}
+		margin-top: var(--space-double);
 	}
+}
+
+/* Section ornament — eight-pointed star flanked by thin rules */
+.prose .footnotes::before,
+.article-nav::before {
+	content: "";
+	display: block;
+	width: 8rem;
+	height: 1.5rem;
+	margin: var(--space-double) auto;
+	background: var(--color-divider);
+	-webkit-mask: url("/ornament.svg") center / 100% 100% no-repeat;
+	mask: url("/ornament.svg") center / 100% 100% no-repeat;
+}
+
+.article-nav::before {
+	flex-basis: 100%;
 }
 
 /* Drop cap — article opening paragraph */
@@ -283,6 +294,13 @@ article .prose > p:first-child::first-letter {
 
 article .prose > p:first-child::first-line {
 	font-variant-caps: small-caps;
+}
+
+/* Dark mode — compensate for thinner light-on-dark rendering */
+@media (prefers-color-scheme: dark) {
+	body {
+		font-weight: 420;
+	}
 }
 
 /* ============================================================

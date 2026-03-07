@@ -25,13 +25,13 @@ Sibawayh var perser — hans arabiska förrådde det. I en kultur som värderade
 
 Den spänningen löste den islamiska civilisationen aldrig helt, och den lever fortfarande kvar. Arabiska är Koranens språk. Uppenbarelsen kom på:
 
-> "ett tydligt arabiskt tungomål."[^4]
+> ett tydligt arabiskt tungomål.[^4]
 
 Språkets sakralitet är odiskutabel. Men vem *äger* det? Om ägandet är etniskt, om arabiskan tillhör araberna som blodets arv, borde en perser med brytning vara den siste att kodifiera dess grammatik. Ändå blev det en perser som gjorde det — och ingen har gjort det bättre.
 
 Ibn Khaldun fastslog det i sin *al-Muqaddimah*: grundarna av den arabiska grammatiken — Sibawayh, al-Farisi, al-Zajjaj — var alla av persisk härkomst. I samma verk tillade han:
 
-> "De flesta muslimska lärda inom såväl religiösa som intellektuella vetenskaper har varit icke-araber."[^5]
+> De flesta muslimska lärda inom såväl religiösa som intellektuella vetenskaper har varit icke-araber.[^5]
 
 Kunskap är aldrig en fråga om härkomst.
 
@@ -41,7 +41,7 @@ Imam al-Shafi'i formulerade principen som en ren observation: "Den som lärde si
 
 Avgörande är verbet: *taʿallama*, att förvärva kunskap. Ash-Shafi'i framhöll:
 
-> "Lär dig, ty människan föds inte lärd — och den som har kunskap är inte lik den okunnige."[^7]
+> Lär dig, ty människan föds inte lärd — och den som har kunskap är inte lik den okunnige.[^7]
 
 Den principen förkroppsligade Sibawayh. In i arabiskan föddes han inte — han erövrade den. Erövringen var så grundlig att den satte normen för dem som *var* födda in i den. Han namngav det modersmålstalare aldrig behövt namnge, strukturerade det de bara känt, kartlade det de tagit för givet. Och det var just utanförskapet som möjliggjorde det: den som föds in i ett språk äger det som instinkt — vet vad som är rätt men inte varför. Den som erövrar det utifrån måste lära sig *varför*, och det är just det som grammatik är. Sibawayhs främlingskap var inte ett hinder han övervann — det var förutsättningen.
 
@@ -53,7 +53,7 @@ Motståndet kom ändå. Det islamiska samhällets tidiga århundraden genomsyrad
 
 Koranen själv undergräver den etniska tolkningen av språklig sakralitet:
 
-> "Människor! Vi har skapat er av en man och en kvinna och gjorde er sedan till folkslag och stammar för att ni skall lära känna varandra. Den ärorikaste av er hos Allah ﷻ är den mest gudfruktiga."[^10]
+> Människor! Vi har skapat er av en man och en kvinna och gjorde er sedan till folkslag och stammar för att ni skall lära känna varandra. Den ärorikaste av er hos Allah ﷻ är den mest gudfruktiga.[^10]
 
 Stammar och folkslag finns för *taʿāruf*, ömsesidig kännedom. Värdemåttet är *taqwā* — inte härkomst.
 
@@ -73,7 +73,7 @@ I Sverige har instinkten gamla anor. Göticismen — 1600-talets övertygelse at
 
 Ellen Key skar igenom reflexen:
 
-> "Den gamla fosterlandskänslan åter kan klart inse nationalismens synder hos ett annat folk, och dock godkänna liknande synder, då det egna folket begår dem."[^16]
+> Den gamla fosterlandskänslan åter kan klart inse nationalismens synder hos ett annat folk, och dock godkänna liknande synder, då det egna folket begår dem.[^16]
 
 Mönstret är detsamma oavsett språk och sekel: nationalismen ser sin egen bild i spegeln och känner inte igen den.
 
@@ -91,7 +91,7 @@ Sibawayh dog ung — knappt fyrtio. Han lämnade inga lärjungar i vanlig mening
 
 Fjorton århundraden senare har hans verk inte ersatts. Frågan han gestaltade skär lika djupt. I en tid då språkpolitik åter debatteras i Sverige — vem som har rätt att tala för ett språk, om språklig identitet är medfödd eller förvärvad — ger Sibawayh inte ett svar, utan ett faktum.
 
-> "Den som sökte kunskap fann heder utan svärd."[^18]
+> Den som sökte kunskap fann heder utan svärd.[^18]
 
 Ibn al-Jawzī behövde inte nämna varifrån kunskapssökaren kom. Det spelade ingen roll. Det spelar fortfarande ingen roll.
 
