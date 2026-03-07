@@ -67,12 +67,16 @@
 	gap: var(--space-unit);
 }
 
-/* Rub el hizb mark before site name */
+/* Home link — flex container so ۞ and text align perfectly */
+.site-nav a:first-child {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.25em;
+}
+
 .nav-rub {
-	margin-right: 0.25em;
-	font-size: 1.4em;
-	line-height: 0;
-	vertical-align: 0.05em;
+	font-size: 1.3em;
+	line-height: 1;
 	opacity: 0.4;
 }
 
