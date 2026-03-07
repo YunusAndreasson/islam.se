@@ -108,6 +108,11 @@
 			text-decoration-thickness: 1px;
 			text-underline-offset: 0.25em;
 		}
+
+		/* Home link is the site logo — never underline */
+		&:first-child[aria-current] {
+			text-decoration: none;
+		}
 	}
 }
 
