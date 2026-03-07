@@ -5,11 +5,7 @@ wordCount: 1537
 qualityScore: 8.6
 description: "År 1955 röstade svenska folket för att avskaffa Brattsystemet trots läkarnas varningar. Tjugofem år senare fick väljarna tre alternativ i kärnkraftsfrågan — inget av dem ett rent nej. Koranen ställde diagnosen långt före båda omröstningarna: de flesta följer antaganden, inte kunskap."
 ---
-En mening i Koranen borde oroa varje demokrat:
-
-> De flesta av dem följer inte annat än antaganden. Men antaganden kan aldrig ersätta sanningen på något sätt.[^1]
-
-Iakttagelsen är ren och osentimental: de flesta människor följer antaganden, och antaganden är inte sanning.
+En mening i Koranen borde oroa varje demokrat: "De flesta av dem följer inte annat än antaganden. Men antaganden kan aldrig ersätta sanningen på något sätt."[^1] Iakttagelsen är ren och osentimental — de flesta människor följer antaganden, och antaganden är inte sanning.
 
 Påståendet är inte unikt för Koranen. Strindberg formulerade samma misstanke i *Götiska rummen*: "Det är majoriteten, det trogna folket, det sunda förståndet som bara är oförstånd; det är de rättänkande, de stilla i landet, kärnan av befolkningen."[^2] Ellen Key skrev om "massdumheten, massfegheten och masslögnen" som tillsammans åstadkommer sådant som nästan varje enskild individ i massan skulle tveka inför.[^3] Le Bon beskrev hur en människa som inträder i en folkmassa förlorar sina individuella egenskaper och övertar massans.[^4]
 

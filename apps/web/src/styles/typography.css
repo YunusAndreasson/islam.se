@@ -253,6 +253,36 @@ hr:has(+ .footnotes) {
 	li {
 		margin-bottom: calc(var(--space-unit) * 0.25);
 	}
+
+	/* End-of-essay mark — diamond flanked by thin rules (SVG mask for stability) */
+	.footnotes {
+		border-top: none;
+		padding-top: 0;
+
+		&::before {
+			content: "";
+			display: block;
+			width: 6rem;
+			height: 9px;
+			margin: var(--space-double) auto var(--space-triple);
+			background: var(--color-divider);
+			-webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 96 9'%3E%3Cline x1='0' y1='4.5' x2='42' y2='4.5' stroke='white' stroke-width='1'/%3E%3Crect x='45.5' y='2' width='5' height='5' transform='rotate(45 48 4.5)' fill='white'/%3E%3Cline x1='54' y1='4.5' x2='96' y2='4.5' stroke='white' stroke-width='1'/%3E%3C/svg%3E") center / 100% 100% no-repeat;
+			mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 96 9'%3E%3Cline x1='0' y1='4.5' x2='42' y2='4.5' stroke='white' stroke-width='1'/%3E%3Crect x='45.5' y='2' width='5' height='5' transform='rotate(45 48 4.5)' fill='white'/%3E%3Cline x1='54' y1='4.5' x2='96' y2='4.5' stroke='white' stroke-width='1'/%3E%3C/svg%3E") center / 100% 100% no-repeat;
+		}
+	}
+}
+
+/* Drop cap — article opening paragraph */
+article .prose > p:first-child::first-letter {
+	-webkit-initial-letter: 3;
+	initial-letter: 3;
+	font-weight: 600;
+	color: var(--color-accent);
+	margin-right: 0.08em;
+}
+
+article .prose > p:first-child::first-line {
+	font-variant-caps: small-caps;
 }
 
 /* ============================================================
