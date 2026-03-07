@@ -55,7 +55,7 @@ Den princip Linné empiriskt utforskade hade redan formulerats som uppenbarelse 
 
 > Den som gör den minsta myras vikt av gott skall se det. Och den som gör den minsta myras vikt av ont skall se det.[^8]
 
-*mithqāla dharratin.* En atoms vikt – ingen handling undgår räkenskapen.
+*Mithqāla dharratin.* En atoms vikt – ingen handling undgår räkenskapen.
 
 Samma princip sökte Linné bevisa genom hundratals fallstudier. Koranen behöver inga fallstudier — principen är ett axiom, en gudomlig kungörelse om verklighetens grundstruktur. Vad Linné laborerade fram som slutsats hade redan uppenbarats.
 
