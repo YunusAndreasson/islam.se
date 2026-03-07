@@ -67,6 +67,13 @@
 	gap: var(--space-unit);
 }
 
+/* Rub el hizb mark before site name */
+.nav-rub {
+	margin-right: 0.25em;
+	opacity: 0.4;
+	vertical-align: -0.06em;
+}
+
 .site-nav {
 	display: flex;
 	justify-content: space-between;
@@ -378,9 +385,13 @@
 
 .basmala {
 	text-align: center;
-	font-size: 2rem;
-	line-height: 1;
-	margin: 0;
+	font-family: var(--font-body);
+	font-size: 0.9375rem;
+	font-style: italic;
+	line-height: 1.6;
+	letter-spacing: 0.02em;
+	margin-top: var(--space-unit);
+	margin-bottom: var(--space-double);
 	color: var(--color-muted);
 }
 

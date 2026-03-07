@@ -127,6 +127,17 @@ const { Content } = await render(article.entry);
 		let hideTimer: ReturnType<typeof setTimeout> | null = null;
 		let isTouch = false;
 
+		function positionPopover(anchor: Element) {
+			const rect = anchor.getBoundingClientRect();
+			popover.classList.add("fn-popover--visible");
+			const popW = popover.offsetWidth;
+			const pad = 12;
+			let left = rect.left + window.scrollX + rect.width / 2 - popW / 2;
+			left = Math.max(pad, Math.min(left, window.innerWidth - popW - pad));
+			popover.style.top = `${rect.bottom + window.scrollY + 8}px`;
+			popover.style.left = `${left}px`;
+		}
+
 		function showPopover(ref: HTMLAnchorElement) {
 			const fnId = ref.getAttribute("href")?.replace("#", "");
 			if (!fnId) return;
@@ -139,17 +150,16 @@ const { Content } = await render(article.entry);
 			for (const backref of clone.querySelectorAll(".data-footnote-backref")) backref.remove();
 			popover.innerHTML = clone.innerHTML;
 			popover.setAttribute("data-fn-id", fnId);
+			positionPopover(ref.closest("sup") ?? ref);
+		}
 
-			const sup = ref.closest("sup") ?? ref;
-			const rect = sup.getBoundingClientRect();
-			popover.classList.add("fn-popover--visible");
-
-			const popW = popover.offsetWidth;
-			const pad = 12;
-			let left = rect.left + window.scrollX + rect.width / 2 - popW / 2;
-			left = Math.max(pad, Math.min(left, window.innerWidth - popW - pad));
-			popover.style.top = `${rect.bottom + window.scrollY + 8}px`;
-			popover.style.left = `${left}px`;
+		function showHonorificPopover(el: HTMLElement) {
+			const title = el.getAttribute("title");
+			if (!title) return;
+			if (hideTimer) { clearTimeout(hideTimer); hideTimer = null; }
+			popover.textContent = title;
+			popover.setAttribute("data-fn-id", "honorific");
+			positionPopover(el);
 		}
 
 		function dismissPopover() {
@@ -167,14 +177,17 @@ const { Content } = await render(article.entry);
 		// Hover: show on mouseenter, hide on mouseleave (with grace period)
 		document.addEventListener("mouseenter", (e) => {
 			if (isTouch) return;
-			const ref = (e.target as HTMLElement).closest<HTMLAnchorElement>("a[data-footnote-ref]");
-			if (ref) showPopover(ref);
+			const target = e.target as HTMLElement;
+			const ref = target.closest<HTMLAnchorElement>("a[data-footnote-ref]");
+			if (ref) { showPopover(ref); return; }
+			const hon = target.closest<HTMLElement>(".honorific");
+			if (hon) showHonorificPopover(hon);
 		}, { capture: true, signal: ctrl.signal });
 
 		document.addEventListener("mouseleave", (e) => {
 			if (isTouch) return;
-			const ref = (e.target as HTMLElement).closest<HTMLAnchorElement>("a[data-footnote-ref]");
-			if (ref) scheduleDismiss();
+			const target = e.target as HTMLElement;
+			if (target.closest("a[data-footnote-ref]") || target.closest(".honorific")) scheduleDismiss();
 		}, { capture: true, signal: ctrl.signal });
 
 		// Keep popover visible while hovering over it
@@ -185,7 +198,8 @@ const { Content } = await render(article.entry);
 
 		// Click: prevent default jump; on touch devices toggle popover
 		document.addEventListener("click", (e) => {
-			const ref = (e.target as HTMLElement).closest<HTMLAnchorElement>("a[data-footnote-ref]");
+			const target = e.target as HTMLElement;
+			const ref = target.closest<HTMLAnchorElement>("a[data-footnote-ref]");
 			if (ref) {
 				e.preventDefault();
 				if (isTouch) {
@@ -196,7 +210,18 @@ const { Content } = await render(article.entry);
 						showPopover(ref);
 					}
 				}
-			} else if (!popover.contains(e.target as Node)) {
+				return;
+			}
+			const hon = target.closest<HTMLElement>(".honorific");
+			if (hon && isTouch) {
+				if (popover.getAttribute("data-fn-id") === "honorific" && popover.classList.contains("fn-popover--visible")) {
+					dismissPopover();
+				} else {
+					showHonorificPopover(hon);
+				}
+				return;
+			}
+			if (!popover.contains(target)) {
 				dismissPopover();
 			}
 		}, { signal: ctrl.signal });

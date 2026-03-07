@@ -83,6 +83,17 @@ a {
 	}
 }
 
+/* Honorifics — ﷻ (jalla jalaluhu) and ﷺ (sallallahu alayhi wa salam) */
+.honorific {
+	font-size: 1.15em;
+	color: var(--color-accent);
+	margin-inline: 0.05em;
+	cursor: help;
+	text-decoration: underline dotted var(--color-divider);
+	text-decoration-thickness: 1px;
+	text-underline-offset: 0.15em;
+}
+
 /* Block quotes — warm border, italic for quoted voices */
 blockquote {
 	border-inline-start: 3px solid light-dark(#b0a090, #6a5e4a);

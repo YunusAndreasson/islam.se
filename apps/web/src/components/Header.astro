@@ -13,7 +13,7 @@ const isEssaerSection = !isHome && !isOm && !isEssaerPage;
 
 <header class:list={["site-header", { "site-header--hero": hero }]} transition:persist>
 	<nav class="site-nav" aria-label="Huvudnavigering">
-		<a href="/" aria-current={isHome ? "page" : undefined}>islam.se</a>
+		<a href="/" aria-current={isHome ? "page" : undefined}><span class="nav-rub" aria-hidden="true">۞</span>islam.se</a>
 		<div class="site-nav-right">
 			<a href="/essaer" aria-current={isEssaerPage ? "page" : isEssaerSection ? "true" : undefined}>Essäer</a>
 			<a href="/om" aria-current={isOm ? "page" : undefined}>Om</a>
