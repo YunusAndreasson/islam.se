@@ -194,10 +194,13 @@ Använd ISO 233-2 / DIN 31635 (standard akademisk arabisk translitterering):
 | al-Balad | al-Balad |
 | al-Furqan | al-Furqān |
 
-### Personnamn — kanoniska former i fotnoter
+### Personnamn — kanoniska former
 
-Använd ALLTID dessa exakta former i fotnoter. Samma form ska användas konsekvent genom hela artikeln.
+Använd ALLTID dessa exakta former i BÅDE brödtext och fotnoter. Samma form ska användas konsekvent genom hela artikeln.
 
+**Kortform i brödtext** är tillåten (t.ex. "Ibn Qayyim" utan nisbah, "al-Ghazālī" utan förnamn) — men diakritiska tecken och ʿayn/hamza måste alltid vara korrekta oavsett kort- eller långform.
+
+#### Lärda och författare
 | Varianter som förekommer | Kanonisk form |
 |---|---|
 | Ibn Qayyim al-Jawziyya, Ibn al-Qayyim, Ibn al-Qayyim al-Jawziyya, Ibn Qayyim, Ibn Qayyim al-Jawziyyah | Ibn Qayyim al-Jawziyyah |
@@ -205,17 +208,41 @@ Använd ALLTID dessa exakta former i fotnoter. Samma form ska användas konsekve
 | al-Ghazali, Al-Ghazali | al-Ghazālī |
 | al-Mawardi, Al-Mawardi | al-Māwardī |
 | Ibn al-Jawzi, Ibn al-Jawzī | Ibn al-Jawzī |
-| Ibn Rajab | Ibn Rajab |
+| Ibn Rajab | Ibn Rajab al-Ḥanbalī |
 | Ibn Khaldun | Ibn Khaldūn |
 | Ibn Hazm | Ibn Ḥazm |
 | al-Nawawi, al-Nawawī | al-Nawawī |
 | al-Suyuti | al-Suyūṭī |
 | al-Hasan al-Basri | al-Ḥasan al-Baṣrī |
 | Ibn Hibban | Ibn Ḥibbān |
+| al-Shafi'i, al-Shafii | al-Shāfiʿī |
+| al-Tabari | al-Ṭabarī |
+| al-Qurtubi | al-Qurṭubī |
+| al-Khattabi | al-Khaṭṭābī |
+| al-Zarkashi | al-Zarkashī |
+| al-Jurjani | al-Jurjānī |
+| al-Biruni | al-Bīrūnī |
+| Ibn Atiyya | Ibn ʿAṭiyyah |
+| Ibn Sina | Ibn Sīnā |
+| Sibawayh | Sībawayh |
+| al-Farisi | al-Fārisī |
 
-**I brödtext:** Rör INTE personnamn i brödtext — de kan ha en mer ledig form (t.ex. "Ibn Qayyim" utan fullständig nisbah) som passar prosan.
+#### Profetens följeslagare och kalifer
+| Varianter som förekommer | Kanonisk form |
+|---|---|
+| Umar ibn al-Khattab, Omar | ʿUmar ibn al-Khaṭṭāb |
+| Ali ibn Abi Talib | ʿAlī ibn Abī Ṭālib |
+| Abu Bakr al-Siddiq | Abū Bakr al-Ṣiddīq |
+| Uthman ibn Affan | ʿUthmān ibn ʿAffān |
+| Abd Allah ibn Abbas, Ibn Abbas | ʿAbd Allāh ibn ʿAbbās / Ibn ʿAbbās |
+| Salman al-Farisi | Salmān al-Fārisī |
+| al-Fudayl ibn Iyad | al-Fuḍayl ibn ʿIyāḍ |
+| Luqman | Luqmān |
+| Musa | Mūsā |
+| Ibrahim | Ibrāhīm |
+| Yusuf | Yūsuf |
 
-**I fotnoter:** Använd ALLTID den kanoniska formen vid första omnämnande i varje fotnot.
+**I fotnoter:** Använd ALLTID den fullständiga kanoniska formen vid första omnämnande i varje fotnot.
 
 </reference_list>
 
@@ -238,12 +265,21 @@ Kontrollera arabiska termer som förekommer i fotnotsdefinitioner.
 ### 5. Konsistens
 Om samma term förekommer med olika translitterering i artikeln, rätta alla till samma korrekta form.
 
+### 6. Versalinitial vid meningsbörjan
+Arabiska termer och namn som inleder en mening eller ett stycke SKA ha stor bokstav:
+- `al-` → `Al-` vid meningsbörjan: "Al-Māwardīs ramverk..." (inte "al-Māwardīs ramverk...")
+- Kursiverade termer → stor bokstav: "*Tawakkul* är..." (inte "*tawakkul* är...")
+- Gäller även efter punkt+mellanslag mitt i ett stycke: "...diagnosen. Al-Ghazālī..."
+- Gäller citationstecken som inleder en ny sats: "\"*Tawakkul* upphävs inte..."
+- Gäller INTE mitt i en mening: "...begreppet *tawakkul* innebär..."
+- Gäller INTE fotnotsreferenser som börjar med "[^N]: al-Suyūṭī..." (de är citeringar, inte löptext)
+
 ## DEL 2: Fotnotsstandardisering
 
-### 6. Personnamn i fotnoter
+### 7. Personnamn i fotnoter
 Normalisera alla arabiska scholarnamn till den kanoniska formen enligt referenslistan ovan.
 
-### 7. Fotnotsformat — islamiska verk
+### 8. Fotnotsformat — islamiska verk
 Format: `Författare, *Boktitel* (Svensk översättning av titeln).`
 
 - Första gången ett verk citeras i fotnoterna: inkludera den svenska översättningen i parentes.
@@ -254,20 +290,20 @@ Format: `Författare, *Boktitel* (Svensk översättning av titeln).`
 - Första: `Ibn Qayyim al-Jawziyyah, *Madārij al-Sālikīn* (De vandrandes stationer).`
 - Senare: `Ibn Qayyim al-Jawziyyah, *Madārij al-Sālikīn*.`
 
-### 8. Fotnotsformat — Koranreferenser
+### 9. Fotnotsformat — Koranreferenser
 Format: `Koranen, [surahnamn] [kapitel]:[vers].`
 
 - Surahnamn med korrekt translitterering (se referenslistan).
 - Kapitelnummer och versnummer separerade med kolon.
 - Om fotnoten inkluderar en översättning av versen, placera den efter kolon: `Koranen, al-Shuʿarāʾ 26:89: "Utom den som kommer till Gud med ett friskt hjärta."`
 
-### 9. Fotnotsformat — västerländska verk
+### 10. Fotnotsformat — västerländska verk
 Format: `Författare, *Boktitel*, Förlag, År.` eller `Författare, *Boktitel* (År).`
 
 - Om ett årtal saknas för ett västerländskt verk och du vet det med säkerhet — lägg till det.
 - Om du INTE vet årtalet — lämna fotnoten oförändrad. Gissa ALDRIG ett årtal.
 
-### 10. Fotnotsformat — akademiska artiklar
+### 11. Fotnotsformat — akademiska artiklar
 Format: `Författare, "Artikeltitel", *Tidskrift*, volym(nummer), år, sidor.`
 
 Rör bara translitterering och namnformat — ändra inte den akademiska referensstrukturen.
@@ -276,7 +312,6 @@ Rör bara translitterering och namnformat — ändra inte den akademiska referen
 
 <sacred_boundaries>
 **ALDRIG rör:**
-- **Personnamn i brödtext** — Behåll den form som används i löpande text (t.ex. "Ibn Qayyim" utan nisbah). Normalisera bara i fotnoter.
 - Blockquotes (rader som börjar med `>`) — de är källtext
 - Svenska ord och fraser
 - Västerländska författarnamn (stavning)
@@ -298,11 +333,23 @@ Räkna med 15–50 rättningar per artikel (translitterering + fotnotsformat). D
 - ṣ (emfatiskt s) — utelämnas: *sabr* → *ṣabr*
 - ḥ (faryngalt h) — utelämnas: *hadith* → *ḥadīth*
 
+**Personnamn i brödtext — vanligaste problemen:**
+- "Umar ibn al-Khattab" → "ʿUmar ibn al-Khaṭṭāb" (saknar ʿayn och diakritik)
+- "Ali ibn Abi Talib" → "ʿAlī ibn Abī Ṭālib"
+- "Abu Bakr" → "Abū Bakr"
+- "al-Hasan al-Basri" → "al-Ḥasan al-Baṣrī"
+- "al-Ghazali" → "al-Ghazālī" (saknar macron)
+- Kortformer (t.ex. "Ibn Qayyim") är OK men diakritik måste vara korrekt
+
 **Fotnoter — vanligaste problemen:**
 - "Ibn al-Qayyim" → "Ibn Qayyim al-Jawziyyah" (6 olika varianter i bruk)
 - "Ibn Taymiyya" → "Ibn Taymiyyah" (2 varianter)
 - Saknad svensk översättning av arabisk boktitel vid första omnämnande
 - Inkonsekvent surahnamn: "al-Ma'idah" vs "al-Ma'ida", "Al Imran" vs "Āl ʿImrān"
+
+**Versalinitial — vanligaste problemen:**
+- Stycke börjar med "*tawakkul*" → "*Tawakkul*"
+- Mening efter punkt: "...diagnosen. al-Māwardīs..." → "...diagnosen. Al-Māwardīs..."
 
 **Gör INTE:**
 - Lägg inte till kursivering till termer som inte redan är kursiverade
