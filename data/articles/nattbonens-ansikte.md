@@ -3,7 +3,7 @@ title: "Nattbönens ansikte"
 publishedAt: "2026-02-15T12:00:00.000Z"
 wordCount: 1848
 qualityScore: 8.6
-description: "I Rawḍat al-Muḥibbīn berättar Ibn Qayyim al-Jawziyyah om en kvinna som vaknade mitt i natten för att be. Tillfrågad om varför svarade hon att bönen förskönar ansiktet. Det var i 1300-talets Damaskus, men hennes svar vänder den moderna skönhetsindustrins logik upp och ner."
+description: "En kvinna vaknar mitt i natten, inte för att sminka sig – för att be. Tillfrågad om varför svarar hon att bönen förskönar ansiktet. Det är ett svar skönhetsindustrin inte kan sälja."
 sourceIdea:
   topic: "form-skonhet-och-det-forbjudna"
   ideaId: 6
@@ -60,7 +60,7 @@ Iakttagelsen – att det pålagda kan dölja det verkliga – framträder i Anne
 
 > Det fina, mjuka, luftiga i hennes figur tyngdes ner af en modeklädning; modejournalens fantasier syntes platta och oädla på denna fint mejslade gestalt.[^13]
 
-Det pålagda skymmer snarare än avslöjar. Modejournalens fantasier är "platta och oädla" mot det underliggande. I 1880-talets Stockholm beskriver Leffler samma paradox som Ibn Qayyim analyserade i 1300-talets Damaskus: yttre utsmyckning döljer vad den utger sig för att förstärka.
+Det pålagda skymmer snarare än avslöjar. Modejournalens fantasier är "platta och oädla" mot det underliggande. I 1880-talets Stockholm synliggör Leffler samma paradox som Ibn Qayyim analyserade i 1300-talets Damaskus: yttre utsmyckning döljer vad den utger sig för att förstärka.
 
 Karin Boye fördjupade bilden i *Astarte*: "små välsminkade uttryckslösa ansikten på små välformade kroppar – små mal, som virrar mot lågan, mot glansen, mot nöjet".[^14] *Uttryckslöshet* – det är priset. Sminket jämnar till, och det levande bakom ögonen slocknar.
 
@@ -78,7 +78,7 @@ Skillnaden är den mellan en människa som förskönar sig för att bli sedd och
 
 Al-Fuḍayl ibn ʿIyāḍ pekade på skuggsidan: "Tjänaren begår en synd och berövas därigenom nattbönen."[^18] Om godhet lyser upp ansiktet, släcker synden dess ljus. Ansiktet vittnar; det kan inte ljuga som ord kan. Vem har inte känt skillnaden mellan den som säger 'välkommen' med orden och den som säger det med ansiktet? Ibn Qayyim citerar versraden: "O du med vackert ansikte, sky det skamliga – byt inte skönheten mot skam!"[^19]
 
-Luqmān sade: "Den som ljuger förlorar sin fägring."[^20] Erik Gustaf Geijer skrev att "den äkta skönheten renar sinnet och har ett stort moraliskt inflytande".[^21] Geijer menade det estetiskt: konsten förädlar. Ibn Qayyim vänder på sambandet: förädling skapar skönhet, och rörelsen går inifrån och ut.
+Luqmān sade: "Den som ljuger förlorar sin fägring."[^20] Erik Gustaf Geijer hävdade att "den äkta skönheten renar sinnet och har ett stort moraliskt inflytande".[^21] Geijer menade det estetiskt: konsten förädlar. Ibn Qayyim vänder på sambandet: förädling skapar skönhet, och rörelsen går inifrån och ut.
 
 ## En sovande industri
 

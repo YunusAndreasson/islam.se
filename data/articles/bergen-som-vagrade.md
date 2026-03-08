@@ -1,7 +1,7 @@
 ---
 title: "Bergen som vägrade"
 publishedAt: "2025-12-27T12:00:00.000Z"
-wordCount: 2008
+wordCount: 1993
 qualityScore: 8.7
 description: "I sura al-Aḥzāb ställs himlarna, jorden och bergen inför ett erbjudande: att bära det moraliska ansvaret. De vägrar, inte av trots utan av insikt. Människan säger ja, trots sin benägenhet till synd och tanklöshet – och fjorton århundraden senare delegerar hon allt fler av sina beslut till maskiner som inte kan bäva inför dem."
 ---
@@ -19,7 +19,7 @@ För att förstå vad som går förlorat måste vi gå tillbaka till beslutets n
 
 Beskrivningen rymmer en outtalad definition av beslut. Ett beslut i denna mening är inte en beräkning: det är en handling där hjärtat väger, tvivlar, ansvarar. Förnuftet kan räkna, lemmarna verkställa – men ingen av dem kan *regera*. Att regera kräver det som bergen saknade: en medveten vilja som kan stå till svars.
 
-I vår tid blir metaforen bokstavlig: konungen ersätts med en algoritm – inte rådgivaren utan konungen, inte beräkningen utan beslutet. EU:s AI-förordning, fullt tillämplig från augusti 2026, ställer frågan juridiskt. Artikel 14 kräver att högrisk-AI-system ska ha "mänsklig tillsyn". Det innebär att en människa alltid ska kunna förstå systemets kapacitet, tolka dess resultat och välja att bortse från dess bedömning.[^4] Den svenska utredningen SOU 2025:101 konkretiserar och skärper kraven på insyn och ansvarsutkrävande.[^5]
+I vår tid blir metaforen bokstavlig: algoritmen ersätter konungen, inte rådgivaren. Den övertar beslutet, inte bara beräkningen. EU:s AI-förordning, fullt tillämplig från augusti 2026, ställer frågan juridiskt. Artikel 14 kräver att högrisk-AI-system ska ha "mänsklig tillsyn". Det innebär att en människa alltid ska kunna förstå systemets kapacitet, tolka dess resultat och välja att bortse från dess bedömning.[^4] Den svenska utredningen SOU 2025:101 konkretiserar och skärper kraven på insyn och ansvarsutkrävande.[^5]
 
 Men kravet avslöjar ett djupare problem. Om en människa formellt ska kunna överpröva en algoritm men saknar tid, kunskap eller incitament att göra det – vem regerar då? Konungen har fått en rådgivare som i praktiken styr – titeln kvarstår, makten har flyttat. Forskningen bekräftar mönstret: människor som formellt övervakar automatiserade system slutar systematiskt att ifrågasätta dem.[^19]
 
@@ -37,13 +37,13 @@ Ibn Ḥazm fastslog principen rättsligt: rättvisa i domslutet kräver att man 
 
 Mer än synd fruktade de klassiska lärda ett tillstånd: *ghaflah*. Ibn Qayyim al-Jawziyyah definierade det som hjärtats sömn eller dess död – en slöja där människan rör sig i världen utan att vara närvarande i sina handlingar.[^11] Det är den som signerar dokumentet medan tanken redan är någon annanstans.
 
-*Ghaflah* är inte okunskap. Det är något värre: den medvetna varelsen som upphör att vara medveten. Hjärtat slår, kroppen fungerar – men konungen sover. Och i den sömnen töms *amānah* inifrån – inte genom att den tas bort, utan genom att ingen längre bär den. Det är detta som gör *ghaflah* farligare än synden. Den som syndar väljer fel – men hon väljer. Hennes hjärta är vaket nog att avvika. *Ghaflah* upphäver själva valet. Och den som inte längre väljer kan inte längre bära, oavsett hur korrekt hennes handlingar ser ut utifrån.
+*Ghaflah* är inte okunskap. Det är något värre: den medvetna varelsen som upphör att vara medveten. Hjärtat slår, kroppen fungerar – men konungen sover. Och i den sömnen töms *amānah* inifrån: den tas aldrig bort, men ingen bär den längre. Det är detta som gör *ghaflah* farligare än synden. Den som syndar väljer fel – men hon väljer. Hennes hjärta är vaket nog att avvika. *Ghaflah* upphäver själva valet. Och den som inte längre väljer kan inte längre bära, oavsett hur korrekt hennes handlingar ser ut utifrån.
 
 Algoritmisk delegering är inte *ghaflah*. Inget AI-system sover – inget har vakenheten att somna från. Faran är vad som händer med *människan* som delegerar. Varje beslut som överlåts till ett system är ett som hjärtat inte längre beslutar, varje automatiserad bedömning ett ögonblick där konungen inte behöver vara vaken. Vanan att inte vara vaken – det är vad Ibn Qayyim kallade *ghaflah*.
 
-Den som aldrig läste Ibn Qayyim men ställde samma diagnos var Ellen Key. I *Barnets århundrade* skrev hon att kulturens uppgift borde vara att "göra människan målmedveten och ansvarig på alla områden, där hon endast handlat impulsivt och oansvarigt".[^12] Automationens löfte är det omvända: att befria oss från beslutsbördan. Men om bördan *är* det som gör oss ansvariga – om det är just det tunga, det svåra, det som bergen vägrade, som formar den mänskliga förmågan – då är befrielsen en förlust.
+Ellen Key läste aldrig Ibn Qayyim men ställde samma diagnos. I *Barnets århundrade* skrev hon att kulturens uppgift borde vara att "göra människan målmedveten och ansvarig på alla områden, där hon endast handlat impulsivt och oansvarigt".[^12] Automationens löfte är det omvända: att befria oss från beslutsbördan. Men om bördan *är* det som gör oss ansvariga – om det är just det tunga, det svåra, det som bergen vägrade, som formar den mänskliga förmågan – då är befrielsen en förlust.
 
-Och hon såg djupare: vad som förnedrar människan är inte felet i sig utan flykten från dess följder. "Det hemliga brott, den äldre moralen fann jämförelsevis ofarligt, blir ur den nya sedlighetens synpunkt större än den öppna brytningen. Ty personligheten förnedras genom de svek och den svaghet, hvarigenom man undandrar sig ansvaret för sin handlings följder."[^13] Att undandra sig ansvaret, delegera det till ett system som inte kan fela i moralisk mening utan bara i statistisk – det är *ghaflah* som affärsmodell.
+Och hon såg djupare: vad som förnedrar människan är inte felet i sig utan flykten från dess följder. "Det hemliga brott, den äldre moralen fann jämförelsevis ofarligt, blir ur den nya sedlighetens synpunkt större än den öppna brytningen. Ty personligheten förnedras genom de svek och den svaghet, hvarigenom man undandrar sig ansvaret för sin handlings följder."[^13] Att undandra sig ansvaret, delegera det till ett system som bara kan fela statistiskt, aldrig moraliskt – det är *ghaflah* som affärsmodell.
 
 ## Ställföreträdandets villkor
 

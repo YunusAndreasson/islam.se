@@ -1,9 +1,9 @@
 ---
-title: "Vikingen och den Barmhärtige"
+title: "Varför vikingarna inte hade ångest"
 publishedAt: "2026-02-10T12:00:00.000Z"
-wordCount: 1435
+wordCount: 1434
 qualityScore: 8.6
-description: "Gunnar på Hlíðarendi är dömd till landsflykt, men när han vänder sig i sadeln och ser ut över ängarna stiger han av och stannar – väl medveten om att beslutet kostar honom livet. Hans lugn vilade på nornornas väv, en kosmisk ordning som den moderna svensken har förlorat."
+description: "Gunnar på Hlíðarendi är dömd till landsflykt. När han vänder sig i sadeln och ser ut över ängarna, stiger han av och stannar – han vet att det kostar honom livet. Lugnet kom inte av okunskap. Det kom av att han visste var han stod."
 ---
 Gunnar på Hlíðarendi, dömd till landsflykt, vänder sig i sadeln och ser ut över sin gård. Ängarna har aldrig varit vackrare. Han stiger av hästen och stannar – väl medveten om att beslutet kostar honom livet.
 
@@ -49,7 +49,7 @@ Islam rymmer något som varken Orlog eller den moderna friheten kan ge – men d
 
 *Al-qadr*, Allahs ﷻ allomfattande bestämmelse, är den islamiska parallellen till Orlog. Koranen är tydlig: "Ingen olycka drabbar någon förutom med Allahs ﷻ tillåtelse. Men den som tror på Allah ﷻ, Han vägleder hans hjärta."[^7] Och: "Ingen själ vet vad den skall skörda under morgondagen, och ingen själ vet var på jorden hon skall dö."[^8]
 
-Över utfallet råder människan inte. Men här framträder skillnaden mot Orlog. Nornornas lag är opersonlig: blind, obeveklig, utan barmhärtighet. Den som accepterar Orlog accepterar en likgiltig kosmisk maskin.
+Över utfallet råder människan inte. Men Orlog saknar det avgörande. Nornornas lag är opersonlig: blind, obeveklig, utan barmhärtighet. Den som accepterar Orlog accepterar en likgiltig kosmisk maskin.
 
 *Tawakkul*, tillit till Allah ﷻ, är människans svar på *al-qadr* – liksom nordisk tapperhet var svaret på Orlog.
 

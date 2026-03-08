@@ -2,12 +2,17 @@
 import { Image } from "astro:assets";
 import Base from "../layouts/Base.astro";
 import { formatDate, getArticles } from "../lib/articles";
-import fallbackImage from "../assets/images/fallback.jpg";
 
 const articles = await getArticles();
 const slides = articles.filter((a) => a.heroImage);
 const latest = slides[0];
-const ogImage = latest?.heroImage ?? fallbackImage;
+const ogImage = latest?.heroImage;
+
+function inlineMarkdown(text: string): string {
+	return text
+		.replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
+		.replace(/\*(.+?)\*/g, "<em>$1</em>");
+}
 ---
 
 <Base
@@ -24,7 +29,7 @@ const ogImage = latest?.heroImage ?? fallbackImage;
 		inLanguage: "sv",
 	}}
 >
-	<main>
+	<main id="main">
 		<section class="hero-cover" aria-roledescription="bildspel" aria-label="Utvalda essäer">
 			{slides.map((article, i) => (
 				<div class:list={["hero-slide", { active: i === 0 }]} aria-hidden={i !== 0 ? "true" : undefined} role="group" aria-roledescription="bild" aria-label={`${i + 1} av ${slides.length}`}>
@@ -38,7 +43,7 @@ const ogImage = latest?.heroImage ?? fallbackImage;
 								height={article.mobileHeroImage.height}
 							/>
 							<Image
-								src={article.heroImage ?? fallbackImage}
+								src={article.heroImage!}
 								alt={article.title}
 								widths={[768, 1200, 1920]}
 								sizes="100vw"
@@ -50,7 +55,7 @@ const ogImage = latest?.heroImage ?? fallbackImage;
 						</picture>
 					) : (
 						<Image
-							src={article.heroImage ?? fallbackImage}
+							src={article.heroImage!}
 							alt={article.title}
 							widths={[768, 1200, 1920]}
 							sizes="100vw"
@@ -66,22 +71,23 @@ const ogImage = latest?.heroImage ?? fallbackImage;
 							? <h1 class="hero-cover-title">{article.title}</h1>
 							: <p class="hero-cover-title">{article.title}</p>
 						}
+							{article.description && <p class="hero-cover-deck" set:html={inlineMarkdown(article.description)} />}
 							<p class="label hero-cover-date"><time datetime={article.publishedAt}>{formatDate(article.publishedAt)}</time> &middot; {article.readingTime} min läsning</p>
-							{article.description && <p class="hero-cover-deck">{article.description}</p>}
 						</a>
 					</div>
 				</div>
 			))}
 			{slides.length > 1 && (
 				<div class="hero-nav">
+					<span class="hero-nav-counter" aria-live="polite">1 / {slides.length}</span>
 					<button class="btn-circle hero-nav-prev" type="button" aria-label="Föregående essä" disabled>
 						<svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-							<path d="M13 4l-6 6 6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+							<path d="M12.5 5l-5 5 5 5" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" />
 						</svg>
 					</button>
 					<button class="btn-circle hero-nav-next" type="button" aria-label="Nästa essä">
 						<svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-							<path d="M7 4l6 6-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+							<path d="M7.5 5l5 5-5 5" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" />
 						</svg>
 					</button>
 				</div>
@@ -95,6 +101,7 @@ const ogImage = latest?.heroImage ?? fallbackImage;
 		const slides = document.querySelectorAll<HTMLElement>(".hero-slide");
 		const prevBtn = document.querySelector<HTMLButtonElement>(".hero-nav-prev");
 		const nextBtn = document.querySelector<HTMLButtonElement>(".hero-nav-next");
+		const counter = document.querySelector<HTMLElement>(".hero-nav-counter");
 		if (nextBtn && prevBtn && slides.length >= 2) {
 			let current = 0;
 			const last = slides.length - 1;
@@ -102,6 +109,7 @@ const ogImage = latest?.heroImage ?? fallbackImage;
 			function update() {
 				prevBtn.disabled = current === 0;
 				nextBtn.disabled = current === last;
+				if (counter) counter.textContent = `${current + 1} / ${slides.length}`;
 			}
 
 			function go(delta: number) {
