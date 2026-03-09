@@ -9,6 +9,26 @@
 	color: var(--color-muted);
 }
 
+/* Skip link — visible only on keyboard focus */
+.skip-link {
+	position: absolute;
+	top: -100%;
+	left: var(--padding-inline);
+	z-index: 100;
+	padding: 0.5rem 1rem;
+	background: var(--color-bg);
+	color: var(--color-accent);
+	font-family: var(--font-heading);
+	font-size: 0.875rem;
+	text-decoration: none;
+	border: 1px solid var(--color-divider);
+	border-radius: 4px;
+
+	&:focus {
+		top: var(--padding-inline);
+	}
+}
+
 /* Content column — centered, constrained measure */
 .content-column {
 	max-width: var(--content-width);
@@ -75,7 +95,14 @@
 
 .site-nav-right {
 	display: flex;
-	gap: var(--space-unit);
+	align-items: center;
+	gap: 0.75rem;
+}
+
+.nav-dot {
+	color: var(--color-divider);
+	font-size: 1.25em;
+	line-height: 1;
 }
 
 /* Home link — flex container so ۞ and text align perfectly */
@@ -132,7 +159,6 @@
    ============================================================ */
 .hero-cover {
 	position: relative;
-	height: 100svh;
 	height: 100dvh;
 	overflow: hidden;
 	overscroll-behavior: none;
@@ -159,6 +185,7 @@
 	width: 100%;
 	height: 100%;
 	object-fit: cover;
+	will-change: transform;
 	-webkit-touch-callout: none;
 	user-select: none;
 }
@@ -206,21 +233,33 @@
 	bottom: var(--safe-bottom);
 	z-index: 2;
 	display: flex;
+	align-items: center;
 	gap: 0.5rem;
 }
 
+.hero-nav button,
+.back-to-top,
+.share-btn {
+	backdrop-filter: blur(12px);
+	-webkit-backdrop-filter: blur(12px);
+}
+
 .hero-nav button {
-	border-color: rgb(var(--hero-white) / 0.6);
-	color: rgb(var(--hero-white) / 0.8);
+	--btn-size: 2.5rem;
+	border-color: rgb(var(--hero-white) / 0.25);
+	color: rgb(var(--hero-white) / 0.9);
+	background: rgb(var(--hero-white) / 0.08);
 	transition:
 		color 0.15s,
 		border-color 0.15s,
+		background 0.15s,
 		opacity 0.15s;
 
 	&:hover:not(:disabled),
 	&:active:not(:disabled) {
 		color: rgb(var(--hero-white));
-		border-color: rgb(var(--hero-white));
+		border-color: rgb(var(--hero-white) / 0.4);
+		background: rgb(var(--hero-white) / 0.15);
 	}
 
 	&:focus-visible {
@@ -268,13 +307,6 @@
 	}
 }
 
-.hero-cover-date {
-	color: rgb(var(--hero-white) / 0.7);
-	margin-top: var(--space-half);
-	margin-bottom: 0;
-	text-shadow: 0 1px 2px rgb(var(--hero-black) / 0.2);
-}
-
 .hero-cover-title {
 	font-family: var(--font-heading);
 	font-size: clamp(2rem, 5.5vw, 3rem);
@@ -283,7 +315,9 @@
 	letter-spacing: -0.02em;
 	color: rgb(var(--hero-white));
 	text-shadow: 0 1px 3px rgb(var(--hero-black) / 0.3);
-	font-feature-settings: "cv11" 1, "ss03" 1;
+	font-feature-settings:
+		"cv11" 1,
+		"ss03" 1;
 	margin-bottom: 0;
 }
 
@@ -294,9 +328,66 @@
 	line-height: 1.5;
 	color: rgb(var(--hero-white) / 0.85);
 	max-width: 36rem;
-	margin-top: var(--space-half);
+	margin-top: 0.5rem;
 	margin-bottom: 0;
 	text-shadow: 0 1px 2px rgb(var(--hero-black) / 0.2);
+}
+
+.hero-cover-date {
+	color: rgb(var(--hero-white) / 0.5);
+	margin-top: 0.5rem;
+	margin-bottom: 0;
+	text-shadow: 0 1px 2px rgb(var(--hero-black) / 0.2);
+}
+
+/* CTA pill — ghost button inside the hero link */
+.hero-cta {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.4em;
+	margin-top: 0.75rem;
+	padding: 0.5rem 1.25rem;
+	font-family: var(--font-heading);
+	font-size: 0.8125rem;
+	font-weight: 500;
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+	font-feature-settings: "case";
+	color: rgb(var(--hero-white) / 0.85);
+	border: 1px solid rgb(var(--hero-white) / 0.25);
+	border-radius: 1.25rem;
+	background: rgb(var(--hero-white) / 0.08);
+	backdrop-filter: blur(12px);
+	-webkit-backdrop-filter: blur(12px);
+	text-shadow: none;
+	transition:
+		color 0.15s,
+		border-color 0.15s,
+		background 0.15s;
+}
+
+.hero-cta::after {
+	content: '→';
+	font-size: 1.1em;
+	transition: translate 0.15s;
+}
+
+/* Desktop: pointer hover */
+.hero-cover-content:hover .hero-cta {
+	color: rgb(var(--hero-white));
+	border-color: rgb(var(--hero-white) / 0.4);
+	background: rgb(var(--hero-white) / 0.15);
+}
+
+.hero-cover-content:hover .hero-cta::after {
+	translate: 0.15em 0;
+}
+
+/* Touch: active tap feedback */
+.hero-cover-content:active .hero-cta {
+	color: rgb(var(--hero-white));
+	border-color: rgb(var(--hero-white) / 0.5);
+	background: rgb(var(--hero-white) / 0.2);
 }
 
 /* Reading progress bar */
@@ -312,26 +403,51 @@
 	pointer-events: none;
 }
 
-/* Back to top */
-.back-to-top {
+/* Fixed action buttons — bottom-right corner */
+.fixed-actions {
 	position: fixed;
 	right: var(--safe-right);
 	bottom: var(--safe-bottom);
 	z-index: 10;
-	border-color: var(--color-divider);
-	background-color: var(--color-bg);
-	color: var(--color-muted);
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
 	opacity: 0;
 	pointer-events: none;
-	transition:
-		opacity 0.2s,
-		color 0.15s,
-		border-color 0.15s;
+	transition: opacity 0.2s;
 
 	&.visible {
 		opacity: 1;
 		pointer-events: auto;
 	}
+}
+
+.share-btn {
+	padding: 0.5rem 0.75rem;
+	border: 1px solid var(--color-divider);
+	border-radius: 1.25rem;
+	color: var(--color-muted);
+	background: color-mix(in srgb, var(--color-bg) 80%, transparent);
+	cursor: pointer;
+	transition:
+		color 0.15s,
+		border-color 0.15s;
+
+	&:hover,
+	&:active {
+		color: var(--color-text);
+		border-color: var(--color-warm);
+	}
+}
+
+.back-to-top {
+	--btn-size: 2.5rem;
+	border-color: var(--color-divider);
+	color: var(--color-muted);
+	background: color-mix(in srgb, var(--color-bg) 80%, transparent);
+	transition:
+		color 0.15s,
+		border-color 0.15s;
 
 	&:hover,
 	&:active {
@@ -347,7 +463,7 @@
 }
 
 /* ============================================================
-   Article header (no-image fallback)
+   Article header
    ============================================================ */
 .article-header {
 	margin-top: var(--space-double);
@@ -379,9 +495,8 @@
 	flex-wrap: wrap;
 	justify-content: space-between;
 	gap: var(--space-unit);
-	padding-top: 0;
-	border-top: none;
-	margin-bottom: calc(var(--space-triple) + env(safe-area-inset-bottom, 0px));
+	margin-top: var(--space-unit);
+	margin-bottom: 0;
 	font-family: var(--font-heading);
 	font-size: 0.9375rem;
 
@@ -390,8 +505,14 @@
 		text-decoration: none;
 		min-width: 0;
 		flex: 1 1 0;
+		font-weight: 500;
 
 		&:last-child {
+			text-align: end;
+		}
+
+		&:only-child {
+			margin-inline-start: auto;
 			text-align: end;
 		}
 
@@ -407,46 +528,32 @@
 	}
 }
 
-/* ============================================================
-   Progress ring — conic-gradient ring reused for archive stats
-   and per-article reading progress.
-   Set --ring-size and --ring-stroke on the element; --progress
-   is set via JS (0–1).
-   ============================================================ */
-.progress-ring::before {
-	content: "";
-	display: inline-block;
-	width: var(--ring-size);
-	height: var(--ring-size);
-	border-radius: 50%;
-	margin-right: 0.5em;
-	background: conic-gradient(
-		var(--color-warm) calc(var(--progress, 0) * 360deg),
-		var(--color-divider) calc(var(--progress, 0) * 360deg)
-	);
-	-webkit-mask: radial-gradient(
-		farthest-side,
-		transparent calc(100% - var(--ring-stroke)),
-		#000 calc(100% - var(--ring-stroke))
-	);
-	mask: radial-gradient(
-		farthest-side,
-		transparent calc(100% - var(--ring-stroke)),
-		#000 calc(100% - var(--ring-stroke))
-	);
-}
-
-/* Archive stats — progress subtitle inside article-header */
+/* Archive stats — reading progress ring + count */
 .archive-stats {
-	--ring-size: 1.25rem;
-	--ring-stroke: 2.5px;
+	display: inline-flex;
+	align-items: center;
+	gap: 0.4em;
 
 	&:empty {
 		display: none;
 	}
 
 	&::before {
-		vertical-align: -3px;
+		content: "";
+		width: 1rem;
+		height: 1rem;
+		border-radius: 50%;
+		flex-shrink: 0;
+		background: conic-gradient(
+			var(--color-warm) calc(var(--progress, 0) * 360deg),
+			var(--color-divider) calc(var(--progress, 0) * 360deg)
+		);
+		-webkit-mask: radial-gradient(
+			farthest-side,
+			transparent calc(100% - 2.5px),
+			#000 calc(100% - 2.5px)
+		);
+		mask: radial-gradient(farthest-side, transparent calc(100% - 2.5px), #000 calc(100% - 2.5px));
 	}
 }
 
@@ -457,18 +564,6 @@
 
 .archive-section + .archive-section {
 	margin-top: 0;
-	padding-top: 0;
-}
-
-.archive-section + .archive-section::before {
-	content: "";
-	display: block;
-	width: 10rem;
-	height: 1.5rem;
-	margin: var(--space-unit) auto;
-	background: var(--color-divider);
-	-webkit-mask: url("/ornament.svg?v=2") center / 100% 100% no-repeat;
-	mask: url("/ornament.svg?v=2") center / 100% 100% no-repeat;
 }
 
 .archive-section-heading {
@@ -526,19 +621,15 @@
 		font-family: var(--font-heading);
 		font-weight: 600;
 		line-height: 1.3;
-		font-feature-settings: "cv11" 1, "ss03" 1;
+		font-feature-settings:
+			"cv11" 1,
+			"ss03" 1;
 	}
 
 	.archive-meta {
-		--ring-size: 0.75rem;
-		--ring-stroke: 2px;
 		font-size: 0.75rem;
 		margin-top: 0.25rem;
 		margin-bottom: 0;
-
-		&::before {
-			vertical-align: -1px;
-		}
 	}
 
 	.archive-description {
@@ -548,7 +639,44 @@
 		color: color-mix(in srgb, var(--color-text) 70%, var(--color-muted));
 		line-height: 1.45;
 		margin-top: 0.375rem;
+
+		em {
+			font-style: italic;
+		}
 		margin-bottom: 0;
+	}
+}
+
+/* ============================================================
+   Desktop hero — larger type, more breathing room
+   ============================================================ */
+@media (width >= 1024px) {
+	.hero-cover-content {
+		padding-bottom: 2.5rem;
+	}
+
+	.hero-nav {
+		bottom: calc(var(--safe-bottom) + 2.5rem);
+	}
+
+	.hero-cover-title {
+		font-size: clamp(2.5rem, 4vw, 3.75rem);
+	}
+
+	.hero-cover-deck {
+		font-size: 1.0625rem;
+		max-width: 42rem;
+		margin-top: 0.75rem;
+	}
+
+	.hero-cover-date {
+		margin-top: 0.625rem;
+	}
+
+	.hero-cta {
+		margin-top: 1rem;
+		padding: 0.625rem 1.5rem;
+		font-size: 0.875rem;
 	}
 }
 
@@ -583,22 +711,29 @@
 	}
 
 	.hero-cover-date {
-		margin-top: 0.25rem;
 		text-shadow: 0 1px 4px rgb(var(--hero-black) / 0.4);
+	}
+
+	.hero-cta {
+		position: absolute;
+		bottom: var(--safe-bottom);
+		left: var(--safe-left);
+		z-index: 2;
+		min-height: 2.5rem;
+		padding: 0.5rem 1.125rem;
+		font-size: 0.75rem;
 	}
 
 	/* Landscape mobile — too short for deck text */
 	@media (orientation: landscape) {
-		.hero-cover-deck {
+		.hero-cover-deck,
+		.hero-cta {
 			display: none;
 		}
 	}
 
-	/* Move nav arrows below ingress text, right-aligned for thumb reach */
-	.hero-nav {
-		top: auto;
-		translate: none;
-		flex-direction: row;
+	.article-header {
+		margin-top: var(--space-unit);
 	}
 
 	.article-nav a {
@@ -620,9 +755,4 @@
 	.site-nav a:first-child {
 		margin-left: -0.25rem;
 	}
-
-	.site-nav-right {
-		gap: 0.25rem;
-	}
-
 }

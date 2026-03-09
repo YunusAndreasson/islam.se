@@ -3,8 +3,20 @@ import { Image } from "astro:assets";
 import Base from "../layouts/Base.astro";
 import { formatDate, getArticles } from "../lib/articles";
 
+const HERO_SLUGS = [
+	"nattbonens-ansikte",
+	"det-han-letade-efter",
+	"vikingarna-hade-inte-angest",
+	"somnens-lilla-dod",
+	"den-insparrade-sjalen",
+	"skapad-ur-ingenting",
+	"silvertarnans-hijra",
+];
+
 const articles = await getArticles();
-const slides = articles.filter((a) => a.heroImage);
+const slides = HERO_SLUGS
+	.map((slug) => articles.find((a) => a.slug === slug))
+	.filter((a): a is (typeof articles)[number] => a !== undefined);
 const latest = slides[0];
 const ogImage = latest?.heroImage;
 
@@ -19,7 +31,8 @@ function inlineMarkdown(text: string): string {
 	title="islam.se — Essäer om islamisk intellektuell tradition och svenskt kulturarv"
 	description="Essäer om islamisk intellektuell tradition och svenskt kulturarv."
 	hero={true}
-	ogImage={ogImage.src}
+	ogImage={ogImage?.src}
+	preloadImage={ogImage?.src}
 	jsonLd={{
 		"@context": "https://schema.org",
 		"@type": "WebSite",
@@ -73,13 +86,13 @@ function inlineMarkdown(text: string): string {
 						}
 							{article.description && <p class="hero-cover-deck" set:html={inlineMarkdown(article.description)} />}
 							<p class="label hero-cover-date"><time datetime={article.publishedAt}>{formatDate(article.publishedAt)}</time> &middot; {article.readingTime} min läsning</p>
+						<span class="hero-cta" aria-hidden="true">Läs</span>
 						</a>
 					</div>
 				</div>
 			))}
 			{slides.length > 1 && (
 				<div class="hero-nav">
-					<span class="hero-nav-counter" aria-live="polite">1 / {slides.length}</span>
 					<button class="btn-circle hero-nav-prev" type="button" aria-label="Föregående essä" disabled>
 						<svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
 							<path d="M12.5 5l-5 5 5 5" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" />
@@ -101,7 +114,6 @@ function inlineMarkdown(text: string): string {
 		const slides = document.querySelectorAll<HTMLElement>(".hero-slide");
 		const prevBtn = document.querySelector<HTMLButtonElement>(".hero-nav-prev");
 		const nextBtn = document.querySelector<HTMLButtonElement>(".hero-nav-next");
-		const counter = document.querySelector<HTMLElement>(".hero-nav-counter");
 		if (nextBtn && prevBtn && slides.length >= 2) {
 			let current = 0;
 			const last = slides.length - 1;
@@ -109,7 +121,6 @@ function inlineMarkdown(text: string): string {
 			function update() {
 				prevBtn.disabled = current === 0;
 				nextBtn.disabled = current === last;
-				if (counter) counter.textContent = `${current + 1} / ${slides.length}`;
 			}
 
 			function go(delta: number) {
@@ -119,6 +130,7 @@ function inlineMarkdown(text: string): string {
 				slides[current].setAttribute("aria-hidden", "true");
 				current = next;
 				const img = slides[current].querySelector("img");
+				// Clear animation, force reflow, restore — restarts the zoom from the beginning
 				if (img) { img.style.animation = "none"; img.offsetHeight; img.style.animation = ""; }
 				slides[current].classList.add("active");
 				slides[current].removeAttribute("aria-hidden");
@@ -128,6 +140,8 @@ function inlineMarkdown(text: string): string {
 			prevBtn.addEventListener("click", () => go(-1));
 			nextBtn.addEventListener("click", () => go(1));
 
+			const ctrl = new AbortController();
+
 			// Touch swipe
 			const hero = document.querySelector<HTMLElement>(".hero-cover");
 			if (hero) {
@@ -136,17 +150,16 @@ function inlineMarkdown(text: string): string {
 				hero.addEventListener("touchstart", (e) => {
 					startX = e.touches[0].clientX;
 					startY = e.touches[0].clientY;
-				}, { passive: true });
+				}, { passive: true, signal: ctrl.signal });
 				hero.addEventListener("touchend", (e) => {
 					const dx = e.changedTouches[0].clientX - startX;
 					const dy = e.changedTouches[0].clientY - startY;
 					if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy) * 1.5) {
 						go(dx < 0 ? 1 : -1);
 					}
-				}, { passive: true });
+				}, { passive: true, signal: ctrl.signal });
 			}
 
-			const ctrl = new AbortController();
 			document.addEventListener("keydown", (e) => {
 				if (e.target instanceof HTMLElement && e.target.matches("input, textarea, select")) return;
 				if (e.key === "ArrowLeft") go(-1);
