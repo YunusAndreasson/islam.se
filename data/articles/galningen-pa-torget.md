@@ -1,7 +1,7 @@
 ---
 title: "Galningen på torget"
 publishedAt: "2025-12-02T12:00:00.000Z"
-wordCount: 1599
+wordCount: 1639
 qualityScore: 8.6
 description: "År 1882 lät Nietzsche inte en filosof utan en galning springa ut på torget med en lykta mitt på ljusa dagen för att förkunna Guds död. Han förstod vad hans beundrare sällan erkänner: att utan Gud är inte bara teologin utan hela den moraliska ordningen i fritt fall."
 ---
@@ -19,7 +19,7 @@ Regeringsformens första kapitel, andra paragrafen, fastslår att den offentliga
 
 Paragrafen fungerar som ett axiom: en sats som förutsätts men aldrig bevisas. Svensk grundlag hävdar inte att människor *borde* behandlas som om de hade lika värde, utan att de *har* det – ett påstående om verklighetens natur, men utan förankring i verkligheten själv.[^2]
 
-Den tyske författningsdomaren Ernst-Wolfgang Böckenförde ställde samma diagnos 1967: den fria, sekulariserade staten lever av förutsättningar den inte själv kan garantera.[^18]
+Den tyske författningsdomaren Ernst-Wolfgang Böckenförde pekade på samma sak 1967: den fria, sekulariserade staten lever av förutsättningar den inte själv kan garantera.[^18]
 
 Hjalmar Söderberg lade fingret på sprickan redan 1905:
 
@@ -69,7 +69,7 @@ August Strindberg – själv ateist, själv plågad av sin ateism – skrev i *I
 
 > Jag har nämligen blivit ateist under årens lopp, när jag märkt hur de okända makterna lämnat världen åt dess öde utan att giva ett livstecken ifrån sig. Någon att tacka! Det finnes ingen tillstädes, och min tvungna otacksamhet trycker mig som en börda![^13]
 
-*Tvungen otacksamhet.* Ordet *tvungen* bär hela vittnesmålet. En tacksamhet som överlever sin egen intellektuella förnekelse är inte en vana – den är en konstitution. Orden avslöjar vad den moderna ateismen sällan erkänner: att avsaknaden av Gud inte upplevs som frihet utan som skuld utan adressat, tacksamhet utan mottagare, mening utan sammanhang.
+*Tvungen otacksamhet.* Ordet *tvungen* bär hela vittnesmålet. En tacksamhet som överlever sin egen intellektuella förnekelse är inte en vana – den är en konstitution. Orden röjer vad den moderna ateismen sällan erkänner: att avsaknaden av Gud inte upplevs som frihet utan som skuld utan adressat, tacksamhet utan mottagare, mening utan sammanhang.
 
 Erik Gustaf Geijer hade tecknat motbilden:
 
@@ -93,7 +93,7 @@ Koranen ställer frågan utan omsvep:
 
 > Vi har inte skapat himlen och jorden och allt som finns däremellan för skojs skull.[^17]
 
-Skapelsen har en avsikt. Människan bär den. Värdigheten är inskriven i tillvarons struktur, given av den som strukturerade den. Utan den givaren återstår Söderbergs sed och bruk, Nietzsches avgrund, Strindbergs tvungna otacksamhet.
+Skapelsen har en avsikt. Som Ibn Kathir noterar skapade Gud himlarna och jorden med sanning – det vill säga med rättvisa och billighet – för att vedergälla dem som gjort ont med vad de gjort och belöna dem som gjort gott med det bästa. Människan bär den. Värdigheten är inskriven i tillvarons struktur, given av den som strukturerade den. Utan den givaren återstår Söderbergs sed och bruk, Nietzsches avgrund, Strindbergs tvungna otacksamhet.
 
 Svampen har redan gjort sitt arbete.
 

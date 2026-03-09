@@ -51,7 +51,7 @@ Mot slutet kommer det nakna erkännandet: "Mig gick lifvet förbi."[^11]
 
 Glas sitter inte stilla medan livet passerar. Han tänker, observerar, skriver, planerar till och med ett mord. Ändå lever han bredvid sin tid, aldrig i den – alltid analyserande, alltid på avstånd. Dagboken blir ett monument över en människa som protokollför sin egen frånvaro från nuet.
 
-Ibn Ḥazms tidskollaps diagnosticerar problemet; Ibn Qayyim, trehundra år före Söderberg, gav det ett namn.
+Ibn Ḥazms tidskollaps blottlägger problemet; Ibn Qayyim, trehundra år före Söderberg, gav det ett namn.
 
 ## Att vara sin tids barn
 
@@ -81,7 +81,7 @@ Det handlar inte om fromhet. Den kosmiska ordning som Koranen beskriver – "i s
 
 ## Natten som nåd
 
-Ibn al-Jawzī, den store Baghdadpredikanten, fastslog att "förspilld tid är den största förlusten."[^21] Orden låter som en uppmaning till produktivitet, men sammanhanget avslöjar ett annat anspråk: att *vara i* varje ögonblick, att låta det bära den uppgift det tilldelats, vare sig uppgiften är bön, arbete, vila eller tystnad.
+Ibn al-Jawzī, den store Baghdadpredikanten, fastslog att "förspilld tid är den största förlusten."[^21] Orden låter som en uppmaning till produktivitet, men sammanhanget pekar mot ett annat anspråk: att *vara i* varje ögonblick, att låta det bära den uppgift det tilldelats, vare sig uppgiften är bön, arbete, vila eller tystnad.
 
 Vila kräver natt. Den koraniska arkitekturen är entydig: natten är dagens villkor. Utan mörker, ingen gryning. Utan sömn, ingen vakenhet.
 

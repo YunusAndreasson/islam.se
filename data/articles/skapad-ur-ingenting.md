@@ -57,7 +57,7 @@ I sin enklaste form ställde Ibn Taymiyyah frågan: det skapade måste vara uppk
 
 Strindberg nådde aldrig ända fram. Hans vandring – från barndomstro genom ateism, vidskepelse och Swedenborg – slutade i kapitulation inför det oförklarliga: "Intet tvivel mera! Den Evige har talat!"[^11] Men vilken Evig? Strindbergs Gud förblev dunkel, mer kraft än person, mer öde än nåd. Han hade sökt sin Gud alltifrån barndomen, skrev han, och funnit demonen.[^12]
 
-Det är den ärligaste bekännelsen av ondskans problem i svensk litteratur. Varför skulle en allsmäktig Skapare tillåta lidande? Frågan är gammal och tung, och inget seriöst teologiskt system kan vifta bort den. Den förblir det starkaste argumentet mot monoteism.
+Varför skulle en allsmäktig Skapare tillåta lidande? Frågan är gammal och tung, och inget seriöst teologiskt system kan vifta bort den. Den förblir det starkaste argumentet mot monoteism.
 
 Likväl förutsätter frågan något: att vi, med vår begränsade kunskap, kan bedöma *varför* en allvetande Skapare handlar som Han gör. Koranen förnekar aldrig lidandets verklighet. Den besvarar frågan genom att insistera på att Skaparens visdom överskrider det skapades perspektiv. Prövningen är meningsfull, inte godtycklig. Det är skillnaden mellan en slump och en lektion.
 

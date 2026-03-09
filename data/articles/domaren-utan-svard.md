@@ -51,7 +51,7 @@ Principen är inte bunden till en tid eller tradition. C.S. Lewis nådde samma s
 
 > Av alla former av tyranni är det som uppriktigt utövas till offrens bästa kanske det mest förtryckande. De som plågar oss för vårt eget bästa plågar oss utan ände, ty de gör det med sitt eget samvetes gillande.[^22]
 
-Lewis namngav faran – men stannade vid diagnosen. Al-Māwardīs ramverk går steget längre: det räcker inte att veta att den rättfärdige är farlig, man måste bygga institutioner som skiljer hans övertygelse från hans befogenhet. *Ḥisbah* är exakt det – den låter den övertygade tala men nekar honom svärdet.
+Lewis namngav faran – men stannade vid iakttagelsen. Al-Māwardīs ramverk går steget längre: det räcker inte att veta att den rättfärdige är farlig, man måste bygga institutioner som skiljer hans övertygelse från hans befogenhet. *Ḥisbah* är exakt det – den låter den övertygade tala men nekar honom svärdet.
 
 Abū Bakr al-Ṣiddīq, den förste kalifen efter Profeten ﷺ, satte ord på principen redan i sitt tillträdestal: "Den starkaste bland er är i mina ögon den svagaste tills jag har tagit hans rätt ifrån honom, och den svagaste bland er är i mina ögon den starkaste tills jag har gett honom hans rätt."[^18] Förhållandet till rätten avgör vem som är stark, aldrig ställningen. Den som upprätthåller rätten måste veta att samma makt som bär den också kan krossa den.
 

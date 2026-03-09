@@ -1,7 +1,7 @@
 ---
 title: "Rösten över taken"
 publishedAt: "2025-10-08T12:00:00.000Z"
-wordCount: 1777
+wordCount: 1802
 qualityScore: 8.7
 description: "I en riksdagsmotion från 2024 formulerar Hans Eklind en ovanlig distinktion: kyrkklockor är en 'oartikulerad ljudsignal', medan böneutropet innehåller 'artikulerade ord med ett religiöst budskap'. Två religiösa ljud i det offentliga rummet ska alltså behandlas olika – för att det ena bär ord."
 ---
@@ -83,7 +83,7 @@ Att höra är en akt som förbinder det sagda med den som hör. Koranen återkom
 
 > Och när ni ropar till bön gör de det till föremål för hån och skämt. Så gör de för att de är människor som inte använder sitt förstånd.[^15]
 
-Den koraniska kritiken skonar dem som vägrar lyssna. Den träffar dem som hör och ändå avfärdar utan eftertanke. Att håna böneutropet är att registrera ljudet men vägra möta meningen.
+Den koraniska kritiken skonar dem som vägrar lyssna. Den träffar dem som hör och ändå avfärdar utan eftertanke. Ibn Kathir citerar i sin korankommentar en poetisk rad: 'Hur mången har inte klandrat ett sunt ord, när felet låg i hans eget bristande förstånd.' Att håna böneutropet är att registrera ljudet men vägra möta meningen.
 
 Det svenska samhället har inte avsakraliserat det religiösa ljudet; det har bara glömt att kyrkklockan en gång också bar mening. I det tysta har klockorna genomgått en lång sekularisering: från Guds basuner till stadsatmosfär, från kallelse till kuliss. *Adhān* har inte genomgått den processen – den har burit samma mening i fjorton århundraden. Just denna envisa vägran att aldrig bli bara ljud provocerar.
 

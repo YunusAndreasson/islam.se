@@ -33,7 +33,7 @@ Denna spiral – där rädslan för avslöjande föder isolation som i sin tur f
 
 > Av ensamma föds ännu ensammare, av rädda ännu räddare.[^4]
 
-Häri ligger spiralens logik: rädslan att bli avslöjad gör människor stumma, stumheten föder isolering, isoleringen en tyngre rädsla. Kall själv erkänner det slutligen: att han varit feg hela sitt liv, att hela hans berättelse egentligen kartlägger feghetens former.[^5]
+Det är spiralens logik: rädslan att bli avslöjad gör människor stumma, stumheten föder isolering, isoleringen en tyngre rädsla. Kall själv erkänner det slutligen: att han varit feg hela sitt liv, att hela hans berättelse egentligen kartlägger feghetens former.[^5]
 
 Men är problemet att medborgarna övervakas, eller att den som övervakar dem är staten?
 

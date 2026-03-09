@@ -1,9 +1,9 @@
 ---
 title: "Stillheten före slutet"
 publishedAt: "2026-02-05T12:00:00.000Z"
-wordCount: 1512
+wordCount: 1547
 qualityScore: 8.4
-description: "Norrönarna kallade det fimbulvintern: tre vintrar utan sommar, solen slocknad, bröder som dödar varandra för småpengar – förspelet till Ragnarök. IPCC:s klimatrapporter ritar upp nästan identiska kurvor. Likheten är verklig – och just därför vilseledande. Det som skiljer dem åt är inte temperaturen utan vad undergången *leder till*."
+description: "Fimbulvintern: tre vintrar utan sommar, solen slocknad, bröder som dödar varandra för småpengar – förspelet till Ragnarök. IPCC:s klimatrapporter ritar upp nästan identiska kurvor. Skillnaden är inte temperaturen – utan vad undergången *leder till*."
 ---
 Tre vintrar utan sommar. Bröder som dödar varandra för småpengar. Solen som slocknar, stjärnorna som faller – och elden som slukar allt.
 
@@ -61,9 +61,9 @@ Koranen vänder perspektivet:
 
 > Den dagen skall Vi rulla ihop himlen, så som pergamentrullar med skrifter rullas ihop. Som Vi inledde skapelsen första gången skall Vi återställa den – ett löfte Vi ålagt Oss att uppfylla.[^9]
 
-I Ragnarök överlever det goda av egen kraft – världsträdet trotsar elden. Elden renar, men den förlåter inte – den frågar inte vem du är, den frågar bara vad du tål. I islam överlever det goda för att det är *valt* av en vilja som också är *al-Raḥmān*, den Barmhärtiges. "Min Herre är sannerligen benådande och kärleksfull", påminner profeten Shu'ayb sitt folk.[^10] Domen är verklig. Men den som dömer älskar den som döms.
+Ibn Kathir återger att Ibn Abbas sade: "Gud viker samman de sju himlarna med allt de rymmer och de sju jordarna med allt de rymmer – allt detta i Hans hand blir som ett senapskorn." I Ragnarök överlever det goda av egen kraft – världsträdet trotsar elden. Elden renar, men den förlåter inte – den frågar inte vem du är, den frågar bara vad du tål. I islam överlever det goda för att det är *valt* av en vilja som också är *al-Raḥmān*, den Barmhärtiges. "Min Herre är sannerligen benådande och kärleksfull", påminner profeten Shu'ayb sitt folk.[^10] Domen är verklig. Men den som dömer älskar den som döms.
 
-Häri ligger det som den sekulära eskatologin saknar och mytologin bara halvvägs når: rättvisa *och* barmhärtighet, skuld *och* förlåtelse.
+Det är vad den sekulära eskatologin saknar och mytologin bara halvvägs når: rättvisa *och* barmhärtighet, skuld *och* förlåtelse.
 
 ## Det svar som ångesten söker
 

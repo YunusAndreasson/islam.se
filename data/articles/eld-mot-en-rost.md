@@ -1,7 +1,7 @@
 ---
 title: "Eld mot en röst"
 publishedAt: "2025-10-13T12:00:00.000Z"
-wordCount: 1870
+wordCount: 1905
 qualityScore: 8.7
 description: "Sommaren 2023 brann böcker på svenska gator, ambassader stormades och Sveriges Natoväg komplicerades. Debatten pendlade mellan yttrandefrihet och muslimsk vrede, men båda sidorna delade en outtalad premiss – att det som brann var en bok."
 ---
@@ -19,7 +19,7 @@ Här öppnar sig en klyfta. Den västerländska traditionen, formad av Gutenberg
 
 > När Koranen reciteras skall ni lyssna till den och vara tysta så att ni kan få nåd.[^2]
 
-Påbudet gäller lyssnandet, inte läsandet. Tystnaden som krävs är inte bibliotekets utan konsertsalens – den tystnad som uppstår inför något som händer *nu*.
+Påbudet gäller lyssnandet, inte läsandet. Tystnaden som krävs är inte bibliotekets utan konsertsalens – den tystnad som uppstår inför något som händer *nu*. Ibn Kathir noterar att Gud befallde denna tystnad som en akt av vördnad – till skillnad från avgudadyrkarna bland Quraysh, som sade: "Lyssna inte på denna Koran och överrösta den, så att ni må segra."
 
 ## Rösten som tillhör Skaparen
 

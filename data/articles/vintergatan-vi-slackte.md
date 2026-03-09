@@ -1,7 +1,7 @@
 ---
 title: "Vintergatan vi släckte"
 publishedAt: "2025-08-24T12:00:00.000Z"
-wordCount: 1994
+wordCount: 2036
 qualityScore: 8.5
 description: "År 2016 kartlade Fabio Falchi och hans kollegor det artificiella nattljuset över hela jorden i *Science Advances*. En tredjedel av mänskligheten har aldrig sett Vintergatan, och i Europa lever nittio procent under himlar så genomlysta att stjärnhimlen reducerats till ett fåtal punkter."
 ---
@@ -49,7 +49,7 @@ Den svenske författaren Hjalmar Söderberg lägger i början av 1900-talet i do
 
 Mörkret är ett undantag: skört och geometriskt begränsat. Ljuset dominerar universum; mörkret är en lokal anomali som möjliggör varseblivning.
 
-Viktor Rydberg: "I mörkret lär man sig vad ljus är."[^12] Kontrast är varseblivningens förutsättning. Utan mörker som bakgrund reduceras ljus till brus, en konstant stimulans som upphör att bära information. Kant jämställde den stjärnbeströdda himlen och den moraliska lagen som de två ting som fyller sinnet med ständigt förnyad vördnad.[^24]
+Viktor Rydberg: "I mörkret lär man sig vad ljus är."[^12] Utan mörker som bakgrund reduceras ljus till brus, en konstant stimulans som upphör att bära information. Kant jämställde den stjärnbeströdda himlen och den moraliska lagen som de två ting som fyller sinnet med ständigt förnyad vördnad.[^24]
 
 ## Tingets ljus
 
@@ -85,7 +85,7 @@ Emerson ställde redan 1836 den omvända frågan: om stjärnorna visade sig en e
 
 För hundra år sedan bodde åttio procent av svenskarna på landsbygden; idag bor åttio procent i städer.[^22] Under ett enda sekel har den svenska erfarenheten av verkligt mörker gått från livsbetingelse till kuriositet. Det som varje bonde kände i kroppen varje vinternatt har blivit exotiskt.
 
-Abdullah ibn Masʿūd, Profetens ﷺ följeslagare, sade: "Hos er Herre finns varken natt eller dag; himlarnas ljus utgår från Hans ansiktes ljus."[^23] Det yttersta ljuset finns bortom alla kontraster. Men *vägen dit* går genom mörker – genom nätter under öppen himmel, genom Allmaktens natt som är bättre än tusen månader, genom den nattliga bönen som hålls när staden sover.
+Abdullah ibn Masʿūd, Profetens ﷺ följeslagare, sade: "Hos er Herre finns varken natt eller dag; himlarnas ljus utgår från Hans ansiktes ljus."[^23] Ibn Kathir citerar den bön Profeten ﷺ uppsände den dag Tā'ifs invånare skadat honom: "Jag söker tillflykt i ljuset från Ditt ansikte, genom vilket allt mörker har upplysts och genom vilket angelägenheterna i denna värld och den kommande har kommit till rätta." Det yttersta ljuset finns bortom alla kontraster. Men *vägen dit* går genom mörker – genom nätter under öppen himmel, genom Allmaktens natt som är bättre än tusen månader, genom den nattliga bönen som hålls när staden sover.
 
 Vi har inte bara förorenat himlen. Vi har utplånat det villkor under vilket vandringen börjar.
 

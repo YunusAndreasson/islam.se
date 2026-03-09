@@ -15,7 +15,7 @@ Denna rumsliga ordning vilar på ett sällan uttalat axiom: att det heliga kräv
 
 Islam bygger inte på en plats – utan på en riktning.
 
-Skillnaden kan låta abstrakt, men den är arkitektonisk. Varje punkt på jordens yta – varje parkeringsplats, varje skolkorridor, varje åkerfåra – kan vara en böneplats. Profeten Muḥammad ﷺ sade: "Hela jorden har gjorts till en plats för bön och till ett reningsmedel – den som drabbas av bönetid kan be var han än befinner sig."[^3] Det är ett arkitektoniskt program.
+Skillnaden kan låta abstrakt, men den är arkitektonisk. Varje punkt på jordens yta – varje parkeringsplats, varje skolkorridor, varje åkerfåra – kan vara en böneplats. Profeten Muḥammad ﷺ sade: "Hela jorden har gjorts till en plats för bön och till ett reningsmedel – den som drabbas av bönetid kan be var han än befinner sig."[^3]
 
 Den europeiska sakralarkitekturen vilar på motsatt logik: det heliga kräver en fast punkt, en bestämd plats – katedralen, templet, det heliga berget – genom vilken det gudomliga kanaliseras och utan vilken tillbedjan blir ogiltig.[^4] Religionshistorikern Mircea Eliade upphöjde den fasta punkten till universalprincip: varje heligt rum förutsätter en *axis mundi*, en kosmisk axel utan vilken det gudomliga saknar fäste i världen.[^23] Islams grundlogik kräver ingen sådan fast punkt. Den ger den bedjande en kompassbäring, inte en adress.
 
@@ -34,8 +34,6 @@ Under profetskapet i Medina bad de första muslimerna mot Jerusalem – samma ri
 Det var mer än en ändring av kompassbäring. Bytet från Jerusalem till Mecka var en teologisk deklaration: den muslimska gemenskapen definieras av sin egen riktning, sin egen andliga geografi. Koranen säger det rakt ut: "Vi gjorde endast bytet av den böneriktning du iakttog för att utskilja den som följer Sändebudet från den som vänder på klacken."[^7] *Qiblah*-bytet var ett identitetstest. De som böjde sig för den nya riktningen tillhörde den nya gemenskapen. De som inte kunde – tillhörde den inte. Ibn Kathir citerar en tradition ur Ṣaḥīḥ al-Bukhārī: den första bönen i den nya riktningen var eftermiddagsbönen, och en man som bett med Profeten ﷺ gick förbi en annan moské vars församling stod böjda i bön och ropade: "Jag svär vid Gud, jag har just bett med Profeten ﷺ vänd mot Mecka!" – och mitt i bönen vände de sig mot Kaʿbah.
 
 Själva det faktum att *qiblah* kunde ändras bär hela principen. Om det heliga hade funnits i platsen – i Jerusalem som punkt – hade bytet inneburit en förlust. Men om det heliga finns i lydnaden, bevisar bytet tesen: det är inte kompassnålens slutpunkt som helgar, utan den bedjandes underkastelse under befallningen.
-
-Men gemenskapen definieras av en riktning, inte av en plats. Den enskilde muslimen behöver aldrig besöka Mecka – bara vända sig åt rätt håll.
 
 ## Den pragmatiske Ibn Taymiyyah
 
@@ -87,8 +85,7 @@ Den svenska författaren Fredrika Bremer reste i Palestina, Turkiet och Grekland
 
 > Jorden blev bönen hem. Bönen blev människans goda ängel.[^18]
 
-En vacker formulering – men Bremers projekt var ett annat. Hon sökte bönens universella kraft bortom konfessionsgränser, en romantisk syntes snarare än en juridisk princip. Den islamiska principen vägrar den syntesen. Den vilar på uppenbarelse: Profeten ﷺ fick hela jorden gjord till böneplats som en särskild gåva till hans *ummah*. Det var en *sharīʿah*-bestämmelse, inte en mystisk insikt. Den bedjande skapar en helig plats, tillfälligt, genom lydnad – var han än befinner sig.
-
+En vacker formulering – men Bremers projekt var ett annat. Hon sökte bönens universella kraft bortom konfessionsgränser, en romantisk syntes snarare än en juridisk princip. Den islamiska principen vägrar den syntesen. Den vilar på uppenbarelse: Profeten ﷺ fick hela jorden gjord till böneplats som en särskild gåva till hans *ummah*. Det var en *sharīʿah*-bestämmelse, inte en mystisk insikt.
 Profeten ﷺ drog gränsen med samma nyktra pragmatism: "Den som drabbas av bönetid på en plats ska be där, annars ska han gå vidare." Han förbjöd att göra profeternas platser till permanenta helgedomar.[^19] Det sakrala fäster vid marken men reser sig med den bedjande och följer honom vidare. När pannan lyfts från golvet är rummet åter profant.
 
 ## Kompassnålen

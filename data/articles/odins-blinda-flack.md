@@ -19,8 +19,6 @@ Vad slags transaktion är det? Viktor Rydberg, som ägnade decennier åt att sys
 
 Nyckelordet är *lån*. Kunskapen byter ägare genom en reglerad transaktion. Odin ger bort ett sinnesorgan – en kanal för världens yttre avtryck – och får i gengäld en klarare insikt. Han ser sämre med ögonen men bättre med förståndet.
 
-Byteshandel, inte omvälvning.
-
 Men det är just i denna byteslogik som den blinda fläcken visar sig. Odin förlorar *syn*. Han förlorar aldrig *sig själv*. Hans vilja, hans identitet, hans minne – allt förblir intakt. Den mäktige guden stiger ned till brunnen och stiger upp som samma gud, fast med ett öga färre och en visdom mer. Mimer, *den som minns*, bevakar just den struktur som gör kunskapen till ett ägande: minnet av vem man är, vad man vill, vad man äger.
 
 Invändningen ligger nära till hands: Odins hängning på Yggdrasil – nio nätter, genomborrad av ett spjut, offrad "åt sig själv" – rymmer väl en grundligare förvandling? Men det offret gäller *runorna*, inte visheten vid brunnen. Även efter hängningen förblir Odin den han var: härskare, kunskapssökare, den som vill veta *mer*.
@@ -37,9 +35,7 @@ Samma dikt fördjupar insikten några strofer längre fram:
 
 > En man bör vara måttligt vis, men aldrig alltför vis; ty den visaste mannens hjärta är sällan glatt.[^4]
 
-Här talar Hávamál om den vise, men diagnosen är dårens. Kunskapen fyller utan att befria – insikt som ansamlas ger tyngd, inte lätthet. Den nordiska kunskapsekonomin erkänner själv sin gräns: det finns ett mått bortom vilket mer kunskap betyder mer sorg.
-
-Den nordiska traditionen inser kunskapens faror – Hávamál är skarpögd. Men lösningen den ger är *måttlighet*: var lagom vis, grubba inte för mycket. Den radikala frågan – om kunskapens egentliga pris är mer än ett sinnesorgan – ställs aldrig.
+Här talar Hávamál om den vise, men slutsatsen gäller dåren. Kunskapen fyller utan att befria – insikt som ansamlas ger tyngd, inte lätthet. Den nordiska kunskapsekonomin erkänner själv sin gräns: det finns ett mått bortom vilket mer kunskap betyder mer sorg.
 
 ## En annan ekonomi
 
@@ -77,7 +73,7 @@ Al-Māwardī, den högt ansedde juristen och etikern, skrev i *Adab al-Dunyā wa
 
 > Den ödmjuke bland kunskapssökarna besitter mest kunskap, liksom den lågläntaste platsen samlar mest vatten.[^10]
 
-Bilden är geologisk. Kunskapen flödar nedåt. Den samlas inte hos den som klättrar högst – Odin på Yggdrasils stam – utan hos den som befinner sig lägst. Att ta emot kräver att något annat först har tömts. Det vet den som stod i ett fullt rum och inte kunde höra sitt eget namn.
+Den samlas inte hos den som klättrar högst – Odin på Yggdrasils stam – utan hos den som befinner sig lägst. Att ta emot kräver att något annat först har tömts. Det vet den som stått i ett fullt rum och inte kunde höra sitt eget namn.
 
 Denna insikt – att kunskapen kräver tömning snarare än fyllnad – har bekräftats av tänkare långt utanför islams geografiska rum. Simone Weil, den franska filosofen, nådde samma slutsats genom en helt annan väg. Hon gav den ett namn: *décréation* – att det skapade töms på sina anspråk, inte för att förintas utan för att kunna ta emot.[^15] Men Weils tömning förblir en viljeakt – jaget *beslutar* att stiga åt sidan. I den islamiska traditionen upptäcker jaget sin litenhet ställt inför uppenbarelsen; det är skillnaden mellan en generös reträtt och ett oundvikligt erkännande.
 
@@ -102,8 +98,6 @@ Den nordiska och den islamiska traditionen ställer samma fråga – vad kostar 
 Vid Mimers brunn betalar den kunskapssökande med syn. Han förlorar ett sätt att se världen och får ett annat – syn mot insikt, förvaltad av Mimer, den som bevarar minnen. Jaget förblir intakt.
 
 I den islamiska traditionen betalar den kunskapssökande med anspråk – med själva övertygelsen om sin egen tillräcklighet. Det som offras är jagets föreställning om sig självt. Den som kände Allah ﷻ, skriver Ibn Qayyim, "såg sig inte annat än med bristens öga" – *ʿayn al-nuqṣān*.[^13] Formuleringen vänder Odins offer på huvudet. Odin förlorar ett öga för att se bättre. Den som känner Allah ﷻ ser sig själv *tydligare* – det den ser är brist.
-
-I den ena är kunskap kapital som ackumuleras hos ett stabilt jag. I den andra en process som gradvis avtäcker jagets fattigdom inför sin Skapare. Den ena bevarar minnet. Den andra ifrågasätter det som minnet skyddar.
 
 Koranen uttrycker denna skillnad i en enda vers: *Sök hjälp genom tålamod och bön. Och det är sannerligen en svår sak – utom för de ödmjuka.*[^14] Kunskapens verkliga svårighet ligger inte i priset man betalar. Den ligger i den ödmjukhet som krävs för att ta emot. Ödmjukhet är det tillstånd där jaget upphör att betrakta sig självt som tillräckligt. Det är att öppna en bok och förstå att man inte förstått.
 

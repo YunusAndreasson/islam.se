@@ -35,7 +35,7 @@ Smärtan själv ingår i diagnostiken – den som inte längre känner smärta v
 
 Koranen förtydligar diagnosen: "I deras hjärtan finns en sjukdom, så Allah ﷻ har utökat sjukdomen för dem."[^5] Sjukdomen tilltar inte trots omedvetenheten – den tilltar *genom* den. Ju mindre den sjuke känner, desto sjukare är han.
 
-Här öppnar sig en oväntad resonans mellan sjuhundra år av islamisk andlig psykologi och samtida neurovetenskap. Wendy Suzuki, professor vid New York University, behandlar vad hon kallar "good anxiety" – tanken att ångest i sin grundform är en anpassningsmekanism, ett biologiskt varningssystem som skärper uppmärksamheten och förbereder handling.[^6] Evolutionär psykiatri styrker detta med signaldetekteringsmodellen: organismer som reagerade på potentiella hot – även om det ledde till falsklarm – överlevde i högre grad än de som förblev oberörda.[^7]
+Här öppnar sig en oväntad resonans mellan sjuhundra år av islamisk andlig psykologi och samtida neurovetenskap. Wendy Suzuki, professor vid New York University, behandlar vad hon kallar "good anxiety" – tanken att ångest i sin grundform är en anpassningsmekanism, ett biologiskt varningssystem som väcker uppmärksamheten och förbereder handling.[^6] Evolutionär psykiatri styrker detta med signaldetekteringsmodellen: organismer som reagerade på potentiella hot – även om det ledde till falsklarm – överlevde i högre grad än de som förblev oberörda.[^7]
 
 Suzuki behandlar neurologisk funktion; Ibn Qayyim andlig varseblivning. Båda når samma insikt: avsaknad av ångest kan vara förlust, inte frid. Antonio Damasio, neurolog och hjärnforskare, dokumenterade principen i sin skarpaste form: patienter som genom hjärnskador förlorat förmågan att känna obehag befanns, trots intakt intellekt, ur stånd att fatta vardagliga beslut. Känslan var inte förnuftets motståndare utan dess förutsättning.[^17]
 
@@ -45,7 +45,7 @@ Att hävda ångestens diagnostiska värde är inte att romantisera den. Kliniska
 
 Ibn Qayyim själv inskärpte gränsen. I *Madārij al-Sālikīn* skriver han: "Rädslan har sin gräns vid det som hindrar dig från att synda mot Gud. Det som överstiger den gränsen är onödigt."[^9] Funktionell rädsla har sitt mått – den upplyser utan att förstöra, som febern, kroppens sätt att bekämpa infektion. Men en feber som aldrig bryts dödar patienten.
 
-Att Ibn Qayyim förenar dessa båda sanningar är ingen svaghet i systemet – häri ligger dess förfining. Han vägrar den bekväma dikotomin – att ångest antingen är ett entydigt ont eller ett entydigt gott – och insisterar i stället på urskillning, *firāsah*, den andliga skarpsynen, som det enda sättet att avgöra vilken ångest som väcker och vilken som bryter ner. Som att veta när oron är en kompass och när den är en fälla.
+Att Ibn Qayyim förenar dessa båda sanningar är ingen svaghet i systemet – det är dess förfining. Han vägrar den bekväma dikotomin – att ångest antingen är ett entydigt ont eller ett entydigt gott – och insisterar i stället på urskillning, *firāsah*, den andliga skarpsynen, som det enda sättet att avgöra vilken ångest som väcker och vilken som bryter ner. Som att veta när oron är en kompass och när den är en fälla.
 
 ## Existensens tröskel
 

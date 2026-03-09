@@ -25,7 +25,7 @@ I Sveriges moderna välfärdsstat skulle avvägningen mellan styrka och pålitli
 
 Redan 2013 hade Försäkringskassan infört modellen och 2018 konstaterade Inspektionen för socialförsäkringen att algoritmen "i sin nuvarande utformning inte uppfyller kravet på likabehandling".[^10] Försäkringskassan avfärdade slutsatserna. Först sex år senare – efter en internationell granskning och en offentlig skandal – återkallades systemet.
 
-Ibn Taymiyyahs distinktion förtydligar diagnosen: algoritmens *quwwah* kunde ingen betvivla. Den bearbetade tusentals ansökningar med en hastighet och enhetlighet bortom varje handläggares förmåga. Problemet var bristande *amānah*: systemet kunde varken förklara sina beslut, granskas eller ställas till svars. Utan insyn förstärkte kapaciteten de ojämlikheter den var avsedd att korrigera.
+Ibn Taymiyyahs distinktion förtydligar bilden: algoritmens *quwwah* kunde ingen betvivla. Den bearbetade tusentals ansökningar med en hastighet och enhetlighet bortom varje handläggares förmåga. Problemet var bristande *amānah*: systemet kunde varken förklara sina beslut, granskas eller ställas till svars. Utan insyn förstärkte kapaciteten de ojämlikheter den var avsedd att korrigera.
 
 Styrkan förstärker bristen. En svag tjänsteman kan göra begränsad skada; hans inkompetens sätter gränser för hans orättvisa. En algoritm som fattar miljontals beslut utan att kunna förklara ett enda producerar orättvisa i industriell skala.
 
@@ -33,7 +33,7 @@ Kybernetikens grundare Norbert Wiener identifierade samma struktur: maskinens fa
 
 ## Det dolda förtroendekontraktet
 
-Försäkringskassan-fallet rymmer mer än en teknisk skandal. Det avslöjar välfärdsstatens outtalade löfte. En medborgare som vänder sig till en myndighet med en ansökan ingår ett förtroendeavtal, något äldre än ett juridiskt kontrakt. Hon utlämnar information om sitt liv, sin hälsa, sin familjesituation – och litar på att den behandlas rättvist. För detta har Koranen ett ord: *al-amānah*, förtroendeuppdraget – som den oupplösligt kopplar till rättvis dom:
+Försäkringskassan-fallet rymmer mer än en teknisk skandal. Det blottlägger välfärdsstatens outtalade löfte. En medborgare som vänder sig till en myndighet med en ansökan ingår ett förtroendeavtal, något äldre än ett juridiskt kontrakt. Hon utlämnar information om sitt liv, sin hälsa, sin familjesituation – och litar på att den behandlas rättvist. För detta har Koranen ett ord: *al-amānah*, förtroendeuppdraget – som den oupplösligt kopplar till rättvis dom:
 
 > Allah ﷻ befaller er att återlämna allt ni anförtrotts till dess rättmätiga ägare och att, när ni dömer mellan människor, döma med rättvisa.[^11]
 

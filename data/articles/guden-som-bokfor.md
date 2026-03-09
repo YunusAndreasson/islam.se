@@ -1,7 +1,7 @@
 ---
 title: "Guden som bokför"
 publishedAt: "2026-01-16T12:00:00.000Z"
-wordCount: 1572
+wordCount: 1869
 qualityScore: 8.7
 description: "Under sina sista årtionden förde Carl von Linné hemliga anteckningar – inte om naturens systematik utan om människor som gjort ont och straffet som drabbat dem. Med en botanikers metodik försökte han bevisa att Guds rättvisa verkar med naturlags exakthet, en övertygelse som aldrig fick lämna hans skrivbord."
 ---
@@ -27,7 +27,7 @@ Linnés *Nemesis Divina* beskriver raka motsatsen. Här råder en sträng propor
 
 > En ständig vexelverkan, en sträng lagbundenhet, en orubblig verldsordning genomströmmar det hela; att slumpen, det blinda ödets tyranni, ingenstädes herskar.[^3]
 
-Häri ligger spänningen mot luthersk nådelära. Linné talar inte om en Gud som förlåter. Han talar om en Gud som *bokför*. Varje synd har sitt straff, som inträffar med naturlags nödvändighet, ofta redan i detta liv. En hel teodicé byggd på empiriska observationer, där Gud framträder som den yttersta orsaken bakom varje moralisk konsekvens.[^4]
+Spänningen mot luthersk nådelära är påtaglig. Linné talar inte om en Gud som förlåter. Han talar om en Gud som *bokför*. Varje synd har sitt straff, som inträffar med naturlags nödvändighet, ofta redan i detta liv. En hel teodicé byggd på empiriska observationer, där Gud framträder som den yttersta orsaken bakom varje moralisk konsekvens.[^4]
 
 Det var inte en enskild naturforskares avvikelse: filosofiskt nådde Kant samma slutsats – att förlitan på nåd allena undergräver det moraliska allvaret. Kant censurerades av den preussiska staten.[^19]
 
@@ -55,7 +55,7 @@ Den princip Linné empiriskt utforskade hade redan formulerats som uppenbarelse 
 
 > Den som gör den minsta myras vikt av gott skall se det. Och den som gör den minsta myras vikt av ont skall se det.[^8]
 
-*Mithqāla dharratin.* En atoms vikt – ingen handling undgår räkenskapen.
+*Mithqāla dharratin.* En atoms vikt – ingen handling undgår räkenskapen. Ibn Kathir citerar en profettradition: en äldre man kom till Profeten ﷺ och bad om en enda sura som sammanfattade allt – de långa surorna översteg hans förmåga. Profeten ﷺ lärde honom just denna sura, och när mannen svurit att aldrig lägga till något utöver den, sade Profeten ﷺ: "Den lille mannen har lyckats! Den lille mannen har lyckats!"
 
 Samma princip sökte Linné bevisa genom hundratals fallstudier. Koranen behöver inga fallstudier – principen är ett axiom, en gudomlig kungörelse om verklighetens grundstruktur. Vad Linné laborerade fram som slutsats hade redan uppenbarats.
 

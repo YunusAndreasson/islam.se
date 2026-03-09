@@ -59,7 +59,7 @@ Den moderna kognitionsvetenskapen har kartlagt intuitionens mekanismer, men inte
 
 Men ingen av dem ställer frågan: *kan intuitionens kvalitet förbättras genom moralisk omvandling?* Kognitionspsykologi kartlägger mekanismer, inte deras moraliska förutsättningar. Denna begränsning blir ett problem när den hårdnar till axiom: att intuition är moraliskt neutral, att den inte *kan* vara annat.
 
-Den frågan har västerländska motsvarigheter. Iris Murdoch argumenterade i *The Sovereignty of Good* (1970) för att klart seende kräver moralisk ansträngning – den som lever disciplinerat uppfattar verkligheten tydligare. Slutar man ljuga, ser man när andra ljuger. Men Murdoch konstaterar sambandet utan att kunna förklara det – hennes ramverk ger inget svar på *varför* moralisk disciplin skärper perception.[^17] Ibn Qayyims metafysik har svaret: hjärtat är skapat som perceptionsorgan, och ljuset som återställer dess klarhet ges av Gud som svar på *taqwā*. Det som hos Murdoch förblir en filosofisk intuition är hos Ibn Qayyim en förklaring.
+Den frågan har västerländska motsvarigheter. Iris Murdoch argumenterade i *The Sovereignty of Good* (1970) för att klart seende kräver moralisk ansträngning – den som lever disciplinerat uppfattar verkligheten tydligare. Slutar man ljuga, ser man när andra ljuger. Men Murdoch konstaterar sambandet utan att kunna förklara det – hennes ramverk ger inget svar på *varför* moralisk disciplin ger skarpare perception.[^17] Ibn Qayyims metafysik har svaret: hjärtat är skapat som perceptionsorgan, och ljuset som återställer dess klarhet ges av Gud som svar på *taqwā*. Det som hos Murdoch förblir en filosofisk intuition är hos Ibn Qayyim en förklaring.
 
 Enligt en tradition som al-Tirmidhī återger – de enskilda berättarkedjorna är svaga, men hadithvetare klassificerar den som *ḥasan li-ghayrihi*, tillförlitlig genom samstämmighet – sade Profeten Muḥammad ﷺ: "Akta er för den troendes *firāsah*, ty han ser med Guds ljus."[^14] Att se med Guds ljus är inget anspråk på ofelbarhet. Det är att hävda att det finns en form av perception som öppnar sig för den som renar sitt hjärta – och att denna perception är verklig.
 
@@ -67,7 +67,7 @@ Ibn Qayyim själv återger i *Madārij al-Sālikīn* ett uttalande av den tidiga
 
 ## Andetaget mot spegeln
 
-Ibn Qayyims analys stannar inte vid en teori om klarsyn. Den vänder sig till läsaren och frågar: hur lever du? Spegelmetaforen är inte dekorativ. Den ställer en diagnos som ingen modern kognitionsforskare skulle formulera men som varje ärlig människa kan pröva mot sin erfarenhet.
+Ibn Qayyims analys stannar inte vid en teori om klarsyn. Den vänder sig till läsaren och frågar: hur lever du? Spegelmetaforen är inte dekorativ. Den rymmer en iakttagelse som ingen modern kognitionsforskare skulle formulera men som varje ärlig människa kan pröva mot sin erfarenhet.
 
 Det finns stunder av klarhet – ögonblick då man ser igenom en situation med en klarhet som förvånar en själv. Och perioder av dimma, då omdömet sviker, då man beslutar sådant man senare inte begriper. Skillnaden, hävdar Ibn Qayyim, är inte slumpmässig. Dimman har sina orsaker och klarheten sina förutsättningar.
 

@@ -31,13 +31,12 @@ Det som neurofysiologin beskriver som process beskriver Koranen som ontologisk h
 
 > Allah ﷻ tar människors själar när deras dödsstund är kommen; och den [själ] som inte dör [tar han] när den sover. Han kvarhåller sedan de [själar] vars död Han bestämt och sänder tillbaka de andra [själarna] fram till en utsatt tid. I detta finns sannerligen tecken för människor som tänker efter.[^4]
 
-Samma verb – *yatawaffā*, att ta tillbaka – används om både döden och sömnen. Distinktionen är inte en artskillnad utan en gradskillnad: i döden kvarhåller Allah ﷻ själen, i sömnen sänder Han den tillbaka. Varje natt genomgår du dödens rörelse. Varje morgon återföds du.
-
+Samma verb – *yatawaffā*, att ta tillbaka – används om både döden och sömnen. Distinktionen är inte en artskillnad utan en gradskillnad: i döden kvarhåller Allah ﷻ själen, i sömnen sänder Han den tillbaka.
 ## *Tawakkul*: att falla utan fallskärm
 
 Vad krävs för att somna? Att det sympatiska nervsystemet trappas ner, att kortisol sjunker, att hjärnvågorna saktar in. Det är fysiologens svar. Det egentliga svaret: att du slutar bevaka, slutar kontrollera, överlämnar dig åt något du inte kan styra.
 
-Den islamiska traditionen har ett ord för denna överlåtelse, och det är i ljuset av detta ord som profetens kvällsbön framträder som något mer än ett lugnande mantra. Profeten ﷺ bad varje kväll innan han lade sig:
+Den islamiska traditionen har ett ord för denna överlåtelse, och det är i ljuset av detta ord som profetens kvällsbön framträder i sin fulla betydelse. Profeten ﷺ bad varje kväll innan han lade sig:
 
 > O Allah ﷻ, Du har skapat min själ och Du tar den tillbaka. Dess död och dess liv tillhör Dig. Om Du kvarhåller den, förbarma Dig över den. Om Du sänder den tillbaka, skydda den med det som Du skyddar Dina rättfärdiga tjänare.[^5]
 
@@ -45,11 +44,11 @@ Det är ingen sömnbön i den mening vi tänker oss, inget lugnande mantra, inge
 
 Ordet för denna överlåtelse är *tawakkul*. Ibn Qayyim al-Jawziyyah definierade det som "hjärtats sanna förlitan på Allah ﷻ ensam"[^6] och Ibn Rajab al-Ḥanbalī preciserade: "hjärtats uppriktiga förtröstan på Allah ﷻ i att söka det goda och avvärja det skadliga".[^7] Det är den som lägger huvudet mot kudden fast morgondagen är olöst.
 
-Häri ligger sömnens hemlighet. Den sömnlösa människan, den moderna, sekulära, upplysta människan, lider inte av brist på melatonin. Bristen är av annat slag: för mycket kontroll. Hon kan inte somna för att hon inte förmår *tawakkul*, inte förmår lita på att världen bär henne när hon släpper.
+Det är sömnens hemlighet. Den sömnlösa människan, den moderna, sekulära, upplysta människan, lider inte av brist på melatonin. Bristen är av annat slag: för mycket kontroll. Hon kan inte somna för att hon inte förmår *tawakkul*, inte förmår lita på att världen bär henne när hon släpper.
 
 Den moderna sömnkrisen växer ur historiens mest systematiska försök att avskaffa beroendet av allt utanför den egna kontrollen: försäkringar mot varje tänkbar olycka, övervakningskameror i varje gathörn, algoritmer som förutsäger vad du vill innan du vet det själv. Hela det moderna projektet: att bygga system där *tawakkul* en gång stod.
 
-Den franska filosofen Blaise Pascal ställde diagnosen redan på 1600-talet, i en aforism om rastlöshetens rot:
+Den franska filosofen Blaise Pascal satte ord på det redan på 1600-talet, i en aforism om rastlöshetens rot:
 
 > All mänsklig olycka springer ur en enda sak: oförmågan att sitta stilla i ett rum.[^22]
 
@@ -59,11 +58,11 @@ Men sömnen vägrar. Du kan inte förhandla dig till sömn, inte köpa den, inte
 
 Ibn Qayyim kartlade sömnens inre liv i *Madārij al-Sālikīn*: själen äger under sömnen en förnimmelse skild från den vakna världens. Profeten ﷺ sade: "Den goda drömmen är en fyrtiosjättedel av profetskapet."[^8] Drömmen är inte medvetandets frånvaro – den är dess omriktning. Du vaknar och vet något du inte visste innan, fast ingen lärt dig det. Under sömnen tystnar sinnenas buller, och själen förnimmer det den under dagen är för distraherad för att uppfatta. Ibn Khaldūn diagnostiserade hindret: "Det mest stora hindret för människans perception är de yttre sinnena, och därför skapade Gud sömnen som en naturlig funktion för att lyfta denna slöja."[^9] Ingen mystisk portal öppnas – snarare är det vad profeten ﷺ beskrev: att den sanna drömmen är ett ljus som Allah ﷻ kastar i den troendes hjärta, en rest av profetians budskap som fortlever efter profetkedjans slut.
 
-Den svenska litteraturen har anat detta sambandet mellan natt och sårbarhet, mellan mörker och den själsliga exponeringen som dagsljuset döljer. August Strindberg i *Inferno*:
+Den svenska litteraturen har anat detta samband mellan natt och sårbarhet, mellan mörker och den själsliga exponeringen som dagsljuset döljer. August Strindberg i *Inferno*:
 
 > Men om natten falla tystnaden och ensligheten över en, övermodet skingras, hjärtat slår hörbart och bröstet beklämmes. Då, fall på knä i törnhäcken utanför ditt fönster; gå och sök läkare eller få fatt på en kamrat som vill sova i samma rum som du![^10]
 
-Dagtidens övermod, den sekulära självtillräckligheten, skingras när mörkret faller. Strindbergs lösning – sök en läkare, sök en kamrat – avslöjar dilemmat: han vet att han behöver hjälp, men han har inget språk för vem han egentligen ropar till.
+Dagtidens övermod, den sekulära självtillräckligheten, skingras när mörkret faller. Strindbergs lösning – sök en läkare, sök en kamrat – blottar dilemmat: han vet att han behöver hjälp, men han har inget språk för vem han egentligen ropar till.
 
 Den gamla norrönna *Hávamál* identifierar i en enda strof samma grundproblem – att sömnlösheten inte är ett besvär utan ett tecken på tillitsbrist:
 
@@ -100,8 +99,6 @@ Erik Gustaf Geijer skrev att "det hörer till sorgens väsende att ej vilja slä
 Den islamiska kvällsritualen – bönen, åminnelsen, överlåtelsen – tvingar dig att varje kväll konfrontera det den moderna kulturen har gömt: att du är dödlig, att du inte har kontroll, att din existens är en gåva som kan återkallas. Och genom att konfrontera det, inte som en abstrakt teologisk sats utan som en nattlig praktik, en kroppslig vana, en bön formulerad i andra person till en Gud du talar med, gör den något som inget sömnhygienprogram kan. Den ger dig tillåtelse att släppa.
 
 Koranen beskriver dem som reser sig ur natten med avsikt: "De överger sina bäddar för att åkalla sin Herre i fruktan och hopp."[^20] Mitt i natten finner de ljus – inte för att sömnlösheten är en sjukdom, utan för att de har det som gör vakenhet uthärdlig: en riktning för sitt rop, en Herre att vända sig till i fruktan och hopp. Ibn Kathīr kommenterade denna vers: "De lämnade sömn och vila för bönens skull, drivna av sin längtan efter det Allah ﷻ har lovat dem."[^21]
-
-Det är den åtskillnad den moderna sömnkulturen aldrig gjort: problemet är inte att vi ligger vakna, utan att vi gör det utan att veta varför och utan att veta till vem vi kan vända oss när natten faller och övermodet skingras och hjärtat slår hörbart i bröstet.
 
 I natt, när du inte kan sova, behöver du inte kämpa. Du kan i stället göra det profeten ﷺ gjorde: lägga handen på bröstet och säga att din själ tillhör Den som skapade den, att du överlämnar, att du – för denna enda natt – övar dig i att dö.
 

@@ -1,7 +1,7 @@
 ---
 title: "Kunskapens tak"
 publishedAt: "2025-07-20T12:00:00.000Z"
-wordCount: 2425
+wordCount: 2469
 qualityScore: 8.7
 description: "ʿAbd Allāh ibn ʿAbbās, Profetens ﷺ kusin och en av islams mest respekterade korantolkare, delade in Koranens mening i fyra skikt. De tre första kan människor nå – genom språkkänsla, trosplikt eller lärdom. Det fjärde tillhör ingen utom Gud."
 ---
@@ -11,7 +11,7 @@ En annan tradition, fjorton sekler gammal, bygger på rakt motsatt grund. Den ut
 
 ## En klassificering av det begripliga
 
-I den islamiska traditionens hjärta ligger en klassificering av vad som överhuvudtaget kan förstås. ʿAbd Allāh ibn ʿAbbās, Profetens ﷺ kusin och en av de mest respekterade korantolkarna i islams historia, formulerade en indelning som överlevt fjorton sekler. Al-Suyūṭī (d. 1505) citerar den i sitt monumentala koranvetenskapliga verk; Ibn Taymiyyah (d. 1328) åberopar den i sin kritik av logikerna. Klassificeringen lyder:
+I den islamiska traditionens hjärta ligger en klassificering av vad som överhuvudtaget kan förstås. ʿAbd Allāh ibn ʿAbbās, Profetens ﷺ kusin och en av de mest respekterade korantolkarna i islams historia, formulerade en indelning som överlevt mer än ett årtusende. Al-Suyūṭī (d. 1505) citerar den i sitt monumentala koranvetenskapliga verk; Ibn Taymiyyah (d. 1328) åberopar den i sin kritik av logikerna. Klassificeringen lyder:
 
 > Tolkningen har fyra aspekter: en tolkning som araberna känner genom sitt eget språk, en tolkning som ingen är ursäktad att inte veta, en tolkning som de lärda känner, och en tolkning som ingen utom Allah ﷻ den Högste känner.[^2]
 
@@ -37,51 +37,43 @@ Det fjärde skiktet i Ibn ʿAbbās' klassificering avser alltså inte attributve
 
 ## En epistemologi med tak
 
-Vad händer med en civilisations syn på kunskap när dess heligaste text vilar på premissen att delar av den aldrig kan förstås?
-
 Okunnighet blir något annat än ett problem – ibland ett korrekt svar på verkligheten. Det fjärde skiktet vänder på logiken: den som stannar vid gränsen har inte misslyckats med att förstå – utan läst korrekt, ty gränsen är en del av textens mening. Att säga 'jag vet inte' är inte resignation utan lydnad. 1300-talstänkaren Ibn Qayyim al-Jawziyyah, Ibn ʿAbbās' tanketraditions store arvtagare, skrev: "Att känna gränserna för det Gud uppenbarat för Sin sändebud hör till trons fullkomlighet."[^8] Inte innehållet, utan gränserna – att veta var man ska sluta fråga hör till trons mognad.
 
-Ibn Qayyim trängde djupast in i detta landskap. I *Miftāḥ Dār al-Saʿādah* hävdade han att förnuftet, hur mäktigt det än är, har en given räckvidd – och att uppenbarelsen öppnar dörrar som förnuftet ensamt aldrig finner. Inte för att förnuftet är defekt, utan för att verkligheten överstiger det. Ibn Qayyim skrev: "Förnuftets relation till uppenbarelsens kunskap är som ögats relation till solljuset – ögat kan inte se utan ljus, och förnuftet kan inte nå dessa sanningar utan uppenbarelsens ledning."[^9] Ögat kan inte höra. Örat kan inte se. Och förnuftet kan tänka, men det kan inte beröra allt som finns.
+Ibn Qayyim trängde djupast in i detta landskap. I *Miftāḥ Dār al-Saʿādah* hävdade han att förnuftet, hur mäktigt det än är, har en given räckvidd – och att uppenbarelsen öppnar dörrar som förnuftet ensamt aldrig finner. Inte för att förnuftet är defekt, utan för att verkligheten överstiger det. Ibn Qayyim skrev: "Förnuftets relation till uppenbarelsens kunskap är som ögats relation till solljuset – ögat kan inte se utan ljus, och förnuftet kan inte nå dessa sanningar utan uppenbarelsens ledning."[^9] Och förnuftet kan tänka, men det kan inte beröra allt som finns.
 
 Ibn Taymiyyah gav principen sin skarpaste formulering – en som rör vid vad mänskligt språk inte förmår bära: "Skapelsens kunskap om Allah ﷻ fullkomnas inte genom att de fattar Hans väsens sanna natur, utan genom att de erkänner att Han är större än allt deras förstånd kan rymma."[^10] Det är inte intellektuell ödmjukhet som personlig dygd, utan en ontologisk princip: Guds verklighet överskrider vad det mänskliga begreppet kan innesluta. Det är skillnaden mellan att välja att böja sig och att upptäcka att golvet faktiskt slutar.
 
 ## Kontraster: genomskinlighet som ideal
 
-Den västerländska traditionen tog en annan väg – och den svenska historien följde den med ovanlig konsekvens. Reformationen valde en annan väg. Den kristna traditionen hade haft sin *docta ignorantia* – Pseudo-Dionysios' apofatiska teologi, Cusanus' lärda okunnighet – men reformationen åsidosatte den.[^24] *Sola scriptura* – Skriften allena – innebar att varje troende i princip kunde vara sin egen tolk. Texten var tillgänglig, begriplig, demokratisk. Den svenska historien är oupplösligt sammanflätad med detta ideal. Folkbibelns spridning, läskunnighetens kyrkligt drivna expansion, den gradvis framväxande övertygelsen att öppenhet i sig är ett moraliskt värde – allt pekar åt samma håll.
+Den västerländska traditionen tog en annan väg – och den svenska historien följde den med ovanlig konsekvens. Den kristna traditionen hade haft sin *docta ignorantia* – Pseudo-Dionysios' apofatiska teologi, Cusanus' lärda okunnighet – men reformationen åsidosatte den.[^24] *Sola scriptura* – Skriften allena – innebar att varje troende i princip kunde vara sin egen tolk. Texten var tillgänglig, begriplig, demokratisk. Den svenska historien är oupplösligt sammanflätad med detta ideal. Folkbibelns spridning, läskunnighetens kyrkligt drivna expansion, den gradvis framväxande övertygelsen att öppenhet i sig är ett moraliskt värde – allt pekar åt samma håll.
 
 Upplysningen upphöjde idealet till dogm. Strindberg, själv en av de mest oroliga andarna i svensk litteratur, registrerade den hybris som följde: "Vi ha löst alla problem. Universum har inga gåtor mera. Denna inbilska lögn hade retat mig redan omkring år 1880."[^11] Och på ett annat ställe, med en formulering som kunde stå som epigraf till hela den moderna informationskulten: "Det löjliga löjet över det man icke kan fatta."[^12]
-
-Strindberg anade att löjet var symptom – att oförmågan att uthärda det obegripliga är en svaghet, inte en styrka. Men han stod ensam med insikten, eller nästan ensam. Den hade inget system att vila i, inget fjärde skikt. Strindberg såg gränsen men ingen plats där det var OK att stanna.
 
 ## Glimtar bakom muren
 
 Andra svenska tänkare närmade sig samma tröskel, om än från olika håll. Carl von Linné, systematikern som ordnade hela skapelsen i fack och klasser, fann i sina privata anteckningar ett helt annat register. I *Nemesis Divina*, det hemliga manuskript han aldrig publicerade, ställde han frågan: "Vad är storsinthet, när ödeshjulet faller? Vad är visdom? Att se sin egen okunnighet."[^13] Linnés livsverk var att göra naturen genomskinlig; hans privata insikt att genomskinligheten hade en gräns. I *Egenhändiga anteckningar* konstaterade han torrt: "Fundamentum Fructificationis hade alle omtalat, men ingen förstådt."[^14] Alla hade pratat om det grundläggande. Ingen hade begripit det. Ellen Key, med samma ärlighet men från motsatt håll, erkände att det som "ytterst blir kvar som mysterium för utvecklingsläran, förblir det äfven för supranaturalisten, nämligen själfva rörelsekraften i utvecklingen."[^15] Naturvetaren och idéhistorikern möts vid samma vägg.
 
-Viktor Rydberg, en av den svenska liberalismens stora intellektuella, lät karaktären Kimon i *Den siste Atenaren* uttrycka samma misstro: "Förnuftet motsäger vad sinnena vittna. Påstode jag nu för min del, att sinnena äro lögnaktiga, så kan en annan med samma rätt påstå, att det tvärtom är förnuftets slutledningar, som äro falska."[^16] En romanfigurs replik – men att den behövde skrivas avslöjar sprickor i det rationalistiska bygget.
+Viktor Rydberg, en av den svenska liberalismens stora intellektuella, lät karaktären Kimon i *Den siste Atenaren* uttrycka samma misstro: "Förnuftet motsäger vad sinnena vittna. Påstode jag nu för min del, att sinnena äro lögnaktiga, så kan en annan med samma rätt påstå, att det tvärtom är förnuftets slutledningar, som äro falska."[^16] En romanfigurs replik – men att den behövde skrivas vittnar om sprickor i det rationalistiska bygget.
 
 Ingen av dem hade tillgång till en tradition som gjort väggen till en grundprincip. Och utan den principen blev insikten instabil – en privat aning som nästa generation kunde avfärda som mysticism eller melankoli, inte ett fundament att bygga vidare på.
 
 ## Att leva med ett tak
 
-I den islamiska traditionen är taket inte skandalöst. Det är arkitektoniskt. Här är vad språket ger dig, här är vad du måste veta, här är vad de lärda kan utreda åt dig, och *här* är gränsen. Bortom den bor mening som är verklig men inte din att äga.
-
 Ibn Rajab al-Ḥanbalī, den store kommentatorn av profettraditionerna, påminde om att Profeten ﷺ sade: "En tjänare uppnår inte den sanna taqwans verklighet förrän han lämnar det som inte angår honom." Han tillade: "Bland det som inte angår en människa är att tala om det som hon inte fått kunskap om, och att tvista om det som hennes förstånd inte rymmer."[^17] Kunskap har en riktning: nedåt, mot djupet, mot det dolda. Och vid en viss punkt faller den bortom mänskligt ljus. Ibn Qayyim formulerade det med en bild som rymmer hela principen: "Allahs ﷻ storhet kan inte inneslutas av de skapades förstånd, precis som Hans väsen inte kan inneslutas av de skapades blickar – och detta tillhör Hans fullkomlighets egenskaper, inte en brist hos Honom."[^18]
 
 Al-Māwardī, den islamiska statsrättens mästare, kondenserade hela principen till en enda mening: "Den som kände sitt eget mått har aldrig gått under."[^19] Måttet – qadr – inte som begränsning av ambition utan som förutsättning för överlevnad.
 
-Koranen återkommer till denna punkt: "Ni har redan tvistat om det ni har kunskap om, så varför tvistar ni nu om det ni inte har kunskap om? Allah ﷻ vet, men ni vet inte."[^20] Och: "Dessa liknelser framställer Vi för människorna. Men de uppfattas inte av andra än de med kunskap."[^21]
+Koranen återkommer till denna punkt: "Ni har redan tvistat om det ni har kunskap om, så varför tvistar ni nu om det ni inte har kunskap om? Allah ﷻ vet, men ni vet inte."[^20] Och: "Dessa liknelser framställer Vi för människorna. Men de uppfattas inte av andra än de med kunskap."[^21] Ibn Kathir citerar ʿAmr ibn Murrah som sade: "Aldrig passerade jag en vers i Guds Bok som jag inte förstod utan att det fyllde mig med sorg, ty jag hade hört Allah ﷻ säga: *de uppfattas inte av andra än de med kunskap*."
 
-Båda verserna förutsätter en asymmetri som den moderna informationskulten finner outhärdlig. Varje fråga ska ha ett svar som går att googla fram. Kunskap är inte demokratiskt fördelad. Förståelse är inte garanterad. Och det finns en kategori av mening som kan bäras men aldrig erövras – som vilar i texten, sjungs i bönen, lever i traditionen, utan att någonsin fullt ut övergå till mänskligt begrepp.
+Båda verserna förutsätter en asymmetri som den moderna informationskulten finner outhärdlig. Varje fråga ska ha ett svar som går att googla fram. Kunskap är inte demokratiskt fördelad. Och det finns en kategori av mening som kan bäras men aldrig erövras – som vilar i texten, sjungs i bönen, lever i traditionen, utan att någonsin fullt ut övergå till mänskligt begrepp.
 
 ## Slöjan som metod
-
-Detta fjärde skikt är inte en rest, inte en brist, inte ett ännu-inte. Det är en medveten konstruktion. En civilisation som erkänner det obegripligas legitimitet i sin mest centrala text har byggt in något som den moderna västvärlden saknar: ett språk för det ofattbara som inte reducerar det till ett problem. En grammatik där 'jag förstår inte' är en fullständig mening.
 
 Koranen nämner denna slöja utan omsvep: "När du reciterar Koranen sätter Vi mellan dig och dem som inte tror på livet efter detta en osynlig slöja."[^22] Slöjan skyddar. Den döljer inte av illvilja utan av nödvändighet – som att inte se rakt in i solen.
 
 Erik Gustaf Geijer, kanske den djupaste av de svenska idealisterna, närmade sig samma insikt från sitt håll: "En trogen, sanningsälskande forskning alltid leder till detta mysterium, ifrån hvad riktning den också börjar och hvad färg den ock bär."[^23]
 
-Men Geijer formulerade detta som en personlig observation. Ibn ʿAbbās formulerade det som ett system. Ena sidan en anomali, andra sidan en arkitektur. Att enstaka svenska tänkare nått samma tröskel visar att tröskeln är verklig. Den islamiska traditionens hela hermeneutik kring den visar att det går att leva med den – att den kan bära en civilisation snarare än undergräva den.
+Men Geijer formulerade detta som en personlig observation. Ibn ʿAbbās formulerade det som ett system. Ena sidan en anomali, andra sidan en arkitektur. Den islamiska traditionens hela hermeneutik kring den visar att det går att leva med den – att den kan bära en civilisation snarare än undergräva den.
 
 Den moderna informationskultens grundläggande premiss: allt okänt är tillfälligt okänt. Ge oss tillräckligt med data, och varje mysterium reduceras till ett ännu-inte. Ibn ʿAbbās' fjärde skikt säger det motsatta: det mest väsentliga kanske aldrig upphör att vara fördolt.
 

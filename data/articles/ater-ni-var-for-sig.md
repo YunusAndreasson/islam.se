@@ -61,7 +61,7 @@ Maten räckte. Det var bordssällskapet som saknades.
 
 > En persons mat räcker för två, och tvås mat räcker för fyra.[^16]
 
-Häri ligger ett löfte bortom aritmetik: *barakah*, den välsignelse som uppstår i delandet. Maten växer i mening, om än aldrig i vikt. Den ensamma måltiden besvarar bara en fråga: är du mätt? Den delade besvarar en annan: har du gett? Och det är givandet, inte ätandet, som förvandlar den som sitter vid bordet. Den algoritmiskt beräknade matkassen saknar just det: den är korrekt portionerad, men den gör mat till bränsle.
+Löftet pekar bortom aritmetik: *barakah*, den välsignelse som uppstår i delandet. Maten växer i mening, om än aldrig i vikt. Den ensamma måltiden besvarar bara en fråga: är du mätt? Den delade besvarar en annan: har du gett? Och det är givandet, inte ätandet, som förvandlar den som sitter vid bordet. Den algoritmiskt beräknade matkassen saknar just det: den är korrekt portionerad, men den gör mat till bränsle.
 
 Platon ville kontrollera maten uppifrån. För Ibn Khaldūn var matvanornas förändring oundviklig. Den islamiska traditionen tar motsatt väg – nerifrån: måtta vid varje måltid, gemenskap kring varje bord, medvetenhet om Gud vid varje tugga – en daglig praktik som bygger upp den solidaritet som lyxen urholkar.
 

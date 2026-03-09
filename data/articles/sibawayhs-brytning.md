@@ -5,7 +5,7 @@ wordCount: 1710
 qualityScore: 8.5
 description: "I en *ḥadīth*-diskussion i 700-talets Basra gjorde den unge persen Sībawayh ett grammatiskt fel. Skammen drev honom till språkvetenskapen, och resultatet blev *al-Kitāb* – den första systematiska arabiska grammatiken, som fjorton århundraden av arabiskfödda grammatiker aldrig har ersatt."
 ---
-Varje språknationalism vilar på en outtalad premiss: att ett språk tillhör dem som fötts in i det. Att modersmålet bär en hemlighet som den invandrade aldrig fullt kan nå. Premissen är fel. Dess mest förödande vederläggning var en persisk yngling i 700-talets Basra som talade arabiska med brytning.
+Varje språknationalism vilar på en outtalad premiss: att ett språk tillhör dem som fötts in i det. Att modersmålet bär en hemlighet som den invandrade aldrig fullt kan nå. Dess mest förödande vederläggning var en persisk yngling i 700-talets Basra som talade arabiska med brytning.
 
 Hans namn var Sībawayh.
 
@@ -32,8 +32,6 @@ Språkets sakralitet är odiskutabel. Men vem *äger* det? Om ägandet är etnis
 Ibn Khaldūn fastslog det i sin *al-Muqaddimah*: grundarna av den arabiska grammatiken – Sībawayh, al-Fārisī, al-Zajjāj – var alla av persisk härkomst. I samma verk tillade han:
 
 > De flesta muslimska lärda inom såväl religiösa som intellektuella vetenskaper har varit icke-araber.[^5]
-
-Kunskap är aldrig en fråga om härkomst.
 
 ## Vad språket kräver
 
@@ -67,15 +65,7 @@ Han tillade: "kunskap om språkens betydelser uppnås av den som umgås med dem 
 
 Stiernhielm lyfte svenskan ur tyskt och latinskt beroende. Men i Strindbergs *Röda rummet* utbrister en karaktär i satirisk förtvivlan: "Ner med den dumma hunden Georg Stjernhjelm!" – för att denne drivit fram svenskan och trängt undan tyskan.[^14] Strindberg satiriserar den som vänder sig mot själva den språkliga självständigheten. Det löjliga ligger hos dem som hellre behöll det lånade.
 
-Mekanismen *verkar* vara densamma, men fallen är omvända: i Basra motstår man att en utlänning träder in i arabiskan; i Stockholm motstår man att främmande ord tränger in i svenskan. Riktningen är motsatt, men antagandet identiskt – att ett språk har naturliga ägare. Att motståndet uppstår oavsett riktning avslöjar vad det egentligen skyddar: inte språket, utan hierarkin mellan dem som fötts innanför och dem som fötts utanför.
-
-I Sverige har instinkten gamla anor. Göticismen, 1600-talets övertygelse att Sverige var civilisationens urhem, drev språknationalismen till sin yttersta spets.[^15] Olof Rudbeck den äldre hävdade i *Atlantica* att Sverige var Platons Atlantis, att alla Europas språk härstammade från svenskan – absurt. Men påståendet efterlämnade en kulturreflex: känslan att det svenska språket kräver skydd mot främmande inflytande. Det är reaktionen när ett engelskt ord dyker upp i radion, kravet på översättningar av ord som alla redan förstår.
-
-Ellen Key skar igenom reflexen:
-
-> Den gamla fosterlandskänslan åter kan klart inse nationalismens synder hos ett annat folk, och dock godkänna liknande synder, då det egna folket begår dem.[^16]
-
-Mönstret är detsamma oavsett språk och sekel: nationalismen ser sin egen bild i spegeln och känner inte igen den.
+Mekanismen *verkar* vara densamma, men fallen är omvända: i Basra motstår man att en utlänning träder in i arabiskan; i Stockholm motstår man att främmande ord tränger in i svenskan. Riktningen är motsatt, men antagandet identiskt – att ett språk har naturliga ägare. Att motståndet uppstår oavsett riktning röjer vad det egentligen skyddar: inte språket, utan hierarkin mellan dem som fötts innanför och dem som fötts utanför.
 
 ## Vad en perser lärde araberna om deras eget språk
 
@@ -89,11 +79,11 @@ Mönstret gäller även västerut: Joseph Conrad lärde sig engelska i tjugoårs
 
 Sībawayh dog ung – knappt fyrtio. Han lämnade inga lärjungar i vanlig mening – han lämnade *al-Kitāb*. Det räckte.
 
-Fjorton århundraden senare har hans verk inte ersatts. Frågan han gestaltade skär lika djupt. I en tid då språkpolitik åter debatteras i Sverige – vem som har rätt att tala för ett språk, om språklig identitet är medfödd eller förvärvad – ger Sībawayh ett faktum snarare än ett svar.
+Fjorton århundraden senare har hans verk inte ersatts. I en tid då språkpolitik åter debatteras i Sverige – vem som har rätt att tala för ett språk, om språklig identitet är medfödd eller förvärvad – ger Sībawayh ett faktum snarare än ett svar.
 
 > Den som sökte kunskap fann heder utan svärd.[^18]
 
-Ibn al-Jawzī behövde inte nämna varifrån kunskapssökaren kom. Det spelade ingen roll. Det spelar fortfarande ingen roll.
+Ibn al-Jawzī behövde inte nämna varifrån kunskapssökaren kom.
 
 ---
 
@@ -111,8 +101,6 @@ Ibn al-Jawzī behövde inte nämna varifrån kunskapssökaren kom. Det spelade i
 [^12]: Ibn Taymiyyah, *al-Radd ʿalā al-Manṭiqiyyīn*. Egen översättning från arabiska.
 [^13]: Erik Gustaf Geijer, *Äreminne öfver Georg Stjernhjelm*.
 [^14]: August Strindberg, *Röda rummet* (1879). Passagen är satirisk: karaktären angriper ironiskt Stiernhielm för att ha drivit fram svenska på bekostnad av tyskan.
-[^15]: Göticismen var framträdande under 1600- och 1700-talen. Olof Rudbeck d.ä. argumenterade i *Atlantica* (1679–1702) för att Sverige var den antika civilisationens urhem. Götiska förbundet (grundat 1811) återupplivade liknande teman under nationalromantiken.
-[^16]: Ellen Key, *Lifslinjer, Tredje delen*.
 [^17]: ʿAlī ibn Abī Ṭālib, citerad i *Kitāb al-Ṣamt wa Ādāb al-Lisān*. Egen översättning från arabiska.
 [^18]: Ibn al-Jawzī, *Dhamm al-Hawā*. Egen översättning från arabiska.
 [^19]: Joseph Conrad (Józef Teodor Konrad Korzeniowski, 1857–1924) föddes i det ryska imperiets polska territorier och lärde sig engelska som vuxen sjöman. Han räknas bland det engelska språkets mest inflytelserika romanförfattare. Se Najder, Z., *Joseph Conrad: A Life*, Camden House, 2007.

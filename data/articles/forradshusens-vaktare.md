@@ -67,7 +67,7 @@ Ibn Taymiyyah skriver att de verksamheter som är nödvändiga för folkets väl
 
 En modern *ḥisbah* för svensk livsmedelsberedskap kan bygga på det ramverk som Finland redan tillämpar: strategiska reserver av baslivsmedel, tydligt myndighetsansvar, regelbunden omsättning av lagren så att ingenting föråldras. Bakom ramverket vilar en insikt som den svenska offentligheten knappt vågat formulera: att beredskap är ett villkor för frihet. Utan mat på bordet är varje annan rättighet meningslös.
 
-Denna insikt har Koranen uttalat sedan fjorton sekler. I sura *al-Balad* påminner den om den handling som väger tyngst: "Eller ge mat i tider av hungersnöd."[^19] Versens logik är ofrånkomlig. I kristider bleknar allt annat – rikedom, makt, prestige – inför en enda fråga: kan du mätta den som hungrar?
+Denna insikt har Koranen uttalat i över tusen år. I sura *al-Balad* påminner den om den handling som väger tyngst: "Eller ge mat i tider av hungersnöd."[^19] Versens logik är ofrånkomlig. I kristider bleknar allt annat – rikedom, makt, prestige – inför en enda fråga: kan du mätta den som hungrar?
 
 Tre dagars marginal. Josef hade sju år. Vi har inte ens en vecka.
 

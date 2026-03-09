@@ -3,7 +3,7 @@ title: "Alis princip"
 publishedAt: "2025-11-12T12:00:00.000Z"
 wordCount: 1859
 qualityScore: 8.6
-description: "År 1955 röstade svenska folket för att avskaffa Brattsystemet trots läkarnas varningar. Tjugofem år senare fick väljarna tre alternativ i kärnkraftsfrågan – inget av dem ett rent nej. Koranen ställde diagnosen långt före båda omröstningarna: de flesta följer antaganden, inte kunskap."
+description: "År 1955 röstade svenska folket för att avskaffa Brattsystemet trots läkarnas varningar. Tjugofem år senare fick väljarna tre alternativ i kärnkraftsfrågan – inget av dem ett rent nej. Koranen fastslog det långt före båda omröstningarna: de flesta följer antaganden, inte kunskap."
 ---
 En mening i Koranen borde oroa varje demokrat: "De flesta av dem följer inte annat än antaganden. Men antaganden kan aldrig ersätta sanningen på något sätt."[^1] Iakttagelsen är ren och osentimental – de flesta människor följer antaganden, och antaganden är inte sanning.
 
@@ -39,11 +39,9 @@ Koranen formulerar det med en direkthet som gör omskrivningar överflödiga: "V
 
 Ett uttalande tillskrivet ʿAlī ibn Abī Ṭālib, den fjärde kalifen, sammanfattar hela den islamiska kunskapsteorin i en enda mening: "Sanningen känns inte igen genom människor – känn igen sanningen, så känner du igen dess folk."[^13]
 
-Formuleringen ser enkel ut. Den är förödande.
+Den vänder upp och ned på det sätt vi normalt orienterar oss i världen. Vi bedömer påståenden efter vem som framför dem: auktoriteten, experten, majoriteten, den karismatiske ledaren. Alis princip kräver det motsatta: bedöm påståendet först, *sedan* avsändaren.
 
-Den vänder upp och ned på det sätt vi normalt orienterar oss i världen. Vi bedömer påståenden efter vem som framför dem: auktoriteten, experten, majoriteten, den karismatiske ledaren. Alis princip kräver det motsatta: bedöm påståendet först, *sedan* avsändaren. Sanningen har varken ansikte, meriter eller parti. Den är sann oavsett vem som yttrar den eller hur många som förnekar den.
-
-Ibn Taymiyyah fördjupade denna princip i flera av sina verk. Den som gör människor till måttstock för sanningen – istället för att pröva människors påståenden mot sanningen – begår det mest grundläggande tankefelet.[^14] Det spelar ingen roll om auktoriteten är en lärd, en ledare eller en majoritet: den som accepterar ett påstående *för att* det framförs av en viss person, utan att pröva det mot uppenbarelsen och det sunda förnuftet, har vänt kunskapsordningen upp och ned. Ibn Taymiyyah återkommer till detta i *Majmūʿ al-Fatāwā*: varje människa kan ha fel eller rätt, utom Profeten, fred vare med honom. Ingen annan åtnjuter ofelbarhet. Sanningen är kriteriet för människor, inte människor för sanningen.
+Ibn Taymiyyah fördjupade denna princip i flera av sina verk. Den som gör människor till måttstock för sanningen – istället för att pröva människors påståenden mot sanningen – begår det mest grundläggande tankefelet.[^14] Ibn Taymiyyah återkommer till detta i *Majmūʿ al-Fatāwā*: varje människa kan ha fel eller rätt, utom Profeten ﷺ. Ingen annan åtnjuter ofelbarhet.
 
 Det demokratiska samhället gör just detta – av struktur, inte av illvilja. Omröstningen frågar inte: *vad är sant?* Den frågar: *vad tycker de flesta?* Och den behandlar svaret som om det vore samma sak.
 

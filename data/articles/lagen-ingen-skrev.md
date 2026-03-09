@@ -45,7 +45,7 @@ Gudomlig lag bryter förvisso den onda cirkeln – rättens källa kan inte äga
 
 En varning, inte en fromhetsfras. Tolkaren kan bli den nye lagstiftaren, den som klär sitt godtycke i rättens formar – precis det Strindberg avslöjar hos sina häradshövdingar och grosshandlare. Makten byter adress, inte natur. Saknar auktoriteten integritet, har inget vunnits.
 
-Geijer såg samma spänning: "Kärleken är lagens fullbordan, utan hvilken lagen sjelf endast är en yttre form och ett, ehuru nödvändigt, ondt."[^14] Tillämpad utan rättrådighet förblir lagen ett "nödvändigt ont". Häri ligger den islamiska traditionens svar: den rättslärdes kvalifikation är både intellektuell och moralisk. *Taqwā* – gudsfruktan – är inte en prydnad utan en förutsättning. Det är den lärde som tvekar innan han talar, som känner tyngden i sitt svar.
+Geijer såg samma spänning: "Kärleken är lagens fullbordan, utan hvilken lagen sjelf endast är en yttre form och ett, ehuru nödvändigt, ondt."[^14] Tillämpad utan rättrådighet förblir lagen ett "nödvändigt ont". Det är den islamiska traditionens svar: den rättslärdes kvalifikation är både intellektuell och moralisk. *Taqwā* – gudsfruktan – är inte en prydnad utan en förutsättning. Det är den lärde som tvekar innan han talar, som känner tyngden i sitt svar.
 
 ## Vågen som inte kan luras
 

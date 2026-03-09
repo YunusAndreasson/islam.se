@@ -31,8 +31,7 @@ Ibn Qayyim, Ibn Taymiyyahs mest begåvade elev, förtätade bilden till en enda 
 
 > Det finns inget bland ondskans egenskaper som är rättvisare än avunden: den dödar den avundsjuke innan den når den avundade.[^5]
 
-Alla andra laster ger åtminstone något tillbaka – girigheten sitt guld, högmodet sin glans, vreden sin maktkänsla i det ögonblick den bryter ut. Avunden ger ingenting utom smärta. Den som avundas en annans framgång upplever inte framgång själv – bara en brännande medvetenhet om vad som saknas. Det är en last som inte ens har anständigheten att ljuga för sin värd.
-
+Alla andra laster ger åtminstone något tillbaka – girigheten sitt guld, högmodet sin glans, vreden sin maktkänsla i det ögonblick den bryter ut. Avunden ger ingenting utom smärta.
 Observationen är inte uteslutande islamisk. Thomas av Aquino nådde samma slutsats i sin *Summa Theologiae*, och Dante placerade de avundsjuka i skärselden med ögonen ihopsydda – blinda för allt utom sin egen plåga.[^6] Tre civilisationer, oberoende av varandra, ställde samma diagnos – en samstämmighet som borde få den moderna människan att stanna upp, när hon gärna reducerar laster till "negativa känslor".
 
 ## Den första synden, två gånger
@@ -47,7 +46,7 @@ Koranens femte sura berättar hur det gick till. Kain och Abel bär fram var sit
 
 "Hans inre drev honom." Inte en plan, inte ett strategiskt beslut – en kraft inifrån, starkare än förnuftet. Och resultatet: broderns död och att Kain själv blev "en av förlorarna" – *min al-khāsirīn*. Formuleringen bär en dubbel dom: mordet dödade Abel – men förstörde något i Kain.
 
-Genom att para ihop dessa två berättelser – Iblis i himlen, Kain på jorden – pekar al-Māwardī ut avund som den arketypiska synden, den som satte hela den kosmiska tragedin i rörelse. Iblis vägrade buga inför Adam av ren avund: hur kunde denna varelse av lera föredras framför honom, skapad av eld?[^9] Avund är, i denna läsning, en anklagelse mot Guds fördelning – en protest mot den ordning där andra får det man själv anser sig förtjäna.
+Iblis vägrade buga inför Adam av ren avund: hur kunde denna varelse av lera föredras framför honom, skapad av eld?[^9] Avund är, i denna läsning, en anklagelse mot Guds fördelning – en protest mot den ordning där andra får det man själv anser sig förtjäna.
 
 ## Ormboet
 
@@ -77,7 +76,7 @@ Max Scheler kartlade 1912 avundens inre mekanism i sitt verk om *ressentiment*. 
 
 Det sista steget är det farligaste – Scheler kallade det *Selbstvergiftung*, självförgiftning. Avund som stannar vid missnöje är smärtsam men hanterbar. Avund som omformar själva värdehierarkin är en existentiell katastrof: den avundsjuke kan inte längre se vad som är gott, eftersom allt gott som andra äger redan har blivit dåligt. Befordran betydde allt – tills den gick till någon annan, då blev ledarskap meningslöst byråkrateri.
 
-Sex århundraden tidigare hade Ibn Taymiyyah redan diagnostiserat: avund som det tillstånd där själen hatar det som gagnar den.[^3] Just här möts Schelers fenomenologi och den islamiska *nafs*-psykologin: avund är inte en känsla riktad mot andra utan ett tillstånd som förvränger blicken mot allt. Men mötet avslöjar en avgörande gräns. Scheler kan beskriva värdeinversionens mekanism – men inte upphäva den. Om subjektets egen värdeblick är förgiftad, finns i hans ramverk ingen oförstörd utsiktspunkt varifrån det förvridna kan korrigeras. Den islamiska diagnosen förutsätter en sådan punkt – *fiṭrah*, den skapade naturen, och ett mått utanför själen: Guds faktiska fördelning. Det är därför traditionen kan gå från diagnos till läkning.
+Just här möts Schelers fenomenologi och Ibn Taymiyyahs diagnos av *ḥasad*[^3]: avund är inte en känsla riktad mot andra utan ett tillstånd som förvränger blicken mot allt. Men mötet avslöjar en avgörande gräns. Scheler kan beskriva värdeinversionens mekanism – men inte upphäva den. Om subjektets egen värdeblick är förgiftad, finns i hans ramverk ingen oförstörd utsiktspunkt varifrån det förvridna kan korrigeras. Den islamiska diagnosen förutsätter en sådan punkt – *fiṭrah*, den skapade naturen, och ett mått utanför själen: Guds faktiska fördelning. Det är därför traditionen kan gå från diagnos till läkning.
 
 Hjalmar Söderberg, i *Doktor Glas*, sammanfattar alltsammans i sju ord:
 

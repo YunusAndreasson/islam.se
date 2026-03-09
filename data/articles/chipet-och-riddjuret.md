@@ -69,7 +69,7 @@ Begreppet *amānah* ger denna riktning dess fulla tyngd. Om kroppen vore egendom
 
 Leo Kall hade ett ögonblick av klarhet. Mot romanens slut, när hans uppfinning redan sönderslitit familjer och dömt oskyldiga, skriver han: "Rädsla var det inte. Jag hade varit rädd nästan hela mitt liv, jag hade varit feg – men just då var jag inte rädd."[^13] Ett ögonblick av insikt utan begrepp – han känner att något gått förlorat, men saknar språket.
 
-Men det språket har funnits i fjorton sekler, finslipat av tänkare som hedrade kroppen genom att vägra reducera den. Kroppen som riddjur, hjärtat som kunskapsplats, existensen som anförtrott lån: det är en begreppsram för att bebo en materiell verklighet utan att förlora sig i den.
+Men det språket har funnits sedan 600-talet, finslipat av tänkare som hedrade kroppen genom att vägra reducera den. Kroppen som riddjur, hjärtat som kunskapsplats, existensen som anförtrott lån: det är en begreppsram för att bebo en materiell verklighet utan att förlora sig i den.
 
 Den svenska litteraturen hade känt på samma förlust, om än utan språket att benämna den. Strindberg lät i *Röda rummet* sin berättare utbrista att "arbetets fördelning leder till släktets framgång och individens död" – han såg problemets konturer.[^14] Boye tecknade dess konsekvenser. Ibn Rajab al-Ḥanbalī, hanbalitisk andlig lärare på 1300-talet, fångade dess innersta lager: "Min kropp är med mig, men min ande är hos er – kroppen lever i främlingskap, anden i sin hemort."[^15]
 
