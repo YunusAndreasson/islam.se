@@ -1,12 +1,9 @@
 ---
 title: "Nattbönens ansikte"
 publishedAt: "2026-02-15T12:00:00.000Z"
-wordCount: 1848
+wordCount: 1897
 qualityScore: 8.6
-description: "En kvinna vaknar mitt i natten, inte för att sminka sig – för att be. Tillfrågad om varför svarar hon att bönen förskönar ansiktet. Det är ett svar skönhetsindustrin inte kan sälja."
-sourceIdea:
-  topic: "form-skonhet-och-det-forbjudna"
-  ideaId: 6
+description: "En kvinna vaknar mitt i natten, inte för att sminka sig – för att be. Tillfrågad varför svarar hon att bönen förskönar ansiktet. Det är ett svar skönhetsindustrin inte kan sälja."
 ---
 Mitt i natten vaknar en kvinna. Inte för att sminka sig – för att be. Hon står i timmar, knäböjer, reser sig, medan världen sover.
 
@@ -66,7 +63,7 @@ Karin Boye fördjupade bilden i *Astarte*: "små välsminkade uttryckslösa ansi
 
 ## Ljus och mörker
 
-Mot denna uttryckslöshet står det ljus som Koranen ständigt återkommer till – som metafor och som verklighet. "Det är Han och Hans änglar som välsignar er för att leda er ut ur mörkren till ljuset."[^15] Nattbönens logik framträder mot den bakgrunden: man stiger upp i det yttre mörkret för att finna det inre ljuset.
+Mot denna uttryckslöshet står det ljus som Koranen ständigt återkommer till – som metafor och som verklighet. "Det är Han och Hans änglar som välsignar er för att leda er ut ur mörkren till ljuset."[^15] Ibn Kathir citerar i sin kommentar till denna vers en profettradition: "Skall jag inte berätta för er om den bästa av era handlingar, den renaste inför er Herre, bättre för er än att ge guld och silver?" De sade: "Vad är det, Guds sändebud?" Han sade: "Åminnelsen av Gud." Nattbönens logik framträder mot den bakgrunden: man stiger upp i det yttre mörkret för att finna det inre ljuset.
 
 Al-Ḥasan al-Baṣrī uttydde Koranversen om de strålande ansiktena: "Gud förskönade dem genom att de fick skåda Honom – och det är med rätta de strålar, de som blickar mot sin Herre."[^16] Denna skönhet i den kommande världen är Guds belöning till de troende. "Gud är vacker och älskar skönhet", lyder en välkänd *ḥadīth*.[^17] Genom historien har denna *ḥadīth* också använts för att rättfärdiga uppskattning av fysisk skönhet och prydnad; den islamiska traditionen rymmer en rikare spänning mellan det yttre och det inre än en enkel rangordning fångar. Likväl kvarstår Ibn Qayyims poäng: det djupaste ljuset har en annan källa än huden.
 
@@ -82,7 +79,7 @@ Luqmān sade: "Den som ljuger förlorar sin fägring."[^20] Erik Gustaf Geijer h
 
 ## En sovande industri
 
-Varje år offrar världen hundratals miljarder dollar på att göra ansikten vackrare utifrån. Industrin växer: produkterna blir fler, teknikerna mer avancerade, löftena djärvare. Ändå: aldrig har en dyr kräm skänkt ett ansikte det ljus som springer ur glädje, ur själsfrid, ur godhet.
+Varje år offrar världen hundratals miljarder dollar på att göra ansikten vackrare utifrån.[^22] Industrin växer: produkterna blir fler, teknikerna mer avancerade, löftena djärvare. Ändå: aldrig har en dyr kräm skänkt ett ansikte det ljus som springer ur glädje, ur själsfrid, ur godhet.
 
 Den anonyma kvinnan som steg upp i natten för att be visste vad hela denna industri förbiser. Hon sökte skönhet genom det svåraste tänkbara – genom att offra sin sömn, sin bekvämlighet, sin natt – och fann den i det ljus som bönen lämnade i hennes ansikte.
 

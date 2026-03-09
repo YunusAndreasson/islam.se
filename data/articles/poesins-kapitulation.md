@@ -1,7 +1,7 @@
 ---
 title: "Poesins kapitulation"
 publishedAt: "2025-11-22T12:00:00.000Z"
-wordCount: 1777
+wordCount: 1792
 qualityScore: 8.6
 description: "När Walīd ibn al-Mughīra, en av Quraysh-stammens främsta poesikännare, ombads fördöma Koranen förmådde han inte förneka det han hört. Det var varken poesi eller prosa, sade han, men det ägde en skönhet som krossade allt under sig. Han fördömde texten ändå – politiken krävde det."
 ---
@@ -49,9 +49,9 @@ Dessa var inte medelmåttor: Ibn al-Muqaffaʿ präglade arabisk prosa i århundr
 
 När vi nu mött både utmaningen och de som försökte möta den kräver intellektuell hederlighet en paus. En uppenbar invändning reser sig: vem avgör om utmaningen besvarats? Om bedömningskriterierna definieras av samma tradition som utfärdar utmaningen, riskerar argumentet att bli cirkulärt; begreppet "jämförbar kvalitet" saknar allmänt vedertagna kriterier – något som i sig gör utmaningen både kraftfull och omdebatterad.
 
-Invändningen har tyngd – det finns ingen neutral jury, inget objektivt poängsystem för litterär kvalitet. Likväl förbiser den något väsentligt. Utmaningens första publik var inte troende muslimer utan fientliga Quraysh-araber. Deras tystnad var det ursprungliga beviset. Ibn ʿAṭiyyah formulerade det så: beviskraften vilade på araberna, eftersom de var vältalighetens mästare och de naturliga utmanarna.[^11] Kompetenta fiender, inte fromma anhängare, var måttstocken.
+Invändningen har tyngd – det finns ingen neutral jury, inget objektivt poängsystem för litterär kvalitet. Likväl förbiser den något väsentligt. Utmaningens första publik var inte troende muslimer utan fientliga Quraysh-araber. Deras tystnad var det ursprungliga beviset. Ibn Kathir citerar den tidiga uttolkaren Mujāhid, som förstod utmaningsversens 'era vittnen' som 'vältalighetens domare.' Ibn ʿAṭiyyah formulerade det så: beviskraften vilade på araberna, eftersom de var vältalighetens mästare och de naturliga utmanarna.[^11] Kompetenta fiender, inte fromma anhängare, var måttstocken.
 
-Även inom islamisk teologi fanns oenighet om utmaningens natur. Al-Naẓẓām och vissa mutaziliter hävdade *ṣarfah*-ståndpunkten: att Gud aktivt hindrade människor från att efterhärma Koranen, att förmågan i princip existerade men blockerades utifrån. Denna uppfattning avvisade majoriteten. Al-Suyūṭī citerar argumentet att utmaningen förutsätter att motståndarna *behåller* sin förmåga men ändå misslyckas; annars vore det ingen utmaning utan en omöjlighet. Att denna debatt fördes öppet inom den egna traditionen röjer en intellektuell redlighet sällsynt i dogmatik.
+Även inom islamisk teologi fanns oenighet om utmaningens natur. Al-Naẓẓām och vissa mutaziliter hävdade *ṣarfah*-ståndpunkten: att Gud aktivt hindrade människor från att efterhärma Koranen, att förmågan i princip existerade men blockerades utifrån. Denna uppfattning avvisade majoriteten. Al-Suyūṭī citerar argumentet att utmaningen förutsätter att motståndarna *behåller* sin förmåga men ändå misslyckas; annars vore det ingen utmaning utan en omöjlighet. Att denna debatt fördes öppet inom den egna traditionen röjer en intellektuell redlighet sällsynt i dogmatik.[^12]
 
 *Iʿjāz*-doktrinen tog därtill form som systematiskt teologiskt begrepp under särskilda historiska omständigheter – i nionde seklets mutazilitiska kretsar, delvis som svar på den *shuʿūbiyyah*-rörelse som ifrågasatte arabiskans företräde. Detta försvagar inte argumentet; det placerar det historiskt. En idé som föds i polemik kan ändå vara sann.
 

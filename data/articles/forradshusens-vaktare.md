@@ -1,12 +1,9 @@
 ---
 title: "Förrådshusens väktare"
 publishedAt: "2025-11-07T12:00:00.000Z"
-wordCount: 1698
+wordCount: 1720
 qualityScore: 8.6
 description: "År 2025 konstaterade MSB att svensk krisberedskap är otillräcklig och att Stockholm har tre dagars livsmedelsförsörjning innan hyllorna töms. Under kalla kriget hade landet beredskapslager för månader av isolering – idag finns ingen myndighet med utpekat ansvar för att svenskarna kan äta."
-sourceIdea:
-  topic: "framtidens-samhalle-islamisk-etik-och-svensk-teknik"
-  ideaId: 2
 ---
 Stockholm har tre dagars livsmedelsförsörjning. Sedan är hyllorna tomma, kylkedjan bruten. Åtta miljoner människor hänvisas till det som finns i skafferiet hemma.
 
@@ -20,7 +17,7 @@ I sura *Yūsuf* tolkar Josef den egyptiske kungens dröm om sju feta kor som slu
 
 > Ni skall under sju år få odla som vanligt. Det ni skördar bör ni sedan lämna i sina ax, utom lite grann som ni kan ha att äta.[^3]
 
-Sedan ber Josef själv om uppdraget: "Gör mig ansvarig för landets förrådshus; jag är sannerligen en kunnig förvaltare."[^4] Det arabiska ordet han använder, *ḥāfiẓ*, rymmer en dubbel valör: den som bevarar och den som håller räkning – inte en byråkrat utan en väktare. Den som går genom förrådshuset varje dag, känner på säckarna, räknar vad som finns kvar.
+Sedan ber Josef själv om uppdraget: "Gör mig ansvarig för landets förrådshus; jag är sannerligen en kunnig förvaltare."[^4] Det arabiska ordet han använder, *ḥāfiẓ*, rymmer en dubbel valör: den som bevarar och den som håller räkning – inte en byråkrat utan en väktare. Den som går genom förrådshuset varje dag, känner på säckarna, räknar vad som finns kvar. Ibn Kathir citerar Shayba ibn Naʿāma, som förtydligar: "*ḥafīẓ* – väktare över det som anförtrotts mig; *ʿalīm* – kännare av torråren."
 
 Ur Josefs svar växer en modell fram: centraliserad lagerhållning, rationering under överflödsåren, statlig kontroll över fördelningen. Allt vilar på en princip: den som ser överflödet och inte sparar för bristen sviker sitt uppdrag.
 

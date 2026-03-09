@@ -1,7 +1,7 @@
 ---
 title: "Nattens bokslut"
 publishedAt: "2026-02-20T12:00:00.000Z"
-wordCount: 1731
+wordCount: 1776
 qualityScore: 8.4
 description: "Varje kväll satte sig Zacharias Topelius vid sitt skrivbord och avslutade dagen med bön och självrannsakan – en vana hans mor grundlagt i Nykarleby. I Bagdad på 1000-talet föreskrev en islamisk rättslärd samma övning: granska dina gärningar, ty natten skärper tanken."
 ---
@@ -33,9 +33,9 @@ I den kristna världen saknade Topelius och pietisterna inte föregångare. På 
 
 ## Profetens ﷺ sänggåendepraxis
 
-Den islamiska kvällsrutinen är mer än reflektion – den är *dhikr*, åminnelse av Gud, uttalad med tungan och känd i hjärtat. Profeten Muḥammad ﷺ brukade, när han lade sig, säga: "I Ditt namn, o Gud, dör jag och lever." När han vaknade sade han: "Pris vare Gud som gett oss liv efter att ha låtit oss dö, och till Honom är återkomsten." Varje natt samlade han sina händer, blåste i dem och läste de avslutande surorna ur Koranen. Sedan strök han med händerna över sin kropp.[^11]
+Den islamiska kvällsrutinen är mer än reflektion – den är *dhikr*, åminnelse av Gud, uttalad med tungan och känd i hjärtat. Profeten Muḥammad ﷺ brukade, när han lade sig, säga: "I Ditt namn, o Gud, dör jag och lever." När han vaknade sade han: "Pris vare Gud som gett oss liv efter att ha låtit oss dö, och till Honom är återkomsten."[^10] Varje natt samlade han sina händer, blåste i dem och läste de avslutande surorna ur Koranen. Sedan strök han med händerna över sin kropp.[^11]
 
-Språket är anmärkningsvärt: sömnen kallas en liten död – ett tillfälligt anförtroende av själen till Gud. Koranen förstärker bilden: "Det är Han som tar er om natten och som vet vad ni uträttar om dagen. Sedan uppväcker Han er för att en fastställd tidsgräns skall infalla."[^12] Den som överlämnar sig medvetet, med ord, granskning och tacksamhet, gör något väsensskilt från den som somnar framför en skärm.
+Språket är anmärkningsvärt: sömnen kallas en liten död – ett tillfälligt anförtroende av själen till Gud. Ibn Kathir kallar detta "den mindre döden" och citerar versen: "Gud tar själarna vid deras död, och dem som inte har dött tar Han i sömnen; dem som Han har bestämt döden för behåller Han, och de andra sänder Han tillbaka till en bestämd frist." Koranen förstärker bilden: "Det är Han som tar er om natten och som vet vad ni uträttar om dagen. Sedan uppväcker Han er för att en fastställd tidsgräns skall infalla."[^12] Den som överlämnar sig medvetet, med ord, granskning och tacksamhet, gör något väsensskilt från den som somnar framför en skärm.
 
 Denna medvetenhet är vad Ibn Qayyim avsåg: åminnelsen "väcker hjärtat ur dess sömn".[^13] Spänningen är avsiktlig: den som minns Gud innan den fysiska sömnen kommer, vaknar i egentlig mening. Den klarhet som al-Māwardī tillskrev natten tillhör den som avslutar dagen med medvetenhet snarare än bedövning.
 

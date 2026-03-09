@@ -43,7 +43,7 @@ Koranen namnger kroppens relation till sin Skapare med ett ord som saknar direkt
 
 > Vi erbjöd himlarna och jorden och bergen förtroendet, men de vägrade att åta sig det och bävade för det, men människan åtog sig det.[^6]
 
-Det som erbjöds var inte ett ägande utan ett ansvar. Himlarna och bergen, hela den materiella verkligheten, vägrade bära det. Människan tog det på sig. I den klassiska exegesens ljus innebär *amānah* att människan anförtrotts sig själv: sin kropp, sitt intellekt, sin tid, sina relationer – som lån med villkor snarare än egendom att disponera fritt. Det är skillnaden mellan att äga ett hus och att bo i det som förvaltare – nycklarna är dina, men du får inte bränna ner det.
+Det som erbjöds var inte ett ägande utan ett ansvar. Himlarna och bergen, hela den materiella verkligheten, vägrade bära det. Människan tog det på sig. I den klassiska exegesens ljus innebär *amānah* att människan anförtrotts sig själv: sin kropp, sitt intellekt, sin tid, sina relationer – som lån med villkor snarare än egendom att disponera fritt. Det är skillnaden mellan att äga ett hus och att bo i det som förvaltare – nycklarna är dina, men du får inte bränna ner det.[^7]
 
 Profeten Muḥammad ﷺ fastslog det i en formulering som gör modern ägandelogik otillämplig på kroppen: "Fullgör det anförtrodda mot den som anförtrott dig det, och svek inte den som sviker dig."[^8] Principen är ovillkorlig.
 

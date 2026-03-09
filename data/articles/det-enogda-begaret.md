@@ -43,7 +43,7 @@ Ibn Qayyim inför en kategori utan motsvarighet i den västerländska blickteori
 
 > Att sänka blicken ger hjärtat ljus, att släppa den fri klär det i mörker.[^7]
 
-Att släppa blicken fri försvagar hjärtat och gör det sorgset; att sänka den stärker det och glädjer det.[^8] Detta ljus, tillfogar han i *Rawḍat al-Muḥibbīn*, blir synligt i ögat och i ansiktet. Språket är metaforiskt, men verkligheten det pekar på är psykologisk. Spegelmetaforen förklarar mekanismen: om ögat återkastar hjärtats tillstånd, innebär den ostyrade blicken att hjärtat ständigt *bygger* – begär, berättelse, fantasi – ur varje synintryck. Det är denna oavbrutna konstruktion som förmörkar, inte seendet självt. Att sänka blicken avbryter byggandet, och hjärtat, befriat från sitt eget arbete, kan rikta sig mot det som redan finns.
+Att släppa blicken fri försvagar hjärtat och gör det sorgset; att sänka den stärker det och glädjer det.[^8] Detta ljus, tillfogar han i *Rawḍat al-Muḥibbīn*, blir synligt i ögat och i ansiktet. Språket är metaforiskt, men verkligheten det pekar på är psykologisk. Spegelmetaforen förklarar mekanismen: om ögat återkastar hjärtats tillstånd, innebär den ostyrade blicken att hjärtat ständigt *bygger* – begär, berättelse, fantasi – ur varje synintryck. Det är denna oavbrutna konstruktion som förmörkar, inte seendet självt. Att sänka blicken avbryter byggandet, och hjärtat, befriat från sitt eget arbete, kan rikta sig mot det som redan finns.[^9]
 
 Den som lärt sig stanna vid den första blicken odlar vad traditionen kallar *baṣīrah*, inre syn. Ibn Qayyim i *Madārij al-Sālikīn*:
 

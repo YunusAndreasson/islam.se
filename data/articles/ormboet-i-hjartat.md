@@ -5,8 +5,6 @@ wordCount: 2196
 qualityScore: 8.5
 description: "I sin parisiska exil 1897 stöter August Strindberg bort vänner och drar sig undan, övertygad om att okända makter förföljer honom. Sex århundraden tidigare hade Ibn Taymiyyah redan ställt diagnosen: avund är en sjukdom med en förstörelseordning – den börjar i själen och arbetar sig utåt."
 ---
-# TRANSLITERATE – Akademisk arabisk translitterering och fotnotsstandardisering
-
 En passage i Strindbergs *Inferno* förtjänar att läsas med djup eftertanke. Mitt i sin parisiska exil, sönderfallen av alkemi och paranoia, skriver han:
 
 > Svartsjukt mån om min upptäckt, tar jag inga mått och steg för att utsprida den. I min skygghet vänder jag mig ej till auktoriteterna och akademierna … ursinnig över denna pina, som jag är hågad tillskriva de okända makter, vilka i så många år förföljt mig och lagt hinder för mina bemödanden, undviker och försummar jag människors sällskap, ger återbud till bjudningar, stöter vänner ifrån mig. Tystnad och enslighet breda sig omkring mig.[^1]

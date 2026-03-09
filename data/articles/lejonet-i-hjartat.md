@@ -1,7 +1,7 @@
 ---
 title: "Lejonet i hjärtat"
 publishedAt: "2025-12-22T12:00:00.000Z"
-wordCount: 1734
+wordCount: 1761
 qualityScore: 8.6
 description: "Under 1300-talets första hälft i Damaskus ägnade Ibn Qayyim al-Jawziyyah ett kapitel i sitt storverk *Madārij al-Sālikīn* åt begreppet *firāsah* – en insikt som slår ner i hjärtat som ett lejon slår ner sitt byte, och vars skärpa han menade beror på betraktarens moraliska liv."
 ---
@@ -59,7 +59,7 @@ Den moderna kognitionsvetenskapen har kartlagt intuitionens mekanismer, men inte
 
 Men ingen av dem ställer frågan: *kan intuitionens kvalitet förbättras genom moralisk omvandling?* Kognitionspsykologi kartlägger mekanismer, inte deras moraliska förutsättningar. Denna begränsning blir ett problem när den hårdnar till axiom: att intuition är moraliskt neutral, att den inte *kan* vara annat.
 
-Den frågan har västerländska motsvarigheter. Iris Murdoch argumenterade i *The Sovereignty of Good* (1970) för att klart seende kräver moralisk ansträngning – den som lever disciplinerat uppfattar verkligheten tydligare. Slutar man ljuga, ser man när andra ljuger. Men Murdoch konstaterar sambandet utan att kunna förklara det – hennes ramverk ger inget svar på *varför* moralisk disciplin skärper perception. Ibn Qayyims metafysik har svaret: hjärtat är skapat som perceptionsorgan, och ljuset som återställer dess klarhet ges av Gud som svar på *taqwā*. Det som hos Murdoch förblir en filosofisk intuition är hos Ibn Qayyim en förklaring.
+Den frågan har västerländska motsvarigheter. Iris Murdoch argumenterade i *The Sovereignty of Good* (1970) för att klart seende kräver moralisk ansträngning – den som lever disciplinerat uppfattar verkligheten tydligare. Slutar man ljuga, ser man när andra ljuger. Men Murdoch konstaterar sambandet utan att kunna förklara det – hennes ramverk ger inget svar på *varför* moralisk disciplin skärper perception.[^17] Ibn Qayyims metafysik har svaret: hjärtat är skapat som perceptionsorgan, och ljuset som återställer dess klarhet ges av Gud som svar på *taqwā*. Det som hos Murdoch förblir en filosofisk intuition är hos Ibn Qayyim en förklaring.
 
 Enligt en tradition som al-Tirmidhī återger – de enskilda berättarkedjorna är svaga, men hadithvetare klassificerar den som *ḥasan li-ghayrihi*, tillförlitlig genom samstämmighet – sade Profeten Muḥammad ﷺ: "Akta er för den troendes *firāsah*, ty han ser med Guds ljus."[^14] Att se med Guds ljus är inget anspråk på ofelbarhet. Det är att hävda att det finns en form av perception som öppnar sig för den som renar sitt hjärta – och att denna perception är verklig.
 
@@ -73,7 +73,7 @@ Det finns stunder av klarhet – ögonblick då man ser igenom en situation med 
 
 Häri ligger det svårsmälta för moderniteten: att kunskap är en fråga om karaktär lika mycket som metod, att den som lever oredligt inte bara handlar fel utan *ser* fel och att perception och moral aldrig var skilda domäner.
 
-I sura al-Ḥijr finns en vers som Ibn Qayyim ofta återvände till: "I detta finns sannerligen tecken för de insiktsfulla."[^16] Det arabiska ordet är *mutawassimīn* – de som läser tecken, de som äger *firāsah*. Tecknen finns där, världen döljer ingenting – frågan är om betraktarens hjärta är tillräckligt klart för att läsa dem.
+I sura al-Ḥijr finns en vers som Ibn Qayyim ofta återvände till: "I detta finns sannerligen tecken för de insiktsfulla."[^16] Det arabiska ordet är *mutawassimīn* – de som läser tecken, de som äger *firāsah*. Ibn Kathir återger i sin kommentar till denna vers att Profeten ﷺ reciterade den omedelbart efter att ha uttalat orden om den troendes *firāsah* och Guds ljus. Tecknen finns där, världen döljer ingenting – frågan är om betraktarens hjärta är tillräckligt klart för att läsa dem.
 
 Och det lejon som i Ibn Qayyims bild kastar sig över sitt byte – den ingivelse som slår ner i hjärtat utan förvarning, utan tvekan – det lejonet jagar alltjämt.
 
