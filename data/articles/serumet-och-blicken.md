@@ -1,7 +1,7 @@
 ---
 title: "Serumet och blicken"
 publishedAt: "2025-08-09T12:00:00.000Z"
-wordCount: 1631
+wordCount: 1803
 qualityScore: 8.7
 description: "I november 1940 publicerar Karin Boye *Kallocain*, romanen om ett sanningsserum som blottlägger varje medborgares innersta tankar. Fem månader senare tar hon sitt liv. Den islamiska traditionen utgår från samma premiss – att ingenting är dolt – men drar en diametralt motsatt slutsats."
 ---
@@ -47,7 +47,7 @@ Det arabiska begreppet *iḥsān*, definierat i den berömda Jibril-hadithen, ly
 
 Kallocainets allvetande tillhör en stat vars enda intresse är kontroll; dess blick söker avvikelsen, hotet, det som kan användas mot medborgaren. Den som vet sig övervakad av en sådan makt krymper, döljer sig, amputerar sina innersta impulser för att överleva. Samtalet vid köksbordet som tystnar halvvägs in i meningen.
 
-Koranens allvetande tillhör *al-Raḥmān*, den Barmhärtige, vars blick genomlyser hjärtat som en Skapares – en som känner det skapade bättre än det känner sig självt. "Din Herre vet vad deras bröst rymmer likaväl som vad de öppet visar," säger Koranen.[^8] Sammanhanget är omsorg: Gud vet *för att* Han vårdar.
+Koranens allvetande tillhör *al-Raḥmān*, den Barmhärtige, vars blick genomlyser hjärtat som en Skapares – en som känner det skapade bättre än det känner sig självt. "Din Herre vet vad deras bröst rymmer likaväl som vad de öppet visar," säger Koranen.[^8] Sammanhanget är omsorg: Gud vet *för att* Han vårdar. Som Ibn Kathir noterar: Gud "öser sina välsignelser över människorna trots att de förorättar sig själva."
 
 Den sufiske teologen Ibn Qayyim al-Jawziyyah (d. 1350) preciserar sambandet: "Den som vakar över Gud i sina hemliga tankar, honom bevarar Gud i hans lemmars rörelser."[^9] Den formuleringen vränger Kallocainets logik. I Boyes roman avslöjar serumet tanken och förstör handlingsfriheten. I Ibn Qayyims universum är det medvetenheten om att tanken redan är genomlyst som *möjliggör* handlingens integritet. Den som vet att tanken ses behöver inte städa den innan den blir handling. Den som vet att Gud ser behöver inte dölja – och den som inte döljer behöver inte frukta.
 
@@ -105,7 +105,7 @@ Hemlighet – *sirr*: ordet är talande. Allvetandet som borde avskaffa varje he
 [^4]: Karin Boye, *Kallocain*, kap. 8.
 [^5]: Karin Boye, *Kallocain*, kap. 25.
 [^6]: Koranen, al-Aḥzāb 33:54.
-[^7]: Jibril-hadithen, Sahih Muslim, Kitāb al-Īmān, nr 8.
+[^7]: Jibril-hadithen, Ṣaḥīḥ Muslim, Kitāb al-Īmān, nr 8.
 [^8]: Koranen, al-Naml 27:74.
 [^9]: Ibn Qayyim al-Jawziyyah, *Madārij al-Sālikīn* (De vandrandes stationer).
 [^10]: Ibn al-Jawzī, *al-Adhkiyāʾ*.

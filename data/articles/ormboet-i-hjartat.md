@@ -39,7 +39,7 @@ Observationen är inte uteslutande islamisk. Thomas av Aquino nådde samma sluts
 
 Den islamiska traditionens mest slående insikt om avund är inte psykologisk utan kosmisk. Al-Māwardī pekar ut avund som den arketypiska synden – den som satte hela den kosmiska tragedin i rörelse, både i himlen och på jorden:
 
-> Avund var den första synden som begicks mot Allah i himlen – det vill säga Iblis' avund mot Adam, frid vare med honom – och den första synden som begicks mot Allah ﷻ på jorden – det vill säga Adams sons avund mot sin bror, tills han dödade honom.[^7]
+> Avund var den första synden som begicks mot Allah ﷻ i himlen – det vill säga Iblis' avund mot Adam, frid vare med honom – och den första synden som begicks mot Allah ﷻ på jorden – det vill säga Adams sons avund mot sin bror, tills han dödade honom.[^7]
 
 Koranens femte sura berättar hur det gick till. Kain och Abel bär fram var sitt offer; Abels godtas; Kains avvisas. Och sedan den mening som rymmer hela avundens väsen i en enda sats:
 

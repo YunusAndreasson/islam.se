@@ -91,7 +91,7 @@ Planeterna är ostadiga som ett människoliv. Vad fordrar den obeständigheten a
 [^8]: Ibn Qayyim al-Jawziyyah, *Madārij al-Sālikīn* (De vandrandes stationer), del 1.
 [^9]: Ibn al-Jawzī, *Dhamm al-Hawā*.
 [^10]: Saʿīd ibn Jubayr, citerad i Ibn Rajab al-Ḥanbalī, *Laṭāʾif al-Maʿārif*.
-[^11]: Sahih Muslim, *Kitāb al-Īmān*, *ḥadīth* 91. Profeten ﷺ sade: "Ingen skall inträda i paradiset som har ett uns av högmod i sitt hjärta." En man frågade: "Tänk om en man tycker om att ha fina kläder och fina skor?" Han svarade: "Allah ﷻ är vacker och älskar skönhet. Högmod är att förneka sanningen och förakta människor."
+[^11]: Ṣaḥīḥ Muslim, *Kitāb al-Īmān*, *ḥadīth* 91. Profeten ﷺ sade: "Ingen skall inträda i paradiset som har ett uns av högmod i sitt hjärta." En man frågade: "Tänk om en man tycker om att ha fina kläder och fina skor?" Han svarade: "Allah ﷻ är vacker och älskar skönhet. Högmod är att förneka sanningen och förakta människor."
 [^12]: Ibn Qayyim al-Jawziyyah, *al-Fawāʾid*.
 [^13]: Koranen, al-Isrāʾ 17:37.
 [^14]: Topelius, "Förord till lärare och äldre läsare", *Naturens Bok* (1856).

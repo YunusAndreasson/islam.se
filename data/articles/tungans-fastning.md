@@ -1,7 +1,7 @@
 ---
 title: "Tungans fästning"
 publishedAt: "2025-08-04T12:00:00.000Z"
-wordCount: 2886
+wordCount: 2917
 qualityScore: 8.7
 description: "I 1300-talslärden Ibn Qayyim al-Jawziyyahs skildring samlar Satan sina trupper och pekar ut ett mål framför alla andra: tungans fästning. Den kan erövras på två sätt – genom den som sprider lögner och genom den som tiger när sanningen behöver sägas."
 ---
@@ -29,7 +29,7 @@ Koranen själv talar skarpt nog att skära genom varje relativisering:
 
 > Hon yttrar inte ett ord utan att vid sig ha en väktare redo.[^8]
 
-Varje ord registreras – inte ungefärligt, inte i stora drag, utan varje enskilt ord. Den moderna människan, van vid att betrakta sina yttranden som flyktiga, omedelbart upplösta i informationens ständiga ström, borde finna bilden otäck. Ingenting försvinner. Och längre fram:
+Varje ord registreras – inte ungefärligt, inte i stora drag, utan varje enskilt ord. Den moderna människan, van vid att betrakta sina yttranden som flyktiga, omedelbart upplösta i informationens ständiga ström, borde finna bilden otäck. Ingenting försvinner. Ibn Kathir citerar en profettradition ur Ṣaḥīḥ al-Bukhārī: "Allah ﷻ har förlåtit mitt samfund det som deras själar viskar till dem, så länge de inte uttalar det eller handlar efter det." Och längre fram:
 
 > Ni som har antagit tron! Undvik alltför många antaganden. Vissa antaganden är en synd. Leta inte efter andras brister och baktala inte varandra. Skulle någon av er tycka om att äta sin döda broders kött? Nej, ni skulle avsky det.[^9]
 

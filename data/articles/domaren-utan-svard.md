@@ -1,7 +1,7 @@
 ---
 title: "Domaren utan svärd"
 publishedAt: "2026-01-11T12:00:00.000Z"
-wordCount: 1615
+wordCount: 1640
 qualityScore: 8.6
 description: "Abū al-Ḥasan al-Māwardī verkade som överdomare i Bagdad på 1000-talet, i en tid då kalifens makt redan glidit in i sultanernas händer. Hans tredelning av rättsväsendet – med skarpa befogenhetsgränser för varje ämbete – föregick Montesquieus maktdelningslära med närmare sjuhundra år."
 ---
@@ -61,7 +61,7 @@ Under al-Māwardīs livstid förföll det abbasidiska kalifatet; muhtasiber öve
 
 > Allah ﷻ befaller er att återlämna allt ni anförtrotts till dess rättmätiga ägare och att, när ni dömer mellan människor, döma med rättvisa.[^21]
 
-Rättvisan är ett förtroende – *amānah* – inte en egendom. Den som förvaltar den äger den inte.
+Ibn Kathir citerar en profettradition i sin kommentar till denna vers: "Fullgör förtroendet gentemot den som anförtrott dig, och förråd inte den som förråder dig." Rättvisan är ett förtroende – *amānah* – inte en egendom. Den som förvaltar den äger den inte.
 
 ## Frågan som återstår
 
@@ -73,7 +73,7 @@ Svärdet kan skydda rättvisan. Det kan aldrig vara den.
 
 [^1]: al-Māwardī, *al-Aḥkām al-Sulṭāniyyah*, kapitel om domstolsväsendet och statsförvaltningen.
 [^2]: Jfr den kritik som bland andra Patricia Crone och Wael Hallaq framfört mot anakronistiska läsningar av medeltida islamisk politisk teori.
-[^3]: Hadith i Sahih al-Bukhari, nr 7158, och Sahih Muslim. Citerad bland annat i Ibn al-Jawzīs *Ṣayd al-Khāṭir*.
+[^3]: Hadith i Ṣaḥīḥ al-Bukhārī, nr 7158, och Ṣaḥīḥ Muslim. Citerad bland annat i Ibn al-Jawzīs *Ṣayd al-Khāṭir*.
 [^4]: Profeten ﷺ, återgiven i Ibn Rajab al-Ḥanbalī, *Jāmiʿ al-ʿUlūm wa-l-Ḥikam*.
 [^5]: al-Māwardī, *al-Aḥkām al-Sulṭāniyyah*, kapitlet om *maẓālim*.
 [^6]: al-Māwardī, *al-Aḥkām al-Sulṭāniyyah*, kapitlet om *maẓālim*.

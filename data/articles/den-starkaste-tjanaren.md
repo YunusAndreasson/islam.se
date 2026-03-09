@@ -35,7 +35,7 @@ Kybernetikens grundare Norbert Wiener identifierade samma struktur: maskinens fa
 
 Försäkringskassan-fallet rymmer mer än en teknisk skandal. Det avslöjar välfärdsstatens outtalade löfte. En medborgare som vänder sig till en myndighet med en ansökan ingår ett förtroendeavtal, något äldre än ett juridiskt kontrakt. Hon utlämnar information om sitt liv, sin hälsa, sin familjesituation – och litar på att den behandlas rättvist. För detta har Koranen ett ord: *al-amānah*, förtroendeuppdraget – som den oupplösligt kopplar till rättvis dom:
 
-> Allah befaller er att återlämna allt ni anförtrotts till dess rättmätiga ägare och att, när ni dömer mellan människor, döma med rättvisa.[^11]
+> Allah ﷻ befaller er att återlämna allt ni anförtrotts till dess rättmätiga ägare och att, när ni dömer mellan människor, döma med rättvisa.[^11]
 
 Ibn Kathir citerar en profettradition: "Fullgör förtroendeuppdraget gentemot den som anförtrott dig, och förråd inte den som förråder dig." Att förvalta andras angelägenheter kräver därför trovärdighet lika mycket som korrekthet – den som dömer måste kunna visa *att* hon dömer rätt. En algoritm som fattar korrekta beslut i sjuttio procent av fallen men inte kan redogöra för något av dem uppfyller möjligen ett effektivitetskriterium men den uppfyller inte *amānah*.
 

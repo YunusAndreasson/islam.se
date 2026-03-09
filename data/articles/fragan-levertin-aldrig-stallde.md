@@ -104,7 +104,7 @@ Denna närhet mellan törst och källa, mellan *fiṭrah* och dess Skapare, teck
 [^7]: Pew Research Center, "Being Christian in Western Europe" (2018). 36 procent av svenska vuxna uppger att de tror på en gud, en högre makt eller en andlig kraft.
 [^8]: Ellen Key, *Lifslinjer*, Tredje delen. Key parafraserar Rousseau.
 [^9]: Koranen, al-Rūm 30:30.
-[^10]: Sahih al-Bukhari, *Kitab al-Qadar*, nr. 6599; Sahih Muslim, *Kitab al-Qadar*, nr. 2658.
+[^10]: Ṣaḥīḥ al-Bukhārī, *Kitāb al-Qadar*, nr. 6599; Ṣaḥīḥ Muslim, *Kitāb al-Qadar*, nr. 2658.
 [^11]: Ibn Taymiyyah, *Amrāḍ al-Qulūb wa-Shifāʾuhā* (Hjärtats sjukdomar och deras bot).
 [^12]: Ibn Taymiyyah, *al-Īmān* (Tron). Parafras efter arabisk originaltext.
 [^13]: Ibn Qayyim al-Jawziyyah, *al-Fawāʾid* (Visdomens frukter). Parafras efter arabisk originaltext.

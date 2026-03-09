@@ -105,7 +105,7 @@ Den som vänder sig mot Gud i nattens mörker bär spår av det mötet i sitt an
 [^14]: Karin Boye, *Astarte*.
 [^15]: Koranen, al-Aḥzāb 33:43.
 [^16]: al-Ḥasan al-Baṣrī, citerad i Ibn Qayyim al-Jawziyyah, *Rawḍat al-Muḥibbīn*, angående Koranen *al-Qiyāmah* 75:22–23.
-[^17]: Sahih Muslim, *Kitāb al-Īmān*, nr 91.
+[^17]: Ṣaḥīḥ Muslim, *Kitāb al-Īmān*, nr 91.
 [^18]: al-Fuḍayl ibn ʿIyāḍ, citerad i Ibn Rajab al-Ḥanbalī, *Jāmiʿ al-ʿUlūm wa-l-Ḥikam*.
 [^19]: Ibn Qayyim al-Jawziyyah, *Rawḍat al-Muḥibbīn*.
 [^20]: Luqmān (fred vare med honom), citerad i Ibn Abī al-Dunyā, *Kitāb al-Ṣamt wa-Adab al-Lisān* (Boken om tystnad och tungans etik).

@@ -1,9 +1,9 @@
 ---
 title: "Skapad ur ingenting"
 publishedAt: "2025-12-07T12:00:00.000Z"
-wordCount: 1576
+wordCount: 1638
 qualityScore: 8.6
-description: "Tre koranverser ställer en fråga som inte lämnar spelrum: har allting skapats av ingenting, eller skapade det sig självt – eller finns en Skapare? Det är inte en vädjan till tron. Det är ett logiskt argument."
+description: "Tre koranverser ställer en fråga som inte ger spelrum: har allting skapats av ingenting, eller skapade det sig självt – eller finns en Skapare? Det är ingen vädjan till tro. Det är ett logiskt argument."
 ---
 Strindberg var ärlig nog att formulera problemet. I *Inferno* skriver han: "Jag har nämligen blivit ateist under årens lopp, när jag märkt hur de okända makterna lämnat världen åt dess öde utan att giva ett livstecken ifrån sig."[^1] En mening man kan respektera – inte för att den är sann, utan för att den visar vad ateismen kostar den som tar den på allvar. Strindberg ville inte vara ateist. Dit tvingades han av vad han upplevde som Guds tystnad. Han kunde inte stanna där.
 
@@ -19,7 +19,7 @@ De uttömmer alla möjligheter och utesluter varandra. Antingen uppstod allting 
 
 De två första alternativen är absurda: att något uppstår ur absolut intet – verkligt *intet*, till skillnad från vakuumfluktuationer eller kvanttillstånd – saknar all förklaring. Att något skapar sig självt kräver att det existerar innan det existerar. Kvar står det tredje.
 
-Här finns ingen vädjan till känslan, ingen uppmaning att tro trots förnuftet. Frågan är ren logik, ställd med en knapphet som gör den svår att undkomma. I *Monadologin* nådde Leibniz samma punkt 1714 när han formulerade principen om tillräcklig grund: ingenting sker utan att det finns en anledning till att det sker så och inte annorlunda.[^4] Där Leibniz behövde ett helt metafysiskt system för att komma dit, ställer Koranen frågan på tre rader och lämnar lyssnaren ensam med svaret.
+Här finns ingen vädjan till känslan, ingen uppmaning att tro trots förnuftet. Frågan är ren logik, ställd med en knapphet som gör den svår att undkomma. Ibn Kathir citerar en tradition återgiven av al-Bukhārī: Jubayr ibn Muṭʿim, som vid den tiden var polyteist, hade kommit till Profeten ﷺ efter slaget vid Badr för att lösa ut krigsfångar. Han hörde Profeten ﷺ recitera dessa verser under bönen och sade: "Mitt hjärta höll på att flyga" – och Ibn Kathir tillägger att det var bland det som förde honom till islam. I *Monadologin* nådde Leibniz samma punkt 1714 när han formulerade principen om tillräcklig grund: ingenting sker utan att det finns en anledning till att det sker så och inte annorlunda.[^4] Där Leibniz behövde ett helt metafysiskt system för att komma dit, ställer Koranen frågan på tre rader och lämnar lyssnaren ensam med svaret.
 
 ## Koranens argument och dess kritiker
 

@@ -1,9 +1,9 @@
 ---
 title: "Karin Boyes kapitulation"
 publishedAt: "2025-09-03T12:00:00.000Z"
-wordCount: 1969
+wordCount: 1990
 qualityScore: 8.6
-description: "I romanen *Kris* beskriver Karin Boye en andlig kapitulation hon kallar 'en befrielse, ett under'. Befrielsen nås genom egenviljans utplånande, tomheten som gör rum. Islam har ett ord för det."
+description: "I *Kris* beskriver Karin Boye en kapitulation hon kallar 'en befrielse, ett under': egenviljans utplånande, tomheten som gör rum. Islam har ett ord för det."
 ---
 En mening i svensk litteratur borde vara omöjlig att glömma. Karin Boye skrev den 1934, i den roman som bar den nakna titeln *Kris*:
 
@@ -35,11 +35,11 @@ Boye visste vad tömningen kostade. Hela *Kris* kretsar kring den smärta som up
 
 Koranen ger denna tanke dess skarpaste kontur:
 
-> De som har antagit tron och vars hjärtan finner ro i att prisa Allah – visst är det i Allahs pris som hjärtan finner ro![^7]
+> De som har antagit tron och vars hjärtan finner ro i att prisa Allah ﷻ – visst är det i Allahs ﷻ pris som hjärtan finner ro![^7]
 
 Hjärtats ro – *ṭumaʾnīnah* – uppstår inte genom att alla yttre omständigheter ordnas. Den infinner sig när hjärtat funnit sin riktning.
 
-Boye kände detta. I *Kris* skriver hon: "Sådana är vi redskap, för små att urskilja den Eviges tankar. Och ändå redskap."[^8] Central i *ʿubūdiyyah* är insikten att den egna litenheten bär värdighet – att vara otillräcklig och ändå buren av ett syfte. Entydigt uttrycker Koranen människans skapelseändamål: "Jag har inte skapat djinnerna och människorna för annat än att dyrka Mig."[^9]
+Boye kände detta. I *Kris* skriver hon: "Sådana är vi redskap, för små att urskilja den Eviges tankar. Och ändå redskap."[^8] Central i *ʿubūdiyyah* är insikten att den egna litenheten bär värdighet – att vara otillräcklig och ändå buren av ett syfte. Entydigt uttrycker Koranen människans skapelseändamål: "Jag har inte skapat djinnerna och människorna för annat än att dyrka Mig."[^9] Ibn Kathir förtydligar: "Han skapade dem enbart för att befalla dem att dyrka Honom – inte för att Han behöver dem."
 
 Men denna dyrkan, *ʿibādah*, är något annat än den inskränkta lydnad Boyes huvudperson förknippade med "kristendomstimmarna" på seminariet. Den är det tillstånd där hela människan – hennes intellekt, hennes längtan, hennes förmåga – riktas rätt.
 
@@ -63,7 +63,7 @@ Boye gestaltade denna tomhet med en ärlighet som gör *Kris* till något långt
 
 Med Ibrahim, fred vare med honom, förtydligar Koranen bilden: han kom inför Gud 'med ett sunt hjärta' – *qalb salīm*.[^15] Ett sunt hjärta har varken renats från smärta eller erfarenhet. Det har gjort sig fritt från allt som tar Guds plats. Ibrahim fick frågan rakt: "Underkasta dig!" Hans svar var omedelbart: "Jag underkastar mig världarnas Herre."[^16]
 
-Ingen villkorlighet, ingen förhandling – och ingen förlust. Koranen kallar detta den bästa av religioner: "Vem har bättre religion än den som med hela sitt jag underkastar sig Allah och ständigt gör det goda?"[^17]
+Ingen villkorlighet, ingen förhandling – och ingen förlust. Koranen kallar detta den bästa av religioner: "Vem har bättre religion än den som med hela sitt jag underkastar sig Allah ﷻ och ständigt gör det goda?"[^17]
 
 ## Längtan som vägvisare
 
