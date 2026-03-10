@@ -65,7 +65,7 @@ Under al-Māwardīs livstid förföll det abbasidiska kalifatet; muhtasiber öve
 
 > Allah ﷻ befaller er att återlämna allt ni anförtrotts till dess rättmätiga ägare och att, när ni dömer mellan människor, döma med rättvisa.[^21]
 
-Ibn Kathir anför en profettradition: "Fullgör förtroendet gentemot den som anförtrott dig, och förråd inte den som förråder dig." Rättvisan är ett förtroende – *amānah* – inte en egendom. Den som förvaltar den äger den inte.
+Ibn Kathīr anför en profettradition: "Fullgör förtroendet gentemot den som anförtrott dig, och förråd inte den som förråder dig." Rättvisan är ett förtroende – *amānah* – inte en egendom. Den som förvaltar den äger den inte.
 
 ## Frågan som återstår
 

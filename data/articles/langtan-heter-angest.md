@@ -75,7 +75,6 @@ Karin Boye skrev: "Längtan är en lek. När den växer till allvar, kallas den 
 
 Koranen kallar det *qalb salīm*: det friska hjärtat.[^16] Inte ett hjärta som aldrig lidit – utan ett som lidit rätt.
 
-
 ---
 
 [^1]: Ibn Qayyim al-Jawziyyah, *al-Dāʾ wa-l-Dawāʾ* (Sjukdomen och boten).

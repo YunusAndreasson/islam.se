@@ -37,7 +37,7 @@ Försäkringskassan-fallet rymmer mer än en teknisk skandal. Det blottlägger v
 
 > Allah ﷻ befaller er att återlämna allt ni anförtrotts till dess rättmätiga ägare och att, när ni dömer mellan människor, döma med rättvisa.[^11]
 
-Ibn Kathir citerar en profettradition: "Fullgör förtroendeuppdraget gentemot den som anförtrott dig, och förråd inte den som förråder dig." Att förvalta andras angelägenheter kräver därför trovärdighet lika mycket som korrekthet – den som dömer måste kunna visa *att* hon dömer rätt. En algoritm som fattar korrekta beslut i sjuttio procent av fallen men inte kan redogöra för något av dem uppfyller möjligen ett effektivitetskriterium men den uppfyller inte *amānah*.
+Ibn Kathīr citerar en profettradition: "Fullgör förtroendeuppdraget gentemot den som anförtrott dig, och förråd inte den som förråder dig." Att förvalta andras angelägenheter kräver därför trovärdighet lika mycket som korrekthet – den som dömer måste kunna visa *att* hon dömer rätt. En algoritm som fattar korrekta beslut i sjuttio procent av fallen men inte kan redogöra för något av dem uppfyller möjligen ett effektivitetskriterium men den uppfyller inte *amānah*.
 
 Socialpsykologen Tom Tyler har visat att människors tillit till institutioner beror mindre på beslutens korrekthet än på processens upplevda rättvisa – huruvida den kan förklaras och granskas.[^19] Det är den som förlorar sin överklagan men ändå litar på systemet – därför att någon lyssnade, förklarade och visade hur beslutet togs. Vad detta antyder är att *amānah* och *quwwah* verkar på skilda nivåer: korrekthet avgör om ett beslut är rätt, trovärdighet avgör om det *erkänns* som rätt. Och erkännandet är primärt – ett system som fattar rätt beslut utan att kunna visa det förlorar sin auktoritet snabbare än ett som felar öppet.
 
@@ -63,7 +63,7 @@ Den svenska reformpedagogen Ellen Key skrev 1900 att "människorna äro till fö
 
 Men skillnaden är avgörande. Industrialismens orättvisor var synliga: fabriksrök, barnarbete, söndersmulade kroppar. Algoritmens orättvisor är osynliga. En kvinna vars föräldrapenningsansökan markeras av en maskininlärningsmodell vet varken att det hänt eller varför – och det hon inte vet om kan hon inte överklaga. Orättvisan bärs i det tysta, var för sig, utan vittnen. Och just detta förskjuter ansvaret inåt. Industrialismens orättvisor rättades till sist *utifrån* – genom den kollektiva vrede som synligt lidande väckte. Algoritmisk orättvisa kan inte generera sin egen korrigering, eftersom den aldrig blir synlig för tillräckligt många samtidigt. Där orättvisan är osynlig måste ansvarigheten vara inbyggd; *amānah* är det enda möjliga skyddet.
 
-Koranen beskriver *al-amānah* som så tungt att himlarna, jorden och bergen vägrade bära det. Människan axlade det.[^17] Ibn Kathir återger Ibn ʿAbbās ord om Adam: "Det dröjde inte längre än tiden mellan eftermiddagsbönen och kvällen den dagen innan han begick synden."
+Koranen beskriver *al-amānah* som så tungt att himlarna, jorden och bergen vägrade bära det. Människan axlade det.[^17] Ibn Kathīr återger Ibn ʿAbbās ord om Adam: "Det dröjde inte längre än tiden mellan eftermiddagsbönen och kvällen den dagen innan han begick synden."
 
 Det som skapelsen vägrade bära av vördnad, har människan nu delegerat till maskiner av bekvämlighet – och maskinen, utan vikt i sin förståelse, bär det utan att blinka.
 

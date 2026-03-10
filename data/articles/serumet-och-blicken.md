@@ -43,11 +43,11 @@ Islamisk teologi utgår från samma premiss – och vänder slutsatsen. Ingentin
 
 > Vare sig ni visar något eller döljer det – har Allah ﷻ sannerligen full vetskap om allt.[^6]
 
-Det arabiska begreppet *iḥsān*, definierat i den berömda Jibril-hadithen, lyder: "att dyrka Gud som om du ser Honom, ty om du inte ser Honom så ser Han dig."[^7] Inget panoptikon, utan dess motsats. Panoptikonen fungerar genom *osäkerhet*: fången vet inte om han observeras, och just osäkerheten framtvingar lydnad. *Iḥsān* fungerar genom *visshet*: den troende vet att Gud ser, och just den vissheten frigör. Det är skillnaden mellan den som låser dörren för att ingen ska se och den som handlar detsamma vare sig dörren är låst.
+Det arabiska begreppet *iḥsān*, definierat i den berömda Jibrīl-hadithen, lyder: "att dyrka Gud som om du ser Honom, ty om du inte ser Honom så ser Han dig."[^7] Inget panoptikon, utan dess motsats. Panoptikonen fungerar genom *osäkerhet*: fången vet inte om han observeras, och just osäkerheten framtvingar lydnad. *Iḥsān* fungerar genom *visshet*: den troende vet att Gud ser, och just den vissheten frigör. Det är skillnaden mellan den som låser dörren för att ingen ska se och den som handlar detsamma vare sig dörren är låst.
 
 Kallocainets allvetande tillhör en stat vars enda intresse är kontroll; dess blick söker avvikelsen, hotet, det som kan användas mot medborgaren. Den som vet sig övervakad av en sådan makt krymper, döljer sig, amputerar sina innersta impulser för att överleva. Samtalet vid köksbordet som tystnar halvvägs in i meningen.
 
-Koranens allvetande tillhör *al-Raḥmān*, den Barmhärtige, vars blick genomlyser hjärtat som en Skapares – en som känner det skapade bättre än det känner sig självt. "Din Herre vet vad deras bröst rymmer likaväl som vad de öppet visar," säger Koranen.[^8] Sammanhanget är omsorg: Gud vet *för att* Han vårdar. Gud, tillägger Ibn Kathir, "öser sina välsignelser över människorna trots att de förorättar sig själva".
+Koranens allvetande tillhör *al-Raḥmān*, den Barmhärtige, vars blick genomlyser hjärtat som en Skapares – en som känner det skapade bättre än det känner sig självt. "Din Herre vet vad deras bröst rymmer likaväl som vad de öppet visar," säger Koranen.[^8] Sammanhanget är omsorg: Gud vet *för att* Han vårdar. Gud, tillägger Ibn Kathīr, "öser sina välsignelser över människorna trots att de förorättar sig själva".
 
 Den sufiske teologen Ibn Qayyim al-Jawziyyah (d. 1350) preciserar sambandet: "Den som vakar över Gud i sina hemliga tankar, honom bevarar Gud i hans lemmars rörelser."[^9] Den formuleringen vränger Kallocainets logik. I Boyes roman avslöjar serumet tanken och förstör handlingsfriheten. I Ibn Qayyims universum är det medvetenheten om att tanken redan är genomlyst som *möjliggör* handlingens integritet. Den som vet att tanken ses behöver inte städa den innan den blir handling. Den som vet att Gud ser behöver inte dölja – och den som inte döljer behöver inte frukta.
 
@@ -105,7 +105,7 @@ Hemlighet – *sirr*: ordet är talande. Allvetandet som borde avskaffa varje he
 [^4]: Karin Boye, *Kallocain*, kap. 8.
 [^5]: Karin Boye, *Kallocain*, kap. 25.
 [^6]: Koranen, al-Aḥzāb 33:54.
-[^7]: Jibril-hadithen, Ṣaḥīḥ Muslim, Kitāb al-Īmān, nr 8.
+[^7]: Jibrīl-hadithen, Ṣaḥīḥ Muslim, Kitāb al-Īmān, nr 8.
 [^8]: Koranen, al-Naml 27:74.
 [^9]: Ibn Qayyim al-Jawziyyah, *Madārij al-Sālikīn* (De vandrandes stationer).
 [^10]: Ibn al-Jawzī, *al-Adhkiyāʾ*.

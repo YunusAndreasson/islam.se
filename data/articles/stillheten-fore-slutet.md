@@ -61,7 +61,7 @@ Koranen vänder perspektivet:
 
 > Den dagen skall Vi rulla ihop himlen, så som pergamentrullar med skrifter rullas ihop. Som Vi inledde skapelsen första gången skall Vi återställa den – ett löfte Vi ålagt Oss att uppfylla.[^9]
 
-Ibn Kathir återger att Ibn Abbas sade: "Gud viker samman de sju himlarna med allt de rymmer och de sju jordarna med allt de rymmer – allt detta i Hans hand blir som ett senapskorn." I Ragnarök överlever det goda av egen kraft – världsträdet trotsar elden. Elden renar, men den förlåter inte – den frågar inte vem du är, den frågar bara vad du tål. I islam överlever det goda för att det är *valt* av en vilja som också är *al-Raḥmān*, den Barmhärtiges. "Min Herre är sannerligen benådande och kärleksfull", påminner profeten Shu'ayb sitt folk.[^10] Domen är verklig. Men den som dömer älskar den som döms.
+Ibn Kathīr återger att Ibn Abbas sade: "Gud viker samman de sju himlarna med allt de rymmer och de sju jordarna med allt de rymmer – allt detta i Hans hand blir som ett senapskorn." I Ragnarök överlever det goda av egen kraft – världsträdet trotsar elden. Elden renar, men den förlåter inte – den frågar inte vem du är, den frågar bara vad du tål. I islam överlever det goda för att det är *valt* av en vilja som också är *al-Raḥmān*, den Barmhärtiges. "Min Herre är sannerligen benådande och kärleksfull", påminner profeten Shu'ayb sitt folk.[^10] Domen är verklig. Men den som dömer älskar den som döms.
 
 Det är vad den sekulära eskatologin saknar och mytologin bara halvvägs når: rättvisa *och* barmhärtighet, skuld *och* förlåtelse.
 

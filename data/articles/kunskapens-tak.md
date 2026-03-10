@@ -75,7 +75,7 @@ Ibn Rajab al-Ḥanbalī, den store kommentatorn av profettraditionerna, påminde
 
 Al-Māwardī, den islamiska statsrättens mästare, kondenserade hela principen till en enda mening: "Den som kände sitt eget mått har aldrig gått under."[^19] Måttet – qadr – inte som begränsning av ambition utan som förutsättning för överlevnad.
 
-Koranen återkommer till denna punkt: "Ni har redan tvistat om det ni har kunskap om, så varför tvistar ni nu om det ni inte har kunskap om? Allah ﷻ vet, men ni vet inte."[^20] Och: "Dessa liknelser framställer Vi för människorna. Men de uppfattas inte av andra än de med kunskap."[^21] Ibn Kathir citerar ʿAmr ibn Murrah som sade: "Aldrig passerade jag en vers i Guds Bok som jag inte förstod utan att det fyllde mig med sorg, ty jag hade hört Allah ﷻ säga: *de uppfattas inte av andra än de med kunskap*."
+Koranen återkommer till denna punkt: "Ni har redan tvistat om det ni har kunskap om, så varför tvistar ni nu om det ni inte har kunskap om? Allah ﷻ vet, men ni vet inte."[^20] Och: "Dessa liknelser framställer Vi för människorna. Men de uppfattas inte av andra än de med kunskap."[^21] Ibn Kathīr citerar ʿAmr ibn Murrah som sade: "Aldrig passerade jag en vers i Guds Bok som jag inte förstod utan att det fyllde mig med sorg, ty jag hade hört Allah ﷻ säga: *de uppfattas inte av andra än de med kunskap*."
 
 Båda verserna förutsätter en asymmetri som den moderna informationskulten finner outhärdlig. Varje fråga ska ha ett svar som går att googla fram. Kunskap är inte demokratiskt fördelad. Och det finns en kategori av mening som kan bäras men aldrig erövras – som vilar i texten, sjungs i bönen, lever i traditionen, utan att någonsin fullt ut övergå till mänskligt begrepp.
 

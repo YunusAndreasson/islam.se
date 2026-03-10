@@ -21,7 +21,7 @@ Sverige ger två talande exempel. År 1955 röstade svenska folket för att avsk
 
 Tjugofem år senare, 1980, folkomröstade Sverige om kärnkraften. Tre alternativ presenterades. Inget av dem var ett rent nej. Väljarna fick välja mellan tre varianter av ja, med olika avvecklingstakt, och resultatet tolkades sedan som en avvecklingsplan som aldrig genomfördes fullt ut.[^6] Demokratin hade gett ett svar, men ingen sanning. Proceduren var oklanderlig – kunskapen obefintlig.
 
-Koranen skiljer inte mellan rätt och fel som politiska kategorier utan mellan *kunskap* och *antagande*: *ʿilm* och *ẓann*. "Befatta dig inte med något du inte har kunskap om", lyder uppmaningen i sura *al-Isrāʾ*. "Hörseln, synen och hjärtat – alla dessa kommer att tillfrågas."[^7] Ibn Kathir anför en profettradition: "Det räcker som lögn att en människa återberättar allt hon hör." Han anför också profetens varning: "Akta er för antaganden, ty antaganden är det mest lögnaktiga av tal." Ansvaret gäller inte bara handlingen utan kunskapsgrunden: *visste du, eller antog du bara?*
+Koranen skiljer inte mellan rätt och fel som politiska kategorier utan mellan *kunskap* och *antagande*: *ʿilm* och *ẓann*. "Befatta dig inte med något du inte har kunskap om", lyder uppmaningen i sura *al-Isrāʾ*. "Hörseln, synen och hjärtat – alla dessa kommer att tillfrågas."[^7] Ibn Kathīr anför en profettradition: "Det räcker som lögn att en människa återberättar allt hon hör." Han anför också profetens varning: "Akta er för antaganden, ty antaganden är det mest lögnaktiga av tal." Ansvaret gäller inte bara handlingen utan kunskapsgrunden: *visste du, eller antog du bara?*
 
 ## Antagandets anatomi
 
@@ -55,7 +55,7 @@ Islam föreslår heller inte att sanningen ska dikteras uppifrån. "Deras angel�
 
 Karin Boye skrev i *Kallocain*: "Sanningen kunde vara en bro mellan människa och människa – så länge den är frivillig, ja – så länge den ges som en gåva och tas emot som en gåva."[^18] Sanningen *som bro* förutsätter att den existerar oberoende av de människor den förbinder. En bro som uppfinns i stunden den beträds är ingen bro.
 
-Koranen använder ett oväntat ord för det liv som väntar den som vänder sig bort från vägledningen: *dank* – trånghet, snävhet. "Den som vänder sig bort från Min påminnelse ska sannerligen leva ett trångt liv."[^19] Inte ett syndigt, inte ett straffat – ett *trångt* liv. Ibn Kathir förtydligar: "Även om han klär sig som han vill, äter vad han vill och bor var han vill — så länge han saknar visshet och vägledning, förblir hans hjärta i ångest, förvirring och tvivel."
+Koranen använder ett oväntat ord för det liv som väntar den som vänder sig bort från vägledningen: *dank* – trånghet, snävhet. "Den som vänder sig bort från Min påminnelse ska sannerligen leva ett trångt liv."[^19] Inte ett syndigt, inte ett straffat – ett *trångt* liv. Ibn Kathīr förtydligar: "Även om han klär sig som han vill, äter vad han vill och bor var han vill — så länge han saknar visshet och vägledning, förblir hans hjärta i ångest, förvirring och tvivel."
 
 Hjalmar Söderberg vände på bilden: "Sanningen är fattig som Job, ofruktbar som ökensanden och tråkig som en gammal antikvarisk bokhandlare. Men lögnen är rik som påven i Rom!"[^20] Söderberg menade det ironiskt, men ironin bär på en oavsiktlig sanning. Lögnen *är* rik – rik på löften, rik på bekvämlighet, rik på den tillfälliga lättnaden att inte behöva tänka. Sanningen ger inget av detta. Den ger bara sig själv.
 
@@ -65,7 +65,7 @@ Just detta har det demokratiska samhället institutionaliserat och döpt till pl
 
 ## Det tysta vittnesmålet
 
-Koranen har ett ord för dem som kan skilja sanning från antagande: *ūlū al-albāb* – de med kärna. "Han ger visdom till den Han vill, och den som ges visdom har förvisso getts mycket gott. Men ingen låter sig förmanas utom de med förstånd."[^22] Visheten beskrivs som en gåva: den *ges*, oberoende av merit, utbildning eller procedur. Ibn Kathir citerar en profettradition: "Gud ger det världsliga livet till den Han älskar och den Han inte älskar, men Han ger religionen bara till den Han älskar." Det kunskapsteoretiska fundamentet är nämligen gudomligt, inte mänskligt: sanningen kommer *till* människan, inte från henne.
+Koranen har ett ord för dem som kan skilja sanning från antagande: *ūlū al-albāb* – de med kärna. "Han ger visdom till den Han vill, och den som ges visdom har förvisso getts mycket gott. Men ingen låter sig förmanas utom de med förstånd."[^22] Visheten beskrivs som en gåva: den *ges*, oberoende av merit, utbildning eller procedur. Ibn Kathīr citerar en profettradition: "Gud ger det världsliga livet till den Han älskar och den Han inte älskar, men Han ger religionen bara till den Han älskar." Det kunskapsteoretiska fundamentet är nämligen gudomligt, inte mänskligt: sanningen kommer *till* människan, inte från henne.
 
 Demokratin antar att sanningen skapas – genom samtal, genom konsensus, genom procedur. Den koraniska kunskapsteorin antar att sanningen *finns*, oavsett om någon upptäcker den, erkänner den eller röstar för den.
 

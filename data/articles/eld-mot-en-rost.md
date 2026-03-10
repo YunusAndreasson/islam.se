@@ -19,7 +19,7 @@ Här öppnar sig en klyfta. Den västerländska traditionen, formad av Gutenberg
 
 > När Koranen reciteras skall ni lyssna till den och vara tysta så att ni kan få nåd.[^2]
 
-Påbudet gäller lyssnandet, inte läsandet. Tystnaden som krävs är inte bibliotekets utan konsertsalens – den tystnad som uppstår inför något som händer *nu*. Ibn Kathir förtydligar att Gud befallde denna tystnad som en akt av vördnad – till skillnad från avgudadyrkarna bland Quraysh, som sade: "Lyssna inte på denna Koran och överrösta den, så att ni må segra."
+Påbudet gäller lyssnandet, inte läsandet. Tystnaden som krävs är inte bibliotekets utan konsertsalens – den tystnad som uppstår inför något som händer *nu*. Ibn Kathīr förtydligar att Gud befallde denna tystnad som en akt av vördnad – till skillnad från avgudadyrkarna bland Quraysh, som sade: "Lyssna inte på denna Koran och överrösta den, så att ni må segra."
 
 ## Rösten som tillhör Skaparen
 

@@ -63,7 +63,7 @@ Koranen bär samma bild men lyfter den högre:
 
 > Har de inte fäst avseende vid fåglarna ovan dem, hur de sträcker ut vingarna och fäller in dem? Ingen annan än den Nåderike håller dem uppe. Han ser sannerligen allt.[^13]
 
-Fåglarna flyger redan. De faller inte. Frågan är inte om något håller dem uppe utan om betraktaren har ögon att uppfatta det. Den sista bisatsen – "Han ser sannerligen allt" – vänder perspektivet: vi ser fåglarna, men fåglarna *ses* – hela deras resa bevittnas av en som inte missar en enda vingrörelse. Ibn Kathir förtydligar: "Han ser sannerligen allt" innebär att Han vet vad som gagnar varje enskild varelse bland Hans skapelser.
+Fåglarna flyger redan. De faller inte. Frågan är inte om något håller dem uppe utan om betraktaren har ögon att uppfatta det. Den sista bisatsen – "Han ser sannerligen allt" – vänder perspektivet: vi ser fåglarna, men fåglarna *ses* – hela deras resa bevittnas av en som inte missar en enda vingrörelse. Ibn Kathīr förtydligar: "Han ser sannerligen allt" innebär att Han vet vad som gagnar varje enskild varelse bland Hans skapelser.
 
 Ur denna bild utvinner Ibn Qayyim trons inre mekanik: rädsla och hopp som två vingar – när de är i jämvikt bär de flygningen framåt; om den ena brister störtar fågeln.[^14] Silvertärnan flyger för att den är skapad att flyga. *Tawakkul* är varken kalkylerande hopp eller förlamande ångest: det är den balanserade rörelse som uppstår när hjärtat slutat väga risker och börjat förlita sig.
 

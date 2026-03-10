@@ -49,7 +49,7 @@ Dessa var inte medelmåttor: Ibn al-Muqaffaʿ präglade arabisk prosa i århundr
 
 När vi nu mött både utmaningen och de som försökte möta den kräver intellektuell hederlighet en paus. En uppenbar invändning reser sig: vem avgör om utmaningen besvarats? Om bedömningskriterierna definieras av samma tradition som utfärdar utmaningen, riskerar argumentet att bli cirkulärt; begreppet "jämförbar kvalitet" saknar allmänt vedertagna kriterier – något som i sig gör utmaningen både kraftfull och omdebatterad.
 
-Invändningen har tyngd – det finns ingen neutral jury, inget objektivt poängsystem för litterär kvalitet. Likväl förbiser den något väsentligt. Utmaningens första publik var inte troende muslimer utan fientliga Quraysh-araber. Deras tystnad var det ursprungliga beviset. Ibn Kathir citerar den tidiga uttolkaren Mujāhid, som förstod utmaningsversens "era vittnen" som "vältalighetens domare". Ibn ʿAṭiyyah formulerade det så: beviskraften vilade på araberna, eftersom de var vältalighetens mästare och de naturliga utmanarna.[^11] Kompetenta fiender, inte fromma anhängare, var måttstocken.
+Invändningen har tyngd – det finns ingen neutral jury, inget objektivt poängsystem för litterär kvalitet. Likväl förbiser den något väsentligt. Utmaningens första publik var inte troende muslimer utan fientliga Quraysh-araber. Deras tystnad var det ursprungliga beviset. Ibn Kathīr citerar den tidiga uttolkaren Mujāhid, som förstod utmaningsversens "era vittnen" som "vältalighetens domare". Ibn ʿAṭiyyah formulerade det så: beviskraften vilade på araberna, eftersom de var vältalighetens mästare och de naturliga utmanarna.[^11] Kompetenta fiender, inte fromma anhängare, var måttstocken.
 
 Även inom islamisk teologi fanns oenighet om utmaningens natur. Al-Naẓẓām och vissa mutaziliter hävdade *ṣarfah*-ståndpunkten: att Gud aktivt hindrade människor från att efterhärma Koranen, att förmågan i princip existerade men blockerades utifrån. Denna uppfattning avvisade majoriteten. Al-Suyūṭī citerar argumentet att utmaningen förutsätter att motståndarna *behåller* sin förmåga men ändå misslyckas; annars vore det ingen utmaning utan en omöjlighet. Att denna debatt fördes öppet inom den egna traditionen röjer en intellektuell redlighet sällsynt i dogmatik.[^12]
 
@@ -76,7 +76,6 @@ Frånvaron av ett svar *är* i sig ett belägg – inte slutgiltigt bevis, men e
 Al-Suyūṭī slog fast att utmaningen egentligen var ett avslöjande av oförmåga, snarare än en uppmaning.[^14] Koranen ber inte människor att försöka. Den visar dem att de redan har misslyckats.
 
 Den som öppnar den och läser – på arabiska, i dess egen rytm – möter fortfarande samma fråga som Walīd ibn al-Mughīra utanför Meckas murar: en text som vägrar låta sig kategoriseras, en utmaning som alltjämt väntar.
-
 
 ---
 

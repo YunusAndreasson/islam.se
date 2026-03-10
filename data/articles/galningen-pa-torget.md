@@ -93,7 +93,7 @@ Koranen ställer frågan utan omsvep:
 
 > Vi har inte skapat himlen och jorden och allt som finns däremellan för skojs skull.[^17]
 
-Skapelsen har en avsikt. Ibn Kathir förtydligar att Gud skapade himlarna och jorden med sanning – det vill säga med rättvisa och billighet – för att vedergälla dem som gjort ont med vad de gjort och belöna dem som gjort gott med det bästa. Människan bär den. Värdigheten är inskriven i tillvarons struktur, given av den som strukturerade den. Utan den givaren återstår Söderbergs sed och bruk, Nietzsches avgrund, Strindbergs tvungna otacksamhet.
+Skapelsen har en avsikt. Ibn Kathīr förtydligar att Gud skapade himlarna och jorden med sanning – det vill säga med rättvisa och billighet – för att vedergälla dem som gjort ont med vad de gjort och belöna dem som gjort gott med det bästa. Människan bär den. Värdigheten är inskriven i tillvarons struktur, given av den som strukturerade den. Utan den givaren återstår Söderbergs sed och bruk, Nietzsches avgrund, Strindbergs tvungna otacksamhet.
 
 Svampen har redan gjort sitt arbete.
 

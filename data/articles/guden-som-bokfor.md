@@ -55,7 +55,7 @@ Den princip Linné empiriskt utforskade hade redan formulerats som uppenbarelse 
 
 > Den som gör den minsta myras vikt av gott skall se det. Och den som gör den minsta myras vikt av ont skall se det.[^8]
 
-*Mithqāla dharratin.* En atoms vikt – ingen handling undgår räkenskapen. Ibn Kathir citerar en profettradition: en äldre man kom till Profeten ﷺ och bad om en enda sura som sammanfattade allt – de långa surorna översteg hans förmåga. Profeten ﷺ lärde honom just denna sura, och när mannen svurit att aldrig lägga till något utöver den, sade Profeten ﷺ: "Den lille mannen har lyckats! Den lille mannen har lyckats!"
+*Mithqāla dharratin.* En atoms vikt – ingen handling undgår räkenskapen. Ibn Kathīr citerar en profettradition: en äldre man kom till Profeten ﷺ och bad om en enda sura som sammanfattade allt – de långa surorna översteg hans förmåga. Profeten ﷺ lärde honom just denna sura, och när mannen svurit att aldrig lägga till något utöver den, sade Profeten ﷺ: "Den lille mannen har lyckats! Den lille mannen har lyckats!"
 
 Samma princip sökte Linné bevisa genom hundratals fallstudier. Koranen behöver inga fallstudier – principen är ett axiom, en gudomlig kungörelse om verklighetens grundstruktur. Vad Linné laborerade fram som slutsats hade redan uppenbarats.
 

@@ -37,7 +37,7 @@ Koranen ger ett svar. Den tillför eldbilden en förmåga som varken den nordisk
 
 > Han har sänt ned vatten från himlen så att flodbäddarna svämmar över i proportion till sin storlek, och forsarna för med sig tjockt skum. Och från det som de smälter i elden, för att erhålla smycken eller redskap, uppstår liknande skum. Så framställer Allah ﷻ sanning och falskhet. Vad skummet beträffar så försvinner det avsides, men det som gagnar människorna stannar kvar på jorden.[^7]
 
-Ibn Kathir läser flodbäddarnas varierande storlek som en anspelning på hjärtana och deras olikhet – bland dem finns de som rymmer mycket kunskap, och bland dem de som är för trånga för den. Elden *åtskiljer* – den varken förstör urskillningslöst eller speglar passivt. Skummet, som ser massivt ut på ytan, visar sig vara ingenting. Metallen, osynlig under skummet, framträder. Elden *skapar* inte denna skillnad – den fanns där hela tiden och elden gör den bara synlig.
+Ibn Kathīr läser flodbäddarnas varierande storlek som en anspelning på hjärtana och deras olikhet – bland dem finns de som rymmer mycket kunskap, och bland dem de som är för trånga för den. Elden *åtskiljer* – den varken förstör urskillningslöst eller speglar passivt. Skummet, som ser massivt ut på ytan, visar sig vara ingenting. Metallen, osynlig under skummet, framträder. Elden *skapar* inte denna skillnad – den fanns där hela tiden och elden gör den bara synlig.
 
 Varken den nordiska elden eller Swedenborgs korrespondenser når denna urskillning. Den koraniska elden *prövar*. Redan den grekiske filosofen Herakleitos tillskrev elden förmågan att döma – men hans eld är opersonlig *logos*, utan blick för den enskilde.[^16]
 

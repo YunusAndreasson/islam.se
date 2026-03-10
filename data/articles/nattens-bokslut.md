@@ -35,7 +35,7 @@ I den kristna världen saknade Topelius och pietisterna inte föregångare. På 
 
 Den islamiska kvällsrutinen är mer än reflektion – den är *dhikr*, åminnelse av Gud, uttalad med tungan och känd i hjärtat. Profeten Muḥammad ﷺ brukade, när han lade sig, säga: "I Ditt namn, o Gud, dör jag och lever." När han vaknade sade han: "Pris vare Gud som gett oss liv efter att ha låtit oss dö, och till Honom är återkomsten."[^10] Varje natt samlade han sina händer, blåste i dem och läste de avslutande surorna ur Koranen. Sedan strök han med händerna över sin kropp.[^11]
 
-Språket är anmärkningsvärt: sömnen kallas en liten död – ett tillfälligt anförtroende av själen till Gud. Ibn Kathir kallar detta "den mindre döden" och citerar versen: "Gud tar själarna vid deras död, och dem som inte har dött tar Han i sömnen; dem som Han har bestämt döden för behåller Han, och de andra sänder Han tillbaka till en bestämd frist." Koranen förstärker bilden: "Det är Han som tar er om natten och som vet vad ni uträttar om dagen. Sedan uppväcker Han er för att en fastställd tidsgräns skall infalla."[^12] Den som överlämnar sig medvetet, med ord, granskning och tacksamhet, gör något väsensskilt från den som somnar framför en skärm.
+Språket är anmärkningsvärt: sömnen kallas en liten död – ett tillfälligt anförtroende av själen till Gud. Ibn Kathīr kallar detta "den mindre döden" och citerar versen: "Gud tar själarna vid deras död, och dem som inte har dött tar Han i sömnen; dem som Han har bestämt döden för behåller Han, och de andra sänder Han tillbaka till en bestämd frist." Koranen förstärker bilden: "Det är Han som tar er om natten och som vet vad ni uträttar om dagen. Sedan uppväcker Han er för att en fastställd tidsgräns skall infalla."[^12] Den som överlämnar sig medvetet, med ord, granskning och tacksamhet, gör något väsensskilt från den som somnar framför en skärm.
 
 Denna medvetenhet är vad Ibn Qayyim avsåg: åminnelsen "väcker hjärtat ur dess sömn".[^13] Spänningen är avsiktlig: den som minns Gud innan den fysiska sömnen kommer, vaknar i egentlig mening. Den klarhet som al-Māwardī tillskrev natten tillhör den som avslutar dagen med medvetenhet snarare än bedövning.
 
@@ -58,7 +58,6 @@ Koranen kallar natten "en klädnad" och sömnen "en avkoppling".[^17] Bilden är
 Kvar står granskning, riktning och överlåtelse. Koranen ger grunden, Profetens ﷺ praktik formen, och den troendes vana hållbarheten.
 
 Den moderna människan som ligger sömnlös och bläddrar har ett kvällsproblem. Lösningen finns inte i en ny app, utan i en mycket gammal fråga: vad har jag skickat framför mig för morgondagen?
-
 
 ---
 

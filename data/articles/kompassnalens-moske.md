@@ -23,7 +23,7 @@ Koranen slår fast principen:
 
 > Till Allah ﷻ hör både öst och väst. Ja, vart ni än vänder er finns där Allahs ﷻ ansikte.[^5]
 
-Versen handlar om böneriktningens universalitet snarare än om Guds allestädesnärvaro i vag, mystisk bemärkelse. Den bedjandes orientering mot Allah ﷻ gör varje plats giltig. Det profana rummet kräver ingen kyrka för att upphävas. Det räcker att en människa vänder sitt ansikte åt rätt håll. Enligt Ibn Kathir uppenbarades versen som tröst för Profeten ﷺ och hans följeslagare som hade fördrivits från Mecka och tvingats lämna sin moské och sin böneplats.
+Versen handlar om böneriktningens universalitet snarare än om Guds allestädesnärvaro i vag, mystisk bemärkelse. Den bedjandes orientering mot Allah ﷻ gör varje plats giltig. Det profana rummet kräver ingen kyrka för att upphävas. Det räcker att en människa vänder sitt ansikte åt rätt håll. Enligt Ibn Kathīr uppenbarades versen som tröst för Profeten ﷺ och hans följeslagare som hade fördrivits från Mecka och tvingats lämna sin moské och sin böneplats.
 
 ## *Qiblah*-bytet: en revolution förklädd till geografi
 
@@ -31,7 +31,7 @@ Under profetskapet i Medina bad de första muslimerna mot Jerusalem – samma ri
 
 > Vi ser hur ditt ansikte gång på gång vänts mot himlen, så Vi skall vända dig mot en böneriktning som du blir nöjd med. Vänd ditt ansikte mot den Helgade moskén; ja, var ni än befinner er skall ni vända era ansikten mot den.[^6]
 
-Det var mer än en ändring av kompassbäring. Bytet från Jerusalem till Mecka var en teologisk deklaration: den muslimska gemenskapen definieras av sin egen riktning, sin egen andliga geografi. Koranen säger det rakt ut: "Vi gjorde endast bytet av den böneriktning du iakttog för att utskilja den som följer Sändebudet från den som vänder på klacken."[^7] *Qiblah*-bytet var ett identitetstest. De som böjde sig för den nya riktningen tillhörde den nya gemenskapen. De som inte kunde – tillhörde den inte. Ibn Kathir återger hur den första bönen i den nya riktningen var eftermiddagsbönen, och en man som bett med Profeten ﷺ gick förbi en annan moské vars församling stod böjda i bön och ropade: "Jag svär vid Gud, jag har just bett med Profeten ﷺ vänd mot Mecka!" – och mitt i bönen vände de sig mot Kaʿbah.
+Det var mer än en ändring av kompassbäring. Bytet från Jerusalem till Mecka var en teologisk deklaration: den muslimska gemenskapen definieras av sin egen riktning, sin egen andliga geografi. Koranen säger det rakt ut: "Vi gjorde endast bytet av den böneriktning du iakttog för att utskilja den som följer Sändebudet från den som vänder på klacken."[^7] *Qiblah*-bytet var ett identitetstest. De som böjde sig för den nya riktningen tillhörde den nya gemenskapen. De som inte kunde – tillhörde den inte. Ibn Kathīr återger hur den första bönen i den nya riktningen var eftermiddagsbönen, och en man som bett med Profeten ﷺ gick förbi en annan moské vars församling stod böjda i bön och ropade: "Jag svär vid Gud, jag har just bett med Profeten ﷺ vänd mot Mecka!" – och mitt i bönen vände de sig mot Kaʿbah.
 
 Själva det faktum att *qiblah* kunde ändras bär hela principen. Om det heliga hade funnits i platsen – i Jerusalem som punkt – hade bytet inneburit en förlust. Men om det heliga finns i lydnaden, bevisar bytet tesen: det är inte kompassnålens slutpunkt som helgar, utan den bedjandes underkastelse under befallningen.
 
