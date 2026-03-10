@@ -18,9 +18,7 @@ body {
 	font-variant-numeric: oldstyle-nums;
 	font-variant-ligatures: discretionary-ligatures;
 	-webkit-font-smoothing: antialiased;
-	text-wrap: pretty;
-	hanging-punctuation: first last;
-	overflow-wrap: break-word;
+	text-wrap: auto;
 	quotes: "»" "«" "›" "‹";
 }
 
@@ -35,7 +33,9 @@ h3 {
 	font-variant-ligatures: normal;
 	/* cv11: single-storey 'a'/'ä' — humanist warmth at headline scale;
 	   ss03: round commas/apostrophes — for any punctuated titles */
-	font-feature-settings: "cv11" 1, "ss03" 1;
+	font-feature-settings:
+		"cv11" 1,
+		"ss03" 1;
 }
 
 h1 {
@@ -49,13 +49,13 @@ h2 {
 	font-weight: 600;
 	letter-spacing: -0.01em;
 	color: var(--color-accent);
-	margin-top: var(--space-triple);
+	margin-top: var(--space-double);
 	margin-bottom: var(--space-half);
 }
 
 h3 {
 	font-size: var(--step-1);
-	font-weight: 500;
+	font-weight: 450;
 	letter-spacing: -0.01em;
 	color: var(--color-accent);
 	margin-top: var(--space-double);
@@ -84,11 +84,19 @@ a {
 	}
 }
 
-/* Honorifics — ﷻ (jalla jalaluhu) and ﷺ (sallallahu alayhi wa salam) */
+/* Honorifics — ﷻ (jalla jalaluhu) and ﷺ (sallallahu alayhi wa salam)
+   Chrome renders these ligatures ~50 % taller than Firefox/Safari.
+   Scale down in Blink so the glyph matches other engines. */
 .honorific {
-	font-size: 1.15em;
 	color: var(--color-accent);
 	margin-inline: 0.05em;
+}
+
+/* Chromium: shrink the oversized glyph */
+@supports (-webkit-app-region: inherit) {
+	.honorific {
+		font-size: 0.65em;
+	}
 }
 
 /* Block quotes — warm border, italic for quoted voices */
@@ -161,35 +169,6 @@ sup {
 /* Hide <hr> separator before footnotes (remark-gfm artifact) */
 hr:has(+ .footnotes) {
 	display: none;
-}
-
-/* Footnote section */
-.footnotes {
-	margin-top: var(--space-triple);
-	padding-top: var(--space-unit);
-	border-top: 1px solid var(--color-divider);
-	font-size: 0.875rem;
-	line-height: 1.5;
-	color: var(--color-muted);
-
-	ol {
-		list-style: decimal;
-		padding-inline-start: 1.5em;
-		/* lining tabular figures for aligned list numbers — overrides body onum */
-		font-variant-numeric: lining-nums tabular-nums;
-	}
-
-	li {
-		margin-bottom: var(--space-half);
-
-		p {
-			margin-bottom: 0;
-		}
-	}
-
-	a {
-		color: var(--color-accent);
-	}
 }
 
 .data-footnote-backref {
@@ -266,17 +245,38 @@ hr:has(+ .footnotes) {
 	li {
 		margin-bottom: calc(var(--space-unit) * 0.25);
 	}
+}
 
-	.footnotes {
-		border-top: none;
-		padding-top: 0;
-		margin-top: var(--space-double);
+/* Footnotes relocated below article-nav (moved via JS) */
+.footnotes-relocated {
+	margin-top: 0;
+	padding-top: 0;
+	margin-bottom: calc(var(--space-triple) + env(safe-area-inset-bottom, 0px));
+	font-size: 0.875rem;
+	line-height: 1.5;
+	color: var(--color-muted);
+
+	ol {
+		list-style: decimal;
+		padding-inline-start: 1.5em;
+		font-variant-numeric: lining-nums tabular-nums;
+	}
+
+	li {
+		margin-bottom: var(--space-half);
+
+		p {
+			margin-bottom: 0;
+		}
+	}
+
+	a {
+		color: var(--color-accent);
 	}
 }
 
 /* Section ornament — eight-pointed star flanked by thin rules */
-.prose .footnotes::before,
-.article-nav::before,
+.article-nav::after,
 .section-ornament {
 	content: "";
 	display: block;
@@ -284,12 +284,14 @@ hr:has(+ .footnotes) {
 	height: 1.5rem;
 	margin: var(--space-double) auto;
 	background: var(--color-divider);
-	-webkit-mask: url("/ornament.svg?v=2") center / 100% 100% no-repeat;
-	mask: url("/ornament.svg?v=2") center / 100% 100% no-repeat;
+	-webkit-mask: url("/ornament.svg?v=3") center / 100% 100% no-repeat;
+	mask: url("/ornament.svg?v=3") center / 100% 100% no-repeat;
 }
 
-.article-nav::before {
+.article-nav::after {
 	flex-basis: 100%;
+	margin-top: var(--space-unit);
+	margin-bottom: var(--space-unit);
 }
 
 /* Drop cap — article opening paragraph */
@@ -299,6 +301,8 @@ article .prose > p:first-child::first-letter {
 	font-weight: 600;
 	color: var(--color-accent);
 	margin-right: 0.08em;
+	/* cv11: single-storey 'a'/'ä' — distinctive at display scale */
+	font-feature-settings: "cv11" 1;
 }
 
 article .prose > p:first-child::first-line {
@@ -312,10 +316,11 @@ article .prose > p:first-child::first-line {
 	}
 }
 
-/* External link indicator — subtle ↗ for links leaving the site */
+/* External link indicator — Literata's native → glyph, optically matched */
 .prose a[href^="http"]::after {
-	content: " ↗";
-	font-size: 0.7em;
+	content: " →";
+	font-family: var(--font-body);
+	font-size: 0.75em;
 	opacity: 0.35;
 	text-decoration: none;
 	display: inline;
@@ -335,11 +340,16 @@ article .prose > p:first-child::first-line {
 
 	h2 {
 		font-size: 1.375rem;
-		margin-top: var(--space-double);
+		letter-spacing: 0;
 	}
 
 	h3 {
 		font-size: 1.125rem;
+		letter-spacing: 0;
+	}
+
+	.prose > p + p:not([class]) {
+		text-indent: 1.2em;
 	}
 
 	blockquote {
@@ -400,7 +410,8 @@ article .prose > p:first-child::first-line {
 		padding: 0;
 	}
 
-	.footnotes {
+	.footnotes,
+	.footnotes-relocated {
 		font-size: 9pt;
 	}
 }

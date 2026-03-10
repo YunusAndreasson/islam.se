@@ -119,14 +119,10 @@
 }
 
 .nav-rub {
-	font-size: 1.3em;
-	line-height: 1;
+	width: 1.1em;
+	height: 1.1em;
 	opacity: 0.35;
-	translate: 0 -0.06em;
-
-	@supports (-webkit-touch-callout: none) {
-		translate: 0 0;
-	}
+	flex-shrink: 0;
 }
 
 .site-nav {
