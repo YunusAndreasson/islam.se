@@ -24,7 +24,7 @@ body {
 	quotes: "»" "«" "›" "‹";
 }
 
-/* Headings — reset font-variant to avoid onum leaking into Inter */
+/* Headings — Source Sans 3 with discretionary ligatures */
 h1,
 h2,
 h3 {
@@ -32,18 +32,15 @@ h3 {
 	line-height: 1.2;
 	text-wrap: balance;
 	font-variant-numeric: normal;
-	font-variant-ligatures: normal;
-	/* cv11: single-storey 'a'/'ä' — humanist warmth at headline scale;
-	   ss03: round commas/apostrophes — for any punctuated titles */
-	font-feature-settings:
-		"cv11" 1,
-		"ss03" 1;
+	font-variant-ligatures: discretionary-ligatures;
 }
 
 h1 {
 	font-size: var(--step-4);
 	font-weight: 700;
 	letter-spacing: -0.02em;
+	/* titl: display-optimized numerals for large titles */
+	font-feature-settings: "titl" 1;
 }
 
 h2 {
@@ -203,6 +200,7 @@ hr:has(+ .footnotes) {
 	line-height: 1.6;
 	letter-spacing: 0.01em;
 	color: var(--color-muted);
+	font-variant-numeric: oldstyle-nums;
 	opacity: 0;
 	pointer-events: none;
 	transition: opacity 0.15s ease;
@@ -317,9 +315,7 @@ article .prose > p:first-child::first-letter {
 	font-weight: 600;
 	color: var(--color-accent);
 	margin-right: 0.08em;
-	/* cv11: single-storey 'a'/'ä' — distinctive at display scale;
-	   Å/Ä/Ö ring and dots extend above cap height — negative margin gives room */
-	font-feature-settings: "cv11" 1;
+	/* Å/Ä/Ö ring and dots extend above cap height — negative margin gives room */
 	margin-top: -0.08em;
 }
 

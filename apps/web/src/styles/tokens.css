@@ -15,9 +15,9 @@
 }
 
 @font-face {
-	font-family: "Inter";
-	src: url("/fonts/inter-roman.woff2") format("woff2");
-	font-weight: 100 900;
+	font-family: "Source Sans 3";
+	src: url("/fonts/source-sans-3-roman.woff2") format("woff2");
+	font-weight: 200 900;
 	font-style: normal;
 	font-display: swap;
 }
@@ -64,7 +64,7 @@
 
 	/* Font families */
 	--font-body: "Literata", Georgia, "Times New Roman", serif;
-	--font-heading: "Inter", system-ui, sans-serif;
+	--font-heading: "Source Sans 3", system-ui, sans-serif;
 }
 
 @media (width <= 768px) {
