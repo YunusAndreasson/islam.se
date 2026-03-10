@@ -95,7 +95,7 @@
 
 .site-nav-right {
 	display: flex;
-	align-items: center;
+	align-items: baseline;
 	gap: 0.75rem;
 }
 
@@ -108,27 +108,30 @@
 /* Home link — flex container so ۞ and text align perfectly */
 .site-nav a:first-child {
 	display: inline-flex;
-	align-items: center;
-	gap: 0.15em;
+	align-items: baseline;
+	gap: 0.25em;
 	letter-spacing: 0.08em;
 	font-weight: 600;
 }
 
 .site-tld {
 	font-weight: 400;
+	opacity: 0.5;
 }
 
 .nav-rub {
-	width: 1.1em;
-	height: 1.1em;
-	opacity: 0.35;
+	width: 1.35em;
+	height: 1.35em;
 	flex-shrink: 0;
+	/* Shift down from baseline to visually center beside uppercase text */
+	position: relative;
+	top: 0.28em;
 }
 
 .site-nav {
 	display: flex;
 	justify-content: space-between;
-	align-items: center;
+	align-items: baseline;
 	width: 100%;
 	font-family: var(--font-heading);
 	font-size: 0.9375rem;
@@ -427,6 +430,7 @@
 	border: 1px solid var(--color-divider);
 	border-radius: 1.25rem;
 	color: var(--color-muted);
+	font-weight: 500;
 	background: color-mix(in srgb, var(--color-bg) 80%, transparent);
 	cursor: pointer;
 	transition:
@@ -459,14 +463,14 @@
 .about-colophon {
 	margin-top: 0;
 	text-align: center;
-	margin-bottom: var(--space-triple);
+	margin-bottom: var(--space-phi2);
 }
 
 /* ============================================================
    Article header
    ============================================================ */
 .article-header {
-	margin-top: var(--space-double);
+	margin-top: var(--space-phi);
 	margin-bottom: var(--space-unit);
 
 	h1 {
@@ -583,13 +587,13 @@
 }
 
 .archive-section:last-child .archive-list {
-	margin-bottom: var(--space-triple);
+	margin-bottom: var(--space-phi2);
 }
 
 /* Archive list */
 .archive-list {
 	margin-top: var(--space-unit);
-	margin-bottom: var(--space-triple);
+	margin-bottom: var(--space-phi2);
 }
 
 .archive-item {

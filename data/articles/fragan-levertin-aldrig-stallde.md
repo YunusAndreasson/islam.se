@@ -5,7 +5,7 @@ wordCount: 1831
 qualityScore: 8.7
 description: "Oscar Levertin studerade 1898 den antike materialisten Lucretius och fann att den som med störst lidelse förnekar gudarna avslöjar att behovet av dem överlever förnekelsen. Iakttagelsen blev den svenska hållningens grundformel – en religiositet som överlever varje religion men aldrig frågar varifrån den kommer."
 ---
-År 1898 formulerade Oscar Levertin en mening som fortfarande sammanfattar den svenska hållningen rörande religion bättre än någon opinionsundersökning:
+Oscar Levertin formulerade 1898 en mening som fortfarande sammanfattar den svenska hållningen rörande religion bättre än någon opinionsundersökning:
 
 > Verkligheten kan kanske undvara religion, men säkert ej religiositet.[^1]
 

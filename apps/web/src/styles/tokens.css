@@ -33,24 +33,24 @@
 	--color-text: light-dark(#1a1914, #e0ddd8);
 	--color-bg: light-dark(#faf8f5, #1a1917);
 	--color-accent: light-dark(#3a3830, #c8c4be);
-	--color-muted: light-dark(#847a6e, #8a8880);
+	--color-muted: light-dark(#847a6e, #8a8278);
 	--color-warm: light-dark(#b0a090, #6a5e4a);
 	--color-divider: color-mix(in srgb, var(--color-muted), transparent 80%);
 
-	/* Type scale — 1.2 ratio (minor third) from 18px base */
-	--step-0: 1.125rem; /* 18px — body */
-	--step-1: 1.35rem; /* 21.6px */
-	--step-2: 1.62rem; /* 25.9px — h2 */
-	--step-4: 2.333rem; /* 37.3px — h1 */
+	/* Type scale — 1.2 ratio (minor third) from 19px base */
+	--step-0: 1.1875rem; /* 19px — body */
+	--step-1: 1.425rem; /* 22.8px */
+	--step-2: 1.71rem; /* 27.4px — h2 */
+	--step-4: 2.462rem; /* 39.4px — h1 */
 
-	/* Spacing — derived from body line-height (1.6 × 18px = 28.8px ≈ 1.8rem) */
-	--space-unit: 1.8rem;
-	--space-half: 0.9rem;
-	--space-double: 3.6rem;
-	--space-triple: 5.4rem;
+	/* Spacing — golden progression from body line-height (φ ≈ 1.618) */
+	--space-unit: 1.9rem;
+	--space-half: 0.95rem;
+	--space-phi: 3.074rem;    /* unit × φ */
+	--space-phi2: 4.974rem;   /* unit × φ² */
 
 	/* Layout */
-	--content-width: 38rem;
+	--content-width: 42rem;
 	--padding-inline: 1.5rem;
 
 	/* Safe-area-aware padding (used by header, hero, content column, FABs) */
@@ -70,5 +70,9 @@
 @media (width <= 768px) {
 	:root {
 		--padding-inline: 1.25rem;
+		--space-unit: 1.5rem;
+		--space-half: 0.75rem;
+		--space-phi: 2.427rem;   /* 1.5 × φ */
+		--space-phi2: 3.927rem;  /* 1.5 × φ² */
 	}
 }

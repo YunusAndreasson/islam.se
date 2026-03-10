@@ -5,7 +5,7 @@ wordCount: 1803
 qualityScore: 8.7
 description: "I november 1940 publicerar Karin Boye *Kallocain*, romanen om ett sanningsserum som blottlägger varje medborgares innersta tankar. Fem månader senare tar hon sitt liv. Den islamiska traditionen utgår från samma premiss – att ingenting är dolt – men drar en diametralt motsatt slutsats."
 ---
-Året är 1940. I Sverige arbetar Karin Boye med en roman om ett samhälle där staten har uppfunnit ett serum som tvingar fram sanningen – varje tanke, varje känsla, varje hemlig längtan blottlagd inför myndigheterna. Samtidigt perfektionerar regimerna i Berlin och Moskva sina övervakningsapparater. Det europeiska mörkret tätnar. *Kallocain* publiceras i november samma år; Boye tar sitt liv fem månader senare.
+Det är 1940. I Sverige arbetar Karin Boye med en roman om ett samhälle där staten har uppfunnit ett serum som tvingar fram sanningen – varje tanke, varje känsla, varje hemlig längtan blottlagd inför myndigheterna. Samtidigt perfektionerar regimerna i Berlin och Moskva sina övervakningsapparater. Det europeiska mörkret tätnar. *Kallocain* publiceras i november samma år; Boye tar sitt liv fem månader senare.
 
 Romanen läses vanligen som en dystopi om totalitarism, en föregångare till Orwells *1984*. Men det oroande i *Kallocain* är inte övervakningsstaten i sig. Det oroande är vad som händer när sanningen upphör att vara frivillig.
 

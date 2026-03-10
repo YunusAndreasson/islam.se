@@ -11,7 +11,7 @@
 body {
 	font-family: var(--font-body);
 	font-size: var(--step-0);
-	line-height: 1.6;
+	line-height: 1.618;
 	color: var(--color-text);
 	background-color: var(--color-bg);
 	font-optical-sizing: auto;
@@ -19,6 +19,8 @@ body {
 	font-variant-ligatures: discretionary-ligatures;
 	-webkit-font-smoothing: antialiased;
 	text-wrap: auto;
+	hanging-punctuation: first last;
+	overflow-wrap: break-word;
 	quotes: "»" "«" "›" "‹";
 }
 
@@ -49,7 +51,7 @@ h2 {
 	font-weight: 600;
 	letter-spacing: -0.01em;
 	color: var(--color-accent);
-	margin-top: var(--space-double);
+	margin-top: var(--space-phi);
 	margin-bottom: var(--space-half);
 }
 
@@ -58,7 +60,7 @@ h3 {
 	font-weight: 450;
 	letter-spacing: -0.01em;
 	color: var(--color-accent);
-	margin-top: var(--space-double);
+	margin-top: var(--space-phi);
 	margin-bottom: var(--space-half);
 }
 
@@ -103,7 +105,7 @@ a {
 blockquote {
 	border-inline-start: 3px solid var(--color-warm);
 	padding-inline-start: var(--space-unit);
-	margin-block: var(--space-double);
+	margin-block: var(--space-phi);
 	font-size: 0.95em;
 
 	p:last-child {
@@ -126,7 +128,7 @@ abbr {
 hr {
 	border: none;
 	border-top: 1px solid var(--color-divider);
-	margin-block: var(--space-double);
+	margin-block: var(--space-phi);
 }
 
 /* Footnote references — native Literata sups glyphs (optically drawn for
@@ -186,18 +188,20 @@ hr:has(+ .footnotes) {
 	}
 }
 
-/* Footnote popover — inline preview on click */
+/* Footnote popover — inline preview on hover/click */
 .fn-popover {
 	position: absolute;
 	z-index: 100;
 	max-width: min(28rem, calc(100vw - 24px));
-	padding: 0.75rem 1rem;
+	padding: 0.75rem 1.214rem;
 	background: var(--color-bg);
 	border: 1px solid var(--color-divider);
-	border-radius: 4px;
-	box-shadow: 0 4px 16px rgb(0 0 0 / 0.1);
-	font-size: 0.875rem;
-	line-height: 1.5;
+	border-radius: 0.75rem;
+	box-shadow: 0 4px 24px rgb(0 0 0 / 0.08);
+	font-family: var(--font-heading);
+	font-size: 0.8125rem;
+	line-height: 1.6;
+	letter-spacing: 0.01em;
 	color: var(--color-muted);
 	opacity: 0;
 	pointer-events: none;
@@ -205,6 +209,10 @@ hr:has(+ .footnotes) {
 
 	p {
 		margin-bottom: 0;
+	}
+
+	em {
+		font-family: var(--font-body);
 	}
 }
 
@@ -215,7 +223,7 @@ hr:has(+ .footnotes) {
 
 @media (prefers-color-scheme: dark) {
 	.fn-popover {
-		box-shadow: 0 4px 16px rgb(0 0 0 / 0.3);
+		box-shadow: 0 4px 24px rgb(0 0 0 / 0.3);
 	}
 }
 
@@ -226,13 +234,17 @@ hr:has(+ .footnotes) {
 	-webkit-hyphens: auto;
 	hyphens: auto;
 
+	@media (width > 768px) {
+		text-wrap: pretty;
+	}
+
 	/* Book-style paragraph rhythm: indent consecutive paragraphs, tighten gap */
 	> p:has(+ p) {
 		margin-bottom: 0.5em;
 	}
 
 	> p + p:not([class]) {
-		text-indent: 1.5em;
+		text-indent: 1.618em;
 	}
 
 	ul,
@@ -251,7 +263,7 @@ hr:has(+ .footnotes) {
 .footnotes-relocated {
 	margin-top: 0;
 	padding-top: 0;
-	margin-bottom: calc(var(--space-triple) + env(safe-area-inset-bottom, 0px));
+	margin-bottom: calc(var(--space-phi2) + env(safe-area-inset-bottom, 0px));
 	font-size: 0.875rem;
 	line-height: 1.5;
 	color: var(--color-muted);
@@ -282,7 +294,7 @@ hr:has(+ .footnotes) {
 	display: block;
 	width: 10rem;
 	height: 1.5rem;
-	margin: var(--space-double) auto;
+	margin: var(--space-phi) auto;
 	background: var(--color-divider);
 	-webkit-mask: url("/ornament.svg?v=3") center / 100% 100% no-repeat;
 	mask: url("/ornament.svg?v=3") center / 100% 100% no-repeat;
@@ -295,14 +307,20 @@ hr:has(+ .footnotes) {
 }
 
 /* Drop cap — article opening paragraph */
+article .prose > p:first-child {
+	overflow: visible;
+}
+
 article .prose > p:first-child::first-letter {
 	-webkit-initial-letter: 3;
 	initial-letter: 3;
 	font-weight: 600;
 	color: var(--color-accent);
 	margin-right: 0.08em;
-	/* cv11: single-storey 'a'/'ä' — distinctive at display scale */
+	/* cv11: single-storey 'a'/'ä' — distinctive at display scale;
+	   Å/Ä/Ö ring and dots extend above cap height — negative margin gives room */
 	font-feature-settings: "cv11" 1;
+	margin-top: -0.08em;
 }
 
 article .prose > p:first-child::first-line {
@@ -349,7 +367,7 @@ article .prose > p:first-child::first-line {
 	}
 
 	.prose > p + p:not([class]) {
-		text-indent: 1.2em;
+		text-indent: 1.309em;
 	}
 
 	blockquote {
