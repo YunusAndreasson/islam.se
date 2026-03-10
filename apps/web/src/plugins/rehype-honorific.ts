@@ -10,24 +10,38 @@
  *   ﷺ  U+FDFA  (sallallahu alayhi wa salam)
  */
 
+interface HastText {
+	type: "text";
+	value: string;
+}
+
+interface HastElement {
+	type: "element";
+	tagName: string;
+	properties?: Record<string, unknown>;
+	children: HastNode[];
+}
+
+type HastNode = HastText | HastElement | { type: string; children?: HastNode[] };
+
 const HONORIFIC_RE = /(\uFDFB|\uFDFA)/g;
 
 function codeFor(ch: string): string {
 	return ch === "\uFDFB" ? "swt" : "saw";
 }
 
-function visitText(node: any, index: number, parent: any): void {
+function visitText(node: HastText, index: number, parent: HastElement): void {
 	if (typeof node.value !== "string") return;
 
 	HONORIFIC_RE.lastIndex = 0;
 	if (!HONORIFIC_RE.test(node.value)) return;
 	HONORIFIC_RE.lastIndex = 0;
 
-	const parts: any[] = [];
+	const parts: HastNode[] = [];
 	let last = 0;
-	let m: RegExpExecArray | null;
+	let m: RegExpExecArray | null = HONORIFIC_RE.exec(node.value);
 
-	while ((m = HONORIFIC_RE.exec(node.value)) !== null) {
+	while (m !== null) {
 		if (m.index > last) {
 			parts.push({ type: "text", value: node.value.slice(last, m.index) });
 		}
@@ -39,6 +53,7 @@ function visitText(node: any, index: number, parent: any): void {
 			children: [{ type: "text", value: m[1] }],
 		});
 		last = m.index + m[0].length;
+		m = HONORIFIC_RE.exec(node.value);
 	}
 
 	if (last < node.value.length) {
@@ -48,21 +63,25 @@ function visitText(node: any, index: number, parent: any): void {
 	parent.children.splice(index, 1, ...parts);
 }
 
-function walk(node: any): void {
-	if (!node.children) return;
+function walk(node: HastNode): void {
+	if (!("children" in node && node.children)) return;
 
 	for (let i = 0; i < node.children.length; i++) {
 		const child = node.children[i];
 		if (child.type === "text") {
 			const before = node.children.length;
-			visitText(child, i, node);
+			visitText(child as HastText, i, node as HastElement);
 			i += node.children.length - before;
-		} else if (child.type === "element" && child.tagName !== "code" && child.tagName !== "pre") {
+		} else if (
+			child.type === "element" &&
+			(child as HastElement).tagName !== "code" &&
+			(child as HastElement).tagName !== "pre"
+		) {
 			walk(child);
 		}
 	}
 }
 
 export function rehypeHonorific() {
-	return (tree: any) => walk(tree);
+	return (tree: HastNode) => walk(tree);
 }

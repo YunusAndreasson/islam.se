@@ -4,8 +4,8 @@ import { fileURLToPath } from "node:url";
 import sitemap from "@astrojs/sitemap";
 import { defineConfig } from "astro/config";
 import remarkSmartypants from "remark-smartypants";
-import { remarkAbbr } from "./src/plugins/remark-abbr";
 import { rehypeHonorific } from "./src/plugins/rehype-honorific";
+import { remarkAbbr } from "./src/plugins/remark-abbr";
 
 const articlesDir = fileURLToPath(new URL("../../data/articles", import.meta.url));
 const articleDates: Record<string, string> = {};
@@ -25,13 +25,17 @@ export default defineConfig({
 	site: "https://islam.se",
 	output: "static",
 	prefetch: { defaultStrategy: "hover" },
+	build: { inlineStylesheets: "always" },
 	markdown: {
 		remarkPlugins: [
-			[remarkSmartypants, {
-				openingQuotes: { double: "»", single: "\u2019" },
-				closingQuotes: { double: "«", single: "\u2019" },
-				dashes: "oldschool",
-			}],
+			[
+				remarkSmartypants,
+				{
+					openingQuotes: { double: "»", single: "\u2019" },
+					closingQuotes: { double: "«", single: "\u2019" },
+					dashes: "oldschool",
+				},
+			],
 			remarkAbbr,
 		],
 		rehypePlugins: [rehypeHonorific],

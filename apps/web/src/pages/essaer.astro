@@ -3,13 +3,20 @@ import Base from "../layouts/Base.astro";
 import { formatDate, getArticles } from "../lib/articles";
 
 const articles = await getArticles();
+
+/** Convert inline markdown (*italic*, **bold**) to HTML */
+function inlineMarkdown(text: string): string {
+	return text
+		.replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
+		.replace(/\*(.+?)\*/g, "<em>$1</em>");
+}
 ---
 
 <Base title="Essäer — islam.se" description="Samtliga essäer om islamisk intellektuell tradition och svenskt kulturarv. Al-Ghazālī, Ibn Khaldūn, Strindberg, Lagerlöf och fler.">
-	<main class="content-column">
+	<main id="main" class="content-column">
 		<header class="article-header">
 			<h1>Essäer</h1>
-			<p class="label archive-stats progress-ring" aria-live="polite"></p>
+			<p class="label archive-stats" aria-live="polite"></p>
 		</header>
 
 		<ul class="archive-list" id="list-all">
@@ -17,10 +24,10 @@ const articles = await getArticles();
 				<li class="archive-item" data-slug={article.slug}>
 					<a href={`/${article.slug}`} data-astro-prefetch="viewport">
 						<span class="archive-title">{article.title}</span>
-						<p class="label archive-meta progress-ring">
+						<p class="label archive-meta">
 							<time datetime={article.publishedAt}>{formatDate(article.publishedAt)}</time> &middot; {article.readingTime} min läsning
 						</p>
-						{article.description && <p class="archive-description">{article.description}</p>}
+						{article.description && <p class="archive-description" set:html={inlineMarkdown(article.description)} />}
 					</a>
 				</li>
 			))}
@@ -40,9 +47,6 @@ const articles = await getArticles();
 
 		for (const item of items) {
 			const pct = +(localStorage.getItem(`rp:${item.dataset.slug}`) || 0);
-			if (pct > 0.03) {
-				item.style.setProperty("--progress", String(Math.min(pct, 1)));
-			}
 			if (pct > 0.85) {
 				readItems.push(item);
 			} else {

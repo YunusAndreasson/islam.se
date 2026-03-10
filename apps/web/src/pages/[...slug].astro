@@ -32,7 +32,7 @@ const { Content } = await render(article.entry);
 	ogImage={article.heroImage?.src}
 	articleMeta={{ publishedAt: article.publishedAt, wordCount: article.wordCount, description: article.description, slug: article.slug }}
 >
-	<main class="content-column">
+	<main id="main" class="content-column">
 		<article>
 			<header class="article-header">
 				<h1>{article.title}</h1>
@@ -49,13 +49,13 @@ const { Content } = await render(article.entry);
 		<nav class="article-nav" aria-label="Föregående och nästa essä">
 			{prev && (
 				<a href={`/${prev.slug}`} rel="prev">
-					<span class="label nav-label">Föregående</span>
+					<span class="label nav-label">‹ Föregående</span>
 					{prev.title}
 				</a>
 			)}
 			{next && (
 				<a href={`/${next.slug}`} rel="next">
-					<span class="label nav-label">Nästa</span>
+					<span class="label nav-label">Nästa ›</span>
 					{next.title}
 				</a>
 			)}
@@ -69,6 +69,15 @@ const { Content } = await render(article.entry);
 	document.addEventListener("astro:page-load", () => {
 		if (!document.querySelector(".article-body")) return;
 		const ctrl = new AbortController();
+
+		// Move footnotes below article-nav for easier access to prev/next
+		const footnotes = document.querySelector(".article-body .footnotes");
+		const nav = document.querySelector(".article-nav");
+		if (footnotes && nav) {
+			footnotes.classList.remove("footnotes");
+			footnotes.classList.add("footnotes-relocated");
+			nav.after(footnotes);
+		}
 		document.addEventListener("keydown", (e) => {
 			if (e.target instanceof HTMLElement && e.target.matches("input, textarea, select")) return;
 			if (e.key === "Escape" && !document.querySelector(".fn-popover--visible")) navigate("/essaer");
@@ -100,7 +109,7 @@ const { Content } = await render(article.entry);
 		popover.setAttribute("role", "tooltip");
 		document.body.appendChild(popover);
 		let hideTimer: ReturnType<typeof setTimeout> | null = null;
-		let isTouch = false;
+		const isTouch = window.matchMedia("(hover: none) and (pointer: coarse)").matches;
 
 		function positionPopover(anchor: Element) {
 			const rect = anchor.getBoundingClientRect();
@@ -151,9 +160,6 @@ const { Content } = await render(article.entry);
 		function scheduleDismiss() {
 			hideTimer = setTimeout(dismissPopover, 200);
 		}
-
-		// Detect touch devices
-		document.addEventListener("touchstart", () => { isTouch = true; }, { once: true, passive: true, signal: ctrl.signal });
 
 		// Prevent footnote links from navigating — capture phase runs before Astro's router
 		document.addEventListener("click", (e) => {

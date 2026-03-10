@@ -11,6 +11,7 @@ interface Props {
 	description?: string;
 	hero?: boolean;
 	ogImage?: string;
+	preloadImage?: string;
 	articleMeta?: {
 		publishedAt: string;
 		wordCount: number;
@@ -25,6 +26,7 @@ const {
 	description = "Essäer om islamisk intellektuell tradition och svenskt kulturarv.",
 	hero = false,
 	ogImage,
+	preloadImage,
 	articleMeta,
 	jsonLd,
 } = Astro.props;
@@ -103,7 +105,8 @@ if (articleMeta) {
 		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 		<link rel="preload" href="/fonts/literata-roman.woff2" as="font" type="font/woff2" crossorigin />
 		<link rel="preload" href="/fonts/inter-roman.woff2" as="font" type="font/woff2" crossorigin />
-		<link rel="prefetch" href="/fonts/literata-italic.woff2" as="font" type="font/woff2" crossorigin />
+		{articleMeta && <link rel="prefetch" href="/fonts/literata-italic.woff2" as="font" type="font/woff2" crossorigin />}
+		{preloadImage && <link rel="preload" as="image" href={preloadImage} fetchpriority="high" />}
 		<title>{title}</title>
 		<meta name="description" content={description} />
 		<link rel="canonical" href={canonicalUrl.href} />
@@ -116,8 +119,8 @@ if (articleMeta) {
 		<meta property="og:site_name" content="islam.se" />
 		<meta property="og:locale" content="sv_SE" />
 		<meta property="og:image" content={ogImageUrl} />
-		{!ogImage && <meta property="og:image:width" content="1200" />}
-		{!ogImage && <meta property="og:image:height" content="630" />}
+		<meta property="og:image:width" content="1200" />
+		<meta property="og:image:height" content="630" />
 		{articleMeta && <meta property="article:published_time" content={articleMeta.publishedAt} />}
 		{articleMeta && <meta property="article:author" content="https://islam.se" />}
 
@@ -139,28 +142,40 @@ if (articleMeta) {
 		))}
 	</head>
 	<body>
+		<a href="#main" class="skip-link">Hoppa till innehåll</a>
 		<div class="reading-progress" aria-hidden="true" data-slug={articleMeta?.slug} />
 		<Header hero={hero} />
 		<slot />
-		<button class="btn-circle back-to-top" type="button" aria-label="Tillbaka till toppen">
-			<svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
-				<path d="M4 11l5-5 5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-			</svg>
-		</button>
+		<div class="fixed-actions">
+			{articleMeta && (
+				<button class="share-btn label" type="button" aria-label="Dela essä" data-title={pageTitle} data-url={canonicalUrl.href}>Dela</button>
+			)}
+			<button class="btn-circle back-to-top" type="button" aria-label="Tillbaka till toppen">
+				<svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+					<path d="M5 12.5l5-5 5 5" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" />
+				</svg>
+			</button>
+		</div>
 		<script>
 			document.addEventListener("astro:page-load", () => {
+				const actions = document.querySelector<HTMLElement>(".fixed-actions");
 				const btn = document.querySelector<HTMLButtonElement>(".back-to-top");
-				if (!btn) return;
+				if (!actions || !btn) return;
 				const ctrl = new AbortController();
 				let shown = false;
 				const progressBar = document.querySelector<HTMLElement>(".reading-progress");
 				const slug = progressBar?.dataset.slug;
 				let lastSave = 0;
+				const shareBtn = document.querySelector<HTMLButtonElement>(".share-btn");
+
+				function scrollPct() {
+					const scrollable = document.documentElement.scrollHeight - window.innerHeight;
+					return scrollable > 0 ? Math.min(1, Math.max(0, window.scrollY / scrollable)) : 0;
+				}
 
 				const saveProgress = () => {
 					if (!slug) return;
-					const scrollable = document.documentElement.scrollHeight - window.innerHeight;
-					const pct = scrollable > 0 ? Math.min(1, Math.max(0, window.scrollY / scrollable)) : 0;
+					const pct = scrollPct();
 					const prev = +(localStorage.getItem(`rp:${slug}`) || 0);
 					if (pct > prev) localStorage.setItem(`rp:${slug}`, pct.toFixed(3));
 				};
@@ -169,16 +184,14 @@ if (articleMeta) {
 					const shouldShow = window.scrollY > window.innerHeight;
 					if (shouldShow !== shown) {
 						shown = shouldShow;
-						btn.classList.toggle("visible", shown);
+						actions.classList.toggle("visible", shown);
 					}
 					if (progressBar) {
-						const scrollable = document.documentElement.scrollHeight - window.innerHeight;
-						const pct = scrollable > 0 ? Math.min(1, Math.max(0, window.scrollY / scrollable)) : 0;
+						const pct = scrollPct();
 						progressBar.style.width = `${pct * 100}%`;
 						if (slug && Date.now() - lastSave > 500) {
 							lastSave = Date.now();
-							const prev = +(localStorage.getItem(`rp:${slug}`) || 0);
-							if (pct > prev) localStorage.setItem(`rp:${slug}`, pct.toFixed(3));
+							saveProgress();
 						}
 					}
 				}, { passive: true, signal: ctrl.signal });
@@ -187,6 +200,20 @@ if (articleMeta) {
 					const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 					window.scrollTo({ top: 0, behavior: reduced ? "instant" : "smooth" });
 				}, { signal: ctrl.signal });
+
+				if (shareBtn) {
+					shareBtn.addEventListener("click", async () => {
+						const title = shareBtn.dataset.title || "";
+						const url = shareBtn.dataset.url || location.href;
+						if (navigator.share) {
+							try { await navigator.share({ title, url }); } catch {}
+						} else {
+							await navigator.clipboard.writeText(url);
+							shareBtn.textContent = "Kopierad";
+							setTimeout(() => { shareBtn.textContent = "Dela"; }, 2000);
+						}
+					}, { signal: ctrl.signal });
+				}
 
 				document.addEventListener("visibilitychange", () => {
 					if (document.visibilityState === "hidden") saveProgress();
