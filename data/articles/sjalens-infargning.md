@@ -31,7 +31,7 @@ Koranen gestaltar den stegvisa processen Ibn Khaldūn beskriver:
 
 > Vi har klarlagt Koranen för att du skall recitera den för människorna i lugn takt. Och Vi sänder ned den steg för steg.[^6]
 
-Uppenbarelsen själv kom bit för bit, lager för lager – för att stärka Profetens ﷺ hjärta, för att ge kunskapen tid att fästa och bli bestående. Som Ibn Kathir återger från Ibn ʿAbbās sändes Koranen ned anpassad efter händelsernas gång, till Profeten ﷺ under loppet av tjugotre år.
+Uppenbarelsen själv kom bit för bit, lager för lager – för att stärka Profetens ﷺ hjärta, för att ge kunskapen tid att fästa och bli bestående. Enligt Ibn ʿAbbās, som Ibn Kathir anför, sändes Koranen ned anpassad efter händelsernas gång under Profetens ﷺ tjugotre år.
 
 ## Ellen Keys tvetydiga arv
 

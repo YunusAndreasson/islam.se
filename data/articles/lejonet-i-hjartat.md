@@ -73,7 +73,7 @@ Det finns stunder av klarhet – ögonblick då man ser igenom en situation med 
 
 Häri ligger det svårsmälta för moderniteten: att kunskap är en fråga om karaktär lika mycket som metod, att den som lever oredligt inte bara handlar fel utan *ser* fel och att perception och moral aldrig var skilda domäner.
 
-I sura al-Ḥijr finns en vers som Ibn Qayyim ofta återvände till: "I detta finns sannerligen tecken för de insiktsfulla."[^16] Det arabiska ordet är *mutawassimīn* – de som läser tecken, de som äger *firāsah*. Ibn Kathir återger i sin kommentar till denna vers att Profeten ﷺ reciterade den omedelbart efter att ha uttalat orden om den troendes *firāsah* och Guds ljus. Tecknen finns där, världen döljer ingenting – frågan är om betraktarens hjärta är tillräckligt klart för att läsa dem.
+I sura al-Ḥijr finns en vers som Ibn Qayyim ofta återvände till: "I detta finns sannerligen tecken för de insiktsfulla."[^16] Det arabiska ordet är *mutawassimīn* – de som läser tecken, de som äger *firāsah*. Ibn Kathir återger att Profeten ﷺ reciterade den omedelbart efter att ha uttalat orden om den troendes *firāsah* och Guds ljus. Tecknen finns där, världen döljer ingenting – frågan är om betraktarens hjärta är tillräckligt klart för att läsa dem.
 
 Och det lejon som i Ibn Qayyims bild kastar sig över sitt byte – den ingivelse som slår ner i hjärtat utan förvarning, utan tvekan – det lejonet jagar alltjämt.
 

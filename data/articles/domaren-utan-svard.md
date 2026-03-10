@@ -53,7 +53,11 @@ Principen är inte bunden till en tid eller tradition. C.S. Lewis nådde samma s
 
 Lewis namngav faran – men stannade vid iakttagelsen. Al-Māwardīs ramverk går steget längre: det räcker inte att veta att den rättfärdige är farlig, man måste bygga institutioner som skiljer hans övertygelse från hans befogenhet. *Ḥisbah* är exakt det – den låter den övertygade tala men nekar honom svärdet.
 
-Abū Bakr al-Ṣiddīq, den förste kalifen efter Profeten ﷺ, satte ord på principen redan i sitt tillträdestal: "Den starkaste bland er är i mina ögon den svagaste tills jag har tagit hans rätt ifrån honom, och den svagaste bland er är i mina ögon den starkaste tills jag har gett honom hans rätt."[^18] Förhållandet till rätten avgör vem som är stark, aldrig ställningen. Den som upprätthåller rätten måste veta att samma makt som bär den också kan krossa den.
+Abū Bakr al-Ṣiddīq, den förste kalifen efter Profeten ﷺ, satte ord på principen redan i sitt tillträdestal:
+
+> Den starkaste bland er är i mina ögon den svagaste tills jag har tagit hans rätt ifrån honom, och den svagaste bland er är i mina ögon den starkaste tills jag har gett honom hans rätt.[^18]
+
+Förhållandet till rätten avgör vem som är stark, aldrig ställningen. Den som upprätthåller rätten måste veta att samma makt som bär den också kan krossa den.
 
 Ibn Khaldūn, historikern och samhällsteoretikern, sammanfattade principen: "Rättvisa är en balans som upprättas bland människorna. Herren upprättade den och utsåg en övervakare för den, och den övervakaren är härskaren."[^19] Övervakaren – inte ägaren. Skillnaden är allt.
 
@@ -61,7 +65,7 @@ Under al-Māwardīs livstid förföll det abbasidiska kalifatet; muhtasiber öve
 
 > Allah ﷻ befaller er att återlämna allt ni anförtrotts till dess rättmätiga ägare och att, när ni dömer mellan människor, döma med rättvisa.[^21]
 
-Ibn Kathir citerar en profettradition i sin kommentar till denna vers: "Fullgör förtroendet gentemot den som anförtrott dig, och förråd inte den som förråder dig." Rättvisan är ett förtroende – *amānah* – inte en egendom. Den som förvaltar den äger den inte.
+Ibn Kathir anför en profettradition: "Fullgör förtroendet gentemot den som anförtrott dig, och förråd inte den som förråder dig." Rättvisan är ett förtroende – *amānah* – inte en egendom. Den som förvaltar den äger den inte.
 
 ## Frågan som återstår
 

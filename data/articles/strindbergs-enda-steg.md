@@ -19,7 +19,7 @@ Aldrig var Strindbergs ateism lugn. Den var ett grepp om något som hela tiden h
 
 *Tvungna*. Otacksamheten är inte befrielse utan börda. Strindberg beskriver en ateism som inte känns som hemkomst utan som tvång: att tvingas förneka något man vet – ett mönster som Koranen beskriver:
 
-> Och när nöden drabbar er till havs försvinner alla som ni tillber, utom Han. Men när Han sedan fört er oskadda i land vänder ni er bort. Ja, människan är djupt otacksam. (*al-Isrāʾ* 17:67)
+> Och när nöden drabbar er till havs försvinner alla som ni tillber, utom Han. Men när Han sedan fört er oskadda i land vänder ni er bort. Ja, människan är djupt otacksam.[^21]
 
 Mönstret är dubbelt: i kris anropar människan Gud – i trygghet glömmer hon. Men den koraniska bilden stannar inte vid psykologin: anropet är ett återvändande till utgångsläget. Det är glömskan som kräver förklaring, inte bönen.
 
@@ -27,7 +27,7 @@ Mönstret är dubbelt: i kris anropar människan Gud – i trygghet glömmer hon
 
 Denna insikt – att krisen blottar snarare än skapar – har den islamiska traditionen ett begrepp för: *fiṭrah*. Den medeltida teologen Ibn Taymiyyah (d. 1328) citerar Profetens ﷺ ord: "Varje barn föds i enlighet med *fiṭrah*; sedan gör föräldrarna det till jude, kristen eller zoroastrier."[^4] Han kopplar detta direkt till Koranens vers:
 
-> Vänd ditt ansikte mot den sanna religionen, hängiven. Allahs ﷻ *fiṭrah*, med vilken Han skapade människorna. Ingen förändring i Allahs ﷻ skapelse. (*al-Rūm* 30:30)
+> Vänd ditt ansikte mot den sanna religionen, hängiven. Allahs ﷻ *fiṭrah*, med vilken Han skapade människorna. Ingen förändring i Allahs ﷻ skapelse.[^22]
 
 *Fiṭrah* är kunskapsteoretiskt innan det är teologiskt: en beskrivning av hur kunskap fungerar före all inlärning. Det är vad barnet vet innan det lärt sig bevisen: att skriket ska besvaras. I *al-Radd ʿalā al-Manṭiqiyyīn* skriver Ibn Taymiyyah att de som genom felaktiga metoder "vill förmå människor att överge det de skapats med av säker kunskap och rationella bevis"[^5] inte bara förstör tro utan undergräver förnuftets egna grunder. Att använda icke-naturliga metoder är "att plåga själar utan nytta."[^6]
 
@@ -73,7 +73,7 @@ Den uppenbara invändningen mot *fiṭrah*-argumentet är den stabila ateisten: 
 
 Koranen beskriver också det motsatta: de som hör och vänder bort.
 
-> När Våra verser reciteras för honom vänder han sig bort i högmod som om han inte hörde dem – som om hans öron var tilltäppta. (*Luqmān* 31:7)
+> När Våra verser reciteras för honom vänder han sig bort i högmod som om han inte hörde dem – som om hans öron var tilltäppta.[^23]
 
 Öronen är inte döva. De är tilltäppta. Det är hela skillnaden. *Fiṭrah* hävdar inte att varje människa kommer att erkänna Gud – bara att ingen kan undgå att på någon nivå *veta*, och att det som ser ut som stabil ateism ofta är ständigt underhåll.
 
@@ -93,9 +93,13 @@ Diktaren Oscar Levertin formulerade samma insikt utan att riktigt veta det: "Ver
 
 Koranen uttrycker det med en bild som är enklare men når längre:
 
-> När människan drabbas av olycka anropar hon Oss liggande på sidan eller sittande eller stående. Men när Vi avvärjt olyckan från henne fortsätter hon som om hon aldrig anropat Oss. (*Yūnus* 10:12)
+> När människan drabbas av olycka anropar hon Oss liggande på sidan eller sittande eller stående. Men när Vi avvärjt olyckan från henne fortsätter hon som om hon aldrig anropat Oss.[^24]
 
-Mönstret är avslöjande, inte cyniskt. Människan *kan* glömma Gud, men aldrig permanent, aldrig i grunden, aldrig utan att något i hennes tillvaro förblir stumt och otillfredsställt. Ibn Qayyim al-Jawziyyah (d. 1350), en av Ibn Taymiyyahs främsta lärjungar, skriver: "I hjärtat finns en tomhet som inte kan fyllas av annat än närhet till Allah ﷻ, och en sorg som inte kan lyftas av annat än glädjen i att känna Honom, och en oro som inte kan stillas av annat än samling inför Honom."[^19] Hjärtat har en riktning. Att tvinga det bort kräver kraft. Släpp greppet, och det återsvänger.
+Mönstret är avslöjande, inte cyniskt. Människan *kan* glömma Gud, men aldrig permanent, aldrig i grunden, aldrig utan att något i hennes tillvaro förblir stumt och otillfredsställt. Ibn Qayyim al-Jawziyyah (d. 1350), en av Ibn Taymiyyahs främsta lärjungar, skriver:
+
+> I hjärtat finns en tomhet som inte kan fyllas av annat än närhet till Allah ﷻ, och en sorg som inte kan lyftas av annat än glädjen i att känna Honom, och en oro som inte kan stillas av annat än samling inför Honom.[^19]
+
+Hjärtat har en riktning. Att tvinga det bort kräver kraft. Släpp greppet, och det återsvänger.
 
 Utan att ha läst en rad Ibn Qayyim genomlevde Strindberg just denna rörelse. Hans ateism grundades inte på dåliga argument utan gick mot hans natur.
 
@@ -129,3 +133,7 @@ Hans tvungna otacksamhet tryckte honom som en börda. Det finns en lättare väg
 [^18]: Oscar Levertin, *Diktare och drömmare* (Stockholm: Bonniers, 1898).
 [^19]: Ibn Qayyim al-Jawziyyah, *al-Fawāʾid* (De nyttiga insikterna): "I hjärtat finns en tomhet som inte kan fyllas av annat än närhet till Allah ﷻ, och en sorg som inte kan lyftas av annat än glädjen i att känna Honom, och en oro som inte kan stillas av annat än samling inför Honom".
 [^20]: Dag Hammarskjöld, *Vägmärken* (Stockholm: Bonniers, 1963), postumt publicerad. Hammarskjölds andliga liv var okänt för omvärlden under hans levnad.
+[^21]: Koranen, *al-Isrāʾ* 17:67.
+[^22]: Koranen, *al-Rūm* 30:30.
+[^23]: Koranen, *Luqmān* 31:7.
+[^24]: Koranen, *Yūnus* 10:12.

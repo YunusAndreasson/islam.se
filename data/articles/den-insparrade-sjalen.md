@@ -59,7 +59,7 @@ Topelius visste att själen flaxade, men inte varför fönstret var stängt. Den
 
 > Sedan fulländade Han henne och blåste in i henne av Sin ande och gav er hörsel och syn och inre sinnen. Så lite ni visar tacksamhet![^9]
 
-Som Ibn Kathir noterar: "Den lycklige är den som använder dessa förmågor i lydnad inför sin Herre." Själen har ett ursprung och ett mål: den kommer från Gud, och den återvänder till Gud. Kroppen är resvägen, inte hemmet. Kvävningen är inte en psykologisk störning att medicinera bort, utan en kosmisk hemlängtan att hörsamma.
+Ibn Kathir lägger till: "Den lycklige är den som använder dessa förmågor i lydnad inför sin Herre." Själen har ett ursprung och ett mål: den kommer från Gud, och den återvänder till Gud. Kroppen är resvägen, inte hemmet. Kvävningen är inte en psykologisk störning att medicinera bort, utan en kosmisk hemlängtan att hörsamma.
 
 ## Kroppens rätt, själens längtan
 
@@ -81,7 +81,7 @@ Med en vers som skär genom seklernas brus namnger Koranen tillståndet:
 
 > Varje själ skall smaka döden. Och ni skall sannerligen få era belöningar i fullt mått på Uppståndelsens dag. Den som avlägsnas från Elden och förs in i paradiset har förvisso segrat. Det jordiska livet är inte annat än en bedräglig njutning.[^13]
 
-*Matāʿ al-ghurūr* – en bedräglig njutning. Inte en njutning som är verklig men otillräcklig – utan en som *bedrar*. Transhumanismens löfte är *matāʿ al-ghurūr* i sin renaste form: bedrägeriet förstärkt med miljarder dollar i riskkapital. Som det uttrycks i en tradition Ibn Kathir citerar vid denna vers: "Den verkligt drabbade är den som berövas belöningen."
+*Matāʿ al-ghurūr* – en bedräglig njutning. Inte en njutning som är verklig men otillräcklig – utan en som *bedrar*. Transhumanismens löfte är *matāʿ al-ghurūr* i sin renaste form: bedrägeriet förstärkt med miljarder dollar i riskkapital. Ibn Kathir citerar en tradition vid denna vers: "Den verkligt drabbade är den som berövas belöningen."
 
 ## Döden som dörr
 

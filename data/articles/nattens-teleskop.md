@@ -31,7 +31,11 @@ Ibn Qayyim al-Jawziyyah bygger vidare med en bild hämtad direkt ur den profetis
 
 > Hjärtat rostas liksom koppar och silver rostas, och det poleras genom åminnelse (*dhikr*). Hjärtat är likt en spegel: när det poleras reflekterar det sanningen som den är, och när det rostas förvrängs bilderna och förmörkas.[^4]
 
-Bilden stammar från Profeten ﷺ själv, som sade: "Sannerligen, när tjänaren begår en synd faller en svart fläck på hans hjärta. Om han upphör, söker förlåtelse och ångrar sig, poleras hans hjärta. Men om han återvänder [till synden] växer den tills den täcker hans hjärta."[^5] Det är detta som Koranen kallar *al-rān*: "Nej, det som de har förvärvat har lagt sig som rost (*rān*) över deras hjärtan."[^6]
+Bilden stammar från Profeten ﷺ själv:
+
+> Sannerligen, när tjänaren begår en synd faller en svart fläck på hans hjärta. Om han upphör, söker förlåtelse och ångrar sig, poleras hans hjärta. Men om han återvänder [till synden] växer den tills den täcker hans hjärta.[^5]
+
+Det är detta som Koranen kallar *al-rān*: "Nej, det som de har förvärvat har lagt sig som rost (*rān*) över deras hjärtan."[^6]
 
 Ibn Qayyim preciserar i *Ighāthat al-Lahfān* att hjärtat i sitt ursprungliga tillstånd – den rena naturen (*fiṭrah*) – är mottagligt för sanning och vägledning. Det är barnet som känner orättvisa innan det lärt sig ordet. Synder, begär och hängivenhet åt det världsliga lägger sig som lager av smuts över denna yta. Polerat reflekterar hjärtat verkligheten som den är. Rostat ser det ingenting utom sina egna förvrängningar.
 
@@ -41,7 +45,7 @@ Koranen förankrar detta i en kosmologi som gör natten till mer än fysiologi:
 
 > Allah ﷻ tar människors själar när deras dödsstund är kommen; och den som inte dör tar han när den sover. Han kvarhåller sedan de själar vars död Han bestämt och återsänder de andra fram till en utsatt tid. I detta finns sannerligen tecken för människor som tänker efter.[^7]
 
-Versen ställer sömnen i ett sammanhang som ingen neurovetenskaplig modell kan reproducera: varje natt en liten död, ett tillfälligt återlämnande av själen till dess Skapare. Ibn Kathir noterar att versen antyder att själarna samlas i den himmelska församlingen, såsom det framgår av en profettradition förmedlad av Ibn Mandah. Att vakna blir ett uttryck för gudomlig vilja, ett nytt lån förlängt ytterligare en dag.
+Versen ställer sömnen i ett sammanhang som ingen neurovetenskaplig modell kan reproducera: varje natt en liten död, ett tillfälligt återlämnande av själen till dess Skapare. Ibn Kathir läser versen som en antydan om att själarna samlas i den himmelska församlingen. Att vakna blir ett uttryck för gudomlig vilja, ett nytt lån förlängt ytterligare en dag.
 
 Profeten Muḥammad ﷺ förenade drömmen direkt med uppenbarelsen: enligt en välkänd *ḥadīth* utgör den sanna drömmen (*al-ruʾyā al-ṣādiqah*) en fyrtiosjättedel av profetskapet[^8] – ett exakt bråktal. Drömmen är en kvarleva av profetskapets ljus, en smal öppning mot det osynliga som varje människa bär. Men profetskapet självt är en gudomlig utväljelse (*iṣṭifāʾ*), inte slutpunkten på en stegvis reningsprocess. Allah ﷻ utväljer Sina sändebud – "Allah ﷻ vet bäst var Han lägger Sitt budskap"[^9]. Skillnaden mellan profeten och den vanliga drömmaren är därför inte gradskillnad i hjärtats renhet utan artskillnad i gudomlig kallelse. Inte renare vatten utan en annan källa. Profeten ﷺ fastslog att den som är mest sanningsenlig i sitt tal är den vars drömmar är mest sanningsenliga.[^10] Kopplingen mellan yttre rättfärdighet och inre mottaglighet bekräftar att hjärtats tillstånd är avgörande, utan att reducera uppenbarelsen till en funktion av mänsklig andlig kapacitet.
 
@@ -70,7 +74,11 @@ Den inåtvändhet Ibn Khaldūn beskriver är inte en universellt tillgänglig ö
 
 > Och av Sin barmhärtighet har Han skapat natten och dagen åt er, för att ni skall vila [under natten] och söka Hans nåd [under dagen], och för att ni skall vara tacksamma.[^15]
 
-Ibn Rajab al-Ḥanbalī skriver i *Laṭāʾif al-Maʿārif* om nattens särställning för den troende: natten är den tid då tjänaren är ensam med sin Herre, utan allt det störande som dagen medför. Profeten ﷺ själv beskrev den sista tredjedelen av natten som den tid då Allah ﷻ nedstiger till den lägsta himlen och frågar: "Finns det någon som ber till Mig, så att Jag svarar honom? Finns det någon som ber Mig om något, så att Jag ger honom? Finns det någon som söker Min förlåtelse, så att Jag förlåter honom?"[^16] Natten är bebodd av den gudomliga närhetens löfte, riktat till den som är vaken nog att svara.
+Ibn Rajab al-Ḥanbalī skriver i *Laṭāʾif al-Maʿārif* om nattens särställning för den troende: natten är den tid då tjänaren är ensam med sin Herre, utan allt det störande som dagen medför. Profeten ﷺ själv beskrev den sista tredjedelen av natten som den tid då Allah ﷻ nedstiger till den lägsta himlen och frågar:
+
+> Finns det någon som ber till Mig, så att Jag svarar honom? Finns det någon som ber Mig om något, så att Jag ger honom? Finns det någon som söker Min förlåtelse, så att Jag förlåter honom?[^16]
+
+Natten är bebodd av den gudomliga närhetens löfte, riktat till den som är vaken nog att svara.
 
 Ibn Rajab påminner om att de tidiga generationerna (*salaf*) betraktade natten som en skatt, eftersom den gav dem det världen under dagen nekade dem: ostörd riktning mot Allah ﷻ.[^17] De yttre sinnenas krav tystnar. Plikterna vilar och hjärtat kan samla sig. Ibn Khaldūns princip ekar – perceptionen riktas inåt – men här förankrad i *ʿibādah*, i handling snarare än kontemplation som mål i sig. Det är den som reser sig för att be när sängen är varm.
 

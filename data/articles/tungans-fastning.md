@@ -17,7 +17,11 @@ Den islamiska traditionen förstod tungans strategiska betydelse – inte som et
 
 Bilden är genomtänkt. En fästning har två funktioner: den ska hålla ute det skadliga och släppa in det nyttiga. Ibn Qayyim avslöjar att fienden inte bara vill att porten ska stå vidöppen, utan ger *två* segrar: det ohämmade talet *och* den fega tystnaden. Båda är nederlag.
 
-Denna dubbelhet – att rätt tystnad och rätt tal kräver samma inre arbete – strukturerar hela den klassiska islamiska litteraturen om tungans etik. Al-Māwardī ger i *Adab al-Dunyā wa-l-Dīn* tungans makt sin mest precisa formulering: "Talet är en tolk som uttrycker det som lagrats i hjärtats kammare och avslöjar samvetets dolda innehåll. Det kan varken återkallas i sina utbrott eller fångas in när det sluppit loss."[^4] En man frågade en vis: "När ska jag tala?" Svaret: "När du längtar efter tystnad." "Och när ska jag tiga?" "När du längtar efter att tala."[^5] Inversionen avslöjar en psykologisk mekanism. Impulsen att tala kommer oftast ur självhävdelse – behovet att bli hörd, att försvara sig, att ha rätt. Impulsen att tiga kommer oftast ur bekvämlighet – oviljan att bära konflikten. Båda tjänar jaget, inte sanningen. Den vises regel fungerar just för att den vänder impulsen mot sig själv: tala när det kostar dig att tala, tig när det kostar dig att tiga. Det vet den som läser sina egna meddelanden från i går och inte känner igen sig.
+Denna dubbelhet – att rätt tystnad och rätt tal kräver samma inre arbete – strukturerar hela den klassiska islamiska litteraturen om tungans etik. Al-Māwardī ger i *Adab al-Dunyā wa-l-Dīn* tungans makt sin mest precisa formulering:
+
+> Talet är en tolk som uttrycker det som lagrats i hjärtats kammare och avslöjar samvetets dolda innehåll. Det kan varken återkallas i sina utbrott eller fångas in när det sluppit loss.[^4]
+
+En man frågade en vis: "När ska jag tala?" Svaret: "När du längtar efter tystnad." "Och när ska jag tiga?" "När du längtar efter att tala."[^5] Inversionen avslöjar en psykologisk mekanism. Impulsen att tala kommer oftast ur självhävdelse – behovet att bli hörd, att försvara sig, att ha rätt. Impulsen att tiga kommer oftast ur bekvämlighet – oviljan att bära konflikten. Båda tjänar jaget, inte sanningen. Den vises regel fungerar just för att den vänder impulsen mot sig själv: tala när det kostar dig att tala, tig när det kostar dig att tiga. Det vet den som läser sina egna meddelanden från i går och inte känner igen sig.
 
 ## Sjuhundra ḥadīther om en enda kroppsdel
 
@@ -27,7 +31,7 @@ Koranen själv talar skarpt nog att skära genom varje relativisering:
 
 > Hon yttrar inte ett ord utan att vid sig ha en väktare redo.[^8]
 
-Varje ord registreras – inte ungefärligt, inte i stora drag, utan varje enskilt ord. Den moderna människan, van vid att betrakta sina yttranden som flyktiga, omedelbart upplösta i informationens ständiga ström, borde finna bilden otäck. Ingenting försvinner. Ibn Kathir citerar en profettradition ur Ṣaḥīḥ al-Bukhārī: "Allah ﷻ har förlåtit mitt samfund det som deras själar viskar till dem, så länge de inte uttalar det eller handlar efter det." Och längre fram:
+Varje ord registreras – inte ungefärligt, inte i stora drag, utan varje enskilt ord. Den moderna människan, van vid att betrakta sina yttranden som flyktiga, omedelbart upplösta i informationens ständiga ström, borde finna bilden otäck. Ingenting försvinner. Ibn Kathir anför en profettradition: "Allah ﷻ har förlåtit mitt samfund det som deras själar viskar till dem, så länge de inte uttalar det eller handlar efter det." Och längre fram:
 
 > Ni som har antagit tron! Undvik alltför många antaganden. Vissa antaganden är en synd. Leta inte efter andras brister och baktala inte varandra. Skulle någon av er tycka om att äta sin döda broders kött? Nej, ni skulle avsky det.[^9]
 

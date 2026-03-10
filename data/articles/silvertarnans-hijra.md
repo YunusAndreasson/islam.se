@@ -15,7 +15,11 @@ Det moderna samhället kan inte tänka sig en sådan resa. 1986 publicerade den 
 
 Sverige tog den tanken längre än de flesta: det svenska socialförsäkringssystemet, världens mest utbyggda, vilar på premissen att varje risk kan identifieras, kvantifieras och fördelas. Sjukdom, arbetslöshet, ålderdom, barns födelse, barns tandvård – allt kan försäkras, allt *ska* försäkras. Erik Gustaf Geijer, 1845: "Utan säkerhet ingen idoghet."[^4] Trygghet först, sedan arbete, sedan framsteg.
 
-Vart denna logik ledde såg Ellen Key. I *Barnets århundrade* skriver hon: "Den moderna människan blir allt mer sin egen försyn. Mot elden skapar hon redan brandkår och brandförsäkring; mot hafvet lifräddningsredskap; mot koppor och kolera finner hon andra skyddsmedel."[^5] Visserligen är Keys ton beundrande, men bilden hon tecknar avslöjar mer än den lovprisar: människan som sin egen försyn – sin egen Gud. Den som försäkrar sig mot allt har ingen att förlita sig på utom sig själv.
+Vart denna logik ledde såg Ellen Key. I *Barnets århundrade* skriver hon:
+
+> Den moderna människan blir allt mer sin egen försyn. Mot elden skapar hon redan brandkår och brandförsäkring; mot hafvet lifräddningsredskap; mot koppor och kolera finner hon andra skyddsmedel.[^5]
+
+Visserligen är Keys ton beundrande, men bilden hon tecknar avslöjar mer än den lovprisar: människan som sin egen försyn – sin egen Gud. Den som försäkrar sig mot allt har ingen att förlita sig på utom sig själv.
 
 I *Röda rummet* lät Strindberg försäkringen avslöja sig själv. Hans försäkringsman insisterar: "Vi få icke kalla försäkringsinstitutionen en affär! Den är ingen affär; vi äro inga affärsmän, för ingen del i världen!"[^6] Försäkringen ska vara högre än handel, trygghetens sakrament. Men Strindberg visste att sakrament utan tro bara är papper.
 
@@ -59,7 +63,7 @@ Koranen bär samma bild men lyfter den högre:
 
 > Har de inte fäst avseende vid fåglarna ovan dem, hur de sträcker ut vingarna och fäller in dem? Ingen annan än den Nåderike håller dem uppe. Han ser sannerligen allt.[^13]
 
-Fåglarna flyger redan. De faller inte. Frågan är inte om något håller dem uppe utan om betraktaren har ögon att uppfatta det. Den sista bisatsen – "Han ser sannerligen allt" – vänder perspektivet: vi ser fåglarna, men fåglarna *ses* – hela deras resa bevittnas av en som inte missar en enda vingrörelse. Som Ibn Kathir noterar innebär "Han ser sannerligen allt" att Han vet vad som gagnar varje enskild varelse bland Hans skapelser.
+Fåglarna flyger redan. De faller inte. Frågan är inte om något håller dem uppe utan om betraktaren har ögon att uppfatta det. Den sista bisatsen – "Han ser sannerligen allt" – vänder perspektivet: vi ser fåglarna, men fåglarna *ses* – hela deras resa bevittnas av en som inte missar en enda vingrörelse. Ibn Kathir förtydligar: "Han ser sannerligen allt" innebär att Han vet vad som gagnar varje enskild varelse bland Hans skapelser.
 
 Ur denna bild utvinner Ibn Qayyim trons inre mekanik: rädsla och hopp som två vingar – när de är i jämvikt bär de flygningen framåt; om den ena brister störtar fågeln.[^14] Silvertärnan flyger för att den är skapad att flyga. *Tawakkul* är varken kalkylerande hopp eller förlamande ångest: det är den balanserade rörelse som uppstår när hjärtat slutat väga risker och börjat förlita sig.
 
@@ -71,7 +75,11 @@ Utan Strindbergs stilistiska nåd kom Beck till samma slutsats: ju fler risker v
 
 Den franske tänkaren Alexis de Tocqueville beskrev formen 1840: en makt som tryggar medborgarnas behov, sköter deras angelägenheter och steg för steg befriar dem 'från besväret att tänka och mödan att leva'.[^22]
 
-Ibn Taymiyyah (1300-talet) såg mekanismen med teologisk klarhet: "Den som hänger sitt hjärta vid skapade ting – att de skall hjälpa honom, försörja honom, vägleda honom – hans hjärta underkastas dem, och det uppstår i honom en träldom under dem i motsvarande grad."[^17] Orden skrevs om en människa som förlitar sig på härskare, vänner och rikedomar. Men med oavsiktlig precision träffar de likväl försäkringssamhället: den som förlitar sig på systemet för sin trygghet har gjort systemet till sin herre.
+Ibn Taymiyyah (1300-talet) såg mekanismen med teologisk klarhet:
+
+> Den som hänger sitt hjärta vid skapade ting – att de skall hjälpa honom, försörja honom, vägleda honom – hans hjärta underkastas dem, och det uppstår i honom en träldom under dem i motsvarande grad.[^17]
+
+Orden skrevs om en människa som förlitar sig på härskare, vänner och rikedomar. Men med oavsiktlig precision träffar de likväl försäkringssamhället: den som förlitar sig på systemet för sin trygghet har gjort systemet till sin herre.
 Fågeln har medel men ingen herre utom den som formade den. Den förbereder sig – kroppen lagrar fett, fjäderdräkten byts ut, den biologiska klockan ställer in mot rätt breddgrad – men aldrig har den slutit ett avtal med tillvaron. Resan är förberedd men inte garanterad. Och den flyger ändå.
 
 ## Fågel Jag

@@ -35,7 +35,7 @@ I den tomheten hörs en röst som Söderberg aldrig lyssnade till, men som besva
 
 "Han är klyvaren av gryningen och har gjort natten för vila och solen och månen för tideräkning."[^6] Natten har en uppgift: *sakan*, vila, stillhet. I suran *Yā Sīn* framträder bilden med en tydlig kroppslighet: "Ett tecken för dem är natten; Vi drar undan dagen ur den och då sveps de i mörker."[^7]
 
-Det arabiska verbet *naslakh* – att dra bort, flå av – behåller hela sin våldsamma konkrethet. Kvar blir mörker, och i det mörkret: vila, gräns, slut. Ibn Kathir citerar här en profettradition: "När natten anländer från detta håll och dagen drar sig undan från det hållet och solen har gått ned, då har den fastande brutit sin fasta."
+Det arabiska verbet *naslakh* – att dra bort, flå av – behåller hela sin våldsamma konkrethet. Kvar blir mörker, och i det mörkret: vila, gräns, slut. Ibn Kathir förtydligar bilden med en profettradition som definierar nattens inträde: "När natten anländer från detta håll och dagen drar sig undan från det hållet och solen har gått ned" – då har gränsen fallit.
 
 "Och till Hans tecken hör er sömn om natten och att ni under dagen söker Hans goda."[^8]
 

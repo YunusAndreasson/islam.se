@@ -39,9 +39,17 @@ Det fjärde skiktet i Ibn ʿAbbās' klassificering avser alltså inte attributve
 
 Okunnighet blir något annat än ett problem – ibland ett korrekt svar på verkligheten. Det fjärde skiktet vänder på logiken: den som stannar vid gränsen har inte misslyckats med att förstå – utan läst korrekt, ty gränsen är en del av textens mening. Att säga 'jag vet inte' är inte resignation utan lydnad. 1300-talstänkaren Ibn Qayyim al-Jawziyyah, Ibn ʿAbbās' tanketraditions store arvtagare, skrev: "Att känna gränserna för det Gud uppenbarat för Sin sändebud hör till trons fullkomlighet."[^8] Inte innehållet, utan gränserna – att veta var man ska sluta fråga hör till trons mognad.
 
-Ibn Qayyim trängde djupast in i detta landskap. I *Miftāḥ Dār al-Saʿādah* hävdade han att förnuftet, hur mäktigt det än är, har en given räckvidd – och att uppenbarelsen öppnar dörrar som förnuftet ensamt aldrig finner. Inte för att förnuftet är defekt, utan för att verkligheten överstiger det. Ibn Qayyim skrev: "Förnuftets relation till uppenbarelsens kunskap är som ögats relation till solljuset – ögat kan inte se utan ljus, och förnuftet kan inte nå dessa sanningar utan uppenbarelsens ledning."[^9] Och förnuftet kan tänka, men det kan inte beröra allt som finns.
+Ibn Qayyim trängde djupast in i detta landskap. I *Miftāḥ Dār al-Saʿādah* hävdade han att förnuftet, hur mäktigt det än är, har en given räckvidd – och att uppenbarelsen öppnar dörrar som förnuftet ensamt aldrig finner. Inte för att förnuftet är defekt, utan för att verkligheten överstiger det. Ibn Qayyim skrev:
 
-Ibn Taymiyyah gav principen sin skarpaste formulering – en som rör vid vad mänskligt språk inte förmår bära: "Skapelsens kunskap om Allah ﷻ fullkomnas inte genom att de fattar Hans väsens sanna natur, utan genom att de erkänner att Han är större än allt deras förstånd kan rymma."[^10] Det är inte intellektuell ödmjukhet som personlig dygd, utan en ontologisk princip: Guds verklighet överskrider vad det mänskliga begreppet kan innesluta. Det är skillnaden mellan att välja att böja sig och att upptäcka att golvet faktiskt slutar.
+> Förnuftets relation till uppenbarelsens kunskap är som ögats relation till solljuset – ögat kan inte se utan ljus, och förnuftet kan inte nå dessa sanningar utan uppenbarelsens ledning.[^9]
+
+Och förnuftet kan tänka, men det kan inte beröra allt som finns.
+
+Ibn Taymiyyah gav principen sin skarpaste formulering – en som rör vid vad mänskligt språk inte förmår bära:
+
+> Skapelsens kunskap om Allah ﷻ fullkomnas inte genom att de fattar Hans väsens sanna natur, utan genom att de erkänner att Han är större än allt deras förstånd kan rymma.[^10]
+
+Det är inte intellektuell ödmjukhet som personlig dygd, utan en ontologisk princip: Guds verklighet överskrider vad det mänskliga begreppet kan innesluta. Det är skillnaden mellan att välja att böja sig och att upptäcka att golvet faktiskt slutar.
 
 ## Kontraster: genomskinlighet som ideal
 
@@ -53,7 +61,11 @@ Upplysningen upphöjde idealet till dogm. Strindberg, själv en av de mest oroli
 
 Andra svenska tänkare närmade sig samma tröskel, om än från olika håll. Carl von Linné, systematikern som ordnade hela skapelsen i fack och klasser, fann i sina privata anteckningar ett helt annat register. I *Nemesis Divina*, det hemliga manuskript han aldrig publicerade, ställde han frågan: "Vad är storsinthet, när ödeshjulet faller? Vad är visdom? Att se sin egen okunnighet."[^13] Linnés livsverk var att göra naturen genomskinlig; hans privata insikt att genomskinligheten hade en gräns. I *Egenhändiga anteckningar* konstaterade han torrt: "Fundamentum Fructificationis hade alle omtalat, men ingen förstådt."[^14] Alla hade pratat om det grundläggande. Ingen hade begripit det. Ellen Key, med samma ärlighet men från motsatt håll, erkände att det som "ytterst blir kvar som mysterium för utvecklingsläran, förblir det äfven för supranaturalisten, nämligen själfva rörelsekraften i utvecklingen."[^15] Naturvetaren och idéhistorikern möts vid samma vägg.
 
-Viktor Rydberg, en av den svenska liberalismens stora intellektuella, lät karaktären Kimon i *Den siste Atenaren* uttrycka samma misstro: "Förnuftet motsäger vad sinnena vittna. Påstode jag nu för min del, att sinnena äro lögnaktiga, så kan en annan med samma rätt påstå, att det tvärtom är förnuftets slutledningar, som äro falska."[^16] En romanfigurs replik – men att den behövde skrivas vittnar om sprickor i det rationalistiska bygget.
+Viktor Rydberg, en av den svenska liberalismens stora intellektuella, lät karaktären Kimon i *Den siste Atenaren* uttrycka samma misstro:
+
+> Förnuftet motsäger vad sinnena vittna. Påstode jag nu för min del, att sinnena äro lögnaktiga, så kan en annan med samma rätt påstå, att det tvärtom är förnuftets slutledningar, som äro falska.[^16]
+
+En romanfigurs replik – men att den behövde skrivas vittnar om sprickor i det rationalistiska bygget.
 
 Ingen av dem hade tillgång till en tradition som gjort väggen till en grundprincip. Och utan den principen blev insikten instabil – en privat aning som nästa generation kunde avfärda som mysticism eller melankoli, inte ett fundament att bygga vidare på.
 

@@ -25,7 +25,7 @@ Fjorton sekler före Chalmers, nio före Swedenborg, uppenbarades en vers i Kora
 
 > De frågar dig om *al-Rūḥ*. Säg: "*al-Rūḥ* är förbehållet min Herre." Av denna kunskap har ni endast fått en liten del.[^5]
 
-Ibn Kathir citerar en profettradition ur Bukhārī och Muslim om versens bakgrund: Ibn Masʿūd berättar att han gick med Profeten ﷺ genom ett fält i Medina när en grupp judar frågade honom om själen – och Profeten ﷺ teg och svarade dem ingenting, tills uppenbarelsen nedsteg med svaret. Versen varken förnekar själens existens eller reducerar den till neural aktivitet – den avgränsar: detta fenomen tillhör en kunskapsordning som överstiger er.
+Ibn Kathir återger bakgrunden: Ibn Masʿūd berättar att han gick med Profeten ﷺ genom ett fält i Medina när en grupp judar frågade honom om själen – och Profeten ﷺ teg och svarade dem ingenting, tills uppenbarelsen nedsteg med svaret. Versen varken förnekar själens existens eller reducerar den till neural aktivitet – den avgränsar: detta fenomen tillhör en kunskapsordning som överstiger er.
 
 Klassiska korankommentatorer har tolkat *al-Rūḥ* i denna vers på flera sätt – som själen, som ängeln Jibrīl, som uppenbarelsen själv.[^6] Tolkningarnas mångfald understryker poängen: oavsett läsning kvarstår versens grundhållning – det finns verkligheter som Gud förbehåller sig kunskap om. Den mänskliga kunskapen, hur rik den än är, förblir en liten del.
 

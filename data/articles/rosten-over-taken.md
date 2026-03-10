@@ -83,7 +83,7 @@ Att höra är en akt som förbinder det sagda med den som hör. Koranen återkom
 
 > Och när ni ropar till bön gör de det till föremål för hån och skämt. Så gör de för att de är människor som inte använder sitt förstånd.[^15]
 
-Den koraniska kritiken skonar dem som vägrar lyssna. Den träffar dem som hör och ändå avfärdar utan eftertanke. Ibn Kathir citerar i sin korankommentar en poetisk rad: 'Hur mången har inte klandrat ett sunt ord, när felet låg i hans eget bristande förstånd.' Att håna böneutropet är att registrera ljudet men vägra möta meningen.
+Den koraniska kritiken skonar dem som vägrar lyssna. Den träffar dem som hör och ändå avfärdar utan eftertanke. Ibn Kathir citerar en poetisk rad: "Hur mången har inte klandrat ett sunt ord, när felet låg i hans eget bristande förstånd." Att håna böneutropet är att registrera ljudet men vägra möta meningen.
 
 Det svenska samhället har inte avsakraliserat det religiösa ljudet; det har bara glömt att kyrkklockan en gång också bar mening. I det tysta har klockorna genomgått en lång sekularisering: från Guds basuner till stadsatmosfär, från kallelse till kuliss. *Adhān* har inte genomgått den processen – den har burit samma mening i fjorton århundraden. Just denna envisa vägran att aldrig bli bara ljud provocerar.
 

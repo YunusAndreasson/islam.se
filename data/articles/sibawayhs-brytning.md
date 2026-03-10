@@ -73,15 +73,15 @@ Sībawayhs revolution var inte politisk. Han ledde ingen rörelse och formulerad
 
 Om det gäller arabiskan, Koranens språk, det språk Gud valde för sin sista uppenbarelse, då gäller det varje språk. Om en perser med brytning kunde bli arabiskans främste auktoritet, faller varje argument om språklig blodsrätt.
 
-Mönstret gäller även västerut: Joseph Conrad lärde sig engelska i tjugoårsåldern och formade den moderna engelska romanens språk – utan att vara engelsman.[^19]
+Mönstret gäller även västerut: Joseph Conrad lärde sig engelska i tjugoårsåldern och formade den moderna engelska romanens språk – utan att vara engelsman.[^15]
 
-ʿAlī ibn Abī Ṭālib sade: "Tungan är kroppens roder – om den rättar sig, rättar sig alla lemmar."[^17] Disciplin, övning, lärande – aldrig rätt föräldrar.
+ʿAlī ibn Abī Ṭālib sade: "Tungan är kroppens roder – om den rättar sig, rättar sig alla lemmar."[^16] Disciplin, övning, lärande – aldrig rätt föräldrar.
 
 Sībawayh dog ung – knappt fyrtio. Han lämnade inga lärjungar i vanlig mening – han lämnade *al-Kitāb*. Det räckte.
 
 Fjorton århundraden senare har hans verk inte ersatts. I en tid då språkpolitik åter debatteras i Sverige – vem som har rätt att tala för ett språk, om språklig identitet är medfödd eller förvärvad – ger Sībawayh ett faktum snarare än ett svar.
 
-> Den som sökte kunskap fann heder utan svärd.[^18]
+> Den som sökte kunskap fann heder utan svärd.[^17]
 
 Ibn al-Jawzī behövde inte nämna varifrån kunskapssökaren kom.
 
@@ -101,6 +101,6 @@ Ibn al-Jawzī behövde inte nämna varifrån kunskapssökaren kom.
 [^12]: Ibn Taymiyyah, *al-Radd ʿalā al-Manṭiqiyyīn*. Egen översättning från arabiska.
 [^13]: Erik Gustaf Geijer, *Äreminne öfver Georg Stjernhjelm*.
 [^14]: August Strindberg, *Röda rummet* (1879). Passagen är satirisk: karaktären angriper ironiskt Stiernhielm för att ha drivit fram svenska på bekostnad av tyskan.
-[^17]: ʿAlī ibn Abī Ṭālib, citerad i *Kitāb al-Ṣamt wa Ādāb al-Lisān*. Egen översättning från arabiska.
-[^18]: Ibn al-Jawzī, *Dhamm al-Hawā*. Egen översättning från arabiska.
-[^19]: Joseph Conrad (Józef Teodor Konrad Korzeniowski, 1857–1924) föddes i det ryska imperiets polska territorier och lärde sig engelska som vuxen sjöman. Han räknas bland det engelska språkets mest inflytelserika romanförfattare. Se Najder, Z., *Joseph Conrad: A Life*, Camden House, 2007.
+[^16]: ʿAlī ibn Abī Ṭālib, citerad i *Kitāb al-Ṣamt wa Ādāb al-Lisān*. Egen översättning från arabiska.
+[^17]: Ibn al-Jawzī, *Dhamm al-Hawā*. Egen översättning från arabiska.
+[^15]: Joseph Conrad (Józef Teodor Konrad Korzeniowski, 1857–1924) föddes i det ryska imperiets polska territorier och lärde sig engelska som vuxen sjöman. Han räknas bland det engelska språkets mest inflytelserika romanförfattare. Se Najder, Z., *Joseph Conrad: A Life*, Camden House, 2007.

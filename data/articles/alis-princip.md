@@ -21,7 +21,7 @@ Sverige ger två talande exempel. År 1955 röstade svenska folket för att avsk
 
 Tjugofem år senare, 1980, folkomröstade Sverige om kärnkraften. Tre alternativ presenterades. Inget av dem var ett rent nej. Väljarna fick välja mellan tre varianter av ja, med olika avvecklingstakt, och resultatet tolkades sedan som en avvecklingsplan som aldrig genomfördes fullt ut.[^6] Demokratin hade gett ett svar, men ingen sanning. Proceduren var oklanderlig – kunskapen obefintlig.
 
-Koranen skiljer inte mellan rätt och fel som politiska kategorier utan mellan *kunskap* och *antagande*: *ʿilm* och *ẓann*. "Befatta dig inte med något du inte har kunskap om", lyder uppmaningen i sura *al-Isrāʾ*. "Hörseln, synen och hjärtat – alla dessa kommer att tillfrågas."[^7] Ibn Kathir citerar en profettradition i sin kommentar till denna vers: "Det räcker som lögn att en människa återberättar allt hon hör." Han anför också profetens varning: "Akta er för antaganden, ty antaganden är det mest lögnaktiga av tal." Ansvaret gäller inte bara handlingen utan kunskapsgrunden: *visste du, eller antog du bara?*
+Koranen skiljer inte mellan rätt och fel som politiska kategorier utan mellan *kunskap* och *antagande*: *ʿilm* och *ẓann*. "Befatta dig inte med något du inte har kunskap om", lyder uppmaningen i sura *al-Isrāʾ*. "Hörseln, synen och hjärtat – alla dessa kommer att tillfrågas."[^7] Ibn Kathir anför en profettradition: "Det räcker som lögn att en människa återberättar allt hon hör." Han anför också profetens varning: "Akta er för antaganden, ty antaganden är det mest lögnaktiga av tal." Ansvaret gäller inte bara handlingen utan kunskapsgrunden: *visste du, eller antog du bara?*
 
 ## Antagandets anatomi
 
