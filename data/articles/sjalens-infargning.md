@@ -13,7 +13,7 @@ Den svenska skoldebatten svänger som en pendel utan vila. På ena sidan de som 
 
 För Ibn Khaldūn är memorering varken mål eller metod. Den är *fundament*.
 
-## II. *Malakah* – bortom korvstoppning och kreativitet
+## *Malakah* – bortom korvstoppning och kreativitet
 
 Ibn Khaldūns centrala pedagogiska begrepp är *malakah*, ett ord som saknar exakt svensk motsvarighet. Det betyder ungefär 'bemästrande', 'habitus', 'stabil intellektuell disposition'. *Malakah* beskriver det tillstånd som uppstår när kunskap har repeterats så ofta och så ingående att den upphör att vara information och förvandlas till en del av själva personen. Ibn Khaldūn jämför det med ett tyg som färgats: färgen sitter kvar tills tyget förstörs.[^3] Det är när cyklisten inte längre tänker på balansen, när pianisten inte letar efter tangenterna.
 
@@ -33,7 +33,7 @@ Koranen gestaltar den stegvisa processen Ibn Khaldūn beskriver:
 
 Uppenbarelsen själv kom bit för bit, lager för lager – för att stärka Profetens ﷺ hjärta, för att ge kunskapen tid att fästa och bli bestående. Som Ibn Kathir återger från Ibn ʿAbbās sändes Koranen ned anpassad efter händelsernas gång, till Profeten ﷺ under loppet av tjugotre år.
 
-## III. Ellen Keys tvetydiga arv
+## Ellen Keys tvetydiga arv
 
 År 1900 publicerade Ellen Key *Barnets århundrade*, ett verk som översattes till ett drygt dussin språk och kom att forma pedagogiska ideal långt bortom Sverige.[^7] Hennes kritik av den samtida skolan var skoningslös: den var ett "själamord", ett sandpappersmaskineri som slipade ner barns naturliga nyfikenhet till slö lydnad. Hon ville befria barnet från mekanisk inlärning, från plugg och förhör, från en disciplin som krossade mer än den formade.
 
@@ -45,7 +45,7 @@ Men Ellen Keys pedagogik var mer sammansatt än vad hennes anhängare – och kr
 
 Det var en förenklad Key som ärvdes av det svenska skolsystemet under 1900-talets andra hälft – befriaren, den Key som krävde att barnets inneboende kreativitet skulle ställas i centrum och den mekaniska inlärningen kastas på sophögen. I reformpedagogikens händer blev Keys vision ett slagträ mot just det som Ibn Khaldūn hade identifierat som kunskapens fundament: den tålmodiga, strukturerade upprepningen.
 
-## IV. Vad kognitionsvetenskapen bekräftar
+## Vad kognitionsvetenskapen bekräftar
 
 Den moderna kognitionsvetenskapen ger Ibn Khaldūn rätt. Arbetsminnet, den mentala arbetsytan där vi tänker, jämför och analyserar, har plats för ungefär fyra till sju enheter samtidigt.[^9] Det är en hård biologisk gräns – men den gäller bara för information som inte automatiserats. Kunskap som tränats in i långtidsminnet genom upprepad övning upptar inte längre plats i arbetsminnet: den finns tillgänglig utan ansträngning, som ett modersmål man talar utan att tänka.
 
@@ -57,7 +57,7 @@ Den islamiska pedagogiska traditionen hade formulerat denna ordning århundraden
 
 Ibn Rajab al-Ḥanbalī fångade slutresultatet i en enda bild: "Ju starkare kunskapen blir, desto mer flödar åminnelsen på den åminnandes tunga utan ansträngning."[^11] *Malakah* fulländad: kunskap lika naturlig som andning.
 
-## V. Den svenska kollapsen
+## Den svenska kollapsen
 
 Sverige deltog i sin första PISA-undersökning år 2000 och presterade då över OECD-genomsnittet. Tolv år senare hade resultaten sjunkit under genomsnittet i samtliga tre testade områden – läsning, matematik och naturvetenskap. Skolverket konstaterade en kunskapskollaps.[^12]
 
@@ -67,7 +67,7 @@ Men en fråga förblir oställd – kanske för att den rör vid något djupare 
 
 Kursändringen har redan börjat. Läroplansreformen Lgr22 återinförde starkare kunskapskrav, betonade fakta och förståelse som värdefulla i sig, och flyttade fokus mot strukturerad undervisning och fonetisk läsinlärning.[^14] Tryckta läroböcker ersätter skärmar. I lägre årskurser prioriteras grundläggande ämneskunskaper. Pendeln svänger mot en insikt som Ibn Khaldūn formulerade redan på 1300-talet: att kunskap kräver systematiskt arbete innan den kan bära frukt.
 
-## VI. Ihågkomst som andlig praktik
+## Ihågkomst som andlig praktik
 
 I den islamiska traditionen är memorering aldrig enbart kognitiv. Den är *dhikr*, åminnelse, en andlig praktik av högsta rang. Koranen öppnas med en påminnelse om bandet mellan minne och nåd:
 
@@ -85,7 +85,7 @@ Rörelsen är cirkulär. al-Ḥasan al-Baṣrī sammanfattade det så: "Kunskape
 
 Det arabiska ordet för hjärta, *qalb*, delar rot med ordet för förändring – ett lingvistiskt vittnesbörd om att hjärtat formas och omformas. Om hjärtat till sitt väsen är *det som vänder sig*, är det aldrig neutralt: det formas alltid av något. Att upprepning formar är givet; det avgörande är vad som upprepas. Den islamiska traditionen har alltid vetat att det som formar hjärtat är upprepning: av kunskap, av bön, av recitation, av åminnelse – den process genom vilken det yttre blir inre, det inlärda blir levt.
 
-## VII. Plöjaren och sådden
+## Plöjaren och sådden
 
 Redan bland Profetens ﷺ följeslagare var insikten levande: memorering utan förståelse är steril. Ibn Masʿūd uttryckte det med en jordbruksbild som rymmer hela spänningen: "Den som läser utan att förstå är som den som plöjer utan att så frö."[^19]
 
