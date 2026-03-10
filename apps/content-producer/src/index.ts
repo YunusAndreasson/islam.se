@@ -633,11 +633,7 @@ function stripMarkdown(body: string): string {
 }
 
 /** Run hunspell on article body and return filtered misspellings with context. */
-function spellcheckBody(
-	body: string,
-	dictPath: string,
-	customWords: Set<string>,
-): SpellIssue[] {
+function spellcheckBody(body: string, dictPath: string, customWords: Set<string>): SpellIssue[] {
 	const stripped = stripMarkdown(body);
 	const bodyLines = body.split("\n");
 
@@ -716,10 +712,7 @@ function spellcheckBody(
 
 		// Get context line from original body
 		const contextRaw = bodyLines[contextLineIdx0] ?? "";
-		const context =
-			contextRaw.length > 100
-				? `${contextRaw.slice(0, 100)}…`
-				: contextRaw;
+		const context = contextRaw.length > 100 ? `${contextRaw.slice(0, 100)}…` : contextRaw;
 
 		issues.push({
 			word: cleanWord,
@@ -741,7 +734,6 @@ program
 	.option("--dry-run", "Preview diffs without writing changes")
 	.option("--no-confirm", "Auto-accept changes (skip interactive prompt)")
 	.option("-m, --model <model>", "Model to use (opus|sonnet)", "opus")
-	// biome-ignore lint/complexity/noExcessiveCognitiveComplexity: sequential CLI pipeline handler
 	.action(async (slug: string, options) => {
 		const publisher = new ArticlePublisher();
 		const orchestrator = new ContentOrchestrator({
@@ -819,7 +811,6 @@ program
 	.option("--dry-run", "Preview issues and diffs without writing changes")
 	.option("--no-confirm", "Auto-accept changes (skip interactive prompt)")
 	.option("-m, --model <model>", "Model to use (opus|sonnet)", "opus")
-	// biome-ignore lint/complexity/noExcessiveCognitiveComplexity: sequential CLI pipeline handler
 	.action(async (slug: string, options) => {
 		const publisher = new ArticlePublisher();
 		const orchestrator = new ContentOrchestrator({
@@ -907,7 +898,6 @@ program
 	.option("--dry-run", "Preview issues and diffs without writing changes")
 	.option("--no-confirm", "Auto-accept changes (skip interactive prompt)")
 	.option("-m, --model <model>", "Model to use (opus|sonnet)", "opus")
-	// biome-ignore lint/complexity/noExcessiveCognitiveComplexity: sequential CLI pipeline handler
 	.action(async (slug: string, options) => {
 		const publisher = new ArticlePublisher();
 		const orchestrator = new ContentOrchestrator({
@@ -1353,7 +1343,6 @@ program
 	.option("--dry-run", "Preview diffs without writing changes")
 	.option("--no-confirm", "Auto-accept changes (skip interactive prompt)")
 	.option("-m, --model <model>", "Model to use (opus|sonnet)", "opus")
-	// biome-ignore lint/complexity/noExcessiveCognitiveComplexity: sequential CLI pipeline handler
 	.action(async (slug: string, options) => {
 		const publisher = new ArticlePublisher();
 		const orchestrator = new ContentOrchestrator({
@@ -1448,7 +1437,6 @@ program
 	.option("--dry-run", "Preview diffs without writing changes")
 	.option("--no-confirm", "Auto-accept changes (skip interactive prompt)")
 	.option("-m, --model <model>", "Model to use (opus|sonnet)", "opus")
-	// biome-ignore lint/complexity/noExcessiveCognitiveComplexity: sequential CLI pipeline handler
 	.action(async (slug: string, options) => {
 		const publisher = new ArticlePublisher();
 		const orchestrator = new ContentOrchestrator({
@@ -1543,7 +1531,6 @@ program
 	.option("--dry-run", "Preview diffs without writing changes")
 	.option("--no-confirm", "Auto-accept changes (skip interactive prompt)")
 	.option("-m, --model <model>", "Model to use (opus|sonnet)", "sonnet")
-	// biome-ignore lint/complexity/noExcessiveCognitiveComplexity: sequential CLI pipeline handler
 	.action(async (slug: string, options) => {
 		const publisher = new ArticlePublisher();
 		const orchestrator = new ContentOrchestrator({
@@ -2018,7 +2005,6 @@ program
 	.option("--dry-run", "Preview diffs without writing changes")
 	.option("--no-confirm", "Auto-accept changes (skip interactive prompt)")
 	.option("-m, --model <model>", "Model to use (opus|sonnet)", "sonnet")
-	// biome-ignore lint/complexity/noExcessiveCognitiveComplexity: sequential CLI pipeline handler
 	.action(async (slug: string, options) => {
 		const publisher = new ArticlePublisher();
 		const orchestrator = new ContentOrchestrator({
@@ -2156,8 +2142,15 @@ program
 				continue;
 			}
 
-			const { verdict, thesis, gaps, changes, changesCount, summary, body: deepenedBody } =
-				deepenResult.data;
+			const {
+				verdict,
+				thesis,
+				gaps,
+				changes,
+				changesCount,
+				summary,
+				body: deepenedBody,
+			} = deepenResult.data;
 
 			console.log(`  Thesis: ${thesis}`);
 			console.log(`  Verdict: ${verdict} (${changesCount} changes)`);
@@ -2172,14 +2165,20 @@ program
 			console.log(`\n  Gaps (${gaps.length}):`);
 			for (const gap of gaps) {
 				console.log(`    [\x1b[36m${gap.type}\x1b[0m] ${gap.location}`);
-				console.log(`      ${gap.description.slice(0, 120)}${gap.description.length > 120 ? "..." : ""}`);
+				console.log(
+					`      ${gap.description.slice(0, 120)}${gap.description.length > 120 ? "..." : ""}`,
+				);
 			}
 
 			console.log(`\n  Changes (${changes.length}):`);
 			for (const change of changes) {
 				console.log(`\n  [\x1b[36m${change.type}\x1b[0m] ${change.location}`);
-				console.log(`    \x1b[31m- ${change.before.slice(0, 120)}${change.before.length > 120 ? "..." : ""}\x1b[0m`);
-				console.log(`    \x1b[32m+ ${change.after.slice(0, 120)}${change.after.length > 120 ? "..." : ""}\x1b[0m`);
+				console.log(
+					`    \x1b[31m- ${change.before.slice(0, 120)}${change.before.length > 120 ? "..." : ""}\x1b[0m`,
+				);
+				console.log(
+					`    \x1b[32m+ ${change.after.slice(0, 120)}${change.after.length > 120 ? "..." : ""}\x1b[0m`,
+				);
 				console.log(`    \x1b[33m  ${change.reasoning}\x1b[0m`);
 			}
 
@@ -2215,7 +2214,6 @@ program
 	.option("--dry-run", "Preview additions without writing changes")
 	.option("--no-confirm", "Auto-accept changes (skip interactive prompt)")
 	.option("-m, --model <model>", "Model to use (opus|sonnet)", "opus")
-	// biome-ignore lint/complexity/noExcessiveCognitiveComplexity: sequential CLI pipeline handler
 	.action(async (slug: string, options) => {
 		const publisher = new ArticlePublisher();
 		const orchestrator = new ContentOrchestrator({
@@ -2316,6 +2314,101 @@ program
 	});
 
 program
+	.command("tafsir-enrich")
+	.description(
+		"Validate and deepen Quran verse usage against Ibn Kathir's tafsir (fetched from Tarteel API)",
+	)
+	.argument("<slug>", 'Article slug or "all" for all articles')
+	.option("--dry-run", "Preview findings without writing changes")
+	.option("--no-confirm", "Auto-accept changes (skip interactive prompt)")
+	.option("-m, --model <model>", "Model to use (opus|sonnet)", "opus")
+	.action(async (slug: string, options) => {
+		const publisher = new ArticlePublisher();
+		const orchestrator = new ContentOrchestrator({
+			outputDir: "./output",
+			model: options.model as "opus" | "sonnet",
+		});
+
+		const slugs = resolveArticleSlugs(slug, publisher, "tafsir-enrich");
+		let processed = 0;
+		let enriched = 0;
+		let clean = 0;
+		let skipped = 0;
+
+		for (const articleSlug of slugs) {
+			processed++;
+			if (slugs.length > 1) {
+				console.log(`\n[${processed}/${slugs.length}] ${articleSlug}`);
+				console.log("─".repeat(60));
+			}
+
+			const article = readArticle(publisher, articleSlug);
+			if (!article) {
+				skipped++;
+				continue;
+			}
+			const { content, originalFrontmatter, originalBody } = article;
+
+			console.log("  Running tafsir enrichment...");
+			let result: Awaited<ReturnType<typeof orchestrator.runTafsirEnrich>>;
+			try {
+				result = await orchestrator.runTafsirEnrich(originalBody);
+			} catch (err) {
+				console.log(`  Tafsir enrich crashed: ${err}`);
+				skipped++;
+				continue;
+			}
+
+			if (!(result.success && result.data)) {
+				console.log(`  Tafsir enrich failed: ${result.error ?? "unknown error"}`);
+				skipped++;
+				continue;
+			}
+
+			const { verdict, versesAnalyzed, findings, summary, body: enrichedBody } = result.data;
+
+			const included = findings.filter((f) => f.included);
+			console.log(`\n  Verses analyzed: ${versesAnalyzed}`);
+			console.log(`  Insights included: ${included.length}/${findings.length}`);
+			console.log(`  Verdict: ${verdict}`);
+			console.log(`  Summary: ${summary}`);
+
+			if (verdict === "clean") {
+				console.log("  No tafsir insights worth adding.");
+				clean++;
+				continue;
+			}
+
+			console.log(`\n  Appendix entries (${included.length}):`);
+			for (const f of included) {
+				console.log(`\n  \x1b[36m${f.surahName} ${f.ayahKey}\x1b[0m`);
+				console.log(`    ${f.insight}`);
+			}
+
+			printDiff(articleSlug, originalBody, enrichedBody, "tafsir-enriched");
+			checkIntegrity(originalBody, enrichedBody);
+
+			const outcome = await confirmAndWrite(
+				publisher,
+				articleSlug,
+				content,
+				originalFrontmatter,
+				enrichedBody,
+				options,
+			);
+			if (outcome === "skipped") skipped++;
+			else enriched++;
+		}
+
+		console.log("\n══════════════════════════════════════════════════════════");
+		console.log(
+			`  Done. ${enriched} enriched, ${clean} clean, ${skipped} skipped out of ${processed} articles.`,
+		);
+		console.log("══════════════════════════════════════════════════════════\n");
+		process.exit(0);
+	});
+
+program
 	.command("detox")
 	.description(
 		"Remove AI vocabulary and structural tics (inte-utan overuse, vocabulary monotony, em-dash saturation, attribution verb repetition) from published articles",
@@ -2368,7 +2461,14 @@ program
 				continue;
 			}
 
-			const { verdict, changesCount, changes, patternCounts, summary, body: detoxedBody } = detoxResult.data;
+			const {
+				verdict,
+				changesCount,
+				changes,
+				patternCounts,
+				summary,
+				body: detoxedBody,
+			} = detoxResult.data;
 
 			console.log(`  Verdict: ${verdict} (${changesCount} changes)`);
 			console.log(`  Summary: ${summary}`);
@@ -2389,8 +2489,12 @@ program
 			console.log(`\n  Changes (${changes.length}):`);
 			for (const change of changes) {
 				console.log(`\n  [\x1b[36m${change.pattern}\x1b[0m] ${change.location}`);
-				console.log(`    \x1b[31m- ${change.original.slice(0, 150)}${change.original.length > 150 ? "..." : ""}\x1b[0m`);
-				console.log(`    \x1b[32m+ ${change.replacement.slice(0, 150)}${change.replacement.length > 150 ? "..." : ""}\x1b[0m`);
+				console.log(
+					`    \x1b[31m- ${change.original.slice(0, 150)}${change.original.length > 150 ? "..." : ""}\x1b[0m`,
+				);
+				console.log(
+					`    \x1b[32m+ ${change.replacement.slice(0, 150)}${change.replacement.length > 150 ? "..." : ""}\x1b[0m`,
+				);
 				console.log(`    \x1b[33m  ${change.why}\x1b[0m`);
 			}
 
@@ -2478,8 +2582,7 @@ program
 
 			console.log(`\x1b[1m${articleSlug}\x1b[0m (${misspelled.length} issues):`);
 			for (const { word, line, context, suggestions } of misspelled) {
-				const suggStr =
-					suggestions.length > 0 ? ` → ${suggestions.slice(0, 3).join(", ")}` : "";
+				const suggStr = suggestions.length > 0 ? ` → ${suggestions.slice(0, 3).join(", ")}` : "";
 				console.log(`  L${line}: \x1b[31m${word}\x1b[0m${suggStr}`);
 				console.log(`         \x1b[90m${context}\x1b[0m`);
 			}

@@ -35,6 +35,7 @@ import {
 	ReviewFrontmatterSchema,
 	ScaffoldFrontmatterSchema,
 	SwedishVoiceFrontmatterSchema,
+	TafsirEnrichFrontmatterSchema,
 	TitleIngressFrontmatterSchema,
 	TransliterateFrontmatterSchema,
 } from "./schemas.js";
@@ -48,6 +49,7 @@ import {
 	searchQuotesComprehensive,
 	searchQuranComprehensive,
 } from "./services/index.js";
+import { extractQuranRefsFromFootnotes, fetchIbnKathirTafsir } from "./services/tarteel-client.js";
 import { SourceValidator } from "./source-validator.js";
 import {
 	createLogger,
@@ -433,6 +435,19 @@ export interface TitleIngressOutput {
 		reasoning: string;
 	}>;
 	recommendation: string;
+}
+
+export interface TafsirEnrichOutput {
+	verdict: "clean" | "enriched";
+	versesAnalyzed: number;
+	findings: Array<{
+		ayahKey: string;
+		surahName: string;
+		included: boolean;
+		insight: string;
+	}>;
+	summary: string;
+	body: string;
 }
 
 export interface ProductionResult {
@@ -1745,7 +1760,7 @@ Sektionerna 1–15 (anglicismer, retoriska mönster etc.) är sekundära — åt
 					}) as DetoxOutput,
 			},
 			effort: "high",
-			timeout: 1200000, // 20 min — Opus extended thinking for pattern counting + full rewrite
+			timeout: 1800000, // 30 min — Opus extended thinking for pattern counting + full rewrite
 		});
 
 		return result;
@@ -1846,6 +1861,91 @@ ${articleBody}`;
 				combine: (meta) => meta as unknown as TitleIngressOutput,
 			},
 			effort: "high",
+		});
+
+		return result;
+	}
+
+	/**
+	 * Tafsir enrichment: fetch Ibn Kathir commentary for Quran verses cited in the article,
+	 * then ask Claude to validate and deepen the article's use of those verses.
+	 */
+	async runTafsirEnrich(articleBody: string): Promise<StageResult<TafsirEnrichOutput>> {
+		this.logger.log("   📜 Tafsir: extracting Quran references from footnotes");
+
+		// 1. Extract Quran references from footnotes
+		const refs = extractQuranRefsFromFootnotes(articleBody);
+		if (refs.length === 0) {
+			this.logger.log("      No Quran references found in footnotes.");
+			return {
+				success: true,
+				data: {
+					verdict: "clean",
+					versesAnalyzed: 0,
+					findings: [],
+					summary: "Inga Koranreferenser hittades i fotnoterna.",
+					body: articleBody,
+				},
+				duration: 0,
+			};
+		}
+
+		this.logger.log(
+			`      Found ${refs.length} Quran references: ${refs.map((r) => r.ayahKey).join(", ")}`,
+		);
+
+		// 2. Fetch Ibn Kathir tafsir from Tarteel
+		this.logger.log("      Fetching Ibn Kathir tafsir from Tarteel...");
+		const ayahKeys = refs.map((r) => r.ayahKey);
+		const tafsirResults = await fetchIbnKathirTafsir(ayahKeys);
+		this.logger.log(`      Received tafsir for ${tafsirResults.length}/${refs.length} verses`);
+
+		if (tafsirResults.length === 0) {
+			this.logger.log("      No tafsir data received. Skipping.");
+			return {
+				success: true,
+				data: {
+					verdict: "clean",
+					versesAnalyzed: 0,
+					findings: [],
+					summary: "Kunde inte hämta tafsir från Tarteel — inga ändringar gjorda.",
+					body: articleBody,
+				},
+				duration: 0,
+			};
+		}
+
+		// 3. Build tafsir context for Claude
+		const tafsirContext = tafsirResults
+			.map((t) => {
+				const ref = refs.find((r) => r.ayahKey === t.ayahKey);
+				const surahName = ref?.surahName ?? `Surah ${t.surah}`;
+				// Truncate very long tafsir to keep prompt manageable
+				const truncated = t.text.length > 2000 ? `${t.text.slice(0, 2000)}…` : t.text;
+				return `### ${surahName} ${t.ayahKey}\n${truncated}`;
+			})
+			.join("\n\n");
+
+		const systemPrompt =
+			"Du granskar en publicerad artikel för islam.se mot Ibn Kathirs tafsir. Din uppgift är att verifiera att artikelns användning av Koranverser stämmer med den klassiska tolkningen, och föreslå fördjupningar där tafsiren ger insikter som artikeln missar.";
+
+		const result = await this.executeClaudeStage<TafsirEnrichOutput>({
+			name: "Tafsir Enrich",
+			stage: "polish",
+			emoji: "📜",
+			promptFile: "tafsir-enrich.md",
+			systemPrompt,
+			userContent: `## ARTIKELN\n\n${articleBody}\n\n## IBN KATHIRS TAFSIR\n\n${tafsirContext}`,
+			markdownMode: {
+				frontmatterSchema: TafsirEnrichFrontmatterSchema,
+				combine: (meta, body) =>
+					({
+						...meta,
+						body,
+					}) as TafsirEnrichOutput,
+			},
+			effort: "high",
+			timeout: 600000,
 		});
 
 		return result;

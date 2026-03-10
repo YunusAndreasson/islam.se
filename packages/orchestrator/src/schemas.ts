@@ -336,7 +336,13 @@ export const DetoxFrontmatterSchema = z.object({
 			why: z.string(),
 		}),
 	),
-	patternCounts: z.record(z.string(), z.object({ before: z.union([z.number(), z.string()]), after: z.union([z.number(), z.string()]) })),
+	patternCounts: z.record(
+		z.string(),
+		z.object({
+			before: z.union([z.number(), z.string()]),
+			after: z.union([z.number(), z.string()]),
+		}),
+	),
 	summary: z.string(),
 });
 
@@ -380,6 +386,21 @@ export const TitleIngressFrontmatterSchema = z.object({
 		}),
 	),
 	recommendation: z.string(),
+});
+
+// Tafsir enrichment frontmatter — appendix from Ibn Kathir's commentary
+export const TafsirEnrichFrontmatterSchema = z.object({
+	verdict: z.enum(["clean", "enriched"]),
+	versesAnalyzed: z.number(),
+	findings: z.array(
+		z.object({
+			ayahKey: z.string(),
+			surahName: z.string(),
+			included: z.boolean(),
+			insight: z.string(),
+		}),
+	),
+	summary: z.string(),
 });
 
 // JSON Schema generation functions (using zod v4 built-in toJSONSchema)
