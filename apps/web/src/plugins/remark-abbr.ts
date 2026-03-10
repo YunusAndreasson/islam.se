@@ -7,6 +7,12 @@
  * Handles Swedish possessive suffix: "FN:s" → <abbr>FN:s</abbr>
  */
 
+interface MdastNode {
+	type: string;
+	value?: string;
+	children?: MdastNode[];
+}
+
 // Matches 2+ consecutive uppercase letters, optionally followed by :suffix (FN:s, MSB:s)
 const ACRONYM_RE =
 	/(?<![A-Za-z\u00C0-\u024F])([A-Z\u00C5\u00C4\u00D6]{2,}(?::[a-z\u00E5\u00E4\u00F6]+)?)(?![A-Za-z\u00C0-\u024F])/g;
@@ -18,12 +24,20 @@ function splitAcronyms(text: string): { type: string; value: string }[] | null {
 
 	const nodes: { type: string; value: string }[] = [];
 	let last = 0;
-	let m: RegExpExecArray | null;
+	let m: RegExpExecArray | null = ACRONYM_RE.exec(text);
 
-	while ((m = ACRONYM_RE.exec(text)) !== null) {
+	while (m !== null) {
 		if (m.index > last) nodes.push({ type: "text", value: text.slice(last, m.index) });
-		nodes.push({ type: "html", value: `<abbr>${m[1]}</abbr>` });
+		const full = m[1];
+		const colonIdx = full.indexOf(":");
+		if (colonIdx !== -1) {
+			nodes.push({ type: "html", value: `<abbr>${full.slice(0, colonIdx)}</abbr>` });
+			nodes.push({ type: "text", value: full.slice(colonIdx) });
+		} else {
+			nodes.push({ type: "html", value: `<abbr>${full}</abbr>` });
+		}
 		last = m.index + m[0].length;
+		m = ACRONYM_RE.exec(text);
 	}
 
 	if (last < text.length) nodes.push({ type: "text", value: text.slice(last) });
@@ -31,7 +45,7 @@ function splitAcronyms(text: string): { type: string; value: string }[] | null {
 }
 
 // Minimal AST walker — no external deps needed
-function walk(node: any, index: number | null, parent: any): void {
+function walk(node: MdastNode, index: number | null, parent: MdastNode | null): void {
 	if (
 		node.type === "text" &&
 		index !== null &&
@@ -40,8 +54,8 @@ function walk(node: any, index: number | null, parent: any): void {
 		parent.type !== "code" &&
 		parent.type !== "inlineCode"
 	) {
-		const replacement = splitAcronyms(node.value);
-		if (replacement) {
+		const replacement = node.value ? splitAcronyms(node.value) : null;
+		if (replacement && parent.children) {
 			parent.children.splice(index, 1, ...replacement);
 			return; // html nodes have no children; no need to recurse
 		}
@@ -57,5 +71,5 @@ function walk(node: any, index: number | null, parent: any): void {
 }
 
 export function remarkAbbr() {
-	return (tree: any) => walk(tree, null, null);
+	return (tree: MdastNode) => walk(tree, null, null);
 }
