@@ -5,7 +5,7 @@ wordCount: 1586
 qualityScore: 8.4
 description: "I november 2024 avslöjade Lighthouse Reports och Svenska Dagbladet att Försäkringskassans maskininlärningsmodell systematiskt flaggade kvinnor mer än dubbelt så ofta som män för misstänkt fusk med föräldrapenningen. Systemet hade varit i drift sedan 2013."
 ---
-ʿUmar ibn al-Khaṭṭāb – den andre kalifen, känd för att vandra genom Medinas gränder nattetid för att med egna ögon se hur undersåtarna levde – vände sig till Gud med orden: "Jag beklagar inför Dig den lastbares djärvhet och den pålitliges svaghet."[^1] Den som kan, vill inte rätt. Den som vill rätt, förmår inte.
+Den andre kalifen, ʿUmar ibn al-Khaṭṭāb – känd för att vandra genom Medinas gränder nattetid för att med egna ögon se hur undersåtarna levde – vände sig till Gud med orden: "Jag beklagar inför Dig den lastbares djärvhet och den pålitliges svaghet."[^1] Den som kan, vill inte rätt. Den som vill rätt, förmår inte.
 
 Fjorton sekel senare har vi byggt en aktör som ger ʿUmars klagan kropp: algoritmen. Ofelbart kompetent, ofelbart ogenomskådlig – den starkaste och minst pålitliga tjänaren en förvaltning någonsin haft.
 

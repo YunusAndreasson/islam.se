@@ -125,7 +125,7 @@
 	translate: 0 -0.06em;
 
 	@supports (-webkit-touch-callout: none) {
-		translate: 0 -0.02em;
+		translate: 0 0;
 	}
 }
 
