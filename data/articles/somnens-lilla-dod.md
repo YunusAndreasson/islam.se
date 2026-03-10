@@ -98,7 +98,7 @@ Erik Gustaf Geijer skrev att "det hörer till sorgens väsende att ej vilja slä
 
 Den islamiska kvällsritualen – bönen, åminnelsen, överlåtelsen – tvingar dig att varje kväll konfrontera det den moderna kulturen har gömt: att du är dödlig, att du inte har kontroll, att din existens är en gåva som kan återkallas. Och genom att konfrontera det, inte som en abstrakt teologisk sats utan som en nattlig praktik, en kroppslig vana, en bön formulerad i andra person till en Gud du talar med, gör den något som inget sömnhygienprogram kan. Den ger dig tillåtelse att släppa.
 
-Koranen beskriver dem som reser sig ur natten med avsikt: "De överger sina bäddar för att åkalla sin Herre i fruktan och hopp."[^20] Mitt i natten finner de ljus – inte för att sömnlösheten är en sjukdom, utan för att de har det som gör vakenhet uthärdlig: en riktning för sitt rop, en Herre att vända sig till i fruktan och hopp. Ibn Kathir förtydligar: "De lämnade sömn och vila för bönens skull, drivna av sin längtan efter det Allah ﷻ har lovat dem."[^21]
+Koranen beskriver dem som reser sig ur natten med avsikt: "De som avstår från sömn för att med fruktan och hopp åkalla sin Herre och som ger åt andra av det som Vi har skänkt dem för deras försörjning."[^20] Mitt i natten finner de ljus – inte för att sömnlösheten är en sjukdom, utan för att de har det som gör vakenhet uthärdlig: en riktning för sitt rop, en Herre att vända sig till i fruktan och hopp. Ibn Kathir förtydligar: "De lämnade sömn och vila för bönens skull, drivna av sin längtan efter det Allah ﷻ har lovat dem."[^21]
 
 I natt, när du inte kan sova, behöver du inte kämpa. Du kan i stället göra det profeten ﷺ gjorde: lägga handen på bröstet och säga att din själ tillhör Den som skapade den, att du överlämnar, att du – för denna enda natt – övar dig i att dö.
 
@@ -125,6 +125,6 @@ Kanske är det det enda sättet att leva.
 [^17]: Koranen, al-Furqān 25:47.
 [^18]: Muḥammad ibn al-Naḍr al-Ḥārithī, citerad i *Ṣifat al-Ṣafwah* (De renlärigas egenskaper). Min översättning.
 [^19]: Erik Gustaf Geijer, *Minnen*.
-[^20]: Koranen, al-Sajdah 32:16. Min översättning.
+[^20]: Koranen, al-Sajdah 32:16. Knut Bernström, *Koranens budskap*.
 [^21]: Ibn Kathir, *Tafsīr al-Qurʾān al-ʿAẓīm*, kommentar till *al-Sajdah* 32:16. Min översättning.
 [^22]: Blaise Pascal, *Pensées*, fragment 139 (Brunschvicg). Min översättning.
