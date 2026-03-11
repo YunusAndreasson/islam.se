@@ -55,7 +55,7 @@ Mekanismerna har sedan dess kartlagts med beundransvärd precision. Vi vet vilka
 
 Vad vi inte vet är varför denna aktivitet tar formen av *upplevelse*: bilder, berättelser, möten med de döda, flygningar över landskap som aldrig existerat. Minneskonsolidering kräver inte medvetna upplevelser; känslomässig bearbetning inget berättande. Ingenting i den neurokemiska profilen förklarar varför REM-sömn producerar en subjektiv värld.
 
-Filosofen David Chalmers gav frågan dess moderna namn 1995: *the hard problem of consciousness*. Varför producerar fysiska processer överhuvudtaget subjektiv upplevelse? En gåta som per definition inte kan lösas med de metoder som kartlägger processerna.[^21]
+David Chalmers gav frågan dess moderna namn 1995: *the hard problem of consciousness*. Varför producerar fysiska processer överhuvudtaget subjektiv upplevelse? En gåta som per definition inte kan lösas med de metoder som kartlägger processerna.[^21]
 
 Aktiveringssynteshypotesen, formulerad av Allan Hobson och Robert McCarley 1977, försökte reducera drömmen till neurologiskt brus: slumpmässiga signaler från hjärnstammen som hjärnbarken febrilt försöker väva samman till en sammanhängande berättelse.[^14] Hobson själv reviderade hypotesen avsevärt under de följande decennierna. Men den blottlägger ändå den materialistiska ansatsens grundproblem: den kan beskriva *hur* drömmen produceras neurologiskt men har ingenting att säga om *varför* den upplevs, ännu mindre om vad dess innehåll *betyder*.
 

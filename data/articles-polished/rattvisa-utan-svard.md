@@ -53,7 +53,7 @@ C.S. Lewis, nio sekler senare, i en essä om straffteori:
 
 Abu Bakr al-Siddiq, den förste kalifen efter Profeten ﷺ, satte ord på principen redan i sitt tillträdestal: "Den starkaste bland er är i mina ögon den svagaste tills jag har tagit hans rätt ifrån honom, och den svagaste bland er är i mina ögon den starkaste tills jag har gett honom hans rätt."[^18] Inte ställningen avgör vem som är stark — utan förhållandet till rätten. Den som upprätthåller rätten måste veta att samma makt som bär den också kan krossa den.
 
-Ibn Khaldun, historikern och samhällsteoretikern, formulerade principen: "Rättvisa är en balans som upprättas bland människorna. Herren upprättade den och utsåg en övervakare för den, och den övervakaren är härskaren."[^19] Övervakaren — inte ägaren. Skillnaden är allt.
+Ibn Khaldun: "Rättvisa är en balans som upprättas bland människorna. Herren upprättade den och utsåg en övervakare för den, och den övervakaren är härskaren."[^19] Övervakaren — inte ägaren. Skillnaden är allt.
 
 Under al-Mawardis livstid förföll det abbasidiska kalifatet; muhtasiber överskred sina befogenheter i flera provinser.[^20] Att han skrev mitt i detta förfall gör insikten skarpare, inte svagare. Hans system var inte en spegling av verkligheten utan en koraniskt grundad fordran på den:
 
