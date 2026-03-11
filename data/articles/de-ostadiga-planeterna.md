@@ -17,7 +17,7 @@ Gång på gång har Elon Musk förkunnat att mänskligheten måste bli en multip
 
 Argumentet har en religiös klangbotten som sällan uppmärksammas. Musk frammanar 'medvetandets ljus' som en helig eld mänskligheten har i uppdrag att bära vidare genom galaxen.[^3] Mars blir ett förklarat land, Musk en Mosegestalt, multiplanetär expansion ett kosmiskt manifest destiny. Jorden är fallen. Frälsningen ligger bortom, och bara de djärva räddas.
 
-Filosofen Hannah Arendt benämnde redan 1958 impulsen: *jordalienation* – viljan att fly det jordiska villkoret, förklädd till vetenskapligt framsteg.[^17] Det är att stå på jorden och längta bort från den. Att jorden brinner gör flykten brådskande; att den är jordisk gör den oundviklig.
+Hannah Arendt benämnde redan 1958 impulsen: *jordalienation* – viljan att fly det jordiska villkoret, förklädd till vetenskapligt framsteg.[^17] Det är att stå på jorden och längta bort från den. Att jorden brinner gör flykten brådskande; att den är jordisk gör den oundviklig.
 
 Men samma iakttagelse kan leda till vitt skilda slutsatser. En av dem formulerade Topelius i en barnbok hundra år innan den första raketen nådde omloppsbana.
 

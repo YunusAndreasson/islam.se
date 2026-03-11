@@ -63,7 +63,7 @@ Koranens formulering speglar detta: "I växlingen mellan natt och dag finns sann
 
 En värld utan mörker är inte längre hypotetisk. Natthimlen är idag mellan hundra och tusen gånger ljusare än för tvåhundra år sedan.[^14] I Sverige ökar det artificiella ljuset med två till sex procent per år, en fördubbling på tjugo år.[^15] LED-tekniken har gjort konstant belysning billigare än någonsin. Riksdagsmotionen 2025/26:2614 om ljusföroreningar nämner att upp till sjuttio procent av alla däggdjur är nattaktiva. Sveriges regler från 1980-talet hanterar inte modern LED-teknik.[^16]
 
-Filosofen Taylor Stone identifierar nio moraliska värden i mörker, från ekologiskt skydd till stjärnsynlighet, kulturarv och estetisk skönhet.[^17] Den islamiska traditionen tänker längre: mörker är det villkor för varseblivning utan vilket skillnaden mellan gudomligt ljus och tillverkat ljus blir ogripbar.
+Taylor Stone identifierar nio moraliska värden i mörker, från ekologiskt skydd till stjärnsynlighet, kulturarv och estetisk skönhet.[^17] Den islamiska traditionen tänker längre: mörker är det villkor för varseblivning utan vilket skillnaden mellan gudomligt ljus och tillverkat ljus blir ogripbar.
 
 Artificiellt ljus har också räddat liv och möjliggjort nattlig tillbedjan i moskéer och kyrkor. Problemet är inte ljuset i sig utan att dess motpol utplånas.
 

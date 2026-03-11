@@ -89,7 +89,7 @@ Strindberg hade kompassen. Han saknade kartan. Inferno-krisen är *fiṭrah* i v
 
 Hans mest avslöjande formulering är den enklaste: "Min tvungna otacksamhet trycker mig som en börda." En människa som vet att hon har något att tacka för men saknar någon att tacka. Ateismen har avlägsnat mottagaren men inte behovet. Om tacksamheten vore en produkt av tron på en givare borde den försvinna med tron – som skuggan försvinner med ljuskällan. Att behovet består antyder att det inte är tron som alstrar tacksamheten utan tacksamheten som vittnar om något tron blott erkänner. Tacksägelsen har blivit hemlös.
 
-Diktaren Oscar Levertin formulerade samma insikt utan att riktigt veta det: "Verkligheten kan kanske undvara religion, men säkert ej religiositet."[^18] Religiositet är inte ett tillägg till mänsklig erfarenhet utan dess grundväv. Att avskaffa religion, institutioner, dogmer, ritualer, är möjligt – att avskaffa religiositeten är att avskaffa något i människan själv.
+Oscar Levertin, utan att riktigt veta det: "Verkligheten kan kanske undvara religion, men säkert ej religiositet."[^18] Religiositet är inte ett tillägg till mänsklig erfarenhet utan dess grundväv. Att avskaffa religion, institutioner, dogmer, ritualer, är möjligt – att avskaffa religiositeten är att avskaffa något i människan själv.
 
 Koranen uttrycker det med en bild som är enklare men når längre:
 

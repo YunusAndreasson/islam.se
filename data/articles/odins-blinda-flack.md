@@ -85,7 +85,7 @@ Men i den svenska tanketraditionen – närmare den nordiska mytens ursprung –
 
 *Nå kunskapens höjder.* Strindberg stiger uppåt, erövrar, betalar med mänskliga band som bränns på ambitionens bål. Men det som offras är aldrig Strindberg själv. Han väljer, beslutar, tar för sig. Det oskyldiga offret – kärleken, de andra – är en kostnad i den transaktion som gör honom till den han vill vara.
 
-Erik Gustaf Geijer, historikern och filosofen, formulerade samma gräns:
+Erik Gustaf Geijer:
 
 > En blott överlämnad, om ock riklig, kunskap är ej därför fruktbärande. Därtill fordras, att den på ett levande sätt skall vara tillägnad, genomlevd, prövad, fostrad av inre och yttre erfarenhet till en frukt för livet.[^12]
 

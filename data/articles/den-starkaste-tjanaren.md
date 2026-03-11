@@ -33,7 +33,7 @@ Kybernetikens grundare Norbert Wiener identifierade samma struktur: maskinens fa
 
 ## Det dolda förtroendekontraktet
 
-Försäkringskassan-fallet rymmer mer än en teknisk skandal. Det blottlägger välfärdsstatens outtalade löfte. En medborgare som vänder sig till en myndighet med en ansökan ingår ett förtroendeavtal, något äldre än ett juridiskt kontrakt. Hon utlämnar information om sitt liv, sin hälsa, sin familjesituation – och litar på att den behandlas rättvist. För detta har Koranen ett ord: *al-amānah*, förtroendeuppdraget – som den oupplösligt kopplar till rättvis dom:
+Försäkringskassan-fallet rymmer mer än en teknisk skandal. Det röjer välfärdsstatens outtalade löfte. En medborgare som vänder sig till en myndighet med en ansökan ingår ett förtroendeavtal, något äldre än ett juridiskt kontrakt. Hon utlämnar information om sitt liv, sin hälsa, sin familjesituation – och litar på att den behandlas rättvist. För detta har Koranen ett ord: *al-amānah*, förtroendeuppdraget – som den oupplösligt kopplar till rättvis dom:
 
 > Allah ﷻ befaller er att återlämna allt ni anförtrotts till dess rättmätiga ägare och att, när ni dömer mellan människor, döma med rättvisa.[^11]
 

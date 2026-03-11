@@ -45,7 +45,7 @@ Han har sett att religiositet är ofrånkomlig, att den överlever varje försö
 
 Men vad händer om man *inte* stannar där Levertin stannade? Ibn Qayyim betraktar samma fenomen – och vänder slutsatsen. Han visar hur uppenbarelse och medfödd insikt samverkar: "Uppenbarelsens ljus förenades med *fiṭrah*s ljus – ljus på ljus – så att hjärtat nära nog talar sanning även utan att ha hört ett ord" (*al-Fawāʾid*).[^13] *Nära nog* är det avgörande uttrycket – *fiṭrah* allena kommer nära men når inte ända fram.
 
-I *al-Wābil al-Ṣayyib* blottlägger han vad som inträder utan den andra ljuskällan: "I hjärtat finns en tomhet och en brist som absolut ingenting kan fylla utom åminnelsen av Gud."[^14]
+I *al-Wābil al-Ṣayyib* namnger han vad som inträder utan den andra ljuskällan: "I hjärtat finns en tomhet och en brist som absolut ingenting kan fylla utom åminnelsen av Gud."[^14]
 
 Tre sekler senare beskrev matematikern Pascal, utan tillgång till Ibn Qayyim, en "oändlig avgrund" i människan som "bara kan fyllas av Gud själv".[^25]
 

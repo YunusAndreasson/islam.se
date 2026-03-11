@@ -55,7 +55,7 @@ Dessa ord tecknar inte en estetisk upplevelse utan hjärtats uppvaknande – det
 
 I ett annat ljus framträder nu koranbränningarna. Det som förstördes på Stockholms gator var inte en bok i den mening som västerländsk kultur förstår böcker – en samling idéer bundna i papper, kritiserbar, utbytbar, ständigt tillgänglig i nya exemplar. Det som angreps var en *muṣḥaf*: en fysisk gestaltning av levande gudomligt tal.
 
-Medievetaren Walter Ong, som studerat övergången från muntlighet till skrift, namngav klyftan: i den muntliga kulturen är ordet alltid en *händelse*; skriften förvandlar det till ett *föremål*.[^15]
+Walter Ong, som studerat övergången från muntlighet till skrift, satte ord på klyftan: i den muntliga kulturen är ordet alltid en *händelse*; skriften förvandlar det till ett *föremål*.[^15]
 
 Häri ligger provokationens nerv. Man kan bränna ett exemplar av *Kapitalet* utan att Marx tystnar – hans idéer lever vidare som abstraktioner, oberoende av varje enskild kopia. Men inom den islamiska förståelsen är varje *muṣḥaf* en plats där Allahs ﷻ tal vilar. Att bränna den är att rikta förakt mot en närvaro.
 

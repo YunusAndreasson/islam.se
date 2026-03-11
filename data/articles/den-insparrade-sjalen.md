@@ -73,7 +73,7 @@ Och det är precis detta tyranni som transhumanismen upphöjer till program.
 
 ## Missnöjets maskin
 
-Även från sekulärt håll hörs samma slutsats. Filosofen Pär Segerdahl vid Uppsala universitet har skrivit: "Transhumanismen ÄR det mänskliga missnöjet." Dess drivkraft är "hetsen, stressen, ångesten, avundsjukan, otåligheten". Flykten till framtiden är, skriver Segerdahl, "mönstret för eländet, inte vägen ut".[^12]
+Även från sekulärt håll hörs samma slutsats. Pär Segerdahl vid Uppsala universitet har skrivit: "Transhumanismen ÄR det mänskliga missnöjet." Dess drivkraft är "hetsen, stressen, ångesten, avundsjukan, otåligheten". Flykten till framtiden är, skriver Segerdahl, "mönstret för eländet, inte vägen ut".[^12]
 
 Niohundra år tidigare beskrev Ibn al-Jawzī samma rastlöshet – men med en avgörande skillnad. Segerdahls iakttagelse är deskriptiv: missnöjet *är* mönstret. Ibn al-Jawzīs är riktad: rastlösheten har ett objekt. Själen "stannar aldrig vid en gräns" inte för att den är defekt, utan för att inget ändligt kan mätta det den egentligen söker. Och en hjärna kopplad direkt till internet stillar inte den hungern – den föder den. Mer data, mer stimulans, mer kontroll, och ändå: tomheten kvarstår. Allt är tillgängligt, och inget räcker till. Den var aldrig teknisk till sin natur.
 

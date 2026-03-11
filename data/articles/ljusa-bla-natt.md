@@ -51,7 +51,7 @@ Mot slutet kommer det nakna erkännandet: "Mig gick lifvet förbi."[^11]
 
 Glas sitter inte stilla medan livet passerar. Han tänker, observerar, skriver, planerar till och med ett mord. Ändå lever han bredvid sin tid, aldrig i den – alltid analyserande, alltid på avstånd. Dagboken blir ett monument över en människa som protokollför sin egen frånvaro från nuet.
 
-Ibn Ḥazms tidskollaps blottlägger problemet; Ibn Qayyim, trehundra år före Söderberg, gav det ett namn.
+Ibn Ḥazms tidskollaps avslöjar problemet; Ibn Qayyim, trehundra år före Söderberg, gav det ett namn.
 
 ## Att vara sin tids barn
 
@@ -71,7 +71,7 @@ Det yttre ljuset som vägrar försvinna utanför Glas' fönster, och det inre lj
 
 ## Ångestens anatomi
 
-Søren Kierkegaard definierade ångesten som "frihetens svindel" – den yrsel som griper den som stirrar ned i sina möjligheter.[^17] Det stämmer för Glas. Men Kierkegaards analys stannar vid svindeln – hans berömda *trosprång* pekar ut ur förlamningen utan att säga vad den som landar ska göra med sin tid. Ibn Qayyim går längre: han ger ögonblicket självt arkitektur.
+Søren Kierkegaard definierade ångesten som "frihetens svindel" – den yrsel som griper den som stirrar ned i sina möjligheter.[^17] Det stämmer för Glas. Men Kierkegaards analys stannar vid svindeln – hans berömda *trosprång* pekar ut ur förlamningen utan att säga vad den som landar ska göra med sin tid. Ibn Qayyim ger ögonblicket självt arkitektur.
 
 Den sanningssökandes *waqt* är ramen för allt tillblivande, den tidsliga behållare i vilken det mänskliga livet tar form.[^18] Människans tid är i verkligheten hennes liv – det material av vilket hennes eviga tillvaro formas.[^19] Bönen vid gryningen, ordet vid måltidens bord, steget tillbaka från ilskan.
 

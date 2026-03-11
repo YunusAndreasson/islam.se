@@ -31,7 +31,7 @@ Den uppenbara invändningen mötte han direkt: hadithen där Profeten Muḥammad
 
 Ibn Taymiyyah kontextualiserar profetens ﷺ ord. Han skiljer mellan en normal marknad och en krissituation. I normala tider styr tillgång och efterfrågan. Men den som i nödtid monopoliserar livsnödvändigheter "påtvingar människor den svårighet och trångmål som är förbjuden".[^9] Formuleringen är juridisk, pulsen moralisk. Det finns ögonblick då marknaden sviker, och då är statens ingripande en plikt.
 
-Ibn Taymiyyah går längre. Att mätta den hungrige, skriver han i *al-Īmān*, är "en kollektiv skyldighet enligt alla muslimska lärda".[^10] Orden *farḍ ʿalā al-kifāyah* – en plikt som åligger samhället som helhet – innebär att om ingen fullgör den, bär alla skulden. Som när ingen stiger av bussen för att hjälpa någon som ramlat – inte en enskild person valde fel, men alla gjorde det.
+Men Ibn Taymiyyah stannar inte där. Att mätta den hungrige, skriver han i *al-Īmān*, är "en kollektiv skyldighet enligt alla muslimska lärda".[^10] Orden *farḍ ʿalā al-kifāyah* – en plikt som åligger samhället som helhet – innebär att om ingen fullgör den, bär alla skulden. Som när ingen stiger av bussen för att hjälpa någon som ramlat – inte en enskild person valde fel, men alla gjorde det.
 
 Sjuhundra år senare nådde ekonomen och nobelpristagaren Amartya Sen samma slutsats på empirisk väg: svält orsakas inte av absolut brist utan av distributionens sammanbrott – av marknader som upphör att fungera för dem som bäst behöver dem.[^20] Sen behövde Bengalens hungersnöd och decennier av fältdata för att bevisa vad Ibn Taymiyyahs rättslära härledde ur pliktens logik: den som är skyldig att mätta hungriga kan inte invänta marknadens självkorrigering.
 

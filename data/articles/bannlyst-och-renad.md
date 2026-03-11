@@ -43,7 +43,7 @@ Sven Elversson bekänner – skuldens tyngd går inte att bära utan att sanning
 
 Även långt från religiös tradition nådde Ludwig Wittgenstein samma insikt: bekännelsen tillhör inte det gamla livet – den är en del av det nya.[^14]
 
-Den islamiska traditionen går längre. Profeten Muḥammad ﷺ sade: "Den som ångrar sig från synden är som den utan synd."[^9] Orden är radikala: inte *nästan* utan synd, inte *förlåten trots* synd – utan synd. Som om synden aldrig funnits. Formuleringen avslöjar vad som skiljer *tawbah* från förlåtelse: förlåtelse riktas till samma person som syndade – skulden efterskänks men subjektet består. *Tawbah* konstituerar ett annat subjekt genom vändningens fullständighet; synden tillhör den riktning personen inte längre har. Därför: *utan synd*. Just detta gestaltar Lagerlöf: en man som är *renad*.
+Den islamiska traditionen drar en radikalare slutsats. Profeten Muḥammad ﷺ sade: "Den som ångrar sig från synden är som den utan synd."[^9] Orden är radikala: inte *nästan* utan synd, inte *förlåten trots* synd – utan synd. Som om synden aldrig funnits. Formuleringen avslöjar vad som skiljer *tawbah* från förlåtelse: förlåtelse riktas till samma person som syndade – skulden efterskänks men subjektet består. *Tawbah* konstituerar ett annat subjekt genom vändningens fullständighet; synden tillhör den riktning personen inte längre har. Därför: *utan synd*. Just detta gestaltar Lagerlöf: en man som är *renad*.
 
 ## Skuldens verklighet
 
@@ -61,7 +61,7 @@ Skulden är en mur. Sten för sten byggs den – av tystnad. Enligt Ibn Qayyim u
 
 I själva bekännelseakten upphör skulden – hela Sven Elverssons existens vänder. Lagerlöf gestaltar det i blicken efteråt, hållningen, lugnet. Han har inte lagt ifrån sig en börda – han har blivit någon som uppför sig annorlunda.
 
-Det den sekulära moderniteten glömt är just denna riktning. Filosofen Michel Foucault spårade förlusten: den tidiga kristendomens dramatiska bekännelseakt (*exomologesis*, som utplånade det gamla jaget) ersattes av den analytiska samvetsrannsakan som modern terapi ärvt.[^15] Syndaren stod utanför församlingen i sorgdräkt, synlig för alla. Men även *exomologesis* var utplåning – den förstörde det gamla jaget utan att ange riktning för det nya. *Tawbah* är varken kretsande analys eller dramatisk förintelse: den är rörelse – från skulden, men framför allt *mot* det som upprättar. Trots sitt lutherska sammanhang rymmer Lagerlöfs roman ett dolt släktskap med rörelsens logik.
+Det den sekulära moderniteten glömt är just denna riktning. Michel Foucault spårade förlusten: den tidiga kristendomens dramatiska bekännelseakt (*exomologesis*, som utplånade det gamla jaget) ersattes av den analytiska samvetsrannsakan som modern terapi ärvt.[^15] Syndaren stod utanför församlingen i sorgdräkt, synlig för alla. Men även *exomologesis* var utplåning – den förstörde det gamla jaget utan att ange riktning för det nya. *Tawbah* är varken kretsande analys eller dramatisk förintelse: den är rörelse – från skulden, men framför allt *mot* det som upprättar. Trots sitt lutherska sammanhang rymmer Lagerlöfs roman ett dolt släktskap med rörelsens logik.
 
 Bekännelsen är inte punkten. Den är den nya riktningen.
 
