@@ -46,9 +46,9 @@ h1 {
 
 h2 {
 	font-size: var(--step-2);
-	font-weight: 620;
-	letter-spacing: -0.01em;
-	line-height: 1.2;
+	font-weight: 520;
+	letter-spacing: 0;
+	line-height: 1.25;
 	color: var(--color-accent);
 	margin-top: var(--space-phi);
 	margin-bottom: var(--space-half);
@@ -168,9 +168,15 @@ sup {
 	border-width: 0;
 }
 
-/* Hide <hr> separator before footnotes (remark-gfm artifact) */
-hr:has(+ .footnotes) {
-	display: none;
+/* Article-ending HR → ornament (replaces the markdown --- before footnotes) */
+.prose > hr:last-of-type {
+	border: none;
+	width: 10rem;
+	height: 1.5rem;
+	margin: var(--space-phi) auto;
+	background: var(--color-divider);
+	-webkit-mask: url("/ornament.svg?v=3") center / 100% 100% no-repeat;
+	mask: url("/ornament.svg?v=3") center / 100% 100% no-repeat;
 }
 
 .data-footnote-backref {
@@ -181,10 +187,10 @@ hr:has(+ .footnotes) {
 	&::after {
 		content: "↑";
 		font-size: 0.875rem;
-		/* Literata's ↑ glyph is optically drawn for body text scale —
-		   harmonises with the footnote text instead of Inter's geometric arrow */
+		/* Literata's ↑ glyph is optically drawn for body text scale */
 		font-family: var(--font-body);
 		font-style: normal;
+		color: var(--color-muted);
 	}
 }
 
@@ -289,7 +295,6 @@ hr:has(+ .footnotes) {
 }
 
 /* Section ornament — eight-pointed star flanked by thin rules */
-.article-nav::after,
 .section-ornament {
 	content: "";
 	display: block;
@@ -299,12 +304,6 @@ hr:has(+ .footnotes) {
 	background: var(--color-divider);
 	-webkit-mask: url("/ornament.svg?v=3") center / 100% 100% no-repeat;
 	mask: url("/ornament.svg?v=3") center / 100% 100% no-repeat;
-}
-
-.article-nav::after {
-	flex-basis: 100%;
-	margin-top: var(--space-unit);
-	margin-bottom: var(--space-unit);
 }
 
 /* Drop cap — article opening paragraph */
@@ -358,7 +357,7 @@ article .prose > p:first-child::first-line {
 
 	h2 {
 		font-size: 1.562rem;
-		font-weight: 650;
+		font-weight: 540;
 		letter-spacing: 0;
 	}
 

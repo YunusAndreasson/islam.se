@@ -2,7 +2,7 @@ import { readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 import sitemap from "@astrojs/sitemap";
-import { defineConfig } from "astro/config";
+import { defineConfig, fontProviders } from "astro/config";
 import remarkSmartypants from "remark-smartypants";
 import { rehypeHonorific } from "./src/plugins/rehype-honorific";
 import { remarkAbbr } from "./src/plugins/remark-abbr";
@@ -40,6 +40,43 @@ export default defineConfig({
 		],
 		rehypePlugins: [rehypeHonorific],
 	},
+	fonts: [
+		{
+			provider: fontProviders.local(),
+			name: "Literata",
+			cssVariable: "--font-body",
+			fallbacks: ["Georgia", "Times New Roman", "serif"],
+			options: {
+				variants: [
+					{
+						weight: "200 900",
+						style: "normal",
+						src: ["./src/assets/fonts/literata-roman.woff2"],
+					},
+					{
+						weight: "200 900",
+						style: "italic",
+						src: ["./src/assets/fonts/literata-italic.woff2"],
+					},
+				],
+			},
+		},
+		{
+			provider: fontProviders.local(),
+			name: "Source Sans 3",
+			cssVariable: "--font-heading",
+			fallbacks: ["system-ui", "sans-serif"],
+			options: {
+				variants: [
+					{
+						weight: "200 900",
+						style: "normal",
+						src: ["./src/assets/fonts/source-sans-3-roman.woff2"],
+					},
+				],
+			},
+		},
+	],
 	integrations: [
 		sitemap({
 			serialize(item) {

@@ -61,11 +61,11 @@ När försörjningen hotas, blottas statens grundlogik. Den nordafrikanske histo
 
 ## *Ḥisbah* för en ny tid
 
-Det arabiska begreppet *ḥisbah* – statens tillsyn över marknad och allmännytta – översätts ibland som "marknadskontroll", men sträcker sig längre. Marknadsinspektören som går genom basaren, väger brödet, känner på tyget, frågar priset – och när priset är orimligt eller vikten för låg, griper in. Häri finns en föreställning om vad ett samhälle är skyldigt sina medborgare: försörjning, skydd mot den frihet som lämnar de svagaste utan mat.
+Det arabiska begreppet *ḥisbah* – statens tillsyn över marknad och allmännytta – översätts ibland som "marknadskontroll", men sträcker sig längre. Marknadsinspektören som går genom basaren, väger brödet, känner på tyget, frågar priset – och när priset är orimligt eller vikten för låg, griper in. I det ligger en föreställning om vad ett samhälle är skyldigt sina medborgare: försörjning, skydd mot den frihet som lämnar de svagaste utan mat.
 
 Ibn Taymiyyah skriver att de verksamheter som är nödvändiga för folkets välfärd – livsmedelsproduktion, distribution, lagerhållning – utgör en kollektiv plikt: samhället kan inte fungera utan dem.[^18] Sviktar den privata sektorn, faller ansvaret på staten – en pragmatisk rättslära som vilar på en enda princip: ingen ska svälta i ett samhälle som har resurser att förhindra det.
 
-En modern *ḥisbah* för svensk livsmedelsberedskap kan bygga på det ramverk som Finland redan tillämpar: strategiska reserver av baslivsmedel, tydligt myndighetsansvar, regelbunden omsättning av lagren så att ingenting föråldras. Bakom ramverket vilar en insikt som den svenska offentligheten knappt vågat formulera: att beredskap är ett villkor för frihet. Utan mat på bordet är varje annan rättighet meningslös.
+En modern *ḥisbah* för svensk livsmedelsberedskap kan bygga på den modell som Finland redan tillämpar: strategiska reserver av baslivsmedel, tydligt myndighetsansvar, regelbunden omsättning av lagren så att ingenting föråldras. Bakom modellen vilar en insikt som den svenska offentligheten knappt vågat formulera: att beredskap är ett villkor för frihet. Utan mat på bordet är varje annan rättighet meningslös.
 
 Denna insikt har Koranen uttalat i över tusen år. I sura *al-Balad* påminner den om den handling som väger tyngst: "Eller ge mat i tider av hungersnöd."[^19] Versens logik är ofrånkomlig. I kristider bleknar allt annat – rikedom, makt, prestige – inför en enda fråga: kan du mätta den som hungrar?
 

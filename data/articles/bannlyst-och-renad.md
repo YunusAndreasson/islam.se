@@ -29,7 +29,7 @@ Ibn Qayyim preciserar:
 
 Att sluta synda är inte att ångra sig. Att ångra sig är inte att vända om. *Tawbah* kräver en fullständig existentiell vändning: synden överges, men den ångrande måste aktivt slå in på motsatt väg. Ibn Taymiyyah preciserar: *tawbah* innebär att återvända till lydnaden, att göra det Allah ﷻ befallt – inte bara undvika det Han förbjudit.[^5]
 
-Häri korsar Lagerlöfs roman den islamiska traditionens logik: Sven Elversson bekänner och *blir* någon annan – direkt, i själva handlingen. Men vilken handling?
+Här korsar Lagerlöfs roman den islamiska traditionens logik: Sven Elversson bekänner och *blir* någon annan – direkt, i själva handlingen. Men vilken handling?
 
 Koranen knyter rörelsen till ett villkor som visar dess struktur: "Men om någon vänder sig till Allah ﷻ i ånger efter sin orättfärdighet *och ställer till rätta* så godtar Allah ﷻ hans ånger."[^6] Ångern allene räcker inte – den måste bli handling, ett återställande. Det stulna lämnas tillbaka, löftet hålls, samtalet förs. Först då fullbordas *tawbah*.
 

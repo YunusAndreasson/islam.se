@@ -91,7 +91,7 @@ I sin egen kropp upplevde Strindberg vad Linné dokumenterat på avstånd: att h
 
 ## Varför hemligheten säger mer än bekännelsen
 
-Sveriges mest berömde vetenskapsman – mannen som gav ordning åt naturen, som namngav tiotusentals arter – kunde inte säga högt vad han trodde om den moral som genomsyrar samma natur.
+Sveriges mest berömde vetenskapsman – mannen som gav ordning åt naturen, som namngav tiotusentals arter – kunde inte säga högt vad han trodde om den moral som är inskriven i samma natur.
 
 I det lutherska Sverige kunde man predika nåd. Man kunde till och med predika moral, så länge predikan mynnade ut i nåden. Men man kunde inte predika att Gud *bokför* – att det finns en exakt räkenskap där varje handling vägs och varje konsekvens mäts med samma precision som naturlagarna. Det var för nära en annan Gud – en som kräver räkenskap, inte bara tro.
 

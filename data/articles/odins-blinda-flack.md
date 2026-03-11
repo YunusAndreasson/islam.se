@@ -5,7 +5,7 @@ wordCount: 1953
 qualityScore: 8.9
 description: "Ett öga ligger på botten av Mimers brunn, pantsatt av Odin själv i utbyte mot en klunk av all världens visdom. Snorre Sturlason nedtecknade myten i *Prosaeddan* – men den fråga som sällan ställs är varför den högste guden lämnade brunnen som precis samma gud han var när han kom."
 ---
-Ett öga ligger på botten av Mimers brunn. Det har legat där sedan tidernas gryning – pantsatt av den högste guden själv, i utbyte mot en klunk av det vatten som rymmer all visdom och allt förstånd. Den hör till de mest omtalade episoderna i nordisk mytologi, och tolkas nästan alltid som en historia om kunskapens pris. Odin betalade dyrt – och fick vad han sökte.
+Ett öga ligger på botten av Mimers brunn. Det har legat där sedan tidernas gryning – pantsatt av den högste guden själv, i utbyte mot en klunk av det vatten som bär all visdom och allt förstånd. Den hör till de mest omtalade episoderna i nordisk mytologi, och tolkas nästan alltid som en historia om kunskapens pris. Odin betalade dyrt – och fick vad han sökte.
 
 Men frågan som sällan ställs är varför just ett öga – och, framför allt, vad han *inte* offrade.
 
@@ -21,11 +21,11 @@ Nyckelordet är *lån*. Kunskapen byter ägare genom en reglerad transaktion. Od
 
 Men det är just i denna byteslogik som den blinda fläcken visar sig. Odin förlorar *syn*. Han förlorar aldrig *sig själv*. Hans vilja, hans identitet, hans minne – allt förblir intakt. Den mäktige guden stiger ned till brunnen och stiger upp som samma gud, fast med ett öga färre och en visdom mer. Mimer, *den som minns*, bevakar just den struktur som gör kunskapen till ett ägande: minnet av vem man är, vad man vill, vad man äger.
 
-Invändningen ligger nära till hands: Odins hängning på Yggdrasil – nio nätter, genomborrad av ett spjut, offrad "åt sig själv" – rymmer väl en grundligare förvandling? Men det offret gäller *runorna*, inte visheten vid brunnen. Även efter hängningen förblir Odin den han var: härskare, kunskapssökare, den som vill veta *mer*.
+Invändningen ligger nära till hands: Odins hängning på Yggdrasil – nio nätter, genomborrad av ett spjut, offrad "åt sig själv" – innebär väl en grundligare förvandling? Men det offret gäller *runorna*, inte visheten vid brunnen. Även efter hängningen förblir Odin den han var: härskare, kunskapssökare, den som vill veta *mer*.
 
 ## Dårens natt
 
-Den nordiska traditionen är inte blind för kunskapens risker. Hávamál, den eddadikt som talar med Odins egen röst, rymmer en spricka i denna modell. I strof 23 formulerar dikten en varning som spränger transaktionens logik:
+Den nordiska traditionen är inte blind för kunskapens risker. Hávamál, den eddadikt som talar med Odins egen röst, öppnar en spricka i denna modell. I strof 23 formulerar dikten en varning som spränger transaktionens logik:
 
 > En dåraktig man ligger vaken hela natten och grubblar över allting; trött är han när morgonen kommer, och allt är en börda som förut.[^3]
 
@@ -47,7 +47,7 @@ Där Odin offrar ett sinnesorgan men behåller sitt jag, kräver Ibn Qayyim att 
 
 Koranen själv anvisar denna rörelse. Allah ﷻ, den Upphöjde, säger: *Och i era egna själva – ser ni inte?*[^6] Att se in i sig själv är här inte en mystisk resa mot det okända, utan en uppmaning att se det uppenbara som människan ständigt flyr: sin egen svaghet, sitt eget beroende, sin egen dödlighet.
 
-Ibn al-Jawzī, tolfte århundradets lärdomsman i Bagdad, formulerar det i *Ṣayd al-Khāṭir* i formuleringar som inte lämnar utrymme för kompromiss:
+Ibn al-Jawzī, tolfte århundradets lärdomsman i Bagdad, skriver i *Ṣayd al-Khāṭir* med ord som inte lämnar utrymme för kompromiss:
 
 > Den som begrundar sig själv en dag – med en sanningssökares begrundan – ställer sig till svars innan han ställs till svars, och väger sig själv innan han vägs.[^7]
 
@@ -55,7 +55,7 @@ Kunskapen kräver *muḥāsabah* – självrannsakan: att väga sig själv, prö
 
 ## Det glömda självet
 
-Koranen formulerar relationen mellan kunskap och själv med en logik som saknar motsvarighet i den nordiska traditionen. I sura *al-Ḥashr* fastslår den:
+Koranen tecknar relationen mellan kunskap och själv med en logik som saknar motsvarighet i den nordiska traditionen. I sura *al-Ḥashr* fastslår den:
 
 > Och var inte som dem som glömde Allah ﷻ, så att Han lät dem glömma sig själva. Dessa är de ogudaktiga.[^8]
 

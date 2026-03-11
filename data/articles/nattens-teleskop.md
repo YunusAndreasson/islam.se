@@ -27,7 +27,7 @@ Kroppen är alltså ett instrument som kan *kalibreras*.
 
 ## Hjärtat mellan rost och klarhet
 
-Ibn Qayyim al-Jawziyyah bygger vidare med en bild hämtad direkt ur den profetiska traditionen. I *al-Wābil al-Ṣayyib* beskriver han hjärtat som en spegel vars yta antingen rostas av synder och försummelse eller poleras av lydnad och åminnelse av Allah ﷻ:
+Ibn Qayyim al-Jawziyyah bygger vidare med en bild hämtad direkt ur den profetiska traditionen. I *al-Wābil al-Ṣayyib* liknar han hjärtat vid en spegel vars yta antingen rostas av synder och försummelse eller poleras av lydnad och åminnelse av Allah ﷻ:
 
 > Hjärtat rostas liksom koppar och silver rostas, och det poleras genom åminnelse (*dhikr*). Hjärtat är likt en spegel: när det poleras reflekterar det sanningen som den är, och när det rostas förvrängs bilderna och förmörkas.[^4]
 
@@ -70,7 +70,7 @@ Ibn Khaldūn utgår från en annan ordning: medvetandet är en förmåga med rik
 
 ## Nattens vittnen
 
-Den inåtvändhet Ibn Khaldūn beskriver är inte en universellt tillgänglig öppning – den kräver förberedelse, och den förberedelsen börjar före sömnen. Koranen framhåller natten, gång på gång, som tecken och tid för eftertanke. Natten är mer än frånvaro av dag – en skapad förutsättning med en egen funktion:
+Den inåtvändhet Ibn Khaldūn iakttog är inte en universellt tillgänglig öppning – den kräver förberedelse, och den förberedelsen börjar före sömnen. Koranen framhåller natten, gång på gång, som tecken och tid för eftertanke. Natten är mer än frånvaro av dag – en skapad förutsättning med en egen funktion:
 
 > Och av Sin barmhärtighet har Han skapat natten och dagen åt er, för att ni skall vila [under natten] och söka Hans nåd [under dagen], och för att ni skall vara tacksamma.[^15]
 
@@ -86,7 +86,7 @@ August Strindberg, i sin kris-skildring *Inferno*, återger denna närvaro – m
 
 > Träd in ensam nattetid i din kammare, och du skall finna någon där före dig. Du ser honom icke, men du känner hans närvaro.[^22]
 
-Att natten är bebodd betvivlar han aldrig – det är *av vem* som skrämmer honom. Den troende och Strindberg delar upplevelsen; skillnaden är att uppenbarelsen namnger närvaron. Namngivandet skiljer skräck från tillbedjan. Utan det som hadithen bär finns bara det Strindberg beskriver: en okänd gestalt i ett mörkt rum.
+Att natten är bebodd betvivlar han aldrig – det är *av vem* som skrämmer honom. Den troende och Strindberg delar upplevelsen; skillnaden är att uppenbarelsen namnger närvaron. Namngivandet skiljer skräck från tillbedjan. Utan det som hadithen bär finns bara det Strindberg skildrar: en okänd gestalt i ett mörkt rum.
 
 Den svenske författaren Hjalmar Söderberg höjer motrösten. I *Förvillelser* skriver hans karaktär: "Så vaknar man och söker erinra sig vad man har drömt och söker efter någon betydelse i det, och då är det alltsammans en massa dumheter utan mening och sammanhang."[^18] Avväpnande ärligt, men formuleringen röjer sin egen spricka: han *söker* efter betydelse. Behovet att tolka finns där, även hos den som förnekar att det finns något att tolka. Den som verkligen inte trodde att drömmar betydde något skulle inte söka alls.
 

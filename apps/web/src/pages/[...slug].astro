@@ -49,13 +49,13 @@ const { Content } = await render(article.entry);
 		<nav class="article-nav" aria-label="Föregående och nästa essä">
 			{prev && (
 				<a href={`/${prev.slug}`} rel="prev">
-					<span class="label nav-label">‹ Föregående</span>
+					<span class="label nav-label">← Föregående</span>
 					{prev.title}
 				</a>
 			)}
 			{next && (
 				<a href={`/${next.slug}`} rel="next">
-					<span class="label nav-label">Nästa ›</span>
+					<span class="label nav-label">Nästa →</span>
 					{next.title}
 				</a>
 			)}

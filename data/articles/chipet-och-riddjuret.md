@@ -47,7 +47,7 @@ Det som erbjöds var inte ett ägande utan ett ansvar. Himlarna och bergen, hela
 
 Profeten Muḥammad ﷺ satte ord på det: "Fullgör det anförtrodda mot den som anförtrott dig det, och svek inte den som sviker dig."[^8] Principen är ovillkorlig.
 
-Häri visar Boyes roman och biohackingen sitt gemensamma tomrum. Båda utgår från en kropp utan *amānah*, en kropp som antingen tillhör staten eller individen, men som i intetdera fallet bär ett ansvar gentemot den som skapat den. I *Kallocain* leder det till en kollektiv utplåning av det inre livet. I biohackingkulturen leder det till en paradox: ju mer kontroll individen får över sin biologi, desto mindre förmår hon besvara frågan *vad kroppen är till för*.
+Här visar Boyes roman och biohackingen sitt gemensamma tomrum. Båda utgår från en kropp utan *amānah*, en kropp som antingen tillhör staten eller individen, men som i intetdera fallet bär ett ansvar gentemot den som skapat den. I *Kallocain* leder det till en kollektiv utplåning av det inre livet. I biohackingkulturen leder det till en paradox: ju mer kontroll individen får över sin biologi, desto mindre förmår hon besvara frågan *vad kroppen är till för*.
 
 Optimering kräver ett mål. Hur kroppen fungerar kan data visa – aldrig varför den finns. Den islamiska traditionen svarar: kroppens ändamål *är* dess riktning – den är skapad för att bäras mot gudskunskap, för bön, för tjänande av andra. Kroppen som reser sig ur bädden för nattbön är ingen optimerad maskin. Den är en varelse som svarar på ett tilltal: "Deras kroppar reser sig från sina bäddar för att tillbe sin Herre med fruktan och längtan."[^9]
 

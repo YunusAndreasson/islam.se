@@ -51,7 +51,7 @@ Koranens allvetande tillhör *al-Raḥmān*, den Barmhärtige, vars blick genoml
 
 Den sufiske teologen Ibn Qayyim al-Jawziyyah (d. 1350) preciserar sambandet: "Den som vakar över Gud i sina hemliga tankar, honom bevarar Gud i hans lemmars rörelser."[^9] Den formuleringen vränger Kallocainets logik. I Boyes roman avslöjar serumet tanken och förstör handlingsfriheten. I Ibn Qayyims universum är det medvetenheten om att tanken redan är genomlyst som *möjliggör* handlingens integritet. Den som vet att tanken ses behöver inte städa den innan den blir handling. Den som vet att Gud ser behöver inte dölja – och den som inte döljer behöver inte frukta.
 
-Rättslärden och predikanten Ibn al-Jawzī (d. 1201) tillspetsar resonemanget till en sentens: "Gudsfruktan hindrar rädslan för människor."[^10] Påståendet verkar paradoxalt bara om man antar att all fruktan är av samma slag. *Taqwā*, den medvetna vördnaden inför Gud, rymmer tillit; den statliga rädslan rymmer bara underkastelse. Åtskillnaden är ontologisk: den gäller vem som ser och varför.
+Rättslärden och predikanten Ibn al-Jawzī (d. 1201) tillspetsar resonemanget till en sentens: "Gudsfruktan hindrar rädslan för människor."[^10] Påståendet verkar paradoxalt bara om man antar att all fruktan är av samma slag. *Taqwā*, den medvetna vördnaden inför Gud, bär tillit; den statliga rädslan rymmer bara underkastelse. Åtskillnaden är ontologisk: den gäller vem som ser och varför.
 
 ## Gåvan som inte kan tvångas
 
@@ -93,9 +93,9 @@ Boye skriver en roman; den islamiska traditionen gör ett sanningsanspråk. De r
 
 Den islamiska traditionen svarar: ja, en sådan genomskinlighet finns. Men bara om den som ser allt också är den som älskar allt. Bara om blicken tillhör den som skapat ögat och vet vad det behöver se. Ibn Taymiyyah sammanfattar: "Gudsmedvetenhet är den hemlighet som söks i alla tjänarens tillstånd."[^16]
 
-Hemlighet – *sirr*: ordet är talande. Allvetandet som borde avskaffa varje hemlighet rymmer självt en: att just medvetenheten om Guds blick är det mest intima av tillstånd, det som inte kan uppvisas, avtvungas eller injiceras med ett serum. Foucaults panoptikon eliminerar det privata. *Iḥsān* förvandlar det privata till ett möte. Det som skulle varit ett examinationsrum blir ett rum där två är närvarande.
+Hemlighet – *sirr*: ordet är talande. Allvetandet som borde avskaffa varje hemlighet döljer självt en: att just medvetenheten om Guds blick är det mest intima av tillstånd, det som inte kan uppvisas, avtvungas eller injiceras med ett serum. Foucaults panoptikon eliminerar det privata. *Iḥsān* förvandlar det privata till ett möte. Det som skulle varit ett examinationsrum blir ett rum där två är närvarande.
 
-"Hur kan man göra halt vid en statsgräns," frågar Boye genom Leo Kall, "om man har känt att ens pulsar är drivna av hjärtan i världsalltet?"[^17] Kall menar Världsstaten, det totalitära kollektivet. Men meningen rymmer en genklang som Boye själv kanske anade: det finns en gemenskap bortom staten, en genomskinlighet bortom serumet, en sanning som bara kan ges – aldrig tas.
+"Hur kan man göra halt vid en statsgräns," frågar Boye genom Leo Kall, "om man har känt att ens pulsar är drivna av hjärtan i världsalltet?"[^17] Kall menar Världsstaten, det totalitära kollektivet. Men meningen bär en genklang som Boye själv kanske anade: det finns en gemenskap bortom staten, en genomskinlighet bortom serumet, en sanning som bara kan ges – aldrig tas.
 
 ---
 

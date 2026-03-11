@@ -3,7 +3,7 @@ title: "Lagen ingen skrev"
 publishedAt: "2026-01-06T12:00:00.000Z"
 wordCount: 1094
 qualityScore: 8.6
-description: "'Vilka ha skrivit skogslagen? Tjuvar!' I *Röda rummet* från 1879 låter Strindberg anklagelserna hagla mot det svenska lagverket. Samma misstro mot mänsklig lagstiftning genomsyrar den islamiska rättsteorin, som byggt ett helt system på principen att rättens källa måste ligga bortom mänsklig räckvidd."
+description: "'Vilka ha skrivit skogslagen? Tjuvar!' I *Röda rummet* från 1879 låter Strindberg anklagelserna hagla mot det svenska lagverket. Samma misstro mot mänsklig lagstiftning präglar den islamiska rättsteorin, som byggt ett helt system på principen att rättens källa måste ligga bortom mänsklig räckvidd."
 ---
 Scenen i *Röda rummet* är en av de mest sprängkraftiga i svensk litteratur. Två vänner grälar. Den ene frågar vem som egentligen står bakom lagen – och svaret är en litania:
 
@@ -41,7 +41,7 @@ Om rättvisan är förutsättningen för samhällets bestånd, vad händer när 
 
 ## Den farliga mellanhanden
 
-Gudomlig lag bryter förvisso den onda cirkeln – rättens källa kan inte ägas av en klass – men väcker en ny fråga: vem tolkar den? Tolkningsansvaret är tungt, och faran är uppenbar. Muḥammad ibn al-Munkadir, en av Medinas stora rättslärda i första seklet efter *hijrah*, sade: "Den rättslärde träder in mellan Gud och Hans tjänare – låt honom se till hur han träder in."[^13]
+Gudomlig lag bryter den onda cirkeln – rättens källa kan inte ägas av en klass – men väcker en ny fråga: vem tolkar den? Tolkningsansvaret är tungt, och faran är uppenbar. Muḥammad ibn al-Munkadir, en av Medinas stora rättslärda i första seklet efter *hijrah*, sade: "Den rättslärde träder in mellan Gud och Hans tjänare – låt honom se till hur han träder in."[^13]
 
 En varning, inte en fromhetsfras. Tolkaren kan bli den nye lagstiftaren, den som klär sitt godtycke i rättens formar – precis det Strindberg avslöjar hos sina häradshövdingar och grosshandlare. Makten byter adress, inte natur. Saknar auktoriteten integritet, har inget vunnits.
 

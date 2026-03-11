@@ -29,7 +29,7 @@ Den insikten saknar transhumanismen helt. Problemet är inte att kroppen begrän
 
 ## Fängelset som blir bekvämare
 
-Det är en annan islamisk lärd, Ibn Qayyim al-Jawziyyah, verksam i Damaskus två sekler senare, som driver denna insikt till dess yttersta konsekvens. I *al-Fawāʾid* beskriver han ett kosmiskt dragkraftsfält mellan kropp och själ:
+Det är en annan islamisk lärd, Ibn Qayyim al-Jawziyyah, verksam i Damaskus två sekler senare, som driver denna insikt till dess yttersta konsekvens. I *al-Fawāʾid* tecknar han ett kosmiskt dragkraftsfält mellan kropp och själ:
 
 > När kroppen mättas, njuter och sover, och man ägnar sig åt dess bekvämlighet och vila, sjunker kroppen till den plats den skapades av och drar med sig själen, som hamnar i ett fängelse.[^3]
 
@@ -37,7 +37,7 @@ Bilden är fysikalisk i sin logik: kroppen har gravitation. Ju mer den tillfreds
 
 > Ju lättare kroppen blir, desto mer förfinas själen och söker sin himmelska hemvist; och ju tyngre kroppen blir genom begär och bekvämlighet, desto tyngre blir själen och sjunker från sin värld och blir jordisk och låg.[^4]
 
-Sexhundra år senare, i det moderna Frankrike, formulerade filosofen Simone Weil samma insikt med samma metafor – utan kännedom om den damascenske lärde: "Alla själens naturliga rörelser styrs av lagar analoga med den materiella tyngdkraftens. Nåden är det enda undantaget."[^17] Men Weils *enda undantag* avslöjar hennes ramverks gräns: gravitationen är absolut, och själen kan ingenting annat än vänta på en nåd som kommer utifrån. Ibn Qayyim beskriver samma gravitation – men i hans system finns handlingar som lättar kroppens tyngd inifrån. Själen är inte passiv inför sin egen fångenskap.
+Sexhundra år senare, i det moderna Frankrike, formulerade filosofen Simone Weil samma insikt med samma metafor – utan kännedom om den damascenske lärde: "Alla själens naturliga rörelser styrs av lagar analoga med den materiella tyngdkraftens. Nåden är det enda undantaget."[^17] Men Weils *enda undantag* avslöjar begränsningen i hennes tänkande: gravitationen är absolut, och själen kan ingenting annat än vänta på en nåd som kommer utifrån. Ibn Qayyim beskriver samma gravitation – men i hans system finns handlingar som lättar kroppens tyngd inifrån. Själen är inte passiv inför sin egen fångenskap.
 
 Med Neuralink för ögonen framträder frågan: vad lovar transhumanismen? Att göra kroppen mer bekväm, mer uppkopplad, mer kapabel – att undanröja friktion och göra den biologiska existensen så smidig att gränsen mellan tanke och handling upphör.
 
@@ -67,7 +67,7 @@ Här krävs en nyansering som den islamiska traditionen själv betonar. Kroppen 
 
 Spänningen är avsiktlig. Kroppen är en prövning *och* ett instrument. Bönen kräver kroppen – knäna, pannan, händerna. Fastan disciplinerar den utan att förneka den, och pilgrimsfärden är en fysisk akt med andlig innebörd. Den islamiska vägen är inte flykt från kroppen utan vägran att *låta den bli herre*. Ibn Qayyims poäng: bekvämligheten ska inte förväxlas med frihet.
 
-Skillnaden mot den platonska dualismen är avgörande. I dialogen *Faidon* beskriver Platon hur filosofen "ständigt söker befria själen" och döden är den slutgiltiga separationen.[^11] I islam återuppstår kroppen – själen och kroppen återförenas på Domens dag. Befrielsen riktar sig mot kroppens tyranni – mot det tillstånd där begäret styr och själen följer.
+Skillnaden mot den platonska dualismen är avgörande. I dialogen *Faidon* visar Platon hur filosofen "ständigt söker befria själen" och döden är den slutgiltiga separationen.[^11] I islam återuppstår kroppen – själen och kroppen återförenas på Domens dag. Befrielsen riktar sig mot kroppens tyranni – mot det tillstånd där begäret styr och själen följer.
 
 Och det är precis detta tyranni som transhumanismen upphöjer till program.
 

@@ -21,7 +21,7 @@ Beskrivningen rymmer en outtalad definition av beslut. Ett beslut i denna mening
 
 I vår tid blir metaforen bokstavlig: algoritmen ersätter konungen, inte rådgivaren. Den övertar beslutet, inte bara beräkningen. EU:s AI-förordning, fullt tillämplig från augusti 2026, ställer frågan juridiskt. Artikel 14 kräver att högrisk-AI-system ska ha "mänsklig tillsyn". Det innebär att en människa alltid ska kunna förstå systemets kapacitet, tolka dess resultat och välja att bortse från dess bedömning.[^4] Den svenska utredningen SOU 2025:101 konkretiserar och skärper kraven på insyn och ansvarsutkrävande.[^5]
 
-Men kravet avslöjar ett djupare problem. Om en människa formellt ska kunna överpröva en algoritm men saknar tid, kunskap eller incitament att göra det – vem regerar då? Konungen har fått en rådgivare som i praktiken styr – titeln kvarstår, makten har flyttat. Forskningen bekräftar mönstret: människor som formellt övervakar automatiserade system slutar systematiskt att ifrågasätta dem.[^19]
+Kravet avslöjar ett djupare problem. Om en människa formellt ska kunna överpröva en algoritm men saknar tid, kunskap eller incitament att göra det – vem regerar då? Konungen har fått en rådgivare som i praktiken styr – titeln kvarstår, makten har flyttat. Forskningen bekräftar mönstret: människor som formellt övervakar automatiserade system slutar systematiskt att ifrågasätta dem.[^19]
 
 ## Ansvarets lucka
 
@@ -51,7 +51,7 @@ Att undandra sig ansvaret, delegera det till ett system som bara kan fela statis
 
 ## Ställföreträdandets villkor
 
-Koranen beskriver människan som *khalīfah*, ställföreträdare på jorden. Till David säger Gud: "Vi har gjort dig till en ställföreträdare på jorden. Döm därför mellan människor med sanningen och följ inte din lust."[^14]
+Koranen kallar människan *khalīfah*, ställföreträdare på jorden. Till David säger Gud: "Vi har gjort dig till en ställföreträdare på jorden. Döm därför mellan människor med sanningen och följ inte din lust."[^14]
 
 Ställföreträdande förutsätter en uppdragsgivare och en uppdragstagare som kan svara. Algoritmen kan inte svara – den saknar det inför vilket svaret avges. Den har inget samvete att rannsakas, ingen *rūḥ* att ställas till doms.
 

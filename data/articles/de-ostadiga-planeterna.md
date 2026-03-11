@@ -25,11 +25,11 @@ Men samma iakttagelse kan leda till vitt skilda slutsatser. En av dem formulerad
 
 I Topelius' kosmologi är planeternas ostadighet ett budskap att tyda, aldrig ett problem att lösa. Astrologen Sigfrid Forsius (romanens centralgestalt) läser stjärnhimlen som en solvisare: "Stjärnorna äro att betrakta som solvisare för världens gång". Han tillägger omedelbart att "Människan spår och Gud rår."[^4] Himlavalvet visar men bestämmer inte – det pekar bortom sig självt.
 
-Topelius var ingen naiv romantiker. Väl medveten om den vetenskapliga revolutionens anspråk skrev han mot den. Hans sena verk genomsyras av en luthersk övertygelse att tro överträffar förnuft, att materialismens segertåg genom Europas universitet pekade på världens åldrande snarare än dess framsteg.[^5] Det gör honom förvisso omodern – men inte irrelevant. Hans fråga förblir densamma:
+Topelius var ingen naiv romantiker. Väl medveten om den vetenskapliga revolutionens anspråk skrev han mot den. Hans sena verk präglas av en luthersk övertygelse att tro överträffar förnuft, att materialismens segertåg genom Europas universitet pekade på världens åldrande snarare än dess framsteg.[^5] Det gör honom omodern – men inte irrelevant. Hans fråga förblir densamma:
 
 Vad betyder det att planeterna är lika bräckliga som vi? För Topelius: att inget skapat är beständigt, att hela kosmos delar den villkorlighet som definierar människolivet, och att insikten inte medger annat än ödmjukhet.
 
-Denna ödmjukhet genomsyrar även romanens bön:
+Samma ödmjukhet bär romanens bön:
 
 > Herre, haf vakt om de barn, som födas i denna natten! De varda stora i gåfvor och skina som ljus, men råka i mycken frestelse och kunna slockna i mörker.[^6]
 

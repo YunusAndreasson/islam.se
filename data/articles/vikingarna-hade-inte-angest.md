@@ -11,7 +11,7 @@ Ingen tvekan, ingen ångest – han ser, väljer, handlar.
 
 ## Nornornas dom
 
-För att förstå Gunnars lugn måste man förstå vad *Orlog* betydde för den fornnordiska människan. Det var inte öde i vår vardagliga mening, inte en förutbestämd plan man underkastade sig med en axelryckning. Orlog var urtidslagen, nornornas väv, den kosmiska ordning som genomsyrade allt. I *Völuspá* heter det:
+För att förstå Gunnars lugn måste man förstå vad *Orlog* betydde för den fornnordiska människan. Det var inte öde i vår vardagliga mening, inte en förutbestämd plan man underkastade sig med en axelryckning. Orlog var urtidslagen, nornornas väv, den kosmiska ordning som bar allt. I *Völuspá* heter det:
 
 > De norner som väver vid världsträdet, de fastslår lagar, de delar livet åt människornas söner; de utlyst öde.[^1]
 

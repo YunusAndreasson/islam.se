@@ -17,7 +17,7 @@ Aldrig var Strindbergs ateism lugn. Den var ett grepp om något som hela tiden h
 
 > Jag har nämligen blivit ateist under årens lopp, när jag märkt hur de okända makterna lämnat världen åt dess öde utan att giva ett livstecken ifrån sig. Någon att tacka! Det finnes ingen tillstädes, och min tvungna otacksamhet trycker mig som en börda![^3]
 
-*Tvungna*. Otacksamheten är inte befrielse utan börda. Strindberg beskriver en ateism som inte känns som hemkomst utan som tvång: att tvingas förneka något man vet – ett mönster som Koranen beskriver:
+*Tvungna*. Otacksamheten är inte befrielse utan börda. Strindberg tecknar en ateism som inte känns som hemkomst utan som tvång: att tvingas förneka något man vet – ett mönster Koranen namnger:
 
 > Och när nöden drabbar er till havs försvinner alla som ni tillber, utom Han. Men när Han sedan fört er oskadda i land vänder ni er bort. Ja, människan är djupt otacksam.[^21]
 
@@ -51,7 +51,7 @@ Invändningar finns. Ateismforskare som Lanman och Geertz hävdar att ateism ock
 
 Strindbergs formulering i romanen Götiska rummen rymmer en säregen melankoli: "En kristen fritänkare, kanske; kristen, därför att jag är född av kristen släkt, fritänkare, därför att jag icke kan sluta mig till något 'erkänt' kyrkosamfund."[^12] En hållning som vill vara neutral, varken troende eller förnekare, svävande i mellanrummet. Men Inferno-krisen visar att mellanrummet inte finns. Eller rättare: att det finns, men att ingen kan stanna där.
 
-Strindberg själv beskriver rörelsen som ofrivillig:
+Strindberg själv kallar rörelsen ofrivillig:
 
 > Det är ju märkvärdigt hur jag nu har från ateismen fallit ner i den fullständigaste vidskepelse.[^13]
 
@@ -71,7 +71,7 @@ Den uppenbara invändningen mot *fiṭrah*-argumentet är den stabila ateisten: 
 
 *Fiṭrah* förutsäger inte universell återvändning – bara att tröskeln är lägre än den ateistiska självförståelsen medger. Strindbergs "enda steg" är inte en profetia om att alla ateister kommer att ta det – det är en observation om hur kort steget visar sig vara för dem som tvingas ta det.
 
-Koranen beskriver också det motsatta: de som hör och vänder bort.
+Koranen skildrar också det motsatta: de som hör och vänder bort.
 
 > När Våra verser reciteras för honom vänder han sig bort i högmod som om han inte hörde dem – som om hans öron var tilltäppta.[^23]
 

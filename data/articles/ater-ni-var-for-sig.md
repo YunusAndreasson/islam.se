@@ -41,11 +41,11 @@ Den gemensamma husmanskostens era var likväl en tid av konformism. Den som inte
 
 Och matkassar innebär inte nödvändigtvis ensamätande; familjer lagar dem tillsammans. Men i det tysta har en förskjutning skett: från mat som något man *gör tillsammans* till mat som något man *ordnar för sig själv*.[^10]
 
-Platon såg samma mönster i sitt Athen. I *Staten* beskriver han hur Homeros serverar sina hjältar enbart rostade köttstycken – ingen fisk trots att de bor vid kusten, inga kokta rätter, inga söta såser. Enkel mat för starka människor. Men Athen förfinas:
+Platon såg samma mönster i sitt Athen. I *Staten* visar han hur Homeros serverar sina hjältar enbart rostade köttstycken – ingen fisk trots att de bor vid kusten, inga kokta rätter, inga söta såser. Enkel mat för starka människor. Men Athen förfinas:
 
 > Där frosseri och omåttlighet råder fyller staden snabbt med läkare och advokater.[^11]
 
-Platon och Ibn Khaldūn, med nästan tvåtusen års mellanrum, ser att enkel mat hänger samman med samhällets styrka och förfinad mat med dess upplösning. Men ingendera ger mer än en beskrivning – trots all skarpsinnighet. Skälet är strukturellt: båda behandlar individen som en funktion av sin omgivning. Platons medborgare formas av statens ordning, Ibn Khaldūns nomad av öknens villkor. Inget av deras ramverk ger den enskilda människan en handling som kan motstå den kollektiva driften. Platon föreslår därför en auktoritär lösning: kontrollera maten, kontrollera karaktären. Ibn Khaldūn beskriver ett kretslopp: civilisationer föds, mognar och dör, lika oundvikligt som frukter mognar och dör.
+Platon och Ibn Khaldūn, med nästan tvåtusen års mellanrum, ser att enkel mat hänger samman med samhällets styrka och förfinad mat med dess upplösning. Men ingendera ger mer än en beskrivning – trots all skarpsinnighet. Skälet är strukturellt: båda behandlar individen som en funktion av sin omgivning. Platons medborgare formas av statens ordning, Ibn Khaldūns nomad av öknens villkor. Inget av deras system ger den enskilda människan en handling som kan motstå den kollektiva driften. Platon föreslår därför en auktoritär lösning: kontrollera maten, kontrollera karaktären. Ibn Khaldūn beskriver ett kretslopp: civilisationer föds, mognar och dör, lika oundvikligt som frukter mognar och dör.
 
 ## Den tredje rösten
 
@@ -53,7 +53,7 @@ En tredje tradition ser samma problem men vägrar stanna vid beskrivningen.
 
 "Adams barn", säger Koranen, "ät och drick men gå inte till överdrift. Han älskar verkligen inte dem som går till överdrift."[^12] Versen riktar sig till en människa, aldrig till en stat. Och den nöjer sig inte med att förbjuda; den förklarar varför: "Den som Min vrede drabbar har fallit" – versen i sura *Ṭā Hā* som förbinder överdrift med ett slags inre kollaps.[^13]
 
-Men det är i Profetens ﷺ praktik som teorin blir levande. Hadithen om magens tredjedelar har citerats så ofta att den riskerar att nötas ut: en tredjedel för mat, en tredjedel för dryck, en tredjedel för andning.[^14] Bredvid Ibn Khaldūns mekanism blir skillnaden tydlig: där sociologen beskriver ett kretslopp ger hadithen en individuell *praxis* som bryter det. Vid varje måltid kan varje människa välja återhållsamhet. Ingen behöver invänta civilisationens kretslopp.
+Men det är i Profetens ﷺ praktik som teorin blir levande. Hadithen om magens tredjedelar har citerats så ofta att den riskerar att nötas ut: en tredjedel för mat, en tredjedel för dryck, en tredjedel för andning.[^14] Bredvid Ibn Khaldūns mekanism blir skillnaden tydlig: där sociologen iakttar ett kretslopp ger hadithen en individuell *praxis* som bryter det. Vid varje måltid kan varje människa välja återhållsamhet. Ingen behöver invänta civilisationens kretslopp.
 
 Och sedan kommer det andra steget. Profeten ﷺ fick en gång höra sina följeslagare klaga: "Vi äter men vi blir inte mätta." Hans svar var inte att föreslå mer mat. Han frågade: "Äter ni var för sig?" Och sedan: "Samlas kring er mat och nämn Allahs namn, så välsignas den åt er."[^15]
 

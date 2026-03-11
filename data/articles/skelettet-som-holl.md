@@ -59,7 +59,7 @@ Den nordafrikanske historikern Ibn Khaldūn skrev att "Koranen är i sig själv 
 
 > Falskhet kan inte påverka den, varken framifrån eller bakifrån. Den är nedsänd av en vis, prisad Herre.[^15]
 
-Häri vilar en intellektuell ödmjukhet: falsifierbarheten får stå kvar. Koranen säger inte "tro att jag är bevarad" – den säger "se efter". Varje manuskriptfynd, varje radiokoldatering, varje paleografisk analys prövar samma löfte på nytt.
+I det vilar en intellektuell ödmjukhet: falsifierbarheten får stå kvar. Koranen säger inte "tro att jag är bevarad" – den säger "se efter". Varje manuskriptfynd, varje radiokoldatering, varje paleografisk analys prövar samma löfte på nytt.
 
 Den svenske historikern Erik Gustaf Geijer hävdade: "Utan fornforskning kan aldrig någon historia finnas."[^16] Fornforskningen har kommit – den har grävt i Sana'a, daterat pergamenten i Birmingham, digitaliserat kodexarna i Istanbul. Och den text som möter oss genom dessa lager av tid och sand är densamma som den en man i Medina lärde sina följeslagare att recitera under det sjunde seklets brännande sol.
 

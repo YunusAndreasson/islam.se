@@ -1,4 +1,5 @@
 ---
+import { Font } from "astro:assets";
 import { ClientRouter } from "astro:transitions";
 import Header from "../components/Header.astro";
 import "../styles/tokens.css";
@@ -103,9 +104,8 @@ if (articleMeta) {
 		<link rel="manifest" href="/manifest.webmanifest" />
 		<meta name="apple-mobile-web-app-capable" content="yes" />
 		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-		<link rel="preload" href="/fonts/literata-roman.woff2" as="font" type="font/woff2" crossorigin />
-		<link rel="preload" href="/fonts/inter-roman.woff2" as="font" type="font/woff2" crossorigin />
-		{articleMeta && <link rel="prefetch" href="/fonts/literata-italic.woff2" as="font" type="font/woff2" crossorigin />}
+		<Font cssVariable="--font-body" preload />
+		<Font cssVariable="--font-heading" preload />
 		{preloadImage && <link rel="preload" as="image" href={preloadImage} fetchpriority="high" />}
 		<title>{title}</title>
 		<meta name="description" content={description} />

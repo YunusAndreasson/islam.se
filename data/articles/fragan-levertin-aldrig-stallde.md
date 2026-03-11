@@ -5,7 +5,7 @@ wordCount: 1831
 qualityScore: 8.7
 description: "Oscar Levertin studerade 1898 den antike materialisten Lucretius och fann att den som med störst lidelse förnekar gudarna avslöjar att behovet av dem överlever förnekelsen. Iakttagelsen blev den svenska hållningens grundformel – en religiositet som överlever varje religion men aldrig frågar varifrån den kommer."
 ---
-Oscar Levertin formulerade 1898 en mening som fortfarande sammanfattar den svenska hållningen rörande religion bättre än någon opinionsundersökning:
+Oscar Levertin skrev 1898 en mening som fortfarande sammanfattar den svenska hållningen rörande religion bättre än någon opinionsundersökning:
 
 > Verkligheten kan kanske undvara religion, men säkert ej religiositet.[^1]
 
@@ -43,7 +43,7 @@ Den självklara invändningen: begär bevisar ingenting om sitt objekt. Men *fi�
 
 Han har sett att religiositet är ofrånkomlig, att den överlever varje försök att avskaffa den. Den islamiska traditionen säger: naturligtvis – *fiṭrah* förutsäger just detta. Men Levertin nöjer sig med slutsatsen att religiositet utan religion räcker – att känslan själv är sin egen dogm, som Runeberg uttryckte det.
 
-Men vad händer om man *inte* stannar där Levertin stannade? Ibn Qayyim betraktar samma fenomen – och vänder slutsatsen. Han visar hur uppenbarelse och medfödd insikt samverkar: "Uppenbarelsens ljus förenades med *fiṭrah*s ljus – ljus på ljus – så att hjärtat nära nog talar sanning även utan att ha hört ett ord" (*al-Fawāʾid*).[^13] *Nära nog* är det avgörande uttrycket – *fiṭrah* allena kommer nära men når inte ända fram.
+Vad händer om man *inte* stannar där Levertin stannade? Ibn Qayyim betraktar samma fenomen – och vänder slutsatsen. Han visar hur uppenbarelse och medfödd insikt samverkar: "Uppenbarelsens ljus förenades med *fiṭrah*s ljus – ljus på ljus – så att hjärtat nära nog talar sanning även utan att ha hört ett ord" (*al-Fawāʾid*).[^13] *Nära nog* är det avgörande uttrycket – *fiṭrah* allena kommer nära men når inte ända fram.
 
 I *al-Wābil al-Ṣayyib* namnger han vad som inträder utan den andra ljuskällan: "I hjärtat finns en tomhet och en brist som absolut ingenting kan fylla utom åminnelsen av Gud."[^14]
 

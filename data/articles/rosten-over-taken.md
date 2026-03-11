@@ -19,7 +19,7 @@ Riksdagsmotionerna om böneutrop är ovanligt avslöjande dokument, framför all
 
 Alltså: två religiösa ljud i det offentliga rummet ska behandlas olika för att det ena *bär ord* medan det andra inte gör det. Richard Jomshof (SD) är lika tydlig: böneutropet är problematiskt som *budskap* snarare än som ljud, specifikt frasen *Allāhu akbar*.[^5]
 
-Den svenska ordningslagen, som reglerar böneutrop genom krav på polistillstånd, är i sig innehållsneutral. Den hanterar ljudnivåer, inte teologiskt innehåll.[^6] Motionerna försöker införa något som den befintliga rättsordningen inte gör: en distinktion grundad på vad ljudet *betyder*. Lagstiftaren har byggt ett ramverk för decibel; politikerna vill bygga ett för semantik.
+Den svenska ordningslagen, som reglerar böneutrop genom krav på polistillstånd, är i sig innehållsneutral. Den hanterar ljudnivåer, inte teologiskt innehåll.[^6] Motionerna försöker införa något som den befintliga rättsordningen inte gör: en distinktion grundad på vad ljudet *betyder*. Lagstiftaren har byggt ett regelverk för decibel; politikerna vill bygga ett för semantik.
 
 Denna distinktion mellan passiva och aktiva religiösa symboler har europeisk rättslig förankring. Europadomstolens stora kammare fastslog samma princip i *Lautsi mot Italien*: att ett krucifix i ett klassrum var en 'väsentligen passiv symbol' – religiös form utan aktivt tilltal.[^18] Domstolen skyddar krucifixet genom att tömma det: det tolereras *för att* det inte längre talar. *Adhān* kan inte erhålla samma skydd, för den operation som skulle krävas (att förklara utropet meningslöst) skulle förstöra det inifrån.
 
@@ -65,7 +65,7 @@ Det sekulära Sveriges tolerans för religiösa ljud följer ett outtalat mönst
 
 Att mönstret inte är tillfälligt har Talal Asad, antropolog och religionsforskare, visat: den europeiska sekularismens anspråk på neutralitet vilar på ett protestantiskt arv som behandlar inåtvänd, ordlös religiositet som det oproblematiska normalfallet.[^19] Det arvet är inte abstrakt: det är just den reformation som fråntog kyrkklockorna deras invigningsriter och verbala ceremonier. Samma rörelse som tystade klockorna formade det offentliga rum som nu finner *adhān* störande – normen att religiöst ljud bör vara ordlöst är en protestantisk slutprodukt, förklädd till neutralitet. Bönen som bes tyst, tron som ryms i hjärtat – religion som stannar innanför dörren.
 
-Erik Ringmar, som kartlagt debatten akademiskt, visar hur den svenska debatten konsekvent undviker att erkänna denna asymmetri. Motståndet förkläs i neutrala kategorier: ordningsfrågor, bullernivåer, grannhänsyn.[^12] Men ordningsfrågan är redan löst – polistillstånd beviljas och ljudnivåer mäts. Kvar är det som det innehållsneutrala ramverket saknar verktyg att ens namnge: obehaget inför ett religiöst påstående i det offentliga rummet.
+Erik Ringmar, som kartlagt debatten akademiskt, visar hur den svenska debatten konsekvent undviker att erkänna denna asymmetri. Motståndet förkläs i neutrala kategorier: ordningsfrågor, bullernivåer, grannhänsyn.[^12] Men ordningsfrågan är redan löst – polistillstånd beviljas och ljudnivåer mäts. Kvar är det som det innehållsneutrala regelverket saknar verktyg att ens namnge: obehaget inför ett religiöst påstående i det offentliga rummet.
 
 Karin Boye drev sambandet mellan tanke och språk till sin spets:
 
@@ -91,7 +91,7 @@ Al-Māwardī, medeltida islamisk rättslärd, uttrycker principen utan omsvep:
 
 > *Adhān* och *iqāmah* och församlingsbönen i moskén hör till islams yttre tecken, genom vilka Guds sändebud ﷺ skilde islams land från otrons land.[^16]
 
-*Adhān* är mer än en praktisk kallelse till bön. Den markerar närvaro – att ropa *adhān* i det offentliga rummet är att säga: *vi finns här, och vi tillber*. Häri, snarare än i volymen, ligger motståndet.
+*Adhān* är mer än en praktisk kallelse till bön. Den markerar närvaro – att ropa *adhān* i det offentliga rummet är att säga: *vi finns här, och vi tillber*. Där, snarare än i volymen, ligger motståndet.
 
 ## En kallelse som inte kan bli bakgrundsljud
 
@@ -101,7 +101,7 @@ Koranen sammanfattar vad som ytterst står på spel:
 
 *Adhān* ska bära detta budskap ut i världen. Den kan inte tystna utan att meningen går förlorad; den kan inte tämjas till kulturellt ljud utan att förvandlas till sin egen motsats. Hela poängen – och hela obehaget – är att den *säger* något.
 
-Sverige har förvisso beslutat att tolerera religiösa ljud. Det har inte beslutat att tolerera religiösa *ord*. Distinktionen – mellan klocka och röst, mellan klang och mening, mellan ljud som smälter in och ljud som talar – är den skarpaste bilden av var den svenska sekularismens gräns faktiskt går. Gränsen går inte vid det religiösa. Den går vid det *begripliga*.
+Sverige har beslutat att tolerera religiösa ljud. Det har inte beslutat att tolerera religiösa *ord*. Distinktionen – mellan klocka och röst, mellan klang och mening, mellan ljud som smälter in och ljud som talar – är den skarpaste bilden av var den svenska sekularismens gräns faktiskt går. Gränsen går inte vid det religiösa. Den går vid det *begripliga*.
 
 Frågan som återstår tillhör den som hellre diskuterar decibel än teologi: om kyrkklockan en dag åter fylldes med ord – om den utropade sin trosbekännelse över taken – skulle den fortfarande vara bara en del av landskapet?
 

@@ -46,7 +46,7 @@ Erik Gustaf Geijer gav denna intuition sin mest pregnanta formulering: "Alla sto
 
 Hjalmar Söderberg lät sin Martin Birck – den stockholmske flanören som aldrig riktigt finner fotfäste – minnas faderns enda livsregel: "Tala är silfver, tiga är guld."[^17] Söderberg ger ordspråket till fadern, inte till Martin själv. Fadern trodde på det. Sonen vacklar. Där ligger en hel generationsskildring.
 
-Men den svenska tystnadskulturen har också en skuggsida – och att förtiga den vore att bevisa poängen. Jantelagen – *du ska inte tro att du är något* – är i grunden en form av tvingad tystnad. Tystnaden kan vara andlig disciplin. Den kan också vara känslomässig förlamning, konflikträdsla upphöjd till dygd. Ingmar Bergmans *Tystnaden* från 1963 gestaltar just det: två systrar instängda i ett hotellrum i en främmande stad, oförmögna att nå varandra med ord. Bergman kallade filmens titel för "Guds tystnad", men det som visas på duken är snarare den mänskliga kommunikationens sammanbrott.[^18]
+Den svenska tystnadskulturen har också en skuggsida – och att förtiga den vore att bevisa poängen. Jantelagen – *du ska inte tro att du är något* – är i grunden en form av tvingad tystnad. Tystnaden kan vara andlig disciplin. Den kan också vara känslomässig förlamning, konflikträdsla upphöjd till dygd. Ingmar Bergmans *Tystnaden* från 1963 gestaltar just det: två systrar instängda i ett hotellrum i en främmande stad, oförmögna att nå varandra med ord. Bergman kallade filmens titel för "Guds tystnad", men det som visas på duken är snarare den mänskliga kommunikationens sammanbrott.[^18]
 
 ## Den vise gästen och de tunga orden
 
@@ -82,7 +82,7 @@ Men det finns en tystnad bortom både undvikande och feghet – den tystnad där
 
 En tystnad där orden inte behövs för att kommunikationen ska vara fullständig. Koranen beskriver det som att hjärtan finner ro i Allahs ﷻ åminnelse.[^32] Profeten ﷺ definierade den innersta tillbedjan som *iḥsān*: att dyrka Allah ﷻ som om du ser Honom, ty även om du inte ser Honom, ser Han dig.[^33] Den som vaktar sin fästning väl – som inte släpper igenom det skadliga och inte stänger ute det nödvändiga – finner till slut att själva vakthållningen blir en form av bön. Det är den som känner vreden men väntar vid porten tills den lagt sig.
 
-Al-Nawawī skriver i *Riyāḍ al-Ṣāliḥīn*: "Man bör inte tala annat än om det som är gott, och det är det vars nytta är uppenbar. Och varje gång man tvivlar på om nyttan framträder: tala inte."[^34] Regeln ser anspråkslös ut. Men den som försöker leva efter den, som faktiskt prövar under en enda dag att bara yttra sig när nyttan är uppenbar, upptäcker snabbt att den kräver samma vaksamhet som varje annan andlig disciplin.
+Al-Nawawī skriver i *Riyāḍ al-Ṣāliḥīn*: "Man bör inte tala annat än om det som är gott, och det är det vars nytta är uppenbar. Och varje gång man tvivlar på om nyttan framträder: tala inte."[^34] Regeln ser anspråkslös ut. Den som försöker leva efter den, som faktiskt prövar under en enda dag att bara yttra sig när nyttan är uppenbar, upptäcker snabbt att den kräver samma vaksamhet som varje annan andlig disciplin.
 
 Fästningskommendantens arbete tar aldrig slut. Hotet skiftar gestalt men upphör inte. Det tal som var rätt i går kan vara fel i dag; den tystnad som var klok i morse kan vara feg i kväll. Varje ögonblick kräver ett nytt avgörande. Porten står redan obevakad.
 

@@ -25,7 +25,7 @@ Ibn Qayyim inleder sin analys med en distinktion som räcker längre än den fö
 
 Det är generositeten som får främlingen att slappna av vid bordet, modet man ser i ryggen som inte böjs.
 
-Den yttre skönheten, skriver han, är en utsmyckning som Gud ger vissa gestalter framför andra.[^4] Den är verklig – islam förnekar den inte, nedvärderar den inte. Koranen slår fast: "Vi har skapat människan i den bästa skapnad."[^5] Al-Māwardī, den store statsrättstänkaren, fastslår att en vacker gestalt är lyckans första tecken.[^6] Ingen asketism i islams syn på kroppen, ingen misstro mot det fysiskt sköna – den yttre skönheten är förvisso en gudomlig gåva, värd tacksamhet.
+Den yttre skönheten, skriver han, är en utsmyckning som Gud ger vissa gestalter framför andra.[^4] Den är verklig – islam förnekar den inte, nedvärderar den inte. Koranen slår fast: "Vi har skapat människan i den bästa skapnad."[^5] Al-Māwardī, den store statsrättstänkaren, fastslår att en vacker gestalt är lyckans första tecken.[^6] Ingen asketism i islams syn på kroppen, ingen misstro mot det fysiskt sköna – den yttre skönheten är en gudomlig gåva, värd tacksamhet.
 
 Men det finns en rangordning. Al-Māwardī och Ibn Qayyim talar inte mot varandra. Den ene ser tecknet, den andre källan. Och källan omformar tecknet:
 

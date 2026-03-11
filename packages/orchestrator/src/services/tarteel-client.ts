@@ -5,7 +5,7 @@
 
 const TARTEEL_MCP_URL = "https://mcp.tarteel.ai/mcp";
 
-export interface TafsirResult {
+interface TafsirResult {
 	surah: number;
 	ayah: number;
 	ayahKey: string;

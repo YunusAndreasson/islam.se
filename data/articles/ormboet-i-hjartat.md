@@ -76,7 +76,7 @@ Max Scheler kartlade 1912 avundens inre mekanism i sitt verk om *ressentiment*. 
 
 Det sista steget är det farligaste – Scheler kallade det *Selbstvergiftung*, självförgiftning. Avund som stannar vid missnöje är smärtsam men hanterbar. Avund som omformar själva värdehierarkin är en existentiell katastrof: den avundsjuke kan inte längre se vad som är gott, eftersom allt gott som andra äger redan har blivit dåligt. Befordran betydde allt – tills den gick till någon annan, då blev ledarskap meningslöst byråkrateri.
 
-Just här möts Schelers fenomenologi och Ibn Taymiyyahs beskrivning av *ḥasad*[^3]: avund är inte en känsla riktad mot andra utan ett tillstånd som förvränger blicken mot allt. Men mötet avslöjar en avgörande gräns. Scheler kan beskriva värdeinversionens mekanism – men inte upphäva den. Om subjektets egen värdeblick är förgiftad, finns i hans ramverk ingen oförstörd utsiktspunkt varifrån det förvridna kan korrigeras. Den islamiska traditionen förutsätter en sådan punkt – *fiṭrah*, den skapade naturen, och ett mått utanför själen: Guds faktiska fördelning. Det är därför traditionen kan gå från beskrivning till läkning.
+Just här möts Schelers fenomenologi och Ibn Taymiyyahs beskrivning av *ḥasad*[^3]: avund är inte en känsla riktad mot andra utan ett tillstånd som förvränger blicken mot allt. Men mötet avslöjar en avgörande gräns. Scheler kan beskriva värdeinversionens mekanism – men inte upphäva den. Om subjektets egen värdeblick är förgiftad, finns i hans tänkande ingen oförstörd utsiktspunkt varifrån det förvridna kan korrigeras. Den islamiska traditionen förutsätter en sådan punkt – *fiṭrah*, den skapade naturen, och ett mått utanför själen: Guds faktiska fördelning. Det är därför traditionen kan gå från beskrivning till läkning.
 
 Hjalmar Söderberg, i *Doktor Glas*, sammanfattar alltsammans i sju ord:
 
@@ -124,7 +124,7 @@ Och botemedlet:
 
 Avund frodas när blicken riktas mot *dunyā* – världen som mål i sig själv. Hjärtan som vänds mot sanningen finner varandra. Avunden behöver jämförelsen för att andas. Den som slutar mäta sig mot andra och börjar mäta sig mot sina egna löften till Gud tar syret från avunden.
 
-Häri bottnar Ibn Taymiyyahs iakttagelse: avund är en hjärtsjukdom. Hjärtat – *al-qalb* – är i islamisk psykologi den punkt där människans förhållande till Gud avgörs. Ett sjukt hjärta ser världen snett: andras välsignelser blir hot, Guds gåvor till andra blir personliga förolämpningar. Al-Māwardī avslutade med en mening som tål att bäras med sig:
+Där bottnar Ibn Taymiyyahs iakttagelse: avund är en hjärtsjukdom. Hjärtat – *al-qalb* – är i islamisk psykologi den punkt där människans förhållande till Gud avgörs. Ett sjukt hjärta ser världen snett: andras välsignelser blir hot, Guds gåvor till andra blir personliga förolämpningar. Al-Māwardī avslutade med en mening som tål att bäras med sig:
 
 > Den som är tillfreds med Guds beslut gör ingen honom vred; och den som nöjer sig med Hans gåvor, där tar avunden ingen plats.[^22]
 

@@ -79,7 +79,7 @@ Ibn Taymiyyah (1300-talet) såg mekanismen med teologisk klarhet:
 
 > Den som hänger sitt hjärta vid skapade ting – att de skall hjälpa honom, försörja honom, vägleda honom – hans hjärta underkastas dem, och det uppstår i honom en träldom under dem i motsvarande grad.[^17]
 
-Orden skrevs om en människa som förlitar sig på härskare, vänner och rikedomar. Men med oavsiktlig precision träffar de likväl försäkringssamhället: den som förlitar sig på systemet för sin trygghet har gjort systemet till sin herre.
+Orden skrevs om en människa som förlitar sig på härskare, vänner och rikedomar. Med oavsiktlig precision träffar de likväl försäkringssamhället: den som förlitar sig på systemet för sin trygghet har gjort systemet till sin herre.
 Fågeln har medel men ingen herre utom den som formade den. Den förbereder sig – kroppen lagrar fett, fjäderdräkten byts ut, den biologiska klockan ställer in mot rätt breddgrad – men aldrig har den slutit ett avtal med tillvaron. Resan är förberedd men inte garanterad. Och den flyger ändå.
 
 ## Fågel Jag

@@ -41,7 +41,7 @@ Den uppdelningen saknas i den moderna rättsstaten. Där sammansmälter utrednin
 
 Al-Māwardīs *ḥisbah* bryter den logiken: en instans som urskiljer det onda men saknar befogenhet att straffa det. Muhtasiben bevittnar det synliga – och talar. Verkställigheten tillhör en annan hand. Att se det som en medveten kritik av det moderna åklagarväsendet vore anakronistiskt – men uppdelningen visar en inbyggd svaghet vi fortfarande lever med: varje system där samma hand söker skulden och utmäter straffet är sårbart för sin egen iver.
 
-Ibn Taymiyyah, som ett sekel efter al-Māwardī vidareutvecklade hans ramverk, preciserade principen: alla islamiska ämbeten syftar till att påbjuda det goda och förbjuda det onda, vare sig det gäller det militära befälet, domarväsendet eller *ḥisbah*.[^14] Men varje ämbetes medel är inskränkta till det egna området. Med vittnen och skriftliga bevis arbetar domaren. Svärdet tillhör det militära befälet. Muhtasiben har, som Ibn Taymiyyah formulerade det, befogenheter som "inte tillhör vare sig härskarna, domarna eller ämbetsmännen".[^15] Al-Māwardī och Ibn Taymiyyah var eniga: rättvisan hotas inte främst av dem som vill göra ont, utan av dem som vill göra gott med för mycket makt.
+Ibn Taymiyyah, som ett sekel efter al-Māwardī vidareutvecklade hans system, preciserade principen: alla islamiska ämbeten syftar till att påbjuda det goda och förbjuda det onda, vare sig det gäller det militära befälet, domarväsendet eller *ḥisbah*.[^14] Men varje ämbetes medel är inskränkta till det egna området. Med vittnen och skriftliga bevis arbetar domaren. Svärdet tillhör det militära befälet. Muhtasiben har, som Ibn Taymiyyah formulerade det, befogenheter som "inte tillhör vare sig härskarna, domarna eller ämbetsmännen".[^15] Al-Māwardī och Ibn Taymiyyah var eniga: rättvisan hotas inte främst av dem som vill göra ont, utan av dem som vill göra gott med för mycket makt.
 
 ## Rädslan för den rättfärdige
 
@@ -51,7 +51,7 @@ Principen är inte bunden till en tid eller tradition. C.S. Lewis nådde samma s
 
 > Av alla former av tyranni är det som uppriktigt utövas till offrens bästa kanske det mest förtryckande. De som plågar oss för vårt eget bästa plågar oss utan ände, ty de gör det med sitt eget samvetes gillande.[^22]
 
-Lewis namngav faran – men stannade vid iakttagelsen. Al-Māwardīs ramverk går steget längre: det räcker inte att veta att den rättfärdige är farlig, man måste bygga institutioner som skiljer hans övertygelse från hans befogenhet. *Ḥisbah* är exakt det – den låter den övertygade tala men nekar honom svärdet.
+Lewis namngav faran – men stannade vid iakttagelsen. Al-Māwardīs system går steget längre: det räcker inte att veta att den rättfärdige är farlig, man måste bygga institutioner som skiljer hans övertygelse från hans befogenhet. *Ḥisbah* är exakt det – den låter den övertygade tala men nekar honom svärdet.
 
 Abū Bakr al-Ṣiddīq, den förste kalifen efter Profeten ﷺ, satte ord på principen redan i sitt tillträdestal:
 

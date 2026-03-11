@@ -23,5 +23,5 @@
 			"ignoreDependencies": ["sharp"]
 		}
 	},
-	"ignore": ["**/dist/**", "**/.astro/**", ".markdownlint-rules/**"]
+	"ignore": [".markdownlint-rules/**"]
 }

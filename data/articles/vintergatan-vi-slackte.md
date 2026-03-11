@@ -67,7 +67,7 @@ Taylor Stone identifierar nio moraliska värden i mörker, från ekologiskt skyd
 
 Artificiellt ljus har också räddat liv och möjliggjort nattlig tillbedjan i moskéer och kyrkor. Problemet är inte ljuset i sig utan att dess motpol utplånas.
 
-Återvänd till ramverket: Ibn Qayyim definierar hjärtats ljus som det som skiljer sant från falskt, den äkta utsagan från den lögnaktiga.[^18] *Firāsah*, den andliga urskillningsförmågan, är en frukt av detta ljus, och ljuset i sin tur en frukt av att sänka blicken inför det som bländar.[^19] Det är att veta vem som ljuger innan de talar färdigt. Den som vill *se* måste först lära sig att *inte se*.
+Återvänd till grundtanken: Ibn Qayyim definierar hjärtats ljus som det som skiljer sant från falskt, den äkta utsagan från den lögnaktiga.[^18] *Firāsah*, den andliga urskillningsförmågan, är en frukt av detta ljus, och ljuset i sin tur en frukt av att sänka blicken inför det som bländar.[^19] Det är att veta vem som ljuger innan de talar färdigt. Den som vill *se* måste först lära sig att *inte se*.
 
 ## Ljus på ljus – i en värld utan natt
 

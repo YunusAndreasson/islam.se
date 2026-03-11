@@ -27,7 +27,7 @@ Ibn Taymiyyahs tolkning förklarar något den moderna sömnforskningen inte kan:
 
 Den moderna neurofysiologin beskriver sömnen som ett förändrat medvetandetillstånd, reglerat av neurotransmittorer och cirkadiska rytmer. Beskrivningen är riktig men ofullständig, på samma sätt som en kemisk analys av bläck är en ofullständig beskrivning av ett brev. Mekanismen fångas, men innebörden missas. Och det är innebörden som håller oss vakna.
 
-Det som neurofysiologin beskriver som process beskriver Koranen som ontologisk händelse:
+Det som neurofysiologin kallar process namnger Koranen som ontologisk händelse:
 
 > Allah ﷻ tar människors själar när deras dödsstund är kommen; och den [själ] som inte dör [tar han] när den sover. Han kvarhåller sedan de [själar] vars död Han bestämt och sänder tillbaka de andra [själarna] fram till en utsatt tid. I detta finns sannerligen tecken för människor som tänker efter.[^4]
 

@@ -29,11 +29,11 @@ Om han hade rätt, om moral bara är vana, då är "alla människors lika värde
 
 ## Moralen efter moralen
 
-I *After Virtue* identifierade filosofen Alasdair MacIntyre samma sjukdom: den moderna moraldebatten är olöslig, inte för att frågorna är svåra utan för att vi argumenterar med fragment av system som förlorat sitt sammanhang. Vi har kvar orden *rättvisa*, *plikt*, *dygd*, men har tappat ramverken som gav dem mening.[^4] Det är den som säger 'det är orättvist' men inte kan säga varför – den som känner plikt men inte vet mot vem.
+I *After Virtue* identifierade filosofen Alasdair MacIntyre samma sjukdom: den moderna moraldebatten är olöslig, inte för att frågorna är svåra utan för att vi argumenterar med fragment av system som förlorat sitt sammanhang. Vi har kvar orden *rättvisa*, *plikt*, *dygd*, men har tappat sammanhangen som gav dem mening.[^4] Det är den som säger 'det är orättvist' men inte kan säga varför – den som känner plikt men inte vet mot vem.
 
-MacIntyre ordinerade en återgång till aristotelisk dygdetik inom en levande tradition, i hans fall den thomistiska. Moralen behöver ett sammanhang, en berättelse, en gemenskap som bär den över generationerna. Men iakttagelsen räcker längre än receptet. Om moralen kräver en levande tradition: vilken tradition förmår ge det som krävs?
+MacIntyre ordinerade en återgång till aristotelisk dygdetik inom en levande tradition, i hans fall den thomistiska. Moralen behöver ett sammanhang, en berättelse, en gemenskap som bär den över generationerna. Iakttagelsen räcker längre än receptet. Om moralen kräver en levande tradition: vilken tradition förmår ge det som krävs?
 
-Invändningen väntar redan: i *On What Matters* argumenterade den samtida filosofen Derek Parfit för att moraliska sanningar existerar oberoende av både Gud och mänsklig överenskommelse, liksom matematiska sanningar.[^5] Men den invändningen svarar inte på frågan om *kraft*. Att en moralisk sanning existerar är en sak. Att den formar levande människors handlingar, att den bärs genom sekler, att den motstår maktens och begärets tryck – det kräver något annat. Det kräver vad traditionerna själva förmår ge – det som Ibn Khaldūn iakttog:
+Invändningen väntar redan: i *On What Matters* argumenterade den samtida filosofen Derek Parfit för att moraliska sanningar existerar oberoende av både Gud och mänsklig överenskommelse, liksom matematiska sanningar.[^5] Den invändningen svarar inte på frågan om *kraft*. Att en moralisk sanning existerar är en sak. Att den formar levande människors handlingar, att den bärs genom sekler, att den motstår maktens och begärets tryck – det kräver något annat. Det kräver vad traditionerna själva förmår ge – det som Ibn Khaldūn iakttog:
 
 > När generationer växer upp under samma villkor blir dessa villkor del av deras natur och karaktär.[^6]
 
@@ -43,7 +43,7 @@ Viljan formas inte av abstrakta sanningar utan av det man lever i.
 
 Här finns den punkt som sekulär moralfilosofi konsekvent undviker. Visserligen kan den formulera principer, ibland bländande sådana. Men varför just *dessa* principer binder oss, det förklarar den inte. Varför ska jag respektera andras autonomi? Varför ska den svages rätt väga lika tungt som den starkes? Kants kategoriska imperativ föreskriver att jag ska handla efter principer som kan universaliseras. Men *varför* jag borde bry mig om universaliserbarhet – därom tiger det. Det förutsätter en moralisk aktör som redan vill handla rätt – och därmed just det som skulle bevisas.
 
-Euthyfrons gamla dilemma – är det goda gott för att Gud befaller det, eller befaller Gud det för att det är gott? – har riktats mot varje teistisk etik i tvåtusen år. Men dilemmat vilar på en skenbar motsättning. Guds befallningar är varken godtyckliga påbud utan grund eller underkastelse under en yttre norm ovanför Honom. I den islamiska teologin, som den medeltida teologen Ibn Taymiyyah (1263–1328) klargjorde, befaller Gud det goda i kraft av Sin vishet, Sin barmhärtighet och Sin godhet – verkliga egenskaper som tillkommer Honom så som de beskrivs i Koranen och *Sunnah*.[^7] Han preciserade tanken: förnuftets och den skapade naturens särskilda egenskap är att erkänna det goda som gott och det onda som ont.[^8] *Fiṭrah*, den medfödda dispositionen, är inte blind instinkt utan en inre kompass som pekar mot sin källa.
+Euthyfrons gamla dilemma – är det goda gott för att Gud befaller det, eller befaller Gud det för att det är gott? – har riktats mot varje teistisk etik i tvåtusen år. Dilemmat vilar på en skenbar motsättning. Guds befallningar är varken godtyckliga påbud utan grund eller underkastelse under en yttre norm ovanför Honom. I den islamiska teologin, som den medeltida teologen Ibn Taymiyyah (1263–1328) klargjorde, befaller Gud det goda i kraft av Sin vishet, Sin barmhärtighet och Sin godhet – verkliga egenskaper som tillkommer Honom så som de beskrivs i Koranen och *Sunnah*.[^7] Han preciserade tanken: förnuftets och den skapade naturens särskilda egenskap är att erkänna det goda som gott och det onda som ont.[^8] *Fiṭrah*, den medfödda dispositionen, är inte blind instinkt utan en inre kompass som pekar mot sin källa.
 
 ## Det Koranen faktiskt säger
 
@@ -55,7 +55,7 @@ Människan är skapad med en värdighet som inte behöver motiveras utifrån –
 
 > Därefter satte Vi dig på föreskriftens tydliga väg. Rätta dig därför efter den och rätta dig inte efter begären hos dem som ingenting vet.[^10]
 
-*Sharīʿah* betyder bokstavligen väg: en stig till vatten i öknen. Människan har törst, men törsten allene finner inte källan. Vägen dit måste uppenbaras. Häri brister den sekulära ordningen.
+*Sharīʿah* betyder bokstavligen väg: en stig till vatten i öknen. Människan har törst, men törsten allene finner inte källan. Vägen dit måste uppenbaras. I just detta brister den sekulära ordningen.
 
 Den medeltida islamiska lärde Ibn Qayyim al-Jawziyyah, elev till Ibn Taymiyyah, skrev:
 

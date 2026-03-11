@@ -17,7 +17,7 @@ Men forskarna tvistar om regenerationsmotivets ursprung: tillhör visionen av v�
 
 ## Swedenborg: elden som aldrig brinner
 
-Emanuel Swedenborg, uppvuxen i ett lutherskt Sverige genomsyrat av helvetets retorik, kom att förneka helveteselden helt. Dess existens erkände han. Dess substans förkastade han.
+Emanuel Swedenborg, uppvuxen i ett lutherskt Sverige dränkt i helvetets retorik, kom att förneka helveteselden helt. Dess existens erkände han. Dess substans förkastade han.
 
 I Swedenborgs korrespondenslära svarar varje fysisk företeelse mot en andlig verklighet. Eld korresponderar med kärlek – strukturellt, inte som poetisk bild. Den fysiska elden är den andliga kärlekens yttre tecken. Och helvetets eld? Den är självkärlekens inre glöd, som de fördömda upplever som värme, rentav som behag.[^4] De som valt sig själva framför allt annat bebor ett tillstånd som *liknar* eld men saknar eldens förvandlingskraft. Swedenborgs helvete bränner inte – det bekräftar.
 
@@ -27,7 +27,7 @@ Under sina krisår i Paris snubblade August Strindberg in i Swedenborgs universu
 
 > Helvetets eld, det är begäret att komma sig fram i världen; makterna uppväcka begäret och tillstädja de fördömda att ernå vad de eftertrakta. Men så snart målet är hunnet, önskningarna uppfyllda, befinnes allt vara värdelöst.[^6]
 
-Häri igenkände Strindberg vad Swedenborg menade: helvetet är ett tillstånd man redan befinner sig i. Begäret efter framgång, bekräftelse, makt – det *är* elden. Den bränner inte kroppen – den urholkar meningen. Det obarmhärtiga är tomheten som väntar bortom varje uppfylld önskan. Det är morgonen efter priset delades ut.
+Här igenkände Strindberg vad Swedenborg menade: helvetet är ett tillstånd man redan befinner sig i. Begäret efter framgång, bekräftelse, makt – det *är* elden. Den bränner inte kroppen – den urholkar meningen. Det obarmhärtiga är tomheten som väntar bortom varje uppfylld önskan. Det är morgonen efter priset delades ut.
 
 Men denna inåtvändning – Swedenborgs liksom Strindbergs – når en gräns: Swedenborgs eld saknar objektiv verklighet; den existerar bara som psykologisk korrespondens, som inre spegling. Hans system framtvingar en fråga det inte kan besvara: vad händer om elden inte bara speglar den du är, utan visar vem du är? Om elden vet?
 

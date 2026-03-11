@@ -57,7 +57,7 @@ I ett annat ljus framträder nu koranbränningarna. Det som förstördes på Sto
 
 Walter Ong, som studerat övergången från muntlighet till skrift, satte ord på klyftan: i den muntliga kulturen är ordet alltid en *händelse*; skriften förvandlar det till ett *föremål*.[^15]
 
-Häri ligger provokationens nerv. Man kan bränna ett exemplar av *Kapitalet* utan att Marx tystnar – hans idéer lever vidare som abstraktioner, oberoende av varje enskild kopia. Men inom den islamiska förståelsen är varje *muṣḥaf* en plats där Allahs ﷻ tal vilar. Att bränna den är att rikta förakt mot en närvaro.
+Där ligger provokationens nerv. Man kan bränna ett exemplar av *Kapitalet* utan att Marx tystnar – hans idéer lever vidare som abstraktioner, oberoende av varje enskild kopia. Men inom den islamiska förståelsen är varje *muṣḥaf* en plats där Allahs ﷻ tal vilar. Att bränna den är att rikta förakt mot en närvaro.
 
 Koranen har själv ett ord för denna hållning. *Istihzāʾ* – hån, förlöjligande av det heliga. Ibn Taymiyyah är otvetydig: att håna Allahs ﷻ tecken och att visa ringaktning mot Hans sändebud är otro av nödvändighet.[^8] Formuleringen är absolut – dess grund nyanserad: det är inte kritik som avvisas, utan själva föraktet mot det som upplevs som Guds direkta närvaro i världen.
 
@@ -77,7 +77,7 @@ Erik Gustaf Geijer varnade i sitt tal vid jubelfesten 1817 för vad som händer 
 
 > Föraktet för det heliga är döden i samhället och upplöser alla band. Ty samhället är självt en förening på god tro; och ingen tro finnes utan tron på det högsta.[^12]
 
-Visserligen talade Geijer om kristendomen – men hans insikt bär längre än konfessionen. Ett samhälle som föraktar det heliga – oavsett vilken tradition som bär det – upplöser de band som sammanhåller det. Inte för att heligheten kräver det, utan för att föraktet förgiftar den tillit som allt samhällsliv vilar på. Men Geijers ramverk stannar vid det heliga som *princip* – något samhället behöver för sin sammanhållning. Den islamiska erfarenheten pekar bortom: när det heliga är levande tal, inte abstrakt princip, är förakt inte bara ett brott mot samhällsfördraget utan ett försök att tysta en röst som fortfarande talar.
+Visserligen talade Geijer om kristendomen – men hans insikt bär längre än konfessionen. Ett samhälle som föraktar det heliga – oavsett vilken tradition som bär det – upplöser de band som sammanhåller det. Inte för att heligheten kräver det, utan för att föraktet förgiftar den tillit som allt samhällsliv vilar på. Men Geijers tänkande stannar vid det heliga som *princip* – något samhället behöver för sin sammanhållning. Den islamiska erfarenheten pekar bortom: när det heliga är levande tal, inte abstrakt princip, är förakt inte bara ett brott mot samhällsfördraget utan ett försök att tysta en röst som fortfarande talar.
 
 Viktor Rydberg fångar något besläktat i *Singoalla*:
 
