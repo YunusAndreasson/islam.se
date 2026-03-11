@@ -45,7 +45,7 @@ Koranen namnger kroppens relation till sin Skapare med ett ord som saknar direkt
 
 Det som erbjöds var inte ett ägande utan ett ansvar. Himlarna och bergen, hela den materiella verkligheten, vägrade bära det. Människan tog det på sig. I den klassiska exegesens ljus innebär *amānah* att människan anförtrotts sig själv: sin kropp, sitt intellekt, sin tid, sina relationer – som lån med villkor snarare än egendom att disponera fritt. Det är skillnaden mellan att äga ett hus och att bo i det som förvaltare – nycklarna är dina, men du får inte bränna ner det.[^7]
 
-Profeten Muḥammad ﷺ fastslog det i en formulering som gör modern ägandelogik otillämplig på kroppen: "Fullgör det anförtrodda mot den som anförtrott dig det, och svek inte den som sviker dig."[^8] Principen är ovillkorlig.
+Profeten Muḥammad ﷺ satte ord på det: "Fullgör det anförtrodda mot den som anförtrott dig det, och svek inte den som sviker dig."[^8] Principen är ovillkorlig.
 
 Häri visar Boyes roman och biohackingen sitt gemensamma tomrum. Båda utgår från en kropp utan *amānah*, en kropp som antingen tillhör staten eller individen, men som i intetdera fallet bär ett ansvar gentemot den som skapat den. I *Kallocain* leder det till en kollektiv utplåning av det inre livet. I biohackingkulturen leder det till en paradox: ju mer kontroll individen får över sin biologi, desto mindre förmår hon besvara frågan *vad kroppen är till för*.
 

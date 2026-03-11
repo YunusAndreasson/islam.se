@@ -47,7 +47,7 @@ Böneutroparens röst är mänsklig – vacker eller hes, stark eller svag. Men 
 
 ## Klockans tysta reformation
 
-Kyrkklockor har sin historia – de har ringt för pest och krig, för döda och nyfödda. De kallades *Guds basuner*. Deras funktion var uttryckligen religiös: att sammankalla de troende till gudstjänst.[^10] Svenska kyrkan praktiserar alltjämt *angelusringning* och *själaringning* – klockan som ringer för den döende. Det religiösa lagret skymtar ännu.
+Kyrkklockor har sin historia – de har ringt för pest och krig, för döda och nyfödda. De kallades *Guds basuner*. Deras funktion var uttryckligen religiös: att sammankalla de troende till gudstjänst.[^10] Svenska kyrkan praktiserar ännu *angelusringning* och *själaringning* – klockan som ringer för den döende. Det religiösa lagret skymtar ännu.
 
 Men något avgörande *har* försvunnit: Reformationen sopade bort den katolska kyrkans verbala ceremonier kring klockorna. Invigningsriterna försvann, de specifika böner som gav varje klocka ett namn och ett uppdrag. Kvar blev ett ljud som signalerar utan att artikulera. Klockan säger varken *vad* den kallar till eller *vem* som kallar. Den säger ingenting alls. Och just därför har den blivit ohörbar för medvetandet, om än inte för örat: ingen upplever sig tilltalad. Man hör den över maten, över samtalet – den ringer, men den kallar inte.
 
@@ -75,7 +75,7 @@ Kyrkklockans ljud är en kropp utan själ – ett tomt kärl som lyssnaren fylle
 
 ## Att höra det man inte vill förstå
 
-Ibn Qayyim al-Jawziyyah, medeltida islamisk teolog, beskriver lyssnandets kraft med en formulering som kortsluter den moderna distinktionen mellan privat tro och offentligt ljud:
+Ibn Qayyim al-Jawziyyah, medeltida islamisk teolog, beskriver lyssnandets kraft:
 
 > Lyssnandet är trons budbärare till hjärtat – dess kallare, dess lärare.[^14]
 

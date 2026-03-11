@@ -75,7 +75,7 @@ Häri ligger det svårsmälta för moderniteten: att kunskap är en fråga om ka
 
 I sura al-Ḥijr finns en vers som Ibn Qayyim ofta återvände till: "I detta finns sannerligen tecken för de insiktsfulla."[^16] Det arabiska ordet är *mutawassimīn* – de som läser tecken, de som äger *firāsah*. Ibn Kathīr återger att Profeten ﷺ reciterade den omedelbart efter att ha uttalat orden om den troendes *firāsah* och Guds ljus. Tecknen finns där, världen döljer ingenting – frågan är om betraktarens hjärta är tillräckligt klart för att läsa dem.
 
-Och det lejon som i Ibn Qayyims bild kastar sig över sitt byte – den ingivelse som slår ner i hjärtat utan förvarning, utan tvekan – det lejonet jagar alltjämt.
+Och det lejon som i Ibn Qayyims bild kastar sig över sitt byte – den ingivelse som slår ner i hjärtat utan förvarning, utan tvekan – det lejonet jagar ännu.
 
 Frågan är bara vems hjärta som är tillräckligt stilla för att höra det komma.
 

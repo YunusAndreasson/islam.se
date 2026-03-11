@@ -39,7 +39,7 @@ Här talar Hávamál om den vise, men slutsatsen gäller dåren. Kunskapen fylle
 
 ## En annan ekonomi
 
-I den islamiska traditionen ställs frågan annorlunda från grunden. Ibn Qayyim al-Jawziyyah, en av islams mest skarpsinniga tänkare om hjärtats väg (1292–1350), öppnar ett av de mest genomträngande avsnitten i *al-Fawāʾid* med en formulering som vänder hela den nordiska logiken ut och in:
+I den islamiska traditionen ställs frågan annorlunda från grunden. Ibn Qayyim al-Jawziyyah, en av islams mest skarpsinniga tänkare om hjärtats väg (1292–1350), skriver i *al-Fawāʾid*:
 
 > Den som betraktar det som finns i honom själv av svagheter och brister, och det som finns hos sin Herre av fullkomlighet och majestät – han vet att hans liv inte kan rättas till och hans hjärta inte kan nå fram utom genom att söka sin tillflykt hos sin Herres dörr, och att han är den mest behövande av alla skapade varelser inför sin Herre.[^5]
 

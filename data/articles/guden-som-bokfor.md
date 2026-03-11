@@ -103,7 +103,7 @@ Så framstår en gammal man som genom åratal av observation nått en visshet ha
 
 I den islamiska traditionen hade denna erfarenhet aldrig behövt vara hemlig. Principen att Gud ser allt, väger allt, vedergäller allt med exakt rättvisa: det är inte heterodoxi utan *tawḥīd* i sin renaste form – inte en obekväm sanning man viskar i trappuppgången utan *adhān*, böneutropet som ljuder fem gånger om dagen från varje minaret.
 
-Det samhälle som tvingade Linné att tiga röjer mer om sig självt än om mannen som bar på hemligheten. Vår egen tid – som ärvt den lutherska kulturens obehag inför en Gud som kräver räkenskap – läser alltjämt *Nemesis Divina* som en kuriositet, inte som det den är: ett empiriskt argument för att verkligheten är moraliskt ordnad.
+Det samhälle som tvingade Linné att tiga röjer mer om sig självt än om mannen som bar på hemligheten. Vår egen tid – som ärvt den lutherska kulturens obehag inför en Gud som kräver räkenskap – ännu läser *Nemesis Divina* som en kuriositet, inte som det den är: ett empiriskt argument för att verkligheten är moraliskt ordnad.
 
 Linné fick inte tala. Men tystnaden talar.
 

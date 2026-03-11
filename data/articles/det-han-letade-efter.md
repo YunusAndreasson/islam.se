@@ -5,7 +5,7 @@ wordCount: 1596
 qualityScore: 8.6
 description: "Det finns en fråga ingen hjärnskanning kan besvara: varför *är det något* att vara du? Emanuel Swedenborg kartlade hjärnan med skalpellen på 1700-talet. Det han letade efter fann han aldrig där."
 ---
-Den australiske filosofen David Chalmers ställde 1995 en fråga som neurovetenskapen alltjämt inte kan besvara. Inte hur hjärnan bearbetar synintryck, reglerar känslor eller lagrar minnen – sådant kallade han *easy problems*: svåra, men principiellt lösbara med befintliga metoder. Hans fråga var av ett annat slag: varför finns det överhuvudtaget en subjektiv upplevelse? Varför är det *något* att vara du?[^1]
+Den australiske filosofen David Chalmers ställde 1995 en fråga som neurovetenskapen fortfarande inte kan besvara. Inte hur hjärnan bearbetar synintryck, reglerar känslor eller lagrar minnen – sådant kallade han *easy problems*: svåra, men principiellt lösbara med befintliga metoder. Hans fråga var av ett annat slag: varför finns det överhuvudtaget en subjektiv upplevelse? Varför är det *något* att vara du?[^1]
 
 Varje neuron kan kartläggas, varje synaps mätas, varje elektrokemisk signal spåras. Och ändå kvarstår detta: du *upplever* rött när du ser rött, smärta *känns*, det finns ett inre perspektiv som ingen hjärnskanning kan avbilda. Redan 1974 visade Thomas Nagel, med sin fladdermusanalogi, att objektiv beskrivning aldrig kan fånga subjektiv erfarenhet: vi kan veta allt om en fladdermus' ekolod och ändå inte veta hur det *är* att vara en fladdermus.[^2] Problemet är inte brist på data utan brist på kategori. Den gränsen har inte bara identifierats genom logik – den har upplevts som en personlig kris.
 

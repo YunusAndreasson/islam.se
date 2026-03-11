@@ -29,7 +29,7 @@ Den spänningen löste den islamiska civilisationen aldrig helt, och den lever f
 
 Språkets sakralitet är odiskutabel. Men vem *äger* det? Om ägandet är etniskt, om arabiskan tillhör araberna som blodets arv, borde en perser med brytning vara den siste att kodifiera dess grammatik. Ändå blev det en perser som gjorde det – och ingen har gjort det bättre.
 
-Ibn Khaldūn fastslog det i sin *al-Muqaddimah*: grundarna av den arabiska grammatiken – Sībawayh, al-Fārisī, al-Zajjāj – var alla av persisk härkomst. I samma verk tillade han:
+Ibn Khaldūn konstaterade det i sin *al-Muqaddimah*: grundarna av den arabiska grammatiken – Sībawayh, al-Fārisī, al-Zajjāj – var alla av persisk härkomst. I samma verk tillade han:
 
 > De flesta muslimska lärda inom såväl religiösa som intellektuella vetenskaper har varit icke-araber.[^5]
 

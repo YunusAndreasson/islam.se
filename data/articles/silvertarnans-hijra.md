@@ -39,9 +39,9 @@ Vi ser avfärden, vi ser ankomsten – men aldrig själva handlingen: det ögonb
 
 Koranen har ett ord för det silvertärnan gör utan att veta det. Det heter *tawakkul*. Det översätts vanligen som "tillit till Gud" eller "förlitan", men ingen av översättningarna fångar ordets nerv. Arabiskans *wakālah* betyder att överlämna sitt ärende till ett ombud, att lägga sin sak i någon annans hand. *Tawakkul* är ingen känsla – det är en handling: att gå ut genom dörren utan att veta vad som väntar, men med vetskapen om *vem* som väntar.
 
-Ibn Qayyim, det fjortonde århundradets mest systematiske tänkare kring den inre människan, definierar det med en formulering som inte lämnar utrymme för sentimentalitet: "Hemligheten med *tawakkul*, dess verkliga natur, är hjärtats förlitan på Gud allena."[^9] På Gud *allena* – *waḥdahu*.
+Ibn Qayyim, det fjortonde århundradets mest systematiske tänkare kring den inre människan, definierar det: "Hemligheten med *tawakkul*, dess verkliga natur, är hjärtats förlitan på Gud allena."[^9] På Gud *allena* – *waḥdahu*.
 
-Men Ibn Qayyim var ingen drömmare – i *Madārij al-Sālikīn* dissekerar han den förväxling som alltjämt hotar det andliga livet: sammanblandningen av *tawakkul* med lättja. Bitande är hans formulering:
+Men Ibn Qayyim var ingen drömmare – i *Madārij al-Sālikīn* dissekerar han den förväxling som ständigt hotar det andliga livet: sammanblandningen av *tawakkul* med lättja. Bitande är hans formulering:
 
 > Ofta förväxlas det berömvärda och fullkomliga med det klandervärda och bristfälliga. Överlämnande förväxlas med förslösande. Tjänaren slösar bort sin andel i tron att det är *tawakkul*. Men det är slöseri, inte överlämnande. Tecknet på äkta *tawakkul* är att den som förlitar sig anstränger sig till det yttersta i de medel som är föreskrivna – och finner vila från allt annat just genom denna ansträngning.[^10]
 

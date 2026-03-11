@@ -41,7 +41,7 @@ Den sekulära moderniteten har ärvt skräcken men avskaffat hoppet.
 
 ## Den rastlöshet som saknar namn
 
-Koranen fångar detta tillstånd med en formulering så kondenserad att den knappt behöver kommentar: "Människan har sannerligen skapats ängslig."[^5] Det arabiska ordet är *halūʾan* – rastlös, otålig, den som grips av panik vid motgång och av girighet vid framgång. Snarare ett villkor än ett symptom: människan bär en rastlöshet som inget skapat förmår stilla.
+Koranen fångar detta tillstånd: "Människan har sannerligen skapats ängslig."[^5] Det arabiska ordet är *halūʾan* – rastlös, otålig, den som grips av panik vid motgång och av girighet vid framgång. Snarare ett villkor än ett symptom: människan bär en rastlöshet som inget skapat förmår stilla.
 
 Detta tillstånd – människans inneboende rastlöshet inför det skapade som inte kan stilla hennes längtan – dyker upp i skilda traditioner. August Strindberg i *Inferno*:
 
@@ -49,7 +49,7 @@ Detta tillstånd – människans inneboende rastlöshet inför det skapade som i
 
 Öppenhet hotar, slutenhet kväver. Inget läge fungerar.
 
-Klimatångesten delar strukturen men saknar det avgörande: ett namn för det den är. Islam ger den ett namn. Ångesten är ett tecken – *āya* – på att människan söker sitt ursprung. Som Ibn Qayyim al-Jawziyyah fastslog: "Det jordiska livet är den kommande världens åkerfält och dess förebud."[^7] Ångesten inför förstörelsen avslöjar sig som förvrängd längtan efter det som kommer *efter* den. Rädslan som är hopp vänt ut och in.
+Klimatångesten delar strukturen men saknar det avgörande: ett namn för det den är. Islam ger den ett namn. Ångesten är ett tecken – *āya* – på att människan söker sitt ursprung. Som Ibn Qayyim al-Jawziyyah skrev: "Det jordiska livet är den kommande världens åkerfält och dess förebud."[^7] Ångesten inför förstörelsen avslöjar sig som förvrängd längtan efter det som kommer *efter* den. Rädslan som är hopp vänt ut och in.
 
 ## En dom som förutsätter en Domare
 

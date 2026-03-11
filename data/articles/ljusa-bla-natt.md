@@ -81,7 +81,7 @@ Det handlar inte om fromhet. Den kosmiska ordning som Koranen beskriver – "i s
 
 ## Natten som nåd
 
-Ibn al-Jawzī, den store Baghdadpredikanten, fastslog att "förspilld tid är den största förlusten."[^21] Orden låter som en uppmaning till produktivitet, men sammanhanget pekar mot ett annat anspråk: att *vara i* varje ögonblick, att låta det bära den uppgift det tilldelats, vare sig uppgiften är bön, arbete, vila eller tystnad.
+Ibn al-Jawzī, den store Baghdadpredikanten, skrev att "förspilld tid är den största förlusten."[^21] Orden låter som en uppmaning till produktivitet, men sammanhanget pekar mot ett annat anspråk: att *vara i* varje ögonblick, att låta det bära den uppgift det tilldelats, vare sig uppgiften är bön, arbete, vila eller tystnad.
 
 Vila kräver natt. Den koraniska arkitekturen är entydig: natten är dagens villkor. Utan mörker, ingen gryning. Utan sömn, ingen vakenhet.
 
