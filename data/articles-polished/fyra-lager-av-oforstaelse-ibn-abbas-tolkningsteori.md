@@ -5,8 +5,6 @@ wordCount: 2371
 qualityScore: 8.7
 description: "Abd Allah ﷻ ibn Abbas, Profetens ﷺ kusin och en av islams mest respekterade korantolkare, delade in Koranens mening i fyra skikt. De tre första kan människor nå — genom språkkänsla, trosplikt eller lärdom. Det fjärde tillhör ingen utom Gud."
 ---
-# GRUND — Det fjärde skiktet
-
 Sverige har en grundlag som vilar på en ovanlig övertygelse: att allt som angår medborgarna kan och bör tillgängliggöras. Offentlighetsprincipen, inskriven sedan 1766, är inte bara en juridisk regel — den uttrycker en grundmurad kulturell tro. Information vill vara fri, mening kan alltid göras begriplig, hemligheter är blott provisoriska.[^1]
 
 En annan tradition, fjorton sekler gammal, bygger på rakt motsatt grund. Den utgår från att den viktigaste texten i en hel civilisation — den text som styr lag, bön, andakt, vardagsliv — delvis är principiellt omöjlig att förstå. Att den är avsedd att vara det.

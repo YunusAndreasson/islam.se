@@ -67,7 +67,6 @@ Allt försvinner. Pergament murknar. Språk dör. Arkiv brinner.
 
 Men det finns en text som vägrar.
 
-
 ---
 
 [^1]: UNESCO, *Atlas of the World's Languages in Danger*, 3:e upplagan, 2010.

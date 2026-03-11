@@ -5,8 +5,6 @@ wordCount: 2067
 qualityScore: 8.6
 description: "'En befrielse, ett under' — så beskriver Malin Forst sin andliga kapitulation i Karin Boyes roman *Kris* från 1934. Egenviljans utplånande som vägen till frihet: det Boye formulerade hade Ibn Taymiyyah redan kartlagt på 1300-talet i sin lära om *ubudiyyah*."
 ---
-# SCAFFOLD — Dekorativ förankring som blivit manér
-
 En mening i svensk litteratur borde vara omöjlig att glömma. Karin Boye skrev den 1934, i den roman som bar den nakna titeln *Kris*:
 
 > Så enkelt, så bildlöst enkelt var det stora målet: icke min vilja, utan Din. Utplånande av egenviljan, för att den enda goda viljan måtte kunna verka, tomhet, för att fullheten måtte kunna finna ett rum.[^1]

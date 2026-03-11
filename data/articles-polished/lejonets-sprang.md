@@ -79,7 +79,6 @@ Och det lejon som i Ibn al-Qayyims bild kastar sig över sitt byte — den ingiv
 
 Frågan är bara vems hjärta som är tillräckligt stilla för att höra det komma.
 
-
 ---
 
 [^1]: Daniel Kahneman, *Thinking, Fast and Slow* (New York: Farrar, Straus and Giroux, 2011).

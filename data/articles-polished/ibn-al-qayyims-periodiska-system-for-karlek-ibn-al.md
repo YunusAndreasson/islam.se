@@ -5,8 +5,6 @@ wordCount: 1771
 qualityScore: 8.7
 description: "I Doktor Glas skiljer Hjalmar Söderberg kärleken från drömmen om den, men svenskan ger honom bara ett ord att arbeta med. Sjuhundra år tidigare hade den damascenske juristen Ibn Qayyim al-Jawziyya redan kartlagt närmare sextio arabiska namn, ordnade inte som synonymer utan som stadier, symptom och prognoser."
 ---
-# SEXTIOEN DIAGNOSER FÖR DET VI KALLAR KÄRLEK
-
 "Den källan heter icke kärleken, utan den heter: drömmen om kärlek."[^1]
 
 Hjalmar Söderberg satte fingret på problemet — men hans språk gav honom inte redskapet att följa det till botten. Vad är skillnaden mellan kärleken och drömmen om den? Söderberg visste att det fanns en. Han hade bara ett ord att arbeta med — *kärlek* — ett enda ord som ska täcka allt: förälderns nattliga vaka, den erotiska besattheten, den tysta troheten som överlever årtionden, den gudomliga hängivenheten. Modersmålet tvingar oss att tänka med tumvantar.

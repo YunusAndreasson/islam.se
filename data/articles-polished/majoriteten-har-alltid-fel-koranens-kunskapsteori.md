@@ -5,8 +5,6 @@ wordCount: 1906
 qualityScore: 8.6
 description: "Svenska folket röstade 1955 för att avskaffa Brattsystemet trots läkarnas varningar. Tjugofem år senare fick väljarna tre alternativ i kärnkraftsfrågan — inget av dem ett rent nej. Koranen hade satt ord på saken långt före båda omröstningarna: de flesta följer antaganden, inte kunskap."
 ---
-# GROUND — Förankring av abstrakta begrepp
-
 En mening i Koranen borde oroa varje demokrat:
 
 > De flesta av dem följer inte annat än antaganden. Men antaganden kan aldrig ersätta sanningen på något sätt.[^1]
@@ -82,7 +80,6 @@ Demokratin antar att sanningen skapas — genom samtal, genom konsensus, genom p
 Alis princip står kvar: känn igen sanningen, så känner du igen dess folk — aldrig tvärtom.
 
 Den som räknar huvuden istället för att pröva argument har redan förlorat det som gör kunskap till kunskap: kravet att den ska vara sann.
-
 
 ---
 

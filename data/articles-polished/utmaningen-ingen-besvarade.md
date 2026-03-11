@@ -5,7 +5,7 @@ wordCount: 1688
 qualityScore: 8.6
 description: "När Walid ibn al-Mughira, en av Quraysh-stammens främsta poesikännare, ombads fördöma Koranen förmådde han inte förneka det han hört. Det var varken poesi eller prosa, sade han, men det ägde en skönhet som krossade allt under sig. Han fördömde texten ändå — politiken krävde det."
 ---
-# Åstadkom en enda sura av jämförbar kvalitet. Under fjorton sekler har ingen lyckats – inte imperiums mest skolade pennor, inte generationers skarpaste intellekt, inte fiender med allt att vinna på att krossa påståendet.
+Åstadkom en enda sura av jämförbar kvalitet. Under fjorton sekler har ingen lyckats – inte imperiums mest skolade pennor, inte generationers skarpaste intellekt, inte fiender med allt att vinna på att krossa påståendet
 
 Koranen själv formulerar utmaningen:
 
@@ -76,7 +76,6 @@ Frånvaron av ett svar *är* i sig ett belägg – inte slutgiltigt bevis, men e
 Al-Suyuti slog fast att utmaningen inte var en uppmaning egentligen utan ett blottläggande av oförmåga.[^14] Koranen ber inte människor att försöka. Den visar dem att de redan har misslyckats.
 
 Den som öppnar den och läser – på arabiska, i dess egen rytm – möter fortfarande samma fråga som Walid ibn al-Mughira utanför Meckas murar: en text som vägrar låta sig kategoriseras, en utmaning som fortfarande väntar.
-
 
 ---
 

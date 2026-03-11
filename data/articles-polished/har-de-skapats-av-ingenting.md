@@ -5,7 +5,7 @@ wordCount: 1529
 qualityScore: 8.6
 description: "Strindberg tvingades till ateism av vad han upplevde som Guds tystnad — för att sedan falla i 'den fullständigaste vidskepelse.' Han kunde varken stanna eller återvända. Fjorton sekler före honom hade tre koranverser i sura al-Tur redan ställt frågan med bara tre möjliga svar."
 ---
-# Strindberg var ärlig nog att formulera problemet. I *Inferno* skriver han: "Jag har nämligen blivit ateist under årens lopp, när jag märkt hur de okända makterna lämnat världen åt dess öde utan att giva ett livstecken ifrån sig."[^1] En mening man kan respektera — inte för att den är sann, utan för att den visar vad ateismen kostar den som tar den på allvar. Strindberg ville inte vara ateist. Dit tvingades han av vad han upplevde som Guds tystnad. Han kunde inte stanna där.
+Strindberg var ärlig nog att formulera problemet. I *Inferno* skriver han: "Jag har nämligen blivit ateist under årens lopp, när jag märkt hur de okända makterna lämnat världen åt dess öde utan att giva ett livstecken ifrån sig."[^1] En mening man kan respektera — inte för att den är sann, utan för att den visar vad ateismen kostar den som tar den på allvar. Strindberg ville inte vara ateist. Dit tvingades han av vad han upplevde som Guds tystnad. Han kunde inte stanna där
 
 Några sidor senare vacklar han: "Det är ju märkvärdigt hur jag nu har från ateismen fallit ner i den fullständigaste vidskepelse."[^2] Ateismen var intellektuellt otillfredsställande, men alternativen han famlade efter — ockultism, Swedenborg, alkemi — bar inte heller. Strindberg vandrade mellan ståndpunkter utan att finna en som höll för hans egen tyngd.
 

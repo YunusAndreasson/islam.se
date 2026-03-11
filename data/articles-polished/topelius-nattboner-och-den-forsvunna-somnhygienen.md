@@ -59,7 +59,6 @@ Kvar står granskning, riktning och överlåtelse. Koranen ger grunden, Profeten
 
 Den moderna människan som ligger sömnlös och scrollar har inte ett sömnproblem. Hon har ett kvällsproblem. Lösningen finns inte i en ny app, utan i en mycket gammal fråga: vad har jag skickat framför mig för morgondagen?
 
-
 ---
 
 [^1]: Zacharias Topelius, *Självbiografiska anteckningar*; se även inledningen till Religiösa skrifter och psalmer i *Zacharias Topelius Skrifter* (SLS).

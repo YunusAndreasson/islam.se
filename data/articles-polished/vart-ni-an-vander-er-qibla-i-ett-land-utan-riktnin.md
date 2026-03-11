@@ -5,7 +5,7 @@ wordCount: 2038
 qualityScore: 8.7
 description: "I Strindbergs Inferno ligger den svenska byn i en rund dal med kyrkan i mitten, samhällets obestridda tyngdpunkt. Islams sakralgeografi vilar på en annan grund: inte en plats som måste uppsökas utan en riktning som kan iakttas överallt, från varje parkeringsplats och varje skolkorridor."
 ---
-# Sockenkyrkan och kompassnålen
+## Sockenkyrkan och kompassnålen
 
 Sockenkyrkan låg alltid mitt i byn — inte av slump, utan som samhällets tyngdpunkt, den punkt kring vilken allt annat ordnades. Strindberg fångar det i en enda bild från *Inferno*: "Man far uppför en två kilometer lång backe, och ankommen till höjden ser man utöver en rund dal... I mitten av denna tratt ligger byn med sin kyrka."[^1] Kyrkan definierar landskapet, landskapet gemenskapen, gemenskapen den enskilda människan.
 

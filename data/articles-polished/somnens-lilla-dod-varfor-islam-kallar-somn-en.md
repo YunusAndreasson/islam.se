@@ -5,8 +5,6 @@ wordCount: 2279
 qualityScore: 8.4
 description: "Nästan varannan vuxen svensk har sömnbesvär enligt Folkhälsomyndigheten, en fördubbling på trettio år. Ibn Taymiyyah behandlade fenomenet redan på 1300-talet i al-Radd ala al-Mantiqiyyin, men hans svar var ett annat: sömnen är dödens broder, och själen lämnar faktiskt kroppen varje natt."
 ---
-# TEXTEN
-
 Klockan är tre på natten och du ligger vaken. Kroppen är trött. Tankarna vägrar stanna. Du vrider dig, byter sida, kontrollerar telefonen — alltid telefonen. Du vet att du gör det värre. Ändå kan du inte sluta.
 
 Ordet för det är inte insomni — det är kontroll.

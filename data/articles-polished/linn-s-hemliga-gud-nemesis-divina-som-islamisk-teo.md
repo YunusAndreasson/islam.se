@@ -5,7 +5,7 @@ wordCount: 1729
 qualityScore: 8.7
 description: "Under sina sista årtionden förde Carl von Linné hemliga anteckningar — inte om naturens systematik utan om människor som gjort ont och straffet som drabbat dem. Med en botanikers metodik försökte han bevisa att Guds rättvisa verkar med naturlags exakthet, en övertygelse som aldrig fick lämna hans skrivbord."
 ---
-# Linné: Guds bokföring
+## Linné: Guds bokföring
 
 Någon gång under de sista årtiondena av sitt liv började Carl von Linné föra hemliga anteckningar. Inte om naturens systematik – det arbete som givit honom världsrykte – utan om vad som händer med människor som gör ont.
 

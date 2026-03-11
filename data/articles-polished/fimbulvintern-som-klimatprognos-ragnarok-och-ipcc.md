@@ -5,7 +5,7 @@ wordCount: 1499
 qualityScore: 8.4
 description: "I Inferno öppnar August Strindberg fönstret och draget hotar att släcka lampan. Han stänger, och lampan börjar kvida — inget läge fungerar. Koranen har ett ord för tillståndet: halū'an, en rastlöshet inbyggd i människan som inget skapat kan stilla."
 ---
-# Ragnarök är inte klimatångesten
+## Ragnarök är inte klimatångesten
 
 Tre vintrar utan sommar, bröder som dödar varandra för småpengar, solen som slocknar, stjärnorna som faller — och elden som slukar allt.
 
