@@ -19,11 +19,11 @@ Om lagen är ett mänskligt påfund är den maktens instrument — har den fatti
 
 Lagen klär makten i legitimitet. Vräkningen sker inte med våld — den sker med stämpel, paragraf och kronofogde. Två sekler före Strindberg identifierade Pascal denna mekanism: "Då vi inte kunnat göra det rättfärdiga starkt, har vi gjort det starka rättfärdigt."[^17]
 
-Samma mönster såg Erik Gustaf Geijer i det svenska 1800-talet: "Överallt där jorden skiftas äro de väldige till hands, säkrast om godtycket klädes i lagens former."[^4] Inte det nakna våldet förtrycker säkrast — utan våldet klätt i paragrafnummer och rättegångsordning.
+Erik Gustaf Geijer såg det i det svenska 1800-talet: "Överallt där jorden skiftas äro de väldige till hands, säkrast om godtycket klädes i lagens former."[^4] Inte det nakna våldet förtrycker säkrast — utan våldet klätt i paragrafnummer och rättegångsordning.
 
 ## Boken och vågan
 
-Om denna diagnos stämmer — om lag alltid skrivs av någon, och den som skriver alltid gynnar sig själv — finns det då en lag som ingen människa har skrivit?
+Om denna iakttagelse stämmer — om lag alltid skrivs av någon, och den som skriver alltid gynnar sig själv — finns det då en lag som ingen människa har skrivit?
 
 Med en enda bild svarar Koranen: "Det är Allah ﷻ som har sänt ned Boken med sanningen och likaså rättvisans våg."[^5] Boken och vågan — sanningen och måttet. De sänds ned — de uppfinns inte.
 
@@ -37,15 +37,15 @@ Om lagen har sitt ursprung bortom maktens räckvidd, vad innebär det för makte
 
 Ibn Taymiyyah går än längre: rättvisan är inte en dygd bland andra — den är normen som bär alla andra: "Rättvisan är påbjuden i alla handlingar och orättvisan förbjuden utan undantag."[^10] Människors enighet om rättvisans godhet överträffar, menar han, deras enighet om de flesta förnuftssanningar.[^11] Rättvisan är inte ett resultat av resonemanget — den är dess förutsättning. Man kan inte samtala med tyrannens svärd mot strupen.
 
-Om rättvisan är förutsättningen för samhällets bestånd, vad händer när den överges? Koranen avtäcker vad som händer när de mäktiga skriver sina egna regler: "Vi har också i varje stad låtit de mäktiga bli deras förbrytare för att smida sina planer där. Men de smider endast planer mot sig själva utan att märka det."[^12] Samma mekanism som hos Strindberg, men med en diagnos han saknar: maktkoncentrationen förgör sig själv.
+Om rättvisan är förutsättningen för samhällets bestånd, vad händer när den överges? Koranen beskriver vad som händer när de mäktiga skriver sina egna regler: "Vi har också i varje stad låtit de mäktiga bli deras förbrytare för att smida sina planer där. Men de smider endast planer mot sig själva utan att märka det."[^12] Samma mekanism som hos Strindberg, men med en förklaring han saknar: maktkoncentrationen förgör sig själv.
 
 ## Den farliga mellanhanden
 
-Gudomlig lag bryter förvisso den onda cirkeln — rättens källa kan inte ägas av en klass — men väcker en ny fråga: vem tolkar den? Tolkningsansvaret är tungt, och faran är uppenbar. Muhammad ibn al-Munkadir, en av Medinas stora rättslärda i första seklet efter *hijra*, sade: "Den rättslärde träder in mellan Gud och Hans tjänare — låt honom se till hur han träder in."[^13]
+Gudomlig lag bryter den onda cirkeln — rättens källa kan inte ägas av en klass — men väcker en ny fråga: vem tolkar den? Tolkningsansvaret är tungt, och faran är uppenbar. Muhammad ibn al-Munkadir, en av Medinas stora rättslärda i första seklet efter *hijra*, sade: "Den rättslärde träder in mellan Gud och Hans tjänare — låt honom se till hur han träder in."[^13]
 
 En varning, inte en fromhetsfras. Tolkaren kan bli den nye lagstiftaren, den som klär sitt godtycke i rättens former — precis det Strindberg avslöjar hos sina häradshövdingar och grosshandlare. Makten byter adress, inte natur. Saknar auktoriteten integritet, har inget vunnits.
 
-Geijer identifierade samma spänning: "Kärleken är lagens fullbordan, utan hvilken lagen sjelf endast är en yttre form och ett, ehuru nödvändigt, ondt."[^14] Tillämpad utan rättrådighet förblir lagen ett "nödvändigt ont". Häri ligger den islamiska traditionens svar: den rättslärdes kvalifikation är både intellektuell och moralisk. *Taqwā* — gudsfruktan — är inte en prydnad utan en förutsättning. Det är den lärde som tvekar innan han talar, som känner tyngden i sitt svar.
+Geijer identifierade samma spänning: "Kärleken är lagens fullbordan, utan hvilken lagen sjelf endast är en yttre form och ett, ehuru nödvändigt, ondt."[^14] Tillämpad utan rättrådighet förblir lagen ett "nödvändigt ont". Just detta är den islamiska traditionens svar: den rättslärdes kvalifikation är både intellektuell och moralisk. *Taqwā* — gudsfruktan — är inte en prydnad utan en förutsättning. Det är den lärde som tvekar innan han talar, som känner tyngden i sitt svar.
 
 ## Vågen som inte kan luras
 
@@ -53,7 +53,7 @@ De lärda har sitt svar. Men litteraturen har sin längtan. Selma Lagerlöf åka
 
 Den islamiska traditionen har vad de saknar: en formell rättsordning vars legitimitet inte vilar på dem som tillämpar den, utan på Den som uppenbarade den. Inom sig bär denna ordning sin egen kritik — genom krav på de lärdas integritet, genom principen att makt utan religionskunskap medför orättvisa,[^16] genom den ständiga påminnelsen att den rättslärde en dag skall stå till svars.
 
-Alltjämt ekar Strindbergs fråga: vem skrev lagen för den fattige? Ingen människa bör göra det, svarar den islamiska rättsteorin — rättens grund måste ligga bortom mänsklig räckvidd för att gälla alla lika. Men med dem som bär ansvaret står och faller svaret. I orättfärdiga händer förvandlas en gudomlig lag till ännu en maktuniform.
+Strindbergs fråga kvarstår: vem skrev lagen för den fattige? Ingen människa bör göra det, svarar den islamiska rättsteorin — rättens grund måste ligga bortom mänsklig räckvidd för att gälla alla lika. Men med dem som bär ansvaret står och faller svaret. I orättfärdiga händer förvandlas en gudomlig lag till ännu en maktuniform.
 
 Koranens bild är en våg, inte ett svärd. Svärdet avgör. Vågen mäter. Den kan inte luras — om den som håller den håller den rak.
 

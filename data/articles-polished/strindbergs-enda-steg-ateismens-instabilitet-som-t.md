@@ -3,7 +3,7 @@ title: "Strindbergs enda steg"
 publishedAt: "2026-01-21T12:00:00.000Z"
 wordCount: 2397
 qualityScore: 8.4
-description: "Sommaren 1896, i ett hotellrum i österrikiska Klam, skriver August Strindberg en mening som hans samtida läser som feber: 'Min tvungna otacksamhet trycker mig som en börda.' Ibn Qayyim al-Jawziyya hade ställt samma diagnos sju sekler tidigare — inte som litteratur utan som antropologi."
+description: "Sommaren 1896, i ett hotellrum i österrikiska Klam, skriver August Strindberg en mening som hans samtida läser som feber: 'Min tvungna otacksamhet trycker mig som en börda.' Ibn Qayyim al-Jawziyya hade sett samma mönster sju sekler tidigare — inte som litteratur utan som antropologi."
 ---
 Sommaren 1896, i ett hotellrum i österrikiska Klam, nedtecknar August Strindberg en mening som hans samtida läser som feber och hans eftervärld som symptom: "Från ateism till Swedenborg tycks det bara vara ett steg!"[^1]
 
@@ -17,7 +17,7 @@ Aldrig var Strindbergs ateism lugn. Den var ett grepp om något som hela tiden h
 
 > Jag har nämligen blivit ateist under årens lopp, när jag märkt hur de okända makterna lämnat världen åt dess öde utan att giva ett livstecken ifrån sig. Någon att tacka! Det finnes ingen tillstädes, och min tvungna otacksamhet trycker mig som en börda![^3]
 
-*Tvungna*. Otacksamheten är inte befrielse utan börda. Strindberg beskriver en ateism som inte känns som hemkomst utan som tvång: att tvingas förneka något man vet — ett mönster som Koranen diagnostiserar:
+*Tvungna*. Otacksamheten är inte befrielse utan börda. Strindberg beskriver en ateism som inte känns som hemkomst utan som tvång: att tvingas förneka något man vet — ett mönster som Koranen benämner:
 
 > Och när nöden drabbar er till havs försvinner alla som ni tillber, utom Han. Men när Han sedan fört er oskadda i land vänder ni er bort. Ja, människan är djupt otacksam. (*al-Isrāʾ* 17:67)
 
@@ -25,7 +25,7 @@ Mönstret är dubbelt: i kris anropar människan Gud — i trygghet glömmer hon
 
 ## *Fiṭrah*: det som undertrycks men aldrig försvinner
 
-Denna diagnos — att krisen blottar snarare än skapar — har den islamiska traditionen ett begrepp för: *fiṭrah*. Den medeltida teologen Ibn Taymiyyah (d. 1328) citerar Profetens ﷺ ord: "Varje barn föds i enlighet med *fiṭrah*; sedan gör föräldrarna det till jude, kristen eller zoroastrier."[^4] Han kopplar detta direkt till Koranens vers:
+Denna iakttagelse — att krisen blottar snarare än skapar — är vad den islamiska traditionen kallar *fiṭrah*. Den medeltida teologen Ibn Taymiyyah (d. 1328) citerar Profetens ﷺ ord: "Varje barn föds i enlighet med *fiṭrah*; sedan gör föräldrarna det till jude, kristen eller zoroastrier."[^4] Han kopplar detta direkt till Koranens vers:
 
 > Vänd ditt ansikte mot den sanna religionen, hängiven. Allahs ﷻ *fiṭrah*, med vilken Han skapade människorna. Ingen förändring i Allahs ﷻ skapelse. (*al-Rūm* 30:30)
 
@@ -51,7 +51,7 @@ Invändningar finns. Ateismforskare som Lanman och Geertz hävdar att ateism ock
 
 ## Den omöjliga neutraliteten
 
-Strindbergs formulering i romanen Götiska rummen rymmer en säregen melankoli: "En kristen fritänkare, kanske; kristen, därför att jag är född av kristen släkt, fritänkare, därför att jag icke kan sluta mig till något 'erkänt' kyrkosamfund."[^12] En hållning som vill vara neutral, varken troende eller förnekare, svävande i mellanrummet. Men Inferno-krisen visar att mellanrummet inte finns. Eller rättare: att det finns, men att ingen kan stanna där.
+I romanen Götiska rummen skriver Strindberg med en säregen melankoli: "En kristen fritänkare, kanske; kristen, därför att jag är född av kristen släkt, fritänkare, därför att jag icke kan sluta mig till något 'erkänt' kyrkosamfund."[^12] En hållning som vill vara neutral, varken troende eller förnekare, svävande i mellanrummet. Men Inferno-krisen visar att mellanrummet inte finns. Eller rättare: att det finns, men att ingen kan stanna där.
 
 Strindberg själv beskriver rörelsen som ofrivillig:
 
@@ -91,11 +91,11 @@ Hans mest avslöjande formulering är den enklaste: "Min tvungna otacksamhet try
 
 Diktaren Oscar Levertin formulerade samma insikt utan att riktigt veta det: "Verkligheten kan kanske undvara religion, men säkert ej religiositet."[^18] Det är en mening som medger mer än den avser. Religiositet är inte ett tillägg till mänsklig erfarenhet utan dess grundväv. Att avskaffa religion, institutioner, dogmer, ritualer, är möjligt — att avskaffa religiositeten är att avskaffa något i människan själv.
 
-Koranen uttrycker det med en bild som är enklare men når längre:
+Koranen uttrycker det enklare — och når längre:
 
 > När människan drabbas av olycka anropar hon Oss liggande på sidan eller sittande eller stående. Men när Vi avvärjt olyckan från henne fortsätter hon som om hon aldrig anropat Oss. (*Yūnus* 10:12)
 
-Mönstret är diagnostiskt, inte cyniskt. Människan *kan* glömma Gud, men aldrig permanent, aldrig i grunden, aldrig utan att något i hennes tillvaro förblir stumt och otillfredsställt. Ibn Qayyim al-Jawziyya (d. 1350), en av Ibn Taymiyyahs främsta lärjungar, skriver: "I hjärtat finns en tomhet som inte kan fyllas av annat än närhet till Allah ﷻ, och en sorg som inte kan lyftas av annat än glädjen i att känna Honom, och en oro som inte kan stillas av annat än samling inför Honom."[^19] Hjärtat har en riktning. Att tvinga det bort kräver kraft. Släpp greppet, och det återsvänger.
+Mönstret är beskrivande, inte cyniskt. Människan *kan* glömma Gud, men aldrig permanent, aldrig i grunden, aldrig utan att något i hennes tillvaro förblir stumt och otillfredsställt. Ibn Qayyim al-Jawziyya (d. 1350), en av Ibn Taymiyyahs främsta lärjungar, skriver: "I hjärtat finns en tomhet som inte kan fyllas av annat än närhet till Allah ﷻ, och en sorg som inte kan lyftas av annat än glädjen i att känna Honom, och en oro som inte kan stillas av annat än samling inför Honom."[^19] Hjärtat har en riktning. Att tvinga det bort kräver kraft. Släpp greppet, och det återsvänger.
 
 Utan att ha läst en rad Ibn Qayyim genomlevde Strindberg just denna rörelse. Hans ateism grundades inte på dåliga argument utan gick mot hans natur.
 

@@ -11,11 +11,11 @@ Elon Musks Neuralink har gjort scenen konkret. Sedan 2024 bär försökspersoner
 
 Visionen vilar på ett outtalat axiom: att medvetandet är identiskt med hjärnan, att jaget är neuroner och att kroppens begränsning är jagets begränsning. Den som bryter kedjorna mellan hjärna och kropp befriar människan.
 
-Men det obehag Neuralink lovar att lösa — känslan av att sitta fast i en kropp som inte räcker till — har en äldre diagnos, en som vänder orsakskedjan.
+Men det obehag Neuralink lovar att lösa — känslan av att sitta fast i en kropp som inte räcker till — har en äldre förklaring, en som vänder orsakskedjan.
 
 ## Själen som inte tål att vara inspärrad
 
-Den diagnosen finns formulerad redan i den islamiska traditionen. I 1100-talets Bagdad satt den islamiske lärde Ibn al-Jawzi och skrev ner sina tankar i det som skulle bli *Sayd al-Khatir*, en av den arabiska litteraturens mest ovanliga böcker — en ström av reflexioner nedtecknade i det ögonblick de uppstod, innan eftertanken hann polera dem. Mitt i detta flöde slår han fast:
+Den förklaringen finns formulerad redan i den islamiska traditionen. I 1100-talets Bagdad satt den islamiske lärde Ibn al-Jawzi och skrev ner sina tankar i det som skulle bli *Sayd al-Khatir*, en av den arabiska litteraturens mest ovanliga böcker — en ström av reflexioner nedtecknade i det ögonblick de uppstod, innan eftertanken hann polera dem. Mitt i detta flöde slår han fast:
 
 > "Själarna drabbas inte av förgängelse, och kropparna är intet."[^1]
 
@@ -25,7 +25,7 @@ Inom den parentesen kartlade Ibn al-Jawzi begärets mekanik:
 
 > "Själen stannar aldrig vid en gräns, utan eftersträvar njutningar utan ände — och allt den uppnår svalnar snart, varpå den söker något annat."[^2]
 
-Den insikten saknar transhumanismen helt. Problemet är inte att kroppen begränsar hjärnan — utan att den begränsar *själen*. Den hedonistiska trappan, det ständiga sökandet efter nästa stimulans, är inte en bugg i systemet som kan patchas med ett hjärnchip — utan själens grundläggande villkor i materian. Det är den som scrollar vidare innan videon är slut, den som öppnar nästa flik innan den första laddat klart.
+Den insikten saknar transhumanismen helt. Problemet är inte att kroppen begränsar hjärnan — utan att den begränsar *själen*. Den hedonistiska trappan, det ständiga sökandet efter nästa stimulans, är inte en bugg i systemet som kan patchas med ett hjärnchip — utan själens grundläggande villkor i materian. Vi scrollar vidare innan videon är slut och öppnar nästa flik innan den första laddat klart.
 
 ## Fängelset som blir bekvämare
 
@@ -39,11 +39,11 @@ Bilden är fysikalisk i sin logik: kroppen har gravitation. Ju mer den tillfreds
 
 Sexhundra år senare, i det moderna Frankrike, formulerade filosofen Simone Weil samma insikt med samma metafor — utan kännedom om den damascenske lärde: "Alla själens naturliga rörelser styrs av lagar analoga med den materiella tyngdkraftens. Nåden är det enda undantaget."[^17]
 
-Med Neuralink för ögonen framträder frågan: vad lovar transhumanismen? Att göra kroppen mer bekväm, mer uppkopplad, mer kapabel — att undanröja friktion och göra den biologiska existensen så smidig att gränsen mellan tanke och handling upphör.
+Vad lovar transhumanismen egentligen? Att göra kroppen mer bekväm, mer uppkopplad, mer kapabel — att undanröja friktion och göra den biologiska existensen så smidig att gränsen mellan tanke och handling upphör.
 
 Enligt Ibn Qayyims logik är detta kroppens gravitation förstärkt till en kraft som själen inte längre kan undkomma. Chippet i hjärnan gör inte fängelset mindre — det gör fängelset *bekvämare*. Och en bekväm fånge glömmer att han är fången.
 
-Den islamiska antropologin avtäcker en omvänd orsakskedja. Lidandet uppstår för att *själen* — *al-ruh*, den andliga verkligheten som blåstes in i människan av Gud — fångas i materian och glömmer sitt ursprung. Kroppen är inte för svag utan för *tung*. Och tyngden är inte fysisk utan själslig: begärets och förströelsens gravitation.
+Den islamiska antropologin pekar i motsatt riktning. Lidandet uppstår för att *själen* — *al-ruh*, den andliga verkligheten som blåstes in i människan av Gud — fångas i materian och glömmer sitt ursprung. Kroppen är inte för svag utan för *tung*. Och tyngden är inte fysisk utan själslig: begärets och förströelsens gravitation.
 
 Om problemet är kroppens svaghet, då är teknisk förstärkning svaret. Men om problemet är kroppens dragningskraft på själen, då förvärrar varje teknisk förstärkning fångenskapen — den gör kroppen ännu mer central i människans självförståelse, ännu svårare att se bortom. Neuralink lovar att koppla hjärnan direkt till internet, till artificiell intelligens, till oändlig information. Ibn Qayyim skulle känt igen sjukdomen: en själ som ges fler och fler skäl att aldrig lyfta blicken.
 
@@ -57,7 +57,7 @@ Zacharias Topelius skrev om "denna törstande, stormande, brinnande själ, som s
 
 I Dan Anderssons David Ramm formuleras frågan med barnets nakenhet: "Låt oss antaga att jag har en själ... när jag dör flyger det likt en fågel ur kroppen. Vart skall han då ta vägen, den konstiga Fågel Jag?"[^8]
 
-Topelius visste att själen flaxade, men inte varför fönstret var stängt. Den islamiska traditionen rymmer den förklaring dessa röster famlade efter: själen är inte en poetisk metafor utan en andlig verklighet, inblåst av Gud själv. Koranen är otvetydig:
+Topelius visste att själen flaxade, men inte varför fönstret var stängt. Den islamiska traditionen har den förklaring dessa röster famlade efter: själen är inte en poetisk metafor utan en andlig verklighet, inblåst av Gud själv. Koranen är otvetydig:
 
 > "Sedan fulländade Han henne och blåste in i henne av Sin ande och gav er hörsel och syn och inre sinnen. Så lite ni visar tacksamhet!"[^9]
 
@@ -65,25 +65,25 @@ Själen har ett ursprung och ett mål: den kommer från Gud, och den återvände
 
 ## Kroppens rätt, själens längtan
 
-Här krävs en nyansering som den islamiska traditionen själv betonar. Kroppen är ett fängelse — och kroppen är en *amana*, en gåva anförtrodd av Gud. Profeten Muhammad ﷺ sade: "Din kropp har rätt över dig."[^10], och islam förbjuder självskadande asketism lika bestämt som hämningslös njutning.
+Men den islamiska traditionen nyanserar. Kroppen är ett fängelse — och kroppen är en *amana*, en gåva anförtrodd av Gud. Profeten Muhammad ﷺ sade: "Din kropp har rätt över dig."[^10], och islam förbjuder självskadande asketism lika bestämt som hämningslös njutning.
 
 Spänningen är avsiktlig. Kroppen är en prövning *och* ett instrument. Bönen kräver kroppen — knäna, pannan, händerna. Fastan disciplinerar den utan att förneka den, och pilgrimsfärden är en fysisk akt med andlig innebörd. Den islamiska vägen är inte flykt från kroppen utan vägran att *låta den bli herre*. Ibn Qayyims poäng: bekvämligheten ska inte förväxlas med frihet.
 
-Häri ligger en avgörande skillnad mot den platonska dualismen. I dialogen *Faidon* beskriver Platon hur filosofen "ständigt söker befria själen" och döden är den slutgiltiga separationen.[^11] I islam återuppstår kroppen — själen och kroppen återförenas på Domens dag. Befrielsen riktar sig mot kroppens tyranni — mot det tillstånd där begäret styr och själen följer.
+Skillnaden mot den platonska dualismen är avgörande. I dialogen *Faidon* beskriver Platon hur filosofen "ständigt söker befria själen" och döden är den slutgiltiga separationen.[^11] I islam återuppstår kroppen — själen och kroppen återförenas på Domens dag. Befrielsen riktar sig mot kroppens tyranni — mot det tillstånd där begäret styr och själen följer.
 
 Och det är precis detta tyranni som transhumanismen upphöjer till program.
 
 ## Missnöjets maskin
 
-Även från sekulärt håll hörs samma diagnos. Filosofen Pär Segerdahl vid Uppsala universitet har skrivit: "Transhumanismen ÄR det mänskliga missnöjet." Dess drivkraft är "hetsen, stressen, ångesten, avundsjukan, otåligheten". Flykten till framtiden är, skriver Segerdahl, "mönstret för eländet, inte vägen ut".[^12]
+Även från sekulärt håll hörs samma iakttagelse. Filosofen Pär Segerdahl vid Uppsala universitet har skrivit: "Transhumanismen ÄR det mänskliga missnöjet." Dess drivkraft är "hetsen, stressen, ångesten, avundsjukan, otåligheten". Flykten till framtiden är, skriver Segerdahl, "mönstret för eländet, inte vägen ut".[^12]
 
-Niohundra år tidigare diagnostiserade Ibn al-Jawzi samma mekanism: själen "stannar aldrig vid en gräns". Och en hjärna kopplad direkt till internet stillar inte den hungern — den föder den. Mer data, mer stimulans, mer kontroll, och ändå: tomheten kvarstår. Allt är tillgängligt, och inget räcker till. Den var aldrig teknisk till sin natur.
+Niohundra år tidigare beskrev Ibn al-Jawzi samma mekanism: själen "stannar aldrig vid en gräns". Och en hjärna kopplad direkt till internet stillar inte den hungern — den föder den. Mer data, mer stimulans, mer kontroll, och ändå: tomheten kvarstår. Allt är tillgängligt, och inget räcker till. Den var aldrig teknisk till sin natur.
 
 Med en vers som skär genom seklernas brus namnger Koranen tillståndet:
 
 > "Varje själ skall smaka döden. Och ni skall sannerligen få era belöningar i fullt mått på Uppståndelsens dag. Den som avlägsnas från Elden och förs in i paradiset har förvisso segrat. Det jordiska livet är inte annat än en bedräglig njutning."[^13]
 
-*Meta' al-ghurur* — en bedräglig njutning. Inte en njutning som är verklig men otillräcklig — utan en som *bedrar*. Transhumanismens löfte är *meta' al-ghurur* destillerad till sin renaste form: bedrägeriet förstärkt med miljarder dollar i riskkapital.
+*Meta' al-ghurur* — en bedräglig njutning. Inte en njutning som är verklig men otillräcklig — utan en som *bedrar*. Transhumanismens löfte är *meta' al-ghurur* renodlad till sin yttersta form: bedrägeriet förstärkt med miljarder dollar i riskkapital.
 
 ## Döden som dörr
 

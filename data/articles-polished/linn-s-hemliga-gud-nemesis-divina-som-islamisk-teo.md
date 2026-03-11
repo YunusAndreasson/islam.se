@@ -29,7 +29,7 @@ Linnés *Nemesis Divina* beskriver raka motsatsen. Här råder en sträng propor
 
 > En ständig vexelverkan, en sträng lagbundenhet, en orubblig verldsordning genomströmmar det hela; att slumpen, det blinda ödets tyranni, ingenstädes herskar.[^3]
 
-Häri ligger spänningen mot luthersk nådelära. Linné talar inte om en Gud som förlåter. Han talar om en Gud som *bokför*. Varje synd har sitt straff, som inträffar med naturlags nödvändighet, ofta redan i detta liv. En hel teodicé byggd på empiriska observationer, där Gud framträder som den yttersta orsaken bakom varje moralisk konsekvens.[^4]
+Spänningen mot luthersk nådelära är uppenbar. Linné talar inte om en Gud som förlåter. Han talar om en Gud som *bokför*. Varje synd har sitt straff, som inträffar med naturlags nödvändighet, ofta redan i detta liv. En hel teodicé byggd på empiriska observationer, där Gud framträder som den yttersta orsaken bakom varje moralisk konsekvens.[^4]
 
 Det var inte en enskild naturforskares avvikelse: filosofiskt nådde Kant samma slutsats — att förlitan på nåd allena undergräver det moraliska allvaret. Kant censurerades av den preussiska staten.[^19]
 
@@ -53,17 +53,17 @@ Det är ingen luthersk husandakt utan en utsaga om vad ägande är: ingenting ti
 
 ## Den princip han inte fick namnge
 
-Den princip Linné empiriskt utforskade hade redan formulerats som uppenbarelse i en annan tradition. I Koranens nittionionde sura – en av de kortaste, knappt sex verser – destilleras en hel teodicé:
+Den princip Linné empiriskt utforskade hade redan formulerats som uppenbarelse i en annan tradition. I Koranens nittionionde sura – en av de kortaste, knappt sex verser – ryms en hel teodicé:
 
 > Den som gör den minsta myras vikt av gott skall se det. Och den som gör den minsta myras vikt av ont skall se det.[^8]
 
 *mithqāla dharratin.* En atoms vikt – ingen handling undgår räkenskapen.
 
-Samma princip sökte Linné bevisa genom hundratals fallstudier. Koranen behöver inga fallstudier — principen är ett axiom, en gudomlig kungörelse om verklighetens grundstruktur. Vad Linné laborerade fram som slutsats hade redan uppenbarats.
+Linné sökte bevisa principen genom hundratals fallstudier. Koranen behöver inga fallstudier — principen är ett axiom, en gudomlig kungörelse om verklighetens grundstruktur. Vad Linné laborerade fram som slutsats hade redan uppenbarats.
 
 Parallellerna går djupare än vedergällningen. Linnés upprepade försäkran att Gud "ser alt och hörer alt"[^9] speglar Koranens genomgående betoning av *al-ʿAlīm*, den Allvetande, ett av de gudomliga namnen som återkommer oftast. Tanken att allt vi har är "lån af Gud" finner sin teologiska motsvarighet i *tawḥīd*, den islamiska monoteismens kärna, där Guds absoluta suveränitet innebär att ingenting ägs av skapelsen.[^10]
 
-Linné var ingen muslim – han var en kristen vetenskapsman i 1700-talets Sverige, präglad av sin lutherska och pietistiska miljö. Likväl drev hans empiriska undersökning av moralisk orsak och verkan honom till slutsatser i spänning mot den egna traditionens nådelära — och i påfallande samklang med en annan traditions grundprinciper. Denna tradition betonade just den självrannsakan som Linné utövade genom sina fallstudier:
+Linné var ingen muslim – han var en kristen vetenskapsman i 1700-talets Sverige, präglad av sin lutherska och pietistiska miljö. Ändå drev hans empiriska undersökning av moralisk orsak och verkan honom till slutsatser i spänning mot den egna traditionens nådelära — och i påfallande samklang med en annan traditions grundprinciper. Denna tradition betonade just den självrannsakan som Linné utövade genom sina fallstudier:
 
 > Ställ er själva till räkenskap innan ni ställs till räkenskap, och väg era handlingar innan de vägs åt er.[^11]
 
@@ -105,7 +105,7 @@ Så framstår en gammal man som genom åratal av observation nått en visshet ha
 
 I den islamiska traditionen hade denna erfarenhet aldrig behövt vara hemlig. Principen att Gud ser allt, väger allt, vedergäller allt med exakt rättvisa: det är inte heterodoxi utan *tawḥīd* i sin renaste form – inte en obekväm sanning man viskar i trappuppgången utan *adhān*, böneutropet som ljuder fem gånger om dagen från varje minaret.
 
-Det samhälle som tvingade Linné att tiga röjer mer om sig självt än om mannen som bar på hemligheten. Vår egen tid – som ärvt den lutherska kulturens obehag inför en Gud som kräver räkenskap – läser alltjämt *Nemesis Divina* som en kuriositet, inte som det den är: ett empiriskt argument för att verkligheten är moraliskt ordnad.
+Det samhälle som tvingade Linné att tiga röjer mer om sig självt än om mannen som bar på hemligheten. Vår egen tid – som ärvt den lutherska kulturens obehag inför en Gud som kräver räkenskap – läser *Nemesis Divina* som en kuriositet, inte som det den är: ett empiriskt argument för att verkligheten är moraliskt ordnad.
 
 Linné fick inte tala. Men tystnaden talar.
 

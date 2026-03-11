@@ -3,7 +3,7 @@ title: "Strindbergs demon"
 publishedAt: "2025-12-07T12:00:00.000Z"
 wordCount: 1529
 qualityScore: 8.6
-description: "I Inferno beskriver Strindberg hur han under årens lopp tvingades till ateism av vad han upplevde som Guds tystnad, för att sedan falla i vad han själv kallade den fullständigaste vidskepelse. Fjorton sekler före honom hade tre koranverser i sura al-Tur redan ställt samma fråga — med bara tre möjliga svar."
+description: "Strindberg tvingades till ateism av vad han upplevde som Guds tystnad — för att sedan falla i 'den fullständigaste vidskepelse.' Han kunde varken stanna eller återvända. Fjorton sekler före honom hade tre koranverser i sura al-Tur redan ställt frågan med bara tre möjliga svar."
 ---
 # Strindberg var ärlig nog att formulera problemet. I *Inferno* skriver han: "Jag har nämligen blivit ateist under årens lopp, när jag märkt hur de okända makterna lämnat världen åt dess öde utan att giva ett livstecken ifrån sig."[^1] En mening man kan respektera — inte för att den är sann, utan för att den visar vad ateismen kostar den som tar den på allvar. Strindberg ville inte vara ateist. Dit tvingades han av vad han upplevde som Guds tystnad. Han kunde inte stanna där.
 
@@ -23,7 +23,7 @@ Här finns ingen vädjan till känslan, ingen uppmaning att tro trots förnuftet
 
 ## Koranens argument och dess kritiker
 
-Resonemanget som Koranen för i sura *al-Ṭūr* har destillerats till ett filosofiskt argument: allt som börjar existera har en orsak; universum började existera; alltså har universum en orsak. Ibn Taymiyyah förankrade detta resonemang i Koranens egna premisser och frilade det från kalam-filosofins begreppsapparat — det vilar på den *fiṭrah* som varje människa bär, och på den logik som uppenbarelsen talar till.[^5] Premisserna är enkla. Slutsatsen är oundviklig — om premisserna håller.
+Resonemanget som Koranen för i sura *al-Ṭūr* har formulerats som ett filosofiskt argument: allt som börjar existera har en orsak; universum började existera; alltså har universum en orsak. Ibn Taymiyyah förankrade detta resonemang i Koranens egna premisser och frilade det från kalam-filosofins begreppsapparat — det vilar på den *fiṭrah* som varje människa bär, och på den logik som uppenbarelsen talar till.[^5] Premisserna är enkla. Slutsatsen är oundviklig — om premisserna håller.
 
 De har prövats: J.L. Mackie invände att man inte kan extrapolera från orsaker inom universum till en orsak *för* universum — ett sammansättningsfel.[^6] Graham Oppy utmanade den första premissen direkt: varför måste allt som börjar existera ha en orsak?[^7] Men invändningarna har en gemensam egenhet: de förskjuter frågan utan att besvara den.
 

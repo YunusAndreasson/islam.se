@@ -37,11 +37,12 @@
 	--color-warm: light-dark(#b0a090, #6a5e4a);
 	--color-divider: color-mix(in srgb, var(--color-muted), transparent 80%);
 
-	/* Type scale — 1.2 ratio (minor third) from 19px base */
-	--step-0: 1.1875rem; /* 19px — body */
-	--step-1: 1.425rem; /* 22.8px */
-	--step-2: 1.71rem; /* 27.4px — h2 */
-	--step-4: 2.462rem; /* 39.4px — h1 */
+	/* Type scale — 1.2 ratio (minor third) from 19px Literata base.
+	   Heading steps ×1.061 to optically match Source Sans 3's smaller metrics. */
+	--step-0: 1.1875rem; /* 19px — body (Literata) */
+	--step-1: 1.512rem;  /* 24.2px — h3 (22.8 × 1.061, compensated) */
+	--step-2: 1.814rem;  /* 29.0px — h2 (27.4 × 1.061, compensated) */
+	--step-4: 2.612rem;  /* 41.8px — h1 (39.4 × 1.061, compensated) */
 
 	/* Spacing — golden progression from body line-height (φ ≈ 1.618) */
 	--space-unit: 1.9rem;

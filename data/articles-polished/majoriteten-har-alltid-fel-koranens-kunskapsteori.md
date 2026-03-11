@@ -3,7 +3,7 @@ title: "Sanningen har inget parti"
 publishedAt: "2025-11-12T12:00:00.000Z"
 wordCount: 1906
 qualityScore: 8.6
-description: "År 1955 röstade svenska folket för att avskaffa Brattsystemet trots läkarnas varningar. Tjugofem år senare fick väljarna tre alternativ i kärnkraftsfrågan — inget av dem ett rent nej. Koranen ställde diagnosen långt före båda omröstningarna: de flesta följer antaganden, inte kunskap."
+description: "Svenska folket röstade 1955 för att avskaffa Brattsystemet trots läkarnas varningar. Tjugofem år senare fick väljarna tre alternativ i kärnkraftsfrågan — inget av dem ett rent nej. Koranen hade satt ord på saken långt före båda omröstningarna: de flesta följer antaganden, inte kunskap."
 ---
 # GROUND — Förankring av abstrakta begrepp
 
@@ -13,7 +13,7 @@ En mening i Koranen borde oroa varje demokrat:
 
 Iakttagelsen är ren och osentimental: de flesta människor följer antaganden. Antaganden är inte sanning.
 
-Insikten saknar inte sällskap. Strindberg formulerade samma misstanke i *Götiska rummen*: "Det är majoriteten, det trogna folket, det sunda förståndet som bara är oförstånd; det är de rättänkande, de stilla i landet, kärnan av befolkningen."[^2] Ellen Key diagnostiserade 'massdumheten, massfegheten och masslögnen' som tillsammans åstadkommer sådant som nästan varje enskild individ i massan skulle tveka inför.[^3] Le Bon blottade hur en människa som inträder i en folkmassa förlorar sina individuella egenskaper och upptar massans.[^4]
+Insikten saknar inte sällskap. Strindberg formulerade samma misstanke i *Götiska rummen*: "Det är majoriteten, det trogna folket, det sunda förståndet som bara är oförstånd; det är de rättänkande, de stilla i landet, kärnan av befolkningen."[^2] Ellen Key pekade ut 'massdumheten, massfegheten och masslögnen' som tillsammans åstadkommer sådant som nästan varje enskild individ i massan skulle tveka inför.[^3] Le Bon blottade hur en människa som inträder i en folkmassa förlorar sina individuella egenskaper och upptar massans.[^4]
 
 Strindberg observerade, Key kritiserade, Le Bon analyserade — men Koranen förklarar *varför*.
 
@@ -37,15 +37,15 @@ Varför följer de flesta antaganden? Frågan verkar enkel. Den islamiska tradit
 
 Ibn Qayyim al-Jawziyya, den damasceniske rättslärd som på 1300-talet systematiserade hjärtats sjukdomar, urskiljer två svagheter: bristande insikt och bristande tålamod.[^8] Insikt kräver ansträngning. Tålamod kräver att man uthärder obehaget av att stå ensam. Antagandet *är* genvägen: en åsikt utan arbete, en övertygelse utan prövning.
 
-Men lättjan är symtom, inte orsak. Ibn al-Jawzi, den bagdadiske predikanten som skrev om hjärtats fällor, formulerade det så: "Begäret förblindar och gör döv för sanning och riktighet."[^9] Begäret — *hawā* — förvränger omdömet inifrån. Människan ser inte fel *trots* sin intelligens utan *på grund av* sina begär. Det är att veta att affären är dålig men underteckna ändå, för att man redan har föreställt sig resultatet. Den skarpsinniga som följer sitt begär blir okunnig; den starka blir svag.[^10]
+Men lättjan är symtom, inte orsak. Ibn al-Jawzi, den bagdadiske predikanten som skrev om hjärtats fällor: "Begäret förblindar och gör döv för sanning och riktighet."[^9] Begäret — *hawā* — förvränger omdömet inifrån. Människan ser inte fel *trots* sin intelligens utan *på grund av* sina begär. Det är att veta att affären är dålig men underteckna ändå, för att man redan har föreställt sig resultatet. Den skarpsinniga som följer sitt begär blir okunnig; den starka blir svag.[^10]
 
-Utan kännedom om denna tradition nådde Le Bon samma slutsats från motsatt håll: "I en folkmassa blir skeptikern troende, den ärliga människan en förbrytare, den fege en hjälte."[^11] Massan upplöser inte bara individuellt omdöme — den ställer det på huvudet. Le Bon beskrev mekanismen — den koraniska analysen blottlägger drivkraften: *hawā*, det oreflekterade begäret som intar kunskapens plats.
+Utan kännedom om denna tradition nådde Le Bon samma slutsats från motsatt håll: "I en folkmassa blir skeptikern troende, den ärliga människan en förbrytare, den fege en hjälte."[^11] Massan upplöser inte bara individuellt omdöme — den ställer det på huvudet. Le Bon beskrev mekanismen — den koraniska analysen namnger drivkraften: *hawā*, det oreflekterade begäret som intar kunskapens plats.
 
-Koranen ställer diagnosen med en direkthet som gör omskrivningar överflödiga: "Vem är mer vilse än den som följer sitt begär utan någon vägledning från Allah ﷻ?"[^12] Det som fördöms är inte begäret i sig — det är begäret *utan vägledning*. Det är att vilja att kandidaten ska vinna så starkt att man tror på lögnerna om motståndaren. Islam förutsätter inte att människan kan leva utan begär, utan att hon behöver en ordning som ställer sanningen över hennes impulser.
+Koranen formulerar det rent ut: "Vem är mer vilse än den som följer sitt begär utan någon vägledning från Allah ﷻ?"[^12] Det som fördöms är inte begäret i sig — det är begäret *utan vägledning*. Det är att vilja att kandidaten ska vinna så starkt att man tror på lögnerna om motståndaren. Islam förutsätter inte att människan kan leva utan begär, utan att hon behöver en ordning som ställer sanningen över hennes impulser.
 
 ## Sanningen känns inte igen genom människor
 
-Ett uttalande tillskrivet Ali ibn Abi Talib, den fjärde kalifen, destillerar hela den islamiska kunskapsteorin: "Sanningen känns inte igen genom människor — känn igen sanningen, så känner du igen dess folk."[^13]
+Ett uttalande tillskrivet Ali ibn Abi Talib, den fjärde kalifen, bär hela den islamiska kunskapsteorin: "Sanningen känns inte igen genom människor — känn igen sanningen, så känner du igen dess folk."[^13]
 
 Formuleringen ser enkel ut. Den är förödande.
 
@@ -75,11 +75,11 @@ Just detta har det demokratiska samhället institutionaliserat och döpt till pl
 
 ## Det tysta vittnesmålet
 
-Koranen har ett ord för dem som kan skilja sanning från antagande: *ulū al-albāb* — de med kärna. "Han ger visdom till den Han vill, och den som ges visdom har förvisso getts mycket gott. Men ingen låter sig förmanas utom de med förstånd."[^22] Visheten beskrivs som en gåva, inte en merit, inte en produkt av utbildning eller procedur, utan något som *ges*. Det kunskapsteoretiska fundamentet är inte mänskligt utan gudomligt: sanningen kommer inte från människan utan *till* människan.
+Koranen kallar dem som kan skilja sanning från antagande *ulū al-albāb* — de med kärna. "Han ger visdom till den Han vill, och den som ges visdom har förvisso getts mycket gott. Men ingen låter sig förmanas utom de med förstånd."[^22] Visheten beskrivs som en gåva, inte en merit, inte en produkt av utbildning eller procedur, utan något som *ges*. Det kunskapsteoretiska fundamentet är inte mänskligt utan gudomligt: sanningen kommer inte från människan utan *till* människan.
 
 Demokratin antar att sanningen skapas — genom samtal, genom konsensus, genom procedur. Den koraniska kunskapsteorin vidhåller att sanningen *finns*, oavsett om någon upptäcker den, erkänner den eller röstar för den.
 
-Alis princip ekar: känn igen sanningen, så känner du igen dess folk — aldrig tvärtom.
+Alis princip står kvar: känn igen sanningen, så känner du igen dess folk — aldrig tvärtom.
 
 Den som räknar huvuden istället för att pröva argument har redan förlorat det som gör kunskap till kunskap: kravet att den ska vara sann.
 

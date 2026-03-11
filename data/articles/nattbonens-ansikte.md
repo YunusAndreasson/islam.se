@@ -15,7 +15,7 @@ Historien berättas av den medeltida islamiske lärde Ibn Qayyim al-Jawziyyah (d
 
 Varje yta – huden, håret, kroppen – förklaras otillräcklig i sitt naturliga tillstånd. Serum, filler, filter, ingrepp – skönhet har blivit något man köper, applicerar, injicerar.
 
-Naomi Wolfs *The Beauty Myth* identifierade 1990 mekanismen: ju fler rättsliga och materiella hinder kvinnor har brutit igenom, desto hårdare har bilder av kvinnlig skönhet kommit att tynga dem.[^2] Wolf ställde diagnosen utan att ordinera behandling – den moderna feminismens skönhetskritik vet vad den är *emot*, men sällan vad den är *för*.
+Naomi Wolfs *The Beauty Myth* identifierade 1990 mekanismen: ju fler rättsliga och materiella hinder kvinnor har brutit igenom, desto hårdare har bilder av kvinnlig skönhet kommit att tynga dem.[^2] Wolf namngav sjukdomen utan att förskriva botemedel – den moderna feminismens skönhetskritik vet vad den är *emot*, men sällan vad den är *för*.
 
 ## Skönhetens två slag
 

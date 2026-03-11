@@ -15,7 +15,7 @@ Leo Kall, biokemisten som uppfinner Kallocainet, tror sig tjäna Världsstaten g
 
 Sanningsserumet krossar inte bara samhällskontraktet. Det förintar gåvan. Människor kan inte längre välja att vara ärliga, eftersom valet har tagits ifrån dem. Utan val finns ingen tillit, ingen intimitet, inget verkligt utbyte mellan själar. Det vet den som fått en bekännelse tvingad fram — orden finns där, men personen är redan borta.
 
-Boye själv formulerar det så:
+Boye:
 
 > Är det inte underligt, att allting mister sitt värde, så fort det upphör att vara gåva — till och med sanningen?[^1]
 
@@ -23,7 +23,7 @@ Ju mer staten vet, desto mindre finns att veta. Den sanning som frampressas är 
 
 ## Tvingad transparens och den moderna ångesten
 
-Boyes diagnostik av övervakningens anatomi får sin teoretiska efterklang hos en annan sekelskiftestänkare.
+Boyes kartläggning av övervakningens anatomi får sin teoretiska efterklang hos en annan sekelskiftestänkare.
 
 Foucaults panoptikon – det fängelse där fångarna aldrig vet om de observeras och därför alltid antar att de gör det – är standardmetaforen för övervakningssamhället.[^3] *Kallocain* går längre. Panoptikonen disciplinerar beteende; Kallocainet invaderar tanken. Boye skriver inte om övervakning utifrån utan om annekteringen av det inre rummet, det enda som återstår när allt yttre redan kontrollerats.
 
@@ -33,7 +33,7 @@ Denna spiral — där rädslan för avslöjande föder isolation som i sin tur f
 
 > Av ensamma föds ännu ensammare, av rädda ännu räddare.[^4]
 
-Häri ligger spiralens logik: rädslan att bli avslöjad gör människor stumma, stumheten föder isolering, isoleringen en tyngre rädsla. Kall själv erkänner det slutligen: att han varit feg hela sitt liv, att hela hans berättelse egentligen kartlägger feghetens former.[^5]
+Spiralens logik är enkel: rädslan att bli avslöjad gör människor stumma, stumheten föder isolering, isoleringen en tyngre rädsla. Kall själv erkänner det slutligen: att han varit feg hela sitt liv, att hela hans berättelse egentligen kartlägger feghetens former.[^5]
 
 Men är problemet att medborgarna övervakas, eller att den som övervakar dem är staten?
 
@@ -81,7 +81,7 @@ Linné kartlade övervakningens mekanik i naturen; Boye undersöker dess mänskl
 
 *Kallocain* slutar i dunkel. Leo Kall skriver sina memoarer i en fångenskap som är mer existentiell än fysisk – fångad inte av staten, utan av insikten att han förstört det han mest av allt behövde. Linda försvinner ur berättelsen. Rissen avrättas. Den sanning som frigjorts har förintat allt den berörde.
 
-Boye erbjuder ingen lösning men diagnosticerar obevekligt: tvingad genomskinlighet förstör. Men hon lämnar frågan öppen – finns det en genomskinlighet som inte förstör?
+Boye erbjuder ingen lösning men blottlägger obevekligt: tvingad genomskinlighet förstör. Men hon lämnar frågan öppen – finns det en genomskinlighet som inte förstör?
 
 FN:s generalsekreterare Dag Hammarskjöld (d. 1961) vände på frågan i *Vägmärken*:
 
@@ -95,7 +95,7 @@ Den islamiska traditionen svarar: ja, en sådan genomskinlighet finns. Men bara 
 
 Hemlighet – *sirr*: ordet är talande. Allvetandet som borde avskaffa varje hemlighet rymmer självt en: att just medvetenheten om Guds blick är det mest intima av tillstånd, det som inte kan uppvisas, avtvungas eller injiceras med ett serum. Foucaults panoptikon eliminerar det privata. *Ihsan* förvandlar det privata till ett möte. Det som skulle varit ett examinationsrum blir ett rum där två är närvarande.
 
-"Hur kan man göra halt vid en statsgräns," frågar Boye genom Leo Kall, "om man har känt att ens pulsar är drivna av hjärtan i världsalltet?"[^17] Kall menar Världsstaten, det totalitära kollektivet. Men meningen rymmer en genklang som Boye själv kanske anade: det finns en gemenskap bortom staten, en genomskinlighet bortom serumet, en sanning som bara kan ges – aldrig tas.
+"Hur kan man göra halt vid en statsgräns," frågar Boye genom Leo Kall, "om man har känt att ens pulsar är drivna av hjärtan i världsalltet?"[^17] Kall menar Världsstaten, det totalitära kollektivet. Men orden har en genklang Boye själv kanske anade: det finns en gemenskap bortom staten, en genomskinlighet bortom serumet, en sanning som bara kan ges – aldrig tas.
 
 ---
 

@@ -77,7 +77,7 @@ Koranens tilltal om blicken tilltalar både män och kvinnor, i två parallella 
 
 Med samma verb — *yaghddu*, 'sänka', av samma rot som att dämpa rösten — tilltalar Koranen båda könen. Båda ser; båda konstruerar — och båda behöver disciplin. Det ord som följer, *azka*, 'renare', pekar mot klarhet, inte puritanism.
 
-Koranen rymmer ännu en bild:
+Koranen ger ännu en bild:
 
 > Fäst åter blicken gång efter gång; blicken vänder tillbaka till dig avvisad och alldeles matt.[^18]
 

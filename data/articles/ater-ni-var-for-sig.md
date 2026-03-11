@@ -7,7 +7,7 @@ description: "År 1377 skrev den nordafrikanske historikern Ibn Khaldūn att civ
 ---
 En stockholmare sitter vid köksbordet – om det ens finns ett köksbord; kanske är det skrivbordet som för en stund görs om till matplats. Matkassen har levererats till dörren, portionerad för en person, algoritmiskt anpassad efter önskemål. Måltiden tar tolv minuter. Ingen ser honom äta. Ingen vet vad han åt.
 
-Fyrtiotvå procent av Sveriges hushåll består, enligt SCB:s siffror från 2024, av en enda person.[^1] Trehundratusen svenskar lever i vad Folkhälsomyndigheten samma år kallar social isolering.[^2] På 1300-talet skulle en nordafrikansk historiker ha betraktat denna scen och sett något annat än en livsstil. Han skulle ha sett en diagnos.
+Fyrtiotvå procent av Sveriges hushåll består, enligt SCB:s siffror från 2024, av en enda person.[^1] Trehundratusen svenskar lever i vad Folkhälsomyndigheten samma år kallar social isolering.[^2] På 1300-talet skulle en nordafrikansk historiker ha betraktat denna scen och sett något annat än en livsstil. Han skulle ha sett ett sjukdomstecken.
 
 ## Vad en människa äter gör henne till den hon är
 

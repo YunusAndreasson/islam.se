@@ -3,7 +3,7 @@ title: "Galningen på torget"
 publishedAt: "2025-12-02T12:00:00.000Z"
 wordCount: 1528
 qualityScore: 8.6
-description: "År 1882 lät Nietzsche inte en filosof utan en galning springa ut på torget med en lykta mitt på ljusa dagen för att förkunna Guds död. Han förstod vad hans beundrare sällan erkänner: att utan Gud är inte bara teologin utan hela den moraliska ordningen i fritt fall."
+description: "Nietzsche lät ingen filosof förkunna Guds död. Han lät en galning göra det — med en lykta mitt på ljusa dagen. Han förstod vad hans beundrare sällan erkänner: att utan Gud är inte bara teologin utan hela den moraliska ordningen i fritt fall."
 ---
 Nietzsche lät ingen filosof förkunna Guds död. Han lät en galning göra det — med en lykta i handen, mitt på ljusa dagen, ropande på torget:
 
@@ -19,7 +19,7 @@ Regeringsformens första kapitel, andra paragrafen, fastslår att den offentliga
 
 Paragrafen fungerar som ett axiom: en sats som förutsätts men aldrig bevisas. Svensk grundlag hävdar inte att människor *borde* behandlas som om de hade lika värde, utan att de *har* det — ett påstående om verklighetens natur, men utan förankring i verkligheten själv.[^2]
 
-Den tyske författningsdomaren Ernst-Wolfgang Böckenförde ställde samma diagnos 1967: den fria, sekulariserade staten lever av förutsättningar den inte själv kan garantera.[^18]
+Den tyske författningsdomaren Ernst-Wolfgang Böckenförde konstaterade det 1967: den fria, sekulariserade staten lever av förutsättningar den inte själv kan garantera.[^18]
 
 Hjalmar Söderberg lade fingret på sprickan redan 1905:
 
@@ -29,9 +29,9 @@ Om han hade rätt, om moral bara är vana, då är "alla människors lika värde
 
 ## Moralen efter moralen
 
-I *After Virtue* diagnostiserade filosofen Alasdair MacIntyre samma sjukdom: den moderna moraldebatten är olöslig, inte för att frågorna är svåra utan för att vi argumenterar med fragment av system som förlorat sitt sammanhang. Vi har kvar orden *rättvisa*, *plikt*, *dygd*, men har tappat ramverken som gav dem mening.[^4] Det är den som säger 'det är orättvist' men inte kan säga varför — den som känner plikt men inte vet mot vem.
+I *After Virtue* identifierade filosofen Alasdair MacIntyre samma sjukdom: den moderna moraldebatten är olöslig, inte för att frågorna är svåra utan för att vi argumenterar med fragment av system som förlorat sitt sammanhang. Vi har kvar orden *rättvisa*, *plikt*, *dygd*, men har tappat ramverken som gav dem mening.[^4] Det är den som säger 'det är orättvist' men inte kan säga varför — den som känner plikt men inte vet mot vem.
 
-MacIntyre ordinerade en återgång till aristotelisk dygdetik inom en levande tradition, i hans fall den thomistiska. Moralen behöver ett sammanhang, en berättelse, en gemenskap som bär den över generationerna. Men diagnosen räcker längre än receptet. Om moralen kräver en levande tradition: vilken tradition förmår ge det som krävs?
+MacIntyre ordinerade en återgång till aristotelisk dygdetik inom en levande tradition, i hans fall den thomistiska. Moralen behöver ett sammanhang, en berättelse, en gemenskap som bär den över generationerna. Men iakttagelsen räcker längre än receptet. Om moralen kräver en levande tradition: vilken tradition förmår ge det som krävs?
 
 Invändningen väntar redan: i *On What Matters* argumenterade den samtida filosofen Derek Parfit för att moraliska sanningar existerar oberoende av både Gud och mänsklig överenskommelse, liksom matematiska sanningar.[^5] Men den invändningen svarar inte på frågan om *kraft*. Att en moralisk sanning existerar är en sak. Att den formar levande människors handlingar, att den bärs genom sekler, att den motstår maktens och begärets tryck — det kräver något annat. Det kräver vad traditionerna själva förmår ge — det som Ibn Khaldun iakttog:
 
@@ -51,7 +51,7 @@ Koranen behandlar inte moral som en mänsklig uppfinning som behöver filosofisk
 
 > Vi har skapat människan i den bästa skapnad.[^9]
 
-Människan är skapad med en värdighet som inte behöver motiveras utifrån — den är inbyggd — och rymmer en förmåga att känna igen det goda, en *fiṭrah* som föregår varje kulturell konvention. Men förmågan allene räcker inte:
+Människan är skapad med en värdighet som inte behöver motiveras utifrån — den är inbyggd — och äger en förmåga att känna igen det goda, en *fiṭrah* som föregår varje kulturell konvention. Men förmågan allene räcker inte:
 
 > Därefter satte Vi dig på föreskriftens tydliga väg. Rätta dig därför efter den och rätta dig inte efter begären hos dem som ingenting vet.[^10]
 
@@ -69,7 +69,7 @@ August Strindberg — själv ateist, själv plågad av sin ateism — skrev i *I
 
 > Jag har nämligen blivit ateist under årens lopp, när jag märkt hur de okända makterna lämnat världen åt dess öde utan att giva ett livstecken ifrån sig. Någon att tacka! Det finnes ingen tillstädes, och min tvungna otacksamhet trycker mig som en börda![^13]
 
-*Tvungen otacksamhet.* Orden blottlägger vad den moderna ateismen sällan erkänner: att avsaknaden av Gud inte upplevs som frihet utan som skuld utan adressat, tacksamhet utan mottagare, mening utan sammanhang.
+*Tvungen otacksamhet.* Orden avslöjar vad den moderna ateismen sällan erkänner: att avsaknaden av Gud inte upplevs som frihet utan som skuld utan adressat, tacksamhet utan mottagare, mening utan sammanhang.
 
 Erik Gustaf Geijer hade tecknat motbilden:
 

@@ -3,7 +3,7 @@ title: "Ormboet i hjärtat"
 publishedAt: "2025-07-30T12:00:00.000Z"
 wordCount: 2196
 qualityScore: 8.5
-description: "I sin parisiska exil 1897 stöter August Strindberg bort vänner och drar sig undan, övertygad om att okända makter förföljer honom. Sex århundraden tidigare hade Ibn Taymiyyah redan ställt diagnosen: avund är en sjukdom med en förstörelseordning – den börjar i själen och arbetar sig utåt."
+description: "I sin parisiska exil 1897 stöter August Strindberg bort vänner och drar sig undan, övertygad om att okända makter förföljer honom. Sex århundraden tidigare hade Ibn Taymiyyah redan sett samma sak: avund är en sjukdom med en förstörelseordning – den börjar i själen och arbetar sig utåt."
 ---
 En passage i Strindbergs *Inferno* förtjänar att läsas med djup eftertanke. Mitt i sin parisiska exil, sönderfallen av alkemi och paranoia, skriver han:
 
@@ -11,15 +11,15 @@ En passage i Strindbergs *Inferno* förtjänar att läsas med djup eftertanke. M
 
 Det avgörande är riktningen. Strindberg misstänker att andra vill stjäla hans upptäckt – men det är han själv som isoleras. Han stöter bort vännerna och ger återbud. Avunden han projicerar utåt vänder sig inåt och förtär hans värld, tills bara ökentystnad återstår.
 
-För detta fenomen har den islamiska traditionen ett namn – och en diagnos som skär djupare än Strindbergs självobservation förmådde.
+För detta fenomen har den islamiska traditionen ett namn – och en förklaring som når djupare än Strindbergs självobservation förmådde.
 
 ## Sjukdomen som angriper sin värd
 
-Ibn Taymiyyah – den hanbalitiske teologen vars intellekt saknar motstycke i den medeltida världen – ägnade ett helt verk åt hjärtats sjukdomar. I *Amrāḍ al-Qulūb wa-Shifāʾuhā* diagnostiserar han med oförsonlig tydlighet:
+Ibn Taymiyyah – den hanbalitiske teologen vars intellekt saknar motstycke i den medeltida världen – ägnade ett helt verk åt hjärtats sjukdomar. I *Amrāḍ al-Qulūb wa-Shifāʾuhā* fastslår han med oförsonlig tydlighet:
 
 > Avunden är en sjukdom bland själens sjukdomar som fördärvar dess bärares religion och ära, och som sedan kan fördärva hans förstånd och slutligen hans kropp.[^2]
 
-Ibn Taymiyyah spårar här en kaskad av förstörelse som rör sig från det inre till det yttre, från hjärtats tillstånd till kroppens förfall. Ordningen är avgörande: religion, ära, förstånd, kropp. Inte en känsla som ibland slår fel – en sjukdom med en systematik i förstörelsen, en patologi som börjar i det innersta och arbetar sig utåt genom lager efter lager av personligheten. I samma verk preciserar han diagnosen: *ḥasad* – destruktiv avund – får själen att hata det som gagnar den och älska det som skadar den.[^3] Med ett modernt begrepp: en autoimmun sjukdom – själens immunförsvar vänder sig mot själen själv.
+Ibn Taymiyyah spårar här en kaskad av förstörelse som rör sig från det inre till det yttre, från hjärtats tillstånd till kroppens förfall. Ordningen är avgörande: religion, ära, förstånd, kropp. Inte en känsla som ibland slår fel – en sjukdom med en systematik i förstörelsen, en patologi som börjar i det innersta och arbetar sig utåt genom lager efter lager av personligheten. I samma verk skärper han bilden: *ḥasad* – destruktiv avund – får själen att hata det som gagnar den och älska det som skadar den.[^3] Med ett modernt begrepp: en autoimmun sjukdom – själens immunförsvar vänder sig mot själen själv.
 
 Forskning publicerad i *Science* bekräftar bilden bokstavligen: avund aktiverar hjärnans smärtcentrum – samma nätverk som bearbetar fysisk skada.[^23]
 
@@ -32,7 +32,7 @@ Ibn Qayyim, Ibn Taymiyyahs mest begåvade elev, förtätade bilden till en enda 
 > Det finns inget bland ondskans egenskaper som är rättvisare än avunden: den dödar den avundsjuke innan den når den avundade.[^5]
 
 Alla andra laster ger åtminstone något tillbaka – girigheten sitt guld, högmodet sin glans, vreden sin maktkänsla i det ögonblick den bryter ut. Avunden ger ingenting utom smärta.
-Observationen är inte uteslutande islamisk. Thomas av Aquino nådde samma slutsats i sin *Summa Theologiae*, och Dante placerade de avundsjuka i skärselden med ögonen ihopsydda – blinda för allt utom sin egen plåga.[^6] Tre civilisationer, oberoende av varandra, ställde samma diagnos – en samstämmighet som borde få den moderna människan att stanna upp, när hon gärna reducerar laster till "negativa känslor".
+Observationen är inte uteslutande islamisk. Thomas av Aquino nådde samma slutsats i sin *Summa Theologiae*, och Dante placerade de avundsjuka i skärselden med ögonen ihopsydda – blinda för allt utom sin egen plåga.[^6] Tre civilisationer, oberoende av varandra, nådde samma slutsats – en samstämmighet som borde få den moderna människan att stanna upp, när hon gärna reducerar laster till "negativa känslor".
 
 ## Den första synden, två gånger
 
@@ -44,7 +44,7 @@ Koranens femte sura berättar hur det gick till. Kain och Abel bär fram var sit
 
 > Men hans inre drev honom mot mordet på sin bror och han dödade honom och blev så en av förlorarna.[^8]
 
-"Hans inre drev honom." Inte en plan, inte ett strategiskt beslut – en kraft inifrån, starkare än förnuftet. Och resultatet: broderns död och att Kain själv blev "en av förlorarna" – *min al-khāsirīn*. Formuleringen bär en dubbel dom: mordet dödade Abel – men förstörde något i Kain.
+"Hans inre drev honom." Inte en plan, inte ett strategiskt beslut – en kraft inifrån, starkare än förnuftet. Och resultatet: broderns död och att Kain själv blev "en av förlorarna" – *min al-khāsirīn*. En dubbel dom: mordet dödade Abel – men förstörde något i Kain.
 
 Iblis vägrade buga inför Adam av ren avund: hur kunde denna varelse av lera föredras framför honom, skapad av eld?[^9] Avund är, i denna läsning, en anklagelse mot Guds fördelning – en protest mot den ordning där andra får det man själv anser sig förtjäna.
 
@@ -76,7 +76,7 @@ Max Scheler kartlade 1912 avundens inre mekanism i sitt verk om *ressentiment*. 
 
 Det sista steget är det farligaste – Scheler kallade det *Selbstvergiftung*, självförgiftning. Avund som stannar vid missnöje är smärtsam men hanterbar. Avund som omformar själva värdehierarkin är en existentiell katastrof: den avundsjuke kan inte längre se vad som är gott, eftersom allt gott som andra äger redan har blivit dåligt. Befordran betydde allt – tills den gick till någon annan, då blev ledarskap meningslöst byråkrateri.
 
-Just här möts Schelers fenomenologi och Ibn Taymiyyahs diagnos av *ḥasad*[^3]: avund är inte en känsla riktad mot andra utan ett tillstånd som förvränger blicken mot allt. Men mötet avslöjar en avgörande gräns. Scheler kan beskriva värdeinversionens mekanism – men inte upphäva den. Om subjektets egen värdeblick är förgiftad, finns i hans ramverk ingen oförstörd utsiktspunkt varifrån det förvridna kan korrigeras. Den islamiska diagnosen förutsätter en sådan punkt – *fiṭrah*, den skapade naturen, och ett mått utanför själen: Guds faktiska fördelning. Det är därför traditionen kan gå från diagnos till läkning.
+Just här möts Schelers fenomenologi och Ibn Taymiyyahs beskrivning av *ḥasad*[^3]: avund är inte en känsla riktad mot andra utan ett tillstånd som förvränger blicken mot allt. Men mötet avslöjar en avgörande gräns. Scheler kan beskriva värdeinversionens mekanism – men inte upphäva den. Om subjektets egen värdeblick är förgiftad, finns i hans ramverk ingen oförstörd utsiktspunkt varifrån det förvridna kan korrigeras. Den islamiska traditionen förutsätter en sådan punkt – *fiṭrah*, den skapade naturen, och ett mått utanför själen: Guds faktiska fördelning. Det är därför traditionen kan gå från beskrivning till läkning.
 
 Hjalmar Söderberg, i *Doktor Glas*, sammanfattar alltsammans i sju ord:
 
@@ -124,11 +124,11 @@ Och botemedlet:
 
 Avund frodas när blicken riktas mot *dunyā* – världen som mål i sig själv. Hjärtan som vänds mot sanningen finner varandra. Avunden behöver jämförelsen för att andas. Den som slutar mäta sig mot andra och börjar mäta sig mot sina egna löften till Gud tar syret från avunden.
 
-Häri bottnar Ibn Taymiyyahs diagnos: avund är en hjärtsjukdom. Hjärtat – *al-qalb* – är i islamisk psykologi den punkt där människans förhållande till Gud avgörs. Ett sjukt hjärta ser världen snett: andras välsignelser blir hot, Guds gåvor till andra blir personliga förolämpningar. Al-Māwardī avslutade med en mening som tål att bäras med sig:
+Häri bottnar Ibn Taymiyyahs iakttagelse: avund är en hjärtsjukdom. Hjärtat – *al-qalb* – är i islamisk psykologi den punkt där människans förhållande till Gud avgörs. Ett sjukt hjärta ser världen snett: andras välsignelser blir hot, Guds gåvor till andra blir personliga förolämpningar. Al-Māwardī avslutade med en mening som tål att bäras med sig:
 
 > Den som är tillfreds med Guds beslut gör ingen honom vred; och den som nöjer sig med Hans gåvor, där tar avunden ingen plats.[^22]
 
-Där Strindberg sökte de okända makterna som förföljde honom, där Söderbergs doktor Glas stirrade på en annans lycka med tom förtvivlan – där ger den islamiska traditionen inte bara diagnos utan läkning. Botemedlet är inte att förneka avunden utan att rikta hjärtat mot den enda blick som inte jämför.
+Där Strindberg sökte de okända makterna som förföljde honom, där Söderbergs doktor Glas stirrade på en annans lycka med tom förtvivlan – där ger den islamiska traditionen inte bara förklaring utan läkning. Botemedlet är inte att förneka avunden utan att rikta hjärtat mot den enda blick som inte jämför.
 
 ---
 

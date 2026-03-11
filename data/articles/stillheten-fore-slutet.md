@@ -33,9 +33,9 @@ I årtusenden har människor fruktat undergången. Klimatångesten förlamar av 
 
 Religionsfilosofen Daniel Kuehn vid University of Chicago frågar om klimatkrisen fungerar som sekulär eskatologi – undergångsberättelse utan gudomlig ram.[^3] Kuehn är mer ambivalent än kategorisk; han undersöker snarare än besvarar frågan, men den bär längre än han för den. En sekulär eskatologi ser ut som religion minus Gud. Den blir något värre: apokalyps utan förlösning, skuld utan förlåtelse, synd utan nåd.
 
-Filosofen Hannah Arendt nådde samma slutsats utan teologisk utgångspunkt: utan förlåtelse förblir människan fången i sina handlingars konsekvenser, oförmögen att börja om.[^18]
+Filosofen Hannah Arendt formulerade det utan teologisk utgångspunkt: utan förlåtelse förblir människan fången i sina handlingars konsekvenser, oförmögen att börja om.[^18]
 
-Filosofen Günther Anders namngav tillståndet redan under kärnvapenåldern: *Apokalypse ohne Reich* – naken apokalyps, undergång som inte öppnar något rike.[^17] Samma struktur, apokalypsen utan riket, återfinns i samtidens klimatsorg: i Harvard Divinity Bulletin diagnostiseras en ny form av "klimatsorg": en sakral känsla utan sakrament, en sorg utan tröst, ett rituellt tomrum som varken terapi eller aktivism förmår fylla.[^4] Sorgen som söker sin gest.
+Filosofen Günther Anders namngav tillståndet redan under kärnvapenåldern: *Apokalypse ohne Reich* – naken apokalyps, undergång som inte öppnar något rike.[^17] Samma struktur, apokalypsen utan riket, återfinns i samtidens klimatsorg: i Harvard Divinity Bulletin beskrivs en ny form av "klimatsorg": en sakral känsla utan sakrament, en sorg utan tröst, ett rituellt tomrum som varken terapi eller aktivism förmår fylla.[^4] Sorgen som söker sin gest.
 
 Den sekulära moderniteten har ärvt skräcken men avskaffat hoppet.
 

@@ -25,7 +25,7 @@ Den ordning de beskriver utesluter den moderna fantasin att allt kan bli annorlu
 
 Ångesten försvinner inte trots att utfallet är givet — den försvinner *därför att* utfallet är givet. När utgången inte längre är ditt ansvar samlas all kraft i nuets handling.
 
-Moderna forskare har ifrågasatt hur absolut denna fatalism egentligen var — Magnus Magnusson menade att Njáll inte är fatalist i hednisk mening; Thorsteinn Gylfason avvisar fatalismen helt. Likväl kvarstår själva mönstret: den som accepterar en given ram befrias från grubbel.
+Moderna forskare har ifrågasatt hur absolut denna fatalism egentligen var — Magnus Magnusson menade att Njáll inte är fatalist i hednisk mening; Thorsteinn Gylfason avvisar fatalismen helt. Men mönstret kvarstår: den som accepterar en given ram befrias från grubbel.
 
 ## Det tomrum som friheten lämnade
 
@@ -45,17 +45,17 @@ Den moderna svensken har befriats från ödestron. Men befrielsen skapade ett to
 
 ## Hjärtats tillit
 
-Islam rymmer något som varken Orlog eller den moderna friheten kan ge — men det kräver teologisk precision att urskilja.
+Islam erbjuder något som varken Orlog eller den moderna friheten kan ge — men det kräver teologisk precision att urskilja.
 
 *al-qadr*, Allahs ﷻ allomfattande bestämmelse, är den islamiska parallellen till Orlog. Koranen är tydlig: "Ingen olycka drabbar någon förutom med Allahs ﷻ tillåtelse. Men den som tror på Allah ﷻ, Han vägleder hans hjärta."[^7] Och: "Ingen själ vet vad den skall skörda under morgondagen, och ingen själ vet var på jorden hon skall dö."[^8]
 
-Över utfallet råder människan inte. Men här framträder skillnaden mot Orlog. Nornornas lag är opersonlig: blind, obeveklig, utan barmhärtighet. Den som accepterar Orlog accepterar en likgiltig kosmisk maskin.
+Över utfallet råder människan inte. Men skillnaden mot Orlog är avgörande. Nornornas lag är opersonlig: blind, obeveklig, utan barmhärtighet. Den som accepterar Orlog accepterar en likgiltig kosmisk maskin.
 
 *tawakkul*, tillit till Allah ﷻ, är människans svar på *al-qadr* — liksom nordisk tapperhet var svaret på Orlog.
 
 Men den troende vilar i något väsensskilt: en relation till den som är *al-Raḥmān*, *al-Raḥīm* — den Barmhärtige, den Nåderike. När nöden kommer vänder han sig till någon som hör och svarar.
 
-Den medeltida teologen Ibn Qayyim al-Jawziyya destillerade *tawakkul* till "hjärtats fulla förlitan på Allah ﷻ allena".[^9] Men *tawakkul* har ofta missförståtts som passivitet — som om tillit till Allah ﷻ skulle betyda att sluta handla. Ibn Qayyim avvisade detta likhetsecken: "*tawakkul* hör till de starkaste orsakerna för att uppnå det man önskar och avvärja det man fruktar — det är den starkaste orsaken överhuvudtaget."[^10] Den hanbalitiske lärde Ibn al-Jawzi skar igenom varje kvarvarande missförstånd: "*tawakkul* upphävs inte genom att vidta tillåtna åtgärder. Den som berövar sig själv nödvändigheter under förevändning av *tawakkul* har brutit mot *sunnah*."[^11]
+Den medeltida teologen Ibn Qayyim al-Jawziyya definierade *tawakkul* som "hjärtats fulla förlitan på Allah ﷻ allena".[^9] Men *tawakkul* har ofta missförståtts som passivitet — som om tillit till Allah ﷻ skulle betyda att sluta handla. Ibn Qayyim avvisade detta likhetsecken: "*tawakkul* hör till de starkaste orsakerna för att uppnå det man önskar och avvärja det man fruktar — det är den starkaste orsaken överhuvudtaget."[^10] Den hanbalitiske lärde Ibn al-Jawzi skar igenom varje kvarvarande missförstånd: "*tawakkul* upphävs inte genom att vidta tillåtna åtgärder. Den som berövar sig själv nödvändigheter under förevändning av *tawakkul* har brutit mot *sunnah*."[^11]
 
 Liksom Orlog befriade vikingahjältarna frigör tilliten för handling — skillnaden ligger i vad man vilar i. Vikingen vilar i det oundvikliga, den troende i den Barmhärtige. Att överlåta sitt öde åt en blind lag kräver stoisk hårdhet. Att anförtro det åt Allah ﷻ, med Koranens ord "den som sätter sin lit till Allah ﷻ, Han räcker honom"[^12], erbjuder något stoicismen aldrig kan nå: ro utan hårdhet, mod utan cynism, handling utan den kvävande känslan att allt hänger på en själv. Det är modern som kan somna trots att barnet är sjukt, för utfallet inte är hennes att bära ensam.
 
@@ -77,7 +77,7 @@ Koranen varnar för vad som händer när tillit fästs vid det skapade istället
 
 I *Tusen och en natt* illustreras konsekvensen av att sätta sin lit till det felaktiga. En besegrad furste uppsöker en eremit och klagar över sitt öde. Eremiten frågar om han vet varför han besegrades, men fursten vet inte. "Därför att du satte din lit till dina truppernas antal", svarar eremiten, "och inte förlitade dig på Allah ﷻ den Allrahögste. Hade du satt din lit till den Allsmäktige, hade din fiende aldrig kunnat besegra dig."[^15]
 
-Samma förblindelse drabbar den som sätter sin lit till karriären, relationen, trygghetsplanen, den egna förmågan att alltid välja rätt. Allt det kan ryckas ifrån dig. Den enda tillit som inte kan tas ifrån dig är den som vilar i Allah ﷻ.
+Förblindelsen drabbar den som sätter sin lit till karriären, relationen, trygghetsplanen, den egna förmågan att alltid välja rätt. Allt det kan ryckas ifrån dig. Den enda tillit som inte kan tas ifrån dig är den som vilar i Allah ﷻ.
 
 Gunnar på Hlíðarendi vände sig i sadeln — hans lugn sprang ur vissheten att nornorna redan bestämt. Den troende vänder sig mot *qiblah* — hans ro springer ur vissheten att den som bestämt är *al-Raḥmān*. Det ena kräver mod. Det andra föder ro.
 

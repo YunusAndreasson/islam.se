@@ -3,7 +3,7 @@ title: "Ormboet i hjärtat"
 publishedAt: "2025-07-30T12:00:00.000Z"
 wordCount: 2114
 qualityScore: 8.5
-description: "I sin parisiska exil 1897 stöter August Strindberg bort vänner och drar sig undan, övertygad om att okända makter förföljer honom. Sex århundraden tidigare hade Ibn Taymiyyah redan ställt diagnosen: avund är en sjukdom med en förstörelseordning — den börjar i själen och arbetar sig utåt."
+description: "I sin parisiska exil 1897 stöter August Strindberg bort vänner och drar sig undan, övertygad om att okända makter förföljer honom. Sex århundraden tidigare hade Ibn Taymiyyah redan sett samma sak: avund är en sjukdom med en förstörelseordning — den börjar i själen och arbetar sig utåt."
 ---
 En passage i Strindbergs *Inferno* förtjänar att läsas långsammare än den brukar bli. Mitt i sin parisiska exil, sönderfallen av alkemi och paranoia, skriver han:
 
@@ -11,15 +11,15 @@ En passage i Strindbergs *Inferno* förtjänar att läsas långsammare än den b
 
 Det avgörande är riktningen. Strindberg misstänker att andra vill stjäla hans upptäckt — men det är han själv som isoleras. Han stöter bort vännerna och ger återbud. Avunden han projicerar utåt vänder sig inåt och förtär hans värld inifrån, tills bara ökentystnad återstår.
 
-För detta fenomen har den islamiska traditionen ett namn — och en diagnos som skär djupare än Strindbergs självobservation förmådde.
+För detta fenomen har den islamiska traditionen ett namn — och en förklaring som når djupare än Strindbergs självobservation förmådde.
 
 ## Sjukdomen som angriper sin värd
 
-Ibn Taymiyyah — den hanbalistiske teologen vars intellektuella skärpa saknar motstycke i den medeltida världen — ägnade ett helt verk åt hjärtats sjukdomar. I *Amrad al-Qulub wa-Shifa'uha* diagnostiserar han med oförsonlig tydlighet:
+Ibn Taymiyyah — den hanbalistiske teologen vars intellektuella skärpa saknar motstycke i den medeltida världen — ägnade ett helt verk åt hjärtats sjukdomar. I *Amrad al-Qulub wa-Shifa'uha* fastslår han med oförsonlig tydlighet:
 
 > Avunden är en sjukdom bland själens sjukdomar som fördärvar dess bärares religion och ära, och som sedan kan fördärva hans förstånd och slutligen hans kropp.[^2]
 
-Ibn Taymiyyah spårar här en kaskad av förstörelse som rör sig från det inre till det yttre, från hjärtats tillstånd till kroppens förfall. Ordningen är avgörande: religion, ära, förstånd, kropp. Inte en känsla som ibland slår fel — en sjukdom med en förstörelseordning, en patologi som börjar i det innersta och arbetar sig utåt genom lager efter lager av personligheten. I samma verk skärper han diagnosen: *hasad* — destruktiv avund — får själen att hata det som gagnar den och älska det som skadar den.[^3] Med ett modernt begrepp: en autoimmun störning — själens immunförsvar vänder sig mot själen själv.
+Ibn Taymiyyah spårar här en kaskad av förstörelse som rör sig från det inre till det yttre, från hjärtats tillstånd till kroppens förfall. Ordningen är avgörande: religion, ära, förstånd, kropp. Inte en känsla som ibland slår fel — en sjukdom med en förstörelseordning, en patologi som börjar i det innersta och arbetar sig utåt genom lager efter lager av personligheten. I samma verk skärper han bilden: *hasad* — destruktiv avund — får själen att hata det som gagnar den och älska det som skadar den.[^3] Med ett modernt begrepp: en autoimmun störning — själens immunförsvar vänder sig mot själen själv.
 
 Forskning publicerad i *Science* bekräftar bilden bokstavligen: avund aktiverar hjärnans smärtcentrum — samma nätverk som bearbetar fysisk skada.[^23]
 
@@ -33,7 +33,7 @@ Ibn Qayyim, Ibn Taymiyyahs mest begåvade elev, förtätade bilden till en enda 
 
 Alla andra laster ger åtminstone något tillbaka — girigheten sitt guld, högmodet sin glans, vreden sin maktkänsla i det ögonblick den bryter ut. Avunden ger ingenting utom smärta. Den som avundas en annans framgång upplever inte framgång själv — bara en brännande medvetenhet om vad som saknas. Det är en last som inte ens har anständigheten att ljuga för sin värd.
 
-Observationen är inte uteslutande islamisk. Thomas av Aquino nådde samma slutsats i sin *Summa Theologiae*, och Dante placerade de avundsjuka i skärselden med ögonen ihopsydda — blinda för allt utom sin egen plåga.[^6] Tre civilisationer, oberoende av varandra, ställde samma diagnos — en samstämmighet som borde få den moderna människan att stanna upp, när hon gärna reducerar laster till "negativa känslor".
+Thomas av Aquino konstaterade detsamma i *Summa Theologiae*, och Dante placerade de avundsjuka i skärselden med ögonen ihopsydda — blinda för allt utom sin egen plåga.[^6] Tre civilisationer, oberoende av varandra, eniga — en samstämmighet som borde få den moderna människan att stanna upp, hon som gärna reducerar laster till "negativa känslor".
 
 ## Den första synden, två gånger
 
@@ -41,21 +41,21 @@ Den islamiska traditionens mest slående insikt om avund är inte psykologisk ut
 
 > Avund var den första synden som begicks mot Allah ﷻ i himlen — det vill säga Iblis' avund mot Adam, frid vare med honom — och den första synden som begicks mot Allah ﷻ på jorden — det vill säga Adams sons avund mot sin bror, tills han dödade honom.[^7]
 
-Koranens femte sura berättar hur det gick till. Kain och Abel bär fram var sitt offer; Abels godtas; Kains avvisas. Och sedan den mening som rymmer hela avundens väsen i en enda sats:
+Koranens femte sura berättar hur det gick till. Kain och Abel bär fram var sitt offer; Abels godtas; Kains avvisas. Och sedan den mening som bär hela avundens väsen i en enda sats:
 
 > Men hans inre drev honom mot mordet på sin bror och han dödade honom och blev så en av förlorarna.[^8]
 
-"Hans inre drev honom." Inte en plan, inte ett strategiskt beslut — en kraft inifrån, starkare än förnuftet. Och resultatet: broderns död och att Kain själv blev "en av förlorarna" — *min al-khasirin*. Formuleringen bär en dubbel dom: mordet dödade Abel — men förstörde något i Kain.
+"Hans inre drev honom." Inte en plan, inte ett strategiskt beslut — en kraft inifrån, starkare än förnuftet. Och resultatet: broderns död och att Kain själv blev "en av förlorarna" — *min al-khasirin*. En dubbel dom: mordet dödade Abel — men förstörde något i Kain.
 
 Genom att para ihop dessa två berättelser — Iblis i himlen, Kain på jorden — pekar al-Mawardi ut avund som den arketypiska synden, den som satte hela den kosmiska tragedin i rörelse. Iblis vägrade buga inför Adam av ren avund: hur kunde denna varelse av lera föredras framför honom, skapad av eld?[^9] Avund är, i denna läsning, en anklagelse mot Guds fördelning — en protest mot den ordning där andra får det man själv anser sig förtjäna.
 
 ## Ormboet
 
-Viktor Rydberg, den svenske 1800-talsförfattaren som aldrig slutade brottas med det teologiska, gav avunden en bild som ekar mot de islamiska mästarnas:
+Viktor Rydberg, den svenske 1800-talsförfattaren som aldrig slutade brottas med det teologiska, gav avunden en bild som al-Mawardi hade känt igen:
 
 > Svartsjukan är en gruvlig plåga, Rakel. Tacka din Gud, att hon icke hemsökt dig. Hon förvandlar hjärtat till ett ormbo, varur tusen giftiga gaddar framsticka och sarga vårt inre.[^10]
 
-Ormboet — inte en orm som bits en gång, utan ett helt bo — en myllrande, självgenererande källa till gift som inte behöver yttre fiender för att skada. Ibn Hibban, den store hadithvetaren, för Rydbergs bild från boet till branden — en eld som aldrig slocknar:
+Ormboet — inte en orm som bits en gång, utan ett helt bo — en myllrande, självgenererande källa till gift som inte behöver yttre fiender för att skada. Ibn Hibban för Rydbergs bild från boet till branden — en eld som aldrig slocknar:
 
 > Varje brand har något som kan släcka den, men avundens eld kan inte släckas.[^11]
 
@@ -73,13 +73,13 @@ Boyes berättare avundas inte rikedom eller status utan ett *ögonblick av hög 
 
 ## Ressentimentets anatomi
 
-Max Scheler kartlade 1912 avundens inre mekanism i sitt verk om *ressentiment*. Hans analys löper i fyra steg: uppfattningen av en annans värde, önskan att äga det, känslan av maktlöshet inför att uppnå det — och slutligen det avgörande steget, en omvärdering av hela värdeskalan så att det man inte kan uppnå förklaras som värdelöst.[^14]
+Max Scheler kartlade 1912 avundens inre mekanism i sitt verk om *ressentiment*. Hans analys löper i fyra steg: uppfattningen av en annans värde, önskan att äga det, känslan av maktlöshet inför att uppnå det — och slutligen det sista steget: en omvärdering av hela värdeskalan så att det man inte kan uppnå förklaras som värdelöst.[^14]
 
 Det sista steget är det farligaste — Scheler kallade det *Selbstvergiftung*, självförgiftning. Avund som stannar vid missnöje är smärtsam men hanterbar. Avund som omformar själva värdehierarkin är en existentiell katastrof: den avundsjuke kan inte längre se vad som är gott, eftersom allt gott som andra äger redan har blivit dåligt. Befordran betydde allt — tills den gick till någon annan, då blev ledarskap meningslöst byråkrateri.
 
-Sex århundraden tidigare hade Ibn Taymiyyah redan diagnostiserat: avund som det tillstånd där själen hatar det som gagnar den.[^3] Just här möts Schelers fenomenologi och den islamiska *nafs*-psykologin: avund är inte en känsla riktad mot andra utan ett tillstånd som förvränger blicken mot allt.
+Sex århundraden tidigare hade Ibn Taymiyyah redan fastställt: avund som det tillstånd där själen hatar det som gagnar den.[^3] Just här möts Schelers fenomenologi och den islamiska *nafs*-psykologin: avund är inte en känsla riktad mot andra utan ett tillstånd som förvränger blicken mot allt.
 
-Hjalmar Söderberg, i *Doktor Glas*, destillerar alltsammans i sju ord:
+Hjalmar Söderberg, i *Doktor Glas*, lägger alltsammans i sju ord:
 
 > Han är lycklig, och honom afundas jag.[^15]
 
@@ -95,7 +95,7 @@ Skillnaden är kvalitativ, inte graduell. *Ghibta*, den tillåtna formen, ser en
 
 En experimentell studie publicerad i *Emotion* 2009 bekräftade att avund utgör två kvalitativt skilda emotioner: en som driver självförbättring, en som söker den andres fall.[^24]
 
-Al-Hasan al-Basri, den legendariske asketen från Basra, erbjöd tröst med en avgörande nyansering:
+Al-Hasan al-Basri, den legendariske asketen från Basra, erbjöd tröst — och en nyansering:
 
 > Det finns ingen bland Adams barn som inte skapats med avund i sig. Men den som varken följer den i ord eller handling — inget [ont] följer av den.[^17]
 
@@ -125,11 +125,11 @@ Och botemedlet:
 
 Avund frodas när blicken riktas mot *dunya* — världen som mål i sig själv. Hjärtan som vänds mot sanningen finner varandra. Avunden behöver jämförelsen för att andas. Den som slutar mäta sig mot andra och börjar mäta sig mot sina egna löften till Gud tar syret från avunden.
 
-Här bottnar Ibn Taymiyyahs diagnos: avund är en hjärtsjukdom. Hjärtat — *al-qalb* — är i islamisk psykologi den punkt där människans förhållande till Gud avgörs. Ett sjukt hjärta ser världen snett: andras välsignelser blir hot, Guds gåvor till andra blir personliga förolämpningar. Al-Mawardi avslutade med en mening som tål att bäras med sig:
+Ibn Taymiyyahs iakttagelse bottnar i detta: avund är en hjärtsjukdom. Hjärtat — *al-qalb* — är i islamisk psykologi den punkt där människans förhållande till Gud avgörs. Ett sjukt hjärta ser världen snett: andras välsignelser blir hot, Guds gåvor till andra blir personliga förolämpningar. Al-Mawardi avslutade:
 
 > Den som är tillfreds med Guds beslut gör ingen honom vred; och den som nöjer sig med Hans gåvor, där tar avunden ingen plats.[^22]
 
-Där Strindberg sökte de okända makterna som förföljde honom, där Söderbergs doktor Glas stirrade på en annans lycka med tom förtvivlan — där erbjuder den islamiska traditionen inte bara diagnos utan läkning. Botemedlet är inte att förneka avunden utan att rikta hjärtat mot den enda blick som inte jämför.
+Där Strindberg sökte de okända makterna som förföljde honom, där Söderbergs doktor Glas stirrade på en annans lycka med tom förtvivlan — där erbjuder den islamiska traditionen inte bara förklaring utan läkning. Botemedlet är inte att förneka avunden utan att rikta hjärtat mot den enda blick som inte jämför.
 
 ---
 

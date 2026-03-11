@@ -11,7 +11,7 @@ description: "Oscar Levertin studerade 1898 den antike materialisten Lucretius o
 
 Levertin visste vad han talade om: som litteraturhistoriker, och som jude i det protestantiska Sverige, hade han utomståendes blick. Han studerade Lucretius — den antike materialisten som försökte befria människan från gudsfruktan — och fann att Lucretius själv var genomsyrad av det han ville avskaffa. "Det är denna religiositet utan religion, denna svärmiska världskult, som Lucretii metafysiska styrka ligger", konstaterade Levertin.[^2] Den som med störst lidelse förnekar gudarna avslöjar just därigenom att gudsbehovet överlever sin egen förnekelse.
 
-Som en underjordisk ström löper observationen genom den svenska idéhistorien. Ellen Key ville att skolan skulle "dana religiositet utan att bibringa tron på en absolut religion".[^3] Runeberg destillerade tanken till en enda rad: "Den verkligt religiösa känslan är på en gång sin egen tjusning och sin egen dogm."[^4] Nathan Söderblom vidgade den till kosmisk skala: "I oändlighetskänslan och idealdriften rinner religionens källsprång fram på vår jord — ur tillvarons gudomliga innandöme."[^5]
+Som en underjordisk ström löper observationen genom den svenska idéhistorien. Ellen Key ville att skolan skulle "dana religiositet utan att bibringa tron på en absolut religion".[^3] Runeberg lade tanken i en enda rad: "Den verkligt religiösa känslan är på en gång sin egen tjusning och sin egen dogm."[^4] Nathan Söderblom vidgade den till kosmisk skala: "I oändlighetskänslan och idealdriften rinner religionens källsprång fram på vår jord — ur tillvarons gudomliga innandöme."[^5]
 
 Samma övertygelse, tre gånger om: känslan föregår dogmen. Den räcker — eller borde räcka.
 
@@ -33,7 +33,7 @@ En koranisk vers slår an tonen:
 
 Om *fitrah* verkligen är universell och medfödd borde den kunna spåras empiriskt. Modern kognitionsforskning bekräftar bilden: Justin Barrett fann att barn i alla undersökta kulturer spontant utvecklar gudsbegrepp oberoende av uppfostran — födda troende, som han kallade dem.[^24]
 
-Naturtillståndet är alltså en aktiv gudskännedom — ingen tomhet, ingen neutralitet. Det är kulturen, uppfostran, vanorna — med Koranens ord allt det som "täcker över" (*kufr*) — som avleder människan från hennes ursprungliga orientering. Det är den som lärts att allt är slump men ändå tackar någon när barnet föds.
+Naturtillståndet är alltså en aktiv gudskännedom — ingen tomhet, ingen neutralitet. Det är kulturen, uppfostran, vanorna — med Koranens ord allt det som "täcker över" (*kufr*) — som avleder människan från hennes ursprungliga orientering. Den som lärts att allt är slump tackar ändå någon när barnet föds.
 
 Men vad består *fitrah* av? Ibn Taymiyyah frilägger grunden i *al-Iman*: "*Fitrah* är det som hjärtat skapades för — kärleken till Gud."[^11] Han driver tanken till sin spets: "Kunskap om sanningen medför kärlek till den, och kunskap om falskheten medför avsky för den, på grund av det som finns i *fitrah* av kärlek till sanningen."[^12] Den som hör en sanning *känner* att den är sann, eftersom *fitrah* svarar på sanningen som strängen svarar på tonen.
 
@@ -41,17 +41,17 @@ Den självklara invändningen: begär bevisar ingenting om sitt objekt. Men *fit
 
 ## Den spänning ingen ställde
 
-Efter resonemanget om *fitrah* och religiositetens ofrånkomlighet framträder hela skärpan i Levertins hållning. Han har sett att religiositet är ofrånkomlig, att den överlever varje försök att avskaffa den. Den islamiska traditionen säger: naturligtvis — *fitrah* förutsäger just detta. Men Levertin nöjer sig med slutsatsen att religiositet utan religion räcker — att känslan själv är sin egen dogm, som Runeberg uttryckte det.
+Här syns hela skärpan i Levertins hållning. Han har sett att religiositet är ofrånkomlig, att den överlever varje försök att avskaffa den. Den islamiska traditionen säger: naturligtvis — *fitrah* förutsäger just detta. Men Levertin nöjer sig med slutsatsen att religiositet utan religion räcker — att känslan själv är sin egen dogm, som Runeberg uttryckte det.
 
-Men vad händer om man *inte* stannar där Levertin stannade? Ibn Qayyim betraktar samma fenomen — och vänder slutsatsen. Han avtäcker hur uppenbarelse och medfödd insikt samverkar: "Uppenbarelsens ljus förenades med *fitrah*s ljus — ljus på ljus — så att hjärtat nära nog talar sanning även utan att ha hört ett ord" (*al-Fawaid*). *Nära nog* är det avgörande uttrycket — *fitrah* allena kommer nära men når inte ända fram.
+Men vad händer om man *inte* stannar där Levertin stannade? Ibn Qayyim betraktar samma fenomen — och vänder slutsatsen. Han visar hur uppenbarelse och medfödd insikt samverkar: "Uppenbarelsens ljus förenades med *fitrah*s ljus — ljus på ljus — så att hjärtat nära nog talar sanning även utan att ha hört ett ord" (*al-Fawaid*). *Nära nog* är det avgörande uttrycket — *fitrah* allena kommer nära men når inte ända fram.
 
-I *al-Wabil al-Sayyib* diagnostiserar han vad som inträder utan den andra ljuskällan: "I hjärtat finns en tomhet och en brist som absolut ingenting kan fylla utom åminnelsen av Gud."[^14]
+I *al-Wabil al-Sayyib* visar han vad som inträder utan den andra ljuskällan: "I hjärtat finns en tomhet och en brist som absolut ingenting kan fylla utom åminnelsen av Gud."[^14]
 
-Samma iakttagelse, oberoende tradition: matematikern Pascal ställde, tre sekler senare och utan tillgång till Ibn Qayyim, samma diagnos: en "oändlig avgrund" i människan som "bara kan fyllas av Gud själv".[^25]
+Matematikern Pascal nådde, tre sekler senare och utan tillgång till Ibn Qayyim, samma slutsats: en "oändlig avgrund" i människan som "bara kan fyllas av Gud själv".[^25]
 
 Om religiositeten är ofrånkomlig, om den överlever varje religion och varje anti-religion — vad säger det om den verklighet den pekar mot? Om törsten är medfödd och outplånlig, vad säger det om vattnet?
 
-Den svenska hållningen svarar: inget — törsten är sitt eget mål. Söderbloms "oändlighetskänsla" behöver ingen oändlighet. Ellen Keys "religiösa känsla" behöver ingen Gud. Det är den som tänder ljus i kyrkan utan att böja knä, som längtar utan att ropa, som känner utan att be.
+Den svenska hållningen svarar: inget — törsten är sitt eget mål. Söderbloms "oändlighetskänsla" behöver ingen oändlighet. Ellen Keys "religiösa känsla" behöver ingen Gud. Ljusen tänds i kyrkan utan att knäna böjs; längtan finns, men ingen bön.
 
 Men Söderblom själv, som bar spänningen tyngre än någon, kunde inte stanna vid känslan. "Vissheten om lefvande Gud vinna vi genom att äga delaktighet i Guds lif..."[^15] Hans egen livserfarenhet drev honom dit den islamiska traditionen redan stod: oändlighetskänslan pekar bortom sig själv. Den kräver ett verkligt svar. Uppenbarelse, skriver Söderblom, "säger att människan är mottagande, att Gud meddelar sig själf".[^16] I den meningen står han närmare Ibn Qayyim än Levertin. Hans egen tre-stegsmodell (oändlighetskänsla, idealdrift, uppenbarelsereligion) röjer att han visste det.
 

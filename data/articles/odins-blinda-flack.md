@@ -75,7 +75,7 @@ Al-Māwardī, den högt ansedde juristen och etikern, skrev i *Adab al-Dunyā wa
 
 Den samlas inte hos den som klättrar högst – Odin på Yggdrasils stam – utan hos den som befinner sig lägst. Att ta emot kräver att något annat först har tömts. Det vet den som stått i ett fullt rum och inte kunde höra sitt eget namn.
 
-Denna insikt – att kunskapen kräver tömning snarare än fyllnad – har bekräftats av tänkare långt utanför islams geografiska rum. Simone Weil, den franska filosofen, nådde samma slutsats genom en helt annan väg. Hon gav den ett namn: *décréation* – att det skapade töms på sina anspråk, inte för att förintas utan för att kunna ta emot.[^15] Men Weils tömning förblir en viljeakt – jaget *beslutar* att stiga åt sidan. I den islamiska traditionen upptäcker jaget sin litenhet ställt inför uppenbarelsen; det är skillnaden mellan en generös reträtt och ett oundvikligt erkännande.
+Denna insikt – att kunskapen kräver tömning snarare än fyllnad – har bekräftats av tänkare långt utanför islams geografiska rum. Simone Weil, den franska filosofen, kom dit genom en helt annan väg. Hon gav den ett namn: *décréation* – att det skapade töms på sina anspråk, inte för att förintas utan för att kunna ta emot.[^15] Men Weils tömning förblir en viljeakt – jaget *beslutar* att stiga åt sidan. I den islamiska traditionen upptäcker jaget sin litenhet ställt inför uppenbarelsen; det är skillnaden mellan en generös reträtt och ett oundvikligt erkännande.
 
 ## Strindberg vid kunskapens höjder
 

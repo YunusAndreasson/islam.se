@@ -3,7 +3,7 @@ title: "Vintergatan vi släckte"
 publishedAt: "2025-08-24T12:00:00.000Z"
 wordCount: 1941
 qualityScore: 8.5
-description: "År 2016 kartlade Fabio Falchi och hans kollegor det artificiella nattljuset över hela jorden i Science Advances. En tredjedel av mänskligheten har aldrig sett Vintergatan, och i Europa lever nittio procent under himlar så genomlysta att stjärnhimlen reducerats till ett fåtal punkter."
+description: "En tredjedel av mänskligheten har aldrig sett Vintergatan. I Europa lever nittio procent under himlar så genomlysta att stjärnhimlen reducerats till ett fåtal punkter. Koranen talar om ljus som vägledning och mörker som villfarelse — vad händer med den distinktionen i ett samhälle som avskaffat natten?"
 ---
 En tredjedel av mänskligheten har aldrig sett Vintergatan. Den internationella kartläggningen av artificiellt nattljus, publicerad i *Science Advances* 2016, fastslog att över åttio procent av jordens befolkning lever under himlar så genomlysta att stjärnhimlen är reducerad till ett fåtal punkter.[^1] I Europa är utarmningen värre: nittio procent av kontinentens invånare lever under ljusförorenade himlar. Sverige, Norge och norra Skottland tillhör de sista europeiska regionerna där Vintergatan överhuvudtaget kan urskiljas. Marginalen krymper.
 
@@ -73,7 +73,7 @@ Artificiellt ljus har också räddat liv och möjliggjort nattlig tillbedjan i m
 
 Koranen formulerar det gudomliga ljusets natur som *nurun ala nur* — ljus på ljus. Frasen förutsätter hierarki: ett ljus skiktas på ett annat och förstärker det. Utan kontrast, utan skiktning, reduceras frasen till tautologi. Ljus på ljus i en värld av jämnt, konstant ljus är bara ljus.
 
-Den okände poeten i *Lärkan*, en svensk poetisk kalender från 1800-talet, formulerade det med en innerlighet som överbryggar två traditioner:
+En okänd poet i *Lärkan*, en svensk poetisk kalender från 1800-talet, nådde samma insikt:
 
 > Gud! bor äfven i natten Du? Glänser i månens bleka skimmer äfven Din kärleksblick? Sväfvar på molnens silfvervingar äfven Din andes sken? Kom då, du natt! Ack! så ljufligt är tystnadens språk, stjernornas saliga ljus![^20]
 

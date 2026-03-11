@@ -13,7 +13,7 @@ Skillnaden är inte akustisk. Böneutropet i Växjö mättes och befanns ligga i
 
 ## Vad motionerna egentligen säger
 
-Riksdagsmotionerna om böneutrop är ovanligt avslöjande dokument — inte för vad de kräver, utan för hur de motiverar det. Hans Eklind (KD) formulerar distinktionen med en öppenhet som förtjänar att citeras i sin helhet:
+Riksdagsmotionerna om böneutrop är ovanligt avslöjande dokument — inte för vad de kräver, utan för hur de motiverar det. Hans Eklind (KD) formulerar distinktionen rent ut:
 
 > "Kyrkklockors klang i sig utgör en oartikulerad ljudsignal, medan böneutrop (*adhan*) innehåller artikulerade ord med ett religiöst budskap."[^4]
 
@@ -47,7 +47,7 @@ Muezzinens röst är mänsklig — vacker eller hes, stark eller svag. Men *adha
 
 ## Klockans tysta reformation
 
-Kyrkklockor har sin historia — de har ringt för pest och krig, för döda och nyfödda. De kallades *Guds basuner*. Deras funktion var uttryckligen religiös: att sammankalla de troende till gudstjänst.[^10] Svenska kyrkan praktiserar alltjämt *angelusringning* och *själaringning* — klockan som ringer för den döende. Det religiösa lagret skymtar ännu.
+Kyrkklockor har sin historia — de har ringt för pest och krig, för döda och nyfödda. De kallades *Guds basuner*. Deras funktion var uttryckligen religiös: att sammankalla de troende till gudstjänst.[^10] Svenska kyrkan praktiserar ännu *angelusringning* och *själaringning* — klockan som ringer för den döende. Det religiösa lagret skymtar ännu.
 
 Men något avgörande *har* försvunnit: Reformationen skalade bort den katolska kyrkans verbala ceremonier kring klockorna. Invigningsriterna försvann, de specifika böner som gav varje klocka ett namn och ett uppdrag. Kvar blev ett ljud som signalerar utan att artikulera. Klockan säger varken *vad* den kallar till eller *vem* som kallar. Den säger ingenting alls. Och just därför har den blivit ohörbar — inte för örat, utan för medvetandet: ingen upplever sig tilltalad. Man hör den över maten, över samtalet — den ringer, men den kallar inte.
 
@@ -65,7 +65,7 @@ Det sekulära Sveriges tolerans för religiösa ljud följer ett outtalat mönst
 
 Att mönstret inte är tillfälligt har Talal Asad, antropolog och religionsforskare, visat: den europeiska sekularismens anspråk på neutralitet vilar på ett protestantiskt arv som behandlar inåtvänd, ordlös religiositet som det oproblematiska normalfallet.[^19] Bönen som bes tyst, tron som sker i hjärtat — religion som stannar innanför dörren.
 
-Erik Ringmar, som kartlagt debatten akademiskt, blottlägger hur den svenska debatten konsekvent undviker att erkänna denna asymmetri. Motståndet förkläs i neutrala kategorier: ordningsfrågor, bullernivåer, grannhänsyn.[^12] Men ordningsfrågan är redan löst — polistillstånd beviljas och ljudnivåer mäts. Kvar är det som det innehållsneutrala ramverket saknar verktyg att ens namnge: obehaget inför ett religiöst påstående i det offentliga rummet.
+Erik Ringmar, som kartlagt debatten akademiskt, visar hur den svenska debatten konsekvent undviker att erkänna denna asymmetri. Motståndet förkläs i neutrala kategorier: ordningsfrågor, bullernivåer, grannhänsyn.[^12] Men ordningsfrågan är redan löst — polistillstånd beviljas och ljudnivåer mäts. Kvar är det som det innehållsneutrala ramverket saknar verktyg att ens namnge: obehaget inför ett religiöst påstående i det offentliga rummet.
 
 Karin Boye drev sambandet mellan tanke och språk till sin spets:
 
@@ -75,7 +75,7 @@ Kyrkklockans ljud är en kropp utan själ — ett tomt kärl som lyssnaren fylle
 
 ## Att höra det man inte vill förstå
 
-Ibn Qayyim al-Jawziyya, medeltida islamisk teolog, beskriver lyssnandets kraft med en formulering som kortsluter den moderna distinktionen mellan privat tro och offentligt ljud:
+Ibn Qayyim al-Jawziyya, medeltida islamisk teolog, beskriver lyssnandets kraft utan att skilja mellan privat tro och offentligt ljud:
 
 > "Lyssnandet är trons budbärare till hjärtat — dess kallare, dess lärare."[^14]
 
@@ -101,7 +101,7 @@ Koranen sammanfattar vad som ytterst står på spel:
 
 *Adhan* ska bära detta budskap ut i världen. Den kan inte tystna utan att meningen går förlorad; den kan inte tämjas till kulturellt ljud utan att förvandlas till sin egen motsats. Hela poängen — och hela obehaget — är att den *säger* något.
 
-Sverige har förvisso beslutat att tolerera religiösa ljud. Det har inte beslutat att tolerera religiösa *ord*. Distinktionen — mellan klocka och röst, mellan klang och mening, mellan ljud som smälter in och ljud som talar — är den skarpaste bilden av var den svenska sekularismens gräns faktiskt går. Gränsen går inte vid det religiösa. Den går vid det *begripliga*.
+Sverige har beslutat att tolerera religiösa ljud. Det har inte beslutat att tolerera religiösa *ord*. Distinktionen — mellan klocka och röst, mellan klang och mening, mellan ljud som smälter in och ljud som talar — är den skarpaste bilden av var den svenska sekularismens gräns faktiskt går. Gränsen går inte vid det religiösa. Den går vid det *begripliga*.
 
 Frågan som återstår tillhör den som hellre diskuterar decibel än teologi: om kyrkklockan en dag åter fylldes med ord — om den utropade sin trosbekännelse över taken — skulle den fortfarande vara bara en del av landskapet?
 

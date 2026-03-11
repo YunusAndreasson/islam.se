@@ -23,7 +23,7 @@ Ju mer staten vet, desto mindre finns att veta. Den sanning som frampressas är 
 
 ## Tvingad transparens och den moderna ångesten
 
-Boyes diagnostik av övervakningens anatomi får sin teoretiska efterklang hos en annan 1900-talstänkare.
+Boyes kartläggning av övervakningens anatomi får sin teoretiska efterklang hos en annan 1900-talstänkare.
 
 Foucaults panoptikon – det fängelse där fångarna aldrig vet om de observeras och därför alltid antar att de gör det – är standardmetaforen för övervakningssamhället.[^3] *Kallocain* går längre. Panoptikonen disciplinerar beteende; Kallocainet invaderar tanken. Boye skriver inte om övervakning utifrån utan om annekteringen av det inre rummet, det enda som återstår när allt yttre redan kontrollerats.
 
@@ -81,7 +81,7 @@ Linné kartlade övervakningens mekanik i naturen; Boye undersöker dess mänskl
 
 *Kallocain* slutar i mörker. Leo Kall skriver sina memoarer i en fångenskap som är mer existentiell än fysisk – fångad inte av staten, utan av insikten att han förstört det han mest av allt behövde. Linda försvinner ur berättelsen. Rissen avrättas. Den sanning som frigjorts har förintat allt den berörde.
 
-Boye ger ingen lösning men diagnosticerar obevekligt: tvingad genomskinlighet förstör. Men hon lämnar frågan öppen – finns det en genomskinlighet som inte förstör?
+Boye ger ingen lösning men blottlägger obevekligt: tvingad genomskinlighet förstör. Men hon lämnar frågan öppen – finns det en genomskinlighet som inte förstör?
 
 FN:s generalsekreterare Dag Hammarskjöld (d. 1961) vände på frågan i *Vägmärken*:
 

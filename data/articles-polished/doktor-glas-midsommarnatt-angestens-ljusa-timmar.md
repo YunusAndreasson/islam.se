@@ -33,7 +33,7 @@ Strindbergs natt bär på religiös fruktan – hans plågoande har ett ansikte.
 
 I den tomheten hörs en röst som Söderberg aldrig lyssnade till, men som besvarar just hans fråga.
 
-"Han är klyvaren av gryningen och har gjort natten för vila och solen och månen för tideräkning."[^6] Natten har en uppgift: *sakan*, vila, stillhet. I suran *Ya Sin* framträder bilden med en kroppslighet som slår hårt: "Ett tecken för dem är natten; Vi drar undan dagen ur den och då sveps de i mörker."[^7]
+"Han är klyvaren av gryningen och har gjort natten för vila och solen och månen för tideräkning."[^6] Natten har en uppgift: *sakan*, vila, stillhet. I suran *Ya Sin* framträder bilden nästan kroppsligt: "Ett tecken för dem är natten; Vi drar undan dagen ur den och då sveps de i mörker."[^7]
 
 Det arabiska verbet *naslakh* – att dra bort, flå av – behåller hela sin våldsamma konkretion. Kvar blir mörker, och i det mörkret: vila, gräns, slut.
 
@@ -51,7 +51,7 @@ Mot slutet kommer det nakna erkännandet: "Mig gick lifvet förbi."[^11]
 
 Glas sitter inte stilla medan livet passerar. Han tänker, observerar, skriver, planerar till och med ett mord. Ändå lever han inte i sin tid utan bredvid den – alltid analyserande, alltid på avstånd. Dagboken blir ett monument över en människa som protokollför sitt eget frånfälle ur nuet.
 
-Ibn Hazms tidskollaps diagnostiserar problemet; Ibn Qayyim, trehundra år före Söderberg, gav det ett namn.
+Ibn Hazms tidskollaps fångar problemet; Ibn Qayyim, trehundra år före Söderberg, gav det ett namn.
 
 ## Att vara sin tids barn
 
@@ -61,7 +61,7 @@ Ibn Qayyim utvecklade i sitt storverk *Madarij al-Salikin* en systematisk tidsfi
 
 Så kommer vändningen. Den som upptas av det förflutna och det kommande förlorar det nuvarande. Varje gång ett nytt nu anländer upptas han av de bägge ändarna – det som var och det som ska bli – tills alla hans stunder rinner ut.[^14]
 
-Samma diagnos ställde Pascal trehundra år senare, utan kännedom om Ibn Qayyim: "Vi håller oss aldrig till det närvarande. Vi irrar i tider som inte är våra och tänker inte på den enda som tillhör oss."[^25]
+Pascal, trehundra år senare, utan kännedom om Ibn Qayyim: "Vi håller oss aldrig till det närvarande. Vi irrar i tider som inte är våra och tänker inte på den enda som tillhör oss."[^25]
 
 Så lever Glas: i minnet av en ungdom som aldrig infriades och i förväntningen på en framtid han inte tror på. Hans dagbok pendlar ständigt mellan dem. Varje konkret nu glider honom ur händerna medan han registrerar det – "Lif, jag förstår dig inte," skriver han.[^15] Bekännelsen biter just för att den kommer från en intelligent, bildad man - förståelsen borde vara inom räckhåll. Men *waqt* kräver något annat än förstånd.
 
@@ -71,7 +71,7 @@ Det yttre ljuset som vägrar försvinna utanför Glas' fönster, och det inre lj
 
 ## Ångestens anatomi
 
-Kierkegaard definierade ångesten som "frihetens svindel" – den yrsel som griper den som stirrar ned i sina möjligheter.[^17] Det stämmer för Glas. Men Kierkegaards analys stannar vid svindeln - hans berömda *trosprång* pekar ut ur förlamningen utan att säga vad den som landar ska göra med sin tid. Ibn Qayyim går längre: han ger ögonblicket självt arkitektur.
+Kierkegaard definierade ångesten som "frihetens svindel" – den yrsel som griper den som stirrar ned i sina möjligheter.[^17] Det stämmer för Glas. Men Kierkegaards analys stannar vid svindeln - hans berömda *trosprång* pekar ut ur förlamningen utan att säga vad den som landar ska göra med sin tid. Ibn Qayyim ger ögonblicket självt arkitektur.
 
 Den sanningssökandes *waqt* är ramen för allt tillblivande, den tidsliga behållare i vilken det mänskliga livet tar form.[^18] Människans tid är i verkligheten hennes liv – det material av vilket hennes eviga tillvaro formas.[^19] Bönen vid gryningen, ordet vid måltidens bord, steget tillbaka från ilskan.
 
@@ -81,7 +81,7 @@ Det handlar inte om fromhet. Den kosmiska ordning som Koranen beskriver – "i s
 
 ## Natten som nåd
 
-Ibn al-Jawzi, den store Baghdadpredikanten, fastslog att "förspilld tid är den största förlusten."[^21] Orden låter som en uppmaning till produktivitet, men sammanhanget avslöjar ett annat anspråk: att *vara i* varje ögonblick, att låta det bära den uppgift det tilldelats, vare sig uppgiften är bön, arbete, vila eller tystnad.
+Ibn al-Jawzi: "förspilld tid är den största förlusten."[^21] Orden låter som en uppmaning till produktivitet, men sammanhanget avslöjar ett annat anspråk: att *vara i* varje ögonblick, att låta det bära den uppgift det tilldelats, vare sig uppgiften är bön, arbete, vila eller tystnad.
 
 Vila kräver natt. Den koraniska arkitekturen är entydig: natten är dagens villkor. Utan mörker, ingen gryning. Utan sömn, ingen vakenhet.
 

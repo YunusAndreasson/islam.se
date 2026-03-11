@@ -29,9 +29,9 @@ Om han hade rätt, om moral bara är vana, då är "alla människors lika värde
 
 ## Moralen efter moralen
 
-I *After Virtue* diagnostiserade filosofen Alasdair MacIntyre samma sjukdom: den moderna moraldebatten är olöslig, inte för att frågorna är svåra utan för att vi argumenterar med fragment av system som förlorat sitt sammanhang. Vi har kvar orden *rättvisa*, *plikt*, *dygd*, men har tappat ramverken som gav dem mening.[^4] Det är den som säger 'det är orättvist' men inte kan säga varför – den som känner plikt men inte vet mot vem.
+I *After Virtue* identifierade filosofen Alasdair MacIntyre samma sjukdom: den moderna moraldebatten är olöslig, inte för att frågorna är svåra utan för att vi argumenterar med fragment av system som förlorat sitt sammanhang. Vi har kvar orden *rättvisa*, *plikt*, *dygd*, men har tappat ramverken som gav dem mening.[^4] Det är den som säger 'det är orättvist' men inte kan säga varför – den som känner plikt men inte vet mot vem.
 
-MacIntyre ordinerade en återgång till aristotelisk dygdetik inom en levande tradition, i hans fall den thomistiska. Moralen behöver ett sammanhang, en berättelse, en gemenskap som bär den över generationerna. Men diagnosen räcker längre än receptet. Om moralen kräver en levande tradition: vilken tradition förmår ge det som krävs?
+MacIntyre ordinerade en återgång till aristotelisk dygdetik inom en levande tradition, i hans fall den thomistiska. Moralen behöver ett sammanhang, en berättelse, en gemenskap som bär den över generationerna. Men iakttagelsen räcker längre än receptet. Om moralen kräver en levande tradition: vilken tradition förmår ge det som krävs?
 
 Invändningen väntar redan: i *On What Matters* argumenterade den samtida filosofen Derek Parfit för att moraliska sanningar existerar oberoende av både Gud och mänsklig överenskommelse, liksom matematiska sanningar.[^5] Men den invändningen svarar inte på frågan om *kraft*. Att en moralisk sanning existerar är en sak. Att den formar levande människors handlingar, att den bärs genom sekler, att den motstår maktens och begärets tryck – det kräver något annat. Det kräver vad traditionerna själva förmår ge – det som Ibn Khaldūn iakttog:
 

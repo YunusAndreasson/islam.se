@@ -3,7 +3,7 @@ title: "Längtan heter ångest"
 publishedAt: "2025-10-28T12:00:00.000Z"
 wordCount: 1533
 qualityScore: 8.6
-description: "Under 1300-talets första hälft ägnade sig Ibn Qayyim al-Jawziyyah i Damaskus åt att diagnostisera hjärtats sjukdomar. I *al-Dāʾ wa-l-Dawāʾ* beskrev han hur synden försvagar hjärtat – inte som en katastrof utan som en tilltagande bedövning där den sjuke till slut inte ens märker att han är sjuk."
+description: "Under 1300-talets första hälft ägnade sig Ibn Qayyim al-Jawziyyah i Damaskus åt att kartlägga hjärtats sjukdomar. I *al-Dāʾ wa-l-Dawāʾ* beskrev han hur synden försvagar hjärtat – inte som en katastrof utan som en tilltagande bedövning där den sjuke till slut inte ens märker att han är sjuk."
 ---
 Den moderna människan har ett automatiskt svar på ångest: gör dig av med den – medicinera, meditera, distrahera. Hela terapiindustrin vilar på antagandet att ångest är ett systemfel – en störning att korrigera så att vi kan återgå till det normala.
 

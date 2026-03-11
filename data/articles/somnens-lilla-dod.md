@@ -3,7 +3,7 @@ title: "Sömnens lilla död"
 publishedAt: "2025-10-18T12:00:00.000Z"
 wordCount: 2349
 qualityScore: 8.4
-description: "Nästan varannan vuxen svensk har sömnbesvär – en fördubbling på trettio år. Islamisk teologi på 1300-talet hade en annan diagnos: sömnen är dödens broder, och varje natt är en återkomst som inte är självklar."
+description: "Nästan varannan vuxen svensk har sömnbesvär – en fördubbling på trettio år. Islamisk teologi på 1300-talet hade ett annat svar: sömnen är dödens broder, och varje natt är en återkomst som inte är självklar."
 ---
 Klockan är tre på natten och du ligger vaken. Kroppen är trött. Tankarna vägrar stanna. Du vrider dig, byter sida, kontrollerar telefonen – alltid telefonen. Du vet att du gör det värre. Ändå kan du inte sluta.
 
@@ -57,7 +57,7 @@ Men sömnen vägrar. Du kan inte förhandla dig till sömn, inte köpa den, inte
 
 ## Natten avslöjar
 
-Ibn Qayyim kartlade sömnens inre liv i *Madārij al-Sālikīn*: själen äger under sömnen en förnimmelse skild från den vakna världens. Profeten ﷺ sade: "Den goda drömmen är en fyrtiosjättedel av profetskapet."[^8] Drömmen är inte medvetandets frånvaro – den är dess omriktning. Du vaknar och vet något du inte visste innan, fast ingen lärt dig det. Under sömnen tystnar sinnenas buller, och själen förnimmer det den under dagen är för distraherad för att uppfatta. Ibn Khaldūn diagnostiserade hindret: "Det mest stora hindret för människans perception är de yttre sinnena, och därför skapade Gud sömnen som en naturlig funktion för att lyfta denna slöja."[^9] Ingen mystisk portal öppnas – snarare är det vad profeten ﷺ beskrev: att den sanna drömmen är ett ljus som Allah ﷻ kastar i den troendes hjärta, en rest av profetians budskap som fortlever efter profetkedjans slut.
+Ibn Qayyim kartlade sömnens inre liv i *Madārij al-Sālikīn*: själen äger under sömnen en förnimmelse skild från den vakna världens. Profeten ﷺ sade: "Den goda drömmen är en fyrtiosjättedel av profetskapet."[^8] Drömmen är inte medvetandets frånvaro – den är dess omriktning. Du vaknar och vet något du inte visste innan, fast ingen lärt dig det. Under sömnen tystnar sinnenas buller, och själen förnimmer det den under dagen är för distraherad för att uppfatta. Ibn Khaldūn pekade ut hindret: "Det mest stora hindret för människans perception är de yttre sinnena, och därför skapade Gud sömnen som en naturlig funktion för att lyfta denna slöja."[^9] Ingen mystisk portal öppnas – snarare är det vad profeten ﷺ beskrev: att den sanna drömmen är ett ljus som Allah ﷻ kastar i den troendes hjärta, en rest av profetians budskap som fortlever efter profetkedjans slut.
 
 Den svenska litteraturen har anat detta samband mellan natt och sårbarhet, mellan mörker och den själsliga exponeringen som dagsljuset döljer. August Strindberg i *Inferno*:
 

@@ -31,7 +31,7 @@ Den spänningen löste den islamiska civilisationen aldrig helt, och den vibrera
 
 Språkets sakralitet är odiskutabel. Men vem *äger* det? Om ägandet är etniskt, om arabiskan tillhör araberna som blodets arv, borde en perser med brytning vara den siste att kodifiera dess grammatik. Ändå blev det en perser som gjorde det — och ingen har gjort det bättre.
 
-Ibn Khaldun fastslog det i sin *Muqaddimah*: grundarna av den arabiska grammatiken — Sibawayh, al-Farisi, al-Zajjaj — var alla av persisk härkomst. I samma verk tillade han:
+Ibn Khaldun noterade det i sin *Muqaddimah*: grundarna av den arabiska grammatiken — Sibawayh, al-Farisi, al-Zajjaj — var alla av persisk härkomst. I samma verk tillade han:
 
 > "De flesta muslimska lärda inom såväl religiösa som intellektuella vetenskaper har varit icke-araber."[^5]
 
@@ -39,7 +39,7 @@ Kunskap är aldrig en fråga om härkomst.
 
 ## Vad språket kräver
 
-Imam al-Shafi'i destillerade principen till en ren observation: "Den som lärde sig Koranen ärades i människors ögon, den som lärde sig *hadith* fick starkare argumentation, den som lärde sig grammatik vördades."[^6] Vördnaden, *hiba*, knyts till lärandet — inte till ursprunget.
+Imam al-Shafi'i sade det rent ut: "Den som lärde sig Koranen ärades i människors ögon, den som lärde sig *hadith* fick starkare argumentation, den som lärde sig grammatik vördades."[^6] Vördnaden, *hiba*, knyts till lärandet — inte till ursprunget.
 
 Avgörande är verbet: *ta'allama*, att förvärva kunskap. Ash-Shafi'i skärpte tonen:
 
@@ -91,7 +91,7 @@ Ali ibn Abi Talib sade: "Tungan är kroppens roder — om den rättar sig, rätt
 
 Sibawayh dog ung — knappt fyrtio. Han lämnade inga lärjungar i vanlig mening — han lämnade *al-Kitab*. Det räckte.
 
-Fjorton århundraden senare har hans verk inte ersatts. Frågan han gestaltade skär lika djupt. I en tid då språkpolitik åter debatteras i Sverige — vem som har rätt att tala för ett språk, om språklig identitet är medfödd eller förvärvad — erbjuder Sibawayh inte ett svar, utan ett faktum.
+Fjorton århundraden senare har hans verk inte ersatts. Frågan han gestaltade bär lika långt. I en tid då språkpolitik åter debatteras i Sverige — vem som har rätt att tala för ett språk, om språklig identitet är medfödd eller förvärvad — erbjuder Sibawayh inte ett svar, utan ett faktum.
 
 > "Den som sökte kunskap fann heder utan svärd."[^18]
 

@@ -3,7 +3,7 @@ title: "De ostadiga planeterna"
 publishedAt: "2025-12-17T12:00:00.000Z"
 wordCount: 1468
 qualityScore: 8.4
-description: "År 1889 skrev Zacharias Topelius att planeterna är ostadiga som ett människoliv. Det var kosmologi formulerad för barn, i en roman där astronomen Sigfrid Forsius läser stjärnhimlen som en solvisare — inte som en karta för rymdkolonisering."
+description: "'Planeterna äro ostadiga som ett människolif.' Så avslutade Topelius sin sista roman 1889 — kosmologi formulerad för barn, i en värld där astronomen läser stjärnhimlen som en solvisare, inte som en karta för rymdkolonisering."
 ---
 Zacharias Topelius avslutade sin sista roman med en mening som ingen verkar minnas: "Planeterna äro ostadiga som ett människolif."[^1] Det var inte poesi utan kosmologi, formulerad för barn.
 
@@ -25,7 +25,7 @@ Men samma insikt kan bära vitt skilda slutsatser. En av dem formulerade Topeliu
 
 I Topelius' kosmologi är planeternas ostadighet inte ett problem att lösa utan ett budskap att tyda. Astrologen Sigfrid Forsius (romanens centralgestalt) läser stjärnhimlen som en solvisare: "Stjärnorna äro att betrakta som solvisare för världens gång". Han tillägger omedelbart att "Människan spår och Gud rår."[^4] Himlavalvet visar men bestämmer inte — det pekar bortom sig självt.
 
-Topelius var ingen naiv romantiker. Väl medveten om den vetenskapliga revolutionens anspråk skrev han mot den. Hans sena verk genomsyras av en luthersk övertygelse att tro överträffar förnuft, att materialismens segertåg genom Europas universitet vittnade om världens åldrande snarare än dess framsteg.[^5] Det gör honom förvisso omodern — men inte irrelevant. Hans fråga förblir densamma:
+Topelius var ingen naiv romantiker. Väl medveten om den vetenskapliga revolutionens anspråk skrev han mot den. Hans sena verk genomsyras av en luthersk övertygelse att tro överträffar förnuft, att materialismens segertåg genom Europas universitet vittnade om världens åldrande snarare än dess framsteg.[^5] Visst gör det honom omodern — men inte irrelevant. Hans fråga förblir densamma:
 
 Vad betyder det att planeterna är lika bräckliga som vi? För Topelius: att inget skapat är beständigt, att hela kosmos delar den villkorlighet som definierar människolivet, och att insikten inte medger annat än ödmjukhet.
 
@@ -45,17 +45,17 @@ Koranen fastslår utan elegisk ton:
 
 Grönskan gläder — och vissnar. Det ligger i tingens natur. Att grunda sin tillvaro i det som vissnar är, i Koranens terminologi, *al-ghurūr*, självbedrägeri. Det är den som bygger som om han ska leva för evigt.
 
-Den medeltida lärde Ibn Qayyim förskjuter bilden: "Denna värld i förhållande till den nästkommande är som sömnen i förhållande till vakenheten."[^8] Om jordelivet är sömn och det som kommer efter är vakenhet, då är frågan hur vi vaknar — inte hur vi flyr till en annan planet. Ibn al-Jawzi skärper bilden: "Denna värld är en dröm och den nästkommande ett uppvaknande, och det som däremellan är döden."[^9]
+Den medeltida lärde Ibn Qayyim förskjuter bilden: "Denna värld i förhållande till den nästkommande är som sömnen i förhållande till vakenheten."[^8] Om jordelivet är sömn och det som kommer efter är vakenhet, då är frågan hur vi vaknar — inte hur vi flyr till en annan planet. Ibn al-Jawzi kondenserar: "Denna värld är en dröm och den nästkommande ett uppvaknande, och det som däremellan är döden."[^9]
 
-Topelius sörjer det förgängliga. Koranen blottlägger det, med klarhet snarare än sorg. Den som förstår att detta liv är en dröm slutar jaga drömbilder — inte genom att ge upp handlandet, utan genom att rikta det mot det som består.
+Topelius sörjer det förgängliga. Koranen säger det rent ut, utan sorg. Den som förstår att detta liv är en dröm slutar jaga drömbilder — inte genom att ge upp handlandet, utan genom att rikta det mot det som består.
 
 Said ibn Jubayr drar den avgörande gränsen: "Det bedrägliga njutandet är det som distraherar dig från att söka det kommande livet. Det som inte distraherar dig är inte bedrägligt njutande."[^10] Världen är inte ond utan ett prov, och provet avgörs av vad vi söker när vi inser dess obeständighet. Musk vänder sig mot Mars. Koranen pekar annorstädes.
 
 ## Hybris och proportioner
 
-Vad är det inom Musk som gör Mars till svar snarare än självbedrägeri? Den islamiska traditionen har ett ord för drivkraften.
+Vad är det inom Musk som gör Mars till svar snarare än självbedrägeri?
 
-Profeten ﷺ definierade högmod med en precision som stänger varje flyktväg: "Högmod är att förneka sanningen och förakta människor."[^11] Det är inte en känsla utan en handling. Det är att vända bort ansiktet när någon talar sant. Att inte svara när den små hälsar. Ibn Qayyim spårar högmodets rot till självbedrägeri.[^12] Den som berusar sig av sin egen storhet förlorar förmågan att se sina rätta proportioner. Så åberopar Musk medvetandets ljus med religiöst patos. Inom islam är just denna berusning symtom: att förväxla känslan av att vara undantagen från världens villkor med styrka.
+Profeten ﷺ definierade högmod utan undanflykt: "Högmod är att förneka sanningen och förakta människor."[^11] Det är inte en känsla utan en handling. Det är att vända bort ansiktet när någon talar sant. Att inte svara när den små hälsar. Ibn Qayyim spårar högmodets rot till självbedrägeri.[^12] Den som berusar sig av sin egen storhet förlorar förmågan att se sina rätta proportioner. Så åberopar Musk medvetandets ljus med religiöst patos. Inom islam är just denna berusning symtom: att förväxla känslan av att vara undantagen från världens villkor med styrka.
 
 Koranen riktar sig till den som vandrar på jorden högmodigt: "Du kan varken klyva jorden eller uppnå bergens höjd."[^13] Den som tror sig kunna bemästra skapelsen misstar sig om sin egen storlek.
 

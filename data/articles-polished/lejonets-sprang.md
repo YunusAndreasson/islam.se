@@ -17,9 +17,9 @@ Ibn al-Qayyim al-Jawziyya, den damascenske lärde som verkade under 1300-talets 
 
 > *Firāsah* är ett ljus som Gud kastar i Sin tjänares hjärta, genom vilket han skiljer sanning från lögn.[^4]
 
-Inte en känsla, inte en magkänsla som kanske stämmer — ett ljus vars styrka svarar mot hjärtats tillstånd. Ibn al-Qayyim skärper definitionen: den är en ingivelse som kastar sig över hjärtat som lejonet kastar sig över sitt byte — den första oemotsagda impulsen.[^5] Uppstår en andra likadan impuls, är det bara inre prat. *Firāsah* slår ner som en blixt — den argumenterar inte utan övertygar genom sin omedelbarhet.
+Inte en känsla, inte en magkänsla som kanske stämmer — ett ljus vars styrka svarar mot hjärtats tillstånd. Ibn al-Qayyim preciserar: den är en ingivelse som kastar sig över hjärtat som lejonet kastar sig över sitt byte — den första oemotsagda impulsen.[^5] Uppstår en andra likadan impuls, är det bara inre prat. *Firāsah* slår ner som en blixt — den argumenterar inte utan övertygar genom sin omedelbarhet.
 
-Denna omedelbarhet delar *firāsah* med Kahnemans System 1: snabbt, automatiskt, ansträngningslöst. Men Ibn al-Qayyim avtäcker en dimension som Kahnemans modell inte rymmer — han binder firasans precision till betraktarens tro:
+Denna omedelbarhet delar *firāsah* med Kahnemans System 1: snabbt, automatiskt, ansträngningslöst. Men Ibn al-Qayyim öppnar en dimension som Kahnemans modell inte rymmer — han binder firasans precision till betraktarens tro:
 
 > *Firāsah* är i enlighet med trons styrka; den med starkast tro har skarpast *firāsah*.[^6]
 
@@ -63,19 +63,19 @@ Den frågan har västerländska motsvarigheter. Iris Murdoch argumenterade i *Th
 
 Ibn al-Qayyim erbjuder ett alternativ som varken är naivt eller ovetenskapligt — det verkar i ett annat register. Enligt en tradition som al-Tirmidhi återger — de enskilda berättarkedjorna är svaga, men hadithvetare klassificerar den som *ḥasan li-ghayrihi*, tillförlitlig genom samstämmighet — sade Profeten Muhammad ﷺ: "Akta er för den troendes *firāsah*, ty han ser med Guds ljus."[^14] Att se med Guds ljus är inget anspråk på ofelbarhet. Det är att hävda att det finns en form av perception som öppnar sig för den som renar sitt hjärta — och att denna perception är verklig.
 
-Ibn al-Qayyim själv återger i *Madārij al-Sālikīn* ett uttalande av den tidiga sufiska lärde Abu Sulayman al-Darani som destillerar principen: *firāsah* är "en av trons stationer" — en plats man når, inte en gåva man råkar få.[^15] En hel kunskapstradition ryms i den formuleringen. Den moderna forskningen saknar motsvarighet till den, inte för att den vederlagts utan för att den aldrig prövats på sina villkor.
+Ibn al-Qayyim själv återger i *Madārij al-Sālikīn* ett uttalande av den tidiga sufiska lärde Abu Sulayman al-Darani som sammanfattar det: *firāsah* är "en av trons stationer" — en plats man når, inte en gåva man råkar få.[^15] En hel kunskapstradition ryms i den formuleringen. Den moderna forskningen saknar motsvarighet till den, inte för att den vederlagts utan för att den aldrig prövats på sina villkor.
 
 ## Andetaget mot spegeln
 
-Ibn al-Qayyims analys stannar inte vid en teori om insikt. Den vänder sig till läsaren och frågar: hur lever du? Spegelmetaforen är inte dekorativ. Den ställer en diagnos som ingen modern kognitionsforskare skulle formulera men som varje ärlig människa kan pröva mot sin erfarenhet.
+Ibn al-Qayyims analys stannar inte vid en teori om insikt. Den vänder sig till läsaren och frågar: hur lever du? Spegelmetaforen har konsekvenser som ingen modern kognitionsforskare skulle formulera men som varje ärlig människa kan pröva mot sin erfarenhet.
 
 Det finns stunder av klarhet — ögonblick då man ser igenom en situation med en skärpa som förvånar en själv. Och perioder av dimma, då omdömet sviker, då man beslutar sådant man senare inte begriper. Skillnaden, hävdar Ibn al-Qayyim, är inte slumpmässig. Dimman har sina orsaker och klarheten sina förutsättningar.
 
-Häri ligger det svårsmälta för moderniteten: att kunskap är en fråga om karaktär, inte enbart om metod, att den som lever oredligt inte bara handlar fel utan *ser* fel och att perception och moral aldrig var skilda domäner.
+Det är detta moderniteten inte kan smälta: att kunskap är en fråga om karaktär, inte enbart om metod, att den som lever oredligt inte bara handlar fel utan *ser* fel och att perception och moral aldrig var skilda domäner.
 
 I sura al-Hijr finns en vers som Ibn al-Qayyim ofta återvände till: "I detta finns sannerligen tecken för de insiktsfulla."[^16] Det arabiska ordet är *mutawassimīn* — de som läser tecken, de som äger *firāsah*. Tecknen finns där, världen döljer ingenting — frågan är om betraktarens hjärta är tillräckligt klart för att läsa dem.
 
-Och det lejon som i Ibn al-Qayyims bild kastar sig över sitt byte — den ingivelse som slår ner i hjärtat utan förvarning, utan tvekan — det lejonet jagar alltjämt.
+Och det lejon som i Ibn al-Qayyims bild kastar sig över sitt byte — den ingivelse som slår ner i hjärtat utan förvarning, utan tvekan — det lejonet jagar ännu.
 
 Frågan är bara vems hjärta som är tillräckligt stilla för att höra det komma.
 

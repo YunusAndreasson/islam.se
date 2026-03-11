@@ -17,11 +17,11 @@ Fjorton århundraden senare bygger vi system som beslutar om domar, anställning
 
 För att förstå vad som går förlorat måste vi gå tillbaka till beslutets natur. Den medeltida lärde Ibn Qayyim al-Jawziyya beskrev hjärtat som kroppens konung. Lemmarna är dess armé och undersåtar: de lyder hjärtat naturligt. De kan inte annat. Inget lem rör sig utom på hjärtats befallning, och ingen tanke eller vilja föds utom genom dess styre.[^3] Hela denna ordning förutsätter att konungen är vaken — att någon regerar. Det är den som känner vreden stiga innan ordet formas, som vet att beslutet finns innan handlingen.
 
-Beskrivningen rymmer en outtalad definition av beslut. Ett beslut i denna mening är inte en beräkning: det är en handling där hjärtat väger, tvivlar, ansvarar. Förnuftet kan räkna, lemmarna verkställa — men ingen av dem kan *regera*. Att regera kräver det som bergen saknade: en medveten vilja som kan stå till svars.
+En outtalad definition av beslut. Ett beslut i denna mening är inte en beräkning: det är en handling där hjärtat väger, tvivlar, ansvarar. Förnuftet kan räkna, lemmarna verkställa — men ingen av dem kan *regera*. Att regera kräver det som bergen saknade: en medveten vilja som kan stå till svars.
 
 I vår tid blir metaforen bokstavlig: konungen ersätts med en algoritm — inte rådgivaren utan konungen, inte beräkningen utan beslutet. EU:s AI-förordning, fullt tillämplig från augusti 2026, ställer frågan juridiskt. Artikel 14 kräver att högrisk-AI-system ska ha "mänsklig tillsyn". Det innebär att en människa alltid ska kunna förstå systemets kapacitet, tolka dess resultat och välja att bortse från dess bedömning.[^4] Den svenska utredningen SOU 2025:101 konkretiserar och skärper kraven på insyn och ansvarsutkrävande.[^5]
 
-Men kravet blottlägger ett djupare problem. Om en människa formellt ska kunna överpröva en algoritm men saknar tid, kunskap eller incitament att göra det — vem regerar då? Konungen har fått en rådgivare som i praktiken styr — titeln kvarstår, makten har flyttat. Forskningen bekräftar mönstret: människor som formellt övervakar automatiserade system slutar systematiskt att ifrågasätta dem.[^19]
+Men kravet röjer ett djupare problem. Om en människa formellt ska kunna överpröva en algoritm men saknar tid, kunskap eller incitament att göra det — vem regerar då? Konungen har fått en rådgivare som i praktiken styr — titeln kvarstår, makten har flyttat. Forskningen bekräftar mönstret: människor som formellt övervakar automatiserade system slutar systematiskt att ifrågasätta dem.[^19]
 
 ## Ansvarets lucka
 
@@ -29,19 +29,19 @@ Det svenska rättssystemet vilar på en enkel premiss: någon måste vara ansvar
 
 AI tvingar fram vad filosofen Andreas Matthias 2004 kallade en *ansvarslucka*: varken utvecklaren, användaren eller maskinen kan fullt ut hållas ansvarig för ett algoritmiskt beslut.[^7] Utvecklaren programmerade inte det enskilda utfallet; beräkningen översteg användarens förståelse; maskinen förstod ingenting alls. Ansvaret förskjuts längs en kedja där varje länk pekar på nästa. Det är vårdkedjan där ingen enskild läkare felbedömde patienten, men patienten dog ändå. Samma upplösning identifierade Hannah Arendt i den moderna byråkratin — ett styre av Ingen, ett tyranni utan tyrann.[^20]
 
-Ingen sådan upplösning tillåter Koranen. "Varje själ är ansvarig för vad den har gjort"[^8] — formuleringen är enskild, odelbar. Ansvaret kan inte fördelas, delegeras, algoritmiseras. En syndare bär inte en annan syndares börda.[^9] Häri ligger *amānahs* kärna: förtroendet gavs till varje människa, inte till institutioner, inte till system, inte till processer.
+Ingen sådan upplösning tillåter Koranen. "Varje själ är ansvarig för vad den har gjort"[^8] — formuleringen är enskild, odelbar. Ansvaret kan inte fördelas, delegeras, algoritmiseras. En syndare bär inte en annan syndares börda.[^9] Det är *amānahs* kärna: förtroendet gavs till varje människa, inte till institutioner, inte till system, inte till processer.
 
 Ibn Hazm fastslog principen rättsligt: rättvisa i domslutet kräver att man hör båda parter innan man fäller domen.[^10] Det låter enkelt. Men *höra* i moralisk mening — förstå en människas belägenhet, väga hennes omständigheter, erkänna hennes värdighet — det kräver det hjärta Ibn Qayyim beskrev: konungen som måste vara närvarande, vaken, styrande. En algoritm sorterar.
 
 ## Sömnen som dödar inifrån
 
-Mer än synd fruktade de klassiska lärda ett tillstånd: *ghaflah*. Ibn Qayyim al-Jawziyya definierade det som hjärtats sömn eller dess död — en slöja där människan rör sig i världen utan att vara närvarande i sina handlingar.[^11] Det är den som signerar dokumentet medan tanken redan är någon annanstans.
+Mer än synd fruktade de klassiska lärda ett tillstånd: *ghaflah*. Ibn Qayyim al-Jawziyya definierade det som hjärtats sömn eller dess död — en slöja där människan rör sig i världen utan att vara närvarande i sina handlingar.[^11] Den som signerar dokumentet medan tanken redan är någon annanstans lever i *ghaflah*.
 
 *Ghaflah* är inte okunskap. Det är något värre: den medvetna varelsen som upphör att vara medveten. Hjärtat slår, kroppen fungerar — men konungen sover. Och i den sömnen töms *amānah* inifrån — inte genom att den tas bort, utan genom att ingen längre bär den.
 
 Algoritmisk delegering är inte *ghaflah*. Inget AI-system sover — inget har vakenheten att somna från. Faran är vad som händer med *människan* som delegerar. Varje beslut som överlåts till ett system är ett som hjärtat inte längre beslutar, varje automatiserad bedömning ett ögonblick där konungen inte behöver vara vaken. Vanan att inte vara vaken — det är vad Ibn Qayyim kallade *ghaflah*.
 
-Den som aldrig läste Ibn Qayyim men ställde samma diagnos var Ellen Key. I *Barnets århundrade* skrev hon att kulturens uppgift borde vara att "göra människan målmedveten och ansvarig på alla områden, där hon endast handlat impulsivt och oansvarigt".[^12] Automationens löfte är det omvända: att befria oss från beslutsbördan. Men om bördan *är* det som gör oss ansvariga — om det är just det tunga, det svåra, det som bergen vägrade, som formar den mänskliga förmågan — då är befrielsen en förlust.
+Den som aldrig läste Ibn Qayyim men såg samma sak var Ellen Key. I *Barnets århundrade* skrev hon att kulturens uppgift borde vara att "göra människan målmedveten och ansvarig på alla områden, där hon endast handlat impulsivt och oansvarigt".[^12] Automationens löfte är det omvända: att befria oss från beslutsbördan. Men om bördan *är* det som gör oss ansvariga — om det är just det tunga, det svåra, det som bergen vägrade, som formar den mänskliga förmågan — då är befrielsen en förlust.
 
 Och hon såg djupare: vad som förnedrar människan är inte felet i sig utan flykten från dess följder. "Det hemliga brott, den äldre moralen fann jämförelsevis ofarligt, blir ur den nya sedlighetens synpunkt större än den öppna brytningen. Ty personligheten förnedras genom de svek och den svaghet, hvarigenom man undandrar sig ansvaret för sin handlings följder."[^13] Att undandra sig ansvaret, delegera det till ett system som inte kan fela i moralisk mening utan bara i statistisk — det är *ghaflah* som affärsmodell.
 
@@ -61,7 +61,7 @@ Profeten ﷺ varnade: "När förtroendet förskingras, vänta då på den Ytters
 
 Det islamiska perspektivet är dock inte entydigt avvisande. *Maqāṣid al-sharīʿah* — den islamiska rättens ändamålslära — erkänner att det som tjänar allmänintresset (*maṣlaḥah*) kan vara tillåtet under rätt villkor. Inom maqasid-traditionen har samtida forskare medgett att viss beslutsfattning kan delegeras till system, förutsatt att mänsklig tillsyn upprätthålls. En domare har genom historien kunnat använda redskap, rådgivare, prejudikat. Men domen måste vara hans: fattad med det hjärta som bär *amānah*.
 
-AI-frågans särart ligger i delegeringens form: det mänskliga beslutsögonblicket försvinner. En domare som följer en rådgivares rekommendation har alltjämt fattat beslutet. En domare vars system automatiskt genererar utfall som hon bekräftar med ett klick har inte det. Hon utför en gest, till formen mänsklig men till substansen maskinell.
+AI-frågans särart ligger i delegeringens form: det mänskliga beslutsögonblicket försvinner. En domare som följer en rådgivares rekommendation har fortfarande fattat beslutet. En domare vars system automatiskt genererar utfall som hon bekräftar med ett klick har inte det. Hon utför en gest, till formen mänsklig men till substansen maskinell.
 
 Ibn Khaldun varnade: "De som inte är kvalificerade för domstolen bör inte bli domare, så att de inte vilseleder dem som söker rätt väg."[^17] Kvalifikationen han krävde var inte teknisk utan moralisk: förmågan att bära ansvarets fulla tyngd — en förmåga som inte kan programmeras, bara bäras.
 

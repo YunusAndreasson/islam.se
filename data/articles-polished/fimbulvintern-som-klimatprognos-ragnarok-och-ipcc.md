@@ -11,7 +11,7 @@ Tre vintrar utan sommar, bröder som dödar varandra för småpengar, solen som 
 
 Det kunde vara Völuspá — eller IPCC:s senaste rapport.
 
-Men likheten döljer en avgörande skillnad — där vår tids existentiella kris bor. Ragnarök är inte klimatångesten i mytisk förklädnad — det är dess raka motsats.
+Men likheten bedrar — och i skillnaden bor vår tids kris. Ragnarök är inte klimatångesten i mytisk förklädnad — det är dess raka motsats.
 
 ## Elden som renar
 
@@ -23,7 +23,7 @@ Världsträdet överlever elden, för det trotsar både egg och låga. Solen som
 
 Samma princip fångade Esaias Tegnér i *Fritiofs Saga*: det onda dör "för evigt", men det fallna goda "reser sig ur världsbålslågan, luttrat till ett högre liv".[^2] Undergången är eldprovet — det som gör världen *värdig* sin fortsättning. Och efter elden: osådda fält som bär skörd, Balder som återvänder, gyllene runetavlor i gräset på Idavallen.
 
-Forskare tvistar dock om huruvida Völuspás förnyelsestrofer — särskilt den gåtfulla strofen 65 om en "väldig härskare som styr över allt" — uttrycker genuint förkristna föreställningar eller speglar kristet inflytande. Kanske lovade den hedniska mytologin mer än den ägde, men det skärper spänningen mot klimatångesten: även ett ofullbordat hopp väger tyngre än hopplöshet.
+Forskare tvistar dock om huruvida Völuspás förnyelsestrofer — särskilt den gåtfulla strofen 65 om en "väldig härskare som styr över allt" — uttrycker genuint förkristna föreställningar eller speglar kristet inflytande. Kanske lovade den hedniska mytologin mer än den ägde, men just det gör kontrasten mot klimatångesten desto skarpare: även ett ofullbordat hopp väger tyngre än hopplöshet.
 
 ## Apokalyps utan eskatologi
 
@@ -35,9 +35,9 @@ I årtusenden har människor fruktat undergången. Klimatångesten förlamar av 
 
 Religionsfilosofen Daniel Kuehn vid University of Chicago frågar om klimatkrisen fungerar som sekulär eskatologi — undergångsberättelse utan gudomlig ram.[^3] Kuehn är mer ambivalent än kategorisk; han undersöker snarare än besvarar frågan, men den bär längre än han för den. En sekulär eskatologi är inte religion minus Gud. Det är apokalyps utan förlösning, skuld utan förlåtelse, synd utan nåd.
 
-Filosofen Hannah Arendt nådde samma slutsats utan teologisk utgångspunkt: utan förlåtelse förblir människan fången i sina handlingars konsekvenser, oförmögen att börja om.[^18]
+Filosofen Hannah Arendt formulerade det utan teologisk utgångspunkt: utan förlåtelse förblir människan fången i sina handlingars konsekvenser, oförmögen att börja om.[^18]
 
-Filosofen Günther Anders namngav tillståndet redan under kärnvapenåldern: *Apokalypse ohne Reich* — naken apokalyps, undergång som inte öppnar något rike.[^17] Samma struktur — apokalypsen utan riket — återfinns i samtidens klimatsorg: i Harvard Divinity Bulletin diagnostiseras en ny form av "klimatsorg": en sakral känsla utan sakrament, en sorg utan tröst — ett rituellt tomrum som varken terapi eller aktivism förmår fylla.[^4] Sorgen som söker sin gest.
+Filosofen Günther Anders namngav tillståndet redan under kärnvapenåldern: *Apokalypse ohne Reich* — naken apokalyps, undergång som inte öppnar något rike.[^17] Samma struktur — apokalypsen utan riket — återfinns i samtidens klimatsorg: i Harvard Divinity Bulletin beskrivs en ny form av "klimatsorg": en sakral känsla utan sakrament, en sorg utan tröst — ett rituellt tomrum som varken terapi eller aktivism förmår fylla.[^4] Sorgen som söker sin gest.
 
 Den sekulära moderniteten har ärvt skräcken men avskaffat hoppet.
 
@@ -51,13 +51,13 @@ Detta tillstånd — människans inneboende rastlöshet inför det skapade som i
 
 Öppenhet hotar, slutenhet kväver. Inget läge fungerar.
 
-Klimatångesten delar strukturen men saknar det avgörande: ett namn för det den är. Islam ger den ett namn. Ångesten är ett tecken — *āya* — på att människan söker sitt ursprung. Som Ibn Qayyim al-Jawziyyah fastslog: "Det jordiska livet är den kommande världens åkerfält och dess förebud."[^7] Ångesten inför förstörelsen avslöjar sig som förvrängd längtan efter det som kommer *efter* den. Rädslan som är hopp vänt ut och in.
+Klimatångesten delar strukturen men saknar det avgörande: ett namn för det den är. Islam ger den ett namn. Ångesten är ett tecken — *āya* — på att människan söker sitt ursprung. Ibn Qayyim al-Jawziyyah: "Det jordiska livet är den kommande världens åkerfält och dess förebud."[^7] Ångesten inför förstörelsen avslöjar sig som förvrängd längtan efter det som kommer *efter* den. Rädslan som är hopp vänt ut och in.
 
 ## En dom som förutsätter en Domare
 
-Den avgörande klyftan löper inte mellan Ragnarök och klimatvetenskap, utan mellan dessa och islam.
+Klyftan löper inte mellan Ragnarök och klimatvetenskap, utan mellan dessa och islam.
 
-Ragnarök gestaltar ett öde. Gudarna själva är bundna av det; Oden vet att han ska falla för Fenrisulven, och han faller. Förnyelsen sker som naturlag, som kosmisk cykel. Ingen dömer. Rydberg blottlägger principen: det germanska tänkandet förstår reningselden som inneboende kraft, inte viljehandling.[^8]
+Ragnarök gestaltar ett öde. Gudarna själva är bundna av det; Oden vet att han ska falla för Fenrisulven, och han faller. Förnyelsen sker som naturlag, som kosmisk cykel. Ingen dömer. Rydberg formulerar principen: det germanska tänkandet förstår reningselden som inneboende kraft, inte viljehandling.[^8]
 
 Koranen vänder perspektivet:
 
@@ -65,11 +65,11 @@ Koranen vänder perspektivet:
 
 I Ragnarök överlever det goda av egen kraft — världsträdet trotsar elden. I islam överlever det goda för att det är *valt* av en vilja som också är *al-Raḥmān*, den Barmhärtige. "Min Herre är sannerligen benådande och kärleksfull", påminner profeten Shu'ayb sitt folk.[^10] Domen är verklig. Men den som dömer älskar den som döms.
 
-Häri ligger det som den sekulära eskatologin saknar och mytologin bara halvvägs når: rättvisa *och* barmhärtighet, skuld *och* förlåtelse.
+Det är detta den sekulära eskatologin saknar och mytologin bara halvvägs når: rättvisa *och* barmhärtighet, skuld *och* förlåtelse.
 
 ## Det svar som ångesten söker
 
-Efter diagnosen av förstörelsen — och den meningslöshet vår tid bundit vid den — kommer svaret. Koranen erbjuder inte bara insikten om ångesten, utan principen för att bära den:
+Efter bilden av förstörelsen — och den meningslöshet vår tid bundit vid den — kommer svaret. Koranen erbjuder inte bara insikten om ångesten, utan principen för att bära den:
 
 > På varje svårighet följer förvisso lättnad. På varje svårighet följer förvisso lättnad.[^11]
 

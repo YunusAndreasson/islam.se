@@ -23,7 +23,7 @@ Samma mönster såg Erik Gustaf Geijer i det svenska 1800-talet: "Överallt där
 
 ## Boken och vågan
 
-Om denna diagnos stämmer – om lag alltid skrivs av någon, och den som skriver alltid gynnar sig själv – finns det då en lag som ingen människa har skrivit?
+Om denna iakttagelse stämmer – om lag alltid skrivs av någon, och den som skriver alltid gynnar sig själv – finns det då en lag som ingen människa har skrivit?
 
 Med en enda bild svarar Koranen: "Det är Allah ﷻ som har sänt ned Boken med sanningen och likaså rättvisans våg."[^5] Boken och vågan – sanningen och måttet. De sänds ned – de uppfinns inte.
 
@@ -37,7 +37,7 @@ Om lagen har sitt ursprung bortom maktens räckvidd, vad innebär det för makte
 
 Ibn Taymiyyah går än längre: rättvisan är inte en dygd bland andra – den är normen som bär alla andra: "Rättvisan är påbjuden i alla handlingar och orättvisan förbjuden utan undantag."[^10] Människors enighet om rättvisans godhet överträffar, menar han, deras enighet om de flesta förnuftssanningar.[^11] Rättvisan är inte ett resultat av resonemanget – den är dess förutsättning. Man kan inte samtala med tyrannens svärd mot strupen.
 
-Om rättvisan är förutsättningen för samhällets bestånd, vad händer när den överges? Koranen visar vad som händer när de mäktiga skriver sina egna regler: "Vi har också i varje stad låtit de mäktiga bli deras förbrytare för att smida sina planer där. Men de smider endast planer mot sig själva utan att märka det."[^12] Samma mekanism som hos Strindberg, men med en diagnos han saknar: maktkoncentrationen förgör sig själv. Strindberg kan peka på orättvisan och kräva att den upphör – en moralisk protest. Koranens diagnos är starkare: orättvisan upphör *av sig själv*, inte för att någon kräver det utan för att den bryter mot den ordning den existerar inom. Det är skillnaden mellan en protest och en prognos.
+Om rättvisan är förutsättningen för samhällets bestånd, vad händer när den överges? Koranen visar vad som händer när de mäktiga skriver sina egna regler: "Vi har också i varje stad låtit de mäktiga bli deras förbrytare för att smida sina planer där. Men de smider endast planer mot sig själva utan att märka det."[^12] Samma mekanism som hos Strindberg, men med en förklaring han saknar: maktkoncentrationen förgör sig själv. Strindberg kan peka på orättvisan och kräva att den upphör – en moralisk protest. Koranens förklaring är starkare: orättvisan upphör *av sig själv*, inte för att någon kräver det utan för att den bryter mot den ordning den existerar inom. Det är skillnaden mellan en protest och en prognos.
 
 ## Den farliga mellanhanden
 

@@ -11,7 +11,7 @@ Fjorton sekel senare har vi byggt en aktör som ger Umars klagan kropp: algoritm
 
 ## Två pelare, en tom plats
 
-Ibn Taymiyyah destillerade Umars klagan till ett politiskt system. I *al-Siyāsah al-Sharʿiyyah*, hans avhandling om rättvis styrning, hävdar han att varje ämbete vilar på två pelare: *quwwa*, styrka, kompetens, förmåga att verkställa, och *amānah*, pålitlighet, trovärdighet, det inre rättesnöre som tyglar makten.[^2]
+Ibn Taymiyyah gav Umars klagan politisk form. I *al-Siyāsah al-Sharʿiyyah*, hans avhandling om rättvis styrning, hävdar han att varje ämbete vilar på två pelare: *quwwa*, styrka, kompetens, förmåga att verkställa, och *amānah*, pålitlighet, trovärdighet, det inre rättesnöre som tyglar makten.[^2]
 
 > "Att styrka och pålitlighet förenas i samma person är sällsynt bland människor."[^3]
 
@@ -25,7 +25,7 @@ I Sveriges moderna välfärdsstat skulle avvägningen mellan styrka och pålitli
 
 Redan 2013 hade Försäkringskassan infört modellen. Redan 2018 konstaterade Inspektionen för socialförsäkringen att algoritmen "i sin nuvarande utformning inte uppfyller kravet på likabehandling".[^10] Försäkringskassan avfärdade slutsatserna. Först sex år senare — efter en internationell granskning och en offentlig skandal — återkallades systemet.
 
-Ibn Taymiyyahs distinktion skärper diagnosen: algoritmens *quwwa* kunde ingen betvivla. Den bearbetade tusentals ansökningar med en hastighet och enhetlighet bortom varje handläggares förmåga. Problemet var bristande *amānah*: systemet kunde varken förklara sina beslut, granskas eller ställas till svars. Utan insyn förstärkte kapaciteten de ojämlikheter den var satt att korrigera.
+Tillämpad på algoritmen blir Ibn Taymiyyahs distinktion konkret: algoritmens *quwwa* kunde ingen betvivla. Den bearbetade tusentals ansökningar med en hastighet och enhetlighet bortom varje handläggares förmåga. Problemet var bristande *amānah*: systemet kunde varken förklara sina beslut, granskas eller ställas till svars. Utan insyn förstärkte kapaciteten de ojämlikheter den var satt att korrigera.
 
 Styrkan förstärker bristen. En svag tjänsteman kan göra begränsad skada; hans inkompetens sätter gränser för hans orättvisa. En algoritm som fattar miljontals beslut utan att kunna förklara ett enda producerar orättvisa i industriskala.
 
@@ -33,7 +33,7 @@ Kybernetikens grundare Norbert Wiener identifierade samma struktur: maskinens fa
 
 ## Det dolda förtroendekontraktet
 
-Försäkringskassan-fallet rymmer mer än en teknisk skandal. Det blottlägger välfärdsstatens outtalade löfte. En medborgare som vänder sig till en myndighet med en ansökan ingår ett förtroendeavtal — inte ett juridiskt kontrakt, utan något äldre. Hon utlämnar information om sitt liv, sin hälsa, sin familjesituation — och litar på att den behandlas rättvist. För detta har Koranen ett ord: *al-amānah*, förtroendeuppdraget — som den oupplösligt kopplar till rättvis dom:
+Försäkringskassan-fallet är mer än en teknisk skandal. Det röjer välfärdsstatens outtalade löfte. En medborgare som vänder sig till en myndighet med en ansökan ingår ett förtroendeavtal — inte ett juridiskt kontrakt, utan något äldre. Hon utlämnar information om sitt liv, sin hälsa, sin familjesituation — och litar på att den behandlas rättvist. Koranen kallar det *al-amānah* — förtroendeuppdraget — och kopplar det oupplösligt till rättvis dom:
 
 > "Allah ﷻ befaller er att återlämna allt ni anförtrotts till dess rättmätiga ägare och att, när ni dömer mellan människor, döma med rättvisa."[^11]
 
@@ -45,9 +45,9 @@ Arbetsförmedlingens AI-matchningssystem bär samma brist. Mönsterigenkänninge
 
 ## Vågen utan visare
 
-Det vore intellektuellt ohederligt att framställa Ibn Taymiyyahs tänkande som den saknade pusselbiten i en annars tom debatt. Svensk diskussion om algoritmisk ansvarighet finns — i akademisk forskning, i ISF:s granskningar, i EU:s AI-förordning som klassificerar välfärdsautomation som "högrisk" och kräver riskbedömningar, dokumentation och mänsklig tillsyn.[^13] Frågan är förvisso formulerad — men nästan uteslutande med tekniska och juridiska begrepp: insyn, skevhet, dataskydd, efterlevnad. Vad som saknas är ett moralfilosofiskt språk som fångar *varför* dessa krav är nödvändiga — inte vilka regler som bryts, utan vilken mänsklig relation som sviks.
+Det vore intellektuellt ohederligt att framställa Ibn Taymiyyahs tänkande som den saknade pusselbiten i en annars tom debatt. Svensk diskussion om algoritmisk ansvarighet finns — i akademisk forskning, i ISF:s granskningar, i EU:s AI-förordning som klassificerar välfärdsautomation som "högrisk" och kräver riskbedömningar, dokumentation och mänsklig tillsyn.[^13] Frågan är formulerad — men nästan uteslutande med tekniska och juridiska begrepp: insyn, skevhet, dataskydd, efterlevnad. Vad som saknas är ett moralfilosofiskt språk som fångar *varför* dessa krav är nödvändiga — inte vilka regler som bryts, utan vilken mänsklig relation som sviks.
 
-Häri erbjuder Ibn Taymiyyahs analys just ett sådant språk. Hans svar på *quwwa*-*amānah*-problemet är inte att välja en av pelarna utan att bygga institutioner som förenar dem.[^14] När inget enskilt system besitter båda egenskaperna kräver rättvisan att styrka och trovärdighet fördelas på flera händer: den starke uppbördsmannen och den pålitlige skrivaren, algoritmen och den mänskliga handläggaren. Vad samtida AI-etik kallar *human-in-the-loop* föreskrev Ibn Taymiyyah som rättvisekrav.
+Ibn Taymiyyahs analys erbjuder just ett sådant språk. Hans svar på *quwwa*-*amānah*-problemet är inte att välja en av pelarna utan att bygga institutioner som förenar dem.[^14] När inget enskilt system besitter båda egenskaperna kräver rättvisan att styrka och trovärdighet fördelas på flera händer: den starke uppbördsmannen och den pålitlige skrivaren, algoritmen och den mänskliga handläggaren. Vad samtida AI-etik kallar *human-in-the-loop* föreskrev Ibn Taymiyyah som rättvisekrav.
 
 Rättvisa som ständig kalibrering mellan motsatta krav — detta fångar Ibn al-Jawzi i en bild:
 

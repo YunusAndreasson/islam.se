@@ -13,7 +13,7 @@ Frågan kvarstår – inte som en akademisk kuriositet utan som en spricka i gru
 
 ## Fragmenten utan helheten
 
-Alasdair MacIntyre diagnosticerade denna spricka som ett symptom på något större: Upplysningens oförmåga att ersätta den moraliska ordning den förkastade. Han drev detta resonemang till sin spets i *After Virtue* (1981). Upplysningen förstod aldrig vad den försökte ersätta. Resultatet, menade MacIntyre, är ett moralspråk av fragment: regler, principer, rättigheter – lösryckta från den teleologiska ordning som gav dem sammanhang. Vi ärver ett moraliskt ordförråd vars grammatik vi har glömt.[^2]
+Alasdair MacIntyre identifierade denna spricka som ett symptom på något större: Upplysningens oförmåga att ersätta den moraliska ordning den förkastade. Han drev detta resonemang till sin spets i *After Virtue* (1981). Upplysningen förstod aldrig vad den försökte ersätta. Resultatet, menade MacIntyre, är ett moralspråk av fragment: regler, principer, rättigheter – lösryckta från den teleologiska ordning som gav dem sammanhang. Vi ärver ett moraliskt ordförråd vars grammatik vi har glömt.[^2]
 
 Hjalmar Söderberg vände på perspektivet. I *Doktor Glas* skriver han:
 

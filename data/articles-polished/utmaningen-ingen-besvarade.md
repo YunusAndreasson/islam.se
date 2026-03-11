@@ -27,7 +27,7 @@ Den tidig-islamiske teologen al-Khattabi framhöll att Koranens motståndare fam
 
 Det mest talande erkännandet kom från en fiende. Walid ibn al-Mughira, en av Quraysh-stammens ledare och en erkänd kännare av arabisk poesi, ombads av sina egna att fördöma Koranen. Hans svar, bevarat i den tidiga sira-traditionen, är ett mästerstycke i ofrivillig hyllning. Han bekände att det han hört varken var poesi eller prosa, varken spådom eller trolldom, utan att det hade en sötma och en skönhet som ingenting annat ägde. Det krossade allt under sig.[^6] Han fördömde den ändå – politiken krävde det. Men hans lingvistiska omdöme stod fast. En expert hade mött något som sprängde hans kategorier.
 
-Samma erkännande upprepades långt utanför den arabiska världen. Tolv sekler senare nådde Europas störte diktare samma slutsats. Goethe erkände i *West-östlicher Divan* att Koranen först stötte bort honom men sedan framtvingade vördnad: dess stil var, skrev han, 'sträng, storlagen, fruktansvärd — stundtals sant sublim.'[^15]
+Tolv sekler senare, långt utanför den arabiska världen, nådde Europas störte diktare samma slutsats. Goethe erkände i *West-östlicher Divan* att Koranen först stötte bort honom men sedan framtvingade vördnad: dess stil var, skrev han, 'sträng, storlagen, fruktansvärd — stundtals sant sublim.'[^15]
 
 ## Kompositionens ordning
 
@@ -49,7 +49,7 @@ Dessa var inte medelmåttor: Ibn al-Muqaffa präglade i århundraden framåt ara
 
 När vi nu mött både utmaningen och de som försökte möta den kräver intellektuell hederlighet en paus. En uppenbar invändning reser sig: vem avgör om utmaningen besvarats? Om bedömningskriterierna definieras av samma tradition som utfärdar utmaningen, riskerar argumentet att bli cirkulärt; begreppet "jämförbar kvalitet" saknar allmänt vedertagna kriterier – något som i sig gör utmaningen både kraftfull och omdebatterad.
 
-Invändningen har tyngd — det finns ingen neutral jury, inget objektivt poängsystem för litterär kvalitet. Likväl förbiser den något väsentligt. Utmaningens första publik var inte troende muslimer utan fientliga Quraysh-araber. Deras tystnad var det ursprungliga beviset. Ibn Atiyya formulerade det så: beviskraften vilade på araberna, eftersom de var vältalighetens mästare och de givna utmanarna.[^11] Kompetenta fiender, inte fromma anhängare, var måttstocken.
+Invändningen har tyngd — det finns ingen neutral jury, inget objektivt poängsystem för litterär kvalitet. Men den förbiser något väsentligt. Utmaningens första publik var inte troende muslimer utan fientliga Quraysh-araber. Deras tystnad var det ursprungliga beviset. Ibn Atiyya: beviskraften vilade på araberna, eftersom de var vältalighetens mästare och de givna utmanarna.[^11] Kompetenta fiender, inte fromma anhängare, var måttstocken.
 
 Även inom islamisk teologi fanns oenighet om utmaningens natur. Al-Nazzam och vissa mutaziliter hävdade *ṣarfah*-ståndpunkten: att Gud aktivt hindrade människor från att efterhärma Koranen, att förmågan i princip existerade men blockerades utifrån. Denna uppfattning avvisade majoriteten. Al-Suyuti citerar argumentet att utmaningen förutsätter att motståndarna *behåller* sin förmåga men ändå misslyckas; annars vore det ingen utmaning utan en omöjlighet.[^12] Att denna debatt fördes öppet inom den egna traditionen röjer en intellektuell redlighet sällsynt i dogmatik.
 
@@ -75,7 +75,7 @@ Frånvaron av ett svar *är* i sig ett belägg – inte slutgiltigt bevis, men e
 
 Al-Suyuti slog fast att utmaningen inte var en uppmaning egentligen utan ett blottläggande av oförmåga.[^14] Koranen ber inte människor att försöka. Den visar dem att de redan har misslyckats.
 
-Den som öppnar den och läser – på arabiska, i dess egen rytm – möter fortfarande samma fråga som Walid ibn al-Mughira utanför Meckas murar: en text som vägrar låta sig kategoriseras, en utmaning som alltjämt väntar.
+Den som öppnar den och läser – på arabiska, i dess egen rytm – möter fortfarande samma fråga som Walid ibn al-Mughira utanför Meckas murar: en text som vägrar låta sig kategoriseras, en utmaning som fortfarande väntar.
 
 
 ---

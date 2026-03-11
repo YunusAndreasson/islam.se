@@ -27,7 +27,7 @@ Under sina krisår i Paris snubblade August Strindberg in i Swedenborgs universu
 
 > Helvetets eld, det är begäret att komma sig fram i världen; makterna uppväcka begäret och tillstädja de fördömda att ernå vad de eftertrakta. Men så snart målet är hunnet, önskningarna uppfyllda, befinnes allt vara värdelöst.[^6]
 
-Häri igenkände Strindberg vad Swedenborg menade: helvetet är ett tillstånd man redan befinner sig i. Begäret efter framgång, bekräftelse, makt — det *är* elden. Den bränner inte kroppen — den urholkar meningen. Det obarmhärtiga är tomheten som väntar bortom varje uppfylld önskan. Det är morgonen efter priset delades ut.
+Strindberg igenkände vad Swedenborg menade: helvetet är ett tillstånd man redan befinner sig i. Begäret efter framgång, bekräftelse, makt — det *är* elden. Den bränner inte kroppen — den urholkar meningen. Det obarmhärtiga är tomheten som väntar bortom varje uppfylld önskan. Det är morgonen efter priset delades ut.
 
 Men denna inåtvändning — Swedenborgs liksom Strindbergs — når en gräns: Swedenborgs eld saknar objektiv verklighet; den existerar bara som psykologisk korrespondens, som inre spegling. Hans system framtvingar en fråga det inte kan besvara: vad händer om elden inte bara speglar den du är, utan visar vem du är? Om elden vet?
 
@@ -63,7 +63,7 @@ Den koraniska elden förenar det de andra var för sig saknar. Den är objektiv 
 
 Den inflytelserike teologen Ibn Taymiyyah sade, enligt vad Ibn Qayyim förmedlar: "I denna värld finns ett paradis — den som inte träder in i det kommer inte att träda in i Nästa livs paradis." Och han sade: "Vad kan mina fiender göra mig? Mitt paradis och min trädgård är i mitt bröst."[^13] Om det finns ett jordiskt paradis i bröstet, finns det också en jordisk eld. Sorgerna, bekymren, ångesten — Ibn Qayyim kallar dem ett omedelbart straff, en jordisk eld, ett närvarande helvete.[^14]
 
-Den meningen kunde Strindberg ha skrivit — dess korrespondens kunde Swedenborg ha förklarat. Men den islamiska hållningen nöjer sig aldrig med diagnosen. Elden är en verklighet att möta, och det enda som avgör hur den verkar på dig är vad du bär med dig in i den.
+Den meningen kunde Strindberg ha skrivit — dess korrespondens kunde Swedenborg ha förklarat. Men den islamiska hållningen nöjer sig aldrig med iakttagelsen. Elden är en verklighet att möta, och det enda som avgör hur den verkar på dig är vad du bär med dig in i den.
 
 Koranen ger den troende en bild som kalibrerar snarare än tröstar: "Om ni sedan inte gör det — och ni kommer aldrig att göra det — frukta då Elden vars bränsle är människor och stenar. Den har förberetts för de otrogna."[^15] Bränslet är människor. Elden närs av det mänskliga i den mån det vänt sig från sin källa. Den som vänder sig mot källan passerar samma eld — som metall genom smältugnen, inte som skum som faller bort.
 

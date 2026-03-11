@@ -37,21 +37,21 @@ Samma dikt fördjupar insikten några strofer längre fram:
 
 > En man bör vara måttligt vis, men aldrig alltför vis; ty den visaste mannens hjärta är sällan glatt.[^4]
 
-Här talar Hávamál om den vise, men diagnosen är dårens. Kunskapen fyller utan att befria — insikt som ansamlas ger tyngd, inte lätthet. Den nordiska kunskapsekonomin erkänner själv sin gräns: det finns ett mått bortom vilket mer kunskap betyder mer sorg.
+Här talar Hávamál om den vise, men varningen gäller dåren. Kunskapen fyller utan att befria — insikt som ansamlas ger tyngd, inte lätthet. Den nordiska kunskapsekonomin erkänner själv sin gräns: det finns ett mått bortom vilket mer kunskap betyder mer sorg.
 
 Den nordiska traditionen inser kunskapens faror — Hávamál är skarpögd. Men lösningen den erbjuder är *måttlighet*: var lagom vis, grubba inte för mycket. Den radikala frågan – om kunskapens egentliga pris är mer än ett sinnesorgan – ställs aldrig.
 
 ## En annan ekonomi
 
-I den islamiska traditionen ställs frågan annorlunda från grunden. Ibn Qayyim al-Jawziyya, en av islams mest skarpsinniga tänkare om hjärtats väg (1292–1350), öppnar ett av de mest genomträngande avsnitten i *al-Fawa'id* med en formulering som vänder hela den nordiska logiken ut och in:
+I den islamiska traditionen ställs frågan annorlunda från grunden. Ibn Qayyim al-Jawziyya, en av islams mest skarpsinniga tänkare om hjärtats väg (1292–1350), öppnar *al-Fawa'id* med en vändning som ställer den nordiska logiken på huvudet:
 
 > Den som betraktar det som finns i honom själv av svagheter och brister, och det som finns hos sin Herre av fullkomlighet och majestät — han vet att hans liv inte kan rättas till och hans hjärta inte kan nå fram utom genom att söka sin tillflykt hos sin Herres dörr, och att han är den mest behövande av alla skapade varelser inför sin Herre.[^5]
 
-Där Odin offrar ett sinnesorgan men behåller sitt jag, kräver Ibn Qayyim att den sökande genomskådar jagets anspråk som sådana. Den som nöjer sig med att inventera sina förmågor, sina tillgångar, sin ställning, har ännu inte börjat *se*. Kunskap som leder till Skaparen – *basira*, den inre synen som Koranen talar om – börjar först när frågan vänds inåt med en skärpa som brunnen vid Yggdrasil aldrig kräver. Det är den som ser sin egen hand i varje misstag snarare än omständigheternas. Inte "vad kan jag förvärva?" utan "hur fattig är jag inför min Herre?"
+Där Odin offrar ett sinnesorgan men behåller sitt jag, kräver Ibn Qayyim att den sökande genomskådar jagets anspråk som sådana. Den som nöjer sig med att inventera sina förmågor, sina tillgångar, sin ställning, har ännu inte börjat *se*. Kunskap som leder till Skaparen – *basira*, den inre synen som Koranen talar om – börjar först när frågan vänds inåt — skarpare än brunnen vid Yggdrasil någonsin kräver. Det är den som ser sin egen hand i varje misstag snarare än omständigheternas. Inte "vad kan jag förvärva?" utan "hur fattig är jag inför min Herre?"
 
 Koranen själv anvisar denna rörelse. Allah ﷻ, den Upphöjde, säger: *Och i era egna själva — ser ni inte?*[^6] Att se in i sig själv är här inte en mystisk resa mot det okända, utan en uppmaning att se det uppenbara som människan ständigt flyr: sin egen svaghet, sitt eget beroende, sin egen dödlighet.
 
-Ibn al-Jawzi, tolvte århundradets lärdomsman i Bagdad, formulerar det i *Sayd al-Khatir* med en skärpa som inte lämnar utrymme för kompromiss:
+Ibn al-Jawzi, tolvte århundradets lärdomsman i Bagdad, skriver i *Sayd al-Khatir*:
 
 > Den som begrundar sig själv en dag — med en sanningssökares begrundan — ställer sig till svars innan han ställs till svars, och väger sig själv innan han vägs.[^7]
 
@@ -59,7 +59,7 @@ Kunskapen kräver *muhasaba* – självrannsakan: att väga sig själv, pröva s
 
 ## Det glömda självet
 
-Koranen formulerar relationen mellan kunskap och själv med en logik som saknar motsvarighet i den nordiska traditionen. I sura *al-Hashr* fastslår den:
+Koranen formulerar relationen mellan kunskap och själv utan motsvarighet i den nordiska traditionen. I sura *al-Hashr*:
 
 > Och var inte som dem som glömde Allah ﷻ, så att Han lät dem glömma sig själva. Dessa är de ogudaktiga.[^8]
 
@@ -79,7 +79,7 @@ Al-Mawardi, den elevärdige juristen och etikern, skrev i *Adab al-Dunya wal-Din
 
 Bilden är geologisk. Kunskapen flödar nedåt. Den samlas inte hos den som klättrar högst – Odin på Yggdrasils stam – utan hos den som befinner sig lägst. Att ta emot kräver att något annat först har tömts. Det vet den som stod i ett fullt rum och inte kunde höra sitt eget namn.
 
-Denna insikt – att kunskapen kräver tömning snarare än fyllnad – har bekräftats av tänkare långt utanför islams geografiska rum. Simone Weil, den franska filosofen, nådde samma slutsats genom en helt annan väg. Hon gav den ett namn: *décréation* — att det skapade töms på sina anspråk, inte för att förintas utan för att kunna ta emot.[^15] Det är att sluta försvara sig — och märka att det som återstår väger mindre.
+Denna insikt – att kunskapen kräver tömning snarare än fyllnad – har bekräftats av tänkare långt utanför islams geografiska rum. Simone Weil, den franska filosofen, kom dit genom en helt annan väg. Hon gav den ett namn: *décréation* — att det skapade töms på sina anspråk, inte för att förintas utan för att kunna ta emot.[^15] Det är att sluta försvara sig — och märka att det som återstår väger mindre.
 
 ## Strindberg vid kunskapens höjder
 
@@ -103,7 +103,7 @@ Vid Mimers brunn betalar den kunskapssökande med syn. Han förlorar ett sätt a
 
 I den islamiska traditionen betalar den kunskapssökande med anspråk — med själva övertygelsen om sin egen tillräcklighet. Det som offras är jagets föreställning om sig självt. Den som kände Allah ﷻ, skriver Ibn Qayyim, "såg sig inte annat än med bristens öga" – *'ayn al-nuqsan*.[^13] Formuleringen vänder Odins offer på huvudet. Odin förlorar ett öga för att se bättre. Den som känner Allah ﷻ ser sig själv *tydligare* – det den ser är brist.
 
-I den ena är kunskap kapital som ackumuleras hos ett stabilt jag. I den andra en process som gradvis avtäcker jagets fattigdom inför sin Skapare. Den ena bevarar minnet. Den andra ifrågasätter det som minnet skyddar.
+I den ena är kunskap kapital som ackumuleras hos ett stabilt jag. I den andra en process som gradvis blottar jagets fattigdom inför sin Skapare. Den ena bevarar minnet. Den andra ifrågasätter det som minnet skyddar.
 
 Koranen uttrycker denna skillnad i en enda vers: *Sök hjälp genom tålamod och bön. Och det är sannerligen en svår sak — utom för de ödmjuka.*[^14] Kunskapens verkliga svårighet ligger inte i priset man betalar. Den ligger i den ödmjukhet som krävs för att ta emot. Ödmjukhet är det tillstånd där jaget upphör att betrakta sig självt som tillräckligt. Det är att öppna en bok och förstå att man inte förstått.
 
