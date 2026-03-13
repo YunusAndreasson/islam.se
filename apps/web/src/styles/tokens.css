@@ -16,15 +16,15 @@
 	/* Type scale — 1.2 ratio (minor third) from 19px Literata base.
 	   Heading steps ×1.061 to optically match Source Sans 3's smaller metrics. */
 	--step-0: 1.1875rem; /* 19px — body (Literata) */
-	--step-1: 1.512rem;  /* 24.2px — h3 (22.8 × 1.061, compensated) */
-	--step-2: 1.814rem;  /* 29.0px — h2 (27.4 × 1.061, compensated) */
-	--step-4: 2.612rem;  /* 41.8px — h1 (39.4 × 1.061, compensated) */
+	--step-1: 1.512rem; /* 24.2px — h3 (22.8 × 1.061, compensated) */
+	--step-2: 1.814rem; /* 29.0px — h2 (27.4 × 1.061, compensated) */
+	--step-4: 2.612rem; /* 41.8px — h1 (39.4 × 1.061, compensated) */
 
 	/* Spacing — golden progression from body line-height (φ ≈ 1.618) */
 	--space-unit: 1.9rem;
 	--space-half: 0.95rem;
-	--space-phi: 3.074rem;    /* unit × φ */
-	--space-phi2: 4.974rem;   /* unit × φ² */
+	--space-phi: 3.074rem; /* unit × φ */
+	--space-phi2: 4.974rem; /* unit × φ² */
 
 	/* Layout */
 	--content-width: 42rem;
@@ -38,7 +38,6 @@
 
 	/* Circular action button (hero nav, back-to-top) */
 	--btn-size: 2.75rem;
-
 }
 
 @media (width <= 768px) {
@@ -46,7 +45,7 @@
 		--padding-inline: 1.25rem;
 		--space-unit: 1.5rem;
 		--space-half: 0.75rem;
-		--space-phi: 2.427rem;   /* 1.5 × φ */
-		--space-phi2: 3.927rem;  /* 1.5 × φ² */
+		--space-phi: 2.427rem; /* 1.5 × φ */
+		--space-phi2: 3.927rem; /* 1.5 × φ² */
 	}
 }
