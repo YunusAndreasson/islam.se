@@ -5,71 +5,63 @@ wordCount: 1640
 qualityScore: 8.6
 description: "Abū al-Ḥasan al-Māwardī verkade som överdomare i Bagdad på 1000-talet, i en tid då kalifens makt redan glidit in i sultanernas händer. Hans tredelning av rättsväsendet – med skarpa befogenhetsgränser för varje ämbete – föregick Montesquieus maktdelningslära med närmare sjuhundra år."
 ---
-Domaren dömer, och staten verkställer. Åklagaren utreder och åtalar i samma rörelse. Vi har vant oss vid att rättvisa och tvångsmakt är oskiljaktiga, att det ena förutsätter det andra.
+Domaren dömer och staten verkställer. Åklagaren utreder och åtalar i samma rörelse. Vi har vant oss vid att rättvisa och tvångsmakt hör samman, att det ena förutsätter det andra.
 
 Den kopplingen är själva problemet.
 
-Nästan sjuhundra år innan Montesquieu formulerade sin maktdelningslära i *De l'esprit des lois* hade en jurist i Bagdad redan löst ett problem Montesquieu aldrig formulerade. Montesquieu separerade statens funktioner: lagstiftande, verkställande, dömande. Al-Māwardī separerade något farligare: rättvisan från svärdet.
+Sjuhundra år innan Montesquieu lade fram sin maktdelningslära i *De l'esprit des lois* hade en jurist i Bagdad redan urskillt ett problem Montesquieu aldrig ställde. Montesquieu separerade statens funktioner: lagstiftande, verkställande, dömande. Al-Māwardī separerade något farligare: rättvisan från svärdet.
 
 ## Tre ämbeten, tre gränser
 
-Abū al-Ḥasan al-Māwardī (974–1058) var överdomare i det abbasidiska kalifatet under en tid då den politiska makten redan hade börjat glida ur kalifens händer och in i sultanernas.[^1] Hans *al-Aḥkām al-Sulṭāniyyah* – ett av den islamiska rättens mest inflytelserika verk – kan läsas som ett försök att institutionalisera gränser för makt just när makten var som mest gränslös.
+Abū al-Ḥasan al-Māwardī (974–1058) var överdomare i det abbasidiska kalifatet under en tid då den politiska makten redan hade börjat glida ur kalifens händer och in i sultanernas.[^1] Hans *al-Aḥkām al-Sulṭāniyyah* – ett av den islamiska rättens mest inflytelserika verk – kan läsas som ett försök att institutionalisera gränser för makt just när makten var som mest oreglerad.
 
-Al-Māwardī var jurist, inte politisk filosof. Inget abstrakt konstitutionellt system konstruerade han; han kartlade de gränser institutionerna redan bar. Moderna forskare inom islamisk rättshistoria – bland dem Patricia Crone och Wael Hallaq – har varnat för att projicera nutida maktdelningsbegrepp på medeltida islamisk rättsteori.[^2] Invändningen är befogad. Likväl är al-Māwardīs kartläggning angelägen, inte för att den liknar Montesquieu – utan för att den skiljer sig.
+Al-Māwardī var jurist, inte politisk filosof; han kartlade gränser institutionerna redan bar. Patricia Crone och Wael Hallaq har varnat för att projicera nutida maktdelningsbegrepp på medeltida islamisk rättsteori.[^2] Invändningen är befogad. Ändå är al-Māwardīs kartläggning angelägen – inte för att den liknar Montesquieu utan för att den skiljer sig.
 
-Inom rättsväsendet urskilde han tre instanser med skarpt avgränsade befogenheter: *qaḍāʾ*, *ḥisbah* och *maẓālim*. Vad händer när en och samma hand både identifierar ondskan och bestraffar den? På den frågan vilar hela uppdelningen.
+Inom rättsväsendet urskilde han tre instanser med skarpt avgränsade befogenheter: *qaḍāʾ*, *ḥisbah* och *maẓālim*.
 
-Det reguljära domstolsväsendet, *qaḍāʾ*, kräver bevis. Profeten ﷺ fastslog att domaren inte får döma mellan två parter i vrede eller efter gissningar eller antaganden.[^3] "Bevisbördan vilar på den som anklagar, och eden på den som förnekar."[^4] Domarens auktoritet binds till proceduren, proceduren till bevisningen. Utan bevis finns ingen dom, oavsett hur uppenbar skulden kan förefalla.
+Det reguljära domstolsväsendet, *qaḍāʾ*, kräver bevis. Profeten ﷺ förbjöd domaren att döma i vrede eller efter gissningar.[^3] "Bevisbördan vilar på den som anklagar, och eden på den som förnekar."[^4]
 
-Klagomålsdomstolen, *maẓālim*, kräver tvångsmakt. Den inträder där mäktiga personer eller tjänstemän förtrycker svagare parter – fall som det ordinarie domstolsväsendet saknar kraft att avgöra. Al-Māwardī beskrev *maẓālim* som den instans som "leder de förtryckande till rättvisa genom fruktan och avhåller de tvistande från förnekelse genom sin auktoritet".[^5] Men även denna makt har gränser: "*Maẓālim* tillåter inte av sina domar det som den heliga lagen har förbjudit."[^6] Makten att genomdriva kan aldrig överskrida lagen den genomdriver.
+Klagomålsdomstolen, *maẓālim*, kräver tvångsmakt. Al-Māwardī beskrev den som den instans som "leder de förtryckande till rättvisa genom fruktan och avhåller de tvistande från förnekelse genom sin auktoritet".[^5] Men även denna makt har gränser: "*Maẓālim* tillåter inte av sina domar det som den heliga lagen har förbjudit."[^6]
 
 ## Mitt emellan domstol och polis
 
-I varje rättsstat finns domstolar och klagomålsinstanser. Al-Māwardīs tredje ämbete, *ḥisbah*, saknar motsvarighet i den västerländska rättstraditionen. Här blir systemet radikalt.
-
-I sin institutionsbeskrivning klargör al-Māwardī vad som skiljer detta ämbete från de andra: *ḥisbah* är "en mellanposition mellan domstolsväsendets avgöranden och klagomålsdomstolens befogenheter".[^7] När det goda överges öppet eller det onda utövas offentligt har muhtasiben skyldighet att ingripa. Köpmannen som fuskar med vikten på torget, bråket som övergår i slagsmål – det synliga överträdandet, inte det dolda. Det koraniska påbudet är tydligt:
+Al-Māwardīs tredje ämbete, *ḥisbah*, saknar motsvarighet i västerländsk rättstradition. *Ḥisbah* är "en mellanposition mellan domstolsväsendets avgöranden och klagomålsdomstolens befogenheter".[^7] Köpmannen som fuskar med vikten på torget, bråket som övergår i slagsmål: det synliga överträdandet, inte det dolda.
 
 > Låt det bland er finnas en grupp som kallar till allt gott och påbjuder det goda och förbjuder det onda. Ja, det är dessa som är de framgångsrika.[^8]
 
-Påbudet rymmer sina egna gränser – och just dessa utgör institutionen. Muhtasiben – den tjänsteman som utövar *ḥisbah* – får inte spionera på det dolda, inte bryta sig in i det privata. Al-Māwardī skrev: "Muhtasiben spionerar inte på det fördolda och avslöjar inte det som hålls dolt."[^9] Misstankar räcker aldrig; han måste förvissa sig om omständigheterna innan han handlar.[^10]
+Muhtasiben – den tjänsteman som utövar *ḥisbah* – får inte spionera på det dolda. Al-Māwardī skrev: "Muhtasiben spionerar inte på det fördolda och avslöjar inte det som hålls dolt."[^9] Misstankar räcker aldrig.[^10]
 
-En institution i medveten spänning: den ska ingripa men inte bestraffa, tillrättavisa men inte med brutalitet. Al-Māwardī varnade: "Eftersom *ḥisbah* bygger på respekt, får inte muhtasibens ingripande ske med despotisk hårdhet."[^11] Muhtasiben äger kunskap om vad som är rätt och fel, och auktoritet att påtala det. Men han äger inte svärdet.
+Ingripa men inte bestraffa, tillrättavisa men aldrig med brutalitet: "Eftersom *ḥisbah* bygger på respekt, får inte muhtasibens ingripande ske med despotisk hårdhet."[^11] Han äger auktoritet att påtala det onda. Men han äger inte svärdet.
 
 ## En plikt utan vapen
 
-Den uppdelningen saknas i den moderna rättsstaten. Där sammansmälter utredning och åtal i åklagarens hand. Samma ämbete som misstänker är det som anklagar – en ordning vi sällan ifrågasätter, trots att den innebär att den som söker skuld också har intresse av att finna den. Selma Lagerlöf, i den svenska romantraditionen där rättsprocessen är en återkommande scen, fångade obehaget: "Med domare och allmänna åklagare förhåller det sig så, att man med dem måste tala en särskild sorts sanning, därför att den verkliga sanningen inte kan nå fram till deras hjärtan."[^12] Hjalmar Söderberg var ännu kallare: "Domare äro människor och kunna misstaga sig. Det är sannolikt att många blifva oskyldigt dömda."[^13]
+Den uppdelningen saknas i den moderna rättsstaten. Utredning och åtal sammansmälter i åklagarens hand. Selma Lagerlöf gav obehaget röst: "Med domare och allmänna åklagare förhåller det sig så, att man med dem måste tala en särskild sorts sanning, därför att den verkliga sanningen inte kan nå fram till deras hjärtan."[^12] Söderberg var ännu kallare: "Domare äro människor och kunna misstaga sig. Det är sannolikt att många blifva oskyldigt dömda."[^13]
 
-Al-Māwardīs *ḥisbah* bryter den logiken: en instans som urskiljer det onda men saknar befogenhet att straffa det. Muhtasiben bevittnar det synliga – och talar. Verkställigheten tillhör en annan hand. Att se det som en medveten kritik av det moderna åklagarväsendet vore anakronistiskt – men uppdelningen visar en inbyggd svaghet vi fortfarande lever med: varje system där samma hand söker skulden och utmäter straffet är sårbart för sin egen iver.
+Al-Māwardīs *ḥisbah* bryter logiken: en instans som urskiljer det onda men saknar befogenhet att straffa det. Att läsa detta som medveten kritik av det moderna åklagarväsendet vore anakronistiskt, men uppdelningen blottar en svaghet vi fortfarande lever med.
 
-Ibn Taymiyyah, som ett sekel efter al-Māwardī vidareutvecklade hans system, preciserade principen: alla islamiska ämbeten syftar till att påbjuda det goda och förbjuda det onda, vare sig det gäller det militära befälet, domarväsendet eller *ḥisbah*.[^14] Men varje ämbetes medel är inskränkta till det egna området. Med vittnen och skriftliga bevis arbetar domaren. Svärdet tillhör det militära befälet. Muhtasiben har, som Ibn Taymiyyah formulerade det, befogenheter som "inte tillhör vare sig härskarna, domarna eller ämbetsmännen".[^15] Al-Māwardī och Ibn Taymiyyah var eniga: rättvisan hotas inte främst av dem som vill göra ont, utan av dem som vill göra gott med för mycket makt.
+Ibn Taymiyyah preciserade principen: varje ämbetes medel är inskränkta till det egna området.[^14] Med vittnen och skriftliga bevis arbetar domaren. Svärdet tillhör det militära befälet. Muhtasiben har befogenheter som "inte tillhör vare sig härskarna, domarna eller ämbetsmännen".[^15] Rättvisan hotas inte främst av dem som vill göra ont, utan av dem som vill göra gott med för mycket makt.
 
 ## Rädslan för den rättfärdige
 
-Al-Māwardīs uppdelning rymmer en djupare insikt än Montesquieus. Montesquieu separerade statens funktioner för att förhindra tyranni. Al-Māwardī separerade rättvisans funktioner för att skydda rättvisan från dess egna försvarare. Ensam var han inte – både Ibn Taymiyyah i *al-Siyāsah al-Sharʿiyyah* och Abū Yūsuf, en av grundarna av den tidiga islamiska rättsläran, i *Kitāb al-Kharāj* identifierade samma fara: makt utan institutionella gränser.[^16] Al-Māwardī fastslog i sin etik att det som hindrar människor från orättvisa alltid är en av fyra saker: "antingen ett förstånd som avhåller, en tro som hindrar, en härskare som hejdar, eller en oförmåga som stoppar".[^17] Härskarens tvångsmakt är det kraftfullaste medlet – och det farligaste.
+Montesquieu separerade statens funktioner för att förhindra tyranni. Al-Māwardī separerade rättvisans funktioner för att skydda rättvisan från dess egna försvarare.[^16] Det som hindrar människor från orättvisa, konstaterade han, är alltid en av fyra saker: "antingen ett förstånd som avhåller, en tro som hindrar, en härskare som hejdar, eller en oförmåga som stoppar".[^17] Härskarens tvångsmakt är det kraftfullaste medlet – och det farligaste.
 
-Principen är inte bunden till en tid eller tradition. C.S. Lewis nådde samma slutsats nio sekler senare, i en essä om straffteori:
+C.S. Lewis nådde samma slutsats nio sekler senare:
 
 > Av alla former av tyranni är det som uppriktigt utövas till offrens bästa kanske det mest förtryckande. De som plågar oss för vårt eget bästa plågar oss utan ände, ty de gör det med sitt eget samvetes gillande.[^22]
 
-Lewis namngav faran – men stannade vid iakttagelsen. Al-Māwardīs system går steget längre: det räcker inte att veta att den rättfärdige är farlig, man måste bygga institutioner som skiljer hans övertygelse från hans befogenhet. *Ḥisbah* är exakt det – den låter den övertygade tala men nekar honom svärdet.
+Al-Māwardī tog steget vidare: det räcker inte att veta att den rättfärdige är farlig – man måste bygga institutioner som skiljer hans övertygelse från hans befogenhet.
 
-Abū Bakr al-Ṣiddīq, den förste kalifen efter Profeten ﷺ, satte ord på principen redan i sitt tillträdestal:
+Abū Bakr al-Ṣiddīq, den förste kalifen efter Profeten ﷺ, kungjorde principen redan i sitt tillträdestal:
 
 > Den starkaste bland er är i mina ögon den svagaste tills jag har tagit hans rätt ifrån honom, och den svagaste bland er är i mina ögon den starkaste tills jag har gett honom hans rätt.[^18]
 
-Förhållandet till rätten avgör vem som är stark, aldrig ställningen. Den som upprätthåller rätten måste veta att samma makt som bär den också kan krossa den.
+Ibn Khaldūn slog fast principen: "Rättvisa är en balans som upprättas bland människorna. Herren upprättade den och utsåg en övervakare för den, och den övervakaren är härskaren."[^19] Övervakaren – inte ägaren.
 
-Ibn Khaldūn, historikern och samhällsteoretikern, sammanfattade principen: "Rättvisa är en balans som upprättas bland människorna. Herren upprättade den och utsåg en övervakare för den, och den övervakaren är härskaren."[^19] Övervakaren – inte ägaren. Skillnaden är allt.
-
-Under al-Māwardīs livstid förföll det abbasidiska kalifatet; muhtasiber överskred sina befogenheter i flera provinser.[^20] Att han skrev mitt i detta förfall gör insikten tydligare, inte svagare. Hans system var en koraniskt grundad fordran på verkligheten, aldrig en spegling av den:
+Under al-Māwardīs livstid förföll det abbasidiska kalifatet; muhtasiber överskred sina befogenheter i flera provinser.[^20] Att han skrev mitt i detta förfall gör insikten skarpare. Hans system var en fordran på verkligheten, aldrig en spegling av den:
 
 > Allah ﷻ befaller er att återlämna allt ni anförtrotts till dess rättmätiga ägare och att, när ni dömer mellan människor, döma med rättvisa.[^21]
 
-Ibn Kathīr anför en profettradition: "Fullgör förtroendet gentemot den som anförtrott dig, och förråd inte den som förråder dig." Rättvisan är ett förtroende – *amānah* – inte en egendom. Den som förvaltar den äger den inte.
-
-## Frågan som återstår
-
-Den moderna staten lade utredning, åtal, dom och verkställighet i samma hand – och kallade det rättsstat. Al-Māwardīs uppdelning tvingar oss att fråga: är det verkligen rättvisa när samma makt som definierar ondskan också äger rätten att bestraffa den?
+Ibn Kathīr anför en profettradition: "Fullgör förtroendet gentemot den som anförtrott dig, och förråd inte den som förråder dig."
 
 Svärdet kan skydda rättvisan. Det kan aldrig vara den.
 

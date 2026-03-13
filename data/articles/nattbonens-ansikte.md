@@ -9,83 +9,75 @@ Mitt i natten vaknar en kvinna. Inte för att sminka sig – för att be. Hon st
 
 När hon tillfrågas varför, svarar hon: "Den förskönar ansiktet, och jag älskar att mitt ansikte är vackert."[^1]
 
-Historien berättas av den medeltida islamiske lärde Ibn Qayyim al-Jawziyyah (d. 1350) i *Rawḍat al-Muḥibbīn*, *De älskandes trädgård* – den underkänner allt vi tror oss veta om skönhet.
+Historien berättas av Ibn Qayyim al-Jawziyyah (d. 1350) i *Rawḍat al-Muḥibbīn*, *De älskandes trädgård*.
 
 ## En industri som säljer brist
 
-Varje yta – huden, håret, kroppen – förklaras otillräcklig i sitt naturliga tillstånd. Serum, filler, filter, ingrepp – skönhet har blivit något man köper, applicerar, injicerar.
+Serum, filler, filter, ingrepp. Skönhet har blivit något man köper sig till.
 
-Naomi Wolfs *The Beauty Myth* identifierade 1990 mekanismen: ju fler rättsliga och materiella hinder kvinnor har brutit igenom, desto hårdare har bilder av kvinnlig skönhet kommit att tynga dem.[^2] Wolf namngav sjukdomen utan att förskriva botemedel – den moderna feminismens skönhetskritik vet vad den är *emot*, men sällan vad den är *för*.
+Naomi Wolf visade i *The Beauty Myth* (1990) att ju fler rättsliga och materiella hinder kvinnor brutit igenom, desto hårdare har bilder av kvinnlig skönhet kommit att tynga dem.[^2] Wolf ställde diagnosen utan att anvisa botemedel: skönhetskritiken vet vad den är *emot* men sällan vad den är *för*.
 
 ## Skönhetens två slag
 
-Ibn Qayyim inleder sin analys med en distinktion som räcker längre än den först verkar:
+Ibn Qayyim inleder med en distinktion:
 
 > Vet att skönheten är av två slag: yttre och inre. Den inre skönheten är den som älskas för sin egen skull – den är kunskapens, förståndets, generositetens, kyskhetens och modets skönhet.[^3]
 
-Det är generositeten som får främlingen att slappna av vid bordet, modet man ser i ryggen som inte böjs.
+Generositeten som får främlingen att slappna av vid bordet. Modet som syns i ryggen som inte böjs.
 
-Den yttre skönheten, skriver han, är en utsmyckning som Gud ger vissa gestalter framför andra.[^4] Den är verklig – islam förnekar den inte, nedvärderar den inte. Koranen slår fast: "Vi har skapat människan i den bästa skapnad."[^5] Al-Māwardī, den store statsrättstänkaren, fastslår att en vacker gestalt är lyckans första tecken.[^6] Ingen asketism i islams syn på kroppen, ingen misstro mot det fysiskt sköna – den yttre skönheten är en gudomlig gåva, värd tacksamhet.
+Den yttre skönheten, skriver han, är en utsmyckning som Gud ger vissa gestalter framför andra.[^4] Koranen slår fast: "Vi har skapat människan i den bästa skapnad."[^5] Al-Māwardī menar att en vacker gestalt är lyckans första tecken.[^6] Ingen asketism i islams syn på kroppen: den yttre skönheten är en gudomlig gåva, värd tacksamhet.
 
 Men det finns en rangordning. Al-Māwardī och Ibn Qayyim talar inte mot varandra. Den ene ser tecknet, den andre källan. Och källan omformar tecknet:
 
 > Denna inre skönhet förskönar den yttre gestalten även om den saknar fysisk fägring, och klär sin ägare i skönhet, värdighet och behag proportionellt med vad själen iklätt sig av dessa egenskaper.[^7]
 
-Man ser den rättfärdige, den generöse, den med vacker karaktär, menar Ibn Qayyim, och finner honom vacker, "även om han är mörk eller inte fysiskt vacker". Med samma kraft gäller det omvända: det inres fulhet övervinner det ytres skönhet och döljer den.[^8] Vi känner alla igen det – ansiktet som förlorar sin glans när vi upptäcker elakheten bakom det.
+Man ser den rättfärdige, den generöse, den med vacker karaktär och finner honom vacker, "även om han är mörk eller inte fysiskt vacker". Med samma kraft gäller det omvända: det inres fulhet övervinner det ytres skönhet och släcker den.[^8]
 
 ## Mörkrets paradox
 
-Här når vi essäns kärna.
-
 Enligt Ibn Qayyim präglar den inre skönheten den yttre gestalten tydligast hos den som utövar nattbönen, *qiyām al-layl* – den frivilliga bönen som förrättas i mörkrets djupaste timmar. "Den lyser upp ansiktet och förskönar det", skriver han.[^9]
 
-Påståendet är skandalöst i moderna ögon – skönhet genom sömnbrist, genom möda, genom kyla, genom att stiga upp ur en varm säng för att stå ensam i mörker.
+Skönhet genom sömnbrist, genom möda, genom att stiga upp ur en varm säng och stå ensam i mörker. Vad händer i nattbönen?
 
-Vad händer i nattbönen?
+Profeten Muḥammad ﷺ sade: "Den troendes ära är nattbönen, och hans värdighet är att vara oberoende av människorna."[^10] Nattbönen är den bön ingen ser, den som inte ger socialt kapital, den som inte kan fotograferas. Det enda vittnet är Gud.
 
-Profeten Muḥammad ﷺ sade: "Den troendes ära är nattbönen, och hans värdighet är att vara oberoende av människorna."[^10] Nattbönen är den bön ingen ser, den som inte ger socialt kapital, den som inte kan fotograferas. Den är ren i sin avsikt som få handlingar kan vara. Det enda vittnet är Gud.
+Ansiktet är kroppens mest sociala yta — det arbetar ständigt för sin publik, bevakar hur det uppfattas, arrangerar sina uttryck. I nattens ensamhet upphör det arbetet. Den som regelbundet övar sig i att stå utan åskådare övar sig i att vara utan mask, och det är den övningen som genomlyser huden. Koranen talar om det upprepat: ansikten som strålar, ansikten som lyser. "Ansikten skall den Dagen vara glänsande, leende, fyllda av glädje."[^11] Strålningen börjar inte först på Domedagen – den börjar här, i nattens ensamhet. En annan koranvers gör det konkret: "Deras kännetecken syns i ansiktena – spåren av nedfallandet i bön."[^24]
 
-Och det förändrar vad bönen gör med den bedjande. Ansiktet är kroppens mest sociala yta – det arbetar ständigt för sin publik, bevakar hur det uppfattas, arrangerar sina uttryck. I nattens ensamhet upphör det arbetet. Den som regelbundet övar sig i att stå utan åskådare övar sig i att vara utan mask, och det är den övningen som genomlyser huden. Härom talar Koranen upprepat: ansikten som strålar, ansikten som lyser. "Ansikten skall den Dagen vara glänsande, leende, fyllda av glädje."[^11] Strålningen börjar inte först på Domedagen – den börjar här, i nattens ensamhet. En annan koranvers gör det konkret: "Deras kännetecken syns i ansiktena – spåren av nedfallandet i bön."[^24]
+Skönhetsindustrin förutsätter att ytan kan behandlas utan att röra det inre. Ibn Qayyim vänder logiken: det yttre härrör från det inre. Det ljus man ser hos vissa människor, den oförklarliga värmen, den värdighet som inte beror av symmetri. Man känner igen det hos ansikten som åren brutit men som ändå drar blicken.
 
-Skönhetsindustrin förutsätter att man kan behandla ytan utan att röra det inre. Ibn Qayyim omkastar logiken: det yttre härrör från det inre. Ansiktet *avslöjar*. Det ljus man ser hos vissa människor, den där oförklarliga värmen, den värdighet oberoende av symmetri, kommer inifrån. Man känner igen det hos människor vars ansikten bryts av åren men ändå drar blicken. Inget serum kan efterlikna det – det springer ur själen.
-
-Fredrika Bremer rörde vid tanken i ett av sina brev: "Vakor, mödor, ansträngning af mångfaldig art fordras dertill", och frågar sedan, nästan förvånat: "Lidandet kan icke äfven det framkalla en helt egen skönhet, en, bredvid hvilken glädjens, helsans och all verldens prakt blekna?"[^12] Bremer talade om moralisk mognad, men poängen bär: att skönhet kan komma genom det som kostar, att bekvämlighet inte föder det vackra.
+Fredrika Bremer rörde vid tanken i ett av sina brev: "Vakor, mödor, ansträngning af mångfaldig art fordras dertill", och frågar sedan, nästan förvånat: "Lidandet kan icke äfven det framkalla en helt egen skönhet, en, bredvid hvilken glädjens, helsans och all verldens prakt blekna?"[^12] Bremer talade om moralisk mognad, men insikten håller: skönhet kan komma genom det som kostar, och bekvämlighet föder inte det vackra.
 
 ## Klädnadens tyngd
 
-Iakttagelsen – att det pålagda kan dölja det verkliga – framträder i Anne Charlotte Lefflers essä *Kvinnlighet och erotik*, där hon beskriver hur modeklädningen förvandlade en kvinnas kropp:
+Anne Charlotte Leffler beskrev i *Kvinnlighet och erotik* hur modeklädningen förvandlade en kvinnas kropp:
 
 > Det fina, mjuka, luftiga i hennes figur tyngdes ner af en modeklädning; modejournalens fantasier syntes platta och oädla på denna fint mejslade gestalt.[^13]
-
-Det pålagda skymmer snarare än avslöjar. Modejournalens fantasier är "platta och oädla" mot det underliggande. I 1880-talets Stockholm synliggör Leffler samma paradox som Ibn Qayyim analyserade i 1300-talets Damaskus: yttre utsmyckning döljer vad den utger sig för att förstärka.
 
 Karin Boye fördjupade bilden i *Astarte*: "små välsminkade uttryckslösa ansikten på små välformade kroppar – små mal, som virrar mot lågan, mot glansen, mot nöjet".[^14] *Uttryckslöshet* – det är priset. Sminket jämnar till, och det levande bakom ögonen slocknar.
 
 ## Ljus och mörker
 
-Mot denna uttryckslöshet står det ljus som Koranen ständigt återkommer till – som metafor och som verklighet. "Det är Han och Hans änglar som välsignar er för att leda er ut ur mörkren till ljuset."[^15] Ibn Kathīr anför en profettradition: "Skall jag inte berätta för er om den bästa av era handlingar, den renaste inför er Herre, bättre för er än att ge guld och silver?" De sade: "Vad är det, Guds sändebud?" Han sade: "Åminnelsen av Gud." Nattbönens logik framträder mot den bakgrunden: man stiger upp i det yttre mörkret för att finna det inre ljuset.
+Mot denna uttryckslöshet står det ljus som Koranen ständigt återkommer till, som metafor och som verklighet. "Det är Han och Hans änglar som välsignar er för att leda er ut ur mörkren till ljuset."[^15] Ibn Kathīr anför en profettradition: "Skall jag inte berätta för er om den bästa av era handlingar, den renaste inför er Herre, bättre för er än att ge guld och silver?" De sade: "Vad är det, Guds sändebud?" Han sade: "Åminnelsen av Gud." Nattbönens logik framträder mot den bakgrunden: man stiger upp i det yttre mörkret för att finna det inre ljuset.
 
-Al-Ḥasan al-Baṣrī uttydde Koranversen om de strålande ansiktena: "Gud förskönade dem genom att de fick skåda Honom – och det är med rätta de strålar, de som blickar mot sin Herre."[^16] Denna skönhet i den kommande världen är Guds belöning till de troende. "Gud är vacker och älskar skönhet", lyder en välkänd *ḥadīth*.[^17] Genom historien har denna *ḥadīth* också använts för att rättfärdiga uppskattning av fysisk skönhet och prydnad; den islamiska traditionen rymmer en rikare spänning mellan det yttre och det inre än en enkel rangordning fångar. Likväl kvarstår Ibn Qayyims poäng: det djupaste ljuset har en annan källa än huden.
+Al-Ḥasan al-Baṣrī uttydde Koranversen om de strålande ansiktena: "Gud förskönade dem genom att de fick skåda Honom – och det är med rätta de strålar, de som blickar mot sin Herre."[^16] Denna skönhet i den kommande världen är Guds belöning till de troende. "Gud är vacker och älskar skönhet", lyder en välkänd *ḥadīth*.[^17] Genom historien har denna *ḥadīth* också använts för att rättfärdiga uppskattning av fysisk skönhet och prydnad; den islamiska traditionen rymmer en rikare spänning mellan det yttre och det inre än en enkel rangordning fångar. Ibn Qayyims poäng kvarstår: det djupaste ljuset har en annan källa än huden.
 
-Här gapar avgrunden mellan det islamiska skönhetsbegreppet och det moderna. I den moderna logiken är skönhet ett självändamål, något som tjänar den som bär den: status, dragningskraft, makt. I Ibn Qayyims analys är skönhet en biprodukt – man söker den inte, man söker Gud, och skönheten uppstår som en oombedd gåva. Psykiatern Viktor Frankl beskrev lyckan så: den uppstår enbart som oavsedd bieffekt av hängivelse åt något större än en själv.[^25] Det är glädjen som kommer när man förlorar sig i arbetet, inte när man jagar den. Men Frankl lämnar öppet *vad* detta större är – en sak, en person, ett kall. Ibn Qayyim är mer precis: skönheten uppstår som biprodukt bara när man vänder sig mot skönhetens källa. Annars uppstår kanske mening, kanske syfte, men inte det ljus han beskriver.
+I den gängse logiken är skönhet självändamål: status, dragningskraft, makt. I Ibn Qayyims analys är skönhet en biprodukt: man söker den inte, man söker Gud, och skönheten uppstår som oombedd gåva.
 
 Skillnaden är den mellan en människa som förskönar sig för att bli sedd och en människa som *blir* vacker för att hon ser. Den ena står framför spegeln. Den andra framför Gud.
 
 ## Ansiktets vittnesbörd
 
-Al-Fuḍayl ibn ʿIyāḍ pekade på skuggsidan: "Tjänaren begår en synd och berövas därigenom nattbönen."[^18] Om godhet lyser upp ansiktet, släcker synden dess ljus. Ansiktet vittnar; det kan inte ljuga som ord kan. Vem har inte känt skillnaden mellan den som säger 'välkommen' med orden och den som säger det med ansiktet? Ibn Qayyim citerar versraden: "O du med vackert ansikte, sky det skamliga – byt inte skönheten mot skam!"[^19]
+Al-Fuḍayl ibn ʿIyāḍ pekade på skuggsidan: "Tjänaren begår en synd och berövas därigenom nattbönen."[^18] Om godhet lyser upp ansiktet, släcker synden dess ljus. Ansiktet vittnar; det kan inte ljuga som ord kan. Ibn Qayyim citerar versraden: "O du med vackert ansikte, sky det skamliga – byt inte skönheten mot skam!"[^19]
 
 Luqmān sade: "Den som ljuger förlorar sin fägring."[^20] Erik Gustaf Geijer hävdade att "den äkta skönheten renar sinnet och har ett stort moraliskt inflytande".[^21] Geijer menade det estetiskt: konsten förädlar. Ibn Qayyim vänder på sambandet: förädling skapar skönhet, och rörelsen går inifrån och ut.
 
 ## En sovande industri
 
-Varje år offrar världen hundratals miljarder dollar på att göra ansikten vackrare utifrån.[^22] Industrin växer: produkterna blir fler, teknikerna mer avancerade, löftena djärvare. Ändå: aldrig har en dyr kräm skänkt ett ansikte det ljus som springer ur glädje, ur själsfrid, ur godhet.
+Varje år lägger världen hundratals miljarder dollar på att göra ansikten vackrare utifrån.[^22] Ingen kräm har skänkt ett ansikte det ljus som springer ur godhet.
 
-Den anonyma kvinnan som steg upp i natten för att be visste vad hela denna industri förbiser. Hon sökte skönhet genom det svåraste tänkbara – genom att offra sin sömn, sin bekvämlighet, sin natt – och fann den i det ljus som bönen lämnade i hennes ansikte.
+Den anonyma kvinnan som steg upp i natten för att be visste vad hela denna industri förbiser.
 
 *Wajh*, det arabiska ordet för ansikte, betyder också riktning. Ditt ansikte är det du vänder mot världen, men det avslöjar vad du vänder dig mot.
-
-Den som vänder sig mot Gud i nattens mörker bär spår av det mötet i sitt ansikte vid dagens ljus. Ibn Qayyim visar att vi måste älska för att bli vackra.[^23]
 
 ---
 
@@ -111,6 +103,4 @@ Den som vänder sig mot Gud i nattens mörker bär spår av det mötet i sitt an
 [^20]: Luqmān (fred vare med honom), citerad i Ibn Abī al-Dunyā, *Kitāb al-Ṣamt wa-Adab al-Lisān* (Boken om tystnad och tungans etik).
 [^21]: Erik Gustaf Geijer, i en biografisk text om Friherre Malte Ramel.
 [^22]: Enligt branschrapporter uppgår den globala skönhetsindustrins värde till över 400 miljarder dollar. Se bl.a. McKinsey & Company, *The State of Fashion: Beauty* (2025).
-[^23]: Ibn Qayyim al-Jawziyyah, *Rawḍat al-Muḥibbīn*.
 [^24]: Koranen, al-Fatḥ 48:29.
-[^25]: Viktor Frankl, *Man's Search for Meaning* (1946), förord till 1984 års utgåva.
