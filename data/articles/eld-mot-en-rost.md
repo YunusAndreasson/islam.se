@@ -59,7 +59,7 @@ Koranen har ett ord för denna hållning. *Istihzāʾ* – hån, förlöjligande
 
 ## Domen och insikten
 
-Den teologiska förklaringen fann, om än i annat språk, bekräftelse i svensk rätt. I februari 2025 fastslog Stockholms tingsrätt att koranbränningarna utgjorde hets mot folkgrupp. Svea hovrätt stadfäste domen i november samma år med formuleringen att de budskap handlingarna förmedlade "uttrycker missaktning, inte bara mot islam som religion, utan även mot folkgruppen muslimer."[^9] Handlingen överskred "saklig debatt och kritik"; den riktade sig mot människor, inte mot argument.[^10]
+Den starkaste invändningen ligger nära till hands: om Koranens sakralitet skyddas juridiskt, var drar man gränsen? Skiljelinjen går inte mellan det obekväma och det behagliga utan mellan *kritik* och *förakt*. Den som argumenterar mot Koranens budskap utövar sin rätt. Den som bränner den på gatan riktar sig inte mot ett argument utan mot en närvaro – och mot de människor som bär den. I februari 2025 fastslog Stockholms tingsrätt att koranbränningarna utgjorde hets mot folkgrupp. Svea hovrätt stadfäste domen i november samma år med formuleringen att de budskap handlingarna förmedlade "uttrycker missaktning, inte bara mot islam som religion, utan även mot folkgruppen muslimer."[^9] Handlingen överskred "saklig debatt och kritik"; den riktade sig mot människor, inte mot argument.[^10]
 
 Den islamiska traditionens förklaring når djupare. Handlingen angriper det gruppen erfar som Guds levande tal.
 

@@ -71,9 +71,9 @@ Ibn Qayyim al-Jawziyyah fördjupade iakttagelsen i *Madārij al-Sālikīn* med e
 
 > Ihågkomst och eftertanke är två stationer som bär frukt i alla sorters kunskap, trons sanningar och godhetens verkligheter. Den kunnige upphör aldrig att återvända med sin eftertanke till sin ihågkomst, och med sin ihågkomst till sin eftertanke, tills hans hjärtas lås öppnas.[^16]
 
-Rörelsen är cirkulär. al-Ḥasan al-Baṣrī sammanfattade det så: "Kunskapens folk upphörde aldrig att återvända med ihågkomst till eftertanke, och med eftertanke till ihågkomst, och talade till hjärtana tills de talade."[^17]
+Rörelsen är cirkulär. al-Ḥasan al-Baṣrī sammanfattade det: "Kunskapens folk upphörde aldrig att återvända med ihågkomst till eftertanke, och med eftertanke till ihågkomst, och talade till hjärtana tills de talade."[^17]
 
-*Tills de talade.* Hjärtat är inget overksamt kärl. Det är ett organ som kan lära sig tala, men bara genom tålmodigt, upprepat arbete med åminnelse och reflektion. ʿAlī ibn Abī Ṭālib uttryckte det så: "Hjärtana är kärl, och de bästa av dem är de som rymmer mest kunskap. Bevara det jag säger dig."[^18]
+*Tills de talade.* Hjärtat är inget overksamt kärl. Det är ett organ som kan lära sig tala, men bara genom tålmodigt, upprepat arbete med åminnelse och reflektion. ʿAlī ibn Abī Ṭālib uttryckte det: "Hjärtana är kärl, och de bästa av dem är de som rymmer mest kunskap. Bevara det jag säger dig."[^18]
 
 Det arabiska ordet för hjärta, *qalb*, delar rot med ordet för förändring. Om hjärtat till sitt väsen är *det som vänder sig* är det aldrig obundet: det formas alltid av något. Avgörande är vad som upprepas. Kunskap, bön, recitation, åminnelse – den process genom vilken det yttre blir inre, det inlärda blir levt.
 

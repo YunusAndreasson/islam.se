@@ -31,7 +31,7 @@ Klimatvetenskapen visar en kurva mot kollaps: temperaturer och havsnivåer stige
 
 Klimatångesten förlamar av ett djupare skäl: undergången saknar mening.
 
-Günther Anders gav tillståndet ett namn redan under kärnvapenåldern: *Apokalypse ohne Reich* – naken apokalyps, undergång som inte öppnar något rike.[^17] Apokalyps utan förlösning. Skuld utan förlåtelse. Synd utan nåd. I Harvard Divinity Bulletin beskrivs samma mönster i samtidens klimatsorg: en sakral känsla utan sakrament, ett rituellt tomrum som varken terapi eller aktivism förmår fylla.[^4] Harry Martinson fångade tomrummet i *Aniara*: "Hur svårt att tro på livet efter detta. / Hur rätt att önska livet efter detta."[^19]
+Günther Anders gav tillståndet ett namn redan under kärnvapenåldern: *Apokalypse ohne Reich* – naken apokalyps, undergång som inte öppnar något rike.[^17] Apokalyps utan förlösning. Skuld utan förlåtelse. Synd utan nåd. I Harvard Divinity Bulletin beskrivs samma mönster i samtidens klimatsorg: en sakral känsla utan sakrament, ett rituellt tomrum som varken terapi eller aktivism förmår fylla.[^4] Harry Martinson formulerade spänningen i *Aniara* – inte som bön utan som iakttagelse: "Hur svårt att tro på livet efter detta. / Hur rätt att önska livet efter detta."[^19]
 
 ## Den rastlöshet som saknar namn
 

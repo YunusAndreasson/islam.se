@@ -61,7 +61,7 @@ Till den frågan svarar Koranen:
 
 *Ṭumaʾnīnah* – att finna ro, att komma till vila. Hjärtat stannar. Det slutar söka.
 
-Dan Andersson – kolaren, diktaren – uttryckte det med enkel brådska: "Häda inte! När ni fått nog av Gud då är ni förlorad."[^19] En mening som varken Levertin eller Key kunde ha skrivit: den förutsätter att förlusten är verklig, att det som avvisas inte är en känsla utan en förbindelse. Att stanna vid religiositeten utan att följa den hem är, med Ibn al-Jawzīs ord, "hopp utan handling – en hägring utan vatten".[^20]
+Dan Andersson – kolaren, diktaren – uttryckte det med enkel brådska: "Häda inte! När ni fått nog av Gud då är ni förlorad."[^19] En mening som varken Levertin eller Key kunde ha skrivit: den förutsätter att förlusten är verklig, att det som avvisas inte är en känsla utan en förbindelse. Den svenska hållningen – att erkänna religiositeten men inte följa den till en bestämd tröskel – är ärlig; den vägrar bekänna mer än den erfar. Men inom *fiṭrah*s logik pekar religiositeten bortom sig själv, som törst pekar mot vatten. Att stanna vid törsten utan att söka källan är inte oärlighet – det är en ofullbordad resa.
 
 ## Ljus på ljus
 
@@ -99,7 +99,7 @@ Söderblom förstod det. Strindberg anade det. Levertin noterade det – och sta
 [^17]: August Strindberg, *Inferno* (1897).
 [^18]: Koranen, al-Raʿd 13:28.
 [^19]: Dan Andersson, *David Ramms arv* (1919).
-[^20]: Ibn al-Jawzī, *al-Adhkiyāʾ* (De skarpsinniga). Parafras efter arabisk originaltext.
+
 [^21]: Ibn Qayyim al-Jawziyyah, *al-Fawāʾid*. Parafras efter arabisk originaltext.
 [^22]: Koranen, Fuṣṣilat 41:53.
 [^23]: Koranen, Qāf 50:16.

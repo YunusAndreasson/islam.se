@@ -59,15 +59,15 @@ I sin enklaste form ställde Ibn Taymiyyah frågan: det skapade måste vara uppk
 
 Strindberg nådde aldrig fram. Hans vandring – från barndomstro genom ateism, vidskepelse och Swedenborg – mynnade i kapitulation inför det oförklarliga: "Intet tvivel mera! Den Evige har talat!"[^11] Men vilken Evig? Strindbergs Gud förblev dunkel, mer kraft än person, mer försyn än nåd. Han hade sökt sin Gud alltifrån barndomen, skrev han, och funnit demonen.[^12]
 
-Varför skulle en allsmäktig Skapare tillåta lidande? Frågan är gammal; inget seriöst teologiskt system kan undanröja den. Den förblir det tyngsta argumentet mot monoteism.
+Varför skulle en allsmäktig Skapare tillåta lidande? Frågan är gammal; inget seriöst teologiskt system kan undanröja den. Den förblir det tyngsta argumentet mot monoteism – och den förtjänar att bäras, inte avfärdas.
 
-Men frågan förutsätter att vi, med vår begränsade kunskap, kan bedöma *varför* en allvetande Skapare handlar som Han gör. Koranen förnekar aldrig lidandets verklighet. Den besvarar frågan genom att insistera på att Skaparens visdom överskrider det skapades synfält. Prövningen är meningsfull, inte godtycklig – skillnaden mellan slump och lektion.
+Koranen förnekar aldrig lidandets verklighet. Den placerar det inom en arkitektur: prövning, tålamod, återkomst. "Tror människorna att de skall slippa undan med att säga 'Vi tror!' utan att sättas på prov?"[^19] Prövningen förutsätter en prövare med avsikt – skillnaden mellan slump och lektion. Det är inte ett fullständigt svar på varje enskild människas lidande; det är en ram inom vilken lidandet inte reduceras till meningslöst brus. Ateismen, som ärligt avvisar den ramen, måste bära en tyngre börda: inte bara att lidandet är oförklarat utan att det är oförklarligt – att det inte *finns* något att förstå.
 
 *Tawḥīd* ger inte svar på varje filosofisk invändning. Det är den hållning som inte brister under sin egen logik – att säga 'en' och mena det utan fotnoter. Resten gör det: ateismen vid frågan om grund, polyteismen vid frågan om enhet, panteismen vid skillnaden mellan orsak och verkan, deismen vid frågan om mening, treenigheten vid frågan om inre sammanhang. *Tawḥīd* – en enda, transcendent, aktiv Skapare – kvarstår.
 
 Ibn Qayyim sammanfattade det i en sats: Herren ensam skapar, styr och befaller.[^13] Inte en trossats som kräver förnuftets kapitulation utan den slutsats förnuftet når när det följer sina premisser hela vägen.
 
-"Av intet blir intet, och allt har en tillräcklig grund", skrev Strindberg i *Götiska rummen*.[^14] Han hade rätt. Frågan är om han orkade följa tanken hela vägen.
+"Av intet blir intet, och allt har en tillräcklig grund", skrev Strindberg i *Götiska rummen*.[^14] Han hade rätt. Premissen var klar. Vad som saknades var inte viljan utan kartan – den tradition som kunde bära tanken dit den pekade.
 
 ---
 
@@ -89,3 +89,4 @@ Ibn Qayyim sammanfattade det i en sats: Herren ensam skapar, styr och befaller.[
 [^16]: Karl Rahner, *The Trinity* (1970); orig. i *Mysterium Salutis* II (1967).
 [^17]: Isaac Newton, *Philosophiæ Naturalis Principia Mathematica*, General Scholium (1713/1726).
 [^18]: Stephen Snobelen, "'God of gods, and Lord of lords': The Theology of Isaac Newton's General Scholium to the Principia," *Osiris* 16 (2001), s. 169–208. Se även Wikipedia, "Religious views of Isaac Newton."
+[^19]: Koranen, al-ʿAnkabūt 29:2.

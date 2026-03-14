@@ -87,7 +87,7 @@ Ibn Khaldūn tecknade mönstret: civilisationer förlorar sin moraliska kraft ge
 
 > Makt utan kunskap om religionen leder till orättvisa.[^16]
 
-Sverige lever i den tredje generationen: den som varken tror på grunden eller minns att det en gång fanns en. Axiomen är kvar. Institutionerna fungerar -- ännu. Men ber man en riksdagsledamot förklara *varför* alla människor har lika värde, blir svaret tyst. Eller cirkulärt: de har lika värde för att de har lika värde.
+Den omedelbara invändningen är berättigad: Sverige rankas bland världens mest välfungerande samhällen – i tillit, jämlikhet, rättsstat, låg korruption. Om den moraliska grunden verkligen viker, var är kollapsen? Svaret är att byggnader inte rasar den dag fundamentet spricker. De rasar den dag belastningen överstiger det som återstår. Institutionerna bär ännu – på det kapital tidigare generationer lade upp. Men ber man en riksdagsledamot förklara *varför* alla människor har lika värde, blir svaret tyst. Eller cirkulärt: de har lika värde för att de har lika värde.
 
 Koranen ställer frågan utan omsvep:
 

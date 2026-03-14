@@ -19,7 +19,7 @@ Och i *Hávámal*:
 
 > Dödlös är den dom som fälls över varje dödlig människa – den dör aldrig.[^2]
 
-Nornornas dom är given. Men inom den givna ramen står människan fri att handla. I sin introduktion till den engelska översättningen av *Njáls saga* 1861 formulerade George Webbe Dasent det så:
+Nornornas dom är given. Men inom den givna ramen står människan fri att handla. I sin introduktion till den engelska översättningen av *Njáls saga* 1861 formulerade George Webbe Dasent det:
 
 > Där kunde han visa sin fria vilja; och sålunda lämnade ödets blinda, obevekliga natur inget utrymme för något ångestfyllt grubblande över ting som en gång för alla var bestämda att ske.[^3]
 
@@ -70,8 +70,6 @@ Koranen varnar för vad som händer när tillit fästs vid det skapade istället
 > Men om de vänder om skall du säga: 'Allah ﷻ är tillräcklig för mig; ingen gud finns utom Han. Till Honom sätter jag min lit, och Han är Herre över den väldiga tronen.'[^14]
 
 I *Tusen och en natt* får konsekvensen konkret gestalt. En besegrad furste uppsöker en eremit och klagar över sitt öde. Eremiten frågar om han vet varför han besegrades, men fursten vet inte. "Därför att du satte din lit till dina truppernas antal", svarar eremiten, "och inte förlitade dig på Allah ﷻ den Allrahögste. Hade du satt din lit till den Allsmäktige, hade din fiende aldrig kunnat besegra dig."[^15]
-
-Den enda tillit som inte kan tas ifrån dig är den som vilar i Allah ﷻ.
 
 Gunnar på Hlíðarendi vände sig i sadeln. Hans lugn sprang ur vissheten att nornorna redan avgjort. Den troende vänder sig mot *qiblah*. Hans ro springer ur vissheten att den som avgjort är *al-Raḥmān*, den Barmhärtige.
 

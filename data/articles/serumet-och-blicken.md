@@ -15,7 +15,7 @@ Leo Kall, biokemisten som uppfinner Kallocainet, tror sig tjäna Världsstaten g
 
 Serumet krossar gåvan. Människor kan inte längre välja att vara ärliga – valet har tagits ifrån dem. Utan val ingen tillit.
 
-Boye själv formulerar det så:
+Boye själv formulerar det:
 
 > Är det inte underligt, att allting mister sitt värde, så fort det upphör att vara gåva – till och med sanningen?[^1]
 

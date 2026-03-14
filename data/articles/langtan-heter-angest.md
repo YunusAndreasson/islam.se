@@ -5,9 +5,9 @@ wordCount: 1533
 qualityScore: 8.6
 description: "Under 1300-talets första hälft ägnade sig Ibn Qayyim al-Jawziyyah i Damaskus åt att kartlägga hjärtats sjukdomar. I *al-Dāʾ wa-l-Dawāʾ* beskrev han hur synden försvagar hjärtat – inte som en katastrof utan som en tilltagande bedövning där den sjuke till slut inte ens märker att han är sjuk."
 ---
-Den moderna människan har ett reflexmässigt svar på ångest: bli av med den. Medicinera, meditera, distrahera. Hela terapiindustrin vilar på antagandet att ångest är ett systemfel – en störning att undanröja så att vi kan återgå till det normala.
+Den moderna människan har ett reflexmässigt svar på ångest: bli av med den. Medicinera, meditera, distrahera. Modern psykologi skiljer förvisso mellan patologisk och funktionell ångest – KBT och ACT behandlar inte all oro som sjukdom. Men den kulturella reflexen är entydig: ångest är ett systemfel, en störning att undanröja så att vi kan återgå till det normala.
 
-Tänk om antagandet är fel.
+Tänk om reflexen pekar fel.
 
 ## Hjärtats diagnos
 

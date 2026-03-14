@@ -5,7 +5,7 @@ wordCount: 2917
 qualityScore: 8.7
 description: "I 1300-talslärden Ibn Qayyim al-Jawziyyahs skildring samlar Satan sina trupper och pekar ut ett mål framför alla andra: tungans fästning. Den kan erövras på två sätt – genom den som sprider lögner och genom den som tiger när sanningen behöver sägas."
 ---
-Ett ord slungat i vrede, yttrat i avund eller bara släppt i förbifarten – sedan sjunker det genom tillvaron som en sten genom vatten: nedåt, oåterkalleligt, med ringar som breder sig långt bortom den punkt där stenen försvann. Profeten Muḥammad ﷺ beskrev det så: en människa kan yttra ett ord utan att begrunda det. Det ordet störtar henne i Elden längre bort än avståndet mellan öster och väster.[^1]
+Ett ord slungat i vrede, yttrat i avund eller bara släppt i förbifarten – sedan sjunker det genom tillvaron som en sten genom vatten: nedåt, oåterkalleligt, med ringar som breder sig långt bortom den punkt där stenen försvann. Profeten Muḥammad ﷺ beskrev det: en människa kan yttra ett ord utan att begrunda det. Det ordet störtar henne i Elden längre bort än avståndet mellan öster och väster.[^1]
 
 Orden slår. Neurovetenskapen har visat att verbalt våld omformar hjärnans stressystem.[^2] Den islamiska traditionen visste det fjorton sekler före den första hjärnskannern. Den svenska tystnadskulturen likaså, på sitt eget vis.
 
