@@ -39,7 +39,7 @@ Ju mer kroppen tillfredsställs, desto tyngre blir den, och desto djupare sjunke
 
 Sexhundra år senare klädde Simone Weil samma insikt i samma metafor, utan kännedom om den damascenske lärde: "Alla själens naturliga rörelser styrs av lagar analoga med den materiella tyngdkraftens. Nåden är det enda undantaget."[^17] Men Weils *enda undantag* avslöjar en begränsning i hennes tänkande: gravitationen är absolut, och själen kan ingenting annat än vänta på en nåd som kommer utifrån. Ibn Qayyim beskriver samma gravitation – men i hans system finns handlingar som lättar kroppens tyngd inifrån.
 
-Transhumanismen lovar att undanröja friktion, att göra den biologiska existensen så smidig att gränsen mellan tanke och handling upphör. Enligt Ibn Qayyims logik är detta kroppens gravitation förstärkt till en kraft som själen inte längre kan undkomma. Chippet i hjärnan gör inte fängelset mindre – det gör fängelset *bekvämare*. Och en bekväm fånge glömmer att han är fånge.
+Transhumanismen lovar att undanröja motstånd, att göra den biologiska existensen så smidig att gränsen mellan tanke och handling upphör. Enligt Ibn Qayyims logik är detta kroppens gravitation förstärkt till en kraft som själen inte längre kan undkomma. Chippet i hjärnan gör inte fängelset mindre – det gör fängelset *bekvämare*. Och en bekväm fånge glömmer att han är fånge.
 
 I *Madārij al-Sālikīn* fullbordar han bilden. Denna värld och nästa jämförs med moderlivet och det som kommer efter födseln, eller "ännu ringare" än så. De visa citerar han: "Låt din iver att lämna denna värld vara som din iver att lämna det trånga fängelset för att möta dina älskade."[^5] Döden är i denna tradition inte nederlag utan födelse.
 

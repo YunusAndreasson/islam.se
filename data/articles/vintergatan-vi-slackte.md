@@ -3,9 +3,9 @@ title: "Vintergatan vi släckte"
 publishedAt: "2025-08-24T12:00:00.000Z"
 wordCount: 2036
 qualityScore: 8.5
-description: "År 2016 kartlade Fabio Falchi och hans kollegor det artificiella nattljuset över hela jorden i *Science Advances*. En tredjedel av mänskligheten har aldrig sett Vintergatan, och i Europa lever nittio procent under himlar så genomlysta att stjärnhimlen reducerats till ett fåtal punkter."
+description: "År 2016 kartlade Fabio Falchi och hans kollegor det artificiella nattljuset över hela jorden i *Science Advances*. En tredjedel av mänskligheten har aldrig sett Vintergatan, och i Europa lever nittio procent under himlar så genomlysta att stjärnhimlen krympt till ett fåtal punkter."
 ---
-En tredjedel av mänskligheten har aldrig sett Vintergatan. Den internationella kartläggningen av artificiellt nattljus, publicerad i *Science Advances* 2016, visade att över åttio procent av jordens befolkning lever under himlar så genomlysta att stjärnhimlen reducerats till ett fåtal punkter.[^1] I Europa är utarmningen grövre: nittio procent av kontinentens invånare lever under ljusförorenade himlar. Sverige, Norge och norra Skottland tillhör de sista europeiska regioner där Vintergatan överhuvudtaget kan urskiljas. Marginalen krymper.
+En tredjedel av mänskligheten har aldrig sett Vintergatan. Den internationella kartläggningen av artificiellt nattljus, publicerad i *Science Advances* 2016, visade att över åttio procent av jordens befolkning lever under himlar så genomlysta att stjärnhimlen krympt till ett fåtal punkter.[^1] I Europa är utarmningen grövre: nittio procent av kontinentens invånare lever under ljusförorenade himlar. Sverige, Norge och norra Skottland tillhör de sista europeiska regioner där Vintergatan överhuvudtaget kan urskiljas. Marginalen krymper.
 
 Vad händer med ett samhälles andliga varseblivning när det fysiska mörker som bar den är utplånat?
 

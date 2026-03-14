@@ -51,7 +51,7 @@ Den moderna svensken har befriats från ödestron. Men befrielsen lämnade ett t
 
 Ibn Qayyim al-Jawziyyah definierade *tawakkul* som "hjärtats fulla förlitan på Allah ﷻ allena".[^9] Men *tawakkul* har ofta missförståtts som passivitet. Ibn Qayyim avvisade likhetstecknet: "*Tawakkul* hör till de starkaste orsakerna för att uppnå det man önskar och avvärja det man fruktar – det är den starkaste orsaken överhuvudtaget."[^10] Ibn al-Jawzī: "*Tawakkul* upphävs inte genom att vidta tillåtna åtgärder. Den som berövar sig själv nödvändigheter under förevändning av *tawakkul* har brutit mot *sunnah*."[^11]
 
-Vikingen vilar i det obönhörliga, den troende i den Barmhärtige. Att överlåta sitt öde åt en blind lag kräver stoisk hårdhet: du måste tysta den del av dig som frågar *varför*. Att anförtro det åt Allah ﷻ, med Koranens ord "den som sätter sin lit till Allah ﷻ, Han räcker honom"[^12], kräver ingen sådan tystnad. Det skänker ro utan hårdhet, mod utan cynism, handling utan den kvävande känslan att allt vilar på den egna axeln. En profettradition sammanfattar principen: "Förunderligt är den troendes tillstånd – Allah ﷻ bestämmer inte något för honom utan att det blir till hans bästa. Drabbas han av motgång har han tålamod, och det blir till hans bästa; och får han framgång är han tacksam, och det blir till hans bästa. Och detta gäller ingen annan än den troende."
+Vikingen vilar i det obönhörliga, den troende i den Barmhärtige. Att överlåta sitt öde åt en blind lag kräver stoisk hårdhet: du måste tysta den del av dig som frågar *varför*. Att anförtro det åt Allah ﷻ, med Koranens ord "den som sätter sin lit till Allah ﷻ, Han räcker honom"[^12], kräver ingen sådan tystnad. Det skänker ro utan hårdhet, mod utan bitterhet, handling utan den kvävande känslan att allt vilar på den egna axeln. En profettradition sammanfattar principen: "Förunderligt är den troendes tillstånd – Allah ﷻ bestämmer inte något för honom utan att det blir till hans bästa. Drabbas han av motgång har han tålamod, och det blir till hans bästa; och får han framgång är han tacksam, och det blir till hans bästa. Och detta gäller ingen annan än den troende."
 
 ## Det obönhörligas ro
 
@@ -63,7 +63,7 @@ Boye nådde insikten men kunde inte stanna kvar i den. Överlåtelse utan mottag
 
 > Jag vet inte vem – eller vad – som ställde frågan, jag vet inte när den ställdes. Jag minns inte att jag svarade. Men en gång svarade jag ja till någon – eller något – och från den stunden har jag varit viss om att tillvaron är meningsfull och att mitt liv, i underkastelse, har ett mål.[^17]
 
-Vikingarna vilade i det givna, men deras struktur var kall och opersonlig. Den moderna svensken saknar bådadera.
+Vikingarna vilade i det givna, men deras ordning var kall och opersonlig. Den moderna svensken saknar bådadera.
 
 Koranen varnar för vad som händer när tillit fästs vid det skapade istället för Skaparen:
 

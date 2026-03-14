@@ -39,7 +39,7 @@ Den som tvivlar kan pröva iakttagelsen mot sin egen erfarenhet. Selma Lagerlöf
 
 Enligt Ibn Qayyim präglar den inre skönheten den yttre gestalten tydligast hos den som utövar nattbönen, *qiyām al-layl* – den frivilliga bönen som förrättas i mörkrets djupaste timmar. "Den lyser upp ansiktet och förskönar det", skriver han.[^9]
 
-Skönhet genom sömnbrist, genom möda, genom att stiga upp ur en varm säng och stå ensam i mörker – det strider mot varje instinkt. Ingmar Bergmans riddare kände samma mörker: "Tron är ett svårt lidande. Det är som att älska någon som finns därute i mörkret och som aldrig visar sig hur man än ropar."[^26] Riddaren ropar utan svar. Den som ber *tahajjud* ropar och får ljus i ansiktet.
+Skönhet genom sömnbrist, genom möda, genom att stiga upp ur en varm säng och stå ensam i mörker – det strider mot varje drift. Ingmar Bergmans riddare kände samma mörker: "Tron är ett svårt lidande. Det är som att älska någon som finns därute i mörkret och som aldrig visar sig hur man än ropar."[^26] Riddaren ropar utan svar. Den som ber *tahajjud* ropar och får ljus i ansiktet.
 
 Vad händer i nattbönen?
 

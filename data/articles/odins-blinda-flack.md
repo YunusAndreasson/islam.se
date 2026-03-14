@@ -19,7 +19,7 @@ Vad slags transaktion är det? Viktor Rydberg, som ägnade decennier åt att sys
 
 Nyckelordet: *lån*. Kunskapen byter ägare genom en reglerad transaktion. Odin ger bort ett sinnesorgan och får i gengäld en klarare insikt. Han ser sämre med ögonen men klarare med förståndet.
 
-Här blottläggs den blinda fläcken. Odin förlorar *syn*. Han förlorar aldrig *sig själv*. Den mäktige guden stiger ned till brunnen och stiger upp som samma gud – med ett öga färre och en visdom mer. Mimer, *den som minns*, vaktar den struktur som gör kunskapen till ägande: minnet av vem man är, vad man vill, vad man äger.
+Här blottläggs den blinda fläcken. Odin förlorar *syn*. Han förlorar aldrig *sig själv*. Den mäktige guden stiger ned till brunnen och stiger upp som samma gud – med ett öga färre och en visdom mer. Mimer, *den som minns*, vaktar den ordning som gör kunskapen till ägande: minnet av vem man är, vad man vill, vad man äger.
 
 Invändningen ligger nära: Odins hängning på Yggdrasil – nio nätter, genomborrad av ett spjut, offrad "åt sig själv" – borde väl innebära en grundligare förvandling? Men det offret gäller *runorna*, inte visheten vid brunnen. Även efter hängningen förblir Odin den han var: härskare, kunskapssökare, den som vill veta *mer*.
 

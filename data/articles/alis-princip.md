@@ -7,7 +7,7 @@ description: "År 1955 avskaffade riksdagen Brattsystemet trots läkarnas varnin
 ---
 En mening i Koranen borde oroa varje demokrat: "De flesta av dem följer inte annat än antaganden. Men antaganden kan aldrig ersätta sanningen på något sätt."[^1]
 
-Påståendet är inte unikt för Koranen. Strindberg gav samma misstanke ord i *Götiska rummen*: "Det är majoriteten, det trogna folket, det sunda förståndet som bara är oförstånd; det är de rättänkande, de stilla i landet, kärnan av befolkningen."[^2] Ellen Key skrev om "massdumheten, massfegheten och masslögnen" som tillsammans åstadkommer sådant som nästan varje enskild individ i massan skulle rygga för.[^3] Le Bon skildrade hur en människa som träder in i en folkmassa förlorar sin individualitet och övertar massans.[^4]
+Påståendet är inte unikt för Koranen. Strindberg gav samma misstanke ord i *Götiska rummen*: "Det är majoriteten, det trogna folket, det sunda förståndet som bara är oförstånd; det är de rättänkande, de stilla i landet, kärnan av befolkningen."[^2] Ellen Key skrev om "massdumheten, massfegheten och masslögnen" som tillsammans åstadkommer sådant som nästan varje enskild individ i massan skulle rygga för.[^3] Le Bon skildrade hur en människa som träder in i en folkmassa förlorar sin egenart och övertar massans.[^4]
 
 Strindberg observerade, Key kritiserade, Le Bon dissekerade – men Koranen förklarar *varför*.
 

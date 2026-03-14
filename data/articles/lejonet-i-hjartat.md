@@ -31,9 +31,9 @@ Koranen befäster sambandet. I sura al-Ḥajj: "Har de inte färdats på jorden 
 
 ## Den ofrånkomliga invändningen
 
-Här reser sig den moderna invändningen med rätta: är detta inte cirkulärt? Subjektiv visshet om klarsyn präglar också kognitiva skevheter. Det som *känns* som klarhet kan vara förankringseffekt, tillgänglighetsskevhet, bekräftelsesökning.
+Här reser sig den moderna invändningen med rätta: är detta inte cirkulärt? Subjektiv visshet om klarsyn präglar också tankens skevheter. Det som *känns* som klarhet kan vara förankringseffekt, tillgänglighetsskevhet, bekräftelsesökning.
 
-Den islamiska traditionen saknar inte dem som ifrågasatt *firāsah* som kunskapskategori. Deras invändningar vilade dock ofta på rationalistiska premisser som traditionen själv avvisade. De underkände den andliga erfarenhetens vittnesbörd på förhand, i stället för att pröva den mot uppenbarelsen.
+Den islamiska traditionen saknar inte dem som ifrågasatt *firāsah* som kunskapskategori. Deras invändningar vilade dock ofta på rationalistiska förutsättningar som traditionen själv avvisade. De underkände den andliga erfarenhetens vittnesbörd på förhand, i stället för att pröva den mot uppenbarelsen.
 
 Men den tradition Ibn Qayyim företräder duckar inte. Han insisterar på att *firāsah* måste prövas mot Koranen och *Sunnah*; den står aldrig ensam som auktoritet.[^12] Shāh al-Kirmānī, som Ibn Qayyim ofta citerar som föredöme, villkorade klarsynen med fyra konkreta praktiker: att följa Profetens ﷺ praxis i sitt yttre, att upprätthålla ständig inre vaksamhet, att sänka blicken från det förbjudna och att äta det tillåtna.[^13] Ett program med verifierbara yttre tecken.
 

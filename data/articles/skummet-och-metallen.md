@@ -17,7 +17,7 @@ Forskarna tvistar om regenerationsmotivets ursprung: tillhör visionen av värld
 
 ## Swedenborg: elden som aldrig brinner
 
-Emanuel Swedenborg, uppvuxen i ett lutherskt Sverige dränkt i helvetets retorik, kom att förneka helveteselden helt. Dess existens erkände han; dess substans förkastade han.
+Emanuel Swedenborg, uppvuxen i ett lutherskt Sverige dränkt i helvetets retorik, kom att förneka helveteselden helt. Dess tillvaro erkände han; dess väsen förkastade han.
 
 I Swedenborgs korrespondenslära svarar varje fysisk företeelse mot en andlig verklighet. Eld korresponderar med kärlek -- strukturellt, inte poetiskt. Och helvetets eld? Den är självkärlekens inre glöd, som de fördömda upplever som värme, rentav som behag.[^4] De som valt sig själva framför allt annat bebor ett tillstånd som *liknar* eld men saknar eldens förvandlingskraft. Swedenborgs helvete bränner inte. Det bekräftar.
 
@@ -29,7 +29,7 @@ Under krisåren i Paris snubblade August Strindberg in i Swedenborgs universum. 
 
 Begäret efter framgång, bekräftelse, makt -- det *är* elden. Den bränner inte kroppen utan urholkar meningen. Priset delas ut, önskan uppfylls – och allt befinns värdelöst.
 
-Men denna inåtvändning -- Swedenborgs liksom Strindbergs -- når en gräns. Swedenborgs eld saknar objektiv verklighet; den existerar bara som psykologisk korrespondens, som inre spegling. Hans system framtvingar en fråga det inte kan besvara: vad händer om elden inte bara speglar utan avslöjar? Om elden *vet*?
+Men denna inåtvändning -- Swedenborgs liksom Strindbergs -- når en gräns. Swedenborgs eld saknar objektiv verklighet; den finns bara som psykologisk korrespondens, som inre spegling. Hans system framtvingar en fråga det inte kan besvara: vad händer om elden inte bara speglar utan avslöjar? Om elden *vet*?
 
 ## Den koraniska elden: eld som urskiljer
 
@@ -57,7 +57,7 @@ Vad är det? I *Rawḍat al-Muḥibbīn* ger Ibn Qayyim ett svar -- han knyter e
 
 ## Tre eldar, en fråga
 
-Den nordiska elden är likgiltig inför individen: världen förnyas som en årstid vänder -- kosmisk återställning utan etik. Den swedenborgianska elden är till sitt väsen subjektiv; den existerar bara som inre korrespondens, psykologisk sanning utan transcendens.
+Den nordiska elden är likgiltig inför individen: världen förnyas som en årstid vänder -- kosmisk återställning utan sedlighet. Den swedenborgianska elden är till sitt väsen subjektiv; den existerar bara som inre korrespondens, psykologisk sanning utan transcendens.
 
 Den koraniska elden förenar det de andra var för sig saknar. Den är objektiv -- den existerar oberoende av den prövades upplevelse. Och den är personlig: den svarar på den prövades tillstånd med en precision som överstiger mänsklig dom. Samma eld, olika verkan, beroende på vad den möter.
 

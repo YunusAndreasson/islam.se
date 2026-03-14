@@ -17,7 +17,7 @@ I *al-Muqaddimah*, det monumentala verk som grundlade historieskrivningen som ve
 
 > Under natten återkallar kroppen sin värme till de innersta delarna av kroppen, vilket leder det andliga väsendet inåt och möjliggör drömvision.[^2]
 
-Perceptionen upphör inte; den byter riktning.
+Varseblivningen upphör inte; den byter riktning.
 
 > Själen blir andlig genom att befria sig från kroppsliga ämnen och kroppliga perceptioner, vilket sker genom sömnens medling.[^3]
 
@@ -57,7 +57,7 @@ Hjärnbarken avfyrar intensiva signaler, synbarken bearbetar visuell information
 
 Vad vi inte vet är varför denna aktivitet tar formen av *upplevelse*: bilder, berättelser, möten med de döda, flygningar över landskap som aldrig funnits. Minneskonsolidering kräver inga medvetna upplevelser; känslomässig bearbetning inget berättande. David Chalmers gav frågan dess moderna namn 1995 – *the hard problem of consciousness*: varför frambringar fysiska processer överhuvudtaget subjektiv upplevelse?[^21]
 
-Aktiveringssynteshypotesen, framlagd av Allan Hobson och Robert McCarley 1977, försökte reducera drömmen till neurologiskt brus: slumpmässiga signaler från hjärnstammen som hjärnbarken febrilt fogar till sammanhängande berättelse.[^14] Hobson själv reviderade hypotesen avsevärt under de följande decennierna. Men den blottar den materialistiska ansatsens grundproblem: den kan återge *hur* drömmen produceras neurologiskt men inte *varför* den upplevs, ännu mindre vad dess innehåll *betyder*.
+Aktiveringssynteshypotesen, framlagd av Allan Hobson och Robert McCarley 1977, försökte reducera drömmen till neurologiskt brus: slumpmässiga signaler från hjärnstammen som hjärnbarken febrilt fogar till sammanhängande berättelse.[^14] Hobson själv reviderade hypotesen avsevärt under de följande decennierna. Men den blottar den materialistiska ansatsens grundproblem: den kan återge *hur* drömmen frambringas neurologiskt men inte *varför* den upplevs, ännu mindre vad dess innehåll *betyder*.
 
 "Mer aktiv *för vad*?" faller utanför den metodologiska naturalismens grammatik.
 

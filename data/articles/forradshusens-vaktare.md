@@ -25,11 +25,11 @@ Koranen avslutar episoden: "På så vis etablerade Vi Josef i landet och han kun
 
 ## Statens plikt att tvångsförsälja
 
-Den hanbalitiske rättsvetaren Ibn Taymiyyah ärver Josefs princip och gjuter den i juridisk form. I *al-Ḥisbah fī al-Islām* driver han en tes som fortfarande provocerar: om någon hamstrar mat medan folket svälter, har staten rätt att framtvinga försäljning till marknadspris.[^6]
+Den hanbalitiske rättsvetaren Ibn Taymiyyah ärver Josefs princip och gjuter den i juridisk form. I *al-Ḥisbah fī al-Islām* driver han en tes som fortfarande utmanar: om någon hamstrar mat medan folket svälter, har staten rätt att framtvinga försäljning till marknadspris.[^6]
 
 Den uppenbara invändningen bemötte han själv: hadithen där Profeten Muḥammad ﷺ vägrar sätta priser.[^7] Den hadithen gäller ett läge där ingen vägrade sälja och ingen drev upp priserna artificiellt. När handelsmän medvetet håller tillbaka varor under en bristperiod tar en annan princip vid: plikten att skydda allmänintresset.[^8] Den som i nödtid monopoliserar livsnödvändigheter "påtvingar människor den svårighet och trångmål som är förbjuden".[^9]
 
-Att mätta den hungrige, skriver han i *al-Īmān*, är "en kollektiv skyldighet enligt alla muslimska lärda".[^10] Orden *farḍ ʿalā al-kifāyah* – en plikt som åligger samhället som helhet – innebär att om ingen fullgör den, bär alla skulden.
+Att mätta den hungrige, skriver han i *al-Īmān*, är "en gemensam skyldighet enligt alla muslimska lärda".[^10] Orden *farḍ ʿalā al-kifāyah* – en plikt som åligger samhället som helhet – innebär att om ingen fullgör den, bär alla skulden.
 
 Sjuhundra år senare nådde Amartya Sen samma slutsats på empirisk väg: svält orsakas inte av absolut brist utan av distributionens sammanbrott.[^20] Sen byggde sitt bevis på Bengalens hungersnöd och decennier av fältdata; Ibn Taymiyyahs rättslära härledde samma slutsats ur pliktens logik.
 
@@ -41,7 +41,7 @@ Sedan föll Berlinmuren. Och med den föll föreställningen att beredskap behö
 
 Avvecklingen vilade på en ekonomisk trossats. Just-in-time-leveranser, nollager, ständig flödesoptimering: varje kvadratmeter förrådsutrymme var bortkastad yta – tills lastbilarna slutade komma. Det intellektuella underlaget kom från Hayek och Friedman, som hävdat att statliga reserver snedvrider prissignaler och hämmar effektivitet. Sverige lyssnade: under 1990- och 2000-talen avvecklades beredskapslager systematiskt, och ansvaret för livsmedelsförsörjning i kris föll mellan stolarna.[^12]
 
-Argumentet var stringent – och fel. I en livsmedelskris hinner människor svälta innan marknaden reagerar. Marknadens korrektionscykel räknas i månader; kroppens tolerans i dagar.
+Argumentet var vattentätt – och fel. I en livsmedelskris hinner människor svälta innan marknaden reagerar. Marknadens korrektionscykel räknas i månader; kroppens tolerans i dagar.
 
 Finland och Schweiz visar varför. Två länder med jämförbara ekonomier behöll sina strategiska livsmedelsreserver.[^13] Finland lagrar spannmål, bränsle och mediciner; Schweiz' federala lag kräver obligatoriska lager av baslivsmedel. Att Sverige valde en annan väg var ett politiskt beslut, inte en ekonomisk nödvändighet.
 

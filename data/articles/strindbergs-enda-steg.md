@@ -41,11 +41,11 @@ Ellen Key, Strindbergs samtida och på många sätt hans motpol, ser fenomenet f
 
 > Mycket fromma kristnas barn bli fritänkare, mycket frinna fritänkares barn kristna. Orsaken är öppendaglig.[^8]
 
-Key ser sociologisk pendling. Men varför slår pendeln alltid *tillbaka*? Vore ateism ett stabilt kunskapstillstånd borde trenden vara linjär: varje generation mer sekulär, tills religionen utdör.
+Key ser samhällelig pendling. Men varför slår pendeln alltid *tillbaka*? Vore ateism ett stabilt kunskapstillstånd borde riktningen vara rak: varje generation mer sekulär, tills religionen utdör.
 
 Det är inte vad som sker, inte vad Key observerar, inte vad Strindberg genomlever. Ett internationellt forskningsprojekt vid Oxford visade 2011 att religiösa begrepp framträder som grundläggande strukturer i mänskligt tänkande, inte som inlärda föreställningar.[^9] Justin Barrett, en av projektets ledare: "Religion handlar inte om något som ett fåtal särskilda människor gör på söndagar i stället för att spela golf."[^10]
 
-Invändningar finns. Ateismforskare som Lanman och Geertz hävdar att ateism också har naturliga kognitiva processer, att den kan uppstå spontant under vissa villkor.[^11] Invändningen är reell men förskjuter frågan: att ateism *kan* uppstå spontant säger inget om dess stabilitet. Frågan kvarstår: kan ateism *levas* utan ansträngning? Strindbergs vittnesmål antyder motsatsen.
+Invändningar finns. Ateismforskare som Lanman och Geertz hävdar att ateism också har naturliga kognitiva processer, att den kan uppstå av sig själv under vissa villkor.[^11] Invändningen är reell men förskjuter frågan: att ateism *kan* uppstå spontant säger inget om dess stabilitet. Frågan kvarstår: kan ateism *levas* utan ansträngning? Strindbergs vittnesmål antyder motsatsen.
 
 ## Den omöjliga neutraliteten
 

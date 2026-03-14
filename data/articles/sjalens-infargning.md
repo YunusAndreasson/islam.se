@@ -11,7 +11,7 @@ Den svenska skoldebatten svänger som en pendel. På ena sidan de som vill åter
 
 > Kunskap om språk erhålls genom mycket memorering och högkvalitativ minnesövning.[^2]
 
-För Ibn Khaldūn är memorering varken mål eller metod. Den är *fundament*.
+För Ibn Khaldūn är memorering varken mål eller metod. Den är *grundval*.
 
 ## *Malakah* – varken korvstoppning eller kreativitet
 
@@ -23,7 +23,7 @@ Ibn Khaldūn tecknade hur *malakah* utvecklas. Först möter eleven ett ämne oc
 
 Upprepningen är inte motsatsen till förståelse. Den ger förståelsen kropp, tills den fastnar i det Ibn Khaldūn kallar själens färg.
 
-Ibn Khaldūn var skarp mot elever som förväxlade memorering med lärdom. De som slaviskt lärde sig formuleringar utan att utveckla *malakah ʿilmiyyah*, den vetenskapliga dispositionen, förblev instängda i ytkunskap. Memorering utan *malakah* var steril. Men *malakah* utan memorering var omöjlig.[^5]
+Ibn Khaldūn var skarp mot elever som förväxlade memorering med lärdom. De som slaviskt lärde sig formuleringar utan att utveckla *malakah ʿilmiyyah*, den vetenskapliga läggningen, förblev instängda i ytkunskap. Memorering utan *malakah* var steril. Men *malakah* utan memorering var omöjlig.[^5]
 
 Koranen skildrar den stegvisa processen Ibn Khaldūn beskriver:
 
@@ -39,9 +39,9 @@ Men Keys pedagogik var mer sammansatt än vad anhängare och kritiker ofta medge
 
 > Barnet är lyckligt – och individuellt – när det genom visligt vanetvång befrias från egen råhet och nyck; när det kan leka och lära, iakttaga och arbeta, skapa och drömma.[^8]
 
-*Visligt vanetvång.* Uttrycket är anmärkningsvärt. Key ville bevara strukturen men byta ut den straffande, repressiva disciplinen mot den naturliga uppfostrans konst: att forma barnets omgivning så att goda vanor spirade inifrån, inte tvingades in utifrån. Hennes verkliga fiende var prygelpedagogiken, inte repetitionen.
+*Visligt vanetvång.* Uttrycket är anmärkningsvärt. Key ville bevara strukturen men byta ut den straffande, förtryckande tukten mot den naturliga uppfostrans konst: att forma barnets omgivning så att goda vanor spirade inifrån, inte tvingades in utifrån. Hennes verkliga fiende var prygelpedagogiken, inte repetitionen.
 
-Det var en förenklad Key det svenska skolsystemet ärvde. I reformpedagogikens händer blev hennes vision ett slagträ mot det Ibn Khaldūn urskilt som kunskapens fundament: den tålmodiga, strukturerade upprepningen.
+Det var en förenklad Key det svenska skolsystemet ärvde. I reformpedagogikens händer blev hennes vision ett slagträ mot det Ibn Khaldūn urskilt som kunskapens grundval: den tålmodiga, strukturerade upprepningen.
 
 ## Minnets gräns
 
@@ -55,7 +55,7 @@ Ibn al-Jawzī uttryckte förundran inför samma lag: "Allt som är dyrbart och s
 
 ## Den svenska kollapsen
 
-Mellan 2000 och 2012 sjönk Sveriges PISA-resultat under OECD-genomsnittet i samtliga tre områden.[^12] Fallet sammanföll med årtionden av reformpedagogik som tonade ned memorering, struktur och lärarauktoritet. Vad hände med den kognitiva grunden när skolan monterade ned den strukturerade, repetitiva kunskapsinhämtningen till förmån för lustdriven frihet?
+Mellan 2000 och 2012 sjönk Sveriges PISA-resultat under OECD-genomsnittet i samtliga tre områden.[^12] Fallet sammanföll med årtionden av reformpedagogik som tonade ned memorering, ordning och lärarauktoritet. Vad hände med den kognitiva grunden när skolan monterade ned den strukturerade, repetitiva kunskapsinhämtningen till förmån för lustdriven frihet?
 
 Läroplansreformen Lgr22 har vänt pendeln: skärpta kunskapskrav, fonetisk läsinlärning, tryckta läroböcker.[^14] Korrigeringen bekräftar det Ibn Khaldūn slog fast på 1300-talet: kunskap kräver systematiskt arbete innan den kan bära frukt.
 
@@ -83,7 +83,7 @@ Bland Profetens ﷺ följeslagare var insikten redan levande: memorering utan f�
 
 Ingen skörd utan frö – men inte heller utan plöjning.
 
-Ibn Ḥazm al-Andalusi hävdade att "korrekt förståelse av innebörder är viktigare än att memorera ord och formler."[^20] Hans poäng kompletterar Ibn Khaldūns: den som memorerar utan att söka förståelse missar målet, men den som söker förståelse utan den disciplin som memorering kräver saknar verktyget. Platon – som den islamiska civilisationen kände väl – skrev att kunskap förvärvad under tvång inte fäster i sinnet.[^21] Men för Platon var lärande ett återerinrande: själen bär redan sanningen och behöver bara frigöras. Ibn Khaldūns avvisande av tvånget vilade på en annan grund: kunskap förvärvas utifrån, genom arbete, men bara om arbetet respekterar intellektets natur. Skillnaden avgör vad man gör när tvånget faller bort: frigör man barnet, eller formar man det tålmodigt? Ibn Khaldūn var tydlig: "Att straffas hårt skadar elevernas utveckling."[^22] Repression var inte vägen. Struktur och disciplin var det.
+Ibn Ḥazm al-Andalusi hävdade att "korrekt förståelse av innebörder är viktigare än att memorera ord och formler."[^20] Hans poäng kompletterar Ibn Khaldūns: den som memorerar utan att söka förståelse missar målet, men den som söker förståelse utan den tukt som memorering kräver saknar verktyget. Platon – som den islamiska civilisationen kände väl – skrev att kunskap förvärvad under tvång inte fäster i sinnet.[^21] Men för Platon var lärande ett återerinrande: själen bär redan sanningen och behöver bara frigöras. Ibn Khaldūns avvisande av tvånget vilade på en annan grund: kunskap förvärvas utifrån, genom arbete, men bara om arbetet respekterar intellektets natur. Skillnaden avgör vad man gör när tvånget faller bort: frigör man barnet, eller formar man det tålmodigt? Ibn Khaldūn var tydlig: "Att straffas hårt skadar elevernas utveckling."[^22] Repression var inte vägen. Struktur och disciplin var det.
 
 Erik Gustaf Geijer slog fast minnets existentiella djup i en enda sats – en som säger mer än hela debatten om korvstoppning:
 

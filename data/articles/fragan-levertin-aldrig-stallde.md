@@ -11,13 +11,13 @@ Oscar Levertin skrev 1898 en mening som sammanfattar den svenska hållningen rö
 
 Levertin visste vad han talade om. Som litteraturhistoriker, och som jude i det protestantiska Sverige, ägde han utomståendes blick. Han studerade Lucretius – den antike materialisten som försökte befria människan från gudsfruktan – och fann att Lucretius själv var genomsyrad av det han ville avskaffa. "Det är denna religiositet utan religion, denna svärmiska världskult, som Lucretii metafysiska styrka ligger", konstaterade Levertin.[^2]
 
-Observationen löper som en underjordisk ström genom svensk idéhistoria. Ellen Key ville att skolan skulle "dana religiositet utan att bibringa tron på en absolut religion".[^3] Nathan Söderblom vidgade den till kosmisk skala: "I oändlighetskänslan och idealdriften rinner religionens källsprång fram på vår jord – ur tillvarons gudomliga innandöme."[^5]
+Iakttagelsen löper som en underjordisk ström genom svensk idéhistoria. Ellen Key ville att skolan skulle "dana religiositet utan att bibringa tron på en absolut religion".[^3] Nathan Söderblom vidgade den till kosmisk skala: "I oändlighetskänslan och idealdriften rinner religionens källsprång fram på vår jord – ur tillvarons gudomliga innandöme."[^5]
 
 ## Landskapet efter Gud
 
 Hundratjugo år senare har Levertins distinktion blivit svensk normalitet. 2015 intervjuade David Thurfjell ett hundratal svenskar: omkring 80 procent avvisade organiserad religion, medan en majoritet uppgav sig vara öppna för "andlighet" och "tro".[^6] Pew Research bekräftade bilden: 36 procent av svenska vuxna tror på "någon form av gudomlig makt eller andlig kraft".[^7]
 
-Vad är det som överlever? Den svenska traditionen svarar samstämmigt: en oändlighetslängtan, en aning om att verkligheten rymmer ett djup det profana inte uttömmer. Söderblom kallade det "oändlighetskänsla" och skilde det från uppenbarelsereligion. Key förlade det djupare ännu: i "människonaturens egna djup".[^8]
+Vad är det som överlever? Den svenska traditionen svarar samstämmigt: en oändlighetslängtan, en aning om att verkligheten rymmer ett djup det världsliga inte uttömmer. Söderblom kallade det "oändlighetskänsla" och skilde det från uppenbarelsereligion. Key förlade det djupare ännu: i "människonaturens egna djup".[^8]
 
 Men Levertin frågar aldrig *varifrån* känslan kommer. Varför skulle en slumpmässig, materiell varelse bära en medfödd längtan efter det oändliga? Den islamiska traditionen griper tag just där.
 
@@ -29,7 +29,7 @@ En koranisk vers slår an tonen:
 
 *Fiṭrah* – här översatt "naturlig väg" – betecknar den medfödda konstitution med vilken varje människa föds: en orientering mot sin Skapare som föregår all uppfostran och kultur. Anspråket är antropologiskt, djupare än teologiskt postulat. Profeten Muḥammad ﷺ formulerade det i en berömd *ḥadīth*: "Varje barn föds med *fiṭrah*; det är föräldrarna som gör det till jude, kristen eller zoroastrier."[^10] Ibn Kathīr citerar en profettradition där Gud själv talar: "Jag skapade Mina tjänare som rättriktade, men djävlarna förledde dem bort från deras religion."
 
-Modern kognitionsforskning bekräftar bilden: Justin Barrett fann att barn i alla undersökta kulturer spontant utvecklar gudsbegrepp oberoende av uppfostran.[^24]
+Modern kognitionsforskning styrker bilden: Justin Barrett fann att barn i alla undersökta kulturer spontant utvecklar gudsbegrepp oberoende av uppfostran.[^24]
 
 Albert Einstein vittnade om samma erfarenhet: "Människor, växter eller kosmiskt stoft – vi rör oss alla efter en gåtfull melodi som anslås i fjärran av en osynlig spelman."[^26] Den osynlige spelmannen – *fiṭrah* utan etikett.
 
@@ -53,7 +53,7 @@ Strindberg fångar spänningen i en enda mening i *Inferno*:
 
 > Religionen skall sålunda återkomma, men under andra former [...] Från ateism till Swedenborg tycks det bara vara ett steg![^17]
 
-Bara ett steg. Den religiösa impulsen kan inte utplånas, bara omstyras. Ateism vänder blicken; blicken återvänder. Vad gör man med den impuls som vägrar dö?
+Bara ett steg. Den religiösa driften kan inte utplånas, bara omstyras. Ateism vänder blicken; blicken återvänder. Vad gör man med den drift som vägrar dö?
 
 Till den frågan svarar Koranen:
 

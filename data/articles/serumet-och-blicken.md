@@ -23,7 +23,7 @@ Den frampressade sanningen är redan defekt, avskuren från den frivillighet som
 
 ## Tanken under övervakning
 
-Foucaults panoptikon – fängelset där fångarna aldrig vet om de observeras och därför alltid antar att de gör det – är standardmetaforen för övervakningssamhället.[^3] *Kallocain* går längre. Panoptikonen disciplinerar beteende; Kallocainet tränger in i tanken.
+Foucaults panoptikon – fängelset där fångarna aldrig vet om de iakttas och därför alltid antar att de gör det – är standardmetaforen för övervakningssamhället.[^3] *Kallocain* går längre. Panoptikonen styr beteende; Kallocainet tränger in i tanken.
 
 Spiralen – rädslan för avslöjande föder isolering, isoleringen djupare rädsla – får Boye att skriva:
 
@@ -41,7 +41,7 @@ Islamisk teologi utgår från samma premiss men vänder slutsatsen. Varje tanke,
 
 Det arabiska begreppet *iḥsān*, fastslaget i Jibrīl-hadithen, lyder: "att dyrka Gud som om du ser Honom, ty om du inte ser Honom så ser Han dig."[^7] Panoptikonen verkar genom *osäkerhet*: fången vet inte om han observeras, och osäkerheten framtvingar lydnad. *Iḥsān* verkar genom *visshet*: den troende vet att Gud ser, och vissheten frigör.
 
-Kallocainets allvetande tillhör en stat vars enda intresse är kontroll. Den som vet sig övervakad av en sådan makt krymper.
+Kallocainets allvetande tillhör en stat vars enda syfte är behärskning. Den som vet sig övervakad av en sådan makt krymper.
 
 Koranens allvetande tillhör *al-Raḥmān*, den Barmhärtige, vars blick genomlyser hjärtat som Skaparens. "Din Herre vet vad deras bröst rymmer likaväl som vad de öppet visar," säger Koranen.[^8] Sammanhanget är omsorg: Gud vet *för att* Han vårdar det skapade. Ibn Kathīr tillägger att Gud "öser sina välsignelser över människorna trots att de förorättar sig själva".
 
@@ -69,7 +69,7 @@ Carl von Linné sökte samma tema med andra redskap. I hemlighet skrev han ett m
 
 Linnés Gud är varken Kallocainets stat eller Koranens *al-Raḥmān* utan en kall, kausalt verkande rättvisa – "moralens ekologi", som Sten Lindroth kallade den.[^14] "Alla gå hem och slå sig för sitt hröst, märkandes, att Herren ser wåra intriguer," skriver Linné med sin omisskännliga blandning av fromhet och empirism.[^15] Rättvisans mekanik garanterar att den som syndar straffas, inte genom mirakel utan genom orsak och verkan.
 
-Linné stannar halvvägs mellan Boye och den islamiska traditionen. Han delar premissen – Gud ser allt – men drar slutsatsen vedergällning, inte befrielse. En moralisk mekanik som registrerar överträdelsen men saknar förmåga att förlåta den som överträder. Förlåtelsen bryter den kausala kedjan. Den möjligheten vänder allvetandet från hot till tillit. Guds allvetande är inte främst ett straffhot utan förutsättningen för en relation: möjligheten att stå naken inför Skaparen, inte för att skammen saknas utan för att den som ser också förlåter.
+Linné stannar halvvägs mellan Boye och den islamiska traditionen. Han delar premissen – Gud ser allt – men drar slutsatsen vedergällning, inte befrielse. En moralisk mekanik som upptecknar överträdelsen men saknar förmåga att förlåta den som överträder. Förlåtelsen bryter den kausala kedjan. Den möjligheten vänder allvetandet från hot till tillit. Guds allvetande är inte främst ett straffhot utan förutsättningen för en relation: möjligheten att stå naken inför Skaparen, inte för att skammen saknas utan för att den som ser också förlåter.
 
 ## Frihet genom genomskinlighet
 

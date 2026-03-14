@@ -5,7 +5,7 @@ wordCount: 1792
 qualityScore: 8.6
 description: "När Walīd ibn al-Mughīra, en av Quraysh-stammens främsta poesikännare, ombads fördöma Koranen förmådde han inte förneka det han hört. Det var varken poesi eller prosa, sade han, men det ägde en skönhet som krossade allt under sig. Han fördömde texten ändå – politiken krävde det."
 ---
-Frambringa en enda sura av jämförbar kvalitet. Under fjorton sekler har ingen lyckats – inte imperiers mest skolade pennor, inte generationers skarpaste intellekt, inte fiender med allt att vinna på att krossa anspråket.
+Frambringa en enda sura av jämförbar kvalitet. Under fjorton sekler har ingen lyckats – inte världsväldens mest skolade pennor, inte generationers skarpaste intellekt, inte fiender med allt att vinna på att krossa anspråket.
 
 Koranen själv ställer utmaningen:
 

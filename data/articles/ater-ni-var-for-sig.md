@@ -31,7 +31,7 @@ I *Hemsöborna* skildrar Strindberg bröllopsfesten på Hemsö med en scen som v
 
 Pluralformerna säger allt: *såtar*, *vålmar*, *staplar*, *travar*. Maten mäts i mängder som förutsätter gemenskap. Pastorn saknas, och "utan pastorn ville ingen börja". Man väntar på varandra.
 
-Tusentals gånger spelades den scenen upp i det Sverige som skulle kalla sig folkhem. I sitt berömda tal 1928 använde Per Albin Hansson hemmet som politisk metafor: "Det goda hemmet känner icke till några privilegierade eller tillbakasatta, inga kelgrisar och inga styvbarn."[^8] Det var en vision om jämlikhet, men visionen krävde en materiell bas, och den basen var till stor del det gemensamma ätandet. Husmanskost – ärtsoppa på torsdag, köttbullar på söndag, pannkakor till middag – det var där folkhemmets solidaritet utövades, inte debatterades. Traditionen är äldre än folkhemmet: redan i *Njáls saga* mäts vänskap i inbjudningar till bords. Gunnar och Njáll bjöd varandra till gästabud varje skörd och utbytte rika gåvor, år efter år.[^9] Den som inte bjöd hade brutit bandet.
+Tusentals gånger spelades den scenen upp i det Sverige som skulle kalla sig folkhem. I sitt berömda tal 1928 använde Per Albin Hansson hemmet som politisk metafor: "Det goda hemmet känner icke till några privilegierade eller tillbakasatta, inga kelgrisar och inga styvbarn."[^8] Det var en vision om jämlikhet, men visionen krävde en materiell bas, och den basen var till stor del det gemensamma ätandet. Husmanskost – ärtsoppa på torsdag, köttbullar på söndag, pannkakor till middag – det var där folkhemmets solidaritet utövades, inte debatterades. Seden är äldre än folkhemmet: redan i *Njáls saga* mäts vänskap i inbjudningar till bords. Gunnar och Njáll bjöd varandra till gästabud varje skörd och utbytte rika gåvor, år efter år.[^9] Den som inte bjöd hade brutit bandet.
 
 ## Vad som hände sedan
 
@@ -43,13 +43,13 @@ Förskjutningen är äldre än matkassarna. Redan Platon såg samma mönster i s
 
 > Där frosseri och omåttlighet råder fyller staden snabbt med läkare och advokater.[^11]
 
-Varken Platon eller Ibn Khaldūn ger dock mer än diagnos. Platons medborgare formas av statens ordning, Ibn Khaldūns nomad av öknens villkor. Inget av systemen ger den enskilda människan en praktik som bryter den kollektiva driften mot förfall. Platon föreslår en auktoritär lösning: kontrollera maten, kontrollera karaktären. Ibn Khaldūn beskriver ett kretslopp utan utväg.
+Varken Platon eller Ibn Khaldūn ger dock mer än diagnos. Platons medborgare formas av statens ordning, Ibn Khaldūns nomad av öknens villkor. Inget av systemen ger den enskilda människan ett bruk som bryter den kollektiva driften mot förfall. Platon föreslår en auktoritär lösning: kontrollera maten, kontrollera karaktären. Ibn Khaldūn beskriver ett kretslopp utan utväg.
 
 ## Den tredje rösten
 
 "Adams barn", säger Koranen, "ät och drick men gå inte till överdrift. Han älskar verkligen inte dem som går till överdrift."[^12] Versen riktar sig till en människa, aldrig till en stat. Den nöjer sig inte med att förbjuda; den förklarar varför: "Den som Min vrede drabbar har fallit", versen i sura *Ṭā Hā* som förbinder överdrift med inre förfall.[^13]
 
-Men det är i Profetens ﷺ praktik som teorin blir levande. Hadithen om magens tredjedelar har citerats så ofta att den riskerar att nötas: en tredjedel för mat, en tredjedel för dryck, en tredjedel för andning.[^14] Bredvid Ibn Khaldūns mekanism avtecknar sig skillnaden: där sociologen iakttar ett kretslopp ger hadithen en individuell *praxis* som bryter det. Vid varje måltid kan varje människa välja återhållsamhet. Ingen behöver invänta civilisationens kretslopp.
+Men det är i Profetens ﷺ praktik som teorin blir levande. Hadithen om magens tredjedelar har citerats så ofta att den riskerar att nötas: en tredjedel för mat, en tredjedel för dryck, en tredjedel för andning.[^14] Bredvid Ibn Khaldūns mekanism avtecknar sig skillnaden: där sociologen iakttar ett kretslopp ger hadithen ett enskilt *bruk* som bryter det. Vid varje måltid kan varje människa välja återhållsamhet. Ingen behöver invänta civilisationens kretslopp.
 
 Sedan kommer det andra steget. Profeten ﷺ fick höra sina följeslagare klaga: "Vi äter men vi blir inte mätta." Hans svar var inte att föreslå mer mat. Han frågade: "Äter ni var för sig?" Och sedan: "Samlas kring er mat och nämn Allahs namn, så välsignas den åt er."[^15]
 

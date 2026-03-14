@@ -29,7 +29,7 @@ Mitt i denna grundvalskris reser sig ett begrepp som gör anspråk på att säkr
 
 Modern utvecklingspsykologi bekräftar bilden: spädbarn uppvisar moraliska preferenser – de föredrar hjälpare framför förhindrare – redan innan språk och kultur format dem.[^16] Universaliteten syns även i det samhälle som gör sitt bästa att undertrycka den. August Blanche fångade det underifrån: "Där finns heder och samvete även bland de som samhället förkastar."[^19]
 
-*Fiṭrah* är inte ett argument *för* moral utan ett påstående om moralens plats i verkligheten: moralen är inskriven i skapelsens arkitektur.
+*Fiṭrah* är inte ett argument *för* moral utan ett påstående om moralens plats i verkligheten: moralen är inskriven i skapelsens ordning.
 
 Koranen förankrar detta i ett ursprungligt förbund:
 
@@ -49,7 +49,7 @@ Hjalmar Bergman blottlade samvetets paradox i *Eros' begravning*:
 
 Rädsla att *undgå* upptäckt – inte rädsla för straff utan längtan att bli sedd, genomlyst. Om människan bara är materia, varifrån kommer denna drift att ställas inför ett vittne?
 
-Ibn Qayyim pekade på svaret: mänsklig fullkomlighet ligger i förmågan att skilja sanning från lögn och att välja sanningen.[^11] Förmågan kan fördunklas av uppfostran, kultur, vanor. Men den kan inte utplånas, för den tillhör skapelsen, inte individen.
+Ibn Qayyim pekade på svaret: mänsklig fullkomlighet ligger i förmågan att skilja sanning från lögn och att välja sanningen.[^11] Förmågan kan fördunklas av uppfostran, kultur, vanor. Men den kan inte utplånas, för den tillhör skapelsen, inte den enskilde.
 
 Erik Gustaf Geijer betonade personlighetens inneboende värdighet: "Personligheten med dess rätt är både det första och det sista i samhället; att den utgör grunden för rättigheter, lärer ej kunna nekas."[^12] Runeberg skärpte insikten ytterligare: "Man lär sig tala om ett mänskovärde, som är ett annat än en mänsklig lydnad för maktens bud."[^18] Men varifrån kommer rätten? *Fiṭrah* svarar: personligheten har rätt för att den bär ett gudomligt vittnesbörd.
 

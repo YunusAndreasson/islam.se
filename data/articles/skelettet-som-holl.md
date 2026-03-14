@@ -5,11 +5,11 @@ wordCount: 1485
 qualityScore: 8.6
 description: "I juli 2015 daterade universitetet i Birmingham ett koranfragment till Profeten Muḥammads ﷺ egen livstid. Bläcket på fårskinnet formade samma arabiska konsonanter som den Koran som idag ligger på nattduksbord i Kairo och Malmö – fjorton sekler senare, bokstav för bokstav."
 ---
-Allt försvinner. Det är kanske den enda sanning antiken och moderniteten delar utan förbehåll. Pergament murknar. Hårddiskar kraschar. Bibliotek brinner – Alexandria, Bagdad, Sarajevo. Av de uppskattningsvis 7 000 språk som talas idag beräknas hälften ha tystnat inom ett sekel.[^1] Texter som en gång ansågs odödliga överlever som fragment, rekonstruktioner, gissningar.
+Allt försvinner. Det är kanske den enda sanning antiken och moderniteten delar utan förbehåll. Pergament murknar. Hårddiskar kraschar. Bibliotek brinner – Alexandria, Bagdad, Sarajevo. Av de uppskattningsvis 7 000 språk som talas idag beräknas hälften ha tystnat inom ett sekel.[^1] Texter som en gång ansågs odödliga överlever som brottstycken, återskapningar, gissningar.
 
 Sverige vet detta. Äldre Västgötalagen, landets äldsta bevarade text på svenska, härrör från 1220-talet. Den vilar i ett enda manuskript. Ingen kan med säkerhet säga hur originalet löd; vi har en avskrift av en avskrift, med de glidningar varje led medför.[^2] I fyra sekler har Riksarkivet, grundat 1618, bevarat dokument. Ändå har ingen svensk text överlevt oförändrad mer än några hundra år. Varje generation ärver avskrifter, inte original.
 
-Mot den bakgrunden framstår ett påstående från 600-talets Arabien som storartat eller vanvettigt: "Det är Vi som har sänt ned Förmaningen och det är Vi som är dess bevarare."[^3] Koranen lovar sitt eget bevarande. Inte som from förhoppning utan som falsifierbart löfte. Ett enda tidigt manuskript med grundläggande avvikelser från den text som reciteras idag – och påståendet hade fallit.
+Mot den bakgrunden framstår ett påstående från 600-talets Arabien som storartat eller vanvettigt: "Det är Vi som har sänt ned Förmaningen och det är Vi som är dess bevarare."[^3] Koranen lovar sitt eget bevarande. Inte som from förhoppning utan som prövbart löfte. Ett enda tidigt manuskript med grundläggande avvikelser från den text som reciteras idag – och påståendet hade fallit.
 
 Fjorton sekler har passerat. Påståendet har inte fallit.
 

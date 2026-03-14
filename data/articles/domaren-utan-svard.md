@@ -9,7 +9,7 @@ Domaren dömer och staten verkställer. Åklagaren utreder och åtalar i samma r
 
 Det sambandet är problemet.
 
-Sjuhundra år innan Montesquieu lade fram sin maktdelningslära i *De l'esprit des lois* hade en jurist i Bagdad redan urskillt ett problem Montesquieu aldrig ställde. Montesquieu separerade statens funktioner – lagstiftande, verkställande, dömande. Al-Māwardī separerade något farligare: rättvisan från svärdet.
+Sjuhundra år innan Montesquieu lade fram sin maktdelningslära i *De l'esprit des lois* hade en jurist i Bagdad redan urskillt ett problem Montesquieu aldrig ställde. Montesquieu skilde statens funktioner – lagstiftande, verkställande, dömande. Al-Māwardī skilde något farligare: rättvisan från svärdet.
 
 ## Tre ämbeten, tre gränser
 
@@ -31,7 +31,7 @@ Al-Māwardīs tredje ämbete, *ḥisbah*, saknar motsvarighet i västerländsk r
 
 Muhtasiben – den tjänsteman som utövar *ḥisbah* – får inte spionera på det dolda. Al-Māwardī skrev: "Muhtasiben spionerar inte på det fördolda och avslöjar inte det som hålls dolt."[^9] Misstankar räcker aldrig.[^10]
 
-Ingripa men inte bestraffa, tillrättavisa men aldrig med brutalitet: "Eftersom *ḥisbah* bygger på respekt, får inte muhtasibens ingripande ske med despotisk hårdhet."[^11] Han äger auktoritet att påtala det onda. Men han äger inte svärdet.
+Ingripa men inte bestraffa, tillrättavisa men aldrig med brutalitet: "Eftersom *ḥisbah* bygger på vördnad, får inte muhtasibens ingripande ske med despotisk hårdhet."[^11] Han äger auktoritet att påtala det onda. Men han äger inte svärdet.
 
 ## En plikt utan vapen
 
@@ -43,7 +43,7 @@ Ibn Taymiyyah preciserade principen: varje ämbetes medel inskränks till det eg
 
 ## Rädslan för den rättfärdige
 
-Montesquieu separerade statens funktioner för att förhindra tyranni. Al-Māwardī separerade rättvisans funktioner för att skydda rättvisan från dess egna försvarare.[^16] Det som hindrar människor från orättvisa, konstaterade han, är alltid en av fyra saker: "antingen ett förstånd som avhåller, en tro som hindrar, en härskare som hejdar, eller en oförmåga som stoppar".[^17] Härskarens tvångsmakt är det kraftfullaste medlet – och det farligaste.
+Montesquieu skilde statens funktioner för att förhindra tyranni. Al-Māwardī skilde rättvisans funktioner för att skydda rättvisan från dess egna försvarare.[^16] Det som hindrar människor från orättvisa, konstaterade han, är alltid en av fyra saker: "antingen ett förstånd som avhåller, en tro som hindrar, en härskare som hejdar, eller en oförmåga som stoppar".[^17] Härskarens tvångsmakt är det kraftfullaste medlet – och det farligaste.
 
 C.S. Lewis nådde samma slutsats nio sekler senare:
 

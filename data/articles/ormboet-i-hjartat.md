@@ -19,7 +19,7 @@ Ibn Taymiyyah, den hanbalitiske teologen vars intellektuella spännvidd utmärkt
 
 > Avunden är en sjukdom bland själens sjukdomar som fördärvar dess bärares religion och ära, och som sedan kan fördärva hans förstånd och slutligen hans kropp.[^2]
 
-Ordningen är avgörande: religion, ära, förstånd, kropp. I samma verk preciserar han: *ḥasad* -- destruktiv avund -- får själen att hata det som gagnar den och älska det som skadar den.[^3] En autoimmun process: själens försvar vänder sig mot själen själv.
+Ordningen är avgörande: religion, ära, förstånd, kropp. I samma verk preciserar han: *ḥasad* -- fördärvlig avund -- får själen att hata det som gagnar den och älska det som skadar den.[^3] En autoimmun process: själens försvar vänder sig mot själen själv.
 
 Ibn Qayyim, Ibn Taymiyyahs närmaste elev, förtätade till en enda sats:
 
@@ -67,7 +67,7 @@ Boyes berättare avundas inte rikedom eller status utan ett *ögonblick av hög 
 
 Max Scheler kallade det *Selbstvergiftung*, självförgiftning: avund som omformar hela värdeskalan så att det man inte kan uppnå förklaras som värdelöst.[^14] Befordran betydde allt tills den gick till en kollega; då blev ledarskap fåfängt byråkrateri.
 
-Scheler kan beskriva drivverket men inte upphäva det. Om subjektets egen värdeblick är förgiftad finns i hans tänkande ingen oförstörd utsiktspunkt varifrån det förvridna kan rättas. Den islamiska traditionen förutsätter en sådan fast punkt -- *fiṭrah*, den skapade naturen, och ett mått utanför själen: Guds faktiska fördelning. Därför kan traditionen gå från beskrivning till läkning.
+Scheler kan beskriva drivverket men inte upphäva det. Om den drabbades egen värdeblick är förgiftad finns i hans tänkande ingen oförstörd utsiktspunkt varifrån det förvridna kan rättas. Den islamiska traditionen förutsätter en sådan fast punkt -- *fiṭrah*, den skapade naturen, och ett mått utanför själen: Guds faktiska fördelning. Därför kan traditionen gå från beskrivning till läkning.
 
 Hjalmar Söderberg fångar alltsammans i sju ord, i *Doktor Glas*:
 
@@ -77,7 +77,7 @@ Ingen förklaring, ingen ursäkt. Bara konstaterandet.
 
 ## *Ghibṭah* – avundens motsats
 
-Den islamiska traditionen gör en åtskillnad som modern psykologi först sent börjat formulera. Al-Māwardī skiljer mellan *ḥasad* -- destruktiv avund -- och *munāfasah*, sund strävan:
+Den islamiska traditionen gör en åtskillnad som modern psykologi först sent börjat formulera. Al-Māwardī skiljer mellan *ḥasad* -- fördärvlig avund -- och *munāfasah*, sund strävan:
 
 > Tävlan är att söka likna de förträffliga utan att tillfoga dem skada, medan avund är riktad mot att skada.[^16]
 

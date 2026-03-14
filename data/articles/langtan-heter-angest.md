@@ -37,7 +37,7 @@ Som munnen efter narkosen: man vet att den borde känna, men den gör det inte.
 
 Koranen förtydligar diagnosen: "I deras hjärtan finns en sjukdom, så Allah ﷻ har utökat sjukdomen för dem."[^5] Sjukdomen tilltar inte trots omedvetenheten; den tilltar *genom* den. Ju mindre den sjuke känner, desto sjukare är han.
 
-Modern neurovetenskap pekar i samma riktning. Antonio Damasio dokumenterade att patienter som genom hjärnskador förlorat förmågan att känna obehag – trots intakt intellekt – befanns ur stånd att fatta vardagliga beslut.[^17] Känslan var inte förnuftets motståndare utan dess förutsättning.[^6][^7]
+Modern neurovetenskap pekar i samma riktning. Antonio Damasio påvisade att patienter som genom hjärnskador förlorat förmågan att känna obehag – trots intakt intellekt – befanns ur stånd att fatta vardagliga beslut.[^17] Känslan var inte förnuftets motståndare utan dess förutsättning.[^6][^7]
 
 ## Rädslans gräns
 
@@ -51,7 +51,7 @@ Han insisterar på *firāsah*, den andliga skarpsynen, som det enda sättet att 
 
 Den gränsen – mellan livgivande oro och förlamande plåga – sysselsatte även västerlandets tänkare. Søren Kierkegaard ställdes inför en besläktad tröskel. I *Begreppet ångest* (1844) formulerade han sin centrala sats: "Den som har lärt sig ängslas rätt har lärt sig det yttersta."[^10] Ångest är för Kierkegaard inte ett hinder för autentisk existens utan dess förutsättning.
 
-Den teologiska grunden skiljer dem. Kierkegaards ångest springer ur den kristna läran om syndafallet och den radikala friheten – människan ställd ensam inför valet. Ibn Qayyims ångest växer ur *fiṭrah*, den medfödda orienteringen mot Gud, och *nafs*, det inre självets kamp mellan lägre och högre impulser. Hos Kierkegaard är ångesten existentiell ensamhet. Hos Ibn Qayyim är den bevis på att bandet till Gud fortfarande lever.
+Den teologiska grunden skiljer dem. Kierkegaards ångest springer ur den kristna läran om syndafallet och den yttersta friheten – människan ställd ensam inför valet. Ibn Qayyims ångest växer ur *fiṭrah*, den medfödda orienteringen mot Gud, och *nafs*, det inre självets kamp mellan lägre och högre impulser. Hos Kierkegaard är ångesten existentiell ensamhet. Hos Ibn Qayyim är den bevis på att bandet till Gud fortfarande lever.
 
 Kierkegaard lämnar den ångestfyllde ensam med sin frihet. Utan ett begrepp om hjärtats ursprungliga riktning kan ångesten visa *att* du är fri, men aldrig *vad* friheten är till för. Ibn Qayyim ger riktning: ångesten pekar mot det som behöver läkas, och läkningen har ett namn. Lagerkvists Barabbas, den frigivne brottslingen som vandrar genom en tro han inte äger, erkänner samma längtan utan karta: "För att jag gärna ville tro."[^19]
 
@@ -69,7 +69,7 @@ I *al-Fawāʾid* sammanfattar Ibn Qayyim: "Hjärtana är Guds kärl på Hans jor
 
 Mjukhet: förmågan att röras. Styrka: förmågan att bestå. Klarhet: förmågan att se sant. Den som söker enbart lugn söker mjukhet utan styrka; den som söker enbart härdning söker styrka utan mjukhet.
 
-Ångesten tjänar klarheten. Den tvingar hjärtat att se vad det helst vill slippa: var banden tunnats, var synden ätit sig in, var bedövningen tagit överhanden. Den som lär sig avläsa den signalen – inte fly den, inte drunkna i den, utan *läsa* den – besitter ett diagnostiskt instrument som ingen yttre terapeut kan ersätta.
+Ångesten tjänar klarheten. Den tvingar hjärtat att se vad det helst vill slippa: var banden tunnats, var synden ätit sig in, var bedövningen tagit överhanden. Den som lär sig avläsa den signalen – inte fly den, inte drunkna i den, utan *läsa* den – besitter ett diagnostiskt redskap som ingen yttre terapeut kan ersätta.
 
 Karin Boye skrev: "Längtan är en lek. När den växer till allvar, kallas den ångest."[^15] Ibn Qayyim vänder sambandet: ångesten, avläst rätt, *är* längtan – längtan tillbaka till det tillstånd hjärtat skapades för. Pär Lagerkvist frågade i *Aftonland*: "Vem är du som uppfyller mitt hjärta med din frånvaro?"[^18]
 

@@ -27,7 +27,7 @@ Forskare tvistar om huruvida Völuspás förnyelsestrofer, särskilt den gåtful
 
 Mot detta står den berättelse vår tid lever i.
 
-Klimatvetenskapen visar en kurva mot kollaps: temperaturer och havsnivåer stiger, arter försvinner, tröskelvärden passeras. Det bästa klimatberättelsen kan lova är att katastrofen blir *mindre*. Ragnarök lovade att katastrofen blir *meningsfull*.
+Klimatvetenskapen visar en kurva mot sammanbrott: temperaturer och havsnivåer stiger, arter försvinner, tröskelvärden passeras. Det bästa klimatberättelsen kan lova är att katastrofen blir *mindre*. Ragnarök lovade att katastrofen blir *meningsfull*.
 
 Klimatångesten förlamar av ett djupare skäl: undergången saknar mening.
 
@@ -35,7 +35,7 @@ Günther Anders gav tillståndet ett namn redan under kärnvapenåldern: *Apokal
 
 ## Den rastlöshet som saknar namn
 
-Koranen fångar tillståndet: "Människan har sannerligen skapats ängslig."[^5] Det arabiska ordet är *halūʾan*: rastlös, otålig – den som grips av panik vid motgång och av girighet vid framgång. Inte ett symptom utan ett villkor: människan bär en rastlöshet som inget skapat kan stilla.
+Koranen fångar tillståndet: "Människan har sannerligen skapats ängslig."[^5] Det arabiska ordet är *halūʾan*: rastlös, otålig – den som grips av skräck vid motgång och av girighet vid framgång. Inte ett symptom utan ett villkor: människan bär en rastlöshet som inget skapat kan stilla.
 
 Hjalmar Bergman satte ord på den i *Vi Bookar, Krokar och Rothar*:
 
@@ -49,7 +49,7 @@ Klimatångesten delar strukturen men saknar det avgörande: ett namn för det de
 
 Den avgörande klyftan löper inte mellan Ragnarök och klimatvetenskap utan mellan dessa och islam.
 
-Ragnarök gestaltar ett öde. Gudarna själva är bundna av det – Oden vet att han ska falla för Fenrisulven, och han faller. Förnyelsen sker som naturlag, som kosmisk cykel. Ingen dömer. Rydberg avtäcker principen: det germanska tänkandet förstår reningselden som immanent kraft, fri från viljehandling.[^8]
+Ragnarök gestaltar ett öde. Gudarna själva är bundna av det – Oden vet att han ska falla för Fenrisulven, och han faller. Förnyelsen sker som naturlag, som kosmiskt kretslopp. Ingen dömer. Rydberg avtäcker principen: det germanska tänkandet förstår reningselden som immanent kraft, fri från viljehandling.[^8]
 
 Koranen vänder perspektivet:
 

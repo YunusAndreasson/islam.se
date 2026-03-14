@@ -47,7 +47,7 @@ Ibn Qayyim klargjorde varför frågan aldrig sluter sig:
 
 > Själarna skapades för att bestå, inte för att förgås – det är sanningen. Det som profeterna och deras följare enats om är att dessa själar förblir efter att ha lämnat sina kroppar, de förgås inte och upphör inte. De som menar att själarna förgås med kropparna, eftersom de bara vore en av dess krafter – dessa erkänner ingen själ som existerar i sig själv, som bebor kroppen och lämnar den.[^14]
 
-Koranen tecknar relationen: "När Jag har fulländat honom och blåst in i honom av Min ande."[^15] Sekvensen är avgörande: kroppen *fulländas* först, varje materiell förutsättning uppfylld, men medvetandet saknas tills anden inblåses genom en handling av annat slag. Struktur föregår medvetande men frambringar det inte.
+Koranen tecknar relationen: "När Jag har fulländat honom och blåst in i honom av Min ande."[^15] Sekvensen är avgörande: kroppen *fulländas* först, varje materiell förutsättning uppfylld, men medvetandet saknas tills anden inblåses genom en handling av annat slag. Uppbyggnad föregår medvetande men frambringar det inte.
 
 Varje natt lämnar medvetandet dig. Varje morgon återvänder det. Ingen neurolog kan säga vart det går.
 

@@ -19,7 +19,7 @@ Ibn Qayyim al-Jawziyyah tecknade hjärtat som kroppens konung. Lemmarna är dess
 
 Ett beslut i denna mening är inte en beräkning utan en handling där hjärtat väger, tvekar, ansvarar. Förnuftet kan räkna, lemmarna verkställa, men ingen av dem kan *regera*.
 
-I vår tid blir metaforen bokstavlig: algoritmen ersätter konungen, inte rådgivaren – övertar beslutet, inte bara beräkningen. Ordet *algoritm* är uppkallat efter den muslimske matematikern al-Khwārizmī, men det han formaliserade var beräkningen, inte domslutet. EU:s AI-förordning, fullt tillämplig från augusti 2026, ställer frågan juridiskt. Artikel 14 kräver att högrisk-AI-system ska ha "mänsklig tillsyn": att en människa alltid ska kunna förstå systemets kapacitet, tolka dess resultat och välja att bortse från dess bedömning.[^4] Den svenska utredningen SOU 2025:101 konkretiserar och skärper kraven.[^5]
+I vår tid blir metaforen bokstavlig: algoritmen ersätter konungen, inte rådgivaren – övertar beslutet, inte bara beräkningen. Ordet *algoritm* är uppkallat efter den muslimske matematikern al-Khwārizmī, men det han formaliserade var beräkningen, inte domslutet. EU:s AI-förordning, fullt tillämplig från augusti 2026, ställer frågan juridiskt. Artikel 14 kräver att högrisk-AI-system ska ha "mänsklig tillsyn": att en människa alltid ska kunna förstå systemets kapacitet, tolka dess utfall och välja att bortse från dess bedömning.[^4] Den svenska utredningen SOU 2025:101 konkretiserar och skärper kraven.[^5]
 
 Men om en människa formellt ska kunna överpröva en algoritm men saknar tid, kunskap eller vilja – vem regerar då? Forskningen bekräftar mönstret: människor som formellt övervakar automatiserade system slutar systematiskt att ifrågasätta dem.[^19] Sultanen sover med öppna ögon.
 

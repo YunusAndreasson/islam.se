@@ -25,7 +25,7 @@ Fjorton sekler senare nådde Leibniz samma punkt i *Monadologin* (1714) när han
 
 ## Koranens argument och dess kritiker
 
-Resonemanget i sura *al-Ṭūr* har utkristalliserats till ett filosofiskt argument: allt som börjar existera har en orsak; universum började existera; alltså har universum en orsak. Ibn Taymiyyah förankrade detta resonemang i Koranens egna premisser och löste det ur kalam-filosofins begreppsapparat – det vilar på den *fiṭrah* som varje människa bär, och på den logik som uppenbarelsen talar till.[^5] Slutsatsen är oundviklig, om premisserna håller.
+Resonemanget i sura *al-Ṭūr* har renodlats till ett filosofiskt argument: allt som börjar existera har en orsak; universum började existera; alltså har universum en orsak. Ibn Taymiyyah förankrade detta resonemang i Koranens egna premisser och löste det ur kalam-filosofins begreppsapparat – det vilar på den *fiṭrah* som varje människa bär, och på den logik som uppenbarelsen talar till.[^5] Slutsatsen är oundviklig, om premisserna håller.
 
 De har prövats. J.L. Mackie invände att man inte kan extrapolera från orsaker inom universum till en orsak *för* universum – ett sammansättningsfel.[^6] Graham Oppy ifrågasatte den första premissen direkt: varför måste allt som börjar existera ha en orsak?[^7] Men invändningarna delar en egenhet: de förskjuter frågan utan att besvara den.
 
@@ -59,7 +59,7 @@ I sin enklaste form ställde Ibn Taymiyyah frågan: det skapade måste vara uppk
 
 ## Tomheten som inte försvinner
 
-Strindberg nådde aldrig fram. Hans vandring – från barndomstro genom ateism, vidskepelse och Swedenborg – mynnade i kapitulation inför det oförklarliga: "Intet tvivel mera! Den Evige har talat!"[^11] Men vilken Evig? Strindbergs Gud förblev dunkel, mer kraft än person, mer försyn än nåd. Han hade sökt sin Gud alltifrån barndomen, skrev han, och funnit demonen.[^12]
+Strindberg nådde aldrig fram. Hans vandring – från barndomstro genom ateism, vidskepelse och Swedenborg – mynnade i underkastelse inför det oförklarliga: "Intet tvivel mera! Den Evige har talat!"[^11] Men vilken Evig? Strindbergs Gud förblev dunkel, mer kraft än person, mer försyn än nåd. Han hade sökt sin Gud alltifrån barndomen, skrev han, och funnit demonen.[^12]
 
 Varför skulle en allsmäktig Skapare tillåta lidande? Frågan är gammal; inget seriöst teologiskt system kan undanröja den. Den förblir det tyngsta argumentet mot monoteism – och den förtjänar att bäras, inte avfärdas.
 
@@ -67,7 +67,7 @@ Koranen förnekar aldrig lidandets verklighet. Den placerar det inom en arkitekt
 
 *Tawḥīd* ger inte svar på varje filosofisk invändning. Det är den hållning som inte brister under sin egen logik – att säga 'en' och mena det utan fotnoter. Resten gör det: ateismen vid frågan om grund, polyteismen vid frågan om enhet, panteismen vid skillnaden mellan orsak och verkan, deismen vid frågan om mening, treenigheten vid frågan om inre sammanhang. *Tawḥīd* – en enda, transcendent, aktiv Skapare – kvarstår.
 
-Ibn Qayyim sammanfattade det i en sats: Herren ensam skapar, styr och befaller.[^13] Inte en trossats som kräver förnuftets kapitulation utan den slutsats förnuftet når när det följer sina premisser hela vägen.
+Ibn Qayyim sammanfattade det i en sats: Herren ensam skapar, styr och befaller.[^13] Inte en trossats som kräver förnuftets underkastelse utan den slutsats förnuftet når när det följer sina premisser hela vägen.
 
 I *Inferno* klagade Strindberg att de okända makterna lämnat världen utan livstecken. I *Götiska rummen* skrev han själv det tecken han sökte: "Av intet blir intet, och allt har en tillräcklig grund."[^14] Han formade svaret med egna ord. Han kände inte igen det.
 

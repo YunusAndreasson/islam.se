@@ -5,7 +5,7 @@ wordCount: 1710
 qualityScore: 8.5
 description: "I en *ḥadīth*-diskussion i 700-talets Basra gjorde den unge persen Sībawayh ett grammatiskt fel. Skammen drev honom till språkvetenskapen, och resultatet blev *al-Kitāb* – den första systematiska arabiska grammatiken, som fjorton århundraden av arabiskfödda grammatiker aldrig har ersatt."
 ---
-Varje språknationalism vilar på en outtalad premiss: att ett språk tillhör dem som fötts in i det. Att modersmålet bär en hemlighet som den invandrade aldrig fullt kan nå. Den mest slående vederläggningen var en persisk yngling i 700-talets Basra. Han talade arabiska med brytning.
+Varje språknationalism vilar på en outtalad förutsättning: att ett språk tillhör dem som fötts in i det. Att modersmålet bär en hemlighet som den invandrade aldrig fullt kan nå. Den mest slående vederläggningen var en persisk yngling i 700-talets Basra. Han talade arabiska med brytning.
 
 Hans namn var Sībawayh.
 
@@ -43,7 +43,7 @@ Sībawayh förkroppsligade principen. Utifrån erövrade han arabiskan, så grun
 
 Motståndet kom ändå. Det islamiska samhällets tidiga århundraden präglades av *shuʿūbiyyah*-rörelsen, där persiska och andra icke-arabiska muslimer hävdade sin intellektuella likvärdighet med araberna trots dessas kulturella överhöghet.[^8] Mitt i denna spänning utspelade sig Sībawayhs karriär. Skepsisen gällde mer än accenten; frågan skar djupare: kunde en utlänning gripa arabiskans innersta logik, det som al-Suyūṭī kallade språkets *tawassuʿ*, dess närmast oändliga vidd?[^9]
 
-*Al-Kitāb* var svaret: fyra volymer systematisk analys som blottlade att arabiskans struktur kunde gripas, beskrivas och läras av den som ägnade den tillräcklig möda. Ett bevis, inte ett argument. Argument besvaras; bevis brukas, och *al-Kitāb* har brukats i varje arabisk lärosal i fjorton århundraden.
+*Al-Kitāb* var svaret: fyra volymer systematisk granskning som blottlade att arabiskans struktur kunde gripas, beskrivas och läras av den som ägnade den tillräcklig möda. Ett bevis, inte ett argument. Argument besvaras; bevis brukas, och *al-Kitāb* har brukats i varje arabisk lärosal i fjorton århundraden.
 
 ## Koranens eget vittnesbörd
 

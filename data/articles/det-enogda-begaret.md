@@ -27,7 +27,7 @@ Profeten ﷺ sade till ʿAlī:
 
 Den islamiska traditionen kartlägger blickens *sekvens*, inte dess *objekt*. Ibn al-Jawzī skriver i *Dhamm al-Hawā*: begäret (*hawā*) gör blicken enögd.[^4] Inte blind – enögd. Begäret stänger inte av uppfattningen utan förvränger den. Den som ser enögd ser personen men inte sammanhanget, njutningen men inte morgonen efter.
 
-Iris Murdoch gör i *The Sovereignty of Good* uppmärksamheten, inte viljan, till den avgörande moraliska handlingen: "Jag kan bara välja inom den värld jag förmår se, och klart seende är resultatet av moralisk ansträngning."[^20] Epiktetos, den frigivne slaven, slog fast att ingen människa är fri som inte behärskar sig själv.[^22] Men varken han eller Murdoch pekar ut *var* ansträngningen ska sättas in. Den islamiska traditionen gör det: vid tröskeln mellan första och andra blicken – det exakta ögonblick där ansträngningen avgör.
+Iris Murdoch gör i *The Sovereignty of Good* uppmärksamheten, inte viljan, till den avgörande sedliga handlingen: "Jag kan bara välja inom den värld jag förmår se, och klart seende är frukten av sedlig ansträngning."[^20] Epiktetos, den frigivne slaven, slog fast att ingen människa är fri som inte behärskar sig själv.[^22] Men varken han eller Murdoch pekar ut *var* ansträngningen ska sättas in. Den islamiska traditionen gör det: vid tröskeln mellan första och andra blicken – det exakta ögonblick där ansträngningen avgör.
 
 ## Ljuset och mörkret
 

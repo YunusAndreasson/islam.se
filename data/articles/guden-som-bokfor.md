@@ -21,11 +21,11 @@ Men om han var så övertygad – varför höll han den hemlig?
 
 Den lutherska kyrkans grundsats är enkel och radikal: människan frälses genom tro allena. *Sola fide. Sola gratia.* Nåden är per definition oproportionerlig; den ges till den som inte förtjänar den.
 
-Linnés *Nemesis Divina* beskriver raka motsatsen. Varje handling bär sin bestämda konsekvens, lika ofrånkomligt som att en viss jordmån ger en viss växt. Th. M. Fries, som redigerade manuskriptet efter Linnés död, sammanfattade principen:
+Linnés *Nemesis Divina* beskriver raka motsatsen. Varje handling bär sin bestämda följd, lika ofrånkomligt som att en viss jordmån ger en viss växt. Th. M. Fries, som redigerade manuskriptet efter Linnés död, sammanfattade principen:
 
 > En ständig vexelverkan, en sträng lagbundenhet, en orubblig verldsordning genomströmmar det hela; att slumpen, det blinda ödets tyranni, ingenstädes herskar.[^3]
 
-Linné talar inte om en Gud som förlåter utan om en Gud som *bokför*. Varje synd har sitt straff, och det inträffar med naturlags nödvändighet, ofta redan i detta liv.[^4] Han var inte ensam: Kant nådde filosofiskt samma slutsats – att förlitan på nåd allena undergräver det moraliska allvaret – och censurerades av den preussiska staten för det.[^19]
+Linné talar inte om en Gud som förlåter utan om en Gud som *bokför*. Varje synd har sitt straff, och det inträffar med naturlags nödvändighet, ofta redan i detta liv.[^4] Han var inte ensam: Kant nådde filosofiskt samma slutsats – att förlitan på nåd allena undergräver det sedliga allvaret – och censurerades av den preussiska staten för det.[^19]
 
 Linné visste att hans gudsuppfattning inte fick publiceras. Hans instruktioner till sonen var otvetydiga:
 
@@ -53,7 +53,7 @@ I Koranens nittionionde sura, en av de kortaste – knappt sex verser – samman
 
 *Mithqāla dharratin.* En atoms vikt – ingen handling undgår räkenskapen. Ibn Kathīr citerar en profettradition: en äldre man kom till Profeten ﷺ och bad om en enda sura som sammanfattade allt. Profeten ﷺ lärde honom just denna, och när mannen svurit att aldrig lägga till något utöver den sade Profeten ﷺ: "Den lille mannen har lyckats! Den lille mannen har lyckats!"
 
-Linné sökte bevisa genom hundratals fallstudier vad Koranen kungör som axiom.[^10] Men tankens riktning är omvänd. Linné slöt sig till suveräniteten bakvägen: den som betedde sig som ägare gick under, alltså var Gud den verklige ägaren. *Tawḥīd* börjar i andra änden – Gud *är* suverän, därför bär varje handling konsekvens.
+Linné sökte bevisa genom hundratals fallstudier vad Koranen kungör som axiom.[^10] Men tankens riktning är omvänd. Linné slöt sig till suveräniteten bakvägen: den som betedde sig som ägare gick under, alltså var Gud den verklige ägaren. *Tawḥīd* börjar i andra änden – Gud *är* suverän, därför bär varje handling följd.
 
 Linné var ingen muslim, men hans slutsatser skar mot den egna nådeläran och sammanföll med en annan traditions grundprincip – att den troende själv bör hålla räkenskap:
 
@@ -73,13 +73,13 @@ Men i samma anteckningsbok:
 
 > Summa summarum: det är intet annat än nåd hvarigenom wi blifwa saliga.[^15]
 
-Swedenborg pendlar mellan gärning och nåd. Linné pendlar inte. I *Nemesis Divina* saknas den *sola gratia* som återför tanken till ortodoxin; där råder bara orsak och verkan, handling och konsekvens. En renare linje – och därför farligare.
+Swedenborg pendlar mellan gärning och nåd. Linné pendlar inte. I *Nemesis Divina* saknas den *sola gratia* som återför tanken till ortodoxin; där råder bara orsak och verkan, handling och följd. En renare linje – och därför farligare.
 
 Linné och Swedenborg: samma grundövertygelse, motsatta strategier. Ingen av dem fann en formel som höll samman gärning och nåd. Ett sekel senare genomlevde August Strindberg sin egen version av krisen. Under Infernoåren i Paris avläste han allt som hände honom – sjukdom, ensamhet, kemiska misslyckanden – som gudomliga straff. Hans vägvisare genom kaoset blev Swedenborg:
 
 > Swedenborg uppenbarade sig i mitt liv, där han har spelat en ofantlig roll som tuktande.[^16]
 
-Linné avläste principen i andras öden. Strindberg genomled den i sitt eget, och utan ett språk för återvändo förvandlades den moraliska räkenskapen till dom utan överklagande.
+Linné avläste principen i andras öden. Strindberg genomled den i sitt eget, och utan ett språk för återvändo förvandlades den sedliga räkenskapen till dom utan överklagande.
 
 ## Varför hemligheten säger mer än bekännelsen
 
