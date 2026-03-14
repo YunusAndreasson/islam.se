@@ -29,7 +29,7 @@ Spiralen — rädslan för avslöjande föder isolation, isolationen djupare rä
 
 > Av ensamma föds ännu ensammare, av rädda ännu räddare.[^4]
 
-Kall själv erkänner det slutligen: att han varit feg hela sitt liv, att hela hans berättelse egentligen kartlägger feghetens former.[^5]
+Kall själv erkänner det slutligen: att han varit feg hela sitt liv, att hela hans berättelse kartlägger feghetens former.[^5]
 
 Men är problemet att medborgarna övervakas, eller att den som övervakar dem är staten?
 
@@ -45,7 +45,7 @@ Kallocainets allvetande tillhör en stat vars enda intresse är kontroll. Den so
 
 Koranens allvetande tillhör *al-Raḥmān*, den Barmhärtige, vars blick genomlyser hjärtat som Skaparens. "Din Herre vet vad deras bröst rymmer likaväl som vad de öppet visar," säger Koranen.[^8] Sammanhanget är omsorg: Gud vet *för att* Han vårdar det skapade. Gud, tillägger Ibn Kathīr, "öser sina välsignelser över människorna trots att de förorättar sig själva".
 
-Ibn Qayyim al-Jawziyyah (d. 1350) preciserar sambandet: "Den som vakar över Gud i sina hemliga tankar, honom bevarar Gud i hans lemmars rörelser."[^9] Satsen vränger Kallocainets logik. I Boyes roman avslöjar serumet tanken och förstör handlingsfriheten. I Ibn Qayyims universum är medvetenheten om att tanken redan är genomlyst det som *möjliggör* handlingens integritet. Den som vet att Gud ser behöver inte dölja, och den som inte döljer behöver inte frukta.
+Ibn Qayyim al-Jawziyyah (d. 1350) preciserar förbindelsen: "Den som vakar över Gud i sina hemliga tankar, honom bevarar Gud i hans lemmars rörelser."[^9] Satsen vränger Kallocainets logik. I Boyes roman avslöjar serumet tanken och förstör handlingsfriheten. I Ibn Qayyims universum är medvetenheten om att tanken redan är genomlyst det som *möjliggör* handlingens integritet. Den som vet att Gud ser behöver inte dölja, och den som inte döljer behöver inte frukta.
 
 Ibn al-Jawzī (d. 1201) tillspetsar resonemanget: "Gudsfruktan hindrar rädslan för människor."[^10] *Taqwā*, den medvetna vördnaden inför Gud, bär tillit; den statliga rädslan rymmer bara underkastelse.
 
@@ -59,7 +59,7 @@ Sufyān al-Thawrī (d. 778), en av de tidiga rättslärda och asketerna:
 
 > Om det bland er fanns någon som rapporterade era ord till sultanen, skulle ni då tala? Med er finns Den som rapporterar era ord till Gud.[^12]
 
-Sultanen reducerar talet till bevismedel. Guds närvaro förvandlar det: den som vet att Gud hör talar inte för att dölja eller avslöja utan för att *vittna*.
+Sultanen inskränker talet till bevismedel. Guds närvaro förvandlar det: den som vet att Gud hör talar inte för att dölja eller avslöja utan för att *vittna*.
 
 ## Naturvetarens mellanstation
 
@@ -81,7 +81,7 @@ Dag Hammarskjöld vände på frågan i *Vägmärken*:
 
 > Vi dör den dag livet för oss inte längre har någon inneboende genomskinlighet.[^18]
 
-*Inneboende*, inte påtvingad.
+*Immanent*, inte påtvingad.
 
 Den islamiska traditionen svarar: ja. Men bara om den som ser allt också älskar allt. Bara om blicken tillhör den som skapat ögat och vet vad det behöver se. Ibn Taymiyyah sammanfattar: "Gudsmedvetenhet är den hemlighet som söks i alla tjänarens tillstånd."[^16]
 

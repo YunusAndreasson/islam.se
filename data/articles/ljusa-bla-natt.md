@@ -17,9 +17,9 @@ Oscar Levertin, Söderbergs samtida, kände samma obehag inför sommarnatten:
 
 > Min korta sommars långa nätter med timmar glödande som eld, med ensamhet så bäsk som etter och längtan aldrig tillfredsställd.[^2]
 
-Levertin ger det gestalt som längtan, en smärta riktad mot något. Glas' ångest fattas objekt. Han skriver: "Jag skrifver för att röra min hand, min tanke rör sig af sig själf; skrifver för att döda en sömnlös timme."[^3] Rörelse utan riktning, handling utan syfte.
+Levertin ger det gestalt som längtan, en smärta riktad mot något. Glas' ångest fattas objekt. Han skriver: "Jag skrifver för att röra min hand, min tanke rör sig af sig själf; skrifver för att döda en sömnlös timme."[^3] Rörelse utan riktning, handling utan mål.
 
-Modern sömnforskning bekräftar det Söderberg anade: ihållande ljus upplöser dygnsrytmen som skiljer vakenhet från vila.[^4] Men Glas' ångest sitter i själen.
+Modern sömnforskning bestyrker det Söderberg anade: ihållande ljus upplöser dygnsrytmen som skiljer vakenhet från vila.[^4] Men Glas' ångest sitter i själen.
 
 Samma beklämning bar Strindberg. I *Inferno* avtecknar han sömnlösheten som ett möte med det osynliga:
 
@@ -35,7 +35,7 @@ Det arabiska verbet *naslakh* – att dra bort, flå av – behåller sin vålds
 
 "Och till Hans tecken hör er sömn om natten och att ni under dagen söker Hans goda."[^8]
 
-Midsommarnattens ljus upplöser den gräns som Koranen beskriver som ett gudomligt tecken, nattens avskiljande kraft. Det lämnar Glas i en tid utan kontur, ett nu utan utgång.
+Midsommarnattens ljus upplöser den gräns som Koranen beskriver som ett gudomligt tecken — nattens avskiljande kraft. Det lämnar Glas i en tid utan kontur, ett nu utan utgång.
 
 ## Tidens fånge
 
@@ -51,7 +51,7 @@ Han tänker, observerar, skriver, planerar ett mord. Ändå lever han bredvid si
 
 I *Madārij al-Sālikīn* utvecklade Ibn Qayyim en systematisk tidsfilosofi ur ett äldre arv. Imamen al-Shāfiʿī (d. 820) lär ha sagt att det mest värdefulla han lärde sig av sufierna var att "tiden är ett svärd: antingen skär du den, eller skär den dig."[^12] Ibn Qayyim för tanken vidare, förbi aforismen.
 
-*Waqt* – ögonblicket, den levda tiden – betecknar det närvarande ögonblickets krav, den plikt och det tillstånd som hör till just denna stund. Den som söker Gud är *ibn waqtihi*: ett barn av sin tid. Vandraren överskrider aldrig nuets uppgift. Bönen som bryter gryningen, arbetet under ljuset, vilan under mörkret.[^13]
+*Waqt* – ögonblicket, den levda tiden – betecknar det närvarande ögonblickets krav, den plikt och det tillstånd som hör till just denna stund. Den som söker Gud är *ibn waqtihi*: sin tids barn. Vandraren överskrider aldrig nuets uppgift. Bönen som bryter gryningen, arbetet under ljuset, vilan under mörkret.[^13]
 
 Den som upptas av det förflutna och det kommande förlorar nuet. Varje gång ett nytt nu anländer upptas han av de bägge ändarna, det som var och det som ska bli, tills alla hans stunder rinner ut.[^14]
 
@@ -59,7 +59,7 @@ Trehundra år senare skrev Pascal, utan kännedom om Ibn Qayyim: "Vi håller oss
 
 Så lever Glas: i minnet av en ungdom som aldrig infriades och i förväntningen på en framtid han inte tror på. Hans dagbok pendlar ständigt mellan dem. Varje konkret nu glider honom ur händerna medan han registrerar det. "Lif, jag förstår dig inte," bekänner han.[^15] Men *waqt* kräver något annat än förstånd.
 
-Denna närvaro – det Ibn Qayyim kallar *nūr al-murāqabah*, övervakningens ljus – slocknar genom förspilld tid.[^16] Ljuset blir outhärdligt först när det belyser ett inre utan riktning.
+Denna närvaro — det Ibn Qayyim kallar *nūr al-murāqabah*, övervakningens ljus — slocknar genom förspilld tid.[^16] Ljuset blir outhärdligt först när det belyser ett inre utan riktning.
 
 ## Tiden utan ram
 
@@ -67,13 +67,13 @@ Søren Kierkegaard definierade ångesten som "frihetens svindel" – den yrsel s
 
 Människans tid är i verkligheten hennes liv: det material av vilket hennes eviga tillvaro formas.[^18][^19] Bönen vid gryningen, ordet vid måltidens bord, steget tillbaka från ilskan.
 
-Glas' ångest saknar fast punkt utanför jaget. Han kan inte vara sin tids barn, ty hans tid bär ingen uppgift; den bara pågår, omarkerad, utan bön som bryter dygnet, utan *fajr* som ger gryningen mening, utan *ʿishāʾ* som ger natten djup. Midsommarnattens gränslösa ljus förkroppsligar hans inre tillstånd: en tid utan struktur, och därmed utan liv.
+Glas' ångest saknar fäste utanför jaget. Han kan inte vara sin tids barn, ty hans tid bär ingen uppgift; den bara pågår, omarkerad, utan bön som bryter dygnet, utan *fajr* som ger gryningen mening, utan *ʿishāʾ* som ger natten djup. Midsommarnattens gränslösa ljus förkroppsligar hans inre tillstånd: en tid utan struktur, och därmed utan liv.
 
 Den kosmiska ordning som Koranen beskriver, "i skapelsen av himlarna och jorden och i växlingen mellan natt och dag finns sannerligen tecken för dem som har förstånd"[^20], utgör själva ramen för meningsbärande tid. Utan den ramen: tomhet klädd i ljus.
 
 ## Natten som nåd
 
-Ibn al-Jawzī skrev att "förspilld tid är den största förlusten."[^21] Orden låter som en uppmaning till produktivitet, men sammanhanget pekar åt annat håll: att *vara i* varje ögonblick, oavsett om uppgiften är bön, arbete, vila eller tystnad.
+Ibn al-Jawzī skrev att "förspilld tid är den största förlusten."[^21] Orden låter som en uppmaning till produktivitet, men sammanhanget pekar åt annat håll: att *dväljas i* varje ögonblick, oavsett om uppgiften är bön, arbete, vila eller tystnad.
 
 Den koraniska arkitekturen lämnar inget tvivel: natten är dagens villkor. Utan mörker, ingen gryning.
 

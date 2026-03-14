@@ -17,7 +17,7 @@ I Koranen är ljus inte metafor utan kosmologisk kategori. Den mest kommenterade
 
 Bilden skalar sig inåt: från nischen till glaset till lampan till oljan som nästan lyser av sig själv. Ibn Qayyim kartlägger i *al-Wābil al-Ṣayyib* hur ljuset i hjärtat föds ur tro och lydnad; det närs av uppenbarelse och goda handlingar så som lampans låga närs av olja.[^3]
 
-Ibn Qayyim visar det bärande sambandet: uppenbarelsens ljus *adderas* till den medfödda naturens ljus, *fiṭrah*, och de två förenas till *nūrun ʿalā nūr* – ljus på ljus. Utan denna addition saknas den insikt som skiljer sant från falskt.[^4] Det gudomliga ljuset konkurrerar inte med det naturliga. Det förutsätter det.
+Ibn Qayyim visar den bärande förbindelsen: uppenbarelsens ljus *adderas* till den medfödda naturens ljus, *fiṭrah*, och de två förenas till *nūrun ʿalā nūr* – ljus på ljus. Utan denna addition saknas den insikt som skiljer sant från falskt.[^4] Det gudomliga ljuset konkurrerar inte med det naturliga. Det förutsätter det.
 
 ## Invändningen
 
@@ -45,7 +45,7 @@ Hjalmar Söderberg lät doktor Glas formulera det:
 
 > Det är den smala koniska skuggan af vår lilla planet. En liten spetsig kägla af mörker midt i ett haf af ljus.[^11]
 
-Ljuset dominerar universum; mörkret är den lilla anomali som gör seendet möjligt.
+Ljuset härskar i universum; mörkret är den lilla anomali som gör seendet möjligt.
 
 Viktor Rydberg: "I mörkret lär man sig vad ljus är."[^12] Utan mörker som bakgrund reduceras ljus till brus, en konstant stimulans som upphör att bära information. Kant jämställde den stjärnbeströdda himlen och den moraliska lagen som de två ting som fyller sinnet med ständigt förnyad vördnad.[^24]
 
@@ -55,13 +55,15 @@ Det fornnordiska tinget – den friluftsförsamling som utgjorde det rättsliga 
 
 Tinget sammanträdde i dagsljus just *för att* mörkret fanns som alternativ. Kontrasten gav ljuset dess juridiska och moraliska tyngd.
 
-Koranens formulering speglar detta: "I växlingen mellan natt och dag finns sannerligen tecken för dem som har förstånd."[^13] Det är *växlingen* som bär tecknet. Elimineras den ena polen upphör tecknet att vara läsbart.
+Koranens formulering speglar detta: "I växlingen mellan natt och dag finns sannerligen tecken för dem som har förstånd."[^13] Det är *växlingen* som bär tecknet. Undanröjs den ena polen upphör tecknet att vara läsbart.
 
 ## Det tankeexperiment vi redan lever i
 
 En värld utan mörker förblir inte tankeexperiment. Natthimlen är idag mellan hundra och tusen gånger ljusare än för tvåhundra år sedan; i Sverige fördubblas det artificiella ljuset på tjugo år.[^14] Problemet ligger inte i ljuset utan i att dess motpol försvinner.
 
-Ibn Qayyim kallar den andliga urskillningsförmågan, *firāsah*, en frukt av hjärtats ljus – och ljuset i sin tur en frukt av att sänka blicken inför det som bländar.[^19] Den som vill *se* måste först lära sig att *inte se*.
+Ibn Qayyim kallar den andliga urskillningsförmågan, *firāsah*, en frukt av hjärtats ljus – och ljuset i sin tur en frukt av att sänka blicken inför det som bländar.[^19] Den som vill *se* måste först öva sig i att *inte se*.
+
+Ibn al-Jawzī fastslog det i *Ṣayd al-Khāṭir*: "Själen är alltjämt vaken och hjärtat vet fortfarande — men avbrotten är många."[^26] Ljusföroreningen är den yttre avbilden av en inre störning.
 
 ## Ljus på ljus – i en värld utan natt
 
@@ -71,7 +73,7 @@ Den okände poeten i *Lärkan*, en svensk poetisk kalender från 1800-talet, for
 
 Guds ljus *framträder* i natten. Utan erfarenheten av stjärnor mot en svart himmel förblir meningen intellektuell. Att stå under en oändlig himmel och känna sin egen litenhet som befrielse fordrar mörker.
 
-Koranen ger stjärnorna just denna roll: "Det är Han som har gett er stjärnorna för att ni genom dem skall kunna finna er väg i landets och havets mörker."[^21] Stjärnorna fungerar bara i mörker. Och det de leder mot – sammanhanget i sura *al-Anʿām* tydliggör det – är mer än en fysisk destination.
+Koranen ger stjärnorna just denna roll: "Det är Han som har gett er stjärnorna för att ni genom dem skall kunna finna er väg i landets och havets mörker."[^21] Många av de ljusaste stjärnornas namn är arabiska — Aldebaran, *den som följer*; Altair, *den flygande* — namngivna i en tid då himlen ännu lästes som tecken. Stjärnorna fungerar bara i mörker. Och det de leder mot – sammanhanget i sura *al-Anʿām* tydliggör det – är mer än en fysisk destination. I *Aftonland* skrev Pär Lagerkvist: "Ökenvandraren överger sin lägerplats, som snart skall utplånas av sanden, och fortsätter sin färd i nattens stillhet, ledd av gåtfulla stjärnor."[^27]
 
 Emerson ställde redan 1836 den omvända frågan: om stjärnorna visade sig en enda natt på tusen år, hur skulle inte människor tro och tillbe och i generationer bevara minnet av den gudsstad som uppenbarats för dem.[^25]
 
@@ -104,3 +106,5 @@ Vi har inte bara förorenat himlen. Vi har utplånat det villkor under vilket va
 [^23]: Ibn Masʿūd, citerad i Ibn Qayyim al-Jawziyyah, *Rawḍat al-Muḥibbīn*.
 [^24]: Immanuel Kant, *Kritik der praktischen Vernunft* (1788), slutord.
 [^25]: Ralph Waldo Emerson, *Nature* (1836), kap. 1.
+[^26]: Ibn al-Jawzī, *Ṣayd al-Khāṭir* (Tankens fångst).
+[^27]: Pär Lagerkvist, *Aftonland*, Albert Bonniers Förlag, 1953.

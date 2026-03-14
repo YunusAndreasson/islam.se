@@ -37,7 +37,7 @@ Koranen ger ett svar. Den tillför eldbilden en förmåga som varken den nordisk
 
 > Han har sänt ned vatten från himlen så att flodbäddarna svämmar över i proportion till sin storlek, och forsarna för med sig tjockt skum. Och från det som de smälter i elden, för att erhålla smycken eller redskap, uppstår liknande skum. Så framställer Allah ﷻ sanning och falskhet. Vad skummet beträffar så försvinner det avsides, men det som gagnar människorna stannar kvar på jorden.[^7]
 
-Ibn Kathīr läser flodbäddarnas varierande storlek som en anspelning på hjärtanas olikhet – bland dem finns de som rymmer mycket kunskap, bland dem de som är för trånga för den. Elden *åtskiljer*. Skummet, som ser massivt ut på ytan, visar sig vara ingenting. Metallen, osynlig under skummet, framträder. Elden *skapar* inte skillnaden; den fanns där hela tiden.
+Ibn Kathīr läser flodbäddarnas varierande storlek som en anspelning på hjärtanas olikhet – bland dem finns de som rymmer riklig kunskap, bland dem de som är för trånga för den. Elden *åtskiljer*. Skummet, som ser massivt ut på ytan, visar sig vara ingenting. Metallen, osynlig under skummet, framträder. Elden *skapar* inte skillnaden; den fanns där hela tiden.
 
 Varken den nordiska elden eller Swedenborgs korrespondenser når dit. Den koraniska elden *prövar*. Herakleitos tillskrev elden förmågan att döma, men hans eld är opersonlig *logos*, utan blick för den enskilde.[^16]
 
@@ -53,7 +53,7 @@ Bilden bär en oundviklig teologisk spänning. I sunnitisk tradition straffar Ja
 
 Ibn Qayyim al-Jawziyyah pressar sambandet till dess tätaste form: trons visshet bränner synderna som eld bränner ved.[^11] Elden verkar redan i det inre livet: den troende som lever i verklig *yaqīn*, i förvissning om Allahs ﷻ enhet, befinner sig redan i en eld som förtär det falska. Men denna eld kräver att du bär något som tål den.
 
-Vad är det? I *Rawḍat al-Muḥibbīn* ger Ibn Qayyim ett svar – han knyter eldbilden till kärleken själv: "Kärleken sätter själen i rörelse och driver den till häftig längtan, och själen skapades med en rörlighet som av naturen liknar eldens."[^12] Här sammanfaller den islamiska traditionen ett ögonblick med Swedenborg – men skiljelinjen framträder genast. För Swedenborg är kopplingen strukturell och opersonlig: eld *betyder* kärlek i andevärldens grammatik. Hos Ibn Qayyim är den existentiell och riktad: själens eld drivs mot ett objekt. Det avgörande är *vad* den riktas mot. Det som får dig att glömma tiden. Riktas den mot Allah ﷻ renar den; riktas den mot det egna jaget förtär den.
+Vad är det? I *Rawḍat al-Muḥibbīn* ger Ibn Qayyim ett svar – han knyter eldbilden till kärleken själv: "Kärleken sätter själen i rörelse och driver den till häftig längtan, och själen skapades med en rörlighet som av naturen liknar eldens."[^12] Här sammanfaller den islamiska traditionen ett ögonblick med Swedenborg – men skiljelinjen framträder genast. För Swedenborg är förbindelsen strukturell och opersonlig: eld *betyder* kärlek i andevärldens grammatik. Hos Ibn Qayyim är den existentiell och riktad: själens eld drivs mot ett objekt. Det avgörande är *vad* den riktas mot. Det som får dig att glömma tiden. Riktas den mot Allah ﷻ renar den; riktas den mot det egna jaget förtär den.
 
 ## Tre eldar, en fråga
 

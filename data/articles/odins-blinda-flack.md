@@ -59,7 +59,7 @@ Koranen tecknar relationen mellan kunskap och själv med en logik utan motsvarig
 
 > Och var inte som dem som glömde Allah ﷻ, så att Han lät dem glömma sig själva. Dessa är de ogudaktiga.[^8]
 
-Versens struktur är dess argument. Den som glömmer Gud glömmer sig själv, men detta är en annan glömska än Hávamáls dåres. Dåren grubblar, minns, samlar på sig. Koranens glömska är djupare: den som vänder sig bort från det som överskrider jaget förlorar tillgången till sitt eget inre, inte sitt minne utan sin verklighet. Logiken är inte godtycklig. Om det djupaste i människan är hennes skapadhet – att hon är beroende, ändlig, given – kan hon bara känna sig själv genom att känna den hon skapades av. Ta bort den referenspunkten och självkännedomen förlorar sin måttstock.
+Versens struktur är dess argument. Den som glömmer Gud glömmer sig själv, men detta är en annan glömska än Hávamáls dåres. Dåren grubblar, minns, samlar på sig. Koranens glömska är djupare: den som vänder sig bort från det som överskrider jaget förlorar tillgången till sitt eget inre, inte sitt minne utan sin verklighet. Harry Martinson fångade den glömskan i *Aniara*: "Jag frågade mig själv men glömde svara. / Jag drömde mig ett liv men glömde vara."[^19] Logiken är inte godtycklig. Om det djupaste i människan är hennes skapadhet – att hon är beroende, ändlig, given – kan hon bara känna sig själv genom att känna den hon skapades av. Ta bort den referenspunkten och självkännedomen förlorar sin måttstock.
 
 I den nordiska traditionen är minnet kunskapens bevarare: Mimer vaktar brunnen; det man dricker ur den tillförs det man redan är. I Koranens kunskapslära är en riktad glömska kunskapens *förutsättning*: att glömma sin förträfflighet, sin suveränitet, sin självtillräcklighet. Först den som upphör att fylla rummet med sig själv kan höra något annat.
 
@@ -67,15 +67,17 @@ Ibn Qayyim preciserar:
 
 > Den som känner sig själv genom svaghet känner sin Herre genom styrka. Den som känner sig själv genom oförmåga känner sin Herre genom makt. Den som känner sig själv genom ringhet känner sin Herre genom ära.[^9]
 
-Kunskapen rör sig här inte uppåt, som i Odins klättring. Den rör sig *nedåt*: genom tilltagande insikt om den egna svagheten, tills det som återstår av jaget krymper. Och i detta mindre öppnar sig en kunskap som aldrig hade rymts i ett själv som redan var fullt av sig självt. Ibn Qayyim kallar detta *ʿubūdiyyah*: tjänarskap. Inte att jaget upphör, utan att det intar sin rätta plats – som skapad varelse inför sin Skapare.
+Kunskapen rör sig här inte uppåt, som i Odins klättring. Den rör sig *nedåt*: genom tilltagande insikt om den egna svagheten, tills det som återstår av jaget krymper. Och i detta mindre öppnar sig en kunskap som aldrig hade rymts i ett själv som redan var mättat av sig självt. Ibn Qayyim kallar detta *ʿubūdiyyah*: tjänarskap. Inte att jaget upphör, utan att det intar sin rätta plats – som skapad varelse inför sin Skapare.
 
-Al-Māwardī, den högt ansedde juristen och etikern, skrev i *Adab al-Dunyā wa-l-Dīn*:
+Al-Māwardī, den högt aktade juristen och etikern, skrev i *Adab al-Dunyā wa-l-Dīn*:
 
 > Den ödmjuke bland kunskapssökarna besitter mest kunskap, liksom den lågläntaste platsen samlar mest vatten.[^10]
 
 Kunskapen samlas inte hos den som klättrar högst – Odin på Yggdrasils stam – utan hos den som befinner sig lägst.
 
-Tänkare långt utanför islams geografiska rum har bekräftat samma insikt. Simone Weil, den franska filosofen, kom dit genom en helt annan väg. Hon gav den ett namn: *décréation* – att det skapade töms på sina anspråk, inte för att förintas utan för att kunna ta emot.[^15] Men Weils tömning förblir en viljeakt; jaget *beslutar* att stiga åt sidan. I den islamiska traditionen upptäcker jaget sin litenhet ställt inför uppenbarelsen; det är skillnaden mellan en generös reträtt och ett oundvikligt erkännande.
+Tänkare långt utanför islams geografiska rum har bekräftat samma insikt. Simone Weil, den franska filosofen, kom dit genom en helt annan väg. Hon gav den ett namn: *décréation* – att det skapade töms på sina anspråk, inte för att förintas utan för att kunna ta emot.[^15] Men Weils tömning förblir en viljeakt; jaget *beslutar* att stiga åt sidan. I den islamiska traditionen upptäcker jaget sin litenhet ställt inför uppenbarelsen; det är skillnaden mellan en generös reträtt och ett obönhörligt erkännande.
+
+Dag Hammarskjöld kondenserade det i *Vägmärken*: "Jag är kärlet. Guds är drycken. Och Gud den törstande."[^18] Vid Mimers brunn dricker guden; i Hammarskjölds bild är människan kärlet och Gud den som dricker — transaktionens riktning vänds.
 
 ## Strindberg vid kunskapens höjder
 
@@ -90,6 +92,8 @@ Erik Gustaf Geijer:
 > En blott överlämnad, om ock riklig, kunskap är ej därför fruktbärande. Därtill fordras, att den på ett levande sätt skall vara tillägnad, genomlevd, prövad, fostrad av inre och yttre erfarenhet till en frukt för livet.[^12]
 
 Kunskapen ska vara "genomlevd", men Geijer föreskriver assimilation – Odins modell i civiliserad tappning, utan att ödmjukas inför det man lär sig.
+
+Men inte alla svenska röster följde samma linje. Zacharias Topelius varnade i *Stjärnornas kungabarn*: "Det är högmod. En half människa är ett oting. Hvarken falk eller dufva, du är en gökunge, lagd i en annans bo, och vill flyga med örnvingar."[^16] Och August Blanche drog den yttersta konsekvensen: "Den som litar på sig sjelf, hädar Gud!"[^17]
 
 ## Två brunnar
 
@@ -118,3 +122,7 @@ Koranen uttrycker denna skillnad i en enda vers: *Sök hjälp genom tålamod och
 [^13]: Ibn Qayyim al-Jawziyyah, *Madārij al-Sālikīn*. Svensk översättning av artikelförfattaren.
 [^14]: Koranen, al-Baqarah 2:45.
 [^15]: Simone Weil, *La Pesanteur et la Grâce* (1947). Weil ställde *décréation* – att göra det skapade genomskinligt för det som överskrider det – mot destruktion, som reducerar det skapade till intet. Svensk översättning av artikelförfattaren.
+[^16]: Zacharias Topelius, *Stjärnornas kungabarn*.
+[^17]: August Blanche, *Sonen af söder och nord*, Albert Bonniers Förlag, 1851.
+[^18]: Dag Hammarskjöld, *Vägmärken*, Albert Bonniers Förlag, 1963.
+[^19]: Harry Martinson, *Aniara: En revy om människan i tid och rum*, Bonniers, 1956.

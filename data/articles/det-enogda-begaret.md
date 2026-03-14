@@ -27,7 +27,7 @@ I *Rawḍat al-Muḥibbīn* gör Ibn Qayyim denna distinktion till grundval för
 
 Den islamiska traditionen kartlägger blickens *sekvens*, inte dess *objekt*. Ibn al-Jawzī skriver i *Dhamm al-Hawā*: begäret (*hawā*) gör blicken enögd.[^4] Inte blind, enögd: begäret stänger inte av uppfattningen utan deformerar den. Den som ser enögd ser personen men inte sammanhanget, njutningen men inte morgonen efter.
 
-Iris Murdoch gör i *The Sovereignty of Good* uppmärksamheten, inte viljan, till den bärande moraliska handlingen: "Jag kan bara välja inom den värld jag förmår se, och klart seende är resultatet av moralisk ansträngning."[^20] Men hon pekar inte ut *var* ansträngningen ska sättas in. Den islamiska traditionens bidrag är just sekvensen: tröskeln mellan första och andra blicken, det exakta ögonblicket där ansträngningen avgör.
+Iris Murdoch gör i *The Sovereignty of Good* uppmärksamheten, inte viljan, till den avgörande moraliska handlingen: "Jag kan bara välja inom den värld jag förmår se, och klart seende är resultatet av moralisk ansträngning."[^20] Men hon pekar inte ut *var* ansträngningen ska sättas in. Den islamiska traditionens bidrag är just sekvensen: tröskeln mellan första och andra blicken, det exakta ögonblicket där ansträngningen avgör.
 
 ## Ljuset och mörkret
 
@@ -51,7 +51,7 @@ I *Modern* skriver Victoria Benedictsson:
 
 > Det var som om hans ögon med ens slagits upp. Det var som om hans väsen för första gången öppnat sina kronblad, som om lifvets, naturens skönhet för första gången strålat ditin.[^12]
 
-Hennes protagonist har levt utan att se: "egentligen har ni väl aldrig lefvat? – Att vegetera".[^13] Det som bryter igenom är inte mer information utan en helt annan *mottaglighet*.
+Hennes protagonist har levt utan att se: "egentligen har ni väl aldrig lefvat? – Att vegetera".[^13] Det som bryter igenom är inte mer information utan en alldeles annan *mottaglighet*.
 
 Ibn Qayyim uttrycker det teologiskt: den sänkta blicken befriar hjärtat från begärets berusning och likgiltighetens dvala.[^14] Söderberg noterade: "Man ser världen mera syntetiskt då man ser den med halfslutna ögon; alla linier bli renare och enklare."[^15]
 
@@ -75,9 +75,9 @@ I sitt sammanhang gäller versen den som betraktar himlarna och söker brister i
 
 Ibn Qayyim jämför blicken med ett glas vin: betraktelsen berusar. Kärlekens berusning är värre än vinets: den som berusar sig av vin nyktrar till, men den som berusar sig av blicken tillnyktrar sällan.[^19]
 
-Kent Berridges neurovetenskapliga forskning visar varför: upprepad exponering för en stimulans stärker hjärnans begär utan att öka tillfredsställelsen. Man vill mer utan att njuta mer.[^21]
+Kent Berridges neurovetenskapliga forskning visar varför: upprepad exponering för en stimulans stärker hjärnans begär utan att öka tillfredsställelsen. Man åtrår mer utan att njuta mer.[^21]
 
-Ögonblicket innan begäret är verkligt – varseblivning som ännu inte blivit konstruktion. Du kan fortfarande välja.
+Ögonblicket innan begäret är oförfalskat – varseblivning som ännu inte blivit konstruktion. Du kan fortfarande välja.
 
 ---
 

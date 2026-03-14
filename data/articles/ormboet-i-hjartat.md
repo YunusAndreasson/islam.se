@@ -43,7 +43,7 @@ Iblis vägrade buga inför Adam av ren avund: hur kunde denna varelse av lera f�
 
 ## Ormboet
 
-Viktor Rydberg, som aldrig slutade brottas med det teologiska, gav avunden en bild som ekar de islamiska mästarnas:
+Viktor Rydberg, som aldrig slutade brottas med det teologiska, gav avunden en bild som genljuder de islamiska mästarnas:
 
 > Svartsjukan är en gruvlig plåga, Rakel. Tacka din Gud, att hon icke hemsökt dig. Hon förvandlar hjärtat till ett ormbo, varur tusen giftiga gaddar framsticka och sarga vårt inre.[^10]
 
@@ -65,9 +65,9 @@ Boyes berättare avundas inte rikedom eller status utan ett *ögonblick av hög 
 
 ## Ressentimentets anatomi
 
-Max Scheler kallade det *Selbstvergiftung*, självförgiftning: avund som omformar hela värdeskalan så att det man inte kan uppnå förklaras som värdelöst.[^14] Befordran betydde allt, tills den gick till en kollega; då blev ledarskap meningslöst byråkrateri.
+Max Scheler kallade det *Selbstvergiftung*, självförgiftning: avund som omformar hela värdeskalan så att det man inte kan uppnå förklaras som värdelöst.[^14] Befordran betydde allt, tills den gick till en kollega; då blev ledarskap fåfängt byråkrateri.
 
-Scheler kan beskriva mekanismen men inte upphäva den. Om subjektets egen värdeblick är förgiftad finns i hans tänkande ingen oförstörd utsiktspunkt varifrån det förvridna kan rättas. Den islamiska traditionen förutsätter en sådan punkt – *fiṭrah*, den skapade naturen, och ett mått utanför själen: Guds faktiska fördelning. Därför kan traditionen gå från beskrivning till läkning.
+Scheler kan beskriva mekanismen men inte upphäva den. Om subjektets egen värdeblick är förgiftad finns i hans tänkande ingen oförstörd utsiktspunkt varifrån det förvridna kan rättas. Den islamiska traditionen förutsätter en sådan fast punkt – *fiṭrah*, den skapade naturen, och ett mått utanför själen: Guds faktiska fördelning. Därför kan traditionen gå från beskrivning till läkning.
 
 Hjalmar Söderberg fångar alltsammans i sju ord, i *Doktor Glas*:
 

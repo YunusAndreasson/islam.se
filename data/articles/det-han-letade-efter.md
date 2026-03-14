@@ -7,7 +7,7 @@ description: "Det finns en fråga ingen hjärnskanning kan besvara: varför *är
 ---
 Den australiske filosofen David Chalmers ställde 1995 en fråga som neurovetenskapen fortfarande inte kan besvara. Inte hur hjärnan bearbetar synintryck, reglerar känslor eller lagrar minnen – sådant kallade han *easy problems*, svåra men principiellt lösbara med befintliga metoder. Hans fråga var av ett annat slag: varför finns det överhuvudtaget en subjektiv upplevelse? Varför är det *något* att vara du?[^1]
 
-Varje neuron kan kartläggas, varje synaps mätas, varje elektrokemisk signal spåras. Och ändå kvarstår detta: du *upplever* rött när du ser rött, smärta *känns*, det finns ett inre perspektiv som ingen hjärnskanning kan avbilda. Thomas Nagel visade 1974 att vi kan veta allt om en fladdermus' ekolod och ändå inte veta hur det *är* att vara en fladdermus.[^2] Problemet är inte brist på data utan brist på kategori.
+Varje neuron kan kartläggas, varje synaps mätas, varje elektrokemisk signal spåras. Och ändå kvarstår detta: du *upplever* rött när du ser rött, smärta *känns*, det finns en inre synvinkel som ingen hjärnskanning kan avbilda. Thomas Nagel visade 1974 att vi kan veta allt om en fladdermus' ekolod och ändå inte veta hur det *är* att vara en fladdermus.[^2] Problemet är inte brist på data utan brist på kategori.
 
 ## Mekanikern bakom mekanismen
 

@@ -11,7 +11,7 @@ Kognitionsvetenskapen har kartlagt denna förmåga. Kahneman kallade den System 
 
 ## Ljus som kastas i hjärtat
 
-Ibn Qayyim al-Jawziyyah, den damascenske lärde som verkade under 1300-talets första hälft, ägnade i *Madārij al-Sālikīn* ett helt kapitel åt begreppet *firāsah*, en form av klarsyn som han skilde skarpt från både vardaglig intuition och gudomlig inspiration. Hans definition:
+Ibn Qayyim al-Jawziyyah, den damascenske lärde som verkade under 1300-talets första hälft, ägnade i *Madārij al-Sālikīn* ett helt kapitel åt begreppet *firāsah*, en form av klarsyn som han skilde skarpt från både profan intuition och gudomlig inspiration. Hans definition:
 
 > *Firāsah* är ett ljus som Gud kastar i Sin tjänares hjärta, genom vilket han skiljer sanning från lögn.[^4]
 
@@ -29,7 +29,7 @@ I *Rawḍat al-Muḥibbīn* utvecklar han principen genom en spegelmetafor: hjä
 
 Koranen befäster sambandet. I sura al-Ḥajj: "Har de inte färdats på jorden med hjärtan med vilka de förstår och öron med vilka de hör? Men det är inte ögonen som är blinda utan hjärtat som finns i bröstet."[^10] Och i sura al-Ḥadīd: "Ni som har antagit tron! Frukta Allah ﷻ och tro på Hans sändebud! Då skall Han ge er dubbla mått av Sin nåd, skaffa er ett ljus ni kan ta hjälp av när ni vandrar."[^11]
 
-## Den oundvikliga invändningen
+## Den ofrånkomliga invändningen
 
 Här reser sig den moderna invändningen med rätta: är detta inte cirkulärt? Subjektiv visshet om klarsyn präglar också kognitiv skevhet. Det som *känns* som klarhet kan vara förankringseffekt, tillgänglighetsskevhet, bekräftelsesökning.
 
@@ -41,7 +41,9 @@ Kvar står ett system där klarsyn, etik och skriftlig auktoritet balanserar var
 
 ## Det som forskningen inte frågar
 
-Iris Murdoch hävdade i *The Sovereignty of Good* (1970) att klart seende kräver moralisk ansträngning.[^17] Men hon konstaterar sambandet utan att förklara det. Ibn Qayyims metafysik ger svaret: hjärtat är skapat som perceptionsorgan, och ljuset som återställer dess klarhet ges av Gud som svar på *taqwā*.
+Viktor Rydberg närmade sig samma insikt: "Med större möda bekämpar Guds ståthållare de inre fienderna än de yttre."[^18] Att den inre kampen väger tyngre än den yttre — det är den grund *firāsah* vilar på.
+
+Iris Murdoch hävdade i *The Sovereignty of Good* (1970) att klart seende kräver moralisk ansträngning.[^17] Men hon konstaterar sambandet utan att förklara det. Ibn Qayyims metafysik ger svaret: hjärtat är skapat som perceptionsorgan, och ljuset som återställer dess klarhet skänks av Gud som svar på *taqwā*.
 
 Enligt en tradition som al-Tirmidhī återger – de enskilda berättarkedjorna är svaga, men hadithvetare klassificerar den som *ḥasan li-ghayrihi*, tillförlitlig genom samstämmighet – sade Profeten Muḥammad ﷺ: "Akta er för den troendes *firāsah*, ty han ser med Guds ljus."[^14] Att se med Guds ljus är inget anspråk på ofelbarhet; det är att hävda att det finns en perception som öppnar sig för den som renar sitt hjärta.
 
@@ -49,7 +51,7 @@ Ibn Qayyim återger i *Madārij al-Sālikīn* ett uttalande av Abū Sulaymān al
 
 ## Andetaget mot spegeln
 
-Det finns stunder av klarhet, ögonblick då man genomskådar en situation med en skärpa som förvånar en själv — och perioder av dimma, då omdömet sviker och man fattar beslut man senare inte begriper. Skillnaden, hävdar Ibn Qayyim, är inte slumpmässig. Den som lever oredligt inte bara handlar fel utan *ser* fel.
+Det finns stunder av klarhet, ögonblick då man genomskådar en belägenhet med en skärpa som förvånar en själv — och perioder av dimma, då omdömet sviker och man fattar beslut man senare inte begriper. Skillnaden, hävdar Ibn Qayyim, är inte slumpmässig. Den som lever oredligt inte bara handlar fel utan *ser* fel.
 
 I sura al-Ḥijr finns en vers som Ibn Qayyim ofta återvände till: "I detta finns sannerligen tecken för de insiktsfulla."[^16] Det arabiska ordet är *mutawassimīn* – de som läser tecken, de som äger *firāsah*. Ibn Kathīr återger att Profeten ﷺ reciterade den omedelbart efter att ha uttalat orden om den troendes *firāsah* och Guds ljus. Tecknen finns där, världen döljer ingenting. Frågan är om betraktarens hjärta är tillräckligt klart för att läsa dem.
 
@@ -74,3 +76,4 @@ Frågan är bara vems hjärta som är tillräckligt stilla för att höra det ko
 [^15]: Ibn Qayyim al-Jawziyyah, *Madārij al-Sālikīn*, kapitlet om *firāsah* (citerande Abū Sulaymān al-Dārānī).
 [^16]: Koranen, al-Ḥijr 15:75.
 [^17]: Iris Murdoch, *The Sovereignty of Good* (London: Routledge & Kegan Paul, 1970), särskilt essän "The Idea of Perfection."
+[^18]: Viktor Rydberg, tillskriven sentens. Jfr liknande tankar i *Den siste Atenaren* och *Bibelns lära om Kristus*.

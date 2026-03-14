@@ -7,7 +7,7 @@ description: "Abū al-Ḥasan al-Māwardī verkade som överdomare i Bagdad på 
 ---
 Domaren dömer och staten verkställer. Åklagaren utreder och åtalar i samma rörelse. Vi har vant oss vid att rättvisa och tvångsmakt hör samman, att det ena förutsätter det andra.
 
-Den kopplingen är själva problemet.
+Det sambandet är själva problemet.
 
 Sjuhundra år innan Montesquieu lade fram sin maktdelningslära i *De l'esprit des lois* hade en jurist i Bagdad redan urskillt ett problem Montesquieu aldrig ställde. Montesquieu separerade statens funktioner: lagstiftande, verkställande, dömande. Al-Māwardī separerade något farligare: rättvisan från svärdet.
 

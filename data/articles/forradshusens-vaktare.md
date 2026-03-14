@@ -27,9 +27,9 @@ Koranen avslutar episoden: "På så vis etablerade Vi Josef i landet och han kun
 
 Den hanbalitiske rättsvetaren Ibn Taymiyyah ärver Josefs princip och ger den juridisk form. I *al-Ḥisbah fī al-Islām* driver han en tes som fortfarande provocerar: om någon hamstrar mat medan folket svälter, har staten rätt att framtvinga försäljning till marknadspris.[^6]
 
-Den uppenbara invändningen bemötte han själv: hadithen där Profeten Muḥammad ﷺ vägrar sätta priser.[^7] Den hadithen gäller en situation där ingen vägrade sälja och ingen drev upp priserna artificiellt. När handelsmän medvetet håller tillbaka varor under en bristsituation, tar en annan princip vid: plikten att skydda allmänintresset.[^8] Den som i nödtid monopoliserar livsnödvändigheter "påtvingar människor den svårighet och trångmål som är förbjuden".[^9]
+Den uppenbara invändningen bemötte han själv: hadithen där Profeten Muḥammad ﷺ vägrar sätta priser.[^7] Den hadithen gäller ett läge där ingen vägrade sälja och ingen drev upp priserna artificiellt. När handelsmän medvetet håller tillbaka varor under en bristperiod, tar en annan princip vid: plikten att skydda allmänintresset.[^8] Den som i nödtid monopoliserar livsnödvändigheter "påtvingar människor den svårighet och trångmål som är förbjuden".[^9]
 
-Att mätta den hungrige, skriver han i *al-Īmān*, är "en kollektiv skyldighet enligt alla muslimska lärda".[^10] Orden *farḍ ʿalā al-kifāyah* – en plikt som åligger samhället som helhet – innebär att om ingen fullgör den, bär alla skulden.
+Att mätta den hungrige, skriver han i *al-Īmān*, är "en kollektiv skyldighet enligt alla muslimska lärda".[^10] Orden *farḍ ʿalā al-kifāyah* – en plikt som åligger samhället som helhet – medför att om ingen fullgör den, bär alla skulden.
 
 Sjuhundra år senare nådde Amartya Sen samma slutsats på empirisk väg: svält orsakas inte av absolut brist utan av distributionens sammanbrott.[^20] Sen byggde sitt bevis på Bengalens hungersnöd och decennier av fältdata; Ibn Taymiyyahs rättslära härledde samma slutsats ur pliktens logik.
 
@@ -49,13 +49,13 @@ SOU 2024:8, *Livsmedelsberedskap för en ny tid*, erkänner problemets omfattnin
 
 ## De magra åren har redan börjat
 
-Josefs berättelse förutsätter en cyklisk värld: sju feta år, sju magra, sedan återhämtning. Klimatförändringarna följer ingen cykel. De accelererar.
+Josefs berättelse förutsätter en cyklisk värld: sju feta år, sju magra, sedan återhämtning. Klimatförändringarna följer ingen cykel. De tilltar.
 
 Under 2024 och 2025 steg det globala kaffepriset med över fyrtio procent efter torka i Brasilien och Vietnam, medan kakaoproduktionen i Västafrika föll med fjorton procent. Enbart under första halvåret 2025 orsakade naturkatastrofer ekonomiska förluster på 162 miljarder dollar.[^15] Siffrorna mäter inte svält utan sprickorna i ett system som nätt och jämnt håller ihop.
 
 Vad som idag motsvarar sju magra år är en leveranskedja som bryts tusen mil bort och vars konsekvenser når en svensk matbutik inom dagar. Vad förr var en missväxt i ett land är nu samtidig torka på tre kontinenter; buffertzonen mellan normalitet och svält har krympt till veckor.[^16] Ny teknik kan mildra slagen: torktåliga grödor, vertikal odling, alternativa proteiner. Men ingen innovation ersätter den politiska viljan att lagra; torktåligt vete hjälper föga om det inte finns i ett svenskt förråd när fartygstrafiken i Östersjön upphör.
 
-När försörjningen hotas, blottas statens grundlogik. Den nordafrikanske historieskrivaren och statsfilosofen Ibn Khaldūn formulerade denna logik i en enda kedja: "Soldater behålls genom pengar. Pengar är försörjning som samlas genom folk. Folk är tjänare som skyddas genom rättvisa."[^17] Varje kedja bryts vid det svagaste ledet. I det moderna Sverige är det svagaste ledet att ingen bär ansvar för att det finns mat.
+När försörjningen hotas, blottas statens grundlogik. Verner von Heidenstam kondenserade principen i *Folkungaträdet*: "Dålig skörd följer dålig konung."[^21] Den nordafrikanske historieskrivaren och statsfilosofen Ibn Khaldūn formulerade samma logik i en enda kedja: "Soldater behålls genom pengar. Pengar är försörjning som samlas genom folk. Folk är tjänare som skyddas genom rättvisa."[^17] Varje kedja bryts vid det svagaste ledet. I det moderna Sverige är det svagaste ledet att ingen bär ansvar för att det finns mat.
 
 ## *Ḥisbah* för en ny tid
 
@@ -89,3 +89,4 @@ Tre dagars marginal. Josef hade sju år.
 [^18]: Ibn Taymiyyah, *al-Ḥisbah fī al-Islām*.
 [^19]: Koranen, al-Balad 90:14.
 [^20]: Amartya Sen, *Poverty and Famines: An Essay on Entitlement and Deprivation*, Oxford University Press, 1981.
+[^21]: Verner von Heidenstam, *Folkungaträdet*, Albert Bonniers Förlag, 1905–1907.

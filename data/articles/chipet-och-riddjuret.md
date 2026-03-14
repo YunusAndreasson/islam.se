@@ -15,11 +15,11 @@ Karin Boye skrev sin sista roman i skuggan av ett Europa som höll på att sluta
 
 I Sverige har över femtusen personer implanterat mikrochip under huden.[^2] Chipen öppnar dörrar, ersätter passerkort, lagrar kontaktuppgifter. Ingreppet tar några sekunder, utförs ofta på teknikkonferenser och presenteras som ett naturligt steg i människans förhållande till tekniken. Kring fenomenet har biohacking vuxit: konsten att behandla den egna biologin som uppgraderbar hårdvara.
 
-Premissen är densamma som i Boyes dystopi: kroppen är råmaterial. Sömn mäts, kost optimeras, nootropika doseras efter protokoll.
+Premissen är densamma som i Boyes dystopi: kroppen är råmaterial. Sömn mäts, kost optimeras, nootropika doseras enligt protokoll.
 
 Men sker det inte frivilligt? I *Kallocain* injiceras serumet under tvång; i Stockholm implanteras chipet med ett leende. Skillnaden är verklig -- och döljer en djupare likhet. Både Världsstatens medborgare och den moderna biohackaren behandlar kroppen som *resurs*, material att använda för ett ändamål. Att tvånget bytts mot samtycke ändrar formen, inte premissen. Den koreansk-tyske filosofen Byung-Chul Han benämner mönstret *självexploatering*: den som optimerar sig frivilligt utnyttjar sig utan yttre tvång och förväxlar underkastelsen med frihet.[^16] Det är den som vaknar klockan fem för att meditera -- aldrig av egen lust, alltid för att alla framgångsrika gör det.
 
-Leo Kall förkroppsligar den metafysiken. Ondskefull är han inte. Han gör vad systemet belönar: förbättrar, effektiviserar, rationaliserar. Att uppfinningen sliter sönder människors inre liv framstår som bieffekt.
+Leo Kall förkroppsligar den metafysiken. Ondskefull är han inte. Han gör vad systemet belönar: förbättrar, effektiviserar, rationaliserar. Att uppfinningen sliter sönder människors inre liv framstår som en bisak.
 
 ## Riddjuret och hjärtat
 
@@ -29,11 +29,11 @@ Biohackaren frågar *hur kan jag förbättra min kropp?* Ibn al-Jawzī frågar *
 
 Ibn Qayyim al-Jawziyyah förde analysen från metafor till princip. "Hjärtat", menade han, "är kungen över lemmarna, och lemmarna är dess soldater; om kungen är rättfärdig, är hans soldater rättfärdiga, och om kungen är fördärvad, är hans soldater fördärvade."[^4] Kroppen tjänar hjärtat, inte tvärtom. *Qalb* rymmer det kroppen aldrig kan mäta: förmågan att vända sig till sin Skapare genom tro, lydnad och uppenbarad kunskap.
 
-Biohackingens kropp är ett slutet system av data, kemikalier och mekanismer. Traditionens kropp är genomsläpplig — riktad utöver sig själv. Ibn Qayyim drog parallellen uttryckligen:
+Biohackingens kropp är ett slutet system av data, kemikalier och mekanismer. Traditionens kropp är genomsläpplig — riktad bortom sig själv. Ibn Qayyim drog parallellen uttryckligen:
 
 > Liksom kroppen inte kan vara frisk utan näring som bevarar dess kraft och utrensning av skadliga ämnen, så kan inte heller hjärtat fullborda sitt liv utan näring av tro och goda handlingar.[^5]
 
-Kroppen är varken föraktad eller irrelevant – men dess verklighet fullbordas först i relation till det den är skapad för.
+Kroppen är varken föraktad eller oväsentlig – men dess verklighet fullbordas först i relation till det den är skapad för.
 
 ## Det anförtrodda
 
@@ -45,7 +45,7 @@ Det som erbjöds var inte ett ägande utan ett ansvar. I den klassiska exegesens
 
 Profeten Muḥammad ﷺ satte ord på det: "Fullgör det anförtrodda mot den som anförtrott dig det, och svek inte den som sviker dig."[^8]
 
-Boyes roman och biohackingen delar samma tomrum: en kropp utan *amānah*, en kropp som antingen tillhör staten eller individen men i intetdera fallet bär ansvar gentemot den som skapat den. Ju mer kontroll individen får över sin biologi, desto mindre förmår hon besvara frågan *vad kroppen är till för*.
+Boyes roman och biohackingen delar samma tomrum: en kropp utan *amānah*, en kropp som antingen tillhör staten eller individen men i intetdera fallet bär ansvar gentemot den som skapat den. Ju mer herravälde individen vinner över sin biologi, desto mindre förmår hon besvara frågan *vad kroppen är till för*.
 
 Hur kroppen fungerar kan data visa — aldrig varför den existerar. "Deras kroppar reser sig från sina bäddar för att tillbe sin Herre med fruktan och längtan."[^9]
 
@@ -63,7 +63,7 @@ Hjärtfrekvens, hjärtfrekvensvariabilitet, blodflöde: allt kan mätas. Men den
 
 ## Varken dystopi eller utopi
 
-Leo Kall hade ett ögonblick av klarhet. Mot romanens slut, när hans uppfinning redan sönderslitit familjer och dömt oskyldiga, skriver han: "Rädsla var det inte. Jag hade varit rädd nästan hela mitt liv, jag hade varit feg – men just då var jag inte rädd."[^13] Han känner att något gått förlorat, men saknar språket.
+Leo Kall hade ett ögonblick av klarhet. Mot romanens slut, när hans uppfinning redan sönderslitit familjer och dömt oskyldiga, skriver han: "Rädsla var det inte. Jag hade varit rädd nästan hela mitt liv, jag hade varit feg – men just då var jag inte rädd."[^13] Han anar att något gått förlorat, men saknar språket.
 
 Språket har funnits sedan 600-talet. Kroppen som riddjur, hjärtat som kunskapsplats, existensen som lån.
 

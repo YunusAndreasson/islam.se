@@ -33,19 +33,23 @@ Men det finns en rangordning. Al-Māwardī och Ibn Qayyim talar inte mot varandr
 
 Man ser den rättfärdige, den generöse, den med vacker karaktär och finner honom vacker, "även om han är mörk eller inte fysiskt vacker". Med samma kraft gäller det omvända: det inres fulhet övervinner det ytres skönhet och släcker den.[^8]
 
+Selma Lagerlöf tecknar ett sådant ansikte i *Bannlyst*: "Själva sättet, varpå hans hår var benat och kammat, antydde ödmjukhet. Frånvaron av mustascher och skägg antydde ödmjukhet. Allt, vad som hette egenkärlek, självkänsla, egenrättfärdighet, var utplånat hos denna människa."[^25] Lagerlöf talar om en man vars inre tillstånd har ätit sig igenom ytan och omformat varje detalj.
+
 ## Mörkrets paradox
 
 Enligt Ibn Qayyim präglar den inre skönheten den yttre gestalten tydligast hos den som utövar nattbönen, *qiyām al-layl* – den frivilliga bönen som förrättas i mörkrets djupaste timmar. "Den lyser upp ansiktet och förskönar det", skriver han.[^9]
 
-Skönhet genom sömnbrist, genom möda, genom att stiga upp ur en varm säng och stå ensam i mörker. Vad händer i nattbönen?
+Skönhet genom sömnbrist, genom möda, genom att stiga upp ur en varm säng och stå ensam i mörker. Ingmar Bergmans riddare kände samma mörker: "Tron är ett svårt lidande. Det är som att älska någon som finns därute i mörkret och som aldrig visar sig hur man än ropar."[^26] Riddaren ropar och får inget svar. Den som ber *tahajjud* ropar och får ljus i ansiktet.
 
-Profeten Muḥammad ﷺ sade: "Den troendes ära är nattbönen, och hans värdighet är att vara oberoende av människorna."[^10] Nattbönen är den bön ingen ser, den som inte ger socialt kapital, den som inte kan fotograferas. Det enda vittnet är Gud.
+Vad händer i nattbönen?
+
+Profeten Muḥammad ﷺ sade: "Den troendes ära är nattbönen, och hans värdighet är att vara oberoende av människorna."[^10] Nattbönen är den bön ingen ser, den som inte skänker socialt kapital, den som inte kan fotograferas. Det enda vittnet är Gud.
 
 Ansiktet är kroppens mest sociala yta — det arbetar ständigt för sin publik, bevakar hur det uppfattas, arrangerar sina uttryck. I nattens ensamhet upphör det arbetet. Den som regelbundet övar sig i att stå utan åskådare övar sig i att vara utan mask, och det är den övningen som genomlyser huden. Koranen talar om det upprepat: ansikten som strålar, ansikten som lyser. "Ansikten skall den Dagen vara glänsande, leende, fyllda av glädje."[^11] Strålningen börjar inte först på Domedagen – den börjar här, i nattens ensamhet. En annan koranvers gör det konkret: "Deras kännetecken syns i ansiktena – spåren av nedfallandet i bön."[^24]
 
-Skönhetsindustrin förutsätter att ytan kan behandlas utan att röra det inre. Ibn Qayyim vänder logiken: det yttre härrör från det inre. Det ljus man ser hos vissa människor, den oförklarliga värmen, den värdighet som inte beror av symmetri. Man känner igen det hos ansikten som åren brutit men som ändå drar blicken.
+Skönhetsindustrin förutsätter att ytan kan behandlas utan att vidröra det inre. Ibn Qayyim vänder logiken: det yttre härrör från det inre. Det ljus man ser hos vissa människor, den oförklarliga värmen, den värdighet som inte beror av symmetri. Man känner igen det hos ansikten som åren fårat men som ändå drar blicken.
 
-Fredrika Bremer rörde vid tanken i ett av sina brev: "Vakor, mödor, ansträngning af mångfaldig art fordras dertill", och frågar sedan, nästan förvånat: "Lidandet kan icke äfven det framkalla en helt egen skönhet, en, bredvid hvilken glädjens, helsans och all verldens prakt blekna?"[^12] Bremer talade om moralisk mognad, men insikten håller: skönhet kan komma genom det som kostar, och bekvämlighet föder inte det vackra.
+Fredrika Bremer rörde vid tanken i ett av sina brev: "Vakor, mödor, ansträngning af mångfaldig art fordras dertill", och frågar sedan, nästan förvånat: "Lidandet kan icke äfven det framkalla en helt egen skönhet, en, bredvid hvilken glädjens, helsans och all verldens prakt blekna?"[^12] Bremer talade om moralisk mognad, men insikten består: skönhet kan komma genom det som kostar, och bekvämlighet föder inte det vackra.
 
 ## Klädnadens tyngd
 
@@ -69,11 +73,11 @@ Skillnaden är den mellan en människa som förskönar sig för att bli sedd och
 
 Al-Fuḍayl ibn ʿIyāḍ pekade på skuggsidan: "Tjänaren begår en synd och berövas därigenom nattbönen."[^18] Om godhet lyser upp ansiktet, släcker synden dess ljus. Ansiktet vittnar; det kan inte ljuga som ord kan. Ibn Qayyim citerar versraden: "O du med vackert ansikte, sky det skamliga – byt inte skönheten mot skam!"[^19]
 
-Luqmān sade: "Den som ljuger förlorar sin fägring."[^20] Erik Gustaf Geijer hävdade att "den äkta skönheten renar sinnet och har ett stort moraliskt inflytande".[^21] Geijer menade det estetiskt: konsten förädlar. Ibn Qayyim vänder på sambandet: förädling skapar skönhet, och rörelsen går inifrån och ut.
+Luqmān sade: "Den som ljuger förlorar sin fägring."[^20] Erik Gustaf Geijer hävdade att "den äkta skönheten renar sinnet och har ett stort moraliskt inflytande".[^21] Geijer menade det estetiskt: konsten förädlar. Ibn Qayyim vänder sambandet: förädling skapar skönhet, och rörelsen går inifrån och ut.
 
 ## En sovande industri
 
-Varje år lägger världen hundratals miljarder dollar på att göra ansikten vackrare utifrån.[^22] Ingen kräm har skänkt ett ansikte det ljus som springer ur godhet.
+Varje år lägger världen hundratals miljarder dollar på att göra ansikten vackrare utifrån.[^22] Ingen kräm har ingjutit i ett ansikte det ljus som springer ur godhet.
 
 Den anonyma kvinnan som steg upp i natten för att be visste vad hela denna industri förbiser.
 
@@ -104,3 +108,5 @@ Den anonyma kvinnan som steg upp i natten för att be visste vad hela denna indu
 [^21]: Erik Gustaf Geijer, i en biografisk text om Friherre Malte Ramel.
 [^22]: Enligt branschrapporter uppgår den globala skönhetsindustrins värde till över 400 miljarder dollar. Se bl.a. McKinsey & Company, *The State of Fashion: Beauty* (2025).
 [^24]: Koranen, al-Fatḥ 48:29.
+[^25]: Selma Lagerlöf, *Bannlyst*, Albert Bonniers Förlag, 1918.
+[^26]: Ingmar Bergman, *Det sjunde inseglet* (1957).

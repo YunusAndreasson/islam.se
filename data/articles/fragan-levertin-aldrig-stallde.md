@@ -17,7 +17,7 @@ Observationen löper som en underjordisk ström genom svensk idéhistoria. Ellen
 
 Hundratjugo år senare har Levertins distinktion blivit svensk normalitet. 2015 intervjuade David Thurfjell ett hundratal svenskar. Omkring 80 procent avvisade organiserad religion, medan en majoritet uppgav sig vara öppna för "andlighet" och "tro".[^6] Pew Research bekräftade bilden: 36 procent av svenska vuxna tror på "någon form av gudomlig makt eller andlig kraft".[^7]
 
-Vad är det som överlever? Den svenska traditionen svarar samstämmigt: en oändlighetslängtan, en aning att verkligheten rymmer ett djup som det vardagliga inte uttömmer. Söderblom kallade det "oändlighetskänsla" och skilde den från uppenbarelsereligion. Key förlade den ännu djupare: i "människonaturens egna djup".[^8]
+Vad är det som överlever? Den svenska traditionen svarar samstämmigt: en oändlighetslängtan, en aning att verkligheten rymmer ett djup som det profana inte uttömmer. Söderblom kallade det "oändlighetskänsla" och skilde den från uppenbarelsereligion. Key förlade den ännu djupare: i "människonaturens egna djup".[^8]
 
 Men Levertin frågar aldrig *varifrån* känslan kommer. Varför skulle en slumpmässig, materiell varelse bära en medfödd längtan efter det oändliga? Den islamiska traditionen tar vid just där.
 
@@ -59,7 +59,7 @@ Till den frågan svarar Koranen:
 
 *Ṭumaʾnīnah* – att finna ro, att komma till vila. Hjärtat stannar – det slutar söka.
 
-Dan Andersson – kolaren, diktaren – uttryckte det med enkel brådska: "Häda inte! När ni fått nog av Gud då är ni förlorad."[^19] En mening som varken Levertin eller Key kunde ha skrivit: den förutsätter att förlusten är verklig, att det som avvisas inte är en känsla utan en relation. Att stanna vid religiositeten utan att följa den hem är, med Ibn al-Jawzīs ord, "hopp utan handling – som en hägring utan vatten".[^20]
+Dan Andersson – kolaren, diktaren – uttryckte det med enkel brådska: "Häda inte! När ni fått nog av Gud då är ni förlorad."[^19] En mening som varken Levertin eller Key kunde ha skrivit: den förutsätter att förlusten är verklig, att det som avvisas inte är en känsla utan en förbindelse. Att stanna vid religiositeten utan att följa den hem är, med Ibn al-Jawzīs ord, "hopp utan handling – som en hägring utan vatten".[^20]
 
 ## Ljus på ljus
 

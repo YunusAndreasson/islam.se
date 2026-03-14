@@ -11,7 +11,7 @@ Fjorton sekel senare har vi byggt en aktör som ger ʿUmars klagan kropp: algori
 
 ## Två pelare, en tom plats
 
-Ibn Taymiyyah omsatte ʿUmars klagan i ett politiskt system. I *al-Siyāsah al-Sharʿiyyah*, hans avhandling om rättvis styrning, hävdar han att varje ämbete vilar på två pelare: *quwwah*, styrka, kompetens, förmåga att verkställa, och *amānah*, pålitlighet, trovärdighet, det inre rättesnöre som tyglar makten.[^2]
+Ibn Taymiyyah omsatte ʿUmars klagan i ett politiskt system. I *al-Siyāsah al-Sharʿiyyah*, hans avhandling om rättvis styrning, hävdar han att varje ämbete vilar på två pelare: *quwwah*, styrka, kompetens, förmåga att verkställa, och *amānah*, pålitlighet, trovärdighet, det inre rättesnöre som betvingar makten.[^2]
 
 > Att styrka och pålitlighet förenas i samma person är sällsynt bland människor.[^3]
 
@@ -25,7 +25,7 @@ I Sveriges moderna välfärdsstat fick avvägningen mellan styrka och pålitligh
 
 Redan 2013 hade Försäkringskassan infört modellen. 2018 konstaterade Inspektionen för socialförsäkringen att algoritmen "i sin nuvarande utformning inte uppfyller kravet på likabehandling".[^10] Försäkringskassan avfärdade slutsatserna. Först sex år senare – efter internationell granskning och offentlig skandal – återkallades systemet.
 
-Ibn Taymiyyahs distinktion förtydligar: algoritmens *quwwah* kunde ingen betvivla. Problemet var bristande *amānah*. Utan insyn förstärkte kapaciteten de ojämlikheter den var avsedd att korrigera. En svag tjänsteman gör begränsad skada – hans inkompetens sätter gränser för hans orättvisa. En algoritm som fattar miljontals beslut utan att kunna förklara ett enda producerar orättvisa i industriell skala.
+Ibn Taymiyyahs distinktion förtydligar: algoritmens *quwwah* kunde ingen betvivla. Problemet var bristande *amānah*. Utan insyn förstärkte kapaciteten de ojämlikheter den var avsedd att korrigera. En svag tjänsteman gör begränsad skada – hans inkompetens sätter gränser för hans orättvisa. En algoritm som fattar miljontals beslut utan att kunna förklara ett enda alstrar orättvisa i industriell skala.
 
 Kybernetikens grundare Norbert Wiener pekade ut samma struktur: maskinens fara, varnade han, ligger inte i olydnad utan i absolut trohet – den förverkligar sina instruktioner med en bokstavlighet som förvandlar varje oreflekterat antagande till system.[^18] Systemet skickar hundra påminnelsebrev till en avliden person därför att 'skicka påminnelse' aldrig kompletterades med 'kontrollera om mottagaren lever'.
 
@@ -43,7 +43,7 @@ Arbetsförmedlingens AI-matchningssystem bär samma brist. Mönsterigenkänninge
 
 ## Vågen utan visare
 
-Svensk diskussion om algoritmisk ansvarighet finns: i ISF:s granskningar, i EU:s AI-förordning som klassificerar välfärdsautomation som "högrisk".[^13] Men frågan ställs nästan uteslutande i tekniska och juridiska termer. Vad som fattas är ett moralfilosofiskt språk för *varför* dessa krav gäller – inte vilka regler som bryts utan vilken mänsklig relation som sviks.
+Svensk diskussion om algoritmisk ansvarighet finns: i ISF:s granskningar, i EU:s AI-förordning som klassificerar välfärdsautomation som "högrisk".[^13] Men frågan ställs nästan uteslutande i tekniska och juridiska termer. Vad som fattas är ett moralfilosofiskt språk för *varför* dessa krav gäller – inte vilka regler som bryts utan vilket mänskligt förtroende som sviks.
 
 Ibn Taymiyyahs svar på *quwwah*-*amānah*-problemet: bygg institutioner som förenar dem.[^14] När inget enskilt system besitter båda egenskaperna kräver rättvisan att styrka och trovärdighet fördelas på flera händer: den starke uppbördsmannen och den pålitlige skrivaren, algoritmen och den mänskliga handläggaren.
 
@@ -55,9 +55,9 @@ En algoritm som inte kan granskas är en våg utan visare. Den väger men ingen 
 
 ## Vem bär den blinda vågen?
 
-Ellen Key skrev 1900 att "människorna äro till för industriens skull, icke industrien för människornas".[^16] Idag är industrien algoritmen.
+Selma Lagerlöf slog fast principen med nordisk knapphet: "Riket är bättre betjänt med människor än med pengar."[^20] Ellen Key skrev 1900 att "människorna äro till för industriens skull, icke industrien för människornas".[^16] Idag är industrien algoritmen.
 
-Men skillnaden är avgörande. Industrialismens orättvisor var synliga: fabriksrök, barnarbete, söndersmulade kroppar. Algoritmens orättvisor är osynliga. En kvinna vars föräldrapenningsansökan markeras av en maskininlärningsmodell vet varken att det hänt eller varför. Industrialismens orättvisor rättades *utifrån*, genom den kollektiva vrede som synligt lidande väckte. Algoritmisk orättvisa kan inte generera sin egen korrigering. Där orättvisan är osynlig måste ansvarigheten vara inbyggd.
+Men skillnaden är avgörande. Industrialismens orättvisor var synliga: fabriksrök, barnarbete, söndersmulade kroppar. Algoritmens orättvisor är osynliga. En kvinna vars föräldrapenningsansökan markeras av en maskininlärningsmodell vet varken att det hänt eller varför. Industrialismens orättvisor rättades *utifrån*, genom den kollektiva vrede som synligt lidande väckte. Algoritmisk orättvisa kan inte alstra sin egen rättelse. Där orättvisan är osynlig måste ansvarigheten vara inbyggd.
 
 Koranen beskriver *al-amānah* som så tungt att himlarna, jorden och bergen vägrade bära det. Människan axlade det.[^17]
 
@@ -84,3 +84,4 @@ Vad skapelsen vägrade bära av vördnad har människan delegerat till maskiner 
 [^17]: Koranen, al-Aḥzāb 33:72.
 [^18]: Norbert Wiener, "Some Moral and Technical Consequences of Automation", *Science* 131, nr 3410 (1960).
 [^19]: Tom R. Tyler, *Why People Obey the Law* (Yale University Press, 1990; Princeton University Press, 2006).
+[^20]: Selma Lagerlöf, *Valda Berättelser*.

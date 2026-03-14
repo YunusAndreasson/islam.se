@@ -21,7 +21,7 @@ Världsträdet överlever elden; det trotsar både egg och låga. Solen som stig
 
 Esaias Tegnér i *Fritiofs Saga*: det onda dör "för evigt", men det fallna goda "reser sig ur världsbålslågan, luttrat till ett högre liv".[^2] Undergången är eldprovet – det som gör världen *värdig* sin fortsättning. Och efter elden: osådda fält som bär skörd, Balder som återvänder, gyllene runetavlor i gräset på Idavallen.
 
-Forskare tvistar dock om huruvida Völuspás förnyelsestrofer, särskilt den gåtfulla strofen 65 om en "väldig härskare som styr över allt", uttrycker genuint förkristna föreställningar eller speglar kristet inflytande. Kanske lovade den hedniska mytologin mer än den ägde, men spänningen kvarstår: även ett ofullbordat hopp väger tyngre än hopplöshet.
+Forskare tvistar dock om huruvida Völuspás förnyelsestrofer, särskilt den gåtfulla strofen 65 om en "väldig härskare som styr över allt", uttrycker genuint förkristna föreställningar eller speglar kristet inflytande. Kanske lovade den hedniska mytologin mer än den ägde, men spänningen kvarstår: även en ofullbordad tillförsikt väger tyngre än hopplöshet.
 
 ## Apokalyps utan eskatologi
 
@@ -31,17 +31,17 @@ Klimatvetenskapen visar en kurva mot kollaps: temperaturer och havsnivåer stige
 
 Klimatångesten förlamar av ett djupare skäl. Undergången saknar mening.
 
-Günther Anders gav tillståndet ett namn redan under kärnvapenåldern: *Apokalypse ohne Reich* – naken apokalyps, undergång som inte öppnar något rike.[^17] Apokalyps utan förlösning. Skuld utan förlåtelse. Synd utan nåd. I Harvard Divinity Bulletin beskrivs samma mönster i samtidens klimatsorg: en sakral känsla utan sakrament, ett rituellt tomrum som varken terapi eller aktivism förmår fylla.[^4]
+Günther Anders gav tillståndet ett namn redan under kärnvapenåldern: *Apokalypse ohne Reich* – naken apokalyps, undergång som inte öppnar något rike.[^17] Apokalyps utan förlösning. Skuld utan förlåtelse. Synd utan nåd. I Harvard Divinity Bulletin beskrivs samma mönster i samtidens klimatsorg: en sakral känsla utan sakrament, ett rituellt tomrum som varken terapi eller aktivism förmår fylla.[^4] Harry Martinson fångade samma tomrum i *Aniara*: "Hur svårt att tro på livet efter detta. / Hur rätt att önska livet efter detta."[^19]
 
 ## Den rastlöshet som saknar namn
 
 Koranen fångar tillståndet: "Människan har sannerligen skapats ängslig."[^5] Det arabiska ordet är *halūʾan*: rastlös, otålig, den som grips av panik vid motgång och av girighet vid framgång. Inte ett symptom utan ett villkor: människan bär en rastlöshet som inget skapat kan stilla.
 
-August Strindberg i *Inferno*:
+Hjalmar Bergman satte ord på den i *Vi Bookar, Krokar och Rothar*:
 
-> En dödlig ångest får makt med mitt mod. Jag går och öppnar fönstren. Ett luftdrag hotar att släcka lampan. Jag stänger! Lampan börjar sjunga, kvida, gnälla.[^6]
+> Dödsskräcken är en sista, plågsam, förtvivlad ansträngning att finna en förnuftig mening i livet.[^6]
 
-Öppenhet hotar, slutenhet kväver.
+*Att finna mening* — inte att fly döden utan att finna ett skäl att ha levt.
 
 Klimatångesten delar strukturen men saknar det avgörande: ett namn för det den är. Islam namnger den. Ångesten är ett tecken, en *āya*, på att människan söker sitt ursprung. Som Ibn Qayyim al-Jawziyyah skrev: "Det jordiska livet är den kommande världens åkerfält och dess förebud."[^7] Ångesten inför förstörelsen avslöjar sig som förvrängd längtan efter det som kommer *efter* den. Rädslan som är hopp vänt ut och in.
 
@@ -49,7 +49,7 @@ Klimatångesten delar strukturen men saknar det avgörande: ett namn för det de
 
 Den avgörande klyftan löper inte mellan Ragnarök och klimatvetenskap utan mellan dessa och islam.
 
-Ragnarök gestaltar ett öde. Gudarna själva är bundna av det; Oden vet att han ska falla för Fenrisulven, och han faller. Förnyelsen sker som naturlag, som kosmisk cykel. Ingen dömer. Rydberg avtäcker principen: det germanska tänkandet förstår reningselden som inneboende kraft, fri från viljehandling.[^8]
+Ragnarök gestaltar ett öde. Gudarna själva är bundna av det; Oden vet att han ska falla för Fenrisulven, och han faller. Förnyelsen sker som naturlag, som kosmisk cykel. Ingen dömer. Rydberg avtäcker principen: det germanska tänkandet förstår reningselden som immanent kraft, fri från viljehandling.[^8]
 
 Koranen vänder perspektivet:
 
@@ -57,23 +57,25 @@ Koranen vänder perspektivet:
 
 Ibn Kathīr återger att Ibn Abbas sade: "Gud viker samman de sju himlarna med allt de rymmer och de sju jordarna med allt de rymmer – allt detta i Hans hand blir som ett senapskorn." I Ragnarök överlever det goda av egen kraft; världsträdet trotsar elden. Elden renar men förlåter inte. Den frågar inte vem du är – bara vad du tål. I islam överlever det goda för att det är *valt* av en vilja som också är *al-Raḥmān*, den Barmhärtiges. "Min Herre är sannerligen benådande och kärleksfull", påminner profeten Shu'ayb sitt folk.[^10] Domen är verklig. Men den som dömer älskar den som döms.
 
+Ibn Taymiyyah i *al-ʿUbūdiyyah*: "Det man älskar nås som regel inte utan att uthärda det man ogillar."[^20] Vikingen uthärdar elden för att den inte ger val. Den troende uthärdar prövningen för att det som väntar bortom den är älskat.
+
 ## Det svar som ångesten söker
 
-Men Koranen ger också principen för att bära ångesten:
+Men Koranen skänker också principen för att bära ångesten:
 
 > På varje svårighet följer förvisso lättnad. På varje svårighet följer förvisso lättnad.[^11]
 
 Upprepningen är princip: svårigheten *föder* lättnaden, som Ragnaröks eld föder den förnyade jorden. Skillnaden: Koranen vet *varför*.
 
-Islam ger vad varken Ragnarök eller klimatrörelsen förmår: ett handlingsmotiv bortom fatalism och febril aktivism. Begreppet *khalīfa*, människan som skapelsens förvaltare, förankrar omsorgen om jorden i ansvar inför den som anförtrott den, inte i undergångsångest.[^12] Profeten Muḥammad ﷺ lärde att om timmen kommer medan du håller en planta i handen ska du plantera den.[^13] Handlingen är meningsfull för att den svarar mot ett förtroende.
+Islam skänker vad varken Ragnarök eller klimatrörelsen förmår: ett handlingsmotiv bortom fatalism och febril aktivism. Begreppet *khalīfa*, människan som skapelsens förvaltare, förankrar omsorgen om jorden i ansvar inför den som anförtrott den, inte i undergångsångest.[^12] Profeten Muḥammad ﷺ lärde att om timmen kommer medan du håller en planta i handen ska du plantera den.[^13] Handlingen är meningsfull för att den svarar mot ett förtroende. Ibn al-Jawzī iakttog paradoxen från motsatt håll: "Om människan handlade efter hoppets korthet hade ingen skrivit en bok eller sammanställt ett verk."[^18] Att bygga förutsätter ett hopp som överskrider insikten om förgängligheten.
 
 Samma impuls drev Ragnaröks skapare. År 536, när en vulkanvinter förmörkade solen över Skandinavien, kan någon ha rest Rökstenen i Östergötland, som myt, inte klagan, som meningsskapande mitt i katastrofen.[^14] Tolkningen är omtvistad, men impulsen igenkännbar: vi berättar oss *genom* mörkret.
 
-Berättelsen om den förnyade jorden på Idavallen stannar vid hoppet utan att namnge dess källa:
+Berättelsen om den förnyade jorden på Idavallen stannar vid tillförsikten utan att namnge dess källa:
 
 "Mina söner!" ropar Jakob i Koranen. "Ge aldrig upp hoppet om Allahs barmhärtighet. Ingen ger upp hoppet om Allahs barmhärtighet utom otrogna människor."[^15]
 
-Den andalusiske teologen Ibn al-Jawzī skrev: "Hoppet ger liv åt den döde och förtvivlan dödar den levande."[^16] Han menade inte optimism, det billiga surrogatet, utan det hopp som vilar på vissheten att förstörelsen inte har sista ordet – för den som förstörde är också den som återställer.
+Den andalusiske teologen Ibn al-Jawzī skrev: "Hoppet ger liv åt den döde och förtvivlan dödar den levande."[^16] Han menade inte optimism, det billiga surrogatet, utan den tillförsikt som vilar på vissheten att förstörelsen inte har sista ordet – för den som förstörde är också den som återställer.
 
 Jorden sjunker. Himlen rullas ihop. Skapelsen börjar inte om. Den *återställs*.
 
@@ -83,7 +85,7 @@ Jorden sjunker. Himlen rullas ihop. Skapelsen börjar inte om. Den *återställs
 [^2]: Esaias Tegnér, *Fritiofs Saga*, "Balders bål."
 [^4]: "Climate Grief and the Secular Spirituality of Earth-Mourning", *Harvard Divinity Bulletin*.
 [^5]: Koranen, al-Maʿārij 70:19.
-[^6]: August Strindberg, *Inferno* (1897).
+[^6]: Hjalmar Bergman, *Vi Bookar, Krokar och Rothar*, Albert Bonniers Förlag, 1919.
 [^7]: Ibn Qayyim al-Jawziyyah, *al-Dāʾ wa-l-Dawāʾ* (Sjukdomen och botemedlet).
 [^8]: Viktor Rydberg, *Teutonic Mythology*, vol. 1, analys av Völuspá och Fjölsvinnsmál.
 [^9]: Koranen, al-Anbiyāʾ 21:104.
@@ -95,3 +97,6 @@ Jorden sjunker. Himlen rullas ihop. Skapelsen börjar inte om. Den *återställs
 [^15]: Koranen, Yūsuf 12:87.
 [^16]: Ibn al-Jawzī, *Dhamm al-Hawā* (Lastandet av passionerna).
 [^17]: Günther Anders, *Endzeit und Zeitenende: Gedanken über die atomare Situation* (1972).
+[^18]: Ibn al-Jawzī, *Ṣayd al-Khāṭir* (Tankens fångst).
+[^19]: Harry Martinson, *Aniara: En revy om människan i tid och rum*, Bonniers, 1956.
+[^20]: Ibn Taymiyyah, *al-ʿUbūdiyyah* (Om tjänarskapet). Svensk översättning av artikelförfattaren.

@@ -51,7 +51,7 @@ Koranen riktar sig till den som vandrar på jorden högmodigt: "Du kan varken kl
 
 ## Barnens kosmologi
 
-Topelius' barnpedagogik och Koranens bildspråk delar en egenskap: båda tilltalar den som ännu inte lärt sig att ta världen för givet. Topelius skrev att undervisningen skulle föra barnet stegvis, "från det närmaste till det fjärmare, från hemmet till djuren, från djuren till växterna och så vidare ut i den stora världen, till dess det unga sinnet kan höja sig till en uppfattning om världsbyggnaden, Guds allsmäktiga kraft, natur och ande."[^14] Barnet lär sig om stjärnorna för att lära sig om Gud.
+Topelius' barnpedagogik och Koranens bildspråk delar en beskaffenhet: båda tilltalar den som ännu inte lärt sig att ta världen för givet. Topelius skrev att undervisningen skulle föra barnet stegvis, "från det närmaste till det fjärmare, från hemmet till djuren, från djuren till växterna och så vidare ut i den stora världen, till dess det unga sinnet kan höja sig till en uppfattning om världsbyggnaden, Guds allsmäktiga kraft, natur och ande."[^14] Barnet lär sig om stjärnorna för att lära sig om Gud.
 
 Samma rörelse gör Koranen. Himlarna och jorden, solen och månen, stjärnorna och deras banor – allt framträder som *āyāt*, tecken: "Er Herre är Allah ﷻ som skapade himlarna och jorden under sex dagar och sedan höjde Sig över tronen. Han skapade solen, månen och stjärnorna undergivna Hans befallning."[^15]
 
@@ -59,7 +59,11 @@ Samma rörelse gör Koranen. Himlarna och jorden, solen och månen, stjärnorna 
 
 Tolstoj lät furst Andrej, döende på slagfältet vid Austerlitz, uppleva hur "ett uppvaknande från livet kom tillsammans med hans uppvaknande ur sömnen. Och jämfört med livets varaktighet föreföll det honom inte långsammare än ett uppvaknande ur sömnen jämfört med en dröms varaktighet."[^16] Den döende ser plötsligt klart: detta var en dröm.
 
-Musk vill aldrig vakna. Han vill flytta drömmen till en annan planet. Den som aldrig tänkt på jordens undergång sover okunnigt. Musk har vaknat tillräckligt för att se att drömmen är bräcklig, men använder insikten som bränsle för att förlänga den, inte för att vakna ur den.
+Ibn al-Jawzī iakttog samma fenomen i *Ṣayd al-Khāṭir*: "Bland det mest förunderliga är den döendes uppvaknande vid sin död — han vaknar till med en uppmärksamhet som inte kan beskrivas."[^19]
+
+Carl von Linné, som ägnade sitt liv åt att katalogisera skapelsen, drog slutsatsen i *Nemesis Divina*: "Ödet (fatum) är Guds dom, mot hvilken intet vad gifves."[^18] Inte blint öde utan dömt — den som flyr ödet flyr domen.
+
+Musk vill aldrig vakna. Han vill flytta drömmen till en annan planet. Den som aldrig begrundat jordens undergång sover okunnigt. Musk har vaknat tillräckligt för att se att drömmen är bräcklig, men använder insikten som bränsle för att förlänga den, inte för att vakna ur den.
 
 Redan innan spektralanalys och exoplaneter visste Topelius att planeterna var ostadiga. Hans kosmologi byggde på läsning, inte mätning — på förmågan att avläsa det skapade som tecken.
 
@@ -84,3 +88,5 @@ Planeterna är ostadiga som ett människoliv. Vad fordrar den obeständigheten a
 [^15]: Koranen, al-Aʿrāf 7:54.
 [^16]: Leo Tolstoj, *Krig och fred*, tredje boken.
 [^17]: Hannah Arendt, *The Human Condition* (1958), prologen och kap. 35–36.
+[^18]: Carl von Linné, *Nemesis Divina*, postumt publicerad (manuskript ca 1755–1770).
+[^19]: Ibn al-Jawzī, *Ṣayd al-Khāṭir* (Tankens fångst).

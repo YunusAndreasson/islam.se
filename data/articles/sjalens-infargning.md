@@ -35,13 +35,13 @@ Uppenbarelsen själv kom bit för bit, för att stärka Profetens ﷺ hjärta, f
 
 År 1900 publicerade Ellen Key *Barnets århundrade*, ett verk som översattes till ett drygt dussin språk och kom att forma pedagogiska ideal långt bortom Sverige.[^7] Hennes kritik av den samtida skolan var skoningslös: den var ett "själamord", ett sandpappersmaskineri som slipade ner barns naturliga nyfikenhet till slö lydnad. Hon ville befria barnet från mekanisk inlärning, plugg och förhör, från en disciplin som slet ner mer än den formade.
 
-Men Keys pedagogik var mer sammansatt än vad hennes anhängare och kritiker ofta medger. I sina senare skrifter erkände hon vanans makt med en formulering som kunde ha stått i *Muqaddimah*:
+Men Keys pedagogik var mer sammansatt än vad hennes anhängare och kritiker ofta medger. I sina senare skrifter erkände hon vanans makt med en formulering som kunnat stå i *Muqaddimah*:
 
 > Barnet är lyckligt – och individuellt – när det genom visligt vanetvång befrias från egen råhet och nyck; när det kan leka och lära, iakttaga och arbeta, skapa och drömma.[^8]
 
-*Visligt vanetvång.* Uttrycket är anmärkningsvärt. Key ville bevara strukturen men ersätta den straffande, repressiva disciplinen med den naturliga uppfostrans konst: att forma barnets omgivning så att goda vanor växte fram inifrån, inte tvingades in utifrån. Hennes egentliga fiende var prygelpedagogiken, inte repetitionen.
+*Visligt vanetvång.* Uttrycket är anmärkningsvärt. Key ville bevara strukturen men ersätta den straffande, repressiva disciplinen med den naturliga uppfostrans konst: att forma barnets omgivning så att goda vanor växte fram inifrån, inte tvingades in utifrån. Hennes verkliga fiende var prygelpedagogiken, inte repetitionen.
 
-Det var en förenklad Key det svenska skolsystemet ärvde. I reformpedagogikens händer blev hennes vision ett slagträ mot det Ibn Khaldūn identifierat som kunskapens fundament: den tålmodiga, strukturerade upprepningen.
+Det var en förenklad Key det svenska skolsystemet ärvde. I reformpedagogikens händer blev hennes vision ett slagträ mot det Ibn Khaldūn urskilt som kunskapens fundament: den tålmodiga, strukturerade upprepningen.
 
 ## Minnets gräns
 
@@ -50,6 +50,8 @@ Arbetsminnet rymmer ungefär fyra till sju enheter samtidigt.[^9] En hård biolo
 Ibn Qayyim al-Jawziyyah (1300-talet) tecknade kunskapens steg i *Miftāḥ Dār al-Saʿādah*: först lyssnande, därpå förståelse, sedan memorering, slutligen tillämpning. Varje steg bygger på det föregående, och inget kan kringgås utan att helheten faller.[^10]
 
 Ibn Rajab al-Ḥanbalī fångade slutresultatet i en enda bild: "Ju starkare kunskapen blir, desto mer flödar åminnelsen på den åminnandes tunga utan ansträngning."[^11] *Malakah* fulländad: kunskap lika naturlig som andning.
+
+Ibn al-Jawzī uttryckte förundran inför samma lag: "Allt som är dyrbart och storslaget har en lång väg, och mödan att uppnå det är stor."[^27]
 
 ## Den svenska kollapsen
 
@@ -123,3 +125,4 @@ En rad i *Hávamál*:
 [^23]: Erik Gustaf Geijer, "Företal till *Byarne och Staden*".
 [^24]: *Hávamál*, den poetiska Eddan, strof 6.
 [^26]: Henry L. Roediger III & Jeffrey D. Karpicke, "Test-Enhanced Learning: Taking Memory Tests Improves Long-Term Retention", *Psychological Science* 17:3 (2006).
+[^27]: Ibn al-Jawzī, *Ṣayd al-Khāṭir* (Tankens fångst).

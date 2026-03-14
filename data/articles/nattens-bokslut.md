@@ -21,9 +21,9 @@ Den andra kalifen ʿUmar ibn al-Khaṭṭāb skar det till benet: "Granska er sj
 
 Topelius stod i en tradition med tydliga paralleller. Den pietistiska väckelse som nådde Österbotten under 1840-talet betonade daglig självprövning, *Selbstprüfung*, och samvetets ständiga vakenhet inför Gud. Topelius' hustru Emilie och hennes syster förde honom närmare denna rörelse, och hans tro mognade, om än med kritisk distans till rörelsens organiserade former.[^7] Kärnan tog han med sig: att varje dag ska avslutas med en ärlig granskning av hur man levt den.
 
-ʿUmars befallning att "granska er själva innan ni granskas" kunde lika gärna ha ekat från en pietistisk predikstol i Nykarleby. Båda traditionerna kräver regelbundenhet: granskningen görs varje kväll, inte vid kriser. Över självömkan ställer de ärlighet. Man granskar sig för att man ska stå inför sin Skapare.
+ʿUmars befallning att "granska er själva innan ni granskas" kunde lika gärna ha genljudit från en pietistisk predikstol i Nykarleby. Båda traditionerna kräver regelbundenhet: granskningen görs varje kväll, inte vid kriser. Framför självömkan ställer de ärlighet. Man granskar sig för att man ska stå inför sin Skapare.
 
-Ändå bär de olika frukt. Pietismens självprövning kunde slå över i ångest: syndens tyngd, den egna ovärdigheten, skräcken för förkastelse. Många pietister vittnar om sömnlösa nätter, framkallade av just de granskningar som skulle ge ro. Den islamiska *muḥāsabah*, som Ibn Qayyim tecknar den, balanserar alltid räkenskapen med *rajāʾ*, hoppet om Guds barmhärtighet. Ångern "befinner sig mellan två granskningar", skriver han: "en som gör den nödvändig och en som bevarar den."[^8] Det är skillnaden mellan den som räknar misstag tills gryningen och den som räknar, rättar och somnar. Al-Ḥasan al-Baṣrī skildrar den troende som sin egen revisor, men revisionen sker "inför Gud", inför Den som förlåter.[^9] Samma övning kan öppna vägen mot sömn – eller spärra den, allt efter om den mynnar i hopp eller skräck.
+Ändå bär de olika frukt. Pietismens självprövning kunde slå över i ångest: syndens tyngd, den egna ovärdigheten, skräcken för förkastelse. Många pietister vittnar om sömnlösa nätter, framkallade av just de granskningar som skulle ge ro. Den islamiska *muḥāsabah*, som Ibn Qayyim tecknar den, balanserar alltid räkenskapen med *rajāʾ*, tillförsikten om Guds barmhärtighet. Ångern "befinner sig mellan två granskningar", skriver han: "en som gör den nödvändig och en som bevarar den."[^8] Det är skillnaden mellan den som räknar misstag tills gryningen och den som räknar, rättar och somnar. Al-Ḥasan al-Baṣrī skildrar den troende som sin egen revisor, men revisionen sker "inför Gud", inför Den som förlåter.[^9] Samma övning kan öppna vägen mot sömn – eller spärra den, allt efter om den mynnar i tillförsikt eller skräck.
 
 I den kristna världen saknade Topelius och pietisterna inte föregångare. På 1540-talet kodifierade Ignatius av Loyola sin *examen*, en nattlig övning där jesuiten granskar dagens händelser, urskiljer Guds närvaro i dem och ber om förlåtelse för sina brister. Praktiken är äldre än alla tre: redan pythagoreernas *Gyllene verser* förbjuder sömnen innan dagen granskats tre gånger – var felade jag, vad uträttade jag, vad försummade jag?[^20] Tre traditioner, samma insikt: dagen behöver ett bokslut.
 
@@ -41,7 +41,7 @@ Vad denna medvetna överlåtelse gör med sinnet mäter modern sömnforskning nu
 
 2018 påvisade Scullin med kollegor vid Baylor University att fem minuters skrivande före sänggåendet förkortar insomningen mätbart, nio minuter snabbare i genomsnitt. Ju mer detaljerad listan, desto snabbare insomning.[^15] Mekanismen kallas kognitiv avlastning: att flytta det oavslutade från huvud till papper frigör sinnet.
 
-Modern kognitiv beteendeterapi mot sömnlöshet, CBT-I, bygger på samma princip: kognitiv omstrukturering, avslappningsövningar och strikta rutiner som bryter kopplingen mellan sängen och vakenhet.[^16]
+Modern kognitiv beteendeterapi mot sömnlöshet, CBT-I, bygger på samma princip: kognitiv omstrukturering, avslappningsövningar och strikta rutiner som bryter förbindelsen mellan sängen och vakenhet.[^16]
 
 Varken Wood, Scullin eller CBT-I-manualen nämner sina föregångare. Redan Seneca granskade varje kväll hela sin dag och vittnade om den sömn som följde: "hur lugn, hur djup och fri."[^19] Al-Māwardīs kvällsgranskning *är* den kognitiva avlastning som sömnforskningen nu mäter. Profetens ﷺ ord vid sänggåendet – "I Ditt namn dör jag och lever" – fullbordar det CBT-I:s stimuluskontroll eftersträvar: att göra sängen till en plats för vila, inte för oro.
 
@@ -50,6 +50,8 @@ Sömnappars användare faller bort efter veckor. Topelius bad i sextio år. Den 
 ## Den lilla döden
 
 Koranen kallar natten "en klädnad" och sömnen "en avkoppling".[^17] Men Koranen tillägger: "Det är Han som tar er om natten."[^18] Om varje natt är en liten död, är varje kvälls *muḥāsabah* en repetition av den slutliga räkenskapen – det *ḥisāb* som ʿUmar varnade för. Den som granskar sig varje kväll förbereder sig inte bara för morgondagen utan för den Morgondag då inget återstår utom svaret.
+
+Dag Hammarskjöld fångade kvällsgranskningens löfte: "Så skall världen varje morgon skapas på nytt, förlåten – i dig, av dig."[^21]
 
 Den som ligger sömnlös och bläddrar saknar inte en ny app. Hon saknar en gammal fråga: vad har jag skickat framför mig inför morgondagen?
 
@@ -75,3 +77,4 @@ Den som ligger sömnlös och bläddrar saknar inte en ny app. Hon saknar en gamm
 [^18]: Koranen, al-Anʿām 6:60.
 [^19]: Seneca, *De Ira* III.36: "*Qualis ille somnus post recognitionem sui sequitur, quam tranquillus, quam altus ac liber.*"
 [^20]: Pythagoreernas *Gyllene verser* (Χρυσᾶ Ἔπη), v. 40–42, tillskrivna Pythagoras men sammanställda senast 300-talet f.Kr.
+[^21]: Dag Hammarskjöld, *Vägmärken*, Albert Bonniers Förlag, 1963.

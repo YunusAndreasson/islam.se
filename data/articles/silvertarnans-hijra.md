@@ -19,7 +19,7 @@ Vart denna logik ledde såg Ellen Key. I *Barnets århundrade* skriver hon:
 
 > Den moderna människan blir allt mer sin egen försyn. Mot elden skapar hon redan brandkår och brandförsäkring; mot hafvet lifräddningsredskap; mot koppor och kolera finner hon andra skyddsmedel.[^5]
 
-Människan som sin egen försyn.
+Människan som sin egen försynsinstans.
 
 I *Röda rummet* lät Strindberg försäkringen avslöja sig själv. Hans försäkringsman insisterar: "Vi få icke kalla försäkringsinstitutionen en affär! Den är ingen affär; vi äro inga affärsmän, för ingen del i världen!"[^6] Försäkringen ska vara högre än handel, trygghetens sakrament. Men Strindberg visste att sakrament utan tro bara är papper.
 
@@ -27,13 +27,13 @@ I *Röda rummet* lät Strindberg försäkringen avslöja sig själv. Hans förs�
 
 Silvertärnan gör vad det moderna samhället avlärt sig: ger sig iväg utan garantier.
 
-Resan är inte blind. Med jordens magnetfält, solens position och stjärnmönster navigerar silvertärnan – en biologisk arsenal utan mänsklig motsvarighet, dokumenterad i detalj av forskare vid Lunds universitet.[^7] Fågeln saknar inte medel. Den fattas försäkring. Vi har förväxlat medel med trygghet, förberedelse med kontroll.
+Resan är inte blind. Med jordens magnetfält, solens position och stjärnmönster navigerar silvertärnan – en biologisk arsenal utan mänsklig motsvarighet, dokumenterad i detalj av forskare vid Lunds universitet.[^7] Fågeln saknar inte medel. Den fattas försäkring. Vi har förväxlat medel med trygghet, förberedelse med betvingande.
 
 Strindberg kretsade kring fåglarnas mysterium i *Svarta fanor*:
 
 > Naturen äger hemligheter! Flyttfåglarnes tåg är också en gåta. Man ser dem innan de ge sig av, man ser dem när de kommit, men man ser dem icke flytta.[^8]
 
-Vi ser avfärden, vi ser ankomsten. Aldrig det ögonblick då fågeln hänger över öppet hav, ensam, med tusentals kilometer kvar.
+Vi ser avfärden, vi ser ankomsten. Aldrig det ögonblick då fågeln svävar över öppet hav, ensam, med tusentals kilometer kvar.
 
 ## *Tawakkul*: tillit utan garanti
 
@@ -49,7 +49,7 @@ Så gör silvertärnan: den använder varje navigationsredskap Gud gett den, fly
 
 I annan tonart bekräftar Ibn al-Jawzī (1100-talet) samma poäng: "*Tawakkul* upphävs inte av att man vidtar tillåtna medel. Den som berövar sig själv det nödvändiga i *tawakkuls* namn har brutit mot profetens ﷺ väg."[^11]
 
-Det Ibn al-Jawzī tar för givet, att medel och tillit kan samverka, förnekar det moderna samhället. Bara två möjligheter erkänns: kontroll eller ångest. *Tawakkul* är den tredje platsen: fullständig ansträngning parad med fullständig vila. Det är läkaren som opererar med fullt kunnande och sedan går hem och sover.
+Det Ibn al-Jawzī tar för givet, att medel och tillit kan samverka, förnekar det moderna samhället. Bara två möjligheter erkänns: kontroll eller ångest. *Tawakkul* är den tredje platsen: fullständig ansträngning förenad med fullständig vila. Det är läkaren som opererar med fullt kunnande och sedan går hem och sover.
 
 För det saknar moderniteten språk. Den som kom närmast var Kierkegaard, vars 'trons riddare' i *Fruktan och bävan* lever fullt i det ändliga men har överlämnat utgången. Men att han kallade rörelsen 'i kraft av det absurda' avslöjar mer än en språklig brist – det avslöjar att tillit inom hans tradition bara kan tänkas som ett undantag från förnuftet. I den islamiska traditionen är *tawakkul* tvärtom förnuftets slutsats: den som verkligen vet vem Gud är finner det orimligt att *inte* förlita sig.[^21]
 
@@ -67,13 +67,13 @@ Koranen bär samma bild men lyfter den högre:
 
 Fåglarna flyger redan. De faller inte. Frågan är inte om något håller dem uppe utan om betraktaren har ögon att uppfatta det. Den sista bisatsen — "Han ser sannerligen allt" — vänder perspektivet: vi ser fåglarna, men fåglarna *ses*. Ibn Kathīr förtydligar: Han vet vad som gagnar varje enskild varelse bland Hans skapelser.
 
-Ur denna bild utvinner Ibn Qayyim trons inre mekanik: rädsla och hopp som två vingar – när de är i jämvikt bär de flygningen framåt; om den ena brister störtar fågeln.[^14] Silvertärnan flyger för att den är skapad att flyga. *Tawakkul* är varken kalkylerande hopp eller förlamande ångest: det är den balanserade rörelse som uppstår när hjärtat slutat väga risker och börjat förlita sig.
+Ur denna bild utvinner Ibn Qayyim trons inre mekanik: rädsla och hopp som två vingar – när de är i jämvikt bär de flygningen framåt; om den ena brister störtar fågeln.[^14] Silvertärnan flyger för att den är skapad att flyga. *Tawakkul* är varken kalkylerande tillförsikt eller förlamande ångest: det är den balanserade rörelse som uppstår när hjärtat slutat väga risker och börjat förlita sig.
 
 ## En hälsosam osäkerhet
 
-Strindberg, som aldrig landat i någon enda övertygelse utan att genast börja tvivla på den, skrev i *Götiska rummen* om "en hälsosam osäkerhet, som höll personen kort, alltid vaken, på sin vakt; ständig förnyelse under ett hejdlöst framåt."[^15] Det låter som ett modernt credo: osäkerhet som dygd, vaksamhet som livshållning. Men han kallade den "hälsosam", och adjektivet avslöjar honom. Han visste att total trygghet är en annan form av död – att den som försäkrat sig mot allt har mist skälet att röra sig.
+Strindberg, som aldrig landat i någon enda övertygelse utan att genast börja tvivla på den, skrev i *Götiska rummen* om "en hälsosam osäkerhet, som höll personen kort, alltid vaken, på sin vakt; ständig förnyelse under ett hejdlöst framåt."[^15] Det låter som ett modernt credo: osäkerhet som dygd, vaksamhet som livshållning. Men han kallade den "hälsosam", och adjektivet avslöjar honom. Han visste att total trygghet är en annan form av död — att den som försäkrat sig mot allt har mist skälet att röra sig.
 
-Utan Strindbergs stilistiska nåd nådde Beck samma slutsats: ju fler risker vi hanterar, desto fler nya risker föder vi, och desto mer urholkas den tillit som systemet var tänkt att frambringa.[^16] Försäkringen som skulle befria oss från rädsla gör oss beroende av försäkringen. Den som inte kan gå ut förrän försäkringsbrevet är kontrollerat har bytt Herre.
+Utan Strindbergs stilistiska nåd nådde Beck samma slutsats: ju fler risker vi hanterar, desto fler nya risker föder vi, och desto mer undergräves den tillit som systemet var tänkt att frambringa.[^16] Försäkringen som skulle befria oss från rädsla gör oss beroende av försäkringen. Den som inte kan gå ut förrän försäkringsbrevet är granskat har bytt Herre.
 
 Den franske tänkaren Alexis de Tocqueville beskrev formen 1840: en makt som tryggar medborgarnas behov, sköter deras angelägenheter och steg för steg befriar dem 'från besväret att tänka och mödan att leva'.[^22]
 
@@ -83,11 +83,11 @@ Ibn Taymiyyah (1300-talet) såg mekanismen med teologisk klarhet:
 
 Orden skrevs om en människa som förlitar sig på härskare, vänner och rikedomar. Med oavsiktlig precision träffar de försäkringssamhället.
 
-Fågeln har medel men ingen herre utom den som formade den. Den förbereder sig, kroppen lagrar fett, fjäderdräkten byts ut, den biologiska klockan ställs mot rätt breddgrad, men aldrig har den slutit ett avtal med tillvaron. Resan är förberedd men inte garanterad. Och fågeln flyger ändå.
+Fågeln har medel men ingen herre utom den som formade den. Den förbereder sig, kroppen lagrar fett, fjäderdräkten byts ut, den biologiska klockan ställs mot rätt breddgrad, men aldrig har den slutit ett avtal med tillvaron. Resan är förberedd men aldrig garanterad. Och fågeln flyger ändå.
 
 ## Fågel Jag
 
-Även den svenska litteraturen kretsade kring denna bild. Dan Andersson lade den i romanfigurens mun, vandraren David Ramm som ropar: "Låt oss antaga att jag har en själ... när jag dör flyger det likt en fågel ur kroppen. Vart skall han då ta vägen, den konstiga Fågel Jag?"[^18] Frågan flyger mot samma öppna rymd som silvertärnan, och det finns inget försäkringsbolag som tar emot den.
+Även den svenska litteraturen kretsade kring denna bild. Dan Andersson lade den i romanfigurens mun, vandraren David Ramm som ropar: "Låt oss antaga att jag har en själ... när jag dör flyger det likt en fågel ur kroppen. Vart skall han då ta vägen, den konstiga Fågel Jag?"[^18] Frågan stiger mot samma öppna rymd som silvertärnan, och det finns inget försäkringsbolag som tar emot den.
 
 Fredrika Bremer gav ett svar i mitten av 1800-talet:
 

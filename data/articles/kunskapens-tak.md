@@ -15,7 +15,7 @@ I den islamiska traditionens centrum ligger en klassificering av vad som överhu
 
 > Tolkningen har fyra aspekter: en tolkning som araberna känner genom sitt eget språk, en tolkning som ingen är ursäktad att inte veta, en tolkning som de lärda känner, och en tolkning som ingen utom Allah ﷻ den Högste känner.[^2]
 
-Underst det som varje arabisktalande begriper genom språkkänslan. Därovan det obligatoriska: trons grundartiklar, de entydiga påbuden och förbuden.[^3] Det tredje skiktet kräver ansträngning – *ijtihād* – det Ibn Taymiyyah identifierar som "de kategorier som inte kan förstås genom bara språket, såsom de religiöst-rättsliga termerna."[^4]
+Underst det som varje arabisktalande begriper genom språkkänslan. Därovan det obligatoriska: trons grundartiklar, de entydiga påbuden och förbuden.[^3] Det tredje skiktet kräver ansträngning – *ijtihād* – det Ibn Taymiyyah urskiljer som "de kategorier som inte kan förstås genom bara språket, såsom de religiöst-rättsliga termerna."[^4]
 
 Sedan det fjärde skiktet. Och landskapet skiftar.
 
@@ -47,7 +47,7 @@ Ibn Taymiyyah gav principen sin skarpaste gestaltning:
 
 Den västerländska traditionen tog en annan väg. Den kristna traditionen hade haft sin *docta ignorantia* – Cusanus' lärda okunnighet – men reformationen trängde undan den.[^24] *Sola scriptura* innebar att varje troende i princip kunde vara sin egen tolk. Folkbibelns spridning, läskunnighetens kyrkligt drivna expansion, övertygelsen att öppenhet i sig har moraliskt värde: allt pekar åt samma håll.
 
-Upplysningen upphöjde idealet till dogm. Strindberg registrerade den hybris som följde: "Vi ha löst alla problem. Universum har inga gåtor mera. Denna inbilska lögn hade retat mig redan omkring år 1880."[^11] Och på ett annat ställe, med en formulering som kunde stå som epigraf till hela den moderna informationskulten: "Det löjliga löjet över det man icke kan fatta."[^12]
+Upplysningen upphöjde idealet till dogm. Oscar Levertin iakttog förvandlingen: "I vetenskapen anser den unge drömmaren hela framtidens gåta ligga. Teoretiskt och praktiskt skulle den fylla världen, gifva mänskligheten både gud och bröd."[^11] Strindberg spetsade det till en enda mening, en epigraf till hela den moderna informationskulten: "Det löjliga löjet över det man icke kan fatta."[^12]
 
 ## Glimtar bakom muren
 
@@ -56,6 +56,8 @@ Andra svenska tänkare närmade sig samma tröskel, var och en från sitt håll.
 Viktor Rydberg, en av den svenska liberalismens stora intellektuella, lät karaktären Kimon i *Den siste Atenaren* uttrycka samma misstro:
 
 > Förnuftet motsäger vad sinnena vittna. Påstode jag nu för min del, att sinnena äro lögnaktiga, så kan en annan med samma rätt påstå, att det tvärtom är förnuftets slutledningar, som äro falska.[^16]
+
+Karin Boye nådde samma tröskel från motsatt håll i *Kris*: "Nyskapelsens under behöver inga namn."[^25] Inte för att namnen saknas utan för att det namngivna krymper det som inte kan rymmas.
 
 Ingen av dem hade tillgång till en tradition som gjort taket till grundsats.
 
@@ -88,7 +90,7 @@ Men Geijer uttryckte detta som en personlig observation. Ibn ʿAbbās formade de
 [^7]: Om *tafwīḍ al-kayfiyyah* som de tidiga generationernas ståndpunkt, se Imam Maliks uttalande bevarat i al-Bayhaqī, *al-Asmāʾ wa-l-Ṣifāt*, och Ibn Taymiyyahs klargörande i *Majmūʿ al-Fatāwā*, vol. 5, där han skiljer mellan att överlåta modalitet (korrekt) och att överlåta mening (en avvikelse han tillskrev senare generationer).
 [^8]: Ibn Qayyim al-Jawziyyah, *Madārij al-Sālikīn*.
 [^10]: Ibn Taymiyyah, *Majmūʿ al-Fatāwā*, i diskussionen om gränserna för mänsklig kunskap om Allah ﷻ.
-[^11]: August Strindberg, *Inferno*.
+[^11]: Oscar Levertin, *Diktare och drömmare*.
 [^12]: August Strindberg, *Svarta fanor: Sedeskildringar från sekelskiftet*.
 [^13]: Carl von Linné, *Nemesis Divina*.
 [^14]: Carl von Linné, *Egenhändiga anteckningar*.
@@ -101,3 +103,4 @@ Men Geijer uttryckte detta som en personlig observation. Ibn ʿAbbās formade de
 [^22]: Koranen, al-Isrāʾ 17:45.
 [^23]: Erik Gustaf Geijer, citerad i Oscar Levertin, *Diktare och drömmare*.
 [^24]: Nikolaus Cusanus, *De Docta Ignorantia* (1440); Pseudo-Dionysios Areopagita, *De Mystica Theologia* (ca 500 e.Kr.). Cusanus hävdade att det oändliga till sin natur undandrar sig det ändliga förståndets grepp – en ontologisk princip, inte en epistemologisk brist.
+[^25]: Karin Boye, *Kris*, Albert Bonniers Förlag, 1934.

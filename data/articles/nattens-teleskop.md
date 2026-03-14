@@ -47,15 +47,15 @@ Versen ställer sömnen i ett sammanhang som ingen neurovetenskaplig modell kan 
 
 Profeten Muḥammad ﷺ band drömmen direkt till uppenbarelsen: enligt en välkänd *ḥadīth* utgör den sanna drömmen (*al-ruʾyā al-ṣādiqah*) en fyrtiosjättedel av profetskapet[^8], ett exakt bråktal. Drömmen är en kvarleva av profetskapets ljus, en smal springa mot det osynliga som varje människa bär.
 
-Men profetskapet självt är en gudomlig utväljelse (*iṣṭifāʾ*), inte slutpunkten på en stegvis reningsprocess. Allah ﷻ utväljer Sina sändebud: "Allah ﷻ vet bäst var Han lägger Sitt budskap"[^9]. Skillnaden mellan profeten och den vanliga drömmaren är därför inte gradskillnad i hjärtats renhet utan artskillnad i gudomlig kallelse. Inte renare vatten utan en annan källa. Profeten ﷺ sade att den som är mest sanningsenlig i sitt tal är den vars drömmar är mest sanningsenliga.[^10] Kopplingen mellan yttre rättfärdighet och inre mottaglighet bekräftar hjärtats avgörande roll, utan att reducera uppenbarelsen till en funktion av mänsklig andlig kapacitet.
+Men profetskapet självt är en gudomlig utväljelse (*iṣṭifāʾ*), inte slutpunkten på en stegvis reningsprocess. Allah ﷻ utväljer Sina sändebud: "Allah ﷻ vet bäst var Han lägger Sitt budskap"[^9]. Skillnaden mellan profeten och den vanliga drömmaren är därför inte gradskillnad i hjärtats renhet utan artskillnad i gudomlig kallelse. Inte renare vatten utan en annan källa. Profeten ﷺ sade att den som är mest sanningsenlig i sitt tal är den vars drömmar är mest sanningsenliga.[^10] Sambandet mellan yttre rättfärdighet och inre mottaglighet bekräftar hjärtats avgörande roll, utan att inskränka uppenbarelsen till en funktion av mänsklig andlig kapacitet.
 
 ## Paradoxen under elektroderna
 
-Ibn Khaldūns beskrivning formulerades sexhundra år före den moderna neurologin, men när den väl kom, bekräftade den paradoxen utan att kunna förklara den. År 1953 upptäckte Eugene Aserinsky och Nathaniel Kleitman vid Chicagouniversitetet att sovande försökspersoner periodvis uppvisade snabba ögonrörelser. När de väcktes under dessa perioder rapporterade de livliga drömmar. REM-sömnen var identifierad. Men det var först med Jouvets arbete på 1960-talet som paradoxen fick kontur: under REM-sömn uppvisar hjärnan EEG-mönster som liknar, och i vissa avseenden överstiger, vakenhetens.[^11]
+Ibn Khaldūns beskrivning formulerades sexhundra år före den moderna neurologin, men när den väl kom, bekräftade den paradoxen utan att kunna förklara den. År 1953 upptäckte Eugene Aserinsky och Nathaniel Kleitman vid Chicagouniversitetet att sovande försökspersoner periodvis uppvisade snabba ögonrörelser. När de väcktes under dessa perioder rapporterade de livliga drömmar. REM-sömnen var upptäckt. Men det var först med Jouvets arbete på 1960-talet som paradoxen fick kontur: under REM-sömn uppvisar hjärnan EEG-mönster som liknar, och i vissa avseenden överstiger, vakenhetens.[^11]
 
 Hjärnbarken avfyrar intensiva signaler, synbarken bearbetar visuell information trots slutna ögon, kroppen ligger förlamad.[^12] Maximal inre aktivitet, total yttre stillhet.[^13]
 
-Vad vi inte vet är varför denna aktivitet tar formen av *upplevelse*: bilder, berättelser, möten med de döda, flygningar över landskap som aldrig existerat. Minneskonsolidering kräver inga medvetna upplevelser; känslomässig bearbetning inget berättande. David Chalmers gav frågan dess moderna namn 1995: *the hard problem of consciousness*: varför producerar fysiska processer överhuvudtaget subjektiv upplevelse?[^21]
+Vad vi inte vet är varför denna aktivitet tar formen av *upplevelse*: bilder, berättelser, möten med de döda, flygningar över landskap som aldrig existerat. Minneskonsolidering kräver inga medvetna upplevelser; känslomässig bearbetning inget berättande. David Chalmers gav frågan dess moderna namn 1995: *the hard problem of consciousness*: varför frambringar fysiska processer överhuvudtaget subjektiv upplevelse?[^21]
 
 Aktiveringssynteshypotesen, framlagd av Allan Hobson och Robert McCarley 1977, försökte reducera drömmen till neurologiskt brus: slumpmässiga signaler från hjärnstammen som hjärnbarken febrilt försöker foga till en sammanhängande berättelse.[^14] Hobson själv reviderade hypotesen avsevärt under de följande decennierna. Men den blottar den materialistiska ansatsens grundproblem: den kan återge *hur* drömmen produceras neurologiskt men inte *varför* den upplevs, ännu mindre vad dess innehåll *betyder*.
 
@@ -75,13 +75,15 @@ Ibn Rajab al-Ḥanbalī skriver i *Laṭāʾif al-Maʿārif* om nattens särstä
 
 > Finns det någon som ber till Mig, så att Jag svarar honom? Finns det någon som ber Mig om något, så att Jag ger honom? Finns det någon som söker Min förlåtelse, så att Jag förlåter honom?[^16]
 
-Ibn Rajab skriver att de tidiga generationerna (*salaf*) betraktade natten som en skatt, eftersom den gav dem det världen under dagen nekade dem: ostörd riktning mot Allah ﷻ.[^17] Ibn Khaldūns princip ekar – perceptionen riktas inåt – men här rotad i *ʿibādah*, i handling, inte kontemplation som mål i sig. Det är den som reser sig för att be när sängen är varm.
+Ibn Rajab skriver att de tidiga generationerna (*salaf*) betraktade natten som en skatt, eftersom den gav dem det världen under dagen nekade dem: ostörd riktning mot Allah ﷻ.[^17] Ibn Khaldūns princip genljuder – perceptionen riktas inåt – men här rotad i *ʿibādah*, i handling, inte kontemplation som mål i sig. Det är den som reser sig för att be när sängen är varm.
 
 August Strindberg, i sin krisskildring *Inferno*, återger denna närvaro, med motsatt förtecken. Mitt i sina sömnlösa nätters ångest skriver han:
 
 > Träd in ensam nattetid i din kammare, och du skall finna någon där före dig. Du ser honom icke, men du känner hans närvaro.[^22]
 
 Att natten är bebodd betvivlar han aldrig – det är *av vad* som skrämmer honom. Skillnaden är att uppenbarelsen namnger närvaron. Namngivandet skiljer skräck från tillbedjan.
+
+Verner von Heidenstam urskiljer nattens sållning i *Folkungaträdet*: "I natt var en dålig natt, då många drömde vakna. I natt fanns ingen god människa, ty de, som voro goda, sovo."[^23] De goda *sov* — deras hjärtan var tillräckligt klara för att vila. De som drömde sig vakna var redan vilseledda.
 
 Hjalmar Söderberg höjer motrösten. I *Förvillelser* skriver hans karaktär: "Så vaknar man och söker erinra sig vad man har drömt och söker efter någon betydelse i det, och då är det alltsammans en massa dumheter utan mening och sammanhang."[^18] Avväpnande ärligt. Men orden röjer en spricka: han *söker* efter betydelse. Den som inte trodde att drömmar betydde något skulle inte söka.
 
@@ -117,3 +119,4 @@ Jouvet kallade det paradoxal sömn. Ibn Khaldūn kallade det *drömvision*. Frå
 [^20]: Koranen, al-Anfāl 8:29.
 [^21]: David Chalmers, "Facing Up to the Problem of Consciousness", *Journal of Consciousness Studies*, 2(3), 1995. Chalmers formulering av *the hard problem* – distinktionen mellan att förklara kognitiva funktioner och att förklara varför dessa funktioner åtföljs av subjektiv upplevelse – har sedan dess definierat den centrala debatten inom medvetandefilosofin.
 [^22]: August Strindberg, *Inferno* (1897), kapitel XV.
+[^23]: Verner von Heidenstam, *Folkungaträdet*, Albert Bonniers Förlag, 1905–1907.

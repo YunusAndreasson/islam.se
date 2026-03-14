@@ -25,15 +25,15 @@ I kris anropar människan Gud; i trygghet glömmer hon. Men Koranen stannar inte
 
 ## *Fiṭrah*: det som undertrycks men aldrig försvinner
 
-Den islamiska traditionen har ett begrepp för denna insikt: *fiṭrah*. Ibn Taymiyyah (d. 1328) citerar Profetens ﷺ ord: "Varje barn föds i enlighet med *fiṭrah*; sedan gör föräldrarna det till jude, kristen eller zoroastrier."[^4] Han kopplar detta direkt till Koranens vers:
+Den islamiska traditionen har ett begrepp för denna insikt: *fiṭrah*. Ibn Taymiyyah (d. 1328) citerar Profetens ﷺ ord: "Varje barn föds i enlighet med *fiṭrah*; sedan gör föräldrarna det till jude, kristen eller zoroastrier."[^4] Han knyter detta direkt till Koranens vers:
 
 > Vänd ditt ansikte mot den sanna religionen, hängiven. Allahs ﷻ *fiṭrah*, med vilken Han skapade människorna. Ingen förändring i Allahs ﷻ skapelse.[^22]
 
 *Fiṭrah* är kunskapsteoretiskt innan det är teologiskt: vad barnet vet innan det lärt sig bevisen. I *al-Radd ʿalā al-Manṭiqiyyīn* skriver Ibn Taymiyyah att de som genom felaktiga metoder "vill förmå människor att överge det de skapats med av säker kunskap och rationella bevis"[^5] inte bara förstör tro utan undergräver förnuftets egna grunder. Att använda icke-naturliga metoder är "att plåga själar utan nytta."[^6]
 
-*Fiṭrah* är inte en from förhoppning om att alla innerst inne tror. Det är påståendet att gudskunskap tillhör samma kunskapskategori som de mest grundläggande insikterna: att det finns en yttre verklighet, att orsak föregår verkan, att motsägelser inte kan vara sanna samtidigt. Att förneka Gud är, i denna analys, att överge koherensen själv: Ibn Taymiyyah kallar ateismens yttersta konsekvens *safsaṭah*, den radikala skepticism som upplöser all kunskap, inklusive förnekelsen själv.[^7]
+*Fiṭrah* är inte en from förhoppning om att alla i grunden tror. Det är anspråket att gudskunskap tillhör samma kunskapskategori som de mest grundläggande insikterna: att det finns en yttre verklighet, att orsak föregår verkan, att motsägelser inte kan vara sanna samtidigt. Att förneka Gud är, i denna analys, att överge koherensen själv: Ibn Taymiyyah kallar ateismens yttersta konsekvens *safsaṭah*, den radikala skepticism som upplöser all kunskap, inklusive förnekelsen själv.[^7]
 
-Anspråket är högt, men det förklarar något. Om gudskunskap hör till kunskapens fundament borde varje kris som slår undan tryggheten blotta det som hela tiden legat under ytan. En sjö som dämts upp skapas inte av dammens kollaps. Den släpps fri.
+Anspråket är högt, men det förklarar något. Om gudskunskap hör till kunskapens fundament borde varje kris som slår undan tryggheten blottlägga det som hela tiden legat under ytan. En sjö som dämts upp skapas inte av dammens fall. Den släpps fri.
 
 ## Pendeln som aldrig vilar
 
@@ -55,7 +55,7 @@ Strindberg kallar rörelsen ofrivillig:
 
 > Det är ju märkvärdigt hur jag nu har från ateismen fallit ner i den fullständigaste vidskepelse.[^13]
 
-Riktningen är *ner*. Strindberg upplever sitt gudssökande som fall, inte uppstigning, inte för att han beslutat att bli religiös utan för att han misslyckats med att förbli ateist.
+Riktningen är *ner*. Strindberg upplever sitt gudssökande som fall. Han har inte beslutat att bli religiös; han har misslyckats med att förbli ateist.
 
 Dag Hammarskjöld noterade samma rörelse i *Vägmärken*, utan Strindbergs dramatik:
 
@@ -63,7 +63,7 @@ Dag Hammarskjöld noterade samma rörelse i *Vägmärken*, utan Strindbergs dram
 
 Frånvaron av dramatik gör Hammarskjölds vittnesmål svårare att avfärda. Strindbergs erfarenhet kan tillskrivas feber och sammanbrott; Hammarskjölds kan det inte. Att samma ofrivilliga rörelse inträffar utan patologi antyder att det inte är krisen som skapar rörelsen — utan krisen som blottar den snabbast.
 
-Hjalmar Söderberg fångade situationens ironi med sedvanlig torrhet: "Vi böra hoppas att Strindberg får upprättelse i himlen, om inte förr. Han tror ju på himlen. Varför bråkar han då så förbaskat med de dumma jordiska tingen?"[^14] Det Söderberg avfärdar som excentrisk inkonsekvens, att tro på himlen men slåss med jorden, är ur *fiṭrah*-perspektivet det enda logiska: den som anar det oändliga finner ingen ro i det ändliga.
+Hjalmar Söderberg fångade belägenhetens ironi med sedvanlig torrhet: "Vi böra hoppas att Strindberg får upprättelse i himlen, om inte förr. Han tror ju på himlen. Varför bråkar han då så förbaskat med de dumma jordiska tingen?"[^14] Det Söderberg avfärdar som excentrisk inkonsekvens, att tro på himlen men slåss med jorden, är ur *fiṭrah*-perspektivet det enda logiska: den som anar det oändliga finner ingen ro i det ändliga.
 
 ## Den stabila ateisten
 
@@ -75,11 +75,11 @@ Koranen skildrar också det motsatta: de som hör och vänder bort.
 
 > När Våra verser reciteras för honom vänder han sig bort i högmod som om han inte hörde dem – som om hans öron var tilltäppta.[^23]
 
-Öronen är inte döva. De är tilltäppta. Det är hela skillnaden. *Fiṭrah* hävdar inte att varje människa kommer att erkänna Gud – bara att ingen kan undgå att på någon nivå *veta*, och att det som ser ut som stabil ateism ofta är ständigt underhåll.
+Öronen är inte döva. De är tilltäppta. Det är hela skillnaden. *Fiṭrah* hävdar inte att varje människa kommer att erkänna Gud — bara att ingen kan undgå att på någon nivå *veta*, och att det som ser ut som stabil ateism ofta är ständigt underhåll.
 
 ## Vad Strindberg inte visste
 
-Strindberg landade bekantligen i Swedenborg – inte i islam, inte i ortodox kristendom, utan i en synkretistisk blandning av andeskåderi, korrespondenstänkande och personlig mytologibildning.[^15] *Fiṭrah*-argumentet gäller inte *vart* pendeln slår utan *att* den slår. Att Strindberg sökte sig till Swedenborg snarare än till Koranen speglar inte gudskunskapens natur utan hans kulturella horisont.
+Strindberg landade bekantligen i Swedenborg – inte i islam, inte i ortodox kristendom, utan i en synkretistisk blandning av andeskåderi, korrespondenstänkande och personlig mytologibildning.[^15] *Fiṭrah*-argumentet gäller inte *vart* pendeln slår utan *att* den slår. Att Strindberg sökte sig till Swedenborg snarare än till Koranen avspeglar hans kulturella horisont — inget annat.
 
 Ibn Taymiyyah hade redan fångat problemet: Profeterna, skriver han, "slog liknelser som kompletterade *fiṭrah* med det den inte uppmärksammat eller som den korrumperade åsikter och begär hade fördunklat."[^16] *Fiṭrah* ger riktningen, mot Gud. Uppenbarelsen ger precisionen: *vilken* Gud, *hur* man närmar sig, *vad* Han kräver. Utan uppenbarelse är *fiṭrah* en kompass utan karta. Den pekar rätt men kan inte visa vägen.
 
@@ -89,13 +89,13 @@ Strindberg hade kompassen. Han saknade kartan. Inferno-krisen är *fiṭrah* i v
 
 Hans mest avslöjande mening är den enklaste: "Min tvungna otacksamhet trycker mig som en börda." En människa som vet att hon har något att tacka för men saknar någon att tacka — ateismen har avlägsnat mottagaren men inte behovet. Vore tacksamheten en produkt av tron borde den försvinna med tron. Att behovet består antyder att det inte är tron som alstrar tacksamheten utan tacksamheten som vittnar om något tron bara erkänner.
 
-Oscar Levertin: "Verkligheten kan kanske undvara religion, men säkert ej religiositet."[^18] Att avskaffa religion, institutioner, dogmer, ritualer, är möjligt. Att avskaffa religiositeten är att avskaffa något i människan själv.
+Oscar Levertin: "Verkligheten kan kanske undvara religion, men säkert ej religiositet."[^18] Att avskaffa religion — institutioner, dogmer, ritualer — är möjligt. Att avskaffa religiositeten är att undanröja något i människan själv.
 
 Koranen uttrycker det med en bild som är enklare men når längre:
 
 > När människan drabbas av olycka anropar hon Oss liggande på sidan eller sittande eller stående. Men när Vi avvärjt olyckan från henne fortsätter hon som om hon aldrig anropat Oss.[^24]
 
-Människan *kan* glömma Gud, men aldrig varaktigt, aldrig utan att något i hennes tillvaro förblir stumt och otillfredsställt. Ibn Qayyim al-Jawziyyah (d. 1350) skriver:
+Människan *kan* glömma Gud, men aldrig varaktigt, aldrig utan att något i hennes tillvaro förblir stumt och omättat. Ibn Qayyim al-Jawziyyah (d. 1350) skriver:
 
 > I hjärtat finns en tomhet som inte kan fyllas av annat än närhet till Allah ﷻ, och en sorg som inte kan lyftas av annat än glädjen i att känna Honom, och en oro som inte kan stillas av annat än samling inför Honom.[^19]
 

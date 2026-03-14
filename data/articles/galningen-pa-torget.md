@@ -11,7 +11,7 @@ Nietzsche lät ingen filosof förkunna Guds död. Han lät en galning göra det,
 
 Nietzsche förstod vad hans beundrare sällan erkänner: att om Gud är död, så faller inte bara teologin utan hela den moraliska ordningen. Horisonten är borta.
 
-Västvärlden ärvde moralen men lät grunden vittra — åberopade människovärdet men slutade fråga *varför*. Sprickan får sin tydligaste juridiska gestalt i den svenska statsordningen.
+Västvärlden ärvde moralen men lät grunden vittra — åberopade människovärdet men upphörde att fråga *varför*. Sprickan får sin tydligaste juridiska gestalt i den svenska statsordningen.
 
 ## Grundlagens tysta förutsättning
 
@@ -27,11 +27,13 @@ Hjalmar Söderberg lade fingret på sprickan redan 1905:
 
 Om han hade rätt, om moral bara är vana, då är "alla människors lika värde" en konvention, och konventioner kan bytas ut.
 
+Arabiskans ord för moral, *akhlāq*, delar rot med *khalq*, skapelse. Där Söderberg ser sed ser arabiskan natur.
+
 ## Moralen efter moralen
 
-I *After Virtue* identifierade filosofen Alasdair MacIntyre samma sjukdom: den moderna moraldebatten är olöslig, inte för att frågorna är svåra utan för att vi argumenterar med fragment av system som förlorat sitt sammanhang.[^4] Vi har kvar orden *rättvisa*, *plikt*, *dygd* men förlorat de ramar som gav dem mening.
+I *After Virtue* urskilte filosofen Alasdair MacIntyre samma sjukdom: den moderna moraldebatten är olöslig, inte för att frågorna är svåra utan för att vi argumenterar med fragment av system som förlorat sitt sammanhang.[^4] Vi har kvar orden *rättvisa*, *plikt*, *dygd* men förlorat de ramar som gav dem mening.
 
-MacIntyre föreskrev en återgång till aristotelisk dygdetik inom en levande tradition. Moralen behöver ett sammanhang, en berättelse, en gemenskap som bär den över generationerna. Men att en moralisk sanning existerar är en sak. Att den formar levande människors handlingar, bärs genom sekler, motstår maktens och begärets tryck — det kräver vad Ibn Khaldūn iakttagit:
+MacIntyre föreskrev en återgång till aristotelisk dygdetik inom en levande tradition. Moralen behöver ett sammanhang, en berättelse, en gemenskap som bär den över generationerna. Men att en moralisk sanning existerar är en sak. Att den formar levande människors handlingar, bärs genom sekler, motstår maktens och begärets tryck — det kräver vad Ibn Khaldūn iakttog:
 
 > När generationer växer upp under samma villkor blir dessa villkor del av deras natur och karaktär.[^6]
 
@@ -39,9 +41,9 @@ MacIntyre föreskrev en återgång till aristotelisk dygdetik inom en levande tr
 
 Här stannar den sekulära moralfilosofin. Den kan utstaka principer, men varför just *dessa* principer binder oss lämnas obesvarat. Kants kategoriska imperativ föreskriver att jag ska handla efter principer som kan universaliseras. Men *varför* jag borde bry mig om universella principer, därom tiger det. Det förutsätter en moralisk aktör som redan vill handla rätt, och därmed just det som skulle bevisas.
 
-Euthyfrons gamla dilemma – är det goda gott för att Gud befaller det, eller befaller Gud det för att det är gott? – har riktats mot varje teistisk etik i tvåtusen år. Dilemmat vilar på en skenbar motsättning. I den islamiska teologin, som Ibn Taymiyyah (1263–1328) genomlyste, befaller Gud det goda i kraft av Sin vishet, Sin barmhärtighet och Sin godhet, verkliga egenskaper som tillkommer Honom så som de beskrivs i Koranen och *Sunnah*.[^7] Han preciserade tanken: förnuftets och den skapade naturens särskilda egenskap är att erkänna det goda som gott och det onda som ont.[^8] *Fiṭrah*, den medfödda dispositionen, är inte blind instinkt utan en inre kompass som pekar mot sin källa.
+Euthyfrons gamla dilemma – är det goda gott för att Gud befaller det, eller befaller Gud det för att det är gott? – har riktats mot varje teistisk etik i tvåtusen år. Dilemmat vilar på en skenbar motsättning. I den islamiska teologin, som Ibn Taymiyyah (1263–1328) genomlyste, befaller Gud det goda i kraft av Sin vishet, Sin barmhärtighet och Sin godhet, verkliga egenskaper som tillkommer Honom så som de beskrivs i Koranen och *Sunnah*.[^7] Han preciserade tanken: förnuftets och den skapade naturens särskilda beskaffenhet är att erkänna det goda som gott och det onda som ont.[^8] *Fiṭrah*, den medfödda dispositionen, är inte blind instinkt utan en inre kompass som pekar mot sin källa.
 
-## Det Koranen faktiskt säger
+## Det Koranen säger
 
 Koranen behandlar moral som en del av skapelsens arkitektur:
 
@@ -57,7 +59,7 @@ Ibn Qayyim al-Jawziyyah, elev till Ibn Taymiyyah, skrev:
 
 > Människan rymmer drifter som drar henne nedåt och en ande som drar henne uppåt. Hon liknar rovdjuret i sin vrede, djuret i sin begärelse, och ängeln i sin strävan mot kunskap och lydnad. Den som låter begärelsen styra sjunker under djuren; den som låter förnuftet och uppenbarelsen styra stiger till det högsta.[^11]
 
-Utan vägledning segrar de lägre krafterna, inte för att de är starkare utan för att de är omedelbarare.
+Utan vägledning segrar de lägre krafterna, inte för att de är starkare utan för att de är mer omedelbara.
 
 ## Huset utan grund
 
@@ -65,7 +67,11 @@ August Strindberg, ateist, plågad av sin ateism, skrev i *Inferno*:
 
 > Jag har nämligen blivit ateist under årens lopp, när jag märkt hur de okända makterna lämnat världen åt dess öde utan att giva ett livstecken ifrån sig. Någon att tacka! Det finnes ingen tillstädes, och min tvungna otacksamhet trycker mig som en börda![^13]
 
-*Tvungen otacksamhet.* En tacksamhet som överlever sin egen intellektuella förnekelse är ingen vana utan en grunddrift. Avsaknaden av Gud upplevs inte som frihet utan som skuld utan adressat, tacksamhet utan mottagare, mening utan sammanhang.
+*Tvungen otacksamhet.* En tacksamhet som överlever sin egen intellektuella förnekelse är ingen vana utan en grunddrift. Avsaknaden av Gud upplevs aldrig som frihet — den bär skuld utan adressat, tacksamhet utan mottagare, mening utan sammanhang.
+
+Ingmar Bergman lät riddaren i *Det sjunde inseglet* ställa frågan Strindbergs ateism inte kunde besvara: "Varför kan jag inte döda guden inom mig?"[^20]
+
+Dag Hammarskjöld, som kände samma avgrund, vände den till krav: "Jag begär det orimliga: att livet skall ha en mening. Jag kämpar för det omöjliga: att mitt liv skall få en mening."[^19] Begäran avslöjar sig som bön.
 
 Erik Gustaf Geijer hade tecknat motbilden:
 
@@ -87,7 +93,7 @@ Koranen ställer frågan utan omsvep:
 
 > Vi har inte skapat himlen och jorden och allt som finns däremellan för skojs skull.[^17]
 
-Skapelsen har en avsikt. Värdigheten är inskriven i tillvarons struktur, given av den som strukturerade den. Utan den givaren återstår Söderbergs sed och bruk, Nietzsches avgrund, Strindbergs tvungna otacksamhet.
+Skapelsen har en avsikt. Värdigheten är inristad i tillvarons struktur, skänkt av den som formade den. Utan den givaren återstår Söderbergs sed och bruk, Nietzsches avgrund, Strindbergs tvungna otacksamhet.
 
 ---
 
@@ -107,3 +113,5 @@ Skapelsen har en avsikt. Värdigheten är inskriven i tillvarons struktur, given
 [^16]: Ibn Khaldūn, *Muqaddimah*, kap. 3.
 [^17]: Koranen, al-Anbiyāʾ 21:16.
 [^18]: Ernst-Wolfgang Böckenförde, "Die Entstehung des Staates als Vorgang der Säkularisation" (1967), i *Recht, Staat, Freiheit* (1991).
+[^19]: Dag Hammarskjöld, *Vägmärken*, Albert Bonniers Förlag, 1963.
+[^20]: Ingmar Bergman, *Det sjunde inseglet* (1957).

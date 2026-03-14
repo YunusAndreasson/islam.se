@@ -11,7 +11,7 @@ Ingen tvekan, ingen ångest – han ser, väljer, handlar.
 
 ## Nornornas dom
 
-*Orlog* var inte öde i vår vardagliga mening, inte en förutbestämd plan man underkastade sig med en axelryckning. Orlog var urtidslagen, nornornas väv, den kosmiska ordning som bar allt. I *Völuspá* heter det:
+*Orlog* var inte öde i vår profana mening, inte en förutbestämd plan man underkastade sig med en axelryckning. Orlog var urtidslagen, nornornas väv, den kosmiska ordning som bar allt. I *Völuspá* heter det:
 
 > De norner som väver vid världsträdet, de fastslår lagar, de delar livet åt människornas söner; de utlyst öde.[^1]
 
@@ -37,7 +37,7 @@ Vad den friheten kostar visste Karin Boye. I *Kris* skrev hon:
 
 > Aldrig, aldrig går den förbi, det kommer ny och ny tid med samma ångest, den tar aldrig slut, den är outtömlig.[^5]
 
-Hjalmar Söderberg gav den konkret gestalt:
+Hjalmar Söderberg skänkte den konkret gestalt:
 
 > Det föll över henne en frossbrytning av ångest, var gång hon tänkte på allt det onda, som nästa morgon eller nästa nyår kan hålla i beredskap åt oss, utan att vi vete det och utan att vi kunna göra något.[^6]
 
@@ -53,9 +53,9 @@ Den moderna svensken har befriats från ödestron. Men befrielsen skapade ett to
 
 Ibn Qayyim al-Jawziyyah definierade *tawakkul* som "hjärtats fulla förlitan på Allah ﷻ allena".[^9] Men *tawakkul* har ofta missförståtts som passivitet. Ibn Qayyim avvisade likhetstecknet: "*Tawakkul* hör till de starkaste orsakerna för att uppnå det man önskar och avvärja det man fruktar – det är den starkaste orsaken överhuvudtaget."[^10] Ibn al-Jawzī: "*Tawakkul* upphävs inte genom att vidta tillåtna åtgärder. Den som berövar sig själv nödvändigheter under förevändning av *tawakkul* har brutit mot *sunnah*."[^11]
 
-Vikingen vilar i det oundvikliga, den troende i den Barmhärtige. Att överlåta sitt öde åt en blind lag kräver stoisk hårdhet: du måste tysta den del av dig som frågar *varför*. Att anförtro det åt Allah ﷻ, med Koranens ord "den som sätter sin lit till Allah ﷻ, Han räcker honom"[^12], kräver ingen sådan tystnad. Det skänker ro utan hårdhet, mod utan cynism, handling utan den kvävande känslan att allt hänger på en själv. En profettradition sammanfattar hela principen: "Förunderligt är den troendes tillstånd – Allah ﷻ bestämmer inte något för honom utan att det blir till hans bästa. Drabbas han av motgång har han tålamod, och det blir till hans bästa; och får han framgång är han tacksam, och det blir till hans bästa. Och detta gäller ingen annan än den troende."
+Vikingen vilar i det obönhörliga, den troende i den Barmhärtige. Att överlåta sitt öde åt en blind lag kräver stoisk hårdhet: du måste tysta den del av dig som frågar *varför*. Att anförtro det åt Allah ﷻ, med Koranens ord "den som sätter sin lit till Allah ﷻ, Han räcker honom"[^12], kräver ingen sådan tystnad. Det skänker ro utan hårdhet, mod utan cynism, handling utan den kvävande känslan att allt vilar på en själv. En profettradition sammanfattar hela principen: "Förunderligt är den troendes tillstånd – Allah ﷻ bestämmer inte något för honom utan att det blir till hans bästa. Drabbas han av motgång har han tålamod, och det blir till hans bästa; och får han framgång är han tacksam, och det blir till hans bästa. Och detta gäller ingen annan än den troende."
 
-## Det oundvikligas ro
+## Det obönhörligas ro
 
 Karin Boye, samma Karin Boye som kallade ångesten outtömlig, fann ett ögonblicks klarhet i *Kris*:
 

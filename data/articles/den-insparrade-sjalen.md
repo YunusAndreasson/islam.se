@@ -25,7 +25,7 @@ Inom den parentesen kartlade Ibn al-Jawzī begärets mekanik:
 
 > Själen stannar aldrig vid en gräns, utan eftersträvar njutningar utan ände – och allt den uppnår svalnar snart, varpå den söker något annat.[^2]
 
-Problemet är inte att kroppen begränsar hjärnan utan att den begränsar *själen*. Den hedonistiska löparbanan är inte ett systemfel som kan åtgärdas med ett hjärnchip utan själens grundvillkor i materian.
+Problemet är inte att kroppen begränsar hjärnan utan att den begränsar *själen*. Den hedonistiska löparbanan är själens grundvillkor i materian — inget systemfel som kan åtgärdas med ett hjärnchip.
 
 ## Fängelset som blir bekvämare
 
@@ -53,7 +53,7 @@ Topelius visste att själen flaxade men inte varför fönstret var stängt.
 
 > Sedan fulländade Han henne och blåste in i henne av Sin ande och gav er hörsel och syn och inre sinnen. Så lite ni visar tacksamhet![^9]
 
-Ibn Kathīr lägger till: "Den lycklige är den som använder dessa förmågor i lydnad inför sin Herre." Själen har ett ursprung och ett mål: den kommer från Gud och den återvänder till Gud. Kroppen är resvägen, inte hemmet.
+Ibn Kathīr lägger till: "Den lycklige är den som använder dessa förmågor i lydnad inför sin Herre." Själen har ett ursprung och ett mål: den utgår från Gud och den återvänder till Gud. Kroppen är resvägen, inte hemmet.
 
 ## Kroppens rätt, själens längtan
 
@@ -61,7 +61,7 @@ Kroppen är ett fängelse, och kroppen är en *amānah*, en gåva anförtrodd av
 
 Bönen kräver kroppen: knäna, pannan, händerna. Fastan disciplinerar den utan att förneka den. Den islamiska vägen är inte flykt från kroppen utan vägran att *låta den bli herre*.
 
-Skillnaden mot den platonska dualismen är avgörande. I dialogen *Faidon* visar Platon hur filosofen "ständigt söker befria själen" och döden är den slutgiltiga separationen.[^11] I islam återuppstår kroppen; själen och kroppen återförenas på Domens dag. Befrielsen riktar sig inte mot kroppen utan mot kroppens tyranni: det tillstånd där begäret styr och själen följer.
+Skillnaden mot den platonska dualismen är avgörande. I dialogen *Faidon* visar Platon hur filosofen "ständigt söker befria själen" och döden är den slutgiltiga separationen.[^11] I islam återuppstår kroppen; själen och kroppen återförenas på Domens dag. Befrielsen riktar sig mot kroppens tyranni: det tillstånd där begäret styr och själen följer.
 
 Det är precis detta tyranni som transhumanismen upphöjer till program.
 
@@ -69,13 +69,15 @@ Det är precis detta tyranni som transhumanismen upphöjer till program.
 
 Pär Segerdahl skriver: "Transhumanismen ÄR det mänskliga missnöjet." Dess drivkraft är "hetsen, stressen, ångesten, avundsjukan, otåligheten". Flykten till framtiden är "mönstret för eländet, inte vägen ut".[^12]
 
-Niohundra år tidigare beskrev Ibn al-Jawzī samma rastlöshet, men med en avgörande skillnad. Segerdahls iakttagelse är deskriptiv: missnöjet *är* mönstret. Ibn al-Jawzīs är riktad: själen "stannar aldrig vid en gräns" inte för att den är defekt, utan för att inget ändligt kan mätta det den egentligen söker.
+Ibn Taymiyyah i *al-ʿUbūdiyyah*: "Den som fäster sitt hjärta vid det skapade, dess hjärta underkastas av det."[^18] Transhumanismens frihet avslöjar sig som sin egen fångenskap.
+
+Niohundra år tidigare beskrev Ibn al-Jawzī samma rastlöshet, men med en avgörande skillnad. Segerdahls iakttagelse är deskriptiv: missnöjet *är* mönstret. Ibn al-Jawzīs är riktad: själen "stannar aldrig vid en gräns" inte för att den är defekt, utan för att inget ändligt kan mätta det den i grunden söker.
 
 Koranen namnger tillståndet:
 
 > Varje själ skall smaka döden. Och ni skall sannerligen få era belöningar i fullt mått på Uppståndelsens dag. Den som avlägsnas från Elden och förs in i paradiset har förvisso segrat. Det jordiska livet är inte annat än en bedräglig njutning.[^13]
 
-*Matāʿ al-ghurūr* – en bedräglig njutning. Inte en njutning som är verklig men otillräcklig, utan en som *bedrar*. Transhumanismens löfte är *matāʿ al-ghurūr* i sin renaste form: bedrägeriet förstärkt med miljarder dollar i riskkapital.
+*Matāʿ al-ghurūr* – en bedräglig njutning. Inte en njutning som är reell men otillräcklig, utan en som *bedrar*. Transhumanismens löfte är *matāʿ al-ghurūr* i sin renaste form: bedrägeriet förstärkt med miljarder dollar i riskkapital.
 
 ## Döden som dörr
 
@@ -85,7 +87,7 @@ Men det är *evigt liv* som är transhumanismens yttersta löfte. Medvetandeöve
 
 Islam vägrar premissen: "Varje själ skall smaka döden. Därefter är det till Oss ni skall återföras."[^15] Döden är stunden då cellens väggar faller och själen kan återvända till det den alltid längtat efter.
 
-De mest fromma är ofta de minst rädda för döden, inte av likgiltighet inför livet utan av längtan efter dess källa.
+De mest fromma är ofta de minst rädda för döden, inte av likgiltighet inför livet utan av tillförsikt inför dess källa. Ingmar Bergmans riddare i *Det sjunde inseglet* når samma åtskillnad: "Min kropp är rädd, inte jag själv."[^19]
 
 ## Vart tar själen vägen
 
@@ -118,3 +120,5 @@ Men själen minns. Den flaxar, som Topelius skrev, mot fönsterrutan. Den vänta
 [^15]: Koranen, al-ʿAnkabūt 29:57.
 [^16]: Ibn Khaldūn, *Muqaddimah*.
 [^17]: Simone Weil, *La Pesanteur et la Grâce* (1947).
+[^18]: Ibn Taymiyyah, *al-ʿUbūdiyyah* (Om tjänarskapet). Svensk översättning av artikelförfattaren.
+[^19]: Ingmar Bergman, *Det sjunde inseglet* (1957).

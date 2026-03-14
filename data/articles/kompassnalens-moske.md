@@ -7,7 +7,7 @@ description: "Sockenkyrkan låg alltid mitt i byn – samhällets tyngdpunkt. Is
 ---
 Sockenkyrkan låg alltid mitt i byn, som samhällets tyngdpunkt, den punkt kring vilken allt annat ordnades. Strindberg fångar det i en enda bild från *Inferno*: "Man far uppför en två kilometer lång backe, och ankommen till höjden ser man utöver en rund dal... I mitten av denna tratt ligger byn med sin kyrka."[^1] Kyrkan definierar landskapet, landskapet gemenskapen, gemenskapen den enskilda människan.
 
-Denna rumsliga ordning vilar på ett outtalat axiom: att det heliga kräver en plats — en upphöjd punkt, ett avgränsat rum, en byggnad som skiljer det sakrala från det vardagliga. Erik Gustaf Geijer satte ord på konsekvensen redan på 1810-talet:
+Denna rumsliga ordning vilar på ett outtalat axiom: att det heliga kräver en plats — en upphöjd punkt, ett avgränsat rum, en byggnad som skiljer det sakrala från det profana. Erik Gustaf Geijer satte ord på konsekvensen redan på 1810-talet:
 
 > Kyrkan blef ensamt det heliga, verlden förblef det oheliga samhället.[^2]
 
@@ -15,7 +15,7 @@ Denna rumsliga ordning vilar på ett outtalat axiom: att det heliga kräver en p
 
 Varje punkt på jordens yta — varje parkeringsplats, varje skolkorridor, varje åkerfåra — kan vara en böneplats. Profeten Muḥammad ﷺ sade: "Hela jorden har gjorts till en plats för bön och till ett reningsmedel – den som drabbas av bönetid kan be var han än befinner sig."[^3]
 
-Den europeiska sakralarkitekturen vilar på motsatt logik: det heliga kräver en fast punkt, katedral, tempel, heligt berg, genom vilken det gudomliga kanaliseras.[^4] Mircea Eliade upphöjde den fasta punkten till universalprincip.[^23] Islams grundlogik ger den bedjande en kompassbäring, inte en adress.
+Den europeiska sakralarkitekturen vilar på motsatt logik: det heliga kräver en fast punkt, katedral, tempel, heligt berg, genom vilken det gudomliga förmedlas.[^4] Mircea Eliade upphöjde den fasta punkten till universalprincip.[^23] Islams grundlogik ger den bedjande en kompassbäring, inte en adress.
 
 Koranen slår fast principen:
 
@@ -45,7 +45,7 @@ Nyckeln är det arabiska ordet *shaṭr* – "sida", "allmän riktning". Gud bef
 
 ## Plats och riktning
 
-Platsens teologi tog konkret form i det svenska sockensystemet, som bar samhället från medeltiden in på 1800-talet. Sockenkyrkan restes mitt i bebyggelsen, inom räckhåll för alla. Dit gick man för dop, bröllop och begravning. Dit betalades tionde. Prästen var bygdens viktigaste ämbetsman. Socknen var den minsta geografiska enheten, och kyrkobyggnaden var dess medelpunkt.
+Platsens teologi tog konkret form i det svenska sockensystemet, som bar samhället från medeltiden in på 1800-talet. Sockenkyrkan restes mitt i bebyggelsen, inom räckhåll för alla. Dit gick man för dop, bröllop och begravning. Dit betalades tionde. Prästen var bygdens främste ämbetsman. Socknen var den minsta geografiska enheten, och kyrkobyggnaden var dess medelpunkt.
 
 Runeberg fångar samhörigheten mellan människa och sockenkyrka i en passage som rör sig mellan igenkänning och hemlöshet:
 
@@ -59,7 +59,7 @@ Islam spegelvänder denna logik. Salmān al-Fārisī, en av Profetens ﷺ närma
 
 I det svenska sockensystemet helgar platsen handlingarna: det är *för att* man befinner sig i kyrkan som dopet, vigseln eller begravningen får sakramental kraft. I det islamiska systemet helgar handlingarna platsen: det är *för att* en människa ber att marken under hennes fötter förvandlas till böneplats.
 
-Den industrilokal där en arbetare fäller sina armbågar mot golvet i *sujūd* är, i det ögonblicket, lika giltig som den äldsta moskén.[^13] Det är *fiqh*.
+Den industrilokal där en arbetare fäller sina armbågar mot golvet i *sujūd* är, i det ögonblicket, lika giltig som den äldsta moskén.[^13] Själva ordet *moské* härstammar från arabiskans *masjid*, platsen där pannan vidrör marken. Byggnaden är uppkallad efter handlingen, inte tvärtom. Det är *fiqh*.
 
 ## Varför bygga moskéer alls?
 
@@ -85,7 +85,7 @@ Bremers projekt var ett annat: en romantisk syntes, inte en juridisk princip. De
 
 Var han än befinner sig, den bedjande behöver bara en riktning. Stockholms *qiblah* pekar 157 grader – sydsydost.[^20] Riktningen skär snett genom stadsplanen, ignorerar gatunätet, struntar i tunnelbanans sträckningar. Den löper genom kontorslandskap och parkeringshus, villakök och sjukhuskorridorer, genom varenda kvadratmeter av ett samhälle som byggt sin rumsordning kring andra principer.
 
-Den persiske polyhistorn al-Bīrūnī (d. 1048) utarbetade trigonometriska metoder för *qiblah*-beräkning från varje punkt på jorden.[^21] Men Ibn Taymiyyah insisterade på att Följeslagarnas enkla metoder räckte. Att kräva en exakt koordinat vore att kollapsa riktning till punkt, kompassbäring till adress, och därmed återinföra den platslogik som hela systemet avvisar.
+Den persiske polyhistorn al-Bīrūnī (d. 1048) utarbetade trigonometriska metoder för *qiblah*-beräkning från varje punkt på jorden.[^21] Men Ibn Taymiyyah insisterade på att Följeslagarnas enkla metoder räckte. Att kräva en exakt koordinat vore att förvandla riktning till punkt, kompassbäring till adress, och därmed återinföra den platslogik som hela systemet avvisar.
 
 Karin Boye skrev: "Det finns en tid, då Riltuna kyrka låg mitt i byn."[^22] En försvunnen tid. Kyrkan som en gång definierade dalen, Strindbergs tratt med byn och kyrkan i mitten, har förlorat sin magnetiska kraft. Den islamiska kompassnålen pekar fortfarande – från varje punkt, genom varje rum.
 

@@ -39,7 +39,7 @@ Den fornnordiska traditionen bär samma minne. I *Njáls saga* mäts vänskap i 
 
 Den gemensamma husmanskostens era var också en tid av konformism. Den som inte passade in vid bordet, samerna, romerna, de som talade ett annat språk, stod utanför gemenskapen. Det gemensamma ätandet förutsatte en redan avgränsad gemenskap, och avgränsningen uteslöt.
 
-Och matkassar innebär inte nödvändigtvis ensamätande; familjer lagar dem tillsammans. Men i det tysta har en förskjutning skett: från mat som något man *gör tillsammans* till mat som något man *ordnar för sig själv*.[^10]
+Och matkassar medför inte nödvändigtvis ensamätande; familjer lagar dem tillsammans. Men i det tysta har en förskjutning skett: från mat som något man *gör tillsammans* till mat som något man *ordnar för sig själv*.[^10]
 
 Platon såg samma mönster i sitt Athen. I *Staten* visar han hur Homeros serverar sina hjältar enbart rostade köttstycken, ingen fisk trots att de bor vid kusten, inga kokta rätter, inga söta såser. Enkel mat för starka människor. Men Athen förfinas:
 
@@ -49,7 +49,7 @@ Men ingendera ger mer än diagnos. Platons medborgare formas av statens ordning,
 
 ## Den tredje rösten
 
-"Adams barn", säger Koranen, "ät och drick men gå inte till överdrift. Han älskar verkligen inte dem som går till överdrift."[^12] Versen riktar sig till en människa, aldrig till en stat. Och den nöjer sig inte med att förbjuda; den förklarar varför: "Den som Min vrede drabbar har fallit", versen i sura *Ṭā Hā* som förbinder överdrift med inre kollaps.[^13]
+"Adams barn", säger Koranen, "ät och drick men gå inte till överdrift. Han älskar verkligen inte dem som går till överdrift."[^12] Versen riktar sig till en människa, aldrig till en stat. Och den nöjer sig inte med att förbjuda; den förklarar varför: "Den som Min vrede drabbar har fallit", versen i sura *Ṭā Hā* som förbinder överdrift med inre förfall.[^13]
 
 Men det är i Profetens ﷺ praktik som teorin blir levande. Hadithen om magens tredjedelar har citerats så ofta att den riskerar att nötas ut: en tredjedel för mat, en tredjedel för dryck, en tredjedel för andning.[^14] Bredvid Ibn Khaldūns mekanism avtecknar sig skillnaden: där sociologen iakttar ett kretslopp ger hadithen en individuell *praxis* som bryter det. Vid varje måltid kan varje människa välja återhållsamhet. Ingen behöver invänta civilisationens kretslopp.
 
