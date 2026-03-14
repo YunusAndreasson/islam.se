@@ -35,7 +35,7 @@ Bilden stammar från Profeten ﷺ själv:
 
 Det är detta som Koranen kallar *al-rān*: "Nej, det som de har förvärvat har lagt sig som rost (*rān*) över deras hjärtan."[^6]
 
-Ibn Qayyim preciserar i *Ighāthat al-Lahfān* att hjärtat i sitt ursprungstillstånd — den rena naturen (*fiṭrah*) — är mottagligt för sanning och vägledning. Det är barnet som känner orättvisa innan det lärt sig ordet. Synder, begär och världslig hängivenhet lägger sig lager på lager över ytan. Polerat speglar hjärtat verkligheten som den är. Rostat ser det bara sina egna förvrängningar.
+Ibn Qayyim preciserar i *Ighāthat al-Lahfān* att hjärtat i sitt ursprungstillstånd — den rena naturen (*fiṭrah*) — är mottagligt för sanning och vägledning. Det är barnet som känner orättvisa innan det lärt sig ordet. Synder, begär och världslig hängivenhet lägger sig lager på lager över ytan. Polerat speglar hjärtat verkligheten som den är. Rostat blir det hjärteblint — det ser bara sina egna förvrängningar.
 
 Sömnen avbryter den ström av världsliga intryck som rostar hjärtat under dagen. Men avbrottet polerar ingenting — det hindrar bara ny rost från att falla. Vad hjärtat bär in i sömnen är vad det ser genom: den som tillbringat dagen i *dhikr* tar med sig en yta som ännu fångar ljus; den som tillbringat dagen i glömska en yta redan mörknad. I denna stillhet kan hjärtat, i den mån det bär någon klarhet, ta emot den sanna drömmen.
 

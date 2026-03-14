@@ -67,7 +67,7 @@ Koranen bär samma bild men lyfter den högre:
 
 Fåglarna flyger redan. De faller inte. Frågan är inte om något håller dem uppe utan om betraktaren har ögon att se det. Den sista bisatsen — "Han ser sannerligen allt" — vänder perspektivet: vi ser fåglarna, men fåglarna *ses*. Ibn Kathīr förtydligar: Han vet vad som gagnar varje enskild varelse bland Hans skapelser.
 
-Ur denna bild utvinner Ibn Qayyim trons inre mekanik: rädsla och hopp som två vingar — när de är i jämvikt bär de flygningen framåt; brister den ena, störtar fågeln.[^14] Silvertärnan flyger för att den är skapad att flyga. *Tawakkul* är varken kalkylerande tillförsikt eller förlamande ångest: det är den jämvikt som uppstår när hjärtat slutat väga risker och börjat förlita sig.
+Ur denna bild utvinner Ibn Qayyim trons inre mekanik: rädsla och hopp som två vingar — när de är i jämvikt bär de flygningen framåt; brister den ena, störtar fågeln.[^14] Silvertärnan flyger för att den är skapad att flyga. *Tawakkul* är varken beräknande tillförsikt eller förlamande ångest: det är den jämvikt som uppstår när hjärtat slutat väga risker och börjat förlita sig.
 
 ## En hälsosam osäkerhet
 
@@ -77,7 +77,7 @@ Utan Strindbergs stilistiska skärpa nådde Beck samma slutsats: ju fler risker 
 
 Den franske tänkaren Alexis de Tocqueville beskrev formen 1840: en makt som tryggar medborgarnas behov, sköter deras angelägenheter och steg för steg befriar dem "från besväret att tänka och mödan att leva".[^22]
 
-Ibn Taymiyyah (1300-talet) såg mekanismen med teologisk klarhet:
+Ibn Taymiyyah (1300-talet) såg sambandet med teologisk klarhet:
 
 > Den som hänger sitt hjärta vid skapade ting – att de skall hjälpa honom, försörja honom, vägleda honom – hans hjärta underkastas dem, och det uppstår i honom en träldom under dem i motsvarande grad.[^17]
 

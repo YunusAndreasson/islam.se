@@ -51,7 +51,7 @@ Ibn Qayyim återger i *Madārij al-Sālikīn* ett uttalande av Abū Sulaymān al
 
 ## Andetaget mot spegeln
 
-Det finns stunder av klarhet, ögonblick då man genomskådar en belägenhet med en skärpa som förvånar en själv – och perioder av dimma, då omdömet sviker och man fattar beslut man senare inte begriper. Skillnaden, hävdar Ibn Qayyim, är inte slumpmässig. Den som lever oredligt handlar inte bara fel utan *ser* fel.
+Det finns stunder av klarhet, ögonblick då man genomskådar en belägenhet med en skärpa som förvånar en själv – och perioder av dimma, då omdömet sviker och man fattar beslut man senare inte begriper. Skillnaden, hävdar Ibn Qayyim, är inte slumpmässig. Den som lever oredligt blir hjärteblind: handlar inte bara fel utan *ser* fel.
 
 I sura al-Ḥijr finns en vers som Ibn Qayyim ofta återvände till: "I detta finns sannerligen tecken för de insiktsfulla."[^16] Det arabiska ordet är *mutawassimīn* – de som läser tecken, de som äger *firāsah*. Ibn Kathīr återger att Profeten ﷺ reciterade versen omedelbart efter att ha uttalat orden om den troendes *firāsah* och Guds ljus. Tecknen finns; världen döljer ingenting. Frågan är om betraktarens hjärta är tillräckligt klart för att läsa dem.
 

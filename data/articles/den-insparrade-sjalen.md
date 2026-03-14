@@ -77,7 +77,7 @@ Koranen namnger tillståndet:
 
 > Varje själ skall smaka döden. Och ni skall sannerligen få era belöningar i fullt mått på Uppståndelsens dag. Den som avlägsnas från Elden och förs in i paradiset har förvisso segrat. Det jordiska livet är inte annat än en bedräglig njutning.[^13]
 
-*Matāʿ al-ghurūr* — en bedräglig njutning. Inte en njutning som är reell men otillräcklig, utan en som *bedrar*. Transhumanismens löfte är *matāʿ al-ghurūr* i sin renaste form: bedrägeriet förstärkt med miljarder dollar i riskkapital.
+*Matāʿ al-ghurūr* — ett lyckorus, en bedräglig njutning. Inte en njutning som är reell men otillräcklig, utan en som *bedrar*. Transhumanismens löfte är *matāʿ al-ghurūr* i sin renaste form: bedrägeriet förstärkt med miljarder dollar i riskkapital.
 
 ## Döden som dörr
 

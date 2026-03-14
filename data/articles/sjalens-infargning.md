@@ -33,7 +33,7 @@ Uppenbarelsen själv kom steg för steg, för att stärka Profetens ﷺ hjärta,
 
 ## Ellen Keys tvetydiga arv
 
-År 1900 publicerade Ellen Key *Barnets århundrade*, ett verk som översattes till ett drygt dussin språk och formade pedagogiska ideal långt bortom Sverige.[^7] Hennes kritik av den samtida skolan var skoningslös: den var ett "själamord", ett sandpappersmaskineri som slipade ner barns naturliga nyfikenhet till slö lydnad. Hon ville befria barnet från mekanisk inlärning, plugg och förhör — från en disciplin som slet ner mer än den formade.
+År 1900 publicerade Ellen Key *Barnets århundrade*, ett verk som översattes till ett drygt dussin språk och formade pedagogiska ideal långt bortom Sverige.[^7] Hennes kritik av den samtida skolan var skoningslös: den var ett "själamord", ett sandpappersmaskineri som slipade ner barns naturliga nyfikenhet till slö lydnad. Hon ville befria barnet från själlös inlärning, plugg och förhör — från en disciplin som slet ner mer än den formade.
 
 Men Keys pedagogik var mer sammansatt än vad anhängare och kritiker ofta medger. I sina senare skrifter erkände hon vanans makt med en formulering som kunnat stå i *Muqaddimah*:
 
@@ -73,9 +73,9 @@ Ibn Qayyim al-Jawziyyah fördjupade iakttagelsen i *Madārij al-Sālikīn* med e
 
 Rörelsen är cirkulär. al-Ḥasan al-Baṣrī sammanfattade det så: "Kunskapens folk upphörde aldrig att återvända med ihågkomst till eftertanke, och med eftertanke till ihågkomst, och talade till hjärtana tills de talade."[^17]
 
-*Tills de talade.* Hjärtat är inget passivt kärl. Det är ett organ som kan lära sig tala, men bara genom tålmodigt, upprepat arbete med åminnelse och reflektion. ʿAlī ibn Abī Ṭālib uttryckte det så: "Hjärtana är kärl, och de bästa av dem är de som rymmer mest kunskap. Bevara det jag säger dig."[^18]
+*Tills de talade.* Hjärtat är inget overksamt kärl. Det är ett organ som kan lära sig tala, men bara genom tålmodigt, upprepat arbete med åminnelse och reflektion. ʿAlī ibn Abī Ṭālib uttryckte det så: "Hjärtana är kärl, och de bästa av dem är de som rymmer mest kunskap. Bevara det jag säger dig."[^18]
 
-Det arabiska ordet för hjärta, *qalb*, delar rot med ordet för förändring. Om hjärtat till sitt väsen är *det som vänder sig* är det aldrig neutralt: det formas alltid av något. Avgörande är vad som upprepas. Kunskap, bön, recitation, åminnelse — den process genom vilken det yttre blir inre, det inlärda blir levt.
+Det arabiska ordet för hjärta, *qalb*, delar rot med ordet för förändring. Om hjärtat till sitt väsen är *det som vänder sig* är det aldrig obundet: det formas alltid av något. Avgörande är vad som upprepas. Kunskap, bön, recitation, åminnelse — den process genom vilken det yttre blir inre, det inlärda blir levt.
 
 ## Plöjaren och sådden
 

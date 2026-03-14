@@ -57,7 +57,7 @@ Den som upptas av det förflutna och det kommande förlorar nuet. Varje gång et
 
 Trehundra år senare skrev Pascal, utan kännedom om Ibn Qayyim: "Vi håller oss aldrig till det närvarande. Vi irrar i tider som inte är våra och tänker inte på den enda som tillhör oss."[^25] Men för Pascal är nuet tomt; vi flyr det *därför att* det är outhärdligt i sig. För Ibn Qayyim är nuet laddat: vi flyr det därför att vi inte ser vad det bär. Samma symptom, motsatt orsaksförklaring.
 
-Så lever Glas: fången i minnet av en ungdom som aldrig infriades och i förväntningen på en framtid han inte tror på. Hans dagbok pendlar ständigt mellan dem. Varje konkret nu glider honom ur händerna medan han registrerar det. "Lif, jag förstår dig inte," bekänner han.[^15] Men *waqt* kräver annat än förstånd.
+Så lever Glas: fången i minnet av en ungdom som aldrig infriades och i förväntningen på en framtid han inte tror på. Hans dagbok pendlar ständigt mellan dem. Varje konkret nu glider honom ur händerna medan han antecknar det. "Lif, jag förstår dig inte," bekänner han.[^15] Men *waqt* kräver annat än förstånd.
 
 Denna närvaro — det Ibn Qayyim kallar *nūr al-murāqabah*, övervakandets ljus — slocknar genom förspilld tid.[^16] Det yttre ljuset blir outhärdligt först när det faller över ett inre utan riktning.
 
@@ -65,7 +65,7 @@ Denna närvaro — det Ibn Qayyim kallar *nūr al-murāqabah*, övervakandets lj
 
 Søren Kierkegaard definierade ångesten som "frihetens svindel" — den yrsel som griper den som stirrar ned i sina möjligheter.[^17] Det stämmer för Glas. Men Kierkegaards analys stannar vid svindeln; hans *trosprång* pekar ut ur förlamningen utan att säga vad den som landar ska göra med sin tid. Det är här Ibn Qayyim ger ögonblicket självt en arkitektur.
 
-Människans tid är hennes liv: det råmaterial ur vilket hennes eviga tillvaro formas.[^18][^19] Bönen vid gryningen, ordet vid måltidens bord, steget tillbaka från ilskan.
+Människans tid är hennes liv: det råmaterial ur vilket hennes eviga tillvaro formas.[^18][^19] Morgonrymden efter *fajr*, ordet vid måltidens bord, steget tillbaka från ilskan.
 
 Glas' ångest saknar fäste utanför jaget. Han kan inte vara sin tids barn, ty hans tid bär ingen uppgift; den bara pågår, omarkerad, utan bön som bryter dygnet, utan *fajr* som ger gryningen halt, utan *ʿishāʾ* som ger natten djup. Midsommarnattens gränslösa ljus förkroppsligar hans inre tillstånd: en tid utan struktur, och därmed utan liv.
 

@@ -45,7 +45,7 @@ Saʿīd ibn Jubayr drar gränsen: "Det bedrägliga njutandet är det som distrah
 
 ## Hybris och proportioner
 
-Profeten ﷺ bestämde högmod med en precision som stänger varje flyktväg: "Högmod är att förneka sanningen och förakta människor."[^11] Inte en känsla utan en handling: att vända bort ansiktet när någon talar sant. Ibn Qayyim härleder högmodets rot till självbedrägeri:[^12] berusad av sin egen storhet förlorar människan förmågan att se sina rätta proportioner. Den högmodige placerar sig *ovanför* det skapade i stället för *inom* det. Ödmjukhet säger *jag delar planeternas villkor*; högmod säger *kosmos tjänar mitt medvetande*.
+Profeten ﷺ bestämde högmod med en precision som stänger varje flyktväg: "Högmod är att förneka sanningen och förakta människor."[^11] Inte en känsla utan en handling: att vända bort ansiktet när någon talar sant. Ibn Qayyim härleder högmodets rot till självbedrägeri:[^12] i lyckorus — berusad av sin egen storhet — förlorar människan förmågan att se sina rätta proportioner. Den högmodige placerar sig *ovanför* det skapade i stället för *inom* det. Ödmjukhet säger *jag delar planeternas villkor*; högmod säger *kosmos tjänar mitt medvetande*.
 
 Koranen riktar sig till den som vandrar på jorden högmodigt: "Du kan varken klyva jorden eller uppnå bergens höjd."[^13]
 
@@ -65,7 +65,7 @@ Ibn al-Jawzī iakttog samma fenomen i *Ṣayd al-Khāṭir*: "Bland det mest fö
 
 Men uppvaknandet förblir meningslöst om det inte möter något verkligt att vakna *till*. Carl von Linné, som ägnade sitt liv åt att katalogisera skapelsen, slog fast i *Nemesis Divina*: "Ödet (fatum) är Guds dom, mot hvilken intet vad gifves."[^18] Inte blint öde utan dömt — den som flyr ödet flyr domen.
 
-Musk vill aldrig vakna. Han vill flytta drömmen till en annan planet. Den som aldrig begrundat jordens undergång sover okunnigt; Musk har vaknat tillräckligt för att se att drömmen är bräcklig, men gör insikten till bränsle för att förlänga den — inte för att vakna ur den.
+Musk vill aldrig vakna. Han vill flytta drömmen till en annan planet. Den som aldrig begrundat jordens undergång sover okunnigt; Musk har vaknat tillräckligt för att se att drömmen är bräcklig, men gör insikten till bränsle för att förlänga den — inte för att vakna ur dödsglömskan.
 
 Redan innan spektralanalys och exoplanetjakt visste Topelius att planeterna var ostadiga. Hans kosmologi byggde på läsning, inte mätning — på förmågan att avläsa det skapade som tecken.
 

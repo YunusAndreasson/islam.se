@@ -55,7 +55,7 @@ Andra svenska tänkare närmade sig samma tröskel, var och en från sitt håll.
 
 Isaac Newton, som kartlade tyngdkraftens lagar och planetbanorna, bekände gränsen: "Jag förefaller mig själv ha varit blott ett barn som leker vid stranden, medan sanningens vida ocean låg outforskad framför mig."[^26] Den som ser mest ser tydligast hur mycket som förblir osett — det är Ibn ʿAbbās' fjärde skikt gjort till personlig erfarenhet.
 
-Viktor Rydberg, en av den svenska liberalismens främsta intellektuella, lät karaktären Kimon i *Den siste Atenaren* uttrycka samma misstro:
+Viktor Rydberg, en av den svenska liberalismens främsta tänkare, lät karaktären Kimon i *Den siste Atenaren* uttrycka samma misstro:
 
 > Förnuftet motsäger vad sinnena vittna. Påstode jag nu för min del, att sinnena äro lögnaktiga, så kan en annan med samma rätt påstå, att det tvärtom är förnuftets slutledningar, som äro falska.[^16]
 

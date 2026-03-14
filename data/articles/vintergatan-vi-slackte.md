@@ -27,7 +27,7 @@ Men Koranen förankrar insikten i den fysiska erfarenheten av ljus och mörker. 
 
 > Eller som mörker i ett bråddjupt hav som täcks av vågor ovanpå vågor med mörka molnmassor ovanför sig – mörker; det ena över det andra. Sträcker han ut sin hand kan han nästan inte se den.[^6]
 
-Koranen tilltalar människor som *vet* hur mörker känns, som har stått i det och känt sin egen hjälplöshet. I *Ighāthat al-Lahfān* namnger Ibn Qayyim en av hjärtats sjukdomar: ljuset fördunklas av ständig stimulans; den som vill återfå sin *baṣīrah* -- sin inre syn -- måste dra sig undan det som bländar.[^7] Det som överskrider det fysiska måste ha *börjat* i det fysiska.
+Koranen tilltalar människor som *vet* hur mörker känns, som har stått i det och känt sin egen hjälplöshet. I *Ighāthat al-Lahfān* namnger Ibn Qayyim en form av hjärtesot: ljuset fördunklas av ständig stimulans; den som blivit hjärteblind och vill återfå sin *baṣīrah* — sin inre syn — måste dra sig undan det som bländar.[^7] Det som överskrider det fysiska måste ha *börjat* i det fysiska.
 
 ## Natten som andligt villkor
 
@@ -71,7 +71,7 @@ Den okände poeten i *Lärkan*, en svensk poetisk kalender från 1800-talet, for
 
 > Gud! bor äfven i natten Du? Glänser i månens bleka skimmer äfven Din kärleksblick? Sväfvar på molnens silfvervingar äfven Din andes sken? Kom då, du natt! Ack! så ljufligt är tystnadens språk, stjernornas saliga ljus![^20]
 
-Guds ljus *framträder* i natten. Utan erfarenheten av stjärnor mot svart himmel förblir meningen intellektuell. Att stå under en oändlig rymd och känna sin egen litenhet som befrielse fordrar mörker.
+Guds ljus *framträder* i natten. Utan erfarenheten av stjärnor mot svart himmel förblir meningen blott tanke. Att stå under en oändlig rymd och känna sin egen litenhet som befrielse fordrar mörker.
 
 Koranen ger stjärnorna just denna roll: "Det är Han som har gett er stjärnorna för att ni genom dem skall kunna finna er väg i landets och havets mörker."[^21] Många av de ljusaste stjärnornas namn är arabiska -- Aldebaran, *den som följer*; Altair, *den flygande* -- namngivna i en tid då himlen ännu lästes som tecken. Stjärnorna verkar bara i mörker. Och det de leder mot -- sammanhanget i sura *al-Anʿām* tydliggör det -- är mer än en fysisk destination. I *Aftonland* skrev Pär Lagerkvist: "Ökenvandraren överger sin lägerplats, som snart skall utplånas av sanden, och fortsätter sin färd i nattens stillhet, ledd av gåtfulla stjärnor."[^27]
 

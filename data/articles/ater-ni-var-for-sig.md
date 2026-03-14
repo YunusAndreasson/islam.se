@@ -21,7 +21,7 @@ Nomaderna erövrar staden. I staden finns bekvämlighet. Bekvämligheten förfin
 
 > Folket fortsätter att omfatta allt nyare former av lyx och stadskulturens lugn, stillhet och mjukhet. De fjärmas från ökenlivet.[^5]
 
-Dynastier, skrev han, liknar frukter: för hårda att äta i början, av god kvalitet när de mognar, men smakliga först när de närmar sig förruttnelsen.[^6] Det som gör en civilisation framgångsrik – välstånd, trygghet, förfining – förgör den. Framgången är inte motgångens motsats utan dess förutsättning.
+Dynastier, skrev han, liknar frukter: för hårda att äta i början, av god kvalitet när de mognar, men smakliga först när de närmar sig förruttnelsen.[^6] Det som gör en civilisation framgångsrik – välstånd, trygghet, förfining – förgör den. Framgången är ett lyckorus: inte motgångens motsats utan dess förutsättning.
 
 ## Borden som en gång bars fram
 

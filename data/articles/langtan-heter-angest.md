@@ -11,7 +11,7 @@ Tänk om antagandet är fel.
 
 ## Hjärtats diagnos
 
-Ibn Qayyim al-Jawziyyah, verksam i Damaskus under 1300-talets första hälft, ägnade sitt livsverk åt vad han kallade hjärtats sjukdomar — *amrāḍ al-qulūb*. Hjärtat (*qalb*) var för honom ett organ för andlig varseblivning, lika sårbart som kroppen, lika beroende av rätt diagnos. I *al-Dāʾ wa-l-Dawāʾ* blottlägger han syndens mekanism:
+Ibn Qayyim al-Jawziyyah, verksam i Damaskus under 1300-talets första hälft, ägnade sitt livsverk åt vad han kallade hjärtesot — *amrāḍ al-qulūb*. Hjärtat (*qalb*) var för honom ett organ för andlig varseblivning, lika sårbart som kroppen, lika beroende av rätt diagnos. I *al-Dāʾ wa-l-Dawāʾ* blottlägger han syndens verkningssätt:
 
 > Synderna försvagar hjärtats vandring mot Gud och det tillkommande – de hindrar det, stoppar det och avskär dess färd, så att det inte tar ett enda steg mot Gud. Om de inte vänder det bakåt.[^1]
 
@@ -59,7 +59,7 @@ Kierkegaard lämnar den ångestfyllde ensam med sin frihet. Utan ett begrepp om 
 
 Koranen beskriver den läkande rörelsen: "Det var Han som sände ned lugnet i de troendes hjärtan så att de kunde växa i tro utöver den tro de hade."[^11] Lugnet, *sakīnah*, kommer inte av att prövningen uteblir utan sänds ned *i* prövningen — en kraft verksam genom det svåra, inte vid sidan om det.
 
-Ibn Qayyim utvecklar detta i *al-Wābil al-Ṣayyib*: "Hjärtat rostar som koppar och silver rostar, och dess polering är *dhikr*."[^12] Hjärtats naturliga tillstånd är glans, inte mörker. Sjukdomen är beläggning, inte skada i grundmaterialet. *Dhikr* — Guds åminnelse — återställer det ursprungliga tillståndet.
+Ibn Qayyim utvecklar detta i *al-Wābil al-Ṣayyib*: "Hjärtat rostar som koppar och silver rostar, och dess polering är *dhikr*."[^12] Hjärtats naturliga tillstånd är glans, inte mörker. Hjärtesoten är beläggning, inte skada i grundmaterialet. *Dhikr* — Guds åminnelse — återställer det ursprungliga tillståndet.
 
 Strindberg skymtade samma insikt: "Vi ha vuxit, och därför äro vi sjuka. Varje tid har sina sjukdomar, vilka synas bero av förändringar i själen."[^13] Orden bär en sanning Strindberg aldrig förmådde följa hela vägen: att sjukdomen stundom tillhör växandet, att det som plågar är det som formar. Ibn Qayyim skulle ha nickat igenkännande — och sedan frågat: mot vad växer du?
 

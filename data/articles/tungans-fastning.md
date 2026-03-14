@@ -63,7 +63,7 @@ Ibn Ḥibbān al-Bustī, den lärde hadithsamlaren, klädde balansen i ord: "Tys
 
 Den som vaktar tungans fästning måste känna fiendens hela arsenal. Al-Māwardī indelade skadligt tal i sex kategorier, från lögnen till förolämpningen. Om den sista skrev han: "Förolämpningen är kanske den som biter hårdast i hjärtat och lämnar djupast spår i själen."[^28] Förolämpningen skadar inte för att den är falsk utan för att den angriper den andres *värdighet*. Skillnaden mellan att säga "du ljög" och "du är en lögnare": det första kan motbevisas, det andra biter sig fast i identiteten.[^29]
 
-Koranen namnger ansvaret: "Varje själ är ansvarig för vad den har gjort."[^30] Ansvaret gäller inte bara handlingarna utan orden, varje ord, registrerat av den väktare som inte tar paus.
+Koranen namnger ansvaret: "Varje själ är ansvarig för vad den har gjort."[^30] Ansvaret gäller inte bara handlingarna utan orden, varje ord, nedtecknat av den väktare som inte tar paus.
 
 Men det finns en tystnad som varken undviker eller flyr — den tystnad där orden inte behövs för att de är överflödiga, inte för att de undertrycks. Karin Boye gestaltade en sådan tystnad:
 

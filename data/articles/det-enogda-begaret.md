@@ -7,7 +7,7 @@ description: "I sitt verk *Rawḍat al-Muḥibbīn* bygger den damascenske 1300-
 ---
 Ett ögonblick innan begäret. Ett kort, omärkligt mellanrum — en bråkdels sekund mellan att se och att vilja se. Det mesta av det vi kallar frihet avgörs där.
 
-Profeten Muḥammad ﷺ destillerade det till en formel som verkar alltför enkel:
+Profeten Muḥammad ﷺ rymde det i en formel som verkar alltför enkel:
 
 > Den första blicken är ett misstag, den andra är avsiktlig, den tredje förstör.[^1]
 
@@ -77,7 +77,7 @@ Ibn Qayyim jämför blicken med ett glas vin: betraktelsen berusar. Kärlekens b
 
 Kent Berridges neurovetenskapliga forskning visar varför: upprepad exponering för en stimulans stärker hjärnans begär utan att öka tillfredsställelsen. Man åtrår mer utan att njuta mer.[^21]
 
-Kedjan kan brytas, men bara i sitt första led. Ögonblicket innan begäret är oförfalskat — varseblivning som ännu inte blivit konstruktion. Du kan fortfarande välja.
+Kedjan kan brytas, men bara i sitt första led. Ögonblicket innan begäret är oförfalskat — varseblivning som ännu inte blivit bygge. Du kan fortfarande välja.
 
 ---
 

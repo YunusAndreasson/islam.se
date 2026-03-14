@@ -23,7 +23,7 @@ Den islamiska traditionen bär en synvinkel som saknas i modern sömnforskning. 
 
 > Det är känt att den sovandes själ skiljs från kroppen i en form av separation, ty sömnen är dödens broder.[^3]
 
-Ibn Taymiyyahs tolkning blottlägger något den moderna sömnforskningen inte når: varför det är så svårt att somna i en tid som förvisat döden. Inte den biologiska döden, utan döden som närvaro, som daglig påminnelse. Döendet har flyttat till sjukhus, begravningen till byråer, sorgen till terapirummet. Vi har undanröjt döden ur vardagen — och med den, förmågan att somna.
+Ibn Taymiyyahs tolkning blottlägger något den moderna sömnforskningen inte når: varför det är så svårt att somna i en tid som förvisat döden. Inte den biologiska döden, utan döden som närvaro, som daglig påminnelse. Döendet har flyttat till sjukhus, begravningen till byråer, sorgen till terapirummet. Vi har undanröjt döden ur vardagen — en dödsglömska som kostat oss förmågan att somna.
 
 Den moderna neurofysiologin beskriver sömnen som ett förändrat medvetandetillstånd, styrt av neurotransmittorer och cirkadiska rytmer. Beskrivningen är riktig men ofullständig — på samma sätt som en kemisk analys av bläck är en ofullständig beskrivning av ett brev.
 
