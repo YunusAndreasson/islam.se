@@ -61,7 +61,7 @@ Han tillade: "kunskap om språkens betydelser uppnås av den som umgås med dem 
 
 ## Spegeln västerut: Stiernhielm och den svenska paradoxen
 
-År 1668 publicerade Georg Stiernhielm *Hercules*, den svenska skaldekonstens grundsten. Erik Gustaf Geijer iakttog: "Språket låg ännu rått och ouppodladt. Man måste känna det barbari, hvari det i följd deraf förfallit, för att rätt värdera allt hvad det blef under Stjernhjelms hand."[^13]
+År 1658 publicerade Georg Stiernhielm *Hercules*, den svenska skaldekonstens grundsten. Erik Gustaf Geijer iakttog: "Språket låg ännu rått och ouppodladt. Man måste känna det barbari, hvari det i följd deraf förfallit, för att rätt värdera allt hvad det blef under Stjernhjelms hand."[^13]
 
 Stiernhielm lyfte svenskan ur tyskt och latinskt beroende. Men i Strindbergs *Röda rummet* utbrister en karaktär i satirisk förtvivlan: "Ner med den dumma hunden Georg Stjernhjelm!" — för att denne drivit fram svenskan och trängt undan tyskan.[^14] Strindberg satiriserar den som vänder sig mot själva den språkliga självständigheten. Det löjliga ligger hos dem som hellre behöll det lånade.
 
@@ -101,6 +101,6 @@ Ibn al-Jawzī behövde inte nämna varifrån kunskapssökaren kom.
 [^12]: Ibn Taymiyyah, *al-Radd ʿalā al-Manṭiqiyyīn*. Egen översättning från arabiska.
 [^13]: Erik Gustaf Geijer, *Äreminne öfver Georg Stjernhjelm*.
 [^14]: August Strindberg, *Röda rummet* (1879). Passagen är satirisk: karaktären angriper ironiskt Stiernhielm för att ha drivit fram svenska på bekostnad av tyskan.
+[^15]: Joseph Conrad (Józef Teodor Konrad Korzeniowski, 1857–1924) föddes i det ryska imperiets polska territorier och lärde sig engelska som vuxen sjöman. Han räknas bland det engelska språkets mest inflytelserika romanförfattare. Se Najder, Z., *Joseph Conrad: A Life*, Camden House, 2007.
 [^16]: ʿAlī ibn Abī Ṭālib, citerad i *Kitāb al-Ṣamt wa Ādāb al-Lisān*. Egen översättning från arabiska.
 [^17]: Ibn al-Jawzī, *Dhamm al-Hawā*. Egen översättning från arabiska.
-[^15]: Joseph Conrad (Józef Teodor Konrad Korzeniowski, 1857–1924) föddes i det ryska imperiets polska territorier och lärde sig engelska som vuxen sjöman. Han räknas bland det engelska språkets mest inflytelserika romanförfattare. Se Najder, Z., *Joseph Conrad: A Life*, Camden House, 2007.

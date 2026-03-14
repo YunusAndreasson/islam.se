@@ -3,7 +3,7 @@ title: "Alis princip"
 publishedAt: "2025-11-12T12:00:00.000Z"
 wordCount: 1859
 qualityScore: 8.6
-description: "År 1955 röstade svenska folket för att avskaffa Brattsystemet trots läkarnas varningar. Tjugofem år senare fick väljarna tre alternativ i kärnkraftsfrågan – inget av dem ett rent nej. Koranen hade satt ord på saken långt före båda omröstningarna: de flesta följer antaganden, inte kunskap."
+description: "År 1955 avskaffade riksdagen Brattsystemet trots läkarnas varningar. Tjugofem år senare fick väljarna tre alternativ i kärnkraftsfrågan – inget av dem ett rent nej. Koranen hade satt ord på saken långt före båda besluten: de flesta följer antaganden, inte kunskap."
 ---
 En mening i Koranen borde oroa varje demokrat: "De flesta av dem följer inte annat än antaganden. Men antaganden kan aldrig ersätta sanningen på något sätt."[^1]
 
@@ -15,7 +15,7 @@ Strindberg observerade, Key kritiserade, Le Bon dissekerade – men Koranen för
 
 Den liberala demokratin vilar på en outtalad premiss: att folkviljan, genom rätt procedurer, närmar sig det goda. Proceduren ger enighet, legitimitet, det minst skadliga – men aldrig sanning. Premissen har aldrig bevisats. Bara antagits.
 
-Sverige ger två talande exempel. År 1955 röstade svenska folket för att avskaffa motbokssystemet, det så kallade Brattsystemet, trots att den medicinska expertisen varnade för konsekvenserna. Alkoholkonsumtionen steg. Skadorna följde. Folket hade talat, och folket hade fel.[^5] Men saken är inte enkel: Brattsystemet var också ett instrument för klassövervakning, där läkare och byråkrater godtyckligt begränsade fattiga medborgares inköp medan överklassen drack obehindrat. Experternas sanning var verklig men förmedlades genom förnedring. Demokratin löste ett rättviseproblem genom att skapa ett folkhälsoproblem, och saknade medel att hantera konflikten.
+Sverige ger två talande exempel. År 1955 avskaffade riksdagen motbokssystemet, det så kallade Brattsystemet, trots att den medicinska expertisen varnade för konsekvenserna. Alkoholkonsumtionen steg. Skadorna följde. Riksdagen hade talat i folkets namn, och den hade fel.[^5] Men saken är inte enkel: Brattsystemet var också ett instrument för klassövervakning, där läkare och byråkrater godtyckligt begränsade fattiga medborgares inköp medan överklassen drack obehindrat. Experternas sanning var verklig men förmedlades genom förnedring. Demokratin löste ett rättviseproblem genom att skapa ett folkhälsoproblem, och saknade medel att hantera konflikten.
 
 Tjugofem år senare, 1980, folkomröstade Sverige om kärnkraften. Tre alternativ presenterades. Inget var ett rent nej. Väljarna fick välja mellan tre varianter av ja med olika avvecklingstakt, och resultatet tolkades som en avvecklingsplan som aldrig genomfördes fullt ut.[^6] Demokratin hade gett ett svar men ingen sanning. Proceduren var oklanderlig; kunskapen obefintlig.
 
@@ -71,7 +71,7 @@ Den som räknar huvuden istället för att pröva argument har redan förlorat d
 [^2]: August Strindberg, *Götiska rummen*, Stockholm, 1904.
 [^3]: Ellen Key, *Lifslinjer*, första delen, Stockholm, 1903.
 [^4]: Gustave Le Bon, *Massans psykologi*, kap. 2.
-[^5]: Brattsystemet avskaffades genom folkomröstning 1955. Systembolagets historik dokumenterar den efterföljande konsumtionsökningen.
+[^5]: Brattsystemet avskaffades genom riksdagsbeslut 1954, med verkan från 1 oktober 1955. Systembolagets historik dokumenterar den efterföljande konsumtionsökningen.
 [^6]: Folkomröstningen om kärnkraften genomfördes den 23 mars 1980. De tre alternativen innebar olika tidsplaner för avveckling, men inget alternativ motsvarade ett rent nej till avveckling.
 [^7]: Koranen, al-Isrāʾ 17:36.
 [^8]: Ibn Qayyim al-Jawziyyah, *al-Dāʾ wa-l-Dawāʾ* (Sjukdomen och botemedlet).

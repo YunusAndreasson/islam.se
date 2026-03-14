@@ -31,9 +31,7 @@ I *Hemsöborna* skildrar Strindberg bröllopsfesten på Hemsö med en scen som v
 
 Pluralformerna säger allt: *såtar*, *vålmar*, *staplar*, *travar*. Maten mäts i mängder som förutsätter gemenskap. Pastorn saknas, och "utan pastorn ville ingen börja". Man väntar på varandra.
 
-Tusentals gånger spelades den scenen upp i det Sverige som skulle kalla sig folkhem. I sitt berömda tal 1928 använde Per Albin Hansson hemmet som politisk metafor: "Det goda hemmet känner icke till några privilegierade eller tillbakasatta, inga kelgrisar och inga styvbarn."[^8] Det var en vision om jämlikhet, men visionen krävde en materiell bas, och den basen var till stor del det gemensamma ätandet. Husmanskost – ärtsoppa på torsdag, köttbullar på söndag, pannkakor till middag – det var där folkhemmets solidaritet utövades, inte debatterades.
-
-Den fornnordiska traditionen bär samma minne. I *Njáls saga* mäts vänskap i inbjudningar till bords: Gunnar och Njáll bjöd varandra till gästabud varje skörd och utbytte rika gåvor, år efter år.[^9] Den som inte bjöd hade brutit bandet.
+Tusentals gånger spelades den scenen upp i det Sverige som skulle kalla sig folkhem. I sitt berömda tal 1928 använde Per Albin Hansson hemmet som politisk metafor: "Det goda hemmet känner icke till några privilegierade eller tillbakasatta, inga kelgrisar och inga styvbarn."[^8] Det var en vision om jämlikhet, men visionen krävde en materiell bas, och den basen var till stor del det gemensamma ätandet. Husmanskost – ärtsoppa på torsdag, köttbullar på söndag, pannkakor till middag – det var där folkhemmets solidaritet utövades, inte debatterades. Traditionen är äldre än folkhemmet: redan i *Njáls saga* mäts vänskap i inbjudningar till bords. Gunnar och Njáll bjöd varandra till gästabud varje skörd och utbytte rika gåvor, år efter år.[^9] Den som inte bjöd hade brutit bandet.
 
 ## Vad som hände sedan
 
@@ -41,11 +39,11 @@ Den gemensamma husmanskostens era var också en tid av konformism. Den som inte 
 
 Matkassar medför inte nödvändigtvis ensamätande; familjer lagar dem tillsammans. Men i det tysta har en förskjutning skett: från mat som något man *gör tillsammans* till mat som något man *ordnar för sig själv*.[^10]
 
-Platon såg samma mönster i sitt Athen. I *Staten* visar han hur Homeros serverar sina hjältar enbart rostade köttstycken, ingen fisk trots att de bor vid kusten, inga kokta rätter, inga söta såser. Enkel mat för starka människor. Men Athen förfinas:
+Förskjutningen är inte ny. Redan Platon såg samma mönster i sitt Athen. I *Staten* visar han hur Homeros serverar sina hjältar enbart rostade köttstycken, ingen fisk trots att de bor vid kusten, inga kokta rätter, inga söta såser. Enkel mat för starka människor. Men Athen förfinas:
 
 > Där frosseri och omåttlighet råder fyller staden snabbt med läkare och advokater.[^11]
 
-Men ingendera ger mer än diagnos. Platons medborgare formas av statens ordning, Ibn Khaldūns nomad av öknens villkor. Inget av systemen ger den enskilda människan en praktik som bryter den kollektiva driften mot förfall. Platon föreslår en auktoritär lösning: kontrollera maten, kontrollera karaktären. Ibn Khaldūn beskriver ett kretslopp utan utväg.
+Varken Platon eller Ibn Khaldūn ger dock mer än diagnos. Platons medborgare formas av statens ordning, Ibn Khaldūns nomad av öknens villkor. Inget av systemen ger den enskilda människan en praktik som bryter den kollektiva driften mot förfall. Platon föreslår en auktoritär lösning: kontrollera maten, kontrollera karaktären. Ibn Khaldūn beskriver ett kretslopp utan utväg.
 
 ## Den tredje rösten
 
@@ -65,7 +63,7 @@ Platon ville styra maten uppifrån. Ibn Khaldūn beskrev matvanornas förändrin
 
 ## Köksbordet som tystnat
 
-Amanda Björnwalls avhandling vid Uppsala universitet (2025) dokumenterar sambandet hos 70–75-åringar: det väsentliga är inte ensamätandet i sig utan att *vara* ensam vid bordet som social händelse.[^17][^18]
+Modern forskning bekräftar vad traditionen länge vetat. Amanda Björnwalls avhandling vid Uppsala universitet (2025) visar att det bland 70–75-åringar inte är ensamätandet i sig som skadar, utan att *vara* ensam vid bordet — att måltiden förlorar sin funktion som social händelse.[^17][^18]
 
 År 2024 reste IKEA vad de kallade "Sveriges största långbord".[^19] Ett möbelföretag försöker lösa ett existentiellt problem genom att bygga ett bord. Sorgligt just för att det är nödvändigt: någon måste *bygga* det bord som en gång var givet.
 
@@ -85,7 +83,7 @@ Profetens ﷺ fråga hänger kvar: *Äter ni var för sig?*
 [^6]: Ibn Khaldūn, *Muqaddimah*, kap. 3, liknelsen om dynastier och frukter.
 [^7]: August Strindberg, *Hemsöborna* (1887), kap. 5, bröllopsscenen.
 [^8]: Per Albin Hansson, folkhemstalet i riksdagen, 18 januari 1928.
-[^9]: *Njáls saga*, kap. 2. Jfr A.U. Bååths svenska översättning (1879).
+[^9]: *Njáls saga*, kap. 33–35. Jfr A.U. Bååths svenska översättning (1879).
 [^10]: Statista, *Meal Kit Delivery – Sweden*, marknadsprognos 2024–2029.
 [^11]: Platon, *Staten*, bok III, 404c–405c, i Benjamin Jowetts översättning. Svensk tolkning.
 [^12]: Koranen, al-Aʿrāf 7:31.
