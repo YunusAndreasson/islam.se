@@ -37,13 +37,13 @@ Den islamiska traditionen saknar inte dem som ifrågasatt *firāsah* som kunskap
 
 Men den tradition Ibn Qayyim företräder duckar inte. Han insisterar på att *firāsah* måste prövas mot Koranen och *Sunnah*; den står aldrig ensam som auktoritet.[^12] Shāh al-Kirmānī, som Ibn Qayyim ofta citerar som föredöme, villkorade klarsynen med fyra konkreta praktiker: att följa Profetens ﷺ praxis i sitt yttre, att upprätthålla ständig inre vaksamhet, att sänka blicken från det förbjudna och att äta det tillåtna.[^13] Ett program med verifierbara yttre tecken.
 
-Kvar står ett system där klarsyn, etik och skriftlig auktoritet balanserar varandra.
+Kvar står ett system där klarsyn, etik och skriftlig auktoritet balanserar varandra — ingen av de tre räcker ensam.
 
 ## Det som forskningen inte frågar
 
 Kognitionsvetenskapen kartlägger *att* intuition fungerar, men inte vad som avgör om den ser klart eller skevt. Viktor Rydberg närmade sig den frågan: "Med större möda bekämpar Guds ståthållare de inre fienderna än de yttre."[^18] Att den inre kampen väger tyngre än den yttre – det är den grund *firāsah* vilar på.
 
-Iris Murdoch hävdade i *The Sovereignty of Good* (1970) att klart seende kräver moralisk ansträngning.[^17] Men hon konstaterar sambandet utan att förklara det. Ibn Qayyims metafysik ger förklaringen: hjärtat är skapat som perceptionsorgan, och ljuset som återställer dess klarhet skänks av Gud som svar på *taqwā*.
+Iris Murdoch hävdade i *The Sovereignty of Good* (1970) att klart seende kräver moralisk ansträngning.[^17] Hon konstaterar sambandet men förklarar det inte. Ibn Qayyims metafysik ger förklaringen: hjärtat är skapat som perceptionsorgan, och ljuset som återställer dess klarhet skänks av Gud som svar på *taqwā*.
 
 Enligt en tradition som al-Tirmidhī återger – de enskilda berättarkedjorna är svaga, men hadithvetare klassificerar den som *ḥasan li-ghayrihi*, tillförlitlig genom samstämmighet – sade Profeten Muḥammad ﷺ: "Akta er för den troendes *firāsah*, ty han ser med Guds ljus."[^14] Att se med Guds ljus är inget anspråk på ofelbarhet. Det är att hävda att det finns en perception som öppnar sig för den som renar sitt hjärta.
 

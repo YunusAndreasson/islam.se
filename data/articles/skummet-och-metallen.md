@@ -27,7 +27,7 @@ Under krisåren i Paris snubblade August Strindberg in i Swedenborgs universum. 
 
 > Helvetets eld, det är begäret att komma sig fram i världen; makterna uppväcka begäret och tillstädja de fördömda att ernå vad de eftertrakta. Men så snart målet är hunnet, önskningarna uppfyllda, befinnes allt vara värdelöst.[^6]
 
-Begäret efter framgång, bekräftelse, makt -- det *är* elden. Den bränner inte kroppen utan urholkar meningen. Morgonen efter att priset delades ut.
+Begäret efter framgång, bekräftelse, makt -- det *är* elden. Den bränner inte kroppen utan urholkar meningen. Priset delas ut, önskan uppfylls — och allt befinns värdelöst.
 
 Men denna inåtvändning -- Swedenborgs liksom Strindbergs -- når en gräns. Swedenborgs eld saknar objektiv verklighet; den existerar bara som psykologisk korrespondens, som inre spegling. Hans system framtvingar en fråga det inte kan besvara: vad händer om elden inte bara speglar utan avslöjar? Om elden *vet*?
 
@@ -39,7 +39,7 @@ Koranen ger ett svar. Den tillför eldbilden en förmåga som varken den nordisk
 
 Ibn Kathīr läser flodbäddarnas varierande storlek som en anspelning på hjärtanas olikhet -- bland dem finns de som rymmer riklig kunskap, bland dem de som är för trånga för den. Elden *åtskiljer*. Skummet, som ser massivt ut på ytan, visar sig vara ingenting. Metallen, osynlig under skummet, framträder. Elden *skapar* inte skillnaden; den fanns där hela tiden.
 
-Varken den nordiska elden eller Swedenborgs korrespondenser når dit. Den koraniska elden *prövar*. Herakleitos tillskrev visserligen elden förmågan att döma, men hans eld är opersonlig *logos*, utan blick för den enskilde.[^16] Den koraniska elden ser den enskilde.
+Varken den nordiska elden eller Swedenborgs korrespondenser når dit. Den koraniska elden *prövar*. Herakleitos tillskrev visserligen elden förmågan att döma — "elden ska, när den kommer, döma och gripa allt" — men hans eld är opersonlig *logos*, utan blick för den enskilde.[^16] Den koraniska elden ser den enskilde.
 
 Den hanbalitiske lärde Ibn Rajab al-Ḥanbalī driver tanken till dess spets i *al-Takhwīf min al-Nār*:
 

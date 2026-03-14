@@ -45,7 +45,7 @@ Den moderna svensken har befriats från ödestron. Men befrielsen lämnade ett t
 
 *Al-qadr*, Allahs ﷻ allomfattande bestämmelse, är den islamiska parallellen till Orlog. Koranen är tydlig: "Ingen olycka drabbar någon förutom med Allahs ﷻ tillåtelse. Men den som tror på Allah ﷻ, Han vägleder hans hjärta."[^7] Och: "Ingen själ vet vad den skall skörda under morgondagen, och ingen själ vet var på jorden hon skall dö."[^8]
 
-Över utfallet råder människan inte — men Orlog saknar det bärande. Nornornas lag är opersonlig: blind, obeveklig, utan barmhärtighet.
+Över utfallet råder människan inte. Så långt liknar *al-qadr* Orlog. Men Orlog saknar det bärande. Nornornas lag är opersonlig: blind, obeveklig, utan barmhärtighet.
 
 *Tawakkul*, tillit till Allah ﷻ, är människans svar på *al-qadr*, liksom nordisk tapperhet var svaret på Orlog. Men den troende vilar i något väsensskilt: en relation till den som är *al-Raḥmān*, *al-Raḥīm* — den Barmhärtige, den Nåderike.
 

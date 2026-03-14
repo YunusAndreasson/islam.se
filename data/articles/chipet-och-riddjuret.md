@@ -19,7 +19,7 @@ Premissen är densamma som i Boyes dystopi: kroppen är råmaterial. Sömn mäts
 
 Men sker det inte frivilligt? I *Kallocain* injiceras serumet under tvång; i Stockholm implanteras chipet med ett leende. Skillnaden är verklig — och döljer en djupare likhet. Både Världsstatens medborgare och den moderna biohackaren behandlar kroppen som *resurs*, material att bruka för ett ändamål. Att tvånget bytts mot samtycke ändrar formen, inte premissen. Den koreansk-tyske filosofen Byung-Chul Han benämner mönstret *självexploatering*: den som optimerar sig frivilligt utnyttjar sig utan yttre tvång och förväxlar underkastelsen med frihet.[^15] Det är den som vaknar klockan fem för att meditera — aldrig av egen längtan, alltid för att alla framgångsrika gör det.
 
-Leo Kall förkroppsligar den metafysiken. Ondskefull är han inte. Han gör vad systemet belönar: förbättrar, effektiviserar, rationaliserar. Att uppfinningen sliter sönder människors inre liv framstår som en bieffekt.
+Leo Kall förkroppsligar denna metafysik. Ondskefull är han inte. Han gör vad systemet belönar: förbättrar, effektiviserar, rationaliserar. Att uppfinningen sliter sönder människors inre liv framstår som en bieffekt.
 
 ## Riddjuret och hjärtat
 
@@ -59,7 +59,7 @@ Hadithen ger kroppen ett centrum som inte kan lokaliseras med biohackarens instr
 
 Den som mäter sin kropp kan aldrig mäta det som avgör *vad* som är värt att mäta.
 
-Hjärtfrekvens, hjärtfrekvensvariabilitet, blodflöde — allt kan mätas. Men den tradition som gör *qalb* till människans centrum avser ett organ ingen sensor avläser. Ibn Qayyim al-Jawziyyah varnar: "Ödmjukheten har sin plats i hjärtat och dess frukt visar sig på kroppen."[^12] Riktningen är motsatt biohackingens: inifrån ut, aldrig utifrån in.
+Hjärtfrekvens, hjärtfrekvensvariabilitet, blodflöde — allt kan mätas. Men den tradition som gör *qalb* till människans centrum avser ett organ ingen sensor kan avläsa. Ibn Qayyim al-Jawziyyah varnar: "Ödmjukheten har sin plats i hjärtat och dess frukt visar sig på kroppen."[^12] Riktningen är motsatt biohackingens: inifrån ut, aldrig utifrån in.
 
 ## Varken dystopi eller utopi
 

@@ -45,13 +45,11 @@ Det är ingen sömnbön. Det är dödsförberedelse. Ordagrant: *laka mamātuhā
 
 Ordet för denna överlåtelse är *tawakkul*. Ibn Qayyim al-Jawziyyah definierade det som "hjärtats sanna förlitan på Allah ﷻ ensam"[^6], och Ibn Rajab al-Ḥanbalī preciserade: "hjärtats uppriktiga förtröstan på Allah ﷻ i att söka det goda och avvärja det skadliga".[^7]
 
-Blaise Pascal satte ord på det redan på 1600-talet:
+Blaise Pascal satte ord på oförmågan redan på 1600-talet:
 
 > All mänsklig olycka springer ur en enda sak: oförmågan att sitta stilla i ett rum.[^22]
 
-Du kan inte förhandla dig till sömn, inte köpa den, inte tvinga den. Du kan bara släppa. I en civilisation som har organiserat sig kring att aldrig släppa, blir det enklaste — att somna — det svåraste.
-
-Karin Boye namnger det tillstånd som väntar den som förmår släppa: "Det oundvikligas ro. Det inre ödets ro."[^25]
+Du kan inte förhandla dig till sömn, inte köpa den, inte tvinga den. Du kan bara släppa. I en civilisation som har organiserat sig kring att aldrig släppa, blir det enklaste — att somna — det svåraste. Men den som förmår det finner vad Karin Boye kallade "det oundvikligas ro. Det inre ödets ro."[^25]
 
 ## Natten avslöjar
 

@@ -39,7 +39,7 @@ Sömnen kallas en liten död, ett tillfälligt anförtroende av själen till Gud
 
 Vad denna medvetna överlåtelse gör med sinnet mäter modern sömnforskning med precision. År 2009 visade Alex Wood och hans kollegor att tacksamhet förskjuter tankarna i gränslandet mellan vakenhet och sömn: fler positiva, färre negativa, precis vid insomningsögonblicket.[^14]
 
-2018 påvisade Scullin med kollegor vid Baylor University att fem minuters skrivande före sänggåendet förkortar insomningen mätbart — nio minuter snabbare i genomsnitt. Ju mer detaljerad listan, desto snabbare sömn.[^15] Mekanismen kallas kognitiv avlastning: att flytta det oavslutade från huvud till papper frigör sinnet.
+Nio år senare påvisade Scullin med kollegor vid Baylor University att fem minuters skrivande före sänggåendet förkortar insomningen mätbart — nio minuter snabbare i genomsnitt. Ju mer detaljerad listan, desto snabbare sömn.[^15] Mekanismen kallas kognitiv avlastning: att flytta det oavslutade från huvud till papper frigör sinnet.
 
 Modern kognitiv beteendeterapi mot sömnlöshet, CBT-I, bygger på samma princip: kognitiv omstrukturering, avslappningsövningar och strikta rutiner som bryter förbindelsen mellan sängen och vakenhet.[^16]
 
@@ -53,7 +53,7 @@ Koranen kallar natten "en klädnad" och sömnen "en avkoppling".[^17] Men Korane
 
 Dag Hammarskjöld fångade kvällsgranskningens löfte: "Så skall världen varje morgon skapas på nytt, förlåten — i dig, av dig."[^21]
 
-Den som ligger sömnlös och bläddrar saknar inte en ny app. Hon saknar en gammal fråga: vad har jag skickat framför mig för morgondagen?
+Den som ligger sömnlös och bläddrar i telefonen saknar inte en ny app. Hon saknar en gammal fråga: vad har jag skickat framför mig för morgondagen?
 
 ---
 

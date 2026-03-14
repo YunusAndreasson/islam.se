@@ -51,7 +51,7 @@ Generationer av muslimer bär denna erfarenhet. Handen som hejdas, steget som fr
 
 I detta ljus framträder koranbränningarna annorlunda. Det som förstördes var inte en bok i den mening västerländsk kultur förstår böcker — en samling idéer bundna i papper, kritiserbar, utbytbar. Det som angreps var en *muṣḥaf*: en fysisk gestaltning av levande gudomligt tal.
 
-Walter Ong satte ord på klyftan: i den muntliga kulturen är ordet alltid en *händelse*; skriften förvandlar det till ett *föremål*.[^15]
+Walter Ong satte ord på klyftan mellan dessa världar: i den muntliga kulturen är ordet alltid en *händelse*; skriften förvandlar det till ett *föremål*.[^15]
 
 Man kan bränna ett exemplar av *Kapitalet* utan att Marx tystnar; idéerna överlever som abstraktioner, oberoende av varje enskild kopia. Men inom den islamiska förståelsen är varje *muṣḥaf* en plats där Allahs ﷻ tal vilar. Att bränna den är att rikta förakt mot en närvaro, inte mot ett argument.
 

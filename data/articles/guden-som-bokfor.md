@@ -15,7 +15,7 @@ Mönstret hade ett namn: *Nemesis Divina*. Gudomlig vedergällning.
 
 En teologisk slutsats murad på empirisk grund. Hans uttolkare har kallat det en *theologia experimentalis*.[^2]
 
-Varför höll han den hemlig?
+Men om han var så övertygad — varför höll han den hemlig?
 
 ## En bokföring som inte stämmer med nåden
 
@@ -43,11 +43,11 @@ Och ännu tydligare:
 
 > Alt det wij hafive är ett lån af Gud. Wi hafve intet hit med oss; intet hortföra wij.[^7]
 
-Den som beter sig som ägare — av sin gård, sin makt, sin hälsa — har förväxlat lån med äganderätt.
+Den som beter sig som ägare — av sin gård, sin makt, sin hälsa — har förväxlat lån med äganderätt. Men Linné nöjde sig inte med att konstatera suveräniteten. Han sökte dess verkningsmekanism — den princip som gör att låntagaren drabbas.
 
 ## Den princip han inte fick namnge
 
-I Koranens nittionionde sura, en av de kortaste — knappt sex verser — sammanfattas den princip Linné empiriskt grävde efter:
+I Koranens nittionionde sura, en av de kortaste — knappt sex verser — sammanfattas just den princip Linné empiriskt grävde efter:
 
 > Den som gör den minsta myras vikt av gott skall se det. Och den som gör den minsta myras vikt av ont skall se det.[^8]
 
@@ -55,7 +55,7 @@ I Koranens nittionionde sura, en av de kortaste — knappt sex verser — samman
 
 Linné sökte bevisa genom hundratals fallstudier vad Koranen kungör som axiom.[^10] Men tankens riktning är omvänd. Linné slöt sig till suveräniteten bakvägen: den som betedde sig som ägare gick under, alltså var Gud den verklige ägaren. *Tawḥīd* börjar i andra änden — Gud *är* suverän, därför bär varje handling konsekvens.
 
-Linné var ingen muslim, men hans slutsatser skar mot den egna nådeläran och sammanföll med en annan traditions grundprinciper:
+Linné var ingen muslim, men hans slutsatser skar mot den egna nådeläran och sammanföll med en annan traditions grundprincip — att den troende själv bör hålla räkenskap:
 
 > Ställ er själva till räkenskap innan ni ställs till räkenskap, och väg era handlingar innan de vägs åt er.[^11]
 
@@ -63,7 +63,7 @@ Ibn Qayyim al-Jawziyyah placerade denna *muḥāsabah*, självrannsakan inför G
 
 ## Två som inte kunde tiga
 
-Emanuel Swedenborg, hans samtide, gick rakt motsatt väg. Swedenborg publicerade sin heterodoxa teologi öppet — visioner om himmel och helvete, en enträgen betoning av att gärningarna väger tungt. Priset drabbade hans anhängare i Sverige. 1768 inleddes rättegångar mot kyrkoherden Gabriel Beyer och docenten Johan Rosén i Göteborg. Swedenborgs skrifter bannlystes.[^13]
+Linné valde tystnaden. Emanuel Swedenborg, hans samtide, gick rakt motsatt väg. Swedenborg publicerade sin heterodoxa teologi öppet — visioner om himmel och helvete, en enträgen betoning av att gärningarna väger tungt. Priset drabbade hans anhängare i Sverige. 1768 inleddes rättegångar mot kyrkoherden Gabriel Beyer och docenten Johan Rosén i Göteborg. Swedenborgs skrifter bannlystes.[^13]
 
 I sina dagböcker skrev Swedenborg:
 
@@ -75,7 +75,7 @@ Men i samma anteckningsbok:
 
 Swedenborg pendlar mellan gärning och nåd. Linné pendlar inte. I *Nemesis Divina* saknas den *sola gratia* som återför tanken till ortodoxin; där råder bara orsak och verkan, handling och konsekvens. En renare linje — och därför farligare.
 
-Ett sekel senare genomlevde August Strindberg sin egen version av denna kris. Under Infernoåren i Paris avläste han allt som hände honom — sjukdom, ensamhet, kemiska misslyckanden — som gudomliga straff. Hans vägvisare genom kaoset blev Swedenborg:
+Linné och Swedenborg: samma grundövertygelse, motsatta strategier. Ingen av dem fann en formel som höll samman gärning och nåd. Ett sekel senare genomlevde August Strindberg sin egen version av krisen. Under Infernoåren i Paris avläste han allt som hände honom — sjukdom, ensamhet, kemiska misslyckanden — som gudomliga straff. Hans vägvisare genom kaoset blev Swedenborg:
 
 > Swedenborg uppenbarade sig i mitt liv, där han har spelat en ofantlig roll som tuktande.[^16]
 

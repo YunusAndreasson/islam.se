@@ -39,11 +39,11 @@ Ta Arvid Stjärnblom i *Den allvarsamma leken*: han älskar Lydia och har älska
 
 Svenskan kallar detta kärlek. Inget annat ord står till buds. Men Ibn Qayyims system ställer en skarpare diagnos. Arvid befinner sig i *ʿishq* som aldrig övergått i *mawaddah*. Hans passion saknar den mogna tillgivenhetens stadga, den *luzūm* som inte vacklar, och därför pendlar han mellan besatthet och handlingsförlamning. Ibn Qayyim: "*ʿIshq* tar inte säte utom i ett tomt hjärta."[^12] Arvids hjärta fylls inte av Lydia — det har tömts på allt annat, och i det vakuumet frodas passionens klängväxt.
 
-*ʿIshq* utan *ḥubb* – passion utan den grundläggande kärlek som ger den riktning.
+Det är *ʿishq* utan *ḥubb* — passion utan den grundläggande kärlek som ger den riktning.
 
 ## Det som brinner och det som bär
 
-Om Arvid förlamades av *ʿishq* mötte Strindberg samma kraft från andra hållet — våldsamt, destruktivt, okontrollerbart. I *Inferno*: "Jag älskar henne och hon mig, och vi hata varandra med ett vildsint hat av kärlek."[^13]
+Om Arvid förlamades av *ʿishq* mötte Strindberg samma kraft från andra hållet — våldsamt, destruktivt, utan styre. I *Inferno*: "Jag älskar henne och hon mig, och vi hata varandra med ett vildsint hat av kärlek."[^13]
 
 Ibn al-Jawzī, den store bagdadiske predikanten som skrev *Dhamm al-Hawā* två generationer före Ibn Qayyim, hade ett exakt ord för detta: *hawā*, rått begär utan riktning, kraft utan form. "Begäret är en dold fälla som leder sin ägare i fördärvet", skriver han, och tillägger: "Begäret är ett mörker som skymmer hjärtat från vishetens ljus."[^14] Strindbergs äktenskapskrig — den kärlek som brinner utan att värma, som binder utan att bära — är *hawā* utan *ḥubb*, eld utan ljus.
 

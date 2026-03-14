@@ -39,7 +39,7 @@ Den gemensamma husmanskostens era var också en tid av konformism. Den som inte 
 
 Matkassar medför inte nödvändigtvis ensamätande; familjer lagar dem tillsammans. Men i det tysta har en förskjutning skett: från mat som något man *gör tillsammans* till mat som något man *ordnar för sig själv*.[^10]
 
-Förskjutningen är inte ny. Redan Platon såg samma mönster i sitt Athen. I *Staten* visar han hur Homeros serverar sina hjältar enbart rostade köttstycken, ingen fisk trots att de bor vid kusten, inga kokta rätter, inga söta såser. Enkel mat för starka människor. Men Athen förfinas:
+Förskjutningen är äldre än matkassarna. Redan Platon såg samma mönster i sitt Athen. I *Staten* visar han hur Homeros serverar sina hjältar enbart rostade köttstycken, ingen fisk trots att de bor vid kusten, inga kokta rätter, inga söta såser. Enkel mat för starka människor. Men Athen förfinas:
 
 > Där frosseri och omåttlighet råder fyller staden snabbt med läkare och advokater.[^11]
 

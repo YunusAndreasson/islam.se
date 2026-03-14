@@ -17,7 +17,7 @@ I den islamiska traditionens centrum ligger en klassificering av vad som överhu
 
 Underst det som varje arabisktalande begriper genom språkkänslan. Därovan det obligatoriska: trons grundartiklar, de entydiga påbuden och förbuden.[^3] Det tredje skiktet kräver ansträngning — *ijtihād* — det Ibn Taymiyyah urskiljer som "de kategorier som inte kan förstås genom bara språket, såsom de religiöst-rättsliga termerna."[^4]
 
-Sedan det fjärde skiktet. Och landskapet skiftar.
+Sedan det fjärde skiktet — och landskapet skiftar.
 
 ## Det som ingen utom Gud vet
 
@@ -61,7 +61,7 @@ Viktor Rydberg, en av den svenska liberalismens främsta intellektuella, lät ka
 
 Karin Boye nådde samma tröskel från motsatt håll, i *Kris*: "Nyskapelsens under behöver inga namn."[^25] Inte för att namnen saknas — utan för att det namngivna krymper det som inte kan rymmas.
 
-Ingen av dem hade tillgång till en tradition som gjort taket till grundsats.
+Var och en nådde tröskeln på egen hand, utan tillgång till en tradition som gjort taket till grundsats.
 
 ## Att leva med ett tak
 
@@ -71,11 +71,11 @@ Al-Māwardī kondenserade principen till en enda mening: "Den som kände sitt eg
 
 Koranen återkommer: "Ni har redan tvistat om det ni har kunskap om, så varför tvistar ni nu om det ni inte har kunskap om? Allah ﷻ vet, men ni vet inte."[^20] Och: "Dessa liknelser framställer Vi för människorna. Men de uppfattas inte av andra än de med kunskap."[^21] Ibn Kathīr citerar ʿAmr ibn Murrah: "Aldrig passerade jag en vers i Guds Bok som jag inte förstod utan att det fyllde mig med sorg, ty jag hade hört Allah ﷻ säga: *de uppfattas inte av andra än de med kunskap*."
 
-Det finns en kategori av mening som kan bäras men aldrig erövras — som vilar i texten, sjungs i bönen, lever i traditionen utan att någonsin fullt övergå till mänskligt begrepp.
+Det finns en kategori av mening som kan bäras men aldrig erövras — som vilar i texten, sjungs i bönen, lever i traditionen utan att någonsin fullt övergå till mänskligt begrepp. Koranen själv ger denna gräns en bild.
 
 ## Slöjan som metod
 
-Koranen nämner slöjan utan omsvep: "När du reciterar Koranen sätter Vi mellan dig och dem som inte tror på livet efter detta en osynlig slöja."[^22] Den döljer inte av illvilja utan av nödvändighet — som att inte se rakt in i solen.
+Den nämner slöjan utan omsvep: "När du reciterar Koranen sätter Vi mellan dig och dem som inte tror på livet efter detta en osynlig slöja."[^22] Den döljer inte av illvilja utan av nödvändighet — som att inte se rakt in i solen.
 
 Erik Gustaf Geijer närmade sig samma insikt: "En trogen, sanningsälskande forskning alltid leder till detta mysterium, ifrån hvad riktning den också börjar och hvad färg den ock bär."[^23]
 

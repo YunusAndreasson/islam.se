@@ -33,7 +33,7 @@ Sinnena förkastar han inte: "Skapelsen vittnar om Skaparen, och den som betrakt
 
 Koranen drar upp den bärande distinktionen: "Hans är skapelsen och befallningen" (*al-khalq wa-l-amr*).[^9] Kroppen tillhör skapelsen — formad av lera, underkastad naturlagar. Själen tillhör befallningen — instiftad genom Guds direkta ord *kun*. Ibn Qayyim utvecklar detta i *Kitāb al-Rūḥ*: själen är varken identisk med kroppen eller en blott egenskap hos den; den är en självständig skapad verklighet av en annan art.[^10]
 
-Förklaringsgapet rymmer en tvetydighet. Är det *epistemiskt* eller *ontologiskt*? Kan vi inte förklara medvetandet *ännu*, eller tillhör det en annan verklighetsordning?[^11] Wittgenstein nådde sin slutsats genom ren logik: "Subjektet tillhör inte världen utan är en gräns för världen."[^16] Men *Tractatus* mynnar i tystnad om det som ligger bortom gränsen.
+Förklaringsgapet rymmer en tvetydighet. Är det *epistemiskt* eller *ontologiskt*? Kan vi inte förklara medvetandet *ännu*, eller tillhör det en annan verklighetsordning?[^11] Även den västerländska filosofin har snuddat vid gränsen. Wittgenstein nådde sin slutsats genom ren logik: "Subjektet tillhör inte världen utan är en gräns för världen."[^16] Men *Tractatus* mynnar i tystnad om det som ligger bortom gränsen.
 
 ## Illusionen som bevisar sig själv
 

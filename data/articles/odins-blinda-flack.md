@@ -91,7 +91,7 @@ I den svenska tanketraditionen framträder en annan linje, närmare den nordiska
 
 *Nå kunskapens höjder.* Strindberg stiger uppåt, erövrar, betalar med mänskliga band på ambitionens bål. Men det offrade är aldrig Strindberg själv. Det oskyldiga offret — kärleken, de andra — är en kostnad i den transaktion som gör honom till den han vill vara.
 
-Erik Gustaf Geijer:
+Erik Gustaf Geijer rörde sig i samma spår:
 
 > En blott överlämnad, om ock riklig, kunskap är ej därför fruktbärande. Därtill fordras, att den på ett levande sätt skall vara tillägnad, genomlevd, prövad, fostrad av inre och yttre erfarenhet till en frukt för livet.[^12]
 

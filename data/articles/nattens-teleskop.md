@@ -81,11 +81,11 @@ August Strindberg, i sin krisskildring *Inferno*, återger denna närvaro, med m
 
 > Träd in ensam nattetid i din kammare, och du skall finna någon där före dig. Du ser honom icke, men du känner hans närvaro.[^22]
 
-Att natten är bebodd betvivlar han aldrig — det är *av vad* som skrämmer honom. Uppenbarelsen namnger närvaron. Namngivandet skiljer skräck från tillbedjan.
+Att natten är bebodd betvivlar han aldrig — det är *av vad* som skrämmer honom. Uppenbarelsen namnger närvaron, och namngivandet skiljer skräck från tillbedjan.
 
-Verner von Heidenstam urskiljer nattens sållning i *Folkungaträdet*: "I natt var en dålig natt, då många drömde vakna. I natt fanns ingen god människa, ty de, som voro goda, sovo."[^23] De goda *sov* — deras hjärtan var klara nog att vila. De som drömde sig vakna var redan vilseledda.
+Där Strindberg skälver inför det namnlösa urskiljer Verner von Heidenstam nattens sållning i *Folkungaträdet*: "I natt var en dålig natt, då många drömde vakna. I natt fanns ingen god människa, ty de, som voro goda, sovo."[^23] De goda *sov* — deras hjärtan var klara nog att vila. De som drömde sig vakna var redan vilseledda.
 
-Hjalmar Söderberg höjer motrösten i *Förvillelser*: "Så vaknar man och söker erinra sig vad man har drömt och söker efter någon betydelse i det, och då är det alltsammans en massa dumheter utan mening och sammanhang."[^18] Avväpnande ärligt. Men orden röjer en spricka: han *söker* efter betydelse. Den som inte trodde att drömmar bar mening skulle inte söka.
+Men inte alla svenska författare erkände nattens djup. Hjalmar Söderberg höjer motrösten i *Förvillelser*: "Så vaknar man och söker erinra sig vad man har drömt och söker efter någon betydelse i det, och då är det alltsammans en massa dumheter utan mening och sammanhang."[^18] Avväpnande ärligt. Men orden röjer en spricka: han *söker* efter betydelse. Den som inte trodde att drömmar bar mening skulle inte söka.
 
 ## Den fråga som återstår
 

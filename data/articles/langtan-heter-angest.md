@@ -27,9 +27,9 @@ Visst obehag är livsnödvändigt.
 
 ## Ångestens anatomi
 
-Redan ordet *ångest* stammar från fornnordiskans *angr* — trånghet. Koranen använder samma kroppsliga bild — *ḍīq ṣadr*, trängsel i bröstet — för den andliga nöden.
+Redan ordet *ångest* stammar från fornnordiskans *angr* — trånghet. Koranen använder samma kroppsliga bild — *ḍīq ṣadr*, trängsel i bröstet — för den andliga nöden. Men trångheten kräver en åtskillnad: den som väcker ur bedövning och den som trycker djupare in i den.
 
-Distinktionen mellan bedövning och frid är äldre än Ibn Qayyim. Hans lärare Ibn Taymiyyah formulerade grundprincipen:
+Distinktionen är äldre än Ibn Qayyim. Hans lärare Ibn Taymiyyah formulerade grundprincipen:
 
 > Hjärtats sjukdom är en smärta som uppstår i hjärtat, som vreden mot en fiende som besegrat dig – det smärtar hjärtat. Tvivel och okunnighet smärtar hjärtat. Om den sjuke utsätts för det som liknar orsaken till hans sjukdom, ökar sjukdomen och hans kraft försvagas tills han kanske förgås. Men om han får det som stärker kraften och undanröjer sjukdomen, sker motsatsen.[^4]
 
@@ -37,7 +37,7 @@ Som munnen efter narkosen: man vet att den borde känna, men den gör det inte.
 
 Koranen förtydligar diagnosen: "I deras hjärtan finns en sjukdom, så Allah ﷻ har utökat sjukdomen för dem."[^5] Sjukdomen tilltar inte trots omedvetenheten; den tilltar *genom* den. Ju mindre den sjuke känner, desto sjukare är han.
 
-Modern neurovetenskap bekräftar sambandet. Antonio Damasio dokumenterade att patienter som genom hjärnskador förlorat förmågan att känna obehag — trots intakt intellekt — befanns ur stånd att fatta vardagliga beslut.[^17] Känslan var inte förnuftets motståndare utan dess förutsättning.[^6][^7]
+Modern neurovetenskap pekar i samma riktning. Antonio Damasio dokumenterade att patienter som genom hjärnskador förlorat förmågan att känna obehag — trots intakt intellekt — befanns ur stånd att fatta vardagliga beslut.[^17] Känslan var inte förnuftets motståndare utan dess förutsättning.[^6][^7]
 
 ## Rädslans gräns
 
@@ -49,11 +49,11 @@ Han insisterar på *firāsah*, den andliga skarpsynen, som det enda sättet att 
 
 ## Existensens tröskel
 
-Søren Kierkegaard ställdes inför en besläktad tröskel. I *Begreppet ångest* (1844) formulerade han sin centrala sats: "Den som har lärt sig ängslas rätt har lärt sig det yttersta."[^10] Ångest är för Kierkegaard inte ett hinder för autentisk existens utan dess förutsättning.
+Den gränsen — mellan livgivande oro och förlamande plåga — sysselsatte även västerlandets tänkare. Søren Kierkegaard ställdes inför en besläktad tröskel. I *Begreppet ångest* (1844) formulerade han sin centrala sats: "Den som har lärt sig ängslas rätt har lärt sig det yttersta."[^10] Ångest är för Kierkegaard inte ett hinder för autentisk existens utan dess förutsättning.
 
 Den teologiska grunden skiljer dem. Kierkegaards ångest springer ur den kristna läran om syndafallet och den radikala friheten — människan ställd ensam inför valet. Ibn Qayyims ångest växer ur *fiṭrah*, den medfödda orienteringen mot Gud, och *nafs*, det inre självets kamp mellan lägre och högre impulser. Hos Kierkegaard är ångesten existentiell ensamhet. Hos Ibn Qayyim är den bevis på att bandet till Gud fortfarande lever.
 
-Kierkegaard lämnar den ångestfyllde ensam med sin frihet. Utan ett begrepp om hjärtats ursprungliga riktning kan ångesten visa *att* du är fri, men aldrig *vad* friheten är till för. Ibn Qayyim ger riktning: ångesten pekar mot det som behöver läkas, och läkningen har ett namn. I Lagerkvists *Barabbas* erkänner den frigivne samma längtan utan karta: "För att jag gärna ville tro."[^19]
+Kierkegaard lämnar den ångestfyllde ensam med sin frihet. Utan ett begrepp om hjärtats ursprungliga riktning kan ångesten visa *att* du är fri, men aldrig *vad* friheten är till för. Ibn Qayyim ger riktning: ångesten pekar mot det som behöver läkas, och läkningen har ett namn. Lagerkvists Barabbas, den frigivne brottslingen som vandrar genom en tro han inte äger, erkänner samma längtan utan karta: "För att jag gärna ville tro."[^19]
 
 ## Reningen
 

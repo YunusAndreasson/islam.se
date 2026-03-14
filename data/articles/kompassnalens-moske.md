@@ -31,7 +31,7 @@ Under de första åren i Medina bad muslimerna mot Jerusalem, samma riktning som
 
 Bytet från Jerusalem till Mecka var en teologisk deklaration: den muslimska gemenskapen definieras av sin egen riktning, sin egen geografi. Koranen säger det rakt ut: "Vi gjorde endast bytet av den böneriktning du iakttog för att utskilja den som följer Sändebudet från den som vänder på klacken."[^7] *Qiblah*-bytet var ett identitetstest. De som böjde sig för den nya riktningen tillhörde gemenskapen; de som inte kunde stod utanför. Ibn Kathīr återger hur den första bönen i den nya riktningen var eftermiddagsbönen. En man som bett med Profeten ﷺ gick förbi en annan moské vars församling stod böjda i bön och ropade: "Jag svär vid Gud, jag har just bett med Profeten ﷺ vänd mot Mecka!" — och mitt i bönen vände de sig mot Kaʿbah.
 
-Att *qiblah* kunde ändras bär hela principen. Hade det heliga bott i platsen hade bytet inneburit förlust. Inte kompassnålens slutpunkt helgar, utan den bedjandes underkastelse under befallningen.
+Att *qiblah* kunde ändras bär hela principen. Hade det heliga bott i platsen hade bytet inneburit förlust. Det är inte kompassnålens slutpunkt som helgar, utan den bedjandes underkastelse under befallningen.
 
 ## Den pragmatiske Ibn Taymiyyah
 
@@ -59,7 +59,7 @@ Islam spegelvänder logiken. Salmān al-Fārisī, en av Profetens ﷺ närmaste 
 
 I det svenska sockensystemet helgar platsen handlingarna: det är *för att* man befinner sig i kyrkan som dopet, vigseln eller begravningen får sakramental kraft. I det islamiska systemet helgar handlingarna platsen: det är *för att* en människa ber att marken under hennes fötter förvandlas till böneplats.
 
-Den industrilokal där en arbetare fäller armbågarna mot golvet i *sujūd* är, i det ögonblicket, lika giltig som den äldsta moskén.[^13] Själva ordet *moské* stammar från arabiskans *masjid* — platsen där pannan vidrör marken. Byggnaden är uppkallad efter handlingen, inte tvärtom. Det är *fiqh*.
+Den industrilokal där en arbetare fäller armbågarna mot golvet i *sujūd* är, i det ögonblicket, lika giltig som den äldsta moskén.[^13] Själva ordet *moské* stammar från arabiskans *masjid* — platsen där pannan vidrör marken. Byggnaden är uppkallad efter handlingen, inte tvärtom.
 
 ## Varför bygga moskéer alls?
 
@@ -67,7 +67,7 @@ Om varje rum kan bli en moské – varför kämpar muslimer för att bygga dem?
 
 I hela den islamiska geografin bär tre platser en sakral kvalitet i sig själva: Masjid al-Ḥarām i Mecka, Profetens ﷺ moské i Medina och Masjid al-Aqṣā i Jerusalem.[^14] Men även dessa tre är undantag, inte regel.
 
-Moskébygget tjänar gemenskapen — *jamāʿah* — inte platsen. Axel vid axel, rad efter rad, ingen ber ensam. Profeten ﷺ sade: "Den som bygger en moské för Allahs ﷻ skull, bygger Allah ﷻ ett hus åt i paradiset."[^15] Men han varnade också: "Stunden kommer inte förrän människor tävlar om sina moskéer."[^16] Moskén är ett redskap för gemensam bön, inte en helgedom som monopoliserar det sakrala. En religion vars grundprincip är att varje rum kan helgas genom bön passar illa i en detaljplans kategorier.
+Moskébygget tjänar gemenskapen — *jamāʿah* — inte platsen. Axel vid axel, rad efter rad: ingen ber ensam. Profeten ﷺ sade: "Den som bygger en moské för Allahs ﷻ skull, bygger Allah ﷻ ett hus åt i paradiset."[^15] Men han varnade också: "Stunden kommer inte förrän människor tävlar om sina moskéer."[^16] Moskén är ett redskap för gemensam bön, inte en helgedom som monopoliserar det sakrala.
 
 ## Landskapet utan helgd
 

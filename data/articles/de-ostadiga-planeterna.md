@@ -17,7 +17,7 @@ Gång på gång har Elon Musk förkunnat att mänskligheten måste bli en multip
 
 Argumentet har en religiös klangbotten. Musk frammanar "medvetandets ljus" som en helig eld mänskligheten bär i uppdrag att föra vidare genom galaxen.[^3] Mars förvandlas till ett förklarat land, multiplanetär expansion till kosmiskt manifest destiny. Jorden är fallen. Frälsningen väntar bortom atmosfären.
 
-Hannah Arendt satte redan 1958 namn på impulsen: *jordalienation* — viljan att fly det jordiska villkoret, förklädd till vetenskapligt framsteg.[^17]
+Bakom det vetenskapliga språket döljer sig en impuls som är äldre än SpaceX. Hannah Arendt satte redan 1958 namn på den: *jordalienation* — viljan att fly det jordiska villkoret, förklädd till vetenskapligt framsteg.[^17]
 
 ## Den pedagogiska obeständigheten
 
@@ -39,7 +39,7 @@ Grönskan gläder — och vissnar. Att grunda sin tillvaro i det som vissnar är
 
 Ibn Qayyim förskjuter bilden: "Denna värld i förhållande till den nästkommande är som sömnen i förhållande till vakenheten."[^8] Om jordelivet är sömn blir frågan hur vi vaknar — inte hur vi flyr till en annan planet. Ibn al-Jawzī preciserar: "Denna värld är en dröm och den nästkommande ett uppvaknande, och det däremellan är döden."[^9]
 
-Topelius sörjer det förgängliga. Koranen visar det, med klarhet, utan sorg.
+Topelius sörjer det förgängliga. Koranen visar det med klarhet men utan sorg.
 
 Saʿīd ibn Jubayr drar gränsen: "Det bedrägliga njutandet är det som distraherar dig från att söka det kommande livet. Det som inte distraherar dig är inte bedrägligt njutande."[^10] Provet avgörs av vad vi söker när vi inser obeständigheten.
 
@@ -63,7 +63,7 @@ Tolstoj lät furst Andrej, döende efter Borodino, uppleva hur "ett uppvaknande 
 
 Ibn al-Jawzī iakttog samma fenomen i *Ṣayd al-Khāṭir*: "Bland det mest förunderliga är den döendes uppvaknande vid sin död — han vaknar till med en uppmärksamhet som inte kan beskrivas."[^19]
 
-Men uppvaknandet förblir meningslöst om det inte möter något verkligt. Carl von Linné, som ägnade sitt liv åt att katalogisera skapelsen, slog fast i *Nemesis Divina*: "Ödet (fatum) är Guds dom, mot hvilken intet vad gifves."[^18] Inte blint öde utan dömt — den som flyr ödet flyr domen.
+Men uppvaknandet förblir meningslöst om det inte möter något verkligt att vakna *till*. Carl von Linné, som ägnade sitt liv åt att katalogisera skapelsen, slog fast i *Nemesis Divina*: "Ödet (fatum) är Guds dom, mot hvilken intet vad gifves."[^18] Inte blint öde utan dömt — den som flyr ödet flyr domen.
 
 Musk vill aldrig vakna. Han vill flytta drömmen till en annan planet. Den som aldrig begrundat jordens undergång sover okunnigt; Musk har vaknat tillräckligt för att se att drömmen är bräcklig, men gör insikten till bränsle för att förlänga den — inte för att vakna ur den.
 

@@ -21,7 +21,7 @@ Levertin ger smärtan riktning: den pekar mot något. Glas' ångest fattas objek
 
 Modern sömnforskning bestyrker vad Söderberg anade: ihållande ljus bryter ned dygnsrytmen som skiljer vakenhet från vila.[^4] Men Glas' ångest sitter djupare än retina.
 
-Samma beklämning bar Strindberg. I *Inferno* tecknar han sömnlösheten som ett möte med det osynliga:
+Strindberg bar samma beklämning. I *Inferno* tecknar han sömnlösheten som ett möte med det osynliga:
 
 > Solen skiner, vardagslivet går sin gilla gång, arbetarnas buller stämmer sinnena till glädje. [...] Men om natten falla tystnaden och ensligheten över en, övermodet skingras, hjärtat slår hörbart och bröstet beklämmes.[^5]
 
@@ -45,7 +45,7 @@ Redan på 1000-talet fångade den andalusiske teologen Ibn Ḥazm tidens innersi
 
 Mot slutet kommer det nakna erkännandet: "Mig gick lifvet förbi."[^11]
 
-Han tänker, observerar, skriver, planerar ett mord. Ändå lever han bredvid sin tid. Aldrig i den.
+Han tänker, observerar, skriver, planerar till och med ett mord. Ändå lever han bredvid sin tid, aldrig i den.
 
 ## Att vara sin tids barn
 
@@ -59,11 +59,11 @@ Trehundra år senare skrev Pascal, utan kännedom om Ibn Qayyim: "Vi håller oss
 
 Så lever Glas: fången i minnet av en ungdom som aldrig infriades och i förväntningen på en framtid han inte tror på. Hans dagbok pendlar ständigt mellan dem. Varje konkret nu glider honom ur händerna medan han registrerar det. "Lif, jag förstår dig inte," bekänner han.[^15] Men *waqt* kräver annat än förstånd.
 
-Denna närvaro — det Ibn Qayyim kallar *nūr al-murāqabah*, övervakandets ljus — slocknar genom förspilld tid.[^16] Ljuset blir outhärdligt först när det faller över ett inre utan riktning.
+Denna närvaro — det Ibn Qayyim kallar *nūr al-murāqabah*, övervakandets ljus — slocknar genom förspilld tid.[^16] Det yttre ljuset blir outhärdligt först när det faller över ett inre utan riktning.
 
 ## Tiden utan ram
 
-Søren Kierkegaard definierade ångesten som "frihetens svindel" — den yrsel som griper den som stirrar ned i sina möjligheter.[^17] Det stämmer för Glas. Men Kierkegaards analys stannar vid svindeln; hans *trosprång* pekar ut ur förlamningen utan att säga vad den som landar ska göra med sin tid. Ibn Qayyim ger ögonblicket självt en arkitektur.
+Søren Kierkegaard definierade ångesten som "frihetens svindel" — den yrsel som griper den som stirrar ned i sina möjligheter.[^17] Det stämmer för Glas. Men Kierkegaards analys stannar vid svindeln; hans *trosprång* pekar ut ur förlamningen utan att säga vad den som landar ska göra med sin tid. Det är här Ibn Qayyim ger ögonblicket självt en arkitektur.
 
 Människans tid är hennes liv: det råmaterial ur vilket hennes eviga tillvaro formas.[^18][^19] Bönen vid gryningen, ordet vid måltidens bord, steget tillbaka från ilskan.
 

@@ -11,7 +11,7 @@ Nietzsche lät ingen filosof förkunna Guds död. Han lät en galning göra det,
 
 Nietzsche förstod vad hans beundrare sällan erkänner: att om Gud är död faller inte bara teologin utan hela den moraliska ordningen. Horisonten är borta.
 
-Västvärlden ärvde moralen men lät grunden vittra -- åberopade människovärdet men upphörde att fråga *varför*. Sprickan får sin tydligaste juridiska gestalt i den svenska statsordningen.
+Västvärlden ärvde moralen men lät grunden vittra -- åberopade människovärdet men upphörde att fråga *varför*. I Sverige syns sprickan tydligast i själva statsordningen.
 
 ## Grundlagens tysta förutsättning
 

@@ -43,7 +43,7 @@ Arbetsförmedlingens AI-matchningssystem lider av samma brist. Mönsterigenkänn
 
 ## Vågen utan visare
 
-Svensk diskussion om algoritmisk ansvarighet finns: i ISF:s granskningar, i EU:s AI-förordning som klassificerar välfärdsautomation som "högrisk".[^13] Men frågan ställs nästan uteslutande i tekniska och juridiska termer. Det som saknas är ett moralfilosofiskt språk för *varför* dessa krav gäller – inte vilka regler som bryts utan vilket mänskligt förtroende som sviks.
+Svensk diskussion om algoritmisk ansvarighet finns — i ISF:s granskningar, i EU:s AI-förordning som klassificerar välfärdsautomation som "högrisk".[^13] Men frågan ställs nästan uteslutande i tekniska och juridiska termer. Det som saknas är ett moralfilosofiskt språk för *varför* dessa krav gäller — inte vilka regler som bryts utan vilket mänskligt förtroende som sviks.
 
 Ibn Taymiyyahs svar på *quwwah*–*amānah*-problemet: bygg institutioner som förenar dem.[^14] När inget enskilt system besitter båda egenskaperna kräver rättvisan att styrka och trovärdighet fördelas på flera händer – den starke uppbördsmannen och den pålitlige skrivaren, algoritmen och den mänskliga handläggaren.
 

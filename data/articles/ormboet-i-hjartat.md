@@ -57,7 +57,7 @@ Och samma Ibn Ḥibbān spårar avundens kedja av förstörelse med sträng logi
 
 Kedjan är kort, utan mildrande mellanled.
 
-Karin Boye fångar i *Kallocain* något ännu mer kusligt -- hur avunden söker sig in i de mest oväntade ögonblicken:
+Men avundens mest kusliga drag är kanske inte dess våldsamhet utan dess förmåga att tränga in överallt. Karin Boye fångar det i *Kallocain* -- hur avunden söker sig in i de mest oväntade ögonblicken:
 
 > Återigen avund. Den mannen där, mindervärdig på många sätt som han var, talade om ett ögonblick av hög salighet, visserligen förgånget och nästan glömt, men ändå ett ögonblick … Hans korta extatiska vandring – ja, den avundades jag honom.[^13]
 

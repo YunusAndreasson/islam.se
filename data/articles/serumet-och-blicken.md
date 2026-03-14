@@ -81,7 +81,7 @@ Dag Hammarskjöld vände på frågan i *Vägmärken*:
 
 > Vi dör den dag livet för oss inte längre har någon inneboende genomskinlighet.[^18]
 
-*Immanent*, inte påtvingad.
+Inneboende — inte påtvingad. Den genomskinlighet Hammarskjöld sökte var immanent, en egenskap hos livet självt.
 
 Den islamiska traditionen svarar: ja. Men bara om den som ser allt också älskar det skapade. Bara om blicken tillhör den som skapat ögat och vet vad det behöver se. Ibn Taymiyyah sammanfattar: "Gudsmedvetenhet är den hemlighet som söks i alla tjänarens tillstånd."[^16]
 

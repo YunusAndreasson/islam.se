@@ -21,7 +21,7 @@ Ett beslut i denna mening är inte en beräkning utan en handling där hjärtat 
 
 I vår tid blir metaforen bokstavlig: algoritmen ersätter konungen, inte rådgivaren — övertar beslutet, inte bara beräkningen. Ordet *algoritm* är uppkallat efter den muslimske matematikern al-Khwārizmī, men det han formaliserade var beräkningen, inte domslutet. EU:s AI-förordning, fullt tillämplig från augusti 2026, ställer frågan juridiskt. Artikel 14 kräver att högrisk-AI-system ska ha "mänsklig tillsyn": att en människa alltid ska kunna förstå systemets kapacitet, tolka dess resultat och välja att bortse från dess bedömning.[^4] Den svenska utredningen SOU 2025:101 konkretiserar och skärper kraven.[^5]
 
-Men om en människa formellt ska kunna överpröva en algoritm men saknar tid, kunskap eller vilja — vem regerar då? Forskningen bekräftar mönstret: människor som formellt övervakar automatiserade system slutar systematiskt att ifrågasätta dem.[^19]
+Men om en människa formellt ska kunna överpröva en algoritm men saknar tid, kunskap eller vilja — vem regerar då? Forskningen bekräftar mönstret: människor som formellt övervakar automatiserade system slutar systematiskt att ifrågasätta dem.[^19] Sultanen sover med öppna ögon.
 
 ## Ansvarets lucka
 
@@ -31,7 +31,7 @@ AI framtvingar vad filosofen Andreas Matthias 2004 kallade en *ansvarslucka*: va
 
 Koranen tillåter ingen sådan upplösning. "Varje själ är ansvarig för vad den har gjort"[^8] — en syndare bär inte en annan syndares börda.[^9] Förtroendet gavs till varje människa, inte till institutioner, inte till system.
 
-Ibn Ḥazm slog fast principen rättsligt: rättvisa i domslutet kräver att man hör båda parter innan domen fälls.[^10] Men *höra* i moralisk mening — förstå en människas belägenhet, väga hennes omständigheter, erkänna hennes värdighet — kräver det hjärta Ibn Qayyim beskrev: konungen som måste vara närvarande, vaken, styrande. En algoritm sorterar.
+Ibn Ḥazm slog fast principen rättsligt: rättvisa i domslutet kräver att man hör båda parter innan domen fälls.[^10] Men *höra* i moralisk mening — förstå en människas belägenhet, väga hennes omständigheter, erkänna hennes värdighet — kräver det hjärta Ibn Qayyim beskrev: en konung som är närvarande, vaken, styrande. En algoritm sorterar.
 
 ## Sömnen som dödar inifrån
 

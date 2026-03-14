@@ -27,7 +27,7 @@ Mitt i denna grundvalskris reser sig ett begrepp som gör anspråk på att säkr
 
 *Fiṭrah* — den medfödda moraliska och andliga orienteringen — betecknar själva den ordning enligt vilken människan är skapad. Ibn Kathīr förtydligar: Gud har gjort alla sina skapelser lika i *fiṭrah*, den raka grundnaturen — ingen föds utan att vara i det tillståndet, och det finns ingen åtskillnad mellan människor i detta avseende. Profeten Muḥammad ﷺ sade: "Varje barn föds i rätt tillstånd (*fiṭrah*), men dess föräldrar gör det till jude, kristen eller magier."[^7]
 
-Modern utvecklingspsykologi bekräftar bilden: spädbarn uppvisar moraliska preferenser — de föredrar hjälpare framför förhindrare — redan innan språk och kultur format dem.[^16] August Blanche fångade samma universalitet underifrån: "Där finns heder och samvete även bland de som samhället förkastar."[^19]
+Modern utvecklingspsykologi bekräftar bilden: spädbarn uppvisar moraliska preferenser — de föredrar hjälpare framför förhindrare — redan innan språk och kultur format dem.[^16] Universaliteten syns även i det samhälle som gör sitt bästa att undertrycka den. August Blanche fångade det underifrån: "Där finns heder och samvete även bland de som samhället förkastar."[^19]
 
 *Fiṭrah* är inte ett argument *för* moral utan ett påstående om moralens plats i verkligheten: moralen är inskriven i skapelsens arkitektur.
 
@@ -51,7 +51,7 @@ Rädsla att *undgå* upptäckt — inte rädsla för straff utan längtan att bl
 
 Ibn Qayyim pekade på svaret: mänsklig fullkomlighet ligger i förmågan att skilja sanning från lögn och att välja sanningen.[^11] Förmågan kan fördunklas av uppfostran, kultur, vanor. Men den kan inte utplånas, för den tillhör skapelsen, inte individen.
 
-Erik Gustaf Geijer betonade personlighetens inneboende värdighet: "Personligheten med dess rätt är både det första och det sista i samhället; att den utgör grunden för rättigheter, lärer ej kunna nekas."[^12] Runeberg skärpte insikten: "Man lär sig tala om ett mänskovärde, som är ett annat än en mänsklig lydnad för maktens bud."[^18] Men varifrån kommer rätten? *Fiṭrah* svarar: personligheten har rätt för att den bär ett gudomligt vittnesbörd.
+Erik Gustaf Geijer betonade personlighetens inneboende värdighet: "Personligheten med dess rätt är både det första och det sista i samhället; att den utgör grunden för rättigheter, lärer ej kunna nekas."[^12] Runeberg skärpte insikten ytterligare: "Man lär sig tala om ett mänskovärde, som är ett annat än en mänsklig lydnad för maktens bud."[^18] Men varifrån kommer rätten? *Fiṭrah* svarar: personligheten har rätt för att den bär ett gudomligt vittnesbörd.
 
 Dag Hammarskjöld skrev i *Vägmärken* ett vittnesbörd som, utan att namnge källan, bär samma klang:
 

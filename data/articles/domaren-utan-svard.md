@@ -57,7 +57,7 @@ Abū Bakr al-Ṣiddīq, den förste kalifen efter Profeten ﷺ, kungjorde princi
 
 Ibn Khaldūn slog fast principen i sin *Muqaddimah*: "Rättvisa är en balans som upprättas bland människorna. Herren upprättade den och utsåg en övervakare för den, och den övervakaren är härskaren."[^19] Övervakaren — inte ägaren.
 
-Under al-Māwardīs egen livstid förföll det abbasidiska kalifatet; muhtasiber överskred sina befogenheter i flera provinser.[^20] Att han skrev mitt i detta förfall gör insikten skarpare. Hans system var en fordran ställd på verkligheten, aldrig en spegling av den:
+Principen var aldrig oprövad. Under al-Māwardīs egen livstid förföll det abbasidiska kalifatet; muhtasiber överskred sina befogenheter i flera provinser.[^20] Att han skrev mitt i detta förfall gör insikten skarpare. Hans system var en fordran ställd på verkligheten, aldrig en spegling av den:
 
 > Allah ﷻ befaller er att återlämna allt ni anförtrotts till dess rättmätiga ägare och att, när ni dömer mellan människor, döma med rättvisa.[^21]
 

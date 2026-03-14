@@ -39,7 +39,7 @@ Under efterkrigstiden byggde Sverige ett av världens mest ambitiösa beredskaps
 
 Sedan föll Berlinmuren. Och med den föll föreställningen att beredskap behövdes.
 
-Avvecklingen vilade på en ekonomisk trossats. Just-in-time-leveranser, nollager, ständig flödesoptimering: varje kvadratmeter förrådsutrymme var bortkastad yta — tills lastbilarna slutade komma. Hayek och Friedman hade hävdat att statliga reserver snedvrider prissignaler och hämmar effektivitet. Sverige lyssnade: under 1990- och 2000-talen avvecklades beredskapslager systematiskt, och ansvaret för livsmedelsförsörjning i kris föll mellan stolarna.[^12]
+Avvecklingen vilade på en ekonomisk trossats. Just-in-time-leveranser, nollager, ständig flödesoptimering: varje kvadratmeter förrådsutrymme var bortkastad yta — tills lastbilarna slutade komma. Det intellektuella underlaget kom från Hayek och Friedman, som hävdat att statliga reserver snedvrider prissignaler och hämmar effektivitet. Sverige lyssnade: under 1990- och 2000-talen avvecklades beredskapslager systematiskt, och ansvaret för livsmedelsförsörjning i kris föll mellan stolarna.[^12]
 
 Argumentet var stringent — och fel. I en livsmedelskris hinner människor svälta innan marknaden reagerar. Marknadens korrektionscykel räknas i månader; kroppens tolerans i dagar.
 

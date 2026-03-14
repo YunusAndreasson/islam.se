@@ -33,13 +33,13 @@ Men det finns en rangordning. Al-Māwardī och Ibn Qayyim talar inte mot varandr
 
 Man ser den rättfärdige, den generöse, den med vacker karaktär — och finner honom vacker, "även om han är mörk eller inte fysiskt vacker". Med samma kraft gäller det omvända: det inres fulhet övervinner det ytres skönhet och släcker den.[^8]
 
-Selma Lagerlöf tecknar ett sådant ansikte i *Bannlyst*: "Själva sättet, varpå hans hår var benat och kammat, antydde ödmjukhet. Frånvaron av mustascher och skägg antydde ödmjukhet. Allt, vad som hette egenkärlek, självkänsla, egenrättfärdighet, var utplånat hos denna människa."[^25] Lagerlöf skildrar en man vars inre tillstånd har trängt igenom ytan och omformat varje detalj.
+Den som tvivlar kan pröva iakttagelsen mot sin egen erfarenhet. Selma Lagerlöf tecknar ett sådant ansikte i *Bannlyst*: "Själva sättet, varpå hans hår var benat och kammat, antydde ödmjukhet. Frånvaron av mustascher och skägg antydde ödmjukhet. Allt, vad som hette egenkärlek, självkänsla, egenrättfärdighet, var utplånat hos denna människa."[^25] Lagerlöf skildrar en man vars inre tillstånd har trängt igenom ytan och omformat varje detalj.
 
 ## Mörkrets paradox
 
 Enligt Ibn Qayyim präglar den inre skönheten den yttre gestalten tydligast hos den som utövar nattbönen, *qiyām al-layl* – den frivilliga bönen som förrättas i mörkrets djupaste timmar. "Den lyser upp ansiktet och förskönar det", skriver han.[^9]
 
-Skönhet genom sömnbrist, genom möda, genom att stiga upp ur en varm säng och stå ensam i mörker. Ingmar Bergmans riddare kände samma mörker: "Tron är ett svårt lidande. Det är som att älska någon som finns därute i mörkret och som aldrig visar sig hur man än ropar."[^26] Riddaren ropar utan svar. Den som ber *tahajjud* ropar och får ljus i ansiktet.
+Skönhet genom sömnbrist, genom möda, genom att stiga upp ur en varm säng och stå ensam i mörker — det strider mot varje instinkt. Ingmar Bergmans riddare kände samma mörker: "Tron är ett svårt lidande. Det är som att älska någon som finns därute i mörkret och som aldrig visar sig hur man än ropar."[^26] Riddaren ropar utan svar. Den som ber *tahajjud* ropar och får ljus i ansiktet.
 
 Vad händer i nattbönen?
 
@@ -73,7 +73,7 @@ Skillnaden är den mellan en människa som förskönar sig för att bli sedd och
 
 Al-Fuḍayl ibn ʿIyāḍ pekade på skuggsidan: "Tjänaren begår en synd och berövas därigenom nattbönen."[^18] Om godhet lyser upp ansiktet, släcker synden dess ljus. Ansiktet vittnar — det kan inte ljuga som ord kan. Ibn Qayyim citerar versraden: "O du med vackert ansikte, sky det skamliga — byt inte skönheten mot skam!"[^19]
 
-Luqmān sade: "Den som ljuger förlorar sin fägring."[^20] Erik Gustaf Geijer hävdade att "den äkta skönheten renar sinnet och har ett stort moraliskt inflytande".[^21] Geijer menade det estetiskt — konsten förädlar. Ibn Qayyim vänder sambandet: förädlingen skapar skönheten, och rörelsen går inifrån och ut.
+Luqmān sade: "Den som ljuger förlorar sin fägring."[^20] I svensk tanketradition berörde Erik Gustaf Geijer samma samband: "den äkta skönheten renar sinnet och har ett stort moraliskt inflytande".[^21] Geijer menade det estetiskt — konsten förädlar. Ibn Qayyim vänder sambandet: förädlingen skapar skönheten, och rörelsen går inifrån och ut.
 
 ## En sovande industri
 

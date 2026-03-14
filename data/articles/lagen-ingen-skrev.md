@@ -37,13 +37,13 @@ Koranen uppenbarar vad som händer när de mäktiga skriver sina egna regler: "V
 
 Gudomlig lag bryter den onda cirkeln — rättens källa kan inte ägas av en klass — men väcker en ny fråga: vem tolkar den? Muḥammad ibn al-Munkadir, en av Medinas stora rättslärda i första seklet efter *hijrah*, sade: "Den rättslärde träder in mellan Gud och Hans tjänare — låt honom se till hur han träder in."[^13]
 
-Tolkaren kan bli den nye lagstiftaren, kläda sitt godtycke i rättens former. Makten byter adress, inte natur.
+Tolkaren kan bli den nye lagstiftaren, kläda sitt godtycke i rättens former. Makten byter adress, inte natur. Vad hindrar det?
 
 Geijer såg samma spänning: "Kärleken är lagens fullbordan, utan hvilken lagen sjelf endast är en yttre form och ett, ehuru nödvändigt, ondt."[^14] *Taqwā* — gudsfruktan — är inte en prydnad utan en förutsättning. Det är den lärde som tvekar innan han talar, som känner tyngden i sitt svar.
 
 ## Vågen som inte kan luras
 
-Selma Lagerlöf åkallar "den högre rättvisan" som var "av annat slag än den lägre, jordiska. Den förstod, när en stackare var i nödläge."[^15] Men varken Lagerlöf eller Strindberg äger en metod, en källa att peka på.
+Selma Lagerlöf åkallar "den högre rättvisan" som var "av annat slag än den lägre, jordiska. Den förstod, när en stackare var i nödläge."[^15] Både hon och Strindberg anar att rättvisan finns, men ingen av dem äger en metod, en källa att peka på.
 
 Den islamiska traditionen erbjuder vad de saknar: en formell rättsordning vars legitimitet inte vilar på dem som tillämpar den utan på Den som uppenbarade den. Ordningen bär sin egen kritik — genom krav på de lärdas integritet, genom principen att makt utan religionskunskap medför orättvisa,[^16] och genom påminnelsen att den rättslärde en dag skall stå till svars.
 
