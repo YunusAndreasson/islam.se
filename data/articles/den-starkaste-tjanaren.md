@@ -59,9 +59,7 @@ Selma Lagerlöf slog fast principen med nordisk knapphet: "Riket är bättre bet
 
 Men skillnaden är avgörande. Industrialismens orättvisor var synliga: fabriksrök, barnarbete, söndersmulade kroppar. Algoritmens orättvisor är osynliga. En kvinna vars föräldrapenningsansökan markeras av en maskininlärningsmodell vet varken att det skett eller varför. Industrialismens orättvisor rättades *utifrån*, genom den kollektiva vrede som synligt lidande väckte. Algoritmisk orättvisa kan inte alstra sin egen rättelse. Där orättvisan är osynlig måste ansvarigheten vara inbyggd.
 
-Koranen beskriver *al-amānah* som så tungt att himlarna, jorden och bergen vägrade bära det. Människan axlade det.[^17]
-
-Vad skapelsen vägrade bära av vördnad har människan överlämnat till maskiner av bekvämlighet.
+Koranen beskriver *al-amānah* som så tungt att himlarna, jorden och bergen vägrade bära det. Människan axlade det.[^17] Sedan glömde hon vad hon bar.
 
 ---
 

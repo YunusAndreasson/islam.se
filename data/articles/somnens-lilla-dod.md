@@ -97,7 +97,7 @@ Den islamiska kvällsritualen — bönen, åminnelsen, överlåtelsen — tvinga
 
 Koranen beskriver dem som reser sig ur natten med avsikt: "De som avstår från sömn för att med fruktan och hopp åkalla sin Herre och som ger åt andra av det som Vi har skänkt dem för deras försörjning."[^20] Mitt i natten finner de ljus — inte för att sömnlösheten är en sjukdom, utan för att de äger det som gör vakenhet uthärdlig: en riktning för sitt rop, en Herre att vända sig till i fruktan och hopp. Ibn Kathīr förtydligar: "De lämnade sömn och vila för bönens skull, drivna av sin längtan efter det Allah ﷻ har lovat dem."[^21]
 
-I natt, när du inte kan sova, behöver du inte kämpa. Du kan göra det profeten ﷺ gjorde: lägga handen på bröstet och säga att din själ tillhör Den som skapade den, att du överlämnar, att du — för denna enda natt — övar dig i att dö.
+Profeten ﷺ lade handen på bröstet och sade: *I Ditt namn, o Allah, dör jag och lever jag.* Sedan somnade han.
 
 ---
 

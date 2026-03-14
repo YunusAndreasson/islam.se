@@ -79,10 +79,6 @@ Tecknen finns på två ställen: *bortom horisonterna* och *hos dem själva*. De
 
 Söderblom förstod det. Strindberg anade det. Levertin noterade det — och stannade. Den svenska kulturen har sedan dess levt i den hållning hans formulering stadfäste: medveten om törsten, misstänksam mot källan.
 
-Koranen tecknar närheten mellan törst och källa i en vers om intimitet:
-
-> Vi har skapat människan och vet vad hennes själ viskar till henne. Ja, Vi är närmare henne än halspulsådern.[^23]
-
 ---
 
 [^1]: Oscar Levertin, *Diktare och drömmare* (1898).

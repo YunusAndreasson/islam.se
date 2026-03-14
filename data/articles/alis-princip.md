@@ -63,8 +63,6 @@ Det är detta som det demokratiska samhället har institutionaliserat och döpt 
 
 Koranen har ett ord för dem som förmår skilja sanning från antagande: *ūlū al-albāb* – de med kärna. "Han ger visdom till den Han vill, och den som ges visdom har förvisso getts mycket gott. Men ingen låter sig förmanas utom de med förstånd."[^22] Ibn Kathīr citerar en profettradition: "Gud ger det världsliga livet till den Han älskar och den Han inte älskar, men Han ger religionen bara till den Han älskar." Sanningen kommer *till* människan, inte från henne.
 
-Den som räknar huvuden istället för att pröva argument har redan förlorat det som gör kunskap till kunskap: kravet att den ska vara sann.
-
 ---
 
 [^1]: Koranen, Yūnus 10:36.

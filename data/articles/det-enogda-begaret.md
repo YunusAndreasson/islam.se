@@ -77,7 +77,7 @@ Ibn Qayyim jämför blicken med ett glas vin: betraktelsen berusar. Kärlekens b
 
 Kent Berridges neurovetenskapliga forskning visar varför: upprepad exponering för en stimulans stärker hjärnans begär utan att öka tillfredsställelsen. Man åtrår mer utan att njuta mer.[^21]
 
-Kedjan kan brytas, men bara i sitt första led. Ögonblicket innan begäret är oförfalskat — varseblivning som ännu inte blivit bygge. Du kan fortfarande välja.
+Kedjan kan brytas, men bara i sitt första led. Ögonblicket innan begäret är oförfalskat — varseblivning som ännu inte blivit bygge.
 
 ---
 

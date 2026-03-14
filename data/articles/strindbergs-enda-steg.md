@@ -109,7 +109,7 @@ Utan att ha läst en rad Ibn Qayyim genomlevde Strindberg just denna rörelse.
 
 Det enda steget är inte ett steg framåt utan frånvaron av det sista steget bakåt — det ögonblick då underhållet upphör och *fiṭrah* talar. Strindberg tog det steget inte för att han var galen eller vilseledd utan för att steget alltid hade legat där och väntat.
 
-Hans tvungna otacksamhet tryckte honom som en börda. Det finns en lättare väg.
+Hans tvungna otacksamhet tryckte honom som en börda.
 
 ---
 

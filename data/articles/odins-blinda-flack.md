@@ -107,7 +107,7 @@ Vid Mimers brunn betalar den kunskapssökande med syn. Han förlorar ett sätt a
 
 I den islamiska traditionen betalar den kunskapssökande med anspråk — med själva övertygelsen om sin egen tillräcklighet. Det som offras är jagets föreställning om sig självt. Den som kände Allah ﷻ, skriver Ibn Qayyim, "såg sig inte annat än med bristens öga" — *ʿayn al-nuqṣān*.[^13] Formuleringen vänder Odins offer på huvudet. Odin förlorar ett öga för att se bättre. Den som känner Allah ﷻ ser sig själv *tydligare*; det den ser är brist.
 
-Koranen uttrycker denna skillnad i en enda vers: *Sök hjälp genom tålamod och bön. Och det är sannerligen en svår sak — utom för de ödmjuka.*[^14] Kunskapens verkliga svårighet ligger inte i priset man betalar. Den ligger i den ödmjukhet som krävs för att ta emot. Ödmjukhet är det tillstånd där jaget upphör att betrakta sig självt som tillräckligt. Det är att öppna en bok och förstå att man inte förstått.
+Koranen uttrycker denna skillnad i en enda vers: *Sök hjälp genom tålamod och bön. Och det är sannerligen en svår sak — utom för de ödmjuka.*[^14] Kunskapens verkliga svårighet ligger inte i priset man betalar. Den ligger i den ödmjukhet som krävs för att ta emot.
 
 ---
 

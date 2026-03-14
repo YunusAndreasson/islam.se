@@ -69,7 +69,7 @@ Musk vill aldrig vakna. Han vill flytta drömmen till en annan planet. Den som a
 
 Redan innan spektralanalys och exoplanetjakt visste Topelius att planeterna var ostadiga. Hans kosmologi byggde på läsning, inte mätning — på förmågan att avläsa det skapade som tecken.
 
-Planeterna är ostadiga som ett människoliv. Vad fordrar den obeständigheten av oss?
+Planeterna är ostadiga som ett människoliv. Topelius visste det utan teleskop.
 
 ---
 

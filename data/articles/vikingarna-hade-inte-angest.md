@@ -73,7 +73,7 @@ I *Tusen och en natt* får konsekvensen konkret gestalt. En besegrad furste upps
 
 Den enda tillit som inte kan tas ifrån dig är den som vilar i Allah ﷻ.
 
-Gunnar på Hlíðarendi vände sig i sadeln. Hans lugn sprang ur vissheten att nornorna redan avgjort. Den troende vänder sig mot *qiblah*. Hans ro springer ur vissheten att den som avgjort är *al-Raḥmān*. Det ena kräver mod. Det andra föder ro.
+Gunnar på Hlíðarendi vände sig i sadeln. Hans lugn sprang ur vissheten att nornorna redan avgjort. Den troende vänder sig mot *qiblah*. Hans ro springer ur vissheten att den som avgjort är *al-Raḥmān*, den Barmhärtige.
 
 ---
 

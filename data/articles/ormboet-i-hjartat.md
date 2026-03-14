@@ -115,7 +115,7 @@ Och botemedlet:
 
 Avunden behöver jämförelsen för att andas. Den som slutar mäta sig mot andra och börjar mäta sig mot sina löften till Gud tar syret från avunden.
 
-Al-Māwardī avslutade med en mening som tål att bäras med sig:
+Al-Māwardī avslutade:
 
 > Den som är tillfreds med Guds beslut gör ingen honom vred; och den som nöjer sig med Hans gåvor, där tar avunden ingen plats.[^22]
 

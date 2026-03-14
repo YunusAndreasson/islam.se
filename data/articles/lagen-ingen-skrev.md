@@ -47,7 +47,7 @@ Selma Lagerlöf åkallar "den högre rättvisan" som var "av annat slag än den 
 
 Den islamiska traditionen erbjuder vad de saknar: en formell rättsordning vars legitimitet inte vilar på dem som tillämpar den utan på Den som uppenbarade den. Ordningen bär sin egen kritik — genom krav på de lärdas integritet, genom principen att makt utan religionskunskap medför orättvisa,[^16] och genom påminnelsen att den rättslärde en dag skall stå till svars.
 
-Strindbergs fråga genljuder ännu: vem skrev lagen för den fattige? Rättens grund måste ligga utanför mänsklig räckvidd för att gälla alla lika. Men allt står och faller med dem som bär ansvaret.
+Strindbergs fråga genljuder ännu: vem skrev lagen för den fattige? Allt står och faller med dem som bär ansvaret.
 
 Koranens bild är en våg, inte ett svärd. Svärdet avgör. Vågen mäter. Den kan inte luras – om den som håller den håller den rak.
 

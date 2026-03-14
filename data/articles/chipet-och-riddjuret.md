@@ -69,8 +69,6 @@ Språket har funnits sedan 600-talet. Kroppen som riddjur, hjärtat som kunskaps
 
 Ibn Rajab al-Ḥanbalī fångade det innersta lagret: "Min kropp är med mig, men min ande är hos er — kroppen lever i främlingskap, anden i sin hemort."[^14]
 
-Den optimerade kroppen jagar perfektion i vad den redan har. Den anförtrodda vet att hon är på resa — och att hon inte råder över resans villkor.
-
 ---
 
 [^1]: Karin Boye, *Kallocain* (Albert Bonniers Förlag, 1940).

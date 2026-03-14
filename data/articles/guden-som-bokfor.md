@@ -93,7 +93,7 @@ Linné förstod detta. Hans eget vittnesbörd, det mest personliga i hela manusk
 
 Det han traderar — åt sin son, i hemlighet — är ingen dogm utan en erfarenhet: att verkligheten bär en moralisk ordning, att ingenting undgår räkenskapen.
 
-I den islamiska traditionen hade denna erfarenhet aldrig behövt vara hemlig. Principen att Gud ser allt, väger allt, vedergäller allt — det är inte heterodoxi utan *tawḥīd* i sin renaste form. Ingen obekväm sanning nedtecknad i hemlighet, utan *adhān*, böneutropet som skär genom luften fem gånger om dagen.
+I den islamiska traditionen hade denna erfarenhet aldrig behövt vara hemlig — *adhān* ropar ut det Linné dolde fem gånger om dagen.
 
 Linné fick inte tala. Men tystnaden talar.
 

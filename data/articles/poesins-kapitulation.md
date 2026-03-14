@@ -65,7 +65,7 @@ Men det finns en anspråkslösare variant. Utmaningen utgör en negativ bevisfö
 
 Frånvaron av svar *utgör* ett belägg — inte slutgiltigt, men ett som fordrar förklaring. Antingen är Koranens arabiska väsensskild på ett sätt som omöjliggör efterhärmning, eller så har fjorton seklers historia undanhållit världen den rätta kombinationen av talang och tillfälle. Den som föredrar det andra alternativet bör fråga sig hur länge frånvaron måste bestå innan den slutar vara rimlig.
 
-Al-Suyūṭī slog fast att utmaningen var ett avslöjande av oförmåga, inte en uppmaning.[^14] Koranen ber inte människor försöka. Den visar dem att de redan har misslyckats.
+Al-Suyūṭī slog fast att utmaningen var ett avslöjande av oförmåga, inte en uppmaning.[^14] Fjorton seklers tystnad har inte överklagat domen.
 
 ---
 
