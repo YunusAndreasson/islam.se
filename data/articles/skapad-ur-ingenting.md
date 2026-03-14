@@ -29,7 +29,7 @@ Resonemanget i sura *al-Ṭūr* har utkristalliserats till ett filosofiskt argum
 
 De har prövats. J.L. Mackie invände att man inte kan extrapolera från orsaker inom universum till en orsak *för* universum – ett sammansättningsfel.[^6] Graham Oppy ifrågasatte den första premissen direkt: varför måste allt som börjar existera ha en orsak?[^7] Men invändningarna delar en egenhet: de förskjuter frågan utan att besvara den.
 
-Mackies invändning säger att vi inte *vet* att universum som helhet behöver en orsak. Den säger inte att det *inte* behöver en. Oppy frågar varför premissen borde gälla men erbjuder inget alternativ som förklarar varför något existerar snarare än intet. Invändningarna fungerar som sköldar, inte som svar. Inte ens Hawkings randlösa universum, som undviker en temporal begynnelse, besvarar frågan: *varför* existerar det? Wittgenstein pekade åt samma håll: "Det mystiska är inte *hur* världen är, utan *att* den är."[^15]
+Mackies invändning säger att vi inte *vet* att universum som helhet behöver en orsak. Den säger inte att det *inte* behöver en. Oppy frågar varför premissen borde gälla men erbjuder inget alternativ som förklarar varför något existerar snarare än intet. Invändningarna är sköldar, inte svar. Inte ens Hawkings randlösa universum, som undviker en temporal begynnelse, besvarar frågan: *varför* existerar det? Wittgenstein pekade åt samma håll: "Det mystiska är inte *hur* världen är, utan *att* den är."[^15]
 
 Här visar Koranens frågeställning sin styrka: den begär inte att man accepterar en premiss utan frågar vilken av tre möjligheter man föredrar. Att hävda att universum kanske inte behöver någon orsak är bara det första alternativet i ny förklädnad.
 
@@ -39,7 +39,9 @@ De flesta filosofer erkänner att universum har en orsak. Polyteismen förutsät
 
 Från Spinoza till Advaita Vedanta identifierar panteismen Gud med naturen. Spinozas system är stringent men rymmer sin egen upplösning. Om Skaparen *är* skapelsen utplånas skillnaden mellan orsak och verkan. En Gud identisk med universum kan inte förklara universum – den *är* det som behöver förklaras. Systemet besvarar inte den kosmologiska frågan. Det upplöser den.
 
-Deismen erkänner en Skapare men förnekar att denne handlar i världen. Voltaire, Jefferson och Paine fann hållningen tillräcklig. Men den bär en spänning den inte kan lösa: en Skapare med makt nog att frambringa allting, utan vilja att tala till det frambragta. Att skapas men aldrig tilltalas är att veta *att* man gjordes men aldrig *varför* – i praktiken knappt skiljbart från att aldrig ha gjorts med avsikt. En Gud knappt skiljbar från Guds frånvaro, utom i den mest abstrakta meningen. Abstraktion räckte inte för Strindberg.
+Deismen erkänner en Skapare men förnekar att denne handlar i världen. Voltaire, Jefferson och Paine fann hållningen tillräcklig. Men den bär en spänning den inte kan lösa: en Skapare med makt nog att frambringa allting, utan vilja att tala till det frambragta. Att skapas men aldrig tilltalas är att veta *att* man gjordes men aldrig *varför* – i praktiken knappt skiljbart från att aldrig ha gjorts med avsikt. En Gud knappt skiljbar från Guds frånvaro, utom i den mest abstrakta meningen.
+
+Abstraktion räckte inte för Strindberg.
 
 ## Swedenborg och treenighetens pris
 
@@ -67,7 +69,7 @@ Koranen förnekar aldrig lidandets verklighet. Den placerar det inom en arkitekt
 
 Ibn Qayyim sammanfattade det i en sats: Herren ensam skapar, styr och befaller.[^13] Inte en trossats som kräver förnuftets kapitulation utan den slutsats förnuftet når när det följer sina premisser hela vägen.
 
-"Av intet blir intet, och allt har en tillräcklig grund", skrev Strindberg i *Götiska rummen*.[^14] Han hade rätt. Premissen var klar. Vad som saknades var inte viljan utan kartan – den tradition som kunde bära tanken dit den pekade.
+I *Inferno* klagade Strindberg att de okända makterna lämnat världen utan livstecken. I *Götiska rummen* skrev han själv det tecken han sökte: "Av intet blir intet, och allt har en tillräcklig grund."[^14] Han formade svaret med egna ord. Han kände inte igen det.
 
 ---
 

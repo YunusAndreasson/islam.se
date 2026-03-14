@@ -73,7 +73,7 @@ Ur denna bild utvinner Ibn Qayyim trons inre mekanik: rädsla och hopp som två 
 
 Strindberg, som aldrig landat i en övertygelse utan att genast börja tvivla på den, skrev i *Götiska rummen* om "en hälsosam osäkerhet, som höll personen kort, alltid vaken, på sin vakt; ständig förnyelse under ett hejdlöst framåt."[^15] Det låter som ett modernt credo: osäkerhet som dygd, vaksamhet som livshållning. Men han kallade den "hälsosam", och adjektivet avslöjar honom. Han visste att total trygghet är en annan form av död – att den som försäkrat sig mot allt har förlorat skälet att röra sig.
 
-Utan Strindbergs stilistiska skärpa nådde Beck samma slutsats: ju fler risker vi hanterar, desto fler nya risker föder vi, och desto mer undergräver vi den tillit systemet var tänkt att frambringa.[^16] Försäkringen som skulle befria oss från rädsla gör oss beroende av försäkringen. Den som inte kan gå ut förrän försäkringsbrevet är granskat har bytt herre.
+Utan Strindbergs stilistiska skärpa nådde Beck samma slutsats: ju fler risker vi hanterar, desto fler nya risker föder vi, och desto mer undergräver vi den tillit systemet var tänkt att frambringa.[^16] Försäkringen som skulle befria oss från rädsla binder oss vid sig. Den som inte kan gå ut förrän försäkringsbrevet är granskat har bytt herre.
 
 Den franske tänkaren Alexis de Tocqueville beskrev formen 1840: en makt som tryggar medborgarnas behov, sköter deras angelägenheter och steg för steg befriar dem "från besväret att tänka och mödan att leva".[^22]
 
@@ -97,7 +97,7 @@ Fredrika Bremer gav ett svar i mitten av 1800-talet:
 
 Kvar står fågeln: hundra gram, en hjärna som en ärta, ett öga öppet och ett slutet – på väg genom en rymd den blivit anförtrodd att genomkorsa. Vid sekelskiftet 1900 fångade Hjalmar Söderberg samma sanning: "den som vill stanna här och där på vägen och njuta en smula af lifvet innan han har nått målet, han når det aldrig."[^20]
 
-Silvertärnan stannar inte. Aldrig har den frågat om färden var värd besväret. Det är vad *tawakkul* ytterst betyder: att resa utan den frågan. Inte utan karta – kartan är inristad i nervsystemet av den som skapade den – men utan tvivel om att kartan stämmer.
+Silvertärnan stannar inte.
 
 ---
 
