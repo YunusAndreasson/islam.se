@@ -5,15 +5,15 @@ wordCount: 2024
 qualityScore: 8.4
 description: "Sommaren 1896, i ett hotellrum i österrikiska Klam, skriver Strindberg en mening hans samtida läser som feber: 'Min tvungna otacksamhet trycker mig som en börda.' Den islamiska traditionen kände igen mönstret – inte som litteratur utan som antropologi."
 ---
-Sommaren 1896, i ett hotellrum i österrikiska Klam, nedtecknar August Strindberg en mening som hans samtida läser som feber och hans eftervärld som symptom: "Från ateism till Swedenborg tycks det bara vara ett steg!"[^1]
+Sommaren 1896, i ett hotellrum i österrikiska Klam, nedtecknar August Strindberg en mening hans samtida läser som feber och hans eftervärld som symptom: "Från ateism till Swedenborg tycks det bara vara ett steg!"[^1]
 
-Litteraturhistorien avfärdade meningen som fotnot till en psykos. Olof Lagercrantz hävdade att Inferno mestadels var medveten dramatisering, att Strindberg iscensatte sin kris för att få litterär råvara.[^2] Det är möjligt; Strindberg var kapabel till det mesta.
+Litteraturhistorien avfärdade meningen som fotnot till en psykos. Olof Lagercrantz hävdade att *Inferno* mestadels var medveten dramatisering, att Strindberg iscensatte sin kris för att få litterär råvara.[^2] Det är möjligt; Strindberg var kapabel till det mesta.
 
-Men antag att han hade rätt. Inte om Swedenborg, inte om ockultismen, utan om steget. Att avståndet mellan ateism och akut gudssökande inte är det avstånd vi föreställer oss. Att det liknar skillnaden mellan att hålla andan och att andas.
+Men antag att han hade rätt. Inte om Swedenborg, inte om ockultismen — utan om steget. Att avståndet mellan ateism och akut gudssökande inte är det avstånd vi föreställer oss. Att det liknar skillnaden mellan att hålla andan och att andas.
 
 ## Krisen som avslöjande
 
-Strindbergs ateism var aldrig lugn, snarare ett grepp om något som hela tiden hotade att glida ur händerna:
+Strindbergs ateism var aldrig lugn — snarare ett grepp om något som hela tiden hotade att glida ur händerna:
 
 > Jag har nämligen blivit ateist under årens lopp, när jag märkt hur de okända makterna lämnat världen åt dess öde utan att giva ett livstecken ifrån sig. Någon att tacka! Det finnes ingen tillstädes, och min tvungna otacksamhet trycker mig som en börda![^3]
 
@@ -21,19 +21,19 @@ Strindbergs ateism var aldrig lugn, snarare ett grepp om något som hela tiden h
 
 > Och när nöden drabbar er till havs försvinner alla som ni tillber, utom Han. Men när Han sedan fört er oskadda i land vänder ni er bort. Ja, människan är djupt otacksam.[^21]
 
-I kris anropar människan Gud; i trygghet glömmer hon. Men Koranen stannar inte vid psykologin: anropet är ett återvändande till utgångsläget. Det är glömskan som kräver förklaring, inte bönen.
+I kris anropar människan Gud; i trygghet glömmer hon. Men Koranen stannar inte vid psykologin — anropet är ett återvändande till utgångsläget. Det är glömskan som kräver förklaring, inte bönen.
 
 ## *Fiṭrah*: det som undertrycks men aldrig försvinner
 
-Den islamiska traditionen har ett begrepp för denna insikt: *fiṭrah*. Ibn Taymiyyah (d. 1328) citerar Profetens ﷺ ord: "Varje barn föds i enlighet med *fiṭrah*; sedan gör föräldrarna det till jude, kristen eller zoroastrier."[^4] Han knyter detta direkt till Koranens vers:
+Den islamiska traditionen har ett begrepp för insikten: *fiṭrah*. Ibn Taymiyyah (d. 1328) citerar Profetens ﷺ ord: "Varje barn föds i enlighet med *fiṭrah*; sedan gör föräldrarna det till jude, kristen eller zoroastrier."[^4] Han knyter detta direkt till Koranens vers:
 
 > Vänd ditt ansikte mot den sanna religionen, hängiven. Allahs ﷻ *fiṭrah*, med vilken Han skapade människorna. Ingen förändring i Allahs ﷻ skapelse.[^22]
 
-*Fiṭrah* är kunskapsteoretiskt innan det är teologiskt: vad barnet vet innan det lärt sig bevisen. I *al-Radd ʿalā al-Manṭiqiyyīn* skriver Ibn Taymiyyah att de som genom felaktiga metoder "vill förmå människor att överge det de skapats med av säker kunskap och rationella bevis"[^5] inte bara förstör tro utan undergräver förnuftets egna grunder. Att använda icke-naturliga metoder är "att plåga själar utan nytta."[^6]
+*Fiṭrah* är kunskapsteoretiskt innan det är teologiskt: vad barnet vet innan det lärt sig bevisen. I *al-Radd ʿalā al-Manṭiqiyyīn* skriver Ibn Taymiyyah att de som genom felaktiga metoder "vill förmå människor att överge det de skapats med av säker kunskap och rationella bevis"[^5] inte bara förstör tro utan undergräver förnuftets egna grunder. Att tillgripa konstlade metoder är "att plåga själar utan nytta."[^6]
 
-*Fiṭrah* är inte en from förhoppning om att alla i grunden tror. Det är anspråket att gudskunskap tillhör samma kunskapskategori som de mest grundläggande insikterna: att det finns en yttre verklighet, att orsak föregår verkan, att motsägelser inte kan vara sanna samtidigt. Att förneka Gud är, i denna analys, att överge koherensen själv: Ibn Taymiyyah kallar ateismens yttersta konsekvens *safsaṭah*, den radikala skepticism som upplöser all kunskap, inklusive förnekelsen själv.[^7]
+*Fiṭrah* är inte en from förhoppning om att alla i grunden tror. Det är anspråket att gudskunskap tillhör samma kunskapskategori som de mest grundläggande insikterna: att en yttre verklighet finns, att orsak föregår verkan, att motsägelser inte kan vara sanna samtidigt. Att förneka Gud är, i denna analys, att överge koherensen själv: Ibn Taymiyyah kallar ateismens yttersta konsekvens *safsaṭah* — den radikala skepticism som upplöser all kunskap, inklusive förnekelsen själv.[^7]
 
-Anspråket är högt, men det förklarar något. Om gudskunskap hör till kunskapens fundament borde varje kris som slår undan tryggheten blottlägga det som hela tiden legat under ytan. En sjö som dämts upp skapas inte av dammens fall. Den släpps fri.
+Anspråket är högt, men det förklarar något. Om gudskunskap hör till kunskapens fundament borde varje kris som slår undan tryggheten blottlägga det som hela tiden legat under ytan. En uppdämd sjö skapas inte av dammens fall; den släpps fri.
 
 ## Pendeln som aldrig vilar
 
@@ -41,63 +41,63 @@ Ellen Key, Strindbergs samtida och på många sätt hans motpol, ser fenomenet f
 
 > Mycket fromma kristnas barn bli fritänkare, mycket frinna fritänkares barn kristna. Orsaken är öppendaglig.[^8]
 
-Key ser sociologisk pendling. Men varför rör sig pendeln alltid *tillbaka*? Vore ateism ett stabilt kunskapstillstånd borde trenden vara linjär: varje generation mer sekulär, tills religionen utdör.
+Key ser sociologisk pendling. Men varför slår pendeln alltid *tillbaka*? Vore ateism ett stabilt kunskapstillstånd borde trenden vara linjär: varje generation mer sekulär, tills religionen utdör.
 
-Det är inte vad som sker, inte vad Key observerar, inte vad Strindberg genomlever. Ett internationellt forskningsprojekt vid Oxford visade 2011 att religiösa begrepp framträder som grundläggande strukturer i mänskligt tänkande, inte som inlärda föreställningar.[^9] Justin Barrett, en av projektets ledande forskare: "Religion handlar inte om något som ett fåtal särskilda människor gör på söndagar i stället för att spela golf."[^10]
+Det är inte vad som sker, inte vad Key observerar, inte vad Strindberg genomlever. Ett internationellt forskningsprojekt vid Oxford visade 2011 att religiösa begrepp framträder som grundläggande strukturer i mänskligt tänkande, inte som inlärda föreställningar.[^9] Justin Barrett, en av projektets ledare: "Religion handlar inte om något som ett fåtal särskilda människor gör på söndagar i stället för att spela golf."[^10]
 
-Invändningar finns. Ateismforskare som Lanman och Geertz hävdar att ateism också har naturliga kognitiva processer, att den kan uppstå spontant under vissa villkor.[^11] Invändningen är reell men förskjuter frågan: att ateism *kan* uppstå spontant säger inget om dess stabilitet. Frågan kvarstår: kan ateism *levas* utan ansträngning? Strindbergs vittnesmål antyder att den inte kan det.
+Invändningar finns. Ateismforskare som Lanman och Geertz hävdar att ateism också har naturliga kognitiva processer, att den kan uppstå spontant under vissa villkor.[^11] Invändningen är reell men förskjuter frågan: att ateism *kan* uppstå spontant säger inget om dess stabilitet. Frågan kvarstår: kan ateism *levas* utan ansträngning? Strindbergs vittnesmål antyder motsatsen.
 
 ## Den omöjliga neutraliteten
 
-I *Götiska rummen* rymmer Strindbergs formulering en säregen melankoli: "En kristen fritänkare, kanske; kristen, därför att jag är född av kristen släkt, fritänkare, därför att jag icke kan sluta mig till något 'erkänt' kyrkosamfund."[^12] En hållning som söker neutralitet. Men Inferno-krisen visar att mellanrummet inte bär. Ingen kan stanna där.
+I *Götiska rummen* bär Strindbergs formulering en säregen melankoli: "En kristen fritänkare, kanske; kristen, därför att jag är född av kristen släkt, fritänkare, därför att jag icke kan sluta mig till något 'erkänt' kyrkosamfund."[^12] En hållning som söker neutralitet. Men Inferno-krisen visar att mellanrummet inte bär. Ingen kan stanna där.
 
 Strindberg kallar rörelsen ofrivillig:
 
 > Det är ju märkvärdigt hur jag nu har från ateismen fallit ner i den fullständigaste vidskepelse.[^13]
 
-Riktningen är *ner*. Strindberg upplever sitt gudssökande som fall. Han har inte beslutat att bli religiös; han har misslyckats med att förbli ateist.
+Riktningen är *ner*. Strindberg upplever gudssökandet som fall. Han har inte beslutat att bli religiös; han har misslyckats med att förbli ateist.
 
-Dag Hammarskjöld noterade samma rörelse i *Vägmärken*, utan Strindbergs dramatik:
+Dag Hammarskjöld noterade samma rörelse i *Vägmärken*, utan dramatik:
 
 > Jag vet inte Vem – eller vad – som ställde frågan. Jag vet inte när den ställdes. Jag minns inte att jag svarade. Men en gång svarade jag ja till Någon – eller Något.[^20]
 
-Frånvaron av dramatik gör Hammarskjölds vittnesmål svårare att avfärda. Strindbergs erfarenhet kan tillskrivas feber och sammanbrott; Hammarskjölds kan det inte. Att samma ofrivilliga rörelse inträffar utan patologi antyder att det inte är krisen som skapar rörelsen — utan krisen som blottar den snabbast.
+Frånvaron av dramatik gör Hammarskjölds vittnesmål svårare att avfärda. Strindbergs erfarenhet kan tillskrivas feber och sammanbrott; Hammarskjölds kan det inte. Att samma ofrivilliga rörelse inträffar utan patologi antyder att krisen inte skapar rörelsen — den blottar den snabbast.
 
-Hjalmar Söderberg fångade belägenhetens ironi med sedvanlig torrhet: "Vi böra hoppas att Strindberg får upprättelse i himlen, om inte förr. Han tror ju på himlen. Varför bråkar han då så förbaskat med de dumma jordiska tingen?"[^14] Det Söderberg avfärdar som excentrisk inkonsekvens, att tro på himlen men slåss med jorden, är ur *fiṭrah*-perspektivet det enda logiska: den som anar det oändliga finner ingen ro i det ändliga.
+Hjalmar Söderberg fångade belägenhetens ironi med sedvanlig torrhet: "Vi böra hoppas att Strindberg får upprättelse i himlen, om inte förr. Han tror ju på himlen. Varför bråkar han då så förbaskat med de dumma jordiska tingen?"[^14] Det Söderberg avfärdar som excentrisk inkonsekvens — att tro på himlen men slåss med jorden — är ur *fiṭrah*-perspektivet det enda logiska: den som anar det oändliga finner ingen ro i det ändliga.
 
 ## Den stabila ateisten
 
 Den uppenbara invändningen är den stabila ateisten: den som lever ett helt liv utan gudstro och dör utan att falla tillbaka. Finns inte miljontals sådana?
 
-Albert Einstein bekände: "Jag är ingen ateist. Problemet är alltför stort för våra begränsade sinnen."[^25] Han var ingen teist. Men han kunde inte landa i ateism — problemet var för stort.
+Albert Einstein bekände: "Jag är ingen ateist. Problemet är alltför stort för våra begränsade sinnen."[^25] Han var ingen teist — men han kunde inte landa i ateism. Problemet var för stort.
 
-*Fiṭrah* förutsäger inte universell återvändning – bara att tröskeln är lägre än den ateistiska självförståelsen medger. Strindbergs "enda steg" är inte en profetia om att alla ateister kommer att ta det, utan en observation om hur kort steget visar sig vara för dem som tvingas ta det.
+*Fiṭrah* förutsäger inte universell återvändning — bara att tröskeln är lägre än den ateistiska självförståelsen medger. Strindbergs "enda steg" är inte en profetia om att alla ateister kommer att ta det utan en observation om hur kort steget visar sig vara för dem som tvingas dit.
 
 Koranen skildrar också det motsatta: de som hör och vänder bort.
 
 > När Våra verser reciteras för honom vänder han sig bort i högmod som om han inte hörde dem – som om hans öron var tilltäppta.[^23]
 
-Öronen är inte döva. De är tilltäppta. Det är hela skillnaden. *Fiṭrah* hävdar inte att varje människa kommer att erkänna Gud — bara att ingen kan undgå att på någon nivå *veta*, och att det som ser ut som stabil ateism ofta är ständigt underhåll.
+Öronen är inte döva; de är tilltäppta. Det är hela skillnaden. *Fiṭrah* hävdar inte att varje människa kommer att erkänna Gud — bara att ingen kan undgå att på någon nivå *veta*, och att det som ser ut som stabil ateism ofta kräver ständigt underhåll.
 
 ## Vad Strindberg inte visste
 
-Strindberg landade bekantligen i Swedenborg – inte i islam, inte i ortodox kristendom, utan i en synkretistisk blandning av andeskåderi, korrespondenstänkande och personlig mytologibildning.[^15] *Fiṭrah*-argumentet gäller inte *vart* pendeln slår utan *att* den slår. Att Strindberg sökte sig till Swedenborg snarare än till Koranen avspeglar hans kulturella horisont — inget annat.
+Strindberg landade bekantligen i Swedenborg — inte i islam, inte i ortodox kristendom, utan i en synkretistisk blandning av andeskåderi, korrespondenstänkande och personlig mytbildning.[^15] *Fiṭrah*-argumentet gäller inte *vart* pendeln slår utan *att* den slår. Att Strindberg sökte sig till Swedenborg snarare än till Koranen avspeglar hans kulturella horisont — inget annat.
 
-Ibn Taymiyyah hade redan fångat problemet: Profeterna, skriver han, "slog liknelser som kompletterade *fiṭrah* med det den inte uppmärksammat eller som den korrumperade åsikter och begär hade fördunklat."[^16] *Fiṭrah* ger riktningen, mot Gud. Uppenbarelsen ger precisionen: *vilken* Gud, *hur* man närmar sig, *vad* Han kräver. Utan uppenbarelse är *fiṭrah* en kompass utan karta. Den pekar rätt men kan inte visa vägen.
+Ibn Taymiyyah hade redan fångat problemet: Profeterna, skriver han, "slog liknelser som kompletterade *fiṭrah* med det den inte uppmärksammat eller som den korrumperade åsikter och begär hade fördunklat."[^16] *Fiṭrah* ger riktningen — mot Gud. Uppenbarelsen ger precisionen: *vilken* Gud, *hur* man närmar sig, *vad* Han kräver. Utan uppenbarelse är *fiṭrah* en kompass utan karta. Den pekar rätt men visar inte vägen.
 
-Strindberg hade kompassen. Han saknade kartan. Inferno-krisen är *fiṭrah* i verkan — den genombröt ateismens yta och drev honom mot det gudomliga. Men utan profetisk vägledning förde den honom till Swedenborgs visioner i stället för till Abrahams raka väg. Kvar stod vad Strindberg själv kallade "ett själstillstånd snarare än någon på teorier grundad åsikt."[^17]
+Strindberg hade kompassen. Han saknade kartan. Inferno-krisen är *fiṭrah* i verkan — den genombröt ateismens yta och drev honom mot det gudomliga. Men utan profetisk vägledning förde den honom till Swedenborgs visioner, inte till Abrahams raka väg. Kvar stod vad Strindberg själv kallade "ett själstillstånd snarare än någon på teorier grundad åsikt."[^17]
 
 ## Bördan att inte tacka
 
-Hans mest avslöjande mening är den enklaste: "Min tvungna otacksamhet trycker mig som en börda." En människa som vet att hon har något att tacka för men saknar någon att tacka — ateismen har avlägsnat mottagaren men inte behovet. Vore tacksamheten en produkt av tron borde den försvinna med tron. Att behovet består antyder att det inte är tron som alstrar tacksamheten utan tacksamheten som vittnar om något tron bara erkänner.
+Hans mest avslöjande mening är den enklaste: "Min tvungna otacksamhet trycker mig som en börda." En människa som vet att hon har något att tacka för men saknar någon att tacka. Ateismen har avlägsnat mottagaren men inte behovet. Vore tacksamheten en produkt av tron borde den försvinna med tron. Att behovet består antyder att det inte är tron som alstrar tacksamheten utan tacksamheten som vittnar om något tron bara erkänner.
 
-Oscar Levertin: "Verkligheten kan kanske undvara religion, men säkert ej religiositet."[^18] Att avskaffa religion — institutioner, dogmer, ritualer — är möjligt. Att avskaffa religiositeten är att undanröja något i människan själv.
+Oscar Levertin: "Verkligheten kan kanske undvara religion, men säkert ej religiositet."[^18] Att avskaffa religion — institutioner, dogmer, ritualer — låter sig göras. Att avskaffa religiositeten är att undanröja något i människan själv.
 
 Koranen uttrycker det med en bild som är enklare men når längre:
 
 > När människan drabbas av olycka anropar hon Oss liggande på sidan eller sittande eller stående. Men när Vi avvärjt olyckan från henne fortsätter hon som om hon aldrig anropat Oss.[^24]
 
-Människan *kan* glömma Gud, men aldrig varaktigt, aldrig utan att något i hennes tillvaro förblir stumt och omättat. Ibn Qayyim al-Jawziyyah (d. 1350) skriver:
+Människan *kan* glömma Gud — men aldrig varaktigt, aldrig utan att något i hennes tillvaro förblir stumt och omättat. Ibn Qayyim al-Jawziyyah (d. 1350) skriver:
 
 > I hjärtat finns en tomhet som inte kan fyllas av annat än närhet till Allah ﷻ, och en sorg som inte kan lyftas av annat än glädjen i att känna Honom, och en oro som inte kan stillas av annat än samling inför Honom.[^19]
 
@@ -107,7 +107,7 @@ Utan att ha läst en rad Ibn Qayyim genomlevde Strindberg just denna rörelse.
 
 ## Det enda steget
 
-Det enda steget är inte ett steg framåt utan frånvaron av det sista steget bakåt, det ögonblick då underhållet upphör och *fiṭrah* talar. Strindberg tog det steget inte för att han var galen eller vilseledd, utan för att steget alltid hade legat där och väntat.
+Det enda steget är inte ett steg framåt utan frånvaron av det sista steget bakåt — det ögonblick då underhållet upphör och *fiṭrah* talar. Strindberg tog det steget inte för att han var galen eller vilseledd utan för att steget alltid hade legat där och väntat.
 
 Hans tvungna otacksamhet tryckte honom som en börda. Det finns en lättare väg.
 
