@@ -27,7 +27,7 @@ I *Rawḍat al-Muḥibbīn* gör Ibn Qayyim denna distinktion till grundval för
 
 Den islamiska traditionen kartlägger blickens *sekvens*, inte dess *objekt*. Ibn al-Jawzī skriver i *Dhamm al-Hawā*: begäret (*hawā*) gör blicken enögd.[^4] Inte blind, enögd: begäret stänger inte av uppfattningen utan deformerar den. Den som ser enögd ser personen men inte sammanhanget, njutningen men inte morgonen efter.
 
-Iris Murdoch gör i *The Sovereignty of Good* uppmärksamheten, inte viljan, till den avgörande moraliska handlingen: "Jag kan bara välja inom den värld jag förmår se, och klart seende är resultatet av moralisk ansträngning."[^20] Men hon pekar inte ut *var* ansträngningen ska sättas in. Den islamiska traditionens bidrag är just sekvensen: tröskeln mellan första och andra blicken, det exakta ögonblicket där ansträngningen avgör.
+Iris Murdoch gör i *The Sovereignty of Good* uppmärksamheten, inte viljan, till den avgörande moraliska handlingen: "Jag kan bara välja inom den värld jag förmår se, och klart seende är resultatet av moralisk ansträngning."[^20] Epiktetos, den frigivne slaven, slog fast att ingen människa är fri som inte behärskar sig själv.[^22] Men varken han eller Murdoch pekar ut *var* ansträngningen ska sättas in. Den islamiska traditionens bidrag är just sekvensen: tröskeln mellan första och andra blicken, det exakta ögonblicket där ansträngningen avgör.
 
 ## Ljuset och mörkret
 
@@ -100,3 +100,4 @@ Kent Berridges neurovetenskapliga forskning visar varför: upprepad exponering f
 [^19]: Ibn Qayyim al-Jawziyyah, *Rawḍat al-Muḥibbīn*.
 [^20]: Iris Murdoch, *The Sovereignty of Good* (1970), essän "The Idea of Perfection".
 [^21]: Kent C. Berridge & Terry E. Robinson, "The neural basis of drug craving: An incentive-sensitization theory of addiction," *Brain Research Reviews* 18 (1993). Distinktionen mellan *wanting* (begärsimpuls) och *liking* (upplevd tillfredsställelse) har sedan bekräftats i omfattande forskning.
+[^22]: Epiktetos, *Discourses* (ca 108 e.Kr.), nedtecknade av Arrianos.

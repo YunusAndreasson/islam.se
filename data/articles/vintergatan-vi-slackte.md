@@ -47,7 +47,7 @@ Hjalmar Söderberg lät doktor Glas formulera det:
 
 Ljuset härskar i universum; mörkret är den lilla anomali som gör seendet möjligt.
 
-Viktor Rydberg: "I mörkret lär man sig vad ljus är."[^12] Utan mörker som bakgrund reduceras ljus till brus, en konstant stimulans som upphör att bära information. Kant jämställde den stjärnbeströdda himlen och den moraliska lagen som de två ting som fyller sinnet med ständigt förnyad vördnad.[^24]
+Viktor Rydberg: "I mörkret lär man sig vad ljus är."[^12] Utan mörker som bakgrund reduceras ljus till brus, en konstant stimulans som upphör att bära information. Kant jämställde den stjärnbeströdda himlen och den moraliska lagen som de två ting som fyller sinnet med ständigt förnyad vördnad.[^24] Albert Einstein skrev: "Det vackraste vi kan uppleva är det gåtfulla. Det är källan till all sann konst och all vetenskap."[^28] Men det gåtfulla förutsätter mörker; utan nattens kontrast förblir det osynligt.
 
 ## Tingets ljus
 
@@ -108,3 +108,4 @@ Vi har inte bara förorenat himlen. Vi har utplånat det villkor under vilket va
 [^25]: Ralph Waldo Emerson, *Nature* (1836), kap. 1.
 [^26]: Ibn al-Jawzī, *Ṣayd al-Khāṭir* (Tankens fångst).
 [^27]: Pär Lagerkvist, *Aftonland*, Albert Bonniers Förlag, 1953.
+[^28]: Albert Einstein, "What I Believe," *Forum and Century* 84 (1930), s. 193–194; omtryckt i *Living Philosophies* (1931).

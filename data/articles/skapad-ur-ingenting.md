@@ -49,6 +49,8 @@ Emanuel Swedenborg insåg detta. Som barn uppfattade han Gud som en, utan treeni
 
 Sammanhängande på egna villkor — men det bekräftar problemet mer än löser det. Swedenborg behövde uppfinna en helt ny teologi och bryta med både katolsk och protestantisk ortodoxi för att göra treenigheten förenlig med den monoteism han aldrig slutat känna. Karl Rahner, en av katolska kyrkans mest inflytelserika moderna teologer, medgav att kristna lever i sitt fromhetsliv som rena monoteister, och att merparten av den kristna litteraturen skulle bestå oförändrad om treenighetsläran föll.[^16] Vad han medger, utan att dra slutsatsen, är att treenigheten inte löser ett problem den kristna erfarenheten ställer. Den *skapar* ett.
 
+Isaac Newton nådde en skarpare slutsats — och betalade samma pris som Swedenborg för sin. I *Principia Mathematica* beskrev han Gud som "ett väsen, evigt, oändligt, absolut fullkomligt" som "styr allting, inte som världens själ utan som Herre över allt."[^17] Newton var antitrinitär: han avvisade treenigheten som falsk doktrin, vägrade prästvig i den anglikanska kyrkan och argumenterade i opublicerade teologiska skrifter för strikt monoteism.[^18] Historiens kanske mest inflytelserike naturvetare kunde inte få treenigheten att gå ihop — och valde, i tystnad, enheten.
+
 I sin enklaste form ställde Ibn Taymiyyah frågan: det skapade måste vara uppkommet och beroende, till skillnad från Skaparen som är nödvändig i sin existens.[^10] Antingen är Gud en – transcendent, självtillräcklig, utan partner och utan delar – eller så är Han det inte, och varje tillägg som anbringas för att förklara Hans enhet undergräver den.
 
 ## Tomheten som inte försvinner
@@ -83,3 +85,5 @@ Ibn Qayyim uttryckte det i en sats: Herren ensam skapar, styr och befaller.[^13]
 [^14]: August Strindberg, *Götiska rummen* (1904).
 [^15]: Ludwig Wittgenstein, *Tractatus Logico-Philosophicus* (1921), 6.44.
 [^16]: Karl Rahner, *The Trinity* (1970); orig. i *Mysterium Salutis* II (1967).
+[^17]: Isaac Newton, *Philosophiæ Naturalis Principia Mathematica*, General Scholium (1713/1726).
+[^18]: Stephen Snobelen, "'God of gods, and Lord of lords': The Theology of Isaac Newton's General Scholium to the Principia," *Osiris* 16 (2001), s. 169–208. Se även Wikipedia, "Religious views of Isaac Newton."

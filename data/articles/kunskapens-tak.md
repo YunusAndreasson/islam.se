@@ -53,6 +53,8 @@ Upplysningen upphöjde idealet till dogm. Oscar Levertin iakttog förvandlingen:
 
 Andra svenska tänkare närmade sig samma tröskel, var och en från sitt håll. Carl von Linné slog i sina privata anteckningar an ett annat register. I *Nemesis Divina* ställde han frågan: "Vad är visdom? Att se sin egen okunnighet."[^13] I *Egenhändiga anteckningar* konstaterade han: "Fundamentum Fructificationis hade alle omtalat, men ingen förstådt."[^14] Ellen Key erkände att det som "ytterst blir kvar som mysterium för utvecklingsläran, förblir det äfven för supranaturalisten, nämligen själfva rörelsekraften i utvecklingen."[^15]
 
+Isaac Newton, som kartlade tyngdkraftens lagar och planetbanorna, bekände gränsen med en bild: "Jag förefaller mig själv ha varit blott ett barn som leker vid stranden, medan sanningens vida ocean låg outforskad framför mig."[^26] Strandbarnet tillhör samma epistemologi som Ibn ʿAbbās' fjärde skikt: den som ser mest ser tydligast hur mycket som förblir osett.
+
 Viktor Rydberg, en av den svenska liberalismens stora intellektuella, lät karaktären Kimon i *Den siste Atenaren* uttrycka samma misstro:
 
 > Förnuftet motsäger vad sinnena vittna. Påstode jag nu för min del, att sinnena äro lögnaktiga, så kan en annan med samma rätt påstå, att det tvärtom är förnuftets slutledningar, som äro falska.[^16]
@@ -104,3 +106,4 @@ Men Geijer uttryckte detta som en personlig observation. Ibn ʿAbbās formade de
 [^23]: Erik Gustaf Geijer, citerad i Oscar Levertin, *Diktare och drömmare*.
 [^24]: Nikolaus Cusanus, *De Docta Ignorantia* (1440); Pseudo-Dionysios Areopagita, *De Mystica Theologia* (ca 500 e.Kr.). Cusanus hävdade att det oändliga till sin natur undandrar sig det ändliga förståndets grepp – en ontologisk princip, inte en epistemologisk brist.
 [^25]: Karin Boye, *Kris*, Albert Bonniers Förlag, 1934.
+[^26]: Isaac Newton, citerad i David Brewster, *Memoirs of the Life, Writings, and Discoveries of Sir Isaac Newton* (1855), vol. 2, kap. 27.

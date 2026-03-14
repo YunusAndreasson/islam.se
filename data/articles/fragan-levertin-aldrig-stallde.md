@@ -31,6 +31,8 @@ En koranisk vers slår an tonen:
 
 Modern kognitionsforskning bekräftar bilden: Justin Barrett fann att barn i alla undersökta kulturer spontant utvecklar gudsbegrepp oberoende av uppfostran.[^24]
 
+Albert Einstein vittnade om samma erfarenhet: "Människor, växter eller kosmiskt stoft — vi dansar alla efter en gåtfull melodi som anslås i fjärran av en osynlig spelman."[^26] Den osynlige spelmannen — *fiṭrah* utan etikett.
+
 Ibn Taymiyyah blottar grunden: "*Fiṭrah* är det som hjärtat skapades för – kärleken till Gud."[^11] Han driver tanken till sin spets: "Kunskap om sanningen medför kärlek till den, och kunskap om falskheten medför avsky för den, på grund av det som finns i *fiṭrah* av kärlek till sanningen."[^12] *Fiṭrah* svarar på sanningen som strängen svarar på tonen.
 
 ## Den spänning ingen ställde
@@ -107,3 +109,4 @@ Koranen tecknar närheten mellan törst och källa i en vers om intimitet:
 [^23]: Koranen, Qāf 50:16.
 [^24]: Justin Barrett, *Born Believers: The Science of Children's Religious Belief* (Free Press, 2012); jfr Deborah Kelemen, "Are Children 'Intuitive Theists'?", *Psychological Science* 15:5 (2004), 295–301.
 [^25]: Blaise Pascal, *Pensées*, fragment 148 (Lafuma) / 425 (Brunschvicg).
+[^26]: Albert Einstein, citerad i *Saturday Evening Post*, 26 oktober 1929.

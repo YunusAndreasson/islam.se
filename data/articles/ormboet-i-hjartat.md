@@ -1,5 +1,5 @@
 ---
-title: "Ormboet i hjärtat"
+title: "Ormboet"
 publishedAt: "2025-07-30T12:00:00.000Z"
 wordCount: 2196
 qualityScore: 8.5

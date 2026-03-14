@@ -53,6 +53,8 @@ Koranen riktar sig till den som vandrar på jorden högmodigt: "Du kan varken kl
 
 Topelius' barnpedagogik och Koranens bildspråk delar en beskaffenhet: båda tilltalar den som ännu inte lärt sig att ta världen för givet. Topelius skrev att undervisningen skulle föra barnet stegvis, "från det närmaste till det fjärmare, från hemmet till djuren, från djuren till växterna och så vidare ut i den stora världen, till dess det unga sinnet kan höja sig till en uppfattning om världsbyggnaden, Guds allsmäktiga kraft, natur och ande."[^14] Barnet lär sig om stjärnorna för att lära sig om Gud.
 
+Newton, som kartlade de lagar som styr planeternas rörelser, nådde samma slutsats: "Detta solens, planeternas och kometernas sköna system kan bara ha uppkommit genom en intelligent och mäktig Varelses råd och herravälde."[^20] Topelius lärde barnet att *läsa* skapelsen; Newton lärde vuxenvärlden att det lästa bär en författares signatur.
+
 Samma rörelse gör Koranen. Himlarna och jorden, solen och månen, stjärnorna och deras banor – allt framträder som *āyāt*, tecken: "Er Herre är Allah ﷻ som skapade himlarna och jorden under sex dagar och sedan höjde Sig över tronen. Han skapade solen, månen och stjärnorna undergivna Hans befallning."[^15]
 
 ## Drömmen om att vakna
@@ -90,3 +92,4 @@ Planeterna är ostadiga som ett människoliv. Vad fordrar den obeständigheten a
 [^17]: Hannah Arendt, *The Human Condition* (1958), prologen och kap. 35–36.
 [^18]: Carl von Linné, *Nemesis Divina*, postumt publicerad (manuskript ca 1755–1770).
 [^19]: Ibn al-Jawzī, *Ṣayd al-Khāṭir* (Tankens fångst).
+[^20]: Isaac Newton, *Philosophiæ Naturalis Principia Mathematica*, General Scholium (1713).

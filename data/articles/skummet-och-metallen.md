@@ -1,5 +1,5 @@
 ---
-title: "Skummet och metallen"
+title: "Elden som känner igen"
 publishedAt: "2025-09-08T12:00:00.000Z"
 wordCount: 1681
 qualityScore: 8.5

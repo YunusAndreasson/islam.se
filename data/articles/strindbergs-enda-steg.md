@@ -69,6 +69,8 @@ Hjalmar Söderberg fångade belägenhetens ironi med sedvanlig torrhet: "Vi bör
 
 Den uppenbara invändningen är den stabila ateisten: den som lever ett helt liv utan gudstro och dör utan att falla tillbaka. Finns inte miljontals sådana?
 
+Albert Einstein bekände: "Jag är ingen ateist. Problemet är alltför stort för våra begränsade sinnen."[^25] Han var ingen teist. Men han kunde inte landa i ateism — problemet var för stort.
+
 *Fiṭrah* förutsäger inte universell återvändning – bara att tröskeln är lägre än den ateistiska självförståelsen medger. Strindbergs "enda steg" är inte en profetia om att alla ateister kommer att ta det, utan en observation om hur kort steget visar sig vara för dem som tvingas ta det.
 
 Koranen skildrar också det motsatta: de som hör och vänder bort.
@@ -135,3 +137,4 @@ Hans tvungna otacksamhet tryckte honom som en börda. Det finns en lättare väg
 [^22]: Koranen, *al-Rūm* 30:30.
 [^23]: Koranen, *Luqmān* 31:7.
 [^24]: Koranen, *Yūnus* 10:12.
+[^25]: Albert Einstein, citerad i Max Jammer, *Einstein and Religion: Physics and Theology* (Princeton University Press, 1999), s. 97.

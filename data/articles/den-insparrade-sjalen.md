@@ -1,5 +1,5 @@
 ---
-title: "Den inspärrade själen"
+title: "Fängelset som blir bekvämare"
 publishedAt: "2025-09-18T12:00:00.000Z"
 wordCount: 1943
 qualityScore: 8.7

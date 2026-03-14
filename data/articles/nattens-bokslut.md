@@ -25,7 +25,7 @@ Topelius stod i en tradition med tydliga paralleller. Den pietistiska väckelse 
 
 Ändå bär de olika frukt. Pietismens självprövning kunde slå över i ångest: syndens tyngd, den egna ovärdigheten, skräcken för förkastelse. Många pietister vittnar om sömnlösa nätter, framkallade av just de granskningar som skulle ge ro. Den islamiska *muḥāsabah*, som Ibn Qayyim tecknar den, balanserar alltid räkenskapen med *rajāʾ*, tillförsikten om Guds barmhärtighet. Ångern "befinner sig mellan två granskningar", skriver han: "en som gör den nödvändig och en som bevarar den."[^8] Det är skillnaden mellan den som räknar misstag tills gryningen och den som räknar, rättar och somnar. Al-Ḥasan al-Baṣrī skildrar den troende som sin egen revisor, men revisionen sker "inför Gud", inför Den som förlåter.[^9] Samma övning kan öppna vägen mot sömn – eller spärra den, allt efter om den mynnar i tillförsikt eller skräck.
 
-I den kristna världen saknade Topelius och pietisterna inte föregångare. På 1540-talet kodifierade Ignatius av Loyola sin *examen*, en nattlig övning där jesuiten granskar dagens händelser, urskiljer Guds närvaro i dem och ber om förlåtelse för sina brister. Praktiken är äldre än alla tre: redan pythagoreernas *Gyllene verser* förbjuder sömnen innan dagen granskats tre gånger – var felade jag, vad uträttade jag, vad försummade jag?[^20] Tre traditioner, samma insikt: dagen behöver ett bokslut.
+I den kristna världen saknade Topelius och pietisterna inte föregångare. På 1540-talet kodifierade Ignatius av Loyola sin *examen*, en nattlig övning där jesuiten granskar dagens händelser, urskiljer Guds närvaro i dem och ber om förlåtelse för sina brister. Praktiken är äldre än alla tre: redan pythagoreernas *Gyllene verser* förbjuder sömnen innan dagen granskats tre gånger – var felade jag, vad uträttade jag, vad försummade jag?[^20] Sokrates formulerade det kategoriskt: "Ett oprövat liv är inte värt att leva."[^22] Tre traditioner, samma insikt: dagen behöver ett bokslut.
 
 ## Profetens ﷺ kvällsritual
 
@@ -78,3 +78,4 @@ Den som ligger sömnlös och bläddrar saknar inte en ny app. Hon saknar en gamm
 [^19]: Seneca, *De Ira* III.36: "*Qualis ille somnus post recognitionem sui sequitur, quam tranquillus, quam altus ac liber.*"
 [^20]: Pythagoreernas *Gyllene verser* (Χρυσᾶ Ἔπη), v. 40–42, tillskrivna Pythagoras men sammanställda senast 300-talet f.Kr.
 [^21]: Dag Hammarskjöld, *Vägmärken*, Albert Bonniers Förlag, 1963.
+[^22]: Sokrates, citerad i Platons *Försvaret* (399 f.Kr.), 38a.
