@@ -51,7 +51,7 @@ Blaise Pascal satte ord på det redan på 1600-talet:
 
 Du kan inte förhandla dig till sömn, inte köpa den, inte tvinga den. Du kan bara släppa. I en civilisation som har organiserat sig kring att aldrig släppa, blir det enklaste — att somna — det svåraste.
 
-Karin Boye gav det tillstånd som väntar på andra sidan ett namn: "Det oundvikligas ro. Det inre ödets ro."[^25]
+Karin Boye namnger det tillstånd som väntar den som förmår släppa: "Det oundvikligas ro. Det inre ödets ro."[^25]
 
 ## Natten avslöjar
 

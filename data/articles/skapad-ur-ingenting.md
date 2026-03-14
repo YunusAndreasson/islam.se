@@ -19,7 +19,9 @@ Antingen uppstod allting ur intet, utan orsak. Eller skapade allting sig självt
 
 De två första alternativen är absurda. Att något uppstår ur absolut intet — verkligt *intet*, inte vakuumfluktuationer eller kvanttillstånd — saknar förklaring. Att något skapar sig självt kräver att det existerar före sin egen existens. Kvar står det tredje.
 
-Ibn Kathīr återger en tradition: Jubayr ibn Muṭʿim, vid den tiden polyteist, hade kommit till Profeten ﷺ efter slaget vid Badr för att lösa ut krigsfångar. Han hörde Profeten ﷺ recitera dessa verser under bönen och sade: "Mitt hjärta höll på att flyga" — och Ibn Kathīr tillägger att det var bland det som förde honom till islam. I *Monadologin* nådde Leibniz samma punkt 1714 när han myntade principen om tillräcklig grund: ingenting sker utan att det finns en anledning till att det sker så och inte annorlunda.[^4] Där Leibniz behövde ett metafysiskt system ställer Koranen frågan på tre rader och lämnar lyssnaren ensam med svaret.
+Ibn Kathīr återger en tradition: Jubayr ibn Muṭʿim, vid den tiden polyteist, hade kommit till Profeten ﷺ efter slaget vid Badr för att lösa ut krigsfångar. Han hörde Profeten ﷺ recitera dessa verser under bönen och sade: "Mitt hjärta höll på att flyga" — och Ibn Kathīr tillägger att det var bland det som förde honom till islam.
+
+Fjorton sekler senare nådde Leibniz samma punkt i *Monadologin* (1714) när han myntade principen om tillräcklig grund: ingenting sker utan att det finns en anledning till att det sker så och inte annorlunda.[^4] Där Leibniz behövde ett metafysiskt system ställer Koranen frågan på tre rader och lämnar lyssnaren ensam med svaret.
 
 ## Koranens argument och dess kritiker
 

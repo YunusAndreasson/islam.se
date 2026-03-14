@@ -29,11 +29,9 @@ Moderna forskare har ifrågasatt hur absolut denna fatalism var; Magnus Magnusso
 
 Vad hände när nornorna avskaffades, den kosmiska ordningen monterades ned och den moderna människan stod ensam inför sitt val?
 
-I ett av världens friaste och mest sekulariserade samhällen breder meningslösheten ut sig: från sex procent 2003 till tjugofyra procent 2023, enligt Kairos Futures forskning.[^4] Fyra gånger fler på tjugo år.
+I ett av världens friaste och mest sekulariserade samhällen breder meningslösheten ut sig: från sex procent 2003 till tjugofyra procent 2023, enligt Kairos Futures forskning.[^4] Fyra gånger fler på tjugo år. Redan 1844 gav Kierkegaard tillståndet namn: ångesten är frihetens svindel.[^16]
 
-Redan 1844 gav Kierkegaard tillståndet namn: ångesten är frihetens svindel.[^16]
-
-Vad den friheten kostar visste Karin Boye. I *Kris* skrev hon:
+Karin Boye visste det. I *Kris* skrev hon:
 
 > Aldrig, aldrig går den förbi, det kommer ny och ny tid med samma ångest, den tar aldrig slut, den är outtömlig.[^5]
 

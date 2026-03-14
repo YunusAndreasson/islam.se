@@ -23,9 +23,7 @@ Sībawayh skrev *al-Kitāb* – "Boken". Den behövde inget annat namn. Den var 
 
 Sībawayh var perser; hans uttal förrådde honom. I en kultur som värderade *faṣāḥah*, språklig renhet och retorisk fulländning, var det knappast tänkbart att en utlänning kunde kodifiera det heliga språket.
 
-Spänningen löstes aldrig helt. Arabiska är Koranens språk. Uppenbarelsen kom på
-
-> ett tydligt arabiskt tungomål.[^4]
+Spänningen löstes aldrig helt. Arabiska är Koranens språk; uppenbarelsen kom på "ett tydligt arabiskt tungomål".[^4]
 
 Språkets sakralitet är odiskutabel. Men vem *äger* det? Om ägandet är etniskt, om arabiskan tillhör araberna som blodets arv, borde en perser med brytning vara den siste att kodifiera dess grammatik. Ändå var det en perser som gjorde det. Ingen har gjort det bättre.
 

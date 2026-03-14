@@ -59,7 +59,11 @@ Koranen tecknar relationen mellan kunskap och själv med en logik utan motsvarig
 
 > Och var inte som dem som glömde Allah ﷻ, så att Han lät dem glömma sig själva. Dessa är de ogudaktiga.[^8]
 
-Versens struktur är dess argument. Den som glömmer Gud glömmer sig själv, men detta är en annan glömska än Hávamáls dåres. Dåren grubblar, minns, samlar på sig. Koranens glömska är djupare: den som vänder sig bort från det som överskrider jaget förlorar tillgången till sitt eget inre — inte sitt minne utan sin verklighet. Harry Martinson grep den glömskan i *Aniara*: "Jag frågade mig själv men glömde svara. / Jag drömde mig ett liv men glömde vara."[^19] Logiken är inte godtycklig. Om det djupaste i människan är hennes skapadhet — att hon är beroende, ändlig, given — kan hon bara känna sig själv genom att känna den hon skapades av. Ta bort den referenspunkten och självkännedomen förlorar sin måttstock.
+Versens struktur är dess argument. Den som glömmer Gud glömmer sig själv, men detta är en annan glömska än Hávamáls dåres. Dåren grubblar, minns, samlar på sig. Koranens glömska är djupare: den som vänder sig bort från det som överskrider jaget förlorar tillgången till sitt eget inre — inte sitt minne utan sin verklighet.
+
+Harry Martinson grep den glömskan i *Aniara*: "Jag frågade mig själv men glömde svara. / Jag drömde mig ett liv men glömde vara."[^19]
+
+Logiken är inte godtycklig. Om det djupaste i människan är hennes skapadhet — att hon är beroende, ändlig, given — kan hon bara känna sig själv genom att känna den hon skapades av. Ta bort den referenspunkten och självkännedomen förlorar sin måttstock.
 
 I den nordiska traditionen är minnet kunskapens bevarare: Mimer vaktar brunnen; det man dricker tillförs det man redan är. I Koranens kunskapslära är en riktad glömska kunskapens *förutsättning*: att glömma sin förträfflighet, sin suveränitet, sin självtillräcklighet. Först den som upphör att fylla rummet med sig själv kan höra något annat.
 

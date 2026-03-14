@@ -35,7 +35,7 @@ Albert Einstein vittnade om samma erfarenhet: "Människor, växter eller kosmisk
 
 Ibn Taymiyyah blottlägger grunden: "*Fiṭrah* är det som hjärtat skapades för — kärleken till Gud."[^11] Han driver tanken till sin spets: "Kunskap om sanningen medför kärlek till den, och kunskap om falskheten medför avsky för den, på grund av det som finns i *fiṭrah* av kärlek till sanningen."[^12] *Fiṭrah* svarar på sanningen som strängen svarar på tonen.
 
-## Den spänning ingen ställde
+## Den fråga ingen ställde
 
 Levertin nöjer sig med slutsatsen att religiositet utan religion räcker. Ibn Qayyim vänder den. Han visar hur uppenbarelse och medfödd insikt samverkar: "Uppenbarelsens ljus förenades med *fiṭrah*s ljus — ljus på ljus — så att hjärtat nära nog talar sanning även utan att ha hört ett ord" (*al-Fawāʾid*).[^13] *Nära nog*: *fiṭrah* allena kommer nära men når inte ända fram.
 

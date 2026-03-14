@@ -41,7 +41,7 @@ Men i sakramental bekännelse förmedlas förlåtelsen genom en institution. I d
 
 Sven Elversson bekänner — skuldens tyngd går inte att bära utan att sanningen sägs högt. Lagerlöf låter honom klä det i ord: "Det är gott, att detta kommer," säger han efteråt. "Men det var dock inte det viktigaste. Det förnämsta var, att jag blev befriad från skuld i min själ, i mitt hjärta."[^8] Befrielsen sker inuti, men utlöses av en yttre, oåterkallelig handling.
 
-Även långt från religiös tradition nådde Ludwig Wittgenstein samma insikt: bekännelsen tillhör inte det gamla livet; den är en del av det nya.[^14] Karin Boye ställde frågan i *Kallocain* med en skärpa som avslöjar att hon visste svaret: "Kan någon människa höra sanningen utan att förändras?"[^17]
+Samma insikt nådde Ludwig Wittgenstein långt från religiös tradition: bekännelsen tillhör inte det gamla livet; den är en del av det nya.[^14] Karin Boye ställde frågan i *Kallocain* med en skärpa som avslöjar att hon visste svaret: "Kan någon människa höra sanningen utan att förändras?"[^17]
 
 Den islamiska traditionen drar en radikalare slutsats. Profeten Muḥammad ﷺ sade: "Den som ångrar sig från synden är som den utan synd."[^9] Inte *nästan* utan synd, inte *förlåten trots* synd — utan synd. *Tawbah* skapar ett nytt subjekt; synden tillhör den riktning personen inte längre har. Just detta gestaltar Lagerlöf: en man som är *renad*.
 

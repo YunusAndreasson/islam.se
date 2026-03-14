@@ -39,7 +39,7 @@ Koranen ger ett svar. Den tillför eldbilden en förmåga som varken den nordisk
 
 Ibn Kathīr läser flodbäddarnas varierande storlek som en anspelning på hjärtanas olikhet -- bland dem finns de som rymmer riklig kunskap, bland dem de som är för trånga för den. Elden *åtskiljer*. Skummet, som ser massivt ut på ytan, visar sig vara ingenting. Metallen, osynlig under skummet, framträder. Elden *skapar* inte skillnaden; den fanns där hela tiden.
 
-Varken den nordiska elden eller Swedenborgs korrespondenser når dit. Den koraniska elden *prövar*. Herakleitos tillskrev elden förmågan att döma, men hans eld är opersonlig *logos*, utan blick för den enskilde.[^16]
+Varken den nordiska elden eller Swedenborgs korrespondenser når dit. Den koraniska elden *prövar*. Herakleitos tillskrev visserligen elden förmågan att döma, men hans eld är opersonlig *logos*, utan blick för den enskilde.[^16] Den koraniska elden ser den enskilde.
 
 Den hanbalitiske lärde Ibn Rajab al-Ḥanbalī driver tanken till dess spets i *al-Takhwīf min al-Nār*:
 

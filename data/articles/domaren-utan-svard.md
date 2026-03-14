@@ -37,7 +37,7 @@ Ingripa men inte bestraffa, tillrättavisa men aldrig med brutalitet: "Eftersom 
 
 Uppdelningen saknas i den moderna rättsstaten. Utredning och åtal sammansmälter i åklagarens hand. Selma Lagerlöf gav obehaget röst: "Med domare och allmänna åklagare förhåller det sig så, att man med dem måste tala en särskild sorts sanning, därför att den verkliga sanningen inte kan nå fram till deras hjärtan."[^12] Söderberg var kallare: "Domare äro människor och kunna misstaga sig. Det är sannolikt att många blifva oskyldigt dömda."[^13]
 
-Al-Māwardīs *ḥisbah* bryter logiken: en instans som urskiljer det onda men saknar befogenhet att straffa det. Att läsa detta som medveten kritik av det moderna åklagarväsendet vore anakronistiskt, men uppdelningen blottar en svaghet vi ännu lever med.
+Båda pekar på samma sårbarhet: när samma hand utreder, anklagar och dömer, skymmer makten den rättvisa den skulle tjäna. Al-Māwardīs *ḥisbah* bryter logiken: en instans som urskiljer det onda men saknar befogenhet att straffa det. Att läsa detta som medveten kritik av det moderna åklagarväsendet vore anakronistiskt, men uppdelningen blottar en svaghet vi ännu lever med.
 
 Ibn Taymiyyah preciserade principen: varje ämbetes medel inskränks till det egna området.[^14] Med vittnen och skriftliga bevis arbetar domaren. Svärdet tillhör det militära befälet. Muhtasiben har befogenheter som "inte tillhör vare sig härskarna, domarna eller ämbetsmännen".[^15] Rättvisan hotas inte främst av dem som vill göra ont utan av dem som vill göra gott med för mycket makt.
 
@@ -55,9 +55,9 @@ Abū Bakr al-Ṣiddīq, den förste kalifen efter Profeten ﷺ, kungjorde princi
 
 > Den starkaste bland er är i mina ögon den svagaste tills jag har tagit hans rätt ifrån honom, och den svagaste bland er är i mina ögon den starkaste tills jag har gett honom hans rätt.[^18]
 
-Ibn Khaldūn slog fast principen: "Rättvisa är en balans som upprättas bland människorna. Herren upprättade den och utsåg en övervakare för den, och den övervakaren är härskaren."[^19] Övervakaren — inte ägaren.
+Ibn Khaldūn slog fast principen i sin *Muqaddimah*: "Rättvisa är en balans som upprättas bland människorna. Herren upprättade den och utsåg en övervakare för den, och den övervakaren är härskaren."[^19] Övervakaren — inte ägaren.
 
-Under al-Māwardīs livstid förföll det abbasidiska kalifatet; muhtasiber överskred sina befogenheter i flera provinser.[^20] Att han skrev mitt i detta förfall gör insikten skarpare. Hans system var en fordran ställd på verkligheten, aldrig en spegling av den:
+Under al-Māwardīs egen livstid förföll det abbasidiska kalifatet; muhtasiber överskred sina befogenheter i flera provinser.[^20] Att han skrev mitt i detta förfall gör insikten skarpare. Hans system var en fordran ställd på verkligheten, aldrig en spegling av den:
 
 > Allah ﷻ befaller er att återlämna allt ni anförtrotts till dess rättmätiga ägare och att, när ni dömer mellan människor, döma med rättvisa.[^21]
 

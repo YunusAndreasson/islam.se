@@ -27,7 +27,7 @@ Redan 2013 hade Försäkringskassan infört modellen. År 2018 konstaterade Insp
 
 Ibn Taymiyyahs distinktion förtydligar: algoritmens *quwwah* kunde ingen betvivla. Bristande *amānah* var problemet. Utan insyn förstärkte kapaciteten de ojämlikheter den var avsedd att rätta. En svag tjänsteman gör begränsad skada – hans inkompetens sätter gränser för hans orättvisa. En algoritm som fattar miljontals beslut utan att kunna förklara ett enda alstrar orättvisa i industriell skala.
 
-Kybernetikens grundare Norbert Wiener pekade ut samma struktur: maskinens fara, varnade han, ligger inte i olydnad utan i absolut trohet – den förverkligar sina instruktioner med en bokstavlighet som förvandlar varje oreflekterat antagande till system.[^18] Maskinen skickar hundra påminnelsebrev till en avliden person därför att "skicka påminnelse" aldrig kompletterades med "kontrollera om mottagaren lever".
+Problemet är inte nytt. Kybernetikens grundare Norbert Wiener pekade redan 1960 ut samma struktur: maskinens fara, varnade han, ligger inte i olydnad utan i absolut trohet – den förverkligar sina instruktioner med en bokstavlighet som förvandlar varje oreflekterat antagande till system.[^18] Maskinen skickar hundra påminnelsebrev till en avliden person därför att "skicka påminnelse" aldrig kompletterades med "kontrollera om mottagaren lever".
 
 ## Det dolda förtroendekontraktet
 

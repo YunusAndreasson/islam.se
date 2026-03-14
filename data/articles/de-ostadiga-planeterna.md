@@ -63,7 +63,7 @@ Tolstoj lät furst Andrej, döende efter Borodino, uppleva hur "ett uppvaknande 
 
 Ibn al-Jawzī iakttog samma fenomen i *Ṣayd al-Khāṭir*: "Bland det mest förunderliga är den döendes uppvaknande vid sin död — han vaknar till med en uppmärksamhet som inte kan beskrivas."[^19]
 
-Uppvaknandet förblir meningslöst om det inte möter något verkligt. Carl von Linné, som ägnade sitt liv åt att katalogisera skapelsen, slog fast i *Nemesis Divina*: "Ödet (fatum) är Guds dom, mot hvilken intet vad gifves."[^18] Inte blint öde utan dömt — den som flyr ödet flyr domen.
+Men uppvaknandet förblir meningslöst om det inte möter något verkligt. Carl von Linné, som ägnade sitt liv åt att katalogisera skapelsen, slog fast i *Nemesis Divina*: "Ödet (fatum) är Guds dom, mot hvilken intet vad gifves."[^18] Inte blint öde utan dömt — den som flyr ödet flyr domen.
 
 Musk vill aldrig vakna. Han vill flytta drömmen till en annan planet. Den som aldrig begrundat jordens undergång sover okunnigt; Musk har vaknat tillräckligt för att se att drömmen är bräcklig, men gör insikten till bränsle för att förlänga den — inte för att vakna ur den.
 

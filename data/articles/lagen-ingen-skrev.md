@@ -15,7 +15,7 @@ Mot denna uppräkning ställs den fromma invändningen: "Lagen har hela folket o
 
 Strindbergs raseri träffar en nerv som rättsfilosofin aldrig lyckats bedöva. Om lagen är en mänsklig produkt — skriven, antagen, tolkad av människor — varför skulle den inte gynna sina upphovsmän?[^3] Strindberg ger frågan ansikte, röst, en ilska som inte låter sig blidkas av abstraktioner.
 
-Vräkningen sker inte med våld utan med stämpel, paragraf, kronofogde. Två sekler före Strindberg blottlade Pascal mekanismen: "Då vi inte kunnat göra det rättfärdiga starkt, har vi gjort det starka rättfärdigt."[^17]
+Två sekler före Strindberg blottlade Pascal mekanismen: "Då vi inte kunnat göra det rättfärdiga starkt, har vi gjort det starka rättfärdigt."[^17]
 
 Samma mönster såg Erik Gustaf Geijer i det svenska 1800-talet: "Överallt där jorden skiftas äro de väldige till hands, säkrast om godtycket klädes i lagens formar."[^4]
 

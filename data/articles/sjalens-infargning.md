@@ -55,9 +55,9 @@ Ibn al-Jawzī uttryckte förundran inför samma lag: "Allt som är dyrbart och s
 
 ## Den svenska kollapsen
 
-Mellan 2000 och 2012 sjönk Sveriges PISA-resultat under OECD-genomsnittet i samtliga tre områden.[^12] Vad hände med den kognitiva grunden när skolan monterade ned den strukturerade, repetitiva kunskapsinhämtningen till förmån för lustdriven frihet?
+Mellan 2000 och 2012 sjönk Sveriges PISA-resultat under OECD-genomsnittet i samtliga tre områden.[^12] Fallet sammanföll med årtionden av reformpedagogik som tonade ned memorering, struktur och lärarauktoritet. Vad hände med den kognitiva grunden när skolan monterade ned den strukturerade, repetitiva kunskapsinhämtningen till förmån för lustdriven frihet?
 
-Läroplansreformen Lgr22 har vänt pendeln: skärpta kunskapskrav, fonetisk läsinlärning, tryckta läroböcker.[^14] Det är en insikt Ibn Khaldūn slog fast på 1300-talet: kunskap kräver systematiskt arbete innan den kan bära frukt.
+Läroplansreformen Lgr22 har vänt pendeln: skärpta kunskapskrav, fonetisk läsinlärning, tryckta läroböcker.[^14] Korrigeringen bekräftar det Ibn Khaldūn slog fast på 1300-talet: kunskap kräver systematiskt arbete innan den kan bära frukt.
 
 ## Ihågkomst som andlig praktik
 

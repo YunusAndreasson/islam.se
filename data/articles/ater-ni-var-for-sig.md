@@ -63,7 +63,7 @@ Platon ville styra maten uppifrån. Ibn Khaldūn beskrev matvanornas förändrin
 
 ## Köksbordet som tystnat
 
-Modern forskning bekräftar vad traditionen länge vetat. Amanda Björnwalls avhandling vid Uppsala universitet (2025) visar att det bland 70–75-åringar inte är ensamätandet i sig som skadar, utan att *vara* ensam vid bordet — att måltiden förlorar sin funktion som social händelse.[^17][^18]
+Vad händer när gemenskapen kring bordet försvinner? Modern forskning bekräftar vad traditionen länge vetat. Amanda Björnwalls avhandling vid Uppsala universitet (2025) visar att det bland 70–75-åringar inte är ensamätandet i sig som skadar, utan att *vara* ensam vid bordet — att måltiden förlorar sin funktion som social händelse.[^17][^18]
 
 År 2024 reste IKEA vad de kallade "Sveriges största långbord".[^19] Ett möbelföretag försöker lösa ett existentiellt problem genom att bygga ett bord. Sorgligt just för att det är nödvändigt: någon måste *bygga* det bord som en gång var givet.
 

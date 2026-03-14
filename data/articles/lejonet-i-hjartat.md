@@ -41,7 +41,7 @@ Kvar står ett system där klarsyn, etik och skriftlig auktoritet balanserar var
 
 ## Det som forskningen inte frågar
 
-Viktor Rydberg närmade sig samma insikt: "Med större möda bekämpar Guds ståthållare de inre fienderna än de yttre."[^18] Att den inre kampen väger tyngre än den yttre – det är den grund *firāsah* vilar på.
+Kognitionsvetenskapen kartlägger *att* intuition fungerar, men inte vad som avgör om den ser klart eller skevt. Viktor Rydberg närmade sig den frågan: "Med större möda bekämpar Guds ståthållare de inre fienderna än de yttre."[^18] Att den inre kampen väger tyngre än den yttre – det är den grund *firāsah* vilar på.
 
 Iris Murdoch hävdade i *The Sovereignty of Good* (1970) att klart seende kräver moralisk ansträngning.[^17] Men hon konstaterar sambandet utan att förklara det. Ibn Qayyims metafysik ger förklaringen: hjärtat är skapat som perceptionsorgan, och ljuset som återställer dess klarhet skänks av Gud som svar på *taqwā*.
 

@@ -73,8 +73,6 @@ Ingmar Bergman lät riddaren i *Det sjunde inseglet* ställa frågan Strindbergs
 
 Dag Hammarskjöld, som kände samma avgrund, vände den till krav: "Jag begär det orimliga: att livet skall ha en mening. Jag kämpar för det omöjliga: att mitt liv skall få en mening."[^19] Begäran avslöjar sig som bön.
 
-Albert Einstein fångade spänningen: "Vetenskap utan religion är vanmäktig, religion utan vetenskap är blind."[^21]
-
 Erik Gustaf Geijer hade tecknat motbilden:
 
 > Olyckans helgd – aktning för den svages rätt är öfveralt religionens första moraliska resultat.[^14]
@@ -117,4 +115,3 @@ Skapelsen har en avsikt. Värdigheten är inristad i tillvarons struktur, skänk
 [^18]: Ernst-Wolfgang Böckenförde, "Die Entstehung des Staates als Vorgang der Säkularisation" (1967), i *Recht, Staat, Freiheit* (1991).
 [^19]: Dag Hammarskjöld, *Vägmärken*, Albert Bonniers Förlag, 1963.
 [^20]: Ingmar Bergman, *Det sjunde inseglet* (1957).
-[^21]: Albert Einstein, "Science, Philosophy and Religion: A Symposium," i *Conference on Science, Philosophy and Religion in Their Relation to the Democratic Way of Life* (1941).

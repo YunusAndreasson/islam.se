@@ -17,7 +17,7 @@ I Sverige har över femtusen personer implanterat mikrochip under huden.[^2] Chi
 
 Premissen är densamma som i Boyes dystopi: kroppen är råmaterial. Sömn mäts, kost optimeras, nootropika doseras enligt protokoll.
 
-Men sker det inte frivilligt? I *Kallocain* injiceras serumet under tvång; i Stockholm implanteras chipet med ett leende. Skillnaden är verklig — och döljer en djupare likhet. Både Världsstatens medborgare och den moderna biohackaren behandlar kroppen som *resurs*, material att bruka för ett ändamål. Att tvånget bytts mot samtycke ändrar formen, inte premissen. Den koreansk-tyske filosofen Byung-Chul Han benämner mönstret *självexploatering*: den som optimerar sig frivilligt utnyttjar sig utan yttre tvång och förväxlar underkastelsen med frihet.[^16] Det är den som vaknar klockan fem för att meditera — aldrig av egen längtan, alltid för att alla framgångsrika gör det.
+Men sker det inte frivilligt? I *Kallocain* injiceras serumet under tvång; i Stockholm implanteras chipet med ett leende. Skillnaden är verklig — och döljer en djupare likhet. Både Världsstatens medborgare och den moderna biohackaren behandlar kroppen som *resurs*, material att bruka för ett ändamål. Att tvånget bytts mot samtycke ändrar formen, inte premissen. Den koreansk-tyske filosofen Byung-Chul Han benämner mönstret *självexploatering*: den som optimerar sig frivilligt utnyttjar sig utan yttre tvång och förväxlar underkastelsen med frihet.[^15] Det är den som vaknar klockan fem för att meditera — aldrig av egen längtan, alltid för att alla framgångsrika gör det.
 
 Leo Kall förkroppsligar den metafysiken. Ondskefull är han inte. Han gör vad systemet belönar: förbättrar, effektiviserar, rationaliserar. Att uppfinningen sliter sönder människors inre liv framstår som en bieffekt.
 
@@ -67,7 +67,7 @@ Leo Kall hade ett ögonblick av klarhet. Mot romanens slut, när hans uppfinning
 
 Språket har funnits sedan 600-talet. Kroppen som riddjur, hjärtat som kunskapsplats, existensen som lån.
 
-Strindberg lät i *Röda rummet* sin berättare utbrista att "arbetets fördelning leder till släktets framgång och individens död".[^14] Boye tecknade konsekvenserna. Ibn Rajab al-Ḥanbalī fångade det innersta lagret: "Min kropp är med mig, men min ande är hos er — kroppen lever i främlingskap, anden i sin hemort."[^15]
+Ibn Rajab al-Ḥanbalī fångade det innersta lagret: "Min kropp är med mig, men min ande är hos er — kroppen lever i främlingskap, anden i sin hemort."[^14]
 
 Den optimerade kroppen jagar perfektion i vad den redan har. Den anförtrodda vet att hon är på resa — och att hon inte råder över resans villkor.
 
@@ -86,6 +86,5 @@ Den optimerade kroppen jagar perfektion i vad den redan har. Den anförtrodda ve
 [^11]: Ibn Taymiyyah, *Amrāḍ al-Qulūb wa-Shifāʾuhā* (Hjärtats sjukdomar och deras bot).
 [^12]: Ibn Qayyim al-Jawziyyah, *Madārij al-Sālikīn* (De vandrandes stationer).
 [^13]: Karin Boye, *Kallocain*.
-[^14]: August Strindberg, *Röda rummet* (1879).
-[^15]: Ibn Rajab al-Ḥanbalī, *Jāmiʿ al-ʿUlūm wa-l-Ḥikam* (Samlingen av kunskaper och visdomsord).
-[^16]: Byung-Chul Han, *Psychopolitik: Neoliberalismus und die neuen Machttechniken* (Matthes & Seitz Berlin, 2014).
+[^14]: Ibn Rajab al-Ḥanbalī, *Jāmiʿ al-ʿUlūm wa-l-Ḥikam* (Samlingen av kunskaper och visdomsord).
+[^15]: Byung-Chul Han, *Psychopolitik: Neoliberalismus und die neuen Machttechniken* (Matthes & Seitz Berlin, 2014).

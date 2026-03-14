@@ -53,9 +53,7 @@ Søren Kierkegaard ställdes inför en besläktad tröskel. I *Begreppet ångest
 
 Den teologiska grunden skiljer dem. Kierkegaards ångest springer ur den kristna läran om syndafallet och den radikala friheten — människan ställd ensam inför valet. Ibn Qayyims ångest växer ur *fiṭrah*, den medfödda orienteringen mot Gud, och *nafs*, det inre självets kamp mellan lägre och högre impulser. Hos Kierkegaard är ångesten existentiell ensamhet. Hos Ibn Qayyim är den bevis på att bandet till Gud fortfarande lever.
 
-Kierkegaard lämnar den ångestfyllde ensam med sin frihet. Utan ett begrepp om hjärtats ursprungliga riktning kan ångesten visa *att* du är fri, men aldrig *vad* friheten är till för. Ibn Qayyim ger riktning: ångesten pekar mot det som behöver läkas, och läkningen har ett namn.
-
-I Lagerkvists *Barabbas* bekänner den frigivne: "För att jag gärna ville tro."[^19]
+Kierkegaard lämnar den ångestfyllde ensam med sin frihet. Utan ett begrepp om hjärtats ursprungliga riktning kan ångesten visa *att* du är fri, men aldrig *vad* friheten är till för. Ibn Qayyim ger riktning: ångesten pekar mot det som behöver läkas, och läkningen har ett namn. I Lagerkvists *Barabbas* erkänner den frigivne samma längtan utan karta: "För att jag gärna ville tro."[^19]
 
 ## Reningen
 

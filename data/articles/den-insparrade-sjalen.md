@@ -49,7 +49,7 @@ Zacharias Topelius skrev om "denna törstande, stormande, brinnande själ, som s
 
 I Dan Anderssons David Ramm ställs frågan med barnets nakenhet: "Låt oss antaga att jag har en själ... när jag dör flyger det likt en fågel ur kroppen. Vart skall han då ta vägen, den konstiga Fågel Jag?"[^8]
 
-Topelius visste att själen flaxade men inte varför fönstret var stängt.
+Topelius visste att själen flaxade men inte varför fönstret var stängt. Koranen ger svaret -- själen bär ett minne av sitt ursprung:
 
 > Sedan fulländade Han henne och blåste in i henne av Sin ande och gav er hörsel och syn och inre sinnen. Så lite ni visar tacksamhet![^9]
 

@@ -17,7 +17,7 @@ I *Rawḍat al-Muḥibbīn* gör Ibn Qayyim denna distinktion till grundval för
 
 Ögat återkastar hjärtats eget tillstånd. Blicken som fästs vid ett objekt tillför inte begär utifrån utan väcker det som redan vilar i betraktaren. Två personer ser samma sak. Bara en av dem fastnar.
 
-ʿAlī-hadithen i al-Tirmidhī:
+Profeten ﷺ sade till ʿAlī:
 
 > Låt inte den ena blicken följa den andra, för den första tillhör dig men den andra är emot dig.[^3]
 

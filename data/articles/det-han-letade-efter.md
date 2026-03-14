@@ -39,7 +39,7 @@ Förklaringsgapet rymmer en tvetydighet. Är det *epistemiskt* eller *ontologisk
 
 Daniel Dennett hävdar att subjektiv upplevelse är en illusion. Medvetande är vad hjärnan *gör*, inte något den *har*.[^12]
 
-Invändningen är lika gammal som argumentet: vem upplever illusionen? Oscar Levertin fångade den moderna vetenskapens trångmål: "Samtidigt blir det också allt klarare för hvar och en, att alla vetenskapens förklaringar och klassifikationer blott äro provisoriska."[^13]
+Invändningen är lika gammal som argumentet: vem upplever illusionen? Att avfärda medvetandet som skenbart förutsätter ett medvetande som upplever skenet. Oscar Levertin satte ord på den gräns vetenskapen här stöter mot: "Samtidigt blir det också allt klarare för hvar och en, att alla vetenskapens förklaringar och klassifikationer blott äro provisoriska."[^13]
 
 ## Det som överlever
 

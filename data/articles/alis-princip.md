@@ -55,7 +55,7 @@ Koranen använder ett oväntat ord för det liv som väntar den som vänder sig 
 
 Hjalmar Söderberg vände på bilden: "Sanningen är fattig som Job, ofruktbar som ökensanden och tråkig som en gammal antikvarisk bokhandlare. Men lögnen är rik som påven i Rom!"[^20] Söderberg menade det ironiskt, men ironin bär en oavsiktlig sanning. Lögnen *är* rik: rik på löften, bekvämlighet, den tillfälliga lättnaden att slippa tänka. Sanningen ger inget av detta. Den ger bara sig själv.
 
-Ibn Khaldūn satte ord på sambandet mellan sanningens enhet och lögnens mångfald: "Sanningen är bara en form, medan falskheten är många former. Därför är det lätt att begå orättvisa men svårt att uppfylla rättvisa."[^21] Majoriteten följer lögnen inte för att den övertygar utan för att den erbjuder så många skepnader.
+Och det är just lögnens rikedom som gör den svår att genomskåda. Ibn Khaldūn satte ord på sambandet mellan sanningens enhet och lögnens mångfald: "Sanningen är bara en form, medan falskheten är många former. Därför är det lätt att begå orättvisa men svårt att uppfylla rättvisa."[^21] Majoriteten följer lögnen inte för att den övertygar utan för att den erbjuder så många skepnader.
 
 Det är detta som det demokratiska samhället har institutionaliserat och döpt till pluralism. Koranen ställer frågan som pluralismen inte förmår besvara: om alla anspråk är lika giltiga, varför skulle något av dem vara sant?
 
