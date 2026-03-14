@@ -19,9 +19,9 @@ Vad slags transaktion är det? Viktor Rydberg, som ägnade decennier åt att sys
 
 Nyckelordet: *lån*. Kunskapen byter ägare genom en reglerad transaktion. Odin ger bort ett sinnesorgan och får i gengäld en klarare insikt. Han ser sämre med ögonen men klarare med förståndet.
 
-Här blottläggs den blinda fläcken. Odin förlorar *syn*. Han förlorar aldrig *sig själv*. Den mäktige guden stiger ned till brunnen och stiger upp som samma gud — med ett öga färre och en visdom mer. Mimer, *den som minns*, vaktar den struktur som gör kunskapen till ägande: minnet av vem man är, vad man vill, vad man äger.
+Här blottläggs den blinda fläcken. Odin förlorar *syn*. Han förlorar aldrig *sig själv*. Den mäktige guden stiger ned till brunnen och stiger upp som samma gud – med ett öga färre och en visdom mer. Mimer, *den som minns*, vaktar den struktur som gör kunskapen till ägande: minnet av vem man är, vad man vill, vad man äger.
 
-Invändningen ligger nära: Odins hängning på Yggdrasil — nio nätter, genomborrad av ett spjut, offrad "åt sig själv" — borde väl innebära en grundligare förvandling? Men det offret gäller *runorna*, inte visheten vid brunnen. Även efter hängningen förblir Odin den han var: härskare, kunskapssökare, den som vill veta *mer*.
+Invändningen ligger nära: Odins hängning på Yggdrasil – nio nätter, genomborrad av ett spjut, offrad "åt sig själv" – borde väl innebära en grundligare förvandling? Men det offret gäller *runorna*, inte visheten vid brunnen. Även efter hängningen förblir Odin den han var: härskare, kunskapssökare, den som vill veta *mer*.
 
 ## Dårens natt
 
@@ -43,7 +43,7 @@ I den islamiska traditionen ställs frågan annorlunda redan från grunden. Ibn 
 
 > Den som betraktar det som finns i honom själv av svagheter och brister, och det som finns hos sin Herre av fullkomlighet och majestät – han vet att hans liv inte kan rättas till och hans hjärta inte kan nå fram utom genom att söka sin tillflykt hos sin Herres dörr, och att han är den mest behövande av alla skapade varelser inför sin Herre.[^5]
 
-Där Odin offrar ett sinnesorgan men behåller sitt jag kräver Ibn Qayyim att den sökande genomskådar jagets anspråk som sådana. Kunskap som leder till Skaparen — *baṣīrah*, den inre syn som Koranen talar om — börjar först när frågan ställs skarpt inåt, på ett sätt som brunnen vid Yggdrasil aldrig kräver. Inte "vad kan jag förvärva?" utan "hur fattig är jag inför min Herre?"
+Där Odin offrar ett sinnesorgan men behåller sitt jag kräver Ibn Qayyim att den sökande genomskådar jagets anspråk som sådana. Kunskap som leder till Skaparen – *baṣīrah*, den inre syn som Koranen talar om – börjar först när frågan ställs skarpt inåt, på ett sätt som brunnen vid Yggdrasil aldrig kräver. Inte "vad kan jag förvärva?" utan "hur fattig är jag inför min Herre?"
 
 Koranen anvisar denna rörelse. Allah ﷻ, den Upphöjde, säger: *Och i era egna själva – ser ni inte?*[^6] Att se in i sig själv är här ingen mystisk resa utan en uppmaning att se det uppenbara som människan ständigt flyr: sin svaghet, sitt beroende, sin dödlighet.
 
@@ -51,7 +51,7 @@ Ibn al-Jawzī, Bagdads lärdomsman på tolfte århundradet, skriver i *Ṣayd al
 
 > Den som begrundar sig själv en dag – med en sanningssökares begrundan – ställer sig till svars innan han ställs till svars, och väger sig själv innan han vägs.[^7]
 
-Kunskapen kräver *muḥāsabah*, självrannsakan: att väga sig själv, pröva sina motiv, ifrågasätta sin egen auktoritet. Det gör Odin aldrig vid Mimers brunn — fråga om den som dricker förtjänar drycken, eller om själva törsten är en slöja.
+Kunskapen kräver *muḥāsabah*, självrannsakan: att väga sig själv, pröva sina motiv, ifrågasätta sin egen auktoritet. Det gör Odin aldrig vid Mimers brunn – fråga om den som dricker förtjänar drycken, eller om själva törsten är en slöja.
 
 ## Det glömda självet
 
@@ -59,11 +59,11 @@ Koranen tecknar relationen mellan kunskap och själv med en logik utan motsvarig
 
 > Och var inte som dem som glömde Allah ﷻ, så att Han lät dem glömma sig själva. Dessa är de ogudaktiga.[^8]
 
-Versens struktur är dess argument. Den som glömmer Gud glömmer sig själv, men detta är en annan glömska än Hávamáls dåres. Dåren grubblar, minns, samlar på sig. Koranens glömska är djupare: den som vänder sig bort från det som överskrider jaget förlorar tillgången till sitt eget inre — inte sitt minne utan sin verklighet.
+Versens struktur är dess argument. Den som glömmer Gud glömmer sig själv, men detta är en annan glömska än Hávamáls dåres. Dåren grubblar, minns, samlar på sig. Koranens glömska är djupare: den som vänder sig bort från det som överskrider jaget förlorar tillgången till sitt eget inre – inte sitt minne utan sin verklighet.
 
 Harry Martinson grep den glömskan i *Aniara*: "Jag frågade mig själv men glömde svara. / Jag drömde mig ett liv men glömde vara."[^19]
 
-Logiken är inte godtycklig. Om det djupaste i människan är hennes skapadhet — att hon är beroende, ändlig, given — kan hon bara känna sig själv genom att känna den hon skapades av. Ta bort den referenspunkten och självkännedomen förlorar sin måttstock.
+Logiken är inte godtycklig. Om det djupaste i människan är hennes skapadhet – att hon är beroende, ändlig, given – kan hon bara känna sig själv genom att känna den hon skapades av. Ta bort den referenspunkten och självkännedomen förlorar sin måttstock.
 
 I den nordiska traditionen är minnet kunskapens bevarare: Mimer vaktar brunnen; det man dricker tillförs det man redan är. I Koranens kunskapslära är en riktad glömska kunskapens *förutsättning*: att glömma sin förträfflighet, sin suveränitet, sin självtillräcklighet. Först den som upphör att fylla rummet med sig själv kan höra något annat.
 
@@ -71,17 +71,17 @@ Ibn Qayyim preciserar:
 
 > Den som känner sig själv genom svaghet känner sin Herre genom styrka. Den som känner sig själv genom oförmåga känner sin Herre genom makt. Den som känner sig själv genom ringhet känner sin Herre genom ära.[^9]
 
-Kunskapen rör sig här inte uppåt, som i Odins klättring. Den rör sig *nedåt*: genom tilltagande insikt om den egna svagheten, tills det som återstår av jaget krymper. I detta krympta öppnar sig en kunskap som aldrig hade rymts i ett själv redan mättat av sig självt. Ibn Qayyim kallar detta *ʿubūdiyyah*: tjänarskap. Inte att jaget upphör, utan att det intar sin rätta plats — som skapad varelse inför sin Skapare.
+Kunskapen rör sig här inte uppåt, som i Odins klättring. Den rör sig *nedåt*: genom tilltagande insikt om den egna svagheten, tills det som återstår av jaget krymper. I detta krympta öppnar sig en kunskap som aldrig hade rymts i ett själv redan mättat av sig självt. Ibn Qayyim kallar detta *ʿubūdiyyah*: tjänarskap. Inte att jaget upphör, utan att det intar sin rätta plats – som skapad varelse inför sin Skapare.
 
 Al-Māwardī, den högt aktade juristen och etikern, skrev i *Adab al-Dunyā wa-l-Dīn*:
 
 > Den ödmjuke bland kunskapssökarna besitter mest kunskap, liksom den lågläntaste platsen samlar mest vatten.[^10]
 
-Kunskapen samlas inte hos den som klättrar högst — Odin på Yggdrasils stam — utan hos den som befinner sig lägst.
+Kunskapen samlas inte hos den som klättrar högst – Odin på Yggdrasils stam – utan hos den som befinner sig lägst.
 
-Tänkare långt utanför islams geografiska rum har nått samma insikt. Simone Weil, den franska filosofen, kom dit genom en helt annan väg. Hon gav den ett namn: *décréation* — att det skapade töms på sina anspråk, inte för att förintas utan för att kunna ta emot.[^15] Men Weils tömning förblir en viljeakt; jaget *beslutar* att stiga åt sidan. I den islamiska traditionen upptäcker jaget sin litenhet ställt inför uppenbarelsen; det är skillnaden mellan en generös reträtt och ett obönhörligt erkännande.
+Tänkare långt utanför islams geografiska rum har nått samma insikt. Simone Weil, den franska filosofen, kom dit genom en helt annan väg. Hon gav den ett namn: *décréation* – att det skapade töms på sina anspråk, inte för att förintas utan för att kunna ta emot.[^15] Men Weils tömning förblir en viljeakt; jaget *beslutar* att stiga åt sidan. I den islamiska traditionen upptäcker jaget sin litenhet ställt inför uppenbarelsen; det är skillnaden mellan en generös reträtt och ett obönhörligt erkännande.
 
-Dag Hammarskjöld trängde samman det i *Vägmärken*: "Jag är kärlet. Guds är drycken. Och Gud den törstande."[^18] Vid Mimers brunn dricker guden; i Hammarskjölds bild är människan kärlet och Gud den som dricker — transaktionens riktning vänds.
+Dag Hammarskjöld trängde samman det i *Vägmärken*: "Jag är kärlet. Guds är drycken. Och Gud den törstande."[^18] Vid Mimers brunn dricker guden; i Hammarskjölds bild är människan kärlet och Gud den som dricker – transaktionens riktning vänds.
 
 ## Strindberg vid kunskapens höjder
 
@@ -89,13 +89,13 @@ I den svenska tanketraditionen framträder en annan linje, närmare den nordiska
 
 > Ställd i valet mellan kärlek och vetande, hade jag bestämt mig för att söka nå kunskapens höjder, och i det jag brände å båle min tillgivenhet, glömde jag det oskyldiga offret för min ärelystnad eller min kallelse.[^11]
 
-*Nå kunskapens höjder.* Strindberg stiger uppåt, erövrar, betalar med mänskliga band på ambitionens bål. Men det offrade är aldrig Strindberg själv. Det oskyldiga offret — kärleken, de andra — är en kostnad i den transaktion som gör honom till den han vill vara.
+*Nå kunskapens höjder.* Strindberg stiger uppåt, erövrar, betalar med mänskliga band på ambitionens bål. Men det offrade är aldrig Strindberg själv. Det oskyldiga offret – kärleken, de andra – är en kostnad i den transaktion som gör honom till den han vill vara.
 
 Erik Gustaf Geijer rörde sig i samma spår:
 
 > En blott överlämnad, om ock riklig, kunskap är ej därför fruktbärande. Därtill fordras, att den på ett levande sätt skall vara tillägnad, genomlevd, prövad, fostrad av inre och yttre erfarenhet till en frukt för livet.[^12]
 
-Kunskapen ska vara "genomlevd", men Geijer föreskriver assimilation — Odins modell i civiliserad tappning, utan att ödmjukas inför det man lär sig.
+Kunskapen ska vara "genomlevd", men Geijer föreskriver assimilation – Odins modell i civiliserad tappning, utan att ödmjukas inför det man lär sig.
 
 Men inte alla svenska röster följde samma linje. Zacharias Topelius varnade i *Stjärnornas kungabarn*: "Det är högmod. En half människa är ett oting. Hvarken falk eller dufva, du är en gökunge, lagd i en annans bo, och vill flyga med örnvingar."[^16] Och August Blanche drog den yttersta konsekvensen: "Den som litar på sig sjelf, hädar Gud!"[^17]
 
@@ -103,11 +103,11 @@ Men inte alla svenska röster följde samma linje. Zacharias Topelius varnade i 
 
 Den nordiska och den islamiska traditionen ställer samma fråga: vad kostar kunskap? Svaren är väsensskilda.
 
-Vid Mimers brunn betalar den kunskapssökande med syn. Han förlorar ett sätt att se världen och får ett annat — syn mot insikt, förvaltad av Mimer, den som bevarar minnen. Jaget förblir intakt.
+Vid Mimers brunn betalar den kunskapssökande med syn. Han förlorar ett sätt att se världen och får ett annat – syn mot insikt, förvaltad av Mimer, den som bevarar minnen. Jaget förblir intakt.
 
-I den islamiska traditionen betalar den kunskapssökande med anspråk — med själva övertygelsen om sin egen tillräcklighet. Det som offras är jagets föreställning om sig självt. Den som kände Allah ﷻ, skriver Ibn Qayyim, "såg sig inte annat än med bristens öga" — *ʿayn al-nuqṣān*.[^13] Formuleringen vänder Odins offer på huvudet. Odin förlorar ett öga för att se bättre. Den som känner Allah ﷻ ser sig själv *tydligare*; det den ser är brist.
+I den islamiska traditionen betalar den kunskapssökande med anspråk – med själva övertygelsen om sin egen tillräcklighet. Det som offras är jagets föreställning om sig självt. Den som kände Allah ﷻ, skriver Ibn Qayyim, "såg sig inte annat än med bristens öga" – *ʿayn al-nuqṣān*.[^13] Formuleringen vänder Odins offer på huvudet. Odin förlorar ett öga för att se bättre. Den som känner Allah ﷻ ser sig själv *tydligare*; det den ser är brist.
 
-Koranen uttrycker denna skillnad i en enda vers: *Sök hjälp genom tålamod och bön. Och det är sannerligen en svår sak — utom för de ödmjuka.*[^14] Kunskapens verkliga svårighet ligger inte i priset man betalar. Den ligger i den ödmjukhet som krävs för att ta emot.
+Koranen uttrycker denna skillnad i en enda vers: *Sök hjälp genom tålamod och bön. Och det är sannerligen en svår sak – utom för de ödmjuka.*[^14] Kunskapens verkliga svårighet ligger inte i priset man betalar. Den ligger i den ödmjukhet som krävs för att ta emot.
 
 ---
 

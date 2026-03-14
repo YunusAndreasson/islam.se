@@ -5,9 +5,9 @@ wordCount: 2469
 qualityScore: 8.7
 description: "ʿAbd Allāh ibn ʿAbbās, Profetens ﷺ kusin och en av islams mest respekterade korantolkare, delade in Koranens mening i fyra skikt. De tre första kan människor nå – genom språkkänsla, trosplikt eller lärdom. Det fjärde tillhör ingen utom Gud."
 ---
-Sverige har en grundlag som vilar på en ovanlig övertygelse: att allt som angår medborgarna kan och bör göras tillgängligt. Offentlighetsprincipen, inskriven sedan 1766, är inte bara en juridisk regel — den uttrycker en grundmurad kulturell tro. Information ska vara tillgänglig, mening kan alltid göras begriplig, hemligheter är alltid provisoriska.[^1]
+Sverige har en grundlag som vilar på en ovanlig övertygelse: att allt som angår medborgarna kan och bör göras tillgängligt. Offentlighetsprincipen, inskriven sedan 1766, är inte bara en juridisk regel – den uttrycker en grundmurad kulturell tro. Information ska vara tillgänglig, mening kan alltid göras begriplig, hemligheter är alltid provisoriska.[^1]
 
-En annan tradition, fjorton sekler gammal, bygger på motsatt grund. Den utgår från att den viktigaste texten i en hel civilisation — den text som styr lag, bön, andakt, vardagsliv — delvis är principiellt omöjlig att förstå. Avsedd att förbli det.
+En annan tradition, fjorton sekler gammal, bygger på motsatt grund. Den utgår från att den viktigaste texten i en hel civilisation – den text som styr lag, bön, andakt, vardagsliv – delvis är principiellt omöjlig att förstå. Avsedd att förbli det.
 
 ## En klassificering av det begripliga
 
@@ -15,29 +15,29 @@ I den islamiska traditionens centrum ligger en klassificering av vad som överhu
 
 > Tolkningen har fyra aspekter: en tolkning som araberna känner genom sitt eget språk, en tolkning som ingen är ursäktad att inte veta, en tolkning som de lärda känner, och en tolkning som ingen utom Allah ﷻ den Högste känner.[^2]
 
-Underst det som varje arabisktalande begriper genom språkkänslan. Därovan det obligatoriska: trons grundartiklar, de entydiga påbuden och förbuden.[^3] Det tredje skiktet kräver ansträngning — *ijtihād* — det Ibn Taymiyyah urskiljer som "de kategorier som inte kan förstås genom bara språket, såsom de religiöst-rättsliga termerna."[^4]
+Underst det som varje arabisktalande begriper genom språkkänslan. Därovan det obligatoriska: trons grundartiklar, de entydiga påbuden och förbuden.[^3] Det tredje skiktet kräver ansträngning – *ijtihād* – det Ibn Taymiyyah urskiljer som "de kategorier som inte kan förstås genom bara språket, såsom de religiöst-rättsliga termerna."[^4]
 
-Sedan det fjärde skiktet — och landskapet skiftar.
+Sedan det fjärde skiktet – och landskapet skiftar.
 
 ## Det som ingen utom Gud vet
 
 *Tafsīrun lā yaʿlamuhu illā Allāh ﷻ.* En tolkning som ingen utom Gud känner.
 
-Inte "det som ännu inte förståtts". En absolut gräns — inte provisorisk utan principiell. Al-Suyūṭī klargör: "Det som ingen utom Allah ﷻ den Högste vet är det som hör till det fördoldas sfär — *al-ghuyūb*."[^3]
+Inte "det som ännu inte förståtts". En absolut gräns – inte provisorisk utan principiell. Al-Suyūṭī klargör: "Det som ingen utom Allah ﷻ den Högste vet är det som hör till det fördoldas sfär – *al-ghuyūb*."[^3]
 
 Koranen själv gör distinktionen. I sura Āl ʿImrān skiljer Gud mellan verserna:
 
 > Det är Han som har uppenbarat Boken för dig. I den finns fast och klart formulerade verser – de utgör Bokens kärna – och andra som är tvetydiga. De vars hjärtan har avvikit följer det tvetydiga, i önskan att skapa splittring och i önskan att tyda dess innersta mening, men ingen utom Gud vet dess innersta mening. De som är grundfasta i kunskap säger: "Vi tror på den; allt är från vår Herre."[^5]
 
-*Muḥkamāt* och *mutashābihāt* — det klara och det tvetydiga. Det tvetydiga är inte bristfälligt formulerat utan avsiktligt placerat. Det svar Koranen föreskriver de lärda är inte ansträngning utan tro: *Vi tror på den; allt är från vår Herre*. Al-Zarkashī bekräftade att Ibn ʿAbbās' indelning utgjorde "en korrekt klassificering."[^6]
+*Muḥkamāt* och *mutashābihāt* – det klara och det tvetydiga. Det tvetydiga är inte bristfälligt formulerat utan avsiktligt placerat. Det svar Koranen föreskriver de lärda är inte ansträngning utan tro: *Vi tror på den; allt är från vår Herre*. Al-Zarkashī bekräftade att Ibn ʿAbbās' indelning utgjorde "en korrekt klassificering."[^6]
 
-Traditionen tillämpade denna hållning på det fördolda, *al-ghuyūb*, och på de verser som beskriver Allahs ﷻ attribut — med en avgörande distinktion. De tidiga generationerna bekräftade att dessa versers mening är känd; det de överlät till Allah ﷻ var *kayfiyyah*, det *hur* som ingen skapad varelse kan fatta. Imam Malik sammanfattade det: "Istiwāʾ är känt, hur-et är okänt, att tro på det är obligatoriskt, och att fråga om det är en innovation."[^7]
+Traditionen tillämpade denna hållning på det fördolda, *al-ghuyūb*, och på de verser som beskriver Allahs ﷻ attribut – med en avgörande distinktion. De tidiga generationerna bekräftade att dessa versers mening är känd; det de överlät till Allah ﷻ var *kayfiyyah*, det *hur* som ingen skapad varelse kan fatta. Imam Malik sammanfattade det: "Istiwāʾ är känt, hur-et är okänt, att tro på det är obligatoriskt, och att fråga om det är en innovation."[^7]
 
 Det fjärde skiktet avser det fördoldas verkligheter: Domedagens exakta tid, Paradisets och Eldens sanna natur, det som hör till *al-ghuyūb* i deras fulla förverkligande. Där faller kunskapen bortom mänskligt ljus.
 
 ## En epistemologi med tak
 
-Den som stannar vid gränsen har inte misslyckats med att förstå — han har läst korrekt, ty gränsen tillhör textens mening. Ibn Qayyim al-Jawziyyah skrev: "Att känna gränserna för det Gud uppenbarat för Sin sändebud hör till trons fullkomlighet."[^8]
+Den som stannar vid gränsen har inte misslyckats med att förstå – han har läst korrekt, ty gränsen tillhör textens mening. Ibn Qayyim al-Jawziyyah skrev: "Att känna gränserna för det Gud uppenbarat för Sin sändebud hör till trons fullkomlighet."[^8]
 
 Ibn Taymiyyah gav principen sin skarpaste gestaltning:
 
@@ -45,21 +45,21 @@ Ibn Taymiyyah gav principen sin skarpaste gestaltning:
 
 ## Öppenhetens dogm
 
-Den västerländska traditionen tog en annan väg. Den kristna traditionen hade haft sin *docta ignorantia* — Cusanus' lärda okunnighet — men reformationen trängde undan den.[^24] *Sola scriptura* innebar att varje troende i princip kunde vara sin egen tolk. Folkbibelns spridning, läskunnighetens kyrkligt drivna expansion, övertygelsen att öppenhet i sig bär moraliskt värde — allt pekar åt samma håll.
+Den västerländska traditionen tog en annan väg. Den kristna traditionen hade haft sin *docta ignorantia* – Cusanus' lärda okunnighet – men reformationen trängde undan den.[^24] *Sola scriptura* innebar att varje troende i princip kunde vara sin egen tolk. Folkbibelns spridning, läskunnighetens kyrkligt drivna expansion, övertygelsen att öppenhet i sig bär moraliskt värde – allt pekar åt samma håll.
 
-Upplysningen upphöjde idealet till dogm. Oscar Levertin iakttog förvandlingen: "I vetenskapen anser den unge drömmaren hela framtidens gåta ligga. Teoretiskt och praktiskt skulle den fylla världen, gifva mänskligheten både gud och bröd."[^11] Strindberg spetsade till en enda mening — en epigraf till hela den moderna informationskulten: "Det löjliga löjet över det man icke kan fatta."[^12]
+Upplysningen upphöjde idealet till dogm. Oscar Levertin iakttog förvandlingen: "I vetenskapen anser den unge drömmaren hela framtidens gåta ligga. Teoretiskt och praktiskt skulle den fylla världen, gifva mänskligheten både gud och bröd."[^11] Strindberg spetsade till en enda mening – en epigraf till hela den moderna informationskulten: "Det löjliga löjet över det man icke kan fatta."[^12]
 
 ## Glimtar bakom muren
 
 Andra svenska tänkare närmade sig samma tröskel, var och en från sitt håll. Carl von Linné slog i sina privata anteckningar an ett annat register. I *Nemesis Divina* ställde han frågan: "Vad är visdom? Att se sin egen okunnighet."[^13] I *Egenhändiga anteckningar* tillade han: "Fundamentum Fructificationis hade alle omtalat, men ingen förstådt."[^14] Ellen Key erkände att det som "ytterst blir kvar som mysterium för utvecklingsläran, förblir det äfven för supranaturalisten, nämligen själfva rörelsekraften i utvecklingen."[^15]
 
-Isaac Newton, som kartlade tyngdkraftens lagar och planetbanorna, bekände gränsen: "Jag förefaller mig själv ha varit blott ett barn som leker vid stranden, medan sanningens vida ocean låg outforskad framför mig."[^26] Den som ser mest ser tydligast hur mycket som förblir osett — det är Ibn ʿAbbās' fjärde skikt gjort till personlig erfarenhet.
+Isaac Newton, som kartlade tyngdkraftens lagar och planetbanorna, bekände gränsen: "Jag förefaller mig själv ha varit blott ett barn som leker vid stranden, medan sanningens vida ocean låg outforskad framför mig."[^26] Den som ser mest ser tydligast hur mycket som förblir osett – det är Ibn ʿAbbās' fjärde skikt gjort till personlig erfarenhet.
 
 Viktor Rydberg, en av den svenska liberalismens främsta tänkare, lät karaktären Kimon i *Den siste Atenaren* uttrycka samma misstro:
 
 > Förnuftet motsäger vad sinnena vittna. Påstode jag nu för min del, att sinnena äro lögnaktiga, så kan en annan med samma rätt påstå, att det tvärtom är förnuftets slutledningar, som äro falska.[^16]
 
-Karin Boye nådde samma tröskel från motsatt håll, i *Kris*: "Nyskapelsens under behöver inga namn."[^25] Inte för att namnen saknas — utan för att det namngivna krymper det som inte kan rymmas.
+Karin Boye nådde samma tröskel från motsatt håll, i *Kris*: "Nyskapelsens under behöver inga namn."[^25] Inte för att namnen saknas – utan för att det namngivna krymper det som inte kan rymmas.
 
 Var och en nådde tröskeln på egen hand, utan tillgång till en tradition som gjort taket till grundsats.
 
@@ -71,11 +71,11 @@ Al-Māwardī kondenserade principen till en enda mening: "Den som kände sitt eg
 
 Koranen återkommer: "Ni har redan tvistat om det ni har kunskap om, så varför tvistar ni nu om det ni inte har kunskap om? Allah ﷻ vet, men ni vet inte."[^20] Och: "Dessa liknelser framställer Vi för människorna. Men de uppfattas inte av andra än de med kunskap."[^21] Ibn Kathīr citerar ʿAmr ibn Murrah: "Aldrig passerade jag en vers i Guds Bok som jag inte förstod utan att det fyllde mig med sorg, ty jag hade hört Allah ﷻ säga: *de uppfattas inte av andra än de med kunskap*."
 
-Det finns en kategori av mening som kan bäras men aldrig erövras — som vilar i texten, sjungs i bönen, lever i traditionen utan att någonsin fullt övergå till mänskligt begrepp. Koranen själv ger denna gräns en bild.
+Det finns en kategori av mening som kan bäras men aldrig erövras – som vilar i texten, sjungs i bönen, lever i traditionen utan att någonsin fullt övergå till mänskligt begrepp. Koranen själv ger denna gräns en bild.
 
 ## Slöjan som metod
 
-Den nämner slöjan utan omsvep: "När du reciterar Koranen sätter Vi mellan dig och dem som inte tror på livet efter detta en osynlig slöja."[^22] Den döljer inte av illvilja utan av nödvändighet — som att inte se rakt in i solen.
+Den nämner slöjan utan omsvep: "När du reciterar Koranen sätter Vi mellan dig och dem som inte tror på livet efter detta en osynlig slöja."[^22] Den döljer inte av illvilja utan av nödvändighet – som att inte se rakt in i solen.
 
 Erik Gustaf Geijer närmade sig samma insikt: "En trogen, sanningsälskande forskning alltid leder till detta mysterium, ifrån hvad riktning den också börjar och hvad färg den ock bär."[^23]
 

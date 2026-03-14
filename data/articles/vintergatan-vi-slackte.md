@@ -27,7 +27,7 @@ Men Koranen förankrar insikten i den fysiska erfarenheten av ljus och mörker. 
 
 > Eller som mörker i ett bråddjupt hav som täcks av vågor ovanpå vågor med mörka molnmassor ovanför sig – mörker; det ena över det andra. Sträcker han ut sin hand kan han nästan inte se den.[^6]
 
-Koranen tilltalar människor som *vet* hur mörker känns, som har stått i det och känt sin egen hjälplöshet. I *Ighāthat al-Lahfān* namnger Ibn Qayyim en form av hjärtesot: ljuset fördunklas av ständig stimulans; den som blivit hjärteblind och vill återfå sin *baṣīrah* — sin inre syn — måste dra sig undan det som bländar.[^7] Det som överskrider det fysiska måste ha *börjat* i det fysiska.
+Koranen tilltalar människor som *vet* hur mörker känns, som har stått i det och känt sin egen hjälplöshet. I *Ighāthat al-Lahfān* namnger Ibn Qayyim en form av hjärtesot: ljuset fördunklas av ständig stimulans; den som blivit hjärteblind och vill återfå sin *baṣīrah* – sin inre syn – måste dra sig undan det som bländar.[^7] Det som överskrider det fysiska måste ha *börjat* i det fysiska.
 
 ## Natten som andligt villkor
 
@@ -63,7 +63,7 @@ En värld utan mörker förblir inte tankeexperiment. Natthimlen är redan mella
 
 Ibn Qayyim kallar den andliga urskillningsförmågan, *firāsah*, en frukt av hjärtats ljus -- och ljuset i sin tur en frukt av att sänka blicken inför det som bländar.[^19] Den som vill *se* måste först lära sig att *inte se*.
 
-Ibn al-Jawzī fastslog det i *Ṣayd al-Khāṭir*: "Själen är alltjämt vaken och hjärtat vet fortfarande — men avbrotten är många."[^26] Ljusföroreningen är den yttre avbilden av en inre störning.
+Ibn al-Jawzī fastslog det i *Ṣayd al-Khāṭir*: "Själen är alltjämt vaken och hjärtat vet fortfarande – men avbrotten är många."[^26] Ljusföroreningen är den yttre avbilden av en inre störning.
 
 ## Ljus på ljus – i en värld utan natt
 

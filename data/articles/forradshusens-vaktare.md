@@ -13,11 +13,11 @@ Samma fråga ställdes för tre tusen år sedan vid Nilens stränder.
 
 ## Förrådshusens förvaltare
 
-I sura *Yūsuf* tolkar Josef den egyptiske kungens dröm om sju feta kor som slukas av sju magra — en dröm som ingen av hovets rådgivare förstår:
+I sura *Yūsuf* tolkar Josef den egyptiske kungens dröm om sju feta kor som slukas av sju magra – en dröm som ingen av hovets rådgivare förstår:
 
 > Ni skall under sju år få odla som vanligt. Det ni skördar bör ni sedan lämna i sina ax, utom lite grann som ni kan ha att äta.[^3]
 
-Sedan ber Josef själv om uppdraget: "Gör mig ansvarig för landets förrådshus; jag är sannerligen en kunnig förvaltare."[^4] Det arabiska ordet han använder, *ḥāfiẓ*, rymmer dubbel valör: den som bevarar och den som håller räkning — inte en byråkrat utan en väktare. Den som går genom förrådshuset varje dag, känner på säckarna, räknar vad som finns kvar. Ibn Kathīr citerar Shayba ibn Naʿāma, som förtydligar: "*ḥafīẓ* — väktare över det som anförtrotts mig; *ʿalīm* — kännare av torråren."
+Sedan ber Josef själv om uppdraget: "Gör mig ansvarig för landets förrådshus; jag är sannerligen en kunnig förvaltare."[^4] Det arabiska ordet han använder, *ḥāfiẓ*, rymmer dubbel valör: den som bevarar och den som håller räkning – inte en byråkrat utan en väktare. Den som går genom förrådshuset varje dag, känner på säckarna, räknar vad som finns kvar. Ibn Kathīr citerar Shayba ibn Naʿāma, som förtydligar: "*ḥafīẓ* – väktare över det som anförtrotts mig; *ʿalīm* – kännare av torråren."
 
 Ur Josefs svar stiger en modell: centraliserad lagerhållning, rationering under överflödsåren, statlig kontroll över fördelningen. Den som ser överflödet och inte lägger undan för bristen sviker uppdraget.
 
@@ -29,19 +29,19 @@ Den hanbalitiske rättsvetaren Ibn Taymiyyah ärver Josefs princip och gjuter de
 
 Den uppenbara invändningen bemötte han själv: hadithen där Profeten Muḥammad ﷺ vägrar sätta priser.[^7] Den hadithen gäller ett läge där ingen vägrade sälja och ingen drev upp priserna artificiellt. När handelsmän medvetet håller tillbaka varor under en bristperiod tar en annan princip vid: plikten att skydda allmänintresset.[^8] Den som i nödtid monopoliserar livsnödvändigheter "påtvingar människor den svårighet och trångmål som är förbjuden".[^9]
 
-Att mätta den hungrige, skriver han i *al-Īmān*, är "en kollektiv skyldighet enligt alla muslimska lärda".[^10] Orden *farḍ ʿalā al-kifāyah* — en plikt som åligger samhället som helhet — innebär att om ingen fullgör den, bär alla skulden.
+Att mätta den hungrige, skriver han i *al-Īmān*, är "en kollektiv skyldighet enligt alla muslimska lärda".[^10] Orden *farḍ ʿalā al-kifāyah* – en plikt som åligger samhället som helhet – innebär att om ingen fullgör den, bär alla skulden.
 
 Sjuhundra år senare nådde Amartya Sen samma slutsats på empirisk väg: svält orsakas inte av absolut brist utan av distributionens sammanbrott.[^20] Sen byggde sitt bevis på Bengalens hungersnöd och decennier av fältdata; Ibn Taymiyyahs rättslära härledde samma slutsats ur pliktens logik.
 
 ## Avvecklingens logik
 
-Under efterkrigstiden byggde Sverige ett av världens mest ambitiösa beredskapssystem. Olja, livsmedel, utsäde, mediciner — allt lagrat för den dag importvägarna stängdes.[^11]
+Under efterkrigstiden byggde Sverige ett av världens mest ambitiösa beredskapssystem. Olja, livsmedel, utsäde, mediciner – allt lagrat för den dag importvägarna stängdes.[^11]
 
 Sedan föll Berlinmuren. Och med den föll föreställningen att beredskap behövdes.
 
-Avvecklingen vilade på en ekonomisk trossats. Just-in-time-leveranser, nollager, ständig flödesoptimering: varje kvadratmeter förrådsutrymme var bortkastad yta — tills lastbilarna slutade komma. Det intellektuella underlaget kom från Hayek och Friedman, som hävdat att statliga reserver snedvrider prissignaler och hämmar effektivitet. Sverige lyssnade: under 1990- och 2000-talen avvecklades beredskapslager systematiskt, och ansvaret för livsmedelsförsörjning i kris föll mellan stolarna.[^12]
+Avvecklingen vilade på en ekonomisk trossats. Just-in-time-leveranser, nollager, ständig flödesoptimering: varje kvadratmeter förrådsutrymme var bortkastad yta – tills lastbilarna slutade komma. Det intellektuella underlaget kom från Hayek och Friedman, som hävdat att statliga reserver snedvrider prissignaler och hämmar effektivitet. Sverige lyssnade: under 1990- och 2000-talen avvecklades beredskapslager systematiskt, och ansvaret för livsmedelsförsörjning i kris föll mellan stolarna.[^12]
 
-Argumentet var stringent — och fel. I en livsmedelskris hinner människor svälta innan marknaden reagerar. Marknadens korrektionscykel räknas i månader; kroppens tolerans i dagar.
+Argumentet var stringent – och fel. I en livsmedelskris hinner människor svälta innan marknaden reagerar. Marknadens korrektionscykel räknas i månader; kroppens tolerans i dagar.
 
 Finland och Schweiz visar varför. Två länder med jämförbara ekonomier behöll sina strategiska livsmedelsreserver.[^13] Finland lagrar spannmål, bränsle och mediciner; Schweiz' federala lag kräver obligatoriska lager av baslivsmedel. Att Sverige valde en annan väg var ett politiskt beslut, inte en ekonomisk nödvändighet.
 
@@ -51,7 +51,7 @@ SOU 2024:8, *Livsmedelsberedskap för en ny tid*, erkänner problemets omfattnin
 
 Josefs berättelse förutsätter en cyklisk värld: sju feta år, sju magra, sedan återhämtning. Klimatförändringarna följer ingen cykel. De tilltar.
 
-Under 2024 och 2025 steg det globala kaffepriset med över fyrtio procent efter torka i Brasilien och Vietnam, medan kakaoproduktionen i Västafrika föll med fjorton procent. Enbart under första halvåret 2025 orsakade naturkatastrofer ekonomiska förluster på 162 miljarder dollar.[^15] Siffrorna mäter inte svält — de mäter sprickorna i ett system som nätt och jämnt håller ihop.
+Under 2024 och 2025 steg det globala kaffepriset med över fyrtio procent efter torka i Brasilien och Vietnam, medan kakaoproduktionen i Västafrika föll med fjorton procent. Enbart under första halvåret 2025 orsakade naturkatastrofer ekonomiska förluster på 162 miljarder dollar.[^15] Siffrorna mäter inte svält – de mäter sprickorna i ett system som nätt och jämnt håller ihop.
 
 Vad som idag motsvarar sju magra år är en leveranskedja som bryts tusen mil bort och vars konsekvenser når en svensk matbutik inom dagar. Vad förr var missväxt i ett land är nu samtidig torka på tre kontinenter; buffertzonen mellan normalitet och svält har krympt till veckor.[^16] Ny teknik kan mildra slagen: torktåliga grödor, vertikal odling, alternativa proteiner. Men ingen innovation ersätter den politiska viljan att lagra. Torktåligt vete hjälper föga om det inte finns i ett svenskt förråd när fartygstrafiken i Östersjön upphör.
 
@@ -59,7 +59,7 @@ När försörjningen hotas blottas statens grundlogik. Verner von Heidenstam slo
 
 ## *Ḥisbah* för en ny tid
 
-Det arabiska begreppet *ḥisbah* — statens tillsyn över marknad och allmännytta — rymmer mer än "marknadskontroll". Ibn Taymiyyah skriver att de verksamheter som är nödvändiga för folkets välfärd — livsmedelsproduktion, distribution, lagerhållning — utgör en kollektiv plikt.[^18] Sviktar den privata sektorn faller ansvaret på staten.
+Det arabiska begreppet *ḥisbah* – statens tillsyn över marknad och allmännytta – rymmer mer än "marknadskontroll". Ibn Taymiyyah skriver att de verksamheter som är nödvändiga för folkets välfärd – livsmedelsproduktion, distribution, lagerhållning – utgör en kollektiv plikt.[^18] Sviktar den privata sektorn faller ansvaret på staten.
 
 En modern *ḥisbah* för svensk livsmedelsberedskap finns redan i den finska modellen: strategiska baslivsmedelsreserver, tydligt myndighetsansvar, regelbunden lageromsättning.
 

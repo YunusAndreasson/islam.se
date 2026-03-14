@@ -13,9 +13,9 @@ Ordet för det är inte insomni. Det är kontroll.
 
 År 2024 rapporterade Folkhälsomyndigheten att nästan varannan vuxen svensk har sömnbesvär, en siffra som fördubblats på trettio år.[^1] Aldrig har sömnens teknik varit mer förfinad. Sömnlösheten tilltar ändå, som ett motstånd utan motståndare.
 
-Den gängse förklaringen: 24-timmarssamhället, skärmljus, stress. Men det beskriver villkor, inte orsaker. Skärmljus stör dygnsrytmen, ja — men det förklarar inte varför vi sitter kvar vid skärmen. Stressen kräver vila. Varför vägrar vi den?
+Den gängse förklaringen: 24-timmarssamhället, skärmljus, stress. Men det beskriver villkor, inte orsaker. Skärmljus stör dygnsrytmen, ja – men det förklarar inte varför vi sitter kvar vid skärmen. Stressen kräver vila. Varför vägrar vi den?
 
-Orsaken sitter längre in. Sömnstörningar med rent fysiologiska orsaker — sömnapné, kronisk smärta, nattarbete — kräver medicinsk behandling. Men den breda trenden, den som sveper genom hela befolkningen, följer en annan logik. Kroppen förmår sova. Själen förmår inte släppa.
+Orsaken sitter längre in. Sömnstörningar med rent fysiologiska orsaker – sömnapné, kronisk smärta, nattarbete – kräver medicinsk behandling. Men den breda trenden, den som sveper genom hela befolkningen, följer en annan logik. Kroppen förmår sova. Själen förmår inte släppa.
 
 ## Att somna är att dö
 
@@ -23,9 +23,9 @@ Den islamiska traditionen bär en synvinkel som saknas i modern sömnforskning. 
 
 > Det är känt att den sovandes själ skiljs från kroppen i en form av separation, ty sömnen är dödens broder.[^3]
 
-Ibn Taymiyyahs tolkning blottlägger något den moderna sömnforskningen inte når: varför det är så svårt att somna i en tid som förvisat döden. Inte den biologiska döden, utan döden som närvaro, som daglig påminnelse. Döendet har flyttat till sjukhus, begravningen till byråer, sorgen till terapirummet. Vi har undanröjt döden ur vardagen — en dödsglömska som kostat oss förmågan att somna.
+Ibn Taymiyyahs tolkning blottlägger något den moderna sömnforskningen inte når: varför det är så svårt att somna i en tid som förvisat döden. Inte den biologiska döden, utan döden som närvaro, som daglig påminnelse. Döendet har flyttat till sjukhus, begravningen till byråer, sorgen till terapirummet. Vi har undanröjt döden ur vardagen – en dödsglömska som kostat oss förmågan att somna.
 
-Den moderna neurofysiologin beskriver sömnen som ett förändrat medvetandetillstånd, styrt av neurotransmittorer och cirkadiska rytmer. Beskrivningen är riktig men ofullständig — på samma sätt som en kemisk analys av bläck är en ofullständig beskrivning av ett brev.
+Den moderna neurofysiologin beskriver sömnen som ett förändrat medvetandetillstånd, styrt av neurotransmittorer och cirkadiska rytmer. Beskrivningen är riktig men ofullständig – på samma sätt som en kemisk analys av bläck är en ofullständig beskrivning av ett brev.
 
 Koranen namnger det som ontologisk händelse:
 
@@ -41,7 +41,7 @@ Profeten ﷺ bad varje kväll innan han lade sig:
 
 > O Allah ﷻ, Du har skapat min själ och Du tar den tillbaka. Dess död och dess liv tillhör Dig. Om Du kvarhåller den, förbarma Dig över den. Om Du sänder den tillbaka, skydda den med det som Du skyddar Dina rättfärdiga tjänare.[^5]
 
-Det är ingen sömnbön. Det är dödsförberedelse. Ordagrant: *laka mamātuhā wa-maḥyāhā* — dess död och dess liv tillhör Dig.
+Det är ingen sömnbön. Det är dödsförberedelse. Ordagrant: *laka mamātuhā wa-maḥyāhā* – dess död och dess liv tillhör Dig.
 
 Ordet för denna överlåtelse är *tawakkul*. Ibn Qayyim al-Jawziyyah definierade det som "hjärtats sanna förlitan på Allah ﷻ ensam"[^6], och Ibn Rajab al-Ḥanbalī preciserade: "hjärtats uppriktiga förtröstan på Allah ﷻ i att söka det goda och avvärja det skadliga".[^7]
 
@@ -49,7 +49,7 @@ Blaise Pascal satte ord på oförmågan redan på 1600-talet:
 
 > All mänsklig olycka springer ur en enda sak: oförmågan att sitta stilla i ett rum.[^22]
 
-Du kan inte förhandla dig till sömn, inte köpa den, inte tvinga den. Du kan bara släppa. I en civilisation som har organiserat sig kring att aldrig släppa, blir det enklaste — att somna — det svåraste. Men den som förmår det finner vad Karin Boye kallade "det oundvikligas ro. Det inre ödets ro."[^25]
+Du kan inte förhandla dig till sömn, inte köpa den, inte tvinga den. Du kan bara släppa. I en civilisation som har organiserat sig kring att aldrig släppa, blir det enklaste – att somna – det svåraste. Men den som förmår det finner vad Karin Boye kallade "det oundvikligas ro. Det inre ödets ro."[^25]
 
 ## Natten avslöjar
 
@@ -67,19 +67,19 @@ Ovisheten rör inte kunskapsbrist utan tillitsbrist.
 
 ## Överlåtelsen
 
-Profeten ﷺ somnade inte; han överlämnade sig. Varje kväll en liten dödsceremoni: bönen om skydd för den själ som ska skiljas från kroppen, vetskapen att det kanske är den sista natten, formuleringen "i Ditt namn, o Allah ﷻ, dör jag och lever jag".[^12] Och varje morgon: "All lovprisning tillkommer Allah ﷻ som har gett oss liv efter det att Han låtit oss dö — och till Honom är återkomsten."[^13]
+Profeten ﷺ somnade inte; han överlämnade sig. Varje kväll en liten dödsceremoni: bönen om skydd för den själ som ska skiljas från kroppen, vetskapen att det kanske är den sista natten, formuleringen "i Ditt namn, o Allah ﷻ, dör jag och lever jag".[^12] Och varje morgon: "All lovprisning tillkommer Allah ﷻ som har gett oss liv efter det att Han låtit oss dö – och till Honom är återkomsten."[^13]
 
 Denna bön–död–uppståndelse-struktur är inte unik för den islamiska traditionen. Den nordiska litteraturen kände igen samma mönster. Fredrika Bremer fångade sambandet:
 
 > Vagga och grav – tvillingbröder, / dunkla keruber, / med facklorna sänkta, / kring er stå vakt: / sömnen och döden.[^14]
 
-Hjalmar Bergman fångade överlåtelsens gåta i *Vi Bookar, Krokar och Rothar*: "Mitt samvete är rent. Jag anbefaller mig i Guds nåd och sover sött."[^24] *Anbefaller mig* — det enda verb som gör sömnen möjlig.
+Hjalmar Bergman fångade överlåtelsens gåta i *Vi Bookar, Krokar och Rothar*: "Mitt samvete är rent. Jag anbefaller mig i Guds nåd och sover sött."[^24] *Anbefaller mig* – det enda verb som gör sömnen möjlig.
 
-*Adhkār al-nawm*, kvällens åminnelser, är inte avslappning. De inskärper en existentiell grundhållning som den moderna världen har förlorat: att du inte äger ditt nästa andetag — att du, trots detta, kan lägga dig ned i frid. Pär Lagerkvist i *Kaos*: "Allt är givet människan som lån."[^27]
+*Adhkār al-nawm*, kvällens åminnelser, är inte avslappning. De inskärper en existentiell grundhållning som den moderna världen har förlorat: att du inte äger ditt nästa andetag – att du, trots detta, kan lägga dig ned i frid. Pär Lagerkvist i *Kaos*: "Allt är givet människan som lån."[^27]
 
-Ibn Qayyim skrev att "åminnelsen väcker hjärtat ur dess sömn och reser det ur dess slummer".[^15] *Dhikr* väcker hjärtat för att kroppen ska kunna sova. Sömnlösheten är ett hjärta som sover — bedövat av distraktioner, omtöcknat av underhållning — i en kropp som ligger vaken. Du upprepar Namnet tills tankarnas cirkel bryts.
+Ibn Qayyim skrev att "åminnelsen väcker hjärtat ur dess sömn och reser det ur dess slummer".[^15] *Dhikr* väcker hjärtat för att kroppen ska kunna sova. Sömnlösheten är ett hjärta som sover – bedövat av distraktioner, omtöcknat av underhållning – i en kropp som ligger vaken. Du upprepar Namnet tills tankarnas cirkel bryts.
 
-ʿAlī ibn Abī Ṭālib slog fast det: "Människor sover; när de dör vaknar de."[^16] Den som inte kan somna har redan börjat vakna — men utan vägledning, utan riktning, utan den tillit som gör uppvaknandet uthärdligt.
+ʿAlī ibn Abī Ṭālib slog fast det: "Människor sover; när de dör vaknar de."[^16] Den som inte kan somna har redan börjat vakna – men utan vägledning, utan riktning, utan den tillit som gör uppvaknandet uthärdligt.
 
 ## Att öva sig i att dö
 
@@ -89,13 +89,13 @@ Koranen kallar natten *libās*, en klädnad:
 
 Tre ord, en hel kosmologi. *Libās*: klädnaden som omsluter, skyddar, döljer. *Subāt*: vila, avbrott, sömnens avklädning av dagens roller. *Nushūr*: uppståndelse, uppresning. Varje morgon en liten domedagsprolog.
 
-Men just här skiljs den moderna förståelsen och den islamiska traditionen åt. Muḥammad ibn al-Naḍr al-Ḥārithī tecknade de gudfruktigas förhållande till döden: "Medvetenheten om döden upptog de gudfruktigas hjärtan och fjärmade dem från denna värld — vid Allah ﷻ, de återvände aldrig till glädje efter att ha känt dess ångest."[^18] Här skymtar dödsmedvetenhetens paradox: den ångest som den moderna människan flyr, och som håller henne vaken, är för den gudfruktige vägen till vila. Men det är inte samma ångest. Den modernas är skräcken för utplåning — en skräck som klamrar sig fast vid kontrollen, vid skärmen, vid den vaka som upprätthåller illusionen att du fortfarande finns. Den gudfruktigas ångest är vördnad inför återkomsten, och vördnad kan vila, ty den har redan övergivit det som skräcken klamrar sig vid.
+Men just här skiljs den moderna förståelsen och den islamiska traditionen åt. Muḥammad ibn al-Naḍr al-Ḥārithī tecknade de gudfruktigas förhållande till döden: "Medvetenheten om döden upptog de gudfruktigas hjärtan och fjärmade dem från denna värld – vid Allah ﷻ, de återvände aldrig till glädje efter att ha känt dess ångest."[^18] Här skymtar dödsmedvetenhetens paradox: den ångest som den moderna människan flyr, och som håller henne vaken, är för den gudfruktige vägen till vila. Men det är inte samma ångest. Den modernas är skräcken för utplåning – en skräck som klamrar sig fast vid kontrollen, vid skärmen, vid den vaka som upprätthåller illusionen att du fortfarande finns. Den gudfruktigas ångest är vördnad inför återkomsten, och vördnad kan vila, ty den har redan övergivit det som skräcken klamrar sig vid.
 
-Erik Gustaf Geijer skrev att "det hörer till sorgens väsende att ej vilja släppa sitt föremål".[^19] Sömnlösheten är en sorg som inte vet vad den sörjer — som om öppna ögon kunde hejda tiden. Astrid Lindgren sade det rakare: "Man bör leva sitt liv så man blir vän med döden."[^26]
+Erik Gustaf Geijer skrev att "det hörer till sorgens väsende att ej vilja släppa sitt föremål".[^19] Sömnlösheten är en sorg som inte vet vad den sörjer – som om öppna ögon kunde hejda tiden. Astrid Lindgren sade det rakare: "Man bör leva sitt liv så man blir vän med döden."[^26]
 
-Den islamiska kvällsritualen — bönen, åminnelsen, överlåtelsen — tvingar dig att varje kväll konfrontera det den moderna kulturen har gömt: att du är dödlig, att du saknar kontroll, att din existens är en gåva som kan återkallas. Inte som dogm utan som nattlig praktik, en bön riktad till en Gud du tilltalar. Den ger tillåtelse att släppa.
+Den islamiska kvällsritualen – bönen, åminnelsen, överlåtelsen – tvingar dig att varje kväll konfrontera det den moderna kulturen har gömt: att du är dödlig, att du saknar kontroll, att din existens är en gåva som kan återkallas. Inte som dogm utan som nattlig praktik, en bön riktad till en Gud du tilltalar. Den ger tillåtelse att släppa.
 
-Koranen beskriver dem som reser sig ur natten med avsikt: "De som avstår från sömn för att med fruktan och hopp åkalla sin Herre och som ger åt andra av det som Vi har skänkt dem för deras försörjning."[^20] Mitt i natten finner de ljus — inte för att sömnlösheten är en sjukdom, utan för att de äger det som gör vakenhet uthärdlig: en riktning för sitt rop, en Herre att vända sig till i fruktan och hopp. Ibn Kathīr förtydligar: "De lämnade sömn och vila för bönens skull, drivna av sin längtan efter det Allah ﷻ har lovat dem."[^21]
+Koranen beskriver dem som reser sig ur natten med avsikt: "De som avstår från sömn för att med fruktan och hopp åkalla sin Herre och som ger åt andra av det som Vi har skänkt dem för deras försörjning."[^20] Mitt i natten finner de ljus – inte för att sömnlösheten är en sjukdom, utan för att de äger det som gör vakenhet uthärdlig: en riktning för sitt rop, en Herre att vända sig till i fruktan och hopp. Ibn Kathīr förtydligar: "De lämnade sömn och vila för bönens skull, drivna av sin längtan efter det Allah ﷻ har lovat dem."[^21]
 
 Profeten ﷺ lade handen på bröstet och sade: *I Ditt namn, o Allah, dör jag och lever jag.* Sedan somnade han.
 

@@ -11,7 +11,7 @@ Hans namn var Sībawayh.
 
 ## En persers väg till det heliga språket
 
-Abū Bishr ʿAmr ibn ʿUthmān ibn Qanbar — kallad Sībawayh, "äppeldoften", ett persiskt smeknamn — föddes i Shiraz och kom till Basra som ung man.[^1] Han hade tänkt studera islamisk rättsvetenskap, *fiqh*. Men han begick ett grammatiskt fel i en *ḥadīth*-diskussion. Skammen drev honom till språkvetenskapen, till besatthet. Att studera grammatik med den besattheten är att urskilja språkets skelett i varje yttrande: i poetens vers, i profetens tal, i marknadens rop.
+Abū Bishr ʿAmr ibn ʿUthmān ibn Qanbar – kallad Sībawayh, "äppeldoften", ett persiskt smeknamn – föddes i Shiraz och kom till Basra som ung man.[^1] Han hade tänkt studera islamisk rättsvetenskap, *fiqh*. Men han begick ett grammatiskt fel i en *ḥadīth*-diskussion. Skammen drev honom till språkvetenskapen, till besatthet. Att studera grammatik med den besattheten är att urskilja språkets skelett i varje yttrande: i poetens vers, i profetens tal, i marknadens rop.
 
 Hans lärare blev al-Khalīl ibn Aḥmad al-Farāhīdī, en arabisk lingvist från Oman som avlyssnat prosodins lagar i en kopparslagares hammarslag.[^2] Att al-Khalīl var arab och Sībawayh perser är inte en bisats. Det är poängen.
 
@@ -27,19 +27,19 @@ Spänningen löstes aldrig helt. Arabiska är Koranens språk; uppenbarelsen kom
 
 Språkets sakralitet är odiskutabel. Men vem *äger* det? Om ägandet är etniskt, om arabiskan tillhör araberna som blodets arv, borde en perser med brytning vara den siste att kodifiera dess grammatik. Ändå var det en perser som gjorde det. Ingen har gjort det bättre.
 
-Ibn Khaldūn konstaterade det i sin *al-Muqaddimah*: grundarna av den arabiska grammatiken — Sībawayh, al-Fārisī, al-Zajjāj — var alla av persisk härkomst. I samma verk tillade han:
+Ibn Khaldūn konstaterade det i sin *al-Muqaddimah*: grundarna av den arabiska grammatiken – Sībawayh, al-Fārisī, al-Zajjāj – var alla av persisk härkomst. I samma verk tillade han:
 
 > De flesta muslimska lärda inom såväl religiösa som intellektuella vetenskaper har varit icke-araber.[^5]
 
 ## Vad språket kräver
 
-Imam al-Shāfiʿī formulerade grundsatsen som ren observation: "Den som lärde sig Koranen ärades i människors ögon, den som lärde sig *ḥadīth* fick starkare argumentation, den som lärde sig grammatik vördades."[^6] Vördnaden, *haybah*, knyts till lärandet — oavsett ursprung.
+Imam al-Shāfiʿī formulerade grundsatsen som ren observation: "Den som lärde sig Koranen ärades i människors ögon, den som lärde sig *ḥadīth* fick starkare argumentation, den som lärde sig grammatik vördades."[^6] Vördnaden, *haybah*, knyts till lärandet – oavsett ursprung.
 
 Al-Shāfiʿī framhöll:
 
 > Lär dig, ty människan föds inte lärd – och den som har kunskap är inte lik den okunnige.[^7]
 
-Sībawayh förkroppsligade principen. Utifrån erövrade han arabiskan, så grundligt att han satte normen för dem som *var* födda in i den. Den som föds in i ett språk äger det som instinkt — vet vad som är rätt men inte varför. Den som erövrar det utifrån måste lära sig *varför*, och det är just det som grammatik är.
+Sībawayh förkroppsligade principen. Utifrån erövrade han arabiskan, så grundligt att han satte normen för dem som *var* födda in i den. Den som föds in i ett språk äger det som instinkt – vet vad som är rätt men inte varför. Den som erövrar det utifrån måste lära sig *varför*, och det är just det som grammatik är.
 
 Motståndet kom ändå. Det islamiska samhällets tidiga århundraden präglades av *shuʿūbiyyah*-rörelsen, där persiska och andra icke-arabiska muslimer hävdade sin intellektuella likvärdighet med araberna trots dessas kulturella överhöghet.[^8] Mitt i denna spänning utspelade sig Sībawayhs karriär. Skepsisen gällde mer än accenten; frågan skar djupare: kunde en utlänning gripa arabiskans innersta logik, det som al-Suyūṭī kallade språkets *tawassuʿ*, dess närmast oändliga vidd?[^9]
 
@@ -61,17 +61,17 @@ Han tillade: "kunskap om språkens betydelser uppnås av den som umgås med dem 
 
 År 1658 publicerade Georg Stiernhielm *Hercules*, den svenska skaldekonstens grundsten. Erik Gustaf Geijer iakttog: "Språket låg ännu rått och ouppodladt. Man måste känna det barbari, hvari det i följd deraf förfallit, för att rätt värdera allt hvad det blef under Stjernhjelms hand."[^13]
 
-Stiernhielm lyfte svenskan ur tyskt och latinskt beroende. Men i Strindbergs *Röda rummet* utbrister en karaktär i satirisk förtvivlan: "Ner med den dumma hunden Georg Stjernhjelm!" — för att denne drivit fram svenskan och trängt undan tyskan.[^14] Strindberg satiriserar den som vänder sig mot själva den språkliga självständigheten. Det löjliga ligger hos dem som hellre behöll det lånade.
+Stiernhielm lyfte svenskan ur tyskt och latinskt beroende. Men i Strindbergs *Röda rummet* utbrister en karaktär i satirisk förtvivlan: "Ner med den dumma hunden Georg Stjernhjelm!" – för att denne drivit fram svenskan och trängt undan tyskan.[^14] Strindberg satiriserar den som vänder sig mot själva den språkliga självständigheten. Det löjliga ligger hos dem som hellre behöll det lånade.
 
-Mekanismen *verkar* vara densamma, men fallen är omvända: i Basra motstår man att en utlänning träder in i arabiskan; i Stockholm att främmande ord tränger in i svenskan. Riktningen skiftar, antagandet består: att ett språk har naturliga ägare. Att motståndet uppstår oavsett riktning avslöjar vad det skyddar — inte språket. Hierarkin.
+Mekanismen *verkar* vara densamma, men fallen är omvända: i Basra motstår man att en utlänning träder in i arabiskan; i Stockholm att främmande ord tränger in i svenskan. Riktningen skiftar, antagandet består: att ett språk har naturliga ägare. Att motståndet uppstår oavsett riktning avslöjar vad det skyddar – inte språket. Hierarkin.
 
 ## Boken som räckte
 
 Sībawayhs omvälvning var inte politisk. Han ledde ingen rörelse, avfattade inget manifest. Han skrev en bok. Men boken tvingade fram ett erkännande: att ett språk tillhör den som behärskar det, inte den som fötts in i det.
 
-Om det gäller arabiskan — Koranens språk, det språk Gud valde för sin sista uppenbarelse — gäller det varje språk. Om en perser med brytning kunde bli arabiskans främste auktoritet faller varje argument om språklig blodsrätt.
+Om det gäller arabiskan – Koranens språk, det språk Gud valde för sin sista uppenbarelse – gäller det varje språk. Om en perser med brytning kunde bli arabiskans främste auktoritet faller varje argument om språklig blodsrätt.
 
-Mönstret gäller även västerut: Joseph Conrad lärde sig engelska i tjugoårsåldern och formade den moderna engelska romanens språk — utan att vara engelsman.[^15]
+Mönstret gäller även västerut: Joseph Conrad lärde sig engelska i tjugoårsåldern och formade den moderna engelska romanens språk – utan att vara engelsman.[^15]
 
 ʿAlī ibn Abī Ṭālib sade: "Tungan är kroppens roder – om den rättar sig, rättar sig alla lemmar."[^16] Disciplin, övning, lärande. Aldrig rätt föräldrar.
 

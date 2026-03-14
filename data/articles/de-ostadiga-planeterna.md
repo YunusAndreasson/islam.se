@@ -17,13 +17,13 @@ Gång på gång har Elon Musk förkunnat att mänskligheten måste bli en multip
 
 Argumentet har en religiös klangbotten. Musk frammanar "medvetandets ljus" som en helig eld mänskligheten bär i uppdrag att föra vidare genom galaxen.[^3] Mars förvandlas till ett förklarat land, multiplanetär expansion till kosmiskt manifest destiny. Jorden är fallen. Frälsningen väntar bortom atmosfären.
 
-Bakom det vetenskapliga språket döljer sig en impuls som är äldre än SpaceX. Hannah Arendt satte redan 1958 namn på den: *jordalienation* — viljan att fly det jordiska villkoret, förklädd till vetenskapligt framsteg.[^17]
+Bakom det vetenskapliga språket döljer sig en impuls som är äldre än SpaceX. Hannah Arendt satte redan 1958 namn på den: *jordalienation* – viljan att fly det jordiska villkoret, förklädd till vetenskapligt framsteg.[^17]
 
 ## Den pedagogiska obeständigheten
 
 I Topelius' kosmologi är planeternas ostadighet ett budskap att tyda, aldrig ett problem att lösa. Astrologen Sigfrid Forsius, romanens centralgestalt, läser stjärnhimlen som solvisare: "Stjärnorna äro att betrakta som solvisare för världens gång". Han tillägger omedelbart: "Människan spår och Gud rår."[^4]
 
-Topelius var ingen naiv romantiker. Väl medveten om den vetenskapliga revolutionens anspråk skrev han mot dem. Hans sena verk präglas av en luthersk övertygelse: tro överträffar förnuft, och materialismens segertåg genom Europas universitet vittnar om världens åldrande, inte dess framsteg.[^5] Det gör honom omodern — men inte irrelevant.
+Topelius var ingen naiv romantiker. Väl medveten om den vetenskapliga revolutionens anspråk skrev han mot dem. Hans sena verk präglas av en luthersk övertygelse: tro överträffar förnuft, och materialismens segertåg genom Europas universitet vittnar om världens åldrande, inte dess framsteg.[^5] Det gör honom omodern – men inte irrelevant.
 
 Romanens bön bär samma ödmjukhet:
 
@@ -35,9 +35,9 @@ En annan tradition erkänner förgängligheten men talar om den utan Topelius' e
 
 > Ni skall veta att det jordiska livet mest består av lek och förströelse och prål och ert ömsesidiga skrytande och tävlande om tillgångar och barn. Det är som ett efterlängtat regn efter vilket grönskan gläder jordbrukarna. Men sedan vissnar den och du kan se den gulna och sedan bli torra strån.[^7]
 
-Grönskan gläder — och vissnar. Att grunda sin tillvaro i det som vissnar är, i Koranens terminologi, *al-ghurūr*: självbedrägeri.
+Grönskan gläder – och vissnar. Att grunda sin tillvaro i det som vissnar är, i Koranens terminologi, *al-ghurūr*: självbedrägeri.
 
-Ibn Qayyim förskjuter bilden: "Denna värld i förhållande till den nästkommande är som sömnen i förhållande till vakenheten."[^8] Om jordelivet är sömn blir frågan hur vi vaknar — inte hur vi flyr till en annan planet. Ibn al-Jawzī preciserar: "Denna värld är en dröm och den nästkommande ett uppvaknande, och det däremellan är döden."[^9]
+Ibn Qayyim förskjuter bilden: "Denna värld i förhållande till den nästkommande är som sömnen i förhållande till vakenheten."[^8] Om jordelivet är sömn blir frågan hur vi vaknar – inte hur vi flyr till en annan planet. Ibn al-Jawzī preciserar: "Denna värld är en dröm och den nästkommande ett uppvaknande, och det däremellan är döden."[^9]
 
 Topelius sörjer det förgängliga. Koranen visar det med klarhet men utan sorg.
 
@@ -45,7 +45,7 @@ Saʿīd ibn Jubayr drar gränsen: "Det bedrägliga njutandet är det som distrah
 
 ## Hybris och proportioner
 
-Profeten ﷺ bestämde högmod med en precision som stänger varje flyktväg: "Högmod är att förneka sanningen och förakta människor."[^11] Inte en känsla utan en handling: att vända bort ansiktet när någon talar sant. Ibn Qayyim härleder högmodets rot till självbedrägeri:[^12] i lyckorus — berusad av sin egen storhet — förlorar människan förmågan att se sina rätta proportioner. Den högmodige placerar sig *ovanför* det skapade i stället för *inom* det. Ödmjukhet säger *jag delar planeternas villkor*; högmod säger *kosmos tjänar mitt medvetande*.
+Profeten ﷺ bestämde högmod med en precision som stänger varje flyktväg: "Högmod är att förneka sanningen och förakta människor."[^11] Inte en känsla utan en handling: att vända bort ansiktet när någon talar sant. Ibn Qayyim härleder högmodets rot till självbedrägeri:[^12] i lyckorus – berusad av sin egen storhet – förlorar människan förmågan att se sina rätta proportioner. Den högmodige placerar sig *ovanför* det skapade i stället för *inom* det. Ödmjukhet säger *jag delar planeternas villkor*; högmod säger *kosmos tjänar mitt medvetande*.
 
 Koranen riktar sig till den som vandrar på jorden högmodigt: "Du kan varken klyva jorden eller uppnå bergens höjd."[^13]
 
@@ -55,19 +55,19 @@ Topelius' barnpedagogik och Koranens bildspråk delar en egenskap: båda tilltal
 
 Newton, som kartlade lagarna bakom planeternas banor, nådde samma slutsats: "Detta solens, planeternas och kometernas sköna system kan bara ha uppkommit genom en intelligent och mäktig Varelses råd och herravälde."[^20] Topelius lärde barnet att *läsa* skapelsen; Newton lärde den vuxne att det lästa bär en författares signatur.
 
-Samma rörelse gör Koranen. Himlarna och jorden, solen och månen, stjärnorna och deras banor — allt framträder som *āyāt*, tecken: "Er Herre är Allah ﷻ som skapade himlarna och jorden under sex dagar och sedan höjde Sig över tronen. Han skapade solen, månen och stjärnorna undergivna Hans befallning."[^15]
+Samma rörelse gör Koranen. Himlarna och jorden, solen och månen, stjärnorna och deras banor – allt framträder som *āyāt*, tecken: "Er Herre är Allah ﷻ som skapade himlarna och jorden under sex dagar och sedan höjde Sig över tronen. Han skapade solen, månen och stjärnorna undergivna Hans befallning."[^15]
 
 ## Drömmen om att vakna
 
 Tolstoj lät furst Andrej, döende efter Borodino, uppleva hur "ett uppvaknande från livet kom tillsammans med hans uppvaknande ur sömnen. Och jämfört med livets varaktighet föreföll det honom inte långsammare än ett uppvaknande ur sömnen jämfört med en dröms varaktighet."[^16] Den döende ser plötsligt klart: detta var en dröm.
 
-Ibn al-Jawzī iakttog samma fenomen i *Ṣayd al-Khāṭir*: "Bland det mest förunderliga är den döendes uppvaknande vid sin död — han vaknar till med en uppmärksamhet som inte kan beskrivas."[^19]
+Ibn al-Jawzī iakttog samma fenomen i *Ṣayd al-Khāṭir*: "Bland det mest förunderliga är den döendes uppvaknande vid sin död – han vaknar till med en uppmärksamhet som inte kan beskrivas."[^19]
 
-Men uppvaknandet förblir meningslöst om det inte möter något verkligt att vakna *till*. Carl von Linné, som ägnade sitt liv åt att katalogisera skapelsen, slog fast i *Nemesis Divina*: "Ödet (fatum) är Guds dom, mot hvilken intet vad gifves."[^18] Inte blint öde utan dömt — den som flyr ödet flyr domen.
+Men uppvaknandet förblir meningslöst om det inte möter något verkligt att vakna *till*. Carl von Linné, som ägnade sitt liv åt att katalogisera skapelsen, slog fast i *Nemesis Divina*: "Ödet (fatum) är Guds dom, mot hvilken intet vad gifves."[^18] Inte blint öde utan dömt – den som flyr ödet flyr domen.
 
-Musk vill aldrig vakna. Han vill flytta drömmen till en annan planet. Den som aldrig begrundat jordens undergång sover okunnigt; Musk har vaknat tillräckligt för att se att drömmen är bräcklig, men gör insikten till bränsle för att förlänga den — inte för att vakna ur dödsglömskan.
+Musk vill aldrig vakna. Han vill flytta drömmen till en annan planet. Den som aldrig begrundat jordens undergång sover okunnigt; Musk har vaknat tillräckligt för att se att drömmen är bräcklig, men gör insikten till bränsle för att förlänga den – inte för att vakna ur dödsglömskan.
 
-Redan innan spektralanalys och exoplanetjakt visste Topelius att planeterna var ostadiga. Hans kosmologi byggde på läsning, inte mätning — på förmågan att avläsa det skapade som tecken.
+Redan innan spektralanalys och exoplanetjakt visste Topelius att planeterna var ostadiga. Hans kosmologi byggde på läsning, inte mätning – på förmågan att avläsa det skapade som tecken.
 
 Planeterna är ostadiga som ett människoliv. Topelius visste det utan teleskop.
 

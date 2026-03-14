@@ -5,7 +5,7 @@ wordCount: 1686
 qualityScore: 8.6
 description: "I sitt verk *Rawḍat al-Muḥibbīn* bygger den damascenske 1300-talsgelärde Ibn Qayyim en hel perceptionsteori kring en enkel distinktion: den första blicken händer dig, den andra gör du. Ögat är inte en ingång utan en spegel – det speglar hjärtats eget tillstånd."
 ---
-Ett ögonblick innan begäret. Ett kort, omärkligt mellanrum — en bråkdels sekund mellan att se och att vilja se. Det mesta av det vi kallar frihet avgörs där.
+Ett ögonblick innan begäret. Ett kort, omärkligt mellanrum – en bråkdels sekund mellan att se och att vilja se. Det mesta av det vi kallar frihet avgörs där.
 
 Profeten Muḥammad ﷺ rymde det i en formel som verkar alltför enkel:
 
@@ -25,9 +25,9 @@ Profeten ﷺ sade till ʿAlī:
 
 ## Den andra blicken
 
-Den islamiska traditionen kartlägger blickens *sekvens*, inte dess *objekt*. Ibn al-Jawzī skriver i *Dhamm al-Hawā*: begäret (*hawā*) gör blicken enögd.[^4] Inte blind — enögd. Begäret stänger inte av uppfattningen utan förvränger den. Den som ser enögd ser personen men inte sammanhanget, njutningen men inte morgonen efter.
+Den islamiska traditionen kartlägger blickens *sekvens*, inte dess *objekt*. Ibn al-Jawzī skriver i *Dhamm al-Hawā*: begäret (*hawā*) gör blicken enögd.[^4] Inte blind – enögd. Begäret stänger inte av uppfattningen utan förvränger den. Den som ser enögd ser personen men inte sammanhanget, njutningen men inte morgonen efter.
 
-Iris Murdoch gör i *The Sovereignty of Good* uppmärksamheten, inte viljan, till den avgörande moraliska handlingen: "Jag kan bara välja inom den värld jag förmår se, och klart seende är resultatet av moralisk ansträngning."[^20] Epiktetos, den frigivne slaven, slog fast att ingen människa är fri som inte behärskar sig själv.[^22] Men varken han eller Murdoch pekar ut *var* ansträngningen ska sättas in. Den islamiska traditionen gör det: vid tröskeln mellan första och andra blicken — det exakta ögonblick där ansträngningen avgör.
+Iris Murdoch gör i *The Sovereignty of Good* uppmärksamheten, inte viljan, till den avgörande moraliska handlingen: "Jag kan bara välja inom den värld jag förmår se, och klart seende är resultatet av moralisk ansträngning."[^20] Epiktetos, den frigivne slaven, slog fast att ingen människa är fri som inte behärskar sig själv.[^22] Men varken han eller Murdoch pekar ut *var* ansträngningen ska sättas in. Den islamiska traditionen gör det: vid tröskeln mellan första och andra blicken – det exakta ögonblick där ansträngningen avgör.
 
 ## Ljuset och mörkret
 
@@ -35,7 +35,7 @@ I *al-Dāʾ wa-l-Dawāʾ* skriver Ibn Qayyim:
 
 > Att sänka blicken ger hjärtat ljus, att släppa den fri klär det i mörker.[^7]
 
-Att släppa blicken fri försvagar hjärtat; att sänka den stärker det.[^8] Om ögat återkastar hjärtats tillstånd innebär den ostyrade blicken att hjärtat ständigt *bygger* — begär, berättelse, fantasi — ur varje synintryck. Att sänka blicken avbryter byggandet.[^9]
+Att släppa blicken fri försvagar hjärtat; att sänka den stärker det.[^8] Om ögat återkastar hjärtats tillstånd innebär den ostyrade blicken att hjärtat ständigt *bygger* – begär, berättelse, fantasi – ur varje synintryck. Att sänka blicken avbryter byggandet.[^9]
 
 Den som lärt sig stanna vid den första blicken odlar vad traditionen kallar *baṣīrah*, inre syn. Ibn Qayyim i *Madārij al-Sālikīn*:
 
@@ -51,7 +51,7 @@ I *Modern* skriver Victoria Benedictsson:
 
 > Det var som om hans ögon med ens slagits upp. Det var som om hans väsen för första gången öppnat sina kronblad, som om lifvets, naturens skönhet för första gången strålat ditin.[^12]
 
-Hennes protagonist har levt utan att se: "egentligen har ni väl aldrig lefvat? — Att vegetera".[^13] Det som bryter igenom är inte mer information utan en helt annan *mottaglighet*.
+Hennes protagonist har levt utan att se: "egentligen har ni väl aldrig lefvat? – Att vegetera".[^13] Det som bryter igenom är inte mer information utan en helt annan *mottaglighet*.
 
 Ibn Qayyim uttrycker det teologiskt: den sänkta blicken befriar hjärtat från begärets berusning och likgiltighetens dvala.[^14] Söderberg iakttog: "Man ser världen mera syntetiskt då man ser den med halfslutna ögon; alla linier bli renare och enklare."[^15]
 
@@ -63,7 +63,7 @@ Koranen instruerar båda könen i två parallella verser:
 
 > Och säg till de troende kvinnorna att sänka sin blick och skyla sitt kön.[^17]
 
-Samma verb — *yaghuḍḍu*, 'sänka', av samma rot som att dämpa rösten. Det ord som följer, *azkā*, 'renare', pekar mot klarhet, inte puritanism.
+Samma verb – *yaghuḍḍu*, 'sänka', av samma rot som att dämpa rösten. Det ord som följer, *azkā*, 'renare', pekar mot klarhet, inte puritanism.
 
 Koranen rymmer ännu en bild:
 
@@ -73,11 +73,11 @@ I sitt sammanhang gäller versen den som betraktar himlarna och söker brister i
 
 ## Kedjan
 
-Ibn Qayyim jämför blicken med ett glas vin: betraktelsen berusar. Kärlekens berusning är värre än vinets — den som berusar sig av vin nyktrar till, men den som berusar sig av blicken tillnyktrar sällan.[^19]
+Ibn Qayyim jämför blicken med ett glas vin: betraktelsen berusar. Kärlekens berusning är värre än vinets – den som berusar sig av vin nyktrar till, men den som berusar sig av blicken tillnyktrar sällan.[^19]
 
 Kent Berridges neurovetenskapliga forskning visar varför: upprepad exponering för en stimulans stärker hjärnans begär utan att öka tillfredsställelsen. Man åtrår mer utan att njuta mer.[^21]
 
-Kedjan kan brytas, men bara i sitt första led. Ögonblicket innan begäret är oförfalskat — varseblivning som ännu inte blivit bygge.
+Kedjan kan brytas, men bara i sitt första led. Ögonblicket innan begäret är oförfalskat – varseblivning som ännu inte blivit bygge.
 
 ---
 

@@ -5,13 +5,13 @@ wordCount: 2917
 qualityScore: 8.7
 description: "I 1300-talslärden Ibn Qayyim al-Jawziyyahs skildring samlar Satan sina trupper och pekar ut ett mål framför alla andra: tungans fästning. Den kan erövras på två sätt – genom den som sprider lögner och genom den som tiger när sanningen behöver sägas."
 ---
-Ett ord slungat i vrede, yttrat i avund eller bara släppt i förbifarten — sedan sjunker det genom tillvaron som en sten genom vatten: nedåt, oåterkalleligt, med ringar som breder sig långt bortom den punkt där stenen försvann. Profeten Muḥammad ﷺ beskrev det så: en människa kan yttra ett ord utan att begrunda det. Det ordet störtar henne i Elden längre bort än avståndet mellan öster och väster.[^1]
+Ett ord slungat i vrede, yttrat i avund eller bara släppt i förbifarten – sedan sjunker det genom tillvaron som en sten genom vatten: nedåt, oåterkalleligt, med ringar som breder sig långt bortom den punkt där stenen försvann. Profeten Muḥammad ﷺ beskrev det så: en människa kan yttra ett ord utan att begrunda det. Det ordet störtar henne i Elden längre bort än avståndet mellan öster och väster.[^1]
 
 Orden slår. Neurovetenskapen har visat att verbalt våld omformar hjärnans stressystem.[^2] Den islamiska traditionen visste det fjorton sekler före den första hjärnskannern. Den svenska tystnadskulturen likaså, på sitt eget vis.
 
 ## Tungan som gränsfästning
 
-Ibn Qayyim al-Jawziyyah — en av 1300-talets skarpaste analytiker av det inre livet — iscensätter i *al-Dāʾ wa-l-Dawāʾ* en militär stabsgenomgång där Satan själv avslöjar sin strategi. Satan samlar sina trupper och tilldelar varje avdelning sitt mål. Sedan säger han:
+Ibn Qayyim al-Jawziyyah – en av 1300-talets skarpaste analytiker av det inre livet – iscensätter i *al-Dāʾ wa-l-Dawāʾ* en militär stabsgenomgång där Satan själv avslöjar sin strategi. Satan samlar sina trupper och tilldelar varje avdelning sitt mål. Sedan säger han:
 
 > Ställ er vid tungans gränsfästning, ty det är den största fästningen, belägen mitt emot kungens port. Låt det flöda över den allt tal som skadar honom och inte gagnar honom, och hindra allt som gagnar honom: åminnelse av Allah ﷻ, bön om förlåtelse, läsning av Hans bok, uppriktigt råd till Hans tjänare, och tal grundat i nyttig kunskap. I denna fästning erbjuds er två stora segrar – det gör detsamma vilken ni vinner: den första är att han talar falskt, ty den som talar falskt är en av era bröder och bland era största soldater. Den andra är att han tiger om sanningen, ty den som tiger om sanningen är en stum broder till er.[^3]
 
@@ -33,7 +33,7 @@ Ingenting försvinner. Ibn Kathīr anför en profettradition: "Allah ﷻ har fö
 
 > Ni som har antagit tron! Undvik alltför många antaganden. Vissa antaganden är en synd. Leta inte efter andras brister och baktala inte varandra. Skulle någon av er tycka om att äta sin döda broders kött? Nej, ni skulle avsky det.[^9]
 
-Baktalet — *ghībah*, att säga om en frånvarande person det som är sant men som hon inte vill ska sägas — jämförs med kannibalism. Enligt en överlevering sade Profeten ﷺ att baktalet är svårare än otukt, ty den som begår otukt kan ångra sig och Allah ﷻ förlåter. Men den som baktalar förlåts inte förrän den baktalade förlåter.[^10]
+Baktalet – *ghībah*, att säga om en frånvarande person det som är sant men som hon inte vill ska sägas – jämförs med kannibalism. Enligt en överlevering sade Profeten ﷺ att baktalet är svårare än otukt, ty den som begår otukt kan ångra sig och Allah ﷻ förlåter. Men den som baktalar förlåts inte förrän den baktalade förlåter.[^10]
 
 ʿAbd Allāh ibn Masʿūd, en av Profetens ﷺ närmaste följeslagare, klädde insikten i den tidiga traditionens bildspråk: "Ingenting förtjänar ett längre fängelsestraff än tungan."[^11] Och ʿAbd Allāh ibn al-Mubārak vände på det kända ordspråket: "Om lydigt tal mot Allah ﷻ vore silver, så vore tystnad inför synd mot Allah ﷻ guld."[^12]
 
@@ -41,9 +41,9 @@ Baktalet — *ghībah*, att säga om en frånvarande person det som är sant men
 
 Insikten är inte främmande för svensk jord. Erik Gustaf Geijer: "Alla stora minnen arbeta i det tysta. De födas ur grafvens tystnad."[^14] Ellen Key: "Tystnaden är vänskapens och kärlekens finaste prof; att ha tegat samman kan för alltid förena människor."[^15] Hjalmar Söderberg lät Martin Bircks fader sammanfatta det i en enda livsregel: "Tala är silfver, tiga är guld."[^17] Fadern trodde på det. Sonen vacklar.
 
-Men den svenska tystnadskulturen har en skuggsida. Jantelagen är tvingad tystnad — konflikträdsla upphöjd till dygd. Ingmar Bergmans *Tystnaden* (1963) gestaltar den mänskliga kommunikationens sammanbrott: två systrar instängda i ett hotellrum, oförmögna att nå varandra med ord.[^18]
+Men den svenska tystnadskulturen har en skuggsida. Jantelagen är tvingad tystnad – konflikträdsla upphöjd till dygd. Ingmar Bergmans *Tystnaden* (1963) gestaltar den mänskliga kommunikationens sammanbrott: två systrar instängda i ett hotellrum, oförmögna att nå varandra med ord.[^18]
 
-Den nordiska traditionen kände också priset för ohämmat tal. I Hávamál: "En man bör veta när han ska tala och när han ska hålla fred."[^19] Loke — gudavärldens baktalare — förkroppsligar det tal som saknar varje spärr.[^21] Njals saga förankrar insikten i det mänskliga: "Oviljan mellan er kommer att växa och växa, ty de kommer att hopa onda ord på onda ord."[^22] Det första elaka ordets verkliga fara ligger inte i dess eget innehåll. Den ligger i vad det framkallar.
+Den nordiska traditionen kände också priset för ohämmat tal. I Hávamál: "En man bör veta när han ska tala och när han ska hålla fred."[^19] Loke – gudavärldens baktalare – förkroppsligar det tal som saknar varje spärr.[^21] Njals saga förankrar insikten i det mänskliga: "Oviljan mellan er kommer att växa och växa, ty de kommer att hopa onda ord på onda ord."[^22] Det första elaka ordets verkliga fara ligger inte i dess eget innehåll. Den ligger i vad det framkallar.
 
 ## Det andra nederlaget
 
@@ -55,9 +55,9 @@ Ibn Qayyims dubbla fälla har en andra sida. Koranen befaller:
 
 Al-Suyūṭī, den encyklopediske 1400-talslärde, sammanfattade hela denna spänning i en enda sats: "Att tiga när man bör tala är ibland samma brott som att tala när man bör tiga."[^25] Det är den stumme brodern som Ibn Qayyim beskriver – fiendens andra seger.
 
-Det moderna samhällets reflex — att allt bör sägas, att tystnad är förtryck, att "bryta tystnaden" alltid är moraliskt — förbiser vad varje islamisk lärd visste: det finns tal som är värre än tystnad.
+Det moderna samhällets reflex – att allt bör sägas, att tystnad är förtryck, att "bryta tystnaden" alltid är moraliskt – förbiser vad varje islamisk lärd visste: det finns tal som är värre än tystnad.
 
-Ibn Ḥibbān al-Bustī, den lärde hadithsamlaren, klädde balansen i ord: "Tystnaden är sinnets sömn och talet dess vakenhet."[^26] Sömn är nödvändig. Ingen överlever utan den. Men den som sover när han borde vara vaken har inte funnit vila; han har försummat sitt ansvar. Och den som talar när han borde tiga har inte vaknat; han irrar i sömnen. "Stamning är ibland bättre än tal," skriver Ibn Ḥibbān, "ty allt tal som missar sin rätta plats — där är stamningen bättre."[^27]
+Ibn Ḥibbān al-Bustī, den lärde hadithsamlaren, klädde balansen i ord: "Tystnaden är sinnets sömn och talet dess vakenhet."[^26] Sömn är nödvändig. Ingen överlever utan den. Men den som sover när han borde vara vaken har inte funnit vila; han har försummat sitt ansvar. Och den som talar när han borde tiga har inte vaknat; han irrar i sömnen. "Stamning är ibland bättre än tal," skriver Ibn Ḥibbān, "ty allt tal som missar sin rätta plats – där är stamningen bättre."[^27]
 
 ## Fästningskommendantens ansvar
 
@@ -65,7 +65,7 @@ Den som vaktar tungans fästning måste känna fiendens hela arsenal. Al-Māward
 
 Koranen namnger ansvaret: "Varje själ är ansvarig för vad den har gjort."[^30] Ansvaret gäller inte bara handlingarna utan orden, varje ord, nedtecknat av den väktare som inte tar paus.
 
-Men det finns en tystnad som varken undviker eller flyr — den tystnad där orden inte behövs för att de är överflödiga, inte för att de undertrycks. Karin Boye gestaltade en sådan tystnad:
+Men det finns en tystnad som varken undviker eller flyr – den tystnad där orden inte behövs för att de är överflödiga, inte för att de undertrycks. Karin Boye gestaltade en sådan tystnad:
 
 > Gott är att lyss till sin Moders röst – ordlöst bekymmer får ordlös tröst.[^31]
 

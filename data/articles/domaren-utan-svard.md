@@ -9,13 +9,13 @@ Domaren dömer och staten verkställer. Åklagaren utreder och åtalar i samma r
 
 Det sambandet är problemet.
 
-Sjuhundra år innan Montesquieu lade fram sin maktdelningslära i *De l'esprit des lois* hade en jurist i Bagdad redan urskillt ett problem Montesquieu aldrig ställde. Montesquieu separerade statens funktioner — lagstiftande, verkställande, dömande. Al-Māwardī separerade något farligare: rättvisan från svärdet.
+Sjuhundra år innan Montesquieu lade fram sin maktdelningslära i *De l'esprit des lois* hade en jurist i Bagdad redan urskillt ett problem Montesquieu aldrig ställde. Montesquieu separerade statens funktioner – lagstiftande, verkställande, dömande. Al-Māwardī separerade något farligare: rättvisan från svärdet.
 
 ## Tre ämbeten, tre gränser
 
-Abū al-Ḥasan al-Māwardī (974–1058) var överdomare i det abbasidiska kalifatet under en tid då den politiska makten redan hade börjat glida ur kalifens händer och in i sultanernas.[^1] Hans *al-Aḥkām al-Sulṭāniyyah* — ett av den islamiska rättens mest inflytelserika verk — kan läsas som ett försök att institutionalisera gränser för makt just när makten var som mest oreglerad.
+Abū al-Ḥasan al-Māwardī (974–1058) var överdomare i det abbasidiska kalifatet under en tid då den politiska makten redan hade börjat glida ur kalifens händer och in i sultanernas.[^1] Hans *al-Aḥkām al-Sulṭāniyyah* – ett av den islamiska rättens mest inflytelserika verk – kan läsas som ett försök att institutionalisera gränser för makt just när makten var som mest oreglerad.
 
-Al-Māwardī var jurist, inte politisk filosof; han kartlade gränser institutionerna redan bar. Patricia Crone och Wael Hallaq har varnat för att projicera nutida maktdelningsbegrepp på medeltida islamisk rättsteori.[^2] Invändningen är befogad. Ändå är al-Māwardīs kartläggning angelägen — inte för att den liknar Montesquieu utan för att den skiljer sig.
+Al-Māwardī var jurist, inte politisk filosof; han kartlade gränser institutionerna redan bar. Patricia Crone och Wael Hallaq har varnat för att projicera nutida maktdelningsbegrepp på medeltida islamisk rättsteori.[^2] Invändningen är befogad. Ändå är al-Māwardīs kartläggning angelägen – inte för att den liknar Montesquieu utan för att den skiljer sig.
 
 Inom rättsväsendet urskilde han tre instanser med skarpt avgränsade befogenheter: *qaḍāʾ*, *ḥisbah* och *maẓālim*.
 
@@ -25,11 +25,11 @@ Klagomålsdomstolen, *maẓālim*, kräver tvångsmakt. Al-Māwardī beskrev den
 
 ## Mitt emellan domstol och polis
 
-Al-Māwardīs tredje ämbete, *ḥisbah*, saknar motsvarighet i västerländsk rättstradition. *Ḥisbah* är "en mellanposition mellan domstolsväsendets avgöranden och klagomålsdomstolens befogenheter".[^7] Köpmannen som fuskar med vikten på torget, bråket som övergår i slagsmål — det synliga överträdandet, inte det dolda.
+Al-Māwardīs tredje ämbete, *ḥisbah*, saknar motsvarighet i västerländsk rättstradition. *Ḥisbah* är "en mellanposition mellan domstolsväsendets avgöranden och klagomålsdomstolens befogenheter".[^7] Köpmannen som fuskar med vikten på torget, bråket som övergår i slagsmål – det synliga överträdandet, inte det dolda.
 
 > Låt det bland er finnas en grupp som kallar till allt gott och påbjuder det goda och förbjuder det onda. Ja, det är dessa som är de framgångsrika.[^8]
 
-Muhtasiben — den tjänsteman som utövar *ḥisbah* — får inte spionera på det dolda. Al-Māwardī skrev: "Muhtasiben spionerar inte på det fördolda och avslöjar inte det som hålls dolt."[^9] Misstankar räcker aldrig.[^10]
+Muhtasiben – den tjänsteman som utövar *ḥisbah* – får inte spionera på det dolda. Al-Māwardī skrev: "Muhtasiben spionerar inte på det fördolda och avslöjar inte det som hålls dolt."[^9] Misstankar räcker aldrig.[^10]
 
 Ingripa men inte bestraffa, tillrättavisa men aldrig med brutalitet: "Eftersom *ḥisbah* bygger på respekt, får inte muhtasibens ingripande ske med despotisk hårdhet."[^11] Han äger auktoritet att påtala det onda. Men han äger inte svärdet.
 
@@ -43,19 +43,19 @@ Ibn Taymiyyah preciserade principen: varje ämbetes medel inskränks till det eg
 
 ## Rädslan för den rättfärdige
 
-Montesquieu separerade statens funktioner för att förhindra tyranni. Al-Māwardī separerade rättvisans funktioner för att skydda rättvisan från dess egna försvarare.[^16] Det som hindrar människor från orättvisa, konstaterade han, är alltid en av fyra saker: "antingen ett förstånd som avhåller, en tro som hindrar, en härskare som hejdar, eller en oförmåga som stoppar".[^17] Härskarens tvångsmakt är det kraftfullaste medlet — och det farligaste.
+Montesquieu separerade statens funktioner för att förhindra tyranni. Al-Māwardī separerade rättvisans funktioner för att skydda rättvisan från dess egna försvarare.[^16] Det som hindrar människor från orättvisa, konstaterade han, är alltid en av fyra saker: "antingen ett förstånd som avhåller, en tro som hindrar, en härskare som hejdar, eller en oförmåga som stoppar".[^17] Härskarens tvångsmakt är det kraftfullaste medlet – och det farligaste.
 
 C.S. Lewis nådde samma slutsats nio sekler senare:
 
 > Av alla former av tyranni är det som uppriktigt utövas till offrens bästa kanske det mest förtryckande. De som plågar oss för vårt eget bästa plågar oss utan ände, ty de gör det med sitt eget samvetes gillande.[^22]
 
-Al-Māwardī tog steget vidare: det räcker inte att veta att den rättfärdige är farlig — man måste bygga institutioner som skiljer hans övertygelse från hans befogenhet.
+Al-Māwardī tog steget vidare: det räcker inte att veta att den rättfärdige är farlig – man måste bygga institutioner som skiljer hans övertygelse från hans befogenhet.
 
 Abū Bakr al-Ṣiddīq, den förste kalifen efter Profeten ﷺ, kungjorde principen redan i sitt tillträdestal:
 
 > Den starkaste bland er är i mina ögon den svagaste tills jag har tagit hans rätt ifrån honom, och den svagaste bland er är i mina ögon den starkaste tills jag har gett honom hans rätt.[^18]
 
-Ibn Khaldūn slog fast principen i sin *Muqaddimah*: "Rättvisa är en balans som upprättas bland människorna. Herren upprättade den och utsåg en övervakare för den, och den övervakaren är härskaren."[^19] Övervakaren — inte ägaren.
+Ibn Khaldūn slog fast principen i sin *Muqaddimah*: "Rättvisa är en balans som upprättas bland människorna. Herren upprättade den och utsåg en övervakare för den, och den övervakaren är härskaren."[^19] Övervakaren – inte ägaren.
 
 Principen var aldrig oprövad. Under al-Māwardīs egen livstid förföll det abbasidiska kalifatet; muhtasiber överskred sina befogenheter i flera provinser.[^20] Att han skrev mitt i detta förfall gör insikten skarpare. Hans system var en fordran ställd på verkligheten, aldrig en spegling av den:
 

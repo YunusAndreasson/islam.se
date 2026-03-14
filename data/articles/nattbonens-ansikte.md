@@ -5,7 +5,7 @@ wordCount: 1897
 qualityScore: 8.6
 description: "En kvinna vaknar mitt i natten, inte för att sminka sig – för att be. Tillfrågad varför svarar hon att bönen förskönar ansiktet. Det är ett svar skönhetsindustrin inte kan sälja."
 ---
-Mitt i natten vaknar en kvinna. Inte för att sminka sig — för att be. Hon står i timmar, knäböjer, reser sig, medan världen sover.
+Mitt i natten vaknar en kvinna. Inte för att sminka sig – för att be. Hon står i timmar, knäböjer, reser sig, medan världen sover.
 
 När hon tillfrågas varför, svarar hon: "Den förskönar ansiktet, och jag älskar att mitt ansikte är vackert."[^1]
 
@@ -31,7 +31,7 @@ Men det finns en rangordning. Al-Māwardī och Ibn Qayyim talar inte mot varandr
 
 > Denna inre skönhet förskönar den yttre gestalten även om den saknar fysisk fägring, och klär sin ägare i skönhet, värdighet och behag proportionellt med vad själen iklätt sig av dessa egenskaper.[^7]
 
-Man ser den rättfärdige, den generöse, den med vacker karaktär — och finner honom vacker, "även om han är mörk eller inte fysiskt vacker". Med samma kraft gäller det omvända: det inres fulhet övervinner det ytres skönhet och släcker den.[^8]
+Man ser den rättfärdige, den generöse, den med vacker karaktär – och finner honom vacker, "även om han är mörk eller inte fysiskt vacker". Med samma kraft gäller det omvända: det inres fulhet övervinner det ytres skönhet och släcker den.[^8]
 
 Den som tvivlar kan pröva iakttagelsen mot sin egen erfarenhet. Selma Lagerlöf tecknar ett sådant ansikte i *Bannlyst*: "Själva sättet, varpå hans hår var benat och kammat, antydde ödmjukhet. Frånvaron av mustascher och skägg antydde ödmjukhet. Allt, vad som hette egenkärlek, självkänsla, egenrättfärdighet, var utplånat hos denna människa."[^25] Lagerlöf skildrar en man vars inre tillstånd har trängt igenom ytan och omformat varje detalj.
 
@@ -39,15 +39,15 @@ Den som tvivlar kan pröva iakttagelsen mot sin egen erfarenhet. Selma Lagerlöf
 
 Enligt Ibn Qayyim präglar den inre skönheten den yttre gestalten tydligast hos den som utövar nattbönen, *qiyām al-layl* – den frivilliga bönen som förrättas i mörkrets djupaste timmar. "Den lyser upp ansiktet och förskönar det", skriver han.[^9]
 
-Skönhet genom sömnbrist, genom möda, genom att stiga upp ur en varm säng och stå ensam i mörker — det strider mot varje instinkt. Ingmar Bergmans riddare kände samma mörker: "Tron är ett svårt lidande. Det är som att älska någon som finns därute i mörkret och som aldrig visar sig hur man än ropar."[^26] Riddaren ropar utan svar. Den som ber *tahajjud* ropar och får ljus i ansiktet.
+Skönhet genom sömnbrist, genom möda, genom att stiga upp ur en varm säng och stå ensam i mörker – det strider mot varje instinkt. Ingmar Bergmans riddare kände samma mörker: "Tron är ett svårt lidande. Det är som att älska någon som finns därute i mörkret och som aldrig visar sig hur man än ropar."[^26] Riddaren ropar utan svar. Den som ber *tahajjud* ropar och får ljus i ansiktet.
 
 Vad händer i nattbönen?
 
-Profeten Muḥammad ﷺ sade: "Den troendes ära är nattbönen, och hans värdighet är att vara oberoende av människorna."[^10] Nattbönen är den bön ingen ser — den som inte skänker socialt kapital, den som inte kan fotograferas. Det enda vittnet är Gud.
+Profeten Muḥammad ﷺ sade: "Den troendes ära är nattbönen, och hans värdighet är att vara oberoende av människorna."[^10] Nattbönen är den bön ingen ser – den som inte skänker socialt kapital, den som inte kan fotograferas. Det enda vittnet är Gud.
 
-Ansiktet är kroppens mest sociala yta — det arbetar ständigt för sin publik, bevakar hur det uppfattas, arrangerar sina uttryck. I nattens ensamhet upphör det arbetet. Den som regelbundet övar sig i att stå utan åskådare övar sig i att vara utan mask, och det är den övningen som genomlyser huden. Koranen talar om det upprepat: ansikten som strålar, ansikten som lyser. "Ansikten skall den Dagen vara glänsande, leende, fyllda av glädje."[^11] Strålningen börjar inte först på Domedagen — den börjar här, i nattens ensamhet. En annan koranvers gör det konkret: "Deras kännetecken syns i ansiktena — spåren av nedfallandet i bön."[^24]
+Ansiktet är kroppens mest sociala yta – det arbetar ständigt för sin publik, bevakar hur det uppfattas, arrangerar sina uttryck. I nattens ensamhet upphör det arbetet. Den som regelbundet övar sig i att stå utan åskådare övar sig i att vara utan mask, och det är den övningen som genomlyser huden. Koranen talar om det upprepat: ansikten som strålar, ansikten som lyser. "Ansikten skall den Dagen vara glänsande, leende, fyllda av glädje."[^11] Strålningen börjar inte först på Domedagen – den börjar här, i nattens ensamhet. En annan koranvers gör det konkret: "Deras kännetecken syns i ansiktena – spåren av nedfallandet i bön."[^24]
 
-Skönhetsindustrin förutsätter att ytan kan behandlas utan att vidröra det inre. Ibn Qayyim vänder logiken: det yttre härrör från det inre. Det ljus man ser hos vissa människor, den oförklarliga värmen, den värdighet som inte beror av symmetri — man känner igen det hos ansikten som åren fårat men som ändå drar blicken.
+Skönhetsindustrin förutsätter att ytan kan behandlas utan att vidröra det inre. Ibn Qayyim vänder logiken: det yttre härrör från det inre. Det ljus man ser hos vissa människor, den oförklarliga värmen, den värdighet som inte beror av symmetri – man känner igen det hos ansikten som åren fårat men som ändå drar blicken.
 
 Fredrika Bremer rörde vid tanken i ett av sina brev: "Vakor, mödor, ansträngning af mångfaldig art fordras dertill", och frågar sedan, nästan förvånat: "Lidandet kan icke äfven det framkalla en helt egen skönhet, en, bredvid hvilken glädjens, helsans och all verldens prakt blekna?"[^12] Bremer talade om moralisk mognad, men insikten kvarstår: skönhet kan komma genom det som kostar, och bekvämlighet föder inte det vackra.
 
@@ -61,19 +61,19 @@ Karin Boye fördjupade bilden i *Astarte*: "små välsminkade uttryckslösa ansi
 
 ## Ljus och mörker
 
-Mot denna uttryckslöshet står det ljus Koranen ständigt återkommer till, som metafor och som verklighet. "Det är Han och Hans änglar som välsignar er för att leda er ut ur mörkren till ljuset."[^15] Ibn Kathīr anför en profettradition som rör vid nattbönens kärna: "Skall jag inte berätta för er om den bästa av era handlingar, den renaste inför er Herre, bättre för er än att ge guld och silver?" De sade: "Vad är det, Guds sändebud?" Han sade: "Åminnelsen av Gud." Nattbönen *är* åminnelse — den renaste formen av den, ty ingen annan publik finns. Man stiger upp i det yttre mörkret för att nå det inre ljuset.
+Mot denna uttryckslöshet står det ljus Koranen ständigt återkommer till, som metafor och som verklighet. "Det är Han och Hans änglar som välsignar er för att leda er ut ur mörkren till ljuset."[^15] Ibn Kathīr anför en profettradition som rör vid nattbönens kärna: "Skall jag inte berätta för er om den bästa av era handlingar, den renaste inför er Herre, bättre för er än att ge guld och silver?" De sade: "Vad är det, Guds sändebud?" Han sade: "Åminnelsen av Gud." Nattbönen *är* åminnelse – den renaste formen av den, ty ingen annan publik finns. Man stiger upp i det yttre mörkret för att nå det inre ljuset.
 
-Al-Ḥasan al-Baṣrī uttydde Koranversen om de strålande ansiktena: "Gud förskönade dem genom att de fick skåda Honom — och det är med rätta de strålar, de som blickar mot sin Herre."[^16] Denna skönhet i den kommande världen är Guds belöning till de troende. "Gud är vacker och älskar skönhet", lyder en välkänd *ḥadīth*.[^17] Genom historien har denna *ḥadīth* också tjänat till att rättfärdiga uppskattning av fysisk skönhet och prydnad; den islamiska traditionen rymmer en rikare spänning mellan det yttre och det inre än en enkel rangordning fångar. Ibn Qayyims poäng kvarstår: det djupaste ljuset har en annan källa än huden.
+Al-Ḥasan al-Baṣrī uttydde Koranversen om de strålande ansiktena: "Gud förskönade dem genom att de fick skåda Honom – och det är med rätta de strålar, de som blickar mot sin Herre."[^16] Denna skönhet i den kommande världen är Guds belöning till de troende. "Gud är vacker och älskar skönhet", lyder en välkänd *ḥadīth*.[^17] Genom historien har denna *ḥadīth* också tjänat till att rättfärdiga uppskattning av fysisk skönhet och prydnad; den islamiska traditionen rymmer en rikare spänning mellan det yttre och det inre än en enkel rangordning fångar. Ibn Qayyims poäng kvarstår: det djupaste ljuset har en annan källa än huden.
 
-I den gängse logiken är skönhet självändamål — status, dragningskraft, makt. I Ibn Qayyims analys är skönhet biprodukt: man söker den inte, man söker Gud, och skönheten uppstår som oombedd gåva.
+I den gängse logiken är skönhet självändamål – status, dragningskraft, makt. I Ibn Qayyims analys är skönhet biprodukt: man söker den inte, man söker Gud, och skönheten uppstår som oombedd gåva.
 
 Skillnaden är den mellan en människa som förskönar sig för att bli sedd och en människa som *blir* vacker för att hon ser. Den ena står framför spegeln. Den andra framför Gud.
 
 ## Ansiktets vittnesbörd
 
-Al-Fuḍayl ibn ʿIyāḍ pekade på skuggsidan: "Tjänaren begår en synd och berövas därigenom nattbönen."[^18] Om godhet lyser upp ansiktet, släcker synden dess ljus. Ansiktet vittnar — det kan inte ljuga som ord kan. Ibn Qayyim citerar versraden: "O du med vackert ansikte, sky det skamliga — byt inte skönheten mot skam!"[^19]
+Al-Fuḍayl ibn ʿIyāḍ pekade på skuggsidan: "Tjänaren begår en synd och berövas därigenom nattbönen."[^18] Om godhet lyser upp ansiktet, släcker synden dess ljus. Ansiktet vittnar – det kan inte ljuga som ord kan. Ibn Qayyim citerar versraden: "O du med vackert ansikte, sky det skamliga – byt inte skönheten mot skam!"[^19]
 
-Luqmān sade: "Den som ljuger förlorar sin fägring."[^20] I svensk tanketradition berörde Erik Gustaf Geijer samma samband: "den äkta skönheten renar sinnet och har ett stort moraliskt inflytande".[^21] Geijer menade det estetiskt — konsten förädlar. Ibn Qayyim vänder sambandet: förädlingen skapar skönheten, och rörelsen går inifrån och ut.
+Luqmān sade: "Den som ljuger förlorar sin fägring."[^20] I svensk tanketradition berörde Erik Gustaf Geijer samma samband: "den äkta skönheten renar sinnet och har ett stort moraliskt inflytande".[^21] Geijer menade det estetiskt – konsten förädlar. Ibn Qayyim vänder sambandet: förädlingen skapar skönheten, och rörelsen går inifrån och ut.
 
 ## En sovande industri
 

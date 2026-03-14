@@ -17,23 +17,23 @@ I Sverige har över femtusen personer implanterat mikrochip under huden.[^2] Chi
 
 Premissen är densamma som i Boyes dystopi: kroppen är råmaterial. Sömn mäts, kost optimeras, nootropika doseras enligt protokoll.
 
-Men sker det inte frivilligt? I *Kallocain* injiceras serumet under tvång; i Stockholm implanteras chipet med ett leende. Skillnaden är verklig — och döljer en djupare likhet. Både Världsstatens medborgare och den moderna biohackaren behandlar kroppen som *resurs*, material att bruka för ett ändamål. Att tvånget bytts mot samtycke ändrar formen, inte premissen. Den koreansk-tyske filosofen Byung-Chul Han benämner mönstret *självexploatering*: den som optimerar sig frivilligt utnyttjar sig utan yttre tvång och förväxlar underkastelsen med frihet.[^15] Det är den som vaknar klockan fem för att meditera — aldrig av egen längtan, alltid för att alla framgångsrika gör det.
+Men sker det inte frivilligt? I *Kallocain* injiceras serumet under tvång; i Stockholm implanteras chipet med ett leende. Skillnaden är verklig – och döljer en djupare likhet. Både Världsstatens medborgare och den moderna biohackaren behandlar kroppen som *resurs*, material att bruka för ett ändamål. Att tvånget bytts mot samtycke ändrar formen, inte premissen. Den koreansk-tyske filosofen Byung-Chul Han benämner mönstret *självexploatering*: den som optimerar sig frivilligt utnyttjar sig utan yttre tvång och förväxlar underkastelsen med frihet.[^15] Det är den som vaknar klockan fem för att meditera – aldrig av egen längtan, alltid för att alla framgångsrika gör det.
 
 Leo Kall förkroppsligar denna metafysik. Ondskefull är han inte. Han gör vad systemet belönar: förbättrar, effektiviserar, rationaliserar. Att uppfinningen sliter sönder människors inre liv framstår som en bieffekt.
 
 ## Riddjuret och hjärtat
 
-Ibn al-Jawzī, den lärde i tolfte århundradets Bagdad, tecknade kroppen som ett riddjur — *maṭiyyah* — som människan anförtrotts att färdas med. "Kroppen är som ett riddjur," skriver han, "och riddjuret måste fodras och tas om hand."[^3] Avsiktligt enkel bär bilden en radikal innebörd. Ett riddjur är varken ägaren eller ägarens egendom. Det är anförtrott. Man kan rida det, men inte rida ihjäl det. Man kan vårda det, men inte förvandla det till något annat än det är. Relationen förutsätter gränser som varken ryttaren eller riddjuret själv har satt.
+Ibn al-Jawzī, den lärde i tolfte århundradets Bagdad, tecknade kroppen som ett riddjur – *maṭiyyah* – som människan anförtrotts att färdas med. "Kroppen är som ett riddjur," skriver han, "och riddjuret måste fodras och tas om hand."[^3] Avsiktligt enkel bär bilden en radikal innebörd. Ett riddjur är varken ägaren eller ägarens egendom. Det är anförtrott. Man kan rida det, men inte rida ihjäl det. Man kan vårda det, men inte förvandla det till något annat än det är. Relationen förutsätter gränser som varken ryttaren eller riddjuret själv har satt.
 
 Biohackaren frågar *hur kan jag förbättra min kropp?* Ibn al-Jawzī frågar *vilka villkor gäller för detta lån?*
 
 Ibn Qayyim al-Jawziyyah förde analysen från metafor till princip. "Hjärtat," menade han, "är kungen över lemmarna, och lemmarna är dess soldater; om kungen är rättfärdig, är hans soldater rättfärdiga, och om kungen är fördärvad, är hans soldater fördärvade."[^4] Kroppen tjänar hjärtat, inte tvärtom. *Qalb* rymmer det kroppen aldrig kan mäta: förmågan att vända sig till sin Skapare genom tro, lydnad och uppenbarad kunskap.
 
-Biohackingens kropp är ett slutet kretslopp av data, kemikalier och mekanismer. Traditionens kropp är genomsläpplig — riktad bortom sig själv. Ibn Qayyim drog parallellen uttryckligen:
+Biohackingens kropp är ett slutet kretslopp av data, kemikalier och mekanismer. Traditionens kropp är genomsläpplig – riktad bortom sig själv. Ibn Qayyim drog parallellen uttryckligen:
 
 > Liksom kroppen inte kan vara frisk utan näring som bevarar dess kraft och utrensning av skadliga ämnen, så kan inte heller hjärtat fullborda sitt liv utan näring av tro och goda handlingar.[^5]
 
-Kroppen är varken föraktad eller oväsentlig — men dess verklighet fullbordas först i relation till det den är skapad för.
+Kroppen är varken föraktad eller oväsentlig – men dess verklighet fullbordas först i relation till det den är skapad för.
 
 ## Det anförtrodda
 
@@ -41,13 +41,13 @@ Koranen namnger kroppens relation till sin Skapare med ett ord som saknar direkt
 
 > Vi erbjöd himlarna och jorden och bergen förtroendet, men de vägrade att åta sig det och bävade för det, men människan åtog sig det.[^6]
 
-Det som erbjöds var inte ägande utan ansvar. I den klassiska exegesens ljus innebär *amānah* att människan anförtrotts sig själv — kropp, intellekt, tid, relationer — som lån med villkor, inte egendom att disponera fritt.[^7]
+Det som erbjöds var inte ägande utan ansvar. I den klassiska exegesens ljus innebär *amānah* att människan anförtrotts sig själv – kropp, intellekt, tid, relationer – som lån med villkor, inte egendom att disponera fritt.[^7]
 
 Profeten Muḥammad ﷺ satte ord på det: "Fullgör det anförtrodda mot den som anförtrott dig det, och svek inte den som sviker dig."[^8]
 
 Boyes roman och biohackingen delar samma tomrum: en kropp utan *amānah*, en kropp som tillhör antingen staten eller individen men i intetdera fallet bär ansvar gentemot den som skapat den. Ju mer herravälde individen vinner över sin biologi, desto sämre förmår hon besvara frågan *vad kroppen är till för*.
 
-*Hur* kroppen fungerar kan data visa — aldrig *varför* den existerar. "Deras kroppar reser sig från sina bäddar för att tillbe sin Herre med fruktan och längtan."[^9]
+*Hur* kroppen fungerar kan data visa – aldrig *varför* den existerar. "Deras kroppar reser sig från sina bäddar för att tillbe sin Herre med fruktan och längtan."[^9]
 
 ## Det osynliga organet
 
@@ -59,15 +59,15 @@ Hadithen ger kroppen ett centrum som inte kan lokaliseras med biohackarens instr
 
 Den som mäter sin kropp kan aldrig mäta det som avgör *vad* som är värt att mäta.
 
-Hjärtfrekvens, hjärtfrekvensvariabilitet, blodflöde — allt kan mätas. Men den tradition som gör *qalb* till människans centrum avser ett organ ingen sensor kan avläsa. Ibn Qayyim al-Jawziyyah varnar: "Ödmjukheten har sin plats i hjärtat och dess frukt visar sig på kroppen."[^12] Riktningen är motsatt biohackingens: inifrån ut, aldrig utifrån in.
+Hjärtfrekvens, hjärtfrekvensvariabilitet, blodflöde – allt kan mätas. Men den tradition som gör *qalb* till människans centrum avser ett organ ingen sensor kan avläsa. Ibn Qayyim al-Jawziyyah varnar: "Ödmjukheten har sin plats i hjärtat och dess frukt visar sig på kroppen."[^12] Riktningen är motsatt biohackingens: inifrån ut, aldrig utifrån in.
 
 ## Varken dystopi eller utopi
 
-Leo Kall hade ett ögonblick av klarhet. Mot romanens slut, när hans uppfinning redan sönderslitit familjer och dömt oskyldiga, skriver han: "Rädsla var det inte. Jag hade varit rädd nästan hela mitt liv, jag hade varit feg — men just då var jag inte rädd."[^13] Han anar att något gått förlorat, men saknar språket.
+Leo Kall hade ett ögonblick av klarhet. Mot romanens slut, när hans uppfinning redan sönderslitit familjer och dömt oskyldiga, skriver han: "Rädsla var det inte. Jag hade varit rädd nästan hela mitt liv, jag hade varit feg – men just då var jag inte rädd."[^13] Han anar att något gått förlorat, men saknar språket.
 
 Språket har funnits sedan 600-talet. Kroppen som riddjur, hjärtat som kunskapsplats, existensen som lån.
 
-Ibn Rajab al-Ḥanbalī fångade det innersta lagret: "Min kropp är med mig, men min ande är hos er — kroppen lever i främlingskap, anden i sin hemort."[^14]
+Ibn Rajab al-Ḥanbalī fångade det innersta lagret: "Min kropp är med mig, men min ande är hos er – kroppen lever i främlingskap, anden i sin hemort."[^14]
 
 ---
 

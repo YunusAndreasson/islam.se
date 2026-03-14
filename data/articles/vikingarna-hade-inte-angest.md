@@ -5,7 +5,7 @@ wordCount: 1492
 qualityScore: 8.6
 description: "Gunnar på Hlíðarendi är dömd till landsflykt. När han vänder sig i sadeln och ser ut över ängarna, stiger han av och stannar – han vet att det kostar honom livet. Lugnet kom inte av okunskap. Det kom av att han visste var han stod."
 ---
-Gunnar på Hlíðarendi, dömd till landsflykt, vänder sig i sadeln och ser ut över sin gård. Ängarna lyser klarare än någonsin. Han stiger av hästen och stannar — väl medveten om att beslutet kostar honom livet.
+Gunnar på Hlíðarendi, dömd till landsflykt, vänder sig i sadeln och ser ut över sin gård. Ängarna lyser klarare än någonsin. Han stiger av hästen och stannar – väl medveten om att beslutet kostar honom livet.
 
 Ingen tvekan, ingen ångest. Han ser, väljer, handlar.
 
@@ -39,7 +39,7 @@ Hjalmar Söderberg gav den konkret gestalt:
 
 > Det föll över henne en frossbrytning av ångest, var gång hon tänkte på allt det onda, som nästa morgon eller nästa nyår kan hålla i beredskap åt oss, utan att vi vete det och utan att vi kunna göra något.[^6]
 
-Den moderna svensken har befriats från ödestron. Men befrielsen lämnade ett tomrum — och i tomrummet bor ångesten.
+Den moderna svensken har befriats från ödestron. Men befrielsen lämnade ett tomrum – och i tomrummet bor ångesten.
 
 ## Hjärtats tillit
 
@@ -47,11 +47,11 @@ Den moderna svensken har befriats från ödestron. Men befrielsen lämnade ett t
 
 Över utfallet råder människan inte. Så långt liknar *al-qadr* Orlog. Men Orlog saknar det bärande. Nornornas lag är opersonlig: blind, obeveklig, utan barmhärtighet.
 
-*Tawakkul*, tillit till Allah ﷻ, är människans svar på *al-qadr*, liksom nordisk tapperhet var svaret på Orlog. Men den troende vilar i något väsensskilt: en relation till den som är *al-Raḥmān*, *al-Raḥīm* — den Barmhärtige, den Nåderike.
+*Tawakkul*, tillit till Allah ﷻ, är människans svar på *al-qadr*, liksom nordisk tapperhet var svaret på Orlog. Men den troende vilar i något väsensskilt: en relation till den som är *al-Raḥmān*, *al-Raḥīm* – den Barmhärtige, den Nåderike.
 
 Ibn Qayyim al-Jawziyyah definierade *tawakkul* som "hjärtats fulla förlitan på Allah ﷻ allena".[^9] Men *tawakkul* har ofta missförståtts som passivitet. Ibn Qayyim avvisade likhetstecknet: "*Tawakkul* hör till de starkaste orsakerna för att uppnå det man önskar och avvärja det man fruktar – det är den starkaste orsaken överhuvudtaget."[^10] Ibn al-Jawzī: "*Tawakkul* upphävs inte genom att vidta tillåtna åtgärder. Den som berövar sig själv nödvändigheter under förevändning av *tawakkul* har brutit mot *sunnah*."[^11]
 
-Vikingen vilar i det obönhörliga, den troende i den Barmhärtige. Att överlåta sitt öde åt en blind lag kräver stoisk hårdhet: du måste tysta den del av dig som frågar *varför*. Att anförtro det åt Allah ﷻ, med Koranens ord "den som sätter sin lit till Allah ﷻ, Han räcker honom"[^12], kräver ingen sådan tystnad. Det skänker ro utan hårdhet, mod utan cynism, handling utan den kvävande känslan att allt vilar på den egna axeln. En profettradition sammanfattar principen: "Förunderligt är den troendes tillstånd — Allah ﷻ bestämmer inte något för honom utan att det blir till hans bästa. Drabbas han av motgång har han tålamod, och det blir till hans bästa; och får han framgång är han tacksam, och det blir till hans bästa. Och detta gäller ingen annan än den troende."
+Vikingen vilar i det obönhörliga, den troende i den Barmhärtige. Att överlåta sitt öde åt en blind lag kräver stoisk hårdhet: du måste tysta den del av dig som frågar *varför*. Att anförtro det åt Allah ﷻ, med Koranens ord "den som sätter sin lit till Allah ﷻ, Han räcker honom"[^12], kräver ingen sådan tystnad. Det skänker ro utan hårdhet, mod utan cynism, handling utan den kvävande känslan att allt vilar på den egna axeln. En profettradition sammanfattar principen: "Förunderligt är den troendes tillstånd – Allah ﷻ bestämmer inte något för honom utan att det blir till hans bästa. Drabbas han av motgång har han tålamod, och det blir till hans bästa; och får han framgång är han tacksam, och det blir till hans bästa. Och detta gäller ingen annan än den troende."
 
 ## Det obönhörligas ro
 
