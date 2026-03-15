@@ -41,13 +41,13 @@ Här reser sig invändningen: är detta inte cirkulärt? Subjektiv visshet om kl
 
 Den islamiska traditionen saknar inte dem som ifrågasatt *firāsah* som kunskapskategori. Deras invändningar vilade ofta på rationalistiska förutsättningar som traditionen själv avvisade. De underkände den andliga erfarenhetens vittnesbörd på förhand, i stället för att pröva den mot uppenbarelsen.
 
-Men den tradition Ibn Qayyim företräder duckar inte. Han insisterar på att *firāsah* måste prövas mot Koranen och *Sunnah*; den står aldrig ensam som auktoritet.[^12] Shāh al-Kirmānī, som Ibn Qayyim ofta citerar som föredöme, villkorade klarsynen med fyra handlingar: att följa Profetens ﷺ praxis i sitt yttre, att upprätthålla ständig inre vaksamhet, att sänka blicken från det förbjudna och att äta det tillåtna.[^13]
+Men den tradition Ibn Qayyim företräder duckar inte. Han insisterar på att *firāsah* måste prövas mot Koranen och *Sunnah*; den står aldrig ensam som auktoritet.[^12] Shāh al-Kirmānī, som Ibn Qayyim ofta citerar som föredöme, villkorade klarsynen med fyra handlingar: att följa Profetens ﷺ praxis i sitt yttre, att upprätthålla ständig hågvakt, att sänka blicken från det förbjudna och att äta det tillåtna.[^13]
 
 Kvar står ett system där klarsyn, etik och skriftlig auktoritet balanserar varandra – ingen av de tre räcker ensam.
 
 ## Andetaget mot spegeln
 
-Iris Murdoch hävdade i *The Sovereignty of Good* att klart seende kräver moralisk ansträngning[^17] – men hon konstaterar sambandet utan att förklara det. Ibn Qayyim rymmer svaret: hjärtat är skapat för att varsebli, och ljuset som återställer dess klarhet skänks av Gud som svar på *taqwā*.
+Iris Murdoch hävdade i *The Sovereignty of Good* att klart seende kräver moralisk ansträngning och förklarade mekanismen: den som befrias från egots grepp ser verkligheten tydligare.[^17] Men hennes förklaring stannar vid reningen utan att namnge vad den renade blicken bör riktas mot. Ibn Qayyim rymmer svaret: hjärtat är skapat för att varsebli, och ljuset som återställer dess klarhet skänks av Gud som svar på *taqwā*.
 
 Var och en känner igen det: stunder av klarhet, ögonblick då man genomskådar ett läge med en skärpa som förvånar en själv – och perioder av dimma, då omdömet sviker och man fattar beslut man senare inte begriper. Skillnaden, hävdar Ibn Qayyim, är inte slumpmässig. Den som lever oredligt blir hjärteblind, handlar inte bara fel utan *ser* fel.
 
