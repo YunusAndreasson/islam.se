@@ -31,7 +31,7 @@ Under de första åren i Medina bad muslimerna mot Jerusalem, samma riktning som
 
 Bytet från Jerusalem till Mecka var en teologisk deklaration: den muslimska gemenskapen definieras av sin egen riktning, sin egen geografi. Koranen säger det rakt ut: "Vi gjorde endast bytet av den böneriktning du iakttog för att utskilja den som följer Sändebudet från den som vänder på klacken."[^7] *Qiblah*-bytet var ett identitetstest. De som böjde sig för den nya riktningen tillhörde gemenskapen; de som inte kunde stod utanför. Ibn Kathīr återger hur den första bönen i den nya riktningen var eftermiddagsbönen. En man som bett med Profeten ﷺ gick förbi en annan moské vars församling stod böjda i bön och ropade: "Jag svär vid Gud, jag har just bett med Profeten ﷺ vänd mot Mecka!" – och mitt i bönen vände de sig mot Kaʿbah.
 
-Att *qiblah* kunde ändras bär hela principen. Hade det heliga bott i platsen hade bytet inneburit förlust. Det är inte kompassnålens slutpunkt som helgar, utan den bedjandes underkastelse under befallningen.
+Hade det heliga bott i platsen hade bytet inneburit förlust. Det är inte kompassnålens slutpunkt som helgar, utan den bedjandes underkastelse under befallningen.
 
 ## Den pragmatiske Ibn Taymiyyah
 
@@ -87,7 +87,7 @@ Var han än befinner sig behöver den bedjande bara en riktning. Stockholms *qib
 
 Den persiske polyhistorn al-Bīrūnī (d. 1048) utarbetade trigonometriska metoder för *qiblah*-beräkning från varje punkt på jorden.[^21] Men Ibn Taymiyyah insisterade: Följeslagarnas enkla metoder räckte. Att kräva en exakt koordinat vore att förvandla riktning till punkt, kompassbäring till adress – att återinföra den platslogik som hela systemet avvisar.
 
-Karin Boye skrev: "Det finns en tid, då Riltuna kyrka låg mitt i byn."[^22] En försvunnen tid. Kyrkan som en gång definierade dalen – Strindbergs tratt med byn och kyrkan i mitten – har förlorat sin magnetiska kraft. Den islamiska kompassnålen pekar fortfarande. Från varje punkt, genom varje rum.
+Karin Boye skrev: "Det finns en tid, då Riltuna kyrka låg mitt i byn."[^22] En försvunnen tid. Kyrkan som en gång definierade dalen – Strindbergs tratt med byn och kyrkan i mitten – har förlorat sin magnetiska kraft. Skogsbryn och ängmark pekar inte längre mot ett centrum. Den islamiska kompassnålen pekar fortfarande. Från varje punkt, genom varje rum.
 
 ---
 

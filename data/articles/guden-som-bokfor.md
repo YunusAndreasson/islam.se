@@ -41,7 +41,7 @@ De mest slående passagerna rör inte vedergällningen utan Guds suveränitet, k
 
 Och ännu tydligare:
 
-> Alt det wij hafive är ett lån af Gud. Wi hafve intet hit med oss; intet hortföra wij.[^7]
+> Alt det wij hafve är ett lån af Gud. Wi hafve intet hit med oss; intet bortföra wij.[^7]
 
 Den som beter sig som ägare – av sin gård, sin makt, sin hälsa – har förväxlat lån med äganderätt. Men Linné nöjde sig inte med att konstatera suveräniteten. Han sökte dess verkningsmekanism – den princip som gör att låntagaren drabbas.
 
@@ -91,7 +91,7 @@ Linné förstod detta. Hans eget vittnesbörd, det mest personliga i hela manusk
 
 > Det war en tid, jag twiflade, om Gud brydde sig om mig; Många åhr hafve lärt mig, det jag lämnar dig.[^17]
 
-Det han traderar – åt sin son, i hemlighet – är ingen dogm utan en erfarenhet: att verkligheten bär en moralisk ordning, att ingenting undgår räkenskapen.
+Det han för vidare – åt sin son, i hemlighet – är ingen dogm utan en erfarenhet: att verkligheten bär en moralisk ordning, att ingenting undgår räkenskapen.
 
 I den islamiska traditionen hade denna erfarenhet aldrig behövt vara hemlig – *adhān* ropar ut det Linné dolde fem gånger om dagen.
 

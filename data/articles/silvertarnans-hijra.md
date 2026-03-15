@@ -47,9 +47,7 @@ Men i *Madārij al-Sālikīn* dissekerar han den förväxling som ständigt hota
 
 Så gör silvertärnan: den använder varje navigationsredskap Gud gett den, flyger med allt den har – men har aldrig oroat sig för om den kommer fram.
 
-I annan tonart bekräftar Ibn al-Jawzī (1100-talet) samma poäng: "*Tawakkul* upphävs inte av att man vidtar tillåtna medel. Den som berövar sig själv det nödvändiga i *tawakkuls* namn har brutit mot profetens ﷺ väg."[^11]
-
-Det Ibn al-Jawzī tar för givet – att medel och tillit kan samverka – förnekar det moderna samhället. Bara två möjligheter erkänns: kontroll eller ångest. *Tawakkul* är den tredje platsen: fullständig ansträngning förenad med fullständig vila. Det är läkaren som opererar med fullt kunnande och sedan går hem och sover.
+Ibn al-Jawzī (1100-talet) skärper det: "Den som berövar sig själv det nödvändiga i *tawakkuls* namn har brutit mot profetens ﷺ väg."[^11] Det moderna samhället erkänner bara två möjligheter: kontroll eller ångest. *Tawakkul* är den tredje platsen: fullständig ansträngning förenad med fullständig vila. Det är läkaren som opererar med fullt kunnande och sedan går hem och sover.
 
 För det saknar moderniteten språk. Den som kom närmast var Kierkegaard, vars "trons riddare" i *Fruktan och bävan* lever fullt i det ändliga men har överlämnat utgången. Men att han kallade rörelsen "i kraft av det absurda" avslöjar mer än en språklig brist – det avslöjar att tillit inom hans tradition bara kan tänkas som ett undantag från förnuftet. I den islamiska traditionen är *tawakkul* tvärtom förnuftets slutsats: den som verkligen vet vem Gud är finner det orimligt att *inte* förlita sig.[^21]
 
@@ -59,7 +57,7 @@ Profeten Muḥammad ﷺ gav bilden konkret:
 
 > Om ni förlitade er på Gud med sann förlitan, skulle Han försörja er som Han försörjer fåglarna: de flyger ut hungriga på morgonen och återvänder mätta på kvällen.[^12]
 
-Fåglarna vilar inte; de flyger ut och söker sin föda. Men de flyger utan budget, utan lager, utan sparkapital, och de återvänder alltid mätta.
+Men de flyger utan budget, utan lager, utan sparkapital – och återvänder alltid mätta.
 
 Koranen bär samma bild men lyfter den högre:
 

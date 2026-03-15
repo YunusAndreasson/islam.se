@@ -15,7 +15,7 @@ Ibn Qayyim al-Jawziyyah, verksam i Damaskus under 1300-talets första hälft, ä
 
 > Synderna försvagar hjärtats vandring mot Gud och det tillkommande – de hindrar det, stoppar det och avskär dess färd, så att det inte tar ett enda steg mot Gud. Om de inte vänder det bakåt.[^1]
 
-Hjärtat vandrar; det har en riktning. Synden slår inte till som en katastrof utan verkar som gradvis försvagning – stigen som växer igen när ingen går den. Sjukdomen visar sig inte alltid som smärta. Stundom visar den sig som bedövning.
+Hjärtat vandrar; det har en riktning. Synden slår inte till som en katastrof utan verkar som gradvis försvagning – stigen över hedmarken som växer igen när ingen går den. Sjukdomen visar sig inte alltid som smärta. Stundom visar den sig som bedövning.
 
 Men hur vet man att hjärtat fortfarande känner? Att det inte redan stelnat? Här blir *waswās*, de inre viskningarna, diagnostiskt avgörande. Koranen beskriver dem i sura *al-Nās*:
 

@@ -39,7 +39,7 @@ Anspråket är högt, men det förklarar något. Om gudskunskap hör till kunska
 
 Ellen Key, Strindbergs samtida och på många sätt hans motpol, ser fenomenet från motsatt håll:
 
-> Mycket fromma kristnas barn bli fritänkare, mycket frinna fritänkares barn kristna. Orsaken är öppendaglig.[^8]
+> Mycket fromma kristnas barn bli fritänkare, mycket fria fritänkares barn kristna. Orsaken är öppendaglig.[^8]
 
 Key ser samhällelig pendling. Men varför slår pendeln alltid *tillbaka*? Vore ateism ett stabilt kunskapstillstånd borde riktningen vara rak: varje generation mer sekulär, tills religionen utdör.
 
@@ -71,7 +71,7 @@ Den uppenbara invändningen är den stabila ateisten: den som lever ett helt liv
 
 Albert Einstein bekände: "Jag är ingen ateist. Problemet är alltför stort för våra begränsade sinnen."[^25] Han var ingen teist – men han kunde inte landa i ateism. Problemet var för stort.
 
-*Fiṭrah* förutsäger inte universell återvändning – bara att tröskeln är lägre än den ateistiska självförståelsen medger. Strindbergs "enda steg" är inte en profetia om att alla ateister kommer att ta det utan en observation om hur kort steget visar sig vara för dem som tvingas dit.
+Strindbergs "enda steg" är inte en profetia om att alla ateister kommer att ta det utan en observation om hur kort steget visar sig vara för dem som tvingas dit.
 
 Koranen skildrar också det motsatta: de som hör och vänder bort.
 

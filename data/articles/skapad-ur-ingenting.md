@@ -29,9 +29,7 @@ Resonemanget i sura *al-Ṭūr* har renodlats till ett filosofiskt argument: all
 
 De har prövats. J.L. Mackie invände att man inte kan extrapolera från orsaker inom universum till en orsak *för* universum – ett sammansättningsfel.[^6] Graham Oppy ifrågasatte den första premissen direkt: varför måste allt som börjar existera ha en orsak?[^7] Men invändningarna delar en egenhet: de förskjuter frågan utan att besvara den.
 
-Mackies invändning säger att vi inte *vet* att universum som helhet behöver en orsak. Den säger inte att det *inte* behöver en. Oppy frågar varför premissen borde gälla men erbjuder inget alternativ som förklarar varför något existerar snarare än intet. Invändningarna är sköldar, inte svar. Inte ens Hawkings randlösa universum, som undviker en temporal begynnelse, besvarar frågan: *varför* existerar det? Wittgenstein pekade åt samma håll: "Det mystiska är inte *hur* världen är, utan *att* den är."[^15]
-
-Här visar Koranens frågeställning sin styrka: den begär inte att man accepterar en premiss utan frågar vilken av tre möjligheter man föredrar. Att hävda att universum kanske inte behöver någon orsak är bara det första alternativet i ny förklädnad.
+Mackies invändning säger att vi inte *vet* att universum som helhet behöver en orsak. Den säger inte att det *inte* behöver en. Oppy frågar varför premissen borde gälla men erbjuder inget alternativ som förklarar varför något existerar snarare än intet. Invändningarna är sköldar, inte svar. Inte ens Hawkings randlösa universum, som undviker en temporal begynnelse, besvarar frågan: *varför* existerar det? Wittgenstein pekade åt samma håll: "Det mystiska är inte *hur* världen är, utan *att* den är."[^15] Koranens frågeställning begär inte att man accepterar en premiss — den frågar vilken av tre möjligheter man föredrar, och att hävda att universum inte behöver någon orsak är bara det första alternativet i ny förklädnad.
 
 ## Vad som kollapsar
 
@@ -39,7 +37,7 @@ De flesta filosofer erkänner att universum har en orsak. Polyteismen förutsät
 
 Från Spinoza till Advaita Vedanta identifierar panteismen Gud med naturen. Spinozas system är stringent men rymmer sin egen upplösning. Om Skaparen *är* skapelsen utplånas skillnaden mellan orsak och verkan. En Gud identisk med universum kan inte förklara universum – den *är* det som behöver förklaras. Systemet besvarar inte den kosmologiska frågan. Det upplöser den.
 
-Deismen erkänner en Skapare men förnekar att denne handlar i världen. Voltaire, Jefferson och Paine fann hållningen tillräcklig. Men den bär en spänning den inte kan lösa: en Skapare med makt nog att frambringa allting, utan vilja att tala till det frambragta. Att skapas men aldrig tilltalas är att veta *att* man gjordes men aldrig *varför* – i praktiken knappt skiljbart från att aldrig ha gjorts med avsikt. En Gud knappt skiljbar från Guds frånvaro, utom i den mest abstrakta meningen.
+Deismen erkänner en Skapare men förnekar att denne handlar i världen. Voltaire, Jefferson och Paine fann hållningen tillräcklig. Men den bär en spänning den inte kan lösa: en Skapare med makt nog att frambringa allting, utan vilja att tala till det frambragta. Att skapas men aldrig tilltalas är att veta *att* man gjordes men aldrig *varför* – i praktiken knappt skiljbart från att aldrig ha gjorts med avsikt.
 
 Abstraktion räckte inte för Strindberg.
 
@@ -53,7 +51,7 @@ Emanuel Swedenborg insåg detta. Som barn uppfattade han Gud som en, utan treeni
 
 Sammanhängande på egna villkor – men det bekräftar problemet snarare än löser det. Swedenborg behövde uppfinna en helt ny teologi och bryta med både katolsk och protestantisk ortodoxi för att göra treenigheten förenlig med den monoteism han aldrig slutat känna. Karl Rahner, en av katolska kyrkans mest inflytelserika moderna teologer, medgav att kristna lever i sitt fromhetsliv som rena monoteister, och att merparten av den kristna litteraturen skulle bestå oförändrad om treenighetsläran föll.[^16] Vad han medger, utan att dra slutsatsen, är att treenigheten inte löser ett problem den kristna erfarenheten ställer. Den *skapar* ett.
 
-Isaac Newton nådde en skarpare slutsats – och betalade samma pris. I *Principia Mathematica* beskrev han Gud som "ett väsen, evigt, oändligt, absolut fullkomligt" som "styr allting, inte som världens själ utan som Herre över allt."[^17] Newton var antitrinitär: han avvisade treenigheten som falsk doktrin, vägrade prästvig i den anglikanska kyrkan och argumenterade i opublicerade teologiska skrifter för strikt monoteism.[^18] Historiens kanske mest inflytelserike naturvetare kunde inte få treenigheten att gå ihop – och valde, i tystnad, enheten.
+Isaac Newton nådde en skarpare slutsats – och betalade samma pris. I *Principia Mathematica* beskrev han Gud som "ett väsen, evigt, oändligt, absolut fullkomligt" som "styr allting, inte som världens själ utan som Herre över allt."[^17] Newton var antitrinitär: han avvisade treenigheten som falsk doktrin, vägrade prästvig i den anglikanska kyrkan och argumenterade i opublicerade teologiska skrifter för strikt monoteism.[^18] Historiens kanske mest inflytelserika naturvetare kunde inte få treenigheten att gå ihop – och valde, i tystnad, enheten.
 
 I sin enklaste form ställde Ibn Taymiyyah frågan: det skapade måste vara uppkommet och beroende, till skillnad från Skaparen som är nödvändig i sin existens.[^10] Antingen är Gud en – transcendent, självtillräcklig, utan partner och utan delar – eller så är Han det inte, och varje tillägg som anbringas för att förklara Hans enhet undergräver den.
 

@@ -7,7 +7,7 @@ description: "Nästan varannan vuxen svensk har sömnbesvär – en fördubbling
 ---
 Klockan är tre på natten och du ligger vaken. Kroppen är trött. Tankarna vägrar stanna. Du vrider dig, byter sida, kontrollerar telefonen. Alltid telefonen. Du vet att det förvärrar allt. Ändå kan du inte sluta.
 
-Ordet för det är inte insomni. Det är kontroll.
+Ordet för det är inte sömnlöshet. Det är kontroll.
 
 ## Kontrollens pris
 

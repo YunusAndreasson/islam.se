@@ -73,7 +73,7 @@ I sitt sammanhang gäller versen den som betraktar himlarna och söker brister i
 
 ## Kedjan
 
-Ibn Qayyim jämför blicken med ett glas vin: betraktelsen berusar. Kärlekens berusning är värre än vinets – den som berusar sig av vin nyktrar till, men den som berusar sig av blicken tillnyktrar sällan.[^19]
+Ibn Qayyim jämför blicken med ett glas vin: betraktelsen berusar. Kärlekens berusning är värre än vinets – den som berusar sig av vin nyktrar till, men den som berusar sig av blicken nyktrar sällan till.[^19]
 
 Kent Berridges neurovetenskapliga forskning visar varför: upprepad exponering för en stimulans stärker hjärnans begär utan att öka tillfredsställelsen. Man åtrår mer utan att njuta mer.[^21]
 
@@ -84,7 +84,7 @@ Kedjan kan brytas, men bara i sitt första led. Ögonblicket innan begäret är 
 [^1]: Profeten Muḥammad ﷺ, återgiven i Ibn al-Jawzī, *Dhamm al-Hawā* (Klandret av begäret). Hadithen återfinns inte i de sex kanoniska samlingarna; dess autenticitetsgrad diskuteras bland hadithvetare. Den starkare ʿAlī-hadithen (fotnot 3) bekräftar samma princip med solidare kedja.
 [^2]: Ibn Qayyim al-Jawziyyah, *Rawḍat al-Muḥibbīn* (De älskandes trädgård), kapitlet om blickens regler och faror.
 [^3]: Hadith återgiven via al-Tirmidhī (nr 2701), bedömd som *hasan* av al-Arnāʾūṭ. Även citerad i al-Māwardī, *Adab al-Dunyā wa-l-Dīn* (Den världsliga och religiösa uppförandets regler).
-[^4]: Ibn al-Jawzī, *Dhamm al-Hawā*: "Begärets öga är enögd" (*ʿayn al-hawā ʿawrāʾ*).
+[^4]: Ibn al-Jawzī, *Dhamm al-Hawā*: "Begärets öga är enögt" (*ʿayn al-hawā ʿawrāʾ*).
 [^7]: Ibn Qayyim al-Jawziyyah, *al-Dāʾ wa-l-Dawāʾ* (Sjukdomen och botemedlet).
 [^8]: Ibn Qayyim al-Jawziyyah, *al-Dāʾ wa-l-Dawāʾ*.
 [^9]: Ibn Qayyim al-Jawziyyah, *Rawḍat al-Muḥibbīn*.

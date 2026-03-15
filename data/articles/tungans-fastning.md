@@ -29,7 +29,7 @@ Koranen skär genom varje ursäkt:
 
 > Hon yttrar inte ett ord utan att vid sig ha en väktare redo.[^8]
 
-Ingenting försvinner. Ibn Kathīr anför en profettradition: "Allah ﷻ har förlåtit mitt samfund det som deras själar viskar till dem, så länge de inte uttalar det eller handlar efter det." Och längre fram:
+Ibn Kathīr anför en profettradition: "Allah ﷻ har förlåtit mitt samfund det som deras själar viskar till dem, så länge de inte uttalar det eller handlar efter det." Och längre fram:
 
 > Ni som har antagit tron! Undvik alltför många antaganden. Vissa antaganden är en synd. Leta inte efter andras brister och baktala inte varandra. Skulle någon av er tycka om att äta sin döda broders kött? Nej, ni skulle avsky det.[^9]
 

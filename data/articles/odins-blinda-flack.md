@@ -51,7 +51,7 @@ Ibn al-Jawzī, Bagdads lärdomsman på tolfte århundradet, skriver i *Ṣayd al
 
 > Den som begrundar sig själv en dag – med en sanningssökares begrundan – ställer sig till svars innan han ställs till svars, och väger sig själv innan han vägs.[^7]
 
-Kunskapen kräver *muḥāsabah*, självrannsakan: att väga sig själv, pröva sina motiv, ifrågasätta sin egen auktoritet. Det gör Odin aldrig vid Mimers brunn – fråga om den som dricker förtjänar drycken, eller om själva törsten är en slöja.
+Kunskapen kräver *muḥāsabah*, självrannsakan: att väga sig själv, pröva sina motiv, ifrågasätta sin egen auktoritet. Det gör Odin aldrig vid Mimers brunn – aldrig frågar han om den som dricker förtjänar drycken, eller om själva törsten är en slöja.
 
 ## Det glömda självet
 
@@ -77,7 +77,7 @@ Al-Māwardī, den högt aktade juristen och etikern, skrev i *Adab al-Dunyā wa-
 
 > Den ödmjuke bland kunskapssökarna besitter mest kunskap, liksom den lågläntaste platsen samlar mest vatten.[^10]
 
-Kunskapen samlas inte hos den som klättrar högst – Odin på Yggdrasils stam – utan hos den som befinner sig lägst.
+Kunskapen samlas inte hos den som klättrar högst – Odin på Yggdrasils stam – utan i myren nedanför, där marken är mättad och stilla.
 
 Tänkare långt utanför islams geografiska rum har nått samma insikt. Simone Weil, den franska filosofen, kom dit genom en helt annan väg. Hon gav den ett namn: *décréation* – att det skapade töms på sina anspråk, inte för att förintas utan för att kunna ta emot.[^15] Men Weils tömning förblir en viljeakt; jaget *beslutar* att stiga åt sidan. I den islamiska traditionen upptäcker jaget sin litenhet ställt inför uppenbarelsen; det är skillnaden mellan en generös reträtt och ett obönhörligt erkännande.
 
