@@ -23,7 +23,7 @@ En man frågade en vis: "När ska jag tala?" Svaret: "När du längtar efter tys
 
 ## Sjuhundra ḥadīther om en enda kroppsdel
 
-Ibn Abi al-Dunya, den abbasidiske lärde som verkade i Bagdad under 800-talet, samlade i *Kitāb al-Ṣamt wa Ādāb al-Lisān* över sjuhundra traditioner om talet och dess faror.[^6] Sjuhundra traditioner om en enda kroppsdel. Al-Nawawi ägnade ett helt kapitel i *Riyāḍ al-Ṣāliḥīn* åt tungans bevakning, med utgångspunkt i Profetens ﷺ ord: "Den bäste bland muslimerna är den från vars tunga och hand de andra muslimerna är trygga."[^7]
+Ibn Abi al-Dunya, den abbasidiske lärde som verkade i Bagdad under 800-talet, samlade i *Kitāb al-Ṣamt wa Ādāb al-Lisān* över sjuhundra traditioner om talet och dess faror.[^6] Sjuhundra traditioner om en enda kroppsdel. Al-Nawawi samlade ett helt kapitel i *Riyāḍ al-Ṣāliḥīn* kring tungans bevakning, med utgångspunkt i Profetens ﷺ ord: "Den bäste bland muslimerna är den från vars tunga och hand de andra muslimerna är trygga."[^7]
 
 Koranen skär genom varje ursäkt:
 
