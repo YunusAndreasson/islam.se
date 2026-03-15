@@ -13,7 +13,7 @@ Mot denna uppräkning ställs den fromma invändningen: "Lagen har hela folket o
 
 ## Herrens lag, slavens lag
 
-Strindbergs raseri träffar en nerv som rättsfilosofin aldrig lyckats bedöva. Om lagen är en mänsklig produkt – skriven, antagen, tolkad av människor – varför skulle den inte gynna sina upphovsmän?[^3] Strindberg ger frågan ansikte, röst, en ilska som inte låter sig blidkas av abstraktioner.
+Strindbergs raseri träffar en nerv som rättsfilosofin aldrig lyckats bedöva. Om lagen är en mänsklig produkt – skriven, antagen, tolkad av människor – varför skulle den inte gynna sina upphovsmän?[^3] Strindberg ger frågan ansikte och röst, en ilska som inte låter sig blidkas av abstraktioner.
 
 Två sekler före Strindberg blottlade Pascal mekanismen: "Då vi inte kunnat göra det rättfärdiga starkt, har vi gjort det starka rättfärdigt."[^17]
 
@@ -23,29 +23,29 @@ Samma mönster såg Erik Gustaf Geijer i det svenska 1800-talet: "Överallt där
 
 Koranen svarar med en bild: "Det är Allah ﷻ som har sänt ned Boken med sanningen och likaså rättvisans våg."[^5] Boken och vågan. De sänds ned. De uppfinns inte. På denna princip vilar den islamiska rättsteorin, *uṣūl al-fiqh*: rättskällorna härleds ur uppenbarelsen, inte ur mänsklig lagstiftning.[^6] Ingen klass, ingen härskare, ingen majoritet kan kalla sig upphovsman.
 
-I thomistisk naturrätt och judisk *Halakha* finns besläktade anspråk, men *uṣūl al-fiqh* tillför den metodologiska skärpan: ett formellt system för hur uppenbarelsen omsätts i rättslig praxis, med inbyggda spärrar mot godtycke.[^7]
+Thomistisk naturrätt och judisk *Halakha* reser besläktade anspråk, men *uṣūl al-fiqh* tillför den metodologiska skärpan: ett formellt system för hur uppenbarelsen omsätts i rättslig praxis, med inbyggda spärrar mot godtycke.[^7]
 
 ## Rättvisan som gräns
 
-Ibn Khaldūn drog den politiska konsekvensen: "Den religiösa lagen censurerar inte makten i sig utan endast de ondskefulla följderna av den: tyranni, orättvisa och lystnad."[^8] Makten förbjuds inte – men härskaren är underordnad lagen, inte dess upphovsman. På annat ställe hävdar han att orättvisa leder till civilisationens undergång, och menar det bokstavligt: ett samhälle som tolererar förtryck gnager sönder sig självt inifrån.[^9] Sexhundra år senare bekräftade ekonomen Daron Acemoglu tesen empiriskt: samhällen vars regler utformas till en elits fördel går under.[^18]
+Ibn Khaldūn drog den politiska konsekvensen: "Den religiösa lagen censurerar inte makten i sig utan endast de ondskefulla följderna av den: tyranni, orättvisa och lystnad."[^8] Makten förbjuds inte – men härskaren är underordnad lagen, inte dess upphovsman. På annat ställe hävdar han att orättvisa leder till civilisationens undergång, och menar det bokstavligt: ett samhälle som tolererar förtryck gnager sönder sig självt inifrån.[^9] Sexhundra år senare prövade ekonomen Daron Acemoglu tesen mot data: samhällen vars regler utformas till en elits fördel går under.[^18]
 
-Ibn Taymiyyah går längre: rättvisan är inte en dygd bland andra utan den norm som bär alla andra. "Rättvisan är påbjuden i alla handlingar och orättvisan förbjuden utan undantag."[^10] Människors enighet om rättvisans godhet överträffar, menar han, deras enighet om de flesta förnuftssanningar.[^11] Rättvisan är inte resonemangets resultat. Den är dess förutsättning.
+Ibn Taymiyyah går längre: rättvisan är inte en dygd bland andra utan normen som bär alla andra. "Rättvisan är påbjuden i alla handlingar och orättvisan förbjuden utan undantag."[^10] Människors enighet om rättvisans godhet överträffar, menar han, deras enighet om de flesta förnuftssanningar.[^11] Rättvisan är inte resonemangets resultat. Den är dess förutsättning.
 
-Koranen uppenbarar vad som händer när de mäktiga skriver sina egna regler: "Vi har också i varje stad låtit de mäktiga bli deras förbrytare för att smida sina planer där. Men de smider endast planer mot sig själva utan att märka det."[^12] Samma mekanism som hos Strindberg, men med en förklaring han saknar: maktkoncentrationen förgör sig själv. Strindberg pekar på orättvisan och kräver att den upphör – en moralisk protest. Koranens förklaring går längre: orättvisan upphör *av sig själv*, inte för att någon kräver det utan för att den bryter mot den ordning som bär den. Skillnaden är den mellan protest och prognos.
+Koranen uppenbarar vad som händer när de mäktiga skriver sina egna regler: "Vi har också i varje stad låtit de mäktiga bli deras förbrytare för att smida sina planer där. Men de smider endast planer mot sig själva utan att märka det."[^12] Samma mekanism som hos Strindberg, men med en förklaring han saknar: den samlade makten förgör sig själv. Strindberg pekar på orättvisan och kräver att den upphör. Koranens förklaring går längre: orättvisan upphör *av sig själv*, inte för att någon kräver det utan för att den bryter mot den ordning som bär den. Skillnaden är den mellan protest och prognos.
 
 ## Den farliga mellanhanden
 
-Gudomlig lag bryter den onda cirkeln – rättens källa kan inte ägas av en klass – men väcker en ny fråga: vem tolkar den? Muḥammad ibn al-Munkadir, en av Medinas stora rättslärda i första seklet efter *hijrah*, sade: "Den rättslärde träder in mellan Gud och Hans tjänare – låt honom se till hur han träder in."[^13]
+Gudomlig lag bryter den onda cirkeln – rättens källa kan inte ägas av en klass – men väcker en annan fråga: vem tolkar den? Muḥammad ibn al-Munkadir, en av Medinas stora rättslärda i första seklet efter *hijrah*, sade: "Den rättslärde träder in mellan Gud och Hans tjänare – låt honom se till hur han träder in."[^13]
 
-Tolkaren kan bli den nye lagstiftaren, kläda sitt godtycke i rättens former. Makten byter adress, inte natur. Vad hindrar det?
+Tolkaren kan bli den nye lagstiftaren, kläda sitt godtycke i rättens former. Makten byter hand, inte väsen. Vad hindrar det?
 
-Geijer såg samma spänning: "Kärleken är lagens fullbordan, utan hvilken lagen sjelf endast är en yttre form och ett, ehuru nödvändigt, ondt."[^14] *Taqwā* – gudsfruktan – är inte en prydnad utan en förutsättning. Det är den lärde som tvekar innan han talar, som känner tyngden i sitt svar.
+Geijer såg samma spänning: "Kärleken är lagens fullbordan, utan hvilken lagen sjelf endast är en yttre form och ett, ehuru nödvändigt, ondt."[^14] *Taqwā*, gudsfruktan, är inte en prydnad utan en förutsättning. Det är den lärde som tvekar innan han talar, som känner tyngden i sitt svar.
 
 ## Vågen som inte kan luras
 
 Selma Lagerlöf åkallar "den högre rättvisan" som var "av annat slag än den lägre, jordiska. Den förstod, när en stackare var i nödläge."[^15] Både hon och Strindberg anar att rättvisan finns, men ingen av dem äger en metod, en källa att peka på.
 
-Den islamiska traditionen erbjuder vad de saknar: en formell rättsordning vars legitimitet inte vilar på dem som tillämpar den utan på Den som uppenbarade den. Ordningen bär sin egen kritik – genom krav på de lärdas integritet, genom principen att makt utan religionskunskap medför orättvisa,[^16] och genom påminnelsen att den rättslärde en dag skall stå till svars.
+Den islamiska traditionen erbjuder vad de saknar: en rättsordning vars giltighet inte vilar på dem som tillämpar den utan på Den som uppenbarade den. Ordningen bär sin egen kritik – genom krav på de lärdas integritet, genom principen att makt utan religionskunskap medför orättvisa,[^16] genom påminnelsen att den rättslärde en dag skall stå till svars.
 
 Strindbergs fråga genljuder ännu: vem skrev lagen för den fattige? Allt står och faller med dem som bär ansvaret.
 

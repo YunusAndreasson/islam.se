@@ -13,19 +13,19 @@ Mönstret hade ett namn: *Nemesis Divina*. Gudomlig vedergällning.
 
 > Innocue vivito, numen adest! Du ser alt gå confust, som ingen såget, hördet. Men här bor en rättwis Gud, som giör hwario rätt.[^1]
 
-En teologisk slutsats murad på empirisk grund. Hans uttolkare har kallat det en *theologia experimentalis*.[^2]
+En teologisk slutsats murad på iakttagelse. Hans uttolkare har kallat det *theologia experimentalis*.[^2]
 
 Men om han var så övertygad – varför höll han den hemlig?
 
 ## En bokföring som inte stämmer med nåden
 
-Den lutherska kyrkans grundsats är enkel och radikal: människan frälses genom tro allena. *Sola fide. Sola gratia.* Nåden är per definition oproportionerlig; den ges till den som inte förtjänar den.
+Den lutherska kyrkans grundsats är enkel och radikal: människan frälses genom tro allena. *Sola fide. Sola gratia.* Nåden är till sitt väsen omåttlig; den ges till den som inte förtjänar den.
 
-Linnés *Nemesis Divina* beskriver raka motsatsen. Varje handling bär sin bestämda följd, lika ofrånkomligt som att en viss jordmån ger en viss växt. Th. M. Fries, som redigerade manuskriptet efter Linnés död, sammanfattade principen:
+Linnés *Nemesis Divina* tecknar raka motsatsen. Varje handling bär sin bestämda följd, lika ofrånkomligt som att en viss jordmån ger en viss växt. Th. M. Fries, som redigerade manuskriptet efter Linnés död, sammanfattade principen:
 
 > En ständig vexelverkan, en sträng lagbundenhet, en orubblig verldsordning genomströmmar det hela; att slumpen, det blinda ödets tyranni, ingenstädes herskar.[^3]
 
-Linné talar inte om en Gud som förlåter utan om en Gud som *bokför*. Varje synd har sitt straff, och det inträffar med naturlags nödvändighet, ofta redan i detta liv.[^4] Han var inte ensam: Kant nådde filosofiskt samma slutsats – att förlitan på nåd allena undergräver det sedliga allvaret – och censurerades av den preussiska staten för det.[^19]
+Linné talar inte om en Gud som förlåter utan om en Gud som *bokför*. Varje synd har sitt straff, och det inträffar med naturlags nödvändighet, ofta redan i detta liv.[^4] Kant nådde filosofiskt samma slutsats – att förlitan på nåd allena undergräver det sedliga allvaret – och censurerades av den preussiska staten för det.[^19]
 
 Linné visste att hans gudsuppfattning inte fick publiceras. Hans instruktioner till sonen var otvetydiga:
 
@@ -35,7 +35,7 @@ Manuskriptet namnger verkliga personer och deras brott. Fries menade att Linné 
 
 ## Naturalisten som såg igenom ägandet
 
-De mest slående passagerna rör inte vedergällningen utan Guds suveränitet, klädd i en radikalitet som det lutherska 1700-talssverige saknade ord för.
+De mest gripande ställena rör inte vedergällningen utan Guds suveränitet, uttryckt med en skärpa som det lutherska 1700-talssverige saknade ord för.
 
 > Du säger: det är min gård; jag kan giöra och låta. Jag säger: dit är intet; Gud lånt dig alt.[^6]
 
@@ -43,27 +43,27 @@ Och ännu tydligare:
 
 > Alt det wij hafve är ett lån af Gud. Wi hafve intet hit med oss; intet bortföra wij.[^7]
 
-Den som beter sig som ägare – av sin gård, sin makt, sin hälsa – har förväxlat lån med äganderätt. Men Linné nöjde sig inte med att konstatera suveräniteten. Han sökte dess verkningsmekanism – den princip som gör att låntagaren drabbas.
+Den som beter sig som ägare – av sin gård, sin makt, sin hälsa – har förväxlat lån med äganderätt. Men Linné nöjde sig inte med att slå fast suveräniteten. Han sökte dess verkningssätt – den grundsats som gör att låntagaren drabbas.
 
 ## Den princip han inte fick namnge
 
-I Koranens nittionionde sura, en av de kortaste – knappt sex verser – sammanfattas just den princip Linné empiriskt grävde efter:
+I Koranens nittionionde sura, en av de kortaste – knappt sex verser – sammanfattas den grundsats Linné grävde efter:
 
 > Den som gör den minsta myras vikt av gott skall se det. Och den som gör den minsta myras vikt av ont skall se det.[^8]
 
 *Mithqāla dharratin.* En atoms vikt – ingen handling undgår räkenskapen. Ibn Kathīr citerar en profettradition: en äldre man kom till Profeten ﷺ och bad om en enda sura som sammanfattade allt. Profeten ﷺ lärde honom just denna, och när mannen svurit att aldrig lägga till något utöver den sade Profeten ﷺ: "Den lille mannen har lyckats! Den lille mannen har lyckats!"
 
-Linné sökte bevisa genom hundratals fallstudier vad Koranen kungör som axiom.[^10] Men tankens riktning är omvänd. Linné slöt sig till suveräniteten bakvägen: den som betedde sig som ägare gick under, alltså var Gud den verklige ägaren. *Tawḥīd* börjar i andra änden – Gud *är* suverän, därför bär varje handling följd. Men Koranen stannar inte vid räkenskapen. Samma Gud som väger varje handling är *al-Tawwāb*, den som tar emot den ångerfulles återvändo: "Er Herre har föreskrivit Sig barmhärtighet: den av er som i oförstånd gör ont och sedan ångrar sig och gör bot – Han är ständigt förlåtande, barmhärtig."[^20] Linnés *Nemesis Divina* har räkenskap utan nåd; lutherdomen nåd utan räkenskap. Koranen håller båda.
+Linné sökte bevisa genom hundratals fallstudier vad Koranen kungör som axiom.[^10] Men tankegången går i motsatt riktning. Linné slöt sig till suveräniteten bakvägen: den som betedde sig som ägare gick under, alltså var Gud den verklige ägaren. *Tawḥīd* börjar i andra änden – Gud *är* suverän, därför bär varje handling följd. Men Koranen stannar inte vid räkenskapen. Samma Gud som väger varje handling är *al-Tawwāb*, den som tar emot den ångerfulles återvändo: "Er Herre har föreskrivit Sig barmhärtighet: den av er som i oförstånd gör ont och sedan ångrar sig och gör bot – Han är ständigt förlåtande, barmhärtig."[^20] Linnés *Nemesis Divina* rymmer räkenskap utan nåd; lutherdomen nåd utan räkenskap. Koranen håller båda.
 
 Den troende förväntas ändå hålla den egna räkenskapen:
 
 > Ställ er själva till räkenskap innan ni ställs till räkenskap, och väg era handlingar innan de vägs åt er.[^11]
 
-Ibn Qayyim al-Jawziyyah placerade denna *muḥāsabah*, självrannsakan inför Gud, bland de bärande stationerna för den som söker Allahs ﷻ väg.[^12]
+Ibn Qayyim al-Jawziyyah räknade denna *muḥāsabah*, självrannsakan inför Gud, bland de bärande stationerna för den som söker Allahs ﷻ väg.[^12]
 
 ## Två som inte kunde tiga
 
-Linné valde tystnaden. Emanuel Swedenborg, hans samtide, gick rakt motsatt väg. Swedenborg publicerade sin heterodoxa teologi öppet – visioner om himmel och helvete, en enträgen betoning av att gärningarna väger tungt. Priset drabbade hans anhängare i Sverige. 1768 inleddes rättegångar mot kyrkoherden Gabriel Beyer och docenten Johan Rosén i Göteborg. Swedenborgs skrifter bannlystes.[^13]
+Linné valde tystnaden. Emanuel Swedenborg, hans samtide, gick rakt motsatt väg. Swedenborg gav ut sin avvikande teologi öppet – visioner om himmel och helvete, en enträgen betoning av att gärningarna väger tungt. Priset drabbade hans anhängare i Sverige. 1768 inleddes rättegångar mot kyrkoherden Gabriel Beyer och docenten Johan Rosén i Göteborg. Swedenborgs skrifter bannlystes.[^13]
 
 I sina dagböcker skrev Swedenborg:
 
@@ -73,17 +73,17 @@ Men i samma anteckningsbok:
 
 > Summa summarum: det är intet annat än nåd hvarigenom wi blifwa saliga.[^15]
 
-Swedenborg pendlar mellan gärning och nåd. Linné pendlar inte. I *Nemesis Divina* saknas den *sola gratia* som återför tanken till ortodoxin; där råder bara orsak och verkan, handling och följd. En renare linje – och därför farligare.
+Swedenborg pendlar mellan gärning och nåd. Linné pendlar inte. I *Nemesis Divina* saknas den *sola gratia* som skulle återföra tanken till ortodoxin; där råder bara orsak och verkan, handling och följd. En renare linje – och farligare.
 
-Linné och Swedenborg: samma grundövertygelse, motsatta strategier. Ingen av dem fann en formel som höll samman gärning och nåd. Ett sekel senare genomlevde August Strindberg sin egen version av krisen. Under Infernoåren i Paris avläste han allt som hände honom – sjukdom, ensamhet, kemiska misslyckanden – som gudomliga straff. Hans vägvisare genom kaoset blev Swedenborg:
+Samma grundövertygelse, motsatta vägar. Ingen av dem fann en formel som höll samman gärning och nåd. Ett sekel senare genomlevde August Strindberg sin egen version av krisen. Under Infernoåren i Paris avläste han allt som hände honom – sjukdom, ensamhet, kemiska misslyckanden – som gudomliga straff. Hans vägvisare genom kaoset blev Swedenborg:
 
 > Swedenborg uppenbarade sig i mitt liv, där han har spelat en ofantlig roll som tuktande.[^16]
 
-Linné avläste principen i andras öden. Strindberg genomled den i sitt eget, och utan ett språk för återvändo förvandlades den sedliga räkenskapen till dom utan överklagande.
+Linné avläste grundsatsen i andras öden. Strindberg genomled den i sitt eget, och utan ett språk för återvändo förvandlades räkenskapen till dom utan nåd.
 
 ## Varför hemligheten säger mer än bekännelsen
 
-Sveriges mest berömde vetenskapsman – mannen som ordnade naturen, som namngav tiotusentals arter – vågade inte säga högt vad han trodde om den moral som är inristad i samma natur.
+Sveriges mest berömde vetenskapsman – mannen som ordnade naturen, namngav tiotusentals arter – vågade inte säga högt vad han trodde om den moral som är inristad i samma natur.
 
 I det lutherska Sverige kunde man predika nåd, till och med moral, så länge predikan mynnade ut i nåden. Men man kunde inte predika att Gud *bokför*. Det låg för nära en annan Gud – en som kräver räkenskap, inte bara tro.
 
@@ -91,7 +91,7 @@ Linné förstod detta. Hans eget vittnesbörd, det mest personliga i hela manusk
 
 > Det war en tid, jag twiflade, om Gud brydde sig om mig; Många åhr hafve lärt mig, det jag lämnar dig.[^17]
 
-Det han för vidare – åt sin son, i hemlighet – är ingen dogm utan en erfarenhet: att verkligheten bär en moralisk ordning, att ingenting undgår räkenskapen.
+Det han för vidare – åt sin son, i hemlighet – är ingen lära utan en erfarenhet: att verkligheten bär en sedlig ordning, att ingenting undgår räkenskapen.
 
 I den islamiska traditionen hade denna erfarenhet aldrig behövt vara hemlig – *adhān* ropar ut det Linné dolde fem gånger om dagen.
 

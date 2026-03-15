@@ -9,11 +9,11 @@ Tre vintrar utan sommar. Bröder som dödar varandra för småpengar. Solen som 
 
 Völuspá. Eller IPCC:s femte syntesrapport.
 
-Likheten är verklig, och just därför vilseledande. Ragnarök *liknar* klimatångesten i mytisk förklädnad men är dess raka motsats. I den skillnaden ryms vår tids kris.
+Likheten är verklig, och just därför vilseledande. Ragnarök *liknar* klimatångesten i mytisk förklädnad men är raka motsatsen. I skillnaden ryms vår tids kris.
 
 ## Elden som renar
 
-Völuspás undergångsscen är brutal och skön. Solen svartnar. Jorden sjunker i havet. Lågorna slickar himlen. Men mitt i förödelsen sker något avgörande: förstörelsen *tjänar* något. Surts eld förintar det onda, och bara det onda. Denna selektivitet – elden som tar det ruttna men lämnar trädet – fångade Viktor Rydberg bäst:
+Völuspás undergångsscen är brutal och skön. Solen svartnar. Jorden sjunker i havet. Lågorna slickar himlen. Men mitt i förödelsen sker något avgörande: förstörelsen *tjänar* något. Surts eld förintar det onda, och bara det onda. Denna urskillning – elden som tar det ruttna men lämnar trädet – fångade Viktor Rydberg bäst:
 
 > Den germanska mytologin har inte betraktat världens pånyttfödelse som en ny skapelse. Det liv som i tidens morgon utvecklades ur kaos förintas inte av Surts lågor, utan räddar sig, renat, för den kommande tidsåldern.[^1]
 
@@ -21,21 +21,21 @@ Världsträdet överlever elden – det trotsar både egg och låga. Solen som s
 
 Esaias Tegnér i *Fritiofs Saga*: det onda dör "för evigt", men det fallna goda "reser sig ur världsbålslågan, luttrat till ett högre liv".[^2] Undergången är eldprovet – det som gör världen *värdig* sin fortsättning. Och efter elden: osådda fält som bär skörd, Balder som återvänder, gyllene runetavlor i gräset på Idavallen.
 
-Forskare tvistar om huruvida Völuspás förnyelsestrofer, särskilt den gåtfulla strofen 65 om en "väldig härskare som styr över allt", uttrycker genuint förkristna föreställningar eller speglar kristet inflytande. Kanske lovade den hedniska mytologin mer än den ägde – men spänningen kvarstår: även en ofullbordad tillförsikt väger tyngre än hopplöshet.
+Forskare tvistar om huruvida Völuspás förnyelsestrofer, särskilt den gåtfulla strofen 65 om en "väldig härskare som styr över allt", uttrycker förkristna föreställningar eller speglar kristet inflytande. Kanske lovade den hedniska mytologin mer än den ägde – men spänningen kvarstår: även en halvfärdig tillförsikt väger tyngre än hopplöshet.
 
 ## Apokalyps utan eskatologi
 
 Mot detta står den berättelse vår tid lever i.
 
-Klimatvetenskapen visar en kurva mot sammanbrott: temperaturer och havsnivåer stiger, arter försvinner, tröskelvärden passeras. Det bästa klimatberättelsen kan lova är att katastrofen blir *mindre*. Ragnarök lovade att katastrofen blir *meningsfull*.
+Klimatvetenskapen visar en kurva mot sammanbrott: temperaturer och havsnivåer stiger, arter dör ut, tröskelvärden passeras. Det bästa klimatberättelsen kan lova är att katastrofen blir *mindre*. Ragnarök lovade att katastrofen blir *meningsfull*.
 
-Klimatångesten förlamar av ett djupare skäl: undergången saknar mening.
+Klimatångesten förlamar av ett djupare skäl: undergången leder ingenstans.
 
-Günther Anders gav tillståndet ett namn redan under kärnvapenåldern: *Apokalypse ohne Reich* – naken apokalyps, undergång som inte öppnar något rike.[^17] Apokalyps utan förlösning. Skuld utan förlåtelse. Synd utan nåd. I Harvard Divinity Bulletin beskrivs samma mönster i samtidens klimatsorg: en sakral känsla utan sakrament, ett rituellt tomrum som varken terapi eller aktivism förmår fylla.[^4] Harry Martinson formulerade spänningen i *Aniara* – inte som bön utan som iakttagelse: "Hur svårt att tro på livet efter detta. / Hur rätt att önska livet efter detta."[^19]
+Günther Anders gav tillståndet ett namn redan under kärnvapenåldern: *Apokalypse ohne Reich* – naken apokalyps, undergång som inte öppnar något rike.[^17] Undergång utan förlösning. Skuld utan förlåtelse. Synd utan nåd. I Harvard Divinity Bulletin beskrivs samma mönster i samtidens klimatsorg: en helig känsla utan heliga handlingar, ett rituellt tomrum som varken terapi eller aktivism fyller.[^4] Harry Martinson formulerade spänningen i *Aniara* – inte som bön utan som iakttagelse: "Hur svårt att tro på livet efter detta. / Hur rätt att önska livet efter detta."[^19]
 
 ## Den rastlöshet som saknar namn
 
-Koranen fångar tillståndet: "Människan har sannerligen skapats ängslig."[^5] Det arabiska ordet är *halūʾan*: rastlös, otålig – den som grips av skräck vid motgång och av girighet vid framgång. Inte ett symptom utan ett villkor: människan bär en rastlöshet som inget skapat kan stilla.
+Koranen fångar tillståndet: "Människan har sannerligen skapats ängslig."[^5] Det arabiska ordet är *halūʾan*: rastlös, otålig – den som grips av skräck vid motgång och av girighet vid framgång. Inte ett sjukdomstecken utan ett villkor: människan bär en rastlöshet som inget skapat kan stilla.
 
 Hjalmar Bergman satte ord på den i *Vi Bookar, Krokar och Rothar*:
 
@@ -43,13 +43,13 @@ Hjalmar Bergman satte ord på den i *Vi Bookar, Krokar och Rothar*:
 
 *Att finna mening* – inte att fly döden utan att finna ett skäl att ha levt.
 
-Klimatångesten delar strukturen men saknar det avgörande: ett namn för det den är. Islam namnger den. Ångesten är ett tecken, en *āya*, på att människan söker sitt ursprung. Ibn Qayyim al-Jawziyyah skrev: "Det jordiska livet är den kommande världens åkerfält och dess förebud."[^7] Ångesten inför förstörelsen avslöjar sig som förvrängd längtan efter det som kommer *efter* den – rädslan som är hopp vänt ut och in.
+Klimatångesten följer samma mönster men saknar det avgörande: ett namn för det den är. Islam namnger den. Ångesten är ett tecken, en *āya*, på att människan söker sitt upphov. Ibn Qayyim al-Jawziyyah skrev: "Det jordiska livet är den kommande världens åkerfält och dess förebud."[^7] Ångesten inför förstörelsen visar sig vara förvriden längtan efter det som kommer *efter* den – rädslan som är hopp vänt ut och in.
 
 ## En dom som förutsätter en Domare
 
-Den avgörande klyftan löper inte mellan Ragnarök och klimatvetenskap utan mellan dessa och islam.
+Den avgörande klyftan går inte mellan Ragnarök och klimatvetenskap utan mellan dessa och islam.
 
-Ragnarök rymmer dom – Surts eld skiljer ruttna från friskt – men en dom utan domare. Gudarna själva är bundna av samma ordning. Oden vet att han ska falla för Fenrisulven, och han faller. Förnyelsen sker som naturlag, som kosmiskt kretslopp. Rydberg avtäcker principen: det germanska tänkandet förstår reningselden som immanent kraft, fri från viljehandling.[^8]
+Ragnarök rymmer dom – Surts eld skiljer ruttna från friskt – men en dom utan domare. Gudarna själva är bundna av samma ordning. Oden vet att han ska falla för Fenrisulven, och han faller. Förnyelsen sker som naturlag, som kosmiskt kretslopp. Rydberg blottlägger principen: det germanska tänkandet förstår reningselden som immanent kraft, fri från viljehandling.[^8]
 
 Koranen vänder perspektivet:
 
@@ -71,15 +71,15 @@ Men Koranen skänker också principen för att bära ångesten:
 
 Upprepningen är princip: svårigheten *föder* lättnaden, som Ragnaröks eld föder den förnyade jorden. Skillnaden: Koranen vet *varför*.
 
-Islam skänker vad varken Ragnarök eller klimatrörelsen förmår: ett handlingsmotiv bortom fatalism och febril aktivism. Begreppet *khalīfa*, människan som skapelsens förvaltare, förankrar omsorgen om jorden i ansvar inför den som anförtrott den – inte i undergångsångest.[^12] Profeten Muḥammad ﷺ lärde att om timmen kommer medan du håller en planta i handen ska du plantera den.[^13] Handlingen är meningsfull för att den svarar mot ett förtroende. Ibn al-Jawzī iakttog paradoxen från andra hållet:
+Islam ger vad varken Ragnarök eller klimatrörelsen förmår: ett skäl att handla, bortom ödestrots och febrig aktivism. Begreppet *khalīfa*, människan som skapelsens förvaltare, förankrar omsorgen om jorden i ansvar inför den som anförtrott den – inte i undergångsångest.[^12] Profeten Muḥammad ﷺ lärde att om timmen kommer medan du håller en planta i handen ska du plantera den.[^13] Handlingen är meningsfull för att den svarar mot ett förtroende. Ibn al-Jawzī iakttog paradoxen från andra hållet:
 
 > Om människan handlade efter hoppets korthet hade ingen skrivit en bok eller sammanställt ett verk.[^18]
 
-Att bygga förutsätter ett hopp som överskrider insikten om förgängligheten.
+Att bygga förutsätter ett hopp som sträcker sig bortom insikten om förgängligheten.
 
-Samma impuls drev Ragnaröks skapare. År 536, när en vulkanvinter förmörkade solen över Skandinavien, kan någon ha rest Rökstenen i Östergötland – som myt, inte klagan, som meningsskapande mitt i katastrofen.[^14] Tolkningen är omtvistad, men impulsen igenkännbar: vi berättar oss *genom* mörkret.
+Samma impuls drev Ragnaröks skapare. År 536, när en vulkanvinter förmörkade solen över Skandinavien, kan någon ha rest Rökstenen i Östergötland – som myt, inte klagan, som meningsskapande mitt i katastrofen.[^14] Tolkningen är omtvistad, men driften igenkännbar: vi berättar oss *genom* mörkret.
 
-Berättelsen om den förnyade jorden på Idavallen stannar vid tillförsikten utan att namnge dess källa:
+Berättelsen om den förnyade jorden på Idavallen stannar vid tillförsikten utan att namnge var den kommer ifrån:
 
 Jakob ropar i Koranen:
 

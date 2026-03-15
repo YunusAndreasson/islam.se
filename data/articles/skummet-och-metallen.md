@@ -11,35 +11,35 @@ Surt kommer från söder med flammande svärd. Himlen rämnar. Jordens steniga h
 
 Livet *räddar sig*. Reningen sker utan villkor, utan moralisk prövning. Den som överlever Ragnarök gör det för att världen själv vill vidare. Vidar och Vale lever kvar – varken havet eller Surts eld *skadade* dem.[^2] Den nordiska elden frågar ingenting. Den förvandlar.
 
-Forskarna tvistar om regenerationsmotivets ursprung: tillhör visionen av världen pånyttfödd ur askan den förkristna traditionen, eller är den en kristen tillsats? Völuspás avslutande strofer, med osådda fält som bär frukt och all ondskas botande, påminner mer om Uppenbarelseboken än om Eddan.[^3] Rydbergs läsning kan vara kristen förväntan inläst i förkristen tid.
+Forskarna tvistar om regenerationsmotivets ursprung: hör visionen av världen pånyttfödd ur askan till den förkristna traditionen, eller är den en kristen tillsats? Völuspás avslutande strofer, med osådda fält som bär frukt och all ondskas botande, påminner mer om Uppenbarelseboken än om Eddan.[^3] Rydbergs läsning kan vara kristen förväntan inläst i förkristen tid.
 
-Ändå kvarstår något genuint förkristet: eldens opersonlighet. Surts flammor väljer ingen och prövar ingen. De sveper över världen som en naturkraft och lämnar kvar det som eld inte förmår förtära. Kosmisk återställning utan domare.
+Ändå finns något genuint förkristet kvar: eldens opersonlighet. Surts flammor väljer ingen och prövar ingen. De sveper över världen som en naturkraft och lämnar kvar det som eld inte förmår förtära. Kosmisk återställning utan domare.
 
 ## Swedenborg: elden som aldrig brinner
 
 Emanuel Swedenborg, uppvuxen i ett lutherskt Sverige dränkt i helvetets retorik, kom att förneka helveteselden helt. Dess tillvaro erkände han; dess väsen förkastade han.
 
-I Swedenborgs korrespondenslära svarar varje fysisk företeelse mot en andlig verklighet. Eld korresponderar med kärlek – strukturellt, inte poetiskt. Och helvetets eld? Den är självkärlekens inre glöd, som de fördömda upplever som värme, rentav som behag.[^4] De som valt sig själva framför allt annat bebor ett tillstånd som *liknar* eld men saknar eldens förvandlingskraft. Swedenborgs helvete bränner inte. Det bekräftar.
+I Swedenborgs korrespondenslära svarar varje fysisk företeelse mot en andlig verklighet. Eld svarar mot kärlek – till sin byggnad, inte poetiskt. Och helvetets eld? Den är självkärlekens inre glöd, som de fördömda upplever som värme, rentav som behag.[^4] De som valt sig själva framför allt annat bebor ett tillstånd som *liknar* eld men saknar eldens förvandlingskraft. Swedenborgs helvete bränner inte. Det bekräftar.
 
 Om den materiella världen är andlighetens alfabet är elden ett *språk*. Helvetet talar, men de fördömda kan inte läsa vad det säger.
 
-Under krisåren i Paris snubblade August Strindberg in i Swedenborgs universum. Reaktionen var ögonblicklig: "Från ateism till Swedenborg tycks det bara vara ett steg!"[^5] Inte filosofiskt intresse drev honom utan igenkänning. I *Inferno* ger han sin egen version av den swedenborgianska erfarenheten:
+Under krisåren i Paris snubblade August Strindberg in i Swedenborgs universum. Reaktionen kom genast: "Från ateism till Swedenborg tycks det bara vara ett steg!"[^5] Inte nyfikenhet drev honom utan igenkänning. I *Inferno* ger han sin egen version av den swedenborgianska erfarenheten:
 
 > Helvetets eld, det är begäret att komma sig fram i världen; makterna uppväcka begäret och tillstädja de fördömda att ernå vad de eftertrakta. Men så snart målet är hunnet, önskningarna uppfyllda, befinnes allt vara värdelöst.[^6]
 
 Begäret efter framgång, bekräftelse, makt – det *är* elden. Den bränner inte kroppen utan urholkar meningen. Priset delas ut, önskan uppfylls – och allt befinns värdelöst.
 
-Men denna inåtvändning – Swedenborgs liksom Strindbergs – når en gräns. Swedenborgs eld saknar objektiv verklighet; den finns bara som psykologisk korrespondens, som inre spegling. Hans system framtvingar en fråga det inte kan besvara: vad händer om elden inte bara speglar utan avslöjar? Om elden *vet*?
+Men denna inre vändning – Swedenborgs liksom Strindbergs – når en gräns. Swedenborgs eld saknar verklighet utanför sinnet; den finns bara som inre spegling. Hans system ställer en fråga det inte kan besvara: vad händer om elden inte bara speglar utan avslöjar? Om elden *vet*?
 
 ## Den koraniska elden: eld som urskiljer
 
-Koranen ger ett svar. Den tillför eldbilden en förmåga som varken den nordiska traditionen eller Swedenborg rymmer: urskillning. I sura *al-Raʿd* framställer Allah ﷻ en liknelse:
+Koranen ger ett svar. Den ger eldbilden en förmåga som varken den nordiska traditionen eller Swedenborg rymmer: urskillning. I sura *al-Raʿd* framställer Allah ﷻ en liknelse:
 
 > Han har sänt ned vatten från himlen så att flodbäddarna svämmar över i proportion till sin storlek, och forsarna för med sig tjockt skum. Och från det som de smälter i elden, för att erhålla smycken eller redskap, uppstår liknande skum. Så framställer Allah ﷻ sanning och falskhet. Vad skummet beträffar så försvinner det avsides, men det som gagnar människorna stannar kvar på jorden.[^7]
 
 Ibn Kathīr läser flodbäddarnas varierande storlek som en anspelning på hjärtanas olikhet – bland dem finns de som rymmer riklig kunskap, bland dem de som är för trånga för den. Elden *åtskiljer*. Skummet, som ser massivt ut på ytan, visar sig vara ingenting. Metallen, osynlig under skummet, framträder. Elden *skapar* inte skillnaden; den fanns där hela tiden.
 
-Varken den nordiska elden eller Swedenborgs korrespondenser når dit. Den koraniska elden *prövar*. Herakleitos tillskrev visserligen elden förmågan att döma – "elden ska, när den kommer, döma och gripa allt" – men hans eld är opersonlig *logos*, utan blick för den enskilde.[^16] Den koraniska elden ser den enskilde.
+Varken den nordiska elden eller Swedenborgs korrespondenser når dit. Den koraniska elden *prövar*. Herakleitos gav visserligen elden förmågan att döma – "elden ska, när den kommer, döma och gripa allt" – men hans eld är opersonlig *logos*, utan blick för den enskilde.[^16] Den koraniska elden ser den enskilde.
 
 Den hanbalitiske lärde Ibn Rajab al-Ḥanbalī driver tanken till dess spets i *al-Takhwīf min al-Nār*:
 
@@ -49,21 +49,21 @@ Elden *känner igen*.
 
 Långt före mötet bestäms relationen till elden. Därför kan Koranen säga om dem som avvisar tron: "Varje gång de försöker komma ut ur den, till följd av sitt elände, sätts de tillbaka i den."[^9] Det är konsekvensen av ett tillstånd som föregår elden.
 
-Bilden bär en oundviklig teologisk spänning. I sunnitisk tradition straffar Jahannam, men för den syndige troende är den också rening. Den som bär trons kärna, hur svag den än är, frigörs till slut ur elden, renad.[^10] Samma eld *straffar* den ene och *renar* den andre. I den som brinner ligger skillnaden.
+Bilden rymmer en oundviklig teologisk spänning. I sunnitisk tradition straffar Jahannam, men för den syndige troende är den också rening. Den som bär trons kärna, hur svag den än är, frigörs till slut ur elden, renad.[^10] Samma eld *straffar* den ene och *renar* den andre. I den som brinner ligger skillnaden.
 
-Ibn Qayyim al-Jawziyyah pressar sambandet till dess tätaste form: trons visshet bränner synderna som eld bränner ved.[^11] Elden verkar redan i det inre livet: den troende som lever i verklig *yaqīn*, i förvissning om Allahs ﷻ enhet, befinner sig redan i en eld som förtär det falska. Men denna eld kräver att du bär något som tål den.
+Ibn Qayyim al-Jawziyyah driver sambandet till dess tätaste form: trons visshet bränner synderna som eld bränner ved.[^11] Elden verkar redan i det inre livet: den troende som lever i verklig *yaqīn*, i förvissning om Allahs ﷻ enhet, befinner sig redan i en eld som förtär det falska. Men denna eld kräver att du bär något som tål den.
 
 Vad är det? I *Rawḍat al-Muḥibbīn* ger Ibn Qayyim ett svar – han knyter eldbilden till kärleken själv:
 
 > Kärleken sätter själen i rörelse och driver den till häftig längtan, och själen skapades med en rörlighet som av naturen liknar eldens.[^12]
 
-Här sammanfaller den islamiska traditionen ett ögonblick med Swedenborg – men skiljelinjen framträder genast. För Swedenborg är förbindelsen strukturell och opersonlig: eld *betyder* kärlek i andevärldens grammatik. Hos Ibn Qayyim är den existentiell och riktad: själens eld drivs mot ett objekt. Det avgörande är *vad* den riktas mot. Det som får dig att glömma tiden. Riktas den mot Allah ﷻ renar den; riktas den mot det egna jaget förtär den.
+Här möts den islamiska traditionen och Swedenborg ett ögonblick – men skiljelinjen syns genast. För Swedenborg är bandet opersonligt: eld *betyder* kärlek i andevärldens grammatik. Hos Ibn Qayyim är det levande och riktat: själens eld drivs mot ett mål. Det avgörande är *vad* den riktas mot. Det som får dig att glömma tiden. Riktas den mot Allah ﷻ renar den; riktas den mot det egna jaget förtär den.
 
 ## Tre eldar, en fråga
 
-Den nordiska elden är likgiltig inför individen: världen förnyas som en årstid vänder – kosmisk återställning utan sedlighet. Den swedenborgianska elden är till sitt väsen subjektiv; den existerar bara som inre korrespondens, psykologisk sanning utan transcendens.
+Den nordiska elden bryr sig inte om den enskilde: världen förnyas som en årstid vänder – kosmisk återställning utan sedlighet. Den swedenborgianska elden är helt och hållet inre; den finns bara som spegling, psykologisk sanning utan transcendens.
 
-Den koraniska elden förenar det de andra var för sig saknar. Den är objektiv – den existerar oberoende av den prövades upplevelse. Och den är personlig: den svarar på den prövades tillstånd med en precision som överstiger mänsklig dom. Samma eld, olika verkan, beroende på vad den möter.
+Den koraniska elden samlar det de andra var för sig saknar. Den är verklig – den finns oavsett den prövades upplevelse. Och den är personlig: den svarar på den prövades tillstånd med en skärpa som överstiger mänsklig dom. Samma eld, olika verkan, beroende på vad den möter.
 
 Ibn Taymiyyah sade, enligt vad Ibn Qayyim förmedlar:
 
@@ -75,15 +75,15 @@ Och han sade:
 
 Om det finns ett jordiskt paradis i bröstet, finns det också en jordisk eld. Sorgerna, bekymren, ångesten: Ibn Qayyim kallar dem ett omedelbart straff, en jordisk eld, ett närvarande helvete.[^14]
 
-Strindberg tecknade hettan. Swedenborg förklarade dess korrespondens. Men den islamiska hållningen nöjer sig aldrig med beskrivning. Strindbergs och Swedenborgs eld *är* slutsatsen: den inre hettan är allt som finns. En eld som känner igen dig, som Ibn Rajab beskriver den, möter dig oavsett om du mött dig själv.
+Strindberg tecknade hettan. Swedenborg förklarade dess korrespondens. Men den islamiska hållningen stannar aldrig vid beskrivning. Strindbergs och Swedenborgs eld *är* slutsatsen: den inre hettan är allt som finns. En eld som känner igen dig, som Ibn Rajab beskriver den, möter dig oavsett om du mött dig själv.
 
-Koranen ger den troende en bild som kalibrerar, inte tröstar:
+Koranen ger den troende en bild som skärper blicken, inte tröstar:
 
 > Om ni sedan inte gör det – och ni kommer aldrig att göra det – frukta då Elden vars bränsle är människor och stenar. Den har förberetts för de otrogna.[^15]
 
 Bränslet är människor. Elden närs av det mänskliga i den mån det vänt sig från sin källa. Den som vänder sig mot källan passerar samma eld – som metall genom smältugnen, inte som skum som upplöses.
 
-Eskatologins mest obekväma fråga: inte om det *finns* en eld – utan vad du är gjord av.
+Eskatologins svåraste fråga: inte om det *finns* en eld – utan vad du är gjord av.
 
 ---
 

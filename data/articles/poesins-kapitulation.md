@@ -11,47 +11,47 @@ Koranen själv ställer utmaningen:
 
 > Och om ni hyser tvivel om vad Vi har sänt ned till Vår tjänare, åstadkom då en sura av samma slag och tillkalla era vittnen, andra än Allah ﷻ, om ni är sannfärdiga.[^1]
 
-Utmaningen trappas ned i tre steg. Först: frambringa en hel skrift som denna, även om människor och djinner förenade sig.[^2] Sedan: tio suror.[^3] Slutligen: en enda. Tre verser räcker: sura *al-Kawthar*, Koranens kortaste, är tre verser lång. Al-Suyūṭī konstaterar att dess *iʿjāz* är likvärdigt med sura *al-Baqarah*, den längsta.[^4] Utmaningen är inte kvantitativ.
+Utmaningen trappas ned i tre steg. Först: frambringa en hel skrift som denna, även om människor och djinner förenade sig.[^2] Sedan: tio suror.[^3] Slutligen: en enda. Tre verser räcker: sura *al-Kawthar*, Koranens kortaste, är tre verser lång. Al-Suyūṭī konstaterar att dess *iʿjāz* är likvärdigt med sura *al-Baqarah*, den längsta.[^4] Utmaningen gäller inte mängd.
 
 ## Språket som inte borde finnas
 
 Före Koranen var poesin arabernas nationalkonst – deras historieskrivning, deras rättsväsende, deras krig. Vid marknaderna i Ukaz tävlade stammarna med sina qasidor som andra folk tävlade med vapen. Att bemästra arabiskans prosodi var makt.
 
-I denna kultur, där varje barn växte upp med örat skärpt för metrisk precision, anlände en text som undflydde allt de behärskade. Koranens arabiska följer inte de etablerade versformerna, saknar genomgående metrum, binder sig inte till qasidans konventioner. Men den är heller inte profan, obunden prosa; den bär en inre rytm, en klanglig arkitektur som varken poeter eller prosaskribenter förmådde inordna i sina kategorier.
+I denna kultur, där varje barn växte upp med örat skärpt för metrisk precision, dök en text upp som undflydde allt de behärskade. Koranens arabiska följer inte de etablerade versformerna, saknar genomgående metrum, binder sig inte till qasidans konventioner. Men den är heller inte vanlig, obunden prosa; den bär en inre rytm, en klanglig byggnad som varken poeter eller prosaskribenter förmådde inordna i sina kategorier.
 
 Teologen al-Khaṭṭābī framhöll att Koranens motståndare famlade efter klassificeringar: "Ibland kallade de den poesi, ibland magi – just för att de fann sig oförmögna inför den."[^5] Ordet de till slut stannade vid var *siḥr* – magi.
 
 ## Walīd ibn al-Mughīras vittnesbörd
 
-Det mest talande erkännandet kom från en motståndare. Walīd ibn al-Mughīra, en av Quraysh-stammens ledare och en erkänd kännare av arabisk poesi, ombads av sina egna att fördöma Koranen. Hans svar, bevarat i den tidiga sira-traditionen, är ofrivillig hyllning: det han hört föll utanför varje känd form – poesi, prosa, spådom, trolldom. Det ägde en sötma och en skönhet som ingenting annat bar. Det krossade allt under sig.[^6] Han fördömde den ändå. Politiken krävde det.
+Det skarpaste erkännandet kom från en motståndare. Walīd ibn al-Mughīra, en av Quraysh-stammens ledare och en erkänd kännare av arabisk poesi, ombads av sina egna att fördöma Koranen. Hans svar, bevarat i den tidiga sira-traditionen, är en ofrivillig hyllning: det han hört föll utanför varje känd form – poesi, prosa, spådom, trolldom. Det ägde en sötma och en skönhet som ingenting annat bar. Det krossade allt under sig.[^6] Han fördömde den ändå. Politiken krävde det.
 
-Walīd besegrades inifrån, som mästare av den tradition Koranen utmanade. Tolv sekler senare nådde Europas störste diktare en liknande slutsats utifrån, genom översättningens filter. Goethe erkände i *West-östlicher Divan* att Koranen först stötte bort honom men sedan framtvingade vördnad: dess stil var, skrev han, "sträng, storlagen, fruktansvärd – stundtals sant sublim."[^15] Att texten betvingade dem båda – den ene på originalspråket, den andre i översättning – antyder att det oefterhärmliga bärs av en kompositionell logik djupare än klang och syntax.
+Walīd besegrades inifrån, som mästare av den tradition Koranen utmanade. Tolv sekler senare nådde Europas störste diktare en liknande slutsats utifrån, genom översättning. Goethe erkände i *West-östlicher Divan* att Koranen först stötte bort honom men sedan framtvingade vördnad: dess stil var, skrev han, "sträng, storlagen, fruktansvärd – stundtals sant sublim."[^15] Att texten betvingade dem båda – den ene på originalspråket, den andre i översättning – pekar mot att det oefterhärmliga bärs av en ordning djupare än klang och satsbyggnad.
 
 ## Kompositionens ordning
 
-ʿAbd al-Qāhir al-Jurjānī, elvahundratalets främste retorikforskare, ägnade sitt livsverk åt att förstå *varför* Koranens text var oefterhärmbar. Hans teori om *naẓm* – kompositionens ordning – påvisade att innebörden i en arabisk text inte bara ligger i orden utan i deras syntaktiska arrangemang. Relationen mellan subjekt och predikat, placeringen av ett bestämningsord, valet att framskjuta eller fördröja en satsdel: allt detta skapar mening utöver ordens lexikala innehåll. Ordet först i meningen och samma ord sist bär olika tyngd. Det är *naẓm*.[^7]
+ʿAbd al-Qāhir al-Jurjānī, elvahundratalets främste retoriker, ägnade sitt livsverk åt att förstå *varför* Koranens text var oefterhärmbar. Hans teori om *naẓm* – kompositionens ordning – visade att innebörden i en arabisk text inte bara ligger i orden utan i deras syntaktiska uppställning. Förhållandet mellan subjekt och predikat, placeringen av ett bestämningsord, valet att framskjuta eller fördröja en satsdel: allt detta skapar mening bortom ordens vanliga betydelse. Ordet först i meningen och samma ord sist bär olika tyngd. Det är *naẓm*.[^7]
 
-Al-Jurjānīs tes var inte estetisk utan strukturell: varje sats bär semantisk information i själva sin grammatiska struktur, så att form och innehåll blir oupplösliga. Att ändra *naẓm* är att ändra vad som sägs. Att efterhärma Koranens stil kräver därför inte bara poetisk begåvning utan förmågan att uppfinna ett helt nytt syntaktiskt system, och att det systemet dessutom fungerar.[^8]
+Al-Jurjānīs tes var inte estetisk utan byggd på struktur: varje sats bär betydelse i själva sin grammatiska form, så att form och innehåll blir oupplösliga. Att ändra *naẓm* är att ändra vad som sägs. Att efterhärma Koranens stil kräver därför inte bara poetisk begåvning utan förmågan att uppfinna en helt ny satsbyggnad, och att det systemet dessutom fungerar.[^8]
 
 ## De som försökte
 
-Hade utmaningen varit retorisk borde den ha besvarats. Musaylimah ibn Ḥabīb, samtida med Profeten ﷺ, författade texter i koranisk stil. Muslimerna bevarade hans försök – för att mäta avståndet. Al-Jurjānīs *naẓm*-teori blottlägger varför efterhärmningen var dömd att misslyckas: om innebörden bärs av syntaktisk ordning kan man inte kopiera ordningen och byta ut innehållet; det nya innehållet kräver en ny ordning, och en ny ordning är inte längre en kopia.[^9]
+Hade utmaningen varit rent formell borde den ha besvarats. Musaylimah ibn Ḥabīb, samtida med Profeten ﷺ, författade texter i koranisk stil. Muslimerna bevarade hans försök – för att mäta avståndet. Al-Jurjānīs *naẓm*-teori visar varför efterhärmningen var dömd att misslyckas: om innebörden bärs av syntaktisk ordning kan man inte kopiera ordningen och byta ut innehållet; det nya innehållet kräver en ny ordning, och en ny ordning är inte längre en kopia.[^9]
 
-Senare försökte andra – Ibn al-Muqaffaʿ, som präglat arabisk prosa i århundraden, och al-Maʿarrī, en poet av sådant djup att moderna komparatister ställt honom jämsides med T.S. Eliot. Ingen av dem besvarade utmaningen.[^10]
+Senare försökte andra – Ibn al-Muqaffaʿ, som präglat arabisk prosa i århundraden, och al-Maʿarrī, en poet av sådant djup att nutida jämförare ställt honom jämsides med T.S. Eliot. Ingen av dem besvarade utmaningen.[^10]
 
 ## Det svåra erkännandet
 
-En uppenbar invändning: vem avgör om utmaningen besvarats? Ingen neutral jury, inget objektivt poängsystem för litterär kvalitet. Men invändningen förbiser något avgörande. Utmaningens första publik var inte troende muslimer utan fientliga Quraysh-araber. Deras tystnad utgjorde det ursprungliga beviset. Ibn Kathīr citerar den tidiga uttolkaren Mujāhid, som förstod utmaningsversens "era vittnen" som "vältalighetens domare". Ibn ʿAṭiyyah formulerade det så: beviskraften vilade på araberna, eftersom de var vältalighetens mästare och de naturliga utmanarna.[^11] Kompetenta fiender, inte fromma anhängare, var måttstocken.
+En uppenbar invändning: vem avgör om utmaningen besvarats? Ingen neutral jury, inget poängsystem för litterär kvalitet. Men invändningen förbiser något väsentligt. Utmaningens första publik var inte troende muslimer utan fientliga Quraysh-araber. Deras tystnad utgjorde det ursprungliga beviset. Ibn Kathīr citerar den tidiga uttolkaren Mujāhid, som förstod utmaningsversens "era vittnen" som "vältalighetens domare". Ibn ʿAṭiyyah formulerade det så: beviskraften vilade på araberna, eftersom de var vältalighetens mästare och de naturliga utmanarna.[^11] Kompetenta fiender, inte fromma anhängare, var måttstocken.
 
-Även inom islamisk teologi rådde oenighet. Al-Naẓẓām och vissa mutaziliter hävdade *ṣarfah*-ståndpunkten: att Gud aktivt hindrade människor från att efterhärma Koranen, att förmågan i princip existerade men blockerades utifrån. Majoriteten avvisade detta. Al-Suyūṭī citerar argumentet att utmaningen förutsätter att motståndarna *behåller* sin förmåga men ändå misslyckas; annars vore det ingen utmaning utan en omöjlighet. Att debatten fördes öppet inom den egna traditionen vittnar om en intellektuell redlighet sällan skådad i dogmatik.[^12]
+Även inom islamisk teologi rådde oenighet. Al-Naẓẓām och vissa mutaziliter hävdade *ṣarfah*-ståndpunkten: att Gud aktivt hindrade människor från att efterhärma Koranen, att förmågan i princip existerade men blockerades utifrån. Majoriteten avvisade detta. Al-Suyūṭī citerar argumentet att utmaningen förutsätter att motståndarna *behåller* sin förmåga men ändå misslyckas; annars vore det ingen utmaning utan en omöjlighet. Att debatten fördes öppet inom den egna traditionen vittnar om en ovanlig intellektuell redlighet.[^12]
 
-*Iʿjāz*-doktrinen tog därtill form i nionde seklets mutazilitiska kretsar, delvis som svar på den *shuʿūbiyyah*-rörelse som ifrågasatte arabiskans företräde. Detta försvagar inte argumentet; det placerar det historiskt.
+*Iʿjāz*-läran tog därtill form i nionde seklets mutazilitiska kretsar, delvis som svar på den *shuʿūbiyyah*-rörelse som ifrågasatte arabiskans företräde. Det försvagar inte argumentet; det placerar det i sin tid.
 
 ## En tredje kategori
 
-För att förstå Koranens särart som *kategori*, inte bara som text, kan en analogi vara belysande. Selma Lagerlöf revolutionerade svensk prosa med *Gösta Berlings saga* 1891. Hon bröt med naturalismen, blandade saga och realism, skapade en stil som inte fanns före henne. Men hon arbetade inom en tradition: svensk litteratur hade Bellman, Tegnér, Almqvist. Lagerlöf utvidgade ett befintligt språkligt universum.
+En jämförelse kan hjälpa. Selma Lagerlöf revolutionerade svensk prosa med *Gösta Berlings saga* 1891. Hon bröt med naturalismen, blandade saga och realism, skapade en stil som inte fanns före henne. Men hon arbetade inom en tradition: svensk litteratur hade Bellman, Tegnér, Almqvist. Lagerlöf utvidgade ett befintligt språkligt universum.
 
-Uppenbarad för en man som varken kunde läsa eller skriva, i en kultur där den muntliga traditionen var fulländad men den skriftliga rudimentär, skapade Koranen inte bara ett nytt verk utan en egen kategori. Arabisk lingvistik – grammatiken, retoriken, prosodins vetenskap – växte fram för att förstå denna enda text. Sībawayh, som skrev arabiskans första systematiska grammatik, citerade Koranen som sitt främsta material.
+Uppenbarad för en man som varken kunde läsa eller skriva, i en kultur där den muntliga traditionen var fulländad men den skriftliga knappt fanns, skapade Koranen inte bara ett nytt verk utan en egen kategori. Arabisk lingvistik – grammatiken, retoriken, prosodins vetenskap – växte fram för att förstå denna enda text. Sībawayh, som skrev arabiskans första systematiska grammatik, citerade Koranen som sitt främsta material.
 
 Ibn Khaldūn sammanfattade paradoxen:
 
@@ -59,11 +59,11 @@ Ibn Khaldūn sammanfattade paradoxen:
 
 ## Tystnadens bevisföring
 
-Att läsa Koranens utmaning genom en falsifieringslogik är min egen tolkning, inte vedertagen akademisk hållning. Strängt taget kräver falsifierbarhet enligt Popper överenskomna kriterier för vad som utgör ett motbevis. Sådana kriterier saknas här i objektiv form. En strikt popperiansk kritiker kunde hävda att utmaningen, utan en neutral bedömningsinstans, är *ofalsifierbar* snarare än falsifierbar.
+Att läsa Koranens utmaning genom en falsifieringslogik är min egen tolkning, inte vedertagen bland forskare. Poppers falsifierbarhet kräver överenskomna mått för vad som räknas som motbevis. Sådana mått saknas här. En strikt popperiansk kritiker kunde hävda att utmaningen, utan en neutral domare, är *ofalsifierbar* snarare än falsifierbar.
 
-Men det finns en anspråkslösare variant. Utmaningen utgör en negativ bevisföring, och det är där dess kraft ligger: i frånvaron av svar. I fjorton sekler har arabisktalande poeter, filosofer, teologer och fiender haft tillgång till samma språk, samma grammatik, samma retoriska verktyg. Ingen har åstadkommit en text som ens av Koranens kritiker ansetts jämförbar.
+Men det finns en enklare variant. Utmaningen utgör en negativ bevisföring, och det är där dess kraft ligger: i frånvaron av svar. I fjorton sekler har arabisktalande poeter, filosofer, teologer och fiender haft tillgång till samma språk, samma grammatik, samma retoriska verktyg. Ingen har åstadkommit en text som ens av Koranens kritiker ansetts jämförbar.
 
-Frånvaron av svar *utgör* ett belägg – inte slutgiltigt, men ett som fordrar förklaring. Antingen är Koranens arabiska väsensskild på ett sätt som omöjliggör efterhärmning, eller så har fjorton seklers historia undanhållit världen den rätta kombinationen av talang och tillfälle. Den som föredrar det andra alternativet bör fråga sig hur länge frånvaron måste bestå innan den slutar vara rimlig.
+Frånvaron av svar *är* ett belägg – inte slutgiltigt, men ett som kräver förklaring. Antingen är Koranens arabiska väsensskild på ett sätt som gör efterhärmning omöjlig, eller så har fjorton seklers historia undanhållit världen den rätta blandningen av talang och tillfälle. Den som föredrar det andra alternativet bör fråga sig hur länge frånvaron måste bestå innan den slutar vara rimlig.
 
 Al-Suyūṭī slog fast att utmaningen var ett avslöjande av oförmåga, inte en uppmaning.[^14] Fjorton seklers tystnad har inte överklagat domen.
 

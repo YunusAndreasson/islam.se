@@ -5,59 +5,59 @@ wordCount: 1710
 qualityScore: 8.5
 description: "I en *ḥadīth*-diskussion i 700-talets Basra gjorde den unge persen Sībawayh ett grammatiskt fel. Skammen drev honom till språkvetenskapen, och resultatet blev *al-Kitāb* – den första systematiska arabiska grammatiken, som fjorton århundraden av arabiskfödda grammatiker aldrig har ersatt."
 ---
-Varje språknationalism vilar på en outtalad förutsättning: att ett språk tillhör dem som fötts in i det. Att modersmålet bär en hemlighet som den invandrade aldrig fullt kan nå. Den mest slående vederläggningen var en persisk yngling i 700-talets Basra. Han talade arabiska med brytning.
+Varje språknationalism bygger på ett outtalat antagande: att ett språk tillhör dem som fötts in i det. Att modersmålet bär en hemlighet som den invandrade aldrig fullt kan nå. Det skarpaste motbeviset var en persisk yngling i 700-talets Basra. Han talade arabiska med brytning.
 
 Hans namn var Sībawayh.
 
 ## En persers väg till det heliga språket
 
-Abū Bishr ʿAmr ibn ʿUthmān ibn Qanbar – kallad Sībawayh, "äppeldoften", ett persiskt smeknamn – föddes i Shiraz och kom till Basra som ung man.[^1] Han hade tänkt studera islamisk rättsvetenskap, *fiqh*. Men han begick ett grammatiskt fel i en *ḥadīth*-diskussion. Skammen drev honom till språkvetenskapen, till besatthet. Att studera grammatik med den besattheten är att urskilja språkets skelett i varje yttrande: i poetens vers, i profetens tal, i marknadens rop.
+Abū Bishr ʿAmr ibn ʿUthmān ibn Qanbar – kallad Sībawayh, "äppeldoften", ett persiskt smeknamn – föddes i Shiraz och kom till Basra som ung man.[^1] Han hade tänkt studera islamisk rättsvetenskap, *fiqh*. Men han begick ett grammatiskt fel i en *ḥadīth*-diskussion. Skammen drev honom till språkvetenskapen, till besatthet. Att studera grammatik med den glöden är att urskilja språkets skelett i varje yttrande: i poetens vers, i profetens tal, i marknadens rop.
 
 Hans lärare blev al-Khalīl ibn Aḥmad al-Farāhīdī, en arabisk lingvist från Oman som avlyssnat prosodins lagar i en kopparslagares hammarslag.[^2] Att al-Khalīl var arab och Sībawayh perser är inte en bisats. Det är poängen.
 
-Arabisk grammatik föddes som samarbete, aldrig som arv.
+Arabisk grammatik föddes ur samarbete, aldrig som arv.
 
 Sībawayh skrev *al-Kitāb* – "Boken". Den behövde inget annat namn. Den var den första systematiska grammatiken för arabiska språket och har aldrig ersatts. I över tusen år har varje seriös arabisk grammatiker utgått från Sībawayh.[^3]
 
 ## Den omöjlige auktoriteten
 
-Sībawayh var perser; hans uttal förrådde honom. I en kultur som värderade *faṣāḥah*, språklig renhet och retorisk fulländning, var det knappast tänkbart att en utlänning kunde kodifiera det heliga språket.
+Sībawayh var perser; hans uttal förrådde honom. I en kultur som värderade *faṣāḥah*, språklig renhet och retorisk fulländning, var det knappast tänkbart att en utlänning kunde sätta reglerna för det heliga språket.
 
 Spänningen löstes aldrig helt. Arabiska är Koranens språk; uppenbarelsen kom på "ett tydligt arabiskt tungomål".[^4]
 
-Språkets sakralitet är odiskutabel. Men vem *äger* det? Om ägandet är etniskt, om arabiskan tillhör araberna som blodets arv, borde en perser med brytning vara den siste att kodifiera dess grammatik. Ändå var det en perser som gjorde det. Ingen har gjort det bättre.
+Språkets helighet är odiskutabel. Men vem *äger* det? Om ägandet är etniskt, om arabiskan tillhör araberna som blodets arv, borde en perser med brytning vara den siste att skriva dess grammatik. Ändå var det en perser som gjorde det. Ingen har gjort det bättre.
 
-Ibn Khaldūn konstaterade det i sin *al-Muqaddimah*: grundarna av den arabiska grammatiken – Sībawayh, al-Fārisī, al-Zajjāj – var alla av persisk härkomst. I samma verk tillade han:
+Ibn Khaldūn konstaterade det i sin *al-Muqaddimah*: de som lade grunden till den arabiska grammatiken – Sībawayh, al-Fārisī, al-Zajjāj – var alla perser. I samma verk tillade han:
 
 > De flesta muslimska lärda inom såväl religiösa som intellektuella vetenskaper har varit icke-araber.[^5]
 
 ## Vad språket kräver
 
-Imam al-Shāfiʿī formulerade grundsatsen som ren observation:
+Imam al-Shāfiʿī uttryckte grundsatsen som ren iakttagelse:
 
 > Den som lärde sig Koranen ärades i människors ögon, den som lärde sig *ḥadīth* fick starkare argumentation, den som lärde sig grammatik vördades.[^6]
 
 Vördnaden, *haybah*, knyts till lärandet – oavsett ursprung.
 
-Al-Shāfiʿī framhöll:
+Al-Shāfiʿī lade till:
 
 > Lär dig, ty människan föds inte lärd – och den som har kunskap är inte lik den okunnige.[^7]
 
-Sībawayh förkroppsligade principen. Utifrån erövrade han arabiskan, så grundligt att han satte normen för dem som *var* födda in i den. Den som föds in i ett språk äger det som instinkt – vet vad som är rätt men inte varför. Den som erövrar det utifrån måste lära sig *varför*, och det är just det som grammatik är.
+Sībawayh levde detta. Utifrån erövrade han arabiskan, så grundligt att han satte normen för dem som *var* födda in i den. Den som föds in i ett språk äger det som instinkt – vet vad som är rätt men inte varför. Den som erövrar det utifrån måste lära sig *varför*, och det är just det som grammatik är.
 
-Motståndet kom ändå. Det islamiska samhällets tidiga århundraden präglades av *shuʿūbiyyah*-rörelsen, där persiska och andra icke-arabiska muslimer hävdade sin intellektuella likvärdighet med araberna trots dessas kulturella överhöghet.[^8] Mitt i denna spänning utspelade sig Sībawayhs karriär. Skepsisen gällde mer än accenten; frågan skar djupare: kunde en utlänning gripa arabiskans innersta logik, det som al-Suyūṭī kallade språkets *tawassuʿ*, dess närmast oändliga vidd?[^9]
+Motståndet kom ändå. Det islamiska samhällets tidiga århundraden präglades av *shuʿūbiyyah*-rörelsen, där perser och andra icke-arabiska muslimer hävdade sin jämbördighet med araberna trots dessas kulturella överhöghet.[^8] Mitt i denna spänning utspelade sig Sībawayhs karriär. Skepsisen gällde mer än accenten; frågan gick djupare: kunde en utlänning gripa arabiskans innersta logik, det som al-Suyūṭī kallade språkets *tawassuʿ*, dess närmast oändliga vidd?[^9]
 
-*Al-Kitāb* var svaret: fyra volymer systematisk granskning som blottlade att arabiskans struktur kunde gripas, beskrivas och läras av den som ägnade den tillräcklig möda. Ett bevis, inte ett argument. Argument besvaras; bevis brukas, och *al-Kitāb* har brukats i varje arabisk lärosal i fjorton århundraden.
+*Al-Kitāb* var svaret: fyra volymer systematisk granskning som visade att arabiskans struktur kunde gripas, beskrivas och läras av den som lade ner tillräcklig möda. Ett bevis, inte ett argument. Argument besvaras; bevis brukas, och *al-Kitāb* har brukats i varje arabisk lärosal i fjorton århundraden.
 
 ## Koranens eget vittnesbörd
 
-Koranen själv undergräver den etniska tolkningen av språklig sakralitet:
+Koranen själv undergräver den etniska tolkningen av språklig helighet:
 
 > Människor! Vi har skapat er av en man och en kvinna och gjorde er sedan till folkslag och stammar för att ni skall lära känna varandra. Den ärorikaste av er hos Allah ﷻ är den mest gudfruktiga.[^10]
 
-Stammar och folkslag finns för *taʿāruf*, ömsesidig kännedom. Värdemåttet är *taqwā*, inte härkomst.
+Stammar och folkslag finns för *taʿāruf*, ömsesidig kännedom. Måttet är *taqwā*, inte härkomst.
 
-Ibn Taymiyyah drog den praktiska slutsatsen: "Att lära sig arabiska, som förståelsen av Koranen och *ḥadīth* vilar på, är en kollektiv plikt."[^11] En plikt, *farḍ ʿalā al-kifāyah*, som åligger hela gemenskapen. Vem som bär bördan spelar ingen roll, så länge den bärs.
+Ibn Taymiyyah drog slutsatsen: "Att lära sig arabiska, som förståelsen av Koranen och *ḥadīth* vilar på, är en kollektiv plikt."[^11] En plikt, *farḍ ʿalā al-kifāyah*, som åligger hela gemenskapen. Vem som bär bördan spelar ingen roll, så länge den bärs.
 
 Han tillade:
 
@@ -73,17 +73,17 @@ Språk vinns genom umgänge och möda. Aldrig genom arv.
 
 Stiernhielm lyfte svenskan ur tyskt och latinskt beroende. Men i Strindbergs *Röda rummet* utbrister en karaktär i satirisk förtvivlan: "Ner med den dumma hunden Georg Stjernhjelm!" – för att denne drivit fram svenskan och trängt undan tyskan.[^14] Strindberg satiriserar den som vänder sig mot själva den språkliga självständigheten. Det löjliga ligger hos dem som hellre behöll det lånade.
 
-Mekanismen *verkar* vara densamma, men fallen är omvända: i Basra motstår man att en utlänning träder in i arabiskan; i Stockholm att främmande ord tränger in i svenskan. Riktningen skiftar, antagandet består: att ett språk har naturliga ägare. Att motståndet uppstår oavsett riktning avslöjar vad det skyddar – inte språket. Hierarkin.
+Mekanismen *verkar* vara densamma, men fallen är omvända: i Basra motstår man att en utlänning träder in i arabiskan; i Stockholm att främmande ord tränger in i svenskan. Riktningen skiftar, antagandet kvarstår: att ett språk har naturliga ägare. Att motståndet uppstår oavsett riktning avslöjar vad det skyddar – inte språket utan rangordningen.
 
 ## Boken som räckte
 
-Sībawayhs omvälvning var inte politisk. Han ledde ingen rörelse, avfattade inget manifest. Han skrev en bok. Men boken tvingade fram ett erkännande: att ett språk tillhör den som behärskar det, inte den som fötts in i det.
+Sībawayhs omvälvning var inte politisk. Han ledde ingen rörelse, skrev inget manifest. Han skrev en bok. Men boken tvingade fram ett erkännande: att ett språk tillhör den som behärskar det, inte den som fötts in i det.
 
 Om det gäller arabiskan – Koranens språk, det språk Gud valde för sin sista uppenbarelse – gäller det varje språk. Om en perser med brytning kunde bli arabiskans främste auktoritet faller varje argument om språklig blodsrätt.
 
 Mönstret gäller även västerut: Joseph Conrad lärde sig engelska i tjugoårsåldern och formade den moderna engelska romanens språk – utan att vara engelsman.[^15]
 
-ʿAlī ibn Abī Ṭālib sade: "Tungan är kroppens roder – om den rättar sig, rättar sig alla lemmar."[^16] Disciplin, övning, lärande. Aldrig rätt föräldrar.
+ʿAlī ibn Abī Ṭālib sade: "Tungan är kroppens roder – om den rättar sig, rättar sig alla lemmar."[^16] Tukt, övning, lärande. Aldrig rätt föräldrar.
 
 Sībawayh dog ung, knappt fyrtio år gammal. Han lämnade inga lärjungar i vanlig mening. Han lämnade *al-Kitāb*. Det räckte.
 

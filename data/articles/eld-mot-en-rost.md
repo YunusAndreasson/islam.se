@@ -5,7 +5,7 @@ wordCount: 1905
 qualityScore: 8.7
 description: "Sommaren 2023 brann böcker på svenska gator, ambassader stormades och Sveriges Natoväg komplicerades. Debatten pendlade mellan yttrandefrihet och muslimsk vrede, men båda sidorna delade en outtalad premiss – att det som brann var en bok."
 ---
-Sommaren 2023 brann böcker på svenska gator. Ambassader stormades, handelsrelationer frystes, Sveriges Natoväg komplicerades.[^1] Den svenska debatten slog mellan yttrandefrihetens principiella försvar och förståelsen för muslimers vrede. Men båda sidorna delade en outtalad premiss: att det som brann var en *bok*.
+Sommaren 2023 brann böcker på svenska gator. Ambassader stormades, handelsrelationer frystes, Sveriges Natoväg komplicerades.[^1] Den svenska debatten pendlade mellan yttrandefrihetens försvar och förståelsen för muslimers vrede. Men båda sidorna delade en outtalad premiss: att det som brann var en *bok*.
 
 ## Ordet före skriften
 
@@ -13,27 +13,27 @@ Redan ordet *Qurʾān* bär svaret. Det stammar ur arabiskans *qaraʾa* – att 
 
 När ängeln Jibrīl kom till Profeten Muḥammad ﷺ i grottan Hira var budet inte "skriv" utan *iqraʾ* – recitera. Därpå följde tjugotre år av muntlig uppenbarelse, buren av en röst till ett öra, memorerad innan den nedtecknades. Den skrivna texten, *muṣḥaf*, kom senare – som kärl för något som redan levde fullt ut utan den.
 
-Här öppnar sig en klyfta. Den västerländska traditionen, formad av Gutenbergs press och protestantismens *sola scriptura*, tänker sig helig text som skrift. Koranen tillhör en annan ordning: den hör hemma i luften mellan mun och öra, i det ögonblick rösten bär fram de gudomliga orden:
+Här öppnar sig en klyfta. Den västerländska traditionen, formad av Gutenbergs press och protestantismens *sola scriptura*, förstår helig text som skrift. Koranen tillhör en annan ordning: den hör hemma i luften mellan mun och öra, i det ögonblick rösten bär fram de gudomliga orden:
 
 > När Koranen reciteras skall ni lyssna till den och vara tysta så att ni kan få nåd.[^2]
 
-Den tystnad som krävs är inte bibliotekets utan konsertsalens – den tystnad som uppstår inför något som händer *nu*. Ibn Kathīr förtydligar att Gud befallde tystnaden som en akt av vördnad, till skillnad från avgudadyrkarna bland Quraysh, som sade: "Lyssna inte på denna Koran och överrösta den, så att ni må segra."
+Den tystnad som krävs är inte bibliotekets utan konsertsalens – tystnad inför något som händer *nu*. Ibn Kathīr förtydligar att Gud befallde tystnaden som en handling av vördnad, till skillnad från avgudadyrkarna bland Quraysh, som sade: "Lyssna inte på denna Koran och överrösta den, så att ni må segra."
 
 ## Rösten som tillhör Skaparen
 
-Koranen är inte en rapport om Guds vilja, inte en sammanfattning av gudomliga principer. Den är Allahs ﷻ tal – levande, direkt, oskapad.
+Koranen är inte en rapport om Guds vilja, inte en sammanfattning av gudomliga grundsatser. Den är Allahs ﷻ tal – levande, direkt, oskapad.
 
-Ibn Taymiyyah gav uttryck för den normgivande sunnitiska hållningen: Koranen är Allahs ﷻ tal, oskapat, bestående av bokstäver, komposition och betydelse.[^3] Nedskriven i mushafen och reciterad med rösten är den i båda fallen verkligen Allahs ﷻ tal. Men recitationen bär en omedelbarhet som den skrivna sidan inte förmår återge. Ibn Taymiyyah förklarar varför:
+Ibn Taymiyyah uttryckte den normgivande sunnitiska hållningen: Koranen är Allahs ﷻ tal, oskapat, bestående av bokstäver, komposition och betydelse.[^3] Nedskriven i mushafen och reciterad med rösten är den i båda fallen Allahs ﷻ tal. Men recitationen bär en omedelbarhet som den skrivna sidan inte förmår återge. Ibn Taymiyyah förklarar varför:
 
 > Det som den skyddssökande hör är Allahs ﷻ tal – och den skyddssökande hör det genom recitörens röst. Rösten tillhör recitören, men talet tillhör Skaparen. Som Profeten ﷺ sade: 'Pryden Koranen med era röster.'[^4]
 
 ## Hjärtats sinne
 
-I *Madārij al-Sālikīn* nedtecknar Ibn Qayyim en iakttagelse som modern perceptionsforskning bekräftat:
+I *Madārij al-Sālikīn* gör Ibn Qayyim en iakttagelse som nutida sinnesforskning bekräftat:
 
 > Hjärtats koppling till hörseln och dess band till den är starkare än dess koppling till synen. Därför påverkas människan starkare av det hon hör av lustfyllda ting än av det hon ser av sköna ting. Detsamma gäller det obehagliga – att höra det berör djupare än att se det.[^5]
 
-Ögat kan slutas, blicken avvändas, men örat har ingen grind. Ljudet föregriper viljan, och i det försprånget verkar Koranens kraft som recitation: den når hjärtat innan dess försvar hinner resa sig. Profeten ﷺ själv bad sina följeslagare recitera för honom så att han kunde *lyssna*. Ur den insikten växte *tajwīd*, vetenskapen kring recitationens fonetik, melodi och andning.
+Ögat kan slutas, blicken avvändas, men örat har ingen grind. Ljudet föregriper viljan, och i det försprånget verkar Koranen som recitation: den når hjärtat innan dess försvar hinner resa sig. Profeten ﷺ själv bad sina följeslagare recitera för honom så att han kunde *lyssna*. Ur den insikten växte *tajwīd*, vetenskapen kring recitationens fonetik, melodi och andning.
 
 När en grupp djinner hör Koranen reciteras för första gången, är deras reaktion omedelbar:
 
@@ -45,25 +45,25 @@ Ibn Qayyim tecknar vad som sker när en människa lyssnar med hela sitt väsen:
 
 > När själen har renats och är redo, och hjärtat tagit emot betydelsens ande, och människan med hela sitt väsen vänder sig mot det som hörs – kastar sitt öra med full närvaro – och därtill bistås av recitörens vackra röst: då är hjärtat nära att lämna denna värld och träda in i en annan.[^7]
 
-Generationer av muslimer bär denna erfarenhet. Handen som hejdas, steget som fryser mitt i rörelsen, när verserna träffar.
+Generationer av muslimer bär denna erfarenhet. Handen som hejdas, steget som stannar mitt i rörelsen, när verserna träffar.
 
 ## Att tysta en röst
 
-I detta ljus framträder koranbränningarna annorlunda. Det som förstördes var inte en bok i den mening västerländsk kultur förstår böcker – en samling idéer bundna i papper, kritiserbar, utbytbar. Det som angreps var en *muṣḥaf*: en fysisk gestaltning av levande gudomligt tal.
+I detta ljus framträder koranbränningarna annorlunda. Det som förstördes var inte en bok i den mening västerlänningar förstår böcker – en samling idéer bundna i papper, kritiserbar, utbytbar. Det som angreps var en *muṣḥaf*: en jordisk gestaltning av levande gudomligt tal.
 
 Walter Ong satte ord på klyftan mellan dessa världar: i den muntliga kulturen är ordet alltid en *händelse*; skriften förvandlar det till ett *föremål*.[^15]
 
-Man kan bränna ett exemplar av *Kapitalet* utan att Marx tystnar; idéerna överlever som abstraktioner, oberoende av varje enskild kopia. Men inom den islamiska förståelsen är varje *muṣḥaf* en plats där Allahs ﷻ tal vilar. Att bränna den är att rikta förakt mot en närvaro, inte mot ett argument.
+Man kan bränna ett exemplar av *Kapitalet* utan att Marx tystnar; idéerna överlever som abstraktioner, oberoende av det enskilda exemplaret. Men inom den islamiska förståelsen är varje *muṣḥaf* en plats där Allahs ﷻ tal vilar. Att bränna den är att rikta förakt mot en närvaro, inte mot ett argument.
 
-Koranen har ett ord för denna hållning. *Istihzāʾ* – hån, förlöjligande av det heliga. Ibn Taymiyyah är otvetydig: att håna Allahs ﷻ tecken och visa ringaktning mot Hans sändebud är otro av nödvändighet.[^8] Det är inte kritik som avvisas utan föraktet mot det som upplevs som Guds direkta närvaro i världen.
+Koranen har ett ord för denna hållning. *Istihzāʾ* – hån, förlöjligande av det heliga. Ibn Taymiyyah är otvetydig: att håna Allahs ﷻ tecken och visa ringaktning mot Hans sändebud är otro av nödvändighet.[^8] Det som avvisas är inte kritik utan föraktet mot det som upplevs som Guds direkta närvaro i världen.
 
 ## Domen och insikten
 
-Den starkaste invändningen ligger nära till hands: om Koranens sakralitet skyddas juridiskt, var drar man gränsen? Skiljelinjen går inte mellan det obekväma och det behagliga utan mellan *kritik* och *förakt*. Den som argumenterar mot Koranens budskap utövar sin rätt. Den som bränner den på gatan riktar sig inte mot ett argument utan mot en närvaro – och mot de människor som bär den. I februari 2025 fastslog Stockholms tingsrätt att koranbränningarna utgjorde hets mot folkgrupp. Svea hovrätt stadfäste domen i november samma år med formuleringen att de budskap handlingarna förmedlade "uttrycker missaktning, inte bara mot islam som religion, utan även mot folkgruppen muslimer."[^9] Handlingen överskred "saklig debatt och kritik"; den riktade sig mot människor, inte mot argument.[^10]
+Den närmaste invändningen: om Koranens sakralitet skyddas juridiskt, var drar man gränsen? Skiljelinjen går inte mellan det obekväma och det behagliga utan mellan *kritik* och *förakt*. Den som argumenterar mot Koranens budskap utövar sin rätt. Den som bränner den på gatan riktar sig inte mot ett argument utan mot en närvaro – och mot de människor som bär den. I februari 2025 fastslog Stockholms tingsrätt att koranbränningarna utgjorde hets mot folkgrupp. Svea hovrätt stadfäste domen i november samma år med formuleringen att de budskap handlingarna förmedlade "uttrycker missaktning, inte bara mot islam som religion, utan även mot folkgruppen muslimer."[^9] Handlingen överskred "saklig debatt och kritik"; den riktade sig mot människor, inte mot argument.[^10]
 
-Den islamiska traditionens förklaring når djupare. Handlingen angriper det gruppen erfar som Guds levande tal.
+Den islamiska förklaringen når djupare. Handlingen angriper det gruppen erfar som Guds levande tal.
 
-Koranens natur var inte alltid självklar. Den muʿtazilitiska skolan hävdade att Koranen *var* skapad, en ståndpunkt som under kalifen al-Maʾmūn på 800-talet upphöjdes till statsdoktrin och försvarades med inkvisitorisk kraft. Förföljelsen av dem som vägrade ansluta sig – bland dem imam Aḥmad ibn Ḥanbal – cementerade den oskapade Koranens teologi som sunnitisk konsensus.[^11] Att denna fråga avgjordes genom en av islams mest dramatiska lärokonflikter visar hur djupt den skär.
+Koranens väsen stod inte alltid klart. Den muʿtazilitiska skolan hävdade att Koranen *var* skapad, en ståndpunkt som under kalifen al-Maʾmūn på 800-talet upphöjdes till statsdoktrin och försvarades med inkvisitorisk kraft. Förföljelsen av dem som vägrade ansluta sig – bland dem imam Aḥmad ibn Ḥanbal – cementerade den oskapade Koranens teologi som sunnitisk konsensus.[^11] Att frågan avgjordes genom en av islams mest dramatiska lärokonflikter visar hur djupt den skär.
 
 ## Det osynliga ordets makt
 
@@ -71,7 +71,7 @@ Erik Gustaf Geijer varnade 1817 för vad som händer när föraktet för det hel
 
 > Föraktet för det heliga är döden i samhället och upplöser alla band. Ty samhället är självt en förening på god tro; och ingen tro finnes utan tron på det högsta.[^12]
 
-Geijer talade om kristendomen, men iakttagelsen sträcker sig längre. När det heliga är levande tal, inte abstrakt princip, är föraktet inte bara ett brott mot samhällsfördraget utan ett försök att tysta en röst som fortfarande talar.
+Geijer talade om kristendomen, men iakttagelsen bär längre. När det heliga är levande tal, inte en tankebyggnad, är föraktet inte bara ett brott mot samhällsfördraget utan ett försök att tysta en röst som fortfarande talar.
 
 Viktor Rydberg fångar något besläktat i *Singoalla*:
 
@@ -85,7 +85,7 @@ Ibn Qayyim återvänder i *al-Wābil al-Ṣayyib* till den liknelse som bär den
 
 Koranen reciteras – i moskéer, i hem, i bilar på motorvägen, i telefoner som spelar *Sūrat al-Kahf* på fredagsmorgnar. Den faller som regn.
 
-Det var denna verklighet – inte en bok, inte en symbol, utan ett ständigt fallande regn av gudomligt tal – som brann på Stockholms gator. De som tände elden trodde sig bränna papper. De som såg visste bättre.
+Det var denna verklighet – inte en bok, inte en symbol, utan ett ständigt regn av gudomligt tal – som brann på Stockholms gator. De som tände elden trodde sig bränna papper. De som såg visste bättre.
 
 Frågan är inte varför reaktionen blev stark. Frågan är om ett samhälle som inte skiljer en bok från en röst förstår vad det bränner.
 
