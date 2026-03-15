@@ -87,7 +87,7 @@ Emerson frågade vad som skulle hända om stjärnorna visade sig en enda natt p�
 
 [^1]: Falchi et al., "The New World Atlas of Artificial Night Sky Brightness", *Science Advances* 2:6, 2016.
 [^2]: Koranen, al-Nūr 24:35.
-[^3]: Ibn Qayyim al-Jawziyyah, *al-Wābil al-Ṣayyib* (Den strålande molnstjärnan), kap. om hjärtats ljus och dess näring.
+[^3]: Ibn Qayyim al-Jawziyyah, *al-Wābil al-Ṣayyib* (Det rikliga regnet), kap. om hjärtats ljus och dess näring.
 [^4]: Ibn Qayyim al-Jawziyyah, *al-Wābil al-Ṣayyib*, kap. om ljusets grader.
 [^5]: Koranen, al-Nūr 24:35: "Allah ﷻ vägleder till Sitt ljus den Han vill."
 [^6]: Koranen, al-Nūr 24:40.

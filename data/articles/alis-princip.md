@@ -25,7 +25,7 @@ Tjugofem år senare, 1980, folkomröstade Sverige om kärnkraften. Tre alternati
 
 Koranen skiljer inte mellan rätt och fel som politiska kategorier utan mellan *kunskap* och *antagande*: *ʿilm* och *ẓann*. "Befatta dig inte med det du saknar kunskap om. Hörseln, synen och hjärtat – alla dessa kommer att tillfrågas."[^7] Ibn Kathīr anför profetens varning: "Akta er för antaganden, ty antaganden är det mest lögnaktiga av tal."
 
-## Antagandets anatomi
+## Två brister och ett begär
 
 Ibn Qayyim al-Jawziyyah urskiljer två grundbrister: brist på klarsyn och brist på tålamod.[^8] Klarsyn kräver ansträngning. Tålamod kräver att man härdar ut obehaget av att stå ensam.
 
@@ -81,7 +81,7 @@ Majoriteten följer lögnen inte för att den övertygar utan för att den erbju
 
 Det demokratiska samhället har gjort detta till grundsats och döpt det till pluralism. Koranen ställer frågan som pluralismen inte förmår besvara: om alla anspråk är lika giltiga, varför skulle något av dem vara sant?
 
-## Det tysta vittnesmålet
+## De med kärna
 
 Koranen har ett ord för dem som skiljer sanning från antagande: *ūlū al-albāb* – de med kärna:
 

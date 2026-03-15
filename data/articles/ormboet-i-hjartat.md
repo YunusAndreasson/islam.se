@@ -63,7 +63,7 @@ Men avundens mest kusliga drag är inte dess våldsamhet utan dess förmåga att
 
 Boyes berättare avundas inte rikedom eller status utan ett *ögonblick av hög salighet*, en upplevelse så flyktig att dess ägare knappt minns den.
 
-## Ressentimentets anatomi
+## Självförgiftningen
 
 Max Scheler kallade det *Selbstvergiftung*, självförgiftning: avund som omformar hela värdeskalan så att det man inte kan uppnå förklaras som värdelöst.[^14] Befordran betydde allt tills den gick till en kollega; då blev ledarskap fåfängt byråkrateri.
 

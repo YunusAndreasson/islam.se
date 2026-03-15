@@ -49,7 +49,7 @@ Profeten Muḥammad ﷺ knöt drömmen till uppenbarelsen: enligt en välkänd *
 
 Men profetskapet självt är en gudomlig utväljelse (*iṣṭifāʾ*), inte slutpunkten på en stegvis reningsprocess. Allah ﷻ utväljer Sina sändebud: "Allah ﷻ vet bäst var Han lägger Sitt budskap."[^9] Skillnaden mellan profeten och den vanliga drömmaren är inte gradskillnad i hjärtats renhet utan artskillnad i gudomlig kallelse. Inte renare vatten utan en annan källa. Profeten ﷺ sade att den som är mest sanningsenlig i sitt tal är den vars drömmar är mest sanningsenliga.[^10] Sambandet mellan yttre rättfärdighet och inre mottaglighet bekräftar hjärtats avgörande roll utan att göra uppenbarelsen till en följd av mänsklig andlig mognad.
 
-## Paradoxen under elektroderna
+## Hjärnan som inte sover
 
 Ibn Khaldūns beskrivning föregick den moderna neurologin med sexhundra år, men när den väl kom bekräftade den paradoxen utan att kunna förklara den. År 1953 upptäckte Eugene Aserinsky och Nathaniel Kleitman vid Chicagouniversitetet att sovande försökspersoner periodvis uppvisade snabba ögonrörelser. Väckta under dessa perioder rapporterade de livliga drömmar. REM-sömnen var upptäckt. Men det var först med Jouvets arbete på 1960-talet som paradoxen fick kontur: under REM-sömn uppvisar hjärnan EEG-mönster som liknar, och i vissa avseenden överstiger, vakenhetens.[^11]
 

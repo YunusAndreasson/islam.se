@@ -53,7 +53,7 @@ I Koranens nittionionde sura, en av de kortaste – knappt sex verser – samman
 
 *Mithqāla dharratin.* En atoms vikt – ingen handling undgår räkenskapen. Ibn Kathīr citerar en profettradition: en äldre man kom till Profeten ﷺ och bad om en enda sura som sammanfattade allt. Profeten ﷺ lärde honom just denna, och när mannen svurit att aldrig lägga till något utöver den sade Profeten ﷺ: "Den lille mannen har lyckats! Den lille mannen har lyckats!"
 
-Linné sökte bevisa genom hundratals fallstudier vad Koranen kungör som axiom.[^10] Men tankegången går i motsatt riktning. Linné slöt sig till suveräniteten bakvägen: den som betedde sig som ägare gick under, alltså var Gud den verklige ägaren. *Tawḥīd* börjar i andra änden – Gud *är* suverän, därför bär varje handling följd. Men Koranen stannar inte vid räkenskapen. Samma Gud som väger varje handling är *al-Tawwāb*, den som tar emot den ångerfulles återvändo: "Er Herre har föreskrivit Sig barmhärtighet: den av er som i oförstånd gör ont och sedan ångrar sig och gör bot – Han är ständigt förlåtande, barmhärtig."[^20] Linnés *Nemesis Divina* rymmer räkenskap utan nåd; lutherdomen nåd utan räkenskap. Koranen håller båda.
+Linné sökte bevisa genom hundratals fallstudier vad Koranen kungör som axiom.[^9] Men tankegången går i motsatt riktning. Linné slöt sig till suveräniteten bakvägen: den som betedde sig som ägare gick under, alltså var Gud den verklige ägaren. *Tawḥīd* börjar i andra änden – Gud *är* suverän, därför bär varje handling följd. Men Koranen stannar inte vid räkenskapen. Samma Gud som väger varje handling är *al-Tawwāb*, den som tar emot den ångerfulles återvändo: "Er Herre har föreskrivit Sig barmhärtighet: den av er som i oförstånd gör ont och sedan ångrar sig och gör bot – Han är ständigt förlåtande, barmhärtig."[^20] Linnés *Nemesis Divina* rymmer räkenskap utan nåd; lutherdomen nåd utan räkenskap. Koranen håller båda.
 
 Den troende förväntas ändå hålla den egna räkenskapen:
 
@@ -109,7 +109,7 @@ Linné fick inte tala. Men tystnaden talar.
 [^6]: Carl von Linné, *Nemesis Divina*.
 [^7]: Carl von Linné, *Nemesis Divina*.
 [^8]: Koranen, al-Zalzalah 99:7–8.
-[^10]: Koranen, al-Taghābun 64:1.
+[^9]: Koranen, al-Taghābun 64:1.
 [^11]: ʿUmar ibn al-Khaṭṭāb, citerad av Ibn Abī al-Dunyā och återgiven av Ibn Qayyim al-Jawziyyah i *Ighāthat al-Lahfān*.
 [^12]: Ibn Qayyim al-Jawziyyah, *Madārij al-Sālikīn*, avsnittet om *muḥāsabah* (självrannsakan).
 [^13]: Processen riktades mot kyrkoherden Gabriel Beyer och docenten Johan Rosén i Göteborg, 1768–70. Swedenborgs skrifter förbjöds till distribution i Sverige.

@@ -49,7 +49,7 @@ Motståndet kom ändå. Det islamiska samhällets tidiga århundraden präglades
 
 *Al-Kitāb* var svaret: fyra volymer systematisk granskning som visade att arabiskans struktur kunde gripas, beskrivas och läras av den som lade ner tillräcklig möda. Ett bevis, inte ett argument. Argument besvaras; bevis brukas, och *al-Kitāb* har brukats i varje arabisk lärosal i fjorton århundraden.
 
-## Koranens eget vittnesbörd
+## Stammar för kännedom, inte för rang
 
 Koranen själv undergräver den etniska tolkningen av språklig helighet:
 

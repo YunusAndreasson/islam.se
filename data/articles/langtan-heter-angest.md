@@ -25,7 +25,7 @@ Den gängse läsningen är defensiv: skydda dig mot viskningarna. Ibn Qayyim lä
 
 Visst obehag är livsnödvändigt.
 
-## Ångestens anatomi
+## Trånghet i bröstet
 
 Redan ordet *ångest* stammar från fornnordiskans *angr*, trånghet. Koranen använder samma kroppsliga bild – *ḍīq ṣadr*, trängsel i bröstet – för den andliga nöden. Men trångheten kräver en åtskillnad: den som väcker ur bedövning och den som trycker djupare in i den.
 

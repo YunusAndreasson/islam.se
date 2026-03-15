@@ -21,7 +21,7 @@ I denna kultur, där varje barn växte upp med örat skärpt för metrisk precis
 
 Teologen al-Khaṭṭābī framhöll att Koranens motståndare famlade efter klassificeringar: "Ibland kallade de den poesi, ibland magi – just för att de fann sig oförmögna inför den."[^5] Ordet de till slut stannade vid var *siḥr* – magi.
 
-## Walīd ibn al-Mughīras vittnesbörd
+## Motståndaren som inte kunde neka
 
 Det skarpaste erkännandet kom från en motståndare. Walīd ibn al-Mughīra, en av Quraysh-stammens ledare och en erkänd kännare av arabisk poesi, ombads av sina egna att fördöma Koranen. Hans svar, bevarat i den tidiga sira-traditionen, är en ofrivillig hyllning: det han hört föll utanför varje känd form – poesi, prosa, spådom, trolldom. Det ägde en sötma och en skönhet som ingenting annat bar. Det krossade allt under sig.[^6] Han fördömde den ändå. Politiken krävde det.
 
@@ -29,7 +29,7 @@ Walīd besegrades inifrån, som mästare av den tradition Koranen utmanade. Tolv
 
 ## Kompositionens ordning
 
-ʿAbd al-Qāhir al-Jurjānī, elvahundratalets främste retoriker, ägnade sitt livsverk åt att förstå *varför* Koranens text var oefterhärmbar. Hans teori om *naẓm* – kompositionens ordning – visade att innebörden i en arabisk text inte bara ligger i orden utan i deras syntaktiska uppställning. Förhållandet mellan subjekt och predikat, placeringen av ett bestämningsord, valet att framskjuta eller fördröja en satsdel: allt detta skapar mening bortom ordens vanliga betydelse. Ordet först i meningen och samma ord sist bär olika tyngd. Det är *naẓm*.[^7]
+ʿAbd al-Qāhir al-Jurjānī, tusentalets främste retoriker, ägnade sitt livsverk åt att förstå *varför* Koranens text var oefterhärmbar. Hans teori om *naẓm* – kompositionens ordning – visade att innebörden i en arabisk text inte bara ligger i orden utan i deras syntaktiska uppställning. Förhållandet mellan subjekt och predikat, placeringen av ett bestämningsord, valet att framskjuta eller fördröja en satsdel: allt detta skapar mening bortom ordens vanliga betydelse. Ordet först i meningen och samma ord sist bär olika tyngd. Det är *naẓm*.[^7]
 
 Al-Jurjānīs tes var inte estetisk utan byggd på struktur: varje sats bär betydelse i själva sin grammatiska form, så att form och innehåll blir oupplösliga. Att ändra *naẓm* är att ändra vad som sägs. Att efterhärma Koranens stil kräver därför inte bara poetisk begåvning utan förmågan att uppfinna en helt ny satsbyggnad, och att det systemet dessutom fungerar.[^8]
 

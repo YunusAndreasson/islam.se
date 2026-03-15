@@ -26,8 +26,7 @@ body {
 
 /* Headings — Source Sans 3 with discretionary ligatures */
 h1,
-h2,
-h3 {
+h2 {
 	font-family: var(--font-heading);
 	line-height: 1.2;
 	text-wrap: balance;
@@ -46,21 +45,10 @@ h1 {
 
 h2 {
 	font-size: var(--step-2);
-	font-weight: 520;
-	letter-spacing: 0;
+	font-weight: 600;
+	letter-spacing: -0.01em;
 	line-height: 1.25;
-	color: var(--color-accent);
-	margin-top: var(--space-phi);
-	margin-bottom: var(--space-half);
-}
-
-h3 {
-	font-size: var(--step-1);
-	font-weight: 500;
-	letter-spacing: 0;
-	line-height: 1.25;
-	color: var(--color-accent);
-	margin-top: var(--space-phi);
+	margin-top: var(--space-unit);
 	margin-bottom: var(--space-half);
 }
 
@@ -357,14 +345,8 @@ article .prose > p:first-child::first-line {
 
 	h2 {
 		font-size: 1.562rem;
-		font-weight: 540;
-		letter-spacing: 0;
-	}
-
-	h3 {
-		font-size: 1.312rem;
-		font-weight: 550;
-		letter-spacing: 0;
+		font-weight: 600;
+		letter-spacing: -0.01em;
 	}
 
 	.prose > p + p:not([class]) {
@@ -396,8 +378,7 @@ article .prose > p:first-child::first-line {
 	}
 
 	h1,
-	h2,
-	h3 {
+	h2 {
 		page-break-after: avoid;
 	}
 

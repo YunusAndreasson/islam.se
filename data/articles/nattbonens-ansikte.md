@@ -39,7 +39,7 @@ Den som tvivlar kan pröva iakttagelsen mot sin egen erfarenhet. Selma Lagerlöf
 
 Lagerlöf skildrar en man vars inre tillstånd har trängt igenom ytan och omformat varje detalj.
 
-## Mörkrets paradox
+## Bönen ingen ser
 
 Enligt Ibn Qayyim präglar den inre skönheten den yttre gestalten tydligast hos den som utövar nattbönen, *qiyām al-layl* – den frivilliga bönen som förrättas i mörkrets djupaste timmar. "Den lyser upp ansiktet och förskönar det", skriver han.[^9]
 
@@ -93,7 +93,7 @@ I den gängse logiken är skönhet självändamål – status, dragningskraft, m
 
 Skillnaden är den mellan en människa som förskönar sig för att bli sedd och en människa som *blir* vacker för att hon ser. Den ena står framför spegeln. Den andra framför Gud.
 
-## Ansiktets vittnesbörd
+## Det ansikte som inte kan ljuga
 
 Al-Fuḍayl ibn ʿIyāḍ pekade på skuggsidan: "Tjänaren begår en synd och berövas därigenom nattbönen."[^18] Om godhet lyser upp ansiktet, släcker synden dess ljus. Ansiktet vittnar – det kan inte ljuga som ord kan. Ibn Qayyim citerar versraden: "O du med vackert ansikte, sky det skamliga – byt inte skönheten mot skam!"[^19]
 

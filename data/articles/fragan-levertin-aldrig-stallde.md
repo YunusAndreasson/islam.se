@@ -87,7 +87,7 @@ Till den frågan svarar Koranen:
 
 Dan Andersson – kolaren, diktaren – uttryckte det med enkel brådska: "Häda inte! När ni fått nog av Gud då är ni förlorad."[^19] En mening som varken Levertin eller Key kunde ha skrivit: den förutsätter att förlusten är verklig, att det som avvisas inte är en känsla utan en förbindelse. Den svenska hållningen – att erkänna religiositeten men inte följa den till en bestämd tröskel – är ärlig; den vägrar bekänna mer än den erfar. Men inom *fiṭrah*s logik pekar religiositeten bortom sig själv, som törst pekar mot vatten. Att stanna vid törsten utan att söka källan är inte oärlighet – det är en ofullbordad resa.
 
-## Ljus på ljus
+## Oljan utan veke
 
 Den subtilaste formuleringen finns hos Ibn Qayyim i *al-Fawāʾid*:
 
@@ -126,7 +126,6 @@ Söderblom förstod det. Strindberg anade det. Levertin noterade det – och sta
 
 [^21]: Ibn Qayyim al-Jawziyyah, *al-Fawāʾid*. Parafras efter arabisk originaltext.
 [^22]: Koranen, Fuṣṣilat 41:53.
-[^23]: Koranen, Qāf 50:16.
 [^24]: Justin Barrett, *Born Believers: The Science of Children's Religious Belief* (Free Press, 2012); jfr Deborah Kelemen, "Are Children 'Intuitive Theists'?", *Psychological Science* 15:5 (2004), 295–301.
 [^25]: Blaise Pascal, *Pensées*, fragment 148 (Lafuma) / 425 (Brunschvicg).
 [^26]: Albert Einstein, citerad i *Saturday Evening Post*, 26 oktober 1929.

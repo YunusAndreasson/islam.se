@@ -39,7 +39,7 @@ Det är detta förbund, *mīthāq*, som ger *fiṭrah* dess kraft bortom det ren
 
 En invändning: om *fiṭrah* grundar universella rättigheter, hur förklara att den klassiska islamiska rättstraditionen inskränkte vissa av de rättigheter den allmänna förklaringen bekräftar? Spänningen finns men rör *tillämpning* – hur juristerna tolkade *fiṭrah* i sina rättsordningar – inte principen själv. Ibn Kathīr anför en profettradition: efter ett fälttåg fördömde Profeten ﷺ dem som angripit fiendens barn, och när en man invände att de var barn till avgudadyrkare svarade han: "De bästa bland er är barn till avgudadyrkare! Ingen själ föds utan att den föds i *fiṭrah*." Att *fiṭrah* som universell grund kan ställa krav som överskrider varje historisk rättsordning, inklusive den islamiska, är argumentets konsekvens, inte dess svaghet.
 
-## Samvetets vittnesbörd
+## Rädslan att undgå upptäckt
 
 *Fiṭrah* sätter ord på något som sekulär moralfilosofi bara kan konstatera: att människor lever som om en moralisk ordning fanns, även när de saknar grund för den. De rycker undan handen från det orättfärdiga utan vittnen, tyngs av skuld för tanken ingen hörde. En biologisk förklaring kan redogöra för tendensen men inte för skuldens drag av *svek*.
 

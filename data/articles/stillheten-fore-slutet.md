@@ -77,7 +77,7 @@ Islam ger vad varken Ragnarök eller klimatrörelsen förmår: ett skäl att han
 
 Att bygga förutsätter ett hopp som sträcker sig bortom insikten om förgängligheten.
 
-Samma impuls drev Ragnaröks skapare. År 536, när en vulkanvinter förmörkade solen över Skandinavien, kan någon ha rest Rökstenen i Östergötland – som myt, inte klagan, som meningsskapande mitt i katastrofen.[^14] Tolkningen är omtvistad, men driften igenkännbar: vi berättar oss *genom* mörkret.
+Samma impuls drev Ragnaröks skapare. Rökstenen i Östergötland, rest på 800-talet, bär enligt Bo Gräslunds tolkning minnet av den vulkanvinter som förmörkade solen över Skandinavien år 536 – som myt, inte klagan, som meningsskapande mitt i katastrofen.[^14] Tolkningen är omtvistad, men driften igenkännbar: vi berättar oss *genom* mörkret.
 
 Berättelsen om den förnyade jorden på Idavallen stannar vid tillförsikten utan att namnge var den kommer ifrån:
 
