@@ -70,4 +70,4 @@ Koranens bild är en våg, inte ett svärd. Svärdet avgör. Vågen mäter. Den 
 [^15]: Selma Lagerlöf, *Bannlyst* (1918).
 [^16]: Ibn Khaldūn, *Muqaddimah*, bok 3.
 [^17]: Blaise Pascal, *Pensées* (1670), fragment 103 (Lafuma). Egen översättning från franska.
-[^18]: Daron Acemoglu & James A. Robinson, *Why Nations Fail: The Origins of Power, Prosperity, and Poverty* (Crown Publishers, 2012); jfr. Acemoglus ekonomipris till Nobels minne 2024 för forskning om institutioner och välstånd.
+[^18]: Daron Acemoglu & James A. Robinson, *Why Nations Fail: The Origins of Power, Prosperity, and Poverty* (Crown Publishers, 2012); jfr Acemoglus ekonomipris till Nobels minne 2024 för forskning om institutioner och välstånd.

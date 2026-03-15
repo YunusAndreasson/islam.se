@@ -51,7 +51,15 @@ Rädsla att *undgå* upptäckt – inte rädsla för straff utan längtan att bl
 
 Ibn Qayyim pekade på svaret: mänsklig fullkomlighet ligger i förmågan att skilja sanning från lögn och att välja sanningen.[^11] Förmågan kan fördunklas av uppfostran, kultur, vanor. Men den kan inte utplånas, för den tillhör skapelsen, inte den enskilde.
 
-Erik Gustaf Geijer betonade personlighetens inneboende värdighet: "Personligheten med dess rätt är både det första och det sista i samhället; att den utgör grunden för rättigheter, lärer ej kunna nekas."[^12] Runeberg skärpte insikten ytterligare: "Man lär sig tala om ett mänskovärde, som är ett annat än en mänsklig lydnad för maktens bud."[^18] Men varifrån kommer rätten? *Fiṭrah* svarar: personligheten har rätt för att den bär ett gudomligt vittnesbörd.
+Erik Gustaf Geijer betonade personlighetens inneboende värdighet:
+
+> Personligheten med dess rätt är både det första och det sista i samhället; att den utgör grunden för rättigheter, lärer ej kunna nekas.[^12]
+
+Runeberg skärpte insikten ytterligare:
+
+> Man lär sig tala om ett mänskovärde, som är ett annat än en mänsklig lydnad för maktens bud.[^18]
+
+Men varifrån kommer rätten? *Fiṭrah* svarar: personligheten har rätt för att den bär ett gudomligt vittnesbörd.
 
 Dag Hammarskjöld skrev i *Vägmärken* ett vittnesbörd som, utan att namnge källan, bär samma klang:
 
@@ -69,7 +77,11 @@ Nietzsche var ärligare. Han insåg att om Gud är borta måste moralen omvärde
 
 ## En grundval eller en tystnad
 
-Ellen Key ställde samma grundvalsfråga: den stora uppgiften inom den politiska moralen var "att rädda de enskilda samvetenas verkningsförmåga – men ändå för de stora stunderna bevara det samfällda samvetets makt".[^15] Hon sökte en moral stark nog att binda samveten utan att krossa dem, men fann aldrig den förankring hon behövde.
+Ellen Key ställde samma grundvalsfråga. Den stora uppgiften inom den politiska moralen var, skrev hon:
+
+> Att rädda de enskilda samvetenas verkningsförmåga – men ändå för de stora stunderna bevara det samfällda samvetets makt.[^15]
+
+Hon sökte en moral stark nog att binda samveten utan att krossa dem, men fann aldrig den förankring hon behövde.
 
 Koranen svarar: människan har rättigheter för att hon är skapad med en natur som vittnar om sin Skapare. Hennes värdighet är varken konvention, kontrakt eller majoritetsbeslut – den är inskriven i henne, djupare än kultur, djupare än språk, i det ögonblick före alla ögonblick då hennes själ svarade *ja*.
 

@@ -7,7 +7,11 @@ description: "År 1955 avskaffade riksdagen Brattsystemet trots läkarnas varnin
 ---
 En mening i Koranen borde oroa varje demokrat: "De flesta av dem följer inte annat än antaganden. Men antaganden kan aldrig ersätta sanningen på något sätt."[^1]
 
-Påståendet är inte unikt för Koranen. Strindberg gav samma misstanke ord i *Götiska rummen*: "Det är majoriteten, det trogna folket, det sunda förståndet som bara är oförstånd; det är de rättänkande, de stilla i landet, kärnan av befolkningen."[^2] Ellen Key skrev om "massdumheten, massfegheten och masslögnen" som tillsammans åstadkommer sådant som nästan varje enskild individ i massan skulle rygga för.[^3] Le Bon skildrade hur en människa som träder in i en folkmassa förlorar sin egenart och övertar massans.[^4]
+Påståendet är inte unikt för Koranen. Strindberg gav samma misstanke ord i *Götiska rummen*:
+
+> Det är majoriteten, det trogna folket, det sunda förståndet som bara är oförstånd; det är de rättänkande, de stilla i landet, kärnan av befolkningen.[^2]
+
+Ellen Key skrev om "massdumheten, massfegheten och masslögnen" som tillsammans åstadkommer sådant som nästan varje enskild individ i massan skulle rygga för.[^3] Le Bon skildrade hur en människa som träder in i en folkmassa förlorar sin egenart och övertar massans.[^4]
 
 Strindberg observerade, Key kritiserade, Le Bon dissekerade – men Koranen förklarar *varför*.
 
@@ -27,7 +31,11 @@ Ibn Qayyim al-Jawziyyah urskiljer två grundbrister: otillräcklig klarsyn och o
 
 Men det finns ett djupare skikt. Ibn al-Jawzī: "Begäret förblindar och gör döv för sanning och riktighet."[^9] *Hawā* förvränger omdömet aktivt. Människan ser inte fel *trots* sin intelligens utan *på grund av* sina begär.[^10]
 
-Utan kännedom om denna tradition landade Le Bon i samma slutsats: "I en folkmassa blir skeptikern troende, den ärliga människan en förbrytare, den fege en hjälte."[^11] Men hans analys börjar för sent: den utgår från folkmassan som om förvrängningen uppstår i det ögonblick individen träder in i gruppen. *Hawā* verkar redan innan massan samlas. Massan ger det begär som redan finns en kollektiv ursäkt.
+Utan kännedom om denna tradition landade Le Bon i samma slutsats:
+
+> I en folkmassa blir skeptikern troende, den ärliga människan en förbrytare, den fege en hjälte.[^11]
+
+Men hans analys börjar för sent: den utgår från folkmassan som om förvrängningen uppstår i det ögonblick individen träder in i gruppen. *Hawā* verkar redan innan massan samlas. Massan ger det begär som redan finns en kollektiv ursäkt.
 
 "Vem är mer vilse än den som följer sitt begär utan någon vägledning från Allah ﷻ?"[^12] Det som fördöms är inte begäret i sig utan begäret *utan vägledning*.
 
@@ -35,7 +43,7 @@ Utan kännedom om denna tradition landade Le Bon i samma slutsats: "I en folkmas
 
 Ett uttalande tillskrivet ʿAlī ibn Abī Ṭālib, den fjärde kalifen: "Sanningen känns inte igen genom människor – känn igen sanningen, så känner du igen dess folk."[^13]
 
-Alis princip kräver det motsatta mot vår vana: pröva påståendet först, *sedan* avsändaren.
+Alis princip kräver motsatsen till vår vana: pröva påståendet först, *sedan* avsändaren.
 
 Ibn Taymiyyah fördjupade principen i flera av sina verk. Den som gör människor till måttstock för sanningen – i stället för att pröva människors påståenden mot sanningen – begår det mest grundläggande tankefelet.[^14] Varje människa kan ha fel eller rätt, utom Profeten ﷺ.
 
@@ -49,19 +57,37 @@ Men Habermas förutsätter just det som Koranen ifrågasätter: att människan, 
 
 "Deras angelägenheter avgörs genom samråd sinsemellan"[^17] – *shūrā*, samråd, är en styrande princip. Men samrådets uppgift är inte att fastställa sanningen genom röstning utan att söka den bästa tillämpningen av en sanning som redan är given. I *shūrā* är sanningen konstant och tillämpningen diskuteras. I demokratin är sanningen det som diskussionen frambringar.
 
-Karin Boye skrev i *Kallocain*: "Sanningen kunde vara en bro mellan människa och människa – så länge den är frivillig, ja – så länge den ges som en gåva och tas emot som en gåva."[^18] Sanningen *som bro* förutsätter att den existerar oberoende av dem den förbinder. En bro som uppfinns i stunden den beträds är ingen bro.
+Karin Boye skrev i *Kallocain*:
 
-Koranen använder ett oväntat ord för det liv som väntar den som vänder sig bort från vägledningen: *dank* – trånghet, snävhet. "Den som vänder sig bort från Min påminnelse ska sannerligen leva ett trångt liv."[^19] Inte syndigt, inte straffat. *Trångt*. Ibn Kathīr förtydligar: "Även om han klär sig som han vill, äter vad han vill och bor var han vill – så länge han saknar visshet och vägledning, förblir hans hjärta i ångest, förvirring och tvivel."
+> Sanningen kunde vara en bro mellan människa och människa – så länge den är frivillig, ja – så länge den ges som en gåva och tas emot som en gåva.[^18]
 
-Hjalmar Söderberg vände på bilden: "Sanningen är fattig som Job, ofruktbar som ökensanden och tråkig som en gammal antikvarisk bokhandlare. Men lögnen är rik som påven i Rom!"[^20] Söderberg menade det ironiskt, men ironin bär en oavsiktlig sanning. Lögnen *är* rik: rik på löften, bekvämlighet, den tillfälliga lättnaden att slippa tänka. Sanningen ger inget av detta. Den ger bara sig själv.
+Sanningen *som bro* förutsätter att den existerar oberoende av dem den förbinder. En bro som uppfinns i stunden den beträds är ingen bro.
 
-Och det är just lögnens rikedom som gör den svår att genomskåda. Ibn Khaldūn satte ord på sambandet mellan sanningens enhet och lögnens mångfald: "Sanningen är bara en form, medan falskheten är många former. Därför är det lätt att begå orättvisa men svårt att uppfylla rättvisa."[^21] Majoriteten följer lögnen inte för att den övertygar utan för att den erbjuder så många skepnader.
+Koranen använder ett oväntat ord för det liv som väntar den som vänder sig bort från vägledningen: *dank* – trånghet, snävhet. "Den som vänder sig bort från Min påminnelse ska sannerligen leva ett trångt liv."[^19] Inte syndigt, inte straffat. *Trångt*. Ibn Kathīr förtydligar:
+
+> Även om han klär sig som han vill, äter vad han vill och bor var han vill – så länge han saknar visshet och vägledning, förblir hans hjärta i ångest, förvirring och tvivel.
+
+Hjalmar Söderberg vände på bilden:
+
+> Sanningen är fattig som Job, ofruktbar som ökensanden och tråkig som en gammal antikvarisk bokhandlare. Men lögnen är rik som påven i Rom![^20]
+
+Söderberg menade det ironiskt, men ironin bär en oavsiktlig sanning. Lögnen *är* rik: rik på löften, bekvämlighet, den tillfälliga lättnaden att slippa tänka. Sanningen ger inget av detta. Den ger bara sig själv.
+
+Och det är just lögnens rikedom som gör den svår att genomskåda. Ibn Khaldūn satte ord på sambandet mellan sanningens enhet och lögnens mångfald:
+
+> Sanningen är bara en form, medan falskheten är många former. Därför är det lätt att begå orättvisa men svårt att uppfylla rättvisa.[^21]
+
+Majoriteten följer lögnen inte för att den övertygar utan för att den erbjuder så många skepnader.
 
 Det är detta som det demokratiska samhället har institutionaliserat och döpt till pluralism. Koranen ställer frågan som pluralismen inte förmår besvara: om alla anspråk är lika giltiga, varför skulle något av dem vara sant?
 
 ## Det tysta vittnesmålet
 
-Koranen har ett ord för dem som förmår skilja sanning från antagande: *ūlū al-albāb* – de med kärna. "Han ger visdom till den Han vill, och den som ges visdom har förvisso getts mycket gott. Men ingen låter sig förmanas utom de med förstånd."[^22] Ibn Kathīr citerar en profettradition: "Gud ger det världsliga livet till den Han älskar och den Han inte älskar, men Han ger religionen bara till den Han älskar." Sanningen kommer *till* människan, inte från henne.
+Koranen har ett ord för dem som förmår skilja sanning från antagande: *ūlū al-albāb* – de med kärna:
+
+> Han ger visdom till den Han vill, och den som ges visdom har förvisso getts mycket gott. Men ingen låter sig förmanas utom de med förstånd.[^22]
+
+Ibn Kathīr citerar en profettradition: "Gud ger det världsliga livet till den Han älskar och den Han inte älskar, men Han ger religionen bara till den Han älskar." Sanningen kommer *till* människan, inte från henne.
 
 ---
 

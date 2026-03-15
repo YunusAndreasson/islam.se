@@ -31,23 +31,33 @@ Högre i ordningen: *al-ʿishq*, det ord som närmast motsvarar den moderna väs
 
 Den schweiziske kulturfilosofen Denis de Rougemont landade i samma insikt sex sekler senare. I *L'Amour et l'Occident* (1939) blottlägger han att den europeiska passionen, från trubadurerna till Tristan, inte älskar den älskade utan begäret självt. Den kräver hinder för att överleva.[^23] Han saknade ordet *ʿishq*; han behövde en hel bok. Men skillnaden ligger inte bara i omfång. De Rougemonts diagnos är en slutsats – den nås efter hundratals sidor och förklarar retroaktivt vad passionen gör. Ibn Qayyims diagnos bor i själva ordet: den som säger *ʿishq* uttalar varningen innan erfarenheten börjat.
 
-Ibn Qayyim konstaterar torrt: "Början av *ʿishq* är plåga, dess mitt är sjukdom, dess slut är död."[^8] Han preciserar: det förtjänar varken beröm eller klander i sig självt; allt beror på dess föremål.[^9] Men Ibn Qayyim insisterar på att den kärlek som tillkommer Allah ﷻ bär ett annat namn: *maḥabbah* och *ʿubūdiyyah*, den fullkomliga kärleken förenad med fullkomlig underkastelse. Pannan mot mattan, fem gånger om dagen, år efter år. Salaf använde inte termen *ʿishq* om Skaparen; de ansåg den för smal, för sjuklig, för knuten till brist. Den *maḥabbah* de föredrog rymmer det som *ʿishq* saknar: stadga, lydnad, vördnad. *ʿIshq* riktat mot en jordisk bild leder genom *walah* mot *tatayyum*. Riktningen avgör om kärleken bär eller bryter ned sin bärare.
+Ibn Qayyim konstaterar torrt: "Början av *ʿishq* är plåga, dess mitt är sjukdom, dess slut är död."[^8] Han preciserar: det förtjänar varken beröm eller klander i sig självt; allt beror på dess föremål.[^9] Men Ibn Qayyim insisterar på att den kärlek som tillkommer Allah ﷻ bär ett annat namn: *maḥabbah* och *ʿubūdiyyah*, den fullkomliga kärleken förenad med fullkomlig underkastelse. Pannan mot mattan, fem gånger om dagen, år efter år. Salaf använde inte termen *ʿishq* om Skaparen; de ansåg den för smal, för sjuklig, för knuten till brist. Den *maḥabbah* de föredrog rymmer det som *ʿishq* saknar: stadga, lydnad, vördnad. Riktningen avgör allt.
 
 ## Söderbergs Arvid, diagnostiserad
 
-Ta Arvid Stjärnblom i *Den allvarsamma leken*: han älskar Lydia och har älskat henne sedan ungdomen. Men hans kärlek tar honom ingenvart; han gifter sig med en annan, lever ett halvt liv. Det "gick aldrig ett dygn och sällan en timme af dygnets vakna stunder utan att hon då eller då steg upp i hans tanke".[^10] Söderberg preciserar: "Det värsta var, att han inte riktigt tordes lita på sina egna känslor."[^11]
+Ta Arvid Stjärnblom i *Den allvarsamma leken*: han älskar Lydia och har älskat henne sedan ungdomen. Men hans kärlek tar honom ingenvart; han gifter sig med en annan, lever ett halvt liv. Söderberg skriver:
+
+> Det gick aldrig ett dygn och sällan en timme af dygnets vakna stunder utan att hon då eller då steg upp i hans tanke.[^10]
+
+Söderberg preciserar: "Det värsta var, att han inte riktigt tordes lita på sina egna känslor."[^11]
 
 Svenskan kallar detta kärlek. Inget annat ord står till buds. Men Ibn Qayyims system ställer en skarpare diagnos. Arvid befinner sig i *ʿishq* som aldrig övergått i *mawaddah*. Hans passion saknar den mogna tillgivenhetens stadga, den *luzūm* som inte vacklar, och därför pendlar han mellan besatthet och handlingsförlamning. Ibn Qayyim: "*ʿIshq* tar inte säte utom i ett tomt hjärta."[^12] Arvids hjärta fylls inte av Lydia – det har tömts på allt annat, och i det vakuumet frodas passionens klängväxt.
-
-Det är *ʿishq* utan *ḥubb* – passion utan den grundläggande kärlek som ger den riktning.
 
 ## Det som brinner och det som bär
 
 Om Arvid förlamades av *ʿishq* mötte Strindberg samma kraft från andra hållet – våldsamt, destruktivt, utan styre. I *Inferno*: "Jag älskar henne och hon mig, och vi hata varandra med ett vildsint hat av kärlek."[^13]
 
-Ibn al-Jawzī, den store bagdadiske predikanten som skrev *Dhamm al-Hawā* två generationer före Ibn Qayyim, hade ett exakt ord för detta: *hawā*, rått begär utan riktning, kraft utan form. "Begäret är en dold fälla som leder sin ägare i fördärvet", skriver han, och tillägger: "Begäret är ett mörker som skymmer hjärtat från vishetens ljus."[^14] Strindbergs äktenskapskrig – den kärlek som brinner utan att värma, som binder utan att bära – är *hawā* utan *ḥubb*, eld utan ljus.
+Ibn al-Jawzī, den store bagdadiske predikanten som skrev *Dhamm al-Hawā* två generationer före Ibn Qayyim, hade ett exakt ord för detta: *hawā*, rått begär utan riktning, kraft utan form. Han skriver:
 
-Men mitt i *Infernos* kaos: "Att älska ett barn är för en man att bliva kvinna, det är att avlägga det manliga, att erfara himlainnevånarnes könlösa kärlek, såsom Swedenborg kallar det."[^15] Utan tillgång till terminologin snuddar Strindberg vid det som Ibn Qayyims system benämner exakt: kärlekens förmåga att *förvandla* sin bärare – en rörelse mot *raḥmah*, den barmhärtighet Koranen sammanför med kärleken som tvillingsyster:
+> Begäret är en dold fälla som leder sin ägare i fördärvet. Begäret är ett mörker som skymmer hjärtat från vishetens ljus.[^14]
+
+Strindbergs äktenskapskrig – den kärlek som binder utan att bära – är *hawā* utan *ḥubb*, eld utan ljus.
+
+Men mitt i *Infernos* kaos:
+
+> Att älska ett barn är för en man att bliva kvinna, det är att avlägga det manliga, att erfara himlainnevånarnes könlösa kärlek, såsom Swedenborg kallar det.[^15]
+
+Utan tillgång till terminologin snuddar Strindberg vid det som Ibn Qayyims system benämner exakt: kärlekens förmåga att *förvandla* sin bärare – en rörelse mot *raḥmah*, den barmhärtighet Koranen sammanför med kärleken som tvillingsyster:
 
 > Och av Hans tecken är att Han har skapat hustrur åt er av er egen art, så att ni kan finna ro hos dem, och Han har låtit kärlek (*mawaddah*) och barmhärtighet (*raḥmah*) uppstå mellan er. I detta ligger förvisso tecken för människor som tänker.[^16]
 
@@ -61,7 +71,13 @@ Den som säger *ʿishq* varnar redan. Den som säger *mawaddah* lovar redan. Den
 
 ## Kärlekens tomma hjärta
 
-Den diagnostiska precisionen har ett högre syfte. Ibn Qayyims ordning är teologisk: den mänskliga kärlekens hela spektrum pekar mot ett centrum, kärleken till Allah ﷻ. Inte genom att varje form av kärlek leder dit – de flesta leder bort – utan genom att varje diagnos i hans katalog implicerar det hälsotillstånd den avviker ifrån. *ʿIshq* är parasitär just för att den fäster vid det som inte kan bära den; *hawā* är blind för att den saknar rätt föremål. Att katalogisera sjukdomarna är att teckna, i negativ, den hälsa som bara ett föremål kan ge. "Det finns inget ljuvare, inget ädlare, inget sötare för hjärtat och själen än kärleken till Allah ﷻ och hängivenheten till Honom allena", skriver han.[^19] Annorstädes preciserar han det utan omsvep: "Det är omöjligt att kärlek till den Högste och *ʿishq* för bilderna någonsin sammanstrålar i ett hjärta – de är motpoler som aldrig möts."[^20]
+Den diagnostiska precisionen har ett högre syfte. Ibn Qayyims ordning är teologisk: den mänskliga kärlekens hela spektrum pekar mot ett centrum, kärleken till Allah ﷻ. Inte genom att varje form av kärlek leder dit – de flesta leder bort – utan genom att varje diagnos i hans katalog implicerar det hälsotillstånd den avviker ifrån. *ʿIshq* är parasitär just för att den fäster vid det som inte kan bära den; *hawā* är blind för att den saknar rätt föremål. Att katalogisera sjukdomarna är att teckna, i negativ, den hälsa som bara ett föremål kan ge. Han skriver:
+
+> Det finns inget ljuvare, inget ädlare, inget sötare för hjärtat och själen än kärleken till Allah ﷻ och hängivenheten till Honom allena.[^19]
+
+Annorstädes preciserar han det utan omsvep:
+
+> Det är omöjligt att kärlek till den Högste och *ʿishq* för bilderna någonsin sammanstrålar i ett hjärta – de är motpoler som aldrig möts.[^20]
 
 Ibn al-Jawzī citerar Platon med ett ord som fortfarande bränner: "*ʿIshq* är en tom själs rörelse utan tanke."[^21]
 

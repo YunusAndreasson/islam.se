@@ -63,7 +63,7 @@ Läroplansreformen Lgr22 har vänt pendeln: skärpta kunskapskrav, fonetisk läs
 
 I den islamiska traditionen är memorering aldrig enbart kognitiv. Den är *dhikr* – åminnelse, en andlig praktik av högsta rang. Koranen öppnas med bandet mellan minne och nåd:
 
-> Den Nåderike, har lärt er Koranen.[^15]
+> Den Nåderike har lärt er Koranen.[^15]
 
 Att lära sig Koranen utantill, att bli *ḥāfiẓ*, är en process genom vilken den heliga texten blir en del av den lärdes kropp, andning, rytm.
 

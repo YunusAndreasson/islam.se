@@ -19,7 +19,7 @@ I *al-Muqaddimah*, det monumentala verk som grundlade historieskrivningen som ve
 
 Varseblivningen upphör inte; den byter riktning.
 
-> Själen blir andlig genom att befria sig från kroppsliga ämnen och kroppliga perceptioner, vilket sker genom sömnens medling.[^3]
+> Själen blir andlig genom att befria sig från kroppsliga ämnen och kroppsliga perceptioner, vilket sker genom sömnens medling.[^3]
 
 Kroppen fungerar som ett teleskop, i vaket tillstånd riktat utåt. Under sömnen vänds det. De yttre linserna mörkas; en annan optik tar vid. Ibn Khaldūn kallar det *drömvision*: en varseblivning som förutsätter de yttre sinnenas tystnad.
 
@@ -81,7 +81,11 @@ August Strindberg, i sin krisskildring *Inferno*, återger denna närvaro, med m
 
 Att natten är bebodd betvivlar han aldrig – det är *av vad* som skrämmer honom. Uppenbarelsen namnger närvaron, och namngivandet skiljer skräck från tillbedjan.
 
-Hjalmar Söderberg höjer motrösten i *Förvillelser*: "Så vaknar man och söker erinra sig vad man har drömt och söker efter någon betydelse i det, och då är det alltsammans en massa dumheter utan mening och sammanhang."[^18] Avväpnande ärligt. Men orden röjer en spricka: han *söker* efter betydelse. Den som inte trodde att drömmar bar mening skulle inte söka.
+Hjalmar Söderberg höjer motrösten i *Förvillelser*:
+
+> Så vaknar man och söker erinra sig vad man har drömt och söker efter någon betydelse i det, och då är det alltsammans en massa dumheter utan mening och sammanhang.[^18]
+
+Avväpnande ärligt. Men orden röjer en spricka: han *söker* efter betydelse. Den som inte trodde att drömmar bar mening skulle inte söka.
 
 ## Den fråga som återstår
 

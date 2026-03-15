@@ -41,7 +41,11 @@ Ibn Taymiyyah, en av den hanbalitiska traditionens mest inflytelserika jurister,
 
 > Det har aldrig rapporterats att Följeslagarna ålade folk att i bönen beräkna exakt efter Polstjärnan... Den som befinner sig i Syrien och liknande områden behöver bara vända väster om sin högra sida och öster om sin vänstra, och hans bön är giltig. Ty Allah ﷻ har bara befallt att man vänder sig mot den Helgade moskéns sida.[^8]
 
-Nyckeln är det arabiska ordet *shaṭr* – "sida", "allmän riktning". Gud befaller att man vänder sig mot Kaʿbah-hållet, inte att man beräknar en exakt kompassbäring med trigonometriska tabeller. Allt som behövs kan läras "genom de kända metoder som Följeslagarna och deras efterföljare brukade, utan att behöva något annat. Ändå har många människor infört nya metoder, och många av dem tror att man inte kan förstå den religiösa lagen utan dessa – och detta beror på deras okunnighet."[^9] Kan den bedjande inte avgöra riktningen alls, använder han sitt eget omdöme, sin *ijtihād*, och bönen förblir giltig.[^10] Han står där han står och gör sitt bästa.
+Nyckeln är det arabiska ordet *shaṭr* – "sida", "allmän riktning". Gud befaller att man vänder sig mot Kaʿbah-hållet, inte att man beräknar en exakt kompassbäring med trigonometriska tabeller. Allt som behövs kan läras, som Ibn Taymiyyah skriver:
+
+> Genom de kända metoder som Följeslagarna och deras efterföljare brukade, utan att behöva något annat. Ändå har många människor infört nya metoder, och många av dem tror att man inte kan förstå den religiösa lagen utan dessa – och detta beror på deras okunnighet.[^9]
+
+Kan den bedjande inte avgöra riktningen alls, använder han sitt eget omdöme, sin *ijtihād*, och bönen förblir giltig.[^10] Han står där han står och gör sitt bästa.
 
 ## Plats och riktning
 

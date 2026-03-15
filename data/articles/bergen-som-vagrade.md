@@ -43,7 +43,7 @@ Algoritmisk delegering är inte *ghaflah*. Inget AI-system sover; inget äger de
 
 Ellen Key läste aldrig Ibn Qayyim men såg samma fara. I *Barnets århundrade* skrev hon att kulturens uppgift borde vara att "göra människan målmedveten och ansvarig på alla områden, där hon endast handlat impulsivt och oansvarigt".[^12] Automationens löfte är det omvända: att befria oss från beslutsbördan. Men om bördan *är* det som gör oss ansvariga – om det tunga, det svåra, det som bergen vägrade, danar den mänskliga förmågan – då är befrielsen en förlust.
 
-Och hon såg djupare; vad som förnedrar människan är inte felet i sig utan flykten från dess följder:
+Och hon såg djupare: vad som förnedrar människan är inte felet i sig utan flykten från dess följder:
 
 > Det hemliga brott, den äldre moralen fann jämförelsevis ofarligt, blir ur den nya sedlighetens synpunkt större än den öppna brytningen. Ty personligheten förnedras genom de svek och den svaghet, hvarigenom man undandrar sig ansvaret för sin handlings följder.[^13]
 

@@ -49,7 +49,11 @@ Invändningar finns. Ateismforskare som Lanman och Geertz hävdar att ateism ock
 
 ## Den omöjliga neutraliteten
 
-I *Götiska rummen* bär Strindbergs formulering en säregen melankoli: "En kristen fritänkare, kanske; kristen, därför att jag är född av kristen släkt, fritänkare, därför att jag icke kan sluta mig till något 'erkänt' kyrkosamfund."[^12] En hållning som söker neutralitet. Men Inferno-krisen visar att mellanrummet inte bär. Ingen kan stanna där.
+I *Götiska rummen* bär Strindbergs formulering en säregen melankoli:
+
+> En kristen fritänkare, kanske; kristen, därför att jag är född av kristen släkt, fritänkare, därför att jag icke kan sluta mig till något 'erkänt' kyrkosamfund.[^12]
+
+En hållning som söker neutralitet. Men Inferno-krisen visar att mellanrummet inte bär. Ingen kan stanna där.
 
 Strindberg kallar rörelsen ofrivillig:
 
@@ -63,7 +67,11 @@ Dag Hammarskjöld noterade samma rörelse i *Vägmärken*, utan dramatik:
 
 Frånvaron av dramatik gör Hammarskjölds vittnesmål svårare att avfärda. Strindbergs erfarenhet kan tillskrivas feber och sammanbrott; Hammarskjölds kan det inte. Att samma ofrivilliga rörelse inträffar utan patologi antyder att krisen inte skapar rörelsen – den blottar den snabbast.
 
-Hjalmar Söderberg fångade belägenhetens ironi med sedvanlig torrhet: "Vi böra hoppas att Strindberg får upprättelse i himlen, om inte förr. Han tror ju på himlen. Varför bråkar han då så förbaskat med de dumma jordiska tingen?"[^14] Det Söderberg avfärdar som excentrisk inkonsekvens – att tro på himlen men slåss med jorden – är ur *fiṭrah*-perspektivet det enda logiska: den som anar det oändliga finner ingen ro i det ändliga.
+Hjalmar Söderberg fångade belägenhetens ironi med sedvanlig torrhet:
+
+> Vi böra hoppas att Strindberg får upprättelse i himlen, om inte förr. Han tror ju på himlen. Varför bråkar han då så förbaskat med de dumma jordiska tingen?[^14]
+
+Det Söderberg avfärdar som excentrisk inkonsekvens – att tro på himlen men slåss med jorden – är ur *fiṭrah*-perspektivet det enda logiska: den som anar det oändliga finner ingen ro i det ändliga.
 
 ## Den stabila ateisten
 

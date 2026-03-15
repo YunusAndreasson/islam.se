@@ -29,7 +29,9 @@ Ibn Kathīr återger bakgrunden: Ibn Masʿūd berättar att Profeten ﷺ fick fr
 
 Ibn Qayyim byggde en kunskapsteori som rymmer Chalmers distinktion utan att lämna uppenbarelsens mark. Hjärtat (*al-qalb*) bär en kunskap av annat slag: "Hjärtat har en kunskap, en insikt, en *firāsah* som sinnesorganen aldrig kan nå."[^7]
 
-Sinnena förkastar han inte: "Skapelsen vittnar om Skaparen, och den som betraktar med sitt hjärta ser i varje skapat ting ett bevis."[^8]
+Sinnena förkastar han inte:
+
+> Skapelsen vittnar om Skaparen, och den som betraktar med sitt hjärta ser i varje skapat ting ett bevis.[^8]
 
 Koranen drar upp den bärande distinktionen: "Hans är skapelsen och befallningen" (*al-khalq wa-l-amr*).[^9] Kroppen tillhör skapelsen – formad av lera, underkastad naturlagar. Själen tillhör befallningen – instiftad genom Guds direkta ord *kun*. Ibn Qayyim utvecklar detta i *Kitāb al-Rūḥ*: själen är varken identisk med kroppen eller en blott egenskap hos den; den är en självständig skapad verklighet av en annan art.[^10]
 
@@ -39,7 +41,9 @@ Förklaringsgapet rymmer en tvetydighet. Är det *epistemiskt* eller *ontologisk
 
 Daniel Dennett hävdar att subjektiv upplevelse är en illusion. Medvetande är vad hjärnan *gör*, inte något den *har*.[^12]
 
-Invändningen är lika gammal som argumentet: vem upplever illusionen? Att avfärda medvetandet som skenbart förutsätter ett medvetande som upplever skenet. Oscar Levertin satte ord på den gräns vetenskapen här stöter mot: "Samtidigt blir det också allt klarare för hvar och en, att alla vetenskapens förklaringar och klassifikationer blott äro provisoriska."[^13]
+Invändningen är lika gammal som argumentet: vem upplever illusionen? Att avfärda medvetandet som skenbart förutsätter ett medvetande som upplever skenet. Oscar Levertin satte ord på den gräns vetenskapen här stöter mot:
+
+> Samtidigt blir det också allt klarare för hvar och en, att alla vetenskapens förklaringar och klassifikationer blott äro provisoriska.[^13]
 
 ## Det som överlever
 

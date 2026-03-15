@@ -31,7 +31,11 @@ Att sluta synda är inte att ångra sig. Att ångra sig är inte att vända om. 
 
 Här korsar Lagerlöfs roman den islamiska traditionens logik: Sven Elversson bekänner och *blir* en annan, omedelbart, i själva handlingen. Men vilken handling?
 
-Koranen knyter rörelsen till ett villkor som blottlägger dess struktur: "Men om någon vänder sig till Allah ﷻ i ånger efter sin orättfärdighet *och ställer till rätta* så godtar Allah ﷻ hans ånger."[^6] Ånger allena räcker inte; den måste bli handling. Det stulna lämnas tillbaka, löftet hålls, samtalet förs.
+Koranen knyter rörelsen till ett villkor som blottlägger dess struktur:
+
+> Men om någon vänder sig till Allah ﷻ i ånger efter sin orättfärdighet *och ställer till rätta* så godtar Allah ﷻ hans ånger.[^6]
+
+Ånger allena räcker inte; den måste bli handling. Det stulna lämnas tillbaka, löftet hålls, samtalet förs.
 
 ## Bekännelsen som handling
 
@@ -39,7 +43,11 @@ Luthersk tradition är mer sammansatt än den förenklade bilden av passivt nåd
 
 Men i sakramental bekännelse förmedlas förlåtelsen genom en institution. I den terapeutiska traditionen bearbetas skulden genom samtal. I *tawbah*, och i Lagerlöfs roman, sker förvandlingen i själva handlingen. Ingen förmedlar; den är omedelbar.
 
-Sven Elversson bekänner – skuldens tyngd går inte att bära utan att sanningen sägs högt. Lagerlöf låter honom klä det i ord: "Det är gott, att detta kommer," säger han efteråt. "Men det var dock inte det viktigaste. Det förnämsta var, att jag blev befriad från skuld i min själ, i mitt hjärta."[^8] Befrielsen sker inuti, men utlöses av en yttre, oåterkallelig handling.
+Sven Elversson bekänner – skuldens tyngd går inte att bära utan att sanningen sägs högt. Lagerlöf låter honom klä det i ord:
+
+> Det är gott, att detta kommer. Men det var dock inte det viktigaste. Det förnämsta var, att jag blev befriad från skuld i min själ, i mitt hjärta.[^8]
+
+Befrielsen sker inuti, men utlöses av en yttre, oåterkallelig handling.
 
 Samma insikt nådde Ludwig Wittgenstein långt från religiös tradition: bekännelsen tillhör inte det gamla livet; den är en del av det nya.[^14] Och Karin Boye ställde frågan i *Kallocain* med en skärpa som avslöjar att hon redan visste svaret: "Kan någon människa höra sanningen utan att förändras?"[^17]
 
@@ -47,9 +55,17 @@ Den islamiska traditionen drar en radikalare slutsats. Profeten Muḥammad ﷺ s
 
 ## Skuldens verklighet
 
-Skulden i *Bannlyst* är inte en känsla utan ett moraliskt faktum. Gustaf af Geijerstam tecknade skuldens spridning i *Nils Tufvesson och hans moder*: "Brottets ande vakade över deras bädd. Den skyldige hörde honom icke, men den oskyldiga svettades kallt för den sovandes skulder."[^16] Skulden smittar den som lever närmast; den som bär den märker den minst. "Om det är gjort, kan ingenting under så stort göra det ogjort," konstaterar en karaktär i *Bannlyst*.[^10] Men det gjorda kan besvaras genom handling – och handlingen kräver en riktning.
+Skulden i *Bannlyst* är inte en känsla utan ett moraliskt faktum. Gustaf af Geijerstam tecknade skuldens spridning i *Nils Tufvesson och hans moder*:
 
-Koranen formulerar det: "De som, om de begår en skamlös handling eller gör orätt mot sig själva, minns Allah ﷻ och ber om förlåtelse för sina synder – och vem kan förlåta synder utom Allah ﷻ?"[^11] Frågan i slutet är inte retorisk. Den pekar mot förlåtelsens källa, bortom den enskilda människan, bortom den sociala ordningen.
+> Brottets ande vakade över deras bädd. Den skyldige hörde honom icke, men den oskyldiga svettades kallt för den sovandes skulder.[^16]
+
+Skulden smittar den som lever närmast; den som bär den märker den minst. "Om det är gjort, kan ingenting under så stort göra det ogjort," konstaterar en karaktär i *Bannlyst*.[^10] Men det gjorda kan besvaras genom handling – och handlingen kräver en riktning.
+
+Koranen formulerar det:
+
+> De som, om de begår en skamlös handling eller gör orätt mot sig själva, minns Allah ﷻ och ber om förlåtelse för sina synder – och vem kan förlåta synder utom Allah ﷻ?[^11]
+
+Frågan i slutet är inte retorisk. Den pekar mot förlåtelsens källa, bortom den enskilda människan, bortom den sociala ordningen.
 
 Enligt Ibn Qayyim utgör synden det största hindret mellan tjänaren och hans Herre; *tawbah* är det förnämsta medlet att undanröja det.[^12]
 

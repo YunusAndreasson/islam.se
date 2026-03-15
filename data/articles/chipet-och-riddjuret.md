@@ -27,7 +27,11 @@ Ibn al-Jawzī, den lärde i tolfte århundradets Bagdad, tecknade kroppen som et
 
 Biohackaren frågar *hur kan jag förbättra min kropp?* Ibn al-Jawzī frågar *vilka villkor gäller för detta lån?*
 
-Ibn Qayyim al-Jawziyyah förde analysen från metafor till princip. "Hjärtat," menade han, "är kungen över lemmarna, och lemmarna är dess soldater; om kungen är rättfärdig, är hans soldater rättfärdiga, och om kungen är fördärvad, är hans soldater fördärvade."[^4] Kroppen tjänar hjärtat, inte tvärtom. *Qalb* rymmer det kroppen aldrig kan mäta: förmågan att vända sig till sin Skapare genom tro, lydnad och uppenbarad kunskap.
+Ibn Qayyim al-Jawziyyah förde analysen från metafor till princip:
+
+> Hjärtat är kungen över lemmarna, och lemmarna är dess soldater; om kungen är rättfärdig, är hans soldater rättfärdiga, och om kungen är fördärvad, är hans soldater fördärvade.[^4]
+
+Kroppen tjänar hjärtat, inte tvärtom. *Qalb* rymmer det kroppen aldrig kan mäta: förmågan att vända sig till sin Skapare genom tro, lydnad och uppenbarad kunskap.
 
 Biohackingens kropp är ett slutet kretslopp av data, kemikalier och mekanismer. Traditionens kropp är genomsläpplig – riktad bortom sig själv. Ibn Qayyim drog parallellen uttryckligen:
 
@@ -55,7 +59,9 @@ I Profetens ﷺ berömda *ḥadīth* om hjärtat sammanfattas hela den islamiska
 
 > I kroppen finns sannerligen en köttbit: om den är frisk, är hela kroppen frisk, och om den är sjuk, är hela kroppen sjuk. Det är hjärtat.[^10]
 
-Hadithen ger kroppen ett centrum som inte kan lokaliseras med biohackarens instrument. Ibn Taymiyyah beskrev dess tillstånd som villkoret för allt annat: "Hjärtats liv är inte blott sinnesförnimmelse och viljemässig rörelse, inte heller blott kunskap och förmåga, utan livet är en egenskap som är villkoret för kunskap, vilja och förmåga till fritt handlande."[^11]
+Hadithen ger kroppen ett centrum som inte kan lokaliseras med biohackarens instrument. Ibn Taymiyyah beskrev dess tillstånd som villkoret för allt annat:
+
+> Hjärtats liv är inte blott sinnesförnimmelse och viljemässig rörelse, inte heller blott kunskap och förmåga, utan livet är en egenskap som är villkoret för kunskap, vilja och förmåga till fritt handlande.[^11]
 
 Den som mäter sin kropp kan aldrig mäta det som avgör *vad* som är värt att mäta.
 
@@ -63,7 +69,11 @@ Hjärtfrekvens, hjärtfrekvensvariabilitet, blodflöde – allt kan mätas. Men 
 
 ## Varken dystopi eller utopi
 
-Leo Kall hade ett ögonblick av klarhet. Mot romanens slut, när hans uppfinning redan sönderslitit familjer och dömt oskyldiga, skriver han: "Rädsla var det inte. Jag hade varit rädd nästan hela mitt liv, jag hade varit feg – men just då var jag inte rädd."[^13] Han anar att något gått förlorat, men saknar språket.
+Leo Kall hade ett ögonblick av klarhet. Mot romanens slut, när hans uppfinning redan sönderslitit familjer och dömt oskyldiga, skriver han:
+
+> Rädsla var det inte. Jag hade varit rädd nästan hela mitt liv, jag hade varit feg – men just då var jag inte rädd.[^13]
+
+Han anar att något gått förlorat, men saknar språket.
 
 Språket har funnits sedan 600-talet. Kroppen som riddjur, hjärtat som kunskapsplats, existensen som lån.
 

@@ -63,7 +63,7 @@ Den starkaste invändningen ligger nära till hands: om Koranens sakralitet skyd
 
 Den islamiska traditionens förklaring når djupare. Handlingen angriper det gruppen erfar som Guds levande tal.
 
-Koranens natur var inte alltid självklar. Den mu'tazilitiska skolan hävdade att Koranen *var* skapad, en ståndpunkt som under kalifen al-Maʾmūn på 800-talet upphöjdes till statsdoktrin och försvarades med inkvisitorisk kraft. Förföljelsen av dem som vägrade ansluta sig – bland dem imam Aḥmad ibn Ḥanbal – cementerade den oskapade Koranens teologi som sunnitisk konsensus.[^11] Att denna fråga avgjordes genom en av islams mest dramatiska lärokonflikter visar hur djupt den skär.
+Koranens natur var inte alltid självklar. Den muʿtazilitiska skolan hävdade att Koranen *var* skapad, en ståndpunkt som under kalifen al-Maʾmūn på 800-talet upphöjdes till statsdoktrin och försvarades med inkvisitorisk kraft. Förföljelsen av dem som vägrade ansluta sig – bland dem imam Aḥmad ibn Ḥanbal – cementerade den oskapade Koranens teologi som sunnitisk konsensus.[^11] Att denna fråga avgjordes genom en av islams mest dramatiska lärokonflikter visar hur djupt den skär.
 
 ## Det osynliga ordets makt
 

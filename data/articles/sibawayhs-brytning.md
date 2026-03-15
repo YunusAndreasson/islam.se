@@ -33,7 +33,11 @@ Ibn Khaldūn konstaterade det i sin *al-Muqaddimah*: grundarna av den arabiska g
 
 ## Vad språket kräver
 
-Imam al-Shāfiʿī formulerade grundsatsen som ren observation: "Den som lärde sig Koranen ärades i människors ögon, den som lärde sig *ḥadīth* fick starkare argumentation, den som lärde sig grammatik vördades."[^6] Vördnaden, *haybah*, knyts till lärandet – oavsett ursprung.
+Imam al-Shāfiʿī formulerade grundsatsen som ren observation:
+
+> Den som lärde sig Koranen ärades i människors ögon, den som lärde sig *ḥadīth* fick starkare argumentation, den som lärde sig grammatik vördades.[^6]
+
+Vördnaden, *haybah*, knyts till lärandet – oavsett ursprung.
 
 Al-Shāfiʿī framhöll:
 
@@ -55,11 +59,17 @@ Stammar och folkslag finns för *taʿāruf*, ömsesidig kännedom. Värdemåttet
 
 Ibn Taymiyyah drog den praktiska slutsatsen: "Att lära sig arabiska, som förståelsen av Koranen och *ḥadīth* vilar på, är en kollektiv plikt."[^11] En plikt, *farḍ ʿalā al-kifāyah*, som åligger hela gemenskapen. Vem som bär bördan spelar ingen roll, så länge den bärs.
 
-Han tillade: "kunskap om språkens betydelser uppnås av den som umgås med dem som talar språket eller läser deras böcker."[^12] Språk vinns genom umgänge och möda. Aldrig genom arv.
+Han tillade:
+
+> Kunskap om språkens betydelser uppnås av den som umgås med dem som talar språket eller läser deras böcker.[^12]
+
+Språk vinns genom umgänge och möda. Aldrig genom arv.
 
 ## Spegeln västerut: Stiernhielm och den svenska paradoxen
 
-År 1658 publicerade Georg Stiernhielm *Hercules*, den svenska skaldekonstens grundsten. Erik Gustaf Geijer iakttog: "Språket låg ännu rått och ouppodladt. Man måste känna det barbari, hvari det i följd deraf förfallit, för att rätt värdera allt hvad det blef under Stjernhjelms hand."[^13]
+År 1658 publicerade Georg Stiernhielm *Hercules*, den svenska skaldekonstens grundsten. Erik Gustaf Geijer iakttog:
+
+> Språket låg ännu rått och ouppodladt. Man måste känna det barbari, hvari det i följd deraf förfallit, för att rätt värdera allt hvad det blef under Stjernhjelms hand.[^13]
 
 Stiernhielm lyfte svenskan ur tyskt och latinskt beroende. Men i Strindbergs *Röda rummet* utbrister en karaktär i satirisk förtvivlan: "Ner med den dumma hunden Georg Stjernhjelm!" – för att denne drivit fram svenskan och trängt undan tyskan.[^14] Strindberg satiriserar den som vänder sig mot själva den språkliga självständigheten. Det löjliga ligger hos dem som hellre behöll det lånade.
 

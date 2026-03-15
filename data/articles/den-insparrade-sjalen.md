@@ -3,7 +3,7 @@ title: "Fängelset som blir bekvämare"
 publishedAt: "2025-09-18T12:00:00.000Z"
 wordCount: 1943
 qualityScore: 8.7
-description: "Neuralink lovar att befria hjärnan från kroppen. Den islamiska traditionen nått samma slutsats – men omvänd: kroppen begränsar inte hjärnan. Den tynger själen."
+description: "Neuralink lovar att befria hjärnan från kroppen. Den islamiska traditionen har nått samma slutsats – men omvänd: kroppen begränsar inte hjärnan. Den tynger själen."
 ---
 En människa, kopplad till en maskin, tänker en tanke och tanken blir handling utan att bromsas av kroppens tröghet. Fingrarna behöver inte röra sig, stämbanden behöver inte vibrera. Hjärnan, äntligen befriad från sitt biologiska fängelse, talar rakt till världen.
 
@@ -45,7 +45,7 @@ I *Madārij al-Sālikīn* fullbordar han bilden. Denna värld och nästa jämfö
 
 ## En avlägsen fläkt av igenkänning
 
-Zacharias Topelius skrev om "denna törstande, stormande, brinnande själ" som "flaxar som fågeln mot fönsterrutan".[^6] Fredrika Bremer vittnade om hur "den dödliga kroppen besvärar själena".[^7] Dan Andersson ställde frågan rakast: "Vart skall han då ta vägen, den konstiga Fågel Jag?"[^8]
+Zacharias Topelius skrev om "denna törstande, stormande, brinnande själ" som "flaxar som fågeln mot fönsterrutan".[^6] Fredrika Bremer vittnade om hur "den dödliga kroppen besvärar själen".[^7] Dan Andersson ställde frågan rakast: "Vart skall han då ta vägen, den konstiga Fågel Jag?"[^8]
 
 Topelius visste att själen flaxade, men inte varför fönstret var stängt. Koranen ger svaret – själen bär ett minne av sitt ursprung:
 

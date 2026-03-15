@@ -55,7 +55,11 @@ Koranen vänder perspektivet:
 
 > Den dagen skall Vi rulla ihop himlen, så som pergamentrullar med skrifter rullas ihop. Som Vi inledde skapelsen första gången skall Vi återställa den – ett löfte Vi ålagt Oss att uppfylla.[^9]
 
-Ibn Kathīr återger att Ibn Abbas sade: "Gud viker samman de sju himlarna med allt de rymmer och de sju jordarna med allt de rymmer – allt detta i Hans hand blir som ett senapskorn." I Ragnarök överlever det goda av egen kraft; världsträdet trotsar elden. Elden renar men förlåter inte. Den frågar inte vem du är – bara vad du tål. I islam överlever det goda för att det är *valt* av en vilja som också är *al-Raḥmān*, den Barmhärtiges. "Min Herre är sannerligen benådande och kärleksfull", påminner profeten Shu'ayb sitt folk.[^10] Domen är verklig. Men den som dömer älskar den som döms.
+Ibn Kathīr återger att Ibn Abbas sade:
+
+> Gud viker samman de sju himlarna med allt de rymmer och de sju jordarna med allt de rymmer – allt detta i Hans hand blir som ett senapskorn.
+
+I Ragnarök överlever det goda av egen kraft; världsträdet trotsar elden. Elden renar men förlåter inte. Den frågar inte vem du är – bara vad du tål. I islam överlever det goda för att det är *valt* av en vilja som också är *al-Raḥmān*, den Barmhärtiges. "Min Herre är sannerligen benådande och kärleksfull", påminner profeten Shu'ayb sitt folk.[^10] Domen är verklig. Men den som dömer älskar den som döms.
 
 Ibn Taymiyyah i *al-ʿUbūdiyyah*: "Det man älskar nås som regel inte utan att uthärda det man ogillar."[^20] Vikingen uthärdar elden för att den inte ger val. Den troende uthärdar prövningen för att det som väntar bortom den är älskat.
 
@@ -67,13 +71,19 @@ Men Koranen skänker också principen för att bära ångesten:
 
 Upprepningen är princip: svårigheten *föder* lättnaden, som Ragnaröks eld föder den förnyade jorden. Skillnaden: Koranen vet *varför*.
 
-Islam skänker vad varken Ragnarök eller klimatrörelsen förmår: ett handlingsmotiv bortom fatalism och febril aktivism. Begreppet *khalīfa*, människan som skapelsens förvaltare, förankrar omsorgen om jorden i ansvar inför den som anförtrott den – inte i undergångsångest.[^12] Profeten Muḥammad ﷺ lärde att om timmen kommer medan du håller en planta i handen ska du plantera den.[^13] Handlingen är meningsfull för att den svarar mot ett förtroende. Ibn al-Jawzī iakttog paradoxen från andra hållet: "Om människan handlade efter hoppets korthet hade ingen skrivit en bok eller sammanställt ett verk."[^18] Att bygga förutsätter ett hopp som överskrider insikten om förgängligheten.
+Islam skänker vad varken Ragnarök eller klimatrörelsen förmår: ett handlingsmotiv bortom fatalism och febril aktivism. Begreppet *khalīfa*, människan som skapelsens förvaltare, förankrar omsorgen om jorden i ansvar inför den som anförtrott den – inte i undergångsångest.[^12] Profeten Muḥammad ﷺ lärde att om timmen kommer medan du håller en planta i handen ska du plantera den.[^13] Handlingen är meningsfull för att den svarar mot ett förtroende. Ibn al-Jawzī iakttog paradoxen från andra hållet:
+
+> Om människan handlade efter hoppets korthet hade ingen skrivit en bok eller sammanställt ett verk.[^18]
+
+Att bygga förutsätter ett hopp som överskrider insikten om förgängligheten.
 
 Samma impuls drev Ragnaröks skapare. År 536, när en vulkanvinter förmörkade solen över Skandinavien, kan någon ha rest Rökstenen i Östergötland – som myt, inte klagan, som meningsskapande mitt i katastrofen.[^14] Tolkningen är omtvistad, men impulsen igenkännbar: vi berättar oss *genom* mörkret.
 
 Berättelsen om den förnyade jorden på Idavallen stannar vid tillförsikten utan att namnge dess källa:
 
-"Mina söner!" ropar Jakob i Koranen. "Ge aldrig upp hoppet om Allahs barmhärtighet. Ingen ger upp hoppet om Allahs barmhärtighet utom otrogna människor."[^15]
+Jakob ropar i Koranen:
+
+> Mina söner! Ge aldrig upp hoppet om Allahs barmhärtighet. Ingen ger upp hoppet om Allahs barmhärtighet utom otrogna människor.[^15]
 
 Ibn al-Jawzī skrev: "Hoppet ger liv åt den döde och förtvivlan dödar den levande."[^16] Han menade inte optimism, det billiga surrogatet, utan den tillförsikt som vilar på vissheten att förstörelsen inte har sista ordet – för den som förstörde är också den som återställer.
 

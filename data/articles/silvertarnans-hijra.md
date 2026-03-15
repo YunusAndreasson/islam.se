@@ -21,7 +21,11 @@ Vart denna logik ledde såg Ellen Key. I *Barnets århundrade* skriver hon:
 
 Människan som sin egen försyn.
 
-I *Röda rummet* lät Strindberg försäkringen avslöja sig själv. Hans försäkringsman insisterar: "Vi få icke kalla försäkringsinstitutionen en affär! Den är ingen affär; vi äro inga affärsmän, för ingen del i världen!"[^6] Försäkringen ska vara högre än handel, trygghetens sakrament. Men Strindberg visste att sakrament utan tro bara är papper.
+I *Röda rummet* lät Strindberg försäkringen avslöja sig själv. Hans försäkringsman insisterar:
+
+> Vi få icke kalla försäkringsinstitutionen en affär! Den är ingen affär; vi äro inga affärsmän, för ingen del i världen![^6]
+
+Försäkringen ska vara högre än handel, trygghetens sakrament. Men Strindberg visste att sakrament utan tro bara är papper.
 
 ## Fågeln som inte stannar
 
@@ -47,7 +51,11 @@ Men i *Madārij al-Sālikīn* dissekerar han den förväxling som ständigt hota
 
 Så gör silvertärnan: den använder varje navigationsredskap Gud gett den, flyger med allt den har – men har aldrig oroat sig för om den kommer fram.
 
-Ibn al-Jawzī (1100-talet) skärper det: "Den som berövar sig själv det nödvändiga i *tawakkuls* namn har brutit mot profetens ﷺ väg."[^11] Det moderna samhället erkänner bara två möjligheter: kontroll eller ångest. *Tawakkul* är den tredje platsen: fullständig ansträngning förenad med fullständig vila. Det är läkaren som opererar med fullt kunnande och sedan går hem och sover.
+Ibn al-Jawzī (1100-talet) skärper det:
+
+> Den som berövar sig själv det nödvändiga i *tawakkuls* namn har brutit mot profetens ﷺ väg.[^11]
+
+Det moderna samhället erkänner bara två möjligheter: kontroll eller ångest. *Tawakkul* är den tredje platsen: fullständig ansträngning förenad med fullständig vila. Det är läkaren som opererar med fullt kunnande och sedan går hem och sover.
 
 För det saknar moderniteten språk. Den som kom närmast var Kierkegaard, vars "trons riddare" i *Fruktan och bävan* lever fullt i det ändliga men har överlämnat utgången. Men att han kallade rörelsen "i kraft av det absurda" avslöjar mer än en språklig brist – det avslöjar att tillit inom hans tradition bara kan tänkas som ett undantag från förnuftet. I den islamiska traditionen är *tawakkul* tvärtom förnuftets slutsats: den som verkligen vet vem Gud är finner det orimligt att *inte* förlita sig.[^21]
 
@@ -69,7 +77,11 @@ Ur denna bild utvinner Ibn Qayyim trons inre mekanik: rädsla och hopp som två 
 
 ## En hälsosam osäkerhet
 
-Strindberg, som aldrig landat i en övertygelse utan att genast börja tvivla på den, skrev i *Götiska rummen* om "en hälsosam osäkerhet, som höll personen kort, alltid vaken, på sin vakt; ständig förnyelse under ett hejdlöst framåt."[^15] Det låter som ett modernt credo: osäkerhet som dygd, vaksamhet som livshållning. Men han kallade den "hälsosam", och adjektivet avslöjar honom. Han visste att total trygghet är en annan form av död – att den som försäkrat sig mot allt har förlorat skälet att röra sig.
+Strindberg, som aldrig landat i en övertygelse utan att genast börja tvivla på den, skrev i *Götiska rummen*:
+
+> En hälsosam osäkerhet, som höll personen kort, alltid vaken, på sin vakt; ständig förnyelse under ett hejdlöst framåt.[^15]
+
+Det låter som ett modernt credo: osäkerhet som dygd, vaksamhet som livshållning. Men han kallade den "hälsosam", och adjektivet avslöjar honom. Han visste att total trygghet är en annan form av död – att den som försäkrat sig mot allt har förlorat skälet att röra sig.
 
 Utan Strindbergs stilistiska skärpa nådde Beck samma slutsats: ju fler risker vi hanterar, desto fler nya risker föder vi, och desto mer undergräver vi den tillit systemet var tänkt att frambringa.[^16] Försäkringen som skulle befria oss från rädsla binder oss vid sig. Den som inte kan gå ut förrän försäkringsbrevet är granskat har bytt herre.
 
@@ -85,7 +97,11 @@ Fågeln har medel men ingen herre utom den som formade den. Den förbereder sig 
 
 ## Fågel Jag
 
-Även den svenska litteraturen kretsade kring denna bild. Dan Andersson lade den i romanfigurens mun – vandraren David Ramm som ropar: "Låt oss antaga att jag har en själ... när jag dör flyger det likt en fågel ur kroppen. Vart skall han då ta vägen, den konstiga Fågel Jag?"[^18] Frågan stiger mot samma öppna rymd som silvertärnan, och inget försäkringsbolag tar emot den.
+Även den svenska litteraturen kretsade kring denna bild. Dan Andersson lade den i romanfigurens mun – vandraren David Ramm som ropar:
+
+> Låt oss antaga att jag har en själ... när jag dör flyger det likt en fågel ur kroppen. Vart skall han då ta vägen, den konstiga Fågel Jag?[^18]
+
+Frågan stiger mot samma öppna rymd som silvertärnan, och inget försäkringsbolag tar emot den.
 
 Fredrika Bremer gav ett svar i mitten av 1800-talet:
 
@@ -93,7 +109,9 @@ Fredrika Bremer gav ett svar i mitten av 1800-talet:
 
 *Enligt evigt gifna lagar.* Bremer talade om själen, inte om silvertärnan, men hon fångade den grundsats som gör fågelns resa möjlig. Det finns en ordning som bär – den syns inte, den är inte formulerad i ett avtal, den kan inte sägas upp. Koranen kallar det *qadar*.
 
-Kvar står fågeln: hundra gram, en hjärna som en ärta, ett öga öppet och ett slutet – på väg genom en rymd den blivit anförtrodd att genomkorsa. Vid sekelskiftet 1900 fångade Hjalmar Söderberg samma sanning: "den som vill stanna här och där på vägen och njuta en smula af lifvet innan han har nått målet, han når det aldrig."[^20]
+Kvar står fågeln: hundra gram, en hjärna som en ärta, ett öga öppet och ett slutet – på väg genom en rymd den blivit anförtrodd att genomkorsa. Vid sekelskiftet 1900 fångade Hjalmar Söderberg samma sanning:
+
+> den som vill stanna här och där på vägen och njuta en smula af lifvet innan han har nått målet, han når det aldrig.[^20]
 
 Silvertärnan stannar inte.
 

@@ -27,7 +27,11 @@ Redan 2013 hade Försäkringskassan infört modellen. År 2018 konstaterade Insp
 
 Ibn Taymiyyahs distinktion förtydligar: algoritmens *quwwah* kunde ingen betvivla. Bristande *amānah* var problemet. Utan insyn förstärkte kapaciteten de ojämlikheter den var avsedd att rätta. En svag tjänsteman gör begränsad skada – hans inkompetens sätter gränser för hans orättvisa. En algoritm som fattar miljontals beslut utan att kunna förklara ett enda alstrar orättvisa i industriell skala.
 
-Problemet är inte nytt. Kybernetikens grundare Norbert Wiener pekade redan 1960 ut samma struktur: maskinens fara, varnade han, ligger inte i olydnad utan i absolut trohet – den förverkligar sina instruktioner med en bokstavlighet som förvandlar varje oreflekterat antagande till system.[^18] Maskinen skickar hundra påminnelsebrev till en avliden person därför att "skicka påminnelse" aldrig kompletterades med "kontrollera om mottagaren lever".
+Problemet är inte nytt. Kybernetikens grundare Norbert Wiener pekade redan 1960 ut samma struktur:
+
+> Maskinens fara ligger inte i olydnad utan i absolut trohet – den förverkligar sina instruktioner med en bokstavlighet som förvandlar varje oreflekterat antagande till system.[^18]
+
+Maskinen skickar hundra påminnelsebrev till en avliden person därför att "skicka påminnelse" aldrig kompletterades med "kontrollera om mottagaren lever".
 
 ## Det dolda förtroendekontraktet
 
@@ -45,7 +49,7 @@ Arbetsförmedlingens AI-matchningssystem lider av samma brist. Mönsterigenkänn
 
 Svensk diskussion om algoritmisk ansvarighet finns – i ISF:s granskningar, i EU:s AI-förordning som klassificerar välfärdsautomation som "högrisk".[^13] Men frågan ställs nästan uteslutande i tekniska och juridiska termer. Det som saknas är ett moralfilosofiskt språk för *varför* dessa krav gäller – inte vilka regler som bryts utan vilket mänskligt förtroende som sviks.
 
-Ibn Taymiyyahs svar på *quwwah*–*amānah*-problemet: bygg institutioner som förenar dem.[^14] När inget enskilt system besitter båda egenskaperna kräver rättvisan att styrka och trovärdighet fördelas på flera händer – den starke uppbördsmannen och den pålitlige skrivaren, algoritmen och den mänskliga handläggaren.
+Ibn Taymiyyahs svar på *quwwah*-*amānah*-problemet: bygg institutioner som förenar dem.[^14] När inget enskilt system besitter båda egenskaperna kräver rättvisan att styrka och trovärdighet fördelas på flera händer – den starke uppbördsmannen och den pålitlige skrivaren, algoritmen och den mänskliga handläggaren.
 
 Ibn al-Jawzī fångar det i en bild:
 

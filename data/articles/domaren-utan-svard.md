@@ -21,7 +21,11 @@ Inom rättsväsendet urskilde han tre instanser med skarpt avgränsade befogenhe
 
 Det reguljära domstolsväsendet, *qaḍāʾ*, kräver bevis. Profeten ﷺ förbjöd domaren att döma i vrede eller efter gissningar.[^3] "Bevisbördan vilar på den som anklagar, och eden på den som förnekar."[^4]
 
-Klagomålsdomstolen, *maẓālim*, kräver tvångsmakt. Al-Māwardī beskrev den som den instans som "leder de förtryckande till rättvisa genom fruktan och avhåller de tvistande från förnekelse genom sin auktoritet".[^5] Men även denna makt har gränser: "*Maẓālim* tillåter inte av sina domar det som den heliga lagen har förbjudit."[^6]
+Klagomålsdomstolen, *maẓālim*, kräver tvångsmakt. Al-Māwardī beskrev den som den instans som:
+
+> leder de förtryckande till rättvisa genom fruktan och avhåller de tvistande från förnekelse genom sin auktoritet.[^5]
+
+Men även denna makt har gränser: "*Maẓālim* tillåter inte av sina domar det som den heliga lagen har förbjudit."[^6]
 
 ## Mitt emellan domstol och polis
 
@@ -35,7 +39,13 @@ Ingripa men inte bestraffa, tillrättavisa men aldrig med brutalitet: "Eftersom 
 
 ## En plikt utan vapen
 
-Uppdelningen saknas i den moderna rättsstaten. Utredning och åtal sammansmälter i åklagarens hand. Selma Lagerlöf gav obehaget röst: "Med domare och allmänna åklagare förhåller det sig så, att man med dem måste tala en särskild sorts sanning, därför att den verkliga sanningen inte kan nå fram till deras hjärtan."[^12] Söderberg var kallare: "Domare äro människor och kunna misstaga sig. Det är sannolikt att många blifva oskyldigt dömda."[^13]
+Uppdelningen saknas i den moderna rättsstaten. Utredning och åtal sammansmälter i åklagarens hand. Selma Lagerlöf gav obehaget röst:
+
+> Med domare och allmänna åklagare förhåller det sig så, att man med dem måste tala en särskild sorts sanning, därför att den verkliga sanningen inte kan nå fram till deras hjärtan.[^12]
+
+Söderberg var kallare:
+
+> Domare äro människor och kunna misstaga sig. Det är sannolikt att många blifva oskyldigt dömda.[^13]
 
 Båda pekar på samma sårbarhet: när samma hand utreder, anklagar och dömer, skymmer makten den rättvisa den skulle tjäna. Al-Māwardīs *ḥisbah* bryter logiken: en instans som urskiljer det onda men saknar befogenhet att straffa det. Att läsa detta som medveten kritik av det moderna åklagarväsendet vore anakronistiskt, men uppdelningen blottar en svaghet vi ännu lever med.
 
@@ -43,9 +53,13 @@ Ibn Taymiyyah preciserade principen: varje ämbetes medel inskränks till det eg
 
 ## Rädslan för den rättfärdige
 
-Montesquieu skilde statens funktioner för att förhindra tyranni. Al-Māwardī skilde rättvisans funktioner för att skydda rättvisan från dess egna försvarare.[^16] Det som hindrar människor från orättvisa, konstaterade han, är alltid en av fyra saker: "antingen ett förstånd som avhåller, en tro som hindrar, en härskare som hejdar, eller en oförmåga som stoppar".[^17] Härskarens tvångsmakt är det kraftfullaste medlet – och det farligaste.
+Montesquieu skilde statens funktioner för att förhindra tyranni. Al-Māwardī skilde rättvisans funktioner för att skydda rättvisan från dess egna försvarare.[^16] Det som hindrar människor från orättvisa, konstaterade han, är alltid en av fyra saker:
 
-C.S. Lewis nådde samma slutsats nio sekler senare:
+> Antingen ett förstånd som avhåller, en tro som hindrar, en härskare som hejdar, eller en oförmåga som stoppar.[^17]
+
+Härskarens tvångsmakt är det kraftfullaste medlet – och det farligaste.
+
+C. S. Lewis nådde samma slutsats nio sekler senare:
 
 > Av alla former av tyranni är det som uppriktigt utövas till offrens bästa kanske det mest förtryckande. De som plågar oss för vårt eget bästa plågar oss utan ände, ty de gör det med sitt eget samvetes gillande.[^22]
 
@@ -55,7 +69,11 @@ Abū Bakr al-Ṣiddīq, den förste kalifen efter Profeten ﷺ, kungjorde princi
 
 > Den starkaste bland er är i mina ögon den svagaste tills jag har tagit hans rätt ifrån honom, och den svagaste bland er är i mina ögon den starkaste tills jag har gett honom hans rätt.[^18]
 
-Ibn Khaldūn slog fast principen i sin *Muqaddimah*: "Rättvisa är en balans som upprättas bland människorna. Herren upprättade den och utsåg en övervakare för den, och den övervakaren är härskaren."[^19] Övervakaren – inte ägaren.
+Ibn Khaldūn slog fast principen i sin *Muqaddimah*:
+
+> Rättvisa är en balans som upprättas bland människorna. Herren upprättade den och utsåg en övervakare för den, och den övervakaren är härskaren.[^19]
+
+Övervakaren – inte ägaren.
 
 Principen var aldrig oprövad. Under al-Māwardīs egen livstid förföll det abbasidiska kalifatet; muhtasiber överskred sina befogenheter i flera provinser.[^20] Att han skrev mitt i detta förfall gör insikten skarpare. Hans system var en fordran ställd på verkligheten, aldrig en spegling av den:
 
@@ -88,4 +106,4 @@ Svärdet kan skydda rättvisan. Det kan aldrig vara den.
 [^19]: Ibn Khaldūn, *Muqaddimah*.
 [^20]: Jfr historiska studier av *ḥisbah*-ämbetets praktiska tillämpning under senabbasidisk tid.
 [^21]: Koranen, al-Nisāʾ 4:58.
-[^22]: C.S. Lewis, "The Humanitarian Theory of Punishment" (1949).
+[^22]: C. S. Lewis, "The Humanitarian Theory of Punishment" (1949).

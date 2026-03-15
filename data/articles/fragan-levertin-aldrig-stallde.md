@@ -9,9 +9,13 @@ Oscar Levertin skrev 1898 en mening som sammanfattar den svenska hållningen rö
 
 > Verkligheten kan kanske undvara religion, men säkert ej religiositet.[^1]
 
-Levertin visste vad han talade om. Som litteraturhistoriker, och som jude i det protestantiska Sverige, ägde han utomståendes blick. Han studerade Lucretius – den antike materialisten som försökte befria människan från gudsfruktan – och fann att Lucretius själv var genomsyrad av det han ville avskaffa. "Det är denna religiositet utan religion, denna svärmiska världskult, som Lucretii metafysiska styrka ligger", konstaterade Levertin.[^2]
+Levertin visste vad han talade om. Som litteraturhistoriker, och som jude i det protestantiska Sverige, ägde han utomståendes blick. Han studerade Lucretius – den antike materialisten som försökte befria människan från gudsfruktan – och fann att Lucretius själv var genomsyrad av det han ville avskaffa. Levertin konstaterade:
 
-Iakttagelsen löper som en underjordisk ström genom svensk idéhistoria. Ellen Key ville att skolan skulle "dana religiositet utan att bibringa tron på en absolut religion".[^3] Nathan Söderblom vidgade den till kosmisk skala: "I oändlighetskänslan och idealdriften rinner religionens källsprång fram på vår jord – ur tillvarons gudomliga innandöme."[^5]
+> Det är denna religiositet utan religion, denna svärmiska världskult, som Lucretii metafysiska styrka ligger.[^2]
+
+Iakttagelsen löper som en underjordisk ström genom svensk idéhistoria. Ellen Key ville att skolan skulle "dana religiositet utan att bibringa tron på en absolut religion".[^3] Nathan Söderblom vidgade den till kosmisk skala:
+
+> I oändlighetskänslan och idealdriften rinner religionens källsprång fram på vår jord – ur tillvarons gudomliga innandöme.[^5]
 
 ## Landskapet efter Gud
 
@@ -27,19 +31,39 @@ En koranisk vers slår an tonen:
 
 > Ägna hela ditt jag åt religionen som en sann *ḥanīf*! Den är Allahs ﷻ naturliga väg som Han ingjutit i människorna. Ingen förändring skall ske i Allahs ﷻ skapelse.[^9]
 
-*Fiṭrah* – här översatt "naturlig väg" – betecknar den medfödda konstitution med vilken varje människa föds: en orientering mot sin Skapare som föregår all uppfostran och kultur. Anspråket är antropologiskt, djupare än teologiskt postulat. Profeten Muḥammad ﷺ formulerade det i en berömd *ḥadīth*: "Varje barn föds med *fiṭrah*; det är föräldrarna som gör det till jude, kristen eller zoroastrier."[^10] Ibn Kathīr citerar en profettradition där Gud själv talar: "Jag skapade Mina tjänare som rättriktade, men djävlarna förledde dem bort från deras religion."
+*Fiṭrah* – här översatt "naturlig väg" – betecknar den medfödda konstitution med vilken varje människa föds: en orientering mot sin Skapare som föregår all uppfostran och kultur. Anspråket är antropologiskt, djupare än teologiskt postulat. Profeten Muḥammad ﷺ formulerade det i en berömd *ḥadīth*:
+
+> Varje barn föds med *fiṭrah*; det är föräldrarna som gör det till jude, kristen eller zoroastrier.[^10]
+
+Ibn Kathīr citerar en profettradition där Gud själv talar:
+
+> Jag skapade Mina tjänare som rättriktade, men djävlarna förledde dem bort från deras religion.
 
 Modern kognitionsforskning styrker bilden: Justin Barrett fann att barn i alla undersökta kulturer spontant utvecklar gudsbegrepp oberoende av uppfostran.[^24]
 
-Albert Einstein vittnade om samma erfarenhet: "Människor, växter eller kosmiskt stoft – vi rör oss alla efter en gåtfull melodi som anslås i fjärran av en osynlig spelman."[^26] Den osynlige spelmannen – *fiṭrah* utan etikett.
+Albert Einstein vittnade om samma erfarenhet:
 
-Ibn Taymiyyah blottlägger grunden: "*Fiṭrah* är det som hjärtat skapades för – kärleken till Gud."[^11] Han driver tanken till sin spets: "Kunskap om sanningen medför kärlek till den, och kunskap om falskheten medför avsky för den, på grund av det som finns i *fiṭrah* av kärlek till sanningen."[^12] *Fiṭrah* svarar på sanningen som strängen svarar på tonen.
+> Människor, växter eller kosmiskt stoft – vi rör oss alla efter en gåtfull melodi som anslås i fjärran av en osynlig spelman.[^26]
+
+Den osynlige spelmannen – *fiṭrah* utan etikett.
+
+Ibn Taymiyyah blottlägger grunden: "*Fiṭrah* är det som hjärtat skapades för – kärleken till Gud."[^11] Han driver tanken till sin spets:
+
+> Kunskap om sanningen medför kärlek till den, och kunskap om falskheten medför avsky för den, på grund av det som finns i *fiṭrah* av kärlek till sanningen.[^12]
+
+*Fiṭrah* svarar på sanningen som strängen svarar på tonen.
 
 ## Den fråga ingen ställde
 
-Levertin nöjer sig med slutsatsen att religiositet utan religion räcker. Ibn Qayyim vänder den. Han visar hur uppenbarelse och medfödd insikt samverkar: "Uppenbarelsens ljus förenades med *fiṭrah*s ljus – ljus på ljus – så att hjärtat nära nog talar sanning även utan att ha hört ett ord" (*al-Fawāʾid*).[^13] *Nära nog*: *fiṭrah* allena kommer nära men når inte ända fram.
+Levertin nöjer sig med slutsatsen att religiositet utan religion räcker. Ibn Qayyim vänder den. Han visar hur uppenbarelse och medfödd insikt samverkar:
 
-I *al-Wābil al-Ṣayyib* namnger han vad som inträder utan den andra ljuskällan: "I hjärtat finns en tomhet och en brist som absolut ingenting kan fylla utom åminnelsen av Gud."[^14]
+> Uppenbarelsens ljus förenades med *fiṭrah*s ljus – ljus på ljus – så att hjärtat nära nog talar sanning även utan att ha hört ett ord.[^13]
+
+*Nära nog*: *fiṭrah* allena kommer nära men når inte ända fram.
+
+I *al-Wābil al-Ṣayyib* namnger han vad som inträder utan den andra ljuskällan:
+
+> I hjärtat finns en tomhet och en brist som absolut ingenting kan fylla utom åminnelsen av Gud.[^14]
 
 Pascal beskrev, utan tillgång till Ibn Qayyim, en "oändlig avgrund" i människan som "bara kan fyllas av Gud själv".[^25]
 

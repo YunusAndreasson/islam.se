@@ -17,7 +17,7 @@ Ibn Qayyim al-Jawziyyah, den damascenske lärde verksam under 1300-talets först
 
 Inte en känsla, inte en magkänsla som kanske stämmer. Ett ljus vars skärpa svarar mot hjärtats tillstånd. Ibn Qayyim preciserar: den är en ingivelse som kastar sig över hjärtat som lejonet slår ned sitt byte – den första oemotsagda impulsen.[^5] Uppstår en andra likadan impuls, är det bara inre prat.
 
-Men Ibn Qayyim binder firasans precision till betraktarens tro:
+Men Ibn Qayyim binder klarsynens skärpa till betraktarens tro:
 
 > *Firāsah* är i enlighet med trons styrka; den med starkast tro har skarpast *firāsah*.[^6]
 
@@ -27,7 +27,13 @@ Den som lever etiskt *ser* klarare. Genom andlig ansträngning kan *firāsah* f�
 
 I *Rawḍat al-Muḥibbīn* utvecklar han principen genom en spegelmetafor: hjärtat är en polerad spegel i vilken kunskaper framträder oförvanskade. Men blicken – den okontrollerade, begärliga blicken – *är* ett andetag mot spegelns yta. Den immar igen ytan. Den som sänker sin blick från det förbjudna, honom belönar Gud med klarsynens ljus. Den som släpper blicken fri förlorar sin klarsyn.[^8]
 
-Koranen befäster sambandet. I sura al-Ḥajj: "Har de inte färdats på jorden med hjärtan med vilka de förstår och öron med vilka de hör? Men det är inte ögonen som är blinda utan hjärtat som finns i bröstet."[^10] Och i sura al-Ḥadīd: "Ni som har antagit tron! Frukta Allah ﷻ och tro på Hans sändebud! Då skall Han ge er dubbla mått av Sin nåd, skaffa er ett ljus ni kan ta hjälp av när ni vandrar."[^11]
+Koranen befäster sambandet. I sura al-Ḥajj:
+
+> Har de inte färdats på jorden med hjärtan med vilka de förstår och öron med vilka de hör? Men det är inte ögonen som är blinda utan hjärtat som finns i bröstet.[^10]
+
+Och i sura al-Ḥadīd:
+
+> Ni som har antagit tron! Frukta Allah ﷻ och tro på Hans sändebud! Då skall Han ge er dubbla mått av Sin nåd, skaffa er ett ljus ni kan ta hjälp av när ni vandrar.[^11]
 
 ## Den ofrånkomliga invändningen
 

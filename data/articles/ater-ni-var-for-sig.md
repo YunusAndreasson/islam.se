@@ -31,7 +31,11 @@ I *Hemsöborna* skildrar Strindberg bröllopsfesten på Hemsö med en scen som v
 
 Pluralformerna säger allt: *såtar*, *vålmar*, *staplar*, *travar*. Maten mäts i mängder som förutsätter gemenskap. Pastorn saknas, och "utan pastorn ville ingen börja". Man väntar på varandra.
 
-Tusentals gånger spelades den scenen upp i det Sverige som skulle kalla sig folkhem. I sitt berömda tal 1928 använde Per Albin Hansson hemmet som politisk metafor: "Det goda hemmet känner icke till några privilegierade eller tillbakasatta, inga kelgrisar och inga styvbarn."[^8] Det var en vision om jämlikhet, men visionen krävde en materiell bas, och den basen var till stor del det gemensamma ätandet. Husmanskost – ärtsoppa på torsdag, köttbullar på söndag, pannkakor till middag – det var där folkhemmets solidaritet utövades, inte debatterades. Seden är äldre än folkhemmet: redan i *Njáls saga* mäts vänskap i inbjudningar till bords. Gunnar och Njáll bjöd varandra till gästabud varje skörd och utbytte rika gåvor, år efter år.[^9] Den som inte bjöd hade brutit bandet.
+Tusentals gånger spelades den scenen upp i det Sverige som skulle kalla sig folkhem. I sitt berömda tal 1928 använde Per Albin Hansson hemmet som politisk metafor:
+
+> Det goda hemmet känner icke till några privilegierade eller tillbakasatta, inga kelgrisar och inga styvbarn.[^8]
+
+Det var en vision om jämlikhet, men visionen krävde en materiell bas, och den basen var till stor del det gemensamma ätandet. Husmanskost – ärtsoppa på torsdag, köttbullar på söndag, pannkakor till middag – det var där folkhemmets solidaritet utövades, inte debatterades. Seden är äldre än folkhemmet: redan i *Njáls saga* mäts vänskap i inbjudningar till bords. Gunnar och Njáll bjöd varandra till gästabud varje skörd och utbytte rika gåvor, år efter år.[^9] Den som inte bjöd hade brutit bandet.
 
 ## Vad som hände sedan
 
@@ -67,7 +71,11 @@ Vad händer när gemenskapen kring bordet försvinner? Modern forskning bekräft
 
 År 2024 reste IKEA vad de kallade "Sveriges största långbord".[^19] Ett möbelföretag försöker lösa ett existentiellt problem genom att bygga ett bord. Sorgligt just för att det är nödvändigt: någon måste *bygga* det bord som en gång var givet.
 
-Strindbergs bröllopsscen igen: "Man stod i hopar kring borden som hungriga hundar med glimrande ögon, färdiga att störta in, men ingen hand rörde sig och tystnaden tryckte."[^20] De väntar på varandra. Ingen börjar förrän alla är redo. Det är *ʿaṣabiyyah* – den samhörighet som uppstår när man delar bröd.
+Strindbergs bröllopsscen igen:
+
+> Man stod i hopar kring borden som hungriga hundar med glimrande ögon, färdiga att störta in, men ingen hand rörde sig och tystnaden tryckte.[^20]
+
+De väntar på varandra. Ingen börjar förrän alla är redo. Det är *ʿaṣabiyyah* – den samhörighet som uppstår när man delar bröd.
 
 Det tystaste som hänt Sverige på femtio år är ingen politisk omvälvning. Köksbordet tystnade. Vi slutade vänta på varandra.
 

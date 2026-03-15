@@ -13,9 +13,9 @@ Ingen tvekan, ingen ångest. Han ser, väljer, handlar.
 
 *Orlog* var inte öde i vår profana mening, inte en förutbestämd plan man underkastade sig med en axelryckning. Orlog var urtidslagen, den kosmiska ordning som bar allt. I *Völuspá* heter det:
 
-> De norner som väver vid världsträdet, de fastslår lagar, de delar livet åt människornas söner; de utlyst öde.[^1]
+> De norner som väver vid världsträdet, de fastslår lagar, de delar livet åt människornas söner; de utlyser öde.[^1]
 
-Och i *Hávámal*:
+Och i *Hávamál*:
 
 > Dödlös är den dom som fälls över varje dödlig människa – den dör aldrig.[^2]
 
@@ -43,15 +43,29 @@ Den moderna svensken har befriats från ödestron. Men befrielsen lämnade ett t
 
 ## Hjärtats tillit
 
-*Al-qadr*, Allahs ﷻ allomfattande bestämmelse, är den islamiska parallellen till Orlog. Koranen är tydlig: "Ingen olycka drabbar någon förutom med Allahs ﷻ tillåtelse. Men den som tror på Allah ﷻ, Han vägleder hans hjärta."[^7] Och: "Ingen själ vet vad den skall skörda under morgondagen, och ingen själ vet var på jorden hon skall dö."[^8]
+*Al-qadr*, Allahs ﷻ allomfattande bestämmelse, är den islamiska parallellen till Orlog. Koranen är tydlig:
+
+> Ingen olycka drabbar någon förutom med Allahs ﷻ tillåtelse. Men den som tror på Allah ﷻ, Han vägleder hans hjärta.[^7]
+
+Och:
+
+> Ingen själ vet vad den skall skörda under morgondagen, och ingen själ vet var på jorden hon skall dö.[^8]
 
 Över utfallet råder människan inte. Så långt liknar *al-qadr* Orlog. Men Orlog saknar det bärande. Nornornas lag är opersonlig: blind, obeveklig, utan barmhärtighet.
 
 *Tawakkul*, tillit till Allah ﷻ, är människans svar på *al-qadr*, liksom nordisk tapperhet var svaret på Orlog. Men den troende vilar i något väsensskilt: en relation till den som är *al-Raḥmān*, *al-Raḥīm* – den Barmhärtige, den Nåderike.
 
-Ibn Qayyim al-Jawziyyah definierade *tawakkul* som "hjärtats fulla förlitan på Allah ﷻ allena".[^9] Men *tawakkul* har ofta missförståtts som passivitet. Ibn Qayyim avvisade likhetstecknet: "*Tawakkul* hör till de starkaste orsakerna för att uppnå det man önskar och avvärja det man fruktar – det är den starkaste orsaken överhuvudtaget."[^10] Ibn al-Jawzī: "*Tawakkul* upphävs inte genom att vidta tillåtna åtgärder. Den som berövar sig själv nödvändigheter under förevändning av *tawakkul* har brutit mot *sunnah*."[^11]
+Ibn Qayyim al-Jawziyyah definierade *tawakkul* som "hjärtats fulla förlitan på Allah ﷻ allena".[^9] Men *tawakkul* har ofta missförståtts som passivitet. Ibn Qayyim avvisade likhetstecknet:
 
-Vikingen vilar i det obönhörliga, den troende i den Barmhärtige. Att överlåta sitt öde åt en blind lag kräver stoisk hårdhet: du måste tysta den del av dig som frågar *varför*. Att anförtro det åt Allah ﷻ, med Koranens ord "den som sätter sin lit till Allah ﷻ, Han räcker honom"[^12], kräver ingen sådan tystnad. Det skänker ro utan hårdhet, mod utan bitterhet, handling utan den kvävande känslan att allt vilar på den egna axeln. En profettradition sammanfattar principen: "Förunderligt är den troendes tillstånd – Allah ﷻ bestämmer inte något för honom utan att det blir till hans bästa. Drabbas han av motgång har han tålamod, och det blir till hans bästa; och får han framgång är han tacksam, och det blir till hans bästa. Och detta gäller ingen annan än den troende."
+> *Tawakkul* hör till de starkaste orsakerna för att uppnå det man önskar och avvärja det man fruktar – det är den starkaste orsaken överhuvudtaget.[^10]
+
+Ibn al-Jawzī:
+
+> *Tawakkul* upphävs inte genom att vidta tillåtna åtgärder. Den som berövar sig själv nödvändigheter under förevändning av *tawakkul* har brutit mot *sunnah*.[^11]
+
+Vikingen vilar i det obönhörliga, den troende i den Barmhärtige. Att överlåta sitt öde åt en blind lag kräver stoisk hårdhet: du måste tysta den del av dig som frågar *varför*. Att anförtro det åt Allah ﷻ, med Koranens ord "den som sätter sin lit till Allah ﷻ, Han räcker honom"[^12], kräver ingen sådan tystnad. Det skänker ro utan hårdhet, mod utan bitterhet, handling utan den kvävande känslan att allt vilar på den egna axeln. En profettradition sammanfattar principen:
+
+> Förunderligt är den troendes tillstånd – Allah ﷻ bestämmer inte något för honom utan att det blir till hans bästa. Drabbas han av motgång har han tålamod, och det blir till hans bästa; och får han framgång är han tacksam, och det blir till hans bästa. Och detta gäller ingen annan än den troende.
 
 ## Det obönhörligas ro
 
@@ -76,7 +90,7 @@ Gunnar på Hlíðarendi vände sig i sadeln. Hans lugn sprang ur vissheten att n
 ---
 
 [^1]: *Völuspá* 20, ur *Den poetiska Eddan*.
-[^2]: *Hávámal* 77, ur *Den poetiska Eddan*.
+[^2]: *Hávamál* 77, ur *Den poetiska Eddan*.
 [^3]: George Webbe Dasent, introduktion till *The Story of Burnt Njal* (1861). Dasents tolkning av det fornnordiska förhållningssättet.
 [^4]: Kairos Future, *Svenskarna, vardagen och meningslöshetens mörker* (2023).
 [^5]: Karin Boye, *Kris* (1934).
