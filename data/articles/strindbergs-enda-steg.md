@@ -59,7 +59,7 @@ Strindberg kallar rörelsen ofrivillig:
 
 > Det är ju märkvärdigt hur jag nu har från ateismen fallit ner i den fullständigaste vidskepelse.[^13]
 
-Riktningen är *ner*. Strindberg upplever gudssökandet som fall. Han har inte beslutat att bli religiös; han har misslyckats med att förbli ateist.
+Riktningen är *ner*. För Strindberg är gudssökandet ett fall. Han har inte beslutat att bli religiös; han har misslyckats med att förbli ateist.
 
 Dag Hammarskjöld noterade samma rörelse i *Vägmärken*, utan dramatik:
 

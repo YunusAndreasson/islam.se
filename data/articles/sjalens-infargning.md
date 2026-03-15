@@ -21,7 +21,7 @@ Ibn Khaldūn beskrev hur *malakah* utvecklas. Först möter eleven ett ämne och
 
 > Genom att intellektualisera formerna gång på gång blir perception och intellektion själens faktiska väsen, och således materialiseras dess existens.[^4]
 
-Upprepningen är inte motsatsen till förståelse. Den ger förståelsen kropp, tills den fastnar i det Ibn Khaldūn kallar själens färg.
+Upprepningen är inte motsatsen till förståelse. Den gjuter förståelsen i kropp, tills den fastnar i det Ibn Khaldūn kallar själens färg.
 
 Ibn Khaldūn var hård mot elever som förväxlade memorering med lärdom. De som slaviskt lärde sig formuleringar utan att utveckla *malakah ʿilmiyyah*, den vetenskapliga läggningen, förblev fastlåsta i ytkunskap. Memorering utan *malakah* var ofruktbar. Men *malakah* utan memorering var omöjlig.[^5]
 

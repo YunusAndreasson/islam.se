@@ -27,7 +27,7 @@ Forskare tvistar om huruvida Völuspás förnyelsestrofer, särskilt den gåtful
 
 Mot detta står den berättelse vår tid lever i.
 
-Klimatvetenskapen visar en kurva mot sammanbrott: temperaturer och havsnivåer stiger, arter dör ut, tröskelvärden passeras. Det bästa klimatberättelsen kan lova är att katastrofen blir *mindre*. Ragnarök lovade att katastrofen blir *meningsfull*.
+Klimatvetenskapen ristar en kurva mot sammanbrott: temperaturer och havsnivåer stiger, arter dör ut, tröskelvärden passeras. Det bästa klimatberättelsen kan lova är att katastrofen blir *mindre*. Ragnarök lovade att katastrofen blir *meningsfull*.
 
 Klimatångesten förlamar av ett djupare skäl: undergången leder ingenstans.
 

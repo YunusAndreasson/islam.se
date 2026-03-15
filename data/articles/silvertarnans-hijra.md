@@ -37,7 +37,7 @@ Strindberg kretsade kring fåglarnas mysterium i *Svarta fanor*:
 
 > Naturen äger hemligheter! Flyttfåglarnes tåg är också en gåta. Man ser dem innan de ge sig av, man ser dem när de kommit, men man ser dem icke flytta.[^8]
 
-Vi ser avfärden, vi ser ankomsten. Aldrig det ögonblick då fågeln svävar över öppet hav, ensam, med tusentals kilometer kvar.
+Vi ser avfärden, vi ser ankomsten. Aldrig det ögonblick då fågeln svävar över det stormpiskade havet, ensam, med tusentals kilometer kvar.
 
 ## *Tawakkul*: tillit utan garanti
 

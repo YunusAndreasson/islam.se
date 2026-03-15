@@ -43,7 +43,7 @@ Lagerlöf skildrar en man vars inre tillstånd har trängt igenom ytan och omfor
 
 Enligt Ibn Qayyim präglar den inre skönheten den yttre gestalten tydligast hos den som utövar nattbönen, *qiyām al-layl* – den frivilliga bönen som förrättas i mörkrets djupaste timmar. "Den lyser upp ansiktet och förskönar det", skriver han.[^9]
 
-Skönhet genom sömnbrist, genom möda, genom att stiga upp ur en varm säng och stå ensam i mörker – det strider mot varje drift. Ingmar Bergmans riddare kände samma mörker:
+Skönhet genom sömnbrist, genom möda, genom att stiga upp ur en varm säng och stå ensam i det gråkalla mörkret – det strider mot varje drift. Ingmar Bergmans riddare kände samma mörker:
 
 > Tron är ett svårt lidande. Det är som att älska någon som finns därute i mörkret och som aldrig visar sig hur man än ropar.[^26]
 

@@ -15,7 +15,7 @@ Ibn Qayyim al-Jawziyyah, verksam i Damaskus under 1300-talets första hälft, ä
 
 > Synderna försvagar hjärtats vandring mot Gud och det tillkommande – de hindrar det, stoppar det och avskär dess färd, så att det inte tar ett enda steg mot Gud. Om de inte vänder det bakåt.[^1]
 
-Hjärtat vandrar; det har en riktning. Synden slår inte till som en katastrof utan verkar som gradvis försvagning – stigen över hedmarken som växer igen när ingen går den. Sjukdomen visar sig inte alltid som smärta. Ibland visar den sig som bedövning.
+Hjärtat vandrar; det har en riktning. Synden slår inte till som en katastrof utan verkar som gradvis försvagning – stigen över hedmarken som växer igen när ingen går den. Sjukdomen klär sig inte alltid som smärta. Ibland smyger den sig in som bedövning.
 
 Men hur vet man att hjärtat fortfarande känner? Att det inte redan stelnat? Här blir *waswās*, de inre viskningarna, diagnostiskt avgörande. Koranen beskriver dem i sura *al-Nās*:
 
@@ -69,7 +69,7 @@ I *al-Fawāʾid* sammanfattar Ibn Qayyim: "Hjärtana är Guds kärl på Hans jor
 
 Mjukhet: förmågan att röras. Styrka: förmågan att bestå. Klarhet: förmågan att se sant.
 
-Ångesten tjänar klarheten. Den tvingar hjärtat att se vad det helst vill slippa: var banden tunnats, var synden ätit sig in, var bedövningen tagit överhanden. Den som lär sig avläsa den signalen – inte fly den, inte drunkna i den, utan *läsa* den – äger ett redskap som ingen yttre terapeut kan ersätta.
+Ångesten slipar klarheten. Den tvingar hjärtat att se vad det helst vill slippa: var banden tunnats, var synden ätit sig in, var bedövningen tagit överhanden. Den som lär sig avläsa den signalen – inte fly den, inte drunkna i den, utan *läsa* den – äger ett redskap som ingen yttre terapeut kan ersätta.
 
 Karin Boye skrev: "Längtan är en lek. När den växer till allvar, kallas den ångest."[^15] Ibn Qayyim vänder sambandet: ångesten, avläst rätt, *är* längtan – längtan tillbaka till det tillstånd hjärtat skapades för. Pär Lagerkvist frågade i *Aftonland*: "Vem är du som uppfyller mitt hjärta med din frånvaro?"[^18]
 

@@ -61,7 +61,7 @@ Koranen har ett ord för denna hållning. *Istihzāʾ* – hån, förlöjligande
 
 Den närmaste invändningen: om Koranens sakralitet skyddas juridiskt, var drar man gränsen? Skiljelinjen går inte mellan det obekväma och det behagliga utan mellan *kritik* och *förakt*. Den som argumenterar mot Koranens budskap utövar sin rätt. Den som bränner den på gatan riktar sig inte mot ett argument utan mot en närvaro – och mot de människor som bär den. I februari 2025 fastslog Stockholms tingsrätt att koranbränningarna utgjorde hets mot folkgrupp. Svea hovrätt stadfäste domen i november samma år med formuleringen att de budskap handlingarna förmedlade "uttrycker missaktning, inte bara mot islam som religion, utan även mot folkgruppen muslimer."[^9] Handlingen överskred "saklig debatt och kritik"; den riktade sig mot människor, inte mot argument.[^10]
 
-Den islamiska förklaringen når djupare. Handlingen angriper det gruppen erfar som Guds levande tal.
+Den islamiska förklaringen når djupare. Handlingen angriper det gruppen hör som Guds levande tal.
 
 Koranens väsen stod inte alltid klart. Den muʿtazilitiska skolan hävdade att Koranen *var* skapad, en ståndpunkt som under kalifen al-Maʾmūn på 800-talet upphöjdes till statsdoktrin och försvarades med inkvisitorisk kraft. Förföljelsen av dem som vägrade ansluta sig – bland dem imam Aḥmad ibn Ḥanbal – cementerade den oskapade Koranens teologi som sunnitisk konsensus.[^11] Att frågan avgjordes genom en av islams mest dramatiska lärokonflikter visar hur djupt den skär.
 

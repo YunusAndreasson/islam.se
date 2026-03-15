@@ -41,7 +41,7 @@ Sedan föll Berlinmuren. Och med den föll föreställningen att beredskap behö
 
 Avvecklingen vilade på en ekonomisk trossats. Just-in-time-leveranser, nollager, ständig flödesoptimering: varje kvadratmeter förrådsutrymme var bortkastad yta – tills lastbilarna slutade komma. Det tankegods som bar den kom från Hayek och Friedman, som hävdat att statliga reserver snedvrider prissignaler och hämmar effektivitet. Sverige lyssnade: under 1990- och 2000-talen avvecklades beredskapslager systematiskt, och ansvaret för livsmedelsförsörjning i kris föll mellan stolarna.[^12]
 
-Argumentet var vattentätt – och fel. I en livsmedelskris hinner människor svälta innan marknaden hinner rätta sig. Marknaden räknar i månader; kroppen i dagar.
+Argumentet var vattentätt – och fel. I en livsmedelskris gnager hungern innan marknaden hinner rätta sig. Marknaden räknar i månader; kroppen i dagar.
 
 Finland och Schweiz visar att det hade gått annorlunda. Två länder med jämförbara ekonomier behöll sina strategiska livsmedelsreserver.[^13] Finland lagrar spannmål, bränsle och mediciner; Schweiz' federala lag kräver obligatoriska lager av baslivsmedel. Att Sverige valde en annan väg var ett politiskt beslut, inte en ekonomisk nödvändighet.
 
