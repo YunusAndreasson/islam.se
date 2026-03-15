@@ -11,7 +11,7 @@ Surt kommer från söder med flammande svärd. Himlen rämnar. Jordens steniga h
 
 Livet *räddar sig*. Reningen sker utan villkor, utan moralisk prövning. Den som överlever Ragnarök gör det för att världen själv vill vidare. Vidar och Vale lever kvar – varken havet eller Surts eld *skadade* dem.[^2] Den nordiska elden frågar ingenting. Den förvandlar.
 
-Forskarna tvistar om regenerationsmotivets ursprung: hör visionen av världen pånyttfödd ur askan till den förkristna traditionen, eller är den en kristen tillsats? Völuspás avslutande strofer, med osådda fält som bär frukt och all ondskas botande, påminner mer om Uppenbarelseboken än om Eddan.[^3] Rydbergs läsning kan vara kristen förväntan inläst i förkristen tid.
+Forskarna tvistar om pånyttfödelsemotivets ursprung: hör visionen av världen pånyttfödd ur askan till den förkristna traditionen, eller är den en kristen tillsats? Völuspás avslutande strofer, med osådda fält som bär frukt och all ondskas botande, påminner mer om Uppenbarelseboken än om Eddan.[^3] Rydbergs läsning kan vara kristen förväntan inläst i förkristen tid.
 
 Ändå finns något genuint förkristet kvar: eldens opersonlighet. Surts flammor väljer ingen och prövar ingen. De sveper över världen som en naturkraft och lämnar kvar det som eld inte förmår förtära. Kosmisk återställning utan domare.
 

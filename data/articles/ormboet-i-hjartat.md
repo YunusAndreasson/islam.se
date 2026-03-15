@@ -9,7 +9,7 @@ En passage i Strindbergs *Inferno* ger sig inte så lätt. Mitt i sin parisiska 
 
 > Svartsjukt mån om min upptäckt, tar jag inga mått och steg för att utsprida den. I min skygghet vänder jag mig ej till auktoriteterna och akademierna … ursinnig över denna pina, som jag är hågad tillskriva de okända makter, vilka i så många år förföljt mig och lagt hinder för mina bemödanden, undviker och försummar jag människors sällskap, ger återbud till bjudningar, stöter vänner ifrån mig. Tystnad och enslighet breda sig omkring mig.[^1]
 
-Riktningen avslöjar allt. Strindberg misstänker att andra vill stjäla hans upptäckt, men det är han själv som isoleras – han stöter bort vännerna, ger återbud. Avunden han kastar utåt vänder sig inåt och förtär hans värld tills bara ökentystnad återstår.
+Riktningen avslöjar allt. Strindberg misstänker att andra vill stjäla hans upptäckt, men det är han själv som avskärmas – han stöter bort vännerna, ger återbud. Avunden han kastar utåt vänder sig inåt och förtär hans värld tills bara ökentystnad återstår.
 
 För detta fenomen har den islamiska traditionen ett namn.
 

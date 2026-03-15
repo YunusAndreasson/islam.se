@@ -7,7 +7,7 @@ description: "År 1955 avskaffade riksdagen Brattsystemet trots läkarnas varnin
 ---
 En mening i Koranen borde oroa varje demokrat: "De flesta av dem följer inte annat än antaganden. Men antaganden kan aldrig ersätta sanningen på något sätt."[^1]
 
-Påståendet är inte unikt för Koranen. Strindberg gav samma misstanke ord i *Götiska rummen*:
+Påståendet är inte förbehållet Koranen. Strindberg gav samma misstanke ord i *Götiska rummen*:
 
 > Det är majoriteten, det trogna folket, det sunda förståndet som bara är oförstånd; det är de rättänkande, de stilla i landet, kärnan av befolkningen.[^2]
 

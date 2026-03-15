@@ -7,7 +7,7 @@ description: "Under 1300-talets första hälft i Damaskus ägnade Ibn Qayyim al-
 ---
 En människa träder in i rummet och något i dig vet. Före orden, före analysen, innan det medvetna tänkandet hunnit formulera en enda mening. Du vet att personen ljuger, att det som sägs inte stämmer med det som menas.
 
-Kognitionsvetenskapen har kartlagt förmågan. Kahneman kallade den System 1, det snabba, intuitiva tänkandet.[^1] Haidt visade att moraliska omdömen oftast fattas intuitivt och först i efterhand rationaliseras.[^3] Men ingen av dem frågar vad som avgör intuitionens *kvalitet*: inte bara erfarenhet och övning utan betraktarens moraliska tillstånd.
+Kognitionsvetenskapen har kartlagt förmågan. Kahneman kallade den System 1, det snabba, intuitiva tänkandet.[^1] Haidt visade att moraliska omdömen oftast fattas på känsla och först i efterhand kläs i skäl.[^3] Men ingen av dem frågar vad som avgör intuitionens *kvalitet*: inte bara erfarenhet och övning utan betraktarens moraliska tillstånd.
 
 ## Ljus som kastas i hjärtat
 

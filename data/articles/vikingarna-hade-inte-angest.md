@@ -85,7 +85,7 @@ Koranen varnar för vad som händer när tillit fästs vid det skapade istället
 
 I *Tusen och en natt* får konsekvensen konkret gestalt. En besegrad furste uppsöker en eremit och klagar över sitt öde. Eremiten frågar om han vet varför han besegrades, men fursten vet inte. "Därför att du satte din lit till dina truppernas antal", svarar eremiten, "och inte förlitade dig på Allah ﷻ den Allrahögste. Hade du satt din lit till den Allsmäktige, hade din fiende aldrig kunnat besegra dig."[^15]
 
-Gunnar på Hlíðarendi vände sig i sadeln. Hans lugn sprang ur vissheten att nornorna redan avgjort. Den troende vänder sig mot *qiblah*. Hans ro springer ur vissheten att den som avgjort är *al-Raḥmān* – den Barmhärtige.
+Gunnar på Hlíðarendi vände sig i sadeln. Hans lugn sprang ur vissheten att nornorna redan avgjort. Den troende vänder sig mot *qiblah*. Hans ro springer ur förvissningen att den som avgjort är *al-Raḥmān* – den Barmhärtige.
 
 ---
 

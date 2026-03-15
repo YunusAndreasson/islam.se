@@ -7,7 +7,7 @@ description: "Under sina sista årtionden förde Carl von Linné hemliga anteckn
 ---
 Någon gång under sina sista årtionden började Carl von Linné föra hemliga anteckningar. Inte om naturens systematik, det arbete som gett honom världsrykte, utan om vad som händer med människor som gör ont.
 
-Fall efter fall noterade han med klinisk noggrannhet. En ämbetsman som stulit från fattiga och själv dött utblottad. En adelsman som förtryckt sina underlydande och sett sitt eget hus rasa. En bedragare vars barn drabbades av samma svek han själv begått. Linné samlade dessa historier som han samlat sina specimen: metodiskt, tålmodigt, med blicken fäst vid det mönster han var säker på att materialet bar.
+Fall efter fall noterade han med klinisk noggrannhet. En ämbetsman som stulit från fattiga och själv dött utblottad. En adelsman som förtryckt sina underlydande och sett sitt eget hus rasa. En bedragare vars barn drabbades av samma svek han själv begått. Linné samlade dessa historier som han samlat sina exemplar: metodiskt, tålmodigt, med blicken fäst vid det mönster han var säker på att materialet bar.
 
 Mönstret hade ett namn: *Nemesis Divina*. Gudomlig vedergällning.
 

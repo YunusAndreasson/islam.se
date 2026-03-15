@@ -7,7 +7,7 @@ description: "År 1953 upptäckte Eugene Aserinsky vid Chicagouniversitetet att 
 ---
 Varje natt sker det. Sinnena släcks, musklerna slappnar av, världen drar sig tillbaka. Sedan flammar hjärnan upp i aktivitet som överträffar vakenhetens. Ögonen rör sig vilt bakom slutna lock. Bilder, röster, hela världar passerar ett medvetande som inte längre tar emot utifrån.
 
-Den franske neurofysiologen Michel Jouvet gav fenomenet dess namn i slutet av 1950-talet: *sommeil paradoxal*, paradoxal sömn.[^1] Varför föder denna maximala neurala aktivitet upplevelser som den vakna hjärnan avfärdar som overkliga?
+Den franske neurofysiologen Michel Jouvet gav fenomenet dess namn i slutet av 1950-talet: *sommeil paradoxal*, paradoxal sömn.[^1] Varför föder denna maximala aktivitet upplevelser som den vakna hjärnan avfärdar som overkliga?
 
 Sexhundra år innan Jouvet fäste sina elektroder på en sovande katt lade den tunisiske historikern och filosofen Ibn Khaldūn fram en teori som fångar samma fenomen – och besvarar frågan.
 

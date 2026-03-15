@@ -9,7 +9,7 @@ Scenen saknar motstycke. Himlar, jord och berg erbjuds ett förtroende. De vägr
 
 > Vi erbjöd himlarna och jorden och bergen förtroendet, men de vägrade att åta sig det och bävade för det, men människan åtog sig det. Hon är ständigt beredd till synd och tanklöshet.[^1]
 
-Den koraniska termen är *amānah*. Exegeterna har aldrig enats om dess innebörd – al-Ṭabarī betonade lydnaden, al-Qurṭubī den moraliska medvetenhetens bredd, andra *tawḥīd* eller shariaförpliktelserna.[^2] Men oavsett tolkning kvarstår versens kärna: *amānah* kräver en bärare som kan bäva, välja, fela. Bergen kunde inte fela. Därför kunde de inte bära.
+Den koraniska termen är *amānah*. Skrifttolkarna har aldrig enats om dess innebörd – al-Ṭabarī betonade lydnaden, al-Qurṭubī den moraliska medvetenhetens bredd, andra *tawḥīd* eller shariaförpliktelserna.[^2] Men oavsett tolkning kvarstår versens kärna: *amānah* kräver en bärare som kan bäva, välja, fela. Bergen kunde inte fela. Därför kunde de inte bära.
 
 Fjorton århundraden senare bygger vi system som beslutar om domar, anställningar, kreditvärdighet, vilka patienter som behandlas först. Systemen felbedömer. Men de kan inte bäva.
 

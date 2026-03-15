@@ -7,7 +7,7 @@ description: "År 2025 konstaterade MSB att svensk krisberedskap är otillräckl
 ---
 Stockholm har tre dagars livsmedelsförsörjning. Sedan: tomma hyllor, bruten kylkedja. Åtta miljoner människor hänvisade till skafferiets innehåll.
 
-Det är ingen dystopi. Det är en myndighetsrapport. MSB konstaterade 2025 att svensk krisberedskap är "otillräcklig" och att landet behöver 32 miljarder kronor om året för att nå en rimlig nivå.[^1] Under kalla kriget hade Sverige beredskapslager för månader av isolering och en självförsörjningsgrad nära hundra procent. Idag saknas ens en myndighet med utpekat ansvar för livsmedelsförsörjning i kris.[^2] Självförsörjningen har halverats. Lagren är avvecklade, ansvaret utspritt.
+Det är ingen mardröm. Det är en myndighetsrapport. MSB konstaterade 2025 att svensk krisberedskap är "otillräcklig" och att landet behöver 32 miljarder kronor om året för att nå en rimlig nivå.[^1] Under kalla kriget hade Sverige beredskapslager för månader av isolering och en självförsörjningsgrad nära hundra procent. Idag saknas ens en myndighet med utpekat ansvar för livsmedelsförsörjning i kris.[^2] Självförsörjningen har halverats. Lagren är avvecklade, ansvaret utspritt.
 
 Samma fråga ställdes för tre tusen år sedan vid Nilens stränder.
 

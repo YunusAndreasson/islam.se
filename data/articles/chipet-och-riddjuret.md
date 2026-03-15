@@ -5,7 +5,7 @@ wordCount: 1840
 qualityScore: 8.7
 description: "Över fem tusen svenskar bär mikrochip under huden – ingreppet tar sekunder och görs ofta på teknikkonferenser. Att kroppen är råmaterial att uppgradera var samma premiss som bar Karin Boyes dystopi 1940, och som Ibn al-Jawzī i Bagdad avvisade redan på 1100-talet."
 ---
-Karin Boye skrev sin sista roman i skuggan av ett Europa som slöt sig. Det var 1940. I *Kallocain* hade staten koloniserat det sista fria territoriet: den enskilda kroppen. Medborgarna i Världsstaten tillhörde inte sig själva. Deras biologiska materia var statens egendom – tillgänglig för granskning, uppgradering och kemisk avläsning. Berättaren, kemisten Leo Kall, uppfinner ett sanningsserum som injiceras i blodet och tvingar fram de innersta tankarna. *Kallocain* är mer än en drog; det är en princip: kroppen är en behållare man kan öppna och tömma.
+Karin Boye skrev sin sista roman i skuggan av ett Europa som slöt sig. Det var 1940. I *Kallocain* hade staten koloniserat det sista fria territoriet: den enskilda kroppen. Medborgarna i Världsstaten tillhörde inte sig själva. Deras biologiska materia var statens egendom – tillgänglig för granskning, uppgradering och kemisk avläsning. Berättaren, kemisten Leo Kall, uppfinner ett sanningsserum som injiceras i blodet och tvingar fram de innersta tankarna. *Kallocain* är mer än en drog; det är en grundsats: kroppen är en behållare man kan öppna och tömma.
 
 "Staten är allt, den enskilde intet," konstaterar Boye torrt genom sin berättare.[^1] Varningen mot fascism och stalinism är uppenbar. Men under den politiska ytan verkar ett antagande om vad människan är: kroppen tjänar ett syfte utanför sig själv.
 

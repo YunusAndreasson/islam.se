@@ -9,7 +9,7 @@ En människa, kopplad till en maskin, tänker en tanke och tanken blir handling 
 
 Elon Musks Neuralink har förverkligat scenariot. Sedan 2024 bär försökspersoner chip i hjärnan som låter dem styra datorer med tankekraft. Företagets vision siktar längre: att *sammansmälta* människa och maskin, överföra medvetanden, göra döden till ett val.
 
-Visionen vilar på ett outtalat axiom: medvetandet är hjärnan, jaget är neuroner, och kroppens gräns är jagets gräns.
+Visionen vilar på en outtalad grundsats: medvetandet är hjärnan, jaget är neuroner, och kroppens gräns är jagets gräns.
 
 Men det obehag Neuralink lovar att lösa har en äldre förklaring. En som vänder orsakskedjan upp och ned.
 
