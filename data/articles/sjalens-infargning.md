@@ -67,7 +67,7 @@ I den islamiska traditionen är memorering aldrig enbart kognitiv. Den är *dhik
 
 Att lära sig Koranen utantill, att bli *ḥāfiẓ*, är en process genom vilken den heliga texten blir en del av den lärdes kropp, andning, rytm.
 
-Ibn Qayyim al-Jawziyyah fördjupade iakttagelsen i *Madārij al-Sālikīn* med en analys av förhållandet mellan ihågkomst (*tadhakkur*) och eftertanke (*tafakkur*):
+Ibn Qayyim fördjupade iakttagelsen i *Madārij al-Sālikīn* med en analys av förhållandet mellan ihågkomst (*tadhakkur*) och eftertanke (*tafakkur*):
 
 > Ihågkomst och eftertanke är två stationer som bär frukt i alla sorters kunskap, trons sanningar och godhetens verkligheter. Den kunnige upphör aldrig att återvända med sin eftertanke till sin ihågkomst, och med sin ihågkomst till sin eftertanke, tills hans hjärtas lås öppnas.[^16]
 

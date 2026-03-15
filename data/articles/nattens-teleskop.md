@@ -55,9 +55,7 @@ Ibn Khaldūns beskrivning formulerades sexhundra år före den moderna neurologi
 
 Hjärnbarken avfyrar intensiva signaler, synbarken bearbetar visuell information trots slutna ögon, kroppen ligger förlamad.[^12] Maximal inre aktivitet, total yttre stillhet.[^13]
 
-Vad vi inte vet är varför denna aktivitet tar formen av *upplevelse*: bilder, berättelser, möten med de döda, flygningar över landskap som aldrig funnits. Minneskonsolidering kräver inga medvetna upplevelser; känslomässig bearbetning inget berättande. David Chalmers gav frågan dess moderna namn 1995 – *the hard problem of consciousness*: varför frambringar fysiska processer överhuvudtaget subjektiv upplevelse?[^21]
-
-Aktiveringssynteshypotesen, framlagd av Allan Hobson och Robert McCarley 1977, försökte reducera drömmen till neurologiskt brus: slumpmässiga signaler från hjärnstammen som hjärnbarken febrilt fogar till sammanhängande berättelse.[^14] Hobson själv reviderade hypotesen avsevärt under de följande decennierna. Men den blottar den materialistiska ansatsens grundproblem: den kan återge *hur* drömmen frambringas neurologiskt men inte *varför* den upplevs, ännu mindre vad dess innehåll *betyder*.
+Vad vi inte vet är varför denna aktivitet tar formen av *upplevelse*: bilder, berättelser, möten med de döda, flygningar över landskap som aldrig funnits. Minneskonsolidering kräver inga medvetna upplevelser; känslomässig bearbetning inget berättande. David Chalmers gav frågan dess moderna namn 1995 – *the hard problem of consciousness*: varför frambringar fysiska processer överhuvudtaget subjektiv upplevelse?[^21] Den materialistiska ansatsen kan återge *hur* drömmen frambringas neurologiskt men inte *varför* den upplevs, ännu mindre vad dess innehåll *betyder*.[^14]
 
 "Mer aktiv *för vad*?" faller utanför den metodologiska naturalismens grammatik.
 
@@ -83,9 +81,7 @@ August Strindberg, i sin krisskildring *Inferno*, återger denna närvaro, med m
 
 Att natten är bebodd betvivlar han aldrig – det är *av vad* som skrämmer honom. Uppenbarelsen namnger närvaron, och namngivandet skiljer skräck från tillbedjan.
 
-Där Strindberg skälver inför det namnlösa urskiljer Verner von Heidenstam nattens sållning i *Folkungaträdet*: "I natt var en dålig natt, då många drömde vakna. I natt fanns ingen god människa, ty de, som voro goda, sovo."[^23] De goda *sov* – deras hjärtan var klara nog att vila. De som drömde sig vakna var redan vilseledda.
-
-Men inte alla svenska författare erkände nattens djup. Hjalmar Söderberg höjer motrösten i *Förvillelser*: "Så vaknar man och söker erinra sig vad man har drömt och söker efter någon betydelse i det, och då är det alltsammans en massa dumheter utan mening och sammanhang."[^18] Avväpnande ärligt. Men orden röjer en spricka: han *söker* efter betydelse. Den som inte trodde att drömmar bar mening skulle inte söka.
+Hjalmar Söderberg höjer motrösten i *Förvillelser*: "Så vaknar man och söker erinra sig vad man har drömt och söker efter någon betydelse i det, och då är det alltsammans en massa dumheter utan mening och sammanhang."[^18] Avväpnande ärligt. Men orden röjer en spricka: han *söker* efter betydelse. Den som inte trodde att drömmar bar mening skulle inte söka.
 
 ## Den fråga som återstår
 
@@ -119,4 +115,3 @@ Jouvet kallade det paradoxal sömn. Ibn Khaldūn kallade det *drömvision*. Frå
 [^20]: Koranen, al-Anfāl 8:29.
 [^21]: David Chalmers, "Facing Up to the Problem of Consciousness", *Journal of Consciousness Studies*, 2(3), 1995. Chalmers formulering av *the hard problem* – distinktionen mellan att förklara kognitiva funktioner och att förklara varför dessa funktioner åtföljs av subjektiv upplevelse – har sedan dess definierat den centrala debatten inom medvetandefilosofin.
 [^22]: August Strindberg, *Inferno* (1897), kapitel XV.
-[^23]: Verner von Heidenstam, *Folkungaträdet*, Albert Bonniers Förlag, 1905–1907.

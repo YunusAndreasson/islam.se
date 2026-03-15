@@ -35,7 +35,7 @@ Ibn Ḥazm slog fast principen rättsligt: rättvisa i domslutet kräver att man
 
 ## Sömnen som dödar inifrån
 
-Värre än synden fruktade de klassiska lärda ett tillstånd: *ghaflah*. Ibn Qayyim al-Jawziyyah definierade det som hjärtats sömn eller dess död – en slöja där människan rör sig i världen utan att vara närvarande i sina handlingar.[^11] Det är den som signerar dokumentet medan tanken redan är någon annanstans.
+Värre än synden fruktade de klassiska lärda ett tillstånd: *ghaflah*. Ibn Qayyim definierade det som hjärtats sömn eller dess död – en slöja där människan rör sig i världen utan att vara närvarande i sina handlingar.[^11] Det är den som signerar dokumentet medan tanken redan är någon annanstans.
 
 *Ghaflah* är inte okunskap utan något värre: den medvetna varelsen som upphör att vara medveten. Hjärtat slår, kroppen fungerar, men konungen sover. Den som syndar väljer fel – men hon väljer. *Ghaflah* upphäver själva valet.
 

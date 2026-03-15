@@ -45,9 +45,7 @@ I *Madārij al-Sālikīn* fullbordar han bilden. Denna värld och nästa jämfö
 
 ## En avlägsen fläkt av igenkänning
 
-Zacharias Topelius skrev om "denna törstande, stormande, brinnande själ, som slöts i ett äggskal" och som "flaxar som fågeln mot fönsterrutan".[^6] Fredrika Bremer kallade döden "en efterlängtad befrielse från ett eller annat ondt" och vittnade om hur "den dödliga kroppen besvärar själena".[^7]
-
-I Dan Anderssons David Ramm ställs frågan med barnets nakenhet: "Låt oss antaga att jag har en själ... när jag dör flyger det likt en fågel ur kroppen. Vart skall han då ta vägen, den konstiga Fågel Jag?"[^8]
+Zacharias Topelius skrev om "denna törstande, stormande, brinnande själ" som "flaxar som fågeln mot fönsterrutan".[^6] Fredrika Bremer vittnade om hur "den dödliga kroppen besvärar själena".[^7] Dan Andersson ställde frågan rakast: "Vart skall han då ta vägen, den konstiga Fågel Jag?"[^8]
 
 Topelius visste att själen flaxade, men inte varför fönstret var stängt. Koranen ger svaret – själen bär ett minne av sitt ursprung:
 
@@ -67,11 +65,7 @@ Det är precis detta tyranni som transhumanismen upphöjer till program.
 
 ## Den rastlösa uppgraderingen
 
-Pär Segerdahl skriver: "Transhumanismen ÄR det mänskliga missnöjet." Dess drivkraft är "hetsen, stressen, ångesten, avundsjukan, otåligheten." Flykten till framtiden är "mönstret för eländet, inte vägen ut".[^12]
-
-Ibn Taymiyyah i *al-ʿUbūdiyyah*: "Den som fäster sitt hjärta vid det skapade, dess hjärta underkastas av det."[^18] Transhumanismens frihet avslöjar sig som sin egen fångenskap.
-
-Niohundra år tidigare beskrev Ibn al-Jawzī samma rastlöshet, men med en avgörande skillnad. Segerdahls iakttagelse är beskrivande: missnöjet *är* mönstret. Ibn al-Jawzīs är riktad: själen "stannar aldrig vid en gräns" inte för att den är defekt, utan för att inget ändligt kan mätta det den i grunden söker.
+Pär Segerdahl kallar transhumanismen "det mänskliga missnöjet" – hetsen och ångesten inte som problem att lösa utan som mönster att förstärka.[^12] Ibn Taymiyyah ställde diagnosen: "Den som fäster sitt hjärta vid det skapade, dess hjärta underkastas av det."[^18] Själen som "aldrig stannar vid en gräns" söker inte bättre celler utan det enda som inget ändligt kan mätta.
 
 Koranen namnger tillståndet:
 

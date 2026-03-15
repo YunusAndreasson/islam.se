@@ -59,7 +59,7 @@ Hadithen ger kroppen ett centrum som inte kan lokaliseras med biohackarens instr
 
 Den som mäter sin kropp kan aldrig mäta det som avgör *vad* som är värt att mäta.
 
-Hjärtfrekvens, hjärtfrekvensvariabilitet, blodflöde – allt kan mätas. Men den tradition som gör *qalb* till människans centrum avser ett organ ingen sensor kan avläsa. Ibn Qayyim al-Jawziyyah varnar: "Ödmjukheten har sin plats i hjärtat och dess frukt visar sig på kroppen."[^12] Riktningen är motsatt biohackingens: inifrån ut, aldrig utifrån in.
+Hjärtfrekvens, hjärtfrekvensvariabilitet, blodflöde – allt kan mätas. Men den tradition som gör *qalb* till människans centrum avser ett organ ingen sensor kan avläsa. Ibn Qayyim varnar: "Ödmjukheten har sin plats i hjärtat och dess frukt visar sig på kroppen."[^12] Riktningen är motsatt biohackingens: inifrån ut, aldrig utifrån in.
 
 ## Varken dystopi eller utopi
 

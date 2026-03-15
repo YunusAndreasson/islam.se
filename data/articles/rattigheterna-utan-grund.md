@@ -41,7 +41,7 @@ En uppenbar invändning: om *fiṭrah* grundar universella rättigheter, hur fö
 
 ## Samvetets vittnesbörd
 
-*Fiṭrah* förklarar något som sekulär moralfilosofi bara kan konstatera: att människor lever som om en moralisk ordning fanns, även när de saknar teoretisk grund för den. De rycker undan handen från det orättfärdiga utan vittnen, tyngs av skuld för tanken ingen hörde. En evolutionär redogörelse kan förklara tendensen men inte skuldens specifika karaktär av *svek*.
+*Fiṭrah* namnger något som sekulär moralfilosofi bara kan konstatera: att människor lever som om en moralisk ordning fanns, även när de saknar teoretisk grund för den. De rycker undan handen från det orättfärdiga utan vittnen, tyngs av skuld för tanken ingen hörde. En evolutionär redogörelse kan förklara tendensen men inte skuldens specifika karaktär av *svek*.
 
 Hjalmar Bergman blottlade samvetets paradox i *Eros' begravning*:
 

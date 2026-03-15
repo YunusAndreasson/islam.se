@@ -53,9 +53,9 @@ I Koranens nittionionde sura, en av de kortaste – knappt sex verser – samman
 
 *Mithqāla dharratin.* En atoms vikt – ingen handling undgår räkenskapen. Ibn Kathīr citerar en profettradition: en äldre man kom till Profeten ﷺ och bad om en enda sura som sammanfattade allt. Profeten ﷺ lärde honom just denna, och när mannen svurit att aldrig lägga till något utöver den sade Profeten ﷺ: "Den lille mannen har lyckats! Den lille mannen har lyckats!"
 
-Linné sökte bevisa genom hundratals fallstudier vad Koranen kungör som axiom.[^10] Men tankens riktning är omvänd. Linné slöt sig till suveräniteten bakvägen: den som betedde sig som ägare gick under, alltså var Gud den verklige ägaren. *Tawḥīd* börjar i andra änden – Gud *är* suverän, därför bär varje handling följd.
+Linné sökte bevisa genom hundratals fallstudier vad Koranen kungör som axiom.[^10] Men tankens riktning är omvänd. Linné slöt sig till suveräniteten bakvägen: den som betedde sig som ägare gick under, alltså var Gud den verklige ägaren. *Tawḥīd* börjar i andra änden – Gud *är* suverän, därför bär varje handling följd. Men Koranen stannar inte vid räkenskapen. Samma Gud som väger varje handling är *al-Tawwāb*, den som tar emot den ångerfulles återvändo: "Er Herre har föreskrivit Sig barmhärtighet: den av er som i oförstånd gör ont och sedan ångrar sig och gör bot – Han är ständigt förlåtande, barmhärtig."[^20] Linnés *Nemesis Divina* har räkenskap utan nåd; lutherdomen nåd utan räkenskap. Koranen håller båda.
 
-Linné var ingen muslim, men hans slutsatser skar mot den egna nådeläran och sammanföll med en annan traditions grundprincip – att den troende själv bör hålla räkenskap:
+Den troende förväntas ändå hålla den egna räkenskapen:
 
 > Ställ er själva till räkenskap innan ni ställs till räkenskap, och väg era handlingar innan de vägs åt er.[^11]
 
@@ -119,3 +119,4 @@ Linné fick inte tala. Men tystnaden talar.
 [^17]: Carl von Linné, *Nemesis Divina*.
 [^18]: Carl von Linné, *Nemesis Divina*.
 [^19]: Immanuel Kant, *Die Religion innerhalb der Grenzen der bloßen Vernunft* (1793). Verket censurerades av den preussiska staten, och Kant förbjöds 1794 att publicera i religiösa frågor.
+[^20]: Koranen, al-Anʿām 6:54.

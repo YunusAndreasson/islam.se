@@ -49,7 +49,7 @@ Klimatångesten delar strukturen men saknar det avgörande: ett namn för det de
 
 Den avgörande klyftan löper inte mellan Ragnarök och klimatvetenskap utan mellan dessa och islam.
 
-Ragnarök gestaltar ett öde. Gudarna själva är bundna av det – Oden vet att han ska falla för Fenrisulven, och han faller. Förnyelsen sker som naturlag, som kosmiskt kretslopp. Ingen dömer. Rydberg avtäcker principen: det germanska tänkandet förstår reningselden som immanent kraft, fri från viljehandling.[^8]
+Ragnarök rymmer dom – Surts eld skiljer ruttna från friskt – men en dom utan domare. Gudarna själva är bundna av samma ordning. Oden vet att han ska falla för Fenrisulven, och han faller. Förnyelsen sker som naturlag, som kosmiskt kretslopp. Rydberg avtäcker principen: det germanska tänkandet förstår reningselden som immanent kraft, fri från viljehandling.[^8]
 
 Koranen vänder perspektivet:
 
