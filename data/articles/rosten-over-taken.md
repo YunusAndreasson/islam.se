@@ -3,7 +3,7 @@ title: "Rösten över taken"
 publishedAt: "2025-10-08T12:00:00.000Z"
 wordCount: 1802
 qualityScore: 8.7
-description: "I en riksdagsmotion från 2024 formulerar Hans Eklind en ovanlig distinktion: kyrkklockor är en 'oartikulerad ljudsignal', medan böneutropet innehåller 'artikulerade ord med ett religiöst budskap'. Två religiösa ljud i det offentliga rummet ska alltså behandlas olika – för att det ena bär ord."
+description: "I en riksdagsmotion från 2024 formulerar Hans Eklind en ovanlig åtskillnad: kyrkklockor är en 'oartikulerad ljudsignal', medan böneutropet innehåller 'artikulerade ord med ett religiöst budskap'. Två religiösa ljud i det offentliga rummet ska alltså behandlas olika – för att det ena bär ord."
 ---
 Kyrkklockor ringer från torn i varje svensk stad, varje söndag, stundom dagligen. Tungt, metalliskt, över 100 decibel.[^1] Ingen riksdagsmotion kräver deras tystnad.
 
@@ -13,7 +13,7 @@ Skillnaden är inte akustisk. Böneutropet i Växjö mättes och befanns ligga i
 
 ## Vad motionerna avslöjar
 
-Riksdagsmotionerna om böneutrop är avslöjande dokument, framför allt genom *hur* de motiverar kravet. Hans Eklind (KD) formulerar distinktionen med en öppenhet som förtjänar att citeras:
+Riksdagsmotionerna om böneutrop är talande dokument, framför allt genom *hur* de motiverar kravet. Hans Eklind (KD) formulerar åtskillnaden med en öppenhet som förtjänar att återges:
 
 > Kyrkklockors klang i sig utgör en oartikulerad ljudsignal, medan böneutrop (*adhān*) innehåller artikulerade ord med ett religiöst budskap.[^4]
 
@@ -21,7 +21,7 @@ Två religiösa ljud i det offentliga rummet ska alltså behandlas olika för at
 
 Ordningslagen, som reglerar böneutrop genom krav på polistillstånd, är blind för innehåll; den hanterar ljudnivåer, inte teologi.[^6] Motionerna försöker införa något den befintliga rättsordningen saknar: en gräns dragen efter vad ljudet *betyder*. Lagstiftaren byggde ett regelverk för decibel; politikerna vill bygga ett för mening.
 
-Skillnaden mellan passiva och aktiva religiösa symboler har stöd i europeisk rätt. Europadomstolens stora kammare fastslog samma princip i *Lautsi mot Italien*: att ett krucifix i ett klassrum var en "väsentligen passiv symbol" – religiös form utan aktivt tilltal.[^18] Domstolen skyddar krucifixet genom att tömma det: det tolereras *för att* det inte längre talar. *Adhān* kan inte få samma skydd, för det ingrepp som skulle krävas skulle förstöra det inifrån.
+Skillnaden mellan passiva och aktiva religiösa symboler har stöd i europeisk rätt. Europadomstolens stora kammare fastslog samma grundsats i *Lautsi mot Italien*: att ett krucifix i ett klassrum var en "väsentligen passiv symbol" – religiös form utan aktivt tilltal.[^18] Domstolen skyddar krucifixet genom att tömma det: det tolereras *för att* det inte längre talar. *Adhān* kan inte få samma skydd, för det ingrepp som skulle krävas skulle förstöra det inifrån.
 
 ## Ljudets kropp, ordets själ
 
@@ -33,13 +33,13 @@ Koranen befäster bandet mellan rop och tro:
 
 Lyssnandet förbinder det sagda med den som hör. Reflexen kommer före tanken. Det gör *adhān* teologiskt oersättligt och politiskt provocerande: det *tilltalar* lyssnaren.
 
-Ibn Taymiyyah bygger en språkfilosofi på denna princip. I *al-Qawāʿid al-Nūrāniyyah* slår han fast:
+Ibn Taymiyyah bygger en språkfilosofi på denna grundsats. I *al-Qawāʿid al-Nūrāniyyah* slår han fast:
 
 > Det väsentliga i talet är dess mening, inte dess ljud.[^8]
 
 *Adhān* är främst ett meningsuttryck – ljudet dess bärare, inte dess väsen.
 
-I *al-Radd ʿalā al-Manṭiqiyyīn* förtydligas distinktionen:
+I *al-Radd ʿalā al-Manṭiqiyyīn* förtydligas åtskillnaden:
 
 > Det hörbara ljudet från tjänaren är tjänarens ljud, men det förmedlade talet är Skaparens tal.[^9]
 
@@ -47,7 +47,7 @@ Böneutroparens röst är mänsklig, vacker eller hes, stark eller svag. Men *ad
 
 ## Klockans tysta reformation
 
-Kyrkklockor har sin historia; de har ringt för pest och krig, för döda och nyfödda. De kallades *Guds basuner*.[^10] Svenska kyrkan praktiserar fortfarande *angelusringning* och *själaringning* – klockan som ringer för den döende. Det religiösa lagret skymtar ännu.
+Kyrkklockor har sin historia; de har ringt för pest och krig, för döda och nyfödda. De kallades *Guds basuner*.[^10] Svenska kyrkan praktiserar fortfarande *angelusringning* och *själaringning* – klockan som ringer för den döende. Det religiösa skiktet skymtar ännu.
 
 Men något har försvunnit: reformationen sopade bort den katolska kyrkans verbala ceremonier kring klockorna. Invigningsriterna försvann, de böner som gav varje klocka ett namn och ett uppdrag. Kvar blev ett ljud som signalerar utan att artikulera. Klockan säger varken *vad* den kallar till eller *vem* som kallar – ohörbar för medvetandet, om än inte för örat. Man förnimmer den över maten, över samtalet. Den ringer, men den kallar inte.
 
@@ -57,13 +57,13 @@ Strindberg fångar förvandlingen i *Inferno*:
 
 Det Strindberg hör är inte ett anspråk utan en *stämning*: dysterhet, tyngd, monotoni.
 
-Kontrasten är inte en gradskillnad utan en artskillnad. En kyrkklocka smälter in i ljudlandskapet, ty den kräver inte förståelse, bara igenkänning. *Adhān* kräver förståelse – den som hör *Allāhu akbar* och begriper orden kan inte behandla dem som bakgrund. Påståenden kräver ställningstaganden: instämmande, avvisande, eller det mer obekväma alternativet att erkänna att man hört något man inte vet vad man ska göra med.
+Kontrasten är inte en gradskillnad utan en artskillnad. En kyrkklocka smälter in i ljudlandskapet, för den kräver inte förståelse, bara igenkänning. *Adhān* kräver förståelse – den som hör *Allāhu akbar* och begriper orden kan inte behandla dem som bakgrund. Påståenden kräver ställningstaganden: instämmande, avvisande, eller det mer obekväma alternativet att erkänna att man hört något man inte vet vad man ska göra med.
 
 ## Den outtalade normen
 
-Det sekulära Sveriges tolerans för religiösa ljud följer ett outtalat mönster: ljud utan tolkningskrav passerar, ljud som bär mening ifrågasätts. Ingen har fattat ett beslut om att religiösa ljud får förekomma i det offentliga bara de förblir obegripliga. Men det är vad som händer.
+Det sekulära Sveriges tolerans för religiösa ljud följer ett outtalat mönster: ljud utan tolkningskrav passerar, ljud som bär mening ifrågasätts. Ingen har fattat ett beslut om att religiösa ljud får förekomma i det offentliga så länge de förblir obegripliga. Men det är vad som händer.
 
-Mönstret är inte tillfälligt. Den europeiska sekularismens neutralitet vilar på ett protestantiskt arv: inåtvänd, ordlös religiositet som norm.[^19] Det arvet är inte abstrakt – det är just den reformation som fråntog kyrkklockorna deras invigningsriter och verbala ceremonier. Samma rörelse som tystade klockorna formade det offentliga rum som nu finner *adhān* störande. Normen att religiöst ljud bör vara ordlöst är en protestantisk slutprodukt, förklädd till neutralitet. Bönen som bes tyst, tron som ryms i hjärtat. Religion som stannar innanför dörren.
+Mönstret är inte tillfälligt. Den europeiska sekularismens neutralitet vilar på ett protestantiskt arv: inåtvänd, ordlös religiositet som norm.[^19] Det arvet är inte abstrakt – det är just den reformation som fråntog kyrkklockorna deras invigningsriter och verbala ceremonier. Samma rörelse som tystade klockorna formade det offentliga rum som nu finner *adhān* störande. Normen att religiöst ljud bör vara ordlöst är en protestantisk kvarleva, förklädd till neutralitet. Bönen som bes tyst, tron som ryms i hjärtat. Religion som stannar innanför dörren.
 
 Erik Ringmar visar hur den svenska debatten undviker att erkänna denna asymmetri.[^12] Motståndet kläs i neutrala ord: ordningsfrågor, bullernivåer, grannhänsyn. Men ordningsfrågan är redan löst; polistillstånd beviljas och ljudnivåer mäts. Kvar är det som regelverket saknar verktyg att ens namnge: obehaget inför ett religiöst påstående i det offentliga rummet.
 
@@ -83,9 +83,9 @@ Koranen återkommer till detta:
 
 > Och när ni ropar till bön gör de det till föremål för hån och skämt. Så gör de för att de är människor som inte använder sitt förstånd.[^15]
 
-Den koraniska kritiken skonar dem som inte hör. Den träffar dem som hör och ändå avfärdar utan eftertanke. Ibn Kathīr citerar en poetisk rad: "Hur mången har inte klandrat ett sunt ord, när felet låg i hans eget bristande förstånd."
+Den koraniska kritiken skonar dem som inte hör. Den träffar dem som hör och ändå avfärdar utan eftertanke. Ibn Kathīr anför en poetisk rad: "Hur mången har inte klandrat ett sunt ord, när felet låg i hans eget bristande förstånd."
 
-Det svenska samhället har inte avsakraliserat det religiösa ljudet; det har bara glömt att kyrkklockan en gång också bar mening. Klockorna har genomgått en lång sekularisering: från Guds basuner till stadsatmosfär, från kallelse till kuliss. *Adhān* har inte genomgått den processen – det har burit samma mening i fjorton århundraden.
+Det svenska samhället har inte avsakraliserat det religiösa ljudet; det har bara glömt att kyrkklockan en gång också bar mening. Klockorna har genomgått en lång sekularisering: från Guds basuner till stadsatmosfär, från kallelse till kuliss. *Adhān* har inte genomgått den förvandlingen – det har burit samma mening i fjorton århundraden.
 
 Al-Māwardī säger det rakt:
 

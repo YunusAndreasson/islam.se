@@ -11,7 +11,7 @@ Ingen tvekan, ingen ångest. Han ser, väljer, handlar.
 
 ## Nornornas dom
 
-*Orlog* var inte öde i vår vardagliga mening, inte en förutbestämd plan man underkastade sig med en axelryckning. Orlog var urtidslagen, den kosmiska ordning som bar allt. I *Völuspá* heter det:
+*Orlog* var inte öde i vår vardagliga mening, inte en förutbestämd plan man underkastade sig med en axelryckning. Orlog var urtidslagen, den allomfattande ordning som styrde allt. I *Völuspá* heter det:
 
 > De norner som väver vid världsträdet, de fastslår lagar, de delar livet åt människornas söner; de utlyser öde.[^1]
 
@@ -27,15 +27,15 @@ Moderna forskare har ifrågasatt hur absolut denna fatalism var; Magnus Magnusso
 
 ## Det tomrum som friheten lämnade
 
-Vad hände när nornorna avskaffades, den kosmiska ordningen monterades ned och den moderna människan stod ensam med sitt val?
+Vad hände när nornorna avskaffades, den allomfattande ordningen monterades ned och den moderna människan stod ensam med sitt val?
 
-I ett av världens friaste och mest sekulariserade samhällen breder meningslösheten ut sig: från sex procent 2003 till tjugofyra procent 2023, enligt Kairos Futures forskning.[^4] Fyra gånger fler på tjugo år. Redan 1844 gav Kierkegaard tillståndet namn: ångesten är frihetens svindel.[^16]
+I ett av världens friaste och mest sekulariserade samhällen breder meningslösheten ut sig: från sex procent 2003 till tjugofyra procent 2023, enligt Kairos Futures forskning.[^4] Fyra gånger så stor andel på tjugo år. Redan 1844 gav Kierkegaard tillståndet namn: ångesten är frihetens svindel.[^16]
 
 Karin Boye visste det. I *Kris* skrev hon:
 
 > Aldrig, aldrig går den förbi, det kommer ny och ny tid med samma ångest, den tar aldrig slut, den är outtömlig.[^5]
 
-Hjalmar Söderberg gav den konkret gestalt:
+Hjalmar Söderberg gav den en fast gestalt:
 
 > Det föll över henne en frossbrytning av ångest, var gång hon tänkte på allt det onda, som nästa morgon eller nästa nyår kan hålla i beredskap åt oss, utan att vi vete det och utan att vi kunna göra något.[^6]
 
@@ -63,7 +63,7 @@ Ibn al-Jawzī:
 
 > *Tawakkul* upphävs inte genom att vidta tillåtna åtgärder. Den som berövar sig själv nödvändigheter under förevändning av *tawakkul* har brutit mot *sunnah*.[^11]
 
-Vikingen vilar i det obönhörliga, den troende i den Barmhärtige. Att överlåta sitt öde åt en blind lag kräver stoisk hårdhet: du måste tysta den del av dig som frågar *varför*. Att anförtro det åt Allah ﷻ, med Koranens ord "den som sätter sin lit till Allah ﷻ, Han räcker honom"[^12], kräver ingen sådan tystnad. Det ger ro utan hårdhet, mod utan bitterhet, handling utan den kvävande känslan att allt vilar på de egna axlarna. En profettradition sammanfattar principen:
+Vikingen vilar i det obönhörliga, den troende i den Barmhärtige. Att överlåta sitt öde åt en blind lag kräver stoisk hårdhet: man måste tysta den del av sig som frågar *varför*. Att anförtro det åt Allah ﷻ, med Koranens ord "den som sätter sin lit till Allah ﷻ, Han räcker honom"[^12], kräver ingen sådan tystnad. Det ger ro utan hårdhet, mod utan bitterhet, handling utan den kvävande känslan att allt vilar på de egna axlarna. En profettradition sammanfattar grundsatsen:
 
 > Förunderligt är den troendes tillstånd – Allah ﷻ bestämmer inte något för honom utan att det blir till hans bästa. Drabbas han av motgång har han tålamod, och det blir till hans bästa; och får han framgång är han tacksam, och det blir till hans bästa. Och detta gäller ingen annan än den troende.
 
@@ -73,7 +73,7 @@ Samma Karin Boye som kallade ångesten outtömlig fann ett ögonblicks klarhet i
 
 > Det oundvikligas ro. Det inre ödets ro.[^13]
 
-Boye nådde insikten men kunde inte stanna kvar i den. Överlåtelse utan mottagare är bara uppgivenhet. Dag Hammarskjöld fann strukturen i kristen tro. I *Vägmärken* tecknade han ögonblicket:
+Boye nådde insikten men kunde inte stanna kvar i den. Överlåtelse utan mottagare är bara uppgivenhet. Dag Hammarskjöld fann ordningen i kristen tro. I *Vägmärken* tecknade han ögonblicket:
 
 > Jag vet inte vem – eller vad – som ställde frågan, jag vet inte när den ställdes. Jag minns inte att jag svarade. Men en gång svarade jag ja till någon – eller något – och från den stunden har jag varit viss om att tillvaron är meningsfull och att mitt liv, i underkastelse, har ett mål.[^17]
 
@@ -83,9 +83,11 @@ Koranen varnar för vad som händer när tillit fästs vid det skapade istället
 
 > Men om de vänder om skall du säga: 'Allah ﷻ är tillräcklig för mig; ingen gud finns utom Han. Till Honom sätter jag min lit, och Han är Herre över den väldiga tronen.'[^14]
 
-I *Tusen och en natt* får konsekvensen konkret gestalt. En besegrad furste uppsöker en eremit och klagar över sitt öde. Eremiten frågar om han vet varför han besegrades, men fursten vet inte. "Därför att du satte din lit till dina truppernas antal", svarar eremiten, "och inte förlitade dig på Allah ﷻ den Allrahögste. Hade du satt din lit till den Allsmäktige, hade din fiende aldrig kunnat besegra dig."[^15]
+I *Tusen och en natt* får följden gripbar gestalt. En besegrad furste uppsöker en eremit och klagar över sitt öde. Eremiten frågar om han vet varför han besegrades, men fursten vet inte. Eremiten svarar:
 
-Gunnar på Hlíðarendi vände sig i sadeln. Hans lugn sprang ur vissheten att nornorna redan avgjort. Den troende vänder sig mot *qiblah*. Hans ro springer ur förvissningen att den som avgjort är *al-Raḥmān* – den Barmhärtige.
+> Därför att du satte din lit till dina truppernas antal och inte förlitade dig på Allah ﷻ den Allrahögste. Hade du satt din lit till den Allsmäktige, hade din fiende aldrig kunnat besegra dig.[^15]
+
+Gunnar på Hlíðarendi vände sig i sadeln. Hans lugn sprang ur vissheten att nornorna redan avgjort. Den troende vänder sig mot *qiblah*. Hans ro vilar i förvissningen att den som avgjort är *al-Raḥmān* – den Barmhärtige.
 
 ---
 

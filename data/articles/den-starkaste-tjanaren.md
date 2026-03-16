@@ -15,17 +15,17 @@ Ibn Taymiyyah omsatte ʿUmars klagan i ett politiskt system. I *al-Siyāsah al-S
 
 > Att styrka och pålitlighet förenas i samma person är sällsynt bland människor.[^3]
 
-Härskaren måste väga vilken pelare som väger tyngst för det enskilda ämbetet. I militärt befäl går styrka först: även en moraliskt bristfällig befälhavare vars tapperhet skyddar samfundet väger tyngre än en from men svag ledare vars rättskaffenhet bara gagnar honom själv.[^4] I finansiell förvaltning, där andras tillgångar ska bevaras, går pålitlighet först. Och när ingen enskild person besitter båda egenskaperna? Då kombinerar man flera: en stark uppbördsman som driver in medlen, en pålitlig skrivare som bevakar dem.[^5]
+Härskaren måste väga vilken pelare som väger tyngst för det enskilda ämbetet. I militärt befäl går styrka först: även en moraliskt bristfällig befälhavare, vars tapperhet skyddar samfundet, väger tyngre än en from men svag ledare vars rättskaffenhet bara gagnar honom själv.[^4] I finansiell förvaltning, där andras tillgångar ska bevaras, går pålitlighet först. Och när ingen enskild person besitter båda egenskaperna? Då kombinerar man flera: en stark uppbördsman som driver in medlen, en pålitlig skrivare som bevakar dem.[^5]
 
 Koranen framställer grundsatsen lakoniskt. När Mose söker arbete hos den gamle mannen i Midjan säger en av döttrarna till sin far: "Den bästa du kan ta i din tjänst är en som är stark och pålitlig."[^6] När Josef erbjuder sig att förvalta Egyptens förråd inför hungersnöden säger han: "Jag är sannerligen en kunnig förvaltare."[^7]
 
 ## Misstankens maskin
 
-I den svenska välfärdsstaten fick avvägningen handgripliga följder. I november 2024 avslöjade Lighthouse Reports och Svenska Dagbladet att Försäkringskassans maskininlärningsmodell – byggd för att identifiera felaktiga ansökningar om tillfällig föräldrapenning – systematiskt markerade kvinnor mer än dubbelt så ofta som män, trots att andelen felaktiga ansökningar var något högre bland män. Utlandsfödda, låginkomsttagare och personer utan högskoleutbildning drabbades oproportionerligt.[^8] Amnesty International fördömde systemet som "avhumaniserande".[^9]
+I den svenska välfärdsstaten fick avvägningen handgripliga följder. I november 2024 avslöjade Lighthouse Reports och Svenska Dagbladet att Försäkringskassans maskininlärningsmodell – byggd för att upptäcka felaktiga ansökningar om tillfällig föräldrapenning – systematiskt markerade kvinnor mer än dubbelt så ofta som män, trots att andelen felaktiga ansökningar var något högre bland män. Utlandsfödda, låginkomsttagare och personer utan högskoleutbildning drabbades oproportionerligt.[^8] Amnesty International fördömde systemet som "avhumaniserande".[^9]
 
 Redan 2013 hade Försäkringskassan infört modellen. År 2018 konstaterade Inspektionen för socialförsäkringen att algoritmen "i sin nuvarande utformning inte uppfyller kravet på likabehandling".[^10] Försäkringskassan avfärdade slutsatserna. Först sex år senare – efter internationell granskning och offentlig skandal – drogs systemet tillbaka.
 
-Ibn Taymiyyahs uppdelning förtydligar: algoritmens *quwwah* kunde ingen betvivla. Bristen låg i *amānah*. Utan insyn förstärkte kraften de ojämlikheter den var tänkt att rätta. En svag tjänsteman gör begränsad skada – hans oförmåga sätter gränser för hans orättvisa. En algoritm som fattar miljontals beslut utan att kunna förklara ett enda alstrar orättvisa i en skala ingen tjänsteman ensam kan uppnå.
+Ibn Taymiyyahs uppdelning förtydligar: algoritmens *quwwah* kunde ingen betvivla. Bristen låg i *amānah*. Utan insyn förstärkte kraften de ojämlikheter den var tänkt att rätta. En svag tjänsteman gör begränsad skada – hans oförmåga sätter gränser för hans orättvisa. En algoritm som fattar miljontals beslut utan att kunna förklara ett enda skapar orättvisa i en skala ingen tjänsteman ensam kan uppnå.
 
 Problemet är inte nytt. Norbert Wiener pekade redan 1960 ut samma mönster:
 
@@ -39,11 +39,11 @@ En medborgare som vänder sig till en myndighet ingår ett förtroendeavtal äld
 
 > Allah ﷻ befaller er att återlämna allt ni anförtrotts till dess rättmätiga ägare och att, när ni dömer mellan människor, döma med rättvisa.[^11]
 
-Ibn Kathīr citerar en profettradition: "Fullgör förtroendeuppdraget gentemot den som anförtrott dig, och förråd inte den som förråder dig." En algoritm som fattar rätt i sjuttio procent av fallen men saknar förmåga att redogöra för något av dem uppfyller möjligen ett krav på slagkraft men inte *amānah*.
+Ibn Kathīr anför en profettradition: "Fullgör förtroendeuppdraget gentemot den som anförtrott dig, och förråd inte den som förråder dig." En algoritm som fattar rätt i sjuttio procent av fallen men saknar förmåga att redogöra för något av dem uppfyller möjligen ett krav på slagkraft men inte *amānah*.
 
 Tom Tyler har visat att människors tillit till institutioner beror mindre på beslutens korrekthet än på processens upplevda rättvisa.[^19] Ett system som fattar rätt beslut utan att kunna visa det förlorar sin auktoritet snabbare än ett som felar öppet.
 
-Arbetsförmedlingens AI-matchningssystem lider av samma brist. Mönsterigenkänningen kartlägger arbetsmarknadsdata i en utsträckning som vida överstiger mänsklig förmåga, men beslutsgrunderna kan inte spåras.[^12]
+Arbetsförmedlingens AI-matchningssystem lider av samma brist. Mönsterigenkänningen kartlägger arbetsmarknadsdata långt bortom mänsklig förmåga, men beslutsgrunderna kan inte spåras.[^12]
 
 ## Vågen utan visare
 
@@ -59,11 +59,11 @@ En algoritm som inte kan granskas är en våg utan visare. Den väger men ingen 
 
 ## Vem bär den blinda vågen?
 
-Selma Lagerlöf slog fast principen med nordisk knapphet: "Riket är bättre betjänt med människor än med pengar."[^20] Ellen Key skrev 1900 att "människorna äro till för industriens skull, icke industrien för människornas".[^16] I dag är industrien algoritmen.
+Selma Lagerlöf slog fast grundsatsen med nordisk knapphet: "Riket är bättre betjänt med människor än med pengar."[^20] Ellen Key skrev 1900 att "människorna äro till för industriens skull, icke industrien för människornas".[^16] I dag är industrien algoritmen.
 
 Men skillnaden är avgörande. Industrins orättvisor var synliga: fabriksrök, barnarbete, söndersmulade kroppar. Algoritmens orättvisor är osynliga. En kvinna vars föräldrapenningsansökan markeras av en maskininlärningsmodell vet varken att det skett eller varför. Industrins orättvisor rättades *utifrån*, genom den samlade vrede som synligt lidande väckte. Algoritmisk orättvisa kan inte alstra sin egen rättelse. Där orättvisan är osynlig måste ansvaret vara inbyggt.
 
-Koranen beskriver *al-amānah* som så tungt att himlarna, jorden och bergen vägrade bära det. Människan axlade det.[^17] Sedan glömde hon vad hon bar.
+Koranen beskriver *al-amānah* som så tung att himlarna, jorden och bergen vägrade bära den. Människan axlade den.[^17] Sedan glömde hon vad hon bar.
 
 ---
 

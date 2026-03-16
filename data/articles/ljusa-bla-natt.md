@@ -39,7 +39,7 @@ Midsommarnattens ljus löser upp den gräns Koranen kallar ett gudomligt tecken 
 
 ## Tidens fånge
 
-Redan på 1000-talet fångade den andalusiske teologen Ibn Ḥazm tidens innersida: "När det kommande anländer blir det som nyss var nu till det förflutna, och de förenas."[^9] Det som verkade vara tre skilda tider – förflutet, nu, framtid – är samma punkt, gripen i rörelse.
+Redan på 1000-talet fångade den andalusiske teologen Ibn Ḥazm tidens innersida: "När det kommande anländer blir det som nyss var nu till det förflutna, och de förenas."[^9] Det som verkade vara tre skilda tider – förflutet, nu, framtid – är samma punkt, fångad i rörelse.
 
 "Lifvet är kort, men timmarne äro långa," antecknar Glas.[^10] För den sömnlöse är det en exakt beskrivning.
 
@@ -55,21 +55,21 @@ I *Madārij al-Sālikīn* reste Ibn Qayyim en systematisk tidsfilosofi ur ett ä
 
 Den som upptas av det förflutna och det kommande förlorar nuet. Varje gång ett nytt nu anländer griper han efter bägge ändarna – det som var och det som ska bli – tills alla hans stunder runnit ut.[^14]
 
-Trehundra år senare skrev Pascal, utan kännedom om Ibn Qayyim: "Vi håller oss aldrig till det närvarande. Vi irrar i tider som inte är våra och tänker inte på den enda som tillhör oss."[^25] Men för Pascal är nuet tomt; vi flyr det *därför att* det är outhärdligt i sig. För Ibn Qayyim är nuet laddat: vi flyr det därför att vi inte ser vad det bär. Samma symptom, motsatt orsaksförklaring.
+Trehundra år senare skrev Pascal, utan kännedom om Ibn Qayyim: "Vi håller oss aldrig till det närvarande. Vi irrar i tider som inte är våra och tänker inte på den enda som tillhör oss."[^25] Men för Pascal är nuet tomt; vi flyr det *därför att* det är outhärdligt i sig. För Ibn Qayyim är nuet laddat: vi flyr det därför att vi inte ser vad det bär. Samma symptom, motsatt orsak.
 
-Så lever Glas: fången i minnet av en ungdom som aldrig infriades och i förväntningen på en framtid han inte tror på. Hans dagbok pendlar ständigt mellan dem. Varje konkret nu glider honom ur händerna medan han antecknar det. "Lif, jag förstår dig inte," bekänner han.[^15] Men *waqt* kräver annat än förstånd.
+Så lever Glas: fången i minnet av en ungdom som aldrig infriades och i förväntningen på en framtid han inte tror på. Hans dagbok pendlar ständigt mellan dem. Varje påtagligt nu glider honom ur händerna medan han antecknar det. "Lif, jag förstår dig inte," bekänner han.[^15] Men *waqt* kräver annat än förstånd.
 
-Denna närvaro – det Ibn Qayyim kallar *nūr al-murāqabah*, övervakandets ljus – slocknar genom förspilld tid.[^16] Det yttre ljuset blir outhärdligt först när det faller över ett inre utan riktning.
+Denna närvaro – det Ibn Qayyim kallar *nūr al-murāqabah*, den vaksamma närvarons ljus – slocknar genom förspilld tid.[^16] Det yttre ljuset blir outhärdligt först när det faller över ett inre utan riktning.
 
 ## Tiden utan ram
 
 Søren Kierkegaard definierade ångesten som "frihetens svindel" – den yrsel som griper den som stirrar ned i sina möjligheter.[^17] Det stämmer för Glas. Men Kierkegaards analys stannar vid svindeln; hans *trosprång* pekar ut ur förlamningen utan att säga vad den som landar ska göra med sin tid. Det är här Ibn Qayyim ger ögonblicket självt en arkitektur.
 
-Människans tid är hennes liv: det råmaterial ur vilket hennes eviga tillvaro formas.[^18][^19] Morgonrymden efter *fajr*, ordet vid måltidens bord, steget tillbaka från ilskan.
+Människans tid är hennes liv: det råmaterial ur vilket hennes eviga tillvaro formas.[^18][^19] Stillheten efter *fajr*, ordet vid måltidens bord, steget tillbaka från ilskan.
 
 Glas' ångest saknar fäste utanför jaget. Han kan inte vara sin tids barn, ty hans tid bär ingen uppgift; den bara pågår, omarkerad, utan bön som bryter dygnet, utan *fajr*, dagbräcksbönen, som ger gryningen fäste, utan *ʿishāʾ* som ger natten djup. Midsommarnattens gränslösa ljus förkroppsligar hans inre tillstånd: en tid utan ordning, och därmed utan liv.
 
-Den kosmiska ordning Koranen beskriver – "i skapelsen av himlarna och jorden och i växlingen mellan natt och dag finns sannerligen tecken för dem som har förstånd"[^20] – utgör själva ramen för meningsbärande tid. Utan den ramen: tomhet klädd i ljus.
+Den allomfattande ordning Koranen beskriver – "i skapelsen av himlarna och jorden och i växlingen mellan natt och dag finns sannerligen tecken för dem som har förstånd"[^20] – utgör själva ramen för meningsbärande tid. Utan den ramen: tomhet klädd i ljus.
 
 ## Natten som nåd
 

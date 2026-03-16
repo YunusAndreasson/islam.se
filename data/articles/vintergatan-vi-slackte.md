@@ -7,17 +7,17 @@ description: "År 2016 kartlade Fabio Falchi och hans kollegor det artificiella 
 ---
 En tredjedel av mänskligheten har aldrig sett Vintergatan. Den internationella kartläggningen av konstgjort nattljus i *Science Advances* 2016 visade att över åttio procent av jordens befolkning lever under himlar så genomlysta att stjärnhimlen krympt till ett fåtal punkter.[^1] I Europa är det värre: nittio procent av invånarna lever under ljusförorenade himlar. Sverige, Norge och norra Skottland tillhör de sista europeiska regioner där Vintergatan överhuvudtaget kan urskiljas. Marginalen krymper.
 
-Vad händer med ett samhälles andliga mottaglighet när det fysiska mörkret som bar den är utplånat?
+Vad händer med ett samhälles andliga mottaglighet när det fysiska mörkret som möjliggjorde den är utplånat?
 
 ## Ljusets hierarki
 
-I Koranen är ljus inte metafor utan kosmologisk kategori. Den mest kommenterade versen i den islamiska idéhistorien – ljusversen, *āyat al-nūr* – gestaltar ljuset i en flerlagrad bild:
+I Koranen är ljus inte bild utan kosmologisk kategori. Den mest kommenterade versen i den islamiska idéhistorien – ljusversen, *āyat al-nūr* – gestaltar ljuset i en flerlagrad bild:
 
 > Allah ﷻ är himlarnas och jordens ljus. Liknelsen om Hans ljus är en lykta i vilken det finns en lampa. Lampan är omgiven av glas. Glaset är som om det var en starkt skimrande stjärna. Den är tänd med olja från ett välsignat träd – ett olivträ – som varken stått enbart östligt eller västligt. Dess olja lyser nästan utan att ha rörts av eld. Ljus över ljus![^2]
 
-Bilden faller inåt: från nischen till glaset till lampan till oljan som nästan lyser av sig själv. Ibn Qayyim visar i *al-Wābil al-Ṣayyib* hur ljuset i hjärtat föds ur tro och lydnad; det närs av uppenbarelse och goda handlingar, så som lampans låga närs av olja.[^3]
+Bilden rör sig inåt: från nischen till glaset till lampan till oljan som nästan lyser av sig själv. Ibn Qayyim visar i *al-Wābil al-Ṣayyib* hur ljuset i hjärtat föds ur tro och lydnad; det närs av uppenbarelse och goda handlingar, så som lampans låga närs av olja.[^3]
 
-Ibn Qayyim visar den bärande förbindelsen: uppenbarelsens ljus *adderas* till den medfödda naturens ljus, *fiṭrah*, och de två förenas till *nūrun ʿalā nūr* – ljus på ljus. Utan denna samverkan saknas den urskillning som skiljer sant från falskt.[^4] Det gudomliga ljuset tävlar inte med det naturliga. Det förutsätter det.
+Ibn Qayyim tydliggör den bärande förbindelsen: uppenbarelsens ljus *adderas* till den medfödda naturens ljus, *fiṭrah*, och de två förenas till *nūrun ʿalā nūr* – ljus på ljus. Utan denna samverkan saknas den urskillning som skiljer sant från falskt.[^4] Det gudomliga ljuset tävlar inte med det naturliga. Det förutsätter det.
 
 ## Invändningen
 
@@ -37,7 +37,7 @@ I mörker försvinner det synliga. Kvar står medvetandets egen verksamhet, fri 
 
 > Ett tecken för dem är natten; Vi drar undan dagen ur den och då sveps de i mörker.[^10]
 
-Natten *dras fram* som ett tecken. Koranen anför detta direkt efter talet om solen som rör sig mot sitt bestämda mål. Natten är solens jämlike, inte dess frånvaro.
+Natten *visas fram* som ett tecken. Koranen anför detta direkt efter talet om solen som rör sig mot sitt bestämda mål. Natten är solens jämlike, inte dess frånvaro.
 
 ## Söderbergs kägla
 

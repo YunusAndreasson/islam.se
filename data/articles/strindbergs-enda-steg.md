@@ -23,9 +23,9 @@ Strindbergs ateism var aldrig lugn – snarare ett grepp om något som hela tide
 
 I kris anropar människan Gud; i trygghet glömmer hon. Men Koranen stannar inte vid psykologin – anropet är ett återvändande till utgångsläget. Det är glömskan som kräver förklaring, inte bönen.
 
-## *Fiṭrah*: det som undertrycks men aldrig försvinner
+## Fiṭrah: det som undertrycks men aldrig försvinner
 
-Den islamiska traditionen har ett begrepp för insikten: *fiṭrah*. Ibn Taymiyyah (d. 1328) citerar Profetens ﷺ ord: "Varje barn föds i enlighet med *fiṭrah*; sedan gör föräldrarna det till jude, kristen eller zoroastrier."[^4] Han knyter detta direkt till Koranens vers:
+Den islamiska traditionen har ett begrepp för insikten: *fiṭrah*. Ibn Taymiyyah (d. 1328) anför Profetens ﷺ ord: "Varje barn föds i enlighet med *fiṭrah*; sedan gör föräldrarna det till jude, kristen eller zoroastrier."[^4] Han knyter detta direkt till Koranens vers:
 
 > Vänd ditt ansikte mot den sanna religionen, hängiven. Allahs ﷻ *fiṭrah*, med vilken Han skapade människorna. Ingen förändring i Allahs ﷻ skapelse.[^22]
 
@@ -33,19 +33,19 @@ Den islamiska traditionen har ett begrepp för insikten: *fiṭrah*. Ibn Taymiyy
 
 *Fiṭrah* är inte en from förhoppning om att alla i grunden tror. Det är anspråket att gudskunskap tillhör samma kunskapskategori som de mest grundläggande insikterna: att en yttre verklighet finns, att orsak föregår verkan, att motsägelser inte kan vara sanna samtidigt. Att förneka Gud är, i denna analys, att överge sammanhangen själva: Ibn Taymiyyah kallar ateismens yttersta följd *safsaṭah* – det genomgripande tvivel som upplöser all kunskap, även förnekelsen själv.[^7]
 
-Anspråket är högt, men det förklarar något. Om gudskunskap hör till kunskapens grund borde varje kris som slår undan tryggheten blotta det som hela tiden legat under ytan. En uppdämd sjö skapas inte av dammens fall; den släpps fri.
+Anspråket är högt, men det förklarar varför Strindberg inte kunde förbli ateist. Om gudskunskap hör till kunskapens grund borde varje kris som slår undan tryggheten blotta det som hela tiden legat under ytan. En uppdämd sjö skapas inte av dammens fall; den släpps fri.
 
 ## Pendeln som aldrig vilar
 
-Ellen Key, Strindbergs samtida och på många sätt hans motpol, ser fenomenet från motsatt håll:
+Ellen Key, Strindbergs samtida och på många sätt hans motpol, ser företeelsen från motsatt håll:
 
 > Mycket fromma kristnas barn bli fritänkare, mycket fria fritänkares barn kristna. Orsaken är öppendaglig.[^8]
 
 Key ser samhällelig pendling. Men varför slår pendeln alltid *tillbaka*? Vore ateism ett stadigt kunskapstillstånd borde riktningen vara rak: varje generation mer sekulär, tills religionen utdör.
 
-Det är inte vad som sker, inte vad Key observerar, inte vad Strindberg genomlever. Ett internationellt forskningsprojekt vid Oxford visade 2011 att religiösa begrepp framträder som grundläggande strukturer i mänskligt tänkande, inte som inlärda föreställningar.[^9] Justin Barrett, en av projektets ledare: "Religion handlar inte om något som ett fåtal särskilda människor gör på söndagar i stället för att spela golf."[^10]
+Det är inte vad som sker, inte vad Key observerar, inte vad Strindberg genomlever. Ett internationellt forskningsprojekt vid Oxford visade 2011 att religiösa begrepp framträder som grundläggande mönster i mänskligt tänkande, inte som inlärda föreställningar.[^9] Justin Barrett, en av projektets ledare: "Religion handlar inte om något som ett fåtal särskilda människor gör på söndagar i stället för att spela golf."[^10]
 
-Invändningar finns. Ateismforskare som Lanman och Geertz hävdar att ateism också har naturliga kognitiva processer, att den kan uppstå av sig själv under vissa villkor.[^11] Invändningen är verklig men flyttar frågan: att ateism *kan* uppstå av sig själv säger inget om dess hållbarhet. Frågan kvarstår: kan ateism *levas* utan ansträngning? Strindbergs vittnesmål antyder motsatsen.
+Invändningar finns. Ateismforskare som Lanman och Geertz hävdar att ateism också har naturliga kognitiva förlopp, att den kan uppstå av sig själv under vissa villkor.[^11] Invändningen är verklig men flyttar frågan: att ateism *kan* uppstå av sig själv säger inget om dess hållbarhet. Frågan kvarstår: kan ateism *levas* utan ansträngning? Strindbergs vittnesmål antyder motsatsen.
 
 ## Den omöjliga neutraliteten
 
@@ -127,7 +127,7 @@ Hans tvungna otacksamhet tryckte honom som en börda.
 [^4]: Ibn Taymiyyah, *Amrāḍ al-qulūb wa-shifāʾuhā* (Hjärtats sjukdomar och deras botemedel). Hadithen återges i Ṣaḥīḥ al-Bukhārī, Kitāb al-Janāʾiz, nr. 1385; Ṣaḥīḥ Muslim, Kitāb al-Qadar, nr. 2658.
 [^5]: Ibn Taymiyyah, *al-Radd ʿalā al-Manṭiqiyyīn* (Gendrivning av logikerna), s. 322 i standardutgåvan.
 [^6]: Ibn Taymiyyah, *al-Radd ʿalā al-Manṭiqiyyīn*: "Att använda icke-naturliga metoder är att plåga själar utan nytta för dem".
-[^7]: Se Nazir Khan, "Atheism and Radical Skepticism: Ibn Taymiyyah's Epistemic Critique," Yaqeen Institute for Islamic Research, 2020. Ibn Taymiyyah identifierar ateism som den "värsta formen av safsaṭah" – att förneka vad *fiṭrah* naturligt bekräftar leder till epistemologisk kollaps.
+[^7]: Se Nazir Khan, "Atheism and Radical Skepticism: Ibn Taymiyyah's Epistemic Critique," Yaqeen Institute for Islamic Research, 2020. Ibn Taymiyyah identifierar ateism som den "värsta formen av safsaṭah" – att förneka vad *fiṭrah* naturligt bekräftar leder till att kunskapens grundvalar faller.
 [^8]: Ellen Key, *Lifslinjer*, andra delen (Stockholm: Bonniers, 1903).
 [^9]: "Humans 'Predisposed' to Believe in Gods and the Afterlife," University of Oxford, Cognition, Religion and Theology Project, 2011. Treårigt internationellt forskningsprojekt med 57 forskare i 20 länder.
 [^10]: Justin Barrett, citerad i Oxford-projektets pressmeddelande, juli 2011.

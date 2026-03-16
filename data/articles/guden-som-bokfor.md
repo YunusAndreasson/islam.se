@@ -13,7 +13,7 @@ Mönstret hade ett namn: *Nemesis Divina*. Gudomlig vedergällning.
 
 > Innocue vivito, numen adest! Du ser alt gå confust, som ingen såget, hördet. Men här bor en rättwis Gud, som giör hwario rätt.[^1]
 
-En teologisk slutsats murad på iakttagelse. Hans uttolkare har kallat det *theologia experimentalis*.[^2]
+En teologisk slutsats byggd på iakttagelse. Hans uttolkare har kallat det *theologia experimentalis*.[^2]
 
 Men om han var så övertygad – varför höll han den hemlig?
 
@@ -21,7 +21,7 @@ Men om han var så övertygad – varför höll han den hemlig?
 
 Den lutherska kyrkans grundsats är enkel och radikal: människan frälses genom tro allena. *Sola fide. Sola gratia.* Nåden är till sitt väsen omåttlig; den ges till den som inte förtjänar den.
 
-Linnés *Nemesis Divina* tecknar raka motsatsen. Varje handling bär sin bestämda följd, lika ofrånkomligt som att en viss jordmån ger en viss växt. Th. M. Fries, som redigerade manuskriptet efter Linnés död, sammanfattade principen:
+Linnés *Nemesis Divina* tecknar raka motsatsen. Varje handling bär sin bestämda följd, lika ofrånkomligt som att en viss jordmån ger en viss växt. Th. M. Fries, som redigerade manuskriptet efter Linnés död, sammanfattade grundsatsen:
 
 > En ständig vexelverkan, en sträng lagbundenhet, en orubblig verldsordning genomströmmar det hela; att slumpen, det blinda ödets tyranni, ingenstädes herskar.[^3]
 
@@ -35,7 +35,7 @@ Manuskriptet namnger verkliga personer och deras brott. Fries menade att Linné 
 
 ## Naturalisten som såg igenom ägandet
 
-De mest gripande ställena rör inte vedergällningen utan Guds suveränitet, uttryckt med en skärpa som det lutherska 1700-talssverige saknade ord för.
+De mest gripande ställena rör inte vedergällningen utan Guds suveränitet, uttryckt med en skärpa som det lutherska 1700-talssverige inte hade plats för.
 
 > Du säger: det är min gård; jag kan giöra och låta. Jag säger: dit är intet; Gud lånt dig alt.[^6]
 
@@ -45,15 +45,15 @@ Och ännu tydligare:
 
 Den som beter sig som ägare – av sin gård, sin makt, sin hälsa – har förväxlat lån med äganderätt. Men Linné nöjde sig inte med att slå fast suveräniteten. Han sökte dess verkningssätt – den grundsats som gör att låntagaren drabbas.
 
-## Den princip han inte fick namnge
+## Den grundsats han inte fick namnge
 
 I Koranens nittionionde sura, en av de kortaste – knappt sex verser – sammanfattas den grundsats Linné grävde efter:
 
 > Den som gör den minsta myras vikt av gott skall se det. Och den som gör den minsta myras vikt av ont skall se det.[^8]
 
-*Mithqāla dharratin.* En atoms vikt – ingen handling undgår räkenskapen. Ibn Kathīr citerar en profettradition: en äldre man kom till Profeten ﷺ och bad om en enda sura som sammanfattade allt. Profeten ﷺ lärde honom just denna, och när mannen svurit att aldrig lägga till något utöver den sade Profeten ﷺ: "Den lille mannen har lyckats! Den lille mannen har lyckats!"
+*Mithqāla dharratin.* En atoms vikt – ingen handling undgår räkenskapen. Ibn Kathīr anför en profettradition: en äldre man kom till Profeten ﷺ och bad om en enda sura som sammanfattade allt. Profeten ﷺ lärde honom just denna, och när mannen svurit att aldrig lägga till något utöver den sade Profeten ﷺ: "Den lille mannen har lyckats! Den lille mannen har lyckats!"
 
-Linné sökte bevisa genom hundratals fallstudier vad Koranen kungör som axiom.[^9] Men tankegången går i motsatt riktning. Linné slöt sig till suveräniteten bakvägen: den som betedde sig som ägare gick under, alltså var Gud den verklige ägaren. *Tawḥīd* börjar i andra änden – Gud *är* suverän, därför bär varje handling följd. Men Koranen stannar inte vid räkenskapen. Samma Gud som väger varje handling är *al-Tawwāb*, den som tar emot den ångerfulles återvändo: "Er Herre har föreskrivit Sig barmhärtighet: den av er som i oförstånd gör ont och sedan ångrar sig och gör bot – Han är ständigt förlåtande, barmhärtig."[^20] Linnés *Nemesis Divina* rymmer räkenskap utan nåd; lutherdomen nåd utan räkenskap. Koranen håller båda.
+Linné sökte bevisa genom hundratals fallstudier vad Koranen kungör som axiom.[^9] Men den koraniska tankegången går i motsatt riktning. Linné nådde suveräniteten bakvägen: den som betedde sig som ägare gick under, alltså var Gud den verklige ägaren. *Tawḥīd* börjar i andra änden – Gud *är* suverän, därför bär varje handling följd. Men Koranen stannar inte vid räkenskapen. Samma Gud som väger varje handling är *al-Tawwāb*, den som tar emot den ångerfulles återvändo: "Er Herre har föreskrivit Sig barmhärtighet: den av er som i oförstånd gör ont och sedan ångrar sig och gör bot – Han är ständigt förlåtande, barmhärtig."[^20] Linnés *Nemesis Divina* rymmer räkenskap utan nåd; lutherdomen nåd utan räkenskap. Koranen håller båda.
 
 Den troende förväntas ändå hålla den egna räkenskapen:
 

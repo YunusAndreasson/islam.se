@@ -11,7 +11,7 @@ Hans namn var Sībawayh.
 
 ## En persers väg till det heliga språket
 
-Abū Bishr ʿAmr ibn ʿUthmān ibn Qanbar – kallad Sībawayh, "äppeldoften", ett persiskt smeknamn – föddes i Shiraz och kom till Basra som ung man.[^1] Han hade tänkt studera islamisk rättsvetenskap, *fiqh*. Men han begick ett grammatiskt fel i en *ḥadīth*-diskussion. Skammen drev honom till språkvetenskapen, till besatthet. Att studera grammatik med den glöden är att urskilja språkets skelett i varje yttrande: i poetens vers, i profetens tal, i marknadens rop.
+Abū Bishr ʿAmr ibn ʿUthmān ibn Qanbar – kallad Sībawayh, "äppeldoften", ett persiskt smeknamn – föddes i Shiraz och kom till Basra som ung man.[^1] Han hade tänkt studera islamisk rättsvetenskap, *fiqh*. Men han begick ett grammatiskt fel i en *ḥadīth*-diskussion. Skammen drev honom till språkvetenskapen, till en glöd som aldrig släcktes. Att studera grammatik med den glöden är att urskilja språkets skelett i varje yttrande: i poetens vers, i profetens tal, i marknadens rop.
 
 Hans lärare blev al-Khalīl ibn Aḥmad al-Farāhīdī, en arabisk lingvist från Oman som avlyssnat prosodins lagar i en kopparslagares hammarslag.[^2] Att al-Khalīl var arab och Sībawayh perser är inte en bisats. Det är poängen.
 
@@ -45,9 +45,9 @@ Al-Shāfiʿī lade till:
 
 Sībawayh levde detta. Utifrån erövrade han arabiskan, så grundligt att han satte normen för dem som *var* födda in i den. Den som föds in i ett språk äger det som instinkt – vet vad som är rätt men inte varför. Den som erövrar det utifrån måste lära sig *varför*, och det är just det som grammatik är.
 
-Motståndet kom ändå. Det islamiska samhällets tidiga århundraden präglades av *shuʿūbiyyah*-rörelsen, där perser och andra icke-arabiska muslimer hävdade sin jämbördighet med araberna trots dessas kulturella överhöghet.[^8] Mitt i denna spänning utspelade sig Sībawayhs karriär. Skepsisen gällde mer än accenten; frågan gick djupare: kunde en utlänning gripa arabiskans innersta logik, det som al-Suyūṭī kallade språkets *tawassuʿ*, dess närmast oändliga vidd?[^9]
+Motståndet kom ändå. Det islamiska samhällets tidiga århundraden präglades av *shuʿūbiyyah*-rörelsen, där perser och andra icke-arabiska muslimer hävdade sin jämbördighet med araberna trots dessas kulturella överhöghet.[^8] Mitt i denna spänning utspelade sig Sībawayhs karriär. Skepsisen gällde mer än accenten: kunde en utlänning gripa arabiskans innersta logik, det som al-Suyūṭī kallade språkets *tawassuʿ*, dess närmast oändliga vidd?[^9]
 
-*Al-Kitāb* var svaret: fyra volymer systematisk granskning som visade att arabiskans struktur kunde gripas, beskrivas och läras av den som lade ner tillräcklig möda. Ett bevis, inte ett argument. Argument besvaras; bevis brukas, och *al-Kitāb* har brukats i varje arabisk lärosal i fjorton århundraden.
+*Al-Kitāb* var svaret: fyra volymer systematisk granskning som visade att arabiskans byggnad kunde gripas, beskrivas och läras av den som lade ner tillräcklig möda. Ett bevis, inte ett argument. Argument besvaras; bevis brukas, och *al-Kitāb* har brukats i varje arabisk lärosal i fjorton århundraden.
 
 ## Stammar för kännedom, inte för rang
 
@@ -71,7 +71,7 @@ Språk vinns genom umgänge och möda. Aldrig genom arv.
 
 > Språket låg ännu rått och ouppodladt. Man måste känna det barbari, hvari det i följd deraf förfallit, för att rätt värdera allt hvad det blef under Stjernhjelms hand.[^13]
 
-Stiernhielm lyfte svenskan ur tyskt och latinskt beroende. Men i Strindbergs *Röda rummet* utbrister en karaktär i satirisk förtvivlan: "Ner med den dumma hunden Georg Stjernhjelm!" – för att denne drivit fram svenskan och trängt undan tyskan.[^14] Strindberg satiriserar den som vänder sig mot själva den språkliga självständigheten. Det löjliga ligger hos dem som hellre behöll det lånade.
+Stiernhielm lyfte svenskan ur tyskt och latinskt beroende. Men i Strindbergs *Röda rummet* utbrister en karaktär i satirisk förtvivlan: "Ner med den dumma hunden Georg Stjernhjelm!" – för att denne drivit fram svenskan och trängt undan tyskan.[^14] Strindberg satiriserar den som vänder sig mot själva den språkliga självständigheten. Det löjliga ligger hos dem som hellre hade behållit det lånade.
 
 Mekanismen *verkar* vara densamma, men fallen är omvända: i Basra motstår man att en utlänning träder in i arabiskan; i Stockholm att främmande ord tränger in i svenskan. Riktningen skiftar, antagandet kvarstår: att ett språk har naturliga ägare. Att motståndet uppstår oavsett riktning avslöjar vad det skyddar – inte språket utan rangordningen.
 

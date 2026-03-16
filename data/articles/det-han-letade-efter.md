@@ -15,7 +15,7 @@ Strindberg genomlevde en kris som drev honom bortom materialismens gräns. I *In
 
 > Hemmastadd i naturvetenskaperna sedan barndomen, sedermera anhängare av Darwin, hade jag upptäckt det otillfredsställande i denna naturvetenskapliga metod, som erkände världsalltets förträffliga mekanism utan att medgiva tillvaron av mekanikern.[^3]
 
-Två sekler före Strindberg hade Emanuel Swedenborg stött mot samma gräns. Som hjärnforskare kartlade han hjärnbarkens funktioner hundra år före sin tid: lokaliserade motoriska centra, tillskrev cerebrospinalvätskan en roll, anade sambandet mellan bestämda hjärnregioner och bestämda förmågor.[^4] Själen fann han aldrig under skalpellen.
+Två sekler före Strindberg hade Emanuel Swedenborg stött mot samma gräns. Som hjärnforskare kartlade han hjärnbarkens uppgifter hundra år före sin tid: lokaliserade motoriska centra, tillskrev cerebrospinalvätskan en roll, anade sambandet mellan enskilda hjärnregioner och bestämda förmågor.[^4] Själen fann han aldrig under skalpellen.
 
 ## Kunskapens ärliga gräns
 
@@ -33,7 +33,7 @@ Sinnena förkastar han inte:
 
 > Skapelsen vittnar om Skaparen, och den som betraktar med sitt hjärta ser i varje skapat ting ett bevis.[^8]
 
-Koranen drar upp den bärande distinktionen: "Hans är skapelsen och befallningen" (*al-khalq wa-l-amr*).[^9] Kroppen tillhör skapelsen – formad av lera, underkastad naturlagar. Själen tillhör befallningen – instiftad genom Guds direkta ord *kun*. Ibn Qayyim utvecklar detta i *Kitāb al-Rūḥ*: själen är varken identisk med kroppen eller en blott egenskap hos den; den är en självständig skapad verklighet av en annan art.[^10]
+Koranen drar upp den bärande åtskillnaden: "Hans är skapelsen och befallningen" (*al-khalq wa-l-amr*).[^9] Kroppen tillhör skapelsen – formad av lera, underkastad naturlagar. Själen tillhör befallningen – instiftad genom Guds direkta ord *kun*. Ibn Qayyim utvecklar detta i *Kitāb al-Rūḥ*: själen är varken identisk med kroppen eller en blott egenskap hos den; den är en självständig skapad verklighet av en annan art.[^10]
 
 Förklaringsgapet rymmer en tvetydighet. Är det ett gap i vår *kunskap* eller i *verklighetens ordning*? Kan vi inte förklara medvetandet *ännu*, eller tillhör det en annan verklighetsordning?[^11] Även västerländsk filosofi har snuddat vid gränsen. Wittgenstein nådde sin slutsats genom ren logik: "Subjektet tillhör inte världen utan är en gräns för världen."[^16] Men *Tractatus* mynnar i tystnad om det som ligger bortom gränsen.
 
@@ -49,9 +49,9 @@ Invändningen är lika gammal som argumentet: vem upplever illusionen? Att avfä
 
 Ibn Qayyim förklarade varför frågan aldrig sluter sig:
 
-> Själarna skapades för att bestå, inte för att förgås – det är sanningen. Det som profeterna och deras följare enats om är att dessa själar förblir efter att ha lämnat sina kroppar, de förgås inte och upphör inte. De som menar att själarna förgås med kropparna, eftersom de bara vore en av dess krafter – dessa erkänner ingen själ som existerar i sig själv, som bebor kroppen och lämnar den.[^14]
+> Själarna skapades för att bestå, inte för att förgås – det är sanningen. Det som profeterna och deras följare enats om är att dessa själar förblir efter att ha lämnat sina kroppar, de förgås inte och upphör inte. De som menar att själarna förgås med kropparna, eftersom de bara vore en av deras krafter – dessa erkänner ingen själ som existerar i sig själv, som bebor kroppen och lämnar den.[^14]
 
-Koranen tecknar relationen: "När Jag har fulländat honom och blåst in i honom av Min ande."[^15] Ordningen är avgörande: kroppen *fulländas* först, varje materiellt villkor uppfyllt, men medvetandet saknas tills anden inblåses. Uppbyggnad föregår medvetande men frambringar det inte.
+Koranen tecknar relationen: "När Jag har fulländat honom och blåst in i honom av Min ande."[^15] Ordningen är avgörande: kroppen *fulländas* först, varje kroppsligt villkor uppfyllt, men medvetandet saknas tills anden inblåses. Kroppens formning föregår medvetandet men frambringar det inte.
 
 Varje natt lämnar medvetandet dig. Varje morgon återvänder det. Ingen neurolog kan säga vart det går.
 

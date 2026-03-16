@@ -3,7 +3,7 @@ title: "Det enögda begäret"
 publishedAt: "2025-11-02T12:00:00.000Z"
 wordCount: 1686
 qualityScore: 8.6
-description: "I sitt verk *Rawḍat al-Muḥibbīn* bygger den damascenske 1300-talsgelärde Ibn Qayyim en hel perceptionsteori kring en enkel distinktion: den första blicken händer dig, den andra gör du. Ögat är inte en ingång utan en spegel – det speglar hjärtats eget tillstånd."
+description: "I sitt verk *Rawḍat al-Muḥibbīn* bygger den damascenske 1300-talsgelärde Ibn Qayyim en hel perceptionsteori kring en enkel åtskillnad: den första blicken händer dig, den andra gör du. Ögat är inte en ingång utan en spegel – det speglar hjärtats eget tillstånd."
 ---
 Ett ögonblick innan begäret. Ett kort, omärkligt mellanrum – en bråkdels sekund mellan att se och att vilja se. Det mesta av det vi kallar frihet avgörs där.
 
@@ -25,7 +25,7 @@ Profeten ﷺ sade till ʿAlī:
 
 ## Den andra blicken
 
-Traditionen kartlägger blickens *följd*, inte dess *föremål*. Ibn al-Jawzī skriver i *Dhamm al-Hawā*: begäret (*hawā*) gör blicken enögd.[^4] Inte blind – enögd. Begäret släcker inte synen utan förvränger den. Den som ser enögd ser personen men inte sammanhanget, njutningen men inte morgonen efter.
+Traditionen kartlägger blickarnas *ordning*, inte dess *föremål*. Ibn al-Jawzī skriver i *Dhamm al-Hawā*: begäret (*hawā*) gör blicken enögd.[^4] Inte blind – enögd. Begäret släcker inte synen utan förvränger den. Den som ser enögd ser personen men inte sammanhanget, njutningen men inte morgonen efter.
 
 Iris Murdoch gör i *The Sovereignty of Good* uppmärksamheten, inte viljan, till den avgörande sedliga handlingen: "Jag kan bara välja inom den värld jag förmår se, och klart seende är frukten av sedlig ansträngning."[^20] Epiktetos, den frigivne slaven, slog fast att ingen människa är fri som inte behärskar sig själv.[^22] Men varken han eller Murdoch pekar ut *var* ansträngningen ska riktas. Ibn Qayyim gör det: vid tröskeln mellan första och andra blicken.
 
@@ -69,7 +69,7 @@ Koranen rymmer ännu en bild:
 
 > Fäst åter blicken gång efter gång; blicken vänder tillbaka till dig avvisad och alldeles matt.[^18]
 
-I sitt sammanhang gäller versen den som betraktar himlarna och söker brister i skapelsen. Men principen bär längre. Den upprepade blicken finner ingenting nytt. Den tömmer sig själv.
+I sitt sammanhang gäller versen den som betraktar himlarna och söker brister i skapelsen. Men grundsatsen bär längre. Den upprepade blicken finner ingenting nytt. Den tömmer sig själv.
 
 ## Kedjan
 

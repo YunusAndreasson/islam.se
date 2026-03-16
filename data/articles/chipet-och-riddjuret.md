@@ -3,7 +3,7 @@ title: "Chipet och riddjuret"
 publishedAt: "2025-09-23T12:00:00.000Z"
 wordCount: 1840
 qualityScore: 8.7
-description: "Över fem tusen svenskar bär mikrochip under huden – ingreppet tar sekunder och görs ofta på teknikkonferenser. Att kroppen är råmaterial att uppgradera var samma premiss som bar Karin Boyes dystopi 1940, och som Ibn al-Jawzī i Bagdad avvisade redan på 1100-talet."
+description: "Över fem tusen svenskar bär mikrochip under huden – ingreppet tar sekunder och görs ofta på teknikkonferenser. Att kroppen är råmaterial att uppgradera var samma förutsättning som bar Karin Boyes dystopi 1940, och som Ibn al-Jawzī i Bagdad avvisade redan på 1100-talet."
 ---
 Karin Boye skrev sin sista roman i skuggan av ett Europa som slöt sig. Det var 1940. I *Kallocain* hade staten koloniserat det sista fria territoriet: den enskilda kroppen. Medborgarna i Världsstaten tillhörde inte sig själva. Deras biologiska materia var statens egendom – tillgänglig för granskning, uppgradering och kemisk avläsning. Berättaren, kemisten Leo Kall, uppfinner ett sanningsserum som injiceras i blodet och tvingar fram de innersta tankarna. *Kallocain* är mer än en drog; det är en grundsats: kroppen är en behållare man kan öppna och tömma.
 
@@ -15,15 +15,15 @@ Karin Boye skrev sin sista roman i skuggan av ett Europa som slöt sig. Det var 
 
 I Sverige har över femtusen personer implanterat mikrochip under huden.[^2] Chipen öppnar dörrar, ersätter passerkort, lagrar kontaktuppgifter. Ingreppet tar sekunder, utförs ofta på teknikkonferenser och framställs som ett naturligt steg. Kring detta har biohacking vuxit: konsten att behandla den egna kroppen som uppgraderbar hårdvara.
 
-Premissen är densamma som i Boyes dystopi: kroppen är råmaterial. Sömn mäts, kost finjusteras, nootropika doseras efter schema.
+Förutsättningen är densamma som i Boyes dystopi: kroppen är råmaterial. Sömn mäts, kost finjusteras, nootropika doseras efter schema.
 
-Men sker det inte frivilligt? I *Kallocain* injiceras serumet under tvång; i Stockholm implanteras chipet med ett leende. Skillnaden är verklig – och döljer en djup likhet. Både Världsstatens medborgare och biohackaren behandlar kroppen som *resurs*, material att bruka för ett ändamål. Att tvånget bytts mot samtycke ändrar formen, inte premissen. Byung-Chul Han kallar mönstret *självexploatering*: den som förbättrar sig frivilligt utnyttjar sig utan yttre tvång och förväxlar underkastelsen med frihet.[^15] Det är den som vaknar klockan fem för att meditera – aldrig av egen längtan, alltid för att alla framgångsrika gör det.
+Men sker det inte frivilligt? I *Kallocain* injiceras serumet under tvång; i Stockholm implanteras chipet med ett leende. Skillnaden är verklig – och döljer en djup likhet. Både Världsstatens medborgare och biohackaren behandlar kroppen som *resurs*, material att bruka för ett ändamål. Att tvånget bytts mot samtycke ändrar formen, inte förutsättningen. Byung-Chul Han kallar mönstret *självexploatering*: den som förbättrar sig frivilligt utnyttjar sig utan yttre tvång och förväxlar underkastelsen med frihet.[^15] Det är den som vaknar klockan fem för att meditera – aldrig av egen längtan, alltid för att alla framgångsrika människor gör det.
 
-Leo Kall förkroppsligar denna livsåskådning. Ondskefull är han inte. Han gör vad systemet belönar: förbättrar, snabbar på, förenklar. Att uppfinningen sliter sönder människors inre liv framstår som en biverkning.
+Leo Kall förkroppsligar denna livsåskådning. Ondskefull är han inte. Han gör vad systemet belönar: förbättrar, snabbar på, förenklar. Att uppfinningen sliter sönder människors inre liv framstår, i hans ögon, som en biverkning.
 
 ## Riddjuret och hjärtat
 
-Ibn al-Jawzī, den lärde i 1100-talets Bagdad, tecknade kroppen som ett riddjur – *maṭiyyah* – som människan anförtrotts att färdas med. "Kroppen är som ett riddjur," skriver han, "och riddjuret måste fodras och tas om hand."[^3] Bilden är avsiktligt enkel men bär en vass innebörd. Ett riddjur är varken ägaren eller ägarens egendom. Det är anförtrott. Man kan rida det, men inte rida ihjäl det. Man kan vårda det, men inte förvandla det till något annat än det är. Förhållandet förutsätter gränser som varken ryttaren eller riddjuret har satt.
+Ibn al-Jawzī, den lärde i 1100-talets Bagdad, tecknade kroppen som ett riddjur – *maṭiyyah* – som människan anförtrotts att färdas med. "Kroppen är som ett riddjur," skriver han, "och riddjuret måste fodras och tas om hand."[^3] Bilden är avsiktligt enkel men rymmer en vass poäng. Ett riddjur är varken ägaren eller ägarens egendom. Det är anförtrott. Man kan rida det, men inte rida ihjäl det. Man kan vårda det, men inte förvandla det till något annat än det är. Förhållandet förutsätter gränser som varken ryttaren eller riddjuret har satt.
 
 Biohackaren frågar *hur kan jag förbättra min kropp?* Ibn al-Jawzī frågar *vilka villkor gäller för detta lån?*
 
@@ -33,7 +33,7 @@ Ibn Qayyim al-Jawziyyah förde bilden från liknelse till grundsats:
 
 Kroppen tjänar hjärtat, inte tvärtom. *Qalb* rymmer det kroppen aldrig kan mäta: förmågan att vända sig till sin Skapare genom tro, lydnad och uppenbarad kunskap.
 
-Biohackingens kropp är ett slutet kretslopp av data, kemikalier och mekanik. Traditionens kropp är genomsläpplig – riktad bortom sig själv. Ibn Qayyim drog parallellen:
+I biohackingens värld är kroppen ett slutet kretslopp av data, kemikalier och mekanik. Traditionens kropp är genomsläpplig – riktad bortom sig själv. Ibn Qayyim drog parallellen:
 
 > Liksom kroppen inte kan vara frisk utan näring som bevarar dess kraft och utrensning av skadliga ämnen, så kan inte heller hjärtat fullborda sitt liv utan näring av tro och goda handlingar.[^5]
 
@@ -49,7 +49,7 @@ Det som erbjöds var inte ägande utan ansvar. I den klassiska exegesens ljus in
 
 Profeten Muḥammad ﷺ satte ord på det: "Fullgör det anförtrodda mot den som anförtrott dig det, och svek inte den som sviker dig."[^8]
 
-Boyes roman och biohackingen delar samma tomrum: en kropp utan *amānah*, en kropp som tillhör staten eller individen men i ingetdera fallet bär ansvar inför den som skapat den. Ju mer makt människan vinner över sin biologi, desto sämre förmår hon besvara frågan *vad kroppen är till för*.
+Boyes roman och biohackingen delar samma tomrum: en kropp utan *amānah*, en kropp som tillhör staten eller individen men i ingetdera fallet bär ansvar inför den som skapat den. Ju mer makt människan får över sin biologi, desto sämre förmår hon besvara frågan *vad kroppen är till för*.
 
 *Hur* kroppen fungerar kan data visa – aldrig *varför* den existerar. "Deras kroppar reser sig från sina bäddar för att tillbe sin Herre med fruktan och längtan."[^9]
 
@@ -75,7 +75,7 @@ Leo Kall hade ett ögonblick av klarhet. Mot romanens slut, när hans uppfinning
 
 Han anar att något gått förlorat, men saknar språket.
 
-Språket har funnits sedan 600-talet. Kroppen som riddjur, hjärtat som kunskapsplats, existensen som lån.
+Språket har funnits sedan 600-talet. Kroppen som riddjur, hjärtat som kunskapsplats, tillvaron som lån.
 
 Ibn Rajab al-Ḥanbalī fångade det innersta lagret: "Min kropp är med mig, men min ande är hos er – kroppen lever i främlingskap, anden i sin hemort."[^14]
 

@@ -5,7 +5,7 @@ wordCount: 1673
 qualityScore: 8.7
 description: "I *Doktor Glas* skiljer Hjalmar Söderberg kärleken från drömmen om den, men svenskan ger honom bara ett ord att arbeta med. Redan på 1300-talet hade den damascenske juristen Ibn Qayyim al-Jawziyyah kartlagt närmare sextio arabiska namn, ordnade inte som synonymer utan som stadier, symptom och prognoser."
 ---
-Hjalmar Söderberg såg det tydligt: "Den källan heter icke kärleken, utan den heter: drömmen om kärlek."[^1] Men hans språk gav honom inte redskapet att följa insikten till botten. Vad skiljer kärleken från drömmen om den? Söderberg visste att gränsen fanns. Han hade bara ett ord, *kärlek*, som skall täcka allt: förälderns nattliga vaka, den erotiska besattheten, den tysta troheten som överlever årtionden, den gudomliga hängivenheten. Modersmålet tvingar oss att famla med vantar.
+Hjalmar Söderberg såg det tydligt: "Den källan heter icke kärleken, utan den heter: drömmen om kärlek."[^1] Men hans språk gav honom inte redskapet att följa insikten till botten. Vad skiljer kärleken från drömmen om den? Söderberg visste att gränsen fanns. Han hade bara ett ord, *kärlek*, som skall täcka allt: förälderns nattliga vaka, den erotiska besattheten, den tysta troheten som överlever årtionden, den gudomliga hängivenheten. Modersmålet tvingar oss att famla i vantar.
 
 Sjuhundra år före Söderberg öppnade den damascenske juristen och teologen Ibn Qayyim al-Jawziyyah (d. 1350) sin bok *Rawḍat al-Muḥibbīn*, Älskarnas trädgård, och förtecknade närmare sextio arabiska namn för det vi kallar kärlek.[^2] Inte synonymer. Diagnoser.
 
@@ -13,7 +13,7 @@ Sjuhundra år före Söderberg öppnade den damascenske juristen och teologen Ib
 
 Grekiskan hade fyra ord: *eros*, *philia*, *storge*, *agape*. Den anglikanske apologeten C. S. Lewis byggde en hel bok kring dem.[^3] Mer än svenskan, men fortfarande en grov karta. Ibn Qayyims projekt är av ett annat slag: där Lewis ordnar kärleken i fack, dissekerar Ibn Qayyim den som läkare. Han frågar inte "vilken sort?" utan "vart leder den?"
 
-Han motiverar namnrikedomen med en liknelse: tre fenomen föder många ord, det som är farligt som lejonet, det som är nödvändigt som svärdet, det som berör alla som vinet.[^4] Kärleken förenar alla tre.
+Han motiverar namnrikedomen med en liknelse: tre företeelser föder många ord, det som är farligt som lejonet, det som är nödvändigt som svärdet, det som berör alla som vinet.[^4] Kärleken förenar alla tre.
 
 Förloppet börjar med *al-maḥabbah*, det breda ordet, och passerar genom *al-ʿalāqah* (anknytning), *al-hawā* (begär), *al-ṣabwah* (ungdomlig hänryckning), *al-shaghaf* (brännande förälskelse), *al-ʿishq* (besatt passion), *al-walah* (förlust av förnuft), innan den slutar i *al-tatayyum*: total underkastelse, en term som bokstavligen betyder att förslavas.[^5]
 
@@ -31,7 +31,7 @@ Högre i ordningen: *al-ʿishq*, det ord som närmast svarar mot vårt "passion"
 
 Den schweiziske kulturfilosofen Denis de Rougemont landade i samma insikt sex sekler senare. I *L'Amour et l'Occident* (1939) blottlägger han att den europeiska passionen, från trubadurerna till Tristan, inte älskar den älskade utan begäret självt. Den kräver hinder för att överleva.[^23] Han saknade ordet *ʿishq*; han behövde en hel bok. Men skillnaden ligger inte bara i omfång. De Rougemonts diagnos är en slutsats, nådd efter hundratals sidor. Ibn Qayyims diagnos bor i själva ordet: den som säger *ʿishq* uttalar varningen innan erfarenheten börjat.
 
-Ibn Qayyim konstaterar: "Början av *ʿishq* är plåga, dess mitt är sjukdom, dess slut är död."[^8] Det förtjänar varken beröm eller klander som sådant; allt beror på dess föremål.[^9] Men den kärlek som tillkommer Allah ﷻ bär ett annat namn: *maḥabbah* och *ʿubūdiyyah*, den fullkomliga kärleken förenad med fullkomlig underkastelse. Pannan mot mattan, fem gånger om dagen, år efter år. Salaf använde inte termen *ʿishq* om Skaparen; de ansåg den för smal, för sjuklig, för knuten till brist. Den *maḥabbah* de föredrog rymmer det som *ʿishq* saknar: stadga, lydnad, vördnad.
+Ibn Qayyim konstaterar: "Början av *ʿishq* är plåga, dess mitt är sjukdom, dess slut är död."[^8] Det förtjänar varken beröm eller klander som sådant; allt beror på dess föremål.[^9] Men den kärlek som tillkommer Allah ﷻ bär ett annat namn: *maḥabbah* och *ʿubūdiyyah*, den fullkomliga kärleken förenad med fullkomlig underkastelse. Pannan mot mattan, fem gånger om dagen, år efter år. De tidiga generationerna (*salaf*) använde inte termen *ʿishq* om Skaparen; de ansåg den för smal, för sjuklig, alltför bunden till brist. Den *maḥabbah* de föredrog rymmer det som *ʿishq* saknar: stadga, lydnad, vördnad.
 
 ## Söderbergs Arvid, diagnostiserad
 
@@ -41,7 +41,7 @@ Ta Arvid Stjärnblom i *Den allvarsamma leken*. Han älskar Lydia och har älska
 
 Söderberg preciserar: "Det värsta var, att han inte riktigt tordes lita på sina egna känslor."[^11]
 
-Svenskan kallar detta kärlek. Ibn Qayyims system ställer en skarpare diagnos. Arvid befinner sig i *ʿishq* som aldrig övergått i *mawaddah*. Hans passion saknar den mogna tillgivenhetens stadga, den *luzūm* som inte vacklar, och han pendlar mellan besatthet och handlingsförlamning. Ibn Qayyim: "*ʿIshq* tar inte säte utom i ett tomt hjärta."[^12] Arvids hjärta fylls inte av Lydia; det har tömts på allt annat, och i det vakuumet frodas passionens klängväxt.
+Svenskan kallar detta kärlek. Ibn Qayyims system ställer en skarpare diagnos. Arvid befinner sig i en *ʿishq* som aldrig övergått i *mawaddah*. Hans passion saknar den mogna tillgivenhetens stadga, den *luzūm* som inte vacklar, och han pendlar mellan besatthet och handlingsförlamning. Ibn Qayyim: "*ʿIshq* tar inte säte utom i ett tomt hjärta."[^12] Arvids hjärta fylls inte av Lydia; det har tömts på allt annat, och i det vakuumet frodas passionens klängväxt.
 
 ## Det som brinner och det som bär
 
@@ -79,7 +79,7 @@ Annorstädes:
 
 > Det är omöjligt att kärlek till den Högste och *ʿishq* för bilderna någonsin sammanstrålar i ett hjärta – de är motpoler som aldrig möts.[^20]
 
-Ibn al-Jawzī citerar Platon med ett ord som fortfarande bränner: "*ʿIshq* är en tom själs rörelse utan tanke."[^21]
+Ibn al-Jawzī anför Platon med ett ord som fortfarande bränner: "*ʿIshq* är en tom själs rörelse utan tanke."[^21]
 
 Det hjärta som är fullt, fullt av *dhikr*, av närvaro inför Allah ﷻ, det som dröjer kvar på mattan när bönen slutat och världen långsamt återvänder, det hjärtat lämnar ingen jord åt passionens klängväxt. Men det tomma hjärtat, det som saknar centrum, det som den moderna sekulariteten berömmer sig av att ha befriat från alla dogmer, det hjärtat är värnlöst mot den kärlek som förtär utan att nära, som binder utan att bära.
 

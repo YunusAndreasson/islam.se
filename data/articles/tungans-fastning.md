@@ -7,7 +7,7 @@ description: "I 1300-talslärden Ibn Qayyim al-Jawziyyahs skildring samlar Satan
 ---
 Ett ord slungat i vrede, yttrat i avund eller bara släppt i förbifarten – sedan sjunker det genom tillvaron som en sten genom vatten: nedåt, oåterkalleligt, med ringar som breder sig långt bortom den punkt där stenen försvann. Profeten Muḥammad ﷺ beskrev det: en människa kan yttra ett ord utan att begrunda det. Det ordet störtar henne i Elden längre bort än avståndet mellan öster och väster.[^1]
 
-Orden slår. Neurovetenskapen har visat att muntligt våld sätter spår i hjärnans stressystem.[^2] Den islamiska traditionen visste det fjorton sekler före den första hjärnskannern. Den svenska tystnadskulturen likaså, på sitt eget vis.
+Orden slår. Neurovetenskapen har visat att hårda ord sätter spår i hjärnans stressystem.[^2] Den islamiska traditionen visste det fjorton sekler före den första hjärnskannern. Den svenska tystnadskulturen likaså, på sitt eget vis.
 
 ## Tungan som gränsfästning
 
@@ -15,7 +15,7 @@ Ibn Qayyim al-Jawziyyah – en av 1300-talets skarpaste kännare av det inre liv
 
 > Ställ er vid tungans gränsfästning, ty det är den största fästningen, belägen mitt emot kungens port. Låt det flöda över den allt tal som skadar honom och inte gagnar honom, och hindra allt som gagnar honom: åminnelse av Allah ﷻ, bön om förlåtelse, läsning av Hans bok, uppriktigt råd till Hans tjänare, och tal grundat i nyttig kunskap. I denna fästning erbjuds er två stora segrar – det gör detsamma vilken ni vinner: den första är att han talar falskt, ty den som talar falskt är en av era bröder och bland era största soldater. Den andra är att han tiger om sanningen, ty den som tiger om sanningen är en stum broder till er.[^3]
 
-Denna dubbelhet löper genom hela den klassiska islamiska litteraturen om tungans etik. Al-Māwardī ger i *Adab al-Dunyā wa-l-Dīn* tungans makt sin mest träffsäkra gestaltning:
+Denna dubbelhet löper genom hela den klassiska islamiska litteraturen om tungans etik. Al-Māwardī i *Adab al-Dunyā wa-l-Dīn* gestaltar tungans makt:
 
 > Talet är en tolk som uttrycker det som lagrats i hjärtats kammare och avslöjar samvetets dolda innehåll. Det kan varken återkallas i sina utbrott eller fångas in när det sluppit loss.[^4]
 
@@ -29,7 +29,11 @@ Koranen skär genom varje ursäkt:
 
 > Hon yttrar inte ett ord utan att vid sig ha en väktare redo.[^8]
 
-Ibn Kathīr anför en profettradition: "Allah ﷻ har förlåtit mitt samfund det som deras själar viskar till dem, så länge de inte uttalar det eller handlar efter det." Och längre fram:
+Ibn Kathīr anför en profettradition:
+
+> Allah ﷻ har förlåtit mitt samfund det som deras själar viskar till dem, så länge de inte uttalar det eller handlar efter det.
+
+Och längre fram:
 
 > Ni som har antagit tron! Undvik alltför många antaganden. Vissa antaganden är en synd. Leta inte efter andras brister och baktala inte varandra. Skulle någon av er tycka om att äta sin döda broders kött? Nej, ni skulle avsky det.[^9]
 
@@ -53,9 +57,9 @@ Ibn Qayyims dubbla fälla har en andra sida. Koranen befaller:
 
 "Det som är lämpligast": inte det sannaste, inte det mest direkta, utan det *lämpligaste*. Sanningen måste sägas, men sättet att tala den avgör om den helar eller skadar. "Goda ord och förlåtelse är bättre än en allmosa följd av tal som sårar."[^24]
 
-Al-Suyūṭī, den encyklopediske 1400-talslärde, sammanfattade hela denna spänning i en enda sats: "Att tiga när man bör tala är ibland samma brott som att tala när man bör tiga."[^25] Det är den stumme brodern som Ibn Qayyim beskriver – fiendens andra seger.
+Al-Suyūṭī, den mångsidige 1400-talslärde, sammanfattade hela denna spänning i en enda sats: "Att tiga när man bör tala är ibland samma brott som att tala när man bör tiga."[^25] Det är den stumme brodern som Ibn Qayyim beskriver – fiendens andra seger.
 
-Vår tids reflex – att allt bör sägas, att tystnad är förtryck, att "bryta tystnaden" alltid är moraliskt – förbiser vad varje islamisk lärd visste: det finns tal som är värre än tystnad.
+Vår tids instinkt – att allt bör sägas, att tystnad är förtryck, att "bryta tystnaden" alltid är moraliskt – förbiser vad varje islamisk lärd visste: det finns tal som är värre än tystnad.
 
 Ibn Ḥibbān al-Bustī, den lärde hadithsamlaren, klädde jämvikten i ord: "Tystnaden är sinnets sömn och talet dess vakenhet."[^26] Sömn är nödvändig. Ingen överlever utan den. Men den som sover när han borde vara vaken har inte funnit vila; han har försummat sitt ansvar. Och den som talar när han borde tiga har inte vaknat; han irrar i sömnen. "Stamning är ibland bättre än tal," skriver Ibn Ḥibbān, "ty allt tal som missar sin rätta plats – där är stamningen bättre."[^27]
 
@@ -71,7 +75,11 @@ Men det finns en tystnad som varken undviker eller flyr – den tystnad där ord
 
 En tystnad som redan säger allt. Koranen beskriver det som att hjärtan finner ro i Allahs ﷻ åminnelse.[^32] Profeten ﷺ definierade den innersta tillbedjan som *iḥsān*: att dyrka Allah ﷻ som om du ser Honom, ty även om du inte ser Honom, ser Han dig.[^33] Den som vaktar sin fästning väl finner till slut att själva vakthållningen blir en form av bön.
 
-Al-Nawawī skriver i *Riyāḍ al-Ṣāliḥīn*: "Man bör inte tala annat än om det som är gott, och det är det vars nytta är uppenbar. Och varje gång man tvivlar på om nyttan framträder: tala inte."[^34] Den som försöker leva efter den regeln under en enda dag upptäcker att den kräver samma vaksamhet som varje annan andlig tukt.
+Al-Nawawī skriver i *Riyāḍ al-Ṣāliḥīn*:
+
+> Man bör inte tala annat än om det som är gott, och det är det vars nytta är uppenbar. Och varje gång man tvivlar på om nyttan framträder: tala inte.[^34]
+
+Den som försöker leva efter den regeln under en enda dag upptäcker att den kräver samma vaksamhet som varje annan andlig tukt.
 
 Fästningskommendantens arbete tar aldrig slut. Det tal som var rätt i går kan vara fel idag; den tystnad som var klok i morse kan vara feg ikväll. Varje stund kräver sin prövning. Porten glappar redan.
 

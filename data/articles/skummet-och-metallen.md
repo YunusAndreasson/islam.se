@@ -17,11 +17,11 @@ Forskarna tvistar om pånyttfödelsemotivets ursprung: hör visionen av världen
 
 ## Swedenborg: elden som aldrig brinner
 
-Emanuel Swedenborg, uppvuxen i ett lutherskt Sverige dränkt i helvetets retorik, kom att förneka helveteselden helt. Dess tillvaro erkände han; dess väsen förkastade han.
+Emanuel Swedenborg, uppvuxen i ett lutherskt Sverige dränkt i helvetets retorik, kom att förneka helveteselden helt. Tillvaron erkände han; väsendet förkastade han.
 
 I Swedenborgs korrespondenslära svarar varje fysisk företeelse mot en andlig verklighet. Eld svarar mot kärlek – till sin byggnad, inte poetiskt. Och helvetets eld? Den är självkärlekens inre glöd, som de fördömda upplever som värme, rentav som behag.[^4] De som valt sig själva framför allt annat bebor ett tillstånd som *liknar* eld men saknar eldens förvandlingskraft. Swedenborgs helvete bränner inte. Det bekräftar.
 
-Om den materiella världen är andlighetens alfabet är elden ett *språk*. Helvetet talar, men de fördömda kan inte läsa vad det säger.
+Om den jordiska världen är andlighetens alfabet är elden ett *språk*. Helvetet talar, men de fördömda kan inte läsa vad det säger.
 
 Under krisåren i Paris snubblade August Strindberg in i Swedenborgs universum. Reaktionen kom genast: "Från ateism till Swedenborg tycks det bara vara ett steg!"[^5] Inte nyfikenhet drev honom utan igenkänning. I *Inferno* ger han sin egen version av den swedenborgianska erfarenheten:
 
@@ -47,7 +47,7 @@ Den hanbalitiske lärde Ibn Rajab al-Ḥanbalī driver tanken till dess spets i 
 
 Elden *känner igen*.
 
-Långt före mötet bestäms relationen till elden. Därför kan Koranen säga om dem som avvisar tron: "Varje gång de försöker komma ut ur den, till följd av sitt elände, sätts de tillbaka i den."[^9] Det är konsekvensen av ett tillstånd som föregår elden.
+Långt före mötet bestäms relationen till elden. Därför kan Koranen säga om dem som avvisar tron: "Varje gång de försöker komma ut ur den, till följd av sitt elände, sätts de tillbaka i den."[^9] Det är följden av ett tillstånd som föregår elden.
 
 Bilden rymmer en oundviklig teologisk spänning. I sunnitisk tradition straffar Jahannam, men för den syndige troende är den också rening. Den som bär trons kärna, hur svag den än är, frigörs till slut ur elden, renad.[^10] Samma eld *straffar* den ene och *renar* den andre. I den som brinner ligger skillnaden.
 
@@ -61,9 +61,9 @@ Här möts den islamiska traditionen och Swedenborg ett ögonblick – men skilj
 
 ## Tre eldar, en fråga
 
-Den nordiska elden bryr sig inte om den enskilde: världen förnyas som en årstid vänder – kosmisk återställning utan sedlighet. Den swedenborgianska elden är helt och hållet inre; den finns bara som spegling, psykologisk sanning utan transcendens.
+Den nordiska elden bryr sig inte om den enskilde: världen förnyas som en årstid vänder – allomfattande återställning utan moralisk prövning. Den swedenborgianska elden är helt och hållet inre; den finns bara som spegling, psykologisk sanning utan transcendens.
 
-Den koraniska elden samlar det de andra var för sig saknar. Den är verklig – den finns oavsett den prövades upplevelse. Och den är personlig: den svarar på den prövades tillstånd med en skärpa som överstiger mänsklig dom. Samma eld, olika verkan, beroende på vad den möter.
+Den koraniska elden samlar det de andra var för sig saknar. Den är verklig – den finns oavsett hur den prövade upplever den. Och den är personlig: den svarar på den prövades tillstånd med en skärpa som överstiger mänsklig dom. Samma eld, olika verkan, beroende på vad den möter.
 
 Ibn Taymiyyah sade, enligt vad Ibn Qayyim förmedlar:
 

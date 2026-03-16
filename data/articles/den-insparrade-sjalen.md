@@ -25,11 +25,11 @@ Inom den parentesen kartlade Ibn al-Jawzī begärets rörelse:
 
 > Själen stannar aldrig vid en gräns, utan eftersträvar njutningar utan ände – och allt den uppnår svalnar snart, varpå den söker något annat.[^2]
 
-Problemet är inte att kroppen begränsar hjärnan utan att den begränsar *själen*. Den hedonistiska löparbanan är själens grundvillkor i materian – inget fel ett hjärnchip kan avhjälpa.
+Problemet är inte att kroppen begränsar hjärnan utan att den begränsar *själen*. Den hedonistiska trampkvarnen är själens grundvillkor i materian – inget fel ett hjärnchip kan avhjälpa.
 
 ## Fängelset som blir bekvämare
 
-Det är Ibn Qayyim al-Jawziyyah, verksam i Damaskus två sekler senare, som driver denna insikt till sin spets. I *al-Fawāʾid* tecknar han ett kosmiskt kraftspel mellan kropp och själ:
+Det är Ibn Qayyim al-Jawziyyah, verksam i Damaskus två sekler senare, som driver denna insikt till sin spets. I *al-Fawāʾid* beskriver han ett allomfattande kraftspel mellan kropp och själ:
 
 > När kroppen mättas, njuter och sover, och man ägnar sig åt dess bekvämlighet och vila, sjunker kroppen till den plats den skapades av och drar med sig själen, som hamnar i ett fängelse.[^3]
 
@@ -37,11 +37,11 @@ Ju mer kroppen tillfredsställs, desto tyngre blir den, och desto djupare sjunke
 
 > Ju lättare kroppen blir, desto mer förfinas själen och söker sin himmelska hemvist; och ju tyngre kroppen blir genom begär och bekvämlighet, desto tyngre blir själen och sjunker från sin värld och blir jordisk och låg.[^4]
 
-Sexhundra år senare klädde Simone Weil samma insikt i samma bild, utan kännedom om den damascenske lärde: "Alla själens naturliga rörelser styrs av lagar analoga med den materiella tyngdkraftens. Nåden är det enda undantaget."[^17] Men Weils *enda undantag* blottar en begränsning: gravitationen är absolut, och själen kan ingenting annat än vänta på en nåd som kommer utifrån. Ibn Qayyim beskriver samma gravitation – men i hans system finns handlingar som lättar kroppens tyngd inifrån.
+Sexhundra år senare klädde Simone Weil samma insikt i samma bild, utan att ha läst den damascenske lärde: "Alla själens naturliga rörelser styrs av lagar analoga med den materiella tyngdkraftens. Nåden är det enda undantaget."[^17] Men Weils *enda undantag* blottar en begränsning: gravitationen är absolut, och själen kan ingenting annat än vänta på en nåd som kommer utifrån. Ibn Qayyim beskriver samma gravitation – men i hans system finns handlingar som lättar kroppens tyngd inifrån.
 
-Transhumanismen lovar att undanröja motstånd, göra kroppen så smidig att gränsen mellan tanke och handling upphör. I Ibn Qayyims logik är detta kroppens tyngdkraft förstärkt till en kraft som själen inte längre kan undkomma. Chippet i hjärnan gör inte fängelset mindre – det gör fängelset *bekvämare*. Och en bekväm fånge glömmer att han är fånge.
+Transhumanismen lovar att undanröja motstånd, göra kroppen så följsam att gränsen mellan tanke och handling upphör. I Ibn Qayyims tankegång är detta kroppens tyngdkraft förstärkt till en kraft som själen inte längre kan undkomma. Chippet i hjärnan gör inte fängelset mindre – det gör fängelset *bekvämare*. Och en bekväm fånge glömmer att han är fånge.
 
-I *Madārij al-Sālikīn* fullbordar han bilden. Denna värld och nästa jämförs med moderlivet och det som följer efter födseln, eller "ännu ringare" än så. De visa citerar han: "Låt din iver att lämna denna värld vara som din iver att lämna det trånga fängelset för att möta dina älskade."[^5] Döden är i denna tradition inte nederlag utan födelse.
+I *Madārij al-Sālikīn* fullbordar han bilden. Denna värld och nästa jämförs med moderlivet och det som följer efter födseln, eller "ännu ringare" än så. De visa anför han: "Låt din iver att lämna denna värld vara som din iver att lämna det trånga fängelset för att möta dina älskade."[^5] Döden är i denna tradition inte nederlag utan födelse.
 
 ## En fläkt av igenkänning
 
@@ -65,7 +65,7 @@ Det är detta envälde transhumanismen upphöjer till program.
 
 ## Den rastlösa uppgraderingen
 
-Pär Segerdahl kallar transhumanismen "det mänskliga missnöjet" – hetsen och ångesten inte som problem utan som mönster att förstärka.[^12] Ibn Taymiyyah ställde diagnosen: "Den som fäster sitt hjärta vid det skapade, dess hjärta underkastas av det."[^18] Själen som "aldrig stannar vid en gräns" söker inte bättre celler utan det enda som inget ändligt kan mätta.
+Pär Segerdahl kallar transhumanismen "det mänskliga missnöjet" – en rörelse som behandlar hetsen och ångesten inte som problem att lösa utan som mönster att förstärka.[^12] Ibn Taymiyyah ställde diagnosen: "Den som fäster sitt hjärta vid det skapade, dess hjärta underkastas av det."[^18] Själen som "aldrig stannar vid en gräns" söker inte bättre celler utan det enda som inget ändligt kan mätta.
 
 Koranen namnger tillståndet:
 
@@ -79,9 +79,9 @@ Neuralinks kliniska arbete i dag – att hjälpa förlamade patienter tala – t
 
 Men *evigt liv* är transhumanismens yttersta löfte. Medvetandeöverföring, digital odödlighet. Döden som ett tekniskt problem.
 
-Islam vägrar premissen: "Varje själ skall smaka döden. Därefter är det till Oss ni skall återföras."[^15] Döden är stunden då cellens väggar faller och själen kan återvända till det den alltid längtat efter.
+Islam vägrar förutsättningen: "Varje själ skall smaka döden. Därefter är det till Oss ni skall återföras."[^15] Döden är stunden då cellens väggar faller och själen kan återvända till det den alltid längtat efter.
 
-De mest fromma är ofta de minst rädda för döden – inte av likgiltighet inför livet utan av tillförsikt inför dess källa. Ingmar Bergmans riddare i *Det sjunde inseglet* når samma åtskillnad: "Min kropp är rädd, inte jag själv."[^19]
+De mest fromma är ofta de som minst fruktar döden – inte av likgiltighet inför livet utan av tillförsikt inför dess källa. Ingmar Bergmans riddare i *Det sjunde inseglet* når samma åtskillnad: "Min kropp är rädd, inte jag själv."[^19]
 
 ## Vart tar själen vägen
 

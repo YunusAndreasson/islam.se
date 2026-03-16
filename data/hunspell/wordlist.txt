@@ -302,6 +302,31 @@ shatr
 fajr
 sakan
 
+# Swedish compounds and inflections
+gudssökandet
+obönhörligas
+ångerfulles
+hågvakt
+hjärteblind
+hjärteblint
+hjärtesot
+hjärtesoten
+återskapningar
+prövbart
+prövare
+antitrinitär
+jämförare
+baslivsmedelsreserver
+fornnordiskans
+trångheten
+humoralmedicin
+mörknad
+eftermiddagsbönen
+dagbräcksbönen
+allvetandet
+ursynden
+oting
+
 # More Swedish words the dictionary doesn't know
 bekantligen
 syntesrapport
@@ -330,11 +355,17 @@ blifva
 såtar
 vålmar
 
+# More Arabic terms
+tahajjud
+malakah
+masjid
+
 # More Arabic / foreign terms
 ohne
 Hávámal
 Mímir
 minni
+angr
 décréation
 Ḥisbah
 Ḥayya
@@ -343,6 +374,7 @@ décréation
 Āl
 
 # Abbreviations
+ACT
 ISF
 ISF:s
 CBT-I
@@ -355,6 +387,12 @@ hijazi-stil
 
 # More archaic Swedish in body text (non-blockquote)
 hvarigenom
+half
+dufva
+
+# Arabic names with diacritics
+Ḥazm
+Ḥanbal
 
 # More Arabic compound terms
 wa-l-Ḥikam

@@ -19,7 +19,7 @@ Strindberg iakttog, Key angrep, Le Bon obducerade. Koranen förklarar *varför*.
 
 Den liberala demokratin vilar på en outtalad premiss: att folkviljan, genom rätt förfarande, närmar sig det goda. Förfarandet ger enighet, legitimitet, det minst skadliga – aldrig sanning. Premissen har aldrig bevisats. Bara antagits.
 
-Sverige ger två exempel. År 1955 avskaffade riksdagen motbokssystemet, det så kallade Brattsystemet, trots att den medicinska expertisen varnade för konsekvenserna. Alkoholkonsumtionen steg. Skadorna följde. Riksdagen hade talat i folkets namn, och den hade fel.[^5] Men saken är inte enkel: Brattsystemet var också ett instrument för klassövervakning, där läkare och byråkrater godtyckligt begränsade fattiga medborgares inköp medan överklassen drack obehindrat. Experternas sanning var verklig men förmedlades genom förnedring. Demokratin löste ett rättviseproblem och skapade ett folkhälsoproblem, utan medel att hantera konflikten.
+Sverige ger två exempel. År 1955 avskaffade riksdagen motbokssystemet, det så kallade Brattsystemet, trots att den medicinska expertisen varnade för konsekvenserna. Alkoholkonsumtionen steg. Skadorna följde. Riksdagen hade talat i folkets namn, och den hade fel.[^5] Men saken är inte enkel: Brattsystemet var också ett redskap för klassövervakning, där läkare och byråkrater godtyckligt begränsade fattiga medborgares inköp medan överklassen drack obehindrat. Experternas sanning var verklig men förmedlades genom förnedring. Demokratin löste ett rättviseproblem och skapade ett folkhälsoproblem, utan medel att hantera konflikten.
 
 Tjugofem år senare, 1980, folkomröstade Sverige om kärnkraften. Tre alternativ presenterades. Inget var ett rent nej. Väljarna fick välja mellan tre varianter av ja med olika avvecklingstakt, och resultatet tolkades som en avvecklingsplan som aldrig genomfördes fullt ut.[^6] Demokratin hade gett ett svar men ingen sanning. Förfarandet var oklanderligt; kunskapen obefintlig.
 
@@ -43,9 +43,9 @@ Men hans analys börjar för sent: den utgår från folkmassan som om förvräng
 
 Ett uttalande tillskrivet ʿAlī ibn Abī Ṭālib, den fjärde kalifen: "Sanningen känns inte igen genom människor – känn igen sanningen, så känner du igen dess folk."[^13]
 
-Principen kräver motsatsen till vår vana: pröva påståendet först, *sedan* avsändaren.
+Grundsatsen kräver motsatsen till vår vana: pröva påståendet först, *sedan* avsändaren.
 
-Ibn Taymiyyah fördjupade principen. Den som gör människor till måttstock för sanningen – i stället för att pröva människors påståenden mot sanningen – begår det mest grundläggande tankefelet.[^14] Varje människa kan ha fel eller rätt, utom Profeten ﷺ.
+Ibn Taymiyyah fördjupade grundsatsen. Den som gör människor till måttstock för sanningen – i stället för att pröva människors påståenden mot sanningen – begår det mest grundläggande tankefelet.[^14] Varje människa kan ha fel eller rätt, utom Profeten ﷺ.
 
 Det demokratiska samhället gör just detta, till sin uppbyggnad, inte av illvilja. Omröstningen frågar inte *vad är sant?* utan *vad tycker de flesta?* – och behandlar svaret som om det vore samma sak.
 
@@ -79,7 +79,7 @@ Lögnens rikedom gör den svår att genomskåda. Ibn Khaldūn satte ord på samb
 
 Majoriteten följer lögnen inte för att den övertygar utan för att den erbjuder så många skepnader.
 
-Det demokratiska samhället har gjort detta till grundsats och döpt det till pluralism. Koranen ställer frågan som pluralismen inte förmår besvara: om alla anspråk är lika giltiga, varför skulle något av dem vara sant?
+Det demokratiska samhället har gjort detta till grundsats och kallat det pluralism. Koranen ställer frågan som pluralismen inte förmår besvara: om alla anspråk är lika giltiga, varför skulle något av dem vara sant?
 
 ## De med kärna
 

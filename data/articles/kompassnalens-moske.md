@@ -7,23 +7,25 @@ description: "Sockenkyrkan låg alltid mitt i byn – samhällets tyngdpunkt. Is
 ---
 Sockenkyrkan låg alltid mitt i byn – samhällets tyngdpunkt, den punkt kring vilken allt annat ordnades. Strindberg fångar det i en enda bild från *Inferno*: "Man far uppför en två kilometer lång backe, och ankommen till höjden ser man utöver en rund dal... I mitten av denna tratt ligger byn med sin kyrka."[^1] Kyrkan definierar landskapet, landskapet binder gemenskapen, gemenskapen formar den enskilda människan.
 
-Denna rumsliga ordning vilar på en outtalad grundsats: att det heliga kräver en plats – en upphöjd punkt, ett avgränsat rum, en byggnad som skiljer heligt från vardagligt. Erik Gustaf Geijer satte ord på konsekvensen redan på 1810-talet:
+Denna rumsliga ordning vilar på en outtalad grundsats: att det heliga kräver en plats – en upphöjd punkt, ett avgränsat rum, en byggnad som skiljer heligt från vardagligt. Erik Gustaf Geijer satte ord på följden redan på 1810-talet:
 
 > Kyrkan blef ensamt det heliga, verlden förblef det oheliga samhället.[^2]
 
 ## En riktning, inte en punkt
 
-Varje punkt på jordens yta – parkeringsplats, skolkorridor, åkerfåra – kan vara böneplats. Profeten Muḥammad ﷺ sade: "Hela jorden har gjorts till en plats för bön och till ett reningsmedel – den som drabbas av bönetid kan be var han än befinner sig."[^3]
+Varje punkt på jordens yta – parkeringsplats, skolkorridor, åkerfåra – kan vara böneplats. Profeten Muḥammad ﷺ sade:
 
-Den europeiska kyrkoarkitekturen vilar på motsatt logik: det heliga kräver en fast punkt – katedral, tempel, heligt berg – genom vilken det gudomliga förmedlas.[^4] Mircea Eliade upphöjde den fasta punkten till allmängiltig grundsats.[^23] Islam ger den bedjande en kompassbäring, inte en adress.
+> Hela jorden har gjorts till en plats för bön och till ett reningsmedel – den som drabbas av bönetid kan be var han än befinner sig.[^3]
 
-Koranen slår fast principen:
+Den europeiska kyrkoarkitekturen vilar på motsatt ordning: det heliga kräver en fast punkt – katedral, tempel, heligt berg – en plats genom vilken det gudomliga förmedlas.[^4] Mircea Eliade gjorde den fasta punkten till universell princip.[^23] Islam ger den bedjande en kompassbäring, inte en adress.
+
+Koranen slår fast grundsatsen:
 
 > Till Allah ﷻ hör både öst och väst. Ja, vart ni än vänder er finns där Allahs ﷻ ansikte.[^5]
 
 Enligt Ibn Kathīr uppenbarades versen som tröst åt Profeten ﷺ och hans följeslagare, fördrivna från Mecka, tvingade att lämna sin moské och sin böneplats.
 
-## *Qiblah*-bytet: en revolution förklädd till geografi
+## Qiblah-bytet: en revolution förklädd till geografi
 
 Under de första åren i Medina bad muslimerna mot Jerusalem, samma riktning som den judiska traditionen. Sedan kom uppbrottet. Koranen berättar:
 
@@ -37,7 +39,7 @@ Hade det heliga bott i platsen hade bytet varit en förlust. Det är inte kompas
 
 Hur exakt måste riktningen vara?
 
-Ibn Taymiyyah anför i *al-Radd ʿalā al-Manṭiqiyyīn* Följeslagarnas praxis. Damaskusmoskén, som Följeslagarna själva bad i, avviker en aning från exakt riktning mot Kaʿbah. Det var av vishet:
+Ibn Taymiyyah anför i *al-Radd ʿalā al-Manṭiqiyyīn* Följeslagarnas sedvänja. Damaskusmoskén, som Följeslagarna själva bad i, avviker en aning från exakt riktning mot Kaʿbah. Det var av vishet:
 
 > Det har aldrig rapporterats att Följeslagarna ålade folk att i bönen beräkna exakt efter Polstjärnan... Den som befinner sig i Syrien och liknande områden behöver bara vända väster om sin högra sida och öster om sin vänstra, och hans bön är giltig. Ty Allah ﷻ har bara befallt att man vänder sig mot den Helgade moskéns sida.[^8]
 
@@ -57,7 +59,7 @@ Runeberg fångar samhörigheten mellan människa och sockenkyrka i en passage so
 
 Den som inte hör till en sockenkyrka hör ingenstans till.
 
-Islam spegelvänder logiken. Salmān al-Fārisī – själv en man som vandrat från Persien genom kristendomen till islam – slog fast:
+Islam spegelvänder ordningen. Salmān al-Fārisī – själv en man som vandrat från Persien genom kristendomen till islam – slog fast:
 
 > Jorden helgar ingen – det är människans handlingar som helgar henne.[^12]
 
@@ -91,7 +93,7 @@ Var han än befinner sig behöver den bedjande bara en riktning. Stockholms *qib
 
 Polyhistorn al-Bīrūnī (d. 1048) utarbetade trigonometriska metoder för *qiblah*-beräkning från varje punkt på jorden.[^21] Men Ibn Taymiyyah insisterade: Följeslagarnas enkla metoder räckte. Att kräva en exakt koordinat vore att förvandla riktning till punkt, kompassbäring till adress – att återinföra den platslogik systemet avvisar.
 
-Karin Boye skrev: "Det finns en tid, då Riltuna kyrka låg mitt i byn."[^22] En försvunnen tid. Kyrkan som en gång definierade dalen – Strindbergs tratt med byn och kyrkan i mitten – har förlorat sin dragningskraft. Skogsbryn och ängmark pekar inte längre mot ett centrum. Kompassnålen pekar fortfarande. Från varje punkt, genom varje rum.
+Karin Boye skrev: "Det finns en tid, då Riltuna kyrka låg mitt i byn."[^22] En försvunnen tid. Kyrkan som en gång definierade dalen – Strindbergs tratt med byn och kyrkan i mitten – har förlorat sin dragningskraft. Skogsbryn och ängsmark pekar inte längre mot ett centrum. Kompassnålen pekar fortfarande. Från varje punkt, genom varje rum.
 
 ---
 

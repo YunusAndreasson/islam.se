@@ -15,11 +15,11 @@ I slutet av Selma Lagerlöfs *Bannlyst* (1918) bekänner Sven Elversson – en m
 
 I den lutherska nådeläran föregår förlåtelsen bekännelsen. Gud handlar först; människan tar emot. Nåden är gåva – reformationens hjärtslag, inristat i fem seklers svenskt fromhetsliv.[^2] Bekännelsen blir ett *svar* på en redan given förlåtelse, aldrig dess villkor.
 
-Det sekulära svaret vänder rörelsen inåt. Skulden bearbetas, sätts i sammanhang, förklaras: barndom, orsaker, omständigheter. Hjalmar Söderberg spetsar till denna hållnings yttersta konsekvens i *Den allvarsamma leken*: "Förlåtelse förutsätter ånger och bättring. Och jag kan varken lova det ena eller det andra."[^3] Ärligt – men en återvändsgränd. Skulden består; inget kan upphäva den.
+Det sekulära svaret vänder rörelsen inåt. Skulden bearbetas, sätts i sammanhang, förklaras: barndom, orsaker, omständigheter. Hjalmar Söderberg spetsar till denna hållnings yttersta utgång i *Den allvarsamma leken*: "Förlåtelse förutsätter ånger och bättring. Och jag kan varken lova det ena eller det andra."[^3] Ärligt – men en återvändsgränd. Skulden består; inget kan upphäva den.
 
 Sven Elversson tar inte emot en nåd som föregår honom. Han granskar inte sin skuld. Han *gör* något – bekänner, fullständigt och oåterkalleligt – och bekännelsen förvandlar honom.
 
-## Återvändandets logik
+## Återvändandets ordning
 
 Förvandlingen har ett namn i den islamiska traditionen: *tawbah*, ordagrant *återvändo*.
 
@@ -29,7 +29,7 @@ Ibn Qayyim preciserar:
 
 Att sluta synda är inte att ångra sig. Att ångra sig är inte att vända om. *Tawbah* kräver hel vändning: synden överges, den ångrande slår in på motsatt väg.[^5]
 
-Här korsar Lagerlöfs roman *tawbahs* logik: Sven Elversson bekänner och *blir* en annan, omedelbart, i själva handlingen. Men vilken handling?
+Här korsar Lagerlöfs roman *tawbahs* ordning: Sven Elversson bekänner och *blir* en annan, omedelbart, i själva handlingen. Men vilken handling?
 
 Koranen knyter rörelsen till ett villkor:
 
@@ -39,7 +39,7 @@ Koranen knyter rörelsen till ett villkor:
 
 ## Bekännelsen som handling
 
-Luthersk tradition är mer sammansatt än bilden av passivt nådemottagande. Augsburgska bekännelsen behåller bikten – inte som sakrament men som praxis – och kräver ånger och absolution.[^7] Historiskt närmare det Lagerlöf gestaltar ligger den katolska botens sakrament, med dess tredelade krav på ånger, bekännelse och gottgörelse. I ett Sverige där förreformatorisk folkfromhet levde kvar långt in i modern tid är det katolska arvet en fullt tänkbar underström i *Bannlyst*.
+Luthersk tradition är mer sammansatt än bilden av passivt nådemottagande. Augsburgska bekännelsen behåller bikten – inte som sakrament men som praxis – och kräver ånger och avlösning.[^7] Historiskt närmare det Lagerlöf gestaltar ligger den katolska botens sakrament, med dess tredelade krav på ånger, bekännelse och gottgörelse. I ett Sverige där förreformatorisk folkfromhet levde kvar långt in i modern tid är det katolska arvet en tänkbar underström i *Bannlyst*.
 
 Men i sakramental bekännelse förmedlas förlåtelsen genom en institution. I terapin bearbetas skulden genom samtal. I *tawbah*, och i Lagerlöfs roman, sker förvandlingen i handlingen själv. Ingen förmedlar; den är omedelbar.
 
@@ -75,7 +75,7 @@ Ibn Qayyim säger att synden är det största hindret mellan tjänaren och hans 
 
 I bekännelsen upphör skulden – hela Sven Elverssons tillvaro vänder. Lagerlöf gestaltar det i blicken efteråt, hållningen, lugnet. Han har inte lagt ifrån sig en börda utan blivit en annan människa.
 
-Vad vår tid gått miste om är denna riktning. Michel Foucault spårade förlusten: den tidiga kristendomens dramatiska bekännelseakt (*exomologesis*, som utplånade det gamla jaget) ersattes av den analytiska samvetsrannsakan som modern terapi ärvt.[^15] Syndaren stod utanför församlingen i sorgdräkt, synlig för alla – men även *exomologesis* var utplåning; den förstörde det gamla jaget utan att visa vägen för det nya. *Tawbah* är varken kretsande granskning eller dramatisk förintelse: den är rörelse – från skulden, men främst *mot* det som upprättar. Trots sitt lutherska sammanhang rymmer Lagerlöfs roman en släktskap med rörelsens logik.
+Vad vår tid gått miste om är denna riktning. Michel Foucault spårade förlusten.[^15] Den tidiga kristendomens dramatiska bekännelseakt, *exomologesis*, utplånade det gamla jaget: syndaren stod utanför församlingen i sorgdräkt, synlig för alla. Men även *exomologesis* var utplåning; den förstörde det gamla jaget utan att visa vägen för det nya. Kvar blev den analytiska samvetsrannsakan som modern terapi har ärvt. *Tawbah* är varken kretsande granskning eller dramatisk förintelse: den är rörelse – från skulden, men främst *mot* det som upprättar. Trots sitt lutherska sammanhang rymmer Lagerlöfs roman en släktskap med rörelsens logik.
 
 ---
 

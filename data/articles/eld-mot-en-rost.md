@@ -3,7 +3,7 @@ title: "Eld mot en röst"
 publishedAt: "2025-10-13T12:00:00.000Z"
 wordCount: 1905
 qualityScore: 8.7
-description: "Sommaren 2023 brann böcker på svenska gator, ambassader stormades och Sveriges Natoväg komplicerades. Debatten pendlade mellan yttrandefrihet och muslimsk vrede, men båda sidorna delade en outtalad premiss – att det som brann var en bok."
+description: "Sommaren 2023 brann böcker på svenska gator, ambassader stormades och Sveriges Natoväg komplicerades. Debatten pendlade mellan yttrandefrihet och muslimsk vrede, men båda sidorna delade en outtalad förutsättning – att det som brann var en bok."
 ---
 Sommaren 2023 brann böcker på svenska gator. Ambassader stormades, handelsrelationer frystes, Sveriges Natoväg komplicerades.[^1] Den svenska debatten pendlade mellan yttrandefrihetens försvar och förståelsen för muslimers vrede. Men båda sidorna delade en outtalad förutsättning: att det som brann var en *bok*.
 
@@ -29,7 +29,7 @@ Ibn Taymiyyah uttryckte den normgivande sunnitiska hållningen: Koranen är Alla
 
 ## Hjärtats sinne
 
-I *Madārij al-Sālikīn* gör Ibn Qayyim en iakttagelse som nutida sinnesforskning bekräftat:
+I *Madārij al-Sālikīn* gör Ibn Qayyim en iakttagelse som nutida hörsel­forskning bekräftat:
 
 > Hjärtats koppling till hörseln och dess band till den är starkare än dess koppling till synen. Därför påverkas människan starkare av det hon hör av lustfyllda ting än av det hon ser av sköna ting. Detsamma gäller det obehagliga – att höra det berör djupare än att se det.[^5]
 
@@ -53,7 +53,7 @@ I detta ljus framträder koranbränningarna annorlunda. Det som förstördes var
 
 Walter Ong satte ord på klyftan mellan dessa världar: i den muntliga kulturen är ordet alltid en *händelse*; skriften förvandlar det till ett *föremål*.[^15]
 
-Man kan bränna ett exemplar av *Kapitalet* utan att Marx tystnar; idéerna överlever som abstraktioner, oberoende av det enskilda exemplaret. Men inom den islamiska förståelsen är varje *muṣḥaf* en plats där Allahs ﷻ tal vilar. Att bränna den är att rikta förakt mot en närvaro, inte mot ett argument.
+Man kan bränna ett exemplar av *Kapitalet* utan att Marx tystnar; idéerna överlever som rena tankar, oberoende av det enskilda exemplaret. Men inom den islamiska förståelsen är varje *muṣḥaf* en plats där Allahs ﷻ tal vilar. Att bränna den är att rikta förakt mot en närvaro, inte mot ett argument.
 
 Koranen har ett ord för denna hållning. *Istihzāʾ* – hån, förlöjligande av det heliga. Ibn Taymiyyah är otvetydig: att håna Allahs ﷻ tecken och visa ringaktning mot Hans sändebud är otro av nödvändighet.[^8] Det som avvisas är inte kritik utan föraktet mot det som upplevs som Guds direkta närvaro i världen.
 

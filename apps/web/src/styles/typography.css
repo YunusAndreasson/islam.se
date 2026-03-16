@@ -36,7 +36,7 @@ h2 {
 
 h1 {
 	font-size: var(--step-4);
-	font-weight: 660;
+	font-weight: 700;
 	letter-spacing: -0.02em;
 	line-height: 1.15;
 	/* titl: display-optimized numerals for large titles */
@@ -45,10 +45,10 @@ h1 {
 
 h2 {
 	font-size: var(--step-2);
-	font-weight: 600;
-	letter-spacing: -0.01em;
+	font-weight: 620;
+	letter-spacing: -0.015em;
 	line-height: 1.25;
-	margin-top: var(--space-unit);
+	margin-top: var(--space-phi);
 	margin-bottom: var(--space-half);
 }
 
@@ -104,6 +104,11 @@ blockquote {
 /* Strong */
 strong {
 	font-weight: 600;
+}
+
+/* Emphasis — subtle weight boost so italic is easier to spot in Literata */
+em {
+	font-weight: 580;
 }
 
 /* Abbreviations — small caps via Literata's smcp/c2sc glyphs, classical convention */
@@ -340,12 +345,12 @@ article .prose > p:first-child::first-line {
 
 	h1 {
 		font-size: 2rem;
-		font-weight: 660;
+		font-weight: 700;
 	}
 
 	h2 {
 		font-size: 1.562rem;
-		font-weight: 600;
+		font-weight: 630;
 		letter-spacing: -0.01em;
 	}
 

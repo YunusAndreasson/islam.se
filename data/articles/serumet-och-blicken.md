@@ -3,7 +3,7 @@ title: "Serumet och blicken"
 publishedAt: "2025-08-09T12:00:00.000Z"
 wordCount: 1803
 qualityScore: 8.7
-description: "I november 1940 publicerar Karin Boye *Kallocain*, romanen om ett sanningsserum som blottlägger varje medborgares innersta tankar. Fem månader senare tar hon sitt liv. Den islamiska traditionen utgår från samma premiss – att ingenting är dolt – men drar en rakt motsatt slutsats."
+description: "I november 1940 publicerar Karin Boye *Kallocain*, romanen om ett sanningsserum som blottlägger varje medborgares innersta tankar. Fem månader senare tar hon sitt liv. Den islamiska traditionen utgår från samma förutsättning – att ingenting är dolt – men drar en rakt motsatt slutsats."
 ---
 År 1940. Karin Boye skriver en roman om ett samhälle där staten tvingar fram sanningen med kemisk precision – varje tanke, varje känsla, varje hemlig längtan blottlagd inför myndigheterna. I Berlin och Moskva förfinar regimerna sina övervakningsapparater. Det europeiska mörkret tätnar. *Kallocain* publiceras i november; Boye tar sitt liv fem månader senare.
 
@@ -19,7 +19,7 @@ Boye själv formulerar det:
 
 > Är det inte underligt, att allting mister sitt värde, så fort det upphör att vara gåva – till och med sanningen?[^1]
 
-Den frampressade sanningen är redan sönder, skild från det fria val som ger den mening. Kalls kollega Fellow Soldier 154, i romanen kallad Rissen – den ende som öppet formulerar motståndet – hävdar innan han döms: "Jag vet att vad jag är tar vägen någonstans."[^2] Meningen är avsiktligt tät: det jag verkligen *är* kan inte utplånas — det leder vidare, bortom statens räckvidd. Han vägrar låta sin innersta verklighet reduceras till bevismedel.
+Den frampressade sanningen är redan sönder, skild från det fria val som ger den mening. Kalls kollega Fellow Soldier 154, i romanen kallad Rissen – den ende som öppet formulerar motståndet – hävdar innan han döms: "Jag vet att vad jag är tar vägen någonstans."[^2] Det jag verkligen *är* kan inte utplånas — det leder vidare, bortom statens räckvidd. Han vägrar låta sin innersta verklighet göras till enbart bevismedel.
 
 ## Tanken under övervakning
 
@@ -43,9 +43,9 @@ Det arabiska begreppet *iḥsān*, fastslaget i Jibrīl-hadithen, lyder: "att dy
 
 Kallocainets allvetande tillhör en stat vars enda syfte är kontroll. Den som vet sig övervakad av en sådan makt krymper.
 
-Koranens allvetande tillhör *al-Raḥmān*, den Barmhärtige, vars blick genomlyser hjärtat som Skaparens. "Din Herre vet vad deras bröst rymmer likaväl som vad de öppet visar," säger Koranen.[^8] Sammanhanget är omsorg: Gud vet *för att* Han vårdar det skapade. Ibn Kathīr tillägger att Gud "öser sina välsignelser över människorna trots att de förorättar sig själva".
+Koranens allvetande tillhör *al-Raḥmān*, den Barmhärtige, vars blick genomlyser hjärtat som Skaparens. "Din Herre vet vad deras bröst rymmer såväl som vad de öppet visar," säger Koranen.[^8] Sammanhanget är omsorg: Gud vet *för att* Han vårdar det skapade. Ibn Kathīr tillägger att Gud "öser sina välsignelser över människorna trots att de förorättar sig själva".
 
-Ibn Qayyim al-Jawziyyah (d. 1350) skärper sambandet: "Den som vakar över Gud i sina hemliga tankar, honom bevarar Gud i hans lemmars rörelser."[^9] Satsen vänder Kallocainets logik ut och in. I Boyes roman avslöjar serumet tanken och tillintetgör handlingsfriheten. I Ibn Qayyims värld är insikten att tanken redan är genomlyst det som *bär* handlingens helhet. Den som vet att Gud ser behöver inte dölja. Den som inte döljer behöver inte frukta.
+Ibn Qayyim al-Jawziyyah (d. 1350) skärper sambandet: "Den som vakar över Gud i sina hemliga tankar, honom bevarar Gud i hans lemmars rörelser."[^9] Satsen vänder Kallocainets ordning ut och in. I Boyes roman avslöjar serumet tanken och tillintetgör handlingsfriheten. I Ibn Qayyims värld är insikten att tanken redan är genomlyst det som *bär* handlingens helhet. Den som vet att Gud ser behöver inte dölja. Den som inte döljer behöver inte frukta.
 
 Ibn al-Jawzī (d. 1201) spetsar till det: "Gudsfruktan hindrar rädslan för människor."[^10] *Taqwā*, den medvetna vördnaden inför Gud, föder tillit; den statliga rädslan föder underkastelse.
 
@@ -67,7 +67,7 @@ Carl von Linné sökte samma sak med andra redskap. I hemlighet skrev han ett ma
 
 > Gud ser alt och hörer alt.[^13]
 
-Linnés Gud är varken Kallocainets stat eller Koranens *al-Raḥmān* utan en kall, lagbunden rättvisa – "moralens ekologi", som Sten Lindroth kallade den.[^14] "Alla gå hem och slå sig för sitt hröst, märkandes, att Herren ser wåra intriguer," skriver Linné med sin omisskännliga blandning av fromhet och empirism.[^15] Rättvisans maskineri ser till att den som syndar straffas, inte genom mirakel utan genom orsak och verkan.
+Linnés Gud är varken Kallocainets övervakare eller Koranens *al-Raḥmān* utan en kall, lagbunden rättvisa – "moralens ekologi", som Sten Lindroth kallade den.[^14] "Alla gå hem och slå sig för sitt hröst, märkandes, att Herren ser wåra intriguer," skriver Linné med sin omisskännliga blandning av fromhet och empirism.[^15] Rättvisans maskineri ser till att den som syndar straffas, inte genom mirakel utan genom orsak och verkan.
 
 Linné stannar halvvägs mellan Boye och den islamiska traditionen. Han delar grundsatsen – Gud ser allt – men drar slutsatsen vedergällning, inte befrielse. Ett moraliskt maskineri som bokför överträdelsen men saknar förmåga att förlåta den som överträder. Förlåtelsen bryter kedjan. Den möjligheten vänder allvetandet från hot till tillit. Guds allvetande är inte främst ett straffhot utan grunden för en förbindelse: möjligheten att stå naken inför Skaparen, inte för att skammen saknas utan för att den som ser också förlåter.
 
@@ -93,7 +93,7 @@ Hemlighet – *sirr*: allvetandet som borde avskaffa varje hemlighet rymmer sjä
 
 [^1]: Karin Boye, *Kallocain* (1940), kap. 17.
 [^2]: Karin Boye, *Kallocain*, kap. 24.
-[^3]: Michel Foucault, *Surveiller et punir* (1975). Panoptikon-metaforen används här som analytiskt verktyg, inte som historiskt påstående om Boyes eller den islamiska traditionens kontext.
+[^3]: Michel Foucault, *Surveiller et punir* (1975). Panoptikon-bilden används här som analytiskt verktyg, inte som historiskt påstående om Boyes eller den islamiska traditionens kontext.
 [^4]: Karin Boye, *Kallocain*, kap. 8.
 [^5]: Karin Boye, *Kallocain*, kap. 25.
 [^6]: Koranen, al-Aḥzāb 33:54.

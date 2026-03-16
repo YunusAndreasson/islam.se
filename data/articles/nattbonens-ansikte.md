@@ -15,11 +15,11 @@ Historien berättas av Ibn Qayyim al-Jawziyyah (d. 1350) i *Rawḍat al-Muḥibb
 
 Serum, filler, filter, ingrepp. Skönhet har blivit något man köper sig till.
 
-Naomi Wolf visade i *The Beauty Myth* (1990) att ju fler rättsliga och materiella hinder kvinnor brutit igenom, desto hårdare har bilder av kvinnlig skönhet kommit att tynga dem.[^2] Wolf ställde diagnosen utan att anvisa botemedel: skönhetskritiken vet vad den är *emot* men sällan vad den är *för*.
+Naomi Wolf visade i *The Beauty Myth* (1990) att ju fler rättsliga och samhälleliga hinder kvinnor brutit igenom, desto hårdare har bilder av kvinnlig skönhet tyngt dem.[^2] Wolf ställde diagnosen utan att anvisa botemedel: skönhetskritiken vet vad den är *emot* men sällan vad den är *för*.
 
 ## Skönhetens två slag
 
-Ibn Qayyim inleder med en distinktion:
+Ibn Qayyim inleder med en åtskillnad:
 
 > Vet att skönheten är av två slag: yttre och inre. Den inre skönheten är den som älskas för sin egen skull – den är kunskapens, förståndets, generositetens, kyskhetens och modets skönhet.[^3]
 
@@ -43,7 +43,7 @@ Lagerlöf skildrar en man vars inre tillstånd har trängt igenom ytan och omfor
 
 Enligt Ibn Qayyim präglar den inre skönheten den yttre gestalten tydligast hos den som utövar nattbönen, *qiyām al-layl* – den frivilliga bönen som förrättas i mörkrets djupaste timmar. "Den lyser upp ansiktet och förskönar det", skriver han.[^9]
 
-Skönhet genom sömnbrist, genom möda, genom att stiga upp ur en varm säng och stå ensam i det gråkalla mörkret – det strider mot varje drift. Ingmar Bergmans riddare kände samma mörker:
+Skönhet genom sömnbrist, genom möda, genom att stiga upp ur en varm säng och stå ensam i det gråkalla mörkret – det går emot allt som kroppen vill. Ingmar Bergmans riddare kände samma mörker:
 
 > Tron är ett svårt lidande. Det är som att älska någon som finns därute i mörkret och som aldrig visar sig hur man än ropar.[^26]
 
@@ -57,9 +57,9 @@ Profeten Muḥammad ﷺ sade:
 
 Nattbönen är den bön ingen ser – den som inte skänker socialt kapital, den som inte kan fotograferas. Det enda vittnet är Gud.
 
-Ansiktet är kroppens mest sociala yta – det arbetar ständigt för sin publik, bevakar hur det uppfattas, arrangerar sina uttryck. I nattens ensamhet upphör det arbetet. Den som regelbundet övar sig i att stå utan åskådare övar sig i att vara utan mask, och det är den övningen som genomlyser huden. Koranen talar om det upprepat: ansikten som strålar, ansikten som lyser. "Ansikten skall den Dagen vara glänsande, leende, fyllda av glädje."[^11] Strålningen börjar inte först på Domedagen – den börjar här, i nattens ensamhet. En annan koranvers gör det konkret: "Deras kännetecken syns i ansiktena – spåren av nedfallandet i bön."[^24]
+Ansiktet är kroppens mest sociala yta – det arbetar ständigt för sin publik, bevakar hur det uppfattas, arrangerar sina uttryck. I nattens ensamhet upphör det arbetet. Den som regelbundet övar sig i att stå utan åskådare övar sig i att vara utan mask, och det är den övningen som genomlyser huden. Koranen talar om det upprepat: ansikten som strålar, ansikten som lyser. "Ansikten skall den Dagen vara glänsande, leende, fyllda av glädje."[^11] Strålningen börjar inte på Domedagen – den börjar här, i nattens ensamhet. En annan koranvers gör det påtagligt: "Deras kännetecken syns i ansiktena – spåren av nedfallandet i bön."[^24]
 
-Skönhetsindustrin förutsätter att ytan kan behandlas utan att vidröra det inre. Ibn Qayyim vänder logiken: det yttre härrör från det inre. Det ljus man ser hos vissa människor, den oförklarliga värmen, den värdighet som inte beror av symmetri – man känner igen det hos ansikten som åren fårat men som ändå drar blicken.
+Skönhetsindustrin förutsätter att ytan kan behandlas utan att vidröra det inre. Ibn Qayyim vänder ordningen: det yttre härrör från det inre. Det ljus man ser hos vissa människor, den oförklarliga värmen, den värdighet som inte beror av symmetri – man känner igen det hos ansikten som åren fårat men som ändå drar blicken.
 
 Fredrika Bremer rörde vid tanken i ett av sina brev:
 
@@ -81,7 +81,7 @@ Karin Boye fördjupade bilden i *Astarte*:
 
 ## Ljus och mörker
 
-Mot denna uttryckslöshet står det ljus Koranen ständigt återkommer till, som metafor och som verklighet. "Det är Han och Hans änglar som välsignar er för att leda er ut ur mörkren till ljuset."[^15] Ibn Kathīr anför en profettradition som rör vid nattbönens kärna:
+Mot denna uttryckslöshet står det ljus Koranen ständigt återkommer till, som bild och som verklighet. "Det är Han och Hans änglar som välsignar er för att leda er ut ur mörkren till ljuset."[^15] Ibn Kathīr anför en profettradition som rör vid nattbönens kärna:
 
 > Skall jag inte berätta för er om den bästa av era handlingar, den renaste inför er Herre, bättre för er än att ge guld och silver? De sade: Vad är det, Guds sändebud? Han sade: Åminnelsen av Gud.
 
@@ -89,13 +89,13 @@ Nattbönen *är* åminnelse – den renaste formen av den, ty ingen annan publik
 
 Al-Ḥasan al-Baṣrī uttydde Koranversen om de strålande ansiktena: "Gud förskönade dem genom att de fick skåda Honom – och det är med rätta de strålar, de som blickar mot sin Herre."[^16] Denna skönhet i den kommande världen är Guds belöning till de troende. "Gud är vacker och älskar skönhet", lyder en välkänd *ḥadīth*.[^17] Genom historien har denna *ḥadīth* också tjänat till att rättfärdiga uppskattning av fysisk skönhet och prydnad; den islamiska traditionen rymmer en rikare spänning mellan det yttre och det inre än en enkel rangordning fångar. Ibn Qayyims poäng kvarstår: det djupaste ljuset har en annan källa än huden.
 
-I den gängse logiken är skönhet självändamål – status, dragningskraft, makt. I Ibn Qayyims analys är skönhet biprodukt: man söker den inte, man söker Gud, och skönheten uppstår som oombedd gåva.
+I det gängse tänkandet är skönhet självändamål – status, dragningskraft, makt. I Ibn Qayyims syn är skönhet frukt: man söker den inte, man söker Gud, och skönheten uppstår som oombedd gåva.
 
 Skillnaden är den mellan en människa som förskönar sig för att bli sedd och en människa som *blir* vacker för att hon ser. Den ena står framför spegeln. Den andra framför Gud.
 
 ## Det ansikte som inte kan ljuga
 
-Al-Fuḍayl ibn ʿIyāḍ pekade på skuggsidan: "Tjänaren begår en synd och berövas därigenom nattbönen."[^18] Om godhet lyser upp ansiktet, släcker synden dess ljus. Ansiktet vittnar – det kan inte ljuga som ord kan. Ibn Qayyim citerar versraden: "O du med vackert ansikte, sky det skamliga – byt inte skönheten mot skam!"[^19]
+Al-Fuḍayl ibn ʿIyāḍ pekade på skuggsidan: "Tjänaren begår en synd och berövas därigenom nattbönen."[^18] Om godhet lyser upp ansiktet, släcker synden dess ljus. Ansiktet vittnar – det kan inte ljuga som ord kan. Ibn Qayyim anför versraden: "O du med vackert ansikte, sky det skamliga – byt inte skönheten mot skam!"[^19]
 
 Luqmān sade: "Den som ljuger förlorar sin fägring."[^20] I svensk tanketradition berörde Erik Gustaf Geijer samma samband: "den äkta skönheten renar sinnet och har ett stort moraliskt inflytande".[^21] Geijer menade det estetiskt – konsten förädlar. Ibn Qayyim vänder sambandet: förädlingen skapar skönheten, och rörelsen går inifrån och ut.
 

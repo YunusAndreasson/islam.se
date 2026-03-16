@@ -5,7 +5,7 @@ wordCount: 2127
 qualityScore: 8.5
 description: "Silvertärnan lämnar Arktis varje höst utan karta, utan garanti. Det moderna samhället har byggt ett system för att slippa göra detsamma. Islam kallar den resan hijra."
 ---
-Varje höst lämnar silvertärnan Arktis. Den väger knappt hundra gram, hjärnan stor som en ärta. Ingen karta bär den, ingen GPS, inget färdprov – ändå flyger den till Antarktis och tillbaka, 70 000 kilometer om året, den längsta kända vandringen bland djur.[^1] Under flygningen sover den troligen med halva hjärnan i taget: ett öga öppet, ett slutet, den vakna hjärnhalvan navigerar medan den andra vilar.[^2] Sedan vänder den om och gör alltihop igen.
+Varje höst lämnar silvertärnan Arktis. Den väger knappt hundra gram, hjärnan stor som en ärta. Ingen karta bär den, ingen GPS, inget färdprov – ändå flyger den till Antarktis och tillbaka, 70 000 kilometer om året, den längsta kända färden bland djur.[^1] Under flygningen sover den troligen med halva hjärnan i taget: ett öga öppet, ett slutet, den vakna hjärnhalvan navigerar medan den andra vilar.[^2] Sedan vänder den om och gör alltihop igen.
 
 Ingen försäkring täcker den resan.
 
@@ -15,7 +15,7 @@ Det moderna samhället kan inte tänka sig en sådan resa. 1986 publicerade den 
 
 Sverige tog tanken längre än de flesta: socialförsäkringssystemet vilar på förutsättningen att varje risk kan pekas ut, räknas på och fördelas. Sjukdom, arbetslöshet, ålderdom, barns födelse, barns tandvård – allt kan försäkras, allt *ska* försäkras. Erik Gustaf Geijer, 1845: "Utan säkerhet ingen idoghet."[^4] Trygghet först, sedan arbete, sedan framsteg.
 
-Vart denna logik ledde såg Ellen Key. I *Barnets århundrade* skriver hon:
+Vart denna tankegång ledde såg Ellen Key. I *Barnets århundrade* skriver hon:
 
 > Den moderna människan blir allt mer sin egen försyn. Mot elden skapar hon redan brandkår och brandförsäkring; mot hafvet lifräddningsredskap; mot koppor och kolera finner hon andra skyddsmedel.[^5]
 
@@ -31,7 +31,7 @@ Försäkringen ska vara högre än handel, trygghetens sakrament. Men Strindberg
 
 Silvertärnan gör vad det moderna samhället avlärt sig: ger sig iväg utan garantier.
 
-Resan är inte blind. Med jordens magnetfält, solens läge och stjärnmönster navigerar silvertärnan – en biologisk utrustning utan mänsklig motsvarighet, kartlagd av forskare vid Lunds universitet.[^7] Fågeln saknar inte medel. Den saknar försäkring. Vi har förväxlat medel med trygghet, förberedelse med garanti.
+Resan är inte blind. Med jordens magnetfält, solens läge och stjärnmönster navigerar silvertärnan – en biologisk utrustning utan mänsklig motsvarighet, kartlagd av forskare vid Lunds universitet.[^7] Fågeln saknar inte medel. Den saknar försäkring. Vi har likställt medel med trygghet, förberedelse med garanti.
 
 Strindberg kretsade kring fåglarnas mysterium i *Svarta fanor*:
 
@@ -39,7 +39,7 @@ Strindberg kretsade kring fåglarnas mysterium i *Svarta fanor*:
 
 Vi ser avfärden, vi ser ankomsten. Aldrig det ögonblick då fågeln svävar över det stormpiskade havet, ensam, med tusentals kilometer kvar.
 
-## *Tawakkul*: tillit utan garanti
+## Tawakkul: tillit utan garanti
 
 Koranen har ett ord för det silvertärnan gör utan att veta det: *tawakkul*. Arabiskans *wakālah* betyder att lägga sin sak i annans hand. *Tawakkul* är ingen känsla; det är en handling: att gå ut genom dörren utan att veta vad som väntar, men med vetskapen om *vem* som väntar.
 
@@ -57,11 +57,11 @@ Ibn al-Jawzī (1100-talet) skärper det:
 
 Det moderna samhället erkänner bara två möjligheter: kontroll eller ångest. *Tawakkul* är den tredje: full ansträngning förenad med full vila. Det är läkaren som opererar med allt sitt kunnande och sedan går hem och sover.
 
-För det saknar moderniteten språk. Den som kom närmast var Kierkegaard, vars "trons riddare" i *Fruktan och bävan* lever fullt i det ändliga men har överlämnat utgången. Men att han kallade rörelsen "i kraft av det absurda" avslöjar att tillit inom hans tradition bara kan tänkas som ett undantag från förnuftet. I den islamiska traditionen är *tawakkul* tvärtom förnuftets slutsats: den som verkligen vet vem Gud är finner det orimligt att *inte* förlita sig.[^21]
+För det saknar moderniteten språk. Den som kom närmast var Kierkegaard, vars "trons riddare" i *Fruktan och bävan* lever fullt i det ändliga men har överlämnat utgången. Men att han kallade rörelsen "i kraft av det absurda" avslöjar att tillit inom hans tradition bara kan tänkas som ett undantag från förnuftet. I den islamiska traditionen är *tawakkul* tvärtom förnuftets slutsats: den som verkligen vet vem Gud är finner det orimligt att *inte* förlita sig på Honom.[^21]
 
 ## Fåglarna i Koranen
 
-Profeten Muḥammad ﷺ gav bilden konkret:
+Profeten Muḥammad ﷺ gjorde bilden gripbar:
 
 > Om ni förlitade er på Gud med sann förlitan, skulle Han försörja er som Han försörjer fåglarna: de flyger ut hungriga på morgonen och återvänder mätta på kvällen.[^12]
 
@@ -83,7 +83,7 @@ Strindberg, som aldrig landat i en övertygelse utan att genast börja tvivla p�
 
 Det låter som en modern trosbekännelse: osäkerhet som dygd, vaksamhet som livshållning. Men han kallade den "hälsosam", och adjektivet avslöjar honom. Han visste att total trygghet är en annan form av död – att den som försäkrat sig mot allt har förlorat skälet att röra sig.
 
-Utan Strindbergs skärpa nådde Beck samma slutsats: ju fler risker vi hanterar, desto fler nya risker föder vi, och desto mer undergräver vi den tillit systemet skulle skapa.[^16] Försäkringen som skulle befria oss från rädsla binder oss vid sig. Den som inte kan gå ut förrän försäkringsbrevet är granskat har bytt herre.
+Med mindre skärpa än Strindberg nådde Beck samma slutsats: ju fler risker vi hanterar, desto fler nya risker föder vi, och desto mer undergräver vi den tillit systemet skulle skapa.[^16] Försäkringen som skulle befria oss från rädsla binder oss vid sig. Den som inte kan gå ut förrän försäkringsbrevet är granskat har bytt herre.
 
 Alexis de Tocqueville beskrev formen redan 1840: en makt som tryggar medborgarnas behov, sköter deras angelägenheter och steg för steg befriar dem "från besväret att tänka och mödan att leva".[^22]
 
@@ -109,7 +109,7 @@ Fredrika Bremer gav ett svar i mitten av 1800-talet:
 
 *Enligt evigt gifna lagar.* Bremer talade om själen, inte om silvertärnan, men hon fångade den grundsats som gör fågelns resa möjlig. Det finns en ordning som bär – den syns inte, den är inte formulerad i ett avtal, den kan inte sägas upp. Koranen kallar det *qadar*.
 
-Kvar står fågeln: hundra gram, en hjärna som en ärta, ett öga öppet och ett slutet – på väg genom en rymd den fått i uppdrag att korsa. Vid sekelskiftet 1900 fångade Hjalmar Söderberg samma sanning:
+Kvar är fågeln: hundra gram, en hjärna som en ärta, ett öga öppet och ett slutet – på väg genom en rymd den fått i uppdrag att korsa. Vid sekelskiftet 1900 fångade Hjalmar Söderberg samma sanning:
 
 > den som vill stanna här och där på vägen och njuta en smula af lifvet innan han har nått målet, han når det aldrig.[^20]
 

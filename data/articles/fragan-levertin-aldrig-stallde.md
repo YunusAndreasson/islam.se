@@ -13,29 +13,29 @@ Levertin visste vad han talade om. Som litteraturhistoriker, och som jude i det 
 
 > Det är denna religiositet utan religion, denna svärmiska världskult, som Lucretii metafysiska styrka ligger.[^2]
 
-Iakttagelsen löper som en underjordisk ström genom svensk idéhistoria. Ellen Key ville att skolan skulle "dana religiositet utan att bibringa tron på en absolut religion".[^3] Nathan Söderblom vidgade den till kosmisk skala:
+Iakttagelsen löper som en underjordisk ström genom svensk idéhistoria. Ellen Key ville att skolan skulle "dana religiositet utan att bibringa tron på en absolut religion".[^3] Nathan Söderblom gav den världsomspännande räckvidd:
 
 > I oändlighetskänslan och idealdriften rinner religionens källsprång fram på vår jord – ur tillvarons gudomliga innandöme.[^5]
 
 ## Landskapet efter Gud
 
-Hundratjugo år senare har Levertins distinktion blivit svensk normalitet. 2015 intervjuade David Thurfjell ett hundratal svenskar: omkring 80 procent avvisade organiserad religion, medan en majoritet uppgav sig vara öppna för "andlighet" och "tro".[^6] Pew Research bekräftade bilden: 36 procent av svenska vuxna tror på "någon form av gudomlig makt eller andlig kraft".[^7]
+Hundratjugo år senare har Levertins åtskillnad blivit svensk normalitet. 2015 intervjuade David Thurfjell ett hundratal svenskar: omkring 80 procent avvisade organiserad religion, medan en majoritet uppgav sig vara öppna för "andlighet" och "tro".[^6] Pew Research bekräftade bilden: 36 procent av svenska vuxna tror på "någon form av gudomlig makt eller andlig kraft".[^7]
 
 Vad är det som överlever? Den svenska traditionen svarar samstämmigt: en oändlighetslängtan, en aning om att verkligheten rymmer ett djup det världsliga inte uttömmer. Söderblom kallade det "oändlighetskänsla" och skilde det från uppenbarelsereligion. Key förlade det djupare ännu: i "människonaturens egna djup".[^8]
 
-Men Levertin frågar aldrig *varifrån* känslan kommer. Varför skulle en slumpmässig, materiell varelse bära en medfödd längtan efter det oändliga? Den islamiska traditionen griper tag just där.
+Men Levertin frågar aldrig *varifrån* känslan kommer. Varför skulle en slumpmässig, jordisk varelse bära en medfödd längtan efter det oändliga? Den islamiska traditionen griper tag just där.
 
-## *Fiṭrah*: törsten som bevisar källan
+## Fiṭrah: törsten som bevisar källan
 
 En koranisk vers slår an tonen:
 
 > Ägna hela ditt jag åt religionen som en sann *ḥanīf*! Den är Allahs ﷻ naturliga väg som Han ingjutit i människorna. Ingen förändring skall ske i Allahs ﷻ skapelse.[^9]
 
-*Fiṭrah* – här översatt "naturlig väg" – betecknar den medfödda konstitution med vilken varje människa föds: en orientering mot sin Skapare som föregår all uppfostran och kultur. Anspråket är antropologiskt, djupare än teologiskt postulat. Profeten Muḥammad ﷺ formulerade det i en berömd *ḥadīth*:
+*Fiṭrah* – här översatt "naturlig väg" – betecknar den medfödda konstitution med vilken varje människa föds: en orientering mot sin Skapare som föregår all uppfostran och kultur. Anspråket är antropologiskt – djupare än ett teologiskt postulat. Profeten Muḥammad ﷺ formulerade det i en berömd *ḥadīth*:
 
 > Varje barn föds med *fiṭrah*; det är föräldrarna som gör det till jude, kristen eller zoroastrier.[^10]
 
-Ibn Kathīr citerar en profettradition där Gud själv talar:
+Ibn Kathīr anför en profettradition där Gud själv talar:
 
 > Jag skapade Mina tjänare som rättriktade, men djävlarna förledde dem bort från deras religion.
 
@@ -61,7 +61,7 @@ Levertin nöjer sig med slutsatsen att religiositet utan religion räcker. Ibn Q
 
 *Nära nog*: *fiṭrah* allena kommer nära men når inte ända fram.
 
-I *al-Wābil al-Ṣayyib* namnger han vad som inträder utan den andra ljuskällan:
+I *al-Wābil al-Ṣayyib* sätter han ord på vad som inträder utan den andra ljuskällan:
 
 > I hjärtat finns en tomhet och en brist som absolut ingenting kan fylla utom åminnelsen av Gud.[^14]
 
@@ -85,7 +85,7 @@ Till den frågan svarar Koranen:
 
 *Ṭumaʾnīnah* – att finna ro, att komma till vila. Hjärtat stannar. Det slutar söka.
 
-Dan Andersson – kolaren, diktaren – uttryckte det med enkel brådska: "Häda inte! När ni fått nog av Gud då är ni förlorad."[^19] En mening som varken Levertin eller Key kunde ha skrivit: den förutsätter att förlusten är verklig, att det som avvisas inte är en känsla utan en förbindelse. Den svenska hållningen – att erkänna religiositeten men inte följa den till en bestämd tröskel – är ärlig; den vägrar bekänna mer än den erfar. Men inom *fiṭrah*s logik pekar religiositeten bortom sig själv, som törst pekar mot vatten. Att stanna vid törsten utan att söka källan är inte oärlighet – det är en ofullbordad resa.
+Dan Andersson – kolaren, diktaren – uttryckte det med enkel brådska: "Häda inte! När ni fått nog av Gud då är ni förlorad."[^19] En mening som varken Levertin eller Key kunde ha skrivit: den förutsätter att förlusten är verklig, att det som avvisas inte är en känsla utan en förbindelse. Den svenska hållningen – att erkänna religiositeten men inte följa den över en bestämd tröskel – är ärlig; den vägrar bekänna mer än den erfar. Men inom *fiṭrah*s logik pekar religiositeten bortom sig själv, som törst pekar mot vatten. Att stanna vid törsten utan att söka källan är inte oärlighet – det är en ofullbordad resa.
 
 ## Oljan utan veke
 
