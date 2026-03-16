@@ -15,11 +15,11 @@ Ordet för det är inte sömnlöshet. Det är kontroll.
 
 Den gängse förklaringen: 24-timmarssamhället, skärmljus, stress. Men det beskriver villkor, inte orsaker. Skärmljus stör dygnsrytmen, ja – men det förklarar inte varför vi sitter kvar vid skärmen. Stressen kräver vila. Varför vägrar vi den?
 
-Orsaken sitter längre in. Sömnstörningar med kroppsliga orsaker – sömnapné, kronisk smärta, nattarbete – kräver medicinsk behandling. Men den breda trenden, den som sveper genom hela befolkningen, följer en annan ordning. Kroppen förmår sova. Själen förmår inte släppa taget.
+Orsaken ligger djupare. Sömnstörningar med påvisbara orsaker – sömnapné, kronisk smärta, nattarbete – kräver medicinsk behandling. Men den breda trenden, den som sveper genom hela befolkningen, följer en annan ordning. Kroppen förmår sova. Själen förmår inte släppa taget.
 
 ## Att somna är att dö
 
-Den islamiska traditionen har en synvinkel som saknas i modern sömnforskning. Profeten Muḥammad ﷺ lärde att sömnen är dödens broder – *al-nawm akhū al-mawt*.[^2] Ibn Taymiyyah vägrade nöja sig med en liknelse. I *al-Radd ʿalā al-Manṭiqiyyīn* läste han profetens ord som ren ontologi: själen lämnar kroppen under sömnen, i en åtskillnad som speglar döden. Du sjunker in i drömmen och tappar greppet om att du är du.
+Den islamiska traditionen har en synvinkel som saknas i modern sömnforskning. Profeten Muḥammad ﷺ lärde att sömnen är dödens broder – *al-nawm akhū al-mawt*.[^2] Ibn Taymiyyah vägrade nöja sig med en liknelse. I *al-Radd ʿalā al-Manṭiqiyyīn* läste han profetens ord som ren ontologi: själen lämnar kroppen under sömnen, i en åtskillnad som speglar döden. Du sjunker in i drömmen och förlorar medvetandet om att du är du.
 
 > Det är känt att den sovandes själ skiljs från kroppen i en form av separation, ty sömnen är dödens broder.[^3]
 
@@ -31,7 +31,7 @@ Koranen namnger det som ontologisk händelse:
 
 > Allah ﷻ tar människors själar när deras dödsstund är kommen; och den [själ] som inte dör [tar han] när den sover. Han kvarhåller sedan de [själar] vars död Han bestämt och sänder tillbaka de andra [själarna] fram till en utsatt tid. I detta finns sannerligen tecken för människor som tänker efter.[^4]
 
-Samma verb, *yatawaffā*, att ta tillbaka, används om både döden och sömnen. Skillnaden är inte i art utan i grad.
+Samma verb, *yatawaffā*, att ta tillbaka, används om både döden och sömnen. Skillnaden är inte en artskillnad utan en gradskillnad.
 
 ## Tawakkul: att falla utan fallskärm
 
@@ -41,7 +41,7 @@ Profeten ﷺ bad varje kväll innan han lade sig:
 
 > O Allah ﷻ, Du har skapat min själ och Du tar den tillbaka. Dess död och dess liv tillhör Dig. Om Du kvarhåller den, förbarma Dig över den. Om Du sänder den tillbaka, skydda den med det som Du skyddar Dina rättfärdiga tjänare.[^5]
 
-Det är ingen sömnbön. Det är dödsförberedelse. Ordagrant: *laka mamātuhā wa-maḥyāhā* – dess död och dess liv tillhör Dig.
+Det är inte en sömnbön. Det är förberedelse för döden. Ordagrant: *laka mamātuhā wa-maḥyāhā* – dess död och dess liv tillhör Dig.
 
 Ordet för denna överlåtelse är *tawakkul*. Ibn Qayyim al-Jawziyyah definierade det som "hjärtats sanna förlitan på Allah ﷻ ensam".[^6]
 
@@ -55,7 +55,7 @@ Hjalmar Bergman fångade överlåtelsens gåta i *Vi Bookar, Krokar och Rothar*:
 
 *Adhkār al-nawm*, kvällens åminnelser, är inte avslappning. De inskärper en grundhållning som den moderna världen har förlorat: att du inte äger ditt nästa andetag – att du, trots det, kan lägga dig i frid.
 
-Ibn Qayyim skrev att "åminnelsen väcker hjärtat ur dess sömn och reser det ur dess slummer".[^15] *Dhikr* väcker hjärtat för att kroppen ska kunna sova. Sömnlösheten är ett hjärta som sover – bedövat av förströelser, grumlat av underhållning – i en kropp som ligger vaken. Du upprepar Namnet tills tankarnas cirkel bryts.
+Ibn Qayyim skrev att "åminnelsen väcker hjärtat ur dess sömn och reser det ur dess slummer".[^15] *Dhikr* väcker hjärtat för att kroppen ska kunna sova. Sömnlösheten är ett hjärta som sover – bedövat av förströelser, avtrubbat av underhållning – i en kropp som ligger vaken. Du upprepar Namnet tills tankarnas cirkel bryts.
 
 ʿAlī ibn Abī Ṭālib slog fast det: "Människor sover; när de dör vaknar de."[^16] Den som inte kan somna har redan börjat vakna – men utan vägledning, utan riktning, utan den tillit som gör uppvaknandet uthärdligt.
 
@@ -71,13 +71,13 @@ Men just här skiljs den moderna uppfattningen och den islamiska traditionen åt
 
 > Medvetenheten om döden upptog de gudfruktigas hjärtan och fjärmade dem från denna värld – vid Allah ﷻ, de återvände aldrig till glädje efter att ha känt dess ångest.[^18]
 
-Här skymtar dödsmedvetenhetens motsägelse: den ångest som den moderna människan flyr, och som håller henne vaken, är för den gudfruktige vägen till vila. Men det är inte samma ångest. Den moderna människans är skräcken för utplåning – en skräck som klamrar sig fast vid kontrollen, vid skärmen, vid den vaka som håller illusionen vid liv att du fortfarande finns. Den gudfruktigas ångest är bävan inför återkomsten, och bävan kan vila – den har redan släppt det som skräcken klamrar sig vid.
+Här skymtar dödsmedvetenhetens motsägelse: den ångest som den moderna människan flyr, och som håller henne vaken, är för den gudfruktige vägen till vila. Men det är inte samma ångest. Den moderna människans är skräcken för utplåning – en skräck som klamrar sig fast vid kontrollen, vid skärmen, vid den vaka som håller illusionen vid liv att du fortfarande finns. Den gudfruktigas ångest är bävan inför återkomsten, och bävan kan komma till ro – den har redan släppt det som skräcken klamrar sig vid.
 
 Erik Gustaf Geijer skrev att "det hörer till sorgens väsende att ej vilja släppa sitt föremål".[^19] Sömnlösheten är en sorg som inte vet vad den sörjer – som om öppna ögon kunde hejda tiden.
 
 Den islamiska kvällsritualen – bönen, åminnelsen, överlåtelsen – tvingar dig att varje kväll möta det den moderna kulturen har gömt: att du är dödlig, att du saknar kontroll, att din tillvaro är en gåva som kan återkallas. Inte som dogm utan som nattlig sed, en bön riktad till en Gud du tilltalar. Den ger lov att släppa.
 
-Koranen beskriver dem som reser sig ur natten med avsikt: "De som avstår från sömn för att med fruktan och hopp åkalla sin Herre och som ger åt andra av det som Vi har skänkt dem för deras försörjning."[^20] Mitt i natten finner de ljus – inte för att sömnlösheten är en sjukdom, utan för att de äger det som gör vakenhet uthärdlig: en riktning för sitt rop, en Herre att vända sig till i fruktan och hopp. Ibn Kathīr förtydligar: "De lämnade sömn och vila för bönens skull, drivna av sin längtan efter det Allah ﷻ har lovat dem."[^21]
+Koranen beskriver dem som reser sig ur natten med avsikt: "De som avstår från sömn för att med fruktan och hopp åkalla sin Herre och som ger åt andra av det som Vi har skänkt dem för deras försörjning."[^20] Mitt i natten finner de ljus – inte för att sömnlösheten är en sjukdom, utan för att de äger det som gör vakenhet uthärdlig: en riktning åt sitt rop, en Herre att vända sig till i fruktan och hopp. Ibn Kathīr förtydligar: "De lämnade sömn och vila för bönens skull, drivna av sin längtan efter det Allah ﷻ har lovat dem."[^21]
 
 Profeten ﷺ lade handen på bröstet och sade: "I Ditt namn, o Allah, dör jag och lever jag." Sedan somnade han.
 

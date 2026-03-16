@@ -17,11 +17,11 @@ Völuspás undergångsscen är brutal och skön. Solen svartnar. Jorden sjunker 
 
 > Den germanska mytologin har inte betraktat världens pånyttfödelse som en ny skapelse. Det liv som i tidens morgon utvecklades ur kaos förintas inte av Surts lågor, utan räddar sig, renat, för den kommande tidsåldern.[^1]
 
-Världsträdet överlever elden – det trotsar både egg och låga. Solen som stiger efter Ragnarök är dotter till den gamla, född före katastrofen, oskadd genom den. Förstörelsen är selektiv. Den är *dom*.
+Världsträdet överlever elden – det trotsar både egg och låga. Solen som stiger efter Ragnarök är dotter till den gamla, född före katastrofen, oskadd av den. Förstörelsen är selektiv. Den är *dom*.
 
 Esaias Tegnér i *Fritiofs Saga*: det onda dör "för evigt", men det fallna goda "reser sig ur världsbålslågan, luttrat till ett högre liv".[^2] Undergången är eldprovet – det som gör världen *värdig* sin fortsättning. Och efter elden: osådda fält som bär skörd, Balder som återvänder, gyllene runetavlor i gräset på Idavallen.
 
-Forskare tvistar om huruvida Völuspás förnyelsestrofer, särskilt den gåtfulla strofen 65 om en "väldig härskare som styr över allt", uttrycker förkristna föreställningar eller speglar kristet inflytande. Kanske lovade den hedniska mytologin mer än den ägde – men spänningen kvarstår: även en halvfärdig tillförsikt väger tyngre än hopplöshet.
+Forskare tvistar om huruvida Völuspás förnyelsestrofer, särskilt den gåtfulla strofen 65 om en "väldig härskare som styr över allt", uttrycker förkristna föreställningar eller speglar kristet inflytande. Kanske lovade den hedniska mytologin mer än den kunde hålla – men spänningen kvarstår: även en halvfärdig tillförsikt väger tyngre än hopplöshet.
 
 ## Apokalyps utan eskatologi
 
@@ -35,7 +35,7 @@ Günther Anders gav tillståndet ett namn redan under kärnvapenåldern: *Apokal
 
 ## Den rastlöshet som saknar namn
 
-Koranen fångar tillståndet: "Människan har sannerligen skapats ängslig."[^5] Det arabiska ordet är *halūʾan*: rastlös, otålig – den som grips av skräck vid motgång och av girighet vid framgång. Inte ett sjukdomstecken utan ett villkor: människan bär en rastlöshet som inget skapat kan stilla.
+Koranen namnger grundvillkoret: "Människan har sannerligen skapats ängslig."[^5] Det arabiska ordet är *halūʾan*: rastlös, otålig – den som grips av skräck vid motgång och av girighet vid framgång. Inte ett sjukdomstecken utan ett villkor: människan bär en rastlöshet som inget skapat kan stilla.
 
 Hjalmar Bergman satte ord på den i *Vi Bookar, Krokar och Rothar*:
 
@@ -43,13 +43,13 @@ Hjalmar Bergman satte ord på den i *Vi Bookar, Krokar och Rothar*:
 
 *Att finna mening* – inte att fly döden utan att finna ett skäl att ha levt.
 
-Klimatångesten följer samma mönster men saknar det avgörande: ett namn för det den är. Islam namnger den. Ångesten är ett tecken, en *āya*, på att människan söker sitt upphov. Ibn Qayyim al-Jawziyyah skrev: "Det jordiska livet är den kommande världens åkerfält och dess förebud."[^7] Ångesten inför förstörelsen visar sig vara förvriden längtan efter det som kommer *efter* den – rädslan som är hopp vänt ut och in.
+Klimatångesten följer samma mönster men saknar det avgörande: ett namn för det den är. Islam namnger ångesten. Ångesten är ett tecken, en *āya*, på att människan söker sitt upphov. Ibn Qayyim al-Jawziyyah skrev: "Det jordiska livet är den kommande världens åkerfält och dess förebud."[^7] Ångesten inför förstörelsen visar sig vara förklädd längtan efter det som kommer *efter* den – rädslan som är hopp vänt ut och in.
 
 ## En dom som förutsätter en Domare
 
 Den avgörande klyftan går inte mellan Ragnarök och klimatvetenskap utan mellan dessa och islam.
 
-Ragnarök rymmer dom – Surts eld skiljer ruttna från friskt – men en dom utan domare. Gudarna själva är bundna av samma ordning. Oden vet att han ska falla för Fenrisulven, och han faller. Förnyelsen sker som naturlag, som allomfattande kretslopp. Rydberg blottlägger grundsatsen: det germanska tänkandet förstår reningselden som immanent kraft, fri från viljehandling.[^8]
+Ragnarök rymmer dom – Surts eld skiljer ruttet från friskt – men en dom utan domare. Gudarna själva är bundna av samma ordning. Oden vet att han ska falla för Fenrisulven, och han faller. Förnyelsen sker som naturlag, som allomfattande kretslopp. Rydberg blottlägger grundsatsen: det germanska tänkandet förstår reningselden som immanent kraft, fri från viljehandling.[^8]
 
 Koranen vänder perspektivet:
 
@@ -71,13 +71,13 @@ Men Koranen skänker också grundsatsen för att bära ångesten:
 
 Upprepningen är princip: svårigheten *föder* lättnaden, som Ragnaröks eld föder den förnyade jorden. Skillnaden: Koranen vet *varför*.
 
-Islam ger vad varken Ragnarök eller klimatrörelsen förmår: ett skäl att handla, bortom ödestrots och rastlös aktivism. Begreppet *khalīfa*, människan som skapelsens förvaltare, förankrar omsorgen om jorden i ansvar inför den som anförtrott den – inte i undergångsångest.[^12] Profeten Muḥammad ﷺ lärde att om timmen kommer medan du håller en planta i handen ska du plantera den.[^13] Handlingen är meningsfull för att den svarar mot ett förtroende. Ibn al-Jawzī iakttog paradoxen från andra hållet:
+Islam ger vad varken Ragnarök eller klimatrörelsen förmår: ett skäl att handla, bortom ödestrots och rastlös aktivism. Begreppet *khalīfa*, människan som skapelsens förvaltare, förankrar omsorgen om jorden i ansvar inför Honom som anförtrott oss den – inte i undergångsångest.[^12] Profeten Muḥammad ﷺ lärde att om timmen kommer medan du håller en planta i handen ska du plantera den.[^13] Handlingen är meningsfull för att den svarar mot ett förtroende. Ibn al-Jawzī iakttog paradoxen från andra hållet:
 
 > Om människan handlade efter hoppets korthet hade ingen skrivit en bok eller sammanställt ett verk.[^18]
 
 Att bygga förutsätter ett hopp som räcker längre än vetskapen att allting förgår.
 
-Samma impuls drev Ragnaröks skapare. Rökstenen i Östergötland, rest på 800-talet, bär enligt Bo Gräslunds tolkning minnet av den vulkanvinter som förmörkade solen över Skandinavien år 536 – som myt, inte klagan, som ett sätt att lägga mening i katastrofen.[^14] Tolkningen är omtvistad, men driften igenkännbar: vi berättar oss *genom* mörkret.
+Samma impuls drev Ragnaröks skapare. Rökstenen i Östergötland, rest på 800-talet, bär enligt Bo Gräslunds tolkning minnet av den vulkanvinter som förmörkade solen över Skandinavien år 536 – som myt, inte klagan, som ett sätt att ge katastrofen mening.[^14] Tolkningen är omtvistad, men driften igenkännbar: vi berättar oss *genom* mörkret.
 
 Berättelsen om den förnyade jorden på Idavallen stannar vid tillförsikten utan att namnge var den kommer ifrån:
 

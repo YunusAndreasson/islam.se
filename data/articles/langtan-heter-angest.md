@@ -5,7 +5,7 @@ wordCount: 1533
 qualityScore: 8.6
 description: "Under 1300-talets första hälft ägnade sig Ibn Qayyim al-Jawziyyah i Damaskus åt att kartlägga hjärtats sjukdomar. I *al-Dāʾ wa-l-Dawāʾ* beskrev han hur synden försvagar hjärtat – inte som en katastrof utan som en tilltagande bedövning där den sjuke till slut inte ens märker att han är sjuk."
 ---
-Den moderna människan har ett reflexmässigt svar på ångest: bli av med den. Medicinera, meditera, distrahera. Modern psykologi skiljer visserligen mellan patologisk och vardaglig oro – KBT och ACT behandlar inte all oro som sjukdom. Men den kulturella reflexen är entydig: ångest är ett fel i maskineriet, en störning att undanröja.
+Den moderna människan har ett reflexmässigt svar på ångest: bli av med den. Medicinera, meditera, söka distraktion. Modern psykologi skiljer visserligen mellan patologisk och vardaglig oro – KBT och ACT behandlar inte all oro som sjukdom. Men den kulturella reflexen pekar åt samma håll: ångest är ett fel i maskineriet, en störning att undanröja.
 
 Tänk om reflexen pekar fel.
 
@@ -27,7 +27,7 @@ Visst obehag är livsnödvändigt.
 
 ## Trånghet i bröstet
 
-Redan ordet *ångest* stammar från fornnordiskans *angr*, trånghet. Koranen använder samma kroppsliga bild – *ḍīq ṣadr*, trängsel i bröstet – för den andliga nöden. Men trångheten kräver en åtskillnad: den som väcker ur bedövning och den som trycker djupare in i den.
+Redan ordet *ångest* stammar från fornnordiskans *angr*, trånghet. Koranen använder samma kroppsliga bild – *ḍīq ṣadr*, trånghet i bröstet – för den andliga nöden. Men trångheten kräver en åtskillnad: den som väcker ur bedövning och den som trycker djupare in i den.
 
 Distinktionen är äldre än Ibn Qayyim. Hans lärare Ibn Taymiyyah formulerade grundprincipen:
 
@@ -37,7 +37,7 @@ Som munnen efter narkosen: man vet att den borde känna, men den gör det inte.
 
 Koranen förtydligar diagnosen: "I deras hjärtan finns en sjukdom, så Allah ﷻ har utökat sjukdomen för dem."[^5] Sjukdomen tilltar inte trots omedvetenheten; den tilltar *genom* den. Ju mindre den sjuke känner, desto sjukare är han.
 
-Modern neurovetenskap pekar i samma riktning. Antonio Damasio påvisade att patienter som genom hjärnskador förlorat förmågan att känna obehag – trots intakt intellekt – kunde inte fatta vardagliga beslut.[^17] Känslan var inte förnuftets motståndare utan dess förutsättning.[^6][^7]
+Modern neurovetenskap pekar i samma riktning. Antonio Damasio påvisade att patienter som efter hjärnskador förlorat förmågan att känna obehag – trots intakt intellekt – inte kunde fatta vardagliga beslut.[^17] Känslan var inte förnuftets motståndare utan dess förutsättning.[^6][^7]
 
 ## Rädslans gräns
 
@@ -53,15 +53,15 @@ Samma gräns sysselsatte Søren Kierkegaard. I *Begreppet ångest* (1844) formul
 
 Den teologiska grunden skiljer dem. Kierkegaards ångest springer ur den kristna läran om syndafallet och den yttersta friheten – människan ställd ensam inför valet. Ibn Qayyims ångest växer ur *fiṭrah*, den medfödda orienteringen mot Gud, och *nafs*, det inre jagets kamp. Hos Kierkegaard är ångesten ensamhet. Hos Ibn Qayyim är den bevis på att bandet till Gud fortfarande lever.
 
-Kierkegaard lämnar den ångestfyllde ensam med sin frihet. Utan ett begrepp om hjärtats ursprungliga riktning kan ångesten visa *att* du är fri, men aldrig *vad* friheten är till för. Ibn Qayyim ger riktning: ångesten pekar mot det som behöver läkas, och läkningen har ett namn. Lagerkvists Barabbas, den frigivne brottslingen som vandrar genom en tro han inte äger, erkänner samma längtan men har inget namn för den: "För att jag gärna ville tro."[^19]
+Kierkegaard lämnar den ångestfyllde ensam med sin frihet. Utan ett begrepp om hjärtats ursprungliga riktning kan ångesten visa *att* du är fri, men aldrig *vad* friheten är till för. Ibn Qayyim ger riktning: ångesten pekar mot det som behöver läkas, och läkningen har ett namn. Lagerkvists Barabbas, den frigivne brottslingen som kretsar kring en tro han inte äger, erkänner samma längtan men har inget namn för den: "För att jag gärna ville tro."[^19]
 
 ## Reningen
 
 Koranen beskriver den läkande rörelsen: "Det var Han som sände ned lugnet i de troendes hjärtan så att de kunde växa i tro utöver den tro de hade."[^11] Lugnet, *sakīnah*, kommer inte av att prövningen uteblir utan sänds ned *i* prövningen.
 
-Ibn Qayyim utvecklar detta i *al-Wābil al-Ṣayyib*: "Hjärtat rostar som koppar och silver rostar, och dess polering är *dhikr*."[^12] Hjärtats naturliga tillstånd är glans. Hjärtesoten är beläggning, inte skada i grundmaterialet. *Dhikr* – Guds åminnelse – återställer det ursprungliga tillståndet.
+Ibn Qayyim utvecklar detta i *al-Wābil al-Ṣayyib*: "Hjärtat rostar som koppar och silver rostar, och dess polering är *dhikr*."[^12] Hjärtat är av naturen blankt. Hjärtesoten är beläggning, inte skada i grundmaterialet. *Dhikr* – Guds åminnelse – återställer det ursprungliga tillståndet.
 
-Strindberg skymtade samma insikt: "Vi ha vuxit, och därför äro vi sjuka. Varje tid har sina sjukdomar, vilka synas bero av förändringar i själen."[^13] Orden bär en sanning Strindberg aldrig förmådde fullfölja: att sjukdomen stundom tillhör växandet, att det som plågar är det som formar. Ibn Qayyim skulle ha nickat igenkännande – och sedan frågat: mot vad växer du?
+Strindberg skymtade samma insikt: "Vi ha vuxit, och därför äro vi sjuka. Varje tid har sina sjukdomar, vilka synas bero av förändringar i själen."[^13] Orden bär en sanning Strindberg aldrig förmådde fullfölja: att sjukdomen ibland tillhör växandet, att det som plågar är det som formar. Ibn Qayyim skulle ha nickat igenkännande – och sedan frågat: mot vad växer du?
 
 ## Hjärtat som vet
 

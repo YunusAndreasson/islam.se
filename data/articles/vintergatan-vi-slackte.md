@@ -11,13 +11,13 @@ Vad händer med ett samhälles andliga mottaglighet när det fysiska mörkret so
 
 ## Ljusets hierarki
 
-I Koranen är ljus inte bild utan kosmologisk kategori. Den mest kommenterade versen i den islamiska idéhistorien – ljusversen, *āyat al-nūr* – gestaltar ljuset i en flerlagrad bild:
+I Koranen är ljus inte bild utan kosmologisk kategori. Den mest kommenterade versen i den islamiska idéhistorien – ljusversen, *āyat al-nūr* – gestaltar ljuset i en flerskiktad bild:
 
 > Allah ﷻ är himlarnas och jordens ljus. Liknelsen om Hans ljus är en lykta i vilken det finns en lampa. Lampan är omgiven av glas. Glaset är som om det var en starkt skimrande stjärna. Den är tänd med olja från ett välsignat träd – ett olivträ – som varken stått enbart östligt eller västligt. Dess olja lyser nästan utan att ha rörts av eld. Ljus över ljus![^2]
 
 Bilden rör sig inåt: från nischen till glaset till lampan till oljan som nästan lyser av sig själv. Ibn Qayyim visar i *al-Wābil al-Ṣayyib* hur ljuset i hjärtat föds ur tro och lydnad; det närs av uppenbarelse och goda handlingar, så som lampans låga närs av olja.[^3]
 
-Ibn Qayyim tydliggör den bärande förbindelsen: uppenbarelsens ljus *adderas* till den medfödda naturens ljus, *fiṭrah*, och de två förenas till *nūrun ʿalā nūr* – ljus på ljus. Utan denna samverkan saknas den urskillning som skiljer sant från falskt.[^4] Det gudomliga ljuset tävlar inte med det naturliga. Det förutsätter det.
+Ibn Qayyim tydliggör den bärande förbindelsen: uppenbarelsens ljus *fogas till* den medfödda naturens ljus, *fiṭrah*, och de två förenas till *nūrun ʿalā nūr* – ljus på ljus. Utan denna samverkan saknas den urskillning som skiljer sant från falskt.[^4] Det gudomliga ljuset tävlar inte med det naturliga. Det förutsätter det.
 
 ## Invändningen
 
@@ -33,7 +33,7 @@ Koranen tilltalar människor som *vet* hur mörker känns, som har stått i det 
 
 Att det fysiska mörkret formar det andliga medvetandet är inte gissning. Islam behandlar natten som helig tid – i gudstjänsten, inte i bildspråket. Profeten ﷺ utpekade nattbönen, *qiyām al-layl*, som den förnämsta frivilliga bönen: "den bästa bönen efter de föreskrivna är nattens bön."[^8] I natten förlägger Koranen sin egen uppenbarelses höjdpunkt: "Ödesbestämmelsens natt är bättre än tusen månader."[^9] Profetens ﷺ nattliga resa, *isrāʾ wa-l-miʿrāj*, sker i mörker.
 
-I mörker försvinner det synliga. Kvar står medvetandets egen verksamhet, fri från sinnenas herravälde. Så länge det yttre ögat levererar bilder grumlas hjärtats ljus av sinnenas brus. I mörkret upphör tävlan: hjärtat ser inte *trots* att ögat inte ser, utan *därför att* ögat inte ser. Koranen gör detta till tecken:
+I mörker försvinner det synliga. Kvar står medvetandets egen verksamhet, fri från sinnenas herravälde. Så länge det yttre ögat matas med bilder grumlas hjärtats ljus av sinnenas brus. I mörkret upphör kampen: hjärtat ser inte *trots* att ögat inte ser, utan *därför att* ögat inte ser. Koranen gör detta till tecken:
 
 > Ett tecken för dem är natten; Vi drar undan dagen ur den och då sveps de i mörker.[^10]
 
@@ -47,7 +47,7 @@ Hjalmar Söderberg lät doktor Glas formulera det:
 
 Ljuset härskar i universum; mörkret är det smala undantag som gör seendet möjligt.
 
-Viktor Rydberg: "I mörkret lär man sig vad ljus är."[^12] Utan mörker som bakgrund blir ljus brus, en oavbruten stimulans som upphör att säga något. Kant kände det: han jämställde den stjärnbeströdda himlen och den moraliska lagen som de två ting som fyller sinnet med ständigt förnyad vördnad.[^24] Einstein likaså: "Det vackraste vi kan uppleva är det gåtfulla. Det är källan till all sann konst och all vetenskap."[^28] Men det gåtfulla förutsätter mörker; utan nattens kontrast förblir det osynligt.
+Viktor Rydberg: "I mörkret lär man sig vad ljus är."[^12] Utan mörker som bakgrund blir ljus brus, en oavbruten stimulans som upphör att säga något. Kant pekade åt samma håll: han lyfte fram den stjärnbeströdda himlen och den moraliska lagen som de två ting som fyller sinnet med ständigt förnyad vördnad.[^24] Einstein uttryckte en besläktad övertygelse: "Det vackraste vi kan uppleva är det gåtfulla. Det är källan till all sann konst och all vetenskap."[^28] Men det gåtfulla förutsätter mörker; utan nattens kontrast förblir det osynligt.
 
 ## Tingets ljus
 
@@ -67,7 +67,7 @@ Ibn al-Jawzī fastslog det i *Ṣayd al-Khāṭir*: "Själen är alltjämt vaken
 
 ## Ljus på ljus – i en värld utan natt
 
-Den okände poeten i *Lärkan*, en svensk poetisk kalender från 1800-talet, formulerade det med en innerlighet som rör vid båda traditionerna:
+Den okände poeten i *Lärkan*, en svensk poetisk kalender från 1800-talet, formulerade det med en innerlighet som berör båda traditionerna:
 
 > Gud! bor äfven i natten Du? Glänser i månens bleka skimmer äfven Din kärleksblick? Sväfvar på molnens silfvervingar äfven Din andes sken? Kom då, du natt! Ack! så ljufligt är tystnadens språk, stjernornas saliga ljus![^20]
 

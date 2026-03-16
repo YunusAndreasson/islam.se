@@ -5,9 +5,9 @@ wordCount: 2917
 qualityScore: 8.7
 description: "I 1300-talslärden Ibn Qayyim al-Jawziyyahs skildring samlar Satan sina trupper och pekar ut ett mål framför alla andra: tungans fästning. Den kan erövras på två sätt – genom den som sprider lögner och genom den som tiger när sanningen behöver sägas."
 ---
-Ett ord slungat i vrede, yttrat i avund eller bara släppt i förbifarten – sedan sjunker det genom tillvaron som en sten genom vatten: nedåt, oåterkalleligt, med ringar som breder sig långt bortom den punkt där stenen försvann. Profeten Muḥammad ﷺ beskrev det: en människa kan yttra ett ord utan att begrunda det. Det ordet störtar henne i Elden längre bort än avståndet mellan öster och väster.[^1]
+Ett ord slungat i vrede, yttrat i avund eller bara släppt i förbifarten – sedan sjunker det genom tillvaron som en sten genom vatten: nedåt, oåterkalleligt, med ringar som breder sig långt bortom den punkt där stenen slog i ytan. Profeten Muḥammad ﷺ beskrev det: en människa kan yttra ett ord utan att begrunda det. Det ordet störtar henne i Elden längre bort än avståndet mellan öster och väster.[^1]
 
-Orden slår. Neurovetenskapen har visat att hårda ord sätter spår i hjärnans stressystem.[^2] Den islamiska traditionen visste det fjorton sekler före den första hjärnskannern. Den svenska tystnadskulturen likaså, på sitt eget vis.
+Orden slår. Neurovetenskapen har visat att hårda ord sätter spår i hjärnans stressystem.[^2] Den islamiska traditionen formulerade insikten fjorton sekler före den första hjärnskannern. Den svenska tystnadskulturen likaså, på sitt eget vis.
 
 ## Tungan som gränsfästning
 
@@ -19,7 +19,7 @@ Denna dubbelhet löper genom hela den klassiska islamiska litteraturen om tungan
 
 > Talet är en tolk som uttrycker det som lagrats i hjärtats kammare och avslöjar samvetets dolda innehåll. Det kan varken återkallas i sina utbrott eller fångas in när det sluppit loss.[^4]
 
-En man frågade en vis: "När ska jag tala?" Svaret: "När du längtar efter tystnad." "Och när ska jag tiga?" "När du längtar efter att tala."[^5] Regeln biter just för att den vänder driften mot sig själv: tala när det kostar dig att tala, tig när det kostar dig att tiga. Den som läser sina egna meddelanden från i går och inte känner igen sig vet vad det innebär.
+En man frågade en vis: "När ska jag tala?" Svaret: "När du längtar efter tystnad." "Och när ska jag tiga?" "När du längtar efter att tala."[^5] Regeln biter just för att den vänder driften mot sig själv: tala när det kostar dig att tala, tig när det kostar dig att tiga. Den som läser sina egna meddelanden från i går och inte känner igen sig, vet vad det innebär.
 
 ## Sjuhundra ḥadīther om en enda kroppsdel
 
@@ -47,7 +47,7 @@ Insikten är inte främmande för svensk jord. Erik Gustaf Geijer: "Alla stora m
 
 Men den svenska tystnadskulturen har en skuggsida. Jantelagen är tvingad tystnad – konflikträdsla upphöjd till dygd. Ingmar Bergmans *Tystnaden* (1963) gestaltar den mänskliga kommunikationens sammanbrott: två systrar instängda i ett hotellrum, oförmögna att nå varandra med ord.[^18]
 
-Den nordiska traditionen kände också priset för ohämmat tal. I Hávamál: "En man bör veta när han ska tala och när han ska hålla fred."[^19] Loke – gudavärldens baktalare – förkroppsligar det tal som saknar varje spärr.[^21] Njals saga förankrar insikten i det mänskliga: "Oviljan mellan er kommer att växa och växa, ty de kommer att hopa onda ord på onda ord."[^22] Det första elaka ordets verkliga fara ligger inte i dess eget innehåll. Den ligger i vad det framkallar.
+Den nordiska traditionen kände också priset för ohämmat tal. I Hávamál: "En man bör veta när han ska tala och när han ska hålla fred."[^19] Loke – gudavärldens baktalare – förkroppsligar det tal som saknar alla spärrar.[^21] Njals saga förankrar insikten i det mänskliga: "Oviljan mellan er kommer att växa och växa, ty de kommer att hopa onda ord på onda ord."[^22] Det första elaka ordets verkliga fara ligger inte i dess eget innehåll. Den ligger i vad det framkallar.
 
 ## Det andra nederlaget
 
@@ -59,7 +59,7 @@ Ibn Qayyims dubbla fälla har en andra sida. Koranen befaller:
 
 Al-Suyūṭī, den mångsidige 1400-talslärde, sammanfattade hela denna spänning i en enda sats: "Att tiga när man bör tala är ibland samma brott som att tala när man bör tiga."[^25] Det är den stumme brodern som Ibn Qayyim beskriver – fiendens andra seger.
 
-Vår tids instinkt – att allt bör sägas, att tystnad är förtryck, att "bryta tystnaden" alltid är moraliskt – förbiser vad varje islamisk lärd visste: det finns tal som är värre än tystnad.
+Vår tids grundhållning – att allt bör sägas, att tystnad är förtryck, att "bryta tystnaden" alltid är moraliskt – förbiser vad varje islamisk lärd visste: det finns tal som är värre än tystnad.
 
 Ibn Ḥibbān al-Bustī, den lärde hadithsamlaren, klädde jämvikten i ord: "Tystnaden är sinnets sömn och talet dess vakenhet."[^26] Sömn är nödvändig. Ingen överlever utan den. Men den som sover när han borde vara vaken har inte funnit vila; han har försummat sitt ansvar. Och den som talar när han borde tiga har inte vaknat; han irrar i sömnen. "Stamning är ibland bättre än tal," skriver Ibn Ḥibbān, "ty allt tal som missar sin rätta plats – där är stamningen bättre."[^27]
 
@@ -81,7 +81,7 @@ Al-Nawawī skriver i *Riyāḍ al-Ṣāliḥīn*:
 
 Den som försöker leva efter den regeln under en enda dag upptäcker att den kräver samma vaksamhet som varje annan andlig tukt.
 
-Fästningskommendantens arbete tar aldrig slut. Det tal som var rätt i går kan vara fel idag; den tystnad som var klok i morse kan vara feg ikväll. Varje stund kräver sin prövning. Porten glappar redan.
+Fästningskommendantens arbete tar aldrig slut. Det tal som var rätt i går kan vara fel idag; den tystnad som var klok i morse kan vara feg ikväll. Varje stund kräver sin prövning. Porten står redan på glänt.
 
 ---
 

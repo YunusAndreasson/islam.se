@@ -11,7 +11,7 @@ Ingen försäkring täcker den resan.
 
 ## Försäkringens samhälle
 
-Det moderna samhället kan inte tänka sig en sådan resa. 1986 publicerade den tyske sociologen Ulrich Beck *Risikogesellschaft*, en bok som satte ord på det tillstånd moderniteten redan levde i: risksamhället.[^3] Becks tes var inte att världen blivit farligare. Den var att moderniteten organiserat sig *kring* faran, att risken blivit samhällets sorteringsprincip. Vi räknar inte med det goda livets möjligheter; vi beräknar det dåliga livets sannolikheter. Den som söker bostad frågar inte hur ljus den är utan hur nära sjukhuset den ligger.
+Det moderna samhället kan inte tänka sig en sådan resa. 1986 publicerade den tyske sociologen Ulrich Beck *Risikogesellschaft*, en bok som satte ord på det tillstånd moderniteten redan levde i: risksamhället.[^3] Becks tes var inte att världen blivit farligare utan att moderniteten organiserat sig *kring* faran, att risken blivit samhällets sorteringsprincip. Vi räknar inte med det goda livets möjligheter; vi beräknar det dåliga livets sannolikheter. Den som söker bostad frågar inte hur ljus den är utan hur nära sjukhuset den ligger.
 
 Sverige tog tanken längre än de flesta: socialförsäkringssystemet vilar på förutsättningen att varje risk kan pekas ut, räknas på och fördelas. Sjukdom, arbetslöshet, ålderdom, barns födelse, barns tandvård – allt kan försäkras, allt *ska* försäkras. Erik Gustaf Geijer, 1845: "Utan säkerhet ingen idoghet."[^4] Trygghet först, sedan arbete, sedan framsteg.
 
@@ -57,7 +57,7 @@ Ibn al-Jawzī (1100-talet) skärper det:
 
 Det moderna samhället erkänner bara två möjligheter: kontroll eller ångest. *Tawakkul* är den tredje: full ansträngning förenad med full vila. Det är läkaren som opererar med allt sitt kunnande och sedan går hem och sover.
 
-För det saknar moderniteten språk. Den som kom närmast var Kierkegaard, vars "trons riddare" i *Fruktan och bävan* lever fullt i det ändliga men har överlämnat utgången. Men att han kallade rörelsen "i kraft av det absurda" avslöjar att tillit inom hans tradition bara kan tänkas som ett undantag från förnuftet. I den islamiska traditionen är *tawakkul* tvärtom förnuftets slutsats: den som verkligen vet vem Gud är finner det orimligt att *inte* förlita sig på Honom.[^21]
+För det saknar moderniteten språk. Den som kom närmast var Kierkegaard, vars "trons riddare" i *Fruktan och bävan* lever fullt i det ändliga men har överlämnat utgången. Men att han kallade rörelsen "i kraft av det absurda" avslöjar att tillit i hans tänkande bara kan tänkas som ett undantag från förnuftet. I den islamiska traditionen är *tawakkul* tvärtom förnuftets slutsats: den som verkligen vet vem Gud är finner det orimligt att *inte* förlita sig på Honom.[^21]
 
 ## Fåglarna i Koranen
 
@@ -73,7 +73,7 @@ Koranen bär samma bild men vidgar den:
 
 Fåglarna flyger redan. De faller inte. Frågan är inte om något håller dem uppe utan om betraktaren har ögon att se det. Den sista bisatsen – "Han ser sannerligen allt" – vänder perspektivet: vi ser fåglarna, men fåglarna *ses*. Ibn Kathīr förtydligar: Han vet vad som gagnar varje enskild varelse bland Hans skapelser.
 
-Ur denna bild hämtar Ibn Qayyim trons inre rörelse: rädsla och hopp som två vingar – när de är i jämvikt bär de flygningen framåt; brister den ena, störtar fågeln.[^14] Silvertärnan flyger för att den är skapad att flyga. *Tawakkul* är varken kylig tillförsikt eller förlamande ångest: det är den jämvikt som uppstår när hjärtat slutat väga risker och börjat förlita sig.
+Ur denna bild hämtar Ibn Qayyim trons inre rörelse: rädsla och hopp som två vingar – när de är i jämvikt bär de flygningen framåt; brister den ena, störtar fågeln.[^14] Silvertärnan flyger för att den är skapad att flyga. *Tawakkul* är varken kylig tillförsikt eller förlamande ångest: det är den jämvikt som uppstår när hjärtat slutat väga risker och börjat förlita sig på Honom.
 
 ## En hälsosam osäkerhet
 
@@ -83,7 +83,7 @@ Strindberg, som aldrig landat i en övertygelse utan att genast börja tvivla p�
 
 Det låter som en modern trosbekännelse: osäkerhet som dygd, vaksamhet som livshållning. Men han kallade den "hälsosam", och adjektivet avslöjar honom. Han visste att total trygghet är en annan form av död – att den som försäkrat sig mot allt har förlorat skälet att röra sig.
 
-Med mindre skärpa än Strindberg nådde Beck samma slutsats: ju fler risker vi hanterar, desto fler nya risker föder vi, och desto mer undergräver vi den tillit systemet skulle skapa.[^16] Försäkringen som skulle befria oss från rädsla binder oss vid sig. Den som inte kan gå ut förrän försäkringsbrevet är granskat har bytt herre.
+I en annan tonart nådde Beck samma slutsats: ju fler risker vi hanterar, desto fler nya risker föder vi, och desto mer undergräver vi den tillit systemet skulle skapa.[^16] Försäkringen som skulle befria oss från rädsla binder oss vid sig. Den som inte kan gå ut förrän försäkringsbrevet är granskat har bytt herre.
 
 Alexis de Tocqueville beskrev formen redan 1840: en makt som tryggar medborgarnas behov, sköter deras angelägenheter och steg för steg befriar dem "från besväret att tänka och mödan att leva".[^22]
 
@@ -93,7 +93,7 @@ Ibn Taymiyyah (1300-talet) såg sambandet:
 
 Orden gällde en människa som förlitar sig på härskare, vänner och rikedomar. Men de träffar försäkringssamhället med samma kraft.
 
-Fågeln har medel men ingen herre utom den som formade den. Den förbereder sig – kroppen lagrar fett, fjäderdräkten byts, den biologiska klockan ställs mot rätt breddgrad – men aldrig har den slutit ett avtal med tillvaron. Resan är förberedd, aldrig garanterad. Och fågeln flyger ändå.
+Fågeln har medel men ingen herre utom sin Skapare. Den förbereder sig – kroppen lagrar fett, fjäderdräkten byts, den biologiska klockan ställs mot rätt breddgrad – men aldrig har den slutit ett avtal med tillvaron. Resan är förberedd, aldrig garanterad. Och fågeln flyger ändå.
 
 ## Fågel Jag
 

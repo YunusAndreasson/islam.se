@@ -5,7 +5,7 @@ wordCount: 1802
 qualityScore: 8.7
 description: "I en riksdagsmotion från 2024 formulerar Hans Eklind en ovanlig åtskillnad: kyrkklockor är en 'oartikulerad ljudsignal', medan böneutropet innehåller 'artikulerade ord med ett religiöst budskap'. Två religiösa ljud i det offentliga rummet ska alltså behandlas olika – för att det ena bär ord."
 ---
-Kyrkklockor ringer från torn i varje svensk stad, varje söndag, stundom dagligen. Tungt, metalliskt, över 100 decibel.[^1] Ingen riksdagsmotion kräver deras tystnad.
+Kyrkklockor ringer från torn i varje svensk stad, varje söndag, ibland dagligen. Tungt, metalliskt, över 100 decibel.[^1] Ingen riksdagsmotion kräver deras tystnad.
 
 Böneutropet har hörts offentligt vid en handfull tillfällen, från en enda moské, med polistillstånd och uppmätta ljudnivåer. Det utlöste riksdagsmotioner, rikstäckande nyhetsbevakning och en debatt som aldrig uteblir.[^2]
 
@@ -21,11 +21,11 @@ Två religiösa ljud i det offentliga rummet ska alltså behandlas olika för at
 
 Ordningslagen, som reglerar böneutrop genom krav på polistillstånd, är blind för innehåll; den hanterar ljudnivåer, inte teologi.[^6] Motionerna försöker införa något den befintliga rättsordningen saknar: en gräns dragen efter vad ljudet *betyder*. Lagstiftaren byggde ett regelverk för decibel; politikerna vill bygga ett för mening.
 
-Skillnaden mellan passiva och aktiva religiösa symboler har stöd i europeisk rätt. Europadomstolens stora kammare fastslog samma grundsats i *Lautsi mot Italien*: att ett krucifix i ett klassrum var en "väsentligen passiv symbol" – religiös form utan aktivt tilltal.[^18] Domstolen skyddar krucifixet genom att tömma det: det tolereras *för att* det inte längre talar. *Adhān* kan inte få samma skydd, för det ingrepp som skulle krävas skulle förstöra det inifrån.
+Skillnaden mellan passiva och aktiva religiösa symboler har stöd i europeisk rätt. Europadomstolens stora kammare fastslog samma grundsats i *Lautsi mot Italien*: att ett krucifix i ett klassrum var en "väsentligen passiv symbol" – religiös form utan aktivt tilltal.[^18] Domstolen skyddar krucifixet genom att tömma det: det tolereras *för att* det inte längre talar. *Adhān* kan inte få samma skydd, för att tömma det på samma sätt skulle förstöra det inifrån.
 
 ## Ljudets kropp, ordets själ
 
-*Adhān* är mer än ljud för att det är mer än signal: utropet är en hopträngd trosbekännelse. *Allāhu akbar* – Gud är störst. *Ashhadu an lā ilāha illā Allāh ﷻ* – jag vittnar att det inte finns någon gud [värdig dyrkan] utom Gud. *Ḥayya ʿalā al-ṣalāh* – kom till bön. Varje fras är ett påstående om verklighetens natur. Det går inte att höra *adhān* utan att höra ett *argument*.
+*Adhān* är mer än ljud för att det är mer än signal: utropet är en hopträngd trosbekännelse. *Allāhu akbar* – Gud är störst. *Ashhadu an lā ilāha illā Allāh ﷻ* – jag vittnar att det inte finns någon gud [värdig dyrkan] utom Gud. *Ḥayya ʿalā al-ṣalāh* – kom till bön. Varje fras är ett påstående om verklighetens natur. Det går inte att höra *adhān* utan att höra ett *anspråk*.
 
 Koranen befäster bandet mellan rop och tro:
 
@@ -43,13 +43,13 @@ I *al-Radd ʿalā al-Manṭiqiyyīn* förtydligas åtskillnaden:
 
 > Det hörbara ljudet från tjänaren är tjänarens ljud, men det förmedlade talet är Skaparens tal.[^9]
 
-Böneutroparens röst är mänsklig, vacker eller hes, stark eller svag. Men *adhān* är en dubbel händelse: ett fysiskt ljud som rymmer ett budskap bortom det fysiska. Det faller mellan *ljud* och *tal*, och regelverket är byggt för det ena men saknar redskap för det andra.
+Böneutroparens röst är mänsklig, vacker eller hes, stark eller svag. Men *adhān* är en dubbel händelse: ett fysiskt ljud som rymmer ett budskap bortom det fysiska. Det är på en gång *ljud* och *tal*, och regelverket är byggt för det ena men saknar redskap för det andra.
 
 ## Klockans tysta reformation
 
 Kyrkklockor har sin historia; de har ringt för pest och krig, för döda och nyfödda. De kallades *Guds basuner*.[^10] Svenska kyrkan praktiserar fortfarande *angelusringning* och *själaringning* – klockan som ringer för den döende. Det religiösa skiktet skymtar ännu.
 
-Men något har försvunnit: reformationen sopade bort den katolska kyrkans verbala ceremonier kring klockorna. Invigningsriterna försvann, de böner som gav varje klocka ett namn och ett uppdrag. Kvar blev ett ljud som signalerar utan att artikulera. Klockan säger varken *vad* den kallar till eller *vem* som kallar – ohörbar för medvetandet, om än inte för örat. Man förnimmer den över maten, över samtalet. Den ringer, men den kallar inte.
+Men något har försvunnit: reformationen sopade bort den katolska kyrkans verbala ceremonier kring klockorna. Invigningsriterna avskaffades, de böner som gav varje klocka ett namn och ett uppdrag. Kvar blev ett ljud som signalerar utan att artikulera. Klockan säger varken *vad* den kallar till eller *vem* som kallar – hörbar för örat, obemärkt av medvetandet. Man hör den utan att lyssna, över maten, över samtalet. Den ringer, men den kallar inte.
 
 Strindberg fångar förvandlingen i *Inferno*:
 

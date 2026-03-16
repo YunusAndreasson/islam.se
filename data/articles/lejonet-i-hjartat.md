@@ -39,7 +39,7 @@ Och i sura al-Ḥadīd:
 
 Här reser sig invändningen: är detta inte cirkulärt? Subjektiv visshet om klarsyn präglar också tankens skevheter. Det som *känns* som klarhet kan vara förankringseffekt, tillgänglighetsskevhet, bekräftelsesökning.
 
-Den islamiska traditionen saknar inte dem som ifrågasatt *firāsah* som kunskapskategori. Deras invändningar vilade ofta på rationalistiska förutsättningar som traditionen själv avvisade. De underkände den andliga erfarenhetens vittnesbörd på förhand, i stället för att pröva den mot uppenbarelsen.
+Inom den islamiska traditionen har *firāsah* som kunskapskategori också ifrågasatts. Invändningarna vilade ofta på rationalistiska förutsättningar som traditionen själv avvisade. De underkände den andliga erfarenhetens vittnesbörd på förhand, i stället för att pröva det mot uppenbarelsen.
 
 Men den tradition Ibn Qayyim företräder duckar inte. Han insisterar på att *firāsah* måste prövas mot Koranen och *Sunnah*; den står aldrig ensam som auktoritet.[^12] Shāh al-Kirmānī, som Ibn Qayyim ofta anför som föredöme, villkorade klarsynen med fyra handlingar: att följa Profetens ﷺ sedvänja i sitt yttre, att upprätthålla ständig hågvakt, att sänka blicken från det förbjudna och att äta det tillåtna.[^13]
 

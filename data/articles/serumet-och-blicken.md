@@ -23,7 +23,7 @@ Den frampressade sanningen är redan sönder, skild från det fria val som ger d
 
 ## Tanken under övervakning
 
-Foucaults panoptikon – fängelset där fångarna aldrig vet om de iakttas och därför alltid antar att de gör det – är standardbilden av övervakningssamhället.[^3] *Kallocain* går längre. Panoptikonen styr beteende; Kallocainet tränger in i tanken.
+Foucaults panoptikon – fängelset där fångarna aldrig vet om de iakttas och därför alltid antar att de gör det – är den gängse bilden av övervakningssamhället.[^3] *Kallocain* går längre. Panoptikonen styr beteende; Kallocainet tränger in i tanken.
 
 Spiralen – rädslan för avslöjande föder ensamhet, ensamheten djupare rädsla – får Boye att skriva:
 
@@ -67,13 +67,13 @@ Carl von Linné sökte samma sak med andra redskap. I hemlighet skrev han ett ma
 
 > Gud ser alt och hörer alt.[^13]
 
-Linnés Gud är varken Kallocainets övervakare eller Koranens *al-Raḥmān* utan en kall, lagbunden rättvisa – "moralens ekologi", som Sten Lindroth kallade den.[^14] "Alla gå hem och slå sig för sitt hröst, märkandes, att Herren ser wåra intriguer," skriver Linné med sin omisskännliga blandning av fromhet och empirism.[^15] Rättvisans maskineri ser till att den som syndar straffas, inte genom mirakel utan genom orsak och verkan.
+Linnés Gud är varken Kallocainets övervakare eller Koranens *al-Raḥmān* utan en kall, lagbunden rättvisa – "moralens ekologi", som Sten Lindroth kallade den.[^14] "Alla gå hem och slå sig för sitt hröst, märkandes, att Herren ser wåra intriguer," skriver Linné med sin omisskännliga blandning av fromhet och empirism.[^15] Rättvisans maskineri gör att den som syndar straffas, inte genom mirakel utan genom orsak och verkan.
 
-Linné stannar halvvägs mellan Boye och den islamiska traditionen. Han delar grundsatsen – Gud ser allt – men drar slutsatsen vedergällning, inte befrielse. Ett moraliskt maskineri som bokför överträdelsen men saknar förmåga att förlåta den som överträder. Förlåtelsen bryter kedjan. Den möjligheten vänder allvetandet från hot till tillit. Guds allvetande är inte främst ett straffhot utan grunden för en förbindelse: möjligheten att stå naken inför Skaparen, inte för att skammen saknas utan för att den som ser också förlåter.
+Linné stannar halvvägs mellan Boye och den islamiska traditionen. Han delar grundsatsen – Gud ser allt – men drar slutsatsen vedergällning, inte befrielse. Ett moraliskt maskineri som bokför överträdelsen men inte kan förlåta den som överträder. Förlåtelsen bryter kedjan. Den möjligheten vänder allvetandet från hot till tillit. Guds allvetande är inte främst ett straffhot utan grunden för ett band: möjligheten att stå naken inför Skaparen, inte för att skammen saknas utan för att den som ser också förlåter.
 
 ## Frihet genom genomskinlighet
 
-*Kallocain* slutar i mörker. Leo Kall skriver sina memoarer i en fångenskap som är mer inre än yttre – fångad av insikten att han förstört det han mest behövde. Linda försvinner ur berättelsen. Rissen avrättas.
+*Kallocain* slutar i mörker. Leo Kall skriver sina memoarer i en fångenskap snarare inre än yttre – fångad av insikten att han förstört det han mest behövde. Linda försvinner ur berättelsen. Rissen avrättas.
 
 Boye lämnar frågan öppen: finns det en genomskinlighet som inte förstör?
 

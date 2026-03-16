@@ -5,7 +5,7 @@ wordCount: 2206
 qualityScore: 8.7
 description: "Sockenkyrkan låg alltid mitt i byn – samhällets tyngdpunkt. Islam bygger inte på en plats utan på en riktning. Var du än befinner dig räcker det att veta åt vilket håll."
 ---
-Sockenkyrkan låg alltid mitt i byn – samhällets tyngdpunkt, den punkt kring vilken allt annat ordnades. Strindberg fångar det i en enda bild från *Inferno*: "Man far uppför en två kilometer lång backe, och ankommen till höjden ser man utöver en rund dal... I mitten av denna tratt ligger byn med sin kyrka."[^1] Kyrkan definierar landskapet, landskapet binder gemenskapen, gemenskapen formar den enskilda människan.
+Sockenkyrkan låg alltid mitt i byn – samhällets tyngdpunkt, det centrum kring vilket allt annat ordnades. Strindberg fångar det i en enda bild från *Inferno*: "Man far uppför en två kilometer lång backe, och ankommen till höjden ser man utöver en rund dal... I mitten av denna tratt ligger byn med sin kyrka."[^1] Kyrkan definierar landskapet, landskapet binder gemenskapen, gemenskapen formar den enskilda människan.
 
 Denna rumsliga ordning vilar på en outtalad grundsats: att det heliga kräver en plats – en upphöjd punkt, ett avgränsat rum, en byggnad som skiljer heligt från vardagligt. Erik Gustaf Geijer satte ord på följden redan på 1810-talet:
 
@@ -31,7 +31,7 @@ Under de första åren i Medina bad muslimerna mot Jerusalem, samma riktning som
 
 > Vi ser hur ditt ansikte gång på gång vänts mot himlen, så Vi skall vända dig mot en böneriktning som du blir nöjd med. Vänd ditt ansikte mot den Helgade moskén; ja, var ni än befinner er skall ni vända era ansikten mot den.[^6]
 
-Bytet från Jerusalem till Mecka var en teologisk deklaration: den muslimska gemenskapen definieras av sin egen riktning, sin egen geografi. Koranen säger det rakt ut: "Vi gjorde endast bytet av den böneriktning du iakttog för att utskilja den som följer Sändebudet från den som vänder på klacken."[^7] *Qiblah*-bytet var ett prov. De som böjde sig för den nya riktningen tillhörde gemenskapen; de som inte kunde stod utanför. Ibn Kathīr återger hur den första bönen i den nya riktningen var eftermiddagsbönen. En man som bett med Profeten ﷺ gick förbi en annan moské vars församling stod böjda i bön och ropade: "Jag svär vid Gud, jag har just bett med Profeten ﷺ vänd mot Mecka!" – och mitt i bönen vände de sig mot Kaʿbah.
+Bytet från Jerusalem till Mecka var en teologisk deklaration: den muslimska gemenskapen definieras av sin egen riktning, sin egen geografi. Koranen säger det rakt ut: "Vi gjorde endast bytet av den böneriktning du iakttog för att utskilja den som följer Sändebudet från den som vänder på klacken."[^7] *Qiblah*-bytet var ett prov. De som böjde sig för den nya riktningen tillhörde gemenskapen; de som inte kunde stod utanför. Ibn Kathīr återger att den första bönen i den nya riktningen var eftermiddagsbönen. En man som bett med Profeten ﷺ gick förbi en annan moské vars församling stod böjd i bön och ropade: "Jag svär vid Gud, jag har just bett med Profeten ﷺ vänd mot Mecka!" – och mitt i bönen vände de sig mot Kaʿbah.
 
 Hade det heliga bott i platsen hade bytet varit en förlust. Det är inte kompassnålens slutpunkt som helgar, utan den bedjandes underkastelse under befallningen.
 
@@ -39,7 +39,7 @@ Hade det heliga bott i platsen hade bytet varit en förlust. Det är inte kompas
 
 Hur exakt måste riktningen vara?
 
-Ibn Taymiyyah anför i *al-Radd ʿalā al-Manṭiqiyyīn* Följeslagarnas sedvänja. Damaskusmoskén, som Följeslagarna själva bad i, avviker en aning från exakt riktning mot Kaʿbah. Det var av vishet:
+Ibn Taymiyyah anför i *al-Radd ʿalā al-Manṭiqiyyīn* Följeslagarnas sedvänja. Damaskusmoskén, som Följeslagarna själva bad i, avviker en aning från exakt riktning mot Kaʿbah. Det skedde med avsikt:
 
 > Det har aldrig rapporterats att Följeslagarna ålade folk att i bönen beräkna exakt efter Polstjärnan... Den som befinner sig i Syrien och liknande områden behöver bara vända väster om sin högra sida och öster om sin vänstra, och hans bön är giltig. Ty Allah ﷻ har bara befallt att man vänder sig mot den Helgade moskéns sida.[^8]
 
@@ -47,7 +47,7 @@ Nyckeln är ordet *shaṭr* – "sida", "allmän riktning". Gud befaller att man
 
 > Genom de kända metoder som Följeslagarna och deras efterföljare brukade, utan att behöva något annat. Ändå har många människor infört nya metoder, och många av dem tror att man inte kan förstå den religiösa lagen utan dessa – och detta beror på deras okunnighet.[^9]
 
-Kan den bedjande inte avgöra riktningen alls använder han sitt omdöme, sin *ijtihād*, och bönen förblir giltig.[^10] Han står där han står och gör sitt bästa.
+Kan den bedjande inte alls avgöra riktningen använder han sitt omdöme, sin *ijtihād*, och bönen förblir giltig.[^10] Han står där han står och gör sitt bästa.
 
 ## Plats och riktning
 
@@ -89,7 +89,7 @@ Bremers projekt var ett annat: en romantisk syntes, inte en rättslig grundsats.
 
 ## Kompassnålen
 
-Var han än befinner sig behöver den bedjande bara en riktning. Stockholms *qiblah* pekar 157 grader – sydsydost.[^20] Riktningen skär snett genom stadsplanen, struntar i gatunätet, ignorerar tunnelbanans sträckningar. Den löper genom kontorslandskap och parkeringshus, villakök och sjukhuskorridorer, genom varenda kvadratmeter av ett samhälle som byggt sin rumsordning kring andra principer.
+Var han än befinner sig behöver den bedjande bara en riktning. Stockholms *qiblah* ligger på 157 grader – sydsydost.[^20] Riktningen skär snett genom stadsplanen, struntar i gatunätet, ignorerar tunnelbanans sträckningar. Den löper genom kontorslandskap och parkeringshus, villakök och sjukhuskorridorer, genom varenda kvadratmeter av ett samhälle som byggt sin rumsordning kring andra principer.
 
 Polyhistorn al-Bīrūnī (d. 1048) utarbetade trigonometriska metoder för *qiblah*-beräkning från varje punkt på jorden.[^21] Men Ibn Taymiyyah insisterade: Följeslagarnas enkla metoder räckte. Att kräva en exakt koordinat vore att förvandla riktning till punkt, kompassbäring till adress – att återinföra den platslogik systemet avvisar.
 

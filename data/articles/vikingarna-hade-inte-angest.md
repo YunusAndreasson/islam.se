@@ -23,7 +23,7 @@ Nornornas dom är given. Men inom den givna ramen står människan fri att handl
 
 > Där kunde han visa sin fria vilja; och sålunda lämnade ödets blinda, obevekliga natur inget utrymme för något ångestfyllt grubblande över ting som en gång för alla var bestämda att ske.[^3]
 
-Moderna forskare har ifrågasatt hur absolut denna fatalism var; Magnus Magnusson menade att Njáll inte är fatalist i hednisk mening; Thorsteinn Gylfason avvisar fatalismen helt. Mönstret håller ändå: den som godtar en given ram slipper grubblet.
+Moderna forskare har ifrågasatt hur absolut denna fatalism var. Magnus Magnusson menade att Njáll inte är fatalist i hednisk mening; Thorsteinn Gylfason avvisar fatalismen helt. Grundmönstret består ändå: den som godtar en given ram slipper grubblet.
 
 ## Det tomrum som friheten lämnade
 
@@ -53,7 +53,7 @@ Och:
 
 Över utfallet råder människan inte. Så långt liknar *al-qadr* Orlog. Men Orlog saknar det bärande. Nornornas lag är opersonlig – blind, obeveklig, utan barmhärtighet.
 
-*Tawakkul*, tillit till Allah ﷻ, är människans svar på *al-qadr*, liksom nordisk tapperhet var svaret på Orlog. Men den troende vilar i något helt annat: en relation till den som är *al-Raḥmān*, *al-Raḥīm* – den Barmhärtige, den Nåderike.
+*Tawakkul*, tillit till Allah ﷻ, är människans svar på *al-qadr*, liksom nordiskt lugn var svaret på Orlog. Men den troende vilar i något väsensskilt: en relation till den som är *al-Raḥmān*, *al-Raḥīm* – den Barmhärtige, den Nåderike.
 
 Ibn Qayyim al-Jawziyyah definierade *tawakkul* som "hjärtats fulla förlitan på Allah ﷻ allena".[^9] Men *tawakkul* har ofta missförståtts som passivitet. Ibn Qayyim avvisade det:
 
@@ -77,7 +77,7 @@ Boye nådde insikten men kunde inte stanna kvar i den. Överlåtelse utan mottag
 
 > Jag vet inte vem – eller vad – som ställde frågan, jag vet inte när den ställdes. Jag minns inte att jag svarade. Men en gång svarade jag ja till någon – eller något – och från den stunden har jag varit viss om att tillvaron är meningsfull och att mitt liv, i underkastelse, har ett mål.[^17]
 
-Vikingarna vilade i det givna, men deras ordning var kall och opersonlig. Den moderna svensken saknar båda.
+Vikingarna vilade i det givna, men deras ordning var kall och opersonlig. Den moderna svensken saknar både vila och ordning.
 
 Koranen varnar för vad som händer när tillit fästs vid det skapade istället för Skaparen:
 
@@ -87,7 +87,7 @@ I *Tusen och en natt* får följden gripbar gestalt. En besegrad furste uppsöke
 
 > Därför att du satte din lit till dina truppernas antal och inte förlitade dig på Allah ﷻ den Allrahögste. Hade du satt din lit till den Allsmäktige, hade din fiende aldrig kunnat besegra dig.[^15]
 
-Gunnar på Hlíðarendi vände sig i sadeln. Hans lugn sprang ur vissheten att nornorna redan avgjort. Den troende vänder sig mot *qiblah*. Hans ro vilar i förvissningen att den som avgjort är *al-Raḥmān* – den Barmhärtige.
+Gunnar på Hlíðarendi vände sig i sadeln. Hans lugn sprang ur vissheten att nornorna redan avgjort. Den troende vänder sig mot *qiblah*. Hans ro vilar i förvissningen att den som avgjort utgången är *al-Raḥmān* – den Barmhärtige.
 
 ---
 

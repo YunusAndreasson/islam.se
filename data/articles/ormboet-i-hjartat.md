@@ -43,11 +43,11 @@ Iblis vägrade buga inför Adam av ren avund: hur kunde denna varelse av lera f�
 
 ## Ormboet
 
-Viktor Rydberg gav avunden en bild som ekar de islamiska lärdas:
+Viktor Rydberg gav avunden en bild som ger eko av de islamiska lärdas beskrivningar:
 
 > Svartsjukan är en gruvlig plåga, Rakel. Tacka din Gud, att hon icke hemsökt dig. Hon förvandlar hjärtat till ett ormbo, varur tusen giftiga gaddar framsticka och sarga vårt inre.[^10]
 
-Ormboet, inte en ensam orm som bits en gång utan ett helt bo, en myllrande källa till gift som oupphörligt alstrar nytt. Ibn Ḥibbān, den hadithlärde, för bilden från boet till branden:
+Ormboet, inte en ensam orm som bits en gång utan ett helt bo som myllrar, en källa till gift som oupphörligt alstrar nytt. Ibn Ḥibbān, den hadithlärde, för bilden från boet till branden:
 
 > Varje brand har något som kan släcka den, men avundens eld kan inte släckas.[^11]
 
@@ -65,7 +65,7 @@ Boyes berättare avundas inte rikedom eller status utan ett *ögonblick av hög 
 
 ## Självförgiftningen
 
-Max Scheler kallade det *Selbstvergiftung*, självförgiftning: avund som omformar hela värdeskalan så att det man inte kan uppnå förklaras som värdelöst.[^14] Befordran betydde allt tills den gick till en kollega; då blev ledarskap fåfäng byråkrati.
+Max Scheler kallade det *Selbstvergiftung*, självförgiftning: avund som omformar hela värdeskalan så att det man inte kan uppnå förklaras som värdelöst.[^14] Befordran betydde allt tills den gick till en kollega; då blev ledarskap meningslöst.
 
 Scheler kan beskriva drivverket men inte upphäva det. Om den drabbades egen värdeblick är förgiftad finns i hans tänkande ingen oförstörd punkt varifrån det förvridna kan rättas. Den islamiska traditionen förutsätter en sådan fast punkt, *fiṭrah*, den skapade naturen, och ett mått utanför själen: Guds fördelning. Därför kan traditionen gå från beskrivning till läkning.
 
@@ -79,7 +79,7 @@ Den islamiska traditionen gör en åtskillnad som modern psykologi först sent b
 
 Skillnaden är till art, inte grad. *Ghibṭah* ser en annans välsignelse och tänker: "Må Allah ﷻ ge mig liknande." *Ḥasad* ser samma välsignelse: "Må den tas ifrån honom."
 
-En experimentell studie i *Emotion* 2009 visade att avunden rymmer två kvalitativt skilda känslor: en som driver självförbättring, en som söker den andres fall.[^24]
+En experimentell studie i *Emotion* (2009) visade att avunden rymmer två kvalitativt skilda känslor: en som driver självförbättring, en som söker den andres fall.[^24]
 
 Al-Ḥasan al-Baṣrī, asketen från Basra, erbjöd tröst med en avgörande nyansering:
 
@@ -109,7 +109,7 @@ Och botemedlet:
 
 > När hjärtorna vänds mot sanningen och avvisar världen, blir de enade i sin syn. Avundsjukan försvinner och meningsskiljaktigheterna blir få.[^21]
 
-Avunden behöver jämförelsen för att andas. Den som slutar mäta sig mot andra och börjar mäta sig mot sina löften till Gud tar syret från avunden.
+Avunden behöver jämförelsen för att andas. Den som slutar mäta sig mot andra och börjar mäta sig efter sina löften till Gud tar syret från avunden.
 
 Al-Māwardī avslutade:
 

@@ -11,7 +11,7 @@ Fjorton sekel senare har vi byggt något som ger ʿUmars klagan kropp: algoritme
 
 ## Två pelare, en tom plats
 
-Ibn Taymiyyah omsatte ʿUmars klagan i ett politiskt system. I *al-Siyāsah al-Sharʿiyyah*, hans avhandling om rättvis styrning, hävdar han att varje ämbete vilar på två pelare: *quwwah* – styrka, duglighet, förmåga att verkställa – och *amānah* – pålitlighet, trovärdighet, det inre rättesnöre som betvingar makten.[^2]
+Ibn Taymiyyah omsatte ʿUmars klagan i ett politiskt system. I *al-Siyāsah al-Sharʿiyyah*, hans avhandling om rättvis styrning, hävdar han att varje ämbete vilar på två pelare: *quwwah* – styrka, duglighet, förmåga att verkställa – och *amānah* – pålitlighet, trovärdighet, det inre rättesnöre som tyglar makten.[^2]
 
 > Att styrka och pålitlighet förenas i samma person är sällsynt bland människor.[^3]
 
@@ -25,7 +25,7 @@ I den svenska välfärdsstaten fick avvägningen handgripliga följder. I novemb
 
 Redan 2013 hade Försäkringskassan infört modellen. År 2018 konstaterade Inspektionen för socialförsäkringen att algoritmen "i sin nuvarande utformning inte uppfyller kravet på likabehandling".[^10] Försäkringskassan avfärdade slutsatserna. Först sex år senare – efter internationell granskning och offentlig skandal – drogs systemet tillbaka.
 
-Ibn Taymiyyahs uppdelning förtydligar: algoritmens *quwwah* kunde ingen betvivla. Bristen låg i *amānah*. Utan insyn förstärkte kraften de ojämlikheter den var tänkt att rätta. En svag tjänsteman gör begränsad skada – hans oförmåga sätter gränser för hans orättvisa. En algoritm som fattar miljontals beslut utan att kunna förklara ett enda skapar orättvisa i en skala ingen tjänsteman ensam kan uppnå.
+Ibn Taymiyyahs uppdelning förtydligar: algoritmens *quwwah* kunde ingen betvivla. Bristen låg i *amānah*. Utan insyn förstärkte kraften de ojämlikheter den var tänkt att rätta. En svag tjänsteman gör begränsad skada – hans oförmåga tyglar hans orättvisa. En algoritm som fattar miljontals beslut utan att kunna förklara ett enda skapar orättvisa i en skala ingen tjänsteman ensam kan uppnå.
 
 Problemet är inte nytt. Norbert Wiener pekade redan 1960 ut samma mönster:
 
@@ -39,7 +39,7 @@ En medborgare som vänder sig till en myndighet ingår ett förtroendeavtal äld
 
 > Allah ﷻ befaller er att återlämna allt ni anförtrotts till dess rättmätiga ägare och att, när ni dömer mellan människor, döma med rättvisa.[^11]
 
-Ibn Kathīr anför en profettradition: "Fullgör förtroendeuppdraget gentemot den som anförtrott dig, och förråd inte den som förråder dig." En algoritm som fattar rätt i sjuttio procent av fallen men saknar förmåga att redogöra för något av dem uppfyller möjligen ett krav på slagkraft men inte *amānah*.
+Ibn Kathīr anför en profettradition: "Fullgör förtroendeuppdraget gentemot den som anförtrott dig det, och förråd inte den som förråder dig." En algoritm som fattar rätt i sjuttio procent av fallen men saknar förmåga att redogöra för något av dem uppfyller möjligen ett krav på slagkraft men inte *amānah*.
 
 Tom Tyler har visat att människors tillit till institutioner beror mindre på beslutens korrekthet än på processens upplevda rättvisa.[^19] Ett system som fattar rätt beslut utan att kunna visa det förlorar sin auktoritet snabbare än ett som felar öppet.
 
@@ -59,9 +59,9 @@ En algoritm som inte kan granskas är en våg utan visare. Den väger men ingen 
 
 ## Vem bär den blinda vågen?
 
-Selma Lagerlöf slog fast grundsatsen med nordisk knapphet: "Riket är bättre betjänt med människor än med pengar."[^20] Ellen Key skrev 1900 att "människorna äro till för industriens skull, icke industrien för människornas".[^16] I dag är industrien algoritmen.
+Selma Lagerlöf slog fast grundsatsen med nordisk knapphet: "Riket är bättre betjänt med människor än med pengar."[^20] Ellen Key skrev 1900 att "människorna äro till för industriens skull, icke industrien för människornas".[^16] I dag är industrin algoritmen.
 
-Men skillnaden är avgörande. Industrins orättvisor var synliga: fabriksrök, barnarbete, söndersmulade kroppar. Algoritmens orättvisor är osynliga. En kvinna vars föräldrapenningsansökan markeras av en maskininlärningsmodell vet varken att det skett eller varför. Industrins orättvisor rättades *utifrån*, genom den samlade vrede som synligt lidande väckte. Algoritmisk orättvisa kan inte alstra sin egen rättelse. Där orättvisan är osynlig måste ansvaret vara inbyggt.
+Men skillnaden är avgörande. Industrins orättvisor var synliga: fabriksrök, barnarbete, söndersmulade kroppar. Algoritmens orättvisor är osynliga. En kvinna vars föräldrapenningsansökan markeras av en maskininlärningsmodell vet varken att hon har markerats eller varför. Industrins orättvisor rättades *utifrån*, genom den samlade vrede som synligt lidande väckte. Algoritmisk orättvisa kan inte alstra sin egen rättelse. Där orättvisan är osynlig måste ansvaret vara inbyggt.
 
 Koranen beskriver *al-amānah* som så tung att himlarna, jorden och bergen vägrade bära den. Människan axlade den.[^17] Sedan glömde hon vad hon bar.
 

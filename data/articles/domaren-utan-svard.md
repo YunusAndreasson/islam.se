@@ -15,7 +15,7 @@ Sjuhundra år innan Montesquieu lade fram sin maktdelningslära i *De l'esprit d
 
 Abū al-Ḥasan al-Māwardī (974–1058) var överdomare i det abbasidiska kalifatet under en tid då den politiska makten redan hade börjat glida ur kalifens händer och in i sultanernas.[^1] Hans *al-Aḥkām al-Sulṭāniyyah* – ett av den islamiska rättens mest inflytelserika verk – kan läsas som ett försök att ordna gränser för makt just när makten var som mest oreglerad.
 
-Al-Māwardī var jurist, inte politisk filosof; han kartlade gränser som ämbetena redan bar. Patricia Crone och Wael Hallaq har varnat för att lägga nutida maktdelningsbegrepp över medeltida islamisk rättsteori.[^2] Invändningen är befogad. Ändå är al-Māwardīs kartläggning angelägen – inte för att den liknar Montesquieu utan för att den skiljer sig.
+Al-Māwardī var jurist, inte politisk filosof; han kartlade gränser som redan fanns inbyggda i ämbetena. Patricia Crone och Wael Hallaq har varnat för att projicera nutida maktdelningsbegrepp på medeltida islamisk rättsteori.[^2] Invändningen är befogad. Ändå är al-Māwardīs kartläggning angelägen – inte för att den liknar Montesquieu utan för att den skiljer sig från honom.
 
 Inom rättsväsendet urskilde han tre instanser med skarpt avgränsade befogenheter: *qaḍāʾ*, *ḥisbah* och *maẓālim*.
 
@@ -25,7 +25,7 @@ Klagomålsdomstolen, *maẓālim*, kräver tvångsmakt. Al-Māwardī beskrev den
 
 > leder de förtryckande till rättvisa genom fruktan och avhåller de tvistande från förnekelse genom sin auktoritet.[^5]
 
-Men även denna makt har gränser: "*Maẓālim* tillåter inte av sina domar det som den heliga lagen har förbjudit."[^6]
+Men även denna makt har gränser: "*Maẓālim* tillåter inte i sina domar det som den heliga lagen har förbjudit."[^6]
 
 ## Mitt emellan domstol och polis
 
@@ -47,7 +47,7 @@ Söderberg var kallare:
 
 > Domare äro människor och kunna misstaga sig. Det är sannolikt att många blifva oskyldigt dömda.[^13]
 
-Båda pekar på samma sårbarhet: när samma hand utreder, anklagar och dömer, skymmer makten den rättvisa den skulle tjäna. Al-Māwardīs *ḥisbah* bryter ordningen: en instans som urskiljer det onda men saknar makt att straffa det. Att läsa detta som kritik av det moderna åklagarväsendet vore anakronistiskt, men uppdelningen blottlägger en svaghet som ännu består.
+Båda pekar på samma sårbarhet: när samma hand utreder, anklagar och dömer, skymmer makten den rättvisa den är satt att tjäna. Al-Māwardīs *ḥisbah* bryter ordningen: en instans som urskiljer det onda men saknar makt att straffa det. Att läsa detta som kritik av det moderna åklagarväsendet vore anakronistiskt, men uppdelningen blottlägger en svaghet som består än idag.
 
 Ibn Taymiyyah skärpte grundsatsen: varje ämbetes medel begränsas till det egna området.[^14] Domaren arbetar med vittnen och skriftliga bevis. Svärdet tillhör det militära befälet. Muhtasiben har befogenheter som "inte tillhör vare sig härskarna, domarna eller ämbetsmännen".[^15] Rättvisan hotas inte främst av dem som vill göra ont utan av dem som vill göra gott med för mycket makt.
 
@@ -69,7 +69,7 @@ Abū Bakr al-Ṣiddīq, den förste kalifen efter Profeten ﷺ, kungjorde grunds
 
 > Den starkaste bland er är i mina ögon den svagaste tills jag har tagit hans rätt ifrån honom, och den svagaste bland er är i mina ögon den starkaste tills jag har gett honom hans rätt.[^18]
 
-Ibn Khaldūn slog fast grundsatsen i sin *Muqaddimah*:
+Ibn Khaldūn uttryckte det i sin *Muqaddimah*:
 
 > Rättvisa är en balans som upprättas bland människorna. Herren upprättade den och utsåg en övervakare för den, och den övervakaren är härskaren.[^19]
 

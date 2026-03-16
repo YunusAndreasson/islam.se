@@ -5,11 +5,11 @@ wordCount: 1831
 qualityScore: 8.7
 description: "Oscar Levertin studerade 1898 den antike materialisten Lucretius och fann att den som med störst lidelse förnekar gudarna avslöjar att behovet av dem överlever förnekelsen. Iakttagelsen blev den svenska hållningens grundformel – en religiositet som överlever varje religion men aldrig frågar varifrån den kommer."
 ---
-Oscar Levertin skrev 1898 en mening som sammanfattar den svenska hållningen rörande religion bättre än någon opinionsundersökning:
+Oscar Levertin skrev 1898 en mening som sammanfattar den svenska hållningen till religion bättre än någon opinionsundersökning:
 
 > Verkligheten kan kanske undvara religion, men säkert ej religiositet.[^1]
 
-Levertin visste vad han talade om. Som litteraturhistoriker, och som jude i det protestantiska Sverige, ägde han utomståendes blick. Han studerade Lucretius – den antike materialisten som försökte befria människan från gudsfruktan – och fann att Lucretius själv var genomsyrad av det han ville avskaffa. Levertin konstaterade:
+Levertin visste vad han talade om. Som litteraturhistoriker, och som jude i det protestantiska Sverige, ägde han den utomståendes blick. Han studerade Lucretius – den antike materialisten som försökte befria människan från gudsfruktan – och fann att Lucretius själv var genomsyrad av det han ville avskaffa. Levertin konstaterade:
 
 > Det är denna religiositet utan religion, denna svärmiska världskult, som Lucretii metafysiska styrka ligger.[^2]
 
@@ -31,7 +31,7 @@ En koranisk vers slår an tonen:
 
 > Ägna hela ditt jag åt religionen som en sann *ḥanīf*! Den är Allahs ﷻ naturliga väg som Han ingjutit i människorna. Ingen förändring skall ske i Allahs ﷻ skapelse.[^9]
 
-*Fiṭrah* – här översatt "naturlig väg" – betecknar den medfödda konstitution med vilken varje människa föds: en orientering mot sin Skapare som föregår all uppfostran och kultur. Anspråket är antropologiskt – djupare än ett teologiskt postulat. Profeten Muḥammad ﷺ formulerade det i en berömd *ḥadīth*:
+*Fiṭrah* – här översatt "naturlig väg" – betecknar den medfödda konstitution varje människa bär: en orientering mot sin Skapare som föregår all uppfostran och kultur. Anspråket är antropologiskt – djupare än ett teologiskt postulat. Profeten Muḥammad ﷺ formulerade det i en berömd *ḥadīth*:
 
 > Varje barn föds med *fiṭrah*; det är föräldrarna som gör det till jude, kristen eller zoroastrier.[^10]
 
@@ -69,7 +69,7 @@ Pascal beskrev, utan tillgång till Ibn Qayyim, en "oändlig avgrund" i människ
 
 Den svenska hållningen svarar: inget. Törsten är sitt eget mål.
 
-Men Söderblom själv kunde inte stanna vid känslan. "Vissheten om lefvande Gud vinna vi genom att äga delaktighet i Guds lif..."[^15] Uppenbarelse, skriver han, "säger att människan är mottagande, att Gud meddelar sig själf".[^16] Hans egen trestegsmodell – oändlighetskänsla, idealdrift, uppenbarelsereligion – bildar en kedja där varje steg föder det nästa. Att stanna vid det andra är, inom hans egen logik, att bryta den progression han själv tecknade.
+Men Söderblom själv kunde inte stanna vid känslan. "Vissheten om lefvande Gud vinna vi genom att äga delaktighet i Guds lif..."[^15] Uppenbarelse, skriver han, "säger att människan är mottagande, att Gud meddelar sig själf".[^16] Hans egen trestegsmodell – oändlighetskänsla, idealdrift, uppenbarelsereligion – bildar en kedja där varje steg föder nästa. Att stanna vid det andra är, inom hans egen logik, att bryta den progression han själv tecknade.
 
 ## Det steg som inte tas
 
@@ -85,7 +85,7 @@ Till den frågan svarar Koranen:
 
 *Ṭumaʾnīnah* – att finna ro, att komma till vila. Hjärtat stannar. Det slutar söka.
 
-Dan Andersson – kolaren, diktaren – uttryckte det med enkel brådska: "Häda inte! När ni fått nog av Gud då är ni förlorad."[^19] En mening som varken Levertin eller Key kunde ha skrivit: den förutsätter att förlusten är verklig, att det som avvisas inte är en känsla utan en förbindelse. Den svenska hållningen – att erkänna religiositeten men inte följa den över en bestämd tröskel – är ärlig; den vägrar bekänna mer än den erfar. Men inom *fiṭrah*s logik pekar religiositeten bortom sig själv, som törst pekar mot vatten. Att stanna vid törsten utan att söka källan är inte oärlighet – det är en ofullbordad resa.
+Dan Andersson – kolaren, diktaren – uttryckte det med enkel brådska: "Häda inte! När ni fått nog av Gud då är ni förlorad."[^19] En mening som varken Levertin eller Key kunde ha skrivit: den förutsätter att förlusten är verklig, att det som avvisas inte är en känsla utan en förbindelse. Den svenska hållningen – att erkänna religiositeten men inte följa den över en bestämd tröskel – är ärlig; man vägrar bekänna mer än man erfar. Men inom *fiṭrah*s logik pekar religiositeten bortom sig själv, som törst pekar mot vatten. Att stanna vid törsten utan att söka källan är inte oärlighet – det är en ofullbordad resa.
 
 ## Oljan utan veke
 

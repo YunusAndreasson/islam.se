@@ -7,7 +7,7 @@ description: "Det finns en fråga ingen hjärnskanning kan besvara: varför *är
 ---
 Den australiske filosofen David Chalmers ställde 1995 en fråga som neurovetenskapen fortfarande inte kan besvara. Inte hur hjärnan bearbetar synintryck, reglerar känslor eller lagrar minnen – sådant kallade han *easy problems*, svåra men i grunden lösbara med befintliga metoder. Hans fråga var av ett annat slag: varför finns det överhuvudtaget en subjektiv upplevelse? Varför är det *något* att vara du?[^1]
 
-Varje neuron kan kartläggas, varje synaps mätas, varje signal spåras. Ändå kvarstår detta: du *upplever* rött när du ser rött, smärta *känns*, det finns ett inre perspektiv som ingen hjärnskanning kan avbilda. Thomas Nagel visade 1974 att vi kan veta allt om en fladdermus' ekolod och ändå inte veta hur det *är* att vara en fladdermus.[^2] Problemet är inte brist på data utan brist på kategori.
+Varje neuron kan kartläggas, varje synaps mätas, varje signal spåras. Ändå kvarstår detta: du *upplever* rött när du ser rött, smärta *känns*, det finns ett inre perspektiv som ingen hjärnskanning kan avbilda. Thomas Nagel visade 1974 att vi kan veta allt om en fladdermus' ekolod och ändå inte veta hur det *är* att vara en fladdermus.[^2] Problemet är inte brist på data utan brist på en begreppslig ram.
 
 ## Mekanikern bakom mekanismen
 
@@ -19,7 +19,7 @@ Två sekler före Strindberg hade Emanuel Swedenborg stött mot samma gräns. So
 
 ## Kunskapens ärliga gräns
 
-Fjorton sekler före Chalmers, nio före Swedenborg, uppenbarades en vers som möter frågan med en annan hållning:
+Fjorton sekler före Chalmers, elva före Swedenborg, uppenbarades en vers som möter frågan med en annan hållning:
 
 > De frågar dig om *al-Rūḥ*. Säg: "*al-Rūḥ* är förbehållet min Herre." Av denna kunskap har ni endast fått en liten del.[^5]
 
@@ -33,15 +33,15 @@ Sinnena förkastar han inte:
 
 > Skapelsen vittnar om Skaparen, och den som betraktar med sitt hjärta ser i varje skapat ting ett bevis.[^8]
 
-Koranen drar upp den bärande åtskillnaden: "Hans är skapelsen och befallningen" (*al-khalq wa-l-amr*).[^9] Kroppen tillhör skapelsen – formad av lera, underkastad naturlagar. Själen tillhör befallningen – instiftad genom Guds direkta ord *kun*. Ibn Qayyim utvecklar detta i *Kitāb al-Rūḥ*: själen är varken identisk med kroppen eller en blott egenskap hos den; den är en självständig skapad verklighet av en annan art.[^10]
+Koranen stakar ut den bärande åtskillnaden: "Hans är skapelsen och befallningen" (*al-khalq wa-l-amr*).[^9] Kroppen tillhör skapelsen – formad av lera, underkastad naturlagar. Själen tillhör befallningen – instiftad genom Guds direkta ord *kun*. Ibn Qayyim utvecklar detta i *Kitāb al-Rūḥ*: själen är varken identisk med kroppen eller bara en egenskap hos den; den är en självständig skapad verklighet av en annan art.[^10]
 
-Förklaringsgapet rymmer en tvetydighet. Är det ett gap i vår *kunskap* eller i *verklighetens ordning*? Kan vi inte förklara medvetandet *ännu*, eller tillhör det en annan verklighetsordning?[^11] Även västerländsk filosofi har snuddat vid gränsen. Wittgenstein nådde sin slutsats genom ren logik: "Subjektet tillhör inte världen utan är en gräns för världen."[^16] Men *Tractatus* mynnar i tystnad om det som ligger bortom gränsen.
+Förklaringsgapet öppnar en avgörande fråga. Är det ett gap i vår *kunskap* eller i *verklighetens ordning*? Kan vi inte förklara medvetandet *ännu*, eller tillhör det en annan verklighetsordning?[^11] Även västerländsk filosofi har snuddat vid gränsen. Wittgenstein nådde sin slutsats genom ren logik: "Subjektet tillhör inte världen utan är en gräns för världen."[^16] Men *Tractatus* mynnar i tystnad inför det som ligger bortom gränsen.
 
 ## Illusionen som bevisar sig själv
 
 Daniel Dennett hävdar att subjektiv upplevelse är en illusion. Medvetande är vad hjärnan *gör*, inte något den *har*.[^12]
 
-Invändningen är lika gammal som argumentet: vem upplever illusionen? Att avfärda medvetandet som skenbart förutsätter ett medvetande som upplever skenet. Levertin satte ord på den gräns vetenskapen här stöter mot:
+Invändningen är lika gammal som argumentet: vem upplever illusionen? Att avfärda medvetandet som illusion förutsätter ett medvetande som upplever illusionen. Levertin satte ord på den gräns vetenskapen här stöter mot:
 
 > Samtidigt blir det också allt klarare för hvar och en, att alla vetenskapens förklaringar och klassifikationer blott äro provisoriska.[^13]
 

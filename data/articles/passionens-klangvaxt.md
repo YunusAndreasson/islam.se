@@ -5,13 +5,13 @@ wordCount: 1673
 qualityScore: 8.7
 description: "I *Doktor Glas* skiljer Hjalmar Söderberg kärleken från drömmen om den, men svenskan ger honom bara ett ord att arbeta med. Redan på 1300-talet hade den damascenske juristen Ibn Qayyim al-Jawziyyah kartlagt närmare sextio arabiska namn, ordnade inte som synonymer utan som stadier, symptom och prognoser."
 ---
-Hjalmar Söderberg såg det tydligt: "Den källan heter icke kärleken, utan den heter: drömmen om kärlek."[^1] Men hans språk gav honom inte redskapet att följa insikten till botten. Vad skiljer kärleken från drömmen om den? Söderberg visste att gränsen fanns. Han hade bara ett ord, *kärlek*, som skall täcka allt: förälderns nattliga vaka, den erotiska besattheten, den tysta troheten som överlever årtionden, den gudomliga hängivenheten. Modersmålet tvingar oss att famla i vantar.
+Hjalmar Söderberg såg det tydligt: "Den källan heter icke kärleken, utan den heter: drömmen om kärlek."[^1] Men hans språk gav honom inte redskapet att följa insikten till botten. Vad skiljer kärleken från drömmen om den? Söderberg visste att gränsen fanns. Han hade bara ett ord, *kärlek*, som skall täcka allt: förälderns nattliga vaka, den erotiska besattheten, den tysta troheten som överlever årtionden, den gudomliga hängivenheten. Modersmålet tvingar oss att famla i mörker.
 
 Sjuhundra år före Söderberg öppnade den damascenske juristen och teologen Ibn Qayyim al-Jawziyyah (d. 1350) sin bok *Rawḍat al-Muḥibbīn*, Älskarnas trädgård, och förtecknade närmare sextio arabiska namn för det vi kallar kärlek.[^2] Inte synonymer. Diagnoser.
 
 ## Namnens vetenskap
 
-Grekiskan hade fyra ord: *eros*, *philia*, *storge*, *agape*. Den anglikanske apologeten C. S. Lewis byggde en hel bok kring dem.[^3] Mer än svenskan, men fortfarande en grov karta. Ibn Qayyims projekt är av ett annat slag: där Lewis ordnar kärleken i fack, dissekerar Ibn Qayyim den som läkare. Han frågar inte "vilken sort?" utan "vart leder den?"
+Grekiskan hade fyra ord: *eros*, *philia*, *storge*, *agape*. Den kristne apologeten C. S. Lewis byggde en hel bok kring dem.[^3] Fler ord än svenskan har, men fortfarande en grov karta. Ibn Qayyims projekt är av ett annat slag: där Lewis ordnar kärleken i fack, dissekerar Ibn Qayyim den som läkare. Han frågar inte "vilken sort?" utan "vart leder den?"
 
 Han motiverar namnrikedomen med en liknelse: tre företeelser föder många ord, det som är farligt som lejonet, det som är nödvändigt som svärdet, det som berör alla som vinet.[^4] Kärleken förenar alla tre.
 
@@ -21,7 +21,7 @@ Förloppet börjar med *al-maḥabbah*, det breda ordet, och passerar genom *al-
 
 *Maḥabbah* är det vanligaste arabiska ordet för kärlek. Ibn Qayyim ger det fyra konkurrerande härledningar, och var och en avtäcker ett lager:
 
-Ordet kan komma från *ṣafāʾ*, renhet, klarhet. Araberna talar om tändernas *ḥabāb*, deras vita glans: kärlek som rening. Eller från *ḥubāb*, det skum som stiger på vattenytan under häftigt regn – då betyder *maḥabbah* hjärtats kokning, dess upprörda svallvåg när det längtar efter den älskade. Eller från *luzūm*, det som sitter fast, som kamelen som lagt sig och vägrar resa sig: den älskande vars hjärta fäst sig vid den älskade och inte rör sig därifrån. Eller från *qalaq*, oro, darrning, som örhängets pendelrörelse i örat – det oupphörliga sökandet.[^6]
+Ordet kan komma från *ṣafāʾ*, renhet, klarhet. Araberna talar om tändernas *ḥabāb*, deras vita glans: kärlek som rening. Eller från *ḥubāb*, det skum som stiger på vattenytan under häftigt regn – då betyder *maḥabbah* hjärtats kokning, den upprörda svallvågen när det längtar efter den älskade. Eller från *luzūm*, det som sitter fast, som kamelen som lagt sig och vägrar resa sig: den älskande vars hjärta fäst sig vid den älskade och inte rör sig därifrån. Eller från *qalaq*, oro, darrning, som örhängets pendelrörelse i örat – det oupphörliga sökandet.[^6]
 
 Och *maḥabbah* är bara första steget.
 
@@ -29,7 +29,7 @@ Och *maḥabbah* är bara första steget.
 
 Högre i ordningen: *al-ʿishq*, det ord som närmast svarar mot vårt "passion". Ibn Qayyim spårar ordet till *ʿashaqah*, en klängväxt som slingrar sig kring träd, suger deras sav och till slut dödar dem.[^7] Etymologin *är* diagnosen. Den som drabbats av *ʿishq* upplever inte stark kärlek utan härbärgerar en parasit.
 
-Den schweiziske kulturfilosofen Denis de Rougemont landade i samma insikt sex sekler senare. I *L'Amour et l'Occident* (1939) blottlägger han att den europeiska passionen, från trubadurerna till Tristan, inte älskar den älskade utan begäret självt. Den kräver hinder för att överleva.[^23] Han saknade ordet *ʿishq*; han behövde en hel bok. Men skillnaden ligger inte bara i omfång. De Rougemonts diagnos är en slutsats, nådd efter hundratals sidor. Ibn Qayyims diagnos bor i själva ordet: den som säger *ʿishq* uttalar varningen innan erfarenheten börjat.
+Den schweiziske kulturfilosofen Denis de Rougemont landade i samma insikt sex sekler senare. I *L'Amour et l'Occident* (1939) blottlägger han att den europeiska passionen, från trubadurerna till Tristan, inte älskar den älskade utan begäret självt. Den kräver hinder för att överleva.[^23] Han hade inte ordet *ʿishq*; det krävdes en hel bok. Men skillnaden ligger inte bara i omfång. De Rougemonts diagnos är en slutsats, nådd efter hundratals sidor. Ibn Qayyims diagnos bor i själva ordet: den som säger *ʿishq* uttalar varningen innan erfarenheten börjat.
 
 Ibn Qayyim konstaterar: "Början av *ʿishq* är plåga, dess mitt är sjukdom, dess slut är död."[^8] Det förtjänar varken beröm eller klander som sådant; allt beror på dess föremål.[^9] Men den kärlek som tillkommer Allah ﷻ bär ett annat namn: *maḥabbah* och *ʿubūdiyyah*, den fullkomliga kärleken förenad med fullkomlig underkastelse. Pannan mot mattan, fem gånger om dagen, år efter år. De tidiga generationerna (*salaf*) använde inte termen *ʿishq* om Skaparen; de ansåg den för smal, för sjuklig, alltför bunden till brist. Den *maḥabbah* de föredrog rymmer det som *ʿishq* saknar: stadga, lydnad, vördnad.
 
@@ -41,11 +41,11 @@ Ta Arvid Stjärnblom i *Den allvarsamma leken*. Han älskar Lydia och har älska
 
 Söderberg preciserar: "Det värsta var, att han inte riktigt tordes lita på sina egna känslor."[^11]
 
-Svenskan kallar detta kärlek. Ibn Qayyims system ställer en skarpare diagnos. Arvid befinner sig i en *ʿishq* som aldrig övergått i *mawaddah*. Hans passion saknar den mogna tillgivenhetens stadga, den *luzūm* som inte vacklar, och han pendlar mellan besatthet och handlingsförlamning. Ibn Qayyim: "*ʿIshq* tar inte säte utom i ett tomt hjärta."[^12] Arvids hjärta fylls inte av Lydia; det har tömts på allt annat, och i det vakuumet frodas passionens klängväxt.
+Svenskan kallar detta kärlek. Ibn Qayyims system ställer en skarpare diagnos. Arvid befinner sig i en *ʿishq* som aldrig övergått i *mawaddah*. Hans passion saknar den mogna tillgivenhetens stadga, den *luzūm* som inte vacklar, och han pendlar mellan besatthet och handlingsförlamning. Ibn Qayyim: "*ʿIshq* slår inte rot utom i ett tomt hjärta."[^12] Arvids hjärta fylls inte av Lydia; det har tömts på allt annat, och i det vakuumet frodas passionens klängväxt.
 
 ## Det som brinner och det som bär
 
-Om Arvid förlamades av *ʿishq* mötte Strindberg samma kraft från andra hållet, våldsamt och utan styre. I *Inferno*: "Jag älskar henne och hon mig, och vi hata varandra med ett vildsint hat av kärlek."[^13]
+Där Arvid förlamades av *ʿishq* mötte Strindberg samma kraft från andra hållet, våldsamt och utan styre. I *Inferno*: "Jag älskar henne och hon mig, och vi hata varandra med ett vildsint hat av kärlek."[^13]
 
 Ibn al-Jawzī, den bagdadiske predikanten som skrev *Dhamm al-Hawā* två generationer före Ibn Qayyim, hade ett exakt ord för detta: *hawā*, rått begär utan riktning, kraft utan form. Han skriver:
 
@@ -57,7 +57,7 @@ Men mitt i *Infernos* kaos:
 
 > Att älska ett barn är för en man att bliva kvinna, det är att avlägga det manliga, att erfara himlainnevånarnes könlösa kärlek, såsom Swedenborg kallar det.[^15]
 
-Utan tillgång till orden snuddar Strindberg vid det som Ibn Qayyims system benämner exakt: kärlekens förmåga att *förvandla* sin bärare, en rörelse mot *raḥmah*, den barmhärtighet Koranen sammanför med kärleken:
+Utan tillgång till orden snuddar Strindberg vid det som Ibn Qayyims system benämner med precision: kärlekens förmåga att *förvandla* sin bärare, en rörelse mot *raḥmah*, den barmhärtighet Koranen sammanför med kärleken:
 
 > Och av Hans tecken är att Han har skapat hustrur åt er av er egen art, så att ni kan finna ro hos dem, och Han har låtit kärlek (*mawaddah*) och barmhärtighet (*raḥmah*) uppstå mellan er. I detta ligger förvisso tecken för människor som tänker.[^16]
 
@@ -65,7 +65,7 @@ Koranens äktenskapliga ideal är passionens motsats: stadig tillgivenhet fören
 
 > Det är denna rikedom af samhörighetselement hvilken bevarar kärlekens trohet i inre, ej blott i yttre mening; det är denna själfullhetens vårluft, som håller den sinnliga tjusningen frisk, medan hvarje förhållande mycket snart förbrukat lyckan och lämnat ledan kvar, när endast en sinnlig förälskelse varit kärlekens innehåll.[^17]
 
-Key snuddar vid just den gräns som arabiskan drar mellan *shaghaf* och *mawaddah*: *ʿishq* utan *ḥubb* leder mot *walah*. Söderberg noterade att det var "Ellen Keys stora lidelse att vilja tvinga världen att älska med den kärlek, som bränner henne själf".[^18] Men Key stötte mot modersmålets gräns: det Ibn Qayyim rymmer i ett enda begrepp, *mawaddah*, kräver av Key en hel mening.
+Key rör vid just den gräns som arabiskan drar mellan *shaghaf* och *mawaddah*: *ʿishq* utan *ḥubb* leder mot *walah*. Söderberg noterade att det var "Ellen Keys stora lidelse att vilja tvinga världen att älska med den kärlek, som bränner henne själf".[^18] Men Key stötte mot modersmålets gräns: det som hos Ibn Qayyim ryms i ett enda begrepp, *mawaddah*, kräver av Key en hel mening.
 
 Den som säger *ʿishq* varnar redan. Den som säger *mawaddah* lovar redan. Den som säger *tatayyum* vet att gränsen är överskriden.
 

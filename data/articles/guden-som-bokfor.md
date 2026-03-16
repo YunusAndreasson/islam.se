@@ -25,7 +25,7 @@ Linnés *Nemesis Divina* tecknar raka motsatsen. Varje handling bär sin bestäm
 
 > En ständig vexelverkan, en sträng lagbundenhet, en orubblig verldsordning genomströmmar det hela; att slumpen, det blinda ödets tyranni, ingenstädes herskar.[^3]
 
-Linné talar inte om en Gud som förlåter utan om en Gud som *bokför*. Varje synd har sitt straff, och det inträffar med naturlags nödvändighet, ofta redan i detta liv.[^4] Kant nådde filosofiskt samma slutsats – att förlitan på nåd allena undergräver det sedliga allvaret – och censurerades av den preussiska staten för det.[^19]
+Linné talar inte om en Gud som förlåter utan om en Gud som *bokför*. Varje synd har sitt straff, och det inträffar med naturlags nödvändighet, ofta redan i detta liv.[^4] Kant nådde samma slutsats på filosofisk väg – att förlitan på nåd allena undergräver det sedliga allvaret – och censurerades av den preussiska staten för det.[^19]
 
 Linné visste att hans gudsuppfattning inte fick publiceras. Hans instruktioner till sonen var otvetydiga:
 
@@ -47,13 +47,13 @@ Den som beter sig som ägare – av sin gård, sin makt, sin hälsa – har för
 
 ## Den grundsats han inte fick namnge
 
-I Koranens nittionionde sura, en av de kortaste – knappt sex verser – sammanfattas den grundsats Linné grävde efter:
+I Koranens nittionionde sura, en av de kortaste – åtta verser – sammanfattas den grundsats Linné grävde efter:
 
 > Den som gör den minsta myras vikt av gott skall se det. Och den som gör den minsta myras vikt av ont skall se det.[^8]
 
 *Mithqāla dharratin.* En atoms vikt – ingen handling undgår räkenskapen. Ibn Kathīr anför en profettradition: en äldre man kom till Profeten ﷺ och bad om en enda sura som sammanfattade allt. Profeten ﷺ lärde honom just denna, och när mannen svurit att aldrig lägga till något utöver den sade Profeten ﷺ: "Den lille mannen har lyckats! Den lille mannen har lyckats!"
 
-Linné sökte bevisa genom hundratals fallstudier vad Koranen kungör som axiom.[^9] Men den koraniska tankegången går i motsatt riktning. Linné nådde suveräniteten bakvägen: den som betedde sig som ägare gick under, alltså var Gud den verklige ägaren. *Tawḥīd* börjar i andra änden – Gud *är* suverän, därför bär varje handling följd. Men Koranen stannar inte vid räkenskapen. Samma Gud som väger varje handling är *al-Tawwāb*, den som tar emot den ångerfulles återvändo: "Er Herre har föreskrivit Sig barmhärtighet: den av er som i oförstånd gör ont och sedan ångrar sig och gör bot – Han är ständigt förlåtande, barmhärtig."[^20] Linnés *Nemesis Divina* rymmer räkenskap utan nåd; lutherdomen nåd utan räkenskap. Koranen håller båda.
+Linné sökte bevisa genom hundratals fallstudier vad Koranen kungör som axiom.[^9] Men den koraniska tankegången går i motsatt riktning. Linné nådde insikten om Guds suveränitet bakvägen: den som betedde sig som ägare gick under, alltså var Gud den verklige ägaren. *Tawḥīd* börjar i andra änden – Gud *är* suverän, därför bär varje handling följd. Men Koranen stannar inte vid räkenskapen. Samma Gud som väger varje handling är *al-Tawwāb*, den som tar emot den ångerfulles återvändo: "Er Herre har föreskrivit Sig barmhärtighet: den av er som i oförstånd gör ont och sedan ångrar sig och gör bot – Han är ständigt förlåtande, barmhärtig."[^20] Linnés *Nemesis Divina* rymmer räkenskap utan nåd; lutherdomen nåd utan räkenskap. Koranen förenar båda.
 
 Den troende förväntas ändå hålla den egna räkenskapen:
 
@@ -75,7 +75,7 @@ Men i samma anteckningsbok:
 
 Swedenborg pendlar mellan gärning och nåd. Linné pendlar inte. I *Nemesis Divina* saknas den *sola gratia* som skulle återföra tanken till ortodoxin; där råder bara orsak och verkan, handling och följd. En renare linje – och farligare.
 
-Samma grundövertygelse, motsatta vägar. Ingen av dem fann en formel som höll samman gärning och nåd. Ett sekel senare genomlevde August Strindberg sin egen version av krisen. Under Infernoåren i Paris avläste han allt som hände honom – sjukdom, ensamhet, kemiska misslyckanden – som gudomliga straff. Hans vägvisare genom kaoset blev Swedenborg:
+Samma grundövertygelse, motsatta vägar. Ingen av dem fann en formel som förenade gärning och nåd. Ett sekel senare genomlevde August Strindberg sin egen version av krisen. Under Infernoåren i Paris avläste han allt som hände honom – sjukdom, ensamhet, kemiska misslyckanden – som gudomliga straff. Hans vägvisare genom kaoset blev Swedenborg:
 
 > Swedenborg uppenbarade sig i mitt liv, där han har spelat en ofantlig roll som tuktande.[^16]
 
@@ -93,7 +93,7 @@ Linné förstod detta. Hans eget vittnesbörd, det mest personliga i hela manusk
 
 Det han för vidare – åt sin son, i hemlighet – är ingen lära utan en erfarenhet: att verkligheten bär en sedlig ordning, att ingenting undgår räkenskapen.
 
-I den islamiska traditionen hade denna erfarenhet aldrig behövt vara hemlig – *adhān* ropar ut det Linné dolde fem gånger om dagen.
+I den islamiska traditionen hade denna erfarenhet aldrig behövt vara hemlig – *adhān* ropar fem gånger om dagen ut det Linné dolde.
 
 Linné fick inte tala. Men tystnaden talar.
 

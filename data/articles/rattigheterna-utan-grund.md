@@ -27,7 +27,7 @@ Mitt i denna grundvalskris dyker ett begrepp upp som gör anspråk på att säkr
 
 *Fiṭrah* – den medfödda moraliska och andliga riktningen – betecknar själva den ordning enligt vilken människan är skapad. Ibn Kathīr förtydligar: Gud har gjort alla sina skapelser lika i *fiṭrah*, den raka grundnaturen – ingen föds utan att vara i det tillståndet, och det finns ingen åtskillnad mellan människor i det hänseendet. Profeten Muḥammad ﷺ sade: "Varje barn föds i rätt tillstånd (*fiṭrah*), men dess föräldrar gör det till jude, kristen eller magier."[^7]
 
-Nutida utvecklingspsykologi stöder bilden: spädbarn föredrar hjälpare framför förhindrare redan innan språk och kultur format dem.[^16] Samma drag syns även i det samhälle som gör sitt bästa att undertrycka dem. August Blanche fångade det underifrån: "Där finns heder och samvete även bland de som samhället förkastar."[^19]
+Nutida utvecklingspsykologi stöder bilden: spädbarn föredrar hjälpare framför förhindrare redan innan språk och kultur format dem.[^16] Samma drag syns även i det samhälle som försöker undertrycka dem. August Blanche fångade det underifrån: "Där finns heder och samvete även bland de som samhället förkastar."[^19]
 
 *Fiṭrah* är inte ett argument *för* moral utan ett påstående om var moralen hör hemma: den är inskriven i skapelsens ordning.
 
@@ -35,7 +35,7 @@ Koranen förankrar detta i ett ursprungligt förbund:
 
 > Och minns att din Herre tog fram alla Adams barns avkomlingar ur ryggen på dem och lät dem vittna om sig själva. "Är Jag inte er Herre?" De sade: "Jo, vi vittnar!"[^8]
 
-Det är detta förbund, *mīthāq*, som ger *fiṭrah* dess kraft bortom det rent beskrivande. Invändningen att man inte kan sluta sig från *hur* människan är till *vad* hon bör – Humes giljotin – förutsätter att den mänskliga naturen är ett blott faktum. Men i Koranens antropologi är människans natur ett löfte: hon är skapad för att känna Gud, för att vittna om sanningen. Ibn Qayyim al-Jawziyyah fastslår att hjärtat bär en längtan efter sin Herre som ingenting annat kan stilla – "ty det är skapat för Honom".[^9] Börat läggs inte utanpå varat – det bor i det, som syftet bor i ögat.
+Det är detta förbund, *mīthāq*, som lyfter *fiṭrah* från beskrivning till förpliktelse. Invändningen att man inte kan sluta sig från *hur* människan är till *vad* hon bör – Humes giljotin – förutsätter att den mänskliga naturen är ett blott faktum. Men i Koranens antropologi är människans natur ett löfte: hon är skapad för att känna Gud, för att vittna om sanningen. Ibn Qayyim al-Jawziyyah fastslår att hjärtat bär en längtan efter sin Herre som ingenting annat kan stilla – "ty det är skapat för Honom".[^9] Plikten läggs inte utanpå tillvaron – den bor i den, som syftet bor i ögat.
 
 En invändning: om *fiṭrah* grundar universella rättigheter, hur förklara att den klassiska islamiska rättstraditionen inskränkte vissa av de rättigheter den allmänna förklaringen bekräftar? Spänningen finns men rör *tillämpning* – hur juristerna tolkade *fiṭrah* i sina rättsordningar – inte principen själv. Ibn Kathīr anför en profettradition: efter ett fälttåg fördömde Profeten ﷺ dem som angripit fiendens barn, och när en man invände att de var barn till avgudadyrkare svarade han: "De bästa bland er är barn till avgudadyrkare! Ingen själ föds utan att den föds i *fiṭrah*." Att *fiṭrah* som universell grund kan ställa krav som överskrider varje historisk rättsordning, inklusive den islamiska, är argumentets konsekvens, inte dess svaghet.
 
@@ -69,11 +69,11 @@ Vad Hammarskjöld tecknar har samma form som Koranens förbund: ett svar som fö
 
 ## Det tysta lånet
 
-Den moderna rättighetsretoriken lever på ett lån den inte erkänner. Varje människa äger okränkbar värdighet, tortyr är fel oavsett läget, barn har rättigheter oberoende av vilken stat de föds i – absoluta anspråk. Men retoriken kan inte redovisa varifrån de kommer, inte utan att i det tysta förutsätta den sorts grund den officiellt avvisat.
+Den moderna rättighetsretoriken lever på ett lån den inte erkänner. Varje människa äger okränkbar värdighet; tortyr är fel oavsett omständigheterna; barn har rättigheter oberoende av vilken stat de föds i – absoluta anspråk. Men retoriken kan inte redovisa varifrån de kommer, inte utan att i det tysta förutsätta den sorts grund den officiellt avvisat.
 
 Habermas har halvvägs erkänt skulden: det sekulära samhället bör, hävdade han, *översätta* religiösa moraliska insikter till allmänt begripliga argument.[^13] Men att översätta förutsätter att det finns ett original. Och om originalet är oumbärligt, är det inte översättningen som bär kraften – det är källtexten.
 
-Nietzsche var ärligare. Han insåg att om Gud är borta måste moralen omvärderas från grunden: gott och ont är maktmedel.[^14] De flesta moderna tänkare vill ha Nietzsches förutsättning men slippa slutsatsen – behålla rättigheterna och skicka tillbaka fakturan.
+Nietzsche var ärligare. Han insåg att om Gud är borta måste moralen omvärderas från grunden: gott och ont är maktmedel.[^14] De flesta moderna tänkare vill ha Nietzsches förutsättning men slippa slutsatsen – behålla rättigheterna utan att betala fakturan.
 
 ## En grundval eller en tystnad
 

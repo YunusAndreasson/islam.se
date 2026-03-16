@@ -35,7 +35,7 @@ Le Bon, utan kännedom om denna tradition, landade i samma slutsats:
 
 > I en folkmassa blir skeptikern troende, den ärliga människan en förbrytare, den fege en hjälte.[^11]
 
-Men hans analys börjar för sent: den utgår från folkmassan som om förvrängningen uppstår i det ögonblick någon träder in i gruppen. *Hawā* verkar redan innan massan samlas. Massan ger det begär som redan finns en kollektiv ursäkt.
+Men hans analys börjar för sent: den utgår från folkmassan som om förvrängningen uppstår i det ögonblick någon träder in i gruppen. *Hawā* verkar redan innan massan samlas. Massan ger en kollektiv ursäkt åt det begär som redan finns.
 
 "Vem är mer vilse än den som följer sitt begär utan någon vägledning från Allah ﷻ?"[^12] Det som fördöms är inte begäret utan begäret *utan vägledning*.
 
@@ -47,13 +47,13 @@ Grundsatsen kräver motsatsen till vår vana: pröva påståendet först, *sedan
 
 Ibn Taymiyyah fördjupade grundsatsen. Den som gör människor till måttstock för sanningen – i stället för att pröva människors påståenden mot sanningen – begår det mest grundläggande tankefelet.[^14] Varje människa kan ha fel eller rätt, utom Profeten ﷺ.
 
-Det demokratiska samhället gör just detta, till sin uppbyggnad, inte av illvilja. Omröstningen frågar inte *vad är sant?* utan *vad tycker de flesta?* – och behandlar svaret som om det vore samma sak.
+Det demokratiska samhället gör just detta, genom sin konstruktion, inte av illvilja. Omröstningen frågar inte *vad är sant?* utan *vad tycker de flesta?* – och behandlar svaret som om det vore samma sak.
 
 ## Sanningen som bro och som börda
 
 Habermas menade att rationell diskurs – det herraväldesfria samtalet – kan leda till sanning genom förfarande, om alla deltagare argumenterar ärligt och på lika villkor.[^15]
 
-Men Habermas förutsätter det som Koranen ifrågasätter: att människan, lämnad åt sitt förnuft, dras mot sanning snarare än antagande. *Hawā* är universell. Begäret talar alltid med i rummet, osynligt, förklätt till förnuft. Ibn Taymiyyah påpekade att "fantasin ljuger oftare än den talar sanning"[^16] – och fantasin verkar starkast när vi tror oss vara som mest förnuftiga.
+Men Habermas förutsätter det som Koranen ifrågasätter: att människan, lämnad åt sitt förnuft, dras mot sanning snarare än antagande. *Hawā* är universell. Begäret talar alltid med i rummet, osynligt, förklätt till förnuft. Ibn Taymiyyah påpekade att "fantasin ljuger oftare än den talar sant"[^16] – och fantasin verkar starkast när vi tror oss vara som mest förnuftiga.
 
 "Deras angelägenheter avgörs genom samråd sinsemellan"[^17] – *shūrā*, samråd, är en styrande princip. Men samrådets uppgift är inte att fastställa sanningen genom röstning utan att söka den bästa tillämpningen av en sanning som redan är given. I *shūrā* är sanningen konstant och tillämpningen diskuteras. I demokratin är sanningen det som diskussionen frambringar.
 
@@ -63,7 +63,7 @@ Karin Boye skrev i *Kallocain*:
 
 Sanningen *som bro* förutsätter att den finns oberoende av dem den förbinder. En bro som uppfinns i stunden den beträds är ingen bro.
 
-Koranen väljer ett oväntat ord för det liv som väntar den som vänder sig bort från vägledningen: *dank* – trånghet, snävhet. "Den som vänder sig bort från Min påminnelse ska sannerligen leva ett trångt liv."[^19] Inte syndigt, inte straffat. *Trångt*. Ibn Kathīr förtydligar:
+Koranen väljer ett oväntat ord för livet utan vägledning: *dank* – trånghet, snävhet. "Den som vänder sig bort från Min påminnelse ska sannerligen leva ett trångt liv."[^19] Inte syndigt, inte straffat. *Trångt*. Ibn Kathīr förtydligar:
 
 > Även om han klär sig som han vill, äter vad han vill och bor var han vill – så länge han saknar visshet och vägledning, förblir hans hjärta i ångest, förvirring och tvivel.
 

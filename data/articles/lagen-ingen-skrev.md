@@ -17,7 +17,7 @@ Strindbergs raseri träffar en nerv som rättsfilosofin aldrig lyckats bedöva. 
 
 Två sekler före Strindberg blottlade Pascal mekanismen: "Då vi inte kunnat göra det rättfärdiga starkt, har vi gjort det starka rättfärdigt."[^17]
 
-Samma mönster såg Erik Gustaf Geijer i det svenska 1800-talet: "Överallt där jorden skiftas äro de väldige till hands, säkrast om godtycket klädes i lagens formar."[^4]
+Samma mönster såg Erik Gustaf Geijer i 1800-talets Sverige: "Överallt där jorden skiftas äro de väldige till hands, säkrast om godtycket klädes i lagens formar."[^4]
 
 ## Boken och vågan
 
@@ -27,11 +27,11 @@ Thomistisk naturrätt och judisk *Halakha* reser besläktade anspråk, men *uṣ
 
 ## Rättvisan som gräns
 
-Ibn Khaldūn drog den politiska konsekvensen: "Den religiösa lagen censurerar inte makten i sig utan endast de ondskefulla följderna av den: tyranni, orättvisa och lystnad."[^8] Makten förbjuds inte – men härskaren är underordnad lagen, inte dess upphovsman. På annat ställe hävdar han att orättvisa leder till civilisationens undergång, och menar det bokstavligt: ett samhälle som tolererar förtryck gnager sönder sig självt inifrån.[^9] Sexhundra år senare belade ekonomen Daron Acemoglu tesen med data: samhällen vars regler utformas till en elits fördel går under.[^18]
+Ibn Khaldūn drog den politiska konsekvensen: "Den religiösa lagen censurerar inte makten i sig utan endast de ondskefulla följderna av den: tyranni, orättvisa och lystnad."[^8] Makten förbjuds inte – men härskaren är underordnad lagen, inte lagens upphovsman. På annat ställe hävdar han att orättvisa leder till civilisationens undergång, och menar det bokstavligt: ett samhälle som tolererar förtryck gnager sönder sig självt inifrån.[^9] Sexhundra år senare underbyggde ekonomen Daron Acemoglu tesen med data: samhällen vars regler utformas till en elits fördel går under.[^18]
 
 Ibn Taymiyyah går längre: rättvisan är inte en dygd bland andra utan normen som bär alla andra. "Rättvisan är påbjuden i alla handlingar och orättvisan förbjuden utan undantag."[^10] Människors enighet om rättvisans godhet överträffar, menar han, deras enighet om de flesta förnuftssanningar.[^11] Rättvisan är inte resonemangets frukt. Den är dess förutsättning.
 
-Koranen uppenbarar vad som händer när de mäktiga skriver sina egna regler: "Vi har också i varje stad låtit de mäktiga bli deras förbrytare för att smida sina planer där. Men de smider endast planer mot sig själva utan att märka det."[^12] Samma mekanism som hos Strindberg, men med en förklaring han saknar: den samlade makten förgör sig själv. Strindberg pekar på orättvisan och kräver att den upphör. Koranens förklaring går längre: orättvisan upphör *av sig själv*, inte för att någon kräver det utan för att den bryter mot den ordning som bär den. Skillnaden är den mellan protest och prognos.
+Koranen uppenbarar vad som händer när de mäktiga skriver sina egna regler: "Vi har också i varje stad låtit de mäktiga bli deras förbrytare för att smida sina planer där. Men de smider endast planer mot sig själva utan att märka det."[^12] Samma mekanism som hos Strindberg, men med en förklaring Strindberg saknar: den samlade makten förgör sig själv. Strindberg pekar på orättvisan och kräver att den upphör. Koranens förklaring går längre: orättvisan upphör *av sig själv*, inte för att någon kräver det utan för att den bryter mot den ordning som bär samhället. Skillnaden är den mellan protest och prognos.
 
 ## Den farliga mellanhanden
 
@@ -39,7 +39,7 @@ Gudomlig lag bryter den onda cirkeln – rättens källa kan inte ägas av en kl
 
 Tolkaren kan bli den nye lagstiftaren, kläda sitt godtycke i rättens former. Makten byter hand, inte väsen. Vad hindrar det?
 
-Geijer såg samma spänning: "Kärleken är lagens fullbordan, utan hvilken lagen sjelf endast är en yttre form och ett, ehuru nödvändigt, ondt."[^14] *Taqwā*, gudsfruktan, är inte en prydnad utan en förutsättning. Det är den lärde som tvekar innan han talar, som känner tyngden i sitt svar.
+Geijer pekade åt samma håll: "Kärleken är lagens fullbordan, utan hvilken lagen sjelf endast är en yttre form och ett, ehuru nödvändigt, ondt."[^14] *Taqwā*, gudsfruktan, är inte en prydnad utan en förutsättning. Det är den lärde som tvekar innan han talar, som känner tyngden i sitt svar.
 
 ## Vågen som inte kan luras
 
@@ -49,7 +49,7 @@ Den islamiska traditionen erbjuder vad de saknar: en rättsordning vars giltighe
 
 Strindbergs fråga genljuder ännu: vem skrev lagen för den fattige? Allt står och faller med dem som bär ansvaret.
 
-Koranens bild är en våg, inte ett svärd. Svärdet avgör. Vågen mäter. Den kan inte luras – om den som håller den håller den rak.
+Koranens bild är en våg, inte ett svärd. Svärdet avgör. Vågen mäter. Den kan inte luras – om den som håller den gör det med rak hand.
 
 ---
 

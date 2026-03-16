@@ -5,7 +5,7 @@ wordCount: 1485
 qualityScore: 8.6
 description: "I juli 2015 daterade universitetet i Birmingham ett koranfragment till Profeten Muḥammads ﷺ egen livstid. Bläcket på fårskinnet formade samma arabiska konsonanter som den Koran som idag ligger på nattduksbord i Kairo och Malmö – fjorton sekler senare, bokstav för bokstav."
 ---
-Allt försvinner. Det är kanske det enda som antiken och moderniteten är överens om. Pergament murknar. Hårddiskar havererar. Bibliotek brinner – Alexandria, Bagdad, Sarajevo. Av de uppskattningsvis 7 000 språk som talas idag beräknas hälften ha tystnat inom ett sekel.[^1] Texter som en gång gällde som odödliga överlever som brottstycken, återskapningar, gissningar.
+Allt försvinner. Det är kanske det enda som antiken och moderniteten är överens om. Pergament murknar. Hårddiskar havererar. Bibliotek brinner – Alexandria, Bagdad, Sarajevo. Av de uppskattningsvis 7 000 språk som talas idag beräknas hälften komma att tystna inom ett sekel.[^1] Texter som en gång gällde som odödliga överlever som brottstycken, återskapningar, gissningar.
 
 Sverige vet detta. Äldre Västgötalagen, landets äldsta bevarade text på svenska, härrör från 1220-talet. Den vilar i ett enda manuskript. Ingen kan med säkerhet säga hur originalet löd; vi har en avskrift av en avskrift, med de glidningar varje led medför.[^2] I fyra sekler har Riksarkivet, grundat 1618, bevarat dokument. Ändå har ingen svensk text överlevt oförändrad mer än några hundra år. Varje generation ärver avskrifter, inte original.
 
@@ -17,9 +17,9 @@ Fjorton sekler har passerat. Påståendet har inte fallit.
 
 Påståendet har belägg. I juli 2015 meddelade universitetet i Birmingham att radiokoldatering placerade ett koranfragment i universitetets samlingar i perioden 568–645 e.Kr. – inom eller mycket nära Profeten Muḥammads ﷺ egen livstid.[^4] Fragmentet rymmer delar av surorna 18–20, skrivna med bläck på fårskinn i en tidig hijazi-stil.
 
-Det avgörande var inte åldern utan att texten – bokstav för bokstav i det arabiska konsonantskelettet, *rasm* – stämde med den tryckta Koranen som idag ligger på nattduksbordet i Kairo, i Kuala Lumpur, i Malmö. François Déroche vid Collège de France bekräftar bilden: den tidiga koraniska texttraditionen är påfallande stabil.[^5]
+Det avgörande var inte åldern utan att texten – bokstav för bokstav i det arabiska konsonantskelettet, *rasm* – stämde överens med den tryckta Koranen som idag ligger på nattduksbordet i Kairo, i Kuala Lumpur, i Malmö. François Déroche vid Collège de France bekräftar bilden: den tidiga koraniska texttraditionen är påfallande stabil.[^5]
 
-Dateringen är inte obestridd – radiokoldatering mäter djurhuden, inte bläcket.[^6] Men invändningarna gäller dateringens precision, inte textens innehåll. Birmingham står inte ensamt. Topkapi-kodexen i Istanbul och Samarkand-kodexen i Tasjkent – bägge daterade till det första islamiska seklet – visar samma bild. Redan 1860 fastslog Theodor Nöldeke i *Geschichte des Qorâns* att den uthmaniska kodexen bevarar en text från profetens egen tid, en bedömning som de senaste decenniernas manuskriptfynd har befäst.[^17]
+Dateringen är inte obestridd – radiokoldatering mäter djurhuden, inte bläcket.[^6] Men invändningarna gäller dateringens precision, inte textens innehåll. Birmingham står inte ensamt. Topkapi-kodexen i Istanbul och Samarkand-kodexen i Tasjkent – bägge daterade till det första islamiska seklet – visar samma bild. Redan 1860 fastslog Theodor Nöldeke i *Geschichte des Qorâns* att den uthmaniska kodexen bevarar en text från profetens egen tid, en bedömning som de senaste decenniernas manuskriptfynd har styrkt.[^17]
 
 ## Stenen som måste vändas
 
@@ -33,15 +33,15 @@ Manuskript kan förstöras. Men hur förstör man något som lever i hundratusen
 
 Traditionen att lära sig hela Koranen utantill, *ḥifẓ*, saknar motsvarighet i omfång. En *ḥāfiẓ* bär samtliga 6 236 verser i minnet – varje vokal, varje paus. Profeten Muḥammad ﷺ sade: "Den bäste bland er är den som lär sig Koranen och lär ut den."[^8] Från lärare till elev, generation efter generation, reciteras samma verser ur minnet.
 
-Under sina resor i Västafrika på 1300-talet bevittnade den marockanske reseskildraren Ibn Battuta hur barnen kedjades vid sina platser tills de lärt sig sina avsnitt – en metod han skildrade med både förundran och respekt.[^9] På 1840-talet iakttog Georg August Wallin, den finlandssvenske orientalisten som reste genom Arabien, samma tradition i Egypten: de som memorerat Koranen bar en särskild hållning, en igenkännlig vaggrörelse vid recitation. De tilldelades titeln *sheikh*.[^10] Bevarandet var kroppsligt, rytmiskt, nedärvt.
+Under sina resor i Västafrika på 1300-talet bevittnade den marockanske reseskildraren Ibn Battuta hur barnen kedjades vid sina platser tills de lärt sig sina avsnitt – en metod han skildrade med förundran och respekt.[^9] På 1840-talet iakttog Georg August Wallin, den finlandssvenske orientalisten som reste genom Arabien, samma tradition i Egypten: de som memorerat Koranen bar en särskild hållning, en igenkännlig vaggrörelse vid recitation. De tilldelades titeln *sheikh*.[^10] Bevarandet var kroppsligt, rytmiskt, nedärvt.
 
 Systemet har en motståndskraft ingen arkivinstitution kan mäta sig med. Om varje tryckt Koran förstördes idag – varje exemplar, varje digital kopia – kunde texten återställas fullständigt inom timmar, enbart ur levande människors minne. Inget Riksarkiv, inget Library of Congress, inget digitalt molnlager kan ge motsvarande garanti för en enda av sina texter.
 
 ## Vad andra texter förlorade
 
-Mot detta blir Koranens särart synlig. Nya testamentets textöverföring är bland de bäst dokumenterade i den antika världen. Ändå katalogiserar textkritiker över 400 000 varianter mellan bevarade manuskript.[^11] De flesta är triviala – stavningsalternativ, omkastad ordföljd, synonymer. Ingen seriös forskare hävdar att de undergräver kristendomens kärnlära. Men de visar vad som sker med en text som kopieras för hand utan att samtidigt leva i minnet: varje kopist inför sina avvikelser, och genom seklerna hopar de sig.
+Mot detta blir Koranens särart synlig. Nya testamentets textöverföring är bland de bäst dokumenterade i den antika världen. Ändå har textkritiker katalogiserat över 400 000 varianter bland bevarade manuskript.[^11] De flesta är triviala – stavningsalternativ, omkastad ordföljd, synonymer. Ingen seriös forskare hävdar att de undergräver kristendomens kärnlära. Men de visar vad som sker med en text som kopieras för hand utan att samtidigt leva i minnet: varje kopist tillför sina avvikelser, och genom seklerna hopar de sig.
 
-I millennier överfördes Vedaerna muntligt genom utarbetade recitationstekniker, men nedtecknades inte förrän kring det sista årtusendet före vår tideräkning.[^12] Buddhas ord nedtecknades århundraden efter hans död; traditionerna förgrenade sig tidigt i skilda kanoner. Homeros överlever som rekonstruktion; tusentals detaljer skiljer manuskripten åt.
+I millennier överfördes Vedaerna muntligt genom utarbetade recitationstekniker, men nedtecknades inte förrän kring det sista årtusendet före vår tideräkning.[^12] Buddhas ord nedtecknades århundraden efter hans död; texttraditionerna förgrenade sig tidigt och bildade skilda kanoner. Homeros överlever som rekonstruktion; tusentals detaljer skiljer manuskripten åt.
 
 Koranen förenar muntligt och skriftligt bevarande till ett dubbelskydd, verksamt just för att de två systemen har olika sårbarhet. Skriftlig kopiering förvanskas genom avskrivningsfel; muntlig överföring genom fonetisk drift. Varje generation av *ḥuffāẓ* kontrolleras mot den skrivna texten, och varje manuskript mot den levande recitationstraditionen.
 
@@ -55,7 +55,7 @@ Ibn Khaldūn skrev att "Koranen är i sig själv både beviset och det som skall
 
 Koranen säger inte "tro att jag är bevarad". Den säger "se efter". Varje manuskriptfynd, varje radiokoldatering, varje paleografisk granskning prövar samma löfte på nytt.
 
-Den svenske historikern Erik Gustaf Geijer hävdade: "Utan fornforskning kan aldrig någon historia finnas."[^16] Fornforskningen har kommit. Den har grävt i Sana'a, daterat pergamenten i Birmingham, digitaliserat handskrifterna i Istanbul. Texten som möter oss genom dessa lager av tid och sand är densamma som den en man i Medina lärde sina följeslagare att recitera under sjuhundratalets sol.
+Den svenske historikern Erik Gustaf Geijer hävdade: "Utan fornforskning kan aldrig någon historia finnas."[^16] Fornforskningen har kommit. Den har grävt i Sana'a, daterat pergamenten i Birmingham, digitaliserat handskrifterna i Istanbul. Texten som möter oss genom dessa lager av tid och sand är densamma som den en man i Medina lärde sina följeslagare att recitera under sexhundratalets sol.
 
 Allt försvinner. Pergament murknar. Språk dör. Arkiv brinner.
 

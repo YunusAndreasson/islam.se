@@ -5,7 +5,7 @@ wordCount: 1681
 qualityScore: 8.5
 description: "Under krisåren i Paris upptäckte August Strindberg Swedenborgs skrifter och kände genast igen sig: helvetets eld var begäret efter framgång, en glöd som urholkar meningen inifrån. Men Swedenborg var bara en av tre traditioner som brottats med frågan om vad elden egentligen gör med den som brinner."
 ---
-Surt kommer från söder med flammande svärd. Himlen rämnar. Jordens steniga höjder slås samman. I Völuspás vision försvinner den kända världen i eld, men aldrig i tomhet. Viktor Rydberg betonar kontinuiteten:
+Surt kommer från söder med flammande svärd. Himlen rämnar. Jordens steniga höjder störtar samman. I Völuspás vision försvinner den kända världen i eld, men aldrig i tomhet. Viktor Rydberg betonar kontinuiteten:
 
 > Den germanska mytologin har inte betraktat världens pånyttfödelse som en ny skapelse. Det liv som i tidens morgon utvecklades ur kaos förstörs inte av Surts lågor, utan räddar sig, renat, för den kommande världsåldern.[^1]
 
@@ -17,13 +17,13 @@ Forskarna tvistar om pånyttfödelsemotivets ursprung: hör visionen av världen
 
 ## Swedenborg: elden som aldrig brinner
 
-Emanuel Swedenborg, uppvuxen i ett lutherskt Sverige dränkt i helvetets retorik, kom att förneka helveteselden helt. Tillvaron erkände han; väsendet förkastade han.
+Emanuel Swedenborg, uppvuxen i ett lutherskt Sverige dränkt i helvetets retorik, kom att förneka helveteselden helt. Att helvetet finns erkände han; att det brinner förkastade han.
 
-I Swedenborgs korrespondenslära svarar varje fysisk företeelse mot en andlig verklighet. Eld svarar mot kärlek – till sin byggnad, inte poetiskt. Och helvetets eld? Den är självkärlekens inre glöd, som de fördömda upplever som värme, rentav som behag.[^4] De som valt sig själva framför allt annat bebor ett tillstånd som *liknar* eld men saknar eldens förvandlingskraft. Swedenborgs helvete bränner inte. Det bekräftar.
+I Swedenborgs korrespondenslära svarar varje fysisk företeelse mot en andlig verklighet. Eld svarar mot kärlek – strukturellt, inte metaforiskt. Och helvetets eld? Den är självkärlekens inre glöd, som de fördömda upplever som värme, rentav som behag.[^4] De som valt sig själva framför allt annat bebor ett tillstånd som *liknar* eld men saknar eldens förvandlingskraft. Swedenborgs helvete bränner inte. Det bekräftar.
 
 Om den jordiska världen är andlighetens alfabet är elden ett *språk*. Helvetet talar, men de fördömda kan inte läsa vad det säger.
 
-Under krisåren i Paris snubblade August Strindberg in i Swedenborgs universum. Reaktionen kom genast: "Från ateism till Swedenborg tycks det bara vara ett steg!"[^5] Inte nyfikenhet drev honom utan igenkänning. I *Inferno* ger han sin egen version av den swedenborgianska erfarenheten:
+Under krisåren i Paris snubblade August Strindberg in i Swedenborgs universum. Reaktionen kom genast: "Från ateism till Swedenborg tycks det bara vara ett steg!"[^5] Inte nyfikenhet drev honom, utan igenkänning. I *Inferno* ger han sin egen version av den swedenborgianska erfarenheten:
 
 > Helvetets eld, det är begäret att komma sig fram i världen; makterna uppväcka begäret och tillstädja de fördömda att ernå vad de eftertrakta. Men så snart målet är hunnet, önskningarna uppfyllda, befinnes allt vara värdelöst.[^6]
 
@@ -37,9 +37,9 @@ Koranen ger ett svar. Den ger eldbilden en förmåga som varken den nordiska tra
 
 > Han har sänt ned vatten från himlen så att flodbäddarna svämmar över i proportion till sin storlek, och forsarna för med sig tjockt skum. Och från det som de smälter i elden, för att erhålla smycken eller redskap, uppstår liknande skum. Så framställer Allah ﷻ sanning och falskhet. Vad skummet beträffar så försvinner det avsides, men det som gagnar människorna stannar kvar på jorden.[^7]
 
-Ibn Kathīr läser flodbäddarnas varierande storlek som en anspelning på hjärtanas olikhet – bland dem finns de som rymmer riklig kunskap, bland dem de som är för trånga för den. Elden *åtskiljer*. Skummet, som ser massivt ut på ytan, visar sig vara ingenting. Metallen, osynlig under skummet, framträder. Elden *skapar* inte skillnaden; den fanns där hela tiden.
+Ibn Kathīr läser flodbäddarnas varierande storlek som en anspelning på hjärtans olikhet – bland dem finns de som rymmer riklig kunskap, bland dem de som är för trånga för den. Elden *åtskiljer*. Skummet, som ser massivt ut på ytan, visar sig vara ingenting. Metallen, osynlig under skummet, framträder. Elden *skapar* inte skillnaden; skillnaden fanns där hela tiden.
 
-Varken den nordiska elden eller Swedenborgs korrespondenser når dit. Den koraniska elden *prövar*. Herakleitos gav visserligen elden förmågan att döma – "elden ska, när den kommer, döma och gripa allt" – men hans eld är opersonlig *logos*, utan blick för den enskilde.[^16] Den koraniska elden ser den enskilde.
+Varken den nordiska elden eller Swedenborgs korrespondenser når dit. Den koraniska elden *prövar*. Herakleitos gav visserligen elden förmågan att döma – "elden ska, när den kommer, döma och gripa allt" – men hans eld är opersonlig *logos*, blind för den enskilde.[^16] Den koraniska elden ser den enskilde.
 
 Den hanbalitiske lärde Ibn Rajab al-Ḥanbalī driver tanken till dess spets i *al-Takhwīf min al-Nār*:
 
@@ -57,7 +57,7 @@ Vad är det? I *Rawḍat al-Muḥibbīn* ger Ibn Qayyim ett svar – han knyter 
 
 > Kärleken sätter själen i rörelse och driver den till häftig längtan, och själen skapades med en rörlighet som av naturen liknar eldens.[^12]
 
-Här möts den islamiska traditionen och Swedenborg ett ögonblick – men skiljelinjen syns genast. För Swedenborg är bandet opersonligt: eld *betyder* kärlek i andevärldens grammatik. Hos Ibn Qayyim är det levande och riktat: själens eld drivs mot ett mål. Det avgörande är *vad* den riktas mot. Det som får dig att glömma tiden. Riktas den mot Allah ﷻ renar den; riktas den mot det egna jaget förtär den.
+Här möts den islamiska traditionen och Swedenborg för ett ögonblick – men skiljelinjen syns genast. För Swedenborg är bandet opersonligt: eld *betyder* kärlek i andevärldens grammatik. Hos Ibn Qayyim är det levande och riktat: själens eld drivs mot ett mål. Det avgörande är *vad* den riktas mot. Det som får dig att glömma tiden. Riktas den mot Allah ﷻ renar den; riktas den mot det egna jaget förtär den.
 
 ## Tre eldar, en fråga
 

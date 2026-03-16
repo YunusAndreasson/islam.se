@@ -15,7 +15,7 @@ Ibn Khaldūn var ingen dietist. Hans *Muqaddimah*, det väldiga förordet till e
 
 > Det som människan äter påverkar hennes natur djupt; från detta följer hennes karaktär.[^3]
 
-Argumentet var sociologiskt, inte moraliskt: nomaderna åt enkelt och sparsamt, av nödvändighet, inte av dygd. När överlevnaden kräver samarbete, när måltiden delas för att den måste delas, uppstår det Ibn Khaldūn kallade *ʿaṣabiyyah*: den gruppkänsla, den lojalitet mot det gemensamma, som gör gemensamt handlande möjligt.[^4]
+Argumentet var sociologiskt, inte moraliskt: nomaderna åt enkelt och sparsamt, av nödvändighet, inte av dygd. När överlevnaden kräver samarbete, när måltiden delas för att den måste delas, uppstår det Ibn Khaldūn kallade *ʿaṣabiyyah*: den gruppkänsla, den inbördes lojalitet, som gör gemensamt handlande möjligt.[^4]
 
 Nomaderna erövrar staden. I staden finns bekvämlighet. Bekvämligheten förfinar smaken. Den förfinade smaken gör aptiten privat. Den privata aptiten löser de band som en gång höll gruppen samman.
 
@@ -67,7 +67,7 @@ Platon ville styra maten uppifrån. Ibn Khaldūn beskrev förändringen som ound
 
 ## Köksbordet som tystnat
 
-Vad händer när gemenskapen kring bordet försvinner? Ny forskning bekräftar vad traditionen länge vetat. Amanda Björnwalls avhandling vid Uppsala universitet (2025) visar att det bland 70–75-åringar inte är ensamätandet i sig som skadar, utan att *vara* ensam vid bordet – att måltiden förlorar sin roll som social händelse.[^17][^18]
+Vad händer när gemenskapen kring bordet försvinner? Ny forskning bekräftar vad traditionen länge hävdat. Amanda Björnwalls avhandling vid Uppsala universitet (2025) visar att det bland 70–75-åringar inte är ensamätandet i sig som skadar, utan att *vara* ensam vid bordet – att måltiden förlorar sin roll som social händelse.[^17][^18]
 
 År 2024 reste IKEA vad de kallade "Sveriges största långbord".[^19] Ett möbelföretag försöker fylla ett tomrum genom att bygga ett bord. Sorgligt just för att det är nödvändigt: någon måste *bygga* det bord som en gång var givet.
 

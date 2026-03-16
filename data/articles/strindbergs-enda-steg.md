@@ -41,11 +41,11 @@ Ellen Key, Strindbergs samtida och på många sätt hans motpol, ser företeelse
 
 > Mycket fromma kristnas barn bli fritänkare, mycket fria fritänkares barn kristna. Orsaken är öppendaglig.[^8]
 
-Key ser samhällelig pendling. Men varför slår pendeln alltid *tillbaka*? Vore ateism ett stadigt kunskapstillstånd borde riktningen vara rak: varje generation mer sekulär, tills religionen utdör.
+Key ser samhällelig pendling. Men varför slår pendeln alltid *tillbaka*? Vore ateism ett stadigt kunskapstillstånd, borde riktningen vara rak: varje generation mer sekulär, tills religionen utdör.
 
 Det är inte vad som sker, inte vad Key observerar, inte vad Strindberg genomlever. Ett internationellt forskningsprojekt vid Oxford visade 2011 att religiösa begrepp framträder som grundläggande mönster i mänskligt tänkande, inte som inlärda föreställningar.[^9] Justin Barrett, en av projektets ledare: "Religion handlar inte om något som ett fåtal särskilda människor gör på söndagar i stället för att spela golf."[^10]
 
-Invändningar finns. Ateismforskare som Lanman och Geertz hävdar att ateism också har naturliga kognitiva förlopp, att den kan uppstå av sig själv under vissa villkor.[^11] Invändningen är verklig men flyttar frågan: att ateism *kan* uppstå av sig själv säger inget om dess hållbarhet. Frågan kvarstår: kan ateism *levas* utan ansträngning? Strindbergs vittnesmål antyder motsatsen.
+Invändningar finns. Ateismforskare som Lanman och Geertz hävdar att ateism också följer naturliga kognitiva förlopp, att den kan uppstå av sig själv under vissa villkor.[^11] Invändningen är befogad men flyttar frågan: att ateism *kan* uppstå av sig själv säger inget om dess hållbarhet. Frågan kvarstår: kan ateism *levas* utan ansträngning? Strindbergs vittnesmål antyder motsatsen.
 
 ## Den omöjliga neutraliteten
 
@@ -65,7 +65,7 @@ Dag Hammarskjöld noterade samma rörelse i *Vägmärken*, utan dramatik:
 
 > Jag vet inte Vem – eller vad – som ställde frågan. Jag vet inte när den ställdes. Jag minns inte att jag svarade. Men en gång svarade jag ja till Någon – eller Något.[^20]
 
-Frånvaron av dramatik gör Hammarskjölds vittnesmål svårare att avfärda. Strindbergs erfarenhet kan skyllas på feber och sammanbrott; Hammarskjölds kan det inte. Att samma ofrivilliga rörelse sker utan sjukdom antyder att krisen inte skapar rörelsen – den blottar den snabbast.
+Frånvaron av dramatik gör Hammarskjölds vittnesmål svårare att avfärda. Strindbergs erfarenhet kan skyllas på feber och sammanbrott; Hammarskjölds kan det inte. Att samma ofrivilliga rörelse sker utan sjukdom antyder att krisen inte skapar rörelsen – den blottar den tydligast.
 
 Hjalmar Söderberg fångade belägenhetens ironi med sedvanlig torrhet:
 
@@ -79,25 +79,25 @@ Den uppenbara invändningen är den stabila ateisten: den som lever ett helt liv
 
 Albert Einstein bekände: "Jag är ingen ateist. Problemet är alltför stort för våra begränsade sinnen."[^25] Han var ingen teist – men han kunde inte landa i ateism. Problemet var för stort.
 
-Strindbergs "enda steg" är ingen profetia om att alla ateister kommer att ta det – bara en iakttagelse om hur kort steget visar sig vara för dem som tvingas dit.
+Strindbergs "enda steg" är ingen profetia om att alla ateister kommer att ta det – bara en iakttagelse om hur kort steget visar sig vara för dem som tvingas ta det.
 
 Koranen skildrar också det motsatta: de som hör och vänder bort.
 
 > När Våra verser reciteras för honom vänder han sig bort i högmod som om han inte hörde dem – som om hans öron var tilltäppta.[^23]
 
-Öronen är inte döva; de är tilltäppta. Det är hela skillnaden. *Fiṭrah* hävdar inte att varje människa kommer att erkänna Gud – bara att ingen kan undgå att på någon nivå *veta*, och att det som ser ut som stabil ateism ofta kräver ständigt underhåll.
+Öronen är inte döva; de är tilltäppta. Det är hela skillnaden. *Fiṭrah* hävdar inte att varje människa kommer att erkänna Gud – bara att ingen kan undgå att på någon nivå *veta*, och att det som ser ut som stabil ateism kräver ständigt underhåll.
 
 ## Vad Strindberg inte visste
 
 Strindberg landade bekantligen i Swedenborg – inte i islam, inte i ortodox kristendom, utan i en blandning av andeskåderi, korrespondenstänkande och personlig mytbildning.[^15] *Fiṭrah*-argumentet gäller inte *vart* pendeln slår utan *att* den slår. Att Strindberg sökte sig till Swedenborg och inte till Koranen speglar hans kulturella horisont – inget annat.
 
-Ibn Taymiyyah hade redan fångat problemet: Profeterna, skriver han, "slog liknelser som kompletterade *fiṭrah* med det den inte uppmärksammat eller som den korrumperade åsikter och begär hade fördunklat."[^16] *Fiṭrah* ger riktningen – mot Gud. Uppenbarelsen ger precisionen: *vilken* Gud, *hur* man närmar sig, *vad* Han kräver. Utan uppenbarelse är *fiṭrah* en kompass utan karta. Den pekar rätt men visar inte vägen.
+Ibn Taymiyyah hade redan fångat problemet: Profeterna, skriver han, "slog liknelser som kompletterade *fiṭrah* med det den inte uppmärksammat eller som den korrumperade åsikter och begär hade fördunklat."[^16] *Fiṭrah* ger riktningen – mot Gud. Uppenbarelsen tillför precisionen: *vilken* Gud, *hur* man närmar sig, *vad* Han kräver. Utan uppenbarelse är *fiṭrah* en kompass utan karta. Den pekar rätt men visar inte vägen.
 
-Strindberg hade kompassen. Han saknade kartan. Inferno-krisen är *fiṭrah* i verkan – den genombröt ateismens yta och drev honom mot det gudomliga. Men utan profetisk vägledning förde den honom till Swedenborgs visioner, inte till Abrahams raka väg. Kvar stod vad Strindberg själv kallade "ett själstillstånd snarare än någon på teorier grundad åsikt."[^17]
+Strindberg hade kompassen. Han saknade kartan. Inferno-krisen är *fiṭrah* i verkan – den genombröt ateismens yta och drev honom mot det gudomliga. Men utan profetisk vägledning förde den honom till Swedenborgs visioner, inte till Abrahams raka väg. Kvar stod det Strindberg själv kallade "ett själstillstånd snarare än någon på teorier grundad åsikt."[^17]
 
 ## Bördan att inte tacka
 
-Hans mest avslöjande mening är den enklaste: "Min tvungna otacksamhet trycker mig som en börda." En människa som vet att hon har något att tacka för men saknar någon att tacka. Ateismen har tagit bort mottagaren men inte behovet. Vore tacksamheten en frukt av tron borde den försvinna med tron. Att behovet består antyder att det inte är tron som föder tacksamheten utan tacksamheten som vittnar om något tron bara erkänner.
+Hans mest avslöjande mening är den enklaste: "Min tvungna otacksamhet trycker mig som en börda." En människa som vet att hon har något att tacka för men saknar någon att tacka. Ateismen har tagit bort mottagaren men inte behovet. Vore tacksamheten en frukt av tron, borde den försvinna med tron. Att behovet består antyder att det inte är tron som föder tacksamheten utan tacksamheten som vittnar om något tron bara erkänner.
 
 Oscar Levertin: "Verkligheten kan kanske undvara religion, men säkert ej religiositet."[^18] Att avskaffa religion – kyrkor, dogmer, ritualer – låter sig göras. Att avskaffa religiositeten är att rycka ut något ur människan själv.
 

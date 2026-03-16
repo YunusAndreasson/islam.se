@@ -11,11 +11,11 @@ Hans namn var Sībawayh.
 
 ## En persers väg till det heliga språket
 
-Abū Bishr ʿAmr ibn ʿUthmān ibn Qanbar – kallad Sībawayh, "äppeldoften", ett persiskt smeknamn – föddes i Shiraz och kom till Basra som ung man.[^1] Han hade tänkt studera islamisk rättsvetenskap, *fiqh*. Men han begick ett grammatiskt fel i en *ḥadīth*-diskussion. Skammen drev honom till språkvetenskapen, till en glöd som aldrig släcktes. Att studera grammatik med den glöden är att urskilja språkets skelett i varje yttrande: i poetens vers, i profetens tal, i marknadens rop.
+Abū Bishr ʿAmr ibn ʿUthmān ibn Qanbar – kallad Sībawayh, "äppeldoften", ett persiskt smeknamn – föddes i Shiraz och kom till Basra som ung man.[^1] Han hade tänkt studera islamisk rättsvetenskap, *fiqh*. Men han begick ett grammatiskt fel i en *ḥadīth*-diskussion. Skammen drev honom till språkvetenskapen — och tände en glöd som aldrig släcktes. Att studera grammatik med den glöden är att urskilja språkets skelett i varje yttrande: i poetens vers, i profetens tal, i marknadens rop.
 
 Hans lärare blev al-Khalīl ibn Aḥmad al-Farāhīdī, en arabisk lingvist från Oman som avlyssnat prosodins lagar i en kopparslagares hammarslag.[^2] Att al-Khalīl var arab och Sībawayh perser är inte en bisats. Det är poängen.
 
-Arabisk grammatik föddes ur samarbete, aldrig som arv.
+Arabisk grammatik föddes ur samarbete, inte ur arv.
 
 Sībawayh skrev *al-Kitāb* – "Boken". Den behövde inget annat namn. Den var den första systematiska grammatiken för arabiska språket och har aldrig ersatts. I över tusen år har varje seriös arabisk grammatiker utgått från Sībawayh.[^3]
 
@@ -25,7 +25,7 @@ Sībawayh var perser; hans uttal förrådde honom. I en kultur som värderade *f
 
 Spänningen löstes aldrig helt. Arabiska är Koranens språk; uppenbarelsen kom på "ett tydligt arabiskt tungomål".[^4]
 
-Språkets helighet är odiskutabel. Men vem *äger* det? Om ägandet är etniskt, om arabiskan tillhör araberna som blodets arv, borde en perser med brytning vara den siste att skriva dess grammatik. Ändå var det en perser som gjorde det. Ingen har gjort det bättre.
+Språkets helighet är odiskutabel. Men vem *äger* det? Om ägandet är etniskt, om arabiskan tillhör araberna genom blodets arv, borde en perser med brytning vara den siste att skriva dess grammatik. Ändå var det en perser som gjorde det. Ingen har gjort det bättre.
 
 Ibn Khaldūn konstaterade det i sin *al-Muqaddimah*: de som lade grunden till den arabiska grammatiken – Sībawayh, al-Fārisī, al-Zajjāj – var alla perser. I samma verk tillade han:
 
@@ -43,9 +43,9 @@ Al-Shāfiʿī lade till:
 
 > Lär dig, ty människan föds inte lärd – och den som har kunskap är inte lik den okunnige.[^7]
 
-Sībawayh levde detta. Utifrån erövrade han arabiskan, så grundligt att han satte normen för dem som *var* födda in i den. Den som föds in i ett språk äger det som instinkt – vet vad som är rätt men inte varför. Den som erövrar det utifrån måste lära sig *varför*, och det är just det som grammatik är.
+Sībawayh levde detta. Utifrån erövrade han arabiskan, så grundligt att han satte normen för dem som *var* födda in i den. Den som föds in i ett språk bär det som instinkt – vet vad som är rätt men inte varför. Den som erövrar det utifrån måste lära sig *varför*, och det är just det som grammatik är.
 
-Motståndet kom ändå. Det islamiska samhällets tidiga århundraden präglades av *shuʿūbiyyah*-rörelsen, där perser och andra icke-arabiska muslimer hävdade sin jämbördighet med araberna trots dessas kulturella överhöghet.[^8] Mitt i denna spänning utspelade sig Sībawayhs karriär. Skepsisen gällde mer än accenten: kunde en utlänning gripa arabiskans innersta logik, det som al-Suyūṭī kallade språkets *tawassuʿ*, dess närmast oändliga vidd?[^9]
+Motståndet kom ändå. Det islamiska samhällets tidiga århundraden präglades av *shuʿūbiyyah*-rörelsen, där perser och andra icke-arabiska muslimer hävdade sin jämbördighet med araberna trots arabernas kulturella överhöghet.[^8] Mitt i denna spänning utspelade sig Sībawayhs karriär. Skepsisen gällde mer än accenten: kunde en utlänning gripa arabiskans innersta logik, det som al-Suyūṭī kallade språkets *tawassuʿ*, dess närmast oändliga vidd?[^9]
 
 *Al-Kitāb* var svaret: fyra volymer systematisk granskning som visade att arabiskans byggnad kunde gripas, beskrivas och läras av den som lade ner tillräcklig möda. Ett bevis, inte ett argument. Argument besvaras; bevis brukas, och *al-Kitāb* har brukats i varje arabisk lärosal i fjorton århundraden.
 
@@ -83,7 +83,7 @@ Om det gäller arabiskan – Koranens språk, det språk Gud valde för sin sist
 
 Mönstret gäller även västerut: Joseph Conrad lärde sig engelska i tjugoårsåldern och formade den moderna engelska romanens språk – utan att vara engelsman.[^15]
 
-ʿAlī ibn Abī Ṭālib sade: "Tungan är kroppens roder – om den rättar sig, rättar sig alla lemmar."[^16] Tukt, övning, lärande. Aldrig rätt föräldrar.
+ʿAlī ibn Abī Ṭālib sade: "Tungan är kroppens roder – om den rättar sig, rättar sig alla lemmar."[^16] Disciplin, övning, lärande. Aldrig rätt föräldrar.
 
 Sībawayh dog ung, knappt fyrtio år gammal. Han lämnade inga lärjungar i vanlig mening. Han lämnade *al-Kitāb*. Det räckte.
 

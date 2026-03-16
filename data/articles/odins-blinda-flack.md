@@ -13,7 +13,7 @@ Men frågan som sällan ställs är varför just ett öga, och framför allt vad
 
 Snorre Sturlason, som nedtecknade myten i *Prosaeddan*, var noga med detaljerna. Brunnen ligger under Yggdrasils andra rot, i jättarnas värld. Den vaktas av Mimer, vars namn, *Mímir*, är besläktat med fornisländskans *minni*: minne, hågkomst.[^1] Brunnen rymmer *visdom och förstånd*. Odin får dricka ur den först efter att ha lämnat sitt öga som pant.
 
-Vad slags köp är det? Viktor Rydberg, som ägnade decennier åt att ordna den nordiska mytologin, klarlade dess tankegång:
+Vad slags köp är det? Viktor Rydberg, som ägnade decennier åt att ordna den nordiska mytologin, tydliggjorde dess tankegång:
 
 > Odin måste underkasta sig stora lidanden och offer för att dricka ur brunnen, och det är som en gåva eller ett lån han därefter mottar den livgivande och själsinspirerade drycken. Över brunnen och dess territorium utövar Mimer oinskränkt kontroll, en auktoritet som gudarna aldrig tycks ha ifrågasatt.[^2]
 
@@ -21,11 +21,11 @@ Nyckelordet: *lån*. Kunskapen byter ägare genom ett reglerat byte. Odin ger bo
 
 Här blottläggs den blinda fläcken. Odin förlorar *syn*. Han förlorar aldrig *sig själv*. Den mäktige guden stiger ned till brunnen och stiger upp som samma gud, med ett öga färre och en visdom mer. Mimer, *den som minns*, vaktar den ordning som gör kunskapen till ägande: minnet av vem man är, vad man vill, vad man äger.
 
-Invändningen är given: Odins hängning på Yggdrasil, nio nätter, genomborrad av ett spjut, offrad "åt sig själv", borde väl innebära en grundligare förvandling? Men det offret gäller *runorna*, inte visheten vid brunnen. Även efter hängningen förblir Odin den han var: härskare, kunskapssökare, den som vill veta *mer*.
+Invändningen är given: Odin hängde på Yggdrasil nio nätter, genomborrad av ett spjut, offrad "åt sig själv" – borde inte det innebära en grundligare förvandling? Men det offret gäller *runorna*, inte visheten vid brunnen. Även efter hängningen förblir Odin den han var: härskare, kunskapssökare, den som vill veta *mer*.
 
 ## Dårens natt
 
-Den nordiska traditionen är inte blind för kunskapens risker. Hávamál, den eddadikt som talar med Odins egen röst, öppnar en spricka. Strof 23 mejslar en varning som bryter med byteslogiken:
+Den nordiska traditionen är inte blind för kunskapens risker. Hávamál, den eddadikt som talar med Odins egen röst, blottlägger en spricka. Strof 23 mejslar en varning som bryter med byteslogiken:
 
 > En dåraktig man ligger vaken hela natten och grubblar över allting; trött är han när morgonen kommer, och allt är en börda som förut.[^3]
 
@@ -89,13 +89,13 @@ I den svenska tanketraditionen framträder en annan linje. August Strindberg ski
 
 > Ställd i valet mellan kärlek och vetande, hade jag bestämt mig för att söka nå kunskapens höjder, och i det jag brände å båle min tillgivenhet, glömde jag det oskyldiga offret för min ärelystnad eller min kallelse.[^11]
 
-*Nå kunskapens höjder.* Strindberg stiger uppåt, erövrar, betalar med mänskliga band på ambitionens bål. Men det offrade är aldrig Strindberg själv. Det oskyldiga offret, kärleken, de andra, är en kostnad i det köp som gör honom till den han vill vara.
+*Nå kunskapens höjder.* Strindberg stiger uppåt, erövrar, offrar mänskliga band på ambitionens bål. Men det offrade är aldrig Strindberg själv. Det oskyldiga offret, kärleken, de andra, är en kostnad i det köp som gör honom till den han vill vara.
 
 Erik Gustaf Geijer rörde sig i samma spår:
 
 > En blott överlämnad, om ock riklig, kunskap är ej därför fruktbärande. Därtill fordras, att den på ett levande sätt skall vara tillägnad, genomlevd, prövad, fostrad av inre och yttre erfarenhet till en frukt för livet.[^12]
 
-Kunskapen ska vara "genomlevd", men Geijer föreskriver assimilation – Odins modell i civiliserad tappning, utan att ödmjuka sig inför det man lär sig.
+Kunskapen ska vara "genomlevd", men Geijer föreskriver assimilation – Odins modell i civiliserad tappning, utan att kräva ödmjukhet inför det man lär sig.
 
 Men inte alla svenska röster följde samma linje. Zacharias Topelius varnade i *Stjärnornas kungabarn*:
 

@@ -7,7 +7,7 @@ description: "Neuralink lovar att befria hjärnan från kroppen. Den islamiska t
 ---
 En människa, kopplad till en maskin, tänker en tanke och tanken blir handling utan att bromsas av kroppen. Fingrarna behöver inte röra sig, stämbanden behöver inte vibrera. Hjärnan, äntligen befriad från sitt biologiska fängelse, talar rakt till världen.
 
-Elon Musks Neuralink har förverkligat scenariot. Sedan 2024 bär försökspersoner chip i hjärnan som låter dem styra datorer med tankekraft. Företagets vision siktar längre: att *sammansmälta* människa och maskin, överföra medvetanden, göra döden till ett val.
+Elon Musks Neuralink har tagit de första stegen mot scenariot. Sedan 2024 bär försökspersoner chip i hjärnan som låter dem styra datorer med tankekraft. Företagets ambition siktar längre: att *sammansmälta* människa och maskin, överföra medvetanden, göra döden till ett val.
 
 Visionen vilar på en outtalad grundsats: medvetandet är hjärnan, jaget är neuroner, och kroppens gräns är jagets gräns.
 
@@ -39,9 +39,9 @@ Ju mer kroppen tillfredsställs, desto tyngre blir den, och desto djupare sjunke
 
 Sexhundra år senare klädde Simone Weil samma insikt i samma bild, utan att ha läst den damascenske lärde: "Alla själens naturliga rörelser styrs av lagar analoga med den materiella tyngdkraftens. Nåden är det enda undantaget."[^17] Men Weils *enda undantag* blottar en begränsning: gravitationen är absolut, och själen kan ingenting annat än vänta på en nåd som kommer utifrån. Ibn Qayyim beskriver samma gravitation – men i hans system finns handlingar som lättar kroppens tyngd inifrån.
 
-Transhumanismen lovar att undanröja motstånd, göra kroppen så följsam att gränsen mellan tanke och handling upphör. I Ibn Qayyims tankegång är detta kroppens tyngdkraft förstärkt till en kraft som själen inte längre kan undkomma. Chippet i hjärnan gör inte fängelset mindre – det gör fängelset *bekvämare*. Och en bekväm fånge glömmer att han är fånge.
+Transhumanismen lovar att undanröja motstånd, göra kroppen så följsam att gränsen mellan tanke och handling upphör. I Ibn Qayyims tankegång är detta kroppens tyngdkraft förstärkt till en kraft som själen inte längre kan undkomma. Chipet i hjärnan gör inte fängelset mindre – det gör fängelset *bekvämare*. Och en bekväm fånge glömmer att han är fånge.
 
-I *Madārij al-Sālikīn* fullbordar han bilden. Denna värld och nästa jämförs med moderlivet och det som följer efter födseln, eller "ännu ringare" än så. De visa anför han: "Låt din iver att lämna denna värld vara som din iver att lämna det trånga fängelset för att möta dina älskade."[^5] Döden är i denna tradition inte nederlag utan födelse.
+I *Madārij al-Sālikīn* fullbordar Ibn Qayyim bilden. Denna värld och nästa jämförs med moderlivet och det som följer efter födseln, eller "ännu ringare" än så. Han anför de visa: "Låt din iver att lämna denna värld vara som din iver att lämna det trånga fängelset för att möta dina älskade."[^5] Döden är i denna tradition inte nederlag utan födelse.
 
 ## En fläkt av igenkänning
 
@@ -61,11 +61,11 @@ Bönen kräver kroppen: knäna, pannan, händerna. Fastan tuktar den utan att f�
 
 Skillnaden mot den platonska dualismen är avgörande. I *Faidon* visar Platon hur filosofen "ständigt söker befria själen" och döden är den slutgiltiga skilsmässan.[^11] I islam återuppstår kroppen; själ och kropp återförenas på Domens dag. Befrielsen riktar sig mot kroppens envälde – det tillstånd där begäret styr och själen följer.
 
-Det är detta envälde transhumanismen upphöjer till program.
+Det är kroppens envälde transhumanismen upphöjer till program.
 
 ## Den rastlösa uppgraderingen
 
-Pär Segerdahl kallar transhumanismen "det mänskliga missnöjet" – en rörelse som behandlar hetsen och ångesten inte som problem att lösa utan som mönster att förstärka.[^12] Ibn Taymiyyah ställde diagnosen: "Den som fäster sitt hjärta vid det skapade, dess hjärta underkastas av det."[^18] Själen som "aldrig stannar vid en gräns" söker inte bättre celler utan det enda som inget ändligt kan mätta.
+Pär Segerdahl kallar transhumanismen "det mänskliga missnöjet" – en rörelse som behandlar hetsen och ångesten inte som problem att lösa utan som drivkrafter att förstärka.[^12] Ibn Taymiyyah ställde diagnosen: "Den som fäster sitt hjärta vid det skapade, dess hjärta underkastas av det."[^18] Själen som "aldrig stannar vid en gräns" söker inte bättre celler utan det enda som inget ändligt kan mätta.
 
 Koranen namnger tillståndet:
 
@@ -81,7 +81,7 @@ Men *evigt liv* är transhumanismens yttersta löfte. Medvetandeöverföring, di
 
 Islam vägrar förutsättningen: "Varje själ skall smaka döden. Därefter är det till Oss ni skall återföras."[^15] Döden är stunden då cellens väggar faller och själen kan återvända till det den alltid längtat efter.
 
-De mest fromma är ofta de som minst fruktar döden – inte av likgiltighet inför livet utan av tillförsikt inför dess källa. Ingmar Bergmans riddare i *Det sjunde inseglet* når samma åtskillnad: "Min kropp är rädd, inte jag själv."[^19]
+De mest fromma fruktar ofta döden minst – inte av likgiltighet inför livet utan av tillförsikt inför dess källa. Ingmar Bergmans riddare i *Det sjunde inseglet* når samma åtskillnad: "Min kropp är rädd, inte jag själv."[^19]
 
 ## Vart tar själen vägen
 

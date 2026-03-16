@@ -5,7 +5,7 @@ wordCount: 1720
 qualityScore: 8.6
 description: "År 2025 konstaterade MSB att svensk krisberedskap är otillräcklig och att Stockholm har tre dagars livsmedelsförsörjning innan hyllorna töms. Under kalla kriget hade landet beredskapslager för månader av isolering – idag finns ingen myndighet med utpekat ansvar för att svenskarna kan äta."
 ---
-Stockholm har tre dagars livsmedelsförsörjning. Sedan: tomma hyllor, bruten kylkedja. Åtta miljoner människor hänvisade till skafferiets innehåll.
+Stockholm har tre dagars livsmedelsförsörjning. Sedan: tomma hyllor, bruten kylkedja. Tio miljoner människor hänvisade till skafferiets innehåll.
 
 Det är ingen mardröm. Det är en myndighetsrapport. MSB konstaterade 2025 att svensk krisberedskap är "otillräcklig" och att landet behöver 32 miljarder kronor om året för att nå en rimlig nivå.[^1] Under kalla kriget hade Sverige beredskapslager för månader av isolering och en självförsörjningsgrad nära hundra procent. Idag saknas ens en myndighet med utpekat ansvar för livsmedelsförsörjning i kris.[^2] Självförsörjningen har halverats. Lagren är avvecklade, ansvaret utspritt.
 
@@ -17,9 +17,9 @@ I sura *Yūsuf* tolkar Josef den egyptiske kungens dröm om sju feta kor som slu
 
 > Ni skall under sju år få odla som vanligt. Det ni skördar bör ni sedan lämna i sina ax, utom lite grann som ni kan ha att äta.[^3]
 
-Sedan ber Josef själv om uppdraget: "Gör mig ansvarig för landets förrådshus; jag är sannerligen en kunnig förvaltare."[^4] Ordet han använder, *ḥāfiẓ*, bär dubbel betydelse: den som bevarar och den som håller räkning – inte en byråkrat utan en väktare. Den som går genom förrådshuset varje dag, känner på säckarna, räknar vad som finns kvar. Ibn Kathīr citerar Shayba ibn Naʿāma, som förtydligar: "*ḥafīẓ* – väktare över det som anförtrotts mig; *ʿalīm* – kännare av torråren."
+Sedan ber Josef själv om uppdraget: "Gör mig ansvarig för landets förrådshus; jag är sannerligen en kunnig förvaltare."[^4] Ordet han använder, *ḥāfiẓ*, bär dubbel betydelse: den som bevarar och den som håller räkning – inte en byråkrat utan en väktare. Den som går genom förrådshuset varje dag, känner på säckarna, räknar vad som finns kvar. Ibn Kathīr citerar Shayba ibn Naʿāma, som förtydligar: "*ḥafīẓ* – väktare över det som anförtrotts mig; *ʿalīm* – förtrogen med torråren."
 
-Ur Josefs svar stiger en modell: centraliserad lagerhållning, rationering under överflödsåren, statlig kontroll över fördelningen. Den som ser överflödet och inte lägger undan inför bristen sviker uppdraget.
+Ur Josefs svar framträder en modell: centraliserad lagerhållning, rationering under överflödsåren, statlig kontroll över fördelningen. Den som ser överflödet och inte lägger undan för kommande brist sviker uppdraget.
 
 Koranen avslutar episoden: "På så vis etablerade Vi Josef i landet och han kunde slå sig ned var än han behagade."[^5] Trygghet vilar på förutseende.
 
@@ -27,9 +27,9 @@ Koranen avslutar episoden: "På så vis etablerade Vi Josef i landet och han kun
 
 Rättsvetaren Ibn Taymiyyah ärver Josefs grundsats och gjuter den i juridisk form. I *al-Ḥisbah fī al-Islām* driver han en tes som fortfarande utmanar: om någon hamstrar mat medan folket svälter, har staten rätt att tvinga fram försäljning till marknadspris.[^6]
 
-Den uppenbara invändningen bemötte han själv: hadithen där Profeten ﷺ vägrar sätta priser.[^7] Den hadithen gäller ett läge där ingen vägrade sälja och ingen drev upp priserna med flit. När handelsmän medvetet håller tillbaka varor under en bristperiod tar en annan grundsats vid: plikten att skydda allmänintresset.[^8] Den som i nödtid monopoliserar livsnödvändigheter "påtvingar människor den svårighet och trångmål som är förbjuden".[^9]
+Den uppenbara invändningen bemötte han själv: hadithen där Profeten ﷺ vägrar sätta priser.[^7] Hadithen gäller ett läge där ingen vägrade sälja och ingen medvetet drev upp priserna. När handelsmän medvetet håller tillbaka varor under en bristperiod tar en annan grundsats vid: plikten att skydda allmänintresset.[^8] Den som i nödtid monopoliserar livsnödvändigheter "påtvingar människor den svårighet och trångmål som är förbjuden".[^9]
 
-Att mätta den hungrige, skriver han i *al-Īmān*, är "en gemensam skyldighet enligt alla muslimska lärda".[^10] Orden *farḍ ʿalā al-kifāyah* – en plikt som åligger samhället som helhet – innebär att om ingen fullgör den, bär alla skulden.
+Att mätta den hungrige, skriver han i *al-Īmān*, är "en kollektiv skyldighet enligt alla muslimska lärda".[^10] Orden *farḍ ʿalā al-kifāyah* – en plikt som åligger samhället som helhet – innebär att om ingen fullgör den, bär alla skulden.
 
 Sjuhundra år senare nådde Amartya Sen samma slutsats på empirisk väg: svält orsakas inte av absolut brist utan av att fördelningen bryter samman.[^20] Sen byggde sitt bevis på Bengalens hungersnöd och decennier av fältdata; Ibn Taymiyyahs rättslära härledde samma slutsats ur pliktens ordning.
 
@@ -39,7 +39,7 @@ Under efterkrigstiden byggde Sverige ett av de mest ambitiösa beredskapssysteme
 
 Sedan föll Berlinmuren. Och med den föll föreställningen att beredskap behövdes.
 
-Avvecklingen vilade på en ekonomisk trossats. Just-in-time-leveranser, nollager, ständig flödesoptimering: varje kvadratmeter förrådsutrymme var bortkastad yta – tills lastbilarna slutade komma. Det tankegods som bar avvecklingen kom från Hayek och Friedman, som hävdat att statliga reserver snedvrider prissignaler och hämmar effektivitet. Sverige lyssnade: under 1990- och 2000-talen avvecklades beredskapslager systematiskt, och ansvaret för livsmedelsförsörjning i kris föll mellan stolarna.[^12]
+Avvecklingen vilade på en ekonomisk trossats. Just-in-time-leveranser, nollager, ständig flödesoptimering: varje kvadratmeter förrådsutrymme var slöseri – tills lastbilarna slutade komma. Det tankegods som drev avvecklingen kom från Hayek och Friedman, som hävdade att statliga reserver snedvrider prissignaler och hämmar effektivitet. Sverige lyssnade: under 1990- och 2000-talen avvecklades beredskapslager systematiskt, och ansvaret för livsmedelsförsörjning i kris föll mellan stolarna.[^12]
 
 Argumentet var vattentätt – och fel. I en livsmedelskris gnager hungern innan marknaden hinner rätta sig. Marknaden räknar i månader; kroppen i dagar.
 
@@ -55,7 +55,7 @@ Under 2024 och 2025 steg det globala kaffepriset med över fyrtio procent efter 
 
 Vad som idag motsvarar sju magra år är en leveranskedja som bryts tusen mil bort och vars följder når en svensk matbutik inom dagar. Vad förr var missväxt i ett land är nu samtidig torka på tre världsdelar; utrymmet mellan normalitet och svält har krympt till veckor.[^16] Ny teknik kan mildra slagen: torktåliga grödor, vertikal odling, andra proteinkällor. Men ingen uppfinning ersätter den politiska viljan att lagra. Torktåligt vete hjälper föga om det inte finns i ett svenskt förråd när fartygstrafiken i Östersjön upphör.
 
-När försörjningen hotas blottas statens innersta ordning. Verner von Heidenstam slog fast grundsatsen i *Folkungaträdet*: "Dålig skörd följer dålig konung."[^21] Historikern Ibn Khaldūn formulerade samma ordning i en enda kedja: "Soldater behålls genom pengar. Pengar är försörjning som samlas genom folk. Folk är tjänare som skyddas genom rättvisa."[^17] Varje kedja bryts vid sitt svagaste led. I det moderna Sverige är det svagaste ledet att ingen bär ansvar för att det finns mat.
+När försörjningen hotas blottas statens innersta ordning. Verner von Heidenstam slog fast grundsatsen i *Folkungaträdet*: "Dålig skörd följer dålig konung."[^21] Historikern Ibn Khaldūn formulerade en besläktad ordning i en enda kedja: "Soldater behålls genom pengar. Pengar är försörjning som samlas genom folk. Folk är tjänare som skyddas genom rättvisa."[^17] Varje kedja bryts vid sitt svagaste led. I det moderna Sverige är det svagaste ledet att ingen bär ansvar för att det finns mat.
 
 ## Ḥisbah för en ny tid
 

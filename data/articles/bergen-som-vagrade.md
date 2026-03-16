@@ -11,15 +11,15 @@ Scenen saknar motstycke. Himlar, jord och berg erbjuds ett förtroende. De vägr
 
 Den koraniska termen är *amānah*. Skrifttolkarna har aldrig enats om dess innebörd – al-Ṭabarī betonade lydnaden, al-Qurṭubī den moraliska medvetenhetens bredd, andra *tawḥīd* eller shariaförpliktelserna.[^2] Men oavsett tolkning kvarstår versens kärna: *amānah* kräver en bärare som kan bäva, välja, fela. Bergen kunde inte fela. Därför kunde de inte bära.
 
-Fjorton århundraden senare bygger vi system som beslutar om domar, anställningar, kreditvärdighet, vilka patienter som behandlas först. Systemen felbedömer. Men de kan inte bäva.
+Fjorton århundraden senare bygger vi system som beslutar om domar, anställningar, kreditvärdighet och vårdprioritering. Systemen felbedömer. Men de kan inte bäva.
 
 ## Sultanens tomt
 
-Ibn Qayyim al-Jawziyyah tecknade hjärtat som kroppens konung. Lemmarna är dess armé och undersåtar; de lyder hjärtat av nödvändighet, kan inte annat. Inget lem rör sig utom på hjärtats befallning, ingen tanke eller vilja föds utom genom dess styre.[^3] Hela denna ordning förutsätter att konungen är vaken. Det är den som känner vreden stiga innan ordet formas, som vet att beslutet finns innan handlingen.
+Ibn Qayyim al-Jawziyyah tecknade hjärtat som kroppens konung. Lemmarna är dess armé och undersåtar; de lyder hjärtat av nödvändighet, kan inte annat. Ingen lem rör sig utom på hjärtats befallning, ingen tanke eller vilja föds utom genom dess styre.[^3] Hela denna ordning förutsätter att konungen är vaken. Det är den som känner vreden stiga innan ordet formas, som vet att beslutet finns innan handlingen.
 
-Ett beslut är inte en beräkning utan en handling där hjärtat väger, tvekar, ansvarar. Förnuftet kan räkna, lemmarna verkställa, men ingen av dem kan *regera*.
+Ett beslut är inte en beräkning utan en handling där hjärtat väger, tvekar, bär ansvar. Förnuftet kan räkna, lemmarna verkställa, men ingen av dem kan *regera*.
 
-Nu blir bilden bokstavlig: algoritmen ersätter konungen, inte rådgivaren – övertar beslutet, inte bara beräkningen. Ordet *algoritm* är uppkallat efter den muslimske matematikern al-Khwārizmī, men det han formaliserade var beräkningen, inte domslutet. EU:s AI-förordning, fullt tillämplig från augusti 2026, ställer frågan juridiskt. Artikel 14 kräver att högrisk-AI-system ska ha "mänsklig tillsyn": att en människa alltid ska kunna förstå systemets kapacitet, tolka dess utfall och välja att bortse från dess bedömning.[^4] Den svenska utredningen SOU 2025:101 förtydligar och skärper kraven.[^5]
+Nu blir bilden bokstavlig: algoritmen ersätter konungen, inte rådgivaren – övertar beslutet, inte bara beräkningen. Ordet *algoritm* är uppkallat efter den muslimske matematikern al-Khwārizmī, men det han formaliserade var beräkningen, inte domslutet. EU:s AI-förordning, som träder i full kraft i augusti 2026, ställer frågan juridiskt. Artikel 14 kräver att högrisk-AI-system ska ha "mänsklig tillsyn": att en människa alltid ska kunna förstå systemets kapacitet, tolka dess utfall och välja att bortse från dess bedömning.[^4] Den svenska utredningen SOU 2025:101 förtydligar och skärper kraven.[^5]
 
 Men om den som formellt ska kunna överpröva en algoritm saknar tid, kunskap eller vilja – vem regerar då? Forskningen visar det: människor som övervakar självgående system slutar med tiden att ifrågasätta dem.[^19] Sultanen sover med öppna ögon.
 
@@ -27,7 +27,7 @@ Men om den som formellt ska kunna överpröva en algoritm saknar tid, kunskap el
 
 Det svenska rättssystemet vilar på en förutsättning: någon måste vara ansvarig. Ansvarsfrihet är undantaget – den sovande, den sinnessjuke, den som handlar under tvång. Ansvaret är regeln. Strindberg formulerade grundsatsen obarmhärtigt: "Den som sover är icke ansvarig för sina handlingar."[^6] Det omvända är lika tydligt: den som är vaken *är* ansvarig.
 
-AI river upp vad filosofen Andreas Matthias 2004 kallade en *ansvarslucka*: varken utvecklaren, användaren eller maskinen kan hållas fullt ansvarig för ett algoritmiskt beslut.[^7] Utvecklaren programmerade inte det enskilda utfallet; beräkningen översteg användarens förståelse; maskinen förstod ingenting alls. Ansvaret förskjuts längs en kedja där varje länk pekar på nästa – som i vårdkedjan där ingen enskild läkare felbedömde, men patienten dog ändå. Hannah Arendt såg samma upplösning i den moderna byråkratin: ett styre av Ingen, ett tyranni utan tyrann.[^20]
+AI blottlägger vad filosofen Andreas Matthias 2004 kallade en *ansvarslucka*: varken utvecklaren, användaren eller maskinen kan hållas fullt ansvarig för ett algoritmiskt beslut.[^7] Utvecklaren programmerade inte det enskilda utfallet; beräkningen översteg användarens förståelse; maskinen förstod ingenting alls. Ansvaret förskjuts längs en kedja där varje länk pekar på nästa – som i vårdkedjan där ingen enskild läkare felbedömde fallet, men patienten dog ändå. Hannah Arendt såg samma upplösning i den moderna byråkratin: ett styre av Ingen, ett tyranni utan tyrann.[^20]
 
 Koranen tillåter ingen sådan upplösning. "Varje själ är ansvarig för vad den har gjort"[^8] – en syndare bär inte en annan syndares börda.[^9] Förtroendet gavs till varje människa, inte till institutioner, inte system.
 
@@ -39,7 +39,7 @@ Värre än synden fruktade de klassiska lärda ett tillstånd: *ghaflah*. Ibn Qa
 
 *Ghaflah* är inte okunskap utan något värre: den medvetna varelsen som upphör att vara medveten. Hjärtat slår, kroppen fungerar, men konungen sover. Den som syndar väljer fel – men hon väljer. *Ghaflah* upphäver själva valet.
 
-Algoritmisk delegering är inte *ghaflah*. Inget AI-system sover; inget äger den vakenhet det kunde somna ifrån. Faran ligger i vad som händer med *människan*. Varje beslut som överlåts till ett system är ett beslut hjärtat inte längre fattar – varje automatiskt omdöme ett ögonblick där konungen inte behöver vara vaken. Vanan att inte vara vaken: det är just vad Ibn Qayyim kallade *ghaflah*.
+Algoritmisk delegering är inte *ghaflah*. Inget AI-system sover; inget äger den vakenhet det kunde somna ifrån. Faran ligger i vad som händer med *människan*. Varje beslut som överlåts till ett system är ett beslut hjärtat inte längre fattar – varje automatiskt omdöme ett ögonblick där konungen inte är vaken. Vanan att inte vara vaken: det är just vad Ibn Qayyim kallade *ghaflah*.
 
 Ellen Key läste aldrig Ibn Qayyim men såg samma fara. I *Barnets århundrade* skrev hon att kulturens uppgift borde vara att "göra människan målmedveten och ansvarig på alla områden, där hon endast handlat impulsivt och oansvarigt".[^12] Automationen lovar det omvända: befrielse från beslutsbördan. Men om bördan *är* det som gör oss ansvariga – om det tunga, det svåra, det som bergen vägrade, danar den mänskliga förmågan – då är befrielsen en förlust.
 
@@ -57,7 +57,7 @@ Ställföreträdande förutsätter en uppdragsgivare och en uppdragstagare som k
 
 Profeten ﷺ varnade: "När förtroendet förskingras, vänta då på den Yttersta stunden." Och på frågan om hur det förskingras svarade han: "När uppgiften anförtros den som inte förtjänar den."[^15]
 
-*Wussiḍa al-amr ilā ghayr ahlih* – "uppgiften anförtros den som inte är dess folk." En algoritm kan vara *träffsäkrare* än en människa. Men träffsäkerhet är inte rättvisa. Bergen lydde felfritt, och det var just det som diskvalificerade dem. *Amānah* förutsätter att bäraren kan svika förtroendet. Ibn Taymiyyah definierade rättvisa som att förstå tingen som de är och fullända dem.[^16] Det kräver mer än mönsterigenkänning: domaren som förstår att två stölder inte är samma brott.
+*Wussiḍa al-amr ilā ghayr ahlih* – "uppgiften anförtros den som inte är dess folk." En algoritm kan vara *träffsäkrare* än en människa. Men träffsäkerhet är inte rättvisa. Bergen lydde Guds ordning felfritt — och det var just det som diskvalificerade dem. *Amānah* förutsätter att bäraren kan svika förtroendet. Ibn Taymiyyah definierade rättvisa som att förstå tingen som de är och fullända dem.[^16] Det kräver mer än mönsterigenkänning -- det kräver domaren som förstår att två stölder inte är samma brott.
 
 ## Verktyget och domen
 
@@ -71,7 +71,7 @@ Ibn Khaldūn varnade: "De som inte är kvalificerade för domstolen bör inte bl
 
 Drömmen om automation – att befria människan från beslutens börda – är drömmen om att slippa vara den varelse som sa ja när bergen vägrade.
 
-Oscar Levertin skrev om "hjärtat, som icke tål att underordna sig under tanken men själf vill härska".[^18] Han talade om den romantiska konstnären, men formuleringen bär längre. Hjärtat, *al-qalb*, som vägrar abdikera, som envisas med att regera trots sin ofullkomlighet, trots sin benägenhet till synd och tanklöshet – det är den mänskliga särställning Koranen beskriver. Inte en triumf utan en börda.
+Oscar Levertin skrev om "hjärtat, som icke tål att underordna sig under tanken men själf vill härska".[^18] Han talade om den romantiska konstnären, men formuleringen bär längre. Hjärtat, *al-qalb*, som vägrar abdikera, som envisas med att regera trots sin ofullkomlighet, trots sin benägenhet till synd och tanklöshet – det är den mänskliga särställningen Koranen beskriver. Inte en triumf utan en börda.
 
 Bergen visste bättre. De bävade och vägrade. Vi sa ja. Frågan vår tid ställer är inte om vi kan bygga maskiner som beslutar åt oss – den är redan besvarad. Frågan är om vi, genom att låta dem göra det, långsamt håller på att ångra det ja som gjorde oss mänskliga.
 
