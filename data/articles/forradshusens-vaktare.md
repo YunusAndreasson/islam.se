@@ -17,7 +17,7 @@ I sura *Yūsuf* tolkar Josef den egyptiske kungens dröm om sju feta kor som slu
 
 > Ni skall under sju år få odla som vanligt. Det ni skördar bör ni sedan lämna i sina ax, utom lite grann som ni kan ha att äta.[^3]
 
-Sedan ber Josef själv om uppdraget: "Gör mig ansvarig för landets förrådshus; jag är sannerligen en kunnig förvaltare."[^4] Ordet han använder, *ḥāfiẓ*, bär dubbel betydelse: den som bevarar och den som håller räkning – inte en byråkrat utan en väktare. Den som går genom förrådshuset varje dag, känner på säckarna, räknar vad som finns kvar. Ibn Kathīr citerar Shayba ibn Naʿāma, som förtydligar: "*ḥafīẓ* – väktare över det som anförtrotts mig; *ʿalīm* – förtrogen med torråren."
+Sedan ber Josef själv om uppdraget: "Gör mig ansvarig för landets förrådshus; jag är sannerligen en kunnig förvaltare."[^4] Ordet han använder, *ḥāfiẓ*, bär dubbel betydelse: den som bevarar och den som håller räkning – inte en byråkrat utan en väktare. Den som går genom förrådshuset varje dag, känner på säckarna, räknar vad som finns kvar. Ibn Kathīr citerar Shayba ibn Naʿāma, som förtydligar: "*ḥafīẓ* – väktare över det som anförtrotts mig; *ʿalīm* – kunnig om torråren."
 
 Ur Josefs svar framträder en modell: centraliserad lagerhållning, rationering under överflödsåren, statlig kontroll över fördelningen. Den som ser överflödet och inte lägger undan för kommande brist sviker uppdraget.
 
@@ -53,9 +53,9 @@ Josefs berättelse förutsätter en cyklisk värld: sju feta år, sju magra, sed
 
 Under 2024 och 2025 steg det globala kaffepriset med över fyrtio procent efter torka i Brasilien och Vietnam, medan kakaoproduktionen i Västafrika föll med fjorton procent. Bara under första halvåret 2025 orsakade naturkatastrofer ekonomiska förluster på 162 miljarder dollar.[^15] Siffrorna mäter inte svält – de mäter sprickorna i ett system som nätt och jämnt håller ihop.
 
-Vad som idag motsvarar sju magra år är en leveranskedja som bryts tusen mil bort och vars följder når en svensk matbutik inom dagar. Vad förr var missväxt i ett land är nu samtidig torka på tre världsdelar; utrymmet mellan normalitet och svält har krympt till veckor.[^16] Ny teknik kan mildra slagen: torktåliga grödor, vertikal odling, andra proteinkällor. Men ingen uppfinning ersätter den politiska viljan att lagra. Torktåligt vete hjälper föga om det inte finns i ett svenskt förråd när fartygstrafiken i Östersjön upphör.
+Vad som idag motsvarar sju magra år är en leveranskedja som bryts tusen mil bort och vars följder når en svensk matbutik inom dagar. Vad förr var missväxt i ett land är nu samtidig torka på tre världsdelar; marginalen mellan normalitet och svält har krympt till veckor.[^16] Ny teknik kan mildra slagen: torktåliga grödor, vertikal odling, andra proteinkällor. Men ingen uppfinning ersätter den politiska viljan att lagra. Torktåligt vete hjälper föga om det inte finns i ett svenskt förråd när fartygstrafiken i Östersjön upphör.
 
-När försörjningen hotas blottas statens innersta ordning. Verner von Heidenstam slog fast grundsatsen i *Folkungaträdet*: "Dålig skörd följer dålig konung."[^21] Historikern Ibn Khaldūn formulerade en besläktad ordning i en enda kedja: "Soldater behålls genom pengar. Pengar är försörjning som samlas genom folk. Folk är tjänare som skyddas genom rättvisa."[^17] Varje kedja bryts vid sitt svagaste led. I det moderna Sverige är det svagaste ledet att ingen bär ansvar för att det finns mat.
+När försörjningen hotas blottas statens innersta ordning. Verner von Heidenstam slog fast grundsatsen i *Folkungaträdet*: "Dålig skörd följer dålig konung."[^21] Historikern Ibn Khaldūn fångade samma insikt i en enda kedja: "Soldater behålls genom pengar. Pengar är försörjning som samlas genom folk. Folk är tjänare som skyddas genom rättvisa."[^17] Varje kedja bryts vid sitt svagaste led. I det moderna Sverige är det svagaste ledet att ingen bär ansvar för att det finns mat.
 
 ## Ḥisbah för en ny tid
 

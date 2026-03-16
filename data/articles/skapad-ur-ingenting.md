@@ -37,7 +37,7 @@ De flesta filosofer erkänner att universum har en orsak. Polyteismen förutsät
 
 Från Spinoza till Advaita Vedanta sätter panteismen likhetstecken mellan Gud och naturen. Spinozas system är strängt men rymmer sin egen upplösning. Om Skaparen *är* skapelsen utplånas skillnaden mellan orsak och verkan. En Gud som sammanfaller med universum kan inte förklara universum – den *är* det som behöver förklaras. Systemet besvarar inte den kosmologiska frågan. Det upplöser den.
 
-Deismen erkänner en Skapare men förnekar att denne handlar i världen. Voltaire, Jefferson och Paine nöjde sig med det. Men hållningen rymmer en motsättning den inte kan lösa: en Skapare med makt nog att frambringa allting, utan vilja att tala till det skapade. Att skapas men aldrig tilltalas är att veta *att* man gjordes men aldrig *varför* – i vardagen nästan detsamma som om man aldrig hade skapats med avsikt.
+Deismen erkänner en Skapare men förnekar att denne handlar i världen. Voltaire, Jefferson och Paine nöjde sig med det. Men hållningen rymmer en motsättning den inte kan lösa: en Skapare med makt nog att frambringa allting, utan vilja att tala till det skapade. Att skapas men aldrig tilltalas är att veta *att* man gjordes men aldrig *varför* – i praktiken nästan detsamma som om man aldrig hade skapats med avsikt.
 
 Tankespinn räckte inte för Strindberg.
 
@@ -51,7 +51,7 @@ Emanuel Swedenborg insåg detta. Som barn uppfattade han Gud som en, utan treeni
 
 I sig sammanhängande – men det bekräftar problemet mer än det löser det. Swedenborg behövde uppfinna en helt ny teologi och bryta med både katolsk och protestantisk ortodoxi för att göra treenigheten förenlig med den monoteism han aldrig övergivit. Karl Rahner, en av katolska kyrkans mest inflytelserika moderna teologer, medgav att kristna lever i sin fromhet som rena monoteister, och att merparten av den kristna litteraturen skulle bestå oförändrad om treenighetsläran föll.[^16] Vad han medgav, utan att dra slutsatsen, är att treenigheten inte löser ett problem som uppstår ur den kristna erfarenheten. Den *skapar* ett.
 
-Isaac Newton nådde en renare slutsats – och betalade samma pris. I *Principia Mathematica* beskrev han Gud som "ett väsen, evigt, oändligt, absolut fullkomligt" som "styr allting, inte som världens själ utan som Herre över allt."[^17] Newton var antitrinitär: han avvisade treenigheten som falsk doktrin, vägrade prästvig i den anglikanska kyrkan och argumenterade i opublicerade teologiska skrifter för strikt monoteism.[^18] Historiens kanske mest inflytelserika naturvetare kunde inte få treenigheten att gå ihop – och valde, i tystnad, enheten.
+Isaac Newton nådde en renare slutsats – och betalade samma pris. I *Principia Mathematica* beskrev han Gud som "ett väsen, evigt, oändligt, absolut fullkomligt" som "styr allting, inte som världens själ utan som Herre över allt."[^17] Newton var antitrinitär: han avvisade treenigheten som falsk doktrin, vägrade prästvig i den anglikanska kyrkan och argumenterade i opublicerade teologiska skrifter för strikt monoteism.[^18] Historiens kanske mest inflytelserika naturvetare kunde inte finna treenigheten sammanhängande – och valde, i tystnad, enheten.
 
 I sin enklaste form ställde Ibn Taymiyyah frågan: det skapade måste vara uppkommet och beroende, till skillnad från Skaparen som är nödvändig i sitt vara.[^10] Antingen är Gud en – transcendent, självtillräcklig, utan partner och utan delar – eller är Han det inte, och varje tillägg som läggs till för att förklara Hans enhet undergräver den.
 

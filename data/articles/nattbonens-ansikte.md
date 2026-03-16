@@ -57,7 +57,7 @@ Profeten Muḥammad ﷺ sade:
 
 Nattbönen är den bön ingen ser – den som inte ger socialt kapital, den som inte kan fotograferas. Det enda vittnet är Gud.
 
-Ansiktet är kroppens mest sociala yta – det arbetar ständigt för sin publik, bevakar hur det uppfattas, arrangerar sina uttryck. I nattens ensamhet upphör det arbetet. Den som regelbundet övar sig i att stå utan åskådare övar sig i att vara utan mask, och det är den övningen som genomlyser huden. Koranen talar om det upprepat: ansikten som strålar, ansikten som lyser. "Ansikten skall den Dagen vara glänsande, leende, fyllda av glädje."[^11] Strålningen börjar inte på Domedagen – den börjar här, i nattens ensamhet. En annan koranvers gör det påtagligt: "Deras kännetecken syns i ansiktena – spåren av nedfallandet i bön."[^24]
+Ansiktet är kroppens mest sociala yta – det arbetar ständigt för sin publik, bevakar hur det uppfattas, anpassar sina uttryck. I nattens ensamhet upphör det arbetet. Den som regelbundet övar sig i att stå utan åskådare övar sig i att vara utan mask, och det är den övningen som genomlyser huden. Koranen återkommer ständigt till bilden: ansikten som strålar, ansikten som lyser. "Ansikten skall den Dagen vara glänsande, leende, fyllda av glädje."[^11] Strålningen börjar inte på Domedagen – den börjar här, i nattens ensamhet. En annan koranvers gör det påtagligt: "Deras kännetecken syns i ansiktena – spåren av nedfallandet i bön."[^24]
 
 Skönhetsindustrin förutsätter att ytan kan behandlas utan att vidröra det inre. Ibn Qayyim vänder ordningen: det yttre härrör från det inre. Det ljus man ser hos vissa människor, den oförklarliga värmen, den värdighet som inte beror på symmetri – man känner igen det hos ansikten som åren fårat men som ändå drar blicken till sig.
 
@@ -97,7 +97,7 @@ Skillnaden är den mellan en människa som förskönar sig för att bli sedd och
 
 Al-Fuḍayl ibn ʿIyāḍ pekade på skuggsidan: "Tjänaren begår en synd och berövas därigenom nattbönen."[^18] Om godhet lyser upp ansiktet, släcker synden dess ljus. Ansiktet vittnar – det kan inte ljuga som ord kan. Ibn Qayyim anför versraden: "O du med vackert ansikte, sky det skamliga – byt inte skönheten mot skam!"[^19]
 
-Luqmān sade: "Den som ljuger förlorar sin fägring."[^20] I svensk tanketradition berörde Erik Gustaf Geijer samma samband: "den äkta skönheten renar sinnet och har ett stort moraliskt inflytande".[^21] Geijer menade det estetiskt – konsten förädlar. Ibn Qayyim vänder sambandet: förädlingen skapar skönheten, och rörelsen går inifrån och utåt.
+Luqmān sade: "Den som ljuger förlorar sin fägring."[^20] I svensk tanketradition berörde Erik Gustaf Geijer samma samband: "den äkta skönheten renar sinnet och har ett stort moraliskt inflytande".[^21] Geijer menade det estetiskt – konsten förädlar. Ibn Qayyim vänder sambandet: förädlingen skapar skönheten, och rörelsen går inifrån och ut.
 
 ## En sovande industri
 

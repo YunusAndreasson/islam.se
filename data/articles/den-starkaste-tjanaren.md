@@ -15,7 +15,7 @@ Ibn Taymiyyah omsatte ʿUmars klagan i ett politiskt system. I *al-Siyāsah al-S
 
 > Att styrka och pålitlighet förenas i samma person är sällsynt bland människor.[^3]
 
-Härskaren måste väga vilken pelare som väger tyngst för det enskilda ämbetet. I militärt befäl går styrka först: även en moraliskt bristfällig befälhavare, vars tapperhet skyddar samfundet, väger tyngre än en from men svag ledare vars rättskaffenhet bara gagnar honom själv.[^4] I finansiell förvaltning, där andras tillgångar ska bevaras, går pålitlighet först. Och när ingen enskild person besitter båda egenskaperna? Då kombinerar man flera: en stark uppbördsman som driver in medlen, en pålitlig skrivare som bevakar dem.[^5]
+Härskaren måste bedöma vilken pelare som väger tyngst för det enskilda ämbetet. I militärt befäl går styrka först: även en moraliskt bristfällig befälhavare, vars tapperhet skyddar samfundet, väger tyngre än en from men svag ledare vars rättskaffenhet bara gagnar honom själv.[^4] I finansiell förvaltning, där andras tillgångar ska bevaras, går pålitlighet först. Och när ingen enskild person besitter båda egenskaperna? Då kombinerar man flera: en stark uppbördsman som driver in medlen, en pålitlig skrivare som bevakar dem.[^5]
 
 Koranen framställer grundsatsen lakoniskt. När Mose söker arbete hos den gamle mannen i Midjan säger en av döttrarna till sin far: "Den bästa du kan ta i din tjänst är en som är stark och pålitlig."[^6] När Josef erbjuder sig att förvalta Egyptens förråd inför hungersnöden säger han: "Jag är sannerligen en kunnig förvaltare."[^7]
 
@@ -25,7 +25,7 @@ I den svenska välfärdsstaten fick avvägningen handgripliga följder. I novemb
 
 Redan 2013 hade Försäkringskassan infört modellen. År 2018 konstaterade Inspektionen för socialförsäkringen att algoritmen "i sin nuvarande utformning inte uppfyller kravet på likabehandling".[^10] Försäkringskassan avfärdade slutsatserna. Först sex år senare – efter internationell granskning och offentlig skandal – drogs systemet tillbaka.
 
-Ibn Taymiyyahs uppdelning förtydligar: algoritmens *quwwah* kunde ingen betvivla. Bristen låg i *amānah*. Utan insyn förstärkte kraften de ojämlikheter den var tänkt att rätta. En svag tjänsteman gör begränsad skada – hans oförmåga tyglar hans orättvisa. En algoritm som fattar miljontals beslut utan att kunna förklara ett enda skapar orättvisa i en skala ingen tjänsteman ensam kan uppnå.
+Ibn Taymiyyahs uppdelning förtydligar: algoritmens *quwwah* kunde ingen betvivla. Bristen låg i *amānah*. Utan insyn förstärkte kraften de ojämlikheter den var tänkt att rätta. En svag tjänsteman gör begränsad skada – hans oförmåga tyglar hans orättvisa. En algoritm som fattar miljontals beslut utan att kunna förklara ett enda skapar orättvisa i en omfattning ingen tjänsteman ensam kan uppnå.
 
 Problemet är inte nytt. Norbert Wiener pekade redan 1960 ut samma mönster:
 
@@ -39,7 +39,7 @@ En medborgare som vänder sig till en myndighet ingår ett förtroendeavtal äld
 
 > Allah ﷻ befaller er att återlämna allt ni anförtrotts till dess rättmätiga ägare och att, när ni dömer mellan människor, döma med rättvisa.[^11]
 
-Ibn Kathīr anför en profettradition: "Fullgör förtroendeuppdraget gentemot den som anförtrott dig det, och förråd inte den som förråder dig." En algoritm som fattar rätt i sjuttio procent av fallen men saknar förmåga att redogöra för något av dem uppfyller möjligen ett krav på slagkraft men inte *amānah*.
+Ibn Kathīr anför en profettradition: "Fullgör förtroendeuppdraget gentemot den som anförtrott dig det, och förråd inte den som förråder dig." En algoritm som fattar rätt i sjuttio procent av fallen men saknar förmåga att redogöra för något av dem uppfyller möjligen ett krav på träffsäkerhet men inte *amānah*.
 
 Tom Tyler har visat att människors tillit till institutioner beror mindre på beslutens korrekthet än på processens upplevda rättvisa.[^19] Ett system som fattar rätt beslut utan att kunna visa det förlorar sin auktoritet snabbare än ett som felar öppet.
 
@@ -61,7 +61,7 @@ En algoritm som inte kan granskas är en våg utan visare. Den väger men ingen 
 
 Selma Lagerlöf slog fast grundsatsen med nordisk knapphet: "Riket är bättre betjänt med människor än med pengar."[^20] Ellen Key skrev 1900 att "människorna äro till för industriens skull, icke industrien för människornas".[^16] I dag är industrin algoritmen.
 
-Men skillnaden är avgörande. Industrins orättvisor var synliga: fabriksrök, barnarbete, söndersmulade kroppar. Algoritmens orättvisor är osynliga. En kvinna vars föräldrapenningsansökan markeras av en maskininlärningsmodell vet varken att hon har markerats eller varför. Industrins orättvisor rättades *utifrån*, genom den samlade vrede som synligt lidande väckte. Algoritmisk orättvisa kan inte alstra sin egen rättelse. Där orättvisan är osynlig måste ansvaret vara inbyggt.
+Men skillnaden är avgörande. Industrins orättvisor var synliga: fabriksrök, barnarbete, söndertrasade kroppar. Algoritmens orättvisor är osynliga. En kvinna vars föräldrapenningsansökan markeras av en maskininlärningsmodell vet varken att hon har markerats eller varför. Industrins orättvisor rättades *utifrån*, genom den samlade vrede som synligt lidande väckte. Algoritmisk orättvisa kan inte alstra sin egen rättelse. Där orättvisan är osynlig måste ansvaret vara inbyggt.
 
 Koranen beskriver *al-amānah* som så tung att himlarna, jorden och bergen vägrade bära den. Människan axlade den.[^17] Sedan glömde hon vad hon bar.
 

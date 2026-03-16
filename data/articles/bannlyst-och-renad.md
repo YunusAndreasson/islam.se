@@ -27,7 +27,7 @@ Ibn Qayyim preciserar:
 
 > *Tawbah* är en återvändo från det Allah ﷻ avskyr till det Han älskar – inte bara att överge synden, ty den som överger synden utan att vända tillbaka till det som Herren älskar är inte ångerfull.[^4]
 
-Att sluta synda är inte att ångra sig. Att ångra sig är inte att vända om. *Tawbah* kräver hel vändning: synden överges, den ångrande slår in på en ny väg.[^5]
+Att sluta synda är inte att ångra sig. Att ångra sig är inte att vända om. *Tawbah* kräver helomvändning: synden överges, den ångrande slår in på en ny väg.[^5]
 
 Här möter Lagerlöfs roman *tawbahs* ordning: Sven Elversson bekänner och *blir* en annan, omedelbart, i själva handlingen. Men vilken handling?
 
@@ -75,7 +75,7 @@ Ibn Qayyim säger att synden är det största hindret mellan tjänaren och hans 
 
 I bekännelsen upphör skulden – hela Sven Elverssons tillvaro vänder. Lagerlöf gestaltar det i blicken efteråt, hållningen, lugnet. Han har inte lagt ifrån sig en börda utan blivit en annan människa.
 
-Vad vår tid gått miste om är denna riktning. Michel Foucault spårade förlusten.[^15] Den tidiga kristendomens dramatiska bekännelseakt, *exomologesis*, utplånade det gamla jaget: syndaren stod utanför församlingen i sorgdräkt, synlig för alla. Men även *exomologesis* var utplåning; den förstörde det gamla jaget utan att visa vägen åt det nya. Kvar blev den analytiska samvetsrannsakan som modern terapi har ärvt. *Tawbah* är varken kretsande granskning eller dramatisk förintelse: den är rörelse – från skulden, men främst *mot* det som upprättar. Trots sitt lutherska sammanhang rymmer Lagerlöfs roman släktskap med *tawbahs* logik.
+Vad vår tid gått miste om är denna riktning. Michel Foucault spårade förlusten.[^15] Den tidiga kristendomens dramatiska bekännelseakt, *exomologesis*, utplånade det gamla jaget: syndaren stod utanför församlingen i sorgdräkt, synlig för alla. Men även *exomologesis* var utplåning; den förstörde det gamla jaget utan att visa vägen åt det nya. Kvar blev den analytiska samvetsrannsakan som modern terapi har ärvt. *Tawbah* är varken ändlös granskning eller dramatisk förintelse: den är rörelse – från skulden, men främst *mot* det som upprättar. Trots sitt lutherska sammanhang rymmer Lagerlöfs roman släktskap med *tawbahs* logik.
 
 ---
 

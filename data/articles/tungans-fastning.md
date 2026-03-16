@@ -39,7 +39,7 @@ Och längre fram:
 
 Baktalet – *ghībah*, att säga om en frånvarande person det som är sant men som hon inte vill ska sägas – jämförs med kannibalism. Enligt en överlevering sade Profeten ﷺ att baktalet är svårare än otukt, ty den som begår otukt kan ångra sig och Allah ﷻ förlåter. Men den som baktalar förlåts inte förrän den baktalade förlåter.[^10]
 
-ʿAbd Allāh ibn Masʿūd, en av Profetens ﷺ närmaste följeslagare, klädde insikten i den tidiga traditionens bildspråk: "Ingenting förtjänar ett längre fängelsestraff än tungan."[^11] Och ʿAbd Allāh ibn al-Mubārak vände på det kända ordspråket: "Om lydigt tal mot Allah ﷻ vore silver, så vore tystnad inför synd mot Allah ﷻ guld."[^12]
+ʿAbd Allāh ibn Masʿūd, en av Profetens ﷺ närmaste följeslagare, klädde insikten i den tidiga traditionens bildspråk: "Ingenting förtjänar ett längre fängelsestraff än tungan."[^11] Och ʿAbd Allāh ibn al-Mubārak vände på det kända ordspråket: "Om lydigt tal till Allah ﷻ vore silver, så vore tystnad inför synd mot Allah ﷻ guld."[^12]
 
 ## Den svenska tystnaden
 
@@ -61,7 +61,7 @@ Al-Suyūṭī, den mångsidige 1400-talslärde, sammanfattade hela denna spänni
 
 Vår tids grundhållning – att allt bör sägas, att tystnad är förtryck, att "bryta tystnaden" alltid är moraliskt – förbiser vad varje islamisk lärd visste: det finns tal som är värre än tystnad.
 
-Ibn Ḥibbān al-Bustī, den lärde hadithsamlaren, klädde jämvikten i ord: "Tystnaden är sinnets sömn och talet dess vakenhet."[^26] Sömn är nödvändig. Ingen överlever utan den. Men den som sover när han borde vara vaken har inte funnit vila; han har försummat sitt ansvar. Och den som talar när han borde tiga har inte vaknat; han irrar i sömnen. "Stamning är ibland bättre än tal," skriver Ibn Ḥibbān, "ty allt tal som missar sin rätta plats – där är stamningen bättre."[^27]
+Ibn Ḥibbān al-Bustī, den lärde hadithsamlaren, klädde jämvikten i ord: "Tystnaden är sinnets sömn och talet dess vakenhet."[^26] Sömnen är nödvändig. Ingen överlever utan den. Men den som sover när han borde vara vaken har inte funnit vila; han har försummat sitt ansvar. Och den som talar när han borde tiga har inte vaknat; han irrar i sömnen. "Stamning är ibland bättre än tal," skriver Ibn Ḥibbān, "ty allt tal som missar sin rätta plats – där är stamningen bättre."[^27]
 
 ## Fästningskommendantens ansvar
 

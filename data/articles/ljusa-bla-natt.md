@@ -67,7 +67,7 @@ Søren Kierkegaard definierade ångesten som "frihetens svindel" – den yrsel s
 
 Människans tid är hennes liv: det råmaterial hennes eviga tillvaro formas av.[^18][^19] Stillheten efter *fajr*, ordet vid bordet, steget tillbaka från ilskan.
 
-Glas' ångest saknar fäste utanför jaget. Han kan inte vara sin tids barn, ty hans tid bär ingen uppgift; den bara pågår, omarkerad, utan bön som bryter dygnet, utan *fajr*, dagbräcksbönen, som ger gryningen fäste, utan *ʿishāʾ*, kvällsbönen, som ger natten djup. Midsommarnattens gränslösa ljus förkroppsligar hans inre tillstånd: en tid utan ordning, och därmed utan liv.
+Glas' ångest saknar fäste utanför jaget. Han kan inte vara sin tids barn, ty hans tid bär ingen uppgift; den bara pågår, omarkerad, utan bön som bryter dygnet, utan *fajr*, gryningsbönen, som ger morgonen fäste, utan *ʿishāʾ*, kvällsbönen, som ger natten djup. Midsommarnattens gränslösa ljus förkroppsligar hans inre tillstånd: en tid utan ordning, och därmed utan liv.
 
 Den allomfattande ordning Koranen beskriver – "i skapelsen av himlarna och jorden och i växlingen mellan natt och dag finns sannerligen tecken för dem som har förstånd"[^20] – utgör själva ramen för meningsbärande tid. Utan den ramen: tomhet klädd i ljus.
 

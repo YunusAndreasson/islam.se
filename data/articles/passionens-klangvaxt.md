@@ -11,7 +11,7 @@ Sjuhundra år före Söderberg öppnade den damascenske juristen och teologen Ib
 
 ## Namnens vetenskap
 
-Grekiskan hade fyra ord: *eros*, *philia*, *storge*, *agape*. Den kristne apologeten C. S. Lewis byggde en hel bok kring dem.[^3] Fler ord än svenskan har, men fortfarande en grov karta. Ibn Qayyims projekt är av ett annat slag: där Lewis ordnar kärleken i fack, dissekerar Ibn Qayyim den som läkare. Han frågar inte "vilken sort?" utan "vart leder den?"
+Grekiskan hade fyra ord: *eros*, *philia*, *storge*, *agape*. Den kristne apologeten C. S. Lewis byggde en hel bok kring dem.[^3] Fler ord än svenskan har, men fortfarande en grov karta. Ibn Qayyims projekt är av ett annat slag: där Lewis ordnar kärleken i fack, undersöker Ibn Qayyim den som läkare. Han frågar inte "vilken sort?" utan "vart leder den?"
 
 Han motiverar namnrikedomen med en liknelse: tre företeelser föder många ord, det som är farligt som lejonet, det som är nödvändigt som svärdet, det som berör alla som vinet.[^4] Kärleken förenar alla tre.
 
@@ -81,7 +81,7 @@ Annorstädes:
 
 Ibn al-Jawzī anför Platon med ett ord som fortfarande bränner: "*ʿIshq* är en tom själs rörelse utan tanke."[^21]
 
-Det hjärta som är fullt, fullt av *dhikr*, av närvaro inför Allah ﷻ, det som dröjer kvar på mattan när bönen slutat och världen långsamt återvänder, det hjärtat lämnar ingen jord åt passionens klängväxt. Men det tomma hjärtat, det som saknar centrum, det som den moderna sekulariteten berömmer sig av att ha befriat från alla dogmer, det hjärtat är värnlöst mot den kärlek som förtär utan att nära, som binder utan att bära.
+Det hjärta som är fullt, fullt av *dhikr*, av närvaro inför Allah ﷻ, det som dröjer kvar på mattan när bönen slutat och världen långsamt återvänder, det hjärtat ger ingen jord åt passionens klängväxt. Men det tomma hjärtat, det som saknar centrum, det som den moderna sekulariteten berömmer sig av att ha befriat från alla dogmer, det hjärtat är värnlöst mot den kärlek som förtär utan att nära, som binder utan att bära.
 
 Ibn Qayyim kartlade sextio grundämnen. Vi äger ett enda och undrar varför banden brister.
 

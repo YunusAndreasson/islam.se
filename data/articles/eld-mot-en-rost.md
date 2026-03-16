@@ -11,7 +11,7 @@ Sommaren 2023 brann böcker på svenska gator. Ambassader stormades, handelsrela
 
 Redan ordet *Qurʾān* bär svaret. Det stammar ur arabiskans *qaraʾa* – att recitera, att läsa högt, att frambära med rösten. Koranen namngav sig själv efter ljudet, inte efter sidan.
 
-När ängeln Jibrīl kom till Profeten Muḥammad ﷺ i grottan Hira var budet inte "skriv" utan *iqraʾ* – recitera. Därpå följde tjugotre år av muntlig uppenbarelse, förd av en röst till ett öra, memorerad innan den nedtecknades. Den skrivna texten, *muṣḥaf*, kom senare – som kärl för något som redan levde fullt ut utan den.
+När ängeln Jibrīl kom till Profeten Muḥammad ﷺ i grottan Hira var budet inte "skriv" utan *iqraʾ* – recitera. Därpå följde tjugotre år av muntlig uppenbarelse, buren av en röst till ett öra, memorerad innan den nedtecknades. Den skrivna texten, *muṣḥaf*, kom senare – som kärl för något som redan levde fullt ut utan den.
 
 Här öppnar sig en klyfta. Den västerländska traditionen, formad av Gutenbergs press och protestantismens *sola scriptura*, förstår helig text som skrift. Koranen tillhör en annan ordning: den hör hemma i luften mellan mun och öra, i det ögonblick rösten bär fram de gudomliga orden:
 
@@ -61,7 +61,7 @@ Koranen har ett ord för denna hållning. *Istihzāʾ* – hån, förlöjligande
 
 Den närmaste invändningen: om Koranens sakralitet skyddas juridiskt, var drar man gränsen? Skiljelinjen går inte mellan det obehagliga och det behagliga utan mellan *kritik* och *förakt*. Den som argumenterar mot Koranens budskap utövar sin rätt. Den som bränner den på gatan riktar sig inte mot ett argument utan mot en närvaro – och mot de människor som bär den. I februari 2025 fastslog Stockholms tingsrätt att koranbränningarna utgjorde hets mot folkgrupp. Svea hovrätt stadfäste domen i november samma år med formuleringen att de budskap handlingarna förmedlade "uttrycker missaktning, inte bara mot islam som religion, utan även mot folkgruppen muslimer."[^9] Handlingen överskred "saklig debatt och kritik"; den riktade sig mot människor, inte mot argument.[^10]
 
-Den islamiska förklaringen når djupare. Handlingen angriper det gruppen hör som Guds levande tal.
+Den islamiska förklaringen når djupare. Handlingen angriper det som gruppen uppfattar som Guds levande tal.
 
 Koranens väsen stod inte alltid klart. Den muʿtazilitiska skolan hävdade att Koranen *var* skapad, en ståndpunkt som under kalifen al-Maʾmūn på 800-talet upphöjdes till statsdoktrin och försvarades med tvångsmakt. Förföljelsen av dem som vägrade ansluta sig – bland dem imam Aḥmad ibn Ḥanbal – befäste den oskapade Koranens teologi som sunnitisk konsensus.[^11] Att frågan avgjordes genom en av islams mest dramatiska lärokonflikter visar hur djupt den skär.
 

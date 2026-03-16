@@ -21,7 +21,7 @@ Nomaderna erövrar staden. I staden finns bekvämlighet. Bekvämligheten förfin
 
 > Folket fortsätter att omfatta allt nyare former av lyx och stadskulturens lugn, stillhet och mjukhet. De fjärmas från ökenlivet.[^5]
 
-Dynastier, skrev han, liknar frukter: för hårda att äta i början, av god kvalitet när de mognar, men smakliga först när de närmar sig förruttnelsen.[^6] Det som gör ett samhälle framgångsrikt – välstånd, trygghet, förfining – förgör det. Framgången är ett lyckorus, inte motgångens motsats utan dess förutsättning.
+Dynastier, skrev han, liknar frukter: för hårda att äta i början, fasta och goda när de mognar, men smakliga först när de närmar sig förruttnelsen.[^6] Det som gör ett samhälle framgångsrikt – välstånd, trygghet, förfining – förgör det. Framgången är ett lyckorus, inte motgångens motsats utan dess förutsättning.
 
 ## Borden som en gång bars fram
 
@@ -41,7 +41,7 @@ Det var en vision om jämlikhet, men visionen krävde en jordisk grund, och den 
 
 Den gemensamma husmanskostens tid var också konformismens tid. Den som inte passade vid bordet – samerna, romerna, de som talade ett annat språk – stod utanför gemenskapen. Det gemensamma ätandet förutsatte en redan avgränsad gemenskap, och avgränsningen uteslöt.
 
-Matkassar leder inte alltid till ensamätande; familjer lagar maten tillsammans. Men stilla har något förskjutits: från mat som något man *gör tillsammans* till mat som något man *ordnar för sig själv*.[^10]
+Matkassar leder inte alltid till ensamätande; familjer lagar maten tillsammans. Men omärkligt har något förskjutits: från mat som något man *gör tillsammans* till mat som något man *ordnar för sig själv*.[^10]
 
 Förskjutningen är äldre än matkassarna. Redan Platon såg samma mönster i sitt Athen. I *Staten* visar han hur Homeros serverar sina hjältar enbart rostade köttstycken, ingen fisk trots att de bor vid kusten, inga kokta rätter, inga söta såser. Enkel mat för starka människor. Men Athen förfinas:
 

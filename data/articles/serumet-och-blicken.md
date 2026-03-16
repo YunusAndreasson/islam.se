@@ -43,7 +43,7 @@ Det arabiska begreppet *iḥsān*, fastslaget i Jibrīl-hadithen, lyder: "att dy
 
 Kallocainets allvetande tillhör en stat vars enda syfte är kontroll. Den som vet sig övervakad av en sådan makt krymper.
 
-Koranens allvetande tillhör *al-Raḥmān*, den Barmhärtige, vars blick genomlyser hjärtat som Skaparens. "Din Herre vet vad deras bröst rymmer såväl som vad de öppet visar," säger Koranen.[^8] Sammanhanget är omsorg: Gud vet *för att* Han vårdar det skapade. Ibn Kathīr tillägger att Gud "öser sina välsignelser över människorna trots att de förorättar sig själva".
+Koranens allvetande tillhör *al-Raḥmān*, den Barmhärtige, vars blick genomlyser hjärtat som Skaparens. "Din Herre vet vad deras bröst rymmer såväl som vad de öppet visar," säger Koranen.[^8] Sammanhanget är omsorg: Gud vet *eftersom* Han vårdar det skapade. Ibn Kathīr tillägger att Gud "öser sina välsignelser över människorna trots att de förorättar sig själva".
 
 Ibn Qayyim al-Jawziyyah (d. 1350) skärper sambandet: "Den som vakar över Gud i sina hemliga tankar, honom bevarar Gud i hans lemmars rörelser."[^9] Satsen vänder Kallocainets ordning ut och in. I Boyes roman avslöjar serumet tanken och tillintetgör handlingsfriheten. I Ibn Qayyims värld är insikten att tanken redan är genomlyst det som *bär* handlingens helhet. Den som vet att Gud ser behöver inte dölja. Den som inte döljer behöver inte frukta.
 

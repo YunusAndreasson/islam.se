@@ -29,7 +29,7 @@ Men även denna makt har gränser: "*Maẓālim* tillåter inte i sina domar det
 
 ## Mitt emellan domstol och polis
 
-Al-Māwardīs tredje ämbete, *ḥisbah*, saknar motsvarighet i västerländsk rättstradition. *Ḥisbah* är "en mellanposition mellan domstolsväsendets avgöranden och klagomålsdomstolens befogenheter".[^7] Köpmannen som fuskar med vikten, bråket som övergår i slagsmål – det synliga brottet, inte det dolda.
+Al-Māwardīs tredje ämbete, *ḥisbah*, saknar motsvarighet i västerländsk rättstradition. *Ḥisbah* är "en mellanposition mellan domstolsväsendets avgöranden och klagomålsdomstolens befogenheter".[^7] Köpmannen som fuskar med vikten, ordväxlingen som övergår i slagsmål – det synliga brottet, inte det dolda.
 
 > Låt det bland er finnas en grupp som kallar till allt gott och påbjuder det goda och förbjuder det onda. Ja, det är dessa som är de framgångsrika.[^8]
 

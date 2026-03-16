@@ -27,7 +27,7 @@ Men om den som formellt ska kunna överpröva en algoritm saknar tid, kunskap el
 
 Det svenska rättssystemet vilar på en förutsättning: någon måste vara ansvarig. Ansvarsfrihet är undantaget – den sovande, den sinnessjuke, den som handlar under tvång. Ansvaret är regeln. Strindberg formulerade grundsatsen obarmhärtigt: "Den som sover är icke ansvarig för sina handlingar."[^6] Det omvända är lika tydligt: den som är vaken *är* ansvarig.
 
-AI blottlägger vad filosofen Andreas Matthias 2004 kallade en *ansvarslucka*: varken utvecklaren, användaren eller maskinen kan hållas fullt ansvarig för ett algoritmiskt beslut.[^7] Utvecklaren programmerade inte det enskilda utfallet; beräkningen översteg användarens förståelse; maskinen förstod ingenting alls. Ansvaret förskjuts längs en kedja där varje länk pekar på nästa – som i vårdkedjan där ingen enskild läkare felbedömde fallet, men patienten dog ändå. Hannah Arendt såg samma upplösning i den moderna byråkratin: ett styre av Ingen, ett tyranni utan tyrann.[^20]
+AI blottlägger vad filosofen Andreas Matthias 2004 kallade en *ansvarslucka*: varken utvecklaren, användaren eller maskinen kan hållas helt ansvarig för ett algoritmiskt beslut.[^7] Utvecklaren programmerade inte det enskilda utfallet; beräkningen översteg användarens förståelse; maskinen förstod ingenting alls. Ansvaret förskjuts längs en kedja där varje länk pekar på nästa – som i vårdkedjan där ingen enskild läkare felbedömde fallet, men patienten dog ändå. Hannah Arendt såg samma upplösning i den moderna byråkratin: ett styre av Ingen, ett tyranni utan tyrann.[^20]
 
 Koranen tillåter ingen sådan upplösning. "Varje själ är ansvarig för vad den har gjort"[^8] – en syndare bär inte en annan syndares börda.[^9] Förtroendet gavs till varje människa, inte till institutioner, inte system.
 
@@ -41,7 +41,7 @@ Värre än synden fruktade de klassiska lärda ett tillstånd: *ghaflah*. Ibn Qa
 
 Algoritmisk delegering är inte *ghaflah*. Inget AI-system sover; inget äger den vakenhet det kunde somna ifrån. Faran ligger i vad som händer med *människan*. Varje beslut som överlåts till ett system är ett beslut hjärtat inte längre fattar – varje automatiskt omdöme ett ögonblick där konungen inte är vaken. Vanan att inte vara vaken: det är just vad Ibn Qayyim kallade *ghaflah*.
 
-Ellen Key läste aldrig Ibn Qayyim men såg samma fara. I *Barnets århundrade* skrev hon att kulturens uppgift borde vara att "göra människan målmedveten och ansvarig på alla områden, där hon endast handlat impulsivt och oansvarigt".[^12] Automationen lovar det omvända: befrielse från beslutsbördan. Men om bördan *är* det som gör oss ansvariga – om det tunga, det svåra, det som bergen vägrade, danar den mänskliga förmågan – då är befrielsen en förlust.
+Ellen Key läste aldrig Ibn Qayyim men såg samma fara. I *Barnets århundrade* skrev hon att kulturens uppgift borde vara att "göra människan målmedveten och ansvarig på alla områden, där hon endast handlat impulsivt och oansvarigt".[^12] Automationen lovar det omvända: befrielse från beslutens börda. Men om bördan *är* det som gör oss ansvariga – om det tunga, det svåra, det som bergen vägrade, danar den mänskliga förmågan – då är befrielsen en förlust.
 
 Och hon såg djupare: det som förnedrar människan är inte felet utan flykten från dess följder:
 
@@ -57,7 +57,7 @@ Ställföreträdande förutsätter en uppdragsgivare och en uppdragstagare som k
 
 Profeten ﷺ varnade: "När förtroendet förskingras, vänta då på den Yttersta stunden." Och på frågan om hur det förskingras svarade han: "När uppgiften anförtros den som inte förtjänar den."[^15]
 
-*Wussiḍa al-amr ilā ghayr ahlih* – "uppgiften anförtros den som inte är dess folk." En algoritm kan vara *träffsäkrare* än en människa. Men träffsäkerhet är inte rättvisa. Bergen lydde Guds ordning felfritt — och det var just det som diskvalificerade dem. *Amānah* förutsätter att bäraren kan svika förtroendet. Ibn Taymiyyah definierade rättvisa som att förstå tingen som de är och fullända dem.[^16] Det kräver mer än mönsterigenkänning -- det kräver domaren som förstår att två stölder inte är samma brott.
+*Wussiḍa al-amr ilā ghayr ahlih* – "uppgiften anförtros den som inte är dess folk." En algoritm kan vara *träffsäkrare* än en människa. Men träffsäkerhet är inte rättvisa. Bergen lydde Guds ordning felfritt — och just det gjorde dem ovärdiga uppdraget. *Amānah* förutsätter att bäraren kan svika förtroendet. Ibn Taymiyyah definierade rättvisa som att förstå tingen som de är och fullända dem.[^16] Det kräver mer än mönsterigenkänning -- det kräver en domare som förstår att två stölder inte är samma brott.
 
 ## Verktyget och domen
 
@@ -65,7 +65,7 @@ Den islamiska synvinkeln avvisar inte utan vidare. *Maqāṣid al-sharīʿah*, d
 
 Det särskilda med AI är att det mänskliga beslutsögonblicket försvinner. En domare som följer en rådgivares rekommendation har ändå fattat beslutet. En domare vars system automatiskt levererar utfall som hon bekräftar med ett klick har det inte. Gesten är mänsklig till sin form, maskinell till sitt innehåll.
 
-Ibn Khaldūn varnade: "De som inte är kvalificerade för domstolen bör inte bli domare, så att de inte vilseleder dem som söker rätt väg."[^17] Dugligheten han krävde var inte teknisk utan moralisk.
+Ibn Khaldūn varnade: "De som inte är kvalificerade för domstolen bör inte bli domare, så att de inte vilseleder dem som söker rätt väg."[^17] Den duglighet han krävde var inte teknisk utan moralisk.
 
 ## Erbjudandet som står kvar
 

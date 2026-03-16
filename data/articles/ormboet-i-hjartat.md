@@ -47,7 +47,7 @@ Viktor Rydberg gav avunden en bild som ger eko av de islamiska lärdas beskrivni
 
 > Svartsjukan är en gruvlig plåga, Rakel. Tacka din Gud, att hon icke hemsökt dig. Hon förvandlar hjärtat till ett ormbo, varur tusen giftiga gaddar framsticka och sarga vårt inre.[^10]
 
-Ormboet, inte en ensam orm som bits en gång utan ett helt bo som myllrar, en källa till gift som oupphörligt alstrar nytt. Ibn Ḥibbān, den hadithlärde, för bilden från boet till branden:
+Ormboet, inte en ensam orm som bits en gång utan ett helt bo som myllrar, en källa till gift som oupphörligt alstrar nytt. Ibn Ḥibbān, den hadithlärde, vidgar bilden från boet till branden:
 
 > Varje brand har något som kan släcka den, men avundens eld kan inte släckas.[^11]
 

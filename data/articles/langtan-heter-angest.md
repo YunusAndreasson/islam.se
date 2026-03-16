@@ -33,7 +33,7 @@ Distinktionen är äldre än Ibn Qayyim. Hans lärare Ibn Taymiyyah formulerade 
 
 > Hjärtats sjukdom är en smärta som uppstår i hjärtat, som vreden mot en fiende som besegrat dig – det smärtar hjärtat. Tvivel och okunnighet smärtar hjärtat. Om den sjuke utsätts för det som liknar orsaken till hans sjukdom, ökar sjukdomen och hans kraft försvagas tills han kanske förgås. Men om han får det som stärker kraften och undanröjer sjukdomen, sker motsatsen.[^4]
 
-Som munnen efter narkosen: man vet att den borde känna, men den gör det inte.
+Som munnen efter bedövningen: man vet att den borde känna, men den gör det inte.
 
 Koranen förtydligar diagnosen: "I deras hjärtan finns en sjukdom, så Allah ﷻ har utökat sjukdomen för dem."[^5] Sjukdomen tilltar inte trots omedvetenheten; den tilltar *genom* den. Ju mindre den sjuke känner, desto sjukare är han.
 

@@ -15,7 +15,7 @@ I Koranen är ljus inte bild utan kosmologisk kategori. Den mest kommenterade ve
 
 > Allah ﷻ är himlarnas och jordens ljus. Liknelsen om Hans ljus är en lykta i vilken det finns en lampa. Lampan är omgiven av glas. Glaset är som om det var en starkt skimrande stjärna. Den är tänd med olja från ett välsignat träd – ett olivträ – som varken stått enbart östligt eller västligt. Dess olja lyser nästan utan att ha rörts av eld. Ljus över ljus![^2]
 
-Bilden rör sig inåt: från nischen till glaset till lampan till oljan som nästan lyser av sig själv. Ibn Qayyim visar i *al-Wābil al-Ṣayyib* hur ljuset i hjärtat föds ur tro och lydnad; det närs av uppenbarelse och goda handlingar, så som lampans låga närs av olja.[^3]
+Bilden rör sig inåt: från nischen till glaset till lampan till oljan som nästan lyser av sig själv. Ibn Qayyim visar i *al-Wābil al-Ṣayyib* hur ljuset i hjärtat föds ur tro och lydnad; det närs av uppenbarelse och goda handlingar, såsom lampans låga närs av olja.[^3]
 
 Ibn Qayyim tydliggör den bärande förbindelsen: uppenbarelsens ljus *fogas till* den medfödda naturens ljus, *fiṭrah*, och de två förenas till *nūrun ʿalā nūr* – ljus på ljus. Utan denna samverkan saknas den urskillning som skiljer sant från falskt.[^4] Det gudomliga ljuset tävlar inte med det naturliga. Det förutsätter det.
 
@@ -37,7 +37,7 @@ I mörker försvinner det synliga. Kvar står medvetandets egen verksamhet, fri 
 
 > Ett tecken för dem är natten; Vi drar undan dagen ur den och då sveps de i mörker.[^10]
 
-Natten *visas fram* som ett tecken. Koranen anför detta direkt efter talet om solen som rör sig mot sitt bestämda mål. Natten är solens jämlike, inte dess frånvaro.
+Natten *pekas ut* som ett tecken. Koranen anför detta direkt efter talet om solen som rör sig mot sitt bestämda mål. Natten är solens jämlike, inte dess frånvaro.
 
 ## Söderbergs kägla
 
@@ -75,7 +75,7 @@ Guds ljus *framträder* i natten. Utan erfarenheten av stjärnor mot svart himme
 
 Koranen ger stjärnorna just denna roll: "Det är Han som har gett er stjärnorna för att ni genom dem skall kunna finna er väg i landets och havets mörker."[^21] Många av de ljusaste stjärnornas namn är arabiska – Aldebaran, *den som följer*; Altair, *den flygande* – namngivna i en tid då himlen ännu lästes som tecken. Stjärnorna verkar bara i mörker. Och det de leder mot – sammanhanget i sura *al-Anʿām* tydliggör det – är mer än en fysisk destination. I *Aftonland* skrev Pär Lagerkvist: "Ökenvandraren överger sin lägerplats, som snart skall utplånas av sanden, och fortsätter sin färd i nattens stillhet, ledd av gåtfulla stjärnor."[^27]
 
-Emerson ställde 1836 den omvända frågan: om stjärnorna visade sig en enda natt på tusen år, hur skulle inte människor tro och tillbe och i generationer bevara minnet av den gudsstad som uppenbarats för dem.[^25]
+Emerson ställde 1836 den omvända frågan: om stjärnorna visade sig en enda natt på tusen år, hur skulle inte människor tro och tillbe och i generationer bevara minnet av den gudsstad som uppenbarats för dem?[^25]
 
 För hundra år sedan bodde åttio procent av svenskarna på landsbygden; i dag bor åttio procent i städer.[^22] Under ett enda sekel har mörkret över tallmon och tjärnen gått från livsbetingelse till kuriositet.
 

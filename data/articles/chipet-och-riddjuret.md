@@ -17,7 +17,7 @@ I Sverige har över femtusen personer implanterat mikrochip under huden.[^2] Chi
 
 Förutsättningen är densamma som i Boyes dystopi: kroppen är råmaterial. Sömn mäts, kost finjusteras, prestationshöjande preparat doseras efter schema.
 
-Men sker det inte frivilligt? I *Kallocain* injiceras serumet under tvång; i Stockholm implanteras chipet med ett leende. Skillnaden är verklig – och döljer en djup likhet. Både Världsstatens medborgare och biohackaren behandlar kroppen som *resurs*, material att bruka för ett ändamål. Att tvånget bytts mot samtycke ändrar formen, inte förutsättningen. Byung-Chul Han kallar mönstret *självexploatering*: den som förbättrar sig frivilligt utnyttjar sig själv utan yttre tvång och förväxlar underkastelsen med frihet.[^15] Det är den som vaknar klockan fem för att meditera – aldrig av egen längtan, alltid för att alla framgångsrika människor gör det.
+Men sker det inte frivilligt? I *Kallocain* injiceras serumet under tvång; i Stockholm implanteras chipet med ett leende. Skillnaden är verklig – och döljer en djup likhet. Både Världsstatens medborgare och biohackaren behandlar kroppen som *resurs*, material att bruka för ett ändamål. Att tvånget bytts mot samtycke ändrar formen, inte förutsättningen. Byung-Chul Han kallar mönstret *självexploatering*: den som förbättrar sig frivilligt utnyttjar sig själv utan yttre tvång och förväxlar underkastelse med frihet.[^15] Det är den som vaknar klockan fem för att meditera – aldrig av egen längtan, alltid för att alla framgångsrika människor gör det.
 
 Leo Kall förkroppsligar denna livsåskådning. Ondskefull är han inte. Han gör vad systemet belönar: förbättrar, snabbar på, förenklar. Att uppfinningen sliter sönder människors inre liv framstår, i hans ögon, som en biverkning.
 
@@ -31,7 +31,7 @@ Ibn Qayyim al-Jawziyyah förde bilden från liknelse till grundsats:
 
 > Hjärtat är kungen över lemmarna, och lemmarna är dess soldater; om kungen är rättfärdig, är hans soldater rättfärdiga, och om kungen är fördärvad, är hans soldater fördärvade.[^4]
 
-Kroppen tjänar hjärtat, inte tvärtom. *Qalb* rymmer det som inget instrument kan mäta: förmågan att vända sig till sin Skapare genom tro, lydnad och uppenbarad kunskap.
+Kroppen tjänar hjärtat, inte tvärtom. *Qalb* rymmer det som inget instrument kan mäta: förmågan att vända sig till sin Skapare i tro, lydnad och uppenbarad kunskap.
 
 I biohackingens värld är kroppen ett slutet kretslopp av data, kemikalier och mekanik. Traditionens kropp är genomsläpplig – riktad bortom sig själv. Ibn Qayyim drog parallellen:
 
@@ -75,7 +75,7 @@ Leo Kall hade ett ögonblick av klarhet. Mot romanens slut, när hans uppfinning
 
 Han anar att något gått förlorat, men saknar språket.
 
-Språket har funnits sedan 600-talet. Kroppen som riddjur, hjärtat som kunskapsplats, tillvaron som lån.
+Språket har funnits sedan 600-talet. Kroppen som riddjur, hjärtat som kunskapens säte, tillvaron som lån.
 
 Ibn Rajab al-Ḥanbalī fångade det innersta lagret: "Min kropp är med mig, men min ande är hos er – kroppen lever i främlingskap, anden i sin hemort."[^14]
 

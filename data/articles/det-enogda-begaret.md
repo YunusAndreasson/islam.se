@@ -35,7 +35,7 @@ I *al-Dāʾ wa-l-Dawāʾ* skriver Ibn Qayyim:
 
 > Att sänka blicken ger hjärtat ljus, att släppa den fri klär det i mörker.[^7]
 
-Att släppa blicken fri försvagar hjärtat; att sänka den stärker det.[^8] Om ögat återkastar hjärtats tillstånd innebär den ostyrade blicken att hjärtat ständigt *bygger* av varje synintryck: begär, berättelse, fantasi. Att sänka blicken avbryter byggandet.[^9]
+Att släppa blicken fri försvagar hjärtat; att sänka den stärker det.[^8] Om ögat återkastar hjärtats tillstånd innebär den ostyrade blicken att hjärtat ständigt *bygger vidare* på varje synintryck: begär, berättelse, fantasi. Att sänka blicken avbryter byggandet.[^9]
 
 Den som lärt sig stanna vid den första blicken odlar *baṣīrah*, inre syn. Ibn Qayyim i *Madārij al-Sālikīn*:
 

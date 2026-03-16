@@ -19,7 +19,7 @@ Strindberg iakttog, Key angrep, Le Bon obducerade. Koranen förklarar *varför*.
 
 Den liberala demokratin vilar på en outtalad premiss: att folkviljan, genom rätt förfarande, närmar sig det goda. Förfarandet ger enighet, legitimitet, det minst skadliga – aldrig sanning. Premissen har aldrig bevisats. Bara antagits.
 
-Sverige ger två exempel. År 1955 avskaffade riksdagen motbokssystemet, det så kallade Brattsystemet, trots att den medicinska expertisen varnade för konsekvenserna. Alkoholkonsumtionen steg. Skadorna följde. Riksdagen hade talat i folkets namn, och den hade fel.[^5] Men saken är inte enkel: Brattsystemet var också ett redskap för klassövervakning, där läkare och byråkrater godtyckligt begränsade fattiga medborgares inköp medan överklassen drack obehindrat. Experternas sanning var verklig men förmedlades genom förnedring. Demokratin löste ett rättviseproblem och skapade ett folkhälsoproblem, utan medel att hantera konflikten.
+Sverige ger två exempel. År 1955 avskaffade riksdagen motbokssystemet, det så kallade Brattsystemet, trots att den medicinska expertisen varnade för konsekvenserna. Alkoholkonsumtionen steg. Skadorna följde. Riksdagen hade talat i folkets namn, och den hade fel.[^5] Men saken är inte enkel: Brattsystemet var också ett redskap för klasskontroll, där läkare och byråkrater godtyckligt begränsade fattiga medborgares inköp medan överklassen drack obehindrat. Experternas sanning var verklig men förmedlades genom förnedring. Demokratin löste ett rättviseproblem och skapade ett folkhälsoproblem, utan medel att hantera konflikten.
 
 Tjugofem år senare, 1980, folkomröstade Sverige om kärnkraften. Tre alternativ presenterades. Inget var ett rent nej. Väljarna fick välja mellan tre varianter av ja med olika avvecklingstakt, och resultatet tolkades som en avvecklingsplan som aldrig genomfördes fullt ut.[^6] Demokratin hade gett ett svar men ingen sanning. Förfarandet var oklanderligt; kunskapen obefintlig.
 
@@ -51,7 +51,7 @@ Det demokratiska samhället gör just detta, genom sin konstruktion, inte av ill
 
 ## Sanningen som bro och som börda
 
-Habermas menade att rationell diskurs – det herraväldesfria samtalet – kan leda till sanning genom förfarande, om alla deltagare argumenterar ärligt och på lika villkor.[^15]
+Habermas menade att rationell diskurs – det herraväldesfria samtalet – kan leda till sanning genom rätt förfarande, om alla deltagare argumenterar ärligt och på lika villkor.[^15]
 
 Men Habermas förutsätter det som Koranen ifrågasätter: att människan, lämnad åt sitt förnuft, dras mot sanning snarare än antagande. *Hawā* är universell. Begäret talar alltid med i rummet, osynligt, förklätt till förnuft. Ibn Taymiyyah påpekade att "fantasin ljuger oftare än den talar sant"[^16] – och fantasin verkar starkast när vi tror oss vara som mest förnuftiga.
 

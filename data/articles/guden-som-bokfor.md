@@ -35,7 +35,7 @@ Manuskriptet namnger verkliga personer och deras brott. Fries menade att Linné 
 
 ## Naturalisten som såg igenom ägandet
 
-De mest gripande ställena rör inte vedergällningen utan Guds suveränitet, uttryckt med en skärpa som det lutherska 1700-talssverige inte hade plats för.
+De mest gripande passagerna rör inte vedergällningen utan Guds suveränitet, uttryckt med en skärpa som det lutherska 1700-talssverige inte hade plats för.
 
 > Du säger: det är min gård; jag kan giöra och låta. Jag säger: dit är intet; Gud lånt dig alt.[^6]
 
@@ -47,13 +47,13 @@ Den som beter sig som ägare – av sin gård, sin makt, sin hälsa – har för
 
 ## Den grundsats han inte fick namnge
 
-I Koranens nittionionde sura, en av de kortaste – åtta verser – sammanfattas den grundsats Linné grävde efter:
+I Koranens nittionionde sura, en av de kortaste – åtta verser – sammanfattas den grundsats Linné sökte:
 
 > Den som gör den minsta myras vikt av gott skall se det. Och den som gör den minsta myras vikt av ont skall se det.[^8]
 
 *Mithqāla dharratin.* En atoms vikt – ingen handling undgår räkenskapen. Ibn Kathīr anför en profettradition: en äldre man kom till Profeten ﷺ och bad om en enda sura som sammanfattade allt. Profeten ﷺ lärde honom just denna, och när mannen svurit att aldrig lägga till något utöver den sade Profeten ﷺ: "Den lille mannen har lyckats! Den lille mannen har lyckats!"
 
-Linné sökte bevisa genom hundratals fallstudier vad Koranen kungör som axiom.[^9] Men den koraniska tankegången går i motsatt riktning. Linné nådde insikten om Guds suveränitet bakvägen: den som betedde sig som ägare gick under, alltså var Gud den verklige ägaren. *Tawḥīd* börjar i andra änden – Gud *är* suverän, därför bär varje handling följd. Men Koranen stannar inte vid räkenskapen. Samma Gud som väger varje handling är *al-Tawwāb*, den som tar emot den ångerfulles återvändo: "Er Herre har föreskrivit Sig barmhärtighet: den av er som i oförstånd gör ont och sedan ångrar sig och gör bot – Han är ständigt förlåtande, barmhärtig."[^20] Linnés *Nemesis Divina* rymmer räkenskap utan nåd; lutherdomen nåd utan räkenskap. Koranen förenar båda.
+Linné sökte bevisa genom hundratals fallstudier vad Koranen kungör som axiom.[^9] Men den koraniska tankegången går i motsatt riktning. Linné nådde insikten om Guds suveränitet från andra hållet: den som betedde sig som ägare gick under, alltså var Gud den verklige ägaren. *Tawḥīd* börjar i andra änden – Gud *är* suverän, därför bär varje handling följd. Men Koranen stannar inte vid räkenskapen. Samma Gud som väger varje handling är *al-Tawwāb*, den som tar emot den ångerfulles ånger: "Er Herre har föreskrivit Sig barmhärtighet: den av er som i oförstånd gör ont och sedan ångrar sig och gör bot – Han är ständigt förlåtande, barmhärtig."[^20] Linnés *Nemesis Divina* rymmer räkenskap utan nåd; lutherdomen nåd utan räkenskap. Koranen förenar båda.
 
 Den troende förväntas ändå hålla den egna räkenskapen:
 
@@ -75,11 +75,11 @@ Men i samma anteckningsbok:
 
 Swedenborg pendlar mellan gärning och nåd. Linné pendlar inte. I *Nemesis Divina* saknas den *sola gratia* som skulle återföra tanken till ortodoxin; där råder bara orsak och verkan, handling och följd. En renare linje – och farligare.
 
-Samma grundövertygelse, motsatta vägar. Ingen av dem fann en formel som förenade gärning och nåd. Ett sekel senare genomlevde August Strindberg sin egen version av krisen. Under Infernoåren i Paris avläste han allt som hände honom – sjukdom, ensamhet, kemiska misslyckanden – som gudomliga straff. Hans vägvisare genom kaoset blev Swedenborg:
+Samma grundövertygelse, motsatta vägar. Ingen av dem fann en syntes som förenade gärning och nåd. Ett sekel senare genomlevde August Strindberg sin egen version av krisen. Under Infernoåren i Paris avläste han allt som hände honom – sjukdom, ensamhet, kemiska misslyckanden – som gudomliga straff. Hans vägvisare genom kaoset blev Swedenborg:
 
 > Swedenborg uppenbarade sig i mitt liv, där han har spelat en ofantlig roll som tuktande.[^16]
 
-Linné avläste grundsatsen i andras öden. Strindberg genomled den i sitt eget, och utan ett språk för återvändo förvandlades räkenskapen till dom utan nåd.
+Linné avläste grundsatsen i andras öden. Strindberg genomled den i sitt eget, och utan begrepp för nåd och omvändelse förvandlades räkenskapen till dom utan nåd.
 
 ## Varför hemligheten säger mer än bekännelsen
 

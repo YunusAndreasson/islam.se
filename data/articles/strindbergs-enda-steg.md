@@ -33,7 +33,7 @@ Den islamiska traditionen har ett begrepp för insikten: *fiṭrah*. Ibn Taymiyy
 
 *Fiṭrah* är inte en from förhoppning om att alla i grunden tror. Det är anspråket att gudskunskap tillhör samma kunskapskategori som de mest grundläggande insikterna: att en yttre verklighet finns, att orsak föregår verkan, att motsägelser inte kan vara sanna samtidigt. Att förneka Gud är, i denna analys, att överge sammanhangen själva: Ibn Taymiyyah kallar ateismens yttersta följd *safsaṭah* – det genomgripande tvivel som upplöser all kunskap, även förnekelsen själv.[^7]
 
-Anspråket är högt, men det förklarar varför Strindberg inte kunde förbli ateist. Om gudskunskap hör till kunskapens grund borde varje kris som slår undan tryggheten blotta det som hela tiden legat under ytan. En uppdämd sjö skapas inte av dammens fall; den släpps fri.
+Anspråket är högt, men det förklarar varför Strindberg inte kunde förbli ateist. Om gudskunskap hör till kunskapens grund borde varje kris som slår undan tryggheten blotta det som hela tiden legat under ytan. Uppdämt vatten skapas inte av dammens fall; det släpps fritt.
 
 ## Pendeln som aldrig vilar
 
@@ -41,7 +41,7 @@ Ellen Key, Strindbergs samtida och på många sätt hans motpol, ser företeelse
 
 > Mycket fromma kristnas barn bli fritänkare, mycket fria fritänkares barn kristna. Orsaken är öppendaglig.[^8]
 
-Key ser samhällelig pendling. Men varför slår pendeln alltid *tillbaka*? Vore ateism ett stadigt kunskapstillstånd, borde riktningen vara rak: varje generation mer sekulär, tills religionen utdör.
+Key ser samhällelig pendling. Men varför slår pendeln alltid *tillbaka*? Vore ateism ett stabilt kunskapstillstånd, borde riktningen vara rak: varje generation mer sekulär, tills religionen utdör.
 
 Det är inte vad som sker, inte vad Key observerar, inte vad Strindberg genomlever. Ett internationellt forskningsprojekt vid Oxford visade 2011 att religiösa begrepp framträder som grundläggande mönster i mänskligt tänkande, inte som inlärda föreställningar.[^9] Justin Barrett, en av projektets ledare: "Religion handlar inte om något som ett fåtal särskilda människor gör på söndagar i stället för att spela golf."[^10]
 

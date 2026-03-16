@@ -53,7 +53,7 @@ Profeten ﷺ somnade inte; han överlämnade sig. Varje kväll en liten dödscer
 
 Hjalmar Bergman fångade överlåtelsens gåta i *Vi Bookar, Krokar och Rothar*: "Mitt samvete är rent. Jag anbefaller mig i Guds nåd och sover sött."[^24] *Anbefaller mig* – det enda verb som gör sömnen möjlig.
 
-*Adhkār al-nawm*, kvällens åminnelser, är inte avslappning. De inskärper en grundhållning som den moderna världen har förlorat: att du inte äger ditt nästa andetag – att du, trots det, kan lägga dig i frid.
+*Adhkār al-nawm*, kvällens åminnelser, är ingen avslappningsteknik. De inskärper en grundhållning som den moderna världen har förlorat: att du inte äger ditt nästa andetag – att du, trots det, kan lägga dig i frid.
 
 Ibn Qayyim skrev att "åminnelsen väcker hjärtat ur dess sömn och reser det ur dess slummer".[^15] *Dhikr* väcker hjärtat för att kroppen ska kunna sova. Sömnlösheten är ett hjärta som sover – bedövat av förströelser, avtrubbat av underhållning – i en kropp som ligger vaken. Du upprepar Namnet tills tankarnas cirkel bryts.
 

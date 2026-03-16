@@ -5,7 +5,7 @@ wordCount: 2127
 qualityScore: 8.5
 description: "Silvertärnan lämnar Arktis varje höst utan karta, utan garanti. Det moderna samhället har byggt ett system för att slippa göra detsamma. Islam kallar den resan hijra."
 ---
-Varje höst lämnar silvertärnan Arktis. Den väger knappt hundra gram, hjärnan stor som en ärta. Ingen karta bär den, ingen GPS, inget färdprov – ändå flyger den till Antarktis och tillbaka, 70 000 kilometer om året, den längsta kända färden bland djur.[^1] Under flygningen sover den troligen med halva hjärnan i taget: ett öga öppet, ett slutet, den vakna hjärnhalvan navigerar medan den andra vilar.[^2] Sedan vänder den om och gör alltihop igen.
+Varje höst lämnar silvertärnan Arktis. Den väger knappt hundra gram, hjärnan stor som en ärta. Den bär ingen karta, ingen GPS, inget färdprov – ändå flyger den till Antarktis och tillbaka, 70 000 kilometer om året, den längsta kända färden bland djur.[^1] Under flygningen sover den troligen med halva hjärnan i taget: ett öga öppet, ett slutet, den vakna hjärnhalvan navigerar medan den andra vilar.[^2] Sedan vänder den om och gör alltihop igen.
 
 Ingen försäkring täcker den resan.
 
@@ -57,7 +57,7 @@ Ibn al-Jawzī (1100-talet) skärper det:
 
 Det moderna samhället erkänner bara två möjligheter: kontroll eller ångest. *Tawakkul* är den tredje: full ansträngning förenad med full vila. Det är läkaren som opererar med allt sitt kunnande och sedan går hem och sover.
 
-För det saknar moderniteten språk. Den som kom närmast var Kierkegaard, vars "trons riddare" i *Fruktan och bävan* lever fullt i det ändliga men har överlämnat utgången. Men att han kallade rörelsen "i kraft av det absurda" avslöjar att tillit i hans tänkande bara kan tänkas som ett undantag från förnuftet. I den islamiska traditionen är *tawakkul* tvärtom förnuftets slutsats: den som verkligen vet vem Gud är finner det orimligt att *inte* förlita sig på Honom.[^21]
+För det saknar moderniteten språk. Den som kom närmast var Kierkegaard, vars "trons riddare" i *Fruktan och bävan* lever fullt i det ändliga men har överlämnat utgången. Men att han kallade rörelsen "i kraft av det absurda" avslöjar att tillit i hans tänkande bara kan förstås som ett undantag från förnuftet. I den islamiska traditionen är *tawakkul* tvärtom förnuftets slutsats: den som verkligen vet vem Gud är finner det orimligt att *inte* förlita sig på Honom.[^21]
 
 ## Fåglarna i Koranen
 

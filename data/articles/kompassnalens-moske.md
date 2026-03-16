@@ -33,7 +33,7 @@ Under de första åren i Medina bad muslimerna mot Jerusalem, samma riktning som
 
 Bytet från Jerusalem till Mecka var en teologisk deklaration: den muslimska gemenskapen definieras av sin egen riktning, sin egen geografi. Koranen säger det rakt ut: "Vi gjorde endast bytet av den böneriktning du iakttog för att utskilja den som följer Sändebudet från den som vänder på klacken."[^7] *Qiblah*-bytet var ett prov. De som böjde sig för den nya riktningen tillhörde gemenskapen; de som inte kunde stod utanför. Ibn Kathīr återger att den första bönen i den nya riktningen var eftermiddagsbönen. En man som bett med Profeten ﷺ gick förbi en annan moské vars församling stod böjd i bön och ropade: "Jag svär vid Gud, jag har just bett med Profeten ﷺ vänd mot Mecka!" – och mitt i bönen vände de sig mot Kaʿbah.
 
-Hade det heliga bott i platsen hade bytet varit en förlust. Det är inte kompassnålens slutpunkt som helgar, utan den bedjandes underkastelse under befallningen.
+Hade det heliga vilat i platsen hade bytet varit en förlust. Det är inte kompassnålens slutpunkt som helgar, utan den bedjandes underkastelse under befallningen.
 
 ## Den pragmatiske juristen Ibn Taymiyyah
 
@@ -59,7 +59,7 @@ Runeberg fångar samhörigheten mellan människa och sockenkyrka i en passage so
 
 Den som inte hör till en sockenkyrka hör ingenstans till.
 
-Islam spegelvänder ordningen. Salmān al-Fārisī – själv en man som vandrat från Persien genom kristendomen till islam – slog fast:
+Islam spegelvänder ordningen. Salmān al-Fārisī – själv en man som gått vägen från Persien via kristendomen till islam – slog fast:
 
 > Jorden helgar ingen – det är människans handlingar som helgar henne.[^12]
 

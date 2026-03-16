@@ -51,7 +51,7 @@ Långt före mötet bestäms relationen till elden. Därför kan Koranen säga o
 
 Bilden rymmer en oundviklig teologisk spänning. I sunnitisk tradition straffar Jahannam, men för den syndige troende är den också rening. Den som bär trons kärna, hur svag den än är, frigörs till slut ur elden, renad.[^10] Samma eld *straffar* den ene och *renar* den andre. I den som brinner ligger skillnaden.
 
-Ibn Qayyim al-Jawziyyah driver sambandet till dess tätaste form: trons visshet bränner synderna som eld bränner ved.[^11] Elden verkar redan i det inre livet: den troende som lever i verklig *yaqīn*, i förvissning om Allahs ﷻ enhet, befinner sig redan i en eld som förtär det falska. Men denna eld kräver att du bär något som tål den.
+Ibn Qayyim al-Jawziyyah driver tanken till sin spets: trons visshet bränner synderna som eld bränner ved.[^11] Elden verkar redan i det inre livet: den troende som lever i verklig *yaqīn*, i förvissning om Allahs ﷻ enhet, befinner sig redan i en eld som förtär det falska. Men denna eld kräver att du bär något som tål den.
 
 Vad är det? I *Rawḍat al-Muḥibbīn* ger Ibn Qayyim ett svar – han knyter eldbilden till kärleken själv:
 
@@ -75,7 +75,7 @@ Och han sade:
 
 Om det finns ett jordiskt paradis i bröstet, finns det också en jordisk eld. Sorgerna, bekymren, ångesten: Ibn Qayyim kallar dem ett omedelbart straff, en jordisk eld, ett närvarande helvete.[^14]
 
-Strindberg tecknade hettan. Swedenborg förklarade dess korrespondens. Men den islamiska hållningen stannar aldrig vid beskrivning. Strindbergs och Swedenborgs eld *är* slutsatsen: den inre hettan är allt som finns. En eld som känner igen dig, som Ibn Rajab beskriver den, möter dig oavsett om du mött dig själv.
+Strindberg tecknade hettan. Swedenborg förklarade dess korrespondens. Men den islamiska hållningen stannar aldrig vid beskrivning. Strindbergs och Swedenborgs eld *är* slutsatsen: den inre hettan är allt som finns. En eld som känner igen dig, som Ibn Rajab beskriver den, möter dig vare sig du rannsakat dig själv eller ej.
 
 Koranen ger den troende en bild som skärper blicken, inte tröstar:
 

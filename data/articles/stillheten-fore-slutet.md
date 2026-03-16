@@ -43,7 +43,7 @@ Hjalmar Bergman satte ord på den i *Vi Bookar, Krokar och Rothar*:
 
 *Att finna mening* – inte att fly döden utan att finna ett skäl att ha levt.
 
-Klimatångesten följer samma mönster men saknar det avgörande: ett namn för det den är. Islam namnger ångesten. Ångesten är ett tecken, en *āya*, på att människan söker sitt upphov. Ibn Qayyim al-Jawziyyah skrev: "Det jordiska livet är den kommande världens åkerfält och dess förebud."[^7] Ångesten inför förstörelsen visar sig vara förklädd längtan efter det som kommer *efter* den – rädslan som är hopp vänt ut och in.
+Klimatångesten följer samma mönster men saknar det avgörande: ett namn för det den är. Islam namnger ångesten. Ångesten är ett tecken, en *āya*, på att människan söker sitt upphov. Ibn Qayyim al-Jawziyyah skrev: "Det jordiska livet är den kommande världens åkerfält och dess förebud."[^7] Ångesten inför förstörelsen visar sig vara förklädd längtan efter det som kommer *efter* den – rädslan som är hoppet vänt ut och in.
 
 ## En dom som förutsätter en Domare
 

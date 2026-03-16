@@ -17,11 +17,11 @@ För Ibn Khaldūn är memorering varken mål eller metod. Den är *grundval*.
 
 Ibn Khaldūns centrala begrepp är *malakah*, ett ord utan exakt svensk motsvarighet. Det betyder ungefär 'bemästrande', 'stabil intellektuell läggning'. *Malakah* beskriver det som uppstår när kunskap repeterats så ofta och så ingående att den slutar vara information och blir en del av personen. Ibn Khaldūn jämför det med ett tyg som färgats: färgen sitter kvar tills tyget förstörs.[^3] Det är cyklisten som inte längre tänker på balansen, pianisten som inte letar efter tangenterna.
 
-Ibn Khaldūn beskrev hur *malakah* utvecklas. Först möter eleven ett ämne och griper det i omriss. Sedan, genom upprepning, växer förtrogenhet. Slutligen mognar kunskapen och förvandlas: den är inte längre något eleven *har* utan något eleven *är*. Ibn Khaldūn skriver:
+Ibn Khaldūn beskrev hur *malakah* utvecklas. Först möter eleven ett ämne och fattar det i grova drag. Sedan, genom upprepning, växer förtrogenhet. Slutligen mognar kunskapen och förvandlas: den är inte längre något eleven *har* utan något eleven *är*. Ibn Khaldūn skriver:
 
 > Genom att intellektualisera formerna gång på gång blir perception och tankens fullbordan själens faktiska väsen, och således materialiseras dess existens.[^4]
 
-Upprepningen är inte motsatsen till förståelse. Den gjuter förståelsen i kropp, tills den fastnar i det Ibn Khaldūn kallar själens färg.
+Upprepningen är inte motsatsen till förståelse. Den gjuter förståelsen i kroppen, tills den fastnar i det Ibn Khaldūn kallar själens färg.
 
 Ibn Khaldūn var hård mot elever som förväxlade memorering med lärdom. De som slaviskt lärde sig formuleringar utan att utveckla *malakah ʿilmiyyah*, den vetenskapliga läggningen, förblev fastlåsta i ytkunskap. Memorering utan *malakah* var ofruktbar. Men *malakah* utan memorering var omöjlig.[^5]
 
@@ -55,7 +55,7 @@ Ibn al-Jawzī sa det rakt: "Allt som är dyrbart och storslaget har en lång vä
 
 ## Den svenska kollapsen
 
-Mellan 2000 och 2012 sjönk Sveriges PISA-resultat under OECD-genomsnittet i samtliga tre områden.[^12] Fallet sammanföll med årtionden av reformpedagogik som tonade ned memorering och ordning, och försvagade lärarens auktoritet. Vad hände med kunskapsgrunden när skolan monterade ned den ordnade upprepningen till förmån för lustdriven frihet?
+Mellan 2000 och 2012 sjönk Sveriges PISA-resultat under OECD-genomsnittet i samtliga tre områden.[^12] Fallet följde på årtionden av reformpedagogik som tonat ned memorering och ordning och försvagat lärarens auktoritet. Vad hände med kunskapsgrunden när skolan monterade ned den ordnade upprepningen till förmån för lustdriven frihet?
 
 Läroplansreformen Lgr22 har vänt pendeln: skärpta kunskapskrav, fonetisk läsinlärning, tryckta läroböcker.[^14] Kursändringen bekräftar det Ibn Khaldūn slog fast på 1300-talet: kunskap kräver ordnat arbete innan den kan bära frukt.
 

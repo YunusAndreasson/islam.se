@@ -9,7 +9,7 @@ Oscar Levertin skrev 1898 en mening som sammanfattar den svenska hållningen til
 
 > Verkligheten kan kanske undvara religion, men säkert ej religiositet.[^1]
 
-Levertin visste vad han talade om. Som litteraturhistoriker, och som jude i det protestantiska Sverige, ägde han den utomståendes blick. Han studerade Lucretius – den antike materialisten som försökte befria människan från gudsfruktan – och fann att Lucretius själv var genomsyrad av det han ville avskaffa. Levertin konstaterade:
+Levertin visste vad han talade om. Som litteraturhistoriker, och som jude i det protestantiska Sverige, hade han den utomståendes blick. Han studerade Lucretius – den antike materialisten som försökte befria människan från gudsfruktan – och fann att Lucretius själv var genomsyrad av det han ville avskaffa. Levertin konstaterade:
 
 > Det är denna religiositet utan religion, denna svärmiska världskult, som Lucretii metafysiska styrka ligger.[^2]
 
@@ -69,7 +69,7 @@ Pascal beskrev, utan tillgång till Ibn Qayyim, en "oändlig avgrund" i människ
 
 Den svenska hållningen svarar: inget. Törsten är sitt eget mål.
 
-Men Söderblom själv kunde inte stanna vid känslan. "Vissheten om lefvande Gud vinna vi genom att äga delaktighet i Guds lif..."[^15] Uppenbarelse, skriver han, "säger att människan är mottagande, att Gud meddelar sig själf".[^16] Hans egen trestegsmodell – oändlighetskänsla, idealdrift, uppenbarelsereligion – bildar en kedja där varje steg föder nästa. Att stanna vid det andra är, inom hans egen logik, att bryta den progression han själv tecknade.
+Men Söderblom själv kunde inte stanna vid känslan. "Vissheten om lefvande Gud vinna vi genom att äga delaktighet i Guds lif..."[^15] Uppenbarelse, skriver han, "säger att människan är mottagande, att Gud meddelar sig själf".[^16] Hans egen trestegsmodell – oändlighetskänsla, idealdrift, uppenbarelsereligion – bildar en kedja där varje steg föder nästa. Att stanna vid det andra är, inom hans egen logik, att bryta den rörelse han själv tecknat.
 
 ## Det steg som inte tas
 
@@ -93,7 +93,7 @@ Den subtilaste formuleringen finns hos Ibn Qayyim i *al-Fawāʾid*:
 
 > Hjärtats rena lampor, i sin ursprungliga *fiṭrah*, lyser redan innan uppenbarelsen: deras olja ger nära nog sken av sig själv.[^21]
 
-"Nära nog." Oljan lyser men behöver veken. *Fiṭrah* strålar men behöver riktning. Levertins religiositet utan religion är oljan utan veken: riktig, verklig, strålande – men utan den tändpunkt som förvandlar potential till ljus.
+"Nära nog." Oljan ger sken men behöver veken. *Fiṭrah* strålar men behöver riktning. Levertins religiositet utan religion är oljan utan veken: riktig, verklig, strålande – men utan den tändpunkt som förvandlar potential till ljus.
 
 En koranisk vers bär hela argumentet:
 
