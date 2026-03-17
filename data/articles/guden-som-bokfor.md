@@ -21,7 +21,7 @@ Men om han var så övertygad – varför höll han den hemlig?
 
 Den lutherska kyrkans grundsats är enkel och radikal: människan frälses genom tro allena. *Sola fide. Sola gratia.* Nåden är till sitt väsen omåttlig; den ges till den som inte förtjänar den.
 
-Linnés *Nemesis Divina* tecknar raka motsatsen. Varje handling bär sin bestämda följd, lika ofrånkomligt som att en viss jordmån ger en viss växt. Th. M. Fries, som redigerade manuskriptet efter Linnés död, sammanfattade grundsatsen:
+Linnés *Nemesis Divina* tecknar raka motsatsen. Varje handling bär sin bestämda följd, lika ofrånkomligt som att en viss jordmån ger en viss växt. Th. M. Fries, som redigerade manuskriptet efter Linnés död, sammanfattade övertygelsen:
 
 > En ständig vexelverkan, en sträng lagbundenhet, en orubblig verldsordning genomströmmar det hela; att slumpen, det blinda ödets tyranni, ingenstädes herskar.[^3]
 
@@ -43,11 +43,11 @@ Och ännu tydligare:
 
 > Alt det wij hafve är ett lån af Gud. Wi hafve intet hit med oss; intet bortföra wij.[^7]
 
-Den som beter sig som ägare – av sin gård, sin makt, sin hälsa – har förväxlat lån med äganderätt. Men Linné nöjde sig inte med att slå fast suveräniteten. Han sökte dess verkningssätt – den grundsats som gör att låntagaren drabbas.
+Den som beter sig som ägare – av sin gård, sin makt, sin hälsa – har förväxlat lån med äganderätt. Men Linné nöjde sig inte med att slå fast suveräniteten. Han sökte dess verkningssätt – den ordning som gör att låntagaren drabbas.
 
-## Den grundsats han inte fick namnge
+## Den ordning han inte fick namnge
 
-I Koranens nittionionde sura, en av de kortaste – åtta verser – sammanfattas den grundsats Linné sökte:
+I Koranens nittionionde sura, en av de kortaste – åtta verser – sammanfattas den ordning Linné sökte:
 
 > Den som gör den minsta myras vikt av gott skall se det. Och den som gör den minsta myras vikt av ont skall se det.[^8]
 
@@ -73,13 +73,13 @@ Men i samma anteckningsbok:
 
 > Summa summarum: det är intet annat än nåd hvarigenom wi blifwa saliga.[^15]
 
-Swedenborg pendlar mellan gärning och nåd. Linné pendlar inte. I *Nemesis Divina* saknas den *sola gratia* som skulle återföra tanken till ortodoxin; där råder bara orsak och verkan, handling och följd. En renare linje – och farligare.
+Swedenborg pendlar mellan gärning och nåd. Linné pendlar inte. I *Nemesis Divina* saknas den *sola gratia* som skulle återföra tanken till renlärigheten; där råder bara orsak och verkan, handling och följd. En renare linje – och farligare.
 
 Samma grundövertygelse, motsatta vägar. Ingen av dem fann en syntes som förenade gärning och nåd. Ett sekel senare genomlevde August Strindberg sin egen version av krisen. Under Infernoåren i Paris avläste han allt som hände honom – sjukdom, ensamhet, kemiska misslyckanden – som gudomliga straff. Hans vägvisare genom kaoset blev Swedenborg:
 
 > Swedenborg uppenbarade sig i mitt liv, där han har spelat en ofantlig roll som tuktande.[^16]
 
-Linné avläste grundsatsen i andras öden. Strindberg genomled den i sitt eget, och utan begrepp för nåd och omvändelse förvandlades räkenskapen till dom utan nåd.
+Linné avläste mönstret i andras öden. Strindberg genomlevde den i sitt eget, och utan begrepp för nåd och omvändelse förvandlades räkenskapen till dom utan nåd.
 
 ## Varför hemligheten säger mer än bekännelsen
 

@@ -23,7 +23,7 @@ Sverige ger två exempel. År 1955 avskaffade riksdagen motbokssystemet, det så
 
 Tjugofem år senare, 1980, folkomröstade Sverige om kärnkraften. Tre alternativ presenterades. Inget var ett rent nej. Väljarna fick välja mellan tre varianter av ja med olika avvecklingstakt, och resultatet tolkades som en avvecklingsplan som aldrig genomfördes fullt ut.[^6] Demokratin hade gett ett svar men ingen sanning. Förfarandet var oklanderligt; kunskapen obefintlig.
 
-Koranen skiljer inte mellan rätt och fel som politiska kategorier utan mellan *kunskap* och *antagande*: *ʿilm* och *ẓann*. "Befatta dig inte med det du saknar kunskap om. Hörseln, synen och hjärtat – alla dessa kommer att tillfrågas."[^7] Ibn Kathīr anför profetens varning: "Akta er för antaganden, ty antaganden är det mest lögnaktiga av tal."
+Koranen skiljer inte mellan rätt och fel som politiska kategorier utan mellan *kunskap* och *antagande*: *ʿilm* och *ẓann*. "Befatta dig inte med det du saknar kunskap om. Hörseln, synen och hjärtat – alla dessa kommer att tillfrågas."[^7] Ibn Kathīr anför Profetens ﷺ varning: "Akta er för antaganden, ty antaganden är det mest lögnaktiga av tal."
 
 ## Två brister och ett begär
 

@@ -39,7 +39,7 @@ Koranens femte sura berättar hur det gick till. Kain och Abel bär fram var sit
 
 "Hans inre drev honom." Ingen plan, inget beräknat beslut, en kraft inifrån starkare än förnuftet. Följden: broderns död, och att Kain själv blev "en av förlorarna", *min al-khāsirīn*.
 
-Iblis vägrade buga inför Adam av ren avund: hur kunde denna varelse av lera föredras framför honom, skapad av eld?[^9] Avund är en anklagelse mot Guds fördelning, en protest mot att andra får vad man anser sig förtjäna.
+Iblis vägrade buga inför Adam av ren avund: hur kunde denna varelse av lera föredras framför honom, som var skapad av eld?[^9] Avund är en anklagelse mot Guds fördelning, en protest mot att andra får vad man anser sig förtjäna.
 
 ## Ormboet
 
@@ -79,7 +79,7 @@ Den islamiska traditionen gör en åtskillnad som modern psykologi först sent b
 
 Skillnaden är till art, inte grad. *Ghibṭah* ser en annans välsignelse och tänker: "Må Allah ﷻ ge mig liknande." *Ḥasad* ser samma välsignelse: "Må den tas ifrån honom."
 
-En experimentell studie i *Emotion* (2009) visade att avunden rymmer två kvalitativt skilda känslor: en som driver självförbättring, en som söker den andres fall.[^24]
+En experimentell studie i *Emotion* (2009) visade att avunden rymmer två artskilda känslor: en som driver självförbättring, en som söker den andres fall.[^24]
 
 Al-Ḥasan al-Baṣrī, asketen från Basra, erbjöd tröst med en avgörande nyansering:
 
