@@ -9,7 +9,7 @@ Domaren dömer och staten verkställer. Åklagaren utreder och åtalar i samma r
 
 Det sambandet är problemet.
 
-Sjuhundra år innan Montesquieu lade fram sin maktdelningslära i *De l'esprit des lois* hade en jurist i Bagdad redan urskilt ett problem Montesquieu aldrig såg. Montesquieu skilde statens funktioner – lagstiftande, verkställande, dömande. Al-Māwardī skilde något farligare: rättvisan från svärdet.
+Sjuhundra år innan Montesquieu lade fram sin maktdelningslära i *De l'esprit des lois* hade en jurist i Bagdad redan urskilt ett problem Montesquieu aldrig såg. Montesquieu skilde statens funktioner: lagstiftande, verkställande, dömande. Al-Māwardī skilde något farligare: rättvisan från svärdet.
 
 ## Tre ämbeten, tre gränser
 

@@ -5,7 +5,7 @@ wordCount: 1638
 qualityScore: 8.6
 description: "Tre koranverser ställer en fråga som inte ger spelrum: har allting skapats av ingenting, eller skapade det sig självt – eller finns en Skapare? Det är ingen vädjan till tro. Det är ett logiskt argument."
 ---
-Strindberg var ärlig nog att formulera problemet. I *Inferno* skriver han: "Jag har nämligen blivit ateist under årens lopp, när jag märkt hur de okända makterna lämnat världen åt dess öde utan att giva ett livstecken ifrån sig."[^1] En mening att respektera – inte för att den är sann, utan för att den visar vad ateismen kostar den som tar den på allvar. Strindberg ville inte vara ateist. Dit drev honom vad han upplevde som Guds tystnad. Han kunde inte stanna där.
+Strindberg var ärlig nog att formulera problemet. I *Inferno* skriver han: "Jag har nämligen blivit ateist under årens lopp, när jag märkt hur de okända makterna lämnat världen åt dess öde utan att giva ett livstecken ifrån sig."[^1] En mening att respektera, inte för att den är sann, utan för att den visar vad ateismen kostar den som tar den på allvar. Strindberg ville inte vara ateist. Dit drev honom vad han upplevde som Guds tystnad. Han kunde inte stanna där.
 
 Några sidor senare vacklar han: "Det är ju märkvärdigt hur jag nu har från ateismen fallit ner i den fullständigaste vidskepelse."[^2] Ateismen höll inte för tanken, men alternativen han famlade efter – ockultism, Swedenborg, alkemi – bar inte heller.
 
@@ -19,7 +19,7 @@ Antingen uppstod allting ur intet, utan orsak. Eller skapade allting sig självt
 
 De två första alternativen är absurda. Att något uppstår ur absolut intet – verkligt *intet*, inte vakuumfluktuationer eller kvanttillstånd – saknar förklaring. Att något skapar sig självt förutsätter att det finns innan det finns. Kvar står det tredje.
 
-Ibn Kathīr återger en tradition: Jubayr ibn Muṭʿim, vid den tiden polyteist, hade kommit till Profeten ﷺ efter slaget vid Badr för att lösa ut krigsfångar. Han hörde Profeten ﷺ recitera dessa verser under bönen och sade: "Mitt hjärta höll på att flyga" – och Ibn Kathīr tillägger att denna upplevelse hörde till det som förde honom till islam.
+Ibn Kathīr återger en tradition: Jubayr ibn Muṭʿim, vid den tiden polyteist, hade kommit till Profeten ﷺ efter slaget vid Badr för att lösa ut krigsfångar. Han hörde Profeten ﷺ recitera dessa verser under bönen och sade: "Mitt hjärta höll på att flyga", och Ibn Kathīr tillägger att denna upplevelse hörde till det som förde honom till islam.
 
 Fjorton sekler senare nådde Leibniz samma punkt i *Monadologin* (1714) när han myntade principen om tillräcklig grund: ingenting sker utan att det finns en anledning till att det sker så och inte annorlunda.[^4] Där Leibniz behövde ett metafysiskt system ställer Koranen frågan på tre rader och lämnar lyssnaren ensam med svaret.
 
@@ -37,7 +37,7 @@ De flesta filosofer erkänner att universum har en orsak. Polyteismen förutsät
 
 Från Spinoza till Advaita Vedanta sätter panteismen likhetstecken mellan Gud och naturen. Spinozas system är strängt men rymmer sin egen upplösning. Om Skaparen *är* skapelsen utplånas skillnaden mellan orsak och verkan. En Gud som sammanfaller med universum kan inte förklara universum – den *är* det som behöver förklaras. Systemet besvarar inte den kosmologiska frågan. Det upplöser den.
 
-Deismen erkänner en Skapare men förnekar att denne handlar i världen. Voltaire, Jefferson och Paine nöjde sig med det. Men hållningen rymmer en motsättning den inte kan lösa: en Skapare med makt nog att frambringa allting, utan vilja att tala till det skapade. Att skapas men aldrig tilltalas är att veta *att* man gjordes men aldrig *varför* – i praktiken nästan detsamma som om man aldrig hade skapats med avsikt.
+Deismen erkänner en Skapare men förnekar att denne handlar i världen. Voltaire, Jefferson och Paine nöjde sig med det. Men hållningen rymmer en motsättning den inte kan lösa: en Skapare med makt nog att frambringa allting, utan vilja att tala till det skapade. Att skapas men aldrig tilltalas är att veta *att* man gjordes men aldrig *varför*, i praktiken nästan detsamma som om man aldrig hade skapats med avsikt.
 
 Tankespinn räckte inte för Strindberg.
 
@@ -59,13 +59,13 @@ I sin enklaste form ställde Ibn Taymiyyah frågan: det skapade måste vara uppk
 
 Strindberg nådde aldrig fram. Hans vandring – från barndomstro genom ateism, vidskepelse och Swedenborg – mynnade i underkastelse inför det oförklarliga: "Intet tvivel mera! Den Evige har talat!"[^11] Men vilken Evig? Strindbergs Gud förblev dunkel, mer kraft än person, mer försyn än nåd. Han hade sökt sin Gud alltifrån barndomen, skrev han, och funnit demonen.[^12]
 
-Varför skulle en allsmäktig Skapare tillåta lidande? Frågan är gammal; inget teologiskt system kan undanröja den. Den är det tyngsta argumentet mot monoteism – och den förtjänar att mötas, inte avfärdas.
+Varför skulle en allsmäktig Skapare tillåta lidande? Frågan är gammal; inget teologiskt system kan undanröja den. Den är det tyngsta argumentet mot monoteism, och den förtjänar att mötas, inte avfärdas.
 
 Koranen förnekar aldrig lidandet. Den ger det en ordning: prövning, tålamod, återkomst. "Tror människorna att de skall slippa undan med att säga 'Vi tror!' utan att sättas på prov?"[^19] Prövningen förutsätter en prövare med avsikt – skillnaden mellan slump och lektion. Det är inget heltäckande svar på varje enskild människas lidande; det är en ram inom vilken lidandet inte upplöses till meningslöst brus. Ateismen, som ärligt avvisar den ramen, måste bära en tyngre börda: inte bara att lidandet är oförklarat utan att det är oförklarligt – att det inte *finns* något att förstå.
 
 *Tawḥīd* besvarar inte varje filosofisk invändning. Det är den hållning som inte brister under sin egen logik – att säga 'en' och mena det utan fotnoter. Resten gör det: ateismen vid frågan om grund, polyteismen vid frågan om enhet, panteismen vid skillnaden mellan orsak och verkan, deismen vid frågan om mening, treenigheten vid frågan om inre sammanhang. *Tawḥīd* – en enda, transcendent, aktiv Skapare – kvarstår.
 
-Ibn Qayyim sammanfattade det i en sats: Herren ensam skapar, styr och befaller.[^13] Inte en trossats som kräver förnuftets underkastelse – utan den slutsats förnuftet når när det följer sina egna premisser hela vägen.
+Ibn Qayyim sammanfattade det i en sats: Herren ensam skapar, styr och befaller.[^13] Inte en trossats som kräver förnuftets underkastelse, utan den slutsats förnuftet når när det följer sina egna premisser hela vägen.
 
 I *Inferno* klagade Strindberg att de okända makterna lämnat världen utan livstecken. I *Götiska rummen* skrev han själv det tecken han sökte: "Av intet blir intet, och allt har en tillräcklig grund."[^14] Han formade svaret med egna ord. Han kände inte igen det.
 

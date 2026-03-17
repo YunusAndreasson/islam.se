@@ -25,7 +25,7 @@ Inom den parentesen kartlade Ibn al-Jawzī begärets rörelse:
 
 > Själen stannar aldrig vid en gräns, utan eftersträvar njutningar utan ände – och allt den uppnår svalnar snart, varpå den söker något annat.[^2]
 
-Problemet är inte att kroppen begränsar hjärnan utan att den begränsar *själen*. Den njutningssökande trampkvarnen är själens grundvillkor i materian – inget fel ett hjärnchip kan avhjälpa.
+Problemet är inte att kroppen begränsar hjärnan utan att den begränsar *själen*. Den njutningssökande trampkvarnen är själens grundvillkor i materian, inget fel ett hjärnchip kan avhjälpa.
 
 ## Fängelset som blir bekvämare
 
@@ -47,25 +47,25 @@ I *Madārij al-Sālikīn* fullbordar Ibn Qayyim bilden. Denna värld och nästa 
 
 Zacharias Topelius skrev om "denna törstande, stormande, brinnande själ" som "flaxar som fågeln mot fönsterrutan".[^6] Fredrika Bremer vittnade om hur "den dödliga kroppen besvärar själen".[^7] Dan Andersson ställde frågan rakast: "Vart skall han då ta vägen, den konstiga Fågel Jag?"[^8]
 
-Topelius visste att själen flaxade, men inte varför fönstret var stängt. Koranen ger svaret – själen bär ett minne av sitt ursprung:
+Topelius visste att själen flaxade, men inte varför fönstret var stängt. Koranen ger svaret: själen bär ett minne av sitt ursprung.
 
 > Sedan fulländade Han henne och blåste in i henne av Sin ande och gav er hörsel och syn och inre sinnen. Så lite ni visar tacksamhet![^9]
 
-Ibn Kathīr lägger till: "Den lycklige är den som använder dessa förmågor i lydnad inför sin Herre." Själen har ett ursprung och ett mål – den utgår från Gud och återvänder till Gud. Kroppen är resvägen, inte hemmet.
+Ibn Kathīr lägger till: "Den lycklige är den som använder dessa förmågor i lydnad inför sin Herre." Själen har ett ursprung och ett mål: den utgår från Gud och återvänder till Gud. Kroppen är resvägen, inte hemmet.
 
 ## Kroppens rätt, själens längtan
 
-Kroppen är fängelse, och kroppen är *amānah* – en gåva anförtrodd av Gud. Profeten Muḥammad ﷺ sade: "Din kropp har rätt över dig."[^10] Islam förbjuder självplågande asketism lika bestämt som hämningslös njutning.
+Kroppen är fängelse, och kroppen är *amānah*, en gåva anförtrodd av Gud. Profeten Muḥammad ﷺ sade: "Din kropp har rätt över dig."[^10] Islam förbjuder självplågande asketism lika bestämt som hämningslös njutning.
 
 Bönen kräver kroppen: knäna, pannan, händerna. Fastan tuktar den utan att förneka den. Den islamiska vägen är inte flykt från kroppen utan vägran att *låta den bli herre*.
 
-Skillnaden mot den platonska tudelningen är avgörande. I *Faidon* visar Platon hur filosofen "ständigt söker befria själen" och döden är den slutgiltiga skilsmässan.[^11] I islam återuppstår kroppen; själ och kropp återförenas på Domens dag. Befrielsen riktar sig mot kroppens envälde – det tillstånd där begäret styr och själen följer.
+Skillnaden mot den platonska tudelningen är avgörande. I *Faidon* visar Platon hur filosofen "ständigt söker befria själen" och döden är den slutgiltiga skilsmässan.[^11] I islam återuppstår kroppen; själ och kropp återförenas på Domens dag. Befrielsen riktar sig mot kroppens envälde, det tillstånd där begäret styr och själen följer.
 
 Det är kroppens envälde transhumanismen upphöjer till program.
 
 ## Den rastlösa uppgraderingen
 
-Pär Segerdahl kallar transhumanismen "det mänskliga missnöjet" – en rörelse som behandlar hetsen och ångesten inte som problem att lösa utan som drivkrafter att förstärka.[^12] Ibn Taymiyyah ställde diagnosen: "Den som fäster sitt hjärta vid det skapade, dess hjärta underkastas av det."[^18] Själen som "aldrig stannar vid en gräns" söker inte bättre celler utan det enda som inget ändligt kan mätta.
+Pär Segerdahl kallar transhumanismen "det mänskliga missnöjet", en rörelse som behandlar hetsen och ångesten inte som problem att lösa utan som drivkrafter att förstärka.[^12] Ibn Taymiyyah ställde diagnosen: "Den som fäster sitt hjärta vid det skapade, dess hjärta underkastas av det."[^18] Själen som "aldrig stannar vid en gräns" söker inte bättre celler utan det enda som inget ändligt kan mätta.
 
 Koranen namnger tillståndet:
 
@@ -81,7 +81,7 @@ Men *evigt liv* är transhumanismens yttersta löfte. Medvetandeöverföring, di
 
 Islam vägrar förutsättningen: "Varje själ skall smaka döden. Därefter är det till Oss ni skall återföras."[^15] Döden är stunden då cellens väggar faller och själen kan återvända till det den alltid längtat efter.
 
-De mest fromma fruktar ofta döden minst – inte av likgiltighet inför livet utan av tillförsikt inför dess källa. Ingmar Bergmans riddare i *Det sjunde inseglet* når samma åtskillnad: "Min kropp är rädd, inte jag själv."[^19]
+De mest fromma fruktar ofta döden minst, inte av likgiltighet inför livet utan av tillförsikt inför dess källa. Ingmar Bergmans riddare i *Det sjunde inseglet* når samma åtskillnad: "Min kropp är rädd, inte jag själv."[^19]
 
 ## Vart tar själen vägen
 
@@ -89,9 +89,9 @@ Dan Anderssons undran hänger kvar: "Vart skall han då ta vägen, den konstiga 
 
 Transhumanismen svarar: in i maskinen, in i molnet, in i en server i Nevada där ditt medvetande kan leva vidare som data.
 
-Islam svarar: hem – tillbaka till den som blåste in dig, genom dödens port, inte förbi den.
+Islam svarar: hem. Tillbaka till den som blåste in dig, genom dödens port, inte förbi den.
 
-Ibn Khaldūn observerade att en man som växte upp i fängelse inte kunde föreställa sig något djur större än en råtta – hans erfarenhet var hans gräns.[^16] Det är transhumanismens blindhet: ett civilisationsprojekt som försöker bygga ett bättre fängelse, för det har aldrig sett något utanför murarna.
+Ibn Khaldūn observerade att en man som växte upp i fängelse inte kunde föreställa sig något djur större än en råtta; hans erfarenhet var hans gräns.[^16] Det är transhumanismens blindhet: ett civilisationsprojekt som försöker bygga ett bättre fängelse, för det har aldrig sett något utanför murarna.
 
 Men själen minns. Den flaxar, som Topelius skrev, mot fönsterrutan – inte för att glaset skall brista, utan för att den minns himlen.
 

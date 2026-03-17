@@ -9,7 +9,7 @@ Varje natt sker det. Sinnena släcks, musklerna slappnar av, världen drar sig t
 
 Den franske neurofysiologen Michel Jouvet gav företeelsen dess namn i slutet av 1950-talet: *sommeil paradoxal*, paradoxal sömn.[^1] Varför föder denna maximala aktivitet upplevelser som den vakna hjärnan avfärdar som overkliga?
 
-Sexhundra år innan Jouvet fäste sina elektroder på en sovande katt lade den tunisiske historikern och filosofen Ibn Khaldūn fram en teori som fångar samma företeelse – och besvarar frågan.
+Sexhundra år innan Jouvet fäste sina elektroder på en sovande katt lade den tunisiske historikern och filosofen Ibn Khaldūn fram en teori som fångar samma företeelse och besvarar frågan.
 
 ## Värmen som drar sig inåt
 
@@ -35,7 +35,7 @@ Bilden stammar från Profeten ﷺ själv:
 
 Det är detta som Koranen kallar *al-rān*: "Nej, det som de har förvärvat har lagt sig som rost (*rān*) över deras hjärtan."[^6]
 
-Ibn Qayyim preciserar i *Ighāthat al-Lahfān* att hjärtat i sitt ursprungstillstånd, den rena naturen (*fiṭrah*), är mottagligt för sanning och vägledning. Det är barnet som känner orättvisa innan det lärt sig ordet. Synder, begär och världslig hängivenhet lägger sig lager på lager över ytan. Polerat speglar hjärtat verkligheten som den är. Rostat blir det hjärteblint – det ser bara sina egna förvrängningar.
+Ibn Qayyim preciserar i *Ighāthat al-Lahfān* att hjärtat i sitt ursprungstillstånd, den rena naturen (*fiṭrah*), är mottagligt för sanning och vägledning. Det är barnet som känner orättvisa innan det lärt sig ordet. Synder, begär och världslig hängivenhet lägger sig lager på lager över ytan. Polerat speglar hjärtat verkligheten som den är. Rostat blir det hjärteblint: det ser bara sina egna förvrängningar.
 
 Sömnen avbryter den ström av intryck som rostar hjärtat under dagen. Men avbrottet polerar ingenting – det hindrar bara ny rost från att falla. Vad hjärtat bär in i sömnen är vad det ser genom: den som tillbringat dagen i *dhikr* tar med sig en yta som ännu fångar ljus; den som tillbringat dagen i glömska en yta som redan mörknats. I denna stillhet kan hjärtat, om det ännu äger någon klarhet, ta emot den sanna drömmen.
 
@@ -45,7 +45,7 @@ Koranen ger natten en kosmologisk grund bortom fysiologin:
 
 Versen ställer sömnen i ett sammanhang ingen neurovetenskaplig modell kan fånga: varje natt en liten död, ett tillfälligt återlämnande av själen till dess Skapare. Ibn Kathīr läser versen som en antydan om att själarna samlas i den himmelska församlingen. Att vakna blir ett lån, förlängt ytterligare en dag.
 
-Profeten Muḥammad ﷺ knöt drömmen till uppenbarelsen: enligt en välkänd *ḥadīth* utgör den sanna drömmen (*al-ruʾyā al-ṣādiqah*) en fyrtiosjättedel av profetskapet[^8] – ett exakt bråktal. Drömmen är en kvarleva av profetskapets ljus, en smal springa mot det osynliga som varje människa bär.
+Profeten Muḥammad ﷺ knöt drömmen till uppenbarelsen: enligt en välkänd *ḥadīth* utgör den sanna drömmen (*al-ruʾyā al-ṣādiqah*) en fyrtiosjättedel av profetskapet[^8], ett exakt bråktal. Drömmen är en kvarleva av profetskapets ljus, en smal springa mot det osynliga som varje människa bär.
 
 Men profetskapet självt är en gudomlig utväljelse (*iṣṭifāʾ*), inte slutpunkten på en stegvis reningsprocess. Allah ﷻ utväljer Sina sändebud: "Allah ﷻ vet bäst var Han lägger Sitt budskap."[^9] Skillnaden mellan profeten och den vanliga drömmaren är inte gradskillnad i hjärtats renhet utan artskillnad i gudomlig kallelse. Inte renare vatten utan en annan källa. Profeten ﷺ sade att den som är mest sanningsenlig i sitt tal är den vars drömmar är mest sanningsenliga.[^10] Sambandet mellan yttre rättfärdighet och inre mottaglighet bekräftar hjärtats avgörande roll utan att göra uppenbarelsen till en följd av mänsklig andlig mognad.
 
@@ -79,7 +79,7 @@ August Strindberg återger denna närvaro i *Inferno*, med motsatt förtecken. M
 
 > Träd in ensam nattetid i din kammare, och du skall finna någon där före dig. Du ser honom icke, men du känner hans närvaro.[^22]
 
-Att natten är bebodd betvivlar han aldrig – det är *av vad* som skrämmer honom. Uppenbarelsen namnger närvaron, och namngivandet skiljer skräck från tillbedjan.
+Att natten är bebodd betvivlar han aldrig; det är *av vad* som skrämmer honom. Uppenbarelsen namnger närvaron, och namngivandet skiljer skräck från tillbedjan.
 
 Hjalmar Söderberg höjer motrösten i *Förvillelser*:
 

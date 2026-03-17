@@ -9,7 +9,7 @@ Scenen saknar motstycke. Himlar, jord och berg erbjuds ett förtroende. De vägr
 
 > Vi erbjöd himlarna och jorden och bergen förtroendet, men de vägrade att åta sig det och bävade för det, men människan åtog sig det. Hon är ständigt beredd till synd och tanklöshet.[^1]
 
-Den koraniska termen är *amānah*. Skrifttolkarna har aldrig enats om dess innebörd – al-Ṭabarī betonade lydnaden, al-Qurṭubī den moraliska medvetenhetens bredd, andra *tawḥīd* eller shariaförpliktelserna.[^2] Men oavsett tolkning kvarstår versens kärna: *amānah* kräver en bärare som kan bäva, välja, fela. Bergen kunde inte fela. Därför kunde de inte bära.
+Den koraniska termen är *amānah*. Skrifttolkarna har aldrig enats om dess innebörd: al-Ṭabarī betonade lydnaden, al-Qurṭubī den moraliska medvetenhetens bredd, andra *tawḥīd* eller shariaförpliktelserna.[^2] Men oavsett tolkning kvarstår versens kärna: *amānah* kräver en bärare som kan bäva, välja, fela. Bergen kunde inte fela. Därför kunde de inte bära.
 
 Fjorton århundraden senare bygger vi system som beslutar om domar, anställningar, kreditvärdighet och vårdprioritering. Systemen felbedömer. Men de kan inte bäva.
 
@@ -29,7 +29,7 @@ Det svenska rättssystemet vilar på en förutsättning: någon måste vara ansv
 
 AI blottlägger vad filosofen Andreas Matthias 2004 kallade en *ansvarslucka*: varken utvecklaren, användaren eller maskinen kan hållas helt ansvarig för ett algoritmiskt beslut.[^7] Utvecklaren programmerade inte det enskilda utfallet; beräkningen översteg användarens förståelse; maskinen förstod ingenting alls. Ansvaret förskjuts längs en kedja där varje länk pekar på nästa – som i vårdkedjan där ingen enskild läkare felbedömde fallet, men patienten dog ändå. Hannah Arendt såg samma upplösning i den moderna byråkratin: ett styre av Ingen, ett tyranni utan tyrann.[^20]
 
-Koranen tillåter ingen sådan upplösning. "Varje själ är ansvarig för vad den har gjort"[^8] – en syndare bär inte en annan syndares börda.[^9] Förtroendet gavs till varje människa, inte till institutioner, inte system.
+Koranen tillåter ingen sådan upplösning. "Varje själ är ansvarig för vad den har gjort"[^8]; en syndare bär inte en annan syndares börda.[^9] Förtroendet gavs till varje människa, inte till institutioner, inte system.
 
 Ibn Ḥazm slog fast grundsatsen rättsligt: rättvisa i domslutet kräver att man hör båda parter innan domen fälls.[^10] Men *höra* i moralisk mening – förstå en människas belägenhet, väga hennes omständigheter, se hennes värdighet – kräver det hjärta Ibn Qayyim beskrev: en konung som är närvarande, vaken, styrande. En algoritm sorterar.
 
@@ -53,7 +53,7 @@ Att undandra sig ansvaret – delegera det till ett system som bara kan fela i s
 
 Koranen kallar människan *khalīfah*, ställföreträdare på jorden. Till David säger Gud: "Vi har gjort dig till en ställföreträdare på jorden. Döm därför mellan människor med sanningen och följ inte din lust."[^14]
 
-Ställföreträdande förutsätter en uppdragsgivare och en uppdragstagare som kan svara. Algoritmen kan inte svara – den har ingen att svara inför.
+Ställföreträdande förutsätter en uppdragsgivare och en uppdragstagare som kan svara. Algoritmen kan inte svara; den har ingen att svara inför.
 
 Profeten ﷺ varnade: "När förtroendet förskingras, vänta då på den Yttersta stunden." Och på frågan om hur det förskingras svarade han: "När uppgiften anförtros den som inte förtjänar den."[^15]
 
@@ -69,7 +69,7 @@ Ibn Khaldūn varnade: "De som inte är kvalificerade för domstolen bör inte bl
 
 ## Erbjudandet som står kvar
 
-Drömmen om automation – att befria människan från beslutens börda – är drömmen om att slippa vara den varelse som sa ja när bergen vägrade.
+Drömmen om automation, att befria människan från beslutens börda, är drömmen om att slippa vara den varelse som sa ja när bergen vägrade.
 
 Oscar Levertin skrev om "hjärtat, som icke tål att underordna sig under tanken men själf vill härska".[^18] Han talade om den romantiska konstnären, men formuleringen bär längre. Hjärtat, *al-qalb*, som vägrar abdikera, som envisas med att regera trots sin ofullkomlighet, trots sin benägenhet till synd och tanklöshet – det är den mänskliga särställningen Koranen beskriver. Inte en triumf utan en börda.
 

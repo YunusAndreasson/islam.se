@@ -11,7 +11,7 @@ Sommaren 2023 brann böcker på svenska gator. Ambassader stormades, handelsrela
 
 Redan ordet *Qurʾān* bär svaret. Det stammar ur arabiskans *qaraʾa* – att recitera, att läsa högt, att frambära med rösten. Koranen namngav sig själv efter ljudet, inte efter sidan.
 
-När ängeln Jibrīl kom till Profeten Muḥammad ﷺ i grottan Hira var budet inte "skriv" utan *iqraʾ* – recitera. Därpå följde tjugotre år av muntlig uppenbarelse, buren av en röst till ett öra, memorerad innan den nedtecknades. Den skrivna texten, *muṣḥaf*, kom senare – som kärl för något som redan levde fullt ut utan den.
+När ängeln Jibrīl kom till Profeten Muḥammad ﷺ i grottan Hira var budet inte "skriv" utan *iqraʾ*, recitera. Därpå följde tjugotre år av muntlig uppenbarelse, buren av en röst till ett öra, memorerad innan den nedtecknades. Den skrivna texten, *muṣḥaf*, kom senare – som kärl för något som redan levde fullt ut utan den.
 
 Här öppnar sig en klyfta. Den västerländska traditionen, formad av Gutenbergs press och protestantismens *sola scriptura*, förstår helig text som skrift. Koranen tillhör en annan ordning: den hör hemma i luften mellan mun och öra, i det ögonblick rösten bär fram de gudomliga orden:
 

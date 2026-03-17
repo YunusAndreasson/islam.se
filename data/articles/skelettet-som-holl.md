@@ -5,7 +5,7 @@ wordCount: 1485
 qualityScore: 8.6
 description: "I juli 2015 daterade universitetet i Birmingham ett koranfragment till Profeten Muḥammads ﷺ egen livstid. Bläcket på fårskinnet formade samma arabiska konsonanter som den Koran som idag ligger på nattduksbord i Kairo och Malmö – fjorton sekler senare, bokstav för bokstav."
 ---
-Allt försvinner. Det är kanske det enda som antiken och moderniteten är överens om. Pergament murknar. Hårddiskar havererar. Bibliotek brinner – Alexandria, Bagdad, Sarajevo. Av de uppskattningsvis 7 000 språk som talas idag beräknas hälften komma att tystna inom ett sekel.[^1] Texter som en gång gällde som odödliga överlever som brottstycken, återskapningar, gissningar.
+Allt försvinner. Det är kanske det enda som antiken och moderniteten är överens om. Pergament murknar. Hårddiskar havererar. Bibliotek brinner: Alexandria, Bagdad, Sarajevo. Av de uppskattningsvis 7 000 språk som talas idag beräknas hälften komma att tystna inom ett sekel.[^1] Texter som en gång gällde som odödliga överlever som brottstycken, återskapningar, gissningar.
 
 Sverige vet detta. Äldre Västgötalagen, landets äldsta bevarade text på svenska, härrör från 1220-talet. Den vilar i ett enda manuskript. Ingen kan med säkerhet säga hur originalet löd; vi har en avskrift av en avskrift, med de glidningar varje led medför.[^2] I fyra sekler har Riksarkivet, grundat 1618, bevarat dokument. Ändå har ingen svensk text överlevt oförändrad mer än några hundra år. Varje generation ärver avskrifter, inte original.
 
@@ -25,13 +25,13 @@ Dateringen är inte obestridd – radiokoldatering mäter djurhuden, inte bläck
 
 Ett ärligt resonemang kräver att man vänder stenen. I Jemens huvudstad Sana'a upptäcktes 1972 ett manuskript med ett undre textlager – en äldre text, bortskrapad och överskriven. Det undre lagret uppvisar avvikelser: en annorlunda suraordning, varianter i enskilda formuleringar.[^7] Här borde tesen falla.
 
-Men att det undre lagret *överskrevs* med en text som stämmer med den standardiserade Koranen är i sig ett belägg för medveten och tidig standardisering. Någon tog sig mödan att korrigera. Frånvaron av varianter kan förklaras med slump; korrigeringen av en variant vittnar om en gemenskap som vakade över sin text. Ett starkare bevis än ett felfritt manuskript – för det visar förloppet, inte bara utfallet. Den korrigerade versionen är den vi har idag.
+Men att det undre lagret *överskrevs* med en text som stämmer med den standardiserade Koranen är i sig ett belägg för medveten och tidig standardisering. Någon tog sig mödan att korrigera. Frånvaron av varianter kan förklaras med slump; korrigeringen av en variant vittnar om en gemenskap som vakade över sin text. Ett starkare bevis än ett felfritt manuskript, för det visar förloppet, inte bara utfallet. Den korrigerade versionen är den vi har idag.
 
 ## Det levande arkivet
 
 Manuskript kan förstöras. Men hur förstör man något som lever i hundratusentals människors minne?
 
-Traditionen att lära sig hela Koranen utantill, *ḥifẓ*, saknar motsvarighet i omfång. En *ḥāfiẓ* bär samtliga 6 236 verser i minnet – varje vokal, varje paus. Profeten Muḥammad ﷺ sade: "Den bäste bland er är den som lär sig Koranen och lär ut den."[^8] Från lärare till elev, generation efter generation, reciteras samma verser ur minnet.
+Traditionen att lära sig hela Koranen utantill, *ḥifẓ*, saknar motsvarighet i omfång. En *ḥāfiẓ* bär samtliga 6 236 verser i minnet: varje vokal, varje paus. Profeten Muḥammad ﷺ sade: "Den bäste bland er är den som lär sig Koranen och lär ut den."[^8] Från lärare till elev, generation efter generation, reciteras samma verser ur minnet.
 
 Under sina resor i Västafrika på 1300-talet bevittnade den marockanske reseskildraren Ibn Battuta hur barnen kedjades vid sina platser tills de lärt sig sina avsnitt – en metod han skildrade med förundran och respekt.[^9] På 1840-talet iakttog Georg August Wallin, den finlandssvenske orientalisten som reste genom Arabien, samma tradition i Egypten: de som memorerat Koranen bar en särskild hållning, en igenkännlig vaggande rörelse vid recitation. De tilldelades titeln *sheikh*.[^10] Bevarandet var kroppsligt, rytmiskt, nedärvt.
 

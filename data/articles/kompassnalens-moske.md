@@ -7,7 +7,7 @@ description: "Sockenkyrkan låg alltid mitt i byn – samhällets tyngdpunkt. Is
 ---
 Sockenkyrkan låg alltid mitt i byn – samhällets tyngdpunkt, det centrum kring vilket allt annat ordnades. Strindberg fångar det i en enda bild från *Inferno*: "Man far uppför en två kilometer lång backe, och ankommen till höjden ser man utöver en rund dal... I mitten av denna tratt ligger byn med sin kyrka."[^1] Kyrkan definierar landskapet, landskapet binder gemenskapen, gemenskapen formar den enskilda människan.
 
-Denna rumsliga ordning vilar på en outtalad grundsats: att det heliga kräver en plats – en upphöjd punkt, ett avgränsat rum, en byggnad som skiljer heligt från vardagligt. Erik Gustaf Geijer satte ord på följden redan på 1810-talet:
+Denna rumsliga ordning vilar på en outtalad grundsats: att det heliga kräver en plats: en upphöjd punkt, ett avgränsat rum, en byggnad som skiljer heligt från vardagligt. Erik Gustaf Geijer satte ord på följden redan på 1810-talet:
 
 > Kyrkan blef ensamt det heliga, verlden förblef det oheliga samhället.[^2]
 

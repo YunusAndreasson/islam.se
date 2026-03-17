@@ -19,7 +19,7 @@ Före Koranen var poesin arabernas nationalkonst – deras historieskrivning, de
 
 I denna kultur, där varje barn växte upp med örat skolat för metrisk precision, framträdde en text som trotsade allt de behärskade. Koranens arabiska följer inte de vedertagna versformerna, saknar genomgående metrum, binder sig inte till qasidans konventioner. Men den är heller inte vanlig, obunden prosa; den bär en inre rytm, en klangbyggnad som varken poeter eller prosaskribenter förmådde inordna i sina kategorier.
 
-Teologen al-Khaṭṭābī framhöll att Koranens motståndare famlade efter indelningar: "Ibland kallade de den poesi, ibland magi – just för att de fann sig oförmögna inför den."[^5] Ordet de till slut stannade vid var *siḥr* – magi.
+Teologen al-Khaṭṭābī framhöll att Koranens motståndare famlade efter indelningar: "Ibland kallade de den poesi, ibland magi – just för att de fann sig oförmögna inför den."[^5] Ordet de till slut stannade vid var *siḥr*: magi.
 
 ## Motståndaren som inte kunde neka
 
@@ -35,9 +35,9 @@ Al-Jurjānīs tes var inte estetisk utan byggd på ordning: varje sats bär bety
 
 ## De som försökte
 
-Hade utmaningen varit rent formell borde den ha besvarats. Musaylimah ibn Ḥabīb, samtida med Profeten ﷺ, författade texter i koranisk stil. Muslimerna bevarade hans försök – för att mäta avståndet. Al-Jurjānīs *naẓm*-lära visar varför efterhärmningen var dömd att misslyckas: om innebörden bärs av syntaktisk ordning kan man inte kopiera ordningen och byta ut innehållet; det nya innehållet kräver en ny ordning, och en ny ordning är inte längre en kopia.[^9]
+Hade utmaningen varit rent formell borde den ha besvarats. Musaylimah ibn Ḥabīb, samtida med Profeten ﷺ, författade texter i koranisk stil. Muslimerna bevarade hans försök, för att mäta avståndet. Al-Jurjānīs *naẓm*-lära visar varför efterhärmningen var dömd att misslyckas: om innebörden bärs av syntaktisk ordning kan man inte kopiera ordningen och byta ut innehållet; det nya innehållet kräver en ny ordning, och en ny ordning är inte längre en kopia.[^9]
 
-Senare försökte andra – Ibn al-Muqaffaʿ, som präglat arabisk prosa i århundraden, och al-Maʿarrī, en poet av sådant djup att nutida bedömare har jämställt honom med T.S. Eliot. Ingen av dem besvarade utmaningen.[^10]
+Senare försökte andra: Ibn al-Muqaffaʿ, som präglat arabisk prosa i århundraden, och al-Maʿarrī, en poet av sådant djup att nutida bedömare har jämställt honom med T.S. Eliot. Ingen av dem besvarade utmaningen.[^10]
 
 ## Det svåra erkännandet
 

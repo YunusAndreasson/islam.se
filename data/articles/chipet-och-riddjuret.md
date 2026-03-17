@@ -33,11 +33,11 @@ Ibn Qayyim al-Jawziyyah förde bilden från liknelse till grundsats:
 
 Kroppen tjänar hjärtat, inte tvärtom. *Qalb* rymmer det som inget instrument kan mäta: förmågan att vända sig till sin Skapare i tro, lydnad och uppenbarad kunskap.
 
-I biohackingens värld är kroppen ett slutet kretslopp av data, kemikalier och mekanik. Traditionens kropp är genomsläpplig – riktad bortom sig själv. Ibn Qayyim drog parallellen:
+I biohackingens värld är kroppen ett slutet kretslopp av data, kemikalier och mekanik. Traditionens kropp är genomsläpplig, riktad bortom sig själv. Ibn Qayyim drog parallellen:
 
 > Liksom kroppen inte kan vara frisk utan näring som bevarar dess kraft och utrensning av skadliga ämnen, så kan inte heller hjärtat fullborda sitt liv utan näring av tro och goda handlingar.[^5]
 
-Kroppen är varken föraktad eller oväsentlig – men den fullbordas först genom det den är skapad för.
+Kroppen är varken föraktad eller oväsentlig, men den fullbordas först genom det den är skapad för.
 
 ## Det anförtrodda
 
@@ -51,7 +51,7 @@ Profeten Muḥammad ﷺ satte ord på det: "Fullgör det anförtrodda mot den so
 
 Boyes roman och biohackingen delar samma tomrum: en kropp utan *amānah*, en kropp som tillhör staten eller individen men i inget av fallen bär ansvar inför den som skapat den. Ju mer makt människan får över sin biologi, desto svårare blir det att besvara frågan *vad kroppen är till för*.
 
-*Hur* kroppen fungerar kan data visa – aldrig *varför* den existerar. "Deras kroppar reser sig från sina bäddar för att tillbe sin Herre med fruktan och längtan."[^9]
+*Hur* kroppen fungerar kan data visa; aldrig *varför* den existerar. "Deras kroppar reser sig från sina bäddar för att tillbe sin Herre med fruktan och längtan."[^9]
 
 ## Det osynliga organet
 

@@ -33,7 +33,7 @@ Koranen tilltalar människor som *vet* hur mörker känns, som har stått i det 
 
 Att det fysiska mörkret formar det andliga medvetandet är inte gissning. Islam behandlar natten som helig tid – i gudstjänsten, inte i bildspråket. Profeten ﷺ utpekade nattbönen, *qiyām al-layl*, som den förnämsta frivilliga bönen: "den bästa bönen efter de föreskrivna är nattens bön."[^8] I natten förlägger Koranen sin egen uppenbarelses höjdpunkt: "Ödesbestämmelsens natt är bättre än tusen månader."[^9] Profetens ﷺ nattliga resa, *isrāʾ wa-l-miʿrāj*, sker i mörker.
 
-I mörker försvinner det synliga. Kvar står medvetandets egen verksamhet, fri från sinnenas herravälde. Så länge det yttre ögat matas med bilder grumlas hjärtats ljus av sinnenas brus. I mörkret upphör kampen: hjärtat ser inte *trots* att ögat inte ser, utan *därför att* ögat inte ser. Koranen gör detta till tecken:
+I mörker försvinner det synliga. Kvar står medvetandets egen verksamhet, fri från sinnenas herravälde. Så länge det yttre ögat matas med bilder, grumlas hjärtats ljus av sinnenas brus. I mörkret upphör kampen: hjärtat ser inte *trots* att ögat inte ser, utan *därför att* ögat inte ser. Koranen gör detta till tecken:
 
 > Ett tecken för dem är natten; Vi drar undan dagen ur den och då sveps de i mörker.[^10]
 
@@ -47,7 +47,7 @@ Hjalmar Söderberg lät doktor Glas formulera det:
 
 Ljuset härskar i universum; mörkret är det smala undantag som gör seendet möjligt.
 
-Viktor Rydberg: "I mörkret lär man sig vad ljus är."[^12] Utan mörker som bakgrund blir ljus brus, en oavbruten stimulans som upphör att säga något. Kant pekade åt samma håll: han lyfte fram den stjärnbeströdda himlen och den moraliska lagen som de två ting som fyller sinnet med ständigt förnyad vördnad.[^24] Einstein uttryckte en besläktad övertygelse: "Det vackraste vi kan uppleva är det gåtfulla. Det är källan till all sann konst och all vetenskap."[^28] Men det gåtfulla förutsätter mörker; utan nattens kontrast förblir det osynligt.
+Viktor Rydberg: "I mörkret lär man sig vad ljus är."[^12] Utan mörker som bakgrund blir ljus brus, en oavbruten stimulans som upphör att säga något. Kant pekade åt samma håll: han lyfte fram den stjärnbeströdda himlen och den moraliska lagen som de två ting som fyller sinnet med ständigt förnyad vördnad.[^24] Einstein uttryckte en besläktad övertygelse. "Det vackraste vi kan uppleva är det gåtfulla. Det är källan till all sann konst och all vetenskap."[^28] Men det gåtfulla förutsätter mörker; utan nattens kontrast förblir det osynligt.
 
 ## Tingets ljus
 
@@ -79,7 +79,7 @@ Emerson ställde 1836 den omvända frågan: om stjärnorna visade sig en enda na
 
 För hundra år sedan bodde åttio procent av svenskarna på landsbygden; i dag bor åttio procent i städer.[^22] Under ett enda sekel har mörkret över tallmon och tjärnen gått från livsbetingelse till kuriositet.
 
-Abdullah ibn Masʿūd, Profetens ﷺ följeslagare, sade: "Hos er Herre finns varken natt eller dag; himlarnas ljus utgår från Hans ansiktes ljus."[^23] Det yttersta ljuset finns bortom alla kontraster. Men *vägen dit* går genom mörker – genom nätter under öppen himmel, genom Allmaktens natt som är bättre än tusen månader, genom den nattliga bönen som hålls medan staden sover.
+Abdullah ibn Masʿūd, Profetens ﷺ följeslagare, sade: "Hos er Herre finns varken natt eller dag; himlarnas ljus utgår från Hans ansiktes ljus."[^23] Det yttersta ljuset finns bortom alla kontraster. Men *vägen dit* går genom mörker: genom nätter under öppen himmel, genom Allmaktens natt som är bättre än tusen månader, genom den nattliga bönen som hålls medan staden sover.
 
 Emerson frågade vad som skulle hända om stjärnorna visade sig en enda natt på tusen år. Vi svarade genom att släcka dem.
 

@@ -5,7 +5,7 @@ wordCount: 2410
 qualityScore: 8.5
 description: "År 1377 jämförde historikern Ibn Khaldūn kunskap med ett infärgat tyg: färgen sitter kvar tills tyget förstörs. Begreppet han formulerade i Tunis – *malaka*, bemästrande – bär en pedagogisk insikt som den svenska skoldebatten saknat i över ett sekel."
 ---
-Den svenska skoldebatten pendlar. På ena sidan de som vill återinföra utantillinlärning: multiplikationstabeller, årtal, grammatikregler. På den andra de som avfärdar sådan pluggpedagogik som korvstoppning – en kvarleva från den tid då barn betraktades som tomma kärl att fylla. Debatten är förutsägbar. Båda sidor bygger på samma missförstånd.
+Den svenska skoldebatten pendlar. På ena sidan de som vill återinföra utantillinlärning: multiplikationstabeller, årtal, grammatikregler. På den andra de som avfärdar sådan pluggpedagogik som korvstoppning, en kvarleva från den tid då barn betraktades som tomma kärl att fylla. Debatten är förutsägbar. Båda sidor bygger på samma missförstånd.
 
 År 1377 färdigställde den tunisiske historikern Ibn Khaldūn sitt livsverk *Muqaddimah* – en inledning till hans världshistoria som blev ett eget storverk. Arnold Toynbee kallade det det mest betydande verket en enskild människa åstadkommit.[^1] Där utvecklade han en pedagogisk teori som upplöser den motsättning den svenska debatten fastnat i. Hans utgångspunkt var språkinlärning:
 
@@ -61,7 +61,7 @@ Läroplansreformen Lgr22 har vänt pendeln: skärpta kunskapskrav, fonetisk läs
 
 ## Ihågkomst som andlig praktik
 
-I den islamiska traditionen är memorering aldrig enbart en fråga om tanken. Den är *dhikr* – åminnelse, en andlig övning av högsta rang. Koranen knyter ihop minne och nåd redan i öppningen:
+I den islamiska traditionen är memorering aldrig enbart en fråga om tanken. Den är *dhikr*, åminnelse, en andlig övning av högsta rang. Koranen knyter ihop minne och nåd redan i öppningen:
 
 > Den Nåderike har lärt er Koranen.[^15]
 
@@ -99,7 +99,7 @@ En rad i *Hávamál*:
 
 > Hemma skall man vara glad, och mot en gäst frikostig; av gott omdöme bör man vara, med gott minne och färdig i talet; vill man besitta mycket vetande, skall man ofta tala om det som är gott.[^24]
 
-*Med gott minne och färdig i talet.* Minnets plats bland dygderna var en gång självklar – i den nordiska traditionen liksom i den islamiska. Förståelse är memoreringens frukt, och ett träd utan rötter bär ingen, hur mycket sol det än får.
+*Med gott minne och färdig i talet.* Minnets plats bland dygderna var en gång självklar, i den nordiska traditionen liksom i den islamiska. Förståelse är memoreringens frukt, och ett träd utan rötter bär ingen, hur mycket sol det än får.
 
 ---
 

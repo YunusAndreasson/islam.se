@@ -19,7 +19,7 @@ Boye själv formulerar det:
 
 > Är det inte underligt, att allting mister sitt värde, så fort det upphör att vara gåva – till och med sanningen?[^1]
 
-Den frampressade sanningen är redan sönder, skild från det fria val som ger den mening. Kalls kollega Fellow Soldier 154, i romanen kallad Rissen – den ende som öppet formulerar motståndet – hävdar innan han döms: "Jag vet att vad jag är tar vägen någonstans."[^2] Det jag verkligen *är* kan inte utplånas — det leder vidare, bortom statens räckvidd. Han vägrar låta sin innersta verklighet göras till enbart bevismedel.
+Den frampressade sanningen är redan sönder, skild från det fria val som ger den mening. Kalls kollega Fellow Soldier 154, i romanen kallad Rissen – den ende som öppet formulerar motståndet – hävdar innan han döms: "Jag vet att vad jag är tar vägen någonstans."[^2] Det jag verkligen *är* kan inte utplånas – det leder vidare, bortom statens räckvidd. Han vägrar låta sin innersta verklighet göras till enbart bevismedel.
 
 ## Tanken under övervakning
 

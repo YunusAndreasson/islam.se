@@ -15,7 +15,7 @@ I slutet av Selma Lagerlöfs *Bannlyst* (1918) bekänner Sven Elversson – en m
 
 I den lutherska nådeläran föregår förlåtelsen bekännelsen. Gud handlar först; människan tar emot. Nåden är gåva – reformationens hjärtslag, inristat i fem seklers svenskt fromhetsliv.[^2] Bekännelsen blir ett *svar* på en redan given förlåtelse, aldrig dess villkor.
 
-Det sekulära svaret vänder rörelsen inåt. Skulden bearbetas, sätts i sammanhang, förklaras: barndom, orsaker, omständigheter. Hjalmar Söderberg spetsar till denna hållnings yttersta utgång i *Den allvarsamma leken*: "Förlåtelse förutsätter ånger och bättring. Och jag kan varken lova det ena eller det andra."[^3] Ärligt – men en återvändsgränd. Skulden består; inget kan upphäva den.
+Det sekulära svaret vänder rörelsen inåt. Skulden bearbetas, sätts i sammanhang, förklaras: barndom, orsaker, omständigheter. Hjalmar Söderberg spetsar till denna hållnings yttersta utgång i *Den allvarsamma leken*: "Förlåtelse förutsätter ånger och bättring. Och jag kan varken lova det ena eller det andra."[^3] Ärligt, men en återvändsgränd. Skulden består; inget kan upphäva den.
 
 Sven Elversson tar inte emot en nåd som föregår honom. Han granskar inte sin skuld. Han *gör* något – bekänner, fullständigt och oåterkalleligt – och bekännelsen förvandlar honom.
 
@@ -49,7 +49,7 @@ Sven Elversson bekänner – skulden går inte att bära om inte sanningen sägs
 
 Befrielsen sker inuti, men utlöses av en yttre, oåterkallelig handling.
 
-Ludwig Wittgenstein, långt från religiös tradition, nådde samma insikt: bekännelsen tillhör inte det gamla livet; den är en del av det nya.[^14] Karin Boye ställde frågan i *Kallocain*: "Kan någon människa höra sanningen utan att förändras?"[^17]
+Ludwig Wittgenstein, långt från religiös tradition, nådde samma insikt. Bekännelsen tillhör inte det gamla livet; den är en del av det nya.[^14] Karin Boye ställde frågan i *Kallocain*: "Kan någon människa höra sanningen utan att förändras?"[^17]
 
 Den islamiska traditionen drar en djärvare slutsats. Profeten Muḥammad ﷺ sade: "Den som ångrar sig från synden är som den utan synd."[^9] Inte *nästan* utan synd, inte *förlåten trots* synd – utan synd. *Tawbah* skapar en ny människa; synden tillhör den riktning personen inte längre har. Det är vad Lagerlöf gestaltar: en man som är *renad*.
 
@@ -59,7 +59,7 @@ Skulden i *Bannlyst* är inte en känsla utan ett moraliskt faktum. Gustaf af Ge
 
 > Brottets ande vakade över deras bädd. Den skyldige hörde honom icke, men den oskyldiga svettades kallt för den sovandes skulder.[^16]
 
-Skulden smittar den som lever närmast; den som bär den märker den minst. "Om det är gjort, kan ingenting under så stort göra det ogjort," konstaterar en karaktär i *Bannlyst*.[^10] Men det gjorda kan besvaras genom handling – och handlingen kräver en riktning.
+Skulden smittar den som lever närmast; den som bär den märker den minst. "Om det är gjort, kan ingenting under så stort göra det ogjort," konstaterar en karaktär i *Bannlyst*.[^10] Men det gjorda kan besvaras genom handling, och handlingen kräver en riktning.
 
 Koranen formulerar det:
 

@@ -19,7 +19,7 @@ Forskarna tvistar om pånyttfödelsemotivets ursprung: hör visionen av världen
 
 Emanuel Swedenborg, uppvuxen i ett lutherskt Sverige dränkt i helvetets retorik, kom att förneka helveteselden helt. Att helvetet finns erkände han; att det brinner förkastade han.
 
-I Swedenborgs korrespondenslära svarar varje fysisk företeelse mot en andlig verklighet. Eld svarar mot kärlek – strukturellt, inte metaforiskt. Och helvetets eld? Den är självkärlekens inre glöd, som de fördömda upplever som värme, rentav som behag.[^4] De som valt sig själva framför allt annat bebor ett tillstånd som *liknar* eld men saknar eldens förvandlingskraft. Swedenborgs helvete bränner inte. Det bekräftar.
+I Swedenborgs korrespondenslära svarar varje fysisk företeelse mot en andlig verklighet. Eld svarar mot kärlek, strukturellt, inte metaforiskt. Och helvetets eld? Den är självkärlekens inre glöd, som de fördömda upplever som värme, rentav som behag.[^4] De som valt sig själva framför allt annat bebor ett tillstånd som *liknar* eld men saknar eldens förvandlingskraft. Swedenborgs helvete bränner inte. Det bekräftar.
 
 Om den jordiska världen är andlighetens alfabet är elden ett *språk*. Helvetet talar, men de fördömda kan inte läsa vad det säger.
 
@@ -27,7 +27,7 @@ Under krisåren i Paris snubblade August Strindberg in i Swedenborgs universum. 
 
 > Helvetets eld, det är begäret att komma sig fram i världen; makterna uppväcka begäret och tillstädja de fördömda att ernå vad de eftertrakta. Men så snart målet är hunnet, önskningarna uppfyllda, befinnes allt vara värdelöst.[^6]
 
-Begäret efter framgång, bekräftelse, makt – det *är* elden. Den bränner inte kroppen utan urholkar meningen. Priset delas ut, önskan uppfylls – och allt befinns värdelöst.
+Begäret efter framgång, bekräftelse, makt – det *är* elden. Den bränner inte kroppen utan urholkar meningen. Priset delas ut, önskan uppfylls, och allt befinns värdelöst.
 
 Men denna inre vändning – Swedenborgs liksom Strindbergs – når en gräns. Swedenborgs eld saknar verklighet utanför sinnet; den finns bara som inre spegling. Hans system ställer en fråga det inte kan besvara: vad händer om elden inte bara speglar utan avslöjar? Om elden *vet*?
 
@@ -53,15 +53,15 @@ Bilden rymmer en oundviklig teologisk spänning. I sunnitisk tradition straffar 
 
 Ibn Qayyim al-Jawziyyah skärper tanken ytterligare: trons visshet bränner synderna som eld bränner ved.[^11] Elden verkar redan i det inre livet: den troende som lever i verklig *yaqīn*, i förvissning om Allahs ﷻ enhet, befinner sig redan i en eld som förtär det falska. Men denna eld kräver att du bär något som tål den.
 
-Vad är det? I *Rawḍat al-Muḥibbīn* ger Ibn Qayyim ett svar – han knyter eldbilden till kärleken själv:
+Vad är det? I *Rawḍat al-Muḥibbīn* ger Ibn Qayyim ett svar. Han knyter eldbilden till kärleken själv:
 
 > Kärleken sätter själen i rörelse och driver den till häftig längtan, och själen skapades med en rörlighet som av naturen liknar eldens.[^12]
 
-Här möts den islamiska traditionen och Swedenborg för ett ögonblick – men skiljelinjen syns genast. För Swedenborg är bandet opersonligt: eld *betyder* kärlek i andevärldens grammatik. Hos Ibn Qayyim är det levande och riktat: själens eld drivs mot ett mål. Det avgörande är *vad* den riktas mot. Det som får dig att glömma tiden. Riktas den mot Allah ﷻ renar den; riktas den mot det egna jaget förtär den.
+Här möts den islamiska traditionen och Swedenborg för ett ögonblick, men skiljelinjen syns genast. För Swedenborg är bandet opersonligt: eld *betyder* kärlek i andevärldens grammatik. Hos Ibn Qayyim är det levande och riktat: själens eld drivs mot ett mål. Det avgörande är *vad* den riktas mot. Det som får dig att glömma tiden. Riktas den mot Allah ﷻ renar den; riktas den mot det egna jaget förtär den.
 
 ## Tre eldar, en fråga
 
-Den nordiska elden bryr sig inte om den enskilde: världen förnyas som en årstid vänder – allomfattande återställning utan moralisk prövning. Den swedenborgianska elden är helt och hållet inre; den finns bara som spegling, psykologisk sanning utan transcendens.
+Den nordiska elden bryr sig inte om den enskilde: världen förnyas som en årstid vänder: allomfattande återställning utan moralisk prövning. Den swedenborgianska elden är helt och hållet inre; den finns bara som spegling, psykologisk sanning utan transcendens.
 
 Den koraniska elden samlar det de andra var för sig saknar. Den är verklig – den finns oavsett hur den prövade upplever den. Och den är personlig: den svarar på den prövades tillstånd med en skärpa som överstiger mänsklig dom. Samma eld, olika verkan, beroende på vad den möter.
 
@@ -81,9 +81,9 @@ Koranen ger den troende en bild som skärper blicken, inte tröstar:
 
 > Om ni sedan inte gör det – och ni kommer aldrig att göra det – frukta då Elden vars bränsle är människor och stenar. Den har förberetts för de otrogna.[^15]
 
-Bränslet är människor. Elden närs av det mänskliga i den mån det vänt sig från sin källa. Den som vänder sig mot källan passerar samma eld – som metall genom smältugnen, inte som skum som upplöses.
+Bränslet är människor. Elden närs av det mänskliga i den mån det vänt sig från sin källa. Den som vänder sig mot källan passerar samma eld, som metall genom smältugnen, inte som skum som upplöses.
 
-Eskatologins svåraste fråga: inte om det *finns* en eld – utan vad du är gjord av.
+Eskatologins svåraste fråga: inte om det *finns* en eld, utan vad du är gjord av.
 
 ---
 

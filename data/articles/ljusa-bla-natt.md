@@ -51,7 +51,7 @@ Han tänker, observerar, skriver, planerar till och med ett mord. Ändå lever h
 
 I *Madārij al-Sālikīn* byggde Ibn Qayyim en systematisk tidsfilosofi på ett äldre arv. Imamen al-Shāfiʿī (d. 820) lär ha sagt att det mest värdefulla han lärde sig av sufierna var att "tiden är ett svärd: antingen skär du den, eller skär den dig."[^12] Ibn Qayyim för tanken förbi aforismen.
 
-*Waqt* – ögonblicket, den levda tiden – betecknar det närvarandes krav, den plikt och det tillstånd som hör till just denna stund. Den som söker Gud är *ibn waqtihi*: sin tids barn. Vandraren överskrider aldrig nuets uppgift. Bönen som bryter gryningen, arbetet under ljuset, vilan under mörkret.[^13]
+*Waqt*, ögonblicket och den levda tiden, betecknar det närvarandes krav, den plikt och det tillstånd som hör till just denna stund. Den som söker Gud är *ibn waqtihi*: sin tids barn. Vandraren överskrider aldrig nuets uppgift. Bönen som bryter gryningen, arbetet under ljuset, vilan under mörkret.[^13]
 
 Den som upptas av det förflutna och det kommande förlorar nuet. Varje gång ett nytt nu anländer griper han efter bägge ändarna – det som var och det som ska bli – tills alla hans stunder runnit ut.[^14]
 
@@ -79,7 +79,7 @@ Den koraniska arkitekturen lämnar inget tvivel: natten är dagens villkor. Utan
 
 "Från mörker till mörker," konstaterar Glas.[^22] Mellan de två mörkren – födelsens och dödens – ligger *waqt* efter *waqt*, vart och ett laddat med mening för den som förmår ta emot det.
 
-"Stillastående och förblifvande är oss icke gifvet," noterar Glas.[^23] En sak är att kastas framåt av tidens ström utan fotfäste; en annan att vandra – *sālik* – genom stationerna med medveten närvaro.
+"Stillastående och förblifvande är oss icke gifvet," noterar Glas.[^23] En sak är att kastas framåt av tidens ström utan fotfäste; en annan att vandra, *sālik*, genom stationerna med medveten närvaro.
 
 ## Den blå nattens fråga
 

@@ -31,7 +31,7 @@ Den islamiska traditionen har ett begrepp för insikten: *fiṭrah*. Ibn Taymiyy
 
 *Fiṭrah* handlar om kunskap innan det handlar om teologi: vad barnet vet innan det lärt sig bevisen. I *al-Radd ʿalā al-Manṭiqiyyīn* skriver Ibn Taymiyyah att de som genom felaktiga metoder "vill förmå människor att överge det de skapats med av säker kunskap och rationella bevis"[^5] inte bara förstör tro utan undergräver förnuftets egna grunder. Att tillgripa konstlade metoder är "att plåga själar utan nytta."[^6]
 
-*Fiṭrah* är inte en from förhoppning om att alla i grunden tror. Det är anspråket att gudskunskap tillhör samma kunskapskategori som de mest grundläggande insikterna: att en yttre verklighet finns, att orsak föregår verkan, att motsägelser inte kan vara sanna samtidigt. Att förneka Gud är, i denna analys, att överge sammanhangen själva: Ibn Taymiyyah kallar ateismens yttersta följd *safsaṭah* – det genomgripande tvivel som upplöser all kunskap, även förnekelsen själv.[^7]
+*Fiṭrah* är inte en from förhoppning om att alla i grunden tror. Det är anspråket att gudskunskap tillhör samma kunskapskategori som de mest grundläggande insikterna: att en yttre verklighet finns, att orsak föregår verkan, att motsägelser inte kan vara sanna samtidigt. Att förneka Gud är, i denna analys, att överge sammanhangen själva; Ibn Taymiyyah kallar ateismens yttersta följd *safsaṭah* – det genomgripande tvivel som upplöser all kunskap, även förnekelsen själv.[^7]
 
 Anspråket är högt, men det förklarar varför Strindberg inte kunde förbli ateist. Om gudskunskap hör till kunskapens grund borde varje kris som slår undan tryggheten blotta det som hela tiden legat under ytan. Uppdämt vatten skapas inte av dammens fall; det släpps fritt.
 

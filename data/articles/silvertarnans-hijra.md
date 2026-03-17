@@ -97,7 +97,7 @@ Fågeln har medel men ingen herre utom sin Skapare. Den förbereder sig – krop
 
 ## Fågel Jag
 
-Även den svenska litteraturen kretsade kring samma bild. Dan Andersson lade den i romanfigurens mun – vandraren David Ramm som ropar:
+Även den svenska litteraturen kretsade kring samma bild. Dan Andersson lade den i romanfigurens mun, vandraren David Ramm, som ropar:
 
 > Låt oss antaga att jag har en själ... när jag dör flyger det likt en fågel ur kroppen. Vart skall han då ta vägen, den konstiga Fågel Jag?[^18]
 
@@ -109,7 +109,7 @@ Fredrika Bremer gav ett svar i mitten av 1800-talet:
 
 *Enligt evigt gifna lagar.* Bremer talade om själen, inte om silvertärnan, men hon fångade den grundsats som gör fågelns resa möjlig. Det finns en ordning som bär – den syns inte, den är inte formulerad i ett avtal, den kan inte sägas upp. Koranen kallar det *qadar*.
 
-Kvar är fågeln: hundra gram, en hjärna som en ärta, ett öga öppet och ett slutet – på väg genom en rymd den fått i uppdrag att korsa. Vid sekelskiftet 1900 fångade Hjalmar Söderberg samma sanning:
+Kvar är fågeln: hundra gram, en hjärna som en ärta, ett öga öppet och ett slutet, på väg genom en rymd den fått i uppdrag att korsa. Vid sekelskiftet 1900 fångade Hjalmar Söderberg samma sanning:
 
 > den som vill stanna här och där på vägen och njuta en smula af lifvet innan han har nått målet, han når det aldrig.[^20]
 
