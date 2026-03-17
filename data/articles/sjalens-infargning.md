@@ -45,7 +45,7 @@ Det var en förenklad bild av Key det svenska skolsystemet ärvde. I reformpedag
 
 ## Minnets gräns
 
-Arbetsminnet rymmer ungefär fyra till sju enheter.[^9] En hård biologisk gräns, men den gäller bara det som inte blivit vana. Kunskap förvärvad genom upprepad övning tar inte längre plats: den finns tillgänglig utan ansträngning, som ett modersmål man talar utan eftertanke. Schackspelaren som memorerat tusentals positioner *ser* mönster som nybörjaren måste analysera fram. Nyare forskning lägger till en viktig detalj: att aktivt plocka fram kunskap ur minnet – recitation, förhör, självprövning – stärker minnesspåren långt mer än att läsa om samma text.[^26]
+Arbetsminnet rymmer ungefär fyra till sju enheter.[^9] En hård biologisk gräns, men den gäller bara det som inte blivit vana. Kunskap förvärvad genom upprepad övning tar inte längre plats: den finns tillgänglig utan ansträngning, som ett modersmål man talar utan eftertanke. Schackspelaren som memorerat tusentals positioner *ser* mönster som nybörjaren måste analysera fram. Nyare forskning lägger till en viktig detalj: att aktivt plocka fram kunskap ur minnet – uppläsning, förhör, självprövning – stärker minnesspåren långt mer än att läsa om samma text.[^26]
 
 Ibn Qayyim al-Jawziyyah (1300-talet) beskrev kunskapens trappsteg i *Miftāḥ Dār al-Saʿādah*: först lyssnande, därpå förståelse, sedan memorering, slutligen tillämpning. Varje steg bygger på det föregående; inget kan kringgås utan att helheten faller.[^10]
 

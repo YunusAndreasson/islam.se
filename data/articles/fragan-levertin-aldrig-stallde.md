@@ -31,7 +31,7 @@ En koranisk vers slår an tonen:
 
 > Ägna hela ditt jag åt religionen som en sann *ḥanīf*! Den är Allahs ﷻ naturliga väg som Han ingjutit i människorna. Ingen förändring skall ske i Allahs ﷻ skapelse.[^9]
 
-*Fiṭrah* – här översatt "naturlig väg" – betecknar den medfödda konstitution varje människa bär: en orientering mot sin Skapare som föregår all uppfostran och kultur. Anspråket är antropologiskt – djupare än ett teologiskt postulat. Profeten Muḥammad ﷺ formulerade det i en berömd *ḥadīth*:
+*Fiṭrah* – här översatt "naturlig väg" – betecknar den medfödda konstitution varje människa bär: en orientering mot sin Skapare som föregår all uppfostran och kultur. Anspråket är antropologiskt – djupare än ett teologiskt antagande. Profeten Muḥammad ﷺ formulerade det i en berömd *ḥadīth*:
 
 > Varje barn föds med *fiṭrah*; det är föräldrarna som gör det till jude, kristen eller zoroastrier.[^10]
 

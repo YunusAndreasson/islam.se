@@ -11,7 +11,7 @@ Tänk om reflexen pekar fel.
 
 ## Hjärtats diagnos
 
-Ibn Qayyim al-Jawziyyah, verksam i Damaskus under 1300-talets första hälft, ägnade sitt livsverk åt vad han kallade hjärtesot – *amrāḍ al-qulūb*. Hjärtat (*qalb*) var för honom ett organ för andlig varseblivning, sårbart som kroppen, beroende av rätt diagnos. I *al-Dāʾ wa-l-Dawāʾ* blottlägger han syndens verkningssätt:
+Ibn Qayyim al-Jawziyyah, verksam i Damaskus under 1300-talets första hälft, ägnade sitt livsverk åt vad han kallade hjärtesot – *amrāḍ al-qulūb*. Hjärtat (*qalb*) var för honom ett organ för andlig varseblivning, sårbart som kroppen, beroende av rätt diagnos. I *al-Dāʾ wa-l-Dawāʾ* avtäcker han syndens verkningssätt:
 
 > Synderna försvagar hjärtats vandring mot Gud och det tillkommande – de hindrar det, stoppar det och avskär dess färd, så att det inte tar ett enda steg mot Gud. Om de inte vänder det bakåt.[^1]
 

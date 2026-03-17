@@ -17,7 +17,7 @@ Fjorton sekler har passerat. Påståendet har inte fallit.
 
 Påståendet har belägg. I juli 2015 meddelade universitetet i Birmingham att radiokoldatering placerade ett koranfragment i universitetets samlingar i perioden 568–645 e.Kr. – inom eller mycket nära Profeten Muḥammads ﷺ egen livstid.[^4] Fragmentet rymmer delar av surorna 18–20, skrivna med bläck på fårskinn i en tidig hijazi-stil.
 
-Det avgörande var inte åldern utan att texten – bokstav för bokstav i det arabiska konsonantskelettet, *rasm* – stämde överens med den tryckta Koranen som idag ligger på nattduksbordet i Kairo, i Kuala Lumpur, i Malmö. François Déroche vid Collège de France bekräftar bilden: den tidiga koraniska texttraditionen är påfallande stabil.[^5]
+Det avgörande var inte åldern utan att texten – bokstav för bokstav i det arabiska konsonantskelettet, *rasm* – stämde överens med den tryckta Koranen som idag ligger på nattduksbordet i Kairo, i Kuala Lumpur, i Malmö. François Déroche vid Collège de France bekräftar bilden: den tidiga koraniska texttraditionen är påfallande beständig.[^5]
 
 Dateringen är inte obestridd – radiokoldatering mäter djurhuden, inte bläcket.[^6] Men invändningarna gäller dateringens precision, inte textens innehåll. Birmingham står inte ensamt. Topkapi-kodexen i Istanbul och Samarkand-kodexen i Tasjkent – bägge daterade till det första islamiska seklet – visar samma bild. Redan 1860 fastslog Theodor Nöldeke i *Geschichte des Qorâns* att den uthmaniska kodexen bevarar en text från profetens egen tid, en bedömning som de senaste decenniernas manuskriptfynd har styrkt.[^17]
 

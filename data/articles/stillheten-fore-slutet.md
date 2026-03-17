@@ -17,7 +17,7 @@ Völuspás undergångsscen är brutal och skön. Solen svartnar. Jorden sjunker 
 
 > Den germanska mytologin har inte betraktat världens pånyttfödelse som en ny skapelse. Det liv som i tidens morgon utvecklades ur kaos förintas inte av Surts lågor, utan räddar sig, renat, för den kommande tidsåldern.[^1]
 
-Världsträdet överlever elden – det trotsar både egg och låga. Solen som stiger efter Ragnarök är dotter till den gamla, född före katastrofen, oskadd av den. Förstörelsen är selektiv. Den är *dom*.
+Världsträdet överlever elden – det trotsar både egg och låga. Solen som stiger efter Ragnarök är dotter till den gamla, född före katastrofen, oskadd av den. Förstörelsen är urskiljande. Den är *dom*.
 
 Esaias Tegnér i *Fritiofs Saga*: det onda dör "för evigt", men det fallna goda "reser sig ur världsbålslågan, luttrat till ett högre liv".[^2] Undergången är eldprovet – det som gör världen *värdig* sin fortsättning. Och efter elden: osådda fält som bär skörd, Balder som återvänder, gyllene runetavlor i gräset på Idavallen.
 
@@ -49,7 +49,7 @@ Klimatångesten följer samma mönster men saknar det avgörande: ett namn för 
 
 Den avgörande klyftan går inte mellan Ragnarök och klimatvetenskap utan mellan dessa och islam.
 
-Ragnarök rymmer dom – Surts eld skiljer ruttet från friskt – men en dom utan domare. Gudarna själva är bundna av samma ordning. Oden vet att han ska falla för Fenrisulven, och han faller. Förnyelsen sker som naturlag, som allomfattande kretslopp. Rydberg blottlägger grundsatsen: det germanska tänkandet förstår reningselden som immanent kraft, fri från viljehandling.[^8]
+Ragnarök rymmer dom – Surts eld skiljer ruttet från friskt – men en dom utan domare. Gudarna själva är bundna av samma ordning. Oden vet att han ska falla för Fenrisulven, och han faller. Förnyelsen sker som naturlag, som allomfattande kretslopp. Rydberg avtäcker grundsatsen: det germanska tänkandet förstår reningselden som immanent kraft, fri från viljehandling.[^8]
 
 Koranen vänder perspektivet:
 

@@ -19,7 +19,7 @@ Ibn Qayyim al-Jawziyyah tecknade hjärtat som kroppens konung. Lemmarna är dess
 
 Ett beslut är inte en beräkning utan en handling där hjärtat väger, tvekar, bär ansvar. Förnuftet kan räkna, lemmarna verkställa, men ingen av dem kan *regera*.
 
-Nu blir bilden bokstavlig: algoritmen ersätter konungen, inte rådgivaren – övertar beslutet, inte bara beräkningen. Ordet *algoritm* är uppkallat efter den muslimske matematikern al-Khwārizmī, men det han formaliserade var beräkningen, inte domslutet. EU:s AI-förordning, som träder i full kraft i augusti 2026, ställer frågan juridiskt. Artikel 14 kräver att högrisk-AI-system ska ha "mänsklig tillsyn": att en människa alltid ska kunna förstå systemets kapacitet, tolka dess utfall och välja att bortse från dess bedömning.[^4] Den svenska utredningen SOU 2025:101 förtydligar och skärper kraven.[^5]
+Nu blir bilden bokstavlig: algoritmen ersätter konungen, inte rådgivaren – övertar beslutet, inte bara beräkningen. Ordet *algoritm* är uppkallat efter den muslimske matematikern al-Khwārizmī, men det han formaliserade var beräkningen, inte domslutet. EU:s AI-förordning, som träder i full kraft i augusti 2026, ställer frågan juridiskt. Artikel 14 kräver att högrisk-AI-system ska ha "mänsklig tillsyn": att en människa alltid ska kunna förstå systemets förmåga, tolka dess utfall och välja att bortse från dess bedömning.[^4] Den svenska utredningen SOU 2025:101 förtydligar och skärper kraven.[^5]
 
 Men om den som formellt ska kunna överpröva en algoritm saknar tid, kunskap eller vilja – vem regerar då? Forskningen visar det: människor som övervakar självgående system slutar med tiden att ifrågasätta dem.[^19] Sultanen sover med öppna ögon.
 
@@ -57,7 +57,7 @@ Ställföreträdande förutsätter en uppdragsgivare och en uppdragstagare som k
 
 Profeten ﷺ varnade: "När förtroendet förskingras, vänta då på den Yttersta stunden." Och på frågan om hur det förskingras svarade han: "När uppgiften anförtros den som inte förtjänar den."[^15]
 
-*Wussiḍa al-amr ilā ghayr ahlih* – "uppgiften anförtros den som inte är dess folk." En algoritm kan vara *träffsäkrare* än en människa. Men träffsäkerhet är inte rättvisa. Bergen lydde Guds ordning felfritt — och just det gjorde dem ovärdiga uppdraget. *Amānah* förutsätter att bäraren kan svika förtroendet. Ibn Taymiyyah definierade rättvisa som att förstå tingen som de är och fullända dem.[^16] Det kräver mer än mönsterigenkänning -- det kräver en domare som förstår att två stölder inte är samma brott.
+*Wussiḍa al-amr ilā ghayr ahlih* – "uppgiften anförtros den som inte är dess folk." En algoritm kan vara *träffsäkrare* än en människa. Men träffsäkerhet är inte rättvisa. Bergen lydde Guds ordning felfritt — och just det gjorde dem oförmögna att bära uppdraget. *Amānah* förutsätter att bäraren kan svika förtroendet. Ibn Taymiyyah definierade rättvisa som att förstå tingen som de är och fullända dem.[^16] Det kräver mer än mönsterigenkänning — det kräver en domare som förstår att två stölder inte är samma brott.
 
 ## Verktyget och domen
 

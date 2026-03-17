@@ -13,7 +13,7 @@ Hans namn var Sībawayh.
 
 Abū Bishr ʿAmr ibn ʿUthmān ibn Qanbar – kallad Sībawayh, "äppeldoften", ett persiskt smeknamn – föddes i Shiraz och kom till Basra som ung man.[^1] Han hade tänkt studera islamisk rättsvetenskap, *fiqh*. Men han begick ett grammatiskt fel i en *ḥadīth*-diskussion. Skammen drev honom till språkvetenskapen — och tände en glöd som aldrig släcktes. Att studera grammatik med den glöden är att urskilja språkets skelett i varje yttrande: i poetens vers, i profetens tal, i marknadens rop.
 
-Hans lärare blev al-Khalīl ibn Aḥmad al-Farāhīdī, en arabisk lingvist från Oman som avlyssnat prosodins lagar i en kopparslagares hammarslag.[^2] Att al-Khalīl var arab och Sībawayh perser är inte en bisats. Det är poängen.
+Hans lärare blev al-Khalīl ibn Aḥmad al-Farāhīdī, en arabisk lingvist från Oman som avlyssnat versmåttens lagar i en kopparslagares hammarslag.[^2] Att al-Khalīl var arab och Sībawayh perser är inte en bisats. Det är poängen.
 
 Arabisk grammatik föddes ur samarbete, inte ur arv.
 

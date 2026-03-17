@@ -3,9 +3,9 @@ title: "Serumet och blicken"
 publishedAt: "2025-08-09T12:00:00.000Z"
 wordCount: 1803
 qualityScore: 8.7
-description: "I november 1940 publicerar Karin Boye *Kallocain*, romanen om ett sanningsserum som blottlägger varje medborgares innersta tankar. Fem månader senare tar hon sitt liv. Den islamiska traditionen utgår från samma förutsättning – att ingenting är dolt – men drar en rakt motsatt slutsats."
+description: "I november 1940 publicerar Karin Boye *Kallocain*, romanen om ett sanningsserum som avslöjar varje medborgares innersta tankar. Fem månader senare tar hon sitt liv. Den islamiska traditionen utgår från samma förutsättning – att ingenting är dolt – men drar en rakt motsatt slutsats."
 ---
-År 1940. Karin Boye skriver en roman om ett samhälle där staten tvingar fram sanningen med kemisk precision – varje tanke, varje känsla, varje hemlig längtan blottlagd inför myndigheterna. I Berlin och Moskva förfinar regimerna sina övervakningsapparater. Det europeiska mörkret tätnar. *Kallocain* publiceras i november; Boye tar sitt liv fem månader senare.
+År 1940. Karin Boye skriver en roman om ett samhälle där staten tvingar fram sanningen med kemisk precision – varje tanke, varje känsla, varje hemlig längtan avslöjad inför myndigheterna. I Berlin och Moskva förfinar regimerna sina övervakningsapparater. Det europeiska mörkret tätnar. *Kallocain* publiceras i november; Boye tar sitt liv fem månader senare.
 
 Romanen läses oftast som en dystopi om totalitarism, en föregångare till Orwells *1984*. Men det oroande i *Kallocain* är inte övervakningen. Det är vad som händer när sanningen upphör att vara frivillig.
 
@@ -67,7 +67,7 @@ Carl von Linné sökte samma sak med andra redskap. I hemlighet skrev han ett ma
 
 > Gud ser alt och hörer alt.[^13]
 
-Linnés Gud är varken Kallocainets övervakare eller Koranens *al-Raḥmān* utan en kall, lagbunden rättvisa – "moralens ekologi", som Sten Lindroth kallade den.[^14] "Alla gå hem och slå sig för sitt hröst, märkandes, att Herren ser wåra intriguer," skriver Linné med sin omisskännliga blandning av fromhet och empirism.[^15] Rättvisans maskineri gör att den som syndar straffas, inte genom mirakel utan genom orsak och verkan.
+Linnés Gud är varken Kallocainets övervakare eller Koranens *al-Raḥmān* utan en kall, lagbunden rättvisa – "moralens ekologi", som Sten Lindroth kallade den.[^14] "Alla gå hem och slå sig för sitt hröst, märkandes, att Herren ser wåra intriguer," skriver Linné med sin omisskännliga blandning av fromhet och empirism.[^15] Rättvisans urverk gör att den som syndar straffas, inte genom mirakel utan genom orsak och verkan.
 
 Linné stannar halvvägs mellan Boye och den islamiska traditionen. Han delar grundsatsen – Gud ser allt – men drar slutsatsen vedergällning, inte befrielse. Ett moraliskt maskineri som bokför överträdelsen men inte kan förlåta den som överträder. Förlåtelsen bryter kedjan. Den möjligheten vänder allvetandet från hot till tillit. Guds allvetande är inte främst ett straffhot utan grunden för ett band: möjligheten att stå naken inför Skaparen, inte för att skammen saknas utan för att den som ser också förlåter.
 

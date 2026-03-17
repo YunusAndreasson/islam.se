@@ -25,7 +25,7 @@ Inom den parentesen kartlade Ibn al-Jawzī begärets rörelse:
 
 > Själen stannar aldrig vid en gräns, utan eftersträvar njutningar utan ände – och allt den uppnår svalnar snart, varpå den söker något annat.[^2]
 
-Problemet är inte att kroppen begränsar hjärnan utan att den begränsar *själen*. Den hedonistiska trampkvarnen är själens grundvillkor i materian – inget fel ett hjärnchip kan avhjälpa.
+Problemet är inte att kroppen begränsar hjärnan utan att den begränsar *själen*. Den njutningssökande trampkvarnen är själens grundvillkor i materian – inget fel ett hjärnchip kan avhjälpa.
 
 ## Fängelset som blir bekvämare
 
@@ -59,7 +59,7 @@ Kroppen är fängelse, och kroppen är *amānah* – en gåva anförtrodd av Gud
 
 Bönen kräver kroppen: knäna, pannan, händerna. Fastan tuktar den utan att förneka den. Den islamiska vägen är inte flykt från kroppen utan vägran att *låta den bli herre*.
 
-Skillnaden mot den platonska dualismen är avgörande. I *Faidon* visar Platon hur filosofen "ständigt söker befria själen" och döden är den slutgiltiga skilsmässan.[^11] I islam återuppstår kroppen; själ och kropp återförenas på Domens dag. Befrielsen riktar sig mot kroppens envälde – det tillstånd där begäret styr och själen följer.
+Skillnaden mot den platonska tudelningen är avgörande. I *Faidon* visar Platon hur filosofen "ständigt söker befria själen" och döden är den slutgiltiga skilsmässan.[^11] I islam återuppstår kroppen; själ och kropp återförenas på Domens dag. Befrielsen riktar sig mot kroppens envälde – det tillstånd där begäret styr och själen följer.
 
 Det är kroppens envälde transhumanismen upphöjer till program.
 

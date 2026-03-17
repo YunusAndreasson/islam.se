@@ -25,7 +25,7 @@ Invändningen är given: Odin hängde på Yggdrasil nio nätter, genomborrad av 
 
 ## Dårens natt
 
-Den nordiska traditionen är inte blind för kunskapens risker. Hávamál, den eddadikt som talar med Odins egen röst, blottlägger en spricka. Strof 23 mejslar en varning som bryter med byteslogiken:
+Den nordiska traditionen är inte blind för kunskapens risker. Hávamál, den eddadikt som talar med Odins egen röst, avtäcker en spricka. Strof 23 mejslar en varning som bryter med byteslogiken:
 
 > En dåraktig man ligger vaken hela natten och grubblar över allting; trött är han när morgonen kommer, och allt är en börda som förut.[^3]
 
@@ -95,7 +95,7 @@ Erik Gustaf Geijer rörde sig i samma spår:
 
 > En blott överlämnad, om ock riklig, kunskap är ej därför fruktbärande. Därtill fordras, att den på ett levande sätt skall vara tillägnad, genomlevd, prövad, fostrad av inre och yttre erfarenhet till en frukt för livet.[^12]
 
-Kunskapen ska vara "genomlevd", men Geijer föreskriver assimilation – Odins modell i civiliserad tappning, utan att kräva ödmjukhet inför det man lär sig.
+Kunskapen ska vara "genomlevd", men Geijer föreskriver tillägnan – Odins modell i civiliserad tappning, utan att kräva ödmjukhet inför det man lär sig.
 
 Men inte alla svenska röster följde samma linje. Zacharias Topelius varnade i *Stjärnornas kungabarn*:
 

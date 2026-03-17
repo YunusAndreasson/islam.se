@@ -87,7 +87,7 @@ Mot denna uttryckslöshet står det ljus Koranen ständigt återkommer till, som
 
 Nattbönen *är* åminnelse – den renaste formen av den, för ingen annan publik finns. Man stiger upp i det yttre mörkret för att nå det inre ljuset.
 
-Al-Ḥasan al-Baṣrī uttydde Koranversen om de strålande ansiktena: "Gud förskönade dem genom att de fick skåda Honom – och det är med rätta de strålar, de som blickar mot sin Herre."[^16] Denna skönhet i den kommande världen är Guds belöning till de troende. "Gud är vacker och älskar skönhet", lyder en välkänd *ḥadīth*.[^17] Genom historien har denna *ḥadīth* också tjänat till att rättfärdiga uppskattning av fysisk skönhet och prydnad; den islamiska traditionen rymmer en djupare spänning mellan det yttre och det inre än en enkel rangordning fångar. Ibn Qayyims poäng kvarstår: det djupaste ljuset har en annan källa än huden.
+Al-Ḥasan al-Baṣrī uttydde Koranversen om de strålande ansiktena: "Gud förskönade dem genom att de fick skåda Honom – och det är med rätta de strålar, de som blickar mot sin Herre."[^16] Denna skönhet i den kommande världen är Guds belöning till de troende. "Gud är vacker och älskar skönhet", lyder en välkänd *ḥadīth*.[^17] Genom historien har denna *ḥadīth* också tjänat till att rättfärdiga uppskattning av fysisk skönhet och prydnad; den islamiska traditionen rymmer en djupare spänning mellan det yttre och det inre än en enkel rangordning fångar. Ibn Qayyims grundtanke kvarstår: det djupaste ljuset har en annan källa än huden.
 
 I det gängse tänkandet är skönhet självändamål – status, dragningskraft, makt. I Ibn Qayyims syn är skönhet frukt: man söker den inte, man söker Gud, och skönheten uppstår som oombedd gåva.
 

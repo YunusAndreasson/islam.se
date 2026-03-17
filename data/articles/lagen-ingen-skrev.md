@@ -23,7 +23,7 @@ Samma mönster såg Erik Gustaf Geijer i 1800-talets Sverige: "Överallt där jo
 
 Koranen svarar med en bild: "Det är Allah ﷻ som har sänt ned Boken med sanningen och likaså rättvisans våg."[^5] Boken och vågan. De sänds ned. De uppfinns inte. På denna grundsats vilar den islamiska rättsteorin, *uṣūl al-fiqh*: rättskällorna härleds ur uppenbarelsen, inte ur mänsklig lagstiftning.[^6] Ingen klass, ingen härskare, ingen majoritet kan kalla sig upphovsman.
 
-Thomistisk naturrätt och judisk *Halakha* reser besläktade anspråk, men *uṣūl al-fiqh* tillför den metodologiska skärpan: ett formellt system för hur uppenbarelsen omsätts i rättslig praxis, med inbyggda spärrar mot godtycke.[^7]
+Thomistisk naturrätt och judisk *Halakha* reser besläktade anspråk, men *uṣūl al-fiqh* tillför den metodiska skärpan: ett formellt system för hur uppenbarelsen omsätts i rättslig praxis, med inbyggda spärrar mot godtycke.[^7]
 
 ## Rättvisan som gräns
 

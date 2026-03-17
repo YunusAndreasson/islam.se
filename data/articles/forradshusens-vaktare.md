@@ -27,7 +27,7 @@ Koranen avslutar episoden: "På så vis etablerade Vi Josef i landet och han kun
 
 Rättsvetaren Ibn Taymiyyah ärver Josefs grundsats och gjuter den i juridisk form. I *al-Ḥisbah fī al-Islām* driver han en tes som fortfarande utmanar: om någon hamstrar mat medan folket svälter, har staten rätt att tvinga fram försäljning till marknadspris.[^6]
 
-Den uppenbara invändningen bemötte han själv: hadithen där Profeten ﷺ vägrar sätta priser.[^7] Hadithen gäller ett läge där ingen vägrade sälja och ingen medvetet drev upp priserna. När handelsmän medvetet håller tillbaka varor under en bristperiod tar en annan grundsats vid: plikten att skydda allmänintresset.[^8] Den som i nödtid monopoliserar livsnödvändigheter "påtvingar människor den svårighet och trångmål som är förbjuden".[^9]
+Den uppenbara invändningen bemötte han själv: hadithen där Profeten ﷺ vägrar sätta priser.[^7] Hadithen gäller ett läge där ingen vägrade sälja och ingen medvetet drev upp priserna. När handelsmän medvetet håller tillbaka varor under en bristperiod tar en annan utgångspunkt vid: plikten att skydda allmänintresset.[^8] Den som i nödtid monopoliserar livsnödvändigheter "påtvingar människor den svårighet och trångmål som är förbjuden".[^9]
 
 Att mätta den hungrige, skriver han i *al-Īmān*, är "en kollektiv skyldighet enligt alla muslimska lärda".[^10] Orden *farḍ ʿalā al-kifāyah* – en plikt som åligger samhället som helhet – innebär att om ingen fullgör den, bär alla skulden.
 
@@ -55,7 +55,7 @@ Under 2024 och 2025 steg det globala kaffepriset med över fyrtio procent efter 
 
 Vad som idag motsvarar sju magra år är en leveranskedja som bryts tusen mil bort och vars följder når en svensk matbutik inom dagar. Vad förr var missväxt i ett land är nu samtidig torka på tre världsdelar; marginalen mellan normalitet och svält har krympt till veckor.[^16] Ny teknik kan mildra slagen: torktåliga grödor, vertikal odling, andra proteinkällor. Men ingen uppfinning ersätter den politiska viljan att lagra. Torktåligt vete hjälper föga om det inte finns i ett svenskt förråd när fartygstrafiken i Östersjön upphör.
 
-När försörjningen hotas blottas statens innersta ordning. Verner von Heidenstam slog fast grundsatsen i *Folkungaträdet*: "Dålig skörd följer dålig konung."[^21] Historikern Ibn Khaldūn fångade samma insikt i en enda kedja: "Soldater behålls genom pengar. Pengar är försörjning som samlas genom folk. Folk är tjänare som skyddas genom rättvisa."[^17] Varje kedja bryts vid sitt svagaste led. I det moderna Sverige är det svagaste ledet att ingen bär ansvar för att det finns mat.
+När försörjningen hotas blottas statens innersta ordning. Verner von Heidenstam slog fast insikten i *Folkungaträdet*: "Dålig skörd följer dålig konung."[^21] Historikern Ibn Khaldūn fångade samma insikt i en enda kedja: "Soldater behålls genom pengar. Pengar är försörjning som samlas genom folk. Folk är tjänare som skyddas genom rättvisa."[^17] Varje kedja bryts vid sitt svagaste led. I det moderna Sverige är det svagaste ledet att ingen bär ansvar för att det finns mat.
 
 ## Ḥisbah för en ny tid
 

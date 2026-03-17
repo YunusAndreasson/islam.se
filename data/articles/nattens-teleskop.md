@@ -55,7 +55,7 @@ Ibn Khaldūns beskrivning föregick den moderna neurologin med sexhundra år, me
 
 Hjärnbarken avfyrar intensiva signaler, synbarken bearbetar visuell information trots slutna ögon, kroppen ligger förlamad.[^12] Maximal inre aktivitet, total yttre stillhet.[^13]
 
-Vad vi inte vet är varför denna aktivitet tar formen av *upplevelse*: bilder, berättelser, möten med döda, flygningar över landskap som aldrig funnits. Minneskonsolidering kräver inga medvetna upplevelser; känslomässig bearbetning inget berättande. David Chalmers gav frågan dess moderna namn 1995 – *the hard problem of consciousness*: varför frambringar fysiska processer överhuvudtaget subjektiv upplevelse?[^21] Den materialistiska förklaringen kan återge *hur* drömmen frambringas neurologiskt men inte *varför* den upplevs, och ännu mindre vad dess innehåll *betyder*.[^14]
+Vad vi inte vet är varför denna aktivitet tar formen av *upplevelse*: bilder, berättelser, möten med döda, flygningar över landskap som aldrig funnits. Minnesbefästning kräver inga medvetna upplevelser; känslomässig bearbetning inget berättande. David Chalmers gav frågan dess moderna namn 1995 – *the hard problem of consciousness*: varför frambringar fysiska processer överhuvudtaget subjektiv upplevelse?[^21] Den materialistiska förklaringen kan återge *hur* drömmen frambringas neurologiskt men inte *varför* den upplevs, och ännu mindre vad dess innehåll *betyder*.[^14]
 
 "Mer aktiv *för vad*?" ryms inte i den metodologiska naturalismens grammatik.
 

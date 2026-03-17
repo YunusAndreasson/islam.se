@@ -63,7 +63,7 @@ Denna närvaro – det Ibn Qayyim kallar *nūr al-murāqabah*, den vaksamma när
 
 ## Tiden utan ram
 
-Søren Kierkegaard definierade ångesten som "frihetens svindel" – den yrsel som griper den som stirrar ned i sina möjligheter.[^17] Det stämmer för Glas. Men Kierkegaards analys stannar vid svindeln; hans *trosprång* pekar ut ur förlamningen utan att säga vad den som landar ska göra med sin tid. Det är här Ibn Qayyim ger ögonblicket självt en arkitektur.
+Søren Kierkegaard kallade ångesten "frihetens svindel" – den yrsel som griper den som stirrar ned i sina möjligheter.[^17] Det stämmer för Glas. Men Kierkegaards analys stannar vid svindeln; hans *trosprång* pekar ut ur förlamningen utan att säga vad den som landar ska göra med sin tid. Det är här Ibn Qayyim ger ögonblicket självt en arkitektur.
 
 Människans tid är hennes liv: det råmaterial hennes eviga tillvaro formas av.[^18][^19] Stillheten efter *fajr*, ordet vid bordet, steget tillbaka från ilskan.
 

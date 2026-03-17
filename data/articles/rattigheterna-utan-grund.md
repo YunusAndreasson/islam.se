@@ -15,7 +15,7 @@ Hjalmar Söderberg formulerade den sekulära hållningen med sin vanliga skärpa
 
 > Moral kommer af mores, seder; den hvilar helt och hållet på seden, bruket; den har ingen annan grund.[^3]
 
-Söderberg menade det som befrielse: moralen är konvention, inget mer. Men om han har rätt – om moralen bara är sed och bruk – då har mänskliga rättigheter ingen annan auktoritet än den rådande konsensus ger dem. Och konsensus skiftar.
+Söderberg menade det som befrielse: moralen är konvention, inget mer. Men om han har rätt – om moralen bara är sed och bruk – då har mänskliga rättigheter ingen annan auktoritet än den rådande enigheten ger dem. Och enigheten skiftar.
 
 Upplysningsfilosofin försökte fylla tomrummet. Kant förankrade värdigheten i förnuftskapaciteten – men vad händer med dem vars kapacitet är outvecklad, skadad eller ännu inte född?[^4] Rawls försökte klara sig utan gemensam grund genom *overlapping consensus*: olika livsåskådningar som sammanfaller i samma slutsatser.[^5] Men *varför* sammanfaller de? Frågan förskjuts, aldrig besvaras. Alasdair MacIntyre drog den mest obekväma slutsatsen: vi ärver ett moraliskt ordförråd vars grammatik vi har glömt.[^2]
 
@@ -27,7 +27,7 @@ Mitt i denna grundvalskris dyker ett begrepp upp som gör anspråk på att säkr
 
 *Fiṭrah* – den medfödda moraliska och andliga riktningen – betecknar själva den ordning enligt vilken människan är skapad. Ibn Kathīr förtydligar: Gud har gjort alla sina skapelser lika i *fiṭrah*, den raka grundnaturen – ingen föds utan att vara i det tillståndet, och det finns ingen åtskillnad mellan människor i det hänseendet. Profeten Muḥammad ﷺ sade: "Varje barn föds i rätt tillstånd (*fiṭrah*), men dess föräldrar gör det till jude, kristen eller magier."[^7]
 
-Nutida utvecklingspsykologi stöder bilden: spädbarn föredrar hjälpare framför förhindrare redan innan språk och kultur format dem.[^16] Samma drag syns även i det samhälle som försöker undertrycka dem. August Blanche fångade det underifrån: "Där finns heder och samvete även bland de som samhället förkastar."[^19]
+Nutida utvecklingspsykologi stöder bilden: spädbarn föredrar hjälpare framför förhindrare redan innan språk och kultur format dem.[^16] Samma drag syns även i det samhälle som försöker undertrycka dem. August Blanche fångade det underifrån: "Där finns heder och samvete även bland dem som samhället förkastar."[^19]
 
 *Fiṭrah* är inte ett argument *för* moral utan ett påstående om var moralen hör hemma: den är inskriven i skapelsens ordning.
 
@@ -69,7 +69,7 @@ Vad Hammarskjöld tecknar har samma form som Koranens förbund: ett svar som fö
 
 ## Det tysta lånet
 
-Den moderna rättighetsretoriken lever på ett lån den inte erkänner. Varje människa äger okränkbar värdighet; tortyr är fel oavsett omständigheterna; barn har rättigheter oberoende av vilken stat de föds i – absoluta anspråk. Men retoriken kan inte redovisa varifrån de kommer, inte utan att i det tysta förutsätta den sorts grund den officiellt avvisat.
+Den moderna rättighetsspråket lever på ett lån det inte erkänner. Varje människa äger okränkbar värdighet; tortyr är fel oavsett omständigheterna; barn har rättigheter oberoende av vilken stat de föds i – absoluta anspråk. Men språket kan inte redovisa varifrån de kommer, inte utan att i det tysta förutsätta den sorts grund den officiellt avvisat.
 
 Habermas har halvvägs erkänt skulden: det sekulära samhället bör, hävdade han, *översätta* religiösa moraliska insikter till allmänt begripliga argument.[^13] Men att översätta förutsätter att det finns ett original. Och om originalet är oumbärligt, är det inte översättningen som bär kraften – det är källtexten.
 

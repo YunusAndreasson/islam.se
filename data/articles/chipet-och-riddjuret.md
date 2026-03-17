@@ -45,7 +45,7 @@ Koranen namnger kroppens förhållande till sin Skapare med ett ord som saknar r
 
 > Vi erbjöd himlarna och jorden och bergen förtroendet, men de vägrade att åta sig det och bävade för det, men människan åtog sig det.[^6]
 
-Det som erbjöds var inte ägande utan ansvar. I den klassiska exegesens ljus innebär *amānah* att människan anförtrotts sig själv – kropp, intellekt, tid, förbindelser – som lån med villkor, inte egendom att rå över fritt.[^7]
+Det som erbjöds var inte ägande utan ansvar. I den klassiska skrifttolkningens ljus innebär *amānah* att människan anförtrotts sig själv – kropp, intellekt, tid, förbindelser – som lån med villkor, inte egendom att rå över fritt.[^7]
 
 Profeten Muḥammad ﷺ satte ord på det: "Fullgör det anförtrodda mot den som anförtrott dig det, och svek inte den som sviker dig."[^8]
 

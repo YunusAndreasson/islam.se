@@ -25,7 +25,7 @@ Den islamiska traditionen har en synvinkel som saknas i modern sömnforskning. P
 
 Ibn Taymiyyahs tolkning visar något sömnforskningen inte når: varför det är svårt att somna i en tid som förvisat döden. Inte den kroppsliga döden, utan döden som närvaro, som daglig påminnelse. Döendet har flyttat till sjukhus, begravningen till byråer, sorgen till terapirummet. Vi har rensat bort döden ur vardagen – en dödsglömska som kostat oss förmågan att somna.
 
-Neurofysiologin beskriver sömnen som ett förändrat medvetandetillstånd, styrt av signalämnen och dygnsrytmer. Beskrivningen stämmer men räcker inte – på samma sätt som en kemisk analys av bläck inte beskriver ett brev.
+Hjärnforskningen beskriver sömnen som ett förändrat medvetandetillstånd, styrt av signalämnen och dygnsrytmer. Beskrivningen stämmer men räcker inte – på samma sätt som en kemisk analys av bläck inte beskriver ett brev.
 
 Koranen namnger det som ontologisk händelse:
 

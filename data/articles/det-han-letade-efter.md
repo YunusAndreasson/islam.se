@@ -15,7 +15,7 @@ Strindberg genomlevde en kris som drev honom bortom materialismens gräns. I *In
 
 > Hemmastadd i naturvetenskaperna sedan barndomen, sedermera anhängare av Darwin, hade jag upptäckt det otillfredsställande i denna naturvetenskapliga metod, som erkände världsalltets förträffliga mekanism utan att medgiva tillvaron av mekanikern.[^3]
 
-Två sekler före Strindberg hade Emanuel Swedenborg stött mot samma gräns. Som hjärnforskare kartlade han hjärnbarkens uppgifter hundra år före sin tid: lokaliserade motoriska centra, tillskrev cerebrospinalvätskan en roll, anade sambandet mellan enskilda hjärnregioner och bestämda förmågor.[^4] Själen fann han aldrig under skalpellen.
+Två sekler före Strindberg hade Emanuel Swedenborg stött mot samma gräns. Som hjärnforskare kartlade han hjärnbarkens uppgifter hundra år före sin tid: lokaliserade motoriska områden, tillskrev cerebrospinalvätskan en roll, anade sambandet mellan enskilda hjärnregioner och bestämda förmågor.[^4] Själen fann han aldrig under skalpellen.
 
 ## Kunskapens ärliga gräns
 

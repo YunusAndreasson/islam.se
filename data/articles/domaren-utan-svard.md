@@ -47,7 +47,7 @@ Söderberg var kallare:
 
 > Domare äro människor och kunna misstaga sig. Det är sannolikt att många blifva oskyldigt dömda.[^13]
 
-Båda pekar på samma sårbarhet: när samma hand utreder, anklagar och dömer, skymmer makten den rättvisa den är satt att tjäna. Al-Māwardīs *ḥisbah* bryter ordningen: en instans som urskiljer det onda men saknar makt att straffa det. Att läsa detta som kritik av det moderna åklagarväsendet vore anakronistiskt, men uppdelningen blottlägger en svaghet som består än idag.
+Båda pekar på samma sårbarhet: när samma hand utreder, anklagar och dömer, skymmer makten den rättvisa den är satt att tjäna. Al-Māwardīs *ḥisbah* bryter ordningen: en instans som urskiljer det onda men saknar makt att straffa det. Att läsa detta som kritik av det moderna åklagarväsendet vore anakronistiskt, men uppdelningen avtäcker en svaghet som består än idag.
 
 Ibn Taymiyyah skärpte grundsatsen: varje ämbetes medel begränsas till det egna området.[^14] Domaren arbetar med vittnen och skriftliga bevis. Svärdet tillhör det militära befälet. Muhtasiben har befogenheter som "inte tillhör vare sig härskarna, domarna eller ämbetsmännen".[^15] Rättvisan hotas inte främst av dem som vill göra ont utan av dem som vill göra gott med för mycket makt.
 

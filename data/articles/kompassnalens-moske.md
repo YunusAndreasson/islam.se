@@ -85,13 +85,13 @@ Den svenska författaren Fredrika Bremer reste i Palestina, Turkiet och Grekland
 
 > Jorden blev bönen hem. Bönen blev människans goda ängel.[^18]
 
-Bremers projekt var ett annat: en romantisk syntes, inte en rättslig grundsats. Den islamiska grundsatsen vilar på uppenbarelse – Profeten ﷺ fick hela jorden gjord till böneplats som en gåva till hans *ummah*. Han förbjöd att göra profeternas platser till permanenta helgedomar.[^19] När pannan lyfts från golvet är rummet åter profant.
+Bremers projekt var ett annat: en romantisk syntes, inte en rättslig grundsats. Den islamiska utgångspunkten vilar på uppenbarelse – Profeten ﷺ fick hela jorden gjord till böneplats som en gåva till hans *ummah*. Han förbjöd att göra profeternas platser till permanenta helgedomar.[^19] När pannan lyfts från golvet är rummet åter profant.
 
 ## Kompassnålen
 
 Var han än befinner sig behöver den bedjande bara en riktning. Stockholms *qiblah* ligger på 157 grader – sydsydost.[^20] Riktningen skär snett genom stadsplanen, struntar i gatunätet, ignorerar tunnelbanans sträckningar. Den löper genom kontorslandskap och parkeringshus, villakök och sjukhuskorridorer, genom varenda kvadratmeter av ett samhälle som byggt sin rumsordning kring andra principer.
 
-Polyhistorn al-Bīrūnī (d. 1048) utarbetade trigonometriska metoder för *qiblah*-beräkning från varje punkt på jorden.[^21] Men Ibn Taymiyyah insisterade: Följeslagarnas enkla metoder räckte. Att kräva en exakt koordinat vore att förvandla riktning till punkt, kompassbäring till adress – att återinföra den platslogik systemet avvisar.
+Den mångkunnige al-Bīrūnī (d. 1048) utarbetade trigonometriska metoder för *qiblah*-beräkning från varje punkt på jorden.[^21] Men Ibn Taymiyyah insisterade: Följeslagarnas enkla metoder räckte. Att kräva en exakt koordinat vore att förvandla riktning till punkt, kompassbäring till adress – att återinföra den platslogik systemet avvisar.
 
 Karin Boye skrev: "Det finns en tid, då Riltuna kyrka låg mitt i byn."[^22] En försvunnen tid. Kyrkan som en gång definierade dalen – Strindbergs tratt med byn och kyrkan i mitten – har förlorat sin dragningskraft. Skogsbryn och ängsmark pekar inte längre mot ett centrum. Kompassnålen pekar fortfarande. Från varje punkt, genom varje rum.
 

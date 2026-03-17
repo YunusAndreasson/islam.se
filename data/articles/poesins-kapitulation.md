@@ -17,9 +17,9 @@ Utmaningen trappas ned i tre steg. Först: frambringa en hel skrift som denna, �
 
 Före Koranen var poesin arabernas nationalkonst – deras historieskrivning, deras rättsväsende, deras krig. Vid marknaderna i Ukaz tävlade stammarna med sina qasidor som andra folk tävlade med vapen. Att bemästra arabiskans prosodi var makt.
 
-I denna kultur, där varje barn växte upp med örat skärpt för metrisk precision, framträdde en text som trotsade allt de behärskade. Koranens arabiska följer inte de etablerade versformerna, saknar genomgående metrum, binder sig inte till qasidans konventioner. Men den är heller inte vanlig, obunden prosa; den bär en inre rytm, en klangbyggnad som varken poeter eller prosaskribenter förmådde inordna i sina kategorier.
+I denna kultur, där varje barn växte upp med örat skolat för metrisk precision, framträdde en text som trotsade allt de behärskade. Koranens arabiska följer inte de vedertagna versformerna, saknar genomgående metrum, binder sig inte till qasidans konventioner. Men den är heller inte vanlig, obunden prosa; den bär en inre rytm, en klangbyggnad som varken poeter eller prosaskribenter förmådde inordna i sina kategorier.
 
-Teologen al-Khaṭṭābī framhöll att Koranens motståndare famlade efter klassificeringar: "Ibland kallade de den poesi, ibland magi – just för att de fann sig oförmögna inför den."[^5] Ordet de till slut stannade vid var *siḥr* – magi.
+Teologen al-Khaṭṭābī framhöll att Koranens motståndare famlade efter indelningar: "Ibland kallade de den poesi, ibland magi – just för att de fann sig oförmögna inför den."[^5] Ordet de till slut stannade vid var *siḥr* – magi.
 
 ## Motståndaren som inte kunde neka
 

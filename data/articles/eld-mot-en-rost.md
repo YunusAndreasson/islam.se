@@ -63,7 +63,7 @@ Den närmaste invändningen: om Koranens sakralitet skyddas juridiskt, var drar 
 
 Den islamiska förklaringen når djupare. Handlingen angriper det som gruppen uppfattar som Guds levande tal.
 
-Koranens väsen stod inte alltid klart. Den muʿtazilitiska skolan hävdade att Koranen *var* skapad, en ståndpunkt som under kalifen al-Maʾmūn på 800-talet upphöjdes till statsdoktrin och försvarades med tvångsmakt. Förföljelsen av dem som vägrade ansluta sig – bland dem imam Aḥmad ibn Ḥanbal – befäste den oskapade Koranens teologi som sunnitisk konsensus.[^11] Att frågan avgjordes genom en av islams mest dramatiska lärokonflikter visar hur djupt den skär.
+Koranens väsen stod inte alltid klart. Den muʿtazilitiska skolan hävdade att Koranen *var* skapad, en ståndpunkt som under kalifen al-Maʾmūn på 800-talet upphöjdes till statsdoktrin och försvarades med tvångsmakt. Förföljelsen av dem som vägrade ansluta sig – bland dem imam Aḥmad ibn Ḥanbal – befäste den oskapade Koranens teologi som sunnitisk enighet.[^11] Att frågan avgjordes genom en av islams mest dramatiska lärokonflikter visar hur djupt den skär.
 
 ## Det osynliga ordets makt
 
