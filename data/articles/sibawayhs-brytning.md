@@ -84,12 +84,7 @@ Mönstret gäller även västerut: Joseph Conrad lärde sig engelska i tjugoårs
 
 ʿAlī ibn Abī Ṭālib sade: "Tungan är kroppens roder – om den rättar sig, rättar sig alla lemmar."[^16] Disciplin, övning, lärande. Aldrig rätt föräldrar.
 
-Sībawayh dog ung, knappt fyrtio år gammal. Han lämnade inga lärjungar i vanlig mening. Han lämnade *al-Kitāb*. Det räckte.
-Fjorton århundraden senare har hans verk inte ersatts.
-
-> Den som sökte kunskap fann heder utan svärd.[^17]
-
-Ibn al-Jawzī behövde inte nämna varifrån kunskapssökaren kom.
+Sībawayh dog ung, knappt fyrtio år gammal. Han lämnade inga lärjungar i vanlig mening. Han lämnade *al-Kitāb*. Det räckte. Fjorton århundraden senare har hans verk inte ersatts.
 
 ---
 

@@ -64,7 +64,7 @@ Koranen kallar natten *libās*, en klädnad:
 
 > Och det är Han som gör natten till en klädnad för er och sömnen till en avkoppling och gör dagen till en uppståndelse.[^17]
 
-Tre ord, en hel kosmologi. *Libās*: klädnaden som omsluter, skyddar, döljer. *Subāt*: vila, avbrott, sömnens avklädning av dagens roller. *Nushūr*: uppståndelse, uppresning. Varje morgon en liten domedagsprolog.
+Tre ord, en hel världsbild. *Libās*: klädnaden som omsluter, skyddar, döljer. *Subāt*: vila, avbrott, sömnens avklädning av dagens roller. *Nushūr*: uppståndelse, uppresning. Varje morgon en liten domedagsprolog.
 Men just här skiljs den moderna uppfattningen och den islamiska traditionen åt. Muḥammad ibn al-Naḍr al-Ḥārithī tecknade de gudfruktigas förhållande till döden:
 
 > Medvetenheten om döden upptog de gudfruktigas hjärtan och fjärmade dem från denna värld – vid Allah ﷻ, de återvände aldrig till glädje efter att ha känt dess ångest.[^18]

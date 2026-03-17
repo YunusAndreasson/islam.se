@@ -49,7 +49,7 @@ Den islamiska traditionen erbjuder vad de saknar: en rättsordning vars giltighe
 
 Strindbergs fråga genljuder ännu: vem skrev lagen för den fattige? Allt står och faller med dem som bär ansvaret.
 
-Koranens bild är en våg, inte ett svärd. Svärdet avgör. Vågen mäter. Den kan inte luras – om den som håller den gör det med rak hand.
+Koranens bild är en våg, inte ett svärd. Svärdet avgör. Vågen väger. Den kan inte luras – om den som håller den gör det med rak hand.
 
 ---
 

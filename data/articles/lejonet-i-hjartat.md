@@ -37,7 +37,7 @@ Och i sura al-Ḥadīd:
 
 ## Den ofrånkomliga invändningen
 
-Här reser sig invändningen: är detta inte cirkulärt? Subjektiv visshet om klarsyn präglar också tankens skevheter. Det som *känns* som klarhet kan vara förankringseffekt, tillgänglighetsskevhet, bekräftelsesökning.
+Här reser sig invändningen: är detta inte cirkulärt? Subjektiv visshet om klarsyn präglar också tankens skevheter. Det som *känns* som klarhet kan vara förankringseffekt, tillgänglighetsbias, bekräftelsebias.
 
 Inom den islamiska traditionen har *firāsah* som kunskapskategori också ifrågasatts. Invändningarna vilade ofta på rationalistiska förutsättningar som traditionen själv avvisade. De underkände den andliga erfarenhetens vittnesbörd på förhand, i stället för att pröva det mot uppenbarelsen.
 

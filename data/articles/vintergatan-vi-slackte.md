@@ -78,7 +78,7 @@ Emerson ställde 1836 den omvända frågan: om stjärnorna visade sig en enda na
 
 För hundra år sedan bodde åttio procent av svenskarna på landsbygden; i dag bor åttio procent i städer.[^22] Under ett enda sekel har mörkret över tallmon och tjärnen gått från livsbetingelse till kuriositet.
 
-Abdullah ibn Masʿūd, Profetens ﷺ följeslagare, sade: "Hos er Herre finns varken natt eller dag; himlarnas ljus utgår från Hans ansiktes ljus."[^23] Det yttersta ljuset finns bortom alla kontraster. Men *vägen dit* går genom mörker: genom nätter under öppen himmel, genom Allmaktens natt som är bättre än tusen månader, genom den nattliga bönen som hålls medan staden sover.
+ʿAbd Allāh ibn Masʿūd, Profetens ﷺ följeslagare, sade: "Hos er Herre finns varken natt eller dag; himlarnas ljus utgår från Hans ansiktes ljus."[^23] Det yttersta ljuset finns bortom alla kontraster. Men *vägen dit* går genom mörker: genom nätter under öppen himmel, genom Allmaktens natt som är bättre än tusen månader, genom den nattliga bönen som hålls medan staden sover.
 
 Emerson frågade vad som skulle hända om stjärnorna visade sig en enda natt på tusen år. Vi svarade genom att släcka dem.
 

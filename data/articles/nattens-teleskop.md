@@ -37,7 +37,7 @@ Ibn Qayyim preciserar i *Ighāthat al-Lahfān* att hjärtat i sitt ursprungstill
 
 Sömnen avbryter den ström av intryck som rostar hjärtat under dagen. Men avbrottet polerar ingenting – det hindrar bara ny rost från att falla. Vad hjärtat bär in i sömnen är vad det ser genom: den som tillbringat dagen i *dhikr* tar med sig en yta som ännu fångar ljus; den som tillbringat dagen i glömska en yta som redan mörknats. I denna stillhet kan hjärtat, om det ännu äger någon klarhet, ta emot den sanna drömmen.
 
-Koranen ger natten en kosmologisk grund bortom fysiologin:
+Koranen ger natten en teologisk grund bortom fysiologin:
 
 > Allah ﷻ tar människors själar när deras dödsstund är kommen; och den som inte dör tar han när den sover. Han kvarhåller sedan de själar vars död Han bestämt och återsänder de andra fram till en utsatt tid. I detta finns sannerligen tecken för människor som tänker efter.[^7]
 
@@ -91,7 +91,7 @@ Ibn Khaldūn skulle inte ha förvånats av EEG-kurvorna. Sinnena stängs; själe
 
 Men riktningen garanterar inte skarpa bilder; hjärtat kan vara inåtvänt och ändå se suddigt. Ibn Taymiyyah skriver att hjärtats visshet föds ur tro och lydnad, aldrig ur tankens spekulation: "Tron och det goda verket föder ljus i hjärtat, och synd föder mörker."[^19] Lydnad mot Allah ﷻ öppnar hjärtat för insikt; uppenbarelsens ljus faller in i ett hjärta berett att ta emot det. Koranen namnger principen: "Troende! Om ni fruktar Allah ﷻ skall Han skänka er *furqān* [förmågan att skilja mellan sant och falskt]."[^20]
 
-Jouvet kallade det paradoxal sömn. Ibn Khaldūn kallade det *drömvision*. Frågan – *mer aktiv för vad?* – har aldrig saknat svar. Bara lyssnare.
+Jouvet kallade det paradoxal sömn. Ibn Khaldūn kallade det *drömvision*. Frågan – *mer aktiv för vad?* – har aldrig saknat svar.
 
 ---
 

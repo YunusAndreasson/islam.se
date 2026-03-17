@@ -96,7 +96,7 @@ En rad i *Hávamál*:
 
 > Hemma skall man vara glad, och mot en gäst frikostig; av gott omdöme bör man vara, med gott minne och färdig i talet; vill man besitta mycket vetande, skall man ofta tala om det som är gott.[^24]
 
-*Med gott minne och färdig i talet.* Minnets plats bland dygderna var en gång självklar, i den nordiska traditionen liksom i den islamiska. Förståelse är memoreringens frukt, och ett träd utan rötter bär ingen, hur mycket sol det än får.
+*Med gott minne och färdig i talet.* Minnets plats bland dygderna var en gång självklar, i den nordiska traditionen liksom i den islamiska. Förståelse är memoreringens frukt.
 
 ---
 

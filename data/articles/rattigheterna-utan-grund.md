@@ -83,7 +83,7 @@ Ellen Key ställde samma fråga. Den stora uppgiften inom den politiska moralen 
 Hon sökte en moral stark nog att binda samveten utan att krossa dem, men fann aldrig den förankring hon behövde.
 Koranen svarar: människan har rättigheter för att hon är skapad med en natur som vittnar om sin Skapare. Hennes värdighet är varken överenskommelse, avtal eller röstetal. Den är inskriven i henne, djupare än kultur, djupare än språk, i det ögonblick före alla ögonblick då hennes själ svarade *ja*.
 
-Maritains delegater enades om rättigheterna under förutsättning att ingen frågade varför. Frågan väntar fortfarande. Och den som inte accepterar Koranens kosmologi kan ändå ställa sig den fråga Söderberg lämnade obesvarad: om moralen verkligen bara vilar på sed och bruk – varför vägrar den att bete sig så?
+Maritains delegater enades om rättigheterna under förutsättning att ingen frågade varför. Frågan väntar fortfarande. Och den som inte accepterar Koranens världsbild kan ändå ställa sig den fråga Söderberg lämnade obesvarad: om moralen verkligen bara vilar på sed och bruk – varför vägrar den att bete sig så?
 
 ---
 

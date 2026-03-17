@@ -59,19 +59,19 @@ För det saknar moderniteten språk. Den som kom närmast var Kierkegaard, vars 
 
 ## Fåglarna i Koranen
 
-Profeten Muḥammad ﷺ gjorde bilden gripbar:
+Profeten Muḥammad ﷺ gjorde liknelsen gripbar:
 
 > Om ni förlitade er på Gud med sann förlitan, skulle Han försörja er som Han försörjer fåglarna: de flyger ut hungriga på morgonen och återvänder mätta på kvällen.[^12]
 
 Men de flyger utan budget, utan lager, utan sparkapital – och återvänder alltid mätta.
 
-Koranen bär samma bild men vidgar den:
+Koranen bär samma liknelse men vidgar den:
 
 > Har de inte fäst avseende vid fåglarna ovan dem, hur de sträcker ut vingarna och fäller in dem? Ingen annan än den Nåderike håller dem uppe. Han ser sannerligen allt.[^13]
 
 Fåglarna flyger redan. De faller inte. Frågan är inte om något håller dem uppe utan om betraktaren har ögon att se det. Den sista bisatsen – "Han ser sannerligen allt" – vänder perspektivet: vi ser fåglarna, men fåglarna *ses*. Ibn Kathīr förtydligar: Han vet vad som gagnar varje enskild varelse bland Hans skapelser.
 
-Ur denna bild hämtar Ibn Qayyim trons inre rörelse: rädsla och hopp som två vingar – när de är i jämvikt bär de flygningen framåt; brister den ena, störtar fågeln.[^14] Silvertärnan flyger för att den är skapad att flyga. *Tawakkul* är varken kylig tillförsikt eller förlamande ångest: det är den jämvikt som uppstår när hjärtat slutat väga risker och börjat förlita sig på Honom.
+Ur denna liknelse hämtar Ibn Qayyim trons inre rörelse: rädsla och hopp som två vingar – när de är i jämvikt bär de flygningen framåt; brister den ena, störtar fågeln.[^14] Silvertärnan flyger för att den är skapad att flyga. *Tawakkul* är varken kylig tillförsikt eller förlamande ångest: det är den jämvikt som uppstår när hjärtat slutat väga risker och börjat förlita sig på Honom.
 
 ## En hälsosam osäkerhet
 

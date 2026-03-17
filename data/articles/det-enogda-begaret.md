@@ -75,7 +75,7 @@ I sitt sammanhang avser versen den som betraktar himlarna och söker brister i s
 Ibn Qayyim jämför blicken med ett glas vin: betraktelsen berusar. Kärlekens berusning är värre än vinets – den som berusar sig av vin nyktrar till, men den som berusar sig av blicken nyktrar sällan till.[^19]
 Kent Berridges forskning visar varför: upprepad exponering för samma retning stärker begäret utan att njutningen växer. Man åtrår mer utan att njuta mer.[^21]
 
-Kedjan kan brytas, men bara i sitt första led. Ögonblicket innan begäret är oförfalskat – varseblivning som ännu inte blivit bygge.
+Kedjan kan brytas, men bara i sitt första led. Ögonblicket innan begäret är oförfalskat – varseblivning som ännu inte blivit avsikt.
 
 ---
 

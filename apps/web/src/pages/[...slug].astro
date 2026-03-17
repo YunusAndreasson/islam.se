@@ -115,10 +115,18 @@ const { Content } = await render(article.entry);
 			const rect = anchor.getBoundingClientRect();
 			popover.classList.add("fn-popover--visible");
 			const popW = popover.offsetWidth;
+			const popH = popover.offsetHeight;
 			const pad = 12;
+			const gap = 8;
 			let left = rect.left + window.scrollX + rect.width / 2 - popW / 2;
 			left = Math.max(pad, Math.min(left, window.innerWidth - popW - pad));
-			popover.style.top = `${rect.bottom + window.scrollY + 8}px`;
+			// Prefer above; fall back to below if not enough room
+			const above = rect.top - gap - popH;
+			if (above >= pad) {
+				popover.style.top = `${rect.top + window.scrollY - gap - popH}px`;
+			} else {
+				popover.style.top = `${rect.bottom + window.scrollY + gap}px`;
+			}
 			popover.style.left = `${left}px`;
 		}
 
