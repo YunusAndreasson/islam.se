@@ -43,7 +43,7 @@ I den islamiska traditionen ställs frågan annorlunda från början. Ibn Qayyim
 
 > Den som betraktar det som finns i honom själv av svagheter och brister, och det som finns hos sin Herre av fullkomlighet och majestät – han vet att hans liv inte kan rättas till och hans hjärta inte kan nå fram utom genom att söka sin tillflykt hos sin Herres dörr, och att han är den mest behövande av alla skapade varelser inför sin Herre.[^5]
 
-Där Odin offrar ett sinnesorgan men behåller sitt jag kräver Ibn Qayyim att den sökande genomskådar jagets anspråk. Kunskap som leder till Skaparen – *baṣīrah*, den inre syn som Koranen talar om – börjar först när frågan ställs skarpt inåt, på ett sätt som brunnen vid Yggdrasil aldrig kräver. Inte "vad kan jag förvärva?" utan "hur fattig är jag inför min Herre?"
+Där Odin offrar ett sinnesorgan men behåller sitt jag, kräver Ibn Qayyim att den sökande genomskådar jagets anspråk. Kunskap som leder till Skaparen – *baṣīrah*, den inre syn som Koranen talar om – börjar först när frågan ställs skarpt inåt, på ett sätt som brunnen vid Yggdrasil aldrig kräver. Inte "vad kan jag förvärva?" utan "hur fattig är jag inför min Herre?"
 
 Koranen anvisar denna rörelse. Allah ﷻ säger: "Och i era egna själva – ser ni inte?"[^6] Att se in i sig själv är här ingen mystisk resa utan en uppmaning att se det uppenbara som människan ständigt flyr: sin svaghet, sitt beroende, sin dödlighet.
 

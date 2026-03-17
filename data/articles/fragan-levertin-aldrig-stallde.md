@@ -31,7 +31,7 @@ En koranisk vers slår an tonen:
 
 > Ägna hela ditt jag åt religionen som en sann *ḥanīf*! Den är Allahs ﷻ naturliga väg som Han ingjutit i människorna. Ingen förändring skall ske i Allahs ﷻ skapelse.[^9]
 
-*Fiṭrah* – här översatt "naturlig väg" – betecknar den medfödda konstitution varje människa bär: en orientering mot sin Skapare som föregår all uppfostran och kultur. Anspråket är antropologiskt – djupare än ett teologiskt antagande. Profeten Muḥammad ﷺ formulerade det i en berömd *ḥadīth*:
+*Fiṭrah* – här översatt "naturlig väg" – betecknar den medfödda konstitution varje människa bär: en orientering mot sin Skapare som föregår all uppfostran och kultur. Anspråket är antropologiskt, djupare än ett teologiskt antagande. Profeten Muḥammad ﷺ formulerade det i en berömd *ḥadīth*:
 
 > Varje barn föds med *fiṭrah*; det är föräldrarna som gör det till jude, kristen eller zoroastrier.[^10]
 
@@ -66,7 +66,6 @@ I *al-Wābil al-Ṣayyib* sätter han ord på vad som inträder utan den andra l
 > I hjärtat finns en tomhet och en brist som absolut ingenting kan fylla utom åminnelsen av Gud.[^14]
 
 Pascal beskrev, utan tillgång till Ibn Qayyim, en "oändlig avgrund" i människan som "bara kan fyllas av Gud själv".[^25]
-
 Den svenska hållningen svarar: inget. Törsten är sitt eget mål.
 
 Men Söderblom själv kunde inte stanna vid känslan. "Vissheten om lefvande Gud vinna vi genom att äga delaktighet i Guds lif..."[^15] Uppenbarelse, skriver han, "säger att människan är mottagande, att Gud meddelar sig själf".[^16] Hans egen trestegsmodell – oändlighetskänsla, idealdrift, uppenbarelsereligion – bildar en kedja där varje steg föder nästa. Att stanna vid det andra är, inom hans egen logik, att bryta den rörelse han själv tecknat.

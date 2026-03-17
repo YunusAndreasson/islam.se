@@ -53,15 +53,11 @@ I *Götiska rummen* bär Strindbergs formulering en säregen melankoli:
 
 > En kristen fritänkare, kanske; kristen, därför att jag är född av kristen släkt, fritänkare, därför att jag icke kan sluta mig till något 'erkänt' kyrkosamfund.[^12]
 
-En hållning som söker neutralitet. Men Inferno-krisen visar att mellanrummet inte håller. Ingen kan stanna där.
-
-Strindberg kallar rörelsen ofrivillig:
+En hållning som söker neutralitet. Men Inferno-krisen visar att mellanrummet inte håller. Ingen kan stanna där. Strindberg kallar rörelsen ofrivillig:
 
 > Det är ju märkvärdigt hur jag nu har från ateismen fallit ner i den fullständigaste vidskepelse.[^13]
 
-Riktningen är *ner*. För Strindberg är gudssökandet ett fall. Han har inte beslutat att bli religiös; han har misslyckats med att förbli ateist.
-
-Dag Hammarskjöld noterade samma rörelse i *Vägmärken*, utan dramatik:
+Riktningen är *ner*. För Strindberg är gudssökandet ett fall. Han har inte beslutat att bli religiös; han har misslyckats med att förbli ateist. Dag Hammarskjöld noterade samma rörelse i *Vägmärken*, utan dramatik:
 
 > Jag vet inte Vem – eller vad – som ställde frågan. Jag vet inte när den ställdes. Jag minns inte att jag svarade. Men en gång svarade jag ja till Någon – eller Något.[^20]
 
@@ -109,9 +105,7 @@ Människan *kan* glömma Gud – men aldrig länge, aldrig utan att något i hen
 
 > I hjärtat finns en tomhet som inte kan fyllas av annat än närhet till Allah ﷻ, och en sorg som inte kan lyftas av annat än glädjen i att känna Honom, och en oro som inte kan stillas av annat än samling inför Honom.[^19]
 
-Hjärtat har en riktning. Att tvinga det bort kräver kraft. Släpp greppet, och det återsvänger.
-
-Utan att ha läst en rad Ibn Qayyim genomlevde Strindberg just denna rörelse.
+Hjärtat har en riktning. Att tvinga det bort kräver kraft. Släpp greppet, och det återsvänger. Utan att ha läst en rad Ibn Qayyim genomlevde Strindberg just denna rörelse.
 
 ## Det enda steget
 
@@ -124,7 +118,7 @@ Hans tvungna otacksamhet tryckte honom som en börda.
 [^1]: August Strindberg, *Inferno* (Stockholm: Bonniers, 1897), kap. XIV.
 [^2]: Olof Lagercrantz, *August Strindberg* (Stockholm: Wahlström & Widstrand, 1979). Lagercrantz argumenterar för att Strindberg medvetet dramatiserade och fiktionaliserade Inferno-materialet. Även om detta stämmer försvagar det inte observationens kraft – en iscensatt kris avslöjar fortfarande vilka mönster dramatikern anser trovärdiga.
 [^3]: Strindberg, *Inferno*, kap. XI.
-[^4]: Ibn Taymiyyah, *Amrāḍ al-qulūb wa-shifāʾuhā* (Hjärtats sjukdomar och deras botemedel). Hadithen återges i Ṣaḥīḥ al-Bukhārī, Kitāb al-Janāʾiz, nr. 1385; Ṣaḥīḥ Muslim, Kitāb al-Qadar, nr. 2658.
+[^4]: Ibn Taymiyyah, *Amrāḍ al-Qulūb wa-Shifāʾuhā* (Hjärtats sjukdomar och deras botemedel). Hadithen återges i Ṣaḥīḥ al-Bukhārī, Kitāb al-Janāʾiz, nr. 1385; Ṣaḥīḥ Muslim, Kitāb al-Qadar, nr. 2658.
 [^5]: Ibn Taymiyyah, *al-Radd ʿalā al-Manṭiqiyyīn* (Gendrivning av logikerna), s. 322 i standardutgåvan.
 [^6]: Ibn Taymiyyah, *al-Radd ʿalā al-Manṭiqiyyīn*: "Att använda icke-naturliga metoder är att plåga själar utan nytta för dem".
 [^7]: Se Nazir Khan, "Atheism and Radical Skepticism: Ibn Taymiyyah's Epistemic Critique," Yaqeen Institute for Islamic Research, 2020. Ibn Taymiyyah identifierar ateism som den "värsta formen av safsaṭah" – att förneka vad *fiṭrah* naturligt bekräftar leder till att kunskapens grundvalar faller.

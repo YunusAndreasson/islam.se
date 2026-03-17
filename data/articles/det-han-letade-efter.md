@@ -28,7 +28,6 @@ Ibn Kathīr återger bakgrunden: Ibn Masʿūd berättar att Profeten ﷺ fick fr
 ## Hjärtats kunskap och sinnenas gräns
 
 Ibn Qayyim byggde en kunskapslära som rymmer Chalmers åtskillnad utan att lämna uppenbarelsens mark. Hjärtat (*al-qalb*) bär en kunskap av annat slag: "Hjärtat har en kunskap, en insikt, en *firāsah* som sinnesorganen aldrig kan nå."[^7]
-
 Sinnena förkastar han inte:
 
 > Skapelsen vittnar om Skaparen, och den som betraktar med sitt hjärta ser i varje skapat ting ett bevis.[^8]
@@ -40,7 +39,6 @@ Förklaringsgapet väcker en avgörande fråga. Är det ett gap i vår *kunskap*
 ## Illusionen som bevisar sig själv
 
 Daniel Dennett hävdar att subjektiv upplevelse är en illusion. Medvetande är vad hjärnan *gör*, inte något den *har*.[^12]
-
 Invändningen är lika gammal som argumentet: vem upplever illusionen? Att avfärda medvetandet som illusion förutsätter ett medvetande som upplever illusionen. Levertin satte ord på den gräns vetenskapen här stöter på:
 
 > Samtidigt blir det också allt klarare för hvar och en, att alla vetenskapens förklaringar och klassifikationer blott äro provisoriska.[^13]

@@ -14,7 +14,6 @@ Mönstret hade ett namn: *Nemesis Divina*. Gudomlig vedergällning.
 > Innocue vivito, numen adest! Du ser alt gå confust, som ingen såget, hördet. Men här bor en rättwis Gud, som giör hwario rätt.[^1]
 
 En teologisk slutsats byggd på iakttagelse. Hans uttolkare har kallat det *theologia experimentalis*.[^2]
-
 Men om han var så övertygad – varför höll han den hemlig?
 
 ## En bokföring som inte stämmer med nåden
@@ -47,7 +46,7 @@ Den som beter sig som ägare – av sin gård, sin makt, sin hälsa – har för
 
 ## Den ordning han inte fick namnge
 
-I Koranens nittionionde sura, en av de kortaste – åtta verser – sammanfattas den ordning Linné sökte:
+I Koranens nittionionde sura, en av de kortaste, åtta verser, sammanfattas den ordning Linné sökte:
 
 > Den som gör den minsta myras vikt av gott skall se det. Och den som gör den minsta myras vikt av ont skall se det.[^8]
 
@@ -92,7 +91,6 @@ Linné förstod detta. Hans eget vittnesbörd, det mest personliga i hela manusk
 > Det war en tid, jag twiflade, om Gud brydde sig om mig; Många åhr hafve lärt mig, det jag lämnar dig.[^17]
 
 Det han för vidare – åt sin son, i hemlighet – är ingen lära utan en erfarenhet: att verkligheten bär en sedlig ordning, att ingenting undgår räkenskapen.
-
 I den islamiska traditionen hade denna erfarenhet aldrig behövt vara hemlig – *adhān* ropar fem gånger om dagen ut det Linné dolde.
 
 Linné fick inte tala. Men tystnaden talar.

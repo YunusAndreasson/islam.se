@@ -57,7 +57,7 @@ Ställföreträdande förutsätter en uppdragsgivare och en uppdragstagare som k
 
 Profeten ﷺ varnade: "När förtroendet förskingras, vänta då på den Yttersta stunden." Och på frågan om hur det förskingras svarade han: "När uppgiften anförtros den som inte förtjänar den."[^15]
 
-*Wussiḍa al-amr ilā ghayr ahlih* – "uppgiften anförtros den som inte är dess folk." En algoritm kan vara *träffsäkrare* än en människa. Men träffsäkerhet är inte rättvisa. Bergen lydde Guds ordning felfritt — och just det gjorde dem oförmögna att bära uppdraget. *Amānah* förutsätter att bäraren kan svika förtroendet. Ibn Taymiyyah definierade rättvisa som att förstå tingen som de är och fullända dem.[^16] Det kräver mer än mönsterigenkänning — det kräver en domare som förstår att två stölder inte är samma brott.
+*Wussiḍa al-amr ilā ghayr ahlih* – "uppgiften anförtros den som inte är dess folk." En algoritm kan vara *träffsäkrare* än en människa. Men träffsäkerhet är inte rättvisa. Bergen lydde Guds ordning felfritt – och just det gjorde dem oförmögna att bära uppdraget. *Amānah* förutsätter att bäraren kan svika förtroendet. Ibn Taymiyyah definierade rättvisa som att förstå tingen som de är och fullända dem.[^16] Det kräver mer än mönsterigenkänning – det kräver en domare som förstår att två stölder inte är samma brott.
 
 ## Verktyget och domen
 
@@ -70,7 +70,6 @@ Ibn Khaldūn varnade: "De som inte är kvalificerade för domstolen bör inte bl
 ## Erbjudandet som står kvar
 
 Drömmen om automation, att befria människan från beslutens börda, är drömmen om att slippa vara den varelse som sa ja när bergen vägrade.
-
 Oscar Levertin skrev om "hjärtat, som icke tål att underordna sig under tanken men själf vill härska".[^18] Han talade om den romantiska konstnären, men formuleringen bär längre. Hjärtat, *al-qalb*, som vägrar abdikera, som envisas med att regera trots sin ofullkomlighet, trots sin benägenhet till synd och tanklöshet – det är den mänskliga särställningen Koranen beskriver. Inte en triumf utan en börda.
 
 Bergen visste bättre. De bävade och vägrade. Vi sa ja. Frågan vår tid ställer är inte om vi kan bygga maskiner som beslutar åt oss – den är redan besvarad. Frågan är om vi, genom att låta dem göra det, långsamt håller på att ångra det ja som gjorde oss mänskliga.
@@ -79,7 +78,7 @@ Bergen visste bättre. De bävade och vägrade. Vi sa ja. Frågan vår tid stäl
 
 [^1]: Koranen, al-Aḥzāb 33:72.
 [^2]: al-Ṭabarī, *Jāmiʿ al-Bayān*, och al-Qurṭubī, *al-Jāmiʿ li-Aḥkām al-Qurʾān*, kommentarer till 33:72. Se även IslamQA, *What is meant by al-amaanah in verse 33:72?*, https://islamqa.info/en/answers/145741.
-[^3]: Ibn Qayyim al-Jawziyyah, *Ighāthat al-Lahfān min Maṣāyid al-Shayṭān*, kapitlet om hjärtats herravälde över lemmarna. Jfr *al-Ṭibb al-Nabawī* där han beskriver hjärtat som kroppens konung och lemmarna som dess soldater.
+[^3]: Ibn Qayyim al-Jawziyyah, *Ighāthat al-Lahfān min Maṣāʾid al-Shayṭān*, kapitlet om hjärtats herravälde över lemmarna. Jfr *al-Ṭibb al-Nabawī* där han beskriver hjärtat som kroppens konung och lemmarna som dess soldater.
 [^4]: Europaparlamentets och rådets förordning (EU) 2024/1689 (AI-förordningen), artikel 14. Se https://artificialintelligenceact.eu/article/14/.
 [^5]: SOU 2025:101, *Anpassningar till AI-förordningen*, Regeringskansliet. Se https://regeringen.se/rattsliga-dokument/statens-offentliga-utredningar/2025/10/sou-2025101/.
 [^6]: August Strindberg, *Svarta fanor*.

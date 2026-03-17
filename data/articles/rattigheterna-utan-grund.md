@@ -30,7 +30,6 @@ Mitt i denna grundvalskris dyker ett begrepp upp som gör anspråk på att säkr
 Nutida utvecklingspsykologi stöder bilden: spädbarn föredrar hjälpare framför förhindrare redan innan språk och kultur format dem.[^16] Samma drag syns även i det samhälle som försöker undertrycka dem. August Blanche fångade det underifrån: "Där finns heder och samvete även bland dem som samhället förkastar."[^19]
 
 *Fiṭrah* är inte ett argument *för* moral utan ett påstående om var moralen hör hemma: den är inskriven i skapelsens ordning.
-
 Koranen förankrar detta i ett ursprungligt förbund:
 
 > Och minns att din Herre tog fram alla Adams barns avkomlingar ur ryggen på dem och lät dem vittna om sig själva. "Är Jag inte er Herre?" De sade: "Jo, vi vittnar!"[^8]
@@ -82,7 +81,6 @@ Ellen Key ställde samma fråga. Den stora uppgiften inom den politiska moralen 
 > Att rädda de enskilda samvetenas verkningsförmåga – men ändå för de stora stunderna bevara det samfällda samvetets makt.[^15]
 
 Hon sökte en moral stark nog att binda samveten utan att krossa dem, men fann aldrig den förankring hon behövde.
-
 Koranen svarar: människan har rättigheter för att hon är skapad med en natur som vittnar om sin Skapare. Hennes värdighet är varken överenskommelse, avtal eller röstetal. Den är inskriven i henne, djupare än kultur, djupare än språk, i det ögonblick före alla ögonblick då hennes själ svarade *ja*.
 
 Maritains delegater enades om rättigheterna under förutsättning att ingen frågade varför. Frågan väntar fortfarande. Och den som inte accepterar Koranens kosmologi kan ändå ställa sig den fråga Söderberg lämnade obesvarad: om moralen verkligen bara vilar på sed och bruk – varför vägrar den att bete sig så?

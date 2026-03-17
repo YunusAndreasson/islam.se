@@ -20,7 +20,6 @@ Forskarna tvistar om pånyttfödelsemotivets ursprung: hör visionen av världen
 Emanuel Swedenborg, uppvuxen i ett lutherskt Sverige dränkt i helvetets retorik, kom att förneka helveteselden helt. Att helvetet finns erkände han; att det brinner förkastade han.
 
 I Swedenborgs korrespondenslära svarar varje fysisk företeelse mot en andlig verklighet. Eld svarar mot kärlek, strukturellt, inte metaforiskt. Och helvetets eld? Den är självkärlekens inre glöd, som de fördömda upplever som värme, rentav som behag.[^4] De som valt sig själva framför allt annat bebor ett tillstånd som *liknar* eld men saknar eldens förvandlingskraft. Swedenborgs helvete bränner inte. Det bekräftar.
-
 Om den jordiska världen är andlighetens alfabet är elden ett *språk*. Helvetet talar, men de fördömda kan inte läsa vad det säger.
 
 Under krisåren i Paris snubblade August Strindberg in i Swedenborgs universum. Reaktionen kom genast: "Från ateism till Swedenborg tycks det bara vara ett steg!"[^5] Inte nyfikenhet drev honom, utan igenkänning. I *Inferno* ger han sin egen version av den swedenborgianska erfarenheten:
@@ -61,7 +60,7 @@ Här möts den islamiska traditionen och Swedenborg för ett ögonblick, men ski
 
 ## Tre eldar, en fråga
 
-Den nordiska elden bryr sig inte om den enskilde: världen förnyas som en årstid vänder: allomfattande återställning utan moralisk prövning. Den swedenborgianska elden är helt och hållet inre; den finns bara som spegling, psykologisk sanning utan transcendens.
+Den nordiska elden bryr sig inte om den enskilde: världen förnyas som en årstid vänder, en allomfattande återställning utan moralisk prövning. Den swedenborgianska elden är helt och hållet inre; den finns bara som spegling, psykologisk sanning utan transcendens.
 
 Den koraniska elden samlar det de andra var för sig saknar. Den är verklig – den finns oavsett hur den prövade upplever den. Och den är personlig: den svarar på den prövades tillstånd med en skärpa som överstiger mänsklig dom. Samma eld, olika verkan, beroende på vad den möter.
 
@@ -82,7 +81,6 @@ Koranen ger den troende en bild som skärper blicken, inte tröstar:
 > Om ni sedan inte gör det – och ni kommer aldrig att göra det – frukta då Elden vars bränsle är människor och stenar. Den har förberetts för de otrogna.[^15]
 
 Bränslet är människor. Elden närs av det mänskliga i den mån det vänt sig från sin källa. Den som vänder sig mot källan passerar samma eld, som metall genom smältugnen, inte som skum som upplöses.
-
 Eskatologins svåraste fråga: inte om det *finns* en eld, utan vad du är gjord av.
 
 ---
@@ -96,7 +94,7 @@ Eskatologins svåraste fråga: inte om det *finns* en eld, utan vad du är gjord
 [^7]: Koranen, al-Raʿd 13:17.
 [^8]: Ibn Rajab al-Ḥanbalī, *al-Takhwīf min al-Nār* (Varning för Elden).
 [^9]: Koranen, al-Ḥajj 22:22.
-[^10]: Denna position – att syndiga troende slutligen frigörs ur Jahannam – är väletablerad i sunnitisk teologi och stöds bland annat av hadither i Ṣaḥīḥ al-Bukhārī och Ṣaḥīḥ Muslim om *shafāʿah* (förbön) och om de som bär ett sennapskorns vikt av tro i hjärtat.
+[^10]: Denna position – att syndiga troende slutligen frigörs ur Jahannam – är väletablerad i sunnitisk teologi och stöds bland annat av ḥadīther i Ṣaḥīḥ al-Bukhārī och Ṣaḥīḥ Muslim om *shafāʿah* (förbön) och om de som bär ett sennapskorns vikt av tro i hjärtat.
 [^11]: Ibn Qayyim al-Jawziyyah, *Madārij al-Sālikīn* (De vandrandes stationer).
 [^12]: Ibn Qayyim al-Jawziyyah, *Rawḍat al-Muḥibbīn* (De älskandes trädgård).
 [^13]: Ibn Qayyim al-Jawziyyah, *al-Wābil al-Ṣayyib min al-Kalim al-Ṭayyib* (Goda ord om åminnelse).

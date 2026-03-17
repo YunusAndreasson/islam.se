@@ -26,7 +26,6 @@ Den islamiska traditionen har en synvinkel som saknas i modern sömnforskning. P
 Ibn Taymiyyahs tolkning visar något sömnforskningen inte når: varför det är svårt att somna i en tid som förvisat döden. Inte den kroppsliga döden, utan döden som närvaro, som daglig påminnelse. Döendet har flyttat till sjukhus, begravningen till byråer, sorgen till terapirummet. Vi har rensat bort döden ur vardagen, en dödsglömska som kostat oss förmågan att somna.
 
 Hjärnforskningen beskriver sömnen som ett förändrat medvetandetillstånd, styrt av signalämnen och dygnsrytmer. Beskrivningen stämmer men räcker inte, på samma sätt som en kemisk analys av bläck inte beskriver ett brev.
-
 Koranen namnger det som ontologisk händelse:
 
 > Allah ﷻ tar människors själar när deras dödsstund är kommen; och den [själ] som inte dör [tar han] när den sover. Han kvarhåller sedan de [själar] vars död Han bestämt och sänder tillbaka de andra [själarna] fram till en utsatt tid. I detta finns sannerligen tecken för människor som tänker efter.[^4]
@@ -66,7 +65,6 @@ Koranen kallar natten *libās*, en klädnad:
 > Och det är Han som gör natten till en klädnad för er och sömnen till en avkoppling och gör dagen till en uppståndelse.[^17]
 
 Tre ord, en hel kosmologi. *Libās*: klädnaden som omsluter, skyddar, döljer. *Subāt*: vila, avbrott, sömnens avklädning av dagens roller. *Nushūr*: uppståndelse, uppresning. Varje morgon en liten domedagsprolog.
-
 Men just här skiljs den moderna uppfattningen och den islamiska traditionen åt. Muḥammad ibn al-Naḍr al-Ḥārithī tecknade de gudfruktigas förhållande till döden:
 
 > Medvetenheten om döden upptog de gudfruktigas hjärtan och fjärmade dem från denna värld – vid Allah ﷻ, de återvände aldrig till glädje efter att ha känt dess ångest.[^18]
@@ -84,7 +82,7 @@ Profeten ﷺ lade handen på bröstet och sade: "I Ditt namn, o Allah, dör jag 
 ---
 
 [^1]: Folkhälsomyndigheten, "Varannan vuxen har sömnbesvär" (2024). Statistiken inkluderar alla grader av sömnbesvär; majoriteten beskriver sina problem som lättare.
-[^2]: Hadith återgiven av al-Bazzār i *Musnad al-Bazzār*. Al-Haythamī bedömde dess berättarkedja som tillförlitlig i *Majmaʿ al-Zawāʾid*. Hadithen återfinns inte i de sex kanoniska samlingarna.
+[^2]: Ḥadīth återgiven av al-Bazzār i *Musnad al-Bazzār*. Al-Haythamī bedömde dess berättarkedja som tillförlitlig i *Majmaʿ al-Zawāʾid*. Hadithen återfinns inte i de sex kanoniska samlingarna.
 [^3]: Ibn Taymiyyah, *al-Radd ʿalā al-Manṭiqiyyīn* (Genmälet till logikerna). Min översättning.
 [^4]: Koranen, al-Zumar 39:42.
 [^5]: Ṣaḥīḥ Muslim, *Kitāb al-Dhikr wa-l-Duʿāʾ*, ur den profetiska kvällsbönen.
@@ -92,7 +90,7 @@ Profeten ﷺ lade handen på bröstet och sade: "I Ditt namn, o Allah, dör jag 
 [^12]: Ṣaḥīḥ al-Bukhārī, *Kitāb al-Daʿawāt*. Profetens ﷺ kvällsbön: "Bismika Allāhumma amūtu wa-aḥyā" – "I Ditt namn, o Allah ﷻ, dör jag och lever jag."
 [^13]: Ṣaḥīḥ al-Bukhārī, *Kitāb al-Daʿawāt*. Profetens ﷺ morgonbön vid uppvaknande.
 [^15]: Ibn Qayyim al-Jawziyyah, *al-Wābil al-Ṣayyib* (Det strömmande regnet). Min översättning.
-[^16]: ʿAlī ibn Abī Ṭālib, citerad av al-Ghazālī i *The Confessions of Al Ghazzali*. Hadithvetare (al-Subkī i *Ṭabaqāt al-Shāfiʿiyyah*, al-Sakhāwī i *al-Maqāṣid al-Ḥasanah*) identifierar detta som ʿAlī ibn Abī Ṭālibs ord, inte ett profetiskt uttalande.
+[^16]: ʿAlī ibn Abī Ṭālib, citerad av al-Ghazālī i *The Confessions of Al Ghazzali*. Ḥadīthvetare (al-Subkī i *Ṭabaqāt al-Shāfiʿiyyah*, al-Sakhāwī i *al-Maqāṣid al-Ḥasanah*) identifierar detta som ʿAlī ibn Abī Ṭālibs ord, inte ett profetiskt uttalande.
 [^17]: Koranen, al-Furqān 25:47.
 [^18]: Muḥammad ibn al-Naḍr al-Ḥārithī, citerad i *Ṣifat al-Ṣafwah* (De renlärigas egenskaper). Min översättning.
 [^19]: Erik Gustaf Geijer, *Minnen*.

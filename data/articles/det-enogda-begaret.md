@@ -64,7 +64,6 @@ Koranen instruerar båda könen i två parallella verser:
 > Och säg till de troende kvinnorna att sänka sin blick och skyla sitt kön.[^17]
 
 Samma verb – *yaghuḍḍu*, 'sänka', av samma rot som att dämpa rösten. Det ord som följer, *azkā*, 'renare', pekar mot klarhet, inte puritanism.
-
 Koranen rymmer ännu en bild:
 
 > Vänd åter blicken, gång på gång; blicken vänder tillbaka till dig avvisad och alldeles matt.[^18]
@@ -74,7 +73,6 @@ I sitt sammanhang avser versen den som betraktar himlarna och söker brister i s
 ## Kedjan
 
 Ibn Qayyim jämför blicken med ett glas vin: betraktelsen berusar. Kärlekens berusning är värre än vinets – den som berusar sig av vin nyktrar till, men den som berusar sig av blicken nyktrar sällan till.[^19]
-
 Kent Berridges forskning visar varför: upprepad exponering för samma retning stärker begäret utan att njutningen växer. Man åtrår mer utan att njuta mer.[^21]
 
 Kedjan kan brytas, men bara i sitt första led. Ögonblicket innan begäret är oförfalskat – varseblivning som ännu inte blivit bygge.
@@ -83,7 +81,7 @@ Kedjan kan brytas, men bara i sitt första led. Ögonblicket innan begäret är 
 
 [^1]: Profeten Muḥammad ﷺ, återgiven i Ibn al-Jawzī, *Dhamm al-Hawā* (Klandret av begäret). Hadithen återfinns inte i de sex kanoniska samlingarna; dess autenticitetsgrad diskuteras bland hadithvetare. Den starkare ʿAlī-hadithen (fotnot 3) bekräftar samma princip med solidare kedja.
 [^2]: Ibn Qayyim al-Jawziyyah, *Rawḍat al-Muḥibbīn* (De älskandes trädgård), kapitlet om blickens regler och faror.
-[^3]: Hadith återgiven via al-Tirmidhī (nr 2701), bedömd som *hasan* av al-Arnāʾūṭ. Även citerad i al-Māwardī, *Adab al-Dunyā wa-l-Dīn* (Den världsliga och religiösa uppförandets regler).
+[^3]: Ḥadīth återgiven via al-Tirmidhī (nr 2701), bedömd som *hasan* av al-Arnāʾūṭ. Även citerad i al-Māwardī, *Adab al-Dunyā wa-l-Dīn* (Den världsliga och religiösa uppförandets regler).
 [^4]: Ibn al-Jawzī, *Dhamm al-Hawā*: "Begärets öga är enögt" (*ʿayn al-hawā ʿawrāʾ*).
 [^7]: Ibn Qayyim al-Jawziyyah, *al-Dāʾ wa-l-Dawāʾ* (Sjukdomen och botemedlet).
 [^8]: Ibn Qayyim al-Jawziyyah, *al-Dāʾ wa-l-Dawāʾ*.

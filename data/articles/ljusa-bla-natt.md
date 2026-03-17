@@ -49,7 +49,7 @@ Han tänker, observerar, skriver, planerar till och med ett mord. Ändå lever h
 
 ## Att vara sin tids barn
 
-I *Madārij al-Sālikīn* byggde Ibn Qayyim en systematisk tidsfilosofi på ett äldre arv. Imamen al-Shāfiʿī (d. 820) lär ha sagt att det mest värdefulla han lärde sig av sufierna var att "tiden är ett svärd: antingen skär du den, eller skär den dig."[^12] Ibn Qayyim för tanken förbi aforismen.
+I *Madārij al-Sālikīn* byggde Ibn Qayyim en systematisk tidsfilosofi på ett äldre arv. Imāmen al-Shāfiʿī (d. 820) lär ha sagt att det mest värdefulla han lärde sig av sufierna var att "tiden är ett svärd: antingen skär du den eller skär den dig."[^12] Ibn Qayyim för tanken förbi aforismen.
 
 *Waqt*, ögonblicket och den levda tiden, betecknar det närvarandes krav, den plikt och det tillstånd som hör till just denna stund. Den som söker Gud är *ibn waqtihi*: sin tids barn. Vandraren överskrider aldrig nuets uppgift. Bönen som bryter gryningen, arbetet under ljuset, vilan under mörkret.[^13]
 

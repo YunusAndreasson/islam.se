@@ -21,7 +21,7 @@ Men Ibn Qayyim binder klarsynens skärpa till betraktarens tro:
 
 > *Firāsah* är i enlighet med trons styrka; den med starkast tro har skarpast *firāsah*.[^6]
 
-Den som lever rätt *ser* klarare. *Firāsah* kan förvärvas genom andlig ansträngning, medan *ilhām*, inspiration, förblir en gåva som inte kan tillägnas.[^7] Är *firāsah* förvärvbar är den också villkorad. Profeten Muḥammad ﷺ sammanfattade grundsatsen: "Akta er för den troendes *firāsah*, ty han ser med Guds ljus."[^14]
+Den som lever rätt *ser* klarare. *Firāsah* kan förvärvas genom andlig ansträngning, medan *ilhām*, inspiration, förblir en gåva som inte kan tillägnas.[^7] Är *firāsah* förvärvbar, är den också villkorad. Profeten Muḥammad ﷺ sammanfattade grundsatsen: "Akta er för den troendes *firāsah*, ty han ser med Guds ljus."[^14]
 
 ## Spegeln och andetaget
 

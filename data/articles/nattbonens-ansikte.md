@@ -31,7 +31,7 @@ Men det finns en rangordning. Al-Māwardī och Ibn Qayyim talar inte mot varandr
 
 > Denna inre skönhet förskönar den yttre gestalten även om den saknar fysisk fägring, och klär sin ägare i skönhet, värdighet och behag proportionellt med vad själen iklätt sig av dessa egenskaper.[^7]
 
-Man ser den rättfärdige, den generöse, den med vacker karaktär, och finner honom vacker, "även om han är mörk eller inte fysiskt vacker". Med samma kraft gäller det omvända: det inres fulhet övervinner det ytres skönhet och släcker den.[^8]
+Man ser den rättfärdige, den generöse, den med vacker karaktär och finner honom vacker, "även om han är mörk eller inte fysiskt vacker". Med samma kraft gäller det omvända: det inres fulhet övervinner det ytres skönhet och släcker den.[^8]
 
 Den som tvivlar kan pröva iakttagelsen mot sin egen erfarenhet. Selma Lagerlöf tecknar ett sådant ansikte i *Bannlyst*:
 
@@ -48,7 +48,6 @@ Skönhet genom sömnbrist, genom möda, genom att stiga upp ur en varm säng och
 > Tron är ett svårt lidande. Det är som att älska någon som finns därute i mörkret och som aldrig visar sig hur man än ropar.[^26]
 
 Riddaren ropar utan svar. Den som ber *tahajjud* ropar och får ljus i ansiktet.
-
 Vad händer i nattbönen?
 
 Profeten Muḥammad ﷺ sade:
@@ -102,9 +101,7 @@ Luqmān sade: "Den som ljuger förlorar sin fägring."[^20] I svensk tanketradit
 ## En sovande industri
 
 Varje år lägger världen hundratals miljarder dollar på att göra ansikten vackrare utifrån.[^22] Ingen kräm har gett ett ansikte det ljus som springer ur godhet.
-
 Den anonyma kvinnan som steg upp i natten för att be visste vad hela denna industri förbiser.
-
 *Wajh*, det arabiska ordet för ansikte, betyder också riktning. Ditt ansikte är det du vänder mot världen, men det avslöjar vad du vänder dig mot.
 
 ---

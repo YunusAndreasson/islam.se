@@ -77,9 +77,7 @@ Boye nådde insikten men kunde inte stanna kvar i den. Överlåtelse utan mottag
 
 > Jag vet inte vem – eller vad – som ställde frågan, jag vet inte när den ställdes. Jag minns inte att jag svarade. Men en gång svarade jag ja till någon – eller något – och från den stunden har jag varit viss om att tillvaron är meningsfull och att mitt liv, i underkastelse, har ett mål.[^17]
 
-Vikingarna vilade i det givna, men deras ordning var kall och opersonlig. Den moderna svensken saknar både vila och ordning.
-
-Koranen varnar för vad som händer när tillit fästs vid det skapade istället för Skaparen:
+Vikingarna vilade i det givna, men deras ordning var kall och opersonlig. Den moderna svensken saknar både vila och ordning. Koranen varnar för vad som händer när tillit fästs vid det skapade istället för Skaparen:
 
 > Men om de vänder om skall du säga: 'Allah ﷻ är tillräcklig för mig; ingen gud finns utom Han. Till Honom sätter jag min lit, och Han är Herre över den väldiga tronen.'[^14]
 

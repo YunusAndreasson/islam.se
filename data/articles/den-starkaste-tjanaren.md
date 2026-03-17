@@ -70,7 +70,7 @@ Koranen beskriver *al-amānah* som så tung att himlarna, jorden och bergen väg
 [^1]: Citerat av Ibn Taymiyyah, *al-Siyāsah al-Sharʿiyyah*, kapitlet om ämbetsmannautnämningar.
 [^2]: Ibn Taymiyyah, *al-Siyāsah al-Sharʿiyyah*, avsnittet om *al-wilāyah*.
 [^3]: Ibn Taymiyyah, *al-Siyāsah al-Sharʿiyyah*.
-[^4]: Ibn Taymiyyah, *al-Siyāsah al-Sharʿiyyah*; jfr Imam Ahmads utlåtande om fälttåg under en stark men syndig ledare respektive en svag men rättfärdig, återgivet via Ibn Taymiyyah.
+[^4]: Ibn Taymiyyah, *al-Siyāsah al-Sharʿiyyah*; jfr Imām Aḥmads utlåtande om fälttåg under en stark men syndig ledare respektive en svag men rättfärdig, återgivet via Ibn Taymiyyah.
 [^5]: Ibn Taymiyyah, *al-Siyāsah al-Sharʿiyyah*, avsnittet om att kombinera flera ämbetsmän.
 [^6]: Koranen, al-Qaṣaṣ 28:26.
 [^7]: Koranen, Yūsuf 12:55.

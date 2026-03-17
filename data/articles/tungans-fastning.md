@@ -11,7 +11,7 @@ Orden slår. Neurovetenskapen har visat att hårda ord sätter spår i hjärnans
 
 ## Tungan som gränsfästning
 
-Ibn Qayyim al-Jawziyyah – en av 1300-talets skarpaste kännare av det inre livet – iscensätter i *al-Dāʾ wa-l-Dawāʾ* ett krigsråd där Satan själv avslöjar sin plan. Satan samlar sina trupper och tilldelar varje avdelning sitt mål. Sedan säger han:
+Ibn Qayyim al-Jawziyyah, en av 1300-talets skarpaste kännare av det inre livet, iscensätter i *al-Dāʾ wa-l-Dawāʾ* ett krigsråd där Satan själv avslöjar sin plan. Satan samlar sina trupper och tilldelar varje avdelning sitt mål. Sedan säger han:
 
 > Ställ er vid tungans gränsfästning, ty det är den största fästningen, belägen mitt emot kungens port. Låt det flöda över den allt tal som skadar honom och inte gagnar honom, och hindra allt som gagnar honom: åminnelse av Allah ﷻ, bön om förlåtelse, läsning av Hans bok, uppriktigt råd till Hans tjänare, och tal grundat i nyttig kunskap. I denna fästning erbjuds er två stora segrar – det gör detsamma vilken ni vinner: den första är att han talar falskt, ty den som talar falskt är en av era bröder och bland era största soldater. Den andra är att han tiger om sanningen, ty den som tiger om sanningen är en stum broder till er.[^3]
 
@@ -23,7 +23,7 @@ En man frågade en vis: "När ska jag tala?" Svaret: "När du längtar efter tys
 
 ## Sjuhundra ḥadīther om en enda kroppsdel
 
-Ibn Abi al-Dunya, den abbasidiske lärde som verkade i Bagdad under 800-talet, samlade i *Kitāb al-Ṣamt wa Ādāb al-Lisān* över sjuhundra traditioner om talet och dess faror.[^6] Sjuhundra traditioner om en enda kroppsdel. Al-Nawawi samlade ett helt kapitel i *Riyāḍ al-Ṣāliḥīn* kring tungans bevakning, med utgångspunkt i Profetens ﷺ ord: "Den bäste bland muslimerna är den från vars tunga och hand de andra muslimerna är trygga."[^7]
+Ibn Abī al-Dunyā, den abbasidiske lärde som verkade i Bagdad under 800-talet, samlade i *Kitāb al-Ṣamt wa Ādāb al-Lisān* över sjuhundra traditioner om talet och dess faror.[^6] Sjuhundra traditioner om en enda kroppsdel. Al-Nawawī samlade ett helt kapitel i *Riyāḍ al-Ṣāliḥīn* kring tungans bevakning, med utgångspunkt i Profetens ﷺ ord: "Den bäste bland muslimerna är den från vars tunga och hand de andra muslimerna är trygga."[^7]
 
 Koranen skär genom varje ursäkt:
 
@@ -107,7 +107,7 @@ Fästningskommendantens arbete tar aldrig slut. Det tal som var rätt i går kan
 [^23]: Koranen, al-Isrāʾ 17:53. Svensk tolkning: Bernström.
 [^24]: Koranen, al-Baqarah 2:263. Svensk tolkning: Bernström.
 [^25]: Jalāl al-Dīn al-Suyūṭī, *al-Itqān fī ʿUlūm al-Qurʾān*. Egen översättning.
-[^26]: Ibn Ḥibbān al-Bustī, *Rawḍat al-ʿUqalāʾ wa Nuzhat al-Fuḍalāʾ*, kap. om tystnaden. Egen översättning.
+[^26]: Ibn Ḥibbān al-Bustī, *Rawḍat al-ʿUqalāʾ wa-Nuzhat al-Fuḍalāʾ*, kap. om tystnaden. Egen översättning.
 [^27]: Ibn Ḥibbān al-Bustī, *Rawḍat al-ʿUqalāʾ*. Egen översättning.
 [^28]: al-Māwardī, *Adab al-Dunyā wa-l-Dīn*, kap. om skadligt tal. Egen översättning.
 [^29]: PMC, "Verbal violence and its psychological and social dimensions" (2024); jfr Tomoda et al. (2011) om neurologiska konsekvenser av verbal aggression.

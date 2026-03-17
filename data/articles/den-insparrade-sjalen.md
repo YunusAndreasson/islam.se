@@ -20,7 +20,6 @@ I 1100-talets Bagdad satt Ibn al-Jawzī och skrev ner sina tankar i det som skul
 > Själarna drabbas inte av förgängelse, och kropparna är intet.[^1]
 
 Kroppen är *intet*: inte i betydelsen värdelös utan i betydelsen tillfällig, genomskinlig, en parentes i själens tillvaro.
-
 Inom den parentesen kartlade Ibn al-Jawzī begärets rörelse:
 
 > Själen stannar aldrig vid en gräns, utan eftersträvar njutningar utan ände – och allt den uppnår svalnar snart, varpå den söker något annat.[^2]
@@ -76,9 +75,7 @@ Koranen namnger tillståndet:
 ## Döden som dörr
 
 Neuralinks kliniska arbete i dag – att hjälpa förlamade patienter tala – tillhör en annan ordning. Att återställa det Gud gett är inte samma sak som att försöka överträffa det.[^14]
-
 Men *evigt liv* är transhumanismens yttersta löfte. Medvetandeöverföring, digital odödlighet. Döden som ett tekniskt problem.
-
 Islam vägrar förutsättningen: "Varje själ skall smaka döden. Därefter är det till Oss ni skall återföras."[^15] Döden är stunden då cellens väggar faller och själen kan återvända till det den alltid längtat efter.
 
 De mest fromma fruktar ofta döden minst, inte av likgiltighet inför livet utan av tillförsikt inför dess källa. Ingmar Bergmans riddare i *Det sjunde inseglet* når samma åtskillnad: "Min kropp är rädd, inte jag själv."[^19]
@@ -86,9 +83,7 @@ De mest fromma fruktar ofta döden minst, inte av likgiltighet inför livet utan
 ## Vart tar själen vägen
 
 Dan Anderssons undran hänger kvar: "Vart skall han då ta vägen, den konstiga Fågel Jag?"
-
 Transhumanismen svarar: in i maskinen, in i molnet, in i en server i Nevada där ditt medvetande kan leva vidare som data.
-
 Islam svarar: hem. Tillbaka till den som blåste in dig, genom dödens port, inte förbi den.
 
 Ibn Khaldūn observerade att en man som växte upp i fängelse inte kunde föreställa sig något djur större än en råtta; hans erfarenhet var hans gräns.[^16] Det är transhumanismens blindhet: ett civilisationsprojekt som försöker bygga ett bättre fängelse, för det har aldrig sett något utanför murarna.

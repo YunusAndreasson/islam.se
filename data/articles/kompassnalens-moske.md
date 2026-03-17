@@ -7,7 +7,7 @@ description: "Sockenkyrkan låg alltid mitt i byn – samhällets tyngdpunkt. Is
 ---
 Sockenkyrkan låg alltid mitt i byn – samhällets tyngdpunkt, det centrum kring vilket allt annat ordnades. Strindberg fångar det i en enda bild från *Inferno*: "Man far uppför en två kilometer lång backe, och ankommen till höjden ser man utöver en rund dal... I mitten av denna tratt ligger byn med sin kyrka."[^1] Kyrkan definierar landskapet, landskapet binder gemenskapen, gemenskapen formar den enskilda människan.
 
-Denna rumsliga ordning vilar på en outtalad grundsats: att det heliga kräver en plats: en upphöjd punkt, ett avgränsat rum, en byggnad som skiljer heligt från vardagligt. Erik Gustaf Geijer satte ord på följden redan på 1810-talet:
+Denna rumsliga ordning vilar på en outtalad grundsats: att det heliga kräver en plats – en upphöjd punkt, ett avgränsat rum, en byggnad som skiljer heligt från vardagligt. Erik Gustaf Geijer satte ord på följden redan på 1810-talet:
 
 > Kyrkan blef ensamt det heliga, verlden förblef det oheliga samhället.[^2]
 
@@ -38,7 +38,6 @@ Hade det heliga vilat i platsen hade bytet varit en förlust. Det är inte kompa
 ## Den pragmatiske juristen Ibn Taymiyyah
 
 Hur exakt måste riktningen vara?
-
 Ibn Taymiyyah anför i *al-Radd ʿalā al-Manṭiqiyyīn* Följeslagarnas sedvänja. Damaskusmoskén, som Följeslagarna själva bad i, avviker en aning från exakt riktning mot Kaʿbah. Det skedde med avsikt:
 
 > Det har aldrig rapporterats att Följeslagarna ålade folk att i bönen beräkna exakt efter Polstjärnan... Den som befinner sig i Syrien och liknande områden behöver bara vända väster om sin högra sida och öster om sin vänstra, och hans bön är giltig. Ty Allah ﷻ har bara befallt att man vänder sig mot den Helgade moskéns sida.[^8]
@@ -70,7 +69,6 @@ Industrilokalen där en arbetare fäller armbågarna mot golvet i *sujūd* är, 
 ## Varför bygga moskéer alls?
 
 Om varje rum kan bli en moské – varför kämpar muslimer för att bygga dem?
-
 Tre platser bär en sakral tyngd i sig själva: Masjid al-Ḥarām i Mecka, Profetens ﷺ moské i Medina och Masjid al-Aqṣā i Jerusalem.[^14] Men även dessa tre är undantag, inte regel.
 
 Moskébygget tjänar gemenskapen, *jamāʿah*, inte platsen. Axel vid axel, rad efter rad: ingen ber ensam. Profeten ﷺ sade: "Den som bygger en moské för Allahs ﷻ skull, bygger Allah ﷻ ett hus åt i paradiset."[^15] Men han varnade också: "Stunden kommer inte förrän människor tävlar om sina moskéer."[^16] Moskén är ett redskap för gemensam bön, inte en helgedom som monopoliserar det sakrala.

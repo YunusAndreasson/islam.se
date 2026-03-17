@@ -30,7 +30,6 @@ Spiralen – rädslan för avslöjande föder ensamhet, ensamheten djupare räds
 > Av ensamma föds ännu ensammare, av rädda ännu räddare.[^4]
 
 Kall själv erkänner det slutligen: att han varit feg hela sitt liv, att hela hans berättelse kartlägger feghetens former.[^5]
-
 Men är problemet att medborgarna övervakas, eller att den som övervakar dem är staten?
 
 ## Vems öga?
@@ -76,7 +75,6 @@ Linné stannar halvvägs mellan Boye och den islamiska traditionen. Han delar gr
 *Kallocain* slutar i mörker. Leo Kall skriver sina memoarer i en fångenskap snarare inre än yttre – fångad av insikten att han förstört det han mest behövde. Linda försvinner ur berättelsen. Rissen avrättas.
 
 Boye lämnar frågan öppen: finns det en genomskinlighet som inte förstör?
-
 Dag Hammarskjöld vände på frågan i *Vägmärken*:
 
 > Vi dör den dag livet för oss inte längre har någon inneboende genomskinlighet.[^18]

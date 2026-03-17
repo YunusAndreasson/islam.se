@@ -57,15 +57,11 @@ Montesquieu skilde statens funktioner för att förhindra tyranni. Al-Māwardī 
 
 > Antingen ett förstånd som avhåller, en tro som hindrar, en härskare som hejdar, eller en oförmåga som stoppar.[^17]
 
-Härskarens tvångsmakt är det kraftfullaste medlet – och det farligaste.
-
-C. S. Lewis nådde samma slutsats niohundra år senare:
+Härskarens tvångsmakt är det kraftfullaste medlet – och det farligaste. C. S. Lewis nådde samma slutsats niohundra år senare:
 
 > Av alla former av tyranni är det som uppriktigt utövas till offrens bästa kanske det mest förtryckande. De som plågar oss för vårt eget bästa plågar oss utan ände, ty de gör det med sitt eget samvetes gillande.[^22]
 
-Al-Māwardī tog steget vidare: det räcker inte att veta att den rättfärdige är farlig. Man måste bygga ämbeten som skiljer hans övertygelse från hans befogenhet.
-
-Abū Bakr al-Ṣiddīq, den förste kalifen efter Profeten ﷺ, kungjorde grundsatsen redan i sitt tillträdestal:
+Al-Māwardī tog steget vidare: det räcker inte att veta att den rättfärdige är farlig. Man måste bygga ämbeten som skiljer hans övertygelse från hans befogenhet. Abū Bakr al-Ṣiddīq, den förste kalifen efter Profeten ﷺ, kungjorde grundsatsen redan i sitt tillträdestal:
 
 > Den starkaste bland er är i mina ögon den svagaste tills jag har tagit hans rätt ifrån honom, och den svagaste bland er är i mina ögon den starkaste tills jag har gett honom hans rätt.[^18]
 
@@ -73,21 +69,17 @@ Ibn Khaldūn uttryckte det i sin *Muqaddimah*:
 
 > Rättvisa är en balans som upprättas bland människorna. Herren upprättade den och utsåg en övervakare för den, och den övervakaren är härskaren.[^19]
 
-Övervakaren – inte ägaren.
-
-Grundsatsen var aldrig oprövad. Under al-Māwardīs egen livstid förföll det abbasidiska kalifatet; muhtasiber överskred sina befogenheter i flera provinser.[^20] Att han skrev mitt i detta förfall gör insikten skarpare. Hans system var ett krav ställt på verkligheten, aldrig en spegling av den:
+Övervakaren – inte ägaren. Grundsatsen var aldrig oprövad. Under al-Māwardīs egen livstid förföll det abbasidiska kalifatet; muhtasiber överskred sina befogenheter i flera provinser.[^20] Att han skrev mitt i detta förfall gör insikten skarpare. Hans system var ett krav ställt på verkligheten, aldrig en spegling av den:
 
 > Allah ﷻ befaller er att återlämna allt ni anförtrotts till dess rättmätiga ägare och att, när ni dömer mellan människor, döma med rättvisa.[^21]
 
-Ibn Kathīr anför en profettradition: "Fullgör förtroendet gentemot den som anförtrott dig, och förråd inte den som förråder dig."
-
-Svärdet kan skydda rättvisan. Det kan aldrig vara den.
+Ibn Kathīr anför en profettradition: "Fullgör förtroendet gentemot den som anförtrott dig, och förråd inte den som förråder dig." Svärdet kan skydda rättvisan. Det kan aldrig vara den.
 
 ---
 
 [^1]: al-Māwardī, *al-Aḥkām al-Sulṭāniyyah*, kapitel om domstolsväsendet och statsförvaltningen.
 [^2]: Jfr den kritik som bland andra Patricia Crone och Wael Hallaq framfört mot anakronistiska läsningar av medeltida islamisk politisk teori.
-[^3]: Hadith i Ṣaḥīḥ al-Bukhārī, nr 7158, och Ṣaḥīḥ Muslim. Citerad bland annat i Ibn al-Jawzīs *Ṣayd al-Khāṭir*.
+[^3]: Ḥadīth i Ṣaḥīḥ al-Bukhārī, nr 7158, och Ṣaḥīḥ Muslim. Citerad bland annat i Ibn al-Jawzīs *Ṣayd al-Khāṭir*.
 [^4]: Profeten ﷺ, återgiven i Ibn Rajab al-Ḥanbalī, *Jāmiʿ al-ʿUlūm wa-l-Ḥikam*.
 [^5]: al-Māwardī, *al-Aḥkām al-Sulṭāniyyah*, kapitlet om *maẓālim*.
 [^6]: al-Māwardī, *al-Aḥkām al-Sulṭāniyyah*, kapitlet om *maẓālim*.

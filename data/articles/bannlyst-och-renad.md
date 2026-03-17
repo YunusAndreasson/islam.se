@@ -22,7 +22,6 @@ Sven Elversson tar inte emot en nåd som föregår honom. Han granskar inte sin 
 ## Återvändandets ordning
 
 Förvandlingen har ett namn i den islamiska traditionen: *tawbah*, ordagrant *återvändo*.
-
 Ibn Qayyim preciserar:
 
 > *Tawbah* är en återvändo från det Allah ﷻ avskyr till det Han älskar – inte bara att överge synden, ty den som överger synden utan att vända tillbaka till det som Herren älskar är inte ångerfull.[^4]
@@ -48,7 +47,6 @@ Sven Elversson bekänner – skulden går inte att bära om inte sanningen sägs
 > Det är gott, att detta kommer. Men det var dock inte det viktigaste. Det förnämsta var, att jag blev befriad från skuld i min själ, i mitt hjärta.[^8]
 
 Befrielsen sker inuti, men utlöses av en yttre, oåterkallelig handling.
-
 Ludwig Wittgenstein, långt från religiös tradition, nådde samma insikt. Bekännelsen tillhör inte det gamla livet; den är en del av det nya.[^14] Karin Boye ställde frågan i *Kallocain*: "Kan någon människa höra sanningen utan att förändras?"[^17]
 
 Den islamiska traditionen drar en djärvare slutsats. Profeten Muḥammad ﷺ sade: "Den som ångrar sig från synden är som den utan synd."[^9] Inte *nästan* utan synd, inte *förlåten trots* synd – utan synd. *Tawbah* skapar en ny människa; synden tillhör den riktning personen inte längre har. Det är vad Lagerlöf gestaltar: en man som är *renad*.
@@ -66,7 +64,6 @@ Koranen formulerar det:
 > De som, om de begår en skamlös handling eller gör orätt mot sig själva, minns Allah ﷻ och ber om förlåtelse för sina synder – och vem kan förlåta synder utom Allah ﷻ?[^11]
 
 Frågan i slutet pekar mot förlåtelsens källa, bortom den enskilda människan, bortom den sociala ordningen.
-
 Ibn Qayyim säger att synden är det största hindret mellan tjänaren och hans Herre; *tawbah* det främsta medlet att undanröja det.[^12]
 
 ## Den glömda riktningen
@@ -87,7 +84,7 @@ Vad vår tid gått miste om är denna riktning. Michel Foucault spårade förlus
 [^6]: Koranen, al-Māʾidah 5:39.
 [^7]: Augsburgska bekännelsen, art. XI–XII, om bikten och botens bevarande i luthersk praxis.
 [^8]: Selma Lagerlöf, *Bannlyst*, kap. 28.
-[^9]: Hadith, *Sunan Ibn Mājah*, nr. 4250, berättad av ʿAbd Allāh ibn Masʿūd. Citeras av Ibn Qayyim al-Jawziyyah i *al-Dāʾ wa-l-Dawāʾ* (Sjukdomen och botemedlet).
+[^9]: Ḥadīth, *Sunan Ibn Mājah*, nr. 4250, berättad av ʿAbd Allāh ibn Masʿūd. Citeras av Ibn Qayyim al-Jawziyyah i *al-Dāʾ wa-l-Dawāʾ* (Sjukdomen och botemedlet).
 [^10]: Selma Lagerlöf, *Bannlyst*.
 [^11]: Koranen, Āl ʿImrān 3:135.
 [^12]: Ibn Qayyim al-Jawziyyah, *Madārij al-Sālikīn* (De vandrandes stationer).

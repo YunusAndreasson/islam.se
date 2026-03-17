@@ -40,7 +40,6 @@ När en grupp djinner hör Koranen reciteras för första gången, är deras rea
 > Vi har sannerligen hört en underbar Koran – den vägleder till det rätta, och vi har trott på den.[^6]
 
 De läste ingenting. De *hörde*.
-
 Ibn Qayyim tecknar vad som sker när en människa lyssnar med hela sitt väsen:
 
 > När själen har renats och är redo, och hjärtat tagit emot betydelsens ande, och människan med hela sitt väsen vänder sig mot det som hörs – kastar sitt öra med full närvaro – och därtill bistås av recitörens vackra röst: då är hjärtat nära att lämna denna värld och träda in i en annan.[^7]
@@ -52,7 +51,6 @@ Generationer av muslimer bär denna erfarenhet. Handen som hejdas, steget som st
 I detta ljus framträder koranbränningarna annorlunda. Det som förstördes var inte en bok i den mening västerlänningar förstår böcker – en samling idéer bundna i papper, kritiserbar, utbytbar. Det som angreps var en *muṣḥaf*: en jordisk gestaltning av levande gudomligt tal.
 
 Walter Ong satte ord på klyftan mellan dessa världar: i den muntliga kulturen är ordet alltid en *händelse*; skriften förvandlar det till ett *föremål*.[^15]
-
 Man kan bränna ett exemplar av *Kapitalet* utan att Marx tystnar; idéerna överlever som rena tankar, oberoende av det enskilda exemplaret. Men inom den islamiska förståelsen är varje *muṣḥaf* en plats där Allahs ﷻ tal vilar. Att bränna den är att rikta förakt mot en närvaro, inte mot ett argument.
 
 Koranen har ett ord för denna hållning. *Istihzāʾ* – hån, förlöjligande av det heliga. Ibn Taymiyyah är otvetydig: att håna Allahs ﷻ tecken och visa ringaktning mot Hans sändebud är otro av nödvändighet.[^8] Det som avvisas är inte kritik utan föraktet mot det som upplevs som Guds direkta närvaro i världen.

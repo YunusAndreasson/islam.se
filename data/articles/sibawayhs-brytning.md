@@ -33,12 +33,11 @@ Ibn Khaldūn konstaterade det i sin *al-Muqaddimah*: de som lade grunden till de
 
 ## Vad språket kräver
 
-Imam al-Shāfiʿī uttryckte grundsatsen som ren iakttagelse:
+Imām al-Shāfiʿī uttryckte grundsatsen som ren iakttagelse:
 
 > Den som lärde sig Koranen ärades i människors ögon, den som lärde sig *ḥadīth* fick starkare argumentation, den som lärde sig grammatik vördades.[^6]
 
 Vördnaden, *haybah*, knyts till lärandet, oavsett ursprung.
-
 Al-Shāfiʿī lade till:
 
 > Lär dig, ty människan föds inte lärd – och den som har kunskap är inte lik den okunnige.[^7]
@@ -86,7 +85,6 @@ Mönstret gäller även västerut: Joseph Conrad lärde sig engelska i tjugoårs
 ʿAlī ibn Abī Ṭālib sade: "Tungan är kroppens roder – om den rättar sig, rättar sig alla lemmar."[^16] Disciplin, övning, lärande. Aldrig rätt föräldrar.
 
 Sībawayh dog ung, knappt fyrtio år gammal. Han lämnade inga lärjungar i vanlig mening. Han lämnade *al-Kitāb*. Det räckte.
-
 Fjorton århundraden senare har hans verk inte ersatts.
 
 > Den som sökte kunskap fann heder utan svärd.[^17]
@@ -100,8 +98,8 @@ Ibn al-Jawzī behövde inte nämna varifrån kunskapssökaren kom.
 [^3]: *al-Kitāb* ("Boken") omfattar fyra volymer och behandlar arabisk syntax (*naḥw*) och morfologi (*ṣarf*). Det förblev den arabiska grammatikens oöverträffade referensverk.
 [^4]: Koranen, al-Shuʿarāʾ 26:195.
 [^5]: Ibn Khaldūn, *al-Muqaddimah*, övers. Franz Rosenthal, vol. III, kap. 6.
-[^6]: Imam al-Shāfiʿī, *Ṣifat al-Ṣafwah*. Egen översättning från arabiska.
-[^7]: Imam al-Shāfiʿī, *Dīwān al-Imām al-Shāfiʿī*. Egen översättning från arabiska.
+[^6]: Imām al-Shāfiʿī, *Ṣifat al-Ṣafwah*. Egen översättning från arabiska.
+[^7]: Imām al-Shāfiʿī, *Dīwān al-Imām al-Shāfiʿī*. Egen översättning från arabiska.
 [^8]: *Shuʿūbiyyah* var en rörelse bland icke-arabiska muslimer, främst perser, som hävdade kulturell och intellektuell likvärdighet med araberna. Rörelsen var mest framträdande under abbasidperioden (750–1258 e.Kr.).
 [^9]: al-Suyūṭī, *al-Itqān fī ʿUlūm al-Qurʾān*. Al-Suyūṭī citerar al-Shāfiʿī: "Ingen behärskar språket fullständigt utom en profet."
 [^10]: Koranen, al-Ḥujurāt 49:13.

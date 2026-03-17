@@ -8,7 +8,6 @@ description: "År 1953 upptäckte Eugene Aserinsky vid Chicagouniversitetet att 
 Varje natt sker det. Sinnena släcks, musklerna slappnar av, världen drar sig tillbaka. Sedan flammar hjärnan upp i aktivitet som överträffar vakenhetens. Ögonen rör sig vilt bakom slutna lock. Bilder, röster, hela världar passerar ett medvetande som inte längre tar emot utifrån.
 
 Den franske neurofysiologen Michel Jouvet gav företeelsen dess namn i slutet av 1950-talet: *sommeil paradoxal*, paradoxal sömn.[^1] Varför föder denna maximala aktivitet upplevelser som den vakna hjärnan avfärdar som overkliga?
-
 Sexhundra år innan Jouvet fäste sina elektroder på en sovande katt lade den tunisiske historikern och filosofen Ibn Khaldūn fram en teori som fångar samma företeelse och besvarar frågan.
 
 ## Värmen som drar sig inåt
@@ -28,7 +27,6 @@ Kroppen fungerar som ett teleskop riktat utåt i vaket tillstånd. Under sömnen
 Ibn Qayyim al-Jawziyyah bygger vidare. I *al-Wābil al-Ṣayyib* liknar han hjärtat vid en spegel vars yta antingen rostas av synder och försummelse eller poleras genom lydnad och åminnelse av Allah ﷻ:
 
 > Hjärtat rostas liksom koppar och silver rostas, och det poleras genom åminnelse (*dhikr*). Hjärtat är likt en spegel: när det poleras reflekterar det sanningen som den är, och när det rostas förvrängs bilderna och förmörkas.[^4]
-
 Bilden stammar från Profeten ﷺ själv:
 
 > Sannerligen, när tjänaren begår en synd faller en svart fläck på hans hjärta. Om han upphör, söker förlåtelse och ångrar sig, poleras hans hjärta. Men om han återvänder [till synden] växer den tills den täcker hans hjärta.[^5]
@@ -101,7 +99,7 @@ Jouvet kallade det paradoxal sömn. Ibn Khaldūn kallade det *drömvision*. Frå
 [^2]: Ibn Khaldūn, *al-Muqaddimah* (Inledningen), kapitel 1, avsnittet om drömvision och sömn.
 [^3]: Ibn Khaldūn, *al-Muqaddimah*, kapitlet om övernatlig perception.
 [^4]: Ibn Qayyim al-Jawziyyah, *al-Wābil al-Ṣayyib min al-Kalim al-Ṭayyib*, kapitlet om *dhikr* och dess verkan på hjärtat. Spegelliknelsen bygger på Profetens ﷺ ord: "Sannerligen rostas hjärten liksom järn rostas" (al-Bayhaqī, *Shuʿab al-Īmān*).
-[^5]: Hadith rapporterad av al-Tirmidhī (nr. 3334) och Ibn Mājah; al-Tirmidhī klassade den som *ḥasan ṣaḥīḥ*. Se även Ibn Qayyim al-Jawziyyahs kommentar i *Ighāthat al-Lahfān*.
+[^5]: Ḥadīth rapporterad av al-Tirmidhī (nr. 3334) och Ibn Mājah; al-Tirmidhī klassade den som *ḥasan ṣaḥīḥ*. Se även Ibn Qayyim al-Jawziyyahs kommentar i *Ighāthat al-Lahfān*.
 [^6]: Koranen, al-Muṭaffifīn 83:14.
 [^7]: Koranen, al-Zumar 39:42.
 [^8]: Ṣaḥīḥ al-Bukhārī, Kitāb al-Taʿbīr, nr. 6989; även i Ṣaḥīḥ Muslim.

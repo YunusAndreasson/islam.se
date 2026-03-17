@@ -13,7 +13,7 @@ Likheten är verklig, och just därför vilseledande. Ragnarök *liknar* klimat�
 
 ## Elden som renar
 
-Völuspás undergångsscen är brutal och skön. Solen svartnar. Jorden sjunker i havet. Lågorna slickar himlen. Men mitt i förödelsen sker något avgörande: förstörelsen *tjänar* något. Surts eld förintar det onda, och bara det onda. Denna urskillning – elden som tar det ruttna men lämnar trädet – fångade Viktor Rydberg bäst:
+Völuspás undergångsscen är brutal och skön. Solen svartnar. Jorden sjunker i havet. Lågorna slickar himlen. Men mitt i förödelsen sker något avgörande: förstörelsen *tjänar* något. Surts eld förintar det onda, och bara det onda. Denna urskillning, elden som tar det ruttna men lämnar trädet, fångade Viktor Rydberg bäst:
 
 > Den germanska mytologin har inte betraktat världens pånyttfödelse som en ny skapelse. Det liv som i tidens morgon utvecklades ur kaos förintas inte av Surts lågor, utan räddar sig, renat, för den kommande tidsåldern.[^1]
 
@@ -27,11 +27,9 @@ Forskare tvistar om huruvida Völuspás förnyelsestrofer, särskilt den gåtful
 
 Mot detta står den berättelse vår tid lever i.
 
-Klimatvetenskapen tecknar en kurva mot sammanbrott: temperaturer och havsnivåer stiger, arter dör ut, tröskelvärden passeras. Det bästa klimatberättelsen kan lova är att katastrofen blir *mindre*. Ragnarök lovade att katastrofen blir *meningsfull*.
+Klimatvetenskapen tecknar en kurva mot sammanbrott: temperaturer och havsnivåer stiger, arter dör ut, tröskelvärden passeras. Det bästa klimatberättelsen kan lova är att katastrofen blir *mindre*. Ragnarök lovade att katastrofen blir *meningsfull*. Klimatångesten förlamar av ett djupare skäl: undergången leder ingenstans.
 
-Klimatångesten förlamar av ett djupare skäl: undergången leder ingenstans.
-
-Günther Anders gav tillståndet ett namn redan under kärnvapenåldern: *Apokalypse ohne Reich* – naken apokalyps, undergång som inte öppnar något rike.[^17] Undergång utan förlösning. Skuld utan förlåtelse. Synd utan nåd. I Harvard Divinity Bulletin beskrivs samma mönster i samtidens klimatsorg: en helig känsla utan heliga handlingar, ett rituellt tomrum som varken terapi eller aktivism kan fylla.[^4] Harry Martinson formulerade spänningen i *Aniara* – inte som bön utan som iakttagelse: "Hur svårt att tro på livet efter detta. / Hur rätt att önska livet efter detta."[^19]
+Günther Anders gav tillståndet ett namn redan under kärnvapenåldern: *Apokalypse ohne Reich* – naken apokalyps, undergång som inte öppnar något rike.[^17] Undergång utan förlösning. Skuld utan förlåtelse. Synd utan nåd. I Harvard Divinity Bulletin beskrivs samma mönster i samtidens klimatsorg: en helig känsla utan heliga handlingar, ett rituellt tomrum som varken terapi eller aktivism kan fylla.[^4] Harry Martinson formulerade spänningen i *Aniara*, inte som bön utan som iakttagelse: "Hur svårt att tro på livet efter detta. / Hur rätt att önska livet efter detta."[^19]
 
 ## Den rastlöshet som saknar namn
 
@@ -71,13 +69,11 @@ Men Koranen skänker också grundsatsen för att bära ångesten:
 
 Upprepningen är princip: svårigheten *föder* lättnaden, som Ragnaröks eld föder den förnyade jorden. Skillnaden: Koranen vet *varför*.
 
-Islam ger vad varken Ragnarök eller klimatrörelsen förmår: ett skäl att handla, bortom ödestrots och rastlös aktivism. Begreppet *khalīfa*, människan som skapelsens förvaltare, förankrar omsorgen om jorden i ansvar inför Honom som anförtrott oss den – inte i undergångsångest.[^12] Profeten Muḥammad ﷺ lärde att om timmen kommer medan du håller en planta i handen ska du plantera den.[^13] Handlingen är meningsfull för att den svarar mot ett förtroende. Ibn al-Jawzī iakttog paradoxen från andra hållet:
+Islam ger vad varken Ragnarök eller klimatrörelsen förmår: ett skäl att handla, bortom ödestrots och rastlös aktivism. Begreppet *khalīfah*, människan som skapelsens förvaltare, förankrar omsorgen om jorden i ansvar inför Honom som anförtrott oss den – inte i undergångsångest.[^12] Profeten Muḥammad ﷺ lärde att om timmen kommer medan du håller en planta i handen ska du plantera den.[^13] Handlingen är meningsfull för att den svarar mot ett förtroende. Ibn al-Jawzī iakttog paradoxen från andra hållet:
 
 > Om människan handlade efter hoppets korthet hade ingen skrivit en bok eller sammanställt ett verk.[^18]
 
-Att bygga förutsätter ett hopp som räcker längre än vetskapen att allting förgår.
-
-Samma impuls drev Ragnaröks skapare. Rökstenen i Östergötland, rest på 800-talet, bär enligt Bo Gräslunds tolkning minnet av den vulkanvinter som förmörkade solen över Skandinavien år 536 – som myt, inte klagan, som ett sätt att ge katastrofen mening.[^14] Tolkningen är omtvistad, men driften igenkännbar: vi berättar oss *genom* mörkret.
+Att bygga förutsätter ett hopp som räcker längre än vetskapen att allting förgår. Samma impuls drev Ragnaröks skapare. Rökstenen i Östergötland, rest på 800-talet, bär enligt Bo Gräslunds tolkning minnet av den vulkanvinter som förmörkade solen över Skandinavien år 536 – som myt, inte klagan, som ett sätt att ge katastrofen mening.[^14] Tolkningen är omtvistad, men driften igenkännbar: vi berättar oss *genom* mörkret.
 
 Berättelsen om den förnyade jorden på Idavallen stannar vid tillförsikten utan att namnge var den kommer ifrån:
 
@@ -101,8 +97,8 @@ Jorden sjunker. Himlen rullas ihop. Skapelsen börjar inte om. Den *återställs
 [^9]: Koranen, al-Anbiyāʾ 21:104.
 [^10]: Koranen, Hūd 11:90.
 [^11]: Koranen, al-Sharḥ 94:5–6.
-[^12]: Begreppet *khalīfa* (förvaltare) grundas i Koranen, al-Baqarah 2:30, där Allah ﷻ meddelar änglarna att Han ska sätta en ställföreträdare på jorden.
-[^13]: Hadith återgiven av Ahmad ibn Ḥanbal i *al-Musnad*. Autenticiteten är omdiskuterad men traditionen är väletablerad i islamisk etik.
+[^12]: Begreppet *khalīfah* (förvaltare) grundas i Koranen, al-Baqarah 2:30, där Allah ﷻ meddelar änglarna att Han ska sätta en ställföreträdare på jorden.
+[^13]: Ḥadīth återgiven av Ahmad ibn Ḥanbal i *al-Musnad*. Autenticiteten är omdiskuterad men traditionen är väletablerad i islamisk etik.
 [^14]: Rökstenen (ca 800-talet) har tolkats av Bo Gräslund och andra forskare som ett svar på den klimatkatastrof som drabbade Skandinavien efter vulkanutbrottet 536. Tolkningen är omdiskuterad – andra forskare läser stenens solreferenser som midvintersgåtor snarare än klimatminnen.
 [^15]: Koranen, Yūsuf 12:87.
 [^16]: Ibn al-Jawzī, *Dhamm al-Hawā* (Lastandet av passionerna).

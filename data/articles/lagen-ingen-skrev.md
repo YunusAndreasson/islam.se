@@ -27,7 +27,7 @@ Thomistisk naturrätt och judisk *Halakha* reser besläktade anspråk, men *uṣ
 
 ## Rättvisan som gräns
 
-Ibn Khaldūn drog den politiska konsekvensen: "Den religiösa lagen censurerar inte makten i sig utan endast de ondskefulla följderna av den: tyranni, orättvisa och lystnad."[^8] Makten förbjuds inte – men härskaren är underordnad lagen, inte lagens upphovsman. På annat ställe hävdar han att orättvisa leder till civilisationens undergång, och menar det bokstavligt: ett samhälle som tolererar förtryck gnager sönder sig självt inifrån.[^9] Sexhundra år senare underbyggde ekonomen Daron Acemoglu tesen med data: samhällen vars regler utformas till en elits fördel går under.[^18]
+Ibn Khaldūn drog den politiska konsekvensen: "Den religiösa lagen censurerar inte makten i sig utan endast de ondskefulla följderna av den: tyranni, orättvisa och lystnad."[^8] Makten förbjuds inte, men härskaren är underordnad lagen, inte lagens upphovsman. På annat ställe hävdar han att orättvisa leder till civilisationens undergång, och menar det bokstavligt: ett samhälle som tolererar förtryck gnager sönder sig självt inifrån.[^9] Sexhundra år senare underbyggde ekonomen Daron Acemoglu tesen med data: samhällen vars regler utformas till en elits fördel går under.[^18]
 
 Ibn Taymiyyah går längre: rättvisan är inte en dygd bland andra utan normen som bär alla andra. "Rättvisan är påbjuden i alla handlingar och orättvisan förbjuden utan undantag."[^10] Människors enighet om rättvisans godhet överträffar, menar han, deras enighet om de flesta förnuftssanningar.[^11] Rättvisan är inte resonemangets frukt. Den är dess förutsättning.
 

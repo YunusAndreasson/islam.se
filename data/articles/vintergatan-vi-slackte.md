@@ -46,8 +46,7 @@ Hjalmar Söderberg lät doktor Glas formulera det:
 > Det är den smala koniska skuggan af vår lilla planet. En liten spetsig kägla af mörker midt i ett haf af ljus.[^11]
 
 Ljuset härskar i universum; mörkret är det smala undantag som gör seendet möjligt.
-
-Viktor Rydberg: "I mörkret lär man sig vad ljus är."[^12] Utan mörker som bakgrund blir ljus brus, en oavbruten stimulans som upphör att säga något. Kant pekade åt samma håll: han lyfte fram den stjärnbeströdda himlen och den moraliska lagen som de två ting som fyller sinnet med ständigt förnyad vördnad.[^24] Einstein uttryckte en besläktad övertygelse. "Det vackraste vi kan uppleva är det gåtfulla. Det är källan till all sann konst och all vetenskap."[^28] Men det gåtfulla förutsätter mörker; utan nattens kontrast förblir det osynligt.
+Viktor Rydberg: "I mörkret lär man sig vad ljus är."[^12] Utan mörker som bakgrund blir ljus brus, en oavbruten stimulans som upphör att säga något. Kant pekade åt samma håll: han lyfte fram den stjärnbeströdda himlen och den moraliska lagen som de två ting som fyller sinnet med ständigt förnyad vördnad.[^24] Einstein uttryckte en besläktad övertygelse: "Det vackraste vi kan uppleva är det gåtfulla. Det är källan till all sann konst och all vetenskap."[^28] Men det gåtfulla förutsätter mörker; utan nattens kontrast förblir det osynligt.
 
 ## Tingets ljus
 
@@ -92,7 +91,7 @@ Emerson frågade vad som skulle hända om stjärnorna visade sig en enda natt p�
 [^5]: Koranen, al-Nūr 24:35: "Allah ﷻ vägleder till Sitt ljus den Han vill."
 [^6]: Koranen, al-Nūr 24:40.
 [^7]: Ibn Qayyim al-Jawziyyah, *Ighāthat al-Lahfān min Maṣāʾid al-Shayṭān* (De andnödställdas räddning från Satans fällor), kap. om hjärtats sjukdomar och botandet av den inre synens fördunkling.
-[^8]: Hadith i *Ṣaḥīḥ Muslim*, Kitāb Ṣalāt al-Musāfirīn.
+[^8]: Ḥadīth i *Ṣaḥīḥ Muslim*, Kitāb Ṣalāt al-Musāfirīn.
 [^9]: Koranen, al-Qadr 97:3.
 [^10]: Koranen, Yā Sīn 36:37.
 [^11]: Hjalmar Söderberg, *Doktor Glas* (1905).

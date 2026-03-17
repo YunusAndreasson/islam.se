@@ -50,7 +50,6 @@ Han framhåller *firāsah*, den andliga skarpsynen, som enda sättet att skilja 
 ## Tillvarons tröskel
 
 Samma gräns sysselsatte Søren Kierkegaard. I *Begreppet ångest* (1844) formulerade han sin centrala sats: "Den som har lärt sig ängslas rätt har lärt sig det yttersta."[^10] Ångest är för Kierkegaard inte ett hinder utan en förutsättning.
-
 Den teologiska grunden skiljer dem. Kierkegaards ångest springer ur den kristna läran om syndafallet och den yttersta friheten – människan ställd ensam inför valet. Ibn Qayyims ångest växer ur *fiṭrah*, den medfödda orienteringen mot Gud, och *nafs*, det inre jagets kamp. Hos Kierkegaard är ångesten ensamhet. Hos Ibn Qayyim är den bevis på att bandet till Gud fortfarande lever.
 
 Kierkegaard lämnar den ångestfyllde ensam med sin frihet. Utan ett begrepp om hjärtats ursprungliga riktning kan ångesten visa *att* du är fri, men aldrig *vad* friheten är till för. Ibn Qayyim ger riktning: ångesten pekar mot det som behöver läkas, och läkningen har ett namn. Lagerkvists Barabbas, den frigivne brottslingen som kretsar kring en tro han inte äger, erkänner samma längtan men har inget namn för den: "För att jag gärna ville tro."[^19]
@@ -79,12 +78,12 @@ Koranen kallar det *qalb salīm*: det friska hjärtat.[^16] Inte ett hjärta som
 
 [^1]: Ibn Qayyim al-Jawziyyah, *al-Dāʾ wa-l-Dawāʾ* (Sjukdomen och boten).
 [^2]: Koranen, al-Nās 114:4–6.
-[^3]: Metaforen om ångest som immunförsvar för själen är min tolkningsram för Ibn Qayyims diagnostiska modell, inte hans eget språk. Se även hans diskussion om waswas i *Ighāthat al-Lahfān min Maṣāʾid al-Shayṭān* (Befrielse av den bedrövade från Satans fällor).
+[^3]: Metaforen om ångest som immunförsvar för själen är min tolkningsram för Ibn Qayyims diagnostiska modell, inte hans eget språk. Se även hans diskussion om waswās i *Ighāthat al-Lahfān min Maṣāʾid al-Shayṭān* (Befrielse av den bedrövade från Satans fällor).
 [^4]: Ibn Taymiyyah, *Amrāḍ al-Qulūb wa-Shifāʾuhā* (Hjärtats sjukdomar och deras bot).
 [^5]: Koranen, al-Baqarah 2:10.
 [^6]: Wendy Suzuki, *Good Anxiety: Harnessing the Power of the Most Misunderstood Emotion*, Atria Books, 2021.
 [^7]: Randolph M. Nesse, "The Smoke Detector Principle: Natural Selection and the Regulation of Defensive Responses", *Annals of the New York Academy of Sciences*, 935(1), 2001, s. 75–85. Se även Nesse & Williams, *Why We Get Sick: The New Science of Darwinian Medicine*, Vintage, 1996.
-[^8]: Zohair Abdul-Rahman & Nazir Khan, "Clinicians, Imams, and the Whisperings of Satan", Yaqeen Institute for Islamic Research, 2020. Inom den islamiska traditionen görs en viktig åtskillnad mellan waswas som andlig prövning och *waswās al-qahrī* (tvångsmässiga viskningar) som kräver professionell klinisk behandling.
+[^8]: Zohair Abdul-Rahman & Nazir Khan, "Clinicians, Imams, and the Whisperings of Satan", Yaqeen Institute for Islamic Research, 2020. Inom den islamiska traditionen görs en viktig åtskillnad mellan waswās som andlig prövning och *waswās al-qahrī* (tvångsmässiga viskningar) som kräver professionell klinisk behandling.
 [^9]: Ibn Qayyim al-Jawziyyah, *Madārij al-Sālikīn* (Stationerna på vägen).
 [^10]: Søren Kierkegaard, *Begrebet Angest* (Begreppet ångest), 1844. Den svenska översättningen "det yttersta" återger det danska "det Høieste" – ordagrant "det högsta".
 [^11]: Koranen, al-Fatḥ 48:4.

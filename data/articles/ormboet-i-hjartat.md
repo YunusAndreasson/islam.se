@@ -56,7 +56,6 @@ Och samma Ibn Ḥibbān spårar avundens kedja av förstörelse med sträng logi
 > Ur avunden föds hatet, och hatet är ondskans rot.[^12]
 
 Kedjan är kort, utan mildrande mellanled.
-
 Men avundens mest kusliga drag är inte dess våldsamhet utan dess förmåga att tränga in överallt. Karin Boye fångar det i *Kallocain*:
 
 > Återigen avund. Den mannen där, mindervärdig på många sätt som han var, talade om ett ögonblick av hög salighet, visserligen förgånget och nästan glömt, men ändå ett ögonblick … Hans korta extatiska vandring – ja, den avundades jag honom.[^13]
@@ -66,7 +65,6 @@ Boyes berättare avundas inte rikedom eller status utan ett *ögonblick av hög 
 ## Självförgiftningen
 
 Max Scheler kallade det *Selbstvergiftung*, självförgiftning: avund som omformar hela värdeskalan så att det man inte kan uppnå förklaras som värdelöst.[^14] Befordran betydde allt tills den gick till en kollega; då blev ledarskap meningslöst.
-
 Scheler kan beskriva drivverket men inte upphäva det. Om den drabbades egen värdeblick är förgiftad finns i hans tänkande ingen oförstörd punkt varifrån det förvridna kan rättas. Den islamiska traditionen förutsätter en sådan fast punkt, *fiṭrah*, den skapade naturen, och ett mått utanför själen: Guds fördelning. Därför kan traditionen gå från beskrivning till läkning.
 
 Hjalmar Söderberg fångar alltsammans i sju ord, i *Doktor Glas*: "Han är lycklig, och honom afundas jag."[^15] Ingen förklaring, ingen ursäkt. Bara konstaterandet.
@@ -99,7 +97,7 @@ Koranens näst sista sura, *al-Falaq* (Gryningsljuset), är en bön om skydd. De
 
 > Och mot ondskan hos den avundsamme när han avundas.[^19]
 
-Att avunden nämns i denna korta sura, fem verser, sida vid sida med nattens mörker, ger den en tyngd som dagens samtal sällan skänker.
+Att avunden nämns i denna korta sura – fem verser – sida vid sida med nattens mörker ger den en tyngd som dagens samtal sällan skänker.
 
 Ibn Khaldūn såg samma allvar:
 

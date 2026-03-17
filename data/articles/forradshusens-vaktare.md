@@ -75,7 +75,7 @@ Tre dagars marginal. Josef hade sju år.
 [^4]: Koranen, Yūsuf 12:55.
 [^5]: Koranen, Yūsuf 12:56.
 [^6]: Ibn Taymiyyah, *al-Ḥisbah fī al-Islām* (Marknadstillsynen i islam), avsnitt om statlig prisreglering och tvångsförsäljning vid nöd.
-[^7]: Hadith återgiven i Abū Dāwūd och al-Tirmidhī; Ibn Taymiyyah citerar och diskuterar den i *al-Ḥisbah fī al-Islām*.
+[^7]: Ḥadīth återgiven i Abū Dāwūd och al-Tirmidhī; Ibn Taymiyyah citerar och diskuterar den i *al-Ḥisbah fī al-Islām*.
 [^8]: Ibn Taymiyyah, *al-Ḥisbah fī al-Islām*.
 [^9]: Ibn Taymiyyah, *al-Qawāʿid al-Nūrāniyyah* (De upplysta principerna).
 [^10]: Ibn Taymiyyah, *al-Īmān* (Tron).

@@ -44,13 +44,11 @@ Vi ser avfärden, vi ser ankomsten. Aldrig det ögonblick då fågeln svävar ö
 Koranen har ett ord för det silvertärnan gör utan att veta det: *tawakkul*. Arabiskans *wakālah* betyder att lägga sin sak i annans hand. *Tawakkul* är ingen känsla; det är en handling: att gå ut genom dörren utan att veta vad som väntar, men med vetskapen om *vem* som väntar.
 
 Ibn Qayyim säger det kort: "Hemligheten med *tawakkul*, dess verkliga natur, är hjärtats förlitan på Gud allena."[^9]
-
 Men i *Madārij al-Sālikīn* blottlägger han den förväxling som ständigt hotar det andliga livet: sammanblandningen av *tawakkul* med lättja:
 
 > Ofta förväxlas det berömvärda och fullkomliga med det klandervärda och bristfälliga. Överlämnande förväxlas med förslösande. Tjänaren slösar bort sin andel i tron att det är *tawakkul*. Men det är slöseri, inte överlämnande. Tecknet på äkta *tawakkul* är att den som förlitar sig anstränger sig till det yttersta i de medel som är föreskrivna – och finner vila just genom den ansträngningen.[^10]
 
 Så gör silvertärnan: den använder varje navigationsredskap Gud gett den, flyger med allt den har – men har aldrig oroat sig för om den kommer fram.
-
 Ibn al-Jawzī (1100-talet) skärper det:
 
 > Den som berövar sig själv det nödvändiga i *tawakkuls* namn har brutit mot profetens ﷺ väg.[^11]
@@ -86,11 +84,9 @@ Det låter som en modern trosbekännelse: osäkerhet som dygd, vaksamhet som liv
 I en annan tonart nådde Beck samma slutsats: ju fler risker vi hanterar, desto fler nya risker föder vi, och desto mer undergräver vi den tillit systemet skulle skapa.[^16] Försäkringen som skulle befria oss från rädsla binder oss vid sig. Den som inte kan gå ut förrän försäkringsbrevet är granskat har bytt herre.
 
 Alexis de Tocqueville beskrev formen redan 1840: en makt som tryggar medborgarnas behov, sköter deras angelägenheter och steg för steg befriar dem "från besväret att tänka och mödan att leva".[^22]
-
 Ibn Taymiyyah (1300-talet) såg sambandet:
 
 > Den som hänger sitt hjärta vid skapade ting – att de skall hjälpa honom, försörja honom, vägleda honom – hans hjärta underkastas dem, och det uppstår i honom en träldom under dem i motsvarande grad.[^17]
-
 Orden gällde en människa som förlitar sig på härskare, vänner och rikedomar. Men de träffar försäkringssamhället med samma kraft.
 
 Fågeln har medel men ingen herre utom sin Skapare. Den förbereder sig – kroppen lagrar fett, fjäderdräkten byts, den biologiska klockan ställs mot rätt breddgrad – men aldrig har den slutit ett avtal med tillvaron. Resan är förberedd, aldrig garanterad. Och fågeln flyger ändå.

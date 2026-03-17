@@ -37,9 +37,7 @@ Ibn Taymiyyah bygger en språkfilosofi på denna grundsats. I *al-Qawāʿid al-N
 
 > Det väsentliga i talet är dess mening, inte dess ljud.[^8]
 
-*Adhān* är främst ett meningsuttryck – ljudet dess bärare, inte dess väsen.
-
-I *al-Radd ʿalā al-Manṭiqiyyīn* förtydligas åtskillnaden:
+*Adhān* är främst ett meningsuttryck – ljudet dess bärare, inte dess väsen. I *al-Radd ʿalā al-Manṭiqiyyīn* förtydligas åtskillnaden:
 
 > Det hörbara ljudet från tjänaren är tjänarens ljud, men det förmedlade talet är Skaparens tal.[^9]
 
@@ -55,9 +53,7 @@ Strindberg fångar förvandlingen i *Inferno*:
 
 > Dagarna ljuder själaringning från kyrktornet, och liktågen följa tätt på varandra. Livet är dödande ledsamt och dystert.[^11]
 
-Det Strindberg hör är inte ett anspråk utan en *stämning*: dysterhet, tyngd, monotoni.
-
-Kontrasten är inte en gradskillnad utan en artskillnad. En kyrkklocka smälter in i ljudlandskapet, för den kräver inte förståelse, bara igenkänning. *Adhān* kräver förståelse – den som hör *Allāhu akbar* och begriper orden kan inte behandla dem som bakgrund. Påståenden kräver ställningstaganden: instämmande, avvisande, eller det mer obekväma alternativet att erkänna att man hört något man inte vet vad man ska göra med.
+Det Strindberg hör är inte ett anspråk utan en *stämning*: dysterhet, tyngd, monotoni. Kontrasten är inte en gradskillnad utan en artskillnad. En kyrkklocka smälter in i ljudlandskapet, för den kräver inte förståelse, bara igenkänning. *Adhān* kräver förståelse – den som hör *Allāhu akbar* och begriper orden kan inte behandla dem som bakgrund. Påståenden kräver ställningstaganden: instämmande, avvisande eller det mer obekväma alternativet att erkänna att man hört något man inte vet vad man ska göra med.
 
 ## Den outtalade normen
 

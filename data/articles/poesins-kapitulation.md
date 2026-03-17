@@ -43,9 +43,9 @@ Senare försökte andra: Ibn al-Muqaffaʿ, som präglat arabisk prosa i århundr
 
 En uppenbar invändning: vem avgör om utmaningen besvarats? Ingen neutral domarskara, inget poängsystem för litterär kvalitet. Men invändningen förbiser något väsentligt. Utmaningens första publik var inte troende muslimer utan fientliga Quraysh-araber. Deras tystnad utgjorde det ursprungliga beviset. Ibn Kathīr citerar den tidiga uttolkaren Mujāhid, som förstod utmaningsversens "era vittnen" som "vältalighetens domare". Ibn ʿAṭiyyah formulerade det så: beviskraften vilade på araberna, eftersom de var vältalighetens mästare och de naturliga utmanarna.[^11] Kompetenta fiender, inte fromma anhängare, var måttstocken.
 
-Även inom islamisk teologi rådde oenighet. Al-Naẓẓām och vissa mutaziliter hävdade *ṣarfah*-ståndpunkten: att Gud aktivt hindrade människor från att efterhärma Koranen, att förmågan i princip existerade men blockerades utifrån. Majoriteten avvisade detta. Al-Suyūṭī citerar argumentet att utmaningen förutsätter att motståndarna *behåller* sin förmåga men ändå misslyckas; annars vore det ingen utmaning utan en omöjlighet. Att debatten fördes öppet inom den egna traditionen vittnar om en ovanlig intellektuell redlighet.[^12]
+Även inom islamisk teologi rådde oenighet. Al-Naẓẓām och vissa muʿtaziliter hävdade *ṣarfah*-ståndpunkten: att Gud aktivt hindrade människor från att efterhärma Koranen, att förmågan i princip existerade men blockerades utifrån. Majoriteten avvisade detta. Al-Suyūṭī citerar argumentet att utmaningen förutsätter att motståndarna *behåller* sin förmåga men ändå misslyckas; annars vore det ingen utmaning utan en omöjlighet. Att debatten fördes öppet inom den egna traditionen vittnar om en ovanlig intellektuell redlighet.[^12]
 
-*Iʿjāz*-läran tog därtill form i nionde seklets mutazilitiska kretsar, delvis som svar på den *shuʿūbiyyah*-rörelse som ifrågasatte arabiskans företräde. Kontexten försvagar inte argumentet; den placerar det i sin tid.
+*Iʿjāz*-läran tog därtill form i nionde seklets muʿtazilitiska kretsar, delvis som svar på den *shuʿūbiyyah*-rörelse som ifrågasatte arabiskans företräde. Kontexten försvagar inte argumentet; den placerar det i sin tid.
 
 ## Ett tredje slag
 
