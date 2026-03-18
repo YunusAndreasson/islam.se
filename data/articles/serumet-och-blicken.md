@@ -42,9 +42,9 @@ Det arabiska begreppet *iḥsān*, fastslaget i Jibrīl-hadithen, lyder: "att dy
 
 Kallocainets allvetande tillhör en stat vars enda syfte är kontroll. Den som vet sig övervakad av en sådan makt krymper.
 
-Koranens allvetande tillhör *al-Raḥmān*, den Barmhärtige, vars blick genomlyser hjärtat som Skaparens. "Din Herre vet vad deras bröst rymmer såväl som vad de öppet visar," säger Koranen.[^8] Sammanhanget är omsorg: Gud vet *eftersom* Han vårdar det skapade. Ibn Kathīr tillägger att Gud "öser sina välsignelser över människorna trots att de förorättar sig själva".
+Koranens allvetande tillhör *al-Raḥmān*, den Barmhärtige, vars blick genomlyser hjärtat som Skaparens. "Din Herre vet vad deras bröst rymmer såväl som vad de öppet visar," säger Koranen.[^8] Sammanhanget är omsorg: Gud vet *eftersom* Han vårdar det skapade. Ibn Kathīr (ca. 1300–1373) tillägger att Gud "öser sina välsignelser över människorna trots att de förorättar sig själva".
 
-Ibn Qayyim al-Jawziyyah (d. 1350) skärper sambandet: "Den som vakar över Gud i sina hemliga tankar, honom bevarar Gud i hans lemmars rörelser."[^9] Satsen vänder Kallocainets ordning ut och in. I Boyes roman avslöjar serumet tanken och tillintetgör handlingsfriheten. I Ibn Qayyims värld är insikten att tanken redan är genomlyst det som *bär* handlingens helhet. Den som vet att Gud ser behöver inte dölja. Den som inte döljer behöver inte frukta.
+Ibn Qayyim al-Jawziyyah (1292–1350) skärper sambandet: "Den som vakar över Gud i sina hemliga tankar, honom bevarar Gud i hans lemmars rörelser."[^9] Satsen vänder Kallocainets ordning ut och in. I Boyes roman avslöjar serumet tanken och tillintetgör handlingsfriheten. I Ibn Qayyims värld är insikten att tanken redan är genomlyst det som *bär* handlingens helhet. Den som vet att Gud ser behöver inte dölja. Den som inte döljer behöver inte frukta.
 
 Ibn al-Jawzī (d. 1201) spetsar till det: "Gudsfruktan hindrar rädslan för människor."[^10] *Taqwā*, den medvetna vördnaden inför Gud, föder tillit; den statliga rädslan föder underkastelse.
 
@@ -66,7 +66,7 @@ Carl von Linné sökte samma sak med andra redskap. I hemlighet skrev han ett ma
 
 > Gud ser alt och hörer alt.[^13]
 
-Linnés Gud är varken Kallocainets övervakare eller Koranens *al-Raḥmān* utan en kall, lagbunden rättvisa – "moralens ekologi", som Sten Lindroth kallade den.[^14] "Alla gå hem och slå sig för sitt hröst, märkandes, att Herren ser wåra intriguer," skriver Linné med sin omisskännliga blandning av fromhet och empirism.[^15] Rättvisans urverk gör att den som syndar straffas, inte genom mirakel utan genom orsak och verkan.
+Linnés Gud är varken Kallocainets övervakare eller Koranens *al-Raḥmān* utan en kall, lagbunden rättvisa – "moralens ekologi", som Sten Lindroth (1914–1980) kallade den.[^14] "Alla gå hem och slå sig för sitt hröst, märkandes, att Herren ser wåra intriguer," skriver Linné med sin omisskännliga blandning av fromhet och empirism.[^15] Rättvisans urverk gör att den som syndar straffas, inte genom mirakel utan genom orsak och verkan.
 
 Linné stannar halvvägs mellan Boye och den islamiska traditionen. Han delar grundsatsen – Gud ser allt – men drar slutsatsen vedergällning, inte befrielse. Ett moraliskt maskineri som bokför överträdelsen men inte kan förlåta den som överträder. Förlåtelsen bryter kedjan. Den möjligheten vänder allvetandet från hot till tillit. Guds allvetande är inte främst ett straffhot utan grunden för ett band: möjligheten att stå naken inför Skaparen, inte för att skammen saknas utan för att den som ser också förlåter.
 
@@ -77,15 +77,15 @@ Linné stannar halvvägs mellan Boye och den islamiska traditionen. Han delar gr
 Boye lämnar frågan öppen: finns det en genomskinlighet som inte förstör?
 Dag Hammarskjöld vände på frågan i *Vägmärken*:
 
-> Vi dör den dag livet för oss inte längre har någon inneboende genomskinlighet.[^18]
+> Vi dör den dag livet för oss inte längre har någon inneboende genomskinlighet.[^16]
 
 Inneboende – inte påtvingad. Den genomskinlighet Hammarskjöld sökte bodde i livet självt.
 
-Den islamiska traditionen svarar: ja. Men bara om den som ser allt också älskar det skapade. Bara om blicken tillhör den som skapat ögat och vet vad det behöver se. Ibn Taymiyyah sammanfattar: "Gudsmedvetenhet är den hemlighet som söks i alla tjänarens tillstånd."[^16]
+Den islamiska traditionen svarar: ja. Men bara om den som ser allt också älskar det skapade. Bara om blicken tillhör den som skapat ögat och vet vad det behöver se. Ibn Taymiyyah (1263–1328) sammanfattar: "Gudsmedvetenhet är den hemlighet som söks i alla tjänarens tillstånd."[^17]
 
 Hemlighet – *sirr*: allvetandet som borde avskaffa varje hemlighet rymmer självt en. Medvetenheten om Guds blick är det mest förtroliga av tillstånd, det som inte kan visas upp, avtvungas eller sprutas in med ett serum. Foucaults panoptikon avskaffar det privata. *Iḥsān* förvandlar det privata till ett möte.
 
-"Hur kan man göra halt vid en statsgräns," frågar Boye genom Leo Kall, "om man har känt att ens pulsar är drivna av hjärtan i världsalltet?"[^17] Kall menar Världsstaten, det totalitära kollektivet. Men meningen bär en klang som Boye själv kanske anade: det finns en gemenskap bortom staten, en genomskinlighet bortom serumet, en sanning som bara kan ges – aldrig tas.
+"Hur kan man göra halt vid en statsgräns," frågar Boye genom Leo Kall, "om man har känt att ens pulsar är drivna av hjärtan i världsalltet?"[^18] Kall menar Världsstaten, det totalitära kollektivet. Men meningen bär en klang som Boye själv kanske anade: det finns en gemenskap bortom staten, en genomskinlighet bortom serumet, en sanning som bara kan ges – aldrig tas.
 
 ---
 
@@ -104,6 +104,6 @@ Hemlighet – *sirr*: allvetandet som borde avskaffa varje hemlighet rymmer sjä
 [^13]: Carl von Linné, *Nemesis Divina* (postumt utg.).
 [^14]: Sten Lindroth, *Svensk lärdomshistoria*, bd. 2.
 [^15]: Carl von Linné, *Nemesis Divina*. Originalstavning bevarad.
-[^16]: Ibn Taymiyyah, *Kitāb al-Īmān* (Trons bok).
-[^17]: Karin Boye, *Kallocain*, kap. 22.
-[^18]: Dag Hammarskjöld, *Vägmärken* (1963).
+[^16]: Dag Hammarskjöld, *Vägmärken* (1963).
+[^17]: Ibn Taymiyyah, *Kitāb al-Īmān* (Trons bok).
+[^18]: Karin Boye, *Kallocain*, kap. 22.

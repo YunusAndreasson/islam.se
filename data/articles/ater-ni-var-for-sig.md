@@ -11,7 +11,7 @@ Fyrtiotvå procent av Sveriges hushåll består, enligt SCB:s siffror från 2024
 
 ## Maten gör människan
 
-Ibn Khaldūn var ingen dietist. Hans *Muqaddimah*, det väldiga förordet till en universalhistoria, skrivet i Nordafrika 1377, vill förklara varför samhällen uppstår, blomstrar och går under. Hans svar var oväntat: maten.
+Ibn Khaldūn (1332–1406) var ingen dietist. Hans *Muqaddimah*, det väldiga förordet till en universalhistoria, skrivet i Nordafrika 1377, vill förklara varför samhällen uppstår, blomstrar och går under. Hans svar var oväntat: maten.
 
 > Det som människan äter påverkar hennes natur djupt; från detta följer hennes karaktär.[^3]
 
@@ -41,7 +41,7 @@ Det var en vision om jämlikhet, men visionen krävde en jordisk grund, och den 
 
 Den gemensamma husmanskostens tid var också konformismens tid. Den som inte passade vid bordet – samerna, romerna, de som talade ett annat språk – stod utanför gemenskapen. Det gemensamma ätandet förutsatte en redan avgränsad gemenskap, och avgränsningen uteslöt.
 
-Matkassar leder inte alltid till ensamätande; familjer lagar maten tillsammans. Men omärkligt har något förskjutits: från mat som något man *gör tillsammans* till mat som något man *ordnar för sig själv*.[^10]
+Matkassar leder inte alltid till ensamätande; familjer lagar maten tillsammans. Men omärkligt har något glidit oss ur händerna: från mat som något man *gör tillsammans* till mat som något man *ordnar för sig själv*.[^10]
 
 Förskjutningen är äldre än matkassarna. Redan Platon såg samma mönster i sitt Athen. I *Staten* visar han hur Homeros serverar sina hjältar enbart rostade köttstycken, ingen fisk trots att de bor vid kusten, inga kokta rätter, inga söta såser. Enkel mat för starka människor. Men Athen förfinas:
 
@@ -53,7 +53,7 @@ Varken Platon eller Ibn Khaldūn kommer längre än till diagnosen. Platons medb
 
 "Adams barn", säger Koranen, "ät och drick men gå inte till överdrift. Han älskar verkligen inte dem som går till överdrift."[^12] Versen riktar sig till en människa, aldrig till en stat. Den nöjer sig inte med att förbjuda; den säger varför: "Den som Min vrede drabbar har fallit", versen i sura *Ṭā Hā* som förbinder överdrift med inre förfall.[^13]
 
-Men det är i Profetens ﷺ levnad som orden blir levande. Hadithen om magens tredjedelar har återgivits så ofta att den riskerar att nötas: en tredjedel för mat, en tredjedel för dryck, en tredjedel för andning.[^14] Mot Ibn Khaldūns kretslopp avtecknar sig skillnaden: där sociologen iakttar ett öde ger hadithen ett enskilt *bruk* som bryter det. Vid varje måltid kan varje människa välja återhållsamhet. Ingen behöver invänta samhällets kretslopp.
+Men det är i Profetens ﷺ liv som orden blir levande. Hadithen om magens tredjedelar har återgivits så ofta att den riskerar att nötas: en tredjedel för mat, en tredjedel för dryck, en tredjedel för andning.[^14] Mot Ibn Khaldūns kretslopp avtecknar sig skillnaden: där sociologen iakttar ett öde ger hadithen ett enskilt *bruk* som bryter det. Vid varje måltid kan varje människa välja återhållsamhet. Ingen behöver invänta samhällets kretslopp.
 
 Sedan kommer det andra steget. Profeten ﷺ fick höra sina följeslagare klaga: "Vi äter men vi blir inte mätta." Hans svar var inte att föreslå mer mat. Han frågade: "Äter ni var för sig?" Och sedan: "Samlas kring er mat och nämn Allahs namn, så välsignas den åt er."[^15]
 
@@ -79,7 +79,7 @@ De väntar på varandra. Ingen börjar förrän alla är redo. Det är *ʿaṣab
 
 Det tystaste som hänt Sverige på femtio år är ingen politisk omvälvning. Köksbordet tystnade. Vi slutade vänta.
 
-Profetens ﷺ fråga hänger kvar: "Äter ni var för sig?"
+Profetens ﷺ fråga kvarstår: "Äter ni var för sig?"
 
 ---
 

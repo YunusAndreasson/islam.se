@@ -13,7 +13,7 @@ En man som åldras, en natt som förlorat sin magi. Så har raden oftast lästs.
 
 ## Ljusets tyranni
 
-Oscar Levertin, Söderbergs samtida, kände samma obehag inför sommarnatten:
+Oscar Levertin (1862–1906), Söderbergs samtida, kände samma obehag inför sommarnatten:
 
 > Min korta sommars långa nätter med timmar glödande som eld, med ensamhet så bäsk som etter och längtan aldrig tillfredsställd.[^2]
 
@@ -31,7 +31,7 @@ Strindbergs natt bär religiös fruktan; det som plågar honom har ett ansikte. 
 
 "Han är klyvaren av gryningen och har gjort natten för vila och solen och månen för tideräkning."[^6] Natten bär en uppgift: *sakan*, vila, stillhet. I suran *Yā Sīn* blir bilden kroppslig: "Ett tecken för dem är natten; Vi drar undan dagen ur den och då sveps de i mörker."[^7]
 
-Det arabiska verbet *naslakh* – att dra bort, flå av – behåller sin våldsamma skärpa. Ibn Kathīr förtydligar bilden med en profettradition: "När natten anländer från detta håll och dagen drar sig undan från det hållet och solen har gått ned"; då har gränsen fallit.
+Det arabiska verbet *naslakh* – att dra bort, flå av – behåller sin våldsamma skärpa. Ibn Kathīr (ca. 1300–1373) förtydligar bilden med en profettradition: "När natten anländer från detta håll och dagen drar sig undan från det hållet och solen har gått ned"; då har gränsen fallit.
 
 "Och till Hans tecken hör er sömn om natten och att ni under dagen söker Hans goda."[^8]
 
@@ -39,7 +39,7 @@ Midsommarnattens ljus löser upp den gräns Koranen kallar ett gudomligt tecken 
 
 ## Tidens fånge
 
-Redan på 1000-talet fångade den andalusiske teologen Ibn Ḥazm tidens innersida: "När det kommande anländer blir det som nyss var nu till det förflutna, och de förenas."[^9] Det som verkade vara tre skilda tider – förflutet, nu, framtid – är samma punkt, fångad i rörelse.
+Redan på 1000-talet fångade den andalusiske teologen Ibn Ḥazm (d. 1064) tidens innersida: "När det kommande anländer blir det som nyss var nu till det förflutna, och de förenas."[^9] Det som verkade vara tre skilda tider – förflutet, nu, framtid – är samma punkt, fångad i rörelse.
 
 "Lifvet är kort, men timmarne äro långa," antecknar Glas.[^10] För den sömnlöse är det en exakt beskrivning.
 
@@ -49,37 +49,37 @@ Han tänker, observerar, skriver, planerar till och med ett mord. Ändå lever h
 
 ## Att vara sin tids barn
 
-I *Madārij al-Sālikīn* byggde Ibn Qayyim en systematisk tidsfilosofi på ett äldre arv. Imāmen al-Shāfiʿī (d. 820) lär ha sagt att det mest värdefulla han lärde sig av sufierna var att "tiden är ett svärd: antingen skär du den eller skär den dig."[^12] Ibn Qayyim för tanken förbi aforismen.
+I *Madārij al-Sālikīn* byggde Ibn Qayyim en systematisk tidsfilosofi på ett äldre arv. Imām al-Shāfiʿī (d. 820) lär ha sagt att det mest värdefulla han lärde sig av sufierna var att "tiden är ett svärd: antingen skär du den eller skär den dig."[^12] Ibn Qayyim för tanken förbi aforismen.
 
 *Waqt*, ögonblicket och den levda tiden, betecknar det närvarandes krav, den plikt och det tillstånd som hör till just denna stund. Den som söker Gud är *ibn waqtihi*: sin tids barn. Vandraren överskrider aldrig nuets uppgift. Bönen som bryter gryningen, arbetet under ljuset, vilan under mörkret.[^13]
 
 Den som upptas av det förflutna och det kommande förlorar nuet. Varje gång ett nytt nu anländer griper han efter bägge ändarna – det som var och det som ska bli – tills alla hans stunder runnit ut.[^14]
 
-Trehundra år senare skrev Pascal, utan kännedom om Ibn Qayyim: "Vi håller oss aldrig till det närvarande. Vi irrar i tider som inte är våra och tänker inte på den enda som tillhör oss."[^25] Men för Pascal är nuet tomt; vi flyr det *därför att* det är outhärdligt i sig. För Ibn Qayyim är nuet laddat: vi flyr det därför att vi inte ser vad det bär. Samma symptom, motsatt orsak.
+Trehundra år senare skrev Pascal, utan kännedom om Ibn Qayyim: "Vi håller oss aldrig till det närvarande. Vi irrar i tider som inte är våra och tänker inte på den enda som tillhör oss."[^15] Men för Pascal är nuet tomt; vi flyr det *därför att* det är outhärdligt i sig. För Ibn Qayyim är nuet laddat: vi flyr det därför att vi inte ser vad det bär. Samma symptom, motsatt orsak.
 
-Så lever Glas: fången i minnet av en ungdom som aldrig infriades och i förväntningen på en framtid han inte tror på. Hans dagbok pendlar ständigt mellan dem. Varje påtagligt nu glider honom ur händerna medan han antecknar det. "Lif, jag förstår dig inte," bekänner han.[^15] Men *waqt* kräver annat än förstånd.
+Så lever Glas: fången i minnet av en ungdom som aldrig infriades och i förväntningen på en framtid han inte tror på. Hans dagbok pendlar ständigt mellan dem. Varje påtagligt nu glider honom ur händerna medan han antecknar det. "Lif, jag förstår dig inte," bekänner han.[^16] Men *waqt* kräver annat än förstånd.
 
-Denna närvaro – det Ibn Qayyim kallar *nūr al-murāqabah*, den vaksamma närvarons ljus – slocknar när tiden förspills.[^16] Det yttre ljuset blir outhärdligt först när det faller över ett inre utan riktning.
+Denna närvaro – det Ibn Qayyim kallar *nūr al-murāqabah*, den vaksamma närvarons ljus – slocknar när tiden förspills.[^17] Det yttre ljuset blir outhärdligt först när det faller över ett inre utan riktning.
 
 ## Tiden utan ram
 
-Søren Kierkegaard kallade ångesten "frihetens svindel" – den yrsel som griper den som stirrar ned i sina möjligheter.[^17] Det stämmer för Glas. Men Kierkegaards analys stannar vid svindeln; hans *trosprång* pekar ut ur förlamningen utan att säga vad den som landar ska göra med sin tid. Det är här Ibn Qayyim ger ögonblicket självt en arkitektur.
+Søren Kierkegaard kallade ångesten "frihetens svindel" – den yrsel som griper den som stirrar ned i sina möjligheter.[^18] Det stämmer för Glas. Men Kierkegaards analys stannar vid svindeln; hans *trosprång* pekar ut ur förlamningen utan att säga vad den som landar ska göra med sin tid. Det är här Ibn Qayyim ger ögonblicket självt en arkitektur.
 
-Människans tid är hennes liv: det råmaterial hennes eviga tillvaro formas av.[^18][^19] Stillheten efter *fajr*, ordet vid bordet, steget tillbaka från ilskan.
+Människans tid är hennes liv: det råmaterial hennes eviga tillvaro formas av.[^19][^20] Stillheten efter *fajr*, ordet vid bordet, steget tillbaka från ilskan.
 
-Glas' ångest saknar fäste utanför jaget. Han kan inte vara sin tids barn, ty hans tid bär ingen uppgift; den bara pågår, omarkerad, utan bön som bryter dygnet, utan *fajr*, gryningsbönen, som ger morgonen fäste, utan *ʿishāʾ*, kvällsbönen, som ger natten djup. Midsommarnattens gränslösa ljus förkroppsligar hans inre tillstånd: en tid utan ordning, och därmed utan liv.
+Glas' ångest saknar fäste utanför jaget. Han kan inte vara sin tids barn, ty hans tid bär ingen uppgift; den bara pågår, omarkerad, utan bön som bryter dygnet, utan *fajr*, gryningsbönen, som ger morgonen fäste, utan *ʿishāʾ*, kvällsbönen, som ger natten djup. Midsommarnattens gränslösa ljus förkroppsligar hans inre tillstånd: ett dygn utan ledfogar — en enda obruten dag som aldrig viker sig till natt.
 
-Den allomfattande ordning Koranen beskriver – "i skapelsen av himlarna och jorden och i växlingen mellan natt och dag finns sannerligen tecken för dem som har förstånd"[^20] – utgör själva ramen för meningsbärande tid. Utan den ramen: tomhet klädd i ljus.
+Den allomfattande ordning Koranen beskriver – "i skapelsen av himlarna och jorden och i växlingen mellan natt och dag finns sannerligen tecken för dem som har förstånd"[^21] – utgör själva ramen för meningsbärande tid. Utan den ramen: tomhet klädd i ljus.
 
 ## Natten som nåd
 
-Ibn al-Jawzī skrev att "förspilld tid är den största förlusten."[^21] Orden låter som en uppmaning till produktivitet, men sammanhanget pekar åt annat håll: att *dröja vid* varje ögonblick, vare sig uppgiften är bön, arbete, vila eller tystnad.
+Ibn al-Jawzī (d. 1201) skrev att "förspilld tid är den största förlusten."[^22] Orden låter som en uppmaning till produktivitet, men sammanhanget pekar åt annat håll: att *dröja vid* varje ögonblick, vare sig uppgiften är bön, arbete, vila eller tystnad.
 
 Den koraniska arkitekturen lämnar inget tvivel: natten är dagens villkor. Utan mörker, ingen gryning.
 
-"Från mörker till mörker," konstaterar Glas.[^22] Mellan de två mörkren – födelsens och dödens – ligger *waqt* efter *waqt*, vart och ett laddat med mening för den som förmår ta emot det.
+"Från mörker till mörker," konstaterar Glas.[^23] Mellan de två mörkren – födelsens och dödens – ligger *waqt* efter *waqt*, vart och ett laddat med mening för den som förmår ta emot det.
 
-"Stillastående och förblifvande är oss icke gifvet," noterar Glas.[^23] En sak är att kastas framåt av tidens ström utan fotfäste; en annan att vandra, *sālik*, genom stationerna med medveten närvaro.
+"Stillastående och förblifvande är oss icke gifvet," noterar Glas.[^24] En sak är att kastas framåt av tidens ström utan fotfäste; en annan att vandra, *sālik*, genom stationerna med medveten närvaro.
 
 ## Den blå nattens fråga
 
@@ -87,7 +87,7 @@ Glas' fråga hänger kvar i luften med samma envishet som ljuset: *hvarför ligg
 
 Koranen svarar med en bild. Dagen dras undan ur natten. Mörkret sveper in. Och i det mörkret finner människan den vila hon skapades för.
 
-*Var din tids barn*, manar Ibn Qayyim.[^24] Inte igår, inte imorgon – utan nu, med just detta ögonblicks ljus eller mörker, dess givna plikt.
+*Var din tids barn*, manar Ibn Qayyim.[^25] Inte igår, inte imorgon – utan nu, med just detta ögonblicks ljus eller mörker, dess givna plikt.
 
 ---
 
@@ -105,14 +105,14 @@ Koranen svarar med en bild. Dagen dras undan ur natten. Mörkret sveper in. Och 
 [^12]: al-Shāfiʿīs ord om sufijerna återges av Ibn Qayyim al-Jawziyyah i *Madārij al-Sālikīn* (De vandrandes stationer), avsnittet om *waqt*.
 [^13]: Ibn Qayyim al-Jawziyyah, *Madārij al-Sālikīn*, avsnittet om *waqt* (tidens station).
 [^14]: Ibn Qayyim al-Jawziyyah, *Madārij al-Sālikīn*, avsnittet om *waqt*.
-[^15]: Söderberg, *Doktor Glas*, dagboken 17 juni.
-[^16]: Ibn Qayyim al-Jawziyyah, *Madārij al-Sālikīn*, avsnittet om *murāqabah* (medveten närvaro).
-[^17]: Søren Kierkegaard, *Begrebet Angest* (1844).
-[^18]: Ibn Qayyim al-Jawziyyah, *Madārij al-Sālikīn*, avsnittet om *waqt*.
-[^19]: Ibn Qayyim al-Jawziyyah, *al-Dāʾ wa-l-Dawāʾ*.
-[^20]: Koranen, Āl ʿImrān 3:190.
-[^21]: Ibn al-Jawzī, *Ṣayd al-Khāṭir*.
-[^22]: Söderberg, *Doktor Glas*, dagboken 2 oktober.
-[^23]: Söderberg, *Doktor Glas*, dagboken 12 augusti.
-[^24]: Ibn Qayyim al-Jawziyyah, *Madārij al-Sālikīn*, avsnittet om *waqt*.
-[^25]: Blaise Pascal, *Pensées* (1670), fragment 172 (Lafuma-numrering).
+[^15]: Blaise Pascal, *Pensées* (1670), fragment 172 (Lafuma-numrering).
+[^16]: Söderberg, *Doktor Glas*, dagboken 17 juni.
+[^17]: Ibn Qayyim al-Jawziyyah, *Madārij al-Sālikīn*, avsnittet om *murāqabah* (medveten närvaro).
+[^18]: Søren Kierkegaard, *Begrebet Angest* (1844).
+[^19]: Ibn Qayyim al-Jawziyyah, *Madārij al-Sālikīn*, avsnittet om *waqt*.
+[^20]: Ibn Qayyim al-Jawziyyah, *al-Dāʾ wa-l-Dawāʾ*.
+[^21]: Koranen, Āl ʿImrān 3:190.
+[^22]: Ibn al-Jawzī, *Ṣayd al-Khāṭir*.
+[^23]: Söderberg, *Doktor Glas*, dagboken 2 oktober.
+[^24]: Söderberg, *Doktor Glas*, dagboken 12 augusti.
+[^25]: Ibn Qayyim al-Jawziyyah, *Madārij al-Sālikīn*, avsnittet om *waqt*.

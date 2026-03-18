@@ -11,9 +11,9 @@ Ingen försäkring täcker den resan.
 
 ## Försäkringens samhälle
 
-Det moderna samhället kan inte tänka sig en sådan resa. 1986 publicerade den tyske sociologen Ulrich Beck *Risikogesellschaft*, en bok som satte ord på det tillstånd moderniteten redan levde i: risksamhället.[^3] Becks tes var inte att världen blivit farligare utan att moderniteten organiserat sig *kring* faran, att risken blivit samhällets sorteringsprincip. Vi räknar inte med det goda livets möjligheter; vi beräknar det dåliga livets sannolikheter. Den som söker bostad frågar inte hur ljus den är utan hur nära sjukhuset den ligger.
+Det moderna samhället kan inte tänka sig en sådan resa. 1986 publicerade den tyske sociologen Ulrich Beck (1944–2015) *Risikogesellschaft*, en bok som satte ord på det tillstånd moderniteten redan levde i: risksamhället.[^3] Becks tes var inte att världen blivit farligare utan att moderniteten organiserat sig *kring* faran, att risken blivit samhällets sorteringsprincip. Vi räknar inte med det goda livets möjligheter; vi beräknar det dåliga livets sannolikheter. Den som söker bostad frågar inte hur ljus den är utan hur nära sjukhuset den ligger.
 
-Sverige tog tanken längre än de flesta: socialförsäkringssystemet vilar på förutsättningen att varje risk kan pekas ut, räknas på och fördelas. Sjukdom, arbetslöshet, ålderdom, barns födelse, barns tandvård – allt kan försäkras, allt *ska* försäkras. Erik Gustaf Geijer, 1845: "Utan säkerhet ingen idoghet."[^4] Trygghet först, sedan arbete, sedan framsteg.
+Sverige tog tanken längre än de flesta: socialförsäkringssystemet vilar på förutsättningen att varje risk kan pekas ut, räknas på och fördelas. Sjukdom, arbetslöshet, ålderdom, barns födelse, barns tandvård – allt kan försäkras, allt *ska* försäkras. Erik Gustaf Geijer (1783–1847), 1845: "Utan säkerhet ingen idoghet."[^4] Trygghet först, sedan arbete, sedan framsteg.
 
 Vart denna tankegång ledde såg Ellen Key. I *Barnets århundrade* skriver hon:
 
@@ -49,44 +49,44 @@ Men i *Madārij al-Sālikīn* blottlägger han den förväxling som ständigt ho
 > Ofta förväxlas det berömvärda och fullkomliga med det klandervärda och bristfälliga. Överlämnande förväxlas med förslösande. Tjänaren slösar bort sin andel i tron att det är *tawakkul*. Men det är slöseri, inte överlämnande. Tecknet på äkta *tawakkul* är att den som förlitar sig anstränger sig till det yttersta i de medel som är föreskrivna – och finner vila just genom den ansträngningen.[^10]
 
 Så gör silvertärnan: den använder varje navigationsredskap Gud gett den, flyger med allt den har – men har aldrig oroat sig för om den kommer fram.
-Ibn al-Jawzī (1100-talet) skärper det:
+Ibn al-Jawzī (d. 1201) sätter det på sin spets:
 
 > Den som berövar sig själv det nödvändiga i *tawakkuls* namn har brutit mot profetens ﷺ väg.[^11]
 
 Det moderna samhället erkänner bara två möjligheter: kontroll eller ångest. *Tawakkul* är den tredje: full ansträngning förenad med full vila. Det är läkaren som opererar med allt sitt kunnande och sedan går hem och sover.
 
-För det saknar moderniteten språk. Den som kom närmast var Kierkegaard, vars "trons riddare" i *Fruktan och bävan* lever fullt i det ändliga men har överlämnat utgången. Men att han kallade rörelsen "i kraft av det absurda" avslöjar att tillit i hans tänkande bara kan förstås som ett undantag från förnuftet. I den islamiska traditionen är *tawakkul* tvärtom förnuftets slutsats: den som verkligen vet vem Gud är finner det orimligt att *inte* förlita sig på Honom.[^21]
+För det saknar moderniteten språk. Den som kom närmast var Kierkegaard, vars "trons riddare" i *Fruktan och bävan* lever fullt i det ändliga men har överlämnat utgången. Men att han kallade rörelsen "i kraft av det absurda" avslöjar att tillit i hans tänkande bara kan förstås som ett undantag från förnuftet. I den islamiska traditionen är *tawakkul* tvärtom förnuftets slutsats: den som verkligen vet vem Gud är finner det orimligt att *inte* förlita sig på Honom.[^12]
 
 ## Fåglarna i Koranen
 
 Profeten Muḥammad ﷺ gjorde liknelsen gripbar:
 
-> Om ni förlitade er på Gud med sann förlitan, skulle Han försörja er som Han försörjer fåglarna: de flyger ut hungriga på morgonen och återvänder mätta på kvällen.[^12]
+> Om ni förlitade er på Gud med sann förlitan, skulle Han försörja er som Han försörjer fåglarna: de flyger ut hungriga på morgonen och återvänder mätta på kvällen.[^13]
 
 Men de flyger utan budget, utan lager, utan sparkapital – och återvänder alltid mätta.
 
 Koranen bär samma liknelse men vidgar den:
 
-> Har de inte fäst avseende vid fåglarna ovan dem, hur de sträcker ut vingarna och fäller in dem? Ingen annan än den Nåderike håller dem uppe. Han ser sannerligen allt.[^13]
+> Har de inte fäst avseende vid fåglarna ovan dem, hur de sträcker ut vingarna och fäller in dem? Ingen annan än den Nåderike håller dem uppe. Han ser sannerligen allt.[^14]
 
-Fåglarna flyger redan. De faller inte. Frågan är inte om något håller dem uppe utan om betraktaren har ögon att se det. Den sista bisatsen – "Han ser sannerligen allt" – vänder perspektivet: vi ser fåglarna, men fåglarna *ses*. Ibn Kathīr förtydligar: Han vet vad som gagnar varje enskild varelse bland Hans skapelser.
+Fåglarna flyger redan. De faller inte. Frågan är inte om något håller dem uppe utan om betraktaren har ögon att se det. Den sista bisatsen – "Han ser sannerligen allt" – vänder perspektivet: vi ser fåglarna, men fåglarna *ses*. Ibn Kathīr (ca. 1300–1373) förtydligar: Han vet vad som gagnar varje enskild varelse bland Hans skapelser.
 
-Ur denna liknelse hämtar Ibn Qayyim trons inre rörelse: rädsla och hopp som två vingar – när de är i jämvikt bär de flygningen framåt; brister den ena, störtar fågeln.[^14] Silvertärnan flyger för att den är skapad att flyga. *Tawakkul* är varken kylig tillförsikt eller förlamande ångest: det är den jämvikt som uppstår när hjärtat slutat väga risker och börjat förlita sig på Honom.
+Ur denna liknelse hämtar Ibn Qayyim trons inre rörelse: rädsla och hopp som två vingar – när de är i jämvikt bär de flygningen framåt; brister den ena, störtar fågeln.[^15] Silvertärnan flyger för att den är skapad att flyga. *Tawakkul* är varken kylig tillförsikt eller förlamande ångest: det är den jämvikt som uppstår när hjärtat slutat väga risker och börjat förlita sig på Honom.
 
 ## En hälsosam osäkerhet
 
 Strindberg, som aldrig landat i en övertygelse utan att genast börja tvivla på den, skrev i *Götiska rummen*:
 
-> En hälsosam osäkerhet, som höll personen kort, alltid vaken, på sin vakt; ständig förnyelse under ett hejdlöst framåt.[^15]
+> En hälsosam osäkerhet, som höll personen kort, alltid vaken, på sin vakt; ständig förnyelse under ett hejdlöst framåt.[^16]
 
 Det låter som en modern trosbekännelse: osäkerhet som dygd, vaksamhet som livshållning. Men han kallade den "hälsosam", och adjektivet avslöjar honom. Han visste att total trygghet är en annan form av död – att den som försäkrat sig mot allt har förlorat skälet att röra sig.
 
-I en annan tonart nådde Beck samma slutsats: ju fler risker vi hanterar, desto fler nya risker föder vi, och desto mer undergräver vi den tillit systemet skulle skapa.[^16] Försäkringen som skulle befria oss från rädsla binder oss vid sig. Den som inte kan gå ut förrän försäkringsbrevet är granskat har bytt herre.
+I en annan tonart nådde Beck samma slutsats: ju fler risker vi hanterar, desto fler nya risker föder vi, och desto mer undergräver vi den tillit systemet skulle skapa.[^17] Försäkringen som skulle befria oss från rädsla binder oss vid sig. Den som inte kan gå ut förrän försäkringsbrevet är granskat har bytt herre.
 
-Alexis de Tocqueville beskrev formen redan 1840: en makt som tryggar medborgarnas behov, sköter deras angelägenheter och steg för steg befriar dem "från besväret att tänka och mödan att leva".[^22]
-Ibn Taymiyyah (1300-talet) såg sambandet:
+Alexis de Tocqueville beskrev formen redan 1840: en makt som tryggar medborgarnas behov, sköter deras angelägenheter och steg för steg befriar dem "från besväret att tänka och mödan att leva".[^18]
+Ibn Taymiyyah (1263–1328) såg sambandet:
 
-> Den som hänger sitt hjärta vid skapade ting – att de skall hjälpa honom, försörja honom, vägleda honom – hans hjärta underkastas dem, och det uppstår i honom en träldom under dem i motsvarande grad.[^17]
+> Den som fäster sitt hjärta vid skapade ting – att de skall hjälpa honom, försörja honom, vägleda honom – hans hjärta underkastas dem, och det uppstår i honom en träldom under dem i motsvarande grad.[^19]
 Orden gällde en människa som förlitar sig på härskare, vänner och rikedomar. Men de träffar försäkringssamhället med samma kraft.
 
 Fågeln har medel men ingen herre utom sin Skapare. Den förbereder sig – kroppen lagrar fett, fjäderdräkten byts, den biologiska klockan ställs mot rätt breddgrad – men aldrig har den slutit ett avtal med tillvaron. Resan är förberedd, aldrig garanterad. Och fågeln flyger ändå.
@@ -95,19 +95,19 @@ Fågeln har medel men ingen herre utom sin Skapare. Den förbereder sig – krop
 
 Även den svenska litteraturen kretsade kring samma bild. Dan Andersson lade den i romanfigurens mun, vandraren David Ramm, som ropar:
 
-> Låt oss antaga att jag har en själ... när jag dör flyger det likt en fågel ur kroppen. Vart skall han då ta vägen, den konstiga Fågel Jag?[^18]
+> Låt oss antaga att jag har en själ... när jag dör flyger det likt en fågel ur kroppen. Vart skall han då ta vägen, den konstiga Fågel Jag?[^20]
 
 Frågan stiger mot samma öppna rymd som silvertärnan, och inget försäkringsbolag tar emot den.
 
-Fredrika Bremer gav ett svar i mitten av 1800-talet:
+Fredrika Bremer (1801–1865) gav ett svar i mitten av 1800-talet:
 
-> Efter lifvets vinterdagar / Upp till denna vårnejd klar / Enligt evigt gifna lagar / Himmelska flyttfågeln fär.[^19]
+> Efter lifvets vinterdagar / Upp till denna vårnejd klar / Enligt evigt gifna lagar / Himmelska flyttfågeln fär.[^21]
 
 *Enligt evigt gifna lagar.* Bremer talade om själen, inte om silvertärnan, men hon fångade den grundsats som gör fågelns resa möjlig. Det finns en ordning som bär – den syns inte, den är inte formulerad i ett avtal, den kan inte sägas upp. Koranen kallar det *qadar*.
 
 Kvar är fågeln: hundra gram, en hjärna som en ärta, ett öga öppet och ett slutet, på väg genom en rymd den fått i uppdrag att korsa. Vid sekelskiftet 1900 fångade Hjalmar Söderberg samma sanning:
 
-> den som vill stanna här och där på vägen och njuta en smula af lifvet innan han har nått målet, han når det aldrig.[^20]
+> den som vill stanna här och där på vägen och njuta en smula af lifvet innan han har nått målet, han når det aldrig.[^22]
 
 Silvertärnan stannar inte.
 
@@ -124,14 +124,14 @@ Silvertärnan stannar inte.
 [^9]: Ibn Qayyim al-Jawziyyah, *al-Fawāʾid* (ca. 1340-talet).
 [^10]: Ibn Qayyim al-Jawziyyah, *Madārij al-Sālikīn* (De vandrandes stationer), (ca. 1340-talet), avsnittet om *tawakkul*. Min översättning från arabiska.
 [^11]: Ibn al-Jawzī, *Talbīs Iblīs* (1100-talet).
-[^12]: Ḥadīth återgiven av al-Tirmidhī (nr 2344) och Aḥmad. Klassificerad som *ḥasan* av al-Tirmidhī, *ṣaḥīḥ* av al-Albānī.
-[^13]: Koranen, al-Mulk 67:19.
-[^14]: Ibn Qayyim al-Jawziyyah, *Madārij al-Sālikīn*.
-[^15]: August Strindberg, *Götiska rummen: Släktöden från sekelslutet* (1904).
-[^16]: Beck, *Risikogesellschaft*, kapitel 1–2 om reflexiv modernisering.
-[^17]: Ibn Taymiyyah, *al-ʿUbūdiyyah* (1300-talet).
-[^18]: Dan Andersson, *David Ramms arv* (1919).
-[^19]: Fredrika Bremer, dikten "Våren" (troligen 1840-talet).
-[^20]: Hjalmar Söderberg, *Martin Bircks ungdom* (1901).
-[^21]: Søren Kierkegaard, *Frygt og Bæven* (1843), avsnittet om 'trons riddare' (*Troens Ridder*).
-[^22]: Alexis de Tocqueville, *De la démocratie en Amérique*, del II (1840), fjärde boken, kap. 6. Min översättning från franska.
+[^12]: Søren Kierkegaard, *Frygt og Bæven* (1843), avsnittet om 'trons riddare' (*Troens Ridder*).
+[^13]: Ḥadīth återgiven av al-Tirmidhī (nr 2344) och Aḥmad. Klassificerad som *ḥasan* av al-Tirmidhī, *ṣaḥīḥ* av al-Albānī.
+[^14]: Koranen, al-Mulk 67:19.
+[^15]: Ibn Qayyim al-Jawziyyah, *Madārij al-Sālikīn*.
+[^16]: August Strindberg, *Götiska rummen: Släktöden från sekelslutet* (1904).
+[^17]: Beck, *Risikogesellschaft*, kapitel 1–2 om reflexiv modernisering.
+[^18]: Alexis de Tocqueville, *De la démocratie en Amérique*, del II (1840), fjärde boken, kap. 6. Min översättning från franska.
+[^19]: Ibn Taymiyyah, *al-ʿUbūdiyyah* (1300-talet).
+[^20]: Dan Andersson, *David Ramms arv* (1919).
+[^21]: Fredrika Bremer, dikten "Våren" (troligen 1840-talet).
+[^22]: Hjalmar Söderberg, *Martin Bircks ungdom* (1901).

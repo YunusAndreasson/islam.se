@@ -29,7 +29,7 @@ Visst obehag är livsnödvändigt.
 
 Redan ordet *ångest* stammar från fornnordiskans *angr*, trånghet. Koranen använder samma kroppsliga bild – *ḍīq ṣadr*, trånghet i bröstet – för den andliga nöden. Men trångheten kräver en åtskillnad: den som väcker ur bedövning och den som trycker djupare in i den.
 
-Distinktionen är äldre än Ibn Qayyim. Hans lärare Ibn Taymiyyah formulerade grundprincipen:
+Distinktionen är äldre än Ibn Qayyim. Hans lärare Ibn Taymiyyah (1263–1328) formulerade grundprincipen:
 
 > Hjärtats sjukdom är en smärta som uppstår i hjärtat, som vreden mot en fiende som besegrat dig – det smärtar hjärtat. Tvivel och okunnighet smärtar hjärtat. Om den sjuke utsätts för det som liknar orsaken till hans sjukdom, ökar sjukdomen och hans kraft försvagas tills han kanske förgås. Men om han får det som stärker kraften och undanröjer sjukdomen, sker motsatsen.[^4]
 
@@ -37,61 +37,61 @@ Som munnen efter bedövningen: man vet att den borde känna, men den gör det in
 
 Koranen förtydligar diagnosen: "I deras hjärtan finns en sjukdom, så Allah ﷻ har utökat sjukdomen för dem."[^5] Sjukdomen tilltar inte trots omedvetenheten; den tilltar *genom* den. Ju mindre den sjuke känner, desto sjukare är han.
 
-Modern neurovetenskap pekar i samma riktning. Antonio Damasio påvisade att patienter som efter hjärnskador förlorat förmågan att känna obehag – trots intakt intellekt – inte kunde fatta vardagliga beslut.[^17] Känslan var inte förnuftets motståndare utan dess förutsättning.[^6][^7]
+Modern neurovetenskap pekar i samma riktning. Antonio Damasio påvisade att patienter som efter hjärnskador förlorat förmågan att känna obehag – trots intakt intellekt – inte kunde fatta vardagliga beslut.[^6] Känslan var inte förnuftets motståndare utan dess förutsättning.[^7][^8]
 
 ## Rädslans gräns
 
-Kliniska ångestsyndrom – generaliserat ångestsyndrom, paniksyndrom, tvångssyndrom – är verkliga tillstånd som kräver professionell behandling. Den nyttiga oron *väcker*; den sjukliga *förlamar*. Muslimska psykologer i dag skiljer mellan vanlig *waswās* och *waswās al-qahrī*, de tvångsmässiga viskningarna som kräver klinisk, inte bara andlig, vård.[^8]
+Kliniska ångestsyndrom – generaliserat ångestsyndrom, paniksyndrom, tvångssyndrom – är verkliga tillstånd som kräver professionell behandling. Den nyttiga oron *väcker*; den sjukliga *förlamar*. Muslimska psykologer i dag skiljer mellan vanlig *waswās* och *waswās al-qahrī*, de tvångsmässiga viskningarna som kräver klinisk, inte bara andlig, vård.[^9]
 
-Ibn Qayyim själv inskärpte gränsen. I *Madārij al-Sālikīn* skriver han: "Rädslan har sin gräns vid det som hindrar dig från att synda mot Gud. Det som överstiger den gränsen är onödigt."[^9] Febern bekämpar infektion, men en feber som aldrig bryts dödar patienten.
+Ibn Qayyim själv inskärpte gränsen. I *Madārij al-Sālikīn* skriver han: "Rädslan har sin gräns vid det som hindrar dig från att synda mot Gud. Det som överstiger den gränsen är onödigt."[^10] Febern bekämpar infektion, men en feber som aldrig bryts dödar patienten.
 
 Han framhåller *firāsah*, den andliga skarpsynen, som enda sättet att skilja den ångest som väcker från den som bryter ner.
 
 ## Tillvarons tröskel
 
-Samma gräns sysselsatte Søren Kierkegaard. I *Begreppet ångest* (1844) formulerade han sin centrala sats: "Den som har lärt sig ängslas rätt har lärt sig det yttersta."[^10] Ångest är för Kierkegaard inte ett hinder utan en förutsättning.
+Samma gräns sysselsatte Søren Kierkegaard. I *Begreppet ångest* (1844) formulerade han sin centrala sats: "Den som har lärt sig ängslas rätt har lärt sig det yttersta."[^11] Ångest är för Kierkegaard inte ett hinder utan en förutsättning.
 Den teologiska grunden skiljer dem. Kierkegaards ångest springer ur den kristna läran om syndafallet och den yttersta friheten – människan ställd ensam inför valet. Ibn Qayyims ångest växer ur *fiṭrah*, den medfödda orienteringen mot Gud, och *nafs*, det inre jagets kamp. Hos Kierkegaard är ångesten ensamhet. Hos Ibn Qayyim är den bevis på att bandet till Gud fortfarande lever.
 
-Kierkegaard lämnar den ångestfyllde ensam med sin frihet. Utan ett begrepp om hjärtats ursprungliga riktning kan ångesten visa *att* du är fri, men aldrig *vad* friheten är till för. Ibn Qayyim ger riktning: ångesten pekar mot det som behöver läkas, och läkningen har ett namn. Lagerkvists Barabbas, den frigivne brottslingen som kretsar kring en tro han inte äger, erkänner samma längtan men har inget namn för den: "För att jag gärna ville tro."[^19]
+Kierkegaard lämnar den ångestfyllde ensam med sin frihet. Utan ett begrepp om hjärtats ursprungliga riktning kan ångesten visa *att* du är fri, men aldrig *vad* friheten är till för. Ibn Qayyim ger riktning: ångesten pekar mot det som behöver läkas, och läkningen har ett namn. Lagerkvists Barabbas, den frigivne brottslingen som kretsar kring en tro han inte äger, erkänner samma längtan men har inget namn för den: "För att jag gärna ville tro."[^12]
 
 ## Reningen
 
-Koranen beskriver den läkande rörelsen: "Det var Han som sände ned lugnet i de troendes hjärtan så att de kunde växa i tro utöver den tro de hade."[^11] Lugnet, *sakīnah*, kommer inte av att prövningen uteblir utan sänds ned *i* prövningen.
+Koranen beskriver den läkande rörelsen: "Det var Han som sände ned lugnet i de troendes hjärtan så att de kunde växa i tro utöver den tro de hade."[^13] Lugnet, *sakīnah*, kommer inte av att prövningen uteblir utan sänds ned *i* prövningen.
 
-Ibn Qayyim utvecklar detta i *al-Wābil al-Ṣayyib*: "Hjärtat rostar som koppar och silver rostar, och dess polering är *dhikr*."[^12] Hjärtat är av naturen blankt. Hjärtesoten är beläggning, inte skada i grundmaterialet. *Dhikr* – Guds åminnelse – återställer det ursprungliga tillståndet.
+Ibn Qayyim utvecklar detta i *al-Wābil al-Ṣayyib*: "Hjärtat rostar som koppar och silver rostar, och dess polering är *dhikr*."[^14] Hjärtat är av naturen blankt. Hjärtesoten är beläggning, inte skada i grundmaterialet. *Dhikr* – Guds åminnelse – återställer det ursprungliga tillståndet.
 
-Strindberg skymtade samma insikt: "Vi ha vuxit, och därför äro vi sjuka. Varje tid har sina sjukdomar, vilka synas bero av förändringar i själen."[^13] Orden bär en sanning Strindberg aldrig förmådde fullfölja: att sjukdomen ibland tillhör växandet, att det som plågar är det som formar. Ibn Qayyim skulle ha nickat igenkännande – och sedan frågat: mot vad växer du?
+Strindberg skymtade samma insikt: "Vi ha vuxit, och därför äro vi sjuka. Varje tid har sina sjukdomar, vilka synas bero av förändringar i själen."[^15] Orden bär en sanning Strindberg aldrig förmådde fullfölja: att sjukdomen ibland tillhör växandet, att det som plågar är det som formar. Ibn Qayyim skulle ha nickat igenkännande – och sedan frågat: mot vad växer du?
 
 ## Hjärtat som vet
 
-I *al-Fawāʾid* sammanfattar Ibn Qayyim: "Hjärtana är Guds kärl på Hans jord, och de käraste för Honom är de mjukaste, starkaste och klaraste."[^14]
+I *al-Fawāʾid* sammanfattar Ibn Qayyim: "Hjärtana är Guds kärl på Hans jord, och de käraste för Honom är de mjukaste, starkaste och klaraste."[^16]
 
 Mjukhet: förmågan att röras. Styrka: förmågan att bestå. Klarhet: förmågan att se sant.
 
 Ångesten slipar klarheten. Den tvingar hjärtat att se vad det helst vill slippa: var banden tunnats, var synden ätit sig in, var bedövningen tagit överhanden. Den som lär sig avläsa den signalen – inte fly den, inte drunkna i den, utan *läsa* den – äger ett redskap som ingen yttre terapeut kan ersätta.
 
-Karin Boye skrev: "Längtan är en lek. När den växer till allvar, kallas den ångest."[^15] Ibn Qayyim vänder sambandet: ångesten, avläst rätt, *är* längtan – längtan tillbaka till det tillstånd hjärtat skapades för. Pär Lagerkvist frågade i *Aftonland*: "Vem är du som uppfyller mitt hjärta med din frånvaro?"[^18]
+Karin Boye skrev: "Längtan är en lek. När den växer till allvar, kallas den ångest."[^17] Ibn Qayyim vänder sambandet: ångesten, avläst rätt, *är* längtan – längtan tillbaka till det tillstånd hjärtat skapades för. Pär Lagerkvist frågade i *Aftonland*: "Vem är du som uppfyller mitt hjärta med din frånvaro?"[^18]
 
-Koranen kallar det *qalb salīm*: det friska hjärtat.[^16] Inte ett hjärta som aldrig lidit utan ett som lidit rätt.
+Koranen kallar det *qalb salīm*: det friska hjärtat.[^19] Inte ett hjärta som aldrig lidit utan ett som lidit rätt.
 
 ---
 
 [^1]: Ibn Qayyim al-Jawziyyah, *al-Dāʾ wa-l-Dawāʾ* (Sjukdomen och boten).
 [^2]: Koranen, al-Nās 114:4–6.
-[^3]: Metaforen om ångest som immunförsvar för själen är min tolkningsram för Ibn Qayyims diagnostiska modell, inte hans eget språk. Se även hans diskussion om waswās i *Ighāthat al-Lahfān min Maṣāʾid al-Shayṭān* (Befrielse av den bedrövade från Satans fällor).
+[^3]: Metaforen om ångest som immunförsvar för själen är min tolkningsram för Ibn Qayyims diagnostiska modell, inte hans eget språk. Se även hans diskussion om waswās i *Ighāthat al-Lahfān min Maṣāʾid al-Shayṭān* (Räddningen för den bedrövade ur Satans fällor).
 [^4]: Ibn Taymiyyah, *Amrāḍ al-Qulūb wa-Shifāʾuhā* (Hjärtats sjukdomar och deras bot).
 [^5]: Koranen, al-Baqarah 2:10.
-[^6]: Wendy Suzuki, *Good Anxiety: Harnessing the Power of the Most Misunderstood Emotion*, Atria Books, 2021.
-[^7]: Randolph M. Nesse, "The Smoke Detector Principle: Natural Selection and the Regulation of Defensive Responses", *Annals of the New York Academy of Sciences*, 935(1), 2001, s. 75–85. Se även Nesse & Williams, *Why We Get Sick: The New Science of Darwinian Medicine*, Vintage, 1996.
-[^8]: Zohair Abdul-Rahman & Nazir Khan, "Clinicians, Imams, and the Whisperings of Satan", Yaqeen Institute for Islamic Research, 2020. Inom den islamiska traditionen görs en viktig åtskillnad mellan waswās som andlig prövning och *waswās al-qahrī* (tvångsmässiga viskningar) som kräver professionell klinisk behandling.
-[^9]: Ibn Qayyim al-Jawziyyah, *Madārij al-Sālikīn* (Stationerna på vägen).
-[^10]: Søren Kierkegaard, *Begrebet Angest* (Begreppet ångest), 1844. Den svenska översättningen "det yttersta" återger det danska "det Høieste" – ordagrant "det högsta".
-[^11]: Koranen, al-Fatḥ 48:4.
-[^12]: Ibn Qayyim al-Jawziyyah, *al-Wābil al-Ṣayyib min al-Kalim al-Ṭayyib* (Det välgörande regnet av de goda orden).
-[^13]: August Strindberg, *Götiska rummen*, 1904.
-[^14]: Ibn Qayyim al-Jawziyyah, *al-Fawāʾid* (Samlade insikter).
-[^15]: Karin Boye, *Kris*, 1934.
-[^16]: Koranen, al-Shuʿarāʾ 26:89: "Utom den som kommer till Gud med ett friskt hjärta."
-[^17]: Antonio Damasio, *Descartes' Error: Emotion, Reason, and the Human Brain*, G.P. Putnam's Sons, 1994.
+[^6]: Antonio Damasio, *Descartes' Error: Emotion, Reason, and the Human Brain*, G.P. Putnam's Sons, 1994.
+[^7]: Wendy Suzuki, *Good Anxiety: Harnessing the Power of the Most Misunderstood Emotion*, Atria Books, 2021.
+[^8]: Randolph M. Nesse, "The Smoke Detector Principle: Natural Selection and the Regulation of Defensive Responses", *Annals of the New York Academy of Sciences*, 935(1), 2001, s. 75–85. Se även Nesse & Williams, *Why We Get Sick: The New Science of Darwinian Medicine*, Vintage, 1996.
+[^9]: Zohair Abdul-Rahman & Nazir Khan, "Clinicians, Imams, and the Whisperings of Satan", Yaqeen Institute for Islamic Research, 2020. Inom den islamiska traditionen görs en viktig åtskillnad mellan waswās som andlig prövning och *waswās al-qahrī* (tvångsmässiga viskningar) som kräver professionell klinisk behandling.
+[^10]: Ibn Qayyim al-Jawziyyah, *Madārij al-Sālikīn* (De vandrandes stationer).
+[^11]: Søren Kierkegaard, *Begrebet Angest* (Begreppet ångest), 1844. Den svenska översättningen "det yttersta" återger det danska "det Høieste" – ordagrant "det högsta".
+[^12]: Pär Lagerkvist, *Barabbas*, Albert Bonniers Förlag, 1950.
+[^13]: Koranen, al-Fatḥ 48:4.
+[^14]: Ibn Qayyim al-Jawziyyah, *al-Wābil al-Ṣayyib min al-Kalim al-Ṭayyib* (Det välgörande regnet).
+[^15]: August Strindberg, *Götiska rummen*, 1904.
+[^16]: Ibn Qayyim al-Jawziyyah, *al-Fawāʾid* (Nyttorna).
+[^17]: Karin Boye, *Kris*, 1934.
 [^18]: Pär Lagerkvist, *Aftonland*, Albert Bonniers Förlag, 1953.
-[^19]: Pär Lagerkvist, *Barabbas*, Albert Bonniers Förlag, 1950.
+[^19]: Koranen, al-Shuʿarāʾ 26:89: "Utom den som kommer till Gud med ett friskt hjärta."

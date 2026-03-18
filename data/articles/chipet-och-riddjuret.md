@@ -17,23 +17,23 @@ I Sverige har över femtusen personer implanterat mikrochip under huden.[^2] Chi
 
 Förutsättningen är densamma som i Boyes dystopi: kroppen är råmaterial. Sömn mäts, kost finjusteras, prestationshöjande preparat doseras efter schema.
 
-Men sker det inte frivilligt? I *Kallocain* injiceras serumet under tvång; i Stockholm implanteras chipet med ett leende. Skillnaden är verklig – och döljer en djup likhet. Både Världsstatens medborgare och biohackaren behandlar kroppen som *resurs*, material att bruka för ett ändamål. Att tvånget bytts mot samtycke ändrar formen, inte förutsättningen. Byung-Chul Han kallar mönstret *självexploatering*: den som förbättrar sig frivilligt utnyttjar sig själv utan yttre tvång och förväxlar underkastelse med frihet.[^15] Det är den som vaknar klockan fem för att meditera – aldrig av egen längtan, alltid för att alla framgångsrika människor gör det.
+Men sker det inte frivilligt? I *Kallocain* injiceras serumet under tvång; i Stockholm implanteras chipet med ett leende. Skillnaden är verklig – och döljer en djup likhet. Både Världsstatens medborgare och biohackaren behandlar kroppen som *resurs*, material att bruka för ett ändamål. Att tvånget bytts mot samtycke ändrar formen, inte förutsättningen. Byung-Chul Han kallar mönstret *självexploatering*: den som förbättrar sig frivilligt utnyttjar sig själv utan yttre tvång och förväxlar underkastelse med frihet.[^3] Det är den som vaknar klockan fem för att meditera – aldrig av egen längtan, alltid för att alla framgångsrika människor gör det.
 
 Leo Kall förkroppsligar denna livsåskådning. Ondskefull är han inte. Han gör vad systemet belönar: förbättrar, snabbar på, förenklar. Att uppfinningen sliter sönder människors inre liv framstår, i hans ögon, som en biverkning.
 
 ## Riddjuret och hjärtat
 
-Ibn al-Jawzī, den lärde i 1100-talets Bagdad, tecknade kroppen som ett riddjur – *maṭiyyah* – som människan anförtrotts att färdas med. "Kroppen är som ett riddjur", skriver han, "och riddjuret måste fodras och tas om hand."[^3] Bilden är avsiktligt enkel men rymmer en vass poäng. Ett riddjur är varken ägaren eller ägarens egendom. Det är anförtrott. Man kan rida det, men inte rida ihjäl det. Man kan vårda det, men inte förvandla det till något annat än vad det är. Förhållandet förutsätter gränser som varken ryttaren eller riddjuret har satt.
+Ibn al-Jawzī (d. 1201), den lärde i Bagdad, tecknade kroppen som ett riddjur – *maṭiyyah* – som människan anförtrotts att färdas med. "Kroppen är som ett riddjur", skriver han, "och riddjuret måste fodras och tas om hand."[^4] Bilden är avsiktligt enkel men rymmer en vass poäng. Ett riddjur är varken ägaren eller ägarens egendom. Det är anförtrott. Man kan rida det, men inte rida ihjäl det. Man kan vårda det, men inte förvandla det till något annat än vad det är. Förhållandet förutsätter gränser som varken ryttaren eller riddjuret har satt.
 
 Biohackaren frågar *hur kan jag förbättra min kropp?* Ibn al-Jawzī frågar *vilka villkor gäller för detta lån?*
 Ibn Qayyim al-Jawziyyah förde bilden från liknelse till grundsats:
 
-> Hjärtat är kungen över lemmarna, och lemmarna är dess soldater; om kungen är rättfärdig, är hans soldater rättfärdiga, och om kungen är fördärvad, är hans soldater fördärvade.[^4]
+> Hjärtat är kungen över lemmarna, och lemmarna är dess soldater; om kungen är rättfärdig, är hans soldater rättfärdiga, och om kungen är fördärvad, är hans soldater fördärvade.[^5]
 
 Kroppen tjänar hjärtat, inte tvärtom. *Qalb* rymmer det som inget instrument kan mäta: förmågan att vända sig till sin Skapare i tro, lydnad och uppenbarad kunskap.
 I biohackingens värld är kroppen ett slutet kretslopp av data, kemikalier och mekanik. Traditionens kropp är genomsläpplig, riktad bortom sig själv. Ibn Qayyim drog parallellen:
 
-> Liksom kroppen inte kan vara frisk utan näring som bevarar dess kraft och utrensning av skadliga ämnen, så kan inte heller hjärtat fullborda sitt liv utan näring av tro och goda handlingar.[^5]
+> Liksom kroppen inte kan vara frisk utan näring som bevarar dess kraft och utrensning av skadliga ämnen, så kan inte heller hjärtat fullborda sitt liv utan näring av tro och goda handlingar.[^6]
 
 Kroppen är varken föraktad eller oväsentlig, men den fullbordas först genom det den är skapad för.
 
@@ -41,53 +41,53 @@ Kroppen är varken föraktad eller oväsentlig, men den fullbordas först genom 
 
 Koranen namnger kroppens förhållande till sin Skapare med ett ord som saknar rakt svenskt motstycke: *amānah*.
 
-> Vi erbjöd himlarna och jorden och bergen förtroendet, men de vägrade att åta sig det och bävade för det, men människan åtog sig det.[^6]
+> Vi erbjöd himlarna och jorden och bergen förtroendet, men de vägrade att åta sig det och bävade för det, men människan åtog sig det.[^7]
 
-Det som erbjöds var inte ägande utan ansvar. I den klassiska skrifttolkningens ljus innebär *amānah* att människan anförtrotts sig själv – kropp, intellekt, tid, förbindelser – som lån med villkor, inte egendom att rå över fritt.[^7]
-Profeten Muḥammad ﷺ satte ord på det: "Fullgör det anförtrodda mot den som anförtrott dig det, och svek inte den som sviker dig."[^8]
+Det som erbjöds var inte ägande utan ansvar. I den klassiska skrifttolkningens ljus innebär *amānah* att människan anförtrotts sig själv – kropp, intellekt, tid, förbindelser – som lån med villkor, inte egendom att rå över fritt.[^8]
+Profeten Muḥammad ﷺ satte ord på det: "Fullgör det anförtrodda mot den som anförtrott dig det, och svek inte den som sviker dig."[^9]
 
 Boyes roman och biohackingen delar samma tomrum: en kropp utan *amānah*, en kropp som tillhör staten eller individen men i inget av fallen bär ansvar inför den som skapat den. Ju mer makt människan får över sin biologi, desto svårare blir det att besvara frågan *vad kroppen är till för*.
 
-*Hur* kroppen fungerar kan data visa; aldrig *varför* den existerar. "Deras kroppar reser sig från sina bäddar för att tillbe sin Herre med fruktan och längtan."[^9]
+*Hur* kroppen fungerar kan data visa; aldrig *varför* den existerar. "Deras kroppar reser sig från sina bäddar för att tillbe sin Herre med fruktan och längtan."[^10]
 
 ## Det osynliga organet
 
 I Profetens ﷺ berömda *ḥadīth* om hjärtat sammanfattas hela den islamiska kroppsteologin:
 
-> I kroppen finns sannerligen en köttbit: om den är frisk, är hela kroppen frisk, och om den är sjuk, är hela kroppen sjuk. Det är hjärtat.[^10]
+> I kroppen finns sannerligen en köttbit: om den är frisk, är hela kroppen frisk, och om den är sjuk, är hela kroppen sjuk. Det är hjärtat.[^11]
 
-Hadithen ger kroppen ett centrum som inget av biohackarens verktyg kan nå. Ibn Taymiyyah beskrev dess tillstånd som villkoret för allt annat:
+Hadithen ger kroppen ett centrum som inget av biohackarens verktyg kan nå. Ibn Taymiyyah (1263–1328) beskrev dess tillstånd som villkoret för allt annat:
 
-> Hjärtats liv är inte blott sinnesförnimmelse och viljemässig rörelse, inte heller blott kunskap och förmåga, utan livet är en egenskap som är villkoret för kunskap, vilja och förmåga till fritt handlande.[^11]
+> Hjärtats liv är inte blott sinnesförnimmelse och viljemässig rörelse, inte heller blott kunskap och förmåga, utan livet är en egenskap som är villkoret för kunskap, vilja och förmåga till fritt handlande.[^12]
 
 Den som mäter sin kropp kan aldrig mäta det som avgör vad som är värt att mäta.
 
-Hjärtfrekvens, pulsens svängningar, blodflöde – allt kan mätas. Men den tradition som gör *qalb* till människans mitt avser ett organ ingen sensor kan avläsa. Ibn Qayyim varnar: "Ödmjukheten har sin plats i hjärtat och dess frukt visar sig på kroppen."[^12] Riktningen är motsatt biohackingens: inifrån ut, aldrig utifrån in.
+Hjärtfrekvens, pulsens svängningar, blodflöde – allt kan mätas. Men den tradition som gör *qalb* till människans mitt avser ett organ ingen sensor kan avläsa. Ibn Qayyim varnar: "Ödmjukheten har sin plats i hjärtat och dess frukt visar sig på kroppen."[^13] Riktningen är motsatt biohackingens: inifrån ut, aldrig utifrån in.
 
 ## Varken dystopi eller utopi
 
 Leo Kall hade ett ögonblick av klarhet. Mot romanens slut, när hans uppfinning redan slitit sönder familjer och dömt oskyldiga, skriver han:
 
-> Rädsla var det inte. Jag hade varit rädd nästan hela mitt liv, jag hade varit feg – men just då var jag inte rädd.[^13]
+> Rädsla var det inte. Jag hade varit rädd nästan hela mitt liv, jag hade varit feg – men just då var jag inte rädd.[^14]
 Han anar att något gått förlorat, men saknar språket.
 Språket har funnits sedan 600-talet. Kroppen som riddjur, hjärtat som kunskapens säte, tillvaron som lån.
 
-Ibn Rajab al-Ḥanbalī fångade det innersta lagret: "Min kropp är med mig, men min ande är hos er – kroppen lever i främlingskap, anden i sin hemort."[^14]
+Ibn Rajab al-Ḥanbalī (d. 1393) fångade det innersta lagret: "Min kropp är med mig, men min ande är hos er – kroppen lever i främlingskap, anden i sin hemort."[^15]
 
 ---
 
 [^1]: Karin Boye, *Kallocain* (Albert Bonniers Förlag, 1940).
 [^2]: "Thousands of Swedes are inserting microchips under their skin", World Economic Forum, maj 2018. Se även Minna Nyman, "Fler hackar kroppen – för ett bekvämare liv", forskning.se, februari 2019.
-[^3]: Ibn al-Jawzī, *Ṣayd al-Khāṭir* (Jakten på tanken).
-[^4]: Ibn Qayyim al-Jawziyyah, *Ighāthat al-Lahfān min Maṣāʾid al-Shayṭān* (Räddningen för den bedrövade ur Satans fällor).
-[^5]: Ibn Qayyim al-Jawziyyah, *al-Dāʾ wa-l-Dawāʾ* (Sjukdomen och boten).
-[^6]: Koranen, al-Aḥzāb 33:72.
-[^7]: Ibn Taymiyyah, *al-Siyāsah al-Sharʿiyyah*.
-[^8]: Ḥadīth återgiven i Abū Dāwūd och al-Tirmidhī samlingar; citerad i Ibn al-Jawzī, *Ṣifat al-Ṣafwah*.
-[^9]: Koranen, al-Sajdah 32:16.
-[^10]: al-Nawawī, *al-Arbaʿīn al-Nawawiyyah*, *ḥadīth* nr 6; ursprungligen i Ṣaḥīḥ al-Bukhārī och Ṣaḥīḥ Muslim.
-[^11]: Ibn Taymiyyah, *Amrāḍ al-Qulūb wa-Shifāʾuhā* (Hjärtats sjukdomar och deras bot).
-[^12]: Ibn Qayyim al-Jawziyyah, *Madārij al-Sālikīn* (De vandrandes stationer).
-[^13]: Karin Boye, *Kallocain*.
-[^14]: Ibn Rajab al-Ḥanbalī, *Jāmiʿ al-ʿUlūm wa-l-Ḥikam* (Samlingen av kunskaper och visdomsord).
-[^15]: Byung-Chul Han, *Psychopolitik: Neoliberalismus und die neuen Machttechniken* (Matthes & Seitz Berlin, 2014).
+[^3]: Byung-Chul Han, *Psychopolitik: Neoliberalismus und die neuen Machttechniken* (Matthes & Seitz Berlin, 2014).
+[^4]: Ibn al-Jawzī, *Ṣayd al-Khāṭir* (Tankens fångst).
+[^5]: Ibn Qayyim al-Jawziyyah, *Ighāthat al-Lahfān min Maṣāʾid al-Shayṭān* (Räddningen för den bedrövade ur Satans fällor).
+[^6]: Ibn Qayyim al-Jawziyyah, *al-Dāʾ wa-l-Dawāʾ* (Sjukdomen och boten).
+[^7]: Koranen, al-Aḥzāb 33:72.
+[^8]: Ibn Taymiyyah, *al-Siyāsah al-Sharʿiyyah*.
+[^9]: Ḥadīth återgiven i Abū Dāwūd och al-Tirmidhī samlingar; citerad i Ibn al-Jawzī, *Ṣifat al-Ṣafwah*.
+[^10]: Koranen, al-Sajdah 32:16.
+[^11]: al-Nawawī, *al-Arbaʿīn al-Nawawiyyah*, *ḥadīth* nr 6; ursprungligen i Ṣaḥīḥ al-Bukhārī och Ṣaḥīḥ Muslim.
+[^12]: Ibn Taymiyyah, *Amrāḍ al-Qulūb wa-Shifāʾuhā* (Hjärtats sjukdomar och deras bot).
+[^13]: Ibn Qayyim al-Jawziyyah, *Madārij al-Sālikīn* (De vandrandes stationer).
+[^14]: Karin Boye, *Kallocain*.
+[^15]: Ibn Rajab al-Ḥanbalī, *Jāmiʿ al-ʿUlūm wa-l-Ḥikam* (Samling av vetenskaper och visdomsord).

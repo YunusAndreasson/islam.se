@@ -11,9 +11,9 @@ Men frågan som sällan ställs är varför just ett öga, och framför allt vad
 
 ## Transaktionen vid brunnen
 
-Snorre Sturlason, som nedtecknade myten i *Prosaeddan*, var noga med detaljerna. Brunnen ligger under Yggdrasils andra rot, i jättarnas värld. Den vaktas av Mimer, vars namn, *Mímir*, är besläktat med fornisländskans *minni*: minne, hågkomst.[^1] Brunnen rymmer *visdom och förstånd*. Odin får dricka ur den först efter att ha lämnat sitt öga som pant.
+Snorre Sturlason (1179–1241), som nedtecknade myten i *Prosaeddan*, var noga med detaljerna. Brunnen ligger under Yggdrasils andra rot, i jättarnas värld. Den vaktas av Mimer, vars namn, *Mímir*, är besläktat med fornisländskans *minni*: minne, hågkomst.[^1] Brunnen rymmer *visdom och förstånd*. Odin får dricka ur den först efter att ha lämnat sitt öga som pant.
 
-Vad slags köp är det? Viktor Rydberg, som ägnade decennier åt att ordna den nordiska mytologin, tydliggjorde dess tankegång:
+Vad slags köp är det? Viktor Rydberg (1828–1895), som ägnade decennier åt att ordna den nordiska mytologin, tydliggjorde dess tankegång:
 
 > Odin måste underkasta sig stora lidanden och offer för att dricka ur brunnen, och det är som en gåva eller ett lån han därefter mottar den livgivande och själsinspirerade drycken. Över brunnen och dess territorium utövar Mimer oinskränkt kontroll, en auktoritet som gudarna aldrig tycks ha ifrågasatt.[^2]
 
@@ -47,7 +47,7 @@ Där Odin offrar ett sinnesorgan men behåller sitt jag, kräver Ibn Qayyim att 
 
 Koranen anvisar denna rörelse. Allah ﷻ säger: "Och i era egna själva – ser ni inte?"[^6] Att se in i sig själv är här ingen mystisk resa utan en uppmaning att se det uppenbara som människan ständigt flyr: sin svaghet, sitt beroende, sin dödlighet.
 
-Ibn al-Jawzī, Bagdads lärdomsman på tolfte århundradet, skriver i *Ṣayd al-Khāṭir*:
+Ibn al-Jawzī (d. 1201), Bagdads lärdomsman, skriver i *Ṣayd al-Khāṭir*:
 
 > Den som begrundar sig själv en dag – med en sanningssökares begrundan – ställer sig till svars innan han ställs till svars, och väger sig själv innan han vägs.[^7]
 
@@ -61,7 +61,7 @@ Koranen tecknar relationen mellan kunskap och själv med en ordning utan motsvar
 
 Versens byggnad är dess argument. Den som glömmer Gud glömmer sig själv. Men detta är en annan glömska än Hávamáls dåres. Dåren vrider och vänder, hopar och bevarar. Koranens glömska är djupare: den som vänder sig bort från det som överskrider jaget förlorar tillgången till sitt eget inre. Inte sitt minne utan sin verklighet.
 
-Harry Martinson grep den glömskan i *Aniara*: "Jag frågade mig själv men glömde svara. / Jag drömde mig ett liv men glömde vara."[^19]
+Harry Martinson grep den glömskan i *Aniara*: "Jag frågade mig själv men glömde svara. / Jag drömde mig ett liv men glömde vara."[^9]
 
 Ordningen är inte tillfällig. Om det djupaste i människan är att hon är skapad – beroende, ändlig, given – kan hon bara känna sig själv genom att känna den hon skapades av. Ta bort den referenspunkten och självkännedomen förlorar sin måttstock.
 
@@ -69,31 +69,31 @@ I den nordiska traditionen är minnet kunskapens bevarare: Mimer vaktar brunnen;
 
 Ibn Qayyim preciserar:
 
-> Den som känner sig själv genom svaghet känner sin Herre genom styrka. Den som känner sig själv genom oförmåga känner sin Herre genom makt. Den som känner sig själv genom ringhet känner sin Herre genom ära.[^9]
+> Den som känner sig själv genom svaghet känner sin Herre genom styrka. Den som känner sig själv genom oförmåga känner sin Herre genom makt. Den som känner sig själv genom ringhet känner sin Herre genom ära.[^10]
 
 Kunskapen rör sig här inte uppåt som i Odins klättring. Den rör sig *nedåt*: genom tilltagande insikt om den egna svagheten, tills jaget krymper. I det krympta jaget öppnar sig en kunskap som aldrig hade rymts i ett jag redan mättat av sig självt. Ibn Qayyim kallar detta *ʿubūdiyyah*: tjänarskap. Inte att jaget upphör utan att det finner sin rätta plats, som skapad varelse inför sin Skapare.
 
-Al-Māwardī, juristen och etikern, skrev i *Adab al-Dunyā wa-l-Dīn*:
+Al-Māwardī (974–1058), juristen och etikern, skrev i *Adab al-Dunyā wa-l-Dīn*:
 
-> Den ödmjuke bland kunskapssökarna besitter mest kunskap, liksom den lågläntaste platsen samlar mest vatten.[^10]
+> Den ödmjuke bland kunskapssökarna besitter mest kunskap, liksom den lågläntaste platsen samlar mest vatten.[^11]
 
 Kunskapen samlas inte hos den som klättrar högst, Odin på Yggdrasils stam, utan i myren nedanför, där marken är mättad och stilla.
 
-Den franska filosofen Simone Weil kom dit genom en helt annan väg. Hon gav det ett namn: *décréation*, att det skapade töms på sina anspråk, inte för att förintas utan för att kunna ta emot.[^15] Men Weils tömning förblir en viljeakt; jaget *beslutar* att träda åt sidan. I den islamiska traditionen upptäcker jaget sin litenhet ställt inför uppenbarelsen; det är skillnaden mellan en generös reträtt och ett obönhörligt erkännande.
+Den franska filosofen Simone Weil (1909–1943) kom dit genom en helt annan väg. Hon gav det ett namn: *décréation*, att det skapade töms på sina anspråk, inte för att förintas utan för att kunna ta emot.[^12] Men Weils tömning förblir en viljeakt; jaget *beslutar* att träda åt sidan. I den islamiska traditionen upptäcker jaget sin litenhet ställt inför uppenbarelsen; det är skillnaden mellan en generös reträtt och ett obönhörligt erkännande.
 
-Dag Hammarskjöld trängde samman det i *Vägmärken*: "Jag är kärlet. Guds är drycken. Och Gud den törstande."[^18] Vid Mimers brunn dricker guden; i Hammarskjölds bild är människan kärlet och Gud den som dricker.
+Dag Hammarskjöld trängde samman det i *Vägmärken*: "Jag är kärlet. Guds är drycken. Och Gud den törstande."[^13] Vid Mimers brunn dricker guden; i Hammarskjölds bild är människan kärlet och Gud den som dricker.
 
 ## Strindberg vid kunskapens höjder
 
 I den svenska tanketraditionen framträder en annan linje. August Strindberg skildrar i *Inferno* sitt eget val:
 
-> Ställd i valet mellan kärlek och vetande, hade jag bestämt mig för att söka nå kunskapens höjder, och i det jag brände å båle min tillgivenhet, glömde jag det oskyldiga offret för min ärelystnad eller min kallelse.[^11]
+> Ställd i valet mellan kärlek och vetande, hade jag bestämt mig för att söka nå kunskapens höjder, och i det jag brände å båle min tillgivenhet, glömde jag det oskyldiga offret för min ärelystnad eller min kallelse.[^14]
 
 *Nå kunskapens höjder.* Strindberg stiger uppåt, erövrar, offrar mänskliga band på ambitionens bål. Men det offrade är aldrig Strindberg själv. Det oskyldiga offret, kärleken, de andra, är en kostnad i det köp som gör honom till den han vill vara.
 
-Erik Gustaf Geijer rörde sig i samma spår:
+Erik Gustaf Geijer (1783–1847) rörde sig i samma spår:
 
-> En blott överlämnad, om ock riklig, kunskap är ej därför fruktbärande. Därtill fordras, att den på ett levande sätt skall vara tillägnad, genomlevd, prövad, fostrad av inre och yttre erfarenhet till en frukt för livet.[^12]
+> En blott överlämnad, om ock riklig, kunskap är ej därför fruktbärande. Därtill fordras, att den på ett levande sätt skall vara tillägnad, genomlevd, prövad, fostrad av inre och yttre erfarenhet till en frukt för livet.[^15]
 
 Kunskapen ska vara "genomlevd", men Geijer föreskriver tillägnan – Odins modell i civiliserad tappning, utan att kräva ödmjukhet inför det man lär sig.
 
@@ -109,28 +109,28 @@ Båda traditionerna ställer samma fråga: vad kostar kunskap? Svaren är väsen
 
 Vid Mimers brunn betalar den sökande med syn. Han förlorar ett sätt att se världen och får ett annat, syn mot insikt, förvaltad av Mimer, den som bevarar minnen. Jaget förblir intakt.
 
-I den islamiska traditionen betalar den sökande med anspråk, med själva övertygelsen om sin egen tillräcklighet. Det som offras är jagets föreställning om sig självt. Den som kände Allah ﷻ, skriver Ibn Qayyim, "såg sig inte annat än med bristens öga" – *ʿayn al-nuqṣān*.[^13] Formuleringen vänder Odins offer. Odin förlorar ett öga för att se bättre. Den som känner Allah ﷻ ser sig själv *tydligare*; det den ser är brist.
+I den islamiska traditionen betalar den sökande med anspråk, med själva övertygelsen om sin egen tillräcklighet. Det som offras är jagets föreställning om sig självt. Den som kände Allah ﷻ, skriver Ibn Qayyim, "såg sig inte annat än med bristens öga" – *ʿayn al-nuqṣān*.[^18] Formuleringen vänder Odins offer. Odin förlorar ett öga för att se bättre. Den som känner Allah ﷻ ser sig själv *tydligare*; det den ser är brist.
 
-Koranen uttrycker denna skillnad i en enda vers: "Sök hjälp genom tålamod och bön. Och det är sannerligen en svår sak – utom för de ödmjuka."[^14] Kunskapens verkliga svårighet ligger inte i priset man betalar. Den ligger i den ödmjukhet som krävs för att ta emot.
+Koranen uttrycker denna skillnad i en enda vers: "Sök hjälp genom tålamod och bön. Och det är sannerligen en svår sak – utom för de ödmjuka."[^19] Kunskapens verkliga svårighet ligger inte i priset man betalar. Den ligger i den ödmjukhet som krävs för att ta emot.
 
 ---
 
 [^1]: Mímir är etymologiskt besläktat med det proto-germanska *\*mimraz* och det latinska *memor* (minne). Se Rudolf Simek, *Dictionary of Northern Mythology*, s.v. "Mímir."
 [^2]: Viktor Rydberg, *Teutonic Mythology: Gods and Goddesses of the Northland*, kap. om Mimers brunn. Översatt från engelska av artikelförfattaren.
-[^3]: *Hávamál*, strof 23. Övers. efter Henry Adams Bellows, *The Poetic Edda* (1936). Svensk tolkning av artikelförfattaren.
-[^4]: *Hávamál*, strof 54. Övers. efter Henry Adams Bellows, *The Poetic Edda* (1936). Svensk tolkning av artikelförfattaren.
-[^5]: Ibn Qayyim al-Jawziyyah, *al-Fawāʾid* (Nyttiga lärdomar), kapitlet om självkännedom och behov av Allah ﷻ. Svensk översättning av artikelförfattaren.
+[^3]: *Hávamál*, strof 23. Övers. efter Henry Adams Bellows, *The Poetic Edda* (1923). Svensk tolkning av artikelförfattaren.
+[^4]: *Hávamál*, strof 55. Övers. efter Henry Adams Bellows, *The Poetic Edda* (1923). Svensk tolkning av artikelförfattaren.
+[^5]: Ibn Qayyim al-Jawziyyah, *al-Fawāʾid* (Nyttorna), kapitlet om självkännedom och behov av Allah ﷻ. Svensk översättning av artikelförfattaren.
 [^6]: Koranen, al-Dhāriyāt 51:21.
 [^7]: Ibn al-Jawzī, *Ṣayd al-Khāṭir* (Tankens fångst). Svensk översättning av artikelförfattaren.
 [^8]: Koranen, al-Ḥashr 59:19.
-[^9]: Ibn Qayyim al-Jawziyyah, *Madārij al-Sālikīn* (Den vandrandes stationer). Svensk översättning av artikelförfattaren.
-[^10]: al-Māwardī, *Adab al-Dunyā wa-l-Dīn* (Etik för religion och världsligt liv). Svensk översättning av artikelförfattaren.
-[^11]: August Strindberg, *Inferno* (1897).
-[^12]: Erik Gustaf Geijer, *Tal vid Svenska bibel-sällskapets allmänna sammankomst*.
-[^13]: Ibn Qayyim al-Jawziyyah, *Madārij al-Sālikīn*. Svensk översättning av artikelförfattaren.
-[^14]: Koranen, al-Baqarah 2:45.
-[^15]: Simone Weil, *La Pesanteur et la Grâce* (1947). Weil ställde *décréation* – att göra det skapade genomskinligt för det som överskrider det – mot destruktion, som reducerar det skapade till intet. Svensk översättning av artikelförfattaren.
+[^9]: Harry Martinson, *Aniara: En revy om människan i tid och rum*, Bonniers, 1956.
+[^10]: Ibn Qayyim al-Jawziyyah, *Madārij al-Sālikīn* (De vandrandes stationer). Svensk översättning av artikelförfattaren.
+[^11]: al-Māwardī, *Adab al-Dunyā wa-l-Dīn* (Etik för religion och världsligt liv). Svensk översättning av artikelförfattaren.
+[^12]: Simone Weil, *La Pesanteur et la Grâce* (1947). Weil ställde *décréation* – att göra det skapade genomskinligt för det som överskrider det – mot destruktion, som reducerar det skapade till intet. Svensk översättning av artikelförfattaren.
+[^13]: Dag Hammarskjöld, *Vägmärken*, Albert Bonniers Förlag, 1963.
+[^14]: August Strindberg, *Inferno* (1897).
+[^15]: Erik Gustaf Geijer, *Tal vid Svenska bibel-sällskapets allmänna sammankomst*.
 [^16]: Zacharias Topelius, *Stjärnornas kungabarn*.
 [^17]: August Blanche, *Sonen af söder och nord*, Albert Bonniers Förlag, 1851.
-[^18]: Dag Hammarskjöld, *Vägmärken*, Albert Bonniers Förlag, 1963.
-[^19]: Harry Martinson, *Aniara: En revy om människan i tid och rum*, Bonniers, 1956.
+[^18]: Ibn Qayyim al-Jawziyyah, *Madārij al-Sālikīn*. Svensk översättning av artikelförfattaren.
+[^19]: Koranen, al-Baqarah 2:45.

@@ -27,13 +27,13 @@ Spänningen löstes aldrig helt. Arabiska är Koranens språk; uppenbarelsen kom
 
 Språkets helighet är odiskutabel. Men vem *äger* det? Om ägandet är etniskt, om arabiskan tillhör araberna genom blodets arv, borde en perser med brytning vara den siste att skriva dess grammatik. Ändå var det en perser som gjorde det. Ingen har gjort det bättre.
 
-Ibn Khaldūn konstaterade det i sin *al-Muqaddimah*: de som lade grunden till den arabiska grammatiken – Sībawayh, al-Fārisī, al-Zajjāj – var alla perser. I samma verk tillade han:
+Ibn Khaldūn (1332–1406) konstaterade det i sin *al-Muqaddimah*: de som lade grunden till den arabiska grammatiken – Sībawayh, al-Fārisī och andra – var icke-araber. I samma verk tillade han:
 
 > De flesta muslimska lärda inom såväl religiösa som intellektuella vetenskaper har varit icke-araber.[^5]
 
 ## Vad språket kräver
 
-Imām al-Shāfiʿī uttryckte grundsatsen som ren iakttagelse:
+Imām al-Shāfiʿī (d. 820) uttryckte grundsatsen som ren iakttagelse:
 
 > Den som lärde sig Koranen ärades i människors ögon, den som lärde sig *ḥadīth* fick starkare argumentation, den som lärde sig grammatik vördades.[^6]
 
@@ -46,7 +46,7 @@ Sībawayh levde detta. Utifrån erövrade han arabiskan, så grundligt att han s
 
 Motståndet kom ändå. Det islamiska samhällets tidiga århundraden präglades av *shuʿūbiyyah*-rörelsen, där perser och andra icke-arabiska muslimer hävdade sin jämbördighet med araberna trots arabernas kulturella överhöghet.[^8] Mitt i denna spänning utspelade sig Sībawayhs karriär. Skepsisen gällde mer än accenten: kunde en utlänning gripa arabiskans innersta logik, det som al-Suyūṭī kallade språkets *tawassuʿ*, dess närmast oändliga vidd?[^9]
 
-*Al-Kitāb* var svaret: fyra volymer systematisk granskning som visade att arabiskans byggnad kunde gripas, beskrivas och läras av den som lade ner tillräcklig möda. Ett bevis, inte ett argument. Argument besvaras; bevis brukas, och *al-Kitāb* har brukats i varje arabisk lärosal i fjorton århundraden.
+*Al-Kitāb* var svaret: fem volymer systematisk granskning som visade att arabiskans byggnad kunde gripas, beskrivas och läras av den som lade ner tillräcklig möda. Ett bevis, inte ett argument. Argument besvaras; bevis brukas, och *al-Kitāb* har brukats i varje arabisk lärosal i fjorton århundraden.
 
 ## Stammar för kännedom, inte för rang
 
@@ -56,7 +56,7 @@ Koranen själv undergräver den etniska tolkningen av språklig helighet:
 
 Stammar och folkslag finns för *taʿāruf*, ömsesidig kännedom. Måttet är *taqwā*, inte härkomst.
 
-Ibn Taymiyyah drog slutsatsen: "Att lära sig arabiska, som förståelsen av Koranen och *ḥadīth* vilar på, är en kollektiv plikt."[^11] En plikt, *farḍ ʿalā al-kifāyah*, som åligger hela gemenskapen. Vem som bär bördan spelar ingen roll, så länge den bärs.
+Ibn Taymiyyah (1263–1328) drog slutsatsen: "Att lära sig arabiska, som förståelsen av Koranen och *ḥadīth* vilar på, är en kollektiv plikt."[^11] En plikt, *farḍ ʿalā al-kifāyah*, som åligger hela gemenskapen. Vem som bär bördan spelar ingen roll, så länge den bärs.
 
 Han tillade:
 
@@ -66,7 +66,7 @@ Språk vinns genom umgänge och möda. Aldrig genom arv.
 
 ## Spegeln västerut: Stiernhielm och den svenska paradoxen
 
-År 1658 publicerade Georg Stiernhielm *Hercules*, den svenska skaldekonstens grundsten. Erik Gustaf Geijer iakttog:
+År 1658 publicerade Georg Stiernhielm *Hercules*, den svenska skaldekonstens grundsten. Erik Gustaf Geijer (1783–1847) iakttog:
 
 > Språket låg ännu rått och ouppodladt. Man måste känna det barbari, hvari det i följd deraf förfallit, för att rätt värdera allt hvad det blef under Stjernhjelms hand.[^13]
 
@@ -90,10 +90,10 @@ Sībawayh dog ung, knappt fyrtio år gammal. Han lämnade inga lärjungar i vanl
 
 [^1]: Sībawayh (Abū Bishr ʿAmr ibn ʿUthmān ibn Qanbar, d. ca 796 e.Kr.) föddes i Shiraz i provinsen Fars, Persien, och flyttade till Basra för studier. Se Carter, M.G., *Sibawayhi*, I.B. Tauris, 2004.
 [^2]: al-Khalīl ibn Aḥmad al-Farāhīdī (d. ca 786 e.Kr.). Anekdoten om kopparslagaren återges i Ibn Khallikān, *Wafayāt al-Aʿyān*.
-[^3]: *al-Kitāb* ("Boken") omfattar fyra volymer och behandlar arabisk syntax (*naḥw*) och morfologi (*ṣarf*). Det förblev den arabiska grammatikens oöverträffade referensverk.
+[^3]: *al-Kitāb* ("Boken") omfattar fem volymer och behandlar arabisk syntax (*naḥw*) och morfologi (*ṣarf*). Det förblev den arabiska grammatikens oöverträffade referensverk.
 [^4]: Koranen, al-Shuʿarāʾ 26:195.
 [^5]: Ibn Khaldūn, *al-Muqaddimah*, övers. Franz Rosenthal, vol. III, kap. 6.
-[^6]: Imām al-Shāfiʿī, *Ṣifat al-Ṣafwah*. Egen översättning från arabiska.
+[^6]: Imām al-Shāfiʿī, citerad i Ibn al-Jawzī, *Ṣifat al-Ṣafwah*. Egen översättning från arabiska.
 [^7]: Imām al-Shāfiʿī, *Dīwān al-Imām al-Shāfiʿī*. Egen översättning från arabiska.
 [^8]: *Shuʿūbiyyah* var en rörelse bland icke-arabiska muslimer, främst perser, som hävdade kulturell och intellektuell likvärdighet med araberna. Rörelsen var mest framträdande under abbasidperioden (750–1258 e.Kr.).
 [^9]: al-Suyūṭī, *al-Itqān fī ʿUlūm al-Qurʾān*. Al-Suyūṭī citerar al-Shāfiʿī: "Ingen behärskar språket fullständigt utom en profet."
@@ -104,4 +104,3 @@ Sībawayh dog ung, knappt fyrtio år gammal. Han lämnade inga lärjungar i vanl
 [^14]: August Strindberg, *Röda rummet* (1879). Passagen är satirisk: karaktären angriper ironiskt Stiernhielm för att ha drivit fram svenska på bekostnad av tyskan.
 [^15]: Joseph Conrad (Józef Teodor Konrad Korzeniowski, 1857–1924) föddes i det ryska imperiets polska territorier och lärde sig engelska som vuxen sjöman. Han räknas bland det engelska språkets mest inflytelserika romanförfattare. Se Najder, Z., *Joseph Conrad: A Life*, Camden House, 2007.
 [^16]: ʿAlī ibn Abī Ṭālib, citerad i *Kitāb al-Ṣamt wa Ādāb al-Lisān*. Egen översättning från arabiska.
-[^17]: Ibn al-Jawzī, *Dhamm al-Hawā*. Egen översättning från arabiska.

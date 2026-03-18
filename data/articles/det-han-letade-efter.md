@@ -23,7 +23,7 @@ Fjorton sekler före Chalmers, elva före Swedenborg, uppenbarades en vers som m
 
 > De frågar dig om *al-Rūḥ*. Säg: "*al-Rūḥ* är förbehållet min Herre." Av denna kunskap har ni endast fått en liten del.[^5]
 
-Ibn Kathīr återger bakgrunden: Ibn Masʿūd berättar att Profeten ﷺ fick frågan om själen och teg tills uppenbarelsen nedsteg med svaret. Korankommentatorerna har tolkat *al-Rūḥ* på flera sätt: som själen, som ängeln Jibrīl, som uppenbarelsen själv.[^6] Oavsett läsning kvarstår versens grundhållning: det finns verkligheter vars kunskap Gud förbehållit sig.
+Ibn Kathīr (ca. 1300–1373) återger bakgrunden: Ibn Masʿūd berättar att Profeten ﷺ fick frågan om själen och teg tills uppenbarelsen nedsteg med svaret. Korankommentatorerna har tolkat *al-Rūḥ* på flera sätt: som själen, som ängeln Jibrīl, som uppenbarelsen själv.[^6] Oavsett läsning kvarstår versens grundhållning: det finns verkligheter vars kunskap Gud förbehållit sig.
 
 ## Hjärtats kunskap och sinnenas gräns
 
@@ -34,24 +34,24 @@ Sinnena förkastar han inte:
 
 Koranen fastslår den bärande åtskillnaden: "Hans är skapelsen och befallningen" (*al-khalq wa-l-amr*).[^9] Kroppen tillhör skapelsen – formad av lera, underkastad naturlagar. Själen tillhör befallningen: instiftad genom Guds direkta ord *kun*. Ibn Qayyim utvecklar detta i *Kitāb al-Rūḥ*: själen är varken identisk med kroppen eller bara en egenskap hos den; den är en självständig skapad verklighet av en annan art.[^10]
 
-Förklaringsgapet väcker en avgörande fråga. Är det ett gap i vår *kunskap* eller i *verklighetens ordning*? Kan vi inte förklara medvetandet *ännu*, eller tillhör det en annan verklighetsordning?[^11] Även västerländsk filosofi har snuddat vid gränsen. Wittgenstein nådde sin slutsats genom ren logik: "Subjektet tillhör inte världen utan är en gräns för världen."[^16] Men *Tractatus* mynnar i tystnad inför det som ligger bortom gränsen.
+Förklaringsgapet väcker en avgörande fråga. Är det ett gap i vår *kunskap* eller i *verklighetens ordning*? Kan vi inte förklara medvetandet *ännu*, eller tillhör det en annan verklighetsordning?[^11] Även västerländsk filosofi har snuddat vid gränsen. Wittgenstein nådde sin slutsats genom ren logik: "Subjektet tillhör inte världen utan är en gräns för världen."[^12] Hans sista ord i *Tractatus* drar konsekvensen: "Det man inte kan tala om, därom måste man tiga."[^13]
 
 ## Illusionen som bevisar sig själv
 
-Daniel Dennett hävdar att subjektiv upplevelse är en illusion. Medvetande är vad hjärnan *gör*, inte något den *har*.[^12]
-Invändningen är lika gammal som argumentet: vem upplever illusionen? Att avfärda medvetandet som illusion förutsätter ett medvetande som upplever illusionen. Levertin satte ord på den gräns vetenskapen här stöter på:
+Daniel Dennett hävdar att subjektiv upplevelse är en illusion. Medvetande är vad hjärnan *gör*, inte något den *har*.[^14]
+Invändningen är lika gammal som argumentet: vem upplever illusionen? Att avfärda medvetandet som illusion förutsätter ett medvetande som upplever illusionen. Levertin (1862–1906) satte ord på den gräns vetenskapen här stöter på:
 
-> Samtidigt blir det också allt klarare för hvar och en, att alla vetenskapens förklaringar och klassifikationer blott äro provisoriska.[^13]
+> Samtidigt blir det också allt klarare för hvar och en, att alla vetenskapens förklaringar och klassifikationer blott äro provisoriska.[^15]
 
 ## Det som överlever
 
 Ibn Qayyim förklarade varför frågan aldrig sluter sig:
 
-> Själarna skapades för att bestå, inte för att förgås – det är sanningen. Det som profeterna och deras följare enats om är att dessa själar förblir efter att ha lämnat sina kroppar, de förgås inte och upphör inte. De som menar att själarna förgås med kropparna, eftersom de bara vore en av deras krafter – dessa erkänner ingen själ som existerar i sig själv, som bebor kroppen och lämnar den.[^14]
+> Själarna skapades för att bestå, inte för att förgås – det är sanningen. Det som profeterna och deras följare enats om är att dessa själar förblir efter att ha lämnat sina kroppar, de förgås inte och upphör inte. De som menar att själarna förgås med kropparna, eftersom de bara vore en av deras krafter – dessa erkänner ingen själ som existerar i sig själv, som bebor kroppen och lämnar den.[^16]
 
-Koranen tecknar relationen: "När Jag har fulländat honom och blåst in i honom av Min ande."[^15] Ordningen är avgörande: kroppen *fulländas* först, varje kroppsligt villkor uppfyllt, men medvetandet saknas tills anden inblåses. Kroppens formning föregår medvetandet men frambringar det inte.
+Koranen tecknar relationen: "När Jag har fulländat honom och blåst in i honom av Min ande."[^17] Ordningen är avgörande: kroppen *fulländas* först, varje kroppsligt villkor uppfyllt, men medvetandet saknas tills anden inblåses. Kroppens formning föregår medvetandet men frambringar det inte.
 
-Varje natt lämnar medvetandet dig. Varje morgon återvänder det. Ingen neurolog kan säga vart det går.
+Varje natt lämnar medvetandet dig. Varje morgon återvänder det. Ingen neurolog kan säga var det tar vägen.
 
 Koranen kan: "*al-Rūḥ* är förbehållet min Herre."
 
@@ -68,8 +68,9 @@ Koranen kan: "*al-Rūḥ* är förbehållet min Herre."
 [^9]: Koranen, al-Aʿrāf 7:54.
 [^10]: Ibn Qayyim al-Jawziyyah, *Kitāb al-Rūḥ* (Boken om själen), undersökningen av själens natur och dess förhållande till kroppen.
 [^11]: Joseph Levine, "Materialism and Qualia: The Explanatory Gap", *Pacific Philosophical Quarterly* 64 (1983). Distinktionen mellan epistemiskt och ontologiskt gap diskuteras utförligt hos Chalmers, *The Conscious Mind* (1996).
-[^12]: David Bourget & David Chalmers, "What Do Philosophers Believe?", *PhilPapers Survey* (2020); Daniel Dennett, *Consciousness Explained* (1991).
-[^13]: Oscar Levertin, *Diktare och drömmare* (1898).
-[^14]: Ibn Qayyim al-Jawziyyah, *Madārij al-Sālikīn*, avsnittet om själens bestående.
-[^15]: Koranen, al-Ḥijr 15:29.
-[^16]: Ludwig Wittgenstein, *Tractatus Logico-Philosophicus* (1921), 5.632.
+[^12]: Ludwig Wittgenstein, *Tractatus Logico-Philosophicus* (1921), 5.632.
+[^13]: Ludwig Wittgenstein, *Tractatus Logico-Philosophicus* (1921), 7.
+[^14]: David Bourget & David Chalmers, "What Do Philosophers Believe?", *PhilPapers Survey* (2020); Daniel Dennett, *Consciousness Explained* (1991).
+[^15]: Oscar Levertin, *Diktare och drömmare* (1898).
+[^16]: Ibn Qayyim al-Jawziyyah, *Madārij al-Sālikīn*, avsnittet om själens bestående.
+[^17]: Koranen, al-Ḥijr 15:29.

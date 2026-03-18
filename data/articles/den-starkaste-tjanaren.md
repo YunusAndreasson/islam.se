@@ -11,7 +11,7 @@ Fjorton sekel senare har vi byggt något som ger ʿUmars klagan kropp: algoritme
 
 ## Två pelare, en tom plats
 
-Ibn Taymiyyah omsatte ʿUmars klagan i ett politiskt system. I *al-Siyāsah al-Sharʿiyyah*, hans avhandling om rättvis styrning, hävdar han att varje ämbete vilar på två pelare: *quwwah* – styrka, duglighet, förmåga att verkställa – och *amānah* – pålitlighet, trovärdighet, det inre rättesnöre som tyglar makten.[^2]
+Ibn Taymiyyah (1263–1328) omsatte ʿUmars klagan i ett politiskt system. I *al-Siyāsah al-Sharʿiyyah*, hans avhandling om rättvis styrning, hävdar han att varje ämbete vilar på två pelare: *quwwah* – styrka, duglighet, förmåga att verkställa – och *amānah* – pålitlighet, trovärdighet, det inre rättesnöre som tyglar makten.[^2]
 
 > Att styrka och pålitlighet förenas i samma person är sällsynt bland människor.[^3]
 
@@ -25,11 +25,11 @@ I den svenska välfärdsstaten fick avvägningen handgripliga följder. I novemb
 
 Redan 2013 hade Försäkringskassan infört modellen. År 2018 konstaterade Inspektionen för socialförsäkringen att algoritmen "i sin nuvarande utformning inte uppfyller kravet på likabehandling".[^10] Försäkringskassan avfärdade slutsatserna. Först sex år senare – efter internationell granskning och offentlig skandal – drogs systemet tillbaka.
 
-Ibn Taymiyyahs uppdelning förtydligar: algoritmens *quwwah* kunde ingen betvivla. Bristen låg i *amānah*. Utan insyn förstärkte kraften de ojämlikheter den var tänkt att rätta. En svag tjänsteman gör begränsad skada – hans oförmåga tyglar hans orättvisa. En algoritm som fattar miljontals beslut utan att kunna förklara ett enda skapar orättvisa i en omfattning ingen tjänsteman ensam kan uppnå.
+Ibn Taymiyyahs uppdelning förtydligar: algoritmens *quwwah* kunde ingen betvivla. Bristen låg i *amānah*. Styrka utan samvete är ett svärd utan slida — ju skarpare, desto farligare för den som bär det. Utan insyn förstärkte kraften de ojämlikheter den var tänkt att rätta.
 
-Problemet är inte nytt. Norbert Wiener pekade redan 1960 ut samma mönster:
+Problemet är inte nytt. Norbert Wiener (1894–1964) pekade redan 1960 ut samma mönster:
 
-> Maskinens fara ligger inte i olydnad utan i absolut trohet – den förverkligar sina instruktioner med en bokstavlighet som förvandlar varje oreflekterat antagande till system.[^18]
+> Maskinens fara ligger inte i olydnad utan i absolut trohet – den förverkligar sina instruktioner med en bokstavlighet som förvandlar varje oreflekterat antagande till system.[^11]
 
 Maskinen skickar hundra påminnelsebrev till en avliden person därför att "skicka påminnelse" aldrig kompletterades med "kontrollera om mottagaren lever".
 
@@ -37,33 +37,33 @@ Maskinen skickar hundra påminnelsebrev till en avliden person därför att "ski
 
 En medborgare som vänder sig till en myndighet ingår ett förtroendeavtal äldre än varje lag. Hon lämnar ut uppgifter om sitt liv och litar på att de hanteras rättvist. Koranen kopplar förtroendeuppdraget oupplösligt till rättvis dom:
 
-> Allah ﷻ befaller er att återlämna allt ni anförtrotts till dess rättmätiga ägare och att, när ni dömer mellan människor, döma med rättvisa.[^11]
+> Allah ﷻ befaller er att återlämna allt ni anförtrotts till dess rättmätiga ägare och att, när ni dömer mellan människor, döma med rättvisa.[^12]
 
-Ibn Kathīr anför en profettradition: "Fullgör förtroendeuppdraget gentemot den som anförtrott dig det, och förråd inte den som förråder dig." En algoritm som fattar rätt i sjuttio procent av fallen men saknar förmåga att redogöra för något av dem uppfyller möjligen ett krav på träffsäkerhet men inte *amānah*.
+Ibn Kathīr (ca. 1300–1373) anför en profettradition: "Fullgör förtroendeuppdraget gentemot den som anförtrott dig det, och förråd inte den som förråder dig." En algoritm som fattar rätt i sjuttio procent av fallen men saknar förmåga att redogöra för något av dem uppfyller möjligen ett krav på träffsäkerhet men inte *amānah*.
 
-Tom Tyler har visat att människors tillit till institutioner beror mindre på beslutens korrekthet än på processens upplevda rättvisa.[^19] Ett system som fattar rätt beslut utan att kunna visa det förlorar sin auktoritet snabbare än ett som felar öppet.
+Tom Tyler har visat att människors tillit till institutioner beror mindre på beslutens korrekthet än på processens upplevda rättvisa.[^13] Ett system som fattar rätt beslut utan att kunna visa det förlorar sin auktoritet snabbare än ett som felar öppet.
 
-Arbetsförmedlingens AI-matchningssystem lider av samma brist. Mönsterigenkänningen kartlägger arbetsmarknadsdata långt bortom mänsklig förmåga, men beslutsgrunderna kan inte spåras.[^12]
+Arbetsförmedlingens AI-matchningssystem lider av samma brist. Mönsterigenkänningen kartlägger arbetsmarknadsdata långt bortom mänsklig förmåga, men beslutsgrunderna kan inte spåras.[^14]
 
 ## Vågen utan visare
 
-Svensk diskussion om algoritmiskt ansvar finns: i ISF:s granskningar, i EU:s AI-förordning som stämplar välfärdsautomation som "högrisk".[^13] Men frågan ställs nästan alltid i tekniska och rättsliga termer. Det som saknas är ett moraliskt språk för *varför* dessa krav gäller – inte vilka regler som bryts utan vilket mänskligt förtroende som sviks.
+Svensk diskussion om algoritmiskt ansvar finns: i ISF:s granskningar, i EU:s AI-förordning som stämplar välfärdsautomation som "högrisk".[^15] Men frågan ställs nästan alltid i tekniska och rättsliga termer. Ett moraliskt språk för *varför* dessa krav gäller lyser med sin frånvaro – inte vilka regler som bryts utan vilket mänskligt förtroende som sviks.
 
-Ibn Taymiyyahs svar på *quwwah*-*amānah*-problemet: bygg inrättningar som förenar dem.[^14] När inget enskilt system äger båda egenskaperna kräver rättvisan att styrka och trovärdighet fördelas på flera händer – den starke uppbördsmannen och den pålitlige skrivaren, algoritmen och den mänskliga handläggaren.
+Ibn Taymiyyahs svar på *quwwah*-*amānah*-problemet: bygg inrättningar som förenar dem.[^16] När inget enskilt system äger båda egenskaperna kräver rättvisan att styrka och trovärdighet fördelas på flera händer – den starke uppbördsmannen och den pålitlige skrivaren, algoritmen och den mänskliga handläggaren.
 
-Ibn al-Jawzī fångar det i en bild:
+Ibn al-Jawzī (d. 1201) fångar det i en bild:
 
-> Prisad vare Den som välsignat folk som, varje gång en njutning lockar dem, ställer upp förståndets våg och betraktar vad den kan kosta, och väger det klokaste valet tyngst.[^15]
+> Prisad vare Den som välsignat folk som, varje gång en njutning lockar dem, ställer upp förståndets våg och betraktar vad den kan kosta, och väger det klokaste valet tyngst.[^17]
 
 En algoritm som inte kan granskas är en våg utan visare. Den väger men ingen kan avläsa utslaget.
 
 ## Vem bär den blinda vågen?
 
-Selma Lagerlöf slog fast grundsatsen med nordisk knapphet: "Riket är bättre betjänt med människor än med pengar."[^20] Ellen Key skrev 1900 att "människorna äro till för industriens skull, icke industrien för människornas".[^16] I dag är industrin algoritmen.
+Selma Lagerlöf slog fast grundsatsen med nordisk knapphet: "Riket är bättre betjänt med människor än med pengar."[^18] Ellen Key skrev 1900 att "människorna äro till för industriens skull, icke industrien för människornas".[^19] I dag är industrin algoritmen.
 
 Men skillnaden är avgörande. Industrins orättvisor var synliga: fabriksrök, barnarbete, söndertrasade kroppar. Algoritmens orättvisor är osynliga. En kvinna vars föräldrapenningsansökan markeras av en maskininlärningsmodell vet varken att hon har markerats eller varför. Industrins orättvisor rättades *utifrån*, genom den samlade vrede som synligt lidande väckte. Algoritmisk orättvisa kan inte alstra sin egen rättelse. Där orättvisan är osynlig måste ansvaret vara inbyggt.
 
-Koranen beskriver *al-amānah* som så tung att himlarna, jorden och bergen vägrade bära den. Människan axlade den.[^17] Sedan glömde hon vad hon bar.
+Koranen beskriver *al-amānah* som så tung att himlarna, jorden och bergen vägrade bära den. Människan axlade den.[^20] Sedan glömde hon vad hon bar.
 
 ---
 
@@ -77,13 +77,13 @@ Koranen beskriver *al-amānah* som så tung att himlarna, jorden och bergen väg
 [^8]: Lighthouse Reports och Svenska Dagbladet, "Sweden's Suspicion Machine", november 2024; jfr Amnesty International, pressmeddelande, november 2024.
 [^9]: Amnesty International, pressmeddelande, 27 november 2024.
 [^10]: Inspektionen för socialförsäkringen (ISF), rapport 2018, om Försäkringskassans riskprofilering.
-[^11]: Koranen, al-Nisāʾ 4:58.
-[^12]: Dagens Arena, "Kritik mot automatiserad arbetsförmedling"; jfr *Technology in Society* 76 (2024), "Trustworthy AI in the public sector: An empirical analysis of a Swedish labor market decision-support system".
-[^13]: Europaparlamentets och rådets förordning om artificiell intelligens (EU AI Act), bilaga III.
-[^14]: Ibn Taymiyyah, *al-Siyāsah al-Sharʿiyyah*, avsnittet om att kombinera ämbetsmän.
-[^15]: Ibn al-Jawzī, *Ṣayd al-Khāṭir*.
-[^16]: Ellen Key, *Barnets århundrade* (1900).
-[^17]: Koranen, al-Aḥzāb 33:72.
-[^18]: Norbert Wiener, "Some Moral and Technical Consequences of Automation", *Science* 131, nr 3410 (1960).
-[^19]: Tom R. Tyler, *Why People Obey the Law* (Yale University Press, 1990; Princeton University Press, 2006).
-[^20]: Selma Lagerlöf, *Valda Berättelser*.
+[^11]: Norbert Wiener, "Some Moral and Technical Consequences of Automation", *Science* 131, nr 3410 (1960).
+[^12]: Koranen, al-Nisāʾ 4:58.
+[^13]: Tom R. Tyler, *Why People Obey the Law* (Yale University Press, 1990; Princeton University Press, 2006).
+[^14]: Dagens Arena, "Kritik mot automatiserad arbetsförmedling"; jfr *Technology in Society* 76 (2024), "Trustworthy AI in the public sector: An empirical analysis of a Swedish labor market decision-support system".
+[^15]: Europaparlamentets och rådets förordning om artificiell intelligens (EU AI Act), bilaga III.
+[^16]: Ibn Taymiyyah, *al-Siyāsah al-Sharʿiyyah*, avsnittet om att kombinera ämbetsmän.
+[^17]: Ibn al-Jawzī, *Ṣayd al-Khāṭir*.
+[^18]: Selma Lagerlöf, *Valda Berättelser*.
+[^19]: Ellen Key, *Barnets århundrade* (1900).
+[^20]: Koranen, al-Aḥzāb 33:72.

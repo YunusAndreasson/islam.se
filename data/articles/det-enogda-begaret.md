@@ -25,9 +25,9 @@ Profeten ﷺ sade till ʿAlī:
 
 ## Den andra blicken
 
-Traditionen kartlägger blickarnas *ordning*, inte deras *föremål*. Ibn al-Jawzī skriver i *Dhamm al-Hawā*: begäret (*hawā*) gör blicken enögd.[^4] Inte blind – enögd. Begäret släcker inte synen utan förvränger den. Den som ser enögd ser personen men inte sammanhanget, njutningen men inte morgonen efter.
+Traditionen kartlägger blickarnas *ordning*, inte deras *föremål*. Ibn al-Jawzī (d. 1201) skriver i *Dhamm al-Hawā*: begäret (*hawā*) gör blicken enögd.[^4] Inte blind – enögd. Begäret släcker inte synen utan förvränger den. Den som ser enögd ser personen men inte sammanhanget, njutningen men inte morgonen efter.
 
-I *The Sovereignty of Good* gör Iris Murdoch uppmärksamheten, inte viljan, till den avgörande sedliga handlingen: "Jag kan bara välja inom den värld jag förmår se, och klart seende är frukten av sedlig ansträngning."[^20] Epiktetos, den frigivne slaven, slog fast att den som inte behärskar sig själv aldrig är fri.[^22] Men varken han eller Murdoch pekar ut *var* ansträngningen ska riktas. Ibn Qayyim gör det: vid tröskeln mellan första och andra blicken.
+I *The Sovereignty of Good* gör Iris Murdoch (1919–1999) uppmärksamheten, inte viljan, till den avgörande sedliga handlingen: "Jag kan bara välja inom den värld jag förmår se, och klart seende är frukten av sedlig ansträngning."[^5] Epiktetos, den frigivne slaven, slog fast att den som inte behärskar sig själv aldrig är fri.[^6] Men varken han eller Murdoch pekar ut *var* ansträngningen ska riktas. Ibn Qayyim gör det: vid tröskeln mellan första och andra blicken.
 
 ## Ljuset och mörkret
 
@@ -47,7 +47,7 @@ Koranen knyter samman:
 
 ## Kronbladen
 
-I *Modern* skriver Victoria Benedictsson:
+I *Modern* skriver Victoria Benedictsson (1850–1888):
 
 > Det var som om hans ögon med ens slagits upp. Det var som om hans väsen för första gången öppnat sina kronblad, som om lifvets, naturens skönhet för första gången strålat ditin.[^12]
 
@@ -73,7 +73,7 @@ I sitt sammanhang avser versen den som betraktar himlarna och söker brister i s
 ## Kedjan
 
 Ibn Qayyim jämför blicken med ett glas vin: betraktelsen berusar. Kärlekens berusning är värre än vinets – den som berusar sig av vin nyktrar till, men den som berusar sig av blicken nyktrar sällan till.[^19]
-Kent Berridges forskning visar varför: upprepad exponering för samma retning stärker begäret utan att njutningen växer. Man åtrår mer utan att njuta mer.[^21]
+Kent Berridges forskning visar varför: upprepad exponering för samma retning stärker begäret utan att njutningen växer. Man åtrår mer utan att njuta mer.[^20]
 
 Kedjan kan brytas, men bara i sitt första led. Ögonblicket innan begäret är oförfalskat – varseblivning som ännu inte blivit avsikt.
 
@@ -81,9 +81,11 @@ Kedjan kan brytas, men bara i sitt första led. Ögonblicket innan begäret är 
 
 [^1]: Profeten Muḥammad ﷺ, återgiven i Ibn al-Jawzī, *Dhamm al-Hawā* (Klandret av begäret). Hadithen återfinns inte i de sex kanoniska samlingarna; dess autenticitetsgrad diskuteras bland hadithvetare. Den starkare ʿAlī-hadithen (fotnot 3) bekräftar samma princip med solidare kedja.
 [^2]: Ibn Qayyim al-Jawziyyah, *Rawḍat al-Muḥibbīn* (De älskandes trädgård), kapitlet om blickens regler och faror.
-[^3]: Ḥadīth återgiven via al-Tirmidhī (nr 2701), bedömd som *hasan* av al-Arnāʾūṭ. Även citerad i al-Māwardī, *Adab al-Dunyā wa-l-Dīn* (Den världsliga och religiösa uppförandets regler).
+[^3]: Ḥadīth återgiven via al-Tirmidhī (nr 2701), bedömd som *hasan* av al-Arnāʾūṭ. Även citerad i al-Māwardī, *Adab al-Dunyā wa-l-Dīn* (Etik för religion och världsligt liv).
 [^4]: Ibn al-Jawzī, *Dhamm al-Hawā*: "Begärets öga är enögt" (*ʿayn al-hawā ʿawrāʾ*).
-[^7]: Ibn Qayyim al-Jawziyyah, *al-Dāʾ wa-l-Dawāʾ* (Sjukdomen och botemedlet).
+[^5]: Iris Murdoch, *The Sovereignty of Good* (1970), essän "The Idea of Perfection".
+[^6]: Epiktetos, *Discourses* (ca 108 e.Kr.), nedtecknade av Arrianos.
+[^7]: Ibn Qayyim al-Jawziyyah, *al-Dāʾ wa-l-Dawāʾ* (Sjukdomen och boten).
 [^8]: Ibn Qayyim al-Jawziyyah, *al-Dāʾ wa-l-Dawāʾ*.
 [^9]: Ibn Qayyim al-Jawziyyah, *Rawḍat al-Muḥibbīn*.
 [^10]: Ibn Qayyim al-Jawziyyah, *Madārij al-Sālikīn* (De vandrandes stationer), avsnittet om *baṣīrah*.
@@ -96,6 +98,4 @@ Kedjan kan brytas, men bara i sitt första led. Ögonblicket innan begäret är 
 [^17]: Koranen, al-Nūr 24:31.
 [^18]: Koranen, al-Mulk 67:4.
 [^19]: Ibn Qayyim al-Jawziyyah, *Rawḍat al-Muḥibbīn*.
-[^20]: Iris Murdoch, *The Sovereignty of Good* (1970), essän "The Idea of Perfection".
-[^21]: Kent C. Berridge & Terry E. Robinson, "The neural basis of drug craving: An incentive-sensitization theory of addiction," *Brain Research Reviews* 18 (1993). Distinktionen mellan *wanting* (begärsimpuls) och *liking* (upplevd tillfredsställelse) har sedan bekräftats i omfattande forskning.
-[^22]: Epiktetos, *Discourses* (ca 108 e.Kr.), nedtecknade av Arrianos.
+[^20]: Kent C. Berridge & Terry E. Robinson, "The neural basis of drug craving: An incentive-sensitization theory of addiction," *Brain Research Reviews* 18 (1993). Distinktionen mellan *wanting* (begärsimpuls) och *liking* (upplevd tillfredsställelse) har sedan bekräftats i omfattande forskning.

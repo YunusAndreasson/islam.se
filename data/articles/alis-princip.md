@@ -23,13 +23,13 @@ Sverige ger två exempel. År 1955 avskaffade riksdagen motbokssystemet, det så
 
 Tjugofem år senare, 1980, folkomröstade Sverige om kärnkraften. Tre alternativ presenterades. Inget var ett rent nej. Väljarna fick välja mellan tre varianter av ja med olika avvecklingstakt, och resultatet tolkades som en avvecklingsplan som aldrig genomfördes fullt ut.[^6] Demokratin hade gett ett svar men ingen sanning. Förfarandet var oklanderligt; kunskapen obefintlig.
 
-Koranen skiljer inte mellan rätt och fel som politiska kategorier utan mellan *kunskap* och *antagande*: *ʿilm* och *ẓann*. "Befatta dig inte med det du saknar kunskap om. Hörseln, synen och hjärtat – alla dessa kommer att tillfrågas."[^7] Ibn Kathīr anför Profetens ﷺ varning: "Akta er för antaganden, ty antaganden är det mest lögnaktiga av tal."
+Koranen skiljer inte mellan rätt och fel som politiska kategorier utan mellan *kunskap* och *antagande*: *ʿilm* och *ẓann*. "Befatta dig inte med det du saknar kunskap om. Hörseln, synen och hjärtat – alla dessa kommer att tillfrågas."[^7] Ibn Kathīr (ca. 1300–1373) anför Profetens ﷺ varning: "Akta er för antaganden, ty antaganden är det mest lögnaktiga av tal."
 
 ## Två brister och ett begär
 
 Ibn Qayyim al-Jawziyyah urskiljer två grundbrister: brist på klarsyn och brist på tålamod.[^8] Klarsyn kräver ansträngning. Tålamod kräver att man härdar ut obehaget av att stå ensam.
 
-Men det finns ett djupare skikt. Ibn al-Jawzī: "Begäret förblindar och gör döv för sanning och riktighet."[^9] *Hawā* förvränger omdömet. Människan ser inte fel *trots* sin intelligens utan *på grund av* sina begär.[^10]
+Men det finns ett djupare skikt. Ibn al-Jawzī (d. 1201): "Begäret förblindar och gör döv för sanning och riktighet."[^9] *Hawā* förvränger omdömet. Människan ser inte fel *trots* sin intelligens utan *på grund av* sina begär.[^10]
 
 Le Bon, utan kännedom om denna tradition, landade i samma slutsats:
 
@@ -45,9 +45,9 @@ Ett uttalande tillskrivet ʿAlī ibn Abī Ṭālib, den fjärde kalifen: "Sannin
 
 Grundsatsen kräver motsatsen till vår vana: pröva påståendet först, *sedan* avsändaren.
 
-Ibn Taymiyyah fördjupade grundsatsen. Den som gör människor till måttstock för sanningen – i stället för att pröva människors påståenden mot sanningen – begår det mest grundläggande tankefelet.[^14] Varje människa kan ha fel eller rätt, utom Profeten ﷺ.
+Ibn Taymiyyah (1263–1328) fördjupade grundsatsen. Den som gör människor till måttstock för sanningen – i stället för att pröva människors påståenden mot sanningen – begår det mest grundläggande tankefelet.[^14] Varje människa kan ha fel eller rätt, utom Profeten ﷺ.
 
-Det demokratiska samhället gör just detta, genom sin konstruktion, inte av illvilja. Omröstningen frågar inte *vad är sant?* utan *vad tycker de flesta?* – och behandlar svaret som om det vore samma sak.
+Det demokratiska samhället gör just detta, genom sin konstruktion, inte av illvilja. Omröstningen är en våg som väger röster, inte skäl.
 
 ## Sanningen som bro och som börda
 
@@ -73,7 +73,7 @@ Hjalmar Söderberg vände på bilden:
 
 Söderberg menade det ironiskt, men ironin bär en oavsiktlig sanning. Lögnen *är* rik: rik på löften, bekvämlighet, den tillfälliga lättnaden att slippa tänka. Sanningen ger inget av detta. Den ger bara sig själv.
 
-Lögnens rikedom gör den svår att genomskåda. Ibn Khaldūn satte ord på sambandet mellan sanningens enhet och lögnens mångfald:
+Lögnens rikedom gör den svår att genomskåda. Ibn Khaldūn (1332–1406) satte ord på sambandet mellan sanningens enhet och lögnens mångfald:
 
 > Sanningen är bara en form, medan falskheten är många former. Därför är det lätt att begå orättvisa men svårt att uppfylla rättvisa.[^21]
 
@@ -98,18 +98,18 @@ Ibn Kathīr citerar en profettradition: "Gud ger det världsliga livet till den 
 [^5]: Brattsystemet avskaffades genom riksdagsbeslut 1954, med verkan från 1 oktober 1955. Systembolagets historik dokumenterar den efterföljande konsumtionsökningen.
 [^6]: Folkomröstningen om kärnkraften genomfördes den 23 mars 1980. De tre alternativen innebar olika tidsplaner för avveckling, men inget alternativ motsvarade ett rent nej till avveckling.
 [^7]: Koranen, al-Isrāʾ 17:36.
-[^8]: Ibn Qayyim al-Jawziyyah, *al-Dāʾ wa-l-Dawāʾ* (Sjukdomen och botemedlet).
+[^8]: Ibn Qayyim al-Jawziyyah, *al-Dāʾ wa-l-Dawāʾ* (Sjukdomen och boten).
 [^9]: Ibn al-Jawzī, *Dhamm al-Hawā* (Fördömandet av begäret).
 [^10]: Ibn al-Jawzī, *Dhamm al-Hawā*.
 [^11]: Gustave Le Bon, *Massans psykologi*, kap. 2.
 [^12]: Koranen, al-Qaṣaṣ 28:50.
 [^13]: ʿAlī ibn Abī Ṭālib, citerad i Ibn al-Jawzī, *Talbīs Iblīs* (Iblīs' bedrägerier).
 [^14]: Ibn Taymiyyah, *Majmūʿ al-Fatāwā* (Samlade rättsutlåtanden) och *al-Radd ʿalā al-Manṭiqiyyīn* (Vederläggning av logikerna). Ibn Taymiyyah betonar upprepade gånger att sanning prövas mot Koranen och Sunnah, inte mot personers status, och att varje människa utom Profeten ﷺ kan ha rätt eller fel.
-[^15]: Jürgen Habermas, *The Philosophical Discourse of Modernity*, MIT Press, 1987.
+[^15]: Jürgen Habermas, *Theorie des kommunikativen Handelns* (1981), eng. *The Theory of Communicative Action* (1984). Begreppet "herrschaftsfreier Diskurs" utvecklades i Habermas tidiga diskursetik, från "Wahrheitstheorien" (1973) och framåt.
 [^16]: Ibn Taymiyyah, *al-Radd ʿalā al-Manṭiqiyyīn*.
 [^17]: Koranen, al-Shūrā 42:38.
 [^18]: Karin Boye, *Kallocain*, Stockholm, 1940.
-[^19]: Koranen, Ṭā-Hā 20:124.
+[^19]: Koranen, Ṭā Hā 20:124.
 [^20]: Hjalmar Söderberg, *Jesus Barabbas*, Stockholm, 1928.
 [^21]: Ibn Khaldūn, *Muqaddimah*.
 [^22]: Koranen, al-Baqarah 2:269.

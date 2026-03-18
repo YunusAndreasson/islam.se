@@ -47,9 +47,9 @@ Söderberg var kallare:
 
 > Domare äro människor och kunna misstaga sig. Det är sannolikt att många blifva oskyldigt dömda.[^13]
 
-Båda pekar på samma sårbarhet: när samma hand utreder, anklagar och dömer, skymmer makten den rättvisa den är satt att tjäna. Al-Māwardīs *ḥisbah* bryter ordningen: en instans som urskiljer det onda men saknar makt att straffa det. Att läsa detta som kritik av det moderna åklagarväsendet vore anakronistiskt, men uppdelningen avtäcker en svaghet som består än idag.
+Båda pekar på samma sårbarhet: när samma hand utreder, anklagar och dömer, skymmer makten den rättvisa den är satt att tjäna. Al-Māwardīs *ḥisbah* bryter ordningen: en instans som urskiljer det onda men saknar makt att straffa det. Att läsa detta som kritik av det moderna åklagarväsendet vore anakronistiskt, men uppdelningen kastar ljus över en svaghet som består än idag.
 
-Ibn Taymiyyah skärpte grundsatsen: varje ämbetes medel begränsas till det egna området.[^14] Domaren arbetar med vittnen och skriftliga bevis. Svärdet tillhör det militära befälet. Muhtasiben har befogenheter som "inte tillhör vare sig härskarna, domarna eller ämbetsmännen".[^15] Rättvisan hotas inte främst av dem som vill göra ont utan av dem som vill göra gott med för mycket makt.
+Ibn Taymiyyah (1263–1328) skärpte grundsatsen: varje ämbetes medel begränsas till det egna området.[^14] Domaren arbetar med vittnen och skriftliga bevis. Svärdet tillhör det militära befälet. Muhtasiben har befogenheter som "inte tillhör vare sig härskarna, domarna eller ämbetsmännen".[^15] Rättvisan hotas inte främst av dem som vill göra ont utan av dem som vill göra gott med för mycket makt.
 
 ## Rädslan för den rättfärdige
 
@@ -57,23 +57,23 @@ Montesquieu skilde statens funktioner för att förhindra tyranni. Al-Māwardī 
 
 > Antingen ett förstånd som avhåller, en tro som hindrar, en härskare som hejdar, eller en oförmåga som stoppar.[^17]
 
-Härskarens tvångsmakt är det kraftfullaste medlet – och det farligaste. C. S. Lewis nådde samma slutsats niohundra år senare:
+Härskarens tvångsmakt är det kraftfullaste medlet – och det farligaste. C. S. Lewis (1898–1963) nådde samma slutsats niohundra år senare:
 
-> Av alla former av tyranni är det som uppriktigt utövas till offrens bästa kanske det mest förtryckande. De som plågar oss för vårt eget bästa plågar oss utan ände, ty de gör det med sitt eget samvetes gillande.[^22]
+> Av alla former av tyranni är det som uppriktigt utövas till offrens bästa kanske det mest förtryckande. De som plågar oss för vårt eget bästa plågar oss utan ände, ty de gör det med sitt eget samvetes gillande.[^18]
 
 Al-Māwardī tog steget vidare: det räcker inte att veta att den rättfärdige är farlig. Man måste bygga ämbeten som skiljer hans övertygelse från hans befogenhet. Abū Bakr al-Ṣiddīq, den förste kalifen efter Profeten ﷺ, kungjorde grundsatsen redan i sitt tillträdestal:
 
-> Den starkaste bland er är i mina ögon den svagaste tills jag har tagit hans rätt ifrån honom, och den svagaste bland er är i mina ögon den starkaste tills jag har gett honom hans rätt.[^18]
+> Den starkaste bland er är i mina ögon den svagaste tills jag har tagit hans rätt ifrån honom, och den svagaste bland er är i mina ögon den starkaste tills jag har gett honom hans rätt.[^19]
 
-Ibn Khaldūn uttryckte det i sin *Muqaddimah*:
+Ibn Khaldūn (1332–1406) uttryckte det i sin *Muqaddimah*:
 
-> Rättvisa är en balans som upprättas bland människorna. Herren upprättade den och utsåg en övervakare för den, och den övervakaren är härskaren.[^19]
+> Rättvisa är en balans som upprättas bland människorna. Herren upprättade den och utsåg en övervakare för den, och den övervakaren är härskaren.[^20]
 
-Övervakaren – inte ägaren. Grundsatsen var aldrig oprövad. Under al-Māwardīs egen livstid förföll det abbasidiska kalifatet; muhtasiber överskred sina befogenheter i flera provinser.[^20] Att han skrev mitt i detta förfall gör insikten skarpare. Hans system var ett krav ställt på verkligheten, aldrig en spegling av den:
+Övervakaren – inte ägaren. Grundsatsen var aldrig oprövad. Under al-Māwardīs egen livstid förföll det abbasidiska kalifatet; muhtasiber överskred sina befogenheter i flera provinser.[^21] Att han skrev mitt i detta förfall gör insikten skarpare. Hans system var ett krav ställt på verkligheten, aldrig en spegling av den:
 
-> Allah ﷻ befaller er att återlämna allt ni anförtrotts till dess rättmätiga ägare och att, när ni dömer mellan människor, döma med rättvisa.[^21]
+> Allah ﷻ befaller er att återlämna allt ni anförtrotts till dess rättmätiga ägare och att, när ni dömer mellan människor, döma med rättvisa.[^22]
 
-Ibn Kathīr anför en profettradition: "Fullgör förtroendet gentemot den som anförtrott dig, och förråd inte den som förråder dig." Svärdet kan skydda rättvisan. Det kan aldrig vara den.
+Ibn Kathīr (ca. 1300–1373) anför en profettradition: "Fullgör förtroendet gentemot den som anförtrott dig, och förråd inte den som förråder dig." Svärdet kan skydda rättvisan. Det kan aldrig vara den.
 
 ---
 
@@ -94,8 +94,8 @@ Ibn Kathīr anför en profettradition: "Fullgör förtroendet gentemot den som a
 [^15]: Ibn Taymiyyah, *al-Ḥisbah fī al-Islām*.
 [^16]: Ibn Taymiyyah, *al-Siyāsah al-Sharʿiyyah*; Abū Yūsuf, *Kitāb al-Kharāj*.
 [^17]: al-Māwardī, *Adab al-Dunyā wa-l-Dīn*.
-[^18]: Abū Bakr al-Ṣiddīq, återgiven i Ibn al-Jawzī, *Ṣifat al-Ṣafwah*.
-[^19]: Ibn Khaldūn, *Muqaddimah*.
-[^20]: Jfr historiska studier av *ḥisbah*-ämbetets praktiska tillämpning under senabbasidisk tid.
-[^21]: Koranen, al-Nisāʾ 4:58.
-[^22]: C. S. Lewis, "The Humanitarian Theory of Punishment" (1949).
+[^18]: C. S. Lewis, "The Humanitarian Theory of Punishment" (1949).
+[^19]: Abū Bakr al-Ṣiddīq, återgiven i Ibn al-Jawzī, *Ṣifat al-Ṣafwah*.
+[^20]: Ibn Khaldūn, *Muqaddimah*.
+[^21]: Jfr historiska studier av *ḥisbah*-ämbetets praktiska tillämpning under senabbasidisk tid.
+[^22]: Koranen, al-Nisāʾ 4:58.
