@@ -3,7 +3,7 @@ title: "Själens infärgning"
 publishedAt: "2025-09-28T12:00:00.000Z"
 wordCount: 2410
 qualityScore: 8.5
-description: "År 1377 jämförde historikern Ibn Khaldūn kunskap med ett infärgat tyg: färgen sitter kvar tills tyget förstörs. Begreppet han formulerade i Tunis – *malaka*, bemästrande – bär en pedagogisk insikt som den svenska skoldebatten saknat i över ett sekel."
+description: "År 1377 jämförde historikern Ibn Khaldūn kunskap med ett infärgat tyg: färgen sitter kvar tills tyget förstörs. Begreppet han formulerade i Tunis – *malakah*, bemästrande – bär en pedagogisk insikt som den svenska skoldebatten saknat i över ett sekel."
 ---
 Den svenska skoldebatten pendlar. På ena sidan de som vill återinföra utantillinlärning: multiplikationstabeller, årtal, grammatikregler. På den andra de som avfärdar sådan pluggpedagogik som korvstoppning, en kvarleva från den tid då barn betraktades som tomma kärl att fylla. Debatten är förutsägbar. Båda sidor bygger på samma missförstånd.
 
@@ -69,7 +69,7 @@ Ibn Qayyim fördjupade detta i *Madārij al-Sālikīn*, om förhållandet mellan
 
 > Ihågkomst och eftertanke är två stationer som bär frukt i alla sorters kunskap, trons sanningar och godhetens verkligheter. Den kunnige upphör aldrig att återvända med sin eftertanke till sin ihågkomst, och med sin ihågkomst till sin eftertanke, tills hans hjärtas lås öppnas.[^17]
 
-Rörelsen är cirkulär. al-Ḥasan al-Baṣrī (ca. 642–728) sammanfattade det:
+Rörelsen är cirkulär. Al-Ḥasan al-Baṣrī (ca. 642–728) sammanfattade det:
 
 > Kunskapens folk upphörde aldrig att återvända med ihågkomst till eftertanke, och med eftertanke till ihågkomst, och talade till hjärtana tills de talade.[^18]
 

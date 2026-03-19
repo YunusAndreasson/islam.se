@@ -127,7 +127,7 @@ export function ArticleListScreen({
 			];
 
 	return (
-		<ScreenLayout shortcuts={shortcuts} breadcrumb={`Articles > ${displayName}`} fullWidth>
+		<ScreenLayout shortcuts={shortcuts} breadcrumb={`Articles > ${displayName}`}>
 			{pendingUnpublish ? (
 				<ConfirmDialog
 					message={`Unpublish "${truncate(pendingUnpublish.title, 50)}"?`}

@@ -208,7 +208,7 @@ export function IdeaListScreen({
 			];
 
 	return (
-		<ScreenLayout shortcuts={shortcuts} breadcrumb={`Ideas > ${topicName}`} fullWidth>
+		<ScreenLayout shortcuts={shortcuts} breadcrumb={`Ideas > ${topicName}`}>
 			{pendingDelete ? (
 				<ConfirmDialog
 					message={`Delete idea #${pendingDelete.id}: "${truncate(pendingDelete.title, 50)}"?`}

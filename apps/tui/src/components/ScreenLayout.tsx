@@ -9,7 +9,6 @@ interface ScreenLayoutProps {
 	shortcuts: Shortcut[];
 	statusTitle?: string;
 	breadcrumb?: string;
-	fullWidth?: boolean;
 }
 
 export function ScreenLayout({
