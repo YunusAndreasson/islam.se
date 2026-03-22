@@ -29,7 +29,7 @@ Den yttre skönheten, skriver han, är en utsmyckning som Gud ger vissa gestalte
 
 Men det finns en rangordning. Al-Māwardī och Ibn Qayyim talar inte mot varandra. Den ene ser tecknet, den andre källan. Och källan omformar tecknet:
 
-> Denna inre skönhet förskönar den yttre gestalten även om den saknar fysisk fägring, och klär sin ägare i skönhet, värdighet och behag proportionellt med vad själen iklätt sig av dessa egenskaper.[^7]
+> Denna inre skönhet förskönar den yttre gestalten även om den saknar fysisk fägring, och klär sin ägare i skönhet, värdighet och behag i samma mån som själen iklätt sig av dessa egenskaper.[^7]
 
 Man ser den rättfärdige, den generöse, den med vacker karaktär och finner honom vacker, "även om han inte är fysiskt vacker". Med samma kraft gäller det omvända: det inres fulhet övervinner det ytres skönhet och släcker den.[^8]
 

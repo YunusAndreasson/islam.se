@@ -51,7 +51,7 @@ Det demokratiska samhället gör just detta, genom sin uppbyggnad, inte av illvi
 
 ## Sanningen som bro och som börda
 
-Habermas menade att rationell diskurs – det herraväldesfria samtalet – kan leda till sanning genom rätt förfarande, om alla deltagare argumenterar ärligt och på lika villkor.[^15]
+Habermas hävdade att rationell diskurs – det herraväldesfria samtalet – kan leda till sanning genom rätt förfarande, om alla deltagare argumenterar ärligt och på lika villkor.[^15]
 
 Men Habermas förutsätter det som Koranen ifrågasätter: att människan, lämnad åt sitt förnuft, dras mot sanning snarare än antagande. *Hawā* är universell. Begäret talar alltid med i rummet, osynligt, förklätt till förnuft. Ibn Taymiyyah påpekade att "fantasin ljuger oftare än den talar sant"[^16] – och fantasin verkar starkast när vi tror oss vara som mest förnuftiga.
 

@@ -83,11 +83,11 @@ Den svenska författaren Fredrika Bremer (1801–1865) reste i Palestina, Turkie
 
 > Jorden blev bönen hem. Bönen blev människans goda ängel.[^19]
 
-Bremers projekt var ett annat: en romantisk syntes, inte en rättslig grundsats. Den islamiska utgångspunkten vilar på uppenbarelse – Profeten ﷺ fick hela jorden gjord till böneplats som en gåva till hans *ummah*. Han förbjöd att göra profeternas platser till permanenta helgedomar.[^20][^25] När pannan lyfts från golvet är rummet åter profant.
+Bremers projekt var ett annat: en romantisk syntes, inte en rättslig grundsats. Den islamiska utgångspunkten vilar på uppenbarelse – Profeten ﷺ fick hela jorden gjord till böneplats som en gåva till hans *ummah*. Han förbjöd att göra profeternas platser till permanenta helgedomar.[^20][^25] När pannan lyfts från golvet är rummet åter ohelgat.
 
 ## Kompassnålen
 
-Var han än befinner sig behöver den bedjande bara en riktning. Stockholms *qiblah* ligger på 157 grader – sydsydost.[^21] Riktningen skär snett genom stadsplanen, struntar i gatunätet, ignorerar tunnelbanans sträckningar. Den löper genom kontorslandskap och parkeringshus, villakök och sjukhuskorridorer, genom varenda kvadratmeter av ett samhälle som byggt sin rumsordning kring andra principer.
+Var han än befinner sig behöver den bedjande bara en riktning. Stockholms *qiblah* ligger på 148 grader – sydsydost.[^21] Riktningen skär snett genom stadsplanen, struntar i gatunätet, ignorerar tunnelbanans sträckningar. Den löper genom kontorslandskap och parkeringshus, villakök och sjukhuskorridorer, genom varenda kvadratmeter av ett samhälle som byggt sin rumsordning kring andra principer.
 
 Den mångkunnige al-Bīrūnī (d. 1048) utarbetade trigonometriska metoder för *qiblah*-beräkning från varje punkt på jorden.[^22] Men Ibn Taymiyyah insisterade: Följeslagarnas enkla metoder räckte. Att kräva en exakt koordinat vore att förvandla riktning till punkt, kompassbäring till adress – att återinföra den platslogik systemet avvisar.
 

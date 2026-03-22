@@ -63,7 +63,7 @@ Profeten ﷺ varnade: "När förtroendet förskingras, vänta då på den Ytters
 
 Den islamiska synvinkeln avvisar inte utan vidare. *Maqāṣid al-sharīʿah*, den islamiska rättens ändamålslära, erkänner att det som tjänar allmänintresset (*maṣlaḥah*) kan vara tillåtet under rätt villkor. En domare har genom historien kunnat använda redskap, rådgivare, prejudikat. Men domen måste vara hans: fattad med det hjärta som bär *amānah*.
 
-Det särskilda med AI är att det mänskliga beslutsögonblicket försvinner. En domare som följer en rådgivares rekommendation har ändå fattat beslutet. En domare vars system automatiskt levererar utfall som hon bekräftar med ett klick har det inte. Gesten är mänsklig till sin form, maskinell till sitt innehåll.
+Det avgörande med AI är att det mänskliga beslutsögonblicket försvinner. En domare som följer en rådgivares rekommendation har ändå fattat beslutet. En domare vars system automatiskt levererar utfall som hon bekräftar med ett klick har det inte. Gesten är mänsklig till sin form, maskinell till sitt innehåll.
 
 Ibn Khaldūn (1332–1406) varnade: "De som inte är kvalificerade för domstolen bör inte bli domare, så att de inte vilseleder dem som söker rätt väg."[^19] Den duglighet han krävde var inte teknisk utan moralisk.
 

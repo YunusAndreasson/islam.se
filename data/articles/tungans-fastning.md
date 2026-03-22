@@ -73,7 +73,7 @@ Men det finns en tystnad som varken undviker eller flyr – den tystnad där ord
 
 > Gott är att lyss till sin Moders röst – ordlöst bekymmer får ordlös tröst.[^28]
 
-En tystnad som redan säger allt. Koranen beskriver det som att hjärtan finner ro i Allahs ﷻ åminnelse.[^29] Profeten ﷺ definierade den innersta tillbedjan som *iḥsān*: att dyrka Allah ﷻ som om du ser Honom, ty även om du inte ser Honom, ser Han dig.[^30] Den som vaktar sin fästning väl finner till slut att själva vakthållningen blir en form av bön.
+En tystnad som redan säger allt. Koranen beskriver det som att hjärtan finner ro i Allahs ﷻ åminnelse.[^29] Profeten ﷺ definierade den innersta tillbedjan som *iḥsān*: att dyrka Allah ﷻ som om du ser Honom, ty även om du inte ser Honom, ser Han dig.[^30] Den som vaktar sin fästning väl finner till slut att själva vakthållningen blir bön.
 
 Al-Nawawī skriver i *Riyāḍ al-Ṣāliḥīn*:
 

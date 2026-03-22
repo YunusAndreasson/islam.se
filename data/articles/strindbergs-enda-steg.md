@@ -73,7 +73,7 @@ Det Söderberg avfärdar som nyckfull motsägelse – att tro på himlen men sl�
 
 Den uppenbara invändningen är den stabila ateisten: den som lever ett helt liv utan gudstro och dör utan att falla tillbaka. Finns inte miljontals sådana?
 
-Albert Einstein bekände: "Jag är ingen ateist. Problemet är alltför stort för våra begränsade sinnen."[^18] Han var ingen teist – men han kunde inte landa i ateism. Problemet var för stort.
+Albert Einstein bekände: "Jag är ingen ateist. Problemet är alltför stort för våra begränsade sinnen."[^18] Han var ingen teist – men han kunde inte slå sig till ro i ateism. Problemet var för stort.
 
 Strindbergs "enda steg" är ingen profetia om att alla ateister kommer att ta det – bara en iakttagelse om hur kort steget visar sig vara för dem som tvingas ta det.
 

@@ -98,7 +98,7 @@ Sībawayh dog ung, knappt fyrtio år gammal. Han lämnade inga lärjungar i vanl
 [^8]: *Shuʿūbiyyah* var en rörelse bland icke-arabiska muslimer, främst perser, som hävdade kulturell och intellektuell likvärdighet med araberna. Rörelsen var mest framträdande under abbasidperioden (750–1258 e.Kr.).
 [^9]: al-Suyūṭī, *al-Itqān fī ʿUlūm al-Qurʾān*. Al-Suyūṭī citerar al-Shāfiʿī: "Ingen behärskar språket fullständigt utom en profet."
 [^10]: Koranen, al-Ḥujurāt 49:13.
-[^11]: Ibn Taymiyyah, *al-Radd ʿalā al-Manṭiqiyyīn*. Egen översättning från arabiska.
+[^11]: Ibn Taymiyyah, *Iqtiḍāʾ al-Ṣirāṭ al-Mustaqīm*. Egen översättning från arabiska.
 [^12]: Ibn Taymiyyah, *al-Radd ʿalā al-Manṭiqiyyīn*. Egen översättning från arabiska.
 [^13]: Erik Gustaf Geijer, *Äreminne öfver Georg Stjernhjelm*.
 [^14]: August Strindberg, *Röda rummet* (1879). Passagen är satirisk: karaktären angriper ironiskt Stiernhielm för att ha drivit fram svenska på bekostnad av tyskan.

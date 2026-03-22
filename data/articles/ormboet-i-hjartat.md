@@ -64,7 +64,7 @@ Boyes berättare avundas inte rikedom eller status utan ett *ögonblick av hög 
 
 ## Självförgiftningen
 
-Max Scheler (1874–1928) kallade det *Selbstvergiftung*, självförgiftning: avund som omformar hela värdeskalan så att det man inte kan uppnå förklaras som värdelöst.[^12] Befordran betydde allt tills den gick till en kollega; då blev ledarskap meningslöst.
+Max Scheler (1874–1928) kallade det *Selbstvergiftung*, självförgiftning: avund som förvränger hela värdeskalan så att det man inte kan uppnå förklaras som värdelöst.[^12] Befordran betydde allt tills den gick till en kollega; då blev ledarskap meningslöst.
 Scheler kan beskriva drivverket men inte upphäva det. Om den drabbades egen värdeblick är förgiftad finns i hans tänkande ingen oförstörd punkt varifrån det förvridna kan rättas. Den islamiska traditionen förutsätter en sådan fast punkt, *fiṭrah*, den skapade naturen, och ett mått utanför själen: Guds fördelning. Därför kan traditionen gå från beskrivning till läkning.
 
 Hjalmar Söderberg fångar alltsammans i sju ord, i *Doktor Glas*: "Han är lycklig, och honom afundas jag."[^13] Ingen förklaring, ingen ursäkt. Bara konstaterandet.

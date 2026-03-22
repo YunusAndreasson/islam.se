@@ -65,7 +65,7 @@ Ibn al-Jawzī (d. 1201):
 
 Vikingen vilar i det obönhörliga, den troende i den Barmhärtige. Att överlåta sitt öde åt en blind lag kräver stoisk hårdhet: man måste tysta den del av sig som frågar *varför*. Att anförtro det åt Allah ﷻ, med Koranens ord "den som sätter sin lit till Allah ﷻ, Han räcker honom"[^13], kräver ingen sådan tystnad. Det ger ro utan hårdhet, mod utan bitterhet, handling utan den kvävande känslan att allt vilar på de egna axlarna. En profettradition sammanfattar grundsatsen:
 
-> Förunderligt är den troendes tillstånd – Allah ﷻ bestämmer inte något för honom utan att det blir till hans bästa. Drabbas han av motgång har han tålamod, och det blir till hans bästa; och får han framgång är han tacksam, och det blir till hans bästa. Och detta gäller ingen annan än den troende.
+> Förunderligt är den troendes tillstånd – Allah ﷻ bestämmer inte något för honom utan att det blir till hans bästa. Drabbas han av motgång har han tålamod, och det blir till hans bästa; och får han framgång är han tacksam, och det blir till hans bästa. Och detta gäller ingen annan än den troende.[^18]
 
 ## Det obönhörligas ro
 
@@ -106,3 +106,4 @@ Gunnar på Hlíðarendi vände sig i sadeln. Hans lugn sprang ur vissheten att n
 [^15]: Dag Hammarskjöld, *Vägmärken* (1963).
 [^16]: Koranen, al-Tawbah 9:129.
 [^17]: *Tusen och en natt*, vol. 11. Berättelsen om den besegrade fursten och eremiten.
+[^18]: Ṣaḥīḥ Muslim, Kitāb al-Zuhd wa-l-Raqāʾiq, nr 2999. Berättad av Ṣuhayb ibn Sinān al-Rūmī.

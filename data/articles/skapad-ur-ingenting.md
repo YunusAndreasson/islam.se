@@ -3,13 +3,13 @@ title: "Skapad ur ingenting"
 publishedAt: "2025-12-07T12:00:00.000Z"
 wordCount: 1638
 qualityScore: 8.6
-description: "Tre koranverser ställer en fråga som inte ger spelrum: har allting skapats av ingenting, eller skapade det sig självt – eller finns en Skapare? Strindberg brottades med alla tre alternativen utan att nå fram."
+description: "Två koranverser ställer en fråga som inte ger spelrum: har allting skapats av ingenting, eller skapade det sig självt – eller finns en Skapare? Strindberg brottades med alla tre alternativen utan att nå fram."
 ---
 Strindberg var ärlig nog att formulera problemet. I *Inferno* skriver han: "Jag har nämligen blivit ateist under årens lopp, när jag märkt hur de okända makterna lämnat världen åt dess öde utan att giva ett livstecken ifrån sig."[^1] En mening att respektera, inte för att den är sann, utan för att den visar vad ateismen kostar den som tar den på allvar. Strindberg ville inte vara ateist. Dit drev honom vad han upplevde som Guds tystnad. Han kunde inte stanna där.
 
 Några sidor senare vacklar han: "Det är ju märkvärdigt hur jag nu har från ateismen fallit ner i den fullständigaste vidskepelse."[^2] Ateismen höll inte för tanken, men alternativen han famlade efter – ockultism, Swedenborg, alkemi – bar inte heller.
 
-Fjorton sekler före honom restes samma fråga. Tre verser, tre alternativ.
+Fjorton sekler före honom restes samma fråga. Två verser, tre alternativ.
 
 ## Trilemmat
 

@@ -25,7 +25,7 @@ Dateringen är inte obestridd – radiokoldatering mäter djurhuden, inte bläck
 
 Ett ärligt resonemang kräver att man vänder stenen. I Jemens huvudstad Sana'a upptäcktes 1972 ett manuskript med ett undre textlager – en äldre text, bortskrapad och överskriven. Det undre lagret uppvisar avvikelser: en annorlunda suraordning, varianter i enskilda formuleringar.[^8] Här borde tesen falla.
 
-Men att det undre lagret *överskrevs* med en text som stämmer med den standardiserade Koranen är i sig ett belägg för medveten och tidig standardisering. Någon tog sig mödan att korrigera. Frånvaron av varianter kan förklaras med slump; korrigeringen av en variant vittnar om en gemenskap som vakade över sin text. Ett starkare bevis än ett felfritt manuskript, för det visar förloppet, inte bara utfallet. Den korrigerade versionen är den vi har i dag.
+Men att det undre lagret *överskrevs* med en text som stämmer med den standardiserade Koranen är i sig ett belägg för medveten och tidig standardisering. Någon tog sig mödan att rätta. Frånvaron av varianter kan förklaras med slump; rättelsen av en variant vittnar om en gemenskap som vakade över sin text. Ett starkare bevis än ett felfritt manuskript, för det visar förloppet, inte bara utfallet. Den rättade versionen är den vi har i dag.
 
 ## Det levande arkivet
 
@@ -39,7 +39,7 @@ Systemet har en motståndskraft ingen arkivinstitution kan mäta sig med. Om var
 
 ## Vad andra texter förlorade
 
-Mot detta blir Koranens särart synlig. Nya testamentets textöverföring är bland de bäst dokumenterade i den antika världen. Ändå har textkritiker katalogiserat över 400 000 varianter bland bevarade manuskript.[^12] De flesta är triviala – stavningsalternativ, omkastad ordföljd, synonymer. Ingen seriös forskare hävdar att de undergräver kristendomens kärnlära. Men de visar vad som sker med en text som kopieras för hand utan att samtidigt leva i minnet: varje kopist tillför sina avvikelser, och genom seklerna hopar de sig.
+Mot detta blir Koranens särart synlig. Nya testamentets textöverföring är bland de bäst dokumenterade i den antika världen. Ändå har textkritiker katalogiserat över 400 000 varianter bland bevarade manuskript.[^12] De flesta är obetydliga – stavningsalternativ, omkastad ordföljd, synonymer. Ingen seriös forskare hävdar att de undergräver kristendomens kärnlära. Men de visar vad som sker med en text som kopieras för hand utan att samtidigt leva i minnet: varje kopist tillför sina avvikelser, och genom seklerna hopar de sig.
 
 I millennier överfördes Vedaerna muntligt genom utarbetade recitationstekniker, men nedtecknades inte förrän kring det sista årtusendet före vår tideräkning.[^13] Buddhas ord nedtecknades århundraden efter hans död; texttraditionerna förgrenade sig tidigt och bildade skilda kanoner. Homeros överlever som rekonstruktion; tusentals detaljer skiljer manuskripten åt.
 

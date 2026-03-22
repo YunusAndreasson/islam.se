@@ -97,7 +97,7 @@ Frågan är inte varför reaktionen blev stark. Frågan är om ett samhälle som
 [^6]: Koranen, al-Jinn 72:1–2.
 [^7]: Ibn Qayyim al-Jawziyyah, *Madārij al-Sālikīn*, avsnittet om *samāʿ*.
 [^8]: Walter J. Ong, *Orality and Literacy: The Technologizing of the Word* (Methuen, 1982).
-[^9]: Ibn Taymiyyah, *al-Istighāthah*.
+[^9]: Ibn Taymiyyah, *al-Ṣārim al-Maslūl ʿalā Shātim al-Rasūl*.
 [^10]: Stockholms tingsrätt, dom i mål om hets mot folkgrupp, februari 2025; Svea hovrätt, dom november 2025.
 [^11]: Göteborgs universitet, "Koranbränningarna pröver yttrandefrihetens gränser" (2023).
 [^12]: Konflikten, känd som *miḥnah*, varade ca 833–848. Se Josef van Ess, *Theologie und Gesellschaft im 2. und 3. Jahrhundert Hidschra*, bd 3.

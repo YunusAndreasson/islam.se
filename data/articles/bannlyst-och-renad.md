@@ -49,7 +49,7 @@ Sven Elversson bekänner – skulden går inte att bära om inte sanningen sägs
 Befrielsen sker inuti, men utlöses av en yttre, oåterkallelig handling.
 Ludwig Wittgenstein, långt från religiös tradition, nådde samma insikt. Bekännelsen tillhör inte det gamla livet; den är en del av det nya.[^9] Karin Boye ställde frågan i *Kallocain*: "Kan någon människa höra sanningen utan att förändras?"[^10]
 
-Den islamiska traditionen drar en djärvare slutsats. Profeten Muḥammad ﷺ sade: "Den som ångrar sig från synden är som den utan synd."[^11] Inte *nästan* utan synd, inte *förlåten trots* synd – utan synd. *Tawbah* skapar en ny människa; synden tillhör den riktning personen inte längre har. Det är vad Lagerlöf gestaltar: en man som är *renad*.
+Den islamiska traditionen drar en djärvare slutsats. Koranen lovar den som vänder om: "Deras onda handlingar skall Allah ﷻ omvandla till goda handlingar."[^11] Inte förlåtna *trots* synden – befriade från den. *Tawbah* skapar en ny människa; synden tillhör den riktning personen inte längre har. Det är vad Lagerlöf gestaltar: en man som är *renad*.
 
 ## Skuldens verklighet
 
@@ -86,7 +86,7 @@ Vad vår tid gått miste om är denna riktning. Michel Foucault spårade förlus
 [^8]: Selma Lagerlöf, *Bannlyst*, kap. 28.
 [^9]: Ludwig Wittgenstein, *Vermischte Bemerkungen* (postumt 1977): "A confession has to be a part of your new life."
 [^10]: Karin Boye, *Kallocain*, Albert Bonniers Förlag, 1940.
-[^11]: Ḥadīth, *Sunan Ibn Mājah*, nr. 4250, berättad av ʿAbd Allāh ibn Masʿūd. Citeras av Ibn Qayyim al-Jawziyyah i *al-Dāʾ wa-l-Dawāʾ* (Sjukdomen och boten).
+[^11]: Koranen, al-Furqān 25:70.
 [^12]: Gustaf af Geijerstam, *Nils Tufvesson och hans moder*, Albert Bonniers Förlag, 1902.
 [^13]: Selma Lagerlöf, *Bannlyst*.
 [^14]: Koranen, Āl ʿImrān 3:135.

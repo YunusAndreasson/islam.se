@@ -91,7 +91,7 @@ Hemlighet – *sirr*: allvetandet som borde avskaffa varje hemlighet rymmer sjä
 
 [^1]: Karin Boye, *Kallocain* (1940), kap. 17.
 [^2]: Karin Boye, *Kallocain*, kap. 24.
-[^3]: Michel Foucault, *Surveiller et punir* (1975). Panoptikon-bilden används här som analytiskt verktyg, inte som historiskt påstående om Boyes eller den islamiska traditionens kontext.
+[^3]: Michel Foucault, *Surveiller et punir* (1975). Panoptikon-bilden används här som analytiskt verktyg, inte som historiskt påstående om Boyes eller den islamiska traditionens sammanhang.
 [^4]: Karin Boye, *Kallocain*, kap. 8.
 [^5]: Karin Boye, *Kallocain*, kap. 25.
 [^6]: Koranen, al-Aḥzāb 33:54.

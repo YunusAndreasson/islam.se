@@ -21,7 +21,7 @@ Två religiösa ljud i det offentliga rummet ska alltså behandlas olika för at
 
 Ordningslagen, som reglerar böneutrop genom krav på polistillstånd, är blind för innehåll; den hanterar ljudnivåer, inte teologi.[^6] Motionerna försöker införa något den befintliga rättsordningen saknar: en gräns dragen efter vad ljudet *betyder*. Lagstiftaren byggde ett regelverk för decibel; politikerna vill bygga ett för mening.
 
-Skillnaden mellan passiva och aktiva religiösa symboler har stöd i europeisk rätt. Europadomstolens stora kammare fastslog samma grundsats i *Lautsi mot Italien*: att ett krucifix i ett klassrum var en "väsentligen passiv symbol" – religiös form utan aktivt tilltal.[^7] Domstolen skyddar krucifixet genom att tömma det: det tolereras *för att* det inte längre talar. *Adhān* kan inte få samma skydd, för att tömma det på samma sätt skulle förstöra det inifrån.
+Skillnaden mellan passiva och aktiva religiösa symboler har stöd i europeisk rätt. Europadomstolens stora kammare fastslog samma grundsats i *Lautsi mot Italien*: att ett krucifix i ett klassrum var en "väsentligen passiv symbol" – religiös form utan aktivt tilltal.[^7] Domstolen skyddar krucifixet genom att tömma det: det tåls *för att* det inte längre talar. *Adhān* kan inte få samma skydd, för att tömma det på samma sätt skulle förstöra det inifrån.
 
 ## Ljudets kropp, ordets själ
 
@@ -97,7 +97,7 @@ Koranen säger vad som ytterst står på spel:
 
 *Adhān* ska bära detta budskap ut i världen. Den kan inte tystna utan att meningen går förlorad; den kan inte tämjas till kulturellt ljud utan att förvandlas till sin egen motsats.
 
-Sverige har beslutat att tolerera religiösa ljud. Det har inte beslutat att tolerera religiösa *ord*. Gränsen – mellan klocka och röst, mellan klang och mening, mellan ljud som smälter in och ljud som talar – röjer var den svenska sekularismen faktiskt drar sin linje. Gränsen går inte vid det religiösa. Den går vid det *begripliga*.
+Sverige har beslutat att tåla religiösa ljud. Det har inte beslutat att tåla religiösa *ord*. Gränsen – mellan klocka och röst, mellan klang och mening, mellan ljud som smälter in och ljud som talar – röjer var den svenska sekularismen faktiskt drar sin linje. Gränsen går inte vid det religiösa. Den går vid det *begripliga*.
 
 Frågan som återstår tillhör den som hellre diskuterar decibel än teologi: om kyrkklockan en dag åter fylldes med ord – om den utropade sin trosbekännelse över taken – skulle den fortfarande vara bara en del av landskapet?
 

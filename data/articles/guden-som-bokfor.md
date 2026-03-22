@@ -108,7 +108,7 @@ Linné fick inte tala. Men tystnaden talar.
 [^7]: Carl von Linné, *Nemesis Divina*.
 [^8]: Carl von Linné, *Nemesis Divina*.
 [^9]: Koranen, al-Zalzalah 99:7–8.
-[^10]: Koranen, al-Taghābun 64:1.
+[^10]: Koranen, al-Infiṭār 82:10–12.
 [^11]: Koranen, al-Anʿām 6:54.
 [^12]: ʿUmar ibn al-Khaṭṭāb, citerad av Ibn Abī al-Dunyā och återgiven av Ibn Qayyim al-Jawziyyah i *Ighāthat al-Lahfān*.
 [^13]: Ibn Qayyim al-Jawziyyah, *Madārij al-Sālikīn*, avsnittet om *muḥāsabah* (självrannsakan).
