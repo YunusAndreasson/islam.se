@@ -29,7 +29,7 @@ Ibn Taymiyyah (1263–1328) uttryckte den normgivande sunnitiska hållningen: Ko
 
 ## Hjärtats sinne
 
-I *Madārij al-Sālikīn* gör Ibn Qayyim en iakttagelse som nutida hörsel­forskning bekräftar:
+I *Madārij al-Sālikīn* gör Ibn Qayyim (1292–1350) en iakttagelse som nutida hörselforskning bekräftar:
 
 > Hjärtats koppling till hörseln och dess band till den är starkare än dess koppling till synen. Därför påverkas människan starkare av det hon hör av lustfyllda ting än av det hon ser av sköna ting. Detsamma gäller det obehagliga – att höra det berör djupare än att se det.[^5]
 
@@ -61,7 +61,7 @@ Den närmaste invändningen: om Koranens sakralitet skyddas juridiskt, var drar 
 
 Den islamiska förklaringen når djupare. Handlingen angriper det som gruppen uppfattar som Guds levande tal.
 
-Koranens väsen stod inte alltid klart. Den muʿtazilitiska skolan hävdade att Koranen *var* skapad, en ståndpunkt som under kalifen al-Maʾmūn på 800-talet upphöjdes till statsdoktrin och försvarades med tvångsmakt. Förföljelsen av dem som vägrade ansluta sig – bland dem imam Aḥmad ibn Ḥanbal – befäste den oskapade Koranens teologi som sunnitisk enighet.[^12] Att frågan avgjordes genom en av islams mest dramatiska lärokonflikter visar hur djupt den skär.
+Koranens väsen stod inte alltid klart. Den muʿtazilitiska skolan hävdade att Koranen *var* skapad, en ståndpunkt som under kalifen al-Maʾmūn på 800-talet upphöjdes till statsdoktrin och försvarades med tvångsmakt. Förföljelsen av dem som vägrade ansluta sig – bland dem imam Aḥmad ibn Ḥanbal – befäste den oskapade Koranens teologi som sunnitisk enighet.[^12][^16] Att frågan avgjordes genom en av islams mest dramatiska lärokonflikter visar hur djupt den skär.
 
 ## Det osynliga ordets makt
 
@@ -104,3 +104,4 @@ Frågan är inte varför reaktionen blev stark. Frågan är om ett samhälle som
 [^13]: Erik Gustaf Geijer, *Tal vid jubelfesten i Uppsala* (1817).
 [^14]: Viktor Rydberg, *Singoalla* (1857).
 [^15]: Ibn Qayyim al-Jawziyyah, *al-Wābil al-Ṣayyib min al-Kalim al-Ṭayyib*.
+[^16]: Frågan om Koranen är skapad eller oskapad var inte abstrakt. Om Koranen är skapad kan den betraktas som en produkt av sin tid – tolkningsbar, reviderbar, underordnad mänskligt omdöme. Om den är Allahs ﷻ oskapade tal är den evigt bindande och kan inte underordnas någon annan auktoritet. Det var denna skillnad imam Aḥmad vägrade ge upp, trots fängelse och piskrapp.

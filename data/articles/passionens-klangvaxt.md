@@ -9,7 +9,7 @@ Hjalmar Söderberg såg det tydligt: "Den källan heter icke kärleken, utan den
 
 Sjuhundra år före Söderberg öppnade den damascenske juristen och teologen Ibn Qayyim al-Jawziyyah (1292–1350) sin bok *Rawḍat al-Muḥibbīn*, De älskandes trädgård, och förtecknade närmare sextio arabiska namn för det vi kallar kärlek.[^2] Inte synonymer. Diagnoser.
 
-## Namnens vetenskap
+## Läkaren, inte kartografen
 
 Grekiskan hade fyra ord: *eros*, *philia*, *storge*, *agape*. Den kristne apologeten C. S. Lewis (1898–1963) byggde en hel bok kring dem.[^3] Fler ord än svenskan har, men fortfarande en grov karta. Ibn Qayyims projekt är av ett annat slag: där Lewis ordnar kärleken i fack, undersöker Ibn Qayyim den som läkare. Han frågar inte "vilken sort?" utan "vart leder den?"
 
@@ -31,7 +31,7 @@ Högre i ordningen: *al-ʿishq*, det ord som närmast svarar mot vårt "passion"
 
 Den schweiziske kulturfilosofen Denis de Rougemont (1906–1985) landade i samma insikt sex sekler senare. I *L'Amour et l'Occident* (1939) blottlägger han att den europeiska passionen, från trubadurerna till Tristan, inte älskar den älskade utan begäret självt. Den kräver hinder för att överleva.[^8] Han hade inte ordet *ʿishq*; det krävdes en hel bok. Men skillnaden ligger inte bara i omfång. De Rougemonts diagnos är en slutsats, nådd efter hundratals sidor. Ibn Qayyims diagnos bor i själva ordet: den som säger *ʿishq* uttalar varningen innan erfarenheten börjat.
 
-Ibn Qayyim konstaterar: "Början av *ʿishq* är plåga, dess mitt är sjukdom, dess slut är död."[^9] Det förtjänar varken beröm eller klander som sådant; allt beror på dess föremål.[^10] Men den kärlek som tillkommer Allah ﷻ bär ett annat namn: *maḥabbah* och *ʿubūdiyyah*, den fullkomliga kärleken förenad med fullkomlig underkastelse. Pannan mot mattan, fem gånger om dagen, år efter år. De tidiga generationerna (*salaf*) använde inte ordet *ʿishq* om Skaparen; de ansåg den för smal, för sjuklig, alltför bunden till brist. Den *maḥabbah* de föredrog rymmer det som *ʿishq* saknar: stadga, lydnad, vördnad.
+Ibn Qayyim konstaterar: "Början av *ʿishq* är plåga, dess mitt är sjukdom, dess slut är död."[^9] Det förtjänar varken beröm eller klander som sådant; allt beror på dess föremål.[^10] Men den kärlek som tillkommer Allah ﷻ bär ett annat namn: *maḥabbah* och *ʿubūdiyyah*, den fullkomliga kärleken förenad med fullkomlig underkastelse. Pannan mot mattan, fem gånger om dagen, år efter år. De tidiga generationerna (*salaf*) använde inte ordet *ʿishq* om Skaparen;[^23] de ansåg det för smalt, för sjukligt, alltför bundet till brist. Den *maḥabbah* de föredrog rymmer det som *ʿishq* saknar: stadga, lydnad, vördnad.
 
 ## Söderbergs Arvid, diagnostiserad
 
@@ -109,3 +109,4 @@ Ibn Qayyim kartlade sextio grundämnen. Vi äger ett enda och undrar varför ban
 [^20]: Ibn Qayyim al-Jawziyyah, *Rawḍat al-Muḥibbīn*.
 [^21]: Ibn Qayyim al-Jawziyyah, *al-Dāʾ wa-l-Dawāʾ*.
 [^22]: Platon, citerad av Ibn al-Jawzī i *Dhamm al-Hawā*.
+[^23]: Senare sufiska poeter – bland dem Ibn al-Fāriḍ (d. 1235) och Jalāl al-Dīn al-Rūmī (d. 1273) – använde *ʿishq* frikostigt om kärleken till Gud. Ibn Taymiyyah och Ibn Qayyim avvisade bruket: *ʿishq* förutsätter brist och beroende hos den älskande, egenskaper som inte kan tillskrivas den troendes relation till Allah ﷻ utan att förvränga den. Det korrekta ordet förblev *maḥabbah*.

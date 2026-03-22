@@ -26,7 +26,7 @@ Leo Kall förkroppsligar denna livsåskådning. Ondskefull är han inte. Han gö
 Ibn al-Jawzī (d. 1201), den lärde i Bagdad, tecknade kroppen som ett riddjur – *maṭiyyah* – som människan anförtrotts att färdas med. "Kroppen är som ett riddjur", skriver han, "och riddjuret måste fodras och tas om hand."[^4] Bilden är avsiktligt enkel men rymmer en vass poäng. Ett riddjur är varken ägaren eller ägarens egendom. Det är anförtrott. Man kan rida det, men inte rida ihjäl det. Man kan vårda det, men inte förvandla det till något annat än vad det är. Förhållandet förutsätter gränser som varken ryttaren eller riddjuret har satt.
 
 Biohackaren frågar *hur kan jag förbättra min kropp?* Ibn al-Jawzī frågar *vilka villkor gäller för detta lån?*
-Ibn Qayyim al-Jawziyyah förde bilden från liknelse till grundsats:
+Ibn Qayyim al-Jawziyyah (1292–1350) förde bilden från liknelse till grundsats:
 
 > Hjärtat är kungen över lemmarna, och lemmarna är dess soldater; om kungen är rättfärdig, är hans soldater rättfärdiga, och om kungen är fördärvad, är hans soldater fördärvade.[^5]
 
@@ -44,7 +44,7 @@ Koranen namnger kroppens förhållande till sin Skapare med ett ord som saknar r
 > Vi erbjöd himlarna och jorden och bergen förtroendet, men de vägrade att åta sig det och bävade för det, men människan åtog sig det.[^7]
 
 Det som erbjöds var inte ägande utan ansvar. I den klassiska skrifttolkningens ljus innebär *amānah* att människan anförtrotts sig själv – kropp, intellekt, tid, förbindelser – som lån med villkor, inte egendom att rå över fritt.[^8]
-Profeten Muḥammad ﷺ satte ord på det: "Fullgör det anförtrodda mot den som anförtrott dig det, och svek inte den som sviker dig."[^9]
+Profeten Muḥammad ﷺ satte ord på det: "Fullgör det anförtrodda mot den som anförtrott dig det, och svik inte den som sviker dig."[^9]
 
 Boyes roman och biohackingen delar samma tomrum: en kropp utan *amānah*, en kropp som tillhör staten eller individen men i inget av fallen bär ansvar inför den som skapat den. Ju mer makt människan får över sin biologi, desto svårare blir det att besvara frågan *vad kroppen är till för*.
 

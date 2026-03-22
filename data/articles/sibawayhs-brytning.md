@@ -21,7 +21,7 @@ Sībawayh skrev *al-Kitāb* – "Boken". Den behövde inget annat namn. Den var 
 
 ## Den omöjlige auktoriteten
 
-Sībawayh var perser; hans uttal förrådde honom. I en kultur som värderade *faṣāḥah*, språklig renhet och retorisk fulländning, var det knappast tänkbart att en utlänning kunde sätta reglerna för det heliga språket.
+Sībawayh var perser; hans uttal förrådde honom. I en kultur som värderade *faṣāḥah*, språklig renhet och retorisk fulländning,[^17] var det knappast tänkbart att en utlänning kunde sätta reglerna för det heliga språket.
 
 Spänningen löstes aldrig helt. Arabiska är Koranens språk; uppenbarelsen kom på "ett tydligt arabiskt tungomål".[^4]
 
@@ -104,3 +104,4 @@ Sībawayh dog ung, knappt fyrtio år gammal. Han lämnade inga lärjungar i vanl
 [^14]: August Strindberg, *Röda rummet* (1879). Passagen är satirisk: karaktären angriper ironiskt Stiernhielm för att ha drivit fram svenska på bekostnad av tyskan.
 [^15]: Joseph Conrad (Józef Teodor Konrad Korzeniowski, 1857–1924) föddes i det ryska imperiets polska territorier och lärde sig engelska som vuxen sjöman. Han räknas bland det engelska språkets mest inflytelserika romanförfattare. Se Najder, Z., *Joseph Conrad: A Life*, Camden House, 2007.
 [^16]: ʿAlī ibn Abī Ṭālib, citerad i *Kitāb al-Ṣamt wa Ādāb al-Lisān*. Egen översättning från arabiska.
+[^17]: *Faṣāḥah* var inte bara korrekt språk utan ett estetiskt ideal knutet till beduinernas tal, som ansågs bära arabiskans renaste form. Talaren bedömdes efter klang, ordval och frånvaro av språkfel (*laḥn*); en enda felböjning kunde förstöra en mans anseende.

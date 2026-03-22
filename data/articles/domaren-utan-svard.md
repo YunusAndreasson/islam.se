@@ -47,7 +47,7 @@ Söderberg var kallare:
 
 > Domare äro människor och kunna misstaga sig. Det är sannolikt att många blifva oskyldigt dömda.[^13]
 
-Båda pekar på samma sårbarhet: när samma hand utreder, anklagar och dömer, skymmer makten den rättvisa den är satt att tjäna. Al-Māwardīs *ḥisbah* bryter ordningen: en instans som urskiljer det onda men saknar makt att straffa det. Att läsa detta som kritik av det moderna åklagarväsendet vore anakronistiskt, men uppdelningen kastar ljus över en svaghet som består än idag.
+Båda pekar på samma sårbarhet: när samma hand utreder, anklagar och dömer, skymmer makten den rättvisa den är satt att tjäna. Al-Māwardīs *ḥisbah* bryter ordningen: en instans som urskiljer det onda men saknar makt att straffa det. Att läsa detta som kritik av det moderna åklagarväsendet vore anakronistiskt, men uppdelningen kastar ljus över en svaghet som består än i dag.
 
 Ibn Taymiyyah (1263–1328) skärpte grundsatsen: varje ämbetes medel begränsas till det egna området.[^14] Domaren arbetar med vittnen och skriftliga bevis. Svärdet tillhör det militära befälet. Muhtasiben har befogenheter som "inte tillhör vare sig härskarna, domarna eller ämbetsmännen".[^15] Rättvisan hotas inte främst av dem som vill göra ont utan av dem som vill göra gott med för mycket makt.
 
@@ -73,7 +73,7 @@ Ibn Khaldūn (1332–1406) uttryckte det i sin *Muqaddimah*:
 
 > Allah ﷻ befaller er att återlämna allt ni anförtrotts till dess rättmätiga ägare och att, när ni dömer mellan människor, döma med rättvisa.[^22]
 
-Ibn Kathīr (ca. 1300–1373) anför en profettradition: "Fullgör förtroendet gentemot den som anförtrott dig, och förråd inte den som förråder dig." Svärdet kan skydda rättvisan. Det kan aldrig vara den.
+Ibn Kathīr (ca. 1300–1373) anför en profettradition: "Fullgör förtroendet gentemot den som anförtrott dig det, och förråd inte den som förråder dig." Svärdet kan skydda rättvisan. Det kan aldrig vara den.
 
 ---
 

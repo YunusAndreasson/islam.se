@@ -3,11 +3,11 @@ title: "Förrådshusens väktare"
 publishedAt: "2025-11-07T12:00:00.000Z"
 wordCount: 1720
 qualityScore: 8.6
-description: "År 2025 konstaterade MSB att svensk krisberedskap är otillräcklig och att Stockholm har tre dagars livsmedelsförsörjning innan hyllorna töms. Under kalla kriget hade landet beredskapslager för månader av isolering – idag finns ingen myndighet med utpekat ansvar för att svenskarna kan äta."
+description: "År 2025 konstaterade MSB att svensk krisberedskap är otillräcklig och att Stockholm har tre dagars livsmedelsförsörjning innan hyllorna töms. Under kalla kriget hade landet beredskapslager för månader av isolering – i dag finns ingen myndighet med utpekat ansvar för att svenskarna kan äta."
 ---
 Stockholm har tre dagars livsmedelsförsörjning. Sedan: tomma hyllor, bruten kylkedja. Tio miljoner människor hänvisade till skafferiets innehåll.
 
-Det är ingen mardröm. Det är en myndighetsrapport. MSB konstaterade 2025 att svensk krisberedskap är "otillräcklig" och att landet behöver 32 miljarder kronor om året för att nå en rimlig nivå.[^1] Under kalla kriget hade Sverige beredskapslager för månader av isolering och en självförsörjningsgrad nära hundra procent. Idag saknas ens en myndighet med utpekat ansvar för livsmedelsförsörjning i kris.[^2] Självförsörjningen har halverats. Lagren är avvecklade, ansvaret utspritt.
+Det är ingen mardröm. Det är en myndighetsrapport. MSB konstaterade 2025 att svensk krisberedskap är "otillräcklig" och att landet behöver 32 miljarder kronor om året för att nå en rimlig nivå.[^1] Under kalla kriget hade Sverige beredskapslager för månader av isolering och en självförsörjningsgrad nära hundra procent. I dag saknas ens en myndighet med utpekat ansvar för livsmedelsförsörjning i kris.[^2] Självförsörjningen har halverats. Lagren är avvecklade, ansvaret utspritt.
 
 Samma fråga ställdes för mer än tre tusen år sedan vid Nilens stränder.
 
@@ -19,7 +19,7 @@ I sura *Yūsuf* tolkar Josef den egyptiske kungens dröm om sju feta kor som slu
 
 Sedan ber Josef själv om uppdraget: "Gör mig ansvarig för landets förrådshus; jag är sannerligen en kunnig förvaltare."[^4] Ordet han använder, *ḥāfiẓ*, bär dubbel betydelse: den som bevarar och den som håller räkning – inte en byråkrat utan en väktare. Den som går genom förrådshuset varje dag, känner på säckarna, räknar vad som finns kvar. Ibn Kathīr (ca. 1300–1373) citerar Shayba ibn Naʿāma, som förtydligar: "*ḥafīẓ* – väktare över det som anförtrotts mig; *ʿalīm* – kunnig om torråren."
 
-Ur Josefs svar framträder en modell: centraliserad lagerhållning, rationering under överflödsåren, statlig kontroll över fördelningen. Den som ser överflödet och inte lägger undan för kommande brist sviker uppdraget.
+Ur Josefs svar framträder en modell: samlad lagerhållning, rationering under överflödsåren, statlig kontroll över fördelningen. Den som ser överflödet och inte lägger undan för kommande brist sviker uppdraget.
 
 Koranen avslutar episoden: "På så vis etablerade Vi Josef i landet och han kunde slå sig ned var än han behagade."[^5] Trygghet vilar på förutseende.
 

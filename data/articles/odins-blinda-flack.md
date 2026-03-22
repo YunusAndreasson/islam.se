@@ -9,7 +9,7 @@ Ett öga ligger på botten av Mimers brunn. Det har legat där sedan tidernas gr
 
 Men frågan som sällan ställs är varför just ett öga, och framför allt vad han *inte* offrade.
 
-## Transaktionen vid brunnen
+## Bytet vid brunnen
 
 Snorre Sturlason (1179–1241), som nedtecknade myten i *Prosaeddan*, var noga med detaljerna. Brunnen ligger under Yggdrasils andra rot, i jättarnas värld. Den vaktas av Mimer, vars namn, *Mímir*, är besläktat med fornisländskans *minni*: minne, hågkomst.[^1] Brunnen rymmer *visdom och förstånd*. Odin får dricka ur den först efter att ha lämnat sitt öga som pant.
 
@@ -39,7 +39,7 @@ Kunskapen fyller utan att befria. Den nordiska synen erkänner sin egen gräns: 
 
 ## En annan ekonomi
 
-I den islamiska traditionen ställs frågan annorlunda från början. Ibn Qayyim al-Jawziyyah (1292-1350) skriver i *al-Fawāʾid*:
+I den islamiska traditionen ställs frågan annorlunda från början. Ibn Qayyim al-Jawziyyah (1292–1350) skriver i *al-Fawāʾid*:
 
 > Den som betraktar det som finns i honom själv av svagheter och brister, och det som finns hos sin Herre av fullkomlighet och majestät – han vet att hans liv inte kan rättas till och hans hjärta inte kan nå fram utom genom att söka sin tillflykt hos sin Herres dörr, och att han är den mest behövande av alla skapade varelser inför sin Herre.[^5]
 

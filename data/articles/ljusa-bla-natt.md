@@ -17,7 +17,7 @@ Oscar Levertin (1862–1906), Söderbergs samtida, kände samma obehag inför so
 
 > Min korta sommars långa nätter med timmar glödande som eld, med ensamhet så bäsk som etter och längtan aldrig tillfredsställd.[^2]
 
-Levertin ger smärtan riktning: den pekar mot något. Glas' ångest saknar objekt. Han skriver: "Jag skrifver för att röra min hand, min tanke rör sig af sig själf; skrifver för att döda en sömnlös timme."[^3] Rörelse utan riktning, handling utan mål.
+Levertin ger smärtan riktning: den pekar mot något. Glas' ångest saknar föremål. Han skriver: "Jag skrifver för att röra min hand, min tanke rör sig af sig själf; skrifver för att döda en sömnlös timme."[^3] Rörelse utan riktning, handling utan mål.
 
 Modern sömnforskning bestyrker vad Söderberg anade: ihållande ljus bryter ned dygnsrytmen som skiljer vakenhet från vila.[^4] Men Glas' ångest sitter djupare än retina.
 
@@ -45,11 +45,11 @@ Redan på 1000-talet fångade den andalusiske teologen Ibn Ḥazm (d. 1064) tide
 
 Mot slutet kommer det nakna erkännandet: "Mig gick lifvet förbi."[^11]
 
-Han tänker, observerar, skriver, planerar till och med ett mord. Ändå lever han utanför sin tid, aldrig i den.
+Han tänker, iakttar, skriver, planerar till och med ett mord. Ändå lever han utanför sin tid, aldrig i den.
 
 ## Att vara sin tids barn
 
-I *Madārij al-Sālikīn* byggde Ibn Qayyim en systematisk tidsfilosofi på ett äldre arv. Imām al-Shāfiʿī (d. 820) lär ha sagt att det mest värdefulla han lärde sig av sufierna var att "tiden är ett svärd: antingen skär du den eller skär den dig."[^12] Ibn Qayyim för tanken förbi aforismen.
+I *Madārij al-Sālikīn* byggde Ibn Qayyim (1292–1350) en systematisk tidsfilosofi på ett äldre arv. Imām al-Shāfiʿī (d. 820) lär ha sagt att det mest värdefulla han lärde sig av sufierna var att "tiden är ett svärd: antingen skär du den eller skär den dig."[^12] Ibn Qayyim för tanken förbi aforismen.
 
 *Waqt*, ögonblicket och den levda tiden, betecknar det närvarandes krav, den plikt och det tillstånd som hör till just denna stund. Den som söker Gud är *ibn waqtihi*: sin tids barn. Vandraren överskrider aldrig nuets uppgift. Bönen som bryter gryningen, arbetet under ljuset, vilan under mörkret.[^13]
 
@@ -67,7 +67,7 @@ Søren Kierkegaard kallade ångesten "frihetens svindel" – den yrsel som gripe
 
 Människans tid är hennes liv: det råmaterial hennes eviga tillvaro formas av.[^19][^20] Stillheten efter *fajr*, ordet vid bordet, steget tillbaka från ilskan.
 
-Glas' ångest saknar fäste utanför jaget. Han kan inte vara sin tids barn, ty hans tid bär ingen uppgift; den bara pågår, omarkerad, utan bön som bryter dygnet, utan *fajr*, gryningsbönen, som ger morgonen fäste, utan *ʿishāʾ*, kvällsbönen, som ger natten djup. Midsommarnattens gränslösa ljus förkroppsligar hans inre tillstånd: ett dygn utan ledfogar — en enda obruten dag som aldrig viker sig till natt.
+Glas' ångest saknar fäste utanför jaget. Han kan inte vara sin tids barn, ty hans tid bär ingen uppgift; den bara pågår, omarkerad, utan bön som bryter dygnet, utan *fajr*, gryningsbönen, som ger morgonen fäste, utan *ʿishāʾ*, kvällsbönen, som ger natten djup. Midsommarnattens gränslösa ljus förkroppsligar hans inre tillstånd: ett dygn utan ledfogar – en enda obruten dag som aldrig viker sig till natt.
 
 Den allomfattande ordning Koranen beskriver – "i skapelsen av himlarna och jorden och i växlingen mellan natt och dag finns sannerligen tecken för dem som har förstånd"[^21] – utgör själva ramen för meningsbärande tid. Utan den ramen: tomhet klädd i ljus.
 
@@ -79,7 +79,7 @@ Den koraniska arkitekturen lämnar inget tvivel: natten är dagens villkor. Utan
 
 "Från mörker till mörker," konstaterar Glas.[^23] Mellan de två mörkren – födelsens och dödens – ligger *waqt* efter *waqt*, vart och ett laddat med mening för den som förmår ta emot det.
 
-"Stillastående och förblifvande är oss icke gifvet," noterar Glas.[^24] En sak är att kastas framåt av tidens ström utan fotfäste; en annan att vandra, *sālik*, genom stationerna med medveten närvaro.
+"Stillastående och förblifvande är oss icke gifvet," noterar Glas.[^24] En sak är att kastas framåt av tidens ström utan fotfäste; en annan att vandra, *sālik*,[^26] genom stationerna med medveten närvaro.
 
 ## Den blå nattens fråga
 
@@ -116,3 +116,4 @@ Koranen svarar med en bild. Dagen dras undan ur natten. Mörkret sveper in. Och 
 [^23]: Söderberg, *Doktor Glas*, dagboken 2 oktober.
 [^24]: Söderberg, *Doktor Glas*, dagboken 12 augusti.
 [^25]: Ibn Qayyim al-Jawziyyah, *Madārij al-Sālikīn*, avsnittet om *waqt*.
+[^26]: *Sālik* (vandrare) betecknar den som medvetet vandrar de andliga stationerna mot Gud. Ibn Qayyims *Madārij al-Sālikīn* – De vandrandes stationer – är det mest kända verket i genren.

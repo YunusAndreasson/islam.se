@@ -3,7 +3,7 @@ title: "Skapad ur ingenting"
 publishedAt: "2025-12-07T12:00:00.000Z"
 wordCount: 1638
 qualityScore: 8.6
-description: "Tre koranverser ställer en fråga som inte ger spelrum: har allting skapats av ingenting, eller skapade det sig självt – eller finns en Skapare? Det är ingen vädjan till tro. Det är ett logiskt argument."
+description: "Tre koranverser ställer en fråga som inte ger spelrum: har allting skapats av ingenting, eller skapade det sig självt – eller finns en Skapare? Strindberg brottades med alla tre alternativen utan att nå fram."
 ---
 Strindberg var ärlig nog att formulera problemet. I *Inferno* skriver han: "Jag har nämligen blivit ateist under årens lopp, när jag märkt hur de okända makterna lämnat världen åt dess öde utan att giva ett livstecken ifrån sig."[^1] En mening att respektera, inte för att den är sann, utan för att den visar vad ateismen kostar den som tar den på allvar. Strindberg ville inte vara ateist. Dit drev honom vad han upplevde som Guds tystnad. Han kunde inte stanna där.
 
@@ -25,7 +25,7 @@ Fjorton sekler senare nådde Leibniz samma punkt i *Monadologin* (1714) när han
 
 ## Koranens argument och dess kritiker
 
-Resonemanget i sura *al-Ṭūr* har renodlats till ett filosofiskt argument: allt som blir till har en orsak; universum blev till; alltså har universum en orsak. Ibn Taymiyyah (1263–1328) förankrade detta i Koranens egna premisser och löste det ur kalam-filosofins begreppsbyggen – det vilar på den *fiṭrah* som varje människa bär, och på den logik som uppenbarelsen talar till.[^5] Slutsatsen är oundviklig, om premisserna håller.
+Resonemanget i sura *al-Ṭūr* har renodlats till ett filosofiskt argument: allt som blir till har en orsak; universum blev till; alltså har universum en orsak. Ibn Taymiyyah (1263–1328) förankrade detta i Koranens egna premisser och löste det ur *kalām*-filosofins begreppsbyggen[^20] – det vilar på den *fiṭrah* som varje människa bär, och på den logik som uppenbarelsen talar till.[^5] Slutsatsen är oundviklig, om premisserna håller.
 
 De har prövats. J.L. Mackie (1917–1981) invände att man inte kan sluta sig från orsaker inom universum till en orsak *för* universum – ett kompositionsfelslut.[^6] Graham Oppy ifrågasatte den första premissen rakt av: varför måste allt som blir till ha en orsak?[^7] Men invändningarna har en sak gemensamt: de förskjuter frågan utan att besvara den.
 
@@ -65,7 +65,7 @@ Koranen förnekar aldrig lidandet. Den ger det en ordning: prövning, tålamod, 
 
 *Tawḥīd* – en enda, transcendent, aktiv Skapare – besvarar inte varje filosofisk invändning. Det är den hållning som inte brister under sin egen logik: att säga 'en' och mena det utan fotnoter. Resten gör det: ateismen vid frågan om grund, polyteismen vid frågan om enhet, panteismen vid skillnaden mellan orsak och verkan, deismen vid frågan om mening, treenigheten vid frågan om inre sammanhang. *Tawḥīd* kvarstår.
 
-Ibn Qayyim sammanfattade det i en sats: Herren ensam skapar, styr och befaller.[^18] Inte en trossats som kräver förnuftets underkastelse, utan den slutsats förnuftet når när det följer sina egna premisser hela vägen.
+Ibn Qayyim (1292–1350) sammanfattade det i en sats: Herren ensam skapar, styr och befaller.[^18] Inte en trossats som kräver förnuftets underkastelse, utan den slutsats förnuftet når när det följer sina egna premisser hela vägen.
 
 I *Inferno* klagade Strindberg att de okända makterna lämnat världen utan livstecken. I *Götiska rummen* skrev han själv det tecken han sökte: "Av intet blir intet, och allt har en tillräcklig grund."[^19] Han formade svaret med egna ord. Han kände inte igen det.
 
@@ -90,3 +90,4 @@ I *Inferno* klagade Strindberg att de okända makterna lämnat världen utan liv
 [^17]: Koranen, al-ʿAnkabūt 29:2.
 [^18]: Ibn Qayyim al-Jawziyyah, *Madārij al-Sālikīn* (De vandrandes stationer).
 [^19]: August Strindberg, *Götiska rummen* (1904).
+[^20]: *Kalām* (ordagrant 'tal') betecknar den islamiska spekulativa teologin, en disciplin som från 700-talet använde filosofiska metoder – särskilt grekisk logik – för att försvara trosläror. Ibn Taymiyyah kritiserade *kalām* för att underkasta uppenbarelsen begreppsramar som fördunklade snarare än klarlade.

@@ -43,7 +43,7 @@ Ellen Key, Strindbergs samtida och på många sätt hans motpol, ser företeelse
 
 Key ser samhällelig pendling. Men varför slår pendeln alltid *tillbaka*? Vore ateism ett stabilt kunskapstillstånd, borde riktningen vara rak: varje generation mer sekulär, tills religionen utdör.
 
-Det är inte vad som sker, inte vad Key observerar, inte vad Strindberg genomlevde. Ett internationellt forskningsprojekt vid Oxford visade 2011 att religiösa begrepp framträder som grundläggande mönster i mänskligt tänkande, inte som inlärda föreställningar.[^11] Justin Barrett, en av projektets ledare: "Religion handlar inte om något som ett fåtal särskilda människor gör på söndagar i stället för att spela golf."[^12]
+Det är inte vad som sker, inte vad Key iakttar, inte vad Strindberg genomlevde. Ett internationellt forskningsprojekt vid Oxford visade 2011 att religiösa begrepp framträder som grundläggande mönster i mänskligt tänkande, inte som inlärda föreställningar.[^11] Justin Barrett, en av projektets ledare: "Religion handlar inte om något som ett fåtal särskilda människor gör på söndagar i stället för att spela golf."[^12]
 
 Invändningar finns. Ateismforskare som Lanman och Geertz hävdar att ateism också följer naturliga kognitiva förlopp, att den kan uppstå av sig själv under vissa villkor.[^13] Invändningen är befogad men flyttar frågan: att ateism *kan* uppstå av sig själv säger inget om dess hållbarhet. Frågan kvarstår: kan ateism *levas* utan ansträngning? Strindbergs vittnesmål antyder motsatsen.
 

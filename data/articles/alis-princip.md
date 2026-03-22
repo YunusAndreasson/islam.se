@@ -27,7 +27,7 @@ Koranen skiljer inte mellan rätt och fel som politiska kategorier utan mellan *
 
 ## Två brister och ett begär
 
-Ibn Qayyim al-Jawziyyah urskiljer två grundbrister: brist på klarsyn och brist på tålamod.[^8] Klarsyn kräver ansträngning. Tålamod kräver att man härdar ut obehaget av att stå ensam.
+Ibn Qayyim al-Jawziyyah (1292–1350) urskiljer två grundbrister: brist på klarsyn och brist på tålamod.[^8] Klarsyn kräver ansträngning. Tålamod kräver att man härdar ut obehaget av att stå ensam.
 
 Men det finns ett djupare skikt. Ibn al-Jawzī (d. 1201): "Begäret förblindar och gör döv för sanning och riktighet."[^9] *Hawā* förvränger omdömet. Människan ser inte fel *trots* sin intelligens utan *på grund av* sina begär.[^10]
 
@@ -47,7 +47,7 @@ Grundsatsen kräver motsatsen till vår vana: pröva påståendet först, *sedan
 
 Ibn Taymiyyah (1263–1328) fördjupade grundsatsen. Den som gör människor till måttstock för sanningen – i stället för att pröva människors påståenden mot sanningen – begår det mest grundläggande tankefelet.[^14] Varje människa kan ha fel eller rätt, utom Profeten ﷺ.
 
-Det demokratiska samhället gör just detta, genom sin konstruktion, inte av illvilja. Omröstningen är en våg som väger röster, inte skäl.
+Det demokratiska samhället gör just detta, genom sin uppbyggnad, inte av illvilja. Omröstningen är en våg som väger röster, inte skäl.
 
 ## Sanningen som bro och som börda
 

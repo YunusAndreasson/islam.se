@@ -7,7 +7,7 @@ description: "Silvertärnan lämnar Arktis varje höst utan karta, utan garanti.
 ---
 Varje höst lämnar silvertärnan Arktis. Den väger knappt hundra gram, hjärnan stor som en ärta. Den bär ingen karta, ingen GPS, inget färdprov – ändå flyger den till Antarktis och tillbaka, 70 000 kilometer om året, den längsta kända färden bland djur.[^1] Under flygningen sover den troligen med halva hjärnan i taget: ett öga öppet, ett slutet, den vakna hjärnhalvan navigerar medan den andra vilar.[^2] Sedan vänder den om och gör alltihop igen.
 
-Ingen försäkring täcker den resan.
+Ingen försäkring täcker den resan.[^23]
 
 ## Försäkringens samhälle
 
@@ -43,7 +43,7 @@ Vi ser avfärden, vi ser ankomsten. Aldrig det ögonblick då fågeln svävar ö
 
 Koranen har ett ord för det silvertärnan gör utan att veta det: *tawakkul*. Arabiskans *wakālah* betyder att lägga sin sak i annans hand. *Tawakkul* är ingen känsla; det är en handling: att gå ut genom dörren utan att veta vad som väntar, men med vetskapen om *vem* som väntar.
 
-Ibn Qayyim säger det kort: "Hemligheten med *tawakkul*, dess verkliga natur, är hjärtats förlitan på Gud allena."[^9]
+Ibn Qayyim (1292–1350) säger det kort: "Hemligheten med *tawakkul*, dess verkliga natur, är hjärtats förlitan på Gud allena."[^9]
 Men i *Madārij al-Sālikīn* blottlägger han den förväxling som ständigt hotar det andliga livet: sammanblandningen av *tawakkul* med lättja:
 
 > Ofta förväxlas det berömvärda och fullkomliga med det klandervärda och bristfälliga. Överlämnande förväxlas med förslösande. Tjänaren slösar bort sin andel i tron att det är *tawakkul*. Men det är slöseri, inte överlämnande. Tecknet på äkta *tawakkul* är att den som förlitar sig anstränger sig till det yttersta i de medel som är föreskrivna – och finner vila just genom den ansträngningen.[^10]
@@ -114,7 +114,7 @@ Silvertärnan stannar inte.
 ---
 
 [^1]: C. Egevang m.fl., "Tracking of Arctic terns *Sterna paradisaea* reveals longest animal migration", *Proceedings of the National Academy of Sciences* 107/5 (2010), s. 2078–2081. Studien dokumenterar en genomsnittlig årlig flygsträcka på ca 70 900 km för elva fåglar utrustade med geolokatorer.
-[^2]: Unihemisfärisk sömn – där en hjärnhalva sover medan den andra förblir vaken – är dokumenterad hos flera fågelarter under flygning, bland annat i N. C. Rattenborg m.fl., "Evidence that birds sleep in mid-flight", *Nature Communications* 7 (2016). Beteendet har inte mätts direkt hos silvertärna, men forskare antar att arten använder samma teknik under sin extrema migration.
+[^2]: Unihemisfärisk sömn – där en hjärnhalva sover medan den andra förblir vaken – är dokumenterad hos flera fågelarter under flygning, bland annat i N. C. Rattenborg m.fl., "Evidence that birds sleep in mid-flight", *Nature Communications* 7 (2016). Beteendet har inte mätts direkt hos silvertärnan, men forskare antar att arten använder samma teknik under sin extrema migration.
 [^3]: Ulrich Beck, *Risikogesellschaft: Auf dem Weg in eine andere Moderne* (Suhrkamp, 1986).
 [^4]: Erik Gustaf Geijer, *Förändringar inom de arbetande klasserna i England* (1845).
 [^5]: Ellen Key, *Barnets århundrade* (1900).
@@ -135,3 +135,4 @@ Silvertärnan stannar inte.
 [^20]: Dan Andersson, *David Ramms arv* (1919).
 [^21]: Fredrika Bremer, dikten "Våren" (troligen 1840-talet).
 [^22]: Hjalmar Söderberg, *Martin Bircks ungdom* (1901).
+[^23]: Titeln anspelar på *hijrah*, Profetens ﷺ utvandring från Mecka till Medina år 622 – den händelse som inleder den islamiska tideräkningen. Profeten ﷺ lämnade sitt hem under dödshot, utan garanti om ankomst, med tillit till Allah ﷻ som enda försäkring.

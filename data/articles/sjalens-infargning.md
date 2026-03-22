@@ -5,9 +5,9 @@ wordCount: 2410
 qualityScore: 8.5
 description: "År 1377 jämförde historikern Ibn Khaldūn kunskap med ett infärgat tyg: färgen sitter kvar tills tyget förstörs. Begreppet han formulerade i Tunis – *malakah*, bemästrande – bär en pedagogisk insikt som den svenska skoldebatten saknat i över ett sekel."
 ---
-Den svenska skoldebatten pendlar. På ena sidan de som vill återinföra utantillinlärning: multiplikationstabeller, årtal, grammatikregler. På den andra de som avfärdar sådan pluggpedagogik som korvstoppning, en kvarleva från den tid då barn betraktades som tomma kärl att fylla. Debatten är förutsägbar. Båda sidor bygger på samma missförstånd.
+Ett barn sitter böjt över en bok, läser samma sida för tionde gången. Föräldern oroar sig: är det korvstoppning? Läraren oroar sig: är det för lite? Den ena sidan vill ha fler multiplikationstabeller, den andra mer kreativitet. Debatten är förutsägbar. Båda sidor bygger på samma missförstånd.
 
-År 1377 färdigställde den tunisiske historikern Ibn Khaldūn (1332–1406) sitt livsverk *Muqaddimah* – en inledning till hans världshistoria som blev ett eget storverk. Arnold Toynbee (1889–1975) kallade det det mest betydande verket i sitt slag som en enskild människa åstadkommit.[^1] Där utvecklade han en pedagogisk teori som upplöser den motsättning den svenska debatten fastnat i. Hans utgångspunkt var språkinlärning:
+År 1377 färdigställde den tunisiske historikern Ibn Khaldūn (1332–1406) sitt livsverk *Muqaddimah* – en inledning till hans världshistoria som blev ett eget storverk. Arnold Toynbee (1889–1975) kallade verket det mest betydande i sitt slag som en enskild människa åstadkommit.[^1] Där utvecklade han en pedagogisk teori som upplöser den motsättning den svenska debatten fastnat i. Hans utgångspunkt var språkinlärning:
 
 > Kunskap om språk erhålls genom mycket memorering och god minnesövning.[^2]
 

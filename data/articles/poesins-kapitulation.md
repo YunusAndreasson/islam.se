@@ -11,11 +11,11 @@ Koranen själv formulerar utmaningen:
 
 > Och om ni hyser tvivel om vad Vi har sänt ned till Vår tjänare, åstadkom då en sura av samma slag och tillkalla era vittnen, andra än Allah ﷻ, om ni är sannfärdiga.[^1]
 
-Utmaningen trappas ned i tre steg. Först: frambringa en hel skrift som denna, även om människor och djinner förenade sig.[^2] Sedan: tio suror.[^3] Slutligen: en enda. Tre verser räcker: sura *al-Kawthar*, Koranens kortaste, är tre verser lång. Al-Suyūṭī konstaterar att dess *iʿjāz* – oefterhärmbarheten – är likvärdigt med sura *al-Baqarah*, den längsta.[^4] Utmaningen gäller inte mängd.
+Utmaningen trappas ned i tre steg. Först: frambringa en hel skrift som denna, även om människor och djinner förenade sig.[^2] Sedan: tio suror.[^3] Slutligen: en enda. Tre verser räcker: sura *al-Kawthar*, Koranens kortaste, är tre verser lång. Al-Suyūṭī konstaterar att dess *iʿjāz* – oefterhärmbarheten – är likvärdig med sura *al-Baqarah*, den längsta.[^4] Utmaningen gäller inte mängd.
 
 ## Språket som inte borde finnas
 
-Före Koranen var poesin arabernas nationalkonst – deras historieskrivning, deras rättsväsende, deras krig. Vid marknaderna i Ukaz tävlade stammarna med sina qasidor som andra folk tävlade med vapen. Att bemästra arabiskans prosodi var makt.
+Före Koranen var poesin arabernas nationalkonst – deras historieskrivning, deras rättsväsende, deras krig. Vid marknaderna i Ukaz tävlade stammarna med sina qasidor[^16] som andra folk tävlade med vapen. Att bemästra arabiskans prosodi var makt.
 
 I denna kultur, där varje barn växte upp med örat skolat för metrisk precision, framträdde en text som trotsade allt de behärskade. Koranens arabiska följer inte de vedertagna versformerna, saknar genomgående metrum, binder sig inte till qasidans konventioner. Men den är heller inte vanlig, obunden prosa; den bär en inre rytm, en klangbyggnad som varken poeter eller prosaskribenter förmådde inordna i sina kategorier.
 
@@ -51,7 +51,7 @@ En uppenbar invändning: vem avgör om utmaningen besvarats? Ingen neutral domar
 
 En jämförelse kan hjälpa. Selma Lagerlöf revolutionerade svensk prosa med *Gösta Berlings saga* 1891. Hon bröt med naturalismen, blandade saga och realism, formade en stil utan föregångare. Men hon arbetade inom en tradition: svensk litteratur hade Bellman, Tegnér, Almqvist. Lagerlöf utvidgade ett befintligt språkligt universum.
 
-Uppenbarad för en man som varken kunde läsa eller skriva, i en kultur där den muntliga traditionen var fulländad men den skriftliga knappt fanns, blev Koranen inte bara ett nytt verk utan en egen kategori. Arabisk lingvistik – grammatiken, retoriken, prosodin – växte fram för att förstå denna enda text. Sībawayh, som skrev arabiskans första systematiska grammatik, hämtade bland annat ur Koranen som material.
+Uppenbarad för en man som varken kunde läsa eller skriva, i en kultur där den muntliga traditionen var fulländad men den skriftliga knappt fanns, blev Koranen inte bara ett nytt verk utan en egen kategori. Arabisk lingvistik – grammatiken, retoriken, prosodin – växte fram för att förstå denna enda text. Sībawayh, som skrev arabiskans första systematiska grammatik, hämtade bland annat sina exempel ur Koranen.
 
 Ibn Khaldūn (1332–1406) sammanfattade motsägelsen:
 
@@ -84,3 +84,4 @@ Al-Suyūṭī slog fast att utmaningen var ett avslöjande av oförmåga, inte e
 [^13]: al-Suyūṭī, *al-Itqān fī ʿUlūm al-Qurʾān*, diskussionen om ṣarfah-positionen.
 [^14]: Ibn Khaldūn, *al-Muqaddimah* (Inledningen).
 [^15]: al-Suyūṭī, *al-Itqān fī ʿUlūm al-Qurʾān*.
+[^16]: *Qasīdah* (pl. *qaṣāʾid*): den förislamiska odens standardform, en dikt i ofta sjuttio verser eller fler med fast metrum och genomgående slutrim, inledd med poetens klagan vid den älskades övergivna lägerplats (*nasīb*), följd av en reseskildring och avslutad med diktens egentliga ärende – lovdikt, stridsskildring eller stamhyllning.

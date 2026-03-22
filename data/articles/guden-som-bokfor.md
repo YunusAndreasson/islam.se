@@ -46,7 +46,7 @@ Den som beter sig som ägare – av sin gård, sin makt, sin hälsa – har för
 
 ## Den ordning han inte fick namnge
 
-I Koranens nittionionde sura, en av de kortaste, åtta verser, sammanfattas den ordning Linné sökte:
+I Koranens nittionionde sura, en av de kortaste med sina åtta verser, sammanfattas den ordning Linné sökte:
 
 > Den som gör den minsta myras vikt av gott skall se det. Och den som gör den minsta myras vikt av ont skall se det.[^9]
 
@@ -58,7 +58,7 @@ Den troende förväntas ändå hålla den egna räkenskapen:
 
 > Ställ er själva till räkenskap innan ni ställs till räkenskap, och väg era handlingar innan de vägs åt er.[^12]
 
-Ibn Qayyim al-Jawziyyah räknade denna *muḥāsabah*, självrannsakan inför Gud, bland de bärande stationerna för den som söker Allahs ﷻ väg.[^13]
+Ibn Qayyim al-Jawziyyah (1292–1350) räknade denna *muḥāsabah*, självrannsakan inför Gud, bland de bärande stationerna för den som söker Allahs ﷻ väg.[^13]
 
 ## Två som inte kunde tiga
 

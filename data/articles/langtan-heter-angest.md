@@ -5,7 +5,7 @@ wordCount: 1533
 qualityScore: 8.6
 description: "Under 1300-talets första hälft ägnade sig Ibn Qayyim al-Jawziyyah i Damaskus åt att kartlägga hjärtats sjukdomar. I *al-Dāʾ wa-l-Dawāʾ* beskrev han hur synden försvagar hjärtat – inte som en katastrof utan som en tilltagande bedövning där den sjuke till slut inte ens märker att han är sjuk."
 ---
-Den moderna människan har ett reflexmässigt svar på ångest: bli av med den. Medicinera, meditera, söka distraktion. Modern psykologi skiljer visserligen mellan patologisk och vardaglig oro – KBT och ACT behandlar inte all oro som sjukdom. Men den kulturella reflexen pekar åt samma håll: ångest är ett fel i maskineriet, en störning att undanröja.
+Ångesten slår till och handen sträcker sig efter telefonen, tabletten, podden – vad som helst som tystar. Medicinera, meditera, söka distraktion. Modern psykologi skiljer visserligen mellan patologisk och vardaglig oro – KBT och ACT behandlar inte all oro som sjukdom. Men den kulturella reflexen pekar åt samma håll: ångest är ett fel i maskineriet, en störning att undanröja.
 
 Tänk om reflexen pekar fel.
 
@@ -54,7 +54,7 @@ Den teologiska grunden skiljer dem. Kierkegaards ångest springer ur den kristna
 
 Kierkegaard lämnar den ångestfyllde ensam med sin frihet. Utan ett begrepp om hjärtats ursprungliga riktning kan ångesten visa *att* du är fri, men aldrig *vad* friheten är till för. Ibn Qayyim ger riktning: ångesten pekar mot det som behöver läkas, och läkningen har ett namn. Lagerkvists Barabbas, den frigivne brottslingen som kretsar kring en tro han inte äger, erkänner samma längtan men har inget namn för den: "För att jag gärna ville tro."[^12]
 
-## Reningen
+## Koppar som poleras
 
 Koranen beskriver den läkande rörelsen: "Det var Han som sände ned lugnet i de troendes hjärtan så att de kunde växa i tro utöver den tro de hade."[^13] Lugnet, *sakīnah*, kommer inte av att prövningen uteblir utan sänds ned *i* prövningen.
 

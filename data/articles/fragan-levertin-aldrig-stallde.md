@@ -29,7 +29,7 @@ Men Levertin frågar aldrig *varifrån* känslan kommer. Varför skulle en slump
 
 En koranisk vers slår an tonen:
 
-> Ägna hela ditt jag åt religionen som en sann *ḥanīf*! Den är Allahs ﷻ naturliga väg som Han ingjutit i människorna. Ingen förändring skall ske i Allahs ﷻ skapelse.[^8]
+> Ägna hela ditt jag åt religionen som en sann *ḥanīf*![^24] Den är Allahs ﷻ naturliga väg som Han ingjutit i människorna. Ingen förändring skall ske i Allahs ﷻ skapelse.[^8]
 
 *Fiṭrah* – här översatt "naturlig väg" – betecknar den medfödda konstitution varje människa bär: en orientering mot sin Skapare som föregår all uppfostran och kultur. Anspråket är antropologiskt, djupare än ett teologiskt antagande. Profeten Muḥammad ﷺ formulerade det i en berömd *ḥadīth*:
 
@@ -55,7 +55,7 @@ Ibn Taymiyyah (1263–1328) blottlägger grunden: "*Fiṭrah* är det som hjärt
 
 ## Den fråga ingen ställde
 
-Levertin nöjer sig med slutsatsen att religiositet utan religion räcker. Ibn Qayyim vänder den. Han visar hur uppenbarelse och medfödd insikt samverkar:
+Levertin nöjer sig med slutsatsen att religiositet utan religion räcker. Ibn Qayyim (1292–1350) vänder den. Han visar hur uppenbarelse och medfödd insikt samverkar:
 
 > Uppenbarelsens ljus förenades med *fiṭrah*s ljus – ljus på ljus – så att hjärtat nära nog talar sanning även utan att ha hört ett ord.[^14]
 
@@ -127,3 +127,4 @@ Söderblom förstod det. Strindberg anade det. Levertin noterade det – och sta
 [^21]: Dan Andersson, *David Ramms arv* (1919).
 [^22]: Ibn Qayyim al-Jawziyyah, *al-Fawāʾid*. Parafras efter arabisk originaltext.
 [^23]: Koranen, Fuṣṣilat 41:53.
+[^24]: *Ḥanīf* betecknar i Koranen den som vänder sig till Gud i ren monoteism, fri från avgudadyrkan. Termen knyts särskilt till Abraham: "Abraham var varken jude eller kristen utan en sann gudstroende (*ḥanīf*) som hade underkastat sig Guds vilja" (Āl ʿImrān 3:67).

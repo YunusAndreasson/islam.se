@@ -21,7 +21,7 @@ Ibn Taymiyyah (1263–1328), den hanbalitiske teologen, ägnade ett helt verk å
 
 Ordningen är avgörande: religion, ära, förstånd, kropp. I samma verk preciserar han: *ḥasad*, fördärvlig avund, får själen att hata det som gagnar den och älska det som skadar den.[^3] Själens försvar vänder sig mot själen själv.
 
-Ibn Qayyim, Ibn Taymiyyahs närmaste elev, förtätade till en enda sats:
+Ibn Qayyim (1292–1350), Ibn Taymiyyahs närmaste elev, förtätade till en enda sats:
 
 > Avunden bränner den avundsjuke före den avundade, så som elden bränner veden.[^4]
 
@@ -51,11 +51,11 @@ Ormboet, inte en ensam orm som bits en gång utan ett helt bo som myllrar, en k�
 
 > Varje brand har något som kan släcka den, men avundens eld kan inte släckas.[^9]
 
-Och samma Ibn Ḥibbān spårar avundens kedja av förstörelse med sträng logik:
+Elden kan inte släckas – men vart leder den? Ibn Ḥibbān spårar kedjan:
 
 > Ur avunden föds hatet, och hatet är ondskans rot.[^10]
 
-Kedjan är kort, utan mildrande mellanled.
+Tre led utan lindring emellan: avund, hat, ondska.
 Men avundens mest kusliga drag är inte dess våldsamhet utan dess förmåga att tränga in överallt. Karin Boye fångar det i *Kallocain*:
 
 > Återigen avund. Den mannen där, mindervärdig på många sätt som han var, talade om ett ögonblick av hög salighet, visserligen förgånget och nästan glömt, men ändå ett ögonblick … Hans korta extatiska vandring – ja, den avundades jag honom.[^11]

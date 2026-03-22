@@ -33,7 +33,7 @@ Ibn Kathīr (ca. 1300–1373) anför en profettradition:
 
 > Allah ﷻ har förlåtit mitt samfund det som deras själar viskar till dem, så länge de inte uttalar det eller handlar efter det.
 
-Och längre fram:
+Tanken är förlåten; det uttalade ordet är det inte. Men Koranen går längre – den förbjuder inte bara lögnen utan hela den kultur av misstänksamhet som föder den:
 
 > Ni som har antagit tron! Undvik alltför många antaganden. Vissa antaganden är en synd. Leta inte efter andras brister och baktala inte varandra. Skulle någon av er tycka om att äta sin döda broders kött? Nej, ni skulle avsky det.[^9]
 

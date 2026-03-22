@@ -42,7 +42,7 @@ Profeten ﷺ bad varje kväll innan han lade sig:
 
 Det är inte en sömnbön. Det är förberedelse för döden. Ordagrant: *laka mamātuhā wa-maḥyāhā* – dess död och dess liv tillhör Dig.
 
-Ordet för denna överlåtelse är *tawakkul*. Ibn Qayyim al-Jawziyyah definierade det som "hjärtats sanna förlitan på Allah ﷻ ensam".[^6]
+Ordet för denna överlåtelse är *tawakkul*. Ibn Qayyim al-Jawziyyah (1292–1350) definierade det som "hjärtats sanna förlitan på Allah ﷻ ensam".[^6]
 
 Du kan inte förhandla dig till sömn, inte köpa den, inte tvinga den. Du kan bara släppa. I ett samhälle som byggt sig kring att aldrig släppa, blir det enklaste, att somna, det svåraste.
 

@@ -15,11 +15,11 @@ Fjorton århundraden senare bygger vi system som beslutar om domar, anställning
 
 ## Sultanens tomt
 
-Ibn Qayyim al-Jawziyyah tecknade hjärtat som kroppens konung. Lemmarna är dess armé och undersåtar; de lyder hjärtat av nödvändighet, kan inte annat. Ingen lem rör sig utom på hjärtats befallning, ingen tanke eller vilja föds utom genom dess styre.[^3] Hela denna ordning förutsätter att konungen är vaken. Det är den som känner vreden stiga innan ordet formas, som vet att beslutet finns innan handlingen.
+Ibn Qayyim al-Jawziyyah (1292–1350) tecknade hjärtat som kroppens konung. Lemmarna är dess armé och undersåtar; de lyder hjärtat av nödvändighet, kan inte annat. Ingen lem rör sig utom på hjärtats befallning, ingen tanke eller vilja föds utom genom dess styre.[^3] Hela denna ordning förutsätter att konungen är vaken. Det är den som känner vreden stiga innan ordet formas, som vet att beslutet finns innan handlingen.
 
 Ett beslut är inte en beräkning utan en handling där hjärtat väger, tvekar, bär ansvar. Förnuftet kan räkna, lemmarna verkställa, men ingen av dem kan *regera*.
 
-Nu blir bilden bokstavlig: algoritmen ersätter konungen, inte rådgivaren – övertar beslutet, inte bara beräkningen. Ordet *algoritm* är uppkallat efter den muslimske matematikern al-Khwārizmī, men det han formaliserade var beräkningen, inte domslutet. EU:s AI-förordning, som träder i full kraft i augusti 2026, ställer frågan juridiskt. Artikel 14 kräver att högrisk-AI-system ska ha "mänsklig tillsyn": att en människa alltid ska kunna förstå systemets förmåga, tolka dess utfall och välja att bortse från dess bedömning.[^4] Den svenska utredningen SOU 2025:101 förtydligar och skärper kraven.[^5]
+Nu blir bilden bokstavlig: algoritmen ersätter konungen, inte rådgivaren – övertar beslutet, inte bara beräkningen. Ordet *algoritm* är uppkallat efter den muslimske matematikern al-Khwārizmī,[^21] men det han formaliserade var beräkningen, inte domslutet. EU:s AI-förordning, som träder i full kraft i augusti 2026, ställer frågan juridiskt. Artikel 14 kräver att högrisk-AI-system ska ha "mänsklig tillsyn": att en människa alltid ska kunna förstå systemets förmåga, tolka dess utfall och välja att bortse från dess bedömning.[^4] Den svenska utredningen SOU 2025:101 förtydligar och skärper kraven.[^5]
 
 Men om den som formellt ska kunna överpröva en algoritm saknar tid, kunskap eller vilja – vem regerar då? Forskningen visar det: människor som övervakar självgående system slutar med tiden att ifrågasätta dem.[^6] Sultanen sover med öppna ögon.
 
@@ -57,7 +57,7 @@ Ställföreträdande förutsätter en uppdragsgivare och en uppdragstagare som k
 
 Profeten ﷺ varnade: "När förtroendet förskingras, vänta då på den Yttersta stunden." Och på frågan om hur det förskingras svarade han: "När uppgiften anförtros den som inte förtjänar den."[^17]
 
-*Wussiḍa al-amr ilā ghayr ahlih* – "uppgiften anförtros den som inte är dess folk." En algoritm kan vara *träffsäkrare* än en människa. Men träffsäkerhet är inte rättvisa. Bergen lydde Guds ordning felfritt – och just det gjorde dem oförmögna att bära uppdraget. *Amānah* förutsätter att bäraren kan svika förtroendet. Ibn Taymiyyah (1263–1328) definierade rättvisa som att förstå tingen som de är och fullända dem.[^18] Det kräver mer än mönsterigenkänning – det kräver en domare som förstår att två stölder inte är samma brott.
+*Wussida al-amr ilā ghayr ahlih* – "uppgiften anförtros den som inte är dess folk." En algoritm kan vara *träffsäkrare* än en människa. Men träffsäkerhet är inte rättvisa. Bergen lydde Guds ordning felfritt – och just det gjorde dem oförmögna att bära uppdraget. *Amānah* förutsätter att bäraren kan svika förtroendet. Ibn Taymiyyah (1263–1328) definierade rättvisa som att förstå tingen som de är och fullända dem.[^18] Det kräver mer än mönsterigenkänning – det kräver en domare som förstår att två stölder inte är samma brott.
 
 ## Verktyget och domen
 
@@ -96,3 +96,4 @@ Bergen visste bättre. De bävade och vägrade. Vi sa ja. Frågan vår tid stäl
 [^18]: Ibn Taymiyyah, *al-Radd ʿalā al-Manṭiqiyyīn*.
 [^19]: Ibn Khaldūn, *Muqaddimah*.
 [^20]: Oscar Levertin, *Diktare och drömmare*.
+[^21]: Muḥammad ibn Mūsā al-Khwārizmī (ca. 780–850) verkade vid det abbasidiska Vishetshuset (*Bayt al-Ḥikmah*) i Bagdad. Hans algebraverk gav oss ordet *algebra*; hans latiniserade namn, *Algoritmi*, gav oss *algoritm*.

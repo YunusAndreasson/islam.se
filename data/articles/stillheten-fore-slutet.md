@@ -41,7 +41,7 @@ Hjalmar Bergman (1883–1931) satte ord på den i *Vi Bookar, Krokar och Rothar*
 
 *Att finna mening* – inte att fly döden utan att finna ett skäl att ha levt.
 
-Klimatångesten följer samma mönster men saknar det avgörande: ett namn för det den är. Islam namnger ångesten. Ångesten är ett tecken, en *āya*, på att människan söker sitt upphov. Ibn Qayyim al-Jawziyyah skrev: "Det jordiska livet är den kommande världens åkerfält och dess förebud."[^8] Ångesten inför förstörelsen visar sig vara förklädd längtan efter det som kommer *efter* den – rädslan som är hoppet vänt ut och in.
+Klimatångesten följer samma mönster men saknar det avgörande: ett namn för det den är. Islam namnger ångesten. Ångesten är ett tecken, en *āya*, på att människan söker sitt upphov. Ibn Qayyim al-Jawziyyah (1292–1350) skrev: "Det jordiska livet är den kommande världens åkerfält och dess förebud."[^8] Ångesten inför förstörelsen visar sig vara förklädd längtan efter det som kommer *efter* den – rädslan som är hoppet vänt ut och in.
 
 ## En dom som förutsätter en Domare
 
@@ -89,7 +89,7 @@ Jorden sjunker. Himlen rullas ihop. Skapelsen börjar inte om. Den *återställs
 
 [^1]: Viktor Rydberg, *Teutonic Mythology: Gods and Goddesses of the Northland*, vol. 1, kapitlet om Ragnarök och världsförnyelse.
 [^2]: Esaias Tegnér, *Fritiofs Saga*, "Balders bål."
-[^3]: Günther Anders, *Endzeit und Zeitenende: Gedanken über die atomare Situation* (1972).
+[^3]: Günther Anders (1902–1992), österrikisk-judisk filosof och Hannah Arendts förste make. Hans huvudtema var den teknologiska apokalypsen: att mänskligheten efter Hiroshima kan utplåna sig själv men saknar förmåga att emotionellt fatta vad det innebär. *Endzeit und Zeitenende: Gedanken über die atomare Situation* (1972).
 [^4]: "Climate Grief and the Secular Spirituality of Earth-Mourning", *Harvard Divinity Bulletin*.
 [^5]: Harry Martinson, *Aniara: En revy om människan i tid och rum*, Bonniers, 1956.
 [^6]: Koranen, al-Maʿārij 70:19.

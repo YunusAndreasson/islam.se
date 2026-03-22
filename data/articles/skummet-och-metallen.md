@@ -48,9 +48,9 @@ Elden *känner igen*.
 
 Långt före mötet bestäms relationen till elden. Därför kan Koranen säga om dem som avvisar tron: "Varje gång de försöker komma ut ur den, till följd av sitt elände, sätts de tillbaka i den."[^10] Det är följden av ett tillstånd som föregår elden.
 
-Bilden rymmer en oundviklig teologisk spänning. I sunnitisk tradition straffar Jahannam, men för den syndige troende är den också rening. Den som bär trons kärna, hur svag den än är, frigörs till slut ur elden, renad.[^11] Samma eld *straffar* den ene och *renar* den andre. I den som brinner ligger skillnaden.
+Bilden rymmer en oundviklig teologisk spänning. I sunnitisk tradition straffar Jahannam,[^17] men för den syndige troende är den också rening. Den som bär trons kärna, hur svag den än är, frigörs till slut ur elden, renad.[^11] Samma eld *straffar* den ene och *renar* den andre. I den som brinner ligger skillnaden.
 
-Ibn Qayyim al-Jawziyyah skärper tanken ytterligare: trons visshet bränner synderna som eld bränner ved.[^12] Elden verkar redan i det inre livet: den troende som lever i verklig *yaqīn*, i förvissning om Allahs ﷻ enhet, befinner sig redan i en eld som förtär det falska. Men denna eld kräver att du bär något som tål den.
+Ibn Qayyim al-Jawziyyah (1292–1350) skärper tanken ytterligare: trons visshet bränner synderna som eld bränner ved.[^12] Elden verkar redan i det inre livet: den troende som lever i verklig *yaqīn*, i förvissning om Allahs ﷻ enhet, befinner sig redan i en eld som förtär det falska. Men denna eld kräver att du bär något som tål den.
 
 Vad är det? I *Rawḍat al-Muḥibbīn* ger Ibn Qayyim ett svar. Han knyter eldbilden till kärleken själv:
 
@@ -101,3 +101,4 @@ Eskatologins svåraste fråga: inte om det *finns* en eld, utan vad du är gjord
 [^14]: Ibn Qayyim al-Jawziyyah, *al-Wābil al-Ṣayyib min al-Kalim al-Ṭayyib* (Det välgörande regnet).
 [^15]: Ibn Qayyim al-Jawziyyah, *al-Wābil al-Ṣayyib*.
 [^16]: Koranen, al-Baqarah 2:24.
+[^17]: *Jahannam*, det arabiska ordet för helvetet, är etymologiskt besläktat med hebreiskans *Gehinnom*. I islamisk eskatologi rymmer Jahannam grader av straff, och den syndige troende kan efter rening befrias – till skillnad från den som avvisat tron.

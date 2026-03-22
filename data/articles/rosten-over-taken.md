@@ -71,7 +71,7 @@ Kyrkklockans ljud är en kropp utan själ – ett tomt kärl som lyssnaren fylle
 
 ## Att höra det man inte vill förstå
 
-Ibn Qayyim al-Jawziyyah skildrar lyssnandets kraft:
+Ibn Qayyim al-Jawziyyah (1292–1350) skildrar lyssnandets kraft:
 
 > Lyssnandet är trons budbärare till hjärtat – dess kallare, dess lärare.[^16]
 
@@ -85,7 +85,7 @@ Det svenska samhället har inte avsakraliserat det religiösa ljudet; det har ba
 
 Al-Māwardī (974–1058) säger det rakt:
 
-> *Adhān* och *iqāmah* och församlingsbönen i moskén hör till islams yttre tecken, genom vilka Guds sändebud ﷺ skilde islams land från otrons land.[^18]
+> *Adhān* och *iqāmah*[^20] och församlingsbönen i moskén hör till islams yttre tecken, genom vilka Guds sändebud ﷺ skilde islams land från otrons land.[^18]
 
 *Adhān* är mer än en praktisk kallelse till bön – att ropa *adhān* i det offentliga rummet är att säga: *vi finns här, och vi tillber*. Där, inte i volymen, ligger motståndet.
 
@@ -122,3 +122,4 @@ Frågan som återstår tillhör den som hellre diskuterar decibel än teologi: o
 [^17]: Koranen, al-Māʾidah 5:58.
 [^18]: al-Māwardī, *al-Aḥkām al-Sulṭāniyyah*.
 [^19]: Koranen, Ṭā Hā 20:14.
+[^20]: *Iqāmah* är det andra, kortare böneutropet som reciteras inne i moskén omedelbart före den gemensamma bönen. Till skillnad från *adhān*, som kallar de frånvarande, riktar sig *iqāmah* till dem som redan infunnit sig.

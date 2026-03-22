@@ -3,13 +3,13 @@ title: "Den starkaste tjänaren"
 publishedAt: "2026-01-01T12:00:00.000Z"
 wordCount: 1586
 qualityScore: 8.4
-description: "I november 2024 avslöjade Lighthouse Reports och Svenska Dagbladet att Försäkringskassans maskininlärningsmodell systematiskt flaggade kvinnor mer än dubbelt så ofta som män för misstänkt fusk med föräldrapenningen. Systemet hade varit i drift sedan 2013."
+description: "ʿUmar ibn al-Khaṭṭāb beklagade att den duglige saknar samvete och den samvetsgranne saknar kraft. Fjorton sekel senare byggde Försäkringskassan en algoritm som gav hans klagan kropp."
 ---
 Den andre kalifen, ʿUmar ibn al-Khaṭṭāb – känd för att vandra Medinas gränder nattetid för att se med egna ögon hur undersåtarna levde – vände sig till Gud med orden: "Jag beklagar inför Dig den lastbares djärvhet och den pålitliges svaghet."[^1] Den som förmår vill inte rätt. Den som vill rätt förmår inte.
 
 Fjorton sekel senare har vi byggt något som ger ʿUmars klagan kropp: algoritmen.
 
-## Två pelare, en tom plats
+## Svärdet och slidan
 
 Ibn Taymiyyah (1263–1328) omsatte ʿUmars klagan i ett politiskt system. I *al-Siyāsah al-Sharʿiyyah*, hans avhandling om rättvis styrning, hävdar han att varje ämbete vilar på två pelare: *quwwah* – styrka, duglighet, förmåga att verkställa – och *amānah* – pålitlighet, trovärdighet, det inre rättesnöre som tyglar makten.[^2]
 
@@ -25,7 +25,7 @@ I den svenska välfärdsstaten fick avvägningen handgripliga följder. I novemb
 
 Redan 2013 hade Försäkringskassan infört modellen. År 2018 konstaterade Inspektionen för socialförsäkringen att algoritmen "i sin nuvarande utformning inte uppfyller kravet på likabehandling".[^10] Försäkringskassan avfärdade slutsatserna. Först sex år senare – efter internationell granskning och offentlig skandal – drogs systemet tillbaka.
 
-Ibn Taymiyyahs uppdelning förtydligar: algoritmens *quwwah* kunde ingen betvivla. Bristen låg i *amānah*. Styrka utan samvete är ett svärd utan slida — ju skarpare, desto farligare för den som bär det. Utan insyn förstärkte kraften de ojämlikheter den var tänkt att rätta.
+Ibn Taymiyyahs uppdelning förtydligar: algoritmens *quwwah* kunde ingen betvivla. Bristen låg i *amānah*. Styrka utan samvete är ett svärd utan slida – ju skarpare, desto farligare för den som bär det. Utan insyn förstärkte kraften de ojämlikheter den var tänkt att rätta.
 
 Problemet är inte nytt. Norbert Wiener (1894–1964) pekade redan 1960 ut samma mönster:
 
@@ -35,7 +35,7 @@ Maskinen skickar hundra påminnelsebrev till en avliden person därför att "ski
 
 ## Det dolda förtroendekontraktet
 
-En medborgare som vänder sig till en myndighet ingår ett förtroendeavtal äldre än varje lag. Hon lämnar ut uppgifter om sitt liv och litar på att de hanteras rättvist. Koranen kopplar förtroendeuppdraget oupplösligt till rättvis dom:
+En medborgare som vänder sig till en myndighet ingår ett förtroendeavtal, äldre än varje lag. Hon lämnar ut uppgifter om sitt liv och litar på att de hanteras rättvist. Koranen kopplar förtroendeuppdraget oupplösligt till rättvis dom:
 
 > Allah ﷻ befaller er att återlämna allt ni anförtrotts till dess rättmätiga ägare och att, när ni dömer mellan människor, döma med rättvisa.[^12]
 

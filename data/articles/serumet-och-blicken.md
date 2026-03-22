@@ -52,7 +52,7 @@ Ibn al-Jawzī (d. 1201) spetsar till det: "Gudsfruktan hindrar rädslan för mä
 
 Boyes insikt och den islamiska traditionen möts i en punkt: sanningens värde vilar på det fria valet. I *Kallocain* förintar tvånget sanningen. I islamisk teologi gäller det motsatta: Gud, som *kan* tvinga, *väljer* att inte göra det.
 
-Koranen upprepar det i vers efter vers: "det finns inget tvång i religionen"[^11]. Hela *iḥsān*-begreppets byggnad vilar på detta fria val. Att dyrka Gud "som om du ser Honom" kräver ansträngning, val, en medveten blick. Det kan inte frampressas med ett serum. Det är, med Boyes eget ord, en *gåva*.
+Koranen upprepar det i vers efter vers: "det finns inget tvång i religionen."[^11] Hela *iḥsān*-begreppets byggnad vilar på detta fria val. Att dyrka Gud "som om du ser Honom" kräver ansträngning, val, en medveten blick. Det kan inte frampressas med ett serum. Det är, med Boyes eget ord, en *gåva*.
 
 Sufyān al-Thawrī (d. 778), en av de tidiga rättslärda och asketerna:
 

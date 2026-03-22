@@ -13,9 +13,9 @@ Profeten Muḥammad ﷺ sammanfattade det i en formel som verkar alltför enkel:
 
 ## Ögat som spegel
 
-I *Rawḍat al-Muḥibbīn* gör Ibn Qayyim denna åtskillnad till grund för sin lära om seendet. Gud har gjort ögat till hjärtats spegel; när tjänaren sänker sin blick, sänker hjärtat sitt begär.[^2]
+I *Rawḍat al-Muḥibbīn* gör Ibn Qayyim (1292–1350) denna åtskillnad till grund för sin lära om seendet. Gud har gjort ögat till hjärtats spegel; när tjänaren sänker sin blick, sänker hjärtat sitt begär.[^2]
 
-Ögat återkastar hjärtats eget tillstånd. Blicken som fästs vid ett objekt tillför inte begär utifrån utan väcker det som redan vilar i betraktaren. Två personer ser samma sak. Bara en av dem fastnar.
+Ögat återkastar hjärtats eget tillstånd. Blicken som fästs vid ett föremål tillför inte begär utifrån utan väcker det som redan vilar i betraktaren. Två personer ser samma sak. Bara en av dem fastnar.
 
 Profeten ﷺ sade till ʿAlī:
 
@@ -64,6 +64,7 @@ Koranen instruerar båda könen i två parallella verser:
 > Och säg till de troende kvinnorna att sänka sin blick och skyla sitt kön.[^17]
 
 Samma verb – *yaghuḍḍu*, 'sänka', av samma rot som att dämpa rösten. Det ord som följer, *azkā*, 'renare', pekar mot klarhet, inte puritanism.
+
 Koranen rymmer ännu en bild:
 
 > Vänd åter blicken, gång på gång; blicken vänder tillbaka till dig avvisad och alldeles matt.[^18]

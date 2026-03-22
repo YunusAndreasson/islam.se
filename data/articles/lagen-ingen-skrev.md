@@ -23,7 +23,7 @@ Samma mönster såg Erik Gustaf Geijer (1783–1847) i 1800-talets Sverige: "Öv
 
 Koranen svarar med en bild: "Det är Allah ﷻ som har sänt ned Boken med sanningen och likaså rättvisans våg."[^6] Boken och vågan. De sänds ned. De uppfinns inte. På denna grundsats vilar den islamiska rättsteorin, *uṣūl al-fiqh*: rättskällorna härleds ur uppenbarelsen, inte ur mänsklig lagstiftning.[^7] Ingen klass, ingen härskare, ingen majoritet kan kalla sig upphovsman.
 
-Thomistisk naturrätt och judisk *Halakha* reser besläktade anspråk, men *uṣūl al-fiqh* tillför den metodiska skärpan: ett formellt system för hur uppenbarelsen omsätts i rättslig praxis, med inbyggda spärrar mot godtycke.[^8]
+Thomistisk naturrätt och judisk *Halakha*[^19] reser besläktade anspråk, men *uṣūl al-fiqh* tillför den metodiska skärpan: ett formellt system för hur uppenbarelsen omsätts i rättslig praxis, med inbyggda spärrar mot godtycke.[^8]
 
 ## Rättvisan som gräns
 
@@ -71,3 +71,4 @@ Koranens bild är en våg, inte ett svärd. Svärdet avgör. Vågen väger. Den 
 [^16]: Erik Gustaf Geijer, citerad i *Frihet och framsteg: Erik Gustaf Geijer i urval* (Timbro förlag).
 [^17]: Selma Lagerlöf, *Bannlyst* (1918).
 [^18]: Ibn Khaldūn, *Muqaddimah*, bok 3.
+[^19]: *Halakha* (hebreiska, 'att gå') är den judiska rättstraditionens samlingsterm för den religiösa lag som reglerar dagligt liv, härledd ur Torah, Talmud och rabbinsk rättspraxis.

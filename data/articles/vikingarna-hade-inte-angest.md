@@ -55,7 +55,7 @@ Och:
 
 *Tawakkul*, tillit till Allah ﷻ, är människans svar på *al-qadr*, liksom nordiskt lugn var svaret på Orlog. Men den troende vilar i något väsensskilt: en relation till den som är *al-Raḥmān*, *al-Raḥīm* – den Barmhärtige, den Nåderike.
 
-Ibn Qayyim al-Jawziyyah definierade *tawakkul* som "hjärtats fulla förlitan på Allah ﷻ allena".[^10] Men *tawakkul* har ofta missförståtts som passivitet. Ibn Qayyim avvisade det:
+Ibn Qayyim al-Jawziyyah (1292–1350) definierade *tawakkul* som "hjärtats fulla förlitan på Allah ﷻ allena".[^10] Men *tawakkul* har ofta missförståtts som passivitet. Ibn Qayyim avvisade det:
 
 > *Tawakkul* hör till de starkaste orsakerna för att uppnå det man önskar och avvärja det man fruktar – det är den starkaste orsaken överhuvudtaget.[^11]
 

@@ -27,7 +27,7 @@ Ibn Kathīr (ca. 1300–1373) återger bakgrunden: Ibn Masʿūd berättar att Pr
 
 ## Hjärtats kunskap och sinnenas gräns
 
-Ibn Qayyim byggde en kunskapslära som rymmer Chalmers åtskillnad utan att lämna uppenbarelsens mark. Hjärtat (*al-qalb*) bär en kunskap av annat slag: "Hjärtat har en kunskap, en insikt, en *firāsah* som sinnesorganen aldrig kan nå."[^7]
+Ibn Qayyim (1292–1350) byggde en kunskapslära som rymmer Chalmers åtskillnad utan att lämna uppenbarelsens mark. Hjärtat (*al-qalb*) bär en kunskap av annat slag: "Hjärtat har en kunskap, en insikt, en *firāsah* som sinnesorganen aldrig kan nå."[^7]
 Sinnena förkastar han inte:
 
 > Skapelsen vittnar om Skaparen, och den som betraktar med sitt hjärta ser i varje skapat ting ett bevis.[^8]
@@ -43,7 +43,7 @@ Invändningen är lika gammal som argumentet: vem upplever illusionen? Att avfä
 
 > Samtidigt blir det också allt klarare för hvar och en, att alla vetenskapens förklaringar och klassifikationer blott äro provisoriska.[^15]
 
-## Det som överlever
+## Själen som inte förgås
 
 Ibn Qayyim förklarade varför frågan aldrig sluter sig:
 

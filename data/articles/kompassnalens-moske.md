@@ -46,7 +46,7 @@ Nyckeln är ordet *shaṭr* – "sida", "allmän riktning". Gud befaller att man
 
 > Genom de kända metoder som Följeslagarna och deras efterföljare brukade, utan att behöva något annat. Ändå har många människor infört nya metoder, och många av dem tror att man inte kan förstå den religiösa lagen utan dessa – och detta beror på deras okunnighet.[^10]
 
-Kan den bedjande inte alls avgöra riktningen använder han sitt omdöme, sin *ijtihād*, och bönen förblir giltig.[^11] Han står där han står och gör sitt bästa.
+Kan den bedjande inte alls avgöra riktningen, använder han sitt omdöme, sin *ijtihād*, och bönen förblir giltig.[^11] Han står där han står och gör sitt bästa.
 
 ## Plats och riktning
 
@@ -64,7 +64,7 @@ Islam spegelvänder ordningen. Salmān al-Fārisī – själv en man som gått v
 
 I det svenska sockensystemet helgar platsen handlingarna: det är *för att* man befinner sig i kyrkan som dopet, vigseln eller begravningen får sakramental kraft. I det islamiska systemet helgar handlingarna platsen: det är *för att* en människa ber att marken under hennes fötter förvandlas till böneplats.
 
-Industrilokalen där en arbetare fäller armbågarna mot golvet i *sujūd* är, i det ögonblicket, lika giltig som den äldsta moskén.[^14] Själva ordet *moské* stammar från arabiskans *masjid* – platsen där pannan vidrör marken. Byggnaden är uppkallad efter handlingen, inte tvärtom.
+Industrilokalen där en arbetare fäller armbågarna mot golvet i *sujūd*[^24] är, i det ögonblicket, lika giltig som den äldsta moskén.[^14] Själva ordet *moské* stammar från arabiskans *masjid* – platsen där pannan vidrör marken. Byggnaden är uppkallad efter handlingen, inte tvärtom.
 
 ## Varför bygga moskéer alls?
 
@@ -83,7 +83,7 @@ Den svenska författaren Fredrika Bremer (1801–1865) reste i Palestina, Turkie
 
 > Jorden blev bönen hem. Bönen blev människans goda ängel.[^19]
 
-Bremers projekt var ett annat: en romantisk syntes, inte en rättslig grundsats. Den islamiska utgångspunkten vilar på uppenbarelse – Profeten ﷺ fick hela jorden gjord till böneplats som en gåva till hans *ummah*. Han förbjöd att göra profeternas platser till permanenta helgedomar.[^20] När pannan lyfts från golvet är rummet åter profant.
+Bremers projekt var ett annat: en romantisk syntes, inte en rättslig grundsats. Den islamiska utgångspunkten vilar på uppenbarelse – Profeten ﷺ fick hela jorden gjord till böneplats som en gåva till hans *ummah*. Han förbjöd att göra profeternas platser till permanenta helgedomar.[^20][^25] När pannan lyfts från golvet är rummet åter profant.
 
 ## Kompassnålen
 
@@ -118,3 +118,5 @@ Karin Boye skrev: "Det finns en tid, då Riltuna kyrka låg mitt i byn."[^23] En
 [^21]: *Qiblah*-beräkning utifrån Stockholms latitud (59.33°N) och longitud (18.07°O) i relation till Kaʿbah (21.42°N, 39.83°O).
 [^22]: al-Bīrūnī, *Kitāb Taḥdīd Nihāyāt al-Amākin* (Om bestämningen av platsers koordinater), ca. 1025.
 [^23]: Karin Boye, *Astarte* (1931).
+[^24]: *Sujūd*, prostration: det ögonblick i bönen då panna, näsa, händer, knän och tår vidrör marken. Profeten ﷺ sade: "Närmast sin Herre är tjänaren när han befinner sig i *sujūd*" (Ṣaḥīḥ Muslim 482).
+[^25]: Profeten ﷺ sade: "Må Allahs ﷻ vrede drabba dem som gör sina profeters gravar till böneplatser" (Ṣaḥīḥ al-Bukhārī 435; Ṣaḥīḥ Muslim 529). Förbudet riktar sig mot att resa helgedomar kring gravar och söka välsignelse (*barakah*) genom dem – en praxis som trots förbudet spridits i delar av den muslimska världen och som Ibn Taymiyyah ägnade flera verk åt att vederlägga.

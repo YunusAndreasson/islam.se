@@ -24,7 +24,7 @@ Kroppen fungerar som ett teleskop riktat utåt i vaket tillstånd. Under sömnen
 
 ## Hjärtat mellan rost och klarhet
 
-Ibn Qayyim al-Jawziyyah bygger vidare. I *al-Wābil al-Ṣayyib* liknar han hjärtat vid en spegel vars yta antingen rostas av synder och försummelse eller poleras genom lydnad och åminnelse av Allah ﷻ:
+Ibn Qayyim al-Jawziyyah (1292–1350) bygger vidare. I *al-Wābil al-Ṣayyib* liknar han hjärtat vid en spegel vars yta antingen rostas av synder och försummelse eller poleras genom lydnad och åminnelse av Allah ﷻ:
 
 > Hjärtat rostas liksom koppar och silver rostas, och det poleras genom åminnelse (*dhikr*). Hjärtat är likt en spegel: när det poleras reflekterar det sanningen som den är, och när det rostas förvrängs bilderna och förmörkas.[^4]
 Bilden stammar från Profeten ﷺ själv:
@@ -43,7 +43,7 @@ Koranen ger natten en teologisk grund bortom fysiologin:
 
 Versen ställer sömnen i ett sammanhang ingen neurovetenskaplig modell kan fånga: varje natt en liten död, ett tillfälligt återlämnande av själen till dess Skapare. Ibn Kathīr (ca. 1300–1373) läser versen som en antydan om att själarna samlas i den himmelska församlingen. Att vakna blir ett lån, förlängt ytterligare en dag.
 
-Profeten Muḥammad ﷺ knöt drömmen till uppenbarelsen: enligt en välkänd *ḥadīth* utgör den sanna drömmen (*al-ruʾyā al-ṣādiqah*) en fyrtiosjättedel av profetskapet[^8], ett exakt bråktal. Drömmen är en kvarleva av profetskapets ljus, en smal springa mot det osynliga som varje människa bär.
+Profeten Muḥammad ﷺ knöt drömmen till uppenbarelsen: enligt en välkänd *ḥadīth* utgör den sanna drömmen (*al-ruʾyā al-ṣādiqah*) en fyrtiosjättedel av profetskapet,[^8][^23] ett exakt bråktal. Drömmen är en kvarleva av profetskapets ljus, en smal springa mot det osynliga som varje människa bär.
 
 Men profetskapet självt är en gudomlig utväljelse (*iṣṭifāʾ*), inte slutpunkten på en stegvis reningsprocess. Allah ﷻ utväljer Sina sändebud: "Allah ﷻ vet bäst var Han lägger Sitt budskap."[^9] Skillnaden mellan profeten och den vanliga drömmaren är inte gradskillnad i hjärtats renhet utan artskillnad i gudomlig kallelse. Inte renare vatten utan en annan källa. Profeten ﷺ sade att den som är mest sanningsenlig i sitt tal är den vars drömmar är mest sanningsenliga.[^10] Sambandet mellan yttre rättfärdighet och inre mottaglighet bekräftar hjärtats avgörande roll utan att göra uppenbarelsen till en följd av mänsklig andlig mognad.
 
@@ -117,3 +117,4 @@ Jouvet kallade det paradoxal sömn. Ibn Khaldūn kallade det *drömvision*. Frå
 [^20]: Hjalmar Söderberg, *Förvillelser* (1895).
 [^21]: Ibn Taymiyyah, *Majmūʿ al-Fatāwā* (Samlade rättsutlåtanden), vol. 7, avsnittet om trons inverkan på hjärtat och dess ljus.
 [^22]: Koranen, al-Anfāl 8:29.
+[^23]: Bråktalet har en konkret bakgrund: Profetens ﷺ uppenbarelse föregicks av sex månaders sanna drömmar, och profetskapet varade i tjugotre år. Sex månader är en fyrtiosjättedel av tjugotre år. Se Ibn Ḥajar al-ʿAsqalānī, *Fatḥ al-Bārī*, kommentar till hadithen.

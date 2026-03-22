@@ -9,7 +9,7 @@ I slutet av Selma Lagerlöfs *Bannlyst* (1918) bekänner Sven Elversson – en m
 
 > Men han hade bekänt. Inte bara på papperet hade han med ja besvarat de två första punkterna och med nej den sista, utan han hade också avlagt en fullständig och öppen bekännelse. Han var nu till ytterlighet utmattad... Men samtidigt såg han lycklig och tillfredsställad ut. Han var renad, frigjord från synd.[^1]
 
-*Renad, frigjord från synd.* Ordet bär teologisk tyngd. Lagerlöf använde det knappast av misstag, men det överskrider den lutherska nådeläran.
+*Renad, frigjord från synd.* Ordet *renad* bär teologisk tyngd. Lagerlöf använde det knappast av misstag, men det överskrider den lutherska nådeläran.
 
 ## Tre svar på samma fråga
 
@@ -22,7 +22,7 @@ Sven Elversson tar inte emot en nåd som föregår honom. Han granskar inte sin 
 ## Återvändandets ordning
 
 Förvandlingen har ett namn i den islamiska traditionen: *tawbah*, ordagrant *återvändo*.
-Ibn Qayyim preciserar:
+Ibn Qayyim (1292–1350) preciserar:
 
 > *Tawbah* är en återvändo från det Allah ﷻ avskyr till det Han älskar – inte bara att överge synden, ty den som överger synden utan att vända tillbaka till det som Herren älskar är inte ångerfull.[^4]
 

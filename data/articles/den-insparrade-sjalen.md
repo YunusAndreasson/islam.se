@@ -24,7 +24,7 @@ Inom den parentesen kartlade Ibn al-Jawzī begärets rörelse:
 
 > Själen stannar aldrig vid en gräns, utan eftersträvar njutningar utan ände – och allt den uppnår svalnar snart, varpå den söker något annat.[^2]
 
-Problemet är inte att kroppen begränsar hjärnan utan att den begränsar *själen*. Den njutningssökande trampkvarnen är själens grundvillkor i materian, inget fel ett hjärnchip kan avhjälpa.
+Problemet är inte att kroppen begränsar hjärnan utan att den begränsar *själen*. Den njutningssökande trampkvarnen är själens grundvillkor i materien, inget fel ett hjärnchip kan avhjälpa.
 
 ## Fängelset som blir bekvämare
 
