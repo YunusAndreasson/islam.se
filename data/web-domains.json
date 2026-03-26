@@ -52,12 +52,12 @@
       "avgScore": 8.6
     },
     "en.wikipedia.org": {
-      "total": 85,
-      "ok": 84,
+      "total": 87,
+      "ok": 86,
       "failed": 1,
-      "lastChecked": "2026-03-25T23:35:30.838Z",
-      "publishedIn": 64,
-      "avgScore": 8.592187500000009,
+      "lastChecked": "2026-03-26T03:32:05.642Z",
+      "publishedIn": 65,
+      "avgScore": 8.593846153846163,
       "lastError": "fetch failed"
     },
     "www.academia.edu": {
@@ -195,16 +195,16 @@
       "ok": 9,
       "failed": 0,
       "lastChecked": "2026-03-25T23:35:30.838Z",
-      "publishedIn": 4,
-      "avgScore": 8.55
+      "publishedIn": 5,
+      "avgScore": 8.580000000000002
     },
     "signum.se": {
       "total": 7,
       "ok": 7,
       "failed": 0,
       "lastChecked": "2026-03-25T23:35:30.838Z",
-      "publishedIn": 4,
-      "avgScore": 8.6
+      "publishedIn": 5,
+      "avgScore": 8.62
     },
     "pmc.ncbi.nlm.nih.gov": {
       "total": 12,
@@ -375,10 +375,10 @@
       "lastChecked": "2026-02-12T13:39:17.867Z"
     },
     "www.cambridge.org": {
-      "total": 2,
-      "ok": 2,
+      "total": 3,
+      "ok": 3,
       "failed": 0,
-      "lastChecked": "2026-02-12T18:36:48.163Z",
+      "lastChecked": "2026-03-26T03:32:05.642Z",
       "publishedIn": 1,
       "avgScore": 8.7
     },
@@ -1035,8 +1035,8 @@
       "ok": 3,
       "failed": 0,
       "lastChecked": "2026-03-25T23:35:30.838Z",
-      "publishedIn": 1,
-      "avgScore": 8.6
+      "publishedIn": 2,
+      "avgScore": 8.649999999999999
     },
     "www.fokus.se": {
       "total": 1,
@@ -1126,10 +1126,10 @@
       "lastChecked": "2026-02-14T13:46:12.747Z"
     },
     "islamqa.info": {
-      "total": 3,
-      "ok": 3,
+      "total": 4,
+      "ok": 4,
       "failed": 0,
-      "lastChecked": "2026-02-14T19:10:21.433Z",
+      "lastChecked": "2026-03-26T03:32:05.642Z",
       "publishedIn": 1,
       "avgScore": 8.7
     },
@@ -1331,13 +1331,29 @@
       "total": 1,
       "ok": 1,
       "failed": 0,
-      "lastChecked": "2026-03-25T23:35:30.838Z"
+      "lastChecked": "2026-03-25T23:35:30.838Z",
+      "publishedIn": 1,
+      "avgScore": 8.7
     },
     "tillliv.se": {
       "total": 1,
       "ok": 1,
       "failed": 0,
-      "lastChecked": "2026-03-25T23:35:30.838Z"
+      "lastChecked": "2026-03-25T23:35:30.838Z",
+      "publishedIn": 1,
+      "avgScore": 8.7
+    },
+    "columbiahistoryjournal.com": {
+      "total": 1,
+      "ok": 1,
+      "failed": 0,
+      "lastChecked": "2026-03-26T03:32:05.642Z"
+    },
+    "scielo.org.za": {
+      "total": 1,
+      "ok": 1,
+      "failed": 0,
+      "lastChecked": "2026-03-26T03:32:05.642Z"
     }
   }
 }

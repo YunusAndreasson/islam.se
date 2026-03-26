@@ -104,6 +104,8 @@ export type StageName =
 	| "authoring"
 	| "review"
 	| "polish"
+	| "deepen"
+	| "ground"
 	| "language"
 	| "swedishVoice";
 
@@ -467,6 +469,8 @@ export interface ProductionResult {
 		authoring?: StageResult<DraftOutput>;
 		review?: StageResult<ReviewOutput>;
 		polish?: StageResult<PolishOutput>;
+		deepen?: StageResult<DeepenOutput>;
+		ground?: StageResult<GroundOutput>;
 		language?: StageResult<LanguageOutput>;
 		swedishVoice?: StageResult<SwedishVoiceOutput>;
 	};
@@ -1309,6 +1313,7 @@ If the draft has anglicisms, fix them in the revised article.
 					}) as ReviewOutput,
 			},
 			effort: "max",
+			timeout: 1800000, // 30 min — review with effort:max does full rewrite + language audit
 		});
 
 		if (!(result.success && result.data)) {
@@ -2296,7 +2301,55 @@ ${articleBody}`;
 			});
 		}
 
-		// Stage 6: Language — word-level Swedish naturalness (non-fatal)
+		// Stage 6: Deepen — argument development, logical gaps (non-fatal)
+		this.options.onStageChange?.({ stage: "deepen", status: "running" });
+		const deepenResult = await this.runDeepen(finalText);
+		result.stages.deepen = deepenResult;
+		if (deepenResult.success && deepenResult.data) {
+			finalText = deepenResult.data.body;
+			this.logger.log(`   - Deepen: ${deepenResult.data.verdict}`);
+			saveOutput(outputDir, "deepen.json", deepenResult.data);
+			this.options.onStageChange?.({
+				stage: "deepen",
+				status: "complete",
+				duration: deepenResult.duration,
+				summary: deepenResult.data.verdict,
+			});
+		} else {
+			this.options.onStageChange?.({
+				stage: "deepen",
+				status: "failed",
+				duration: deepenResult.duration,
+				error: deepenResult.error,
+				summary: "skipped (non-fatal)",
+			});
+		}
+
+		// Stage 7: Ground — anchor abstract concepts in concrete moments (non-fatal)
+		this.options.onStageChange?.({ stage: "ground", status: "running" });
+		const groundResult = await this.runGround(finalText);
+		result.stages.ground = groundResult;
+		if (groundResult.success && groundResult.data) {
+			finalText = groundResult.data.body;
+			this.logger.log(`   - Ground: ${groundResult.data.verdict}`);
+			saveOutput(outputDir, "ground.json", groundResult.data);
+			this.options.onStageChange?.({
+				stage: "ground",
+				status: "complete",
+				duration: groundResult.duration,
+				summary: groundResult.data.verdict,
+			});
+		} else {
+			this.options.onStageChange?.({
+				stage: "ground",
+				status: "failed",
+				duration: groundResult.duration,
+				error: groundResult.error,
+				summary: "skipped (non-fatal)",
+			});
+		}
+
+		// Stage 8: Language — word-level Swedish naturalness (non-fatal)
 		this.options.onStageChange?.({ stage: "language", status: "running" });
 		const languageResult = await this.runLanguage(finalText);
 		result.stages.language = languageResult;
@@ -2370,6 +2423,8 @@ ${articleBody}`;
 				authoring: authoringResult.duration,
 				review: result.stages.review?.duration,
 				polish: polishResult.duration,
+				deepen: deepenResult.duration,
+				ground: groundResult.duration,
 				language: languageResult.duration,
 				swedishVoice: swedishVoiceResult.duration,
 				total: Date.now() - startTime,

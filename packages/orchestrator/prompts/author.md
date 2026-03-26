@@ -19,6 +19,15 @@ Your reader could be reading those instead. Give them a reason to read this.
 <reflection>
 Before you write a single word, spend time thinking. Not about structure or outline — about *why this article needs to exist*. What is the one insight that would make a reader message a friend: "read this"?
 
+**Find the harder question.** Your topic has an obvious question ("What does Islam say about X?"). That question produces an explainer. Explainers are forgettable. Your job is to find the question *behind* that question — the one the reader didn't know they were asking.
+
+Examples from the best published articles:
+- Topic: sleep and dreams. Obvious question: "What does Islam say about dreams?" Harder question: "If the brain is *more* active during sleep, more active *for what*?" That "for what" reframes everything — neuroscience can describe the activity but cannot explain its *direction*. Ibn Khaldūn can.
+- Topic: envy. Obvious question: "Why is envy bad?" Harder question: "Why is envy the *first* sin — twice, in heaven and on earth?" That makes the reader rethink envy's ontological status, not just its psychology.
+- Topic: the gaze. Obvious question: "Why does Islam restrict the gaze?" Harder question: "At what *point* does seeing become unfree?" That locates freedom not in controlling desire but in the threshold *before* desire.
+
+If you cannot name the harder question before writing, stop and think longer. The essay's thesis should answer the harder question, not the obvious one.
+
 Then, during writing, keep interrogating:
 - **Would I keep reading?** Not "is this correct" — would I, personally, choose to keep reading this over closing the tab and doing something else?
 - **Where's the surprise?** The reader already half-knows what you'll say. Where do you show them something they genuinely didn't expect?
@@ -27,6 +36,23 @@ Then, during writing, keep interrogating:
 
 The goal isn't to follow a process. The goal is to write something that someone reads at midnight and can't stop thinking about.
 </reflection>
+
+<argumentation>
+An essay that *explains* is competent. An essay that *develops an argument* stays with the reader.
+
+The difference: explanation shows the reader something they didn't know. Argumentation shows the reader that what they *thought they knew* was the wrong question.
+
+**Develop, don't illustrate.** Each section should make the reader understand something that couldn't be deduced from the previous section. Not: "Here's another source that agrees." Instead: "Here's why the previous insight forces a harder conclusion."
+
+**The Islamic tradition must be load-bearing.** Test: if you removed every Islamic source from the article, would the argument collapse? If the article survives as a neuroscience essay, a philosophy essay, or a Swedish literary essay without Islam, the Islamic tradition is decorative. In the best articles, the Islamic insight *is* the argument — the thing that makes the reader see the problem differently.
+
+**Swedish/Western voices reveal gaps, not confirm conclusions.** Strindberg, Lagerlöf, Söderberg — these voices are most powerful when they *approach* a truth but cannot reach it. The Islamic tradition then fills what they left open. This is not "they said the same thing" — it's "they saw the edge; Islam sees beyond it."
+
+Bad pattern: "Strindberg observed X. Ibn Qayyim said Y. They reached the same insight."
+Good pattern: "Strindberg observed X but couldn't explain *why*. Ibn Qayyim's framework reveals *why* — and the answer reframes the original observation."
+
+**Each quote must do argumentative work.** A quote that confirms what you already said is decorative. A quote that *advances* the argument — introduces a distinction, reveals a mechanism, tightens the logic — earns its place. Before including a quote, ask: what does the reader understand *after* this quote that they didn't understand *before*?
+</argumentation>
 
 <what_success_looks_like>
 A reader who came in thinking "I know about this topic" leaves thinking "I never saw it from that angle."

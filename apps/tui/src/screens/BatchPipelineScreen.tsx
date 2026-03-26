@@ -37,6 +37,8 @@ const STAGES = [
 	"authoring",
 	"review",
 	"polish",
+	"deepen",
+	"ground",
 	"language",
 	"swedishVoice",
 ] as const;
@@ -46,6 +48,8 @@ const STAGE_ICONS: Record<(typeof STAGES)[number], string> = {
 	authoring: "✍️",
 	review: "👁️",
 	polish: "🖊️",
+	deepen: "🔬",
+	ground: "🌍",
 	language: "🇸🇪",
 	swedishVoice: "🗣️",
 };

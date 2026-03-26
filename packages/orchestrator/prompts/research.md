@@ -65,6 +65,13 @@ Develop your own research strategy based on the topic. Consider:
 - What cross-cultural perspectives (Islamic + Swedish/Western) could enrich the article?
 - What competing hypotheses or framings exist?
 
+**Find the harder question.** Every topic has an obvious question ("What does Islam say about X?"). That produces an explainer. Your job is to find the question *behind* that question. Examples:
+- Sleep/dreams: not "What does Islam say about dreams?" but "If the brain is *more* active asleep, more active *for what*?"
+- Envy: not "Why is envy bad?" but "Why is it the *first* sin — twice, in heaven and on earth?"
+- The gaze: not "Why restrict the gaze?" but "At what *point* does seeing become unfree?"
+
+Build your research around the harder question. Gather material that helps the author *develop an argument*, not just illustrate a theme.
+
 As you gather material, evaluate what you're finding and adjust your approach. If initial searches yield few results, try different terms or angles.
 
 **Translation requirement:** The final article is written entirely in Swedish. EVERY quote you include MUST have a Swedish translation in the `textSv` field. If the quote database returns a quote in Arabic or English, translate it to Swedish yourself. The author stage should NOT need to translate quotes — it should focus entirely on prose craft. Untranslated quotes waste the most expensive pipeline stage.
@@ -85,7 +92,7 @@ Important: Only include URLs that come from your WebSearch results. This ensures
 <output_format>
 {
   "topic": "The topic",
-  "summary": "Your developed angle and key findings",
+  "summary": "Your developed angle. Must include: (1) The harder question this article answers — not 'What does Islam say about X' but the deeper question behind it. (2) The central tension or paradox that drives the essay. (3) A 2-3 sentence narrative arc: how the essay moves from problem to insight. (4) Why this angle would surprise a knowledgeable reader.",
   "quranReferences": [
     { "surah": "Name", "ayah": "Number", "text": "Swedish translation" }
   ],

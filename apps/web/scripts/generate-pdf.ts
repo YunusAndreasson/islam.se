@@ -4,6 +4,7 @@
  * justified text, endnotes, and book-quality typography.
  *
  * Design: modelled after Swedish literary publishing (Bonniers, Norstedts).
+ * Fonts: Literata (body) + Source Sans 3 (headings) — same as the website.
  *
  * Usage: tsx scripts/generate-pdf.ts
  */
@@ -161,7 +162,7 @@ function blockToTypst(node: any, ctx: Ctx): string {
 			const text = inlinesToTypst(node.children, ctx);
 			if (ctx.firstParagraph) {
 				ctx.firstParagraph = false;
-				return `#dropcap(height: 2, gap: 4pt, overhang: 0pt, font: "Noto Serif", transform: none)[${text}]`;
+				return `#dropcap(height: 2, gap: 4pt, overhang: 0pt, font: "Literata", transform: none)[${text}]`;
 			}
 			return text;
 		}
@@ -175,7 +176,7 @@ function blockToTypst(node: any, ctx: Ctx): string {
 
 		case "blockquote": {
 			const inner = blocksToTypst(node.children, ctx);
-			return `#block(inset: (left: 28pt, right: 28pt, top: 8pt, bottom: 8pt))[\n  #set text(9.5pt, style: "italic")\n  ${inner}\n]`;
+			return `#block(inset: (left: 28pt, right: 28pt, top: 8pt, bottom: 8pt))[\n  #set text(9.5pt)\n  #set par(leading: 0.6em)\n  ${inner}\n]`;
 		}
 
 		case "list":
@@ -253,7 +254,7 @@ function buildEndnotes(allEndnotes: EssayNotes[]): string {
 			const notes = essay.notes
 				.map((n) => `#par(hanging-indent: 14pt)[${n.num}.~${n.content}]`)
 				.join("\n\n");
-			return `#v(14pt)\n#text(font: "Noto Sans", 8.5pt, weight: 600, tracking: 0.05em)[${esc(essay.title).toUpperCase()}]\n#v(4pt)\n${notes}`;
+			return `#v(14pt)\n#text(font: "Source Sans 3", 8.5pt, weight: 600, tracking: 0.05em)[${esc(essay.title).toUpperCase()}]\n#v(4pt)\n${notes}`;
 		})
 		.join("\n\n");
 
@@ -264,7 +265,7 @@ function buildEndnotes(allEndnotes: EssayNotes[]): string {
 
 #pagebreak()
 #v(60pt)
-#text(font: "Noto Sans", 20pt, weight: 600)[Noter]
+#text(font: "Source Sans 3", 20pt, weight: 600, tracking: -0.02em)[Noter]
 #v(10pt)
 #line(length: 60pt, stroke: 0.5pt + luma(204))
 #v(24pt)
@@ -324,18 +325,28 @@ function buildDocument(articles: Article[]): string {
   header: context {
     let n = counter(page).get().first()
     if n > 6 {
-      set text(7.5pt, fill: luma(170), style: "italic", tracking: 0.1em)
-      align(center)[samlade essäer]
+      if calc.odd(n) {
+        // Recto (right page): essay title, right-aligned
+        let elems = query(heading.where(level: 1).before(here()))
+        if elems.len() > 0 {
+          set text(7.5pt, fill: luma(140), style: "italic", tracking: 0.03em)
+          align(right, elems.last().body)
+        }
+      } else {
+        // Verso (left page): book title, left-aligned, small caps
+        set text(font: "Source Sans 3", 7pt, fill: luma(140), tracking: 0.12em, weight: 600)
+        align(left, upper[samlade essäer])
+      }
     }
   },
   footer: context {
     let n = counter(page).get().first()
     if n > 4 {
-      set text(8pt, fill: luma(150))
+      set text(8pt, fill: luma(140))
       if calc.odd(n) {
-        pad(right: 10pt, align(right, str(n)))
+        align(right, str(n))
       } else {
-        pad(left: 10pt, align(left, str(n)))
+        align(left, str(n))
       }
     }
   },
@@ -344,19 +355,21 @@ function buildDocument(articles: Article[]): string {
 // ---- Disable smart quotes (remark-smartypants already handles them) ----
 #set smartquote(enabled: false)
 
-// ---- Typography (Noto Serif body, Noto Sans headings — matches al-ibadah) ----
+// ---- Typography (Literata body, Source Sans 3 headings — matches islam.se) ----
 #set text(
-  font: "Noto Serif",
+  font: ("Literata", "Noto Serif"),
   size: 10.5pt,
-  fill: rgb("#1a1a1a"),
+  fill: black,
   lang: "sv",
   region: "SE",
   hyphenate: true,
   number-type: "old-style",
+  ligatures: true,
+  discretionary-ligatures: true,
 )
 
 #set par(
-  first-line-indent: 16pt,
+  first-line-indent: (amount: 16pt, all: false),
   leading: 0.65em * 1.35,
   justify: true,
   linebreaks: "optimized",
@@ -366,7 +379,7 @@ function buildDocument(articles: Article[]): string {
 #show heading.where(level: 1): it => {
   pagebreak()
   v(60pt)
-  text(font: "Noto Sans", 20pt, weight: 600)[#it.body]
+  text(font: "Source Sans 3", 20pt, weight: 600, tracking: -0.02em)[#it.body]
   v(10pt)
   line(length: 60pt, stroke: 0.5pt + luma(204))
   v(24pt)
@@ -374,12 +387,12 @@ function buildDocument(articles: Article[]): string {
 
 #show heading.where(level: 2): it => {
   v(24pt)
-  block(sticky: true, below: 12pt, text(font: "Noto Sans", 13pt, weight: 600, it.body))
+  block(sticky: true, below: 12pt, text(font: "Source Sans 3", 13pt, weight: 600, tracking: -0.01em, it.body))
 }
 
 #show heading.where(level: 3): it => {
   v(20pt)
-  block(sticky: true, below: 10pt, text(font: "Noto Sans", 11pt, weight: 600, fill: rgb("#333"), it.body))
+  block(sticky: true, below: 10pt, text(font: "Source Sans 3", 11pt, weight: 600, fill: rgb("#333"), it.body))
 }
 
 // ============================================================
@@ -388,16 +401,16 @@ function buildDocument(articles: Article[]): string {
 
 // ---- Half-title ----
 #v(1fr)
-#align(center, text(font: "Noto Sans", 20pt, weight: 300)[Samlade essäer])
+#align(center, text(font: "Source Sans 3", 20pt, weight: 300, tracking: -0.01em)[Samlade essäer])
 #v(2fr)
 
 // ---- Title page ----
 #pagebreak()
 #v(1fr)
 #align(center)[
-  #text(font: "Noto Sans", 11pt, fill: luma(102), tracking: 0.2em)[ISLAM.SE]
+  #text(font: "Source Sans 3", 11pt, fill: luma(102), tracking: 0.2em, weight: 600)[ISLAM.SE]
   #v(20pt)
-  #text(font: "Noto Sans", 28pt, weight: 300)[Samlade essäer]
+  #text(font: "Source Sans 3", 28pt, weight: 300, tracking: -0.015em)[Samlade essäer]
   #v(8pt)
   #text(10pt, style: "italic", fill: luma(102))[
     Essäer om islamisk intellektuell tradition\\
@@ -407,7 +420,7 @@ function buildDocument(articles: Article[]): string {
   #image("ornament.svg", width: 120pt)
 ]
 #v(1fr)
-#align(center, text(11pt, fill: luma(102))[${year}])
+#align(center, text(font: "Source Sans 3", 11pt, fill: luma(102))[${year}])
 
 // ---- Copyright / colophon (verso of title — standard Swedish publisher page) ----
 #pagebreak()
@@ -423,7 +436,7 @@ function buildDocument(articles: Article[]): string {
   och uppdateras i denna volym vid varje utgåva. \\
   Denna samling innehåller ${articles.length} essäer. \\
   \\
-  Sättning: Typst med Noto Serif och Noto Sans \\
+  Sättning: Typst med Literata och Source Sans 3 \\
   \\
   islam.se \\
   \\
@@ -433,7 +446,7 @@ function buildDocument(articles: Article[]): string {
 // ---- Förord ----
 #pagebreak()
 #v(60pt)
-#text(font: "Noto Sans", 20pt, weight: 600)[Förord]
+#text(font: "Source Sans 3", 20pt, weight: 600, tracking: -0.02em)[Förord]
 #v(10pt)
 #line(length: 60pt, stroke: 0.5pt + luma(204))
 #v(24pt)
@@ -457,7 +470,7 @@ Den islamiska traditionen har aldrig tvekat om vem. _\u00ABN\u00E4r Mina tj\u00E
 // ---- Innehåll ----
 #pagebreak()
 #v(60pt)
-#text(font: "Noto Sans", 20pt, weight: 600)[Inneh\u00E5ll]
+#text(font: "Source Sans 3", 20pt, weight: 600, tracking: -0.02em)[Inneh\u00E5ll]
 #v(10pt)
 #line(length: 60pt, stroke: 0.5pt + luma(204))
 #v(20pt)
@@ -485,7 +498,7 @@ ${buildEndnotes(allEndnotes)}
 #align(center)[
   #set text(8pt, fill: luma(150))
   #set par(first-line-indent: 0pt, leading: 0.65em)
-  Satt med Noto Serif (brödtext) och Noto Sans (rubriker).\\
+  Satt med Literata (brödtext) och Source Sans 3 (rubriker).\\
   Sättning och avstavning med Typst.\\
   Första utgåvan ${year}.
 ]
@@ -515,8 +528,11 @@ async function main() {
 
 	// Compile with Typst
 	if (!existsSync(DIST)) mkdirSync(DIST, { recursive: true });
+	const FONTS_DIR = join(ROOT, "fonts");
 	execFileSync("typst", [
 		"compile",
+		"--font-path",
+		FONTS_DIR,
 		"--font-path",
 		"/usr/share/fonts/noto",
 		join(BUILD_DIR, "book.typ"),
