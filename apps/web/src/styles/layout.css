@@ -53,7 +53,7 @@
 	top: 0;
 	z-index: 10;
 	background-color: var(--color-bg);
-	transition: transform 0.25s ease;
+	transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
 	&.header-hidden {
 		transform: translateY(-100%);
@@ -80,7 +80,8 @@
 		display: none;
 	}
 
-	.site-nav a {
+	.site-nav a,
+	.site-nav a[aria-current] {
 		color: rgb(var(--hero-white) / 0.7);
 
 		&:hover {
@@ -90,6 +91,10 @@
 		&:focus-visible {
 			outline-color: rgb(var(--hero-white) / 0.8);
 		}
+	}
+
+	.nav-dot {
+		color: rgb(var(--hero-white) / 0.3);
 	}
 }
 
@@ -171,7 +176,7 @@
 	position: absolute;
 	inset: 0;
 	opacity: 0;
-	transition: opacity 0.4s;
+	transition: opacity 0.6s ease-in-out;
 	pointer-events: none;
 
 	&.active {
@@ -425,11 +430,15 @@
 	gap: 0.5rem;
 	opacity: 0;
 	pointer-events: none;
-	transition: opacity 0.2s;
+	transform: translateY(0.5rem);
+	transition:
+		opacity 0.3s ease,
+		transform 0.3s ease;
 
 	&.visible {
 		opacity: 1;
 		pointer-events: auto;
+		transform: translateY(0);
 	}
 }
 
@@ -469,7 +478,6 @@
 }
 
 .about-colophon {
-	margin-top: 0;
 	text-align: center;
 	margin-bottom: var(--space-phi2);
 }
@@ -649,11 +657,17 @@
 		color: color-mix(in srgb, var(--color-text) 70%, var(--color-muted));
 		line-height: 1.45;
 		margin-top: 0.375rem;
+		display: -webkit-box;
+		-webkit-line-clamp: 3;
+		-webkit-box-orient: vertical;
+		overflow: hidden;
+		transition: color 0.2s;
 
-		em {
-			font-style: italic;
-		}
 		margin-bottom: 0;
+	}
+
+	a:hover .archive-description {
+		color: var(--color-text);
 	}
 }
 

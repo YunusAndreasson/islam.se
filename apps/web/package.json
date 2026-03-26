@@ -6,13 +6,20 @@
 	"scripts": {
 		"dev": "astro dev",
 		"build": "astro build",
-		"preview": "astro preview"
+		"preview": "astro preview",
+		"pdf": "tsx scripts/generate-pdf.ts"
 	},
 	"dependencies": {
 		"@astrojs/rss": "^4.0.17",
 		"@astrojs/sitemap": "^3.7.1",
-		"astro": "^6.0.5",
+		"astro": "^6.0.8",
 		"remark-smartypants": "^3.0.2",
 		"sharp": "^0.34.5"
+	},
+	"devDependencies": {
+		"remark-gfm": "^4.0.1",
+		"remark-parse": "^11.0.0",
+		"tsx": "^4.21.0",
+		"unified": "^11.0.5"
 	}
 }
