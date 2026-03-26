@@ -67,6 +67,7 @@ export interface PreviewSnippet {
 		| "polish"
 		| "deepen"
 		| "ground"
+		| "detox"
 		| "language"
 		| "swedishVoice";
 	type: "text" | "tool_use" | "tool_result";
@@ -85,6 +86,7 @@ export interface PipelineStatus {
 		| "polish"
 		| "deepen"
 		| "ground"
+		| "detox"
 		| "language"
 		| "swedishVoice"
 		| "complete"
@@ -97,6 +99,7 @@ export interface PipelineStatus {
 		polish: StageInfo;
 		deepen: StageInfo;
 		ground: StageInfo;
+		detox: StageInfo;
 		language: StageInfo;
 		swedishVoice: StageInfo;
 	};

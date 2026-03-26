@@ -106,6 +106,7 @@ export type StageName =
 	| "polish"
 	| "deepen"
 	| "ground"
+	| "detox"
 	| "language"
 	| "swedishVoice";
 
@@ -471,6 +472,7 @@ export interface ProductionResult {
 		polish?: StageResult<PolishOutput>;
 		deepen?: StageResult<DeepenOutput>;
 		ground?: StageResult<GroundOutput>;
+		detox?: StageResult<DetoxOutput>;
 		language?: StageResult<LanguageOutput>;
 		swedishVoice?: StageResult<SwedishVoiceOutput>;
 	};
@@ -2349,7 +2351,31 @@ ${articleBody}`;
 			});
 		}
 
-		// Stage 8: Language — word-level Swedish naturalness (non-fatal)
+		// Stage 8: Detox — AI vocabulary/structural tic cleanup (non-fatal)
+		this.options.onStageChange?.({ stage: "detox", status: "running" });
+		const detoxResult = await this.runDetox(finalText);
+		result.stages.detox = detoxResult;
+		if (detoxResult.success && detoxResult.data) {
+			finalText = detoxResult.data.body;
+			this.logger.log(`   - Detox: ${detoxResult.data.verdict}`);
+			saveOutput(outputDir, "detox.json", detoxResult.data);
+			this.options.onStageChange?.({
+				stage: "detox",
+				status: "complete",
+				duration: detoxResult.duration,
+				summary: detoxResult.data.verdict,
+			});
+		} else {
+			this.options.onStageChange?.({
+				stage: "detox",
+				status: "failed",
+				duration: detoxResult.duration,
+				error: detoxResult.error,
+				summary: "skipped (non-fatal)",
+			});
+		}
+
+		// Stage 9: Language — word-level Swedish naturalness (non-fatal)
 		this.options.onStageChange?.({ stage: "language", status: "running" });
 		const languageResult = await this.runLanguage(finalText);
 		result.stages.language = languageResult;
@@ -2425,6 +2451,7 @@ ${articleBody}`;
 				polish: polishResult.duration,
 				deepen: deepenResult.duration,
 				ground: groundResult.duration,
+				detox: detoxResult.duration,
 				language: languageResult.duration,
 				swedishVoice: swedishVoiceResult.duration,
 				total: Date.now() - startTime,

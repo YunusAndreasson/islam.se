@@ -39,6 +39,7 @@ const STAGES = [
 	"polish",
 	"deepen",
 	"ground",
+	"detox",
 	"language",
 	"swedishVoice",
 ] as const;
@@ -50,6 +51,7 @@ const STAGE_ICONS: Record<(typeof STAGES)[number], string> = {
 	polish: "🖊️",
 	deepen: "🔬",
 	ground: "🌍",
+	detox: "🧹",
 	language: "🇸🇪",
 	swedishVoice: "🗣️",
 };
