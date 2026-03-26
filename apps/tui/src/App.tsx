@@ -118,7 +118,7 @@ export function App(): React.ReactElement {
 		setState((s) => {
 			const categories = loadCategories();
 			const articles =
-				s.selectedCategory !== null ? loadArticlesByCategory(s.selectedCategory) : [];
+				s.selectedCategory === null ? [] : loadArticlesByCategory(s.selectedCategory);
 			return { ...s, articleCategories: categories, categoryArticles: articles };
 		});
 	}, []);
@@ -166,6 +166,8 @@ export function App(): React.ReactElement {
 					authoring: { status: "pending" },
 					review: { status: "pending" },
 					polish: { status: "pending" },
+					language: { status: "pending" },
+					swedishVoice: { status: "pending" },
 				},
 				logs: [],
 				previews: [],
@@ -380,6 +382,8 @@ export function App(): React.ReactElement {
 									authoring: { status: "pending" },
 									review: { status: "pending" },
 									polish: { status: "pending" },
+									language: { status: "pending" },
+									swedishVoice: { status: "pending" },
 								},
 								logs: [],
 								previews: [],

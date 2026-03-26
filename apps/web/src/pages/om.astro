@@ -1,5 +1,8 @@
 ---
 import Base from "../layouts/Base.astro";
+import { getArticles } from "../lib/articles";
+
+const articles = await getArticles();
 ---
 
 <Base title="Om — islam.se" description="Essäer där islamisk lärdomstradition möter svenskt kulturarv.">
@@ -26,6 +29,58 @@ import Base from "../layouts/Base.astro";
 			<div class="section-ornament"></div>
 
 			<p class="label about-colophon">Sverige, 2026</p>
+
 		</div>
+
+		<aside class="pdf-download">
+			<p class="pdf-intro">Alla {articles.length} essäer finns samlade i en bok.</p>
+			<a href="/samlingsvolym.pdf" class="pdf-link" download>
+				<svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+					<path d="M8 2v9m0 0L4.5 7.5M8 11l3.5-3.5M2 13.5h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+				</svg>
+				Ladda ner som PDF
+			</a>
+		</aside>
 	</main>
 </Base>
+
+<style>
+	.pdf-download {
+		text-align: center;
+		margin-top: var(--space-unit);
+		margin-bottom: var(--space-phi2);
+	}
+
+	.pdf-intro {
+		font-family: var(--font-body);
+		font-size: 0.9375rem;
+		color: var(--color-muted);
+		margin: 0 0 var(--space-half);
+	}
+
+	.pdf-link {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.4em;
+		padding: 0.5rem 1.25rem;
+		font-family: var(--font-heading);
+		font-size: 0.862rem;
+		font-weight: 500;
+		letter-spacing: 0.05em;
+		text-transform: uppercase;
+		font-feature-settings: "case";
+		color: var(--color-accent);
+		border: 1px solid var(--color-divider);
+		border-radius: 1.25rem;
+		text-decoration: none;
+		transition:
+			border-color 0.2s,
+			color 0.2s;
+
+		&:hover {
+			border-color: var(--color-warm);
+			color: var(--color-text);
+			text-decoration: none;
+		}
+	}
+</style>

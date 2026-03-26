@@ -111,7 +111,7 @@ Jouvet kallade det paradoxal sömn. Ibn Khaldūn kallade det *drömvision*. Frå
 [^14]: David Chalmers, "Facing Up to the Problem of Consciousness", *Journal of Consciousness Studies*, 2(3), 1995. Chalmers formulering av *the hard problem* – åtskillnaden mellan att förklara kognitiva funktioner och att förklara varför dessa funktioner åtföljs av subjektiv upplevelse – har sedan dess definierat den centrala debatten inom medvetandefilosofin.
 [^15]: J.A. Hobson & R.W. McCarley, "The Brain as a Dream State Generator", *American Journal of Psychiatry*, 134(12), 1977.
 [^16]: Koranen, al-Qaṣaṣ 28:73.
-[^17]: Ṣaḥīḥ al-Bukhārī, nr. 1145; Ṣaḥīḥ Muslim, nr. 758. Hadithen om Allahs ﷻ nedstigning till den lägsta himlen under nattens sista tredjedel.
+[^17]: Ṣaḥīḥ al-Bukhārī, nr. 1145; Ṣaḥīḥ Muslim, nr. 758. Ḥadīthen om Allahs ﷻ nedstigning till den lägsta himlen under nattens sista tredjedel.
 [^18]: Ibn Rajab, *Laṭāʾif al-Maʿārif fī mā li-Mawāsim al-ʿĀm min al-Waẓāʾif*, avsnittet om nattens dyrkan.
 [^19]: August Strindberg, *Inferno* (1897), kapitel XV.
 [^20]: Hjalmar Söderberg, *Förvillelser* (1895).

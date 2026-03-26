@@ -31,13 +31,23 @@ function formatDuration(ms: number): string {
 
 // --- Compact stage trail for the active item ---
 
-const STAGES = ["research", "factCheck", "authoring", "review", "polish"] as const;
+const STAGES = [
+	"research",
+	"factCheck",
+	"authoring",
+	"review",
+	"polish",
+	"language",
+	"swedishVoice",
+] as const;
 const STAGE_ICONS: Record<(typeof STAGES)[number], string> = {
 	research: "📚",
 	factCheck: "🔍",
 	authoring: "✍️",
 	review: "👁️",
 	polish: "🖊️",
+	language: "🇸🇪",
+	swedishVoice: "🗣️",
 };
 
 function stageChar(info: StageInfo): string {
@@ -255,7 +265,7 @@ export function BatchPipelineScreen({
 					<Box gap={2}>
 						{successCount > 0 && (
 							<Text color="green">
-								{successCount} article{successCount !== 1 ? "s" : ""} published
+								{successCount} article{successCount === 1 ? "" : "s"} published
 							</Text>
 						)}
 						{failCount > 0 && <Text color="red">{failCount} failed</Text>}

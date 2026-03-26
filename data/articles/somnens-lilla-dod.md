@@ -19,7 +19,7 @@ Orsaken ligger djupare. Sömnstörningar med påvisbara orsaker – sömnapné, 
 
 ## Att somna är att dö
 
-Den islamiska traditionen har en synvinkel som saknas i modern sömnforskning. Profeten Muḥammad ﷺ lärde att sömnen är dödens broder – *al-nawm akhū al-mawt*.[^2] Ibn Taymiyyah (1263–1328) vägrade nöja sig med en liknelse. I *al-Radd ʿalā al-Manṭiqiyyīn* läste han profetens ord som ren ontologi: själen lämnar kroppen under sömnen, i en åtskillnad som speglar döden. Du sjunker in i drömmen och förlorar medvetandet om att du är du.
+Den islamiska traditionen har en synvinkel som saknas i modern sömnforskning. Profeten Muḥammad ﷺ lärde att sömnen är dödens broder – *al-nawm akhū al-mawt*.[^2] Ibn Taymiyyah (1263–1328) vägrade nöja sig med en liknelse. I *al-Radd ʿalā al-Manṭiqiyyīn* läste han Profetens ord som ren ontologi: själen lämnar kroppen under sömnen, i en åtskillnad som speglar döden. Du sjunker in i drömmen och förlorar medvetandet om att du är du.
 
 > Det är känt att den sovandes själ skiljs från kroppen i en form av separation, ty sömnen är dödens broder.[^3]
 

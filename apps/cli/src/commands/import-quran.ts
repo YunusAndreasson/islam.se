@@ -41,13 +41,13 @@ export function registerImportQuranCommand(program: Command): void {
 
 				for (const verse of verses) {
 					const verseId = insertVerse(verse);
-					if (verseId !== null) {
+					if (verseId === null) {
+						skipped++;
+					} else {
 						stored++;
 						if (options.embeddings) {
 							versesToEmbed.push({ id: verseId, text: verse.textSwedish });
 						}
-					} else {
-						skipped++;
 					}
 				}
 

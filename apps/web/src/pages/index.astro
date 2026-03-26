@@ -1,7 +1,7 @@
 ---
 import { Image } from "astro:assets";
 import Base from "../layouts/Base.astro";
-import { formatDate, getArticles } from "../lib/articles";
+import { formatDate, getArticles, inlineMarkdown } from "../lib/articles";
 
 const HERO_SLUGS = [
 	"nattbonens-ansikte",
@@ -19,12 +19,6 @@ const slides = HERO_SLUGS
 	.filter((a): a is (typeof articles)[number] => a !== undefined);
 const latest = slides[0];
 const ogImage = latest?.heroImage;
-
-function inlineMarkdown(text: string): string {
-	return text
-		.replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
-		.replace(/\*(.+?)\*/g, "<em>$1</em>");
-}
 ---
 
 <Base

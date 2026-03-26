@@ -81,7 +81,7 @@ Al-Nawawī skriver i *Riyāḍ al-Ṣāliḥīn*:
 
 Den som försöker leva efter den regeln under en enda dag upptäcker att den kräver samma vaksamhet som varje annan andlig tukt.
 
-Fästningskommendantens arbete tar aldrig slut. Det tal som var rätt i går kan vara fel idag; den tystnad som var klok i morse kan vara feg ikväll. Varje stund kräver sin prövning. Porten står redan på glänt.
+Fästningskommendantens arbete tar aldrig slut. Det tal som var rätt i går kan vara fel i dag; den tystnad som var klok i morse, kan vara feg i kväll. Varje stund kräver sin prövning. Porten står redan på glänt.
 
 ---
 

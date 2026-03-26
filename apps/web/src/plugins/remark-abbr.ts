@@ -30,11 +30,11 @@ function splitAcronyms(text: string): { type: string; value: string }[] | null {
 		if (m.index > last) nodes.push({ type: "text", value: text.slice(last, m.index) });
 		const full = m[1];
 		const colonIdx = full.indexOf(":");
-		if (colonIdx !== -1) {
+		if (colonIdx === -1) {
+			nodes.push({ type: "html", value: `<abbr>${full}</abbr>` });
+		} else {
 			nodes.push({ type: "html", value: `<abbr>${full.slice(0, colonIdx)}</abbr>` });
 			nodes.push({ type: "text", value: full.slice(colonIdx) });
-		} else {
-			nodes.push({ type: "html", value: `<abbr>${full}</abbr>` });
 		}
 		last = m.index + m[0].length;
 		m = ACRONYM_RE.exec(text);

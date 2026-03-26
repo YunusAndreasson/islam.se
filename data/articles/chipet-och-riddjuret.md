@@ -84,7 +84,7 @@ Ibn Rajab al-Ḥanbalī (d. 1393) fångade det innersta lagret: "Min kropp är m
 [^6]: Ibn Qayyim al-Jawziyyah, *al-Dāʾ wa-l-Dawāʾ* (Sjukdomen och boten).
 [^7]: Koranen, al-Aḥzāb 33:72.
 [^8]: Ibn Taymiyyah, *al-Siyāsah al-Sharʿiyyah*.
-[^9]: Ḥadīth återgiven i Abū Dāwūd och al-Tirmidhī samlingar; citerad i Ibn al-Jawzī, *Ṣifat al-Ṣafwah*.
+[^9]: Ḥadīth återgiven i Abū Dāwūds och al-Tirmidhīs samlingar; citerad i Ibn al-Jawzī, *Ṣifat al-Ṣafwah*.
 [^10]: Koranen, al-Sajdah 32:16.
 [^11]: al-Nawawī, *al-Arbaʿīn al-Nawawiyyah*, *ḥadīth* nr 6; ursprungligen i Ṣaḥīḥ al-Bukhārī och Ṣaḥīḥ Muslim.
 [^12]: Ibn Taymiyyah, *Amrāḍ al-Qulūb wa-Shifāʾuhā* (Hjärtats sjukdomar och deras bot).

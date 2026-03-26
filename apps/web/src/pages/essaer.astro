@@ -1,15 +1,8 @@
 ---
 import Base from "../layouts/Base.astro";
-import { formatDate, getArticles } from "../lib/articles";
+import { formatDate, getArticles, inlineMarkdown } from "../lib/articles";
 
 const articles = await getArticles();
-
-/** Convert inline markdown (*italic*, **bold**) to HTML */
-function inlineMarkdown(text: string): string {
-	return text
-		.replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
-		.replace(/\*(.+?)\*/g, "<em>$1</em>");
-}
 ---
 
 <Base title="Essäer — islam.se" description="Samtliga essäer om islamisk intellektuell tradition och svenskt kulturarv. Al-Ghazālī, Ibn Khaldūn, Strindberg, Lagerlöf och fler.">

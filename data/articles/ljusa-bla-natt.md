@@ -87,7 +87,7 @@ Glas' fråga hänger kvar i luften med samma envishet som ljuset: *hvarför ligg
 
 Koranen svarar med en bild. Dagen dras undan ur natten. Mörkret sveper in. Och i det mörkret finner människan den vila hon skapades för.
 
-*Var din tids barn*, manar Ibn Qayyim.[^25] Inte igår, inte imorgon – utan nu, med just detta ögonblicks ljus eller mörker, dess givna plikt.
+*Var din tids barn*, manar Ibn Qayyim.[^25] Inte i går, inte i morgon – utan nu, med just detta ögonblicks ljus eller mörker, dess givna plikt.
 
 ---
 

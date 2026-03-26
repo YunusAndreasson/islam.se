@@ -20,7 +20,7 @@ Forskarna tvistar om pånyttfödelsemotivets ursprung: hör visionen av världen
 Emanuel Swedenborg, uppvuxen i ett lutherskt Sverige dränkt i helvetets retorik, kom att förneka helveteselden helt. Att helvetet finns erkände han; att det brinner förkastade han.
 
 I Swedenborgs korrespondenslära svarar varje fysisk företeelse mot en andlig verklighet. Eld svarar mot kärlek, strukturellt, inte metaforiskt. Och helvetets eld? Den är självkärlekens inre glöd, som de fördömda upplever som värme, rentav som behag.[^4] De som valt sig själva framför allt annat bebor ett tillstånd som *liknar* eld men saknar eldens förvandlingskraft. Swedenborgs helvete bränner inte. Det bekräftar.
-Om den jordiska världen är andlighetens alfabet är elden ett *språk*. Helvetet talar, men de fördömda kan inte läsa vad det säger.
+Om den jordiska världen är andlighetens alfabet, är elden ett *språk*. Helvetet talar, men de fördömda kan inte läsa vad det säger.
 
 Under krisåren i Paris snubblade August Strindberg in i Swedenborgs universum. Reaktionen kom genast: "Från ateism till Swedenborg tycks det bara vara ett steg!"[^5] Inte nyfikenhet drev honom, utan igenkänning. I *Inferno* ger han sin egen version av den swedenborgianska erfarenheten:
 

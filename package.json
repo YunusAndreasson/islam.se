@@ -13,16 +13,18 @@
 		"cli": "pnpm --filter @islam-se/cli run cli",
 		"produce": "pnpm --filter @islam-se/content-producer run produce",
 		"tui": "ISLAM_OUTPUT_DIR=$(pwd)/apps/content-producer/output pnpm --filter @islam-se/tui run dev",
-		"ship": "pnpm build && wrangler pages deploy apps/web/dist --project-name islam-se"
+		"pdf": "pnpm --filter @islam-se/web run pdf",
+		"ship": "pnpm build && pnpm pdf && wrangler pages deploy apps/web/dist --project-name islam-se"
 	},
 	"devDependencies": {
-		"@biomejs/biome": "^2.4.7",
+		"@biomejs/biome": "^2.4.9",
 		"@types/node": "^25.5.0",
-		"knip": "^5.87.0",
+		"knip": "^5.88.1",
 		"markdownlint-cli2": "^0.20.0",
+		"tslib": "^2.8.1",
 		"typescript": "^5.9.3",
-		"vitest": "^4.1.0",
-		"wrangler": "^4.74.0"
+		"vitest": "^4.1.1",
+		"wrangler": "^4.77.0"
 	},
 	"packageManager": "pnpm@9.15.0"
 }

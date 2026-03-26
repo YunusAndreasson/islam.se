@@ -29,7 +29,7 @@ Försäkringen ska vara högre än handel, trygghetens sakrament. Men Strindberg
 
 ## Fågeln som inte stannar
 
-Silvertärnan gör vad det moderna samhället avlärt sig: ger sig iväg utan garantier.
+Silvertärnan gör vad det moderna samhället avlärt sig: ger sig i väg utan garantier.
 
 Resan är inte blind. Med jordens magnetfält, solens läge och stjärnmönster navigerar silvertärnan – en biologisk utrustning utan mänsklig motsvarighet, kartlagd av forskare vid Lunds universitet.[^7] Fågeln saknar inte medel. Den saknar försäkring. Vi har likställt medel med trygghet, förberedelse med garanti.
 

@@ -60,10 +60,10 @@ export function registerImportUrlCommand(program: Command): void {
 							language: "sv",
 							sourceType: "gutenberg",
 						});
-						if (quoteId !== null) {
-							quotesToEmbed.push({ id: quoteId, text: quote.text });
-						} else {
+						if (quoteId === null) {
 							skipped++;
+						} else {
+							quotesToEmbed.push({ id: quoteId, text: quote.text });
 						}
 					}
 					commitTransaction();

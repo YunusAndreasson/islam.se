@@ -52,12 +52,12 @@
       "avgScore": 8.6
     },
     "en.wikipedia.org": {
-      "total": 80,
-      "ok": 79,
+      "total": 85,
+      "ok": 84,
       "failed": 1,
-      "lastChecked": "2026-02-14T22:20:16.113Z",
-      "publishedIn": 60,
-      "avgScore": 8.585000000000006,
+      "lastChecked": "2026-03-25T23:35:30.838Z",
+      "publishedIn": 64,
+      "avgScore": 8.592187500000009,
       "lastError": "fetch failed"
     },
     "www.academia.edu": {
@@ -191,18 +191,18 @@
       "avgScore": 8.4
     },
     "yaqeeninstitute.org": {
-      "total": 8,
-      "ok": 8,
+      "total": 9,
+      "ok": 9,
       "failed": 0,
-      "lastChecked": "2026-02-14T16:22:59.455Z",
+      "lastChecked": "2026-03-25T23:35:30.838Z",
       "publishedIn": 4,
       "avgScore": 8.55
     },
     "signum.se": {
-      "total": 6,
-      "ok": 6,
+      "total": 7,
+      "ok": 7,
       "failed": 0,
-      "lastChecked": "2026-02-13T22:39:15.904Z",
+      "lastChecked": "2026-03-25T23:35:30.838Z",
       "publishedIn": 4,
       "avgScore": 8.6
     },
@@ -439,12 +439,12 @@
       "avgScore": 8.7
     },
     "forskning.se": {
-      "total": 2,
-      "ok": 2,
+      "total": 3,
+      "ok": 3,
       "failed": 0,
-      "lastChecked": "2026-02-13T22:15:22.806Z",
-      "publishedIn": 2,
-      "avgScore": 8.649999999999999
+      "lastChecked": "2026-03-25T20:35:01.742Z",
+      "publishedIn": 3,
+      "avgScore": 8.666666666666666
     },
     "www.metabolicfitnesspro.com": {
       "total": 1,
@@ -689,12 +689,12 @@
       "avgScore": 8.4
     },
     "www.mdpi.com": {
-      "total": 1,
-      "ok": 1,
+      "total": 2,
+      "ok": 2,
       "failed": 0,
-      "lastChecked": "2026-02-12T21:00:17.967Z",
-      "publishedIn": 1,
-      "avgScore": 8.4
+      "lastChecked": "2026-03-25T21:51:35.051Z",
+      "publishedIn": 2,
+      "avgScore": 8.55
     },
     "www.svenskakyrkan.se": {
       "total": 1,
@@ -1031,10 +1031,10 @@
       "avgScore": 8.6
     },
     "www.ellenkeysallskapet.se": {
-      "total": 2,
-      "ok": 2,
+      "total": 3,
+      "ok": 3,
       "failed": 0,
-      "lastChecked": "2026-02-14T18:55:29.275Z",
+      "lastChecked": "2026-03-25T23:35:30.838Z",
       "publishedIn": 1,
       "avgScore": 8.6
     },
@@ -1280,6 +1280,64 @@
       "ok": 1,
       "failed": 0,
       "lastChecked": "2026-02-14T21:24:06.879Z"
+    },
+    "sverigesradio.se": {
+      "total": 1,
+      "ok": 0,
+      "failed": 1,
+      "lastChecked": "2026-03-25T20:35:01.742Z"
+    },
+    "yle.fi": {
+      "total": 1,
+      "ok": 1,
+      "failed": 0,
+      "lastChecked": "2026-03-25T20:35:01.742Z",
+      "publishedIn": 1,
+      "avgScore": 8.7
+    },
+    "www.oru.se": {
+      "total": 1,
+      "ok": 1,
+      "failed": 0,
+      "lastChecked": "2026-03-25T20:35:01.742Z",
+      "publishedIn": 1,
+      "avgScore": 8.7
+    },
+    "renovatio.zaytuna.edu": {
+      "total": 1,
+      "ok": 1,
+      "failed": 0,
+      "lastChecked": "2026-03-25T21:51:35.051Z",
+      "publishedIn": 1,
+      "avgScore": 8.7
+    },
+    "journals.lub.lu.se": {
+      "total": 1,
+      "ok": 1,
+      "failed": 0,
+      "lastChecked": "2026-03-25T21:51:35.051Z",
+      "publishedIn": 1,
+      "avgScore": 8.7
+    },
+    "www.archdaily.com": {
+      "total": 1,
+      "ok": 1,
+      "failed": 0,
+      "lastChecked": "2026-03-25T21:51:35.051Z",
+      "publishedIn": 1,
+      "avgScore": 8.7
+    },
+    "sunnah.com": {
+      "total": 1,
+      "ok": 1,
+      "failed": 0,
+      "lastChecked": "2026-03-25T23:35:30.838Z"
+    },
+    "tillliv.se": {
+      "total": 1,
+      "ok": 1,
+      "failed": 0,
+      "lastChecked": "2026-03-25T23:35:30.838Z"
     }
   }
 }

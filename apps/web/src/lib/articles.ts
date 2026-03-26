@@ -75,3 +75,8 @@ export function formatDate(dateStr: string): string {
 		day: "numeric",
 	});
 }
+
+/** Convert inline markdown (*italic*, **bold**) to HTML */
+export function inlineMarkdown(text: string): string {
+	return text.replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>").replace(/\*(.+?)\*/g, "<em>$1</em>");
+}

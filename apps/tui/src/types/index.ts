@@ -59,7 +59,7 @@ export interface StageInfo {
 }
 
 export interface PreviewSnippet {
-	stage: "research" | "factCheck" | "authoring" | "review" | "polish";
+	stage: "research" | "factCheck" | "authoring" | "review" | "polish" | "language" | "swedishVoice";
 	type: "text" | "tool_use" | "tool_result";
 	content: string;
 	timestamp: number;
@@ -74,6 +74,8 @@ export interface PipelineStatus {
 		| "authoring"
 		| "review"
 		| "polish"
+		| "language"
+		| "swedishVoice"
 		| "complete"
 		| "failed";
 	stages: {
@@ -82,6 +84,8 @@ export interface PipelineStatus {
 		authoring: StageInfo;
 		review: StageInfo;
 		polish: StageInfo;
+		language: StageInfo;
+		swedishVoice: StageInfo;
 	};
 	logs: string[];
 	previews: PreviewSnippet[];

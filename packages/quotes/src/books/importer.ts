@@ -504,7 +504,7 @@ async function insertPassagesWithEmbeddings(
 	beginBookTransaction();
 	try {
 		for (const chunk of chunks) {
-			const chapterId = chunk.chapterIndex !== null ? chapterIdMap.get(chunk.chapterIndex) : null;
+			const chapterId = chunk.chapterIndex === null ? null : chapterIdMap.get(chunk.chapterIndex);
 			const passageId = insertPassage({
 				bookId,
 				chapterId: chapterId ?? null,

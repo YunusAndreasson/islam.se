@@ -85,7 +85,7 @@ Det svenska samhället har inte avsakraliserat det religiösa ljudet; det har ba
 
 Al-Māwardī (974–1058) säger det rakt:
 
-> *Adhān* och *iqāmah*[^20] och församlingsbönen i moskén hör till islams yttre tecken, genom vilka Guds sändebud ﷺ skilde islams land från otrons land.[^18]
+> *Adhān* och *iqāmah*[^18] och församlingsbönen i moskén hör till islams yttre tecken, genom vilka Guds sändebud ﷺ skilde islams land från otrons land.[^19]
 
 *Adhān* är mer än en praktisk kallelse till bön – att ropa *adhān* i det offentliga rummet är att säga: *vi finns här, och vi tillber*. Där, inte i volymen, ligger motståndet.
 
@@ -93,7 +93,7 @@ Al-Māwardī (974–1058) säger det rakt:
 
 Koranen säger vad som ytterst står på spel:
 
-> Det är sannerligen Jag, Allah ﷻ – ingen gud finns utom Jag – dyrka därför Mig och förrätta bönen för att åminnas Mig.[^19]
+> Det är sannerligen Jag, Allah ﷻ – ingen gud finns utom Jag – dyrka därför Mig och förrätta bönen för att åminnas Mig.[^20]
 
 *Adhān* ska bära detta budskap ut i världen. Den kan inte tystna utan att meningen går förlorad; den kan inte tämjas till kulturellt ljud utan att förvandlas till sin egen motsats.
 
@@ -120,6 +120,6 @@ Frågan som återstår tillhör den som hellre diskuterar decibel än teologi: o
 [^15]: Karin Boye, *Astarte* (1931).
 [^16]: Ibn Qayyim al-Jawziyyah, *Madārij al-Sālikīn* (De vandrandes stationer).
 [^17]: Koranen, al-Māʾidah 5:58.
-[^18]: al-Māwardī, *al-Aḥkām al-Sulṭāniyyah*.
-[^19]: Koranen, Ṭā Hā 20:14.
-[^20]: *Iqāmah* är det andra, kortare böneutropet som reciteras inne i moskén omedelbart före den gemensamma bönen. Till skillnad från *adhān*, som kallar de frånvarande, riktar sig *iqāmah* till dem som redan infunnit sig.
+[^18]: *Iqāmah* är det andra, kortare böneutropet som reciteras inne i moskén omedelbart före den gemensamma bönen. Till skillnad från *adhān*, som kallar de frånvarande, riktar sig *iqāmah* till dem som redan infunnit sig.
+[^19]: al-Māwardī, *al-Aḥkām al-Sulṭāniyyah*.
+[^20]: Koranen, Ṭā Hā 20:14.

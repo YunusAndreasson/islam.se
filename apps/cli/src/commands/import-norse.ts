@@ -38,10 +38,10 @@ async function storeNorseQuotes(
 				language: "en",
 				sourceType: "gutenberg",
 			});
-			if (quoteId !== null) {
-				quotesToEmbed.push({ id: quoteId, text: quote.text });
-			} else {
+			if (quoteId === null) {
 				skipped++;
+			} else {
+				quotesToEmbed.push({ id: quoteId, text: quote.text });
 			}
 		}
 		commitTransaction();

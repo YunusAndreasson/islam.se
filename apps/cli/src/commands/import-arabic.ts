@@ -38,10 +38,10 @@ async function storeArabicQuotes(
 				language: "ar",
 				sourceType: "openiti",
 			});
-			if (quoteId !== null) {
-				quotesToEmbed.push({ id: quoteId, text: quote.text });
-			} else {
+			if (quoteId === null) {
 				skipped++;
+			} else {
+				quotesToEmbed.push({ id: quoteId, text: quote.text });
 			}
 		}
 		commitTransaction();

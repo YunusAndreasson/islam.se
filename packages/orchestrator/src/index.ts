@@ -98,7 +98,14 @@ function extractSearchQueries(articleBody: string): string[] {
 	return queries;
 }
 
-export type StageName = "research" | "factCheck" | "authoring" | "review" | "polish";
+export type StageName =
+	| "research"
+	| "factCheck"
+	| "authoring"
+	| "review"
+	| "polish"
+	| "language"
+	| "swedishVoice";
 
 export interface StageProgress {
 	stage: StageName;
@@ -460,6 +467,8 @@ export interface ProductionResult {
 		authoring?: StageResult<DraftOutput>;
 		review?: StageResult<ReviewOutput>;
 		polish?: StageResult<PolishOutput>;
+		language?: StageResult<LanguageOutput>;
+		swedishVoice?: StageResult<SwedishVoiceOutput>;
 	};
 	finalArticle?: string;
 	bibliography?: string;
@@ -1167,8 +1176,8 @@ ${formatted}`;
 						wordCount: body.split(/\s+/).filter((w) => w.length > 0).length,
 					}) as DraftOutput,
 			},
-			effort: "high",
-			timeout: 1800000, // 30 min — authoring with effort:max needs room
+			effort: "max",
+			timeout: 2700000, // 45 min — authoring with effort:max needs room for deep thinking
 		});
 
 		if (!(result.success && result.data)) {
@@ -1299,7 +1308,7 @@ If the draft has anglicisms, fix them in the revised article.
 						revisedText: body || null,
 					}) as ReviewOutput,
 			},
-			effort: "high",
+			effort: "max",
 		});
 
 		if (!(result.success && result.data)) {
@@ -2287,6 +2296,58 @@ ${articleBody}`;
 			});
 		}
 
+		// Stage 6: Language — word-level Swedish naturalness (non-fatal)
+		this.options.onStageChange?.({ stage: "language", status: "running" });
+		const languageResult = await this.runLanguage(finalText);
+		result.stages.language = languageResult;
+		if (languageResult.success && languageResult.data) {
+			finalText = languageResult.data.body;
+			const issueCount = languageResult.data.issuesFound.length;
+			this.logger.log(`   - Language: ${issueCount} issues fixed (${languageResult.data.verdict})`);
+			saveOutput(outputDir, "language.json", languageResult.data);
+			this.options.onStageChange?.({
+				stage: "language",
+				status: "complete",
+				duration: languageResult.duration,
+				summary: `${issueCount} issues`,
+			});
+		} else {
+			this.options.onStageChange?.({
+				stage: "language",
+				status: "failed",
+				duration: languageResult.duration,
+				error: languageResult.error,
+				summary: "skipped (non-fatal)",
+			});
+		}
+
+		// Stage 7: Swedish Voice — fix anglicisms, rhetoric patterns, rhythm (non-fatal)
+		this.options.onStageChange?.({ stage: "swedishVoice", status: "running" });
+		const swedishVoiceResult = await this.runSwedishVoice(finalText);
+		result.stages.swedishVoice = swedishVoiceResult;
+		if (swedishVoiceResult.success && swedishVoiceResult.data) {
+			finalText = swedishVoiceResult.data.body;
+			const issueCount = swedishVoiceResult.data.issuesFound.length;
+			this.logger.log(
+				`   - Swedish Voice: ${issueCount} issues fixed (${swedishVoiceResult.data.verdict})`,
+			);
+			saveOutput(outputDir, "swedish-voice.json", swedishVoiceResult.data);
+			this.options.onStageChange?.({
+				stage: "swedishVoice",
+				status: "complete",
+				duration: swedishVoiceResult.duration,
+				summary: `${issueCount} issues`,
+			});
+		} else {
+			this.options.onStageChange?.({
+				stage: "swedishVoice",
+				status: "failed",
+				duration: swedishVoiceResult.duration,
+				error: swedishVoiceResult.error,
+				summary: "skipped (non-fatal)",
+			});
+		}
+
 		saveOutput(outputDir, "final.md", finalText);
 
 		// Generate bibliography (include all tracked references)
@@ -2309,6 +2370,8 @@ ${articleBody}`;
 				authoring: authoringResult.duration,
 				review: result.stages.review?.duration,
 				polish: polishResult.duration,
+				language: languageResult.duration,
+				swedishVoice: swedishVoiceResult.duration,
 				total: Date.now() - startTime,
 			},
 		});

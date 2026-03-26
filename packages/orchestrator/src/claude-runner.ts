@@ -23,7 +23,7 @@ export interface ClaudeRunOptions {
 	/** Model to use */
 	model: "claude-opus-4-6" | "claude-sonnet-4-5-20250929";
 	/** Effort level for adaptive thinking */
-	effort?: "low" | "medium" | "high";
+	effort?: "low" | "medium" | "high" | "max";
 	/** Maximum budget in USD for this stage (uses --max-budget-usd flag) */
 	maxBudgetUsd?: number;
 	/** Fallback model if primary is unavailable (uses --fallback-model flag) */
@@ -412,10 +412,10 @@ export class ClaudeRunner extends EventEmitter {
 		const args = this.buildArgs(options);
 		// Replace output format with stream-json (requires --verbose with --print)
 		const formatIdx = args.indexOf("--output-format");
-		if (formatIdx !== -1) {
-			args[formatIdx + 1] = "stream-json";
-		} else {
+		if (formatIdx === -1) {
 			args.push("--output-format", "stream-json");
+		} else {
+			args[formatIdx + 1] = "stream-json";
 		}
 		// Add --verbose flag required for stream-json with --print
 		if (!args.includes("--verbose")) {

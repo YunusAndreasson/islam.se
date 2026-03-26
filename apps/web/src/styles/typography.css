@@ -57,15 +57,17 @@ p {
 	margin-bottom: var(--space-unit);
 }
 
-/* Links */
+/* Links — underline fades in on hover instead of popping */
 a {
 	color: var(--color-accent);
-	text-decoration: none;
+	text-decoration: underline;
+	text-decoration-color: transparent;
+	text-decoration-thickness: 1px;
+	text-underline-offset: 0.15em;
+	transition: text-decoration-color 0.2s ease;
 
 	&:hover {
-		text-decoration: underline;
-		text-decoration-thickness: 1px;
-		text-underline-offset: 0.15em;
+		text-decoration-color: currentColor;
 	}
 
 	&:focus-visible {
@@ -201,11 +203,14 @@ sup {
 	font-size: 0.862rem;
 	line-height: 1.55;
 	letter-spacing: 0.01em;
-	color: var(--color-muted);
+	color: var(--color-text);
 	font-variant-numeric: oldstyle-nums;
 	opacity: 0;
 	pointer-events: none;
-	transition: opacity 0.15s ease;
+	transform: translateY(4px);
+	transition:
+		opacity 0.15s ease,
+		transform 0.15s ease;
 
 	p {
 		margin-bottom: 0;
@@ -219,6 +224,7 @@ sup {
 .fn-popover--visible {
 	opacity: 1;
 	pointer-events: auto;
+	transform: translateY(0);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -266,7 +272,7 @@ sup {
 	margin-bottom: calc(var(--space-phi2) + env(safe-area-inset-bottom, 0px));
 	font-size: 0.875rem;
 	line-height: 1.5;
-	color: var(--color-muted);
+	color: var(--color-text);
 
 	ol {
 		list-style: decimal;
@@ -289,7 +295,6 @@ sup {
 
 /* Section ornament — eight-pointed star flanked by thin rules */
 .section-ornament {
-	content: "";
 	display: block;
 	width: 10rem;
 	height: 1.5rem;
@@ -333,6 +338,11 @@ article .prose > p:first-child::first-line {
 	opacity: 0.35;
 	text-decoration: none;
 	display: inline;
+	transition: opacity 0.2s;
+}
+
+.prose a[href^="http"]:hover::after {
+	opacity: 0.6;
 }
 
 /* ============================================================
@@ -345,7 +355,6 @@ article .prose > p:first-child::first-line {
 
 	h1 {
 		font-size: 2rem;
-		font-weight: 700;
 	}
 
 	h2 {
@@ -396,10 +405,11 @@ article .prose > p:first-child::first-line {
 	.site-header,
 	.site-header--hero,
 	.reading-progress,
-	.back-to-top,
+	.fixed-actions,
 	.hero-nav,
 	.article-nav,
-	.section-ornament {
+	.section-ornament,
+	.fn-popover {
 		display: none !important;
 	}
 
