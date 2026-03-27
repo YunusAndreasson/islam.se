@@ -1,6 +1,6 @@
 ---
 title: "Det tungan inte når"
-publishedAt: "2026-03-26T00:52:20.951Z"
+publishedAt: "2026-02-25T12:00:00.000Z"
 wordCount: 1159
 qualityScore: 8.7
 description: "En far förlorar sin son. Inte till döden utan till försvinnandet, vilket är värre, för hoppet överlever och med det smärtan. Han vänder sig bort från dem som bär budet. Hans ögon vitnar av gråt."
@@ -79,13 +79,13 @@ Tungan kan upprepa utan att mena. Hjärtat som brister inför sin Skapare har in
 [^2]: Koranen, Josef 12:86.
 [^3]: Koranen, Maria 19:3.
 [^4]: Koranen, Höjderna 7:55.
-[^5]: al-Ghazali, *Bidayat al-Hidaya*.
-[^6]: Ibn al-Qayyim, *Uddat al-Sabirin wa Dhakhirat al-Shakirin*.
-[^7]: Ibn al-Qayyim, *al-Fawa'id*.
+[^5]: al-Ghazālī, *Bidāyat al-Hidāyah*.
+[^6]: Ibn al-Qayyim, *ʿUddat al-Ṣābirīn wa Dhakhīrat al-Shākirīn*.
+[^7]: Ibn al-Qayyim, *al-Fawāʾid*.
 [^8]: Koranen, Bokstaven Qaf 50:33.
 [^9]: August Strindberg, *Inferno* (1897).
 [^10]: Karin Boye, "Moders röst," *Moln* (1922).
 [^11]: Ellen Key, *Lifslinjer*, tredje delen.
-[^12]: Ibn al-Qayyim, *al-Wabil al-Sayyib min al-Kalim al-Tayyib*.
+[^12]: Ibn al-Qayyim, *al-Wābil al-Ṣayyib min al-Kalim al-Ṭayyib*.
 [^13]: Sunan Abi Dawud 4985.
 [^14]: Koranen, Den nattliga färden 17:109.

@@ -56,6 +56,7 @@ import {
 	formatDuration,
 	getModelId,
 	loadOutput,
+	pickSwedishAuthors,
 	RESEARCH_ALLOWED_TOOLS,
 	saveOutput,
 	slugify,
@@ -869,6 +870,7 @@ export class ContentOrchestrator {
 
 		const blocklist = formatBlockedDomainsPrompt(getBlockedDomains(loadDomainTracker()));
 
+		const suggestedAuthors = pickSwedishAuthors(4);
 		let systemPrompt = `Topic: ${idea.thesis}
 
 <context>
@@ -881,7 +883,7 @@ Suggested keywords: ${idea.keywords.join(", ")}
 
 <guidance>
 Find the best material for this specific angle:
-- Quotes from scholars/authors (Arabic + Swedish/Western perspectives)
+- Quotes from scholars/authors — for Swedish voices, consider ${suggestedAuthors.join(", ")} alongside others
 - Quran verses relevant to the angle
 - Book passages for extended context
 - Web sources for contemporary perspectives
@@ -935,6 +937,7 @@ ${formatted}
 
 		const blocklist = formatBlockedDomainsPrompt(getBlockedDomains(loadDomainTracker()));
 
+		const suggestedAuthors = pickSwedishAuthors(4);
 		const systemPrompt = `Topic: ${topic}
 
 <context>
@@ -947,7 +950,7 @@ Your task is to develop a distinctive angle on this topic and gather supporting 
 Consider what would make this article compelling:
 - What's a fresh or counter-intuitive take on this topic?
 - Which classical Islamic scholars addressed this theme?
-- What Swedish or Western perspectives could enrich the discussion?
+- For Swedish perspectives, consider searching for quotes by ${suggestedAuthors.join(", ")} — but follow the material wherever it leads.
 
 Run multiple MCP searches in parallel, but do NOT mix WebFetch/WebSearch with MCP calls in the same batch — a web timeout kills sibling calls.
 IMPORTANT WebFetch limitations:
@@ -1105,7 +1108,7 @@ Key requirements:
 - Let quotes and passages earn their place
 - Reference the Quran where relevant
 - Let classical Islamic scholars shine
-- Swedish/Western authors strengthen the Islamic stance
+- Swedish/Western authors strengthen the Islamic stance — for this article, consider weaving in ${pickSwedishAuthors(3).join(", ")} if the research material includes them
 - Use markdown blockquotes and footnotes
 - Write natural Swedish prose — avoid anglicisms like "i termer av", "adressera", "baserat på", calque constructions. Prefer Swedish idiom and rhythm (Axess/Respons register).`;
 
@@ -2578,6 +2581,8 @@ export {
 	type IdeationOutput,
 	IdeationService,
 	type IdeationServiceOptions,
+	type PodcastResult,
+	PodcastService,
 	type PublishedArticle,
 	parseFrontmatter,
 	passagesToResearchFormat,

@@ -4,6 +4,7 @@ publishedAt: "2026-02-15T12:00:00.000Z"
 wordCount: 1897
 qualityScore: 8.6
 description: "En kvinna vaknar mitt i natten, inte för att sminka sig – för att be. Tillfrågad varför svarar hon att bönen förskönar ansiktet. Det är ett svar skönhetsindustrin inte kan sälja."
+audioFile: "nattbonens-ansikte.mp3"
 ---
 Mitt i natten vaknar en kvinna. Inte för att sminka sig – för att be. Hon står i timmar, knäböjer, reser sig, medan världen sover.
 

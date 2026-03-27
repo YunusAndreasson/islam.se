@@ -2,7 +2,8 @@
 
 import { execSync } from "node:child_process";
 import { appendFileSync, existsSync, readFileSync } from "node:fs";
-import { resolve } from "node:path";
+import { dirname, join, resolve } from "node:path";
+import { fileURLToPath } from "node:url";
 import * as p from "@clack/prompts";
 import {
 	ArticlePublisher,
@@ -15,6 +16,11 @@ import {
 } from "@islam-se/orchestrator";
 import { Command } from "commander";
 import { createPatch } from "diff";
+import { config } from "dotenv";
+
+// Load environment variables from project root
+const __prodDir = dirname(fileURLToPath(import.meta.url));
+config({ path: join(__prodDir, "..", "..", "..", ".env") });
 
 const program = new Command();
 
@@ -2614,6 +2620,45 @@ program
 					console.log(`Added ${toAdd.length} words to ${wordlistPath}`);
 				}
 			}
+		}
+
+		process.exit(0);
+	});
+
+// ─── Podcast generation ──────────────────────────────────────────────────────
+
+program
+	.command("podcast")
+	.description("Generate audio narration for a published article")
+	.argument("<slug>", "Article slug (from data/articles/)")
+	.action(async (slug: string) => {
+		const { PodcastService } = await import("@islam-se/orchestrator");
+
+		console.log("");
+		console.log("╔══════════════════════════════════════════════════════════╗");
+		console.log("║              Islam.se Podcast Generator                  ║");
+		console.log("╚══════════════════════════════════════════════════════════╝");
+		console.log("");
+		console.log(`Article: ${slug}`);
+		console.log("");
+
+		const service = new PodcastService();
+		const result = await service.produce(slug);
+
+		console.log("");
+		if (result.success) {
+			console.log("✅ Podcast generated successfully");
+			if (result.scriptPath) console.log(`   Script: ${result.scriptPath}`);
+			if (result.audioPath) console.log(`   Audio:  ${result.audioPath}`);
+			if (result.duration) {
+				const secs = Math.round(result.duration / 1000);
+				const mins = Math.floor(secs / 60);
+				const rem = secs % 60;
+				console.log(`   Time:   ${mins}m ${rem}s`);
+			}
+		} else {
+			console.log(`❌ Failed: ${result.error}`);
+			process.exit(1);
 		}
 
 		process.exit(0);

@@ -1,6 +1,6 @@
 ---
 title: "Tyst teologi"
-publishedAt: "2026-03-25T22:51:39.076Z"
+publishedAt: "2026-02-20T12:00:00.000Z"
 wordCount: 1234
 qualityScore: 8.7
 description: "Katedralen berättar. Helgon blickar ner från nischerna, glasmålningar upprepar frälsningshistorien scen efter scen, skulpturer gestikulerar i sina arkader. Väggarna talar — de förkunnar, förklarar, övertygar. Moskén tiger. Inga helgon. Ingen berättelse i sten. Ingen avbild av det heliga."
@@ -74,18 +74,18 @@ Ibn al-Qayyim: "All skönhet i tillvaron är spår av Hans skapande."[^18] Ljuse
 [^1]: Figurativ konst florerade i den persiska, mogulska och osmanska traditionen. Anikonismen var en medveten princip för det heliga rummet, inte ett förbud som präglade hela civilisationen.
 [^2]: Koranen, al-Nur 24:35.
 [^3]: Koranen, al-Nur 24:36.
-[^4]: Al-Ghazali, *Mishkat al-Anwar*, kap. 1.
+[^4]: al-Ghazālī, *Mishkāt al-Anwār*, kap. 1.
 [^5]: Abbot Suger, *De administratione* och *De consecratione* (ca 1144–1149).
-[^6]: Koranen, Al Imran 3:190–191.
+[^6]: Koranen, Āl ʿImrān 3:190–191.
 [^7]: Doris Behrens-Abouseif, *Beauty in Arabic Culture*, Markus Wiener Publishers, 1999.
-[^8]: Hadith, återgiven i al-Tirmidhi. Se även Ibn Abi al-Dunya, *Kitab al-Samt wa Adab al-Lisan*.
-[^9]: Al-Shafi'i, citerad i Ibn al-Jawzi, *Sifat al-Safwa*.
-[^10]: Ibn al-Qayyim al-Jawziyya, *Madarij al-Salikin*, avsnittet om *khushu'*.
-[^11]: Al-Ghazali, *Asnaf al-Maghurin*.
-[^12]: Al-Ghazali, *Ihya Ulum al-Din*, bok 36 (*Kitab al-Mahabba*).
-[^13]: Koranen, al-A'raf 7:55.
+[^8]: Hadith, återgiven i al-Tirmidhī. Se även Ibn Abī al-Dunyā, *Kitāb al-Ṣamt wa Ādāb al-Lisān*.
+[^9]: al-Shāfiʿī, citerad i Ibn al-Jawzī, *Ṣifat al-Ṣafwah*.
+[^10]: Ibn Qayyim al-Jawziyyah, *Madārij al-Sālikīn*, avsnittet om *khushūʿ*.
+[^11]: al-Ghazālī, *Aṣnāf al-Maghūrīn*.
+[^12]: al-Ghazālī, *Iḥyāʾ ʿUlūm al-Dīn*, bok 36 (*Kitāb al-Maḥabbah*).
+[^13]: Koranen, al-Aʿrāf 7:55.
 [^14]: Ellen Key, *Lifslinjer*, tredje delen.
 [^15]: August Strindberg, *Götiska rummen*.
 [^16]: Jfr Jan Hjärpe, "Heliga rum i muslimsk kontext", *Svenskt Gudstjänstliv* 2008.
 [^17]: Karin Boye, *Kallocain*.
-[^18]: Ibn al-Qayyim al-Jawziyya, *Rawdat al-Muhibbin*.
+[^18]: Ibn Qayyim al-Jawziyyah, *Rawḍat al-Muḥibbīn*.

@@ -1,6 +1,6 @@
 ---
 title: "Tid till salu"
-publishedAt: "2026-03-26T11:04:01.402Z"
+publishedAt: "2026-03-12T12:00:00.000Z"
 wordCount: 1127
 qualityScore: 8.6
 description: "Vad köper du egentligen när du betalar ränta? Inte en vara, inte en tjänst, inte någons arbete. Du köper tid. Hela det moderna finanssystemet vilar på detta: tid har ett pris, och det priset kallas ränta. Det syns på kontoutdraget: en rad för skulden, en rad för väntan. Men vems tid säljs?"
@@ -13,7 +13,7 @@ Frågan låter naiv. Det är den inte. Aristoteles ställde den. Den medeltida k
 
 ## Spegeln
 
-Al-Ghazali, verksam i 1000-talets Bagdad, fann en bild som fortfarande skär genom förvirringen. Pengar, menade han, liknar en spegel: de återspeglar tingens värde men äger inget eget. En spegel visar ditt ansikte utan att ha ett ansikte. Pengar mäter vete, tyg och arbete utan att själva vara något av detta.[^1]
+al-Ghazali, verksam i 1000-talets Bagdad, fann en bild som fortfarande skär genom förvirringen. Pengar, menade han, liknar en spegel: de återspeglar tingens värde men äger inget eget. En spegel visar ditt ansikte utan att ha ett ansikte. Pengar mäter vete, tyg och arbete utan att själva vara något av detta.[^1]
 
 Att ta ränta innebär att tvinga spegeln att alstra eget ljus. Man hävdar att pengar i sig, fria från förankring i varor, bär frukt, ger avkastning, föder avkomma. Men speglar alstrar inte ljus. De kastar det tillbaka.
 
@@ -47,15 +47,15 @@ En kunnig invändning: tillåter inte islamisk rätt ett högre pris vid kreditf
 
 Skillnaden visar snarare förbudets skärpa än dess godtycke. I kreditaffären är det varan som säljs — levererad nu, betald sedan. Mellanskillnaden bärs av ett tyg, ett hus, en maskin. I ett räntelån finns ingen vara. Bara pengar som byts mot samma pengar plus ett tillägg. Tillägget betalar för ingenting utom tidens gång.
 
-Spegeln förklarar: i kreditaffären återspeglar den ett verkligt föremål. I räntelånet ombeds den att återspegla sig själv. Den klassiska rättstraditionen kallar det *riba al-nasī'a*: ränta buren av tid allena, utan förankring i en verklig vara. De klassiska rättslärda var inte naiva inför handelns villkor. De var precisa om vad som får bära ett tidstillägg.
+Spegeln förklarar: i kreditaffären återspeglar den ett verkligt föremål. I räntelånet ombeds den att återspegla sig själv. Den klassiska rättstraditionen kallar det *ribā al-nasīʾa*: ränta buren av tid allena, utan förankring i en verklig vara. De klassiska rättslärda var inte naiva inför handelns villkor. De var precisa om vad som får bära ett tidstillägg.
 
-Ibn al-Qayyim gick längst. Att slösa bort sin tid, skrev han, är värre än döden: slösandet skiljer människan från Gud och det kommande livet, medan döden enbart skiljer henne från denna världen.[^5] "Människans tid är i verkligheten hennes liv — det är råmaterialet för hennes eviga tillvaro."[^6]
+Ibn Qayyim al-Jawziyyah gick längst. Att slösa bort sin tid, skrev han, är värre än döden: slösandet skiljer människan från Gud och det kommande livet, medan döden enbart skiljer henne från denna världen.[^5] "Människans tid är i verkligheten hennes liv — det är råmaterialet för hennes eviga tillvaro."[^6]
 
 Det är inte moralism. Det är en metafysik: tid är det ämne varav mänskligt liv är gjort, och det ämnet tillhör Gud. Gryningen väcker dig utan att du bett om den. Att sälja en annan människas tid — att ta betalt för tidens blotta gång — innebär att handla med något som aldrig var ditt att sälja.
 
 Edith Södergran, skalad av sjukdom till det väsentliga i sin sista diktsamling: "Det finnes ingen som har tid i världen än Gud allena."[^7]
 
-Hennes insikt når samma punkt som Ibn al-Qayyims men från motsatt håll — inte uppenbarelsen som förklarar att tiden tillhör Gud, utan dödligheten som avslöjar att den aldrig tillhörde henne. Att båda vägarna sammanfaller antyder att påståendet inte bara är konfessionellt utan strukturellt: det säger något om vad tid *är*, inte bara om vad islam *lär*.
+Hennes insikt når samma punkt som Ibn Qayyim al-Jawziyyahs men från motsatt håll — inte uppenbarelsen som förklarar att tiden tillhör Gud, utan dödligheten som avslöjar att den aldrig tillhörde henne. Att båda vägarna sammanfaller antyder att påståendet inte bara är konfessionellt utan strukturellt: det säger något om vad tid *är*, inte bara om vad islam *lär*.
 
 Det moderna axiom som gör tid till en prissättbar storhet framstår i detta ljus inte som sofistikerat utan som ytligt. Det förmår inte ställa den fråga som Koranen ställer: vad sker med ett samhälle som säljer det som ingen människa äger?
 
@@ -65,10 +65,10 @@ Räntekontraktet hävdar att det vet. Det slår fast det som Gud lämnat öppet:
 
 ---
 
-[^1]: al-Ghazali, *Iḥyāʾ ʿUlūm al-Dīn*, avsnittet om pengar och handelsrätt.
+[^1]: al-Ghazālī, *Iḥyāʾ ʿUlūm al-Dīn*, avsnittet om pengar och handelsrätt.
 [^2]: Aristoteles, *Politiken*, I:10, 1258b.
 [^3]: Ibn Taymiyyah, *al-Qawāʿid al-Nūrāniyyah al-Fiqhiyyah*.
 [^4]: August Strindberg, *Röda rummet* (1879).
-[^5]: Ibn al-Qayyim, *al-Fawāʾid*.
-[^6]: Ibn al-Qayyim, *al-Dāʾ wa-l-Dawāʾ*.
+[^5]: Ibn Qayyim al-Jawziyyah, *al-Fawāʾid*.
+[^6]: Ibn Qayyim al-Jawziyyah, *al-Dāʾ wa-l-Dawāʾ*.
 [^7]: Edith Södergran, "Landet som icke är", *Landet som icke är* (1925).

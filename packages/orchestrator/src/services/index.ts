@@ -28,6 +28,8 @@ export {
 	IdeationService,
 	type IdeationServiceOptions,
 } from "./ideation-service.js";
+// Podcast service
+export { type PodcastResult, PodcastService } from "./podcast-service.js";
 // Quote service
 export {
 	formatQuotesForPrompt,

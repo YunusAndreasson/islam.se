@@ -25,6 +25,7 @@ export interface PublishedArticle {
 	wordCount: number;
 	qualityScore?: number;
 	category?: string;
+	audioFile?: string;
 }
 
 /**
@@ -133,6 +134,7 @@ export class ArticlePublisher {
 			wordCount: (data.wordCount as number) || 0,
 			qualityScore: data.qualityScore as number | undefined,
 			category: data.category as string | undefined,
+			audioFile: data.audioFile as string | undefined,
 		};
 	}
 
@@ -238,6 +240,9 @@ export class ArticlePublisher {
 		}
 		if (article.category) {
 			lines.push(`category: ${JSON.stringify(article.category)}`);
+		}
+		if (article.audioFile) {
+			lines.push(`audioFile: "${article.audioFile}"`);
 		}
 		lines.push("---", "");
 		return lines.join("\n");

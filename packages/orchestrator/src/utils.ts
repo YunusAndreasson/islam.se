@@ -93,6 +93,66 @@ export function formatDuration(ms: number): string {
 }
 
 /**
+ * Swedish authors in the quote database, ordered by quote count.
+ * Used to vary which authors are suggested in prompts so the pipeline
+ * doesn't always gravitate toward Strindberg/Lagerlöf/Söderberg.
+ */
+const SWEDISH_AUTHORS = [
+	"August Strindberg",
+	"Ellen Key",
+	"Hjalmar Söderberg",
+	"Viktor Rydberg",
+	"Johan Ludvig Runeberg",
+	"Hjalmar Bergman",
+	"Zacharias Topelius",
+	"August Blanche",
+	"Erik Gustaf Geijer",
+	"Karin Boye",
+	"Selma Lagerlöf",
+	"Fredrika Bremer",
+	"Carl von Linné",
+	"Gustaf af Geijerstam",
+	"Minna Canth",
+	"Victoria Benedictsson",
+	"Per Hallström",
+	"Ester Blenda Nordström",
+	"Oscar Levertin",
+	"Verner von Heidenstam",
+	"Dan Andersson",
+	"Anne Charlotte Leffler",
+	"C. J. L. Almqvist",
+	"Albert Engström",
+	"Esaias Tegnér",
+];
+
+/**
+ * Pick N random Swedish authors from the database pool.
+ * Always includes 1 from the top 5 (well-known) and the rest from the wider pool,
+ * to balance recognizability with variety.
+ */
+export function pickSwedishAuthors(count = 4): string[] {
+	// Fisher-Yates shuffle on a copy
+	const pool = [...SWEDISH_AUTHORS];
+	for (let i = pool.length - 1; i > 0; i--) {
+		const j = Math.floor(Math.random() * (i + 1));
+		const tmp = pool[i] as string;
+		pool[i] = pool[j] as string;
+		pool[j] = tmp;
+	}
+	// Ensure at least 1 top-5 author (well-known) ends up in the pick
+	const top5 = new Set(SWEDISH_AUTHORS.slice(0, 5));
+	const fromTop = pool.filter((a) => top5.has(a));
+	const fromRest = pool.filter((a) => !top5.has(a));
+	const result: string[] = [];
+	if (fromTop.length > 0) result.push(fromTop[0] as string);
+	for (const a of fromRest) {
+		if (result.length >= count) break;
+		result.push(a);
+	}
+	return result;
+}
+
+/**
  * MCP tools allowed during the research stage
  */
 export const RESEARCH_ALLOWED_TOOLS = [

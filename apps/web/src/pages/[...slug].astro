@@ -1,5 +1,6 @@
 ---
 import { render } from "astro:content";
+import AudioPlayer from "../components/AudioPlayer.astro";
 import Base from "../layouts/Base.astro";
 import type { Article } from "../lib/articles";
 import { formatDate, getArticles } from "../lib/articles";
@@ -40,6 +41,8 @@ const { Content } = await render(article.entry);
 					<time datetime={article.publishedAt}>{formatDate(article.publishedAt)}</time> &middot; {article.readingTime} min läsning
 				</p>
 			</header>
+
+			{article.audioFile && <AudioPlayer src={`/audio/${article.audioFile}`} />}
 
 			<div class="article-body prose">
 				<Content />

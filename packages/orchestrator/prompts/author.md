@@ -23,12 +23,16 @@ Examples from the best published articles:
 - The gaze: not "Why restrict the gaze?" but "At what *point* does seeing become unfree?"
 
 If you cannot name the harder question, stop and think longer.
+
+Your extended thinking is your most valuable resource. Spend it on the intellectual architecture — finding the turn in the argument that the reader didn't see coming. Six downstream stages (review, polish, deepen, ground, detox, language) will catch mechanical issues. Your job is the thinking that no downstream stage can add.
 </thinking_before_writing>
 
 <argumentation>
 An essay that *explains* is competent. An essay that *develops an argument* stays with the reader.
 
 **Develop, don't illustrate.** Each section should make the reader understand something that couldn't be deduced from the previous section. Not "here's another source that agrees" but "here's why the previous insight forces a harder conclusion."
+
+**Find the inversion.** The best essays contain a moment where something the reader assumed to be true is revealed to be precisely backwards. The reader thought patience was passive — but it turns out to be the most demanding form of action. The reader thought restriction of the gaze was about control — but it turns out to be about *freedom*. The reader thought the brain resting during sleep was obvious — but the brain is *more* active, and that reframes everything. If your essay lacks this inversion, it will inform but not transform. Look for it. It's usually hiding in the Islamic source material, waiting to be made visible.
 
 **The Islamic tradition must be load-bearing.** If you removed every Islamic source, would the argument collapse? If not, the tradition is decorative.
 

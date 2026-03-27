@@ -1,9 +1,9 @@
 ---
 title: "Tigerns bön"
-publishedAt: "2026-03-26T04:43:09.665Z"
+publishedAt: "2026-03-02T12:00:00.000Z"
 wordCount: 1193
 qualityScore: 8.6
-description: "Tigern ber — bokstavligt. \"Det finns ingenting som inte prisar Hans lov,\" fastslår Koranen, \"men ni förstår inte deras prisande. \" Varje andetag, varje språng, varje dödande käftslag är lovsång. Fåglarna \"vet hur de skall be och lovprisa. \" Djuren bildar samfund som våra."
+description: "Tigern ber — bokstavligt. \"Det finns ingenting som inte prisar Hans lov,\" fastslår Koranen, \"men ni förstår inte deras prisande.\" Varje andetag, varje språng, varje dödande käftslag är lovsång. Fåglarna \"vet hur de skall be och lovprisa.\" Djuren bildar samfund som våra."
 ---
 Tigern ber — bokstavligt. "Det finns ingenting som inte prisar Hans lov," fastslår Koranen, "men ni förstår inte deras prisande."[^1] Varje andetag, varje språng, varje dödande käftslag är lovsång. Fåglarna "vet hur de skall be och lovprisa."[^2] Djuren bildar samfund som våra.[^3] Skapelsens kör sjunger utan avbrott och utan val.
 
@@ -57,21 +57,21 @@ Någon annanstans knäböjer en människa som tvivlat, felat, och ändå valt at
 
 ---
 
-[^1]: Koranen, al-Isra 17:44.
-[^2]: Koranen, an-Nur 24:41.
-[^3]: Koranen, al-An'am 6:38.
+[^1]: Koranen, al-Isrāʾ 17:44.
+[^2]: Koranen, al-Nūr 24:41.
+[^3]: Koranen, al-Anʿām 6:38.
 [^4]: William Blake, "The Tyger," *Songs of Innocence and of Experience* (1794). Översättning av författaren.
-[^5]: Koranen, al-Ahzab 33:72.
-[^6]: Koranen, al-Hadid 57:1.
-[^7]: *Hadith qudsi* (gudomlig tradition), citerat i Ibn al-Qayyim, *Madarij al-Salikin*. Översättning av författaren.
-[^8]: Den exakta innebörden av mänsklig vilja debatterades genom hela den islamiska teologins historia: mu'taziliterna betonade mänsklig autonomi, ash'ariterna menade att Gud skapar varje handling. Distinktionen mellan människans ställning och bergets kvarstår dock i samtliga traditioner.
-[^9]: Koranen, al-Anbiya 21:20.
-[^10]: Ibn al-Qayyim, *Rawdat al-Muhibbin*. Översättning av författaren.
-[^11]: al-Ghazali, *Ihya Ulum al-Din*, Kitab Sharh 'Aja'ib al-Qalb. Svenskt återgivande av författaren.
-[^12]: al-Ghazali, *Ihya Ulum al-Din*, Kitab Sharh 'Aja'ib al-Qalb.
-[^13]: Ibn al-Qayyim, *ad-Da' wa ad-Dawa'*. Översättning av författaren.
-[^14]: Ibn al-Qayyim, *Madarij al-Salikin*. Översättning av författaren.
-[^15]: Ikhwan al-Safa, *Rasa'il Ikhwan al-Safa*, epistel 22.
+[^5]: Koranen, al-Aḥzāb 33:72.
+[^6]: Koranen, al-Ḥadīd 57:1.
+[^7]: *Hadith qudsī* (gudomlig tradition), citerat i Ibn al-Qayyim, *Madārij al-Sālikīn*. Översättning av författaren.
+[^8]: Den exakta innebörden av mänsklig vilja debatterades genom hela den islamiska teologins historia: muʿtaziliterna betonade mänsklig autonomi, ashʿariterna menade att Gud skapar varje handling. Distinktionen mellan människans ställning och bergets kvarstår dock i samtliga traditioner.
+[^9]: Koranen, al-Anbiyāʾ 21:20.
+[^10]: Ibn al-Qayyim, *Rawḍat al-Muḥibbīn*. Översättning av författaren.
+[^11]: al-Ghazālī, *Iḥyāʾ ʿUlūm al-Dīn*, Kitāb Sharḥ ʿAjāʾib al-Qalb. Svenskt återgivande av författaren.
+[^12]: al-Ghazālī, *Iḥyāʾ ʿUlūm al-Dīn*, Kitāb Sharḥ ʿAjāʾib al-Qalb.
+[^13]: Ibn al-Qayyim, *al-Dāʾ wa-l-Dawāʾ*. Översättning av författaren.
+[^14]: Ibn al-Qayyim, *Madārij al-Sālikīn*. Översättning av författaren.
+[^15]: Ikhwān al-Ṣafāʾ, *Rasāʾil Ikhwān al-Ṣafāʾ*, epistel 22.
 [^16]: August Strindberg, *I Havsbandet* (1890).
 [^17]: Viktor Rydberg, *Den siste Atenaren* (1859).
 [^18]: Ellen Key, *Lifslinjer*, tredje delen.

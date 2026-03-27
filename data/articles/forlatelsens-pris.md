@@ -1,9 +1,9 @@
 ---
 title: "Förlåtelsens pris"
-publishedAt: "2026-03-26T06:14:14.841Z"
+publishedAt: "2026-03-07T12:00:00.000Z"
 wordCount: 1398
 qualityScore: 8.6
-description: "\"Bara förlåt. \" Orden ekar genom terapirum och självhjälpsböcker. Någon har gjort dig illa, och rådet är alltid detsamma: släpp det, gå vidare. \"För din egen skull. \" Förlåtelsen framställs som gratis, en känsla man bara behöver framkalla, lika enkel som att vända blad."
+description: "\"Bara förlåt.\" Orden ekar genom terapirum och självhjälpsböcker. Någon har gjort dig illa, och rådet är alltid detsamma: släpp det, gå vidare. \"För din egen skull.\" Förlåtelsen framställs som gratis, en känsla man bara behöver framkalla, lika enkel som att vända blad."
 ---
 "Bara förlåt."
 
@@ -27,21 +27,21 @@ Men om förlåtelse kostar den förlåtande ingenting, vad är den då värd?
 
 ## Koranens bokföring
 
-Koranen väljer ett annat språk. Handelns, inte terapins: *qard* (lån), *mizan* (våg), *hisab* (räkenskap). Krasst, kanske, men det ekonomiska språket bär på en ärlighet som terapin saknar.
+Koranen väljer ett annat språk. Handelns, inte terapins: *qarḍ* (lån), *mīzān* (våg), *ḥisāb* (räkenskap). Krasst, kanske, men det ekonomiska språket bär på en ärlighet som terapin saknar.
 
 > Vedergällningen för ett ont skall vara ett ont av motsvarande slag. Men den som visar överseende och gör det rätta skall få sin belöning av Allah.[^3]
 
 Först bekräftas rätten till vedergällning: ont mot ont, lika mot lika. Skulden är verklig. Du har en fordran. Sedan, i samma vers: den som avstår, den som visar överseende, belönas av Allah.
 
-Ibn al-Jawzi spetsade till det: "Hämnd är rättvisa; att förlåta är dygd."[^4] Att aldrig ha haft rätt till hämnd gör det omöjligt att visa dygd genom att avstå. Förlåtelse utan rättvisa bakom sig är tom. Som skolgårdens påtvingade 'vi är vänner igen.'
+Ibn al-Jawzī spetsade till det: "Hämnd är rättvisa; att förlåta är dygd."[^4] Att aldrig ha haft rätt till hämnd gör det omöjligt att visa dygd genom att avstå. Förlåtelse utan rättvisa bakom sig är tom. Som skolgårdens påtvingade 'vi är vänner igen.'
 
 Koranen går längre. I surat al-Hadid ställs en fråga som klär den moraliska ekonomin i en enda bild:
 
 > Vem vill vara den som ger Allah ett gott lån som Han skall återbetala dubbelt och därtill ge en frikostig belöning?[^5]
 
-*Qard hasan*, ett gott lån till Allah. Offret blir långivaren; den som står i skuld är Allah själv. Offret förlorar ingenting. Det investerar.
+*Qarḍ ḥasan*, ett gott lån till Allah. Offret blir långivaren; den som står i skuld är Allah själv. Offret förlorar ingenting. Det investerar.
 
-Samma logik i surat al-Baqara: om låntagaren har det svårt, ge anstånd — "men att efterskänka skulden som allmosa är bättre för er, om ni bara visste."[^6] Efterskänkandet erkänner skuldens verklighet. Just därför räknas det som *sadaqa*: en gärning av högsta rang.
+Samma logik i surat al-Baqarah: om låntagaren har det svårt, ge anstånd — "men att efterskänka skulden som allmosa är bättre för er, om ni bara visste."[^6] Efterskänkandet erkänner skuldens verklighet. Just därför räknas det som *ṣadaqah*: en gärning av högsta rang.
 
 ## Den andligt bankrutte
 
@@ -51,7 +51,7 @@ Koranens ekonomiska metaforer når sin mest skakande slutpunkt i en hadith. Prof
 
 Goda gärningar som valuta — överförbara, mätbara, uttömbara. Ingen fromhet räcker som skydd: bönen, fastan, allmosorna beslagtas till förmån för dem den fromme förorättat. Och när tillgångarna tar slut ärver han sina offers skuldbörda.
 
-I den islamiska rättsläran har principen ett namn: *huquq al-'ibad*, rättigheter mellan människor. Allah förlåter brott mot Sig själv, men brott mot en annan människa kan bara den människan förlåta. Inte terapeuten. Inte samhället. Inte ens Gud. Skulden tillhör offret, och bara offret kan efterskänka den. Det vet den som suttit tyst medan andra förlät i ens ställe. Vissa lärde menar att Allah av Sin barmhärtighet kan ersätta den förorättade ur Sin egen frikostighet, men även i den tolkningen erkänns skulden: den skrivs aldrig av; den betalas.
+I den islamiska rättsläran har principen ett namn: *ḥuqūq al-ʿibād*, rättigheter mellan människor. Allah förlåter brott mot Sig själv, men brott mot en annan människa kan bara den människan förlåta. Inte terapeuten. Inte samhället. Inte ens Gud. Skulden tillhör offret, och bara offret kan efterskänka den. Det vet den som suttit tyst medan andra förlät i ens ställe. Vissa lärde menar att Allah av Sin barmhärtighet kan ersätta den förorättade ur Sin egen frikostighet, men även i den tolkningen erkänns skulden: den skrivs aldrig av; den betalas.
 
 Även den rabbinska traditionen lär att synder mellan människor inte kan försonas på Yom Kippur — bara den förorättade äger rätten att förlåta.[^8] Dostojevskij ställer frågan genom Ivan Karamazov: kan modern förlåta bödeln som torterade hennes barn?
 
@@ -75,7 +75,7 @@ Selma Lagerlöf grep samma logik i *Bannlyst*:
 
 > Det finns skuld på båda sidor, fast skulden på vår sida, på Sigruns och min, är så mycke större, att det måste läggas mycken barmhärtighet och förlåtelse på er vågskål, för att det skall väga jämnt.[^11]
 
-Vågskålen — *mizan*. Skulden på ena sidan, barmhärtigheten på den andra. Förlåtelsen är inte skuldens försvinnande; den är vikten som läggs på den andra skålen för att vågen ska väga jämnt.
+Vågskålen — *mīzān*. Skulden på ena sidan, barmhärtigheten på den andra. Förlåtelsen är inte skuldens försvinnande; den är vikten som läggs på den andra skålen för att vågen ska väga jämnt.
 
 ## Den dyraste gåvan
 
@@ -95,13 +95,13 @@ Det svenska ordet *skuld* bär denna sanning i sig. Skuld och skuld: det moralis
 
 [^1]: Hjalmar Söderberg, *Den allvarsamma leken* (1912).
 [^2]: Dietrich Bonhoeffer, *Efterföljelse* (1937), kap. 1.
-[^3]: Koranen, al-Shura 42:40.
-[^4]: Ibn al-Jawzi, *al-Adhkiya*.
-[^5]: Koranen, al-Hadid 57:11.
-[^6]: Koranen, al-Baqara 2:280.
-[^7]: Sahih Muslim, hadith 2581, berättad av Abu Hurayra.
+[^3]: Koranen, al-Shūrā 42:40.
+[^4]: Ibn al-Jawzī, *al-Adhkiyāʾ*.
+[^5]: Koranen, al-Ḥadīd 57:11.
+[^6]: Koranen, al-Baqarah 2:280.
+[^7]: Ṣaḥīḥ Muslim, hadith 2581, berättad av Abū Hurayrah.
 [^8]: Mishnah Yoma 8:9.
 [^9]: Fjodor Dostojevskij, *Bröderna Karamazov* (1880), bok V, kap. 4. Översatt från ryska.
 [^10]: *Njals saga*, kap. 145. Översatt från isländska.
 [^11]: Selma Lagerlöf, *Bannlyst* (1918).
-[^12]: Koranen, al-Nur 24:22.
+[^12]: Koranen, al-Nūr 24:22.
