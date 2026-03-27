@@ -80,7 +80,10 @@ const ogImage = latest?.heroImage;
 						}
 							{article.description && <p class="hero-cover-deck" set:html={inlineMarkdown(article.description)} />}
 							<p class="label hero-cover-date"><time datetime={article.publishedAt}>{formatDate(article.publishedAt)}</time> &middot; {article.readingTime} min läsning</p>
-						<span class="hero-cta" aria-hidden="true">Läs</span>
+						<span class="hero-cta-group">
+							<span class="hero-cta" aria-hidden="true">Läs</span>
+							{article.audioFile && <span class="hero-cta hero-cta-listen" aria-hidden="true">Lyssna</span>}
+						</span>
 						</a>
 					</div>
 				</div>
