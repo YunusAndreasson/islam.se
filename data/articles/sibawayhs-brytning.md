@@ -46,7 +46,7 @@ Sībawayh levde detta. Utifrån erövrade han arabiskan, så grundligt att han s
 
 Motståndet kom ändå. Det islamiska samhällets tidiga århundraden präglades av *shuʿūbiyyah*-rörelsen, där perser och andra icke-arabiska muslimer hävdade sin jämbördighet med araberna trots arabernas kulturella överhöghet.[^8] Mitt i denna spänning utspelade sig Sībawayhs karriär. Skepsisen gällde mer än accenten: kunde en utlänning gripa arabiskans innersta logik, det som al-Suyūṭī kallade språkets *tawassuʿ*, dess närmast oändliga vidd?[^9]
 
-*Al-Kitāb* var svaret: fem volymer systematisk granskning som visade att arabiskans byggnad kunde gripas, beskrivas och läras av den som lade ner tillräcklig möda. Ett bevis, inte ett argument. Argument besvaras; bevis brukas, och *al-Kitāb* har brukats i varje arabisk lärosal i fjorton århundraden.
+*Al-Kitāb* var svaret: fem volymer systematisk granskning som visade att arabiskans byggnad kunde gripas, beskrivas och läras av den som lade ner tillräcklig möda. Ett bevis, inte ett argument. Argument besvaras; bevis brukas, och *al-Kitāb* har brukats i varje arabisk lärosal sedan den skrevs. Ingen har skrivit en bättre.
 
 ## Stammar för kännedom, inte för rang
 

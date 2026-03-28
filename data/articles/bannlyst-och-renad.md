@@ -41,7 +41,7 @@ Tänk på Sven Elverssons skuld. Den är inte abstrakt. Han har dödat, och smä
 
 > Det förnämsta var, att jag blev befriad från skuld i min själ, i mitt hjärta.[^6]
 
-Befrielsen sker inuti men utlöses av en oåterkallelig handling utåt. Ingen förmedlar den – varken präst eller terapeut. Handlingen bär sin egen förvandlande kraft. Det Lagerlöf gestaltade utan att namnge har den islamiska traditionen benämnt i fjorton sekler.
+Befrielsen sker inuti men utlöses av en oåterkallelig handling utåt. Ingen förmedlar den – varken präst eller terapeut. Handlingen bär sin egen förvandlande kraft. Det Lagerlöf gestaltade utan att namnge kallade Ibn Qayyim *tawbah*.
 
 ## Syndens omvandling
 
@@ -61,7 +61,7 @@ Och här gömmer sig essäns vändpunkt. Läsaren – och troligen Lagerlöf sj�
 
 Ånger och handling, sammanflätade och oskiljbara. Bekännelsen *är* den rättfärdiga handlingen – inte förberedelsen för ett nytt liv utan det nya livets första steg.
 
-Lagerlöf var inte teolog. Hon läste inte Ibn Qayyim, kände sannolikt inte till begreppet *tawbah*. Men hon var konstnär nog att se vad som skedde i bekännelsen och gestalta det utan att förklara bort det. *Renad, frigjord från synd.* Fem ord som rymmer det den islamiska traditionen har fjorton seklers begreppsapparat för – och som den moderna västerlänningen saknar språk att namnge.
+Lagerlöf var inte teolog. Hon läste inte Ibn Qayyim, kände sannolikt inte till begreppet *tawbah*. Men hon var konstnär nog att se vad som skedde i bekännelsen och gestalta det utan att förklara bort det. *Renad, frigjord från synd.* Fem ord som bär det Ibn Qayyim fyllde volymer med att utforska – och som den moderna västerlänningen saknar språk för.
 
 ---
 
