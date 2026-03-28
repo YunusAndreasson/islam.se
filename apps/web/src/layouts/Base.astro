@@ -1,6 +1,7 @@
 ---
 import { Font } from "astro:assets";
 import { ClientRouter } from "astro:transitions";
+import FloatingPlayer from "../components/FloatingPlayer.astro";
 import Header from "../components/Header.astro";
 import "../styles/tokens.css";
 import "../styles/reset.css";
@@ -225,5 +226,6 @@ if (articleMeta) {
 				}, { once: true });
 			});
 		</script>
+		<FloatingPlayer />
 	</body>
 </html>

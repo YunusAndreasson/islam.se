@@ -1,6 +1,6 @@
 ---
 title: "Silvertärnans hijra"
-publishedAt: "2026-01-26T12:00:00.000Z"
+publishedAt: "2025-08-24T12:00:00.000Z"
 wordCount: 2127
 qualityScore: 8.5
 description: "Silvertärnan lämnar Arktis varje höst utan karta, utan garanti. Det moderna samhället har byggt ett system för att slippa göra detsamma. Islam kallar den resan hijra."

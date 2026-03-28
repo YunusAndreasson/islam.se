@@ -120,7 +120,6 @@
 }
 
 .site-tld {
-	opacity: 0.4;
 	position: relative;
 	top: 0.04em;
 }
@@ -468,13 +467,19 @@
 	transform: translateY(0.5rem);
 	transition:
 		opacity 0.3s ease,
-		transform 0.3s ease;
+		transform 0.3s ease,
+		bottom 0.25s ease;
 
 	&.visible {
 		opacity: 1;
 		pointer-events: auto;
 		transform: translateY(0);
 	}
+}
+
+/* Shift up when floating audio player is visible */
+html[data-player-visible] .fixed-actions {
+	bottom: calc(var(--safe-bottom) + 3.5rem);
 }
 
 .share-btn {

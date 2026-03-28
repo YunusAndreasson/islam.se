@@ -1,6 +1,6 @@
 ---
 title: "Strindbergs enda steg"
-publishedAt: "2026-01-21T12:00:00.000Z"
+publishedAt: "2025-07-15T12:00:00.000Z"
 wordCount: 2024
 qualityScore: 8.4
 description: "Sommaren 1896, i ett hotellrum i österrikiska Klam, skriver Strindberg en mening hans samtida läser som feber: 'Min tvungna otacksamhet trycker mig som en börda.' Den islamiska traditionen kände igen mönstret – inte som litteratur utan som antropologi."

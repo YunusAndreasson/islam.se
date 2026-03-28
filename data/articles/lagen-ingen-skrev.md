@@ -1,6 +1,6 @@
 ---
 title: "Lagen ingen skrev"
-publishedAt: "2026-01-06T12:00:00.000Z"
+publishedAt: "2025-11-28T12:00:00.000Z"
 wordCount: 1094
 qualityScore: 8.6
 description: "'Vilka ha skrivit skogslagen? Tjuvar!' I *Röda rummet* från 1879 låter Strindberg anklagelserna hagla mot det svenska lagverket. Samma misstro mot mänsklig lagstiftning präglar den islamiska rättsteorin, som byggt ett helt system på principen att rättens källa måste ligga bortom mänsklig räckvidd."

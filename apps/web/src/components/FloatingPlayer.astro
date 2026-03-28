@@ -1,0 +1,376 @@
+<div id="floating-player" class="fp" aria-label="Ljudspelare" role="region" hidden transition:persist>
+	<div class="fp-inner">
+		<button class="fp-play" type="button" aria-label="Spela upp">
+			<svg class="fp-icon-play" width="16" height="16" viewBox="0 0 18 18" fill="currentColor">
+				<path d="M4 2.5v13l11-6.5z" />
+			</svg>
+			<svg class="fp-icon-pause" width="16" height="16" viewBox="0 0 18 18" fill="currentColor" style="display:none">
+				<rect x="4" y="2" width="3.5" height="14" rx="0.5" />
+				<rect x="10.5" y="2" width="3.5" height="14" rx="0.5" />
+			</svg>
+		</button>
+		<span class="fp-title label"></span>
+		<input class="fp-progress" type="range" min="0" max="100" value="0" step="0.1" aria-label="Position" />
+		<span class="fp-time label">0:00</span>
+		<button class="fp-speed label" type="button" aria-label="Uppspelningshastighet">1×</button>
+		<button class="fp-close" type="button" aria-label="Stäng spelaren">
+			<svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round">
+				<path d="M2 2l10 10M12 2 2 12" />
+			</svg>
+		</button>
+	</div>
+</div>
+
+<style>
+	.fp {
+		position: fixed;
+		inset: auto 0 0;
+		z-index: 50;
+		background: var(--color-bg);
+		border-top: 1px solid var(--color-divider);
+		padding: 0.5rem var(--safe-right) calc(0.5rem + env(safe-area-inset-bottom, 0px)) var(--safe-left);
+		transform: translateY(100%);
+		transition: transform 0.25s ease;
+	}
+
+	.fp[data-visible] {
+		transform: translateY(0);
+	}
+
+	.fp:not([hidden]) {
+		display: block;
+	}
+
+	.fp-inner {
+		display: flex;
+		align-items: center;
+		gap: 0.75rem;
+		max-width: var(--content-width);
+		margin-inline: auto;
+	}
+
+	.fp-play {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 2.25rem;
+		height: 2.25rem;
+		border: 1px solid var(--color-divider);
+		border-radius: 50%;
+		background: transparent;
+		color: var(--color-accent);
+		cursor: pointer;
+		flex-shrink: 0;
+		transition: border-color 0.15s;
+	}
+
+	.fp-play:hover:not(:disabled) {
+		border-color: var(--color-accent);
+	}
+
+	.fp-play:disabled {
+		opacity: 0.3;
+		cursor: default;
+	}
+
+	.fp-title {
+		flex-shrink: 1;
+		min-width: 0;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		color: var(--color-muted);
+	}
+
+	.fp-progress {
+		flex: 1;
+		height: 3px;
+		-webkit-appearance: none;
+		appearance: none;
+		background: var(--color-divider);
+		border-radius: 1.5px;
+		outline: none;
+		cursor: pointer;
+		min-width: 3rem;
+	}
+
+	.fp-progress::-webkit-slider-thumb {
+		-webkit-appearance: none;
+		width: 10px;
+		height: 10px;
+		border-radius: 50%;
+		background: var(--color-accent);
+		cursor: pointer;
+	}
+
+	.fp-progress::-moz-range-thumb {
+		width: 10px;
+		height: 10px;
+		border-radius: 50%;
+		background: var(--color-accent);
+		border: none;
+		cursor: pointer;
+	}
+
+	.fp-progress::-moz-range-track {
+		background: var(--color-divider);
+		height: 3px;
+		border-radius: 1.5px;
+	}
+
+	.fp-time {
+		color: var(--color-muted);
+		min-width: 3em;
+		text-align: end;
+		flex-shrink: 0;
+	}
+
+	.fp-speed {
+		color: var(--color-muted);
+		background: transparent;
+		border: 1px solid var(--color-divider);
+		border-radius: 0.75rem;
+		padding: 0.1rem 0.5rem;
+		cursor: pointer;
+		flex-shrink: 0;
+		transition: border-color 0.15s;
+	}
+
+	.fp-speed:hover {
+		border-color: var(--color-accent);
+	}
+
+	.fp-close {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 1.5rem;
+		height: 1.5rem;
+		border: none;
+		border-radius: 50%;
+		background: transparent;
+		color: var(--color-muted);
+		cursor: pointer;
+		flex-shrink: 0;
+		transition: color 0.15s;
+	}
+
+	.fp-close:hover {
+		color: var(--color-accent);
+	}
+
+	@media (width <= 768px) {
+		.fp-title {
+			display: none;
+		}
+	}
+
+	@media print {
+		.fp {
+			display: none !important;
+		}
+	}
+</style>
+
+<script>
+	// Module-level state — survives across astro:page-load because
+	// Astro executes <script> modules once per browser session
+	let audio: HTMLAudioElement | null = null;
+	let currentSrc: string | null = null;
+	let saveTimer = 0;
+	let ctrlCtrl: AbortController | null = null; // for UI control listeners
+	const speeds = [1, 1.25, 1.5, 2];
+
+	function storageKey(src: string) { return `audio-pos:${src}`; }
+
+	function fmt(s: number): string {
+		const m = Math.floor(s / 60);
+		return `${m}:${Math.floor(s % 60).toString().padStart(2, "0")}`;
+	}
+
+	function el() { return document.getElementById("floating-player"); }
+
+	function syncTriggers() {
+		const playing = audio !== null && !audio.paused;
+		for (const b of document.querySelectorAll<HTMLButtonElement>(".audio-trigger"))
+			b.toggleAttribute("data-playing", playing && b.dataset.audioSrc === currentSrc);
+		for (const b of document.querySelectorAll<HTMLButtonElement>(".hero-cta-listen"))
+			b.classList.toggle("is-playing", playing && b.dataset.audioSrc === currentSrc);
+	}
+
+	function savePos() {
+		if (!audio || !currentSrc || !audio.duration || audio.currentTime === 0) return;
+		try { localStorage.setItem(storageKey(currentSrc), JSON.stringify({ time: audio.currentTime })); } catch {}
+	}
+
+	function show() {
+		const p = el();
+		if (!p) return;
+		p.removeAttribute("hidden");
+		requestAnimationFrame(() => p.setAttribute("data-visible", ""));
+		document.documentElement.setAttribute("data-player-visible", "");
+	}
+
+	function hide() {
+		const p = el();
+		if (!p) return;
+		p.removeAttribute("data-visible");
+		const done = () => p.setAttribute("hidden", "");
+		p.addEventListener("transitionend", done, { once: true });
+		setTimeout(done, 300);
+		document.documentElement.removeAttribute("data-player-visible");
+	}
+
+	function setupMedia(title: string, artwork: string | undefined) {
+		if (!("mediaSession" in navigator) || !audio) return;
+		navigator.mediaSession.metadata = new MediaMetadata({
+			title: title || "Essä",
+			artist: "islam.se",
+			artwork: artwork ? [{ src: artwork, sizes: "512x512", type: "image/webp" }] : [],
+		});
+		navigator.mediaSession.setActionHandler("play", () => audio?.play().catch(() => {}));
+		navigator.mediaSession.setActionHandler("pause", () => audio?.pause());
+		navigator.mediaSession.setActionHandler("stop", () => { if (audio) { audio.pause(); audio.currentTime = 0; } });
+		navigator.mediaSession.setActionHandler("seekbackward", (d) => { if (audio) audio.currentTime = Math.max(0, audio.currentTime - (d.seekOffset || 15)); });
+		navigator.mediaSession.setActionHandler("seekforward", (d) => { if (audio) audio.currentTime = Math.min(audio.duration, audio.currentTime + (d.seekOffset || 15)); });
+		navigator.mediaSession.setActionHandler("seekto", (d) => { if (audio && d.seekTime != null) audio.currentTime = d.seekTime; });
+	}
+
+	function posState() {
+		if (!("mediaSession" in navigator) || !audio?.duration) return;
+		navigator.mediaSession.setPositionState({ duration: audio.duration, playbackRate: audio.playbackRate, position: audio.currentTime });
+	}
+
+	function closePlayer() {
+		savePos();
+		if (audio) { audio.pause(); audio.src = ""; audio = null; }
+		currentSrc = null;
+		ctrlCtrl?.abort(); ctrlCtrl = null;
+		hide();
+		syncTriggers();
+	}
+
+	// Listen for play requests from triggers (module scope = registered once)
+	document.addEventListener("floating-player:play", ((e: CustomEvent) => {
+		const { src, title, artwork } = e.detail;
+		const p = el();
+		if (!p || !src) return;
+
+		// Same source — toggle play/pause
+		if (audio && currentSrc === src) {
+			if (audio.paused) audio.play().catch(() => {});
+			else audio.pause();
+			return;
+		}
+
+		// New source — save old position and switch
+		savePos();
+		if (audio) { audio.pause(); audio.src = ""; }
+		ctrlCtrl?.abort();
+		ctrlCtrl = new AbortController();
+		const sig = ctrlCtrl.signal;
+
+		audio = new Audio(src);
+		audio.preload = "metadata";
+		currentSrc = src;
+		saveTimer = 0;
+
+		// DOM refs (persistent element, always same nodes)
+		const playBtn = p.querySelector<HTMLButtonElement>(".fp-play")!;
+		const progress = p.querySelector<HTMLInputElement>(".fp-progress")!;
+		const timeEl = p.querySelector<HTMLElement>(".fp-time")!;
+		const speedBtn = p.querySelector<HTMLButtonElement>(".fp-speed")!;
+		const titleEl = p.querySelector<HTMLElement>(".fp-title")!;
+		const iconPlay = p.querySelector<SVGElement>(".fp-icon-play")!;
+		const iconPause = p.querySelector<SVGElement>(".fp-icon-pause")!;
+
+		const setIcons = (on: boolean) => { iconPlay.style.display = on ? "none" : ""; iconPause.style.display = on ? "" : "none"; };
+		const fillBar = (pct: number) => { progress.style.background = `linear-gradient(to right, var(--color-accent) ${pct}%, var(--color-divider) ${pct}%)`; };
+
+		// Reset UI
+		titleEl.textContent = title || "";
+		timeEl.textContent = "0:00";
+		progress.value = "0";
+		fillBar(0);
+		speedBtn.textContent = "1×";
+		playBtn.disabled = false;
+		setIcons(false);
+
+		// Audio events (die with the Audio object when replaced)
+		audio.addEventListener("loadedmetadata", () => {
+			timeEl.textContent = fmt(audio!.duration);
+			setupMedia(title, artwork);
+			try {
+				const saved = localStorage.getItem(storageKey(src));
+				if (saved) {
+					const pos = JSON.parse(saved);
+					if (pos.time > 0 && pos.time < audio!.duration - 1) {
+						audio!.currentTime = pos.time;
+						const pct = (pos.time / audio!.duration) * 100;
+						progress.value = String(pct);
+						fillBar(pct);
+						timeEl.textContent = fmt(pos.time);
+					}
+				}
+			} catch {}
+		});
+
+		audio.addEventListener("play", () => { setIcons(true); if ("mediaSession" in navigator) navigator.mediaSession.playbackState = "playing"; syncTriggers(); });
+		audio.addEventListener("pause", () => { setIcons(false); if ("mediaSession" in navigator) navigator.mediaSession.playbackState = "paused"; syncTriggers(); });
+
+		audio.addEventListener("timeupdate", () => {
+			if (!audio?.duration) return;
+			const pct = (audio.currentTime / audio.duration) * 100;
+			progress.value = String(pct);
+			fillBar(pct);
+			timeEl.textContent = fmt(audio.currentTime);
+			posState();
+			const now = Date.now();
+			if (now - saveTimer > 3000) { saveTimer = now; savePos(); }
+		});
+
+		audio.addEventListener("ended", () => {
+			timeEl.textContent = fmt(audio!.duration);
+			fillBar(100);
+			try { localStorage.removeItem(storageKey(src)); } catch {}
+			syncTriggers();
+		});
+
+		audio.addEventListener("error", () => { timeEl.textContent = "—"; playBtn.disabled = true; });
+
+		// UI control listeners — aborted when track changes or player closes
+		playBtn.addEventListener("click", () => {
+			if (audio?.paused) audio.play().catch(() => {});
+			else audio?.pause();
+		}, { signal: sig });
+
+		progress.addEventListener("input", () => {
+			if (audio?.duration) {
+				audio.currentTime = (Number(progress.value) / 100) * audio.duration;
+				fillBar(Number(progress.value));
+			}
+		}, { signal: sig });
+
+		speedBtn.addEventListener("click", () => {
+			if (!audio) return;
+			const idx = (speeds.indexOf(audio.playbackRate) + 1) % speeds.length;
+			audio.playbackRate = speeds[idx];
+			speedBtn.textContent = `${speeds[idx]}×`;
+			posState();
+		}, { signal: sig });
+
+		show();
+		audio.play().catch(() => {});
+	}) as EventListener);
+
+	// Save position when app is backgrounded
+	document.addEventListener("visibilitychange", () => { if (document.visibilityState === "hidden") savePos(); });
+
+	// Close button — bound once via delegation (module scope, never duplicated)
+	document.addEventListener("click", (e) => {
+		if ((e.target as HTMLElement).closest(".fp-close")) closePlayer();
+	});
+
+	// Sync triggers on each page navigation
+	document.addEventListener("astro:page-load", () => { syncTriggers(); });
+</script>

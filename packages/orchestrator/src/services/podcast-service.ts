@@ -4,8 +4,10 @@
  * then ElevenLabs v3 to generate the MP3.
  */
 
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { execFileSync } from "node:child_process";
+import { existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
+import { tmpdir } from "node:os";
 import { fileURLToPath } from "node:url";
 import { ClaudeRunner } from "../claude-runner.js";
 import { getModelId } from "../utils.js";
@@ -85,19 +87,55 @@ export class PodcastService {
 		}
 
 		const chunks = this.chunkText(script, PODCAST_CONFIG.maxChunkChars);
-		const audioChunks: Buffer[] = [];
+
+		if (chunks.length === 1) {
+			const result = await this.callElevenLabs(apiKey, chunks[0] as string, "mp3_44100_128");
+			if (!(result.success && result.audio)) {
+				return { success: false, error: `Audio generation failed: ${result.error}` };
+			}
+			return { success: true, audio: result.audio };
+		}
+
+		// Multiple chunks: request raw PCM, concatenate losslessly, encode to MP3 once.
+		// This avoids double lossy encoding (MP3→decode→MP3).
+		const pcmChunks: Buffer[] = [];
 
 		for (let i = 0; i < chunks.length; i++) {
 			const chunk = chunks[i] as string;
-			const result = await this.callElevenLabs(apiKey, chunk);
+			const result = await this.callElevenLabs(apiKey, chunk, "pcm_44100");
 			if (!(result.success && result.audio)) {
 				return { success: false, error: `Chunk ${i + 1}/${chunks.length} failed: ${result.error}` };
 			}
-			audioChunks.push(result.audio);
+			pcmChunks.push(result.audio);
 		}
 
-		const combined = Buffer.concat(audioChunks);
-		return { success: true, audio: combined };
+		// Concatenate raw PCM (signed 16-bit LE, 44100 Hz, mono) — lossless
+		const combinedPcm = Buffer.concat(pcmChunks);
+
+		// Encode combined PCM to MP3 once with ffmpeg
+		const tempDir = join(tmpdir(), `islam-se-audio-${Date.now()}`);
+		mkdirSync(tempDir, { recursive: true });
+
+		try {
+			const pcmPath = join(tempDir, "combined.pcm");
+			const outputPath = join(tempDir, "combined.mp3");
+			writeFileSync(pcmPath, combinedPcm);
+
+			execFileSync("ffmpeg", [
+				"-f", "s16le",
+				"-ar", "44100",
+				"-ac", "1",
+				"-i", pcmPath,
+				"-codec:a", "libmp3lame",
+				"-b:a", "128k",
+				outputPath,
+			]);
+
+			const mp3 = readFileSync(outputPath);
+			return { success: true, audio: mp3 };
+		} finally {
+			rmSync(tempDir, { recursive: true, force: true });
+		}
 	}
 
 	/**
@@ -159,8 +197,9 @@ export class PodcastService {
 	private async callElevenLabs(
 		apiKey: string,
 		text: string,
+		outputFormat = PODCAST_CONFIG.outputFormat,
 	): Promise<{ success: boolean; audio?: Buffer; error?: string }> {
-		const url = `https://api.elevenlabs.io/v1/text-to-speech/${PODCAST_CONFIG.voiceId}`;
+		const url = `https://api.elevenlabs.io/v1/text-to-speech/${PODCAST_CONFIG.voiceId}?output_format=${outputFormat}`;
 
 		const body = {
 			text,
@@ -176,7 +215,7 @@ export class PodcastService {
 					headers: {
 						"xi-api-key": apiKey,
 						"Content-Type": "application/json",
-						Accept: "audio/mpeg",
+						Accept: outputFormat.startsWith("pcm") ? "application/octet-stream" : "audio/mpeg",
 					},
 					body: JSON.stringify(body),
 				});

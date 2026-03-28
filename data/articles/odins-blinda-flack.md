@@ -1,6 +1,6 @@
 ---
 title: "Odins blinda fläck"
-publishedAt: "2025-07-25T12:00:00.000Z"
+publishedAt: "2026-02-26T12:00:00.000Z"
 wordCount: 1953
 qualityScore: 8.9
 description: "Ett öga ligger på botten av Mimers brunn, pantsatt av Odin själv i utbyte mot en klunk av all världens visdom. Snorre Sturlason nedtecknade myten i *Prosaeddan* – men den fråga som sällan ställs är varför den högste guden lämnade brunnen som precis samma gud han var när han kom."

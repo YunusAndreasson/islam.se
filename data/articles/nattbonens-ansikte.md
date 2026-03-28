@@ -1,6 +1,6 @@
 ---
 title: "Nattbönens ansikte"
-publishedAt: "2026-02-15T12:00:00.000Z"
+publishedAt: "2025-12-10T12:00:00.000Z"
 wordCount: 1897
 qualityScore: 8.6
 description: "En kvinna vaknar mitt i natten, inte för att sminka sig – för att be. Tillfrågad varför svarar hon att bönen förskönar ansiktet. Det är ett svar skönhetsindustrin inte kan sälja."
@@ -84,7 +84,7 @@ Karin Boye fördjupade bilden i *Astarte*:
 
 Mot denna uttryckslöshet står det ljus Koranen ständigt återkommer till, som bild och som verklighet. "Det är Han och Hans änglar som välsignar er för att leda er ut ur mörkren till ljuset."[^18] Ibn Kathīr (ca. 1300–1373) anför en profettradition som rör vid nattbönens kärna:
 
-> Skall jag inte berätta för er om den bästa av era handlingar, den renaste inför er Herre, bättre för er än att ge guld och silver? De sade: Vad är det, Guds sändebud? Han sade: Åminnelsen av Gud.
+> Skall jag inte berätta för er om den bästa av era handlingar, den renaste inför er Herre, bättre för er än att ge guld och silver? De sade: Vad är det, Guds sändebud? Han sade: Åminnelsen av Gud.[^27]
 
 Nattbönen *är* åminnelse – den renaste formen av den, för ingen annan publik finns. Man stiger upp i det yttre mörkret för att nå det inre ljuset.
 
@@ -135,4 +135,5 @@ Den anonyma kvinnan som steg upp i natten för att be visste vad hela denna indu
 [^23]: Luqmān (fred vare med honom), citerad i Ibn Abī al-Dunyā, *Kitāb al-Ṣamt wa-Adab al-Lisān* (Boken om tystnad och tungans etik).
 [^24]: Erik Gustaf Geijer, i en biografisk text om Friherre Malte Ramel.
 [^25]: Enligt branschrapporter uppgår den globala skönhetsindustrins värde till över 400 miljarder dollar. Se bl.a. McKinsey & Company, *The State of Fashion: Beauty* (2025).
+[^27]: Ḥadīth återgiven i al-Tirmidhī (nr 3377), Ibn Mājah och Aḥmad. Citerad av Ibn Kathīr i *Tafsīr al-Qurʾān al-ʿAẓīm*.
 [^26]: *Tahajjud* är den frivilliga nattbönen som förrättas efter den obligatoriska kvällsbönen (*ʿishāʾ*) och före gryningen, vanligen i nattens sista tredjedel. Den hör till de mest uppmuntrade frivilliga handlingarna i islam.

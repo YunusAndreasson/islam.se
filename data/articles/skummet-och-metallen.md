@@ -1,6 +1,6 @@
 ---
 title: "Elden som känner igen"
-publishedAt: "2025-09-08T12:00:00.000Z"
+publishedAt: "2025-10-11T12:00:00.000Z"
 wordCount: 1681
 qualityScore: 8.5
 description: "Under krisåren i Paris upptäckte August Strindberg Swedenborgs skrifter och kände genast igen sig: helvetets eld var begäret efter framgång, en glöd som urholkar meningen inifrån. Men Swedenborg var bara en av tre traditioner som brottats med frågan om vad elden egentligen gör med den som brinner."

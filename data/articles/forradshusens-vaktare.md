@@ -1,6 +1,6 @@
 ---
 title: "Förrådshusens väktare"
-publishedAt: "2025-11-07T12:00:00.000Z"
+publishedAt: "2025-12-22T12:00:00.000Z"
 wordCount: 1720
 qualityScore: 8.6
 description: "År 2025 konstaterade MSB att svensk krisberedskap är otillräcklig och att Stockholm har tre dagars livsmedelsförsörjning innan hyllorna töms. Under kalla kriget hade landet beredskapslager för månader av isolering – i dag finns ingen myndighet med utpekat ansvar för att svenskarna kan äta."

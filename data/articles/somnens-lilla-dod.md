@@ -1,6 +1,6 @@
 ---
 title: "Sömnens lilla död"
-publishedAt: "2025-10-18T12:00:00.000Z"
+publishedAt: "2025-07-31T12:00:00.000Z"
 wordCount: 1850
 qualityScore: 8.4
 description: "Nästan varannan vuxen svensk har sömnbesvär – en fördubbling på trettio år. Islamisk teologi på 1300-talet hade ett annat svar: sömnen är dödens broder, och varje natt är en återkomst som inte är självklar."

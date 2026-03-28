@@ -1,6 +1,6 @@
 ---
 title: "Det han letade efter"
-publishedAt: "2025-11-27T12:00:00.000Z"
+publishedAt: "2025-08-06T12:00:00.000Z"
 wordCount: 1596
 qualityScore: 8.6
 description: "Det finns en fråga ingen hjärnskanning kan besvara: varför *är det något* att vara du? Emanuel Swedenborg kartlade hjärnan med skalpellen på 1700-talet. Det han letade efter fann han aldrig där."

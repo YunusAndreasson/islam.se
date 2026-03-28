@@ -82,6 +82,10 @@ The fact-checker may have flagged UNVERIFIED CLAIMS—omit them entirely unless 
 <conventions>
 **Language:** Natural Swedish. ALL quotes in Swedish—translate non-Swedish quotes yourself, noting original language in footnotes. Arabic terms (*qalb*, *fiṭrah*, *taqwā*) stay in Arabic when used as concepts.
 
+**Opening:** The first element must be a regular paragraph (never a blockquote). The very first character must not be a quotation mark (`"`), Å, Ä, or Ö — dropcap styling breaks on all of these. Start with a plain word.
+
+**Dashes:** Use en dash (–) for parenthetical remarks, never em dash (—). Swedish uses tankstreck: ` – ` with spaces on both sides.
+
 **Honorifics:** Prophet Muhammad ﷺ, Allah ﷻ (no honorifics for scholars).
 
 **Quotation marks:** Straight double quotes `"text"`. Never guillemets or curly quotes. Blockquotes need no surrounding marks.

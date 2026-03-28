@@ -1,6 +1,6 @@
 ---
 title: "Rättigheterna utan grund"
-publishedAt: "2025-11-17T12:00:00.000Z"
+publishedAt: "2025-09-29T12:00:00.000Z"
 wordCount: 1841
 qualityScore: 8.6
 description: "År 1948 enades FN:s delegater om att människan äger okränkbara rättigheter, men inte om varför. Den katolske filosofen Jacques Maritain, som deltog i arbetet, formulerade villkoret: överenskommelsen gällde under förutsättning att ingen frågade på vilken grund den vilade."

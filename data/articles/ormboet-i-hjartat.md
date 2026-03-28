@@ -1,6 +1,6 @@
 ---
 title: "Ormboet"
-publishedAt: "2025-07-30T12:00:00.000Z"
+publishedAt: "2025-09-17T12:00:00.000Z"
 wordCount: 2196
 qualityScore: 8.5
 description: "I sin parisiska exil 1897 stöter August Strindberg bort vänner och drar sig undan, övertygad om att okända makter förföljer honom. Ibn Taymiyyah hade redan sett mönstret: avund är en sjukdom med en förstörelseordning – den börjar i själen och arbetar sig utåt."

@@ -1,6 +1,6 @@
 ---
 title: "Sībawayhs brytning"
-publishedAt: "2025-09-13T12:00:00.000Z"
+publishedAt: "2025-11-16T12:00:00.000Z"
 wordCount: 1710
 qualityScore: 8.5
 description: "I en *ḥadīth*-diskussion i 700-talets Basra gjorde den unge persen Sībawayh ett grammatiskt fel. Skammen drev honom till språkvetenskapen, och resultatet blev *al-Kitāb* – den första systematiska arabiska grammatiken, som fjorton århundraden av arabiskfödda grammatiker aldrig har ersatt."

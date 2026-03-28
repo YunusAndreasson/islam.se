@@ -1,163 +1,80 @@
 ---
 interface Props {
 	src: string;
+	title?: string;
+	artwork?: string;
 }
 
-const { src } = Astro.props;
+const { src, title, artwork } = Astro.props;
 ---
 
-<div class="audio-player" data-audio-src={src}>
-	<span class="label audio-label">Lyssna på essän</span>
-	<div class="audio-controls">
-		<button class="audio-play" type="button" aria-label="Spela upp">
-			<svg class="icon-play" width="18" height="18" viewBox="0 0 18 18" fill="currentColor">
-				<path d="M4 2.5v13l11-6.5z" />
-			</svg>
-			<svg class="icon-pause" width="18" height="18" viewBox="0 0 18 18" fill="currentColor" style="display:none">
-				<rect x="4" y="2" width="3.5" height="14" rx="0.5" />
-				<rect x="10.5" y="2" width="3.5" height="14" rx="0.5" />
-			</svg>
-		</button>
-		<input class="audio-progress" type="range" min="0" max="100" value="0" step="0.1" aria-label="Position" />
-		<span class="audio-time label">0:00</span>
-	</div>
-</div>
+<button
+	class="audio-trigger"
+	type="button"
+	data-audio-src={src}
+	data-audio-title={title}
+	data-audio-artwork={artwork}
+	aria-label={`Lyssna på ${title || 'essän'}`}
+>
+	<svg class="audio-trigger-icon-play" width="14" height="14" viewBox="0 0 18 18" fill="currentColor" aria-hidden="true">
+		<path d="M4 2.5v13l11-6.5z" />
+	</svg>
+	<svg class="audio-trigger-icon-pause" width="14" height="14" viewBox="0 0 18 18" fill="currentColor" aria-hidden="true" style="display:none">
+		<rect x="4" y="2" width="3.5" height="14" rx="0.5" />
+		<rect x="10.5" y="2" width="3.5" height="14" rx="0.5" />
+	</svg>
+	Lyssna
+</button>
 
 <style>
-	.audio-player {
-		margin-bottom: var(--space-unit);
-		padding: var(--space-half) 0;
-		border-bottom: 1px solid var(--color-divider);
-	}
-
-	.audio-label {
-		display: block;
-		color: var(--color-muted);
-		margin-bottom: 0.4rem;
-	}
-
-	.audio-controls {
-		display: flex;
+	.audio-trigger {
+		display: inline-flex;
 		align-items: center;
-		gap: 0.75rem;
-	}
-
-	.audio-play {
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		width: 2.25rem;
-		height: 2.25rem;
+		gap: 0.4em;
+		padding: 0.4rem 0.875rem;
 		border: 1px solid var(--color-divider);
-		border-radius: 50%;
+		border-radius: 1.25rem;
 		background: transparent;
 		color: var(--color-accent);
 		cursor: pointer;
-		flex-shrink: 0;
+		font-family: var(--font-heading);
+		font-size: 0.862rem;
+		font-weight: 500;
+		letter-spacing: 0.06em;
+		text-transform: uppercase;
+		font-feature-settings: "case";
 		transition: border-color 0.15s;
+		margin-bottom: var(--space-unit);
 	}
 
-	.audio-play:hover {
+	.audio-trigger:hover {
 		border-color: var(--color-accent);
 	}
 
-	.audio-progress {
-		flex: 1;
-		height: 3px;
-		-webkit-appearance: none;
-		appearance: none;
-		background: var(--color-divider);
-		border-radius: 1.5px;
-		outline: none;
-		cursor: pointer;
+	.audio-trigger[data-playing] {
+		border-color: var(--color-accent);
 	}
 
-	.audio-progress::-webkit-slider-thumb {
-		-webkit-appearance: none;
-		width: 10px;
-		height: 10px;
-		border-radius: 50%;
-		background: var(--color-accent);
-		cursor: pointer;
+	.audio-trigger[data-playing] .audio-trigger-icon-play {
+		display: none;
 	}
 
-	.audio-progress::-moz-range-thumb {
-		width: 10px;
-		height: 10px;
-		border-radius: 50%;
-		background: var(--color-accent);
-		border: none;
-		cursor: pointer;
-	}
-
-	.audio-progress::-moz-range-track {
-		background: var(--color-divider);
-		height: 3px;
-		border-radius: 1.5px;
-	}
-
-	.audio-time {
-		color: var(--color-muted);
-		min-width: 3em;
-		text-align: end;
-		flex-shrink: 0;
+	.audio-trigger[data-playing] .audio-trigger-icon-pause {
+		display: inline;
 	}
 </style>
 
 <script>
 	document.addEventListener("astro:page-load", () => {
-		for (const player of document.querySelectorAll<HTMLElement>(".audio-player")) {
-			const src = player.dataset.audioSrc;
-			if (!src) continue;
-
-			const btn = player.querySelector<HTMLButtonElement>(".audio-play")!;
-			const progress = player.querySelector<HTMLInputElement>(".audio-progress")!;
-			const timeEl = player.querySelector<HTMLElement>(".audio-time")!;
-			const iconPlay = player.querySelector<SVGElement>(".icon-play")!;
-			const iconPause = player.querySelector<SVGElement>(".icon-pause")!;
-
-			const audio = new Audio(src);
-			audio.preload = "metadata";
-
-			function formatTime(s: number): string {
-				const m = Math.floor(s / 60);
-				const sec = Math.floor(s % 60);
-				return `${m}:${sec.toString().padStart(2, "0")}`;
-			}
-
-			audio.addEventListener("loadedmetadata", () => {
-				timeEl.textContent = formatTime(audio.duration);
-			});
-
-			audio.addEventListener("timeupdate", () => {
-				if (audio.duration) {
-					progress.value = String((audio.currentTime / audio.duration) * 100);
-					timeEl.textContent = formatTime(audio.currentTime);
-				}
-			});
-
-			audio.addEventListener("ended", () => {
-				iconPlay.style.display = "";
-				iconPause.style.display = "none";
-				timeEl.textContent = formatTime(audio.duration);
-			});
-
+		for (const btn of document.querySelectorAll<HTMLButtonElement>(".audio-trigger")) {
 			btn.addEventListener("click", () => {
-				if (audio.paused) {
-					audio.play();
-					iconPlay.style.display = "none";
-					iconPause.style.display = "";
-				} else {
-					audio.pause();
-					iconPlay.style.display = "";
-					iconPause.style.display = "none";
-				}
-			});
-
-			progress.addEventListener("input", () => {
-				if (audio.duration) {
-					audio.currentTime = (Number(progress.value) / 100) * audio.duration;
-				}
+				document.dispatchEvent(new CustomEvent("floating-player:play", {
+					detail: {
+						src: btn.dataset.audioSrc,
+						title: btn.dataset.audioTitle,
+						artwork: btn.dataset.audioArtwork,
+					}
+				}));
 			});
 		}
 	});

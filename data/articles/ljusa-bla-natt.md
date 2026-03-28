@@ -1,6 +1,6 @@
 ---
 title: "Ljusa blå natt"
-publishedAt: "2025-10-03T12:00:00.000Z"
+publishedAt: "2026-01-03T12:00:00.000Z"
 wordCount: 1826
 qualityScore: 8.7
 description: "Sommaren 1905 lade Hjalmar Söderberg en sömnlös midsommarnatt i *Doktor Glas'* dagbok. Ljuset vägrade försvinna, gränsen mellan dag och natt upplöstes, och med den försvann den vila som natten är till för. I Koranen beskrivs hur dagen flås ur natten som ett skinn."

@@ -1,6 +1,6 @@
 ---
 title: "Stillheten före slutet"
-publishedAt: "2026-02-05T12:00:00.000Z"
+publishedAt: "2025-07-19T12:00:00.000Z"
 wordCount: 1547
 qualityScore: 8.4
 description: "Fimbulvintern: tre vintrar utan sommar, solen slocknad, bröder som dödar varandra för småpengar – förspelet till Ragnarök. IPCC:s klimatrapporter ritar upp nästan identiska kurvor. Skillnaden är inte temperaturen – utan vad undergången *leder till*."

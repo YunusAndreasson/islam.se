@@ -1,6 +1,6 @@
 ---
 title: "Den starkaste tjänaren"
-publishedAt: "2026-01-01T12:00:00.000Z"
+publishedAt: "2025-11-01T12:00:00.000Z"
 wordCount: 1586
 qualityScore: 8.4
 description: "ʿUmar ibn al-Khaṭṭāb beklagade att den duglige saknar samvete och den samvetsgranne saknar kraft. Fjorton sekel senare byggde Försäkringskassan en algoritm som gav hans klagan kropp."

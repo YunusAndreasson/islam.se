@@ -1,6 +1,6 @@
 ---
 title: "Poesins kapitulation"
-publishedAt: "2025-11-22T12:00:00.000Z"
+publishedAt: "2025-09-05T12:00:00.000Z"
 wordCount: 1792
 qualityScore: 8.6
 description: "När Walīd ibn al-Mughīra, en av Quraysh-stammens främsta poesikännare, ombads fördöma Koranen förmådde han inte förneka det han hört. Det var varken poesi eller prosa, sade han, men det ägde en skönhet som krossade allt under sig. Han fördömde texten ändå – politiken krävde det."

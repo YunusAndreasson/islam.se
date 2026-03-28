@@ -1,6 +1,6 @@
 ---
 title: "Kompassnålens moské"
-publishedAt: "2025-08-14T12:00:00.000Z"
+publishedAt: "2025-12-16T12:00:00.000Z"
 wordCount: 2206
 qualityScore: 8.7
 description: "Sockenkyrkan låg alltid mitt i byn – samhällets tyngdpunkt. Islam bygger inte på en plats utan på en riktning. Var du än befinner dig räcker det att veta åt vilket håll."

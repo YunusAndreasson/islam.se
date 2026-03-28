@@ -1,6 +1,6 @@
 ---
 title: "Skapad ur ingenting"
-publishedAt: "2025-12-07T12:00:00.000Z"
+publishedAt: "2025-10-05T12:00:00.000Z"
 wordCount: 1638
 qualityScore: 8.6
 description: "Två koranverser ställer en fråga som inte ger spelrum: har allting skapats av ingenting, eller skapade det sig självt – eller finns en Skapare? Strindberg brottades med alla tre alternativen utan att nå fram."

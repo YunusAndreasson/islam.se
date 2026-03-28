@@ -1,6 +1,6 @@
 ---
 title: "Skelettet som höll"
-publishedAt: "2025-12-12T12:00:00.000Z"
+publishedAt: "2025-10-23T12:00:00.000Z"
 wordCount: 1485
 qualityScore: 8.6
 description: "I juli 2015 daterade universitetet i Birmingham ett koranfragment till Profeten Muḥammads ﷺ egen livstid. Bläcket på fårskinnet formade samma arabiska konsonanter som den Koran som i dag ligger på nattduksbord i Kairo och Malmö – fjorton sekler senare, bokstav för bokstav."

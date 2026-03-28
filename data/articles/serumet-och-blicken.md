@@ -1,11 +1,11 @@
 ---
 title: "Serumet och blicken"
-publishedAt: "2025-08-09T12:00:00.000Z"
+publishedAt: "2026-02-14T12:00:00.000Z"
 wordCount: 1803
 qualityScore: 8.7
 description: "I november 1940 publicerar Karin Boye *Kallocain*, romanen om ett sanningsserum som avslöjar varje medborgares innersta tankar. Fem månader senare tar hon sitt liv. Den islamiska traditionen utgår från samma förutsättning – att ingenting är dolt – men drar en rakt motsatt slutsats."
 ---
-År 1940. Karin Boye skriver en roman om ett samhälle där staten tvingar fram sanningen med kemisk precision – varje tanke, varje känsla, varje hemlig längtan avslöjad inför myndigheterna. I Berlin och Moskva förfinar regimerna sina övervakningsapparater. Det europeiska mörkret tätnar. *Kallocain* publiceras i november; Boye tar sitt liv fem månader senare.
+Kriget har börjat. Det är 1940 och Karin Boye skriver en roman om ett samhälle där staten tvingar fram sanningen med kemisk precision – varje tanke, varje känsla, varje hemlig längtan avslöjad inför myndigheterna. I Berlin och Moskva förfinar regimerna sina övervakningsapparater. Det europeiska mörkret tätnar. *Kallocain* publiceras i november; Boye tar sitt liv fem månader senare.
 
 Romanen läses oftast som en dystopi om totalitarism, en föregångare till Orwells *1984*. Men det oroande i *Kallocain* är inte övervakningen. Det är vad som händer när sanningen upphör att vara frivillig.
 

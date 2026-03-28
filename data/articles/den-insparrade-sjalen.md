@@ -1,6 +1,6 @@
 ---
 title: "Fängelset som blir bekvämare"
-publishedAt: "2025-09-18T12:00:00.000Z"
+publishedAt: "2025-10-29T12:00:00.000Z"
 wordCount: 1943
 qualityScore: 8.7
 description: "Neuralink lovar att befria hjärnan från kroppen. Den islamiska traditionen har nått samma slutsats – men omvänd: kroppen begränsar inte hjärnan. Den tynger själen."

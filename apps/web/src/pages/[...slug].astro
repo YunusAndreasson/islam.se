@@ -42,7 +42,7 @@ const { Content } = await render(article.entry);
 				</p>
 			</header>
 
-			{article.audioFile && <AudioPlayer src={`/audio/${article.audioFile}`} />}
+			{article.audioFile && <AudioPlayer src={`/audio/${article.audioFile}`} title={article.title} artwork={article.heroImage?.src} />}
 
 			<div class="article-body prose">
 				<Content />

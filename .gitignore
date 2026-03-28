@@ -25,6 +25,9 @@ output/
 *.swp
 *.swo
 
+# Local bin symlinks
+bin/
+
 # OS
 .DS_Store
 Thumbs.db

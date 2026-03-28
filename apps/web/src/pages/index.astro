@@ -84,7 +84,7 @@ const ogImage = latest?.heroImage;
 						<div class="hero-cta-row">
 							<a href={`/${article.slug}`} class="hero-cta" data-astro-prefetch="viewport">Läs</a>
 							{article.audioFile && (
-								<button class="hero-cta hero-cta-listen" type="button" data-audio-src={`/audio/${article.audioFile}`} aria-label="Lyssna på essän">
+								<button class="hero-cta hero-cta-listen" type="button" data-audio-src={`/audio/${article.audioFile}`} data-audio-title={article.title} data-audio-artwork={article.heroImage?.src} aria-label="Lyssna på essän">
 									Lyssna
 								</button>
 							)}
@@ -169,51 +169,19 @@ const ogImage = latest?.heroImage;
 			document.addEventListener("astro:before-swap", () => ctrl.abort(), { once: true });
 		}
 
-		// Hero audio playback
-		let heroAudio: HTMLAudioElement | null = null;
-		let activeBtn: HTMLButtonElement | null = null;
-
+		// Hero audio — delegate to floating player
 		for (const btn of document.querySelectorAll<HTMLButtonElement>(".hero-cta-listen")) {
 			btn.addEventListener("click", (e) => {
 				e.preventDefault();
 				e.stopPropagation();
-
-				const src = btn.dataset.audioSrc;
-				if (!src) return;
-
-				// Same button — toggle
-				if (activeBtn === btn && heroAudio) {
-					if (heroAudio.paused) {
-						heroAudio.play();
-						btn.classList.add("is-playing");
-					} else {
-						heroAudio.pause();
-						btn.classList.remove("is-playing");
+				document.dispatchEvent(new CustomEvent("floating-player:play", {
+					detail: {
+						src: btn.dataset.audioSrc,
+						title: btn.dataset.audioTitle,
+						artwork: btn.dataset.audioArtwork,
 					}
-					return;
-				}
-
-				// Different button or first play — stop previous
-				if (heroAudio) {
-					heroAudio.pause();
-					activeBtn?.classList.remove("is-playing");
-				}
-
-				heroAudio = new Audio(src);
-				activeBtn = btn;
-				heroAudio.play();
-				btn.classList.add("is-playing");
-
-				heroAudio.addEventListener("ended", () => {
-					btn.classList.remove("is-playing");
-					activeBtn = null;
-				});
+				}));
 			});
 		}
-
-		// Clean up on navigation
-		document.addEventListener("astro:before-swap", () => {
-			if (heroAudio) { heroAudio.pause(); heroAudio = null; }
-		}, { once: true });
 	});
 </script>

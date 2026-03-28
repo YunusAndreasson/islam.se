@@ -1,6 +1,6 @@
 ---
 title: "Äter ni var för sig?"
-publishedAt: "2025-08-29T12:00:00.000Z"
+publishedAt: "2026-03-22T12:00:00.000Z"
 wordCount: 1590
 qualityScore: 8.7
 description: "År 1377 skrev den nordafrikanske historikern Ibn Khaldūn att samhällen föds ur gemensamma måltider och dör när aptiten blir privat. Sexhundra år senare lever fyrtiotvå procent av Sveriges hushåll ensamma, och ett möbelföretag reser ett långbord på torget för att fylla tomrummet."

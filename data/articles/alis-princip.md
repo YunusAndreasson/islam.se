@@ -1,6 +1,6 @@
 ---
 title: "Alis princip"
-publishedAt: "2025-11-12T12:00:00.000Z"
+publishedAt: "2025-11-04T12:00:00.000Z"
 wordCount: 1859
 qualityScore: 8.6
 description: "År 1955 avskaffade riksdagen Brattsystemet trots läkarnas varningar. Tjugofem år senare fick väljarna tre alternativ i kärnkraftsfrågan – inget av dem ett rent nej. Koranen hade satt ord på saken långt före båda besluten: de flesta följer antaganden, inte kunskap."

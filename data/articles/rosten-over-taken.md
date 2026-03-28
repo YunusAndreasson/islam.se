@@ -1,6 +1,6 @@
 ---
 title: "Rösten över taken"
-publishedAt: "2025-10-08T12:00:00.000Z"
+publishedAt: "2026-02-20T12:00:00.000Z"
 wordCount: 1802
 qualityScore: 8.7
 description: "I en riksdagsmotion från 2024 formulerar Hans Eklind en ovanlig åtskillnad: kyrkklockor är en 'oartikulerad ljudsignal', medan böneutropet innehåller 'artikulerade ord med ett religiöst budskap'. Två religiösa ljud i det offentliga rummet ska alltså behandlas olika – för att det ena bär ord."
@@ -79,7 +79,7 @@ Koranen återkommer till detta:
 
 > Och när ni ropar till bön gör de det till föremål för hån och skämt. Så gör de för att de är människor som inte använder sitt förstånd.[^17]
 
-Den koraniska kritiken skonar dem som inte hör. Den träffar dem som hör och ändå avfärdar utan eftertanke. Ibn Kathīr anför en poetisk rad: "Hur mången har inte klandrat ett sunt ord, när felet låg i hans eget bristande förstånd."
+Den koraniska kritiken skonar dem som inte hör. Den träffar dem som hör och ändå avfärdar utan eftertanke. Ibn Kathīr anför en poetisk rad: "Hur mången har inte klandrat ett sunt ord, när felet låg i hans eget bristande förstånd."[^21]
 
 Det svenska samhället har inte avsakraliserat det religiösa ljudet; det har bara glömt att kyrkklockan en gång också bar mening. Klockorna har genomgått en lång sekularisering: från Guds basuner till stadsatmosfär, från kallelse till kuliss. *Adhān* har inte genomgått den förvandlingen – det har burit samma mening i fjorton århundraden.
 
@@ -123,3 +123,4 @@ Frågan som återstår tillhör den som hellre diskuterar decibel än teologi: o
 [^18]: *Iqāmah* är det andra, kortare böneutropet som reciteras inne i moskén omedelbart före den gemensamma bönen. Till skillnad från *adhān*, som kallar de frånvarande, riktar sig *iqāmah* till dem som redan infunnit sig.
 [^19]: al-Māwardī, *al-Aḥkām al-Sulṭāniyyah*.
 [^20]: Koranen, Ṭā Hā 20:14.
+[^21]: Poetisk rad anförd av Ibn Kathīr i *Tafsīr al-Qurʾān al-ʿAẓīm*. Översättning av författaren.
