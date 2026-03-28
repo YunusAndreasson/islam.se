@@ -1,138 +1,92 @@
 ---
 title: "Silvertärnans hijra"
 publishedAt: "2025-08-24T12:00:00.000Z"
-wordCount: 2127
-qualityScore: 8.5
-description: "Silvertärnan lämnar Arktis varje höst utan karta, utan garanti. Det moderna samhället har byggt ett system för att slippa göra detsamma. Islam kallar den resan hijra."
+wordCount: 1335
+qualityScore: 8.9
+description: "Hundra gram. En hjärna stor som en ärta. Varje höst lämnar silvertärnan Arktis och flyger till Antarktis – 70 000 kilometer om året, den längsta kända flytten i djurriket.[^1] Under resan sover den troligen med halva hjärnan i taget: ett öga öppet mo"
 ---
-Varje höst lämnar silvertärnan Arktis. Den väger knappt hundra gram, hjärnan stor som en ärta. Den bär ingen karta, ingen GPS, inget färdprov – ändå flyger den till Antarktis och tillbaka, 70 000 kilometer om året, den längsta kända färden bland djur.[^1] Under flygningen sover den troligen med halva hjärnan i taget: ett öga öppet, ett slutet, den vakna hjärnhalvan navigerar medan den andra vilar.[^2] Sedan vänder den om och gör alltihop igen.
+Hundra gram. En hjärna stor som en ärta. Varje höst lämnar silvertärnan Arktis och flyger till Antarktis – 70 000 kilometer om året, den längsta kända flytten i djurriket.[^1] Under resan sover den troligen med halva hjärnan i taget: ett öga öppet mot horisonten, det andra slutet.[^2] Sedan vänder den och gör allting igen.
 
-Ingen försäkring täcker den resan.[^23]
+Ingen försäkring täcker resan. Ingen garanti utfärdas. Fågeln flyger ändå.
 
-## Försäkringens samhälle
+## Medel utan garanti
 
-Det moderna samhället kan inte tänka sig en sådan resa. 1986 publicerade den tyske sociologen Ulrich Beck (1944–2015) *Risikogesellschaft*, en bok som satte ord på det tillstånd moderniteten redan levde i: risksamhället.[^3] Becks tes var inte att världen blivit farligare utan att moderniteten organiserat sig *kring* faran, att risken blivit samhällets sorteringsprincip. Vi räknar inte med det goda livets möjligheter; vi beräknar det dåliga livets sannolikheter. Den som söker bostad frågar inte hur ljus den är utan hur nära sjukhuset den ligger.
+Det moderna samhället kan inte tänka sig en sådan resa. Ulrich Beck kallade tillståndet *Risikogesellschaft*: en civilisation som inte ordnar sig kring det goda livets möjligheter utan kring det dåliga livets sannolikheter.[^3] Sverige tog tanken längre än de flesta – sjukdom, arbetslöshet, ålderdom, barns födelse, barns tandvård: allt kan försäkras, allt *ska* försäkras. Det svenska trygghetssystemet vilar på tron att varje risk kan pekas ut, räknas på och fördelas. Ju fler risker vi hanterar, desto fler nya föder vi, och desto mer urgröper vi den tillit som systemet var byggt att skapa.
 
-Sverige tog tanken längre än de flesta: socialförsäkringssystemet vilar på förutsättningen att varje risk kan pekas ut, räknas på och fördelas. Sjukdom, arbetslöshet, ålderdom, barns födelse, barns tandvård – allt kan försäkras, allt *ska* försäkras. Erik Gustaf Geijer (1783–1847), 1845: "Utan säkerhet ingen idoghet."[^4] Trygghet först, sedan arbete, sedan framsteg.
+Fågeln beräknar ingenting.
 
-Vart denna tankegång ledde såg Ellen Key. I *Barnets århundrade* skriver hon:
+Men fågeln är inte dum. Med jordens magnetfält, solens vinkel och stjärnmönster navigerar silvertärnan med en precision som forskare vid Lunds universitet fortfarande kartlägger.[^4] Kroppen lagrar fett inför avfärden. Fjäderdräkten byts. Den biologiska klockan ställs mot rätt breddgrad. Allt som kan förberedas förbereds. Fågeln saknar inte medel – den saknar försäkring.
 
-> Den moderna människan blir allt mer sin egen försyn. Mot elden skapar hon redan brandkår och brandförsäkring; mot hafvet lifräddningsredskap; mot koppor och kolera finner hon andra skyddsmedel.[^5]
+Skillnaden låter hårfin. Men den genomsyrar allt. Fågeln förbereder sig *för* sin resa – med medel riktade mot ett bestämt mål. Försäkringssamhället förbereder sig *mot* det som kan gå fel – med skydd mot alla tänkbara utfall. Den ena förberedelsen rör sig framåt. Den andra vänder sig bakåt och kallar det framsteg.
 
-Människan som sin egen försyn.
+Vi har likställt förberedelse med garanti, medel med trygghet. Försäkringen var tänkt att befria oss från rädsla, men den band oss vid sig: den som inte kan ge sig i väg förrän försäkringsbrevet är granskat har inte vunnit trygghet utan förlorat rörelseförmåga. Det vi trodde var en vinst visar sig vara en förlust – inte säkerhet, utan oförmåga att lyfta utan löfte om landning.
 
-I *Röda rummet* lät Strindberg försäkringen avslöja sig själv. Hans försäkringsman insisterar:
+## Ansträngningens vila
 
-> Vi få icke kalla försäkringsinstitutionen en affär! Den är ingen affär; vi äro inga affärsmän, för ingen del i världen![^6]
+Arabiskan har ett ord för det silvertärnan gör utan att veta det: *tawakkul*. Roten *wakālah* betyder att lägga sin sak i annans hand. *Tawakkul* är ingen känsla – det är en handling: att gå ut genom dörren utan att veta vad som väntar, med vetskapen om *vem* som väntar.
 
-Försäkringen ska vara högre än handel, trygghetens sakrament. Men Strindberg visste att sakrament utan tro bara är papper.
+Ibn Qayyim (1292–1350) definierar det kort: "Hemligheten med *tawakkul*, dess verkliga natur, är hjärtats förlitan på Gud allena."[^5]
 
-## Fågeln som inte stannar
+Men i *Madārij al-Sālikīn* blottlägger han den förväxling som ständigt hotar det andliga livet – sammanblandningen av tillit med lättja:
 
-Silvertärnan gör vad det moderna samhället avlärt sig: ger sig i väg utan garantier.
+> Ofta förväxlas det berömvärda och fullkomliga med det klandervärda och bristfälliga. Tjänaren slösar bort sin andel i tron att det är *tawakkul*. Men det är slöseri, inte överlämnande. Tecknet på äkta *tawakkul* är att den som förlitar sig anstränger sig till det yttersta i de medel som är föreskrivna – och finner vila just genom den ansträngningen.[^6]
 
-Resan är inte blind. Med jordens magnetfält, solens läge och stjärnmönster navigerar silvertärnan – en biologisk utrustning utan mänsklig motsvarighet, kartlagd av forskare vid Lunds universitet.[^7] Fågeln saknar inte medel. Den saknar försäkring. Vi har likställt medel med trygghet, förberedelse med garanti.
+Här vänds vad vi trodde oss veta. Tre hållningar framträder, varav moderniteten bara erkänner två. Den som säger "jag förlitar mig på Gud" och lägger sig ner har inte *tawakkul* – den har lättja i religiös förklädnad. Den som arbetar sig utmattad men inte kan släppa oron har inte heller *tawakkul* – den har ansträngning utan ankare. Moderniteten pendlar mellan dessa två: antingen kontroll eller ångest, antingen försäkring eller förlamning.
 
-Strindberg kretsade kring fåglarnas mysterium i *Svarta fanor*:
+*Tawakkul* är det tredje. Full ansträngning förenad med full vila – inte trots varandra utan genom varandra. Kirurgen som opererar med allt sitt kunnande och sedan går hem och sover. Fågeln som nyttjar varje navigationsredskap den fått och aldrig oroat sig för om den kommer fram.
 
-> Naturen äger hemligheter! Flyttfåglarnes tåg är också en gåta. Man ser dem innan de ge sig av, man ser dem när de kommit, men man ser dem icke flytta.[^8]
+Notera vad Ibn Qayyim inte säger. Han säger inte att ansträngningen *förtjänar* vila – att den som arbetat hårt har rätt att slappna av. Han säger att vilan finns *i* ansträngningen, att de är samma rörelse sedd från två håll. Kirurgens händer darrar inte därför att händerna vet vems de är. Det ständiga surret av *tänk om* – oron vi förväxlar med ansvar – är inte omtanke. Det är ett tecken på att förberedelsen tappat sin botten.
 
-Vi ser avfärden, vi ser ankomsten. Aldrig det ögonblick då fågeln svävar över det stormpiskade havet, ensam, med tusentals kilometer kvar.
+Ibn al-Jawzī (d. 1201) drar gränsen:
 
-## Tawakkul: tillit utan garanti
+> Den som berövar sig själv det nödvändiga i *tawakkuls* namn har brutit mot profetens ﷺ väg.[^7]
 
-Koranen har ett ord för det silvertärnan gör utan att veta det: *tawakkul*. Arabiskans *wakālah* betyder att lägga sin sak i annans hand. *Tawakkul* är ingen känsla; det är en handling: att gå ut genom dörren utan att veta vad som väntar, men med vetskapen om *vem* som väntar.
+Passivitet är inte tillit. Men moderniteten lider av den spegelvända sjukdomen: rastlös rörelse utan förankring. Fågeln har ingen teologi. Den känner inte ordet *tawakkul*. Men den lever den verklighet ordet beskriver: all förberedelse tillhör den – utgången tillhör en annan.
 
-Ibn Qayyim (1292–1350) säger det kort: "Hemligheten med *tawakkul*, dess verkliga natur, är hjärtats förlitan på Gud allena."[^9]
-Men i *Madārij al-Sālikīn* blottlägger han den förväxling som ständigt hotar det andliga livet: sammanblandningen av *tawakkul* med lättja:
+## Vem håller dem uppe?
 
-> Ofta förväxlas det berömvärda och fullkomliga med det klandervärda och bristfälliga. Överlämnande förväxlas med förslösande. Tjänaren slösar bort sin andel i tron att det är *tawakkul*. Men det är slöseri, inte överlämnande. Tecknet på äkta *tawakkul* är att den som förlitar sig anstränger sig till det yttersta i de medel som är föreskrivna – och finner vila just genom den ansträngningen.[^10]
+Profeten Muhammad ﷺ tog fågeln i bruk:
 
-Så gör silvertärnan: den använder varje navigationsredskap Gud gett den, flyger med allt den har – men har aldrig oroat sig för om den kommer fram.
-Ibn al-Jawzī (d. 1201) sätter det på sin spets:
+> Om ni förlitade er på Gud med sann förlitan, skulle Han försörja er som Han försörjer fåglarna: de flyger ut hungriga på morgonen och återvänder mätta på kvällen.[^8]
 
-> Den som berövar sig själv det nödvändiga i *tawakkuls* namn har brutit mot profetens ﷺ väg.[^11]
+Hadithen jämför oss inte med fåglarna därför att fåglar är fromma. Den jämför oss därför att de gör det vi glömt: de *ger sig i väg*. Varje morgon, med bara hunger och vingar, utan budget, utan lager, utan sparkapital – och de återvänder mätta.
 
-Det moderna samhället erkänner bara två möjligheter: kontroll eller ångest. *Tawakkul* är den tredje: full ansträngning förenad med full vila. Det är läkaren som opererar med allt sitt kunnande och sedan går hem och sover.
+Koranen vidgar bilden:
 
-För det saknar moderniteten språk. Den som kom närmast var Kierkegaard, vars "trons riddare" i *Fruktan och bävan* lever fullt i det ändliga men har överlämnat utgången. Men att han kallade rörelsen "i kraft av det absurda" avslöjar att tillit i hans tänkande bara kan förstås som ett undantag från förnuftet. I den islamiska traditionen är *tawakkul* tvärtom förnuftets slutsats: den som verkligen vet vem Gud är finner det orimligt att *inte* förlita sig på Honom.[^12]
+> Har de inte fäst avseende vid fåglarna ovan dem, hur de sträcker ut vingarna och fäller in dem? Ingen annan än den Nåderike håller dem uppe. Han ser sannerligen allt.[^9]
 
-## Fåglarna i Koranen
+Fåglarna flyger redan. De faller inte. Frågan riktar sig inte till fågeln utan till betraktaren: *ser du vad som bär den?* Aerodynamiken beskriver lyftkraften. Ornitologin kartlägger flygrutten. Men versen frågar inte *hur* fåglarna flyger – den frågar *vem* som håller dem uppe. Skillnaden är inte retorisk. Den ena frågan ger kunskap. Den andra ger tillit.
 
-Profeten Muḥammad ﷺ gjorde liknelsen gripbar:
+Och den sista bisatsen – "Han ser sannerligen allt" – vänder perspektivet helt. Vi ser fåglarna. Men fåglarna *ses*. Vi kan spåra silvertärnans rutt med geolokatorer och mäta dess navigationsförmåga. Men mätning är inte omsorg. Versen pekar mot en blick som inte bara registrerar utan bär.
 
-> Om ni förlitade er på Gud med sann förlitan, skulle Han försörja er som Han försörjer fåglarna: de flyger ut hungriga på morgonen och återvänder mätta på kvällen.[^13]
-
-Men de flyger utan budget, utan lager, utan sparkapital – och återvänder alltid mätta.
-
-Koranen bär samma liknelse men vidgar den:
-
-> Har de inte fäst avseende vid fåglarna ovan dem, hur de sträcker ut vingarna och fäller in dem? Ingen annan än den Nåderike håller dem uppe. Han ser sannerligen allt.[^14]
-
-Fåglarna flyger redan. De faller inte. Frågan är inte om något håller dem uppe utan om betraktaren har ögon att se det. Den sista bisatsen – "Han ser sannerligen allt" – vänder perspektivet: vi ser fåglarna, men fåglarna *ses*. Ibn Kathīr (ca. 1300–1373) förtydligar: Han vet vad som gagnar varje enskild varelse bland Hans skapelser.
-
-Ur denna liknelse hämtar Ibn Qayyim trons inre rörelse: rädsla och hopp som två vingar – när de är i jämvikt bär de flygningen framåt; brister den ena, störtar fågeln.[^15] Silvertärnan flyger för att den är skapad att flyga. *Tawakkul* är varken kylig tillförsikt eller förlamande ångest: det är den jämvikt som uppstår när hjärtat slutat väga risker och börjat förlita sig på Honom.
-
-## En hälsosam osäkerhet
-
-Strindberg, som aldrig landat i en övertygelse utan att genast börja tvivla på den, skrev i *Götiska rummen*:
-
-> En hälsosam osäkerhet, som höll personen kort, alltid vaken, på sin vakt; ständig förnyelse under ett hejdlöst framåt.[^16]
-
-Det låter som en modern trosbekännelse: osäkerhet som dygd, vaksamhet som livshållning. Men han kallade den "hälsosam", och adjektivet avslöjar honom. Han visste att total trygghet är en annan form av död – att den som försäkrat sig mot allt har förlorat skälet att röra sig.
-
-I en annan tonart nådde Beck samma slutsats: ju fler risker vi hanterar, desto fler nya risker föder vi, och desto mer undergräver vi den tillit systemet skulle skapa.[^17] Försäkringen som skulle befria oss från rädsla binder oss vid sig. Den som inte kan gå ut förrän försäkringsbrevet är granskat har bytt herre.
-
-Alexis de Tocqueville beskrev formen redan 1840: en makt som tryggar medborgarnas behov, sköter deras angelägenheter och steg för steg befriar dem "från besväret att tänka och mödan att leva".[^18]
-Ibn Taymiyyah (1263–1328) såg sambandet:
-
-> Den som fäster sitt hjärta vid skapade ting – att de skall hjälpa honom, försörja honom, vägleda honom – hans hjärta underkastas dem, och det uppstår i honom en träldom under dem i motsvarande grad.[^19]
-Orden gällde en människa som förlitar sig på härskare, vänner och rikedomar. Men de träffar försäkringssamhället med samma kraft.
-
-Fågeln har medel men ingen herre utom sin Skapare. Den förbereder sig – kroppen lagrar fett, fjäderdräkten byts, den biologiska klockan ställs mot rätt breddgrad – men aldrig har den slutit ett avtal med tillvaron. Resan är förberedd, aldrig garanterad. Och fågeln flyger ändå.
+Ur denna bild hämtar Ibn Qayyim trons inre rörelse: rädsla och hopp som två vingar.[^10] När de är i jämvikt bär de hjärtat framåt, som fågelns vingar bär kroppen. Hopp utan rädsla föder sorglöshet. Rädsla utan hopp föder förtvivlan. *Tawakkul* är jämvikten – den punkt där hjärtat varken lutar mot övermod eller hopplöshet utan flyger.
 
 ## Fågel Jag
 
-Även den svenska litteraturen kretsade kring samma bild. Dan Andersson lade den i romanfigurens mun, vandraren David Ramm, som ropar:
+Dan Andersson lade frågan i vandraren David Ramms mun:
 
-> Låt oss antaga att jag har en själ... när jag dör flyger det likt en fågel ur kroppen. Vart skall han då ta vägen, den konstiga Fågel Jag?[^20]
+> Låt oss antaga att jag har en själ... när jag dör flyger det likt en fågel ur kroppen. Vart skall han då ta vägen, den konstiga Fågel Jag?[^11]
 
-Frågan stiger mot samma öppna rymd som silvertärnan, och inget försäkringsbolag tar emot den.
+Frågan stiger mot samma öppna rymd som silvertärnan – och inget försäkringsbolag tar emot den. Ramm vet att han inte kan försäkra sin själ. Han frågar ändå. Själva frågan är redan en avfärd.
 
-Fredrika Bremer (1801–1865) gav ett svar i mitten av 1800-talet:
+Hjalmar Söderberg visste det:
 
-> Efter lifvets vinterdagar / Upp till denna vårnejd klar / Enligt evigt gifna lagar / Himmelska flyttfågeln fär.[^21]
+> den som vill stanna här och där på vägen och njuta en smula af lifvet innan han har nått målet, han når det aldrig.[^12]
 
-*Enligt evigt gifna lagar.* Bremer talade om själen, inte om silvertärnan, men hon fångade den grundsats som gör fågelns resa möjlig. Det finns en ordning som bär – den syns inte, den är inte formulerad i ett avtal, den kan inte sägas upp. Koranen kallar det *qadar*.
+Silvertärnan stannar inte. Den förbereder sig med allt den har – men aldrig har den slutit ett avtal med tillvaron. Resan är förberedd, aldrig garanterad.[^13]
 
-Kvar är fågeln: hundra gram, en hjärna som en ärta, ett öga öppet och ett slutet, på väg genom en rymd den fått i uppdrag att korsa. Vid sekelskiftet 1900 fångade Hjalmar Söderberg samma sanning:
+Och fågeln flyger ändå.
 
-> den som vill stanna här och där på vägen och njuta en smula af lifvet innan han har nått målet, han når det aldrig.[^22]
-
-Silvertärnan stannar inte.
-
----
-
-[^1]: C. Egevang m.fl., "Tracking of Arctic terns *Sterna paradisaea* reveals longest animal migration", *Proceedings of the National Academy of Sciences* 107/5 (2010), s. 2078–2081. Studien dokumenterar en genomsnittlig årlig flygsträcka på ca 70 900 km för elva fåglar utrustade med geolokatorer.
-[^2]: Unihemisfärisk sömn – där en hjärnhalva sover medan den andra förblir vaken – är dokumenterad hos flera fågelarter under flygning, bland annat i N. C. Rattenborg m.fl., "Evidence that birds sleep in mid-flight", *Nature Communications* 7 (2016). Beteendet har inte mätts direkt hos silvertärnan, men forskare antar att arten använder samma teknik under sin extrema migration.
+[^1]: C. Egevang m.fl., "Tracking of Arctic terns *Sterna paradisaea* reveals longest animal migration", *PNAS* 107/5 (2010), s. 2078–2081.
+[^2]: Unihemisfärisk sömn under flygning är dokumenterad hos flera fågelarter; se N. C. Rattenborg m.fl., "Evidence that birds sleep in mid-flight", *Nature Communications* 7 (2016). Beteendet har inte bekräftats direkt hos silvertärnan men antas förekomma under artens extrema migration.
 [^3]: Ulrich Beck, *Risikogesellschaft: Auf dem Weg in eine andere Moderne* (Suhrkamp, 1986).
-[^4]: Erik Gustaf Geijer, *Förändringar inom de arbetande klasserna i England* (1845).
-[^5]: Ellen Key, *Barnets århundrade* (1900).
-[^6]: August Strindberg, *Röda rummet: Skildringar ur artist- och författarlivet* (1879).
-[^7]: S. Åkesson m.fl., "Hypotheses and tracking results about the longest migration: The case of the arctic tern", *Ecology and Evolution* 9/17 (2019), Centre for Animal Movement Research (CAnMove), Lunds universitet.
-[^8]: August Strindberg, *Svarta fanor: Sedeskildringar från sekelskiftet* (1907).
-[^9]: Ibn Qayyim al-Jawziyyah, *al-Fawāʾid* (ca. 1340-talet).
-[^10]: Ibn Qayyim al-Jawziyyah, *Madārij al-Sālikīn* (De vandrandes stationer), (ca. 1340-talet), avsnittet om *tawakkul*. Min översättning från arabiska.
-[^11]: Ibn al-Jawzī, *Talbīs Iblīs* (1100-talet).
-[^12]: Søren Kierkegaard, *Frygt og Bæven* (1843), avsnittet om 'trons riddare' (*Troens Ridder*).
-[^13]: Ḥadīth återgiven av al-Tirmidhī (nr 2344) och Aḥmad. Klassificerad som *ḥasan* av al-Tirmidhī, *ṣaḥīḥ* av al-Albānī.
-[^14]: Koranen, al-Mulk 67:19.
-[^15]: Ibn Qayyim al-Jawziyyah, *Madārij al-Sālikīn*.
-[^16]: August Strindberg, *Götiska rummen: Släktöden från sekelslutet* (1904).
-[^17]: Beck, *Risikogesellschaft*, kapitel 1–2 om reflexiv modernisering.
-[^18]: Alexis de Tocqueville, *De la démocratie en Amérique*, del II (1840), fjärde boken, kap. 6. Min översättning från franska.
-[^19]: Ibn Taymiyyah, *al-ʿUbūdiyyah* (1300-talet).
-[^20]: Dan Andersson, *David Ramms arv* (1919).
-[^21]: Fredrika Bremer, dikten "Våren" (troligen 1840-talet).
-[^22]: Hjalmar Söderberg, *Martin Bircks ungdom* (1901).
-[^23]: Titeln anspelar på *hijrah*, Profetens ﷺ utvandring från Mecka till Medina år 622 – den händelse som inleder den islamiska tideräkningen. Profeten ﷺ lämnade sitt hem under dödshot, utan garanti om ankomst, med tillit till Allah ﷻ som enda försäkring.
+[^4]: S. Åkesson m.fl., "Hypotheses and tracking results about the longest migration: The case of the arctic tern", *Ecology and Evolution* 9/17 (2019), CAnMove, Lunds universitet.
+[^5]: Ibn Qayyim al-Jawziyyah, *al-Fawāʾid* (ca. 1340-talet).
+[^6]: Ibn Qayyim al-Jawziyyah, *Madārij al-Sālikīn* (ca. 1340-talet), avsnittet om *tawakkul*. Min översättning från arabiska.
+[^7]: Ibn al-Jawzī, *Talbīs Iblīs* (1100-talet).
+[^8]: Hadith, al-Tirmidhī (nr 2344) och Ahmad. Klassificerad som *ḥasan* av al-Tirmidhī, *ṣaḥīḥ* av al-Albānī.
+[^9]: Koranen, al-Mulk 67:19.
+[^10]: Ibn Qayyim al-Jawziyyah, *Madārij al-Sālikīn*.
+[^11]: Dan Andersson, *David Ramms arv* (1919).
+[^12]: Hjalmar Söderberg, *Martin Bircks ungdom* (1901).
+[^13]: Titeln anspelar på *hijrah*, Profetens ﷺ utvandring från Mecka till Medina år 622 – den händelse som inleder den islamiska tideräkningen. Han lämnade sitt hem under dödshot, utan garanti om ankomst, med tillit till Allah ﷻ som enda försäkring.

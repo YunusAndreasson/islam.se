@@ -1,0 +1,334 @@
+{
+  "metadata": {
+    "generatedAt": "2026-03-28",
+    "criteria": ["thesisBite", "argumentArc", "sourceIntegration", "freshness", "craft"],
+    "maxScore": 25,
+    "deductions": ["quranVerseOverlap", "predictableArc", "clusterPenalty"],
+    "removed": ["nattens-teleskop"]
+  },
+  "rankings": [
+    {
+      "rank": 1, "slug": "passionens-klangvaxt", "title": "Passionens klängväxt",
+      "scores": { "thesisBite": 5, "argumentArc": 5, "sourceIntegration": 5, "freshness": 5, "craft": 5 },
+      "deductions": [], "total": 25,
+      "note": "60 arabiska namn diagnostiserar Söderbergs karaktärer. Etymologin av ʿishq som parasitisk klängväxt är en bild som stannar kvar.",
+      "newDate": "2026-03-28T12:00:00.000Z"
+    },
+    {
+      "rank": 2, "slug": "ater-ni-var-for-sig", "title": "Äter ni var för sig?",
+      "scores": { "thesisBite": 5, "argumentArc": 5, "sourceIntegration": 5, "freshness": 5, "craft": 5 },
+      "deductions": [], "total": 25,
+      "note": "Profetens fråga som strukturell pivot. SCB-statistik + Ibn Khaldūn + Strindbergs bröllopsfest. Varje rad bär.",
+      "newDate": "2026-03-22T12:00:00.000Z"
+    },
+    {
+      "rank": 3, "slug": "tid-till-salu", "title": "Tid till salu",
+      "scores": { "thesisBite": 5, "argumentArc": 5, "sourceIntegration": 5, "freshness": 5, "craft": 5 },
+      "deductions": [], "total": 25,
+      "note": "al-Ghazālīs spegel-metafor för pengar. Strindberg om föräldrar som procentare. Södergran som avslut. Knivskarp.",
+      "newDate": "2026-03-16T12:00:00.000Z"
+    },
+    {
+      "rank": 4, "slug": "tigerns-bon", "title": "Tigerns bön",
+      "scores": { "thesisBite": 5, "argumentArc": 5, "sourceIntegration": 5, "freshness": 5, "craft": 5 },
+      "deductions": [], "total": 25,
+      "note": "Al-amana: bergen vägrade, människan sa ja. Blakes fråga omvänd. Varje sektion eskalerar mot slutbilden.",
+      "newDate": "2026-03-10T12:00:00.000Z"
+    },
+    {
+      "rank": 5, "slug": "tyst-teologi", "title": "Tyst teologi",
+      "scores": { "thesisBite": 5, "argumentArc": 5, "sourceIntegration": 4, "freshness": 5, "craft": 5 },
+      "deductions": [], "total": 24,
+      "note": "Katedralen talar, moskén tiger. Källarmoskén som avslut är perfekt. Visuell dhikr genom geometri.",
+      "newDate": "2026-03-04T12:00:00.000Z"
+    },
+    {
+      "rank": 6, "slug": "odins-blinda-flack", "title": "Odins blinda fläck",
+      "scores": { "thesisBite": 5, "argumentArc": 5, "sourceIntegration": 5, "freshness": 5, "craft": 4 },
+      "deductions": [], "total": 24,
+      "note": "Odin offrar syn men aldrig sitt jag. Hammarskjölds kärl-bild vänder hela Mimers brunn. Något lång men tätt.",
+      "newDate": "2026-02-26T12:00:00.000Z"
+    },
+    {
+      "rank": 7, "slug": "rosten-over-taken", "title": "Rösten över taken",
+      "scores": { "thesisBite": 5, "argumentArc": 5, "sourceIntegration": 5, "freshness": 5, "craft": 4 },
+      "deductions": [], "total": 24,
+      "note": "Adhān/kyrkklocka-asymmetrin avslöjar protestantiskt arv förklätt till neutralitet. Politiskt akut och intellektuellt ärligt.",
+      "newDate": "2026-02-20T12:00:00.000Z"
+    },
+    {
+      "rank": 8, "slug": "serumet-och-blicken", "title": "Serumet och blicken",
+      "scores": { "thesisBite": 5, "argumentArc": 5, "sourceIntegration": 5, "freshness": 5, "craft": 4 },
+      "deductions": [], "total": 24,
+      "note": "Kallocain möter iḥsān. Samma premiss, rakt motsatt slutsats. Elegant strukturell parallellism.",
+      "newDate": "2026-02-14T12:00:00.000Z"
+    },
+    {
+      "rank": 9, "slug": "det-tungan-inte-nar", "title": "Det tungan inte når",
+      "scores": { "thesisBite": 5, "argumentArc": 5, "sourceIntegration": 4, "freshness": 5, "craft": 5 },
+      "deductions": [], "total": 24,
+      "note": "Yaqubs sorg som bön. Sparsamt, varje ord bär. Klagan inför Gud och tålamod som samma handling.",
+      "newDate": "2026-02-08T12:00:00.000Z"
+    },
+    {
+      "rank": 10, "slug": "guden-som-bokfor", "title": "Guden som bokför",
+      "scores": { "thesisBite": 5, "argumentArc": 5, "sourceIntegration": 5, "freshness": 5, "craft": 4 },
+      "deductions": [], "total": 24,
+      "note": "Linnés hemliga Nemesis Divina. Räkenskap utan nåd vs nåd utan räkenskap. Koranen förenar båda. Originellt.",
+      "newDate": "2026-02-02T12:00:00.000Z"
+    },
+    {
+      "rank": 11, "slug": "forlatelsens-pris", "title": "Förlåtelsens pris",
+      "scores": { "thesisBite": 5, "argumentArc": 4, "sourceIntegration": 5, "freshness": 5, "craft": 5 },
+      "deductions": [], "total": 24,
+      "note": "Koranens ekonomiska språk för förlåtelse. Hall vid Sidan i Njals saga: skulden efterskänks. Bonhoeffers billiga nåd.",
+      "newDate": "2026-01-27T12:00:00.000Z"
+    },
+    {
+      "rank": 12, "slug": "lognens-bokforing", "title": "Lögnens bokföring",
+      "scores": { "thesisBite": 5, "argumentArc": 4, "sourceIntegration": 4, "freshness": 5, "craft": 5 },
+      "deductions": [], "total": 23,
+      "note": "Dubbel bokföring som metafor. Neurovetenskapen om amygdalas avtrubbning. Tre slag av osanning. Koncist.",
+      "newDate": "2026-01-21T12:00:00.000Z"
+    },
+    {
+      "rank": 13, "slug": "bergen-som-vagrade", "title": "Bergen som vägrade",
+      "scores": { "thesisBite": 5, "argumentArc": 5, "sourceIntegration": 5, "freshness": 5, "craft": 4 },
+      "deductions": ["quranVerseOverlap:-1"], "total": 23,
+      "note": "Al-amana + AI-ansvarsluckan. Ghaflah som affärsmodell. EU:s AI-förordning. Minus för delad 33:72 med Tigerns bön.",
+      "newDate": "2026-01-15T12:00:00.000Z"
+    },
+    {
+      "rank": 14, "slug": "eld-mot-en-rost", "title": "Eld mot en röst",
+      "scores": { "thesisBite": 5, "argumentArc": 5, "sourceIntegration": 4, "freshness": 5, "craft": 4 },
+      "deductions": [], "total": 23,
+      "note": "Koranbränningen: inte en bok utan en röst. Ong om muntlig vs skriftlig kultur. Juridiskt aktuellt.",
+      "newDate": "2026-01-09T12:00:00.000Z"
+    },
+    {
+      "rank": 15, "slug": "ljusa-bla-natt", "title": "Ljusa blå natt",
+      "scores": { "thesisBite": 5, "argumentArc": 4, "sourceIntegration": 5, "freshness": 4, "craft": 4 },
+      "deductions": [], "total": 22,
+      "note": "Doktor Glas' sömnlöshet + Ibn Qayyims waqt. Midsommarnattens gränslösa ljus = tid utan ledfogar. Djup Söderberg-integration.",
+      "newDate": "2026-01-03T12:00:00.000Z"
+    },
+    {
+      "rank": 16, "slug": "fragan-levertin-aldrig-stallde", "title": "Frågan Levertin aldrig ställde",
+      "scores": { "thesisBite": 5, "argumentArc": 4, "sourceIntegration": 5, "freshness": 4, "craft": 4 },
+      "deductions": [], "total": 22,
+      "note": "Religiositet utan religion = olja utan veke. Levertin, Key, Söderblom som svenskt vittnesmål om fiṭrah.",
+      "newDate": "2025-12-28T12:00:00.000Z"
+    },
+    {
+      "rank": 17, "slug": "forradshusens-vaktare", "title": "Förrådshusens väktare",
+      "scores": { "thesisBite": 4, "argumentArc": 4, "sourceIntegration": 5, "freshness": 5, "craft": 4 },
+      "deductions": [], "total": 22,
+      "note": "Josefs förrådshus + svensk beredskap + Ibn Taymiyyahs ḥisbah. Samtidsrelevant. Tre dagars marginal.",
+      "newDate": "2025-12-22T12:00:00.000Z"
+    },
+    {
+      "rank": 18, "slug": "kompassnalens-moske", "title": "Kompassnålens moské",
+      "scores": { "thesisBite": 5, "argumentArc": 4, "sourceIntegration": 5, "freshness": 5, "craft": 3 },
+      "deductions": [], "total": 22,
+      "note": "Riktning vs plats. Qiblah vs sockenkyrka. Stark tes men för lång (2206 ord).",
+      "newDate": "2025-12-16T12:00:00.000Z"
+    },
+    {
+      "rank": 19, "slug": "nattbonens-ansikte", "title": "Nattbönens ansikte",
+      "scores": { "thesisBite": 5, "argumentArc": 4, "sourceIntegration": 4, "freshness": 4, "craft": 4 },
+      "deductions": [], "total": 21,
+      "note": "Nattbön förskönar ansiktet. Wajh = ansikte = riktning. Mot skönhetsindustrin. Överraskande vinkel.",
+      "newDate": "2025-12-10T12:00:00.000Z"
+    },
+    {
+      "rank": 20, "slug": "det-enogda-begaret", "title": "Det enögda begäret",
+      "scores": { "thesisBite": 4, "argumentArc": 4, "sourceIntegration": 4, "freshness": 5, "craft": 4 },
+      "deductions": [], "total": 21,
+      "note": "Första vs andra blicken. Ögat som spegel av hjärtats tillstånd. Benedictssons kronblad. Berridges forskning.",
+      "newDate": "2025-12-04T12:00:00.000Z"
+    },
+    {
+      "rank": 21, "slug": "lagen-ingen-skrev", "title": "Lagen ingen skrev",
+      "scores": { "thesisBite": 4, "argumentArc": 4, "sourceIntegration": 4, "freshness": 4, "craft": 5 },
+      "deductions": [], "total": 21,
+      "note": "Strindbergs raseri mot mänsklig lag + Koranens bok och våg. Koncist (1094 ord). Pascal och Geijer förstärker.",
+      "newDate": "2025-11-28T12:00:00.000Z"
+    },
+    {
+      "rank": 22, "slug": "domaren-utan-svard", "title": "Domaren utan svärd",
+      "scores": { "thesisBite": 4, "argumentArc": 4, "sourceIntegration": 4, "freshness": 5, "craft": 4 },
+      "deductions": [], "total": 21,
+      "note": "al-Māwardīs tre rättsinstanser. Ḥisbah som mellanposition. C.S. Lewis om rättfärdig tyranni. Unikt rättsfilosofiskt ämne.",
+      "newDate": "2025-11-22T12:00:00.000Z"
+    },
+    {
+      "rank": 23, "slug": "sibawayhs-brytning", "title": "Sībawayhs brytning",
+      "scores": { "thesisBite": 4, "argumentArc": 4, "sourceIntegration": 4, "freshness": 5, "craft": 4 },
+      "deductions": [], "total": 21,
+      "note": "Perser med brytning skriver arabiskans grammatik. Stiernhielm-parallellen. Unikt ämne i samlingen.",
+      "newDate": "2025-11-16T12:00:00.000Z"
+    },
+    {
+      "rank": 24, "slug": "vikingarna-hade-inte-angest", "title": "Vikingarna hade inte ångest",
+      "scores": { "thesisBite": 4, "argumentArc": 4, "sourceIntegration": 4, "freshness": 4, "craft": 4 },
+      "deductions": [], "total": 20,
+      "note": "Orlog vs al-qadr. Gunnars lugn vs modern meningslöshet. Bra men tawakkul-temat delas med Silvertärnans hijra.",
+      "newDate": "2025-11-10T12:00:00.000Z"
+    },
+    {
+      "rank": 25, "slug": "alis-princip", "title": "Alis princip",
+      "scores": { "thesisBite": 4, "argumentArc": 4, "sourceIntegration": 4, "freshness": 4, "craft": 4 },
+      "deductions": [], "total": 20,
+      "note": "Demokrati vs sanning. Brattsystemet och kärnkraftsomröstningen. Shūrā som sanningssökande, inte röstning.",
+      "newDate": "2025-11-04T12:00:00.000Z"
+    },
+    {
+      "rank": 26, "slug": "den-starkaste-tjanaren", "title": "Den starkaste tjänaren",
+      "scores": { "thesisBite": 4, "argumentArc": 4, "sourceIntegration": 4, "freshness": 4, "craft": 4 },
+      "deductions": [], "total": 20,
+      "note": "quwwah/amānah-ramverk applicerat på Försäkringskassans algoritm. Ibn Taymiyyahs siyāsah + Wiener. Missades i första genomgången.",
+      "newDate": "2025-11-01T12:00:00.000Z"
+    },
+    {
+      "rank": 27, "slug": "den-insparrade-sjalen", "title": "Fängelset som blir bekvämare",
+      "scores": { "thesisBite": 4, "argumentArc": 4, "sourceIntegration": 4, "freshness": 4, "craft": 4 },
+      "deductions": [], "total": 20,
+      "note": "Neuralink gör fängelset bekvämare. Simone Weils gravitation. Dan Anderssons Fågel Jag. Ibn Khaldūns fånge.",
+      "newDate": "2025-10-29T12:00:00.000Z"
+    },
+    {
+      "rank": 27, "slug": "skelettet-som-holl", "title": "Skelettet som höll",
+      "scores": { "thesisBite": 4, "argumentArc": 4, "sourceIntegration": 3, "freshness": 5, "craft": 4 },
+      "deductions": [], "total": 20,
+      "note": "Koranens bevarande: Birmingham-pergamentet, Sana'a-rättelsen, ḥifẓ. Svag svensk integration men unikt ämne.",
+      "newDate": "2025-10-23T12:00:00.000Z"
+    },
+    {
+      "rank": 28, "slug": "chipet-och-riddjuret", "title": "Chipet och riddjuret",
+      "scores": { "thesisBite": 4, "argumentArc": 4, "sourceIntegration": 5, "freshness": 4, "craft": 4 },
+      "deductions": ["quranVerseOverlap:-1"], "total": 20,
+      "note": "Kroppen som riddjur vs biohacking. Boye strukturell. Minus för delad 33:72 med Tigern/Bergen.",
+      "newDate": "2025-10-17T12:00:00.000Z"
+    },
+    {
+      "rank": 29, "slug": "skummet-och-metallen", "title": "Elden som känner igen",
+      "scores": { "thesisBite": 4, "argumentArc": 3, "sourceIntegration": 4, "freshness": 4, "craft": 4 },
+      "deductions": [], "total": 19,
+      "note": "Tre eldar: nordisk, swedenborgiansk, koranisk. Något parallellstruktur. Ibn Rajabs eld som känner igen troende.",
+      "newDate": "2025-10-11T12:00:00.000Z"
+    },
+    {
+      "rank": 30, "slug": "skapad-ur-ingenting", "title": "Skapad ur ingenting",
+      "scores": { "thesisBite": 4, "argumentArc": 4, "sourceIntegration": 4, "freshness": 4, "craft": 4 },
+      "deductions": ["predictableArc:-1"], "total": 19,
+      "note": "Trilemmat i al-Ṭūr. Treenighetskritik via Newton och Swedenborg. Minus för apologetisk mönster.",
+      "newDate": "2025-10-05T12:00:00.000Z"
+    },
+    {
+      "rank": 31, "slug": "rattigheterna-utan-grund", "title": "Rättigheterna utan grund",
+      "scores": { "thesisBite": 4, "argumentArc": 4, "sourceIntegration": 4, "freshness": 3, "craft": 4 },
+      "deductions": [], "total": 19,
+      "note": "Mänskliga rättigheter utan metafysisk grund. Fiṭrah-kluster men starkt Maritain/MacIntyre-material.",
+      "newDate": "2025-09-29T12:00:00.000Z"
+    },
+    {
+      "rank": 32, "slug": "sjalens-infargning", "title": "Själens infärgning",
+      "scores": { "thesisBite": 4, "argumentArc": 3, "sourceIntegration": 4, "freshness": 5, "craft": 3 },
+      "deductions": [], "total": 19,
+      "note": "Ibn Khaldūns malakah + svensk skoldebatt + PISA-ras. Unikt pedagogiskt ämne. Men 2410 ord, något utdraget.",
+      "newDate": "2025-09-23T12:00:00.000Z"
+    },
+    {
+      "rank": 33, "slug": "ormboet-i-hjartat", "title": "Ormboet i hjärtat",
+      "scores": { "thesisBite": 4, "argumentArc": 3, "sourceIntegration": 4, "freshness": 5, "craft": 3 },
+      "deductions": [], "total": 19,
+      "note": "Avund som ursynd. Rydbergs ormbo. Schelers Selbstvergiftung. Ghibṭah vs ḥasad. Men 2196 ord, katalogkänsla.",
+      "newDate": "2025-09-17T12:00:00.000Z"
+    },
+    {
+      "rank": 34, "slug": "langtan-heter-angest", "title": "Längtan heter ångest",
+      "scores": { "thesisBite": 4, "argumentArc": 4, "sourceIntegration": 4, "freshness": 3, "craft": 4 },
+      "deductions": [], "total": 19,
+      "note": "Ångest som signal, inte störning. Kierkegaard möter Ibn Qayyim. Hjärtesot-tema delas med flera andra.",
+      "newDate": "2025-09-11T12:00:00.000Z"
+    },
+    {
+      "rank": 35, "slug": "poesins-kapitulation", "title": "Poesins kapitulation",
+      "scores": { "thesisBite": 3, "argumentArc": 4, "sourceIntegration": 3, "freshness": 4, "craft": 4 },
+      "deductions": [], "total": 18,
+      "note": "Koranens iʿjāz. Walīd ibn al-Mughīras bekännelse. Al-Jurjānīs naẓm. Välbekant tema i islamisk tradition.",
+      "newDate": "2025-09-05T12:00:00.000Z"
+    },
+    {
+      "rank": 36, "slug": "bannlyst-och-renad", "title": "Bannlyst och renad",
+      "scores": { "thesisBite": 3, "argumentArc": 3, "sourceIntegration": 4, "freshness": 4, "craft": 4 },
+      "deductions": [], "total": 18,
+      "note": "Lagerlöfs Bannlyst + tawbah. Tre svar (lutherskt, sekulärt, islamiskt) känns mekaniskt. Koncis men inte överraskande.",
+      "newDate": "2025-08-30T12:00:00.000Z"
+    },
+    {
+      "rank": 37, "slug": "silvertarnans-hijra", "title": "Silvertärnans hijra",
+      "scores": { "thesisBite": 4, "argumentArc": 3, "sourceIntegration": 4, "freshness": 4, "craft": 3 },
+      "deductions": [], "total": 18,
+      "note": "Silvertärnan som tawakkul-metafor. Beck + Key + Strindberg. Intressant men 2127 ord, sprider sig.",
+      "newDate": "2025-08-24T12:00:00.000Z"
+    },
+    {
+      "rank": 38, "slug": "lejonet-i-hjartat", "title": "Lejonet i hjärtat",
+      "scores": { "thesisBite": 3, "argumentArc": 3, "sourceIntegration": 3, "freshness": 4, "craft": 4 },
+      "deductions": [], "total": 17,
+      "note": "Firāsah som andlig klarsyn. Kahneman + Murdoch. Men argumentet blir något cirkulärt. Svag svensk integration.",
+      "newDate": "2025-08-18T12:00:00.000Z"
+    },
+    {
+      "rank": 39, "slug": "tungans-fastning", "title": "Tungans fästning",
+      "scores": { "thesisBite": 4, "argumentArc": 3, "sourceIntegration": 4, "freshness": 4, "craft": 2 },
+      "deductions": [], "total": 17,
+      "note": "Satans krigsråd om tungan. Rik på material men 2917 ord — den längsta i samlingen. Katalogkänsla.",
+      "newDate": "2025-08-12T12:00:00.000Z"
+    },
+    {
+      "rank": 40, "slug": "det-han-letade-efter", "title": "Det han letade efter",
+      "scores": { "thesisBite": 3, "argumentArc": 3, "sourceIntegration": 4, "freshness": 3, "craft": 4 },
+      "deductions": [], "total": 17,
+      "note": "Hard problem of consciousness + al-Rūh. Swedenborg som hjärnforskare. Men medvetandetemat delas med Nattens teleskop.",
+      "newDate": "2025-08-06T12:00:00.000Z"
+    },
+    {
+      "rank": 41, "slug": "vintergatan-vi-slackte", "title": "Vintergatan vi släckte",
+      "scores": { "thesisBite": 4, "argumentArc": 3, "sourceIntegration": 4, "freshness": 3, "craft": 3 },
+      "deductions": ["clusterPenalty:-2"], "total": 15,
+      "note": "Ljusförorening + nattens andliga villkor. Intressant men spretig (2036 ord), natt-klustrets svagaste.",
+      "newDate": "2025-07-27T12:00:00.000Z"
+    },
+    {
+      "rank": 42, "slug": "somnens-lilla-dod", "title": "Sömnens lilla död",
+      "scores": { "thesisBite": 4, "argumentArc": 3, "sourceIntegration": 3, "freshness": 3, "craft": 3 },
+      "deductions": [], "total": 16,
+      "note": "Insomnia som brist på tawakkul. Överlappningsavdraget borttaget — Nattens teleskop arkiverad, Koranen 39:42 nu unik för denna text.",
+      "newDate": "2025-07-31T12:00:00.000Z"
+    },
+    {
+      "rank": 43, "slug": "stillheten-fore-slutet", "title": "Stillheten före slutet",
+      "scores": { "thesisBite": 3, "argumentArc": 3, "sourceIntegration": 3, "freshness": 3, "craft": 3 },
+      "deductions": ["predictableArc:-1"], "total": 14,
+      "note": "Ragnarök vs klimatångest. Jämförelsen känns forcerad. Islam ger vad varken Ragnarök eller klimatrörelsen kan — för neat.",
+      "newDate": "2025-07-19T12:00:00.000Z"
+    },
+    {
+      "rank": 44, "slug": "strindbergs-enda-steg", "title": "Strindbergs enda steg",
+      "scores": { "thesisBite": 3, "argumentArc": 3, "sourceIntegration": 3, "freshness": 2, "craft": 3 },
+      "deductions": ["predictableArc:-1", "clusterPenalty:-2"], "total": 11,
+      "note": "Fiṭrah förklarar Strindbergs kris. Svagaste fiṭrah-texten. Kognitionsforskning inklistrad. Samma Inferno-citat som i 3 andra essäer.",
+      "newDate": "2025-07-15T12:00:00.000Z"
+    }
+  ],
+  "removed": [
+    {
+      "slug": "nattens-teleskop", "title": "Nattens teleskop",
+      "scores": { "thesisBite": 3, "argumentArc": 3, "sourceIntegration": 3, "freshness": 2, "craft": 2 },
+      "deductions": ["quranVerseOverlap:-1"], "total": 12,
+      "reason": "Tung överlapp med Sömnens lilla död (samma Koranen 39:42, samma Ibn Taymiyyah-argument). Sprawling (2432 ord). Sömnens lilla död har bättre tes."
+    }
+  ]
+}

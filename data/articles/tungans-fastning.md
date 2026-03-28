@@ -31,7 +31,7 @@ Al-Māwardī beskrev tungans makt i *Adab al-Dunyā wa-l-Dīn*:
 
 > Talet är en tolk som uttrycker det som lagrats i hjärtats kammare och avslöjar samvetets dolda innehåll. Det kan varken återkallas i sina utbrott eller fångas in när det sluppit loss.[^2]
 
-En tolk – inte en skapare, inte en förvrängare. Talet *avslöjar*. Det ger yttre form åt det som redan formats innanför. Häri ligger det fruktansvärda: det som sluppit ut kan aldrig fångas in. Profeten ﷺ beskrev det i vertikala termer – en människa kan yttra ett ord utan att begrunda det, och det ordet störtar henne djupare i Elden än avståndet mellan öster och väster.[^3]
+En tolk – inte en skapare, inte en förvrängare. Talet *avslöjar*. Det ger yttre form åt det som redan formats innanför. Det fruktansvärda: det som sluppit ut kan aldrig fångas in. Profeten ﷺ beskrev det i vertikala termer – en människa kan yttra ett ord utan att begrunda det, och det ordet störtar henne djupare i Elden än avståndet mellan öster och väster.[^3]
 
 Koranen skärper ytterligare: "Hon yttrar inte ett ord utan att vid sig ha en väktare redo."[^4] Inte bara de onda orden. *Varje* ord bokförs.
 

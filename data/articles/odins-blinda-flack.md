@@ -39,7 +39,7 @@ Kunskapen fyller utan att befria. Den nordiska synen erkänner sin egen gräns: 
 
 ## En annan ekonomi
 
-I den islamiska traditionen ställs frågan annorlunda från början. Ibn Qayyim al-Jawziyyah (1292–1350) skriver i *al-Fawāʾid*:
+Ibn Qayyim al-Jawziyyah (1292–1350) ställer frågan annorlunda från början. I *al-Fawāʾid* skriver han:
 
 > Den som betraktar det som finns i honom själv av svagheter och brister, och det som finns hos sin Herre av fullkomlighet och majestät – han vet att hans liv inte kan rättas till och hans hjärta inte kan nå fram utom genom att söka sin tillflykt hos sin Herres dörr, och att han är den mest behövande av alla skapade varelser inför sin Herre.[^5]
 
@@ -79,7 +79,7 @@ Al-Māwardī (974–1058), juristen och etikern, skrev i *Adab al-Dunyā wa-l-D�
 
 Kunskapen samlas inte hos den som klättrar högst, Odin på Yggdrasils stam, utan i myren nedanför, där marken är mättad och stilla.
 
-Den franska filosofen Simone Weil (1909–1943) kom dit genom en helt annan väg. Hon gav det ett namn: *décréation*, att det skapade töms på sina anspråk, inte för att förintas utan för att kunna ta emot.[^12] Men Weils tömning förblir en viljeakt; jaget *beslutar* att träda åt sidan. I den islamiska traditionen upptäcker jaget sin litenhet ställt inför uppenbarelsen; det är skillnaden mellan en generös reträtt och ett obönhörligt erkännande.
+Den franska filosofen Simone Weil (1909–1943) kom dit genom en helt annan väg. Hon gav det ett namn: *décréation*, att det skapade töms på sina anspråk, inte för att förintas utan för att kunna ta emot.[^12] Men Weils tömning förblir en viljeakt; jaget *beslutar* att träda åt sidan. Hos Ibn Qayyim upptäcker jaget sin litenhet ställt inför uppenbarelsen; det är skillnaden mellan en generös reträtt och ett obönhörligt erkännande.
 
 Dag Hammarskjöld trängde samman det i *Vägmärken*: "Jag är kärlet. Guds är drycken. Och Gud den törstande."[^13] Vid Mimers brunn dricker guden; i Hammarskjölds bild är människan kärlet och Gud den som dricker.
 

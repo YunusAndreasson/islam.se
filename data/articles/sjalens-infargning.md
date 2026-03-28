@@ -1,127 +1,91 @@
 ---
 title: "Själens infärgning"
 publishedAt: "2025-09-23T12:00:00.000Z"
-wordCount: 2410
-qualityScore: 8.5
-description: "År 1377 jämförde historikern Ibn Khaldūn kunskap med ett infärgat tyg: färgen sitter kvar tills tyget förstörs. Begreppet han formulerade i Tunis – *malakah*, bemästrande – bär en pedagogisk insikt som den svenska skoldebatten saknat i över ett sekel."
+wordCount: 1491
+qualityScore: 8.9
+description: "Barnet sitter böjt över boken och läser samma sida för tionde gången. Läpparna rör sig. Fingret följer raden, stannar, börjar om. Föräldern oroar sig – korvstoppning? Läraren undrar – borde barnet göra något friare, mer skapande?"
 ---
-Ett barn sitter böjt över en bok, läser samma sida för tionde gången. Föräldern oroar sig: är det korvstoppning? Läraren oroar sig: är det för lite? Den ena sidan vill ha fler multiplikationstabeller, den andra mer kreativitet. Debatten är förutsägbar. Båda sidor bygger på samma missförstånd.
+Barnet sitter böjt över boken och läser samma sida för tionde gången. Läpparna rör sig. Fingret följer raden, stannar, börjar om. Föräldern oroar sig – korvstoppning? Läraren undrar – borde barnet göra något friare, mer skapande?
 
-År 1377 färdigställde den tunisiske historikern Ibn Khaldūn (1332–1406) sitt livsverk *Muqaddimah* – en inledning till hans världshistoria som blev ett eget storverk. Arnold Toynbee (1889–1975) kallade verket det mest betydande i sitt slag som en enskild människa åstadkommit.[^1] Där utvecklade han en pedagogisk teori som upplöser den motsättning den svenska debatten fastnat i. Hans utgångspunkt var språkinlärning:
+Den ena sidan kräver fler multiplikationstabeller, den andra mer projekt och lek. I hundra år har den svenska skoldebatten pendlat mellan dessa poler utan att röra sig ur fläcken. Pendeln slår. Axeln sitter fast. Båda sidor delar samma grundantagande: att det som memoreras är dött och det som förstås är levande, att ett barn antingen fylls eller frigörs. Antagandet är så inbäddat i den svenska skoldebatten att det sällan ens uttalas.
 
-> Kunskap om språk erhålls genom mycket memorering och god minnesövning.[^2]
+Hela uppdelningen är falsk. Ett begrepp formulerat i Tunis år 1377 visar varför.
 
-För Ibn Khaldūn är memorering varken mål eller metod. Den är *grundval*.
+## Tyget och färgen
 
-## Malakah – varken korvstoppning eller kreativitet
+Ibn Khaldūn (1332–1406) färdigställde sitt livsverk *Muqaddimah* som en inledning till hans världshistoria – men inledningen blev viktigare än verket den inledde. Arnold Toynbee kallade den det mest betydande verk i sitt slag som en enskild människa åstadkommit.[^1] I sjätte kapitlet utgick Ibn Khaldūn från en enkel iakttagelse: "Kunskap om språk erhålls genom mycket memorering och god minnesövning."[^2] Men han nöjde sig inte med att konstatera. Han formulerade ett begrepp utan svensk motsvarighet – *malakah* – som bär hela hans pedagogiska teori.
 
-Ibn Khaldūns centrala begrepp är *malakah*, ett ord utan exakt svensk motsvarighet. Det betyder ungefär 'bemästrande', 'stabil intellektuell läggning'. *Malakah* beskriver det som uppstår när kunskap repeterats så ofta och så ingående att den slutar vara information och blir en del av personen. Ibn Khaldūn jämför det med ett tyg som färgats: färgen sitter kvar tills tyget förstörs.[^3] Det är cyklisten som inte längre tänker på balansen, pianisten som inte letar efter tangenterna.
+*Malakah* betyder ungefär 'bemästrande' eller 'varaktig intellektuell läggning'. Det beskriver tillståndet som uppstår när kunskap upprepats så ingående att den upphör vara information och blir en del av personen. Ibn Khaldūn valde en bild som gör begreppet gripbart: tyget som färgas.[^3] Första doppet ger en antydan av kulör. Andra fördjupar. Till sist sitter färgen kvar tills tyget förstörs – den har blivit tyget, oskiljbar från det den genomsyrar. Det är cyklisten som inte längre tänker på balansen. Pianisten vars fingrar finner tangenterna utan att ögonen söker. Modersmålet man talar utan att leta efter ord.
 
-Ibn Khaldūn beskrev hur *malakah* utvecklas. Först möter eleven ett ämne och uppfattar det i grova drag. Sedan, genom upprepning, växer förtrogenhet. Slutligen mognar kunskapen och förvandlas: den är inte längre något eleven *har* utan något eleven *är*. Ibn Khaldūn skriver:
+Förloppet har tre stadier, och varje steg kräver sin tid. Först möter eleven ämnet och uppfattar det i grova drag – de första konturerna av en karta över okänt land. Kunskapen är bräcklig; eleven kan återge orden men äger dem inte. Sedan, genom upprepning som kräver tålamod av både lärare och elev, växer förtrogenhet: det abstrakta börjar kännas igen, mönster framträder som inte syntes vid första mötet. Handen vet vart den ska innan tanken hinner forma befallningen. Slutligen sker förvandlingen – det sista steget, som inte kan forceras. Kunskapen är inte längre något eleven *har* utan något eleven *är*. Ibn Khaldūn:
 
-> Genom att intellektualisera formerna gång på gång blir perception och tankens fullbordan själens faktiska väsen, och således materialiseras dess existens.[^4]
+> Genom att intellektualisera formerna gång på gång blir perception och tankens fullbordan själens faktiska väsen.[^4]
 
-Upprepningen är inte motsatsen till förståelse. Den gjuter förståelsen i kroppen, tills den fastnar i det Ibn Khaldūn kallar själens färg.
+Här löses gåtan som gjort den svenska skoldebatten så sterilt förutsägbar. Korvstoppning och kreativitet är inte varandras motsatser – de är stadier i samma rörelse. Upprepningen är inte förståelsens fiende utan dess gjutform. Den gjuter förståelsen i kroppen tills den fäster i det Ibn Khaldūn kallar själens färg.
 
-Ibn Khaldūn var hård mot elever som förväxlade memorering med lärdom. De som slaviskt lärde sig formuleringar utan att utveckla *malakah ʿilmiyyah*, den vetenskapliga läggningen, förblev fastlåsta i ytkunskap. Memorering utan *malakah* var ofruktbar. Men *malakah* utan memorering var omöjlig.[^5]
+Men han var hård mot dem som stannade vid det första stadiet. Elever som slaviskt memorerade formuleringar utan att utveckla *malakah ʿilmiyyah* – den vetenskapliga läggningen – förblev fastlåsta i ytkunskap.[^5] Memorering utan *malakah* var ofruktbar. Men *malakah* utan memorering var omöjlig.
 
-Koranen visar samma stegvisa gång:
+## Befrielsen som blekte
 
-> Vi har klarlagt Koranen för att du skall recitera den för människorna i lugn takt. Och Vi sänder ned den steg för steg.[^6]
+Ellen Key förstod detta bättre än hennes efterföljare medger. I *Barnets århundrade* (1900) kallade hon den samtida skolan ett "själamord" – ett maskineri som slipade ner barns nyfikenhet till slö lydnad.[^6] Boken översattes till ett drygt dussin språk och lade grunden för en ny syn på barnet. Men i sina senare skrifter framträder en annan Key:
 
-Uppenbarelsen kom steg för steg, för att stärka Profetens ﷺ hjärta, för att ge kunskapen tid att fästa. Enligt Ibn ʿAbbās, som Ibn Kathīr (ca. 1300–1373) anför, sändes Koranen ned anpassad efter händelsernas gång under Profetens ﷺ tjugotre år.
+> Barnet är lyckligt – och individuellt – när det genom visligt vanetvång befrias från egen råhet och nyck.[^7]
 
-## Ellen Keys tvetydiga arv
+*Visligt vanetvång.* Inte prygel. Inte korvstoppning. Men inte heller formlöshet. Key sökte en ordning som spirade inifrån snarare än tvingades in utifrån – en form som fostrade utan att bryta ned. Hennes verkliga fiende var prygeln, inte upprepningen.
 
-År 1900 publicerade Ellen Key *Barnets århundrade*, översatt till ett drygt dussin språk.[^7] Hennes kritik av den samtida skolan var skoningslös: den var ett "själamord", ett maskineri som slipade ner barns nyfikenhet till slö lydnad. Hon ville befria barnet från själlös inlärning, plugg och förhör – från en disciplin som bröt ned mer än den formade.
+Det svenska skolsystemet ärvde en förenklad bild. Prygeln och upprepningen sammanblandades till ett enda förtryck, och i reformpedagogikens händer blev Keys vision ett vapen mot det Ibn Khaldūn pekat ut som kunskapens förutsättning: den tålmodiga, ordnade upprepningen. Vad som såg ut som tilltro till barnet var i själva verket en underskattning – av de krav som verklig förståelse ställer. Befrielsen blev blekmedel. Skolan övergav färgbadet och kallade det frigörelse.
 
-Men Keys pedagogik var mer sammansatt än vad anhängare och kritiker brukar medge. I sina senare skrifter erkände hon vanans makt med en formulering som kunnat stå i *Muqaddimah*:
+Mellan 2000 och 2012 sjönk Sveriges PISA-resultat under OECD-genomsnittet i samtliga tre områden.[^8] Fallet var brådast i matematik och naturvetenskap – de ämnen som mest kräver den stegvisa uppbyggnad Ibn Khaldūn beskrev. Skolan hade blekt tyget och undrade varför färgen inte höll. Läroplansreformen Lgr22 vände pendeln: skärpta kunskapskrav, fonetisk läsinlärning, tryckta läroböcker tillbaka i klassrummet.[^9] Kursändringen bekräftar – halvt medvetet, utan att nämna källan – det en tunisisk historiker slog fast sexhundra år tidigare.
 
-> Barnet är lyckligt – och individuellt – när det genom visligt vanetvång befrias från egen råhet och nyck; när det kan leka och lära, iakttaga och arbeta, skapa och drömma.[^8]
+## Åminnelsens kretslopp
 
-*Visligt vanetvång.* Key ville bevara ordningen men byta ut den straffande tukten mot en annan konst: att forma barnets omgivning så att goda vanor spirade inifrån, inte tvingades in utifrån. Hennes verkliga fiende var prygeln, inte upprepningen.
+I den islamiska traditionen är memorering aldrig enbart en tankeövning. Den är *dhikr* – åminnelse – en andlig praktik av högsta rang. Koranen knyter ihop kunskap och nåd redan i öppningen av sin femtiofemte sura:
 
-Det var en förenklad bild av Key det svenska skolsystemet ärvde. I reformpedagogikens händer blev hennes vision ett slagträ mot det Ibn Khaldūn pekat ut som kunskapens grund: den tålmodiga, ordnade upprepningen.
+> Den Nåderike har lärt er Koranen.[^10]
 
-## Minnets gräns
+Verbet *ʿallama* – lärde – bär en riktning. Kunskapen kommer utifrån, som gåva. Men gåvan stannar inte utanför. Att lära sig Koranen utantill, att bli *ḥāfiẓ*, är inte mekanisk lagring utan en väg där den heliga texten steg för steg blir en del av den lärdes kropp, andning, rytm. Den som bär Koranen i minnet vaknar med dess ord, går med dess ton, sover med dess verser som det sista medvetandet landar i. Texten upphör att vara text. Den blir en hållning – *malakah* i ordets djupaste mening.
 
-Arbetsminnet rymmer ungefär fyra till sju enheter.[^9] En hård biologisk gräns, men den gäller bara det som inte blivit vana. Kunskap förvärvad genom upprepad övning tar inte längre plats: den finns tillgänglig utan ansträngning, som ett modersmål man talar utan eftertanke. Schackspelaren som memorerat tusentals positioner *ser* mönster som nybörjaren måste analysera fram. Nyare forskning lägger till en viktig detalj: att aktivt plocka fram kunskap ur minnet – uppläsning, förhör, självprövning – stärker minnesspåren långt mer än att läsa om samma text.[^10]
+Koranen beskriver sin egen nedsändelse i samma termer:
 
-Ibn Qayyim al-Jawziyyah (1292–1350) beskrev kunskapens trappsteg i *Miftāḥ Dār al-Saʿādah*: först lyssnande, därpå förståelse, sedan memorering, slutligen tillämpning. Varje steg bygger på det föregående; inget kan kringgås utan att helheten faller.[^11]
-Ibn Rajab al-Ḥanbalī (d. 1393) fångade slutresultatet i en enda bild: "Ju starkare kunskapen blir, desto mer flödar åminnelsen på den åminnandes tunga utan ansträngning."[^12] *Malakah* fulländad: kunskap lika naturlig som andning.
-Ibn al-Jawzī (d. 1201) slog fast: "Allt som är dyrbart och storslaget har en lång väg, och mödan att uppnå det är stor."[^13]
+> Vi har klarlagt Koranen för att du skall recitera den för människorna i lugn takt. Och Vi sänder ned den steg för steg.[^11]
 
-## Den svenska kollapsen
+Uppenbarelsen kom under tjugotre år, inte på en gång – för att stärka Profetens ﷺ hjärta, för att ge kunskapen tid att fästa i hans väsen. Enligt Ibn ʿAbbās, som Ibn Kathīr (ca. 1300–1373) anför, sändes den ned anpassad efter händelsernas gång.[^12] Möte, förtrogenhet, förvandling. Ibn Khaldūns tre stadier är i grunden en beskrivning av det Koranen redan praktiserar.
 
-Mellan 2000 och 2012 sjönk Sveriges PISA-resultat under OECD-genomsnittet i samtliga tre områden.[^14] Fallet följde på årtionden av reformpedagogik som tonat ned memorering och ordning och försvagat lärarens auktoritet. Skolan blekte tyget och undrade varför färgen inte höll.
+Ibn Qayyim al-Jawziyyah fördjupade sambandet i *Madārij al-Sālikīn*:
 
-Läroplansreformen Lgr22 har vänt pendeln: skärpta kunskapskrav, fonetisk läsinlärning, tryckta läroböcker.[^15] Kursändringen bekräftar det Ibn Khaldūn slog fast på 1300-talet: kunskap kräver ordnat arbete innan den kan bära frukt.
+> Ihågkomst och eftertanke är två stationer som bär frukt i alla sorters kunskap. Den kunnige upphör aldrig att återvända med sin eftertanke till sin ihågkomst, och med sin ihågkomst till sin eftertanke, tills hans hjärtas lås öppnas.[^13]
 
-## Ihågkomst som andlig praktik
+Rörelsen är cirkulär: ihågkomst föder eftertanke, eftertanke fördjupar ihågkomst – tills hjärtana talar. Det arabiska ordet för hjärta – *qalb* – delar rot med ordet för förändring, *taqallub*. Hjärtat är till sitt väsen det som vänder sig; det formas alltid av något, vare sig bäraren märker det eller ej. Frågan är aldrig *om* upprepning sker utan *vad* som upprepas. Bön, recitation, åminnelse – eller tomhet, förströelse, glömska. Tyget färgas hur som helst. Den som inte medvetet väljer sina upprepningar formas ändå – av det som fyller skärmflödet, bakgrundsbruset, väntrummets döda tid. Tyget har ingen förmåga att stå ofärgat.
 
-I den islamiska traditionen är memorering aldrig enbart en fråga om tanken. Den är *dhikr*, åminnelse, en andlig övning av högsta rang. Koranen knyter ihop minne och nåd redan i öppningen:
+## Plöjaren
 
-> Den Nåderike har lärt er Koranen.[^16]
+Ibn Masʿūd, en av Profetens ﷺ närmaste följeslagare, uttryckte det med en jordbruksbild: "Den som läser utan att förstå är som den som plöjer utan att så frö."[^14]
 
-Att lära sig Koranen utantill, att bli *ḥāfiẓ*, är en väg där den heliga texten blir en del av den lärdes kropp, andning, rytm.
+Ingen skörd utan frö. Men inte heller utan plöjning. Memorering utan förståelse förblir ofruktbar – det är Ibn Masʿūds insikt. Förståelse utan memorering saknar jordmån – det är Ibn Khaldūns. De omsluter samma sanning från var sin sida: plöjningen och fröet behöver varandra. Och tukten behöver aldrig vara brutal – "att straffas hårt skadar elevernas utveckling."[^15] Inte tvånget formar barnet. Den tålmodiga ordningen.
 
-Ibn Qayyim fördjupade detta i *Madārij al-Sālikīn*, om förhållandet mellan ihågkomst (*tadhakkur*) och eftertanke (*tafakkur*):
+En rad i *Hávamál* ekar samma insikt, ett halvt årtusende norrut:
 
-> Ihågkomst och eftertanke är två stationer som bär frukt i alla sorters kunskap, trons sanningar och godhetens verkligheter. Den kunnige upphör aldrig att återvända med sin eftertanke till sin ihågkomst, och med sin ihågkomst till sin eftertanke, tills hans hjärtas lås öppnas.[^17]
+> Med gott minne och färdig i talet; vill man besitta mycket vetande, skall man ofta tala om det som är gott.[^16]
 
-Rörelsen är cirkulär. Al-Ḥasan al-Baṣrī (ca. 642–728) sammanfattade det:
+*Med gott minne och färdig i talet.* Minnesövningen bland dygderna var en gång självklar – i den nordiska traditionen liksom i den islamiska. Inte som mekanisk drill. Som den tålmodiga process genom vilken kunskap slutar vara något man bär och börjar vara något man *är*.
 
-> Kunskapens folk upphörde aldrig att återvända med ihågkomst till eftertanke, och med eftertanke till ihågkomst, och talade till hjärtana tills de talade.[^18]
-
-*Tills de talade.* Hjärtat är inget overksamt kärl. Det är ett organ som kan lära sig tala, men bara genom tålmodigt, upprepat arbete med åminnelse och eftertanke. ʿAlī ibn Abī Ṭālib uttryckte det: "Hjärtana är kärl, och de bästa av dem är de som rymmer mest kunskap. Bevara det jag säger dig."[^19]
-
-Det arabiska ordet för hjärta, *qalb*, delar rot med ordet för förändring. Om hjärtat till sitt väsen är *det som vänder sig*, är det aldrig obundet: det formas alltid av något. Frågan är vad som upprepas. Kunskap, bön, recitation, åminnelse – det yttre blir inre, det inlärda blir levt.
-
-## Plöjaren och sådden
-
-Bland Profetens ﷺ följeslagare var insikten redan levande: memorering utan förståelse förblir ofruktbar. Ibn Masʿūd uttryckte det med en jordbruksbild: "Den som läser utan att förstå är som den som plöjer utan att så frö."[^20]
-Ingen skörd utan frö – men inte heller utan plöjning.
-
-Ibn Ḥazm al-Andalusī (d. 1064) hävdade att "korrekt förståelse av innebörder är viktigare än att memorera ord och formler."[^21] Hans poäng kompletterar Ibn Khaldūns: den som memorerar utan att söka förståelse missar målet, men den som söker förståelse utan den tukt som memorering kräver saknar verktyget. Platon – som den islamiska världen kände väl – skrev att kunskap som förvärvats under tvång inte fäster i sinnet.[^22] Men för Platon var lärande ett återerinrande: själen bär redan sanningen och behöver bara frigöras. Ibn Khaldūn grundade sitt motstånd mot tvång på något annat: kunskap förvärvas utifrån, genom arbete, men bara om arbetet följer intellektets natur. Skillnaden avgör vad som händer när tvånget faller bort: frigör man barnet, eller formar man det tålmodigt? Ibn Khaldūn var tydlig: "Att straffas hårt skadar elevernas utveckling."[^23] Straffet var inte vägen. Struktur och tukt var det.
-
-Erik Gustaf Geijer (1783–1847) slog fast minnets djup i en enda sats:
-
-> Både minne och hopp vore öfverloppsförmågor för den, hvars varelse inskränktes till stunden.[^24]
-
-Utan minne, inget hopp.
-
-## Med gott minne
-
-En rad i *Hávamál*:
-
-> Hemma skall man vara glad, och mot en gäst frikostig; av gott omdöme bör man vara, med gott minne och färdig i talet; vill man besitta mycket vetande, skall man ofta tala om det som är gott.[^25]
-
-*Med gott minne och färdig i talet.* Minnets plats bland dygderna var en gång självklar, i den nordiska traditionen liksom i den islamiska. Förståelse är memoreringens frukt.
+Det barnet böjt över boken gör – tionde gången, samma sida – ser ut som upprepning. Det är tygets första bad i färgen.
 
 ---
 
-[^1]: Ibn Khaldūn, *Muqaddimah* (1377). Toynbees omdöme återges i A. J. Toynbee, *A Study of History*, vol. 3 (Oxford University Press, 1934).
-[^2]: Ibn Khaldūn, *Muqaddimah*, kapitel 6, avsnitt om språkinlärning.
-[^3]: Ibn Khaldūn, *Muqaddimah*, kapitel 6. Franz Rosenthals engelska översättning återger *malaka* som "habit" men noterar ordets bredare semantiska fält.
+[^1]: Ibn Khaldūn, *Muqaddimah* (1377). Toynbees omdöme i A. J. Toynbee, *A Study of History*, vol. 3 (Oxford University Press, 1934).
+[^2]: Ibn Khaldūn, *Muqaddimah*, kapitel 6, avsnittet om språkinlärning.
+[^3]: Ibn Khaldūn, *Muqaddimah*, kapitel 6. Franz Rosenthals engelska översättning återger *malakah* som "habit" men noterar ordets bredare semantiska fält.
 [^4]: Ibn Khaldūn, *Muqaddimah*, kapitel 6, avsnittet om intellektets natur.
 [^5]: Ibn Khaldūn, *Muqaddimah*, kapitel 6, avsnittet om vetenskaplig disposition (*malakah ʿilmiyyah*).
-[^6]: Koranen, al-Isrāʾ 17:106.
-[^7]: Ellen Key, *Barnets århundrade* (Albert Bonniers Förlag, 1900). Se Anna Apelqvist, *Ellen Key: En europeisk intellektuell* (Makadam, 2022).
-[^8]: Ellen Key, *Lifslinjer*, tredje delen.
-[^9]: George A. Miller, "The Magical Number Seven, Plus or Minus Two", *Psychological Review* 63:2 (1956). Senare forskning av Nelson Cowan, "The Magical Number 4 in Short-Term Memory", *Behavioral and Brain Sciences* 24:1 (2001), justerar nedåt till cirka fyra enheter.
-[^10]: Henry L. Roediger III & Jeffrey D. Karpicke, "Test-Enhanced Learning: Taking Memory Tests Improves Long-Term Retention", *Psychological Science* 17:3 (2006).
-[^11]: Ibn Qayyim al-Jawziyyah, *Miftāḥ Dār al-Saʿādah*, avsnittet om kunskapens rangordning och dess steg.
-[^12]: Ibn Rajab al-Ḥanbalī, *Jāmiʿ al-ʿUlūm wa-l-Ḥikam*.
-[^13]: Ibn al-Jawzī, *Ṣayd al-Khāṭir* (Tankens fångst).
-[^14]: Skolverket, "PISA – internationell studie om 15-åringars kunskaper i matematik, naturvetenskap och läsförståelse" (2023). Se även OECD, *PISA 2022 Results*, vol. I–II, landsnotis för Sverige.
-[^15]: Skolverket, *Läroplan för grundskolan, förskoleklassen och fritidshemmet: Lgr22* (2022).
-[^16]: Koranen, al-Raḥmān 55:1–2.
-[^17]: Ibn Qayyim al-Jawziyyah, *Madārij al-Sālikīn*, avsnittet om *tadhakkur* och *tafakkur*.
-[^18]: al-Ḥasan al-Baṣrī, citerad i Ibn Qayyim al-Jawziyyah, *Madārij al-Sālikīn*.
-[^19]: ʿAlī ibn Abī Ṭālib, citerad i Ibn al-Jawzī, *Ṣifat al-Ṣafwah*.
-[^20]: Ibn Masʿūd, citerad i al-Suyūṭī, *al-Itqān fī ʿUlūm al-Qurʾān*.
-[^21]: Ibn Ḥazm, *al-Taqrīb li-Ḥadd al-Manṭiq*.
-[^22]: Platon, *Staten*, bok VII.
-[^23]: Ibn Khaldūn, *Muqaddimah*, kapitel 6, avsnittet om barnuppfostran.
-[^24]: Erik Gustaf Geijer, "Företal till *Byarne och Staden*".
-[^25]: *Hávamál*, den poetiska Eddan, strof 103.
+[^6]: Ellen Key, *Barnets århundrade* (Albert Bonniers Förlag, 1900).
+[^7]: Ellen Key, *Lifslinjer*, tredje delen.
+[^8]: Skolverket, "PISA – internationell studie om 15-åringars kunskaper" (2023). Se även OECD, *PISA 2022 Results*, vol. I–II.
+[^9]: Skolverket, *Läroplan för grundskolan, förskoleklassen och fritidshemmet: Lgr22* (2022).
+[^10]: Koranen, al-Raḥmān 55:1–2.
+[^11]: Koranen, al-Isrāʾ 17:106.
+[^12]: Ibn Kathīr, *Tafsīr al-Qurʾān al-ʿAẓīm*, kommentar till 17:106, med hänvisning till Ibn ʿAbbās.
+[^13]: Ibn Qayyim al-Jawziyyah, *Madārij al-Sālikīn*, avsnittet om *tadhakkur* och *tafakkur*.
+[^14]: Ibn Masʿūd, citerad i al-Suyūṭī, *al-Itqān fī ʿUlūm al-Qurʾān*.
+[^15]: Ibn Khaldūn, *Muqaddimah*, kapitel 6, avsnittet om barnuppfostran.
+[^16]: *Hávamál*, den poetiska Eddan, strof 103.

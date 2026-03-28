@@ -7,7 +7,7 @@ description: "Tigern ber – bokstavligt. \"Det finns ingenting som inte prisar 
 ---
 Tigern ber – bokstavligt. "Det finns ingenting som inte prisar Hans lov," fastslår Koranen, "men ni förstår inte deras prisande."[^1] Varje andetag, varje språng, varje dödande käftslag är lovsång. Fåglarna "vet hur de skall be och lovprisa."[^2] Djuren bildar samfund som våra.[^3] Skapelsens kör sjunger utan avbrott och utan val.
 
-William Blake ställde 1794 sin berömda fråga: "Skapade Han som skapade lammet även dig?"[^4] Som om rovdjuret vore en spricka i den gudomliga planen. Men den islamiska traditionen ser ingen spricka. Den ser en spegel. Tigern visar oss hur dyrkan ser ut utan valfrihet. Och frågan är inte Blakes utan en svårare: vad säger tigerns fullkomliga, oavbrutna bön om den bön som kan vägras?
+William Blake ställde 1794 sin berömda fråga: "Skapade Han som skapade lammet även dig?"[^4] Som om rovdjuret vore en spricka i den gudomliga planen. Men Koranen ser ingen spricka. Den ser en spegel. Tigern visar oss hur dyrkan ser ut utan valfrihet. Och frågan är inte Blakes utan en svårare: vad säger tigerns fullkomliga, oavbrutna bön om den bön som kan vägras?
 
 ## Bördan som bergen vägrade
 

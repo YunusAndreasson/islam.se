@@ -1,133 +1,90 @@
 ---
-title: "Ormboet"
+title: "Ormboet i hjärtat"
 publishedAt: "2025-09-17T12:00:00.000Z"
-wordCount: 2196
-qualityScore: 8.5
-description: "I sin parisiska exil 1897 stöter August Strindberg bort vänner och drar sig undan, övertygad om att okända makter förföljer honom. Ibn Taymiyyah hade redan sett mönstret: avund är en sjukdom med en förstörelseordning – den börjar i själen och arbetar sig utåt."
+wordCount: 1235
+qualityScore: 8.9
+description: "Varje last betalar sin värd. Girigheten levererar guld, högmodet skänker glans, vreden ger maktkänsla."
 ---
-En passage i Strindbergs *Inferno* ger sig inte så lätt. Mitt i sin parisiska exil, sönderfallen av alkemi och paranoia, skriver han:
+Varje last betalar sin värd. Girigheten levererar guld, högmodet skänker glans, vreden ger maktkänsla. Listan kan göras längre – frosseriets mättnad, lättjans vila, lustans rus – men mönstret håller: alltid finns en utdelning, något den lastbare kan peka på och säga *detta fick jag*.
 
-> Svartsjukt mån om min upptäckt, tar jag inga mått och steg för att utsprida den. I min skygghet vänder jag mig ej till auktoriteterna och akademierna … ursinnig över denna pina, som jag är hågad tillskriva de okända makter, vilka i så många år förföljt mig och lagt hinder för mina bemödanden, undviker och försummar jag människors sällskap, ger återbud till bjudningar, stöter vänner ifrån mig. Tystnad och enslighet breda sig omkring mig.[^1]
+Avunden ger ingenting.
 
-Riktningen avslöjar allt. Strindberg misstänker att andra vill stjäla hans upptäckt, men det är han själv som avskärmas – han stöter bort vännerna, ger återbud. Avunden han kastar utåt vänder sig inåt och förtär hans värld tills bara ökentystnad återstår.
+Ibn Qayyim (1292–1350) förtätade det till en enda sats: avunden bränner den avundsjuke före den avundade, "så som elden bränner veden".[^1] *Före* – inte vid sidan av, inte som biverkan. Den avundsjuke är sitt eget första offer. Denna fullkomliga meningslöshet gör avunden till något annat än en last bland andra. Det som kostar allt och ger ingenting borde vara lätt att lämna – ändå tar traditionen ingen last allvarligare. Frågan är varför.
 
-För denna företeelse har den islamiska traditionen ett namn.
+## Ursynden, två gånger
 
-## Sjukdomen som angriper sin värd
+Al-Māwardī (974–1058) visade varför:
 
-Ibn Taymiyyah (1263–1328), den hanbalitiske teologen, ägnade ett helt verk åt hjärtesoten. I *Amrāḍ al-Qulūb wa-Shifāʾuhā* skriver han utan omsvep:
+> Avund var den första synden som begicks mot Allah ﷻ i himlen – det vill säga Iblis' avund mot Adam – och den första synden som begicks mot Allah ﷻ på jorden – det vill säga Adams sons avund mot sin bror, tills han dödade honom.[^2]
 
-> Avunden är en sjukdom bland själens sjukdomar som fördärvar dess bärares religion och ära, och som sedan kan fördärva hans förstånd och slutligen hans kropp.[^2]
+Före varje lögn, varje våldsdåd, varje överträdelse – avund. Inte en gång utan två, i himlen och på jorden, som om skapelsen behövde lära sig samma läxa dubbelt.
 
-Ordningen är avgörande: religion, ära, förstånd, kropp. I samma verk preciserar han: *ḥasad*, fördärvlig avund, får själen att hata det som gagnar den och älska det som skadar den.[^3] Själens försvar vänder sig mot själen själv.
+I himlen vägrade Iblis falla ned inför Adam: hur kunde en varelse formad av lera föredras framför honom, skapad av eld?[^3] På jorden bar Kain och Abel fram var sitt offer; Abels godtogs, Kains avvisades:
 
-Ibn Qayyim (1292–1350), Ibn Taymiyyahs närmaste elev, förtätade till en enda sats:
+> Men hans inre drev honom mot mordet på sin bror och han dödade honom och blev så en av förlorarna.[^4]
 
-> Avunden bränner den avundsjuke före den avundade, så som elden bränner veden.[^4]
+"Hans inre drev honom." Ingen plan, inget beräknat beslut – en kraft inifrån starkare än förnuftet. Och Koranens ordval är kirurgiskt: Kain blev inte bara mördare utan *förlorare*, *min al-khāsirīn*. Mordet kostade mer än det tog – det förstörde mördaren inifrån. Den som tror att avundens pris betalas av den avundade har läst berättelsen bakvänt. I båda fallen, himmel och jord, är det den avundsjuke som förlorar mest.
 
-*Före*, inte vid sidan av, inte som biverkan. Den avundsjuke är det första offret. Varje annan last ger åtminstone något tillbaka: girigheten sitt guld, högmodet sin glans, vreden sin maktkänsla. Avunden ger ingenting utom smärta.
-
-## Den första synden, två gånger
-
-Traditionens skarpaste insikt om avund är inte psykologisk utan överjordisk. Al-Māwardī (974–1058) pekar ut avund som ursynden, den som satte tragedin i rörelse, i himlen och på jorden:
-
-> Avund var den första synden som begicks mot Allah ﷻ i himlen – det vill säga Iblis' avund mot Adam, frid vare med honom – och den första synden som begicks mot Allah ﷻ på jorden – det vill säga Adams sons avund mot sin bror, tills han dödade honom.[^5]
-
-Koranens femte sura berättar hur det gick till. Kain och Abel bär fram var sitt offer; Abels godtas; Kains avvisas:
-
-> Men hans inre drev honom mot mordet på sin bror och han dödade honom och blev så en av förlorarna.[^6]
-
-"Hans inre drev honom." Ingen plan, inget beräknat beslut, en kraft inifrån starkare än förnuftet. Följden: broderns död, och att Kain själv blev "en av förlorarna", *min al-khāsirīn*.
-
-Iblis vägrade buga inför Adam av ren avund: hur kunde denna varelse av lera föredras framför honom, som var skapad av eld?[^7] Avund är en anklagelse mot Guds fördelning, en protest mot att andra får vad man anser sig förtjäna.
+Mönstret är detsamma. Iblis ville inte *vara* Adam. Kain ville inte *ha* Abels gåva. Avunden begär inte det den andre äger – den begär att den andre *inte ska äga det*. Häri skiljer den sig från allt annat: girigheten vill att något ska finnas, i min hand; högmodet vill att något ska finnas, min överlägsenhet. Avunden vill att något inte ska finnas alls. Den är ren förnekelse – och det förklarar varför den blev den allra första synden: den enda lasten vars innersta rörelse är att utplåna.
 
 ## Ormboet
 
-Viktor Rydberg (1828–1895) gav avunden en bild som ger eko av de islamiska lärdas beskrivningar:
+Viktor Rydberg gav avunden den bild som bäst fångar dess inre logik:
 
-> Svartsjukan är en gruvlig plåga, Rakel. Tacka din Gud, att hon icke hemsökt dig. Hon förvandlar hjärtat till ett ormbo, varur tusen giftiga gaddar framsticka och sarga vårt inre.[^8]
+> Svartsjukan är en gruvlig plåga, Rakel. Tacka din Gud, att hon icke hemsökt dig. Hon förvandlar hjärtat till ett ormbo, varur tusen giftiga gaddar framsticka och sarga vårt inre.[^5]
 
-Ormboet, inte en ensam orm som bits en gång utan ett helt bo som myllrar, en källa till gift som oupphörligt alstrar nytt. Ibn Ḥibbān (ca. 884–965), den hadithlärde, vidgar bilden från boet till branden:
+Inte en ensam orm som bits en gång utan ett helt bo som myllrar – en källa till gift som oupphörligt alstrar nytt. Och gaddarna sargar *vårt inre*: giftet söker inte en fiende utan förtär sin egen värd.
 
-> Varje brand har något som kan släcka den, men avundens eld kan inte släckas.[^9]
+Strindberg ger oss fallet i realtid. I *Inferno*, mitt i sin parisiska exil 1897:
 
-Elden kan inte släckas – men vart leder den? Ibn Ḥibbān spårar kedjan:
+> Svartsjukt mån om min upptäckt, tar jag inga mått och steg för att utsprida den … ursinnig över denna pina, som jag är hågad tillskriva de okända makter vilka i så många år förföljt mig, undviker och försummar jag människors sällskap, ger återbud till bjudningar, stöter vänner ifrån mig. Tystnad och enslighet breda sig omkring mig.[^6]
 
-> Ur avunden föds hatet, och hatet är ondskans rot.[^10]
+Riktningen avslöjar allt. Strindberg misstänker att andra vill stjäla hans upptäckt, men det är han som avskärmas – han stöter bort vännerna, ger återbud, sluter sig. Avunden han kastar utåt slår tillbaka inåt och förtär det den föregav sig skydda. Strindberg *ser* mekanismen – skriver om den med iakttagarens öga – men det hjälper honom inte. Beskrivningen blir en del av sjukdomen. Insikten saknar det enda som kunde göra den verksam: ett val.
 
-Tre led utan lindring emellan: avund, hat, ondska.
-Men avundens mest kusliga drag är inte dess våldsamhet utan dess förmåga att tränga in överallt. Karin Boye fångar det i *Kallocain*:
+## Det som avundas
 
-> Återigen avund. Den mannen där, mindervärdig på många sätt som han var, talade om ett ögonblick av hög salighet, visserligen förgånget och nästan glömt, men ändå ett ögonblick … Hans korta extatiska vandring – ja, den avundades jag honom.[^11]
+Vad riktar sig avunden egentligen mot? Svaret avslöjar dess sista hemlighet.
 
-Boyes berättare avundas inte rikedom eller status utan ett *ögonblick av hög salighet*, en upplevelse så flyktig att dess ägare knappt minns den.
+Karin Boye, *Kallocain* (1940):
 
-## Självförgiftningen
+> Återigen avund. Den mannen där, mindervärdig på många sätt som han var, talade om ett ögonblick av hög salighet, visserligen förgånget och nästan glömt, men ändå ett ögonblick … Hans korta extatiska vandring – ja, den avundades jag honom.[^7]
 
-Max Scheler (1874–1928) kallade det *Selbstvergiftung*, självförgiftning: avund som förvränger hela värdeskalan så att det man inte kan uppnå förklaras som värdelöst.[^12] Befordran betydde allt tills den gick till en kollega; då blev ledarskap meningslöst.
-Scheler kan beskriva drivverket men inte upphäva det. Om den drabbades egen värdeblick är förgiftad finns i hans tänkande ingen oförstörd punkt varifrån det förvridna kan rättas. Den islamiska traditionen förutsätter en sådan fast punkt, *fiṭrah*, den skapade naturen, och ett mått utanför själen: Guds fördelning. Därför kan traditionen gå från beskrivning till läkning.
+Inte rikedom, inte befattning, inte makt. Ett *ögonblick av hög salighet* – en upplevelse så flyktig att dess ägare knappt minns den. Boyes berättare lever i en totalitär stat som kontrollerar allt utom detta: den inre upplevelsen. Det är där avunden finner sitt mål.
 
-Hjalmar Söderberg fångar alltsammans i sju ord, i *Doktor Glas*: "Han är lycklig, och honom afundas jag."[^13] Ingen förklaring, ingen ursäkt. Bara konstaterandet.
+Hjalmar Söderberg destillerade till sju ord i *Doktor Glas*: "Han är lycklig, och honom afundas jag."[^8]
 
-## Ghibṭah – avundens motsats
+Söderbergs skärpa ligger i att han inte ens försöker förklara. Ingen orättvisa behöver ha begåtts, ingen förlust ha drabbat den avundsjuke – bara det outhärdliga faktum att en annan människa äger ett tillstånd man själv saknar. Avunden riktar sig inte mot ägandet utan mot *lyckan*. Och eftersom lycka inte kan överföras återstår bara önskan att den ska upphöra – att ljuset i den andres ögon ska slockna.
 
-Den islamiska traditionen gör en åtskillnad som modern psykologi först sent börjat formulera. Al-Māwardī skiljer mellan *ḥasad*, fördärvlig avund, och *munāfasah*, sund strävan:
+Här sluts cirkeln till al-Māwardīs ursynd. Iblis avundades inte Adams kropp av lera – han avundades Adams rang inför Gud, att vara sedd och föredragen. Kain avundades inte Abels offer utan Guds blick mot det. Avunden är en protest inte mot fördelningen av ting utan mot att en annan varelse bär ljus.
 
-> Tävlan är att söka likna de förträffliga utan att tillfoga dem skada, medan avund är riktad mot att skada.[^14]
+## Mellanrummet
 
-Skillnaden är till art, inte grad. *Ghibṭah* ser en annans välsignelse och tänker: "Må Allah ﷻ ge mig liknande." *Ḥasad* ser samma välsignelse: "Må den tas ifrån honom."
+Traditionen nöjer sig inte med diagnos. Al-Māwardī skiljer mellan två väsensskilda rörelser:
 
-En experimentell studie i *Emotion* (2009) visade att avunden rymmer två artskilda känslor: en som driver självförbättring, en som söker den andres fall.[^15]
+> Tävlan är att söka likna de förträffliga utan att tillfoga dem skada, medan avund är riktad mot att skada.[^9]
 
-Al-Ḥasan al-Baṣrī (ca. 642–728), asketen från Basra, erbjöd tröst med en avgörande nyansering:
+*Ghibṭah* ser en annans välsignelse och tänker: "Må Allah ﷻ ge mig liknande." *Ḥasad* ser samma välsignelse: "Må den tas ifrån honom." Skillnaden är till art, inte till grad – den ena rymmer skapande, den andra förstörelse. Forskningen bekräftar vad traditionen visste: avunden rymmer verkligen två artskilda rörelser, en som driver framåt, en som söker den andres fall.[^10]
 
-> Det finns ingen bland Adams barn som inte skapats med avund i sig. Men den som varken följer den i ord eller handling – inget [ont] följer av den.[^16]
+Al-Ḥasan al-Baṣrī (ca. 642–728) erbjöd den avgörande nyansen:
 
-Mellan impulsen och handlingen ligger ett val, och i det utrymmet verkar den islamiska etiken.
+> Det finns ingen bland Adams barn som inte skapats med avund i sig. Men den som varken följer den i ord eller handling – inget [ont] följer av den.[^11]
 
-Ellen Key satte fingret på avundens kulturella sida:
+Inte: undvik avund. Inte: bekämpa avund. Utan: avunden finns i dig redan – den har alltid funnits, den kommer alltid att finnas. Men den behöver inte nå längre än till bröstet.
 
-> Eftersom små och afundsamma själar ännu äro vanliga, måste kulturarbetet gå ut på att dana större själar.[^17]
+Mellan impulsen och handlingen ligger ett mellanrum, och i det mellanrummet avgörs allt. Strindberg saknade det. Hans avund drev rakt igenom till handling – han stötte bort vännerna, lät ormboet myllra ostört, blev dess första offer. Han kunde beskriva sjukdomen men inte bryta den, för insikt utan val förblir en del av sjukdomen.
 
-Keys lösning, att göra själar "större", speglar grundsatsen om *tazkiyat al-nafs*, själens rening. Problemet är inte att avunden finns utan att själen är för trång att rymma både sin egen lycka och andras. Rening vidgar den tills en annans framgång inte längre känns som ens egen förlust.
-
-## Skydd mot gryningsljuset
-
-Koranens näst sista sura, *al-Falaq* (Gryningsljuset), är en bön om skydd. Den namnger fyra faror, bland dem:
-
-> Och mot ondskan hos den avundsamme när han avundas.[^18]
-
-Att avunden nämns i denna korta sura – fem verser – sida vid sida med nattens mörker ger den en tyngd som dagens samtal sällan skänker.
-
-Ibn Khaldūn (1332–1406) såg samma allvar:
-
-> Högmod och avund är fiender till enighet, men religionen kan besegra dem båda.[^19]
-
-Och botemedlet:
-
-> När hjärtorna vänds mot sanningen och avvisar världen, blir de enade i sin syn. Avundsjukan försvinner och meningsskiljaktigheterna blir få.[^20]
-
-Avunden behöver jämförelsen för att andas. Den som slutar mäta sig mot andra och börjar mäta sig efter sina löften till Gud tar syret från avunden.
+Traditionen erbjuder inte en uppmaning att sluta känna utan en uppfordran att inte lyda. Avunden behöver jämförelsen för att andas – den lever av mätningen, min lycka mot din, mitt värde mot ditt. Den som slutar mäta sig mot andra och börjar mäta sig efter sina löften till Gud tar syret från ormboet. Gaddarna myllrar fortfarande. Men de når inte längre ut.
 
 ---
 
-[^1]: August Strindberg, *Inferno*, kap. I (1897).
-[^2]: Ibn Taymiyyah, *Amrāḍ al-Qulūb wa-Shifāʾuhā* (Hjärtats sjukdomar och deras botemedel).
-[^3]: Ibn Taymiyyah, *Amrāḍ al-Qulūb wa-Shifāʾuhā*.
-[^4]: Ibn Qayyim al-Jawziyyah, *Madārij al-Sālikīn* (De vandrandes stationer).
-[^5]: al-Māwardī, *Adab al-Dunyā wa-l-Dīn*.
-[^6]: Koranen, al-Māʾidah 5:30.
-[^7]: Jfr Koranen, Ṣād 38:74–76.
-[^8]: Viktor Rydberg, *Den siste Atenaren* (1859).
-[^9]: Ibn Ḥibbān, *Rawḍat al-ʿUqalāʾ wa-Nuzhat al-Fuḍalāʾ* (De förnuftigas trädgård).
-[^10]: Ibn Ḥibbān, *Rawḍat al-ʿUqalāʾ wa-Nuzhat al-Fuḍalāʾ*.
-[^11]: Karin Boye, *Kallocain* (1940).
-[^12]: Max Scheler, *Das Ressentiment im Aufbau der Moralen* (1912). Översättning av sammanfattningen efter Schelers analys.
-[^13]: Hjalmar Söderberg, *Doktor Glas* (1905). Stavningen "afundas" återger Söderbergs original.
-[^14]: al-Māwardī, *Adab al-Dunyā wa-l-Dīn*.
-[^15]: Van de Ven, Zeelenberg & Pieters, "Leveling Up and Down: The Experiences of Benign and Malicious Envy," *Emotion* 9, nr. 3 (2009): 419–429.
-[^16]: al-Ḥasan al-Baṣrī, citerad i Ibn al-Jawzī, *Ṣayd al-Khāṭir* (Tankens fångst).
-[^17]: Ellen Key, *Lifslinjer*, tredje delen (1906). Stavningen "afundsamma" återger Keys original.
-[^18]: Koranen, al-Falaq 113:5.
-[^19]: Ibn Khaldūn, *Muqaddimah* (Introduktion till universalhistorien).
-[^20]: Ibn Khaldūn, *Muqaddimah*.
+[^1]: Ibn Qayyim al-Jawziyyah, *Madārij al-Sālikīn*.
+[^2]: al-Māwardī, *Adab al-Dunyā wa-l-Dīn*.
+[^3]: Jfr Koranen, Ṣād 38:74–76.
+[^4]: Koranen, al-Māʾidah 5:30.
+[^5]: Viktor Rydberg, *Den siste Atenaren* (1859).
+[^6]: August Strindberg, *Inferno*, kap. I (1897).
+[^7]: Karin Boye, *Kallocain* (1940).
+[^8]: Hjalmar Söderberg, *Doktor Glas* (1905). Stavningen "afundas" återger Söderbergs original.
+[^9]: al-Māwardī, *Adab al-Dunyā wa-l-Dīn*.
+[^10]: Van de Ven, Zeelenberg & Pieters, "Leveling Up and Down: The Experiences of Benign and Malicious Envy," *Emotion* 9, nr. 3 (2009): 419–429.
+[^11]: al-Ḥasan al-Baṣrī, citerad i Ibn al-Jawzī, *Ṣayd al-Khāṭir*.

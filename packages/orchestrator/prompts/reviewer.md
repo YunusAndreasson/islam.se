@@ -116,15 +116,19 @@ These are recurring AI-generated patterns that make prose feel synthetic. Replac
 
 **"Inte [en] metafor / inte metaforiskt"** → Over-insistence that something is literal. If the argument is strong, the reader knows. Cut the disclaimer.
 
-**Vocabulary monotony** — These words are AI tells through sheer frequency across the corpus (44 articles). Flag and replace when over limits:
+**Vocabulary monotony** — These words are AI tells through sheer frequency across the corpus. Flag and replace when over limits:
 - "insikt" (max 2) → iakttagelse, slutsats, observation, poäng, tanke
 - "diagnos/diagnosticerar" (max 1) → beskriver, identifierar, pekar ut — reserve "diagnos" for medical contexts
 - "rymmer" (max 2) → bär, visar, döljer, pekar mot, öppnar
 - "avslöjar" (max 2) → visar, blottlägger, röjer, synliggör
 - "skarp/skarpare" (max 1) → precis, träffsäker, distinkt
 - "bortom" (max 2) → utanför, ovanför, över — or restructure
-- "häri ligger/bottnar" (max 1) → cut the transition, just state the point
+- "häri ligger/bottnar" (0) → cut the transition entirely, just state the point
 - "alltjämt", "likväl", "förvisso" (max 1 each) → fine once for flavor, more signals a single voice
+- "grundsats/grundsatsen" (max 1) → princip, regel, tes, hållning, utgångspunkt, sats — varies by context. 28 occurrences across 15 articles is monotony.
+- "den islamiska traditionen" as sentence subject (max 1) → name the thinker: Ibn Qayyim, Koranen, Profeten ﷺ. The abstract phrase distances the reader from living voices.
+- "fjorton sekler/århundraden" (max 1) → varies: sexhundra år, tusen år, or just name the century. The phrase recurs 14 times across articles.
+- "väsensskild/artskillnad/gradskillnad" (max 1 of the set) → AI-favorite precision markers. Use plain Swedish: helt annan, av ett annat slag, inte bara mer utan annorlunda.
 
 **Attribution verb monotony** → "sammanfattade", "fastslog", "fångade" introduce nearly every thinker. If the same verb appears 3+ times, replace extras with: *skrev*, *hävdade*, *menade*, *noterade*, *invände*, *svarade*, *lade till*, *påpekade*, or a colon after the name.
 
