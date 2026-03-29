@@ -188,7 +188,10 @@ export class PodcastService {
 		// Step 3: Get audio duration
 		const duration_secs = this.getAudioDuration(audioPath);
 
-		// Step 4: Update article frontmatter
+		// Step 4: Generate episode cover art (square crop of hero image)
+		this.generateEpisodeCover(slug);
+
+		// Step 5: Update article frontmatter
 		this.updateFrontmatter(articlePath, `${slug}.mp3`, duration_secs);
 		console.log(`   ✓ Frontmatter updated: audioFile: "${slug}.mp3", audioDuration: ${duration_secs}s`);
 
@@ -277,6 +280,35 @@ export class PodcastService {
 		}
 
 		return chunks;
+	}
+
+	/**
+	 * Generate square episode cover art from the hero image.
+	 * Center-crops to square and resizes to 1400x1400 JPEG.
+	 */
+	private generateEpisodeCover(slug: string): void {
+		const imagesDir = join(__dirname, "..", "..", "..", "..", "apps", "web", "src", "assets", "images");
+		const heroPath = join(imagesDir, `${slug}.webp`);
+		if (!existsSync(heroPath)) {
+			console.log("   ⚠ No hero image found, skipping episode cover");
+			return;
+		}
+
+		const coverPath = join(this.audioDir, `${slug}.jpg`);
+		try {
+			execFileSync("magick", [
+				heroPath,
+				"-gravity", "center",
+				"-crop", "1024x1024+0+0",
+				"+repage",
+				"-resize", "1400x1400",
+				"-quality", "90",
+				coverPath,
+			]);
+			console.log(`   ✓ Episode cover: ${coverPath}`);
+		} catch (err) {
+			console.log(`   ⚠ Episode cover failed: ${err instanceof Error ? err.message : String(err)}`);
+		}
 	}
 
 	/**

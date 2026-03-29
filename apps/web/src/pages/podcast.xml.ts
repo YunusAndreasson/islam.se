@@ -29,12 +29,22 @@ function escapeXml(str: string): string {
 		.replace(/'/g, "&apos;");
 }
 
-function getFileBytes(audioFile: string): number {
+function getFileBytes(filename: string): number {
 	try {
-		const path = new URL(`../../../public/audio/${audioFile}`, import.meta.url);
+		const path = new URL(`../../../public/audio/${filename}`, import.meta.url);
 		return statSync(path).size;
 	} catch {
 		return 0;
+	}
+}
+
+function hasEpisodeArt(slug: string): boolean {
+	try {
+		const path = new URL(`../../../public/audio/${slug}.jpg`, import.meta.url);
+		statSync(path);
+		return true;
+	} catch {
+		return false;
 	}
 }
 
@@ -47,6 +57,9 @@ export async function GET(_context: APIContext) {
 			const audioUrl = `${SITE}/audio/${ep.audioFile}`;
 			const bytes = getFileBytes(ep.audioFile!);
 			const link = `${SITE}/${ep.slug}/`;
+			const imageTag = hasEpisodeArt(ep.slug)
+				? `\n      <itunes:image href="${SITE}/audio/${ep.slug}.jpg"/>`
+				: "";
 
 			return `    <item>
       <title>${escapeXml(ep.title)}</title>
@@ -57,7 +70,7 @@ export async function GET(_context: APIContext) {
       <enclosure url="${audioUrl}" length="${bytes}" type="audio/mpeg"/>
       <itunes:duration>${ep.audioDuration ?? 0}</itunes:duration>
       <itunes:explicit>false</itunes:explicit>
-      <itunes:episodeType>full</itunes:episodeType>
+      <itunes:episodeType>full</itunes:episodeType>${imageTag}
     </item>`;
 		})
 		.join("\n");
