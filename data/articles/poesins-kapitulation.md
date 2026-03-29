@@ -3,7 +3,7 @@ title: "Poesins kapitulation"
 publishedAt: "2025-09-05T12:00:00.000Z"
 wordCount: 1159
 qualityScore: 8.9
-description: "Han hade levt ett halvt sekel bland ord. Walīd ibn al-Mughīra hade dömt dikttävlingar vid Ukaz marknad, bedömt qasidor sedan ungdomen, vägde varje stavelse med en säkerhet som Quraysh-stammens övriga hövdingar saknade och därför litade på. I frågor o"
+description: "Han hade levt ett halvt sekel bland ord. Walīd ibn al-Mughīra hade dömt dikttävlingar vid Ukaz marknad, bedömt qasidor sedan ungdomen, vägde varje stavelse med en säkerhet som Quraysh-stammens övriga hövdingar saknade och därför litade på. I frågor om poetisk rang var hans omdöme slutgiltigt."
 ---
 Han hade levt ett halvt sekel bland ord. Walīd ibn al-Mughīra hade dömt dikttävlingar vid Ukaz marknad, bedömt qasidor sedan ungdomen, vägde varje stavelse med en säkerhet som Quraysh-stammens övriga hövdingar saknade och därför litade på. I frågor om poetisk rang var hans omdöme slutgiltigt.
 

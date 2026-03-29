@@ -1,6 +1,6 @@
 ---
 title: "Det han letade efter"
-publishedAt: "2025-08-06T12:00:00.000Z"
+publishedAt: "2026-03-14T12:00:00.000Z"
 wordCount: 1094
 qualityScore: 8.9
 description: "Snitten var felfria. Emanuel Swedenborg böjde sig över öppnade skallar på 1740-talet med en kartografs tålamod och en ingenjörs blick."

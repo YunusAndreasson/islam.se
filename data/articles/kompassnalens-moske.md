@@ -1,6 +1,6 @@
 ---
 title: "Kompassnålens moské"
-publishedAt: "2025-12-16T12:00:00.000Z"
+publishedAt: "2026-03-29T12:00:00.000Z"
 wordCount: 1665
 qualityScore: 8.9
 description: "Landsvägen stiger i två kilometer. Från höjden breder sig en rund dal, och mitt i tratten ligger byn med sin kyrka. Bilden är Strindbergs, men mönstret är äldre."

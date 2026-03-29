@@ -1,6 +1,6 @@
 ---
 title: "Skapad ur ingenting"
-publishedAt: "2025-10-05T12:00:00.000Z"
+publishedAt: "2026-03-20T12:00:00.000Z"
 wordCount: 1188
 qualityScore: 8.9
 description: "Först ateismen. Sedan ockultismen, alkemin, spiritismen. Sedan Swedenborg. Under de år som omspänner Inferno prövade Strindberg varje hållning han kunde nå – och ingen bar hans vikt."

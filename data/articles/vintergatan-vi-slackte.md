@@ -3,7 +3,7 @@ title: "Vintergatan vi släckte"
 publishedAt: "2025-07-27T12:00:00.000Z"
 wordCount: 1236
 qualityScore: 8.9
-description: "En tredjedel av mänskligheten har aldrig sett Vintergatan."
+description: "En tredjedel av mänskligheten har aldrig sett Vintergatan. Siffran är ny – den kommer ur en internationell kartläggning av konstgjort nattljus publicerad i *Science Advances* 2016. I Europa lever nittio procent under himlar så genomlysta att stjärnhimlen krympt till ett fåtal punkter."
 ---
 En tredjedel av mänskligheten har aldrig sett Vintergatan. Siffran är ny – den kommer ur en internationell kartläggning av konstgjort nattljus publicerad i *Science Advances* 2016.[^1] I Europa lever nittio procent under himlar så genomlysta att stjärnhimlen krympt till ett fåtal punkter. Sverige, Norge och norra Skottland tillhör de sista europeiska regioner där Vintergatan överhuvudtaget kan urskiljas.
 

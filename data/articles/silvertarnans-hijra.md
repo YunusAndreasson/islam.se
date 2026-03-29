@@ -1,9 +1,9 @@
 ---
 title: "Silvertärnans hijra"
-publishedAt: "2025-08-24T12:00:00.000Z"
+publishedAt: "2026-03-17T12:00:00.000Z"
 wordCount: 1335
 qualityScore: 8.9
-description: "Hundra gram. En hjärna stor som en ärta. Varje höst lämnar silvertärnan Arktis och flyger till Antarktis – 70 000 kilometer om året, den längsta kända flytten i djurriket.[^1] Under resan sover den troligen med halva hjärnan i taget: ett öga öppet mo"
+description: "Hundra gram. En hjärna stor som en ärta. Varje höst lämnar silvertärnan Arktis och flyger till Antarktis – 70 000 kilometer om året, den längsta kända flytten i djurriket. Under resan sover den troligen med halva hjärnan i taget: ett öga öppet mot horisonten, det andra slutet."
 audioFile: "silvertarnans-hijra.mp3"
 audioDuration: 566
 ---

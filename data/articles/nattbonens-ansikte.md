@@ -1,6 +1,6 @@
 ---
 title: "Nattbönens ansikte"
-publishedAt: "2025-12-10T12:00:00.000Z"
+publishedAt: "2026-03-26T12:00:00.000Z"
 wordCount: 1897
 qualityScore: 8.6
 description: "En kvinna vaknar mitt i natten, inte för att sminka sig – för att be. Tillfrågad varför svarar hon att bönen förskönar ansiktet. Det är ett svar skönhetsindustrin inte kan sälja."
