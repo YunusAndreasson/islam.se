@@ -9,6 +9,7 @@ const articles = defineCollection({
 		wordCount: z.number(),
 		description: z.string(),
 		audioFile: z.string().optional(),
+		audioDuration: z.number().optional(),
 	}),
 });
 

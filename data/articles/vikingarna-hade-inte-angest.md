@@ -5,6 +5,7 @@ wordCount: 1492
 qualityScore: 8.6
 description: "Gunnar på Hlíðarendi är dömd till landsflykt. När han vänder sig i sadeln och ser ut över ängarna, stiger han av och stannar – han vet att det kostar honom livet. Lugnet kom inte av okunskap. Det kom av att han visste var han stod."
 audioFile: "vikingarna-hade-inte-angest.mp3"
+audioDuration: 411
 ---
 Gunnar på Hlíðarendi, dömd till landsflykt, vänder sig i sadeln och ser ut över sin gård. Ängarna lyser klarare än någonsin. Han stiger av hästen och stannar – väl medveten om att beslutet kostar honom livet.
 

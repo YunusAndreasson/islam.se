@@ -24,8 +24,8 @@ const PODCAST_CONFIG = {
 		similarity_boost: 0.75,
 		speed: 0.95,
 	},
-	outputFormat: "mp3_44100_128",
-	maxChunkChars: 2000,
+	outputFormat: "mp3_44100_192",
+	maxChunkChars: 5000,
 };
 
 export interface PodcastResult {
@@ -89,7 +89,7 @@ export class PodcastService {
 		const chunks = this.chunkText(script, PODCAST_CONFIG.maxChunkChars);
 
 		if (chunks.length === 1) {
-			const result = await this.callElevenLabs(apiKey, chunks[0] as string, "mp3_44100_128");
+			const result = await this.callElevenLabs(apiKey, chunks[0] as string);
 			if (!(result.success && result.audio)) {
 				return { success: false, error: `Audio generation failed: ${result.error}` };
 			}
@@ -102,10 +102,9 @@ export class PodcastService {
 
 		try {
 			const chunkPaths: string[] = [];
-
 			for (let i = 0; i < chunks.length; i++) {
 				const chunk = chunks[i] as string;
-				const result = await this.callElevenLabs(apiKey, chunk, "mp3_44100_128");
+				const result = await this.callElevenLabs(apiKey, chunk);
 				if (!(result.success && result.audio)) {
 					return {
 						success: false,
@@ -186,9 +185,12 @@ export class PodcastService {
 			`   ✓ MP3 saved: ${audioPath} (${(audioResult.audio.length / 1024 / 1024).toFixed(1)} MB)`,
 		);
 
-		// Step 3: Update article frontmatter
-		this.updateFrontmatter(articlePath, `${slug}.mp3`);
-		console.log(`   ✓ Frontmatter updated: audioFile: "${slug}.mp3"`);
+		// Step 3: Get audio duration
+		const duration_secs = this.getAudioDuration(audioPath);
+
+		// Step 4: Update article frontmatter
+		this.updateFrontmatter(articlePath, `${slug}.mp3`, duration_secs);
+		console.log(`   ✓ Frontmatter updated: audioFile: "${slug}.mp3", audioDuration: ${duration_secs}s`);
 
 		const duration = Date.now() - startTime;
 		return { success: true, audioPath, scriptPath, duration };
@@ -200,8 +202,8 @@ export class PodcastService {
 	private async callElevenLabs(
 		apiKey: string,
 		text: string,
-		outputFormat = PODCAST_CONFIG.outputFormat,
 	): Promise<{ success: boolean; audio?: Buffer; error?: string }> {
+		const outputFormat = PODCAST_CONFIG.outputFormat;
 		const url = `https://api.elevenlabs.io/v1/text-to-speech/${PODCAST_CONFIG.voiceId}?output_format=${outputFormat}`;
 
 		const body = {
@@ -278,16 +280,43 @@ export class PodcastService {
 	}
 
 	/**
-	 * Add audioFile field to article frontmatter.
+	 * Get audio duration in seconds using ffprobe.
 	 */
-	private updateFrontmatter(articlePath: string, audioFile: string): void {
+	private getAudioDuration(audioPath: string): number {
+		try {
+			const output = execFileSync("ffprobe", [
+				"-v",
+				"quiet",
+				"-show_entries",
+				"format=duration",
+				"-of",
+				"csv=p=0",
+				audioPath,
+			]).toString().trim();
+			return Math.round(Number.parseFloat(output));
+		} catch {
+			return 0;
+		}
+	}
+
+	/**
+	 * Add audioFile and audioDuration fields to article frontmatter.
+	 */
+	private updateFrontmatter(articlePath: string, audioFile: string, audioDuration: number): void {
 		let content = readFileSync(articlePath, "utf-8");
 		const audioLine = `audioFile: "${audioFile}"`;
+		const durationLine = `audioDuration: ${audioDuration}`;
 
 		if (/^audioFile: .+$/m.test(content)) {
 			content = content.replace(/^audioFile: .+$/m, audioLine);
 		} else {
 			content = content.replace(/\n---\n/, `\n${audioLine}\n---\n`);
+		}
+
+		if (/^audioDuration: .+$/m.test(content)) {
+			content = content.replace(/^audioDuration: .+$/m, durationLine);
+		} else {
+			content = content.replace(/^audioFile: .+$/m, `${audioLine}\n${durationLine}`);
 		}
 
 		writeFileSync(articlePath, content, "utf-8");

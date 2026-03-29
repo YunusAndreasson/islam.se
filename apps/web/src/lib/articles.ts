@@ -15,6 +15,7 @@ export interface Article {
 	readingTime: number;
 	description: string;
 	audioFile?: string;
+	audioDuration?: number;
 	heroImage?: ImageMetadata;
 	mobileHeroImage?: ImageMetadata;
 	entry: Awaited<ReturnType<typeof getCollection>>[number];
@@ -63,6 +64,7 @@ export async function getArticles(): Promise<Article[]> {
 			readingTime: Math.ceil(entry.data.wordCount / 200),
 			description: entry.data.description,
 			audioFile: entry.data.audioFile,
+			audioDuration: entry.data.audioDuration,
 			heroImage: heroImageMap.get(entry.id),
 			mobileHeroImage: mobileImageMap.get(entry.id),
 			entry,

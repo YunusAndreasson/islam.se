@@ -4,6 +4,8 @@ publishedAt: "2025-07-31T12:00:00.000Z"
 wordCount: 1188
 qualityScore: 8.9
 description: "Klockan tre på natten. Du ligger vaken. Kroppen är trött men tankarna kretsar – sluter aldrig sin bana. Telefonen lyser. Du vet att skärmljuset förvärrar allt."
+audioFile: "somnens-lilla-dod.mp3"
+audioDuration: 509
 ---
 Klockan tre på natten. Du ligger vaken. Kroppen är trött men tankarna kretsar – sluter aldrig sin bana. Telefonen lyser. Du vet att skärmljuset förvärrar allt. Ändå griper du den – inte för att du behöver veta något, utan för att din hand behöver hålla.
 
