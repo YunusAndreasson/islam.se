@@ -6,8 +6,8 @@
 
 import { execFileSync } from "node:child_process";
 import { existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
-import { dirname, join } from "node:path";
 import { tmpdir } from "node:os";
+import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { ClaudeRunner } from "../claude-runner.js";
 import { getModelId } from "../utils.js";
@@ -25,7 +25,7 @@ const PODCAST_CONFIG = {
 		speed: 0.95,
 	},
 	outputFormat: "mp3_44100_128",
-	maxChunkChars: 4500,
+	maxChunkChars: 2000,
 };
 
 export interface PodcastResult {
@@ -96,38 +96,41 @@ export class PodcastService {
 			return { success: true, audio: result.audio };
 		}
 
-		// Multiple chunks: request raw PCM, concatenate losslessly, encode to MP3 once.
-		// This avoids double lossy encoding (MP3→decode→MP3).
-		const pcmChunks: Buffer[] = [];
-
-		for (let i = 0; i < chunks.length; i++) {
-			const chunk = chunks[i] as string;
-			const result = await this.callElevenLabs(apiKey, chunk, "pcm_44100");
-			if (!(result.success && result.audio)) {
-				return { success: false, error: `Chunk ${i + 1}/${chunks.length} failed: ${result.error}` };
-			}
-			pcmChunks.push(result.audio);
-		}
-
-		// Concatenate raw PCM (signed 16-bit LE, 44100 Hz, mono) — lossless
-		const combinedPcm = Buffer.concat(pcmChunks);
-
-		// Encode combined PCM to MP3 once with ffmpeg
+		// Multiple chunks: generate MP3 per chunk, concatenate with ffmpeg
 		const tempDir = join(tmpdir(), `islam-se-audio-${Date.now()}`);
 		mkdirSync(tempDir, { recursive: true });
 
 		try {
-			const pcmPath = join(tempDir, "combined.pcm");
-			const outputPath = join(tempDir, "combined.mp3");
-			writeFileSync(pcmPath, combinedPcm);
+			const chunkPaths: string[] = [];
 
+			for (let i = 0; i < chunks.length; i++) {
+				const chunk = chunks[i] as string;
+				const result = await this.callElevenLabs(apiKey, chunk, "mp3_44100_128");
+				if (!(result.success && result.audio)) {
+					return {
+						success: false,
+						error: `Chunk ${i + 1}/${chunks.length} failed: ${result.error}`,
+					};
+				}
+				const chunkPath = join(tempDir, `chunk-${i}.mp3`);
+				writeFileSync(chunkPath, result.audio);
+				chunkPaths.push(chunkPath);
+			}
+
+			// Build ffmpeg concat list
+			const listPath = join(tempDir, "concat.txt");
+			writeFileSync(listPath, chunkPaths.map((p) => `file '${p}'`).join("\n"));
+
+			const outputPath = join(tempDir, "combined.mp3");
 			execFileSync("ffmpeg", [
-				"-f", "s16le",
-				"-ar", "44100",
-				"-ac", "1",
-				"-i", pcmPath,
-				"-codec:a", "libmp3lame",
-				"-b:a", "128k",
+				"-f",
+				"concat",
+				"-safe",
+				"0",
+				"-i",
+				listPath,
+				"-c",
+				"copy",
 				outputPath,
 			]);
 

@@ -54,6 +54,7 @@ if (articleMeta) {
 		wordCount: articleMeta.wordCount,
 		inLanguage: "sv",
 		url: canonicalUrl.href,
+		...(ogImage ? { image: new URL(ogImage, Astro.site).href } : {}),
 		author: {
 			"@type": "Organization",
 			name: "islam.se",

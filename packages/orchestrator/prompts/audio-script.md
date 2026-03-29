@@ -19,9 +19,11 @@ Transform the markdown essay into a clean spoken-word script optimized for Eleve
 
 3. **Convert blockquotes to natural speech** — a blockquote in the essay is a quoted voice. In speech, it needs a spoken frame. Weave it in: "som Ibn Qayyim skriver..." or "med al-Ghazālīs ord..." — whatever fits the flow. The quote itself should feel like a natural part of the narration, not a wall of text being read from a different source.
 
-4. **Preserve the prose exactly** — the written Swedish is the product of extensive refinement. Do not substitute words, simplify sentences, add filler, or introduce anglicisms or latinisms. If the essay says *likväl*, do not change it to *men*. If it says *häri*, keep *häri*. Your job is adaptation to spoken form, not rewriting.
+4. **Adapt freely for the ear** — the essay is your raw material, not your script. You may restructure sentences, merge or split passages, reorder ideas, drop passages that don't carry their weight in audio, and rephrase for spoken rhythm. A written aside or catalogue that works on paper can become dead air. Cut it or condense it. A long subordinate clause that the eye parses easily may need to become two sentences for the ear. A parenthetical source attribution ("som al-Mawardi skriver i Adab al-dunya wa-l-din") can often be shortened to a name or dropped entirely if context makes the voice clear.
 
-5. **Handle Arabic terms** — keep single concept-words already explained in context (qalb, fitrah, taqwā, nafs). Remove the Arabic transliteration if the Swedish equivalent immediately follows and is sufficient alone. Remove all long Arabic phrases entirely.
+   What you must NOT do: add filler, add anglicisms or latinisms the essay didn't use, add rhetorical questions for "engagement", or make the tone warmer or more inviting than the original. The register is P1 Andakt — sparse, still, serious. The listener should feel that someone is thinking aloud in their presence, not being addressed. No "Tänk dig:", no "Lyssna på det här:", no podcast energy. If anything, err on the side of less, not more.
+
+5. **Handle Arabic terms** — the AI voice handles Arabic words best when they appear sparingly and surrounded by enough Swedish context. Prefer the Swedish equivalent whenever one exists. Use an Arabic term only when the essay makes it a central concept that has no good Swedish translation (e.g. tawakkul, fitrah, dhikr) — and when you do, embed it mid-sentence with a short Swedish gloss immediately before or after ("förtröstan, tawakkul,"). Never let an Arabic word stand alone at the start of a sentence or after a pause. Remove all long Arabic phrases entirely. Remove transliteration diacritics (ā→a, ī→i, ū→u, ṭ→t, ṣ→s, ḥ→h).
 
 6. **Handle honorifics** — silently remove the Unicode symbols ﷺ and ﷻ. Do NOT convert them to spoken Arabic phrases. The Swedish listener does not benefit from hearing "sallallahu alayhi wa sallam" in an otherwise Swedish narration. Simply omit them.
 
@@ -54,7 +56,7 @@ ElevenLabs v3 does not support SSML break tags. Pacing is controlled through tex
 After drafting, read the entire script aloud in your mind — slowly, as if you were the voice on P1.
 
 - Where would the listener's attention drift? Tighten that passage or add a pause.
-- Does any sentence feel awkward when spoken? Rewrite for the ear, not the eye. (But do not change the meaning or vocabulary.)
+- Does any sentence feel awkward when spoken? Rewrite it. You have full freedom to rephrase — just hold the register.
 - Are there leftover markdown artifacts? Footnote numbers? Bracket syntax? Remove them.
 - Does the opening sentence pull the listener in immediately? In audio, you have three seconds before the listener decides to keep going.
 - Is any Arabic phrase longer than two words? Remove it.

@@ -4,6 +4,7 @@ publishedAt: "2025-08-06T12:00:00.000Z"
 wordCount: 1094
 qualityScore: 8.9
 description: "Snitten var felfria. Emanuel Swedenborg böjde sig över öppnade skallar på 1740-talet med en kartografs tålamod och en ingenjörs blick."
+audioFile: "det-han-letade-efter.mp3"
 ---
 Snitten var felfria. Emanuel Swedenborg böjde sig över öppnade skallar på 1740-talet med en kartografs tålamod och en ingenjörs blick. Han betraktade hjärnan som hans samtida betraktade urverk – varje del hade en uppgift, och uppgiften kunde avläsas ur formen. Med den principen lokaliserade han motoriska centra hundra år före sin tid, tillskrev cerebrospinalvätskan en roll ingen annan anade, skilde hjärnbarkens regioner från bestämda förmågor med en precision som inte skulle överträffas förrän långt in på 1800-talet.[^1]
 
