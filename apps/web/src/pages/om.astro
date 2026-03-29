@@ -27,10 +27,6 @@ const articles = await getArticles();
 			<p>Den islamiska traditionen har aldrig tvekat om vem. <em>«När Mina tjänare frågar dig om Mig – Jag är nära»</em>, svarar Koranen; här får svaret en svensk röst.</p>
 
 			<div class="section-ornament"></div>
-
-			<p class="label about-colophon">Sverige, 2026</p>
-			<p class="label about-colophon"><a href="https://bilal.se">Bilal</a> och <a href="https://andreassonphoto.com">Yunus</a></p>
-
 		</div>
 
 		<aside class="pdf-download">
@@ -42,6 +38,11 @@ const articles = await getArticles();
 				Ladda ner som PDF
 			</a>
 		</aside>
+
+		<footer class="about-colophon">
+			<p class="colophon-names"><a href="https://bilal.se">Bilal</a> och <a href="https://andreassonphoto.com">Yunus</a></p>
+			<p class="colophon-place">Sverige, 2026</p>
+		</footer>
 	</main>
 </Base>
 
@@ -49,7 +50,7 @@ const articles = await getArticles();
 	.pdf-download {
 		text-align: center;
 		margin-top: var(--space-unit);
-		margin-bottom: var(--space-phi2);
+		margin-bottom: var(--space-half);
 	}
 
 	.pdf-intro {
@@ -82,6 +83,29 @@ const articles = await getArticles();
 			border-color: var(--color-warm);
 			color: var(--color-text);
 			text-decoration: none;
+		}
+	}
+
+	.about-colophon {
+		text-align: center;
+		margin-bottom: var(--space-phi2);
+
+		.colophon-names,
+		.colophon-place {
+			font-family: var(--font-heading);
+			font-size: 0.862rem;
+			letter-spacing: 0.06em;
+			color: var(--color-muted);
+			margin: 0;
+		}
+
+		a {
+			color: var(--color-muted);
+			text-decoration: none;
+
+			&:hover {
+				color: var(--color-accent);
+			}
 		}
 	}
 </style>

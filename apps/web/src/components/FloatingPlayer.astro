@@ -207,7 +207,9 @@
 		const p = el();
 		if (!p) return;
 		p.removeAttribute("hidden");
-		requestAnimationFrame(() => p.setAttribute("data-visible", ""));
+		// Double rAF guarantees a paint between display:block and the transform,
+		// so the CSS transition actually fires (single rAF can be batched)
+		requestAnimationFrame(() => requestAnimationFrame(() => p.setAttribute("data-visible", "")));
 		document.documentElement.setAttribute("data-player-visible", "");
 	}
 
@@ -231,9 +233,9 @@
 		navigator.mediaSession.setActionHandler("play", () => audio?.play().catch(() => {}));
 		navigator.mediaSession.setActionHandler("pause", () => audio?.pause());
 		navigator.mediaSession.setActionHandler("stop", () => { if (audio) { audio.pause(); audio.currentTime = 0; } });
-		navigator.mediaSession.setActionHandler("seekbackward", (d) => { if (audio) audio.currentTime = Math.max(0, audio.currentTime - (d.seekOffset || 15)); });
-		navigator.mediaSession.setActionHandler("seekforward", (d) => { if (audio) audio.currentTime = Math.min(audio.duration, audio.currentTime + (d.seekOffset || 15)); });
-		navigator.mediaSession.setActionHandler("seekto", (d) => { if (audio && d.seekTime != null) audio.currentTime = d.seekTime; });
+		navigator.mediaSession.setActionHandler("seekbackward", (d) => { if (audio) { audio.currentTime = Math.max(0, audio.currentTime - (d.seekOffset || 15)); posState(); } });
+		navigator.mediaSession.setActionHandler("seekforward", (d) => { if (audio) { audio.currentTime = Math.min(audio.duration, audio.currentTime + (d.seekOffset || 15)); posState(); } });
+		navigator.mediaSession.setActionHandler("seekto", (d) => { if (audio && d.seekTime != null) { audio.currentTime = d.seekTime; posState(); } });
 	}
 
 	function posState() {

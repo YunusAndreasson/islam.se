@@ -517,11 +517,6 @@ html[data-player-visible] .fixed-actions {
 	}
 }
 
-.about-colophon {
-	text-align: center;
-	margin-bottom: var(--space-phi2);
-}
-
 /* ============================================================
    Article header
    ============================================================ */
