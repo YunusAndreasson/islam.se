@@ -52,9 +52,10 @@ REQUIRED: You MUST use all three primary source tools:
 
 These provide the authoritative primary source material that distinguishes islam.se articles.
 
-**CRITICAL — always filter by language:** Semantic search is biased toward the query language. An English query without a language filter will mostly return English/Norse quotes, missing the 34k Swedish and 20k Arabic quotes. Always search each language separately:
+**CRITICAL — always filter by language:** Semantic search is biased toward the query language. An English query without a language filter will mostly return English/Norse results, missing the 34k Swedish and 20k Arabic quotes. Always search each language separately:
 - Use `bulk_search` with language-specific queries, OR
 - Call `search_quotes` multiple times with `language: "sv"`, `language: "ar"`, etc.
+- Call `search_books` with `languages: ["sv"]`, `languages: ["ar"]`, etc. — same bias applies to book passages
 - Category names are in English for all languages (e.g., "patience", "faith", "character")
 </tools_available>
 
@@ -97,7 +98,7 @@ Important: Only include URLs that come from your WebSearch results. This ensures
     { "surah": "Name", "ayah": "Number", "text": "Swedish translation" }
   ],
   "quotes": [
-    { "id": "quote-id", "text": "Original text", "textSv": "Swedish translation (required)", "author": "Author", "source": "Work title" }
+    { "id": "quote-12345", "text": "إن الصبر عند أول صدمة", "textSv": "Tålamod visar sig i det första ögonblicket av prövning", "author": "Ibn Qayyim", "source": "Madarij al-Salikin" }
   ],
   "bookPassages": [
     { "id": "passage-id", "text": "Passage", "bookTitle": "Title", "author": "Author" }
@@ -108,6 +109,3 @@ Important: Only include URLs that come from your WebSearch results. This ensures
 }
 </output_format>
 
-<output_instruction>
-Your ENTIRE response MUST be ONLY the JSON object. No text before or after. No markdown code blocks. Start with { and end with }.
-</output_instruction>

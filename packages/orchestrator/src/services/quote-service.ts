@@ -226,7 +226,7 @@ export function quotesToResearchFormat(result: QuoteSearchResult): Array<{
 	}
 
 	// Convert to research format
-	return Array.from(allQuotes.values()).map((q) => {
+	return Array.from(allQuotes.values()).map((q: FormattedQuoteWithId) => {
 		// Extract author and work from attribution
 		const parts = q.attribution.replace(/^—\s*/, "").split(/[,،]/);
 		const author = parts[0]?.trim() || "Unknown";
@@ -249,4 +249,47 @@ export function quotesToResearchFormat(result: QuoteSearchResult): Array<{
 			standaloneScore: q.standalone,
 		};
 	});
+}
+
+/**
+ * Semantic-only search across multiple queries for brilliance stage.
+ * Skips paired, category, and text searches. Returns deduplicated results.
+ */
+export async function searchQuotesForBrilliance(
+	queries: string[],
+	limit = 20,
+): Promise<FormattedQuoteWithId[]> {
+	const perQuery = Math.ceil(limit / queries.length) + 5;
+
+	const results = await Promise.all(
+		queries.map((q) =>
+			findQuotesLocal(q, { limit: perQuery, minStandalone: 4, diverse: true }),
+		),
+	);
+
+	// Deduplicate by ID, keeping highest score
+	const byId = new Map<number, FormattedQuoteWithId>();
+	for (const batch of results) {
+		for (const q of batch) {
+			const existing = byId.get(q.id);
+			if (!existing || q.score > existing.score) {
+				byId.set(q.id, q);
+			}
+		}
+	}
+
+	return Array.from(byId.values())
+		.sort((a, b) => b.score - a.score)
+		.slice(0, limit);
+}
+
+/**
+ * Lean format for brilliance stage — text + attribution only, no metadata noise.
+ */
+export function formatQuotesLean(quotes: FormattedQuoteWithId[]): string {
+	if (quotes.length === 0) return "";
+	return (
+		`## Quotes (${quotes.length})\n\n` +
+		quotes.map((q) => `- "${q.text}" — ${q.attribution} [ID: ${q.id}]`).join("\n")
+	);
 }

@@ -532,6 +532,44 @@ function applyMMR(
 }
 
 /**
+ * Caps quotes per author to prevent dominant authors from crowding out others.
+ * Backfills from candidates if the cap removes too many results.
+ */
+function applyAuthorDiversity<T extends { id: number; author: string }>(
+	selected: T[],
+	candidates: T[],
+	limit: number,
+	maxPerAuthor = 3,
+): T[] {
+	const authorCounts = new Map<string, number>();
+	const selectedIds = new Set<number>();
+	const results: T[] = [];
+
+	for (const q of selected) {
+		const count = authorCounts.get(q.author) ?? 0;
+		if (count < maxPerAuthor) {
+			results.push(q);
+			selectedIds.add(q.id);
+			authorCounts.set(q.author, count + 1);
+		}
+	}
+
+	// Backfill from candidates not yet selected to maintain requested count
+	for (const q of candidates) {
+		if (results.length >= limit) break;
+		if (selectedIds.has(q.id)) continue;
+		const count = authorCounts.get(q.author) ?? 0;
+		if (count < maxPerAuthor) {
+			results.push(q);
+			selectedIds.add(q.id);
+			authorCounts.set(q.author, count + 1);
+		}
+	}
+
+	return results;
+}
+
+/**
  * LLM-optimized quote search with quality defaults and diversity.
  * Defaults to minStandalone=4 and applies MMR for diverse results.
  */
@@ -726,9 +764,12 @@ export async function findQuotesLocal(
 			row.embedding.byteOffset,
 			row.embedding.length / 4,
 		);
+		const parsed = parseQuoteRow(row);
+		// Small quality boost for standalone=5 — breaks ties in favor of better material
+		const qualityBoost = parsed.standalone === 5 ? 0.02 : 0;
 		return {
-			...parseQuoteRow(row),
-			score: 1 - row.distance,
+			...parsed,
+			score: 1 - row.distance + qualityBoost,
 			embedding,
 		};
 	});
@@ -744,7 +785,8 @@ export async function findQuotesLocal(
 		candidates = candidates.filter((r) => r.length === options.length);
 	}
 
-	const results = diverse ? applyMMR(candidates, limit) : candidates.slice(0, limit);
+	const mmrResults = diverse ? applyMMR(candidates, limit) : candidates.slice(0, limit);
+	const results = applyAuthorDiversity(mmrResults, candidates, limit);
 
 	return results.map((q) => ({
 		id: q.id,

@@ -155,6 +155,71 @@ export function passagesToResearchFormat(result: BookSearchResult): Array<{
 }
 
 /**
+ * Multi-query book search for brilliance stage.
+ * Searches with all queries in parallel, merges and deduplicates.
+ */
+export async function searchBooksForBrilliance(
+	queries: string[],
+	limit = 15,
+): Promise<BookSearchResult> {
+	const perQuery = Math.ceil(limit / queries.length) + 5;
+
+	const results = await Promise.all(
+		queries.map((q) =>
+			searchBooks(q, { passageLimit: perQuery, conceptLimit: 3, minScore: 0.35 }),
+		),
+	);
+
+	// Merge and deduplicate passages
+	const seenIds = new Set<number>();
+	const combined = results
+		.flatMap((r) => r.combined)
+		.filter((p) => {
+			if (seenIds.has(p.id)) return false;
+			seenIds.add(p.id);
+			return true;
+		})
+		.sort((a, b) => b.score - a.score)
+		.slice(0, limit);
+
+	// Merge and deduplicate concepts
+	const seenConcepts = new Set<string>();
+	const concepts = results
+		.flatMap((r) => r.concepts)
+		.filter((c) => {
+			const key = `${c.type}:${c.entityId}`;
+			if (seenConcepts.has(key)) return false;
+			seenConcepts.add(key);
+			return true;
+		})
+		.sort((a, b) => b.score - a.score)
+		.slice(0, 5);
+
+	return {
+		inventory: getBookInventory(),
+		passages: combined,
+		concepts,
+		combined,
+	};
+}
+
+/**
+ * Lean format for brilliance stage — text + attribution only, no inventory or scores.
+ */
+export function formatBooksLean(result: BookSearchResult): string {
+	if (result.combined.length === 0) return "";
+	return (
+		`## Book Passages (${result.combined.length})\n\n` +
+		result.combined
+			.map(
+				(p) =>
+					`### ${p.bookTitle} — ${p.bookAuthor}${p.chapterTitle ? `, "${p.chapterTitle}"` : ""}\n"${p.text}"`,
+			)
+			.join("\n\n")
+	);
+}
+
+/**
  * Check if the book database has any content.
  */
 export function hasBookContent(): boolean {

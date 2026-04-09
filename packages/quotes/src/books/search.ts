@@ -140,7 +140,13 @@ export async function searchPassages(
 			...row,
 			score: 1 - row.distance, // Cosine distance to similarity
 		}))
-		.filter((row) => row.score >= minScore)
+		.filter(
+			(row) =>
+				row.score >= minScore &&
+				row.text.length >= 80 && // Skip chapter headings, bismillah, etc.
+				!row.text.includes("#META#") &&
+				!row.text.includes("DownloadSource"),
+		)
 		.slice(0, limit);
 }
 

@@ -43,10 +43,15 @@ import { ArticlePublisher } from "./services/article-publisher.js";
 import { IdeationService } from "./services/ideation-service.js";
 import {
 	formatBooksForPrompt,
+	formatBooksLean,
 	formatQuotesForPrompt,
+	formatQuotesLean,
 	formatQuranForPrompt,
+	formatQuranLean,
 	searchBooksComprehensive,
+	searchBooksForBrilliance,
 	searchQuotesComprehensive,
+	searchQuotesForBrilliance,
 	searchQuranComprehensive,
 } from "./services/index.js";
 import { extractQuranRefsFromFootnotes, fetchIbnKathirTafsir } from "./services/tarteel-client.js";
@@ -97,6 +102,62 @@ function extractSearchQueries(articleBody: string): string[] {
 	}
 
 	return queries;
+}
+
+/**
+ * Format research output for fact-checking — structured sections instead of raw JSON.
+ * Includes quote IDs and short excerpts; fact-checker uses MCP tools for deeper lookup.
+ */
+function formatResearchForFactCheck(research: ResearchOutput): string {
+	const sections: string[] = [];
+
+	sections.push(`## Developed Angle\n${research.summary}`);
+
+	if (research.quotes.length > 0) {
+		const formatted = research.quotes
+			.map((q) => {
+				const excerpt = q.text.length > 120 ? `${q.text.slice(0, 120)}…` : q.text;
+				return `- [${q.id}] ${q.author}${q.source ? `, *${q.source}*` : ""}: "${excerpt}"`;
+			})
+			.join("\n");
+		sections.push(
+			`## Quotes (${research.quotes.length}) — verify attributions with get_quote_by_id\n${formatted}`,
+		);
+	}
+
+	if (research.quranReferences.length > 0) {
+		const formatted = research.quranReferences
+			.map((q) => `- ${q.surah} ${q.ayah}: "${q.text}"`)
+			.join("\n");
+		sections.push(`## Quran References (${research.quranReferences.length})\n${formatted}`);
+	}
+
+	if (research.bookPassages && research.bookPassages.length > 0) {
+		const formatted = research.bookPassages
+			.map((p) => {
+				const excerpt = p.text.length > 200 ? `${p.text.slice(0, 200)}…` : p.text;
+				return `- ${p.bookTitle} — ${p.author}: "${excerpt}"`;
+			})
+			.join("\n");
+		sections.push(`## Book Passages (${research.bookPassages.length})\n${formatted}`);
+	}
+
+	if (research.sources.length > 0) {
+		const formatted = research.sources
+			.map((s) => {
+				let line = `- ${s.title}: ${s.url}`;
+				if (s.keyFindings && s.keyFindings.length > 0) {
+					line += `\n  Key findings: ${s.keyFindings.join("; ")}`;
+				}
+				return line;
+			})
+			.join("\n");
+		sections.push(
+			`## Web Sources (${research.sources.length}) — verify with WebFetch\n${formatted}`,
+		);
+	}
+
+	return sections.join("\n\n");
 }
 
 export type StageName =
@@ -157,6 +218,7 @@ export interface ResearchOutput {
 	quotes: Array<{
 		id: string;
 		text: string;
+		textSv?: string;
 		author: string;
 		source?: string;
 	}>;
@@ -567,13 +629,19 @@ export class ContentOrchestrator {
 		const { markdownMode } = options;
 		const isMarkdown = !!markdownMode;
 
+		// Derive built-in tool list from allowedTools — only load what's needed.
+		// Stages with no tools get --tools "" (saves prompt tokens for editorial stages).
+		const builtinTools = (options.allowedTools ?? []).filter((t) => !t.startsWith("mcp__"));
+
 		const runOptions: ClaudeRunOptions = {
 			prompt: promptPath,
 			systemPrompt: options.systemPrompt,
 			userContent: options.userContent,
 			model: getModelId(this.options.model),
 			allowedTools: options.allowedTools,
+			builtinTools,
 			mcpConfig: options.mcpConfig,
+			strictMcpConfig: !!options.mcpConfig,
 			// JSON mode: pass schema for server-side validation
 			// Markdown mode: no schema, no json output format
 			jsonSchema: isMarkdown ? undefined : options.jsonSchema,
@@ -985,8 +1053,8 @@ IMPORTANT WebFetch limitations:
 		const sourceUrls = (research.sources || []).map((s) => s.url);
 		const reputation = formatDomainReputation(loadDomainTracker(), sourceUrls);
 
-		// Provide research data with framing that guides balanced assessment
-		const systemPrompt = `Research data to review:\n${JSON.stringify(research, null, 2)}
+		// Structured format: claims + IDs for verification, not raw JSON dump
+		const systemPrompt = `Research data to review:\n${formatResearchForFactCheck(research)}
 
 <review_guidance>
 Score fairly based on what you can actually verify:
@@ -1112,10 +1180,14 @@ Key requirements:
 - Use markdown blockquotes and footnotes
 - Write natural Swedish prose — avoid anglicisms like "i termer av", "adressera", "baserat på", calque constructions. Prefer Swedish idiom and rhythm (Axess/Respons register).`;
 
-		// Format quotes readably
+		// Format quotes with metadata so author can prioritize the strongest material
 		if (research.quotes.length > 0) {
 			const formatted = research.quotes
-				.map((q) => `- "${q.text}" — ${q.author}${q.source ? `, *${q.source}*` : ""}`)
+				.map((q) => {
+					const text = q.textSv && q.textSv !== q.text ? q.textSv : q.text;
+					const lang = q.textSv && q.textSv !== q.text ? " (arabic)" : "";
+					return `- "${text}" — ${q.author}${q.source ? `, *${q.source}*` : ""}${lang}`;
+				})
 				.join("\n");
 			systemPrompt += `\n\n## QUOTES\n${formatted}`;
 		}
@@ -1139,9 +1211,17 @@ Weave the strongest into your prose — quote directly when the original languag
 ${formatted}`;
 		}
 
-		// Format web sources for footnotes (title + URL only)
+		// Format web sources with key findings so author can weave insights into prose
 		if (research.sources.length > 0) {
-			const formatted = research.sources.map((s) => `- ${s.title}: ${s.url}`).join("\n");
+			const formatted = research.sources
+				.map((s) => {
+					let line = `- ${s.title}: ${s.url}`;
+					if (s.keyFindings && s.keyFindings.length > 0) {
+						line += `\n  Findings: ${s.keyFindings.join("; ")}`;
+					}
+					return line;
+				})
+				.join("\n");
 			systemPrompt += `\n\n## WEB SOURCES (for footnotes)\n${formatted}`;
 		}
 
@@ -1253,7 +1333,7 @@ ${draft.body}`;
 			const quoteList = research.quotes
 				.map(
 					(q) =>
-						`- [ID ${q.id}] ${q.author}${q.source ? `, *${q.source}*` : ""}: "${q.text.slice(0, 80)}${q.text.length > 80 ? "..." : ""}"`,
+						`- [ID ${q.id}] ${q.author}${q.source ? `, *${q.source}*` : ""}: "${q.text}"`,
 				)
 				.join("\n");
 			systemPrompt += `\n\n## VERIFIED QUOTES (from research)\nCross-reference the article's blockquotes against this list. Flag any quoted passage not found here — it may be invented.\n\n${quoteList}`;
@@ -1796,30 +1876,31 @@ Sektionerna 1–15 (anglicismer, retoriska mönster etc.) är sekundära — åt
 	async runBrilliance(articleBody: string): Promise<StageResult<BrillianceOutput>> {
 		this.logger.log("   💎 Brilliance: pre-fetching local databases");
 
-		// Extract search queries from article structure
+		// Extract search queries from article structure (H1 + H2s)
 		const queries = extractSearchQueries(articleBody);
 		this.logger.log(`      Queries: ${queries.map((q) => `"${q}"`).join(", ")}`);
 
-		// Pre-fetch all three databases in parallel (local embeddings = free, ~200ms)
-		const [quoteResult, bookResult, quranResult] = await Promise.all([
-			searchQuotesComprehensive({ topic: queries[0] ?? articleBody.slice(0, 300) }),
-			searchBooksComprehensive({ topic: queries[0] ?? articleBody.slice(0, 300) }),
+		// Pre-fetch all three databases in parallel using ALL queries (not just queries[0])
+		// Quotes/books: semantic-only, multi-query, deduplicated — skips paired/category/text
+		const [quotes, bookResult, quranResult] = await Promise.all([
+			searchQuotesForBrilliance(queries),
+			searchBooksForBrilliance(queries),
 			searchQuranComprehensive({ queries, limit: 10 }),
 		]);
 
 		this.logger.log(
-			`      Pre-fetched: ${quoteResult.semanticMatches.length} quotes, ${bookResult.combined.length} book passages, ${quranResult.verses.length} Quran verses`,
+			`      Pre-fetched: ${quotes.length} quotes, ${bookResult.combined.length} book passages, ${quranResult.verses.length} Quran verses`,
 		);
 
-		// Format pre-fetched material
+		// Lean format — text + attribution only, no inventory/scores/metadata
 		const prefetchedMaterial = [
 			"# PRE-FETCHED SOURCE MATERIAL",
 			"",
-			"The following quotes, book passages, and Quran verses were retrieved from local databases using semantic search on the article's key themes. Review them for exceptional additions.",
+			"Quotes, book passages, and Quran verses from semantic search on the article's key themes.",
 			"",
-			formatQuotesForPrompt(quoteResult),
-			formatBooksForPrompt(bookResult),
-			formatQuranForPrompt(quranResult),
+			formatQuotesLean(quotes),
+			formatBooksLean(bookResult),
+			formatQuranLean(quranResult),
 		].join("\n");
 
 		const systemPrompt =

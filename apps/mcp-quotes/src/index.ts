@@ -43,17 +43,20 @@ const server = new McpServer({
 });
 
 // Helper to format quotes for output
-function formatQuotes(quotes: FormattedQuoteWithId[]): string {
+function formatQuotes(
+	quotes: FormattedQuoteWithId[],
+	options?: { includeCategory?: boolean },
+): string {
 	if (quotes.length === 0) {
 		return "No quotes found matching your criteria.";
 	}
 
+	const showCategory = options?.includeCategory ?? true;
 	return quotes
 		.map((q, i) => {
-			return `[${i + 1}] ID: ${q.id} | Score: ${q.score.toFixed(2)} | Lang: ${q.language}
-"${q.text}"
-${q.attribution}
-Category: ${q.category}`;
+			let line = `[${i + 1}] ID: ${q.id} | Score: ${q.score.toFixed(2)} | Lang: ${q.language}\n"${q.text}"\n${q.attribution}`;
+			if (showCategory) line += `\nCategory: ${q.category}`;
+			return line;
 		})
 		.join("\n\n");
 }
@@ -307,10 +310,10 @@ IMPORTANT: Semantic search is biased toward the query language. Always set the l
 			}),
 		);
 
-		// Format output grouped by query
+		// Format output grouped by query — skip category (redundant when query implies theme)
 		const output = results
 			.map(({ query, quotes }) => {
-				return `## "${query}" (${quotes.length} results)\n\n${formatQuotes(quotes)}`;
+				return `## "${query}" (${quotes.length} results)\n\n${formatQuotes(quotes, { includeCategory: false })}`;
 			})
 			.join("\n\n---\n\n");
 

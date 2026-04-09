@@ -111,6 +111,3 @@ Flag these aggressively:
 }
 </output_format>
 
-<output_instruction>
-Your ENTIRE response MUST be ONLY the JSON object. No text before or after. No markdown code blocks. Start with { and end with }.
-</output_instruction>

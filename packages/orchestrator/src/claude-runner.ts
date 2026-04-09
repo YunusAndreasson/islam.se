@@ -16,6 +16,8 @@ export interface ClaudeRunOptions {
 	systemPrompt?: string;
 	/** Tools to allow (e.g., ['WebSearch', 'Read']) */
 	allowedTools?: string[];
+	/** Built-in tools to load (--tools flag). Empty array = no tools. Undefined = all tools. */
+	builtinTools?: string[];
 	/** Output format (currently only 'json' supported) */
 	outputFormat?: "json" | "text";
 	/** JSON schema for built-in output validation (uses --json-schema flag) */
@@ -34,6 +36,8 @@ export interface ClaudeRunOptions {
 	mcpConfig?: string;
 	/** Skip all permission checks for trusted pipeline runs (uses --dangerously-skip-permissions flag) */
 	skipPermissions?: boolean;
+	/** Only use MCP servers from --mcp-config, ignore all other MCP configurations */
+	strictMcpConfig?: boolean;
 	/** Timeout in milliseconds for the subprocess (default: 900000 = 15 min) */
 	timeout?: number;
 	/** Content appended to the user prompt (e.g., article body). Kept out of
@@ -441,6 +445,10 @@ export class ClaudeRunner extends EventEmitter {
 		// MCP config for quote tools and other MCP servers
 		if (options.mcpConfig) {
 			args.push("--mcp-config", options.mcpConfig);
+			// Only use MCP servers from explicit config, not user/project config
+			if (options.strictMcpConfig) {
+				args.push("--strict-mcp-config");
+			}
 		}
 
 		// System prompt as --append-system-prompt flag (named args handle Unicode fine;
@@ -452,7 +460,13 @@ export class ClaudeRunner extends EventEmitter {
 		// User prompt is sent via stdin (see buildStdinContent) to avoid the
 		// positional-argument encoding bug with non-ASCII text.
 
-		// Allowed tools
+		// Limit which built-in tools are loaded (--tools flag).
+		// Empty array = no tools (saves prompt tokens for editorial stages).
+		if (options.builtinTools !== undefined) {
+			args.push("--tools", options.builtinTools.join(",") || '""');
+		}
+
+		// Allowed tools (controls which tools execute without permission prompts)
 		if (options.allowedTools && options.allowedTools.length > 0) {
 			args.push("--allowedTools", options.allowedTools.join(","));
 		}

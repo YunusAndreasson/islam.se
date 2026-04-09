@@ -7,24 +7,33 @@ import { z } from "zod";
 // Research output - simplified
 export const ResearchOutputSchema = z.object({
 	topic: z.string(),
-	summary: z.string(),
+	summary: z
+		.string()
+		.describe(
+			"The harder question this article answers, the central tension, a 2-3 sentence narrative arc, and why this angle would surprise a knowledgeable reader",
+		),
 	quranReferences: z
 		.array(
 			z.object({
 				surah: z.string(),
 				ayah: z.string(),
-				text: z.string(),
+				text: z.string().describe("Swedish translation of the verse"),
 			}),
 		)
 		.default([]),
 	quotes: z
 		.array(
 			z.object({
-				id: z.string(),
-				text: z.string(),
-				textSv: z.string().optional(),
+				id: z.string().describe("Database ID (e.g. quote-12345)"),
+				text: z.string().describe("Original text in the source language"),
+				textSv: z
+					.string()
+					.optional()
+					.describe(
+						"Swedish translation — REQUIRED for all non-Swedish quotes. The author stage cannot translate.",
+					),
 				author: z.string(),
-				source: z.string().optional(),
+				source: z.string().optional().describe("Work title"),
 			}),
 		)
 		.default([]),
@@ -42,7 +51,7 @@ export const ResearchOutputSchema = z.object({
 		.array(
 			z.object({
 				id: z.string(),
-				url: z.string(),
+				url: z.string().describe("Must come from your WebSearch results — never fabricate URLs"),
 				title: z.string(),
 				keyFindings: z.array(z.string()).default([]),
 			}),

@@ -99,3 +99,19 @@ ${result.verses
 
 	return sections.join("\n");
 }
+
+/**
+ * Lean format for brilliance stage — verse reference + text only, no stats or scores.
+ */
+export function formatQuranLean(result: QuranSearchResult): string {
+	if (result.verses.length === 0) return "";
+	return (
+		`## Quran Verses (${result.verses.length})\n\n` +
+		result.verses
+			.map(
+				(v) =>
+					`- **${v.surahNameSwedish} ${v.surahNumber}:${v.verseNumber}:** ${v.textArabic || ""}\n  ${v.textSwedish}`,
+			)
+			.join("\n")
+	);
+}
