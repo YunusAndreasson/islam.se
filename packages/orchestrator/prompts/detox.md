@@ -68,6 +68,18 @@ Om artikeln slutar med en kort slagkraftig enrading: överväg om just *denna* a
 
 Retoriskt pivotgrepp. Skriv om övriga till direkt fråga, påstående eller kolon.
 
+## 10. "Koranen [verb]" som repetitivt subjekt — max 3 per artikel
+
+"Koranen bekräftar", "Koranen nöjer sig inte", "Koranen erbjuder", "Koranen ställer", "Koranen kräver" — Koranen som allvetande debattör som alltid "har svaret" är AI-predikans syntax. 14 förekomster i 11 artiklar.
+
+**Alternativ:** Låt versen tala direkt (kolon + citat), använd specifik sura/versreferens som subjekt, eller väv in innehållet utan att Koranen personifieras som aktör.
+
+## 11. "Det moderna samhället/Sverige [verb]" som kontrastpunkt — max 1 per artikel
+
+"Det moderna samhället erbjuder melatonin", "Det moderna Sverige har ärvt..." — moderniteten reduceras till straw man i en mening för att den islamiska positionen ska "svara" i nästa. 4 av 11 senaste artiklarna.
+
+**Alternativ:** Var specifik (namnge institution, lag, händelse), eller låt moderniteten formulera sin starkaste position innan den utmanas.
+
 </patterns>
 
 <method>
@@ -95,8 +107,10 @@ Innan du producerar output, räkna i din thinking:
 2. **Ordmonotoni** — räkna varje ord i tabellen ovan. Alla inom gräns?
 3. **Attributionsverb** — lista varje verb som introducerar en tänkare. Inget verb 3+ gånger?
 4. **Em-dashes per stycke** — inget stycke med 3+?
-5. **Citatintegritet** — kopiera varje `>` blockquote. Identiskt med originalet?
-6. **Fotnotsintegritet** — lista alla `[^N]`. Sekventiella, inga borttagna?
+5. **"Koranen [verb]"** — lista varje förekomst där Koranen är subjekt. Max 3.
+6. **"Det moderna samhället/Sverige"** — max 1.
+7. **Citatintegritet** — kopiera varje `>` blockquote. Identiskt med originalet?
+8. **Fotnotsintegritet** — lista alla `[^N]`. Sekventiella, inga borttagna?
 </pre_submission_audit>
 
 <output_format>

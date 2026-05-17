@@ -19,9 +19,12 @@
 		"apps/mcp-quotes": {
 			"project": ["src/**/*.ts"]
 		},
+		"apps/mcp-articles": {
+			"project": ["src/**/*.ts", "scripts/**/*.ts"]
+		},
 		"apps/web": {
 			"ignoreDependencies": ["sharp"]
 		}
 	},
-	"ignore": [".markdownlint-rules/**"]
+	"ignore": [".markdownlint-rules/**", "data/install-*.cjs"]
 }

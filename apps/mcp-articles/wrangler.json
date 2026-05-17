@@ -1,0 +1,13 @@
+{
+	"name": "mcp-articles",
+	"main": "src/index.ts",
+	"compatibility_date": "2025-04-01",
+	"compatibility_flags": ["nodejs_compat"],
+	"workers_dev": true,
+	"routes": [
+		{
+			"pattern": "mcp.islam.se",
+			"custom_domain": true
+		}
+	]
+}

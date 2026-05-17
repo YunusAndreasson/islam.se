@@ -262,9 +262,7 @@ export async function searchQuotesForBrilliance(
 	const perQuery = Math.ceil(limit / queries.length) + 5;
 
 	const results = await Promise.all(
-		queries.map((q) =>
-			findQuotesLocal(q, { limit: perQuery, minStandalone: 4, diverse: true }),
-		),
+		queries.map((q) => findQuotesLocal(q, { limit: perQuery, minStandalone: 4, diverse: true })),
 	);
 
 	// Deduplicate by ID, keeping highest score

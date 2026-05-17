@@ -165,9 +165,7 @@ export async function searchBooksForBrilliance(
 	const perQuery = Math.ceil(limit / queries.length) + 5;
 
 	const results = await Promise.all(
-		queries.map((q) =>
-			searchBooks(q, { passageLimit: perQuery, conceptLimit: 3, minScore: 0.35 }),
-		),
+		queries.map((q) => searchBooks(q, { passageLimit: perQuery, conceptLimit: 3, minScore: 0.35 })),
 	);
 
 	// Merge and deduplicate passages

@@ -1331,10 +1331,7 @@ ${draft.body}`;
 		// Pass condensed research quotes for cross-referencing
 		if (research.quotes.length > 0) {
 			const quoteList = research.quotes
-				.map(
-					(q) =>
-						`- [ID ${q.id}] ${q.author}${q.source ? `, *${q.source}*` : ""}: "${q.text}"`,
-				)
+				.map((q) => `- [ID ${q.id}] ${q.author}${q.source ? `, *${q.source}*` : ""}: "${q.text}"`)
 				.join("\n");
 			systemPrompt += `\n\n## VERIFIED QUOTES (from research)\nCross-reference the article's blockquotes against this list. Flag any quoted passage not found here — it may be invented.\n\n${quoteList}`;
 		}

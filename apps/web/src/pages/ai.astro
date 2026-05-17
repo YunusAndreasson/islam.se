@@ -1,0 +1,366 @@
+---
+import Base from "../layouts/Base.astro";
+import { getArticles } from "../lib/articles";
+
+const articles = await getArticles();
+const articleCount = articles.length;
+---
+
+<Base title="AI — islam.se" description="Anslut din AI-assistent till islam.se och sök bland alla essäer direkt i samtalet.">
+	<main id="main" class="content-column">
+		<header class="article-header">
+			<h1>AI</h1>
+		</header>
+
+		<div class="article-body prose ai-prose">
+			<p>Samtliga {articleCount} essäer finns tillgängliga via en öppen <a href="https://modelcontextprotocol.io" target="_blank" rel="noopener">MCP-server</a> &ndash; ett protokoll som låter AI-assistenter använda externa verktyg. Claude, ChatGPT och andra assistenter kan söka i, läsa och citera essäerna direkt i samtalet.</p>
+
+			<div class="tool-list">
+				<dl>
+					<div class="tool-item">
+						<dt><code>search_articles</code></dt>
+						<dd>Fritextsökning bland alla essäer</dd>
+					</div>
+					<div class="tool-item">
+						<dt><code>get_article</code></dt>
+						<dd>Hämtar en hel essä med metadata</dd>
+					</div>
+					<div class="tool-item">
+						<dt><code>list_articles</code></dt>
+						<dd>Listar alla publicerade essäer</dd>
+					</div>
+				</dl>
+			</div>
+
+			<div class="server-url" data-url="https://mcp.islam.se/mcp">
+				<span class="server-url-label">Serveradress</span>
+				<code class="server-url-value">https://mcp.islam.se/mcp</code>
+				<button class="copy-btn" type="button" aria-label="Kopiera serveradress">
+					<svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+						<rect x="5.5" y="5.5" width="8" height="8" rx="1.5" stroke="currentColor" stroke-width="1.25" />
+						<path d="M10.5 5.5V3.5a1.5 1.5 0 0 0-1.5-1.5H3.5A1.5 1.5 0 0 0 2 3.5V9a1.5 1.5 0 0 0 1.5 1.5h2" stroke="currentColor" stroke-width="1.25" />
+					</svg>
+					<span class="copy-label">Kopiera</span>
+				</button>
+			</div>
+
+			<div class="section-ornament"></div>
+
+			<h2>Claude Desktop</h2>
+			<ol>
+				<li>Öppna <strong>Settings</strong> (<kbd>Cmd</kbd><kbd>,</kbd> eller <kbd>Ctrl</kbd><kbd>,</kbd>).</li>
+				<li>Gå till <strong>Developer</strong> &rarr; <strong>Edit Config</strong>.</li>
+				<li>Lägg till:</li>
+			</ol>
+			<div class="code-block">
+				<pre><code>{`{
+  "mcpServers": {
+    "islam-se": {
+      "url": "https://mcp.islam.se/mcp"
+    }
+  }
+}`}</code></pre>
+				<button class="copy-code" type="button" aria-label="Kopiera kod">
+					<svg class="copy-icon" width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+						<rect x="5.5" y="5.5" width="8" height="8" rx="1.5" stroke="currentColor" stroke-width="1.25" />
+						<path d="M10.5 5.5V3.5a1.5 1.5 0 0 0-1.5-1.5H3.5A1.5 1.5 0 0 0 2 3.5V9a1.5 1.5 0 0 0 1.5 1.5h2" stroke="currentColor" stroke-width="1.25" />
+					</svg>
+					<svg class="check-icon" width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true" style="display:none">
+						<path d="M3 8.5l3.5 3.5 6.5-7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+					</svg>
+				</button>
+			</div>
+			<ol start="4">
+				<li>Spara och starta om Claude.</li>
+			</ol>
+
+			<h2>Claude.ai</h2>
+			<ol>
+				<li>Logga in på <a href="https://claude.ai" target="_blank" rel="noopener">claude.ai</a>.</li>
+				<li>Gå till <strong>Settings</strong> &rarr; <strong>Integrations</strong> &rarr; <strong>Add&nbsp;integration</strong>.</li>
+				<li>Klistra in serveradressen.</li>
+			</ol>
+
+			<h2>ChatGPT</h2>
+			<ol>
+				<li>Gå till <strong>Settings</strong> &rarr; <strong>Tools</strong> &rarr; <strong>Add MCP server</strong>.</li>
+				<li>Klistra in serveradressen.</li>
+			</ol>
+
+			<h2>Claude Code</h2>
+			<div class="code-block">
+				<pre><code>claude mcp add -s user --transport http islam-se https://mcp.islam.se/mcp</code></pre>
+				<button class="copy-code" type="button" aria-label="Kopiera kommando">
+					<svg class="copy-icon" width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+						<rect x="5.5" y="5.5" width="8" height="8" rx="1.5" stroke="currentColor" stroke-width="1.25" />
+						<path d="M10.5 5.5V3.5a1.5 1.5 0 0 0-1.5-1.5H3.5A1.5 1.5 0 0 0 2 3.5V9a1.5 1.5 0 0 0 1.5 1.5h2" stroke="currentColor" stroke-width="1.25" />
+					</svg>
+					<svg class="check-icon" width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true" style="display:none">
+						<path d="M3 8.5l3.5 3.5 6.5-7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+					</svg>
+				</button>
+			</div>
+
+			<div class="section-ornament"></div>
+
+			<h2>Prova</h2>
+			<p>När servern är kopplad, skriv till exempel:</p>
+			<blockquote>
+				<p>Sök bland essäerna på islam.se efter texter om Strindberg och islam.</p>
+			</blockquote>
+			<p>Assistenten söker, hittar relevanta essäer och kan citera dem med länk tillbaka till islam.se.</p>
+		</div>
+	</main>
+</Base>
+
+<style>
+	/* Disable book-style paragraph indentation — this is technical prose */
+	.ai-prose > :global(p + p:not([class])) {
+		text-indent: 0;
+	}
+
+	.ai-prose > :global(p:has(+ p)) {
+		margin-bottom: var(--space-unit);
+	}
+
+	/* Tool list — definition list */
+	.tool-list {
+		margin-block: var(--space-unit);
+	}
+
+	.tool-list dl {
+		display: flex;
+		flex-direction: column;
+		gap: 0.5rem;
+	}
+
+	.tool-item {
+		display: flex;
+		align-items: baseline;
+		gap: 1rem;
+	}
+
+	.tool-item dt {
+		flex-shrink: 0;
+	}
+
+	.tool-item dd {
+		color: var(--color-muted);
+		font-size: 0.9375em;
+	}
+
+	@media (width <= 480px) {
+		.tool-item {
+			flex-direction: column;
+			gap: 0.125rem;
+		}
+	}
+
+	/* Code — monospace for tool names and config blocks */
+	.ai-prose :global(code) {
+		font-family: ui-monospace, "SF Mono", "Cascadia Code", "Segoe UI Mono", Menlo, Consolas, monospace;
+		font-size: 0.85em;
+		font-variant-numeric: lining-nums tabular-nums;
+		letter-spacing: -0.01em;
+	}
+
+	.ai-prose :global(pre) {
+		background: color-mix(in srgb, var(--color-bg), var(--color-muted) 4%);
+		border: 1px solid var(--color-divider);
+		border-radius: 0.375rem;
+		padding: 0.875rem 1.25rem;
+		font-size: 0.8125rem;
+		line-height: 1.7;
+		overflow-x: auto;
+		-webkit-overflow-scrolling: touch;
+	}
+
+	@media (width <= 480px) {
+		.ai-prose :global(pre) {
+			padding: 0.75rem 0.875rem;
+			font-size: 0.75rem;
+			border-radius: 0.25rem;
+		}
+	}
+
+	/* Code block with copy button */
+	.code-block {
+		position: relative;
+	}
+
+	.copy-code {
+		position: absolute;
+		top: 0.5rem;
+		right: 0.5rem;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 2rem;
+		height: 2rem;
+		padding: 0;
+		color: var(--color-muted);
+		background: color-mix(in srgb, var(--color-bg), var(--color-muted) 8%);
+		border: 1px solid var(--color-divider);
+		border-radius: 0.25rem;
+		cursor: pointer;
+		opacity: 0;
+		transition: opacity 0.15s, color 0.15s, border-color 0.15s;
+
+		&:hover {
+			color: var(--color-accent);
+			border-color: var(--color-warm);
+		}
+	}
+
+	.code-block:hover .copy-code {
+		opacity: 1;
+	}
+
+	/* On touch devices, always show */
+	@media (hover: none) {
+		.copy-code {
+			opacity: 1;
+		}
+	}
+
+	/* Server URL card */
+	.server-url {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: baseline;
+		gap: 0.375rem;
+		margin-block: var(--space-unit);
+		padding: 1rem 1.25rem;
+		border: 1px solid var(--color-divider);
+		border-radius: 0.375rem;
+		background: color-mix(in srgb, var(--color-bg), var(--color-muted) 4%);
+	}
+
+	.server-url-label {
+		width: 100%;
+		font-family: var(--font-heading);
+		font-size: 0.75rem;
+		font-weight: 600;
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+		color: var(--color-muted);
+	}
+
+	.server-url-value {
+		flex: 1;
+		font-size: 0.9375rem;
+		letter-spacing: 0.01em;
+		color: var(--color-accent);
+		word-break: break-all;
+	}
+
+	@media (width <= 480px) {
+		.server-url {
+			padding: 0.875rem 1rem;
+		}
+
+		.server-url-value {
+			font-size: 0.8125rem;
+			width: 100%;
+			flex: none;
+		}
+	}
+
+	.copy-btn {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.35em;
+		padding: 0.3rem 0.7rem;
+		font-family: var(--font-heading);
+		font-size: 0.75rem;
+		font-weight: 500;
+		letter-spacing: 0.06em;
+		text-transform: uppercase;
+		color: var(--color-muted);
+		background: none;
+		border: 1px solid var(--color-divider);
+		border-radius: 1rem;
+		cursor: pointer;
+		transition: border-color 0.2s, color 0.2s;
+
+		&:hover {
+			border-color: var(--color-warm);
+			color: var(--color-accent);
+		}
+	}
+
+	/* Keyboard shortcut keys */
+	.ai-prose :global(kbd) {
+		display: inline-block;
+		min-width: 1.4em;
+		padding: 0.1em 0.35em;
+		font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+		font-size: 0.8em;
+		line-height: 1.3;
+		text-align: center;
+		border: 1px solid var(--color-divider);
+		border-radius: 0.25rem;
+		background: color-mix(in srgb, var(--color-bg), var(--color-muted) 6%);
+		box-shadow: 0 1px 0 color-mix(in srgb, var(--color-muted), transparent 75%);
+	}
+
+	.ai-prose :global(kbd + kbd) {
+		margin-left: 0.15em;
+	}
+
+	/* Ordered list refinements */
+	.ai-prose :global(ol) {
+		padding-left: 1.25em;
+	}
+
+	.ai-prose :global(li) {
+		margin-bottom: 0.35em;
+	}
+
+	/* Remove external arrow from code-only links */
+	.ai-prose :global(a:has(> code)::after) {
+		content: none;
+	}
+</style>
+
+<script>
+	document.addEventListener("astro:page-load", () => {
+		// Server URL copy button
+		const urlBtn = document.querySelector<HTMLButtonElement>(".copy-btn");
+		const card = urlBtn?.closest<HTMLElement>(".server-url");
+		if (urlBtn && card) {
+			const url = card.dataset.url || "";
+			const label = urlBtn.querySelector<HTMLElement>(".copy-label");
+			if (label) {
+				urlBtn.addEventListener("click", async () => {
+					try {
+						await navigator.clipboard.writeText(url);
+						label.textContent = "Kopierad";
+						setTimeout(() => { label.textContent = "Kopiera"; }, 2000);
+					} catch {}
+				});
+			}
+		}
+
+		// Code block copy buttons
+		for (const btn of document.querySelectorAll<HTMLButtonElement>(".copy-code")) {
+			btn.addEventListener("click", async () => {
+				const pre = btn.closest(".code-block")?.querySelector("code");
+				if (!pre) return;
+				try {
+					await navigator.clipboard.writeText(pre.textContent || "");
+					const copyIcon = btn.querySelector<SVGElement>(".copy-icon");
+					const checkIcon = btn.querySelector<SVGElement>(".check-icon");
+					if (copyIcon && checkIcon) {
+						copyIcon.style.display = "none";
+						checkIcon.style.display = "";
+						setTimeout(() => {
+							copyIcon.style.display = "";
+							checkIcon.style.display = "none";
+						}, 2000);
+					}
+				} catch {}
+			});
+		}
+	});
+</script>

@@ -12,14 +12,14 @@
 	"dependencies": {
 		"@astrojs/rss": "^4.0.18",
 		"@astrojs/sitemap": "^3.7.2",
-		"astro": "^6.1.1",
+		"astro": "^6.3.3",
 		"remark-smartypants": "^3.0.2",
 		"sharp": "^0.34.5"
 	},
 	"devDependencies": {
 		"remark-gfm": "^4.0.1",
 		"remark-parse": "^11.0.0",
-		"tsx": "^4.21.0",
+		"tsx": "^4.22.1",
 		"unified": "^11.0.5"
 	}
 }

@@ -7,8 +7,9 @@ const { hero = false } = Astro.props;
 const path = Astro.url.pathname;
 const isHome = path === "/";
 const isOm = path === "/om" || path === "/om/";
+const isAi = path === "/ai" || path === "/ai/";
 const isEssaerPage = path === "/essaer" || path === "/essaer/";
-const isEssaerSection = !isHome && !isOm && !isEssaerPage;
+const isEssaerSection = !isHome && !isOm && !isAi && !isEssaerPage;
 ---
 
 <header class:list={["site-header", { "site-header--hero": hero }]} transition:persist>
@@ -18,6 +19,8 @@ const isEssaerSection = !isHome && !isOm && !isEssaerPage;
 			<a href="/essaer" aria-current={isEssaerPage ? "page" : isEssaerSection ? "true" : undefined}>Essäer</a>
 			<span class="nav-dot" aria-hidden="true">&middot;</span>
 			<a href="/om" aria-current={isOm ? "page" : undefined}>Om</a>
+			<span class="nav-dot" aria-hidden="true">&middot;</span>
+			<a href="/ai" aria-current={isAi ? "page" : undefined}>AI</a>
 		</div>
 	</nav>
 </header>
@@ -32,8 +35,9 @@ const isEssaerSection = !isHome && !isOm && !isEssaerPage;
 		const path = window.location.pathname;
 		const isHome = path === '/';
 		const isOm = path === '/om' || path === '/om/';
+		const isAi = path === '/ai' || path === '/ai/';
 		const isEssaerPage = path === '/essaer' || path === '/essaer/';
-		const isEssaerSection = !isHome && !isOm && !isEssaerPage;
+		const isEssaerSection = !isHome && !isOm && !isAi && !isEssaerPage;
 
 		// Update hero/sticky variant
 		header.classList.toggle('site-header--hero', isHome);
@@ -44,6 +48,7 @@ const isEssaerSection = !isHome && !isOm && !isEssaerPage;
 			const isExactPage =
 				link.pathname === '/' ? isHome :
 				link.pathname.startsWith('/om') ? isOm :
+				link.pathname.startsWith('/ai') ? isAi :
 				isEssaerPage;
 			const isSection = !isExactPage && link.pathname.startsWith('/essaer') && isEssaerSection;
 			if (isExactPage) link.setAttribute('aria-current', 'page');

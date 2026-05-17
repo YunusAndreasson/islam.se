@@ -22,7 +22,7 @@
 	font-size: 0.875rem;
 	text-decoration: none;
 	border: 1px solid var(--color-divider);
-	border-radius: 4px;
+	border-radius: 1.25rem;
 
 	&:focus {
 		top: var(--padding-inline);
@@ -704,9 +704,11 @@ html[data-player-visible] .fixed-actions {
 }
 
 /* ============================================================
-   Desktop hero — larger type, more breathing room
+   Desktop hero — larger type, more breathing room.
+   Kicks in at the same breakpoint mobile typography drops out (769px)
+   so tablets in portrait get hero treatment to match.
    ============================================================ */
-@media (width >= 1024px) {
+@media (width >= 769px) {
 	.hero-cover-overlay {
 		padding-bottom: calc(var(--safe-bottom) + 2.5rem);
 	}

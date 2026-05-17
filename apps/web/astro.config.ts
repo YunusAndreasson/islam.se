@@ -320,6 +320,7 @@ export default defineConfig({
 	redirects: legacyRedirects,
 	prefetch: { defaultStrategy: "hover" },
 	build: { inlineStylesheets: "always" },
+	experimental: { contentIntellisense: true },
 	markdown: {
 		remarkPlugins: [
 			[

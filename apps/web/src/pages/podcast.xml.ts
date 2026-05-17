@@ -8,7 +8,7 @@ const SHOW = {
 	title: "islam.se: andliga essäer",
 	description:
 		"Svenskan bär sina djupaste begrepp i sammansatta ord. Samvete — sam och vete — betyder att veta tillsammans med någon; ansvar, att svara inför någon. Orden förutsätter en motpart. Fjorton hundra år av islamiskt tänkande har känt den ensamheten — men aldrig förlorat motparten. Här får samtalet en svensk röst.",
-	author: "Yunus Andreasson",
+	author: "Islam.se",
 	email: "yunus@edenmind.com",
 	image: `${SITE}/podcast-cover.jpg`,
 	language: "sv",
@@ -50,12 +50,14 @@ function hasEpisodeArt(slug: string): boolean {
 
 export async function GET(_context: APIContext) {
 	const articles = await getArticles();
-	const episodes = articles.filter((a) => a.audioFile);
+	const episodes = articles.filter(
+		(a): a is typeof a & { audioFile: string } => typeof a.audioFile === "string",
+	);
 
 	const items = episodes
 		.map((ep) => {
 			const audioUrl = `${SITE}/audio/${ep.audioFile}`;
-			const bytes = getFileBytes(ep.audioFile!);
+			const bytes = getFileBytes(ep.audioFile);
 			const link = `${SITE}/${ep.slug}/`;
 			const imageTag = hasEpisodeArt(ep.slug)
 				? `\n      <itunes:image href="${SITE}/audio/${ep.slug}.jpg"/>`

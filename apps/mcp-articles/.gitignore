@@ -1,0 +1,4 @@
+node_modules/
+dist/
+src/articles-data.json
+.wrangler/

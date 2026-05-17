@@ -193,7 +193,9 @@ export class PodcastService {
 
 		// Step 5: Update article frontmatter
 		this.updateFrontmatter(articlePath, `${slug}.mp3`, duration_secs);
-		console.log(`   ✓ Frontmatter updated: audioFile: "${slug}.mp3", audioDuration: ${duration_secs}s`);
+		console.log(
+			`   ✓ Frontmatter updated: audioFile: "${slug}.mp3", audioDuration: ${duration_secs}s`,
+		);
 
 		const duration = Date.now() - startTime;
 		return { success: true, audioPath, scriptPath, duration };
@@ -287,7 +289,18 @@ export class PodcastService {
 	 * Center-crops to square and resizes to 1400x1400 JPEG.
 	 */
 	private generateEpisodeCover(slug: string): void {
-		const imagesDir = join(__dirname, "..", "..", "..", "..", "apps", "web", "src", "assets", "images");
+		const imagesDir = join(
+			__dirname,
+			"..",
+			"..",
+			"..",
+			"..",
+			"apps",
+			"web",
+			"src",
+			"assets",
+			"images",
+		);
 		const heroPath = join(imagesDir, `${slug}.webp`);
 		if (!existsSync(heroPath)) {
 			console.log("   ⚠ No hero image found, skipping episode cover");
@@ -298,11 +311,15 @@ export class PodcastService {
 		try {
 			execFileSync("magick", [
 				heroPath,
-				"-gravity", "center",
-				"-crop", "1024x1024+0+0",
+				"-gravity",
+				"center",
+				"-crop",
+				"1024x1024+0+0",
 				"+repage",
-				"-resize", "1400x1400",
-				"-quality", "90",
+				"-resize",
+				"1400x1400",
+				"-quality",
+				"90",
 				coverPath,
 			]);
 			console.log(`   ✓ Episode cover: ${coverPath}`);
@@ -324,7 +341,9 @@ export class PodcastService {
 				"-of",
 				"csv=p=0",
 				audioPath,
-			]).toString().trim();
+			])
+				.toString()
+				.trim();
 			return Math.round(Number.parseFloat(output));
 		} catch {
 			return 0;

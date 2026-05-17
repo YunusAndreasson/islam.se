@@ -219,12 +219,12 @@
       "avgScore": 8.508333333333335
     },
     "sv.wikipedia.org": {
-      "total": 22,
-      "ok": 22,
+      "total": 23,
+      "ok": 23,
       "failed": 0,
-      "lastChecked": "2026-03-26T06:39:29.392Z",
-      "publishedIn": 19,
-      "avgScore": 8.568421052631576
+      "lastChecked": "2026-04-05T19:36:48.494Z",
+      "publishedIn": 20,
+      "avgScore": 8.574999999999998
     },
     "lifewithallah.com": {
       "total": 3,
@@ -1466,6 +1466,42 @@
       "lastChecked": "2026-03-26T14:42:04.255Z",
       "publishedIn": 1,
       "avgScore": 8.5
+    },
+    "tidningensyre.se": {
+      "total": 1,
+      "ok": 1,
+      "failed": 0,
+      "lastChecked": "2026-04-05T19:36:48.494Z",
+      "publishedIn": 1,
+      "avgScore": 8.7
+    },
+    "www.thinkingfaith.org": {
+      "total": 1,
+      "ok": 1,
+      "failed": 0,
+      "lastChecked": "2026-04-05T19:36:48.494Z",
+      "publishedIn": 1,
+      "avgScore": 8.7
+    },
+    "leifherngren.wordpress.com": {
+      "total": 1,
+      "ok": 1,
+      "failed": 0,
+      "lastChecked": "2026-04-05T19:36:48.494Z"
+    },
+    "preciousgemsfromthequranandsunnah.wordpress.com": {
+      "total": 1,
+      "ok": 1,
+      "failed": 0,
+      "lastChecked": "2026-04-05T19:36:48.494Z"
+    },
+    "academyofislam.com": {
+      "total": 1,
+      "ok": 1,
+      "failed": 0,
+      "lastChecked": "2026-04-05T19:36:48.494Z",
+      "publishedIn": 1,
+      "avgScore": 8.7
     }
   }
 }

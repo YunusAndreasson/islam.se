@@ -11,7 +11,8 @@
 
 import { execFileSync } from "node:child_process";
 import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
-import { join } from "node:path";
+import { dirname, join } from "node:path";
+import { fileURLToPath } from "node:url";
 import remarkGfm from "remark-gfm";
 import remarkParse from "remark-parse";
 import remarkSmartypants from "remark-smartypants";
@@ -21,11 +22,26 @@ import { unified } from "unified";
 // Paths
 // ---------------------------------------------------------------------------
 
-const ROOT = join(import.meta.dirname!, "../../..");
+const SCRIPT_DIR = dirname(fileURLToPath(import.meta.url));
+const ROOT = join(SCRIPT_DIR, "../../..");
 const ARTICLES_DIR = join(ROOT, "data/articles");
-const DIST = join(import.meta.dirname!, "../dist");
+const DIST = join(SCRIPT_DIR, "../dist");
 const OUTPUT = join(DIST, "samlingsvolym.pdf");
 const BUILD_DIR = "/tmp/islam-se-pdf";
+
+// ---------------------------------------------------------------------------
+// Minimal MDAST node shape — the script reads .type/.children/.value etc.
+// Defined locally to avoid adding @types/mdast just for this build script.
+// ---------------------------------------------------------------------------
+
+interface MdastNode {
+	type: string;
+	value?: string;
+	children?: MdastNode[];
+	identifier?: string;
+	depth?: number;
+	ordered?: boolean;
+}
 
 // ---------------------------------------------------------------------------
 // Ornament SVG (rub el-hizb)
@@ -94,7 +110,7 @@ function parseFrontmatter(raw: string): { meta: ArticleMeta; body: string } {
 interface Article {
 	slug: string;
 	meta: ArticleMeta;
-	ast: any;
+	ast: MdastNode;
 }
 
 function loadArticles(): Article[] {
@@ -105,7 +121,11 @@ function loadArticles(): Article[] {
 			const raw = readFileSync(join(ARTICLES_DIR, file), "utf-8");
 			const { meta, body } = parseFrontmatter(raw);
 			const tree = processor.parse(body);
-			return { slug: file.replace(".md", ""), meta, ast: processor.runSync(tree) };
+			return {
+				slug: file.replace(".md", ""),
+				meta,
+				ast: processor.runSync(tree) as unknown as MdastNode,
+			};
 		});
 }
 
@@ -130,10 +150,10 @@ interface Ctx {
 }
 
 /** First pass: collect all footnote definitions from the AST */
-function collectFootnotes(node: any, ctx: Ctx): void {
-	if (node.type === "footnoteDefinition") {
+function collectFootnotes(node: MdastNode, ctx: Ctx): void {
+	if (node.type === "footnoteDefinition" && node.children && node.identifier) {
 		const content = node.children
-			.map((c: any) => (c.type === "paragraph" ? inlinesToTypst(c.children, ctx) : ""))
+			.map((c) => (c.type === "paragraph" && c.children ? inlinesToTypst(c.children, ctx) : ""))
 			.join(" ");
 		ctx.footnoteDefs.set(node.identifier, content);
 	}
@@ -145,7 +165,7 @@ function collectFootnotes(node: any, ctx: Ctx): void {
 }
 
 /** Convert block-level MDAST nodes to Typst markup */
-function blocksToTypst(nodes: any[], ctx: Ctx): string {
+function blocksToTypst(nodes: MdastNode[], ctx: Ctx): string {
 	return nodes
 		.filter((n) => n.type !== "footnoteDefinition")
 		.map((n) => blockToTypst(n, ctx))
@@ -153,13 +173,14 @@ function blocksToTypst(nodes: any[], ctx: Ctx): string {
 		.join("\n\n");
 }
 
-function blockToTypst(node: any, ctx: Ctx): string {
+function blockToTypst(node: MdastNode, ctx: Ctx): string {
+	const children = node.children ?? [];
 	switch (node.type) {
 		case "root":
-			return blocksToTypst(node.children, ctx);
+			return blocksToTypst(children, ctx);
 
 		case "paragraph": {
-			const text = inlinesToTypst(node.children, ctx);
+			const text = inlinesToTypst(children, ctx);
 			if (ctx.firstParagraph) {
 				ctx.firstParagraph = false;
 				return `#dropcap(height: 2, gap: 4pt, overhang: 0pt, font: "Literata", transform: none)[${text}]`;
@@ -169,22 +190,24 @@ function blockToTypst(node: any, ctx: Ctx): string {
 
 		case "heading": {
 			// Article headings: ## → ==, ### → ===  (level 1 reserved for essay titles)
-			const level = Math.max(node.depth, 2);
+			const level = Math.max(node.depth ?? 2, 2);
 			const prefix = "=".repeat(level);
-			return `${prefix} ${inlinesToTypst(node.children, ctx)}`;
+			return `${prefix} ${inlinesToTypst(children, ctx)}`;
 		}
 
 		case "blockquote": {
-			const inner = blocksToTypst(node.children, ctx);
+			const inner = blocksToTypst(children, ctx);
 			return `#block(inset: (left: 28pt, right: 28pt, top: 8pt, bottom: 8pt))[\n  #set text(9.5pt)\n  #set par(leading: 0.6em)\n  ${inner}\n]`;
 		}
 
 		case "list":
-			return node.children
-				.map((li: any, i: number) => {
-					const content = li.children
-						.map((c: any) =>
-							c.type === "paragraph" ? inlinesToTypst(c.children, ctx) : blockToTypst(c, ctx),
+			return children
+				.map((li) => {
+					const content = (li.children ?? [])
+						.map((c) =>
+							c.type === "paragraph" && c.children
+								? inlinesToTypst(c.children, ctx)
+								: blockToTypst(c, ctx),
 						)
 						.join("\n  ");
 					return node.ordered ? `+ ${content}` : `- ${content}`;
@@ -203,37 +226,39 @@ function blockToTypst(node: any, ctx: Ctx): string {
 }
 
 /** Convert inline MDAST nodes to Typst markup */
-function inlinesToTypst(nodes: any[], ctx: Ctx): string {
+function inlinesToTypst(nodes: MdastNode[], ctx: Ctx): string {
 	return nodes.map((n) => inlineToTypst(n, ctx)).join("");
 }
 
-function inlineToTypst(node: any, ctx: Ctx): string {
+function inlineToTypst(node: MdastNode, ctx: Ctx): string {
+	const children = node.children ?? [];
+	const value = node.value ?? "";
 	switch (node.type) {
 		case "text":
-			return esc(node.value);
+			return esc(value);
 		case "emphasis":
-			return `#emph[${inlinesToTypst(node.children, ctx)}]`;
+			return `#emph[${inlinesToTypst(children, ctx)}]`;
 		case "strong":
-			return `#strong[${inlinesToTypst(node.children, ctx)}]`;
+			return `#strong[${inlinesToTypst(children, ctx)}]`;
 		case "link":
-			return inlinesToTypst(node.children, ctx);
+			return inlinesToTypst(children, ctx);
 		case "inlineCode":
-			return `\`${node.value}\``;
+			return `\`${value}\``;
 		case "footnoteReference": {
 			ctx.noteCounter++;
-			const content = ctx.footnoteDefs.get(node.identifier) || "saknad fotnot";
+			const content = (node.identifier && ctx.footnoteDefs.get(node.identifier)) || "saknad fotnot";
 			ctx.endnotes.push({ num: ctx.noteCounter, content });
 			return `#h(0.08em)#super[${ctx.noteCounter}]`;
 		}
 		case "break":
 			return " \\\n";
 		case "html":
-			return esc(node.value.replace(/<[^>]+>/g, ""));
+			return esc(value.replace(/<[^>]+>/g, ""));
 		case "delete":
-			return inlinesToTypst(node.children, ctx);
+			return inlinesToTypst(children, ctx);
 		default:
 			if (node.children) return inlinesToTypst(node.children, ctx);
-			return esc(node.value || "");
+			return esc(value);
 	}
 }
 
@@ -300,7 +325,7 @@ function buildDocument(articles: Article[]): string {
 			firstParagraph: true,
 		};
 		collectFootnotes(article.ast, ctx);
-		const body = blocksToTypst(article.ast.children, ctx);
+		const body = blocksToTypst(article.ast.children ?? [], ctx);
 		if (ctx.endnotes.length > 0) {
 			allEndnotes.push({ title: article.meta.title, notes: ctx.endnotes });
 		}
