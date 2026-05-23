@@ -49,6 +49,7 @@
 			"!**/.astro",
 			"!**/*.astro",
 			"!**/articles-data.json",
+			"!**/verses.json",
 			"!.markdownlint-rules"
 		]
 	}

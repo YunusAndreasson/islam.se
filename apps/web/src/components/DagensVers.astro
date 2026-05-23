@@ -49,10 +49,10 @@ const adlibris = "https://www.adlibris.com/se/sok?q=koranens+budskap+bernström"
 		</p>
 
 		<p class="vers-links">
-			<a class="vers-book" href={adlibris} target="_blank" rel="noopener">Koranens budskap hos Adlibris</a>
+			<a class="vers-book arrow-link" href={adlibris} target="_blank" rel="noopener">Koranens budskap hos Adlibris</a>
 		</p>
 		<p class="vers-links">
-			<a class="vers-resonance" href={`/${relatedSlug}`} data-astro-prefetch="viewport">Essän som växer ur denna vers: <span class="vers-resonance-title">{relatedTitle}</span></a>
+			<a class="vers-resonance arrow-link" href={`/${relatedSlug}`} data-astro-prefetch="viewport">Essän som växer ur denna vers: <span class="vers-resonance-title">{relatedTitle}</span></a>
 		</p>
 	</div>
 </section>
@@ -222,16 +222,10 @@ const adlibris = "https://www.adlibris.com/se/sok?q=koranens+budskap+bernström"
 		}
 	}
 
+	/* Quieter arrow than the accent text (the → behaviour itself is .arrow-link). */
 	.vers-book::after,
 	.vers-resonance::after {
-		content: " →";
 		color: var(--color-muted);
-		transition: translate 0.2s ease;
-		display: inline-block;
-	}
-
-	.vers-links a:hover::after {
-		translate: 0.2em 0;
 	}
 
 	.vers-resonance-title {

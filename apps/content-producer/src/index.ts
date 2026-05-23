@@ -647,6 +647,50 @@ function stripMarkdown(body: string): string {
 		.join("\n");
 }
 
+/**
+ * Parse one hunspell `-a` output line into a flagged word + suggestions, or null
+ * if it is not a misspelling line. `& word n offset: s1, s2` carries suggestions;
+ * `# word offset` is a miss with none.
+ */
+function parseHunspellLine(ol: string): { word: string; suggestions: string[] } | null {
+	if (ol.startsWith("& ")) {
+		const parts = ol.match(/^& (\S+) \d+ \d+: (.*)$/);
+		if (parts?.[1] && parts[2]) {
+			return { word: parts[1], suggestions: parts[2].split(", ").map((s) => s.trim()) };
+		}
+	} else if (ol.startsWith("# ")) {
+		const parts = ol.match(/^# (\S+)/);
+		if (parts?.[1]) return { word: parts[1], suggestions: [] };
+	}
+	return null;
+}
+
+/**
+ * Whether a hunspell-flagged word should be ignored: present in the custom
+ * wordlist (with or without trailing punctuation, case-folded), an Arabic/Islamic
+ * transliteration, a likely proper name, inside a blockquote (archaic Swedish in
+ * historical quotes), or a short English/Latin word.
+ */
+function shouldSkipMisspelling(
+	word: string,
+	cleanWord: string,
+	customWords: Set<string>,
+	contextLine: string,
+): boolean {
+	if (
+		customWords.has(word) ||
+		customWords.has(word.toLowerCase()) ||
+		customWords.has(cleanWord) ||
+		customWords.has(cleanWord.toLowerCase())
+	)
+		return true;
+	if (isTransliteration(word) || isTransliteration(cleanWord)) return true;
+	if (isLikelyProperName(word)) return true;
+	if (contextLine.startsWith(">")) return true;
+	if (/^[a-z]+$/.test(cleanWord) && cleanWord.length <= 3) return true;
+	return false;
+}
+
 /** Run hunspell on article body and return filtered misspellings with context. */
 function spellcheckBody(body: string, dictPath: string, customWords: Set<string>): SpellIssue[] {
 	const stripped = stripMarkdown(body);
@@ -677,64 +721,33 @@ function spellcheckBody(body: string, dictPath: string, customWords: Set<string>
 			currentLine++;
 			continue;
 		}
+		// @ version banner, * + - correct/affix/compound — never misspellings
 		if (ol.startsWith("@") || ol.startsWith("*") || ol.startsWith("+") || ol.startsWith("-")) {
 			continue;
 		}
 
-		let word = "";
-		let suggestions: string[] = [];
-
-		if (ol.startsWith("& ")) {
-			// & word count offset: suggestion1, suggestion2, ...
-			const parts = ol.match(/^& (\S+) \d+ \d+: (.*)$/);
-			if (parts?.[1] && parts[2]) {
-				word = parts[1];
-				suggestions = parts[2].split(", ").map((s) => s.trim());
-			}
-		} else if (ol.startsWith("# ")) {
-			// # word offset (no suggestions)
-			const parts = ol.match(/^# (\S+)/);
-			if (parts?.[1]) word = parts[1];
-		}
-
-		if (!word) continue;
+		const parsed = parseHunspellLine(ol);
+		if (!parsed) continue;
 
 		// Strip trailing punctuation for matching purposes
-		const cleanWord = word.replace(/[.,;:!?)]+$/, "");
+		const cleanWord = parsed.word.replace(/[.,;:!?)]+$/, "");
 		if (!cleanWord) continue;
 
-		// Filter: skip if in custom wordlist (try with and without punctuation)
-		if (
-			customWords.has(word) ||
-			customWords.has(word.toLowerCase()) ||
-			customWords.has(cleanWord) ||
-			customWords.has(cleanWord.toLowerCase())
-		)
+		const lineIdx = Math.max(0, Math.min(currentLine, bodyLines.length - 1));
+		if (shouldSkipMisspelling(parsed.word, cleanWord, customWords, bodyLines[lineIdx] ?? "")) {
 			continue;
-		// Filter: skip Arabic/Islamic transliterations
-		if (isTransliteration(word) || isTransliteration(cleanWord)) continue;
-		// Filter: skip likely proper names (capitalized)
-		if (isLikelyProperName(word)) continue;
-		// Filter: skip words inside blockquotes (archaic Swedish in historical quotes)
-		const contextLineIdx0 = Math.max(0, Math.min(currentLine, bodyLines.length - 1));
-		if (bodyLines[contextLineIdx0]?.startsWith(">")) continue;
-		// Filter: skip short English/Latin common words
-		if (/^[a-z]+$/.test(cleanWord) && cleanWord.length <= 3) continue;
-		// Filter: skip if already reported this word on this line
+		}
+
+		// Skip if already reported this word on this line
 		const key = `${cleanWord}:${currentLine}`;
 		if (seen.has(key)) continue;
 		seen.add(key);
 
 		// Get context line from original body
-		const contextRaw = bodyLines[contextLineIdx0] ?? "";
+		const contextRaw = bodyLines[lineIdx] ?? "";
 		const context = contextRaw.length > 100 ? `${contextRaw.slice(0, 100)}…` : contextRaw;
 
-		issues.push({
-			word: cleanWord,
-			line: contextLineIdx0 + 1,
-			context,
-			suggestions,
-		});
+		issues.push({ word: cleanWord, line: lineIdx + 1, context, suggestions: parsed.suggestions });
 	}
 
 	return issues;
@@ -2536,6 +2549,54 @@ program
 		process.exit(0);
 	});
 
+/** Walk up from cwd (max 10 levels) to the repo root that holds data/hunspell/sv.aff. */
+function findHunspellProjectRoot(): string {
+	let projectRoot = process.cwd();
+	for (let i = 0; i < 10; i++) {
+		if (existsSync(resolve(projectRoot, "data/hunspell/sv.aff"))) break;
+		const parent = resolve(projectRoot, "..");
+		if (parent === projectRoot) break;
+		projectRoot = parent;
+	}
+	return projectRoot;
+}
+
+/** Verify hunspell + the Swedish dictionary are usable; exit with guidance if not. */
+function ensureHunspellAvailable(dictPath: string): void {
+	try {
+		execSync(`hunspell -d ${dictPath} -l <<< "test"`, { encoding: "utf-8" });
+	} catch {
+		console.error("hunspell not found or Swedish dictionary missing at data/hunspell/sv.{aff,dic}");
+		console.error("Install hunspell: pacman -S hunspell (Arch) / apt install hunspell (Debian)");
+		process.exit(1);
+	}
+}
+
+/** Print one article's misspellings (word, line, top suggestions, context). */
+function printArticleIssues(articleSlug: string, misspelled: SpellIssue[]): void {
+	console.log(`\x1b[1m${articleSlug}\x1b[0m (${misspelled.length} issues):`);
+	for (const { word, line, context, suggestions } of misspelled) {
+		const suggStr = suggestions.length > 0 ? ` → ${suggestions.slice(0, 3).join(", ")}` : "";
+		console.log(`  L${line}: \x1b[31m${word}\x1b[0m${suggStr}`);
+		console.log(`         \x1b[90m${context}\x1b[0m`);
+	}
+	console.log("");
+}
+
+/** Offer the accumulated unknown words for interactive addition to the wordlist. */
+async function promptAddWords(wordlistPath: string, words: Set<string>): Promise<void> {
+	const result = await p.multiselect({
+		message: "Select words to add to custom wordlist:",
+		options: [...words].sort().map((w) => ({ value: w, label: w })),
+	});
+	if (p.isCancel(result)) return;
+	const toAdd = result as string[];
+	if (toAdd.length > 0) {
+		appendToWordlist(wordlistPath, toAdd);
+		console.log(`Added ${toAdd.length} words to ${wordlistPath}`);
+	}
+}
+
 program
 	.command("spellcheck")
 	.description(
@@ -2552,27 +2613,9 @@ program
 		const publisher = new ArticlePublisher();
 		const slugs = resolveArticleSlugs(slug, publisher, "spellcheck");
 
-		// Find project root by walking up to find data/hunspell/sv.aff
-		let projectRoot = process.cwd();
-		for (let i = 0; i < 10; i++) {
-			if (existsSync(resolve(projectRoot, "data/hunspell/sv.aff"))) break;
-			const parent = resolve(projectRoot, "..");
-			if (parent === projectRoot) break;
-			projectRoot = parent;
-		}
+		const projectRoot = findHunspellProjectRoot();
 		const dictPath = resolve(projectRoot, "data/hunspell/sv");
-		// Verify hunspell + dictionary exist
-		try {
-			execSync(`hunspell -d ${dictPath} -l <<< "test"`, {
-				encoding: "utf-8",
-			});
-		} catch {
-			console.error(
-				"hunspell not found or Swedish dictionary missing at data/hunspell/sv.{aff,dic}",
-			);
-			console.error("Install hunspell: pacman -S hunspell (Arch) / apt install hunspell (Debian)");
-			process.exit(1);
-		}
+		ensureHunspellAvailable(dictPath);
 
 		// Load custom wordlist
 		const wordlistPath = resolve(projectRoot, options.wordlist as string);
@@ -2586,28 +2629,18 @@ program
 		for (const articleSlug of slugs) {
 			const article = readArticle(publisher, articleSlug);
 			if (!article) continue;
-			const { originalBody } = article;
 
-			const misspelled = spellcheckBody(originalBody, dictPath, customWords);
-
+			const misspelled = spellcheckBody(article.originalBody, dictPath, customWords);
 			if (misspelled.length === 0) {
 				cleanCount++;
 				continue;
 			}
 
-			console.log(`\x1b[1m${articleSlug}\x1b[0m (${misspelled.length} issues):`);
-			for (const { word, line, context, suggestions } of misspelled) {
-				const suggStr = suggestions.length > 0 ? ` → ${suggestions.slice(0, 3).join(", ")}` : "";
-				console.log(`  L${line}: \x1b[31m${word}\x1b[0m${suggStr}`);
-				console.log(`         \x1b[90m${context}\x1b[0m`);
-			}
-			console.log("");
+			printArticleIssues(articleSlug, misspelled);
 			totalIssues += misspelled.length;
 
 			if (options.add) {
-				for (const { word } of misspelled) {
-					allNewWords.add(word);
-				}
+				for (const { word } of misspelled) allNewWords.add(word);
 			}
 		}
 
@@ -2618,17 +2651,7 @@ program
 		console.log("══════════════════════════════════════════════════════════\n");
 
 		if (options.add && allNewWords.size > 0) {
-			const result = await p.multiselect({
-				message: "Select words to add to custom wordlist:",
-				options: [...allNewWords].sort().map((w) => ({ value: w, label: w })),
-			});
-			if (!p.isCancel(result)) {
-				const toAdd = result as string[];
-				if (toAdd.length > 0) {
-					appendToWordlist(wordlistPath, toAdd);
-					console.log(`Added ${toAdd.length} words to ${wordlistPath}`);
-				}
-			}
+			await promptAddWords(wordlistPath, allNewWords);
 		}
 
 		process.exit(0);

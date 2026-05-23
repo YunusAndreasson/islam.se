@@ -56,7 +56,7 @@ const ogImage = feature?.heroImage;
 		<section class="home-movement tankare-home" aria-labelledby="tankare-home-kicker">
 			<div class="tankare-home-head">
 				<p class="label home-kicker" id="tankare-home-kicker">Tänkare</p>
-				<a class="label tankare-home-all" href="/tankare">Alla tänkare</a>
+				<a class="label tankare-home-all arrow-link" href="/tankare">Alla tänkare</a>
 			</div>
 			<TankareGroups limit={6} />
 		</section>
@@ -71,7 +71,7 @@ const ogImage = feature?.heroImage;
 				Essäer där islamisk lärdomstradition möter svenskt kulturarv.
 				<span class="om-teaser-coda">Samma samtal, fört i skilda rum.</span>
 			</p>
-			<a class="home-coda-link" href="/om">Om idén bakom islam.se</a>
+			<a class="home-coda-link arrow-link" href="/om">Om idén bakom islam.se</a>
 		</section>
 
 		<section class="ai-connect home-movement" aria-labelledby="ai-connect-kicker">
@@ -80,11 +80,11 @@ const ogImage = feature?.heroImage;
 				Hela arkivet går att nå direkt från din AI-assistent. Be Claude eller ChatGPT söka i essäerna och citera dem
 				– med länk tillbaka hit. En öppen anslutning (MCP) gör kopplingen på en minut.
 			</p>
-			<a class="home-coda-link" href="/ai">Koppla din assistent</a>
+			<a class="home-coda-link arrow-link" href="/ai">Koppla din assistent</a>
 		</section>
 
 		<nav class="archive-link home-movement" aria-label="Hela arkivet">
-			<a href="/essaer">Hela arkivet</a>
+			<a class="arrow-link" href="/essaer">Hela arkivet</a>
 		</nav>
 
 		<Footer />
@@ -100,10 +100,16 @@ const ogImage = feature?.heroImage;
 		align-items: baseline;
 		gap: 1rem;
 		margin-bottom: var(--space-unit);
+		padding-top: var(--space-half);
+		border-top: 1px solid var(--color-divider);
 	}
 
+	/* The kicker keeps its accent tick but hands the full-width threshold rule to
+	   the head row, so the hairline spans past the "Alla tänkare" link too. */
 	.tankare-home-head .home-kicker {
 		margin-bottom: 0;
+		padding-top: 0;
+		border-top: none;
 	}
 
 	.tankare-home-all {
@@ -112,18 +118,8 @@ const ogImage = feature?.heroImage;
 		transition: color 0.15s ease;
 	}
 
-	.tankare-home-all::after {
-		content: " →";
-		display: inline-block;
-		transition: translate 0.2s ease;
-	}
-
 	.tankare-home-all:hover {
 		color: var(--color-accent);
-	}
-
-	.tankare-home-all:hover::after {
-		translate: 0.2em 0;
 	}
 
 	.tankare-home-all:focus-visible {
@@ -160,21 +156,15 @@ const ogImage = feature?.heroImage;
 		text-decoration: none;
 	}
 
+	/* Quieter arrow than the accent text (the rest of the → behaviour is .arrow-link). */
 	.home-coda-link::after {
-		content: " →";
 		color: var(--color-muted);
-		transition: translate 0.2s ease;
-		display: inline-block;
 	}
 
 	.home-coda-link:hover {
 		text-decoration: underline;
 		text-decoration-thickness: 1px;
 		text-underline-offset: 0.15em;
-	}
-
-	.home-coda-link:hover::after {
-		translate: 0.2em 0;
 	}
 
 	.home-coda-link:focus-visible {
@@ -199,19 +189,12 @@ const ogImage = feature?.heroImage;
 	}
 
 	.archive-link a::after {
-		content: " →";
 		color: var(--color-muted);
-		transition: translate 0.2s ease;
-		display: inline-block;
 	}
 
 	.archive-link a:hover {
 		text-decoration: underline;
 		text-decoration-thickness: 1px;
 		text-underline-offset: 0.15em;
-	}
-
-	.archive-link a:hover::after {
-		translate: 0.2em 0;
 	}
 </style>

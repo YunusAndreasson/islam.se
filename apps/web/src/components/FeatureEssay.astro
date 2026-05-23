@@ -65,25 +65,31 @@ const { article } = Astro.props;
 	   the wrapper), so the hero is a stable 16:9 crop regardless of the source
 	   file's dimensions. The base tonal wash + its transition also live on the
 	   img in EssayImage; here we only set layout (and relax the wash on hover). */
-	.feature-media :global(img) {
-		display: block;
-		width: 100%;
-		aspect-ratio: 16 / 9;
-		object-fit: cover;
+	/* Cover fit + hover colour-bloom are shared on .media-frame (layout.css); here
+	   we set only this hero's crop and a gentler zoom than the default. */
+	.feature-media {
+		--frame-zoom: 1.02;
 	}
 
-	/* Hover bloom: ease the tonal wash back toward full colour as the hero lifts. */
-	.feature-link:hover .feature-media :global(img) {
-		scale: 1.02;
-		filter: saturate(1) contrast(1) brightness(1) sepia(0);
+	.feature-media :global(img) {
+		aspect-ratio: 16 / 9;
 	}
 
 	.feature-text {
 		margin-top: var(--space-unit);
 	}
 
+	/* The hero eyebrow sits beneath the image, naming the lead essay — it is a
+	   caption, not a section joint, so it opts out of the movement-threshold rule
+	   and accent tick that the other kickers carry. */
 	.feature-kicker {
 		margin-bottom: var(--space-half);
+		padding-top: 0;
+		border-top: none;
+	}
+
+	.feature-kicker::before {
+		content: none;
 	}
 
 	/* Larger than --step-4 (2.612rem): a deliberate, contained exception to the
