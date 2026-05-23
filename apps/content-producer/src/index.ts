@@ -37,6 +37,10 @@ program
 	.option("-m, --model <model>", "Model to use (opus|sonnet)", "opus")
 	.option("-o, --output <dir>", "Output directory", "./output")
 	.option("-r, --revisions <count>", "Max revision attempts", "2")
+	.option(
+		"-R, --resume",
+		"Resume from saved checkpoints (research.json, fact-check.json, draft-meta.json)",
+	)
 	.action(async (topic: string, options) => {
 		const outputDir = resolve(options.output);
 
@@ -48,6 +52,9 @@ program
 		console.log(`Topic: ${topic}`);
 		console.log(`Model: ${options.model}`);
 		console.log(`Quality threshold: ${options.quality}/10`);
+		if (options.resume) {
+			console.log("Resume: enabled (checkpoints will be reused)");
+		}
 		console.log("");
 
 		const orchestrator = new ContentOrchestrator({
@@ -58,7 +65,9 @@ program
 		});
 
 		try {
-			const result = await orchestrator.produce(topic);
+			const result = await orchestrator.produce(topic, undefined, undefined, {
+				resume: options.resume === true,
+			});
 
 			console.log("");
 			console.log("══════════════════════════════════════════════════════════");

@@ -37,7 +37,7 @@ export function slugify(text: string): string {
  * Get model ID for Claude CLI
  */
 export function getModelId(model: "opus" | "sonnet"): ClaudeRunOptions["model"] {
-	return model === "opus" ? "claude-opus-4-6" : "claude-sonnet-4-5-20250929";
+	return model === "opus" ? "claude-opus-4-7" : "claude-sonnet-4-5-20250929";
 }
 
 /**

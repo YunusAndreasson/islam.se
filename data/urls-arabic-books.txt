@@ -77,3 +77,24 @@
 
 # Al-Itqan fi Ulum al-Quran - The Perfection in Quranic Sciences
 # DONE https://raw.githubusercontent.com/OpenITI/0925AH/master/data/0911Suyuti/0911Suyuti.Itqan/0911Suyuti.Itqan.Shamela0011728-ara1
+
+# ══════════════════════════════════════════════════════════════
+# AL-MAWARDI - additional work (political-legal treatise)
+# ══════════════════════════════════════════════════════════════
+
+# Al-Ahkam al-Sultaniyya - Caliphate, judiciary, public office, iḥyā' al-mawāt
+# DONE https://raw.githubusercontent.com/OpenITI/0450AH/master/data/0450AbuHasanMawardi/0450AbuHasanMawardi.AhkamSultaniyya/0450AbuHasanMawardi.AhkamSultaniyya.Shamela0022881-ara1.mARkdown
+
+# ══════════════════════════════════════════════════════════════
+# IBN QAYYIM - additional work (eschatology / soul)
+# ══════════════════════════════════════════════════════════════
+
+# Kitab al-Ruh - Soul, death, the grave, the afterlife
+# DONE https://raw.githubusercontent.com/OpenITI/0775AH/master/data/0751IbnQayyimJawziyya/0751IbnQayyimJawziyya.RuhFiKalam/0751IbnQayyimJawziyya.RuhFiKalam.Shamela0006462-ara1
+
+# ══════════════════════════════════════════════════════════════
+# AL-BUKHARI - al-Adab al-Mufrad (hadith collection on social ethics)
+# ══════════════════════════════════════════════════════════════
+
+# Al-Adab al-Mufrad - Bukhari's collection of hadiths on akhlāq: greetings, neighbors, parents, speech, table manners
+# DONE https://raw.githubusercontent.com/OpenITI/0275AH/master/data/0256Bukhari/0256Bukhari.AdabMufrad/0256Bukhari.AdabMufrad.Shamela0009647-ara1

@@ -54,12 +54,12 @@
       "avgScore": 8.6
     },
     "en.wikipedia.org": {
-      "total": 94,
-      "ok": 93,
+      "total": 99,
+      "ok": 98,
       "failed": 1,
-      "lastChecked": "2026-03-26T14:42:04.255Z",
-      "publishedIn": 74,
-      "avgScore": 8.591891891891903,
+      "lastChecked": "2026-05-17T17:47:01.608Z",
+      "publishedIn": 79,
+      "avgScore": 8.593670886075962,
       "lastError": "fetch failed"
     },
     "www.academia.edu": {
@@ -119,12 +119,12 @@
       "avgScore": 8.65
     },
     "popularhistoria.se": {
-      "total": 2,
-      "ok": 2,
+      "total": 3,
+      "ok": 3,
       "failed": 0,
-      "lastChecked": "2026-03-26T09:57:16.335Z",
-      "publishedIn": 1,
-      "avgScore": 8.6
+      "lastChecked": "2026-05-17T12:23:59.802Z",
+      "publishedIn": 2,
+      "avgScore": 8.55
     },
     "hal.science": {
       "total": 1,
@@ -219,12 +219,12 @@
       "avgScore": 8.508333333333335
     },
     "sv.wikipedia.org": {
-      "total": 23,
-      "ok": 23,
+      "total": 24,
+      "ok": 24,
       "failed": 0,
-      "lastChecked": "2026-04-05T19:36:48.494Z",
-      "publishedIn": 20,
-      "avgScore": 8.574999999999998
+      "lastChecked": "2026-05-17T14:02:43.475Z",
+      "publishedIn": 21,
+      "avgScore": 8.580952380952377
     },
     "lifewithallah.com": {
       "total": 3,
@@ -367,12 +367,12 @@
       "lastChecked": "2026-02-12T13:39:17.867Z"
     },
     "www.svt.se": {
-      "total": 5,
-      "ok": 5,
+      "total": 7,
+      "ok": 7,
       "failed": 0,
-      "lastChecked": "2026-02-12T19:19:39.534Z",
-      "publishedIn": 3,
-      "avgScore": 8.6
+      "lastChecked": "2026-05-17T12:23:59.802Z",
+      "publishedIn": 5,
+      "avgScore": 8.559999999999999
     },
     "www.genteknik.se": {
       "total": 1,
@@ -703,10 +703,10 @@
       "avgScore": 8.55
     },
     "www.svenskakyrkan.se": {
-      "total": 1,
+      "total": 2,
       "ok": 1,
-      "failed": 0,
-      "lastChecked": "2026-02-12T21:00:17.967Z",
+      "failed": 1,
+      "lastChecked": "2026-05-17T14:02:43.475Z",
       "publishedIn": 1,
       "avgScore": 8.4
     },
@@ -773,12 +773,12 @@
       "avgScore": 8.6
     },
     "www.islam21c.com": {
-      "total": 3,
-      "ok": 3,
+      "total": 4,
+      "ok": 4,
       "failed": 0,
-      "lastChecked": "2026-03-26T08:25:09.117Z",
-      "publishedIn": 3,
-      "avgScore": 8.566666666666666
+      "lastChecked": "2026-05-17T14:02:43.475Z",
+      "publishedIn": 4,
+      "avgScore": 8.6
     },
     "kairosfuture.com": {
       "total": 2,
@@ -1021,12 +1021,12 @@
       "avgScore": 8.6
     },
     "www.sverigesradio.se": {
-      "total": 3,
-      "ok": 3,
+      "total": 4,
+      "ok": 4,
       "failed": 0,
-      "lastChecked": "2026-03-26T06:32:45.228Z",
-      "publishedIn": 3,
-      "avgScore": 8.566666666666666
+      "lastChecked": "2026-05-17T15:06:12.677Z",
+      "publishedIn": 4,
+      "avgScore": 8.55
     },
     "kyrkaochfolk.se": {
       "total": 1,
@@ -1132,12 +1132,12 @@
       "lastChecked": "2026-02-14T13:46:12.747Z"
     },
     "islamqa.info": {
-      "total": 5,
-      "ok": 5,
+      "total": 6,
+      "ok": 6,
       "failed": 0,
-      "lastChecked": "2026-03-26T04:55:24.719Z",
-      "publishedIn": 3,
-      "avgScore": 8.633333333333333
+      "lastChecked": "2026-05-17T15:06:12.677Z",
+      "publishedIn": 4,
+      "avgScore": 8.6
     },
     "www.openhorizons.org": {
       "total": 1,
@@ -1288,10 +1288,12 @@
       "lastChecked": "2026-02-14T21:24:06.879Z"
     },
     "sverigesradio.se": {
-      "total": 1,
-      "ok": 0,
+      "total": 2,
+      "ok": 1,
       "failed": 1,
-      "lastChecked": "2026-03-25T20:35:01.742Z"
+      "lastChecked": "2026-05-17T12:23:59.802Z",
+      "publishedIn": 1,
+      "avgScore": 8.5
     },
     "yle.fi": {
       "total": 1,
@@ -1334,12 +1336,12 @@
       "avgScore": 8.7
     },
     "sunnah.com": {
-      "total": 1,
-      "ok": 1,
+      "total": 3,
+      "ok": 3,
       "failed": 0,
-      "lastChecked": "2026-03-25T23:35:30.838Z",
-      "publishedIn": 1,
-      "avgScore": 8.7
+      "lastChecked": "2026-05-17T15:06:12.677Z",
+      "publishedIn": 3,
+      "avgScore": 8.566666666666666
     },
     "tillliv.se": {
       "total": 1,
@@ -1500,6 +1502,220 @@
       "ok": 1,
       "failed": 0,
       "lastChecked": "2026-04-05T19:36:48.494Z",
+      "publishedIn": 1,
+      "avgScore": 8.7
+    },
+    "kolonitradgardsforbundet.se": {
+      "total": 1,
+      "ok": 1,
+      "failed": 0,
+      "lastChecked": "2026-05-17T12:23:59.802Z",
+      "publishedIn": 1,
+      "avgScore": 8.5
+    },
+    "stockholmskallan.stockholm.se": {
+      "total": 1,
+      "ok": 1,
+      "failed": 0,
+      "lastChecked": "2026-05-17T12:23:59.802Z",
+      "publishedIn": 1,
+      "avgScore": 8.5
+    },
+    "www.altinget.se": {
+      "total": 1,
+      "ok": 1,
+      "failed": 0,
+      "lastChecked": "2026-05-17T12:23:59.802Z",
+      "publishedIn": 1,
+      "avgScore": 8.5
+    },
+    "www.electrummagazine.com": {
+      "total": 1,
+      "ok": 1,
+      "failed": 0,
+      "lastChecked": "2026-05-17T12:23:59.802Z",
+      "publishedIn": 1,
+      "avgScore": 8.5
+    },
+    "bliis.org": {
+      "total": 1,
+      "ok": 1,
+      "failed": 0,
+      "lastChecked": "2026-05-17T12:23:59.802Z",
+      "publishedIn": 1,
+      "avgScore": 8.5
+    },
+    "www.carllarsson.se": {
+      "total": 1,
+      "ok": 1,
+      "failed": 0,
+      "lastChecked": "2026-05-17T12:23:59.802Z",
+      "publishedIn": 1,
+      "avgScore": 8.5
+    },
+    "marbacka.com": {
+      "total": 1,
+      "ok": 1,
+      "failed": 0,
+      "lastChecked": "2026-05-17T12:23:59.802Z",
+      "publishedIn": 1,
+      "avgScore": 8.5
+    },
+    "www.livsmedelsverket.se": {
+      "total": 1,
+      "ok": 1,
+      "failed": 0,
+      "lastChecked": "2026-05-17T12:23:59.802Z",
+      "publishedIn": 1,
+      "avgScore": 8.5
+    },
+    "creation.com": {
+      "total": 1,
+      "ok": 1,
+      "failed": 0,
+      "lastChecked": "2026-05-17T12:23:59.802Z",
+      "publishedIn": 1,
+      "avgScore": 8.5
+    },
+    "www.agakhancentre.org.uk": {
+      "total": 1,
+      "ok": 1,
+      "failed": 0,
+      "lastChecked": "2026-05-17T12:23:59.802Z",
+      "publishedIn": 1,
+      "avgScore": 8.5
+    },
+    "katolsktmagasin.se": {
+      "total": 1,
+      "ok": 1,
+      "failed": 0,
+      "lastChecked": "2026-05-17T14:02:43.475Z",
+      "publishedIn": 1,
+      "avgScore": 8.7
+    },
+    "www.begravningar.se": {
+      "total": 1,
+      "ok": 1,
+      "failed": 0,
+      "lastChecked": "2026-05-17T14:02:43.475Z",
+      "publishedIn": 1,
+      "avgScore": 8.7
+    },
+    "inelda.org": {
+      "total": 1,
+      "ok": 1,
+      "failed": 0,
+      "lastChecked": "2026-05-17T14:02:43.475Z",
+      "publishedIn": 1,
+      "avgScore": 8.7
+    },
+    "www.themarginalian.org": {
+      "total": 1,
+      "ok": 1,
+      "failed": 0,
+      "lastChecked": "2026-05-17T14:02:43.475Z",
+      "publishedIn": 1,
+      "avgScore": 8.7
+    },
+    "www.kalamullah.com": {
+      "total": 2,
+      "ok": 2,
+      "failed": 0,
+      "lastChecked": "2026-05-17T15:06:12.677Z",
+      "publishedIn": 2,
+      "avgScore": 8.6
+    },
+    "www.thelocal.se": {
+      "total": 1,
+      "ok": 1,
+      "failed": 0,
+      "lastChecked": "2026-05-17T15:06:12.677Z",
+      "publishedIn": 1,
+      "avgScore": 8.5
+    },
+    "preply.com": {
+      "total": 1,
+      "ok": 1,
+      "failed": 0,
+      "lastChecked": "2026-05-17T15:06:12.677Z",
+      "publishedIn": 1,
+      "avgScore": 8.5
+    },
+    "myislam.org": {
+      "total": 1,
+      "ok": 1,
+      "failed": 0,
+      "lastChecked": "2026-05-17T15:06:12.677Z",
+      "publishedIn": 1,
+      "avgScore": 8.5
+    },
+    "publicdomainreview.org": {
+      "total": 1,
+      "ok": 1,
+      "failed": 0,
+      "lastChecked": "2026-05-17T17:47:01.608Z",
+      "publishedIn": 1,
+      "avgScore": 8.7
+    },
+    "www.cabinetmagazine.org": {
+      "total": 1,
+      "ok": 1,
+      "failed": 0,
+      "lastChecked": "2026-05-17T17:47:01.608Z",
+      "publishedIn": 1,
+      "avgScore": 8.7
+    },
+    "www.diacriticsjournal.com": {
+      "total": 1,
+      "ok": 1,
+      "failed": 0,
+      "lastChecked": "2026-05-17T17:47:01.608Z",
+      "publishedIn": 1,
+      "avgScore": 8.7
+    },
+    "www.tate.org.uk": {
+      "total": 1,
+      "ok": 1,
+      "failed": 0,
+      "lastChecked": "2026-05-17T17:47:01.608Z",
+      "publishedIn": 1,
+      "avgScore": 8.7
+    },
+    "www.metmuseum.org": {
+      "total": 1,
+      "ok": 0,
+      "failed": 1,
+      "lastChecked": "2026-05-17T17:47:01.608Z"
+    },
+    "daruliftabirmingham.co.uk": {
+      "total": 1,
+      "ok": 1,
+      "failed": 0,
+      "lastChecked": "2026-05-17T17:47:01.608Z",
+      "publishedIn": 1,
+      "avgScore": 8.7
+    },
+    "journal.nyphilosophy.org": {
+      "total": 1,
+      "ok": 1,
+      "failed": 0,
+      "lastChecked": "2026-05-17T17:47:01.608Z",
+      "publishedIn": 1,
+      "avgScore": 8.7
+    },
+    "hyperallergic.com": {
+      "total": 1,
+      "ok": 1,
+      "failed": 0,
+      "lastChecked": "2026-05-17T17:47:01.608Z",
+      "publishedIn": 1,
+      "avgScore": 8.7
+    },
+    "www.islamweb.net": {
+      "total": 1,
+      "ok": 1,
+      "failed": 0,
+      "lastChecked": "2026-05-17T17:47:01.608Z",
       "publishedIn": 1,
       "avgScore": 8.7
     }

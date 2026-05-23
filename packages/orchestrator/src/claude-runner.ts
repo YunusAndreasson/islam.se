@@ -23,9 +23,9 @@ export interface ClaudeRunOptions {
 	/** JSON schema for built-in output validation (uses --json-schema flag) */
 	jsonSchema?: object;
 	/** Model to use */
-	model: "claude-opus-4-6" | "claude-sonnet-4-5-20250929";
+	model: "claude-opus-4-7" | "claude-sonnet-4-5-20250929";
 	/** Effort level for adaptive thinking */
-	effort?: "low" | "medium" | "high" | "max";
+	effort?: "low" | "medium" | "high" | "xhigh" | "max";
 	/** Maximum budget in USD for this stage (uses --max-budget-usd flag) */
 	maxBudgetUsd?: number;
 	/** Fallback model if primary is unavailable (uses --fallback-model flag) */
