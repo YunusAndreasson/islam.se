@@ -3,20 +3,8 @@ import { Image } from "astro:assets";
 import Base from "../layouts/Base.astro";
 import { formatDate, getArticles, inlineMarkdown } from "../lib/articles";
 
-const HERO_SLUGS = [
-	"traden-hade-andakt",
-	"nattbonens-ansikte",
-	"det-han-letade-efter",
-	"vikingarna-hade-inte-angest",
-	"somnens-lilla-dod",
-	"skapad-ur-ingenting",
-	"silvertarnans-hijra",
-];
-
 const articles = await getArticles();
-const slides = HERO_SLUGS
-	.map((slug) => articles.find((a) => a.slug === slug))
-	.filter((a): a is (typeof articles)[number] => a !== undefined);
+const slides = articles.filter((a) => a.heroImage).slice(0, 7);
 const latest = slides[0];
 const ogImage = latest?.heroImage;
 ---
@@ -120,8 +108,8 @@ const ogImage = latest?.heroImage;
 			const last = slides.length - 1;
 
 			function update() {
-				prevBtn.disabled = current === 0;
-				nextBtn.disabled = current === last;
+				prevBtn!.disabled = current === 0;
+				nextBtn!.disabled = current === last;
 			}
 
 			function go(delta: number) {

@@ -1,11 +1,5 @@
 import { getCollection } from "astro:content";
-
-type ImageMetadata = {
-	src: string;
-	width: number;
-	height: number;
-	format: string;
-};
+import type { ImageMetadata } from "astro";
 
 export interface Article {
 	slug: string;

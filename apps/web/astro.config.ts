@@ -2,10 +2,16 @@ import { readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 import sitemap from "@astrojs/sitemap";
+import type { AstroUserConfig } from "astro";
 import { defineConfig, fontProviders } from "astro/config";
 import remarkSmartypants from "remark-smartypants";
 import { rehypeHonorific } from "./src/plugins/rehype-honorific";
 import { remarkAbbr } from "./src/plugins/remark-abbr";
+
+// remark-smartypants resolves its own `unified` version, whose Plugin type does not
+// nominally match Astro's bundled RemarkPlugin (they are identical at runtime). This
+// alias lets us cast the plugin list to the type Astro's markdown config expects.
+type RemarkPlugins = NonNullable<NonNullable<AstroUserConfig["markdown"]>["remarkPlugins"]>;
 
 const articlesDir = fileURLToPath(new URL("../../data/articles", import.meta.url));
 const articleDates: Record<string, string> = {};
@@ -332,7 +338,7 @@ export default defineConfig({
 				},
 			],
 			remarkAbbr,
-		],
+		] as unknown as RemarkPlugins,
 		rehypePlugins: [rehypeHonorific],
 	},
 	fonts: [

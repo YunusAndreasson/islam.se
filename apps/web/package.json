@@ -7,19 +7,22 @@
 		"dev": "astro dev",
 		"build": "astro build",
 		"preview": "astro preview",
+		"check": "astro check",
 		"pdf": "tsx scripts/generate-pdf.ts"
 	},
 	"dependencies": {
 		"@astrojs/rss": "^4.0.18",
 		"@astrojs/sitemap": "^3.7.2",
-		"astro": "^6.3.3",
+		"astro": "^6.3.7",
 		"remark-smartypants": "^3.0.2",
 		"sharp": "^0.34.5"
 	},
 	"devDependencies": {
+		"@astrojs/check": "^0.9.9",
 		"remark-gfm": "^4.0.1",
 		"remark-parse": "^11.0.0",
-		"tsx": "^4.22.1",
+		"tsx": "^4.22.3",
+		"typescript": "^6.0.3",
 		"unified": "^11.0.5"
 	}
 }

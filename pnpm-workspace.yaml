@@ -1,3 +1,17 @@
 packages:
   - "packages/*"
   - "apps/*"
+# pnpm 11 enforces a 24h minimumReleaseAge supply-chain delay by default.
+# baseline-browser-mapping is a benign, fast-moving transitive browser-data
+# package that frequently ships same-day patches; exempt it so installs aren't
+# blocked while keeping the 24h delay active for every other dependency.
+minimumReleaseAgeExclude:
+  - baseline-browser-mapping
+allowBuilds:
+  better-sqlite3: true
+  core-js-pure: true
+  esbuild: true
+  onnxruntime-node: true
+  protobufjs: true
+  sharp: true
+  workerd: true
