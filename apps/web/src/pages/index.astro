@@ -41,9 +41,9 @@ const ogImage = feature?.heroImage;
 	<main id="main" class="home">
 		<h1 class="sr-only">islam.se — essäer om islamisk intellektuell tradition och svenskt kulturarv</h1>
 
-		{verseOfDay && <DagensVers verseOfDay={verseOfDay} />}
-
 		{feature && <FeatureEssay article={feature} />}
+
+		{verseOfDay && <DagensVers verseOfDay={verseOfDay} />}
 
 		<RecentEssays articles={recent} />
 
@@ -64,6 +64,24 @@ const ogImage = feature?.heroImage;
 		<Markesdagar />
 
 		<BookPod count={articles.length} variant="home" />
+
+		<section class="om-teaser home-movement" aria-labelledby="om-teaser-kicker">
+			<p class="label home-kicker" id="om-teaser-kicker">Om islam.se</p>
+			<p class="om-teaser-text">
+				Essäer där islamisk lärdomstradition möter svenskt kulturarv.
+				<span class="om-teaser-coda">Samma samtal, fört i skilda rum.</span>
+			</p>
+			<a class="home-coda-link" href="/om">Om idén bakom islam.se</a>
+		</section>
+
+		<section class="ai-connect home-movement" aria-labelledby="ai-connect-kicker">
+			<p class="label home-kicker" id="ai-connect-kicker">AI</p>
+			<p class="ai-connect-text">
+				Hela arkivet går att nå direkt från din AI-assistent. Be Claude eller ChatGPT söka i essäerna och citera dem
+				– med länk tillbaka hit. En öppen anslutning (MCP) gör kopplingen på en minut.
+			</p>
+			<a class="home-coda-link" href="/ai">Koppla din assistent</a>
+		</section>
 
 		<nav class="archive-link home-movement" aria-label="Hela arkivet">
 			<a href="/essaer">Hela arkivet</a>
@@ -109,6 +127,57 @@ const ogImage = feature?.heroImage;
 	}
 
 	.tankare-home-all:focus-visible {
+		outline: 2px solid var(--color-accent);
+		outline-offset: 3px;
+		border-radius: 2px;
+	}
+
+	/* Closing pair — what islam.se is, and that it reaches a modern assistant.
+	   Quiet text-led movements in the site voice; the link mirrors the arrow
+	   convention used by Tänkare and the archive link. */
+	.om-teaser-text,
+	.ai-connect-text {
+		font-family: var(--font-body);
+		font-size: 1.0625rem;
+		line-height: 1.55;
+		color: color-mix(in srgb, var(--color-text) 80%, var(--color-muted));
+		max-width: 38rem;
+		margin: 0 0 var(--space-half);
+		text-wrap: pretty;
+	}
+
+	.om-teaser-coda {
+		font-style: italic;
+	}
+
+	.home-coda-link {
+		display: inline-block;
+		font-family: var(--font-heading);
+		font-size: 1.05rem;
+		font-weight: 500;
+		letter-spacing: 0.02em;
+		color: var(--color-accent);
+		text-decoration: none;
+	}
+
+	.home-coda-link::after {
+		content: " →";
+		color: var(--color-muted);
+		transition: translate 0.2s ease;
+		display: inline-block;
+	}
+
+	.home-coda-link:hover {
+		text-decoration: underline;
+		text-decoration-thickness: 1px;
+		text-underline-offset: 0.15em;
+	}
+
+	.home-coda-link:hover::after {
+		translate: 0.2em 0;
+	}
+
+	.home-coda-link:focus-visible {
 		outline: 2px solid var(--color-accent);
 		outline-offset: 3px;
 		border-radius: 2px;
