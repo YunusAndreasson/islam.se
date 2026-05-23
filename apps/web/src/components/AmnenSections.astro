@@ -59,8 +59,8 @@ const sections = groups.map(({ amne, essays }, i) => {
 				<div class="amne-lead-grid">
 					<a class="amne-lead" href={`/${picks[0].slug}`} data-astro-prefetch="viewport">
 						{picks[0].heroImage && (
-							<div class="amne-lead-media">
-								<EssayImage article={picks[0]} widths={[320, 520, 720]} sizes="(max-width: 768px) 100vw, 22rem" class="amne-img" />
+							<div class="amne-lead-media media-frame">
+								<EssayImage article={picks[0]} widths={[320, 520, 720]} sizes="(max-width: 768px) 100vw, 22rem" />
 							</div>
 						)}
 						<h4 class="amne-essay-title amne-lead-title">{picks[0].title}</h4>
@@ -98,8 +98,8 @@ const sections = groups.map(({ amne, essays }, i) => {
 						<li>
 							<a href={`/${e.slug}`} data-astro-prefetch="viewport">
 								{e.heroImage && (
-									<div class="amne-trio-media">
-										<EssayImage article={e} widths={[280, 420, 560]} sizes="(max-width: 768px) 100vw, 18rem" class="amne-img" />
+									<div class="amne-trio-media media-frame">
+										<EssayImage article={e} widths={[280, 420, 560]} sizes="(max-width: 768px) 100vw, 18rem" />
 									</div>
 								)}
 								<span class="amne-essay-title">{e.title}</span>
@@ -151,15 +151,24 @@ const sections = groups.map(({ amne, essays }, i) => {
 		max-width: 40rem;
 	}
 
-	.amne-img {
+	/* Frame, grain + vignette come from the shared .media-frame utility on the
+	   wrappers (layout.css). The base tonal wash + its transition live on the img
+	   in EssayImage. The crop is pinned via :global(img) on each media wrapper
+	   (NOT a class on EssayImage — a scoped class never reaches its inner <img>),
+	   so the images hold a uniform proportion regardless of source dimensions.
+	   Per-context aspect-ratios are set in the lead/trio blocks below. */
+	.amne-lead-media :global(img),
+	.amne-trio-media :global(img) {
 		display: block;
 		width: 100%;
 		object-fit: cover;
-		transition: scale 0.5s cubic-bezier(0.2, 0, 0.1, 1);
 	}
 
-	a:hover .amne-img {
+	/* Hover bloom: ease the tonal wash back toward full colour as the image lifts. */
+	a:hover .amne-lead-media :global(img),
+	a:hover .amne-trio-media :global(img) {
 		scale: 1.03;
+		filter: saturate(1) contrast(1) brightness(1) sepia(0);
 	}
 
 	.amne-essay-title {
@@ -202,12 +211,10 @@ const sections = groups.map(({ amne, essays }, i) => {
 	}
 
 	.amne-lead-media {
-		overflow: hidden;
-		border-radius: 2px;
 		margin-bottom: var(--space-half);
 	}
 
-	.amne-lead-media .amne-img {
+	.amne-lead-media :global(img) {
 		aspect-ratio: 3 / 2;
 	}
 
@@ -260,12 +267,10 @@ const sections = groups.map(({ amne, essays }, i) => {
 	}
 
 	.amne-trio-media {
-		overflow: hidden;
-		border-radius: 2px;
 		margin-bottom: var(--space-half);
 	}
 
-	.amne-trio-media .amne-img {
+	.amne-trio-media :global(img) {
 		aspect-ratio: 4 / 3;
 	}
 

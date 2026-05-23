@@ -27,12 +27,11 @@ const rows = articles.map((article) => {
 			<li class:list={["recent-item", `recent-item--${side}`]}>
 				<a class="recent-link" href={`/${article.slug}`} data-astro-prefetch="viewport">
 					{side !== "none" && (
-						<div class="recent-media">
+						<div class="recent-media media-frame">
 							<EssayImage
 								article={article}
 								widths={[320, 480, 640]}
 								sizes="(max-width: 768px) 100vw, 18rem"
-								class="recent-img"
 							/>
 						</div>
 					)}
@@ -111,21 +110,22 @@ const rows = articles.map((article) => {
 		max-width: 38rem;
 	}
 
-	.recent-media {
-		overflow: hidden;
-		border-radius: 2px;
-	}
-
-	.recent-img {
+	/* Frame, grain + vignette come from the shared .media-frame utility on the
+	   wrapper (layout.css). The base tonal wash + its transition live on the img
+	   in EssayImage. The crop is pinned here via :global(img) (NOT a class on
+	   EssayImage — a scoped class never reaches its inner <img>), so every
+	   thumbnail is a uniform 4:3 regardless of the source file's proportions. */
+	.recent-media :global(img) {
 		display: block;
 		width: 100%;
 		aspect-ratio: 4 / 3;
 		object-fit: cover;
-		transition: scale 0.5s cubic-bezier(0.2, 0, 0.1, 1);
 	}
 
-	.recent-link:hover .recent-img {
+	/* Hover bloom: ease the tonal wash back toward full colour as the image lifts. */
+	.recent-link:hover .recent-media :global(img) {
 		scale: 1.03;
+		filter: saturate(1) contrast(1) brightness(1) sepia(0);
 	}
 
 	.recent-title {
@@ -170,7 +170,7 @@ const rows = articles.map((article) => {
 			order: 0;
 		}
 
-		.recent-img {
+		.recent-media :global(img) {
 			aspect-ratio: 16 / 9;
 		}
 

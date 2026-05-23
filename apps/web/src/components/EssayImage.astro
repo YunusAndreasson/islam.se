@@ -58,3 +58,27 @@ const mobile = article.mobileHeroImage;
 		/>
 	)
 )}
+
+<style>
+	/* Base tonal wash — site-wide art direction for every essay photo.
+	   The source files span very different colour temperatures; this pulls them
+	   all toward the warm 4-colour palette so the page reads as one curated set,
+	   not a gallery of stock rectangles. Source images are untouched (CSS only).
+
+	   This is scoped to the <img> EssayImage itself renders, so it travels to
+	   every usage (feature / recent / ämnen) and does NOT collide with the
+	   wrappers' :global(img) sizing rules. Wrappers ease the filter back toward
+	   full colour on hover (the bloom). Tuned against the live render. */
+	img {
+		filter: saturate(0.72) contrast(1.04) brightness(0.98) sepia(0.12);
+		transition:
+			filter 0.6s cubic-bezier(0.2, 0, 0.1, 1),
+			scale 0.6s cubic-bezier(0.2, 0, 0.1, 1);
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		img {
+			transition: filter 0.6s ease;
+		}
+	}
+</style>

@@ -66,6 +66,64 @@
 	color: var(--color-muted);
 }
 
+/* Media frame — the shared art-directed container for every essay photo.
+   Wraps the image (which carries EssayImage's base tonal wash) with a fine film
+   grain and a soft inset vignette, so each picture is seated rather than pasted
+   on as a hard rectangle. The two overlay layers are pointer-transparent and
+   sit above the image, so they don't interfere with the hover scale/bloom. The
+   grain stays fixed while the image scales — it reads as a real film layer.
+   Used by .feature-media, .recent-media, .amne-lead-media, .amne-trio-media. */
+.media-frame {
+	position: relative;
+	overflow: hidden;
+	/* Soft, modern corners — no longer a hard rectangular cut, but restrained
+	   enough to stay in the strict editorial voice. */
+	border-radius: 10px;
+	transition: box-shadow 0.5s cubic-bezier(0.2, 0, 0.1, 1);
+}
+
+/* Film grain — desaturated fractal noise, blended soft-light at a whisper. */
+.media-frame::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	pointer-events: none;
+	border-radius: inherit;
+	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+	background-size: 160px 160px;
+	opacity: 0.07;
+	mix-blend-mode: soft-light;
+}
+
+/* Soft inset vignette — gently darkens the edges so the crop melts into the
+   page instead of cutting against the cream. Lifted above the image; recedes on
+   hover so the photo opens up. */
+.media-frame::before {
+	content: "";
+	position: absolute;
+	inset: 0;
+	z-index: 1;
+	pointer-events: none;
+	border-radius: inherit;
+	box-shadow: inset 0 0 26px -4px rgb(var(--hero-black) / 0.2);
+	opacity: 1;
+	transition: opacity 0.6s cubic-bezier(0.2, 0, 0.1, 1);
+}
+
+/* Hover / keyboard-focus: the frame lifts off the page on a soft shadow and the
+   edge vignette opens — the image "awakens." Pairs with the per-module colour
+   bloom + gentle zoom on the <img>. Every .media-frame sits inside an <a>, so a
+   single rule drives all the homepage modules. */
+a:hover .media-frame,
+a:focus-visible .media-frame {
+	box-shadow: 0 22px 48px -28px rgb(var(--hero-black) / 0.55);
+}
+
+a:hover .media-frame::before,
+a:focus-visible .media-frame::before {
+	opacity: 0.3;
+}
+
 /* ============================================================
    Site header
    Default: static, dark text.
