@@ -12,7 +12,7 @@ const { article } = Astro.props;
 
 <section class="feature home-movement" aria-labelledby="feature-title">
 	<a class="feature-link" href={`/${article.slug}`} data-astro-prefetch="viewport">
-		<div class="feature-media">
+		<div class="feature-media media-frame">
 			<EssayImage
 				article={article}
 				widths={[640, 1024, 1280, 1600, 2048]}
@@ -57,26 +57,25 @@ const { article } = Astro.props;
 		}
 	}
 
-	.feature-media {
-		overflow: hidden;
-		border-radius: 2px;
-	}
-
-	/* The image is rendered by EssayImage, so the <img> carries EssayImage's
-	   style scope, not ours — a scoped rule on the element never matches it (this
-	   is why the old `.feature-img` aspect-ratio silently did nothing). Reach it
-	   with :global() and pin the ratio on the img itself (not the wrapper), so the
-	   hero is a stable 16:9 crop regardless of the source file's dimensions. */
+	/* Frame, grain + vignette come from the shared .media-frame utility
+	   (layout.css). The image is rendered by EssayImage, so the <img> carries
+	   EssayImage's style scope, not ours — a scoped rule on the element never
+	   matches it (this is why the old `.feature-img` aspect-ratio silently did
+	   nothing). Reach it with :global() and pin the ratio on the img itself (not
+	   the wrapper), so the hero is a stable 16:9 crop regardless of the source
+	   file's dimensions. The base tonal wash + its transition also live on the
+	   img in EssayImage; here we only set layout (and relax the wash on hover). */
 	.feature-media :global(img) {
 		display: block;
 		width: 100%;
 		aspect-ratio: 16 / 9;
 		object-fit: cover;
-		transition: scale 0.6s cubic-bezier(0.2, 0, 0.1, 1);
 	}
 
+	/* Hover bloom: ease the tonal wash back toward full colour as the hero lifts. */
 	.feature-link:hover .feature-media :global(img) {
 		scale: 1.02;
+		filter: saturate(1) contrast(1) brightness(1) sepia(0);
 	}
 
 	.feature-text {
