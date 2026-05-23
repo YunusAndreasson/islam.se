@@ -89,10 +89,16 @@ const rows = articles.map((article) => {
 		}
 	}
 
-	/* Pictured rows: a quiet two-column spread, image side alternating. */
-	.recent-item--left .recent-link,
-	.recent-item--right .recent-link {
+	/* Pictured rows: a quiet two-column spread, image side alternating at a
+	   constant width. The column track holding the image must flip with it —
+	   otherwise the order:2 swap lands the image in the wide 1fr column on
+	   right rows, ballooning it and cramping the text. */
+	.recent-item--left .recent-link {
 		grid-template-columns: 18rem 1fr;
+	}
+
+	.recent-item--right .recent-link {
+		grid-template-columns: 1fr 18rem;
 	}
 
 	.recent-item--right .recent-media {
