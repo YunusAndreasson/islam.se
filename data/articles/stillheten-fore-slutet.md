@@ -4,6 +4,7 @@ publishedAt: "2026-03-08T12:00:00.000Z"
 wordCount: 1237
 qualityScore: 8.9
 description: "Tre vintrar utan sommar. Bröder som dödar varandra för småpengar. Solen svartnar, stjärnorna faller, elden slukar allt."
+category: "Norden"
 ---
 Tre vintrar utan sommar. Bröder som dödar varandra för småpengar. Solen svartnar, stjärnorna faller, elden slukar allt.
 

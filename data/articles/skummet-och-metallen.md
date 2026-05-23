@@ -4,6 +4,7 @@ publishedAt: "2025-10-11T12:00:00.000Z"
 wordCount: 1157
 qualityScore: 8.9
 description: "Skummet ser alltid ut som det viktigaste. Det stiger först, brusar högst, täcker mest. Metallen syns inte förrän elden skiljer dem åt."
+category: "Själen"
 ---
 Skummet ser alltid ut som det viktigaste. Det stiger först, brusar högst, täcker mest. Metallen syns inte förrän elden skiljer dem åt.
 

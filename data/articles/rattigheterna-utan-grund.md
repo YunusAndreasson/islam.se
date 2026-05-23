@@ -4,6 +4,7 @@ publishedAt: "2025-09-29T12:00:00.000Z"
 wordCount: 1841
 qualityScore: 8.6
 description: "År 1948 enades FN:s delegater om att människan äger okränkbara rättigheter, men inte om varför. Den katolske filosofen Jacques Maritain, som deltog i arbetet, formulerade villkoret: överenskommelsen gällde under förutsättning att ingen frågade på vilken grund den vilade."
+category: "Rätten"
 ---
 Delegaterna bakom FN:s allmänna förklaring om de mänskliga rättigheterna stötte 1948 på ett svårlöst problem. De enades om att människan äger okränkbara rättigheter – men inte om *varför*. Jacques Maritain (1882–1973), den katolske filosofen som deltog i arbetet, fångade motsägelsen utan omsvep: man enades om rättigheterna under förutsättning att ingen frågade på vilken grund de vilade.[^1]
 

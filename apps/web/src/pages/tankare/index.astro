@@ -1,0 +1,27 @@
+---
+import TankareGroups from "../../components/TankareGroups.astro";
+import Base from "../../layouts/Base.astro";
+---
+
+<Base
+	title="Tänkare — islam.se"
+	description="De återkommande samtalspartnerna: den klassiska sunnitiska traditionen och de svenska och västerländska rösterna som essäerna håller samman."
+	jsonLd={{
+		"@context": "https://schema.org",
+		"@type": "CollectionPage",
+		name: "Tänkare",
+		url: "https://islam.se/tankare",
+		inLanguage: "sv",
+	}}
+>
+	<main id="main" class="content-column">
+		<header class="article-header">
+			<h1>Tänkare</h1>
+			<p class="collection-lead">De röster essäerna återvänder till — den klassiska sunnitiska traditionen och de svenska och västerländska som möter den.</p>
+		</header>
+
+		<TankareGroups />
+
+		<p class="collection-back"><a href="/essaer">Hela arkivet →</a></p>
+	</main>
+</Base>

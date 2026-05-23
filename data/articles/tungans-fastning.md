@@ -4,6 +4,7 @@ publishedAt: "2025-08-12T12:00:00.000Z"
 wordCount: 1350
 qualityScore: 8.9
 description: "Bryt tystnaden – tre stavelser som blivit vår tids moraliska grundackord. Men övertygelsen har en blind fläck: den frågar aldrig om det som sägs förtjänar att höras. Ibn Qayyim avslöjade den dubbla faran redan på 1300-talet: tungan kan erövras genom lögn, men lika säkert genom tystnad."
+category: "Själen"
 ---
 Bryt tystnaden. Tre stavelser som blivit vår tids moraliska grundackord – vittnesmål, upprop, poddar som lovar att "äntligen säga det ingen vågat." Det finns en hel industri byggd på övertygelsen att det outtalade alltid döljer en orättvisa, att varje tystad röst bär en sanning, att talet i sig befriar.
 

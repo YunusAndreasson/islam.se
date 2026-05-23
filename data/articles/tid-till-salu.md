@@ -4,6 +4,7 @@ publishedAt: "2026-03-16T12:00:00.000Z"
 wordCount: 1127
 qualityScore: 8.6
 description: "Vad köper du egentligen när du betalar ränta? Inte en vara, inte en tjänst, inte någons arbete. Du köper tid. Hela det moderna finanssystemet vilar på detta: tid har ett pris, och det priset kallas ränta. Det syns på kontoutdraget: en rad för skulden, en rad för väntan. Men vems tid säljs?"
+category: "Rätten"
 ---
 Vad köper du egentligen när du betalar ränta? Inte en vara, inte en tjänst, inte någons arbete. Du köper tid. Hela det moderna finanssystemet vilar på detta: tid har ett pris, och det priset kallas ränta. Det syns på kontoutdraget: en rad för skulden, en rad för väntan.
 

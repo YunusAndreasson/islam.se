@@ -377,6 +377,25 @@ export default defineConfig({
 				],
 			},
 		},
+		{
+			// Amiri Quran — a purpose-made mushaf naskh, subset to the Arabic
+			// blocks + harakat (45 kB woff2). Used only for the daily verse (§7.2),
+			// so it is declared site-wide but not preloaded — the browser fetches
+			// it lazily when an Arabic glyph first renders (font-display: swap).
+			provider: fontProviders.local(),
+			name: "Amiri Quran",
+			cssVariable: "--font-arabic",
+			fallbacks: ["Scheherazade New", "serif"],
+			options: {
+				variants: [
+					{
+						weight: "400",
+						style: "normal",
+						src: ["./src/assets/fonts/amiri-quran.woff2"],
+					},
+				],
+			},
+		},
 	],
 	integrations: [
 		sitemap({

@@ -1,0 +1,274 @@
+---
+import { type Article, formatDate, getArticles } from "../lib/articles";
+import { amnenWithEssays } from "../lib/amnen";
+import EssayImage from "./EssayImage.astro";
+
+const articles = await getArticles();
+const groups = amnenWithEssays(articles);
+
+// Three treatments, cycled so no two adjacent sections share a density (§7.7):
+//   lead — one large lead essay (image-led) + two small text essays
+//   text — text-led, no images, a quiet pair/trio
+//   trio — three equal image cards
+type Treatment = "lead" | "text" | "trio";
+const CYCLE: Treatment[] = ["lead", "text", "trio"];
+
+// Pick up to `n` essays for a section. Image treatments prefer essays that
+// carry a hero image (then fall back to recency) so the picture-led layout
+// actually shows pictures; the text treatment just takes the most recent.
+function pick(essays: Article[], treatment: Treatment, n: number): Article[] {
+	if (treatment === "text") return essays.slice(0, n);
+	const withImg = essays.filter((e) => e.heroImage);
+	const without = essays.filter((e) => !e.heroImage);
+	return [...withImg, ...without].slice(0, n);
+}
+
+const sections = groups.map(({ amne, essays }, i) => {
+	const treatment = CYCLE[i % CYCLE.length];
+	return { amne, treatment, picks: pick(essays, treatment, treatment === "lead" ? 3 : 3) };
+});
+---
+
+<section class="amnen home-movement" aria-labelledby="amnen-kicker">
+	<p class="label home-kicker" id="amnen-kicker">Ämnen</p>
+
+	{sections.map(({ amne, treatment, picks }) => (
+		<section class:list={["amne", `amne--${treatment}`]} aria-labelledby={`amne-${amne.slug}`}>
+			<header class="amne-head">
+				<h3 class="amne-title" id={`amne-${amne.slug}`}>
+					<a href={`/amnen/${amne.slug}`}>{amne.name}</a>
+				</h3>
+				<p class="amne-framing">{amne.framing}</p>
+			</header>
+
+			{treatment === "lead" && (
+				<div class="amne-lead-grid">
+					<a class="amne-lead" href={`/${picks[0].slug}`} data-astro-prefetch="viewport">
+						{picks[0].heroImage && (
+							<div class="amne-lead-media">
+								<EssayImage article={picks[0]} widths={[320, 520, 720]} sizes="(max-width: 768px) 100vw, 22rem" class="amne-img" />
+							</div>
+						)}
+						<h4 class="amne-essay-title amne-lead-title">{picks[0].title}</h4>
+						<p class="label amne-essay-meta"><time datetime={picks[0].publishedAt}>{formatDate(picks[0].publishedAt)}</time></p>
+					</a>
+					<ul class="amne-side">
+						{picks.slice(1).map((e) => (
+							<li>
+								<a href={`/${e.slug}`} data-astro-prefetch="viewport">
+									<span class="amne-essay-title">{e.title}</span>
+									<p class="label amne-essay-meta"><time datetime={e.publishedAt}>{formatDate(e.publishedAt)}</time></p>
+								</a>
+							</li>
+						))}
+					</ul>
+				</div>
+			)}
+
+			{treatment === "text" && (
+				<ul class="amne-text-list">
+					{picks.map((e) => (
+						<li>
+							<a href={`/${e.slug}`} data-astro-prefetch="viewport">
+								<span class="amne-essay-title">{e.title}</span>
+								<p class="label amne-essay-meta"><time datetime={e.publishedAt}>{formatDate(e.publishedAt)}</time></p>
+							</a>
+						</li>
+					))}
+				</ul>
+			)}
+
+			{treatment === "trio" && (
+				<ul class="amne-trio">
+					{picks.map((e) => (
+						<li>
+							<a href={`/${e.slug}`} data-astro-prefetch="viewport">
+								{e.heroImage && (
+									<div class="amne-trio-media">
+										<EssayImage article={e} widths={[280, 420, 560]} sizes="(max-width: 768px) 100vw, 18rem" class="amne-img" />
+									</div>
+								)}
+								<span class="amne-essay-title">{e.title}</span>
+								<p class="label amne-essay-meta"><time datetime={e.publishedAt}>{formatDate(e.publishedAt)}</time></p>
+							</a>
+						</li>
+					))}
+				</ul>
+			)}
+		</section>
+	))}
+</section>
+
+<style>
+	.amne {
+		margin-top: var(--space-phi);
+	}
+
+	.amne:first-of-type {
+		margin-top: var(--space-unit);
+	}
+
+	/* The heading is the link to the full ämne — no "se alla →" button (§7.7). */
+	.amne-title {
+		font-family: var(--font-heading);
+		font-size: var(--step-2);
+		font-weight: 620;
+		letter-spacing: -0.018em;
+		line-height: 1.2;
+		margin: 0;
+	}
+
+	.amne-title a {
+		color: var(--color-text);
+		text-decoration: none;
+
+		&:hover {
+			text-decoration: underline;
+			text-underline-offset: 0.15em;
+		}
+	}
+
+	.amne-framing {
+		font-family: var(--font-body);
+		font-size: 1rem;
+		line-height: 1.5;
+		color: var(--color-muted);
+		margin: 0.4rem 0 var(--space-unit);
+		max-width: 40rem;
+	}
+
+	.amne-img {
+		display: block;
+		width: 100%;
+		object-fit: cover;
+		transition: scale 0.5s cubic-bezier(0.2, 0, 0.1, 1);
+	}
+
+	a:hover .amne-img {
+		scale: 1.03;
+	}
+
+	.amne-essay-title {
+		display: block;
+		font-family: var(--font-heading);
+		font-weight: 600;
+		line-height: 1.22;
+		letter-spacing: -0.01em;
+		color: var(--color-accent);
+		text-wrap: balance;
+	}
+
+	.amne-essay-meta {
+		margin: 0.3rem 0 0;
+		font-size: 0.78rem;
+	}
+
+	.amnen a {
+		text-decoration: none;
+		color: inherit;
+
+		&:focus-visible {
+			outline: 2px solid var(--color-accent);
+			outline-offset: 0.4rem;
+			border-radius: 2px;
+		}
+	}
+
+	.amnen a:hover .amne-essay-title {
+		text-decoration: underline;
+		text-underline-offset: 0.12em;
+	}
+
+	/* ---- lead: large essay + two small ---- */
+	.amne-lead-grid {
+		display: grid;
+		grid-template-columns: 1.5fr 1fr;
+		gap: clamp(1.5rem, 4vw, 3rem);
+		align-items: start;
+	}
+
+	.amne-lead-media {
+		overflow: hidden;
+		border-radius: 2px;
+		margin-bottom: var(--space-half);
+	}
+
+	.amne-lead-media .amne-img {
+		aspect-ratio: 3 / 2;
+	}
+
+	.amne-lead-title {
+		font-size: var(--step-1);
+	}
+
+	.amne-side {
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	.amne-side li {
+		padding-block: var(--space-half);
+		border-top: 1px solid var(--color-divider);
+	}
+
+	.amne-side li:first-child {
+		padding-top: 0;
+		border-top: none;
+	}
+
+	.amne-side .amne-essay-title {
+		font-size: 1.0625rem;
+	}
+
+	/* ---- text: quiet titles, two columns on desktop ---- */
+	.amne-text-list {
+		margin: 0;
+		padding: 0;
+		list-style: none;
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+		gap: clamp(1.25rem, 3vw, 2.5rem);
+	}
+
+	.amne-text-list .amne-essay-title {
+		font-size: 1.125rem;
+	}
+
+	/* ---- trio: three equal image cards ---- */
+	.amne-trio {
+		margin: 0;
+		padding: 0;
+		list-style: none;
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+		gap: clamp(1.25rem, 3vw, 2.5rem);
+	}
+
+	.amne-trio-media {
+		overflow: hidden;
+		border-radius: 2px;
+		margin-bottom: var(--space-half);
+	}
+
+	.amne-trio-media .amne-img {
+		aspect-ratio: 4 / 3;
+	}
+
+	.amne-trio .amne-essay-title {
+		font-size: 1.0625rem;
+	}
+
+	@media (width <= 768px) {
+		.amne-lead-grid,
+		.amne-text-list,
+		.amne-trio {
+			grid-template-columns: 1fr;
+			gap: var(--space-unit);
+		}
+
+		.amne-side {
+			margin-top: var(--space-half);
+		}
+	}
+</style>

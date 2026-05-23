@@ -4,6 +4,7 @@ publishedAt: "2025-09-23T12:00:00.000Z"
 wordCount: 1491
 qualityScore: 8.9
 description: "Barnet sitter böjt över boken och läser samma sida för tionde gången. Läpparna rör sig. Fingret följer raden, stannar, börjar om. Föräldern oroar sig – korvstoppning? Läraren undrar – borde barnet göra något friare, mer skapande?"
+category: "Själen"
 ---
 Barnet sitter böjt över boken och läser samma sida för tionde gången. Läpparna rör sig. Fingret följer raden, stannar, börjar om. Föräldern oroar sig – korvstoppning? Läraren undrar – borde barnet göra något friare, mer skapande?
 

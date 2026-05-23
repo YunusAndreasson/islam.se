@@ -3,6 +3,7 @@ import { Font } from "astro:assets";
 import { ClientRouter } from "astro:transitions";
 import FloatingPlayer from "../components/FloatingPlayer.astro";
 import Header from "../components/Header.astro";
+import SearchOverlay from "../components/SearchOverlay.astro";
 import "../styles/tokens.css";
 import "../styles/reset.css";
 import "../styles/typography.css";
@@ -108,6 +109,7 @@ if (articleMeta) {
 		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 		<Font cssVariable="--font-body" preload />
 		<Font cssVariable="--font-heading" preload />
+		<Font cssVariable="--font-arabic" />
 		{preloadImage && <link rel="preload" as="image" href={preloadImage} fetchpriority="high" />}
 		<title>{title}</title>
 		<meta name="description" content={description} />
@@ -141,7 +143,7 @@ if (articleMeta) {
 
 		<!-- JSON-LD -->
 		{jsonLdBlocks.map((block) => (
-			<script type="application/ld+json" set:html={JSON.stringify(block)} />
+			<script is:inline type="application/ld+json" set:html={JSON.stringify(block)} />
 		))}
 	</head>
 	<body>
@@ -229,5 +231,6 @@ if (articleMeta) {
 			});
 		</script>
 		<FloatingPlayer />
+		<SearchOverlay />
 	</body>
 </html>

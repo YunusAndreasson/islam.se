@@ -4,6 +4,7 @@ publishedAt: "2025-12-04T12:00:00.000Z"
 wordCount: 1686
 qualityScore: 8.6
 description: "I sitt verk *Rawḍat al-Muḥibbīn* bygger den damascenske 1300-talslärde Ibn Qayyim en hel perceptionsteori kring en enkel åtskillnad: den första blicken händer dig, den andra gör du. Ögat är inte en ingång utan en spegel – det speglar hjärtats eget tillstånd."
+category: "Själen"
 ---
 Ett ögonblick före begäret. Ett kort, omärkligt mellanrum – en bråkdels sekund mellan att se och att vilja se. Det mesta av det vi kallar frihet avgörs där.
 

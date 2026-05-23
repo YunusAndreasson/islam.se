@@ -1,11 +1,12 @@
 ---
 title: "Träden hade andakt"
-publishedAt: "2026-04-05T21:55:44.997Z"
+publishedAt: "2026-03-09T12:00:00.000Z"
 wordCount: 1275
 qualityScore: 8.7
 description: "Kolvaktaren sitter ensam i natten och lyssnar. Runt honom arbetar elden sakta under milan; ovanför honom står stjärnorna orörliga på sina banor. Och träden – träden har andakt."
 audioFile: "traden-hade-andakt.mp3"
 audioDuration: 498
+category: "Skapelsen"
 ---
 Kolvaktaren sitter ensam i natten och lyssnar. Runt honom arbetar elden sakta under milan; ovanför honom står stjärnorna orörliga på sina banor. Och träden – träden har andakt. Dan Andersson skrev det i *David Ramms arv* med en bitterhet som bara den hör som läser noga:
 

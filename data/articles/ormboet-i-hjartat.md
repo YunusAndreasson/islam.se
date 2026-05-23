@@ -4,6 +4,7 @@ publishedAt: "2025-09-17T12:00:00.000Z"
 wordCount: 1235
 qualityScore: 8.9
 description: "Varje last betalar sin värd. Girigheten levererar guld, högmodet skänker glans, vreden ger maktkänsla."
+category: "Själen"
 ---
 Varje last betalar sin värd. Girigheten levererar guld, högmodet skänker glans, vreden ger maktkänsla. Listan kan göras längre – frosseriets mättnad, lättjans vila, lustans rus – men mönstret håller: alltid finns en utdelning, något den lastbare kan peka på och säga *detta fick jag*.
 

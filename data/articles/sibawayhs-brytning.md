@@ -4,6 +4,7 @@ publishedAt: "2025-11-16T12:00:00.000Z"
 wordCount: 1710
 qualityScore: 8.5
 description: "I en *ḥadīth*-diskussion i 700-talets Basra gjorde den unge persen Sībawayh ett grammatiskt fel. Skammen drev honom till språkvetenskapen, och resultatet blev *al-Kitāb* – den första systematiska arabiska grammatiken, som fjorton århundraden av arabiskfödda grammatiker aldrig har ersatt."
+category: "Skriften"
 ---
 Varje språknationalism bygger på ett outtalat antagande: att ett språk tillhör dem som fötts in i det. Att modersmålet bär en hemlighet som den invandrade aldrig fullt kan nå. Det skarpaste motbeviset var en persisk yngling i 700-talets Basra. Han talade arabiska med brytning.
 

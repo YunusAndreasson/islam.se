@@ -1,0 +1,206 @@
+---
+import type { VerseOfDay } from "../lib/verse";
+
+interface Props {
+	verseOfDay: VerseOfDay;
+}
+
+const { verseOfDay } = Astro.props;
+const { verse, refName, relatedSlug, relatedTitle } = verseOfDay;
+const adlibris = "https://www.adlibris.com/se/sok?q=koranens+budskap+bernström";
+---
+
+<section class="vers home-movement" aria-labelledby="vers-kicker">
+	<p class="label home-kicker" id="vers-kicker">Dagens vers</p>
+	<div class="vers-body">
+		<p class="vers-arabic" dir="rtl" lang="ar">{verse.textArabic}</p>
+		<p class="vers-sv" lang="sv"><em>{verse.textSwedish}</em></p>
+
+		<p class="vers-ref">
+			<button
+				class="vers-play"
+				type="button"
+				data-audio={verse.audioFile}
+				aria-label={`Lyssna på ${refName} ${verse.surah}:${verse.ayah}, reciterad av ${verse.reciter}`}
+			>
+				<svg class="vers-icon-play" width="15" height="15" viewBox="0 0 18 18" fill="currentColor" aria-hidden="true"><path d="M4 2.5v13l11-6.5z" /></svg>
+				<svg class="vers-icon-pause" width="15" height="15" viewBox="0 0 18 18" fill="currentColor" aria-hidden="true"><rect x="4" y="2" width="3.5" height="14" rx="0.5" /><rect x="10.5" y="2" width="3.5" height="14" rx="0.5" /></svg>
+			</button>
+			<span class="label vers-cite">{refName} {verse.surah}:{verse.ayah}</span>
+		</p>
+
+		<p class="vers-links">
+			<a class="vers-book" href={adlibris} target="_blank" rel="noopener">Koranens budskap hos Adlibris</a>
+		</p>
+		<p class="vers-links">
+			<a class="vers-resonance" href={`/${relatedSlug}`} data-astro-prefetch="viewport">Essän som växer ur denna vers: <span class="vers-resonance-title">{relatedTitle}</span></a>
+		</p>
+	</div>
+</section>
+
+<style>
+	.vers-body {
+		/* The verse hangs to a shared right axis — the natural reading direction
+		   of the Arabic — while the kicker stays on the page's left edge. */
+		text-align: right;
+		margin-top: var(--space-half);
+	}
+
+	/* The single most consequential typographic moment on the site (§4). Generous
+	   vertical room, no letter-spacing, line-height tuned so harakat never collide. */
+	.vers-arabic {
+		font-family: var(--font-arabic);
+		font-weight: 400;
+		font-size: clamp(2rem, 5.5vw, 3.4rem);
+		line-height: 2.05;
+		letter-spacing: 0;
+		color: var(--color-text);
+		margin: 0;
+		text-wrap: balance;
+	}
+
+	.vers-sv {
+		font-family: var(--font-body);
+		font-size: clamp(1.0625rem, 1.6vw, 1.25rem);
+		line-height: 1.6;
+		color: color-mix(in srgb, var(--color-text) 78%, var(--color-muted));
+		max-width: 34rem;
+		margin: var(--space-unit) 0 0 auto; /* narrower measure, pushed to the right axis */
+	}
+
+	.vers-sv em {
+		font-weight: 500;
+	}
+
+	/* Reference + the lone play glyph, set together in the meta register. */
+	.vers-ref {
+		display: flex;
+		align-items: center;
+		justify-content: flex-end;
+		gap: 0.6rem;
+		margin: var(--space-unit) 0 0;
+	}
+
+	.vers-cite {
+		color: var(--color-muted);
+	}
+
+	.vers-play {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 2.25rem;
+		height: 2.25rem;
+		flex-shrink: 0;
+		border: 1px solid var(--color-divider);
+		border-radius: 50%;
+		background: transparent;
+		color: var(--color-accent);
+		cursor: pointer;
+		transition: border-color 0.15s, background 0.15s, color 0.15s;
+	}
+
+	.vers-play:hover {
+		border-color: var(--color-warm);
+	}
+
+	.vers-play:focus-visible {
+		outline: 2px solid var(--color-accent);
+		outline-offset: 2px;
+	}
+
+	/* Playing state — a quiet filled look; no scrubber, no timeline. */
+	.vers-play[data-playing] {
+		background: color-mix(in srgb, var(--color-warm), transparent 82%);
+		border-color: var(--color-warm);
+	}
+
+	.vers-icon-pause {
+		display: none;
+	}
+
+	.vers-play[data-playing] .vers-icon-play {
+		display: none;
+	}
+
+	.vers-play[data-playing] .vers-icon-pause {
+		display: inline;
+	}
+
+	.vers-links {
+		margin: var(--space-half) 0 0;
+		font-family: var(--font-heading);
+		font-size: 0.9375rem;
+	}
+
+	.vers-links a {
+		color: var(--color-accent);
+		text-decoration: none;
+		font-weight: 500;
+
+		&:hover {
+			text-decoration: underline;
+			text-decoration-thickness: 1px;
+			text-underline-offset: 0.15em;
+		}
+	}
+
+	.vers-book::after,
+	.vers-resonance::after {
+		content: " →";
+		color: var(--color-muted);
+		transition: translate 0.2s ease;
+		display: inline-block;
+	}
+
+	.vers-links a:hover::after {
+		translate: 0.2em 0;
+	}
+
+	.vers-resonance-title {
+		font-style: italic;
+	}
+
+	@media (width <= 768px) {
+		.vers-arabic {
+			line-height: 1.95;
+		}
+
+		.vers-sv {
+			margin-left: 0;
+			max-width: none;
+		}
+	}
+</style>
+
+<script>
+	document.addEventListener("astro:page-load", () => {
+		const btn = document.querySelector<HTMLButtonElement>(".vers-play");
+		if (!btn) return;
+
+		const ctrl = new AbortController();
+		let audio: HTMLAudioElement | null = null;
+
+		btn.addEventListener("click", () => {
+			// Lazy: no file is fetched until the first press (§7.2).
+			if (!audio) {
+				audio = new Audio(btn.dataset.audio);
+				audio.preload = "none";
+				audio.addEventListener("play", () => btn.setAttribute("data-playing", ""));
+				audio.addEventListener("pause", () => btn.removeAttribute("data-playing"));
+				audio.addEventListener("ended", () => {
+					btn.removeAttribute("data-playing");
+					if (audio) audio.currentTime = 0;
+				});
+			}
+			if (audio.paused) audio.play().catch(() => {});
+			else audio.pause();
+		}, { signal: ctrl.signal });
+
+		// Stop and release when navigating away (View Transitions).
+		document.addEventListener("astro:before-swap", () => {
+			if (audio) { audio.pause(); audio.src = ""; }
+			ctrl.abort();
+		}, { once: true });
+	});
+</script>

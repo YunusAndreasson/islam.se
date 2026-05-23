@@ -4,6 +4,7 @@ publishedAt: "2026-03-22T12:00:00.000Z"
 wordCount: 1590
 qualityScore: 8.7
 description: "År 1377 skrev den nordafrikanske historikern Ibn Khaldūn att samhällen föds ur gemensamma måltider och dör när aptiten blir privat. Sexhundra år senare lever fyrtiotvå procent av Sveriges hushåll ensamma, och ett möbelföretag reser ett långbord på torget för att fylla tomrummet."
+category: "Samhället"
 ---
 En stockholmare sitter vid köksbordet, om det ens finns ett köksbord; kanske är det skrivbordet, omgjort till matplats för stunden. Matkassen levererades till dörren, portionerad för en, vald av en algoritm. Måltiden tar tolv minuter. Ingen ser honom äta. Ingen vet vad han åt.
 

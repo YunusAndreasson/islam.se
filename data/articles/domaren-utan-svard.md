@@ -4,6 +4,7 @@ publishedAt: "2025-11-22T12:00:00.000Z"
 wordCount: 1640
 qualityScore: 8.6
 description: "Abū al-Ḥasan al-Māwardī verkade som överdomare i Bagdad på 1000-talet, i en tid då kalifens makt redan glidit in i sultanernas händer. Hans tredelning av rättsväsendet – med skarpa befogenhetsgränser för varje ämbete – föregick Montesquieus maktdelningslära med närmare sjuhundra år."
+category: "Rätten"
 ---
 Domaren dömer och staten verkställer. Åklagaren utreder och åtalar i samma rörelse. Vi har vant oss vid att rättvisa och tvångsmakt hör samman, att det ena förutsätter det andra.
 

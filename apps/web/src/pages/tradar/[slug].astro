@@ -1,0 +1,62 @@
+---
+import { getCollection } from "astro:content";
+import EssayList from "../../components/EssayList.astro";
+import Base from "../../layouts/Base.astro";
+import { type Article, getArticles } from "../../lib/articles";
+
+export async function getStaticPaths() {
+	const [threads, articles] = await Promise.all([getCollection("tradar"), getArticles()]);
+	const bySlug = new Map(articles.map((a) => [a.slug, a]));
+	return threads.map((thread) => ({
+		params: { slug: thread.id },
+		props: {
+			title: thread.data.title,
+			framing: thread.data.framing,
+			// Preserve the curated thread order, not the feed's date order.
+			essays: thread.data.essays.map((s) => bySlug.get(s)).filter((a): a is Article => Boolean(a)),
+		},
+	}));
+}
+
+interface Props {
+	title: string;
+	framing: string;
+	essays: Article[];
+}
+
+const { title, framing, essays } = Astro.props;
+const count = essays.length;
+const slug = Astro.params.slug;
+---
+
+<Base
+	title={`${title} — islam.se`}
+	description={framing}
+	ogImage={`/tradar/${slug}/og.png`}
+	jsonLd={{
+		"@context": "https://schema.org",
+		"@type": "CollectionPage",
+		name: title,
+		description: framing,
+		url: `https://islam.se/tradar/${slug}`,
+		inLanguage: "sv",
+		hasPart: essays.map((e) => ({
+			"@type": "Article",
+			headline: e.title,
+			url: `https://islam.se/${e.slug}`,
+		})),
+	}}
+>
+	<main id="main" class="content-column">
+		<header class="article-header">
+			<p class="label collection-kicker">Tråd</p>
+			<h1>{title}</h1>
+			<p class="collection-lead">{framing}</p>
+			<p class="label collection-count">{count} {count === 1 ? "essä" : "essäer"}</p>
+		</header>
+
+		<EssayList articles={essays} />
+
+		<p class="collection-back"><a href="/tradar">Alla trådar →</a></p>
+	</main>
+</Base>

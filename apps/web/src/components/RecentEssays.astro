@@ -1,0 +1,179 @@
+---
+import type { Article } from "../lib/articles";
+import { formatDate, inlineMarkdown } from "../lib/articles";
+import EssayImage from "./EssayImage.astro";
+
+interface Props {
+	articles: Article[];
+}
+
+const { articles } = Astro.props;
+
+// Alternate which side the image sits on, counting only rows that actually
+// carry an image — so the left/right rhythm stays even when an image-less
+// essay falls between two pictured ones. Image-less rows read full-measure.
+let imageRowIndex = 0;
+const rows = articles.map((article) => {
+	const hasImage = Boolean(article.heroImage);
+	const side = hasImage ? (imageRowIndex++ % 2 === 0 ? "left" : "right") : "none";
+	return { article, side };
+});
+---
+
+<section class="recent home-movement" aria-labelledby="recent-heading">
+	<p class="label home-kicker" id="recent-heading">Nyligen publicerat</p>
+	<ul class="recent-list">
+		{rows.map(({ article, side }) => (
+			<li class:list={["recent-item", `recent-item--${side}`]}>
+				<a class="recent-link" href={`/${article.slug}`} data-astro-prefetch="viewport">
+					{side !== "none" && (
+						<div class="recent-media">
+							<EssayImage
+								article={article}
+								widths={[320, 480, 640]}
+								sizes="(max-width: 768px) 100vw, 18rem"
+								class="recent-img"
+							/>
+						</div>
+					)}
+					<div class="recent-text">
+						<h3 class="recent-title">{article.title}</h3>
+						{article.description && (
+							<p class="recent-lead" set:html={inlineMarkdown(article.description)} />
+						)}
+						<p class="label recent-meta">
+							<time datetime={article.publishedAt}>{formatDate(article.publishedAt)}</time>
+							&middot; {article.readingTime} min läsning
+						</p>
+					</div>
+				</a>
+			</li>
+		))}
+	</ul>
+</section>
+
+<style>
+	.recent-list {
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	.recent-item {
+		border-top: 1px solid var(--color-divider);
+	}
+
+	.recent-item:first-child {
+		border-top: none;
+	}
+
+	.recent-link {
+		display: grid;
+		align-items: center;
+		gap: clamp(1.5rem, 4vw, 3rem);
+		padding-block: var(--space-unit);
+		text-decoration: none;
+		color: inherit;
+
+		&:hover,
+		&:visited,
+		&:active {
+			text-decoration: none;
+			color: inherit;
+		}
+
+		&:focus-visible {
+			outline: 2px solid var(--color-accent);
+			outline-offset: 0.5rem;
+			border-radius: 2px;
+		}
+	}
+
+	/* Pictured rows: a quiet two-column spread, image side alternating. */
+	.recent-item--left .recent-link,
+	.recent-item--right .recent-link {
+		grid-template-columns: 18rem 1fr;
+	}
+
+	.recent-item--right .recent-media {
+		order: 2;
+	}
+
+	/* Image-less rows: text runs at a comfortable measure, not full-bleed,
+	   so the eye still registers a column edge shared with the pictured rows. */
+	.recent-item--none .recent-text {
+		max-width: 38rem;
+	}
+
+	.recent-media {
+		overflow: hidden;
+		border-radius: 2px;
+	}
+
+	.recent-img {
+		display: block;
+		width: 100%;
+		aspect-ratio: 4 / 3;
+		object-fit: cover;
+		transition: scale 0.5s cubic-bezier(0.2, 0, 0.1, 1);
+	}
+
+	.recent-link:hover .recent-img {
+		scale: 1.03;
+	}
+
+	.recent-title {
+		font-family: var(--font-heading);
+		font-size: var(--step-2);
+		font-weight: 620;
+		line-height: 1.18;
+		letter-spacing: -0.018em;
+		color: var(--color-accent);
+		margin: 0;
+		text-wrap: balance;
+	}
+
+	.recent-link:hover .recent-title {
+		text-decoration: underline;
+		text-decoration-thickness: 1px;
+		text-underline-offset: 0.12em;
+	}
+
+	.recent-lead {
+		font-family: var(--font-body);
+		font-size: 1rem;
+		line-height: 1.5;
+		color: color-mix(in srgb, var(--color-text) 72%, var(--color-muted));
+		margin: 0.625rem 0 0;
+		max-width: 36rem;
+	}
+
+	.recent-meta {
+		margin: 0.625rem 0 0;
+	}
+
+	@media (width <= 768px) {
+		.recent-item--left .recent-link,
+		.recent-item--right .recent-link {
+			grid-template-columns: 1fr;
+			gap: var(--space-half);
+		}
+
+		/* On mobile every pictured row is image-over-text; reset the order swap. */
+		.recent-item--right .recent-media {
+			order: 0;
+		}
+
+		.recent-img {
+			aspect-ratio: 16 / 9;
+		}
+
+		.recent-title {
+			font-size: 1.35rem;
+		}
+
+		.recent-lead {
+			font-size: 0.9375rem;
+		}
+	}
+</style>

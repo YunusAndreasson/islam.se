@@ -1,0 +1,60 @@
+---
+import { Image } from "astro:assets";
+import type { Article } from "../lib/articles";
+
+interface Props {
+	article: Article;
+	widths?: number[];
+	sizes?: string;
+	loading?: "eager" | "lazy";
+	fetchpriority?: "high" | "low" | "auto";
+	class?: string;
+}
+
+const {
+	article,
+	widths = [400, 800, 1200],
+	sizes = "(max-width: 768px) 100vw, 50vw",
+	loading = "lazy",
+	fetchpriority = "auto",
+	class: className,
+} = Astro.props;
+
+const hero = article.heroImage;
+const mobile = article.mobileHeroImage;
+---
+
+{hero && (
+	mobile ? (
+		<picture>
+			<source
+				srcset={mobile.src}
+				media="(max-width: 768px) and (orientation: portrait)"
+				type="image/webp"
+				width={mobile.width}
+				height={mobile.height}
+			/>
+			<Image
+				src={hero}
+				alt={article.title}
+				widths={widths}
+				sizes={sizes}
+				loading={loading}
+				fetchpriority={fetchpriority}
+				decoding="async"
+				class={className}
+			/>
+		</picture>
+	) : (
+		<Image
+			src={hero}
+			alt={article.title}
+			widths={widths}
+			sizes={sizes}
+			loading={loading}
+			fetchpriority={fetchpriority}
+			decoding="async"
+			class={className}
+		/>
+	)
+)}

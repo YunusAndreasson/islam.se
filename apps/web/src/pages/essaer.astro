@@ -1,87 +1,431 @@
 ---
+import { getCollection } from "astro:content";
 import Base from "../layouts/Base.astro";
-import { formatDate, getArticles, inlineMarkdown } from "../lib/articles";
+import { AMNEN, amnenWithEssays } from "../lib/amnen";
+import { type Article, formatDate, getArticles, inlineMarkdown } from "../lib/articles";
 
 const articles = await getArticles();
+const amneGroups = amnenWithEssays(articles);
+
+// Chronological view — essays by year, newest first.
+const byYear = new Map<number, Article[]>();
+for (const a of articles) {
+	const y = new Date(a.publishedAt).getUTCFullYear();
+	(byYear.get(y) ?? byYear.set(y, []).get(y))?.push(a);
+}
+const yearGroups = [...byYear.entries()].sort((a, b) => b[0] - a[0]);
+
+const threads = await getCollection("tradar");
+const thinkers = await getCollection("tankare");
+const sunni = thinkers.filter((t) => t.data.tradition === "sunni");
+const western = thinkers.filter((t) => t.data.tradition === "western");
 ---
 
-<Base title="Essäer — islam.se" description="Samtliga essäer om islamisk intellektuell tradition och svenskt kulturarv. Al-Ghazālī, Ibn Khaldūn, Strindberg, Lagerlöf och fler.">
+<Base
+	title="Essäer — islam.se"
+	description="Samtliga essäer om islamisk intellektuell tradition och svenskt kulturarv, ordnade efter ämne. Al-Ghazālī, Ibn Khaldūn, Strindberg, Lagerlöf och fler."
+	jsonLd={{
+		"@context": "https://schema.org",
+		"@type": "CollectionPage",
+		name: "Essäer",
+		url: "https://islam.se/essaer",
+		inLanguage: "sv",
+	}}
+>
 	<main id="main" class="content-column">
 		<header class="article-header">
 			<h1>Essäer</h1>
 			<p class="label archive-stats" aria-live="polite"></p>
 		</header>
 
-		<ul class="archive-list" id="list-all">
-			{articles.map((article) => (
-				<li class="archive-item" data-slug={article.slug}>
-					<a href={`/${article.slug}`} data-astro-prefetch="viewport">
-						<span class="archive-title">{article.title}</span>
-						<p class="label archive-meta">
-							<time datetime={article.publishedAt}>{formatDate(article.publishedAt)}</time> &middot; {article.readingTime} min läsning
-						</p>
-						{article.description && <p class="archive-description" set:html={inlineMarkdown(article.description)} />}
-					</a>
-				</li>
+		<nav class="filter-row" aria-label="Filtrera och sortera">
+			<button class="filter-btn label" type="button" data-overlay="amnen">Ämnen</button>
+			<button class="filter-btn label" type="button" data-overlay="tradar">Trådar</button>
+			<button class="filter-btn label" type="button" data-overlay="tankare">Tänkare</button>
+			<button class="filter-btn label" type="button" data-overlay="langd">Längd</button>
+			<button class="filter-btn label" type="button" data-sort-toggle aria-pressed="false">Kronologiskt</button>
+		</nav>
+
+		{/* ---- Default view: grouped by ämne, da'wah order ---- */}
+		<div id="by-amne">
+			{amneGroups.map(({ amne, essays }) => (
+				<section class="archive-section" id={`amne-${amne.slug}`}>
+					<h2 class="label archive-section-heading">
+						<a href={`/amnen/${amne.slug}`}>{amne.name}</a>
+					</h2>
+					<ul class="archive-list">
+						{essays.map((article) => (
+							<li class="archive-item" data-slug={article.slug} data-minutes={article.readingTime}>
+								<a href={`/${article.slug}`} data-astro-prefetch="viewport">
+									<span class="archive-title">{article.title}</span>
+									<p class="label archive-meta">
+										<time datetime={article.publishedAt}>{formatDate(article.publishedAt)}</time>
+										&middot; {article.readingTime} min läsning<span class="read-flag"> &middot; läst</span>
+									</p>
+									{article.description && (
+										<p class="archive-description" set:html={inlineMarkdown(article.description)} />
+									)}
+								</a>
+							</li>
+						))}
+					</ul>
+				</section>
 			))}
-		</ul>
+		</div>
+
+		{/* ---- Chronological view: grouped by year (hidden until toggled) ---- */}
+		<div id="by-year" hidden>
+			{yearGroups.map(([year, essays]) => (
+				<section class="archive-section">
+					<h2 class="label archive-section-heading">{year}</h2>
+					<ul class="archive-list">
+						{essays.map((article) => (
+							<li class="archive-item" data-slug={article.slug} data-minutes={article.readingTime}>
+								<a href={`/${article.slug}`} data-astro-prefetch="viewport">
+									<span class="archive-title">{article.title}</span>
+									<p class="label archive-meta">
+										<time datetime={article.publishedAt}>{formatDate(article.publishedAt)}</time>
+										&middot; {article.readingTime} min läsning<span class="read-flag"> &middot; läst</span>
+									</p>
+									{article.description && (
+										<p class="archive-description" set:html={inlineMarkdown(article.description)} />
+									)}
+								</a>
+							</li>
+						))}
+					</ul>
+				</section>
+			))}
+		</div>
 	</main>
+
+	{/* ---- Quiet filter overlay (one element, panels swapped by JS) ---- */}
+	<div class="overlay" id="filter-overlay" hidden role="dialog" aria-modal="true" aria-label="Filter">
+		<button class="overlay-close" type="button" aria-label="Stäng">
+			<svg width="18" height="18" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"><path d="M2 2l10 10M12 2 2 12" /></svg>
+		</button>
+		<div class="overlay-inner">
+			<div class="overlay-panel" data-panel="amnen" hidden>
+				<p class="label overlay-heading">Ämnen</p>
+				<ul class="overlay-list">
+					{AMNEN.map((a) => (
+						<li><button type="button" class="overlay-jump" data-target={`amne-${a.slug}`}>{a.name}</button></li>
+					))}
+				</ul>
+			</div>
+			<div class="overlay-panel" data-panel="tradar" hidden>
+				<p class="label overlay-heading">Trådar</p>
+				<ul class="overlay-list">
+					{threads.map((t) => (
+						<li><a href={`/tradar/${t.id}`}>{t.data.title}</a></li>
+					))}
+				</ul>
+			</div>
+			<div class="overlay-panel" data-panel="tankare" hidden>
+				<p class="label overlay-heading">Tänkare</p>
+				<div class="overlay-cols">
+					<ul class="overlay-list">
+						{sunni.map((t) => (
+							<li><a href={`/tankare/${t.data.slug}`}>{t.data.name}</a></li>
+						))}
+					</ul>
+					<ul class="overlay-list">
+						{western.map((t) => (
+							<li><a href={`/tankare/${t.data.slug}`}>{t.data.name}</a></li>
+						))}
+					</ul>
+				</div>
+			</div>
+			<div class="overlay-panel" data-panel="langd" hidden>
+				<p class="label overlay-heading">Längd</p>
+				<ul class="overlay-list">
+					<li><button type="button" class="overlay-length" data-min="0" data-max="999">Alla längder</button></li>
+					<li><button type="button" class="overlay-length" data-min="0" data-max="4">Kort &middot; under 5 min</button></li>
+					<li><button type="button" class="overlay-length" data-min="5" data-max="9">Medel &middot; 5–9 min</button></li>
+					<li><button type="button" class="overlay-length" data-min="10" data-max="999">Lång &middot; 10 min och mer</button></li>
+				</ul>
+			</div>
+		</div>
+	</div>
 </Base>
 
-<script>
-	function splitSections() {
-		// Fresh page: items in #list-all. Bfcache restore: items in existing sections.
-		const list = document.getElementById("list-all");
-		const items = document.querySelectorAll<HTMLElement>(".content-column .archive-item[data-slug]");
-		if (!items.length) return;
+<style>
+	.filter-row {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.5rem;
+		margin-bottom: var(--space-unit);
+	}
 
-		const unreadItems: HTMLElement[] = [];
-		const readItems: HTMLElement[] = [];
+	.filter-btn {
+		padding: 0.4rem 0.875rem;
+		border: 1px solid var(--color-divider);
+		border-radius: 1.25rem;
+		background: transparent;
+		color: var(--color-muted);
+		cursor: pointer;
+		transition: border-color 0.15s, color 0.15s;
 
-		for (const item of items) {
-			const pct = +(localStorage.getItem(`rp:${item.dataset.slug}`) || 0);
-			if (pct > 0.85) {
-				readItems.push(item);
-			} else {
-				unreadItems.push(item);
-			}
+		&:hover,
+		&[aria-pressed="true"] {
+			border-color: var(--color-warm);
+			color: var(--color-text);
 		}
 
-		const stats = document.querySelector<HTMLElement>(".archive-stats");
-		if (stats) {
-			stats.textContent = `${readItems.length} av ${items.length} lästa`;
-			stats.style.setProperty("--progress", String(readItems.length / items.length));
-		}
-
-		const makeSection = (heading: string, sectionItems: HTMLElement[]) => {
-			const section = document.createElement("section");
-			section.className = "archive-section";
-			const h2 = document.createElement("h2");
-			h2.className = "label archive-section-heading";
-			h2.textContent = heading;
-			const ul = document.createElement("ul");
-			ul.className = "archive-list";
-			section.append(h2, ul);
-			if (sectionItems.length) ul.append(...sectionItems);
-			return section;
-		};
-
-		const fragment = document.createDocumentFragment();
-		fragment.append(
-			makeSection("Att läsa", unreadItems),
-			makeSection("Lästa", readItems),
-		);
-
-		if (list) {
-			list.replaceWith(fragment);
-		} else {
-			for (const s of document.querySelectorAll(".archive-section")) s.remove();
-			document.querySelector(".article-header")?.after(fragment);
+		&:focus-visible {
+			outline: 2px solid var(--color-accent);
+			outline-offset: 2px;
 		}
 	}
 
-	document.addEventListener("astro:page-load", splitSections);
+	/* Read/unread value-shift within the ämne group (§9) — not two sections. */
+	.read-flag {
+		display: none;
+		color: var(--color-warm);
+	}
+
+	.archive-item[data-read] .archive-title {
+		color: var(--color-muted);
+	}
+
+	.archive-item[data-read] .read-flag {
+		display: inline;
+	}
+
+	.archive-item[data-filtered] {
+		display: none;
+	}
+
+	/* Hide a section whose rows are all filtered out. */
+	.archive-section[data-empty] {
+		display: none;
+	}
+
+	.archive-section-heading a {
+		color: inherit;
+		text-decoration: none;
+
+		&:hover {
+			text-decoration: underline;
+			text-underline-offset: 0.15em;
+		}
+	}
+
+	/* ---- Quiet filter overlay ---- */
+	.overlay {
+		position: fixed;
+		inset: 0;
+		z-index: 60;
+		background: color-mix(in srgb, var(--color-bg) 96%, transparent);
+		backdrop-filter: blur(8px);
+		-webkit-backdrop-filter: blur(8px);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		opacity: 0;
+		transition: opacity 0.2s ease;
+	}
+
+	.overlay[hidden] {
+		display: none;
+	}
+
+	.overlay[data-visible] {
+		opacity: 1;
+	}
+
+	.overlay-close {
+		position: absolute;
+		top: var(--safe-top);
+		right: var(--safe-right);
+		display: flex;
+		padding: 0.75rem;
+		border: none;
+		background: transparent;
+		color: var(--color-muted);
+		cursor: pointer;
+
+		&:hover {
+			color: var(--color-accent);
+		}
+
+		&:focus-visible {
+			outline: 2px solid var(--color-accent);
+			outline-offset: 2px;
+		}
+	}
+
+	.overlay-inner {
+		max-width: var(--content-width);
+		width: 100%;
+		padding: var(--space-unit) var(--padding-inline);
+	}
+
+	.overlay-heading {
+		margin-bottom: var(--space-unit);
+		color: var(--color-muted);
+	}
+
+	.overlay-list {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+	}
+
+	.overlay-cols {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: clamp(1.5rem, 5vw, 4rem);
+	}
+
+	.overlay-list li {
+		margin-bottom: 0.25rem;
+	}
+
+	.overlay-list a,
+	.overlay-jump,
+	.overlay-length {
+		display: inline-block;
+		font-family: var(--font-heading);
+		font-size: 1.125rem;
+		font-weight: 500;
+		color: var(--color-accent);
+		text-decoration: none;
+		background: transparent;
+		border: none;
+		padding: 0.4rem 0;
+		cursor: pointer;
+		text-align: start;
+
+		&:hover {
+			text-decoration: underline;
+			text-underline-offset: 0.15em;
+		}
+
+		&:focus-visible {
+			outline: 2px solid var(--color-accent);
+			outline-offset: 2px;
+		}
+	}
+
+	@media (width <= 768px) {
+		.overlay-cols {
+			grid-template-columns: 1fr;
+			gap: var(--space-unit);
+		}
+	}
+</style>
+
+<script>
+	function initArchive() {
+		// Bail on non-archive pages (this listener fires on every navigation).
+		const root = document.getElementById("by-amne");
+		if (!root) return;
+		// Re-bind to non-null-typed locals so the closures below keep the type
+		// (TS drops flow-narrowing across function boundaries).
+		const byAmne: HTMLElement = root;
+		const byYear = document.getElementById("by-year")!;
+		const overlay = document.getElementById("filter-overlay")!;
+
+		const ctrl = new AbortController();
+		const { signal } = ctrl;
+
+		// ---- Read-progress: value-shift each row, in place, + the stat ----
+		function applyReadState() {
+			const items = document.querySelectorAll<HTMLElement>(".archive-item[data-slug]");
+			const readSlugs = new Set<string>();
+			let total = 0;
+			const seen = new Set<string>();
+			for (const item of items) {
+				const slug = item.dataset.slug;
+				if (!slug) continue;
+				const pct = +(localStorage.getItem(`rp:${slug}`) || 0);
+				const read = pct > 0.85;
+				item.toggleAttribute("data-read", read);
+				if (!seen.has(slug)) { seen.add(slug); total++; if (read) readSlugs.add(slug); }
+			}
+			const stats = document.querySelector<HTMLElement>(".archive-stats");
+			if (stats) {
+				stats.textContent = `${readSlugs.size} av ${total} lästa`;
+				stats.style.setProperty("--progress", String(total ? readSlugs.size / total : 0));
+			}
+		}
+
+		// ---- Length filter (applied to both views) ----
+		let lengthMin = 0;
+		let lengthMax = 999;
+		function applyLength() {
+			for (const item of document.querySelectorAll<HTMLElement>(".archive-item[data-minutes]")) {
+				const m = +(item.dataset.minutes || 0);
+				item.toggleAttribute("data-filtered", m < lengthMin || m > lengthMax);
+			}
+			// Hide sections left empty.
+			for (const section of document.querySelectorAll<HTMLElement>(".archive-section")) {
+				const visible = section.querySelectorAll(".archive-item:not([data-filtered])").length;
+				section.toggleAttribute("data-empty", visible === 0);
+			}
+		}
+
+		// ---- Chronological toggle ----
+		const sortBtn = document.querySelector<HTMLButtonElement>("[data-sort-toggle]");
+		let chronological = false;
+		function setView(chrono: boolean) {
+			chronological = chrono;
+			byYear.hidden = !chrono;
+			byAmne.hidden = chrono;
+			sortBtn?.setAttribute("aria-pressed", String(chrono));
+			if (sortBtn) sortBtn.textContent = chrono ? "Efter ämne" : "Kronologiskt";
+		}
+		sortBtn?.addEventListener("click", () => setView(!chronological), { signal });
+
+		// ---- Overlay ----
+		function openOverlay(panel: string) {
+			for (const p of overlay.querySelectorAll<HTMLElement>(".overlay-panel"))
+				p.hidden = p.dataset.panel !== panel;
+			overlay.hidden = false;
+			requestAnimationFrame(() => overlay.setAttribute("data-visible", ""));
+			overlay.querySelector<HTMLElement>(".overlay-close")?.focus();
+		}
+		function closeOverlay() {
+			overlay.removeAttribute("data-visible");
+			const done = () => { overlay.hidden = true; };
+			overlay.addEventListener("transitionend", done, { once: true });
+			setTimeout(done, 250);
+		}
+
+		for (const btn of document.querySelectorAll<HTMLButtonElement>(".filter-btn[data-overlay]"))
+			btn.addEventListener("click", () => openOverlay(btn.dataset.overlay || ""), { signal });
+
+		overlay.querySelector(".overlay-close")?.addEventListener("click", closeOverlay, { signal });
+		overlay.addEventListener("click", (e) => { if (e.target === overlay) closeOverlay(); }, { signal });
+		document.addEventListener("keydown", (e) => {
+			if (e.key === "Escape" && !overlay.hidden) closeOverlay();
+		}, { signal });
+
+		// Ämnen jump → scroll to the section (switching back to ämne view first).
+		for (const btn of overlay.querySelectorAll<HTMLButtonElement>(".overlay-jump"))
+			btn.addEventListener("click", () => {
+				if (chronological) setView(false);
+				closeOverlay();
+				document.getElementById(btn.dataset.target || "")?.scrollIntoView({ behavior: "smooth", block: "start" });
+			}, { signal });
+
+		// Längd buckets.
+		for (const btn of overlay.querySelectorAll<HTMLButtonElement>(".overlay-length"))
+			btn.addEventListener("click", () => {
+				lengthMin = +(btn.dataset.min || 0);
+				lengthMax = +(btn.dataset.max || 999);
+				applyLength();
+				closeOverlay();
+			}, { signal });
+
+		applyReadState();
+
+		document.addEventListener("astro:before-swap", () => ctrl.abort(), { once: true });
+	}
+
+	document.addEventListener("astro:page-load", initArchive);
 	window.addEventListener("pageshow", (e) => {
-		if ((e as PageTransitionEvent).persisted) splitSections();
+		if ((e as PageTransitionEvent).persisted) initArchive();
 	});
 </script>

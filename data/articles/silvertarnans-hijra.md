@@ -6,6 +6,7 @@ qualityScore: 8.9
 description: "Hundra gram. En hjärna stor som en ärta. Varje höst lämnar silvertärnan Arktis och flyger till Antarktis – 70 000 kilometer om året, den längsta kända flytten i djurriket. Under resan sover den troligen med halva hjärnan i taget: ett öga öppet mot horisonten, det andra slutet."
 audioFile: "silvertarnans-hijra.mp3"
 audioDuration: 566
+category: "Skapelsen"
 ---
 Hundra gram. En hjärna stor som en ärta. Varje höst lämnar silvertärnan Arktis och flyger till Antarktis – 70 000 kilometer om året, den längsta kända flytten i djurriket.[^1] Under resan sover den troligen med halva hjärnan i taget: ett öga öppet mot horisonten, det andra slutet.[^2] Sedan vänder den och gör allting igen.
 

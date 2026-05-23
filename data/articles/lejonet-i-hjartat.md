@@ -4,6 +4,7 @@ publishedAt: "2025-08-18T12:00:00.000Z"
 wordCount: 1176
 qualityScore: 8.9
 description: "Något i dig vet. Före orden, före bedömningen – en människa träder in i rummet och du genomskådar henne med en skärpa som förvånar dig själv. Du vet att personen ljuger, att det som sägs inte stämmer med det som menas."
+category: "Själen"
 ---
 Något i dig vet. Före orden, före bedömningen – en människa träder in i rummet och du genomskådar henne med en skärpa som förvånar dig själv. Du vet att personen ljuger, att det som sägs inte stämmer med det som menas. Inte en slutsats, inte ens en tanke – snarare ett anfall av klarhet, plötsligt och obetvingligt, över innan du hunnit tvivla.
 

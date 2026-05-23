@@ -1,0 +1,61 @@
+[
+	{
+		"id": "hjartats-anatomi",
+		"title": "Hjärtats anatomi",
+		"framing": "Som en läkare kartlägger kroppens sjukdomar kartlade Ibn Qayyim al-Jawziyya hjärtats — begärets stadier, blickens dubbelhet, vanans långsamma infärgning.",
+		"essays": [
+			"langtan-heter-angest",
+			"ormboet-i-hjartat",
+			"det-enogda-begaret",
+			"passionens-klangvaxt",
+			"lejonet-i-hjartat",
+			"sjalens-infargning"
+		]
+	},
+	{
+		"id": "tungan-och-sanningen",
+		"title": "Tungan och sanningen",
+		"framing": "Talet kan erövras genom lögn och lika säkert genom tystnad — om vad ett ord kostar, från sanningens pris till böneutropets ord över taken.",
+		"essays": [
+			"det-tungan-inte-nar",
+			"tungans-fastning",
+			"lognens-bokforing",
+			"rosten-over-taken",
+			"eld-mot-en-rost"
+		]
+	},
+	{
+		"id": "natten",
+		"title": "Natten",
+		"framing": "Natten flås ur dagen som ett skinn, säger Koranen — om sömnlöshet och vaka, om bönen som väcker och sömnen som är dödens lilla syster.",
+		"essays": [
+			"ljusa-bla-natt",
+			"nattbonens-ansikte",
+			"somnens-lilla-dod",
+			"traden-hade-andakt",
+			"silvertarnans-hijra"
+		]
+	},
+	{
+		"id": "maskinen-och-manniskan",
+		"title": "Maskinen och människan",
+		"framing": "Vad händer när människan delegerar sina beslut till maskiner som inte kan bäva inför dem?",
+		"essays": [
+			"chipet-och-riddjuret",
+			"den-starkaste-tjanaren",
+			"bergen-som-vagrade",
+			"serumet-och-blicken"
+		]
+	},
+	{
+		"id": "strindbergs-kris",
+		"title": "Strindbergs kris",
+		"framing": "Under Inferno-åren prövade Strindberg varje hållning han kunde nå, och ingen bar hans vikt.",
+		"essays": [
+			"skapad-ur-ingenting",
+			"strindbergs-enda-steg",
+			"kompassnalens-moske",
+			"det-han-letade-efter"
+		]
+	}
+]

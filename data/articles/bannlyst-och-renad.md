@@ -4,6 +4,7 @@ publishedAt: "2025-08-30T12:00:00.000Z"
 wordCount: 1120
 qualityScore: 8.9
 description: "Han kunde ha tigit. Skulden har burit Sven Elversson genom hela Lagerlöfs Bannlyst, inte tvärtom – det är han som knappt orkar leva under dråpets tyngd. Men ingen tvingar honom att tala."
+category: "Själen"
 ---
 Han kunde ha tigit. Skulden har burit Sven Elversson genom hela Lagerlöfs *Bannlyst*, inte tvärtom – det är han som knappt orkar leva under dråpets tyngd. Men ingen tvingar honom att tala. Ingen har övertalat honom, ingen har fångat honom i lögn. Friheten ligger inom räckhåll. Ändå reser han sig inför rätten och bekänner – inte ett ord till sitt försvar, bara sanningen, hel och oåterkallelig.
 

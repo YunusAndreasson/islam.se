@@ -4,6 +4,7 @@ publishedAt: "2026-03-10T12:00:00.000Z"
 wordCount: 1193
 qualityScore: 8.6
 description: "Tigern ber – bokstavligt. \"Det finns ingenting som inte prisar Hans lov,\" fastslår Koranen, \"men ni förstår inte deras prisande.\" Varje andetag, varje språng, varje dödande käftslag är lovsång. Fåglarna \"vet hur de skall be och lovprisa.\" Djuren bildar samfund som våra."
+category: "Skapelsen"
 ---
 Tigern ber – bokstavligt. "Det finns ingenting som inte prisar Hans lov," fastslår Koranen, "men ni förstår inte deras prisande."[^1] Varje andetag, varje språng, varje dödande käftslag är lovsång. Fåglarna "vet hur de skall be och lovprisa."[^2] Djuren bildar samfund som våra.[^3] Skapelsens kör sjunger utan avbrott och utan val.
 

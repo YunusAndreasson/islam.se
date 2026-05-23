@@ -1,0 +1,69 @@
+---
+import { getCollection } from "astro:content";
+import EssayList from "../../components/EssayList.astro";
+import Base from "../../layouts/Base.astro";
+import { type Article, getArticles } from "../../lib/articles";
+
+export async function getStaticPaths() {
+	const [thinkers, articles] = await Promise.all([getCollection("tankare"), getArticles()]);
+	const bySlug = new Map(articles.map((a) => [a.slug, a]));
+	return thinkers.map((thinker) => ({
+		params: { slug: thinker.data.slug },
+		props: {
+			name: thinker.data.name,
+			framing: thinker.data.framing,
+			tradition: thinker.data.tradition,
+			essays: thinker.data.essays
+				.map((s) => bySlug.get(s))
+				.filter((a): a is Article => Boolean(a)),
+		},
+	}));
+}
+
+interface Props {
+	name: string;
+	framing: string;
+	tradition: "sunni" | "western";
+	essays: Article[];
+}
+
+const { name, framing, tradition, essays } = Astro.props;
+const count = essays.length;
+const slug = Astro.params.slug;
+const traditionLabel =
+	tradition === "sunni" ? "Klassisk sunnitisk tradition" : "Svensk och västerländsk röst";
+---
+
+<Base
+	title={`${name} — islam.se`}
+	description={`${name} i essäerna: ${framing}`}
+	ogImage={`/tankare/${slug}/og.png`}
+	jsonLd={{
+		"@context": "https://schema.org",
+		"@type": "CollectionPage",
+		name,
+		description: framing,
+		url: `https://islam.se/tankare/${slug}`,
+		inLanguage: "sv",
+		hasPart: essays.map((e) => ({
+			"@type": "Article",
+			headline: e.title,
+			url: `https://islam.se/${e.slug}`,
+		})),
+	}}
+>
+	<main id="main" class="content-column">
+		<header class="article-header">
+			<p class="label collection-kicker">{traditionLabel}</p>
+			<h1>{name}</h1>
+			<p class="collection-lead">{framing}</p>
+			<p class="label collection-count">
+				Engageras i {count} {count === 1 ? "essä" : "essäer"}
+			</p>
+		</header>
+
+		<EssayList articles={essays} />
+
+		<p class="collection-back"><a href="/tankare">Alla tänkare →</a></p>
+	</main>
+</Base>

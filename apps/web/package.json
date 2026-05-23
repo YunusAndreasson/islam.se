@@ -8,13 +8,15 @@
 		"build": "astro build",
 		"preview": "astro preview",
 		"check": "astro check",
-		"pdf": "tsx scripts/generate-pdf.ts"
+		"pdf": "tsx scripts/generate-pdf.ts",
+		"sync-verses": "tsx scripts/sync-verses.ts"
 	},
 	"dependencies": {
 		"@astrojs/rss": "^4.0.18",
 		"@astrojs/sitemap": "^3.7.2",
 		"astro": "^6.3.7",
 		"remark-smartypants": "^3.0.2",
+		"satori": "^0.26.0",
 		"sharp": "^0.34.5"
 	},
 	"devDependencies": {

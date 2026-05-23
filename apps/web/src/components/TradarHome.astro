@@ -1,0 +1,85 @@
+---
+import { getCollection } from "astro:content";
+
+const threads = await getCollection("tradar");
+---
+
+<section class="tradar-home home-movement" aria-labelledby="tradar-kicker">
+	<p class="label home-kicker" id="tradar-kicker">Trådar</p>
+	<ul class="tradar-grid">
+		{threads.map((thread) => (
+			<li class="tradar-card">
+				<a href={`/tradar/${thread.id}`} data-astro-prefetch="viewport">
+					<h3 class="tradar-card-title">{thread.data.title}</h3>
+					<p class="tradar-card-framing">{thread.data.framing}</p>
+					<p class="label tradar-card-count">{thread.data.essays.length} essäer</p>
+				</a>
+			</li>
+		))}
+	</ul>
+</section>
+
+<style>
+	/* Text-led, no imagery — a deliberately quieter register than the image-led
+	   ämnen above, so the two discovery layers never read as the same module (§7.7). */
+	.tradar-grid {
+		margin: 0;
+		padding: 0;
+		list-style: none;
+		display: grid;
+		grid-template-columns: repeat(2, 1fr);
+		gap: 1px;
+		background: var(--color-divider);
+		border-block: 1px solid var(--color-divider);
+	}
+
+	.tradar-card {
+		background: var(--color-bg);
+	}
+
+	.tradar-card a {
+		display: block;
+		height: 100%;
+		padding: var(--space-unit) clamp(1rem, 3vw, 2rem);
+		text-decoration: none;
+		color: inherit;
+
+		&:hover .tradar-card-title {
+			text-decoration: underline;
+			text-underline-offset: 0.12em;
+		}
+
+		&:focus-visible {
+			outline: 2px solid var(--color-accent);
+			outline-offset: -2px;
+		}
+	}
+
+	.tradar-card-title {
+		font-family: var(--font-heading);
+		font-size: var(--step-1);
+		font-weight: 620;
+		letter-spacing: -0.015em;
+		line-height: 1.2;
+		color: var(--color-accent);
+		margin: 0;
+	}
+
+	.tradar-card-framing {
+		font-family: var(--font-body);
+		font-size: 0.9375rem;
+		line-height: 1.5;
+		color: color-mix(in srgb, var(--color-text) 72%, var(--color-muted));
+		margin: 0.5rem 0 0;
+	}
+
+	.tradar-card-count {
+		margin: 0.625rem 0 0;
+	}
+
+	@media (width <= 768px) {
+		.tradar-grid {
+			grid-template-columns: 1fr;
+		}
+	}
+</style>

@@ -1,18 +1,32 @@
 ---
-import { Image } from "astro:assets";
+import AmnenSections from "../components/AmnenSections.astro";
+import BookPod from "../components/BookPod.astro";
+import Citat from "../components/Citat.astro";
+import DagensVers from "../components/DagensVers.astro";
+import FeatureEssay from "../components/FeatureEssay.astro";
+import Footer from "../components/Footer.astro";
+import Markesdagar from "../components/Markesdagar.astro";
+import RecentEssays from "../components/RecentEssays.astro";
+import TankareGroups from "../components/TankareGroups.astro";
+import TradarHome from "../components/TradarHome.astro";
 import Base from "../layouts/Base.astro";
-import { formatDate, getArticles, inlineMarkdown } from "../lib/articles";
+import { getArticles } from "../lib/articles";
+import { getVerseOfDay } from "../lib/verse";
 
 const articles = await getArticles();
-const slides = articles.filter((a) => a.heroImage).slice(0, 7);
-const latest = slides[0];
-const ogImage = latest?.heroImage;
+const verseOfDay = await getVerseOfDay();
+
+// The feature is the most recent essay; fall back to the most recent that
+// actually carries a hero image so the signature spread never renders blank.
+const feature = articles.find((a) => a.heroImage) ?? articles[0];
+const recent = articles.filter((a) => a.slug !== feature?.slug).slice(0, 5);
+
+const ogImage = feature?.heroImage;
 ---
 
 <Base
 	title="islam.se — Essäer om islamisk intellektuell tradition och svenskt kulturarv"
 	description="Essäer om islamisk intellektuell tradition och svenskt kulturarv."
-	hero={true}
 	ogImage={ogImage?.src}
 	preloadImage={ogImage?.src}
 	jsonLd={{
@@ -24,152 +38,68 @@ const ogImage = latest?.heroImage;
 		inLanguage: "sv",
 	}}
 >
-	<main id="main">
-		<section class="hero-cover" aria-roledescription="bildspel" aria-label="Utvalda essäer">
-			{slides.map((article, i) => (
-				<div class:list={["hero-slide", { active: i === 0 }]} aria-hidden={i !== 0 ? "true" : undefined} role="group" aria-roledescription="bild" aria-label={`${i + 1} av ${slides.length}`}>
-					{article.mobileHeroImage ? (
-						<picture>
-							<source
-								srcset={`${article.mobileHeroImage.src}`}
-								media="(max-width: 768px) and (orientation: portrait)"
-								type="image/webp"
-								width={article.mobileHeroImage.width}
-								height={article.mobileHeroImage.height}
-							/>
-							<Image
-								src={article.heroImage!}
-								alt={article.title}
-								widths={[768, 1200, 1920]}
-								sizes="100vw"
-								loading={i === 0 ? "eager" : "lazy"}
-								fetchpriority={i === 0 ? "high" : "low"}
-								decoding="async"
-								class="hero-cover-img"
-							/>
-						</picture>
-					) : (
-						<Image
-							src={article.heroImage!}
-							alt={article.title}
-							widths={[768, 1200, 1920]}
-							sizes="100vw"
-							loading={i === 0 ? "eager" : "lazy"}
-							fetchpriority={i === 0 ? "high" : "low"}
-							decoding="async"
-							class="hero-cover-img"
-						/>
-					)}
-					<div class="hero-cover-overlay">
-						<a href={`/${article.slug}`} class="hero-cover-content" data-astro-prefetch="viewport">
-							{i === 0
-							? <h1 class="hero-cover-title">{article.title}</h1>
-							: <p class="hero-cover-title">{article.title}</p>
-						}
-							{article.description && <p class="hero-cover-deck" set:html={inlineMarkdown(article.description)} />}
-							<p class="label hero-cover-date"><time datetime={article.publishedAt}>{formatDate(article.publishedAt)}</time> &middot; {article.readingTime} min läsning</p>
-						</a>
-						<div class="hero-cta-row">
-							<a href={`/${article.slug}`} class="hero-cta" data-astro-prefetch="viewport">Läs</a>
-							{article.audioFile && (
-								<button class="hero-cta hero-cta-listen" type="button" data-audio-src={`/audio/${article.audioFile}`} data-audio-title={article.title} data-audio-artwork={article.heroImage?.src} aria-label="Lyssna på essän">
-									Lyssna
-								</button>
-							)}
-						</div>
-					</div>
-				</div>
-			))}
-			{slides.length > 1 && (
-				<div class="hero-nav">
-					<button class="btn-circle hero-nav-prev" type="button" aria-label="Föregående essä" disabled>
-						<svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-							<path d="M12.5 5l-5 5 5 5" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" />
-						</svg>
-					</button>
-					<button class="btn-circle hero-nav-next" type="button" aria-label="Nästa essä">
-						<svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-							<path d="M7.5 5l5 5-5 5" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" />
-						</svg>
-					</button>
-				</div>
-			)}
+	<main id="main" class="home">
+		<h1 class="sr-only">islam.se — essäer om islamisk intellektuell tradition och svenskt kulturarv</h1>
+
+		{verseOfDay && <DagensVers verseOfDay={verseOfDay} />}
+
+		{feature && <FeatureEssay article={feature} />}
+
+		<RecentEssays articles={recent} />
+
+		<Citat />
+
+		<AmnenSections />
+
+		<TradarHome />
+
+		<section class="home-movement" aria-labelledby="tankare-home-kicker">
+			<p class="label home-kicker" id="tankare-home-kicker">Tänkare</p>
+			<TankareGroups />
 		</section>
+
+		<Markesdagar />
+
+		<BookPod count={articles.length} variant="home" />
+
+		<nav class="archive-link home-movement" aria-label="Hela arkivet">
+			<a href="/essaer">Hela arkivet</a>
+		</nav>
+
+		<Footer />
 	</main>
 </Base>
 
-<script>
-	document.addEventListener("astro:page-load", () => {
-		const slides = document.querySelectorAll<HTMLElement>(".hero-slide");
-		const prevBtn = document.querySelector<HTMLButtonElement>(".hero-nav-prev");
-		const nextBtn = document.querySelector<HTMLButtonElement>(".hero-nav-next");
-		if (nextBtn && prevBtn && slides.length >= 2) {
-			let current = 0;
-			const last = slides.length - 1;
+<style>
+	.archive-link {
+		text-align: center;
+	}
 
-			function update() {
-				prevBtn!.disabled = current === 0;
-				nextBtn!.disabled = current === last;
-			}
+	.archive-link a {
+		display: inline-block;
+		font-family: var(--font-heading);
+		font-size: 1.05rem;
+		font-weight: 500;
+		letter-spacing: 0.02em;
+		color: var(--color-accent);
+		text-decoration: none;
+		padding: 0.5rem 0;
+	}
 
-			function go(delta: number) {
-				const next = current + delta;
-				if (next < 0 || next > last) return;
-				slides[current].classList.remove("active");
-				slides[current].setAttribute("aria-hidden", "true");
-				current = next;
-				const img = slides[current].querySelector("img");
-				// Clear animation, force reflow, restore — restarts the zoom from the beginning
-				if (img) { img.style.animation = "none"; img.offsetHeight; img.style.animation = ""; }
-				slides[current].classList.add("active");
-				slides[current].removeAttribute("aria-hidden");
-				update();
-			}
+	.archive-link a::after {
+		content: " →";
+		color: var(--color-muted);
+		transition: translate 0.2s ease;
+		display: inline-block;
+	}
 
-			prevBtn.addEventListener("click", () => go(-1));
-			nextBtn.addEventListener("click", () => go(1));
+	.archive-link a:hover {
+		text-decoration: underline;
+		text-decoration-thickness: 1px;
+		text-underline-offset: 0.15em;
+	}
 
-			const ctrl = new AbortController();
-
-			// Touch swipe
-			const hero = document.querySelector<HTMLElement>(".hero-cover");
-			if (hero) {
-				let startX = 0;
-				let startY = 0;
-				hero.addEventListener("touchstart", (e) => {
-					startX = e.touches[0].clientX;
-					startY = e.touches[0].clientY;
-				}, { passive: true, signal: ctrl.signal });
-				hero.addEventListener("touchend", (e) => {
-					const dx = e.changedTouches[0].clientX - startX;
-					const dy = e.changedTouches[0].clientY - startY;
-					if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy) * 1.5) {
-						go(dx < 0 ? 1 : -1);
-					}
-				}, { passive: true, signal: ctrl.signal });
-			}
-
-			document.addEventListener("keydown", (e) => {
-				if (e.target instanceof HTMLElement && e.target.matches("input, textarea, select")) return;
-				if (e.key === "ArrowLeft") go(-1);
-				else if (e.key === "ArrowRight") go(1);
-			}, { signal: ctrl.signal });
-			document.addEventListener("astro:before-swap", () => ctrl.abort(), { once: true });
-		}
-
-		// Hero audio — delegate to floating player
-		for (const btn of document.querySelectorAll<HTMLButtonElement>(".hero-cta-listen")) {
-			btn.addEventListener("click", (e) => {
-				e.preventDefault();
-				e.stopPropagation();
-				document.dispatchEvent(new CustomEvent("floating-player:play", {
-					detail: {
-						src: btn.dataset.audioSrc,
-						title: btn.dataset.audioTitle,
-						artwork: btn.dataset.audioArtwork,
-					}
-				}));
-			});
-		}
-	});
-</script>
+	.archive-link a:hover::after {
+		translate: 0.2em 0;
+	}
+</style>

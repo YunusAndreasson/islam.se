@@ -1,4 +1,4 @@
-import { getCollection } from "astro:content";
+import { type CollectionEntry, getCollection } from "astro:content";
 import type { ImageMetadata } from "astro";
 
 export interface Article {
@@ -12,7 +12,7 @@ export interface Article {
 	audioDuration?: number;
 	heroImage?: ImageMetadata;
 	mobileHeroImage?: ImageMetadata;
-	entry: Awaited<ReturnType<typeof getCollection>>[number];
+	entry: CollectionEntry<"articles">;
 }
 
 // Hero images keyed by slug — images live in src/assets/images/

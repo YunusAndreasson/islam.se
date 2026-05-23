@@ -2,17 +2,72 @@
 import Base from "../layouts/Base.astro";
 ---
 
-<Base title="Sidan hittades inte — islam.se" description="Sidan du söker finns inte.">
-	<main id="main" class="content-column">
-		<header class="article-header">
-			<h1>Sidan hittades inte</h1>
-		</header>
-		<div class="article-body">
-			<p>Sidan du söker finns tyvärr inte. Den kan ha flyttats eller tagits bort.</p>
-			<p>
-				<a href="/">Tillbaka till startsidan</a> &middot;
-				<a href="/essaer">Alla essäer</a>
-			</p>
-		</div>
+<Base title="Sidan finns inte — islam.se" description="Sidan du söker finns inte.">
+	<main id="main" class="content-column notfound">
+		<p class="label notfound-code">404</p>
+		<h1 class="notfound-title">Här finns ingenting</h1>
+		<p class="notfound-lead">
+			Sidan du sökte är borta &mdash; flyttad, omdöpt eller aldrig till. Vägen tillbaka är kort.
+		</p>
+		<nav class="notfound-links" aria-label="Vidare">
+			<a href="/">Startsidan</a>
+			<span class="nav-dot" aria-hidden="true">&middot;</span>
+			<a href="/essaer">Alla essäer</a>
+		</nav>
+		<div class="section-ornament" aria-hidden="true"></div>
 	</main>
 </Base>
+
+<style>
+	.notfound {
+		min-height: 56vh;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		text-align: center;
+		padding-block: var(--space-phi2);
+	}
+
+	.notfound-code {
+		color: var(--color-warm);
+		margin: 0 0 var(--space-half);
+	}
+
+	.notfound-title {
+		margin: 0;
+	}
+
+	.notfound-lead {
+		font-family: var(--font-body);
+		font-size: 1.0625rem;
+		line-height: 1.55;
+		color: color-mix(in srgb, var(--color-text) 78%, var(--color-muted));
+		max-width: 30rem;
+		margin: var(--space-unit) auto 0;
+	}
+
+	.notfound-links {
+		display: flex;
+		align-items: baseline;
+		justify-content: center;
+		gap: 0.6rem;
+		margin-top: var(--space-unit);
+		font-family: var(--font-heading);
+		font-size: 1rem;
+		font-weight: 500;
+	}
+
+	.notfound-links a {
+		color: var(--color-accent);
+		text-decoration: none;
+
+		&:hover {
+			text-decoration: underline;
+			text-underline-offset: 0.15em;
+		}
+	}
+
+	.notfound .section-ornament {
+		margin-top: var(--space-phi);
+	}
+</style>

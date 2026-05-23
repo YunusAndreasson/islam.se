@@ -1,0 +1,27 @@
+---
+import type { Article } from "../lib/articles";
+import { formatDate, inlineMarkdown } from "../lib/articles";
+
+interface Props {
+	articles: Article[];
+}
+
+const { articles } = Astro.props;
+---
+
+<ul class="archive-list">
+	{articles.map((article) => (
+		<li class="archive-item" data-slug={article.slug}>
+			<a href={`/${article.slug}`} data-astro-prefetch="viewport">
+				<span class="archive-title">{article.title}</span>
+				<p class="label archive-meta">
+					<time datetime={article.publishedAt}>{formatDate(article.publishedAt)}</time>
+					&middot; {article.readingTime} min läsning
+				</p>
+				{article.description && (
+					<p class="archive-description" set:html={inlineMarkdown(article.description)} />
+				)}
+			</a>
+		</li>
+	))}
+</ul>

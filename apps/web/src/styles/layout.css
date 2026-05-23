@@ -29,12 +29,41 @@
 	}
 }
 
-/* Content column — centered, constrained measure */
+/* Content column — centered, constrained measure (reading + utility pages) */
 .content-column {
 	max-width: var(--content-width);
 	margin-inline: auto;
 	padding-left: var(--safe-left);
 	padding-right: var(--safe-right);
+}
+
+/* ============================================================
+   Home shell — a wider editorial canvas than the reading column.
+   Modules share this left/right edge and inner measure so the page
+   reads as one composition rather than a stack (plan §11 gestalt).
+   ============================================================ */
+.home {
+	max-width: var(--home-width);
+	margin-inline: auto;
+	padding-left: var(--safe-left);
+	padding-right: var(--safe-right);
+}
+
+/* A movement in the homepage sequence. Generous vertical breathing
+   between movements; a hairline rule is the only divider, used sparingly. */
+.home-movement {
+	margin-block: var(--space-phi2);
+}
+
+.home-movement:first-child {
+	margin-top: var(--space-phi);
+}
+
+/* Movement label — the quiet kicker that names a section in the site voice.
+   Sits on the shared left edge above each movement. */
+.home-kicker {
+	margin-bottom: var(--space-unit);
+	color: var(--color-muted);
 }
 
 /* ============================================================
@@ -158,58 +187,43 @@
 	color: var(--color-accent);
 }
 
-/* ============================================================
-   Hero cover — full-bleed image covering entire viewport.
-   "A magazine cover, not a table of contents." (DESIGN.md)
-   ============================================================ */
-.hero-cover {
+/* Search magnifier — sits in the mast (§7.1, §8). Icon-only, aligned to the
+   dotted nav; opens the full-screen search overlay. */
+.search-trigger {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	margin-left: 0.35rem;
+	padding: 0.25rem;
+	border: none;
+	background: transparent;
+	color: var(--color-text);
+	cursor: pointer;
+	transition: color 0.15s;
 	position: relative;
-	height: 100dvh;
-	overflow: hidden;
-	overscroll-behavior: none;
-	touch-action: manipulation;
-	margin-top: calc(-1 * env(safe-area-inset-top, 0px));
-}
+	top: 0.12em; /* optical baseline alignment with the nav text */
 
-.hero-slide {
-	position: absolute;
-	inset: 0;
-	opacity: 0;
-	transition: opacity 0.6s ease-in-out;
-	pointer-events: none;
+	&:hover {
+		color: var(--color-accent);
+	}
 
-	&.active {
-		opacity: 1;
-		pointer-events: auto;
+	&:focus-visible {
+		outline: 2px solid var(--color-accent);
+		outline-offset: 2px;
+		border-radius: 4px;
 	}
 }
 
-.hero-cover-img {
-	position: absolute;
-	inset: 0;
-	width: 100%;
-	height: 100%;
-	object-fit: cover;
-	will-change: transform;
-	-webkit-touch-callout: none;
-	user-select: none;
-}
+.site-header--hero .search-trigger {
+	color: rgb(var(--hero-white) / 0.7);
 
-.hero-slide.active .hero-cover-img {
-	animation: hero-zoom 25s ease-out forwards;
-}
-
-@keyframes hero-zoom {
-	from {
-		scale: 1.02;
-	}
-	to {
-		scale: 1.12;
+	&:hover {
+		color: rgb(var(--hero-white));
 	}
 }
 
 /* ============================================================
-   Circular action button — shared by hero nav and back-to-top
+   Circular action button — shared by search trigger and back-to-top
    ============================================================ */
 .btn-circle {
 	display: flex;
@@ -230,214 +244,6 @@
 		opacity: 0.25;
 		cursor: default;
 	}
-}
-
-.hero-nav {
-	position: absolute;
-	right: var(--safe-right);
-	bottom: var(--safe-bottom);
-	z-index: 2;
-	display: flex;
-	align-items: center;
-	gap: 0.5rem;
-}
-
-.hero-nav button,
-.back-to-top,
-.share-btn {
-	backdrop-filter: blur(12px);
-	-webkit-backdrop-filter: blur(12px);
-}
-
-.hero-nav button {
-	--btn-size: 2.5rem;
-	border-color: rgb(var(--hero-white) / 0.25);
-	color: rgb(var(--hero-white) / 0.9);
-	background: rgb(var(--hero-white) / 0.08);
-	transition:
-		color 0.15s,
-		border-color 0.15s,
-		background 0.15s,
-		opacity 0.15s;
-
-	&:hover:not(:disabled),
-	&:active:not(:disabled) {
-		color: rgb(var(--hero-white));
-		border-color: rgb(var(--hero-white) / 0.4);
-		background: rgb(var(--hero-white) / 0.15);
-	}
-
-	&:focus-visible {
-		outline: 2px solid rgb(var(--hero-white) / 0.8);
-	}
-}
-
-.hero-cover-overlay {
-	position: relative;
-	z-index: 1;
-	height: 100%;
-	display: flex;
-	flex-direction: column;
-	justify-content: flex-end;
-	padding: var(--padding-inline);
-	padding-left: var(--safe-left);
-	padding-right: var(--safe-right);
-	padding-bottom: var(--safe-bottom);
-	background:
-		linear-gradient(to bottom, rgb(var(--hero-black) / 0.4) 0%, transparent 20%),
-		linear-gradient(
-			to top,
-			rgb(var(--hero-black) / 0.65) 0%,
-			rgb(var(--hero-black) / 0.15) 45%,
-			transparent 70%
-		);
-}
-
-.hero-cover-content {
-	display: block;
-	max-width: 48rem;
-	text-decoration: none;
-	color: inherit;
-	cursor: pointer;
-
-	&:hover,
-	&:visited,
-	&:active {
-		text-decoration: none;
-		color: inherit;
-	}
-
-	&:focus-visible {
-		outline: 2px solid rgb(var(--hero-white) / 0.8);
-		outline-offset: 4px;
-	}
-}
-
-.hero-cover-title {
-	font-family: var(--font-heading);
-	font-size: clamp(2rem, 5.5vw, 3rem);
-	font-weight: 600;
-	line-height: 1.12;
-	letter-spacing: -0.02em;
-	color: rgb(var(--hero-white));
-	text-shadow: 0 1px 3px rgb(var(--hero-black) / 0.3);
-	/* titl: display-optimized numerals; dlig: discretionary ligatures */
-	font-feature-settings:
-		"titl" 1,
-		"dlig" 1;
-	margin-bottom: 0;
-}
-
-.hero-cover-deck {
-	font-family: var(--font-body);
-	font-size: clamp(0.9375rem, 1.5vw, 1.0625rem);
-	font-weight: 400;
-	line-height: 1.5;
-	color: rgb(var(--hero-white) / 0.85);
-	max-width: 36rem;
-	margin-top: 0.5rem;
-	margin-bottom: 0;
-	text-shadow: 0 1px 2px rgb(var(--hero-black) / 0.2);
-}
-
-.hero-cover-date {
-	color: rgb(var(--hero-white) / 0.5);
-	margin-top: 0.5rem;
-	margin-bottom: 0;
-	text-shadow: 0 1px 2px rgb(var(--hero-black) / 0.2);
-}
-
-/* CTA row — holds Läs + optional Lyssna side by side */
-.hero-cta-row {
-	display: flex;
-	gap: 0.5rem;
-	margin-top: 0.75rem;
-}
-
-/* CTA pill — ghost button inside the hero */
-.hero-cta {
-	display: inline-flex;
-	align-items: center;
-	gap: 0.4em;
-	padding: 0.5rem 1.25rem;
-	text-decoration: none;
-	font-family: var(--font-heading);
-	font-size: 0.862rem;
-	font-weight: 500;
-	letter-spacing: 0.06em;
-	text-transform: uppercase;
-	font-feature-settings: "case";
-	color: rgb(var(--hero-white) / 0.85);
-	border: 1px solid rgb(var(--hero-white) / 0.25);
-	border-radius: 1.25rem;
-	background: rgb(var(--hero-white) / 0.08);
-	backdrop-filter: blur(12px);
-	-webkit-backdrop-filter: blur(12px);
-	text-shadow: none;
-	cursor: pointer;
-	transition:
-		color 0.15s,
-		border-color 0.15s,
-		background 0.15s;
-}
-
-.hero-cta::after {
-	content: "";
-	display: inline-block;
-	width: 1em;
-	height: 1em;
-	background: currentColor;
-	-webkit-mask:
-		url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M1 8h13M9.5 3.5 14 8l-4.5 4.5' fill='none' stroke='currentColor' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E")
-		center / contain no-repeat;
-	mask:
-		url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M1 8h13M9.5 3.5 14 8l-4.5 4.5' fill='none' stroke='currentColor' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E")
-		center / contain no-repeat;
-	transition: translate 0.15s;
-}
-
-/* Lyssna button — speaker icon */
-.hero-cta-listen::after {
-	-webkit-mask:
-		url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3 6h2l3-3v10L5 10H3a.5.5 0 0 1-.5-.5v-3A.5.5 0 0 1 3 6z' fill='currentColor'/%3E%3Cpath d='M10 5.5a3 3 0 0 1 0 5' fill='none' stroke='currentColor' stroke-width='1.25' stroke-linecap='round'/%3E%3Cpath d='M12 3.5a6 6 0 0 1 0 9' fill='none' stroke='currentColor' stroke-width='1.25' stroke-linecap='round'/%3E%3C/svg%3E")
-		center / contain no-repeat;
-	mask:
-		url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3 6h2l3-3v10L5 10H3a.5.5 0 0 1-.5-.5v-3A.5.5 0 0 1 3 6z' fill='currentColor'/%3E%3Cpath d='M10 5.5a3 3 0 0 1 0 5' fill='none' stroke='currentColor' stroke-width='1.25' stroke-linecap='round'/%3E%3Cpath d='M12 3.5a6 6 0 0 1 0 9' fill='none' stroke='currentColor' stroke-width='1.25' stroke-linecap='round'/%3E%3C/svg%3E")
-		center / contain no-repeat;
-}
-
-/* Playing state — filled accent look */
-.hero-cta-listen.is-playing {
-	color: rgb(var(--hero-white));
-	border-color: rgb(var(--hero-white) / 0.5);
-	background: rgb(var(--hero-white) / 0.2);
-}
-
-.hero-cta-listen.is-playing::after {
-	-webkit-mask:
-		url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect x='4' y='3' width='3' height='10' rx='0.5' fill='currentColor'/%3E%3Crect x='9' y='3' width='3' height='10' rx='0.5' fill='currentColor'/%3E%3C/svg%3E")
-		center / contain no-repeat;
-	mask:
-		url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect x='4' y='3' width='3' height='10' rx='0.5' fill='currentColor'/%3E%3Crect x='9' y='3' width='3' height='10' rx='0.5' fill='currentColor'/%3E%3C/svg%3E")
-		center / contain no-repeat;
-}
-
-/* Desktop: each pill hovers independently */
-.hero-cta:hover {
-	color: rgb(var(--hero-white));
-	border-color: rgb(var(--hero-white) / 0.4);
-	background: rgb(var(--hero-white) / 0.15);
-}
-
-.hero-cta:hover::after {
-	translate: 0.15em 0;
-}
-
-/* Touch: active tap feedback */
-.hero-cta:active {
-	color: rgb(var(--hero-white));
-	border-color: rgb(var(--hero-white) / 0.5);
-	background: rgb(var(--hero-white) / 0.2);
 }
 
 /* Reading progress bar */
@@ -482,6 +288,12 @@ html[data-player-visible] .fixed-actions {
 	bottom: calc(var(--safe-bottom) + 3.5rem);
 }
 
+.back-to-top,
+.share-btn {
+	backdrop-filter: blur(12px);
+	-webkit-backdrop-filter: blur(12px);
+}
+
 .share-btn {
 	padding: 0.5rem 0.75rem;
 	border: 1px solid var(--color-divider);
@@ -514,6 +326,45 @@ html[data-player-visible] .fixed-actions {
 	&:active {
 		color: var(--color-text);
 		border-color: var(--color-warm);
+	}
+}
+
+/* ============================================================
+   Collection pages (ämne / tråd / tänkare) — inherit the essay
+   header rhythm; a kicker names the kind, a lead frames the set.
+   ============================================================ */
+.collection-kicker {
+	margin-bottom: var(--space-half);
+}
+
+.collection-lead {
+	font-family: var(--font-body);
+	font-size: 1.0625rem;
+	line-height: 1.55;
+	color: color-mix(in srgb, var(--color-text) 80%, var(--color-muted));
+	margin: var(--space-half) 0 var(--space-half);
+	max-width: 34rem;
+}
+
+.collection-count {
+	margin: 0;
+}
+
+.collection-back {
+	margin-top: var(--space-unit);
+	margin-bottom: var(--space-phi2);
+	font-family: var(--font-heading);
+	font-size: 0.9375rem;
+}
+
+.collection-back a {
+	color: var(--color-accent);
+	text-decoration: none;
+	font-weight: 500;
+
+	&:hover {
+		text-decoration: underline;
+		text-underline-offset: 0.15em;
 	}
 }
 
@@ -704,98 +555,9 @@ html[data-player-visible] .fixed-actions {
 }
 
 /* ============================================================
-   Desktop hero — larger type, more breathing room.
-   Kicks in at the same breakpoint mobile typography drops out (769px)
-   so tablets in portrait get hero treatment to match.
-   ============================================================ */
-@media (width >= 769px) {
-	.hero-cover-overlay {
-		padding-bottom: calc(var(--safe-bottom) + 2.5rem);
-	}
-
-	.hero-nav {
-		bottom: calc(var(--safe-bottom) + 2.5rem);
-	}
-
-	.hero-cover-title {
-		font-size: clamp(2.5rem, 4vw, 3.75rem);
-	}
-
-	.hero-cover-deck {
-		font-size: 1.0625rem;
-		max-width: 42rem;
-		margin-top: 0.75rem;
-	}
-
-	.hero-cover-date {
-		margin-top: 0.625rem;
-	}
-
-	.hero-cta-row {
-		margin-top: 1rem;
-	}
-
-	.hero-cta {
-		padding: 0.625rem 1.5rem;
-		font-size: 0.875rem;
-	}
-}
-
-/* ============================================================
    Mobile
    ============================================================ */
 @media (width <= 768px) {
-	.hero-cover-content {
-		max-width: none;
-	}
-
-	.hero-cover-overlay {
-		padding-bottom: calc(var(--safe-bottom) + 3.5rem);
-		background:
-			linear-gradient(to bottom, rgb(var(--hero-black) / 0.35) 0%, transparent 18%),
-			linear-gradient(
-				to top,
-				rgb(var(--hero-black) / 0.75) 0%,
-				rgb(var(--hero-black) / 0.25) 40%,
-				transparent 65%
-			);
-	}
-
-	.hero-cover-title {
-		font-size: clamp(1.625rem, 6vw, 2.25rem);
-		text-shadow: 0 1px 6px rgb(var(--hero-black) / 0.5);
-	}
-
-	.hero-cover-deck {
-		margin-top: 0.25rem;
-		text-shadow: 0 1px 4px rgb(var(--hero-black) / 0.4);
-	}
-
-	.hero-cover-date {
-		text-shadow: 0 1px 4px rgb(var(--hero-black) / 0.4);
-	}
-
-	.hero-cta-row {
-		position: absolute;
-		bottom: var(--safe-bottom);
-		left: var(--safe-left);
-		z-index: 2;
-	}
-
-	.hero-cta {
-		min-height: 2.5rem;
-		padding: 0.5rem 1.125rem;
-		font-size: 0.796rem;
-	}
-
-	/* Landscape mobile — too short for deck text */
-	@media (orientation: landscape) {
-		.hero-cover-deck,
-		.hero-cta-row {
-			display: none;
-		}
-	}
-
 	.article-header {
 		margin-top: var(--space-unit);
 	}

@@ -1,0 +1,54 @@
+[
+	{
+		"id": "13:28",
+		"surah": 13,
+		"ayah": 28,
+		"ayahKey": "13:28",
+		"surahName": "Ar-Ra'd",
+		"surahNameArabic": "الرعد",
+		"textArabic": "الَّذِينَ آمَنُوا وَتَطْمَئِنُّ قُلُوبُهُم بِذِكْرِ اللَّهِ ۗ أَلَا بِذِكْرِ اللَّهِ تَطْمَئِنُّ الْقُلُوبُ",
+		"textSwedish": "de som tror och vars hjärtan blir stilla när Guds namn nämns - är det inte så att då Guds namn nämns blir människohjärtat stilla",
+		"translator": "Knut Bernström",
+		"reciter": "Yasser Al-Dosari - Murattal",
+		"audioFile": "/audio/quran/013028.mp3"
+	},
+	{
+		"id": "3:190",
+		"surah": 3,
+		"ayah": 190,
+		"ayahKey": "3:190",
+		"surahName": "Ali 'Imran",
+		"surahNameArabic": "آل عمران",
+		"textArabic": "إِنَّ فِي خَلْقِ السَّمَاوَاتِ وَالْأَرْضِ وَاخْتِلَافِ اللَّيْلِ وَالنَّهَارِ لَآيَاتٍ لِّأُولِي الْأَلْبَابِ",
+		"textSwedish": "I skapelsen av himlarna och jorden och i växlingen mellan natt och dag ligger helt visst budskap till dem som vill använda sitt förstånd;",
+		"translator": "Knut Bernström",
+		"reciter": "Yasser Al-Dosari - Murattal",
+		"audioFile": "/audio/quran/003190.mp3"
+	},
+	{
+		"id": "17:44",
+		"surah": 17,
+		"ayah": 44,
+		"ayahKey": "17:44",
+		"surahName": "Al-Isra",
+		"surahNameArabic": "الإسراء",
+		"textArabic": "تُسَبِّحُ لَهُ السَّمَاوَاتُ السَّبْعُ وَالْأَرْضُ وَمَن فِيهِنَّ ۚ وَإِن مِّن شَيْءٍ إِلَّا يُسَبِّحُ بِحَمْدِهِ وَلَٰكِن لَّا تَفْقَهُونَ تَسْبِيحَهُمْ ۗ إِنَّهُ كَانَ حَلِيمًا غَفُورًا",
+		"textSwedish": "De sju himlarna prisar Honom liksom jorden och allt det som de rymmer; ja, ingenting finns som inte sjunger Hans lov. Men ni förstår inte innebörden av deras lovsång. Gud är mild och överseende [med Sina tjänares brister] och Han förlåter ständigt.",
+		"translator": "Knut Bernström",
+		"reciter": "Yasser Al-Dosari - Murattal",
+		"audioFile": "/audio/quran/017044.mp3"
+	},
+	{
+		"id": "39:42",
+		"surah": 39,
+		"ayah": 42,
+		"ayahKey": "39:42",
+		"surahName": "Az-Zumar",
+		"surahNameArabic": "الزمر",
+		"textArabic": "اللَّهُ يَتَوَفَّى الْأَنفُسَ حِينَ مَوْتِهَا وَالَّتِي لَمْ تَمُتْ فِي مَنَامِهَا ۖ فَيُمْسِكُ الَّتِي قَضَىٰ عَلَيْهَا الْمَوْتَ وَيُرْسِلُ الْأُخْرَىٰ إِلَىٰ أَجَلٍ مُّسَمًّى ۚ إِنَّ فِي ذَٰلِكَ لَآيَاتٍ لِّقَوْمٍ يَتَفَكَّرُونَ",
+		"textSwedish": "Då [människan] dör tar Gud själen till Sig, men om hon inte skall dö, [tar Han den] då hon sover. Han håller kvar den [själ] vars [bärare] skall dö enligt Hans beslut och Han friger de andra till en [av Honom] fastställd tidpunkt. I detta ligger sannerligen budskap till tänkande människor.",
+		"translator": "Knut Bernström",
+		"reciter": "Yasser Al-Dosari - Murattal",
+		"audioFile": "/audio/quran/039042.mp3"
+	}
+]

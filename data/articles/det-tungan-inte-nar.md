@@ -4,6 +4,7 @@ publishedAt: "2026-02-08T12:00:00.000Z"
 wordCount: 1159
 qualityScore: 8.7
 description: "En far förlorar sin son. Inte till döden utan till försvinnandet, vilket är värre, för hoppet överlever och med det smärtan. Han vänder sig bort från dem som bär budet. Hans ögon vitnar av gråt."
+category: "Själen"
 ---
 En far förlorar sin son. Inte till döden utan till försvinnandet, vilket är värre, för hoppet överlever och med det smärtan. Han vänder sig bort från dem som bär budet. Hans ögon vitnar av gråt.
 

@@ -6,6 +6,7 @@ qualityScore: 8.5
 description: "Koloniföreningen Dalen i Enskede har odlats utan avbrott sedan tidigt nittonhundratal. Nu hotas den av rivning för bostadsbygge. I Göteborg planerar staden att omvandla över tusen lotter till åretruntboenden. Köerna till de återstående platserna är tio till tjugo år långa."
 audioFile: "plantan-vid-stunden.mp3"
 audioDuration: 783
+category: "Skapelsen"
 ---
 Koloniföreningen Dalen i Enskede har odlats utan avbrott sedan tidigt nittonhundratal. Nu hotas den av rivning för bostadsbygge. I Göteborg planerar staden att omvandla över tusen lotter till åretruntboenden. Köerna till de återstående platserna är tio till tjugo år långa. Sju av tio svenskar oroar sig för klimatet. Färre än två procent av oss har tillgång till en jordbit att vårda.[^1]
 

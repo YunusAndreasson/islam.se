@@ -1,0 +1,112 @@
+---
+import { getCollection } from "astro:content";
+
+const thinkers = await getCollection("tankare");
+const sunni = thinkers.filter((t) => t.data.tradition === "sunni");
+const western = thinkers.filter((t) => t.data.tradition === "western");
+
+const groups = [
+	{ label: "Den klassiska traditionen", items: sunni },
+	{ label: "Svenska och västerländska röster", items: western },
+];
+---
+
+<div class="tankare-groups">
+	{groups.map((group) => (
+		<div class="tankare-group">
+			<p class="label tankare-group-label">{group.label}</p>
+			<ul class="tankare-list">
+				{group.items.map((t) => (
+					<li class="tankare-row">
+						<a href={`/tankare/${t.data.slug}`} data-astro-prefetch="viewport">
+							<span class="tankare-name">{t.data.name}</span>
+							<span class="tankare-count" aria-label={`${t.data.essays.length} essäer`}>{t.data.essays.length}</span>
+						</a>
+					</li>
+				))}
+			</ul>
+		</div>
+	))}
+</div>
+
+<style>
+	/* Two facing columns — the composition itself shows the dialogue that
+	   defines the site, without declaring it (§7.8). A hairline marks the axis. */
+	.tankare-groups {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: clamp(2rem, 6vw, 5rem);
+		margin-top: var(--space-unit);
+		position: relative;
+	}
+
+	@media (width > 768px) {
+		.tankare-groups::before {
+			content: "";
+			position: absolute;
+			top: 0;
+			bottom: 0;
+			left: 50%;
+			width: 1px;
+			background: var(--color-divider);
+		}
+	}
+
+	.tankare-group-label {
+		margin-bottom: var(--space-half);
+	}
+
+	.tankare-list {
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	.tankare-row a {
+		display: flex;
+		align-items: baseline;
+		justify-content: space-between;
+		gap: 0.75rem;
+		padding-block: 0.5rem;
+		text-decoration: none;
+		color: inherit;
+		border-bottom: 1px solid color-mix(in srgb, var(--color-divider), transparent 35%);
+
+		&:hover .tankare-name {
+			text-decoration: underline;
+			text-underline-offset: 0.12em;
+		}
+
+		&:focus-visible {
+			outline: 2px solid var(--color-accent);
+			outline-offset: 2px;
+		}
+	}
+
+	.tankare-row:last-child a {
+		border-bottom: none;
+	}
+
+	.tankare-name {
+		font-family: var(--font-heading);
+		font-size: 1.0625rem;
+		font-weight: 500;
+		color: var(--color-accent);
+		letter-spacing: -0.005em;
+	}
+
+	.tankare-count {
+		font-family: var(--font-heading);
+		font-variant-numeric: lining-nums tabular-nums;
+		font-size: 0.8rem;
+		color: var(--color-muted);
+		flex-shrink: 0;
+	}
+
+	@media (width <= 768px) {
+		.tankare-groups {
+			grid-template-columns: 1fr;
+			gap: var(--space-unit);
+		}
+	}
+</style>

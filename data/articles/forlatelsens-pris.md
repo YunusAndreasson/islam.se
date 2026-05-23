@@ -4,6 +4,7 @@ publishedAt: "2026-01-27T12:00:00.000Z"
 wordCount: 1398
 qualityScore: 8.6
 description: "\"Bara förlåt.\" Orden ekar genom terapirum och självhjälpsböcker. Någon har gjort dig illa, och rådet är alltid detsamma: släpp det, gå vidare. \"För din egen skull.\" Förlåtelsen framställs som gratis, en känsla man bara behöver framkalla, lika enkel som att vända blad."
+category: "Själen"
 ---
 Bara förlåt.
 

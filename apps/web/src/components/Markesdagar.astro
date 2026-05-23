@@ -1,0 +1,154 @@
+---
+import { getMarkesdagar } from "../lib/markesdagar";
+
+const events = getMarkesdagar();
+const todayISO = new Date().toISOString().slice(0, 10);
+
+function fmt(isoDate: string, withYear: boolean) {
+	return new Date(`${isoDate}T12:00:00Z`).toLocaleDateString("sv-SE", {
+		day: "numeric",
+		month: "long",
+		year: withYear ? "numeric" : undefined,
+		timeZone: "UTC",
+	});
+}
+
+function gregorian(startISO: string, endISO?: string): string {
+	if (!endISO) return fmt(startISO, true);
+	const sameMonth = startISO.slice(0, 7) === endISO.slice(0, 7);
+	// "25–30 maj 2026" when within a month, else "18 maj – 1 juni 2026".
+	return sameMonth
+		? `${new Date(`${startISO}T12:00:00Z`).getUTCDate()}–${fmt(endISO, true)}`
+		: `${fmt(startISO, false)} – ${fmt(endISO, true)}`;
+}
+
+// Mark which events are upcoming at build time (the no-JS view); the client
+// re-selects against the real Date.now() so the list never goes stale (§7.9).
+let buildShown = 0;
+const rows = events.map((e) => {
+	const endISO = e.endISO ?? e.startISO;
+	const upcoming = endISO >= todayISO && buildShown < 5;
+	if (upcoming) buildShown++;
+	return { ...e, endISO, upcoming, gregorian: gregorian(e.startISO, e.endISO) };
+});
+---
+
+<section class="markesdagar home-movement" aria-labelledby="markesdagar-kicker">
+	<p class="label home-kicker" id="markesdagar-kicker">Märkesdagar</p>
+
+	<ul class="md-list">
+		{rows.map((e) => (
+			<li class="md-row" data-end={e.endISO} hidden={!e.upcoming}>
+				<p class="label md-greg"><time datetime={e.startISO}>{e.gregorian}</time></p>
+				<div class="md-body">
+					<p class="md-name">{e.name}</p>
+					{e.note && <p class="md-note">{e.note}</p>}
+				</div>
+				<p class="md-hijri">{e.hijriLabel}</p>
+			</li>
+		))}
+	</ul>
+
+	<p class="md-standing">
+		Därtill <em>de vita dagarna</em> (Ayyām al-bīḍ) — fasta den 13:e, 14:e och 15:e i varje månmånad.
+	</p>
+</section>
+
+<style>
+	/* A quiet two-column rhythm in the editorial register — not a calendar UI.
+	   No countdowns, no urgency: events sit in time (§7.9). */
+	.md-list {
+		margin: var(--space-unit) 0 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	.md-row {
+		display: grid;
+		grid-template-columns: 11rem 1fr auto;
+		align-items: baseline;
+		gap: clamp(1rem, 3vw, 2.5rem);
+		padding-block: var(--space-half);
+		border-top: 1px solid var(--color-divider);
+	}
+
+	.md-row[hidden] {
+		display: none;
+	}
+
+	.md-greg {
+		margin: 0;
+		color: var(--color-text);
+		text-transform: none;
+		letter-spacing: 0.02em;
+		font-feature-settings: normal;
+	}
+
+	.md-body {
+		min-width: 0;
+	}
+
+	.md-name {
+		font-family: var(--font-heading);
+		font-size: 1.0625rem;
+		font-weight: 500;
+		color: var(--color-accent);
+		margin: 0;
+	}
+
+	.md-note {
+		font-family: var(--font-body);
+		font-size: 0.875rem;
+		line-height: 1.45;
+		color: var(--color-muted);
+		margin: 0.2rem 0 0;
+		max-width: 28rem;
+	}
+
+	.md-hijri {
+		font-family: var(--font-body);
+		font-style: italic;
+		font-size: 0.875rem;
+		color: var(--color-muted);
+		margin: 0;
+		white-space: nowrap;
+		text-align: end;
+	}
+
+	.md-standing {
+		font-family: var(--font-body);
+		font-size: 0.9375rem;
+		color: var(--color-muted);
+		margin: var(--space-unit) 0 0;
+		padding-top: var(--space-half);
+		border-top: 1px solid var(--color-divider);
+	}
+
+	@media (width <= 768px) {
+		.md-row {
+			grid-template-columns: 1fr;
+			gap: 0.2rem;
+			padding-block: var(--space-unit);
+		}
+
+		.md-hijri {
+			text-align: start;
+			white-space: normal;
+		}
+	}
+</style>
+
+<script>
+	document.addEventListener("astro:page-load", () => {
+		const list = document.querySelector(".md-list");
+		if (!list) return;
+		const today = new Date().toISOString().slice(0, 10);
+		let shown = 0;
+		for (const row of list.querySelectorAll<HTMLElement>("[data-end]")) {
+			const end = row.dataset.end ?? "";
+			const keep = end >= today && shown < 5;
+			row.hidden = !keep;
+			if (keep) shown++;
+		}
+	});
+</script>

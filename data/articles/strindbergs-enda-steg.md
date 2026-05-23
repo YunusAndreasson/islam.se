@@ -4,6 +4,7 @@ publishedAt: "2026-03-05T12:00:00.000Z"
 wordCount: 1160
 qualityScore: 8.9
 description: "Han kunde inte sluta vara tacksam. Det var Strindbergs verkliga kris sommaren 1896 – inte ockultismen, inte nervsammanbrotten, utan en tacksamhet som envist vägrade lyda hans förnuft."
+category: "Sökandet"
 ---
 Han kunde inte sluta vara tacksam. Det var Strindbergs verkliga kris sommaren 1896 – inte ockultismen, inte nervsammanbrotten, utan en tacksamhet som envist vägrade lyda hans förnuft.
 

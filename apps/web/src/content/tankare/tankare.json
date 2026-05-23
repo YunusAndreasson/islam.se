@@ -1,0 +1,352 @@
+[
+	{
+		"id": "ibn-qayyim",
+		"name": "Ibn Qayyim al-Jawziyya",
+		"slug": "ibn-qayyim",
+		"tradition": "sunni",
+		"framing": "Damaskensisk teolog och Ibn Taymiyyas främste lärjunge (1292–1350). Hans kartläggning av hjärtats sjukdomar — begärets stadier, blickens dubbelhet, vanans långsamma infärgning — löper genom essäerna som en återkommande puls.",
+		"essays": [
+			"passionens-klangvaxt",
+			"nattbonens-ansikte",
+			"vikingarna-hade-inte-angest",
+			"skapad-ur-ingenting",
+			"silvertarnans-hijra",
+			"tid-till-salu",
+			"det-han-letade-efter",
+			"somnens-lilla-dod",
+			"tigerns-bon",
+			"traden-hade-andakt",
+			"stillheten-fore-slutet",
+			"strindbergs-enda-steg",
+			"tyst-teologi",
+			"odins-blinda-flack",
+			"rosten-over-taken",
+			"serumet-och-blicken",
+			"det-tungan-inte-nar",
+			"guden-som-bokfor",
+			"bergen-som-vagrade",
+			"eld-mot-en-rost",
+			"ljusa-bla-natt",
+			"fragan-levertin-aldrig-stallde",
+			"det-enogda-begaret",
+			"alis-princip",
+			"chipet-och-riddjuret",
+			"skummet-och-metallen",
+			"rattigheterna-utan-grund",
+			"sjalens-infargning",
+			"ormboet-i-hjartat",
+			"langtan-heter-angest",
+			"bannlyst-och-renad",
+			"lejonet-i-hjartat",
+			"tungans-fastning",
+			"vintergatan-vi-slackte"
+		]
+	},
+	{
+		"id": "ibn-taymiyya",
+		"name": "Ibn Taymiyya",
+		"slug": "ibn-taymiyya",
+		"tradition": "sunni",
+		"framing": "Hanbalitisk lärd (1263–1328) vars stränga, systematiska tänkande om tro och handling återkommer som måttstock i essäerna — ofta genom sin lärjunge Ibn Qayyim.",
+		"essays": [
+			"passionens-klangvaxt",
+			"skapad-ur-ingenting",
+			"tid-till-salu",
+			"somnens-lilla-dod",
+			"traden-hade-andakt",
+			"stillheten-fore-slutet",
+			"rosten-over-taken",
+			"serumet-och-blicken",
+			"lognens-bokforing",
+			"bergen-som-vagrade",
+			"eld-mot-en-rost",
+			"fragan-levertin-aldrig-stallde",
+			"forradshusens-vaktare",
+			"lagen-ingen-skrev",
+			"domaren-utan-svard",
+			"sibawayhs-brytning",
+			"alis-princip",
+			"den-starkaste-tjanaren",
+			"chipet-och-riddjuret",
+			"langtan-heter-angest"
+		]
+	},
+	{
+		"id": "ibn-al-jawzi",
+		"name": "Ibn al-Jawzī",
+		"slug": "ibn-al-jawzi",
+		"tradition": "sunni",
+		"framing": "Bagdadisk predikant och mångskrivare (1116–1201). Hans fördömande av begäret ger essäerna ett tidigt språk för själens oroliga rörelser.",
+		"essays": [
+			"passionens-klangvaxt",
+			"vikingarna-hade-inte-angest",
+			"silvertarnans-hijra",
+			"kompassnalens-moske",
+			"tyst-teologi",
+			"odins-blinda-flack",
+			"serumet-och-blicken",
+			"forlatelsens-pris",
+			"ljusa-bla-natt",
+			"det-enogda-begaret",
+			"lagen-ingen-skrev",
+			"domaren-utan-svard",
+			"sibawayhs-brytning",
+			"alis-princip",
+			"den-starkaste-tjanaren",
+			"chipet-och-riddjuret",
+			"ormboet-i-hjartat",
+			"vintergatan-vi-slackte"
+		]
+	},
+	{
+		"id": "ibn-khaldun",
+		"name": "Ibn Khaldūn",
+		"slug": "ibn-khaldun",
+		"tradition": "sunni",
+		"framing": "Historiefilosofen (1332–1406) som läste samhällen som levande kroppar. Hans ʿaṣabiyya — den sammanhållande kraften — återkommer där essäerna prövar gemenskapens villkor.",
+		"essays": [
+			"plantan-vid-stunden",
+			"ater-ni-var-for-sig",
+			"lognens-bokforing",
+			"bergen-som-vagrade",
+			"forradshusens-vaktare",
+			"lagen-ingen-skrev",
+			"domaren-utan-svard",
+			"sibawayhs-brytning",
+			"alis-princip",
+			"skelettet-som-holl",
+			"sjalens-infargning"
+		]
+	},
+	{
+		"id": "al-mawardi",
+		"name": "al-Māwardī",
+		"slug": "al-mawardi",
+		"tradition": "sunni",
+		"framing": "Shafiitisk domare och statstänkare (972–1058); hans verk om styre och rättvisa bär essäernas frågor om makt och ansvar.",
+		"essays": [
+			"plantan-vid-stunden",
+			"nattbonens-ansikte",
+			"odins-blinda-flack",
+			"rosten-over-taken",
+			"det-enogda-begaret",
+			"domaren-utan-svard",
+			"ormboet-i-hjartat",
+			"tungans-fastning"
+		]
+	},
+	{
+		"id": "al-ghazali",
+		"name": "al-Ghazālī",
+		"slug": "al-ghazali",
+		"tradition": "sunni",
+		"framing": "Teologen (1058–1111) som lämnade lärostolen för att söka visshet. Hans väg från tvivel till tillit skymtar där essäerna talar om kunskapens gränser.",
+		"essays": [
+			"tid-till-salu",
+			"tigerns-bon",
+			"tyst-teologi",
+			"det-tungan-inte-nar",
+			"lognens-bokforing"
+		]
+	},
+	{
+		"id": "strindberg",
+		"name": "Strindberg",
+		"slug": "strindberg",
+		"tradition": "western",
+		"framing": "Under Inferno-åren prövade han varje hållning han kunde nå, och ingen bar hans vikt — den svenska litteraturens närmaste motsvarighet till själens kris.",
+		"essays": [
+			"plantan-vid-stunden",
+			"passionens-klangvaxt",
+			"ater-ni-var-for-sig",
+			"skapad-ur-ingenting",
+			"tid-till-salu",
+			"det-han-letade-efter",
+			"tigerns-bon",
+			"kompassnalens-moske",
+			"strindbergs-enda-steg",
+			"tyst-teologi",
+			"odins-blinda-flack",
+			"rosten-over-taken",
+			"det-tungan-inte-nar",
+			"guden-som-bokfor",
+			"bergen-som-vagrade",
+			"ljusa-bla-natt",
+			"fragan-levertin-aldrig-stallde",
+			"lagen-ingen-skrev",
+			"sibawayhs-brytning",
+			"alis-princip",
+			"ormboet-i-hjartat",
+			"langtan-heter-angest"
+		]
+	},
+	{
+		"id": "boye",
+		"name": "Karin Boye",
+		"slug": "boye",
+		"tradition": "western",
+		"framing": "Boye gav längtan röst utan att fråga vart den ledde; hennes »längtan är vårt väsens hjärta« återkommer som motpol till traditionens svar.",
+		"essays": [
+			"nattbonens-ansikte",
+			"vikingarna-hade-inte-angest",
+			"kompassnalens-moske",
+			"tyst-teologi",
+			"rosten-over-taken",
+			"serumet-och-blicken",
+			"det-tungan-inte-nar",
+			"lognens-bokforing",
+			"alis-princip",
+			"chipet-och-riddjuret",
+			"ormboet-i-hjartat",
+			"langtan-heter-angest",
+			"tungans-fastning"
+		]
+	},
+	{
+		"id": "soderberg",
+		"name": "Hjalmar Söderberg",
+		"slug": "soderberg",
+		"tradition": "western",
+		"framing": "Söderbergs svala skepsis och hans fråga om viljans frihet möter i essäerna en tradition som aldrig övergav motparten.",
+		"essays": [
+			"passionens-klangvaxt",
+			"vikingarna-hade-inte-angest",
+			"silvertarnans-hijra",
+			"forlatelsens-pris",
+			"ljusa-bla-natt",
+			"det-enogda-begaret",
+			"domaren-utan-svard",
+			"alis-princip",
+			"rattigheterna-utan-grund",
+			"ormboet-i-hjartat",
+			"bannlyst-och-renad",
+			"vintergatan-vi-slackte"
+		]
+	},
+	{
+		"id": "ellen-key",
+		"name": "Ellen Key",
+		"slug": "ellen-key",
+		"tradition": "western",
+		"framing": "Det fjärde mest citerade namnet i hela korpusen; hennes sekulära livstro och syn på själ och uppfostran prövas mot den islamiska traditionens.",
+		"essays": [
+			"passionens-klangvaxt",
+			"tigerns-bon",
+			"traden-hade-andakt",
+			"strindbergs-enda-steg",
+			"tyst-teologi",
+			"det-tungan-inte-nar",
+			"bergen-som-vagrade",
+			"fragan-levertin-aldrig-stallde",
+			"alis-princip",
+			"den-starkaste-tjanaren",
+			"rattigheterna-utan-grund",
+			"sjalens-infargning"
+		]
+	},
+	{
+		"id": "geijer",
+		"name": "Geijer",
+		"slug": "geijer",
+		"tradition": "western",
+		"framing": "Erik Gustaf Geijer — historiker, skald, den götiska väckelsens röst — bär det svenska arvets möte med det nya ljuset.",
+		"essays": [
+			"nattbonens-ansikte",
+			"somnens-lilla-dod",
+			"kompassnalens-moske",
+			"odins-blinda-flack",
+			"eld-mot-en-rost",
+			"lagen-ingen-skrev",
+			"sibawayhs-brytning",
+			"skelettet-som-holl",
+			"rattigheterna-utan-grund"
+		]
+	},
+	{
+		"id": "lagerlof",
+		"name": "Selma Lagerlöf",
+		"slug": "lagerlof",
+		"tradition": "western",
+		"framing": "Lagerlöf lät längtan bli saga; hennes berättarröst återkommer där essäerna söker det heligas plats i landskapet.",
+		"essays": [
+			"nattbonens-ansikte",
+			"forlatelsens-pris",
+			"lagen-ingen-skrev",
+			"domaren-utan-svard",
+			"den-starkaste-tjanaren",
+			"bannlyst-och-renad"
+		]
+	},
+	{
+		"id": "rydberg",
+		"name": "Viktor Rydberg",
+		"slug": "rydberg",
+		"tradition": "western",
+		"framing": "Rydbergs idealism och hans brottning med tro och vetande hör hemma där essäerna mäter förnuftets räckvidd.",
+		"essays": [
+			"tigerns-bon",
+			"traden-hade-andakt",
+			"stillheten-fore-slutet",
+			"odins-blinda-flack",
+			"eld-mot-en-rost",
+			"ormboet-i-hjartat"
+		]
+	},
+	{
+		"id": "hammarskjold",
+		"name": "Dag Hammarskjöld",
+		"slug": "hammarskjold",
+		"tradition": "western",
+		"framing": "»Den längsta resan är resan inåt« — Hammarskjölds Vägmärken gav den svenska ensamheten ett språk som essäerna känner igen och besvarar.",
+		"essays": [
+			"vikingarna-hade-inte-angest",
+			"strindbergs-enda-steg",
+			"odins-blinda-flack",
+			"serumet-och-blicken",
+			"rattigheterna-utan-grund"
+		]
+	},
+	{
+		"id": "swedenborg",
+		"name": "Swedenborg",
+		"slug": "swedenborg",
+		"tradition": "western",
+		"framing": "Emanuel Swedenborg — vetenskapsman som blev siare; hans inre resor markerar det moderna sökandets början i Norden.",
+		"essays": [
+			"passionens-klangvaxt",
+			"skapad-ur-ingenting",
+			"det-han-letade-efter",
+			"guden-som-bokfor",
+			"fragan-levertin-aldrig-stallde"
+		]
+	},
+	{
+		"id": "levertin",
+		"name": "Levertin",
+		"slug": "levertin",
+		"tradition": "western",
+		"framing": "Oscar Levertin, kritiker och poet vid sekelskiftet, ställde frågor om tro och skönhet som essäerna tar upp där han själv lämnade dem öppna.",
+		"essays": [
+			"strindbergs-enda-steg",
+			"bergen-som-vagrade",
+			"ljusa-bla-natt",
+			"fragan-levertin-aldrig-stallde"
+		]
+	},
+	{
+		"id": "kierkegaard",
+		"name": "Kierkegaard",
+		"slug": "kierkegaard",
+		"tradition": "western",
+		"framing": "Den danske filosofen för vilken ångesten var frihetens svindel; hans Begreppet ångest möter Ibn Qayyims läsning av samma oro.",
+		"essays": ["vikingarna-hade-inte-angest", "ljusa-bla-natt", "langtan-heter-angest"]
+	},
+	{
+		"id": "linne",
+		"name": "Linné",
+		"slug": "linne",
+		"tradition": "western",
+		"framing": "Carl von Linné läste skapelsen som en ordnad bok; hans blick på naturens ordning återkommer där essäerna talar om tecknen.",
+		"essays": ["plantan-vid-stunden", "serumet-och-blicken", "guden-som-bokfor"]
+	}
+]

@@ -4,6 +4,7 @@ publishedAt: "2026-01-21T12:00:00.000Z"
 wordCount: 1186
 qualityScore: 8.7
 description: "Ett andetag. I bråkdelen av en sekund mellan frågan och svaret avgörs om sanningen ska yttras eller vikas undan. Sanningen kostar: en förklaring, ett erkännande, kanske en förlust. Lögnen kostar i stunden ingenting. Men lögnen skickar ingen räkning omedelbart. Den fakturerar på kredit."
+category: "Själen"
 ---
 Ett andetag. I bråkdelen av en sekund mellan frågan och svaret avgörs om sanningen ska yttras eller vikas undan. Sanningen kostar: en förklaring, ett erkännande, kanske en förlust. Lögnen kostar i stunden ingenting.
 

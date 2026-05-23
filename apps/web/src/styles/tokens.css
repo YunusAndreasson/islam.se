@@ -28,6 +28,8 @@
 
 	/* Layout */
 	--content-width: 42rem;
+	/* Home canvas — wider editorial frame the homepage modules share */
+	--home-width: 64rem;
 	--padding-inline: 1.5rem;
 
 	/* Safe-area-aware padding (used by header, hero, content column, FABs) */
@@ -36,7 +38,7 @@
 	--safe-bottom: calc(var(--padding-inline) + env(safe-area-inset-bottom, 0px));
 	--safe-left: calc(var(--padding-inline) + env(safe-area-inset-left, 0px));
 
-	/* Circular action button (hero nav, back-to-top) */
+	/* Circular action button (search trigger, back-to-top) */
 	--btn-size: 2.75rem;
 }
 

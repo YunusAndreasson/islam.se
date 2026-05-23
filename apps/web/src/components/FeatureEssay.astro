@@ -1,0 +1,147 @@
+---
+import type { Article } from "../lib/articles";
+import { formatDate, inlineMarkdown } from "../lib/articles";
+import EssayImage from "./EssayImage.astro";
+
+interface Props {
+	article: Article;
+}
+
+const { article } = Astro.props;
+---
+
+<section class="feature home-movement" aria-labelledby="feature-title">
+	<a class="feature-link" href={`/${article.slug}`} data-astro-prefetch="viewport">
+		<div class="feature-media">
+			<EssayImage
+				article={article}
+				widths={[640, 960, 1280, 1600]}
+				sizes="(max-width: 768px) 100vw, (max-width: 1024px) 60vw, 38rem"
+				loading="eager"
+				fetchpriority="high"
+				class="feature-img"
+			/>
+		</div>
+		<div class="feature-text">
+			<p class="label home-kicker feature-kicker">Senaste essän</p>
+			<h2 id="feature-title" class="feature-title">{article.title}</h2>
+			{article.description && (
+				<p class="feature-lead" set:html={inlineMarkdown(article.description)} />
+			)}
+			<p class="label feature-meta">
+				<time datetime={article.publishedAt}>{formatDate(article.publishedAt)}</time>
+				&middot; {article.readingTime} min läsning
+			</p>
+		</div>
+	</a>
+</section>
+
+<style>
+	.feature-link {
+		display: grid;
+		grid-template-columns: 1fr 1.08fr;
+		align-items: center;
+		gap: clamp(2rem, 5vw, 4.5rem);
+		text-decoration: none;
+		color: inherit;
+
+		&:hover,
+		&:visited,
+		&:active {
+			text-decoration: none;
+			color: inherit;
+		}
+
+		&:focus-visible {
+			outline: 2px solid var(--color-accent);
+			outline-offset: 0.75rem;
+			border-radius: 2px;
+		}
+	}
+
+	/* Image sits in the larger column and runs slightly taller than the text,
+	   so the spread reads asymmetric rather than as two stacked halves. */
+	.feature-media {
+		order: 2;
+		overflow: hidden;
+		border-radius: 2px;
+	}
+
+	.feature-img {
+		display: block;
+		width: 100%;
+		aspect-ratio: 5 / 4;
+		object-fit: cover;
+		transition: scale 0.6s cubic-bezier(0.2, 0, 0.1, 1);
+	}
+
+	.feature-link:hover .feature-img {
+		scale: 1.02;
+	}
+
+	.feature-text {
+		order: 1;
+	}
+
+	.feature-kicker {
+		margin-bottom: var(--space-half);
+	}
+
+	.feature-title {
+		font-size: clamp(2rem, 4.2vw, var(--step-4));
+		line-height: 1.08;
+		letter-spacing: -0.025em;
+		margin: 0;
+		text-wrap: balance;
+		font-feature-settings: "titl" 1, "dlig" 1;
+	}
+
+	.feature-link:hover .feature-title {
+		text-decoration: underline;
+		text-decoration-thickness: 1px;
+		text-underline-offset: 0.12em;
+	}
+
+	.feature-lead {
+		font-family: var(--font-body);
+		font-size: 1.0625rem;
+		line-height: 1.55;
+		color: color-mix(in srgb, var(--color-text) 80%, var(--color-muted));
+		margin: var(--space-unit) 0 0;
+		max-width: 30rem;
+	}
+
+	.feature-meta {
+		margin: var(--space-unit) 0 0;
+	}
+
+	@media (width <= 768px) {
+		.feature-link {
+			grid-template-columns: 1fr;
+			gap: var(--space-unit);
+		}
+
+		/* Image leads on mobile; text follows. Not a card — just stacked
+		   with the title carrying the weight. */
+		.feature-media {
+			order: 1;
+		}
+
+		.feature-text {
+			order: 2;
+		}
+
+		.feature-img {
+			aspect-ratio: 3 / 2;
+		}
+
+		.feature-lead {
+			font-size: 1rem;
+			margin-top: var(--space-half);
+		}
+
+		.feature-meta {
+			margin-top: var(--space-half);
+		}
+	}
+</style>

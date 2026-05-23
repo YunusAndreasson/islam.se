@@ -264,8 +264,6 @@
 		const playing = audio !== null && !audio.paused;
 		for (const b of document.querySelectorAll<HTMLButtonElement>(".audio-trigger"))
 			b.toggleAttribute("data-playing", playing && b.dataset.audioSrc === currentSrc);
-		for (const b of document.querySelectorAll<HTMLButtonElement>(".hero-cta-listen"))
-			b.classList.toggle("is-playing", playing && b.dataset.audioSrc === currentSrc);
 	}
 
 	function savePos() {

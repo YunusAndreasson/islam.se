@@ -1,0 +1,53 @@
+---
+import EssayList from "../../components/EssayList.astro";
+import Base from "../../layouts/Base.astro";
+import { AMNEN, type Amne, essaysInAmne } from "../../lib/amnen";
+import { type Article, getArticles } from "../../lib/articles";
+
+export async function getStaticPaths() {
+	const articles = await getArticles();
+	return AMNEN.map((amne) => ({
+		params: { slug: amne.slug },
+		props: { amne, essays: essaysInAmne(articles, amne.name) },
+	}));
+}
+
+interface Props {
+	amne: Amne;
+	essays: Article[];
+}
+
+const { amne, essays } = Astro.props;
+const count = essays.length;
+---
+
+<Base
+	title={`${amne.name} — islam.se`}
+	description={amne.framing}
+	jsonLd={{
+		"@context": "https://schema.org",
+		"@type": "CollectionPage",
+		name: amne.name,
+		description: amne.framing,
+		url: `https://islam.se/amnen/${amne.slug}`,
+		inLanguage: "sv",
+		hasPart: essays.map((e) => ({
+			"@type": "Article",
+			headline: e.title,
+			url: `https://islam.se/${e.slug}`,
+		})),
+	}}
+>
+	<main id="main" class="content-column">
+		<header class="article-header">
+			<p class="label collection-kicker">Ämne</p>
+			<h1>{amne.name}</h1>
+			<p class="collection-lead">{amne.framing}</p>
+			<p class="label collection-count">{count} {count === 1 ? "essä" : "essäer"}</p>
+		</header>
+
+		<EssayList articles={essays} />
+
+		<p class="collection-back"><a href="/essaer">Hela arkivet →</a></p>
+	</main>
+</Base>

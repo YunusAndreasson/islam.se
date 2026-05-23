@@ -1,0 +1,155 @@
+---
+import { formatDate, getArticles } from "../lib/articles";
+import { pullQuotes } from "../lib/pullquotes";
+
+const articles = await getArticles();
+const titleBySlug = new Map(articles.map((a) => [a.slug, a]));
+
+// Deterministic date-based pick (same pattern as the daily verse, §7.5).
+const valid = pullQuotes.filter((q) => titleBySlug.has(q.slug));
+const dayIndex = Math.floor(Date.now() / 86_400_000) % valid.length;
+const quote = valid[dayIndex];
+const article = titleBySlug.get(quote.slug)!;
+---
+
+<section class="citat home-movement" aria-label="Citat ur en essä">
+	<figure class="citat-fig">
+		<blockquote class="citat-quote" cite={`/${quote.slug}`}>{quote.text}</blockquote>
+		<figcaption class="citat-cite">
+			<a class="citat-source" href={`/${quote.slug}`} data-astro-prefetch="viewport">{article.title}</a>
+			<span class="nav-dot" aria-hidden="true">&middot;</span>
+			<time class="citat-date" datetime={article.publishedAt}>{formatDate(article.publishedAt)}</time>
+			<button
+				class="citat-share label"
+				type="button"
+				data-text={`»${quote.text}«`}
+				data-url={`https://islam.se/${quote.slug}`}
+				data-title={article.title}
+			>Dela</button>
+		</figcaption>
+	</figure>
+</section>
+
+<style>
+	.citat {
+		max-width: 46rem;
+		margin-inline: auto;
+		text-align: center;
+	}
+
+	.citat-fig {
+		margin: 0;
+	}
+
+	/* An editorial pull-quote: the site's voice, given space. No decorative
+	   quotation marks — the scale and whitespace carry it (§7.5). */
+	.citat-quote {
+		font-family: var(--font-body);
+		font-size: clamp(1.375rem, 3vw, 1.95rem);
+		font-weight: 400;
+		font-style: italic;
+		line-height: 1.4;
+		letter-spacing: -0.01em;
+		color: var(--color-text);
+		margin: 0;
+		border: none;
+		padding: 0;
+		text-wrap: balance;
+		hanging-punctuation: none;
+	}
+
+	.citat-cite {
+		display: inline-flex;
+		flex-wrap: wrap;
+		align-items: baseline;
+		justify-content: center;
+		gap: 0.5rem;
+		margin-top: var(--space-unit);
+	}
+
+	.citat-source {
+		font-family: var(--font-heading);
+		font-size: 0.862rem;
+		letter-spacing: 0.06em;
+		text-transform: uppercase;
+		font-feature-settings: "case";
+		font-weight: 500;
+		color: var(--color-accent);
+		text-decoration: none;
+
+		&:hover {
+			text-decoration: underline;
+			text-underline-offset: 0.15em;
+		}
+	}
+
+	.citat-date {
+		font-family: var(--font-heading);
+		font-variant-numeric: lining-nums tabular-nums;
+		font-size: 0.862rem;
+		letter-spacing: 0.06em;
+		text-transform: uppercase;
+		color: var(--color-muted);
+	}
+
+	/* Quiet until invoked — no chip, no floating tooltip. Appears on hover or
+	   keyboard focus; on touch (no hover) it sits faintly visible. */
+	.citat-share {
+		border: none;
+		background: transparent;
+		padding: 0;
+		margin-left: 0.25rem;
+		color: var(--color-warm);
+		cursor: pointer;
+		opacity: 0;
+		transition: opacity 0.2s ease, color 0.15s ease;
+	}
+
+	.citat-fig:hover .citat-share,
+	.citat-fig:focus-within .citat-share,
+	.citat-share:focus-visible {
+		opacity: 1;
+	}
+
+	.citat-share:hover {
+		color: var(--color-accent);
+	}
+
+	.citat-share:focus-visible {
+		outline: 2px solid var(--color-accent);
+		outline-offset: 3px;
+		border-radius: 2px;
+	}
+
+	@media (hover: none) {
+		.citat-share {
+			opacity: 0.7;
+		}
+	}
+</style>
+
+<script>
+	document.addEventListener("astro:page-load", () => {
+		const btn = document.querySelector<HTMLButtonElement>(".citat-share");
+		if (!btn) return;
+		const ctrl = new AbortController();
+
+		btn.addEventListener("click", async () => {
+			const text = btn.dataset.text || "";
+			const url = btn.dataset.url || location.href;
+			const title = btn.dataset.title || "islam.se";
+			if (navigator.share) {
+				try { await navigator.share({ title, text, url }); } catch {}
+			} else {
+				try {
+					await navigator.clipboard.writeText(`${text} — ${title}\n${url}`);
+					const prev = btn.textContent;
+					btn.textContent = "Kopierad";
+					setTimeout(() => { btn.textContent = prev; }, 2000);
+				} catch {}
+			}
+		}, { signal: ctrl.signal });
+
+		document.addEventListener("astro:before-swap", () => ctrl.abort(), { once: true });
+	});
+</script>

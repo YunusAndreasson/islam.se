@@ -4,6 +4,7 @@ publishedAt: "2025-10-23T12:00:00.000Z"
 wordCount: 1485
 qualityScore: 8.6
 description: "I juli 2015 daterade universitetet i Birmingham ett koranfragment till Profeten Muḥammads ﷺ egen livstid. Bläcket på fårskinnet formade samma arabiska konsonanter som den Koran som i dag ligger på nattduksbord i Kairo och Malmö – fjorton sekler senare, bokstav för bokstav."
+category: "Skriften"
 ---
 Allt försvinner. Det är kanske det enda som antiken och moderniteten är överens om. Pergament murknar. Hårddiskar havererar. Bibliotek brinner: Alexandria, Bagdad, Sarajevo. Av de uppskattningsvis 7 000 språk som talas i dag beräknas hälften komma att tystna inom ett sekel.[^1] Texter som en gång gällde som odödliga överlever som brottstycken, återskapningar, gissningar.
 

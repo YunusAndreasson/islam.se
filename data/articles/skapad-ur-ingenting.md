@@ -6,6 +6,7 @@ qualityScore: 8.9
 description: "Först ateismen. Sedan ockultismen, alkemin, spiritismen. Sedan Swedenborg. Under de år som omspänner Inferno prövade Strindberg varje hållning han kunde nå – och ingen bar hans vikt."
 audioFile: "skapad-ur-ingenting.mp3"
 audioDuration: 512
+category: "Sökandet"
 ---
 Först ateismen. Sedan ockultismen, alkemin, spiritismen. Sedan Swedenborg. Under de år som omspänner *Inferno* prövade Strindberg varje hållning han kunde nå – och ingen bar hans vikt.
 
