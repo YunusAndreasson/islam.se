@@ -9,8 +9,85 @@
 		"textArabic": "الَّذِينَ آمَنُوا وَتَطْمَئِنُّ قُلُوبُهُم بِذِكْرِ اللَّهِ ۗ أَلَا بِذِكْرِ اللَّهِ تَطْمَئِنُّ الْقُلُوبُ",
 		"textSwedish": "de som tror och vars hjärtan blir stilla när Guds namn nämns - är det inte så att då Guds namn nämns blir människohjärtat stilla",
 		"translator": "Knut Bernström",
-		"reciter": "Yasser Al-Dosari - Murattal",
-		"audioFile": "/audio/quran/013028.mp3"
+		"reciter": "Ahmad al-Nufais - Murattal",
+		"audioFile": "/audio/quran/013028.mp3",
+		"segments": [
+			[
+				1,
+				200,
+				1070
+			],
+			[
+				2,
+				1120,
+				2030
+			],
+			[
+				3,
+				2080,
+				4390
+			],
+			[
+				4,
+				4440,
+				6550
+			],
+			[
+				5,
+				6600,
+				7550
+			],
+			[
+				6,
+				7600,
+				12710
+			],
+			[
+				7,
+				12760,
+				13270
+			],
+			[
+				5,
+				13320,
+				14990
+			],
+			[
+				10,
+				15040,
+				17790
+			],
+			[
+				11,
+				17840,
+				23390
+			],
+			[
+				7,
+				23440,
+				24030
+			],
+			[
+				8,
+				24080,
+				25070
+			],
+			[
+				9,
+				25120,
+				25910
+			],
+			[
+				10,
+				25960,
+				28910
+			],
+			[
+				11,
+				28960,
+				32731
+			]
+		]
 	},
 	{
 		"id": "3:190",
@@ -22,8 +99,70 @@
 		"textArabic": "إِنَّ فِي خَلْقِ السَّمَاوَاتِ وَالْأَرْضِ وَاخْتِلَافِ اللَّيْلِ وَالنَّهَارِ لَآيَاتٍ لِّأُولِي الْأَلْبَابِ",
 		"textSwedish": "I skapelsen av himlarna och jorden och i växlingen mellan natt och dag ligger helt visst budskap till dem som vill använda sitt förstånd;",
 		"translator": "Knut Bernström",
-		"reciter": "Yasser Al-Dosari - Murattal",
-		"audioFile": "/audio/quran/003190.mp3"
+		"reciter": "Ahmad al-Nufais - Murattal",
+		"audioFile": "/audio/quran/003190.mp3",
+		"segments": [
+			[
+				1,
+				200,
+				270
+			],
+			[
+				2,
+				320,
+				630
+			],
+			[
+				3,
+				680,
+				1350
+			],
+			[
+				4,
+				1400,
+				2550
+			],
+			[
+				5,
+				2600,
+				3430
+			],
+			[
+				6,
+				3480,
+				4470
+			],
+			[
+				7,
+				4520,
+				5190
+			],
+			[
+				8,
+				5240,
+				6590
+			],
+			[
+				9,
+				6640,
+				8230
+			],
+			[
+				10,
+				8280,
+				8530
+			],
+			[
+				11,
+				8530,
+				9230
+			],
+			[
+				11,
+				9280,
+				11013
+			]
+		]
 	},
 	{
 		"id": "17:44",
@@ -35,8 +174,115 @@
 		"textArabic": "تُسَبِّحُ لَهُ السَّمَاوَاتُ السَّبْعُ وَالْأَرْضُ وَمَن فِيهِنَّ ۚ وَإِن مِّن شَيْءٍ إِلَّا يُسَبِّحُ بِحَمْدِهِ وَلَٰكِن لَّا تَفْقَهُونَ تَسْبِيحَهُمْ ۗ إِنَّهُ كَانَ حَلِيمًا غَفُورًا",
 		"textSwedish": "De sju himlarna prisar Honom liksom jorden och allt det som de rymmer; ja, ingenting finns som inte sjunger Hans lov. Men ni förstår inte innebörden av deras lovsång. Gud är mild och överseende [med Sina tjänares brister] och Han förlåter ständigt.",
 		"translator": "Knut Bernström",
-		"reciter": "Yasser Al-Dosari - Murattal",
-		"audioFile": "/audio/quran/017044.mp3"
+		"reciter": "Ahmad al-Nufais - Murattal",
+		"audioFile": "/audio/quran/017044.mp3",
+		"segments": [
+			[
+				1,
+				200,
+				1030
+			],
+			[
+				2,
+				1080,
+				1710
+			],
+			[
+				3,
+				1760,
+				3350
+			],
+			[
+				4,
+				3400,
+				4230
+			],
+			[
+				5,
+				4280,
+				5430
+			],
+			[
+				6,
+				5480,
+				10910
+			],
+			[
+				8,
+				10960,
+				12230
+			],
+			[
+				9,
+				12280,
+				13190
+			],
+			[
+				10,
+				13240,
+				14230
+			],
+			[
+				11,
+				14280,
+				15030
+			],
+			[
+				12,
+				15080,
+				16230
+			],
+			[
+				13,
+				16280,
+				17910
+			],
+			[
+				14,
+				17960,
+				18950
+			],
+			[
+				15,
+				19000,
+				19790
+			],
+			[
+				16,
+				19840,
+				21190
+			],
+			[
+				17,
+				21240,
+				24790
+			],
+			[
+				18,
+				24840,
+				25630
+			],
+			[
+				19,
+				25680,
+				26550
+			],
+			[
+				20,
+				26600,
+				27710
+			],
+			[
+				21,
+				27760,
+				28124
+			],
+			[
+				21,
+				28124,
+				29316
+			]
+		]
 	},
 	{
 		"id": "39:42",
@@ -48,7 +294,139 @@
 		"textArabic": "اللَّهُ يَتَوَفَّى الْأَنفُسَ حِينَ مَوْتِهَا وَالَّتِي لَمْ تَمُتْ فِي مَنَامِهَا ۖ فَيُمْسِكُ الَّتِي قَضَىٰ عَلَيْهَا الْمَوْتَ وَيُرْسِلُ الْأُخْرَىٰ إِلَىٰ أَجَلٍ مُّسَمًّى ۚ إِنَّ فِي ذَٰلِكَ لَآيَاتٍ لِّقَوْمٍ يَتَفَكَّرُونَ",
 		"textSwedish": "Då [människan] dör tar Gud själen till Sig, men om hon inte skall dö, [tar Han den] då hon sover. Han håller kvar den [själ] vars [bärare] skall dö enligt Hans beslut och Han friger de andra till en [av Honom] fastställd tidpunkt. I detta ligger sannerligen budskap till tänkande människor.",
 		"translator": "Knut Bernström",
-		"reciter": "Yasser Al-Dosari - Murattal",
-		"audioFile": "/audio/quran/039042.mp3"
+		"reciter": "Ahmad al-Nufais - Murattal",
+		"audioFile": "/audio/quran/039042.mp3",
+		"segments": [
+			[
+				1,
+				200,
+				760
+			],
+			[
+				2,
+				920,
+				1641
+			],
+			[
+				3,
+				1681,
+				2842
+			],
+			[
+				4,
+				2942,
+				3522
+			],
+			[
+				5,
+				3602,
+				4503
+			],
+			[
+				6,
+				4663,
+				5423
+			],
+			[
+				7,
+				5563,
+				5804
+			],
+			[
+				8,
+				5884,
+				6224
+			],
+			[
+				9,
+				6484,
+				6724
+			],
+			[
+				10,
+				6724,
+				7945
+			],
+			[
+				11,
+				8585,
+				9686
+			],
+			[
+				12,
+				9786,
+				10287
+			],
+			[
+				13,
+				10387,
+				10787
+			],
+			[
+				14,
+				11027,
+				11728
+			],
+			[
+				15,
+				11748,
+				12308
+			],
+			[
+				16,
+				12528,
+				13269
+			],
+			[
+				17,
+				13409,
+				14169
+			],
+			[
+				18,
+				14229,
+				14930
+			],
+			[
+				19,
+				14990,
+				15610
+			],
+			[
+				20,
+				15670,
+				17832
+			],
+			[
+				21,
+				17872,
+				17972
+			],
+			[
+				22,
+				19793,
+				19973
+			],
+			[
+				23,
+				20053,
+				20614
+			],
+			[
+				24,
+				20834,
+				21734
+			],
+			[
+				25,
+				22195,
+				22935
+			],
+			[
+				26,
+				23135,
+				26365
+			]
+		]
 	}
 ]
