@@ -37,6 +37,14 @@ const threads = await getCollection("tradar");
 		background: var(--color-bg);
 	}
 
+	/* An odd number of threads leaves a hollow final cell that shows the grid's
+	   divider background as a stray block. Let the last card span the row so the
+	   module always reads as finished (§7.7). On mobile the grid is one column,
+	   so this is a no-op. */
+	.tradar-card:last-child:nth-child(odd) {
+		grid-column: 1 / -1;
+	}
+
 	.tradar-card a {
 		display: block;
 		height: 100%;
