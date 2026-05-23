@@ -15,11 +15,10 @@ const { article } = Astro.props;
 		<div class="feature-media">
 			<EssayImage
 				article={article}
-				widths={[640, 960, 1280, 1600]}
-				sizes="(max-width: 768px) 100vw, (max-width: 1024px) 60vw, 38rem"
+				widths={[640, 1024, 1280, 1600, 2048]}
+				sizes="(max-width: 1024px) 100vw, 1024px"
 				loading="eager"
 				fetchpriority="high"
-				class="feature-img"
 			/>
 		</div>
 		<div class="feature-text">
@@ -37,11 +36,10 @@ const { article } = Astro.props;
 </section>
 
 <style>
+	/* The page's lead movement: a wide image carries the focal point, with the
+	   title and meta set beneath it in the site serif — no text over photo. */
 	.feature-link {
-		display: grid;
-		grid-template-columns: 1fr 1.08fr;
-		align-items: center;
-		gap: clamp(2rem, 5vw, 4.5rem);
+		display: block;
 		text-decoration: none;
 		color: inherit;
 
@@ -59,39 +57,44 @@ const { article } = Astro.props;
 		}
 	}
 
-	/* Image sits in the larger column and runs slightly taller than the text,
-	   so the spread reads asymmetric rather than as two stacked halves. */
 	.feature-media {
-		order: 2;
 		overflow: hidden;
 		border-radius: 2px;
 	}
 
-	.feature-img {
+	/* The image is rendered by EssayImage, so the <img> carries EssayImage's
+	   style scope, not ours — a scoped rule on the element never matches it (this
+	   is why the old `.feature-img` aspect-ratio silently did nothing). Reach it
+	   with :global() and pin the ratio on the img itself (not the wrapper), so the
+	   hero is a stable 16:9 crop regardless of the source file's dimensions. */
+	.feature-media :global(img) {
 		display: block;
 		width: 100%;
-		aspect-ratio: 5 / 4;
+		aspect-ratio: 16 / 9;
 		object-fit: cover;
 		transition: scale 0.6s cubic-bezier(0.2, 0, 0.1, 1);
 	}
 
-	.feature-link:hover .feature-img {
+	.feature-link:hover .feature-media :global(img) {
 		scale: 1.02;
 	}
 
 	.feature-text {
-		order: 1;
+		margin-top: var(--space-unit);
 	}
 
 	.feature-kicker {
 		margin-bottom: var(--space-half);
 	}
 
+	/* Larger than --step-4 (2.612rem): a deliberate, contained exception to the
+	   type scale, earned by this being the page's lead headline. */
 	.feature-title {
-		font-size: clamp(2rem, 4.2vw, var(--step-4));
+		font-size: clamp(2.1rem, 4.5vw, 3rem);
 		line-height: 1.08;
 		letter-spacing: -0.025em;
 		margin: 0;
+		max-width: 24ch;
 		text-wrap: balance;
 		font-feature-settings: "titl" 1, "dlig" 1;
 	}
@@ -108,7 +111,7 @@ const { article } = Astro.props;
 		line-height: 1.55;
 		color: color-mix(in srgb, var(--color-text) 80%, var(--color-muted));
 		margin: var(--space-unit) 0 0;
-		max-width: 30rem;
+		max-width: 42rem;
 	}
 
 	.feature-meta {
@@ -116,22 +119,9 @@ const { article } = Astro.props;
 	}
 
 	@media (width <= 768px) {
-		.feature-link {
-			grid-template-columns: 1fr;
-			gap: var(--space-unit);
-		}
-
-		/* Image leads on mobile; text follows. Not a card — just stacked
-		   with the title carrying the weight. */
-		.feature-media {
-			order: 1;
-		}
-
-		.feature-text {
-			order: 2;
-		}
-
-		.feature-img {
+		/* A 16:9 band reads as a thin letterbox on a phone; 3:2 keeps the image
+		   tall enough to hold the eye before the title takes over. */
+		.feature-media :global(img) {
 			aspect-ratio: 3 / 2;
 		}
 
