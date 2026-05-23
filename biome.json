@@ -48,6 +48,7 @@
 			"!**/output",
 			"!**/.astro",
 			"!**/*.astro",
+			"!**/articles-data.json",
 			"!.markdownlint-rules"
 		]
 	}

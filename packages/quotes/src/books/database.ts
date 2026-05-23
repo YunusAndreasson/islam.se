@@ -69,6 +69,32 @@ export interface BookWithScore extends Book {
 }
 
 // ============================================================================
+// Author / metadata normalization
+// ============================================================================
+
+/**
+ * Romanized → Arabic-script mapping for classical Islamic authors.
+ * Kept in sync with the canonical forms used in quotes.db so that joins,
+ * search, and UI render consistently regardless of import source.
+ */
+export const ROMANIZED_ARABIC_AUTHORS: Record<string, string> = {
+	"Ibn Taymiyyah": "ابن تيمية",
+	"Ibn Qayyim": "ابن القيم",
+	"Ibn al-Jawzi": "ابن الجوزي",
+	"al-Ghazali": "الغزالي",
+	Ghazzali: "الغزالي",
+	"al-Nawawi": "النووي",
+	"al-Mawardi": "الماوردي",
+	"Ibn Hazm": "ابن حزم",
+	"al-Suyuti": "السيوطي",
+	Bukhari: "البخاري",
+};
+
+export function normalizeArabicAuthor(author: string): string {
+	return ROMANIZED_ARABIC_AUTHORS[author] ?? author;
+}
+
+// ============================================================================
 // Database Singleton
 // ============================================================================
 
@@ -200,7 +226,41 @@ export function initBookDatabase(): Database.Database {
 		CREATE INDEX IF NOT EXISTS idx_summary_meta_entity ON summary_embedding_meta(entity_type, entity_id);
 	`);
 
+	// One-time migrations (idempotent — safe to run on every init).
+	fixRomanizedArabicAuthors(db);
+	setDefaultGenres(db);
+
 	return db;
+}
+
+/**
+ * Replaces romanized author names with Arabic script for `language='ar'` rows
+ * so that books.db matches the canonical spellings used in quotes.db.
+ * Idempotent: rows already in Arabic script are unaffected.
+ */
+function fixRomanizedArabicAuthors(database: Database.Database): void {
+	const stmt = database.prepare("UPDATE books SET author = ? WHERE author = ? AND language = 'ar'");
+	const transaction = database.transaction(() => {
+		for (const [romanized, arabic] of Object.entries(ROMANIZED_ARABIC_AUTHORS)) {
+			stmt.run(arabic, romanized);
+		}
+	});
+	transaction();
+}
+
+/**
+ * Backfills a `genre` for rows that have NULL/empty values. Arabic-language
+ * rows and English Ghazālī translations get `islamic-classics`; other rows
+ * are left untouched so curated genres can still be assigned later.
+ */
+function setDefaultGenres(database: Database.Database): void {
+	database
+		.prepare(
+			`UPDATE books SET genre = 'islamic-classics'
+			 WHERE (genre IS NULL OR genre = '')
+			   AND (language = 'ar' OR author LIKE '%Ghazzali%' OR author LIKE '%Ghazali%')`,
+		)
+		.run();
 }
 
 // ============================================================================
@@ -215,9 +275,11 @@ export function insertBook(book: Omit<Book, "id" | "importedAt">): number {
 		VALUES (?, ?, ?, ?, ?, ?, ?, ?)
 	`);
 
+	const author = book.language === "ar" ? normalizeArabicAuthor(book.author) : book.author;
+
 	const result = stmt.run(
 		book.title,
-		book.author,
+		author,
 		book.language,
 		book.sourceUrl,
 		book.summary ?? null,

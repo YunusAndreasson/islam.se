@@ -42,15 +42,10 @@ import {
 import { ArticlePublisher } from "./services/article-publisher.js";
 import { IdeationService } from "./services/ideation-service.js";
 import {
-	formatBooksForPrompt,
 	formatBooksLean,
-	formatQuotesForPrompt,
 	formatQuotesLean,
-	formatQuranForPrompt,
 	formatQuranLean,
-	searchBooksComprehensive,
 	searchBooksForBrilliance,
-	searchQuotesComprehensive,
 	searchQuotesForBrilliance,
 	searchQuranComprehensive,
 } from "./services/index.js";
@@ -709,9 +704,9 @@ export class ContentOrchestrator {
 				result.error?.includes("timed out") ||
 				result.error?.includes("ECONNRESET");
 			if (isRetryable && attempt < maxRetries) {
-				const delay = 2000 * attempt; // exponential backoff: 2s, 4s
+				const delay = 2000 * attempt; // linear backoff: 2s, 4s, ...
 				this.logger.log(
-					`   ⚠️  ${result.error?.slice(0, 200) ?? "Validation failed"}, retry ${attempt}/${maxRetries - 1} in ${delay / 1000}s...`,
+					`   ⚠️  ${result.error?.slice(0, 200) ?? "Validation failed"}, attempt ${attempt}/${maxRetries} failed, retry in ${delay / 1000}s...`,
 				);
 				await new Promise((resolve) => setTimeout(resolve, delay));
 				continue;
@@ -1394,8 +1389,8 @@ If the draft has anglicisms, fix them in the revised article.
 						revisedText: body || null,
 					}) as ReviewOutput,
 			},
-			effort: "max",
-			timeout: 1800000, // 30 min — review with effort:max does full rewrite + language audit
+			effort: "xhigh",
+			timeout: 1800000, // 30 min — review at xhigh does full rewrite + language audit
 		});
 
 		if (!(result.success && result.data)) {

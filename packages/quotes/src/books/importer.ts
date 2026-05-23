@@ -80,7 +80,7 @@ interface ClaudeRunResult {
 }
 
 async function runClaude(options: ClaudeRunOptions): Promise<ClaudeRunResult> {
-	const args = ["--print", "--model", options.model ?? "claude-opus-4-6"];
+	const args = ["--print", "--model", options.model ?? "claude-opus-4-7"];
 
 	if (options.systemPrompt) {
 		args.push("--append-system-prompt", options.systemPrompt);
