@@ -115,17 +115,10 @@ const rows = articles.map((article) => {
 	   in EssayImage. The crop is pinned here via :global(img) (NOT a class on
 	   EssayImage — a scoped class never reaches its inner <img>), so every
 	   thumbnail is a uniform 4:3 regardless of the source file's proportions. */
+	/* Cover fit + hover colour-bloom are shared on .media-frame (layout.css); here
+	   we set only the crop — a uniform 4:3 regardless of the source proportions. */
 	.recent-media :global(img) {
-		display: block;
-		width: 100%;
 		aspect-ratio: 4 / 3;
-		object-fit: cover;
-	}
-
-	/* Hover bloom: ease the tonal wash back toward full colour as the image lifts. */
-	.recent-link:hover .recent-media :global(img) {
-		scale: 1.03;
-		filter: saturate(1) contrast(1) brightness(1) sepia(0);
 	}
 
 	.recent-title {

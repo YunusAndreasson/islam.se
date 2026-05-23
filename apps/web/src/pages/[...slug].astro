@@ -1,6 +1,7 @@
 ---
 import { render } from "astro:content";
 import AudioPlayer from "../components/AudioPlayer.astro";
+import EssayImage from "../components/EssayImage.astro";
 import Base from "../layouts/Base.astro";
 import type { Article } from "../lib/articles";
 import { formatDate, getArticles } from "../lib/articles";
@@ -42,6 +43,18 @@ const { Content } = await render(article.entry);
 				</p>
 			</header>
 
+			{article.heroImage && (
+				<figure class="article-hero media-frame">
+					<EssayImage
+						article={article}
+						widths={[640, 960, 1280]}
+						sizes="(max-width: 768px) 100vw, 42rem"
+						loading="eager"
+						fetchpriority="high"
+					/>
+				</figure>
+			)}
+
 			{article.audioFile && <AudioPlayer src={`/audio/${article.audioFile}`} title={article.title} artwork={article.heroImage?.src} />}
 
 			<div class="article-body prose">
@@ -65,6 +78,28 @@ const { Content } = await render(article.entry);
 		</nav>
 	</main>
 </Base>
+
+<style>
+	/* A contained hero at the head of each essay — column-width, seated in the
+	   shared media frame (grain + vignette + soft corners from .media-frame). The
+	   crop is pinned via :global(img) because the <img> carries EssayImage's own
+	   style scope, so a plain scoped rule would never reach it. */
+	.article-hero {
+		margin: var(--space-unit) 0 var(--space-phi);
+	}
+
+	/* Cover fit is shared on .media-frame (layout.css); only the crop is per-page.
+	   No hover bloom here — the hero is a <figure>, not a link. */
+	.article-hero :global(img) {
+		aspect-ratio: 3 / 2;
+	}
+
+	@media (width <= 768px) {
+		.article-hero {
+			margin-bottom: var(--space-unit);
+		}
+	}
+</style>
 
 <script>
 	import { navigate } from "astro:transitions/client";

@@ -9,6 +9,20 @@
 	color: var(--color-muted);
 }
 
+/* Arrow link — a heading/label link that grows a → on hover. The arrow inherits
+   the link's colour; links that want a quieter arrow than their text set their own
+   ::after colour. Used by the section links, the ämne overflow link, the daily
+   verse links, and the archive link. */
+.arrow-link::after {
+	content: " →";
+	display: inline-block;
+	transition: translate 0.2s ease;
+}
+
+.arrow-link:hover::after {
+	translate: 0.2em 0;
+}
+
 /* Skip link — visible only on keyboard focus */
 .skip-link {
 	position: absolute;
@@ -59,11 +73,30 @@
 	margin-top: var(--space-phi);
 }
 
-/* Movement label — the quiet kicker that names a section in the site voice.
-   Sits on the shared left edge above each movement. */
+/* Movement label — the kicker that names a section in the site voice. Sits on
+   the shared left edge above each movement. A hairline rule above it plus a small
+   warm accent tick turn it into a visible threshold between movements, so the
+   homepage reads as distinct chapters rather than one continuous stack of
+   headings. (The feature hero overrides this off — there the kicker is an eyebrow
+   beneath the image, not a section joint.) */
 .home-kicker {
+	display: flex;
+	align-items: center;
+	gap: 0.7rem;
 	margin-bottom: var(--space-unit);
-	color: var(--color-muted);
+	padding-top: var(--space-half);
+	border-top: 1px solid var(--color-divider);
+	font-size: 0.92rem;
+	letter-spacing: 0.09em;
+	color: color-mix(in srgb, var(--color-muted) 65%, var(--color-text));
+}
+
+.home-kicker::before {
+	content: "";
+	flex: none;
+	inline-size: 1.6rem;
+	block-size: 2px;
+	background: var(--color-warm);
 }
 
 /* Media frame — the shared art-directed container for every essay photo.
@@ -122,6 +155,23 @@ a:focus-visible .media-frame {
 a:hover .media-frame::before,
 a:focus-visible .media-frame::before {
 	opacity: 0.3;
+}
+
+/* Every framed image fills its frame and is cropped uniformly — each module sets
+   only its own aspect-ratio (on the inner <img>, via :global from its scope). The
+   base tonal wash lives on the <img> in EssayImage; on hover the wrapping link
+   eases that wash back to full colour and lifts the picture a touch. Per-module
+   zoom via --frame-zoom (default 1.03; the larger feature uses 1.02). One rule
+   here replaces the cover + bloom that every picture module used to repeat. */
+.media-frame img {
+	display: block;
+	width: 100%;
+	object-fit: cover;
+}
+
+a:hover .media-frame img {
+	scale: var(--frame-zoom, 1.03);
+	filter: saturate(1) contrast(1) brightness(1) sepia(0);
 }
 
 /* ============================================================

@@ -4,7 +4,7 @@ publishedAt: "2026-01-09T12:00:00.000Z"
 wordCount: 1905
 qualityScore: 8.7
 description: "Sommaren 2023 brann böcker på svenska gator, ambassader stormades och Sveriges Natoväg komplicerades. Debatten pendlade mellan yttrandefrihet och muslimsk vrede, men båda sidorna delade en outtalad förutsättning – att det som brann var en bok."
-category: "Samhället"
+category: "Skriften"
 ---
 Sommaren 2023 brann böcker på svenska gator. Ambassader stormades, handelsrelationer frystes, Sveriges Natoväg komplicerades.[^1] Den svenska debatten pendlade mellan yttrandefrihetens försvar och förståelsen för muslimers vrede. Men båda sidorna delade en outtalad förutsättning: att det som brann var en *bok*.
 

@@ -16,9 +16,9 @@ const article = titleBySlug.get(quote.slug)!;
 	<figure class="citat-fig">
 		<blockquote class="citat-quote" cite={`/${quote.slug}`}>{quote.text}</blockquote>
 		<figcaption class="citat-cite">
-			<a class="citat-source" href={`/${quote.slug}`} data-astro-prefetch="viewport">{article.title}</a>
+			<a class="label citat-source" href={`/${quote.slug}`} data-astro-prefetch="viewport">{article.title}</a>
 			<span class="nav-dot" aria-hidden="true">&middot;</span>
-			<time class="citat-date" datetime={article.publishedAt}>{formatDate(article.publishedAt)}</time>
+			<time class="label" datetime={article.publishedAt}>{formatDate(article.publishedAt)}</time>
 			<button
 				class="citat-share label"
 				type="button"
@@ -67,12 +67,10 @@ const article = titleBySlug.get(quote.slug)!;
 		margin-top: var(--space-unit);
 	}
 
+	/* Small-caps recipe comes from .label; here only the deltas — accent colour,
+	   medium weight, and a hover underline. (Scoped selectors outrank the global
+	   .label, so these win.) The date uses .label as-is. */
 	.citat-source {
-		font-family: var(--font-heading);
-		font-size: 0.862rem;
-		letter-spacing: 0.06em;
-		text-transform: uppercase;
-		font-feature-settings: "case";
 		font-weight: 500;
 		color: var(--color-accent);
 		text-decoration: none;
@@ -81,15 +79,6 @@ const article = titleBySlug.get(quote.slug)!;
 			text-decoration: underline;
 			text-underline-offset: 0.15em;
 		}
-	}
-
-	.citat-date {
-		font-family: var(--font-heading);
-		font-variant-numeric: lining-nums tabular-nums;
-		font-size: 0.862rem;
-		letter-spacing: 0.06em;
-		text-transform: uppercase;
-		color: var(--color-muted);
 	}
 
 	/* Quiet until invoked — no chip, no floating tooltip. Appears on hover or
