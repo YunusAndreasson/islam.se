@@ -24,8 +24,22 @@ function pick(essays: Article[], treatment: Treatment, n: number): Article[] {
 }
 
 const sections = groups.map(({ amne, essays }, i) => {
-	const treatment = CYCLE[i % CYCLE.length];
-	return { amne, treatment, picks: pick(essays, treatment, treatment === "lead" ? 3 : 3) };
+	const wanted = CYCLE[i % CYCLE.length];
+	const imaged = essays.filter((e) => e.heroImage).length;
+	// Degrade gracefully so an image layout never renders without its pictures:
+	// a `lead` with no hero reads as a sparse half-empty column, a `trio` with
+	// one hero reads as ragged (misaligned titles). Fall to the next-simpler
+	// treatment that the available imagery actually supports, keeping the
+	// cycle's density variety wherever the pictures allow it (§7.7).
+	const treatment: Treatment =
+		wanted === "trio" && imaged < 3
+			? imaged >= 1
+				? "lead"
+				: "text"
+			: wanted === "lead" && imaged < 1
+				? "text"
+				: wanted;
+	return { amne, treatment, picks: pick(essays, treatment, 3) };
 });
 ---
 

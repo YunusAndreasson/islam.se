@@ -53,9 +53,12 @@ const ogImage = feature?.heroImage;
 
 		<TradarHome />
 
-		<section class="home-movement" aria-labelledby="tankare-home-kicker">
-			<p class="label home-kicker" id="tankare-home-kicker">Tänkare</p>
-			<TankareGroups />
+		<section class="home-movement tankare-home" aria-labelledby="tankare-home-kicker">
+			<div class="tankare-home-head">
+				<p class="label home-kicker" id="tankare-home-kicker">Tänkare</p>
+				<a class="label tankare-home-all" href="/tankare">Alla tänkare</a>
+			</div>
+			<TankareGroups limit={6} />
 		</section>
 
 		<Markesdagar />
@@ -71,6 +74,46 @@ const ogImage = feature?.heroImage;
 </Base>
 
 <style>
+	/* Tänkare kicker row: the section label, with a quiet path to the full
+	   directory on its baseline (the homepage shows a balanced glimpse). */
+	.tankare-home-head {
+		display: flex;
+		justify-content: space-between;
+		align-items: baseline;
+		gap: 1rem;
+		margin-bottom: var(--space-unit);
+	}
+
+	.tankare-home-head .home-kicker {
+		margin-bottom: 0;
+	}
+
+	.tankare-home-all {
+		flex-shrink: 0;
+		text-decoration: none;
+		transition: color 0.15s ease;
+	}
+
+	.tankare-home-all::after {
+		content: " →";
+		display: inline-block;
+		transition: translate 0.2s ease;
+	}
+
+	.tankare-home-all:hover {
+		color: var(--color-accent);
+	}
+
+	.tankare-home-all:hover::after {
+		translate: 0.2em 0;
+	}
+
+	.tankare-home-all:focus-visible {
+		outline: 2px solid var(--color-accent);
+		outline-offset: 3px;
+		border-radius: 2px;
+	}
+
 	.archive-link {
 		text-align: center;
 	}

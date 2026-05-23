@@ -1,14 +1,31 @@
 ---
 import { getCollection } from "astro:content";
 
+// `limit` turns the full directory into a balanced homepage glimpse: the most-
+// present voices on each side, capped to equal-length columns so the facing
+// composition reads evenly (§7.8). The /tankare index renders it unbounded.
+interface Props {
+	limit?: number;
+}
+const { limit } = Astro.props;
+
 const thinkers = await getCollection("tankare");
 const sunni = thinkers.filter((t) => t.data.tradition === "sunni");
 const western = thinkers.filter((t) => t.data.tradition === "western");
 
-const groups = [
+let groups = [
 	{ label: "Den klassiska traditionen", items: sunni },
 	{ label: "Svenska och västerländska röster", items: western },
 ];
+
+if (limit) {
+	// Cap to the shortest column so the two sides stay equal, and lead with the
+	// voices the essays return to most. Leaves the unbounded directory untouched.
+	const cap = Math.min(limit, ...groups.map((g) => g.items.length));
+	const byEssays = (a: (typeof sunni)[number], b: (typeof sunni)[number]) =>
+		b.data.essays.length - a.data.essays.length;
+	groups = groups.map((g) => ({ ...g, items: [...g.items].sort(byEssays).slice(0, cap) }));
+}
 ---
 
 <div class="tankare-groups">
