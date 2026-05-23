@@ -1,6 +1,16 @@
 import { getCollection } from "astro:content";
+import glossesData from "../content/verser/glosses.json";
+import { type Segment, wordCount } from "./arabic";
 import { getArticles } from "./articles";
 import { relatedEssayFor } from "./citations";
+
+export type { Segment, VerseToken } from "./arabic";
+export { tokenizeArabic } from "./arabic";
+
+// Per-word Swedish glosses, keyed by ayahKey, in word order (§7.2). A short
+// reading aid distinct from Bernström's literary translation — hand-curated and
+// reviewable in src/content/verser/glosses.json, never touched by sync-verses.
+const GLOSSES = glossesData as Record<string, { ar: string; en: string; sv: string }[]>;
 
 export interface VerseData {
 	surah: number;
@@ -13,6 +23,15 @@ export interface VerseData {
 	translator: string;
 	reciter: string;
 	audioFile: string;
+	/**
+	 * Word-recitation timing for the committed mp3, sourced from QUL (§7.2).
+	 * Each entry is [wordNumber, startMs, endMs], offsets relative to the start
+	 * of `audioFile` — already normalized and cleaned by `sync-verses`. A word
+	 * may appear more than once when the reciter repeats a phrase (al-Nufais's
+	 * murattal does this), so word numbers are not unique and not monotonic;
+	 * `startMs` always is. Empty when no segment data exists for the recitation.
+	 */
+	segments: Segment[];
 }
 
 export interface VerseOfDay {
@@ -20,6 +39,8 @@ export interface VerseOfDay {
 	refName: string; // corpus-style transliteration, e.g. "al-Raʿd"
 	relatedSlug: string;
 	relatedTitle: string;
+	/** Short Swedish gloss per recited word, word order. Empty if none curated. */
+	glosses: string[];
 }
 
 // Corpus transliteration (macrons, non-assimilated "al-") for the surahs in the
@@ -55,11 +76,20 @@ export async function getRotationVerses(): Promise<VerseOfDay[]> {
 		if (!relatedTitle) {
 			throw new Error(`Daily verse ${verse.ayahKey} derives to unknown essay "${relatedSlug}".`);
 		}
+		const glosses = GLOSSES[verse.ayahKey]?.map((g) => g.sv) ?? [];
+		// A misaligned gloss table would point the wrong word at the wrong meaning;
+		// fail the build rather than ship a silent mismatch.
+		if (glosses.length > 0 && glosses.length !== wordCount(verse.textArabic)) {
+			throw new Error(
+				`Daily verse ${verse.ayahKey}: ${glosses.length} glosses for ${wordCount(verse.textArabic)} words — re-sync src/content/verser/glosses.json.`,
+			);
+		}
 		resolved.push({
 			verse,
 			refName: SURAH_TRANSLIT[verse.surah] ?? verse.surahName,
 			relatedSlug,
 			relatedTitle,
+			glosses,
 		});
 	}
 

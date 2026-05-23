@@ -38,6 +38,10 @@ const verser = defineCollection({
 		translator: z.string(),
 		reciter: z.string(),
 		audioFile: z.string(), // committed, self-hosted: /audio/quran/013028.mp3
+		// Word-recitation timing for the mp3: [wordNumber, startMs, endMs], offsets
+		// relative to the clip start. Drives the daily-verse word highlight. Synced
+		// from QUL by `pnpm sync-verses`; see src/lib/verse.ts.
+		segments: z.array(z.tuple([z.number(), z.number(), z.number()])),
 	}),
 });
 

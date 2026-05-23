@@ -1,19 +1,38 @@
 ---
-import type { VerseOfDay } from "../lib/verse";
+import { type VerseOfDay, tokenizeArabic } from "../lib/verse";
 
 interface Props {
 	verseOfDay: VerseOfDay;
 }
 
 const { verseOfDay } = Astro.props;
-const { verse, refName, relatedSlug, relatedTitle } = verseOfDay;
+const { verse, refName, relatedSlug, relatedTitle, glosses } = verseOfDay;
+// Word tokens carry the 1-based index that lines up with `verse.segments` (so
+// the client can light each word as it is recited) and with `glosses` (so each
+// word carries its short Swedish meaning). Waqf marks (word === null) are
+// rendered but never highlighted or glossed (§7.2).
+const tokens = tokenizeArabic(verse.textArabic);
+const hasGlosses = glosses.length > 0;
 const adlibris = "https://www.adlibris.com/se/sok?q=koranens+budskap+bernström";
 ---
 
 <section class="vers home-movement" aria-labelledby="vers-kicker">
 	<p class="label home-kicker" id="vers-kicker">Dagens vers</p>
 	<div class="vers-body">
-		<p class="vers-arabic" dir="rtl" lang="ar">{verse.textArabic}</p>
+		<p
+			class="vers-arabic"
+			dir="rtl"
+			lang="ar"
+			data-segments={JSON.stringify(verse.segments)}
+			data-glossed={hasGlosses ? "" : undefined}
+		>{tokens.map((t) =>
+			t.word !== null ? (
+				<span class="vers-w" data-w={t.word} data-sv={glosses[t.word - 1]}>{`${t.text} `}</span>
+			) : (
+				<span class="vers-waqf">{`${t.text} `}</span>
+			),
+		)}</p>
+
 		<p class="vers-sv" lang="sv"><em>{verse.textSwedish}</em></p>
 
 		<p class="vers-ref">
@@ -57,6 +76,64 @@ const adlibris = "https://www.adlibris.com/se/sok?q=koranens+budskap+bernström"
 		color: var(--color-text);
 		margin: 0;
 		text-wrap: balance;
+	}
+
+	/* Word spotlight (§7.2). One mechanism serves both the recitation and manual
+	   exploration: when a word is "active" — recited during playback, or hovered
+	   (desktop) / tapped (mobile) — the verse settles into a quiet wash and the
+	   active word holds full strength, with its short Swedish meaning floating
+	   just above it. Opacity does the focusing (the accent colour is lighter than
+	   the text, so dimming the surroundings reads as focus and the letterforms and
+	   harakat spacing stay untouched). */
+	.vers-w,
+	.vers-waqf {
+		transition: opacity 0.3s ease;
+	}
+
+	.vers-arabic[data-glossed] .vers-w {
+		position: relative;
+		cursor: pointer;
+	}
+
+	.vers-arabic[data-active] .vers-w,
+	.vers-arabic[data-active] .vers-waqf {
+		opacity: 0.32;
+	}
+
+	.vers-arabic[data-active] .vers-w.is-active {
+		opacity: 1;
+	}
+
+	/* The Swedish gloss, set above the active word. Swedish is LTR inside the RTL
+	   verse, so the bubble resets direction. It may overlap the line above — the
+	   solid background and a high z-index keep it legible over the dimmed text. */
+	.vers-w.is-active::after {
+		content: attr(data-sv);
+		position: absolute;
+		bottom: 100%;
+		left: 50%;
+		z-index: 5;
+		transform: translateX(-50%);
+		margin-bottom: 0.1em;
+		padding: 0.1em 0.45em;
+		direction: ltr;
+		font-family: var(--font-heading);
+		font-size: 0.9rem;
+		font-weight: 500;
+		line-height: 1.25;
+		white-space: nowrap;
+		color: var(--color-text);
+		background: var(--color-bg);
+		border-radius: 0.25rem;
+		box-shadow: 0 1px 6px color-mix(in srgb, var(--color-text), transparent 88%);
+		pointer-events: none;
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.vers-w,
+		.vers-waqf {
+			transition: none;
+		}
 	}
 
 	.vers-sv {
@@ -174,28 +251,101 @@ const adlibris = "https://www.adlibris.com/se/sok?q=koranens+budskap+bernström"
 </style>
 
 <script>
+	type Segment = [word: number, start: number, end: number];
+
 	document.addEventListener("astro:page-load", () => {
 		const btn = document.querySelector<HTMLButtonElement>(".vers-play");
-		if (!btn) return;
+		const arabic = document.querySelector<HTMLParagraphElement>(".vers-arabic");
+		if (!btn || !arabic) return;
 
+		let segments: Segment[] = [];
+		try {
+			segments = JSON.parse(arabic.dataset.segments || "[]");
+		} catch {}
+
+		const glossed = arabic.hasAttribute("data-glossed");
 		const ctrl = new AbortController();
 		let audio: HTMLAudioElement | null = null;
+		let playing = false;
+		// The active word (-1 = none): recited during playback, or hovered/tapped.
+		// One mechanism dims the verse and floats that word's gloss above it.
+		let active = -1;
+
+		const setActive = (word: number) => {
+			if (word === active) return;
+			if (active >= 0) arabic.querySelector(`.vers-w[data-w="${active}"]`)?.classList.remove("is-active");
+			if (word >= 0) {
+				arabic.querySelector(`.vers-w[data-w="${word}"]`)?.classList.add("is-active");
+				arabic.setAttribute("data-active", "");
+			} else {
+				arabic.removeAttribute("data-active");
+			}
+			active = word;
+		};
 
 		btn.addEventListener("click", () => {
 			// Lazy: no file is fetched until the first press (§7.2).
 			if (!audio) {
 				audio = new Audio(btn.dataset.audio);
 				audio.preload = "none";
-				audio.addEventListener("play", () => btn.setAttribute("data-playing", ""));
-				audio.addEventListener("pause", () => btn.removeAttribute("data-playing"));
-				audio.addEventListener("ended", () => {
+				audio.addEventListener("play", () => {
+					playing = true;
+					btn.setAttribute("data-playing", "");
+				});
+				audio.addEventListener("pause", () => {
+					playing = false;
 					btn.removeAttribute("data-playing");
+					setActive(-1); // restores the full, readable verse
+				});
+				audio.addEventListener("ended", () => {
+					playing = false;
+					btn.removeAttribute("data-playing");
+					setActive(-1);
 					if (audio) audio.currentTime = 0;
+				});
+				// Move the spotlight to the word being recited. Segments are ordered
+				// by start, so a short linear scan is ample; in the gap between words
+				// we simply hold the current word rather than flicker off.
+				audio.addEventListener("timeupdate", () => {
+					if (!audio || !segments.length) return;
+					const t = audio.currentTime * 1000;
+					for (const [word, start, end] of segments) {
+						if (t >= start && t < end) {
+							setActive(word);
+							return;
+						}
+					}
 				});
 			}
 			if (audio.paused) audio.play().catch(() => {});
 			else audio.pause();
 		}, { signal: ctrl.signal });
+
+		// Hover (desktop) and tap/click (any device) light a word and float its
+		// gloss — but not while reciting, where the recitation owns the spotlight.
+		const wordAt = (e: Event) =>
+			(e.target as HTMLElement)?.closest<HTMLSpanElement>(".vers-w[data-w]");
+
+		if (glossed) {
+			arabic.addEventListener("click", (e) => {
+				if (playing) return;
+				const w = wordAt(e);
+				if (!w?.dataset.w) return;
+				const word = Number(w.dataset.w);
+				setActive(word === active ? -1 : word); // tap again to dismiss (mobile)
+			}, { signal: ctrl.signal });
+
+			if (matchMedia("(hover: hover)").matches) {
+				arabic.addEventListener("mouseover", (e) => {
+					if (playing) return;
+					const w = wordAt(e);
+					if (w?.dataset.w) setActive(Number(w.dataset.w));
+				}, { signal: ctrl.signal });
+				arabic.addEventListener("mouseleave", () => {
+					if (!playing) setActive(-1);
+				}, { signal: ctrl.signal });
+			}
+		}
 
 		// Stop and release when navigating away (View Transitions).
 		document.addEventListener("astro:before-swap", () => {
