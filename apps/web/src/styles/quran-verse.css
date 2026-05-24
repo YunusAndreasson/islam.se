@@ -1,0 +1,124 @@
+/* Essay Quran player (.quran-verse) — injected after a verse-citing block by
+   rehype-quran-verse. The homepage daily verse is the apex moment (large, on the
+   page's left axis); inside an essay the same recitation must read as part of the
+   column, so the Arabic is sized to sit just above the body measure, set as a quiet
+   aside with a thin rule rather than a full pull-quote. Styles are global (not
+   scoped) because the markup is built at compile time, not by an Astro component, so
+   a scoped hash would never match. No Swedish, no glosses — the prose already quotes
+   the verse, and per-word glosses are a homepage-only aid. */
+
+.quran-verse {
+	margin: var(--space-unit) 0;
+	padding-left: var(--space-unit);
+	border-left: 2px solid var(--color-divider);
+}
+
+/* The recited line. Amiri Quran reads large for its point size, so a value just
+   above the body step keeps the verse legible with its harakat yet clearly part of
+   the column — not the homepage's commanding clamp. Left-aligned (the verse's left
+   edge meets the prose) while the script itself runs right-to-left. */
+.qv-arabic {
+	font-family: var(--font-arabic);
+	font-weight: 400;
+	font-size: 1.5rem;
+	line-height: 1.95;
+	margin: 0;
+	text-indent: 0;
+	text-align: left;
+	text-wrap: pretty;
+	color: var(--color-text);
+}
+
+/* Word spotlight — the same opaque colour-mix dim as the homepage verse (§7.2):
+   dimming the WORD'S COLOUR, not its opacity, so overlapping diacritics and final
+   swashes never composite to uneven seams. While a word is recited the rest of the
+   verse settles into a quiet wash and the live word holds full strength. */
+.qv-w,
+.qv-waqf {
+	transition: color 0.25s ease;
+}
+
+.qv-arabic[data-active] .qv-w,
+.qv-arabic[data-active] .qv-waqf {
+	color: color-mix(in srgb, var(--color-text) 34%, var(--color-bg));
+}
+
+.qv-arabic[data-active] .qv-w.is-active {
+	color: var(--color-text);
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.qv-w,
+	.qv-waqf {
+		transition: none;
+	}
+}
+
+/* Play control + reference, in the meta register on the verse's left axis. A
+   smaller sibling of the homepage's lone play glyph; no scrubber, no timeline. */
+.qv-meta {
+	display: flex;
+	align-items: center;
+	gap: 0.55rem;
+	margin-top: 0.7rem;
+}
+
+.qv-cite {
+	color: var(--color-muted);
+}
+
+.qv-play {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 2rem;
+	height: 2rem;
+	flex-shrink: 0;
+	padding: 0;
+	border: 1px solid var(--color-divider);
+	border-radius: 50%;
+	background: transparent;
+	color: var(--color-accent);
+	cursor: pointer;
+	transition:
+		border-color 0.15s,
+		background 0.15s,
+		color 0.15s;
+}
+
+.qv-play:hover {
+	border-color: var(--color-warm);
+}
+
+.qv-play:focus-visible {
+	outline: 2px solid var(--color-accent);
+	outline-offset: 2px;
+}
+
+.qv-play[data-playing] {
+	background: color-mix(in srgb, var(--color-warm), transparent 82%);
+	border-color: var(--color-warm);
+}
+
+.qv-icon-pause {
+	display: none;
+}
+
+.qv-play[data-playing] .qv-icon-play {
+	display: none;
+}
+
+.qv-play[data-playing] .qv-icon-pause {
+	display: inline;
+}
+
+@media (width <= 768px) {
+	.quran-verse {
+		padding-left: var(--space-half);
+	}
+
+	.qv-arabic {
+		font-size: 1.375rem;
+		line-height: 1.9;
+	}
+}

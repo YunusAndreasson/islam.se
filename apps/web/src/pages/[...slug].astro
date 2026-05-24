@@ -382,3 +382,10 @@ const amne = article.category ? amneByName.get(article.category) : undefined;
 		document.addEventListener("astro:before-swap", () => { ctrl.abort(); popover.remove(); }, { once: true });
 	});
 </script>
+
+<script>
+	// Wire any Quran recitation players injected into the essay body
+	// (rehype-quran-verse). They exist only on essay pages, so init lives here.
+	import { initQuranPlayers } from "../scripts/quran-player";
+	document.addEventListener("astro:page-load", () => initQuranPlayers());
+</script>

@@ -6,6 +6,7 @@ import type { AstroUserConfig } from "astro";
 import { defineConfig, fontProviders } from "astro/config";
 import remarkSmartypants from "remark-smartypants";
 import { rehypeHonorific } from "./src/plugins/rehype-honorific";
+import { rehypeQuranVerse } from "./src/plugins/rehype-quran-verse";
 import { remarkAbbr } from "./src/plugins/remark-abbr";
 
 // remark-smartypants resolves its own `unified` version, whose Plugin type does not
@@ -339,7 +340,7 @@ export default defineConfig({
 			],
 			remarkAbbr,
 		] as unknown as RemarkPlugins,
-		rehypePlugins: [rehypeHonorific],
+		rehypePlugins: [rehypeHonorific, rehypeQuranVerse],
 	},
 	fonts: [
 		{

@@ -1,5 +1,80 @@
 [
 	{
+		"id": "3:190",
+		"surah": 3,
+		"ayah": 190,
+		"ayahKey": "3:190",
+		"surahName": "Ali 'Imran",
+		"surahNameArabic": "آل عمران",
+		"textArabic": "إِنَّ فِي خَلْقِ السَّمَاوَاتِ وَالْأَرْضِ وَاخْتِلَافِ اللَّيْلِ وَالنَّهَارِ لَآيَاتٍ لِّأُولِي الْأَلْبَابِ",
+		"textSwedish": "I skapelsen av himlarna och jorden och i växlingen mellan natt och dag finns sanner ligen tecken för dem som har förstånd,",
+		"translator": "Kent Asante Wennerström",
+		"reciter": "Ahmad al-Nufais - Murattal",
+		"audioFile": "/audio/quran/003190.mp3",
+		"segments": [
+			[
+				1,
+				200,
+				270
+			],
+			[
+				2,
+				320,
+				630
+			],
+			[
+				3,
+				680,
+				1350
+			],
+			[
+				4,
+				1400,
+				2550
+			],
+			[
+				5,
+				2600,
+				3430
+			],
+			[
+				6,
+				3480,
+				4470
+			],
+			[
+				7,
+				4520,
+				5190
+			],
+			[
+				8,
+				5240,
+				6590
+			],
+			[
+				9,
+				6640,
+				8230
+			],
+			[
+				10,
+				8280,
+				8530
+			],
+			[
+				11,
+				8530,
+				9230
+			],
+			[
+				11,
+				9280,
+				11013
+			]
+		]
+	},
+	{
 		"id": "13:28",
 		"surah": 13,
 		"ayah": 28,
@@ -7,7 +82,7 @@
 		"surahName": "Ar-Ra'd",
 		"surahNameArabic": "الرعد",
 		"textArabic": "الَّذِينَ آمَنُوا وَتَطْمَئِنُّ قُلُوبُهُم بِذِكْرِ اللَّهِ ۗ أَلَا بِذِكْرِ اللَّهِ تَطْمَئِنُّ الْقُلُوبُ",
-		"textSwedish": "De som har antagit tron och vars hjärtan finner ro i att prisa Allah. Visst är det i Allahs pris som hjärtan finner ro!",
+		"textSwedish": "De som har antagit tron och vars hjärtan finner ro i att prisa Allah.” Visst är det i Allahs pris som hjärtan finner ro!",
 		"translator": "Kent Asante Wennerström",
 		"reciter": "Ahmad al-Nufais - Murattal",
 		"audioFile": "/audio/quran/013028.mp3",
@@ -90,81 +165,6 @@
 		]
 	},
 	{
-		"id": "3:190",
-		"surah": 3,
-		"ayah": 190,
-		"ayahKey": "3:190",
-		"surahName": "Ali 'Imran",
-		"surahNameArabic": "آل عمران",
-		"textArabic": "إِنَّ فِي خَلْقِ السَّمَاوَاتِ وَالْأَرْضِ وَاخْتِلَافِ اللَّيْلِ وَالنَّهَارِ لَآيَاتٍ لِّأُولِي الْأَلْبَابِ",
-		"textSwedish": "I skapelsen av himlarna och jorden och i växlingen mellan natt och dag finns sannerligen tecken för dem som har förstånd.",
-		"translator": "Kent Asante Wennerström",
-		"reciter": "Ahmad al-Nufais - Murattal",
-		"audioFile": "/audio/quran/003190.mp3",
-		"segments": [
-			[
-				1,
-				200,
-				270
-			],
-			[
-				2,
-				320,
-				630
-			],
-			[
-				3,
-				680,
-				1350
-			],
-			[
-				4,
-				1400,
-				2550
-			],
-			[
-				5,
-				2600,
-				3430
-			],
-			[
-				6,
-				3480,
-				4470
-			],
-			[
-				7,
-				4520,
-				5190
-			],
-			[
-				8,
-				5240,
-				6590
-			],
-			[
-				9,
-				6640,
-				8230
-			],
-			[
-				10,
-				8280,
-				8530
-			],
-			[
-				11,
-				8530,
-				9230
-			],
-			[
-				11,
-				9280,
-				11013
-			]
-		]
-	},
-	{
 		"id": "17:44",
 		"surah": 17,
 		"ayah": 44,
@@ -172,7 +172,7 @@
 		"surahName": "Al-Isra",
 		"surahNameArabic": "الإسراء",
 		"textArabic": "تُسَبِّحُ لَهُ السَّمَاوَاتُ السَّبْعُ وَالْأَرْضُ وَمَن فِيهِنَّ ۚ وَإِن مِّن شَيْءٍ إِلَّا يُسَبِّحُ بِحَمْدِهِ وَلَٰكِن لَّا تَفْقَهُونَ تَسْبِيحَهُمْ ۗ إِنَّهُ كَانَ حَلِيمًا غَفُورًا",
-		"textSwedish": "Honom prisar de sju himlarna och jorden och allt som finns i dem. Det finns ingenting som inte prisar Hans lov, men ni förstår inte deras prisande. Han är sannerligen fördragsam, förlåtande.",
+		"textSwedish": "Honom prisar de sju himlarna och jorden och allt som finns i dem. Det finns ingenting som inte prisar Hans lov, men ni förstår inte deras prisande. Han är sanner ligen fördragsam, förlåtande.",
 		"translator": "Kent Asante Wennerström",
 		"reciter": "Ahmad al-Nufais - Murattal",
 		"audioFile": "/audio/quran/017044.mp3",
@@ -292,7 +292,7 @@
 		"surahName": "Az-Zumar",
 		"surahNameArabic": "الزمر",
 		"textArabic": "اللَّهُ يَتَوَفَّى الْأَنفُسَ حِينَ مَوْتِهَا وَالَّتِي لَمْ تَمُتْ فِي مَنَامِهَا ۖ فَيُمْسِكُ الَّتِي قَضَىٰ عَلَيْهَا الْمَوْتَ وَيُرْسِلُ الْأُخْرَىٰ إِلَىٰ أَجَلٍ مُّسَمًّى ۚ إِنَّ فِي ذَٰلِكَ لَآيَاتٍ لِّقَوْمٍ يَتَفَكَّرُونَ",
-		"textSwedish": "Allah tar människors själar när deras dödsstund är kommen; och den [själ] som inte dör [tar han när den sover]. Han kvarhåller sedan de [själar] vars död Han bestämt och sänder tillbaka de andra [själarna] fram till en utsatt tid. I detta finns sannerligen tecken för människor som tänker efter.",
+		"textSwedish": "Allah tar människors själar när deras dödsstund är kommen; och den [själ] som inte dör [tar han när den sover]. Han kvar håller sedan de [själar] vars död Han bestämt och sänder tillbaka de andra [själarna] fram till en utsatt tid. I detta finns sannerligen tecken för människor som tänker efter.",
 		"translator": "Kent Asante Wennerström",
 		"reciter": "Ahmad al-Nufais - Murattal",
 		"audioFile": "/audio/quran/039042.mp3",
