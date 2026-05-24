@@ -79,6 +79,8 @@ if (limit) {
 		list-style: none;
 	}
 
+	/* No per-row rules — the vertical axis divider + row spacing carry the list;
+	   the count on the right gives each row its own anchor. */
 	.tankare-row a {
 		display: flex;
 		align-items: baseline;
@@ -87,7 +89,6 @@ if (limit) {
 		padding-block: 0.5rem;
 		text-decoration: none;
 		color: inherit;
-		border-bottom: 1px solid color-mix(in srgb, var(--color-divider), transparent 35%);
 
 		&:hover .tankare-name {
 			text-decoration: underline;
@@ -98,10 +99,6 @@ if (limit) {
 			outline: 2px solid var(--color-accent);
 			outline-offset: 2px;
 		}
-	}
-
-	.tankare-row:last-child a {
-		border-bottom: none;
 	}
 
 	.tankare-name {
