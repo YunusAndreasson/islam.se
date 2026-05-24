@@ -122,3 +122,13 @@
 		line-height: 1.9;
 	}
 }
+
+/* Touch: the 2rem ring is a fine visual register but a 32px tap target. On
+   coarse pointers grow it to the 44px (2.75rem) minimum so the recitation is
+   reliably tappable; pointer devices keep the quieter ring. */
+@media (hover: none), (pointer: coarse) {
+	.qv-play {
+		width: 2.75rem;
+		height: 2.75rem;
+	}
+}

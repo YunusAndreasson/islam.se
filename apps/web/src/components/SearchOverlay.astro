@@ -233,6 +233,16 @@ const index = await buildPaletteIndex();
 		.palette-row-type { display: none; }
 	}
 
+	/* Touch: the palette is the whole site menu here, so the browse chips must be
+	   comfortably tappable. The 0.4rem padding leaves a ~30px target; raise it to
+	   the 44px minimum on coarse pointers. */
+	@media (hover: none), (pointer: coarse) {
+		.palette-chip {
+			min-height: 2.75rem;
+			padding-inline: 0.95rem;
+		}
+	}
+
 	@media print { .palette { display: none !important; } }
 </style>
 
