@@ -1,7 +1,16 @@
 ---
-import { type Article, formatDate, getArticles, inlineMarkdown } from "../lib/articles";
+import { formatDate, getArticles, inlineMarkdown } from "../lib/articles";
 import { amnenWithEssays } from "../lib/amnen";
 import EssayImage from "./EssayImage.astro";
+
+interface Props {
+	/** Slugs whose hero image already appears higher on the page (the feature +
+	    "Nyligen publicerat" rows). A topic never leads with one of these, so the
+	    same picture never shows twice on the home page. */
+	usedImageSlugs?: Set<string>;
+}
+
+const { usedImageSlugs = new Set<string>() } = Astro.props;
 
 const articles = await getArticles();
 const groups = amnenWithEssays(articles);
@@ -12,25 +21,21 @@ const groups = amnenWithEssays(articles);
 // 3-column grid of the rest (1 + 6), with no ragged trailing row.
 const PER_AMNE = 7;
 
-// A topic is image-led whenever it has at least one essay carrying a hero: it
-// leads with that picture (only the first/featured essay shows an image), and
-// the rest follow as a quiet titles grid. Only a wholly image-less topic falls
-// back to a plain titles grid. This guarantees every topic opens with a fitting
-// picture instead of hiding it behind a fixed lead/text alternation.
+// A topic leads with a picture whenever it has a hero essay whose image hasn't
+// already been spent higher on the page. That essay floats to the front as the
+// large lead; the rest follow as a quiet titles grid (including any essay whose
+// image already appeared above — it shows as a title here, never a second copy
+// of the same picture). A topic with no un-shown hero falls back to a plain
+// titles grid rather than repeat an image.
 type Treatment = "lead" | "text";
 
-function pick(essays: Article[], treatment: Treatment, n: number): Article[] {
-	if (treatment === "text") return essays.slice(0, n);
-	// Image-led: float an essay that actually carries a hero to the front so it
-	// becomes the large lead; the rest follow (title-only) in recency order.
-	const withImg = essays.filter((e) => e.heroImage);
-	const without = essays.filter((e) => !e.heroImage);
-	return [...withImg, ...without].slice(0, n);
-}
-
 const sections = groups.map(({ amne, essays }) => {
-	const treatment: Treatment = essays.some((e) => e.heroImage) ? "lead" : "text";
-	return { amne, treatment, picks: pick(essays, treatment, PER_AMNE), total: essays.length };
+	const lead = essays.find((e) => e.heroImage && !usedImageSlugs.has(e.slug));
+	const treatment: Treatment = lead ? "lead" : "text";
+	const picks = lead
+		? [lead, ...essays.filter((e) => e.slug !== lead.slug)].slice(0, PER_AMNE)
+		: essays.slice(0, PER_AMNE);
+	return { amne, treatment, picks, total: essays.length };
 });
 ---
 

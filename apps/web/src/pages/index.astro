@@ -20,6 +20,13 @@ const verseOfDay = await getVerseOfDay();
 const feature = articles.find((a) => a.heroImage) ?? articles[0];
 const recent = articles.filter((a) => a.slug !== feature?.slug).slice(0, 5);
 
+// Hero images already spent at the top of the page — the feature plus any
+// "Nyligen publicerat" row that carries one. Passed to AmnenSections so each
+// topic leads with a different picture and no image repeats further down.
+const usedImageSlugs = new Set<string>();
+if (feature?.heroImage) usedImageSlugs.add(feature.slug);
+for (const a of recent) if (a.heroImage) usedImageSlugs.add(a.slug);
+
 const ogImage = feature?.heroImage;
 ---
 
@@ -60,7 +67,7 @@ const ogImage = feature?.heroImage;
 
 		<Citat />
 
-		<AmnenSections />
+		<AmnenSections usedImageSlugs={usedImageSlugs} />
 
 		<TradarHome limit={4} />
 
