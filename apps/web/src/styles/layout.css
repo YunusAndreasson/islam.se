@@ -258,8 +258,11 @@ a:hover .media-frame img {
 }
 
 /* Palette trigger — the mast's only control now that navigation lives in the
-   command palette. A quiet hairline pill: magnifier + "Sök" + a ⌘K hint. The
-   hint is dropped on touch, where it would be meaningless. */
+   command palette. On pointer devices it's a quiet hairline pill: magnifier +
+   "Sök" + a ⌘K hint. On touch the palette IS the whole site menu, so the pill
+   becomes a conventional ☰ "Meny" affordance instead (the ⌘K hint, meaningless
+   without a keyboard, is dropped). The menu variant is hidden by default and
+   revealed only in the touch media query below. */
 .search-trigger {
 	display: inline-flex;
 	align-items: center;
@@ -296,6 +299,13 @@ a:hover .media-frame img {
 	flex-shrink: 0;
 }
 
+/* The menu (☰) icon + "Meny" label belong to touch only; hidden on pointer
+   devices, where the magnifier + "Sök" + ⌘K pill stands. */
+.search-trigger-icon--menu,
+.search-trigger-label--menu {
+	display: none;
+}
+
 .search-trigger-kbd {
 	display: inline-flex;
 	align-items: center;
@@ -312,10 +322,22 @@ a:hover .media-frame img {
 	font-size: 1.05em;
 }
 
-/* Touch / no-hover pointers: drop the keyboard hint, widen the tap target. */
+/* Touch / no-hover pointers: the pill becomes a ☰ "Meny" button (the palette is
+   the whole navigation here), the keyboard hint is dropped, and the tap target
+   widens. */
 @media (hover: none), (pointer: coarse) {
+	.search-trigger-icon--search,
+	.search-trigger-label--search,
 	.search-trigger-kbd {
 		display: none;
+	}
+
+	.search-trigger-icon--menu {
+		display: inline-block;
+	}
+
+	.search-trigger-label--menu {
+		display: inline;
 	}
 
 	.search-trigger {
