@@ -28,9 +28,23 @@ Most articles launch without a hero image. The text-only experience — title, m
 
 ### The Startpage
 
-The startpage is a single screen. If the latest article has a hero image, it occupies the viewport with the title overlaid. If not, the title is presented in a centered text-only hero. Logo and minimal navigation at the top. Copyright and a brief site description at the bottom. Nothing else. No scroll, no content below the fold, no list of other articles. Other essays are found through the archive.
+The startpage is a composed sequence of *movements* down one wide editorial canvas (`--home-width`, wider than the reading column) — not a single screen, not a table of contents, and not an infinite feed. It opens like a magazine cover: the most recent essay that carries a hero image takes a full-width signature spread with its title. It then descends through a fixed, curated order:
 
-This is a magazine cover, not a table of contents. The latest essay gets the full stage. The effect is intentional: when a reader arrives, they encounter one essay, presented with conviction. This signals editorial confidence — we chose this piece for you, and we believe it deserves your full attention.
+1. **Feature** — the latest essay, full-width hero.
+2. **Daily verse** — one Quran verse, Arabic and Swedish (Principle 12).
+3. **Recent essays** — the next few, an image-led list.
+4. **Pull-quote** — a single rotating line from the corpus.
+5. **Ämnen** — the seven topics, image-led.
+6. **Trådar** — curated reading threads (capped to four here).
+7. **Tänkare** — a balanced glimpse of the two facing traditions.
+8. **Det islamiska året** — the recurring Islamic calendar (Principle 12).
+9. **Boken & podden** — the book and the podcast.
+10. **Om / AI** — two quiet text codas.
+11. **Hela arkivet** — one line to the full archive.
+
+Each movement is a `.home-movement`: generous vertical breathing between them, a small warm `.home-kicker` tick that names the section, and a hairline rule only where one is genuinely earned. The page must read as *one composition* — modules share a left/right edge and an inner measure, so it feels like chapters, not a stack of widgets. The latest essay still leads, presented with conviction; everything below is an invitation deeper, never a content dump. Each non-feature module stays quiet: it names itself, shows a glimpse, and links onward.
+
+This reading-led front page deliberately supersedes the earlier "cover only, no scroll" startpage. The editorial confidence that the single screen used to signal now lives in the feature spread at the top — the rest of the page rewards the reader who keeps going.
 
 ### The Article Hero
 
@@ -43,6 +57,10 @@ The hero does not compete with the essay. Once the reader scrolls past it, it is
 The art must be produced for each article. The style should be consistent across the site (a recognizable visual language) while varying per essay.
 
 The art is not illustrative in the literal sense — it does not depict what the essay describes. It evokes. An essay about sleep and death might have an image of deep twilight over water. An essay about the call to prayer might use geometric light. The reader should feel something before understanding what the essay is about.
+
+### The Homepage Image Treatment
+
+The front page and collection surfaces are image-led: an essay's hero image is reused, smaller, as the doorway into it. To keep many crops from reading as a grid of pasted rectangles, every such image sits in a shared `.media-frame` — a base tonal wash on the image itself, a faint film-grain layer, and a soft inset vignette that melts the crop into the warm page. On hover or keyboard focus the frame lifts on a soft shadow, the vignette opens, and the wash eases back to full colour with a gentle zoom. The treatment is entirely CSS; the images carry no extra weight, and with motion reduced the lift and zoom are dropped. Crops are uniform per content type (feature 16∶9, recent 4∶3, ämnen 3∶2) so the rhythm stays even down the page.
 
 ---
 
@@ -132,7 +150,7 @@ Every article uses footnotes (typically 5–12 per essay) for scholarly apparatu
 Every element on the page must pass this test: **if I remove this, does the reading experience get worse?** If the answer is no, or "I'm not sure," remove it.
 
 - **No sidebar.** Sidebars split attention. The essay is the page.
-- **No stock images, no generic illustration.** The hero is the one image per page. Beyond the hero, no images unless integral to the essay's argument.
+- **No stock images, no generic illustration.** On a reading page the hero is the one image; beyond it, no images unless integral to the essay's argument. The front page and collection pages are the deliberate exception — there, essays' own hero images are reused as art-directed doorways (see *The Homepage Image Treatment*), never decorative stock.
 - **No color for color's sake.** The palette is: text color, background color, one accent (for links and interactive elements), and muted tones for secondary elements. Four colors maximum.
 - **No borders or dividers unless encoding meaning.** Use whitespace for separation, not lines.
 - **No animations on content.** Text does not fade in, slide up, or parallax. The reader chose to be here. Present the text immediately. No page-level transitions either — prefetch-on-hover makes navigation near-instant without injecting transition JS.
@@ -164,13 +182,25 @@ The reader must be able to find essays without the interface competing with the 
 
 ### Navigation
 
-Minimal persistent navigation: "Hem" (home) and "Essäer" (browse). No mega-menus, no dropdowns, no category trees. The site publishes essays — the structure is flat. The header is sticky on inner pages (with a soft gradient fade at the bottom edge) and overlaid on hero images with white text.
+The mast is reduced to two things: the wordmark (home) and a single `Sök ⌘K` trigger. No nav links in the header, no mega-menus, no dropdowns. **All navigation lives in a ⌘K command palette** (`SearchOverlay`): opened from the trigger or the ⌘K / Ctrl-K shortcut, it shows a browse menu in its empty state and ranked search across every destination once the reader types — the standing pages, the three browse axes (ämnen, trådar, tänkare), and every essay. The mast is sticky and auto-hides on scroll-down, returning on scroll-up.
+
+Because the palette is JavaScript, a **site-wide footer** carries the same standing destinations as real `<a>` links on every page — Essäer, Trådar, Tänkare, Om, AI — plus the colophon. This is the crawlable navigation backstop: from these hubs a crawler (or a reader without JS) reaches every ämne (via Essäer), thread, thinker and essay. Navigation the reader summons (the palette) and navigation that must always be reachable (the footer) are kept as two distinct surfaces, neither one cluttering the reading column.
+
+### The Browse Axes
+
+Essays are cross-cut by three curated axes, each a first-class collection surface:
+
+- **Ämnen** — seven topics in a fixed order (foundational theology first, the Swedish reader's meeting-point last). Each essay carries exactly one.
+- **Trådar** — hand-curated reading threads: an ordered path of essays around a single line of argument.
+- **Tänkare** — the recurring interlocutors, in two facing columns: the classical Islamic tradition and the Swedish/Western voices that meet it. The composition itself is the argument — a dialogue shown, not declared.
+
+These are glimpsed on the startpage and browsable in full at `/amnen/…`, `/tradar`, and `/tankare`. They never harden into a top-level menu; they are reached through the palette, the footer, and the homepage movements.
 
 ### The Essäer Page
 
-The essay archive at `/essaer` is a simple chronological list of all published essays. Each entry shows: title, date, and reading time. No cards, no thumbnails. The titles must do the work — they were written to intrigue. A CSS-only hover tooltip shows the essay description as progressive disclosure — it does not clutter the default list and requires no JavaScript.
+The essay archive at `/essaer` lists every published essay — title, date, reading time, and description. No cards, no thumbnails: the titles do the work. By default the list is grouped by **ämne** in the canonical order (each heading links to its ämne page); one quiet toggle re-groups it **chronologically** by year. A filter row (ämnen / trådar / tänkare / längd) opens a calm overlay for jumping to a section or narrowing by length — none of it required to read the list. Essays the reader has finished shift value in place (a muted title and a "läst" mark) rather than splitting off into a separate section, and a small ring shows how much of the archive is read. All of this is `localStorage`, no account.
 
-The list is ordered newest-first. No pagination — the full archive on one page (at 35+ essays, this is a single screenful of titles). If the archive grows to hundreds of essays, reconsider — but not before.
+The list is ordered newest-first within each group. No pagination — the full archive on one page. If it grows to hundreds of essays, reconsider — but not before.
 
 The archive is accessible from the navigation ("Essäer") and from the end of every essay. Astro's prefetch-on-hover strategy makes navigation feel instant — clicking a title loads nearly immediately because the page was prefetched when the reader hovered.
 
@@ -269,6 +299,20 @@ When someone shares an article link, the preview is the first impression for mos
 
 ---
 
+## Principle 12: The Daily Verse and the Islamic Year
+
+Two recurring modules root the site in the living practice of the tradition, in the same restrained editorial voice as everything else. Neither is a widget; each is content.
+
+### The Daily Verse
+
+One Quran verse a day, drawn from a small committed rotation and chosen deterministically by date, so every visitor sees the same verse on the same day. It is set as a single left-anchored quote: the Arabic above — downsized and left-aligned — and the Swedish translation below, framed by text-coloured curly quotation marks. The verse is paired with the essay that cites it (a quiet "read on" link); it is never decorative. An optional audio recitation highlights each Arabic word as it is recited — a reading aid, not a gimmick, and entirely skippable. Every verse in the rotation must be cited by a published essay, or the build fails.
+
+### Det islamiska året
+
+A quiet, editorial rendering of the Islamic year — the two Eids, Ramadan and Laylat al-Qadr, Ashura and Arafa, the recommended fasts, the days of Hajj — mapped to Gregorian dates from the platform's Umm al-Qura calendar. It is a list that sits in time, not a calendar UI: no countdowns, no urgency, no "today" badge. Only observances established in hadith appear; nothing contested. The client quietly surfaces the next several upcoming entries so the list never goes stale between deploys.
+
+---
+
 ## Summary of Constraints
 
 | Element | Constraint |
@@ -282,6 +326,7 @@ When someone shares an article link, the preview is the first impression for mos
 | JS for reading | Zero required (prefetch-on-hover for fast navigation) |
 | Animations on content | None |
 | Sidebar | None |
-| Startpage | Single screen: latest article hero, logo, nav, copyright + about at bottom |
+| Startpage | A composed scroll of movements led by the latest essay's hero (not a single screen, not a feed) |
+| Navigation | Wordmark + ⌘K command palette; site-wide footer as the crawlable backstop |
 
 Performance and weight budgets are in `TECHNICAL_SPEC.md`.

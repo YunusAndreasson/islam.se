@@ -1,4 +1,4 @@
-// Märkesdagar — the Sunni Islamic year mapped to Gregorian dates (§7.9).
+// Det islamiska året — the Sunni Islamic year mapped to Gregorian dates (§7.9).
 //
 // Umm al-Qura is read straight from the platform's Intl calendar — no library,
 // no hand-transcribed tables (§11). The full annual table is generated here at
@@ -57,10 +57,10 @@ interface EventDef {
 // In Hijri-year order. Only observances established in hadith (§7.9) — nothing
 // contested (no Mawlid, no Isra wa Miʿraj), no toggle.
 const EVENTS: EventDef[] = [
-	{ name: "Islamiskt nyår", start: [1, 1] },
+	{ name: "Det islamiska årets första dag", start: [1, 1] },
 	{
 		name: "Ashura",
-		note: "frivillig fasta till minne av Moses, parad med den 9:e eller 11:e",
+		note: "frivillig fasta till minne av att Gud räddade Mose; fastas med den 9:e eller 11:e",
 		start: [1, 10],
 	},
 	{ name: "Ramadan", start: [9, 1], end: [10, 1], endExclusive: true },
