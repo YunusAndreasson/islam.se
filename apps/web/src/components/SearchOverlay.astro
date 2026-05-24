@@ -240,15 +240,25 @@ const index = await buildPaletteIndex();
 	import { navigate } from "astro:transitions/client";
 
 	type PType = "Sida" | "Ämne" | "Tråd" | "Tänkare" | "Essä";
-	interface Entry { type: PType; label: string; sub: string; href: string; }
+	interface Entry { type: PType; label: string; sub: string; href: string; group?: "sunni" | "western"; }
 
-	// Search group order: standing pages and the browse axes rank above essays.
-	const SEARCH_ORDER: PType[] = ["Sida", "Ämne", "Tråd", "Tänkare", "Essä"];
-	// Browse order mirrors the homepage: the three axes first, pages last.
-	const BROWSE_ORDER: PType[] = ["Ämne", "Tråd", "Tänkare", "Sida"];
-	const HEADING: Record<PType, string> = {
-		Sida: "Sidor", Ämne: "Ämnen", Tråd: "Trådar", Tänkare: "Tänkare", Essä: "Essäer",
+	// Results render in sections, not raw types: Tänkare splits into its two
+	// traditions so the classical Islamic scholars never interleave with the
+	// Swedish/Western voices (the same division the /tankare directory draws).
+	// Each section is one heading + the entries it claims.
+	type SectionKey = "Sida" | "Ämne" | "Tråd" | "Sunni" | "Western" | "Essä";
+	const SECTION: Record<SectionKey, { heading: string; match: (e: Entry) => boolean }> = {
+		Sida:    { heading: "Sidor",  match: (e) => e.type === "Sida" },
+		Ämne:    { heading: "Ämnen",  match: (e) => e.type === "Ämne" },
+		Tråd:    { heading: "Trådar", match: (e) => e.type === "Tråd" },
+		Sunni:   { heading: "Den klassiska islamiska traditionen", match: (e) => e.type === "Tänkare" && e.group === "sunni" },
+		Western: { heading: "Svenska och västerländska röster",    match: (e) => e.type === "Tänkare" && e.group === "western" },
+		Essä:    { heading: "Essäer", match: (e) => e.type === "Essä" },
 	};
+	// Search ranks structure above essays; browse mirrors the homepage axes (pages
+	// last) and omits essays.
+	const SEARCH_ORDER: SectionKey[] = ["Sida", "Ämne", "Tråd", "Sunni", "Western", "Essä"];
+	const BROWSE_ORDER: SectionKey[] = ["Ämne", "Tråd", "Sunni", "Western", "Sida"];
 	// Pages worth surfacing as browse chips (the rest are reachable by typing).
 	const BROWSE_PAGES = ["Essäer", "Om", "AI"];
 	const ESSAY_CAP = 8;
@@ -333,11 +343,12 @@ const index = await buildPaletteIndex();
 
 		function renderBrowse(): string {
 			let out = "";
-			for (const type of BROWSE_ORDER) {
-				let list = getEntries().filter((e) => e.type === type);
-				if (type === "Sida") list = list.filter((e) => BROWSE_PAGES.includes(e.label));
+			for (const key of BROWSE_ORDER) {
+				const sec = SECTION[key];
+				let list = getEntries().filter(sec.match);
+				if (key === "Sida") list = list.filter((e) => BROWSE_PAGES.includes(e.label));
 				if (!list.length) continue;
-				out += `<section class="palette-group"><p class="palette-group-head label">${HEADING[type]}</p><div class="palette-chips">${list.map(chip).join("")}</div></section>`;
+				out += `<section class="palette-group"><p class="palette-group-head label">${sec.heading}</p><div class="palette-chips">${list.map(chip).join("")}</div></section>`;
 			}
 			return out;
 		}
@@ -349,11 +360,12 @@ const index = await buildPaletteIndex();
 				.sort((a, b) => b.s - a.s);
 			let out = "";
 			let count = 0;
-			for (const type of SEARCH_ORDER) {
-				let list = hits.filter((h) => h.e.type === type).map((h) => h.e);
-				if (type === "Essä") list = list.slice(0, ESSAY_CAP);
+			for (const key of SEARCH_ORDER) {
+				const sec = SECTION[key];
+				let list = hits.filter((h) => sec.match(h.e)).map((h) => h.e);
+				if (key === "Essä") list = list.slice(0, ESSAY_CAP);
 				if (!list.length) continue;
-				out += `<section class="palette-group"><p class="palette-group-head label">${HEADING[type]}</p><div class="palette-rows">${list.map(row).join("")}</div></section>`;
+				out += `<section class="palette-group"><p class="palette-group-head label">${sec.heading}</p><div class="palette-rows">${list.map(row).join("")}</div></section>`;
 				count += list.length;
 			}
 			return { html: out, count };
