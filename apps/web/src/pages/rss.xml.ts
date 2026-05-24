@@ -27,5 +27,6 @@ export async function GET(context: APIContext) {
 		description: "Essäer om islamisk intellektuell tradition och svenskt kulturarv.",
 		site: context.site?.href ?? "https://islam.se",
 		items,
+		customData: "<language>sv-SE</language>",
 	});
 }
