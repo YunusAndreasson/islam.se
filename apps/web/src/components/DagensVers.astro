@@ -45,7 +45,7 @@ const adlibris = "https://www.adlibris.com/se/sok?q=koranens+budskap+bernström"
 				<svg class="vers-icon-play" width="15" height="15" viewBox="0 0 18 18" fill="currentColor" aria-hidden="true"><path d="M4 2.5v13l11-6.5z" /></svg>
 				<svg class="vers-icon-pause" width="15" height="15" viewBox="0 0 18 18" fill="currentColor" aria-hidden="true"><rect x="4" y="2" width="3.5" height="14" rx="0.5" /><rect x="10.5" y="2" width="3.5" height="14" rx="0.5" /></svg>
 			</button>
-			<span class="label vers-cite">{refName} {verse.surah}:{verse.ayah}</span>
+			<span class="label vers-cite">Koranen <span class="nav-dot" aria-hidden="true">&middot;</span> {refName} {verse.surah}:{verse.ayah}</span>
 		</p>
 
 		<p class="vers-links">
@@ -59,22 +59,30 @@ const adlibris = "https://www.adlibris.com/se/sok?q=koranens+budskap+bernström"
 
 <style>
 	.vers-body {
-		/* The verse hangs to a shared right axis — the natural reading direction
-		   of the Arabic — while the kicker stays on the page's left edge. */
-		text-align: right;
+		/* A left-anchored block on the page's shared left axis, so the verse blends
+		   with every other movement (all left-aligned). One constrained measure
+		   holds the Arabic and the Swedish in a single frame — same left edge, same
+		   width — so they read as one citation rather than a full-bleed verse with a
+		   stranded caption. The cap also stops the Arabic spanning the whole page. */
+		max-width: 40rem;
 		margin-top: var(--space-half);
+		text-align: left;
 	}
 
-	/* The single most consequential typographic moment on the site (§4). Generous
-	   vertical room, no letter-spacing, line-height tuned so harakat never collide. */
+	/* The single most consequential typographic moment on the site (§4) — so it
+	   stays the apex, but set only just above the page's largest heading (the
+	   ~2.6rem hero title) rather than dwarfing it. Amiri Quran already reads large
+	   for its point size, so a restrained cap keeps the verse commanding yet in
+	   scale. No letter-spacing; line-height tuned so the deep harakat never collide. */
 	.vers-arabic {
 		font-family: var(--font-arabic);
 		font-weight: 400;
-		font-size: clamp(2rem, 5.5vw, 3.4rem);
-		line-height: 2.05;
+		font-size: clamp(1.875rem, 4.4vw, 2.85rem);
+		line-height: 1.9;
 		letter-spacing: 0;
 		color: var(--color-text);
 		margin: 0;
+		text-align: left;
 		text-wrap: balance;
 	}
 
@@ -146,19 +154,41 @@ const adlibris = "https://www.adlibris.com/se/sok?q=koranens+budskap+bernström"
 		font-size: clamp(1.0625rem, 1.6vw, 1.25rem);
 		line-height: 1.6;
 		color: color-mix(in srgb, var(--color-text) 78%, var(--color-muted));
-		max-width: 34rem;
-		margin: var(--space-unit) 0 0 auto; /* narrower measure, pushed to the right axis */
+		margin: var(--space-unit) 0 0; /* fills the shared frame, on the left axis */
+		text-wrap: pretty;
+		/* The opening quote hangs into the margin so the prose keeps the verse's
+		   left axis — hanging punctuation, in keeping with the body type. */
+		text-indent: -0.46em;
 	}
 
 	.vers-sv em {
 		font-weight: 500;
 	}
 
-	/* Reference + the lone play glyph, set together in the meta register. */
+	/* A pair of soft curly quotation marks frames the translation as a spoken
+	   citation. They take the translation's own colour (inherited) so they read
+	   as balanced punctuation rather than a tinted ornament, and stay upright
+	   while the prose itself is italic. */
+	.vers-sv::before {
+		content: "\201C";
+	}
+
+	.vers-sv::after {
+		content: "\201D";
+	}
+
+	.vers-sv::before,
+	.vers-sv::after {
+		font-style: normal;
+		font-weight: 400;
+	}
+
+	/* Reference + the lone play glyph, set together in the meta register, on the
+	   verse's left axis. */
 	.vers-ref {
 		display: flex;
 		align-items: center;
-		justify-content: flex-end;
+		justify-content: flex-start;
 		gap: 0.6rem;
 		margin: var(--space-unit) 0 0;
 	}
@@ -239,12 +269,7 @@ const adlibris = "https://www.adlibris.com/se/sok?q=koranens+budskap+bernström"
 
 	@media (width <= 768px) {
 		.vers-arabic {
-			line-height: 1.95;
-		}
-
-		.vers-sv {
-			margin-left: 0;
-			max-width: none;
+			line-height: 1.85;
 		}
 	}
 </style>
