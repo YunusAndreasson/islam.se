@@ -21,7 +21,15 @@ const {
 } = Astro.props;
 
 const hero = article.heroImage;
-const mobile = article.mobileHeroImage;
+// Only use a mobile-specific crop when it is landscape-ish. Every card layout
+// (feature 3:2, recent 16:9, ämne lead 3:2) renders into a landscape box with
+// object-fit: cover; some -mobile assets are authored as 2:3 portrait, and a
+// portrait source forced into a landscape box shows a thin, zoomed middle slice
+// (reads as a wrong/distorted crop on phones). A portrait crop is dropped so the
+// image falls back to the landscape hero, which cover-crops cleanly to any box.
+const mobileCandidate = article.mobileHeroImage;
+const mobile =
+	mobileCandidate && mobileCandidate.width >= mobileCandidate.height ? mobileCandidate : undefined;
 ---
 
 {hero && (

@@ -56,7 +56,7 @@ if (limit) {
 		position: relative;
 	}
 
-	@media (width > 768px) {
+	@media (width > 600px) {
 		.tankare-groups::before {
 			content: "";
 			position: absolute;
@@ -116,7 +116,9 @@ if (limit) {
 		flex-shrink: 0;
 	}
 
-	@media (width <= 768px) {
+	/* Keep the two facing columns + axis hairline through tablet widths; only fold
+	   to a single column on phones (≤600px), matching the trådar grid below. */
+	@media (width <= 600px) {
 		.tankare-groups {
 			grid-template-columns: 1fr;
 			gap: var(--space-unit);

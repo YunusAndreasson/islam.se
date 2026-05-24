@@ -249,7 +249,11 @@ const sections = groups.map(({ amne, essays }) => {
 		padding: 0;
 		list-style: none;
 		display: grid;
-		grid-template-columns: repeat(3, 1fr);
+		/* auto-fit fills the row with as many ~16rem columns as fit: 3 on the 64rem
+		   home canvas, 2 on a tablet, 1 on a phone — no breakpoint needed. The
+		   min(100%, …) guard keeps the track from outgrowing a sub-16rem phone and
+		   forcing a horizontal scroll. */
+		grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
 		gap: var(--space-unit) clamp(1.25rem, 3vw, 2.5rem);
 	}
 
@@ -257,13 +261,14 @@ const sections = groups.map(({ amne, essays }) => {
 		font-size: 1.0625rem;
 	}
 
-	/* ---- text: quiet titles, three columns flowing to two rows ---- */
+	/* ---- text: quiet titles, three columns flowing to two rows on desktop, two on
+	   a tablet, one on a phone (see .amne-more for the auto-fit rationale) ---- */
 	.amne-text-list {
 		margin: 0;
 		padding: 0;
 		list-style: none;
 		display: grid;
-		grid-template-columns: repeat(3, 1fr);
+		grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
 		gap: var(--space-unit) clamp(1.25rem, 3vw, 2.5rem);
 	}
 
@@ -272,14 +277,11 @@ const sections = groups.map(({ amne, essays }) => {
 	}
 
 	@media (width <= 768px) {
-		.amne-lead,
-		.amne-text-list,
-		.amne-more {
-			grid-template-columns: 1fr;
-			gap: var(--space-unit);
-		}
-
+		/* The titles grids handle their own collapse via auto-fit; only the
+		   image + text lead needs stacking, since its 18rem picture column can't
+		   share a phone's width with the copy. */
 		.amne-lead {
+			grid-template-columns: 1fr;
 			gap: var(--space-half);
 		}
 	}

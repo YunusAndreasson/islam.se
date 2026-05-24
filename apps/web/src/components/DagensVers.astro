@@ -331,6 +331,14 @@ const koranBook =
 			line-height: 1.85;
 		}
 	}
+
+	/* Touch: grow the 2.25rem glyph to the 44px tap minimum. */
+	@media (hover: none), (pointer: coarse) {
+		.vers-play {
+			width: 2.75rem;
+			height: 2.75rem;
+		}
+	}
 </style>
 
 <script>

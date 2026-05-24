@@ -98,7 +98,10 @@ if (limit) {
 		margin: 0.625rem 0 0;
 	}
 
-	@media (width <= 768px) {
+	/* The two-column divider grid is the intended shape down through tablet widths;
+	   only collapse to a single column on phones (≤600px) so iPad-portrait and small
+	   laptops keep both columns instead of dropping to a tall single stack. */
+	@media (width <= 600px) {
 		.tradar-grid {
 			grid-template-columns: 1fr;
 		}
