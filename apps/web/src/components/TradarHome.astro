@@ -1,7 +1,20 @@
 ---
 import { getCollection } from "astro:content";
 
-const threads = await getCollection("tradar");
+// `limit` keeps the homepage glimpse balanced: an even count fills the 2-column
+// grid into clean rows, while the /tradar index renders the collection unbounded.
+// Lead with the threads carrying the most essays (§7.7).
+interface Props {
+	limit?: number;
+}
+const { limit } = Astro.props;
+
+let threads = await getCollection("tradar");
+if (limit) {
+	threads = [...threads]
+		.sort((a, b) => b.data.essays.length - a.data.essays.length)
+		.slice(0, limit);
+}
 ---
 
 <section class="tradar-home home-movement" aria-labelledby="tradar-kicker">

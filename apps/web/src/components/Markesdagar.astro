@@ -63,13 +63,14 @@ const rows = events.map((e) => {
 		list-style: none;
 	}
 
+	/* No per-row rules — the date column + row spacing carry the agenda; the one
+	   standing rule below (.md-standing) is the section's only divider. */
 	.md-row {
 		display: grid;
 		grid-template-columns: 11rem 1fr auto;
 		align-items: baseline;
 		gap: clamp(1rem, 3vw, 2.5rem);
 		padding-block: var(--space-half);
-		border-top: 1px solid var(--color-divider);
 	}
 
 	.md-row[hidden] {

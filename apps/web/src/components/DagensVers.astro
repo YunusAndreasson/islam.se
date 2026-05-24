@@ -82,12 +82,17 @@ const adlibris = "https://www.adlibris.com/se/sok?q=koranens+budskap+bernström"
 	   exploration: when a word is "active" — recited during playback, or hovered
 	   (desktop) / tapped (mobile) — the verse settles into a quiet wash and the
 	   active word holds full strength, with its short Swedish meaning floating
-	   just above it. Opacity does the focusing (the accent colour is lighter than
-	   the text, so dimming the surroundings reads as focus and the letterforms and
-	   harakat spacing stay untouched). */
+	   just above it.
+
+	   Dimming changes each word's COLOUR to an opaque mix of text and background —
+	   not opacity. Per-word opacity composited twice wherever two words' ink met
+	   (Arabic diacritics and final swashes overshoot the advance box, and stacked
+	   lines overlap), so seams and stray tashkeel never dimmed to the same level.
+	   An opaque colour has no alpha to double up, so the dimming is perfectly even
+	   and the letterforms and harakat spacing stay untouched. */
 	.vers-w,
 	.vers-waqf {
-		transition: opacity 0.3s ease;
+		transition: color 0.3s ease;
 	}
 
 	.vers-arabic[data-glossed] .vers-w {
@@ -97,11 +102,11 @@ const adlibris = "https://www.adlibris.com/se/sok?q=koranens+budskap+bernström"
 
 	.vers-arabic[data-active] .vers-w,
 	.vers-arabic[data-active] .vers-waqf {
-		opacity: 0.32;
+		color: color-mix(in srgb, var(--color-text) 32%, var(--color-bg));
 	}
 
 	.vers-arabic[data-active] .vers-w.is-active {
-		opacity: 1;
+		color: var(--color-text);
 	}
 
 	/* The Swedish gloss, set above the active word. Swedish is LTR inside the RTL

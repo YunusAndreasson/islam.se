@@ -8,8 +8,8 @@ export type AmneName =
 	| "Skapelsen"
 	| "Skriften"
 	| "Själen"
-	| "Rätten"
-	| "Samhället"
+	| "Rättvisa"
+	| "Samhälle"
 	| "Sökandet"
 	| "Norden";
 
@@ -38,13 +38,13 @@ export const AMNEN: Amne[] = [
 		framing: "Hjärtats svar: begäret och lasterna, sorgen och förlåtelsen, tungan och reningen.",
 	},
 	{
-		name: "Rätten",
-		slug: "ratten",
+		name: "Rättvisa",
+		slug: "rattvisa",
 		framing: "Rätt handling och lag: rättvisa, styre, rättigheter, pengar.",
 	},
 	{
-		name: "Samhället",
-		slug: "samhallet",
+		name: "Samhälle",
+		slug: "samhalle",
 		framing: "Den troende gemenskapen och det offentliga: traditionen möter dagens Sverige.",
 	},
 	{

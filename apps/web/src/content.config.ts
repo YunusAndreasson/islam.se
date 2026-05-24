@@ -15,7 +15,7 @@ const articles = defineCollection({
 		// islam-se-frontpage-plan.md §6. Optional so a freshly produced essay
 		// can't break the build before it is assigned.
 		category: z
-			.enum(["Skapelsen", "Skriften", "Själen", "Rätten", "Samhället", "Sökandet", "Norden"])
+			.enum(["Skapelsen", "Skriften", "Själen", "Rättvisa", "Samhälle", "Sökandet", "Norden"])
 			.optional(),
 	}),
 });
