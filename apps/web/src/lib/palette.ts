@@ -16,6 +16,11 @@ export interface PaletteEntry {
 	/** A one-line gloss — framing prose or the essay lead; also searched. */
 	sub: string;
 	href: string;
+	/** Tänkare only: which tradition the thinker belongs to, so the palette can
+	    list the classical Islamic scholars apart from the Swedish/Western voices
+	    instead of interleaving the two — the same division the /tankare directory
+	    draws. */
+	group?: "sunni" | "western";
 }
 
 // Standing destinations: the old mast links plus the two collection indexes.
@@ -56,6 +61,7 @@ export async function buildPaletteIndex(): Promise<PaletteEntry[]> {
 		label: t.data.name,
 		sub: t.data.framing,
 		href: `/tankare/${t.data.slug}`,
+		group: t.data.tradition,
 	}));
 
 	const essays: PaletteEntry[] = articles.map((a) => ({
