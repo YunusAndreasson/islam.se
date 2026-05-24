@@ -6,14 +6,21 @@ interface Props {
 }
 
 const { verseOfDay } = Astro.props;
-const { verse, refName, relatedSlug, relatedTitle, glosses } = verseOfDay;
+// `relatedEssays` is every essay that engages this verse (most-recent first).
+// They are shown as one labelled list — a single way to link — rather than a
+// primary line plus a separate "see also", which doubled the linking gesture.
+const { verse, refName, relatedEssays, glosses } = verseOfDay;
 // Word tokens carry the 1-based index that lines up with `verse.segments` (so
 // the client can light each word as it is recited) and with `glosses` (so each
 // word carries its short Swedish meaning). Waqf marks (word === null) are
 // rendered but never highlighted or glossed (§7.2).
 const tokens = tokenizeArabic(verse.textArabic);
 const hasGlosses = glosses.length > 0;
-const adlibris = "https://www.adlibris.com/se/sok?q=koranens+budskap+bernström";
+// The verse above is quoted from *Den ädla Koranen* (Kent Asante Wennerström) —
+// the translation held in the local Quran DB and used across the project — so the
+// book we point readers to is the same volume they are reading here.
+const koranBook =
+	"https://www.akademibokhandeln.se/bok/den-adla-koranen-med-oversattning-av-dess-versers-innebord-pa-svenska/9789185557493";
 ---
 
 <section class="vers home-movement" aria-labelledby="vers-kicker">
@@ -48,11 +55,21 @@ const adlibris = "https://www.adlibris.com/se/sok?q=koranens+budskap+bernström"
 			<span class="label vers-cite">Koranen <span class="nav-dot" aria-hidden="true">&middot;</span> {refName} {verse.surah}:{verse.ayah}</span>
 		</p>
 
+		<div class="vers-essays">
+			<p class="label vers-essays-kicker">
+				{relatedEssays.length === 1 ? "Essän som växer ur denna vers" : "Essäer som växer ur denna vers"}
+			</p>
+			<ul class="vers-essays-list">
+				{relatedEssays.map((e) => (
+					<li>
+						<a class="vers-essay-link" href={`/${e.slug}`} data-astro-prefetch="viewport">{e.title}</a>
+					</li>
+				))}
+			</ul>
+		</div>
+
 		<p class="vers-links">
-			<a class="vers-book arrow-link" href={adlibris} target="_blank" rel="noopener">Koranens budskap hos Adlibris</a>
-		</p>
-		<p class="vers-links">
-			<a class="vers-resonance arrow-link" href={`/${relatedSlug}`} data-astro-prefetch="viewport">Essän som växer ur denna vers: <span class="vers-resonance-title">{relatedTitle}</span></a>
+			<a class="vers-book arrow-link" href={koranBook} target="_blank" rel="noopener">Den ädla Koranen hos Akademibokhandeln</a>
 		</p>
 	</div>
 </section>
@@ -239,32 +256,74 @@ const adlibris = "https://www.adlibris.com/se/sok?q=koranens+budskap+bernström"
 		display: inline;
 	}
 
-	.vers-links {
-		margin: var(--space-half) 0 0;
-		font-family: var(--font-heading);
-		font-size: 0.9375rem;
+	/* The bridge into the site: the essay(s) that meet this verse, as one labelled
+	   list — a single linking gesture. The verse is a doorway (§7.2), so this is
+	   the section's primary "read on", set just above the quiet book aside. */
+	.vers-essays {
+		margin: var(--space-unit) 0 0;
 	}
 
-	.vers-links a {
+	.vers-essays-kicker {
+		margin-bottom: 0.4rem;
+		color: var(--color-muted);
+	}
+
+	.vers-essays-list {
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	.vers-essays-list li + li {
+		margin-top: 0.3rem;
+	}
+
+	.vers-essay-link {
+		font-family: var(--font-heading);
+		font-size: 1.0625rem;
+		font-weight: 500;
+		letter-spacing: -0.005em;
 		color: var(--color-accent);
 		text-decoration: none;
-		font-weight: 500;
 
 		&:hover {
 			text-decoration: underline;
 			text-decoration-thickness: 1px;
 			text-underline-offset: 0.15em;
 		}
+
+		&:focus-visible {
+			outline: 2px solid var(--color-accent);
+			outline-offset: 2px;
+			border-radius: 2px;
+		}
 	}
 
-	/* Quieter arrow than the accent text (the → behaviour itself is .arrow-link). */
-	.vers-book::after,
-	.vers-resonance::after {
+	/* The book — a quiet external aside, muted so it sits clearly below the essay
+	   list rather than competing with it for the accent colour. */
+	.vers-links {
+		margin: var(--space-unit) 0 0;
+		font-family: var(--font-heading);
+		font-size: 0.9375rem;
+	}
+
+	.vers-links a {
 		color: var(--color-muted);
+		text-decoration: none;
+		font-weight: 500;
+		transition: color 0.15s ease;
+
+		&:hover {
+			color: var(--color-accent);
+			text-decoration: underline;
+			text-decoration-thickness: 1px;
+			text-underline-offset: 0.15em;
+		}
 	}
 
-	.vers-resonance-title {
-		font-style: italic;
+	/* The arrow keeps the muted tone of the link itself. */
+	.vers-book::after {
+		color: var(--color-muted);
 	}
 
 	@media (width <= 768px) {

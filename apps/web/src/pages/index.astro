@@ -40,6 +40,18 @@ const ogImage = feature?.heroImage;
 	<main id="main" class="home">
 		<h1 class="sr-only">islam.se — essäer om islamisk intellektuell tradition och svenskt kulturarv</h1>
 
+		<a class="continue-strip" id="continue-strip" hidden>
+			<span class="label continue-label">Fortsätt läsa</span>
+			<span class="continue-title"></span>
+			<span class="continue-arrow" aria-hidden="true">→</span>
+		</a>
+		<script
+			type="application/json"
+			id="essay-index"
+			is:inline
+			set:html={JSON.stringify(Object.fromEntries(articles.map((a) => [a.slug, a.title])))}
+		/>
+
 		{feature && <FeatureEssay article={feature} />}
 
 		{verseOfDay && <DagensVers verseOfDay={verseOfDay} />}
@@ -89,6 +101,57 @@ const ogImage = feature?.heroImage;
 </Base>
 
 <style>
+	/* "Fortsätt läsa" — a quiet strip above the hero, shown only to a returning
+	   reader who left an essay part-read (populated client-side from saved
+	   progress). Hidden by default, so it adds nothing for first-time visitors
+	   and causes no layout shift until it has something to offer. */
+	.continue-strip {
+		display: flex;
+		align-items: baseline;
+		gap: 0.6rem;
+		margin-bottom: var(--space-unit);
+		padding: 0.7rem 0.9rem;
+		border: 1px solid var(--color-divider);
+		border-radius: 0.5rem;
+		text-decoration: none;
+		color: var(--color-text);
+		transition: border-color 0.15s ease;
+	}
+
+	.continue-strip[hidden] {
+		display: none;
+	}
+
+	.continue-strip:hover {
+		border-color: var(--color-warm);
+	}
+
+	.continue-strip:hover .continue-title {
+		text-decoration: underline;
+		text-underline-offset: 0.15em;
+	}
+
+	.continue-strip:focus-visible {
+		outline: 2px solid var(--color-accent);
+		outline-offset: 2px;
+	}
+
+	.continue-label {
+		color: var(--color-muted);
+		flex-shrink: 0;
+	}
+
+	.continue-title {
+		font-family: var(--font-heading);
+		font-weight: 500;
+		color: var(--color-accent);
+	}
+
+	.continue-arrow {
+		margin-left: auto;
+		color: var(--color-muted);
+	}
+
 	/* Tänkare kicker row: the section label, with a quiet path to the full
 	   directory on its baseline (the homepage shows a balanced glimpse). */
 	.tankare-home-head {
@@ -179,3 +242,37 @@ const ogImage = feature?.heroImage;
 		padding: 0.5rem 0;
 	}
 </style>
+
+<script>
+	document.addEventListener("astro:page-load", () => {
+		const strip = document.getElementById("continue-strip") as HTMLAnchorElement | null;
+		const index = document.getElementById("essay-index");
+		if (!strip || !index) return;
+
+		let titles: Record<string, string> = {};
+		try {
+			titles = JSON.parse(index.textContent || "{}");
+		} catch {}
+
+		// The most recently read essay still left part-finished (rt = last-read time,
+		// rp = furthest scroll). Below 6% is "barely started", above 95% is "done".
+		let best: string | null = null;
+		let bestTime = -1;
+		for (const slug in titles) {
+			const pct = +(localStorage.getItem(`rp:${slug}`) || 0);
+			if (pct <= 0.06 || pct >= 0.95) continue;
+			const time = +(localStorage.getItem(`rt:${slug}`) || 0);
+			if (time >= bestTime) {
+				bestTime = time;
+				best = slug;
+			}
+		}
+
+		if (best) {
+			strip.href = `/${best}`;
+			const titleEl = strip.querySelector(".continue-title");
+			if (titleEl) titleEl.textContent = titles[best];
+			strip.hidden = false;
+		}
+	});
+</script>

@@ -51,11 +51,19 @@ export async function essaysCiting(ayahKey: string): Promise<VerseCitation[]> {
 }
 
 /**
- * Derive the related essay slug for a verse — the most-recently-published essay
- * that cites it, or null if no essay does. Callers enforce the §7.2 rule that a
- * rotation verse with no citing essay must not appear (the build fails instead).
+ * Inverse of the citation index: each essay slug → the set of ayah keys it cites
+ * in its footnotes. Lets the related-essay scorer treat a shared Quran citation
+ * as a thematic link, derived purely from the essays' own footnotes.
  */
-export async function relatedEssayFor(ayahKey: string): Promise<string | null> {
-	const citers = await essaysCiting(ayahKey);
-	return citers[0]?.slug ?? null;
+export async function getVersesByEssay(): Promise<Map<string, Set<string>>> {
+	const index = await getCitationIndex();
+	const byEssay = new Map<string, Set<string>>();
+	for (const [ayahKey, citers] of index) {
+		for (const { slug } of citers) {
+			const set = byEssay.get(slug) ?? new Set<string>();
+			set.add(ayahKey);
+			byEssay.set(slug, set);
+		}
+	}
+	return byEssay;
 }

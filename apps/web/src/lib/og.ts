@@ -23,6 +23,13 @@ interface OgInput {
 	kicker: string;
 	title: string;
 	framing: string;
+	/**
+	 * Optional hero photo, pre-resized to 1200×630 (jpeg/png/webp bytes). When
+	 * present the card becomes the photo with the title laid over a dark scrim —
+	 * the essay's own image, on-brand and correctly 1200×630. Without it (tänkare,
+	 * trådar) the card falls back to the warm text layout.
+	 */
+	bgImage?: Buffer;
 }
 
 // Satori accepts a lightweight VDOM object at runtime, but its published types
@@ -34,8 +41,11 @@ function el(type: string, style: Record<string, unknown>, children: any): any {
 	return { type, props: { style, children } };
 }
 
-export async function renderOg({ kicker, title, framing }: OgInput): Promise<Buffer> {
-	const tree = el(
+const titleSize = (title: string) => (title.length > 22 ? 78 : 96);
+
+// The text-only card (tänkare / trådar): warm surface, kicker + title + framing.
+function textCard({ kicker, title, framing }: OgInput) {
+	return el(
 		"div",
 		{
 			width: "100%",
@@ -58,7 +68,7 @@ export async function renderOg({ kicker, title, framing }: OgInput): Promise<Buf
 				el(
 					"div",
 					{
-						fontSize: title.length > 22 ? 78 : 96,
+						fontSize: titleSize(title),
 						fontWeight: 600,
 						letterSpacing: -2,
 						lineHeight: 1.05,
@@ -87,6 +97,109 @@ export async function renderOg({ kicker, title, framing }: OgInput): Promise<Buf
 			),
 		],
 	);
+}
+
+// The photo card (essays with a hero): full-bleed image, a bottom-weighted dark
+// scrim for legibility, kicker + title in white, wordmark top-right.
+function photoCard({ kicker, title, bgImage }: OgInput) {
+	const dataUri = `data:image/jpeg;base64,${(bgImage as Buffer).toString("base64")}`;
+	return el(
+		"div",
+		{
+			width: "100%",
+			height: "100%",
+			display: "flex",
+			position: "relative",
+			fontFamily: "Source Sans 3",
+		},
+		[
+			{
+				type: "img",
+				props: {
+					src: dataUri,
+					width: 1200,
+					height: 630,
+					style: {
+						position: "absolute",
+						top: 0,
+						left: 0,
+						width: 1200,
+						height: 630,
+						objectFit: "cover",
+					},
+				},
+			},
+			el(
+				"div",
+				{
+					position: "absolute",
+					top: 0,
+					left: 0,
+					width: 1200,
+					height: 630,
+					display: "flex",
+					backgroundImage:
+						"linear-gradient(180deg, rgba(20,18,16,0.15) 0%, rgba(20,18,16,0.30) 45%, rgba(20,18,16,0.86) 100%)",
+				},
+				[],
+			),
+			el(
+				"div",
+				{
+					position: "absolute",
+					left: 0,
+					bottom: 0,
+					width: 1200,
+					display: "flex",
+					flexDirection: "column",
+					padding: "0 88px 80px",
+				},
+				[
+					el(
+						"div",
+						{
+							fontSize: 26,
+							fontWeight: 600,
+							letterSpacing: 4,
+							color: "rgba(255,255,255,0.82)",
+							marginBottom: 22,
+						},
+						kicker.toUpperCase(),
+					),
+					el(
+						"div",
+						{
+							fontSize: titleSize(title),
+							fontWeight: 600,
+							letterSpacing: -2,
+							lineHeight: 1.05,
+							color: "#ffffff",
+							maxWidth: 1024,
+						},
+						title,
+					),
+				],
+			),
+			el(
+				"div",
+				{
+					position: "absolute",
+					top: 64,
+					right: 88,
+					display: "flex",
+					fontSize: 28,
+					fontWeight: 600,
+					letterSpacing: 2,
+					color: "rgba(255,255,255,0.82)",
+				},
+				"islam.se",
+			),
+		],
+	);
+}
+
+export async function renderOg(input: OgInput): Promise<Buffer> {
+	const tree = input.bgImage ? photoCard(input) : textCard(input);
 
 	const svg = await satori(tree as SatoriNode, {
 		width: 1200,

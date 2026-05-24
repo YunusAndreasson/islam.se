@@ -1,0 +1,125 @@
+---
+import { getEssayConnections } from "../lib/related";
+import EssayList from "./EssayList.astro";
+
+interface Props {
+	slug: string;
+}
+
+const { slug } = Astro.props;
+const { amne, tankare, tradar, related } = await getEssayConnections(slug);
+
+const hasContext = Boolean(amne) || tradar.length > 0 || tankare.length > 0;
+---
+
+{(hasContext || related.length > 0) && (
+	<aside class="essay-connections" aria-label="Läs vidare och sammanhang">
+		{hasContext && (
+			<dl class="ec-context">
+				{amne && (
+					<div class="ec-row">
+						<dt class="label">Ämne</dt>
+						<dd><a href={`/amnen/${amne.slug}`}>{amne.name}</a></dd>
+					</div>
+				)}
+				{tradar.length > 0 && (
+					<div class="ec-row">
+						<dt class="label">{tradar.length === 1 ? "Tråd" : "Trådar"}</dt>
+						<dd>
+							{tradar.map((t, i) => (
+								<>
+									{i > 0 && <span class="ec-sep" aria-hidden="true">·</span>}
+									<a href={`/tradar/${t.id}`}>{t.title}</a>
+								</>
+							))}
+						</dd>
+					</div>
+				)}
+				{tankare.length > 0 && (
+					<div class="ec-row">
+						<dt class="label">Tänkare</dt>
+						<dd>
+							{tankare.map((t, i) => (
+								<>
+									{i > 0 && <span class="ec-sep" aria-hidden="true">·</span>}
+									<a href={`/tankare/${t.slug}`}>{t.name}</a>
+								</>
+							))}
+						</dd>
+					</div>
+				)}
+			</dl>
+		)}
+
+		{related.length > 0 && (
+			<div class="ec-related">
+				<p class="label ec-heading">Läs vidare</p>
+				<EssayList articles={related} />
+			</div>
+		)}
+	</aside>
+)}
+
+<style>
+	/* A quiet index at the foot of each essay: where it sits in the graph (ämne /
+	   trådar / tänkare) and the few essays nearest it. A hairline sets it apart
+	   from the body without competing with the chronological prev/next nav. */
+	.essay-connections {
+		margin-top: var(--space-phi);
+		padding-top: var(--space-unit);
+		border-top: 1px solid var(--color-divider);
+	}
+
+	/* "Filed under" map. Each row is a small-caps label and its inline links,
+	   aligned on a shared column so the three axes read as one compact key. */
+	.ec-context {
+		margin: 0 0 var(--space-unit);
+		display: grid;
+		grid-template-columns: auto 1fr;
+		gap: 0.4rem 1rem;
+		align-items: baseline;
+	}
+
+	.ec-row {
+		display: contents;
+	}
+
+	.ec-context dt {
+		color: var(--color-muted);
+		white-space: nowrap;
+	}
+
+	.ec-context dd {
+		margin: 0;
+		font-family: var(--font-heading);
+		font-size: 1rem;
+		line-height: 1.5;
+	}
+
+	.ec-context a {
+		color: var(--color-accent);
+		text-decoration: none;
+		font-weight: 500;
+
+		&:hover {
+			text-decoration: underline;
+			text-underline-offset: 0.15em;
+		}
+
+		&:focus-visible {
+			outline: 2px solid var(--color-accent);
+			outline-offset: 2px;
+			border-radius: 2px;
+		}
+	}
+
+	.ec-sep {
+		color: var(--color-divider);
+		margin: 0 0.5rem;
+	}
+
+	.ec-heading {
+		margin-bottom: var(--space-half);
+		color: var(--color-muted);
+	}
+</style>

@@ -1,5 +1,5 @@
 ---
-import { getCollection } from "astro:content";
+import { type Tankare, getTankare } from "../lib/tankare";
 
 // `limit` turns the full directory into a balanced homepage glimpse: the most-
 // present voices on each side, capped to equal-length columns so the facing
@@ -9,9 +9,9 @@ interface Props {
 }
 const { limit } = Astro.props;
 
-const thinkers = await getCollection("tankare");
-const sunni = thinkers.filter((t) => t.data.tradition === "sunni");
-const western = thinkers.filter((t) => t.data.tradition === "western");
+const thinkers = await getTankare();
+const sunni = thinkers.filter((t) => t.tradition === "sunni");
+const western = thinkers.filter((t) => t.tradition === "western");
 
 let groups = [
 	{ label: "Den klassiska islamiska traditionen", items: sunni },
@@ -22,8 +22,7 @@ if (limit) {
 	// Cap to the shortest column so the two sides stay equal, and lead with the
 	// voices the essays return to most. Leaves the unbounded directory untouched.
 	const cap = Math.min(limit, ...groups.map((g) => g.items.length));
-	const byEssays = (a: (typeof sunni)[number], b: (typeof sunni)[number]) =>
-		b.data.essays.length - a.data.essays.length;
+	const byEssays = (a: Tankare, b: Tankare) => b.essays.length - a.essays.length;
 	groups = groups.map((g) => ({ ...g, items: [...g.items].sort(byEssays).slice(0, cap) }));
 }
 ---
@@ -35,9 +34,9 @@ if (limit) {
 			<ul class="tankare-list">
 				{group.items.map((t) => (
 					<li class="tankare-row">
-						<a href={`/tankare/${t.data.slug}`} data-astro-prefetch="viewport">
-							<span class="tankare-name">{t.data.name}</span>
-							<span class="tankare-count" aria-label={`${t.data.essays.length} essäer`}>{t.data.essays.length}</span>
+						<a href={`/tankare/${t.slug}`} data-astro-prefetch="viewport">
+							<span class="tankare-name">{t.name}</span>
+							<span class="tankare-count" aria-label={`${t.essays.length} essäer`}>{t.essays.length}</span>
 						</a>
 					</li>
 				))}
