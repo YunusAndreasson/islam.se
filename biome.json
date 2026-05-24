@@ -10,24 +10,47 @@
 					"level": "warn",
 					"options": { "maxAllowedComplexity": 25 }
 				},
-				"noVoid": "warn",
-				"useSimplifiedLogicExpression": "warn",
+				"noVoid": "error",
+				"useSimplifiedLogicExpression": "error",
+				"noForEach": "error",
+				"noUselessStringConcat": "error",
+				"useDateNow": "error",
 				"noImportantStyles": "off"
 			},
 			"style": {
-				"noNegationElse": "warn",
-				"useCollapsedElseIf": "warn",
-				"useConsistentBuiltinInstantiation": "warn",
-				"useThrowOnlyError": "warn",
-				"noUnusedTemplateLiteral": "warn",
-				"noNonNullAssertion": "warn",
+				"noNegationElse": "error",
+				"useCollapsedElseIf": "error",
+				"useConsistentBuiltinInstantiation": "error",
+				"useThrowOnlyError": "error",
+				"noUnusedTemplateLiteral": "error",
+				"noNonNullAssertion": "error",
+				"useImportType": "error",
+				"useExportType": "error",
+				"noParameterAssign": "error",
+				"useNodejsImportProtocol": "error",
+				"useShorthandAssign": "error",
 				"noDescendingSpecificity": "off"
 			},
 			"suspicious": {
-				"noEmptyBlockStatements": "warn"
+				"noEmptyBlockStatements": "error"
 			}
 		}
 	},
+	"overrides": [
+		{
+			"includes": ["apps/web/src/**"],
+			"linter": {
+				"rules": {
+					"suspicious": {
+						"noConsole": {
+							"level": "error",
+							"options": { "allow": ["warn", "error"] }
+						}
+					}
+				}
+			}
+		}
+	],
 	"formatter": {
 		"enabled": true,
 		"indentStyle": "tab",
