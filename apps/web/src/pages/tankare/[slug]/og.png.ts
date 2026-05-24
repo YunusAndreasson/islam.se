@@ -16,7 +16,7 @@ export async function getStaticPaths() {
 
 export const GET: APIRoute = async ({ props }) => {
 	const kicker =
-		props.tradition === "sunni" ? "Tänkare — klassisk tradition" : "Tänkare — svensk röst";
+		props.tradition === "sunni" ? "Tänkare — klassisk islamisk tradition" : "Tänkare — svensk röst";
 	const png = await renderOg({
 		kicker,
 		title: props.title as string,

@@ -15,8 +15,8 @@ import { getVerseOfDay } from "../lib/verse";
 const articles = await getArticles();
 const verseOfDay = await getVerseOfDay();
 
-// The feature is the most recent essay; fall back to the most recent that
-// actually carries a hero image so the signature spread never renders blank.
+// The signature spread needs art, so the feature is the most recent essay that
+// carries a hero image; if none do, fall back to the most recent essay.
 const feature = articles.find((a) => a.heroImage) ?? articles[0];
 const recent = articles.filter((a) => a.slug !== feature?.slug).slice(0, 5);
 
@@ -137,7 +137,11 @@ const ogImage = feature?.heroImage;
 		font-style: italic;
 	}
 
-	.home-coda-link {
+	/* Quiet heading-style links that grow a muted → (the arrow motion is .arrow-link).
+	   Shared by the om/AI codas and the centered archive link, so the convention is
+	   defined once. */
+	.home-coda-link,
+	.archive-link a {
 		display: inline-block;
 		font-family: var(--font-heading);
 		font-size: 1.05rem;
@@ -147,18 +151,20 @@ const ogImage = feature?.heroImage;
 		text-decoration: none;
 	}
 
-	/* Quieter arrow than the accent text (the rest of the → behaviour is .arrow-link). */
-	.home-coda-link::after {
+	.home-coda-link::after,
+	.archive-link a::after {
 		color: var(--color-muted);
 	}
 
-	.home-coda-link:hover {
+	.home-coda-link:hover,
+	.archive-link a:hover {
 		text-decoration: underline;
 		text-decoration-thickness: 1px;
 		text-underline-offset: 0.15em;
 	}
 
-	.home-coda-link:focus-visible {
+	.home-coda-link:focus-visible,
+	.archive-link a:focus-visible {
 		outline: 2px solid var(--color-accent);
 		outline-offset: 3px;
 		border-radius: 2px;
@@ -168,24 +174,8 @@ const ogImage = feature?.heroImage;
 		text-align: center;
 	}
 
+	/* Larger tap target for the standalone archive link. */
 	.archive-link a {
-		display: inline-block;
-		font-family: var(--font-heading);
-		font-size: 1.05rem;
-		font-weight: 500;
-		letter-spacing: 0.02em;
-		color: var(--color-accent);
-		text-decoration: none;
 		padding: 0.5rem 0;
-	}
-
-	.archive-link a::after {
-		color: var(--color-muted);
-	}
-
-	.archive-link a:hover {
-		text-decoration: underline;
-		text-decoration-thickness: 1px;
-		text-underline-offset: 0.15em;
 	}
 </style>
