@@ -173,9 +173,8 @@ a:hover .media-frame img {
 }
 
 /* ============================================================
-   Site header
-   Default: static, dark text.
-   --hero variant: absolute over hero, white text.
+   Site header — wordmark + palette trigger. Static, sticky, auto-hides
+   on scroll-down. (Navigation lives in the command palette.)
    ============================================================ */
 .site-header {
 	padding: var(--padding-inline);
@@ -202,41 +201,6 @@ a:hover .media-frame img {
 		background: linear-gradient(to bottom, var(--color-bg), transparent);
 		pointer-events: none;
 	}
-}
-
-/* Header floated over hero — white on image */
-.site-header--hero {
-	position: absolute;
-	inset: 0 0 auto;
-	padding-top: var(--safe-top);
-	background-color: transparent;
-
-	&::after {
-		display: none;
-	}
-
-	.site-nav a,
-	.site-nav a[aria-current] {
-		color: rgb(var(--hero-white) / 0.7);
-
-		&:hover {
-			color: rgb(var(--hero-white));
-		}
-
-		&:focus-visible {
-			outline-color: rgb(var(--hero-white) / 0.8);
-		}
-	}
-
-	.nav-dot {
-		color: rgb(var(--hero-white) / 0.3);
-	}
-}
-
-.site-nav-right {
-	display: flex;
-	align-items: baseline;
-	gap: 0.5rem;
 }
 
 .nav-dot {
@@ -293,39 +257,146 @@ a:hover .media-frame img {
 	color: var(--color-accent);
 }
 
-/* Search magnifier — sits in the mast (§7.1, §8). Icon-only, aligned to the
-   dotted nav; opens the full-screen search overlay. */
+/* Palette trigger — the mast's only control now that navigation lives in the
+   command palette. A quiet hairline pill: magnifier + "Sök" + a ⌘K hint. The
+   hint is dropped on touch, where it would be meaningless. */
 .search-trigger {
 	display: inline-flex;
 	align-items: center;
-	justify-content: center;
-	margin-left: 0.35rem;
-	padding: 0.25rem;
-	border: none;
+	gap: 0.45rem;
+	padding: 0.4rem 0.7rem;
+	border: 1px solid var(--color-divider);
+	border-radius: 1.4rem;
 	background: transparent;
-	color: var(--color-text);
+	color: var(--color-muted);
+	font-family: var(--font-heading);
+	font-size: 0.9rem;
+	font-weight: 500;
+	letter-spacing: 0.04em;
+	line-height: 1;
+	text-transform: uppercase;
+	font-feature-settings: "case";
 	cursor: pointer;
-	transition: color 0.15s;
-	position: relative;
-	top: 0.12em; /* optical baseline alignment with the nav text */
+	transition:
+		color 0.15s,
+		border-color 0.15s;
 
 	&:hover {
 		color: var(--color-accent);
+		border-color: color-mix(in srgb, var(--color-warm) 55%, var(--color-divider));
 	}
 
 	&:focus-visible {
 		outline: 2px solid var(--color-accent);
 		outline-offset: 2px;
-		border-radius: 4px;
 	}
 }
 
-.site-header--hero .search-trigger {
-	color: rgb(var(--hero-white) / 0.7);
+.search-trigger-icon {
+	flex-shrink: 0;
+}
 
-	&:hover {
-		color: rgb(var(--hero-white));
+.search-trigger-kbd {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.05em;
+	padding: 0.15em 0.4em;
+	font-size: 0.72em;
+	letter-spacing: 0.02em;
+	color: var(--color-muted);
+	background: color-mix(in srgb, var(--color-text) 7%, transparent);
+	border-radius: 0.4rem;
+}
+
+.search-trigger-cmd {
+	font-size: 1.05em;
+}
+
+/* Touch / no-hover pointers: drop the keyboard hint, widen the tap target. */
+@media (hover: none), (pointer: coarse) {
+	.search-trigger-kbd {
+		display: none;
 	}
+
+	.search-trigger {
+		min-height: 2.75rem;
+		padding-inline: 0.85rem;
+	}
+}
+
+/* ============================================================
+   Site footer — global, site-wide chrome (rendered from Base on every page).
+   Two tiers: the navigation row (prominent), then the colophon (quiet), set
+   apart by space rather than a rule so it never reads as a packed block.
+   ============================================================ */
+.site-footer {
+	max-width: var(--home-width);
+	margin: var(--space-phi2) auto 0;
+	padding-block: var(--space-phi) var(--space-phi2);
+	padding-left: var(--safe-left);
+	padding-right: var(--safe-right);
+	border-top: 1px solid var(--color-divider);
+	text-align: center;
+}
+
+.site-footer-nav {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	gap: 0.9rem 1.9rem;
+	font-family: var(--font-heading);
+	font-size: 0.95rem;
+	font-weight: 500;
+	letter-spacing: 0.05em;
+	text-transform: uppercase;
+	font-feature-settings: "case";
+}
+
+.site-footer-nav a {
+	color: var(--color-text);
+	text-decoration: none;
+	transition: color 0.15s;
+}
+
+.site-footer-nav a:hover,
+.site-footer-nav a[aria-current] {
+	color: var(--color-accent);
+}
+
+.site-footer-colophon {
+	margin-top: var(--space-phi);
+}
+
+.site-footer-names {
+	font-family: var(--font-heading);
+	font-size: 0.862rem;
+	letter-spacing: 0.06em;
+	color: var(--color-muted);
+	margin: 0 0 0.5rem;
+}
+
+.site-footer-meta {
+	display: inline-flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	justify-content: center;
+	gap: 0.5rem;
+	margin: 0;
+}
+
+.site-footer-colophon a {
+	color: var(--color-muted);
+	text-decoration: none;
+	transition: color 0.15s;
+}
+
+.site-footer-colophon a:hover {
+	color: var(--color-accent);
+}
+
+.site-footer a:focus-visible {
+	outline: 2px solid var(--color-accent);
+	outline-offset: 2px;
 }
 
 /* ============================================================

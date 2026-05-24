@@ -2,6 +2,7 @@
 import { Font } from "astro:assets";
 import { ClientRouter } from "astro:transitions";
 import FloatingPlayer from "../components/FloatingPlayer.astro";
+import Footer from "../components/Footer.astro";
 import Header from "../components/Header.astro";
 import SearchOverlay from "../components/SearchOverlay.astro";
 import "../styles/tokens.css";
@@ -12,7 +13,6 @@ import "../styles/layout.css";
 interface Props {
 	title: string;
 	description?: string;
-	hero?: boolean;
 	ogImage?: string;
 	preloadImage?: string;
 	articleMeta?: {
@@ -27,7 +27,6 @@ interface Props {
 const {
 	title,
 	description = "Essäer om islamisk intellektuell tradition och svenskt kulturarv.",
-	hero = false,
 	ogImage,
 	preloadImage,
 	articleMeta,
@@ -149,8 +148,9 @@ if (articleMeta) {
 	<body>
 		<a href="#main" class="skip-link">Hoppa till innehåll</a>
 		<div class="reading-progress" aria-hidden="true" data-slug={articleMeta?.slug} />
-		<Header hero={hero} />
+		<Header />
 		<slot />
+		<Footer />
 		<div class="fixed-actions">
 			{articleMeta && (
 				<button class="share-btn label" type="button" aria-label="Dela essä" data-title={pageTitle} data-url={canonicalUrl.href}>Dela</button>

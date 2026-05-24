@@ -1,54 +1,40 @@
 ---
 const year = new Date().getFullYear();
+const path = Astro.url.pathname;
+const here = (p: string) => path === p || path === `${p}/`;
+
+// Standing destinations as real <a> links. With the mast reduced to wordmark +
+// palette, this footer is the crawlable navigation every page must carry: from
+// these hubs a crawler reaches every ämne (via /essaer), thread, thinker and
+// essay. Rendered site-wide from Base.astro; styled globally in layout.css
+// (site-wide chrome, like the header — keeps it out of reach of scoped-style
+// HMR fragility).
+const links = [
+	{ href: "/essaer", label: "Essäer" },
+	{ href: "/tradar", label: "Trådar" },
+	{ href: "/tankare", label: "Tänkare" },
+	{ href: "/om", label: "Om" },
+	{ href: "/ai", label: "AI" },
+];
 ---
 
 <footer class="site-footer">
-	<p class="site-footer-names">
-		<a href="https://bilal.se">Bilal</a> och <a href="https://andreassonphoto.com">Yunus</a>
-	</p>
-	<p class="label site-footer-meta">
-		<span>Sverige, {year}</span>
-		<span class="nav-dot" aria-hidden="true">&middot;</span>
-		<a href="https://islam.se">islam.se</a>
-		<span class="nav-dot" aria-hidden="true">&middot;</span>
-		<a href="/rss.xml">RSS</a>
-	</p>
+	<nav class="site-footer-nav" aria-label="Sidfotsnavigering">
+		{links.map((l) => (
+			<a href={l.href} aria-current={here(l.href) ? "page" : undefined}>{l.label}</a>
+		))}
+	</nav>
+
+	<div class="site-footer-colophon">
+		<p class="site-footer-names">
+			<a href="https://bilal.se">Bilal</a> och <a href="https://andreassonphoto.com">Yunus</a>
+		</p>
+		<p class="label site-footer-meta">
+			<span>Sverige, {year}</span>
+			<span class="nav-dot" aria-hidden="true">&middot;</span>
+			<a href="https://islam.se">islam.se</a>
+			<span class="nav-dot" aria-hidden="true">&middot;</span>
+			<a href="/rss.xml">RSS</a>
+		</p>
+	</div>
 </footer>
-
-<style>
-	.site-footer {
-		margin-top: var(--space-phi2);
-		padding-block: var(--space-phi) var(--space-phi2);
-		border-top: 1px solid var(--color-divider);
-		text-align: center;
-	}
-
-	.site-footer-names {
-		font-family: var(--font-heading);
-		font-size: 0.862rem;
-		letter-spacing: 0.06em;
-		color: var(--color-muted);
-		margin: 0 0 0.4rem;
-	}
-
-	.site-footer-meta {
-		display: inline-flex;
-		align-items: baseline;
-		gap: 0.5rem;
-		margin: 0;
-	}
-
-	.site-footer a {
-		color: var(--color-muted);
-		text-decoration: none;
-
-		&:hover {
-			color: var(--color-accent);
-		}
-
-		&:focus-visible {
-			outline: 2px solid var(--color-accent);
-			outline-offset: 2px;
-		}
-	}
-</style>
