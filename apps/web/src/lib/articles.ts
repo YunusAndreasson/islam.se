@@ -1,5 +1,6 @@
 import { type CollectionEntry, getCollection } from "astro:content";
 import type { ImageMetadata } from "astro";
+import type { AmneName } from "./amnen";
 
 export interface Article {
 	slug: string;
@@ -8,6 +9,8 @@ export interface Article {
 	wordCount: number;
 	readingTime: number;
 	description: string;
+	/** The essay's ämne (primary category), if assigned. */
+	category?: AmneName;
 	audioFile?: string;
 	audioDuration?: number;
 	heroImage?: ImageMetadata;
@@ -57,6 +60,7 @@ export async function getArticles(): Promise<Article[]> {
 			wordCount: entry.data.wordCount,
 			readingTime: Math.ceil(entry.data.wordCount / 200),
 			description: entry.data.description,
+			category: entry.data.category,
 			audioFile: entry.data.audioFile,
 			audioDuration: entry.data.audioDuration,
 			heroImage: heroImageMap.get(entry.id),

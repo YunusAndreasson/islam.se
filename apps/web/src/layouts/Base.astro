@@ -183,6 +183,10 @@ if (articleMeta) {
 					const pct = scrollPct();
 					const prev = +(localStorage.getItem(`rp:${slug}`) || 0);
 					if (pct > prev) localStorage.setItem(`rp:${slug}`, pct.toFixed(3));
+					// Stamp the last time this essay was actively read, so the homepage
+					// can offer the *most recent* part-read essay to resume (rp is a max,
+					// not a timeline). Only once the reader is genuinely into the piece.
+					if (pct > 0.02) localStorage.setItem(`rt:${slug}`, String(Date.now()));
 				};
 
 				window.addEventListener("scroll", () => {

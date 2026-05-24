@@ -1,21 +1,18 @@
 ---
-import { getCollection } from "astro:content";
 import EssayList from "../../components/EssayList.astro";
 import Base from "../../layouts/Base.astro";
-import { type Article, getArticles } from "../../lib/articles";
+import type { Article } from "../../lib/articles";
+import { type Tradition, getTankare } from "../../lib/tankare";
 
 export async function getStaticPaths() {
-	const [thinkers, articles] = await Promise.all([getCollection("tankare"), getArticles()]);
-	const bySlug = new Map(articles.map((a) => [a.slug, a]));
+	const thinkers = await getTankare();
 	return thinkers.map((thinker) => ({
-		params: { slug: thinker.data.slug },
+		params: { slug: thinker.slug },
 		props: {
-			name: thinker.data.name,
-			framing: thinker.data.framing,
-			tradition: thinker.data.tradition,
-			essays: thinker.data.essays
-				.map((s) => bySlug.get(s))
-				.filter((a): a is Article => Boolean(a)),
+			name: thinker.name,
+			framing: thinker.framing,
+			tradition: thinker.tradition,
+			essays: thinker.essays,
 		},
 	}));
 }
@@ -23,7 +20,7 @@ export async function getStaticPaths() {
 interface Props {
 	name: string;
 	framing: string;
-	tradition: "sunni" | "western";
+	tradition: Tradition;
 	essays: Article[];
 }
 

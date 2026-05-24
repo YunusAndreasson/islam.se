@@ -2,7 +2,7 @@ import { getCollection } from "astro:content";
 import glossesData from "../content/verser/glosses.json";
 import { type Segment, wordCount } from "./arabic";
 import { getArticles } from "./articles";
-import { relatedEssayFor } from "./citations";
+import { essaysCiting } from "./citations";
 
 export type { Segment, VerseToken } from "./arabic";
 export { tokenizeArabic } from "./arabic";
@@ -34,11 +34,22 @@ export interface VerseData {
 	segments: Segment[];
 }
 
+export interface EssayRef {
+	slug: string;
+	title: string;
+}
+
 export interface VerseOfDay {
 	verse: VerseData;
 	refName: string; // corpus-style transliteration, e.g. "al-Raʿd"
 	relatedSlug: string;
 	relatedTitle: string;
+	/**
+	 * Every essay that cites this verse, most-recent first — including the primary
+	 * one above. A verse rarely belongs to a single essay; surfacing the rest turns
+	 * the daily verse into a doorway onto each essay that engages it (§7.2).
+	 */
+	relatedEssays: EssayRef[];
 	/** Short Swedish gloss per recited word, word order. Empty if none curated. */
 	glosses: string[];
 }
@@ -66,16 +77,18 @@ export async function getRotationVerses(): Promise<VerseOfDay[]> {
 	const resolved: VerseOfDay[] = [];
 	for (const entry of verser) {
 		const verse = entry.data as VerseData;
-		const relatedSlug = await relatedEssayFor(verse.ayahKey);
-		if (!relatedSlug) {
+		const citers = await essaysCiting(verse.ayahKey);
+		const relatedEssays: EssayRef[] = [];
+		for (const c of citers) {
+			const title = titleBySlug.get(c.slug);
+			if (title) relatedEssays.push({ slug: c.slug, title });
+		}
+		if (relatedEssays.length === 0) {
 			throw new Error(
 				`Daily verse ${verse.ayahKey} is cited by no essay — remove it from the rotation or add a citing essay (plan §7.2).`,
 			);
 		}
-		const relatedTitle = titleBySlug.get(relatedSlug);
-		if (!relatedTitle) {
-			throw new Error(`Daily verse ${verse.ayahKey} derives to unknown essay "${relatedSlug}".`);
-		}
+		const { slug: relatedSlug, title: relatedTitle } = relatedEssays[0];
 		const glosses = GLOSSES[verse.ayahKey]?.map((g) => g.sv) ?? [];
 		// A misaligned gloss table would point the wrong word at the wrong meaning;
 		// fail the build rather than ship a silent mismatch.
@@ -89,6 +102,7 @@ export async function getRotationVerses(): Promise<VerseOfDay[]> {
 			refName: SURAH_TRANSLIT[verse.surah] ?? verse.surahName,
 			relatedSlug,
 			relatedTitle,
+			relatedEssays,
 			glosses,
 		});
 	}

@@ -3,8 +3,11 @@
  *
  * Run BY HAND (`pnpm sync-verses`) whenever the curated verse list changes.
  * For each verse it produces, all committed to the repo:
- *   - Uthmanic Arabic + Mohammed Knut Bernström's Swedish — Tarteel MCP
- *     (get_translation_text, sv-knut).
+ *   - Uthmanic Arabic + chapter names — Tarteel MCP (get_translation_text).
+ *   - Swedish — *Den ädla Koranen* (Kent Asante Wennerström), read from the local
+ *     Quran DB (data/quran.db), the translation the project uses everywhere. NOT
+ *     Bernström, and NOT Tarteel. The DB text has PDF line-wrap artifacts; see
+ *     swedishFromDb() — review verses.json's diff after a sync.
  *   - A per-ayah mp3 of Ahmad al-Nufais's murattal, AND the per-word recitation
  *     timing that drives the word highlight — both from QUL (Quranic Universal
  *     Library, qul.tarteel.ai), recitation #461.
@@ -27,14 +30,20 @@
  * essay (the build-time citation index derives `relatedEssay`). al-Mulk 67:3,
  * al-Baqara 2:186 and Qāf 50:16 were dropped — no essay cites them.
  */
-import { spawn } from "node:child_process";
+import { execFileSync, spawn } from "node:child_process";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { type Segment, wordCount } from "../src/lib/arabic";
 
 const TARTEEL_MCP_URL = "https://mcp.tarteel.ai/mcp";
-const TRANSLATION_SLUG = "sv-knut"; // Mohammed Knut Bernström, Koranens budskap
+// Tarteel is now used ONLY for the Uthmanic Arabic + chapter names (get_translation_text
+// still needs a translation slug to answer, so we pass one and ignore its Swedish).
+const TRANSLATION_SLUG = "sv-knut";
+// The DISPLAYED Swedish comes from the local Quran DB — *Den ädla Koranen*
+// (Kent Asante Wennerström), the translation the project uses everywhere — not
+// from Tarteel's Bernström. See swedishFromDb() below.
+const TRANSLATOR = "Kent Asante Wennerström";
 const RECITER = "Ahmad al-Nufais - Murattal"; // QUL recitation #461
 // al-Nufais murattal surah masters on Tarteel's CDN (003.mp3, 013.mp3, …).
 const AUDIO_BASE = "https://audio-cdn.tarteel.ai/quran/surah/alnufais/murattal/mp3";
@@ -53,6 +62,30 @@ const webRoot = join(__dirname, "..");
 const versesJsonPath = join(webRoot, "src/content/verser/verses.json");
 const audioDir = join(webRoot, "public/audio/quran");
 const qulSegmentsPath = join(__dirname, "data/qul-alnufais-segments.json");
+const quranDbPath = join(webRoot, "../../data/quran.db");
+
+/**
+ * The committed Swedish, *Den ädla Koranen*, read straight from the local Quran
+ * DB via the sqlite3 CLI (no driver dependency — same spirit as shelling out to
+ * ffmpeg). The DB text carries PDF line-wrap artifacts: runs of spaces (collapsed
+ * here) and the odd word split across a line ("sanner ligen", "kvar håller") that
+ * a space-collapse cannot rejoin. Eyeball `git diff` on verses.json after a sync
+ * and fix any survivors by hand before committing.
+ */
+function cleanSwedish(text: string): string {
+	return text.replace(/\s+/g, " ").trim();
+}
+
+function swedishFromDb(surah: number, ayah: number): string {
+	const sql =
+		`SELECT text_swedish FROM verses WHERE surah_number=${surah} ` +
+		`AND verse_number=${ayah} AND translator='${TRANSLATOR}' LIMIT 1;`;
+	const out = execFileSync("sqlite3", [quranDbPath, sql], { encoding: "utf8" }).trim();
+	if (!out) {
+		throw new Error(`${surah}:${ayah}: no "${TRANSLATOR}" translation in ${quranDbPath}`);
+	}
+	return cleanSwedish(out);
+}
 
 /** QUL surah-by-surah entry: absolute timestamps within the surah master. */
 interface QulVerse {
@@ -159,7 +192,8 @@ function repairTrailingArtifact(segments: Segment[]): Segment[] {
 async function fetchVerse(key: string, qul: QulVerse): Promise<VerseEntry> {
 	const [surah, ayah] = key.split(":").map((n) => Number.parseInt(n, 10));
 
-	// 1. Arabic + Bernström from Tarteel, one call.
+	// 1. Uthmanic Arabic + chapter names from Tarteel (one call); the Swedish in
+	// this payload is ignored — we take ours from the local DB below.
 	const tr = await callTarteel("get_translation_text", {
 		queries: [{ start_ayah: key, translations: [TRANSLATION_SLUG] }],
 	});
@@ -169,12 +203,12 @@ async function fetchVerse(key: string, qul: QulVerse): Promise<VerseEntry> {
 	const trData = JSON.parse(trJson[0]);
 	const ayahData = trData.ayahs?.[0];
 	if (!ayahData) throw new Error(`${key}: no ayah in translation payload`);
-	// biome-ignore lint/suspicious/noExplicitAny: opaque MCP payload
-	const swedish = ayahData.translations?.find((t: any) => t.translator?.includes("Bernström"));
-	if (!swedish) throw new Error(`${key}: Bernström translation missing`);
 	const textArabic: string = ayahData.text_arabic;
 
-	// 2. Repair the QUL segments, then validate they describe this exact text:
+	// 2. Swedish — Den ädla Koranen, from the local Quran DB (not Tarteel).
+	const textSwedish = swedishFromDb(surah, ayah);
+
+	// 3. Repair the QUL segments, then validate they describe this exact text:
 	// the highest word number must equal the recited-word count, or the highlight
 	// would point span N at the wrong word.
 	const repaired = repairTrailingArtifact(qul.segments);
@@ -188,7 +222,7 @@ async function fetchVerse(key: string, qul: QulVerse): Promise<VerseEntry> {
 		);
 	}
 
-	// 3. Slice the ayah out of the surah master at QUL's boundaries, trimming the
+	// 4. Slice the ayah out of the surah master at QUL's boundaries, trimming the
 	// gap before the first word and ringing out the last. Segment offsets are
 	// normalized to the slice start so they line up with the saved clip.
 	const firstStart = repaired[0][1];
@@ -220,8 +254,8 @@ async function fetchVerse(key: string, qul: QulVerse): Promise<VerseEntry> {
 		surahName: ayahData.chapter_name,
 		surahNameArabic: ayahData.chapter_name_arabic,
 		textArabic,
-		textSwedish: swedish.text.trim(),
-		translator: swedish.translator,
+		textSwedish,
+		translator: TRANSLATOR,
 		reciter: RECITER,
 		audioFile: `/audio/quran/${fileName}`,
 		segments,
@@ -230,7 +264,9 @@ async function fetchVerse(key: string, qul: QulVerse): Promise<VerseEntry> {
 
 async function main() {
 	const qulSegments: Record<string, QulVerse> = JSON.parse(await readFile(qulSegmentsPath, "utf8"));
-	console.log(`Syncing ${VERSE_KEYS.length} verses (al-Nufais via QUL, Bernström via Tarteel)…`);
+	console.log(
+		`Syncing ${VERSE_KEYS.length} verses (Arabic via Tarteel, al-Nufais via QUL, Den ädla Koranen via quran.db)…`,
+	);
 	const entries: VerseEntry[] = [];
 	for (const key of VERSE_KEYS) {
 		const qul = qulSegments[key];

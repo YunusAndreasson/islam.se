@@ -56,8 +56,11 @@ const tradar = defineCollection({
 	}),
 });
 
-// Tänkare — recurring interlocutors (§6, §13.7). Membership is derived from the
-// corpus (essays mentioning each name); framing prose is authored. Two facing
+// Tänkare — recurring interlocutors (§6, §13.7). Membership is DERIVED from the
+// corpus at build time: `match` holds the distinctive spelling(s) of the name as
+// the essays write it (diacritics included), and src/lib/tankare.ts collects
+// every essay whose body contains one. Only the framing prose is authored, so
+// the lists can never silently drift as essays are added or removed. Two facing
 // traditions: the classical Sunni canon and the Swedish/Western voices.
 const tankare = defineCollection({
 	loader: file("src/content/tankare/tankare.json"),
@@ -66,7 +69,11 @@ const tankare = defineCollection({
 		slug: z.string(),
 		tradition: z.enum(["sunni", "western"]),
 		framing: z.string(),
-		essays: z.array(z.string()),
+		// Case-insensitive substring(s) matched against essay bodies; diacritics
+		// are kept so "Linné" never matches "linne" (linen) and "Ghazālī" never
+		// matches the poem "ghazal". Verified to reproduce the prior hand-curated
+		// lists exactly across the whole corpus.
+		match: z.array(z.string()).min(1),
 	}),
 });
 
