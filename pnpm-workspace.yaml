@@ -1,6 +1,10 @@
 packages:
   - "packages/*"
   - "apps/*"
+  # apps/mobile is a standalone Expo project with its own pnpm root + lockfile
+  # (Metro needs nodeLinker: hoisted, which would clash with this repo's native
+  # deps). Exclude it so root installs/`pnpm -r` never pull React Native in.
+  - "!apps/mobile"
 # pnpm 11 enforces a 24h minimumReleaseAge supply-chain delay by default.
 # baseline-browser-mapping is a benign, fast-moving transitive browser-data
 # package that frequently ships same-day patches; exempt it so installs aren't
@@ -11,7 +15,9 @@ allowBuilds:
   better-sqlite3: true
   core-js-pure: true
   esbuild: true
+  msgpackr-extract: set this to true or false
   onnxruntime-node: true
   protobufjs: true
   sharp: true
+  unrs-resolver: set this to true or false
   workerd: true
