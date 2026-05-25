@@ -4,7 +4,7 @@
 		"name": "Ibn Qayyim al-Jawziyya",
 		"slug": "ibn-qayyim",
 		"tradition": "sunni",
-		"framing": "Damaskensisk teolog och Ibn Taymiyyas främste lärjunge (1292–1350). Hans kartläggning av hjärtats sjukdomar — begärets stadier, blickens dubbelhet, vanans långsamma infärgning — löper genom essäerna som en återkommande puls.",
+		"framing": "Damaskensisk teolog och Ibn Taymiyyas främste lärjunge (1292–1350). Hans kartläggning av hjärtats sjukdomar – begärets stadier, blickens dubbelhet, vanans långsamma infärgning – löper genom essäerna som en återkommande puls.",
 		"match": ["Ibn Qayyim"]
 	},
 	{
@@ -12,7 +12,7 @@
 		"name": "Ibn Taymiyya",
 		"slug": "ibn-taymiyya",
 		"tradition": "sunni",
-		"framing": "Hanbalitisk lärd (1263–1328) vars stränga, systematiska tänkande om tro och handling återkommer som måttstock i essäerna — ofta genom sin lärjunge Ibn Qayyim.",
+		"framing": "Hanbalitisk lärd (1263–1328) vars stränga, systematiska tänkande om tro och handling återkommer som måttstock i essäerna – ofta genom sin lärjunge Ibn Qayyim.",
 		"match": ["Ibn Taymiyy"]
 	},
 	{
@@ -28,7 +28,7 @@
 		"name": "Ibn Khaldūn",
 		"slug": "ibn-khaldun",
 		"tradition": "sunni",
-		"framing": "Historiefilosofen (1332–1406) som läste samhällen som levande kroppar. Hans ʿaṣabiyya — den sammanhållande kraften — återkommer där essäerna prövar gemenskapens villkor.",
+		"framing": "Historiefilosofen (1332–1406) som läste samhällen som levande kroppar. Hans ʿaṣabiyya – den sammanhållande kraften – återkommer där essäerna prövar gemenskapens villkor.",
 		"match": ["Ibn Khaldūn"]
 	},
 	{
@@ -52,7 +52,7 @@
 		"name": "Strindberg",
 		"slug": "strindberg",
 		"tradition": "western",
-		"framing": "Under Inferno-åren prövade han varje hållning han kunde nå, och ingen bar hans vikt — den svenska litteraturens närmaste motsvarighet till själens kris.",
+		"framing": "Under Inferno-åren prövade han varje hållning han kunde nå, och ingen bar hans vikt – den svenska litteraturens närmaste motsvarighet till själens kris.",
 		"match": ["Strindberg"]
 	},
 	{
@@ -84,7 +84,7 @@
 		"name": "Geijer",
 		"slug": "geijer",
 		"tradition": "western",
-		"framing": "Erik Gustaf Geijer — historiker, skald, den götiska väckelsens röst — bär det svenska arvets möte med det nya ljuset.",
+		"framing": "Erik Gustaf Geijer – historiker, skald, den götiska väckelsens röst – bär det svenska arvets möte med det nya ljuset.",
 		"match": ["Geijer"]
 	},
 	{
@@ -108,7 +108,7 @@
 		"name": "Dag Hammarskjöld",
 		"slug": "hammarskjold",
 		"tradition": "western",
-		"framing": "»Den längsta resan är resan inåt« — Hammarskjölds Vägmärken gav den svenska ensamheten ett språk som essäerna känner igen och besvarar.",
+		"framing": "»Den längsta resan är resan inåt« – Hammarskjölds Vägmärken gav den svenska ensamheten ett språk som essäerna känner igen och besvarar.",
 		"match": ["Hammarskjöld"]
 	},
 	{
@@ -116,7 +116,7 @@
 		"name": "Swedenborg",
 		"slug": "swedenborg",
 		"tradition": "western",
-		"framing": "Emanuel Swedenborg — vetenskapsman som blev siare; hans inre resor markerar det moderna sökandets början i Norden.",
+		"framing": "Emanuel Swedenborg – vetenskapsman som blev siare; hans inre resor markerar det moderna sökandets början i Norden.",
 		"match": ["Swedenborg"]
 	},
 	{

@@ -131,7 +131,7 @@ const article = titleBySlug.get(quote.slug)!;
 				try { await navigator.share({ title, text, url }); } catch {}
 			} else {
 				try {
-					await navigator.clipboard.writeText(`${text} — ${title}\n${url}`);
+					await navigator.clipboard.writeText(`${text} – ${title}\n${url}`);
 					const prev = btn.textContent;
 					btn.textContent = "Kopierad";
 					setTimeout(() => { btn.textContent = prev; }, 2000);
