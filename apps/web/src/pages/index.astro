@@ -100,10 +100,6 @@ const ogImage = feature?.heroImage;
 			</p>
 			<a class="home-coda-link arrow-link" href="/ai">Koppla din assistent</a>
 		</section>
-
-		<nav class="archive-link home-movement" aria-label="Hela arkivet">
-			<a class="arrow-link" href="/essaer">Hela arkivet</a>
-		</nav>
 	</main>
 </Base>
 
@@ -208,10 +204,8 @@ const ogImage = feature?.heroImage;
 	}
 
 	/* Quiet heading-style links that grow a muted → (the arrow motion is .arrow-link).
-	   Shared by the om/AI codas and the centered archive link, so the convention is
-	   defined once. */
-	.home-coda-link,
-	.archive-link a {
+	   Shared by the om/AI codas, so the convention is defined once. */
+	.home-coda-link {
 		display: inline-block;
 		font-family: var(--font-heading);
 		font-size: 1.05rem;
@@ -221,32 +215,20 @@ const ogImage = feature?.heroImage;
 		text-decoration: none;
 	}
 
-	.home-coda-link::after,
-	.archive-link a::after {
+	.home-coda-link::after {
 		color: var(--color-muted);
 	}
 
-	.home-coda-link:hover,
-	.archive-link a:hover {
+	.home-coda-link:hover {
 		text-decoration: underline;
 		text-decoration-thickness: 1px;
 		text-underline-offset: 0.15em;
 	}
 
-	.home-coda-link:focus-visible,
-	.archive-link a:focus-visible {
+	.home-coda-link:focus-visible {
 		outline: 2px solid var(--color-accent);
 		outline-offset: 3px;
 		border-radius: 2px;
-	}
-
-	.archive-link {
-		text-align: center;
-	}
-
-	/* Larger tap target for the standalone archive link. */
-	.archive-link a {
-		padding: 0.5rem 0;
 	}
 </style>
 

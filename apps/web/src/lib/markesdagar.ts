@@ -57,21 +57,35 @@ interface EventDef {
 // In Hijri-year order. Only observances established in hadith (§7.9) — nothing
 // contested (no Mawlid, no Isra wa Miʿraj), no toggle.
 const EVENTS: EventDef[] = [
-	{ name: "Det islamiska årets första dag", start: [1, 1] },
+	{
+		name: "Det islamiska årets första dag",
+		note: "den islamiska kalenderns början, räknad från utvandringen (hijra) till Medina år 622",
+		start: [1, 1],
+	},
 	{
 		name: "Ashura",
 		note: "frivillig fasta till minne av att Gud räddade Mose; fastas med den 9:e eller 11:e",
 		start: [1, 10],
 	},
-	{ name: "Ramadan", start: [9, 1], end: [10, 1], endExclusive: true },
+	{
+		name: "Ramadan",
+		note: "fastans månad; obligatorisk fasta från gryning till solnedgång",
+		start: [9, 1],
+		end: [10, 1],
+		endExclusive: true,
+	},
 	{
 		name: "De sista tio nätterna",
-		note: "Laylat al-Qadr sökes på de udda nätterna, ofta den 27:e",
+		note: "natten då Koranens uppenbarelse inleddes (Laylat al-Qadr) sökes på de udda nätterna, ofta den 27:e",
 		start: [9, 21],
 		end: [10, 1],
 		endExclusive: true,
 	},
-	{ name: "Eid al-fitr", start: [10, 1] },
+	{
+		name: "Eid al-fitr",
+		note: "högtiden som avslutar Ramadan; firas med eid-bön och allmosan zakāt al-fitr",
+		start: [10, 1],
+	},
 	{
 		name: "De sex dagarna i Shawwal",
 		note: "den rekommenderade fastan efter Ramadan",
@@ -90,10 +104,14 @@ const EVENTS: EventDef[] = [
 		note: "den mest förtjänstfulla fastan på året för icke-pilgrimer",
 		start: [12, 9],
 	},
-	{ name: "Eid al-adha", start: [12, 10] },
+	{
+		name: "Eid al-adha",
+		note: "offerhögtiden under vallfärden; firas med eid-bön och ett offer (qurbān)",
+		start: [12, 10],
+	},
 	{
 		name: "Hajj",
-		note: "vallfärden; tashrīq-dagarna 11–13 avslutar den",
+		note: "vallfärden till Mecka; de tre avslutande dagarna (11–13) kallas tashrīq",
 		start: [12, 8],
 		end: [12, 13],
 	},

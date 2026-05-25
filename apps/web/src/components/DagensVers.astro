@@ -26,6 +26,8 @@ const koranBook =
 <section class="vers home-movement" aria-labelledby="vers-kicker">
 	<p class="label home-kicker" id="vers-kicker">Dagens vers</p>
 	<div class="vers-body">
+		<p class="vers-sv" lang="sv"><em>{verse.textSwedish}</em></p>
+
 		<p
 			class="vers-arabic"
 			dir="rtl"
@@ -39,8 +41,6 @@ const koranBook =
 				<span class="vers-waqf">{`${t.text} `}</span>
 			),
 		)}</p>
-
-		<p class="vers-sv" lang="sv"><em>{verse.textSwedish}</em></p>
 
 		<p class="vers-ref">
 			<button
@@ -76,31 +76,33 @@ const koranBook =
 
 <style>
 	.vers-body {
-		/* A left-anchored block on the page's shared left axis, so the verse blends
-		   with every other movement (all left-aligned). One constrained measure
-		   holds the Arabic and the Swedish in a single frame — same left edge, same
-		   width — so they read as one citation rather than a full-bleed verse with a
-		   stranded caption. The cap also stops the Arabic spanning the whole page. */
+		/* Meaning first, then the original, in one frame anchored on the left axis.
+		   The Swedish translation leads at the top, the Arabic follows right-aligned
+		   within the SAME measure (its right edge does NOT push out to the section's
+		   full width), and the play control + reference sit beneath the Arabic. */
 		max-width: 40rem;
 		margin-top: var(--space-half);
 		text-align: left;
 	}
 
-	/* The single most consequential typographic moment on the site (§4) — so it
-	   stays the apex, but set only just above the page's largest heading (the
-	   ~2.6rem hero title) rather than dwarfing it. Amiri Quran already reads large
-	   for its point size, so a restrained cap keeps the verse commanding yet in
-	   scale. No letter-spacing; line-height tuned so the deep harakat never collide. */
+	/* The original verse, below the translation, on the section's FULL width.
+	   Arabic is read right-to-left, so the right edge stays pinned to the frame (level
+	   with the Swedish block, never drifting further right). JUSTIFIED so the full
+	   lines stretch all the way to the frame's LEFT edge — the same left axis as the
+	   Swedish above — instead of leaving a ragged gap there; `text-align-last: right`
+	   keeps the short final line on the right where it belongs (not stretched). The two
+	   scripts thus share a left line. Sized just above the body register; Amiri Quran
+	   reads large for its point size, so it stays commanding. */
 	.vers-arabic {
 		font-family: var(--font-arabic);
 		font-weight: 400;
-		font-size: clamp(1.875rem, 4.4vw, 2.85rem);
-		line-height: 1.9;
+		font-size: clamp(1.5rem, 3.2vw, 2.125rem);
+		line-height: 1.85;
 		letter-spacing: 0;
 		color: var(--color-text);
-		margin: 0;
-		text-align: left;
-		text-wrap: balance;
+		margin: var(--space-unit) 0 0;
+		text-align: justify;
+		text-align-last: right;
 	}
 
 	/* Word spotlight (§7.2). One mechanism serves both the recitation and manual
@@ -171,11 +173,14 @@ const koranBook =
 		font-size: clamp(1.0625rem, 1.6vw, 1.25rem);
 		line-height: 1.6;
 		color: color-mix(in srgb, var(--color-text) 78%, var(--color-muted));
-		margin: var(--space-unit) 0 0; /* fills the shared frame, on the left axis */
+		/* The readable meaning, leading the citation; fills the shared frame, and its
+		   left edge sets the axis the Arabic line below runs out to meet. */
+		margin: 0;
 		text-wrap: pretty;
-		/* The opening quote hangs into the margin so the prose keeps the verse's
-		   left axis — hanging punctuation, in keeping with the body type. */
-		text-indent: -0.46em;
+		/* No hanging indent: the opening quote starts flush on the section's left
+		   axis, aligned with the kicker and the play control, rather than pulled into
+		   the margin (which read as misaligned). */
+		text-indent: 0;
 	}
 
 	.vers-sv em {

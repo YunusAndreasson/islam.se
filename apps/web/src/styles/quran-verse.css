@@ -9,14 +9,16 @@
 
 .quran-verse {
 	margin: var(--space-unit) 0;
-	padding-left: var(--space-unit);
-	border-left: 2px solid var(--color-divider);
+	padding-right: var(--space-unit);
+	border-right: 2px solid var(--color-divider);
 }
 
 /* The recited line. Amiri Quran reads large for its point size, so a value just
    above the body step keeps the verse legible with its harakat yet clearly part of
-   the column — not the homepage's commanding clamp. Left-aligned (the verse's left
-   edge meets the prose) while the script itself runs right-to-left. */
+   the column — not the homepage's commanding clamp. Right-aligned: Arabic is a
+   right-to-left script, so the verse must begin at the right edge and the play
+   control / reference settle beneath it. The `dir="rtl"` on the element already
+   sets this; we state `text-align: right` so no inherited rule can left-align it. */
 .qv-arabic {
 	font-family: var(--font-arabic);
 	font-weight: 400;
@@ -24,7 +26,7 @@
 	line-height: 1.95;
 	margin: 0;
 	text-indent: 0;
-	text-align: left;
+	text-align: right;
 	text-wrap: pretty;
 	color: var(--color-text);
 }
@@ -54,11 +56,13 @@
 	}
 }
 
-/* Play control + reference, in the meta register on the verse's left axis. A
-   smaller sibling of the homepage's lone play glyph; no scrubber, no timeline. */
+/* Play control + reference, in the meta register beneath the verse's start
+   (right) edge. A smaller sibling of the homepage's lone play glyph; no scrubber,
+   no timeline. Justified to the right so it sits under the right-aligned Arabic. */
 .qv-meta {
 	display: flex;
 	align-items: center;
+	justify-content: flex-end;
 	gap: 0.55rem;
 	margin-top: 0.7rem;
 }
@@ -114,7 +118,7 @@
 
 @media (width <= 768px) {
 	.quran-verse {
-		padding-left: var(--space-half);
+		padding-right: var(--space-half);
 	}
 
 	.qv-arabic {

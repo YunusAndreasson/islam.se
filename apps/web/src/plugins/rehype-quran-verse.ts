@@ -101,25 +101,51 @@ function buildFootnoteMap(section: HastElement): Map<string, { ayahKey: string; 
 	return map;
 }
 
-/** Ayahs (ordered, de-duped) cited by footnote marks inside one top-level block,
- *  keeping only those we have generated audio for. */
+// Any quotation mark. This site renders Swedish guillemets as »opening … closing«;
+// curly and straight pairs are included so the gate survives a smartypants change.
+const QUOTE_MARK = /[«»“”‘’"']/u;
+
+/** Ayahs (ordered, de-duped) GENUINELY QUOTED inside one top-level block. A footnote
+ *  marker annotates the text back to the previous marker (or the block start); the
+ *  verse counts as quoted when that span carries a quotation mark — or when the
+ *  marker sits inside a blockquote, where the block itself is the quote and no inline
+ *  marks appear. A verse merely cited after a paraphrase has no quotation in its span
+ *  and is dropped, so no orphan player is injected.
+ *
+ *  Span-based, not "the character right before the marker": authors often close the
+ *  quote and then add an attribution before the marker — »…visar,« säger Koranen.[n]
+ *  — and that verse is still quoted. The walk is in document order, so `span` always
+ *  holds the text from the previous marker up to the current one; every marker
+ *  (Quran or not) closes a span. Only ayahs we have audio for are kept. */
 function versesInBlock(
 	block: HastNode,
 	fnMap: Map<string, { ayahKey: string; refName: string }>,
 ): { ayahKey: string; refName: string }[] {
 	const out: { ayahKey: string; refName: string }[] = [];
 	const seen = new Set<string>();
+	let span = "";
+	let blockquoteDepth = 0;
 	const walk = (node: HastNode): void => {
-		if (isElement(node) && node.tagName === "a" && "dataFootnoteRef" in node.properties) {
-			const href = node.properties.href;
+		if (node.type === "text") {
+			span += (node as HastText).value;
+			return;
+		}
+		const el = isElement(node) ? node : null;
+		if (el?.tagName === "a" && "dataFootnoteRef" in el.properties) {
+			const href = el.properties.href;
 			const id = typeof href === "string" ? href.replace(/^#/, "") : "";
 			const cite = fnMap.get(id);
-			if (cite && VERSES[cite.ayahKey] && !seen.has(cite.ayahKey)) {
+			const quoted = blockquoteDepth > 0 || QUOTE_MARK.test(span);
+			if (cite && VERSES[cite.ayahKey] && !seen.has(cite.ayahKey) && quoted) {
 				seen.add(cite.ayahKey);
 				out.push(cite);
 			}
+			span = ""; // the marker closes the span it annotates; skip its digit text
+			return;
 		}
+		if (el?.tagName === "blockquote") blockquoteDepth++;
 		for (const c of childrenOf(node)) walk(c);
+		if (el?.tagName === "blockquote") blockquoteDepth--;
 	};
 	walk(block);
 	return out;

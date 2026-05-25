@@ -25,38 +25,42 @@ export const AMNEN: Amne[] = [
 		name: "Skapelsen",
 		slug: "skapelsen",
 		framing:
-			"Skaparen, igenkänd genom sina tecken: naturen, djuren, kosmos — Koranens första argument för Gud.",
+			"Naturen, djuren och kosmos lästa som tecken – vägen till en skapare går genom det vi ser omkring oss.",
 	},
 	{
 		name: "Skriften",
 		slug: "skriften",
-		framing: "Uppenbarelsen som följer: Koranen och dess budskap, språket, textens historia.",
+		framing:
+			"Koranen som text och budskap – vad den säger, hur dess språk bär och hur den uppenbarades och bevarades.",
 	},
 	{
 		name: "Själen",
 		slug: "sjalen",
-		framing: "Hjärtats svar: begäret och lasterna, sorgen och förlåtelsen, tungan och reningen.",
+		framing:
+			"Människans inre liv – begäret och samvetet, sorgen och förlåtelsen, det som tär på en själ och det som läker den.",
 	},
 	{
 		name: "Rättvisa",
 		slug: "rattvisa",
-		framing: "Rätt handling och lag: rättvisa, styre, rättigheter, pengar.",
+		framing:
+			"Rätt handling och lag – om rättvisa, makt och rättigheter, och vad vi är skyldiga varandra.",
 	},
 	{
 		name: "Samhälle",
 		slug: "samhalle",
-		framing: "Den troende gemenskapen och det offentliga: traditionen möter dagens Sverige.",
+		framing:
+			"Livet tillsammans – tron i det offentliga, och en gammal tradition som möter dagens Sverige.",
 	},
 	{
 		name: "Sökandet",
 		slug: "sokandet",
 		framing:
-			"Det moderna inre sökandet som inbjudan svarar på: Swedenborg, Strindberg, Linné, Levertin.",
+			"Den moderna människans sökande efter mening – och vad svenska tänkare och diktare anade på vägen.",
 	},
 	{
 		name: "Norden",
 		slug: "norden",
-		framing: "Det nedärvda förflutna, omprövat i nytt ljus: nordisk myt och gammalt svenskt arv.",
+		framing: "Nordisk myt och gammalt svenskt arv – det nedärvda förflutna prövat i nytt ljus.",
 	},
 ];
 
