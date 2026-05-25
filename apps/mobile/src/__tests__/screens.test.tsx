@@ -8,9 +8,9 @@ import Om from '../app/(tabs)/om';
 // Smoke tests: each tab screen mounts and shows its title. Cheap regression
 // guard that the placeholder screens stay renderable as the app grows.
 describe('tab placeholder screens', () => {
-  it('renders the Bönetider title', () => {
+  it('renders the Bönetider map', () => {
     render(<Bonetider />);
-    expect(screen.getByText('Bönetider')).toBeTruthy();
+    expect(screen.getByTestId('sweden-map')).toBeTruthy();
   });
 
   it('renders the Inställningar title', () => {

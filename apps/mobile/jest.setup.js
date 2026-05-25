@@ -12,3 +12,10 @@ jest.mock('react-native-safe-area-context', () => {
     SafeAreaInsetsContext: React.createContext(insets),
   };
 });
+
+// MapLibre is a native module with no JS implementation under test. Render its
+// components as host elements so the Bönetider map screen mounts in jsdom/node.
+jest.mock('@maplibre/maplibre-react-native', () => ({
+  Map: 'Map',
+  Camera: 'Camera',
+}));
