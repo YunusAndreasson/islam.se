@@ -65,6 +65,7 @@
 	"files": {
 		"includes": [
 			"**",
+			"!apps/mobile",
 			"!**/node_modules",
 			"!**/dist",
 			"!**/data",

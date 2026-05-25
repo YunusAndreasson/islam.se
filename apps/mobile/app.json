@@ -1,0 +1,23 @@
+{
+  "expo": {
+    "name": "islam.se",
+    "slug": "islam-se-mobile",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "scheme": "islamse",
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "se.islam.mobile"
+    },
+    "android": {
+      "package": "se.islam.mobile"
+    },
+    "web": {
+      "output": "static"
+    },
+    "plugins": ["expo-router"],
+    "experiments": {
+      "typedRoutes": true
+    }
+  }
+}

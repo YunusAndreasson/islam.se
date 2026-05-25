@@ -1,0 +1,17 @@
+# Standalone pnpm root. Having this file here means `pnpm install` run inside
+# apps/mobile resolves THIS as the workspace root — it does NOT join the
+# islam.se monorepo (which is also why apps/mobile is excluded in the root
+# pnpm-workspace.yaml). Keeps the Expo toolchain fully isolated from the
+# content-pipeline packages.
+packages: []
+
+# Dependencies explicitly allowed (or denied) to run install/build scripts (pnpm 11).
+allowBuilds:
+  # Optional native msgpack accelerator; the pure-JS fallback is fine for us.
+  msgpackr-extract: false
+  # Rust-based module resolver used by lint tooling; native binary is preferred.
+  unrs-resolver: true
+
+# React Native / Expo autolinking and Metro do not cope with pnpm's default
+# symlinked, isolated node_modules. Hoisted layout is the supported setup.
+nodeLinker: hoisted
