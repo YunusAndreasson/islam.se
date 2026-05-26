@@ -493,7 +493,15 @@ function Scrubber({
                 style={[styles.mark, { left: m.fraction * trackW - 3, backgroundColor: PRAYER_COLORS[m.key] }]}
               />
             ))}
-          {trackW > 0 && <Animated.View pointerEvents="none" style={[styles.thumb, thumbStyle]} />}
+          {/* Plain-style `left` first so a freshly-mounted thumb is already at the
+              live position; the animated style (which can apply a frame late on mount)
+              then takes over and drives the drag. Without it the thumb flashes at 0. */}
+          {trackW > 0 && (
+            <Animated.View
+              pointerEvents="none"
+              style={[styles.thumb, { left: fraction * trackW - 9 }, thumbStyle]}
+            />
+          )}
         </View>
       </GestureDetector>
       <View style={styles.ticks}>
