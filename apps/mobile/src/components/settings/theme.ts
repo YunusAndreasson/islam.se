@@ -6,7 +6,9 @@ export const colors = {
   border: '#e3e3e8',
   text: '#11181c',
   textMuted: '#6b7280',
-  accent: '#0a7ea4',
-  accentSoft: '#e6f3f7',
+  // Same accent as the map chrome (solar night-indigo) so the whole app is one
+  // palette — see components/map/theme.ts and lib/solar/palette.ts.
+  accent: '#46527f',
+  accentSoft: '#e9ebf5',
   separator: '#ececf0',
 };

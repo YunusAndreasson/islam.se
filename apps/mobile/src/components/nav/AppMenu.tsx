@@ -144,7 +144,7 @@ const styles = StyleSheet.create({
   popoverCard: { borderRadius: 16, overflow: 'hidden', minWidth: 212, paddingVertical: 4 },
   item: { flexDirection: 'row', alignItems: 'center', gap: 12, paddingVertical: 12, paddingHorizontal: 16 },
   itemBorder: { borderTopWidth: StyleSheet.hairlineWidth, borderTopColor: 'rgba(17,24,28,0.07)' },
-  itemPressed: { backgroundColor: 'rgba(10,126,164,0.08)' },
+  itemPressed: { backgroundColor: 'rgba(70,82,127,0.08)' },
   itemLabel: { flex: 1, fontSize: 16, color: mapTheme.text },
   itemLabelActive: { color: mapTheme.accent, fontWeight: '600' },
   activeDot: { width: 6, height: 6, borderRadius: 3, backgroundColor: mapTheme.accent },

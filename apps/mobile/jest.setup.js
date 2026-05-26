@@ -70,6 +70,17 @@ jest.mock('react-native-reanimated', () => {
   };
 });
 
+// expo-haptics is a native taptic module with no JS-thread implementation under
+// test. The dock fires haptics through src/lib/haptics; stub the calls as no-op
+// resolved promises so those one-liners don't reach native during a render.
+jest.mock('expo-haptics', () => ({
+  selectionAsync: jest.fn(async () => {}),
+  impactAsync: jest.fn(async () => {}),
+  notificationAsync: jest.fn(async () => {}),
+  ImpactFeedbackStyle: { Light: 'light', Medium: 'medium', Heavy: 'heavy', Rigid: 'rigid', Soft: 'soft' },
+  NotificationFeedbackType: { Success: 'success', Warning: 'warning', Error: 'error' },
+}));
+
 // react-native-gesture-handler: render the root + detector as pass-throughs and
 // give Gesture builders chainable no-op methods so PrayerDock's gestures build.
 jest.mock('react-native-gesture-handler', () => {
