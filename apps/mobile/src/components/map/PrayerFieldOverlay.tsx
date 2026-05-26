@@ -142,7 +142,10 @@ export function PrayerFieldOverlay({ grid, now, settings, nextKey, night }: Prop
             <View
               style={[
                 styles.pill,
-                { backgroundColor: c.surface, borderColor: isNext ? c.pillNextBorder : c.hairline },
+                {
+                  backgroundColor: c.pillSurface,
+                  borderColor: isNext ? c.pillNextBorder : c.pillBorder,
+                },
                 isNext && styles.pillNext,
               ]}
             >

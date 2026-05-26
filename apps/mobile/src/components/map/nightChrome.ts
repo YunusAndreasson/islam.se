@@ -19,10 +19,20 @@ export interface NightChrome {
   /** Halo behind map labels — light by day, dark by night, so text always reads. */
   halo: string;
   /**
-   * Border for the emphasised "next" prayer pill. Its own stop, NOT shared `accent`:
-   * accent is tuned as a high-contrast fill/text colour, so as a border it's a tasteful
-   * dark slate by day but flips to a glaring bright-periwinkle ring on the dark night
-   * map. This stays a soft, properly-themed outline in both modes.
+   * The map prayer pills get their own OPAQUE surface + borders (not the translucent
+   * glass `surface`/`hairline`). On the dark, non-uniform night map a translucent
+   * border composites differently over whatever terrain/line sits behind it, so the
+   * rounded caps read as uneven and "not smooth"; an opaque fill + opaque border give
+   * a crisp uniform edge in both modes — matching how clean the day pill already looks.
+   */
+  pillSurface: string;
+  /** Subtle border for a normal pill. */
+  pillBorder: string;
+  /**
+   * Border for the emphasised "next" prayer pill. NOT the shared `accent` (which is a
+   * high-contrast fill/text colour — fine as a dark slate border by day, but a glaring
+   * bright-periwinkle ring at night): a muted, *opaque* periwinkle that reads as a
+   * clean accented outline in both modes.
    */
   pillNextBorder: string;
 }
@@ -73,12 +83,23 @@ const STOPS: Record<keyof NightChrome, [RGBA, RGBA]> = {
     [245, 247, 250, 0.92],
     [16, 22, 44, 0.66],
   ],
-  // Day: the same slate the pill used before (look unchanged). Night: a muted,
-  // semi-transparent periwinkle — clearly more present than the hairline, but a soft
-  // outline rather than the bright ring the full accent produced.
+  // Opaque pill fill: near-white by day (≈ the old 0.9 glass), solid indigo by night.
+  pillSurface: [
+    [252, 252, 254, 1],
+    [34, 40, 64, 1],
+  ],
+  // Normal pill border: a faint hairline by day, a subtle *opaque* indigo line by
+  // night (uniform over any map terrain, unlike the translucent shared hairline).
+  pillBorder: [
+    [17, 24, 28, 0.08],
+    [78, 88, 120, 1],
+  ],
+  // Next-pill border: day slate unchanged; night a muted *opaque* periwinkle —
+  // clearly accented but not the bright ring the full accent produced, and uniform
+  // (opaque) so the rounded caps stay smooth.
   pillNextBorder: [
     [70, 82, 127, 1],
-    [124, 136, 178, 0.6],
+    [108, 120, 158, 1],
   ],
 };
 
