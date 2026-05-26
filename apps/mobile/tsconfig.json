@@ -2,6 +2,12 @@
   "extends": "expo/tsconfig.base",
   "compilerOptions": {
     "strict": true,
+    // Bug-catching flags beyond `strict` (all currently clean — pure future insurance):
+    "noImplicitReturns": true,          // every code path in a value-returning fn must return
+    "noFallthroughCasesInSwitch": true, // a missing `break` in the contour marching-squares switch is a bug
+    "noImplicitOverride": true,         // `override` keyword required so renamed base methods don't silently detach
+    "allowUnreachableCode": false,      // dead code after return/throw is an error, not a warning
+    "allowUnusedLabels": false,
     "paths": {
       "@/*": ["./src/*"]
     }

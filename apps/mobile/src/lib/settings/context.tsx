@@ -31,11 +31,17 @@ export function SettingsProvider({ children }: { children: ReactNode }) {
   // Hydrate persisted settings once on mount.
   useEffect(() => {
     let active = true;
-    loadSettings().then((loadedSettings) => {
-      if (!active) return;
-      setSettings(loadedSettings);
-      setLoaded(true);
-    });
+    loadSettings()
+      .then((loadedSettings) => {
+        if (!active) return;
+        setSettings(loadedSettings);
+        setLoaded(true);
+      })
+      .catch(() => {
+        // Unreadable/corrupt storage: unblock with DEFAULT_SETTINGS rather than
+        // leaving the app stuck on the unhydrated loading state forever.
+        if (active) setLoaded(true);
+      });
     return () => {
       active = false;
     };

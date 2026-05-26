@@ -230,7 +230,13 @@ export function PrayerDock({
       pointerEvents="box-none"
     >
       <View style={styles.clip}>
-        <GlassSurface style={StyleSheet.absoluteFill} interactive fallbackColor={c.surface} />
+        {/* borderWidth:0 suppresses GlassSurface's own (square, fixed-bright) fallback
+            rim — the dock's rim is the night-themed one on the rounded `clip` above. */}
+        <GlassSurface
+          style={[StyleSheet.absoluteFill, styles.glassFill]}
+          interactive
+          fallbackColor={c.surface}
+        />
 
         {/* The card floats above the gesture bar (see DOCK_FLOAT), so the content only
             needs its own internal breathing here — no system-inset clearance. */}
@@ -558,7 +564,21 @@ function makeStyles(c: NightChrome) {
       shadowOffset: { width: 0, height: 6 },
       elevation: 8,
     },
-    clip: { flex: 1, borderRadius: 22, overflow: 'hidden' },
+    // The rim lives on this rounded, overflow-clipped container — NOT on the
+    // GlassSurface backing (a square absoluteFill, see below). A border on the
+    // square child gets corner-clipped by this radius so it can't trace the
+    // rounding; on the rounded container it follows the corners exactly. And it's
+    // the night-themed `c.hairline` (day: faint dark@0.08, night: soft white@0.13),
+    // so it stays a subtle rim in both modes — unlike the fixed white@0.55 glass rim,
+    // which was near-invisible on the light dock but a glaring bright edge on the dark one.
+    clip: {
+      flex: 1,
+      borderRadius: 22,
+      overflow: 'hidden',
+      borderWidth: StyleSheet.hairlineWidth,
+      borderColor: c.hairline,
+    },
+    glassFill: { borderWidth: 0 },
     // paddingTop clears the grab-handle zone (handleHit is 34 tall) plus a gap, so
     // the topmost content (the date header / hero) never sits cramped under the handle.
     content: { flex: 1, justifyContent: 'flex-end', paddingHorizontal: 16, paddingTop: 42 },

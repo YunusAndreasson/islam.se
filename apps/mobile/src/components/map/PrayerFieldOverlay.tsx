@@ -90,7 +90,12 @@ export function PrayerFieldOverlay({ grid, now, settings, nextKey, night }: Prop
 
   return (
     <>
-      <GeoJSONSource id="solar-wash" data={cells}>
+      {/* The wash FeatureCollection is rebuilt + re-tiled on every scrubbed instant.
+          buffer 0 drops MapLibre's default 128-unit tile edge-buffer on each of those
+          re-tilings (docs: larger buffer = slower); it stays seam-free because the fill
+          is `fill-antialias: false`, so adjacent tiles meet exactly at the boundary with
+          no AA gap — verified on device, day and deep-night full-coverage wash. */}
+      <GeoJSONSource id="solar-wash" data={cells} buffer={0}>
         {/* fill-antialias off → adjacent translucent cells blend into a seamless wash */}
         <Layer
           id="solar-wash-fill"

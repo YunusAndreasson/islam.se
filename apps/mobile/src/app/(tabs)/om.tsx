@@ -64,9 +64,9 @@ export default function Om() {
         </Card>
 
         <Card icon="layers" title="Källor">
-          Bönetider: adhan. Kartdata: © OpenFreeMap, OpenMapTiles och OpenStreetMaps
-          bidragsgivare. Hijri-datumet följer den aritmetiska kalendern och kan justeras
-          för lokal månsiktning.
+          Bönetider: adhan. Kartan renderas med MapLibre, med kartdata © OpenFreeMap,
+          OpenMapTiles och OpenStreetMaps bidragsgivare. Hijri-datumet följer den
+          aritmetiska kalendern och kan justeras för lokal månsiktning.
         </Card>
 
         <Pressable

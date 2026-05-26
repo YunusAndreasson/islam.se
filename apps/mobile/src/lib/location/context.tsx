@@ -83,14 +83,18 @@ export function LocationProvider({ children }: { children: ReactNode }) {
   // Seed from the cached fix on mount so GPS mode shows times before a new fix.
   useEffect(() => {
     let active = true;
-    AsyncStorage.getItem(GPS_CACHE_KEY).then((raw) => {
-      if (!active || !raw) return;
-      try {
-        setGpsCoords((prev) => prev ?? (JSON.parse(raw) as LatLng));
-      } catch {
-        // ignore corrupt cache
-      }
-    });
+    AsyncStorage.getItem(GPS_CACHE_KEY)
+      .then((raw) => {
+        if (!active || !raw) return;
+        try {
+          setGpsCoords((prev) => prev ?? (JSON.parse(raw) as LatLng));
+        } catch {
+          // ignore corrupt cache
+        }
+      })
+      .catch(() => {
+        // ignore unreadable cache; a fresh fix will repopulate it
+      });
     return () => {
       active = false;
     };
