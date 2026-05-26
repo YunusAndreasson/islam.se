@@ -163,9 +163,10 @@ export default function Qibla() {
               </View>
             </View>
 
-            {/* tail (south) of the needle — a quiet counterweight */}
+            {/* tail (south) of the needle — a quiet counterweight. Anchored to the
+                slot bottom (the dial centre) so it grows out of the hub with no gap. */}
             <View style={[StyleSheet.absoluteFill, rot(bearing + 180)]} pointerEvents="none">
-              <View style={[styles.needleSlot, { height: r }]}>
+              <View style={[styles.needleSlot, styles.tailSlot, { height: r }]}>
                 <View style={styles.needleTail} />
               </View>
             </View>
@@ -255,10 +256,12 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(255,255,255,0.55)',
   },
   needleShaft: { width: 3, flex: 1, marginBottom: 2, borderRadius: 2 },
+  // Pin the tail to the centre end of the slot so it meets the hub like the shaft.
+  tailSlot: { justifyContent: 'flex-end' },
   needleTail: {
     width: 3,
-    height: '54%',
-    marginTop: 40,
+    height: '50%',
+    marginBottom: 2,
     borderRadius: 2,
     backgroundColor: palette.track,
   },
