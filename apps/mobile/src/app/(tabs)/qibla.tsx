@@ -79,7 +79,8 @@ export default function Qibla() {
         if (!gotEvent) setNoCompass(true);
       }, 2500);
 
-      (async () => {
+      // Errors are handled inside; `void` marks the IIFE as intentionally floating.
+      void (async () => {
         try {
           await Location.requestForegroundPermissionsAsync();
           const s = await Location.watchHeadingAsync((h) => {

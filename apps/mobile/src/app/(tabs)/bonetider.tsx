@@ -24,7 +24,7 @@ import { useLocation } from '../../lib/location/context';
 import { NORDIC_MAP_STYLE } from '../../lib/map/nordicStyle';
 import { useSetNight } from '../../lib/solar/nightContext';
 import { nightFactor } from '../../lib/solar/night';
-import { computePrayerTimes, PRAYER_ORDER, type PrayerKey } from '../../lib/prayer-times';
+import { computePrayerTimes, PRAYER_ORDER } from '../../lib/prayer-times';
 import { useSettings } from '../../lib/settings/context';
 import type { PrayerSettings } from '../../lib/settings/types';
 import { buildGrid } from '../../lib/solar/field';
@@ -160,7 +160,7 @@ export default function Bonetider() {
   const marks = useMemo<DayMark[]>(() => {
     const out: DayMark[] = [];
     for (const key of PRAYER_ORDER) {
-      const at = (userTimes[key] as Date).getTime();
+      const at = (userTimes[key]).getTime();
       if (!Number.isFinite(at)) continue;
       const f = (at - clock.dayStart) / DAY_MS;
       if (f >= 0 && f <= 1) out.push({ key, fraction: f });
@@ -171,7 +171,7 @@ export default function Bonetider() {
   // eslint-disable-next-line react-hooks/preserve-manual-memoization -- depends on userTimes, which is intentionally memoized on `sig` (not the settings object); the manual memo is deliberate and the compiler can't preserve it
   const next = useMemo<NextPrayer | null>(() => {
     for (const key of PRAYER_ORDER) {
-      const at = (userTimes[key] as Date).getTime();
+      const at = (userTimes[key]).getTime();
       if (Number.isFinite(at) && at > clock.now) return { key, at, tomorrow: false };
     }
     // Past today's Isha → tomorrow's Fajr.
@@ -190,10 +190,10 @@ export default function Bonetider() {
   // themed stylesheets every frame.
   const ms = (d: Date): number => (d instanceof Date ? d.getTime() : Number.NaN);
   const nightRaw = nightFactor(clock.now, {
-    fajr: ms(userTimes.fajr as Date),
-    sunrise: ms(userTimes.sunrise as Date),
-    maghrib: ms(userTimes.maghrib as Date),
-    isha: ms(userTimes.isha as Date),
+    fajr: ms(userTimes.fajr),
+    sunrise: ms(userTimes.sunrise),
+    maghrib: ms(userTimes.maghrib),
+    isha: ms(userTimes.isha),
   });
   const night = Math.round(nightRaw * 20) / 20;
   // Publish to the global chrome (the AppMenu, which lives over every screen) so it
@@ -250,7 +250,11 @@ export default function Bonetider() {
         testID="sweden-map"
         style={StyleSheet.absoluteFill}
         mapStyle={NORDIC_MAP_STYLE}
-        attribution
+        // No on-map ornaments: the tappable attribution "i" (bottom-right) and the
+        // MapLibre wordmark (bottom-left) are both hidden so nothing floats over the
+        // wash. OSM/ODbL + OpenFreeMap credit belongs on the Om screen instead.
+        attribution={false}
+        logo={false}
         compass={false}
         onRegionDidChange={onRegionDidChange}
       >
@@ -278,7 +282,7 @@ export default function Bonetider() {
           schedule. Navigation (☰) lives in the global AppMenu, top-right. */}
       <PrayerDock
         clock={clock}
-        times={userTimes as unknown as Record<PrayerKey, Date>}
+        times={userTimes}
         marks={marks}
         next={next}
         locationLabel={placeLabel}

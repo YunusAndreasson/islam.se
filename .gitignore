@@ -1,3 +1,8 @@
+# Claude Code local settings (the tracked root .claude/ is intentional; these
+# per-app dirs are local agent state and should not be committed)
+apps/.claude/
+apps/mobile/.claude/
+
 # Dependencies
 node_modules/
 

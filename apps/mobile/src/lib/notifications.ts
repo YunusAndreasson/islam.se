@@ -87,7 +87,7 @@ export async function syncPrayerNotifications(
 
       for (const key of NOTIFY_PRAYERS) {
         if (!settings.notifications.prayers[key]) continue;
-        const at = times[key] as Date;
+        const at = times[key];
         if (!(at instanceof Date) || Number.isNaN(at.getTime())) continue;
         // Skip anything already past (or within the next minute — too late to be useful).
         if (at.getTime() <= now + 60_000) continue;

@@ -102,7 +102,7 @@ export default function Installningar() {
       times: PRAYER_ORDER.map((key) => ({
         key,
         label: PRAYER_LABELS[key],
-        time: formatTime(pt[key] as Date, settings),
+        time: formatTime(pt[key], settings),
       })),
     };
   }, [coords, settings]);

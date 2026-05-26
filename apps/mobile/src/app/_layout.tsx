@@ -12,6 +12,11 @@ import { SettingsProvider, useSettings } from '@/lib/settings/context';
 import { NightProvider } from '@/lib/solar/nightContext';
 import { palette } from '@/theme/tokens';
 
+// expo-router renders this as the app-wide crash boundary (it wraps the root
+// segment in <Try> when a route exports `ErrorBoundary`). Re-exported from the
+// themed screen so the fallback speaks the app's visual language.
+export { ErrorScreen as ErrorBoundary } from '@/components/ui/ErrorScreen';
+
 // Keeps the scheduled prayer notifications in step with the user's settings and
 // location, and refreshes them whenever the app returns to the foreground (so the
 // rolling multi-day window keeps advancing). Renders nothing — it just reacts.
