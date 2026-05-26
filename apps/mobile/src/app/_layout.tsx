@@ -10,7 +10,7 @@ import { useLocation, LocationProvider } from '@/lib/location/context';
 import { syncPrayerNotifications } from '@/lib/notifications';
 import { SettingsProvider, useSettings } from '@/lib/settings/context';
 import { NightProvider } from '@/lib/solar/nightContext';
-import { palette } from '@/theme/tokens';
+import { useColors } from '@/theme/useColors';
 
 // expo-router renders this as the app-wide crash boundary (it wraps the root
 // segment in <Try> when a route exports `ErrorBoundary`). Re-exported from the
@@ -44,6 +44,11 @@ function NotificationSync() {
 // persisted prayer settings; LocationProvider (nested, since it reads settings)
 // resolves the coordinate to compute for.
 export default function RootLayout() {
+  // Follows the OS appearance setting (theme/useColors): the Stack's anti-flash
+  // ground and the status bar both flip with light/dark. The map screen ignores this
+  // (it darkens by the sun), but its map fills the screen, so the ground only shows
+  // during transitions into the warm light/dark non-map screens.
+  const c = useColors();
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <SafeAreaProvider>
@@ -52,7 +57,7 @@ export default function RootLayout() {
             <NightProvider>
               {/* Opaque paper ground so screen-to-screen transitions never flash the
                   map through an incoming page. */}
-              <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: palette.paper } }} />
+              <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: c.paper } }} />
               <AppMenu />
               <NotificationSync />
               <StatusBar style="auto" />

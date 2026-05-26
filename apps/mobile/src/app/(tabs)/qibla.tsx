@@ -11,7 +11,7 @@
 import { MaterialIcons } from '@expo/vector-icons';
 import { useFocusEffect } from 'expo-router';
 import * as Location from 'expo-location';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { StyleSheet, Text, useWindowDimensions, View } from 'react-native';
 import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -19,7 +19,8 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { hapticSuccess } from '../../lib/haptics';
 import { useLocation } from '../../lib/location/context';
 import { angleDelta, formatKm, qiblaBearing, qiblaDistanceKm } from '../../lib/qibla';
-import { mono, palette, radius, shadow, space, type } from '../../theme/tokens';
+import { mono, type Palette, radius, shadow, space, type } from '../../theme/tokens';
+import { useColors } from '../../theme/useColors';
 
 // Degrees within which we call it "facing the qibla".
 const ALIGN_TOL = 4;
@@ -34,6 +35,8 @@ const TICKS = Array.from({ length: 24 }, (_, i) => i * 15);
 
 export default function Qibla() {
   const { coords, label } = useLocation();
+  const c = useColors();
+  const styles = useMemo(() => makeStyles(c), [c]);
   const placeLabel = label.replace(/\s*\([^)]*\)\s*$/, '');
   const { width } = useWindowDimensions();
   const dial = Math.min(width - space.xxl * 2, 320);
@@ -113,7 +116,9 @@ export default function Qibla() {
   }, [aligned]);
 
   const roseStyle = useAnimatedStyle(() => ({ transform: [{ rotate: `${roseDeg.value}deg` }] }));
-  const needleColor = aligned ? palette.accentDeep : palette.accent;
+  // Aligned → brass: the "you found it" lock confirmation, the same gold the next
+  // prayer carries. Off-target it's the calm indigo accent.
+  const needleColor = aligned ? c.highlight : c.accent;
 
   return (
     <SafeAreaView style={styles.safe} edges={['top']}>
@@ -185,7 +190,7 @@ export default function Qibla() {
           <MaterialIcons
             name={aligned ? 'check-circle' : 'navigation'}
             size={16}
-            color={aligned ? palette.white : palette.accent}
+            color={aligned ? c.onHighlight : c.accent}
           />
           <Text style={[styles.statusText, aligned && styles.statusTextOn]}>
             {aligned ? 'Du är vänd mot Mecka' : 'Vrid tills nålen pekar uppåt'}
@@ -211,94 +216,97 @@ export default function Qibla() {
 const rot = (deg: number) => ({ transform: [{ rotate: `${deg}deg` }] });
 const rotText = (deg: number) => ({ transform: [{ rotate: `${deg}deg` }] });
 
-const styles = StyleSheet.create({
-  safe: { flex: 1, backgroundColor: palette.paper },
-  header: { paddingHorizontal: space.lg, paddingTop: space.xs },
-  title: { ...type.title, color: palette.ink },
-  subtitle: { ...type.callout, color: palette.inkMuted, marginTop: 2 },
+function makeStyles(c: Palette) {
+  return StyleSheet.create({
+    safe: { flex: 1, backgroundColor: c.paper },
+    header: { paddingHorizontal: space.lg, paddingTop: space.xs },
+    title: { ...type.title, color: c.ink },
+    subtitle: { ...type.callout, color: c.inkMuted, marginTop: 2 },
 
-  compassArea: { flex: 1, alignItems: 'center', justifyContent: 'center' },
-  dialWrap: { alignItems: 'center', justifyContent: 'center' },
-  ring: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    borderWidth: 1.5,
-    borderColor: palette.hairline,
-    backgroundColor: palette.surface,
-    ...shadow.card,
-  },
+    compassArea: { flex: 1, alignItems: 'center', justifyContent: 'center' },
+    dialWrap: { alignItems: 'center', justifyContent: 'center' },
+    ring: {
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      borderWidth: 1.5,
+      borderColor: c.hairline,
+      backgroundColor: c.surface,
+      ...shadow.card,
+    },
 
-  // A tick lives at the top of a full-size, rotated slot.
-  tickSlot: { position: 'absolute', top: 8, left: 0, right: 0, alignItems: 'center' },
-  tickMajor: { width: 2, height: 12, borderRadius: 1, backgroundColor: palette.inkFaint },
-  tickMinor: { width: 1.5, height: 7, borderRadius: 1, backgroundColor: palette.hairline },
+    // A tick lives at the top of a full-size, rotated slot.
+    tickSlot: { position: 'absolute', top: 8, left: 0, right: 0, alignItems: 'center' },
+    tickMajor: { width: 2, height: 12, borderRadius: 1, backgroundColor: c.inkFaint },
+    tickMinor: { width: 1.5, height: 7, borderRadius: 1, backgroundColor: c.hairline },
 
-  cardinalSlot: { position: 'absolute', top: 22, left: 0, right: 0, alignItems: 'center' },
-  cardinal: { fontSize: 15, fontWeight: '700', color: palette.inkMuted },
-  cardinalN: { color: palette.accent },
+    cardinalSlot: { position: 'absolute', top: 22, left: 0, right: 0, alignItems: 'center' },
+    cardinal: { fontSize: 15, fontWeight: '700', color: c.inkMuted },
+    cardinalN: { color: c.accent },
 
-  needleSlot: { position: 'absolute', top: 0, left: 0, right: 0, alignItems: 'center' },
-  kaaba: {
-    width: 20,
-    height: 20,
-    borderRadius: 5,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginTop: 30,
-    ...shadow.thumb,
-  },
-  // A thin lighter band around the cube — the kiswa's gold belt, abstracted.
-  kaabaBand: {
-    width: 20,
-    height: 4,
-    backgroundColor: 'rgba(255,255,255,0.55)',
-  },
-  needleShaft: { width: 3, flex: 1, marginBottom: 2, borderRadius: 2 },
-  // Pin the tail to the centre end of the slot so it meets the hub like the shaft.
-  tailSlot: { justifyContent: 'flex-end' },
-  needleTail: {
-    width: 3,
-    height: '50%',
-    marginBottom: 2,
-    borderRadius: 2,
-    backgroundColor: palette.track,
-  },
+    needleSlot: { position: 'absolute', top: 0, left: 0, right: 0, alignItems: 'center' },
+    kaaba: {
+      width: 20,
+      height: 20,
+      borderRadius: 5,
+      alignItems: 'center',
+      justifyContent: 'center',
+      marginTop: 30,
+      ...shadow.thumb,
+    },
+    // A thin lighter band around the cube — the kiswa's gold belt, abstracted.
+    kaabaBand: {
+      width: 20,
+      height: 4,
+      backgroundColor: 'rgba(255,255,255,0.55)',
+    },
+    needleShaft: { width: 3, flex: 1, marginBottom: 2, borderRadius: 2 },
+    // Pin the tail to the centre end of the slot so it meets the hub like the shaft.
+    tailSlot: { justifyContent: 'flex-end' },
+    needleTail: {
+      width: 3,
+      height: '50%',
+      marginBottom: 2,
+      borderRadius: 2,
+      backgroundColor: c.track,
+    },
 
-  index: {
-    position: 'absolute',
-    top: -10,
-    width: 0,
-    height: 0,
-    borderLeftWidth: 8,
-    borderRightWidth: 8,
-    borderTopWidth: 12,
-    borderLeftColor: 'transparent',
-    borderRightColor: 'transparent',
-    borderTopColor: palette.accent,
-  },
-  hub: { width: 14, height: 14, borderRadius: 7, backgroundColor: palette.surface, borderWidth: 3, borderColor: palette.accent },
-  hubAligned: { borderColor: palette.accentDeep },
+    index: {
+      position: 'absolute',
+      top: -10,
+      width: 0,
+      height: 0,
+      borderLeftWidth: 8,
+      borderRightWidth: 8,
+      borderTopWidth: 12,
+      borderLeftColor: 'transparent',
+      borderRightColor: 'transparent',
+      borderTopColor: c.accent,
+    },
+    hub: { width: 14, height: 14, borderRadius: 7, backgroundColor: c.surface, borderWidth: 3, borderColor: c.accent },
+    hubAligned: { borderColor: c.highlight },
 
-  readout: { alignItems: 'center', paddingBottom: space.xxxl, paddingHorizontal: space.lg },
-  statusPill: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: space.sm,
-    paddingVertical: space.sm,
-    paddingHorizontal: space.lg,
-    borderRadius: radius.round,
-    backgroundColor: palette.accentSoft,
-  },
-  statusPillOn: { backgroundColor: palette.accent },
-  statusText: { ...type.callout, fontWeight: '600', color: palette.accent },
-  statusTextOn: { color: palette.white },
+    readout: { alignItems: 'center', paddingBottom: space.xxxl, paddingHorizontal: space.lg },
+    statusPill: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: space.sm,
+      paddingVertical: space.sm,
+      paddingHorizontal: space.lg,
+      borderRadius: radius.round,
+      backgroundColor: c.accentSoft,
+    },
+    // Locked on the qibla → a brass pill, the gold "facing Mecca" confirmation.
+    statusPillOn: { backgroundColor: c.highlight },
+    statusText: { ...type.callout, fontWeight: '600', color: c.accent },
+    statusTextOn: { color: c.onHighlight },
 
-  facts: { flexDirection: 'row', alignItems: 'flex-end', gap: space.sm, marginTop: space.xl },
-  bearing: { fontSize: 52, fontWeight: '300', color: palette.ink, letterSpacing: 0.5, ...mono },
-  factLabel: { ...type.body, color: palette.inkMuted, marginBottom: 12 },
-  distance: { ...type.callout, color: palette.inkMuted, marginTop: 2, ...mono },
-  note: { ...type.caption, color: palette.inkFaint, textAlign: 'center', marginTop: space.lg, maxWidth: 300 },
-});
+    facts: { flexDirection: 'row', alignItems: 'flex-end', gap: space.sm, marginTop: space.xl },
+    bearing: { fontSize: 52, fontWeight: '300', color: c.ink, letterSpacing: 0.5, ...mono },
+    factLabel: { ...type.body, color: c.inkMuted, marginBottom: 12 },
+    distance: { ...type.callout, color: c.inkMuted, marginTop: 2, ...mono },
+    note: { ...type.caption, color: c.inkFaint, textAlign: 'center', marginTop: space.lg, maxWidth: 300 },
+  });
+}

@@ -1,7 +1,8 @@
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
+import { useMemo } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 
-import { colors } from './theme';
+import { type SettingsColors, useSettingsColors } from './theme';
 
 export interface Option<T extends string> {
   value: T;
@@ -20,6 +21,8 @@ export function OptionGroup<T extends string>({
   value: T;
   onChange: (value: T) => void;
 }) {
+  const colors = useSettingsColors();
+  const styles = useMemo(() => makeStyles(colors), [colors]);
   return (
     <View>
       {options.map((opt, i) => {
@@ -50,19 +53,21 @@ export function OptionGroup<T extends string>({
   );
 }
 
-const styles = StyleSheet.create({
-  row: {
-    minHeight: 48,
-    paddingVertical: 12,
-    paddingHorizontal: 16,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    gap: 12,
-  },
-  rowDivider: { borderTopWidth: StyleSheet.hairlineWidth, borderTopColor: colors.separator },
-  pressed: { backgroundColor: colors.accentSoft },
-  textWrap: { flex: 1 },
-  label: { fontSize: 16, color: colors.text },
-  description: { fontSize: 13, color: colors.textMuted, marginTop: 2 },
-});
+function makeStyles(colors: SettingsColors) {
+  return StyleSheet.create({
+    row: {
+      minHeight: 48,
+      paddingVertical: 12,
+      paddingHorizontal: 16,
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      gap: 12,
+    },
+    rowDivider: { borderTopWidth: StyleSheet.hairlineWidth, borderTopColor: colors.separator },
+    pressed: { backgroundColor: colors.accentSoft },
+    textWrap: { flex: 1 },
+    label: { fontSize: 16, color: colors.text },
+    description: { fontSize: 13, color: colors.textMuted, marginTop: 2 },
+  });
+}

@@ -22,7 +22,6 @@ import { PrayerFieldOverlay } from '../../components/map/PrayerFieldOverlay';
 import { mapTheme } from '../../components/map/theme';
 import { useLocation } from '../../lib/location/context';
 import { NORDIC_MAP_STYLE } from '../../lib/map/nordicStyle';
-import { useSetNight } from '../../lib/solar/nightContext';
 import { nightFactor } from '../../lib/solar/night';
 import { computePrayerTimes, PRAYER_ORDER } from '../../lib/prayer-times';
 import { useSettings } from '../../lib/settings/context';
@@ -138,7 +137,6 @@ export default function Bonetider() {
   // isn't rebuilt in the background (e.g. every 30 s while the user is on Inställningar).
   const isFocused = useIsFocused();
   const clock = useSolarClock(isFocused);
-  const setNight = useSetNight();
 
   const sig = computeSignature(settings);
   // The whole-country prayer-time lattice — the one expensive step, cached per day
@@ -185,9 +183,10 @@ export default function Bonetider() {
   }, [userTimes, clock.now, clock.dayStart, coords, settings]);
 
   // How "night" it is at the user's place for the viewed instant (0 day → 1 deep
-  // night). Drives the chrome so the dock, the prayer pills and the city markers
-  // dim into night with the map. Quantised to 0.05 so scrubbing doesn't rebuild the
-  // themed stylesheets every frame.
+  // night). Drives the MAP CANVAS — the twilight wash, the prayer pills and the city
+  // markers dim into night with the map. (The dock + menu are chrome and follow the
+  // phone theme instead, so they look the same on every screen.) Quantised to 0.05 so
+  // scrubbing doesn't rebuild the themed layers every frame.
   const ms = (d: Date): number => (d instanceof Date ? d.getTime() : Number.NaN);
   const nightRaw = nightFactor(clock.now, {
     fajr: ms(userTimes.fajr),
@@ -196,11 +195,6 @@ export default function Bonetider() {
     isha: ms(userTimes.isha),
   });
   const night = Math.round(nightRaw * 20) / 20;
-  // Publish to the global chrome (the AppMenu, which lives over every screen) so it
-  // dims into night in lockstep with the map and the dock — even while scrubbing.
-  useEffect(() => {
-    setNight(night);
-  }, [night, setNight]);
 
   // The user's next prayer drives the emphasised line/pill on the map (only when
   // it's today — tomorrow's Fajr has no line sweeping the country yet).
@@ -287,7 +281,6 @@ export default function Bonetider() {
         next={next}
         locationLabel={placeLabel}
         settings={settings}
-        night={night}
         onExpandedChange={onDockExpandedChange}
       />
     </View>

@@ -1,7 +1,8 @@
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
+import { useMemo } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 
-import { colors } from './theme';
+import { type SettingsColors, useSettingsColors } from './theme';
 
 // A labelled −/value/+ stepper row for integer settings (minute adjustments,
 // Hijri day offset). Clamps to [min, max]; buttons are 44pt touch targets.
@@ -24,6 +25,8 @@ export function Stepper({
   format?: (value: number) => string;
   divider?: boolean;
 }) {
+  const colors = useSettingsColors();
+  const styles = useMemo(() => makeStyles(colors), [colors]);
   const clamp = (n: number) => Math.max(min, Math.min(max, n));
   const display = format ? format(value) : String(value);
   return (
@@ -54,26 +57,28 @@ export function Stepper({
   );
 }
 
-const styles = StyleSheet.create({
-  row: {
-    minHeight: 48,
-    paddingVertical: 8,
-    paddingHorizontal: 16,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-  },
-  divider: { borderTopWidth: StyleSheet.hairlineWidth, borderTopColor: colors.separator },
-  label: { fontSize: 16, color: colors.text, flex: 1 },
-  control: { flexDirection: 'row', alignItems: 'center' },
-  btn: {
-    width: 44,
-    height: 44,
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: 22,
-  },
-  pressed: { backgroundColor: colors.accentSoft },
-  disabled: { opacity: 0.5 },
-  value: { fontSize: 16, color: colors.text, minWidth: 64, textAlign: 'center', fontVariant: ['tabular-nums'] },
-});
+function makeStyles(colors: SettingsColors) {
+  return StyleSheet.create({
+    row: {
+      minHeight: 48,
+      paddingVertical: 8,
+      paddingHorizontal: 16,
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+    },
+    divider: { borderTopWidth: StyleSheet.hairlineWidth, borderTopColor: colors.separator },
+    label: { fontSize: 16, color: colors.text, flex: 1 },
+    control: { flexDirection: 'row', alignItems: 'center' },
+    btn: {
+      width: 44,
+      height: 44,
+      alignItems: 'center',
+      justifyContent: 'center',
+      borderRadius: 22,
+    },
+    pressed: { backgroundColor: colors.accentSoft },
+    disabled: { opacity: 0.5 },
+    value: { fontSize: 16, color: colors.text, minWidth: 64, textAlign: 'center', fontVariant: ['tabular-nums'] },
+  });
+}

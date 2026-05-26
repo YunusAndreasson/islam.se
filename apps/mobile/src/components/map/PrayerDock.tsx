@@ -37,9 +37,9 @@ import { formatTime, PRAYER_LABELS, PRAYER_ORDER, type PrayerKey } from '../../l
 import type { PrayerSettings } from '../../lib/settings/types';
 import { PRAYER_COLORS } from '../../lib/solar/palette';
 import type { SolarClock } from '../../lib/solar/useSolarClock';
-import { palette } from '../../theme/tokens';
+import { type Palette, palette } from '../../theme/tokens';
+import { useColors } from '../../theme/useColors';
 import { GlassSurface } from '../ui/GlassSurface';
-import { type NightChrome, nightChrome } from './nightChrome';
 
 const DAY_MS = 86_400_000;
 const HOUR_TICKS = ['00', '06', '12', '18', '24'];
@@ -83,8 +83,6 @@ interface Props {
   next: NextPrayer | null;
   locationLabel: string;
   settings: PrayerSettings;
-  /** 0 day → 1 deep night; themes the whole dock to match the map. */
-  night: number;
   /** Reports open/closed + the dock's pixel height, so the map can lift Sweden
       above the dock when expanded instead of being covered by it. */
   onExpandedChange?: (expanded: boolean, expandedHeight: number) => void;
@@ -112,13 +110,14 @@ export function PrayerDock({
   next,
   locationLabel,
   settings,
-  night,
   onExpandedChange,
 }: Props) {
   const insets = useSafeAreaInsets();
-  // The night-themed palette + the stylesheet built from it. Memoised on `night`
-  // so the dock recolours smoothly as the map crosses dusk/dawn.
-  const c = useMemo(() => nightChrome(night), [night]);
+  // The dock is a chrome panel, so it follows the phone's light/dark theme like every
+  // other screen (not the map's day↔night — that drove the "menu looks different per
+  // screen" confusion). `surface` is the translucent glass for the GlassSurface fill.
+  const p = useColors();
+  const c = useMemo(() => ({ ...p, surface: p.cardGlass }), [p]);
   const styles = useMemo(() => makeStyles(c), [c]);
 
   // Card heights are the card itself; the float + safe-area inset live in the
@@ -549,9 +548,9 @@ function Scrubber({
   );
 }
 
-// Styles built from the night-themed palette, so a single `night` value recolours
-// the whole dock. Layout is fixed; only colours come from `c`.
-function makeStyles(c: NightChrome) {
+// Styles built from the active theme palette (light/dark). Layout is fixed; only
+// colours come from `c` (where `surface` is the translucent glass).
+function makeStyles(c: Palette) {
   return StyleSheet.create({
     shadowWrap: {
       position: 'absolute',
@@ -598,7 +597,9 @@ function makeStyles(c: NightChrome) {
     listDot: { width: 8, height: 8, borderRadius: 4 },
     listLabel: { flex: 1, fontSize: 15, color: c.ink },
     listTime: { fontSize: 15, color: c.ink, fontVariant: ['tabular-nums'] },
-    nextEmphasis: { color: c.accent, fontWeight: '700' },
+    // The next prayer = brass everywhere (here, the countdown, the map pill), so
+    // "what's coming" reads in one colour across the dock and the map.
+    nextEmphasis: { color: c.highlight, fontWeight: '700' },
 
     pressed: { opacity: 0.6 },
 
@@ -608,7 +609,7 @@ function makeStyles(c: NightChrome) {
     heroPrayer: { fontSize: 19, fontWeight: '700', color: c.ink, letterSpacing: 0.2 },
     heroTomorrow: { fontSize: 14, fontWeight: '400', color: c.inkMuted },
     heroNone: { fontSize: 16, color: c.inkMuted },
-    countdown: { marginLeft: 8, fontSize: 18, fontWeight: '700', color: c.accent, fontVariant: ['tabular-nums'] },
+    countdown: { marginLeft: 8, fontSize: 18, fontWeight: '700', color: c.highlight, fontVariant: ['tabular-nums'] },
     countdownPrefix: { fontSize: 13, fontWeight: '400', color: c.inkMuted },
     heroSub: { flexDirection: 'row', alignItems: 'center', gap: 4, marginTop: 3 },
     heroPlaceRow: { flexDirection: 'row', alignItems: 'center', gap: 3, marginLeft: 8, flexShrink: 1, minWidth: 0 },

@@ -24,6 +24,10 @@ interface Props {
   tintColor?: string;
   /** Fill colour for the non-glass fallback (Android / iOS < 26). */
   fallbackColor?: string;
+  /** Rim colour for the non-glass fallback. Themed callers pass their chrome's
+      hairline so the rim follows the surface (light/dark, day/night) rather than a
+      fixed bright white that glares on a dark surface. */
+  fallbackBorderColor?: string;
 }
 
 export function GlassSurface({
@@ -33,6 +37,7 @@ export function GlassSurface({
   interactive = false,
   tintColor,
   fallbackColor = mapTheme.glassFallback,
+  fallbackBorderColor = mapTheme.glassBorder,
 }: Props) {
   if (LIQUID_GLASS) {
     return (
@@ -46,12 +51,17 @@ export function GlassSurface({
       </GlassView>
     );
   }
-  return <View style={[styles.fallback, { backgroundColor: fallbackColor }, style]}>{children}</View>;
+  return (
+    <View
+      style={[styles.fallback, { backgroundColor: fallbackColor, borderColor: fallbackBorderColor }, style]}
+    >
+      {children}
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({
   fallback: {
-    borderColor: mapTheme.glassBorder,
     borderWidth: StyleSheet.hairlineWidth,
   },
 });

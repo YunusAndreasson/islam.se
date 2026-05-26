@@ -27,43 +27,111 @@ export const radius = {
   round: 999,
 } as const;
 
-// Colour. One palette for the whole app. The neutrals are a soft, cool Nordic
-// paper rather than flat iOS gray; the accent is the solar palette's own
-// night-indigo (isha) so the chrome speaks the same sun-arc language as the map —
-// warm dots carry prayer identity, this cool indigo carries "what's live".
-export const palette = {
+// Colour. Two palettes — light + dark — sharing one key set, so `useColors()`
+// (theme/useColors.ts) can hand a surface the active one and every component reads
+// the same names. The light palette is a WARM editorial parchment that makes the
+// app read as family with the islam.se website (warm off-white grounds, warm
+// charcoal ink), deliberately de-faint: deeper inks, stronger hairlines. The dark
+// palette is the website's warm dark world, not an inversion.
+//
+// Two accents, by design (the visual hierarchy):
+//   • `accent` — a deepened night-indigo. The workhorse interactive / structure /
+//     "now" signal. It's the solar palette's isha hue, so the chrome speaks the
+//     same sun-arc language as the living map.
+//   • `highlight` — a warm brass-gold. Reserved for the single "this is live right
+//     now" element on a surface (the NEXT prayer, the qibla lock). Used sparingly,
+//     so it always means "look here". Brass already lives in the prayer-line palette
+//     (sunrise/asr), so it isn't foreign — and it bridges to the website's warmth.
+export const lightPalette = {
   // Grounds & surfaces
-  paper: '#eef1f5', //        screen background — airy cool paper
-  paperSunken: '#e7ebf1', //  insets / pressed grouping
-  surface: '#ffffff', //      opaque cards
-  cardGlass: 'rgba(252,252,254,0.90)', // translucent card over the living map
+  paper: '#f4f0e8', //        screen background — warm parchment
+  paperSunken: '#ece6da', //  insets / pressed grouping
+  surface: '#fffdf8', //      opaque cards — warm white
+  cardGlass: 'rgba(255,253,248,0.90)', // translucent card over the living map
 
-  // Ink
-  ink: '#11181c',
-  inkMuted: '#5b6470',
-  inkFaint: '#8b94a0',
+  // Ink — warm charcoal, web-aligned. Muted/faint are deepened vs the old cool
+  // greys so secondary text actually reads (the old #8b94a0 was the "faint" feel).
+  ink: '#1a1712',
+  inkMuted: '#6f6456',
+  inkFaint: '#978c7b',
 
-  // Structure
-  border: '#e3e3e8',
-  separator: '#ececf0',
-  hairline: 'rgba(17,24,28,0.08)',
+  // Structure — warm borders, hairline opacity bumped 0.08 → 0.10 so edges show.
+  border: '#e4ddce',
+  separator: '#ece6da',
+  hairline: 'rgba(26,23,18,0.10)',
 
-  // Accent — solar night-indigo (isha). The single interactive / "now" signal.
-  accent: '#46527f',
-  accentDeep: '#363f64',
-  accentSoft: '#e9ebf5',
+  // Accent — deepened night-indigo (isha). Structure / interactive / "now".
+  accent: '#3a4684',
+  accentDeep: '#2b3566',
+  accentSoft: '#e7e8f1',
 
-  // Slider / track
-  track: 'rgba(17,24,28,0.12)',
-  trackFill: 'rgba(70,82,127,0.35)',
+  // Highlight — warm brass-gold. The "live right now" emphasis (next prayer, qibla
+  // lock). `onHighlight` is the legible text/icon colour on a brass fill.
+  highlight: '#b8862f',
+  highlightSoft: '#f1e7d0',
+  onAccent: '#ffffff', //     text/icon on an indigo fill
+  onHighlight: '#1a1712', //  text/icon on a brass fill
+
+  // Slider / track + the scrubber knob and the dock's grab handle.
+  track: 'rgba(26,23,18,0.14)',
+  trackFill: 'rgba(58,70,132,0.40)',
+  thumb: '#fffdf8', //        scrubber knob (warm white)
+  handle: 'rgba(26,23,18,0.20)', // dock grab handle
 
   // Glass fallback (Android / iOS < 26, where expo-glass-effect is a plain View)
-  glass: 'rgba(250,251,253,0.85)',
+  glass: 'rgba(255,253,248,0.85)',
   glassRim: 'rgba(255,255,255,0.55)',
 
-  shadow: '#0b1220',
+  shadow: '#1c150b', //       warm shadow (was cool #0b1220)
   white: '#ffffff',
 } as const;
+
+/** The shared shape both palettes satisfy — every surface reads these names. */
+export type Palette = { readonly [K in keyof typeof lightPalette]: string };
+
+// Warm dark — the website's dark family (warm near-black grounds, warm pale ink),
+// a brighter periwinkle indigo and brass so they hold their meaning on the dark
+// paper. NOT used for the map (the map darkens by the SUN, see nightChrome); this
+// themes the non-map screens + the menu when it's off the map.
+export const darkPalette: Palette = {
+  paper: '#181613',
+  paperSunken: '#110f0d',
+  surface: '#232019',
+  cardGlass: 'rgba(35,32,25,0.90)',
+
+  ink: '#e8e3d8',
+  inkMuted: '#a89e8e',
+  inkFaint: '#7c7263',
+
+  border: '#322d24',
+  separator: '#2a261f',
+  hairline: 'rgba(245,240,230,0.12)',
+
+  accent: '#9aa6e2',
+  accentDeep: '#7e8bcf',
+  accentSoft: 'rgba(154,166,226,0.16)',
+
+  highlight: '#d8a94e',
+  highlightSoft: 'rgba(216,169,78,0.16)',
+  onAccent: '#181613',
+  onHighlight: '#181613',
+
+  track: 'rgba(245,240,230,0.16)',
+  trackFill: 'rgba(154,166,226,0.45)',
+  thumb: '#e8e3d8',
+  handle: 'rgba(245,240,230,0.32)',
+
+  glass: 'rgba(35,32,25,0.85)',
+  glassRim: 'rgba(255,250,240,0.14)',
+
+  shadow: '#000000',
+  white: '#ffffff',
+};
+
+/** The static (light) palette, kept for non-themed call-sites (map cartography,
+    shadow presets, anything sun-driven rather than OS-driven). Theme-aware screens
+    reach for `useColors()` instead. */
+export const palette = lightPalette;
 
 // Type scale. System font (SF / Roboto — both clean and Nordic-friendly) with a
 // disciplined hierarchy: a few sizes, deliberate weights, generous line-height on

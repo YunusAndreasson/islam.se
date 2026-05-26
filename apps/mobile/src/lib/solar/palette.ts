@@ -12,9 +12,9 @@ export type RGBA = [number, number, number, number];
 // midday is fully clear (a=0), deep night is a heavy indigo veil. The warm dusk
 // and cool dawn tints are the "sunset glow" and "first light" sweeping across.
 export const DAY: RGBA = [255, 255, 255, 0]; //            midday — basemap untouched
-export const DUSK_WARM: RGBA = [205, 116, 84, 0.32]; //    Maghrib→Isha glow (terracotta)
+export const DUSK_WARM: RGBA = [205, 116, 84, 0.36]; //    Maghrib→Isha glow (terracotta)
 export const NIGHT: RGBA = [20, 26, 52, 0.66]; //          Isha→Fajr (deep indigo veil)
-export const DAWN_COOL: RGBA = [102, 118, 168, 0.32]; //   Fajr→sunrise (cool periwinkle)
+export const DAWN_COOL: RGBA = [102, 118, 168, 0.36]; //   Fajr→sunrise (cool periwinkle)
 // Polar / midnight-sun fallback: a place that never reaches true night keeps a
 // pale "white night" tint rather than going black or throwing on NaN times.
 export const WHITE_NIGHT: RGBA = [120, 132, 172, 0.24];
@@ -26,7 +26,7 @@ export const PRAYER_COLORS: Record<PrayerKey, string> = {
   dhuhr: '#b6a98d', //    pale neutral noon
   asr: '#cf9f63', //      soft afternoon amber
   maghrib: '#cf7d5c', //  sunset terracotta (the hero line)
-  isha: '#46527f', //     deep night indigo
+  isha: '#3a4684', //     deep night indigo (matches the app accent)
 };
 
 function lerp(a: number, b: number, t: number): number {

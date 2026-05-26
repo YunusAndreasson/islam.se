@@ -8,9 +8,11 @@
 // dock. Navigation that is out of the way until summoned (Norman: signifier when
 // you need it, nothing when you don't) keeps the map uninterrupted.
 //
-// Night: over the map the menu dims into night with the dock and the wash (it reads
-// the published night factor) so it never floats as a bright slab on a dark country.
-// Off the map — the light Qibla/Inställningar/Om pages — it stays light (night 0).
+// Theme: the menu always follows the phone's light/dark setting (useColors), on
+// EVERY screen — so the one hamburger button looks identical wherever it's opened.
+// (It deliberately does NOT track the map's day↔night the way the time-dock does:
+// having the same control look different per screen was confusing. The dock still
+// dims with the night map — that's the living map's own chrome, not navigation.)
 import { MaterialIcons } from '@expo/vector-icons';
 import { type Href, router, usePathname } from 'expo-router';
 import { useCallback, useEffect, useMemo, useState } from 'react';
@@ -19,12 +21,21 @@ import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-na
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { hapticLight, hapticSelection } from '../../lib/haptics';
-import { useNight } from '../../lib/solar/nightContext';
+import { useColors } from '../../theme/useColors';
 import { mapTheme } from '../map/theme';
-import { type NightChrome, nightChrome } from '../map/nightChrome';
 import { GlassSurface } from '../ui/GlassSurface';
 
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
+
+// The subset of chrome the menu paints with, mapped from the active OS-theme palette.
+interface MenuChrome {
+  surface: string;
+  ink: string;
+  inkMuted: string;
+  accent: string;
+  accentSoft: string;
+  hairline: string;
+}
 
 interface Destination {
   href: Href;
@@ -46,11 +57,22 @@ export function AppMenu() {
   const [open, setOpen] = useState(false);
   const progress = useSharedValue(0);
 
-  // Only the map screen has a night map behind the menu; everywhere else the page
-  // is light paper, so the menu stays light there regardless of the time of day.
-  const ctxNight = useNight();
-  const night = pathname === '/bonetider' ? ctxNight : 0;
-  const c = useMemo(() => nightChrome(night), [night]);
+  // One chrome source for every screen: the phone's light/dark theme. The menu is a
+  // navigation control, so it looks identical wherever it's opened — it does NOT
+  // track the map's day↔night (that confused: same button, two looks). The map's own
+  // time-dock + wash still animate with the sun; the menu just isn't part of that.
+  const themed = useColors();
+  const c = useMemo<MenuChrome>(
+    () => ({
+      surface: themed.cardGlass,
+      ink: themed.ink,
+      inkMuted: themed.inkMuted,
+      accent: themed.accent,
+      accentSoft: themed.accentSoft,
+      hairline: themed.hairline,
+    }),
+    [themed],
+  );
   const styles = useMemo(() => makeStyles(c), [c]);
 
   useEffect(() => {
@@ -99,13 +121,18 @@ export function AppMenu() {
           accessibilityState={{ expanded: open }}
           hitSlop={8}
         >
-          <GlassSurface style={styles.button} interactive fallbackColor={c.surface}>
+          <GlassSurface
+            style={styles.button}
+            interactive
+            fallbackColor={c.surface}
+            fallbackBorderColor={c.hairline}
+          >
             <MaterialIcons name={open ? 'close' : 'menu'} size={24} color={c.ink} />
           </GlassSurface>
         </Pressable>
 
         <Animated.View style={[styles.popover, popoverStyle]} pointerEvents={open ? 'auto' : 'none'}>
-          <GlassSurface style={styles.popoverCard} fallbackColor={c.surface}>
+          <GlassSurface style={styles.popoverCard} fallbackColor={c.surface} fallbackBorderColor={c.hairline}>
             {DESTINATIONS.map((dest, i) => {
               const active = pathname === dest.pathname;
               return (
@@ -122,7 +149,6 @@ export function AppMenu() {
                 >
                   <MaterialIcons name={dest.icon} size={20} color={active ? c.accent : c.inkMuted} />
                   <Text style={[styles.itemLabel, active && styles.itemLabelActive]}>{dest.label}</Text>
-                  {active && <View style={styles.activeDot} />}
                 </Pressable>
               );
             })}
@@ -133,7 +159,7 @@ export function AppMenu() {
   );
 }
 
-function makeStyles(c: NightChrome) {
+function makeStyles(c: MenuChrome) {
   return StyleSheet.create({
     backdrop: { backgroundColor: 'rgba(11,18,32,0.18)' },
     anchor: { position: 'absolute', right: 12, alignItems: 'flex-end' },
@@ -164,6 +190,5 @@ function makeStyles(c: NightChrome) {
     itemPressed: { backgroundColor: c.accentSoft },
     itemLabel: { flex: 1, fontSize: 16, color: c.ink },
     itemLabelActive: { color: c.accent, fontWeight: '600' },
-    activeDot: { width: 6, height: 6, borderRadius: 3, backgroundColor: c.accent },
   });
 }
