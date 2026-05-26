@@ -6,10 +6,14 @@ export const mapTheme = {
   cardBorder: 'rgba(17,24,28,0.08)',
   text: '#11181c',
   textMuted: '#5b6470',
-  accent: '#0a7ea4',
-  accentSoft: '#e6f3f7',
+  // The interactive / "now / next" signal. Drawn from the solar palette's own
+  // night-indigo (isha) so the chrome speaks the same sun-arc language as the map:
+  // warm dots carry prayer identity, this cool indigo carries "what's live", grays
+  // stay neutral. Calm and high-contrast on light glass — not a foreign app-cyan.
+  accent: '#46527f',
+  accentSoft: '#e9ebf5',
   track: 'rgba(17,24,28,0.12)',
-  trackFill: 'rgba(10,126,164,0.35)',
+  trackFill: 'rgba(70,82,127,0.35)',
   thumb: '#ffffff',
   shadow: '#0b1220',
   // Glass surface tokens. On iOS 26+ the surfaces are native Liquid Glass

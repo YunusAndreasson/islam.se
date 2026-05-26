@@ -13,6 +13,7 @@ import {
   type DayMark,
   DOCK_COLLAPSED_BASE,
   DOCK_EXPANDED_BASE,
+  DOCK_FLOAT,
   type NextPrayer,
   PrayerDock,
 } from '../../components/map/PrayerDock';
@@ -76,10 +77,11 @@ export default function Bonetider() {
 
   const insets = useSafeAreaInsets();
   const { height: screenH } = useWindowDimensions();
-  // Dock heights including the safe-area inset — the map reserves this much at
-  // the bottom so southern Sweden (Malmö) is never hidden behind the dock.
-  const collapsedDock = DOCK_COLLAPSED_BASE + insets.bottom;
-  const expandedDock = DOCK_EXPANDED_BASE + insets.bottom;
+  // Space the floating dock occupies from the screen bottom = card height + the
+  // safe-area inset + the float gap beneath it. The map reserves this much so
+  // southern Sweden (Malmö) is never hidden behind the dock.
+  const collapsedDock = DOCK_COLLAPSED_BASE + insets.bottom + DOCK_FLOAT;
+  const expandedDock = DOCK_EXPANDED_BASE + insets.bottom + DOCK_FLOAT;
 
   // When the dock opens, lift Sweden into the area above it (bottom padding =
   // the dock's height) so the south — where most people are — is never hidden.
@@ -109,6 +111,9 @@ export default function Bonetider() {
 
   const { settings } = useSettings();
   const { coords, label } = useLocation();
+  // The dock glance only needs the place — drop status qualifiers like "(standard)"
+  // or "(GPS)" that matter on the Inställningar screen but are noise here.
+  const placeLabel = label.replace(/\s*\([^)]*\)\s*$/, '');
   const clock = useSolarClock();
   const [showLegend, setShowLegend] = useState(false);
 
@@ -228,7 +233,7 @@ export default function Bonetider() {
         times={userTimes as unknown as Record<PrayerKey, Date>}
         marks={marks}
         next={next}
-        locationLabel={label}
+        locationLabel={placeLabel}
         settings={settings}
         onPlayPause={clock.playing ? clock.pause : clock.play}
         onShowLegend={() => setShowLegend(true)}

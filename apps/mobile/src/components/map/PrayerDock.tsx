@@ -3,22 +3,30 @@
 //
 // Gestalt proximity / common region: everything about *time* now lives together —
 // the day scrubber, what prayer is next, and (when expanded) the full schedule.
-// Progressive disclosure (Norman): collapsed it shows only what's next + the
-// scrubber, keeping the map the hero; a grab handle signifies it opens, and a
-// drag/tap reveals the full list, transport controls and the legend. The scrubber
-// stays put at the bottom in both states so the control you reach for never moves.
+// Progressive disclosure (Norman): collapsed it shows what's next + where you are
+// + the scrubber, keeping the map the hero; a grab handle signifies it opens, and
+// a drag/tap reveals the full list and transport controls. The scrubber stays put
+// at the bottom in both states so the control you reach for never moves.
+//
+// Feel: the scrubber runs on the UI thread (gesture-handler + a shared value), so
+// the thumb tracks the finger at 60fps while the heavier map recompute is throttled
+// on JS. Crossing a prayer ticks a selection haptic; tapping a row in the schedule
+// eases the thumb to that moment (a deliberate travel, not a teleport) so the
+// time-travel reads as something you did.
 import { MaterialIcons } from '@expo/vector-icons';
-import { useCallback, useMemo, useState } from 'react';
-import { PanResponder, Pressable, StyleSheet, Text, View } from 'react-native';
+import { useCallback, useState } from 'react';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import Animated, {
   runOnJS,
+  type SharedValue,
   useAnimatedStyle,
   useSharedValue,
   withSpring,
 } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
+import { hapticLight, hapticSelection } from '../../lib/haptics';
 import { formatTime, PRAYER_LABELS, PRAYER_ORDER, type PrayerKey } from '../../lib/prayer-times';
 import type { PrayerSettings } from '../../lib/settings/types';
 import { PRAYER_COLORS } from '../../lib/solar/palette';
@@ -32,8 +40,17 @@ const SPRING = { damping: 20, stiffness: 200, mass: 0.6 };
 
 // Dock heights (excluding the bottom safe-area inset, which the screen adds). The
 // map reads these so it can frame Sweden *above* the dock in both states.
-export const DOCK_COLLAPSED_BASE = 116;
-export const DOCK_EXPANDED_BASE = 372;
+// The dock is a floating card: its bottom edge sits this far above the system
+// gesture bar so it reads as a calm, separate surface — not welded to the screen
+// edge (which feels stressful). The float + safe-area inset are added by the
+// card's position, not its height.
+export const DOCK_FLOAT = 10;
+
+// Card heights (the rendered card itself, excluding the float + inset below it).
+// Collapsed stays tight: a two-tier hero (prayer + countdown, then a quiet
+// time · place line) over the scrubber — so the map keeps most of the screen.
+export const DOCK_COLLAPSED_BASE = 132;
+export const DOCK_EXPANDED_BASE = 370;
 
 export interface NextPrayer {
   key: PrayerKey;
@@ -62,13 +79,15 @@ interface Props {
   onExpandedChange?: (expanded: boolean, expandedHeight: number) => void;
 }
 
-function countdown(ms: number): string {
+// The glanceable answer: how long until the next prayer, without the "om" prefix
+// (rendered separately so the duration can carry the visual weight).
+function countdownValue(ms: number): string {
   if (ms <= 0) return 'nu';
   const mins = Math.round(ms / 60_000);
   const h = Math.floor(mins / 60);
   const m = mins % 60;
-  if (h === 0) return `om ${m} min`;
-  return `om ${h} t ${m} min`;
+  if (h === 0) return `${m} min`;
+  return `${h} t ${m} min`;
 }
 
 export function PrayerDock({
@@ -83,22 +102,26 @@ export function PrayerDock({
   onExpandedChange,
 }: Props) {
   const insets = useSafeAreaInsets();
-  const COLLAPSED = DOCK_COLLAPSED_BASE + insets.bottom;
-  const EXPANDED = DOCK_EXPANDED_BASE + insets.bottom;
+  // Card heights are the card itself; the float + safe-area inset live in the
+  // position (bottom), so the card sits clear above the gesture bar.
+  const COLLAPSED = DOCK_COLLAPSED_BASE;
+  const EXPANDED = DOCK_EXPANDED_BASE;
   const MID = (COLLAPSED + EXPANDED) / 2;
 
   const height = useSharedValue(COLLAPSED);
   const startHeight = useSharedValue(COLLAPSED);
   const [expanded, setExpanded] = useState(false);
 
-  // State change on the JS thread (from gesture worklets via runOnJS): update the
-  // local flag and tell the map to lift, so it never sits behind the open dock.
+  // State change on the JS thread (from gesture worklets via runOnJS): flip the
+  // flag, tap a light haptic on a real open/close, and tell the map to lift so it
+  // never sits behind the open dock.
   const applyExpanded = useCallback(
     (open: boolean) => {
+      if (open !== expanded) hapticLight();
       setExpanded(open);
       onExpandedChange?.(open, EXPANDED);
     },
-    [onExpandedChange, EXPANDED],
+    [expanded, onExpandedChange, EXPANDED],
   );
 
   const pan = Gesture.Pan()
@@ -106,8 +129,8 @@ export function PrayerDock({
       startHeight.value = height.value;
     })
     .onUpdate((e) => {
-      const next = startHeight.value - e.translationY;
-      height.value = Math.min(EXPANDED, Math.max(COLLAPSED, next));
+      const nextHeight = startHeight.value - e.translationY;
+      height.value = Math.min(EXPANDED, Math.max(COLLAPSED, nextHeight));
     })
     .onEnd((e) => {
       const open = e.velocityY < -350 ? true : e.velocityY > 350 ? false : height.value > MID;
@@ -128,130 +151,184 @@ export function PrayerDock({
     const p = (height.value - COLLAPSED) / (EXPANDED - COLLAPSED);
     return { transform: [{ rotate: `${p * 180}deg` }] };
   });
-  // Fade the expandable content in as the dock grows, so nothing peeks above the
-  // collapsed summary and the schedule reveals smoothly on the way up.
-  const revealStyle = useAnimatedStyle(() => ({
-    opacity: Math.max(0, Math.min(1, (height.value - COLLAPSED) / 72)),
-  }));
+  // The transport row reveals in the back half of the open, after the schedule
+  // rows have cascaded in — height-driven, so it tracks the drag directly.
+  const controlsReveal = useAnimatedStyle(() => {
+    const p = (height.value - COLLAPSED) / (EXPANDED - COLLAPSED);
+    const local = Math.max(0, Math.min(1, (p - 0.4) / 0.6));
+    return { opacity: local, transform: [{ translateY: (1 - local) * 10 }] };
+  });
 
-  // Tapping a prayer in the list time-travels the scrubber to that prayer.
+  // Returning to "now" is the one action offered in two places (preview badge +
+  // expanded Now button); both go through here so both confirm with a tick.
+  const resetToNow = useCallback(() => {
+    hapticSelection();
+    clock.reset();
+  }, [clock]);
+
+  // Tapping a prayer in the list time-travels the scrubber to that prayer. The
+  // thumb eases there (see Scrubber's reconcile effect), so the move is legible.
   const scrubTo = useCallback(
     (at: number) => {
       if (!Number.isFinite(at)) return;
+      hapticSelection();
       clock.setFraction((at - clock.dayStart) / DAY_MS);
     },
     [clock],
   );
 
+  const handlePlayPause = useCallback(() => {
+    hapticSelection();
+    onPlayPause();
+  }, [onPlayPause]);
+
+  const cd = next ? countdownValue(next.at - clock.now) : null;
+
+  // The "time left" / return-to-now control, shared by both hero layouts: live →
+  // the countdown; scrubbed → a chip that taps back to now (the only such control,
+  // so it's never duplicated or shown dead).
+  const aside =
+    clock.mode === 'live' ? (
+      cd ? (
+        <Text style={styles.countdown} numberOfLines={1}>
+          {cd !== 'nu' ? <Text style={styles.countdownPrefix}>om </Text> : null}
+          {cd === 'nu' ? 'nu' : cd}
+        </Text>
+      ) : null
+    ) : (
+      <Pressable
+        onPress={resetToNow}
+        style={({ pressed }) => [styles.previewBadge, pressed && styles.pressed]}
+        accessibilityRole="button"
+        accessibilityLabel="Återgå till nu"
+      >
+        <MaterialIcons name="restore" size={13} color={mapTheme.accent} />
+        <Text style={styles.previewBadgeText}>Nu</Text>
+      </Pressable>
+    );
+
   return (
-    <Animated.View style={[styles.shadowWrap, { bottom: 0 }, heightStyle]} pointerEvents="box-none">
+    <Animated.View
+      style={[styles.shadowWrap, { bottom: insets.bottom + DOCK_FLOAT }, heightStyle]}
+      pointerEvents="box-none"
+    >
       <View style={styles.clip}>
         <GlassSurface style={StyleSheet.absoluteFill} interactive />
 
-        <View style={[styles.content, { paddingBottom: insets.bottom + 12 }]} pointerEvents="box-none">
-          {/* Revealed when expanded: the full day's schedule + transport. Fades with
-              the dock height so it never peeks while collapsed. Tap a row to jump to it. */}
-          <Animated.View
-            style={revealStyle}
+        {/* The card floats above the gesture bar (see DOCK_FLOAT), so the content only
+            needs its own internal breathing here — no system-inset clearance. */}
+        <View style={[styles.content, { paddingBottom: 10 }]} pointerEvents="box-none">
+          {/* Revealed when expanded: the full day's schedule + transport. The rows
+              and controls fade/slide in with the dock height, so nothing peeks while
+              collapsed. Tap a row to ease the scrubber to it. */}
+          <View
             pointerEvents={expanded ? 'auto' : 'none'}
             accessibilityElementsHidden={!expanded}
             importantForAccessibility={expanded ? 'auto' : 'no-hide-descendants'}
           >
-          <View style={styles.list}>
-            {PRAYER_ORDER.map((key) => {
-              const date = times[key];
-              const at = date instanceof Date ? date.getTime() : Number.NaN;
-              const valid = Number.isFinite(at);
-              const isNext = next?.key === key && !next.tomorrow;
-              return (
-                <Pressable
-                  key={key}
-                  disabled={!valid}
-                  onPress={() => scrubTo(at)}
-                  style={({ pressed }) => [styles.listRow, pressed && styles.listRowPressed]}
-                  accessibilityRole="button"
-                  accessibilityLabel={`${PRAYER_LABELS[key]} ${valid ? formatTime(date, settings) : 'okänd'}`}
-                >
-                  <View style={[styles.listDot, { backgroundColor: PRAYER_COLORS[key] }]} />
-                  <Text style={[styles.listLabel, isNext && styles.nextEmphasis]}>
-                    {PRAYER_LABELS[key]}
-                  </Text>
-                  <Text style={[styles.listTime, isNext && styles.nextEmphasis]}>
-                    {valid ? formatTime(date, settings) : '—'}
-                  </Text>
-                </Pressable>
-              );
-            })}
-          </View>
+            <View style={styles.list}>
+              {PRAYER_ORDER.map((key, i) => {
+                const date = times[key];
+                const at = date instanceof Date ? date.getTime() : Number.NaN;
+                return (
+                  <ScheduleRow
+                    key={key}
+                    index={i}
+                    total={PRAYER_ORDER.length}
+                    dockHeight={height}
+                    collapsed={COLLAPSED}
+                    expanded={EXPANDED}
+                    prayerKey={key}
+                    date={date}
+                    settings={settings}
+                    isNext={next?.key === key && !next.tomorrow}
+                    onPress={() => scrubTo(at)}
+                  />
+                );
+              })}
+            </View>
 
-          {/* Transport + context. */}
-          <View style={styles.controls}>
-            <Pressable
-              onPress={onPlayPause}
-              style={({ pressed }) => [styles.iconBtn, pressed && styles.pressed]}
-              accessibilityLabel={clock.playing ? 'Pausa' : 'Spela upp dygnet'}
-            >
-              <MaterialIcons
-                name={clock.playing ? 'pause' : 'play-arrow'}
-                size={24}
-                color={mapTheme.accent}
-              />
-            </Pressable>
-            <Pressable
-              onPress={clock.reset}
-              disabled={clock.mode === 'live'}
-              style={({ pressed }) => [
-                styles.nowBtn,
-                clock.mode === 'live' && styles.nowBtnDisabled,
-                pressed && styles.pressed,
-              ]}
-              accessibilityLabel="Återgå till nu"
-            >
-              <Text style={[styles.nowText, clock.mode === 'live' && styles.nowTextDisabled]}>Nu</Text>
-            </Pressable>
-            <Text style={styles.location} numberOfLines={1}>
-              {locationLabel}
-            </Text>
-            <Pressable
-              onPress={onShowLegend}
-              hitSlop={8}
-              style={({ pressed }) => [styles.iconBtn, pressed && styles.pressed]}
-              accessibilityLabel="Förklaring av kartan"
-            >
-              <MaterialIcons name="info-outline" size={22} color={mapTheme.accent} />
-            </Pressable>
-          </View>
-          </Animated.View>
-
-          {/* Always visible: what's next (relative to the shown instant) + the scrubber. */}
-          <View style={styles.summaryRow}>
-            {next ? (
-              <Text style={styles.summaryText} numberOfLines={1}>
-                <Text style={styles.summaryMuted}>Nästa </Text>
-                <Text style={styles.summaryPrayer}>{PRAYER_LABELS[next.key]}</Text>
-                {next.tomorrow ? <Text style={styles.summaryMuted}> imorgon</Text> : null}
-                <Text style={styles.summaryTime}>{`  ${formatTime(new Date(next.at), settings)}`}</Text>
-              </Text>
-            ) : (
-              <Text style={styles.summaryMuted}>Inga fler böner idag</Text>
-            )}
-            <View style={styles.flex} />
-            {clock.mode === 'live' ? (
-              next ? (
-                <Text style={styles.summaryMuted}>{countdown(next.at - clock.now)}</Text>
-              ) : null
-            ) : (
-              // Preview mode: the chip both signals it and taps back to "now",
-              // so returning to live never requires expanding the dock.
+            {/* Transport. Returning to "now" lives only on the hero chip (and only
+                when you've scrubbed away), so it isn't duplicated — or shown dead —
+                here. Location is in the hero too. This row is just: play the day, and
+                what the map means. */}
+            <Animated.View style={[styles.controls, controlsReveal]}>
               <Pressable
-                onPress={clock.reset}
-                style={({ pressed }) => [styles.previewBadge, pressed && styles.pressed]}
-                accessibilityRole="button"
-                accessibilityLabel="Återgå till nu"
+                onPress={handlePlayPause}
+                style={({ pressed }) => [styles.iconBtn, pressed && styles.pressed]}
+                accessibilityLabel={clock.playing ? 'Pausa' : 'Spela upp dygnet'}
               >
-                <MaterialIcons name="restore" size={13} color={mapTheme.accent} />
-                <Text style={styles.previewBadgeText}>Nu</Text>
+                <MaterialIcons
+                  name={clock.playing ? 'pause' : 'play-arrow'}
+                  size={24}
+                  color={mapTheme.accent}
+                />
               </Pressable>
+              <View style={styles.flex} />
+              <Pressable
+                onPress={onShowLegend}
+                hitSlop={8}
+                style={({ pressed }) => [styles.iconBtn, pressed && styles.pressed]}
+                accessibilityLabel="Förklaring av kartan"
+              >
+                <MaterialIcons name="info-outline" size={22} color={mapTheme.accent} />
+              </Pressable>
+            </Animated.View>
+          </View>
+
+          {/* Persistent summary, never moves. Collapsed it's the whole story: prayer
+              (no "Nästa" — the countdown beside it makes that plain), time-left, then a
+              quiet clock-time · place line. Expanded, the schedule above already names
+              the prayer and its time, so it slims to just what the list can't say —
+              time-left and place — instead of repeating the row. */}
+          <View style={styles.hero}>
+            {expanded ? (
+              <View style={styles.heroTop}>
+                {next ? (
+                  aside
+                ) : (
+                  <Text style={styles.heroNone} numberOfLines={1}>
+                    Inga fler böner idag
+                  </Text>
+                )}
+                <View style={styles.flex} />
+                {next ? (
+                  <View style={styles.heroPlaceRow}>
+                    <MaterialIcons name="place" size={11} color={mapTheme.textMuted} />
+                    <Text style={styles.subPlace} numberOfLines={1}>
+                      {locationLabel}
+                    </Text>
+                  </View>
+                ) : null}
+              </View>
+            ) : (
+              <>
+                <View style={styles.heroTop}>
+                  {next ? (
+                    <Text style={styles.heroPrayer} numberOfLines={1}>
+                      {PRAYER_LABELS[next.key]}
+                      {next.tomorrow ? <Text style={styles.heroTomorrow}> imorgon</Text> : null}
+                    </Text>
+                  ) : (
+                    <Text style={styles.heroNone} numberOfLines={1}>
+                      Inga fler böner idag
+                    </Text>
+                  )}
+                  <View style={styles.flex} />
+                  {next ? aside : null}
+                </View>
+
+                {next ? (
+                  <View style={styles.heroSub}>
+                    <Text style={styles.subTime}>{formatTime(new Date(next.at), settings)}</Text>
+                    <Text style={styles.subSep}>·</Text>
+                    <MaterialIcons name="place" size={11} color={mapTheme.textMuted} />
+                    <Text style={styles.subPlace} numberOfLines={1}>
+                      {locationLabel}
+                    </Text>
+                  </View>
+                ) : null}
+              </>
             )}
           </View>
 
@@ -277,9 +354,65 @@ export function PrayerDock({
   );
 }
 
+// One schedule row. Self-reveals from the dock height with an index-based stagger,
+// so as the dock grows the rows cascade in (and fold away on close) on the UI
+// thread — no mount churn, and it tracks a half-open drag rather than snapping.
+function ScheduleRow({
+  index,
+  total,
+  dockHeight,
+  collapsed,
+  expanded,
+  prayerKey,
+  date,
+  settings,
+  isNext,
+  onPress,
+}: {
+  index: number;
+  total: number;
+  dockHeight: SharedValue<number>;
+  collapsed: number;
+  expanded: number;
+  prayerKey: PrayerKey;
+  date: Date;
+  settings: PrayerSettings;
+  isNext: boolean;
+  onPress: () => void;
+}) {
+  const valid = date instanceof Date && Number.isFinite(date.getTime());
+  const reveal = useAnimatedStyle(() => {
+    const p = (dockHeight.value - collapsed) / (expanded - collapsed);
+    const start = (index / total) * 0.45;
+    const local = Math.max(0, Math.min(1, (p - start) / 0.55));
+    return { opacity: local, transform: [{ translateY: (1 - local) * 10 }] };
+  });
+
+  return (
+    <Animated.View style={reveal}>
+      <Pressable
+        disabled={!valid}
+        onPress={onPress}
+        style={({ pressed }) => [styles.listRow, pressed && styles.listRowPressed]}
+        accessibilityRole="button"
+        accessibilityLabel={`${PRAYER_LABELS[prayerKey]} ${valid ? formatTime(date, settings) : 'okänd'}`}
+      >
+        <View style={[styles.listDot, { backgroundColor: PRAYER_COLORS[prayerKey] }]} />
+        <Text style={[styles.listLabel, isNext && styles.nextEmphasis]}>{PRAYER_LABELS[prayerKey]}</Text>
+        <Text style={[styles.listTime, isNext && styles.nextEmphasis]}>
+          {valid ? formatTime(date, settings) : '—'}
+        </Text>
+      </Pressable>
+    </Animated.View>
+  );
+}
+
 // The 24-hour day slider lifted from the old TimeScrubber: a thin track with the
-// user's prayers as coloured dots and a draggable thumb. Drag scrubs the whole
-// visualisation; the dots show where the day's prayers fall.
+// user's prayers as coloured dots and a draggable thumb. While dragging, the thumb
+// rides a shared value on the UI thread (60fps), and the heavier JS recompute
+// (clock.setFraction → field GeoJSON) is throttled. When not dragging it follows
+// the `fraction` prop directly. The shared values are mutated only inside gesture
+// worklets (never in an effect), so the thumb stays the live source of truth.
 function Scrubber({
   fraction,
   marks,
@@ -290,46 +423,75 @@ function Scrubber({
   onScrub: (f: number) => void;
 }) {
   const [trackW, setTrackW] = useState(0);
+  const prog = useSharedValue(fraction);
+  const dragging = useSharedValue(false);
+  const lastHaptic = useSharedValue(fraction);
+  const lastSent = useSharedValue(fraction);
 
-  // No refs: close over the measured width + onScrub directly. The responder is
-  // rebuilt only when the track is laid out or onScrub changes (both rare/stable),
-  // so each gesture maps the touch x to a 0..1 fraction against the current width.
-  const responder = useMemo(
-    () =>
-      PanResponder.create({
-        onStartShouldSetPanResponder: () => true,
-        onMoveShouldSetPanResponder: () => true,
-        onPanResponderGrant: (e) => {
-          if (trackW > 0) onScrub(Math.max(0, Math.min(1, e.nativeEvent.locationX / trackW)));
-        },
-        onPanResponderMove: (e) => {
-          if (trackW > 0) onScrub(Math.max(0, Math.min(1, e.nativeEvent.locationX / trackW)));
-        },
-      }),
-    [trackW, onScrub],
-  );
+  const markFractions = marks.map((m) => m.fraction);
+
+  const pan = Gesture.Pan()
+    .minDistance(0)
+    .onBegin((e) => {
+      dragging.value = true;
+      if (trackW <= 0) return;
+      const f = Math.max(0, Math.min(1, e.x / trackW));
+      prog.value = f;
+      lastHaptic.value = f;
+      lastSent.value = f;
+      runOnJS(onScrub)(f);
+    })
+    .onUpdate((e) => {
+      if (trackW <= 0) return;
+      const f = Math.max(0, Math.min(1, e.x / trackW));
+      prog.value = f;
+      // Selection tick when the thumb sweeps past one of the day's prayers.
+      for (let i = 0; i < markFractions.length; i++) {
+        const m = markFractions[i];
+        if ((lastHaptic.value < m && f >= m) || (lastHaptic.value > m && f <= m)) {
+          runOnJS(hapticSelection)();
+          break;
+        }
+      }
+      lastHaptic.value = f;
+      // Throttle the JS field recompute; the thumb above stays at 60fps.
+      if (Math.abs(f - lastSent.value) >= 0.0025) {
+        lastSent.value = f;
+        runOnJS(onScrub)(f);
+      }
+    })
+    .onFinalize(() => {
+      dragging.value = false;
+      runOnJS(onScrub)(prog.value);
+    });
+
+  // Dragging → follow the gesture (UI thread); otherwise sit at the prop's
+  // fraction (live tick, playback, a tapped row). trackW + fraction are captured
+  // at render, so the thumb repositions when the track lays out or the time moves.
+  const fillStyle = useAnimatedStyle(() => ({
+    width: (dragging.value ? prog.value : fraction) * trackW,
+  }));
+  const thumbStyle = useAnimatedStyle(() => ({
+    left: (dragging.value ? prog.value : fraction) * trackW - 9,
+  }));
 
   return (
     <View style={styles.sliderArea}>
-      <View
-        style={styles.track}
-        onLayout={(e) => setTrackW(e.nativeEvent.layout.width)}
-        {...responder.panHandlers}
-      >
-        <View style={styles.trackBase} />
-        <View style={[styles.trackFill, { width: `${fraction * 100}%` }]} />
-        {trackW > 0 &&
-          marks.map((m) => (
-            <View
-              key={m.key}
-              pointerEvents="none"
-              style={[styles.mark, { left: m.fraction * trackW - 3, backgroundColor: PRAYER_COLORS[m.key] }]}
-            />
-          ))}
-        {trackW > 0 && (
-          <View pointerEvents="none" style={[styles.thumb, { left: fraction * trackW - 9 }]} />
-        )}
-      </View>
+      <GestureDetector gesture={pan}>
+        <View style={styles.track} onLayout={(e) => setTrackW(e.nativeEvent.layout.width)}>
+          <View style={styles.trackBase} />
+          <Animated.View style={[styles.trackFill, fillStyle]} />
+          {trackW > 0 &&
+            marks.map((m) => (
+              <View
+                key={m.key}
+                pointerEvents="none"
+                style={[styles.mark, { left: m.fraction * trackW - 3, backgroundColor: PRAYER_COLORS[m.key] }]}
+              />
+            ))}
+          {trackW > 0 && <Animated.View pointerEvents="none" style={[styles.thumb, thumbStyle]} />}
+        </View>
+      </GestureDetector>
       <View style={styles.ticks}>
         {HOUR_TICKS.map((t) => (
           <Text key={t} style={styles.tick}>
@@ -378,28 +540,25 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: mapTheme.accentSoft,
   },
-  nowBtn: {
-    minWidth: 44,
-    height: 44,
-    paddingHorizontal: 14,
-    borderRadius: 22,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: mapTheme.accentSoft,
-  },
-  nowBtnDisabled: { backgroundColor: 'rgba(17,24,28,0.05)' },
-  nowText: { fontSize: 15, fontWeight: '700', color: mapTheme.accent },
-  nowTextDisabled: { color: mapTheme.textMuted },
   pressed: { opacity: 0.6 },
-  location: { flex: 1, fontSize: 13, color: mapTheme.textMuted, textAlign: 'right' },
 
-  summaryRow: { flexDirection: 'row', alignItems: 'center', marginBottom: 6 },
-  summaryText: { fontSize: 16, color: mapTheme.text },
-  summaryMuted: { fontSize: 13, color: mapTheme.textMuted },
-  summaryPrayer: { fontSize: 16, fontWeight: '700', color: mapTheme.text },
-  summaryTime: { fontSize: 16, color: mapTheme.text, fontVariant: ['tabular-nums'] },
+  // Hero, two tiers. Top: prayer name + countdown (the glance). Sub: time · place (quiet).
+  hero: { marginBottom: 8 },
+  heroTop: { flexDirection: 'row', alignItems: 'center' },
+  heroPrayer: { fontSize: 19, fontWeight: '700', color: mapTheme.text, letterSpacing: 0.2 },
+  heroTomorrow: { fontSize: 14, fontWeight: '400', color: mapTheme.textMuted },
+  heroNone: { fontSize: 16, color: mapTheme.textMuted },
+  countdown: { marginLeft: 8, fontSize: 18, fontWeight: '700', color: mapTheme.accent, fontVariant: ['tabular-nums'] },
+  countdownPrefix: { fontSize: 13, fontWeight: '400', color: mapTheme.textMuted },
+  heroSub: { flexDirection: 'row', alignItems: 'center', gap: 4, marginTop: 3 },
+  heroPlaceRow: { flexDirection: 'row', alignItems: 'center', gap: 3, marginLeft: 8, flexShrink: 1, minWidth: 0 },
+  subTime: { fontSize: 13, color: mapTheme.textMuted, fontVariant: ['tabular-nums'] },
+  subSep: { fontSize: 13, color: mapTheme.textMuted },
+  subPlace: { fontSize: 13, color: mapTheme.textMuted, flexShrink: 1 },
+
   flex: { flex: 1 },
   previewBadge: {
+    marginLeft: 8,
     flexDirection: 'row',
     alignItems: 'center',
     gap: 3,
