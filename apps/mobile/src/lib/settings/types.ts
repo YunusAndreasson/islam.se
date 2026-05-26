@@ -54,6 +54,19 @@ export interface NamedLocation {
 
 export type LocationMode = 'gps' | 'manual';
 
+/** Local prayer-time alerts. Off by default — turning it on triggers the OS
+    permission prompt. Per-prayer toggles cover the five obligatory prayers. */
+export interface NotificationSettings {
+  enabled: boolean;
+  prayers: {
+    fajr: boolean;
+    dhuhr: boolean;
+    asr: boolean;
+    maghrib: boolean;
+    isha: boolean;
+  };
+}
+
 export interface PrayerSettings {
   calculationMethod: CalculationMethodKey;
   madhab: Madhab;
@@ -63,8 +76,9 @@ export interface PrayerSettings {
   adjustments: PrayerAdjustments;
   rounding: Rounding;
   timeFormat: TimeFormat;
-  /** Day offset applied to the (future) Hijri-date display. Stored now, rendered later. */
+  /** Day offset applied to the Hijri-date display, to match local moon-sighting. */
   hijriOffset: number;
+  notifications: NotificationSettings;
   locationMode: LocationMode;
   /** Chosen city/coordinate when locationMode is 'manual'. */
   manualLocation: NamedLocation | null;
@@ -84,6 +98,11 @@ export const DEFAULT_SETTINGS: PrayerSettings = {
   rounding: 'nearest',
   timeFormat: '24h',
   hijriOffset: 0,
+  // Off by default: enabling it is what asks the OS for permission.
+  notifications: {
+    enabled: false,
+    prayers: { fajr: true, dhuhr: true, asr: true, maghrib: true, isha: true },
+  },
   locationMode: 'gps',
   manualLocation: null,
 };

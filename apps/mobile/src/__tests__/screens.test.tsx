@@ -35,8 +35,10 @@ describe('tab screens', () => {
     expect(screen.getAllByText('Fajr').length).toBeGreaterThan(0);
   });
 
-  it('renders the Om title', () => {
+  it('renders the Om screen content', () => {
     render(<Om />);
-    expect(screen.getByText('Om')).toBeTruthy();
+    // The placeholder is gone; Om now leads with the wordmark and explains the map.
+    expect(screen.getByText('islam.se')).toBeTruthy();
+    expect(screen.getByText('Kartan')).toBeTruthy();
   });
 });

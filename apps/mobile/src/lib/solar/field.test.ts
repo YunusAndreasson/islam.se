@@ -6,7 +6,8 @@ import { computePrayerTimes } from '../prayer-times';
 import { DEFAULT_SETTINGS } from '../settings/types';
 import { buildCells, buildGrid, buildLines, washAt, type PointTimes } from './field';
 
-// A coarse grid keeps these fast while still spanning Sweden (lat 54→70.5).
+// A coarse grid keeps these fast while still spanning the default bounds, which are
+// generous enough to cover the whole map viewport (lat 50→73, lon 0→34).
 const GRID_OPTS = { latStep: 1, lonStep: 1.5 };
 // Fixed local day so prayer instants are stable regardless of the runner's clock.
 const DATE = new Date(2026, 2, 21, 12, 0, 0); // 21 Mar 2026, around the equinox
@@ -24,15 +25,15 @@ function flattenCoords(fc: FeatureCollection): number[] {
 describe('buildGrid', () => {
   it('covers the configured bounds and computes ordered, valid times inland', () => {
     const grid = buildGrid(DATE, DEFAULT_SETTINGS, GRID_OPTS);
-    expect(grid.lats[0]).toBe(54);
-    expect(grid.lats[grid.lats.length - 1]).toBeGreaterThanOrEqual(70);
-    expect(grid.lons[0]).toBe(9.5);
+    expect(grid.lats[0]).toBe(50);
+    expect(grid.lats[grid.lats.length - 1]).toBeGreaterThanOrEqual(72);
+    expect(grid.lons[0]).toBe(0);
 
     // A central-Sweden node: prayers must be finite and chronological. This is the
     // contract every line and wash relies on — out-of-order times would mean the
     // visualisation is reading adhan wrong.
     const iLat = grid.lats.indexOf(62);
-    const jLon = grid.lons.indexOf(15.5);
+    const jLon = grid.lons.indexOf(15);
     expect(iLat).toBeGreaterThanOrEqual(0);
     expect(jLon).toBeGreaterThanOrEqual(0);
     const t = grid.pt[iLat][jLon];

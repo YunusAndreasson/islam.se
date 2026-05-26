@@ -25,13 +25,17 @@ import {
   WHITE_NIGHT,
 } from './palette';
 
-// Slightly larger than the camera's Sweden bounds so the overlay's rectangular
-// edges sit off-screen (the camera is locked to Sweden in bonetider.tsx).
-const DEFAULT_GRID_BOUNDS: [number, number, number, number] = [9.5, 54.0, 25.5, 70.5];
-// Fine enough that the flat-shaded fill cells read as a smooth gradient, coarse
-// enough that the one-time grid build stays well under a frame's worth of work.
-const DEFAULT_LAT_STEP = 0.4;
-const DEFAULT_LON_STEP = 0.5;
+// Generously larger than the camera's Sweden framing so the wash always covers the
+// whole viewport — at the locked zoom-out the visible map spills well past Sweden
+// (open sea west, Finland/Baltics east, the continent south), and a tighter grid
+// left those edges unwashed as a visible rectangular "box". Cells outside Sweden
+// carry the wash but need no detail, so the step can stay moderate.
+const DEFAULT_GRID_BOUNDS: [number, number, number, number] = [0.0, 50.0, 34.0, 73.0];
+// Moderate step: fine enough (with the colour-field blur in buildCells) to read as
+// a smooth gradient over Sweden, coarse enough that covering the wider viewport
+// keeps the one-time grid build — memoised per (day, settings) — a brief one-off.
+const DEFAULT_LAT_STEP = 0.42;
+const DEFAULT_LON_STEP = 0.52;
 
 /** Prayer + sun-event times (ms epoch; NaN where adhan can't resolve them) at one point. */
 export interface PointTimes {
@@ -129,9 +133,44 @@ export function washAt(now: number, t: PointTimes): RGBA {
  * its four corners so the coarse grid reads as a soft gradient, and we drop
  * essentially-clear daytime cells so midday adds no overdraw.
  */
+// A single 3×3 box blur of the per-point colour field. Flat-shaded cells otherwise
+// step between neighbours (visible banding in the steep dusk/dawn ramp); softening
+// the field first makes adjacent cells nearly continuous, so the wash reads as a
+// gradient — far cheaper than the grid resolution it would take to match it.
+function smooth(grid: RGBA[][]): RGBA[][] {
+  const h = grid.length;
+  const w = grid[0]?.length ?? 0;
+  const out: RGBA[][] = [];
+  for (let i = 0; i < h; i++) {
+    out[i] = [];
+    for (let j = 0; j < w; j++) {
+      let r = 0;
+      let g = 0;
+      let b = 0;
+      let a = 0;
+      let n = 0;
+      for (let di = -1; di <= 1; di++) {
+        for (let dj = -1; dj <= 1; dj++) {
+          const ii = i + di;
+          const jj = j + dj;
+          if (ii < 0 || jj < 0 || ii >= h || jj >= w) continue;
+          const c = grid[ii][jj];
+          r += c[0];
+          g += c[1];
+          b += c[2];
+          a += c[3];
+          n += 1;
+        }
+      }
+      out[i][j] = [r / n, g / n, b / n, a / n];
+    }
+  }
+  return out;
+}
+
 export function buildCells(grid: SolarGrid, now: number, stride = 2): FeatureCollection {
   const { lats, lons, pt } = grid;
-  const colorAt: RGBA[][] = pt.map((row) => row.map((t) => washAt(now, t)));
+  const colorAt: RGBA[][] = smooth(pt.map((row) => row.map((t) => washAt(now, t))));
   const features: Feature<Polygon, { color: string }>[] = [];
   for (let i = 0; i < lats.length - 1; i += stride) {
     const i2 = Math.min(i + stride, lats.length - 1);

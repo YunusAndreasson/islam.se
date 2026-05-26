@@ -6,7 +6,10 @@ import { OptionGroup, type Option } from '@/components/settings/OptionGroup';
 import { SettingSection } from '@/components/settings/SettingSection';
 import { Stepper } from '@/components/settings/Stepper';
 import { colors } from '@/components/settings/theme';
+import { Toggle } from '@/components/settings/Toggle';
+import { formatHijri } from '@/lib/hijri';
 import { useLocation } from '@/lib/location/context';
+import { NOTIFY_PRAYERS } from '@/lib/notifications';
 import {
   computePrayerTimes,
   formatTime,
@@ -180,6 +183,37 @@ export default function Installningar() {
           </SettingSection>
         ) : null}
 
+        <SettingSection
+          title="Notiser"
+          footnote="Lokala påminnelser för dagens böner – fungerar även utan internet."
+        >
+          <Toggle
+            label="Påminn om bönetider"
+            value={settings.notifications.enabled}
+            onValueChange={(enabled) =>
+              update({ notifications: { ...settings.notifications, enabled } })
+            }
+          />
+          {settings.notifications.enabled
+            ? NOTIFY_PRAYERS.map((key) => (
+                <Toggle
+                  key={key}
+                  label={PRAYER_LABELS[key]}
+                  value={settings.notifications.prayers[key]}
+                  divider
+                  onValueChange={(v) =>
+                    update({
+                      notifications: {
+                        ...settings.notifications,
+                        prayers: { ...settings.notifications.prayers, [key]: v },
+                      },
+                    })
+                  }
+                />
+              ))
+            : null}
+        </SettingSection>
+
         <SettingSection title="Beräkningsmetod">
           <OptionGroup
             options={METHOD_OPTIONS}
@@ -251,7 +285,10 @@ export default function Installningar() {
           />
         </SettingSection>
 
-        <SettingSection title="Hijri-justering" footnote="Förskjut den islamiska datumvisningen (dagar).">
+        <SettingSection
+          title="Hijri-justering"
+          footnote={`Idag: ${formatHijri(new Date(), settings.hijriOffset)}. Justera för att matcha lokal månsiktning.`}
+        >
           <Stepper
             label="Dagar"
             value={settings.hijriOffset}

@@ -4,11 +4,10 @@ import {
   Map,
   type ViewStateChangeEvent,
 } from '@maplibre/maplibre-react-native';
-import { useCallback, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef } from 'react';
 import { type NativeSyntheticEvent, StyleSheet, useWindowDimensions, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { Legend } from '../../components/map/Legend';
 import {
   type DayMark,
   DOCK_COLLAPSED_BASE,
@@ -17,9 +16,13 @@ import {
   type NextPrayer,
   PrayerDock,
 } from '../../components/map/PrayerDock';
+import { CityMarkers } from '../../components/map/CityMarkers';
 import { PrayerFieldOverlay } from '../../components/map/PrayerFieldOverlay';
 import { mapTheme } from '../../components/map/theme';
 import { useLocation } from '../../lib/location/context';
+import { NORDIC_MAP_STYLE } from '../../lib/map/nordicStyle';
+import { useSetNight } from '../../lib/solar/nightContext';
+import { nightFactor } from '../../lib/solar/night';
 import { computePrayerTimes, PRAYER_ORDER, type PrayerKey } from '../../lib/prayer-times';
 import { useSettings } from '../../lib/settings/context';
 import type { PrayerSettings } from '../../lib/settings/types';
@@ -39,8 +42,6 @@ const DAY_MS = 86_400_000;
 // Extra breathing room (dp) reserved above the dock, so the south coast sits
 // clearly above it rather than pressed against its top edge.
 const DOCK_MARGIN = 40;
-
-const POSITRON_STYLE = 'https://tiles.openfreemap.org/styles/positron';
 
 // How far to shift one axis so the visible span [vMin, vMax] sits inside the
 // allowed span [min, max]. If the view is wider than the bound, centre on it.
@@ -115,7 +116,7 @@ export default function Bonetider() {
   // or "(GPS)" that matter on the Inställningar screen but are noise here.
   const placeLabel = label.replace(/\s*\([^)]*\)\s*$/, '');
   const clock = useSolarClock();
-  const [showLegend, setShowLegend] = useState(false);
+  const setNight = useSetNight();
 
   const sig = computeSignature(settings);
   // The whole-country prayer-time lattice — the one expensive step, cached per day
@@ -161,6 +162,28 @@ export default function Bonetider() {
     return Number.isFinite(at) ? { key: 'fajr', at, tomorrow: true } : null;
   }, [userTimes, clock.now, clock.dayStart, coords, settings]);
 
+  // How "night" it is at the user's place for the viewed instant (0 day → 1 deep
+  // night). Drives the chrome so the dock, the prayer pills and the city markers
+  // dim into night with the map. Quantised to 0.05 so scrubbing doesn't rebuild the
+  // themed stylesheets every frame.
+  const ms = (d: Date): number => (d instanceof Date ? d.getTime() : Number.NaN);
+  const nightRaw = nightFactor(clock.now, {
+    fajr: ms(userTimes.fajr as Date),
+    sunrise: ms(userTimes.sunrise as Date),
+    maghrib: ms(userTimes.maghrib as Date),
+    isha: ms(userTimes.isha as Date),
+  });
+  const night = Math.round(nightRaw * 20) / 20;
+  // Publish to the global chrome (the AppMenu, which lives over every screen) so it
+  // dims into night in lockstep with the map and the dock — even while scrubbing.
+  useEffect(() => {
+    setNight(night);
+  }, [night, setNight]);
+
+  // The user's next prayer drives the emphasised line/pill on the map (only when
+  // it's today — tomorrow's Fajr has no line sweeping the country yet).
+  const nextKey = next && !next.tomorrow ? next.key : null;
+
   // The native maxBounds / minZoom camera props don't constrain on this
   // MapLibre build, so we keep the view on Sweden in JS: after each settled
   // pan/zoom, ease the camera back so the visible region stays within the
@@ -204,7 +227,7 @@ export default function Bonetider() {
       <Map
         testID="sweden-map"
         style={StyleSheet.absoluteFill}
-        mapStyle={POSITRON_STYLE}
+        mapStyle={NORDIC_MAP_STYLE}
         attribution
         compass={false}
         onRegionDidChange={onRegionDidChange}
@@ -222,8 +245,11 @@ export default function Bonetider() {
           grid={grid}
           now={clock.now}
           settings={settings}
-          playing={clock.playing}
+          nextKey={nextKey}
+          night={night}
         />
+        {/* City markers ride above the wash so they stay legible on the night map. */}
+        <CityMarkers night={night} />
       </Map>
 
       {/* The one bottom surface: next prayer + day scrubber, expandable to the full
@@ -235,12 +261,9 @@ export default function Bonetider() {
         next={next}
         locationLabel={placeLabel}
         settings={settings}
-        onPlayPause={clock.playing ? clock.pause : clock.play}
-        onShowLegend={() => setShowLegend(true)}
+        night={night}
         onExpandedChange={onDockExpandedChange}
       />
-
-      {showLegend && <Legend onClose={() => setShowLegend(false)} />}
     </View>
   );
 }

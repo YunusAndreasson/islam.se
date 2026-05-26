@@ -81,6 +81,20 @@ jest.mock('expo-haptics', () => ({
   NotificationFeedbackType: { Success: 'success', Warning: 'warning', Error: 'error' },
 }));
 
+// expo-notifications is native. Mock the surface src/lib/notifications uses so the
+// module (which sets a handler at import time) loads, and screens that pull in its
+// constants render. Default: permission granted, scheduling is a resolved no-op.
+jest.mock('expo-notifications', () => ({
+  setNotificationHandler: jest.fn(),
+  getPermissionsAsync: jest.fn(async () => ({ granted: true, canAskAgain: true, status: 'granted' })),
+  requestPermissionsAsync: jest.fn(async () => ({ granted: true, status: 'granted' })),
+  setNotificationChannelAsync: jest.fn(async () => null),
+  scheduleNotificationAsync: jest.fn(async () => 'id'),
+  cancelAllScheduledNotificationsAsync: jest.fn(async () => {}),
+  SchedulableTriggerInputTypes: { DATE: 'date' },
+  AndroidImportance: { HIGH: 4, DEFAULT: 3 },
+}));
+
 // react-native-gesture-handler: render the root + detector as pass-throughs and
 // give Gesture builders chainable no-op methods so PrayerDock's gestures build.
 jest.mock('react-native-gesture-handler', () => {

@@ -1,11 +1,35 @@
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
+import { useEffect } from 'react';
+import { AppState } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import { AppMenu } from '@/components/nav/AppMenu';
-import { LocationProvider } from '@/lib/location/context';
-import { SettingsProvider } from '@/lib/settings/context';
+import { useLocation, LocationProvider } from '@/lib/location/context';
+import { syncPrayerNotifications } from '@/lib/notifications';
+import { SettingsProvider, useSettings } from '@/lib/settings/context';
+import { NightProvider } from '@/lib/solar/nightContext';
+import { palette } from '@/theme/tokens';
+
+// Keeps the scheduled prayer notifications in step with the user's settings and
+// location, and refreshes them whenever the app returns to the foreground (so the
+// rolling multi-day window keeps advancing). Renders nothing — it just reacts.
+function NotificationSync() {
+  const { coords } = useLocation();
+  const { settings, loaded } = useSettings();
+
+  useEffect(() => {
+    if (!loaded) return;
+    void syncPrayerNotifications(coords, settings);
+    const sub = AppState.addEventListener('change', (state) => {
+      if (state === 'active') void syncPrayerNotifications(coords, settings);
+    });
+    return () => sub.remove();
+  }, [loaded, coords, settings]);
+
+  return null;
+}
 
 // Root layout: a header-less, tab-less stack. The three screens (bonetider,
 // installningar, om) live under it directly — navigation is the floating glass
@@ -20,9 +44,14 @@ export default function RootLayout() {
       <SafeAreaProvider>
         <SettingsProvider>
           <LocationProvider>
-            <Stack screenOptions={{ headerShown: false }} />
-            <AppMenu />
-            <StatusBar style="auto" />
+            <NightProvider>
+              {/* Opaque paper ground so screen-to-screen transitions never flash the
+                  map through an incoming page. */}
+              <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: palette.paper } }} />
+              <AppMenu />
+              <NotificationSync />
+              <StatusBar style="auto" />
+            </NightProvider>
           </LocationProvider>
         </SettingsProvider>
       </SafeAreaProvider>

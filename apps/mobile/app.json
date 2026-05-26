@@ -23,6 +23,12 @@
         {
           "locationWhenInUsePermission": "Platsåtkomst används för att beräkna bönetider för var du befinner dig."
         }
+      ],
+      [
+        "expo-notifications",
+        {
+          "color": "#46527f"
+        }
       ]
     ],
     "experiments": {
