@@ -22,6 +22,7 @@ jest.mock('@maplibre/maplibre-react-native', () => ({
   GeoJSONSource: 'GeoJSONSource',
   Layer: 'Layer',
   ViewAnnotation: 'ViewAnnotation',
+  Marker: 'Marker',
 }));
 
 // AsyncStorage's official in-memory jest mock — lets the settings store/context

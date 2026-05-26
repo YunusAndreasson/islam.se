@@ -1,6 +1,6 @@
 import { describe, expect, it } from '@jest/globals';
 
-import { marchingSquares, representativePoint } from './contour';
+import { chaikin, chainSegments, marchingSquares, representativePoint } from './contour';
 
 // The contour engine is the geometry behind every sweeping prayer line. These
 // guard the invariants a wrong line would silently violate: a crossing appears
@@ -87,5 +87,76 @@ describe('representativePoint', () => {
       [a, b].some((q) => q[0] === p?.[0] && q[1] === p?.[1]),
     );
     expect(onLine).toBe(true);
+  });
+});
+
+// Smoothing the lines depends on first chaining marchingSquares' independent
+// segments back into a path; if chaining drops or reorders points the smoothed
+// line tears, so these guard the join and the corner-cut shape.
+describe('chainSegments', () => {
+  it('joins segments sharing endpoints into one ordered polyline', () => {
+    // Three segments that connect end-to-end, given out of order and flipped.
+    const segs: [[number, number], [number, number]][] = [
+      [
+        [15, 56],
+        [20, 57],
+      ],
+      [
+        [10, 55],
+        [15, 56],
+      ],
+    ];
+    const lines = chainSegments(segs);
+    expect(lines).toHaveLength(1);
+    expect(lines[0]).toEqual([
+      [10, 55],
+      [15, 56],
+      [20, 57],
+    ]);
+  });
+
+  it('keeps disconnected segments as separate polylines', () => {
+    const segs: [[number, number], [number, number]][] = [
+      [
+        [0, 0],
+        [1, 1],
+      ],
+      [
+        [10, 10],
+        [11, 11],
+      ],
+    ];
+    expect(chainSegments(segs)).toHaveLength(2);
+  });
+});
+
+describe('chaikin', () => {
+  it('pins the endpoints and rounds the interior toward the corner', () => {
+    // A right-angle corner: the kink at (1,0) must be cut, endpoints untouched.
+    const line: [number, number][] = [
+      [0, 0],
+      [1, 0],
+      [1, 1],
+    ];
+    const out = chaikin(line, 1);
+    expect(out[0]).toEqual([0, 0]);
+    expect(out[out.length - 1]).toEqual([1, 1]);
+    // The sharp vertex (1,0) is replaced by two cut points, so it no longer appears.
+    expect(out.some(([x, y]) => x === 1 && y === 0)).toBe(false);
+    // Every point stays within the corner's bounding box (no overshoot).
+    for (const [x, y] of out) {
+      expect(x).toBeGreaterThanOrEqual(0);
+      expect(x).toBeLessThanOrEqual(1);
+      expect(y).toBeGreaterThanOrEqual(0);
+      expect(y).toBeLessThanOrEqual(1);
+    }
+  });
+
+  it('leaves a 2-point line unchanged (nothing to round)', () => {
+    const line: [number, number][] = [
+      [0, 0],
+      [1, 1],
+    ];
+    expect(chaikin(line, 2)).toEqual(line);
   });
 });

@@ -12,7 +12,7 @@ import type { Feature, FeatureCollection, MultiLineString, Polygon } from 'geojs
 
 import { computePrayerTimes, PRAYER_ORDER, type PrayerKey } from '../prayer-times';
 import type { PrayerSettings } from '../settings/types';
-import { marchingSquares, representativePoint, type Segment } from './contour';
+import { chaikin, chainSegments, labelPlacement, marchingSquares, type Segment } from './contour';
 import {
   average,
   DAWN_COOL,
@@ -202,6 +202,8 @@ export function buildCells(grid: SolarGrid, now: number, stride = 2): FeatureCol
 export interface PrayerLineLabel {
   prayer: PrayerKey;
   lngLat: [number, number];
+  /** Unit direction of the line at `lngLat`, in [lon, lat] space. */
+  tangent: [number, number];
 }
 
 export interface SolarLines {
@@ -226,13 +228,17 @@ export function buildLines(
     const field = pt.map((row) => row.map((t) => t[prayer] - now));
     const segments: Segment[] = marchingSquares(lats, lons, field, 0);
     if (segments.length === 0) continue;
+    // Chain the raw cell segments into paths, then Chaikin-smooth each so the line
+    // reads as a clean curve instead of grid facets. Label placement stays on the
+    // raw segments — the smoothed line tracks them within a fraction of a cell.
+    const smoothed = chainSegments(segments).map((line) => chaikin(line, 2));
     features.push({
       type: 'Feature',
       properties: { prayer },
-      geometry: { type: 'MultiLineString', coordinates: segments },
+      geometry: { type: 'MultiLineString', coordinates: smoothed },
     });
-    const label = representativePoint(segments);
-    if (label) labels.push({ prayer, lngLat: label });
+    const placement = labelPlacement(segments);
+    if (placement) labels.push({ prayer, lngLat: placement.point, tangent: placement.tangent });
   }
   return { lines: { type: 'FeatureCollection', features }, labels };
 }

@@ -4,7 +4,15 @@
 // The user's NEXT prayer's line is drawn brighter/thicker and its pill accented, so
 // the map answers "what's coming" at a glance — tied to the dock. Pills dim with the
 // night factor so they read on the dark map.
-import { GeoJSONSource, Layer, ViewAnnotation } from '@maplibre/maplibre-react-native';
+//
+// Label placement: the pills are `Marker`s — on Android a real native View placed on
+// the map projection, so they render ABOVE every GL layer (the prayer lines AND the
+// city dots/labels), none of which can paint over the text. (A ViewAnnotation, by
+// contrast, is drawn to a bitmap *inside* the layer stack and gets overdrawn.) On top
+// of that we push each pill a fixed distance *perpendicular* to its line's local
+// direction (see `perpOffset`) so it sits tidily beside the line — sideways for a
+// near-vertical line, upward for a horizontal one — rather than covering it.
+import { GeoJSONSource, Layer, Marker } from '@maplibre/maplibre-react-native';
 import { useMemo } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
@@ -36,6 +44,42 @@ interface Props {
 function emphasis(nextKey: PrayerKey | null, base: number, hi: number): number | unknown {
   if (!nextKey) return base;
   return ['case', ['==', ['get', 'prayer'], nextKey], hi, base];
+}
+
+// How far (px) to push a pill off its line. Must exceed the line glow's reach
+// (≈17px for the emphasised line) plus the pill's half-height so the text never
+// touches the line.
+const LABEL_OFFSET_PX = 44;
+
+/**
+ * The pixel offset that moves a pill clear of its line, perpendicular to the line's
+ * local direction. We map the line tangent from [lon, lat] into screen space (the
+ * map is north-up: +lon → right, +lat → up, lon compressed by cos(lat)), rotate it
+ * 90° to get the perpendicular, then bias toward placing the pill *above* the line
+ * — and for a near-vertical line (whose perpendicular is horizontal) toward a
+ * consistent side. Offset convention matches MapLibre: negative x = left, y = up.
+ */
+function perpOffset(lngLat: [number, number], tangent: [number, number]): [number, number] {
+  const latRad = (lngLat[1] * Math.PI) / 180;
+  let sx = tangent[0] * Math.cos(latRad);
+  let sy = -tangent[1];
+  const sl = Math.hypot(sx, sy) || 1;
+  sx /= sl;
+  sy /= sl;
+  // Rotate the screen-space tangent 90° → unit perpendicular.
+  let px = -sy;
+  let py = sx;
+  if (py > 0) {
+    // Point it upward (negative screen-y) so pills prefer to sit above the line.
+    px = -px;
+    py = -py;
+  }
+  if (Math.abs(py) < 0.25 && px > 0) {
+    // Near-vertical line → horizontal perpendicular; keep all such pills to the left.
+    px = -px;
+    py = -py;
+  }
+  return [px * LABEL_OFFSET_PX, py * LABEL_OFFSET_PX];
 }
 
 export function PrayerFieldOverlay({ grid, now, settings, nextKey, night }: Props) {
@@ -84,27 +128,29 @@ export function PrayerFieldOverlay({ grid, now, settings, nextKey, night }: Prop
       {labels.map((l) => {
         const isNext = l.prayer === nextKey;
         const hue = PRAYER_COLORS[l.prayer];
-        // A callout: the pill floats above the line with a short stem touching it,
-        // so the sweeping line never cuts through the text. anchor="bottom" pins the
-        // stem's foot to the line point; the pill sits clear above the line's glow.
+        // Marker (not ViewAnnotation): on Android it's a real native View placed on
+        // the map projection, so it sits ABOVE every GL layer — the city dots/labels
+        // and the prayer lines no longer paint over the pill. The perpendicular
+        // offset still keeps the pill tidily beside its line rather than on top of it.
         return (
-          <ViewAnnotation key={l.prayer} lngLat={l.lngLat} anchor="bottom">
-            <View style={styles.callout}>
-              <View
-                style={[
-                  styles.pill,
-                  { backgroundColor: c.surface, borderColor: isNext ? c.accent : c.hairline },
-                  isNext && styles.pillNext,
-                ]}
-              >
-                <View style={[styles.dot, { backgroundColor: hue }]} />
-                <Text style={[styles.pillLabel, { color: c.ink }]}>{PRAYER_LABELS[l.prayer]}</Text>
-                <Text style={[styles.pillTime, { color: c.inkMuted }]}>{timeLabel}</Text>
-              </View>
-              <View style={[styles.stem, { backgroundColor: hue }]} />
-              <View style={[styles.foot, { backgroundColor: hue }]} />
+          <Marker
+            key={l.prayer}
+            lngLat={l.lngLat}
+            anchor="center"
+            offset={perpOffset(l.lngLat, l.tangent)}
+          >
+            <View
+              style={[
+                styles.pill,
+                { backgroundColor: c.surface, borderColor: isNext ? c.accent : c.hairline },
+                isNext && styles.pillNext,
+              ]}
+            >
+              <View style={[styles.dot, { backgroundColor: hue }]} />
+              <Text style={[styles.pillLabel, { color: c.ink }]}>{PRAYER_LABELS[l.prayer]}</Text>
+              <Text style={[styles.pillTime, { color: c.inkMuted }]}>{timeLabel}</Text>
             </View>
-          </ViewAnnotation>
+          </Marker>
         );
       })}
     </>
@@ -112,7 +158,6 @@ export function PrayerFieldOverlay({ grid, now, settings, nextKey, night }: Prop
 }
 
 const styles = StyleSheet.create({
-  callout: { alignItems: 'center' },
   pill: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -131,8 +176,4 @@ const styles = StyleSheet.create({
   dot: { width: 7, height: 7, borderRadius: 4 },
   pillLabel: { fontSize: 12, fontWeight: '600' },
   pillTime: { fontSize: 12, fontVariant: ['tabular-nums'] },
-  // Connector from the pill down to the line, ending in a dot on the line itself,
-  // so the label floats clear of the sweeping line but still clearly belongs to it.
-  stem: { width: 2, height: 15, borderRadius: 1 },
-  foot: { width: 6, height: 6, borderRadius: 3, marginTop: -1 },
 });
