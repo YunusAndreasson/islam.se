@@ -17,7 +17,13 @@
     },
     "plugins": [
       "expo-router",
-      "@maplibre/maplibre-react-native"
+      "@maplibre/maplibre-react-native",
+      [
+        "expo-location",
+        {
+          "locationWhenInUsePermission": "Platsåtkomst används för att beräkna bönetider för var du befinner dig."
+        }
+      ]
     ],
     "experiments": {
       "typedRoutes": true
