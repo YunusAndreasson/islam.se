@@ -10,6 +10,9 @@ export interface NightChrome {
   ink: string;
   inkMuted: string;
   accent: string;
+  /** Warm brass-gold — the "live right now" emphasis (the next prayer). Sparingly
+   * used so it always means "look here"; the bridge to the website's warmth. */
+  highlight: string;
   accentSoft: string;
   track: string;
   trackFill: string;
@@ -37,69 +40,78 @@ export interface NightChrome {
   pillNextBorder: string;
 }
 
-// [day, night] endpoints (RGBA, alpha 0..1).
+// [day, night] endpoints (RGBA, alpha 0..1). The DAY endpoints are the warm light
+// palette (so the dock floats over a warm day map as one piece); the NIGHT endpoints
+// stay the indigo night-sky language (the map is a sky — it can't go brown). See
+// theme/tokens.ts for the matching screen palette.
 const STOPS: Record<keyof NightChrome, [RGBA, RGBA]> = {
   surface: [
-    [252, 252, 254, 0.9],
+    [255, 253, 248, 0.9], // warm white glass
     [22, 28, 52, 0.8],
   ],
   ink: [
-    [17, 24, 28, 1],
+    [26, 23, 18, 1], // warm charcoal
     [237, 240, 245, 1],
   ],
   inkMuted: [
-    [91, 100, 112, 1],
+    [111, 100, 86, 1], // warm taupe
     [168, 177, 196, 1],
   ],
   accent: [
-    [70, 82, 127, 1],
-    [176, 186, 226, 1],
+    [58, 70, 132, 1], // deepened night-indigo
+    [154, 166, 226, 1],
+  ],
+  // Brass-gold "next" emphasis — warm by day, a brighter brass by night so it pops
+  // off the dark indigo map.
+  highlight: [
+    [184, 134, 47, 1],
+    [216, 169, 78, 1],
   ],
   accentSoft: [
-    [233, 235, 245, 1],
+    [231, 232, 241, 1],
     [255, 255, 255, 0.16],
   ],
   track: [
-    [17, 24, 28, 0.12],
+    [26, 23, 18, 0.14],
     [255, 255, 255, 0.18],
   ],
   trackFill: [
-    [70, 82, 127, 0.35],
-    [176, 186, 226, 0.55],
+    [58, 70, 132, 0.4],
+    [154, 166, 226, 0.55],
   ],
   thumb: [
-    [255, 255, 255, 1],
+    [255, 253, 248, 1],
     [237, 240, 245, 1],
   ],
   hairline: [
-    [17, 24, 28, 0.08],
+    [26, 23, 18, 0.1],
     [255, 255, 255, 0.13],
   ],
   handle: [
-    [17, 24, 28, 0.18],
+    [26, 23, 18, 0.2],
     [255, 255, 255, 0.32],
   ],
   halo: [
-    [245, 247, 250, 0.92],
+    [250, 247, 240, 0.92], // warm light halo
     [16, 22, 44, 0.66],
   ],
-  // Opaque pill fill: near-white by day (≈ the old 0.9 glass), solid indigo by night.
+  // Opaque pill fill: warm near-white by day (≈ the 0.9 glass), solid indigo by night.
   pillSurface: [
-    [252, 252, 254, 1],
+    [255, 253, 248, 1],
     [34, 40, 64, 1],
   ],
-  // Normal pill border: a faint hairline by day, a subtle *opaque* indigo line by
-  // night (uniform over any map terrain, unlike the translucent shared hairline).
+  // Normal pill border: a faint warm hairline by day, a subtle *opaque* indigo line
+  // by night (uniform over any map terrain, unlike the translucent shared hairline).
   pillBorder: [
-    [17, 24, 28, 0.08],
+    [26, 23, 18, 0.1],
     [78, 88, 120, 1],
   ],
-  // Next-pill border: day slate unchanged; night a muted *opaque* periwinkle —
-  // clearly accented but not the bright ring the full accent produced, and uniform
-  // (opaque) so the rounded caps stay smooth.
+  // Next-pill border: brass-gold in both modes (opaque, so the rounded caps stay
+  // smooth) — the same "next prayer = gold" signal the dock's countdown carries, so
+  // the map and the dock answer "what's coming" in one colour.
   pillNextBorder: [
-    [70, 82, 127, 1],
-    [108, 120, 158, 1],
+    [184, 134, 47, 1],
+    [216, 169, 78, 1],
   ],
 };
 

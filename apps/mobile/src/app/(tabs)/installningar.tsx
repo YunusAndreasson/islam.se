@@ -5,7 +5,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { OptionGroup, type Option } from '@/components/settings/OptionGroup';
 import { SettingSection } from '@/components/settings/SettingSection';
 import { Stepper } from '@/components/settings/Stepper';
-import { colors } from '@/components/settings/theme';
+import { type SettingsColors, useSettingsColors } from '@/components/settings/theme';
 import { Toggle } from '@/components/settings/Toggle';
 import { formatHijri } from '@/lib/hijri';
 import { useLocation } from '@/lib/location/context';
@@ -90,6 +90,8 @@ const signedMinutes = (v: number) => `${v > 0 ? '+' : ''}${v} min`;
 export default function Installningar() {
   const { settings, loaded, update } = useSettings();
   const { coords, label, source, permissionStatus, locating, refresh } = useLocation();
+  const colors = useSettingsColors();
+  const styles = useMemo(() => makeStyles(colors), [colors]);
 
   // Live preview: today's times for the resolved location. Recomputes whenever a
   // setting or the location changes — this is how the user sees a setting "land".
@@ -303,35 +305,38 @@ export default function Installningar() {
   );
 }
 
-const styles = StyleSheet.create({
-  safe: { flex: 1, backgroundColor: colors.bg },
-  loading: { flex: 1, alignItems: 'center', justifyContent: 'center' },
-  content: { padding: 16, paddingBottom: 48 },
-  header: { fontSize: 28, fontWeight: '700', color: colors.text, marginBottom: 20, marginTop: 4 },
-  previewRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingVertical: 12,
-    paddingHorizontal: 16,
-    minHeight: 44,
-  },
-  previewDivider: { borderTopWidth: StyleSheet.hairlineWidth, borderTopColor: colors.separator },
-  previewNext: { backgroundColor: colors.accentSoft },
-  previewLabel: { fontSize: 16, color: colors.text },
-  previewTime: { fontSize: 16, color: colors.text, fontVariant: ['tabular-nums'] },
-  previewNextText: { color: colors.accent, fontWeight: '600' },
-  refreshRow: {
-    borderTopWidth: StyleSheet.hairlineWidth,
-    borderTopColor: colors.separator,
-    paddingVertical: 12,
-    paddingHorizontal: 16,
-    minHeight: 48,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  refreshPressed: { backgroundColor: colors.accentSoft },
-  refreshText: { fontSize: 16, color: colors.accent },
-  refreshStatus: { fontSize: 14, color: colors.textMuted },
-});
+function makeStyles(colors: SettingsColors) {
+  return StyleSheet.create({
+    safe: { flex: 1, backgroundColor: colors.bg },
+    loading: { flex: 1, alignItems: 'center', justifyContent: 'center' },
+    content: { padding: 16, paddingBottom: 48 },
+    header: { fontSize: 28, fontWeight: '700', color: colors.text, marginBottom: 20, marginTop: 4 },
+    previewRow: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      paddingVertical: 12,
+      paddingHorizontal: 16,
+      minHeight: 44,
+    },
+    previewDivider: { borderTopWidth: StyleSheet.hairlineWidth, borderTopColor: colors.separator },
+    // "nästa" = brass, consistent with the dock + map's next-prayer signal.
+    previewNext: { backgroundColor: colors.highlightSoft },
+    previewLabel: { fontSize: 16, color: colors.text },
+    previewTime: { fontSize: 16, color: colors.text, fontVariant: ['tabular-nums'] },
+    previewNextText: { color: colors.highlight, fontWeight: '600' },
+    refreshRow: {
+      borderTopWidth: StyleSheet.hairlineWidth,
+      borderTopColor: colors.separator,
+      paddingVertical: 12,
+      paddingHorizontal: 16,
+      minHeight: 48,
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+    },
+    refreshPressed: { backgroundColor: colors.accentSoft },
+    refreshText: { fontSize: 16, color: colors.accent },
+    refreshStatus: { fontSize: 14, color: colors.textMuted },
+  });
+}

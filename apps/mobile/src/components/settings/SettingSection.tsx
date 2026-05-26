@@ -1,7 +1,7 @@
-import type { ReactNode } from 'react';
+import { type ReactNode, useMemo } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
-import { colors } from './theme';
+import { type SettingsColors, useSettingsColors } from './theme';
 
 // A titled card grouping related setting rows, with an optional footnote below
 // (used to explain non-obvious options, e.g. polar-circle behaviour).
@@ -14,6 +14,8 @@ export function SettingSection({
   footnote?: string;
   children: ReactNode;
 }) {
+  const colors = useSettingsColors();
+  const styles = useMemo(() => makeStyles(colors), [colors]);
   return (
     <View style={styles.wrap}>
       <Text style={styles.title}>{title.toUpperCase()}</Text>
@@ -23,22 +25,24 @@ export function SettingSection({
   );
 }
 
-const styles = StyleSheet.create({
-  wrap: { marginBottom: 24 },
-  title: {
-    fontSize: 13,
-    fontWeight: '600',
-    color: colors.textMuted,
-    marginBottom: 8,
-    marginLeft: 4,
-    letterSpacing: 0.5,
-  },
-  card: {
-    backgroundColor: colors.card,
-    borderRadius: 12,
-    borderWidth: StyleSheet.hairlineWidth,
-    borderColor: colors.border,
-    overflow: 'hidden',
-  },
-  footnote: { fontSize: 12, color: colors.textMuted, marginTop: 8, marginHorizontal: 4, lineHeight: 16 },
-});
+function makeStyles(colors: SettingsColors) {
+  return StyleSheet.create({
+    wrap: { marginBottom: 24 },
+    title: {
+      fontSize: 13,
+      fontWeight: '600',
+      color: colors.textMuted,
+      marginBottom: 8,
+      marginLeft: 4,
+      letterSpacing: 0.5,
+    },
+    card: {
+      backgroundColor: colors.card,
+      borderRadius: 12,
+      borderWidth: StyleSheet.hairlineWidth,
+      borderColor: colors.border,
+      overflow: 'hidden',
+    },
+    footnote: { fontSize: 12, color: colors.textMuted, marginTop: 8, marginHorizontal: 4, lineHeight: 16 },
+  });
+}

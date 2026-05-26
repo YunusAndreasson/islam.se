@@ -30,17 +30,20 @@ const GLYPHS = 'https://tiles.openfreemap.org/fonts/{fontstack}/{range}.pbf';
 // so a label is never blank and never Cyrillic.
 const SV_LABEL: unknown = ['coalesce', ['get', 'name:sv'], ['get', 'name:latin'], ['get', 'name']];
 
-// Map cartography palette — its own calm range, kept cool so the indigo chrome and
-// the solar wash sit on it as one piece.
-const LAND = '#e9edf1'; //        light cool paper
-const WATER = '#aebfd0'; //       Nordic blue — present enough to carve the coastline
-const FOREST = 'rgba(112,146,116,0.13)'; // faint wood tint — Sweden is mostly forest
-const PARK = 'rgba(112,146,116,0.18)';
-const URBAN = 'rgba(176,166,150,0.12)'; // barely-there warmth where the cities are
-const FAINT_INK = palette.inkFaint; //  country / region names
-const WATER_INK = '#73899d'; //         sea / lake names (cool, italic)
-const HALO = 'rgba(245,247,250,0.92)';
-const BOUNDARY = 'rgba(17,24,28,0.15)';
+// Map cartography palette. Warmed to the website's parchment family (so the land is
+// the same paper as the chrome and the screens) and de-fainted — the old cool
+// blue-grey land + 0.15 boundary read as washed-out. The land is now warm sand, the
+// water a deeper Nordic blue that carves the coast with more presence, and the
+// borders a warm, more visible hairline. The solar wash still reads clearly on top.
+const LAND = '#ece6d8'; //        warm parchment land
+const WATER = '#9fb4c8'; //       deeper Nordic blue — carves the coastline with presence
+const FOREST = 'rgba(120,140,104,0.16)'; // warm wood tint — Sweden is mostly forest
+const PARK = 'rgba(120,140,104,0.2)';
+const URBAN = 'rgba(176,160,134,0.15)'; // soft warmth where the cities are
+const FAINT_INK = palette.inkFaint; //  country / region names (warm)
+const WATER_INK = '#7d8a93'; //         sea / lake names (italic)
+const HALO = 'rgba(250,247,240,0.92)'; // warm light halo
+const BOUNDARY = 'rgba(40,33,22,0.22)'; // warm, more present border hairline
 
 export const nordicMapStyle = {
   version: 8,

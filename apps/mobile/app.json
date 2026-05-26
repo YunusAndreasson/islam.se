@@ -5,12 +5,14 @@
     "version": "1.0.0",
     "orientation": "portrait",
     "scheme": "islamse",
+    "userInterfaceStyle": "automatic",
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "se.islam.mobile"
     },
     "android": {
-      "package": "se.islam.mobile"
+      "package": "se.islam.mobile",
+      "userInterfaceStyle": "automatic"
     },
     "web": {
       "output": "static"
@@ -27,7 +29,7 @@
       [
         "expo-notifications",
         {
-          "color": "#46527f"
+          "color": "#3a4684"
         }
       ]
     ],
