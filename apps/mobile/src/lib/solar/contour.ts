@@ -133,3 +133,120 @@ export function representativePoint(segments: Segment[]): [number, number] | nul
   }
   return best;
 }
+
+export interface LabelPlacement {
+  /** The point on the line where the label is anchored ([lon, lat]). */
+  point: [number, number];
+  /** Unit tangent of the line at `point`, in [lon, lat] space. */
+  tangent: [number, number];
+}
+
+/**
+ * Where to put a line's label, plus the line's local direction there. The point
+ * is `representativePoint`; the tangent is the direction of a segment incident to
+ * it. Callers use the tangent to push the label *perpendicular* to the line so the
+ * sweeping line never crosses the label text (a vertical line, for instance, needs
+ * its label pushed sideways — lifting it straight up would keep it on the line).
+ */
+export function labelPlacement(segments: Segment[]): LabelPlacement | null {
+  const point = representativePoint(segments);
+  if (!point) return null;
+  let dir: [number, number] | null = null;
+  for (const [a, b] of segments) {
+    const onA = a[0] === point[0] && a[1] === point[1];
+    const onB = b[0] === point[0] && b[1] === point[1];
+    if (onA || onB) {
+      dir = [b[0] - a[0], b[1] - a[1]];
+      break;
+    }
+  }
+  // Fallback (point wasn't an endpoint — shouldn't happen): assume a horizontal line.
+  if (!dir) dir = [1, 0];
+  const len = Math.hypot(dir[0], dir[1]) || 1;
+  return { point, tangent: [dir[0] / len, dir[1] / len] };
+}
+
+// marchingSquares emits independent 2-point segments, not ordered polylines, so a
+// line can't be smoothed until its segments are chained back into a path. Shared
+// endpoints between adjacent cells are mathematically identical (proven by the edge
+// interpolation) but may differ by a float ULP, so we key nodes at 6-decimal
+// precision (≈0.1 m — far finer than the ~30 km grid, so distinct crossings never
+// collide).
+function ptKey(p: readonly number[]): string {
+  return `${p[0].toFixed(6)},${p[1].toFixed(6)}`;
+}
+
+/**
+ * Join independent segments into connected polylines. Greedy: walk each unused
+ * segment outward from both ends through shared endpoints. At a junction (a node
+ * touched by >2 segments — rare, from a saddle) it just takes the first available
+ * branch; the result stays connected, which is all the renderer needs.
+ */
+export function chainSegments(segments: Segment[]): [number, number][][] {
+  const incident = new Map<string, number[]>();
+  const add = (k: string, i: number): void => {
+    const arr = incident.get(k);
+    if (arr) arr.push(i);
+    else incident.set(k, [i]);
+  };
+  segments.forEach(([a, b], i) => {
+    add(ptKey(a), i);
+    add(ptKey(b), i);
+  });
+
+  const used = new Array<boolean>(segments.length).fill(false);
+  // From node `k`, find an unused incident segment and return its far endpoint.
+  const step = (k: string): { seg: number; next: [number, number]; nextKey: string } | null => {
+    const cands = incident.get(k);
+    if (!cands) return null;
+    for (const i of cands) {
+      if (used[i]) continue;
+      const [a, b] = segments[i];
+      const next = ptKey(a) === k ? b : a;
+      return { seg: i, next, nextKey: ptKey(next) };
+    }
+    return null;
+  };
+
+  const polylines: [number, number][][] = [];
+  for (let s = 0; s < segments.length; s++) {
+    if (used[s]) continue;
+    used[s] = true;
+    const [a, b] = segments[s];
+    const line: [number, number][] = [a, b];
+    // Extend forward from b, then backward from a.
+    for (let nx = step(ptKey(b)); nx; nx = step(nx.nextKey)) {
+      used[nx.seg] = true;
+      line.push(nx.next);
+    }
+    for (let pv = step(ptKey(a)); pv; pv = step(pv.nextKey)) {
+      used[pv.seg] = true;
+      line.unshift(pv.next);
+    }
+    polylines.push(line);
+  }
+  return polylines;
+}
+
+/**
+ * Chaikin corner-cutting: replaces each interior vertex with two points at 1/4 and
+ * 3/4 along its edges, rounding off the grid facets into a smooth curve while
+ * pinning the two endpoints. Two iterations is enough to hide the lattice stepping
+ * under the line's glow without drifting the line meaningfully off its true locus.
+ */
+export function chaikin(line: [number, number][], iterations = 2): [number, number][] {
+  let pts = line;
+  for (let it = 0; it < iterations; it++) {
+    if (pts.length < 3) break;
+    const out: [number, number][] = [pts[0]];
+    for (let i = 0; i < pts.length - 1; i++) {
+      const p = pts[i];
+      const q = pts[i + 1];
+      out.push([p[0] * 0.75 + q[0] * 0.25, p[1] * 0.75 + q[1] * 0.25]);
+      out.push([p[0] * 0.25 + q[0] * 0.75, p[1] * 0.25 + q[1] * 0.75]);
+    }
+    out.push(pts[pts.length - 1]);
+    pts = out;
+  }
+  return pts;
+}
