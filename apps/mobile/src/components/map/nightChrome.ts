@@ -18,6 +18,13 @@ export interface NightChrome {
   handle: string;
   /** Halo behind map labels — light by day, dark by night, so text always reads. */
   halo: string;
+  /**
+   * Border for the emphasised "next" prayer pill. Its own stop, NOT shared `accent`:
+   * accent is tuned as a high-contrast fill/text colour, so as a border it's a tasteful
+   * dark slate by day but flips to a glaring bright-periwinkle ring on the dark night
+   * map. This stays a soft, properly-themed outline in both modes.
+   */
+  pillNextBorder: string;
 }
 
 // [day, night] endpoints (RGBA, alpha 0..1).
@@ -65,6 +72,13 @@ const STOPS: Record<keyof NightChrome, [RGBA, RGBA]> = {
   halo: [
     [245, 247, 250, 0.92],
     [16, 22, 44, 0.66],
+  ],
+  // Day: the same slate the pill used before (look unchanged). Night: a muted,
+  // semi-transparent periwinkle — clearly more present than the hairline, but a soft
+  // outline rather than the bright ring the full accent produced.
+  pillNextBorder: [
+    [70, 82, 127, 1],
+    [124, 136, 178, 0.6],
   ],
 };
 
