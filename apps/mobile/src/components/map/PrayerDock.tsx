@@ -18,7 +18,7 @@
 // from it (see nightChrome) — light glass on the day map, dark indigo glass on the
 // night map — so the chrome never floats as a bright slab over a dark country.
 import { MaterialIcons } from '@expo/vector-icons';
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import Animated, {
@@ -27,6 +27,7 @@ import Animated, {
   useAnimatedStyle,
   useSharedValue,
   withSpring,
+  withTiming,
 } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -411,10 +412,16 @@ function ScheduleRow({
 
 // The 24-hour day slider lifted from the old TimeScrubber: a thin track with the
 // user's prayers as coloured dots and a draggable thumb. While dragging, the thumb
-// rides a shared value on the UI thread (60fps), and the heavier JS recompute
-// (clock.setFraction → field GeoJSON) is throttled. When not dragging it follows
-// the `fraction` prop directly. The shared values are mutated only inside gesture
-// worklets (never in an effect), so the thumb stays the live source of truth.
+// rides the `prog` shared value on the UI thread (60fps), and the heavier JS
+// recompute (clock.setFraction → field GeoJSON) is throttled.
+//
+// The thumb/fill read shared values only (dragging → `prog`, idle → `follow`), never
+// the JS `fraction` prop directly. That is what kills the drag-release snap-back: a
+// scrub keeps the JS thread busy rebuilding the field, so a worklet that read the
+// `fraction` it captured at render would, the instant the drag ends, paint a stale
+// pre-drag value for several frames before the committed time ships from JS — the
+// thumb flicking back to where the drag started, then forward again. `follow` mirrors
+// `fraction` from an effect and stays on the UI thread, so the handoff is seamless.
 function Scrubber({
   styles,
   fraction,
@@ -427,12 +434,28 @@ function Scrubber({
   onScrub: (f: number) => void;
 }) {
   const [trackW, setTrackW] = useState(0);
+  // Two disjoint shared values, by design (see also react-hooks/immutability): the
+  // gesture writes ONLY `prog`/`dragging`; the reconcile effect writes ONLY `follow`.
+  // `prog` is the finger position while dragging; `follow` is an eased mirror of the
+  // `fraction` prop for every idle moment (live tick, tapped row, post-drag commit).
   const prog = useSharedValue(fraction);
+  const follow = useSharedValue(fraction);
   const dragging = useSharedValue(false);
   const lastHaptic = useSharedValue(fraction);
   const lastSent = useSharedValue(fraction);
 
   const markFractions = marks.map((m) => m.fraction);
+
+  // Mirror the clock into `follow` (eased) whenever the prop moves. Easing makes a
+  // tapped row time-travel legibly; more importantly the style reads `follow` (a
+  // UI-thread value), never the JS `fraction` straight — under a scrub the JS thread
+  // is busy rebuilding the field, so a worklet that captured `fraction` would hold a
+  // stale, pre-drag value for several frames at drag-release and snap the thumb back
+  // before the committed time lands. Written only here, so no worklet mutates it.
+  useEffect(() => {
+    follow.value = withTiming(fraction, { duration: 240 });
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- follow is a stable shared-value ref
+  }, [fraction]);
 
   const pan = Gesture.Pan()
     .minDistance(0)
@@ -469,14 +492,15 @@ function Scrubber({
       runOnJS(onScrub)(prog.value);
     });
 
-  // Dragging → follow the gesture (UI thread); otherwise sit at the prop's
-  // fraction (live tick, playback, a tapped row). trackW + fraction are captured
-  // at render, so the thumb repositions when the track lays out or the time moves.
+  // Dragging → the finger (`prog`, 60fps on the UI thread); idle → the eased clock
+  // mirror (`follow`). Both are shared values, so neither is hostage to JS-thread lag
+  // the way reading `fraction` here was. trackW is captured at render, so the thumb
+  // repositions when the track lays out.
   const fillStyle = useAnimatedStyle(() => ({
-    width: (dragging.value ? prog.value : fraction) * trackW,
+    width: (dragging.value ? prog.value : follow.value) * trackW,
   }));
   const thumbStyle = useAnimatedStyle(() => ({
-    left: (dragging.value ? prog.value : fraction) * trackW - 9,
+    left: (dragging.value ? prog.value : follow.value) * trackW - 9,
   }));
 
   return (
@@ -484,7 +508,11 @@ function Scrubber({
       <GestureDetector gesture={pan}>
         <View style={styles.track} onLayout={(e) => setTrackW(e.nativeEvent.layout.width)}>
           <View style={styles.trackBase} />
-          <Animated.View style={[styles.trackFill, fillStyle]} />
+          {/* Plain-style `width` first so the freshly-mounted fill already spans to the
+              live position; the animated style (which can apply a frame late on mount)
+              then takes over. Without it the fill flashes empty — same mount glitch the
+              thumb's plain `left` below fixes. */}
+          <Animated.View style={[styles.trackFill, { width: fraction * trackW }, fillStyle]} />
           {trackW > 0 &&
             marks.map((m) => (
               <View

@@ -4,6 +4,7 @@ import {
   Map,
   type ViewStateChangeEvent,
 } from '@maplibre/maplibre-react-native';
+import { useIsFocused } from 'expo-router';
 import { useCallback, useEffect, useMemo, useRef } from 'react';
 import { type NativeSyntheticEvent, StyleSheet, useWindowDimensions, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -75,6 +76,10 @@ export default function Bonetider() {
   // deliberately re-fit above the dock (zoomed out past the floor), which the
   // enforcer would otherwise undo.
   const enforce = useRef(true);
+  // The pending "re-enable enforcement" timer from a collapse. Held so a quick
+  // re-expand can cancel it — otherwise a stale timer fires mid-expand, turns
+  // enforcement back on while the dock is open, and snaps the lifted map back down.
+  const reenableTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const insets = useSafeAreaInsets();
   const { height: screenH } = useWindowDimensions();
@@ -90,6 +95,12 @@ export default function Bonetider() {
   const onDockExpandedChange = useCallback(
     (expanded: boolean) => {
       enforce.current = false;
+      // Cancel any pending re-enable from a previous collapse: if it fired now
+      // (mid-expand) it would re-arm the enforcer over the open dock.
+      if (reenableTimer.current) {
+        clearTimeout(reenableTimer.current);
+        reenableTimer.current = null;
+      }
       cameraRef.current?.fitBounds(SWEDEN_BOUNDS, {
         padding: {
           top: 24,
@@ -102,20 +113,31 @@ export default function Bonetider() {
       if (!expanded) {
         // Re-enable only after the restore animation settles, so its own
         // onRegionDidChange events don't trip the enforcer mid-flight.
-        setTimeout(() => {
+        reenableTimer.current = setTimeout(() => {
           enforce.current = true;
+          reenableTimer.current = null;
         }, 450);
       }
     },
     [expandedDock, collapsedDock],
   );
 
+  // Drop a pending re-enable timer if the screen unmounts mid-collapse.
+  useEffect(() => {
+    return () => {
+      if (reenableTimer.current) clearTimeout(reenableTimer.current);
+    };
+  }, []);
+
   const { settings } = useSettings();
   const { coords, label } = useLocation();
   // The dock glance only needs the place — drop status qualifiers like "(standard)"
   // or "(GPS)" that matter on the Inställningar screen but are noise here.
   const placeLabel = label.replace(/\s*\([^)]*\)\s*$/, '');
-  const clock = useSolarClock();
+  // Pause the clock's live tick while another route is on top, so the map's field
+  // isn't rebuilt in the background (e.g. every 30 s while the user is on Inställningar).
+  const isFocused = useIsFocused();
+  const clock = useSolarClock(isFocused);
   const setNight = useSetNight();
 
   const sig = computeSignature(settings);

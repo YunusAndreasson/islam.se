@@ -13,6 +13,13 @@ jest.mock('react-native-safe-area-context', () => {
   };
 });
 
+// expo-router: the map screen reads useIsFocused() to pause its clock off-screen.
+// The screen tests render it without a navigator, so report it focused. (Minimal
+// mock — extend if a tested module starts importing other expo-router exports.)
+jest.mock('expo-router', () => ({
+  useIsFocused: () => true,
+}));
+
 // MapLibre is a native module with no JS implementation under test. Render its
 // components as host elements so the Bönetider map screen (and its solar-field
 // overlay: sources, layers, annotations) mounts in jsdom/node.
