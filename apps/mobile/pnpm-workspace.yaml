@@ -12,6 +12,10 @@ allowBuilds:
   # Rust-based module resolver used by lint tooling; native binary is preferred.
   unrs-resolver: true
 
+minimumReleaseAgeExclude:
+  - expo-constants@56.0.16
+  - expo-notifications@56.0.14
+
 # React Native / Expo autolinking and Metro do not cope with pnpm's default
 # symlinked, isolated node_modules. Hoisted layout is the supported setup.
 nodeLinker: hoisted

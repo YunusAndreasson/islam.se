@@ -13,8 +13,12 @@
 // on JS. Crossing a prayer ticks a selection haptic; tapping a row in the schedule
 // eases the thumb to that moment (a deliberate travel, not a teleport) so the
 // time-travel reads as something you did.
+//
+// Night: the dock takes a `night` factor (0 day → 1 deep night) and themes itself
+// from it (see nightChrome) — light glass on the day map, dark indigo glass on the
+// night map — so the chrome never floats as a bright slab over a dark country.
 import { MaterialIcons } from '@expo/vector-icons';
-import { useCallback, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import Animated, {
@@ -27,16 +31,19 @@ import Animated, {
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { hapticLight, hapticSelection } from '../../lib/haptics';
+import { formatGregorian, formatHijri } from '../../lib/hijri';
 import { formatTime, PRAYER_LABELS, PRAYER_ORDER, type PrayerKey } from '../../lib/prayer-times';
 import type { PrayerSettings } from '../../lib/settings/types';
 import { PRAYER_COLORS } from '../../lib/solar/palette';
 import type { SolarClock } from '../../lib/solar/useSolarClock';
+import { palette } from '../../theme/tokens';
 import { GlassSurface } from '../ui/GlassSurface';
-import { mapTheme } from './theme';
+import { type NightChrome, nightChrome } from './nightChrome';
 
 const DAY_MS = 86_400_000;
 const HOUR_TICKS = ['00', '06', '12', '18', '24'];
 const SPRING = { damping: 20, stiffness: 200, mass: 0.6 };
+const SHADOW = palette.shadow;
 
 // Dock heights (excluding the bottom safe-area inset, which the screen adds). The
 // map reads these so it can frame Sweden *above* the dock in both states.
@@ -49,8 +56,11 @@ export const DOCK_FLOAT = 10;
 // Card heights (the rendered card itself, excluding the float + inset below it).
 // Collapsed stays tight: a two-tier hero (prayer + countdown, then a quiet
 // time · place line) over the scrubber — so the map keeps most of the screen.
-export const DOCK_COLLAPSED_BASE = 132;
-export const DOCK_EXPANDED_BASE = 370;
+export const DOCK_COLLAPSED_BASE = 146;
+// Expanded carries a date header (Gregorian + Hijri) above the schedule, so it's a
+// touch taller than the bare list needed. (No transport row — the day slider is the
+// only time control, so there's nothing to play or explain away.)
+export const DOCK_EXPANDED_BASE = 368;
 
 export interface NextPrayer {
   key: PrayerKey;
@@ -72,22 +82,26 @@ interface Props {
   next: NextPrayer | null;
   locationLabel: string;
   settings: PrayerSettings;
-  onPlayPause: () => void;
-  onShowLegend: () => void;
+  /** 0 day → 1 deep night; themes the whole dock to match the map. */
+  night: number;
   /** Reports open/closed + the dock's pixel height, so the map can lift Sweden
       above the dock when expanded instead of being covered by it. */
   onExpandedChange?: (expanded: boolean, expandedHeight: number) => void;
 }
 
 // The glanceable answer: how long until the next prayer, without the "om" prefix
-// (rendered separately so the duration can carry the visual weight).
+// (rendered separately so the duration can carry the visual weight). Each unit hugs
+// its number with a narrow no-break space (proximity: "t" binds to the hours, "min"
+// to the minutes), while a normal space separates the two groups — so "3 t 22 min"
+// never reads as an ambiguous run of equal gaps.
+const NB = ' '; // narrow no-break space
 function countdownValue(ms: number): string {
   if (ms <= 0) return 'nu';
   const mins = Math.round(ms / 60_000);
   const h = Math.floor(mins / 60);
   const m = mins % 60;
-  if (h === 0) return `${m} min`;
-  return `${h} t ${m} min`;
+  if (h === 0) return `${m}${NB}min`;
+  return `${h}${NB}t ${m}${NB}min`;
 }
 
 export function PrayerDock({
@@ -97,11 +111,15 @@ export function PrayerDock({
   next,
   locationLabel,
   settings,
-  onPlayPause,
-  onShowLegend,
+  night,
   onExpandedChange,
 }: Props) {
   const insets = useSafeAreaInsets();
+  // The night-themed palette + the stylesheet built from it. Memoised on `night`
+  // so the dock recolours smoothly as the map crosses dusk/dawn.
+  const c = useMemo(() => nightChrome(night), [night]);
+  const styles = useMemo(() => makeStyles(c), [c]);
+
   // Card heights are the card itself; the float + safe-area inset live in the
   // position (bottom), so the card sits clear above the gesture bar.
   const COLLAPSED = DOCK_COLLAPSED_BASE;
@@ -147,16 +165,12 @@ export function PrayerDock({
   const gesture = Gesture.Exclusive(pan, tap);
 
   const heightStyle = useAnimatedStyle(() => ({ height: height.value }));
-  const chevronStyle = useAnimatedStyle(() => {
+  // The date header leads the reveal — it's the first thing to settle as the dock
+  // opens, before the schedule rows cascade in beneath it.
+  const dateReveal = useAnimatedStyle(() => {
     const p = (height.value - COLLAPSED) / (EXPANDED - COLLAPSED);
-    return { transform: [{ rotate: `${p * 180}deg` }] };
-  });
-  // The transport row reveals in the back half of the open, after the schedule
-  // rows have cascaded in — height-driven, so it tracks the drag directly.
-  const controlsReveal = useAnimatedStyle(() => {
-    const p = (height.value - COLLAPSED) / (EXPANDED - COLLAPSED);
-    const local = Math.max(0, Math.min(1, (p - 0.4) / 0.6));
-    return { opacity: local, transform: [{ translateY: (1 - local) * 10 }] };
+    const local = Math.max(0, Math.min(1, p / 0.35));
+    return { opacity: local, transform: [{ translateY: (1 - local) * 8 }] };
   });
 
   // Returning to "now" is the one action offered in two places (preview badge +
@@ -177,12 +191,14 @@ export function PrayerDock({
     [clock],
   );
 
-  const handlePlayPause = useCallback(() => {
-    hapticSelection();
-    onPlayPause();
-  }, [onPlayPause]);
-
   const cd = next ? countdownValue(next.at - clock.now) : null;
+
+  // The day being viewed (midday avoids any DST edge), labelled in both calendars.
+  // The Hijri line is the point — it honours the user's `hijriOffset` so it can be
+  // aligned to the local mosque's sighting.
+  const viewDate = new Date(clock.dayStart + DAY_MS / 2);
+  const hijriLabel = formatHijri(viewDate, settings.hijriOffset);
+  const gregorianLabel = formatGregorian(viewDate);
 
   // The "time left" / return-to-now control, shared by both hero layouts: live →
   // the countdown; scrubbed → a chip that taps back to now (the only such control,
@@ -202,7 +218,7 @@ export function PrayerDock({
         accessibilityRole="button"
         accessibilityLabel="Återgå till nu"
       >
-        <MaterialIcons name="restore" size={13} color={mapTheme.accent} />
+        <MaterialIcons name="restore" size={13} color={c.accent} />
         <Text style={styles.previewBadgeText}>Nu</Text>
       </Pressable>
     );
@@ -213,7 +229,7 @@ export function PrayerDock({
       pointerEvents="box-none"
     >
       <View style={styles.clip}>
-        <GlassSurface style={StyleSheet.absoluteFill} interactive />
+        <GlassSurface style={StyleSheet.absoluteFill} interactive fallbackColor={c.surface} />
 
         {/* The card floats above the gesture bar (see DOCK_FLOAT), so the content only
             needs its own internal breathing here — no system-inset clearance. */}
@@ -226,6 +242,15 @@ export function PrayerDock({
             accessibilityElementsHidden={!expanded}
             importantForAccessibility={expanded ? 'auto' : 'no-hide-descendants'}
           >
+            <Animated.View style={[styles.dateHeader, dateReveal]}>
+              <Text style={styles.dateHijri} numberOfLines={1}>
+                {hijriLabel}
+              </Text>
+              <Text style={styles.dateGreg} numberOfLines={1}>
+                {gregorianLabel}
+              </Text>
+            </Animated.View>
+
             <View style={styles.list}>
               {PRAYER_ORDER.map((key, i) => {
                 const date = times[key];
@@ -233,6 +258,7 @@ export function PrayerDock({
                 return (
                   <ScheduleRow
                     key={key}
+                    styles={styles}
                     index={i}
                     total={PRAYER_ORDER.length}
                     dockHeight={height}
@@ -247,33 +273,6 @@ export function PrayerDock({
                 );
               })}
             </View>
-
-            {/* Transport. Returning to "now" lives only on the hero chip (and only
-                when you've scrubbed away), so it isn't duplicated — or shown dead —
-                here. Location is in the hero too. This row is just: play the day, and
-                what the map means. */}
-            <Animated.View style={[styles.controls, controlsReveal]}>
-              <Pressable
-                onPress={handlePlayPause}
-                style={({ pressed }) => [styles.iconBtn, pressed && styles.pressed]}
-                accessibilityLabel={clock.playing ? 'Pausa' : 'Spela upp dygnet'}
-              >
-                <MaterialIcons
-                  name={clock.playing ? 'pause' : 'play-arrow'}
-                  size={24}
-                  color={mapTheme.accent}
-                />
-              </Pressable>
-              <View style={styles.flex} />
-              <Pressable
-                onPress={onShowLegend}
-                hitSlop={8}
-                style={({ pressed }) => [styles.iconBtn, pressed && styles.pressed]}
-                accessibilityLabel="Förklaring av kartan"
-              >
-                <MaterialIcons name="info-outline" size={22} color={mapTheme.accent} />
-              </Pressable>
-            </Animated.View>
           </View>
 
           {/* Persistent summary, never moves. Collapsed it's the whole story: prayer
@@ -294,7 +293,7 @@ export function PrayerDock({
                 <View style={styles.flex} />
                 {next ? (
                   <View style={styles.heroPlaceRow}>
-                    <MaterialIcons name="place" size={11} color={mapTheme.textMuted} />
+                    <MaterialIcons name="place" size={11} color={c.inkMuted} />
                     <Text style={styles.subPlace} numberOfLines={1}>
                       {locationLabel}
                     </Text>
@@ -322,7 +321,7 @@ export function PrayerDock({
                   <View style={styles.heroSub}>
                     <Text style={styles.subTime}>{formatTime(new Date(next.at), settings)}</Text>
                     <Text style={styles.subSep}>·</Text>
-                    <MaterialIcons name="place" size={11} color={mapTheme.textMuted} />
+                    <MaterialIcons name="place" size={11} color={c.inkMuted} />
                     <Text style={styles.subPlace} numberOfLines={1}>
                       {locationLabel}
                     </Text>
@@ -332,7 +331,7 @@ export function PrayerDock({
             )}
           </View>
 
-          <Scrubber fraction={clock.fraction} marks={marks} onScrub={clock.setFraction} />
+          <Scrubber styles={styles} fraction={clock.fraction} marks={marks} onScrub={clock.setFraction} />
         </View>
 
         {/* Grab handle — the signifier that the dock opens. Drag or tap to toggle. */}
@@ -343,10 +342,9 @@ export function PrayerDock({
             accessibilityLabel={expanded ? 'Dölj bönetider' : 'Visa alla bönetider'}
             accessibilityState={{ expanded }}
           >
+            {/* A single grab handle — the modern bottom-sheet signifier. (The old
+                rotating chevron was a second cue for the same gesture; one is clearer.) */}
             <View style={styles.handle} />
-            <Animated.View style={chevronStyle}>
-              <MaterialIcons name="keyboard-arrow-up" size={20} color={mapTheme.textMuted} />
-            </Animated.View>
           </Animated.View>
         </GestureDetector>
       </View>
@@ -354,10 +352,13 @@ export function PrayerDock({
   );
 }
 
+type DockStyles = ReturnType<typeof makeStyles>;
+
 // One schedule row. Self-reveals from the dock height with an index-based stagger,
 // so as the dock grows the rows cascade in (and fold away on close) on the UI
 // thread — no mount churn, and it tracks a half-open drag rather than snapping.
 function ScheduleRow({
+  styles,
   index,
   total,
   dockHeight,
@@ -369,6 +370,7 @@ function ScheduleRow({
   isNext,
   onPress,
 }: {
+  styles: DockStyles;
   index: number;
   total: number;
   dockHeight: SharedValue<number>;
@@ -414,10 +416,12 @@ function ScheduleRow({
 // the `fraction` prop directly. The shared values are mutated only inside gesture
 // worklets (never in an effect), so the thumb stays the live source of truth.
 function Scrubber({
+  styles,
   fraction,
   marks,
   onScrub,
 }: {
+  styles: DockStyles;
   fraction: number;
   marks: DayMark[];
   onScrub: (f: number) => void;
@@ -503,104 +507,105 @@ function Scrubber({
   );
 }
 
-const styles = StyleSheet.create({
-  shadowWrap: {
-    position: 'absolute',
-    left: 12,
-    right: 12,
-    borderRadius: 22,
-    shadowColor: mapTheme.shadow,
-    shadowOpacity: 0.18,
-    shadowRadius: 16,
-    shadowOffset: { width: 0, height: 6 },
-    elevation: 8,
-  },
-  clip: { flex: 1, borderRadius: 22, overflow: 'hidden' },
-  content: { flex: 1, justifyContent: 'flex-end', paddingHorizontal: 16, paddingTop: 28 },
+// Styles built from the night-themed palette, so a single `night` value recolours
+// the whole dock. Layout is fixed; only colours come from `c`.
+function makeStyles(c: NightChrome) {
+  return StyleSheet.create({
+    shadowWrap: {
+      position: 'absolute',
+      left: 12,
+      right: 12,
+      borderRadius: 22,
+      shadowColor: SHADOW,
+      shadowOpacity: 0.18,
+      shadowRadius: 16,
+      shadowOffset: { width: 0, height: 6 },
+      elevation: 8,
+    },
+    clip: { flex: 1, borderRadius: 22, overflow: 'hidden' },
+    // paddingTop clears the grab-handle zone (handleHit is 34 tall) plus a gap, so
+    // the topmost content (the date header / hero) never sits cramped under the handle.
+    content: { flex: 1, justifyContent: 'flex-end', paddingHorizontal: 16, paddingTop: 42 },
 
-  list: { marginBottom: 8 },
-  listRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 10,
-    paddingVertical: 7,
-  },
-  listRowPressed: { opacity: 0.55 },
-  listDot: { width: 8, height: 8, borderRadius: 4 },
-  listLabel: { flex: 1, fontSize: 15, color: mapTheme.text },
-  listTime: { fontSize: 15, color: mapTheme.text, fontVariant: ['tabular-nums'] },
-  nextEmphasis: { color: mapTheme.accent, fontWeight: '700' },
+    dateHeader: { marginBottom: 12 },
+    dateHijri: { fontSize: 16, fontWeight: '700', color: c.ink, letterSpacing: 0.2 },
+    dateGreg: { fontSize: 12.5, color: c.inkMuted, marginTop: 1 },
 
-  controls: { flexDirection: 'row', alignItems: 'center', gap: 10, marginBottom: 10 },
-  iconBtn: {
-    width: 44,
-    height: 44,
-    borderRadius: 22,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: mapTheme.accentSoft,
-  },
-  pressed: { opacity: 0.6 },
+    list: { marginBottom: 8 },
+    listRow: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: 10,
+      paddingVertical: 7,
+    },
+    listRowPressed: { opacity: 0.55 },
+    listDot: { width: 8, height: 8, borderRadius: 4 },
+    listLabel: { flex: 1, fontSize: 15, color: c.ink },
+    listTime: { fontSize: 15, color: c.ink, fontVariant: ['tabular-nums'] },
+    nextEmphasis: { color: c.accent, fontWeight: '700' },
 
-  // Hero, two tiers. Top: prayer name + countdown (the glance). Sub: time · place (quiet).
-  hero: { marginBottom: 8 },
-  heroTop: { flexDirection: 'row', alignItems: 'center' },
-  heroPrayer: { fontSize: 19, fontWeight: '700', color: mapTheme.text, letterSpacing: 0.2 },
-  heroTomorrow: { fontSize: 14, fontWeight: '400', color: mapTheme.textMuted },
-  heroNone: { fontSize: 16, color: mapTheme.textMuted },
-  countdown: { marginLeft: 8, fontSize: 18, fontWeight: '700', color: mapTheme.accent, fontVariant: ['tabular-nums'] },
-  countdownPrefix: { fontSize: 13, fontWeight: '400', color: mapTheme.textMuted },
-  heroSub: { flexDirection: 'row', alignItems: 'center', gap: 4, marginTop: 3 },
-  heroPlaceRow: { flexDirection: 'row', alignItems: 'center', gap: 3, marginLeft: 8, flexShrink: 1, minWidth: 0 },
-  subTime: { fontSize: 13, color: mapTheme.textMuted, fontVariant: ['tabular-nums'] },
-  subSep: { fontSize: 13, color: mapTheme.textMuted },
-  subPlace: { fontSize: 13, color: mapTheme.textMuted, flexShrink: 1 },
+    pressed: { opacity: 0.6 },
 
-  flex: { flex: 1 },
-  previewBadge: {
-    marginLeft: 8,
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 3,
-    borderRadius: 8,
-    paddingHorizontal: 8,
-    paddingVertical: 4,
-    backgroundColor: mapTheme.accentSoft,
-  },
-  previewBadgeText: { fontSize: 12, fontWeight: '700', color: mapTheme.accent },
+    // Hero, two tiers. Top: prayer name + countdown (the glance). Sub: time · place (quiet).
+    hero: { marginBottom: 8 },
+    heroTop: { flexDirection: 'row', alignItems: 'center' },
+    heroPrayer: { fontSize: 19, fontWeight: '700', color: c.ink, letterSpacing: 0.2 },
+    heroTomorrow: { fontSize: 14, fontWeight: '400', color: c.inkMuted },
+    heroNone: { fontSize: 16, color: c.inkMuted },
+    countdown: { marginLeft: 8, fontSize: 18, fontWeight: '700', color: c.accent, fontVariant: ['tabular-nums'] },
+    countdownPrefix: { fontSize: 13, fontWeight: '400', color: c.inkMuted },
+    heroSub: { flexDirection: 'row', alignItems: 'center', gap: 4, marginTop: 3 },
+    heroPlaceRow: { flexDirection: 'row', alignItems: 'center', gap: 3, marginLeft: 8, flexShrink: 1, minWidth: 0 },
+    subTime: { fontSize: 13, color: c.inkMuted, fontVariant: ['tabular-nums'] },
+    subSep: { fontSize: 13, color: c.inkMuted },
+    subPlace: { fontSize: 13, color: c.inkMuted, flexShrink: 1 },
 
-  sliderArea: {},
-  track: { height: 28, justifyContent: 'center' },
-  trackBase: { position: 'absolute', left: 0, right: 0, height: 4, borderRadius: 2, backgroundColor: mapTheme.track },
-  trackFill: { position: 'absolute', left: 0, height: 4, borderRadius: 2, backgroundColor: mapTheme.trackFill },
-  mark: { position: 'absolute', width: 6, height: 6, borderRadius: 3, top: 11 },
-  thumb: {
-    position: 'absolute',
-    width: 18,
-    height: 18,
-    borderRadius: 9,
-    top: 5,
-    backgroundColor: mapTheme.thumb,
-    borderColor: mapTheme.accent,
-    borderWidth: 2,
-    shadowColor: mapTheme.shadow,
-    shadowOpacity: 0.25,
-    shadowRadius: 3,
-    shadowOffset: { width: 0, height: 1 },
-    elevation: 3,
-  },
-  ticks: { flexDirection: 'row', justifyContent: 'space-between', marginTop: 2 },
-  tick: { fontSize: 10, color: mapTheme.textMuted, fontVariant: ['tabular-nums'] },
+    flex: { flex: 1 },
+    previewBadge: {
+      marginLeft: 8,
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: 3,
+      borderRadius: 8,
+      paddingHorizontal: 8,
+      paddingVertical: 4,
+      backgroundColor: c.accentSoft,
+    },
+    previewBadgeText: { fontSize: 12, fontWeight: '700', color: c.accent },
 
-  handleHit: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    height: 34,
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: 1,
-  },
-  handle: { width: 38, height: 5, borderRadius: 3, backgroundColor: 'rgba(17,24,28,0.18)' },
-});
+    sliderArea: {},
+    track: { height: 28, justifyContent: 'center' },
+    trackBase: { position: 'absolute', left: 0, right: 0, height: 4, borderRadius: 2, backgroundColor: c.track },
+    trackFill: { position: 'absolute', left: 0, height: 4, borderRadius: 2, backgroundColor: c.trackFill },
+    mark: { position: 'absolute', width: 6, height: 6, borderRadius: 3, top: 11 },
+    thumb: {
+      position: 'absolute',
+      width: 18,
+      height: 18,
+      borderRadius: 9,
+      top: 5,
+      backgroundColor: c.thumb,
+      borderColor: c.accent,
+      borderWidth: 2,
+      shadowColor: SHADOW,
+      shadowOpacity: 0.25,
+      shadowRadius: 3,
+      shadowOffset: { width: 0, height: 1 },
+      elevation: 3,
+    },
+    ticks: { flexDirection: 'row', justifyContent: 'space-between', marginTop: 2 },
+    tick: { fontSize: 10, color: c.inkMuted, fontVariant: ['tabular-nums'] },
+
+    handleHit: {
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      right: 0,
+      height: 34,
+      alignItems: 'center',
+      justifyContent: 'center',
+      gap: 1,
+    },
+    handle: { width: 38, height: 5, borderRadius: 3, backgroundColor: c.handle },
+  });
+}

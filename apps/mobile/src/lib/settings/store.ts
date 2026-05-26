@@ -24,6 +24,17 @@ export async function loadSettings(): Promise<PrayerSettings> {
       // adjustments is nested, so a shallow spread would drop default keys when
       // an older/partial blob only carried some of them — merge it explicitly.
       adjustments: { ...DEFAULT_SETTINGS.adjustments, ...(parsed.adjustments ?? {}) },
+      // notifications is likewise nested (with a nested `prayers` map) — merge both
+      // levels so a blob written before this field, or before a new prayer key, is
+      // filled in from defaults rather than left undefined.
+      notifications: {
+        ...DEFAULT_SETTINGS.notifications,
+        ...(parsed.notifications ?? {}),
+        prayers: {
+          ...DEFAULT_SETTINGS.notifications.prayers,
+          ...(parsed.notifications?.prayers ?? {}),
+        },
+      },
     };
   } catch {
     return DEFAULT_SETTINGS;

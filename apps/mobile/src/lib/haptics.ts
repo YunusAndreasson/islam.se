@@ -15,3 +15,9 @@ export function hapticSelection(): void {
 export function hapticLight(): void {
   Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light).catch(() => {});
 }
+
+/** A success notification — a small "landed it" cue. Use sparingly for reaching a
+    meaningful target (the phone lining up with the qibla). */
+export function hapticSuccess(): void {
+  Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success).catch(() => {});
+}
