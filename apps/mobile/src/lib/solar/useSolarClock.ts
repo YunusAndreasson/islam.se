@@ -5,7 +5,7 @@
 // The user sweeps the prayer lines across the country by dragging the day slider
 // directly — that *is* the control, so there's no separate "play" transport to
 // flood the native bridge or clutter the dock.
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 const DAY_MS = 86_400_000;
 const LIVE_TICK_MS = 30_000;
@@ -34,18 +34,37 @@ function startOfToday(): number {
 
 const clamp01 = (x: number): number => (x < 0 ? 0 : x > 1 ? 1 : x);
 
-export function useSolarClock(): SolarClock {
+/**
+ * @param active Whether the owning screen is on-screen. When false (the map is
+ * behind another route), the live tick is paused so the whole-country solar field
+ * isn't rebuilt every 30 s in the background; on re-activation the clock snaps to the
+ * real now. Defaults to true so non-navigated callers (and tests) behave as before.
+ */
+export function useSolarClock(active = true): SolarClock {
   const [now, setNow] = useState(() => Date.now());
   const [mode, setMode] = useState<ClockMode>('live');
-  // Anchored once on mount; spanning a fixed local day keeps the slider stable.
-  const dayStart = useMemo(() => startOfToday(), []);
+  // The local midnight the day slider spans from. Re-anchored at the live midnight
+  // (and on reset) so the view rolls over to the new day on its own — otherwise an
+  // app left running across midnight keeps rendering yesterday: slider pinned at the
+  // far right, stale times, "imorgon" mislabelling today's Fajr.
+  const [dayStart, setDayStart] = useState(() => startOfToday());
 
-  // Live mode follows the wall clock.
+  // Live mode follows the wall clock, re-anchoring the day when it rolls over — but
+  // only while `active`. Off-screen the tick is paused (no background field rebuild);
+  // the immediate `sync()` on (re)activation jumps straight to now so returning to the
+  // map never shows the instant the user left frozen until the first interval. Scrub
+  // mode is untouched, so a scrubbed time survives navigating away and back.
   useEffect(() => {
-    if (mode !== 'live') return;
-    const id = setInterval(() => setNow(Date.now()), LIVE_TICK_MS);
+    if (mode !== 'live' || !active) return;
+    const sync = () => {
+      setNow(Date.now());
+      const today = startOfToday();
+      setDayStart((prev) => (prev === today ? prev : today));
+    };
+    sync();
+    const id = setInterval(sync, LIVE_TICK_MS);
     return () => clearInterval(id);
-  }, [mode]);
+  }, [mode, active]);
 
   const setFraction = useCallback(
     (f: number) => {
@@ -58,6 +77,8 @@ export function useSolarClock(): SolarClock {
   const reset = useCallback(() => {
     setMode('live');
     setNow(Date.now());
+    // Re-anchor in case the day rolled over while the user was scrubbing.
+    setDayStart(startOfToday());
   }, []);
 
   const fraction = clamp01((now - dayStart) / DAY_MS);
