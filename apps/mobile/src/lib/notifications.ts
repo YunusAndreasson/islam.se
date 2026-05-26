@@ -79,6 +79,10 @@ export async function syncPrayerNotifications(
     if (!granted) return;
     await ensureAndroidChannel();
 
+    // Heads-up offset: fire this many minutes before the prayer so the user can
+    // set out for the mosque before the adhan. 0 = exactly at the prayer time.
+    const leadMs = Math.max(0, settings.notifications.leadMinutes) * 60_000;
+
     const now = Date.now();
     for (let d = 0; d < DAYS_AHEAD; d++) {
       const dayMidday = new Date(now + d * DAY_MS);
@@ -89,20 +93,26 @@ export async function syncPrayerNotifications(
         if (!settings.notifications.prayers[key]) continue;
         const at = times[key];
         if (!(at instanceof Date) || Number.isNaN(at.getTime())) continue;
+        // The alert fires `leadMs` before the prayer; the body still shows the real
+        // prayer time so the user knows when it lands.
+        const fireAt = new Date(at.getTime() - leadMs);
         // Skip anything already past (or within the next minute — too late to be useful).
-        if (at.getTime() <= now + 60_000) continue;
+        if (fireAt.getTime() <= now + 60_000) continue;
 
         await Notifications.scheduleNotificationAsync({
           content: {
             title: PRAYER_LABELS[key as PrayerKey],
-            body: `Bönetid ${formatTime(at, settings)}`,
+            body:
+              leadMs > 0
+                ? `Bönetid ${formatTime(at, settings)} · om ${settings.notifications.leadMinutes} min`
+                : `Bönetid ${formatTime(at, settings)}`,
             // `true` = the OS default sound (iOS reads this; on Android the channel
             // governs). A string here would be treated as a custom bundled filename.
             sound: true,
           },
           trigger: {
             type: Notifications.SchedulableTriggerInputTypes.DATE,
-            date: at,
+            date: fireAt,
             channelId: CHANNEL_ID,
           },
         });

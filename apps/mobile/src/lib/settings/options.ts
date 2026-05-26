@@ -1,0 +1,107 @@
+// The selectable options for every prayer-time setting, plus small helpers that
+// reverse-look-up the *current* value's label for a collapsed group's summary line.
+// Extracted from the settings screen so the screen file stays thin and either an
+// inline control or (later) a sub-screen can share one source of truth.
+import type { Option } from '@/components/settings/OptionGroup';
+
+import {
+  type CalculationMethodKey,
+  type HighLatitudeRuleKey,
+  type Madhab,
+  type PolarCircleResolutionKey,
+  type PrayerSettings,
+  type Rounding,
+  type Shafaq,
+  SWEDISH_CITIES,
+  type TimeFormat,
+} from './types';
+
+// Ordered Sweden-first: Muslim World League is the default and the one most Swedish
+// mosques follow, so it leads and is marked recommended. Diyanet (large Turkish
+// community here), Umm al-Qura, the Egyptian authority and Moonsighting follow as
+// the next most likely choices; the rest trail, with the manual "Annan" last.
+export const METHOD_OPTIONS: readonly Option<CalculationMethodKey>[] = [
+  {
+    value: 'MuslimWorldLeague',
+    label: 'Muslim World League',
+    description: 'Fajr 18°, Isha 17° · rekommenderad i Sverige',
+  },
+  { value: 'Turkey', label: 'Turkiet (Diyanet)', description: 'Fajr 18°, Isha 17°' },
+  { value: 'UmmAlQura', label: 'Umm al-Qura (Mecka)', description: 'Fajr 18,5°, Isha efter 90 min' },
+  { value: 'Egyptian', label: 'Egyptiska myndigheten', description: 'Fajr 19,5°, Isha 17,5°' },
+  {
+    value: 'MoonsightingCommittee',
+    label: 'Moonsighting Committee',
+    description: 'Fajr 18°, Isha 18° (shafaq)',
+  },
+  { value: 'Karachi', label: 'Karachi', description: 'Fajr 18°, Isha 18°' },
+  { value: 'NorthAmerica', label: 'Nordamerika (ISNA)', description: 'Fajr 15°, Isha 15°' },
+  { value: 'Dubai', label: 'Dubai', description: 'Fajr 18,2°, Isha 18,2°' },
+  { value: 'Qatar', label: 'Qatar', description: 'Fajr 18°, Isha efter 90 min' },
+  { value: 'Kuwait', label: 'Kuwait', description: 'Fajr 18°, Isha 17,5°' },
+  { value: 'Singapore', label: 'Singapore', description: 'Fajr 20°, Isha 18°' },
+  { value: 'Tehran', label: 'Teheran', description: 'Fajr 17,7°, Isha 14°' },
+  { value: 'Other', label: 'Annan', description: 'Anpassad – 0° (justera manuellt)' },
+];
+
+export const MADHAB_OPTIONS: readonly Option<Madhab>[] = [
+  { value: 'shafi', label: 'Standard', description: "Shafi'i, Maliki, Hanbali – tidigare Asr" },
+  { value: 'hanafi', label: 'Hanafi', description: 'Senare Asr' },
+];
+
+export const HIGHLAT_OPTIONS: readonly Option<HighLatitudeRuleKey>[] = [
+  { value: 'auto', label: 'Automatisk (rekommenderad)', description: 'Väljs efter platsens latitud' },
+  { value: 'middleOfTheNight', label: 'Nattens mitt' },
+  { value: 'seventhOfTheNight', label: 'Sjundedel av natten' },
+  { value: 'twilightAngle', label: 'Skymningsvinkel' },
+];
+
+export const POLAR_OPTIONS: readonly Option<PolarCircleResolutionKey>[] = [
+  { value: 'aqrabBalad', label: 'Närmaste lämpliga plats', description: 'Aqrab al-Balad' },
+  { value: 'aqrabYaum', label: 'Närmaste lämpliga dag', description: 'Aqrab al-Yaum' },
+  { value: 'unresolved', label: 'Oberäknad', description: 'Visa ingen tid när den ej kan beräknas' },
+];
+
+export const SHAFAQ_OPTIONS: readonly Option<Shafaq>[] = [
+  { value: 'general', label: 'Allmän', description: 'Röd och vit skymning' },
+  { value: 'ahmer', label: 'Ahmer (röd)', description: 'Tidigare Isha' },
+  { value: 'abyad', label: 'Abyad (vit)', description: 'Senare Isha' },
+];
+
+export const ROUNDING_OPTIONS: readonly Option<Rounding>[] = [
+  { value: 'nearest', label: 'Närmaste minut' },
+  { value: 'up', label: 'Uppåt' },
+  { value: 'none', label: 'Ingen' },
+];
+
+export const TIMEFORMAT_OPTIONS: readonly Option<TimeFormat>[] = [
+  { value: '24h', label: '24-timmars' },
+  { value: '12h', label: '12-timmars' },
+];
+
+export const CITY_OPTIONS: readonly Option<string>[] = SWEDISH_CITIES.map((c) => ({
+  value: c.name,
+  label: c.name,
+}));
+
+/** Stepper display formatter: a signed minute offset, e.g. "+5 min" / "−3 min". */
+export const signedMinutes = (v: number) => `${v > 0 ? '+' : ''}${v} min`;
+
+// --- Summary helpers: the current value's label, for a collapsed group's header. ---
+
+const labelOf = <T extends string>(options: readonly Option<T>[], value: T): string =>
+  options.find((o) => o.value === value)?.label ?? '';
+
+export const methodLabel = (s: PrayerSettings): string =>
+  labelOf(METHOD_OPTIONS, s.calculationMethod);
+
+export const madhabLabel = (s: PrayerSettings): string => labelOf(MADHAB_OPTIONS, s.madhab);
+
+export const timeFormatLabel = (s: PrayerSettings): string =>
+  labelOf(TIMEFORMAT_OPTIONS, s.timeFormat);
+
+/** "Inga justeringar" when every offset is 0, otherwise how many are tweaked. */
+export const adjustmentsSummary = (s: PrayerSettings): string => {
+  const changed = Object.values(s.adjustments).filter((v) => v !== 0).length;
+  return changed === 0 ? 'Inga justeringar' : `${changed} justerad${changed > 1 ? 'e' : ''}`;
+};

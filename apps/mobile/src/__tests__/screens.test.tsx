@@ -1,5 +1,5 @@
 import { describe, expect, it } from '@jest/globals';
-import { render, screen, waitFor } from '@testing-library/react-native';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react-native';
 import type { ReactNode } from 'react';
 
 import Bonetider from '../app/(tabs)/bonetider';
@@ -31,8 +31,29 @@ describe('tab screens', () => {
     // The header appears after the async settings hydration flips `loaded`.
     await waitFor(() => expect(screen.getByText('Inställningar')).toBeTruthy());
     // A prayer label rendering proves the live preview (and thus the calculation
-    // module) ran end-to-end inside the screen. 'Fajr' shows in preview + adjustments.
-    expect(screen.getAllByText('Fajr').length).toBeGreaterThan(0);
+    // module) ran end-to-end inside the screen. Match with a regex, not exact text:
+    // the preview row appends "  ·  nästa" to whichever prayer is next (so the label
+    // is "Fajr  ·  nästa" when Fajr is next), and the adjustments "Fajr" lives inside
+    // a collapsed DisclosureGroup that's hidden from queries. The preview Fajr is the
+    // always-visible one we assert on.
+    expect(screen.getAllByText(/Fajr/).length).toBeGreaterThan(0);
+  });
+
+  // Progressive disclosure: advanced settings live in collapsible groups that start
+  // closed (so a first-time user isn't faced with the whole calculation panel) and
+  // open on a header press. Guards the DisclosureGroup wiring on the screen.
+  it('keeps advanced settings collapsed until their group header is pressed', async () => {
+    render(withProviders(<Installningar />));
+    await waitFor(() => expect(screen.getByText('Inställningar')).toBeTruthy());
+
+    // The "Beräkning" group header is a button labelled with its current value.
+    const header = screen.getByRole('button', { name: /^Beräkning,/ });
+    expect(header.props.accessibilityState.expanded).toBe(false);
+
+    fireEvent.press(header);
+    expect(
+      screen.getByRole('button', { name: /^Beräkning,/ }).props.accessibilityState.expanded,
+    ).toBe(true);
   });
 
   it('renders the Om screen content', () => {

@@ -63,15 +63,17 @@ jest.mock('expo-glass-effect', () => {
 });
 
 // react-native-reanimated has no JS-thread implementation under test. Provide a
-// minimal shim covering what the dock/menu use (Animated.View, shared values,
-// animated styles, the with* helpers, runOnJS) so they render as host views.
+// minimal shim covering what the dock/menu/disclosure-group use (Animated.View &
+// Animated.Text, shared values, animated styles, the with* helpers, runOnJS,
+// useReducedMotion) so they render as host views.
 jest.mock('react-native-reanimated', () => {
-  const { View } = require('react-native');
+  const { View, Text } = require('react-native');
   return {
     __esModule: true,
-    default: { View, createAnimatedComponent: (Component) => Component },
+    default: { View, Text, createAnimatedComponent: (Component) => Component },
     useSharedValue: (value) => ({ value }),
     useAnimatedStyle: () => ({}),
+    useReducedMotion: () => false,
     withSpring: (value) => value,
     withTiming: (value) => value,
     runOnJS: (fn) => fn,
