@@ -1,8 +1,9 @@
-import { useMemo } from 'react';
+import { type ReactNode, useMemo } from 'react';
 import { ActivityIndicator, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import { OptionGroup, type Option } from '@/components/settings/OptionGroup';
+import { DisclosureGroup } from '@/components/settings/DisclosureGroup';
+import { OptionGroup } from '@/components/settings/OptionGroup';
 import { SettingSection } from '@/components/settings/SettingSection';
 import { Stepper } from '@/components/settings/Stepper';
 import { type SettingsColors, useSettingsColors } from '@/components/settings/theme';
@@ -19,73 +20,21 @@ import {
 } from '@/lib/prayer-times';
 import { useSettings } from '@/lib/settings/context';
 import {
-  type CalculationMethodKey,
-  type HighLatitudeRuleKey,
-  type Madhab,
-  type PolarCircleResolutionKey,
-  type Rounding,
-  type Shafaq,
-  SWEDISH_CITIES,
-  type TimeFormat,
-} from '@/lib/settings/types';
-
-const METHOD_OPTIONS: readonly Option<CalculationMethodKey>[] = [
-  { value: 'MuslimWorldLeague', label: 'Muslim World League', description: 'Fajr 18°, Isha 17°' },
-  { value: 'Egyptian', label: 'Egyptiska myndigheten', description: 'Fajr 19,5°, Isha 17,5°' },
-  { value: 'Karachi', label: 'Karachi', description: 'Fajr 18°, Isha 18°' },
-  { value: 'UmmAlQura', label: 'Umm al-Qura (Mecka)', description: 'Fajr 18,5°, Isha efter 90 min' },
-  { value: 'Dubai', label: 'Dubai', description: 'Fajr 18,2°, Isha 18,2°' },
-  { value: 'Qatar', label: 'Qatar', description: 'Fajr 18°, Isha efter 90 min' },
-  { value: 'Kuwait', label: 'Kuwait', description: 'Fajr 18°, Isha 17,5°' },
-  { value: 'MoonsightingCommittee', label: 'Moonsighting Committee', description: 'Fajr 18°, Isha 18° (shafaq)' },
-  { value: 'Singapore', label: 'Singapore', description: 'Fajr 20°, Isha 18°' },
-  { value: 'Turkey', label: 'Turkiet (Diyanet)', description: 'Fajr 18°, Isha 17°' },
-  { value: 'Tehran', label: 'Teheran', description: 'Fajr 17,7°, Isha 14°' },
-  { value: 'NorthAmerica', label: 'Nordamerika (ISNA)', description: 'Fajr 15°, Isha 15°' },
-  { value: 'Other', label: 'Annan', description: 'Anpassad – 0° (justera manuellt)' },
-];
-
-const MADHAB_OPTIONS: readonly Option<Madhab>[] = [
-  { value: 'shafi', label: 'Standard', description: "Shafi'i, Maliki, Hanbali – tidigare Asr" },
-  { value: 'hanafi', label: 'Hanafi', description: 'Senare Asr' },
-];
-
-const HIGHLAT_OPTIONS: readonly Option<HighLatitudeRuleKey>[] = [
-  { value: 'auto', label: 'Automatisk (rekommenderad)', description: 'Väljs efter platsens latitud' },
-  { value: 'middleOfTheNight', label: 'Nattens mitt' },
-  { value: 'seventhOfTheNight', label: 'Sjundedel av natten' },
-  { value: 'twilightAngle', label: 'Skymningsvinkel' },
-];
-
-const POLAR_OPTIONS: readonly Option<PolarCircleResolutionKey>[] = [
-  { value: 'aqrabBalad', label: 'Närmaste lämpliga plats', description: 'Aqrab al-Balad' },
-  { value: 'aqrabYaum', label: 'Närmaste lämpliga dag', description: 'Aqrab al-Yaum' },
-  { value: 'unresolved', label: 'Oberäknad', description: 'Visa ingen tid när den ej kan beräknas' },
-];
-
-const SHAFAQ_OPTIONS: readonly Option<Shafaq>[] = [
-  { value: 'general', label: 'Allmän', description: 'Röd och vit skymning' },
-  { value: 'ahmer', label: 'Ahmer (röd)', description: 'Tidigare Isha' },
-  { value: 'abyad', label: 'Abyad (vit)', description: 'Senare Isha' },
-];
-
-const ROUNDING_OPTIONS: readonly Option<Rounding>[] = [
-  { value: 'nearest', label: 'Närmaste minut' },
-  { value: 'up', label: 'Uppåt' },
-  { value: 'none', label: 'Ingen' },
-];
-
-const TIMEFORMAT_OPTIONS: readonly Option<TimeFormat>[] = [
-  { value: '24h', label: '24-timmars' },
-  { value: '12h', label: '12-timmars' },
-];
-
-const CITY_OPTIONS: readonly Option<string>[] = SWEDISH_CITIES.map((c) => ({
-  value: c.name,
-  label: c.name,
-}));
-
-const signedMinutes = (v: number) => `${v > 0 ? '+' : ''}${v} min`;
+  adjustmentsSummary,
+  CITY_OPTIONS,
+  HIGHLAT_OPTIONS,
+  madhabLabel,
+  MADHAB_OPTIONS,
+  METHOD_OPTIONS,
+  methodLabel,
+  POLAR_OPTIONS,
+  ROUNDING_OPTIONS,
+  SHAFAQ_OPTIONS,
+  signedMinutes,
+  TIMEFORMAT_OPTIONS,
+  timeFormatLabel,
+} from '@/lib/settings/options';
+import { SWEDISH_CITIES } from '@/lib/settings/types';
 
 export default function Installningar() {
   const { settings, loaded, update } = useSettings();
@@ -99,8 +48,21 @@ export default function Installningar() {
     const now = new Date();
     const pt = computePrayerTimes(coords, now, settings);
     const nextKey = prayerToKey(pt.nextPrayer(now));
+    let dateLabel: string;
+    try {
+      const greg = new Intl.DateTimeFormat('sv-SE', {
+        weekday: 'long',
+        day: 'numeric',
+        month: 'long',
+        timeZone: 'Europe/Stockholm',
+      }).format(now);
+      dateLabel = `${greg.charAt(0).toUpperCase()}${greg.slice(1)} · ${formatHijri(now, settings.hijriOffset)}`;
+    } catch {
+      dateLabel = formatHijri(now, settings.hijriOffset);
+    }
     return {
       nextKey,
+      dateLabel,
       times: PRAYER_ORDER.map((key) => ({
         key,
         label: PRAYER_LABELS[key],
@@ -124,8 +86,12 @@ export default function Installningar() {
       <ScrollView contentContainerStyle={styles.content}>
         <Text style={styles.header}>Inställningar</Text>
 
-        {/* Live preview at the top so changes below are immediately visible. */}
+        {/* Live "today" preview — the welcoming anchor. It sits above everything so a
+            change in any group below is immediately visible. */}
         <SettingSection title="Förhandsvisning" footnote={`Plats: ${label}`}>
+          <View style={styles.previewHead}>
+            <Text style={styles.previewDate}>{preview.dateLabel}</Text>
+          </View>
           {preview.times.map((p, i) => {
             const isNext = p.key === preview.nextKey;
             return (
@@ -143,6 +109,7 @@ export default function Installningar() {
           })}
         </SettingSection>
 
+        {/* --- Essentials: location + notifications --- */}
         <SettingSection
           title="Plats"
           footnote={
@@ -187,7 +154,7 @@ export default function Installningar() {
 
         <SettingSection
           title="Notiser"
-          footnote="Lokala påminnelser för dagens böner – fungerar även utan internet."
+          footnote="Lokala påminnelser för dagens böner – fungerar även utan internet. Ställ in en förvarning om du vill hinna till moskén."
         >
           <Toggle
             label="Påminn om bönetider"
@@ -196,6 +163,20 @@ export default function Installningar() {
               update({ notifications: { ...settings.notifications, enabled } })
             }
           />
+          {settings.notifications.enabled ? (
+            <Stepper
+              label="Påminn i förväg"
+              value={settings.notifications.leadMinutes}
+              divider
+              min={0}
+              max={60}
+              step={5}
+              format={(v) => (v === 0 ? 'Vid bönetid' : `${v} min innan`)}
+              onChange={(leadMinutes) =>
+                update({ notifications: { ...settings.notifications, leadMinutes } })
+              }
+            />
+          ) : null}
           {settings.notifications.enabled
             ? NOTIFY_PRAYERS.map((key) => (
                 <Toggle
@@ -216,92 +197,135 @@ export default function Installningar() {
             : null}
         </SettingSection>
 
-        <SettingSection title="Beräkningsmetod">
-          <OptionGroup
-            options={METHOD_OPTIONS}
-            value={settings.calculationMethod}
-            onChange={(calculationMethod) => update({ calculationMethod })}
-          />
-        </SettingSection>
-
-        <SettingSection title="Asr-metod (madhhab)">
-          <OptionGroup options={MADHAB_OPTIONS} value={settings.madhab} onChange={(madhab) => update({ madhab })} />
-        </SettingSection>
-
-        <SettingSection
-          title="Höga breddgrader"
-          footnote="Hur Fajr och Isha beräknas när solen inte sjunker tillräckligt långt under horisonten – viktigt i Sverige."
+        {/* --- Advanced, folded away with good defaults; the header shows the current
+            value so the user recognises the state without opening it. --- */}
+        <DisclosureGroup
+          title="Beräkning"
+          summary={`${methodLabel(settings)} · ${madhabLabel(settings)} Asr`}
         >
-          <OptionGroup
-            options={HIGHLAT_OPTIONS}
-            value={settings.highLatitudeRule}
-            onChange={(highLatitudeRule) => update({ highLatitudeRule })}
-          />
-        </SettingSection>
-
-        <SettingSection
-          title="Polcirkeln"
-          footnote="Vad som visas norr om polcirkeln (t.ex. Kiruna) under midnattssol, då Fajr/Isha annars saknar lösning."
-        >
-          <OptionGroup
-            options={POLAR_OPTIONS}
-            value={settings.polarCircleResolution}
-            onChange={(polarCircleResolution) => update({ polarCircleResolution })}
-          />
-        </SettingSection>
-
-        {settings.calculationMethod === 'MoonsightingCommittee' ? (
-          <SettingSection title="Shafaq" footnote="Endast för Moonsighting Committee.">
-            <OptionGroup options={SHAFAQ_OPTIONS} value={settings.shafaq} onChange={(shafaq) => update({ shafaq })} />
-          </SettingSection>
-        ) : null}
-
-        <SettingSection title="Avrundning">
-          <OptionGroup
-            options={ROUNDING_OPTIONS}
-            value={settings.rounding}
-            onChange={(rounding) => update({ rounding })}
-          />
-        </SettingSection>
-
-        <SettingSection title="Manuella justeringar" footnote="Förskjut varje tid i minuter.">
-          {PRAYER_ORDER.map((key, i) => (
-            <Stepper
-              key={key}
-              label={PRAYER_LABELS[key]}
-              value={settings.adjustments[key]}
-              divider={i > 0}
-              min={-60}
-              max={60}
-              format={signedMinutes}
-              onChange={(v) => update({ adjustments: { ...settings.adjustments, [key]: v } })}
+          <SubGroup styles={styles} title="Beräkningsmetod">
+            <OptionGroup
+              options={METHOD_OPTIONS}
+              value={settings.calculationMethod}
+              onChange={(calculationMethod) => update({ calculationMethod })}
             />
-          ))}
-        </SettingSection>
+          </SubGroup>
 
-        <SettingSection title="Tidsformat">
-          <OptionGroup
-            options={TIMEFORMAT_OPTIONS}
-            value={settings.timeFormat}
-            onChange={(timeFormat) => update({ timeFormat })}
-          />
-        </SettingSection>
+          <SubGroup styles={styles} title="Asr-metod (madhhab)" divider>
+            <OptionGroup options={MADHAB_OPTIONS} value={settings.madhab} onChange={(madhab) => update({ madhab })} />
+          </SubGroup>
 
-        <SettingSection
-          title="Hijri-justering"
-          footnote={`Idag: ${formatHijri(new Date(), settings.hijriOffset)}. Justera för att matcha lokal månsiktning.`}
+          <SubGroup
+            styles={styles}
+            title="Höga breddgrader"
+            footnote="Hur Fajr och Isha beräknas när solen inte sjunker tillräckligt långt under horisonten – viktigt i Sverige."
+            divider
+          >
+            <OptionGroup
+              options={HIGHLAT_OPTIONS}
+              value={settings.highLatitudeRule}
+              onChange={(highLatitudeRule) => update({ highLatitudeRule })}
+            />
+          </SubGroup>
+
+          <SubGroup
+            styles={styles}
+            title="Polcirkeln"
+            footnote="Vad som visas norr om polcirkeln (t.ex. Kiruna) under midnattssol, då Fajr/Isha annars saknar lösning."
+            divider
+          >
+            <OptionGroup
+              options={POLAR_OPTIONS}
+              value={settings.polarCircleResolution}
+              onChange={(polarCircleResolution) => update({ polarCircleResolution })}
+            />
+          </SubGroup>
+
+          {settings.calculationMethod === 'MoonsightingCommittee' ? (
+            <SubGroup styles={styles} title="Shafaq" footnote="Endast för Moonsighting Committee." divider>
+              <OptionGroup options={SHAFAQ_OPTIONS} value={settings.shafaq} onChange={(shafaq) => update({ shafaq })} />
+            </SubGroup>
+          ) : null}
+        </DisclosureGroup>
+
+        <DisclosureGroup
+          title="Visning & finjustering"
+          summary={`${timeFormatLabel(settings)} · ${adjustmentsSummary(settings)}`}
         >
-          <Stepper
-            label="Dagar"
-            value={settings.hijriOffset}
-            min={-2}
-            max={2}
-            format={(v) => `${v > 0 ? '+' : ''}${v} d`}
-            onChange={(hijriOffset) => update({ hijriOffset })}
-          />
-        </SettingSection>
+          <SubGroup styles={styles} title="Tidsformat">
+            <OptionGroup
+              options={TIMEFORMAT_OPTIONS}
+              value={settings.timeFormat}
+              onChange={(timeFormat) => update({ timeFormat })}
+            />
+          </SubGroup>
+
+          <SubGroup styles={styles} title="Avrundning" divider>
+            <OptionGroup
+              options={ROUNDING_OPTIONS}
+              value={settings.rounding}
+              onChange={(rounding) => update({ rounding })}
+            />
+          </SubGroup>
+
+          <SubGroup styles={styles} title="Manuella justeringar" footnote="Förskjut varje tid i minuter." divider>
+            {PRAYER_ORDER.map((key, i) => (
+              <Stepper
+                key={key}
+                label={PRAYER_LABELS[key]}
+                value={settings.adjustments[key]}
+                divider={i > 0}
+                min={-60}
+                max={60}
+                format={signedMinutes}
+                onChange={(v) => update({ adjustments: { ...settings.adjustments, [key]: v } })}
+              />
+            ))}
+          </SubGroup>
+
+          <SubGroup
+            styles={styles}
+            title="Hijri-justering"
+            footnote={`Idag: ${formatHijri(new Date(), settings.hijriOffset)}. Justera för att matcha lokal månsiktning.`}
+            divider
+          >
+            <Stepper
+              label="Dagar"
+              value={settings.hijriOffset}
+              min={-2}
+              max={2}
+              format={(v) => `${v > 0 ? '+' : ''}${v} d`}
+              onChange={(hijriOffset) => update({ hijriOffset })}
+            />
+          </SubGroup>
+        </DisclosureGroup>
       </ScrollView>
     </SafeAreaView>
+  );
+}
+
+// One labelled sub-section inside a DisclosureGroup: a muted title, the control, and
+// an optional footnote. `divider` draws the hairline that separates it from the
+// sub-section above (the first one sits flush under the group header's own divider).
+function SubGroup({
+  styles,
+  title,
+  footnote,
+  divider,
+  children,
+}: {
+  styles: ReturnType<typeof makeStyles>;
+  title: string;
+  footnote?: string;
+  divider?: boolean;
+  children: ReactNode;
+}) {
+  return (
+    <View style={[styles.sub, divider && styles.subDivider]}>
+      <Text style={styles.subTitle}>{title.toUpperCase()}</Text>
+      {children}
+      {footnote ? <Text style={styles.subFootnote}>{footnote}</Text> : null}
+    </View>
   );
 }
 
@@ -311,6 +335,13 @@ function makeStyles(colors: SettingsColors) {
     loading: { flex: 1, alignItems: 'center', justifyContent: 'center' },
     content: { padding: 16, paddingBottom: 48 },
     header: { fontSize: 28, fontWeight: '700', color: colors.text, marginBottom: 20, marginTop: 4 },
+    previewHead: {
+      paddingVertical: 12,
+      paddingHorizontal: 16,
+      borderBottomWidth: StyleSheet.hairlineWidth,
+      borderBottomColor: colors.separator,
+    },
+    previewDate: { fontSize: 14, fontWeight: '600', color: colors.text },
     previewRow: {
       flexDirection: 'row',
       justifyContent: 'space-between',
@@ -338,5 +369,18 @@ function makeStyles(colors: SettingsColors) {
     refreshPressed: { backgroundColor: colors.accentSoft },
     refreshText: { fontSize: 16, color: colors.accent },
     refreshStatus: { fontSize: 14, color: colors.textMuted },
+    // Sub-sections within a DisclosureGroup.
+    sub: { paddingBottom: 12 },
+    subDivider: { borderTopWidth: StyleSheet.hairlineWidth, borderTopColor: colors.separator },
+    subTitle: {
+      fontSize: 12,
+      fontWeight: '600',
+      color: colors.textMuted,
+      letterSpacing: 0.5,
+      paddingHorizontal: 16,
+      paddingTop: 14,
+      paddingBottom: 4,
+    },
+    subFootnote: { fontSize: 12, color: colors.textMuted, paddingHorizontal: 16, paddingTop: 8, lineHeight: 16 },
   });
 }

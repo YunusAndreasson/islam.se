@@ -58,6 +58,9 @@ export type LocationMode = 'gps' | 'manual';
     permission prompt. Per-prayer toggles cover the five obligatory prayers. */
 export interface NotificationSettings {
   enabled: boolean;
+  /** Minutes before the prayer time to fire the alert (0 = exactly at the time).
+      A heads-up so you can leave for the mosque before the adhan. */
+  leadMinutes: number;
   prayers: {
     fajr: boolean;
     dhuhr: boolean;
@@ -101,6 +104,7 @@ export const DEFAULT_SETTINGS: PrayerSettings = {
   // Off by default: enabling it is what asks the OS for permission.
   notifications: {
     enabled: false,
+    leadMinutes: 0,
     prayers: { fajr: true, dhuhr: true, asr: true, maghrib: true, isha: true },
   },
   locationMode: 'gps',
