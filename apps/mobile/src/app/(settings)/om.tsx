@@ -9,6 +9,7 @@
 import { MaterialIcons } from '@expo/vector-icons';
 import Constants from 'expo-constants';
 import * as MailComposer from 'expo-mail-composer';
+import { router } from 'expo-router';
 import * as StoreReview from 'expo-store-review';
 import * as WebBrowser from 'expo-web-browser';
 import { useMemo } from 'react';
@@ -150,6 +151,18 @@ export default function Om() {
   const styles = useMemo(() => makeStyles(c), [c]);
   return (
     <SafeAreaView style={styles.safe} edges={['top']}>
+      {/* Pushed in from Settings — a back arrow returns to the Settings sheet. */}
+      <View style={styles.modalBar}>
+        <Pressable
+          onPress={() => router.back()}
+          accessibilityRole="button"
+          accessibilityLabel="Tillbaka"
+          hitSlop={10}
+          style={styles.back}
+        >
+          <MaterialIcons name="arrow-back" size={24} color={c.inkMuted} />
+        </Pressable>
+      </View>
       <ScrollView contentContainerStyle={styles.content}>
         <View style={styles.masthead}>
           <Text style={styles.brand}>islam.se</Text>
@@ -222,12 +235,13 @@ export default function Om() {
 function makeStyles(c: Palette) {
   return StyleSheet.create({
     safe: { flex: 1, backgroundColor: c.paper },
+    modalBar: { height: 44, flexDirection: 'row', alignItems: 'center', paddingHorizontal: space.md },
+    back: { padding: 4 },
     content: { paddingHorizontal: space.lg, paddingTop: space.sm, paddingBottom: space.xxxl + space.lg },
 
     // A clean editorial masthead — the wordmark sits directly on the paper, no card or
-    // gradient box. Padded down from the top so it clears the floating menu button that
-    // overlays the top-right of every screen, and left-aligned so it never sits under it.
-    masthead: { paddingTop: space.lg, paddingBottom: space.lg, paddingRight: 56 },
+    // gradient box, left-aligned.
+    masthead: { paddingTop: space.lg, paddingBottom: space.lg },
     brand: { ...type.display, color: c.ink },
     tagline: { ...type.body, color: c.inkMuted, marginTop: space.sm },
 

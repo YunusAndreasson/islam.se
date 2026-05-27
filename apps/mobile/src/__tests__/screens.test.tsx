@@ -1,13 +1,15 @@
 import { describe, expect, it, jest } from '@jest/globals';
 import { act, fireEvent, render, screen, waitFor } from '@testing-library/react-native';
 import * as MailComposer from 'expo-mail-composer';
+import { router } from 'expo-router';
 import * as StoreReview from 'expo-store-review';
 import * as WebBrowser from 'expo-web-browser';
 import type { ReactElement, ReactNode } from 'react';
 
-import Bonetider from '../app/(tabs)/bonetider';
-import Installningar from '../app/(tabs)/installningar';
-import Om from '../app/(tabs)/om';
+import Bonetider from '../app/bonetider';
+import Installningar from '../app/(settings)/installningar';
+import Om from '../app/(settings)/om';
+import Qibla from '../app/qibla';
 import { LocationProvider } from '../lib/location/context';
 import { SettingsProvider } from '../lib/settings/context';
 
@@ -35,9 +37,45 @@ async function renderSettled(node: ReactElement): Promise<void> {
 // Smoke tests: each tab screen mounts and shows its content. Cheap regression
 // guard that the screens stay renderable as the app grows.
 describe('tab screens', () => {
-  it('renders the Bönetider map', async () => {
-    await renderSettled(withProviders(<Bonetider />));
-    expect(screen.getByTestId('sweden-map')).toBeTruthy();
+  // The map screen is the heaviest render in the suite (MapLibre + the Skia solar
+  // overlay + the floating MapNav), so it gets headroom past the 5 s default — under
+  // parallel-worker CPU contention a heavy render legitimately runs a few seconds.
+  const MAP_RENDER_TIMEOUT = 20_000;
+
+  it(
+    'renders the Bönetider map',
+    async () => {
+      await renderSettled(withProviders(<Bonetider />));
+      expect(screen.getByTestId('sweden-map')).toBeTruthy();
+    },
+    MAP_RENDER_TIMEOUT,
+  );
+
+  // Navigation is the floating MapNav overlay now (no hamburger): a Qibla compass on
+  // the left and a settings cog on the right, both on the map. Press the real controls
+  // so a missing handler or wrong route breaks the test, not just the label.
+  it(
+    'opens Qibla and Inställningar from the map nav controls',
+    async () => {
+      jest.clearAllMocks();
+      await renderSettled(withProviders(<Bonetider />));
+
+      fireEvent.press(screen.getByRole('button', { name: 'Qibla' }));
+      expect(router.navigate).toHaveBeenCalledWith('/qibla');
+
+      fireEvent.press(screen.getByRole('button', { name: 'Inställningar' }));
+      expect(router.navigate).toHaveBeenCalledWith('/installningar');
+    },
+    MAP_RENDER_TIMEOUT,
+  );
+
+  it('renders the Qibla sheet content', async () => {
+    await renderSettled(withProviders(<Qibla />));
+
+    expect(screen.getByText('Qibla')).toBeTruthy();
+    expect(screen.getByRole('button', { name: 'Stäng' })).toBeTruthy();
+    expect(screen.getByText('från norr')).toBeTruthy();
+    expect(screen.getByText(/Mecka ·/)).toBeTruthy();
   });
 
   it('renders the Inställningar screen once settings load', async () => {

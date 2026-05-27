@@ -83,8 +83,8 @@ interface Props {
   next: NextPrayer | null;
   locationLabel: string;
   settings: PrayerSettings;
-  /** Reports open/closed + the dock's pixel height, so the map can lift Sweden
-      above the dock when expanded instead of being covered by it. */
+  /** Optional host notification for analytics or layout hooks. The map does not refit
+      on expansion; the dock opens over the current slice. */
   onExpandedChange?: (expanded: boolean, expandedHeight: number) => void;
 }
 
@@ -130,9 +130,8 @@ export function PrayerDock({
   const startHeight = useSharedValue(COLLAPSED);
   const [expanded, setExpanded] = useState(false);
 
-  // State change on the JS thread (from gesture worklets via runOnJS): flip the
-  // flag, tap a light haptic on a real open/close, and tell the map to lift so it
-  // never sits behind the open dock.
+  // State change on the JS thread (from gesture worklets via runOnJS): flip the flag,
+  // tap a light haptic on a real open/close, and notify the host if it cares.
   const applyExpanded = useCallback(
     (open: boolean) => {
       if (open !== expanded) hapticLight();

@@ -13,11 +13,18 @@ jest.mock('react-native-safe-area-context', () => {
   };
 });
 
-// expo-router: the map screen reads useIsFocused() to pause its clock off-screen.
-// The screen tests render it without a navigator, so report it focused. (Minimal
-// mock — extend if a tested module starts importing other expo-router exports.)
+// expo-router: the map screen reads useIsFocused() to pause its clock off-screen, and
+// the nav controls (MapNav / CompassButton) import `router` to open sheets on press.
+// The screen tests render without a navigator, so report focused and stub router's
+// navigation methods. useFocusEffect runs as a normal React effect so focused-screen
+// behavior (Qibla heading setup/cleanup) is still exercised under test.
 jest.mock('expo-router', () => ({
   useIsFocused: () => true,
+  useFocusEffect: (callback) => {
+    const React = require('react');
+    React.useEffect(callback, [callback]);
+  },
+  router: { navigate: jest.fn(), push: jest.fn(), back: jest.fn() },
 }));
 
 // MapLibre is a native module with no JS implementation under test. Render its
@@ -44,6 +51,9 @@ jest.mock('expo-location', () => ({
   LocationAccuracy: { Balanced: 3 },
   requestForegroundPermissionsAsync: jest.fn(async () => ({ status: 'granted', granted: true })),
   getForegroundPermissionsAsync: jest.fn(async () => ({ status: 'granted', granted: true })),
+  // The compass button subscribes to the heading; under test return a no-op
+  // subscription that never emits, so the button stays on its static-glyph fallback.
+  watchHeadingAsync: jest.fn(async () => ({ remove: jest.fn() })),
   getLastKnownPositionAsync: jest.fn(async () => null),
   getCurrentPositionAsync: jest.fn(async () => ({
     coords: { latitude: 59.3293, longitude: 18.0686 },

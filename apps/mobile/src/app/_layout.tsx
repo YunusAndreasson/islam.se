@@ -5,7 +5,6 @@ import { AppState } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
-import { AppMenu } from '@/components/nav/AppMenu';
 import { useLocation, LocationProvider } from '@/lib/location/context';
 import { syncPrayerNotifications } from '@/lib/notifications';
 import { SettingsProvider, useSettings } from '@/lib/settings/context';
@@ -36,13 +35,13 @@ function NotificationSync() {
   return null;
 }
 
-// Root layout: a header-less, tab-less stack. The three screens (bonetider,
-// installningar, om) live under it directly — navigation is the floating glass
-// <AppMenu>, mounted once here as a sibling of the Stack so it overlays every
-// screen. GestureHandlerRootView is required at the very top for the dock's and
-// menu's gestures (expo-router does not provide one). SettingsProvider hydrates
-// persisted prayer settings; LocationProvider (nested, since it reads settings)
-// resolves the coordinate to compute for.
+// Root layout: a header-less stack, hub-and-spoke. Bönetider (the map) is home; its two
+// floating controls open Qibla and the Settings sheet (which in turn pushes Om) as
+// MODALS over the map, so dismissing any of them returns to the map. Navigation lives on
+// the map itself now (components/nav/MapNav) — there is no global menu overlay.
+// GestureHandlerRootView is required at the very top for the dock's gestures (expo-router
+// does not provide one). SettingsProvider hydrates persisted prayer settings;
+// LocationProvider (nested, since it reads settings) resolves the coordinate to compute for.
 export default function RootLayout() {
   // Follows the OS appearance setting (theme/useColors): the Stack's anti-flash
   // ground and the status bar both flip with light/dark. The map screen ignores this
@@ -56,9 +55,12 @@ export default function RootLayout() {
           <LocationProvider>
             <NightProvider>
               {/* Opaque paper ground so screen-to-screen transitions never flash the
-                  map through an incoming page. */}
-              <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: c.paper } }} />
-              <AppMenu />
+                  map through an incoming page. Qibla and the Settings group present as
+                  sheets over the map; everything else keeps the default card transition. */}
+              <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: c.paper } }}>
+                <Stack.Screen name="qibla" options={{ presentation: 'modal' }} />
+                <Stack.Screen name="(settings)" options={{ presentation: 'modal', headerShown: false }} />
+              </Stack>
               <NotificationSync />
               <StatusBar style="auto" />
             </NightProvider>
