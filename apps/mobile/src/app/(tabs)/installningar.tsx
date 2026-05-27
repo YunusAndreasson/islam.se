@@ -31,8 +31,6 @@ import {
   ROUNDING_OPTIONS,
   SHAFAQ_OPTIONS,
   signedMinutes,
-  TIMEFORMAT_OPTIONS,
-  timeFormatLabel,
 } from '@/lib/settings/options';
 import { SWEDISH_CITIES } from '@/lib/settings/types';
 
@@ -66,7 +64,7 @@ export default function Installningar() {
       times: PRAYER_ORDER.map((key) => ({
         key,
         label: PRAYER_LABELS[key],
-        time: formatTime(pt[key], settings),
+        time: formatTime(pt[key]),
       })),
     };
   }, [coords, settings]);
@@ -248,19 +246,8 @@ export default function Installningar() {
           ) : null}
         </DisclosureGroup>
 
-        <DisclosureGroup
-          title="Visning & finjustering"
-          summary={`${timeFormatLabel(settings)} · ${adjustmentsSummary(settings)}`}
-        >
-          <SubGroup styles={styles} title="Tidsformat">
-            <OptionGroup
-              options={TIMEFORMAT_OPTIONS}
-              value={settings.timeFormat}
-              onChange={(timeFormat) => update({ timeFormat })}
-            />
-          </SubGroup>
-
-          <SubGroup styles={styles} title="Avrundning" divider>
+        <DisclosureGroup title="Visning & finjustering" summary={adjustmentsSummary(settings)}>
+          <SubGroup styles={styles} title="Avrundning">
             <OptionGroup
               options={ROUNDING_OPTIONS}
               value={settings.rounding}
@@ -286,7 +273,7 @@ export default function Installningar() {
           <SubGroup
             styles={styles}
             title="Hijri-justering"
-            footnote={`Idag: ${formatHijri(new Date(), settings.hijriOffset)}. Justera för att matcha lokal månsiktning.`}
+            footnote={`I dag: ${formatHijri(new Date(), settings.hijriOffset)}. Justera för att matcha lokal månsiktning.`}
             divider
           >
             <Stepper

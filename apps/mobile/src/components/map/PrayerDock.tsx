@@ -293,13 +293,13 @@ export function PrayerDock({
                   aside
                 ) : (
                   <Text style={styles.heroNone} numberOfLines={1}>
-                    Inga fler böner idag
+                    Inga fler böner i dag
                   </Text>
                 )}
                 <View style={styles.flex} />
                 {next ? (
                   <View style={styles.heroPlaceRow}>
-                    <MaterialIcons name="place" size={11} color={c.inkMuted} />
+                    <MaterialIcons name="place" size={11} color={c.highlight} />
                     <Text style={styles.subPlace} numberOfLines={1}>
                       {locationLabel}
                     </Text>
@@ -312,11 +312,11 @@ export function PrayerDock({
                   {next ? (
                     <Text style={styles.heroPrayer} numberOfLines={1}>
                       {PRAYER_LABELS[next.key]}
-                      {next.tomorrow ? <Text style={styles.heroTomorrow}> imorgon</Text> : null}
+                      {next.tomorrow ? <Text style={styles.heroTomorrow}> i morgon</Text> : null}
                     </Text>
                   ) : (
                     <Text style={styles.heroNone} numberOfLines={1}>
-                      Inga fler böner idag
+                      Inga fler böner i dag
                     </Text>
                   )}
                   <View style={styles.flex} />
@@ -325,9 +325,9 @@ export function PrayerDock({
 
                 {next ? (
                   <View style={styles.heroSub}>
-                    <Text style={styles.subTime}>{formatTime(new Date(next.at), settings)}</Text>
+                    <Text style={styles.subTime}>{formatTime(new Date(next.at))}</Text>
                     <Text style={styles.subSep}>·</Text>
-                    <MaterialIcons name="place" size={11} color={c.inkMuted} />
+                    <MaterialIcons name="place" size={11} color={c.highlight} />
                     <Text style={styles.subPlace} numberOfLines={1}>
                       {locationLabel}
                     </Text>
@@ -403,12 +403,12 @@ function ScheduleRow({
         onPress={onPress}
         style={({ pressed }) => [styles.listRow, pressed && styles.listRowPressed]}
         accessibilityRole="button"
-        accessibilityLabel={`${PRAYER_LABELS[prayerKey]} ${valid ? formatTime(date, settings) : 'okänd'}`}
+        accessibilityLabel={`${PRAYER_LABELS[prayerKey]} ${valid ? formatTime(date) : 'okänd'}`}
       >
         <View style={[styles.listDot, { backgroundColor: PRAYER_COLORS[prayerKey] }]} />
         <Text style={[styles.listLabel, isNext && styles.nextEmphasis]}>{PRAYER_LABELS[prayerKey]}</Text>
         <Text style={[styles.listTime, isNext && styles.nextEmphasis]}>
-          {valid ? formatTime(date, settings) : '—'}
+          {valid ? formatTime(date) : '—'}
         </Text>
       </Pressable>
     </Animated.View>

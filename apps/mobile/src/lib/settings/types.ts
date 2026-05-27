@@ -34,8 +34,6 @@ export type Shafaq = 'general' | 'ahmer' | 'abyad';
 
 export type Rounding = 'nearest' | 'up' | 'none';
 
-export type TimeFormat = '24h' | '12h';
-
 /** The six computed prayer slots plus sunrise, used as adjustment keys. */
 export interface PrayerAdjustments {
   fajr: number;
@@ -78,7 +76,6 @@ export interface PrayerSettings {
   shafaq: Shafaq;
   adjustments: PrayerAdjustments;
   rounding: Rounding;
-  timeFormat: TimeFormat;
   /** Day offset applied to the Hijri-date display, to match local moon-sighting. */
   hijriOffset: number;
   notifications: NotificationSettings;
@@ -99,7 +96,6 @@ export const DEFAULT_SETTINGS: PrayerSettings = {
   shafaq: 'general',
   adjustments: { fajr: 0, sunrise: 0, dhuhr: 0, asr: 0, maghrib: 0, isha: 0 },
   rounding: 'nearest',
-  timeFormat: '24h',
   hijriOffset: 0,
   // Off by default: enabling it is what asks the OS for permission.
   notifications: {

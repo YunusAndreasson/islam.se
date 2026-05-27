@@ -19,6 +19,7 @@ import {
 } from '../../components/map/PrayerDock';
 import { CityMarkers } from '../../components/map/CityMarkers';
 import { PrayerFieldOverlay } from '../../components/map/PrayerFieldOverlay';
+import { UserLocationMarker } from '../../components/map/UserLocationMarker';
 import { mapTheme } from '../../components/map/theme';
 import { useLocation } from '../../lib/location/context';
 import { NORDIC_MAP_STYLE } from '../../lib/map/nordicStyle';
@@ -261,15 +262,12 @@ export default function Bonetider() {
             padding: { top: 24, right: 24, bottom: collapsedDock + DOCK_MARGIN, left: 24 },
           }}
         />
-        <PrayerFieldOverlay
-          grid={grid}
-          now={clock.now}
-          settings={settings}
-          nextKey={nextKey}
-          night={night}
-        />
+        <PrayerFieldOverlay grid={grid} now={clock.now} nextKey={nextKey} night={night} />
         {/* City markers ride above the wash so they stay legible on the night map. */}
         <CityMarkers night={night} />
+        {/* "You are here" sits above the city dots: it anchors the dock's "next prayer"
+            to the sweeping lines, so it's clear which prayers have passed your spot. */}
+        <UserLocationMarker coords={coords} night={night} />
       </Map>
 
       {/* The one bottom surface: next prayer + day scrubber, expandable to the full

@@ -128,38 +128,33 @@ export function prayerToKey(prayer: string): PrayerKey | null {
 const TIME_ZONE = 'Europe/Stockholm';
 
 /**
- * Format a prayer-time Date for display, honouring the 12/24h setting. Returns
- * '—' for slots adhan could not compute (Invalid Date), which happens above the
- * Arctic Circle when polar resolution is 'unresolved'.
+ * Format a prayer-time Date for display, in 24-hour Europe/Stockholm time (Sweden
+ * uses the 24-hour clock exclusively). Returns '—' for slots adhan could not
+ * compute (Invalid Date), which happens above the Arctic Circle when polar
+ * resolution is 'unresolved'.
  */
-export function formatTime(date: Date | null | undefined, settings: PrayerSettings): string {
+export function formatTime(date: Date | null | undefined): string {
   if (!(date instanceof Date) || Number.isNaN(date.getTime())) return '—';
   try {
     return new Intl.DateTimeFormat('sv-SE', {
       timeZone: TIME_ZONE,
       hour: '2-digit',
       minute: '2-digit',
-      hour12: settings.timeFormat === '12h',
     }).format(date);
   } catch {
     // Hermes without full Intl tz data: fall back to a fixed Swedish offset.
-    return fallbackFormat(date, settings);
+    return fallbackFormat(date);
   }
 }
 
 // Crude fixed-offset fallback (CET/CEST by month) — only used if Intl timeZone
 // support is missing. Good enough to never show a raw UTC string to the user.
-function fallbackFormat(date: Date, settings: PrayerSettings): string {
+function fallbackFormat(date: Date): string {
   const month = date.getUTCMonth(); // 0-indexed
   const isSummer = month >= 2 && month <= 9; // rough DST window (Apr–Oct-ish)
   const offsetHours = isSummer ? 2 : 1;
   const shifted = new Date(date.getTime() + offsetHours * 3600_000);
-  let hours = shifted.getUTCHours();
+  const hours = shifted.getUTCHours();
   const minutes = shifted.getUTCMinutes();
-  if (settings.timeFormat === '12h') {
-    const suffix = hours >= 12 ? 'PM' : 'AM';
-    hours = hours % 12 || 12;
-    return `${hours}:${String(minutes).padStart(2, '0')} ${suffix}`;
-  }
   return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`;
 }
