@@ -63,15 +63,17 @@ jest.mock('expo-glass-effect', () => {
 });
 
 // react-native-reanimated has no JS-thread implementation under test. Provide a
-// minimal shim covering what the dock/menu/disclosure-group use (Animated.View &
-// Animated.Text, shared values, animated styles, the with* helpers, runOnJS,
-// useReducedMotion) so they render as host views.
+// minimal shim covering what the dock/menu/disclosure-group + Skia overlay use
+// (Animated.View & Animated.Text, shared/derived values, animated styles, the with*
+// helpers, runOnJS, useReducedMotion) so they render as host views. useDerivedValue
+// runs its worklet once so the Skia overlay's projected paths/uniforms compute.
 jest.mock('react-native-reanimated', () => {
   const { View, Text } = require('react-native');
   return {
     __esModule: true,
     default: { View, Text, createAnimatedComponent: (Component) => Component },
     useSharedValue: (value) => ({ value }),
+    useDerivedValue: (fn) => ({ value: fn() }),
     useAnimatedStyle: () => ({}),
     useReducedMotion: () => false,
     withSpring: (value) => value,
@@ -80,11 +82,62 @@ jest.mock('react-native-reanimated', () => {
   };
 });
 
+// @shopify/react-native-skia is a native graphics module with no JS-thread renderer
+// under test. Render the Canvas + container nodes as host views (so the Bönetider
+// overlay mounts and its hooks run) and the leaf draw nodes as null; stub the Skia
+// factory so path projection / texture upload don't reach native during a render.
+jest.mock('@shopify/react-native-skia', () => {
+  const React = require('react');
+  const { View } = require('react-native');
+  const container = ({ children }) => React.createElement(View, null, children ?? null);
+  const none = () => null;
+  const stubPath = () => ({ moveTo: () => {}, lineTo: () => {}, close: () => {} });
+  const stubBuilder = () => {
+    const b = { detach: () => ({}), build: () => ({}) };
+    for (const m of ['moveTo', 'lineTo', 'quadTo', 'cubicTo', 'close']) b[m] = () => b;
+    return b;
+  };
+  return {
+    Canvas: container,
+    Group: container,
+    Fill: container,
+    Shader: container,
+    ImageShader: none,
+    Path: none,
+    Circle: none,
+    BlurMask: none,
+    Blur: none,
+    Skia: {
+      RuntimeEffect: { Make: () => null },
+      Data: { fromBytes: () => ({}) },
+      Image: { MakeImage: () => null },
+      Path: { Make: stubPath },
+      PathBuilder: { Make: stubBuilder },
+    },
+    ColorType: { RGBA_8888: 4 },
+    AlphaType: { Unpremul: 3 },
+    FilterMode: { Nearest: 0, Linear: 1 },
+    MipmapMode: { None: 0 },
+  };
+});
+
 // expo-linear-gradient is a native module; render it as a plain host View so screens
 // that use it for a gradient hero/face (Om, Qibla) mount in jsdom/node.
 jest.mock('expo-linear-gradient', () => {
   const { View } = require('react-native');
   return { LinearGradient: View };
+});
+
+// @expo/vector-icons loads its glyph font asynchronously and flips an internal "font
+// loaded" state after mount. Under test that fires as an update outside act(...) (Om uses
+// MaterialIcons), which clutters output and would fail a CI that treats console.error as
+// an error. Render every icon set as a static host element so there is no async font load.
+jest.mock('@expo/vector-icons', () => {
+  const { Text } = require('react-native');
+  return new Proxy(
+    {},
+    { get: () => (props) => require('react').createElement(Text, props, props.name) },
+  );
 });
 
 // expo-web-browser + expo-mail-composer are native (Om's Kontakt actions). Mock the

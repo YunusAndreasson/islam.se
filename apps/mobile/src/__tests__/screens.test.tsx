@@ -1,9 +1,9 @@
 import { describe, expect, it, jest } from '@jest/globals';
-import { fireEvent, render, screen, waitFor } from '@testing-library/react-native';
+import { act, fireEvent, render, screen, waitFor } from '@testing-library/react-native';
 import * as MailComposer from 'expo-mail-composer';
 import * as StoreReview from 'expo-store-review';
 import * as WebBrowser from 'expo-web-browser';
-import type { ReactNode } from 'react';
+import type { ReactElement, ReactNode } from 'react';
 
 import Bonetider from '../app/(tabs)/bonetider';
 import Installningar from '../app/(tabs)/installningar';
@@ -21,17 +21,28 @@ function withProviders(node: ReactNode) {
   );
 }
 
+// Both providers do promise-based work on mount (settings hydrate from AsyncStorage; the
+// location provider walks the permission → last-known → current-position chain, all
+// resolved synchronously by the jest.setup mocks). Those updates land *after* the initial
+// render, so a synchronous test would see them fire as "update not wrapped in act(...)"
+// warnings. Rendering through here drains that microtask chain inside act so the warnings
+// don't appear (and a future CI that fails on console.error stays green).
+async function renderSettled(node: ReactElement): Promise<void> {
+  render(node);
+  await act(async () => {});
+}
+
 // Smoke tests: each tab screen mounts and shows its content. Cheap regression
 // guard that the screens stay renderable as the app grows.
 describe('tab screens', () => {
-  it('renders the Bönetider map', () => {
-    render(withProviders(<Bonetider />));
+  it('renders the Bönetider map', async () => {
+    await renderSettled(withProviders(<Bonetider />));
     expect(screen.getByTestId('sweden-map')).toBeTruthy();
   });
 
   it('renders the Inställningar screen once settings load', async () => {
-    render(withProviders(<Installningar />));
-    // The header appears after the async settings hydration flips `loaded`.
+    await renderSettled(withProviders(<Installningar />));
+    // The header appears after the async settings hydration flips `loaded` (settled above).
     await waitFor(() => expect(screen.getByText('Inställningar')).toBeTruthy());
     // A prayer label rendering proves the live preview (and thus the calculation
     // module) ran end-to-end inside the screen. Match with a regex, not exact text:
@@ -46,7 +57,7 @@ describe('tab screens', () => {
   // closed (so a first-time user isn't faced with the whole calculation panel) and
   // open on a header press. Guards the DisclosureGroup wiring on the screen.
   it('keeps advanced settings collapsed until their group header is pressed', async () => {
-    render(withProviders(<Installningar />));
+    await renderSettled(withProviders(<Installningar />));
     await waitFor(() => expect(screen.getByText('Inställningar')).toBeTruthy());
 
     // The "Beräkning" group header is a button labelled with its current value.

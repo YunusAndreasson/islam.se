@@ -1,4 +1,5 @@
-import { type ReactNode, useMemo } from 'react';
+import { useIsFocused } from 'expo-router';
+import { type ReactNode, useEffect, useMemo, useState } from 'react';
 import { ActivityIndicator, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -39,11 +40,27 @@ export default function Installningar() {
   const { coords, label, source, permissionStatus, locating, refresh } = useLocation();
   const colors = useSettingsColors();
   const styles = useMemo(() => makeStyles(colors), [colors]);
+  const isFocused = useIsFocused();
 
-  // Live preview: today's times for the resolved location. Recomputes whenever a
-  // setting or the location changes — this is how the user sees a setting "land".
+  // The preview is a *live* clock, not a snapshot: its "nästa" highlight must advance as
+  // prayers pass and its date must roll over at midnight, even if the user just leaves the
+  // screen open. So `now` ticks every 30 s (matching the map's solar clock) rather than
+  // being read once inside the memo below. The tick is paused while the screen is off-
+  // screen so a backgrounded tab isn't recomputing prayer times; it snaps to the real time
+  // again on refocus.
+  const [now, setNow] = useState(() => new Date());
+  useEffect(() => {
+    if (!isFocused) return;
+    const tick = (): void => setNow(new Date());
+    tick(); // snap to the real time on (re)focus, before the first interval fires
+    const id = setInterval(tick, 30_000);
+    return () => clearInterval(id);
+  }, [isFocused]);
+
+  // Today's times for the resolved location. Recomputes whenever a setting, the location,
+  // or the live clock changes — this is how the user sees a setting "land" and how the
+  // next-prayer highlight keeps up with the wall clock.
   const preview = useMemo(() => {
-    const now = new Date();
     const pt = computePrayerTimes(coords, now, settings);
     const nextKey = prayerToKey(pt.nextPrayer(now));
     let dateLabel: string;
@@ -67,7 +84,7 @@ export default function Installningar() {
         time: formatTime(pt[key]),
       })),
     };
-  }, [coords, settings]);
+  }, [coords, settings, now]);
 
   if (!loaded) {
     return (
@@ -278,7 +295,7 @@ export default function Installningar() {
           <SubGroup
             styles={styles}
             title="Hijri-justering"
-            footnote={`I dag: ${formatHijri(new Date(), settings.hijriOffset)}. Justera för att matcha lokal månsiktning.`}
+            footnote={`I dag: ${formatHijri(now, settings.hijriOffset)}. Justera för att matcha lokal månsiktning.`}
             divider
           >
             <Stepper

@@ -186,7 +186,8 @@ export function PrayerDock({
     (at: number) => {
       if (!Number.isFinite(at)) return;
       hapticSelection();
-      clock.setFraction((at - clock.dayStart) / DAY_MS);
+      // Fraction of the real Stockholm day (matches the scrubber + day marks).
+      clock.setFraction((at - clock.dayStart) / clock.dayLength);
     },
     [clock],
   );

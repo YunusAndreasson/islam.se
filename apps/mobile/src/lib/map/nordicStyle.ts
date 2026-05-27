@@ -168,8 +168,8 @@ export const nordicMapStyle = {
       },
     },
 
-    // City markers + labels are drawn as a React overlay (components/map/CityMarkers)
-    // ABOVE the solar wash, so they stay legible on the night map and can dim with it.
+    // City markers + labels are drawn as a React overlay (components/map/MapMarkersOverlay)
+    // ABOVE the Skia solar wash, so they stay legible on the night map and dim with it.
   ],
 } as const;
 

@@ -4,7 +4,7 @@ import type { FeatureCollection } from 'geojson';
 
 import { computePrayerTimes } from '../prayer-times';
 import { DEFAULT_SETTINGS } from '../settings/types';
-import { buildCells, buildGrid, buildLines, washAt, type PointTimes } from './field';
+import { buildGrid, buildLines, washAt, type PointTimes } from './field';
 
 // A coarse grid keeps these fast while still spanning the default bounds, which are
 // generous enough to cover the whole map viewport (lat 50→73, lon 0→34).
@@ -42,6 +42,23 @@ describe('buildGrid', () => {
     expect(t.dhuhr).toBeLessThan(t.asr);
     expect(t.asr).toBeLessThan(t.sunset);
     expect(t.sunset).toBeLessThanOrEqual(t.isha);
+  });
+
+  // The default steps (0.42 / 0.52) don't divide the bounds evenly, so the stepped axis
+  // used to stop short of its declared max (lat 72.68 not 73, lon 33.8 not 34), leaving an
+  // unwashed strip at the top/right edge. The axis must now reach the exact max. A tiny
+  // custom region with the same non-dividing steps reproduces it without the full grid.
+  it('reaches the exact max bound even when the step does not divide the range', () => {
+    const grid = buildGrid(DATE, DEFAULT_SETTINGS, {
+      bounds: [0, 50, 1, 51], // [w, s, e, n] — 1° wide/tall
+      latStep: 0.42,
+      lonStep: 0.52,
+    });
+    expect(grid.lats[grid.lats.length - 1]).toBe(51); // not 50.84
+    expect(grid.lons[grid.lons.length - 1]).toBe(1); // not 0.52
+    // Still monotonic with no duplicated final point from the appended max.
+    for (let i = 1; i < grid.lats.length; i++) expect(grid.lats[i]).toBeGreaterThan(grid.lats[i - 1]);
+    for (let j = 1; j < grid.lons.length; j++) expect(grid.lons[j]).toBeGreaterThan(grid.lons[j - 1]);
   });
 });
 
@@ -89,23 +106,6 @@ describe('washAt', () => {
   });
 });
 
-describe('buildCells', () => {
-  it('veils the country at night but adds almost nothing at midday', () => {
-    const grid = buildGrid(DATE, DEFAULT_SETTINGS, GRID_OPTS);
-    const central = computePrayerTimes({ latitude: 62, longitude: 15.5 }, DATE, DEFAULT_SETTINGS);
-    const midday = (central.dhuhr.getTime() + central.sunset.getTime()) / 2;
-    const midnight = central.fajr.getTime() - 3 * 60 * 60_000;
-
-    const dayCells = buildCells(grid, midday);
-    const nightCells = buildCells(grid, midnight);
-    expect(nightCells.features.length).toBeGreaterThan(dayCells.features.length);
-    // Every cell carries a parseable rgba colour.
-    for (const f of nightCells.features) {
-      expect(String((f.properties as { color?: string } | null)?.color)).toMatch(/^rgba\(/);
-    }
-  });
-});
-
 describe('buildLines', () => {
   it('draws the Maghrib line exactly when Maghrib is sweeping the country', () => {
     const grid = buildGrid(DATE, DEFAULT_SETTINGS, GRID_OPTS);
@@ -129,9 +129,7 @@ describe('buildLines', () => {
     const settings = { ...DEFAULT_SETTINGS, polarCircleResolution: 'unresolved' as const };
     const grid = buildGrid(summer, settings, GRID_OPTS);
     const now = summer.getTime();
-    expect(() => buildCells(grid, now)).not.toThrow();
     const { lines } = buildLines(grid, now);
     expect(flattenCoords(lines).every((n) => Number.isFinite(n))).toBe(true);
-    expect(flattenCoords(buildCells(grid, now)).every((n) => Number.isFinite(n))).toBe(true);
   });
 });

@@ -4,14 +4,24 @@
 // translucent fallback chrome instead. Keeping that branch here means every glass
 // surface in the app (the menu button, the popover, the prayer dock) looks
 // consistent and the fallback lives in exactly one place.
-import { GlassView, isLiquidGlassAvailable, type GlassStyle } from 'expo-glass-effect';
+import {
+  GlassView,
+  isGlassEffectAPIAvailable,
+  isLiquidGlassAvailable,
+  type GlassStyle,
+} from 'expo-glass-effect';
 import type { ReactNode } from 'react';
 import { type StyleProp, StyleSheet, View, type ViewStyle } from 'react-native';
 
 import { mapTheme } from '../map/theme';
 
-// Native capability is fixed for the process lifetime — resolve it once.
-const LIQUID_GLASS = isLiquidGlassAvailable();
+// Native capability is fixed for the process lifetime — resolve it once. We require BOTH:
+// the runtime API actually exists (isGlassEffectAPIAvailable) AND the Liquid Glass design
+// is active (isLiquidGlassAvailable). The API check matters because some iOS 26 beta builds
+// ship without the underlying API and *crash* if a GlassView is mounted anyway (expo/expo
+// #40911); Expo documents checking it before using GlassView. If either is false we render
+// the plain translucent fallback instead.
+const LIQUID_GLASS = isGlassEffectAPIAvailable() && isLiquidGlassAvailable();
 
 interface Props {
   children?: ReactNode;

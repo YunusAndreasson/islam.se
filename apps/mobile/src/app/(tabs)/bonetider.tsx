@@ -5,9 +5,10 @@ import {
   type ViewStateChangeEvent,
 } from '@maplibre/maplibre-react-native';
 import { useIsFocused } from 'expo-router';
-import { useCallback, useEffect, useMemo, useRef } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { type NativeSyntheticEvent, StyleSheet, useWindowDimensions, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useSharedValue } from 'react-native-reanimated';
 
 import {
   type DayMark,
@@ -17,17 +18,17 @@ import {
   type NextPrayer,
   PrayerDock,
 } from '../../components/map/PrayerDock';
-import { CityMarkers } from '../../components/map/CityMarkers';
-import { PrayerFieldOverlay } from '../../components/map/PrayerFieldOverlay';
-import { UserLocationMarker } from '../../components/map/UserLocationMarker';
+import { MapMarkersOverlay } from '../../components/map/MapMarkersOverlay';
+import { type PrayerLineData, SolarSkiaOverlay } from '../../components/map/skia/SolarSkiaOverlay';
 import { mapTheme } from '../../components/map/theme';
 import { useLocation } from '../../lib/location/context';
+import type { Camera as MapCamera } from '../../lib/map/projection';
 import { NORDIC_MAP_STYLE } from '../../lib/map/nordicStyle';
 import { nightFactor } from '../../lib/solar/night';
-import { computePrayerTimes, PRAYER_ORDER } from '../../lib/prayer-times';
+import { computePrayerTimes, PRAYER_ORDER, type PrayerKey } from '../../lib/prayer-times';
 import { useSettings } from '../../lib/settings/context';
 import type { PrayerSettings } from '../../lib/settings/types';
-import { buildGrid } from '../../lib/solar/field';
+import { buildGrid, buildLines } from '../../lib/solar/field';
 import { useSolarClock } from '../../lib/solar/useSolarClock';
 
 // Sweden bounding box, flat [west, south, east, north] (MapLibre GL JS style).
@@ -82,7 +83,7 @@ export default function Bonetider() {
   const reenableTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const insets = useSafeAreaInsets();
-  const { height: screenH } = useWindowDimensions();
+  const { width: screenW, height: screenH } = useWindowDimensions();
   // Space the floating dock occupies from the screen bottom = card height + the
   // safe-area inset + the float gap beneath it. The map reserves this much so
   // southern Sweden (Malmö) is never hidden behind the dock.
@@ -139,6 +140,30 @@ export default function Bonetider() {
   const isFocused = useIsFocused();
   const clock = useSolarClock(isFocused);
 
+  // The map camera, mirrored from MapLibre's region events. The RN marker overlay reads
+  // camState directly; the Skia field canvas reads the `cam` shared value (so it can
+  // project on the UI thread). We update camState from the region events and mirror it
+  // into cam in an effect — the lint-approved way to write a shared value (mutating one
+  // inside a plain JS callback trips react-hooks/immutability).
+  const cam = useSharedValue<MapCamera>({ lon: 17.4, lat: 62.1, zoom: 4, width: screenW, height: screenH });
+  const [camState, setCamState] = useState<MapCamera>({
+    lon: 17.4,
+    lat: 62.1,
+    zoom: 4,
+    width: screenW,
+    height: screenH,
+  });
+  useEffect(() => {
+    cam.value = camState;
+  }, [camState, cam]);
+
+  // The displayed instant as a fraction of the Stockholm day, on the UI thread, so the
+  // wash shader redraws as the day is scrubbed without a React render or basemap re-tile.
+  const nowFraction = useSharedValue(clock.fraction);
+  useEffect(() => {
+    nowFraction.value = clock.fraction;
+  }, [clock.fraction, nowFraction]);
+
   const sig = computeSignature(settings);
   // The whole-country prayer-time lattice — the one expensive step, cached per day
   // and per compute-affecting setting. Midday avoids any DST edge on the date.
@@ -146,6 +171,23 @@ export default function Bonetider() {
     () => buildGrid(new Date(clock.dayStart + DAY_MS / 2), settings),
     // eslint-disable-next-line react-hooks/exhaustive-deps -- sig captures the settings fields that matter
     [clock.dayStart, sig],
+  );
+
+  // The sweeping prayer lines for this instant — the level-0 contour of (prayerTime −
+  // now) per prayer (appears/sweeps/vanishes on its own). Computed in JS here (cheap
+  // arithmetic on the cached grid); the Skia overlay projects them to screen-space paths
+  // on the UI thread, and the labels anchor the marker overlay's pills.
+  const solar = useMemo(() => buildLines(grid, clock.now), [grid, clock.now]);
+  const prayerLines = useMemo<PrayerLineData[]>(
+    () =>
+      solar.lines.features.map((f) => ({
+        prayer: (f.properties as { prayer: PrayerKey }).prayer,
+        polylines:
+          f.geometry.type === 'MultiLineString'
+            ? (f.geometry.coordinates as [number, number][][])
+            : [],
+      })),
+    [solar],
   );
 
   // The user's own prayer times for today — drives the "next prayer", the day
@@ -161,11 +203,13 @@ export default function Bonetider() {
     for (const key of PRAYER_ORDER) {
       const at = (userTimes[key]).getTime();
       if (!Number.isFinite(at)) continue;
-      const f = (at - clock.dayStart) / DAY_MS;
+      // Fraction of the *real* Stockholm day (23/24/25 h), so the marks stay aligned with
+      // the scrubber thumb on the two DST days — a fixed 24 h would drift them by an hour.
+      const f = (at - clock.dayStart) / clock.dayLength;
       if (f >= 0 && f <= 1) out.push({ key, fraction: f });
     }
     return out;
-  }, [userTimes, clock.dayStart]);
+  }, [userTimes, clock.dayStart, clock.dayLength]);
 
   // eslint-disable-next-line react-hooks/preserve-manual-memoization -- depends on userTimes, which is intentionally memoized on `sig` (not the settings object); the manual memo is deliberate and the compiler can't preserve it
   const next = useMemo<NextPrayer | null>(() => {
@@ -205,9 +249,26 @@ export default function Bonetider() {
   // MapLibre build, so we keep the view on Sweden in JS: after each settled
   // pan/zoom, ease the camera back so the visible region stays within the
   // country and never zooms out past the framing level.
+  // While the map is moving, track the live camera so the overlays follow it (the
+  // effect above mirrors this into the Skia canvas's shared value). The map is
+  // bounds-locked and snaps back, so this fires only during brief, incidental pans.
+  const onRegionIsChanging = useCallback(
+    (e: NativeSyntheticEvent<ViewStateChangeEvent>) => {
+      const { center, zoom } = e.nativeEvent;
+      if (zoom > 1) {
+        setCamState({ lon: center[0], lat: center[1], zoom, width: screenW, height: screenH });
+      }
+    },
+    [screenW, screenH],
+  );
+
   const onRegionDidChange = useCallback(
     (e: NativeSyntheticEvent<ViewStateChangeEvent>) => {
       const { center, zoom, bounds } = e.nativeEvent;
+      // Settle the camera for the overlays. Skip the pre-fit world-zoom default (~0.6).
+      if (zoom > 1) {
+        setCamState({ lon: center[0], lat: center[1], zoom, width: screenW, height: screenH });
+      }
       // Wait for the initial bounds-fit before enforcing — the map emits a
       // pre-fit default at world zoom (~0.6) we must not act on.
       if (floorZoom.current === undefined) {
@@ -236,7 +297,8 @@ export default function Bonetider() {
         });
       }
     },
-    [collapsedDock, screenH],
+    // cam is a stable shared-value ref (see onRegionIsChanging) — kept out of deps.
+    [collapsedDock, screenH, screenW],
   );
 
   return (
@@ -251,6 +313,7 @@ export default function Bonetider() {
         attribution={false}
         logo={false}
         compass={false}
+        onRegionIsChanging={onRegionIsChanging}
         onRegionDidChange={onRegionDidChange}
       >
         <Camera
@@ -262,13 +325,31 @@ export default function Bonetider() {
             padding: { top: 24, right: 24, bottom: collapsedDock + DOCK_MARGIN, left: 24 },
           }}
         />
-        <PrayerFieldOverlay grid={grid} now={clock.now} nextKey={nextKey} night={night} />
-        {/* City markers ride above the wash so they stay legible on the night map. */}
-        <CityMarkers night={night} />
-        {/* "You are here" sits above the city dots: it anchors the dock's "next prayer"
-            to the sweeping lines, so it's clear which prayers have passed your spot. */}
-        <UserLocationMarker coords={coords} night={night} />
       </Map>
+
+      {/* The custom graphics ride ABOVE the basemap on a Skia canvas: the GPU twilight
+          wash + the sweeping prayer lines, projected from the camera shared value so they
+          stay glued to the map as it pans/zooms. */}
+      <SolarSkiaOverlay
+        grid={grid}
+        dayStart={clock.dayStart}
+        dayLength={clock.dayLength}
+        nowFraction={nowFraction}
+        camera={cam}
+        lines={prayerLines}
+        nextKey={nextKey}
+      />
+
+      {/* Point/label layer above the canvas: city dots + collision-managed labels (kept
+          legible above the wash), the brass "you are here" dot, and the prayer pills. */}
+      <MapMarkersOverlay
+        camera={camState}
+        userCoords={coords}
+        labels={solar.labels}
+        now={clock.now}
+        nextKey={nextKey}
+        night={night}
+      />
 
       {/* The one bottom surface: next prayer + day scrubber, expandable to the full
           schedule. Navigation (☰) lives in the global AppMenu, top-right. */}
