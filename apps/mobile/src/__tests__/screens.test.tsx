@@ -1,5 +1,8 @@
-import { describe, expect, it } from '@jest/globals';
+import { describe, expect, it, jest } from '@jest/globals';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react-native';
+import * as MailComposer from 'expo-mail-composer';
+import * as StoreReview from 'expo-store-review';
+import * as WebBrowser from 'expo-web-browser';
 import type { ReactNode } from 'react';
 
 import Bonetider from '../app/(tabs)/bonetider';
@@ -58,8 +61,52 @@ describe('tab screens', () => {
 
   it('renders the Om screen content', () => {
     render(<Om />);
-    // The placeholder is gone; Om now leads with the wordmark and explains the map.
-    expect(screen.getByText('islam.se')).toBeTruthy();
-    expect(screen.getByText('Kartan')).toBeTruthy();
+    // Om leads with the wordmark and groups its explanations under a FAQ + contact.
+    // (The wordmark renders as the hero brand and again as the website link detail.)
+    expect(screen.getAllByText('islam.se').length).toBeGreaterThan(0);
+    // SettingSection renders its title uppercased.
+    expect(screen.getByText(/vanliga frågor/i)).toBeTruthy();
+    expect(screen.getByText(/^Version /)).toBeTruthy();
+  });
+
+  // Progressive disclosure on Om: each FAQ answer stays folded behind its question
+  // until the reader taps it. Guards the FaqItem accordion wiring (a11y + toggle).
+  it('keeps a FAQ answer collapsed until its question is pressed', () => {
+    render(<Om />);
+    const question = screen.getByRole('button', { name: 'Hur räknas bönetiderna ut?' });
+    expect(question.props.accessibilityState.expanded).toBe(false);
+
+    fireEvent.press(question);
+    expect(
+      screen.getByRole('button', { name: 'Hur räknas bönetiderna ut?' }).props.accessibilityState
+        .expanded,
+    ).toBe(true);
+  });
+
+  // The Kontakt rows wire to the native helpers: the mail row opens the composer
+  // (available in the mock), the website row opens the in-app browser.
+  it('opens the mail composer and the website from the Kontakt rows', async () => {
+    jest.clearAllMocks();
+    render(<Om />);
+
+    fireEvent.press(screen.getByRole('button', { name: 'Mejla oss' }));
+    await waitFor(() =>
+      expect(MailComposer.composeAsync).toHaveBeenCalledWith({ recipients: ['support@islam.se'] }),
+    );
+
+    fireEvent.press(screen.getByRole('button', { name: 'Läs mer på islam.se' }));
+    expect(WebBrowser.openBrowserAsync).toHaveBeenCalledWith('https://islam.se');
+
+    fireEvent.press(screen.getByRole('button', { name: 'Betygsätt appen' }));
+    await waitFor(() => expect(StoreReview.requestReview).toHaveBeenCalled());
+  });
+
+  // The source credits link the open-source projects so each name is plainly a real,
+  // tappable project. Guards the adhan link (the one a reader is most likely to follow).
+  it('links the adhan library from the credits', () => {
+    jest.clearAllMocks();
+    render(<Om />);
+    fireEvent.press(screen.getByRole('link', { name: 'adhan' }));
+    expect(WebBrowser.openBrowserAsync).toHaveBeenCalledWith('https://github.com/batoulapps/adhan-js');
   });
 });

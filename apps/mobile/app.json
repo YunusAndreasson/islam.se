@@ -31,7 +31,9 @@
         {
           "color": "#3a4684"
         }
-      ]
+      ],
+      "expo-web-browser",
+      "expo-mail-composer"
     ],
     "experiments": {
       "typedRoutes": true
