@@ -64,7 +64,7 @@ const EVENTS: EventDef[] = [
 	},
 	{
 		name: "Ashura",
-		note: "frivillig fasta till minne av att Gud räddade Mose; fastas med den 9:e eller 11:e",
+		note: "Muharram är den bästa månaden för frivillig fasta efter Ramadan; den 10:e — till minne av att Gud räddade Mose — sonar det gångna året och fastas med den 9:e eller 11:e",
 		start: [1, 10],
 	},
 	{
@@ -123,6 +123,7 @@ export interface Markesdag {
 	startISO: string; // YYYY-MM-DD
 	endISO?: string; // inclusive, periods only
 	hijriLabel: string; // e.g. "21–30 Ramaḍān 1447"
+	hijriYear: number; // the observance's Hijri year — for grouping the full-year page
 }
 
 function iso(date: Date): string {
@@ -182,10 +183,41 @@ export function getMarkesdagar(now = new Date()): Markesdag[] {
 				startISO: iso(startDate),
 				endISO: endDate ? iso(endDate) : undefined,
 				hijriLabel: label(gregorianToHijri(startDate), endHijri),
+				hijriYear: y,
 			});
 		}
 	}
 
 	events.sort((a, b) => a.startISO.localeCompare(b.startISO));
 	return events;
+}
+
+/** Only the observances still ahead of (or running on) `now`, in date order. */
+export function getUpcomingMarkesdagar(now = new Date()): Markesdag[] {
+	const todayISO = iso(now);
+	return getMarkesdagar(now).filter((e) => (e.endISO ?? e.startISO) >= todayISO);
+}
+
+// ── Gregorian display formatting ──────────────────────────────────────────
+// Shared by the homepage section, the /det-islamiska-aret page and the .ics
+// feed so a date reads the same everywhere. Noon-UTC anchor keeps the calendar
+// day stable regardless of the viewer's zone.
+
+/** "27 maj 2026" (withYear) or "27 maj". */
+function fmt(isoDate: string, withYear: boolean): string {
+	return new Date(`${isoDate}T12:00:00Z`).toLocaleDateString("sv-SE", {
+		day: "numeric",
+		month: "long",
+		year: withYear ? "numeric" : undefined,
+		timeZone: "UTC",
+	});
+}
+
+/** "27 maj 2026" for a point; "25–30 maj 2026" within a month; "18 maj – 1 juni 2026" across months. */
+export function gregorian(startISO: string, endISO?: string): string {
+	if (!endISO) return fmt(startISO, true);
+	const sameMonth = startISO.slice(0, 7) === endISO.slice(0, 7);
+	return sameMonth
+		? `${new Date(`${startISO}T12:00:00Z`).getUTCDate()}–${fmt(endISO, true)}`
+		: `${fmt(startISO, false)} – ${fmt(endISO, true)}`;
 }

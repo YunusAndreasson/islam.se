@@ -1,6 +1,7 @@
 ---
 import { getCollection } from "astro:content";
 import Base from "../../layouts/Base.astro";
+import { breadcrumbList } from "../../lib/jsonld";
 
 const threads = await getCollection("tradar");
 ---
@@ -8,13 +9,19 @@ const threads = await getCollection("tradar");
 <Base
 	title="Trådar — islam.se"
 	description="Kuraterade läsningar genom essäerna: hjärtats anatomi, tungan och sanningen, natten, maskinen och människan, Strindbergs kris."
-	jsonLd={{
-		"@context": "https://schema.org",
-		"@type": "CollectionPage",
-		name: "Trådar",
-		url: "https://islam.se/tradar",
-		inLanguage: "sv",
-	}}
+	jsonLd={[
+		{
+			"@context": "https://schema.org",
+			"@type": "CollectionPage",
+			name: "Trådar",
+			url: "https://islam.se/tradar",
+			inLanguage: "sv",
+		},
+		breadcrumbList([
+			{ name: "Hem", url: "/" },
+			{ name: "Trådar", url: "/tradar" },
+		]),
+	]}
 >
 	<main id="main" class="content-column">
 		<header class="article-header">
