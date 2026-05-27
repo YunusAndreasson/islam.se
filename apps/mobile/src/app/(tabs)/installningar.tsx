@@ -101,7 +101,12 @@ export default function Installningar() {
                   {p.label}
                   {isNext ? '  ·  nästa' : ''}
                 </Text>
-                <Text style={[styles.previewTime, isNext && styles.previewNextText]}>{p.time}</Text>
+                <Text
+                  testID={`preview-time-${p.key}`}
+                  style={[styles.previewTime, isNext && styles.previewNextText]}
+                >
+                  {p.time}
+                </Text>
               </View>
             );
           })}
