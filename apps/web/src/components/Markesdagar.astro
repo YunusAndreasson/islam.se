@@ -1,26 +1,8 @@
 ---
-import { getMarkesdagar } from "../lib/markesdagar";
+import { getMarkesdagar, gregorian } from "../lib/markesdagar";
 
 const events = getMarkesdagar();
 const todayISO = new Date().toISOString().slice(0, 10);
-
-function fmt(isoDate: string, withYear: boolean) {
-	return new Date(`${isoDate}T12:00:00Z`).toLocaleDateString("sv-SE", {
-		day: "numeric",
-		month: "long",
-		year: withYear ? "numeric" : undefined,
-		timeZone: "UTC",
-	});
-}
-
-function gregorian(startISO: string, endISO?: string): string {
-	if (!endISO) return fmt(startISO, true);
-	const sameMonth = startISO.slice(0, 7) === endISO.slice(0, 7);
-	// "25–30 maj 2026" when within a month, else "18 maj – 1 juni 2026".
-	return sameMonth
-		? `${new Date(`${startISO}T12:00:00Z`).getUTCDate()}–${fmt(endISO, true)}`
-		: `${fmt(startISO, false)} – ${fmt(endISO, true)}`;
-}
 
 // Mark which events are upcoming at build time (the no-JS view); the client
 // re-selects against the real Date.now() so the list never goes stale (§7.9).
@@ -52,6 +34,11 @@ const rows = events.map((e) => {
 	<p class="md-standing">
 		Därtill <em>de vita dagarna</em> (Ayyām al-bīḍ) — fasta den 13:e, 14:e och 15:e i varje månmånad.
 	</p>
+	<p class="md-also">
+		I <em>Shaʿbān</em>, månaden före Ramadan, fastade Profeten <span class="honorific honorific--saw">ﷺ</span> fler dagar än under någon annan månad utom Ramadan.
+	</p>
+
+	<p class="md-more"><a href="/det-islamiska-aret">Se hela året →</a></p>
 </section>
 
 <style>
@@ -123,6 +110,34 @@ const rows = events.map((e) => {
 		margin: var(--space-unit) 0 0;
 		padding-top: var(--space-half);
 		border-top: 1px solid var(--color-divider);
+	}
+
+	.md-also {
+		font-family: var(--font-body);
+		font-size: 0.9375rem;
+		color: var(--color-muted);
+		margin: var(--space-half) 0 0;
+	}
+
+	.md-more {
+		margin: var(--space-half) 0 0;
+
+		a {
+			font-family: var(--font-heading);
+			font-size: 0.9375rem;
+			color: var(--color-accent);
+			text-decoration: none;
+
+			&:hover {
+				text-decoration: underline;
+				text-underline-offset: 0.12em;
+			}
+
+			&:focus-visible {
+				outline: 2px solid var(--color-accent);
+				outline-offset: 2px;
+			}
+		}
 	}
 
 	@media (width <= 768px) {

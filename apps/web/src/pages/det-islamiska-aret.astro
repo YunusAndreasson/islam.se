@@ -1,0 +1,266 @@
+---
+// Det islamiska året — the dedicated, indexable home for the calendar that
+// otherwise lives only as a homepage section (§7.9). The full upcoming year(s),
+// not the homepage's top five, each carrying Event JSON-LD so the dates are
+// machine-readable for search and calendar tools.
+//
+// Caveat on the structured data: these are global observances with no venue, so
+// Google may not grant full Event rich-result cards (which prefer a location).
+// The primary win is this indexable, well-headed page ranking for date queries
+// ("ramadan 2026 datum", "eid 2026"); the Event markup is supporting structure.
+import Base from "../layouts/Base.astro";
+import { breadcrumbList } from "../lib/jsonld";
+import { type Markesdag, getUpcomingMarkesdagar, gregorian } from "../lib/markesdagar";
+
+const events = getUpcomingMarkesdagar();
+
+// Group by Hijri year so the long list reads as "the year", with a Gregorian
+// span beside each heading for readers who think in the civil calendar.
+interface YearGroup {
+	hijriYear: number;
+	gregSpan: string;
+	rows: (Markesdag & { gregorian: string })[];
+}
+const groups: YearGroup[] = [];
+for (const e of events) {
+	let group = groups.find((g) => g.hijriYear === e.hijriYear);
+	if (!group) {
+		group = { hijriYear: e.hijriYear, gregSpan: "", rows: [] };
+		groups.push(group);
+	}
+	group.rows.push({ ...e, gregorian: gregorian(e.startISO, e.endISO) });
+}
+for (const g of groups) {
+	const years = g.rows.flatMap((r) => [r.startISO, r.endISO ?? r.startISO]).map((d) => d.slice(0, 4));
+	const lo = years.reduce((a, b) => (a < b ? a : b));
+	const hi = years.reduce((a, b) => (a > b ? a : b));
+	g.gregSpan = lo === hi ? lo : `${lo}–${hi}`;
+}
+
+const eventLd = events.map((e) => ({
+	"@context": "https://schema.org",
+	"@type": "Event",
+	name: e.name,
+	startDate: e.startISO,
+	...(e.endISO ? { endDate: e.endISO } : {}),
+	eventStatus: "https://schema.org/EventScheduled",
+	...(e.note ? { description: e.note } : {}),
+	url: "https://islam.se/det-islamiska-aret",
+	inLanguage: "sv",
+}));
+---
+
+<Base
+	title="Det islamiska året — islam.se"
+	description="Islamiska högtider och märkesdagar med datum: Ramadan, Eid al-fitr, Eid al-adha, Arafa, Ashura och hajj — i både gregoriansk och islamisk kalender (Umm al-Qura)."
+	jsonLd={[
+		breadcrumbList([
+			{ name: "Hem", url: "/" },
+			{ name: "Det islamiska året", url: "/det-islamiska-aret" },
+		]),
+		...eventLd,
+	]}
+>
+	<main id="main" class="content-column">
+		<header class="article-header">
+			<p class="label collection-kicker">Kalender</p>
+			<h1>Det islamiska året</h1>
+			<p class="collection-lead">
+				De återkommande högtiderna och fastedagarna, räknade från utvandringen (hijra) till Medina år 622.
+				Datumen följer Umm al-Qura-kalendern och visas här mot den gregorianska; eftersom varje månad
+				inleds med den nya månens iakttagelse kan en dag infalla tidigare eller senare. Endast det som
+				har stöd i hadith tas upp.
+			</p>
+		</header>
+
+		<p class="md-subscribe label">
+			<a href="webcal://islam.se/det-islamiska-aret.ics">Prenumerera i din kalender</a>
+			<span class="nav-dot" aria-hidden="true">&middot;</span>
+			<a href="/det-islamiska-aret.ics">Ladda ner (.ics)</a>
+		</p>
+
+		{groups.map((g) => (
+			<section class="md-year" data-year>
+				<h2 class="md-year-head">
+					{g.hijriYear}
+					<span class="md-year-greg">e.H. &middot; {g.gregSpan}</span>
+				</h2>
+				<ul class="md-list">
+					{g.rows.map((e) => (
+						<li class="md-row" data-end={e.endISO ?? e.startISO}>
+							<p class="label md-greg"><time datetime={e.startISO}>{e.gregorian}</time></p>
+							<div class="md-body">
+								<p class="md-name">{e.name}</p>
+								{e.note && <p class="md-note">{e.note}</p>}
+							</div>
+							<p class="md-hijri">{e.hijriLabel}</p>
+						</li>
+					))}
+				</ul>
+			</section>
+		))}
+
+		<p class="md-standing">
+			Därtill <em>de vita dagarna</em> (Ayyām al-bīḍ) — fasta den 13:e, 14:e och 15:e i varje månmånad.
+		</p>
+		<p class="md-also">
+			Och i <em>Shaʿbān</em>, månaden före Ramadan, fastade Profeten <span class="honorific honorific--saw">ﷺ</span> fler dagar än under någon annan månad utom Ramadan.
+		</p>
+	</main>
+</Base>
+
+<style>
+	/* The same quiet two-column rhythm as the homepage section (Markesdagar.astro),
+	   here extended to the full year and grouped under Hijri-year headings. */
+	.md-subscribe {
+		margin: calc(var(--space-unit) * -0.5) 0 var(--space-unit);
+		color: var(--color-muted);
+
+		a {
+			color: var(--color-muted);
+			text-decoration: none;
+
+			&:hover {
+				color: var(--color-accent);
+				text-decoration: underline;
+				text-underline-offset: 0.12em;
+			}
+
+			&:focus-visible {
+				outline: 2px solid var(--color-accent);
+				outline-offset: 2px;
+			}
+		}
+	}
+
+	.md-year {
+		margin-top: var(--space-phi1, 1.5rem);
+	}
+
+	.md-year[hidden] {
+		display: none;
+	}
+
+	.md-year-head {
+		font-family: var(--font-heading);
+		font-size: var(--step-1);
+		font-weight: 600;
+		color: var(--color-text);
+		margin: 0 0 var(--space-half);
+		padding-bottom: var(--space-half);
+		border-bottom: 1px solid var(--color-divider);
+	}
+
+	.md-year-greg {
+		font-weight: 400;
+		font-size: 0.8125rem;
+		letter-spacing: 0.04em;
+		text-transform: uppercase;
+		color: var(--color-muted);
+		margin-inline-start: 0.5rem;
+	}
+
+	.md-list {
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	.md-row {
+		display: grid;
+		grid-template-columns: 11rem 1fr auto;
+		align-items: baseline;
+		gap: clamp(1rem, 3vw, 2.5rem);
+		padding-block: var(--space-half);
+	}
+
+	.md-row[hidden] {
+		display: none;
+	}
+
+	.md-greg {
+		margin: 0;
+		color: var(--color-text);
+		text-transform: none;
+		letter-spacing: 0.02em;
+		font-feature-settings: normal;
+	}
+
+	.md-body {
+		min-width: 0;
+	}
+
+	.md-name {
+		font-family: var(--font-heading);
+		font-size: 1.0625rem;
+		font-weight: 500;
+		color: var(--color-accent);
+		margin: 0;
+	}
+
+	.md-note {
+		font-family: var(--font-body);
+		font-size: 0.875rem;
+		line-height: 1.45;
+		color: var(--color-muted);
+		margin: 0.2rem 0 0;
+		max-width: 28rem;
+	}
+
+	.md-hijri {
+		font-family: var(--font-body);
+		font-style: italic;
+		font-size: 0.875rem;
+		color: var(--color-muted);
+		margin: 0;
+		white-space: nowrap;
+		text-align: end;
+	}
+
+	.md-standing {
+		font-family: var(--font-body);
+		font-size: 0.9375rem;
+		color: var(--color-muted);
+		margin: var(--space-phi1, 1.5rem) 0 0;
+		padding-top: var(--space-half);
+		border-top: 1px solid var(--color-divider);
+	}
+
+	.md-also {
+		font-family: var(--font-body);
+		font-size: 0.9375rem;
+		color: var(--color-muted);
+		margin: var(--space-half) 0 var(--space-phi2);
+	}
+
+	@media (width <= 768px) {
+		.md-row {
+			grid-template-columns: 1fr;
+			gap: 0.35rem;
+			padding-block: var(--space-unit);
+		}
+
+		.md-hijri {
+			text-align: start;
+			white-space: normal;
+		}
+	}
+</style>
+
+<script>
+	// Build-time already filtered to upcoming, but deploys are manual (§7.9): trim
+	// any observance that has passed since the last build, and hide a year heading
+	// once all its rows are gone, so the page never shows a stale "upcoming" date.
+	document.addEventListener("astro:page-load", () => {
+		const today = new Date().toISOString().slice(0, 10);
+		for (const section of document.querySelectorAll<HTMLElement>("[data-year]")) {
+			let any = false;
+			for (const row of section.querySelectorAll<HTMLElement>("[data-end]")) {
+				const keep = (row.dataset.end ?? "") >= today;
+				row.hidden = !keep;
+				if (keep) any = true;
+			}
+			section.hidden = !any;
+		}
+	});
+</script>

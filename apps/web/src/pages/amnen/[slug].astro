@@ -3,6 +3,7 @@ import EssayList from "../../components/EssayList.astro";
 import Base from "../../layouts/Base.astro";
 import { AMNEN, type Amne, essaysInAmne } from "../../lib/amnen";
 import { type Article, getArticles } from "../../lib/articles";
+import { breadcrumbList } from "../../lib/jsonld";
 
 export async function getStaticPaths() {
 	const articles = await getArticles();
@@ -24,19 +25,26 @@ const count = essays.length;
 <Base
 	title={`${amne.name} — islam.se`}
 	description={amne.framing}
-	jsonLd={{
-		"@context": "https://schema.org",
-		"@type": "CollectionPage",
-		name: amne.name,
-		description: amne.framing,
-		url: `https://islam.se/amnen/${amne.slug}`,
-		inLanguage: "sv",
-		hasPart: essays.map((e) => ({
-			"@type": "Article",
-			headline: e.title,
-			url: `https://islam.se/${e.slug}`,
-		})),
-	}}
+	jsonLd={[
+		{
+			"@context": "https://schema.org",
+			"@type": "CollectionPage",
+			name: amne.name,
+			description: amne.framing,
+			url: `https://islam.se/amnen/${amne.slug}`,
+			inLanguage: "sv",
+			hasPart: essays.map((e) => ({
+				"@type": "Article",
+				headline: e.title,
+				url: `https://islam.se/${e.slug}`,
+			})),
+		},
+		breadcrumbList([
+			{ name: "Hem", url: "/" },
+			{ name: "Essäer", url: "/essaer" },
+			{ name: amne.name, url: `/amnen/${amne.slug}` },
+		]),
+	]}
 >
 	<main id="main" class="content-column">
 		<header class="article-header">

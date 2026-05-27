@@ -3,6 +3,7 @@ import { getCollection } from "astro:content";
 import Base from "../layouts/Base.astro";
 import { AMNEN, amnenWithEssays } from "../lib/amnen";
 import { type Article, formatDate, getArticles, inlineMarkdown } from "../lib/articles";
+import { breadcrumbList } from "../lib/jsonld";
 
 const articles = await getArticles();
 const amneGroups = amnenWithEssays(articles);
@@ -24,13 +25,19 @@ const western = thinkers.filter((t) => t.data.tradition === "western");
 <Base
 	title="Essäer — islam.se"
 	description="Samtliga essäer om islamisk intellektuell tradition och svenskt kulturarv, ordnade efter ämne. Al-Ghazālī, Ibn Khaldūn, Strindberg, Lagerlöf och fler."
-	jsonLd={{
-		"@context": "https://schema.org",
-		"@type": "CollectionPage",
-		name: "Essäer",
-		url: "https://islam.se/essaer",
-		inLanguage: "sv",
-	}}
+	jsonLd={[
+		{
+			"@context": "https://schema.org",
+			"@type": "CollectionPage",
+			name: "Essäer",
+			url: "https://islam.se/essaer",
+			inLanguage: "sv",
+		},
+		breadcrumbList([
+			{ name: "Hem", url: "/" },
+			{ name: "Essäer", url: "/essaer" },
+		]),
+	]}
 >
 	<main id="main" class="content-column">
 		<header class="article-header">

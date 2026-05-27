@@ -30,6 +30,12 @@ const PAGES: PaletteEntry[] = [
 	{ type: "Sida", label: "Essäer", sub: "Hela arkivet, ordnat efter ämne.", href: "/essaer" },
 	{ type: "Sida", label: "Trådar", sub: "Kuraterade läsningar genom essäerna.", href: "/tradar" },
 	{ type: "Sida", label: "Tänkare", sub: "De röster essäerna återvänder till.", href: "/tankare" },
+	{
+		type: "Sida",
+		label: "Det islamiska året",
+		sub: "Islamiska högtider och fastedagar med datum.",
+		href: "/det-islamiska-aret",
+	},
 	{ type: "Sida", label: "Om", sub: "Om idén bakom islam.se.", href: "/om" },
 	{ type: "Sida", label: "AI", sub: "Koppla hela arkivet till din AI-assistent.", href: "/ai" },
 	{ type: "Sida", label: "Hem", sub: "Startsidan.", href: "/" },

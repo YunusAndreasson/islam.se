@@ -22,7 +22,7 @@ interface Props {
 		description: string;
 		slug: string;
 	};
-	jsonLd?: Record<string, unknown>;
+	jsonLd?: Record<string, unknown> | Record<string, unknown>[];
 }
 
 const {
@@ -44,7 +44,7 @@ const orgLogo = new URL("/apple-touch-icon.png", Astro.site).href;
 const jsonLdBlocks: Record<string, unknown>[] = [];
 
 if (jsonLd) {
-	jsonLdBlocks.push(jsonLd);
+	jsonLdBlocks.push(...(Array.isArray(jsonLd) ? jsonLd : [jsonLd]));
 }
 
 if (articleMeta) {

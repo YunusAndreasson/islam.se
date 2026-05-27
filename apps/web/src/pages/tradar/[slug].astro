@@ -3,6 +3,7 @@ import { getCollection } from "astro:content";
 import EssayList from "../../components/EssayList.astro";
 import Base from "../../layouts/Base.astro";
 import { type Article, getArticles } from "../../lib/articles";
+import { breadcrumbList } from "../../lib/jsonld";
 
 export async function getStaticPaths() {
 	const [threads, articles] = await Promise.all([getCollection("tradar"), getArticles()]);
@@ -33,19 +34,26 @@ const slug = Astro.params.slug;
 	title={`${title} — islam.se`}
 	description={framing}
 	ogImage={`/tradar/${slug}/og.png`}
-	jsonLd={{
-		"@context": "https://schema.org",
-		"@type": "CollectionPage",
-		name: title,
-		description: framing,
-		url: `https://islam.se/tradar/${slug}`,
-		inLanguage: "sv",
-		hasPart: essays.map((e) => ({
-			"@type": "Article",
-			headline: e.title,
-			url: `https://islam.se/${e.slug}`,
-		})),
-	}}
+	jsonLd={[
+		{
+			"@context": "https://schema.org",
+			"@type": "CollectionPage",
+			name: title,
+			description: framing,
+			url: `https://islam.se/tradar/${slug}`,
+			inLanguage: "sv",
+			hasPart: essays.map((e) => ({
+				"@type": "Article",
+				headline: e.title,
+				url: `https://islam.se/${e.slug}`,
+			})),
+		},
+		breadcrumbList([
+			{ name: "Hem", url: "/" },
+			{ name: "Trådar", url: "/tradar" },
+			{ name: title, url: `/tradar/${slug}` },
+		]),
+	]}
 >
 	<main id="main" class="content-column">
 		<header class="article-header">

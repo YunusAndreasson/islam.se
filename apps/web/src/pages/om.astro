@@ -2,11 +2,44 @@
 import BookPod from "../components/BookPod.astro";
 import Base from "../layouts/Base.astro";
 import { getArticles } from "../lib/articles";
+import { breadcrumbList } from "../lib/jsonld";
 
 const articles = await getArticles();
 ---
 
-<Base title="Om — islam.se" description="Essäer där islamisk lärdomstradition möter svenskt kulturarv.">
+<Base
+	title="Om — islam.se"
+	description="Essäer där islamisk lärdomstradition möter svenskt kulturarv."
+	jsonLd={[
+		{
+			"@context": "https://schema.org",
+			"@type": "AboutPage",
+			name: "Om islam.se",
+			url: "https://islam.se/om",
+			inLanguage: "sv",
+			description: "Essäer där islamisk lärdomstradition möter svenskt kulturarv.",
+			mainEntity: {
+				"@type": "Organization",
+				name: "islam.se",
+				url: "https://islam.se",
+				logo: {
+					"@type": "ImageObject",
+					url: "https://islam.se/apple-touch-icon.png",
+					width: 180,
+					height: 180,
+				},
+				founder: [
+					{ "@type": "Person", name: "Bilal", url: "https://bilal.se" },
+					{ "@type": "Person", name: "Yunus", url: "https://andreassonphoto.com" },
+				],
+			},
+		},
+		breadcrumbList([
+			{ name: "Hem", url: "/" },
+			{ name: "Om", url: "/om" },
+		]),
+	]}
+>
 	<main id="main" class="content-column">
 		<header class="article-header">
 			<h1>Om</h1>

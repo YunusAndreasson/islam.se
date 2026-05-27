@@ -1,18 +1,25 @@
 ---
 import TankareGroups from "../../components/TankareGroups.astro";
 import Base from "../../layouts/Base.astro";
+import { breadcrumbList } from "../../lib/jsonld";
 ---
 
 <Base
 	title="Tänkare — islam.se"
 	description="De återkommande samtalspartnerna: den klassiska islamiska traditionen och de svenska och västerländska rösterna som essäerna håller samman."
-	jsonLd={{
-		"@context": "https://schema.org",
-		"@type": "CollectionPage",
-		name: "Tänkare",
-		url: "https://islam.se/tankare",
-		inLanguage: "sv",
-	}}
+	jsonLd={[
+		{
+			"@context": "https://schema.org",
+			"@type": "CollectionPage",
+			name: "Tänkare",
+			url: "https://islam.se/tankare",
+			inLanguage: "sv",
+		},
+		breadcrumbList([
+			{ name: "Hem", url: "/" },
+			{ name: "Tänkare", url: "/tankare" },
+		]),
+	]}
 >
 	<main id="main" class="content-column">
 		<header class="article-header">
