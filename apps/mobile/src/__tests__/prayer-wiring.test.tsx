@@ -16,7 +16,7 @@
 // DST, the polar circle) and the *method* axis (which is erased in Swedish summer when
 // the high-latitude rule takes over) are covered in prayer-times.test.ts, where the date
 // is controllable. Here we cover the interactions the user performs on the screen.
-import { beforeEach, describe, expect, it } from '@jest/globals';
+import { afterEach, beforeEach, describe, expect, it, jest } from '@jest/globals';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react-native';
 import { Madhab } from 'adhan';
@@ -36,8 +36,7 @@ import { oracleTimes } from '../test-utils/prayer-oracle';
 
 // jest.setup mocks expo-location to return this exact coordinate, and it equals
 // DEFAULT_COORDS — so in GPS mode (the default) the resolved location is Stockholm
-// whether or not the async fix has landed. No fake timers needed: adhan's times depend
-// only on the calendar date, and both screen and oracle read `new Date()` on that date.
+// whether or not the async fix has landed.
 const STOCKHOLM: LatLng = { latitude: DEFAULT_COORDS.latitude, longitude: DEFAULT_COORDS.longitude };
 const MALMO: LatLng = { latitude: 55.605, longitude: 13.0038 }; // from SWEDISH_CITIES
 
@@ -71,8 +70,39 @@ async function renderSettings(): Promise<void> {
 // Each test must start from the persisted defaults: the store writes every change to
 // AsyncStorage, so without clearing it a madhab/city picked in one test would hydrate
 // into the next and quietly invalidate its "from defaults" assumption.
+//
+// We also freeze the wall clock. The screen reads `new Date()` internally to compute its
+// preview, and each test reads `new Date()` again to build the oracle — adhan's times key
+// off the calendar date, so the two must land on the same day. Unfrozen, a run that
+// straddles midnight would render the screen on day N while the oracle, a few statements
+// later, reads day N+1, producing legitimately different times and a spurious failure.
+// Only the Date is faked (timers stay real) so RNTL's waitFor and the providers' async
+// hydration behave exactly as in production.
 beforeEach(async () => {
   await AsyncStorage.clear();
+  jest.useFakeTimers({
+    doNotFake: [
+      'setTimeout',
+      'clearTimeout',
+      'setInterval',
+      'clearInterval',
+      'setImmediate',
+      'clearImmediate',
+      'queueMicrotask',
+      'nextTick',
+      'requestAnimationFrame',
+      'cancelAnimationFrame',
+      'requestIdleCallback',
+      'cancelIdleCallback',
+      'hrtime',
+      'performance',
+    ],
+  });
+  jest.setSystemTime(new Date('2026-05-27T09:00:00Z'));
+});
+
+afterEach(() => {
+  jest.useRealTimers();
 });
 
 describe('settings plumbing matches adhan-direct', () => {

@@ -112,7 +112,16 @@ export default function Qibla() {
       // Errors are handled inside; `void` marks the IIFE as intentionally floating.
       void (async () => {
         try {
-          await Location.requestForegroundPermissionsAsync();
+          // Opening Qibla is the explicit intent that justifies the prompt. Branch on the
+          // result rather than relying on watchHeadingAsync to throw: heading needs the
+          // permission on both platforms, so on denial show the north-up dial immediately
+          // instead of waiting out the 2.5 s no-event timeout.
+          const { granted } = await Location.requestForegroundPermissionsAsync();
+          if (cancelled) return;
+          if (!granted) {
+            setNoCompass(true);
+            return;
+          }
           const s = await Location.watchHeadingAsync((h) => {
             const raw = h.trueHeading != null && h.trueHeading >= 0 ? h.trueHeading : h.magHeading;
             if (raw == null || Number.isNaN(raw)) return;

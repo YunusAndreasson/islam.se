@@ -17,7 +17,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { type Href, router, usePathname } from 'expo-router';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
-import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
+import Animated, { runOnJS, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { hapticLight, hapticSelection } from '../../lib/haptics';
@@ -55,6 +55,9 @@ export function AppMenu() {
   const insets = useSafeAreaInsets();
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
+  // Whether the popover's native Liquid Glass material is on. Driven separately from the
+  // open/close fade — see the effect below for why opacity and glass can't animate together.
+  const [glassActive, setGlassActive] = useState(false);
   const progress = useSharedValue(0);
 
   // One chrome source for every screen: the phone's light/dark theme. The menu is a
@@ -75,18 +78,32 @@ export function AppMenu() {
   );
   const styles = useMemo(() => makeStyles(c), [c]);
 
+  // Liquid Glass and opacity don't mix: Expo warns that animating opacity on a GlassView
+  // (or a parent of one) can stop the effect from rendering. The popover fades via
+  // `progress`, so the glass material stays OFF (glassEffectStyle 'none') during the fade
+  // and turns on only once the open animation has settled at full opacity. The OFF reset
+  // lives in the open/close handlers (not here), so this effect only drives the animation
+  // and flips the glass on at completion — no synchronous setState in an effect body.
+  // Inert on the non-glass fallback (Android / iOS < 26), which ignores glassEffectStyle.
   useEffect(() => {
-    progress.value = withTiming(open ? 1 : 0, { duration: 160 });
+    progress.value = withTiming(open ? 1 : 0, { duration: 160 }, (finished) => {
+      if (finished && open) runOnJS(setGlassActive)(true);
+    });
   }, [open, progress]);
 
   const toggle = useCallback(() => {
     hapticLight();
+    setGlassActive(false); // glass re-enables itself when the open animation completes
     setOpen((v) => !v);
   }, []);
-  const close = useCallback(() => setOpen(false), []);
+  const close = useCallback(() => {
+    setGlassActive(false);
+    setOpen(false);
+  }, []);
   const go = useCallback(
     (dest: Destination) => {
       hapticSelection();
+      setGlassActive(false);
       setOpen(false);
       if (pathname !== dest.pathname) router.navigate(dest.href);
     },
@@ -132,7 +149,12 @@ export function AppMenu() {
         </Pressable>
 
         <Animated.View style={[styles.popover, popoverStyle]} pointerEvents={open ? 'auto' : 'none'}>
-          <GlassSurface style={styles.popoverCard} fallbackColor={c.surface} fallbackBorderColor={c.hairline}>
+          <GlassSurface
+            style={styles.popoverCard}
+            glassEffectStyle={glassActive ? 'regular' : 'none'}
+            fallbackColor={c.surface}
+            fallbackBorderColor={c.hairline}
+          >
             {DESTINATIONS.map((dest, i) => {
               const active = pathname === dest.pathname;
               return (

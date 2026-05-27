@@ -229,24 +229,131 @@ export function chainSegments(segments: Segment[]): [number, number][][] {
 }
 
 /**
- * Chaikin corner-cutting: replaces each interior vertex with two points at 1/4 and
- * 3/4 along its edges, rounding off the grid facets into a smooth curve while
- * pinning the two endpoints. Two iterations is enough to hide the lattice stepping
- * under the line's glow without drifting the line meaningfully off its true locus.
+ * Light approximating smoothing of a chained contour, to iron out the grid-scale
+ * waviness marching squares leaves on a coarse lattice. The crossings stair-step along
+ * the ~40 km cell edges; centripetal Catmull-Rom then threads *through* every one of
+ * them, faithfully preserving that waviness — so on its own the rendered isoline reads
+ * as a gently faceted polyline, not the smooth curve the underlying solar field is.
+ *
+ * A few binomial [¼, ½, ¼] passes pull the control polygon toward that smooth
+ * underlying curve before catmullRom resamples it, removing the sampling artefact (a
+ * sub-cell move toward the true contour — it doesn't invent a time, it de-noises the
+ * lattice). Endpoints are pinned so an open line still reaches the map edge; a closed
+ * loop is smoothed cyclically so its seam stays continuous.
  */
-export function chaikin(line: [number, number][], iterations = 2): [number, number][] {
-  let pts = line;
+export function smoothChain(line: [number, number][], iterations = 3): [number, number][] {
+  if (line.length < 3) return line;
+  const closed = line[0][0] === line[line.length - 1][0] && line[0][1] === line[line.length - 1][1];
+  let pts = closed ? line.slice(0, -1) : line;
+  const m = pts.length;
+  if (m < 3) return line;
   for (let it = 0; it < iterations; it++) {
-    if (pts.length < 3) break;
-    const out: [number, number][] = [pts[0]];
-    for (let i = 0; i < pts.length - 1; i++) {
-      const p = pts[i];
-      const q = pts[i + 1];
-      out.push([p[0] * 0.75 + q[0] * 0.25, p[1] * 0.75 + q[1] * 0.25]);
-      out.push([p[0] * 0.25 + q[0] * 0.75, p[1] * 0.25 + q[1] * 0.75]);
+    const out: [number, number][] = new Array(m);
+    for (let i = 0; i < m; i++) {
+      if (!closed && (i === 0 || i === m - 1)) {
+        out[i] = pts[i];
+        continue;
+      }
+      const a = pts[(i - 1 + m) % m];
+      const b = pts[i];
+      const c = pts[(i + 1) % m];
+      out[i] = [0.25 * a[0] + 0.5 * b[0] + 0.25 * c[0], 0.25 * a[1] + 0.5 * b[1] + 0.25 * c[1]];
     }
-    out.push(pts[pts.length - 1]);
     pts = out;
   }
-  return pts;
+  return closed ? [...pts, pts[0]] : pts;
+}
+
+/**
+ * Resample a polyline as a smooth curve that PASSES THROUGH its points, via a
+ * centripetal Catmull-Rom spline.
+ *
+ * The marching-squares contour is piecewise-linear at the ~35 km grid, so it needs
+ * smoothing to read as a curve. Chaikin corner-cutting (the old approach) only
+ * *approximates* — it cuts toward the inside of each vertex, leaving a quadratic
+ * B-spline whose curvature is discontinuous at every knot; the eye reads those
+ * curvature jumps as the faint "hand-drawn, almost-but-not-quite" facets that survive
+ * even many iterations. Catmull-Rom instead *interpolates*: it threads a smooth cubic
+ * through each contour point with continuous tangents (C1), so the rendered line reads
+ * as a true geometric curve rather than a rounded polyline. Centripetal parameterisation
+ * (alpha = 0.5) is what prevents the cusps and self-intersections that the uniform variant
+ * forms on unevenly-spaced cell crossings. It does NOT strictly bound the curve to the
+ * control polygon — a sharp convex corner can bulge a few percent of a cell past it (a 90°
+ * kink overshoots ~7%) — but a prayer isoline over a smooth solar field turns gently, so
+ * the measured overshoot on real lines is essentially nil and far under a pixel at the
+ * country zoom. (If contours ever sharpened, a tension/limiter clamp would cap it.)
+ *
+ * Open lines preserve their endpoints exactly (the end tangents are clamped). A *closed*
+ * loop — which chainSegments emits with its first point repeated at the end, e.g. when an
+ * isoline closes on a local extremum inside the country — is instead fitted cyclically:
+ * the control points wrap around the loop so the join at the (arbitrary) start vertex has
+ * the same continuous tangent as every other knot. Clamping a closed loop as if it were
+ * open would leave a visible kink at that seam wherever chaining happened to cut the cycle.
+ *
+ * A line shorter than 3 points has no curve to fit and is returned unchanged. `samples` is
+ * the number of points generated per source segment (curve resolution) — the source
+ * vertices stay ~35 km apart, so 12 keeps each rendered arc well under a pixel of chord
+ * error at the country zoom.
+ */
+export function catmullRom(line: [number, number][], samples = 12): [number, number][] {
+  const n = line.length;
+  if (n < 3 || samples < 1) return line;
+
+  // A loop arrives with its first vertex duplicated at the end (see chainSegments). Drop
+  // that duplicate and treat the spline as cyclic so the seam is smoothed like any knot.
+  const closed = line[0][0] === line[n - 1][0] && line[0][1] === line[n - 1][1];
+  const pts = closed ? line.slice(0, -1) : line;
+  const m = pts.length;
+  if (m < 3) return line; // a 2-vertex loop is degenerate — nothing to curve
+
+  // Control point at index k: wrap around the loop when closed, clamp to the ends when
+  // open (so the open curve still passes through and pins its real endpoints).
+  const at = (k: number): [number, number] =>
+    closed ? pts[((k % m) + m) % m] : pts[k < 0 ? 0 : k >= m ? m - 1 : k];
+
+  // Centripetal knot spacing uses sqrt of the chord length; guard zero-length spans
+  // (coincident crossings) so no knot delta is 0 and nothing divides by zero.
+  const knot = (a: [number, number], b: [number, number]): number =>
+    Math.max(1e-9, Math.sqrt(Math.hypot(b[0] - a[0], b[1] - a[1])));
+
+  // Open: span the m-1 interior segments p_i→p_{i+1}. Closed: also span the closing
+  // segment p_{m-1}→p_0, so the resampled curve returns to its start point (stays closed).
+  const out: [number, number][] = [at(0)];
+  const segs = closed ? m : m - 1;
+  for (let i = 0; i < segs; i++) {
+    // Four control points around the segment p1→p2 (wrapped or clamped via `at`).
+    const p0 = at(i - 1);
+    const p1 = at(i);
+    const p2 = at(i + 1);
+    const p3 = at(i + 2);
+
+    const t0 = 0;
+    const t1 = t0 + knot(p0, p1);
+    const t2 = t1 + knot(p1, p2);
+    const t3 = t2 + knot(p2, p3);
+
+    // Sample the Barry–Goldman pyramid across [t1, t2]; s=samples lands exactly on p2,
+    // so consecutive segments join without duplicating the shared vertex.
+    for (let s = 1; s <= samples; s++) {
+      const t = t1 + ((t2 - t1) * s) / samples;
+      const lerp = (
+        ax: number,
+        ay: number,
+        bx: number,
+        by: number,
+        ta: number,
+        tb: number,
+      ): [number, number] => {
+        const w = (t - ta) / (tb - ta);
+        return [ax + (bx - ax) * w, ay + (by - ay) * w];
+      };
+      const [a1x, a1y] = lerp(p0[0], p0[1], p1[0], p1[1], t0, t1);
+      const [a2x, a2y] = lerp(p1[0], p1[1], p2[0], p2[1], t1, t2);
+      const [a3x, a3y] = lerp(p2[0], p2[1], p3[0], p3[1], t2, t3);
+      const [b1x, b1y] = lerp(a1x, a1y, a2x, a2y, t0, t2);
+      const [b2x, b2y] = lerp(a2x, a2y, a3x, a3y, t1, t3);
+      out.push(lerp(b1x, b1y, b2x, b2y, t1, t2));
+    }
+  }
+  return out;
 }

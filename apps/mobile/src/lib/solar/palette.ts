@@ -12,9 +12,18 @@ export type RGBA = [number, number, number, number];
 // midday is fully clear (a=0), deep night is a heavy indigo veil. The warm dusk
 // and cool dawn tints are the "sunset glow" and "first light" sweeping across.
 export const DAY: RGBA = [255, 255, 255, 0]; //            midday — basemap untouched
-export const DUSK_WARM: RGBA = [205, 116, 84, 0.36]; //    Maghrib→Isha glow (terracotta)
+// Maghrib→Isha glow. A deep, saturated sunset terracotta (not the lighter amber it
+// used to be, which read too close to the Asr line's hue) carried at a heavier alpha so
+// the dusk band darkens noticeably as the Maghrib line sweeps in.
+export const DUSK_WARM: RGBA = [183, 78, 52, 0.5]; //      Maghrib→Isha glow (deep sunset)
 export const NIGHT: RGBA = [20, 26, 52, 0.66]; //          Isha→Fajr (deep indigo veil)
-export const DAWN_COOL: RGBA = [102, 118, 168, 0.36]; //   Fajr→sunrise (cool periwinkle)
+export const DAWN_COOL: RGBA = [102, 118, 168, 0.42]; //   Fajr→sunrise (cool periwinkle)
+// The wash's LEADING EDGE right at the Maghrib / sunrise line. Without it the dusk/dawn
+// ramp starts fully transparent at the line, so the colour only becomes visible far
+// out in the band — the line and its gradient look disconnected. A faint, same-hue tint
+// at the line makes the wash begin AT the line (under the glow) and deepen outward.
+export const DUSK_EDGE: RGBA = [183, 78, 52, 0.2]; //      at the Maghrib line
+export const DAWN_EDGE: RGBA = [102, 118, 168, 0.16]; //   at the sunrise line
 // Polar / midnight-sun fallback: a place that never reaches true night keeps a
 // pale "white night" tint rather than going black or throwing on NaN times.
 export const WHITE_NIGHT: RGBA = [120, 132, 172, 0.24];
@@ -41,22 +50,6 @@ export function mix(a: RGBA, b: RGBA, t: number): RGBA {
     Math.round(lerp(a[2], b[2], t)),
     lerp(a[3], b[3], t),
   ];
-}
-
-/** Average a set of RGBA colours (used to smooth a fill cell across its corners). */
-export function average(colors: RGBA[]): RGBA {
-  const n = colors.length || 1;
-  let r = 0;
-  let g = 0;
-  let b = 0;
-  let a = 0;
-  for (const c of colors) {
-    r += c[0];
-    g += c[1];
-    b += c[2];
-    a += c[3];
-  }
-  return [Math.round(r / n), Math.round(g / n), Math.round(b / n), a / n];
 }
 
 export function rgbaString([r, g, b, a]: RGBA): string {

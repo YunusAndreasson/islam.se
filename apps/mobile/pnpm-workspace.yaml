@@ -7,6 +7,9 @@ packages: []
 
 # Dependencies explicitly allowed (or denied) to run install/build scripts (pnpm 11).
 allowBuilds:
+  # Skia's postinstall (install-libs.js) stages its prebuilt native libraries for
+  # the Android build — it must run, or the native module won't link.
+  '@shopify/react-native-skia': true
   # Optional native msgpack accelerator; the pure-JS fallback is fine for us.
   msgpackr-extract: false
   # Rust-based module resolver used by lint tooling; native binary is preferred.
