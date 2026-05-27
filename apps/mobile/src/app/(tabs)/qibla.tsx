@@ -34,10 +34,11 @@ const ALIGN_TOL = 4;
 const NEAR_TOL = 30;
 // Over this many degrees off, proximity feedback is fully cold.
 const PROX_RANGE = 45;
-// Cardinal points, Swedish (Nord/Öst/Syd/Väst).
+// Cardinal points, Swedish (Nord/Ost/Syd/Väst — "O" for east per the Swedish
+// cartographic/meteorological convention, as used by SMHI and in seafaring).
 const CARDINALS: readonly { deg: number; label: string }[] = [
   { deg: 0, label: 'N' },
-  { deg: 90, label: 'Ö' },
+  { deg: 90, label: 'O' },
   { deg: 180, label: 'S' },
   { deg: 270, label: 'V' },
 ];

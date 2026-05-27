@@ -17,7 +17,6 @@ import { useMemo } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
 import { formatTime, PRAYER_LABELS, PRAYER_ORDER, type PrayerKey } from '../../lib/prayer-times';
-import type { PrayerSettings } from '../../lib/settings/types';
 import { buildCells, buildLines, type SolarGrid } from '../../lib/solar/field';
 import { PRAYER_COLORS } from '../../lib/solar/palette';
 import { nightChrome } from './nightChrome';
@@ -33,7 +32,6 @@ const LINE_COLOR: (string | string[])[] = [
 interface Props {
   grid: SolarGrid;
   now: number;
-  settings: PrayerSettings;
   /** The user's next prayer — its line/pill are emphasised. Null if it's tomorrow's. */
   nextKey: PrayerKey | null;
   /** 0 day → 1 night; dims the label pills so they read on the dark map. */
@@ -82,10 +80,10 @@ function perpOffset(lngLat: [number, number], tangent: [number, number]): [numbe
   return [px * LABEL_OFFSET_PX, py * LABEL_OFFSET_PX];
 }
 
-export function PrayerFieldOverlay({ grid, now, settings, nextKey, night }: Props) {
+export function PrayerFieldOverlay({ grid, now, nextKey, night }: Props) {
   const cells = useMemo(() => buildCells(grid, now, 1), [grid, now]);
   const { lines, labels } = useMemo(() => buildLines(grid, now), [grid, now]);
-  const timeLabel = formatTime(new Date(now), settings);
+  const timeLabel = formatTime(new Date(now));
   const c = nightChrome(night);
 
   return (

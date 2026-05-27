@@ -87,18 +87,12 @@ describe('computePrayerTimes', () => {
 
 describe('formatTime', () => {
   it('renders 24h times in Europe/Stockholm and a dash for uncomputable times', () => {
-    // 20 Mar 2026 is before DST starts, so Europe/Stockholm = CET (UTC+1).
+    // 20 Mar 2026 is before DST starts, so Europe/Stockholm = CET (UTC+1). Sweden uses
+    // the 24-hour clock exclusively, so there is no 12-hour path to format.
     const noon = new Date(Date.UTC(2026, 2, 20, 11, 0)); // 12:00 local
-    expect(formatTime(noon, settings({ timeFormat: '24h' }))).toMatch(/^12[:.]00$/);
-    expect(formatTime(new Date(NaN), settings())).toBe('—');
-  });
-
-  it('switches to 12-hour clock without locale-specific assumptions', () => {
-    const afternoon = new Date(Date.UTC(2026, 2, 20, 13, 0)); // 14:00 local
-    expect(formatTime(afternoon, settings({ timeFormat: '24h' }))).toMatch(/14[:.]00/);
-    const h12 = formatTime(afternoon, settings({ timeFormat: '12h' }));
-    // 14:00 becomes a 2 o'clock reading (e.g. "2:00 PM" or zero-padded "02:00 em").
-    expect(h12).not.toMatch(/14/);
-    expect(h12).toMatch(/0?2[:.]00/);
+    expect(formatTime(noon)).toMatch(/^12[:.]00$/);
+    const afternoon = new Date(Date.UTC(2026, 2, 20, 13, 0)); // 14:00 local — never "2"
+    expect(formatTime(afternoon)).toMatch(/14[:.]00/);
+    expect(formatTime(new Date(NaN))).toBe('—');
   });
 });

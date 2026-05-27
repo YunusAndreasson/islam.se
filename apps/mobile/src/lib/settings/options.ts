@@ -13,7 +13,6 @@ import {
   type Rounding,
   type Shafaq,
   SWEDISH_CITIES,
-  type TimeFormat,
 } from './types';
 
 // Ordered Sweden-first: Muslim World League is the default and the one most Swedish
@@ -74,11 +73,6 @@ export const ROUNDING_OPTIONS: readonly Option<Rounding>[] = [
   { value: 'none', label: 'Ingen' },
 ];
 
-export const TIMEFORMAT_OPTIONS: readonly Option<TimeFormat>[] = [
-  { value: '24h', label: '24-timmars' },
-  { value: '12h', label: '12-timmars' },
-];
-
 export const CITY_OPTIONS: readonly Option<string>[] = SWEDISH_CITIES.map((c) => ({
   value: c.name,
   label: c.name,
@@ -96,9 +90,6 @@ export const methodLabel = (s: PrayerSettings): string =>
   labelOf(METHOD_OPTIONS, s.calculationMethod);
 
 export const madhabLabel = (s: PrayerSettings): string => labelOf(MADHAB_OPTIONS, s.madhab);
-
-export const timeFormatLabel = (s: PrayerSettings): string =>
-  labelOf(TIMEFORMAT_OPTIONS, s.timeFormat);
 
 /** "Inga justeringar" when every offset is 0, otherwise how many are tweaked. */
 export const adjustmentsSummary = (s: PrayerSettings): string => {

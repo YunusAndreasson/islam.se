@@ -46,7 +46,7 @@ export function useSolarClock(active = true): SolarClock {
   // The local midnight the day slider spans from. Re-anchored at the live midnight
   // (and on reset) so the view rolls over to the new day on its own — otherwise an
   // app left running across midnight keeps rendering yesterday: slider pinned at the
-  // far right, stale times, "imorgon" mislabelling today's Fajr.
+  // far right, stale times, "i morgon" mislabelling today's Fajr.
   const [dayStart, setDayStart] = useState(() => startOfToday());
 
   // Live mode follows the wall clock, re-anchoring the day when it rolls over — but

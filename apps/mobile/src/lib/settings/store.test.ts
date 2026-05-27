@@ -16,7 +16,7 @@ describe('settings store', () => {
   });
 
   it('round-trips saved settings', async () => {
-    const custom = { ...DEFAULT_SETTINGS, madhab: 'hanafi' as const, timeFormat: '12h' as const };
+    const custom = { ...DEFAULT_SETTINGS, madhab: 'hanafi' as const, rounding: 'up' as const };
     await saveSettings(custom);
     expect(await loadSettings()).toEqual(custom);
   });

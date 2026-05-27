@@ -99,6 +99,9 @@ export function formatHijri(date: Date, offsetDays = 0): string {
 export function formatGregorian(date: Date): string {
   try {
     const s = new Intl.DateTimeFormat('sv-SE', {
+      // Pin to Swedish civil time like the rest of the app, so the dock's weekday/day
+      // can't roll to the wrong calendar day near midnight on a device in another zone.
+      timeZone: 'Europe/Stockholm',
       weekday: 'long',
       day: 'numeric',
       month: 'long',

@@ -104,8 +104,8 @@ export async function syncPrayerNotifications(
             title: PRAYER_LABELS[key as PrayerKey],
             body:
               leadMs > 0
-                ? `Bönetid ${formatTime(at, settings)} · om ${settings.notifications.leadMinutes} min`
-                : `Bönetid ${formatTime(at, settings)}`,
+                ? `Bönetid ${formatTime(at)} · om ${settings.notifications.leadMinutes} min`
+                : `Bönetid ${formatTime(at)}`,
             // `true` = the OS default sound (iOS reads this; on Android the channel
             // governs). A string here would be treated as a custom bundled filename.
             sound: true,
