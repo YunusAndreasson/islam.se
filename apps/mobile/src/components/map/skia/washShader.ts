@@ -97,7 +97,11 @@ half4 main(float2 fragCoord) {
   float v = (lat - u_grid.y) / u_grid.w;
   if (u < 0.0 || u > 1.0 || v < 0.0 || v > 1.0) { return half4(0.0); }
 
-  half4 s = field.eval(float2(u * u_imgSize.x, v * u_imgSize.y));
+  // Grid uv is a coordinate over the geographic grid nodes. ImageShader samples in
+  // image-pixel space, whose texel centres sit at n + 0.5. Address those centres so
+  // u/v=0 reads the first grid node and u/v=1 reads the last, with bilinear blending
+  // between neighbouring nodes instead of bleeding against clamped texture edges.
+  half4 s = field.eval(float2(0.5 + u * (u_imgSize.x - 1.0), 0.5 + v * (u_imgSize.y - 1.0)));
   half4 c = washColor(u_now, s.r, s.g, s.b, s.a);
   // Runtime-shader output is premultiplied.
   return half4(c.rgb * c.a, c.a);

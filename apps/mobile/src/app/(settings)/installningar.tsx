@@ -1,4 +1,5 @@
-import { useIsFocused } from 'expo-router';
+import { MaterialIcons } from '@expo/vector-icons';
+import { router, useIsFocused } from 'expo-router';
 import { type ReactNode, useEffect, useMemo, useState } from 'react';
 import { ActivityIndicator, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -86,9 +87,25 @@ export default function Installningar() {
     };
   }, [coords, settings, now]);
 
+  // This screen is the Settings sheet over the map — a persistent ✕ dismisses it back.
+  const closeBar = (
+    <View style={styles.modalBar}>
+      <Pressable
+        onPress={() => router.back()}
+        accessibilityRole="button"
+        accessibilityLabel="Stäng"
+        hitSlop={10}
+        style={styles.close}
+      >
+        <MaterialIcons name="close" size={26} color={colors.textMuted} />
+      </Pressable>
+    </View>
+  );
+
   if (!loaded) {
     return (
       <SafeAreaView style={styles.safe} edges={['top']}>
+        {closeBar}
         <View style={styles.loading}>
           <ActivityIndicator color={colors.accent} />
         </View>
@@ -98,6 +115,7 @@ export default function Installningar() {
 
   return (
     <SafeAreaView style={styles.safe} edges={['top']}>
+      {closeBar}
       <ScrollView contentContainerStyle={styles.content}>
         <Text style={styles.header}>Inställningar</Text>
 
@@ -308,6 +326,18 @@ export default function Installningar() {
             />
           </SubGroup>
         </DisclosureGroup>
+
+        {/* Om lives here now (no longer its own nav entry): the full About page pushes
+            in within this sheet, a back arrow returns here. */}
+        <Pressable
+          onPress={() => router.push('/om')}
+          accessibilityRole="button"
+          style={({ pressed }) => [styles.aboutRow, pressed && styles.aboutPressed]}
+        >
+          <MaterialIcons name="info-outline" size={20} color={colors.accent} />
+          <Text style={styles.aboutLabel}>Om appen</Text>
+          <MaterialIcons name="chevron-right" size={22} color={colors.textMuted} />
+        </Pressable>
       </ScrollView>
     </SafeAreaView>
   );
@@ -341,8 +371,24 @@ function SubGroup({
 function makeStyles(colors: SettingsColors) {
   return StyleSheet.create({
     safe: { flex: 1, backgroundColor: colors.bg },
+    modalBar: { height: 44, flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'center', paddingHorizontal: 16 },
+    close: { padding: 4 },
     loading: { flex: 1, alignItems: 'center', justifyContent: 'center' },
     content: { padding: 16, paddingBottom: 48 },
+    // A single-row card linking the About page — the same chrome as a SettingSection card.
+    aboutRow: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: 12,
+      minHeight: 56,
+      paddingHorizontal: 16,
+      backgroundColor: colors.card,
+      borderRadius: 12,
+      borderWidth: StyleSheet.hairlineWidth,
+      borderColor: colors.border,
+    },
+    aboutPressed: { backgroundColor: colors.accentSoft },
+    aboutLabel: { flex: 1, fontSize: 16, color: colors.text },
     header: { fontSize: 28, fontWeight: '700', color: colors.text, marginBottom: 20, marginTop: 4 },
     previewHead: {
       paddingVertical: 12,

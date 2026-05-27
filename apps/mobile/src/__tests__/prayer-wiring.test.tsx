@@ -21,7 +21,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react-native';
 import { Madhab } from 'adhan';
 
-import Installningar from '../app/(tabs)/installningar';
+import Installningar from '../app/(settings)/installningar';
 import { LocationProvider } from '../lib/location/context';
 import {
   formatTime,

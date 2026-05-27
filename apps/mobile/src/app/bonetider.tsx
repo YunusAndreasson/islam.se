@@ -13,23 +13,23 @@ import { useSharedValue } from 'react-native-reanimated';
 import {
   type DayMark,
   DOCK_COLLAPSED_BASE,
-  DOCK_EXPANDED_BASE,
   DOCK_FLOAT,
   type NextPrayer,
   PrayerDock,
-} from '../../components/map/PrayerDock';
-import { MapMarkersOverlay } from '../../components/map/MapMarkersOverlay';
-import { type PrayerLineData, SolarSkiaOverlay } from '../../components/map/skia/SolarSkiaOverlay';
-import { mapTheme } from '../../components/map/theme';
-import { useLocation } from '../../lib/location/context';
-import type { Camera as MapCamera } from '../../lib/map/projection';
-import { NORDIC_MAP_STYLE } from '../../lib/map/nordicStyle';
-import { nightFactor } from '../../lib/solar/night';
-import { computePrayerTimes, PRAYER_ORDER, type PrayerKey } from '../../lib/prayer-times';
-import { useSettings } from '../../lib/settings/context';
-import type { PrayerSettings } from '../../lib/settings/types';
-import { buildGrid, buildLines } from '../../lib/solar/field';
-import { useSolarClock } from '../../lib/solar/useSolarClock';
+} from '../components/map/PrayerDock';
+import { MapMarkersOverlay } from '../components/map/MapMarkersOverlay';
+import { type PrayerLineData, SolarSkiaOverlay } from '../components/map/skia/SolarSkiaOverlay';
+import { mapTheme } from '../components/map/theme';
+import { MapNav } from '../components/nav/MapNav';
+import { useLocation } from '../lib/location/context';
+import type { Camera as MapCamera } from '../lib/map/projection';
+import { NORDIC_MAP_STYLE } from '../lib/map/nordicStyle';
+import { nightFactor } from '../lib/solar/night';
+import { computePrayerTimes, PRAYER_ORDER, type PrayerKey } from '../lib/prayer-times';
+import { useSettings } from '../lib/settings/context';
+import type { PrayerSettings } from '../lib/settings/types';
+import { buildGrid, buildLines } from '../lib/solar/field';
+import { useSolarClock } from '../lib/solar/useSolarClock';
 
 // Sweden bounding box, flat [west, south, east, north] (MapLibre GL JS style).
 const WEST = 10.6;
@@ -73,14 +73,6 @@ export default function Bonetider() {
   // The zoom that frames Sweden, captured from the first settled fit so it
   // adapts to the device. The user can't zoom out past it; zoom-in is free.
   const floorZoom = useRef<number | undefined>(undefined);
-  // Bounds-enforcement is paused while the dock is expanded: the map is
-  // deliberately re-fit above the dock (zoomed out past the floor), which the
-  // enforcer would otherwise undo.
-  const enforce = useRef(true);
-  // The pending "re-enable enforcement" timer from a collapse. Held so a quick
-  // re-expand can cancel it — otherwise a stale timer fires mid-expand, turns
-  // enforcement back on while the dock is open, and snaps the lifted map back down.
-  const reenableTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const insets = useSafeAreaInsets();
   const { width: screenW, height: screenH } = useWindowDimensions();
@@ -88,47 +80,6 @@ export default function Bonetider() {
   // safe-area inset + the float gap beneath it. The map reserves this much so
   // southern Sweden (Malmö) is never hidden behind the dock.
   const collapsedDock = DOCK_COLLAPSED_BASE + insets.bottom + DOCK_FLOAT;
-  const expandedDock = DOCK_EXPANDED_BASE + insets.bottom + DOCK_FLOAT;
-
-  // When the dock opens, lift Sweden into the area above it (bottom padding =
-  // the dock's height) so the south — where most people are — is never hidden.
-  // When it closes, restore the collapsed framing (which still clears the dock).
-  const onDockExpandedChange = useCallback(
-    (expanded: boolean) => {
-      enforce.current = false;
-      // Cancel any pending re-enable from a previous collapse: if it fired now
-      // (mid-expand) it would re-arm the enforcer over the open dock.
-      if (reenableTimer.current) {
-        clearTimeout(reenableTimer.current);
-        reenableTimer.current = null;
-      }
-      cameraRef.current?.fitBounds(SWEDEN_BOUNDS, {
-        padding: {
-          top: 24,
-          right: 24,
-          bottom: (expanded ? expandedDock : collapsedDock) + DOCK_MARGIN,
-          left: 24,
-        },
-        duration: 350,
-      });
-      if (!expanded) {
-        // Re-enable only after the restore animation settles, so its own
-        // onRegionDidChange events don't trip the enforcer mid-flight.
-        reenableTimer.current = setTimeout(() => {
-          enforce.current = true;
-          reenableTimer.current = null;
-        }, 450);
-      }
-    },
-    [expandedDock, collapsedDock],
-  );
-
-  // Drop a pending re-enable timer if the screen unmounts mid-collapse.
-  useEffect(() => {
-    return () => {
-      if (reenableTimer.current) clearTimeout(reenableTimer.current);
-    };
-  }, []);
 
   const { settings } = useSettings();
   const { coords, label } = useLocation();
@@ -153,7 +104,21 @@ export default function Bonetider() {
     width: screenW,
     height: screenH,
   });
+
+  const publishCamera = useCallback(
+    (next: MapCamera, syncReact = true) => {
+      // Keep the Skia overlay glued to MapLibre immediately. React state is still
+      // updated for the RN marker/label layer, but the GPU wash/lines no longer wait
+      // for a React render before receiving live camera coordinates.
+      // eslint-disable-next-line react-hooks/immutability
+      cam.value = next;
+      if (syncReact) setCamState(next);
+    },
+    [cam],
+  );
+
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/immutability
     cam.value = camState;
   }, [camState, cam]);
 
@@ -256,10 +221,10 @@ export default function Bonetider() {
     (e: NativeSyntheticEvent<ViewStateChangeEvent>) => {
       const { center, zoom } = e.nativeEvent;
       if (zoom > 1) {
-        setCamState({ lon: center[0], lat: center[1], zoom, width: screenW, height: screenH });
+        publishCamera({ lon: center[0], lat: center[1], zoom, width: screenW, height: screenH });
       }
     },
-    [screenW, screenH],
+    [publishCamera, screenW, screenH],
   );
 
   const onRegionDidChange = useCallback(
@@ -267,7 +232,7 @@ export default function Bonetider() {
       const { center, zoom, bounds } = e.nativeEvent;
       // Settle the camera for the overlays. Skip the pre-fit world-zoom default (~0.6).
       if (zoom > 1) {
-        setCamState({ lon: center[0], lat: center[1], zoom, width: screenW, height: screenH });
+        publishCamera({ lon: center[0], lat: center[1], zoom, width: screenW, height: screenH });
       }
       // Wait for the initial bounds-fit before enforcing — the map emits a
       // pre-fit default at world zoom (~0.6) we must not act on.
@@ -275,8 +240,6 @@ export default function Bonetider() {
         if (zoom > 1) floorZoom.current = zoom;
         return;
       }
-      // Paused while the dock is expanded (the map is intentionally lifted).
-      if (!enforce.current) return;
       const [west, south, east, north] = bounds;
       const dx = axisShift(west, east, WEST, EAST);
       // Keep Sweden framed *above* the collapsed dock: when zoomed out enough to
@@ -297,8 +260,7 @@ export default function Bonetider() {
         });
       }
     },
-    // cam is a stable shared-value ref (see onRegionIsChanging) — kept out of deps.
-    [collapsedDock, screenH, screenW],
+    [collapsedDock, publishCamera, screenH, screenW],
   );
 
   return (
@@ -352,7 +314,7 @@ export default function Bonetider() {
       />
 
       {/* The one bottom surface: next prayer + day scrubber, expandable to the full
-          schedule. Navigation (☰) lives in the global AppMenu, top-right. */}
+          schedule. */}
       <PrayerDock
         clock={clock}
         times={userTimes}
@@ -360,8 +322,13 @@ export default function Bonetider() {
         next={next}
         locationLabel={placeLabel}
         settings={settings}
-        onExpandedChange={onDockExpandedChange}
       />
+
+      {/* Floating navigation: a live qibla compass (left) and the settings cog (right),
+          each opening its screen as a sheet over the map. `active` (the screen's focus)
+          gates the compass's heading subscription so the magnetometer pauses when a
+          sheet is up or the app is backgrounded. */}
+      <MapNav active={isFocused} />
     </View>
   );
 }
