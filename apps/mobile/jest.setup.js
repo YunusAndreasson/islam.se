@@ -80,6 +80,32 @@ jest.mock('react-native-reanimated', () => {
   };
 });
 
+// expo-linear-gradient is a native module; render it as a plain host View so screens
+// that use it for a gradient hero/face (Om, Qibla) mount in jsdom/node.
+jest.mock('expo-linear-gradient', () => {
+  const { View } = require('react-native');
+  return { LinearGradient: View };
+});
+
+// expo-web-browser + expo-mail-composer are native (Om's Kontakt actions). Mock the
+// surface the screen calls: the in-app browser opens as a resolved no-op, and the
+// mail composer reports available so the compose path (not the mailto fallback) runs.
+jest.mock('expo-web-browser', () => ({
+  openBrowserAsync: jest.fn(async () => ({ type: 'opened' })),
+}));
+jest.mock('expo-mail-composer', () => ({
+  isAvailableAsync: jest.fn(async () => true),
+  composeAsync: jest.fn(async () => ({ status: 'sent' })),
+}));
+// expo-store-review is native (Om's "Betygsätt appen" row). Report an in-place
+// review action available so the requestReview path runs under test.
+jest.mock('expo-store-review', () => ({
+  hasAction: jest.fn(async () => true),
+  requestReview: jest.fn(async () => {}),
+  // storeUrl is synchronous in expo-store-review (returns string | null).
+  storeUrl: jest.fn(() => 'https://play.google.com/store/apps/details?id=se.islam.mobile'),
+}));
+
 // expo-haptics is a native taptic module with no JS-thread implementation under
 // test. The dock fires haptics through src/lib/haptics; stub the calls as no-op
 // resolved promises so those one-liners don't reach native during a render.
