@@ -16,7 +16,14 @@ export const DAY: RGBA = [255, 255, 255, 0]; //            midday — basemap un
 // used to be, which read too close to the Asr line's hue) carried at a heavier alpha so
 // the dusk band darkens noticeably as the Maghrib line sweeps in.
 export const DUSK_WARM: RGBA = [183, 78, 52, 0.5]; //      Maghrib→Isha glow (deep sunset)
-export const NIGHT: RGBA = [20, 26, 52, 0.66]; //          Isha→Fajr (deep indigo veil)
+// Isha→Fajr. A deep indigo night carried at a heavyish alpha ON PURPOSE: the basemap land
+// is warm parchment (#ece6d8), so at the old 0.66 a third of that warm paper bled straight
+// through and neutralised the cool indigo to a muddy ~#5D5F6C slate — "dusk fog", not
+// night. At 0.88 the parchment is mostly drowned and night reads as a true deep night-blue
+// (≈ #2A2D43) without going so heavy it reads as a flat black void, while the cooler water
+// still ghosts a touch darker so the coastline whispers through. The shader adds gentle
+// screen-space depth on top (nightVeil()).
+export const NIGHT: RGBA = [15, 20, 47, 0.88]; //          Isha→Fajr (deep indigo night)
 export const DAWN_COOL: RGBA = [102, 118, 168, 0.42]; //   Fajr→sunrise (cool periwinkle)
 // The wash's LEADING EDGE right at the Maghrib / sunrise line. Without it the dusk/dawn
 // ramp starts fully transparent at the line, so the colour only becomes visible far
@@ -35,7 +42,7 @@ export const PRAYER_COLORS: Record<PrayerKey, string> = {
   dhuhr: '#b6a98d', //    pale neutral noon
   asr: '#cf9f63', //      soft afternoon amber
   maghrib: '#cf7d5c', //  sunset terracotta (the hero line)
-  isha: '#3a4684', //     deep night indigo (matches the app accent)
+  isha: '#33437a', //     Prussian night indigo (matches the app accent)
 };
 
 function lerp(a: number, b: number, t: number): number {
