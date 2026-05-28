@@ -14,10 +14,13 @@ import type {
   Shafaq,
 } from './types';
 
-// Ordered Sweden-first: Muslim World League is the default and the one most Swedish
-// mosques follow, so it leads and is marked recommended. Diyanet (large Turkish
-// community here), Umm al-Qura, the Egyptian authority and Moonsighting follow as
-// the next most likely choices; the rest trail, with the manual "Annan" last.
+// Sweden-first and Sweden-only by intent: a Swedish-Muslim user is realistically
+// served by one of MWL / Diyanet / Umm al-Qura / Egyptian / Moonsighting / ISNA.
+// Methods bound to specific Gulf countries (Karachi, Dubai, Qatar, Kuwait,
+// Singapore, Tehran) are NOT shown — they don't fit a Swedish congregation and
+// were noise in a list this important. They remain in CalculationMethodKey for
+// back-compat: a user with an older saved value still computes correctly via
+// adhan; they just can't re-pick that method from the picker.
 export const METHOD_OPTIONS: readonly Option<CalculationMethodKey>[] = [
   {
     value: 'MuslimWorldLeague',
@@ -32,13 +35,7 @@ export const METHOD_OPTIONS: readonly Option<CalculationMethodKey>[] = [
     label: 'Moonsighting Committee',
     description: 'Fajr 18°, Isha 18° (shafaq)',
   },
-  { value: 'Karachi', label: 'Karachi', description: 'Fajr 18°, Isha 18°' },
   { value: 'NorthAmerica', label: 'Nordamerika (ISNA)', description: 'Fajr 15°, Isha 15°' },
-  { value: 'Dubai', label: 'Dubai', description: 'Fajr 18,2°, Isha 18,2°' },
-  { value: 'Qatar', label: 'Qatar', description: 'Fajr 18°, Isha efter 90 min' },
-  { value: 'Kuwait', label: 'Kuwait', description: 'Fajr 18°, Isha 17,5°' },
-  { value: 'Singapore', label: 'Singapore', description: 'Fajr 20°, Isha 18°' },
-  { value: 'Tehran', label: 'Teheran', description: 'Fajr 17,7°, Isha 14°' },
   { value: 'Other', label: 'Annan', description: 'Anpassad – 0° (justera manuellt)' },
 ];
 

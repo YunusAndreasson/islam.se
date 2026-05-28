@@ -93,20 +93,22 @@ describe('tab screens', () => {
     expect(screen.getAllByText(/Fajr/).length).toBeGreaterThan(0);
   });
 
-  // Progressive disclosure: advanced settings live in collapsible groups that start
-  // closed (so a first-time user isn't faced with the whole calculation panel) and
-  // open on a header press. Guards the DisclosureGroup wiring on the screen.
+  // Progressive disclosure: the Visning & finjustering group lives in a
+  // collapsible card that starts closed (so a first-time user isn't faced with
+  // the whole tweaks panel) and opens on a header press. Guards the
+  // DisclosureGroup wiring on the screen. (Beräkning used to be a disclosure
+  // too — it's now a pushed screen, see src/app/(settings)/berakning.tsx, so
+  // we exercise the disclosure pattern on its sibling group instead.)
   it('keeps advanced settings collapsed until their group header is pressed', async () => {
     await renderSettled(withProviders(<Installningar />));
     await waitFor(() => expect(screen.getByText('Inställningar')).toBeTruthy());
 
-    // The "Beräkning" group header is a button labelled with its current value.
-    const header = screen.getByRole('button', { name: /^Beräkning,/ });
+    const header = screen.getByRole('button', { name: /^Visning & finjustering,/ });
     expect(header.props.accessibilityState.expanded).toBe(false);
 
     fireEvent.press(header);
     expect(
-      screen.getByRole('button', { name: /^Beräkning,/ }).props.accessibilityState.expanded,
+      screen.getByRole('button', { name: /^Visning & finjustering,/ }).props.accessibilityState.expanded,
     ).toBe(true);
   });
 

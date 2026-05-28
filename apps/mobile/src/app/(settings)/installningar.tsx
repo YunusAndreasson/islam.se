@@ -25,13 +25,8 @@ import { APP_VERSION } from '@/lib/about';
 import { useSettings } from '@/lib/settings/context';
 import {
   adjustmentsSummary,
-  HIGHLAT_OPTIONS,
-  MADHAB_OPTIONS,
-  METHOD_OPTIONS,
   methodLabel,
-  POLAR_OPTIONS,
   ROUNDING_OPTIONS,
-  SHAFAQ_OPTIONS,
   signedMinutes,
 } from '@/lib/settings/options';
 import { space, type } from '@/theme/tokens';
@@ -186,55 +181,21 @@ export default function Installningar() {
         </SettingSection>
 
         {/* Beräkning sits second — after Plats — because it's what a user will tune
-            once after choosing a city. Folded so the screen stays welcoming; the
-            summary shows the current method so recognition replaces recall.
-            Madhab/Asr is omitted from the summary to keep it on one line on narrow
-            phones (it's the second-most-changed control inside, one tap away). */}
-        <DisclosureGroup title="Beräkning" summary={methodLabel(settings)}>
-          <SubGroup styles={styles} title="Beräkningsmetod">
-            <OptionGroup
-              options={METHOD_OPTIONS}
-              value={settings.calculationMethod}
-              onChange={(calculationMethod) => update({ calculationMethod })}
-            />
-          </SubGroup>
-
-          <SubGroup styles={styles} title="Asr-metod (madhhab)" divider>
-            <OptionGroup options={MADHAB_OPTIONS} value={settings.madhab} onChange={(madhab) => update({ madhab })} />
-          </SubGroup>
-
-          <SubGroup
-            styles={styles}
-            title="Höga breddgrader"
-            footnote="Hur Fajr och Isha beräknas när solen inte sjunker tillräckligt långt under horisonten – viktigt i Sverige."
-            divider
-          >
-            <OptionGroup
-              options={HIGHLAT_OPTIONS}
-              value={settings.highLatitudeRule}
-              onChange={(highLatitudeRule) => update({ highLatitudeRule })}
-            />
-          </SubGroup>
-
-          <SubGroup
-            styles={styles}
-            title="Polcirkeln"
-            footnote="Vad som visas norr om polcirkeln (t.ex. Kiruna) under midnattssol, då Fajr/Isha annars saknar lösning."
-            divider
-          >
-            <OptionGroup
-              options={POLAR_OPTIONS}
-              value={settings.polarCircleResolution}
-              onChange={(polarCircleResolution) => update({ polarCircleResolution })}
-            />
-          </SubGroup>
-
-          {settings.calculationMethod === 'MoonsightingCommittee' ? (
-            <SubGroup styles={styles} title="Shafaq" footnote="Endast för Moonsighting Committee." divider>
-              <OptionGroup options={SHAFAQ_OPTIONS} value={settings.shafaq} onChange={(shafaq) => update({ shafaq })} />
-            </SubGroup>
-          ) : null}
-        </DisclosureGroup>
+            once after choosing a city. A chevron row pushes the full Beräkning
+            screen, mirroring the Byt plats pattern: less in-place expansion,
+            more room there for each method's caption. The current method shows
+            on the right so recognition replaces recall, just like Byt plats's
+            "Malmö ›" sits next to the Stad row. */}
+        <Pressable
+          onPress={() => router.push('/(settings)/berakning')}
+          accessibilityRole="button"
+          accessibilityLabel={`Beräkning: ${methodLabel(settings)}. Tryck för att ändra.`}
+          style={({ pressed }) => [styles.aboutRow, pressed && styles.aboutPressed]}
+        >
+          <Text style={styles.aboutLabel}>BERÄKNING</Text>
+          <Text style={styles.aboutValue}>{methodLabel(settings)}</Text>
+          <MaterialIcons name="chevron-right" size={24} color={colors.accent} />
+        </Pressable>
 
         <SettingSection title="Notiser">
           <Toggle
@@ -426,6 +387,10 @@ function makeStyles(colors: SettingsColors) {
     },
     // Same as DisclosureGroup's title style: 13/600 muted uppercase.
     aboutLabel: { flex: 1, fontSize: 13, fontWeight: '600', color: colors.textMuted, letterSpacing: 0.5 },
+    // Current value shown to the right of the label (e.g. "Muslim World League"
+    // beside BERÄKNING) — body weight in the ink colour so the live state is
+    // recognisable without opening the screen.
+    aboutValue: { ...type.body, color: colors.text, marginRight: space.sm },
     // For the Stad row inside the Plats card: the value + chevron group right.
     cityValueWrap: { flexDirection: 'row', alignItems: 'center', gap: 2 },
     // Editorial title — same token as Qibla's title so the sibling sheets share rhythm.

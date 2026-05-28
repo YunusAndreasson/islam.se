@@ -21,6 +21,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react-native';
 import { Madhab } from 'adhan';
 
+import Berakning from '../app/(settings)/berakning';
 import Installningar from '../app/(settings)/installningar';
 import { LocationProvider } from '../lib/location/context';
 import {
@@ -64,6 +65,23 @@ async function renderSettings(): Promise<void> {
     </SettingsProvider>,
   );
   // The header appears only after settings hydrate (loaded flips true).
+  await waitFor(() => expect(screen.getByText('Inställningar')).toBeTruthy());
+}
+
+// Renders Installningar AND the Beräkning sub-screen side by side so a test
+// can drive both UIs against one shared SettingsProvider — the screens are
+// separate routes in the app, but the wiring (settings update → useLocation →
+// prayer times) is the same across them. Without router context we can't
+// actually push between them, so we mount both at once.
+async function renderSettingsWithBerakning(): Promise<void> {
+  render(
+    <SettingsProvider>
+      <LocationProvider>
+        <Installningar />
+        <Berakning />
+      </LocationProvider>
+    </SettingsProvider>,
+  );
   await waitFor(() => expect(screen.getByText('Inställningar')).toBeTruthy());
 }
 
@@ -117,11 +135,15 @@ describe('settings plumbing matches adhan-direct', () => {
 
 describe('changing a setting recomputes the displayed times (the core user flow)', () => {
   it('madhab → Hanafi moves only Asr (later), through the real control', async () => {
-    await renderSettings();
+    // Beräkning's controls now live in their own pushed screen (since the
+    // refactor that gave Beräkning a peer treatment with the Byt plats picker).
+    // We render Inställningar AND Berakning under one SettingsProvider so the
+    // Hanafi radio (on Berakning) flips the preview times rendered by
+    // Installningar — the same wiring contract the original test verified, just
+    // across the now-split UI.
+    await renderSettingsWithBerakning();
     const before = snapshot();
 
-    // The madhab control lives in the collapsed "Beräkning" group — open it first.
-    fireEvent.press(screen.getByRole('button', { name: /^Beräkning,/ }));
     fireEvent.press(screen.getByRole('radio', { name: /Hanafi/ }));
 
     // Hanafi's longer shadow ratio puts Asr later; nothing else depends on the madhab.
