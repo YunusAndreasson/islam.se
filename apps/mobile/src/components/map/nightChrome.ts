@@ -9,6 +9,8 @@ export interface NightChrome {
   surface: string;
   ink: string;
   inkMuted: string;
+  /** Faintest ink tier (quiet sub-labels: clock·place, ticks). */
+  inkFaint: string;
   accent: string;
   /** Warm brass-gold — the "live right now" emphasis (the next prayer). Sparingly
    * used so it always means "look here"; the bridge to the website's warmth. */
@@ -38,6 +40,8 @@ export interface NightChrome {
    * clean accented outline in both modes.
    */
   pillNextBorder: string;
+  /** Soft brass wash behind the "next" emphasis (e.g. the next-prayer mark halo). */
+  highlightSoft: string;
 }
 
 // [day, night] endpoints (RGBA, alpha 0..1). The DAY endpoints are the warm light
@@ -57,15 +61,20 @@ const STOPS: Record<keyof NightChrome, [RGBA, RGBA]> = {
     [111, 100, 86, 1], // warm taupe
     [168, 177, 196, 1],
   ],
-  accent: [
-    [58, 70, 132, 1], // deepened night-indigo
-    [154, 166, 226, 1],
+  inkFaint: [
+    [151, 140, 123, 1], // warm faint (tokens light inkFaint)
+    [124, 134, 156, 1], // dim periwinkle-grey on the night indigo
   ],
-  // Brass-gold "next" emphasis — warm by day, a brighter brass by night so it pops
-  // off the dark indigo map.
+  accent: [
+    [51, 67, 122, 1], // Prussian night-indigo (synced with tokens lightPalette.accent)
+    [148, 162, 221, 1], // synced with darkPalette.accent
+  ],
+  // Brass-gold "next" emphasis — warm by day, a muted-but-still-warm brass by night.
+  // The night value was pulled from [216,169,78] toward the Cloud Dancer calm direction
+  // (synced with darkPalette.highlight), still legible on the dark indigo map.
   highlight: [
     [184, 134, 47, 1],
-    [216, 169, 78, 1],
+    [200, 154, 72, 1],
   ],
   accentSoft: [
     [231, 232, 241, 1],
@@ -76,8 +85,8 @@ const STOPS: Record<keyof NightChrome, [RGBA, RGBA]> = {
     [255, 255, 255, 0.18],
   ],
   trackFill: [
-    [58, 70, 132, 0.4],
-    [154, 166, 226, 0.55],
+    [51, 67, 122, 0.4],
+    [148, 162, 221, 0.55],
   ],
   thumb: [
     [255, 253, 248, 1],
@@ -108,10 +117,15 @@ const STOPS: Record<keyof NightChrome, [RGBA, RGBA]> = {
   ],
   // Next-pill border: brass-gold in both modes (opaque, so the rounded caps stay
   // smooth) — the same "next prayer = gold" signal the dock's countdown carries, so
-  // the map and the dock answer "what's coming" in one colour.
+  // the map and the dock answer "what's coming" in one colour. Night value muted to
+  // match darkPalette.highlight (the 2026 calmer brass).
   pillNextBorder: [
     [184, 134, 47, 1],
-    [216, 169, 78, 1],
+    [200, 154, 72, 1],
+  ],
+  highlightSoft: [
+    [241, 231, 208, 1], // soft warm brass tint by day (tokens light highlightSoft)
+    [200, 154, 72, 0.18], // a faint brass glow on the night indigo (synced with new highlight)
   ],
 };
 

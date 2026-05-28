@@ -60,9 +60,11 @@ export const lightPalette = {
   separator: '#ece6da',
   hairline: 'rgba(26,23,18,0.10)',
 
-  // Accent — deepened night-indigo (isha). Structure / interactive / "now".
-  accent: '#3a4684',
-  accentDeep: '#2b3566',
+  // Accent — Prussian night-indigo (isha). Structure / interactive / "now".
+  // 2026 refinement: shifted from `#3a4684` toward Prussian/sapphire (H 230°→226°,
+  // L 37%→34%) — the May 2026 "refined jewel tone" centre, away from periwinkle.
+  accent: '#33437a',
+  accentDeep: '#26315e',
   accentSoft: '#e7e8f1',
 
   // Highlight — warm brass-gold. The "live right now" emphasis (next prayer, qibla
@@ -74,7 +76,7 @@ export const lightPalette = {
 
   // Slider / track + the scrubber knob and the dock's grab handle.
   track: 'rgba(26,23,18,0.14)',
-  trackFill: 'rgba(58,70,132,0.40)',
+  trackFill: 'rgba(51,67,122,0.40)',
   thumb: '#fffdf8', //        scrubber knob (warm white)
   handle: 'rgba(26,23,18,0.20)', // dock grab handle
 
@@ -107,17 +109,21 @@ export const darkPalette: Palette = {
   separator: '#2a261f',
   hairline: 'rgba(245,240,230,0.12)',
 
-  accent: '#9aa6e2',
-  accentDeep: '#7e8bcf',
-  accentSoft: 'rgba(154,166,226,0.16)',
+  // Dark accent mirrors the light token's Prussian shift (green-ward, not just dimmer),
+  // so light↔dark sits on one hue axis. Soft tint kept unchanged (drift is invisible).
+  accent: '#94a2dd',
+  accentDeep: '#7888ca',
+  accentSoft: 'rgba(148,162,221,0.16)',
 
-  highlight: '#d8a94e',
-  highlightSoft: 'rgba(216,169,78,0.16)',
+  // 2026 refinement: muted from `#d8a94e` toward Cloud Dancer calm; still WCAG-AA
+  // against the night map (≈5.5:1), so the next-prayer signal stays legible.
+  highlight: '#c89a48',
+  highlightSoft: 'rgba(200,154,72,0.16)',
   onAccent: '#181613',
   onHighlight: '#181613',
 
   track: 'rgba(245,240,230,0.16)',
-  trackFill: 'rgba(154,166,226,0.45)',
+  trackFill: 'rgba(148,162,221,0.45)',
   thumb: '#e8e3d8',
   handle: 'rgba(245,240,230,0.32)',
 
