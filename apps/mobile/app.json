@@ -8,11 +8,13 @@
     "userInterfaceStyle": "automatic",
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "se.islam.mobile"
+      "bundleIdentifier": "se.islam.mobile",
+      "buildNumber": "1"
     },
     "android": {
       "package": "se.islam.mobile",
-      "userInterfaceStyle": "automatic"
+      "userInterfaceStyle": "automatic",
+      "versionCode": 1
     },
     "web": {
       "output": "static"
