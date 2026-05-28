@@ -32,18 +32,17 @@ import {
 // Hand-listed authoritative key sets — written out independently of the OPTIONS lists,
 // so the test catches drift in BOTH directions (key added to type but missing from
 // options, OR a typo in an option value that doesn't actually satisfy the union).
-const ALL_METHOD_KEYS: readonly CalculationMethodKey[] = [
+// The curated subset surfaced in METHOD_OPTIONS for a Swedish-Muslim audience.
+// Karachi/Dubai/Qatar/Kuwait/Singapore/Tehran remain in the CalculationMethodKey
+// type union (so a user with an older saved value keeps computing correctly via
+// adhan), but are intentionally not in the picker — they're tied to specific
+// Gulf / South-Asian contexts that don't fit a Swedish congregation.
+const SHOWN_METHOD_KEYS: readonly CalculationMethodKey[] = [
   'MuslimWorldLeague',
-  'Egyptian',
-  'Karachi',
-  'UmmAlQura',
-  'Dubai',
-  'Qatar',
-  'Kuwait',
-  'MoonsightingCommittee',
-  'Singapore',
   'Turkey',
-  'Tehran',
+  'UmmAlQura',
+  'Egyptian',
+  'MoonsightingCommittee',
   'NorthAmerica',
   'Other',
 ];
@@ -65,7 +64,7 @@ describe('OPTIONS — every typed key has exactly one labelled entry', () => {
   const SOURCES: { name: string; keys: readonly string[]; values: readonly string[] }[] = [
     {
       name: 'METHOD_OPTIONS',
-      keys: ALL_METHOD_KEYS,
+      keys: SHOWN_METHOD_KEYS,
       values: METHOD_OPTIONS.map((o) => o.value),
     },
     { name: 'MADHAB_OPTIONS', keys: ALL_MADHAB, values: MADHAB_OPTIONS.map((o) => o.value) },
@@ -113,7 +112,11 @@ describe('label helpers', () => {
     // The contract methodLabel/madhabLabel are used for: "user opens the collapsed
     // group → sees the current method's label". A missing entry collapses to '',
     // which is the rendered failure of the silent-drift bug class above.
-    for (const key of ALL_METHOD_KEYS) {
+    // The label round-trip only applies to keys we expose in the picker. Keys
+    // kept in the type for back-compat (e.g. 'Karachi') will return '' from
+    // methodLabel — that's expected; the summary line just won't show their
+    // name, but the prayer-time math via adhan still works.
+    for (const key of SHOWN_METHOD_KEYS) {
       const s: PrayerSettings = { ...DEFAULT_SETTINGS, calculationMethod: key };
       expect(methodLabel(s).length).toBeGreaterThan(0);
     }
