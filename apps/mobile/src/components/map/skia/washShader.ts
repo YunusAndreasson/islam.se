@@ -1,28 +1,17 @@
-// The twilight wash as a GPU fragment shader (SkSL), replacing the hundreds of
-// translucent fill polygons the MapLibre version emitted (buildCells). The shader
-// computes the wash colour PER PIXEL from a small per-grid-point "times texture",
-// so scrubbing the day is just a `u_now` uniform change — the GPU redraws a smooth
-// gradient at 60 fps with no banding, no CPU box-blur hack, and no re-tiling.
+// The twilight wash as a GPU fragment shader (SkSL). It colours every pixel by the SUN'S
+// REAL DEPRESSION below the horizon at that pixel's lon/lat and the displayed instant —
+// civil → nautical → astronomical twilight → true night — rather than by the prayer-time
+// intervals. That is what makes the night physically honest: Malmö in late May only sinks to
+// astronomical twilight (a luminous deep blue, never black) while Kiruna barely dips below
+// the horizon, and the two are joined by a smooth latitude gradient with no boundary line.
+// It also means the wash needs no per-point times texture at all — just the camera and three
+// solar uniforms — so the old grid texture / sentinel fill / polar mask are gone.
 //
-// Faithfulness: the per-pixel colour logic below mirrors washAt() in
-// src/lib/solar/field.ts exactly (same NIGHT/DUSK/DAWN/DAY/WHITE_NIGHT stops, same
-// two-stop ramp, same fajr→sunrise→sunset→isha gates, same polar fallback). The
-// colour constants are GENERATED from palette.ts so the two can't drift.
-//
-// This module stays free of any Skia runtime import so the texture encoder is a pure,
-// unit-testable function; the component (SolarSkiaOverlay) compiles the SkSL string
-// into an effect and uploads the texture.
-import type { SolarGrid } from '../../../lib/solar/field';
-import {
-  DAWN_COOL,
-  DAWN_EDGE,
-  DAY,
-  DUSK_EDGE,
-  DUSK_WARM,
-  NIGHT,
-  type RGBA,
-  WHITE_NIGHT,
-} from '../../../lib/solar/palette';
+// The sun maths mirrors altitudeFrom() in src/lib/solar/sun.ts (NOAA): declination and the
+// equation of time are computed once per date on the CPU and passed in; the per-pixel hour
+// angle → altitude is done here. The colour constants are GENERATED from palette.ts so the
+// wash shares the map's palette and the two can't drift.
+import { DAWN_COOL, DAY, DUSK_WARM, NIGHT, type RGBA } from '../../../lib/solar/palette';
 
 /** A palette RGBA (rgb 0..255, a 0..1) → an SkSL `half4` literal (rgb 0..1, a 0..1). */
 function sksl(c: RGBA): string {
@@ -31,57 +20,54 @@ function sksl(c: RGBA): string {
 
 /**
  * The wash SkSL. Uniforms:
- *  - field        : per-grid-point times texture; RGBA = [fajr, sunrise, sunset, isha]
- *                   as fraction-of-day in [0,1]; the value 0 marks an unresolved
- *                   (polar/NaN) time (no real prayer time lands exactly at day start).
- *  - u_now        : the displayed instant, as fraction of the Stockholm day.
  *  - u_worldSize  : 512 · 2^zoom (MapLibre's pixel world size at the camera zoom).
  *  - u_viewport   : canvas size in dp (matches the project()/unproject() space).
  *  - u_center     : camera centre in normalised Mercator (mx, my).
- *  - u_grid       : (lonMin, latMin, lonSpan, latSpan) of the times texture.
- *  - u_imgSize    : (texture width, height) = (lons.length, lats.length).
+ *  - u_utcMin     : the displayed instant as UTC minutes-of-day (0–1440).
+ *  - u_eotMin     : equation of time (minutes) for the date.
+ *  - u_declRad    : solar declination (radians) for the date.
  */
 export const WASH_SKSL = `
-uniform shader field;
-uniform float u_now;
 uniform float u_worldSize;
 uniform float2 u_viewport;
 uniform float2 u_center;
-uniform float4 u_grid;
-uniform float2 u_imgSize;
+uniform float u_utcMin;
+uniform float u_eotMin;
+uniform float u_declRad;
 
 const float PI = 3.141592653589793;
-const float EPS = 0.0015;
+const float DEG = 0.017453292519943295;
 
-const half4 C_NIGHT = ${sksl(NIGHT)};
+const half4 C_DAY   = ${sksl(DAY)};
 const half4 C_DUSK  = ${sksl(DUSK_WARM)};
 const half4 C_DAWN  = ${sksl(DAWN_COOL)};
-const half4 C_DAY   = ${sksl(DAY)};
-const half4 C_WHITE = ${sksl(WHITE_NIGHT)};
-const half4 C_DUSK_EDGE = ${sksl(DUSK_EDGE)};
-const half4 C_DAWN_EDGE = ${sksl(DAWN_EDGE)};
+const half4 C_NIGHT = ${sksl(NIGHT)};
 
-// Two-stop ramp through a transition interval [start, end]: edge → mid → NIGHT.
-// (Mirrors ramp() in field.ts; note washAt passes the interval ends reversed for
-//  dawn, which we preserve by passing the same arguments at the call sites.)
-half4 ramp(float now, float start, float end, half4 mid, half4 edge) {
-  float p = (now - start) / (end - start);
-  if (p < 0.5) { return mix(edge, mid, p / 0.5); }
-  return mix(mid, C_NIGHT, (p - 0.5) / 0.5);
-}
-
-half4 washColor(float now, float fajr, float sunrise, float sunset, float isha) {
-  // Unresolved (polar): a key time is missing (0 sentinel) → daylight if the sun is
-  // up and we know sunrise/sunset, else the pale white-night tint. Never black.
-  if (fajr < EPS || isha < EPS) {
-    if (sunrise > EPS && sunset > EPS && now >= sunrise && now < sunset) { return C_DAY; }
-    return C_WHITE;
-  }
-  if (now < fajr) { return C_NIGHT; }
-  if (now < sunrise) { return ramp(now, sunrise, fajr, C_DAWN, C_DAWN_EDGE); }
-  if (now < sunset) { return C_DAY; }
-  if (now < isha) { return ramp(now, sunset, isha, C_DUSK, C_DUSK_EDGE); }
-  return C_NIGHT;
+// Twilight colour from the sun's altitude (deg, <0 = below horizon) and hour angle (deg).
+half4 twilight(float altDeg, float haDeg) {
+  if (altDeg >= 0.0) { return C_DAY; }     // sun up → clear basemap (incl. midnight sun)
+  float d = -altDeg;                        // depression below the horizon, degrees
+  // Darkness grows with depression and saturates at astronomical depth (18° = true night),
+  // so a place that never sinks past ~13° (Malmö in summer) never reaches full black.
+  // Darkness ramps from just under the horizon and is deep by astronomical twilight (~14°):
+  // a high alpha there is needed to DROWN the warm parchment basemap, otherwise the third of
+  // it that bleeds through muddies the night to a pale grey. The latitude gradient still
+  // reads — Kiruna only reaches a few degrees' depression, so it stays light.
+  float dark = smoothstep(1.0, 14.0, d);
+  // A warm sunset / cool dawn glow confined to civil twilight (gone by nautical), fading IN
+  // from the horizon so there's no hard line at sunset and clean blue takes over below.
+  // sin(ha) is +through the evening (sun in the west), − through the morning, ~0 at solar
+  // midnight, so the warm→cool handover is smooth, never a seam.
+  float glow = smoothstep(0.0, 2.0, d) * (1.0 - smoothstep(5.0, 10.0, d));
+  float warmth = sin(haDeg * DEG);
+  half4 horizon = mix(C_DAWN, C_DUSK, clamp(warmth * 0.5 + 0.5, 0.0, 1.0));
+  // Tint only near the horizon (driven by glow); the deep sky stays a clean indigo rather
+  // than muddying toward the horizon colour.
+  half3 rgb = mix(C_NIGHT.rgb, horizon.rgb, glow);
+  // Veil alpha: the deepening night, lifted near the horizon so the warm/cool band still
+  // reads while the sky is only lightly dimmed.
+  float a = max(C_NIGHT.a * dark, horizon.a * glow);
+  return half4(rgb, a);
 }
 
 half4 main(float2 fragCoord) {
@@ -89,67 +75,19 @@ half4 main(float2 fragCoord) {
   float mx = (fragCoord.x - u_viewport.x * 0.5) / u_worldSize + u_center.x;
   float my = (fragCoord.y - u_viewport.y * 0.5) / u_worldSize + u_center.y;
   float lon = mx * 360.0 - 180.0;
-  float t = exp((0.5 - my) * 2.0 * PI);
-  float lat = (2.0 * (atan(t) - PI / 4.0)) * 180.0 / PI;
+  float e = exp((0.5 - my) * 2.0 * PI);
+  float lat = (2.0 * (atan(e) - PI / 4.0)) * 180.0 / PI;
 
-  // lon/lat → grid uv. Outside the grid the wash is clear (the basemap shows through).
-  float u = (lon - u_grid.x) / u_grid.z;
-  float v = (lat - u_grid.y) / u_grid.w;
-  if (u < 0.0 || u > 1.0 || v < 0.0 || v > 1.0) { return half4(0.0); }
+  // Sun hour angle + altitude at this point and instant (NOAA; mirrors sun.ts altitudeFrom).
+  float tst = u_utcMin + u_eotMin + 4.0 * lon;     // true solar time, minutes (4 min per °E)
+  float ha = tst / 4.0 - 180.0;                     // hour angle, degrees (0 at solar noon)
+  ha = ha - 360.0 * floor((ha + 180.0) / 360.0);    // normalise to (−180, 180]
+  float latR = lat * DEG;
+  float sinAlt = sin(latR) * sin(u_declRad) + cos(latR) * cos(u_declRad) * cos(ha * DEG);
+  float altDeg = asin(clamp(sinAlt, -1.0, 1.0)) / DEG;
 
-  // Grid uv is a coordinate over the geographic grid nodes. ImageShader samples in
-  // image-pixel space, whose texel centres sit at n + 0.5. Address those centres so
-  // u/v=0 reads the first grid node and u/v=1 reads the last, with bilinear blending
-  // between neighbouring nodes instead of bleeding against clamped texture edges.
-  half4 s = field.eval(float2(0.5 + u * (u_imgSize.x - 1.0), 0.5 + v * (u_imgSize.y - 1.0)));
-  half4 c = washColor(u_now, s.r, s.g, s.b, s.a);
+  half4 c = twilight(altDeg, ha);
   // Runtime-shader output is premultiplied.
   return half4(c.rgb * c.a, c.a);
 }
 `;
-
-export interface FieldTexture {
-  /** RGBA bytes, row-major, row r = lats[r] (south→north), col c = lons[c]. */
-  data: Uint8Array;
-  width: number;
-  height: number;
-}
-
-function clamp01(x: number): number {
-  return x < 0 ? 0 : x > 1 ? 1 : x;
-}
-
-// Encode one time as a fraction-of-day byte. NaN/unresolved → 0 (the shader's
-// "unresolved" sentinel); a real time is nudged off 0 so it never reads as unresolved
-// (no genuine prayer time falls exactly at Stockholm midnight = day start).
-function encodeTime(ms: number, dayStart: number, dayLength: number): number {
-  if (!Number.isFinite(ms)) return 0;
-  const b = Math.round(clamp01((ms - dayStart) / dayLength) * 255);
-  return b === 0 ? 1 : b;
-}
-
-/**
- * Pack the cached prayer-time grid into the RGBA times texture the wash shader samples.
- * Built once per (date, settings) — same cadence as buildGrid — not per frame.
- */
-export function encodeFieldTexture(
-  grid: SolarGrid,
-  dayStart: number,
-  dayLength: number,
-): FieldTexture {
-  const width = grid.lons.length;
-  const height = grid.lats.length;
-  const data = new Uint8Array(width * height * 4);
-  for (let r = 0; r < height; r++) {
-    const row = grid.pt[r];
-    for (let c = 0; c < width; c++) {
-      const t = row[c];
-      const i = (r * width + c) * 4;
-      data[i] = encodeTime(t.fajr, dayStart, dayLength);
-      data[i + 1] = encodeTime(t.sunrise, dayStart, dayLength);
-      data[i + 2] = encodeTime(t.sunset, dayStart, dayLength);
-      data[i + 3] = encodeTime(t.isha, dayStart, dayLength);
-    }
-  }
-  return { data, width, height };
-}

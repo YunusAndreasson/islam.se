@@ -4,7 +4,7 @@
 // dead icon. Until a real heading arrives — and on devices with no sensor (emulators)
 // or no permission yet — it shows a static `explore` glyph instead, so it never paints
 // a faked direction. Tapping always opens the full Qibla screen, which owns the prompt.
-import { MaterialIcons } from '@expo/vector-icons';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import { useMemo } from 'react';
 import { StyleSheet, View } from 'react-native';
@@ -13,11 +13,13 @@ import Animated, { useAnimatedStyle } from 'react-native-reanimated';
 import { useLocation } from '../../lib/location/context';
 import { qiblaBearing } from '../../lib/qibla';
 import { useHeading } from '../../lib/useHeading';
-import { useColors } from '../../theme/useColors';
+import { nightChrome } from '../map/nightChrome';
 import { GlassRoundButton } from './GlassRoundButton';
 
-export function CompassButton({ active }: { active: boolean }) {
-  const c = useColors();
+export function CompassButton({ active, night }: { active: boolean; night: number }) {
+  // Sun-driven like the disc it sits in (see GlassRoundButton): the glyph/needle ink
+  // flips light over the night map so it reads without the button shouting for attention.
+  const c = nightChrome(night);
   const { coords } = useLocation();
   const bearing = useMemo(() => qiblaBearing(coords), [coords]);
   const { rotation, heading } = useHeading({ active, request: false });
@@ -29,9 +31,12 @@ export function CompassButton({ active }: { active: boolean }) {
   }));
 
   return (
-    <GlassRoundButton accessibilityLabel="Qibla" onPress={() => router.navigate('/qibla')}>
+    <GlassRoundButton night={night} accessibilityLabel="Qibla" onPress={() => router.navigate('/qibla')}>
       {heading == null ? (
-        <MaterialIcons name="explore" size={24} color={c.ink} />
+        // Static fallback (emulator / no sensor / permission not yet granted): a light
+        // OUTLINE compass — the filled `explore` glyph read as a heavy black disc next to
+        // the thin cog. Outline matches the cog's weight and the live needle below.
+        <MaterialCommunityIcons name="compass-outline" size={24} color={c.ink} />
       ) : (
         <Animated.View style={[styles.needleBox, needleStyle]}>
           <View style={[styles.tip, { borderBottomColor: c.accent }]} />

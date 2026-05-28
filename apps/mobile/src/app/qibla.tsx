@@ -16,12 +16,13 @@
 import { MaterialIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import * as Location from 'expo-location';
-import { router, useFocusEffect } from 'expo-router';
+import { useFocusEffect } from 'expo-router';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { Pressable, StyleSheet, Text, useWindowDimensions, View } from 'react-native';
+import { StyleSheet, Text, useWindowDimensions, View } from 'react-native';
 import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
+import { ModalBar } from '../components/ui/ModalBar';
 import { hapticSuccess } from '../lib/haptics';
 import { useLocation } from '../lib/location/context';
 import { angleDelta, formatKm, qiblaBearing, qiblaDistanceKm } from '../lib/qibla';
@@ -167,19 +168,8 @@ export default function Qibla() {
 
   return (
     <SafeAreaView style={styles.safe} edges={['top']}>
-      {/* This screen is a sheet over the map — a persistent ✕ dismisses back to it.
-          A normal-flow bar (not absolute) so it clears the status bar via the inset. */}
-      <View style={styles.modalBar}>
-        <Pressable
-          onPress={() => router.back()}
-          accessibilityRole="button"
-          accessibilityLabel="Stäng"
-          hitSlop={10}
-          style={styles.closeBtn}
-        >
-          <MaterialIcons name="close" size={26} color={c.inkMuted} />
-        </Pressable>
-      </View>
+      {/* This screen is a sheet over the map — a persistent ✕ dismisses back to it. */}
+      <ModalBar variant="close" fallback="/bonetider" />
       <View style={styles.header}>
         <Text style={styles.title}>Qibla</Text>
         <Text style={styles.subtitle} numberOfLines={1}>
@@ -231,7 +221,7 @@ export default function Qibla() {
               <View key={card.label} style={[StyleSheet.absoluteFill, rot(card.deg)]} pointerEvents="none">
                 <View style={styles.cardinalSlot}>
                   {/* counter-rotate so each letter is upright when the rose faces north */}
-                  <Text style={[styles.cardinal, card.label === 'N' && styles.cardinalN, rotText(-card.deg)]}>
+                  <Text style={[styles.cardinal, card.label === 'N' && styles.cardinalN, rot(-card.deg)]}>
                     {card.label}
                   </Text>
                 </View>
@@ -316,13 +306,10 @@ export default function Qibla() {
 }
 
 const rot = (deg: number) => ({ transform: [{ rotate: `${deg}deg` }] });
-const rotText = (deg: number) => ({ transform: [{ rotate: `${deg}deg` }] });
 
 function makeStyles(c: Palette) {
   return StyleSheet.create({
     safe: { flex: 1, backgroundColor: c.paper },
-    modalBar: { height: 44, flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'center', paddingHorizontal: space.lg },
-    closeBtn: { padding: 4 },
     header: { paddingHorizontal: space.lg, paddingTop: space.xs },
     title: { ...type.title, color: c.ink },
     subtitle: { ...type.callout, color: c.inkMuted, marginTop: 2 },

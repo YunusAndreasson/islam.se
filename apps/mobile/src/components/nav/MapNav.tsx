@@ -9,21 +9,24 @@ import { router } from 'expo-router';
 import { StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { useColors } from '../../theme/useColors';
+import { nightChrome } from '../map/nightChrome';
 import { CompassButton } from './CompassButton';
 import { GlassRoundButton } from './GlassRoundButton';
 
-export function MapNav({ active }: { active: boolean }) {
+export function MapNav({ active, night }: { active: boolean; night: number }) {
   const insets = useSafeAreaInsets();
-  const c = useColors();
+  // The two discs float on the map, so they take the map's sun-driven night (not the OS
+  // theme) — they recede into the night map instead of glowing as bright slabs over it.
+  const c = nightChrome(night);
   const top = insets.top + 10;
   return (
     <View style={StyleSheet.absoluteFill} pointerEvents="box-none">
       <View style={[styles.left, { top }]} pointerEvents="box-none">
-        <CompassButton active={active} />
+        <CompassButton active={active} night={night} />
       </View>
       <View style={[styles.right, { top }]} pointerEvents="box-none">
         <GlassRoundButton
+          night={night}
           accessibilityLabel="Inställningar"
           onPress={() => router.navigate('/installningar')}
         >

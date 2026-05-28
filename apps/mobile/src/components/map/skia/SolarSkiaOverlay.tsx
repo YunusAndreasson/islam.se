@@ -10,20 +10,7 @@
 // stays glued to the basemap as the map pans/zooms — the line paths re-project on the
 // UI thread (useDerivedValue), and the wash shader re-projects per pixel from camera
 // uniforms. `pointerEvents="none"` lets map gestures fall through.
-import {
-  AlphaType,
-  BlurMask,
-  Canvas,
-  ColorType,
-  Fill,
-  FilterMode,
-  ImageShader,
-  MipmapMode,
-  Path,
-  Shader,
-  Skia,
-  type SkImage,
-} from '@shopify/react-native-skia';
+import { BlurMask, Canvas, Fill, Path, Shader, Skia } from '@shopify/react-native-skia';
 import { useEffect, useMemo, useRef } from 'react';
 import { StyleSheet } from 'react-native';
 import {
@@ -35,9 +22,9 @@ import {
 
 import { PRAYER_ORDER, type PrayerKey } from '../../../lib/prayer-times';
 import { type Camera, mercX, mercY, project } from '../../../lib/map/projection';
-import type { SolarGrid } from '../../../lib/solar/field';
 import { PRAYER_COLORS } from '../../../lib/solar/palette';
-import { encodeFieldTexture, WASH_SKSL } from './washShader';
+import { solarParams } from '../../../lib/solar/sun';
+import { WASH_SKSL } from './washShader';
 
 /** One prayer's contour for this instant: its colour key + the smoothed lon/lat lines. */
 export interface PrayerLineData {
@@ -46,8 +33,7 @@ export interface PrayerLineData {
 }
 
 interface Props {
-  grid: SolarGrid;
-  /** Stockholm day window the grid's times were encoded against (for the wash texture). */
+  /** Stockholm day window for the displayed instant — turns nowFraction into a real time. */
   dayStart: number;
   dayLength: number;
   /** Displayed instant as a fraction of the Stockholm day (drives the wash; UI-thread). */
@@ -61,7 +47,6 @@ interface Props {
 }
 
 export function SolarSkiaOverlay({
-  grid,
   dayStart,
   dayLength,
   nowFraction,
@@ -72,37 +57,27 @@ export function SolarSkiaOverlay({
   // Compile the wash shader once. Null only if the SkSL fails to compile (guarded).
   const washEffect = useMemo(() => Skia.RuntimeEffect.Make(WASH_SKSL), []);
 
-  // The per-grid-point times texture, rebuilt only when the grid (day/settings) changes.
-  const fieldImage = useMemo<SkImage | null>(() => {
-    const { data, width, height } = encodeFieldTexture(grid, dayStart, dayLength);
-    const skData = Skia.Data.fromBytes(data);
-    return Skia.Image.MakeImage(
-      { width, height, colorType: ColorType.RGBA_8888, alphaType: AlphaType.Unpremul },
-      skData,
-      width * 4,
-    );
-  }, [grid, dayStart, dayLength]);
+  // Declination + equation of time for the displayed date (midday avoids a DST edge). They
+  // feed the per-pixel sun-altitude calc in the shader and only change when the day changes.
+  const solar = useMemo(
+    () => solarParams(new Date(dayStart + dayLength / 2)),
+    [dayStart, dayLength],
+  );
 
-  // Grid bounds in degrees + texture size, fed to the shader to map screen → grid uv.
-  const gridBounds = useMemo(() => {
-    const lonMin = grid.lons[0];
-    const latMin = grid.lats[0];
-    const lonSpan = grid.lons[grid.lons.length - 1] - lonMin;
-    const latSpan = grid.lats[grid.lats.length - 1] - latMin;
-    return { lonMin, latMin, lonSpan, latSpan, w: grid.lons.length, h: grid.lats.length };
-  }, [grid]);
-
-  // Wash uniforms, recomputed on the UI thread whenever the camera or instant changes —
-  // so the wash follows pans/zooms and scrubs without a React render.
+  // Wash uniforms, recomputed on the UI thread whenever the camera or instant changes — so
+  // the wash follows pans/zooms and scrubs without a React render. u_utcMin is the displayed
+  // instant as UTC minutes-of-day; the shader turns each pixel's lon into local solar time.
   const washUniforms = useDerivedValue(() => {
     const c = camera.value;
+    const nowMs = dayStart + nowFraction.value * dayLength;
+    const utcMin = (nowMs / 60_000) % 1440;
     return {
-      u_now: nowFraction.value,
       u_worldSize: 512 * 2 ** c.zoom,
       u_viewport: [c.width, c.height],
       u_center: [mercX(c.lon), mercY(c.lat)],
-      u_grid: [gridBounds.lonMin, gridBounds.latMin, gridBounds.lonSpan, gridBounds.latSpan],
-      u_imgSize: [gridBounds.w, gridBounds.h],
+      u_utcMin: utcMin,
+      u_eotMin: solar.eotMin,
+      u_declRad: solar.declRad,
     };
   });
 
@@ -116,18 +91,10 @@ export function SolarSkiaOverlay({
 
   return (
     <Canvas style={StyleSheet.absoluteFill} pointerEvents="none">
-      {washEffect && fieldImage && (
+      {washEffect && (
         <Fill>
-          <Shader source={washEffect} uniforms={washUniforms}>
-            <ImageShader
-              image={fieldImage}
-              tx="clamp"
-              ty="clamp"
-              fit="fill"
-              rect={{ x: 0, y: 0, width: gridBounds.w, height: gridBounds.h }}
-              sampling={{ filter: FilterMode.Linear, mipmap: MipmapMode.None }}
-            />
-          </Shader>
+          {/* Pure per-pixel sun geometry — no image inputs. */}
+          <Shader source={washEffect} uniforms={washUniforms} />
         </Fill>
       )}
 
