@@ -21,6 +21,7 @@ import {
   PRAYER_ORDER,
   prayerToKey,
 } from '@/lib/prayer-times';
+import { APP_VERSION } from '@/lib/about';
 import { useSettings } from '@/lib/settings/context';
 import {
   adjustmentsSummary,
@@ -353,6 +354,13 @@ export default function Installningar() {
           <Text style={styles.aboutLabel}>OM APPEN</Text>
           <MaterialIcons name="chevron-right" size={24} color={colors.accent} />
         </Pressable>
+
+        {/* A quiet sign-off at the end of the screen — version + copyright in the
+            faintest ink tier so it doesn't compete with the cards above, but is
+            present for anyone who scrolls all the way down. */}
+        <Text style={styles.colophon}>
+          islam.se · Version {APP_VERSION} · © 2026
+        </Text>
       </ScrollView>
     </SafeAreaView>
   );
@@ -407,6 +415,15 @@ function makeStyles(colors: SettingsColors) {
       marginBottom: 24,
     },
     aboutPressed: { backgroundColor: colors.accentSoft },
+    // Centered, faintest ink, no card chrome — a paper-edge colophon.
+    colophon: {
+      fontSize: 11,
+      color: colors.textMuted,
+      textAlign: 'center',
+      opacity: 0.7,
+      marginTop: space.xs,
+      marginBottom: space.lg,
+    },
     // Same as DisclosureGroup's title style: 13/600 muted uppercase.
     aboutLabel: { flex: 1, fontSize: 13, fontWeight: '600', color: colors.textMuted, letterSpacing: 0.5 },
     // For the Stad row inside the Plats card: the value + chevron group right.
