@@ -14,9 +14,12 @@
 // eases the thumb to that moment (a deliberate travel, not a teleport) so the
 // time-travel reads as something you did.
 //
-// Night: the dock takes a `night` factor (0 day → 1 deep night) and themes itself
-// from it (see nightChrome) — light glass on the day map, dark indigo glass on the
-// night map — so the chrome never floats as a bright slab over a dark country.
+// Theme: the dock is CHROME, so it follows the phone's OS light/dark setting via
+// useColors() — NOT the map's sun-driven day↔night. This is deliberate: chrome (dock +
+// menu + every screen) stays consistent regardless of where the sun is, which is why the
+// dock can read bright over a night (post-Isha) map when the phone is in light mode. An
+// earlier sun-driven dock was tried and rejected (it made the chrome "look different per
+// screen"). The map CANVAS (wash, pills, markers) is the sun-driven layer (see nightChrome).
 import { MaterialIcons } from '@expo/vector-icons';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
@@ -37,14 +40,13 @@ import { formatTime, PRAYER_LABELS, PRAYER_ORDER, type PrayerKey } from '../../l
 import type { PrayerSettings } from '../../lib/settings/types';
 import { PRAYER_COLORS } from '../../lib/solar/palette';
 import type { SolarClock } from '../../lib/solar/useSolarClock';
-import { type Palette, palette } from '../../theme/tokens';
-import { useColors } from '../../theme/useColors';
+import { shadow } from '../../theme/tokens';
 import { GlassSurface } from '../ui/GlassSurface';
+import { type NightChrome, nightChrome } from './nightChrome';
 
 const DAY_MS = 86_400_000;
 const HOUR_TICKS = ['00', '06', '12', '18', '24'];
 const SPRING = { damping: 20, stiffness: 200, mass: 0.6 };
-const SHADOW = palette.shadow;
 
 // Dock heights (excluding the bottom safe-area inset, which the screen adds). The
 // map reads these so it can frame Sweden *above* the dock in both states.
@@ -52,12 +54,14 @@ const SHADOW = palette.shadow;
 // gesture bar so it reads as a calm, separate surface — not welded to the screen
 // edge (which feels stressful). The float + safe-area inset are added by the
 // card's position, not its height.
-export const DOCK_FLOAT = 10;
+export const DOCK_FLOAT = 6;
 
 // Card heights (the rendered card itself, excluding the float + inset below it).
 // Collapsed stays tight: a two-tier hero (prayer + countdown, then a quiet
 // time · place line) over the scrubber — so the map keeps most of the screen.
-export const DOCK_COLLAPSED_BASE = 146;
+// Kept as dense as the content allows (trimmed handle clearance + timeline height)
+// so the card's footprint over southern Sweden is minimal.
+export const DOCK_COLLAPSED_BASE = 136;
 // Expanded carries a date header (Gregorian + Hijri) above the schedule, so it's a
 // touch taller than the bare list needed. (No transport row — the day slider is the
 // only time control, so there's nothing to play or explain away.)
@@ -83,6 +87,10 @@ interface Props {
   next: NextPrayer | null;
   locationLabel: string;
   settings: PrayerSettings;
+  /** 0 day → 1 deep night. The dock is the map's own surface, so it blends with the map:
+      light glass over a day map, dark indigo glass over the night map (text flips with it,
+      so it stays readable). NOT the OS theme — this surface only exists on the map. */
+  night: number;
   /** Optional host notification for analytics or layout hooks. The map does not refit
       on expansion; the dock opens over the current slice. */
   onExpandedChange?: (expanded: boolean, expandedHeight: number) => void;
@@ -93,14 +101,18 @@ interface Props {
 // its number with a narrow no-break space (proximity: "t" binds to the hours, "min"
 // to the minutes), while a normal space separates the two groups — so "3 t 22 min"
 // never reads as an ambiguous run of equal gaps.
-const NB = ' '; // narrow no-break space
-function countdownValue(ms: number): string {
-  if (ms <= 0) return 'nu';
+// Structured so the caller can render the digits big and brass and the units
+// small and snug — the previous "3 t 22 min" string had digits and units at
+// the same weight, so the gaps between them all looked equal and the text read
+// as four separate beats rather than two number-with-unit groups.
+type Countdown = { kind: 'now' } | { kind: 'mins'; m: number } | { kind: 'hrs'; h: number; m: number };
+function countdownParts(ms: number): Countdown {
+  if (ms <= 0) return { kind: 'now' };
   const mins = Math.round(ms / 60_000);
   const h = Math.floor(mins / 60);
   const m = mins % 60;
-  if (h === 0) return `${m}${NB}min`;
-  return `${h}${NB}t ${m}${NB}min`;
+  if (h === 0) return { kind: 'mins', m };
+  return { kind: 'hrs', h, m };
 }
 
 export function PrayerDock({
@@ -110,14 +122,15 @@ export function PrayerDock({
   next,
   locationLabel,
   settings,
+  night,
   onExpandedChange,
 }: Props) {
   const insets = useSafeAreaInsets();
-  // The dock is a chrome panel, so it follows the phone's light/dark theme like every
-  // other screen (not the map's day↔night — that drove the "menu looks different per
-  // screen" confusion). `surface` is the translucent glass for the GlassSurface fill.
-  const p = useColors();
-  const c = useMemo(() => ({ ...p, surface: p.cardGlass }), [p]);
+  // The dock floats ON the living map, so it blends with it: nightChrome slides every
+  // surface/ink from warm light glass on a day map to dark indigo glass on the night map
+  // (and the steep dusk/dawn remap keeps it decisively light or dark — never a muddy
+  // grey-on-grey). `surface` is the translucent glass for the GlassSurface fill.
+  const c = useMemo(() => nightChrome(night), [night]);
   const styles = useMemo(() => makeStyles(c), [c]);
 
   // Card heights are the card itself; the float + safe-area inset live in the
@@ -191,7 +204,7 @@ export function PrayerDock({
     [clock],
   );
 
-  const cd = next ? countdownValue(next.at - clock.now) : null;
+  const cd = next ? countdownParts(next.at - clock.now) : null;
 
   // The day being viewed (midday avoids any DST edge), labelled in both calendars.
   // The Hijri line is the point — it honours the user's `hijriOffset` so it can be
@@ -207,8 +220,26 @@ export function PrayerDock({
     clock.mode === 'live' ? (
       cd ? (
         <Text style={styles.countdown} numberOfLines={1}>
-          {cd !== 'nu' ? <Text style={styles.countdownPrefix}>om </Text> : null}
-          {cd === 'nu' ? 'nu' : cd}
+          {cd.kind !== 'now' ? <Text style={styles.countdownPrefix}>om </Text> : null}
+          {cd.kind === 'now' ? (
+            'nu'
+          ) : cd.kind === 'hrs' ? (
+            // "4t 48min" — units sit FLUSH against their digits (no inter-character
+            // space) and render small + medium-weight, so the eye groups each
+            // number-with-unit as one beat. A regular space separates the two
+            // beats. This is the proximity/hierarchy fix for the old "4 t 48 min".
+            <>
+              {cd.h}
+              <Text style={styles.countdownUnit}>t</Text>
+              {` ${cd.m}`}
+              <Text style={styles.countdownUnit}>min</Text>
+            </>
+          ) : (
+            <>
+              {cd.m}
+              <Text style={styles.countdownUnit}>min</Text>
+            </>
+          )}
         </Text>
       ) : null
     ) : (
@@ -290,7 +321,19 @@ export function PrayerDock({
             {expanded ? (
               <View style={styles.heroTop}>
                 {next ? (
-                  aside
+                  <>
+                    {/* When the next prayer is TOMORROW's (we're past Isha), it isn't in
+                        today's schedule above, so no row is highlighted — name it here so
+                        the countdown has a referent. For a today prayer the list already
+                        names it, so we stay slim (countdown only). */}
+                    {next.tomorrow ? (
+                      <Text style={styles.heroPrayerExpanded} numberOfLines={1}>
+                        {PRAYER_LABELS[next.key]}
+                        <Text style={styles.heroTomorrow}> i morgon</Text>
+                      </Text>
+                    ) : null}
+                    {aside}
+                  </>
                 ) : (
                   <Text style={styles.heroNone} numberOfLines={1}>
                     Inga fler böner i dag
@@ -337,7 +380,13 @@ export function PrayerDock({
             )}
           </View>
 
-          <Scrubber styles={styles} fraction={clock.fraction} marks={marks} onScrub={clock.setFraction} />
+          <SolarTimeline
+            styles={styles}
+            fraction={clock.fraction}
+            marks={marks}
+            nextKey={next && !next.tomorrow ? next.key : null}
+            onScrub={clock.setFraction}
+          />
         </View>
 
         {/* Grab handle — the signifier that the dock opens. Drag or tap to toggle. */}
@@ -415,10 +464,10 @@ function ScheduleRow({
   );
 }
 
-// The 24-hour day slider lifted from the old TimeScrubber: a thin track with the
-// user's prayers as coloured dots and a draggable thumb. While dragging, the thumb
-// rides the `prog` shared value on the UI thread (60fps), and the heavier JS
-// recompute (clock.setFraction → field GeoJSON) is throttled.
+// The 24-hour day slider, presented as a restrained prayer timeline: a linear
+// control for predictability, with a quiet sun arc as context only. The user's
+// prayers are prominent landmarks (ring + scale, not colour alone), and the next
+// prayer gets the same brass emphasis used elsewhere in the app.
 //
 // The thumb/fill read shared values only (dragging → `prog`, idle → `follow`), never
 // the JS `fraction` prop directly. That is what kills the drag-release snap-back: a
@@ -427,15 +476,17 @@ function ScheduleRow({
 // pre-drag value for several frames before the committed time ships from JS — the
 // thumb flicking back to where the drag started, then forward again. `follow` mirrors
 // `fraction` from an effect and stays on the UI thread, so the handoff is seamless.
-function Scrubber({
+function SolarTimeline({
   styles,
   fraction,
   marks,
+  nextKey,
   onScrub,
 }: {
   styles: DockStyles;
   fraction: number;
   marks: DayMark[];
+  nextKey: PrayerKey | null;
   onScrub: (f: number) => void;
 }) {
   const [trackW, setTrackW] = useState(0);
@@ -466,6 +517,7 @@ function Scrubber({
     .minDistance(0)
     .onBegin((e) => {
       dragging.value = true;
+      runOnJS(hapticLight)();
       if (trackW <= 0) return;
       const f = Math.max(0, Math.min(1, e.x / trackW));
       prog.value = f;
@@ -494,6 +546,7 @@ function Scrubber({
     })
     .onFinalize(() => {
       dragging.value = false;
+      runOnJS(hapticLight)();
       runOnJS(onScrub)(prog.value);
     });
 
@@ -506,26 +559,54 @@ function Scrubber({
   }));
   const thumbStyle = useAnimatedStyle(() => ({
     left: (dragging.value ? prog.value : follow.value) * trackW - 9,
+    transform: [{ scale: withSpring(dragging.value ? 1.16 : 1, SPRING) }],
   }));
 
   return (
-    <View style={styles.sliderArea}>
+    <View style={styles.timelineArea}>
       <GestureDetector gesture={pan}>
-        <View style={styles.track} onLayout={(e) => setTrackW(e.nativeEvent.layout.width)}>
+        <View
+          style={styles.timelineHit}
+          onLayout={(e) => setTrackW(e.nativeEvent.layout.width)}
+          accessibilityRole="adjustable"
+          accessibilityLabel="Dagens tidslinje"
+        >
           <View style={styles.trackBase} />
           {/* Plain-style `width` first so the freshly-mounted fill already spans to the
               live position; the animated style (which can apply a frame late on mount)
               then takes over. Without it the fill flashes empty — same mount glitch the
               thumb's plain `left` below fixes. */}
           <Animated.View style={[styles.trackFill, { width: fraction * trackW }, fillStyle]} />
+          {/* Prayer landmarks sit on the axis. Each colour-coded dot rides in a glass
+              halo so it stays a clear figure even over the filled (elapsed) portion of
+              the track; the next prayer gets a brass ring + extra size and is drawn last
+              (zIndex) so a summer cluster can't occlude it, and the thumb (zIndex above
+              all) reads cleanly when it passes over. */}
           {trackW > 0 &&
-            marks.map((m) => (
-              <View
-                key={m.key}
-                pointerEvents="none"
-                style={[styles.mark, { left: m.fraction * trackW - 3, backgroundColor: PRAYER_COLORS[m.key] }]}
-              />
-            ))}
+            marks.map((m) => {
+              const isNext = nextKey === m.key;
+              const isPast = m.fraction <= fraction;
+              return (
+                <View
+                  key={m.key}
+                  pointerEvents="none"
+                  style={[
+                    styles.markHalo,
+                    isNext && styles.markHaloNext,
+                    { left: m.fraction * trackW - (isNext ? 8 : 7) },
+                  ]}
+                >
+                  <View
+                    style={[
+                      styles.mark,
+                      isPast && styles.markPast,
+                      isNext && styles.markNext,
+                      { backgroundColor: PRAYER_COLORS[m.key] },
+                    ]}
+                  />
+                </View>
+              );
+            })}
           {/* Plain-style `left` first so a freshly-mounted thumb is already at the
               live position; the animated style (which can apply a frame late on mount)
               then takes over and drives the drag. Without it the thumb flashes at 0. */}
@@ -548,20 +629,16 @@ function Scrubber({
   );
 }
 
-// Styles built from the active theme palette (light/dark). Layout is fixed; only
+// Styles built from the night-blended map chrome (see nightChrome). Layout is fixed; only
 // colours come from `c` (where `surface` is the translucent glass).
-function makeStyles(c: Palette) {
+function makeStyles(c: NightChrome) {
   return StyleSheet.create({
     shadowWrap: {
       position: 'absolute',
       left: 12,
       right: 12,
       borderRadius: 22,
-      shadowColor: SHADOW,
-      shadowOpacity: 0.18,
-      shadowRadius: 16,
-      shadowOffset: { width: 0, height: 6 },
-      elevation: 8,
+      ...shadow.card,
     },
     // The rim lives on this rounded, overflow-clipped container — NOT on the
     // GlassSurface backing (a square absoluteFill, see below). A border on the
@@ -580,7 +657,7 @@ function makeStyles(c: Palette) {
     glassFill: { borderWidth: 0 },
     // paddingTop clears the grab-handle zone (handleHit is 34 tall) plus a gap, so
     // the topmost content (the date header / hero) never sits cramped under the handle.
-    content: { flex: 1, justifyContent: 'flex-end', paddingHorizontal: 16, paddingTop: 42 },
+    content: { flex: 1, justifyContent: 'flex-end', paddingHorizontal: 16, paddingTop: 36 },
 
     dateHeader: { marginBottom: 12 },
     dateHijri: { fontSize: 16, fontWeight: '700', color: c.ink, letterSpacing: 0.2 },
@@ -604,18 +681,25 @@ function makeStyles(c: Palette) {
     pressed: { opacity: 0.6 },
 
     // Hero, two tiers. Top: prayer name + countdown (the glance). Sub: time · place (quiet).
-    hero: { marginBottom: 8 },
+    hero: { marginBottom: 4 },
     heroTop: { flexDirection: 'row', alignItems: 'center' },
     heroPrayer: { fontSize: 19, fontWeight: '700', color: c.ink, letterSpacing: 0.2 },
+    // Expanded hero: a touch smaller than collapsed (the date header leads the open dock),
+    // shown only when the next prayer is tomorrow's and thus absent from today's list.
+    heroPrayerExpanded: { fontSize: 16, fontWeight: '700', color: c.ink, letterSpacing: 0.2 },
     heroTomorrow: { fontSize: 14, fontWeight: '400', color: c.inkMuted },
     heroNone: { fontSize: 16, color: c.inkMuted },
     countdown: { marginLeft: 8, fontSize: 18, fontWeight: '700', color: c.highlight, fontVariant: ['tabular-nums'] },
     countdownPrefix: { fontSize: 13, fontWeight: '400', color: c.inkMuted },
-    heroSub: { flexDirection: 'row', alignItems: 'center', gap: 4, marginTop: 3 },
+    // Unit ("t" / "min") at ~65% of the digit size, medium-weight, same brass.
+    // Flush against the digit (no inter-character space) — the hierarchy +
+    // proximity that the old equal-weight string lacked.
+    countdownUnit: { fontSize: 12, fontWeight: '600', color: c.highlight },
+    heroSub: { flexDirection: 'row', alignItems: 'center', gap: 4, marginTop: 2 },
     heroPlaceRow: { flexDirection: 'row', alignItems: 'center', gap: 3, marginLeft: 8, flexShrink: 1, minWidth: 0 },
     subTime: { fontSize: 13, color: c.inkMuted, fontVariant: ['tabular-nums'] },
     subSep: { fontSize: 13, color: c.inkMuted },
-    subPlace: { fontSize: 13, color: c.inkMuted, flexShrink: 1 },
+    subPlace: { fontSize: 11.5, color: c.inkFaint, flexShrink: 1 },
 
     flex: { flex: 1 },
     previewBadge: {
@@ -630,28 +714,73 @@ function makeStyles(c: Palette) {
     },
     previewBadgeText: { fontSize: 12, fontWeight: '700', color: c.accent },
 
-    sliderArea: {},
-    track: { height: 28, justifyContent: 'center' },
-    trackBase: { position: 'absolute', left: 0, right: 0, height: 4, borderRadius: 2, backgroundColor: c.track },
-    trackFill: { position: 'absolute', left: 0, height: 4, borderRadius: 2, backgroundColor: c.trackFill },
-    mark: { position: 'absolute', width: 6, height: 6, borderRadius: 3, top: 11 },
+    timelineArea: {},
+    timelineHit: { height: 30, justifyContent: 'flex-end', paddingBottom: 6 },
+    trackBase: {
+      position: 'absolute',
+      left: 0,
+      right: 0,
+      bottom: 13,
+      height: 4,
+      borderRadius: 2,
+      backgroundColor: c.track,
+    },
+    // The elapsed-day fill is deliberately quiet (a soft tint, not a bold bar): it is
+    // context, and the prayer pips above are the content. Over-saturating it inverted
+    // the hierarchy — the progress bar shouted louder than the prayers it marks.
+    trackFill: {
+      position: 'absolute',
+      left: 0,
+      bottom: 13,
+      height: 4,
+      borderRadius: 2,
+      backgroundColor: c.trackFill,
+      opacity: 0.5,
+    },
+    // Mark on the axis: a colour-coded dot in a glass halo. The halo (surface fill +
+    // hairline) lifts the dot off the track and the elapsed-fill beneath it, so every
+    // prayer stays a distinct figure regardless of what it sits over.
+    markHalo: {
+      position: 'absolute',
+      bottom: 8,
+      width: 14,
+      height: 14,
+      borderRadius: 7,
+      alignItems: 'center',
+      justifyContent: 'center',
+      backgroundColor: c.surface,
+      borderWidth: StyleSheet.hairlineWidth,
+      borderColor: c.hairline,
+    },
+    markHaloNext: {
+      width: 16,
+      height: 16,
+      borderRadius: 8,
+      bottom: 7,
+      borderColor: c.highlight,
+      borderWidth: 1.5,
+      backgroundColor: c.highlightSoft,
+      zIndex: 2,
+    },
+    mark: { width: 7, height: 7, borderRadius: 4, opacity: 0.88 },
+    markPast: { opacity: 1 },
+    markNext: { width: 9, height: 9, borderRadius: 5, opacity: 1 },
     thumb: {
       position: 'absolute',
       width: 18,
       height: 18,
       borderRadius: 9,
-      top: 5,
+      bottom: 6,
       backgroundColor: c.thumb,
       borderColor: c.accent,
       borderWidth: 2,
-      shadowColor: SHADOW,
-      shadowOpacity: 0.25,
-      shadowRadius: 3,
-      shadowOffset: { width: 0, height: 1 },
-      elevation: 3,
+      ...shadow.thumb,
+      // Always the topmost layer — above the brass next-pip's zIndex — so "you are here"
+      // is never covered when the thumb passes beneath a prayer pip.
+      zIndex: 3,
     },
-    ticks: { flexDirection: 'row', justifyContent: 'space-between', marginTop: 2 },
-    tick: { fontSize: 10, color: c.inkMuted, fontVariant: ['tabular-nums'] },
+    ticks: { flexDirection: 'row', justifyContent: 'space-between', marginTop: 0 },
+    tick: { fontSize: 10, color: c.inkFaint, fontVariant: ['tabular-nums'] },
 
     handleHit: {
       position: 'absolute',
