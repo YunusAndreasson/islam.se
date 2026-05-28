@@ -5,6 +5,7 @@ import {
   type ViewStateChangeEvent,
 } from '@maplibre/maplibre-react-native';
 import { useIsFocused } from 'expo-router';
+import { StatusBar } from 'expo-status-bar';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { type NativeSyntheticEvent, StyleSheet, useWindowDimensions, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -43,7 +44,10 @@ const EPSILON = 0.02;
 const DAY_MS = 86_400_000;
 // Extra breathing room (dp) reserved above the dock, so the south coast sits
 // clearly above it rather than pressed against its top edge.
-const DOCK_MARGIN = 40;
+// Clearance between the south coast and the dock's top edge when the whole country is
+// framed. Generous enough that Malmö's dot AND its label clear the card — a tighter
+// value left "Malmö" tucked under the dock's top edge.
+const DOCK_MARGIN = 64;
 
 // How far to shift one axis so the visible span [vMin, vMax] sits inside the
 // allowed span [min, max]. If the view is wider than the bound, centre on it.
@@ -132,8 +136,17 @@ export default function Bonetider() {
   const sig = computeSignature(settings);
   // The whole-country prayer-time lattice — the one expensive step, cached per day
   // and per compute-affecting setting. Midday avoids any DST edge on the date.
+  //
+  // The grid feeds the prayer LINES (buildLines below); the twilight wash is independent now
+  // (pure sun geometry, see SolarSkiaOverlay). It forces polar resolution to 'unresolved',
+  // NOT the user's choice (Sweden defaults to aqrabBalad): up north aqrabBalad borrows a
+  // neighbouring latitude's times, discontinuous across the grid — e.g. today lat 68 and 69
+  // both clamp to 22:21 next to lat 67's real 21:50 — so the Maghrib/Isha isolines came out
+  // jagged, and it draws a confident prayer line where there is really perpetual twilight.
+  // 'unresolved' leaves the polar zone NaN, so the lines stay smooth and simply stop at the
+  // boundary. The user's OWN prayer times (userTimes below) keep their chosen resolution.
   const grid = useMemo(
-    () => buildGrid(new Date(clock.dayStart + DAY_MS / 2), settings),
+    () => buildGrid(new Date(clock.dayStart + DAY_MS / 2), { ...settings, polarCircleResolution: 'unresolved' }),
     // eslint-disable-next-line react-hooks/exhaustive-deps -- sig captures the settings fields that matter
     [clock.dayStart, sig],
   );
@@ -192,18 +205,13 @@ export default function Bonetider() {
     return Number.isFinite(at) ? { key: 'fajr', at, tomorrow: true } : null;
   }, [userTimes, clock.now, clock.dayStart, coords, settings]);
 
-  // How "night" it is at the user's place for the viewed instant (0 day → 1 deep
-  // night). Drives the MAP CANVAS — the twilight wash, the prayer pills and the city
-  // markers dim into night with the map. (The dock + menu are chrome and follow the
-  // phone theme instead, so they look the same on every screen.) Quantised to 0.05 so
-  // scrubbing doesn't rebuild the themed layers every frame.
-  const ms = (d: Date): number => (d instanceof Date ? d.getTime() : Number.NaN);
-  const nightRaw = nightFactor(clock.now, {
-    fajr: ms(userTimes.fajr),
-    sunrise: ms(userTimes.sunrise),
-    maghrib: ms(userTimes.maghrib),
-    isha: ms(userTimes.isha),
-  });
+  // How "night" it is at the user's place for the viewed instant (0 day → 1 deep night),
+  // from the sun's real depression below the horizon (see nightFactor / sun.ts) — the same
+  // physical darkness the map wash draws, so Malmö's luminous summer night reads the same on
+  // the dock as on the map. Drives the chrome that floats on the map (dock, nav discs, city
+  // markers, status bar); other screens stay on the OS theme. Quantised to 0.05 so scrubbing
+  // doesn't rebuild the themed layers every frame.
+  const nightRaw = nightFactor(clock.now, coords.latitude, coords.longitude);
   const night = Math.round(nightRaw * 20) / 20;
 
   // The user's next prayer drives the emphasised line/pill on the map (only when
@@ -293,7 +301,6 @@ export default function Bonetider() {
           wash + the sweeping prayer lines, projected from the camera shared value so they
           stay glued to the map as it pans/zooms. */}
       <SolarSkiaOverlay
-        grid={grid}
         dayStart={clock.dayStart}
         dayLength={clock.dayLength}
         nowFraction={nowFraction}
@@ -307,8 +314,8 @@ export default function Bonetider() {
       <MapMarkersOverlay
         camera={camState}
         userCoords={coords}
+        userLabel={placeLabel}
         labels={solar.labels}
-        now={clock.now}
         nextKey={nextKey}
         night={night}
       />
@@ -322,13 +329,20 @@ export default function Bonetider() {
         next={next}
         locationLabel={placeLabel}
         settings={settings}
+        night={night}
       />
 
       {/* Floating navigation: a live qibla compass (left) and the settings cog (right),
           each opening its screen as a sheet over the map. `active` (the screen's focus)
           gates the compass's heading subscription so the magnetometer pauses when a
           sheet is up or the app is backgrounded. */}
-      <MapNav active={isFocused} />
+      <MapNav active={isFocused} night={night} />
+
+      {/* Status-bar icons must read against the map under them, which is sun-driven, not the
+          OS theme — over the deep night map the default dark glyphs vanished. Light glyphs
+          past dusk, dark by day. Only while Bönetider owns the screen: when a settings/Qibla
+          sheet is up, defer to its OS-themed "auto" so the clock stays legible there too. */}
+      <StatusBar style={isFocused ? (night >= 0.5 ? 'light' : 'dark') : 'auto'} animated />
     </View>
   );
 }

@@ -173,7 +173,13 @@ export function buildLines(
     // Catmull-Rom) so the line reads as a true curve, not the gently faceted polyline the
     // ~40 km lattice leaves behind. Label placement stays on the raw segments — the
     // smoothed line tracks them within a fraction of a cell.
-    const smoothed = chainSegments(segments).map((line) => catmullRom(smoothChain(line)));
+    //
+    // 6 de-noising passes (was 3): where a prayer time changes fast with latitude — e.g.
+    // Maghrib in the far north near midsummer, whose isoline bends hard — the coarse grid
+    // leaves a sharp facet that 3 passes left visible (and Mercator magnifies it up north).
+    // Extra passes pull the control polygon onto the smooth underlying curve before
+    // Catmull-Rom resamples it; endpoints stay pinned, so open lines still reach the edge.
+    const smoothed = chainSegments(segments).map((line) => catmullRom(smoothChain(line, 6)));
     features.push({
       type: 'Feature',
       properties: { prayer },
