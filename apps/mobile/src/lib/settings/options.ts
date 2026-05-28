@@ -4,15 +4,14 @@
 // inline control or (later) a sub-screen can share one source of truth.
 import type { Option } from '@/components/settings/OptionGroup';
 
-import {
-  type CalculationMethodKey,
-  type HighLatitudeRuleKey,
-  type Madhab,
-  type PolarCircleResolutionKey,
-  type PrayerSettings,
-  type Rounding,
-  type Shafaq,
-  SWEDISH_CITIES,
+import type {
+  CalculationMethodKey,
+  HighLatitudeRuleKey,
+  Madhab,
+  PolarCircleResolutionKey,
+  PrayerSettings,
+  Rounding,
+  Shafaq,
 } from './types';
 
 // Ordered Sweden-first: Muslim World League is the default and the one most Swedish
@@ -72,11 +71,6 @@ export const ROUNDING_OPTIONS: readonly Option<Rounding>[] = [
   { value: 'up', label: 'Uppåt' },
   { value: 'none', label: 'Ingen' },
 ];
-
-export const CITY_OPTIONS: readonly Option<string>[] = SWEDISH_CITIES.map((c) => ({
-  value: c.name,
-  label: c.name,
-}));
 
 /** Stepper display formatter: a signed minute offset, e.g. "+5 min" / "−3 min". */
 export const signedMinutes = (v: number) => `${v > 0 ? '+' : ''}${v} min`;

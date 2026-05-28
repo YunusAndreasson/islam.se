@@ -27,7 +27,6 @@ import {
   type PrayerSettings,
   type Rounding,
   type Shafaq,
-  SWEDISH_CITIES,
 } from './types';
 
 // Hand-listed authoritative key sets — written out independently of the OPTIONS lists,
@@ -154,29 +153,8 @@ describe('label helpers', () => {
   });
 });
 
-describe('SWEDISH_CITIES — manual-location list invariants', () => {
-  it('includes Kiruna so polar-circle handling is reachable from the UI', () => {
-    // Kiruna is the only city in the picker above the Arctic Circle. Removing it
-    // would silently take the polar-resolution code path out of user reach (and
-    // the prayer-times test suite's Kiruna-midsummer regression covers it).
-    const kiruna = SWEDISH_CITIES.find((c) => c.name === 'Kiruna');
-    expect(kiruna).toBeDefined();
-    expect(kiruna && kiruna.latitude).toBeGreaterThan(66.5);
-  });
-
-  it('every entry has a sane Swedish lat/lon', () => {
-    // Sweden's mainland is bounded ~55–69° N, ~10–24° E. Anything outside that is
-    // either a typo or a foreign city sneaking into the manual picker.
-    for (const c of SWEDISH_CITIES) {
-      expect(c.latitude).toBeGreaterThan(55);
-      expect(c.latitude).toBeLessThan(70);
-      expect(c.longitude).toBeGreaterThan(10);
-      expect(c.longitude).toBeLessThan(25);
-    }
-  });
-
-  it('has unique city names (so the picker has no ambiguous rows)', () => {
-    const names = SWEDISH_CITIES.map((c) => c.name);
-    expect(new Set(names).size).toBe(names.length);
-  });
-});
+// SWEDISH_CITIES (the curated 7) was retired when the Byt plats picker took
+// over (src/app/(settings)/byt-plats.tsx). The picker now pulls from PLACES
+// (src/lib/places/data.ts — ~2,100 tätorter from GeoNames SE), and the
+// invariants live in src/lib/places/nearest.test.ts: every place round-trips
+// to itself, no two share coords, and Markaryd-class small places work.

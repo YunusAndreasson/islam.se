@@ -107,20 +107,12 @@ export const DEFAULT_SETTINGS: PrayerSettings = {
   manualLocation: null,
 };
 
-/** Fallback coordinate when GPS is unavailable and no manual location is set. */
+/** Fallback coordinate when GPS is unavailable and no manual location is set.
+    The Byt plats picker (src/app/(settings)/byt-plats.tsx) writes its own
+    NamedLocation when the user chooses a place — the picker pool is the bundled
+    PLACES dataset, see src/lib/places/data.ts. */
 export const DEFAULT_COORDS: NamedLocation = {
   name: 'Stockholm',
   latitude: 59.3293,
   longitude: 18.0686,
 };
-
-/** Manual-mode picker list. Kiruna is included to exercise polar-circle handling. */
-export const SWEDISH_CITIES: readonly NamedLocation[] = [
-  { name: 'Stockholm', latitude: 59.3293, longitude: 18.0686 },
-  { name: 'Göteborg', latitude: 57.7089, longitude: 11.9746 },
-  { name: 'Malmö', latitude: 55.605, longitude: 13.0038 },
-  { name: 'Uppsala', latitude: 59.8586, longitude: 17.6389 },
-  { name: 'Umeå', latitude: 63.8258, longitude: 20.263 },
-  { name: 'Luleå', latitude: 65.5848, longitude: 22.1547 },
-  { name: 'Kiruna', latitude: 67.8558, longitude: 20.2253 },
-] as const;

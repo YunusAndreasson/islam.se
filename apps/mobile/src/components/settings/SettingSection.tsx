@@ -3,8 +3,13 @@ import { StyleSheet, Text, View } from 'react-native';
 
 import { type SettingsColors, useSettingsColors } from './theme';
 
-// A titled card grouping related setting rows, with an optional footnote below
-// (used to explain non-obvious options, e.g. polar-circle behaviour).
+// A titled card grouping related setting rows, with an optional footnote below.
+//
+// The title sits INSIDE the card (a muted uppercase header row above the children),
+// matching DisclosureGroup's header rhythm and the Om-appen card — so every card on
+// the Inställningar screen reads as one self-contained titled unit. Earlier this
+// title was rendered above the card; that mixed pattern (some sections with an
+// external heading, others without) read as disorganised, hence the unification.
 export function SettingSection({
   title,
   footnote,
@@ -18,8 +23,10 @@ export function SettingSection({
   const styles = useMemo(() => makeStyles(colors), [colors]);
   return (
     <View style={styles.wrap}>
-      <Text style={styles.title}>{title.toUpperCase()}</Text>
-      <View style={styles.card}>{children}</View>
+      <View style={styles.card}>
+        <Text style={styles.title}>{title.toUpperCase()}</Text>
+        {children}
+      </View>
       {footnote ? <Text style={styles.footnote}>{footnote}</Text> : null}
     </View>
   );
@@ -28,13 +35,16 @@ export function SettingSection({
 function makeStyles(colors: SettingsColors) {
   return StyleSheet.create({
     wrap: { marginBottom: 24 },
+    // 13/600 muted uppercase — identical to DisclosureGroup's title style so the
+    // two card types are visually indistinguishable as section headers.
     title: {
       fontSize: 13,
       fontWeight: '600',
       color: colors.textMuted,
-      marginBottom: 8,
-      marginLeft: 4,
       letterSpacing: 0.5,
+      paddingTop: 14,
+      paddingHorizontal: 16,
+      paddingBottom: 6,
     },
     card: {
       backgroundColor: colors.card,

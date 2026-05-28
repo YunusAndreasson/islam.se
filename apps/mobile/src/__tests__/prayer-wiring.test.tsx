@@ -31,7 +31,7 @@ import {
   type PrayerKey,
 } from '../lib/prayer-times';
 import { SettingsProvider } from '../lib/settings/context';
-import { DEFAULT_COORDS } from '../lib/settings/types';
+import { DEFAULT_COORDS, DEFAULT_SETTINGS } from '../lib/settings/types';
 import { oracleTimes } from '../test-utils/prayer-oracle';
 
 // jest.setup mocks expo-location to return this exact coordinate, and it equals
@@ -134,22 +134,38 @@ describe('changing a setting recomputes the displayed times (the core user flow)
     }
   });
 
-  it('location → manual Malmö recomputes every prayer, through useLocation', async () => {
+  it('mode switch GPS → manual without picking keeps the same coords (no corruption)', async () => {
     await renderSettings();
     const stockholm = snapshot();
-
-    // GPS → manual keeps Stockholm (the manual default), so nothing should move yet —
-    // proves the mode switch doesn't corrupt the resolved coordinate.
     fireEvent.press(screen.getByRole('radio', { name: /Välj stad/ }));
+    // The manual default is Stockholm, so prayer times must not move.
     for (const key of PRAYER_ORDER) expect(shown(key)).toBe(stockholm[key]);
+  });
 
-    // Picking Malmö (far south) shifts every time to Malmö's, matching the oracle.
-    fireEvent.press(screen.getByRole('radio', { name: /Malmö/ }));
+  it('manual + Malmö renders Malmö times (settings → useLocation → adhan)', async () => {
+    // The Byt plats picker (src/app/(settings)/byt-plats.tsx) writes manualLocation
+    // through the same settings.update() the inline picker used to call, so the
+    // *wiring* is unchanged. We pre-seed the persisted shape rather than driving
+    // through the pushed picker screen (which needs full router context); the picker's
+    // own UI is tested in screens.test.tsx. If a future change broke the contract
+    // (e.g. renaming `manualLocation` or dropping `latitude`), this test catches it
+    // because the rendered times would diverge from the oracle.
+    await AsyncStorage.setItem(
+      'prayerSettings:v1',
+      JSON.stringify({
+        ...DEFAULT_SETTINGS,
+        locationMode: 'manual',
+        manualLocation: { name: 'Malmö', latitude: MALMO.latitude, longitude: MALMO.longitude },
+      }),
+    );
+    await renderSettings();
     const oracle = oracleTimes(MALMO, new Date());
     for (const key of PRAYER_ORDER) {
       expect(shown(key)).toBe(formatTime(oracle[key]));
     }
-    expect(shown('maghrib')).not.toBe(stockholm.maghrib); // the city really changed things
+    // Sanity: Malmö's southern Maghrib really differs from Stockholm's.
+    const stockholmOracle = oracleTimes(STOCKHOLM, new Date());
+    expect(formatTime(oracle.maghrib)).not.toBe(formatTime(stockholmOracle.maghrib));
   });
 
   // Programmatic per-prayer sweep: a +1-minute adjustment must move exactly its own

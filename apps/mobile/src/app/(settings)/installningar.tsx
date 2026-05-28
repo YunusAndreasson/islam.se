@@ -1,8 +1,8 @@
-import { MaterialIcons } from '@expo/vector-icons';
 import { router, useIsFocused } from 'expo-router';
 import { type ReactNode, useEffect, useMemo, useState } from 'react';
 import { ActivityIndicator, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { MaterialIcons } from '@expo/vector-icons';
 
 import { DisclosureGroup } from '@/components/settings/DisclosureGroup';
 import { OptionGroup } from '@/components/settings/OptionGroup';
@@ -10,6 +10,7 @@ import { SettingSection } from '@/components/settings/SettingSection';
 import { Stepper } from '@/components/settings/Stepper';
 import { type SettingsColors, useSettingsColors } from '@/components/settings/theme';
 import { Toggle } from '@/components/settings/Toggle';
+import { ModalBar } from '@/components/ui/ModalBar';
 import { formatHijri } from '@/lib/hijri';
 import { useLocation } from '@/lib/location/context';
 import { NOTIFY_PRAYERS } from '@/lib/notifications';
@@ -23,9 +24,7 @@ import {
 import { useSettings } from '@/lib/settings/context';
 import {
   adjustmentsSummary,
-  CITY_OPTIONS,
   HIGHLAT_OPTIONS,
-  madhabLabel,
   MADHAB_OPTIONS,
   METHOD_OPTIONS,
   methodLabel,
@@ -34,7 +33,7 @@ import {
   SHAFAQ_OPTIONS,
   signedMinutes,
 } from '@/lib/settings/options';
-import { SWEDISH_CITIES } from '@/lib/settings/types';
+import { space, type } from '@/theme/tokens';
 
 export default function Installningar() {
   const { settings, loaded, update } = useSettings();
@@ -64,6 +63,9 @@ export default function Installningar() {
   const preview = useMemo(() => {
     const pt = computePrayerTimes(coords, now, settings);
     const nextKey = prayerToKey(pt.nextPrayer(now));
+    // Date · place — Gregorian + the current city, so the preview answers
+    // both "what day" and "where" at a glance. Hijri lives in its own
+    // adjuster section (so users who care still have it, one tap away).
     let dateLabel: string;
     try {
       const greg = new Intl.DateTimeFormat('sv-SE', {
@@ -72,9 +74,9 @@ export default function Installningar() {
         month: 'long',
         timeZone: 'Europe/Stockholm',
       }).format(now);
-      dateLabel = `${greg.charAt(0).toUpperCase()}${greg.slice(1)} · ${formatHijri(now, settings.hijriOffset)}`;
+      dateLabel = `${greg.charAt(0).toUpperCase()}${greg.slice(1)} · ${label}`;
     } catch {
-      dateLabel = formatHijri(now, settings.hijriOffset);
+      dateLabel = label;
     }
     return {
       nextKey,
@@ -85,27 +87,13 @@ export default function Installningar() {
         time: formatTime(pt[key]),
       })),
     };
-  }, [coords, settings, now]);
+  }, [coords, settings, now, label]);
 
   // This screen is the Settings sheet over the map — a persistent ✕ dismisses it back.
-  const closeBar = (
-    <View style={styles.modalBar}>
-      <Pressable
-        onPress={() => router.back()}
-        accessibilityRole="button"
-        accessibilityLabel="Stäng"
-        hitSlop={10}
-        style={styles.close}
-      >
-        <MaterialIcons name="close" size={26} color={colors.textMuted} />
-      </Pressable>
-    </View>
-  );
-
   if (!loaded) {
     return (
       <SafeAreaView style={styles.safe} edges={['top']}>
-        {closeBar}
+        <ModalBar variant="close" fallback="/bonetider" />
         <View style={styles.loading}>
           <ActivityIndicator color={colors.accent} />
         </View>
@@ -115,13 +103,14 @@ export default function Installningar() {
 
   return (
     <SafeAreaView style={styles.safe} edges={['top']}>
-      {closeBar}
+      <ModalBar variant="close" fallback="/bonetider" />
       <ScrollView contentContainerStyle={styles.content}>
         <Text style={styles.header}>Inställningar</Text>
 
         {/* Live "today" preview — the welcoming anchor. It sits above everything so a
-            change in any group below is immediately visible. */}
-        <SettingSection title="Förhandsvisning" footnote={`Plats: ${label}`}>
+            change in any group below is immediately visible. The place is shown in
+            the date row (Gregorian · City), so no footnote is needed here. */}
+        <SettingSection title="Förhandsvisning">
           <View style={styles.previewHead}>
             <Text style={styles.previewDate}>{preview.dateLabel}</Text>
           </View>
@@ -150,12 +139,14 @@ export default function Installningar() {
         {/* --- Essentials: location + notifications --- */}
         <SettingSection
           title="Plats"
+          // Only surface a footnote when GPS mode has something to say (granted/denied);
+          // the manual mode is self-explanatory from the row's state.
           footnote={
             settings.locationMode === 'gps'
               ? permissionStatus === 'denied'
                 ? 'Platsåtkomst nekad – visar standardplats. Tillåt i systeminställningar.'
                 : 'Använder enhetens position.'
-              : 'Välj en stad för beräkningen.'
+              : undefined
           }
         >
           <OptionGroup
@@ -174,73 +165,31 @@ export default function Installningar() {
               <Text style={styles.refreshText}>{locating ? 'Hämtar position…' : 'Uppdatera position'}</Text>
               <Text style={styles.refreshStatus}>{source === 'gps' ? label : '—'}</Text>
             </Pressable>
-          ) : null}
+          ) : (
+            // Native iOS-Settings pattern: a row INSIDE the same card as the radio
+            // (no second card), label left, current value muted right, chevron — pushes
+            // the full 2,100-place picker. Only visible in manual mode.
+            <Pressable
+              onPress={() => router.push('/(settings)/byt-plats')}
+              accessibilityRole="button"
+              accessibilityLabel={`Stad: ${settings.manualLocation?.name ?? 'Stockholm'}. Tryck för att byta.`}
+              style={({ pressed }) => [styles.refreshRow, pressed && styles.refreshPressed]}
+            >
+              <Text style={styles.refreshText}>Stad</Text>
+              <View style={styles.cityValueWrap}>
+                <Text style={styles.refreshStatus}>{settings.manualLocation?.name ?? 'Stockholm'}</Text>
+                <MaterialIcons name="chevron-right" size={20} color={colors.textMuted} />
+              </View>
+            </Pressable>
+          )}
         </SettingSection>
 
-        {settings.locationMode === 'manual' ? (
-          <SettingSection title="Stad">
-            <OptionGroup
-              options={CITY_OPTIONS}
-              value={settings.manualLocation?.name ?? 'Stockholm'}
-              onChange={(name) => {
-                const city = SWEDISH_CITIES.find((c) => c.name === name);
-                if (city) update({ manualLocation: { ...city } });
-              }}
-            />
-          </SettingSection>
-        ) : null}
-
-        <SettingSection
-          title="Notiser"
-          footnote="Lokala påminnelser för dagens böner – fungerar även utan internet. Ställ in en förvarning om du vill hinna till moskén."
-        >
-          <Toggle
-            label="Påminn om bönetider"
-            value={settings.notifications.enabled}
-            onValueChange={(enabled) =>
-              update({ notifications: { ...settings.notifications, enabled } })
-            }
-          />
-          {settings.notifications.enabled ? (
-            <Stepper
-              label="Påminn i förväg"
-              value={settings.notifications.leadMinutes}
-              divider
-              min={0}
-              max={60}
-              step={5}
-              format={(v) => (v === 0 ? 'Vid bönetid' : `${v} min innan`)}
-              onChange={(leadMinutes) =>
-                update({ notifications: { ...settings.notifications, leadMinutes } })
-              }
-            />
-          ) : null}
-          {settings.notifications.enabled
-            ? NOTIFY_PRAYERS.map((key) => (
-                <Toggle
-                  key={key}
-                  label={PRAYER_LABELS[key]}
-                  value={settings.notifications.prayers[key]}
-                  divider
-                  onValueChange={(v) =>
-                    update({
-                      notifications: {
-                        ...settings.notifications,
-                        prayers: { ...settings.notifications.prayers, [key]: v },
-                      },
-                    })
-                  }
-                />
-              ))
-            : null}
-        </SettingSection>
-
-        {/* --- Advanced, folded away with good defaults; the header shows the current
-            value so the user recognises the state without opening it. --- */}
-        <DisclosureGroup
-          title="Beräkning"
-          summary={`${methodLabel(settings)} · ${madhabLabel(settings)} Asr`}
-        >
+        {/* Beräkning sits second — after Plats — because it's what a user will tune
+            once after choosing a city. Folded so the screen stays welcoming; the
+            summary shows the current method so recognition replaces recall.
+            Madhab/Asr is omitted from the summary to keep it on one line on narrow
+            phones (it's the second-most-changed control inside, one tap away). */}
+        <DisclosureGroup title="Beräkning" summary={methodLabel(settings)}>
           <SubGroup styles={styles} title="Beräkningsmetod">
             <OptionGroup
               options={METHOD_OPTIONS}
@@ -286,6 +235,48 @@ export default function Installningar() {
           ) : null}
         </DisclosureGroup>
 
+        <SettingSection title="Notiser">
+          <Toggle
+            label="Påminn om bönetider"
+            value={settings.notifications.enabled}
+            onValueChange={(enabled) =>
+              update({ notifications: { ...settings.notifications, enabled } })
+            }
+          />
+          {settings.notifications.enabled ? (
+            <Stepper
+              label="Påminn i förväg"
+              value={settings.notifications.leadMinutes}
+              divider
+              min={0}
+              max={60}
+              step={5}
+              format={(v) => (v === 0 ? 'Vid bönetid' : `${v} min innan`)}
+              onChange={(leadMinutes) =>
+                update({ notifications: { ...settings.notifications, leadMinutes } })
+              }
+            />
+          ) : null}
+          {settings.notifications.enabled
+            ? NOTIFY_PRAYERS.map((key) => (
+                <Toggle
+                  key={key}
+                  label={PRAYER_LABELS[key]}
+                  value={settings.notifications.prayers[key]}
+                  divider
+                  onValueChange={(v) =>
+                    update({
+                      notifications: {
+                        ...settings.notifications,
+                        prayers: { ...settings.notifications.prayers, [key]: v },
+                      },
+                    })
+                  }
+                />
+              ))
+            : null}
+        </SettingSection>
+
         <DisclosureGroup title="Visning & finjustering" summary={adjustmentsSummary(settings)}>
           <SubGroup styles={styles} title="Avrundning">
             <OptionGroup
@@ -327,16 +318,18 @@ export default function Installningar() {
           </SubGroup>
         </DisclosureGroup>
 
-        {/* Om lives here now (no longer its own nav entry): the full About page pushes
-            in within this sheet, a back arrow returns here. */}
+        {/* Om lives here (no longer its own nav entry): the full About page pushes
+            in within this sheet, a back arrow returns here. Visually mirrors the
+            collapsed-disclosure rows above (uppercase muted title left, chevron right)
+            so the screen reads as one rhythm — same card chrome, same gesture. */}
         <Pressable
           onPress={() => router.push('/om')}
           accessibilityRole="button"
+          accessibilityLabel="Om appen"
           style={({ pressed }) => [styles.aboutRow, pressed && styles.aboutPressed]}
         >
-          <MaterialIcons name="info-outline" size={20} color={colors.accent} />
-          <Text style={styles.aboutLabel}>Om appen</Text>
-          <MaterialIcons name="chevron-right" size={22} color={colors.textMuted} />
+          <Text style={styles.aboutLabel}>OM APPEN</Text>
+          <MaterialIcons name="chevron-right" size={24} color={colors.accent} />
         </Pressable>
       </ScrollView>
     </SafeAreaView>
@@ -371,28 +364,33 @@ function SubGroup({
 function makeStyles(colors: SettingsColors) {
   return StyleSheet.create({
     safe: { flex: 1, backgroundColor: colors.bg },
-    modalBar: { height: 44, flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'center', paddingHorizontal: 16 },
-    close: { padding: 4 },
     loading: { flex: 1, alignItems: 'center', justifyContent: 'center' },
-    content: { padding: 16, paddingBottom: 48 },
-    // A single-row card linking the About page — the same chrome as a SettingSection card.
+    content: { padding: space.lg, paddingBottom: space.xxxl + space.lg },
+    // A single-row card linking the About page — same chrome AND same internal
+    // rhythm as a collapsed DisclosureGroup header: uppercase muted title left,
+    // accent chevron right, identical card padding and height.
     aboutRow: {
       flexDirection: 'row',
       alignItems: 'center',
-      gap: 12,
+      gap: space.md,
       minHeight: 56,
-      paddingHorizontal: 16,
+      paddingVertical: 14,
+      paddingHorizontal: space.lg,
       backgroundColor: colors.card,
       borderRadius: 12,
       borderWidth: StyleSheet.hairlineWidth,
       borderColor: colors.border,
     },
     aboutPressed: { backgroundColor: colors.accentSoft },
-    aboutLabel: { flex: 1, fontSize: 16, color: colors.text },
-    header: { fontSize: 28, fontWeight: '700', color: colors.text, marginBottom: 20, marginTop: 4 },
+    // Same as DisclosureGroup's title style: 13/600 muted uppercase.
+    aboutLabel: { flex: 1, fontSize: 13, fontWeight: '600', color: colors.textMuted, letterSpacing: 0.5 },
+    // For the Stad row inside the Plats card: the value + chevron group right.
+    cityValueWrap: { flexDirection: 'row', alignItems: 'center', gap: 2 },
+    // Editorial title — same token as Qibla's title so the sibling sheets share rhythm.
+    header: { ...type.title, color: colors.text, marginBottom: space.xl, marginTop: space.xs },
     previewHead: {
-      paddingVertical: 12,
-      paddingHorizontal: 16,
+      paddingVertical: space.md,
+      paddingHorizontal: space.lg,
       borderBottomWidth: StyleSheet.hairlineWidth,
       borderBottomColor: colors.separator,
     },
@@ -401,41 +399,39 @@ function makeStyles(colors: SettingsColors) {
       flexDirection: 'row',
       justifyContent: 'space-between',
       alignItems: 'center',
-      paddingVertical: 12,
-      paddingHorizontal: 16,
+      paddingVertical: space.md,
+      paddingHorizontal: space.lg,
       minHeight: 44,
     },
     previewDivider: { borderTopWidth: StyleSheet.hairlineWidth, borderTopColor: colors.separator },
     // "nästa" = brass, consistent with the dock + map's next-prayer signal.
     previewNext: { backgroundColor: colors.highlightSoft },
-    previewLabel: { fontSize: 16, color: colors.text },
-    previewTime: { fontSize: 16, color: colors.text, fontVariant: ['tabular-nums'] },
+    previewLabel: { ...type.body, color: colors.text },
+    previewTime: { ...type.body, color: colors.text, fontVariant: ['tabular-nums'] },
     previewNextText: { color: colors.highlight, fontWeight: '600' },
     refreshRow: {
       borderTopWidth: StyleSheet.hairlineWidth,
       borderTopColor: colors.separator,
-      paddingVertical: 12,
-      paddingHorizontal: 16,
+      paddingVertical: space.md,
+      paddingHorizontal: space.lg,
       minHeight: 48,
       flexDirection: 'row',
       justifyContent: 'space-between',
       alignItems: 'center',
     },
     refreshPressed: { backgroundColor: colors.accentSoft },
-    refreshText: { fontSize: 16, color: colors.accent },
+    refreshText: { ...type.body, color: colors.accent },
     refreshStatus: { fontSize: 14, color: colors.textMuted },
     // Sub-sections within a DisclosureGroup.
-    sub: { paddingBottom: 12 },
+    sub: { paddingBottom: space.md },
     subDivider: { borderTopWidth: StyleSheet.hairlineWidth, borderTopColor: colors.separator },
     subTitle: {
-      fontSize: 12,
-      fontWeight: '600',
+      ...type.label,
       color: colors.textMuted,
-      letterSpacing: 0.5,
-      paddingHorizontal: 16,
+      paddingHorizontal: space.lg,
       paddingTop: 14,
-      paddingBottom: 4,
+      paddingBottom: space.xs,
     },
-    subFootnote: { fontSize: 12, color: colors.textMuted, paddingHorizontal: 16, paddingTop: 8, lineHeight: 16 },
+    subFootnote: { fontSize: 12, color: colors.textMuted, paddingHorizontal: space.lg, paddingTop: space.sm, lineHeight: 16 },
   });
 }
