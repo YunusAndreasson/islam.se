@@ -318,10 +318,32 @@ export default function Installningar() {
           </SubGroup>
         </DisclosureGroup>
 
-        {/* Om lives here (no longer its own nav entry): the full About page pushes
-            in within this sheet, a back arrow returns here. Visually mirrors the
-            collapsed-disclosure rows above (uppercase muted title left, chevron right)
-            so the screen reads as one rhythm — same card chrome, same gesture. */}
+        {/* Om was a single page; it's now three peer cards (FAQ / Kontakt / Om
+            appen) so a user looking for support or answers can jump straight to
+            what they want without scrolling through everything else. Each row
+            mirrors the DisclosureGroup collapsed-header rhythm — uppercase muted
+            title left, accent chevron right — so the bottom of the screen reads
+            as one consistent ladder. */}
+        <Pressable
+          onPress={() => router.push('/(settings)/vanliga-fragor')}
+          accessibilityRole="button"
+          accessibilityLabel="Vanliga frågor"
+          style={({ pressed }) => [styles.aboutRow, pressed && styles.aboutPressed]}
+        >
+          <Text style={styles.aboutLabel}>VANLIGA FRÅGOR</Text>
+          <MaterialIcons name="chevron-right" size={24} color={colors.accent} />
+        </Pressable>
+
+        <Pressable
+          onPress={() => router.push('/(settings)/kontakt')}
+          accessibilityRole="button"
+          accessibilityLabel="Kontakt"
+          style={({ pressed }) => [styles.aboutRow, pressed && styles.aboutPressed]}
+        >
+          <Text style={styles.aboutLabel}>KONTAKT</Text>
+          <MaterialIcons name="chevron-right" size={24} color={colors.accent} />
+        </Pressable>
+
         <Pressable
           onPress={() => router.push('/om')}
           accessibilityRole="button"
@@ -366,9 +388,11 @@ function makeStyles(colors: SettingsColors) {
     safe: { flex: 1, backgroundColor: colors.bg },
     loading: { flex: 1, alignItems: 'center', justifyContent: 'center' },
     content: { padding: space.lg, paddingBottom: space.xxxl + space.lg },
-    // A single-row card linking the About page — same chrome AND same internal
-    // rhythm as a collapsed DisclosureGroup header: uppercase muted title left,
-    // accent chevron right, identical card padding and height.
+    // A single-row card linking a Settings sub-page — same chrome AND same
+    // internal rhythm as a collapsed DisclosureGroup header: uppercase muted
+    // title left, accent chevron right, identical padding and 24px bottom
+    // gap (mirrors SettingSection's `wrap.marginBottom`) so a stack of these
+    // peers (FAQ / Kontakt / Om) reads as discrete cards, not a glued group.
     aboutRow: {
       flexDirection: 'row',
       alignItems: 'center',
@@ -380,6 +404,7 @@ function makeStyles(colors: SettingsColors) {
       borderRadius: 12,
       borderWidth: StyleSheet.hairlineWidth,
       borderColor: colors.border,
+      marginBottom: 24,
     },
     aboutPressed: { backgroundColor: colors.accentSoft },
     // Same as DisclosureGroup's title style: 13/600 muted uppercase.

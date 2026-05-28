@@ -8,7 +8,9 @@ import type { ReactElement, ReactNode } from 'react';
 
 import Bonetider from '../app/bonetider';
 import Installningar from '../app/(settings)/installningar';
+import Kontakt from '../app/(settings)/kontakt';
 import Om from '../app/(settings)/om';
+import VanligaFragor from '../app/(settings)/vanliga-fragor';
 import Qibla from '../app/qibla';
 import { LocationProvider } from '../lib/location/context';
 import { SettingsProvider } from '../lib/settings/context';
@@ -108,20 +110,27 @@ describe('tab screens', () => {
     ).toBe(true);
   });
 
-  it('renders the Om screen content', () => {
+  it('renders the Om screen content (masthead + privacy + credits + version)', () => {
+    // Om now holds only the editorial part — FAQ moved to /vanliga-fragor and
+    // contact actions to /kontakt, each its own peer screen linked from
+    // Inställningar. This guard makes sure the trimmed Om still carries what
+    // makes it Om: brand mark, privacy promise, version. If a future change
+    // accidentally re-folds FAQ/Kontakt back into Om, the dedicated tests
+    // below (on VanligaFragor / Kontakt) would still pass — so this one is
+    // negative-asserting on the moved content to lock the split in.
     render(<Om />);
-    // Om leads with the wordmark and groups its explanations under a FAQ + contact.
-    // (The wordmark renders as the hero brand and again as the website link detail.)
     expect(screen.getAllByText('islam.se').length).toBeGreaterThan(0);
-    // SettingSection renders its title uppercased.
-    expect(screen.getByText(/vanliga frågor/i)).toBeTruthy();
+    expect(screen.getByText(/Inga konton, ingen spårning/)).toBeTruthy();
     expect(screen.getByText(/^Version /)).toBeTruthy();
+    expect(screen.queryByRole('button', { name: 'Mejla oss' })).toBeNull();
+    expect(screen.queryByRole('button', { name: 'Hur räknas bönetiderna ut?' })).toBeNull();
   });
 
-  // Progressive disclosure on Om: each FAQ answer stays folded behind its question
-  // until the reader taps it. Guards the FaqItem accordion wiring (a11y + toggle).
+  // Progressive disclosure on the FAQ screen: each answer stays folded behind
+  // its question until the reader taps it. Guards the FaqItem accordion
+  // wiring (a11y + toggle).
   it('keeps a FAQ answer collapsed until its question is pressed', () => {
-    render(<Om />);
+    render(<VanligaFragor />);
     const question = screen.getByRole('button', { name: 'Hur räknas bönetiderna ut?' });
     expect(question.props.accessibilityState.expanded).toBe(false);
 
@@ -133,10 +142,11 @@ describe('tab screens', () => {
   });
 
   // The Kontakt rows wire to the native helpers: the mail row opens the composer
-  // (available in the mock), the website row opens the in-app browser.
+  // (available in the mock), the website row opens the in-app browser, the rate
+  // row asks the store.
   it('opens the mail composer and the website from the Kontakt rows', async () => {
     jest.clearAllMocks();
-    render(<Om />);
+    render(<Kontakt />);
 
     fireEvent.press(screen.getByRole('button', { name: 'Mejla oss' }));
     await waitFor(() =>
