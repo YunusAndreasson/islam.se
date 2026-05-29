@@ -38,11 +38,19 @@ const SOUTH = 55.0;
 const EAST = 24.2;
 const NORTH = 69.2;
 const SWEDEN_BOUNDS: [number, number, number, number] = [WEST, SOUTH, EAST, NORTH];
-// We do not enforce lat/lon position bounds — the user is free to pan anywhere at any
-// zoom. The ONE thing that's locked is the zoom floor: you can never zoom out past the
-// initial Scandinavia framing. Everything else (pan, zoom-in) is free. (Earlier code
-// tried to position-snap into Sweden too, with a tight tolerance + cascading region
-// events that turned every gesture into a micro-fight — see onRegionDidChange.)
+// Map is locked to Sweden: zoom out never beyond the Scandinavia framing, AND the
+// view never pans off-country. EPSILON is generous (~0.5° ≈ 50 km) so projection
+// rounding alone never re-triggers a snap — only meaningful drift past the bounds.
+const EPSILON = 0.5;
+
+// Shift one axis so the visible span [vMin, vMax] sits inside [min, max]. If the
+// view is wider than the allowed span, centre the bound inside the view.
+function axisShift(vMin: number, vMax: number, min: number, max: number): number {
+  if (vMax - vMin >= max - min) return (min + max) / 2 - (vMin + vMax) / 2;
+  if (vMin < min) return min - vMin;
+  if (vMax > max) return max - vMax;
+  return 0;
+}
 const DAY_MS = 86_400_000;
 // Extra breathing room (dp) reserved above the dock, so the south coast sits
 // clearly above it rather than pressed against its top edge.
@@ -234,7 +242,7 @@ export default function Bonetider() {
 
   const onRegionDidChange = useCallback(
     (e: NativeSyntheticEvent<ViewStateChangeEvent>) => {
-      const { center, zoom } = e.nativeEvent;
+      const { center, zoom, bounds } = e.nativeEvent;
       // Settle the camera for the overlays. Skip the pre-fit world-zoom default (~0.6).
       if (zoom > 1) {
         publishCamera({ lon: center[0], lat: center[1], zoom, width: camState.width, height: camState.height });
@@ -245,17 +253,29 @@ export default function Bonetider() {
         if (zoom > 1) floorZoom.current = zoom;
         return;
       }
-      // Zoom floor is the ONLY hard constraint: never let the user zoom out past the
-      // framing zoom. Position is left alone — the user can pan wherever they want.
-      if (zoom < floorZoom.current - 0.001) {
+      // Zoom floor: never let the user zoom out past the framing.
+      const targetZoom = Math.max(zoom, floorZoom.current);
+      const zoomViolated = targetZoom - zoom > 0.001;
+
+      // Position lock to Sweden: keep the view inside [WEST,SOUTH,EAST,NORTH]. Wide
+      // EPSILON so micro-drift from projection rounding doesn't fight the user.
+      const [west, south, east, north] = bounds;
+      const dx = axisShift(west, east, WEST, EAST);
+      const span = north - south;
+      const dy =
+        span >= NORTH - SOUTH
+          ? SOUTH - span * ((collapsedDock + DOCK_MARGIN) / camState.height) - south
+          : axisShift(south, north, SOUTH, NORTH);
+
+      if (Math.abs(dx) > EPSILON || Math.abs(dy) > EPSILON || zoomViolated) {
         cameraRef.current?.easeTo({
-          center: [center[0], center[1]],
-          zoom: floorZoom.current,
+          center: [center[0] + dx, center[1] + dy],
+          zoom: targetZoom,
           duration: 200,
         });
       }
     },
-    [publishCamera, camState.width, camState.height],
+    [collapsedDock, publishCamera, camState.width, camState.height],
   );
 
   return (
