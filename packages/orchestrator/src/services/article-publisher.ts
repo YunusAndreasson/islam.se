@@ -72,7 +72,7 @@ export function parseFrontmatter(content: string): { data: Record<string, unknow
 /**
  * Find the project data directory
  */
-function findDataDir(): string {
+export function findDataDir(): string {
 	if (process.env.ISLAM_DATA_DIR && existsSync(process.env.ISLAM_DATA_DIR)) {
 		return process.env.ISLAM_DATA_DIR;
 	}

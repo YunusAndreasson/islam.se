@@ -11,8 +11,8 @@
 	},
 	"dependencies": {
 		"@islam-se/quotes": "workspace:*",
-		"@modelcontextprotocol/sdk": "^1.26.0",
-		"zod": "^4.3.6"
+		"@modelcontextprotocol/sdk": "^1.29.0",
+		"zod": "^4.4.3"
 	},
 	"devDependencies": {
 		"typescript": "^5.9.3"

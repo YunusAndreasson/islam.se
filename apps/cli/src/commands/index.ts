@@ -1,6 +1,8 @@
 import type { Command } from "commander";
+import { registerBackfillPassageEmbeddingsCommand } from "./backfill-passage-embeddings.js";
 import { registerBookSearchCommand } from "./book-search.js";
 import { registerBookStatsCommand } from "./book-stats.js";
+import { registerCleanOrphanEmbeddingsCommand } from "./clean-orphan-embeddings.js";
 import { registerCleanQuranCommand } from "./clean-quran.js";
 import { registerFixMetadataCommand } from "./fix-metadata.js";
 import { registerFtsValidateCommand } from "./fts-validate.js";
@@ -50,5 +52,7 @@ export function registerAllCommands(program: Command): void {
 	// Utilities
 	registerFixMetadataCommand(program);
 	registerFtsValidateCommand(program);
+	registerCleanOrphanEmbeddingsCommand(program);
+	registerBackfillPassageEmbeddingsCommand(program);
 	registerVerifyResearchCommand(program);
 }

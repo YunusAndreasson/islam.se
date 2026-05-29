@@ -26,6 +26,7 @@ import {
 	getBookByUrl,
 	getChaptersByBook,
 	getPassagesByChapter,
+	getPassagesWithoutEmbedding,
 	initBookDatabase,
 	insertBook,
 	insertChapter,
@@ -71,6 +72,7 @@ interface ClaudeRunOptions {
 	prompt: string;
 	systemPrompt?: string;
 	model?: string;
+	effort?: "low" | "medium" | "high" | "xhigh" | "max";
 }
 
 interface ClaudeRunResult {
@@ -82,15 +84,23 @@ interface ClaudeRunResult {
 async function runClaude(options: ClaudeRunOptions): Promise<ClaudeRunResult> {
 	const args = ["--print", "--model", options.model ?? "claude-opus-4-7"];
 
+	if (options.effort) {
+		args.push("--effort", options.effort);
+	}
+
 	if (options.systemPrompt) {
 		args.push("--append-system-prompt", options.systemPrompt);
 	}
 
-	// Pass prompt via stdin to avoid shell argument length/encoding issues with Arabic text
+	// Pass prompt via stdin to avoid shell argument length/encoding issues with Arabic text.
+	// Strip ANTHROPIC_API_KEY so the `claude` CLI uses the logged-in Claude Code
+	// subscription rather than billed API calls — book summarization can be
+	// thousands of calls, and this project runs on the Max subscription.
+	const { ANTHROPIC_API_KEY: _omitApiKey, ...envWithoutApiKey } = process.env;
 	return new Promise((resolve) => {
 		const child = spawn("claude", args, {
 			stdio: ["pipe", "pipe", "pipe"],
-			env: { ...process.env, ANTHROPIC_HEADLESS: "1" },
+			env: { ...envWithoutApiKey, ANTHROPIC_HEADLESS: "1" },
 		});
 
 		child.stdin?.write(options.prompt);
@@ -332,6 +342,16 @@ const BookSummarySchema = z.object({
 type ChapterSummary = z.infer<typeof ChapterSummarySchema>;
 type BookSummary = z.infer<typeof BookSummarySchema>;
 
+// Book/chapter summarization is mechanical (a 2-5 sentence summary + key
+// concepts, feeding an embedding for concept search) — it doesn't need Opus
+// reasoning or high effort. Latest Sonnet at low effort is fast and far lighter
+// on subscription quota, which matters across the ~1,400 chapter calls a full
+// backfill makes. (Low effort only stays reliable because the literary-analyst
+// system prompt frames the JSON request as legitimate; a bare prompt can trip
+// the CLI's prompt-injection guard.)
+const SUMMARY_MODEL = "claude-sonnet-4-6";
+const SUMMARY_EFFORT = "low" as const;
+
 /**
  * Generates a summary for a chapter using Claude.
  */
@@ -364,6 +384,8 @@ Respond with JSON only:
 
 	const result = await runClaude({
 		prompt,
+		model: SUMMARY_MODEL,
+		effort: SUMMARY_EFFORT,
 		systemPrompt:
 			"You are a literary analyst. Extract key themes and create concise summaries. Respond with valid JSON only, no markdown.",
 	});
@@ -424,6 +446,8 @@ Respond with JSON only:
 
 	const result = await runClaude({
 		prompt,
+		model: SUMMARY_MODEL,
+		effort: SUMMARY_EFFORT,
 		systemPrompt:
 			"You are a literary analyst. Create comprehensive book summaries. Respond with valid JSON only, no markdown.",
 	});
@@ -823,6 +847,57 @@ export async function summarizeAllUnsummarized(
 	}
 
 	return { summarized, skipped, failed };
+}
+
+/**
+ * Embed any passages that lack an embedding (local model, no API cost).
+ *
+ * The importer embeds every passage it inserts, so this is normally a no-op —
+ * but a book imported before the embedding step existed, or whose import was
+ * interrupted, leaves passages invisible to semantic search. Idempotent.
+ */
+export async function backfillPassageEmbeddings(
+	options: { onProgress?: (msg: string) => void; batchSize?: number } = {},
+): Promise<{ embedded: number }> {
+	const { onProgress = console.log, batchSize = 256 } = options;
+
+	initBookDatabase();
+	const missing = getPassagesWithoutEmbedding();
+	if (missing.length === 0) {
+		onProgress("All passages already have embeddings.");
+		return { embedded: 0 };
+	}
+
+	onProgress(`Found ${missing.length} passages without embeddings.`);
+	let embedded = 0;
+
+	for (let i = 0; i < missing.length; i += batchSize) {
+		const batch = missing.slice(i, i + batchSize);
+		const embeddings = await generateLocalEmbeddings(
+			batch.map((p) => p.text),
+			"passage",
+		);
+
+		beginBookTransaction();
+		try {
+			for (let j = 0; j < batch.length; j++) {
+				const passage = batch[j];
+				const embedding = embeddings[j];
+				if (passage && embedding) {
+					insertPassageEmbedding(passage.id, embedding);
+					embedded++;
+				}
+			}
+			commitBookTransaction();
+		} catch (error) {
+			rollbackBookTransaction();
+			throw error;
+		}
+
+		onProgress(`  Embedded ${Math.min(i + batchSize, missing.length)}/${missing.length}`);
+	}
+
+	return { embedded };
 }
 
 /**

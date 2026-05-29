@@ -1,4 +1,5 @@
-import { existsSync, mkdirSync } from "node:fs";
+import { spawnSync } from "node:child_process";
+import { appendFileSync, existsSync, mkdirSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { getQuote } from "@islam-se/quotes";
@@ -23,6 +24,7 @@ import {
 	DraftFrontmatterSchema,
 	DraftOutputSchema,
 	ElevateFrontmatterSchema,
+	EvalCorrectionFrontmatterSchema,
 	FactCheckOutputSchema,
 	FlowFrontmatterSchema,
 	GroundFrontmatterSchema,
@@ -39,7 +41,7 @@ import {
 	TitleIngressFrontmatterSchema,
 	TransliterateFrontmatterSchema,
 } from "./schemas.js";
-import { ArticlePublisher } from "./services/article-publisher.js";
+import { ArticlePublisher, findDataDir } from "./services/article-publisher.js";
 import { IdeationService } from "./services/ideation-service.js";
 import {
 	formatBooksLean,
@@ -97,6 +99,58 @@ function extractSearchQueries(articleBody: string): string[] {
 	}
 
 	return queries;
+}
+
+/**
+ * Composite-issue count (from scripts/evaluate-article.py) above which the
+ * eval-correction pass runs. The hand-edited gold standard averages ~10.4
+ * issues/article (repetitions are inherent noise); 12 leaves headroom so we
+ * only intervene on articles meaningfully worse than a typical edited one.
+ */
+const EVAL_CORRECTION_THRESHOLD = 12;
+
+/** Locate scripts/evaluate-article.py (sibling of the data dir at the repo root). */
+function findEvalScript(): string | null {
+	const candidate = join(findDataDir(), "..", "scripts", "evaluate-article.py");
+	return existsSync(candidate) ? candidate : null;
+}
+
+interface ProseEvalResult {
+	totalIssues: number;
+	/** Human-readable per-dimension report — fed verbatim to the corrective prompt. */
+	report: string;
+}
+
+/**
+ * Run the deterministic Swedish-prose evaluator on a markdown file and return
+ * the composite issue count plus the human-readable report. Returns null if
+ * Python or the script is unavailable, or the run fails — the caller treats a
+ * null result as "skip correction" so the pipeline never breaks on it.
+ *
+ * NOTE: the evaluator only collects prose when the file has YAML frontmatter
+ * (its parser drops everything before the closing `---`), so callers must wrap
+ * the article body in a minimal frontmatter block before passing it here.
+ */
+function evaluateProse(filePath: string, scriptPath: string): ProseEvalResult | null {
+	for (const python of ["python3", "python"]) {
+		const opts = { encoding: "utf-8" as const, maxBuffer: 16 * 1024 * 1024 };
+		const jsonRun = spawnSync(python, [scriptPath, "--json", filePath], opts);
+		if (jsonRun.error) continue; // command not found — try the next
+		if (jsonRun.status !== 0) return null;
+
+		let totalIssues: number;
+		try {
+			const parsed = JSON.parse(jsonRun.stdout) as Array<{ total_issues?: number }>;
+			totalIssues = parsed[0]?.total_issues ?? 0;
+		} catch {
+			return null;
+		}
+
+		const reportRun = spawnSync(python, [scriptPath, filePath], opts);
+		const report = reportRun.status === 0 ? reportRun.stdout.trim() : "";
+		return { totalIssues, report };
+	}
+	return null;
 }
 
 /**
@@ -468,6 +522,18 @@ export interface DetoxOutput {
 		why: string;
 	}>;
 	patternCounts: Record<string, { before: number | string; after: number | string }>;
+	summary: string;
+	body: string;
+}
+
+export interface EvalCorrectionOutput {
+	verdict: "clean" | "corrected";
+	changesCount: number;
+	changes: Array<{
+		category: string;
+		original: string;
+		replacement: string;
+	}>;
 	summary: string;
 	body: string;
 }
@@ -1858,6 +1924,43 @@ Sektionerna 1–15 (anglicismer, retoriska mönster etc.) är sekundära — åt
 	}
 
 	/**
+	 * Run the eval-correction stage — fix the concrete issues flagged by the
+	 * deterministic prose evaluator (latinisms, anglicisms, AI-tic overuse,
+	 * em-dashes, footnote integrity, etc.). The machine report is passed verbatim
+	 * so Claude fixes exactly what was measured, not a vague impression.
+	 */
+	async runEvalCorrection(
+		articleBody: string,
+		evalReport: string,
+	): Promise<StageResult<EvalCorrectionOutput>> {
+		this.logger.log("   📋 Eval correction: fixing flagged prose issues");
+
+		const systemPrompt =
+			"Du åtgärdar exakt de språkproblem en automatisk granskare har flaggat i en färdig svensk artikel. Du är inte en allmän stilredaktör — du rättar bara de ord och formuleringar rapporten pekar ut, och bevarar varje meningens innebörd. Rör aldrig blockcitat, inline-citat, fotnotskällor, rubriker eller argumentationsriktning.";
+
+		const result = await this.executeClaudeStage<EvalCorrectionOutput>({
+			name: "Eval Correction",
+			stage: "polish",
+			emoji: "📋",
+			promptFile: "eval-correction.md",
+			systemPrompt,
+			userContent: `## Granskningsrapport (åtgärda dessa problem)\n\n${evalReport}\n\n## Texten att åtgärda\n\n${articleBody}`,
+			markdownMode: {
+				frontmatterSchema: EvalCorrectionFrontmatterSchema,
+				combine: (meta, body) =>
+					({
+						...meta,
+						body,
+					}) as EvalCorrectionOutput,
+			},
+			effort: "high",
+			timeout: 1200000, // 20 min
+		});
+
+		return result;
+	}
+
+	/**
 	 * Run the brilliance stage — search for exceptional additions (quotes, references, arguments)
 	 * that would make the article significantly more convincing for a secular Swedish reader.
 	 * Most articles pass through unchanged — the threshold is doctoral-thesis level.
@@ -2503,6 +2606,48 @@ ${articleBody}`;
 			});
 		}
 
+		// Stage 8: Eval-loop corrective pass — run the deterministic prose
+		// evaluator and, if the article scores above the gold-standard threshold,
+		// feed its concrete findings into one corrective pass. Non-fatal: any
+		// failure (no Python, script missing, parse error) is logged and skipped.
+		let evalBefore: number | undefined;
+		let evalAfter: number | undefined;
+		const evalScript = findEvalScript();
+		if (evalScript) {
+			// The evaluator only reads prose from a file with YAML frontmatter, so
+			// wrap the body before measuring.
+			const writeEvalInput = (text: string): string => {
+				saveOutput(
+					outputDir,
+					"eval-input.md",
+					`---\ntitle: ${JSON.stringify(currentDraft.title)}\n---\n\n${text}`,
+				);
+				return join(outputDir, "eval-input.md");
+			};
+
+			const before = evaluateProse(writeEvalInput(finalText), evalScript);
+			if (before) {
+				evalBefore = before.totalIssues;
+				this.logger.log(
+					`   📋 Prose eval: ${before.totalIssues} issues (correction threshold ${EVAL_CORRECTION_THRESHOLD})`,
+				);
+				if (before.totalIssues > EVAL_CORRECTION_THRESHOLD) {
+					const correction = await this.runEvalCorrection(finalText, before.report);
+					if (correction.success && correction.data) {
+						finalText = correction.data.body;
+						saveOutput(outputDir, "eval-correction.json", correction.data);
+						const after = evaluateProse(writeEvalInput(finalText), evalScript);
+						evalAfter = after?.totalIssues;
+						this.logger.log(
+							`   📋 Eval correction: ${before.totalIssues} → ${evalAfter ?? "?"} issues (${correction.data.changesCount} changes)`,
+						);
+					} else {
+						this.logger.warn(`   ⚠️  Eval correction skipped: ${correction.error}`);
+					}
+				}
+			}
+		}
+
 		saveOutput(outputDir, "final.md", finalText);
 
 		// Generate bibliography (include all tracked references)
@@ -2519,6 +2664,7 @@ ${articleBody}`;
 			qualityScore: reviewData.finalScore,
 			wordCount: finalWordCount,
 			revisionCount,
+			evaluation: { before: evalBefore, after: evalAfter, threshold: EVAL_CORRECTION_THRESHOLD },
 			stageDurations: {
 				research: researchResult.duration,
 				factCheck: factCheckResult.duration,
@@ -2556,6 +2702,35 @@ ${articleBody}`;
 				saveDomainTracker(tracker);
 			} catch (e) {
 				this.logger.warn(`   ⚠️  Failed to record domain quality: ${e}`);
+			}
+		}
+
+		// Persist the author's struggles/suggestions + eval scores to a sidecar
+		// log. The published frontmatter keeps only 7 fields, so these otherwise
+		// vanish at publish — this JSONL is the durable record for mining what
+		// the pipeline finds hard and whether the eval pass is helping.
+		const struggles = authoringResult.data?.struggles;
+		const efficiencySuggestions = authoringResult.data?.efficiencySuggestions;
+		if (struggles || efficiencySuggestions || evalBefore !== undefined) {
+			try {
+				const entry = {
+					producedAt: new Date().toISOString(),
+					slug: result.publishedSlug ?? topicSlug,
+					topic,
+					qualityScore: reviewData.finalScore,
+					wordCount: finalWordCount,
+					revisionCount,
+					evaluation: { before: evalBefore, after: evalAfter },
+					struggles: struggles ?? null,
+					efficiencySuggestions: efficiencySuggestions ?? null,
+				};
+				appendFileSync(
+					join(findDataDir(), "pipeline-feedback.jsonl"),
+					`${JSON.stringify(entry)}\n`,
+					"utf-8",
+				);
+			} catch (e) {
+				this.logger.warn(`   ⚠️  Failed to record pipeline feedback: ${e}`);
 			}
 		}
 

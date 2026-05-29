@@ -538,8 +538,22 @@ export function insertSummaryEmbedding(
 	entityType: "book" | "chapter",
 	entityId: number,
 	embedding: Float32Array,
+	db?: Database.Database,
 ): void {
-	const database = initBookDatabase();
+	const database = db ?? initBookDatabase();
+
+	// Replace any existing embedding for this entity so re-summarizing (e.g.
+	// resuming a backfill that was interrupted mid-book) doesn't accumulate
+	// duplicate concept embeddings for the same chapter/book.
+	const existing = database
+		.prepare("SELECT id FROM summary_embedding_meta WHERE entity_type = ? AND entity_id = ?")
+		.all(entityType, entityId) as { id: number }[];
+	for (const { id } of existing) {
+		database.prepare("DELETE FROM summary_embeddings WHERE rowid = ?").run(id);
+	}
+	database
+		.prepare("DELETE FROM summary_embedding_meta WHERE entity_type = ? AND entity_id = ?")
+		.run(entityType, entityId);
 
 	// Insert metadata first to get the rowid
 	const metaStmt = database.prepare(`
@@ -556,6 +570,65 @@ export function insertSummaryEmbedding(
 	`);
 	const buffer = Buffer.from(new Uint8Array(embedding.buffer));
 	embStmt.run(buffer);
+}
+
+export interface OrphanCleanupResult {
+	passageEmbeddings: number;
+	summaryEmbeddings: number;
+}
+
+/**
+ * Remove embeddings left behind by past deletions, and report how many.
+ *
+ * vec0 virtual tables are keyed by a manually-assigned rowid and cannot carry a
+ * foreign key, so the ON DELETE CASCADE that removes passages/chapters with a
+ * book never reaches their embeddings. `deleteBook` deletes them explicitly, but
+ * rows orphaned before that cleanup existed persist forever — they waste space
+ * and, more importantly, would resurface as phantom hits if a future passage id
+ * collided with a stale rowid. This sweep is idempotent and safe to re-run.
+ */
+export function cleanOrphanEmbeddings(db?: Database.Database): OrphanCleanupResult {
+	const database = db ?? initBookDatabase();
+
+	const orphanSummaryMeta = `
+		(entity_type = 'chapter' AND entity_id NOT IN (SELECT id FROM chapters))
+		OR (entity_type = 'book' AND entity_id NOT IN (SELECT id FROM books))`;
+
+	const run = database.transaction((): OrphanCleanupResult => {
+		const passageEmbeddings = database
+			.prepare("DELETE FROM passage_embeddings WHERE rowid NOT IN (SELECT id FROM passages)")
+			.run().changes;
+
+		// Summary embeddings are keyed by the summary_embedding_meta rowid, so drop
+		// the embedding rows whose meta points at a vanished entity first, then the
+		// dangling meta rows themselves.
+		const summaryEmbeddings = database
+			.prepare(
+				`DELETE FROM summary_embeddings WHERE rowid IN (
+					SELECT id FROM summary_embedding_meta WHERE ${orphanSummaryMeta}
+				)`,
+			)
+			.run().changes;
+		database.prepare(`DELETE FROM summary_embedding_meta WHERE ${orphanSummaryMeta}`).run();
+
+		return { passageEmbeddings, summaryEmbeddings };
+	});
+
+	return run();
+}
+
+/**
+ * Passages that have no row in passage_embeddings — invisible to semantic
+ * search until embedded. Normally empty; a non-empty result means a book was
+ * imported (or re-imported) without its embedding step completing.
+ */
+export function getPassagesWithoutEmbedding(
+	db?: Database.Database,
+): { id: number; text: string }[] {
+	const database = db ?? initBookDatabase();
+	return database
+		.prepare("SELECT id, text FROM passages WHERE id NOT IN (SELECT rowid FROM passage_embeddings)")
+		.all() as { id: number; text: string }[];
 }
 
 // ============================================================================
