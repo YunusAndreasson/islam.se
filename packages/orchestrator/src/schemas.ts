@@ -355,6 +355,21 @@ export const DetoxFrontmatterSchema = z.object({
 	summary: z.string(),
 });
 
+// Eval-correction frontmatter — fixes the concrete issues flagged by
+// scripts/evaluate-article.py (latinisms, anglicisms, AI-tic overuse, etc.)
+export const EvalCorrectionFrontmatterSchema = z.object({
+	verdict: z.enum(["clean", "corrected"]),
+	changesCount: z.number(),
+	changes: z.array(
+		z.object({
+			category: z.string(),
+			original: z.string(),
+			replacement: z.string(),
+		}),
+	),
+	summary: z.string(),
+});
+
 // Brilliance frontmatter — exceptional additions only
 export const BrillianceFrontmatterSchema = z.object({
 	verdict: z.enum(["clean", "enriched"]),

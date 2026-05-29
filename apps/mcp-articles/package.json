@@ -9,16 +9,16 @@
 		"deploy": "pnpm bundle-articles && wrangler deploy"
 	},
 	"dependencies": {
-		"@modelcontextprotocol/sdk": "^1.26.0",
+		"@modelcontextprotocol/sdk": "^1.29.0",
 		"agents": "^0.9.0",
-		"minisearch": "^7.1.2",
-		"zod": "^4.3.6"
+		"minisearch": "^7.2.0",
+		"zod": "^4.4.3"
 	},
 	"devDependencies": {
-		"@cloudflare/workers-types": "^4.20250327.0",
-		"tsx": "^4.19.4",
+		"@cloudflare/workers-types": "^4.20260526.1",
+		"gray-matter": "^4.0.3",
+		"tsx": "^4.22.3",
 		"typescript": "^5.9.3",
-		"wrangler": "^4.14.1",
-		"gray-matter": "^4.0.3"
+		"wrangler": "^4.94.0"
 	}
 }

@@ -121,6 +121,7 @@ export {
 	// Search
 	type BookInventory,
 	type BookWithScore,
+	backfillPassageEmbeddings,
 	beginBookTransaction,
 	type Chapter,
 	// Chunking
@@ -133,6 +134,7 @@ export {
 	type ConceptSearchOptions,
 	chunkBook,
 	chunkText,
+	cleanOrphanEmbeddings,
 	closeBookDatabase,
 	commitBookTransaction,
 	deleteBook,
@@ -148,6 +150,7 @@ export {
 	getPassage,
 	getPassagesByBook,
 	getPassagesByChapter,
+	getPassagesWithoutEmbedding,
 	type HybridSearchOptions,
 	type HybridSearchResult,
 	// Import
@@ -161,6 +164,7 @@ export {
 	insertPassage,
 	insertPassageEmbedding,
 	insertSummaryEmbedding,
+	type OrphanCleanupResult,
 	type Passage,
 	type PassageSearchOptions,
 	type PassageWithContext,

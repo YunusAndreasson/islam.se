@@ -21,6 +21,7 @@ export {
 	beginBookTransaction,
 	type Chapter,
 	type ChapterWithScore,
+	cleanOrphanEmbeddings,
 	closeBookDatabase,
 	commitBookTransaction,
 	deleteBook,
@@ -32,12 +33,14 @@ export {
 	getPassage,
 	getPassagesByBook,
 	getPassagesByChapter,
+	getPassagesWithoutEmbedding,
 	initBookDatabase,
 	insertBook,
 	insertChapter,
 	insertPassage,
 	insertPassageEmbedding,
 	insertSummaryEmbedding,
+	type OrphanCleanupResult,
 	type Passage,
 	type PassageWithContext,
 	type PassageWithScore,
@@ -50,6 +53,7 @@ export {
 
 // Import
 export {
+	backfillPassageEmbeddings,
 	type ImportOptions,
 	type ImportResult,
 	importBook,
