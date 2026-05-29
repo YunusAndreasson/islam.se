@@ -4,6 +4,8 @@
 // dead icon. Until a real heading arrives — and on devices with no sensor (emulators)
 // or no permission yet — it shows a static `explore` glyph instead, so it never paints
 // a faked direction. Tapping always opens the full Qibla screen, which owns the prompt.
+//
+// Theming: OS-themed via useColors (Apple Maps-style chrome; see MapNav).
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import { useMemo } from 'react';
@@ -13,13 +15,13 @@ import Animated, { useAnimatedStyle } from 'react-native-reanimated';
 import { useLocation } from '../../lib/location/context';
 import { qiblaBearing } from '../../lib/qibla';
 import { useHeading } from '../../lib/useHeading';
-import { nightChrome } from '../map/nightChrome';
+import { useColors } from '../../theme/useColors';
 import { GlassRoundButton } from './GlassRoundButton';
 
-export function CompassButton({ active, night }: { active: boolean; night: number }) {
-  // Sun-driven like the disc it sits in (see GlassRoundButton): the glyph/needle ink
-  // flips light over the night map so it reads without the button shouting for attention.
-  const c = nightChrome(night);
+export function CompassButton({ active }: { active: boolean }) {
+  // OS-themed like the disc it sits in (see GlassRoundButton): warm light glass with a
+  // dark ink glyph in light mode, dark glass with a pale ink glyph in dark mode.
+  const c = useColors();
   const { coords } = useLocation();
   const bearing = useMemo(() => qiblaBearing(coords), [coords]);
   const { rotation, heading } = useHeading({ active, request: false });
@@ -32,7 +34,7 @@ export function CompassButton({ active, night }: { active: boolean; night: numbe
 
   return (
     <GlassRoundButton
-      tint={c.surface}
+      tint={c.cardGlass}
       rim={c.hairline}
       accessibilityLabel="Qibla"
       onPress={() => router.navigate('/qibla')}

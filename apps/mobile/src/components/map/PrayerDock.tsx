@@ -15,14 +15,15 @@
 // time-travel reads as something you did.
 //
 // Theme: the dock is CHROME, so it follows the phone's OS light/dark setting via
-// useColors() — NOT the map's sun-driven day↔night. This is deliberate: chrome (dock +
-// menu + every screen) stays consistent regardless of where the sun is, which is why the
-// dock can read bright over a night (post-Isha) map when the phone is in light mode. An
-// earlier sun-driven dock was tried and rejected (it made the chrome "look different per
-// screen"). The map CANVAS (wash, pills, markers) is the sun-driven layer (see nightChrome).
+// useColors() — Apple Maps-style. The basemap is also OS-themed (see nordicStyle.ts:
+// NORDIC_LIGHT / NORDIC_DARK), so the dock and the map share temperature: light
+// glass over light parchment, dark glass over deep navy. The earlier sun-driven dock
+// flip was retired here — atmosphere comes from the basemap + wash, not from chrome
+// flipping under the user's hands. The wash and prayer-line colours are still
+// sun-driven (the map IS a live sky), but the dock stays anchored to one OS theme.
 import { MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { type ColorSchemeName, Pressable, StyleSheet, Text, View } from 'react-native';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import Animated, {
   runOnJS,
@@ -44,11 +45,11 @@ import {
   type PrayerKey,
 } from '../../lib/prayer-times';
 import type { PrayerSettings } from '../../lib/settings/types';
-import { PRAYER_COLORS } from '../../lib/solar/palette';
+import { prayerColorFor } from '../../lib/solar/palette';
 import type { SolarClock } from '../../lib/solar/useSolarClock';
-import { shadow } from '../../theme/tokens';
+import { type Palette, shadow } from '../../theme/tokens';
+import { useActiveScheme, useColors } from '../../theme/useColors';
 import { GlassSurface } from '../ui/GlassSurface';
-import { type NightChrome, nightChrome } from './nightChrome';
 
 const DAY_MS = 86_400_000;
 const HOUR_TICKS = ['00', '06', '12', '18', '24'];
@@ -71,7 +72,7 @@ export const DOCK_COLLAPSED_BASE = 136;
 // Expanded carries a date header (Gregorian + Hijri) above the schedule, so it's a
 // touch taller than the bare list needed. (No transport row — the day slider is the
 // only time control, so there's nothing to play or explain away.)
-export const DOCK_EXPANDED_BASE = 368;
+const DOCK_EXPANDED_BASE = 368;
 
 export interface NextPrayer {
   key: PrayerKey;
@@ -93,10 +94,6 @@ interface Props {
   next: NextPrayer | null;
   locationLabel: string;
   settings: PrayerSettings;
-  /** 0 day → 1 deep night. The dock is the map's own surface, so it blends with the map:
-      light glass over a day map, dark indigo glass over the night map (text flips with it,
-      so it stays readable). NOT the OS theme — this surface only exists on the map. */
-  night: number;
   /** Optional host notification for analytics or layout hooks. The map does not refit
       on expansion; the dock opens over the current slice. */
   onExpandedChange?: (expanded: boolean, expandedHeight: number) => void;
@@ -128,15 +125,15 @@ export function PrayerDock({
   next,
   locationLabel,
   settings,
-  night,
   onExpandedChange,
 }: Props) {
   const insets = useSafeAreaInsets();
-  // The dock floats ON the living map, so it blends with it: nightChrome slides every
-  // surface/ink from warm light glass on a day map to dark indigo glass on the night map
-  // (and the steep dusk/dawn remap keeps it decisively light or dark — never a muddy
-  // grey-on-grey). `surface` is the translucent glass for the GlassSurface fill.
-  const c = useMemo(() => nightChrome(night), [night]);
+  // The dock is chrome, so it follows the OS theme: light glass over the parchment
+  // basemap (light OS), dark glass over the navy basemap (dark OS) — see Apple
+  // Maps. The wash and prayer-line colours are still sun-driven (they're map
+  // canvas), but the dock stays anchored to one OS theme.
+  const c = useColors();
+  const scheme = useActiveScheme();
   const styles = useMemo(() => makeStyles(c), [c]);
 
   // Card heights are the card itself; the float + safe-area inset live in the
@@ -269,13 +266,14 @@ export function PrayerDock({
         {/* Pass borderRadius onto GlassSurface so the native Liquid Glass layer (iOS) clips
             its own corners — UIVisualEffectView does NOT honour ancestor `overflow: hidden`
             reliably, which is why the dock's corners were jagged on iOS. The tint locks the
-            surface colour to the chrome's c.surface so it doesn't drift with what the OS
-            sampled under the glass (the same wash drift that made cog ≠ compass at dawn). */}
+            surface colour to the chrome's translucent card-glass so it doesn't drift with
+            what the OS sampled under the glass (the same wash drift that made cog ≠ compass
+            at dawn before). */}
         <GlassSurface
           style={StyleSheet.absoluteFill}
           borderRadius={22}
           interactive
-          tint={c.surface}
+          tint={c.cardGlass}
         />
 
         {/* The card floats above the gesture bar (see DOCK_FLOAT), so the content only
@@ -316,6 +314,7 @@ export function PrayerDock({
                     settings={settings}
                     isNext={next?.key === key && !next.tomorrow}
                     onPress={() => scrubTo(at)}
+                    iconColor={prayerColorFor(key, scheme)}
                   />
                 );
               })}
@@ -394,8 +393,8 @@ export function PrayerDock({
             styles={styles}
             fraction={clock.fraction}
             marks={marks}
-            nextKey={next && !next.tomorrow ? next.key : null}
             onScrub={clock.setFraction}
+            scheme={scheme}
           />
         </View>
 
@@ -434,6 +433,7 @@ function ScheduleRow({
   settings,
   isNext,
   onPress,
+  iconColor,
 }: {
   styles: DockStyles;
   index: number;
@@ -446,6 +446,7 @@ function ScheduleRow({
   settings: PrayerSettings;
   isNext: boolean;
   onPress: () => void;
+  iconColor: string;
 }) {
   const valid = date instanceof Date && Number.isFinite(date.getTime());
   const reveal = useAnimatedStyle(() => {
@@ -467,11 +468,11 @@ function ScheduleRow({
         {/* Sun-cycle glyph tinted in the prayer's solar colour — replaces the
             old 8x8 colour dot. Carries both meanings at once: shape says
             "where in the day" (dawn / noon / sunset / night), colour preserves
-            the existing link with the map pills (PRAYER_COLORS). */}
+            the existing link with the map pills (PRAYER_COLORS, per-theme). */}
         <MaterialCommunityIcons
           name={PRAYER_ICONS[prayerKey]}
           size={18}
-          color={PRAYER_COLORS[prayerKey]}
+          color={iconColor}
           style={styles.listIcon}
         />
         <Text style={[styles.listLabel, isNext && styles.nextEmphasis]}>{PRAYER_LABELS[prayerKey]}</Text>
@@ -499,14 +500,14 @@ function SolarTimeline({
   styles,
   fraction,
   marks,
-  nextKey,
   onScrub,
+  scheme,
 }: {
   styles: DockStyles;
   fraction: number;
   marks: DayMark[];
-  nextKey: PrayerKey | null;
   onScrub: (f: number) => void;
+  scheme: ColorSchemeName;
 }) {
   const [trackW, setTrackW] = useState(0);
   // Two disjoint shared values, by design (see also react-hooks/immutability): the
@@ -596,27 +597,15 @@ function SolarTimeline({
               then takes over. Without it the fill flashes empty — same mount glitch the
               thumb's plain `left` below fixes. */}
           <Animated.View style={[styles.trackFill, { width: fraction * trackW }, fillStyle]} />
-          {/* Prayer landmarks sit on the axis. Plain coloured dots for every prayer —
-              the halo ring is RESERVED for the next prayer alone, so it actually says
-              "this one is coming up" instead of one ring blending into a row of rings.
-              The next prayer's brass halo is drawn last (zIndex) so a summer cluster
-              can't occlude it, and the thumb (zIndex above all) reads cleanly when it
-              passes over. */}
+          {/* Prayer landmarks sit on the axis as plain coloured dots — identical
+              size and chrome for all six. The "next prayer" answer is already
+              carried by the brass countdown above ("om 2t 40min"), so giving the
+              same prayer a separate visual treatment on the timeline was
+              redundant chrome. The past/future axis still reads: past prayers
+              draw at full opacity, future ones soften. */}
           {trackW > 0 &&
             marks.map((m) => {
-              const isNext = nextKey === m.key;
               const isPast = m.fraction <= fraction;
-              if (isNext) {
-                return (
-                  <View
-                    key={m.key}
-                    pointerEvents="none"
-                    style={[styles.markHaloNext, { left: m.fraction * trackW - 8 }]}
-                  >
-                    <View style={[styles.mark, styles.markNext, { backgroundColor: PRAYER_COLORS[m.key] }]} />
-                  </View>
-                );
-              }
               return (
                 <View
                   key={m.key}
@@ -626,9 +615,8 @@ function SolarTimeline({
                     isPast && styles.markPast,
                     {
                       position: 'absolute',
-                      bottom: 11,
                       left: m.fraction * trackW - 3.5,
-                      backgroundColor: PRAYER_COLORS[m.key],
+                      backgroundColor: prayerColorFor(m.key, scheme),
                     },
                   ]}
                 />
@@ -656,9 +644,8 @@ function SolarTimeline({
   );
 }
 
-// Styles built from the night-blended map chrome (see nightChrome). Layout is fixed; only
-// colours come from `c` (where `surface` is the translucent glass).
-function makeStyles(c: NightChrome) {
+// Styles built from the active OS palette. Layout is fixed; only colours come from `c`.
+function makeStyles(c: Palette) {
   return StyleSheet.create({
     shadowWrap: {
       position: 'absolute',
@@ -670,10 +657,10 @@ function makeStyles(c: NightChrome) {
     // The rim lives on this rounded, overflow-clipped container — NOT on the
     // GlassSurface backing (a square absoluteFill, see below). A border on the
     // square child gets corner-clipped by this radius so it can't trace the
-    // rounding; on the rounded container it follows the corners exactly. And it's
-    // the night-themed `c.hairline` (day: faint dark@0.08, night: soft white@0.13),
-    // so it stays a subtle rim in both modes — unlike the fixed white@0.55 glass rim,
-    // which was near-invisible on the light dock but a glaring bright edge on the dark one.
+    // rounding; on the rounded container it follows the corners exactly. The
+    // OS-themed `c.hairline` (warm@0.10 in light / cool@0.12 in dark) keeps the
+    // rim a subtle accent in both modes — unlike a fixed white@0.55 glass rim,
+    // which was near-invisible on the light dock but glaring on the dark one.
     clip: {
       flex: 1,
       borderRadius: 22,
@@ -765,34 +752,10 @@ function makeStyles(c: NightChrome) {
       backgroundColor: c.trackFill,
       opacity: 0.5,
     },
-    // Mark on the axis: a colour-coded dot in a glass halo. The halo (surface fill +
-    // hairline) lifts the dot off the track and the elapsed-fill beneath it, so every
-    // prayer stays a distinct figure regardless of what it sits over.
-    markHalo: {
-      position: 'absolute',
-      bottom: 8,
-      width: 14,
-      height: 14,
-      borderRadius: 7,
-      alignItems: 'center',
-      justifyContent: 'center',
-      backgroundColor: c.surface,
-      borderWidth: StyleSheet.hairlineWidth,
-      borderColor: c.hairline,
-    },
-    markHaloNext: {
-      width: 16,
-      height: 16,
-      borderRadius: 8,
-      bottom: 7,
-      borderColor: c.highlight,
-      borderWidth: 1.5,
-      backgroundColor: c.highlightSoft,
-      zIndex: 2,
-    },
-    mark: { width: 7, height: 7, borderRadius: 4, opacity: 0.88 },
+    // Plain coloured dot on the axis. Same size/chrome for every prayer; past
+    // dots draw at full opacity, future ones soften.
+    mark: { width: 7, height: 7, borderRadius: 4, bottom: 11, opacity: 0.7 },
     markPast: { opacity: 1 },
-    markNext: { width: 9, height: 9, borderRadius: 5, opacity: 1 },
     thumb: {
       position: 'absolute',
       width: 18,

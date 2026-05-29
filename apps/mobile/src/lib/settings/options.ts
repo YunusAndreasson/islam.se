@@ -12,6 +12,7 @@ import type {
   PrayerSettings,
   Rounding,
   Shafaq,
+  ThemePreference,
 } from './types';
 
 // Sweden-first and Sweden-only by intent: a Swedish-Muslim user is realistically
@@ -69,6 +70,16 @@ export const ROUNDING_OPTIONS: readonly Option<Rounding>[] = [
   { value: 'none', label: 'Ingen' },
 ];
 
+// Theme override. 'System' is first + recommended — the Apple Maps default,
+// following the OS Display setting. The locked options are quiet escape hatches
+// for users who keep their phone on the other mode (a dark-phone reader who
+// still wants the warm parchment basemap for the daytime map, or vice versa).
+export const THEME_OPTIONS: readonly Option<ThemePreference>[] = [
+  { value: 'system', label: 'Följ system', description: 'Automatisk (rekommenderad)' },
+  { value: 'light', label: 'Ljust' },
+  { value: 'dark', label: 'Mörkt' },
+];
+
 /** Stepper display formatter: a signed minute offset, e.g. "+5 min" / "−3 min". */
 export const signedMinutes = (v: number) => `${v > 0 ? '+' : ''}${v} min`;
 
@@ -83,12 +94,15 @@ export const methodLabel = (s: PrayerSettings): string =>
 export const madhabLabel = (s: PrayerSettings): string => labelOf(MADHAB_OPTIONS, s.madhab);
 
 /** Collapsed-header summary for the "Visning" disclosure group: the current
- *  rounding label, plus a " · Hijri ±N d" suffix when the Hijri offset is set.
- *  Per-prayer minute offsets are NOT part of this group anymore — they moved to
- *  the Beräkning screen, since they tweak the calculation output. */
+ *  rounding label, plus suffixes for any non-default Hijri offset / theme. The
+ *  theme suffix only appears when the user has locked an override, so the row
+ *  stays quiet at the default ("Följ system"). */
 export const visningSummary = (s: PrayerSettings): string => {
-  const rounding = labelOf(ROUNDING_OPTIONS, s.rounding);
-  if (s.hijriOffset === 0) return rounding;
-  const sign = s.hijriOffset > 0 ? '+' : '';
-  return `${rounding} · Hijri ${sign}${s.hijriOffset} d`;
+  const parts: string[] = [labelOf(ROUNDING_OPTIONS, s.rounding)];
+  if (s.hijriOffset !== 0) {
+    const sign = s.hijriOffset > 0 ? '+' : '';
+    parts.push(`Hijri ${sign}${s.hijriOffset} d`);
+  }
+  if (s.theme !== 'system') parts.push(labelOf(THEME_OPTIONS, s.theme));
+  return parts.join(' · ');
 };

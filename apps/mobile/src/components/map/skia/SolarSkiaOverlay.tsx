@@ -22,9 +22,10 @@ import {
 
 import { PRAYER_ORDER, type PrayerKey } from '../../../lib/prayer-times';
 import { type Camera, mercX, mercY, project } from '../../../lib/map/projection';
-import { PRAYER_COLORS } from '../../../lib/solar/palette';
+import { prayerColorFor, washStopsFor } from '../../../lib/solar/palette';
 import { solarParams } from '../../../lib/solar/sun';
-import { WASH_SKSL } from './washShader';
+import { useActiveScheme } from '../../../theme/useColors';
+import { buildWashSksl } from './washShader';
 
 /** One prayer's contour for this instant: its colour key + the smoothed lon/lat lines. */
 export interface PrayerLineData {
@@ -54,8 +55,15 @@ export function SolarSkiaOverlay({
   lines,
   nextKey,
 }: Props) {
-  // Compile the wash shader once. Null only if the SkSL fails to compile (guarded).
-  const washEffect = useMemo(() => Skia.RuntimeEffect.Make(WASH_SKSL), []);
+  // The wash composites onto the themed basemap, so its colour stops swap with
+  // the active scheme — Apple Maps-style. `useActiveScheme()` is the user-aware
+  // resolver (settings override first, OS otherwise). Body of the SkSL is
+  // identical between modes; only the four colour literals (DAY / DUSK / DAWN /
+  // NIGHT) change, so RuntimeEffect.Make is memoised on the SKSL string and
+  // only rebuilds on a theme flip (cheap — not per frame).
+  const scheme = useActiveScheme();
+  const washSksl = useMemo(() => buildWashSksl(washStopsFor(scheme)), [scheme]);
+  const washEffect = useMemo(() => Skia.RuntimeEffect.Make(washSksl), [washSksl]);
 
   // Declination + equation of time for the displayed date (midday avoids a DST edge). They
   // feed the per-pixel sun-altitude calc in the shader and only change when the day changes.
@@ -101,10 +109,10 @@ export function SolarSkiaOverlay({
       {PRAYER_ORDER.map((prayer) => (
         <PrayerLine
           key={prayer}
-          prayer={prayer}
           polylines={byPrayer.get(prayer) ?? EMPTY}
           camera={camera}
           isNext={prayer === nextKey}
+          color={prayerColorFor(prayer, scheme)}
         />
       ))}
     </Canvas>
@@ -114,17 +122,16 @@ export function SolarSkiaOverlay({
 const EMPTY: [number, number][][] = [];
 
 function PrayerLine({
-  prayer,
   polylines,
   camera,
   isNext,
+  color,
 }: {
-  prayer: PrayerKey;
   polylines: [number, number][][];
   camera: SharedValue<Camera>;
   isNext: boolean;
+  color: string;
 }) {
-  const color = PRAYER_COLORS[prayer];
   const active = polylines.length > 0;
 
   // Project the lon/lat polylines to a screen-space SkPath on the UI thread, re-running

@@ -11,7 +11,6 @@ import * as MailComposer from 'expo-mail-composer';
 import * as StoreReview from 'expo-store-review';
 import * as WebBrowser from 'expo-web-browser';
 
-export const SITE_URL = 'https://islam.se';
 export const SUPPORT_EMAIL = 'support@islam.se';
 
 // Open-source projects credited on the Om page — linked so each name is plainly

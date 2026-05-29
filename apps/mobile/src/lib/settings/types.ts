@@ -34,6 +34,11 @@ export type Shafaq = 'general' | 'ahmer' | 'abyad';
 
 export type Rounding = 'nearest' | 'up' | 'none';
 
+/** Appearance preference for the whole app (basemap, chrome, screens). `'system'`
+ *  follows the OS (Settings → Display) and is the default — Apple Maps-style.
+ *  `'light'` / `'dark'` lock the app to one palette regardless of the OS. */
+export type ThemePreference = 'system' | 'light' | 'dark';
+
 /** The six computed prayer slots plus sunrise, used as adjustment keys. */
 export interface PrayerAdjustments {
   fajr: number;
@@ -82,6 +87,9 @@ export interface PrayerSettings {
   locationMode: LocationMode;
   /** Chosen city/coordinate when locationMode is 'manual'. */
   manualLocation: NamedLocation | null;
+  /** Appearance preference. `'system'` follows the OS (default); `'light'` and
+   *  `'dark'` lock the app's basemap, wash, prayer-line and chrome palettes. */
+  theme: ThemePreference;
 }
 
 export const DEFAULT_SETTINGS: PrayerSettings = {
@@ -105,6 +113,7 @@ export const DEFAULT_SETTINGS: PrayerSettings = {
   },
   locationMode: 'gps',
   manualLocation: null,
+  theme: 'system',
 };
 
 /** Fallback coordinate when GPS is unavailable and no manual location is set.

@@ -56,6 +56,14 @@ function toMin(hhmm: string): number {
   return h * 60 + m;
 }
 
+// The Förhandsvisning preview is collapsed-by-default (a DisclosureGroup) — its
+// children are mounted but the parent sets accessibilityElementsHidden when
+// closed, which hides the testID-bearing rows from queries. Expand it once at
+// render time so the existing `shown()` lookups keep working unchanged.
+function expandPreview(): void {
+  fireEvent.press(screen.getByRole('button', { name: /Förhandsvisning/ }));
+}
+
 async function renderSettings(): Promise<void> {
   render(
     <SettingsProvider>
@@ -66,6 +74,7 @@ async function renderSettings(): Promise<void> {
   );
   // The header appears only after settings hydrate (loaded flips true).
   await waitFor(() => expect(screen.getByText('Inställningar')).toBeTruthy());
+  expandPreview();
 }
 
 // Renders Installningar AND the Beräkning sub-screen side by side so a test
@@ -83,6 +92,7 @@ async function renderSettingsWithBerakning(): Promise<void> {
     </SettingsProvider>,
   );
   await waitFor(() => expect(screen.getByText('Inställningar')).toBeTruthy());
+  expandPreview();
 }
 
 // Each test must start from the persisted defaults: the store writes every change to

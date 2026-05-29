@@ -11,11 +11,11 @@
 //    which made the left compass disc and the right cog disc disagree at dawn
 //    (different parts of Sweden under each, so the OS sampled different darkness
 //    for each disc). Passing `tint` paints an absoluteFill chrome layer ON TOP of
-//    the blur so the surface's colour is decided by the chrome (nightChrome's
-//    c.surface), not by whatever pixel the OS sampled. The blur texture survives
-//    as the underlying material; the colour is locked. Without a tint the surface
-//    follows whatever's behind it (fine for halos / city pills, not for the chrome
-//    surfaces — dock / nav discs).
+//    the blur so the surface's colour is decided by the chrome (the active OS
+//    palette's `cardGlass`), not by whatever pixel the OS sampled. The blur
+//    texture survives as the underlying material; the colour is locked. Without
+//    a tint the surface follows whatever's behind it (fine for halos / city
+//    pills, not for the chrome surfaces — dock / nav discs).
 //
 // 2. `borderRadius`. iOS Liquid Glass (UIVisualEffectView) does NOT clip to an
 //    ancestor's `overflow: hidden` reliably — the effect paints into its own layer
@@ -51,10 +51,10 @@ interface Props {
   /** iOS 26+: lets the glass react to touches/scrolls beneath it. */
   interactive?: boolean;
   /**
-   * Chrome tint painted ON TOP of the native blur (absoluteFill). Pass nightChrome's
-   * `c.surface` so the surface's visible colour is decided by the chrome, not by what
-   * the OS sampled under the glass — the only way to keep cog and compass identical
-   * when the wash beneath them differs.
+   * Chrome tint painted ON TOP of the native blur (absoluteFill). Pass the active OS
+   * palette's `cardGlass` so the surface's visible colour is decided by the chrome,
+   * not by what the OS sampled under the glass — the only way to keep cog and compass
+   * identical when the wash beneath them differs.
    */
   tint?: string;
 }

@@ -74,3 +74,12 @@ export function useSettings(): SettingsContextValue {
   }
   return ctx;
 }
+
+/** Non-throwing variant for hooks (e.g. useActiveScheme) that should still work
+ *  when called from a screen outside the provider — most relevantly the
+ *  ErrorScreen, which expo-router mounts as an app-wide boundary and which
+ *  itself must not crash if the SettingsProvider hasn't initialised yet.
+ *  Returns null when there's no provider; callers then fall back to defaults. */
+export function useOptionalSettings(): SettingsContextValue | null {
+  return useContext(SettingsContext);
+}

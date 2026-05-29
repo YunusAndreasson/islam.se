@@ -39,7 +39,7 @@ Notifications.setNotificationHandler({
 });
 
 /** Ask for permission if not already granted. Returns whether we may post alerts. */
-export async function requestNotificationPermission(): Promise<boolean> {
+async function requestNotificationPermission(): Promise<boolean> {
   const current = await Notifications.getPermissionsAsync();
   if (current.granted) return true;
   if (!current.canAskAgain) return false;
@@ -121,14 +121,5 @@ export async function syncPrayerNotifications(
   } catch {
     // Notifications are a best-effort enhancement — never let a scheduling failure
     // (permissions revoked mid-flight, OS quota) crash the app.
-  }
-}
-
-/** Cancel everything — used when the user turns notifications off. */
-export async function clearPrayerNotifications(): Promise<void> {
-  try {
-    await Notifications.cancelAllScheduledNotificationsAsync();
-  } catch {
-    // ignore
   }
 }

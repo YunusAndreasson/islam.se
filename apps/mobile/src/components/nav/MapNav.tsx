@@ -4,29 +4,32 @@
 // top. Each opens its screen as a sheet you dismiss back to the map (see the root
 // _layout's modal presentation). `box-none` everywhere so the map stays draggable across
 // the whole top edge — only the two discs themselves intercept touches.
+//
+// Theming: Apple Maps-style, the discs follow the OS palette (useColors) — light glass on
+// the warm parchment basemap, dark glass on the deep-navy basemap. The earlier sun-driven
+// flip was retired here too (see PrayerDock): chrome stays anchored to one OS theme so it
+// doesn't shift under the user's hand at dusk.
 import { MaterialIcons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import { StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { nightChrome } from '../map/nightChrome';
+import { useColors } from '../../theme/useColors';
 import { CompassButton } from './CompassButton';
 import { GlassRoundButton } from './GlassRoundButton';
 
-export function MapNav({ active, night }: { active: boolean; night: number }) {
+export function MapNav({ active }: { active: boolean }) {
   const insets = useSafeAreaInsets();
-  // The two discs float on the map, so they take the map's sun-driven night (not the OS
-  // theme) — they recede into the night map instead of glowing as bright slabs over it.
-  const c = nightChrome(night);
+  const c = useColors();
   const top = insets.top + 10;
   return (
     <View style={StyleSheet.absoluteFill} pointerEvents="box-none">
       <View style={[styles.left, { top }]} pointerEvents="box-none">
-        <CompassButton active={active} night={night} />
+        <CompassButton active={active} />
       </View>
       <View style={[styles.right, { top }]} pointerEvents="box-none">
         <GlassRoundButton
-          tint={c.surface}
+          tint={c.cardGlass}
           rim={c.hairline}
           accessibilityLabel="Inställningar"
           onPress={() => router.navigate('/installningar')}

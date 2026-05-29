@@ -9,6 +9,12 @@
 //
 // Positions come from project() (src/lib/map/projection.ts), the same projection the
 // Skia canvas and MapLibre basemap use, so dots/labels/pills land exactly on the map.
+//
+// Theming: OS-themed (useColors). Apple Maps-style — the basemap and chrome share an OS
+// axis; the wash and prayer-line hues are still sun-driven (the live sky), but city
+// markers / labels / pills follow the OS palette so the layer reads coherently against
+// both basemaps. The label halo flips warm (light basemap) / dark (navy basemap) so the
+// text stays readable on either ground.
 import { StyleSheet, Text, View } from 'react-native';
 
 import { CITY_POINTS } from '../../lib/map/cities';
@@ -16,9 +22,9 @@ import { type Box, placeCityLabels } from '../../lib/map/cityLabels';
 import { type Camera, project } from '../../lib/map/projection';
 import { type LatLng, PRAYER_LABELS, type PrayerKey } from '../../lib/prayer-times';
 import type { PrayerLineLabel } from '../../lib/solar/field';
-import { PRAYER_COLORS } from '../../lib/solar/palette';
+import { prayerColorFor } from '../../lib/solar/palette';
 import { palette } from '../../theme/tokens';
-import { nightChrome } from './nightChrome';
+import { useActiveScheme, useColors } from '../../theme/useColors';
 
 interface Props {
   /** React-state camera (settled after each region change) shared with the Skia canvas. */
@@ -29,8 +35,6 @@ interface Props {
   /** Pill anchors from buildLines: where each active prayer line wants its label. */
   labels: PrayerLineLabel[];
   nextKey: PrayerKey | null;
-  /** 0 day → 1 night; dims dots/labels/pills so they read on the dark map. */
-  night: number;
 }
 
 function lerp(a: number, b: number, t: number): number {
@@ -61,9 +65,12 @@ const LABEL_BOX = 140;
 // enough to clear the brass glow (radius 13).
 const USER_LABEL_GAP = 15;
 
-export function MapMarkersOverlay({ camera, userCoords, userLabel, labels, nextKey, night }: Props) {
-  const c = nightChrome(night);
-  const rim = night > 0.5 ? 'rgba(237,240,245,0.9)' : '#ffffff';
+export function MapMarkersOverlay({ camera, userCoords, userLabel, labels, nextKey }: Props) {
+  const c = useColors();
+  const scheme = useActiveScheme();
+  // Marker rim + label halo flip warm/dark by basemap so dots + text always read.
+  const rim = scheme === 'dark' ? 'rgba(225,232,255,0.9)' : '#ffffff';
+  const halo = scheme === 'dark' ? 'rgba(18,22,36,0.92)' : 'rgba(250,247,240,0.92)';
 
   const user = project(userCoords.longitude, userCoords.latitude, camera);
   const userName = userLabel.trim();
@@ -162,7 +169,7 @@ export function MapMarkersOverlay({ camera, userCoords, userLabel, labels, nextK
               textAlign: 'center',
               fontSize: l.fontSize,
               color: foreign ? c.inkMuted : c.ink,
-              textShadowColor: c.halo,
+              textShadowColor: halo,
               textShadowRadius: 2,
               textShadowOffset: { width: 0, height: 0 },
             }}
@@ -212,7 +219,7 @@ export function MapMarkersOverlay({ camera, userCoords, userLabel, labels, nextK
             fontSize: userFont,
             fontWeight: '600',
             color: c.ink,
-            textShadowColor: c.halo,
+            textShadowColor: halo,
             textShadowRadius: 2.5,
             textShadowOffset: { width: 0, height: 0 },
           }}
@@ -228,7 +235,7 @@ export function MapMarkersOverlay({ camera, userCoords, userLabel, labels, nextK
           clock time read as an adhan time); the hue dot + border identify the line. */}
       {pills.map(({ l, x, y }) => {
         const isNext = l.prayer === nextKey;
-        const hue = PRAYER_COLORS[l.prayer];
+        const hue = prayerColorFor(l.prayer, scheme);
         return (
           <View
             key={`pill-${l.prayer}`}
