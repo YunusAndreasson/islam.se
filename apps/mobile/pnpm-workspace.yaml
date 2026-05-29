@@ -18,6 +18,8 @@ allowBuilds:
 minimumReleaseAgeExclude:
   - expo-constants@56.0.16
   - expo-notifications@56.0.14
+  - expo-modules-autolinking@56.0.14
+  - expo@56.0.6
 
 # React Native / Expo autolinking and Metro do not cope with pnpm's default
 # symlinked, isolated node_modules. Hoisted layout is the supported setup.

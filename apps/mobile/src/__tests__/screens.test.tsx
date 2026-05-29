@@ -8,7 +8,6 @@ import type { ReactElement, ReactNode } from 'react';
 
 import Bonetider from '../app/bonetider';
 import Installningar from '../app/(settings)/installningar';
-import Kontakt from '../app/(settings)/kontakt';
 import Om from '../app/(settings)/om';
 import VanligaFragor from '../app/(settings)/vanliga-fragor';
 import Qibla from '../app/qibla';
@@ -93,37 +92,36 @@ describe('tab screens', () => {
     expect(screen.getAllByText(/Fajr/).length).toBeGreaterThan(0);
   });
 
-  // Progressive disclosure: the Visning & finjustering group lives in a
-  // collapsible card that starts closed (so a first-time user isn't faced with
-  // the whole tweaks panel) and opens on a header press. Guards the
-  // DisclosureGroup wiring on the screen. (Beräkning used to be a disclosure
-  // too — it's now a pushed screen, see src/app/(settings)/berakning.tsx, so
-  // we exercise the disclosure pattern on its sibling group instead.)
+  // Progressive disclosure: the Visning group lives in a collapsible card that
+  // starts closed (so a first-time user isn't faced with the whole tweaks panel)
+  // and opens on a header press. Guards the DisclosureGroup wiring on the screen.
+  // (Beräkning used to be a disclosure too — it's now a pushed screen, see
+  // src/app/(settings)/berakning.tsx — and "Manuella justeringar" recently
+  // moved there alongside the other adhan calculation knobs, so what's left in
+  // this group is purely display-side: Avrundning + Hijri-justering.)
   it('keeps advanced settings collapsed until their group header is pressed', async () => {
     await renderSettled(withProviders(<Installningar />));
     await waitFor(() => expect(screen.getByText('Inställningar')).toBeTruthy());
 
-    const header = screen.getByRole('button', { name: /^Visning & finjustering,/ });
+    const header = screen.getByRole('button', { name: /^Visning,/ });
     expect(header.props.accessibilityState.expanded).toBe(false);
 
     fireEvent.press(header);
     expect(
-      screen.getByRole('button', { name: /^Visning & finjustering,/ }).props.accessibilityState.expanded,
+      screen.getByRole('button', { name: /^Visning,/ }).props.accessibilityState.expanded,
     ).toBe(true);
   });
 
-  it('renders the Om screen content (masthead + privacy + credits + version)', () => {
-    // Om now holds only the editorial part — FAQ moved to /vanliga-fragor and
-    // contact actions to /kontakt, each its own peer screen linked from
-    // Inställningar. This guard makes sure the trimmed Om still carries what
-    // makes it Om: brand mark, privacy promise, version. If a future change
-    // accidentally re-folds FAQ/Kontakt back into Om, the dedicated tests
-    // below (on VanligaFragor / Kontakt) would still pass — so this one is
-    // negative-asserting on the moved content to lock the split in.
+  it('renders the Om screen content (lead + integritet + bygger på + version)', () => {
+    // Om is the calm "what is this" page: a one-line lead, a privacy promise,
+    // an open-source credits card, and an imprint colophon with the version.
+    // FAQ lives on /vanliga-fragor; mail goes straight from the Inställningar
+    // row to the native composer — no Kontakt sub-screen. This guard makes
+    // sure none of that ever re-folds into Om appen.
     render(<Om />);
-    expect(screen.getAllByText('islam.se').length).toBeGreaterThan(0);
-    expect(screen.getByText(/Inga konton, ingen spårning/)).toBeTruthy();
-    expect(screen.getByText(/^Version /)).toBeTruthy();
+    expect(screen.getByText(/En karta över Sveriges bönetider/)).toBeTruthy();
+    expect(screen.getByText(/Din plats lämnar aldrig enheten/)).toBeTruthy();
+    expect(screen.getByText(/Version /)).toBeTruthy();
     expect(screen.queryByRole('button', { name: 'Mejla oss' })).toBeNull();
     expect(screen.queryByRole('button', { name: 'Hur räknas bönetiderna ut?' })).toBeNull();
   });
@@ -143,31 +141,39 @@ describe('tab screens', () => {
     ).toBe(true);
   });
 
-  // The Kontakt rows wire to the native helpers: the mail row opens the composer
-  // (available in the mock), the website row opens the in-app browser, the rate
-  // row asks the store.
-  it('opens the mail composer and the website from the Kontakt rows', async () => {
+  // Kontakt is wired directly to the native mail composer from Inställningar —
+  // no intermediate Kontakt screen. Opening a screen with a single mail row
+  // was friction without payoff. Tapping the row fires the composer.
+  it('Inställningar Kontakt-row fires the native mail composer directly', async () => {
     jest.clearAllMocks();
-    render(<Kontakt />);
+    await renderSettled(withProviders(<Installningar />));
+    await waitFor(() => expect(screen.getByText('Inställningar')).toBeTruthy());
 
-    fireEvent.press(screen.getByRole('button', { name: 'Mejla oss' }));
+    fireEvent.press(screen.getByRole('button', { name: 'Kontakt' }));
     await waitFor(() =>
       expect(MailComposer.composeAsync).toHaveBeenCalledWith({ recipients: ['support@islam.se'] }),
     );
+  });
 
-    fireEvent.press(screen.getByRole('button', { name: 'Läs mer på islam.se' }));
-    expect(WebBrowser.openBrowserAsync).toHaveBeenCalledWith('https://islam.se');
+  // Betyg lives on Om appen as a quiet editorial footer action ("if you like
+  // this, help others find it") — not under Kontakt, which would conflate a
+  // store affordance with a human contact channel.
+  it('Om appen exposes a Betygsätt-appen action that asks for a store review', async () => {
+    jest.clearAllMocks();
+    render(<Om />);
 
-    fireEvent.press(screen.getByRole('button', { name: 'Betygsätt appen' }));
+    fireEvent.press(screen.getByRole('button', { name: 'Betygsätt appen i butiken' }));
     await waitFor(() => expect(StoreReview.requestReview).toHaveBeenCalled());
   });
 
   // The source credits link the open-source projects so each name is plainly a real,
-  // tappable project. Guards the adhan link (the one a reader is most likely to follow).
+  // tappable project. Guards the adhan link (the one a reader is most likely
+  // to follow). Sources now live as labelled rows ("Bönetider · adhan ↗") in
+  // the Bygger på card, so the row's accessibility label includes both pieces.
   it('links the adhan library from the credits', () => {
     jest.clearAllMocks();
     render(<Om />);
-    fireEvent.press(screen.getByRole('link', { name: 'adhan' }));
+    fireEvent.press(screen.getByRole('link', { name: 'Bönetider: adhan' }));
     expect(WebBrowser.openBrowserAsync).toHaveBeenCalledWith('https://github.com/batoulapps/adhan-js');
   });
 });

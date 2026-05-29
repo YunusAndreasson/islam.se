@@ -1,21 +1,21 @@
 import { type ReactNode, useMemo } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
+import { space, type } from '../../theme/tokens';
 import { type SettingsColors, useSettingsColors } from './theme';
 
-// A titled card grouping related setting rows, with an optional footnote below.
-//
-// The title sits INSIDE the card (a muted uppercase header row above the children),
-// matching DisclosureGroup's header rhythm and the Om-appen card — so every card on
-// the Inställningar screen reads as one self-contained titled unit. Earlier this
-// title was rendered above the card; that mixed pattern (some sections with an
-// external heading, others without) read as disorganised, hence the unification.
+// A card grouping related setting rows. The title (optional) sits INSIDE the card
+// as a muted uppercase header above the children — matching DisclosureGroup's
+// header rhythm so titled cards on the screen read as one family. An untitled
+// section is a list-style card (think the trio at the bottom of Inställningar):
+// no header row, just hairline-divided children. The optional footnote sits
+// below the card in muted ink, web-style.
 export function SettingSection({
   title,
   footnote,
   children,
 }: {
-  title: string;
+  title?: string;
   footnote?: string;
   children: ReactNode;
 }) {
@@ -24,7 +24,7 @@ export function SettingSection({
   return (
     <View style={styles.wrap}>
       <View style={styles.card}>
-        <Text style={styles.title}>{title.toUpperCase()}</Text>
+        {title ? <Text style={styles.title}>{title}</Text> : null}
         {children}
       </View>
       {footnote ? <Text style={styles.footnote}>{footnote}</Text> : null}
@@ -34,17 +34,16 @@ export function SettingSection({
 
 function makeStyles(colors: SettingsColors) {
   return StyleSheet.create({
-    wrap: { marginBottom: 24 },
-    // 13/600 muted uppercase — identical to DisclosureGroup's title style so the
-    // two card types are visually indistinguishable as section headers.
+    wrap: { marginBottom: space.xxl },
+    // type.label is the design-token uppercase rhythm (12.5/600 with letterSpacing
+    // 0.8 and textTransform: 'uppercase'). Single source of truth for every card
+    // header; DisclosureGroup mirrors this style.
     title: {
-      fontSize: 13,
-      fontWeight: '600',
+      ...type.label,
       color: colors.textMuted,
-      letterSpacing: 0.5,
       paddingTop: 14,
-      paddingHorizontal: 16,
-      paddingBottom: 6,
+      paddingHorizontal: space.lg,
+      paddingBottom: space.xs + 2,
     },
     card: {
       backgroundColor: colors.card,
@@ -53,6 +52,11 @@ function makeStyles(colors: SettingsColors) {
       borderColor: colors.border,
       overflow: 'hidden',
     },
-    footnote: { fontSize: 12, color: colors.textMuted, marginTop: 8, marginHorizontal: 4, lineHeight: 16 },
+    footnote: {
+      ...type.caption,
+      color: colors.textMuted,
+      marginTop: space.sm,
+      marginHorizontal: space.xs,
+    },
   });
 }

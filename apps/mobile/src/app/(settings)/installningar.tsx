@@ -1,8 +1,23 @@
+// Inställningar — the configuration sheet over the map. Information architecture,
+// in priority order for a Swedish-Muslim user:
+//   1. Förhandsvisning  — today's times for the resolved location (the *result*,
+//      not a setting; large date + Hijri so the answer reads first).
+//   2. Plats            — GPS or one of ~2,100 Swedish towns.
+//   3. Beräkning        — calculation method, madhab, high-lat rule, polar resolution,
+//      shafaq, per-prayer minute offsets (pushed page).
+//   4. Notiser          — local reminders per prayer.
+//   5. Visning          — rounding + Hijri-day offset (collapsed by default).
+//   6. Stöd (untitled)  — Vanliga frågor / Kontakt / Om appen (clustered into one
+//      list-style card, visually demoted with extra top air).
+//
+// The first four are what the user opens this screen for; the bottom trio is
+// secondary, so it gets a quieter chrome (no header, smaller subtitles, more
+// breathing room above it).
+import { MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
 import { router, useIsFocused } from 'expo-router';
 import { type ReactNode, useEffect, useMemo, useState } from 'react';
 import { ActivityIndicator, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { MaterialIcons } from '@expo/vector-icons';
 
 import { DisclosureGroup } from '@/components/settings/DisclosureGroup';
 import { OptionGroup } from '@/components/settings/OptionGroup';
@@ -11,25 +26,21 @@ import { Stepper } from '@/components/settings/Stepper';
 import { type SettingsColors, useSettingsColors } from '@/components/settings/theme';
 import { Toggle } from '@/components/settings/Toggle';
 import { ModalBar } from '@/components/ui/ModalBar';
-import { formatHijri } from '@/lib/hijri';
+import { APP_VERSION, emailSupport } from '@/lib/about';
+import { formatGregorian, formatHijri } from '@/lib/hijri';
 import { useLocation } from '@/lib/location/context';
 import { NOTIFY_PRAYERS } from '@/lib/notifications';
 import {
   computePrayerTimes,
   formatTime,
+  PRAYER_ICONS,
   PRAYER_LABELS,
   PRAYER_ORDER,
-  prayerToKey,
+  PRAYER_SWEDISH_NAMES,
 } from '@/lib/prayer-times';
-import { APP_VERSION } from '@/lib/about';
 import { useSettings } from '@/lib/settings/context';
-import {
-  adjustmentsSummary,
-  methodLabel,
-  ROUNDING_OPTIONS,
-  signedMinutes,
-} from '@/lib/settings/options';
-import { space, type } from '@/theme/tokens';
+import { methodLabel, ROUNDING_OPTIONS, visningSummary } from '@/lib/settings/options';
+import { mono, space, type } from '@/theme/tokens';
 
 export default function Installningar() {
   const { settings, loaded, update } = useSettings();
@@ -38,48 +49,33 @@ export default function Installningar() {
   const styles = useMemo(() => makeStyles(colors), [colors]);
   const isFocused = useIsFocused();
 
-  // The preview is a *live* clock, not a snapshot: its "nästa" highlight must advance as
-  // prayers pass and its date must roll over at midnight, even if the user just leaves the
-  // screen open. So `now` ticks every 30 s (matching the map's solar clock) rather than
-  // being read once inside the memo below. The tick is paused while the screen is off-
-  // screen so a backgrounded tab isn't recomputing prayer times; it snaps to the real time
-  // again on refocus.
+  // Förhandsvisning's job is to show *how the current settings render* — not to be
+  // a live next-prayer card (the dock + map already are). So no "nästa" highlight
+  // here. The one reason `now` ticks at all is the calendar date underneath: a
+  // user who opens the screen at 23:59 and stays past midnight should see today's
+  // date roll over and tomorrow's times appear. A minute is plenty for that and
+  // the tick is paused off-focus so a backgrounded tab isn't recomputing.
   const [now, setNow] = useState(() => new Date());
   useEffect(() => {
     if (!isFocused) return;
     const tick = (): void => setNow(new Date());
-    tick(); // snap to the real time on (re)focus, before the first interval fires
-    const id = setInterval(tick, 30_000);
+    tick();
+    const id = setInterval(tick, 60_000);
     return () => clearInterval(id);
   }, [isFocused]);
 
-  // Today's times for the resolved location. Recomputes whenever a setting, the location,
-  // or the live clock changes — this is how the user sees a setting "land" and how the
-  // next-prayer highlight keeps up with the wall clock.
+  // Today's times for the resolved location. Recomputes whenever a setting, the
+  // location, or the date rolls over — this is how the user sees a setting "land".
   const preview = useMemo(() => {
     const pt = computePrayerTimes(coords, now, settings);
-    const nextKey = prayerToKey(pt.nextPrayer(now));
-    // Date · place — Gregorian + the current city, so the preview answers
-    // both "what day" and "where" at a glance. Hijri lives in its own
-    // adjuster section (so users who care still have it, one tap away).
-    let dateLabel: string;
-    try {
-      const greg = new Intl.DateTimeFormat('sv-SE', {
-        weekday: 'long',
-        day: 'numeric',
-        month: 'long',
-        timeZone: 'Europe/Stockholm',
-      }).format(now);
-      dateLabel = `${greg.charAt(0).toUpperCase()}${greg.slice(1)} · ${label}`;
-    } catch {
-      dateLabel = label;
-    }
     return {
-      nextKey,
-      dateLabel,
+      gregorian: `${formatGregorian(now)} · ${label}`,
+      hijri: formatHijri(now, settings.hijriOffset),
       times: PRAYER_ORDER.map((key) => ({
         key,
         label: PRAYER_LABELS[key],
+        swedishName: PRAYER_SWEDISH_NAMES[key],
+        icon: PRAYER_ICONS[key],
         time: formatTime(pt[key]),
       })),
     };
@@ -97,42 +93,45 @@ export default function Installningar() {
     );
   }
 
+  const cityValue = settings.manualLocation?.name ?? 'Stockholm';
+
   return (
     <SafeAreaView style={styles.safe} edges={['top']}>
       <ModalBar variant="close" fallback="/bonetider" />
       <ScrollView contentContainerStyle={styles.content}>
         <Text style={styles.header}>Inställningar</Text>
 
-        {/* Live "today" preview — the welcoming anchor. It sits above everything so a
-            change in any group below is immediately visible. The place is shown in
-            the date row (Gregorian · City), so no footnote is needed here. */}
-        <SettingSection title="Förhandsvisning">
+        {/* Förhandsvisning — a glance card, not a configurable section. Date is
+            the headline, Hijri sits muted below it (Swedish-Muslim calendar pair),
+            then six prayer rows in tabular figures. No uppercase header chrome:
+            this is the *result* of every setting below, so it reads as content
+            rather than as another section to be tuned. */}
+        <View style={styles.previewCard}>
           <View style={styles.previewHead}>
-            <Text style={styles.previewDate}>{preview.dateLabel}</Text>
+            <Text style={styles.previewDate}>{preview.gregorian}</Text>
+            <Text style={styles.previewHijri}>{preview.hijri}</Text>
           </View>
-          {preview.times.map((p, i) => {
-            const isNext = p.key === preview.nextKey;
-            return (
-              <View
-                key={p.key}
-                style={[styles.previewRow, i > 0 && styles.previewDivider, isNext && styles.previewNext]}
-              >
-                <Text style={[styles.previewLabel, isNext && styles.previewNextText]}>
-                  {p.label}
-                  {isNext ? '  ·  nästa' : ''}
-                </Text>
-                <Text
-                  testID={`preview-time-${p.key}`}
-                  style={[styles.previewTime, isNext && styles.previewNextText]}
-                >
-                  {p.time}
-                </Text>
+          {preview.times.map((p, i) => (
+            <View key={p.key} style={[styles.previewRow, i > 0 && styles.previewDivider]}>
+              <MaterialCommunityIcons
+                name={p.icon}
+                size={22}
+                color={colors.textMuted}
+                style={styles.previewIcon}
+              />
+              <View style={styles.previewLabelWrap}>
+                <Text style={styles.previewLabel}>{p.label}</Text>
+                <Text style={styles.previewSwedish}>{p.swedishName}</Text>
               </View>
-            );
-          })}
-        </SettingSection>
+              <Text testID={`preview-time-${p.key}`} style={styles.previewTime}>
+                {p.time}
+              </Text>
+            </View>
+          ))}
+        </View>
 
-        {/* --- Essentials: location + notifications --- */}
+        {/* --- Core IA: Plats / Beräkning / Notiser / Visning --- */}
+
         <SettingSection
           title="Plats"
           // Only surface a footnote when GPS mode has something to say (granted/denied);
@@ -147,57 +146,71 @@ export default function Installningar() {
         >
           <OptionGroup
             options={[
-              { value: 'gps', label: 'GPS (min plats)' },
-              { value: 'manual', label: 'Välj stad' },
+              { value: 'gps', label: 'GPS (min plats)', icon: 'crosshairs-gps' },
+              { value: 'manual', label: 'Välj stad', icon: 'city' },
             ]}
             value={settings.locationMode}
             onChange={(locationMode) => update({ locationMode })}
           />
           {settings.locationMode === 'gps' ? (
+            // "Uppdatera position" is an action — accent reads as a tappable verb
+            // (matches the iOS-Settings "Tap to share" pattern), with the resolved
+            // place name muted on the right.
             <Pressable
               onPress={() => void refresh()}
-              style={({ pressed }) => [styles.refreshRow, pressed && styles.refreshPressed]}
+              style={({ pressed }) => [styles.row, pressed && styles.rowPressed]}
             >
-              <Text style={styles.refreshText}>{locating ? 'Hämtar position…' : 'Uppdatera position'}</Text>
-              <Text style={styles.refreshStatus}>{source === 'gps' ? label : '—'}</Text>
+              <Text style={styles.rowAction}>{locating ? 'Hämtar position…' : 'Uppdatera position'}</Text>
+              <Text style={styles.rowValue}>{source === 'gps' ? label : '—'}</Text>
             </Pressable>
           ) : (
-            // Native iOS-Settings pattern: a row INSIDE the same card as the radio
-            // (no second card), label left, current value muted right, chevron — pushes
-            // the full 2,100-place picker. Only visible in manual mode.
+            // "Stad" is a label, not an action — ink, not accent. Value muted +
+            // chevron on the right, like iOS's "Land · Sverige ›" pattern.
             <Pressable
               onPress={() => router.push('/(settings)/byt-plats')}
               accessibilityRole="button"
-              accessibilityLabel={`Stad: ${settings.manualLocation?.name ?? 'Stockholm'}. Tryck för att byta.`}
-              style={({ pressed }) => [styles.refreshRow, pressed && styles.refreshPressed]}
+              accessibilityLabel={`Stad: ${cityValue}. Tryck för att byta.`}
+              style={({ pressed }) => [styles.row, pressed && styles.rowPressed]}
             >
-              <Text style={styles.refreshText}>Stad</Text>
-              <View style={styles.cityValueWrap}>
-                <Text style={styles.refreshStatus}>{settings.manualLocation?.name ?? 'Stockholm'}</Text>
+              <Text style={styles.rowLabel}>Stad</Text>
+              <View style={styles.rowTrailing}>
+                <Text style={styles.rowValue}>{cityValue}</Text>
                 <MaterialIcons name="chevron-right" size={20} color={colors.textMuted} />
               </View>
             </Pressable>
           )}
         </SettingSection>
 
-        {/* Beräkning sits second — after Plats — because it's what a user will tune
-            once after choosing a city. A chevron row pushes the full Beräkning
-            screen, mirroring the Byt plats pattern: less in-place expansion,
-            more room there for each method's caption. The current method shows
-            on the right so recognition replaces recall, just like Byt plats's
-            "Malmö ›" sits next to the Stad row. */}
+        {/* Beräkning sits second — after Plats — because it's what a user will
+            tune once after choosing a city. A single-row card pushes the full
+            Beräkning screen. Typography mirrors the Stad row inside Plats:
+            sentence-case label left, current method body-weight right, chevron.
+            (The previous uppercase title "BERÄKNING" yelled where it should
+            whisper — the *value* is what matters at a glance.) */}
         <Pressable
           onPress={() => router.push('/(settings)/berakning')}
           accessibilityRole="button"
           accessibilityLabel={`Beräkning: ${methodLabel(settings)}. Tryck för att ändra.`}
-          style={({ pressed }) => [styles.aboutRow, pressed && styles.aboutPressed]}
+          style={({ pressed }) => [styles.card, styles.cardRow, pressed && styles.rowPressed]}
         >
-          <Text style={styles.aboutLabel}>BERÄKNING</Text>
-          <Text style={styles.aboutValue}>{methodLabel(settings)}</Text>
-          <MaterialIcons name="chevron-right" size={24} color={colors.accent} />
+          <Text style={styles.rowLabel}>Beräkning</Text>
+          <View style={styles.rowTrailing}>
+            <Text style={styles.rowValue}>{methodLabel(settings)}</Text>
+            <MaterialIcons name="chevron-right" size={20} color={colors.textMuted} />
+          </View>
         </Pressable>
 
-        <SettingSection title="Notiser">
+        <SettingSection
+          title="Notiser"
+          // Quiet privacy reassurance — 2026 expectation, especially for a faith
+          // app. Only shown when notifications are on (where the user has just
+          // granted OS permission and is most likely to wonder where the data goes).
+          footnote={
+            settings.notifications.enabled
+              ? 'Planeras lokalt på din enhet – inget skickas online.'
+              : undefined
+          }
+        >
           <Toggle
             label="Påminn om bönetider"
             value={settings.notifications.enabled}
@@ -239,28 +252,18 @@ export default function Installningar() {
             : null}
         </SettingSection>
 
-        <DisclosureGroup title="Visning & finjustering" summary={adjustmentsSummary(settings)}>
+        {/* Visning — purely how things are rendered, not what's calculated.
+            Avrundning shapes the time string; Hijri-justering shifts the date
+            display to match local moon-sighting. Per-prayer minute offsets used
+            to live here too — they moved to Beräkning, alongside the other
+            adhan CalculationParameters, where they conceptually belong. */}
+        <DisclosureGroup title="Visning" summary={visningSummary(settings)}>
           <SubGroup styles={styles} title="Avrundning">
             <OptionGroup
               options={ROUNDING_OPTIONS}
               value={settings.rounding}
               onChange={(rounding) => update({ rounding })}
             />
-          </SubGroup>
-
-          <SubGroup styles={styles} title="Manuella justeringar" footnote="Förskjut varje tid i minuter." divider>
-            {PRAYER_ORDER.map((key, i) => (
-              <Stepper
-                key={key}
-                label={PRAYER_LABELS[key]}
-                value={settings.adjustments[key]}
-                divider={i > 0}
-                min={-60}
-                max={60}
-                format={signedMinutes}
-                onChange={(v) => update({ adjustments: { ...settings.adjustments, [key]: v } })}
-              />
-            ))}
           </SubGroup>
 
           <SubGroup
@@ -280,48 +283,44 @@ export default function Installningar() {
           </SubGroup>
         </DisclosureGroup>
 
-        {/* Om was a single page; it's now three peer cards (FAQ / Kontakt / Om
-            appen) so a user looking for support or answers can jump straight to
-            what they want without scrolling through everything else. Each row
-            mirrors the DisclosureGroup collapsed-header rhythm — uppercase muted
-            title left, accent chevron right — so the bottom of the screen reads
-            as one consistent ladder. */}
-        <Pressable
-          onPress={() => router.push('/(settings)/vanliga-fragor')}
-          accessibilityRole="button"
-          accessibilityLabel="Vanliga frågor"
-          style={({ pressed }) => [styles.aboutRow, pressed && styles.aboutPressed]}
-        >
-          <Text style={styles.aboutLabel}>VANLIGA FRÅGOR</Text>
-          <MaterialIcons name="chevron-right" size={24} color={colors.accent} />
-        </Pressable>
+        {/* --- Stöd: secondary cluster. Visually demoted with extra top air and
+            an untitled card of plain single-line rows. No subtitles on purpose:
+            keyword-chain subtitles ("Mejl, betyg, islam.se") read as forced
+            sorting — when the labels are already honest, the row title carries
+            the meaning. Version sits in the colophon below, where imprint
+            belongs. --- */}
+        <View style={styles.supportTop}>
+          <SettingSection>
+            <LinkRow
+              styles={styles}
+              colors={colors}
+              label="Vanliga frågor"
+              onPress={() => router.push('/(settings)/vanliga-fragor')}
+            />
+            {/* Kontakt = mail. No intermediate screen — tapping the row opens
+                the native mail composer directly (falls back to mailto: if no
+                composer is available). Opening a screen with a single mail row
+                was friction without payoff. */}
+            <LinkRow
+              styles={styles}
+              colors={colors}
+              label="Kontakt"
+              onPress={emailSupport}
+              divider
+            />
+            <LinkRow
+              styles={styles}
+              colors={colors}
+              label="Om appen"
+              onPress={() => router.push('/om')}
+              divider
+            />
+          </SettingSection>
+        </View>
 
-        <Pressable
-          onPress={() => router.push('/(settings)/kontakt')}
-          accessibilityRole="button"
-          accessibilityLabel="Kontakt"
-          style={({ pressed }) => [styles.aboutRow, pressed && styles.aboutPressed]}
-        >
-          <Text style={styles.aboutLabel}>KONTAKT</Text>
-          <MaterialIcons name="chevron-right" size={24} color={colors.accent} />
-        </Pressable>
-
-        <Pressable
-          onPress={() => router.push('/om')}
-          accessibilityRole="button"
-          accessibilityLabel="Om appen"
-          style={({ pressed }) => [styles.aboutRow, pressed && styles.aboutPressed]}
-        >
-          <Text style={styles.aboutLabel}>OM APPEN</Text>
-          <MaterialIcons name="chevron-right" size={24} color={colors.accent} />
-        </Pressable>
-
-        {/* A quiet sign-off at the end of the screen — version + copyright in the
-            faintest ink tier so it doesn't compete with the cards above, but is
-            present for anyone who scrolls all the way down. */}
-        <Text style={styles.colophon}>
-          islam.se · Version {APP_VERSION} · © 2026
-        </Text>
+        {/* A quiet sign-off at the end of the screen — project line + version +
+            © in the faintest ink tier, the natural imprint position. */}
+        <Text style={styles.colophon}>islam.se · Version {APP_VERSION} · © 2026</Text>
       </ScrollView>
     </SafeAreaView>
   );
@@ -345,10 +344,43 @@ function SubGroup({
 }) {
   return (
     <View style={[styles.sub, divider && styles.subDivider]}>
-      <Text style={styles.subTitle}>{title.toUpperCase()}</Text>
+      <Text style={styles.subTitle}>{title}</Text>
       {children}
       {footnote ? <Text style={styles.subFootnote}>{footnote}</Text> : null}
     </View>
+  );
+}
+
+// A list-style navigation row: single-line label + trailing chevron. Used in
+// the Stöd cluster at the bottom of Inställningar where the trio reads as one
+// quiet shelf. Sparse on purpose — honest labels don't need subtitles.
+function LinkRow({
+  styles,
+  colors,
+  label,
+  onPress,
+  divider = false,
+}: {
+  styles: ReturnType<typeof makeStyles>;
+  colors: SettingsColors;
+  label: string;
+  onPress: () => void;
+  divider?: boolean;
+}) {
+  return (
+    <Pressable
+      onPress={onPress}
+      accessibilityRole="button"
+      accessibilityLabel={label}
+      style={({ pressed }) => [
+        styles.linkRow,
+        divider && styles.linkRowDivider,
+        pressed && styles.rowPressed,
+      ]}
+    >
+      <Text style={styles.linkLabel}>{label}</Text>
+      <MaterialIcons name="chevron-right" size={22} color={colors.textMuted} />
+    </Pressable>
   );
 }
 
@@ -357,66 +389,50 @@ function makeStyles(colors: SettingsColors) {
     safe: { flex: 1, backgroundColor: colors.bg },
     loading: { flex: 1, alignItems: 'center', justifyContent: 'center' },
     content: { padding: space.lg, paddingBottom: space.xxxl + space.lg },
-    // A single-row card linking a Settings sub-page — same chrome AND same
-    // internal rhythm as a collapsed DisclosureGroup header: uppercase muted
-    // title left, accent chevron right, identical padding and 24px bottom
-    // gap (mirrors SettingSection's `wrap.marginBottom`) so a stack of these
-    // peers (FAQ / Kontakt / Om) reads as discrete cards, not a glued group.
-    aboutRow: {
-      flexDirection: 'row',
-      alignItems: 'center',
-      gap: space.md,
-      minHeight: 56,
-      paddingVertical: 14,
-      paddingHorizontal: space.lg,
+
+    // Editorial screen title — same token as Qibla's title so the sibling sheets share rhythm.
+    header: { ...type.title, color: colors.text, marginBottom: space.xl, marginTop: space.xs },
+
+    // --- Förhandsvisning glance card --------------------------------------
+    previewCard: {
       backgroundColor: colors.card,
       borderRadius: 12,
       borderWidth: StyleSheet.hairlineWidth,
       borderColor: colors.border,
-      marginBottom: 24,
+      marginBottom: space.xxl,
+      overflow: 'hidden',
     },
-    aboutPressed: { backgroundColor: colors.accentSoft },
-    // Centered, faintest ink, no card chrome — a paper-edge colophon.
-    colophon: {
-      fontSize: 11,
-      color: colors.textMuted,
-      textAlign: 'center',
-      opacity: 0.7,
-      marginTop: space.xs,
-      marginBottom: space.lg,
-    },
-    // Same as DisclosureGroup's title style: 13/600 muted uppercase.
-    aboutLabel: { flex: 1, fontSize: 13, fontWeight: '600', color: colors.textMuted, letterSpacing: 0.5 },
-    // Current value shown to the right of the label (e.g. "Muslim World League"
-    // beside BERÄKNING) — body weight in the ink colour so the live state is
-    // recognisable without opening the screen.
-    aboutValue: { ...type.body, color: colors.text, marginRight: space.sm },
-    // For the Stad row inside the Plats card: the value + chevron group right.
-    cityValueWrap: { flexDirection: 'row', alignItems: 'center', gap: 2 },
-    // Editorial title — same token as Qibla's title so the sibling sheets share rhythm.
-    header: { ...type.title, color: colors.text, marginBottom: space.xl, marginTop: space.xs },
     previewHead: {
       paddingVertical: space.md,
       paddingHorizontal: space.lg,
       borderBottomWidth: StyleSheet.hairlineWidth,
       borderBottomColor: colors.separator,
     },
-    previewDate: { fontSize: 14, fontWeight: '600', color: colors.text },
+    // Headline rhythm: date is the *answer*, Hijri the calendar pair under it.
+    previewDate: { ...type.headline, color: colors.text },
+    previewHijri: { ...type.caption, color: colors.textMuted, marginTop: 2 },
     previewRow: {
       flexDirection: 'row',
       justifyContent: 'space-between',
       alignItems: 'center',
       paddingVertical: space.md,
       paddingHorizontal: space.lg,
-      minHeight: 44,
+      minHeight: 52,
     },
     previewDivider: { borderTopWidth: StyleSheet.hairlineWidth, borderTopColor: colors.separator },
-    // "nästa" = brass, consistent with the dock + map's next-prayer signal.
-    previewNext: { backgroundColor: colors.highlightSoft },
+    // Solar-cycle glyph on the left of each row — small, ink-muted, sits in
+    // the same vertical rhythm as the two-line label block beside it.
+    previewIcon: { marginRight: space.md, width: 22 },
+    // Two-line label block: Arabic name body weight, Swedish translation
+    // caption-muted below.
+    previewLabelWrap: { flex: 1 },
     previewLabel: { ...type.body, color: colors.text },
-    previewTime: { ...type.body, color: colors.text, fontVariant: ['tabular-nums'] },
-    previewNextText: { color: colors.highlight, fontWeight: '600' },
-    refreshRow: {
+    previewSwedish: { ...type.caption, color: colors.textMuted, marginTop: 1 },
+    previewTime: { ...type.body, ...mono, color: colors.text },
+
+    // --- Generic in-card row (used inside Plats, and as the Beräkning card) -
+    // 48pt min — comfortable touch target without feeling cramped.
+    row: {
       borderTopWidth: StyleSheet.hairlineWidth,
       borderTopColor: colors.separator,
       paddingVertical: space.md,
@@ -426,10 +442,56 @@ function makeStyles(colors: SettingsColors) {
       justifyContent: 'space-between',
       alignItems: 'center',
     },
-    refreshPressed: { backgroundColor: colors.accentSoft },
-    refreshText: { ...type.body, color: colors.accent },
-    refreshStatus: { fontSize: 14, color: colors.textMuted },
-    // Sub-sections within a DisclosureGroup.
+    rowPressed: { backgroundColor: colors.accentSoft },
+    rowLabel: { ...type.body, color: colors.text }, // labels: ink (not accent)
+    rowAction: { ...type.body, color: colors.accent }, // verbs: accent
+    rowValue: { ...type.body, color: colors.textMuted },
+    rowTrailing: { flexDirection: 'row', alignItems: 'center', gap: 2 },
+
+    // Single-row card variant for the Beräkning push.
+    card: {
+      backgroundColor: colors.card,
+      borderRadius: 12,
+      borderWidth: StyleSheet.hairlineWidth,
+      borderColor: colors.border,
+      marginBottom: space.xxl,
+    },
+    cardRow: {
+      borderTopWidth: 0, // no separator: this is a standalone card, not a row inside one
+      paddingVertical: 14,
+      minHeight: 56,
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      paddingHorizontal: space.lg,
+    },
+
+    // --- Stöd cluster (FAQ / Kontakt / Om appen) --------------------------
+    // Extra top air signals the IA gear-shift: above = configuration, below =
+    // secondary support. SettingSection already wraps its own xxl bottom gap.
+    supportTop: { marginTop: space.sm },
+    linkRow: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: space.md,
+      minHeight: 48,
+      paddingHorizontal: space.lg,
+      paddingVertical: space.md,
+    },
+    linkRowDivider: { borderTopWidth: StyleSheet.hairlineWidth, borderTopColor: colors.separator },
+    linkLabel: { ...type.body, color: colors.text, flex: 1 },
+
+    // Centered, faintest ink, no card chrome — a paper-edge colophon.
+    colophon: {
+      ...type.micro,
+      color: colors.textMuted,
+      textAlign: 'center',
+      opacity: 0.7,
+      marginTop: space.sm,
+      marginBottom: space.lg,
+    },
+
+    // --- Sub-sections within a DisclosureGroup ----------------------------
     sub: { paddingBottom: space.md },
     subDivider: { borderTopWidth: StyleSheet.hairlineWidth, borderTopColor: colors.separator },
     subTitle: {
@@ -439,6 +501,11 @@ function makeStyles(colors: SettingsColors) {
       paddingTop: 14,
       paddingBottom: space.xs,
     },
-    subFootnote: { fontSize: 12, color: colors.textMuted, paddingHorizontal: space.lg, paddingTop: space.sm, lineHeight: 16 },
+    subFootnote: {
+      ...type.caption,
+      color: colors.textMuted,
+      paddingHorizontal: space.lg,
+      paddingTop: space.sm,
+    },
   });
 }

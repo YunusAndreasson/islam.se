@@ -108,14 +108,62 @@ export const PRAYER_ORDER = [
 ] as const;
 export type PrayerKey = (typeof PRAYER_ORDER)[number];
 
+// Arabic prayer names in academic transliteration (DIN 31635 / ALA-LC style):
+//   ʿayn  = ʿ        ḍ = emphatic d        ī = long i
+//   hamza = ʾ        ḥ = pharyngeal h      ū = long u
+//                    ṣ = emphatic s        ā = long a
+//                    ẓ = emphatic z
+//
+// The Swedish translation in PRAYER_SWEDISH_NAMES sits as a muted second line
+// under the Arabic name in places that have room (Förhandsvisning). Sunrise
+// (Shurūq) is included here even though it's a *marker* not a prayer — the
+// user expects to see the Arabic name everywhere a prayer time appears.
 export const PRAYER_LABELS: Record<PrayerKey, string> = {
   fajr: 'Fajr',
-  sunrise: 'Soluppgång',
-  dhuhr: 'Dhuhr',
-  asr: 'Asr',
+  sunrise: 'Shurūq',
+  dhuhr: 'Ẓuhr',
+  asr: 'ʿAṣr',
   maghrib: 'Maghrib',
-  isha: 'Isha',
+  isha: 'ʿIshāʾ',
 };
+
+/**
+ * Swedish translations, paired with the Arabic name in two-line displays.
+ *  – Fajr     → Gryningsbönen   (true dawn, before sunrise)
+ *  – Shurūq   → Soluppgång      (the marker — end of fajr-time)
+ *  – Ẓuhr     → Middagsbönen    (sun past zenith)
+ *  – ʿAṣr     → Eftermiddagsbönen (shadow = object length)
+ *  – Maghrib  → Solnedgångsbönen (right after sunset)
+ *  – ʿIshāʾ   → Nattbönen       (after twilight ends)
+ */
+export const PRAYER_SWEDISH_NAMES: Record<PrayerKey, string> = {
+  fajr: 'Gryningsbönen',
+  sunrise: 'Soluppgång',
+  dhuhr: 'Middagsbönen',
+  asr: 'Eftermiddagsbönen',
+  maghrib: 'Solnedgångsbönen',
+  isha: 'Nattbönen',
+};
+
+/**
+ * MaterialCommunityIcons glyphs walking the solar cycle. Used in glance contexts
+ * (Förhandsvisning) where a small icon adds scan-ability — the app's whole
+ * visual identity is sun-driven, so a sun-cycle iconography fits the brand.
+ *  – Fajr    → night-partly-cloudy   (night beginning to lift)
+ *  – Shurūq  → sunset-up             (sun + arrow ↑, emerging)
+ *  – Ẓuhr    → sunny                 (full disc, midday)
+ *  – ʿAṣr    → partly-cloudy         (sun starting to descend, a softer glyph)
+ *  – Maghrib → sunset-down           (sun + arrow ↓, dipping)
+ *  – ʿIshāʾ  → night                 (crescent moon)
+ */
+export const PRAYER_ICONS = {
+  fajr: 'weather-night-partly-cloudy',
+  sunrise: 'weather-sunset-up',
+  dhuhr: 'weather-sunny',
+  asr: 'weather-partly-cloudy',
+  maghrib: 'weather-sunset-down',
+  isha: 'weather-night',
+} as const satisfies Record<PrayerKey, string>;
 
 // adhan's Prayer enum values are plain strings ('fajr' | … | 'none'); map the
 // current/next-prayer result onto our key, returning null for 'none'.

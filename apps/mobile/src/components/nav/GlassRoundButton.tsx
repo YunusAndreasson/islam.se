@@ -1,28 +1,34 @@
-// The one round glass control for the map's floating navigation (the Qibla compass,
-// the settings cog). Lifted out of the old hamburger so every map nav button shares the
-// exact 46×46 glass disc, soft shadow and chrome — and a future one stays consistent for
-// free. Press gives a light haptic tick. These discs float directly ON the map canvas, so
-// — like the dock and the city pills, NOT the OS-themed screens — they follow the map's
-// sun-driven night factor (nightChrome): warm light glass over a day map, dark indigo
-// glass past Isha. A light disc left stranded over the night map drew the eye like a beacon.
+// The one round glass control — used on the map nav (Qibla compass, settings cog)
+// and on the modal sheets (close X, back arrow). Every disc on every surface in the
+// app reads as one family: same shape, same shadow, same native Liquid Glass on
+// iOS 26+, same real native blur (expo-blur) everywhere else.
+//
+// Callers pick the colours: `tint` paints the chrome on top of the native blur so
+// the surface's colour is decided here, not by what the OS sampled under the glass
+// (which is how left and right discs ended up disagreeing at dawn on the map). For
+// the map discs, callers pass `nightChrome(night).surface / .hairline`; for OS-themed
+// modal sheets they pass the active palette's `cardGlass / hairline`.
 import type { ReactNode } from 'react';
 import { Pressable, StyleSheet } from 'react-native';
 
 import { hapticLight } from '../../lib/haptics';
 import { shadow } from '../../theme/tokens';
-import { nightChrome } from '../map/nightChrome';
 import { GlassSurface } from '../ui/GlassSurface';
 
 interface Props {
   onPress: () => void;
   accessibilityLabel: string;
   children: ReactNode;
-  /** 0 day → 1 deep night; blends the glass with the map under it (see nightChrome). */
-  night: number;
+  /** Chrome tint painted over the native blur. Locks the colour against backdrop drift. */
+  tint: string;
+  /** Hairline rim colour around the disc. */
+  rim: string;
+  /** Disc diameter in dp. Defaults to 46 (map discs); 38 reads better on a 44-pt modal bar. */
+  size?: number;
 }
 
-export function GlassRoundButton({ onPress, accessibilityLabel, children, night }: Props) {
-  const c = nightChrome(night);
+export function GlassRoundButton({ onPress, accessibilityLabel, children, tint, rim, size = 46 }: Props) {
+  const radius = size / 2;
   return (
     <Pressable
       onPress={() => {
@@ -34,10 +40,13 @@ export function GlassRoundButton({ onPress, accessibilityLabel, children, night 
       hitSlop={8}
     >
       <GlassSurface
-        style={styles.button}
+        style={[
+          styles.button,
+          { width: size, height: size, borderRadius: radius, borderColor: rim },
+        ]}
+        borderRadius={radius}
         interactive
-        fallbackColor={c.surface}
-        fallbackBorderColor={c.hairline}
+        tint={tint}
       >
         {children}
       </GlassSurface>
@@ -47,11 +56,9 @@ export function GlassRoundButton({ onPress, accessibilityLabel, children, night 
 
 const styles = StyleSheet.create({
   button: {
-    width: 46,
-    height: 46,
-    borderRadius: 23,
     alignItems: 'center',
     justifyContent: 'center',
+    borderWidth: StyleSheet.hairlineWidth,
     ...shadow.button,
   },
 });

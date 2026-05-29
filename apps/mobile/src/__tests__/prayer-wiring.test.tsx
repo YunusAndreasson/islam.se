@@ -196,9 +196,14 @@ describe('changing a setting recomputes the displayed times (the core user flow)
   // on any date — and it exercises the Stepper control + the nested-object update path.
   describe('a manual minute adjustment shifts only its own prayer', () => {
     it.each(PRAYER_ORDER)('+1 min on %s moves only that prayer', async (key) => {
-      await renderSettings();
-      // The minute steppers live in the collapsed "Visning & finjustering" group.
-      fireEvent.press(screen.getByRole('button', { name: /^Visning & finjustering,/ }));
+      // The minute steppers moved to Beräkning when "Visning & finjustering" was
+      // split: Manuella justeringar now sits alongside method/madhab on the
+      // Beräkning screen, since it conceptually tweaks the calculation output
+      // (adhan's CalculationParameters.adjustments). The Installningar preview
+      // is still where the resulting times render, so we mount both under one
+      // SettingsProvider and drive the Stepper on Berakning while reading the
+      // preview rows on Installningar.
+      await renderSettingsWithBerakning();
       const before = snapshot();
 
       fireEvent.press(screen.getByRole('button', { name: `Öka ${PRAYER_LABELS[key]}` }));

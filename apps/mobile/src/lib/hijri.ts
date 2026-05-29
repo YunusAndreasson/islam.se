@@ -70,22 +70,23 @@ export function toHijri(date: Date, offsetDays = 0): HijriDate {
   return jdnToIslamic(jdn);
 }
 
-// Transliterated month names. Swedish Islamic usage keeps the Arabic month names
-// transliterated (there are no Swedish translations), so these read the same as on
-// islam.se. The apostrophe is a typographic ʾ-style mark for the hamza.
+// Transliterated month names in the same academic style as PRAYER_LABELS
+// (DIN 31635 / ALA-LC): ʿ for ʿayn, macrons for long vowels, subdots on
+// emphatic consonants. So the Hijri date line under the Förhandsvisning
+// headline and the prayer names in the rows speak the same Arabic register.
 export const HIJRI_MONTHS: readonly string[] = [
-  'Muharram',
-  'Safar',
-  'Rabiʿ al-awwal',
-  'Rabiʿ al-thani',
-  'Jumada al-awwal',
-  'Jumada al-thani',
+  'Muḥarram',
+  'Ṣafar',
+  'Rabīʿ al-awwal',
+  'Rabīʿ al-thānī',
+  'Jumādā al-awwal',
+  'Jumādā al-thānī',
   'Rajab',
-  'Shaʿban',
-  'Ramadan',
-  'Shawwal',
-  'Dhul-qaʿda',
-  'Dhul-hijja',
+  'Shaʿbān',
+  'Ramaḍān',
+  'Shawwāl',
+  'Dhū al-qaʿda',
+  'Dhū al-ḥijja',
 ];
 
 /** e.g. "9 Dhul-hijja 1447". */

@@ -9,7 +9,7 @@ import Animated, {
 } from 'react-native-reanimated';
 
 import { hapticLight } from '../../lib/haptics';
-import { motion } from '../../theme/tokens';
+import { motion, type } from '../../theme/tokens';
 import { type SettingsColors, useSettingsColors } from './theme';
 
 // A collapsible card for advanced settings. Collapsed, it shows its category title
@@ -76,7 +76,7 @@ export function DisclosureGroup({
           accessibilityLabel={`${title}, ${summary}`}
           style={({ pressed }) => [styles.header, pressed && styles.headerPressed]}
         >
-          <Text style={styles.title}>{title.toUpperCase()}</Text>
+          <Text style={styles.title}>{title}</Text>
           <Animated.Text style={[styles.summary, summaryStyle]} numberOfLines={1}>
             {summary}
           </Animated.Text>
@@ -122,9 +122,9 @@ function makeStyles(colors: SettingsColors) {
       gap: 12,
     },
     headerPressed: { backgroundColor: colors.accentSoft },
-    // The category label (muted uppercase) rhymes with the always-visible section
-    // titles elsewhere on the screen; the value beside it is the prominent cue.
-    title: { fontSize: 13, fontWeight: '600', color: colors.textMuted, letterSpacing: 0.5 },
+    // Mirrors SettingSection's title (type.label) — same design token across both
+    // header types so titled cards visually rhyme.
+    title: { ...type.label, color: colors.textMuted },
     summary: { flex: 1, fontSize: 15, color: colors.text, textAlign: 'right' },
     body: { overflow: 'hidden' },
     // Absolute so the children's natural height is reported via onLayout without
