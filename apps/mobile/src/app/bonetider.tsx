@@ -360,8 +360,6 @@ export default function Bonetider() {
           userLabel={placeLabel}
           labels={solar.labels}
           nextKey={nextKey}
-          settings={settings}
-          nowMs={clock.now}
         />
       )}
 

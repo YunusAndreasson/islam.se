@@ -324,10 +324,34 @@ function buildStyle(c: BasemapPalette, name: string): StyleSpecification {
         },
       },
 
-      // Smaller Swedish towns and villages from the tiles (the curated CITY_POINTS
-      // overlay covers the big ones; this fills in everything below — Trollhättan,
-      // Hudiksvall, the kommun centres — at city zoom so the map answers "what town
-      // is that?" without needing a search. minzoom 9 so the country view stays calm.
+      // City labels from the tiles — Stockholm / Göteborg / Malmö + the regional
+      // capitals (Uppsala, Linköping, Örebro …). Drawn from country zoom so the big
+      // three are always visible. Replaces an earlier RN-overlay of curated city
+      // dots/names that duplicated these same labels against the basemap. Body
+      // weight a touch heavier than the towns layer so the hierarchy reads.
+      {
+        id: 'label_city',
+        type: 'symbol',
+        source: 'openmaptiles',
+        'source-layer': 'place',
+        filter: ['==', ['get', 'class'], 'city'],
+        minzoom: 3,
+        layout: {
+          'text-field': SV_LABEL,
+          'text-font': ['Noto Sans Bold'],
+          'text-size': ['interpolate', ['linear'], ['zoom'], 3, 11, 6, 13, 10, 16, 14, 19],
+          'text-max-width': 8,
+          'symbol-sort-key': ['coalesce', ['get', 'rank'], 99],
+        },
+        paint: {
+          'text-color': c.PLACE_INK,
+          'text-halo-color': c.HALO,
+          'text-halo-width': 1.4,
+        },
+      },
+
+      // Smaller Swedish towns and villages — fill in as you zoom into a region.
+      // minzoom 9 so the country view stays calm (only the city layer appears earlier).
       {
         id: 'label_town',
         type: 'symbol',
