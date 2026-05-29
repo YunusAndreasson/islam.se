@@ -13,10 +13,10 @@ import {
   POLAR_OPTIONS,
   ROUNDING_OPTIONS,
   SHAFAQ_OPTIONS,
-  adjustmentsSummary,
   madhabLabel,
   methodLabel,
   signedMinutes,
+  visningSummary,
 } from './options';
 import {
   type CalculationMethodKey,
@@ -126,24 +126,24 @@ describe('label helpers', () => {
     }
   });
 
-  it('adjustmentsSummary reports zero, singular and plural correctly', () => {
-    // The summary is Swedish: "Inga justeringar" / "1 justerad" / "2 justerade".
-    // The plural suffix ("e") flips at >1; pin the boundary so a future i18n PR
-    // doesn't silently re-introduce "1 justerade".
-    const zero = adjustmentsSummary(DEFAULT_SETTINGS);
-    expect(zero).toBe('Inga justeringar');
+  it('visningSummary shows rounding, and folds in a non-zero Hijri offset', () => {
+    // The collapsed-header summary IS the user's at-a-glance read of the Visning
+    // group. Defaults must render the rounding label by itself (no spurious
+    // " · Hijri 0 d" noise); any non-zero Hijri offset gets a signed suffix so
+    // the user sees the calibration without expanding the card.
+    expect(visningSummary(DEFAULT_SETTINGS)).toBe('Närmaste minut');
 
-    const one: PrayerSettings = {
-      ...DEFAULT_SETTINGS,
-      adjustments: { ...DEFAULT_SETTINGS.adjustments, fajr: 5 },
-    };
-    expect(adjustmentsSummary(one)).toBe('1 justerad');
+    const upRounded: PrayerSettings = { ...DEFAULT_SETTINGS, rounding: 'up' };
+    expect(visningSummary(upRounded)).toBe('Uppåt');
 
-    const two: PrayerSettings = {
-      ...DEFAULT_SETTINGS,
-      adjustments: { ...DEFAULT_SETTINGS.adjustments, fajr: 5, isha: -3 },
-    };
-    expect(adjustmentsSummary(two)).toBe('2 justerade');
+    const hijriPlus: PrayerSettings = { ...DEFAULT_SETTINGS, hijriOffset: 1 };
+    expect(visningSummary(hijriPlus)).toBe('Närmaste minut · Hijri +1 d');
+
+    const hijriMinus: PrayerSettings = { ...DEFAULT_SETTINGS, hijriOffset: -2 };
+    expect(visningSummary(hijriMinus)).toBe('Närmaste minut · Hijri -2 d');
+
+    const both: PrayerSettings = { ...DEFAULT_SETTINGS, rounding: 'none', hijriOffset: 2 };
+    expect(visningSummary(both)).toBe('Ingen · Hijri +2 d');
   });
 
   it('signedMinutes always shows the sign for non-zero values', () => {

@@ -61,7 +61,7 @@ jest.mock('expo-location', () => ({
 }));
 
 // expo-glass-effect is iOS-only native (Liquid Glass). Under test, report it
-// unavailable so GlassSurface takes its plain-View fallback path.
+// unavailable so GlassSurface takes its BlurView branch (also mocked below).
 jest.mock('expo-glass-effect', () => {
   const { View } = require('react-native');
   return {
@@ -70,6 +70,14 @@ jest.mock('expo-glass-effect', () => {
     isLiquidGlassAvailable: () => false,
     isGlassEffectAPIAvailable: () => false,
   };
+});
+
+// expo-blur is native too — under test, render BlurView as a plain host View so
+// GlassSurface's non-Liquid-Glass branch produces something testable without any
+// async native bridge work.
+jest.mock('expo-blur', () => {
+  const { View } = require('react-native');
+  return { BlurView: View };
 });
 
 // react-native-reanimated has no JS-thread implementation under test. Provide a

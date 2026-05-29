@@ -1,4 +1,4 @@
-import MaterialIcons from '@expo/vector-icons/MaterialIcons';
+import { MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
 import { useMemo } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 
@@ -8,6 +8,10 @@ export interface Option<T extends string> {
   value: T;
   label: string;
   description?: string;
+  /** Optional leading MaterialCommunityIcons glyph — adds semantic
+   *  differentiation when a value choice carries visual meaning (e.g. GPS vs
+   *  city selector on Plats). Plain text-only rows omit this. */
+  icon?: keyof typeof MaterialCommunityIcons.glyphMap;
 }
 
 // A vertical single-select list. The chosen row shows a check; the whole row is a
@@ -39,6 +43,14 @@ export function OptionGroup<T extends string>({
               pressed && styles.pressed,
             ]}
           >
+            {opt.icon ? (
+              <MaterialCommunityIcons
+                name={opt.icon}
+                size={20}
+                color={colors.textMuted}
+                style={styles.icon}
+              />
+            ) : null}
             <View style={styles.textWrap}>
               <Text style={styles.label}>{opt.label}</Text>
               {opt.description ? <Text style={styles.description}>{opt.description}</Text> : null}
@@ -66,6 +78,7 @@ function makeStyles(colors: SettingsColors) {
     },
     rowDivider: { borderTopWidth: StyleSheet.hairlineWidth, borderTopColor: colors.separator },
     pressed: { backgroundColor: colors.accentSoft },
+    icon: { width: 20, marginRight: 4, textAlign: 'center' },
     textWrap: { flex: 1 },
     label: { fontSize: 16, color: colors.text },
     description: { fontSize: 13, color: colors.textMuted, marginTop: 2 },

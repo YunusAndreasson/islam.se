@@ -40,7 +40,7 @@ export const METHOD_OPTIONS: readonly Option<CalculationMethodKey>[] = [
 ];
 
 export const MADHAB_OPTIONS: readonly Option<Madhab>[] = [
-  { value: 'shafi', label: 'Standard', description: "Shafi'i, Maliki, Hanbali – tidigare Asr" },
+  { value: 'shafi', label: 'Standard', description: 'Shafiʿi, Maliki, Hanbali – tidigare Asr' },
   { value: 'hanafi', label: 'Hanafi', description: 'Senare Asr' },
 ];
 
@@ -54,7 +54,7 @@ export const HIGHLAT_OPTIONS: readonly Option<HighLatitudeRuleKey>[] = [
 export const POLAR_OPTIONS: readonly Option<PolarCircleResolutionKey>[] = [
   { value: 'aqrabBalad', label: 'Närmaste lämpliga plats', description: 'Aqrab al-Balad' },
   { value: 'aqrabYaum', label: 'Närmaste lämpliga dag', description: 'Aqrab al-Yaum' },
-  { value: 'unresolved', label: 'Oberäknad', description: 'Visa ingen tid när den ej kan beräknas' },
+  { value: 'unresolved', label: 'Oberäknad', description: 'Visa ingen tid när den inte kan beräknas' },
 ];
 
 export const SHAFAQ_OPTIONS: readonly Option<Shafaq>[] = [
@@ -82,8 +82,13 @@ export const methodLabel = (s: PrayerSettings): string =>
 
 export const madhabLabel = (s: PrayerSettings): string => labelOf(MADHAB_OPTIONS, s.madhab);
 
-/** "Inga justeringar" when every offset is 0, otherwise how many are tweaked. */
-export const adjustmentsSummary = (s: PrayerSettings): string => {
-  const changed = Object.values(s.adjustments).filter((v) => v !== 0).length;
-  return changed === 0 ? 'Inga justeringar' : `${changed} justerad${changed > 1 ? 'e' : ''}`;
+/** Collapsed-header summary for the "Visning" disclosure group: the current
+ *  rounding label, plus a " · Hijri ±N d" suffix when the Hijri offset is set.
+ *  Per-prayer minute offsets are NOT part of this group anymore — they moved to
+ *  the Beräkning screen, since they tweak the calculation output. */
+export const visningSummary = (s: PrayerSettings): string => {
+  const rounding = labelOf(ROUNDING_OPTIONS, s.rounding);
+  if (s.hijriOffset === 0) return rounding;
+  const sign = s.hijriOffset > 0 ? '+' : '';
+  return `${rounding} · Hijri ${sign}${s.hijriOffset} d`;
 };

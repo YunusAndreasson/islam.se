@@ -22,7 +22,7 @@ export default function VanligaFragor() {
       <ModalBar variant="back" fallback="/installningar" />
       <ScrollView contentContainerStyle={styles.content}>
         <Text style={styles.header}>Vanliga frågor</Text>
-        <SettingSection title="Frågor & svar">
+        <SettingSection title="Frågor och svar">
           {FAQ.map((item, i) => (
             <FaqItem key={item.question} question={item.question} answer={item.answer} divider={i > 0} />
           ))}

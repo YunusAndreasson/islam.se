@@ -26,7 +26,8 @@ export function MapNav({ active, night }: { active: boolean; night: number }) {
       </View>
       <View style={[styles.right, { top }]} pointerEvents="box-none">
         <GlassRoundButton
-          night={night}
+          tint={c.surface}
+          rim={c.hairline}
           accessibilityLabel="Inställningar"
           onPress={() => router.navigate('/installningar')}
         >

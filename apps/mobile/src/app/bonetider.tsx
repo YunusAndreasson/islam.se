@@ -38,9 +38,11 @@ const SOUTH = 55.0;
 const EAST = 24.2;
 const NORTH = 69.2;
 const SWEDEN_BOUNDS: [number, number, number, number] = [WEST, SOUTH, EAST, NORTH];
-// Stop correcting once the visible region is within this much (degrees) of the
-// target — avoids endless micro-adjustments from Mercator latitude rounding.
-const EPSILON = 0.02;
+// We do not enforce lat/lon position bounds — the user is free to pan anywhere at any
+// zoom. The ONE thing that's locked is the zoom floor: you can never zoom out past the
+// initial Scandinavia framing. Everything else (pan, zoom-in) is free. (Earlier code
+// tried to position-snap into Sweden too, with a tight tolerance + cascading region
+// events that turned every gesture into a micro-fight — see onRegionDidChange.)
 const DAY_MS = 86_400_000;
 // Extra breathing room (dp) reserved above the dock, so the south coast sits
 // clearly above it rather than pressed against its top edge.
@@ -48,15 +50,6 @@ const DAY_MS = 86_400_000;
 // framed. Generous enough that Malmö's dot AND its label clear the card — a tighter
 // value left "Malmö" tucked under the dock's top edge.
 const DOCK_MARGIN = 64;
-
-// How far to shift one axis so the visible span [vMin, vMax] sits inside the
-// allowed span [min, max]. If the view is wider than the bound, centre on it.
-function axisShift(vMin: number, vMax: number, min: number, max: number) {
-  if (vMax - vMin >= max - min) return (min + max) / 2 - (vMin + vMax) / 2;
-  if (vMin < min) return min - vMin;
-  if (vMax > max) return max - vMax;
-  return 0;
-}
 
 // Only the fields that change the computed times — the grid is rebuilt when this
 // signature changes, not on cosmetic settings (time format, Hijri offset).
@@ -237,7 +230,7 @@ export default function Bonetider() {
 
   const onRegionDidChange = useCallback(
     (e: NativeSyntheticEvent<ViewStateChangeEvent>) => {
-      const { center, zoom, bounds } = e.nativeEvent;
+      const { center, zoom } = e.nativeEvent;
       // Settle the camera for the overlays. Skip the pre-fit world-zoom default (~0.6).
       if (zoom > 1) {
         publishCamera({ lon: center[0], lat: center[1], zoom, width: screenW, height: screenH });
@@ -248,27 +241,17 @@ export default function Bonetider() {
         if (zoom > 1) floorZoom.current = zoom;
         return;
       }
-      const [west, south, east, north] = bounds;
-      const dx = axisShift(west, east, WEST, EAST);
-      // Keep Sweden framed *above* the collapsed dock: when zoomed out enough to
-      // see the whole country, hold a southern margin equal to the dock's share
-      // of the screen so the south coast (Malmö) clears it. When zoomed in, just
-      // keep the view inside the country.
-      const span = north - south;
-      const dy =
-        span >= NORTH - SOUTH
-          ? SOUTH - span * ((collapsedDock + DOCK_MARGIN) / screenH) - south
-          : axisShift(south, north, SOUTH, NORTH);
-      const targetZoom = Math.max(zoom, floorZoom.current);
-      if (Math.abs(dx) > EPSILON || Math.abs(dy) > EPSILON || targetZoom - zoom > 0.001) {
+      // Zoom floor is the ONLY hard constraint: never let the user zoom out past the
+      // framing zoom. Position is left alone — the user can pan wherever they want.
+      if (zoom < floorZoom.current - 0.001) {
         cameraRef.current?.easeTo({
-          center: [center[0] + dx, center[1] + dy],
-          zoom: targetZoom,
+          center: [center[0], center[1]],
+          zoom: floorZoom.current,
           duration: 200,
         });
       }
     },
-    [collapsedDock, publishCamera, screenH, screenW],
+    [publishCamera, screenH, screenW],
   );
 
   return (

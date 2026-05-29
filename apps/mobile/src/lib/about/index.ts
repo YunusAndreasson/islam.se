@@ -27,12 +27,12 @@ export const FAQ: readonly { question: string; answer: string }[] = [
   {
     question: 'Hur räknas bönetiderna ut?',
     answer:
-      'Tiderna beräknas med det öppna biblioteket adhan, som bygger på vedertagna astronomiska metoder. islam.se har inget eget uträkningssystem utan använder dessa etablerade metoder. Du väljer själv beräkningsmetod (Muslim World League är standard), madhhab och hur höga breddgrader hanteras under Inställningar.',
+      'Tiderna beräknas med det öppna biblioteket adhan, som bygger på vedertagna astronomiska metoder. islam.se har inget eget uträkningssystem utan använder dessa etablerade metoder. Du väljer själv beräkningsmetod (Muslim World League är standard i Sverige), madhhab och hur höga breddgrader hanteras under Inställningar.',
   },
   {
     question: 'Stämmer det islamiska datumet?',
     answer:
-      'Datumet följer den aritmetiska Hijri-kalendern, som räknas ut i förväg och alltid ger ett bestämt datum. Det kan därför skilja en dag från officiella besked. Stämmer det inte med din lokala kalender kan du justera det med Hijri-justeringen under Inställningar.',
+      'Datumet följer den aritmetiska Hijri-kalendern, som räknas ut i förväg och alltid ger ett bestämt datum. Det kan därför avvika en dag från officiella besked. Stämmer det inte med din lokala kalender kan du justera det med Hijri-justeringen under Inställningar.',
   },
   {
     question: 'När börjar ramadan och de stora högtiderna?',
@@ -47,10 +47,10 @@ export const FAQ: readonly { question: string; answer: string }[] = [
   {
     question: 'Använder appen min plats?',
     answer:
-      'Platsen används bara i din enhet för att räkna ut bönetider och qibla. Appen har inga konton och samlar inte in någon uppgift om dig. Du kan också ange en plats för hand under Inställningar.',
+      'Platsen används bara i din enhet för att räkna ut bönetider och qibla. Appen har inga konton och samlar inte in några uppgifter om dig. Du kan också ange en plats för hand under Inställningar.',
   },
   {
-    question: 'Var kommer kartan ifrån?',
+    question: 'Varifrån kommer kartan?',
     answer:
       'Kartan visas med MapLibre. Kartdatan kommer från OpenFreeMap, OpenMapTiles och OpenStreetMap-bidragsgivare.',
   },

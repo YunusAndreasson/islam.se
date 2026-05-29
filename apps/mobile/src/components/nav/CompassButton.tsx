@@ -31,7 +31,12 @@ export function CompassButton({ active, night }: { active: boolean; night: numbe
   }));
 
   return (
-    <GlassRoundButton night={night} accessibilityLabel="Qibla" onPress={() => router.navigate('/qibla')}>
+    <GlassRoundButton
+      tint={c.surface}
+      rim={c.hairline}
+      accessibilityLabel="Qibla"
+      onPress={() => router.navigate('/qibla')}
+    >
       {heading == null ? (
         // Static fallback (emulator / no sensor / permission not yet granted): a light
         // OUTLINE compass — the filled `explore` glyph read as a heavy black disc next to

@@ -20,7 +20,7 @@
 // dock can read bright over a night (post-Isha) map when the phone is in light mode. An
 // earlier sun-driven dock was tried and rejected (it made the chrome "look different per
 // screen"). The map CANVAS (wash, pills, markers) is the sun-driven layer (see nightChrome).
-import { MaterialIcons } from '@expo/vector-icons';
+import { MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
@@ -36,7 +36,13 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { hapticLight, hapticSelection } from '../../lib/haptics';
 import { formatGregorian, formatHijri } from '../../lib/hijri';
-import { formatTime, PRAYER_LABELS, PRAYER_ORDER, type PrayerKey } from '../../lib/prayer-times';
+import {
+  formatTime,
+  PRAYER_ICONS,
+  PRAYER_LABELS,
+  PRAYER_ORDER,
+  type PrayerKey,
+} from '../../lib/prayer-times';
 import type { PrayerSettings } from '../../lib/settings/types';
 import { PRAYER_COLORS } from '../../lib/solar/palette';
 import type { SolarClock } from '../../lib/solar/useSolarClock';
@@ -260,12 +266,16 @@ export function PrayerDock({
       pointerEvents="box-none"
     >
       <View style={styles.clip}>
-        {/* borderWidth:0 suppresses GlassSurface's own (square, fixed-bright) fallback
-            rim — the dock's rim is the night-themed one on the rounded `clip` above. */}
+        {/* Pass borderRadius onto GlassSurface so the native Liquid Glass layer (iOS) clips
+            its own corners — UIVisualEffectView does NOT honour ancestor `overflow: hidden`
+            reliably, which is why the dock's corners were jagged on iOS. The tint locks the
+            surface colour to the chrome's c.surface so it doesn't drift with what the OS
+            sampled under the glass (the same wash drift that made cog ≠ compass at dawn). */}
         <GlassSurface
-          style={[StyleSheet.absoluteFill, styles.glassFill]}
+          style={StyleSheet.absoluteFill}
+          borderRadius={22}
           interactive
-          fallbackColor={c.surface}
+          tint={c.surface}
         />
 
         {/* The card floats above the gesture bar (see DOCK_FLOAT), so the content only
@@ -454,7 +464,16 @@ function ScheduleRow({
         accessibilityRole="button"
         accessibilityLabel={`${PRAYER_LABELS[prayerKey]} ${valid ? formatTime(date) : 'okänd'}`}
       >
-        <View style={[styles.listDot, { backgroundColor: PRAYER_COLORS[prayerKey] }]} />
+        {/* Sun-cycle glyph tinted in the prayer's solar colour — replaces the
+            old 8x8 colour dot. Carries both meanings at once: shape says
+            "where in the day" (dawn / noon / sunset / night), colour preserves
+            the existing link with the map pills (PRAYER_COLORS). */}
+        <MaterialCommunityIcons
+          name={PRAYER_ICONS[prayerKey]}
+          size={18}
+          color={PRAYER_COLORS[prayerKey]}
+          style={styles.listIcon}
+        />
         <Text style={[styles.listLabel, isNext && styles.nextEmphasis]}>{PRAYER_LABELS[prayerKey]}</Text>
         <Text style={[styles.listTime, isNext && styles.nextEmphasis]}>
           {valid ? formatTime(date) : '—'}
@@ -577,34 +596,42 @@ function SolarTimeline({
               then takes over. Without it the fill flashes empty — same mount glitch the
               thumb's plain `left` below fixes. */}
           <Animated.View style={[styles.trackFill, { width: fraction * trackW }, fillStyle]} />
-          {/* Prayer landmarks sit on the axis. Each colour-coded dot rides in a glass
-              halo so it stays a clear figure even over the filled (elapsed) portion of
-              the track; the next prayer gets a brass ring + extra size and is drawn last
-              (zIndex) so a summer cluster can't occlude it, and the thumb (zIndex above
-              all) reads cleanly when it passes over. */}
+          {/* Prayer landmarks sit on the axis. Plain coloured dots for every prayer —
+              the halo ring is RESERVED for the next prayer alone, so it actually says
+              "this one is coming up" instead of one ring blending into a row of rings.
+              The next prayer's brass halo is drawn last (zIndex) so a summer cluster
+              can't occlude it, and the thumb (zIndex above all) reads cleanly when it
+              passes over. */}
           {trackW > 0 &&
             marks.map((m) => {
               const isNext = nextKey === m.key;
               const isPast = m.fraction <= fraction;
+              if (isNext) {
+                return (
+                  <View
+                    key={m.key}
+                    pointerEvents="none"
+                    style={[styles.markHaloNext, { left: m.fraction * trackW - 8 }]}
+                  >
+                    <View style={[styles.mark, styles.markNext, { backgroundColor: PRAYER_COLORS[m.key] }]} />
+                  </View>
+                );
+              }
               return (
                 <View
                   key={m.key}
                   pointerEvents="none"
                   style={[
-                    styles.markHalo,
-                    isNext && styles.markHaloNext,
-                    { left: m.fraction * trackW - (isNext ? 8 : 7) },
+                    styles.mark,
+                    isPast && styles.markPast,
+                    {
+                      position: 'absolute',
+                      bottom: 11,
+                      left: m.fraction * trackW - 3.5,
+                      backgroundColor: PRAYER_COLORS[m.key],
+                    },
                   ]}
-                >
-                  <View
-                    style={[
-                      styles.mark,
-                      isPast && styles.markPast,
-                      isNext && styles.markNext,
-                      { backgroundColor: PRAYER_COLORS[m.key] },
-                    ]}
-                  />
-                </View>
+                />
               );
             })}
           {/* Plain-style `left` first so a freshly-mounted thumb is already at the
@@ -654,7 +681,6 @@ function makeStyles(c: NightChrome) {
       borderWidth: StyleSheet.hairlineWidth,
       borderColor: c.hairline,
     },
-    glassFill: { borderWidth: 0 },
     // paddingTop clears the grab-handle zone (handleHit is 34 tall) plus a gap, so
     // the topmost content (the date header / hero) never sits cramped under the handle.
     content: { flex: 1, justifyContent: 'flex-end', paddingHorizontal: 16, paddingTop: 36 },
@@ -671,7 +697,9 @@ function makeStyles(c: NightChrome) {
       paddingVertical: 7,
     },
     listRowPressed: { opacity: 0.55 },
-    listDot: { width: 8, height: 8, borderRadius: 4 },
+    // Same 18px width the old listDot occupied (8 + 10 gap) is now the icon's
+    // intrinsic size; rely on the row's `gap: 10` for spacing.
+    listIcon: { width: 18, textAlign: 'center' },
     listLabel: { flex: 1, fontSize: 15, color: c.ink },
     listTime: { fontSize: 15, color: c.ink, fontVariant: ['tabular-nums'] },
     // The next prayer = brass everywhere (here, the countdown, the map pill), so
