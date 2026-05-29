@@ -93,6 +93,10 @@ export default function Bonetider() {
   // project on the UI thread). We update camState from the region events and mirror it
   // into cam in an effect — the lint-approved way to write a shared value (mutating one
   // inside a plain JS callback trips react-hooks/immutability).
+  // Camera state is seeded with the window dims so the first paint isn't blank, and the
+  // Map's onLayout below replaces width/height with the actual rendered viewport so the
+  // Skia overlay's projection matches the basemap (on iOS the Stack screen content area
+  // can be smaller than the window — see the onLayout for why this matters).
   const cam = useSharedValue<MapCamera>({ lon: 17.4, lat: 62.1, zoom: 4, width: screenW, height: screenH });
   const [camState, setCamState] = useState<MapCamera>({
     lon: 17.4,
@@ -222,10 +226,10 @@ export default function Bonetider() {
     (e: NativeSyntheticEvent<ViewStateChangeEvent>) => {
       const { center, zoom } = e.nativeEvent;
       if (zoom > 1) {
-        publishCamera({ lon: center[0], lat: center[1], zoom, width: screenW, height: screenH });
+        publishCamera({ lon: center[0], lat: center[1], zoom, width: camState.width, height: camState.height });
       }
     },
-    [publishCamera, screenW, screenH],
+    [publishCamera, camState.width, camState.height],
   );
 
   const onRegionDidChange = useCallback(
@@ -233,7 +237,7 @@ export default function Bonetider() {
       const { center, zoom } = e.nativeEvent;
       // Settle the camera for the overlays. Skip the pre-fit world-zoom default (~0.6).
       if (zoom > 1) {
-        publishCamera({ lon: center[0], lat: center[1], zoom, width: screenW, height: screenH });
+        publishCamera({ lon: center[0], lat: center[1], zoom, width: camState.width, height: camState.height });
       }
       // Wait for the initial bounds-fit before enforcing — the map emits a
       // pre-fit default at world zoom (~0.6) we must not act on.
@@ -251,11 +255,24 @@ export default function Bonetider() {
         });
       }
     },
-    [publishCamera, screenH, screenW],
+    [publishCamera, camState.width, camState.height],
   );
 
   return (
-    <View style={styles.container}>
+    <View
+      style={styles.container}
+      // Capture the Map's true rendered viewport so the Skia overlay's projection
+      // matches the basemap. On iOS the window dims (useWindowDimensions) can be
+      // bigger than the Stack screen's content area — projecting against the wrong
+      // viewport size shifts every Skia point off the map.
+      onLayout={(e) => {
+        const { width, height } = e.nativeEvent.layout;
+        if (width <= 0 || height <= 0) return;
+        setCamState((prev) =>
+          prev.width === width && prev.height === height ? prev : { ...prev, width, height },
+        );
+      }}
+    >
       <Map
         testID="sweden-map"
         style={StyleSheet.absoluteFill}
