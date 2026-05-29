@@ -86,6 +86,20 @@ interface BasemapPalette {
   ROAD_MINOR: string;
   /** Railway — a hairline, mostly visible only at city zoom. */
   RAIL: string;
+  /** Glaciers and permanent ice (Kebnekaise + the small high-mountain glaciers in
+      the Scandes). A very pale, almost-white fill in light mode; a faint icy
+      navy in dark mode. Fills the visual void up north where there are no
+      towns. */
+  GLACIER: string;
+  /** Wetlands — Lapland myrar, Norrbotten and Västerbotten coastal marshes. A
+      cool blue-grey wash that reads as "neither land nor water". A LOT of the
+      sparse north is wetland; without this the mountains and forests floated
+      on bare land. */
+  WETLAND: string;
+  /** Mountain peak ink — the small triangle marker and its name+elevation
+      label up in the Scandes. Same family as PLACE_INK but a notch firmer so
+      a peak doesn't read as a town. */
+  PEAK: string;
   /** Relief raster opacity stops (zoom 3 / 6 / 9 / 12) — the mountains hint without
       muddying. Duller in dark mode where any extra ink reads as noise; with the
       MapTiler upgrade the stops carry shading all the way to city zoom. */
@@ -109,7 +123,19 @@ const LIGHT: BasemapPalette = {
   ROAD_MAJOR: 'rgba(40,33,22,0.45)',
   ROAD_MINOR: 'rgba(40,33,22,0.28)',
   RAIL: 'rgba(40,33,22,0.30)',
-  reliefStops: USE_MAPTILER ? [0.32, 0.30, 0.20, 0.10] : [0.32, 0.26, 0.08, 0],
+  // Glacier: a near-paper pale icy white. Sits on top of the relief raster so the
+  // mountain texture still shows through faintly.
+  GLACIER: 'rgba(225,233,240,0.78)',
+  // Wetland: cool blue-grey, slightly cooler than the warm parchment LAND. Subtle
+  // pattern would be ideal but a flat low-opacity wash reads honestly enough at
+  // these zooms.
+  WETLAND: 'rgba(150,170,180,0.20)',
+  // Peak ink: a touch deeper than PLACE_INK so triangles + names don't drown in
+  // the relief shading.
+  PEAK: lightPalette.ink,
+  // Bumped country-zoom shading (z6) from 0.30 → 0.40 so the Scandes range reads
+  // as a real mountain spine rather than a flat strip — the user's main complaint.
+  reliefStops: USE_MAPTILER ? [0.42, 0.40, 0.24, 0.12] : [0.42, 0.36, 0.10, 0],
 };
 
 // Dark basemap — Apple Maps-inspired cool deep navy. The hierarchy INVERTS from
@@ -133,7 +159,14 @@ const DARK: BasemapPalette = {
   ROAD_MAJOR: 'rgba(220,228,255,0.38)',
   ROAD_MINOR: 'rgba(220,228,255,0.22)',
   RAIL: 'rgba(220,228,255,0.24)',
-  reliefStops: USE_MAPTILER ? [0.18, 0.18, 0.12, 0.06] : [0.18, 0.14, 0.04, 0],
+  // Glacier: a soft icy navy — visible enough to mark the high-mountain ice in
+  // Lapland without spotlighting against the calm dark map.
+  GLACIER: 'rgba(225,232,255,0.16)',
+  // Wetland: cool muted, a touch lighter than LAND so myrar read as patches.
+  WETLAND: 'rgba(130,150,180,0.14)',
+  // Peak ink: warm pale ink so the small triangles read on the night map.
+  PEAK: darkPalette.ink,
+  reliefStops: USE_MAPTILER ? [0.26, 0.26, 0.16, 0.08] : [0.26, 0.20, 0.05, 0],
 };
 
 function buildStyle(c: BasemapPalette, name: string): StyleSpecification {
@@ -188,6 +221,28 @@ function buildStyle(c: BasemapPalette, name: string): StyleSpecification {
         'source-layer': 'landcover',
         filter: ['==', ['get', 'class'], 'wood'],
         paint: { 'fill-color': c.FOREST, 'fill-antialias': false },
+      },
+      // Wetlands — Lapland's myrar, the Norrbotten/Västerbotten coastal marshes,
+      // the Vänern/Vättern lowlands. Without this the sparse north reads as bare
+      // land; with it the country picks up the texture it actually has.
+      {
+        id: 'wetland',
+        type: 'fill',
+        source: 'openmaptiles',
+        'source-layer': 'landcover',
+        filter: ['in', ['get', 'class'], ['literal', ['wetland']]],
+        paint: { 'fill-color': c.WETLAND, 'fill-antialias': false },
+      },
+      // Glaciers + permanent ice — Kebnekaise and the smaller high-mountain
+      // glaciers along the Scandes. Pale icy fills that fill the high-north
+      // visual void where towns are absent.
+      {
+        id: 'glacier',
+        type: 'fill',
+        source: 'openmaptiles',
+        'source-layer': 'landcover',
+        filter: ['in', ['get', 'class'], ['literal', ['ice', 'glacier']]],
+        paint: { 'fill-color': c.GLACIER, 'fill-antialias': true },
       },
       {
         id: 'park',
@@ -376,9 +431,53 @@ function buildStyle(c: BasemapPalette, name: string): StyleSpecification {
         },
       },
 
-      // City markers + labels for the BIG places (Stockholm/Göteborg/Malmö + regional
-      // centres) are drawn as a React overlay (components/map/MapMarkersOverlay) ABOVE
-      // the Skia solar wash, so they stay legible on the night map and dim with it.
+      // Mountain peaks — Kebnekaise, Sarektjåkkå, Helagsfjället and the other named
+      // summits along the Scandes. Filtered by `rank` so only the biggest appear at
+      // country zoom (otherwise the high-mountain region went to symbol-soup); more
+      // peaks unlock as you zoom in. The label is name + elevation in metres, so a
+      // user can read the spine of the country instead of an empty Norrland.
+      //
+      // `text-field` joins the name and an elevation suffix. `ele` is the integer
+      // height in metres (OpenMapTiles schema). The optional MaterialIcons-style
+      // triangle isn't available without a sprite, so we use a Unicode glyph (▲)
+      // as a tiny ink mark in front of the name — keeps the layer sprite-free.
+      {
+        id: 'mountain_peak',
+        type: 'symbol',
+        source: 'openmaptiles',
+        'source-layer': 'mountain_peak',
+        minzoom: 5,
+        filter: [
+          'all',
+          ['==', ['geometry-type'], 'Point'],
+          ['<=', ['coalesce', ['get', 'rank'], 99],
+            ['interpolate', ['linear'], ['zoom'], 5, 1, 8, 4, 11, 10, 13, 99],
+          ],
+        ],
+        layout: {
+          'text-field': [
+            'format',
+            '▲  ', { 'font-scale': 0.7 },
+            ['coalesce', ['get', 'name:sv'], ['get', 'name:latin'], ['get', 'name'], ''], {},
+            ['case', ['has', 'ele'], ['concat', '\n', ['get', 'ele'], ' m'], ''],
+            { 'font-scale': 0.78, 'text-color': c.FAINT_INK },
+          ],
+          'text-font': ['Noto Sans Regular'],
+          'text-size': ['interpolate', ['linear'], ['zoom'], 5, 10, 9, 12, 13, 13],
+          'text-max-width': 8,
+          'text-anchor': 'left',
+          'text-offset': [0.4, 0],
+          'symbol-sort-key': ['coalesce', ['get', 'rank'], 99],
+        },
+        paint: {
+          'text-color': c.PEAK,
+          'text-halo-color': c.HALO,
+          'text-halo-width': 1.4,
+          // The triangle is the icon-equivalent here, kept opacity-modulated to
+          // recede at country zoom and lift in as you zoom into the mountains.
+          'text-opacity': ['interpolate', ['linear'], ['zoom'], 5, 0.7, 9, 0.95],
+        },
+      },
     ],
   } as unknown as StyleSpecification;
 }
