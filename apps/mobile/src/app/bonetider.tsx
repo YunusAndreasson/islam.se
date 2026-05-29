@@ -48,14 +48,14 @@ import { useActiveScheme, useColors } from '../theme/useColors';
 // which made the country read smaller than it had to. Bounds are still chosen so
 // that with the bottom dock-padding (DOCK_MARGIN), Malmö's south coast lands
 // CLEARLY above the dock — never tucked under it.
-//   • WEST  11.1 — Göteborg (11.97°) safe inside, just a hairline of Skagerrak left
-//   • SOUTH 55.30 — under Smygehuk (55.34°), Malmö (55.61°) sits with dock clearance
-//   • EAST  23.9 — past Stockholm's archipelago + the Finnish-border lakes
-//   • NORTH 69.05 — at Treriksröset (69.06°), the actual northern tip
-const WEST = 11.1;
-const SOUTH = 55.3;
-const EAST = 23.9;
-const NORTH = 69.05;
+//   • WEST  11.15 — at Strömstad (11.17°), Göteborg (11.97°) safe inside
+//   • SOUTH 55.35 — just at Smygehuk (55.34°), Malmö (55.61°) sits above the dock
+//   • EAST  23.7 — past Stockholm's archipelago + Haparanda's main coast
+//   • NORTH 69.00 — a hair below Treriksröset (69.06°), invisible at country zoom
+const WEST = 11.15;
+const SOUTH = 55.35;
+const EAST = 23.7;
+const NORTH = 69.0;
 const SWEDEN_BOUNDS: [number, number, number, number] = [WEST, SOUTH, EAST, NORTH];
 
 // The lat/lon at the geometric centre of the visible viewport, derived from the
@@ -77,11 +77,10 @@ function viewportCentreFromBounds(
 }
 const DAY_MS = 86_400_000;
 // Extra breathing room (dp) reserved above the dock, so the south coast sits
-// clearly above it rather than pressed against its top edge. Now that the curated
-// CITY_POINTS overlay is gone (basemap labels do the city naming), this only
-// needs to clear the tile-rendered Malmö label — 24dp is the minimum that keeps
-// "Malmö" readable above the dock's top edge.
-const DOCK_MARGIN = 24;
+// clearly above it rather than pressed against its top edge. Only needs to clear
+// the tile-rendered Malmö label now — 16dp is the floor that still leaves the
+// halo readable above the dock's top edge.
+const DOCK_MARGIN = 16;
 
 // Only the fields that change the computed times — the grid is rebuilt when this
 // signature changes, not on cosmetic settings (time format, Hijri offset).
