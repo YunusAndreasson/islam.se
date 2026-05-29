@@ -43,10 +43,19 @@ import { useSolarClock } from '../lib/solar/useSolarClock';
 import { useActiveScheme, useColors } from '../theme/useColors';
 
 // Sweden bounding box, flat [west, south, east, north] (MapLibre GL JS style).
-const WEST = 10.6;
-const SOUTH = 55.0;
-const EAST = 24.2;
-const NORTH = 69.2;
+// Tightened 2026-05-29 so the initial framing zooms in a notch — the previous
+// box was generous around every edge (Norway/Denmark/Finland sea on three sides),
+// which made the country read smaller than it had to. Bounds are still chosen so
+// that with the bottom dock-padding (DOCK_MARGIN), Malmö's south coast lands
+// CLEARLY above the dock — never tucked under it.
+//   • WEST  11.0 — leaves a thin strip of Norway/Skagerrak; Göteborg (11.97°) safe inside
+//   • SOUTH 55.25 — just below Smygehuk (55.34°), south of Malmö (55.61°)
+//   • EAST  24.0 — past Stockholm's archipelago + the Finnish-border lakes
+//   • NORTH 69.10 — just above Treriksröset (69.06°)
+const WEST = 11.0;
+const SOUTH = 55.25;
+const EAST = 24.0;
+const NORTH = 69.1;
 const SWEDEN_BOUNDS: [number, number, number, number] = [WEST, SOUTH, EAST, NORTH];
 
 // The lat/lon at the geometric centre of the visible viewport, derived from the
@@ -68,11 +77,11 @@ function viewportCentreFromBounds(
 }
 const DAY_MS = 86_400_000;
 // Extra breathing room (dp) reserved above the dock, so the south coast sits
-// clearly above it rather than pressed against its top edge.
-// Clearance between the south coast and the dock's top edge when the whole country is
-// framed. Generous enough that Malmö's dot AND its label clear the card — a tighter
-// value left "Malmö" tucked under the dock's top edge.
-const DOCK_MARGIN = 64;
+// clearly above it rather than pressed against its top edge. Now that the curated
+// CITY_POINTS overlay is gone (basemap labels do the city naming), the margin
+// only needs to clear the tile-rendered Malmö label — 40dp is the minimum that
+// keeps it readable; less and the name nicks the dock's top edge.
+const DOCK_MARGIN = 40;
 
 // Only the fields that change the computed times — the grid is rebuilt when this
 // signature changes, not on cosmetic settings (time format, Hijri offset).
@@ -328,7 +337,7 @@ export default function Bonetider() {
             bounds: SWEDEN_BOUNDS,
             // Reserve the collapsed dock's height (+ margin) at the bottom so the
             // south coast is framed clearly above it from the very first render.
-            padding: { top: 24, right: 24, bottom: collapsedDock + DOCK_MARGIN, left: 24 },
+            padding: { top: 12, right: 8, bottom: collapsedDock + DOCK_MARGIN, left: 8 },
           }}
         />
       </Map>
@@ -391,7 +400,7 @@ export default function Bonetider() {
             onPress={() => {
               hapticLight();
               cameraRef.current?.fitBounds(SWEDEN_BOUNDS, {
-                padding: { top: 24, right: 24, bottom: collapsedDock + DOCK_MARGIN, left: 24 },
+                padding: { top: 12, right: 8, bottom: collapsedDock + DOCK_MARGIN, left: 8 },
                 duration: 350,
               });
               setMoved(false);
