@@ -1,22 +1,26 @@
 // A custom MapLibre style for the Bönetider map — the single biggest lever on the
-// app's "Nordic beauty". The stock OpenFreeMap Positron style is built for general
-// wayfinding: it carries roads, railways, buildings, foreign-language sea names
-// (a Cyrillic "Балтийское море" over the Baltic) and a busy gray palette — all
-// noise under our solar wash, whose whole job is to read clearly over a calm map.
+// app's "Nordic beauty". The Nordic look comes from the COLOUR palette and the
+// halo/font choices, not from minimalism: roads, transit and small towns are
+// fine to show as long as they're tinted into the same warm-paper / cool-navy
+// world (Don Norman / Apple Maps cartography: information you'd actually want
+// while orienting, just calmed).
 //
-// This style keeps Positron's data (OpenFreeMap's planet vector tiles + a low-zoom
-// Natural Earth shaded-relief raster) and glyphs, but redraws it as quiet Nordic
-// cartography with enough relief and structure to stop reading flat:
-//   • a desaturated shaded-relief base, so the Scandinavian mountains and the
-//     Norrland fells give the land real topographic depth (faded out as you zoom
-//     in, where it would only blur);
-//   • pale land, a soft but present Nordic-blue water (coast + the great lakes),
-//     a faint forest tint (the country is mostly wood) and a barely-there urban
-//     warmth around the cities — nothing else; NO roads / rail / buildings / POIs;
-//   • markers for the cities (the capital larger), names resolved Swedish-first
-//     (name:sv → name:latin → name) so the sea is "Östersjön", never Cyrillic;
-//   • a cool palette tuned to the app's night-indigo accent, so the chrome floating
-//     over it (the glass dock, the menu) reads as one piece with the map.
+// Two tile backends, picked at runtime by whether a MapTiler key is set:
+//
+//  • DEFAULT (no key): OpenFreeMap planet vector tiles + a low-zoom Natural Earth
+//    shaded-relief raster (max zoom 6). Free, no signup, but the hillshade fades
+//    out by mid-zoom because there's no data above z6.
+//  • UPGRADED (EXPO_PUBLIC_MAPTILER_KEY set): MapTiler's OpenMapTiles vector
+//    source (same schema, so every existing layer below keeps working unchanged)
+//    + MapTiler's `hillshade` raster tileset (zoom 0–12), so the Scandinavian
+//    relief carries all the way to city zoom instead of dissolving at z9.
+//    Free tier covers ~100k tile requests/month.
+//
+// Either way the cartographic look is the same: a desaturated shaded-relief
+// base, pale land + soft Nordic-blue water + a whisper of forest/urban tint,
+// the road network drawn in ink-muted hairlines so you can read major routes
+// without the map shouting, and Swedish-first labels (name:sv → name:latin →
+// name) so the sea is always "Östersjön" — never Cyrillic.
 //
 // Apple Maps-inspired light/dark: two variants of this style, picked by
 // `useColorScheme()` in `bonetider.tsx`. The dark basemap is a cool deep navy
@@ -29,9 +33,26 @@ import type { ColorSchemeName } from 'react-native';
 
 import { darkPalette, lightPalette } from '../../theme/tokens';
 
-const PLANET = 'https://tiles.openfreemap.org/planet';
-const RELIEF = 'https://tiles.openfreemap.org/natural_earth/ne2sr/{z}/{x}/{y}.png';
-const GLYPHS = 'https://tiles.openfreemap.org/fonts/{fontstack}/{range}.pbf';
+// EXPO_PUBLIC_* env vars are inlined into the JS bundle at build/OTA time, so this
+// resolves once at module load. Empty/undefined => OpenFreeMap fallback (no key
+// required); any non-empty value => MapTiler.
+const MAPTILER_KEY = (process.env.EXPO_PUBLIC_MAPTILER_KEY ?? '').trim();
+const USE_MAPTILER = MAPTILER_KEY.length > 0;
+
+const PLANET = USE_MAPTILER
+  ? `https://api.maptiler.com/tiles/v3/tiles.json?key=${MAPTILER_KEY}`
+  : 'https://tiles.openfreemap.org/planet';
+// Two raster sources: OpenFreeMap ships Natural Earth shaded relief only up to
+// zoom 6 (great for the country view, gone by city zoom); MapTiler's hillshade
+// tileset reaches z12 so the relief survives all the way in. The source maxzoom
+// is set accordingly below so MapLibre over-zooms appropriately.
+const RELIEF = USE_MAPTILER
+  ? `https://api.maptiler.com/tiles/hillshade/{z}/{x}/{y}.webp?key=${MAPTILER_KEY}`
+  : 'https://tiles.openfreemap.org/natural_earth/ne2sr/{z}/{x}/{y}.png';
+const RELIEF_MAXZOOM = USE_MAPTILER ? 12 : 6;
+const GLYPHS = USE_MAPTILER
+  ? `https://api.maptiler.com/fonts/{fontstack}/{range}.pbf?key=${MAPTILER_KEY}`
+  : 'https://tiles.openfreemap.org/fonts/{fontstack}/{range}.pbf';
 
 // Swedish-first label resolution. name:sv where the tiles carry it (most seas,
 // countries, large places), then a Latin transliteration, then the raw name —
@@ -51,14 +72,23 @@ interface BasemapPalette {
   URBAN: string;
   /** Country names (faint). */
   FAINT_INK: string;
+  /** Place labels (towns/villages from the tiles, not the curated city overlay). */
+  PLACE_INK: string;
   /** Sea/lake italic labels. */
   WATER_INK: string;
   /** Halo around label text, tuned to the ground tone. */
   HALO: string;
   /** Country borders — a dashed hairline. */
   BOUNDARY: string;
-  /** Relief raster opacity stops, zoom 3 / 6 / 7.5 / 9. The mountains hint without
-      muddying — duller in dark mode where any extra ink reads as noise. */
+  /** Major roads (motorway / trunk) — quiet inked ribbons over the land. */
+  ROAD_MAJOR: string;
+  /** Minor roads (primary / secondary) — faded one step from major. */
+  ROAD_MINOR: string;
+  /** Railway — a hairline, mostly visible only at city zoom. */
+  RAIL: string;
+  /** Relief raster opacity stops (zoom 3 / 6 / 9 / 12) — the mountains hint without
+      muddying. Duller in dark mode where any extra ink reads as noise; with the
+      MapTiler upgrade the stops carry shading all the way to city zoom. */
   reliefStops: [number, number, number, number];
 }
 
@@ -72,10 +102,14 @@ const LIGHT: BasemapPalette = {
   PARK: 'rgba(120,140,104,0.2)',
   URBAN: 'rgba(176,160,134,0.15)',
   FAINT_INK: lightPalette.inkFaint,
+  PLACE_INK: lightPalette.inkMuted,
   WATER_INK: '#7d8a93',
   HALO: 'rgba(250,247,240,0.92)',
   BOUNDARY: 'rgba(40,33,22,0.22)',
-  reliefStops: [0.32, 0.26, 0.08, 0],
+  ROAD_MAJOR: 'rgba(40,33,22,0.45)',
+  ROAD_MINOR: 'rgba(40,33,22,0.28)',
+  RAIL: 'rgba(40,33,22,0.30)',
+  reliefStops: USE_MAPTILER ? [0.32, 0.30, 0.20, 0.10] : [0.32, 0.26, 0.08, 0],
 };
 
 // Dark basemap — Apple Maps-inspired cool deep navy. The hierarchy INVERTS from
@@ -92,10 +126,14 @@ const DARK: BasemapPalette = {
   PARK: 'rgba(96,124,108,0.22)',
   URBAN: 'rgba(120,128,160,0.10)',
   FAINT_INK: darkPalette.inkFaint,
+  PLACE_INK: darkPalette.inkMuted,
   WATER_INK: '#7c8aa0',
   HALO: 'rgba(18,22,36,0.92)',
   BOUNDARY: 'rgba(220,228,255,0.14)',
-  reliefStops: [0.18, 0.14, 0.04, 0],
+  ROAD_MAJOR: 'rgba(220,228,255,0.38)',
+  ROAD_MINOR: 'rgba(220,228,255,0.22)',
+  RAIL: 'rgba(220,228,255,0.24)',
+  reliefStops: USE_MAPTILER ? [0.18, 0.18, 0.12, 0.06] : [0.18, 0.14, 0.04, 0],
 };
 
 function buildStyle(c: BasemapPalette, name: string): StyleSpecification {
@@ -105,15 +143,16 @@ function buildStyle(c: BasemapPalette, name: string): StyleSpecification {
     glyphs: GLYPHS,
     sources: {
       openmaptiles: { type: 'vector', url: PLANET },
-      relief: { type: 'raster', tiles: [RELIEF], tileSize: 256, maxzoom: 6 },
+      relief: { type: 'raster', tiles: [RELIEF], tileSize: 256, maxzoom: RELIEF_MAXZOOM },
     },
     layers: [
       // Land base.
       { id: 'background', type: 'background', paint: { 'background-color': c.LAND } },
 
       // Shaded relief, desaturated to a neutral hillshade so it adds topography, not
-      // Natural Earth's greens/browns. Strongest at country zoom (where the mountains
-      // read), gone by the time you're zoomed into a city (where it would just blur).
+      // Natural Earth's greens/browns. The OpenFreeMap source fades out by z9 because
+      // the data stops at z6; with the MapTiler upgrade the stops keep gentle shading
+      // all the way to city zoom (z12) where mountain valleys still read.
       {
         id: 'relief',
         type: 'raster',
@@ -125,8 +164,8 @@ function buildStyle(c: BasemapPalette, name: string): StyleSpecification {
             'interpolate', ['linear'], ['zoom'],
             3, c.reliefStops[0],
             6, c.reliefStops[1],
-            7.5, c.reliefStops[2],
-            9, c.reliefStops[3],
+            9, c.reliefStops[2],
+            12, c.reliefStops[3],
           ],
         },
       },
@@ -166,6 +205,63 @@ function buildStyle(c: BasemapPalette, name: string): StyleSpecification {
         'source-layer': 'water',
         filter: ['all', ['!=', ['get', 'brunnel'], 'tunnel']],
         paint: { 'fill-color': c.WATER, 'fill-antialias': true },
+      },
+
+      // --- Transportation: roads + rail, tinted into the Nordic palette. ----
+      //
+      // Order matters in MapLibre: later layers paint above earlier ones, so rail goes
+      // first (dashed background line), then minor roads, then majors on top — the road
+      // hierarchy reads as ribbons widening with importance, never with the rail
+      // crossing over a major route. All hairline-thin; the chrome (city dots, solar
+      // wash, prayer lines) stays the visual lead at every zoom.
+
+      // Railway — a quiet dashed hairline, visible mostly at city zoom and above.
+      {
+        id: 'rail',
+        type: 'line',
+        source: 'openmaptiles',
+        'source-layer': 'transportation',
+        minzoom: 9,
+        filter: ['==', ['get', 'class'], 'rail'],
+        layout: { 'line-cap': 'round', 'line-join': 'round' },
+        paint: {
+          'line-color': c.RAIL,
+          'line-dasharray': [2, 3],
+          'line-width': ['interpolate', ['linear'], ['zoom'], 9, 0.6, 14, 1.2],
+        },
+      },
+
+      // Minor road network — primary + secondary trunks within cities. Appears later
+      // than the motorway spine so it doesn't dominate the country view.
+      {
+        id: 'roads_minor',
+        type: 'line',
+        source: 'openmaptiles',
+        'source-layer': 'transportation',
+        minzoom: 8,
+        filter: ['in', ['get', 'class'], ['literal', ['primary', 'secondary', 'tertiary']]],
+        layout: { 'line-cap': 'round', 'line-join': 'round' },
+        paint: {
+          'line-color': c.ROAD_MINOR,
+          'line-width': ['interpolate', ['linear'], ['zoom'], 8, 0.4, 12, 0.9, 16, 1.6],
+        },
+      },
+
+      // Motorway / trunk — the E4, E6, E18 etc. The spine of Sweden's road network,
+      // visible from country zoom so a user can see "the road they're driving" right
+      // away. A touch wider than minor roads, and inked one notch stronger.
+      {
+        id: 'roads_major',
+        type: 'line',
+        source: 'openmaptiles',
+        'source-layer': 'transportation',
+        minzoom: 5,
+        filter: ['in', ['get', 'class'], ['literal', ['motorway', 'trunk']]],
+        layout: { 'line-cap': 'round', 'line-join': 'round' },
+        paint: {
+          'line-color': c.ROAD_MAJOR,
+          'line-width': ['interpolate', ['linear'], ['zoom'], 5, 0.5, 8, 1.0, 12, 1.8, 16, 2.6],
+        },
       },
 
       // Country borders — faint dashed hairlines, just enough to separate Sweden
@@ -228,8 +324,37 @@ function buildStyle(c: BasemapPalette, name: string): StyleSpecification {
         },
       },
 
-      // City markers + labels are drawn as a React overlay (components/map/MapMarkersOverlay)
-      // ABOVE the Skia solar wash, so they stay legible on the night map and dim with it.
+      // Smaller Swedish towns and villages from the tiles (the curated CITY_POINTS
+      // overlay covers the big ones; this fills in everything below — Trollhättan,
+      // Hudiksvall, the kommun centres — at city zoom so the map answers "what town
+      // is that?" without needing a search. minzoom 9 so the country view stays calm.
+      {
+        id: 'label_town',
+        type: 'symbol',
+        source: 'openmaptiles',
+        'source-layer': 'place',
+        filter: ['in', ['get', 'class'], ['literal', ['town', 'village']]],
+        minzoom: 9,
+        layout: {
+          'text-field': SV_LABEL,
+          'text-font': ['Noto Sans Regular'],
+          'text-size': ['interpolate', ['linear'], ['zoom'],
+            9, ['case', ['==', ['get', 'class'], 'town'], 11, 9],
+            14, ['case', ['==', ['get', 'class'], 'town'], 14, 11.5],
+          ],
+          'text-max-width': 8,
+          'symbol-sort-key': ['coalesce', ['get', 'rank'], 99],
+        },
+        paint: {
+          'text-color': c.PLACE_INK,
+          'text-halo-color': c.HALO,
+          'text-halo-width': 1.2,
+        },
+      },
+
+      // City markers + labels for the BIG places (Stockholm/Göteborg/Malmö + regional
+      // centres) are drawn as a React overlay (components/map/MapMarkersOverlay) ABOVE
+      // the Skia solar wash, so they stay legible on the night map and dim with it.
     ],
   } as unknown as StyleSpecification;
 }
@@ -240,7 +365,35 @@ export const NORDIC_LIGHT: StyleSpecification = buildStyle(LIGHT, 'Nordic Calm �
 /** Cool deep navy basemap (Apple Maps-inspired dark mode). */
 export const NORDIC_DARK: StyleSpecification = buildStyle(DARK, 'Nordic Calm — Dark');
 
-/** Pick a basemap for the current OS appearance. */
+/** Pick a basemap for the current OS appearance — Nordic style only. */
 export function nordicMapStyleFor(scheme: ColorSchemeName): StyleSpecification {
   return scheme === 'dark' ? NORDIC_DARK : NORDIC_LIGHT;
 }
+
+/** MapTiler stock-style URLs (returned as plain strings — MapLibre RN's `mapStyle`
+    prop accepts both a StyleSpecification and a URL). Each style.json carries its
+    own glyphs/sprites/sources/layers, so the basemap looks identical to MapTiler's
+    own renderer. Only available when a key is bundled — otherwise these fall back
+    to the Nordic style so the map is never blank. */
+const STREETS_URL = USE_MAPTILER
+  ? `https://api.maptiler.com/maps/streets-v2/style.json?key=${MAPTILER_KEY}`
+  : null;
+const SATELLITE_URL = USE_MAPTILER
+  ? `https://api.maptiler.com/maps/satellite/style.json?key=${MAPTILER_KEY}`
+  : null;
+
+/** Pick a basemap for the chosen `styleId` and current OS appearance. Falls back to
+    Nordic if a stock style is requested but no MapTiler key is bundled. */
+export function mapStyleFor(
+  styleId: 'nordic' | 'standard' | 'satellite',
+  scheme: ColorSchemeName,
+): StyleSpecification | string {
+  if (styleId === 'standard' && STREETS_URL) return STREETS_URL;
+  if (styleId === 'satellite' && SATELLITE_URL) return SATELLITE_URL;
+  return nordicMapStyleFor(scheme);
+}
+
+/** True if the build was bundled with a MapTiler key — drives the credits line in
+    Om appen and gates the Standard/Satellit choices in the Visning picker. */
+export const TILES_PROVIDER: 'maptiler' | 'openfreemap' = USE_MAPTILER ? 'maptiler' : 'openfreemap';
+export const HAS_MAPTILER = USE_MAPTILER;

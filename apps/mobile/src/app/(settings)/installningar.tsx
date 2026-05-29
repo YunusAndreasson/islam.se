@@ -40,6 +40,7 @@ import {
 } from '@/lib/prayer-times';
 import { useSettings } from '@/lib/settings/context';
 import {
+  MAP_STYLE_OPTIONS,
   methodLabel,
   ROUNDING_OPTIONS,
   THEME_OPTIONS,
@@ -347,6 +348,27 @@ export default function Installningar() {
               onChange={(theme) => update({ theme })}
             />
           </SubGroup>
+
+          {/* Karttyp — pick the Bönetider basemap. Nordic is the custom calm
+              cartography (the visual identity). Standard / Satellit appear only
+              when a MapTiler key is bundled — the picker hides them otherwise so
+              a tap doesn't silently fall back. The solar wash + city overlay
+              keep working on every style. Below the Utseende picker because
+              Utseende affects ALL screens; this only affects the map. */}
+          {MAP_STYLE_OPTIONS.length > 1 ? (
+            <SubGroup
+              styles={styles}
+              title="Karttyp"
+              footnote="Påverkar bara Bönetider-kartan. Solens drag visas på alla."
+              divider
+            >
+              <OptionGroup
+                options={MAP_STYLE_OPTIONS}
+                value={settings.mapStyle}
+                onChange={(mapStyle) => update({ mapStyle })}
+              />
+            </SubGroup>
+          ) : null}
         </DisclosureGroup>
 
         {/* --- Stöd: secondary cluster. Visually demoted with extra top air and
