@@ -7,6 +7,7 @@ import {
 import { useIsFocused } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { MaterialIcons } from '@expo/vector-icons';
 import {
   type NativeSyntheticEvent,
   Pressable,
@@ -17,6 +18,8 @@ import {
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useSharedValue } from 'react-native-reanimated';
+
+import { hapticLight } from '../lib/haptics';
 
 import {
   type DayMark,
@@ -357,6 +360,8 @@ export default function Bonetider() {
           userLabel={placeLabel}
           labels={solar.labels}
           nextKey={nextKey}
+          settings={settings}
+          nowMs={clock.now}
         />
       )}
 
@@ -377,13 +382,16 @@ export default function Bonetider() {
           sheet is up or the app is backgrounded. */}
       <MapNav active={isFocused} />
 
-      {/* "Visa hela Sverige" — appears only after the user has clearly panned/zoomed
-          off the initial framing. Tap to fitBounds back. Sits between the two nav
-          discs at the top centre so it never collides with them. */}
+      {/* "Återställ" — appears only after the user has clearly panned/zoomed off the
+          initial framing. Tap to fitBounds back to the whole country. Sits between the
+          two nav discs at the top centre so it never collides with them. A clear ring
+          (border) + icon + haptic so it reads unmistakably as a button, not a label —
+          the old wordmark style was too quiet to invite a tap. */}
       {moved && (
         <View style={[styles.resetWrap, { top: insets.top + 16 }]} pointerEvents="box-none">
           <Pressable
             onPress={() => {
+              hapticLight();
               cameraRef.current?.fitBounds(SWEDEN_BOUNDS, {
                 padding: { top: 24, right: 24, bottom: collapsedDock + DOCK_MARGIN, left: 24 },
                 duration: 350,
@@ -391,16 +399,17 @@ export default function Bonetider() {
               setMoved(false);
             }}
             accessibilityRole="button"
-            accessibilityLabel="Visa hela Sverige"
+            accessibilityLabel="Återställ kartan"
           >
             <GlassSurface
-              style={styles.resetChip}
+              style={[styles.resetChip, { borderColor: colors.accent }]}
               borderRadius={18}
               interactive
               tint={colors.cardGlass}
             >
+              <MaterialIcons name="center-focus-strong" size={16} color={colors.accent} />
               <Text style={[styles.resetText, { color: colors.ink }]}>
-                Visa hela Sverige
+                Återställ
               </Text>
             </GlassSurface>
           </Pressable>
@@ -423,7 +432,15 @@ const styles = StyleSheet.create({
   container: { flex: 1 },
   // Centred row that hosts the chip — top inset already accounted for by `top`.
   resetWrap: { position: 'absolute', left: 0, right: 0, alignItems: 'center' },
-  // Pill-shaped Liquid Glass chip — small enough not to dominate, big enough to read.
-  resetChip: { paddingHorizontal: 14, paddingVertical: 8 },
-  resetText: { fontSize: 13, fontWeight: '600', letterSpacing: 0.1 },
+  // Pill-shaped Liquid Glass chip with a clear accent ring + icon, so it reads as a
+  // button (a one-word label alone read as a banner the user wasn't sure was tappable).
+  resetChip: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+    paddingHorizontal: 14,
+    paddingVertical: 8,
+    borderWidth: 1.5,
+  },
+  resetText: { fontSize: 13, fontWeight: '700', letterSpacing: 0.2 },
 });

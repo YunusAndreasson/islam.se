@@ -49,6 +49,11 @@ export interface PlaceOptions {
       by this much in the overlap test, so labels keep their distance and dense clusters
       thin out rather than packing edge-to-edge. */
   padding?: number;
+  /** If set, a candidate wider than this is treated as wrapping to two lines:
+      its collision box clamps to `maxLabelWidth` and grows to ~2 lines of height.
+      Renderers should pair this with `numberOfLines={2}` so long names ("Helsingborg",
+      "Helsingfors") read on two lines instead of clipping to "Helsingfo…". */
+  maxLabelWidth?: number;
 }
 
 function overlaps(a: Box, b: Box): boolean {
@@ -76,6 +81,7 @@ export function placeCityLabels(
     charWidthFactor = 0.55,
     reserved,
     padding = 0,
+    maxLabelWidth,
   } = opts;
   // Stable, deterministic priority: lower rank wins; tie-break west→east then by name.
   const ordered = [...candidates].sort(
@@ -87,8 +93,12 @@ export function placeCityLabels(
   const boxes: Box[] = reserved ? [...reserved] : [];
   for (const cand of ordered) {
     const fontSize = fontSizeForRank(cand.rank);
-    const w = Math.max(1, cand.name.length) * fontSize * charWidthFactor;
-    const h = fontSize * 1.2;
+    const rawWidth = Math.max(1, cand.name.length) * fontSize * charWidthFactor;
+    // Wrap if the candidate is wider than maxLabelWidth: clamp the collision width
+    // to the box and grow the height to two lines so labels above/below stay clear.
+    const wraps = maxLabelWidth != null && rawWidth > maxLabelWidth;
+    const w = wraps ? maxLabelWidth : rawWidth;
+    const h = fontSize * (wraps ? 2.4 : 1.2);
     const left = cand.x - w / 2;
     const top = cand.y + dotGap;
     const box: Box = { left, top, right: left + w, bottom: top + h };

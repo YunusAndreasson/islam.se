@@ -14,7 +14,7 @@
 //      list-style card, visually demoted with extra top air).
 import { MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
 import { router, useIsFocused } from 'expo-router';
-import { type ReactNode, useEffect, useMemo, useState } from 'react';
+import { type ReactNode, useEffect, useMemo, useRef, useState } from 'react';
 import { ActivityIndicator, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -26,6 +26,7 @@ import { type SettingsColors, useSettingsColors } from '@/components/settings/th
 import { Toggle } from '@/components/settings/Toggle';
 import { ModalBar } from '@/components/ui/ModalBar';
 import { APP_VERSION, OTA_LABEL, emailSupport } from '@/lib/about';
+import { hapticLight, hapticSuccess } from '@/lib/haptics';
 import { formatGregorian, formatHijri } from '@/lib/hijri';
 import { useLocation } from '@/lib/location/context';
 import { NOTIFY_PRAYERS } from '@/lib/notifications';
@@ -67,6 +68,25 @@ export default function Installningar() {
     const id = setInterval(tick, 60_000);
     return () => clearInterval(id);
   }, [isFocused]);
+
+  // "Uppdatera position" confirmation — a brief "Uppdaterad ✓" flash after a TAP-initiated
+  // refresh resolves, so the user knows the action did something. Auto-acquires (mount /
+  // permission flip) do NOT trigger this — we'd be lying about user intent and firing a
+  // haptic on a fix the user never asked for. The flash window is short so it never
+  // lingers after a second tap.
+  const [justUpdated, setJustUpdated] = useState(false);
+  const justUpdatedTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  useEffect(() => () => {
+    if (justUpdatedTimer.current) clearTimeout(justUpdatedTimer.current);
+  }, []);
+  const onRefreshTap = async (): Promise<void> => {
+    hapticLight();
+    await refresh();
+    hapticSuccess();
+    if (justUpdatedTimer.current) clearTimeout(justUpdatedTimer.current);
+    setJustUpdated(true);
+    justUpdatedTimer.current = setTimeout(() => setJustUpdated(false), 1800);
+  };
 
   // Today's times for the resolved location. Recomputes whenever a setting, the
   // location, or the date rolls over — this is how the user sees a setting "land".
@@ -130,12 +150,32 @@ export default function Installningar() {
           {settings.locationMode === 'gps' ? (
             // "Uppdatera position" is an action — accent reads as a tappable verb
             // (matches the iOS-Settings "Tap to share" pattern), with the resolved
-            // place name muted on the right.
+            // place name muted on the right. After the GPS fix resolves we flash
+            // "Uppdaterad ✓" briefly so the user knows the tap landed: a fresh fix
+            // often returns the SAME tätort and the muted value on the right would
+            // look unchanged otherwise. Paired with a hapticSuccess in onRefreshTap.
             <Pressable
-              onPress={() => void refresh()}
+              onPress={() => void onRefreshTap()}
               style={({ pressed }) => [styles.row, pressed && styles.rowPressed]}
+              accessibilityRole="button"
+              accessibilityLabel={
+                locating
+                  ? 'Hämtar position'
+                  : justUpdated
+                    ? 'Position uppdaterad'
+                    : 'Uppdatera position'
+              }
             >
-              <Text style={styles.rowAction}>{locating ? 'Hämtar position…' : 'Uppdatera position'}</Text>
+              {justUpdated && !locating ? (
+                <View style={styles.rowActionConfirm}>
+                  <MaterialIcons name="check-circle" size={18} color={colors.accent} />
+                  <Text style={styles.rowAction}>Uppdaterad</Text>
+                </View>
+              ) : (
+                <Text style={styles.rowAction}>
+                  {locating ? 'Hämtar position…' : 'Uppdatera position'}
+                </Text>
+              )}
               <Text style={styles.rowValue}>{source === 'gps' ? label : '—'}</Text>
             </Pressable>
           ) : (
@@ -468,6 +508,9 @@ function makeStyles(colors: SettingsColors) {
     rowPressed: { backgroundColor: colors.accentSoft },
     rowLabel: { ...type.body, color: colors.text }, // labels: ink (not accent)
     rowAction: { ...type.body, color: colors.accent }, // verbs: accent
+    // The momentary "Uppdaterad ✓" confirmation slot — icon + accent text in the same
+    // optical position as the verb, so the swap reads as the verb's success state.
+    rowActionConfirm: { flexDirection: 'row', alignItems: 'center', gap: 6 },
     rowValue: { ...type.body, color: colors.textMuted },
     rowTrailing: { flexDirection: 'row', alignItems: 'center', gap: 2 },
 
