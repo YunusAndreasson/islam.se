@@ -8,13 +8,23 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { useLocation, LocationProvider } from '@/lib/location/context';
 import { syncPrayerNotifications } from '@/lib/notifications';
 import { SettingsProvider, useSettings } from '@/lib/settings/context';
-import { NightProvider } from '@/lib/solar/nightContext';
-import { useColors } from '@/theme/useColors';
+import { useActiveScheme, useColors } from '@/theme/useColors';
 
 // expo-router renders this as the app-wide crash boundary (it wraps the root
 // segment in <Try> when a route exports `ErrorBoundary`). Re-exported from the
 // themed screen so the fallback speaks the app's visual language.
 export { ErrorScreen as ErrorBoundary } from '@/components/ui/ErrorScreen';
+
+// Status-bar glyphs follow the APP's active scheme, not the OS. Mounted inside
+// the SettingsProvider so the user's Utseende override (Inställningar → Visning)
+// is honoured: locking the app to "Mörkt" while the phone is in light mode also
+// flips the status bar to light glyphs, so they read over the dark basemap. The
+// Bönetider screen mounts its own <StatusBar> on top — this is the fallback for
+// every other screen.
+function AppStatusBar() {
+  const scheme = useActiveScheme();
+  return <StatusBar style={scheme === 'dark' ? 'light' : 'dark'} animated />;
+}
 
 // Keeps the scheduled prayer notifications in step with the user's settings and
 // location, and refreshes them whenever the app returns to the foreground (so the
@@ -43,27 +53,25 @@ function NotificationSync() {
 // does not provide one). SettingsProvider hydrates persisted prayer settings;
 // LocationProvider (nested, since it reads settings) resolves the coordinate to compute for.
 export default function RootLayout() {
-  // Follows the OS appearance setting (theme/useColors): the Stack's anti-flash
-  // ground and the status bar both flip with light/dark. The map screen ignores this
-  // (it darkens by the sun), but its map fills the screen, so the ground only shows
-  // during transitions into the warm light/dark non-map screens.
+  // Apple Maps-style ONE OS theme axis: the Stack's anti-flash ground, the map
+  // basemap, the dock and the screens all flip with light/dark. The map screen
+  // fills the viewport, so the contentStyle ground only shows during transitions
+  // into the (also-themed) Settings / Qibla sheets.
   const c = useColors();
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <SafeAreaProvider>
         <SettingsProvider>
           <LocationProvider>
-            <NightProvider>
-              {/* Opaque paper ground so screen-to-screen transitions never flash the
-                  map through an incoming page. Qibla and the Settings group present as
-                  sheets over the map; everything else keeps the default card transition. */}
-              <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: c.paper } }}>
-                <Stack.Screen name="qibla" options={{ presentation: 'modal' }} />
-                <Stack.Screen name="(settings)" options={{ presentation: 'modal', headerShown: false }} />
-              </Stack>
-              <NotificationSync />
-              <StatusBar style="auto" />
-            </NightProvider>
+            {/* Opaque paper ground so screen-to-screen transitions never flash the
+                map through an incoming page. Qibla and the Settings group present as
+                sheets over the map; everything else keeps the default card transition. */}
+            <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: c.paper } }}>
+              <Stack.Screen name="qibla" options={{ presentation: 'modal' }} />
+              <Stack.Screen name="(settings)" options={{ presentation: 'modal', headerShown: false }} />
+            </Stack>
+            <NotificationSync />
+            <AppStatusBar />
           </LocationProvider>
         </SettingsProvider>
       </SafeAreaProvider>

@@ -1,10 +1,8 @@
-// The app's single design source of truth. Until now the visual language lived in
-// three scattered files (components/map/theme.ts, components/settings/theme.ts,
-// lib/solar/palette.ts) with ad-hoc spacing and no type scale. These tokens unify
-// it so every surface speaks one Nordic language: a calm cool-paper ground, a
-// single solar night-indigo accent, hairline structure, and a restrained type
-// scale. The two legacy theme files now re-export from here (back-compat), so
-// existing imports keep working while new code reaches for `@/theme`.
+// The app's single design source of truth. Every surface speaks one Nordic
+// language: a calm warm-paper / cool-navy ground (light / dark), a single solar
+// night-indigo accent, hairline structure, and a restrained type scale. Settings
+// screens consume these via `useSettingsColors()`; map and screens directly via
+// `useColors()`.
 import type { TextStyle, ViewStyle } from 'react-native';
 
 /** 4/8-based spacing scale — the only gaps/paddings the app should use. */
@@ -30,9 +28,11 @@ export const radius = {
 // Colour. Two palettes — light + dark — sharing one key set, so `useColors()`
 // (theme/useColors.ts) can hand a surface the active one and every component reads
 // the same names. The light palette is a WARM editorial parchment that makes the
-// app read as family with the islam.se website (warm off-white grounds, warm
-// charcoal ink), deliberately de-faint: deeper inks, stronger hairlines. The dark
-// palette is the website's warm dark world, not an inversion.
+// app read as family with the islam.se website. The dark palette is a COOL deep
+// navy: when the OS is dark the Bönetider basemap also goes deep navy (Apple
+// Maps-style), so the screens, sheets and modal backdrops share the basemap's
+// temperature — that's what makes the screen→map handoff coherent instead of a
+// warm-dark island sitting on a cool-dark map (or vice versa).
 //
 // Two accents, by design (the visual hierarchy):
 //   • `accent` — a deepened night-indigo. The workhorse interactive / structure /
@@ -84,6 +84,15 @@ export const lightPalette = {
   glass: 'rgba(255,253,248,0.85)',
   glassRim: 'rgba(255,255,255,0.55)',
 
+  // Map prayer-pill surface. Opaque on purpose: the pills float over the changing
+  // wash and basemap, so a translucent border composites unevenly behind the rounded
+  // caps and they read as ragged. Opaque fill + opaque border = uniform smooth edge.
+  // `pillNextBorder` is the brass ring around the next prayer — same brass the dock
+  // countdown carries, so "what's next" reads in one colour across dock and map.
+  pillSurface: '#fffdf8',
+  pillBorder: 'rgba(26,23,18,0.10)',
+  pillNextBorder: '#b8862f',
+
   shadow: '#1c150b', //       warm shadow (was cool #0b1220)
   white: '#ffffff',
 } as const;
@@ -91,23 +100,26 @@ export const lightPalette = {
 /** The shared shape both palettes satisfy — every surface reads these names. */
 export type Palette = { readonly [K in keyof typeof lightPalette]: string };
 
-// Warm dark — the website's dark family (warm near-black grounds, warm pale ink),
-// a brighter periwinkle indigo and brass so they hold their meaning on the dark
-// paper. NOT used for the map (the map darkens by the SUN, see nightChrome); this
-// themes the non-map screens + the menu when it's off the map.
+// Cool dark — paired with the new dark Bönetider basemap (Apple Maps-inspired
+// navy land). Grounds are a slightly blue-tinted deep navy so screens, sheets,
+// modal backdrops and the basemap LAND share temperature — the screen→map
+// handoff reads as one continuous world instead of a warm-dark island over a
+// cool-dark map. We keep the WARM pale ink: the warm-on-cool tension is the
+// app's visual signature, and the contrast is high. The 2026 May Prussian /
+// brass jewel-tones stay; accent matches solar isha for both modes.
 export const darkPalette: Palette = {
-  paper: '#181613',
-  paperSunken: '#110f0d',
-  surface: '#232019',
-  cardGlass: 'rgba(35,32,25,0.90)',
+  paper: '#161a26', //          cool deep navy ground (was warm #181613)
+  paperSunken: '#0f121b', //    deeper sunken navy
+  surface: '#1d2233', //        opaque cards — matches basemap LAND so cards over a dark map sit nearly invisibly raised
+  cardGlass: 'rgba(29,34,51,0.90)', // translucent card over the night map
 
-  ink: '#e8e3d8',
-  inkMuted: '#a89e8e',
-  inkFaint: '#7c7263',
+  ink: '#e8e3d8', //            warm pale ink (deliberate warm/cool tension)
+  inkMuted: '#a8acba', //       cool muted — neutral on navy
+  inkFaint: '#7a8094', //       cool faint label tier
 
-  border: '#322d24',
-  separator: '#2a261f',
-  hairline: 'rgba(245,240,230,0.12)',
+  border: '#2a3045',
+  separator: '#222840',
+  hairline: 'rgba(225,232,255,0.12)',
 
   // Dark accent mirrors the light token's Prussian shift (green-ward, not just dimmer),
   // so light↔dark sits on one hue axis. Soft tint kept unchanged (drift is invisible).
@@ -119,16 +131,24 @@ export const darkPalette: Palette = {
   // against the night map (≈5.5:1), so the next-prayer signal stays legible.
   highlight: '#c89a48',
   highlightSoft: 'rgba(200,154,72,0.16)',
-  onAccent: '#181613',
-  onHighlight: '#181613',
+  onAccent: '#161a26',
+  onHighlight: '#161a26',
 
-  track: 'rgba(245,240,230,0.16)',
+  track: 'rgba(225,232,255,0.16)',
   trackFill: 'rgba(148,162,221,0.45)',
   thumb: '#e8e3d8',
-  handle: 'rgba(245,240,230,0.32)',
+  handle: 'rgba(225,232,255,0.32)',
 
-  glass: 'rgba(35,32,25,0.85)',
-  glassRim: 'rgba(255,250,240,0.14)',
+  glass: 'rgba(29,34,51,0.85)',
+  glassRim: 'rgba(225,232,255,0.14)',
+
+  // Map prayer-pill surface (dark). A touch LIGHTER than `paper`/`surface` so pills lift
+  // off the night basemap as discrete elements; opaque so their rounded caps stay smooth
+  // over the changing wash. Pill border is a soft navy line; `pillNextBorder` is the
+  // muted dark brass — same hue as the dock's "next prayer" countdown.
+  pillSurface: '#222840',
+  pillBorder: '#4e5878',
+  pillNextBorder: '#c89a48',
 
   shadow: '#000000',
   white: '#ffffff',

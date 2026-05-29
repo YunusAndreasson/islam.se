@@ -7,7 +7,14 @@ import {
 import { useIsFocused } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { type NativeSyntheticEvent, StyleSheet, useWindowDimensions, View } from 'react-native';
+import {
+  type NativeSyntheticEvent,
+  Pressable,
+  StyleSheet,
+  Text,
+  useWindowDimensions,
+  View,
+} from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useSharedValue } from 'react-native-reanimated';
 
@@ -20,17 +27,17 @@ import {
 } from '../components/map/PrayerDock';
 import { MapMarkersOverlay } from '../components/map/MapMarkersOverlay';
 import { type PrayerLineData, SolarSkiaOverlay } from '../components/map/skia/SolarSkiaOverlay';
-import { mapTheme } from '../components/map/theme';
 import { MapNav } from '../components/nav/MapNav';
+import { GlassSurface } from '../components/ui/GlassSurface';
 import { useLocation } from '../lib/location/context';
-import type { Camera as MapCamera } from '../lib/map/projection';
-import { NORDIC_MAP_STYLE } from '../lib/map/nordicStyle';
-import { nightFactor } from '../lib/solar/night';
+import { type Camera as MapCamera, invMercY, mercY } from '../lib/map/projection';
+import { nordicMapStyleFor } from '../lib/map/nordicStyle';
 import { computePrayerTimes, PRAYER_ORDER, type PrayerKey } from '../lib/prayer-times';
 import { useSettings } from '../lib/settings/context';
 import type { PrayerSettings } from '../lib/settings/types';
 import { buildGrid, buildLines } from '../lib/solar/field';
 import { useSolarClock } from '../lib/solar/useSolarClock';
+import { useActiveScheme, useColors } from '../theme/useColors';
 
 // Sweden bounding box, flat [west, south, east, north] (MapLibre GL JS style).
 const WEST = 10.6;
@@ -38,18 +45,23 @@ const SOUTH = 55.0;
 const EAST = 24.2;
 const NORTH = 69.2;
 const SWEDEN_BOUNDS: [number, number, number, number] = [WEST, SOUTH, EAST, NORTH];
-// Map is locked to Sweden: zoom out never beyond the Scandinavia framing, AND the
-// view never pans off-country. EPSILON is generous (~0.5° ≈ 50 km) so projection
-// rounding alone never re-triggers a snap — only meaningful drift past the bounds.
-const EPSILON = 0.5;
 
-// Shift one axis so the visible span [vMin, vMax] sits inside [min, max]. If the
-// view is wider than the allowed span, centre the bound inside the view.
-function axisShift(vMin: number, vMax: number, min: number, max: number): number {
-  if (vMax - vMin >= max - min) return (min + max) / 2 - (vMin + vMax) / 2;
-  if (vMin < min) return min - vMin;
-  if (vMax > max) return max - vMax;
-  return 0;
+// The lat/lon at the geometric centre of the visible viewport, derived from the
+// reported bounds. We use this — NOT `event.nativeEvent.center` — because in
+// maplibre-react-native v11 (aligned with MapLibre GL JS) `center` is the camera's
+// TARGET, which is shifted by any active Camera padding (e.g. our initial fitBounds
+// reserves space at the bottom for the dock, so the reported `center` is ~135 px
+// north of the actual viewport centre). Our Skia + RN-marker projections both anchor
+// cam.lat/cam.lon at (width/2, height/2) — using the padded centre put every city
+// ~50 svenska mil south of where the basemap actually rendered it (the user's
+// report). Bounds are unpadded and unambiguous.
+function viewportCentreFromBounds(
+  west: number, south: number, east: number, north: number,
+): { lon: number; lat: number } {
+  return {
+    lon: (west + east) / 2,
+    lat: invMercY((mercY(north) + mercY(south)) / 2),
+  };
 }
 const DAY_MS = 86_400_000;
 // Extra breathing room (dp) reserved above the dock, so the south coast sits
@@ -74,10 +86,14 @@ function computeSignature(s: PrayerSettings): string {
 }
 
 export default function Bonetider() {
+  const scheme = useActiveScheme();
+  const colors = useColors();
   const cameraRef = useRef<CameraRef>(null);
-  // The zoom that frames Sweden, captured from the first settled fit so it
-  // adapts to the device. The user can't zoom out past it; zoom-in is free.
-  const floorZoom = useRef<number | undefined>(undefined);
+  // The initial framing — captured from the first settled region event after the
+  // fitBounds-on-mount. Used as the comparison anchor for "has the user moved the
+  // map?" (so the Reset chip appears when they have) and as the target the Reset
+  // button restores. The user is otherwise free to pan/zoom anywhere they like.
+  const initialFrame = useRef<{ lon: number; lat: number; zoom: number } | undefined>(undefined);
 
   const insets = useSafeAreaInsets();
   const { width: screenW, height: screenH } = useWindowDimensions();
@@ -114,13 +130,14 @@ export default function Bonetider() {
     height: screenH,
   });
   // Gate the overlay (Skia field + RN markers) until the FIRST settled region event
-  // lands — on iOS, the initial fitBounds (initialViewState) doesn't reliably emit a
-  // settle event before the basemap paints, so projecting against the seed (lat=62.1,
-  // zoom=4) puts every city ~4° south of where the basemap actually rendered. The
-  // user saw "cities ~50 mil too south, fixed after first zoom" — the first zoom was
-  // the first region event that updated the camera state. By waiting for it, the
-  // overlay never paints against a stale camera.
+  // lands — projecting against the seed camera (lat=62.1, zoom=4) puts every city far
+  // off where the basemap actually rendered after fitBounds. By waiting for the first
+  // settled event, the overlay never paints against a stale camera.
   const [cameraReady, setCameraReady] = useState(false);
+
+  // Flips true as soon as the user has noticeably panned or zoomed away from the
+  // initial framing. Drives the floating "Visa hela Sverige" reset chip.
+  const [moved, setMoved] = useState(false);
 
   const publishCamera = useCallback(
     (next: MapCamera, syncReact = true) => {
@@ -218,15 +235,6 @@ export default function Bonetider() {
     return Number.isFinite(at) ? { key: 'fajr', at, tomorrow: true } : null;
   }, [userTimes, clock.now, clock.dayStart, coords, settings]);
 
-  // How "night" it is at the user's place for the viewed instant (0 day → 1 deep night),
-  // from the sun's real depression below the horizon (see nightFactor / sun.ts) — the same
-  // physical darkness the map wash draws, so Malmö's luminous summer night reads the same on
-  // the dock as on the map. Drives the chrome that floats on the map (dock, nav discs, city
-  // markers, status bar); other screens stay on the OS theme. Quantised to 0.05 so scrubbing
-  // doesn't rebuild the themed layers every frame.
-  const nightRaw = nightFactor(clock.now, coords.latitude, coords.longitude);
-  const night = Math.round(nightRaw * 20) / 20;
-
   // The user's next prayer drives the emphasised line/pill on the map (only when
   // it's today — tomorrow's Fajr has no line sweeping the country yet).
   const nextKey = next && !next.tomorrow ? next.key : null;
@@ -240,9 +248,11 @@ export default function Bonetider() {
   // bounds-locked and snaps back, so this fires only during brief, incidental pans.
   const onRegionIsChanging = useCallback(
     (e: NativeSyntheticEvent<ViewStateChangeEvent>) => {
-      const { center, zoom } = e.nativeEvent;
+      const { zoom, bounds } = e.nativeEvent;
       if (zoom > 1) {
-        publishCamera({ lon: center[0], lat: center[1], zoom, width: camState.width, height: camState.height });
+        const [west, south, east, north] = bounds;
+        const c = viewportCentreFromBounds(west, south, east, north);
+        publishCamera({ lon: c.lon, lat: c.lat, zoom, width: camState.width, height: camState.height });
       }
     },
     [publishCamera, camState.width, camState.height],
@@ -250,57 +260,40 @@ export default function Bonetider() {
 
   const onRegionDidChange = useCallback(
     (e: NativeSyntheticEvent<ViewStateChangeEvent>) => {
-      const { center, zoom, bounds } = e.nativeEvent;
-      // Settle the camera for the overlays. Skip the pre-fit world-zoom default (~0.6).
-      // The first settled event with zoom > 1 means the basemap and our cam state are
-      // in agreement — flip the overlay-ready flag so the Skia/markers can paint.
+      const { zoom, bounds } = e.nativeEvent;
+      const [west, south, east, north] = bounds;
+      const vc = viewportCentreFromBounds(west, south, east, north);
+      // Feed the overlay the UNPADDED viewport centre (from bounds), not MapLibre's
+      // reported `center` (which is the padded camera target in v11/GL JS) — see
+      // viewportCentreFromBounds's comment.
       if (zoom > 1) {
-        publishCamera({ lon: center[0], lat: center[1], zoom, width: camState.width, height: camState.height });
+        publishCamera({ lon: vc.lon, lat: vc.lat, zoom, width: camState.width, height: camState.height });
         if (!cameraReady) setCameraReady(true);
       }
-      // Wait for the initial bounds-fit before enforcing — the map emits a
-      // pre-fit default at world zoom (~0.6) we must not act on.
-      if (floorZoom.current === undefined) {
-        if (zoom > 1) floorZoom.current = zoom;
+      // The first qualifying settled event (zoom > 1) is the initial fit. Record it
+      // as the comparison anchor for the "moved?" detector below; never enforce.
+      if (initialFrame.current === undefined) {
+        if (zoom > 1) initialFrame.current = { lon: vc.lon, lat: vc.lat, zoom };
         return;
       }
-      // Zoom floor: never let the user zoom out past the framing.
-      const targetZoom = Math.max(zoom, floorZoom.current);
-      const zoomViolated = targetZoom - zoom > 0.001;
 
-      // Position-lock the country ONLY at framing zoom — once the user has zoomed in
-      // they're exploring, and panning around inside (or even out of) Sweden is fine.
-      // At the framing level, snap them back hard so the country can't drift off.
-      const exploring = zoom > floorZoom.current + 0.1;
-      let dx = 0;
-      let dy = 0;
-      if (!exploring) {
-        const [west, south, east, north] = bounds;
-        dx = axisShift(west, east, WEST, EAST);
-        const span = north - south;
-        dy =
-          span >= NORTH - SOUTH
-            ? SOUTH - span * ((collapsedDock + DOCK_MARGIN) / camState.height) - south
-            : axisShift(south, north, SOUTH, NORTH);
-      }
-
-      if (Math.abs(dx) > EPSILON || Math.abs(dy) > EPSILON || zoomViolated) {
-        cameraRef.current?.easeTo({
-          center: [center[0] + dx, center[1] + dy],
-          zoom: targetZoom,
-          // Duration 0 → instant snap, so the bounds feel like a HARD lock instead of
-          // a rubber-band animation. The user explicitly asked for a lock, not a
-          // snap-back to Sweden after dragging to Africa.
-          duration: 0,
-        });
-      }
+      // Show the Reset chip as soon as the user has clearly moved off the initial
+      // framing. Thresholds: ~0.5° lat/lon (~50 km) or 0.05 zoom — enough to ignore
+      // floating-point drift, small enough that any real pan/zoom triggers it. If
+      // they pan/zoom BACK close to the initial framing the chip can disappear again.
+      const init = initialFrame.current;
+      const drifted =
+        Math.abs(zoom - init.zoom) > 0.05 ||
+        Math.abs(vc.lat - init.lat) > 0.5 ||
+        Math.abs(vc.lon - init.lon) > 0.5;
+      if (drifted !== moved) setMoved(drifted);
     },
-    [collapsedDock, publishCamera, camState.width, camState.height, cameraReady],
+    [publishCamera, camState.width, camState.height, cameraReady, moved],
   );
 
   return (
     <View
-      style={styles.container}
+      style={[styles.container, { backgroundColor: colors.paperSunken }]}
       // Capture the Map's true rendered viewport so the Skia overlay's projection
       // matches the basemap. On iOS the window dims (useWindowDimensions) can be
       // bigger than the Stack screen's content area — projecting against the wrong
@@ -316,7 +309,7 @@ export default function Bonetider() {
       <Map
         testID="sweden-map"
         style={StyleSheet.absoluteFill}
-        mapStyle={NORDIC_MAP_STYLE}
+        mapStyle={nordicMapStyleFor(scheme)}
         // No on-map ornaments: the tappable attribution "i" (bottom-right) and the
         // MapLibre wordmark (bottom-left) are both hidden so nothing floats over the
         // wash. OSM/ODbL + OpenFreeMap credit belongs on the Om screen instead.
@@ -364,7 +357,6 @@ export default function Bonetider() {
           userLabel={placeLabel}
           labels={solar.labels}
           nextKey={nextKey}
-          night={night}
         />
       )}
 
@@ -377,24 +369,61 @@ export default function Bonetider() {
         next={next}
         locationLabel={placeLabel}
         settings={settings}
-        night={night}
       />
 
       {/* Floating navigation: a live qibla compass (left) and the settings cog (right),
           each opening its screen as a sheet over the map. `active` (the screen's focus)
           gates the compass's heading subscription so the magnetometer pauses when a
           sheet is up or the app is backgrounded. */}
-      <MapNav active={isFocused} night={night} />
+      <MapNav active={isFocused} />
 
-      {/* Status-bar icons must read against the map under them, which is sun-driven, not the
-          OS theme — over the deep night map the default dark glyphs vanished. Light glyphs
-          past dusk, dark by day. Only while Bönetider owns the screen: when a settings/Qibla
-          sheet is up, defer to its OS-themed "auto" so the clock stays legible there too. */}
-      <StatusBar style={isFocused ? (night >= 0.5 ? 'light' : 'dark') : 'auto'} animated />
+      {/* "Visa hela Sverige" — appears only after the user has clearly panned/zoomed
+          off the initial framing. Tap to fitBounds back. Sits between the two nav
+          discs at the top centre so it never collides with them. */}
+      {moved && (
+        <View style={[styles.resetWrap, { top: insets.top + 16 }]} pointerEvents="box-none">
+          <Pressable
+            onPress={() => {
+              cameraRef.current?.fitBounds(SWEDEN_BOUNDS, {
+                padding: { top: 24, right: 24, bottom: collapsedDock + DOCK_MARGIN, left: 24 },
+                duration: 350,
+              });
+              setMoved(false);
+            }}
+            accessibilityRole="button"
+            accessibilityLabel="Visa hela Sverige"
+          >
+            <GlassSurface
+              style={styles.resetChip}
+              borderRadius={18}
+              interactive
+              tint={colors.cardGlass}
+            >
+              <Text style={[styles.resetText, { color: colors.ink }]}>
+                Visa hela Sverige
+              </Text>
+            </GlassSurface>
+          </Pressable>
+        </View>
+      )}
+
+      {/* Status-bar glyphs track the APP's active scheme (useActiveScheme), not the OS,
+          so a user who locks the app to "Mörkt" while the phone is in light mode still
+          gets light glyphs over the dark basemap — instead of "auto"'s dark glyphs
+          dissolving against navy. Same the other way round. */}
+      <StatusBar style={scheme === 'dark' ? 'light' : 'dark'} animated />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: mapTheme.accentSoft },
+  // `backgroundColor` is set inline from the OS palette's `paperSunken` so the brief flash
+  // during a MapLibre style hot-swap is the same family as either basemap (warm parchment
+  // sunken in light, deep navy sunken in dark) — no jarring colour pop on a theme flip.
+  container: { flex: 1 },
+  // Centred row that hosts the chip — top inset already accounted for by `top`.
+  resetWrap: { position: 'absolute', left: 0, right: 0, alignItems: 'center' },
+  // Pill-shaped Liquid Glass chip — small enough not to dominate, big enough to read.
+  resetChip: { paddingHorizontal: 14, paddingVertical: 8 },
+  resetText: { fontSize: 13, fontWeight: '600', letterSpacing: 0.1 },
 });

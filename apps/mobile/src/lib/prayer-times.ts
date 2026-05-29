@@ -165,12 +165,6 @@ export const PRAYER_ICONS = {
   isha: 'weather-night',
 } as const satisfies Record<PrayerKey, string>;
 
-// adhan's Prayer enum values are plain strings ('fajr' | … | 'none'); map the
-// current/next-prayer result onto our key, returning null for 'none'.
-export function prayerToKey(prayer: string): PrayerKey | null {
-  return (PRAYER_ORDER as readonly string[]).includes(prayer) ? (prayer as PrayerKey) : null;
-}
-
 // Swedish locations all sit in Europe/Stockholm; formatting there (rather than the
 // device zone) keeps times correct even on an emulator pinned to another zone.
 const TIME_ZONE = 'Europe/Stockholm';

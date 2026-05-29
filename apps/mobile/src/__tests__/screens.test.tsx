@@ -83,12 +83,11 @@ describe('tab screens', () => {
     await renderSettled(withProviders(<Installningar />));
     // The header appears after the async settings hydration flips `loaded` (settled above).
     await waitFor(() => expect(screen.getByText('Inställningar')).toBeTruthy());
-    // A prayer label rendering proves the live preview (and thus the calculation
-    // module) ran end-to-end inside the screen. Match with a regex, not exact text:
-    // the preview row appends "  ·  nästa" to whichever prayer is next (so the label
-    // is "Fajr  ·  nästa" when Fajr is next), and the adjustments "Fajr" lives inside
-    // a collapsed DisclosureGroup that's hidden from queries. The preview Fajr is the
-    // always-visible one we assert on.
+    // The Förhandsvisning preview is now folded into a DisclosureGroup (collapsed by
+    // default), so its prayer labels are hidden from queries until opened. Expanding
+    // it and finding a prayer label proves the live preview — and thus the calculation
+    // module — ran end-to-end inside the screen.
+    fireEvent.press(screen.getByRole('button', { name: /^Förhandsvisning/ }));
     expect(screen.getAllByText(/Fajr/).length).toBeGreaterThan(0);
   });
 

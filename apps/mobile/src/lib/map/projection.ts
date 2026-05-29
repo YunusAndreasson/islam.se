@@ -54,7 +54,7 @@ export function mercY(lat: number): number {
 }
 
 /** Normalised Mercator x → longitude. */
-export function invMercX(mx: number): number {
+function invMercX(mx: number): number {
   'worklet';
   return mx * 360 - 180;
 }

@@ -5,9 +5,9 @@
 //
 // Callers pick the colours: `tint` paints the chrome on top of the native blur so
 // the surface's colour is decided here, not by what the OS sampled under the glass
-// (which is how left and right discs ended up disagreeing at dawn on the map). For
-// the map discs, callers pass `nightChrome(night).surface / .hairline`; for OS-themed
-// modal sheets they pass the active palette's `cardGlass / hairline`.
+// (which is how left and right discs ended up disagreeing at dawn on the map). All
+// surfaces (map nav and modal bars alike) now pass the active OS palette's
+// `cardGlass / hairline` — Apple Maps-style chrome that follows the OS theme.
 import type { ReactNode } from 'react';
 import { Pressable, StyleSheet } from 'react-native';
 

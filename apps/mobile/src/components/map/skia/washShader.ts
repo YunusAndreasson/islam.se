@@ -9,9 +9,13 @@
 //
 // The sun maths mirrors altitudeFrom() in src/lib/solar/sun.ts (NOAA): declination and the
 // equation of time are computed once per date on the CPU and passed in; the per-pixel hour
-// angle → altitude is done here. The colour constants are GENERATED from palette.ts so the
-// wash shares the map's palette and the two can't drift.
-import { DAWN_COOL, DAY, DUSK_WARM, NIGHT, type RGBA } from '../../../lib/solar/palette';
+// angle → altitude is done here.
+//
+// Apple Maps-inspired theming: the wash colour stops are theme-aware (see palette.ts:
+// washStopsLight / washStopsDark). The shader BODY is identical between modes — only the
+// four `half4` colour literals (DAY / DUSK / DAWN / NIGHT) change — so the factory below
+// substitutes them at build time. Callers pick the right stops via useColorScheme.
+import { type RGBA, type WashStops } from '../../../lib/solar/palette';
 
 /** A palette RGBA (rgb 0..255, a 0..1) → an SkSL `half4` literal (rgb 0..1, a 0..1). */
 function sksl(c: RGBA): string {
@@ -19,7 +23,7 @@ function sksl(c: RGBA): string {
 }
 
 /**
- * The wash SkSL. Uniforms:
+ * Build the wash SkSL for a given set of theme stops. Uniforms:
  *  - u_worldSize  : 512 · 2^zoom (MapLibre's pixel world size at the camera zoom).
  *  - u_viewport   : canvas size in dp (matches the project()/unproject() space).
  *  - u_center     : camera centre in normalised Mercator (mx, my).
@@ -27,7 +31,8 @@ function sksl(c: RGBA): string {
  *  - u_eotMin     : equation of time (minutes) for the date.
  *  - u_declRad    : solar declination (radians) for the date.
  */
-export const WASH_SKSL = `
+export function buildWashSksl(stops: WashStops): string {
+  return `
 uniform float u_worldSize;
 uniform float2 u_viewport;
 uniform float2 u_center;
@@ -38,10 +43,10 @@ uniform float u_declRad;
 const float PI = 3.141592653589793;
 const float DEG = 0.017453292519943295;
 
-const half4 C_DAY   = ${sksl(DAY)};
-const half4 C_DUSK  = ${sksl(DUSK_WARM)};
-const half4 C_DAWN  = ${sksl(DAWN_COOL)};
-const half4 C_NIGHT = ${sksl(NIGHT)};
+const half4 C_DAY   = ${sksl(stops.DAY)};
+const half4 C_DUSK  = ${sksl(stops.DUSK_WARM)};
+const half4 C_DAWN  = ${sksl(stops.DAWN_COOL)};
+const half4 C_NIGHT = ${sksl(stops.NIGHT)};
 
 // Twilight colour from the sun's altitude (deg, <0 = below horizon) and hour angle (deg).
 half4 twilight(float altDeg, float haDeg) {
@@ -91,3 +96,4 @@ half4 main(float2 fragCoord) {
   return half4(c.rgb * c.a, c.a);
 }
 `;
+}

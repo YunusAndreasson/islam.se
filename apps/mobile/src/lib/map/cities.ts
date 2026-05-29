@@ -5,7 +5,6 @@
 // Swedish city is absent. This curated set shows the larger cities at every zoom,
 // styled Swedish-first (accent) vs. foreign (muted), and drawn ABOVE the solar wash
 // so the markers stay legible even on the night map.
-import type { FeatureCollection } from 'geojson';
 
 export interface CityPoint {
   name: string;
@@ -43,12 +42,3 @@ export const CITY_POINTS: readonly CityPoint[] = [
   { name: 'Köpenhamn', lon: 12.5683, lat: 55.6761, rank: 2, foreign: true },
   { name: 'Helsingfors', lon: 24.9384, lat: 60.1699, rank: 2, foreign: true },
 ];
-
-export const CITY_GEOJSON: FeatureCollection = {
-  type: 'FeatureCollection',
-  features: CITY_POINTS.map((c) => ({
-    type: 'Feature',
-    geometry: { type: 'Point', coordinates: [c.lon, c.lat] },
-    properties: { name: c.name, rank: c.rank, foreign: c.foreign ? 1 : 0 },
-  })),
-};

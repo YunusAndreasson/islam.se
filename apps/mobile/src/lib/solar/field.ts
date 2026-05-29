@@ -20,7 +20,13 @@ import {
   type Segment,
   smoothChain,
 } from './contour';
-import { DAWN_COOL, DAWN_EDGE, DAY, DUSK_EDGE, DUSK_WARM, mix, NIGHT, type RGBA, WHITE_NIGHT } from './palette';
+import { mix, type RGBA, washStopsLight } from './palette';
+
+// washAt() is the CPU mirror of the wash for unit tests / debug overlays. The GPU
+// shader (WASH_SKSL) does the real work and uses the OS-themed light/dark stops.
+// The CPU helper is pinned to LIGHT so its test assertions on alpha thresholds
+// stay stable — it's an aesthetic-pinning function, not a runtime renderer.
+const { DAWN_COOL, DAWN_EDGE, DAY, DUSK_EDGE, DUSK_WARM, NIGHT, WHITE_NIGHT } = washStopsLight;
 
 // Generously larger than the camera's Sweden framing so the wash always covers the
 // whole viewport — at the locked zoom-out the visible map spills well past Sweden

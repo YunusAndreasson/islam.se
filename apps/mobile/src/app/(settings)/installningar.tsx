@@ -1,18 +1,17 @@
 // Inställningar — the configuration sheet over the map. Information architecture,
 // in priority order for a Swedish-Muslim user:
-//   1. Förhandsvisning  — today's times for the resolved location (the *result*,
-//      not a setting; large date + Hijri so the answer reads first).
-//   2. Plats            — GPS or one of ~2,100 Swedish towns.
-//   3. Beräkning        — calculation method, madhab, high-lat rule, polar resolution,
+//   1. Plats             — GPS or one of ~2,100 Swedish towns.
+//   2. Beräkning         — calculation method, madhab, high-lat rule, polar resolution,
 //      shafaq, per-prayer minute offsets (pushed page).
-//   4. Notiser          — local reminders per prayer.
-//   5. Visning          — rounding + Hijri-day offset (collapsed by default).
-//   6. Stöd (untitled)  — Vanliga frågor / Kontakt / Om appen (clustered into one
+//   3. Förhandsvisning   — today's times for the resolved location, COLLAPSED by default
+//      (a DisclosureGroup that folds out inside this screen). This is a *verifier*,
+//      not the screen's purpose: the dock already shows the next prayer, and the
+//      settings screen is for setting up the app. Folding it keeps the configuration
+//      surfaces (Plats, Beräkning, Notiser) above the fold.
+//   4. Notiser           — local reminders per prayer.
+//   5. Visning           — rounding + Hijri-day offset + theme (collapsed by default).
+//   6. Stöd (untitled)   — Vanliga frågor / Kontakt / Om appen (clustered into one
 //      list-style card, visually demoted with extra top air).
-//
-// The first four are what the user opens this screen for; the bottom trio is
-// secondary, so it gets a quieter chrome (no header, smaller subtitles, more
-// breathing room above it).
 import { MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
 import { router, useIsFocused } from 'expo-router';
 import { type ReactNode, useEffect, useMemo, useState } from 'react';
@@ -39,7 +38,12 @@ import {
   PRAYER_SWEDISH_NAMES,
 } from '@/lib/prayer-times';
 import { useSettings } from '@/lib/settings/context';
-import { methodLabel, ROUNDING_OPTIONS, visningSummary } from '@/lib/settings/options';
+import {
+  methodLabel,
+  ROUNDING_OPTIONS,
+  THEME_OPTIONS,
+  visningSummary,
+} from '@/lib/settings/options';
 import { mono, space, type } from '@/theme/tokens';
 
 export default function Installningar() {
@@ -101,36 +105,7 @@ export default function Installningar() {
       <ScrollView contentContainerStyle={styles.content}>
         <Text style={styles.header}>Inställningar</Text>
 
-        {/* Förhandsvisning — a glance card, not a configurable section. Date is
-            the headline, Hijri sits muted below it (Swedish-Muslim calendar pair),
-            then six prayer rows in tabular figures. No uppercase header chrome:
-            this is the *result* of every setting below, so it reads as content
-            rather than as another section to be tuned. */}
-        <View style={styles.previewCard}>
-          <View style={styles.previewHead}>
-            <Text style={styles.previewDate}>{preview.gregorian}</Text>
-            <Text style={styles.previewHijri}>{preview.hijri}</Text>
-          </View>
-          {preview.times.map((p, i) => (
-            <View key={p.key} style={[styles.previewRow, i > 0 && styles.previewDivider]}>
-              <MaterialCommunityIcons
-                name={p.icon}
-                size={22}
-                color={colors.textMuted}
-                style={styles.previewIcon}
-              />
-              <View style={styles.previewLabelWrap}>
-                <Text style={styles.previewLabel}>{p.label}</Text>
-                <Text style={styles.previewSwedish}>{p.swedishName}</Text>
-              </View>
-              <Text testID={`preview-time-${p.key}`} style={styles.previewTime}>
-                {p.time}
-              </Text>
-            </View>
-          ))}
-        </View>
-
-        {/* --- Core IA: Plats / Beräkning / Notiser / Visning --- */}
+        {/* --- Core IA: Plats / Beräkning / Förhandsvisning / Notiser / Visning --- */}
 
         <SettingSection
           title="Plats"
@@ -199,6 +174,39 @@ export default function Installningar() {
             <MaterialIcons name="chevron-right" size={20} color={colors.textMuted} />
           </View>
         </Pressable>
+
+        {/* Förhandsvisning — collapsed by default. A verifier folded inside the
+            settings screen (NOT a separate route) so the user can confirm that
+            their picks produce sensible times for today, without the prayer
+            list occupying the prime above-the-fold real estate of a screen
+            whose job is configuration. Summary line carries today's date +
+            place so the collapsed header alone still says "what this would
+            show". */}
+        <DisclosureGroup title="Förhandsvisning" summary={preview.gregorian}>
+          <View>
+            <View style={styles.previewHead}>
+              <Text style={styles.previewDate}>{preview.gregorian}</Text>
+              <Text style={styles.previewHijri}>{preview.hijri}</Text>
+            </View>
+            {preview.times.map((p, i) => (
+              <View key={p.key} style={[styles.previewRow, i > 0 && styles.previewDivider]}>
+                <MaterialCommunityIcons
+                  name={p.icon}
+                  size={22}
+                  color={colors.textMuted}
+                  style={styles.previewIcon}
+                />
+                <View style={styles.previewLabelWrap}>
+                  <Text style={styles.previewLabel}>{p.label}</Text>
+                  <Text style={styles.previewSwedish}>{p.swedishName}</Text>
+                </View>
+                <Text testID={`preview-time-${p.key}`} style={styles.previewTime}>
+                  {p.time}
+                </Text>
+              </View>
+            ))}
+          </View>
+        </DisclosureGroup>
 
         <SettingSection
           title="Notiser"
@@ -279,6 +287,24 @@ export default function Installningar() {
               max={2}
               format={(v) => `${v > 0 ? '+' : ''}${v} d`}
               onChange={(hijriOffset) => update({ hijriOffset })}
+            />
+          </SubGroup>
+
+          {/* Utseende — Apple Maps-style theme override. Tucked at the bottom of
+              Visning because it's a display preference, not a calculation, and
+              defaults to "Följ system" (the system Display setting decides).
+              The dock, basemap, wash and prayer-line colours all swap together
+              the instant the user picks a row, via useActiveScheme(). */}
+          <SubGroup
+            styles={styles}
+            title="Utseende"
+            footnote="Påverkar kartan och hela appen."
+            divider
+          >
+            <OptionGroup
+              options={THEME_OPTIONS}
+              value={settings.theme}
+              onChange={(theme) => update({ theme })}
             />
           </SubGroup>
         </DisclosureGroup>
@@ -397,15 +423,8 @@ function makeStyles(colors: SettingsColors) {
     // Editorial screen title — same token as Qibla's title so the sibling sheets share rhythm.
     header: { ...type.title, color: colors.text, marginBottom: space.xl, marginTop: space.xs },
 
-    // --- Förhandsvisning glance card --------------------------------------
-    previewCard: {
-      backgroundColor: colors.card,
-      borderRadius: 12,
-      borderWidth: StyleSheet.hairlineWidth,
-      borderColor: colors.border,
-      marginBottom: space.xxl,
-      overflow: 'hidden',
-    },
+    // --- Förhandsvisning (inside DisclosureGroup; the group provides the outer
+    // card chrome, so the head and rows here only carry padding + dividers). ---
     previewHead: {
       paddingVertical: space.md,
       paddingHorizontal: space.lg,
