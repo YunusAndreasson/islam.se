@@ -78,10 +78,10 @@ function viewportCentreFromBounds(
 const DAY_MS = 86_400_000;
 // Extra breathing room (dp) reserved above the dock, so the south coast sits
 // clearly above it rather than pressed against its top edge. Now that the curated
-// CITY_POINTS overlay is gone (basemap labels do the city naming), the margin
-// only needs to clear the tile-rendered Malmö label — 40dp is the minimum that
-// keeps it readable; less and the name nicks the dock's top edge.
-const DOCK_MARGIN = 40;
+// CITY_POINTS overlay is gone (basemap labels do the city naming), this only
+// needs to clear the tile-rendered Malmö label — 24dp is the minimum that keeps
+// "Malmö" readable above the dock's top edge.
+const DOCK_MARGIN = 24;
 
 // Only the fields that change the computed times — the grid is rebuilt when this
 // signature changes, not on cosmetic settings (time format, Hijri offset).
@@ -337,7 +337,7 @@ export default function Bonetider() {
             bounds: SWEDEN_BOUNDS,
             // Reserve the collapsed dock's height (+ margin) at the bottom so the
             // south coast is framed clearly above it from the very first render.
-            padding: { top: 4, right: 4, bottom: collapsedDock + DOCK_MARGIN, left: 4 },
+            padding: { top: 0, right: 0, bottom: collapsedDock + DOCK_MARGIN, left: 0 },
           }}
         />
       </Map>
@@ -400,7 +400,7 @@ export default function Bonetider() {
             onPress={() => {
               hapticLight();
               cameraRef.current?.fitBounds(SWEDEN_BOUNDS, {
-                padding: { top: 4, right: 4, bottom: collapsedDock + DOCK_MARGIN, left: 4 },
+                padding: { top: 0, right: 0, bottom: collapsedDock + DOCK_MARGIN, left: 0 },
                 duration: 350,
               });
               setMoved(false);
