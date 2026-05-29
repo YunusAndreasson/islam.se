@@ -48,14 +48,14 @@ import { useActiveScheme, useColors } from '../theme/useColors';
 // which made the country read smaller than it had to. Bounds are still chosen so
 // that with the bottom dock-padding (DOCK_MARGIN), Malmö's south coast lands
 // CLEARLY above the dock — never tucked under it.
-//   • WEST  11.0 — leaves a thin strip of Norway/Skagerrak; Göteborg (11.97°) safe inside
-//   • SOUTH 55.25 — just below Smygehuk (55.34°), south of Malmö (55.61°)
-//   • EAST  24.0 — past Stockholm's archipelago + the Finnish-border lakes
-//   • NORTH 69.10 — just above Treriksröset (69.06°)
-const WEST = 11.0;
-const SOUTH = 55.25;
-const EAST = 24.0;
-const NORTH = 69.1;
+//   • WEST  11.1 — Göteborg (11.97°) safe inside, just a hairline of Skagerrak left
+//   • SOUTH 55.30 — under Smygehuk (55.34°), Malmö (55.61°) sits with dock clearance
+//   • EAST  23.9 — past Stockholm's archipelago + the Finnish-border lakes
+//   • NORTH 69.05 — at Treriksröset (69.06°), the actual northern tip
+const WEST = 11.1;
+const SOUTH = 55.3;
+const EAST = 23.9;
+const NORTH = 69.05;
 const SWEDEN_BOUNDS: [number, number, number, number] = [WEST, SOUTH, EAST, NORTH];
 
 // The lat/lon at the geometric centre of the visible viewport, derived from the
@@ -337,7 +337,7 @@ export default function Bonetider() {
             bounds: SWEDEN_BOUNDS,
             // Reserve the collapsed dock's height (+ margin) at the bottom so the
             // south coast is framed clearly above it from the very first render.
-            padding: { top: 12, right: 8, bottom: collapsedDock + DOCK_MARGIN, left: 8 },
+            padding: { top: 4, right: 4, bottom: collapsedDock + DOCK_MARGIN, left: 4 },
           }}
         />
       </Map>
@@ -400,7 +400,7 @@ export default function Bonetider() {
             onPress={() => {
               hapticLight();
               cameraRef.current?.fitBounds(SWEDEN_BOUNDS, {
-                padding: { top: 12, right: 8, bottom: collapsedDock + DOCK_MARGIN, left: 8 },
+                padding: { top: 4, right: 4, bottom: collapsedDock + DOCK_MARGIN, left: 4 },
                 duration: 350,
               });
               setMoved(false);
