@@ -113,6 +113,14 @@ export default function Bonetider() {
     width: screenW,
     height: screenH,
   });
+  // Gate the overlay (Skia field + RN markers) until the FIRST settled region event
+  // lands — on iOS, the initial fitBounds (initialViewState) doesn't reliably emit a
+  // settle event before the basemap paints, so projecting against the seed (lat=62.1,
+  // zoom=4) puts every city ~4° south of where the basemap actually rendered. The
+  // user saw "cities ~50 mil too south, fixed after first zoom" — the first zoom was
+  // the first region event that updated the camera state. By waiting for it, the
+  // overlay never paints against a stale camera.
+  const [cameraReady, setCameraReady] = useState(false);
 
   const publishCamera = useCallback(
     (next: MapCamera, syncReact = true) => {
@@ -244,8 +252,11 @@ export default function Bonetider() {
     (e: NativeSyntheticEvent<ViewStateChangeEvent>) => {
       const { center, zoom, bounds } = e.nativeEvent;
       // Settle the camera for the overlays. Skip the pre-fit world-zoom default (~0.6).
+      // The first settled event with zoom > 1 means the basemap and our cam state are
+      // in agreement — flip the overlay-ready flag so the Skia/markers can paint.
       if (zoom > 1) {
         publishCamera({ lon: center[0], lat: center[1], zoom, width: camState.width, height: camState.height });
+        if (!cameraReady) setCameraReady(true);
       }
       // Wait for the initial bounds-fit before enforcing — the map emits a
       // pre-fit default at world zoom (~0.6) we must not act on.
@@ -257,25 +268,34 @@ export default function Bonetider() {
       const targetZoom = Math.max(zoom, floorZoom.current);
       const zoomViolated = targetZoom - zoom > 0.001;
 
-      // Position lock to Sweden: keep the view inside [WEST,SOUTH,EAST,NORTH]. Wide
-      // EPSILON so micro-drift from projection rounding doesn't fight the user.
-      const [west, south, east, north] = bounds;
-      const dx = axisShift(west, east, WEST, EAST);
-      const span = north - south;
-      const dy =
-        span >= NORTH - SOUTH
-          ? SOUTH - span * ((collapsedDock + DOCK_MARGIN) / camState.height) - south
-          : axisShift(south, north, SOUTH, NORTH);
+      // Position-lock the country ONLY at framing zoom — once the user has zoomed in
+      // they're exploring, and panning around inside (or even out of) Sweden is fine.
+      // At the framing level, snap them back hard so the country can't drift off.
+      const exploring = zoom > floorZoom.current + 0.1;
+      let dx = 0;
+      let dy = 0;
+      if (!exploring) {
+        const [west, south, east, north] = bounds;
+        dx = axisShift(west, east, WEST, EAST);
+        const span = north - south;
+        dy =
+          span >= NORTH - SOUTH
+            ? SOUTH - span * ((collapsedDock + DOCK_MARGIN) / camState.height) - south
+            : axisShift(south, north, SOUTH, NORTH);
+      }
 
       if (Math.abs(dx) > EPSILON || Math.abs(dy) > EPSILON || zoomViolated) {
         cameraRef.current?.easeTo({
           center: [center[0] + dx, center[1] + dy],
           zoom: targetZoom,
-          duration: 200,
+          // Duration 0 → instant snap, so the bounds feel like a HARD lock instead of
+          // a rubber-band animation. The user explicitly asked for a lock, not a
+          // snap-back to Sweden after dragging to Africa.
+          duration: 0,
         });
       }
     },
-    [collapsedDock, publishCamera, camState.width, camState.height],
+    [collapsedDock, publishCamera, camState.width, camState.height, cameraReady],
   );
 
   return (
@@ -319,26 +339,34 @@ export default function Bonetider() {
 
       {/* The custom graphics ride ABOVE the basemap on a Skia canvas: the GPU twilight
           wash + the sweeping prayer lines, projected from the camera shared value so they
-          stay glued to the map as it pans/zooms. */}
-      <SolarSkiaOverlay
-        dayStart={clock.dayStart}
-        dayLength={clock.dayLength}
-        nowFraction={nowFraction}
-        camera={cam}
-        lines={prayerLines}
-        nextKey={nextKey}
-      />
+          stay glued to the map as it pans/zooms. Gated on `cameraReady` so the overlay
+          never paints against the stale seed camera (lat 62.1 / zoom 4) — the basemap's
+          actual fit on iOS resolves to a different camera, and that mismatch is what
+          shoved every city ~50 mil south on first paint. */}
+      {cameraReady && (
+        <SolarSkiaOverlay
+          dayStart={clock.dayStart}
+          dayLength={clock.dayLength}
+          nowFraction={nowFraction}
+          camera={cam}
+          lines={prayerLines}
+          nextKey={nextKey}
+        />
+      )}
 
       {/* Point/label layer above the canvas: city dots + collision-managed labels (kept
-          legible above the wash), the brass "you are here" dot, and the prayer pills. */}
-      <MapMarkersOverlay
-        camera={camState}
-        userCoords={coords}
-        userLabel={placeLabel}
-        labels={solar.labels}
-        nextKey={nextKey}
-        night={night}
-      />
+          legible above the wash), the brass "you are here" dot, and the prayer pills.
+          Same `cameraReady` gate — no point projecting cities against a stale camera. */}
+      {cameraReady && (
+        <MapMarkersOverlay
+          camera={camState}
+          userCoords={coords}
+          userLabel={placeLabel}
+          labels={solar.labels}
+          nextKey={nextKey}
+          night={night}
+        />
+      )}
 
       {/* The one bottom surface: next prayer + day scrubber, expandable to the full
           schedule. */}
