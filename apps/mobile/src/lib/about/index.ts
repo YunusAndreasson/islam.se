@@ -5,6 +5,7 @@
 // Kept thin: only data + a few "open the right place, never crash" wrappers.
 // The screens themselves own their layout.
 import Constants from 'expo-constants';
+import * as Updates from 'expo-updates';
 import { Linking } from 'react-native';
 import * as MailComposer from 'expo-mail-composer';
 import * as StoreReview from 'expo-store-review';
@@ -20,6 +21,36 @@ export const MAPLIBRE_URL = 'https://maplibre.org';
 export const OSM_URL = 'https://www.openstreetmap.org/copyright';
 
 export const APP_VERSION: string = Constants.expoConfig?.version ?? '1.0.0';
+
+/**
+ * Short, human-readable label for the JS bundle that's actually running, so the
+ * colophon shows precisely what landed: an OTA update (e.g. "OTA 019e7195 · 29
+ * maj 2026") or the binary's embedded bundle ("Inbäddad"). On dev builds (`expo
+ * start`) the JS is served from Metro — neither an OTA nor the embedded bundle —
+ * so we report "Utveckling" for honesty.
+ *
+ * `Updates.updateId` is null until an OTA has been downloaded and applied; once
+ * applied, every subsequent launch returns it. `isEmbeddedLaunch` is true when
+ * the binary's baked-in bundle is what booted (no OTA, or OTA on a different
+ * runtimeVersion sitting waiting — the case for users on a 1.0.1 binary while a
+ * 1.0.2 OTA exists).
+ */
+export const OTA_LABEL: string = (() => {
+  if (__DEV__) return 'Utveckling';
+  if (Updates.isEmbeddedLaunch) return 'Inbäddad';
+  const id = Updates.updateId;
+  if (!id) return 'Inbäddad';
+  const short = id.slice(0, 8);
+  const at = Updates.createdAt;
+  if (!at) return `OTA ${short}`;
+  // Swedish short-form date — keep the colophon scannable.
+  const date = new Intl.DateTimeFormat('sv-SE', {
+    day: 'numeric',
+    month: 'short',
+    year: 'numeric',
+  }).format(at);
+  return `OTA ${short} · ${date}`;
+})();
 
 // The questions a reader actually has, answered truthfully. Kept as data so the
 // copy lives in one place and the FAQ screen just maps over it.

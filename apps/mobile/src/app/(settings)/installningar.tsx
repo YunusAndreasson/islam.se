@@ -26,7 +26,7 @@ import { Stepper } from '@/components/settings/Stepper';
 import { type SettingsColors, useSettingsColors } from '@/components/settings/theme';
 import { Toggle } from '@/components/settings/Toggle';
 import { ModalBar } from '@/components/ui/ModalBar';
-import { APP_VERSION, emailSupport } from '@/lib/about';
+import { APP_VERSION, OTA_LABEL, emailSupport } from '@/lib/about';
 import { formatGregorian, formatHijri } from '@/lib/hijri';
 import { useLocation } from '@/lib/location/context';
 import { NOTIFY_PRAYERS } from '@/lib/notifications';
@@ -319,8 +319,12 @@ export default function Installningar() {
         </View>
 
         {/* A quiet sign-off at the end of the screen — project line + version +
-            © in the faintest ink tier, the natural imprint position. */}
+            © in the faintest ink tier, the natural imprint position. The OTA line
+            sits underneath so a user (or I, debugging "did the update arrive?")
+            can see at a glance which JS bundle is actually running: an applied
+            OTA (id prefix + publish date) or the binary's embedded bundle. */}
         <Text style={styles.colophon}>islam.se · Version {APP_VERSION} · © 2026</Text>
+        <Text style={styles.colophonSub}>{OTA_LABEL}</Text>
       </ScrollView>
     </SafeAreaView>
   );
@@ -488,6 +492,15 @@ function makeStyles(colors: SettingsColors) {
       textAlign: 'center',
       opacity: 0.7,
       marginTop: space.sm,
+    },
+    // OTA line — quieter still than the colophon (smaller opacity, no bottom air
+    // until the screen end), so it reads as a subsidiary debug-y imprint, not as
+    // a second sign-off.
+    colophonSub: {
+      ...type.micro,
+      color: colors.textMuted,
+      textAlign: 'center',
+      opacity: 0.45,
       marginBottom: space.lg,
     },
 
