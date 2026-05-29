@@ -21,16 +21,25 @@ import {
   ADHAN_URL,
   APP_VERSION,
   MAPLIBRE_URL,
+  MAPTILER_URL,
+  OPENFREEMAP_URL,
   openUrl,
   OSM_URL,
   rateApp,
 } from '../../lib/about';
+import { TILES_PROVIDER } from '../../lib/map/nordicStyle';
 import { type Palette, space, type } from '../../theme/tokens';
 import { useColors } from '../../theme/useColors';
 
+// The active tile provider is credited explicitly — MapTiler's TOS requires it
+// when their tiles are bundled, and OpenFreeMap appreciates the credit too.
+// OpenStreetMap is always credited because both providers ultimately ship OSM data.
 const SOURCES = [
   { label: 'Bönetider', name: 'adhan', url: ADHAN_URL },
   { label: 'Karta', name: 'MapLibre', url: MAPLIBRE_URL },
+  TILES_PROVIDER === 'maptiler'
+    ? { label: 'Karttilar', name: 'MapTiler', url: MAPTILER_URL }
+    : { label: 'Karttilar', name: 'OpenFreeMap', url: OPENFREEMAP_URL },
   { label: 'Kartdata', name: 'OpenStreetMap', url: OSM_URL },
 ] as const;
 

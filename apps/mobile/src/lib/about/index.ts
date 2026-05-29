@@ -18,6 +18,8 @@ export const SUPPORT_EMAIL = 'support@islam.se';
 export const ADHAN_URL = 'https://github.com/batoulapps/adhan-js';
 export const MAPLIBRE_URL = 'https://maplibre.org';
 export const OSM_URL = 'https://www.openstreetmap.org/copyright';
+export const OPENFREEMAP_URL = 'https://openfreemap.org';
+export const MAPTILER_URL = 'https://www.maptiler.com/copyright/';
 
 export const APP_VERSION: string = Constants.expoConfig?.version ?? '1.0.0';
 
@@ -82,7 +84,7 @@ export const FAQ: readonly { question: string; answer: string }[] = [
   {
     question: 'Varifrån kommer kartan?',
     answer:
-      'Kartan visas med MapLibre. Kartdatan kommer från OpenFreeMap, OpenMapTiles och OpenStreetMap-bidragsgivare.',
+      'Kartan visas med MapLibre. Kartdatan kommer från MapTiler (med höjdrelief), OpenMapTiles och OpenStreetMap-bidragsgivare. Saknas en MapTiler-nyckel används OpenFreeMap utan kostnad.',
   },
 ];
 

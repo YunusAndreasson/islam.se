@@ -34,7 +34,7 @@ import { MapNav } from '../components/nav/MapNav';
 import { GlassSurface } from '../components/ui/GlassSurface';
 import { useLocation } from '../lib/location/context';
 import { type Camera as MapCamera, invMercY, mercY } from '../lib/map/projection';
-import { nordicMapStyleFor } from '../lib/map/nordicStyle';
+import { mapStyleFor } from '../lib/map/nordicStyle';
 import { computePrayerTimes, PRAYER_ORDER, type PrayerKey } from '../lib/prayer-times';
 import { useSettings } from '../lib/settings/context';
 import type { PrayerSettings } from '../lib/settings/types';
@@ -312,7 +312,7 @@ export default function Bonetider() {
       <Map
         testID="sweden-map"
         style={StyleSheet.absoluteFill}
-        mapStyle={nordicMapStyleFor(scheme)}
+        mapStyle={mapStyleFor(settings.mapStyle, scheme)}
         // No on-map ornaments: the tappable attribution "i" (bottom-right) and the
         // MapLibre wordmark (bottom-left) are both hidden so nothing floats over the
         // wash. OSM/ODbL + OpenFreeMap credit belongs on the Om screen instead.
