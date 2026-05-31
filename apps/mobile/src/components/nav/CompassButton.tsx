@@ -45,9 +45,13 @@ export function CompassButton({ active }: { active: boolean }) {
   const c = useColors();
   const { coords } = useLocation();
   const bearing = useMemo(() => qiblaBearing(coords), [coords]);
-  const { rotation, heading } = useHeading({ active, request: false });
+  const { rotation, heading, reliable } = useHeading({ active, request: false });
 
-  const aligned = heading != null && angleDelta(heading, bearing) <= ALIGN_TOL;
+  // Lock ONLY when the heading is trustworthy (accuracy ≥ 2). During the magnetometer's
+  // warm-up / calibration window the heading can be tens of degrees off, so an ungated
+  // lock would flash brass + buzz "you're facing Mecca" at the wrong orientation (the
+  // "wrong at first, then right" the needle shows). The logo still rotates live meanwhile.
+  const aligned = reliable && heading != null && angleDelta(heading, bearing) <= ALIGN_TOL;
   // One confirming tap the instant it locks (and again on the next re-lock after the
   // user has wandered off and returned), not on every frame while they hold the angle.
   // The same transition drives the spring scale-up that makes the lock feel physical.

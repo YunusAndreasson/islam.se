@@ -25,7 +25,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { ModalBar } from '../components/ui/ModalBar';
 import { hapticSuccess } from '../lib/haptics';
 import { useLocation } from '../lib/location/context';
-import { angleDelta, formatKm, qiblaBearing, qiblaDistanceKm } from '../lib/qibla';
+import { angleDelta, formatKm, headingReliable, qiblaBearing, qiblaDistanceKm } from '../lib/qibla';
 import { mono, motion, type Palette, radius, shadow, space, type } from '../theme/tokens';
 import { useColors } from '../theme/useColors';
 
@@ -69,6 +69,10 @@ export default function Qibla() {
 
   const [heading, setHeading] = useState<number | null>(null);
   const [noCompass, setNoCompass] = useState(false);
+  // expo-location heading calibration level (0–3); null until the first event. Below
+  // MEDIUM (2) the magnetometer is mid-calibration and can be tens of degrees off — the
+  // "wrong at first, then right" warm-up — so we don't trust it for the ≤4° lock.
+  const [accuracy, setAccuracy] = useState<number | null>(null);
 
   // Continuous (unwrapped) rotation so 359°→1° eases the short way instead of
   // spinning 358° backwards. The rose's rotation lives on the UI thread.
@@ -81,12 +85,16 @@ export default function Qibla() {
   const wasAligned = useRef(false);
 
   const onHeading = useCallback(
-    (raw: number) => {
+    (raw: number, acc: number | null) => {
       const norm = ((raw % 360) + 360) % 360;
       const delta = ((norm - lastRaw.current + 540) % 360) - 180;
       unwrapped.current += delta;
       lastRaw.current = norm;
-      const p = Math.max(0, Math.min(1, 1 - angleDelta(norm, bearing) / PROX_RANGE));
+      // Only feed the "getting warmer" proximity glow when the heading is trustworthy —
+      // otherwise an uncalibrated reading would warm the dial toward a wrong bearing.
+      const p = headingReliable(acc)
+        ? Math.max(0, Math.min(1, 1 - angleDelta(norm, bearing) / PROX_RANGE))
+        : 0;
       // Idiomatic reanimated: drive the shared values from JS. The compiler's
       // immutability rule can't see that a SharedValue is meant to be mutated.
       // eslint-disable-next-line react-hooks/immutability
@@ -94,6 +102,7 @@ export default function Qibla() {
       // eslint-disable-next-line react-hooks/immutability
       prox.value = withTiming(p, { duration: motion.quick });
       setHeading(norm);
+      setAccuracy(acc);
       setNoCompass((v) => (v ? false : v));
     },
     [roseDeg, prox, bearing],
@@ -127,7 +136,7 @@ export default function Qibla() {
             const raw = h.trueHeading != null && h.trueHeading >= 0 ? h.trueHeading : h.magHeading;
             if (raw == null || Number.isNaN(raw)) return;
             gotEvent = true;
-            onHeading(raw);
+            onHeading(raw, typeof h.accuracy === 'number' ? h.accuracy : null);
           });
           if (cancelled) s.remove();
           else sub = s;
@@ -145,8 +154,13 @@ export default function Qibla() {
   );
 
   const delta = heading != null ? angleDelta(heading, bearing) : null;
-  const aligned = delta != null && delta <= ALIGN_TOL;
-  const near = delta != null && !aligned && delta <= NEAR_TOL;
+  const reliable = headingReliable(accuracy);
+  // "Calibrating": we have a live heading but the magnetometer isn't trustworthy yet.
+  // While calibrating we don't claim alignment / "on your way" (both would point at a
+  // possibly-wrong bearing) — we ask the user to figure-8 the phone instead.
+  const calibrating = !noCompass && heading != null && !reliable;
+  const aligned = reliable && delta != null && delta <= ALIGN_TOL;
+  const near = reliable && delta != null && !aligned && delta <= NEAR_TOL;
 
   // A single confirming tap the moment you line up (not on every frame while held).
   useEffect(() => {
@@ -271,18 +285,28 @@ export default function Qibla() {
       <View style={styles.readout}>
         <View style={[styles.statusPill, near && styles.statusPillNear, aligned && styles.statusPillOn]}>
           <MaterialIcons
-            name={aligned ? 'check-circle' : noCompass ? 'explore' : 'navigation'}
+            name={
+              aligned
+                ? 'check-circle'
+                : calibrating
+                  ? 'compass-calibration'
+                  : noCompass
+                    ? 'explore'
+                    : 'navigation'
+            }
             size={16}
             color={aligned ? c.onHighlight : near ? c.highlight : c.accent}
           />
           <Text style={[styles.statusText, near && styles.statusTextNear, aligned && styles.statusTextOn]}>
             {aligned
               ? 'Du är vänd mot Mecka'
-              : noCompass
-                ? 'Qibla räknat från norr'
-                : near
-                  ? 'Du är på väg…'
-                  : 'Vrid tills nålen pekar uppåt'}
+              : calibrating
+                ? 'Kalibrera – rör telefonen i en åtta'
+                : noCompass
+                  ? 'Qibla räknat från norr'
+                  : near
+                    ? 'Du är på väg…'
+                    : 'Vrid tills nålen pekar uppåt'}
           </Text>
         </View>
 
@@ -298,6 +322,10 @@ export default function Qibla() {
         {noCompass ? (
           <Text style={styles.note}>
             Ingen kompass på den här enheten – nålen visar qibla räknat från norr.
+          </Text>
+        ) : calibrating ? (
+          <Text style={styles.note}>
+            Rör telefonen i en åtta tills riktningen stabiliseras – då låser nålen mot Mecka.
           </Text>
         ) : null}
       </View>

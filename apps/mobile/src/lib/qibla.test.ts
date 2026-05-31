@@ -1,6 +1,13 @@
 import { describe, expect, it } from '@jest/globals';
 
-import { angleDelta, formatKm, KAABA, qiblaBearing, qiblaDistanceKm } from './qibla';
+import {
+  angleDelta,
+  formatKm,
+  headingReliable,
+  KAABA,
+  qiblaBearing,
+  qiblaDistanceKm,
+} from './qibla';
 
 describe('qiblaBearing', () => {
   it('points south-east from Sweden (toward Mecca)', () => {
@@ -33,6 +40,24 @@ describe('angleDelta', () => {
   it('is 0 when equal and 180 when opposite', () => {
     expect(angleDelta(90, 90)).toBe(0);
     expect(angleDelta(0, 180)).toBe(180);
+  });
+});
+
+describe('headingReliable', () => {
+  // The compass needle was "wrong at first, then right": the first readings arrive
+  // mid-calibration (accuracy 0–1, up to >50° off on iOS) before the magnetometer
+  // settles. Gating the qibla lock on accuracy ≥ 2 is what stops the app pointing at —
+  // and buzzing "you're facing Mecca" on — a confidently-wrong heading during warm-up.
+  it('rejects no-reading and low-calibration levels', () => {
+    expect(headingReliable(null)).toBe(false);
+    expect(headingReliable(undefined)).toBe(false);
+    expect(headingReliable(0)).toBe(false); // none (>50° uncertainty on iOS)
+    expect(headingReliable(1)).toBe(false); // low — still too coarse for a 4° lock
+  });
+
+  it('accepts medium and high calibration', () => {
+    expect(headingReliable(2)).toBe(true);
+    expect(headingReliable(3)).toBe(true); // high (<20° uncertainty on iOS)
   });
 });
 
