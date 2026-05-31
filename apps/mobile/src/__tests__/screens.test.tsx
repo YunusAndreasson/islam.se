@@ -83,17 +83,17 @@ describe('tab screens', () => {
     await renderSettled(withProviders(<Installningar />));
     // The header appears after the async settings hydration flips `loaded` (settled above).
     await waitFor(() => expect(screen.getByText('Inställningar')).toBeTruthy());
-    // The Förhandsvisning preview is now folded into a DisclosureGroup (collapsed by
-    // default), so its prayer labels are hidden from queries until opened. Expanding
-    // it and finding a prayer label proves the live preview — and thus the calculation
-    // module — ran end-to-end inside the screen.
-    fireEvent.press(screen.getByRole('button', { name: /^Förhandsvisning/ }));
+    // The "Förhandsvisa bönetider" preview is now folded into a DisclosureGroup
+    // (collapsed by default), so its prayer labels are hidden from queries until opened.
+    // Expanding it and finding a prayer label proves the live preview — and thus the
+    // calculation module — ran end-to-end inside the screen.
+    fireEvent.press(screen.getByRole('button', { name: /^Förhandsvisa bönetider/ }));
     expect(screen.getAllByText(/Fajr/).length).toBeGreaterThan(0);
   });
 
-  // Progressive disclosure: the Visning group lives in a collapsible card that
-  // starts closed (so a first-time user isn't faced with the whole tweaks panel)
-  // and opens on a header press. Guards the DisclosureGroup wiring on the screen.
+  // Progressive disclosure: the "Utseende och format" group lives in a collapsible
+  // card that starts closed (so a first-time user isn't faced with the whole tweaks
+  // panel) and opens on a header press. Guards the DisclosureGroup wiring on the screen.
   // (Beräkning used to be a disclosure too — it's now a pushed screen, see
   // src/app/(settings)/berakning.tsx — and "Manuella justeringar" recently
   // moved there alongside the other adhan calculation knobs, so what's left in
@@ -102,12 +102,12 @@ describe('tab screens', () => {
     await renderSettled(withProviders(<Installningar />));
     await waitFor(() => expect(screen.getByText('Inställningar')).toBeTruthy());
 
-    const header = screen.getByRole('button', { name: /^Visning,/ });
+    const header = screen.getByRole('button', { name: /^Utseende och format,/ });
     expect(header.props.accessibilityState.expanded).toBe(false);
 
     fireEvent.press(header);
     expect(
-      screen.getByRole('button', { name: /^Visning,/ }).props.accessibilityState.expanded,
+      screen.getByRole('button', { name: /^Utseende och format,/ }).props.accessibilityState.expanded,
     ).toBe(true);
   });
 
