@@ -203,10 +203,22 @@ export const shadow = {
     shadowOffset: { width: 0, height: 1 },
     elevation: 3,
   },
+  // A whisper of shadow for quiet map annotations (the prayer pills float over the
+  // changing wash, so they want presence without a visible drop). Lighter than `thumb`.
+  dot: {
+    shadowColor: palette.shadow,
+    shadowOpacity: 0.1,
+    shadowRadius: 3,
+    shadowOffset: { width: 0, height: 1 },
+    elevation: 1,
+  },
 } satisfies Record<string, ViewStyle>;
 
 /** Motion. Durations in ms; one spring for every snap so the app feels of a piece. */
 export const motion = {
+  // `quick` (110) sits below `fast` on purpose: it's the sensor-tracking easing for
+  // the Qibla compass, which must follow the magnetometer near 1:1 or it feels laggy.
+  quick: 110,
   fast: 160,
   base: 240,
   slow: 350,

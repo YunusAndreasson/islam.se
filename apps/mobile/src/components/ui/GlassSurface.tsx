@@ -29,8 +29,8 @@ import {
   type GlassStyle,
 } from 'expo-glass-effect';
 import { BlurView } from 'expo-blur';
-import type { ReactNode } from 'react';
-import { type StyleProp, StyleSheet, View, type ViewStyle } from 'react-native';
+import { type ReactNode, useEffect, useState } from 'react';
+import { AccessibilityInfo, type StyleProp, StyleSheet, View, type ViewStyle } from 'react-native';
 
 // Native capability is fixed for the process lifetime — resolve it once. We require BOTH:
 // the runtime API actually exists (isGlassEffectAPIAvailable) AND the Liquid Glass design
@@ -38,6 +38,33 @@ import { type StyleProp, StyleSheet, View, type ViewStyle } from 'react-native';
 // ship without the underlying API and *crash* if a GlassView is mounted anyway (expo/expo
 // #40911); Expo documents checking it before using GlassView.
 const LIQUID_GLASS = isGlassEffectAPIAvailable() && isLiquidGlassAvailable();
+
+// Per-mount because the user can toggle Reduce Transparency at runtime (iOS Settings →
+// Accessibility → Display). When on, a translucent blur is exactly what the setting asks
+// us to drop, so we render a solid surface instead. The initial read works cross-platform
+// (Android resolves false); the `reduceTransparencyChanged` event is iOS-only and simply
+// never fires elsewhere. Everything is optional-chained so a thin RN mock can't throw.
+function useReduceTransparency(): boolean {
+  const [reduce, setReduce] = useState(false);
+  useEffect(() => {
+    let mounted = true;
+    // Guard on the function reference (not the returned Promise) so the boolean
+    // conditional stays Promise-free; the .catch keeps it a handled, non-floating promise.
+    if (AccessibilityInfo.isReduceTransparencyEnabled) {
+      AccessibilityInfo.isReduceTransparencyEnabled()
+        .then((v) => {
+          if (mounted) setReduce(v);
+        })
+        .catch(() => {});
+    }
+    const sub = AccessibilityInfo.addEventListener?.('reduceTransparencyChanged', setReduce);
+    return () => {
+      mounted = false;
+      sub?.remove();
+    };
+  }, []);
+  return reduce;
+}
 
 interface Props {
   children?: ReactNode;
@@ -67,6 +94,7 @@ export function GlassSurface({
   interactive = false,
   tint,
 }: Props) {
+  const reduce = useReduceTransparency();
   const radius = { borderRadius };
   const Glass = LIQUID_GLASS ? (
     <GlassView
@@ -86,6 +114,22 @@ export function GlassSurface({
       experimentalBlurMethod="dimezisBlurView"
     />
   );
+
+  // Reduce Transparency on: skip the blur/glass material entirely and show a solid
+  // fill from the chrome `tint` (no separate tint overlay — it would double up). The
+  // chrome passes `cardGlass` (~0.90 alpha), so the solid is near-opaque, far more
+  // legible than a blurred surface; a future refinement could thread a fully-opaque
+  // tint. Decorative surfaces with no `tint` (halos / pills) simply drop the material.
+  if (reduce) {
+    return (
+      <View style={[style, radius, { overflow: 'hidden' }]}>
+        {tint ? (
+          <View pointerEvents="none" style={[StyleSheet.absoluteFill, radius, { backgroundColor: tint }]} />
+        ) : null}
+        {children}
+      </View>
+    );
+  }
 
   return (
     <View style={[style, radius, { overflow: 'hidden' }]}>

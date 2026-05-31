@@ -9,7 +9,7 @@ import Animated, {
 } from 'react-native-reanimated';
 
 import { hapticLight } from '../../lib/haptics';
-import { motion, type } from '../../theme/tokens';
+import { motion, radius, space, type } from '../../theme/tokens';
 import { type SettingsColors, useSettingsColors } from './theme';
 
 // A collapsible card for advanced settings. Collapsed, it shows its category title
@@ -41,9 +41,9 @@ export function DisclosureGroup({
 
   const [expanded, setExpanded] = useState(defaultExpanded);
   const [contentHeight, setContentHeight] = useState(0);
-  // Seed with a one-line estimate (paddingTop 3 + lineHeight 20) so the value shows
-  // immediately on mount; onLayout then snaps it to the true height (e.g. two lines).
-  const [summaryHeight, setSummaryHeight] = useState(23);
+  // Seed with a one-line estimate (paddingTop 3 + callout lineHeight 21) so the value
+  // shows immediately on mount; onLayout then snaps it to the true height (e.g. two lines).
+  const [summaryHeight, setSummaryHeight] = useState(24);
 
   // 0 = collapsed, 1 = expanded. Drives body height, chevron rotation, summary fade.
   const open = useSharedValue(defaultExpanded ? 1 : 0);
@@ -124,21 +124,21 @@ export function DisclosureGroup({
 
 function makeStyles(colors: SettingsColors) {
   return StyleSheet.create({
-    wrap: { marginBottom: 24 },
+    wrap: { marginBottom: space.xxl },
     card: {
       backgroundColor: colors.card,
-      borderRadius: 12,
+      borderRadius: radius.md,
       borderWidth: StyleSheet.hairlineWidth,
       borderColor: colors.border,
       overflow: 'hidden',
     },
     header: {
-      minHeight: 56,
+      minHeight: 56, // touch target — paddingVertical 14 is the 56-min-height math, kept
       paddingVertical: 14,
-      paddingHorizontal: 16,
+      paddingHorizontal: space.lg,
       flexDirection: 'row',
       alignItems: 'center',
-      gap: 12,
+      gap: space.md,
     },
     headerPressed: { backgroundColor: colors.accentSoft },
     // The title + its value subtitle, stacked; takes the row's flexible width so the
@@ -151,7 +151,9 @@ function makeStyles(colors: SettingsColors) {
     // The value preview, left-aligned beneath the title (a subtitle). paddingTop is the
     // title→value gap and rides inside the measured height, so collapsing on open leaves
     // no orphan space. lineHeight keeps a wrapped two-line value tidy.
-    summary: { paddingTop: 3, fontSize: 15, lineHeight: 20, color: colors.text },
+    // paddingTop is the title→value gap (kept literal so the seeded summaryHeight
+    // estimate above stays valid); the rest is type.callout.
+    summary: { ...type.callout, paddingTop: 3, color: colors.text },
     body: { overflow: 'hidden' },
     // Absolute so the children's natural height is reported via onLayout without
     // forcing the (animated) body open. A hairline divides header from content.

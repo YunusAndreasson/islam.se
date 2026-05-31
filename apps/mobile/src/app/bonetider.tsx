@@ -40,6 +40,7 @@ import { useSettings } from '../lib/settings/context';
 import type { PrayerSettings } from '../lib/settings/types';
 import { buildGrid, buildLines } from '../lib/solar/field';
 import { useSolarClock } from '../lib/solar/useSolarClock';
+import { motion, radius, space, type } from '../theme/tokens';
 import { useActiveScheme, useColors } from '../theme/useColors';
 
 // Sweden bounding box, flat [west, south, east, north] (MapLibre GL JS style).
@@ -80,7 +81,7 @@ const DAY_MS = 86_400_000;
 // clearly above it rather than pressed against its top edge. Only needs to clear
 // the tile-rendered Malmö label now — 16dp is the floor that still leaves the
 // halo readable above the dock's top edge.
-const DOCK_MARGIN = 16;
+const DOCK_MARGIN = space.lg;
 
 // Only the fields that change the computed times — the grid is rebuilt when this
 // signature changes, not on cosmetic settings (time format, Hijri offset).
@@ -394,13 +395,13 @@ export default function Bonetider() {
           (border) + icon + haptic so it reads unmistakably as a button, not a label —
           the old wordmark style was too quiet to invite a tap. */}
       {moved && (
-        <View style={[styles.resetWrap, { top: insets.top + 16 }]} pointerEvents="box-none">
+        <View style={[styles.resetWrap, { top: insets.top + space.lg }]} pointerEvents="box-none">
           <Pressable
             onPress={() => {
               hapticLight();
               cameraRef.current?.fitBounds(SWEDEN_BOUNDS, {
                 padding: { top: 0, right: 0, bottom: collapsedDock + DOCK_MARGIN, left: 0 },
-                duration: 350,
+                duration: motion.slow,
               });
               setMoved(false);
             }}
@@ -409,7 +410,7 @@ export default function Bonetider() {
           >
             <GlassSurface
               style={[styles.resetChip, { borderColor: colors.accent }]}
-              borderRadius={18}
+              borderRadius={radius.lg}
               interactive
               tint={colors.cardGlass}
             >
@@ -443,10 +444,11 @@ const styles = StyleSheet.create({
   resetChip: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 6,
-    paddingHorizontal: 14,
-    paddingVertical: 8,
-    borderWidth: 1.5,
+    gap: space.sm,
+    paddingHorizontal: space.md,
+    paddingVertical: space.sm,
+    borderWidth: 1.5, // intentional accent ring weight — kept
   },
-  resetText: { fontSize: 13, fontWeight: '700', letterSpacing: 0.2 },
+  // caption size, weighted up for a button label.
+  resetText: { ...type.caption, fontWeight: '700', letterSpacing: 0.2 },
 });
