@@ -2,6 +2,8 @@ import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { useMemo } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 
+import { hapticLight } from '../../lib/haptics';
+import { radius, space, type } from '../../theme/tokens';
 import { type SettingsColors, useSettingsColors } from './theme';
 
 // A labelled −/value/+ stepper row for integer settings (minute adjustments,
@@ -28,13 +30,20 @@ export function Stepper({
   const colors = useSettingsColors();
   const styles = useMemo(() => makeStyles(colors), [colors]);
   const clamp = (n: number) => Math.max(min, Math.min(max, n));
+  // Light impact only when the clamped value actually moves — a discrete step snap.
+  // No buzz at min/max (the button is also `disabled` there, so it's double-guarded).
+  const stepBy = (delta: number) => {
+    const next = clamp(value + delta);
+    if (next !== value) hapticLight();
+    onChange(next);
+  };
   const display = format ? format(value) : String(value);
   return (
     <View style={[styles.row, divider && styles.divider]}>
       <Text style={styles.label}>{label}</Text>
       <View style={styles.control}>
         <Pressable
-          onPress={() => onChange(clamp(value - step))}
+          onPress={() => stepBy(-step)}
           disabled={value <= min}
           accessibilityRole="button"
           accessibilityLabel={`Minska ${label}`}
@@ -44,7 +53,7 @@ export function Stepper({
         </Pressable>
         <Text style={styles.value}>{display}</Text>
         <Pressable
-          onPress={() => onChange(clamp(value + step))}
+          onPress={() => stepBy(step)}
           disabled={value >= max}
           accessibilityRole="button"
           accessibilityLabel={`Öka ${label}`}
@@ -60,25 +69,31 @@ export function Stepper({
 function makeStyles(colors: SettingsColors) {
   return StyleSheet.create({
     row: {
-      minHeight: 48,
-      paddingVertical: 8,
-      paddingHorizontal: 16,
+      minHeight: 48, // comfortable touch target — kept fixed
+      paddingVertical: space.sm,
+      paddingHorizontal: space.lg,
       flexDirection: 'row',
       alignItems: 'center',
       justifyContent: 'space-between',
     },
     divider: { borderTopWidth: StyleSheet.hairlineWidth, borderTopColor: colors.separator },
-    label: { fontSize: 16, color: colors.text, flex: 1 },
+    label: { ...type.body, color: colors.text, flex: 1 },
     control: { flexDirection: 'row', alignItems: 'center' },
     btn: {
-      width: 44,
+      width: 44, // 44pt touch target — kept fixed
       height: 44,
       alignItems: 'center',
       justifyContent: 'center',
-      borderRadius: 22,
+      borderRadius: radius.xl,
     },
     pressed: { backgroundColor: colors.accentSoft },
     disabled: { opacity: 0.5 },
-    value: { fontSize: 16, color: colors.text, minWidth: 64, textAlign: 'center', fontVariant: ['tabular-nums'] },
+    value: {
+      ...type.body,
+      color: colors.text,
+      minWidth: 64, // holds width as the digits change so the +/- buttons don't shift
+      textAlign: 'center',
+      fontVariant: ['tabular-nums'],
+    },
   });
 }

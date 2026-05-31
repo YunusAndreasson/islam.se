@@ -26,7 +26,7 @@ import { ModalBar } from '@/components/ui/ModalBar';
 import { useSettingsColors, type SettingsColors } from '@/components/settings/theme';
 import { PLACES, type SwedishPlace } from '@/lib/places/data';
 import { useSettings } from '@/lib/settings/context';
-import { space, type } from '@/theme/tokens';
+import { radius, space, type } from '@/theme/tokens';
 
 /** Lower-case + strip combining marks so å/ä/ö match a/a/o for search. */
 function fold(s: string): string {
@@ -35,6 +35,8 @@ function fold(s: string): string {
 
 const NUMBER_FMT = new Intl.NumberFormat('sv-SE');
 
+// Fixed list-row metric — must be a constant for FlatList getItemLayout below
+// (not a spacing token). Holds the row at a comfortable two-line height.
 const ROW_HEIGHT = 64;
 
 export default function BytPlats() {
@@ -150,15 +152,15 @@ function makeStyles(colors: SettingsColors) {
       alignItems: 'center',
       gap: space.sm,
       backgroundColor: colors.card,
-      borderRadius: 12,
+      borderRadius: radius.md,
       borderWidth: StyleSheet.hairlineWidth,
       borderColor: colors.border,
       paddingHorizontal: space.md,
-      paddingVertical: 10,
+      paddingVertical: space.sm,
       marginBottom: space.sm,
     },
     searchInput: { flex: 1, ...type.body, color: colors.text, padding: 0 },
-    count: { fontSize: 12, color: colors.textMuted, marginBottom: space.sm, paddingHorizontal: space.xs },
+    count: { ...type.caption, color: colors.textMuted, marginBottom: space.sm, paddingHorizontal: space.xs },
     listContent: { paddingBottom: space.xxl },
     row: {
       height: ROW_HEIGHT,
@@ -167,7 +169,7 @@ function makeStyles(colors: SettingsColors) {
       gap: space.md,
       paddingHorizontal: space.lg,
       backgroundColor: colors.card,
-      borderRadius: 12,
+      borderRadius: radius.md,
       borderWidth: StyleSheet.hairlineWidth,
       borderColor: colors.border,
     },
@@ -176,7 +178,7 @@ function makeStyles(colors: SettingsColors) {
     rowText: { flex: 1 },
     rowName: { ...type.body, color: colors.text },
     rowNameSelected: { color: colors.highlight, fontWeight: '600' },
-    rowMeta: { fontSize: 12, color: colors.textMuted, marginTop: 2 },
+    rowMeta: { ...type.caption, color: colors.textMuted, marginTop: 2 }, // optical nudge
     separator: { height: space.xs },
     empty: { color: colors.textMuted, textAlign: 'center', paddingVertical: space.xl },
   });

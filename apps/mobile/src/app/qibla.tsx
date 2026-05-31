@@ -26,7 +26,7 @@ import { ModalBar } from '../components/ui/ModalBar';
 import { hapticSuccess } from '../lib/haptics';
 import { useLocation } from '../lib/location/context';
 import { angleDelta, formatKm, qiblaBearing, qiblaDistanceKm } from '../lib/qibla';
-import { mono, type Palette, radius, shadow, space, type } from '../theme/tokens';
+import { mono, motion, type Palette, radius, shadow, space, type } from '../theme/tokens';
 import { useColors } from '../theme/useColors';
 
 // Degrees within which we call it "facing the qibla".
@@ -90,9 +90,9 @@ export default function Qibla() {
       // Idiomatic reanimated: drive the shared values from JS. The compiler's
       // immutability rule can't see that a SharedValue is meant to be mutated.
       // eslint-disable-next-line react-hooks/immutability
-      roseDeg.value = withTiming(-unwrapped.current, { duration: 110 });
+      roseDeg.value = withTiming(-unwrapped.current, { duration: motion.quick });
       // eslint-disable-next-line react-hooks/immutability
-      prox.value = withTiming(p, { duration: 110 });
+      prox.value = withTiming(p, { duration: motion.quick });
       setHeading(norm);
       setNoCompass((v) => (v ? false : v));
     },
@@ -337,6 +337,11 @@ function makeStyles(c: Palette) {
     sightWrap: { position: 'absolute', top: 0, left: 0, right: 0, alignItems: 'center' },
     sight: { width: 2, height: '100%' },
 
+    // ── Dial instrument geometry below is deliberately bespoke (it's an instrument
+    //    drawing, not layout): tick/cone/kaaba/hub/index/needle sizes and the giant
+    //    bearing numerals stay as literals. Only typography that doubles as UI text
+    //    (cardinals, status, facts) and the surrounding spacing map to tokens. ──
+
     // A beam lives in a slot rotated to the bearing; flex-end puts its apex at the hub.
     coneSlot: { position: 'absolute', top: 0, left: 0, right: 0, alignItems: 'center', justifyContent: 'flex-end' },
     coneBase: {
@@ -354,7 +359,7 @@ function makeStyles(c: Palette) {
     tickMinor: { width: 1.5, height: 7, borderRadius: 1, backgroundColor: c.inkFaint },
 
     cardinalSlot: { position: 'absolute', top: 24, left: 0, right: 0, alignItems: 'center' },
-    cardinal: { fontSize: 16, fontWeight: '700', color: c.ink },
+    cardinal: { ...type.bodyStrong, fontWeight: '700', color: c.ink },
     cardinalN: { color: c.accent },
 
     needleSlot: { position: 'absolute', top: 0, left: 0, right: 0, alignItems: 'center' },
@@ -426,8 +431,10 @@ function makeStyles(c: Palette) {
 
     facts: { flexDirection: 'row', alignItems: 'flex-end', gap: space.sm, marginTop: space.xl },
     bearingRow: { flexDirection: 'row', alignItems: 'flex-end' },
+    // Bearing readout — bespoke display numerals (a big instrument reading), not on the
+    // type scale; the 54/30px sizes are intentional and used nowhere else.
     bearingNum: { fontSize: 54, fontWeight: '400', color: c.ink, letterSpacing: 0.5, ...mono },
-    bearingDeg: { fontSize: 30, fontWeight: '400', color: c.accent, marginBottom: 7 },
+    bearingDeg: { fontSize: 30, fontWeight: '400', color: c.accent, marginBottom: 7 }, // optical baseline
     factLabel: { ...type.body, color: c.inkMuted, marginBottom: 13 },
     distance: { ...type.callout, color: c.inkMuted, marginTop: 2, ...mono },
     note: { ...type.caption, color: c.inkFaint, textAlign: 'center', marginTop: space.lg, maxWidth: 300 },

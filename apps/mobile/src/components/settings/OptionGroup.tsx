@@ -2,6 +2,8 @@ import { MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
 import { useMemo } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 
+import { hapticSelection } from '../../lib/haptics';
+import { space, type } from '../../theme/tokens';
 import { type SettingsColors, useSettingsColors } from './theme';
 
 export interface Option<T extends string> {
@@ -34,7 +36,12 @@ export function OptionGroup<T extends string>({
         return (
           <Pressable
             key={opt.value}
-            onPress={() => onChange(opt.value)}
+            onPress={() => {
+              // A selection tick only on an actual change — matches the scrubber's
+              // landmark-crossing feel and avoids buzzing on re-tapping the current row.
+              if (opt.value !== value) hapticSelection();
+              onChange(opt.value);
+            }}
             accessibilityRole="radio"
             accessibilityState={{ selected }}
             style={({ pressed }) => [
@@ -68,19 +75,19 @@ export function OptionGroup<T extends string>({
 function makeStyles(colors: SettingsColors) {
   return StyleSheet.create({
     row: {
-      minHeight: 48,
-      paddingVertical: 12,
-      paddingHorizontal: 16,
+      minHeight: 48, // comfortable touch target — kept fixed
+      paddingVertical: space.md,
+      paddingHorizontal: space.lg,
       flexDirection: 'row',
       alignItems: 'center',
       justifyContent: 'space-between',
-      gap: 12,
+      gap: space.md,
     },
     rowDivider: { borderTopWidth: StyleSheet.hairlineWidth, borderTopColor: colors.separator },
     pressed: { backgroundColor: colors.accentSoft },
-    icon: { width: 20, marginRight: 4, textAlign: 'center' },
+    icon: { width: 20, marginRight: space.xs, textAlign: 'center' },
     textWrap: { flex: 1 },
-    label: { fontSize: 16, color: colors.text },
-    description: { fontSize: 13, color: colors.textMuted, marginTop: 2 },
+    label: { ...type.body, color: colors.text },
+    description: { ...type.caption, color: colors.textMuted, marginTop: 2 }, // optical nudge
   });
 }

@@ -50,13 +50,15 @@ import {
 import type { PrayerSettings } from '../../lib/settings/types';
 import { prayerColorFor } from '../../lib/solar/palette';
 import type { SolarClock } from '../../lib/solar/useSolarClock';
-import { type Palette, shadow } from '../../theme/tokens';
+import { motion, type Palette, radius, shadow, space, type } from '../../theme/tokens';
 import { useActiveScheme, useColors } from '../../theme/useColors';
 import { GlassSurface } from '../ui/GlassSurface';
 
 const DAY_MS = 86_400_000;
 const HOUR_TICKS = ['00', '06', '12', '18', '24'];
-const SPRING = { damping: 20, stiffness: 200, mass: 0.6 };
+// The app's one canonical snap spring (tokens.motion.spring), aliased locally so the
+// worklet call sites stay terse.
+const SPRING = motion.spring;
 
 // Dock heights (excluding the bottom safe-area inset, which the screen adds). The
 // map reads these so it can frame Sweden *above* the dock in both states.
@@ -312,7 +314,7 @@ export function PrayerDock({
 
         {/* The card floats above the gesture bar (see DOCK_FLOAT), so the content only
             needs its own internal breathing here — no system-inset clearance. */}
-        <View style={[styles.content, { paddingBottom: 10 }]} pointerEvents="box-none">
+        <View style={[styles.content, { paddingBottom: space.sm }]} pointerEvents="box-none">
           {/* Revealed when expanded: the date header + full day's schedule. The rows
               fade/slide in bottom-up with the dock height (and the date crowns last),
               so nothing peeks while collapsed. Tap a row to ease the scrubber to it. */}
@@ -513,6 +515,7 @@ function ScheduleRow({
         style={({ pressed }) => [styles.listRow, pressed && styles.listRowPressed]}
         accessibilityRole="button"
         accessibilityLabel={`${PRAYER_LABELS[prayerKey]} ${valid ? formatTime(date) : 'okänd'}`}
+        accessibilityHint="Tryck för att flytta tidslinjen till den här bönen."
       >
         {/* Sun-cycle glyph tinted in the prayer's solar colour — replaces the
             old 8x8 colour dot. Carries both meanings at once: shape says
@@ -639,6 +642,7 @@ function SolarTimeline({
           onLayout={(e) => setTrackW(e.nativeEvent.layout.width)}
           accessibilityRole="adjustable"
           accessibilityLabel="Dagens tidslinje"
+          accessibilityHint="Dra för att resa genom dygnet och se bönetiderna."
         >
           <View style={styles.trackBase} />
           {/* Plain-style `width` first so the freshly-mounted fill already spans to the
@@ -693,14 +697,15 @@ function SolarTimeline({
   );
 }
 
-// Styles built from the active OS palette. Layout is fixed; only colours come from `c`.
+// Styles built from the active OS palette. Layout geometry is fixed; colours come from
+// `c`, and typography/spacing snap to the design tokens (type.* / space.* / radius.*).
 function makeStyles(c: Palette) {
   return StyleSheet.create({
     shadowWrap: {
       position: 'absolute',
-      left: 12,
-      right: 12,
-      borderRadius: 22,
+      left: space.md,
+      right: space.md,
+      borderRadius: radius.xl,
       ...shadow.card,
     },
     // The rim lives on this rounded, overflow-clipped container — NOT on the
@@ -712,32 +717,33 @@ function makeStyles(c: Palette) {
     // which was near-invisible on the light dock but glaring on the dark one.
     clip: {
       flex: 1,
-      borderRadius: 22,
+      borderRadius: radius.xl,
       overflow: 'hidden',
       borderWidth: StyleSheet.hairlineWidth,
       borderColor: c.hairline,
     },
     // paddingTop clears the grab-handle zone (handleHit is 34 tall) plus a gap, so
     // the topmost content (the date header / hero) never sits cramped under the handle.
-    content: { flex: 1, justifyContent: 'flex-end', paddingHorizontal: 16, paddingTop: 36 },
+    content: { flex: 1, justifyContent: 'flex-end', paddingHorizontal: space.lg, paddingTop: 36 },
 
-    dateHeader: { marginBottom: 12 },
-    dateHijri: { fontSize: 16, fontWeight: '700', color: c.ink, letterSpacing: 0.2 },
-    dateGreg: { fontSize: 12.5, color: c.inkMuted, marginTop: 1 },
+    dateHeader: { marginBottom: space.md },
+    // Date crown — bodyStrong weighted up to 700.
+    dateHijri: { ...type.bodyStrong, fontWeight: '700', letterSpacing: 0.2, color: c.ink },
+    dateGreg: { ...type.caption, color: c.inkMuted, marginTop: 1 }, // optical nudge
 
-    list: { marginBottom: 8 },
+    list: { marginBottom: space.sm },
     listRow: {
       flexDirection: 'row',
       alignItems: 'center',
-      gap: 10,
-      paddingVertical: 7,
+      gap: space.sm,
+      paddingVertical: 7, // row touch-target height — kept (snapping would reflow the list)
     },
     listRowPressed: { opacity: 0.55 },
     // Same 18px width the old listDot occupied (8 + 10 gap) is now the icon's
-    // intrinsic size; rely on the row's `gap: 10` for spacing.
+    // intrinsic size; rely on the row's `gap` for spacing.
     listIcon: { width: 18, textAlign: 'center' },
-    listLabel: { flex: 1, fontSize: 15, color: c.ink },
-    listTime: { fontSize: 15, color: c.ink, fontVariant: ['tabular-nums'] },
+    listLabel: { ...type.callout, flex: 1, color: c.ink },
+    listTime: { ...type.callout, color: c.ink, fontVariant: ['tabular-nums'] },
     // The next prayer = brass everywhere (here, the countdown, the map pill), so
     // "what's coming" reads in one colour across the dock and the map.
     nextEmphasis: { color: c.highlight, fontWeight: '700' },
@@ -748,39 +754,44 @@ function makeStyles(c: Palette) {
     // a FIXED height so swapping content never reflows the timeline pinned below it;
     // both layers are absolutely positioned, so neither contributes layout height. 44
     // clears the collapsed two-tier content (19px name + gap + 15px time·place line).
-    hero: { height: 44, marginBottom: 4, justifyContent: 'center' },
+    hero: { height: 44, marginBottom: space.xs, justifyContent: 'center' },
     heroLayer: { position: 'absolute', left: 0, right: 0 },
     heroTop: { flexDirection: 'row', alignItems: 'center' },
-    heroPrayer: { fontSize: 19, fontWeight: '700', color: c.ink, letterSpacing: 0.2 },
+    heroPrayer: { ...type.headline, color: c.ink },
     // Expanded hero name: a touch smaller than collapsed (the date header crowns the
     // open dock), shown only when the next prayer is tomorrow's and thus absent from
     // today's list.
-    heroPrayerExpanded: { fontSize: 16, fontWeight: '700', color: c.ink, letterSpacing: 0.2 },
+    heroPrayerExpanded: { ...type.bodyStrong, fontWeight: '700', letterSpacing: 0.2, color: c.ink },
+    heroNone: { ...type.body, color: c.inkMuted },
+    // ── Dock countdown numerals — intentionally bespoke, NOT on the type scale: a big
+    //    tabular brass digit (18) with a flush small unit (12) and a quiet prefix (13),
+    //    plus the 14px "i morgon" sibling. These numeric-display sizes are used nowhere
+    //    else; tokenizing them would pollute the global scale for one component. ──
     heroTomorrow: { fontSize: 14, fontWeight: '400', color: c.inkMuted },
-    heroNone: { fontSize: 16, color: c.inkMuted },
-    countdown: { marginLeft: 8, fontSize: 18, fontWeight: '700', color: c.highlight, fontVariant: ['tabular-nums'] },
+    countdown: { marginLeft: space.sm, fontSize: 18, fontWeight: '700', color: c.highlight, fontVariant: ['tabular-nums'] },
     countdownPrefix: { fontSize: 13, fontWeight: '400', color: c.inkMuted },
     // Unit ("t" / "min") at ~65% of the digit size, medium-weight, same brass.
     // Flush against the digit (no inter-character space) — the hierarchy +
     // proximity that the old equal-weight string lacked.
     countdownUnit: { fontSize: 12, fontWeight: '600', color: c.highlight },
-    heroSub: { flexDirection: 'row', alignItems: 'center', gap: 4, marginTop: 2 },
-    heroPlaceRow: { flexDirection: 'row', alignItems: 'center', gap: 3, marginLeft: 8, flexShrink: 1, minWidth: 0 },
-    subTime: { fontSize: 13, color: c.inkMuted, fontVariant: ['tabular-nums'] },
-    subSep: { fontSize: 13, color: c.inkMuted },
-    subPlace: { fontSize: 11.5, color: c.inkFaint, flexShrink: 1 },
+    heroSub: { flexDirection: 'row', alignItems: 'center', gap: space.xs, marginTop: 2 }, // optical nudge
+    heroPlaceRow: { flexDirection: 'row', alignItems: 'center', gap: space.xs, marginLeft: space.sm, flexShrink: 1, minWidth: 0 },
+    subTime: { ...type.caption, color: c.inkMuted, fontVariant: ['tabular-nums'] },
+    subSep: { ...type.caption, color: c.inkMuted },
+    subPlace: { ...type.micro, color: c.inkFaint, flexShrink: 1 },
 
     flex: { flex: 1 },
     previewBadge: {
-      marginLeft: 8,
+      marginLeft: space.sm,
       flexDirection: 'row',
       alignItems: 'center',
-      gap: 3,
-      borderRadius: 8,
-      paddingHorizontal: 8,
-      paddingVertical: 4,
+      gap: space.xs,
+      borderRadius: radius.sm,
+      paddingHorizontal: space.sm,
+      paddingVertical: space.xs,
       backgroundColor: c.accentSoft,
     },
+    // Small brass-on-tint "Nu" badge — 12/700 is a deliberate compact chip label, kept local.
     previewBadgeText: { fontSize: 12, fontWeight: '700', color: c.accent },
 
     timelineArea: {},
@@ -825,6 +836,8 @@ function makeStyles(c: Palette) {
       zIndex: 3,
     },
     ticks: { flexDirection: 'row', justifyContent: 'space-between', marginTop: 0 },
+    // Hour-axis tick — 10px tabular, deliberately below `micro`; the smallest label in
+    // the app and bespoke to the timeline.
     tick: { fontSize: 10, color: c.inkFaint, fontVariant: ['tabular-nums'] },
 
     handleHit: {

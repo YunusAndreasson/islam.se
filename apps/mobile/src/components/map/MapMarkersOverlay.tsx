@@ -24,7 +24,7 @@ import { type Camera, project } from '../../lib/map/projection';
 import { type LatLng, PRAYER_LABELS, type PrayerKey } from '../../lib/prayer-times';
 import type { PrayerLineLabel } from '../../lib/solar/field';
 import { prayerColorFor } from '../../lib/solar/palette';
-import { palette } from '../../theme/tokens';
+import { radius, shadow, space, type } from '../../theme/tokens';
 import { useActiveScheme, useColors } from '../../theme/useColors';
 
 interface Props {
@@ -170,21 +170,18 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     borderWidth: 1,
-    borderRadius: 999,
+    borderRadius: radius.round,
+    // Deliberately tight annotation geometry (a map label chip, not a UI button) —
+    // off-scale on purpose so the pill stays compact against the prayer line.
     paddingVertical: 3,
     paddingHorizontal: 7,
-    gap: 4,
+    gap: space.xs,
     // Centre the pill on its computed point (RN supports % translate on 0.85/Fabric).
     transform: [{ translateX: '-50%' }, { translateY: '-50%' }],
-    // Warm shadow from the design tokens — was a stale cool `#0b1220` predating the
-    // warm-shadow switch, the one cold tint left over the warm palette.
-    shadowColor: palette.shadow,
-    shadowOpacity: 0.1,
-    shadowRadius: 3,
-    shadowOffset: { width: 0, height: 1 },
-    elevation: 1,
+    // The token's whisper-light annotation shadow (warm-palette shadow colour baked in).
+    ...shadow.dot,
   },
   pillNext: { borderWidth: 1.5 },
   dot: { width: 6, height: 6, borderRadius: 3 },
-  pillLabel: { fontSize: 11, fontWeight: '500' },
+  pillLabel: { ...type.micro },
 });
