@@ -223,7 +223,7 @@ export default function Installningar() {
             whose job is configuration. Summary line carries today's date +
             place so the collapsed header alone still says "what this would
             show". */}
-        <DisclosureGroup title="Förhandsvisning" summary={preview.gregorian}>
+        <DisclosureGroup title="Förhandsvisa bönetider" summary={preview.gregorian}>
           <View>
             <View style={styles.previewHead}>
               <Text style={styles.previewDate}>{preview.gregorian}</Text>
@@ -306,7 +306,7 @@ export default function Installningar() {
             display to match local moon-sighting. Per-prayer minute offsets used
             to live here too — they moved to Beräkning, alongside the other
             adhan CalculationParameters, where they conceptually belong. */}
-        <DisclosureGroup title="Visning" summary={visningSummary()}>
+        <DisclosureGroup title="Utseende och format" summary={visningSummary()}>
           <SubGroup styles={styles} title="Avrundning">
             <OptionGroup
               options={ROUNDING_OPTIONS}
@@ -331,14 +331,15 @@ export default function Installningar() {
             />
           </SubGroup>
 
-          {/* Utseende — Apple Maps-style theme override. Tucked at the bottom of
-              Visning because it's a display preference, not a calculation, and
-              defaults to "Följ system" (the system Display setting decides).
-              The dock, basemap, wash and prayer-line colours all swap together
-              the instant the user picks a row, via useActiveScheme(). */}
+          {/* Tema — Apple Maps-style theme override. Tucked under "Utseende och format"
+              because it's a display preference, not a calculation, and defaults to
+              "Följ system" (the system Display setting decides). The dock, basemap, wash
+              and prayer-line colours all swap together the instant the user picks a row,
+              via useActiveScheme(). Titled "Tema" (not "Utseende") so it doesn't echo the
+              group name and matches the "Tema · …" summary. */}
           <SubGroup
             styles={styles}
-            title="Utseende"
+            title="Tema"
             footnote="Påverkar kartan och hela appen."
             divider
           >

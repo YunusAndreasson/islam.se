@@ -56,12 +56,12 @@ function toMin(hhmm: string): number {
   return h * 60 + m;
 }
 
-// The Förhandsvisning preview is collapsed-by-default (a DisclosureGroup) — its
-// children are mounted but the parent sets accessibilityElementsHidden when
+// The "Förhandsvisa bönetider" preview is collapsed-by-default (a DisclosureGroup) —
+// its children are mounted but the parent sets accessibilityElementsHidden when
 // closed, which hides the testID-bearing rows from queries. Expand it once at
 // render time so the existing `shown()` lookups keep working unchanged.
 function expandPreview(): void {
-  fireEvent.press(screen.getByRole('button', { name: /Förhandsvisning/ }));
+  fireEvent.press(screen.getByRole('button', { name: /Förhandsvisa bönetider/ }));
 }
 
 async function renderSettings(): Promise<void> {
