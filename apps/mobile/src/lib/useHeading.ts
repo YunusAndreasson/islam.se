@@ -12,6 +12,8 @@ import * as Location from 'expo-location';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { type SharedValue, useSharedValue, withTiming } from 'react-native-reanimated';
 
+import { headingReliable } from './qibla';
+
 interface Options {
   /** Subscribe only while true (pass `useIsFocused()`); unsubscribes on false/unmount. */
   active: boolean;
@@ -26,17 +28,23 @@ interface Heading {
   noCompass: boolean;
   /** Continuous, unwrapped heading (deg), smoothed; rotate a needle by this on the UI thread. */
   rotation: SharedValue<number>;
+  /** expo-location heading calibration level 0–3 (0 none … 3 high), or null until first event. */
+  accuracy: number | null;
+  /** Whether `heading` is trustworthy enough to point at / lock onto the qibla (accuracy ≥ 2).
+      Below this the magnetometer is mid-calibration and can be tens of degrees off. */
+  reliable: boolean;
 }
 
 export function useHeading({ active, request }: Options): Heading {
   const [heading, setHeading] = useState<number | null>(null);
   const [noCompass, setNoCompass] = useState(false);
+  const [accuracy, setAccuracy] = useState<number | null>(null);
   const rotation = useSharedValue(0);
   const lastRaw = useRef(0);
   const unwrapped = useRef(0);
 
   const onHeading = useCallback(
-    (raw: number) => {
+    (raw: number, acc: number | null) => {
       const norm = ((raw % 360) + 360) % 360;
       // Unwrap so the needle takes the short path across the 0/360 seam.
       const delta = ((norm - lastRaw.current + 540) % 360) - 180;
@@ -47,6 +55,7 @@ export function useHeading({ active, request }: Options): Heading {
       // eslint-disable-next-line react-hooks/immutability
       rotation.value = withTiming(unwrapped.current, { duration: 110 });
       setHeading(norm);
+      setAccuracy(acc);
       setNoCompass((v) => (v ? false : v));
     },
     [rotation],
@@ -79,7 +88,7 @@ export function useHeading({ active, request }: Options): Heading {
           const raw = h.trueHeading != null && h.trueHeading >= 0 ? h.trueHeading : h.magHeading;
           if (raw == null || Number.isNaN(raw)) return;
           gotEvent = true;
-          onHeading(raw);
+          onHeading(raw, typeof h.accuracy === 'number' ? h.accuracy : null);
         });
         if (cancelled) s.remove();
         else sub = s;
@@ -95,5 +104,5 @@ export function useHeading({ active, request }: Options): Heading {
     };
   }, [active, request, onHeading]);
 
-  return { heading, noCompass, rotation };
+  return { heading, noCompass, rotation, accuracy, reliable: headingReliable(accuracy) };
 }

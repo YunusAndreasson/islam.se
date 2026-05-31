@@ -33,6 +33,20 @@ export function angleDelta(a: number, b: number): number {
   return Math.abs(((a - b + 540) % 360) - 180);
 }
 
+// expo-location's heading `accuracy` is a calibration level 0–3 (0 = none, 3 = high).
+// Per the Expo SDK docs, on iOS 3 means < 20° uncertainty and 0 means > 50°. Below
+// MEDIUM the compass can be tens of degrees off — far more than the ≤4° qibla lock
+// tolerance — so we treat anything under this as "still calibrating" and ask the user
+// to move the phone in a figure-8 rather than show (or lock onto) a confidently-wrong
+// heading. One canonical threshold shared by the Qibla screen and the map compass button.
+export const HEADING_ACCURACY_MIN = 2;
+
+/** Whether a heading reading is trustworthy enough to point at / lock onto the qibla.
+    `accuracy` is the expo-location heading calibration level (0–3); null = no reading yet. */
+export function headingReliable(accuracy: number | null | undefined): boolean {
+  return accuracy != null && accuracy >= HEADING_ACCURACY_MIN;
+}
+
 /** A distance formatted for Swedish display: "412 km" / "4 102 km" (thin-space groups). */
 export function formatKm(km: number): string {
   const rounded = Math.round(km);
