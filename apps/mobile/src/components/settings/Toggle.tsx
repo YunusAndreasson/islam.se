@@ -33,9 +33,9 @@ export function Toggle({
         value={value}
         onValueChange={onValueChange}
         disabled={disabled}
-        trackColor={{ true: colors.accent, false: colors.separator }}
-        thumbColor={colors.card}
-        ios_backgroundColor={colors.separator}
+        trackColor={{ true: colors.accent, false: colors.track }}
+        thumbColor={colors.thumb}
+        ios_backgroundColor={colors.track}
       />
     </View>
   );

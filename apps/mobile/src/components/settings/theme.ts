@@ -19,6 +19,10 @@ export function useSettingsColors() {
       accent: c.accent,
       accentSoft: c.accentSoft,
       separator: c.separator,
+      // Control track + knob (slider/switch), tuned to read in BOTH themes — the dark
+      // thumb/track defaults vanished against the dark card. See tokens.ts.
+      track: c.track,
+      thumb: c.thumb,
       // Brass "next" emphasis, kept consistent with the dock + map.
       highlight: c.highlight,
       highlightSoft: c.highlightSoft,
