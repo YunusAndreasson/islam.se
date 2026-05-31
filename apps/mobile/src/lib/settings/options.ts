@@ -111,18 +111,15 @@ export const methodLabel = (s: PrayerSettings): string =>
 
 export const madhabLabel = (s: PrayerSettings): string => labelOf(MADHAB_OPTIONS, s.madhab);
 
-/** Collapsed-header summary for the "Visning" disclosure group: the current
- *  rounding label, plus suffixes for any non-default Hijri offset / theme. The
- *  theme suffix only appears when the user has locked an override, so the row
- *  stays quiet at the default ("Följ system"). */
-export const visningSummary = (s: PrayerSettings): string => {
-  const parts: string[] = [labelOf(ROUNDING_OPTIONS, s.rounding)];
-  if (s.hijriOffset !== 0) {
-    const sign = s.hijriOffset > 0 ? '+' : '';
-    parts.push(`Hijri ${sign}${s.hijriOffset} d`);
-  }
-  if (s.theme !== 'system') parts.push(labelOf(THEME_OPTIONS, s.theme));
-  // Only surface a non-default map style — Nordic is the recommended baseline.
-  if (s.mapStyle !== 'nordic') parts.push(labelOf(MAP_STYLE_OPTIONS, s.mapStyle));
-  return parts.join(' · ');
+/** Collapsed-header summary for the "Visning" disclosure group: the AREAS it covers,
+ *  not their values. Showing only the rounding label ("Närmaste minut") made the group
+ *  look like it did just that, hiding tema / karttyp / Hijri — so instead we name the
+ *  scope and let the values live inside the card. Value-independent on purpose: the
+ *  group's breadth is the point. "Karttyp" is listed only when a MapTiler key bundles
+ *  the basemap picker (otherwise that sub-section isn't rendered). */
+export const visningSummary = (): string => {
+  const topics = ['Tema'];
+  if (MAP_STYLE_OPTIONS.length > 1) topics.push('karttyp');
+  topics.push('avrundning', 'Hijri');
+  return topics.join(' · ');
 };

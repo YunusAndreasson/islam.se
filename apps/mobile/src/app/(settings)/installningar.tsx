@@ -306,7 +306,7 @@ export default function Installningar() {
             display to match local moon-sighting. Per-prayer minute offsets used
             to live here too — they moved to Beräkning, alongside the other
             adhan CalculationParameters, where they conceptually belong. */}
-        <DisclosureGroup title="Visning" summary={visningSummary(settings)}>
+        <DisclosureGroup title="Visning" summary={visningSummary()}>
           <SubGroup styles={styles} title="Avrundning">
             <OptionGroup
               options={ROUNDING_OPTIONS}

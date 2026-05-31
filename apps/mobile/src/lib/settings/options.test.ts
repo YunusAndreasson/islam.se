@@ -9,6 +9,7 @@ import { describe, expect, it } from '@jest/globals';
 import {
   HIGHLAT_OPTIONS,
   MADHAB_OPTIONS,
+  MAP_STYLE_OPTIONS,
   METHOD_OPTIONS,
   POLAR_OPTIONS,
   ROUNDING_OPTIONS,
@@ -126,24 +127,19 @@ describe('label helpers', () => {
     }
   });
 
-  it('visningSummary shows rounding, and folds in a non-zero Hijri offset', () => {
-    // The collapsed-header summary IS the user's at-a-glance read of the Visning
-    // group. Defaults must render the rounding label by itself (no spurious
-    // " · Hijri 0 d" noise); any non-zero Hijri offset gets a signed suffix so
-    // the user sees the calibration without expanding the card.
-    expect(visningSummary(DEFAULT_SETTINGS)).toBe('Närmaste minut');
-
-    const upRounded: PrayerSettings = { ...DEFAULT_SETTINGS, rounding: 'up' };
-    expect(visningSummary(upRounded)).toBe('Uppåt');
-
-    const hijriPlus: PrayerSettings = { ...DEFAULT_SETTINGS, hijriOffset: 1 };
-    expect(visningSummary(hijriPlus)).toBe('Närmaste minut · Hijri +1 d');
-
-    const hijriMinus: PrayerSettings = { ...DEFAULT_SETTINGS, hijriOffset: -2 };
-    expect(visningSummary(hijriMinus)).toBe('Närmaste minut · Hijri -2 d');
-
-    const both: PrayerSettings = { ...DEFAULT_SETTINGS, rounding: 'none', hijriOffset: 2 };
-    expect(visningSummary(both)).toBe('Ingen · Hijri +2 d');
+  it('visningSummary names the group topics (scope), not their values', () => {
+    // The collapsed-header summary names the AREAS the Visning group controls so it
+    // never undersells itself — the old value summary showed only "Närmaste minut"
+    // and hid tema / karttyp / Hijri, making the group look like it did just rounding.
+    // It is value-INDEPENDENT on purpose: the same scope regardless of the user's
+    // choices (the values live inside the expanded card).
+    const summary = visningSummary();
+    expect(summary).toContain('Tema');
+    expect(summary).toContain('avrundning');
+    expect(summary).toContain('Hijri');
+    // "Karttyp" is listed only when a MapTiler key bundles the basemap picker —
+    // otherwise that sub-section isn't rendered, so the topic must not appear either.
+    expect(summary.includes('karttyp')).toBe(MAP_STYLE_OPTIONS.length > 1);
   });
 
   it('signedMinutes always shows the sign for non-zero values', () => {
