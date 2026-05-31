@@ -97,6 +97,21 @@ jest.mock('react-native-reanimated', () => {
     withSpring: (value) => value,
     withTiming: (value) => value,
     runOnJS: (fn) => fn,
+    // The dock drives its reveals through interpolate()/Extrapolation; provide a real
+    // piecewise-linear implementation so module eval + render don't throw under test.
+    interpolate: (x, input, output) => {
+      if (x <= input[0]) return output[0];
+      const last = input.length - 1;
+      if (x >= input[last]) return output[last];
+      for (let i = 1; i <= last; i++) {
+        if (x <= input[i]) {
+          const t = (x - input[i - 1]) / (input[i] - input[i - 1]);
+          return output[i - 1] + t * (output[i] - output[i - 1]);
+        }
+      }
+      return output[last];
+    },
+    Extrapolation: { CLAMP: 'clamp', EXTEND: 'extend', IDENTITY: 'identity' },
   };
 });
 
