@@ -41,6 +41,9 @@ export function DisclosureGroup({
 
   const [expanded, setExpanded] = useState(defaultExpanded);
   const [contentHeight, setContentHeight] = useState(0);
+  // Seed with a one-line estimate (paddingTop 3 + lineHeight 20) so the value shows
+  // immediately on mount; onLayout then snaps it to the true height (e.g. two lines).
+  const [summaryHeight, setSummaryHeight] = useState(23);
 
   // 0 = collapsed, 1 = expanded. Drives body height, chevron rotation, summary fade.
   const open = useSharedValue(defaultExpanded ? 1 : 0);
@@ -59,9 +62,15 @@ export function DisclosureGroup({
   const chevronStyle = useAnimatedStyle(() => ({
     transform: [{ rotate: `${open.value * 90}deg` }],
   }));
-  // The collapsed value cross-fades out as the real controls appear, so it never
-  // duplicates what's shown expanded.
-  const summaryStyle = useAnimatedStyle(() => ({ opacity: 1 - open.value }));
+  // The collapsed value sits BELOW the title (a subtitle), so it has the full card
+  // width and never truncates to "…" the way a right-aligned same-row value did when
+  // the title and a long value (e.g. "Söndag 31 maj · Karesuando") competed for one
+  // line. On open it cross-fades AND collapses its height (so it never duplicates the
+  // controls below and leaves no gap under the title once expanded).
+  const summaryStyle = useAnimatedStyle(() => ({
+    height: (1 - open.value) * summaryHeight,
+    opacity: 1 - open.value,
+  }));
 
   return (
     <View style={styles.wrap}>
@@ -76,10 +85,20 @@ export function DisclosureGroup({
           accessibilityLabel={`${title}, ${summary}`}
           style={({ pressed }) => [styles.header, pressed && styles.headerPressed]}
         >
-          <Text style={styles.title}>{title}</Text>
-          <Animated.Text style={[styles.summary, summaryStyle]} numberOfLines={1}>
-            {summary}
-          </Animated.Text>
+          <View style={styles.headerText}>
+            <Text style={styles.title}>{title}</Text>
+            {/* overflow:hidden wrap so collapsing the animated height clips the value
+                cleanly; the inner Text carries its own (measured) natural height. */}
+            <Animated.View style={[styles.summaryWrap, summaryStyle]}>
+              <Text
+                style={styles.summary}
+                numberOfLines={2}
+                onLayout={(e) => setSummaryHeight(e.nativeEvent.layout.height)}
+              >
+                {summary}
+              </Text>
+            </Animated.View>
+          </View>
           <Animated.View style={chevronStyle}>
             <MaterialIcons name="chevron-right" size={24} color={colors.accent} />
           </Animated.View>
@@ -122,10 +141,17 @@ function makeStyles(colors: SettingsColors) {
       gap: 12,
     },
     headerPressed: { backgroundColor: colors.accentSoft },
+    // The title + its value subtitle, stacked; takes the row's flexible width so the
+    // chevron stays pinned right and the value can run the full card width.
+    headerText: { flex: 1 },
     // Mirrors SettingSection's title (type.label) — same design token across both
     // header types so titled cards visually rhyme.
     title: { ...type.label, color: colors.textMuted },
-    summary: { flex: 1, fontSize: 15, color: colors.text, textAlign: 'right' },
+    summaryWrap: { overflow: 'hidden' },
+    // The value preview, left-aligned beneath the title (a subtitle). paddingTop is the
+    // title→value gap and rides inside the measured height, so collapsing on open leaves
+    // no orphan space. lineHeight keeps a wrapped two-line value tidy.
+    summary: { paddingTop: 3, fontSize: 15, lineHeight: 20, color: colors.text },
     body: { overflow: 'hidden' },
     // Absolute so the children's natural height is reported via onLayout without
     // forcing the (animated) body open. A hairline divides header from content.
