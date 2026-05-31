@@ -26,9 +26,12 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { type ColorSchemeName, Pressable, StyleSheet, Text, View } from 'react-native';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import Animated, {
+  Extrapolation,
+  interpolate,
   runOnJS,
   type SharedValue,
   useAnimatedStyle,
+  useDerivedValue,
   useSharedValue,
   withSpring,
   withTiming,
@@ -72,7 +75,11 @@ export const DOCK_COLLAPSED_BASE = 136;
 // Expanded carries a date header (Gregorian + Hijri) above the schedule, so it's a
 // touch taller than the bare list needed. (No transport row — the day slider is the
 // only time control, so there's nothing to play or explain away.)
-const DOCK_EXPANDED_BASE = 368;
+// Because the content is bottom-pinned (flex-end), the date header sits at a fixed
+// distance from the dock bottom; the grab handle rides the dock's TOP edge. So this
+// height also sets the clearance between the handle and the date — kept generous
+// enough that the date never crowds the handle (handle-to-date gap ≈ EXPANDED − Hc − 44).
+const DOCK_EXPANDED_BASE = 396;
 
 export interface NextPrayer {
   key: PrayerKey;
@@ -146,6 +153,12 @@ export function PrayerDock({
   const startHeight = useSharedValue(COLLAPSED);
   const [expanded, setExpanded] = useState(false);
 
+  // One open-fraction (0 collapsed → 1 expanded) that EVERY reveal reads, so the
+  // whole dock unfolds off a single continuous value instead of three independent
+  // recomputations swapping on a JS boolean. The spring can overshoot past EXPANDED,
+  // so every interpolate() below clamps. (Reanimated's canonical bottom-sheet pattern.)
+  const progress = useDerivedValue(() => (height.value - COLLAPSED) / (EXPANDED - COLLAPSED));
+
   // State change on the JS thread (from gesture worklets via runOnJS): flip the flag,
   // tap a light haptic on a real open/close, and notify the host if it cares.
   const applyExpanded = useCallback(
@@ -157,19 +170,23 @@ export function PrayerDock({
     [expanded, onExpandedChange, EXPANDED],
   );
 
-  const pan = Gesture.Pan()
-    .onStart(() => {
-      startHeight.value = height.value;
-    })
-    .onUpdate((e) => {
-      const nextHeight = startHeight.value - e.translationY;
-      height.value = Math.min(EXPANDED, Math.max(COLLAPSED, nextHeight));
-    })
-    .onEnd((e) => {
-      const open = e.velocityY < -350 ? true : e.velocityY > 350 ? false : height.value > MID;
-      height.value = withSpring(open ? EXPANDED : COLLAPSED, SPRING);
-      runOnJS(applyExpanded)(open);
-    });
+  // A drag that grows/shrinks the dock and snaps open/closed on release. Built by a
+  // factory so the handle and the hero each get their OWN instance (gesture-handler
+  // doesn't support sharing one gesture object across two GestureDetectors).
+  const makeTogglePan = () =>
+    Gesture.Pan()
+      .onStart(() => {
+        startHeight.value = height.value;
+      })
+      .onUpdate((e) => {
+        const nextHeight = startHeight.value - e.translationY;
+        height.value = Math.min(EXPANDED, Math.max(COLLAPSED, nextHeight));
+      })
+      .onEnd((e) => {
+        const open = e.velocityY < -350 ? true : e.velocityY > 350 ? false : height.value > MID;
+        height.value = withSpring(open ? EXPANDED : COLLAPSED, SPRING);
+        runOnJS(applyExpanded)(open);
+      });
 
   const tap = Gesture.Tap().onEnd(() => {
     const open = height.value < MID;
@@ -177,16 +194,33 @@ export function PrayerDock({
     runOnJS(applyExpanded)(open);
   });
 
-  const gesture = Gesture.Exclusive(pan, tap);
+  // Handle: drag OR tap toggles. Hero: drag-only — a Pan needs movement to activate,
+  // so a tap on the hero's "Nu" chip (preview mode) still reaches its Pressable
+  // instead of being stolen by a toggle-tap.
+  const gesture = Gesture.Exclusive(makeTogglePan(), tap);
+  const heroGesture = makeTogglePan();
 
   const heightStyle = useAnimatedStyle(() => ({ height: height.value }));
-  // The date header leads the reveal — it's the first thing to settle as the dock
-  // opens, before the schedule rows cascade in beneath it.
-  const dateReveal = useAnimatedStyle(() => {
-    const p = (height.value - COLLAPSED) / (EXPANDED - COLLAPSED);
-    const local = Math.max(0, Math.min(1, p / 0.35));
-    return { opacity: local, transform: [{ translateY: (1 - local) * 8 }] };
-  });
+  // The date header CROWNS the reveal — it sits at the very top of the content, so
+  // with the flex-end clip growing upward it's the last thing the edge uncovers. It
+  // fades in over the final stretch (0.70→1), settling as the dock finishes opening.
+  const dateReveal = useAnimatedStyle(() => ({
+    opacity: interpolate(progress.value, [0.7, 1], [0, 1], Extrapolation.CLAMP),
+    transform: [{ translateY: interpolate(progress.value, [0.7, 1], [8, 0], Extrapolation.CLAMP) }],
+  }));
+
+  // The hero cross-fades between two stacked layers instead of hard-swapping on the
+  // `expanded` boolean (which flipped mid-spring and made the big name + time pop).
+  // Layer A (collapsed headline) fades OUT first; Layer B (expanded facts) fades IN,
+  // their windows overlapping (0.18–0.30) for a true dissolve with no blank frame.
+  const collapsedLayerStyle = useAnimatedStyle(() => ({
+    opacity: interpolate(progress.value, [0, 0.3], [1, 0], Extrapolation.CLAMP),
+    transform: [{ translateY: interpolate(progress.value, [0, 0.3], [0, -10], Extrapolation.CLAMP) }],
+  }));
+  const expandedLayerStyle = useAnimatedStyle(() => ({
+    opacity: interpolate(progress.value, [0.18, 0.55], [0, 1], Extrapolation.CLAMP),
+    transform: [{ translateY: interpolate(progress.value, [0.18, 0.55], [8, 0], Extrapolation.CLAMP) }],
+  }));
 
   // Returning to "now" is the one action offered in two places (preview badge +
   // expanded Now button); both go through here so both confirm with a tick.
@@ -279,9 +313,9 @@ export function PrayerDock({
         {/* The card floats above the gesture bar (see DOCK_FLOAT), so the content only
             needs its own internal breathing here — no system-inset clearance. */}
         <View style={[styles.content, { paddingBottom: 10 }]} pointerEvents="box-none">
-          {/* Revealed when expanded: the full day's schedule + transport. The rows
-              and controls fade/slide in with the dock height, so nothing peeks while
-              collapsed. Tap a row to ease the scrubber to it. */}
+          {/* Revealed when expanded: the date header + full day's schedule. The rows
+              fade/slide in bottom-up with the dock height (and the date crowns last),
+              so nothing peeks while collapsed. Tap a row to ease the scrubber to it. */}
           <View
             pointerEvents={expanded ? 'auto' : 'none'}
             accessibilityElementsHidden={!expanded}
@@ -321,45 +355,20 @@ export function PrayerDock({
             </View>
           </View>
 
-          {/* Persistent summary, never moves. Collapsed it's the whole story: prayer
-              (no "Nästa" — the countdown beside it makes that plain), time-left, then a
-              quiet clock-time · place line. Expanded, the schedule above already names
-              the prayer and its time, so it slims to just what the list can't say —
-              time-left and place — instead of repeating the row. */}
-          <View style={styles.hero}>
-            {expanded ? (
-              <View style={styles.heroTop}>
-                {next ? (
-                  <>
-                    {/* When the next prayer is TOMORROW's (we're past Isha), it isn't in
-                        today's schedule above, so no row is highlighted — name it here so
-                        the countdown has a referent. For a today prayer the list already
-                        names it, so we stay slim (countdown only). */}
-                    {next.tomorrow ? (
-                      <Text style={styles.heroPrayerExpanded} numberOfLines={1}>
-                        {PRAYER_LABELS[next.key]}
-                        <Text style={styles.heroTomorrow}> i morgon</Text>
-                      </Text>
-                    ) : null}
-                    {aside}
-                  </>
-                ) : (
-                  <Text style={styles.heroNone} numberOfLines={1}>
-                    Inga fler böner i dag
-                  </Text>
-                )}
-                <View style={styles.flex} />
-                {next ? (
-                  <View style={styles.heroPlaceRow}>
-                    <MaterialIcons name="place" size={11} color={c.highlight} />
-                    <Text style={styles.subPlace} numberOfLines={1}>
-                      {locationLabel}
-                    </Text>
-                  </View>
-                ) : null}
-              </View>
-            ) : (
-              <>
+          {/* Persistent summary, never moves — and a drag affordance (the hero opens
+              the dock too, not just the handle). Two stacked layers cross-fade off
+              `progress` so nothing pops on release: Layer A (collapsed headline:
+              prayer name + time · place) fades out as Layer B (expanded facts:
+              countdown + place, the only things the schedule above can't say) fades
+              in. Both are absolutely positioned inside a FIXED-height box, so the
+              timeline below never reflows when the content swaps. */}
+          <GestureDetector gesture={heroGesture}>
+            <View style={styles.hero}>
+              {/* Layer A — collapsed headline. Fades/slides out first. */}
+              <Animated.View
+                style={[styles.heroLayer, { opacity: 1 }, collapsedLayerStyle]}
+                pointerEvents={expanded ? 'none' : 'auto'}
+              >
                 <View style={styles.heroTop}>
                   {next ? (
                     <Text style={styles.heroPrayer} numberOfLines={1}>
@@ -385,9 +394,45 @@ export function PrayerDock({
                     </Text>
                   </View>
                 ) : null}
-              </>
-            )}
-          </View>
+              </Animated.View>
+
+              {/* Layer B — expanded facts. Fades in as the schedule appears; the list
+                  already names today's prayers + times, so this slims to countdown +
+                  place. When the next prayer is TOMORROW's it isn't in today's list, so
+                  name it here to give the countdown a referent. */}
+              <Animated.View
+                style={[styles.heroLayer, { opacity: 0 }, expandedLayerStyle]}
+                pointerEvents={expanded ? 'auto' : 'none'}
+              >
+                <View style={styles.heroTop}>
+                  {next ? (
+                    <>
+                      {next.tomorrow ? (
+                        <Text style={styles.heroPrayerExpanded} numberOfLines={1}>
+                          {PRAYER_LABELS[next.key]}
+                          <Text style={styles.heroTomorrow}> i morgon</Text>
+                        </Text>
+                      ) : null}
+                      {aside}
+                    </>
+                  ) : (
+                    <Text style={styles.heroNone} numberOfLines={1}>
+                      Inga fler böner i dag
+                    </Text>
+                  )}
+                  <View style={styles.flex} />
+                  {next ? (
+                    <View style={styles.heroPlaceRow}>
+                      <MaterialIcons name="place" size={11} color={c.highlight} />
+                      <Text style={styles.subPlace} numberOfLines={1}>
+                        {locationLabel}
+                      </Text>
+                    </View>
+                  ) : null}
+                </View>
+              </Animated.View>
+            </View>
+          </GestureDetector>
 
           <SolarTimeline
             styles={styles}
@@ -418,9 +463,12 @@ export function PrayerDock({
 
 type DockStyles = ReturnType<typeof makeStyles>;
 
-// One schedule row. Self-reveals from the dock height with an index-based stagger,
-// so as the dock grows the rows cascade in (and fold away on close) on the UI
-// thread — no mount churn, and it tracks a half-open drag rather than snapping.
+// One schedule row. Self-reveals from the dock height with an index-based stagger
+// that matches the GEOMETRY of the upward-growing flex-end clip: the bottom edge is
+// pinned and the box grows up, so the list is uncovered bottom-up. We REVERSE the
+// stagger (Isha, the bottom row, reveals first; Fajr, the top row, last) so each row
+// reaches full opacity exactly as the growing edge exposes it — no row ever sits
+// visible-but-blank then pops. Runs on the UI thread; tracks a half-open drag.
 function ScheduleRow({
   styles,
   index,
@@ -451,9 +499,10 @@ function ScheduleRow({
   const valid = date instanceof Date && Number.isFinite(date.getTime());
   const reveal = useAnimatedStyle(() => {
     const p = (dockHeight.value - collapsed) / (expanded - collapsed);
-    const start = (index / total) * 0.45;
-    const local = Math.max(0, Math.min(1, (p - start) / 0.55));
-    return { opacity: local, transform: [{ translateY: (1 - local) * 10 }] };
+    // Reversed: bottom row (highest index) starts at 0, top row last (~0.375).
+    const start = ((total - 1 - index) / total) * 0.45;
+    const local = interpolate(p, [start, start + 0.55], [0, 1], Extrapolation.CLAMP);
+    return { opacity: local, transform: [{ translateY: interpolate(local, [0, 1], [10, 0]) }] };
   });
 
   return (
@@ -695,12 +744,17 @@ function makeStyles(c: Palette) {
 
     pressed: { opacity: 0.6 },
 
-    // Hero, two tiers. Top: prayer name + countdown (the glance). Sub: time · place (quiet).
-    hero: { marginBottom: 4 },
+    // Hero holds two cross-fading layers (collapsed headline ↔ expanded facts). It has
+    // a FIXED height so swapping content never reflows the timeline pinned below it;
+    // both layers are absolutely positioned, so neither contributes layout height. 44
+    // clears the collapsed two-tier content (19px name + gap + 15px time·place line).
+    hero: { height: 44, marginBottom: 4, justifyContent: 'center' },
+    heroLayer: { position: 'absolute', left: 0, right: 0 },
     heroTop: { flexDirection: 'row', alignItems: 'center' },
     heroPrayer: { fontSize: 19, fontWeight: '700', color: c.ink, letterSpacing: 0.2 },
-    // Expanded hero: a touch smaller than collapsed (the date header leads the open dock),
-    // shown only when the next prayer is tomorrow's and thus absent from today's list.
+    // Expanded hero name: a touch smaller than collapsed (the date header crowns the
+    // open dock), shown only when the next prayer is tomorrow's and thus absent from
+    // today's list.
     heroPrayerExpanded: { fontSize: 16, fontWeight: '700', color: c.ink, letterSpacing: 0.2 },
     heroTomorrow: { fontSize: 14, fontWeight: '400', color: c.inkMuted },
     heroNone: { fontSize: 16, color: c.inkMuted },
