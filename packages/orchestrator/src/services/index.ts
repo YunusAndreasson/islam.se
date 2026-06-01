@@ -13,11 +13,9 @@ export {
 	type BookSearchOptions,
 	type BookSearchResult,
 	formatBooksForPrompt,
-	formatBooksLean,
 	hasBookContent,
 	passagesToResearchFormat,
 	searchBooksComprehensive,
-	searchBooksForBrilliance,
 } from "./book-service.js";
 // Ideation service
 export {
@@ -35,16 +33,8 @@ export { type PodcastResult, PodcastService } from "./podcast-service.js";
 // Quote service
 export {
 	formatQuotesForPrompt,
-	formatQuotesLean,
 	type QuoteSearchOptions,
 	type QuoteSearchResult,
 	quotesToResearchFormat,
 	searchQuotesComprehensive,
-	searchQuotesForBrilliance,
 } from "./quote-service.js";
-// Quran service
-export {
-	formatQuranForPrompt,
-	formatQuranLean,
-	searchQuranComprehensive,
-} from "./quran-service.js";

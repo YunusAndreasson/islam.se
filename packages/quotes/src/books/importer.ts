@@ -82,7 +82,7 @@ interface ClaudeRunResult {
 }
 
 async function runClaude(options: ClaudeRunOptions): Promise<ClaudeRunResult> {
-	const args = ["--print", "--model", options.model ?? "claude-opus-4-7"];
+	const args = ["--print", "--model", options.model ?? "claude-opus-4-8"];
 
 	if (options.effort) {
 		args.push("--effort", options.effort);

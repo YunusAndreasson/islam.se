@@ -15,43 +15,21 @@ import {
 } from "./domain-tracker.js";
 import { ReferenceTracker } from "./reference-tracker.js";
 import {
-	AqeedahReviewFrontmatterSchema,
-	BrillianceFrontmatterSchema,
-	CohesionFrontmatterSchema,
-	CompressFrontmatterSchema,
 	DeepenFrontmatterSchema,
-	DetoxFrontmatterSchema,
 	DraftFrontmatterSchema,
 	DraftOutputSchema,
-	ElevateFrontmatterSchema,
 	EvalCorrectionFrontmatterSchema,
 	FactCheckOutputSchema,
-	FlowFrontmatterSchema,
 	GroundFrontmatterSchema,
 	getFactCheckJsonSchema,
 	getResearchJsonSchema,
-	LanguageFrontmatterSchema,
 	PolishFrontmatterSchema,
-	ProofreadFrontmatterSchema,
 	ResearchOutputSchema,
 	ReviewFrontmatterSchema,
-	ScaffoldFrontmatterSchema,
 	SwedishVoiceFrontmatterSchema,
-	TafsirEnrichFrontmatterSchema,
-	TitleIngressFrontmatterSchema,
-	TransliterateFrontmatterSchema,
 } from "./schemas.js";
 import { ArticlePublisher, findDataDir } from "./services/article-publisher.js";
 import { IdeationService } from "./services/ideation-service.js";
-import {
-	formatBooksLean,
-	formatQuotesLean,
-	formatQuranLean,
-	searchBooksForBrilliance,
-	searchQuotesForBrilliance,
-	searchQuranComprehensive,
-} from "./services/index.js";
-import { extractQuranRefsFromFootnotes, fetchIbnKathirTafsir } from "./services/tarteel-client.js";
 import { SourceValidator } from "./source-validator.js";
 import {
 	createLogger,
@@ -66,40 +44,6 @@ import {
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
-
-/**
- * Extract 2-3 search queries from an article's structure (H1, H2s, first sentence).
- * Used for pre-fetching from local databases.
- */
-function extractSearchQueries(articleBody: string): string[] {
-	const queries: string[] = [];
-
-	// Extract H1 title
-	const h1Match = articleBody.match(/^#\s+(.+)$/m);
-	if (h1Match?.[1]) {
-		queries.push(h1Match[1]);
-	}
-
-	// Extract H2 subheadings
-	const h2Matches = articleBody.matchAll(/^##\s+(.+)$/gm);
-	for (const match of h2Matches) {
-		if (match[1] && queries.length < 3) {
-			queries.push(match[1]);
-		}
-	}
-
-	// Fallback: first sentence if no headings found
-	if (queries.length === 0) {
-		const firstSentence = articleBody.match(/[^#\n][^\n.!?]*[.!?]/);
-		if (firstSentence) {
-			queries.push(firstSentence[0].trim());
-		} else {
-			queries.push(articleBody.slice(0, 300));
-		}
-	}
-
-	return queries;
-}
 
 /**
  * Composite-issue count (from scripts/evaluate-article.py) above which the
@@ -217,8 +161,6 @@ export type StageName =
 	| "polish"
 	| "deepen"
 	| "ground"
-	| "detox"
-	| "language"
 	| "swedishVoice";
 
 export interface StageProgress {
@@ -334,51 +276,12 @@ export interface PolishOutput {
 	edits: string;
 }
 
-export interface AqeedahReviewOutput {
-	verdict: "clean" | "rewritten";
-	issuesFound: Array<{
-		type: "sufi" | "ashari" | "other";
-		location: string;
-		original: string;
-		issue: string;
-		fix: string;
-	}>;
-	summary: string;
-	body: string;
-}
-
-export interface LanguageOutput {
-	verdict: "clean" | "corrected";
-	issuesFound: Array<{
-		type: "nonexistent-word" | "anglicism" | "ai-phrase" | "gender" | "preposition";
-		location: string;
-		original: string;
-		correction: string;
-		reason: string;
-	}>;
-	summary: string;
-	body: string;
-}
-
-export interface ProofreadOutput {
-	verdict: "clean" | "corrected";
-	issuesFound: Array<{
-		type: "spelling" | "grammar" | "punctuation" | "terminology" | "clarity";
-		location: string;
-		original: string;
-		correction: string;
-		reason: string;
-	}>;
-	summary: string;
-	body: string;
-}
-
 export interface SwedishVoiceOutput {
 	verdict: "clean" | "corrected";
 	correctedTitle?: string;
 	correctedDescription?: string;
 	issuesFound: Array<{
-		type:
+		type: // Swedish-voice (English-thinking) patterns
 			| "anglicism"
 			| "rhetoric"
 			| "repetition"
@@ -387,52 +290,27 @@ export interface SwedishVoiceOutput {
 			| "idiom"
 			| "hedging"
 			| "connector"
-			| "abstraction";
+			| "abstraction"
+			// Word-level (former Language stage)
+			| "nonexistent-word"
+			| "gender"
+			| "preposition"
+			| "ai-phrase"
+			// Measured AI-patterns (former Detox stage)
+			| "inte-utan"
+			| "vocabulary"
+			| "attribution"
+			| "convergence"
+			| "em-dash"
+			| "den-som"
+			| "koranen-subject"
+			| "modernity-strawman";
 		location: string;
 		original: string;
 		correction: string;
 		reason: string;
 	}>;
-	summary: string;
-	body: string;
-}
-
-export interface ElevateOutput {
-	verdict: "clean" | "elevated";
-	changesCount: number;
-	changes: Array<{
-		location: string;
-		original: string;
-		replacement: string;
-		why: string;
-	}>;
-	summary: string;
-	body: string;
-}
-
-export interface FlowOutput {
-	verdict: "clean" | "restructured";
-	changesCount: number;
-	changes: Array<{
-		type: string;
-		location: string;
-		original: string;
-		replacement: string;
-		why: string;
-	}>;
-	summary: string;
-	body: string;
-}
-
-export interface CompressOutput {
-	verdict: "clean" | "compressed";
-	changesCount: number;
-	changes: Array<{
-		location: string;
-		original: string;
-		replacement: string;
-		why: string;
-	}>;
+	patternCounts?: Record<string, { before: number | string; after: number | string }>;
 	summary: string;
 	body: string;
 }
@@ -445,46 +323,6 @@ export interface GroundOutput {
 		original: string;
 		addition: string;
 		why: string;
-	}>;
-	summary: string;
-	body: string;
-}
-
-export interface ScaffoldOutput {
-	verdict: "clean" | "trimmed";
-	changesCount: number;
-	changes: Array<{
-		action: "remove" | "absorb";
-		location: string;
-		original: string;
-		result: string;
-		why: string;
-	}>;
-	summary: string;
-	body: string;
-}
-
-export interface TransliterateOutput {
-	verdict: "clean" | "corrected";
-	changesCount: number;
-	changes: Array<{
-		original: string;
-		corrected: string;
-		occurrences: number;
-		locations: string[];
-	}>;
-	summary: string;
-	body: string;
-}
-
-export interface CohesionOutput {
-	verdict: "cohesive" | "revised";
-	changesCount: number;
-	changes: Array<{
-		type: string;
-		location: string;
-		problem: string;
-		fix: string;
 	}>;
 	summary: string;
 	body: string;
@@ -511,21 +349,6 @@ export interface DeepenOutput {
 	body: string;
 }
 
-export interface DetoxOutput {
-	verdict: "clean" | "detoxed";
-	changesCount: number;
-	changes: Array<{
-		pattern: string;
-		location: string;
-		original: string;
-		replacement: string;
-		why: string;
-	}>;
-	patternCounts: Record<string, { before: number | string; after: number | string }>;
-	summary: string;
-	body: string;
-}
-
 export interface EvalCorrectionOutput {
 	verdict: "clean" | "corrected";
 	changesCount: number;
@@ -533,52 +356,6 @@ export interface EvalCorrectionOutput {
 		category: string;
 		original: string;
 		replacement: string;
-	}>;
-	summary: string;
-	body: string;
-}
-
-export interface BrillianceOutput {
-	verdict: "clean" | "enriched";
-	additionsCount: number;
-	additions: Array<{
-		type: "quote" | "reference" | "argument";
-		location: string;
-		content: string;
-		source: string;
-		why: string;
-	}>;
-	searchesPerformed: Array<{
-		tool: string;
-		query: string;
-		result: string;
-	}>;
-	summary: string;
-	body: string;
-}
-
-export interface TitleIngressOutput {
-	currentTitleAssessment: string;
-	titleSuggestions: Array<{
-		title: string;
-		reasoning: string;
-	}>;
-	currentDescriptionAssessment: string;
-	descriptionSuggestions: Array<{
-		description: string;
-		reasoning: string;
-	}>;
-	recommendation: string;
-}
-
-export interface TafsirEnrichOutput {
-	verdict: "clean" | "enriched";
-	versesAnalyzed: number;
-	findings: Array<{
-		ayahKey: string;
-		surahName: string;
-		included: boolean;
-		insight: string;
 	}>;
 	summary: string;
 	body: string;
@@ -596,8 +373,6 @@ export interface ProductionResult {
 		polish?: StageResult<PolishOutput>;
 		deepen?: StageResult<DeepenOutput>;
 		ground?: StageResult<GroundOutput>;
-		detox?: StageResult<DetoxOutput>;
-		language?: StageResult<LanguageOutput>;
 		swedishVoice?: StageResult<SwedishVoiceOutput>;
 	};
 	finalArticle?: string;
@@ -1500,110 +1275,17 @@ If the draft has anglicisms, fix them in the revised article.
 	}
 
 	/**
-	 * Review article for aqeedah compliance (Sufi, Ashari/Maturidi, non-mainstream ideas).
-	 * Returns the article body with problematic passages rewritten.
-	 */
-	async runAqeedahReview(articleBody: string): Promise<StageResult<AqeedahReviewOutput>> {
-		this.logger.log("   📖 Aqeedah review: theological compliance check");
-
-		const systemPrompt =
-			"Du granskar en publicerad artikel för islam.se. Analysera texten teologiskt och skriv om problematiska avsnitt enligt instruktionerna.";
-
-		const result = await this.executeClaudeStage<AqeedahReviewOutput>({
-			name: "Aqeedah Review",
-			stage: "polish", // reuse polish stage type for streaming
-			emoji: "📖",
-			promptFile: "aqeedah-review.md",
-			systemPrompt,
-			userContent: `## TEXTEN\n\n${articleBody}`,
-			markdownMode: {
-				frontmatterSchema: AqeedahReviewFrontmatterSchema,
-				combine: (meta, body) =>
-					({
-						...meta,
-						body,
-					}) as AqeedahReviewOutput,
-			},
-			effort: "high",
-		});
-
-		return result;
-	}
-
-	/**
-	 * Proofread article for spelling, grammar, punctuation, and terminology consistency.
-	 * Returns the article body with corrections applied.
-	 */
-	async runProofread(articleBody: string): Promise<StageResult<ProofreadOutput>> {
-		this.logger.log("   🔤 Proofread: spelling, grammar, terminology");
-
-		const systemPrompt =
-			"Du korrekturläser en publicerad artikel för islam.se. Kontrollera stavning, grammatik, interpunktion och terminologisk konsekvens enligt instruktionerna.";
-
-		const result = await this.executeClaudeStage<ProofreadOutput>({
-			name: "Proofread",
-			stage: "polish", // reuse polish stage type for streaming
-			emoji: "🔤",
-			promptFile: "proofread.md",
-			systemPrompt,
-			userContent: `## TEXTEN\n\n${articleBody}`,
-			markdownMode: {
-				frontmatterSchema: ProofreadFrontmatterSchema,
-				combine: (meta, body) =>
-					({
-						...meta,
-						body,
-					}) as ProofreadOutput,
-			},
-			effort: "high",
-		});
-
-		return result;
-	}
-
-	/**
-	 * Check word/phrase level Swedish naturalness — non-existent words, anglicisms,
-	 * AI filler phrases, gender errors, and preposition calques from English.
-	 */
-	async runLanguage(articleBody: string): Promise<StageResult<LanguageOutput>> {
-		this.logger.log("   🇸🇪 Language: ord som inte finns, anglicismer, AI-fraser");
-
-		const systemPrompt =
-			"Du är en infödd svensk redaktör. Du letar efter ord och fraser som inte är naturlig svenska: påhittade ord, anglicismer, AI-klyscheér på frasnivå, genusfel och calques från engelska. Ingenting annat.";
-
-		const result = await this.executeClaudeStage<LanguageOutput>({
-			name: "Language",
-			stage: "polish",
-			emoji: "🇸🇪",
-			promptFile: "language.md",
-			systemPrompt,
-			userContent: `## TEXTEN\n\n${articleBody}`,
-			markdownMode: {
-				frontmatterSchema: LanguageFrontmatterSchema,
-				combine: (meta, body) =>
-					({
-						...meta,
-						body,
-					}) as LanguageOutput,
-			},
-			effort: "high",
-		});
-
-		return result;
-	}
-
-	/**
-	 * Review article for Swedish naturalness — fix anglicisms, AI rhetoric patterns,
-	 * repetition loops, overexplanation, and English sentence rhythm.
+	 * Consolidated Swedish-language pass — the article's only language review.
+	 * Folds in three formerly-separate stages in one pass:
+	 *  - Swedish voice: anglicisms, English rhetoric, repetition, overexplanation, rhythm
+	 *  - Word-level (former Language stage): non-existent words, gender, prepositions
+	 *  - Measured AI-patterns (former Detox stage): "inte X utan Y", em-dash overflow, etc.
 	 */
 	async runSwedishVoice(
 		articleBody: string,
 		meta?: { title?: string; description?: string },
-		mode: "fix" | "enrich" = "fix",
 	): Promise<StageResult<SwedishVoiceOutput>> {
-		const modeLabel =
-			mode === "enrich" ? "enrich: inversion, compounds, rhythm" : "anglicisms, rhetoric, rhythm";
-		this.logger.log(`   🇸🇪 Swedish voice: ${modeLabel}`);
+		this.logger.log("   🇸🇪 Swedish voice: anglicisms, word-level, measured AI-patterns");
 
 		let metaSection = "";
 		if (meta?.title || meta?.description) {
@@ -1612,21 +1294,7 @@ If the draft has anglicisms, fix them in the revised article.
 			if (meta.description) metaSection += `**Ingress:** ${meta.description}\n`;
 		}
 
-		const modeDirective =
-			mode === "enrich"
-				? `Du berikar en publicerad artikel för islam.se. Ditt HUVUDUPPDRAG är sektion 16 i prompten — "Svenskans egna verktyg". Aktivt använd:
-
-- **Inversion (V2-regeln)** — flytta fram tidsadverbial, platsadverbial, objekt för betoning och flöde
-- **Sammansatta ord** — slå ihop prepositionsfraser till energiska sammansättningar
-- **Participkonstruktioner** — skapa eleganta bryggor mellan meningar
-- **Semantiska konnektorer** (därav, häri, därmed, nämligen, likväl, sålunda) — komprimera logik
-- **Etymologiskt djup** — aktivera ords dubbelmeningar där ämnet korsar rotbetydelsen
-- **Meningsrytm** — skapa kontrast mellan korta och långa meningar, bryt monotoni
-
-Sektionerna 1–15 (anglicismer, retoriska mönster etc.) är sekundära — åtgärda dem om du ser dem, men din huvuduppgift är att BERIKA texten med svenskans unika verktyg. Målet är att texten ska kännas som om den skrevs av en svensk essäist som medvetet utnyttjar språkets resurser.`
-				: "Du granskar en publicerad artikel för islam.se. Identifiera och åtgärda mönster som avslöjar att texten tänkts på engelska.";
-
-		const systemPrompt = `${modeDirective}${metaSection}`;
+		const systemPrompt = `Du granskar en publicerad artikel för islam.se. Detta är artikelns enda språkgranskning — åtgärda i ett svep det som avslöjar att texten tänkts på engelska, ord som inte är naturlig svenska, och de mätbara AI-mönster som prompten räknar.${metaSection}`;
 
 		const result = await this.executeClaudeStage<SwedishVoiceOutput>({
 			name: "Swedish Voice",
@@ -1645,101 +1313,6 @@ Sektionerna 1–15 (anglicismer, retoriska mönster etc.) är sekundära — åt
 			},
 			effort: "high",
 			maxRetries: 3,
-		});
-
-		return result;
-	}
-
-	/**
-	 * Run the elevate stage — raise intellectual density of prose.
-	 * Smarter word choices, conceptual sentence links, compression, resonance.
-	 */
-	async runElevate(articleBody: string): Promise<StageResult<ElevateOutput>> {
-		this.logger.log("   🧠 Elevate: intellectual density, word precision, resonance");
-
-		const systemPrompt =
-			"Du är en stilmedveten svensk essäist med öra för intellektuell precision. Du höjer den intellektuella densiteten i varje mening som tål det.";
-
-		const result = await this.executeClaudeStage<ElevateOutput>({
-			name: "Elevate",
-			stage: "polish",
-			emoji: "🧠",
-			promptFile: "elevate.md",
-			systemPrompt,
-			userContent: `## TEXTEN\n\n${articleBody}`,
-			markdownMode: {
-				frontmatterSchema: ElevateFrontmatterSchema,
-				combine: (meta, body) =>
-					({
-						...meta,
-						body,
-					}) as ElevateOutput,
-			},
-			effort: "high",
-		});
-
-		return result;
-	}
-
-	/**
-	 * Run the flow stage — sentence architecture and transitions.
-	 * Splits overloaded sentences, merges choppy ones, fixes inter-sentence bridges.
-	 * Enforces Swedish writing rules (satsradning, kommatering, bisatsordning).
-	 */
-	async runFlow(articleBody: string): Promise<StageResult<FlowOutput>> {
-		this.logger.log("   🌊 Flow: sentence boundaries, transitions, Swedish sentence law");
-
-		const systemPrompt =
-			"Du är en svensk stilredaktör specialiserad på meningsarkitektur. Du granskar meningsgränser och övergångar — ingenting annat. Varje AI-genererad text har meningsarkitekturproblem. Hitta dem.";
-
-		// Flow uses the configured model (opus/sonnet) — but note that Opus can be slow
-		// on this task because it evaluates every sentence boundary in extended thinking.
-		// If Opus consistently times out, consider running with --model sonnet.
-		const result = await this.executeClaudeStage<FlowOutput>({
-			name: "Flow",
-			stage: "polish",
-			emoji: "🌊",
-			promptFile: "flow.md",
-			systemPrompt,
-			userContent: `Här är texten att granska:\n\n${articleBody}`,
-			markdownMode: {
-				frontmatterSchema: FlowFrontmatterSchema,
-				combine: (meta, body) =>
-					({
-						...meta,
-						body,
-					}) as FlowOutput,
-			},
-			effort: "high",
-			timeout: 900000, // 15 min — Opus needs time for sentence-by-sentence analysis
-		});
-
-		return result;
-	}
-
-	async runCompress(articleBody: string): Promise<StageResult<CompressOutput>> {
-		this.logger.log("   🔧 Compress: multi-word phrases → single precise Swedish words");
-
-		const systemPrompt =
-			"Du är en svensk stilredaktör specialiserad på lexikal komprimering. Du söker fraser på 2–5 ord som kan ersättas med ett enda mer precist ord — ingenting annat.";
-
-		const result = await this.executeClaudeStage<CompressOutput>({
-			name: "Compress",
-			stage: "polish",
-			emoji: "🔧",
-			promptFile: "compress.md",
-			systemPrompt,
-			userContent: `Här är texten att granska:\n\n${articleBody}`,
-			markdownMode: {
-				frontmatterSchema: CompressFrontmatterSchema,
-				combine: (meta, body) =>
-					({
-						...meta,
-						body,
-					}) as CompressOutput,
-			},
-			effort: "high",
-			timeout: 900000,
 		});
 
 		return result;
@@ -1765,90 +1338,6 @@ Sektionerna 1–15 (anglicismer, retoriska mönster etc.) är sekundära — åt
 						...meta,
 						body,
 					}) as GroundOutput,
-			},
-			effort: "high",
-			timeout: 900000,
-		});
-
-		return result;
-	}
-
-	async runCohesion(articleBody: string): Promise<StageResult<CohesionOutput>> {
-		this.logger.log("   🧵 Cohesion: orphan quotes, topic jumps, loose endings, unprepared intros");
-
-		const systemPrompt =
-			"Du är en svensk redaktör specialiserad på textkoherens och läsbarhet. Du granskar om essäns delar hänger ihop för läsaren — ingenting annat.";
-
-		const result = await this.executeClaudeStage<CohesionOutput>({
-			name: "Cohesion",
-			stage: "polish",
-			emoji: "🧵",
-			promptFile: "cohesion.md",
-			systemPrompt,
-			userContent: `Här är texten att granska:\n\n${articleBody}`,
-			markdownMode: {
-				frontmatterSchema: CohesionFrontmatterSchema,
-				combine: (meta, body) =>
-					({
-						...meta,
-						body,
-					}) as CohesionOutput,
-			},
-			effort: "high",
-			timeout: 900000,
-		});
-
-		return result;
-	}
-
-	async runScaffold(articleBody: string): Promise<StageResult<ScaffoldOutput>> {
-		this.logger.log('   🪓 Scaffold: trimming decorative "Det är den som..." / ". Som..." closers');
-
-		const systemPrompt =
-			'Du är en svensk stilredaktör. Du söker fristående illustrerande meningar — "Det är den som..." och ". Som [scenario]." — som blivit dekorativa genom sin frekvens. Du tar bort eller absorberar de överflödiga och behåller de genuint starka.';
-
-		const result = await this.executeClaudeStage<ScaffoldOutput>({
-			name: "Scaffold",
-			stage: "polish",
-			emoji: "🪓",
-			promptFile: "scaffold.md",
-			systemPrompt,
-			userContent: `Här är texten att granska:\n\n${articleBody}`,
-			markdownMode: {
-				frontmatterSchema: ScaffoldFrontmatterSchema,
-				combine: (meta, body) =>
-					({
-						...meta,
-						body,
-					}) as ScaffoldOutput,
-			},
-			effort: "high",
-			timeout: 900000,
-		});
-
-		return result;
-	}
-
-	async runTransliterate(articleBody: string): Promise<StageResult<TransliterateOutput>> {
-		this.logger.log("   🔤 Transliterate: verifying academic Arabic transliteration");
-
-		const systemPrompt =
-			"Du är en arabisk lingvist specialiserad på akademisk translitterering (ISO 233-2 / DIN 31635). Du kontrollerar att alla arabiska termer i texten har korrekta diakritiska tecken — ā, ī, ū, ḥ, ṣ, ḍ, ṭ, ẓ, ʿ, ʾ — ingenting annat.";
-
-		const result = await this.executeClaudeStage<TransliterateOutput>({
-			name: "Transliterate",
-			stage: "polish",
-			emoji: "🔤",
-			promptFile: "transliterate.md",
-			systemPrompt,
-			userContent: `Här är texten att granska:\n\n${articleBody}`,
-			markdownMode: {
-				frontmatterSchema: TransliterateFrontmatterSchema,
-				combine: (meta, body) =>
-					({
-						...meta,
-						body,
-					}) as TransliterateOutput,
 			},
 			effort: "high",
 			timeout: 900000,
@@ -1890,40 +1379,6 @@ Sektionerna 1–15 (anglicismer, retoriska mönster etc.) är sekundära — åt
 	}
 
 	/**
-	 * Run the detox stage — remove AI vocabulary and structural tics from published articles.
-	 * Targets specific patterns identified through corpus analysis of 44 articles:
-	 * "inte X utan Y" overuse, vocabulary monotony, attribution verb repetition,
-	 * em-dash saturation, convergence formulas, dramatic one-liner endings.
-	 */
-	async runDetox(articleBody: string): Promise<StageResult<DetoxOutput>> {
-		this.logger.log("   🧹 Detox: hunting AI vocabulary and structural tics");
-
-		const systemPrompt =
-			"Du rensar specifika, mätbara AI-språkmönster från en publicerad artikel. Du är inte en allmän stilredaktör — du jagar exakt de mönster som listas i prompten och ersätter dem med naturlig svensk variation. Varje ändring måste bevara meningens exakta innebörd.";
-
-		const result = await this.executeClaudeStage<DetoxOutput>({
-			name: "Detox",
-			stage: "polish",
-			emoji: "🧹",
-			promptFile: "detox.md",
-			systemPrompt,
-			userContent: `Här är texten att rensa:\n\n${articleBody}`,
-			markdownMode: {
-				frontmatterSchema: DetoxFrontmatterSchema,
-				combine: (meta, body) =>
-					({
-						...meta,
-						body,
-					}) as DetoxOutput,
-			},
-			effort: "high",
-			timeout: 1800000, // 30 min — Opus extended thinking for pattern counting + full rewrite
-		});
-
-		return result;
-	}
-
-	/**
 	 * Run the eval-correction stage — fix the concrete issues flagged by the
 	 * deterministic prose evaluator (latinisms, anglicisms, AI-tic overuse,
 	 * em-dashes, footnote integrity, etc.). The machine report is passed verbatim
@@ -1955,192 +1410,6 @@ Sektionerna 1–15 (anglicismer, retoriska mönster etc.) är sekundära — åt
 			},
 			effort: "high",
 			timeout: 1200000, // 20 min
-		});
-
-		return result;
-	}
-
-	/**
-	 * Run the brilliance stage — search for exceptional additions (quotes, references, arguments)
-	 * that would make the article significantly more convincing for a secular Swedish reader.
-	 * Most articles pass through unchanged — the threshold is doctoral-thesis level.
-	 *
-	 * Pre-fetches from quote/book/quran databases locally (~200ms, free),
-	 * embeds results in system prompt, and lets Claude use only WebSearch.
-	 */
-	async runBrilliance(articleBody: string): Promise<StageResult<BrillianceOutput>> {
-		this.logger.log("   💎 Brilliance: pre-fetching local databases");
-
-		// Extract search queries from article structure (H1 + H2s)
-		const queries = extractSearchQueries(articleBody);
-		this.logger.log(`      Queries: ${queries.map((q) => `"${q}"`).join(", ")}`);
-
-		// Pre-fetch all three databases in parallel using ALL queries (not just queries[0])
-		// Quotes/books: semantic-only, multi-query, deduplicated — skips paired/category/text
-		const [quotes, bookResult, quranResult] = await Promise.all([
-			searchQuotesForBrilliance(queries),
-			searchBooksForBrilliance(queries),
-			searchQuranComprehensive({ queries, limit: 10 }),
-		]);
-
-		this.logger.log(
-			`      Pre-fetched: ${quotes.length} quotes, ${bookResult.combined.length} book passages, ${quranResult.verses.length} Quran verses`,
-		);
-
-		// Lean format — text + attribution only, no inventory/scores/metadata
-		const prefetchedMaterial = [
-			"# PRE-FETCHED SOURCE MATERIAL",
-			"",
-			"Quotes, book passages, and Quran verses from semantic search on the article's key themes.",
-			"",
-			formatQuotesLean(quotes),
-			formatBooksLean(bookResult),
-			formatQuranLean(quranResult),
-		].join("\n");
-
-		const systemPrompt =
-			"Du söker efter exceptionella tillägg — citat, referenser, argument — som skulle göra denna artikel märkbart starkare för en bildad sekulär svensk läsare. Tröskeln är doktorsavhandlingsnivå. Varje text har minst en lucka — hitta den.";
-
-		const result = await this.executeClaudeStage<BrillianceOutput>({
-			name: "Brilliance",
-			stage: "polish",
-			emoji: "💎",
-			promptFile: "brilliance.md",
-			systemPrompt,
-			userContent: `## TEXTEN\n\n${articleBody}\n\n${prefetchedMaterial}`,
-			markdownMode: {
-				frontmatterSchema: BrillianceFrontmatterSchema,
-				combine: (meta, body) =>
-					({
-						...meta,
-						body,
-					}) as BrillianceOutput,
-			},
-			effort: "high",
-			timeout: 600000, // 10 min (down from 30)
-		});
-
-		return result;
-	}
-
-	/**
-	 * Generate improved title and ingress suggestions for a published article.
-	 * Returns ranked alternatives — does not modify the article directly.
-	 */
-	async runTitleIngress(
-		articleBody: string,
-		meta: { title: string; description: string },
-	): Promise<StageResult<TitleIngressOutput>> {
-		this.logger.log("   ✏️  Title & ingress: generating suggestions");
-
-		const systemPrompt = `Du förbättrar titel och ingress för en publicerad artikel på islam.se.
-
-## NUVARANDE TITEL
-${meta.title}
-
-## NUVARANDE INGRESS
-${meta.description}
-
-## ARTIKELN
-
-${articleBody}`;
-
-		const result = await this.executeClaudeStage<TitleIngressOutput>({
-			name: "Title & Ingress",
-			stage: "polish",
-			emoji: "✏️",
-			promptFile: "title-ingress.md",
-			systemPrompt,
-			markdownMode: {
-				frontmatterSchema: TitleIngressFrontmatterSchema,
-				combine: (meta) => meta as unknown as TitleIngressOutput,
-			},
-			effort: "high",
-		});
-
-		return result;
-	}
-
-	/**
-	 * Tafsir enrichment: fetch Ibn Kathir commentary for Quran verses cited in the article,
-	 * then ask Claude to validate and deepen the article's use of those verses.
-	 */
-	async runTafsirEnrich(articleBody: string): Promise<StageResult<TafsirEnrichOutput>> {
-		this.logger.log("   📜 Tafsir: extracting Quran references from footnotes");
-
-		// 1. Extract Quran references from footnotes
-		const refs = extractQuranRefsFromFootnotes(articleBody);
-		if (refs.length === 0) {
-			this.logger.log("      No Quran references found in footnotes.");
-			return {
-				success: true,
-				data: {
-					verdict: "clean",
-					versesAnalyzed: 0,
-					findings: [],
-					summary: "Inga Koranreferenser hittades i fotnoterna.",
-					body: articleBody,
-				},
-				duration: 0,
-			};
-		}
-
-		this.logger.log(
-			`      Found ${refs.length} Quran references: ${refs.map((r) => r.ayahKey).join(", ")}`,
-		);
-
-		// 2. Fetch Ibn Kathir tafsir from Tarteel
-		this.logger.log("      Fetching Ibn Kathir tafsir from Tarteel...");
-		const ayahKeys = refs.map((r) => r.ayahKey);
-		const tafsirResults = await fetchIbnKathirTafsir(ayahKeys);
-		this.logger.log(`      Received tafsir for ${tafsirResults.length}/${refs.length} verses`);
-
-		if (tafsirResults.length === 0) {
-			this.logger.log("      No tafsir data received. Skipping.");
-			return {
-				success: true,
-				data: {
-					verdict: "clean",
-					versesAnalyzed: 0,
-					findings: [],
-					summary: "Kunde inte hämta tafsir från Tarteel — inga ändringar gjorda.",
-					body: articleBody,
-				},
-				duration: 0,
-			};
-		}
-
-		// 3. Build tafsir context for Claude
-		const tafsirContext = tafsirResults
-			.map((t) => {
-				const ref = refs.find((r) => r.ayahKey === t.ayahKey);
-				const surahName = ref?.surahName ?? `Surah ${t.surah}`;
-				// Truncate very long tafsir to keep prompt manageable
-				const truncated = t.text.length > 2000 ? `${t.text.slice(0, 2000)}…` : t.text;
-				return `### ${surahName} ${t.ayahKey}\n${truncated}`;
-			})
-			.join("\n\n");
-
-		const systemPrompt =
-			"Du granskar en publicerad artikel för islam.se mot Ibn Kathirs tafsir. Din uppgift är att verifiera att artikelns användning av Koranverser stämmer med den klassiska tolkningen, och föreslå fördjupningar där tafsiren ger insikter som artikeln missar.";
-
-		const result = await this.executeClaudeStage<TafsirEnrichOutput>({
-			name: "Tafsir Enrich",
-			stage: "polish",
-			emoji: "📜",
-			promptFile: "tafsir-enrich.md",
-			systemPrompt,
-			userContent: `## ARTIKELN\n\n${articleBody}\n\n## IBN KATHIRS TAFSIR\n\n${tafsirContext}`,
-			markdownMode: {
-				frontmatterSchema: TafsirEnrichFrontmatterSchema,
-				combine: (meta, body) =>
-					({
-						...meta,
-						body,
-					}) as TafsirEnrichOutput,
-			},
-			effort: "high",
-			timeout: 600000,
 		});
 
 		return result;
@@ -2530,56 +1799,9 @@ ${articleBody}`;
 			});
 		}
 
-		// Stage 8: Detox — AI vocabulary/structural tic cleanup (non-fatal)
-		this.options.onStageChange?.({ stage: "detox", status: "running" });
-		const detoxResult = await this.runDetox(finalText);
-		result.stages.detox = detoxResult;
-		if (detoxResult.success && detoxResult.data) {
-			finalText = detoxResult.data.body;
-			this.logger.log(`   - Detox: ${detoxResult.data.verdict}`);
-			saveOutput(outputDir, "detox.json", detoxResult.data);
-			this.options.onStageChange?.({
-				stage: "detox",
-				status: "complete",
-				duration: detoxResult.duration,
-				summary: detoxResult.data.verdict,
-			});
-		} else {
-			this.options.onStageChange?.({
-				stage: "detox",
-				status: "failed",
-				duration: detoxResult.duration,
-				error: detoxResult.error,
-				summary: "skipped (non-fatal)",
-			});
-		}
-
-		// Stage 9: Language — word-level Swedish naturalness (non-fatal)
-		this.options.onStageChange?.({ stage: "language", status: "running" });
-		const languageResult = await this.runLanguage(finalText);
-		result.stages.language = languageResult;
-		if (languageResult.success && languageResult.data) {
-			finalText = languageResult.data.body;
-			const issueCount = languageResult.data.issuesFound.length;
-			this.logger.log(`   - Language: ${issueCount} issues fixed (${languageResult.data.verdict})`);
-			saveOutput(outputDir, "language.json", languageResult.data);
-			this.options.onStageChange?.({
-				stage: "language",
-				status: "complete",
-				duration: languageResult.duration,
-				summary: `${issueCount} issues`,
-			});
-		} else {
-			this.options.onStageChange?.({
-				stage: "language",
-				status: "failed",
-				duration: languageResult.duration,
-				error: languageResult.error,
-				summary: "skipped (non-fatal)",
-			});
-		}
-
-		// Stage 7: Swedish Voice — fix anglicisms, rhetoric patterns, rhythm (non-fatal)
+		// Stage 8: Swedish Voice — consolidated language pass. Fixes anglicisms,
+		// English-thinking rhetoric, word-level errors (formerly the Language stage),
+		// and measured AI-patterns (formerly the Detox stage) in one pass (non-fatal).
 		this.options.onStageChange?.({ stage: "swedishVoice", status: "running" });
 		const swedishVoiceResult = await this.runSwedishVoice(finalText);
 		result.stages.swedishVoice = swedishVoiceResult;
@@ -2673,8 +1895,6 @@ ${articleBody}`;
 				polish: polishResult.duration,
 				deepen: deepenResult.duration,
 				ground: groundResult.duration,
-				detox: detoxResult.duration,
-				language: languageResult.duration,
 				swedishVoice: swedishVoiceResult.duration,
 				total: Date.now() - startTime,
 			},
