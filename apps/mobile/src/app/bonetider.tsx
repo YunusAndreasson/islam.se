@@ -78,10 +78,10 @@ function viewportCentreFromBounds(
 }
 const DAY_MS = 86_400_000;
 // Extra breathing room (dp) reserved above the dock, so the south coast sits
-// clearly above it rather than pressed against its top edge. Only needs to clear
-// the tile-rendered Malmö label now — 16dp is the floor that still leaves the
-// halo readable above the dock's top edge.
-const DOCK_MARGIN = space.lg;
+// clearly above it rather than pressed against its top edge. Bumped 16→24 so Malmö
+// (and the far-south coast) lifts a touch higher and reads clearly above the dock's
+// top edge instead of being tucked against it.
+const DOCK_MARGIN = space.xxl;
 
 // Only the fields that change the computed times — the grid is rebuilt when this
 // signature changes, not on cosmetic settings (time format, Hijri offset).
