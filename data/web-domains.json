@@ -54,10 +54,10 @@
       "avgScore": 8.6
     },
     "en.wikipedia.org": {
-      "total": 99,
-      "ok": 98,
+      "total": 102,
+      "ok": 101,
       "failed": 1,
-      "lastChecked": "2026-05-17T17:47:01.608Z",
+      "lastChecked": "2026-06-01T21:06:22.137Z",
       "publishedIn": 79,
       "avgScore": 8.593670886075962,
       "lastError": "fetch failed"
@@ -195,10 +195,10 @@
       "avgScore": 8.4
     },
     "yaqeeninstitute.org": {
-      "total": 11,
-      "ok": 11,
+      "total": 12,
+      "ok": 12,
       "failed": 0,
-      "lastChecked": "2026-03-26T12:16:36.579Z",
+      "lastChecked": "2026-06-01T21:06:22.137Z",
       "publishedIn": 7,
       "avgScore": 8.585714285714287
     },
@@ -909,10 +909,10 @@
       "avgScore": 8.6
     },
     "brill.com": {
-      "total": 1,
-      "ok": 1,
+      "total": 2,
+      "ok": 2,
       "failed": 0,
-      "lastChecked": "2026-02-13T19:52:38.342Z",
+      "lastChecked": "2026-06-01T21:06:22.137Z",
       "publishedIn": 1,
       "avgScore": 8.6
     },
@@ -1718,6 +1718,24 @@
       "lastChecked": "2026-05-17T17:47:01.608Z",
       "publishedIn": 1,
       "avgScore": 8.7
+    },
+    "www.ncbi.nlm.nih.gov": {
+      "total": 1,
+      "ok": 1,
+      "failed": 0,
+      "lastChecked": "2026-06-01T21:06:22.137Z"
+    },
+    "mediemyndigheten.se": {
+      "total": 1,
+      "ok": 1,
+      "failed": 0,
+      "lastChecked": "2026-06-01T21:06:22.137Z"
+    },
+    "www.calm.com": {
+      "total": 1,
+      "ok": 1,
+      "failed": 0,
+      "lastChecked": "2026-06-01T21:06:22.137Z"
     }
   }
 }
