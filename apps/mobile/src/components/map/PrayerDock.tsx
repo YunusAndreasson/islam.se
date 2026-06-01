@@ -390,7 +390,6 @@ export function PrayerDock({
                   <View style={styles.heroSub}>
                     <Text style={styles.subTime}>{formatTime(new Date(next.at))}</Text>
                     <Text style={styles.subSep}>·</Text>
-                    <MaterialIcons name="place" size={11} color={c.highlight} />
                     <Text style={styles.subPlace} numberOfLines={1}>
                       {locationLabel}
                     </Text>
@@ -425,7 +424,6 @@ export function PrayerDock({
                   <View style={styles.flex} />
                   {next ? (
                     <View style={styles.heroPlaceRow}>
-                      <MaterialIcons name="place" size={11} color={c.highlight} />
                       <Text style={styles.subPlace} numberOfLines={1}>
                         {locationLabel}
                       </Text>
