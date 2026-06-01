@@ -205,20 +205,29 @@ export default function Qibla() {
 
           {/* The rotating rose: beam, ticks, cardinals, and the qibla needle. */}
           <Animated.View style={[StyleSheet.absoluteFill, roseStyle]}>
-            {/* Qibla beam — a soft cone, pinned at the bearing, widening to the Kaaba.
-                Indigo by default; the brass twin fades in with proximity. */}
-            <View style={[StyleSheet.absoluteFill, rot(bearing)]} pointerEvents="none">
-              <View style={[styles.coneSlot, { height: r }]}>
-                <View style={[styles.coneBase, { borderTopWidth: coneTop, borderTopColor: hexToRgba(c.accent, 0.14) }]} />
-              </View>
-            </View>
-            <View style={[StyleSheet.absoluteFill, rot(bearing)]} pointerEvents="none">
-              <View style={[styles.coneSlot, { height: r }]}>
-                <Animated.View
-                  style={[styles.coneBase, { borderTopWidth: coneTop, borderTopColor: hexToRgba(c.highlight, 0.22) }, brassStyle]}
-                />
-              </View>
-            </View>
+            {/* The qibla DIRECTION (beam + needle + tail) is hidden while `calibrating`:
+                when the OS reports the compass as unreliable (accuracy < 2) we refuse to
+                draw a direction we don't trust — only the orientation ring shows, and the
+                status pill/note tell the user to figure-8 the phone. The direction
+                reappears the instant the heading becomes reliable. */}
+            {!calibrating && (
+              <>
+                {/* Qibla beam — a soft cone, pinned at the bearing, widening to the Kaaba.
+                    Indigo by default; the brass twin fades in with proximity. */}
+                <View style={[StyleSheet.absoluteFill, rot(bearing)]} pointerEvents="none">
+                  <View style={[styles.coneSlot, { height: r }]}>
+                    <View style={[styles.coneBase, { borderTopWidth: coneTop, borderTopColor: hexToRgba(c.accent, 0.14) }]} />
+                  </View>
+                </View>
+                <View style={[StyleSheet.absoluteFill, rot(bearing)]} pointerEvents="none">
+                  <View style={[styles.coneSlot, { height: r }]}>
+                    <Animated.View
+                      style={[styles.coneBase, { borderTopWidth: coneTop, borderTopColor: hexToRgba(c.highlight, 0.22) }, brassStyle]}
+                    />
+                  </View>
+                </View>
+              </>
+            )}
 
             {TICKS.map((deg) => {
               const major = deg % 90 === 0;
@@ -242,33 +251,37 @@ export default function Qibla() {
               </View>
             ))}
 
-            {/* Qibla needle — pinned at the bearing, so the rose's −heading rotation
-                lands it on the real Mecca. */}
-            <View style={[StyleSheet.absoluteFill, rot(bearing)]} pointerEvents="none">
-              <View style={[styles.needleSlot, { height: r }]}>
-                {/* The Kaaba — an abstract cube, fitting and quieter than any glyph,
-                    over a warm glow that swells as you align. */}
-                <View style={styles.kaabaWrap}>
-                  <Animated.View style={[styles.glow, glowStyle]} />
-                  <View style={styles.kaaba}>
-                    <Animated.View style={[StyleSheet.absoluteFill, styles.kaabaBrass, brassStyle]} />
-                    <View style={styles.kaabaBand} />
+            {!calibrating && (
+              <>
+                {/* Qibla needle — pinned at the bearing, so the rose's −heading rotation
+                    lands it on the real Mecca. */}
+                <View style={[StyleSheet.absoluteFill, rot(bearing)]} pointerEvents="none">
+                  <View style={[styles.needleSlot, { height: r }]}>
+                    {/* The Kaaba — an abstract cube, fitting and quieter than any glyph,
+                        over a warm glow that swells as you align. */}
+                    <View style={styles.kaabaWrap}>
+                      <Animated.View style={[styles.glow, glowStyle]} />
+                      <View style={styles.kaaba}>
+                        <Animated.View style={[StyleSheet.absoluteFill, styles.kaabaBrass, brassStyle]} />
+                        <View style={styles.kaabaBand} />
+                      </View>
+                    </View>
+                    <View style={styles.shaftWrap}>
+                      <View style={styles.needleShaft} />
+                      <Animated.View style={[StyleSheet.absoluteFill, styles.needleShaftBrass, brassStyle]} />
+                    </View>
                   </View>
                 </View>
-                <View style={styles.shaftWrap}>
-                  <View style={styles.needleShaft} />
-                  <Animated.View style={[StyleSheet.absoluteFill, styles.needleShaftBrass, brassStyle]} />
-                </View>
-              </View>
-            </View>
 
-            {/* tail (south) of the needle — a quiet counterweight. Anchored to the
-                slot bottom (the dial centre) so it grows out of the hub with no gap. */}
-            <View style={[StyleSheet.absoluteFill, rot(bearing + 180)]} pointerEvents="none">
-              <View style={[styles.needleSlot, styles.tailSlot, { height: r }]}>
-                <View style={styles.needleTail} />
-              </View>
-            </View>
+                {/* tail (south) of the needle — a quiet counterweight. Anchored to the
+                    slot bottom (the dial centre) so it grows out of the hub with no gap. */}
+                <View style={[StyleSheet.absoluteFill, rot(bearing + 180)]} pointerEvents="none">
+                  <View style={[styles.needleSlot, styles.tailSlot, { height: r }]}>
+                    <View style={styles.needleTail} />
+                  </View>
+                </View>
+              </>
+            )}
           </Animated.View>
 
           {/* Fixed bits that do NOT rotate: the top index you aim at, and the hub. */}
