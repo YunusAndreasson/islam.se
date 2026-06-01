@@ -1,9 +1,10 @@
-// The map's LEFT navigation control: a live qibla mini-compass whose needle IS the
-// app's logo mark. When the device has a compass (and location permission is already
-// granted) the logo turns so its peak points at Mecca — a dynamic, brand-forward
-// signifier of what the button opens. Until a real heading arrives — and on devices
-// with no sensor (emulators) or no permission yet — the logo sits upright and still
-// (in neutral ink), so it never paints a faked direction but still reads as the brand.
+// The map's LEFT navigation control: a qibla mini-compass whose mark IS the app's
+// logo. The logo is a FIXED up-arrow — it does NOT rotate. It points straight up as a
+// "you're aimed this way" mark, and the disc LIGHTS UP (brass) the moment the phone's
+// top is pointed at Mecca. So the signal is unambiguous: glow = you're facing the
+// qibla. (An earlier version rotated the logo toward Mecca as a "it's over there"
+// pointer; that read as "the icon is pointing the wrong way" until you happened to be
+// aligned, so it was dropped in favour of this fixed-arrow-that-glows model.)
 // Tapping always opens the full Qibla screen, which owns the permission prompt.
 //
 // "You're facing qibla" signifier: when angleDelta(heading, bearing) ≤ ALIGN_TOL we
@@ -45,7 +46,7 @@ export function CompassButton({ active }: { active: boolean }) {
   const c = useColors();
   const { coords } = useLocation();
   const bearing = useMemo(() => qiblaBearing(coords), [coords]);
-  const { rotation, heading, reliable } = useHeading({ active, request: false });
+  const { heading, reliable } = useHeading({ active, request: false });
 
   // Lock ONLY when the heading is trustworthy (accuracy ≥ 2). During the magnetometer's
   // warm-up / calibration window the heading can be tens of degrees off, so an ungated
@@ -63,11 +64,11 @@ export function CompassButton({ active }: { active: boolean }) {
     lockScale.value = withSpring(aligned ? 1.12 : 1, LOCK_SPRING);
   }, [aligned, lockScale]);
 
-  // Point the logo's peak at the qibla — bearing minus the live heading, clockwise — on
-  // the UI thread so it tracks the phone smoothly without a React render per frame. The
-  // lock scale rides along in the same transform.
-  const needleStyle = useAnimatedStyle(() => ({
-    transform: [{ rotate: `${bearing - rotation.value}deg` }, { scale: lockScale.value }],
+  // The logo stays a fixed up-arrow (no rotation) — it only POPS with a small spring
+  // scale-up the instant it locks, so the lock feels physical without the mark ever
+  // pointing away from straight up.
+  const lockStyle = useAnimatedStyle(() => ({
+    transform: [{ scale: lockScale.value }],
   }));
 
   // Lock-state colours: brass-soft tint and a brass rim so the disc visibly lights up
@@ -76,7 +77,11 @@ export function CompassButton({ active }: { active: boolean }) {
   // live-but-searching, brass on lock.
   const tint = aligned ? c.highlightSoft : c.cardGlass;
   const rim = aligned ? c.highlight : c.hairline;
-  const logoHue = aligned ? c.highlight : c.accent;
+  // Neutral ink at rest — the SAME glyph colour as the settings cog (MapNav), so the two
+  // nav discs read as one consistent family — and brass only on lock. No indigo
+  // "searching" tint: with the fixed-arrow-glows model the one signal that matters is the
+  // brass glow when you're facing the qibla.
+  const logoHue = aligned ? c.highlight : c.ink;
 
   return (
     <GlassRoundButton
@@ -85,15 +90,11 @@ export function CompassButton({ active }: { active: boolean }) {
       accessibilityLabel={aligned ? 'Qibla — du är vänd mot Mecka' : 'Qibla'}
       onPress={() => router.navigate('/qibla')}
     >
-      {heading == null ? (
-        // Static fallback (emulator / no sensor / permission not yet granted): the logo
-        // upright in neutral ink — the brand, with no faked direction.
-        <Image source={LOGO} style={[styles.logo, { tintColor: c.ink }]} />
-      ) : (
-        <Animated.View style={needleStyle}>
-          <Image source={LOGO} style={[styles.logo, { tintColor: logoHue }]} />
-        </Animated.View>
-      )}
+      {/* Fixed up-arrow — never rotates. Colour carries the state (ink → accent → brass)
+          and a small scale-pop marks the lock. */}
+      <Animated.View style={lockStyle}>
+        <Image source={LOGO} style={[styles.logo, { tintColor: logoHue }]} />
+      </Animated.View>
       {/* Lock badge — a tiny check-circle pinned to the top-right corner of the disc
           when the phone is aimed at Mecca. A second, redundant signifier on top of the
           brass tint so the lock is unmistakable for a colour-blind user too. */}
