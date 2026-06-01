@@ -87,8 +87,15 @@ export function DisclosureGroup({
         >
           <View style={styles.headerText}>
             <Text style={styles.title}>{title}</Text>
-            {/* overflow:hidden wrap so collapsing the animated height clips the value
-                cleanly; the inner Text carries its own (measured) natural height. */}
+            {/* overflow:hidden wrap whose animated height clips the value cleanly on open.
+                The summary Text inside is absolutely positioned (like the body's measure
+                view below) so it always lays out at its natural height and reports it via
+                onLayout — even while the group is EXPANDED and the wrap is clipped to
+                height 0. Measuring from a normal-flow child instead let onLayout fire with
+                height 0 while expanded; that zeroed summaryHeight, and since a 0
+                summaryHeight keeps the wrap at height 0 even when collapsed ((1-open)*0),
+                the clipped Text could never re-measure — the summary vanished for good
+                after a single expand→collapse. Absolute positioning breaks that deadlock. */}
             <Animated.View style={[styles.summaryWrap, summaryStyle]}>
               <Text
                 style={styles.summary}
@@ -151,9 +158,11 @@ function makeStyles(colors: SettingsColors) {
     // The value preview, left-aligned beneath the title (a subtitle). paddingTop is the
     // title→value gap and rides inside the measured height, so collapsing on open leaves
     // no orphan space. lineHeight keeps a wrapped two-line value tidy.
-    // paddingTop is the title→value gap (kept literal so the seeded summaryHeight
-    // estimate above stays valid); the rest is type.callout.
-    summary: { ...type.callout, paddingTop: 3, color: colors.text },
+    // Absolutely positioned so its onLayout reports the true natural height regardless of
+    // the wrap's animated clip (see the comment at the call-site). paddingTop is the
+    // title→value gap (kept literal so the seeded summaryHeight estimate above stays
+    // valid); the rest is type.callout.
+    summary: { ...type.callout, position: 'absolute', left: 0, right: 0, top: 0, paddingTop: 3, color: colors.text },
     body: { overflow: 'hidden' },
     // Absolute so the children's natural height is reported via onLayout without
     // forcing the (animated) body open. A hairline divides header from content.

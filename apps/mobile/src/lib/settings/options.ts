@@ -77,7 +77,9 @@ export const ROUNDING_OPTIONS: readonly Option<Rounding>[] = [
 // for users who keep their phone on the other mode (a dark-phone reader who
 // still wants the warm parchment basemap for the daytime map, or vice versa).
 export const THEME_OPTIONS: readonly Option<ThemePreference>[] = [
-  { value: 'system', label: 'Följ system', description: 'Automatisk (rekommenderad)' },
+  // "Följ system" already says it tracks the OS automatically, so the description only
+  // carries the one extra signal — that this is the default to pick when unsure.
+  { value: 'system', label: 'Följ system', description: 'Rekommenderad' },
   { value: 'light', label: 'Ljust' },
   { value: 'dark', label: 'Mörkt' },
 ];
@@ -111,15 +113,17 @@ export const methodLabel = (s: PrayerSettings): string =>
 
 export const madhabLabel = (s: PrayerSettings): string => labelOf(MADHAB_OPTIONS, s.madhab);
 
-/** Collapsed-header summary for the "Visning" disclosure group: the AREAS it covers,
- *  not their values. Showing only the rounding label ("Närmaste minut") made the group
- *  look like it did just that, hiding tema / karttyp / Hijri — so instead we name the
- *  scope and let the values live inside the card. Value-independent on purpose: the
- *  group's breadth is the point. "Karttyp" is listed only when a MapTiler key bundles
- *  the basemap picker (otherwise that sub-section isn't rendered). */
+/** Collapsed-header summary for the "Utseende och format" disclosure group: the AREAS
+ *  it covers, not their values. Showing only the rounding label ("Närmaste minut") made
+ *  the group look like it did just that, hiding Tema / Karttyp / Hijri — so instead we
+ *  name the scope and let the values live inside the card. The topics are listed in the
+ *  same order as the sub-sections render inside the card (Tema, Karttyp, Avrundning,
+ *  Hijri) and capitalised consistently so the summary reads as a list of section names.
+ *  Value-independent on purpose: the group's breadth is the point. "Karttyp" is listed
+ *  only when a MapTiler key bundles the basemap picker (else that sub-section is absent). */
 export const visningSummary = (): string => {
   const topics = ['Tema'];
-  if (MAP_STYLE_OPTIONS.length > 1) topics.push('karttyp');
-  topics.push('avrundning', 'Hijri');
+  if (MAP_STYLE_OPTIONS.length > 1) topics.push('Karttyp');
+  topics.push('Avrundning', 'Hijri');
   return topics.join(' · ');
 };

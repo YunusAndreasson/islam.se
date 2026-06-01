@@ -161,9 +161,9 @@ export const palette = lightPalette;
 
 // Type scale. System font (SF / Roboto — both clean and Nordic-friendly) with a
 // disciplined hierarchy: a few sizes, deliberate weights, generous line-height on
-// reading text, and uppercase tracking on labels. No arrays here so the object can
-// be `as const` (literal weights) and spread straight into styles; tabular figures
-// live in `mono` below.
+// reading text, and a quiet sentence-case label for section headers. No arrays here so
+// the object can be `as const` (literal weights) and spread straight into styles;
+// tabular figures live in `mono` below.
 export const type = {
   display: { fontSize: 34, fontWeight: '700', letterSpacing: 0.2, lineHeight: 40 },
   title: { fontSize: 28, fontWeight: '700', letterSpacing: 0.2, lineHeight: 34 },
@@ -171,7 +171,10 @@ export const type = {
   bodyStrong: { fontSize: 16, fontWeight: '600', lineHeight: 22 },
   body: { fontSize: 16, fontWeight: '400', lineHeight: 23 },
   callout: { fontSize: 15, fontWeight: '400', lineHeight: 21 },
-  label: { fontSize: 12.5, fontWeight: '600', letterSpacing: 0.8, textTransform: 'uppercase' },
+  // Settings section header. Sentence-case (not uppercase) — a calm Linear/Notion-style
+  // header that whispers the group name rather than shouting it. Paired with a muted ink
+  // colour at the call-site; the near-zero tracking keeps it quiet next to 16pt body rows.
+  label: { fontSize: 13, fontWeight: '600', letterSpacing: 0.1 },
   caption: { fontSize: 13, fontWeight: '400', lineHeight: 18 },
   micro: { fontSize: 11, fontWeight: '500', letterSpacing: 0.3 },
 } as const;
