@@ -23,7 +23,7 @@ export interface ClaudeRunOptions {
 	/** JSON schema for built-in output validation (uses --json-schema flag) */
 	jsonSchema?: object;
 	/** Model to use */
-	model: "claude-opus-4-7" | "claude-sonnet-4-5-20250929";
+	model: "claude-opus-4-8" | "claude-sonnet-4-6";
 	/** Effort level for adaptive thinking */
 	effort?: "low" | "medium" | "high" | "xhigh" | "max";
 	/** Maximum budget in USD for this stage (uses --max-budget-usd flag) */

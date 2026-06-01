@@ -128,52 +128,9 @@ export const PolishFrontmatterSchema = z.object({
 		.transform((v) => (Array.isArray(v) ? v.join("\n") : v)),
 });
 
-// Aqeedah review frontmatter — validated from --- block (body comes from markdown)
-export const AqeedahReviewFrontmatterSchema = z.object({
-	verdict: z.enum(["clean", "rewritten"]),
-	issuesFound: z.array(
-		z.object({
-			type: z.enum(["sufi", "ashari", "other"]),
-			location: z.string(),
-			original: z.string(),
-			issue: z.string(),
-			fix: z.string(),
-		}),
-	),
-	summary: z.string(),
-});
-
-// Language review frontmatter — word/phrase level naturalness check
-export const LanguageFrontmatterSchema = z.object({
-	verdict: z.enum(["clean", "corrected"]),
-	issuesFound: z.array(
-		z.object({
-			type: z.enum(["nonexistent-word", "anglicism", "ai-phrase", "gender", "preposition"]),
-			location: z.string(),
-			original: z.string(),
-			correction: z.string(),
-			reason: z.string(),
-		}),
-	),
-	summary: z.string(),
-});
-
-// Proofread frontmatter — validated from --- block (body comes from markdown)
-export const ProofreadFrontmatterSchema = z.object({
-	verdict: z.enum(["clean", "corrected"]),
-	issuesFound: z.array(
-		z.object({
-			type: z.enum(["spelling", "grammar", "punctuation", "terminology", "clarity"]),
-			location: z.string(),
-			original: z.string(),
-			correction: z.string(),
-			reason: z.string(),
-		}),
-	),
-	summary: z.string(),
-});
-
-// Swedish voice review frontmatter — validated from --- block (body comes from markdown)
+// Swedish voice review frontmatter — validated from --- block (body comes from markdown).
+// This is the consolidated language pass: it folds in the former Language (word-level) and
+// Detox (measured AI-pattern) stages, so its type union and optional patternCounts span all three.
 export const SwedishVoiceFrontmatterSchema = z.object({
 	verdict: z.enum(["clean", "corrected"]),
 	correctedTitle: z.string().optional(),
@@ -181,6 +138,7 @@ export const SwedishVoiceFrontmatterSchema = z.object({
 	issuesFound: z.array(
 		z.object({
 			type: z.enum([
+				// Swedish-voice (English-thinking) patterns
 				"anglicism",
 				"rhetoric",
 				"repetition",
@@ -190,6 +148,20 @@ export const SwedishVoiceFrontmatterSchema = z.object({
 				"hedging",
 				"connector",
 				"abstraction",
+				// Word-level (former Language stage)
+				"nonexistent-word",
+				"gender",
+				"preposition",
+				"ai-phrase",
+				// Measured AI-patterns (former Detox stage)
+				"inte-utan",
+				"vocabulary",
+				"attribution",
+				"convergence",
+				"em-dash",
+				"den-som",
+				"koranen-subject",
+				"modernity-strawman",
 			]),
 			location: z.string(),
 			original: z.string(),
@@ -197,37 +169,16 @@ export const SwedishVoiceFrontmatterSchema = z.object({
 			reason: z.string(),
 		}),
 	),
-	summary: z.string(),
-});
-
-// Elevate frontmatter — intellectual density layer
-export const ElevateFrontmatterSchema = z.object({
-	verdict: z.enum(["clean", "elevated"]),
-	changesCount: z.number(),
-	changes: z.array(
-		z.object({
-			location: z.string(),
-			original: z.string(),
-			replacement: z.string(),
-			why: z.string(),
-		}),
-	),
-	summary: z.string(),
-});
-
-// Flow frontmatter — sentence structure and transitions
-export const FlowFrontmatterSchema = z.object({
-	verdict: z.enum(["clean", "restructured"]),
-	changesCount: z.number(),
-	changes: z.array(
-		z.object({
-			type: z.string(),
-			location: z.string(),
-			original: z.string(),
-			replacement: z.string(),
-			why: z.string(),
-		}),
-	),
+	// Before/after counts for the measured patterns in section 18 (optional — only when relevant)
+	patternCounts: z
+		.record(
+			z.string(),
+			z.object({
+				before: z.union([z.number(), z.string()]),
+				after: z.union([z.number(), z.string()]),
+			}),
+		)
+		.optional(),
 	summary: z.string(),
 });
 
@@ -240,67 +191,6 @@ export const GroundFrontmatterSchema = z.object({
 			location: z.string(),
 			original: z.string(),
 			addition: z.string(),
-			why: z.string(),
-		}),
-	),
-	summary: z.string(),
-});
-
-// Cohesion frontmatter — narrative coherence and readability
-export const CohesionFrontmatterSchema = z.object({
-	verdict: z.enum(["cohesive", "revised"]),
-	changesCount: z.number(),
-	changes: z.array(
-		z.object({
-			type: z.string(),
-			location: z.string(),
-			problem: z.string(),
-			fix: z.string(),
-		}),
-	),
-	summary: z.string(),
-});
-
-// Compress frontmatter — lexical compression (multi-word → single precise word)
-export const CompressFrontmatterSchema = z.object({
-	verdict: z.enum(["clean", "compressed"]),
-	changesCount: z.number(),
-	changes: z.array(
-		z.object({
-			location: z.string(),
-			original: z.string(),
-			replacement: z.string(),
-			why: z.string(),
-		}),
-	),
-	summary: z.string(),
-});
-
-// Transliterate frontmatter — academic Arabic transliteration corrections
-export const TransliterateFrontmatterSchema = z.object({
-	verdict: z.enum(["clean", "corrected"]),
-	changesCount: z.number(),
-	changes: z.array(
-		z.object({
-			original: z.string(),
-			corrected: z.string(),
-			occurrences: z.number(),
-			locations: z.array(z.string()),
-		}),
-	),
-	summary: z.string(),
-});
-
-// Scaffold frontmatter — decorative grounding sentences trimmed
-export const ScaffoldFrontmatterSchema = z.object({
-	verdict: z.enum(["clean", "trimmed"]),
-	changesCount: z.number(),
-	changes: z.array(
-		z.object({
-			action: z.enum(["remove", "absorb"]),
-			location: z.string(),
-			original: z.string(),
-			result: z.string(),
 			why: z.string(),
 		}),
 	),
@@ -332,29 +222,6 @@ export const DeepenFrontmatterSchema = z.object({
 	summary: z.string(),
 });
 
-// Detox frontmatter — AI vocabulary/structural tic cleanup
-export const DetoxFrontmatterSchema = z.object({
-	verdict: z.enum(["clean", "detoxed"]),
-	changesCount: z.number(),
-	changes: z.array(
-		z.object({
-			pattern: z.string(),
-			location: z.string(),
-			original: z.string(),
-			replacement: z.string(),
-			why: z.string(),
-		}),
-	),
-	patternCounts: z.record(
-		z.string(),
-		z.object({
-			before: z.union([z.number(), z.string()]),
-			after: z.union([z.number(), z.string()]),
-		}),
-	),
-	summary: z.string(),
-});
-
 // Eval-correction frontmatter — fixes the concrete issues flagged by
 // scripts/evaluate-article.py (latinisms, anglicisms, AI-tic overuse, etc.)
 export const EvalCorrectionFrontmatterSchema = z.object({
@@ -365,63 +232,6 @@ export const EvalCorrectionFrontmatterSchema = z.object({
 			category: z.string(),
 			original: z.string(),
 			replacement: z.string(),
-		}),
-	),
-	summary: z.string(),
-});
-
-// Brilliance frontmatter — exceptional additions only
-export const BrillianceFrontmatterSchema = z.object({
-	verdict: z.enum(["clean", "enriched"]),
-	additionsCount: z.number(),
-	additions: z.array(
-		z.object({
-			type: z.enum(["quote", "reference", "argument"]),
-			location: z.string(),
-			content: z.string(),
-			source: z.string(),
-			why: z.string(),
-		}),
-	),
-	searchesPerformed: z.array(
-		z.object({
-			tool: z.string(),
-			query: z.string(),
-			result: z.string(),
-		}),
-	),
-	summary: z.string(),
-});
-
-// Title/ingress improvement frontmatter — validated from --- block
-export const TitleIngressFrontmatterSchema = z.object({
-	currentTitleAssessment: z.string(),
-	titleSuggestions: z.array(
-		z.object({
-			title: z.string(),
-			reasoning: z.string(),
-		}),
-	),
-	currentDescriptionAssessment: z.string(),
-	descriptionSuggestions: z.array(
-		z.object({
-			description: z.string(),
-			reasoning: z.string(),
-		}),
-	),
-	recommendation: z.string(),
-});
-
-// Tafsir enrichment frontmatter — appendix from Ibn Kathir's commentary
-export const TafsirEnrichFrontmatterSchema = z.object({
-	verdict: z.enum(["clean", "enriched"]),
-	versesAnalyzed: z.number(),
-	findings: z.array(
-		z.object({
-			ayahKey: z.string(),
-			surahName: z.string(),
-			included: z.boolean(),
-			insight: z.string(),
 		}),
 	),
 	summary: z.string(),
