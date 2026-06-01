@@ -66,6 +66,15 @@ export default function Qibla() {
 
   const bearing = qiblaBearing(coords);
   const distanceKm = qiblaDistanceKm(coords);
+  // Live bearing in a ref so the heading callback reads the latest value WITHOUT
+  // listing `bearing` in its deps. In GPS mode each fresh fix changes `coords` →
+  // `bearing`; if that re-created `onHeading`, the focus effect (dep `[onHeading]`)
+  // would tear down and re-subscribe the magnetometer on every fix, resetting its
+  // calibration warm-up and dropping the lock on a moving device.
+  const bearingRef = useRef(bearing);
+  useEffect(() => {
+    bearingRef.current = bearing;
+  }, [bearing]);
 
   const [heading, setHeading] = useState<number | null>(null);
   const [noCompass, setNoCompass] = useState(false);
@@ -93,7 +102,7 @@ export default function Qibla() {
       // Only feed the "getting warmer" proximity glow when the heading is trustworthy —
       // otherwise an uncalibrated reading would warm the dial toward a wrong bearing.
       const p = headingReliable(acc)
-        ? Math.max(0, Math.min(1, 1 - angleDelta(norm, bearing) / PROX_RANGE))
+        ? Math.max(0, Math.min(1, 1 - angleDelta(norm, bearingRef.current) / PROX_RANGE))
         : 0;
       // Idiomatic reanimated: drive the shared values from JS. The compiler's
       // immutability rule can't see that a SharedValue is meant to be mutated.
@@ -105,7 +114,7 @@ export default function Qibla() {
       setAccuracy(acc);
       setNoCompass((v) => (v ? false : v));
     },
-    [roseDeg, prox, bearing],
+    [roseDeg, prox],
   );
 
   // Subscribe to the magnetometer only while the screen is focused (battery), and

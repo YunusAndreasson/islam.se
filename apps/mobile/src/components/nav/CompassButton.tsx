@@ -9,17 +9,17 @@
 //
 // "You're facing qibla" signifier: when angleDelta(heading, bearing) ≤ ALIGN_TOL we
 // (a) swap the disc tint + rim to brass (c.highlight) so it visibly "lights up", (b)
-// repaint the logo in brass, (c) give it a small spring scale-up so it "locks", (d)
-// overlay a lock checkmark in the corner, and (e) fire ONE hapticSuccess at the moment
-// of transition (not every frame while held). This mirrors the dedicated Qibla screen's
-// brass cross-fade — the chrome button speaks the same language so the lock reads the
-// same on either surface.
+// repaint the logo in brass, (c) give it a small spring scale-up so it "locks", and
+// (d) fire ONE hapticSuccess at the moment of transition (not every frame while held).
+// Deliberately NO corner checkmark and NO rotating needle: a fixed pointed icon implies
+// a direction it doesn't have, and the off-corner badge read as a stray "indicator" 20–30°
+// off the tip — so the lock is signalled only by the logo recolouring + the haptic. The
+// full Qibla screen owns the actual direction.
 //
 // Theming: OS-themed via useColors (Apple Maps-style chrome; see MapNav).
-import { MaterialIcons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import { useEffect, useMemo, useRef } from 'react';
-import { Image, StyleSheet, View } from 'react-native';
+import { Image, StyleSheet } from 'react-native';
 import Animated, { useAnimatedStyle, useSharedValue, withSpring } from 'react-native-reanimated';
 
 import { hapticSuccess } from '../../lib/haptics';
@@ -90,34 +90,16 @@ export function CompassButton({ active }: { active: boolean }) {
       accessibilityLabel={aligned ? 'Qibla — du är vänd mot Mecka' : 'Qibla'}
       onPress={() => router.navigate('/qibla')}
     >
-      {/* Fixed up-arrow — never rotates. Colour carries the state (ink → accent → brass)
-          and a small scale-pop marks the lock. */}
+      {/* Fixed up-arrow — never rotates. Colour carries the state (ink at rest → brass on
+          lock) and a small scale-pop marks the moment. No corner indicator. */}
       <Animated.View style={lockStyle}>
         <Image source={LOGO} style={[styles.logo, { tintColor: logoHue }]} />
       </Animated.View>
-      {/* Lock badge — a tiny check-circle pinned to the top-right corner of the disc
-          when the phone is aimed at Mecca. A second, redundant signifier on top of the
-          brass tint so the lock is unmistakable for a colour-blind user too. */}
-      {aligned ? (
-        <View style={styles.lockBadge} pointerEvents="none">
-          <MaterialIcons name="check-circle" size={14} color={c.highlight} />
-        </View>
-      ) : null}
     </GlassRoundButton>
   );
 }
 
 const styles = StyleSheet.create({
-  // The logo needle, sized to sit inside the 46dp disc with breathing room.
+  // The logo mark, sized to sit inside the 46dp disc with breathing room.
   logo: { width: 24, height: 24, resizeMode: 'contain' },
-  // The lock badge sits at the disc's NE corner.
-  lockBadge: {
-    position: 'absolute',
-    top: -2,
-    right: -2,
-    width: 14,
-    height: 14,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
 });

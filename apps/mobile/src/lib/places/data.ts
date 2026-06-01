@@ -390,7 +390,6 @@ export const PLACES: readonly SwedishPlace[] = [
   { name: 'Tranemo', county: 'Västra Götaland', population: 3224, lat: 57.48333, lon: 13.35000 },
   { name: 'Eriksberg', county: 'Stockholm', population: 3200, lat: 59.24241, lon: 17.81631 },
   { name: 'Björklinge', county: 'Uppsala', population: 3186, lat: 60.03004, lon: 17.55203 },
-  { name: 'Tollarp1', county: 'Skåne', population: 3170, lat: 56.16667, lon: 14.28333 },
   { name: 'Södra Sunderbyn', county: 'Norrbotten', population: 3162, lat: 65.65983, lon: 21.94004 },
   { name: 'Munka-Ljungby', county: 'Skåne', population: 3148, lat: 56.25000, lon: 12.96667 },
   { name: 'Knislinge', county: 'Skåne', population: 3144, lat: 56.18333, lon: 14.08333 },

@@ -28,6 +28,12 @@ export interface WashStops {
   NIGHT: RGBA;
   /** Fajr→sunrise (cool dawn). */
   DAWN_COOL: RGBA;
+  /** Golden-hour kiss right at the sunrise horizon — a warm gold that blooms in the
+   *  lowest few degrees of depression on the MORNING side only, fading up into
+   *  DAWN_COOL above. Golden hour is symmetric (the rising sun is warm too), so this
+   *  gives Shurūq its own warm signature. Kept subtler than DUSK_WARM so Maghrib
+   *  stays the hero — a dawn whisper, not a second sunset. */
+  DAWN_WARM: RGBA;
   /** A faint same-hue tint right at the Maghrib line — so the wash begins AT the
    *  line, not far out in the band. */
   DUSK_EDGE: RGBA;
@@ -46,10 +52,21 @@ export interface WashStops {
 export const washStopsLight: WashStops = {
   DAY: [255, 255, 255, 0],
   DUSK_WARM: [183, 78, 52, 0.5],
-  NIGHT: [15, 20, 47, 0.88],
-  DAWN_COOL: [102, 118, 168, 0.42],
+  // The deep night is a touch more saturated-blue (b 47→54) so it reads as a true
+  // indigo night, not a slate, once the 0.88 alpha drowns the warm parchment.
+  NIGHT: [13, 20, 54, 0.88],
+  // Dawn was a pale, desaturated periwinkle — next to the vivid terracotta dusk it
+  // barely registered as a colour. Deepened to a richer cool cornflower and lifted
+  // a touch in alpha (0.42→0.48) so the Fajr→sunrise band glows as a real BLUE,
+  // the cool twin of the Maghrib warmth. (Parchment is warm, so a cool wash mutes
+  // against it — hence the extra saturation/alpha to land an honest blue.)
+  DAWN_COOL: [80, 110, 186, 0.48],
+  // Warm golden sunrise, more yellow/luminous than the dusk terracotta and at a lower
+  // alpha (0.36 < 0.5) — a dawn gold that reads next to the cool blue without upstaging
+  // Maghrib's red.
+  DAWN_WARM: [226, 156, 94, 0.36],
   DUSK_EDGE: [183, 78, 52, 0.2],
-  DAWN_EDGE: [102, 118, 168, 0.16],
+  DAWN_EDGE: [80, 110, 186, 0.18],
   WHITE_NIGHT: [120, 132, 172, 0.24],
 };
 
@@ -63,10 +80,18 @@ export const washStopsLight: WashStops = {
 export const washStopsDark: WashStops = {
   DAY: [255, 255, 255, 0],
   DUSK_WARM: [205, 108, 76, 0.32],
-  NIGHT: [22, 28, 52, 0.42],
-  DAWN_COOL: [134, 152, 196, 0.3],
+  // Slightly more blue chroma (b 52→60) so the deep night deepens the navy basemap
+  // with hue, not just darkness. Alpha unchanged (stays well under the light NIGHT).
+  NIGHT: [20, 28, 60, 0.42],
+  // Richer, bluer dawn lifted for the navy basemap — the cool twin of dusk, now a
+  // distinct cornflower rather than a grey-blue. Alpha (0.34) stays below the light
+  // mode's (0.48) per the gentler-dark-wash rule.
+  DAWN_COOL: [120, 146, 210, 0.34],
+  // Lifted golden sunrise for the navy basemap; alpha (0.26) below both the dark dusk
+  // (0.32) and the light dawn-warm (0.36), per the gentler-dark-wash rule.
+  DAWN_WARM: [236, 174, 110, 0.26],
   DUSK_EDGE: [205, 108, 76, 0.14],
-  DAWN_EDGE: [134, 152, 196, 0.12],
+  DAWN_EDGE: [120, 146, 210, 0.14],
   WHITE_NIGHT: [148, 160, 200, 0.18],
 };
 

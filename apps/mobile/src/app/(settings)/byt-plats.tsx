@@ -38,6 +38,11 @@ const NUMBER_FMT = new Intl.NumberFormat('sv-SE');
 // Fixed list-row metric — must be a constant for FlatList getItemLayout below
 // (not a spacing token). Holds the row at a comfortable two-line height.
 const ROW_HEIGHT = 64;
+// The real vertical pitch between rows: each row also renders a `space.xs`
+// ItemSeparatorComponent beneath it. getItemLayout must measure from pitch, not
+// ROW_HEIGHT, or offsets drift by space.xs·index and the list mis-scrolls / mis-
+// positions the selected city deep in the 2,100-place list.
+const ROW_PITCH = ROW_HEIGHT + space.xs;
 
 export default function BytPlats() {
   const { settings, update } = useSettings();
@@ -127,7 +132,7 @@ export default function BytPlats() {
           data={results}
           keyExtractor={(p) => `${p.name}|${p.lat}|${p.lon}`}
           renderItem={renderItem}
-          getItemLayout={(_, index) => ({ length: ROW_HEIGHT, offset: ROW_HEIGHT * index, index })}
+          getItemLayout={(_, index) => ({ length: ROW_PITCH, offset: ROW_PITCH * index, index })}
           initialNumToRender={20}
           windowSize={11}
           keyboardShouldPersistTaps="handled"
