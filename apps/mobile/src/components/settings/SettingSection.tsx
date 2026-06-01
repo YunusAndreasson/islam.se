@@ -5,7 +5,7 @@ import { space, type } from '../../theme/tokens';
 import { type SettingsColors, useSettingsColors } from './theme';
 
 // A card grouping related setting rows. The title (optional) sits INSIDE the card
-// as a muted uppercase header above the children — matching DisclosureGroup's
+// as a muted sentence-case header above the children — matching DisclosureGroup's
 // header rhythm so titled cards on the screen read as one family. An untitled
 // section is a list-style card (think the trio at the bottom of Inställningar):
 // no header row, just hairline-divided children. The optional footnote sits
@@ -35,9 +35,9 @@ export function SettingSection({
 function makeStyles(colors: SettingsColors) {
   return StyleSheet.create({
     wrap: { marginBottom: space.xxl },
-    // type.label is the design-token uppercase rhythm (12.5/600 with letterSpacing
-    // 0.8 and textTransform: 'uppercase'). Single source of truth for every card
-    // header; DisclosureGroup mirrors this style.
+    // type.label is the design-token section-header rhythm (sentence-case 13/600, near-
+    // zero tracking). Single source of truth for every card header; DisclosureGroup and
+    // the in-card SubGroup titles mirror this style so all settings headers read alike.
     title: {
       ...type.label,
       color: colors.textMuted,

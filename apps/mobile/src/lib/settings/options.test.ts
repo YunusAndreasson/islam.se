@@ -128,18 +128,24 @@ describe('label helpers', () => {
   });
 
   it('visningSummary names the group topics (scope), not their values', () => {
-    // The collapsed-header summary names the AREAS the Visning group controls so it
-    // never undersells itself — the old value summary showed only "Närmaste minut"
-    // and hid tema / karttyp / Hijri, making the group look like it did just rounding.
-    // It is value-INDEPENDENT on purpose: the same scope regardless of the user's
-    // choices (the values live inside the expanded card).
+    // The collapsed-header summary names the AREAS the Utseende-och-format group
+    // controls so it never undersells itself — the old value summary showed only
+    // "Närmaste minut" and hid Tema / Karttyp / Hijri, making the group look like it
+    // did just rounding. It is value-INDEPENDENT on purpose: the same scope regardless
+    // of the user's choices (the values live inside the expanded card). Topics are
+    // capitalised consistently (section names), so the casing is part of the contract.
     const summary = visningSummary();
     expect(summary).toContain('Tema');
-    expect(summary).toContain('avrundning');
+    expect(summary).toContain('Avrundning');
     expect(summary).toContain('Hijri');
     // "Karttyp" is listed only when a MapTiler key bundles the basemap picker —
     // otherwise that sub-section isn't rendered, so the topic must not appear either.
-    expect(summary.includes('karttyp')).toBe(MAP_STYLE_OPTIONS.length > 1);
+    expect(summary.includes('Karttyp')).toBe(MAP_STYLE_OPTIONS.length > 1);
+    // Topics appear in the same order the sub-sections render inside the card.
+    const order = ['Tema', 'Karttyp', 'Avrundning', 'Hijri'].filter(
+      (t) => t !== 'Karttyp' || MAP_STYLE_OPTIONS.length > 1,
+    );
+    expect(summary).toBe(order.join(' · '));
   });
 
   it('signedMinutes always shows the sign for non-zero values', () => {

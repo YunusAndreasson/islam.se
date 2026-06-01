@@ -199,10 +199,10 @@ export default function Installningar() {
 
         {/* Beräkning sits second — after Plats — because it's what a user will
             tune once after choosing a city. A single-row card pushes the full
-            Beräkning screen. Typography mirrors the Stad row inside Plats:
-            sentence-case label left, current method body-weight right, chevron.
-            (The previous uppercase title "BERÄKNING" yelled where it should
-            whisper — the *value* is what matters at a glance.) */}
+            Beräkning screen. It's a value-forward row (not a titled section):
+            typography mirrors the Stad row inside Plats — label left, the current
+            method body-weight right, chevron — because the *value* (which method
+            is active) is what matters at a glance here, not a header. */}
         <Pressable
           onPress={() => router.push('/(settings)/berakning')}
           accessibilityRole="button"
@@ -301,13 +301,47 @@ export default function Installningar() {
             : null}
         </SettingSection>
 
-        {/* Visning — purely how things are rendered, not what's calculated.
-            Avrundning shapes the time string; Hijri-justering shifts the date
-            display to match local moon-sighting. Per-prayer minute offsets used
-            to live here too — they moved to Beräkning, alongside the other
-            adhan CalculationParameters, where they conceptually belong. */}
+        {/* Utseende och format — appearance first (Tema, Karttyp), then the format
+            knobs (Avrundning, Hijri). The order mirrors the group title ("utseende"
+            then "format") and the collapsed summary, and surfaces the one control a
+            user actually reaches for here — the light/dark theme — at the very top. */}
         <DisclosureGroup title="Utseende och format" summary={visningSummary()}>
-          <SubGroup styles={styles} title="Avrundning">
+          {/* Tema — Apple Maps-style theme override; defaults to "Följ system" (the OS
+              Display setting decides). The dock, basemap, wash and prayer-line colours
+              all swap together the instant the user picks a row, via useActiveScheme().
+              Titled "Tema" (not "Utseende") so it doesn't echo the group name. */}
+          <SubGroup styles={styles} title="Tema" footnote="Påverkar kartan och hela appen.">
+            <OptionGroup
+              options={THEME_OPTIONS}
+              value={settings.theme}
+              onChange={(theme) => update({ theme })}
+            />
+          </SubGroup>
+
+          {/* Karttyp — pick the Bönetider basemap. Nordic is the custom calm
+              cartography (the visual identity). Standard / Satellit appear only
+              when a MapTiler key is bundled — the picker hides them otherwise so
+              a tap doesn't silently fall back. The solar wash + city overlay
+              keep working on every style. */}
+          {MAP_STYLE_OPTIONS.length > 1 ? (
+            <SubGroup
+              styles={styles}
+              title="Karttyp"
+              footnote="Påverkar bara Bönetider-kartan. Solens drag visas på alla."
+              divider
+            >
+              <OptionGroup
+                options={MAP_STYLE_OPTIONS}
+                value={settings.mapStyle}
+                onChange={(mapStyle) => update({ mapStyle })}
+              />
+            </SubGroup>
+          ) : null}
+
+          {/* Avrundning shapes the displayed time string. Per-prayer minute offsets
+              used to live here too — they moved to Beräkning, alongside the other
+              adhan CalculationParameters, where they conceptually belong. */}
+          <SubGroup styles={styles} title="Avrundning" divider>
             <OptionGroup
               options={ROUNDING_OPTIONS}
               value={settings.rounding}
@@ -330,46 +364,6 @@ export default function Installningar() {
               onChange={(hijriOffset) => update({ hijriOffset })}
             />
           </SubGroup>
-
-          {/* Tema — Apple Maps-style theme override. Tucked under "Utseende och format"
-              because it's a display preference, not a calculation, and defaults to
-              "Följ system" (the system Display setting decides). The dock, basemap, wash
-              and prayer-line colours all swap together the instant the user picks a row,
-              via useActiveScheme(). Titled "Tema" (not "Utseende") so it doesn't echo the
-              group name and matches the "Tema · …" summary. */}
-          <SubGroup
-            styles={styles}
-            title="Tema"
-            footnote="Påverkar kartan och hela appen."
-            divider
-          >
-            <OptionGroup
-              options={THEME_OPTIONS}
-              value={settings.theme}
-              onChange={(theme) => update({ theme })}
-            />
-          </SubGroup>
-
-          {/* Karttyp — pick the Bönetider basemap. Nordic is the custom calm
-              cartography (the visual identity). Standard / Satellit appear only
-              when a MapTiler key is bundled — the picker hides them otherwise so
-              a tap doesn't silently fall back. The solar wash + city overlay
-              keep working on every style. Below the Utseende picker because
-              Utseende affects ALL screens; this only affects the map. */}
-          {MAP_STYLE_OPTIONS.length > 1 ? (
-            <SubGroup
-              styles={styles}
-              title="Karttyp"
-              footnote="Påverkar bara Bönetider-kartan. Solens drag visas på alla."
-              divider
-            >
-              <OptionGroup
-                options={MAP_STYLE_OPTIONS}
-                value={settings.mapStyle}
-                onChange={(mapStyle) => update({ mapStyle })}
-              />
-            </SubGroup>
-          ) : null}
         </DisclosureGroup>
 
         {/* --- Stöd: secondary cluster. Visually demoted with extra top air and
