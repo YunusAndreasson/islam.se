@@ -67,8 +67,6 @@ export interface PreviewSnippet {
 		| "polish"
 		| "deepen"
 		| "ground"
-		| "detox"
-		| "language"
 		| "swedishVoice";
 	type: "text" | "tool_use" | "tool_result";
 	content: string;
@@ -86,8 +84,6 @@ export interface PipelineStatus {
 		| "polish"
 		| "deepen"
 		| "ground"
-		| "detox"
-		| "language"
 		| "swedishVoice"
 		| "complete"
 		| "failed";
