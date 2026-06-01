@@ -53,9 +53,10 @@ function userLabelFont(zoom: number): number {
 // `numberOfLines={2}` in render so long ones wrap rather than clip.
 const LABEL_BOX = 140;
 
-// Gap (px) from the user marker's centre to the top of its name label —
-// enough to clear the brass glow (radius 13).
-const USER_LABEL_GAP = 15;
+// Gap (px) from the user marker's centre to the top of its name label. Tightened
+// 15 → 12 to sit the name a touch closer to the dot (12 = the brass glow's radius, so
+// the label tucks right under the glow's edge without overlapping the dot itself).
+const USER_LABEL_GAP = 12;
 
 export function MapMarkersOverlay({ camera, userCoords, userLabel, labels, nextKey }: Props) {
   const c = useColors();
