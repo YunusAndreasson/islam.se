@@ -33,7 +33,11 @@ export interface SolarParams {
 /** Declination + equation of time for the instant's date (both drift slowly over a day). */
 export function solarParams(date: Date): SolarParams {
   const yearStart = Date.UTC(date.getUTCFullYear(), 0, 0);
-  const dayOfYear = (date.getTime() - yearStart) / 86_400_000;
+  // NOAA's fractional-year angle takes the INTEGER day-of-year plus a separate
+  // (hour−12)/24 intra-day term. `date.getTime() − yearStart` already carries the
+  // time of day, so it must be floored — otherwise the day fraction is counted
+  // twice (≈1.5×), biasing declination/EoT by up to ~0.4° late in the UTC day.
+  const dayOfYear = Math.floor((date.getTime() - yearStart) / 86_400_000);
   const hour = date.getUTCHours();
   const g = ((2 * Math.PI) / 365) * (dayOfYear - 1 + (hour - 12) / 24);
   const declRad =

@@ -43,10 +43,11 @@ uniform float u_declRad;
 const float PI = 3.141592653589793;
 const float DEG = 0.017453292519943295;
 
-const half4 C_DAY   = ${sksl(stops.DAY)};
-const half4 C_DUSK  = ${sksl(stops.DUSK_WARM)};
-const half4 C_DAWN  = ${sksl(stops.DAWN_COOL)};
-const half4 C_NIGHT = ${sksl(stops.NIGHT)};
+const half4 C_DAY        = ${sksl(stops.DAY)};
+const half4 C_DUSK       = ${sksl(stops.DUSK_WARM)};
+const half4 C_DAWN       = ${sksl(stops.DAWN_COOL)};
+const half4 C_DAWN_WARM  = ${sksl(stops.DAWN_WARM)};
+const half4 C_NIGHT      = ${sksl(stops.NIGHT)};
 
 // Twilight colour from the sun's altitude (deg, <0 = below horizon) and hour angle (deg).
 half4 twilight(float altDeg, float haDeg) {
@@ -66,12 +67,22 @@ half4 twilight(float altDeg, float haDeg) {
   float glow = smoothstep(0.0, 2.0, d) * (1.0 - smoothstep(5.0, 10.0, d));
   float warmth = sin(haDeg * DEG);
   half4 horizon = mix(C_DAWN, C_DUSK, clamp(warmth * 0.5 + 0.5, 0.0, 1.0));
+  // Golden-hour kiss at SUNRISE. The rising sun is warm at the horizon too (golden hour
+  // is symmetric), so on the MORNING side only (warmth < 0 → sun in the east) we bloom a
+  // gold tint in just the lowest few degrees of depression — peaking right at the horizon
+  // and gone by ~4° — fading UP into the cool-blue dawn above it. This gives Shurūq its
+  // own warm signature without warming the whole dawn band, and it is morning-gated so it
+  // never touches the evening (Maghrib stays the hero). The kiss factor rises from just
+  // below the horizon (no hard line at sunrise) and tapers out before nautical twilight.
+  float morning = clamp(-warmth, 0.0, 1.0);
+  float kiss = morning * smoothstep(0.0, 0.5, d) * (1.0 - smoothstep(0.5, 4.0, d));
+  half4 hz = mix(horizon, C_DAWN_WARM, kiss);
   // Tint only near the horizon (driven by glow); the deep sky stays a clean indigo rather
   // than muddying toward the horizon colour.
-  half3 rgb = mix(C_NIGHT.rgb, horizon.rgb, glow);
+  half3 rgb = mix(C_NIGHT.rgb, hz.rgb, glow);
   // Veil alpha: the deepening night, lifted near the horizon so the warm/cool band still
   // reads while the sky is only lightly dimmed.
-  float a = max(C_NIGHT.a * dark, horizon.a * glow);
+  float a = max(C_NIGHT.a * dark, hz.a * glow);
   return half4(rgb, a);
 }
 
