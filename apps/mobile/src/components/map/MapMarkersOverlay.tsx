@@ -1,5 +1,5 @@
 // The point/label layer that rides ABOVE the Skia field canvas: the brass "you are
-// here" dot + label, and the prayer pills that name each active prayer line.
+// here" dot, and the prayer pills that name each active prayer line.
 //
 // History: this layer USED to also draw a curated set of Swedish city dots + labels
 // (Stockholm, Göteborg, Malmö, …). That curated overlay was retired 2026-05-29 —
@@ -9,15 +9,19 @@
 // only what the basemap *can't* know: where the user is, and where the prayer
 // lines are sweeping right now.
 //
+// The user marker is a DOT, not a named label (Apple/Google Maps convention): when the
+// chosen location is a town the basemap already labels (e.g. Stockholm), a text label
+// here would print the name a second time right on top of the basemap's own — so the
+// place name lives in the dock hero + Settings instead, and the map just marks the spot.
+//
 // Positions come from project() (src/lib/map/projection.ts), the same projection the
-// Skia canvas and MapLibre basemap use, so the dot/label/pills land exactly on the
-// map. `pointerEvents="none"` so gestures fall straight through to the basemap.
+// Skia canvas and MapLibre basemap use, so the dot/pills land exactly on the map.
+// `pointerEvents="none"` so gestures fall straight through to the basemap.
 //
 // Theming: OS-themed (useColors). Apple Maps-style — the basemap and chrome share an
 // OS axis; the prayer-line hues are still sun-driven (the live sky), but the user
-// marker / label / pills follow the OS palette so the layer reads coherently against
-// both basemaps. The label halo flips warm (light basemap) / dark (navy basemap) so
-// the text stays readable on either ground.
+// marker / pills follow the OS palette so the layer reads coherently against both
+// basemaps.
 import { StyleSheet, Text, View } from 'react-native';
 
 import { type Camera, project } from '../../lib/map/projection';
@@ -31,43 +35,18 @@ interface Props {
   /** React-state camera (settled after each region change) shared with the Skia canvas. */
   camera: Camera;
   userCoords: LatLng;
-  /** The user's place name (GPS or manual) — always labelled at the marker. */
-  userLabel: string;
   /** Pill anchors from buildLines: where each active prayer line wants its label. */
   labels: PrayerLineLabel[];
   nextKey: PrayerKey | null;
 }
 
-function lerp(a: number, b: number, t: number): number {
-  return a + (b - a) * t;
-}
-const clamp01 = (x: number): number => (x < 0 ? 0 : x > 1 ? 1 : x);
-
-// User label font grows with zoom — generous at country view, comfortable at city view.
-function userLabelFont(zoom: number): number {
-  const t = clamp01((zoom - 4) / 5);
-  return lerp(13, 17, t);
-}
-
-// Fixed centred box for the user label — wider than any place name, with
-// `numberOfLines={2}` in render so long ones wrap rather than clip.
-const LABEL_BOX = 140;
-
-// Gap (px) from the user marker's centre to the top of its name label. Tightened
-// 15 → 12 to sit the name a touch closer to the dot (12 = the brass glow's radius, so
-// the label tucks right under the glow's edge without overlapping the dot itself).
-const USER_LABEL_GAP = 12;
-
-export function MapMarkersOverlay({ camera, userCoords, userLabel, labels, nextKey }: Props) {
+export function MapMarkersOverlay({ camera, userCoords, labels, nextKey }: Props) {
   const c = useColors();
   const scheme = useActiveScheme();
-  // Marker rim + label halo flip warm/dark by basemap so the dot + text always read.
+  // Marker rim flips warm/dark by basemap so the dot always reads against the ground.
   const rim = scheme === 'dark' ? 'rgba(225,232,255,0.9)' : '#ffffff';
-  const halo = scheme === 'dark' ? 'rgba(18,22,36,0.92)' : 'rgba(250,247,240,0.92)';
 
   const user = project(userCoords.longitude, userCoords.latitude, camera);
-  const userName = userLabel.trim();
-  const userFont = userLabelFont(camera.zoom);
 
   // Pill placements computed once — reused for projection of every active prayer
   // line's label anchor.
@@ -79,7 +58,9 @@ export function MapMarkersOverlay({ camera, userCoords, userLabel, labels, nextK
   return (
     <View style={StyleSheet.absoluteFill} pointerEvents="none">
       {/* "You are here" — brass glow + dot, sized a touch larger than any basemap
-          place marker so it stays the unmistakable hero of the layer. */}
+          place marker so it stays the unmistakable hero of the layer. No text label:
+          the place name lives in the dock + Settings, so the marker never duplicates
+          the basemap's own town label (see the file header). */}
       <View
         style={{
           position: 'absolute',
@@ -105,29 +86,6 @@ export function MapMarkersOverlay({ camera, userCoords, userLabel, labels, nextK
           borderWidth: 2,
         }}
       />
-      {/* The user's place name — sits just below the marker, halo'd so it reads on any
-          ground. Wrapped to two lines so long names (Helsingborg, Helsingfors) don't
-          clip. */}
-      {userName ? (
-        <Text
-          numberOfLines={2}
-          style={{
-            position: 'absolute',
-            left: user.x - LABEL_BOX / 2,
-            top: user.y + USER_LABEL_GAP,
-            width: LABEL_BOX,
-            textAlign: 'center',
-            fontSize: userFont,
-            fontWeight: '600',
-            color: c.ink,
-            textShadowColor: halo,
-            textShadowRadius: 2.5,
-            textShadowOffset: { width: 0, height: 0 },
-          }}
-        >
-          {userName}
-        </Text>
-      ) : null}
 
       {/* Prayer pills — each sits ON its line (centred on the line's anchor point), so the
           line reads straight through it: no leader to trace, and each prayer's pill rides
