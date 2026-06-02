@@ -2,9 +2,10 @@
 //
 // IMPORTANT — validity: every *moment* on this map comes straight from adhan via
 // computePrayerTimes(). Nothing here invents a prayer time. The lines are the
-// exact locus where a real prayer time equals the chosen instant; the wash
-// between those moments is a faithful visualisation of adhan's own twilight
-// intervals (Fajr→sunrise = dawn, Maghrib→Isha = dusk), not a new calculation.
+// exact locus where a real prayer time equals the chosen instant. (The twilight
+// wash that actually renders is independent of this file — pure sun geometry in
+// washShader.ts, with its CPU twin in skia/washColor.ts; this file only feeds the
+// sweeping prayer LINES.)
 //
 // We compute a grid of prayer times ONCE per (date, settings) — that's the only
 // expensive step — then per displayed instant it's cheap arithmetic on the cache.
@@ -20,13 +21,6 @@ import {
   type Segment,
   smoothChain,
 } from './contour';
-import { mix, type RGBA, washStopsLight } from './palette';
-
-// washAt() is the CPU mirror of the wash for unit tests / debug overlays. The GPU
-// shader (WASH_SKSL) does the real work and uses the OS-themed light/dark stops.
-// The CPU helper is pinned to LIGHT so its test assertions on alpha thresholds
-// stay stable — it's an aesthetic-pinning function, not a runtime renderer.
-const { DAWN_COOL, DAWN_EDGE, DAY, DUSK_EDGE, DUSK_WARM, NIGHT, WHITE_NIGHT } = washStopsLight;
 
 // Generously larger than the camera's Sweden framing so the wash always covers the
 // whole viewport — at the locked zoom-out the visible map spills well past Sweden
@@ -101,48 +95,6 @@ export function buildGrid(
     }),
   );
   return { lats, lons, pt };
-}
-
-const ok = (n: number): boolean => Number.isFinite(n);
-
-// Two-stop ramp through a transition interval [start, end]. The midpoint is the
-// vivid tint (warm at dusk, cool at dawn); the ends fade toward day / night.
-function ramp(now: number, start: number, end: number, mid: RGBA, edge: RGBA): RGBA {
-  const p = (now - start) / (end - start);
-  return p < 0.5 ? mix(edge, mid, p / 0.5) : mix(mid, NIGHT, (p - 0.5) / 0.5);
-}
-
-/**
- * The twilight colour at one point for a given instant, derived from that point's
- * own adhan times. Returns an RGBA whose alpha dims the basemap (clear by day,
- * heavy indigo at night, warm/cool during the dusk/dawn intervals).
- */
-export function washAt(now: number, t: PointTimes): RGBA {
-  const { fajr, sunrise, sunset, isha } = t;
-  if (ok(fajr) && ok(sunrise) && ok(sunset) && ok(isha)) {
-    if (now < fajr) return NIGHT;
-    // Fajr → sunrise: night fades up through cool dawn into clear day. The DAWN_EDGE at
-    // the sunrise end keeps the wash present right at the sunrise line (not transparent),
-    // so the line and its gradient read as one — same fix applied to every twilight line.
-    if (now < sunrise) return ramp(now, sunrise, fajr, DAWN_COOL, DAWN_EDGE);
-    if (now < sunset) return DAY;
-    // Maghrib(sunset) → Isha: clear day deepens through warm dusk into night. DUSK_EDGE
-    // keeps the wash present at the Maghrib line so it connects to the sweeping line.
-    if (now < isha) return ramp(now, sunset, isha, DUSK_WARM, DUSK_EDGE);
-    return NIGHT;
-  }
-  // Polar fallback — only when adhan genuinely could NOT resolve the prayer/twilight
-  // times (NaN). Note this is rare under the Sweden defaults: `aqrabBalad` resolves
-  // Kiruna's midsummer into *valid* artificial Fajr/Isha (borrowed from the nearest date
-  // that has a real night), so the branch above runs and the wash deepens to night around
-  // those times — which is correct here, because the map visualises the prayer schedule
-  // the app actually uses, not the raw astronomical daylight. This fallback is the last
-  // resort for the truly-unresolvable case: show daylight while the sun is up if we have
-  // it, else a pale white-night tint. Never NaN, never black.
-  if (ok(sunrise) && ok(sunset)) {
-    return now >= sunrise && now < sunset ? DAY : WHITE_NIGHT;
-  }
-  return WHITE_NIGHT;
 }
 
 export interface PrayerLineLabel {

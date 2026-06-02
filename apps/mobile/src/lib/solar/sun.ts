@@ -19,7 +19,7 @@
 // degree, far finer than a colour wash needs. Declination and the equation of time vary only
 // with the date, so they are computed once on the CPU and handed to the shader as uniforms;
 // the per-pixel hour-angle → altitude step happens in the shader (mirrored by altitudeFrom
-// here for the chrome's scalar night factor and for tests).
+// here as the CPU twin the unit tests pin — there is no JS-thread consumer of it at runtime).
 
 const DEG = Math.PI / 180;
 
@@ -87,17 +87,6 @@ function altitudeFrom(
   return Math.asin(Math.max(-1, Math.min(1, sinAlt))) / DEG;
 }
 
-/**
- * Darkness 0→1 from the sun's altitude: 0 while the sun is up, ramping through the twilight
- * phases as it sinks and saturating at astronomical depth (18° below = true night). The wash
- * shader uses the same ramp for its veil so the chrome and the map agree on how dark it is.
- */
-export function darknessFromAltitude(altDeg: number): number {
-  if (altDeg >= 0) return 0;
-  return smoothstep(0, 18, -altDeg);
-}
-
-function smoothstep(edge0: number, edge1: number, x: number): number {
-  const t = Math.max(0, Math.min(1, (x - edge0) / (edge1 - edge0)));
-  return t * t * (3 - 2 * t);
-}
+// The depression → darkness ramp now lives with the wash it drives: the GPU shader's `dark`
+// term in washShader.ts, mirrored on the CPU by washColorAt() in skia/washColor.ts (tested
+// there). This module stays purely the sun's GEOMETRY (declination, EoT, altitude/hour angle).

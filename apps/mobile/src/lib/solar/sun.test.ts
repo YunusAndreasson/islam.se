@@ -5,7 +5,7 @@
 // barely ~0.7° (white night). If these drift, the night colour is lying about the sky.
 import { describe, expect, it } from '@jest/globals';
 
-import { darknessFromAltitude, solarParams, sunAltitudeDeg } from './sun';
+import { solarParams, sunAltitudeDeg } from './sun';
 
 const DEG = 180 / Math.PI;
 
@@ -56,27 +56,6 @@ describe('sunAltitudeDeg — Sweden in late May', () => {
   });
 });
 
-describe('darknessFromAltitude', () => {
-  it('is 0 while the sun is up and saturates at astronomical depth', () => {
-    expect(darknessFromAltitude(10)).toBe(0); // sun up → clear
-    expect(darknessFromAltitude(0)).toBe(0); // at the horizon → still clear
-    expect(darknessFromAltitude(-18)).toBeCloseTo(1, 5); // astronomical → full night
-    expect(darknessFromAltitude(-30)).toBe(1); // deeper → still full night
-  });
-
-  it('rises monotonically through the twilight phases', () => {
-    const civil = darknessFromAltitude(-3);
-    const nautical = darknessFromAltitude(-9);
-    const astronomical = darknessFromAltitude(-15);
-    expect(civil).toBeGreaterThan(0);
-    expect(nautical).toBeGreaterThan(civil);
-    expect(astronomical).toBeGreaterThan(nautical);
-  });
-
-  it('leaves Malmö in late May visibly short of full darkness', () => {
-    // ~13° depression → clearly night-ish but not maxed: the luminous summer night.
-    const d = darknessFromAltitude(-13);
-    expect(d).toBeGreaterThan(0.6);
-    expect(d).toBeLessThan(0.95);
-  });
-});
+// The depression → darkness/colour ramp moved to skia/washColor.ts (the CPU twin of the wash
+// shader); its monotonicity, the Malmö-not-black headline, and the saturation point are pinned
+// in washColor.test.ts. This file now covers only the sun's geometry.

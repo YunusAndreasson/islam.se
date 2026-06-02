@@ -4,7 +4,7 @@ import type { FeatureCollection } from 'geojson';
 
 import { computePrayerTimes } from '../prayer-times';
 import { DEFAULT_SETTINGS } from '../settings/types';
-import { buildGrid, buildLines, washAt, type PointTimes } from './field';
+import { buildGrid, buildLines } from './field';
 
 // A coarse grid keeps these fast while still spanning the default bounds, which are
 // generous enough to cover the whole map viewport (lat 50→73, lon 0→34).
@@ -59,50 +59,6 @@ describe('buildGrid', () => {
     // Still monotonic with no duplicated final point from the appended max.
     for (let i = 1; i < grid.lats.length; i++) expect(grid.lats[i]).toBeGreaterThan(grid.lats[i - 1]);
     for (let j = 1; j < grid.lons.length; j++) expect(grid.lons[j]).toBeGreaterThan(grid.lons[j - 1]);
-  });
-});
-
-describe('washAt', () => {
-  const t: PointTimes = (() => {
-    const p = computePrayerTimes({ latitude: 62, longitude: 15.5 }, DATE, DEFAULT_SETTINGS);
-    return {
-      fajr: p.fajr.getTime(),
-      sunrise: p.sunrise.getTime(),
-      dhuhr: p.dhuhr.getTime(),
-      asr: p.asr.getTime(),
-      maghrib: p.maghrib.getTime(),
-      isha: p.isha.getTime(),
-      sunset: p.sunset.getTime(),
-    };
-  })();
-
-  it('is fully transparent at midday and a heavy veil deep at night', () => {
-    const midday = (t.dhuhr + t.sunset) / 2;
-    const deepNight = t.fajr - 60 * 60_000; // an hour before dawn
-    expect(washAt(midday, t)[3]).toBe(0); // clear — basemap untouched
-    expect(washAt(deepNight, t)[3]).toBeGreaterThan(0.5); // night veil
-  });
-
-  it('warms up during the Maghrib→Isha dusk interval', () => {
-    const midDusk = (t.sunset + t.isha) / 2;
-    const [r, , b, a] = washAt(midDusk, t);
-    expect(a).toBeGreaterThan(0); // not clear
-    expect(a).toBeLessThan(0.66); // not yet full night
-    expect(r).toBeGreaterThan(b); // warm (red channel leads blue) — the sunset glow
-  });
-
-  it('never returns NaN when prayer times are unresolvable (polar)', () => {
-    const broken: PointTimes = {
-      fajr: Number.NaN,
-      sunrise: Number.NaN,
-      dhuhr: t.dhuhr,
-      asr: t.asr,
-      maghrib: Number.NaN,
-      isha: Number.NaN,
-      sunset: Number.NaN,
-    };
-    const c = washAt(t.dhuhr, broken);
-    expect(c.every((n) => Number.isFinite(n))).toBe(true);
   });
 });
 
