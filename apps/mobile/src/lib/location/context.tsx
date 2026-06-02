@@ -16,14 +16,12 @@ import {
 } from 'react';
 
 import { useSettings } from '../settings/context';
-import { DEFAULT_COORDS, type NamedLocation } from '../settings/types';
 import type { LatLng } from '../prayer-times';
-import { nearestPlace } from '../places/nearest';
 import type { SwedishPlace } from '../places/data';
+import { type LocationSource, resolveLocation } from './resolve';
 
 const GPS_CACHE_KEY = 'lastGpsCoords:v1';
 
-type LocationSource = 'manual' | 'gps' | 'default';
 type PermissionStatus = 'undetermined' | 'granted' | 'denied';
 
 interface LocationContextValue {
@@ -114,37 +112,12 @@ export function LocationProvider({ children }: { children: ReactNode }) {
     if (locationMode === 'gps') void acquireGps();
   }, [locationMode, acquireGps]);
 
-  const resolved = useMemo<{
-    coords: LatLng;
-    label: string;
-    source: LocationSource;
-    place: SwedishPlace | null;
-  }>(() => {
-    if (locationMode === 'manual') {
-      const loc: NamedLocation = manualLocation ?? DEFAULT_COORDS;
-      const coords = { latitude: loc.latitude, longitude: loc.longitude };
-      // In manual mode the chosen tätort IS the place — snap to it so the
-      // marker sits on the canonical centre even if the stored coords have
-      // drifted (e.g. from an older picker entry with rounded numbers).
-      const snapped = nearestPlace(coords.latitude, coords.longitude).place;
-      return { coords, label: loc.name, source: 'manual', place: snapped };
-    }
-    if (gpsCoords) {
-      // GPS gives a precise coordinate (prayer times need that precision —
-      // sunrise drifts seconds per km of longitude). The label and the map
-      // marker use the nearest tätort; the math uses the raw fix.
-      const snapped = nearestPlace(gpsCoords.latitude, gpsCoords.longitude).place;
-      return { coords: gpsCoords, label: snapped.name, source: 'gps', place: snapped };
-    }
-    // No fix yet — render Stockholm so the screen isn't blank or NaN'd.
-    const fallback = nearestPlace(DEFAULT_COORDS.latitude, DEFAULT_COORDS.longitude).place;
-    return {
-      coords: { latitude: DEFAULT_COORDS.latitude, longitude: DEFAULT_COORDS.longitude },
-      label: `${DEFAULT_COORDS.name} (standard)`,
-      source: 'default',
-      place: fallback,
-    };
-  }, [locationMode, manualLocation, gpsCoords]);
+  // Single source of truth for the manual → GPS → Stockholm resolution, shared with
+  // the home-screen widget's timeline builder via ./resolve so the two never drift.
+  const resolved = useMemo(
+    () => resolveLocation(locationMode, manualLocation, gpsCoords),
+    [locationMode, manualLocation, gpsCoords],
+  );
 
   const value = useMemo<LocationContextValue>(
     () => ({ ...resolved, permissionStatus, locating, refresh: acquireGps }),

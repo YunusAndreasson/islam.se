@@ -58,6 +58,23 @@
           "resizeMode": "contain",
           "backgroundColor": "#000000"
         }
+      ],
+      [
+        "expo-widgets",
+        {
+          "groupIdentifier": "group.se.islam.mobile",
+          "widgets": [
+            {
+              "name": "PrayerTimesWidget",
+              "displayName": "Bönetider",
+              "description": "Nästa bön och dagens bönetider",
+              "ios": {
+                "supportedFamilies": ["systemSmall", "systemMedium"]
+              },
+              "android": null
+            }
+          ]
+        }
       ]
     ],
     "experiments": {
