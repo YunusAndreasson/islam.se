@@ -352,7 +352,6 @@ export default function Bonetider() {
         <MapMarkersOverlay
           camera={camState}
           userCoords={coords}
-          userLabel={placeLabel}
           labels={solar.labels}
           nextKey={nextKey}
         />

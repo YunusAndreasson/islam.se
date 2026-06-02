@@ -7,6 +7,7 @@
 import * as Notifications from 'expo-notifications';
 import { Platform } from 'react-native';
 
+import { palette } from '../theme/tokens';
 import {
   computePrayerTimes,
   formatTime,
@@ -57,7 +58,11 @@ async function ensureAndroidChannel(): Promise<void> {
     // named "default" (none exists) and warn — a HIGH-importance channel already
     // plays the default sound when none is set.
     vibrationPattern: [0, 250, 120, 250],
-    lightColor: '#46527f',
+    // The notification LED accent = the app's brand indigo, single-sourced from the
+    // design tokens (was a stale hardcoded `#46527f` left over from before the palette
+    // was refined to Prussian). `palette` is the static light palette tokens.ts exposes
+    // for non-themed call-sites like this one.
+    lightColor: palette.accent,
   });
 }
 
