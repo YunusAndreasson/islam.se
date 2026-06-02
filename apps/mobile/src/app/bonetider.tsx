@@ -36,8 +36,8 @@ import { useLocation } from '../lib/location/context';
 import { type Camera as MapCamera, invMercY, mercY } from '../lib/map/projection';
 import { mapStyleFor } from '../lib/map/nordicStyle';
 import { computePrayerTimes, PRAYER_ORDER, type PrayerKey } from '../lib/prayer-times';
+import { computeSignature } from '../lib/settings/compute-signature';
 import { useSettings } from '../lib/settings/context';
-import type { PrayerSettings } from '../lib/settings/types';
 import { buildGrid, buildLines } from '../lib/solar/field';
 import { useSolarClock } from '../lib/solar/useSolarClock';
 import { motion, radius, space, type } from '../theme/tokens';
@@ -82,20 +82,6 @@ const DAY_MS = 86_400_000;
 // the tile-rendered Malmö label now — 16dp is the floor that still leaves the
 // halo readable above the dock's top edge.
 const DOCK_MARGIN = space.lg;
-
-// Only the fields that change the computed times — the grid is rebuilt when this
-// signature changes, not on cosmetic settings (time format, Hijri offset).
-function computeSignature(s: PrayerSettings): string {
-  return JSON.stringify([
-    s.calculationMethod,
-    s.madhab,
-    s.highLatitudeRule,
-    s.polarCircleResolution,
-    s.shafaq,
-    s.adjustments,
-    s.rounding,
-  ]);
-}
 
 export default function Bonetider() {
   const scheme = useActiveScheme();

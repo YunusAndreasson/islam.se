@@ -245,3 +245,10 @@ jest.mock('react-native-gesture-handler', () => {
     },
   };
 });
+
+// Pin fast-check to a fixed seed so the *.props.test.ts suites are deterministic across
+// runs: a fixed seed still explores `numRuns` inputs, just reproducibly — which keeps the
+// branch-coverage gate stable (the property tests contribute real coverage) and makes any
+// failure reproducible from the logged seed. Raising numRuns above the default 100 widens
+// the sweep without sacrificing that reproducibility.
+require('fast-check').configureGlobal({ seed: 0x15_1a_b5, numRuns: 200 });

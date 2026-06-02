@@ -88,13 +88,35 @@ export function buildParams(settings: PrayerSettings, coords: Coordinates): Calc
   return params;
 }
 
+/** Whether a coordinate is real and on the globe — guards adhan against garbage input. */
+function coordsValid(coords: LatLng): boolean {
+  return (
+    Number.isFinite(coords.latitude) &&
+    Number.isFinite(coords.longitude) &&
+    Math.abs(coords.latitude) <= 90 &&
+    Math.abs(coords.longitude) <= 180
+  );
+}
+
 export function computePrayerTimes(
   coords: LatLng,
   date: Date,
   settings: PrayerSettings,
 ): PrayerTimes {
-  const c = new Coordinates(coords.latitude, coords.longitude);
-  return new PrayerTimes(c, date, buildParams(settings, c));
+  // A GPS fix can arrive as NaN before the first lock, and a corrupt or hand-edited manual
+  // location can be out of range. Feeding either to adhan is unsafe two ways: out-of-range
+  // but finite coordinates produce confidently-WRONG times, and NaN/garbage under the
+  // default aqrabBalad polar resolver sends adhan into infinite recursion (it hunts for a
+  // valid night that never comes) — a hard crash. So for invalid input, substitute NaN
+  // coordinates and the no-op Unresolved resolver: every slot becomes an Invalid Date that
+  // formatTime renders as "—" — honest, and crash-free. Valid coordinates are untouched.
+  const valid = coordsValid(coords);
+  const c = valid
+    ? new Coordinates(coords.latitude, coords.longitude)
+    : new Coordinates(Number.NaN, Number.NaN);
+  const params = buildParams(settings, c);
+  if (!valid) params.polarCircleResolution = PolarCircleResolution.Unresolved;
+  return new PrayerTimes(c, date, params);
 }
 
 /** The six daily prayers plus sunrise, in chronological order, with Swedish labels. */
@@ -189,12 +211,33 @@ export function formatTime(date: Date | null | undefined): string {
   }
 }
 
-// Crude fixed-offset fallback (CET/CEST by month) — only used if Intl timeZone
-// support is missing. Good enough to never show a raw UTC string to the user.
-function fallbackFormat(date: Date): string {
-  const month = date.getUTCMonth(); // 0-indexed
-  const isSummer = month >= 2 && month <= 9; // rough DST window (Apr–Oct-ish)
-  const offsetHours = isSummer ? 2 : 1;
+// Last-Sunday-of-`month0` at 01:00 UTC — the EU daylight-saving switch instants.
+// Day 0 of the *next* month is the last day of this one; stepping back its weekday
+// lands on that month's final Sunday. (UTC throughout, so it's leap/zone-safe.)
+function lastSundayOneAmUTC(year: number, month0: number): number {
+  const lastDay = new Date(Date.UTC(year, month0 + 1, 0));
+  const lastSunday = lastDay.getUTCDate() - lastDay.getUTCDay();
+  return Date.UTC(year, month0, lastSunday, 1, 0, 0);
+}
+
+// Whether `date` falls in Swedish summer time (CEST, UTC+2) vs winter (CET, UTC+1).
+// EU DST runs from the last Sunday of March to the last Sunday of October, both
+// switching at 01:00 UTC. The previous code used a crude month window (March–October
+// flat), which rendered the transition weeks an hour off — late March before the
+// switch, and late October after it. This honours the real boundary.
+function isStockholmSummer(date: Date): boolean {
+  const t = date.getTime();
+  const year = date.getUTCFullYear();
+  return t >= lastSundayOneAmUTC(year, 2) && t < lastSundayOneAmUTC(year, 9);
+}
+
+// Crude fixed-offset fallback (CET/CEST) — only used if Intl timeZone support is
+// missing (Hermes without full ICU). Good enough to never show a raw UTC string to
+// the user. Exported only so the DST boundary logic is directly unit-testable; the
+// canonical path is the Intl formatter above. Stays pure (no Intl, no allocation
+// beyond two Dates) so a missing-ICU runtime can rely on it.
+export function fallbackFormat(date: Date): string {
+  const offsetHours = isStockholmSummer(date) ? 2 : 1;
   const shifted = new Date(date.getTime() + offsetHours * 3600_000);
   const hours = shifted.getUTCHours();
   const minutes = shifted.getUTCMinutes();

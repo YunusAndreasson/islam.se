@@ -1,0 +1,32 @@
+{
+  "$schema": "./node_modules/@stryker-mutator/core/schema/stryker-schema.json",
+  "_comment": "Mutation testing — the objective 'are the tests actually catching bugs' audit. Scoped to the pure, deterministic correctness core (the same modules the coverage gate watches); UI/native/data/hook files are excluded because they'd be slow and low-signal under the RN/expo mocks. On-demand / CI-nightly (~6–15 min), not per-commit. Run: pnpm mutation. Triage survivors in reports/mutation/mutation.html and add tests that kill them.",
+  "packageManager": "pnpm",
+  "testRunner": "jest",
+  "jest": {
+    "projectType": "custom",
+    "configFile": "jest.config.js"
+  },
+  "coverageAnalysis": "perTest",
+  "ignoreStatic": true,
+  "disableTypeChecks": "src/lib/**/*.{ts,tsx}",
+  "concurrency": 4,
+  "timeoutMS": 30000,
+  "mutate": [
+    "src/lib/hijri.ts",
+    "src/lib/qibla.ts",
+    "src/lib/prayer-times.ts",
+    "src/lib/places/nearest.ts",
+    "src/lib/settings/store.ts",
+    "src/lib/settings/compute-signature.ts",
+    "src/lib/map/projection.ts",
+    "src/lib/solar/sun.ts",
+    "src/lib/solar/field.ts",
+    "src/lib/solar/contour.ts",
+    "src/lib/solar/palette.ts",
+    "!src/**/*.test.{ts,tsx}"
+  ],
+  "reporters": ["html", "clear-text", "progress"],
+  "htmlReporter": { "fileName": "reports/mutation/mutation.html" },
+  "thresholds": { "high": 85, "low": 70, "break": 60 }
+}

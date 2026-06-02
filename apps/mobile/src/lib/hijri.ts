@@ -16,8 +16,12 @@ export interface HijriDate {
 // 1 Muharram AH 1 in the civil tabular variant = JDN 1948440 (Friday epoch).
 const ISLAMIC_EPOCH = 1948440;
 
+// gregorianToJDN / islamicToJDN / jdnToIslamic are exported ONLY so the anchor tests
+// (hijri.anchors.test.ts) can pin their hand-typed magic constants against external
+// references via the JDN bridge — a correlated error that round-trips would otherwise be
+// invisible. They are an implementation detail; the app uses toHijri/formatHijri.
 /** Gregorian (proleptic Gregorian) calendar date → Julian Day Number (integer, noon). */
-function gregorianToJDN(year: number, month: number, day: number): number {
+export function gregorianToJDN(year: number, month: number, day: number): number {
   const a = Math.floor((14 - month) / 12);
   const y = year + 4800 - a;
   const m = month + 12 * a - 3;
@@ -33,7 +37,7 @@ function gregorianToJDN(year: number, month: number, day: number): number {
 }
 
 /** Tabular Islamic (year, month, day) → JDN. Inverse of {@link jdnToIslamic}. */
-function islamicToJDN(year: number, month: number, day: number): number {
+export function islamicToJDN(year: number, month: number, day: number): number {
   return (
     day +
     Math.ceil(29.5 * (month - 1)) +
@@ -45,7 +49,7 @@ function islamicToJDN(year: number, month: number, day: number): number {
 }
 
 /** JDN → tabular Islamic date. Round-trips with {@link islamicToJDN}. */
-function jdnToIslamic(jdn: number): HijriDate {
+export function jdnToIslamic(jdn: number): HijriDate {
   // The closed-form year estimate can be off by one near a year boundary, and the
   // 29/30-day months make a "÷29.5" month estimate fail at boundaries (it can yield
   // day 0). So: clamp the year against the actual year starts, then linear-scan the

@@ -48,16 +48,33 @@ function stockholmParts(epoch: number): {
   mi: number;
   s: number;
 } {
-  const parts = new Intl.DateTimeFormat('en-US', {
-    timeZone: STOCKHOLM,
-    hour12: false,
-    year: 'numeric',
-    month: 'numeric',
-    day: 'numeric',
-    hour: 'numeric',
-    minute: 'numeric',
-    second: 'numeric',
-  }).formatToParts(new Date(epoch));
+  let parts: Intl.DateTimeFormatPart[];
+  try {
+    parts = new Intl.DateTimeFormat('en-US', {
+      timeZone: STOCKHOLM,
+      hour12: false,
+      year: 'numeric',
+      month: 'numeric',
+      day: 'numeric',
+      hour: 'numeric',
+      minute: 'numeric',
+      second: 'numeric',
+    }).formatToParts(new Date(epoch));
+  } catch {
+    // Hermes without full ICU data throws on a zoned formatter. Fall back to the UTC
+    // wall clock: the day boundary and scrubber then track UTC instead of Stockholm — a
+    // couple of hours off at the day edges, but the map keeps working instead of
+    // white-screening. (Sweden is UTC+1/+2, so the degradation is small and bounded.)
+    const u = new Date(epoch);
+    return {
+      y: u.getUTCFullYear(),
+      mo: u.getUTCMonth() + 1,
+      d: u.getUTCDate(),
+      h: u.getUTCHours(),
+      mi: u.getUTCMinutes(),
+      s: u.getUTCSeconds(),
+    };
+  }
   const get = (t: string): number => Number(parts.find((p) => p.type === t)?.value);
   // Intl can render midnight as the 24th hour; fold it back to 0 so Date.UTC stays on day.
   return { y: get('year'), mo: get('month'), d: get('day'), h: get('hour') % 24, mi: get('minute'), s: get('second') };
