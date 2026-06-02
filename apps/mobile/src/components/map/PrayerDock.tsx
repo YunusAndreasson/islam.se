@@ -237,8 +237,10 @@ export function PrayerDock({
     (at: number) => {
       if (!Number.isFinite(at)) return;
       hapticSelection();
-      // Fraction of the real Stockholm day (matches the scrubber + day marks).
-      clock.setFraction((at - clock.dayStart) / clock.dayLength);
+      // Land EXACTLY on the prayer's instant (not via a lossy fraction round-trip), so
+      // the tapped prayer reads as "current" and highlights — see nextPrayerKeyAt. The
+      // thumb still eases there off the derived `fraction`.
+      clock.setInstant(at);
     },
     [clock],
   );

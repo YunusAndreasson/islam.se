@@ -7,7 +7,13 @@ import {
   Madhab,
 } from 'adhan';
 
-import { buildParams, computePrayerTimes, formatTime, PRAYER_ORDER } from './prayer-times';
+import {
+  buildParams,
+  computePrayerTimes,
+  formatTime,
+  nextPrayerKeyAt,
+  PRAYER_ORDER,
+} from './prayer-times';
 import {
   type CalculationMethodKey,
   DEFAULT_SETTINGS,
@@ -242,5 +248,44 @@ describe('formatTime', () => {
     const summer = new Date(Date.UTC(2026, 6, 15, 10, 0)); // 15 Jul 10:00 UTC → 12:00 CEST
     expect(formatTime(winter)).toMatch(/^11[:.]00$/);
     expect(formatTime(summer)).toMatch(/^12[:.]00$/);
+  });
+});
+
+// Which prayer the dock highlights ("current/next") at a viewed instant. The bug this
+// section guards: tapping a prayer row lands the clock exactly on that prayer's time, and a
+// strict `>` excluded the prayer from being "after" itself, so the prayer AFTER it lit up —
+// tap Ẓuhr, ʿAṣr highlighted. There was no test; this is it.
+describe('nextPrayerKeyAt', () => {
+  const times = computePrayerTimes(STOCKHOLM, SPRING_DAY, DEFAULT_SETTINGS);
+
+  it('picks the first prayer at-or-after a between-prayers instant', () => {
+    expect(nextPrayerKeyAt(times, times.fajr.getTime() - 60_000)).toBe('fajr'); // before dawn
+    expect(nextPrayerKeyAt(times, times.dhuhr.getTime() + 60_000)).toBe('asr'); // just past Ẓuhr
+  });
+
+  it('returns null once every prayer has passed (caller rolls to tomorrow)', () => {
+    expect(nextPrayerKeyAt(times, times.isha.getTime() + 60_000)).toBeNull();
+  });
+
+  it('selects the prayer landed on EXACTLY (regression: tapping Ẓuhr highlighted ʿAṣr)', () => {
+    // Probing each prayer at its own instant must return that prayer, not the next one —
+    // this is exactly what a dock row tap does (it scrubs the clock onto the prayer's time).
+    for (const key of PRAYER_ORDER) {
+      expect(nextPrayerKeyAt(times, times[key].getTime())).toBe(key);
+    }
+  });
+
+  it('never selects a prayer adhan could not resolve (NaN) — Kiruna midsummer', () => {
+    const polar = computePrayerTimes(KIRUNA, new Date(2026, 5, 21), {
+      ...DEFAULT_SETTINGS,
+      polarCircleResolution: 'unresolved',
+    });
+    // Guard: this scenario really does leave some prayers unresolved (Invalid Date).
+    expect(PRAYER_ORDER.some((k) => Number.isNaN(polar[k].getTime()))).toBe(true);
+    // Probed across the whole day, every selection is a FINITE prayer — NaN ones are skipped.
+    for (let t = Date.UTC(2026, 5, 21); t < Date.UTC(2026, 5, 22); t += 3 * 3_600_000) {
+      const key = nextPrayerKeyAt(polar, t);
+      if (key) expect(Number.isFinite(polar[key].getTime())).toBe(true);
+    }
   });
 });

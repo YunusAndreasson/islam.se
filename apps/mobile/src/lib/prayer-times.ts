@@ -130,6 +130,28 @@ export const PRAYER_ORDER = [
 ] as const;
 export type PrayerKey = (typeof PRAYER_ORDER)[number];
 
+/**
+ * The prayer to treat as "current / next" at the instant `now` (ms epoch): the first in
+ * the day's chronological order whose time is AT OR AFTER `now`. Returns null when every
+ * prayer has already passed (callers then roll over to tomorrow's Fajr). Prayers adhan
+ * couldn't resolve (Invalid Date → NaN, e.g. polar) are skipped, never selected.
+ *
+ * The boundary is INCLUSIVE (`>=`) on purpose. The dock lets the user time-travel by
+ * tapping a prayer row, which lands the clock exactly on that prayer's time; with a strict
+ * `>` the prayer didn't count as "after" itself, so the prayer AFTER it lit up instead —
+ * tap Ẓuhr, ʿAṣr highlighted (the bug this guards). Landing exactly on a prayer should
+ * select THAT prayer. In live mode the choice is unobservable: the clock ticks every 30 s
+ * so `now` never equals a prayer to the millisecond, and at exact equality the just-arrived
+ * prayer is the right "current" answer anyway.
+ */
+export function nextPrayerKeyAt(times: PrayerTimes, now: number): PrayerKey | null {
+  for (const key of PRAYER_ORDER) {
+    const at = times[key].getTime();
+    if (Number.isFinite(at) && at >= now) return key;
+  }
+  return null;
+}
+
 // Arabic prayer names in academic transliteration (DIN 31635 / ALA-LC style):
 //   ʿayn  = ʿ        ḍ = emphatic d        ī = long i
 //   hamza = ʾ        ḥ = pharyngeal h      ū = long u
