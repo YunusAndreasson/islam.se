@@ -28,7 +28,13 @@ export async function syncPrayerWidget(
     // Deferred import so the WidgetKit module (and @expo/ui native bindings) is never
     // evaluated on a platform/build without the widget extension.
     const { default: PrayerTimesWidget } = await import('../widgets/PrayerTimesWidget');
-    PrayerTimesWidget.updateTimeline(buildTimeline(coords, settings, location, now));
+    const entries = buildTimeline(coords, settings, location, now);
+    // Push the current frame immediately (snapshot) AND the forward timeline. The
+    // snapshot makes the widget show real data the instant the app runs, rather than
+    // waiting for WidgetKit to process the timeline; the timeline then advances the
+    // "next prayer" through the day on its own.
+    if (entries.length > 0) PrayerTimesWidget.updateSnapshot(entries[0].props);
+    PrayerTimesWidget.updateTimeline(entries);
   } catch {
     // No widget extension or WidgetKit unavailable — nothing the user can act on.
   }
