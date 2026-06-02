@@ -97,3 +97,26 @@ describe('useSolarClock spans the Stockholm day', () => {
     expect(result.current.fraction).toBeCloseTo(0.5, 6);
   });
 });
+
+describe('useSolarClock setInstant', () => {
+  it('lands `now` on the EXACT instant (no fraction round-trip) and enters scrub mode', () => {
+    freeze('2026-07-01T15:00:00Z');
+    const { result } = renderHook(() => useSolarClock());
+    // An odd-millisecond target mid-day: setFraction would round-trip-drift off it, which is
+    // what made a tapped prayer land a sub-ms past its time and the NEXT prayer highlight.
+    const target = result.current.dayStart + 13 * HOUR + 47 * 60_000 + 123;
+    act(() => result.current.setInstant(target));
+    expect(result.current.now).toBe(target);
+    expect(result.current.mode).toBe('scrub');
+  });
+
+  it('clamps an instant outside the viewed day to the day bounds', () => {
+    freeze('2026-07-01T15:00:00Z');
+    const { result } = renderHook(() => useSolarClock());
+    const { dayStart, dayLength } = result.current;
+    act(() => result.current.setInstant(dayStart - 5 * HOUR));
+    expect(result.current.now).toBe(dayStart);
+    act(() => result.current.setInstant(dayStart + dayLength + 5 * HOUR));
+    expect(result.current.now).toBe(dayStart + dayLength);
+  });
+});

@@ -34,6 +34,11 @@ export interface SolarClock {
   dayLength: number;
   /** Jump to a fraction (0..1) of the viewed day; enters scrub mode. */
   setFraction: (f: number) => void;
+  /** Jump to an EXACT instant (ms epoch), clamped to the viewed day; enters scrub mode.
+   *  Unlike setFraction this carries no fraction round-trip, so landing on a prayer time
+   *  lands `now` on it to the millisecond — which is what lets the tapped prayer (not the
+   *  one after it) read as current. */
+  setInstant: (ms: number) => void;
   /** Return to following the real clock. */
   reset: () => void;
 }
@@ -151,6 +156,15 @@ export function useSolarClock(active = true): SolarClock {
     [dayStart, dayLength],
   );
 
+  const setInstant = useCallback(
+    (ms: number) => {
+      setMode('scrub');
+      const end = dayStart + dayLength;
+      setNow(ms < dayStart ? dayStart : ms > end ? end : ms);
+    },
+    [dayStart, dayLength],
+  );
+
   const reset = useCallback(() => {
     setMode('live');
     const t = Date.now();
@@ -161,5 +175,5 @@ export function useSolarClock(active = true): SolarClock {
 
   const fraction = clamp01((now - dayStart) / dayLength);
 
-  return { now, mode, fraction, dayStart, dayLength, setFraction, reset };
+  return { now, mode, fraction, dayStart, dayLength, setFraction, setInstant, reset };
 }

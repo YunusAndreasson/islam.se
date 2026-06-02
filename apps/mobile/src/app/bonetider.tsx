@@ -35,7 +35,7 @@ import { GlassSurface } from '../components/ui/GlassSurface';
 import { useLocation } from '../lib/location/context';
 import { type Camera as MapCamera, invMercY, mercY } from '../lib/map/projection';
 import { mapStyleFor } from '../lib/map/nordicStyle';
-import { computePrayerTimes, PRAYER_ORDER, type PrayerKey } from '../lib/prayer-times';
+import { computePrayerTimes, nextPrayerKeyAt, PRAYER_ORDER, type PrayerKey } from '../lib/prayer-times';
 import { computeSignature } from '../lib/settings/compute-signature';
 import { useSettings } from '../lib/settings/context';
 import { buildGrid, buildLines } from '../lib/solar/field';
@@ -217,12 +217,11 @@ export default function Bonetider() {
     return out;
   }, [userTimes, clock.dayStart, clock.dayLength]);
 
-  // eslint-disable-next-line react-hooks/preserve-manual-memoization -- depends on userTimes, which is intentionally memoized on `sig` (not the settings object); the manual memo is deliberate and the compiler can't preserve it
   const next = useMemo<NextPrayer | null>(() => {
-    for (const key of PRAYER_ORDER) {
-      const at = (userTimes[key]).getTime();
-      if (Number.isFinite(at) && at > clock.now) return { key, at, tomorrow: false };
-    }
+    // First prayer at-or-after the viewed instant (inclusive, so scrubbing exactly onto a
+    // prayer selects THAT prayer, not the next — see nextPrayerKeyAt).
+    const key = nextPrayerKeyAt(userTimes, clock.now);
+    if (key) return { key, at: userTimes[key].getTime(), tomorrow: false };
     // Past today's Isha → tomorrow's Fajr.
     const fajr = computePrayerTimes(
       coords,
