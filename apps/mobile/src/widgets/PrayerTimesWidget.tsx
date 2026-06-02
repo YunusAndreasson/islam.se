@@ -1,21 +1,19 @@
 // The iOS home-screen widget (WidgetKit), built with Expo UI / SwiftUI components.
 //
-// PLATFORM NOTE: this file is iOS-only and CANNOT be built or run on a Linux/Android
-// host — it compiles into a WidgetKit extension via `expo-widgets` during an EAS /
-// macOS build. The `'widget'` directive on the layout function tells babel-preset-expo
-// to bundle it separately for that extension. It runs in a restricted bundle (react /
-// react-native are stubbed), so it only imports Expo UI, plain design tokens, and
-// TYPES — never the app's runtime (no adhan, no React hooks, no AsyncStorage). All the
-// data arrives pre-computed as a WidgetPayload pushed from the app (see ../widget/sync).
-//
-// TWO things are load-bearing here, both per expo issue #46200 (widgets render BLACK
-// without them):
-//   1. `containerBackground(color, 'widget')` on the root view — iOS 17+ requires a
-//      widget to declare its container background or it renders black.
-//   2. A null/undefined-props guard — WidgetKit renders a placeholder/snapshot BEFORE
-//      the app has pushed any timeline, and expo-widgets passes null props for it.
-//      Reading `payload.x` on null throws, the render fails, and the widget goes black.
-//      So we normalise to DEFAULT_PAYLOAD and show a branded "open the app" placeholder.
+// ⚠️ CRITICAL ARCHITECTURE CONSTRAINT — the `'widget'` layout MUST be self-contained.
+// babel-preset-expo's widgets-plugin serialises ONLY this function's own source to a
+// string (generator.generate(fn).code). At render time the iOS extension evaluates
+// that string STANDALONE — `evaluateScript("(" + layout + ")")` in WidgetsJSRuntime.swift
+// — in a JSContext whose globalThis holds only the @expo/ui components + modifiers + the
+// jsx runtime. Nothing from THIS module's scope is in that bundle. So the layout may
+// reference ONLY: its params, @expo/ui imports (VStack/Text/font/… — provided on
+// globalThis), and identifiers it defines INSIDE its own body. Any reference to a
+// module-level helper, constant, or imported value (palettes, an SF-symbol map, a shared
+// `normalize`) is undefined at render → ReferenceError → the widget renders BLACK. This
+// is the bug that made earlier versions black (cf. expo/expo#46200). Keep everything
+// inline. Because the layout string lives in the app's MAIN JS bundle (written to the
+// app group by createWidget at launch), fixes to it ship via EAS Update (OTA) — no
+// native rebuild. Only the @expo/ui runtime is build-time, and it's already complete.
 import { HStack, Image, Spacer, Text, VStack } from '@expo/ui/swift-ui';
 import {
   containerBackground,
@@ -28,206 +26,163 @@ import { createWidget, type WidgetEnvironment } from 'expo-widgets';
 import type { SFSymbol } from 'sf-symbols-typescript';
 
 import type { PrayerKey } from '../lib/prayer-times';
-import { darkPalette, lightPalette, type Palette } from '../theme/tokens';
-import type { WidgetPayload, WidgetPrayerRow } from '../widget/payload';
+import type { WidgetPayload } from '../widget/payload';
 
-/** SF Symbols walking the solar cycle — the visual language the whole app speaks. */
-const PRAYER_SYMBOL: Record<PrayerKey, SFSymbol> = {
-  fajr: 'moon.stars.fill',
-  sunrise: 'sunrise.fill',
-  dhuhr: 'sun.max.fill',
-  asr: 'sun.min.fill',
-  maghrib: 'sunset.fill',
-  isha: 'moon.fill',
-};
+function PrayerTimesWidgetLayout(rawPayload: WidgetPayload, environment: WidgetEnvironment) {
+  'widget';
+  // Everything below is INTENTIONALLY inline — see the file header. Do not lift any of
+  // this to module scope or the widget goes black.
 
-/** Opening the app from the widget lands on the map (Bönetider is the root route). */
-const DEEP_LINK = 'islamse://';
-
-/** Shown when WidgetKit renders the widget before the app has pushed any data
- *  (null props on first add / placeholder). Keeps the widget branded, never black. */
-const DEFAULT_PAYLOAD: WidgetPayload = {
-  location: '',
-  gregorian: '',
-  hijri: '',
-  rows: [],
-  nextArabic: '',
-  nextSwedish: '',
-  nextTime: '—',
-  nextAtMs: null,
-  nextIsTomorrow: false,
-  theme: 'system',
-};
-
-/** Coerce whatever WidgetKit hands us (possibly null, or a partial object) into a
- *  fully-populated, render-safe payload. This is the single guard that keeps a missing
- *  field from throwing mid-render and blacking out the whole widget. */
-function normalize(raw: WidgetPayload | null | undefined): WidgetPayload {
-  const p = raw ?? DEFAULT_PAYLOAD;
-  return {
-    location: typeof p.location === 'string' ? p.location : '',
-    gregorian: typeof p.gregorian === 'string' ? p.gregorian : '',
-    hijri: typeof p.hijri === 'string' ? p.hijri : '',
-    rows: Array.isArray(p.rows) ? p.rows : [],
-    nextArabic: typeof p.nextArabic === 'string' ? p.nextArabic : '',
-    nextSwedish: typeof p.nextSwedish === 'string' ? p.nextSwedish : '',
-    nextTime: typeof p.nextTime === 'string' && p.nextTime ? p.nextTime : '—',
-    nextAtMs: typeof p.nextAtMs === 'number' ? p.nextAtMs : null,
-    nextIsTomorrow: Boolean(p.nextIsTomorrow),
-    theme: p.theme === 'light' || p.theme === 'dark' ? p.theme : 'system',
+  // Brand palette (mirrors src/theme/tokens.ts — only the tokens this widget uses).
+  const LIGHT = {
+    paper: '#f4f0e8',
+    ink: '#1a1712',
+    inkMuted: '#6f6456',
+    inkFaint: '#978c7b',
+    highlight: '#b8862f',
   };
-}
+  const DARK = {
+    paper: '#161a26',
+    ink: '#e8e3d8',
+    inkMuted: '#a8acba',
+    inkFaint: '#7a8094',
+    highlight: '#c89a48',
+  };
+  const SF: Record<string, SFSymbol> = {
+    fajr: 'moon.stars.fill',
+    sunrise: 'sunrise.fill',
+    dhuhr: 'sun.max.fill',
+    asr: 'sun.min.fill',
+    maghrib: 'sunset.fill',
+    isha: 'moon.fill',
+  };
+  const LINK = 'islamse://';
 
-/** Pick the palette: an explicit light/dark lock in settings wins; otherwise follow
- *  WidgetKit's environment colour scheme — same rule as the app's useActiveScheme(). */
-function paletteFor(payload: WidgetPayload, environment: WidgetEnvironment): Palette {
-  const scheme =
-    payload.theme === 'light' || payload.theme === 'dark'
-      ? payload.theme
-      : (environment.colorScheme ?? 'light');
-  return scheme === 'dark' ? darkPalette : lightPalette;
-}
+  // Null/partial-safe: WidgetKit renders a placeholder with null props before the app
+  // pushes data; reading fields off null would throw → black.
+  const p = (rawPayload ?? {}) as Partial<WidgetPayload>;
+  const theme =
+    p.theme === 'light' || p.theme === 'dark' ? p.theme : (environment.colorScheme ?? 'light');
+  const c = theme === 'dark' ? DARK : LIGHT;
 
-function iconForNext(p: WidgetPayload): SFSymbol {
-  const next = p.rows.find((r) => r.isNext);
-  return next ? PRAYER_SYMBOL[next.key] : PRAYER_SYMBOL.fajr;
-}
+  const rows = Array.isArray(p.rows) ? p.rows : [];
+  const location = typeof p.location === 'string' ? p.location : '';
+  const hijri = typeof p.hijri === 'string' ? p.hijri : '';
+  const nextArabic = typeof p.nextArabic === 'string' ? p.nextArabic : '';
+  const nextSwedish = typeof p.nextSwedish === 'string' ? p.nextSwedish : '';
+  const nextTime = typeof p.nextTime === 'string' && p.nextTime ? p.nextTime : '—';
+  const nextAtMs = typeof p.nextAtMs === 'number' ? p.nextAtMs : null;
+  const nextRow = rows.find((r) => r.isNext);
+  const nextIcon: SFSymbol = nextRow ? SF[nextRow.key as PrayerKey] : SF.fajr;
 
-/** The next-prayer hero: a "NÄSTA BÖN" label, the prayer name in brass, its clock
- *  time, and a live relative countdown (WidgetKit auto-updates `Text(date:)`). */
-function NextHero({ p, c, large }: { p: WidgetPayload; c: Palette; large: boolean }) {
-  return (
+  // No schedule yet → a branded placeholder, never a black box.
+  if (rows.length === 0) {
+    return (
+      <VStack
+        alignment="leading"
+        spacing={6}
+        modifiers={[
+          padding({ all: 16 }),
+          containerBackground(c.paper, 'widget'),
+          widgetURL(LINK),
+        ]}
+      >
+        <Text modifiers={[font({ size: 18, weight: 'bold' }), foregroundStyle(c.highlight)]}>
+          Bönetider
+        </Text>
+        <Text modifiers={[font({ size: 13 }), foregroundStyle(c.inkMuted)]}>
+          Öppna appen för att läsa in dagens bönetider.
+        </Text>
+        <Spacer />
+      </VStack>
+    );
+  }
+
+  // Next-prayer hero (inline local builder — defined inside the layout on purpose).
+  const hero = (large: boolean) => (
     <VStack alignment="leading" spacing={large ? 4 : 3}>
       <Text modifiers={[font({ size: 11, weight: 'semibold' }), foregroundStyle(c.inkFaint)]}>
         NÄSTA BÖN
       </Text>
       <HStack spacing={6} alignment="center">
-        {p.nextArabic ? (
-          <Image systemName={iconForNext(p)} size={large ? 17 : 15} color={c.highlight} />
-        ) : null}
+        {nextArabic ? <Image systemName={nextIcon} size={large ? 17 : 15} color={c.highlight} /> : null}
         <Text
           modifiers={[font({ size: large ? 21 : 18, weight: 'bold' }), foregroundStyle(c.highlight)]}
         >
-          {p.nextArabic || 'Bönetider'}
+          {nextArabic || 'Bönetider'}
         </Text>
       </HStack>
-      {p.nextSwedish ? (
-        <Text modifiers={[font({ size: 12 }), foregroundStyle(c.inkMuted)]}>{p.nextSwedish}</Text>
+      {nextSwedish ? (
+        <Text modifiers={[font({ size: 12 }), foregroundStyle(c.inkMuted)]}>{nextSwedish}</Text>
       ) : null}
       <Text modifiers={[font({ size: large ? 30 : 34, weight: 'bold' }), foregroundStyle(c.ink)]}>
-        {p.nextTime}
+        {nextTime}
       </Text>
-      {p.nextAtMs != null ? (
+      {nextAtMs != null ? (
         <Text
-          date={new Date(p.nextAtMs)}
+          date={new Date(nextAtMs)}
           dateStyle="relative"
           modifiers={[font({ size: 12 }), foregroundStyle(c.inkMuted)]}
         />
       ) : null}
     </VStack>
   );
-}
 
-/** One line in the medium widget's day schedule: name left, time right. The next
- *  prayer is brass; the sunrise marker is quietened to the faint ink tier. */
-function ScheduleRow({ row, c }: { row: WidgetPrayerRow; c: Palette }) {
-  const color = row.isNext ? c.highlight : row.isMarker ? c.inkFaint : c.ink;
-  const weight = row.isNext ? 'semibold' : 'regular';
-  return (
-    <HStack spacing={8} alignment="firstTextBaseline">
-      <Text modifiers={[font({ size: 13, weight }), foregroundStyle(color)]}>{row.arabic}</Text>
-      <Spacer />
-      <Text modifiers={[font({ size: 13, weight }), foregroundStyle(color)]}>{row.time}</Text>
-    </HStack>
-  );
-}
+  if (environment.widgetFamily === 'systemSmall') {
+    return (
+      <VStack
+        alignment="leading"
+        spacing={5}
+        modifiers={[
+          padding({ all: 16 }),
+          containerBackground(c.paper, 'widget'),
+          widgetURL(LINK),
+        ]}
+      >
+        {hero(false)}
+        <Spacer />
+        {location ? (
+          <Text modifiers={[font({ size: 11 }), foregroundStyle(c.inkFaint)]}>{location}</Text>
+        ) : null}
+      </VStack>
+    );
+  }
 
-/** Shown when there's no schedule yet (widget added before the app pushed data).
- *  Branded, never black — and its visibility confirms the layout itself renders. */
-function PlaceholderWidget(p: WidgetPayload, c: Palette) {
-  return (
-    <VStack
-      alignment="leading"
-      spacing={6}
-      modifiers={[
-        padding({ all: 16 }),
-        containerBackground(c.paper, 'widget'),
-        widgetURL(DEEP_LINK),
-      ]}
-    >
-      <Text modifiers={[font({ size: 18, weight: 'bold' }), foregroundStyle(c.highlight)]}>
-        Bönetider
-      </Text>
-      <Text modifiers={[font({ size: 13 }), foregroundStyle(c.inkMuted)]}>
-        Öppna appen för att läsa in dagens bönetider.
-      </Text>
-      <Spacer />
-    </VStack>
-  );
-}
-
-/** systemSmall (2×2): just the hero — next prayer, time, live countdown, location. */
-function SmallWidget(p: WidgetPayload, c: Palette) {
-  return (
-    <VStack
-      alignment="leading"
-      spacing={5}
-      modifiers={[
-        padding({ all: 16 }),
-        containerBackground(c.paper, 'widget'),
-        widgetURL(DEEP_LINK),
-      ]}
-    >
-      <NextHero p={p} c={c} large={false} />
-      <Spacer />
-      {p.location ? (
-        <Text modifiers={[font({ size: 11 }), foregroundStyle(c.inkFaint)]}>{p.location}</Text>
-      ) : null}
-    </VStack>
-  );
-}
-
-/** systemMedium (4×2): hero on the left, the day's schedule on the right, date +
- *  location footer beneath. */
-function MediumWidget(p: WidgetPayload, c: Palette) {
   return (
     <VStack
       alignment="leading"
       spacing={8}
-      modifiers={[
-        padding({ all: 16 }),
-        containerBackground(c.paper, 'widget'),
-        widgetURL(DEEP_LINK),
-      ]}
+      modifiers={[padding({ all: 16 }), containerBackground(c.paper, 'widget'), widgetURL(LINK)]}
     >
       <HStack spacing={16} alignment="top">
-        <NextHero p={p} c={c} large />
+        {hero(true)}
         <Spacer />
         <VStack alignment="leading" spacing={3}>
-          {p.rows.map((row) => (
-            <ScheduleRow key={row.key} row={row} c={c} />
-          ))}
+          {rows.map((row) => {
+            const col = row.isNext ? c.highlight : row.isMarker ? c.inkFaint : c.ink;
+            const w: 'semibold' | 'regular' = row.isNext ? 'semibold' : 'regular';
+            return (
+              <HStack key={row.key} spacing={8} alignment="firstTextBaseline">
+                <Text modifiers={[font({ size: 13, weight: w }), foregroundStyle(col)]}>
+                  {row.arabic}
+                </Text>
+                <Spacer />
+                <Text modifiers={[font({ size: 13, weight: w }), foregroundStyle(col)]}>
+                  {row.time}
+                </Text>
+              </HStack>
+            );
+          })}
         </VStack>
       </HStack>
       <Spacer />
-      {p.location || p.hijri ? (
+      {location || hijri ? (
         <Text modifiers={[font({ size: 11 }), foregroundStyle(c.inkFaint)]}>
-          {[p.location, p.hijri].filter(Boolean).join(' · ')}
+          {[location, hijri].filter(Boolean).join(' · ')}
         </Text>
       ) : null}
     </VStack>
   );
-}
-
-function PrayerTimesWidgetLayout(rawPayload: WidgetPayload, environment: WidgetEnvironment) {
-  'widget';
-  const payload = normalize(rawPayload);
-  const c = paletteFor(payload, environment);
-  // No schedule yet (null / placeholder props) → a branded card, never a black box.
-  if (payload.rows.length === 0) return PlaceholderWidget(payload, c);
-  return environment.widgetFamily === 'systemSmall'
-    ? SmallWidget(payload, c)
-    : MediumWidget(payload, c);
 }
 
 // Name MUST match the `widgets[].name` in app.json's expo-widgets plugin config.
