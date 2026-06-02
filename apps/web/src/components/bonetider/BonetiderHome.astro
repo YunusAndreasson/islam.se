@@ -1,0 +1,125 @@
+---
+import { DEFAULT_COORDS } from "../../lib/bonetider/settings";
+import PrayerField from "./PrayerField.astro";
+
+const stockholm = {
+	name: DEFAULT_COORDS.name,
+	latitude: DEFAULT_COORDS.latitude,
+	longitude: DEFAULT_COORDS.longitude,
+};
+---
+
+<section class="bonetider-home home-movement" aria-labelledby="bonetider-home-kicker">
+	<div class="bh-head">
+		<p class="label home-kicker" id="bonetider-home-kicker">Bönetider</p>
+		<a class="label bh-all arrow-link" href="/bonetider">Alla orter</a>
+	</div>
+
+	<p class="bh-intro">
+		Bönernas tider följer solen, inte klockan. Kartan färgas av hur djupt solen står under
+		horisonten — Sveriges ljusa sommarnatt blir aldrig svart — och de svepande linjerna visar var
+		varje bön infaller just nu, från Malmö till Kiruna.
+	</p>
+
+	<PrayerField location={stockholm} variant="home" fixed={false} />
+
+	<div class="bh-actions">
+		<button type="button" class="bf-geo bh-geo">Använd min plats</button>
+		<a class="bh-link arrow-link" href="/bonetider">Se hela kartan och alla orter</a>
+	</div>
+</section>
+
+<style>
+	/* Kicker row with a quiet path to the full directory, mirroring the Tänkare section. */
+	.bh-head {
+		display: flex;
+		justify-content: space-between;
+		align-items: baseline;
+		gap: 1rem;
+		margin-bottom: var(--space-unit);
+	}
+
+	.bh-head .home-kicker {
+		margin-bottom: 0;
+	}
+
+	.bh-all {
+		flex-shrink: 0;
+		text-decoration: none;
+		transition: color 0.15s ease;
+	}
+
+	.bh-all:hover {
+		color: var(--color-accent);
+	}
+
+	.bh-all:focus-visible {
+		outline: 2px solid var(--color-accent);
+		outline-offset: 3px;
+		border-radius: 2px;
+	}
+
+	.bh-intro {
+		font-family: var(--font-body);
+		font-size: 1.0625rem;
+		line-height: 1.55;
+		color: color-mix(in srgb, var(--color-text) 80%, var(--color-muted));
+		max-width: 40rem;
+		margin: 0 0 var(--space-unit);
+		text-wrap: pretty;
+	}
+
+	.bh-actions {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: 1rem 1.5rem;
+		margin-top: var(--space-unit);
+	}
+
+	.bh-geo {
+		font-family: var(--font-heading);
+		font-size: 0.9375rem;
+		font-weight: 600;
+		color: var(--color-accent);
+		background: var(--color-bg);
+		border: 1px solid var(--color-divider);
+		border-radius: 999px;
+		padding: 0.45rem 1.1rem;
+		cursor: pointer;
+		transition: border-color 0.15s ease;
+	}
+
+	.bh-geo:hover {
+		border-color: var(--color-warm);
+	}
+
+	.bh-geo[aria-busy="true"] {
+		opacity: 0.6;
+		pointer-events: none;
+	}
+
+	.bh-geo:focus-visible {
+		outline: 2px solid var(--color-accent);
+		outline-offset: 2px;
+	}
+
+	.bh-link {
+		font-family: var(--font-heading);
+		font-size: 0.9375rem;
+		font-weight: 500;
+		color: var(--color-accent);
+		text-decoration: none;
+	}
+
+	.bh-link:hover {
+		text-decoration: underline;
+		text-underline-offset: 0.15em;
+	}
+
+	.bh-link:focus-visible {
+		outline: 2px solid var(--color-accent);
+		outline-offset: 3px;
+		border-radius: 2px;
+	}
+</style>

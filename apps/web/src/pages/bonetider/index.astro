@@ -1,0 +1,292 @@
+---
+import PrayerField from "../../components/bonetider/PrayerField.astro";
+import PrayerSettings from "../../components/bonetider/PrayerSettings.astro";
+import Base from "../../layouts/Base.astro";
+import { breadcrumbList } from "../../lib/jsonld";
+import { INDEXED_PLACES, placesByCounty } from "../../lib/bonetider/places-index";
+import { DEFAULT_COORDS } from "../../lib/bonetider/settings";
+
+const stockholm = {
+	name: DEFAULT_COORDS.name,
+	latitude: DEFAULT_COORDS.latitude,
+	longitude: DEFAULT_COORDS.longitude,
+};
+const counties = placesByCounty();
+const total = INDEXED_PLACES.length;
+const description =
+	"Bönetider för hela Sverige — Fajr, Shurūq, Ẓuhr, ʿAṣr, Maghrib och ʿIshāʾ för tusentals orter, beräknade efter solens läge över landet. Välj beräkningsmetod och madhhab.";
+---
+
+<Base
+	title="Bönetider i Sverige — islam.se"
+	description={description}
+	ogImage="/bonetider/og.png"
+	jsonLd={[
+		{
+			"@context": "https://schema.org",
+			"@type": "CollectionPage",
+			name: "Bönetider i Sverige",
+			description,
+			url: "https://islam.se/bonetider",
+			inLanguage: "sv",
+		},
+		breadcrumbList([
+			{ name: "Hem", url: "/" },
+			{ name: "Bönetider", url: "/bonetider" },
+		]),
+	]}
+>
+	<main id="main" class="home bonetider-hub">
+		<header class="bh2-header">
+			<p class="label">Bönetider</p>
+			<h1>Bönetider i Sverige</h1>
+			<p class="bh2-intro">
+				Bönernas tider följer solen, inte klockan. Kartan färgas av hur djupt solen står under
+				horisonten — Sveriges ljusa sommarnatt blir aldrig svart — och de svepande linjerna visar
+				var varje bön infaller just nu. Välj din ort nedan, eller justera metod och madhhab så att
+				tiderna stämmer med din moské.
+			</p>
+		</header>
+
+		<PrayerField location={stockholm} variant="full" fixed={false} />
+
+		<div class="bh2-actions">
+			<button type="button" class="bf-geo bh2-geo">Använd min plats</button>
+		</div>
+
+		<section class="bh2-section" aria-labelledby="bh2-settings">
+			<h2 id="bh2-settings">Inställningar</h2>
+			<p class="bh2-lead">
+				Tiderna beräknas direkt i din webbläsare. Inställningarna sparas lokalt och påverkar både
+				kartan och dagens tider.
+			</p>
+			<PrayerSettings />
+		</section>
+
+		<section class="bh2-section" aria-labelledby="bh2-find">
+			<h2 id="bh2-find">Hitta din ort</h2>
+			<p class="bh2-lead">{total.toLocaleString("sv-SE")} orter, ordnade efter län.</p>
+			<input
+				type="search"
+				class="bt-search"
+				placeholder="Sök ort…"
+				aria-label="Sök efter ort"
+				autocomplete="off"
+			/>
+			<p class="bt-search-empty" hidden>Ingen ort matchar din sökning.</p>
+			<div class="bt-counties">
+				{counties.map((g) => (
+					<details class="bt-county">
+						<summary>
+							<span class="bt-county-name">{g.county}</span>
+							<span class="bt-county-count">{g.places.length}</span>
+						</summary>
+						<ul class="bt-county-list">
+							{g.places.map((p) => (
+								<li>
+									<a href={`/bonetider/${p.slug}`} data-name={p.name.toLowerCase()}>{p.name}</a>
+								</li>
+							))}
+						</ul>
+					</details>
+				))}
+			</div>
+		</section>
+
+		<p class="bt-attrib">
+			Ortsdata från GeoNames (CC BY 4.0). Sveriges kontur från öppna kartdata (public domain).
+			Beräkningar med <span lang="en">adhan</span> i tidszonen Europe/Stockholm.
+		</p>
+	</main>
+</Base>
+
+<style>
+	.bonetider-hub {
+		margin-block: var(--space-phi);
+	}
+
+	.bh2-header {
+		margin-bottom: var(--space-unit);
+	}
+
+	.bh2-header h1 {
+		margin: var(--space-half) 0 0;
+	}
+
+	.bh2-intro {
+		font-family: var(--font-body);
+		font-size: 1.0625rem;
+		line-height: 1.6;
+		color: color-mix(in srgb, var(--color-text) 85%, var(--color-muted));
+		max-width: 42rem;
+		margin: var(--space-half) 0 var(--space-unit);
+		text-wrap: pretty;
+	}
+
+	.bh2-actions {
+		margin-top: var(--space-unit);
+	}
+
+	.bh2-geo {
+		font-family: var(--font-heading);
+		font-size: 0.9375rem;
+		font-weight: 600;
+		color: var(--color-accent);
+		background: var(--color-bg);
+		border: 1px solid var(--color-divider);
+		border-radius: 999px;
+		padding: 0.45rem 1.1rem;
+		cursor: pointer;
+		transition: border-color 0.15s ease;
+	}
+
+	.bh2-geo:hover {
+		border-color: var(--color-warm);
+	}
+
+	.bh2-geo[aria-busy="true"] {
+		opacity: 0.6;
+		pointer-events: none;
+	}
+
+	.bh2-section {
+		margin-top: var(--space-phi);
+	}
+
+	.bh2-section h2 {
+		font-size: var(--step-1);
+	}
+
+	.bh2-lead {
+		font-family: var(--font-body);
+		color: var(--color-muted);
+		margin: var(--space-half) 0 var(--space-unit);
+		max-width: 38rem;
+	}
+
+	.bt-search {
+		width: 100%;
+		max-width: 24rem;
+		font-family: var(--font-body);
+		font-size: 1rem;
+		color: var(--color-text);
+		background: var(--color-bg);
+		border: 1px solid var(--color-divider);
+		border-radius: 999px;
+		padding: 0.55rem 1rem;
+		margin-bottom: var(--space-unit);
+	}
+
+	.bt-search:focus-visible {
+		outline: 2px solid var(--color-accent);
+		outline-offset: 1px;
+	}
+
+	.bt-search-empty {
+		color: var(--color-muted);
+		font-style: italic;
+	}
+
+	.bt-counties {
+		columns: 2 18rem;
+		column-gap: var(--space-unit);
+	}
+
+	.bt-county {
+		break-inside: avoid;
+		margin-bottom: var(--space-half);
+		border-bottom: 1px solid var(--color-divider);
+		padding-bottom: var(--space-half);
+	}
+
+	.bt-county[hidden] {
+		display: none;
+	}
+
+	.bt-county summary {
+		display: flex;
+		justify-content: space-between;
+		align-items: baseline;
+		gap: 0.5rem;
+		cursor: pointer;
+		font-family: var(--font-heading);
+		font-weight: 600;
+		color: var(--color-accent);
+	}
+
+	.bt-county-count {
+		font-family: var(--font-body);
+		font-size: 0.8125rem;
+		color: var(--color-muted);
+		font-variant-numeric: tabular-nums;
+	}
+
+	.bt-county-list {
+		list-style: none;
+		margin: var(--space-half) 0 0;
+		padding: 0;
+		columns: 2 8rem;
+		column-gap: 1rem;
+	}
+
+	.bt-county-list li {
+		break-inside: avoid;
+	}
+
+	.bt-county-list a {
+		font-family: var(--font-body);
+		font-size: 0.9375rem;
+		color: var(--color-text);
+		text-decoration: none;
+		display: block;
+		padding: 0.15rem 0;
+	}
+
+	.bt-county-list a:hover {
+		color: var(--color-accent);
+		text-decoration: underline;
+		text-underline-offset: 0.12em;
+	}
+
+	.bt-county-list li[hidden] {
+		display: none;
+	}
+
+	.bt-attrib {
+		font-family: var(--font-body);
+		font-size: 0.8125rem;
+		line-height: 1.5;
+		color: var(--color-muted);
+		margin: var(--space-phi) 0 0;
+		padding-top: var(--space-half);
+		border-top: 1px solid var(--color-divider);
+	}
+</style>
+
+<script>
+	// Client-side place filter over the rendered links — no extra data shipped, just DOM.
+	document.addEventListener("astro:page-load", () => {
+		const search = document.querySelector<HTMLInputElement>(".bt-search");
+		const empty = document.querySelector<HTMLElement>(".bt-search-empty");
+		const counties = Array.from(document.querySelectorAll<HTMLDetailsElement>(".bt-county"));
+		if (!search || counties.length === 0) return;
+
+		search.addEventListener("input", () => {
+			const q = search.value.trim().toLowerCase();
+			let anyMatch = false;
+			for (const county of counties) {
+				let countyMatch = 0;
+				for (const li of county.querySelectorAll<HTMLElement>("li")) {
+					const name = li.querySelector("a")?.dataset.name ?? "";
+					const hit = q === "" || name.includes(q);
+					li.hidden = !hit;
+					if (hit) countyMatch++;
+				}
+				county.hidden = countyMatch === 0;
+				county.open = q !== "" && countyMatch > 0;
+				if (countyMatch > 0) anyMatch = true;
+			}
+			if (empty) empty.hidden = anyMatch || q === "";
+		});
+	});
+</script>

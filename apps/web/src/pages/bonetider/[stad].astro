@@ -1,0 +1,359 @@
+---
+import PrayerField from "../../components/bonetider/PrayerField.astro";
+import PrayerSettings from "../../components/bonetider/PrayerSettings.astro";
+import PrayerTable from "../../components/bonetider/PrayerTable.astro";
+import Base from "../../layouts/Base.astro";
+import { breadcrumbList } from "../../lib/jsonld";
+import { computePrayerTimes, formatTime, PRAYER_LABELS, PRAYER_ORDER, PRAYER_SWEDISH_NAMES } from "../../lib/bonetider/prayer-times";
+import { type IndexedPlace, INDEXED_PLACES, nearbyPlaces, OG_POPULATION } from "../../lib/bonetider/places-index";
+import { DEFAULT_SETTINGS } from "../../lib/bonetider/settings";
+
+export function getStaticPaths() {
+	return INDEXED_PLACES.map((place) => ({ params: { stad: place.slug }, props: { place } }));
+}
+
+interface Props {
+	place: IndexedPlace;
+}
+const { place } = Astro.props;
+const location = { name: place.name, latitude: place.lat, longitude: place.lon };
+
+// Build-time facts (default MWL method) — evergreen prose, not stale clock values.
+const now = new Date();
+const times = computePrayerTimes(location, now, DEFAULT_SETTINGS);
+const rows = PRAYER_ORDER.map((key) => ({
+	key,
+	label: PRAYER_LABELS[key],
+	sv: PRAYER_SWEDISH_NAMES[key],
+	time: formatTime(times[key]),
+}));
+
+const lat1 = place.lat.toFixed(2).replace(".", ",");
+const lon1 = place.lon.toFixed(2).replace(".", ",");
+const aboveArctic = place.lat >= 66.5;
+const highNorth = place.lat >= 62;
+const nearby = nearbyPlaces(place, 8);
+
+const description = `Bönetider för ${place.name} (${place.county || "Sverige"}): exakta tider för Fajr, Shurūq, Ẓuhr, ʿAṣr, Maghrib och ʿIshāʾ varje dag, beräknade efter solens läge. Välj beräkningsmetod och madhhab.`;
+
+const ogImage = place.population >= OG_POPULATION ? `/bonetider/${place.slug}/og.png` : "/bonetider/og.png";
+
+const faq = [
+	{
+		q: `Vilken metod används för bönetiderna i ${place.name}?`,
+		a: "Standardmetoden är Muslim World League (Fajr 18°, Isha 17°), som rekommenderas för svenska latituder. Du kan byta till Diyanet, Umm al-Qura, ISNA med flera i inställningarna — kartan och tiderna uppdateras direkt.",
+	},
+	{
+		q: "Hur får jag tiderna att stämma med min moské?",
+		a: "Välj samma beräkningsmetod och madhhab som din moské, och justera vid behov enskilda böner med minuter under Avancerat. Inställningarna sparas lokalt i din webbläsare.",
+	},
+	{
+		q: `Varför kan Fajr och ʿIshāʾ vara svåra att beräkna på sommaren i ${place.name}?`,
+		a: highNorth
+			? "Så här långt norrut blir sommarnatten ofta så ljus att solen aldrig sjunker tillräckligt djupt under horisonten för den vanliga vinkelberäkningen. Då används regeln 'närmaste lämpliga plats' (Aqrab al-Balad) så att tider ändå kan visas."
+			: "Vid höga latituder kan natten bli för ljus för den vanliga vinkelberäkningen. Inställningen för höga latituder (automatiskt vald) hanterar detta så att tider ändå kan visas.",
+	},
+];
+---
+
+<Base
+	title={`Bönetider i ${place.name} — islam.se`}
+	description={description}
+	ogImage={ogImage}
+	jsonLd={[
+		{
+			"@context": "https://schema.org",
+			"@type": "WebPage",
+			name: `Bönetider i ${place.name}`,
+			description,
+			url: `https://islam.se/bonetider/${place.slug}`,
+			inLanguage: "sv",
+			about: {
+				"@type": "Place",
+				name: place.name,
+				address: { "@type": "PostalAddress", addressLocality: place.name, addressRegion: place.county, addressCountry: "SE" },
+				geo: { "@type": "GeoCoordinates", latitude: place.lat, longitude: place.lon },
+			},
+		},
+		{
+			"@context": "https://schema.org",
+			"@type": "FAQPage",
+			mainEntity: faq.map((f) => ({
+				"@type": "Question",
+				name: f.q,
+				acceptedAnswer: { "@type": "Answer", text: f.a },
+			})),
+		},
+		breadcrumbList([
+			{ name: "Hem", url: "/" },
+			{ name: "Bönetider", url: "/bonetider" },
+			{ name: place.name, url: `/bonetider/${place.slug}` },
+		]),
+	]}
+>
+	<main id="main" class="home bonetider-stad">
+		<nav class="bt-crumbs" aria-label="Brödsmulor">
+			<a href="/">Hem</a> <span aria-hidden="true">/</span>
+			<a href="/bonetider">Bönetider</a> <span aria-hidden="true">/</span>
+			<span aria-current="page">{place.name}</span>
+		</nav>
+
+		<header class="bt-stad-header">
+			<p class="label">Bönetider</p>
+			<h1>Bönetider i {place.name}</h1>
+			<p class="bt-stad-sub">
+				{place.county ? `${place.county} · ` : ""}{lat1}° N, {lon1}° O
+			</p>
+		</header>
+
+		<PrayerField location={location} variant="full" fixed={true} />
+
+		<section class="bt-stad-section" aria-labelledby="bt-stad-idag">
+			<h2 id="bt-stad-idag">Dagens bönetider i {place.name}</h2>
+			<p class="bt-stad-lead">
+				Tiderna nedan beräknas live i din webbläsare. Sveriges ljusa sommarnätter gör att Fajr och
+				ʿIshāʾ ligger nära varandra — kartan ovan visar varför: solen sjunker bara en bit under
+				horisonten.
+			</p>
+			<ul class="bt-stad-today">
+				{rows.map((r) => (
+					<li>
+						<span class="bt-st-name">{r.label}</span>
+						<span class="bt-st-sv">{r.sv}</span>
+						<span class="bt-st-time" data-prayer-static={r.key}>{r.time}</span>
+					</li>
+				))}
+			</ul>
+		</section>
+
+		<section class="bt-stad-section" aria-labelledby="bt-stad-settings">
+			<h2 id="bt-stad-settings">Inställningar</h2>
+			<PrayerSettings />
+		</section>
+
+		<section class="bt-stad-section" aria-labelledby="bt-stad-month">
+			<h2 id="bt-stad-month">Månadens bönetider</h2>
+			<PrayerTable location={location} />
+		</section>
+
+		<section class="bt-stad-section bt-prose" aria-labelledby="bt-stad-about">
+			<h2 id="bt-stad-about">Om bönetiderna i {place.name}</h2>
+			<p>
+				{place.name} ligger {place.county ? `i ${place.county}, ` : ""}på {lat1}° nordlig bredd.
+				Bönetiderna beräknas utifrån solens verkliga läge för just denna position — inte från en
+				tabell — så att de stämmer med dygnet på orten.
+			</p>
+			{aboveArctic ? (
+				<p>
+					Här norr om polcirkeln kan solen under en del av sommaren inte gå ner alls. Under sådana
+					perioder används regeln <em>närmaste lämpliga plats</em> (Aqrab al-Balad) så att Fajr och
+					ʿIshāʾ ändå kan anges på ett rimligt sätt.
+				</p>
+			) : highNorth ? (
+				<p>
+					Så här långt norrut blir sommarnatten mycket ljus, och solen sjunker bara en kort stund
+					under horisonten. Inställningen för höga latituder hanterar detta automatiskt så att alla
+					fem bönerna kan visas året om.
+				</p>
+			) : (
+				<p>
+					Tiderna gäller tidszonen Europe/Stockholm och växlar automatiskt mellan vinter- och
+					sommartid. Vill du finjustera mot din moské kan du byta metod och madhhab ovan.
+				</p>
+			)}
+		</section>
+
+		<section class="bt-stad-section" aria-labelledby="bt-stad-faq">
+			<h2 id="bt-stad-faq">Vanliga frågor</h2>
+			<dl class="bt-faq">
+				{faq.map((f) => (
+					<div class="bt-faq-item">
+						<dt>{f.q}</dt>
+						<dd>{f.a}</dd>
+					</div>
+				))}
+			</dl>
+		</section>
+
+		{nearby.length > 0 && (
+			<section class="bt-stad-section" aria-labelledby="bt-stad-nearby">
+				<h2 id="bt-stad-nearby">Bönetider i närliggande orter</h2>
+				<ul class="bt-nearby">
+					{nearby.map((p) => (
+						<li><a href={`/bonetider/${p.slug}`}>{p.name}</a></li>
+					))}
+				</ul>
+			</section>
+		)}
+
+		<p class="bt-attrib">
+			Ortsdata från GeoNames (CC BY 4.0). Beräkningar med <span lang="en">adhan</span> i tidszonen
+			Europe/Stockholm. <a href="/bonetider">Alla orter →</a>
+		</p>
+	</main>
+</Base>
+
+<style>
+	.bonetider-stad {
+		margin-block: var(--space-phi);
+	}
+
+	.bt-crumbs {
+		font-family: var(--font-heading);
+		font-size: 0.8125rem;
+		color: var(--color-muted);
+		margin-bottom: var(--space-unit);
+	}
+
+	.bt-crumbs a {
+		color: var(--color-accent);
+		text-decoration: none;
+	}
+
+	.bt-crumbs a:hover {
+		text-decoration: underline;
+	}
+
+	.bt-stad-header h1 {
+		margin: var(--space-half) 0 0;
+	}
+
+	.bt-stad-sub {
+		font-family: var(--font-body);
+		color: var(--color-muted);
+		font-variant-numeric: tabular-nums;
+		margin: var(--space-half) 0 var(--space-unit);
+	}
+
+	.bt-stad-section {
+		margin-top: var(--space-phi);
+	}
+
+	.bt-stad-section h2 {
+		font-size: var(--step-1);
+	}
+
+	.bt-stad-lead {
+		font-family: var(--font-body);
+		color: var(--color-muted);
+		max-width: 40rem;
+		margin: var(--space-half) 0 var(--space-unit);
+		text-wrap: pretty;
+	}
+
+	.bt-stad-today {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		display: grid;
+		gap: var(--space-half) clamp(1rem, 4vw, 2.5rem);
+		grid-template-columns: repeat(auto-fit, minmax(min(100%, 9rem), 1fr));
+	}
+
+	.bt-stad-today li {
+		display: grid;
+		grid-template-columns: 1fr auto;
+		grid-template-areas: "name time" "sv time";
+		column-gap: 0.75rem;
+		align-items: baseline;
+		padding: 0.4rem 0;
+		border-bottom: 1px solid var(--color-divider);
+	}
+
+	.bt-st-name {
+		grid-area: name;
+		font-family: var(--font-heading);
+		font-weight: 600;
+		color: var(--color-text);
+	}
+
+	.bt-st-sv {
+		grid-area: sv;
+		font-family: var(--font-body);
+		font-size: 0.8rem;
+		color: var(--color-muted);
+	}
+
+	.bt-st-time {
+		grid-area: time;
+		align-self: center;
+		font-family: var(--font-body);
+		font-variant-numeric: tabular-nums;
+		font-size: 1.05rem;
+		color: var(--color-text);
+	}
+
+	.bt-prose p {
+		font-family: var(--font-body);
+		font-size: 1.0625rem;
+		line-height: 1.6;
+		color: color-mix(in srgb, var(--color-text) 88%, var(--color-muted));
+		max-width: 42rem;
+		margin: 0 0 var(--space-half);
+		text-wrap: pretty;
+	}
+
+	.bt-faq {
+		margin: var(--space-unit) 0 0;
+		max-width: 42rem;
+	}
+
+	.bt-faq-item {
+		padding: var(--space-half) 0;
+		border-bottom: 1px solid var(--color-divider);
+	}
+
+	.bt-faq dt {
+		font-family: var(--font-heading);
+		font-weight: 600;
+		color: var(--color-accent);
+		margin-bottom: 0.3rem;
+	}
+
+	.bt-faq dd {
+		font-family: var(--font-body);
+		line-height: 1.55;
+		color: var(--color-muted);
+		margin: 0;
+	}
+
+	.bt-nearby {
+		list-style: none;
+		margin: var(--space-half) 0 0;
+		padding: 0;
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.5rem 0.75rem;
+	}
+
+	.bt-nearby a {
+		font-family: var(--font-body);
+		font-size: 0.9375rem;
+		color: var(--color-text);
+		text-decoration: none;
+		border: 1px solid var(--color-divider);
+		border-radius: 999px;
+		padding: 0.3rem 0.85rem;
+		transition: border-color 0.15s ease;
+	}
+
+	.bt-nearby a:hover {
+		border-color: var(--color-warm);
+		color: var(--color-accent);
+	}
+
+	.bt-attrib {
+		font-family: var(--font-body);
+		font-size: 0.8125rem;
+		line-height: 1.5;
+		color: var(--color-muted);
+		margin: var(--space-phi) 0 0;
+		padding-top: var(--space-half);
+		border-top: 1px solid var(--color-divider);
+	}
+
+	.bt-attrib a {
+		color: var(--color-accent);
+		text-decoration: none;
+	}
+</style>

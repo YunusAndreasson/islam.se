@@ -1,0 +1,153 @@
+---
+import { computePrayerTimes, formatTime, PRAYER_LABELS, PRAYER_ORDER } from "../../lib/bonetider/prayer-times";
+import { DEFAULT_SETTINGS } from "../../lib/bonetider/settings";
+
+interface Props {
+	location: { name: string; latitude: number; longitude: number };
+}
+const { location } = Astro.props;
+
+// The whole current month, computed at build time with the default (MWL) method — real,
+// indexable prayer-time content, correct for the explicit dates shown. The interactive
+// field above reflects the visitor's own settings; this table is the SEO/no-JS baseline.
+const now = new Date();
+const year = now.getFullYear();
+const month = now.getMonth();
+const fmt = (opts: Intl.DateTimeFormatOptions, d: Date) =>
+	new Intl.DateTimeFormat("sv-SE", { timeZone: "Europe/Stockholm", ...opts }).format(d);
+const monthLabel = `${fmt({ month: "long" }, now)} ${year}`;
+const daysInMonth = new Date(year, month + 1, 0).getDate();
+const todayD = now.getDate();
+
+const rows = Array.from({ length: daysInMonth }, (_, i) => {
+	const d = i + 1;
+	const date = new Date(year, month, d, 12, 0, 0);
+	const t = computePrayerTimes(location, date, DEFAULT_SETTINGS);
+	return {
+		d,
+		weekday: fmt({ weekday: "short" }, date),
+		iso: `${year}-${String(month + 1).padStart(2, "0")}-${String(d).padStart(2, "0")}`,
+		times: PRAYER_ORDER.map((k) => formatTime(t[k])),
+	};
+});
+---
+
+<figure class="bt-table-wrap">
+	<figcaption class="bt-table-cap">
+		Bönetider i {location.name} — {monthLabel}
+	</figcaption>
+	<div class="bt-scroll">
+		<table class="bt-table">
+			<thead>
+				<tr>
+					<th scope="col">Dag</th>
+					{PRAYER_ORDER.map((k) => <th scope="col">{PRAYER_LABELS[k]}</th>)}
+				</tr>
+			</thead>
+			<tbody>
+				{rows.map((r) => (
+					<tr data-day={r.d} class:list={{ "is-today": r.d === todayD }}>
+						<th scope="row">
+							<time datetime={r.iso}>{r.weekday} {r.d}</time>
+						</th>
+						{r.times.map((time) => <td>{time}</td>)}
+					</tr>
+				))}
+			</tbody>
+		</table>
+	</div>
+	<p class="bt-table-note">
+		Tiderna beräknas med Muslim World League (Fajr 18°, Isha 17°) i tidszonen Europe/Stockholm.
+		Ändra metod och madhab i inställningarna ovan — kartan och dagens tider uppdateras direkt.
+	</p>
+</figure>
+
+<style>
+	.bt-table-wrap {
+		margin: var(--space-unit) 0 0;
+	}
+
+	.bt-table-cap {
+		font-family: var(--font-heading);
+		font-weight: 600;
+		font-size: 1.0625rem;
+		color: var(--color-accent);
+		margin-bottom: var(--space-half);
+	}
+
+	.bt-scroll {
+		overflow-x: auto;
+		border: 1px solid var(--color-divider);
+		border-radius: 10px;
+	}
+
+	.bt-table {
+		width: 100%;
+		border-collapse: collapse;
+		font-family: var(--font-body);
+		font-variant-numeric: tabular-nums;
+		font-size: 0.875rem;
+	}
+
+	.bt-table th,
+	.bt-table td {
+		padding: 0.4rem 0.6rem;
+		text-align: end;
+		white-space: nowrap;
+	}
+
+	.bt-table thead th {
+		position: sticky;
+		top: 0;
+		background: var(--color-bg);
+		color: var(--color-muted);
+		font-weight: 600;
+		font-size: 0.8125rem;
+		border-bottom: 1px solid var(--color-divider);
+	}
+
+	.bt-table tbody th[scope="row"] {
+		text-align: start;
+		font-weight: 500;
+		color: var(--color-text);
+		text-transform: capitalize;
+	}
+
+	.bt-table tbody td {
+		color: var(--color-text);
+	}
+
+	.bt-table tbody tr:not(:last-child) th,
+	.bt-table tbody tr:not(:last-child) td {
+		border-bottom: 1px solid color-mix(in srgb, var(--color-divider), transparent 40%);
+	}
+
+	.bt-table tbody tr.is-today th,
+	.bt-table tbody tr.is-today td {
+		background: color-mix(in srgb, var(--color-warm), transparent 82%);
+		color: var(--color-accent);
+	}
+
+	.bt-table-note {
+		font-family: var(--font-body);
+		font-size: 0.8125rem;
+		line-height: 1.5;
+		color: var(--color-muted);
+		margin: var(--space-half) 0 0;
+		max-width: 38rem;
+	}
+</style>
+
+<script>
+	// Re-mark "today" against the real date, so a day-old build doesn't highlight the
+	// wrong row. (The table values themselves are this month's fixed schedule.)
+	document.addEventListener("astro:page-load", () => {
+		const now = new Date();
+		const d = now.getDate();
+		for (const tbody of document.querySelectorAll(".bt-table tbody")) {
+			for (const tr of tbody.querySelectorAll<HTMLElement>("tr[data-day]")) {
+				tr.classList.toggle("is-today", Number(tr.dataset.day) === d);
+			}
+		}
+	});
+</script>
