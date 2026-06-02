@@ -92,12 +92,12 @@ export const THEME_OPTIONS: readonly Option<ThemePreference>[] = [
 // the picker would show choices that silently fall back to Nordic).
 export const MAP_STYLE_OPTIONS: readonly Option<MapStyleId>[] = HAS_MAPTILER
   ? [
-      { value: 'nordic', label: 'Nordic', description: 'Lugn karta i appens palett (rekommenderad)' },
+      { value: 'nordic', label: 'Nordisk', description: 'Lugn karta i appens palett (rekommenderad)' },
       { value: 'standard', label: 'Standard', description: 'Gator, transit och adresser' },
       { value: 'satellite', label: 'Satellit', description: 'Flygfoto för platsigenkänning' },
     ]
   : [
-      { value: 'nordic', label: 'Nordic', description: 'Lugn karta i appens palett (rekommenderad)' },
+      { value: 'nordic', label: 'Nordisk', description: 'Lugn karta i appens palett (rekommenderad)' },
     ];
 
 /** Stepper display formatter: a signed minute offset, e.g. "+5 min" / "−3 min". */

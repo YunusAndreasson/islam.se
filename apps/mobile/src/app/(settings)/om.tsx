@@ -1,18 +1,22 @@
-// Om appen — what this is, who built it, what data it uses, how to support it.
-// Structured as four distinct blocks to match the rest of the settings page's
-// visual language:
-//   1. Title + one calm intro line  (what it IS)
-//   2. INTEGRITET card               (the privacy promise, the headline answer)
-//   3. BYGGER PÅ card                (open-source credits as tappable rows —
-//      transparent about what we use, attribution where it belongs)
-//   4. Quiet Betygsätt-appen + imprint colophon
+// Om appen — the app's identity page. Composed as a whole, not a list of facts:
+//   1. MASTHEAD          — app icon + "islam.se" wordmark + the one poetic line that
+//                          says what this is. Centred, editorial, no decorative box
+//                          (a boxed/gradient hero was tried and rejected as un-modern).
+//   2. INTEGRITET card   — the privacy promise, the one thing users genuinely care about.
+//   3. Stöd card         — outward links a real user might want: the islam.se site, and
+//                          a store rating. Tidy rows, the app's card language.
+//   4. Imprint + credits — version colophon, then the legally-required map attribution
+//                          (MapTiler TOS + OpenStreetMap ODbL) as quiet fine print.
 //
-// Earlier this page was a stack of mixed registers — display-size wordmark,
-// long marketing prose, centered dense credits paragraph — that didn't read
-// as anything specific. Now each block has one job, one weight, one shape.
-import { MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
+// Deliberately NOT here: the old "Bygger på" card listing every open-source dependency
+// (adhan / MapLibre / MapTiler / OpenStreetMap) as prominent rows. That read like a
+// developer's manifest — no real user recognises those names. The attribution that's
+// actually required now lives as one muted footnote at the very bottom, where map
+// credits belong; everything above it is human-facing.
+import { MaterialIcons } from '@expo/vector-icons';
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import { useMemo } from 'react';
-import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Image, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { SettingSection } from '../../components/settings/SettingSection';
@@ -20,6 +24,7 @@ import { ModalBar } from '../../components/ui/ModalBar';
 import {
   ADHAN_URL,
   APP_VERSION,
+  ISLAMSE_URL,
   MAPLIBRE_URL,
   MAPTILER_URL,
   OPENFREEMAP_URL,
@@ -28,41 +33,41 @@ import {
   rateApp,
 } from '../../lib/about';
 import { TILES_PROVIDER } from '../../lib/map/nordicStyle';
-import { type Palette, space, type } from '../../theme/tokens';
+import { type Palette, radius, space, type } from '../../theme/tokens';
 import { useColors } from '../../theme/useColors';
 
-// The active tile provider is credited explicitly — MapTiler's TOS requires it
-// when their tiles are bundled, and OpenFreeMap appreciates the credit too.
-// OpenStreetMap is always credited because both providers ultimately ship OSM data.
-const SOURCES = [
-  { label: 'Bönetider', name: 'adhan', url: ADHAN_URL },
-  { label: 'Karta', name: 'MapLibre', url: MAPLIBRE_URL },
-  TILES_PROVIDER === 'maptiler'
-    ? { label: 'Karttilar', name: 'MapTiler', url: MAPTILER_URL }
-    : { label: 'Karttilar', name: 'OpenFreeMap', url: OPENFREEMAP_URL },
-  { label: 'Kartdata', name: 'OpenStreetMap', url: OSM_URL },
-] as const;
+const ICON = require('../../../assets/images/icon.png');
 
 export default function Om() {
   const c = useColors();
   const styles = useMemo(() => makeStyles(c), [c]);
+  // The active tile provider is credited explicitly — MapTiler's TOS requires it when
+  // their tiles are bundled; OpenFreeMap is credited when it's the fallback. OSM is
+  // always credited (both providers ship OpenStreetMap data, ODbL requires it).
+  const tile =
+    TILES_PROVIDER === 'maptiler'
+      ? { name: 'MapTiler', url: MAPTILER_URL }
+      : { name: 'OpenFreeMap', url: OPENFREEMAP_URL };
+
   return (
     <SafeAreaView style={styles.safe} edges={['top']}>
       {/* Pushed in from Settings — back returns to the Settings sheet. */}
       <ModalBar variant="back" fallback="/installningar" />
       <ScrollView contentContainerStyle={styles.content}>
-        <Text style={styles.header}>Om appen</Text>
-
-        {/* One calm line — "what is this?" answered before the user scrolls.
-            Body weight + muted ink: present but not screaming. */}
-        <Text style={styles.lead}>
-          En karta över Sveriges bönetider, ritad med solens vandring över landet.
-        </Text>
+        {/* Masthead: the app's mark + name, then the one line that says what it is.
+            This is the page's identity and its title in one — no separate "Om appen"
+            heading, which would only echo it. */}
+        <View style={styles.masthead}>
+          <Image source={ICON} style={styles.icon} accessibilityIgnoresInvertColors />
+          <Text style={styles.wordmark}>islam.se</Text>
+          <Text style={styles.tagline}>
+            En karta över Sveriges bönetider, ritad med solens vandring över landet.
+          </Text>
+        </View>
 
         <SettingSection title="Integritet">
           {/* Shield + paragraph reads as one block: the icon is a small leading
-              visual mark that gives the privacy promise the weight it deserves,
-              without making the card feel like an iOS-Settings cell. */}
+              visual mark that gives the privacy promise the weight it deserves. */}
           <View style={styles.integrityRow}>
             <MaterialCommunityIcons
               name="shield-check-outline"
@@ -76,49 +81,75 @@ export default function Om() {
           </View>
         </SettingSection>
 
-        <SettingSection
-          title="Bygger på"
-          footnote="Öppen källkod – tryck för att läsa mer om varje projekt."
-        >
-          {SOURCES.map((s, i) => (
-            <Pressable
-              key={s.name}
-              onPress={() => openUrl(s.url)}
-              accessibilityRole="link"
-              accessibilityLabel={`${s.label}: ${s.name}`}
-              style={({ pressed }) => [
-                styles.sourceRow,
-                i > 0 && styles.sourceDivider,
-                pressed && styles.sourcePressed,
-              ]}
-            >
-              <Text style={styles.sourceLabel}>{s.label}</Text>
-              <View style={styles.sourceTrailing}>
-                <Text style={styles.sourceName}>{s.name}</Text>
-                <MaterialIcons name="open-in-new" size={16} color={c.inkMuted} />
-              </View>
-            </Pressable>
-          ))}
+        {/* Stöd: the two outward actions a reader might want — visit the project's site,
+            or rate the app. Rows, not floating links, so they read as one tidy shelf in
+            the app's card language. */}
+        <SettingSection title="Stöd">
+          <LinkRow colors={c} styles={styles} label="Besök islam.se" external onPress={() => openUrl(ISLAMSE_URL)} />
+          <LinkRow colors={c} styles={styles} label="Betygsätt appen" onPress={rateApp} divider />
         </SettingSection>
 
-        {/* Store review as a quiet editorial footer — "if you like this, help
-            others find it". Belongs here, not under Kontakt: it's a store
-            affordance, not a human contact channel. */}
-        <Pressable
-          onPress={rateApp}
-          accessibilityRole="button"
-          accessibilityLabel="Betygsätt appen i butiken"
-          hitSlop={8}
-          style={({ pressed }) => [styles.rate, pressed && styles.ratePressed]}
-        >
-          <Text style={styles.rateText}>Betygsätt appen</Text>
-        </Pressable>
+        <Text style={styles.colophon}>islam.se · Version {APP_VERSION} · © 2026</Text>
 
-        <Text style={styles.colophon}>
-          islam.se · Version {APP_VERSION} · © 2026
+        {/* The required map attribution, as quiet fine print (where map credits belong).
+            The provider names link out for anyone curious, but they read as a footnote,
+            not a feature. */}
+        <Text style={styles.credits}>
+          Kartdata{' '}
+          <Text style={styles.creditsLink} accessibilityRole="link" onPress={() => openUrl(OSM_URL)}>
+            © OpenStreetMaps bidragsgivare
+          </Text>
+          , kartbilder från{' '}
+          <Text style={styles.creditsLink} accessibilityRole="link" onPress={() => openUrl(tile.url)}>
+            {tile.name}
+          </Text>
+          . Bönetider med{' '}
+          <Text style={styles.creditsLink} accessibilityRole="link" onPress={() => openUrl(ADHAN_URL)}>
+            adhan
+          </Text>
+          , karta med{' '}
+          <Text style={styles.creditsLink} accessibilityRole="link" onPress={() => openUrl(MAPLIBRE_URL)}>
+            MapLibre
+          </Text>
+          .
         </Text>
       </ScrollView>
     </SafeAreaView>
+  );
+}
+
+// One outward row inside the Stöd card: a label and a trailing glyph. `external` rows
+// (a website) get an open-in-new arrow signalling "leaves the app"; the rest get a
+// chevron. Mirrors the LinkRow rhythm used in Inställningar so the rows read alike.
+function LinkRow({
+  colors,
+  styles,
+  label,
+  onPress,
+  external = false,
+  divider = false,
+}: {
+  colors: Palette;
+  styles: ReturnType<typeof makeStyles>;
+  label: string;
+  onPress: () => void;
+  external?: boolean;
+  divider?: boolean;
+}) {
+  return (
+    <Pressable
+      onPress={onPress}
+      accessibilityRole={external ? 'link' : 'button'}
+      accessibilityLabel={label}
+      style={({ pressed }) => [styles.row, divider && styles.rowDivider, pressed && styles.rowPressed]}
+    >
+      <Text style={styles.rowLabel}>{label}</Text>
+      <MaterialIcons
+        name={external ? 'open-in-new' : 'chevron-right'}
+        size={external ? 18 : 22}
+        color={colors.inkMuted}
+      />
+    </Pressable>
   );
 }
 
@@ -127,24 +158,30 @@ function makeStyles(c: Palette) {
     safe: { flex: 1, backgroundColor: c.paper },
     content: { padding: space.lg, paddingBottom: space.xxxl + space.lg },
 
-    header: { ...type.title, color: c.ink, marginBottom: space.md, marginTop: space.xs },
-
-    // The "what is this?" line. Calm body, muted ink — present but not
-    // marketing-shouty.
-    lead: { ...type.body, color: c.inkMuted, marginBottom: space.xl, lineHeight: 23 },
-
-    // Plain paragraph inside a SettingSection card — left-aligned, body
-    // weight, same horizontal padding as the section title above it so the
-    // card reads as one continuous block.
-    cardBody: {
-      ...type.body,
-      color: c.ink,
-      paddingHorizontal: space.lg,
-      paddingTop: space.xs,
-      paddingBottom: space.md,
+    // --- Masthead -------------------------------------------------------
+    masthead: { alignItems: 'center', paddingTop: space.lg, paddingBottom: space.xl },
+    // The app icon as a rounded chip — the recognisable identity mark. A hairline
+    // ring tidies its edge against the warm paper.
+    icon: {
+      width: 72,
+      height: 72,
+      borderRadius: radius.lg,
+      borderWidth: StyleSheet.hairlineWidth,
+      borderColor: c.hairline,
     },
-    // Integritet block: shield + body side-by-side. The icon aligns at the
-    // top so a longer paragraph would wrap below it without re-centring.
+    wordmark: { ...type.title, color: c.ink, marginTop: space.md },
+    // The poetic one-liner — what it is. Centred, muted, held to a comfortable measure
+    // so it reads as a subtitle under the wordmark rather than running edge to edge.
+    tagline: {
+      ...type.callout,
+      color: c.inkMuted,
+      textAlign: 'center',
+      lineHeight: 22,
+      marginTop: space.sm,
+      maxWidth: 320,
+    },
+
+    // --- Integritet -----------------------------------------------------
     integrityRow: {
       flexDirection: 'row',
       alignItems: 'flex-start',
@@ -156,35 +193,20 @@ function makeStyles(c: Palette) {
     integrityIcon: { marginTop: 1 },
     integrityBody: { ...type.body, color: c.ink, flex: 1 },
 
-    // Source rows: label on the left ("Bönetider"), project name + external-link
-    // glyph on the right. Same rhythm as the Stad-row inside Plats on
-    // Inställningar — the open-in-new icon signals "leaves the app" so it's
-    // distinct from a chevron (which would mean "pushes another in-app screen").
-    sourceRow: {
+    // --- Stöd rows ------------------------------------------------------
+    row: {
       minHeight: 48,
-      paddingVertical: space.md,
-      paddingHorizontal: space.lg,
       flexDirection: 'row',
       alignItems: 'center',
-      justifyContent: 'space-between',
+      gap: space.md,
+      paddingHorizontal: space.lg,
+      paddingVertical: space.md,
     },
-    sourceDivider: { borderTopWidth: StyleSheet.hairlineWidth, borderTopColor: c.separator },
-    sourcePressed: { backgroundColor: c.accentSoft },
-    sourceLabel: { ...type.body, color: c.ink },
-    sourceTrailing: { flexDirection: 'row', alignItems: 'center', gap: 6 },
-    sourceName: { ...type.body, color: c.accent },
+    rowDivider: { borderTopWidth: StyleSheet.hairlineWidth, borderTopColor: c.separator },
+    rowPressed: { backgroundColor: c.accentSoft },
+    rowLabel: { ...type.body, color: c.ink, flex: 1 },
 
-    // Centred quiet accent link — visible, tappable, but caption-weight so it
-    // doesn't compete with the cards above as a CTA.
-    rate: {
-      alignSelf: 'center',
-      paddingVertical: space.sm,
-      paddingHorizontal: space.md,
-      marginTop: space.lg,
-    },
-    ratePressed: { opacity: 0.6 },
-    rateText: { ...type.callout, color: c.accent, textAlign: 'center' },
-
+    // --- Imprint + credits ----------------------------------------------
     // Faintest ink, no chrome — imprint position at the paper's edge. Mirrors
     // Inställningar's colophon so the two screens share a sign-off.
     colophon: {
@@ -192,7 +214,19 @@ function makeStyles(c: Palette) {
       color: c.inkMuted,
       textAlign: 'center',
       opacity: 0.7,
-      marginTop: space.sm,
+      marginTop: space.md,
     },
+    // Required map attribution as fine print: smaller + fainter than the colophon, so it
+    // reads as a legal footnote rather than content. Links are muted ink (not accent) so
+    // they stay quiet.
+    credits: {
+      ...type.micro,
+      color: c.inkFaint,
+      textAlign: 'center',
+      lineHeight: 17,
+      marginTop: space.sm,
+      paddingHorizontal: space.md,
+    },
+    creditsLink: { color: c.inkMuted },
   });
 }

@@ -103,7 +103,7 @@ export default function BytPlats() {
     <SafeAreaView style={styles.safe} edges={['top']}>
       <ModalBar variant="back" fallback="/(settings)/installningar" />
       <View style={styles.content}>
-        <Text style={styles.header}>Byt plats</Text>
+        <Text style={styles.header}>Välj stad</Text>
         <View style={styles.searchWrap}>
           <MaterialIcons name="search" size={18} color={colors.textMuted} />
           <TextInput

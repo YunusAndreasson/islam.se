@@ -13,6 +13,10 @@ import * as WebBrowser from 'expo-web-browser';
 
 export const SUPPORT_EMAIL = 'support@islam.se';
 
+// The project's website — the app is one part of islam.se. Linked from the Om page
+// as the outward "read more about the project" anchor.
+export const ISLAMSE_URL = 'https://islam.se';
+
 // Open-source projects credited on the Om page — linked so each name is plainly
 // a real project, not a stray word.
 export const ADHAN_URL = 'https://github.com/batoulapps/adhan-js';
