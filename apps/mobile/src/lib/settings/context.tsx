@@ -21,6 +21,8 @@ interface SettingsContextValue {
   loaded: boolean;
   /** Shallow-merge a patch into settings and persist the result. */
   update: (patch: Partial<PrayerSettings>) => void;
+  /** Restore every setting to the app's defaults (DEFAULT_SETTINGS) and persist. */
+  reset: () => void;
 }
 
 const SettingsContext = createContext<SettingsContextValue | null>(null);
@@ -68,9 +70,24 @@ export function SettingsProvider({ children }: { children: ReactNode }) {
     setSettings((prev) => ({ ...prev, ...patch }));
   }, []);
 
+  // Restore to DEFAULT_SETTINGS, deep-cloning the nested objects so the in-memory
+  // state never shares a reference with the exported constant (a later in-place edit
+  // would otherwise mutate the default for the whole app). The persist effect writes
+  // the cleared settings back to AsyncStorage like any other change.
+  const reset = useCallback(() => {
+    setSettings({
+      ...DEFAULT_SETTINGS,
+      adjustments: { ...DEFAULT_SETTINGS.adjustments },
+      notifications: {
+        ...DEFAULT_SETTINGS.notifications,
+        prayers: { ...DEFAULT_SETTINGS.notifications.prayers },
+      },
+    });
+  }, []);
+
   const value = useMemo<SettingsContextValue>(
-    () => ({ settings, loaded, update }),
-    [settings, loaded, update],
+    () => ({ settings, loaded, update, reset }),
+    [settings, loaded, update, reset],
   );
 
   return <SettingsContext.Provider value={value}>{children}</SettingsContext.Provider>;

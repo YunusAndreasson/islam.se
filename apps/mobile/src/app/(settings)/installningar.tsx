@@ -15,7 +15,7 @@
 import { MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
 import { router, useIsFocused } from 'expo-router';
 import { type ReactNode, useEffect, useMemo, useRef, useState } from 'react';
-import { ActivityIndicator, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { ActivityIndicator, Alert, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { DisclosureGroup } from '@/components/settings/DisclosureGroup';
@@ -49,7 +49,7 @@ import {
 import { mono, space, type } from '@/theme/tokens';
 
 export default function Installningar() {
-  const { settings, loaded, update } = useSettings();
+  const { settings, loaded, update, reset } = useSettings();
   const { coords, label, source, permissionStatus, locating, refresh } = useLocation();
   const colors = useSettingsColors();
   const styles = useMemo(() => makeStyles(colors), [colors]);
@@ -86,6 +86,29 @@ export default function Installningar() {
     if (justUpdatedTimer.current) clearTimeout(justUpdatedTimer.current);
     setJustUpdated(true);
     justUpdatedTimer.current = setTimeout(() => setJustUpdated(false), 1800);
+  };
+
+  // "Återställ till standard" — wipes every preference back to DEFAULT_SETTINGS
+  // (method, madhab, location, theme, notifications, haptics, the lot). It's a
+  // destructive, hard-to-undo action, so it's gated behind a native confirm; the
+  // success haptic fires on the confirmed reset (outcome → Success per the buzz policy),
+  // never on the mere tap that opens the dialog.
+  const confirmReset = (): void => {
+    Alert.alert(
+      'Återställ inställningar?',
+      'Alla inställningar återgår till appens standardvärden.',
+      [
+        { text: 'Avbryt', style: 'cancel' },
+        {
+          text: 'Återställ',
+          style: 'destructive',
+          onPress: () => {
+            reset();
+            hapticSuccess();
+          },
+        },
+      ],
+    );
   };
 
   // Today's times for the resolved location. Recomputes whenever a setting, the
@@ -413,6 +436,20 @@ export default function Installningar() {
           </SettingSection>
         </View>
 
+        {/* Återställ till standard — a global reset at the foot of the screen (the
+            conventional terminal-action slot, below the support shelf, above the
+            colophon). Quiet by default; the native confirm in confirmReset is the
+            real guard against an accidental wipe. */}
+        <Pressable
+          onPress={confirmReset}
+          accessibilityRole="button"
+          accessibilityLabel="Återställ alla inställningar till standard"
+          style={({ pressed }) => [styles.resetButton, pressed && styles.rowPressed]}
+        >
+          <MaterialIcons name="settings-backup-restore" size={18} color={colors.accent} />
+          <Text style={styles.resetLabel}>Återställ till standard</Text>
+        </Pressable>
+
         {/* A quiet sign-off at the end of the screen — project line + version +
             © in the faintest ink tier, the natural imprint position. The OTA line
             sits underneath so a user (or I, debugging "did the update arrive?")
@@ -575,6 +612,22 @@ function makeStyles(colors: SettingsColors) {
     },
     linkRowDivider: { borderTopWidth: StyleSheet.hairlineWidth, borderTopColor: colors.separator },
     linkLabel: { ...type.body, color: colors.text, flex: 1 },
+
+    // Reset action: centred icon + accent label (the screen's "verbs are accent"
+    // rule), self-sizing so the tap target hugs the text rather than spanning the
+    // width like a primary CTA — a deliberate, demoted control.
+    resetButton: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'center',
+      alignSelf: 'center',
+      gap: space.sm,
+      marginTop: space.xl,
+      paddingVertical: space.md,
+      paddingHorizontal: space.lg,
+      borderRadius: 12,
+    },
+    resetLabel: { ...type.body, color: colors.accent, fontWeight: '600' },
 
     // Centered, faintest ink, no card chrome — a paper-edge colophon.
     colophon: {
