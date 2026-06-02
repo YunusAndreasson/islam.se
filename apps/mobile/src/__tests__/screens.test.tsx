@@ -83,15 +83,15 @@ describe('tab screens', () => {
     await renderSettled(withProviders(<Installningar />));
     // The header appears after the async settings hydration flips `loaded` (settled above).
     await waitFor(() => expect(screen.getByText('Inställningar')).toBeTruthy());
-    // The "Förhandsvisa bönetider" preview is now folded into a DisclosureGroup
+    // The "Förhandsvisning" preview is now folded into a DisclosureGroup
     // (collapsed by default), so its prayer labels are hidden from queries until opened.
     // Expanding it and finding a prayer label proves the live preview — and thus the
     // calculation module — ran end-to-end inside the screen.
-    fireEvent.press(screen.getByRole('button', { name: /^Förhandsvisa bönetider/ }));
+    fireEvent.press(screen.getByRole('button', { name: /^Förhandsvisning/ }));
     expect(screen.getAllByText(/Fajr/).length).toBeGreaterThan(0);
   });
 
-  // Progressive disclosure: the "Utseende och format" group lives in a collapsible
+  // Progressive disclosure: the "Utseende" group lives in a collapsible
   // card that starts closed (so a first-time user isn't faced with the whole tweaks
   // panel) and opens on a header press. Guards the DisclosureGroup wiring on the screen.
   // (Beräkning used to be a disclosure too — it's now a pushed screen, see
@@ -102,25 +102,29 @@ describe('tab screens', () => {
     await renderSettled(withProviders(<Installningar />));
     await waitFor(() => expect(screen.getByText('Inställningar')).toBeTruthy());
 
-    const header = screen.getByRole('button', { name: /^Utseende och format,/ });
+    const header = screen.getByRole('button', { name: /^Utseende,/ });
     expect(header.props.accessibilityState.expanded).toBe(false);
 
     fireEvent.press(header);
     expect(
-      screen.getByRole('button', { name: /^Utseende och format,/ }).props.accessibilityState.expanded,
+      screen.getByRole('button', { name: /^Utseende,/ }).props.accessibilityState.expanded,
     ).toBe(true);
   });
 
-  it('renders the Om screen content (lead + integritet + bygger på + version)', () => {
-    // Om is the calm "what is this" page: a one-line lead, a privacy promise,
-    // an open-source credits card, and an imprint colophon with the version.
-    // FAQ lives on /vanliga-fragor; mail goes straight from the Inställningar
-    // row to the native composer — no Kontakt sub-screen. This guard makes
-    // sure none of that ever re-folds into Om appen.
+  it('renders the Om screen as an identity page (masthead + integritet + fine-print credits)', () => {
+    // Om is the calm identity page: a masthead (wordmark + one-line lead), a privacy
+    // promise, support links, and an imprint colophon with the version + the map
+    // attribution as fine print. The old technical "Bygger på" dependency card is GONE
+    // (no real user recognises adhan / MapLibre / MapTiler) — this guard keeps it gone,
+    // along with the FAQ (which lives on /vanliga-fragor) and Kontakt.
     render(<Om />);
+    expect(screen.getByText('islam.se')).toBeTruthy(); // masthead wordmark
     expect(screen.getByText(/En karta över Sveriges bönetider/)).toBeTruthy();
     expect(screen.getByText(/Din plats lämnar aldrig enheten/)).toBeTruthy();
     expect(screen.getByText(/Version /)).toBeTruthy();
+    // The required map attribution is present, but as fine print — not a prominent card.
+    expect(screen.getByText(/Kartdata/)).toBeTruthy();
+    expect(screen.queryByText('Bygger på')).toBeNull();
     expect(screen.queryByRole('button', { name: 'Mejla oss' })).toBeNull();
     expect(screen.queryByRole('button', { name: 'Hur räknas bönetiderna ut?' })).toBeNull();
   });
@@ -161,18 +165,17 @@ describe('tab screens', () => {
     jest.clearAllMocks();
     render(<Om />);
 
-    fireEvent.press(screen.getByRole('button', { name: 'Betygsätt appen i butiken' }));
+    fireEvent.press(screen.getByRole('button', { name: 'Betygsätt appen' }));
     await waitFor(() => expect(StoreReview.requestReview).toHaveBeenCalled());
   });
 
-  // The source credits link the open-source projects so each name is plainly a real,
-  // tappable project. Guards the adhan link (the one a reader is most likely
-  // to follow). Sources now live as labelled rows ("Bönetider · adhan ↗") in
-  // the Bygger på card, so the row's accessibility label includes both pieces.
+  // The map attribution links each provider, even though it now sits as quiet fine print
+  // rather than a prominent "Bygger på" card. Guards the inline adhan credit (the
+  // prayer-time engine, the one a curious reader is most likely to follow).
   it('links the adhan library from the credits', () => {
     jest.clearAllMocks();
     render(<Om />);
-    fireEvent.press(screen.getByRole('link', { name: 'Bönetider: adhan' }));
+    fireEvent.press(screen.getByRole('link', { name: 'adhan' }));
     expect(WebBrowser.openBrowserAsync).toHaveBeenCalledWith('https://github.com/batoulapps/adhan-js');
   });
 });

@@ -70,7 +70,7 @@ export default function Installningar() {
     return () => clearInterval(id);
   }, [isFocused]);
 
-  // "Uppdatera position" confirmation — a brief "Uppdaterad ✓" flash after a TAP-initiated
+  // "Uppdatera plats" confirmation — a brief "Uppdaterad ✓" flash after a TAP-initiated
   // refresh resolves, so the user knows the action did something. Auto-acquires (mount /
   // permission flip) do NOT trigger this — we'd be lying about user intent and firing a
   // haptic on a fix the user never asked for. The flash window is short so it never
@@ -125,7 +125,7 @@ export default function Installningar() {
       <ScrollView contentContainerStyle={styles.content}>
         <Text style={styles.header}>Inställningar</Text>
 
-        {/* --- Core IA: Plats / Beräkning / Förhandsvisning / Notiser / Visning --- */}
+        {/* --- Core IA: Plats / Beräkning / Förhandsvisning / Notiser / Utseende --- */}
 
         <SettingSection
           title="Plats"
@@ -135,7 +135,7 @@ export default function Installningar() {
             settings.locationMode === 'gps'
               ? permissionStatus === 'denied'
                 ? 'Platsåtkomst nekad – visar standardplats. Tillåt i systeminställningar.'
-                : 'Använder enhetens position.'
+                : 'Använder enhetens plats.'
               : undefined
           }
         >
@@ -148,7 +148,7 @@ export default function Installningar() {
             onChange={(locationMode) => update({ locationMode })}
           />
           {settings.locationMode === 'gps' ? (
-            // "Uppdatera position" is an action — accent reads as a tappable verb
+            // "Uppdatera plats" is an action — accent reads as a tappable verb
             // (matches the iOS-Settings "Tap to share" pattern), with the resolved
             // place name muted on the right. After the GPS fix resolves we flash
             // "Uppdaterad ✓" briefly so the user knows the tap landed: a fresh fix
@@ -160,10 +160,10 @@ export default function Installningar() {
               accessibilityRole="button"
               accessibilityLabel={
                 locating
-                  ? 'Hämtar position'
+                  ? 'Hämtar plats'
                   : justUpdated
-                    ? 'Position uppdaterad'
-                    : 'Uppdatera position'
+                    ? 'Plats uppdaterad'
+                    : 'Uppdatera plats'
               }
             >
               {justUpdated && !locating ? (
@@ -173,7 +173,7 @@ export default function Installningar() {
                 </View>
               ) : (
                 <Text style={styles.rowAction}>
-                  {locating ? 'Hämtar position…' : 'Uppdatera position'}
+                  {locating ? 'Hämtar plats…' : 'Uppdatera plats'}
                 </Text>
               )}
               <Text style={styles.rowValue}>{source === 'gps' ? label : '—'}</Text>
@@ -222,7 +222,7 @@ export default function Installningar() {
             whose job is configuration. Summary line carries today's date +
             place so the collapsed header alone still says "what this would
             show". */}
-        <DisclosureGroup title="Förhandsvisa bönetider" summary={preview.gregorian}>
+        <DisclosureGroup title="Förhandsvisning" summary={preview.gregorian}>
           <View>
             <View style={styles.previewHead}>
               <Text style={styles.previewDate}>{preview.gregorian}</Text>
@@ -304,7 +304,7 @@ export default function Installningar() {
             knobs (Avrundning, Hijri). The order mirrors the group title ("utseende"
             then "format") and the collapsed summary, and surfaces the one control a
             user actually reaches for here — the light/dark theme — at the very top. */}
-        <DisclosureGroup title="Utseende och format" summary={visningSummary()}>
+        <DisclosureGroup title="Utseende" summary={visningSummary()}>
           {/* Tema — Apple Maps-style theme override; defaults to "Följ system" (the OS
               Display setting decides). The dock, basemap, wash and prayer-line colours
               all swap together the instant the user picks a row, via useActiveScheme().
