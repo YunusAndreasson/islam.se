@@ -17,6 +17,7 @@
     "release": "node scripts/release.js"
   },
   "dependencies": {
+    "@expo/ui": "~56.0.15",
     "@expo/vector-icons": "^15.1.1",
     "@maplibre/maplibre-react-native": "^11.2.1",
     "@react-native-async-storage/async-storage": "2.2.0",
@@ -39,6 +40,7 @@
     "expo-store-review": "~56.0.3",
     "expo-updates": "~56.0.17",
     "expo-web-browser": "~56.0.5",
+    "expo-widgets": "~56.0.16",
     "react": "19.2.3",
     "react-native": "0.85.3",
     "react-native-gesture-handler": "~2.31.2",
