@@ -36,6 +36,12 @@ const PAGES: PaletteEntry[] = [
 		sub: "Islamiska högtider och fastedagar med datum.",
 		href: "/det-islamiska-aret",
 	},
+	{
+		type: "Sida",
+		label: "Bönetider",
+		sub: "Bönetider för hela Sverige, ort för ort, efter solens läge.",
+		href: "/bonetider",
+	},
 	{ type: "Sida", label: "Om", sub: "Om idén bakom islam.se.", href: "/om" },
 	{ type: "Sida", label: "AI", sub: "Koppla hela arkivet till din AI-assistent.", href: "/ai" },
 	{ type: "Sida", label: "Hem", sub: "Startsidan.", href: "/" },

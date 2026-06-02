@@ -1,0 +1,229 @@
+---
+import { PRAYER_LABELS, PRAYER_ORDER } from "../../lib/bonetider/prayer-times";
+import {
+	HIGHLAT_OPTIONS,
+	MADHAB_OPTIONS,
+	METHOD_OPTIONS,
+	POLAR_OPTIONS,
+	ROUNDING_OPTIONS,
+	SHAFAQ_OPTIONS,
+} from "../../lib/bonetider/settings-options";
+
+// Sunrise is a marker, not an adjustable obligatory prayer — omit it from the per-prayer
+// nudges (matches the app, which adjusts the six computed slots minus the Shurūq marker).
+const adjustablePrayers = PRAYER_ORDER.filter((k) => k !== "sunrise");
+const withDesc = (label: string, desc?: string) => (desc ? `${label} — ${desc}` : label);
+---
+
+<form class="bt-settings" aria-label="Inställningar för bönetider">
+	<div class="bt-set-grid">
+		<label class="bt-field">
+			<span class="bt-field-label">Beräkningsmetod</span>
+			<select data-setting="calculationMethod">
+				{METHOD_OPTIONS.map((o) => <option value={o.value}>{withDesc(o.label, o.description)}</option>)}
+			</select>
+		</label>
+		<label class="bt-field">
+			<span class="bt-field-label">Madhhab (ʿAsr)</span>
+			<select data-setting="madhab">
+				{MADHAB_OPTIONS.map((o) => <option value={o.value}>{withDesc(o.label, o.description)}</option>)}
+			</select>
+		</label>
+		<label class="bt-field">
+			<span class="bt-field-label">Höga latituder</span>
+			<select data-setting="highLatitudeRule">
+				{HIGHLAT_OPTIONS.map((o) => <option value={o.value}>{withDesc(o.label, o.description)}</option>)}
+			</select>
+		</label>
+	</div>
+
+	<details class="bt-adv">
+		<summary>Avancerat</summary>
+		<div class="bt-adv-body">
+			<div class="bt-set-grid">
+				<label class="bt-field">
+					<span class="bt-field-label">Shafaq (skymning)</span>
+					<select data-setting="shafaq">
+						{SHAFAQ_OPTIONS.map((o) => <option value={o.value}>{withDesc(o.label, o.description)}</option>)}
+					</select>
+				</label>
+				<label class="bt-field">
+					<span class="bt-field-label">Polcirkeln</span>
+					<select data-setting="polarCircleResolution">
+						{POLAR_OPTIONS.map((o) => <option value={o.value}>{withDesc(o.label, o.description)}</option>)}
+					</select>
+				</label>
+				<label class="bt-field">
+					<span class="bt-field-label">Avrundning</span>
+					<select data-setting="rounding">
+						{ROUNDING_OPTIONS.map((o) => <option value={o.value}>{withDesc(o.label, o.description)}</option>)}
+					</select>
+				</label>
+				<label class="bt-field">
+					<span class="bt-field-label">Hijri-justering (dagar)</span>
+					<input type="number" data-setting="hijriOffset" min="-2" max="2" step="1" inputmode="numeric" />
+				</label>
+			</div>
+
+			<fieldset class="bt-adj">
+				<legend>Justering per bön (minuter)</legend>
+				<div class="bt-adj-grid">
+					{adjustablePrayers.map((k) => (
+						<label class="bt-field bt-adj-field">
+							<span class="bt-field-label">{PRAYER_LABELS[k]}</span>
+							<input type="number" data-adjust={k} min="-30" max="30" step="1" inputmode="numeric" />
+						</label>
+					))}
+				</div>
+			</fieldset>
+		</div>
+	</details>
+
+	<p class="bt-set-summary" aria-live="polite"></p>
+</form>
+
+<style>
+	.bt-settings {
+		margin: var(--space-unit) 0 0;
+	}
+
+	.bt-set-grid {
+		display: grid;
+		gap: var(--space-half) clamp(1rem, 3vw, 1.75rem);
+		grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr));
+	}
+
+	.bt-field {
+		display: flex;
+		flex-direction: column;
+		gap: 0.3rem;
+	}
+
+	.bt-field-label {
+		font-family: var(--font-heading);
+		font-size: 0.8125rem;
+		font-weight: 600;
+		letter-spacing: 0.01em;
+		color: var(--color-muted);
+	}
+
+	.bt-field select,
+	.bt-field input {
+		font-family: var(--font-body);
+		font-size: 0.9375rem;
+		color: var(--color-text);
+		background: var(--color-bg);
+		border: 1px solid var(--color-divider);
+		border-radius: 8px;
+		padding: 0.45rem 0.6rem;
+		width: 100%;
+	}
+
+	.bt-field select:focus-visible,
+	.bt-field input:focus-visible {
+		outline: 2px solid var(--color-accent);
+		outline-offset: 1px;
+	}
+
+	.bt-adv {
+		margin-top: var(--space-unit);
+		border-top: 1px solid var(--color-divider);
+		padding-top: var(--space-half);
+	}
+
+	.bt-adv summary {
+		font-family: var(--font-heading);
+		font-size: 0.875rem;
+		font-weight: 600;
+		color: var(--color-accent);
+		cursor: pointer;
+		list-style-position: inside;
+	}
+
+	.bt-adv-body {
+		margin-top: var(--space-half);
+	}
+
+	.bt-adj {
+		margin: var(--space-unit) 0 0;
+		border: 1px solid var(--color-divider);
+		border-radius: 10px;
+		padding: var(--space-half) 0.9rem 0.9rem;
+	}
+
+	.bt-adj legend {
+		font-family: var(--font-heading);
+		font-size: 0.8125rem;
+		font-weight: 600;
+		color: var(--color-muted);
+		padding: 0 0.4rem;
+	}
+
+	.bt-adj-grid {
+		display: grid;
+		gap: var(--space-half) 1rem;
+		grid-template-columns: repeat(auto-fit, minmax(min(100%, 7rem), 1fr));
+	}
+
+	.bt-set-summary {
+		font-family: var(--font-body);
+		font-size: 0.8125rem;
+		line-height: 1.5;
+		color: var(--color-muted);
+		margin: var(--space-unit) 0 0;
+	}
+
+	.bt-set-summary::before {
+		content: "Aktiva inställningar: ";
+		color: var(--color-text);
+	}
+</style>
+
+<script>
+	import { loadSettings, saveSettings } from "../../lib/bonetider/storage";
+	import { highLatLabel, madhabLabel, methodLabel } from "../../lib/bonetider/settings-options";
+	import type { PrayerSettings } from "../../lib/bonetider/settings";
+
+	function updateSummary(s: PrayerSettings): void {
+		const el = document.querySelector<HTMLElement>(".bt-set-summary");
+		if (el)
+			el.textContent = `${methodLabel(s)} · ${madhabLabel(s)} · Höga latituder: ${highLatLabel(s)} · Tidszon Europe/Stockholm`;
+	}
+
+	function apply(form: HTMLFormElement): void {
+		const s = loadSettings();
+		const obj = s as unknown as Record<string, unknown>;
+		for (const el of form.querySelectorAll<HTMLInputElement | HTMLSelectElement>("[data-setting]")) {
+			const key = el.dataset.setting;
+			if (key && key in obj) el.value = String(obj[key]);
+		}
+		for (const el of form.querySelectorAll<HTMLInputElement>("[data-adjust]")) {
+			const key = el.dataset.adjust as keyof PrayerSettings["adjustments"];
+			el.value = String(s.adjustments[key] ?? 0);
+		}
+		updateSummary(s);
+	}
+
+	function onChange(e: Event): void {
+		const el = e.target as HTMLInputElement | HTMLSelectElement;
+		const s = loadSettings();
+		if (el.dataset.setting) {
+			const key = el.dataset.setting;
+			if (key === "hijriOffset") s.hijriOffset = Number(el.value) || 0;
+			else (s as unknown as Record<string, unknown>)[key] = el.value;
+		} else if (el.dataset.adjust) {
+			s.adjustments = { ...s.adjustments, [el.dataset.adjust]: Number(el.value) || 0 };
+		} else return;
+		saveSettings(s); // persists + emits bonetider:change → every field repaints
+		updateSummary(s);
+	}
+
+	document.addEventListener("astro:page-load", () => {
+		const form = document.querySelector<HTMLFormElement>(".bt-settings");
+		if (!form || form.dataset.wired) return;
+		form.dataset.wired = "1";
+		apply(form);
+		form.addEventListener("change", onChange);
+		form.addEventListener("input", onChange);
+	});
+</script>

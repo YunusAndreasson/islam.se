@@ -1,0 +1,334 @@
+---
+import {
+	computePrayerTimes,
+	formatTime,
+	nextPrayerKeyAt,
+	PRAYER_LABELS,
+	PRAYER_ORDER,
+	PRAYER_SWEDISH_NAMES,
+} from "../../lib/bonetider/prayer-times";
+import { DEFAULT_COORDS, DEFAULT_SETTINGS } from "../../lib/bonetider/settings";
+import { solarParams, sunPositionAt } from "../../lib/bonetider/solar/sun";
+
+// A brief prayer-times ribbon — the first thing on the homepage. Defaults to Stockholm at
+// build time (no-flash baseline); the client recomputes live for the real now and the
+// visitor's SAVED location, so it sticks across visits. Three zones, clear hierarchy:
+// the next prayer (anchor) · today's schedule (support) · location (utility).
+const location = {
+	name: DEFAULT_COORDS.name,
+	latitude: DEFAULT_COORDS.latitude,
+	longitude: DEFAULT_COORDS.longitude,
+};
+const now = new Date();
+const times = computePrayerTimes(location, now, DEFAULT_SETTINGS);
+const rows = PRAYER_ORDER.map((key) => ({ key, label: PRAYER_LABELS[key], time: formatTime(times[key]) }));
+const nextKey = nextPrayerKeyAt(times, now.getTime()) ?? "fajr";
+
+// Day or night over the place right now → sun vs crescent-moon icon (client refines it live).
+const { declRad, eotMin } = solarParams(now);
+const utcMin = now.getUTCHours() * 60 + now.getUTCMinutes() + now.getUTCSeconds() / 60;
+const { altDeg } = sunPositionAt(location.latitude, location.longitude, utcMin, declRad, eotMin);
+const isDay = altDeg >= 0;
+---
+
+<aside
+	class="bonetider-strip"
+	data-name={location.name}
+	data-lat={location.latitude}
+	data-lon={location.longitude}
+	data-variant="strip"
+	data-fixed="0"
+	aria-label="Bönetider just nu"
+>
+	<a class="bs-next-zone" href="/bonetider">
+		<span class="bs-icon" data-day={isDay ? "true" : "false"} aria-hidden="true">
+			<svg class="bs-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+				<circle cx="12" cy="12" r="4"></circle>
+				<line x1="12" y1="2.5" x2="12" y2="4.5"></line>
+				<line x1="12" y1="19.5" x2="12" y2="21.5"></line>
+				<line x1="4.6" y1="4.6" x2="6" y2="6"></line>
+				<line x1="18" y1="18" x2="19.4" y2="19.4"></line>
+				<line x1="2.5" y1="12" x2="4.5" y2="12"></line>
+				<line x1="19.5" y1="12" x2="21.5" y2="12"></line>
+				<line x1="4.6" y1="19.4" x2="6" y2="18"></line>
+				<line x1="18" y1="6" x2="19.4" y2="4.6"></line>
+			</svg>
+			<svg class="bs-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+				<path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8z"></path>
+			</svg>
+		</span>
+		<span class="bs-next-text">
+			<span class="bs-eyebrow">Nästa bön</span>
+			<span class="bs-next-line">
+				<span class="bf-next-name">{PRAYER_LABELS[nextKey]}</span>
+				<span class="bf-countdown">{formatTime(times[nextKey])}</span>
+			</span>
+		</span>
+	</a>
+
+	<ul class="bs-times" aria-label={`Dagens bönetider, ${location.name}`}>
+		{rows.map((r) => (
+			<li class="bs-t" data-prayer={r.key} class:list={{ "is-next": r.key === nextKey }}>
+				<span class="bs-t-name">{r.label}</span>
+				<span class="bf-t-time">{r.time}</span>
+			</li>
+		))}
+	</ul>
+
+	<div class="bs-loc">
+		<span class="bs-loc-name"><span class="bf-place">{location.name}</span></span>
+		<span class="bs-loc-actions">
+			<button type="button" class="bf-geo bs-geo">Min plats</button>
+			<a class="bs-all" href="/bonetider">Alla orter</a>
+		</span>
+	</div>
+</aside>
+
+<style>
+	/* ── Shell ──────────────────────────────────────────────────────────────────
+	   A calm utility ribbon at the very top. Three zones held in a grid: the next
+	   prayer anchors the left, the schedule fills the centre, the place sits right.
+	   The top margin clears the sticky header's fade-out shade. */
+	.bonetider-strip {
+		display: grid;
+		grid-template-columns: auto 1fr auto;
+		align-items: center;
+		gap: clamp(1.25rem, 4vw, 3rem);
+		margin: var(--space-unit) 0;
+		padding: 0.85rem 1.1rem;
+		border: 1px solid var(--color-divider);
+		border-radius: 12px;
+		background: var(--color-bg);
+	}
+
+	/* ── Zone 1 · the anchor: next prayer ───────────────────────────────────────
+	   Strongest element. Day/night icon + a quiet eyebrow, then the prayer name
+	   (the size anchor) and the countdown (the colour anchor). */
+	.bs-next-zone {
+		display: flex;
+		align-items: center;
+		gap: 0.8rem;
+		text-decoration: none;
+		color: inherit;
+		min-width: 0;
+	}
+
+	.bs-icon {
+		flex: none;
+		display: grid;
+		place-items: center;
+		width: 1.6rem;
+		height: 1.6rem;
+	}
+
+	.bs-icon svg {
+		width: 100%;
+		height: 100%;
+	}
+
+	/* Drawn only from the site palette so it blends: warm sun, muted moon. */
+	.bs-sun {
+		color: var(--color-warm);
+	}
+	.bs-moon {
+		color: var(--color-muted);
+	}
+	.bs-icon[data-day="true"] .bs-moon,
+	.bs-icon[data-day="false"] .bs-sun {
+		display: none;
+	}
+
+	.bs-next-text {
+		display: flex;
+		flex-direction: column;
+		gap: 0.15rem;
+		min-width: 0;
+	}
+
+	.bs-eyebrow {
+		font-family: var(--font-heading);
+		font-size: 0.7rem;
+		font-weight: 600;
+		letter-spacing: 0.09em;
+		text-transform: uppercase;
+		color: var(--color-muted);
+	}
+
+	.bs-next-line {
+		display: flex;
+		align-items: baseline;
+		gap: 0.55rem;
+		flex-wrap: wrap;
+	}
+
+	/* The size anchor — the largest type in the strip. */
+	.bf-next-name {
+		font-family: var(--font-heading);
+		font-weight: 600;
+		font-size: 1.25rem;
+		line-height: 1.1;
+		letter-spacing: -0.01em;
+		color: var(--color-text);
+	}
+
+	/* The colour anchor — quieter in size, lifted by the accent so the eye still lands. */
+	.bf-countdown {
+		font-family: var(--font-body);
+		font-variant-numeric: tabular-nums;
+		font-size: 0.95rem;
+		color: var(--color-accent);
+		white-space: nowrap;
+	}
+
+	.bs-next-zone:hover .bf-next-name {
+		text-decoration: underline;
+		text-underline-offset: 0.16em;
+		text-decoration-thickness: 1px;
+	}
+
+	/* ── Zone 2 · support: today's schedule ─────────────────────────────────────
+	   A quiet tabular row — label above figure, the next prayer lifted to accent.
+	   Sans labels + serif tabular figures echo the site's heading/body split. */
+	.bs-times {
+		display: flex;
+		align-items: baseline;
+		justify-content: center;
+		gap: clamp(0.7rem, 2.4vw, 1.7rem);
+		list-style: none;
+		margin: 0;
+		padding: 0;
+	}
+
+	.bs-t {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 0.18rem;
+	}
+
+	.bs-t-name {
+		font-family: var(--font-heading);
+		font-size: 0.66rem;
+		font-weight: 600;
+		letter-spacing: 0.06em;
+		text-transform: uppercase;
+		color: var(--color-muted);
+		white-space: nowrap;
+	}
+
+	.bs-t .bf-t-time {
+		font-family: var(--font-body);
+		font-variant-numeric: tabular-nums;
+		font-size: 0.95rem;
+		line-height: 1;
+		color: var(--color-text);
+	}
+
+	.bs-t.is-next .bs-t-name {
+		color: var(--color-accent);
+	}
+
+	.bs-t.is-next .bf-t-time {
+		color: var(--color-accent);
+		font-weight: 600;
+	}
+
+	/* ── Zone 3 · utility: location ─────────────────────────────────────────────
+	   Right-aligned, smallest in the hierarchy. Place name over the two quiet actions. */
+	.bs-loc {
+		display: flex;
+		flex-direction: column;
+		align-items: flex-end;
+		gap: 0.25rem;
+		text-align: end;
+	}
+
+	.bs-loc-name {
+		font-family: var(--font-heading);
+		font-size: 0.95rem;
+		font-weight: 600;
+		color: var(--color-text);
+	}
+
+	.bs-loc-actions {
+		display: flex;
+		align-items: center;
+		gap: 0.7rem;
+	}
+
+	.bs-geo {
+		font-family: var(--font-heading);
+		font-size: 0.8rem;
+		font-weight: 500;
+		color: var(--color-accent);
+		background: none;
+		border: none;
+		padding: 0;
+		cursor: pointer;
+		transition: color 0.15s ease;
+	}
+
+	.bs-geo:hover {
+		color: var(--color-text);
+	}
+
+	.bs-geo[aria-busy="true"] {
+		opacity: 0.55;
+		pointer-events: none;
+	}
+
+	.bs-all {
+		font-family: var(--font-heading);
+		font-size: 0.8rem;
+		font-weight: 500;
+		color: var(--color-accent);
+		text-decoration: none;
+		transition: color 0.15s ease;
+	}
+
+	.bs-all::after {
+		content: " →";
+		color: var(--color-muted);
+		transition: translate 0.2s ease;
+		display: inline-block;
+	}
+
+	.bs-all:hover::after {
+		translate: 0.18em 0;
+	}
+
+	.bs-geo:focus-visible,
+	.bs-all:focus-visible,
+	.bs-next-zone:focus-visible {
+		outline: 2px solid var(--color-accent);
+		outline-offset: 3px;
+		border-radius: 4px;
+	}
+
+	/* ── Responsive ─────────────────────────────────────────────────────────────
+	   Below the wide breakpoint the schedule folds away, leaving the anchor and the
+	   place — still the two things that matter. */
+	@media (width <= 62rem) {
+		.bonetider-strip {
+			grid-template-columns: 1fr auto;
+		}
+		.bs-times {
+			display: none;
+		}
+	}
+
+	@media (width <= 34rem) {
+		.bonetider-strip {
+			grid-template-columns: 1fr;
+			gap: 0.7rem;
+		}
+		.bs-loc {
+			align-items: flex-start;
+			text-align: start;
+		}
+	}
+</style>
+
+<script>
+	import "../../scripts/bonetider-field";
+</script>

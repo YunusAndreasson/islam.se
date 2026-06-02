@@ -1,0 +1,234 @@
+---
+import {
+	computePrayerTimes,
+	formatTime,
+	nextPrayerKeyAt,
+	PRAYER_LABELS,
+	PRAYER_ORDER,
+	PRAYER_SWEDISH_NAMES,
+} from "../../lib/bonetider/prayer-times";
+import { DEFAULT_SETTINGS } from "../../lib/bonetider/settings";
+
+interface Props {
+	location: { name: string; latitude: number; longitude: number };
+	variant?: "home" | "full";
+	/** City pages pin the location; home/hub may be overridden by the visitor's choice. */
+	fixed?: boolean;
+}
+
+const { location, variant = "home", fixed = false } = Astro.props;
+
+// Build-time "today" with default settings — the no-JS / no-flash baseline. The client
+// recomputes live against the real now and the visitor's saved settings.
+const now = new Date();
+const times = computePrayerTimes(location, now, DEFAULT_SETTINGS);
+const rows = PRAYER_ORDER.map((key) => ({
+	key,
+	label: PRAYER_LABELS[key],
+	sv: PRAYER_SWEDISH_NAMES[key],
+	time: formatTime(times[key]),
+}));
+const nextKey = nextPrayerKeyAt(times, now.getTime()) ?? "fajr";
+---
+
+<div
+	class="bonetider-field"
+	class:list={[`bf-${variant}`]}
+	data-name={location.name}
+	data-lat={location.latitude}
+	data-lon={location.longitude}
+	data-variant={variant}
+	data-fixed={fixed ? "1" : "0"}
+>
+	<div class="bf-stage">
+		<canvas class="bf-canvas" aria-hidden="true"></canvas>
+		<div class="bf-overlay">
+			<p class="bf-next">
+				<span class="bf-next-prayer">
+					<span class="bf-next-name">{PRAYER_LABELS[nextKey]}</span>
+					<span class="bf-next-sub">{PRAYER_SWEDISH_NAMES[nextKey]}</span>
+				</span>
+				<span class="bf-countdown">{formatTime(times[nextKey])}</span>
+			</p>
+			<p class="bf-place">{location.name}</p>
+		</div>
+	</div>
+
+	<ul class="bf-times" aria-label={`Bönetider för ${location.name} i dag`}>
+		{rows.map((r) => (
+			<li class="bf-t" data-prayer={r.key} class:list={{ "is-next": r.key === nextKey }}>
+				<span class="bf-t-name">{r.label}</span>
+				<span class="bf-t-sv">{r.sv}</span>
+				<span class="bf-t-time">{r.time}</span>
+			</li>
+		))}
+	</ul>
+</div>
+
+<style>
+	/* The field: a living map of Sweden (the sun-driven CANVAS) beside today's schedule
+	   (editorial CHROME). Two columns on wide viewports, stacked on narrow — same
+	   canvas/chrome split as the app. */
+	.bonetider-field {
+		display: grid;
+		gap: clamp(1.25rem, 4vw, 2.5rem);
+		grid-template-columns: 1fr;
+	}
+
+	.bf-home {
+		--bf-stage-w: 19rem;
+	}
+	.bf-full {
+		--bf-stage-w: 24rem;
+	}
+
+	@media (width >= 640px) {
+		.bonetider-field {
+			grid-template-columns: minmax(0, var(--bf-stage-w)) 1fr;
+			align-items: center;
+		}
+	}
+
+	/* The map stage. Pre-JS it's a calm sea rectangle; the canvas paints the silhouette,
+	   twilight wash and sweeping prayer lines over it once mounted. */
+	.bf-stage {
+		position: relative;
+		aspect-ratio: 4 / 5;
+		border-radius: 14px;
+		overflow: hidden;
+		background: light-dark(#dfe7ec, #141a26);
+		border: 1px solid var(--color-divider);
+		box-shadow: 0 1px 2px rgb(0 0 0 / 0.04), 0 12px 28px -16px rgb(0 0 0 / 0.25);
+	}
+
+	.bf-canvas {
+		position: absolute;
+		inset: 0;
+		display: block;
+		width: 100%;
+		height: 100%;
+	}
+
+	/* Floating glass readout — the app's PrayerDock, distilled. Mostly opaque so its
+	   rounded corners stay crisp over the colour-shifting wash. */
+	.bf-overlay {
+		position: absolute;
+		left: 0.55rem;
+		right: 0.55rem;
+		bottom: 0.55rem;
+		padding: 0.5rem 0.7rem;
+		border-radius: 0.7rem;
+		background: light-dark(rgb(255 253 248 / 0.88), rgb(22 26 38 / 0.82));
+		backdrop-filter: blur(8px);
+		box-shadow: 0 1px 10px -4px rgb(0 0 0 / 0.4);
+	}
+
+	.bf-next {
+		display: flex;
+		justify-content: space-between;
+		align-items: baseline;
+		gap: 0.5rem;
+		margin: 0;
+	}
+
+	.bf-next-prayer {
+		display: flex;
+		align-items: baseline;
+		gap: 0.4rem;
+		min-width: 0;
+	}
+
+	.bf-next-name {
+		font-family: var(--font-heading);
+		font-weight: 600;
+		font-size: 0.9rem;
+		color: var(--color-text);
+	}
+
+	.bf-next-sub {
+		font-family: var(--font-body);
+		font-size: 0.78rem;
+		color: var(--color-muted);
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+
+	.bf-countdown {
+		font-family: var(--font-body);
+		font-variant-numeric: tabular-nums;
+		font-size: 0.9rem;
+		color: var(--color-accent);
+		white-space: nowrap;
+	}
+
+	.bf-place {
+		margin: 0.1rem 0 0;
+		font-family: var(--font-body);
+		font-size: 0.75rem;
+		color: var(--color-muted);
+	}
+
+	/* Today's schedule. */
+	.bf-times {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+	}
+
+	.bf-t {
+		display: grid;
+		grid-template-columns: 1fr auto;
+		grid-template-areas: "name time" "sv time";
+		column-gap: 1rem;
+		align-items: baseline;
+		padding: 0.5rem 0.2rem 0.5rem 0.7rem;
+		border-bottom: 1px solid var(--color-divider);
+		border-left: 2px solid transparent;
+	}
+
+	.bf-t-name {
+		grid-area: name;
+		font-family: var(--font-heading);
+		font-weight: 600;
+		font-size: 1rem;
+		color: var(--color-text);
+	}
+
+	.bf-t-sv {
+		grid-area: sv;
+		font-family: var(--font-body);
+		font-size: 0.8rem;
+		color: var(--color-muted);
+	}
+
+	.bf-t-time {
+		grid-area: time;
+		align-self: center;
+		font-family: var(--font-body);
+		font-variant-numeric: tabular-nums;
+		font-size: 1.05rem;
+		color: var(--color-text);
+	}
+
+	/* The upcoming prayer — a warm accent in the site's palette (the canvas carries the
+	   brass; the chrome stays within the 4-colour system). */
+	.bf-t.is-next {
+		border-left-color: var(--color-warm);
+	}
+
+	.bf-t.is-next .bf-t-name,
+	.bf-t.is-next .bf-t-time {
+		color: var(--color-accent);
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.bf-canvas {
+			/* The wash/lines still render; only the per-minute repaint is imperceptible. */
+		}
+	}
+</style>
+
+<script>
+	import "../../scripts/bonetider-field";
+</script>
