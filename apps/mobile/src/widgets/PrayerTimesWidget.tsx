@@ -9,12 +9,12 @@
 // reference ONLY: its params, @expo/ui imports (VStack/Text/font/… — provided on
 // globalThis), and identifiers it defines INSIDE its own body. Any reference to a
 // module-level helper, constant, or imported value (palettes, an SF-symbol map, a shared
-// `normalize`) is undefined at render → ReferenceError → the widget renders BLACK. This
-// is the bug that made earlier versions black (cf. expo/expo#46200). Keep everything
-// inline. Because the layout string lives in the app's MAIN JS bundle (written to the
-// app group by createWidget at launch), fixes to it ship via EAS Update (OTA) — no
-// native rebuild. Only the @expo/ui runtime is build-time, and it's already complete.
-import { HStack, Image, Spacer, Text, VStack } from '@expo/ui/swift-ui';
+// `normalize`) is undefined at render → ReferenceError → the widget renders BLACK (cf.
+// expo/expo#46200). Keep everything inline. Because the layout string lives in the app's
+// MAIN JS bundle (written to the app group by createWidget at launch), fixes ship via EAS
+// Update (OTA) — no native rebuild. Only the @expo/ui runtime is build-time, and it's
+// already complete.
+import { Divider, HStack, Image, Spacer, Text, VStack } from '@expo/ui/swift-ui';
 import {
   containerBackground,
   font,
@@ -75,19 +75,26 @@ function PrayerTimesWidgetLayout(rawPayload: WidgetPayload, environment: WidgetE
   const nextRow = rows.find((r) => r.isNext);
   const nextIcon: SFSymbol = nextRow ? SF[nextRow.key as PrayerKey] : SF.fajr;
 
+  // Shared root chrome: even padding, the iOS-17 widget background, tap-to-open.
+  const root = [padding({ all: 16 }), containerBackground(c.paper, 'widget'), widgetURL(LINK)];
+
+  // The eyebrow row: icon + "NÄSTA BÖN". Keeping the icon HERE (not beside the name)
+  // lets the name, time and countdown below all share one clean leading edge.
+  const eyebrow = (iconSize: number) => (
+    <HStack spacing={5} alignment="center">
+      {nextArabic ? <Image systemName={nextIcon} size={iconSize} color={c.highlight} /> : null}
+      <Text modifiers={[font({ size: 11, weight: 'semibold' }), foregroundStyle(c.inkFaint)]}>
+        NÄSTA BÖN
+      </Text>
+    </HStack>
+  );
+
   // No schedule yet → a branded placeholder, never a black box.
   if (rows.length === 0) {
     return (
-      <VStack
-        alignment="leading"
-        spacing={6}
-        modifiers={[
-          padding({ all: 16 }),
-          containerBackground(c.paper, 'widget'),
-          widgetURL(LINK),
-        ]}
-      >
-        <Text modifiers={[font({ size: 18, weight: 'bold' }), foregroundStyle(c.highlight)]}>
+      <VStack alignment="leading" spacing={6} modifiers={root}>
+        <Spacer />
+        <Text modifiers={[font({ size: 19, weight: 'bold' }), foregroundStyle(c.highlight)]}>
           Bönetider
         </Text>
         <Text modifiers={[font({ size: 13 }), foregroundStyle(c.inkMuted)]}>
@@ -98,71 +105,69 @@ function PrayerTimesWidgetLayout(rawPayload: WidgetPayload, environment: WidgetE
     );
   }
 
-  // Next-prayer hero (inline local builder — defined inside the layout on purpose).
-  const hero = (large: boolean) => (
-    <VStack alignment="leading" spacing={large ? 4 : 3}>
-      <Text modifiers={[font({ size: 11, weight: 'semibold' }), foregroundStyle(c.inkFaint)]}>
-        NÄSTA BÖN
-      </Text>
-      <HStack spacing={6} alignment="center">
-        {nextArabic ? <Image systemName={nextIcon} size={large ? 17 : 15} color={c.highlight} /> : null}
-        <Text
-          modifiers={[font({ size: large ? 21 : 18, weight: 'bold' }), foregroundStyle(c.highlight)]}
-        >
-          {nextArabic || 'Bönetider'}
-        </Text>
-      </HStack>
-      {nextSwedish ? (
-        <Text modifiers={[font({ size: 12 }), foregroundStyle(c.inkMuted)]}>{nextSwedish}</Text>
-      ) : null}
-      <Text modifiers={[font({ size: large ? 30 : 34, weight: 'bold' }), foregroundStyle(c.ink)]}>
-        {nextTime}
-      </Text>
-      {nextAtMs != null ? (
-        <Text
-          date={new Date(nextAtMs)}
-          dateStyle="relative"
-          modifiers={[font({ size: 12 }), foregroundStyle(c.inkMuted)]}
-        />
-      ) : null}
-    </VStack>
-  );
-
+  // ── Small (2×2): one focused message — next prayer, big time, countdown ──────────
+  // Eyebrow pinned top, the name/time/countdown block centred, location pinned bottom.
   if (environment.widgetFamily === 'systemSmall') {
     return (
-      <VStack
-        alignment="leading"
-        spacing={5}
-        modifiers={[
-          padding({ all: 16 }),
-          containerBackground(c.paper, 'widget'),
-          widgetURL(LINK),
-        ]}
-      >
-        {hero(false)}
+      <VStack alignment="leading" spacing={3} modifiers={root}>
+        {eyebrow(13)}
+        <Spacer />
+        <Text modifiers={[font({ size: 22, weight: 'bold' }), foregroundStyle(c.highlight)]}>
+          {nextArabic || 'Bönetider'}
+        </Text>
+        <Text modifiers={[font({ size: 38, weight: 'bold' }), foregroundStyle(c.ink)]}>
+          {nextTime}
+        </Text>
+        {nextAtMs != null ? (
+          <Text
+            date={new Date(nextAtMs)}
+            dateStyle="relative"
+            modifiers={[font({ size: 13 }), foregroundStyle(c.inkMuted)]}
+          />
+        ) : null}
         <Spacer />
         {location ? (
-          <Text modifiers={[font({ size: 11 }), foregroundStyle(c.inkFaint)]}>{location}</Text>
+          <Text modifiers={[font({ size: 11, weight: 'medium' }), foregroundStyle(c.inkFaint)]}>
+            {location}
+          </Text>
         ) : null}
       </VStack>
     );
   }
 
+  // ── Medium (4×2): hero column │ schedule column, centred, footer pinned bottom ───
   return (
-    <VStack
-      alignment="leading"
-      spacing={8}
-      modifiers={[padding({ all: 16 }), containerBackground(c.paper, 'widget'), widgetURL(LINK)]}
-    >
-      <HStack spacing={16} alignment="top">
-        {hero(true)}
-        <Spacer />
+    <VStack alignment="leading" spacing={0} modifiers={root}>
+      <Spacer />
+      <HStack spacing={14} alignment="center">
+        {/* Hero (left) — eyebrow, prayer name (brass), big time, live countdown */}
         <VStack alignment="leading" spacing={3}>
+          {eyebrow(14)}
+          <Text modifiers={[font({ size: 22, weight: 'bold' }), foregroundStyle(c.highlight)]}>
+            {nextArabic || 'Bönetider'}
+          </Text>
+          {nextSwedish ? (
+            <Text modifiers={[font({ size: 12 }), foregroundStyle(c.inkMuted)]}>{nextSwedish}</Text>
+          ) : null}
+          <Text modifiers={[font({ size: 29, weight: 'bold' }), foregroundStyle(c.ink)]}>
+            {nextTime}
+          </Text>
+          {nextAtMs != null ? (
+            <Text
+              date={new Date(nextAtMs)}
+              dateStyle="relative"
+              modifiers={[font({ size: 12 }), foregroundStyle(c.inkMuted)]}
+            />
+          ) : null}
+        </VStack>
+        <Divider />
+        {/* Schedule (right) — names left, times right-aligned, next prayer in brass */}
+        <VStack alignment="leading" spacing={5}>
           {rows.map((row) => {
             const col = row.isNext ? c.highlight : row.isMarker ? c.inkFaint : c.ink;
             const w: 'semibold' | 'regular' = row.isNext ? 'semibold' : 'regular';
             return (
-              <HStack key={row.key} spacing={8} alignment="firstTextBaseline">
+              <HStack key={row.key} spacing={12} alignment="firstTextBaseline">
                 <Text modifiers={[font({ size: 13, weight: w }), foregroundStyle(col)]}>
                   {row.arabic}
                 </Text>
@@ -177,8 +182,8 @@ function PrayerTimesWidgetLayout(rawPayload: WidgetPayload, environment: WidgetE
       </HStack>
       <Spacer />
       {location || hijri ? (
-        <Text modifiers={[font({ size: 11 }), foregroundStyle(c.inkFaint)]}>
-          {[location, hijri].filter(Boolean).join(' · ')}
+        <Text modifiers={[font({ size: 11, weight: 'medium' }), foregroundStyle(c.inkFaint)]}>
+          {[location, hijri].filter(Boolean).join('   ·   ')}
         </Text>
       ) : null}
     </VStack>
