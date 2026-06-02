@@ -8,7 +8,6 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 
-import { hapticLight } from '../../lib/haptics';
 import { motion, radius, space, type } from '../../theme/tokens';
 import { type SettingsColors, useSettingsColors } from './theme';
 
@@ -76,10 +75,9 @@ export function DisclosureGroup({
     <View style={styles.wrap}>
       <View style={styles.card}>
         <Pressable
-          onPress={() => {
-            hapticLight();
-            setExpanded((v) => !v);
-          }}
+          // No haptic: expanding a section is a content reveal, treated like navigation —
+          // the animated open/close is the feedback. See the lib/haptics policy.
+          onPress={() => setExpanded((v) => !v)}
           accessibilityRole="button"
           accessibilityState={{ expanded }}
           accessibilityLabel={`${title}, ${summary}`}
