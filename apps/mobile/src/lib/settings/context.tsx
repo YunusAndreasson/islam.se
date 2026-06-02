@@ -11,6 +11,7 @@ import {
   useState,
 } from 'react';
 
+import { setHapticsEnabled } from '../haptics';
 import { loadSettings, saveSettings } from './store';
 import { DEFAULT_SETTINGS, type PrayerSettings } from './types';
 
@@ -46,6 +47,14 @@ export function SettingsProvider({ children }: { children: ReactNode }) {
       active = false;
     };
   }, []);
+
+  // Keep the haptics wrapper's module flag in lockstep with the preference. The
+  // helpers are called from gesture worklets / non-component code where context
+  // isn't reachable, so the value is pushed to them here instead. Runs on mount
+  // (default on) and re-runs after hydration and on every toggle.
+  useEffect(() => {
+    setHapticsEnabled(settings.haptics);
+  }, [settings.haptics]);
 
   // Persist on every change after hydration. Trailing the in-memory state (which
   // is the UI's truth) keeps update() a pure functional setState — the merge sees

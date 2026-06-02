@@ -101,6 +101,10 @@ export interface PrayerSettings {
   theme: ThemePreference;
   /** Bönetider basemap. Defaults to the custom Nordic cartography. */
   mapStyle: MapStyleId;
+  /** Haptic feedback (selection ticks, snaps, the qibla-lock confirm). On by
+   *  default; turning it off silences every haptic app-wide via the haptics
+   *  wrapper's module flag (see src/lib/haptics.ts + ./context.tsx). */
+  haptics: boolean;
 }
 
 export const DEFAULT_SETTINGS: PrayerSettings = {
@@ -126,6 +130,7 @@ export const DEFAULT_SETTINGS: PrayerSettings = {
   manualLocation: null,
   theme: 'system',
   mapStyle: 'nordic',
+  haptics: true,
 };
 
 /** Fallback coordinate when GPS is unavailable and no manual location is set.

@@ -8,7 +8,6 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 
-import { hapticLight } from '../../lib/haptics';
 import { motion, type Palette, space, type } from '../../theme/tokens';
 import { useColors } from '../../theme/useColors';
 
@@ -62,10 +61,9 @@ export function FaqItem({
   return (
     <View style={[styles.wrap, divider && styles.divider]}>
       <Pressable
-        onPress={() => {
-          hapticLight();
-          setExpanded((v) => !v);
-        }}
+        // No haptic: revealing an answer is a content reveal, treated like navigation —
+        // the animated open/close is the feedback. See the lib/haptics policy.
+        onPress={() => setExpanded((v) => !v)}
         accessibilityRole="button"
         accessibilityState={{ expanded }}
         accessibilityLabel={question}

@@ -26,7 +26,7 @@ import { type SettingsColors, useSettingsColors } from '@/components/settings/th
 import { Toggle } from '@/components/settings/Toggle';
 import { ModalBar } from '@/components/ui/ModalBar';
 import { APP_VERSION, OTA_LABEL, emailSupport } from '@/lib/about';
-import { hapticLight, hapticSuccess } from '@/lib/haptics';
+import { hapticSuccess } from '@/lib/haptics';
 import { formatGregorian, formatHijri } from '@/lib/hijri';
 import { useLocation } from '@/lib/location/context';
 import { NOTIFY_PRAYERS } from '@/lib/notifications';
@@ -81,7 +81,6 @@ export default function Installningar() {
     if (justUpdatedTimer.current) clearTimeout(justUpdatedTimer.current);
   }, []);
   const onRefreshTap = async (): Promise<void> => {
-    hapticLight();
     await refresh();
     hapticSuccess();
     if (justUpdatedTimer.current) clearTimeout(justUpdatedTimer.current);
@@ -365,6 +364,19 @@ export default function Installningar() {
             />
           </SubGroup>
         </DisclosureGroup>
+
+        {/* Haptik — a single app-wide on/off for haptic feedback. Its own titled
+            section (not folded into Utseende) because it governs *feel*, not
+            appearance, and is a set-once preference worth surfacing. The Switch
+            itself stays haptic-free: a native control carries its own affordance. */}
+        <SettingSection title="Haptik">
+          <Toggle
+            label="Haptisk återkoppling"
+            description="Små vibrationer vid val, lås och dragning."
+            value={settings.haptics}
+            onValueChange={(haptics) => update({ haptics })}
+          />
+        </SettingSection>
 
         {/* --- Stöd: secondary cluster. Visually demoted with extra top air and
             an untitled card of plain single-line rows. No subtitles on purpose:

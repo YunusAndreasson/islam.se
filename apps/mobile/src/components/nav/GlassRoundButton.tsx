@@ -11,7 +11,6 @@
 import type { ReactNode } from 'react';
 import { Pressable, StyleSheet } from 'react-native';
 
-import { hapticLight } from '../../lib/haptics';
 import { shadow } from '../../theme/tokens';
 import { GlassSurface } from '../ui/GlassSurface';
 
@@ -31,10 +30,11 @@ export function GlassRoundButton({ onPress, accessibilityLabel, children, tint, 
   const radius = size / 2;
   return (
     <Pressable
-      onPress={() => {
-        hapticLight();
-        onPress();
-      }}
+      // No haptic: every disc here is navigation chrome (open Qibla / Settings, modal
+      // close ✕ / back ←). Routine transitions don't buzz — the screen change is the
+      // feedback, and buzzing them all drains the signal value of the meaningful haptics
+      // (e.g. the qibla lock, fired separately in CompassButton). See lib/haptics policy.
+      onPress={onPress}
       accessibilityRole="button"
       accessibilityLabel={accessibilityLabel}
       hitSlop={8}
