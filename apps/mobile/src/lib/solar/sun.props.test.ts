@@ -5,40 +5,10 @@
 import { describe, expect, it } from '@jest/globals';
 import * as fc from 'fast-check';
 
-import { darknessFromAltitude, sunAltitudeDeg } from './sun';
+import { sunAltitudeDeg } from './sun';
 
-describe('darknessFromAltitude — bounded, monotone', () => {
-  const alt = fc.double({ min: -40, max: 40, noNaN: true });
-
-  it('always stays within [0, 1]', () => {
-    fc.assert(
-      fc.property(alt, (a) => {
-        const d = darknessFromAltitude(a);
-        expect(d).toBeGreaterThanOrEqual(0);
-        expect(d).toBeLessThanOrEqual(1);
-      }),
-    );
-  });
-
-  it('is non-increasing in altitude (a higher sun is never darker)', () => {
-    fc.assert(
-      fc.property(alt, alt, (x, y) => {
-        const hi = Math.max(x, y);
-        const lo = Math.min(x, y);
-        expect(darknessFromAltitude(hi)).toBeLessThanOrEqual(darknessFromAltitude(lo) + 1e-12);
-      }),
-    );
-  });
-
-  it('is zero whenever the sun is at or above the horizon', () => {
-    fc.assert(
-      fc.property(fc.double({ min: 0, max: 90, noNaN: true }), (a) => {
-        expect(darknessFromAltitude(a)).toBe(0);
-      }),
-    );
-  });
-});
-
+// The darkness ramp's bounded/monotone properties moved with it to skia/washColor.test.ts
+// (washColorAt is the CPU twin of the wash shader). This file fuzzes the sun's geometry only.
 describe('sunAltitudeDeg — physical bounds and longitude–time equivalence', () => {
   const lat = fc.double({ min: -60, max: 60, noNaN: true });
   const lon = fc.double({ min: -150, max: 150, noNaN: true });

@@ -9,7 +9,9 @@
 //
 // The sun maths mirrors altitudeFrom() in src/lib/solar/sun.ts (NOAA): declination and the
 // equation of time are computed once per date on the CPU and passed in; the per-pixel hour
-// angle → altitude is done here.
+// angle → altitude is done here. The colour compositing below (twilight()) is mirrored line
+// for line by washColorAt() in ./washColor.ts — SkSL can't run under Jest, so that TS twin is
+// the tested spec for this shader; keep the two in sync (edit one → mirror it in the other).
 //
 // Apple Maps-inspired theming: the wash colour stops are theme-aware (see palette.ts:
 // washStopsLight / washStopsDark). The shader BODY is identical between modes — only the
