@@ -15,13 +15,7 @@
 // Update (OTA) — no native rebuild. Only the @expo/ui runtime is build-time, and it's
 // already complete.
 import { Divider, HStack, Image, Spacer, Text, VStack } from '@expo/ui/swift-ui';
-import {
-  containerBackground,
-  font,
-  foregroundStyle,
-  padding,
-  widgetURL,
-} from '@expo/ui/swift-ui/modifiers';
+import { containerBackground, font, foregroundStyle, padding } from '@expo/ui/swift-ui/modifiers';
 import { createWidget, type WidgetEnvironment } from 'expo-widgets';
 import type { SFSymbol } from 'sf-symbols-typescript';
 
@@ -56,7 +50,6 @@ function PrayerTimesWidgetLayout(rawPayload: WidgetPayload, environment: WidgetE
     maghrib: 'sunset.fill',
     isha: 'moon.fill',
   };
-  const LINK = 'islamse://';
 
   // Null/partial-safe: WidgetKit renders a placeholder with null props before the app
   // pushes data; reading fields off null would throw → black.
@@ -75,8 +68,10 @@ function PrayerTimesWidgetLayout(rawPayload: WidgetPayload, environment: WidgetE
   const nextRow = rows.find((r) => r.isNext);
   const nextIcon: SFSymbol = nextRow ? SF[nextRow.key as PrayerKey] : SF.fajr;
 
-  // Shared root chrome: even padding, the iOS-17 widget background, tap-to-open.
-  const root = [padding({ all: 16 }), containerBackground(c.paper, 'widget'), widgetURL(LINK)];
+  // Shared root chrome: even padding + the iOS-17 widget background. No widgetURL —
+  // a bare widget tap already foregrounds the app; an `islamse://` deep link instead
+  // presented a fresh screen sliding in over the running app.
+  const root = [padding({ all: 16 }), containerBackground(c.paper, 'widget')];
 
   // The eyebrow row: icon + "NÄSTA BÖN". Keeping the icon HERE (not beside the name)
   // lets the name, time and countdown below all share one clean leading edge.
