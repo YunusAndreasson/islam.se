@@ -19,7 +19,6 @@ import { containerBackground, font, foregroundStyle, padding } from '@expo/ui/sw
 import { createWidget, type WidgetEnvironment } from 'expo-widgets';
 import type { SFSymbol } from 'sf-symbols-typescript';
 
-import type { PrayerKey } from '../lib/prayer-times';
 import type { WidgetPayload } from '../widget/payload';
 
 function PrayerTimesWidgetLayout(rawPayload: WidgetPayload, environment: WidgetEnvironment) {
@@ -66,7 +65,7 @@ function PrayerTimesWidgetLayout(rawPayload: WidgetPayload, environment: WidgetE
   const nextTime = typeof p.nextTime === 'string' && p.nextTime ? p.nextTime : '—';
   const nextAtMs = typeof p.nextAtMs === 'number' ? p.nextAtMs : null;
   const nextRow = rows.find((r) => r.isNext);
-  const nextIcon: SFSymbol = nextRow ? SF[nextRow.key as PrayerKey] : SF.fajr;
+  const nextIcon: SFSymbol = nextRow ? SF[nextRow.key] : SF.fajr;
 
   // Shared root chrome: even padding + the iOS-17 widget background. No widgetURL —
   // a bare widget tap already foregrounds the app; an `islamse://` deep link instead

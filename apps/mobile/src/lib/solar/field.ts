@@ -122,8 +122,18 @@ export function buildLines(
   const { lats, lons, pt } = grid;
   const features: Feature<MultiLineString, { prayer: PrayerKey }>[] = [];
   const labels: PrayerLineLabel[] = [];
+  // One scratch buffer reused across all six prayers instead of a fresh number[][]
+  // per prayer. buildLines re-runs on every scrub frame (clock.now changes as the
+  // user drags the day slider), so collapsing six grid allocations per call into one
+  // reused buffer cuts the per-frame GC churn — same values, marchingSquares reads
+  // each fill synchronously before the next prayer overwrites it.
+  const field: number[][] = lats.map(() => new Array<number>(lons.length));
   for (const prayer of prayers) {
-    const field = pt.map((row) => row.map((t) => t[prayer] - now));
+    for (let i = 0; i < pt.length; i++) {
+      const row = pt[i];
+      const frow = field[i];
+      for (let j = 0; j < row.length; j++) frow[j] = row[j][prayer] - now;
+    }
     const segments: Segment[] = marchingSquares(lats, lons, field, 0);
     if (segments.length === 0) continue;
     // Chain the raw cell segments into paths; de-noise the coarse-grid waviness

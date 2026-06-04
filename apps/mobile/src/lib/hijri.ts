@@ -101,16 +101,32 @@ export function formatHijri(date: Date, offsetDays = 0): string {
 
 /** Capitalised Swedish weekday + day + month, e.g. "tisdag 26 maj". Companion to the
     Hijri line so the dock can show both calendars side by side. */
-export function formatGregorian(date: Date): string {
+// Built once and reused — the dock re-renders this label on every clock tick, so a
+// per-call Intl.DateTimeFormat construction was wasted work. Cached null on a runtime
+// without full Intl, falling back to toDateString() exactly as before.
+let gregorianFmt: Intl.DateTimeFormat | null | undefined;
+function getGregorianFmt(): Intl.DateTimeFormat | null {
+  if (gregorianFmt !== undefined) return gregorianFmt;
   try {
-    const s = new Intl.DateTimeFormat('sv-SE', {
+    gregorianFmt = new Intl.DateTimeFormat('sv-SE', {
       // Pin to Swedish civil time like the rest of the app, so the dock's weekday/day
       // can't roll to the wrong calendar day near midnight on a device in another zone.
       timeZone: 'Europe/Stockholm',
       weekday: 'long',
       day: 'numeric',
       month: 'long',
-    }).format(date);
+    });
+  } catch {
+    gregorianFmt = null;
+  }
+  return gregorianFmt;
+}
+
+export function formatGregorian(date: Date): string {
+  const fmt = getGregorianFmt();
+  if (!fmt) return date.toDateString();
+  try {
+    const s = fmt.format(date);
     // Swedish weekdays/months are lowercase; lift just the leading letter so the
     // header reads "Tisdag 26 maj" rather than the bare "tisdag 26 maj".
     return s.charAt(0).toUpperCase() + s.slice(1);

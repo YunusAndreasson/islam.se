@@ -15,7 +15,7 @@
 import { MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
 import { router, useIsFocused } from 'expo-router';
 import { type ReactNode, useEffect, useMemo, useRef, useState } from 'react';
-import { ActivityIndicator, Alert, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { ActivityIndicator, Alert, Linking, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { DisclosureGroup } from '@/components/settings/DisclosureGroup';
@@ -28,8 +28,12 @@ import { ModalBar } from '@/components/ui/ModalBar';
 import { APP_VERSION, OTA_LABEL, emailSupport } from '@/lib/about';
 import { hapticSuccess } from '@/lib/haptics';
 import { formatGregorian, formatHijri } from '@/lib/hijri';
-import { useLocation } from '@/lib/location/context';
-import { NOTIFY_PRAYERS } from '@/lib/notifications';
+import { useLocation, useLocationStatus } from '@/lib/location/context';
+import {
+  getNotificationPermissionState,
+  NOTIFY_PRAYERS,
+  type NotificationPermissionState,
+} from '@/lib/notifications';
 import {
   computePrayerTimes,
   formatTime,
@@ -40,17 +44,20 @@ import {
 } from '@/lib/prayer-times';
 import { useSettings } from '@/lib/settings/context';
 import {
+  LOCATION_MODE_OPTIONS,
   MAP_STYLE_OPTIONS,
   methodLabel,
   ROUNDING_OPTIONS,
   THEME_OPTIONS,
   visningSummary,
 } from '@/lib/settings/options';
+import { stockholmPrayerDate } from '@/lib/stockholm-time';
 import { mono, space, type } from '@/theme/tokens';
 
 export default function Installningar() {
   const { settings, loaded, update, reset } = useSettings();
-  const { coords, label, source, permissionStatus, locating, refresh } = useLocation();
+  const { coords, label, source, permissionStatus } = useLocation();
+  const { locating, refresh } = useLocationStatus();
   const colors = useSettingsColors();
   const styles = useMemo(() => makeStyles(colors), [colors]);
   const isFocused = useIsFocused();
@@ -62,6 +69,8 @@ export default function Installningar() {
   // date roll over and tomorrow's times appear. A minute is plenty for that and
   // the tick is paused off-focus so a backgrounded tab isn't recomputing.
   const [now, setNow] = useState(() => new Date());
+  const [notificationPermission, setNotificationPermission] =
+    useState<NotificationPermissionState>('unknown');
   useEffect(() => {
     if (!isFocused) return;
     const tick = (): void => setNow(new Date());
@@ -69,6 +78,17 @@ export default function Installningar() {
     const id = setInterval(tick, 60_000);
     return () => clearInterval(id);
   }, [isFocused]);
+
+  useEffect(() => {
+    if (!isFocused || !settings.notifications.enabled) return;
+    let active = true;
+    void getNotificationPermissionState().then((state) => {
+      if (active) setNotificationPermission(state);
+    });
+    return () => {
+      active = false;
+    };
+  }, [isFocused, settings.notifications.enabled]);
 
   // "Uppdatera plats" confirmation — a brief "Uppdaterad ✓" flash after a TAP-initiated
   // refresh resolves, so the user knows the action did something. Auto-acquires (mount /
@@ -114,7 +134,8 @@ export default function Installningar() {
   // Today's times for the resolved location. Recomputes whenever a setting, the
   // location, or the date rolls over — this is how the user sees a setting "land".
   const preview = useMemo(() => {
-    const pt = computePrayerTimes(coords, now, settings);
+    const prayerDate = stockholmPrayerDate(now.getTime());
+    const pt = computePrayerTimes(coords, prayerDate, settings);
     return {
       gregorian: `${formatGregorian(now)} · ${label}`,
       hijri: formatHijri(now, settings.hijriOffset),
@@ -141,6 +162,21 @@ export default function Installningar() {
   }
 
   const cityValue = settings.manualLocation?.name ?? 'Stockholm';
+  const notificationStatus =
+    notificationPermission === 'granted'
+      ? 'Tillåtet'
+      : notificationPermission === 'denied'
+        ? 'Blockerat'
+        : notificationPermission === 'undetermined'
+          ? 'Ej frågat'
+          : 'Kontrollerar…';
+  const notificationFootnote = settings.notifications.enabled
+    ? notificationPermission === 'denied'
+      ? 'Notiser är blockerade i iOS. Öppna systeminställningar för att tillåta dem.'
+      : notificationPermission === 'granted'
+        ? 'Planeras lokalt på din enhet – inget skickas online.'
+        : 'iOS frågar om tillstånd när påminnelser aktiveras.'
+    : undefined;
 
   return (
     <SafeAreaView style={styles.safe} edges={['top']}>
@@ -163,10 +199,7 @@ export default function Installningar() {
           }
         >
           <OptionGroup
-            options={[
-              { value: 'gps', label: 'GPS (min plats)', icon: 'crosshairs-gps' },
-              { value: 'manual', label: 'Välj stad', icon: 'city' },
-            ]}
+            options={LOCATION_MODE_OPTIONS}
             value={settings.locationMode}
             onChange={(locationMode) => update({ locationMode })}
           />
@@ -276,11 +309,7 @@ export default function Installningar() {
           // Quiet privacy reassurance — 2026 expectation, especially for a faith
           // app. Only shown when notifications are on (where the user has just
           // granted OS permission and is most likely to wonder where the data goes).
-          footnote={
-            settings.notifications.enabled
-              ? 'Planeras lokalt på din enhet – inget skickas online.'
-              : undefined
-          }
+          footnote={notificationFootnote}
         >
           <Toggle
             label="Påminn om bönetider"
@@ -289,6 +318,30 @@ export default function Installningar() {
               update({ notifications: { ...settings.notifications, enabled } })
             }
           />
+          {settings.notifications.enabled ? (
+            <View style={[styles.row, styles.rowDivider]}>
+              <Text style={styles.rowLabel}>Status</Text>
+              <Text
+                style={[
+                  styles.rowValue,
+                  notificationPermission === 'denied' && styles.rowValueWarning,
+                ]}
+              >
+                {notificationStatus}
+              </Text>
+            </View>
+          ) : null}
+          {settings.notifications.enabled && notificationPermission === 'denied' ? (
+            <Pressable
+              onPress={() => void Linking.openSettings()}
+              accessibilityRole="button"
+              accessibilityLabel="Öppna iOS-inställningar för notiser"
+              style={({ pressed }) => [styles.row, pressed && styles.rowPressed]}
+            >
+              <Text style={styles.rowAction}>Öppna iOS-inställningar</Text>
+              <MaterialIcons name="open-in-new" size={18} color={colors.accent} />
+            </Pressable>
+          ) : null}
           {settings.notifications.enabled ? (
             <Stepper
               label="Påminn i förväg"
@@ -572,12 +625,14 @@ function makeStyles(colors: SettingsColors) {
       alignItems: 'center',
     },
     rowPressed: { backgroundColor: colors.accentSoft },
+    rowDivider: { borderTopWidth: StyleSheet.hairlineWidth, borderTopColor: colors.separator },
     rowLabel: { ...type.body, color: colors.text }, // labels: ink (not accent)
     rowAction: { ...type.body, color: colors.accent }, // verbs: accent
     // The momentary "Uppdaterad ✓" confirmation slot — icon + accent text in the same
     // optical position as the verb, so the swap reads as the verb's success state.
     rowActionConfirm: { flexDirection: 'row', alignItems: 'center', gap: 6 },
     rowValue: { ...type.body, color: colors.textMuted },
+    rowValueWarning: { color: colors.accent, fontWeight: '600' },
     rowTrailing: { flexDirection: 'row', alignItems: 'center', gap: 2 },
 
     // Single-row card variant for the Beräkning push.

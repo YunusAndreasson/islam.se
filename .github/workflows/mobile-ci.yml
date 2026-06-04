@@ -1,0 +1,56 @@
+# Runs the mobile app's existing quality gates on every PR / push that touches it.
+# apps/mobile is a STANDALONE pnpm root (excluded from the monorepo workspace — see
+# its pnpm-workspace.yaml), so every step runs inside apps/mobile with its own
+# lockfile. The gates here are the same ones the app already ships locally
+# (package.json scripts): tsc, expo lint, and jest with the coverage thresholds in
+# jest.config.js. Mutation testing (pnpm mutation / Stryker) is intentionally left to
+# a separate nightly — it's far heavier than a per-PR check.
+name: Mobile CI
+
+on:
+  push:
+    branches: [main]
+    paths: ['apps/mobile/**', '.github/workflows/mobile-ci.yml']
+  pull_request:
+    paths: ['apps/mobile/**', '.github/workflows/mobile-ci.yml']
+
+# A newer push to the same branch cancels an in-flight run for it.
+concurrency:
+  group: mobile-ci-${{ github.ref }}
+  cancel-in-progress: true
+
+defaults:
+  run:
+    working-directory: apps/mobile
+
+jobs:
+  check:
+    name: typecheck · lint · test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # pnpm before setup-node so setup-node's pnpm cache can find it. Pin to the
+      # version the monorepo declares (root packageManager: pnpm@11.1.3).
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 11.1.3
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+          cache-dependency-path: apps/mobile/pnpm-lock.yaml
+
+      # Frozen install: CI must match the committed lockfile exactly (also sidesteps
+      # pnpm 11's minimum-release-age delay, which only gates new resolutions).
+      - run: pnpm install --frozen-lockfile
+
+      - name: Typecheck
+        run: pnpm typecheck
+
+      - name: Lint
+        run: pnpm lint
+
+      - name: Test (with coverage gate)
+        run: pnpm test:cov

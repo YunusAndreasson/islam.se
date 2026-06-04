@@ -15,9 +15,14 @@ import {
   type PrayerKey,
   PRAYER_SWEDISH_NAMES,
 } from '../lib/prayer-times';
+import type { PrayerTimes } from 'adhan';
 import type { PrayerSettings, ThemePreference } from '../lib/settings/types';
+import { stockholmPrayerDate } from '../lib/stockholm-time';
 
-const DAY_MS = 86_400_000;
+/** Resolve the prayer times for a given Stockholm prayer-date. A timeline build passes
+ *  a per-day-memoised resolver so the same calendar day isn't recomputed for each of
+ *  its ~16 entries; standalone callers omit it and compute directly. */
+export type DayResolver = (prayerDate: Date) => PrayerTimes;
 
 /** One row in the widget's day schedule. `sunrise` is a marker (end of Fajr's
  *  window), not a prayer — flagged so the UI can render it quietly. */
@@ -60,15 +65,6 @@ export interface WidgetPayload {
   theme: ThemePreference;
 }
 
-/** Local civil midday `dayOffset` days from `from`. Mirrors notifications.ts: we
- *  compute each day's prayers from its noon so DST/midnight can't shift the day. */
-function middayPlusDays(from: Date, dayOffset: number): Date {
-  const d = new Date(from);
-  d.setHours(12, 0, 0, 0);
-  d.setDate(d.getDate() + dayOffset);
-  return d;
-}
-
 /**
  * Build the widget payload as of the instant `atMs`, for `coords`/`settings`.
  * The "next" prayer is the first slot at-or-after `atMs` (same rule the app's dock
@@ -81,9 +77,13 @@ export function buildPayloadAt(
   settings: PrayerSettings,
   atMs: number,
   location: string,
+  resolveDay?: DayResolver,
 ): WidgetPayload {
+  // Default resolver computes directly; buildTimeline passes a per-day-cached one so a
+  // timeline's many entries on the same calendar day share a single adhan computation.
+  const compute = resolveDay ?? ((d: Date) => computePrayerTimes(coords, d, settings));
   const date = new Date(atMs);
-  const times = computePrayerTimes(coords, date, settings);
+  const times = compute(stockholmPrayerDate(atMs));
   const nextKey = nextPrayerKeyAt(times, atMs);
 
   let nextArabic = '';
@@ -100,7 +100,7 @@ export function buildPayloadAt(
     nextAtMs = times[nextKey].getTime();
   } else {
     // Past today's Isha → the next event is tomorrow's Fajr.
-    const tomorrow = computePrayerTimes(coords, middayPlusDays(date, 1), settings);
+    const tomorrow = compute(stockholmPrayerDate(atMs, 1));
     const fajr = tomorrow.fajr;
     if (fajr instanceof Date && !Number.isNaN(fajr.getTime())) {
       nextArabic = PRAYER_LABELS.fajr;
@@ -133,5 +133,3 @@ export function buildPayloadAt(
     theme: settings.theme,
   };
 }
-
-export { DAY_MS };

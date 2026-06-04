@@ -1,6 +1,7 @@
 import { useMemo } from 'react';
 import { StyleSheet, Switch, Text, View } from 'react-native';
 
+import { space, type } from '../../theme/tokens';
 import { type SettingsColors, useSettingsColors } from './theme';
 
 // A labelled switch row for boolean settings (notifications on/off, per-prayer
@@ -33,6 +34,7 @@ export function Toggle({
         value={value}
         onValueChange={onValueChange}
         disabled={disabled}
+        accessibilityLabel={label}
         trackColor={{ true: colors.accent, false: colors.track }}
         thumbColor={colors.thumb}
         ios_backgroundColor={colors.track}
@@ -45,17 +47,17 @@ function makeStyles(colors: SettingsColors) {
   return StyleSheet.create({
     row: {
       minHeight: 48,
-      paddingVertical: 8,
-      paddingHorizontal: 16,
+      paddingVertical: space.sm,
+      paddingHorizontal: space.lg,
       flexDirection: 'row',
       alignItems: 'center',
       justifyContent: 'space-between',
-      gap: 12,
+      gap: space.md,
     },
     divider: { borderTopWidth: StyleSheet.hairlineWidth, borderTopColor: colors.separator },
     dim: { opacity: 0.45 },
     text: { flex: 1 },
-    label: { fontSize: 16, color: colors.text },
-    description: { fontSize: 13, color: colors.textMuted, marginTop: 2 },
+    label: { ...type.body, color: colors.text },
+    description: { ...type.caption, color: colors.textMuted, marginTop: 2 },
   });
 }

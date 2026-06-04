@@ -8,6 +8,7 @@ import { HAS_MAPTILER } from '@/lib/map/nordicStyle';
 import type {
   CalculationMethodKey,
   HighLatitudeRuleKey,
+  LocationMode,
   Madhab,
   MapStyleId,
   PolarCircleResolutionKey,
@@ -16,6 +17,14 @@ import type {
   Shafaq,
   ThemePreference,
 } from './types';
+
+// GPS vs manual city pick on the Plats section. Hoisted here with the other
+// *_OPTIONS so the Inställningar screen passes a stable reference (the inline literal
+// was rebuilt on every screen render — including the per-minute clock tick).
+export const LOCATION_MODE_OPTIONS: readonly Option<LocationMode>[] = [
+  { value: 'gps', label: 'GPS (min plats)', icon: 'crosshairs-gps' },
+  { value: 'manual', label: 'Välj stad', icon: 'city' },
+];
 
 // Sweden-first and Sweden-only by intent: a Swedish-Muslim user is realistically
 // served by one of MWL / Diyanet / Umm al-Qura / Egyptian / Moonsighting / ISNA.

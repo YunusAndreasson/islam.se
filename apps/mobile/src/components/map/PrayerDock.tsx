@@ -175,6 +175,11 @@ export function PrayerDock({
   // A drag that grows/shrinks the dock and snaps open/closed on release. Built by a
   // factory so the handle and the hero each get their OWN instance (gesture-handler
   // doesn't support sharing one gesture object across two GestureDetectors).
+  // NOT memoised on purpose: the worklets mutate shared values (height/startHeight),
+  // which react-hooks/immutability forbids inside useMemo/useCallback. Enabling React
+  // Compiler is the right way to memoise these (it understands worklet mutation);
+  // hand-memoising here would mean nine eslint-disables. Rebuild cost is three plain
+  // objects per render.
   const makeTogglePan = () =>
     Gesture.Pan()
       .onStart(() => {
@@ -249,10 +254,16 @@ export function PrayerDock({
 
   // The day being viewed (midday avoids any DST edge), labelled in both calendars.
   // The Hijri line is the point — it honours the user's `hijriOffset` so it can be
-  // aligned to the local mosque's sighting.
-  const viewDate = new Date(clock.dayStart + DAY_MS / 2);
-  const hijriLabel = formatHijri(viewDate, settings.hijriOffset);
-  const gregorianLabel = formatGregorian(viewDate);
+  // aligned to the local mosque's sighting. Memoised on the day + offset so the two
+  // Intl/Hijri formats don't re-run on every 30 s tick or scrub frame (the dock
+  // re-renders for the countdown, but the viewed DAY rarely changes).
+  const { hijriLabel, gregorianLabel } = useMemo(() => {
+    const viewDate = new Date(clock.dayStart + DAY_MS / 2);
+    return {
+      hijriLabel: formatHijri(viewDate, settings.hijriOffset),
+      gregorianLabel: formatGregorian(viewDate),
+    };
+  }, [clock.dayStart, settings.hijriOffset]);
 
   // The "time left" / return-to-now control, shared by both hero layouts: live →
   // the countdown; scrubbed → a chip that taps back to now (the only such control,
@@ -572,7 +583,7 @@ function SolarTimeline({
   const lastHaptic = useSharedValue(fraction);
   const lastSent = useSharedValue(fraction);
 
-  const markFractions = marks.map((m) => m.fraction);
+  const markFractions = useMemo(() => marks.map((m) => m.fraction), [marks]);
 
   // Mirror the clock into `follow` (eased) whenever the prop moves. Easing makes a
   // tapped row time-travel legibly; more importantly the style reads `follow` (a
@@ -585,6 +596,9 @@ function SolarTimeline({
     // eslint-disable-next-line react-hooks/exhaustive-deps -- follow is a stable shared-value ref
   }, [fraction]);
 
+  // NOT memoised: the worklets mutate shared values (prog/dragging/lastHaptic/lastSent),
+  // which react-hooks/immutability forbids inside useMemo. (React Compiler, once enabled,
+  // is the right way to skip the per-render rebuild here.)
   const pan = Gesture.Pan()
     .minDistance(0)
     .onBegin((e) => {
