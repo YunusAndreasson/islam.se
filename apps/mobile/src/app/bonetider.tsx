@@ -40,6 +40,7 @@ import { computeSignature } from '../lib/settings/compute-signature';
 import { useSettings } from '../lib/settings/context';
 import { buildGrid, buildLines } from '../lib/solar/field';
 import { useSolarClock } from '../lib/solar/useSolarClock';
+import { stockholmPrayerDate } from '../lib/stockholm-time';
 import { motion, radius, space, type } from '../theme/tokens';
 import { useActiveScheme, useColors } from '../theme/useColors';
 
@@ -76,7 +77,6 @@ function viewportCentreFromBounds(
     lat: invMercY((mercY(north) + mercY(south)) / 2),
   };
 }
-const DAY_MS = 86_400_000;
 // Extra breathing room (dp) reserved above the dock, so the south coast sits
 // clearly above it rather than pressed against its top edge. Only needs to clear
 // the tile-rendered Malmö label now — 16dp is the floor that still leaves the
@@ -110,11 +110,13 @@ export default function Bonetider() {
   const isFocused = useIsFocused();
   const clock = useSolarClock(isFocused);
 
-  // The map camera, mirrored from MapLibre's region events. The RN marker overlay reads
-  // camState directly; the Skia field canvas reads the `cam` shared value (so it can
-  // project on the UI thread). We update camState from the region events and mirror it
-  // into cam in an effect — the lint-approved way to write a shared value (mutating one
-  // inside a plain JS callback trips react-hooks/immutability).
+  // The map camera, mirrored from MapLibre's region events. BOTH overlays — the Skia
+  // field canvas and the RN marker/pill layer — now read the `cam` shared value and
+  // project on the UI thread, so a live pan moves them without a React render. camState
+  // survives only as the seed/settled mirror that carries the rendered width/height (see
+  // onLayout) into `cam`; we update it on the SETTLED region event and mirror it into cam
+  // in an effect — the lint-approved way to write a shared value (mutating one inside a
+  // plain JS callback trips react-hooks/immutability).
   // Camera state is seeded with the window dims so the first paint isn't blank, and the
   // Map's onLayout below replaces width/height with the actual rendered viewport so the
   // Skia overlay's projection matches the basemap (on iOS the Stack screen content area
@@ -174,7 +176,7 @@ export default function Bonetider() {
   // 'unresolved' leaves the polar zone NaN, so the lines stay smooth and simply stop at the
   // boundary. The user's OWN prayer times (userTimes below) keep their chosen resolution.
   const grid = useMemo(
-    () => buildGrid(new Date(clock.dayStart + DAY_MS / 2), { ...settings, polarCircleResolution: 'unresolved' }),
+    () => buildGrid(stockholmPrayerDate(clock.dayStart), { ...settings, polarCircleResolution: 'unresolved' }),
     // eslint-disable-next-line react-hooks/exhaustive-deps -- sig captures the settings fields that matter
     [clock.dayStart, sig],
   );
@@ -199,7 +201,7 @@ export default function Bonetider() {
   // The user's own prayer times for today — drives the "next prayer", the day
   // marks under the slider, and the full list in the dock. Independent of the grid.
   const userTimes = useMemo(
-    () => computePrayerTimes(coords, new Date(clock.dayStart + DAY_MS / 2), settings),
+    () => computePrayerTimes(coords, stockholmPrayerDate(clock.dayStart), settings),
     // eslint-disable-next-line react-hooks/exhaustive-deps -- sig + coords + day fully determine these
     [coords.latitude, coords.longitude, clock.dayStart, sig],
   );
@@ -225,7 +227,7 @@ export default function Bonetider() {
     // Past today's Isha → tomorrow's Fajr.
     const fajr = computePrayerTimes(
       coords,
-      new Date(clock.dayStart + DAY_MS + DAY_MS / 2),
+      stockholmPrayerDate(clock.dayStart, 1),
       settings,
     ).fajr;
     const at = fajr instanceof Date ? fajr.getTime() : Number.NaN;
@@ -249,7 +251,11 @@ export default function Bonetider() {
       if (zoom > 1) {
         const [west, south, east, north] = bounds;
         const c = viewportCentreFromBounds(west, south, east, north);
-        publishCamera({ lon: c.lon, lat: c.lat, zoom, width: camState.width, height: camState.height });
+        // syncReact=false: the Skia overlay AND the marker layer now both read the `cam`
+        // shared value on the UI thread, so a live pan no longer needs a per-frame React
+        // setState. The whole screen stays still during the pan; only the GPU/worklet
+        // layers move. camState catches up on the settled onRegionDidChange below.
+        publishCamera({ lon: c.lon, lat: c.lat, zoom, width: camState.width, height: camState.height }, false);
       }
     },
     [publishCamera, camState.width, camState.height],
@@ -349,7 +355,7 @@ export default function Bonetider() {
           Same `cameraReady` gate — no point projecting cities against a stale camera. */}
       {cameraReady && (
         <MapMarkersOverlay
-          camera={camState}
+          camera={cam}
           userCoords={coords}
           labels={solar.labels}
           nextKey={nextKey}

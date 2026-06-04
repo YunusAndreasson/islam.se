@@ -16,17 +16,20 @@ import {
   type PrayerKey,
 } from './prayer-times';
 import type { PrayerSettings } from './settings/types';
+import { stockholmPrayerDate } from './stockholm-time';
 
 // The five obligatory prayers. Sunrise marks the end of Fajr's window, not a prayer
 // — so it's offered on the map but never as an alert.
 export const NOTIFY_PRAYERS = ['fajr', 'dhuhr', 'asr', 'maghrib', 'isha'] as const;
 export type NotifyPrayerKey = (typeof NOTIFY_PRAYERS)[number];
+export type NotificationPermissionState = 'unknown' | 'granted' | 'denied' | 'undetermined';
 
 const CHANNEL_ID = 'prayers';
+const CATEGORY_ID = 'prayer-reminder';
 // iOS caps pending notifications at 64; 7 days × 5 prayers = 35, comfortably under,
 // and we re-sync on every foreground so the window keeps rolling forward.
 const DAYS_AHEAD = 7;
-const DAY_MS = 86_400_000;
+let syncGeneration = 0;
 
 // Show prayer alerts even when the app is foregrounded (the user may be staring at
 // the map when Asr lands). Set once at module load.
@@ -66,6 +69,26 @@ async function ensureAndroidChannel(): Promise<void> {
   });
 }
 
+async function ensureNotificationCategory(): Promise<void> {
+  await Notifications.setNotificationCategoryAsync(CATEGORY_ID, [
+    {
+      identifier: 'open-prayer-times',
+      buttonTitle: 'Visa bönetider',
+      options: { opensAppToForeground: true },
+    },
+  ]);
+}
+
+export async function getNotificationPermissionState(): Promise<NotificationPermissionState> {
+  try {
+    const current = await Notifications.getPermissionsAsync();
+    if (current.granted) return 'granted';
+    return current.canAskAgain ? 'undetermined' : 'denied';
+  } catch {
+    return 'unknown';
+  }
+}
+
 /**
  * Reconcile scheduled notifications with the current settings + location. Always
  * clears first, then (if enabled and permitted) schedules every selected prayer for
@@ -76,13 +99,18 @@ export async function syncPrayerNotifications(
   coords: LatLng,
   settings: PrayerSettings,
 ): Promise<void> {
+  const generation = ++syncGeneration;
   try {
     await Notifications.cancelAllScheduledNotificationsAsync();
+    if (generation !== syncGeneration) return;
     if (!settings.notifications.enabled) return;
 
     const granted = await requestNotificationPermission();
+    if (generation !== syncGeneration) return;
     if (!granted) return;
     await ensureAndroidChannel();
+    await ensureNotificationCategory();
+    if (generation !== syncGeneration) return;
 
     // Heads-up offset: fire this many minutes before the prayer so the user can
     // set out for the mosque before the adhan. 0 = exactly at the prayer time.
@@ -90,8 +118,8 @@ export async function syncPrayerNotifications(
 
     const now = Date.now();
     for (let d = 0; d < DAYS_AHEAD; d++) {
-      const dayMidday = new Date(now + d * DAY_MS);
-      dayMidday.setHours(12, 0, 0, 0);
+      if (generation !== syncGeneration) return;
+      const dayMidday = stockholmPrayerDate(now, d);
       const times = computePrayerTimes(coords, dayMidday, settings);
 
       for (const key of NOTIFY_PRAYERS) {
@@ -103,6 +131,7 @@ export async function syncPrayerNotifications(
         const fireAt = new Date(at.getTime() - leadMs);
         // Skip anything already past (or within the next minute — too late to be useful).
         if (fireAt.getTime() <= now + 60_000) continue;
+        if (generation !== syncGeneration) return;
 
         await Notifications.scheduleNotificationAsync({
           content: {
@@ -114,6 +143,7 @@ export async function syncPrayerNotifications(
             // `true` = the OS default sound (iOS reads this; on Android the channel
             // governs). A string here would be treated as a custom bundled filename.
             sound: true,
+            categoryIdentifier: CATEGORY_ID,
           },
           trigger: {
             type: Notifications.SchedulableTriggerInputTypes.DATE,

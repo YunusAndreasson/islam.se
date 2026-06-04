@@ -42,4 +42,44 @@ describe('settings store', () => {
     await AsyncStorage.setItem(STORAGE_KEY, '{not valid json');
     expect(await loadSettings()).toEqual(DEFAULT_SETTINGS);
   });
+
+  it('sanitizes malformed persisted values field-by-field', async () => {
+    await AsyncStorage.setItem(
+      STORAGE_KEY,
+      JSON.stringify({
+        calculationMethod: 'Bogus',
+        madhab: 'hanafi',
+        highLatitudeRule: 'wrong',
+        rounding: 'up',
+        adjustments: { fajr: 7, isha: 'late' },
+        notifications: {
+          enabled: true,
+          leadMinutes: 'soon',
+          prayers: { fajr: false, dhuhr: 'yes' },
+        },
+        locationMode: 'manual',
+        manualLocation: { name: 'Nowhere', latitude: 999, longitude: 18 },
+        theme: 'dark',
+        mapStyle: 'missing',
+        haptics: false,
+      }),
+    );
+
+    const loaded = await loadSettings();
+    expect(loaded.calculationMethod).toBe(DEFAULT_SETTINGS.calculationMethod);
+    expect(loaded.madhab).toBe('hanafi');
+    expect(loaded.highLatitudeRule).toBe(DEFAULT_SETTINGS.highLatitudeRule);
+    expect(loaded.rounding).toBe('up');
+    expect(loaded.adjustments.fajr).toBe(7);
+    expect(loaded.adjustments.isha).toBe(DEFAULT_SETTINGS.adjustments.isha);
+    expect(loaded.notifications.enabled).toBe(true);
+    expect(loaded.notifications.leadMinutes).toBe(DEFAULT_SETTINGS.notifications.leadMinutes);
+    expect(loaded.notifications.prayers.fajr).toBe(false);
+    expect(loaded.notifications.prayers.dhuhr).toBe(DEFAULT_SETTINGS.notifications.prayers.dhuhr);
+    expect(loaded.locationMode).toBe('manual');
+    expect(loaded.manualLocation).toBe(DEFAULT_SETTINGS.manualLocation);
+    expect(loaded.theme).toBe('dark');
+    expect(loaded.mapStyle).toBe(DEFAULT_SETTINGS.mapStyle);
+    expect(loaded.haptics).toBe(false);
+  });
 });

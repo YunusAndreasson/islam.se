@@ -172,6 +172,14 @@ jest.mock('@expo/vector-icons', () => {
     { get: () => (props) => require('react').createElement(Text, props, props.name) },
   );
 });
+jest.mock('@expo/vector-icons/MaterialIcons', () => {
+  const { Text } = require('react-native');
+  return (props) => require('react').createElement(Text, props, props.name);
+});
+jest.mock('@expo/vector-icons/MaterialCommunityIcons', () => {
+  const { Text } = require('react-native');
+  return (props) => require('react').createElement(Text, props, props.name);
+});
 
 // expo-web-browser + expo-mail-composer are native (Om's Kontakt actions). Mock the
 // surface the screen calls: the in-app browser opens as a resolved no-op, and the
@@ -211,6 +219,7 @@ jest.mock('expo-notifications', () => ({
   getPermissionsAsync: jest.fn(async () => ({ granted: true, canAskAgain: true, status: 'granted' })),
   requestPermissionsAsync: jest.fn(async () => ({ granted: true, status: 'granted' })),
   setNotificationChannelAsync: jest.fn(async () => null),
+  setNotificationCategoryAsync: jest.fn(async (identifier, actions, options) => ({ identifier, actions, options })),
   scheduleNotificationAsync: jest.fn(async () => 'id'),
   cancelAllScheduledNotificationsAsync: jest.fn(async () => {}),
   SchedulableTriggerInputTypes: { DATE: 'date' },

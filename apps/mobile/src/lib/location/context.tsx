@@ -36,6 +36,12 @@ interface LocationContextValue {
    *  place in manual, the fallback in default). Drives the map marker label. */
   place: SwedishPlace | null;
   permissionStatus: PermissionStatus;
+}
+
+/** The volatile GPS-fetch status, split out of the main value so its frequent flips
+ *  (every fix sets locating true→false) don't re-render the map / nav / sync consumers
+ *  that only read the resolved coordinate. Only Inställningar consumes this. */
+interface LocationStatusValue {
   /** True while a GPS fix is in flight. */
   locating: boolean;
   /** Re-request permission (if needed) and fetch a fresh GPS fix. */
@@ -43,9 +49,26 @@ interface LocationContextValue {
 }
 
 const LocationContext = createContext<LocationContextValue | null>(null);
+const LocationStatusContext = createContext<LocationStatusValue | null>(null);
+
+// A cached fix is untrusted input (could be a corrupt or partial blob): only accept it
+// when both coordinates are finite and in range, so a bad cache can't flow into
+// nearestPlace as NaN. Mirrors the validation the settings store applies to manualLocation.
+function validCachedFix(value: unknown): value is LatLng {
+  if (typeof value !== 'object' || value === null) return false;
+  const { latitude, longitude } = value as Record<string, unknown>;
+  return (
+    typeof latitude === 'number' &&
+    Number.isFinite(latitude) &&
+    Math.abs(latitude) <= 90 &&
+    typeof longitude === 'number' &&
+    Number.isFinite(longitude) &&
+    Math.abs(longitude) <= 180
+  );
+}
 
 export function LocationProvider({ children }: { children: ReactNode }) {
-  const { settings } = useSettings();
+  const { settings, loaded } = useSettings();
   const { locationMode, manualLocation } = settings;
 
   const [gpsCoords, setGpsCoords] = useState<LatLng | null>(null);
@@ -91,7 +114,8 @@ export function LocationProvider({ children }: { children: ReactNode }) {
       .then((raw) => {
         if (!active || !raw) return;
         try {
-          setGpsCoords((prev) => prev ?? (JSON.parse(raw) as LatLng));
+          const parsed: unknown = JSON.parse(raw);
+          if (validCachedFix(parsed)) setGpsCoords((prev) => prev ?? parsed);
         } catch {
           // ignore corrupt cache
         }
@@ -109,8 +133,8 @@ export function LocationProvider({ children }: { children: ReactNode }) {
   // after awaiting the platform APIs, which the rule's static analysis can't see.
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect -- async GPS fetch, no synchronous setState
-    if (locationMode === 'gps') void acquireGps();
-  }, [locationMode, acquireGps]);
+    if (loaded && locationMode === 'gps') void acquireGps();
+  }, [loaded, locationMode, acquireGps]);
 
   // Single source of truth for the manual → GPS → Stockholm resolution, shared with
   // the home-screen widget's timeline builder via ./resolve so the two never drift.
@@ -120,17 +144,36 @@ export function LocationProvider({ children }: { children: ReactNode }) {
   );
 
   const value = useMemo<LocationContextValue>(
-    () => ({ ...resolved, permissionStatus, locating, refresh: acquireGps }),
-    [resolved, permissionStatus, locating, acquireGps],
+    () => ({ ...resolved, permissionStatus }),
+    [resolved, permissionStatus],
   );
 
-  return <LocationContext.Provider value={value}>{children}</LocationContext.Provider>;
+  const status = useMemo<LocationStatusValue>(
+    () => ({ locating, refresh: acquireGps }),
+    [locating, acquireGps],
+  );
+
+  return (
+    <LocationContext.Provider value={value}>
+      <LocationStatusContext.Provider value={status}>{children}</LocationStatusContext.Provider>
+    </LocationContext.Provider>
+  );
 }
 
 export function useLocation(): LocationContextValue {
   const ctx = useContext(LocationContext);
   if (!ctx) {
     throw new Error('useLocation must be used within a LocationProvider');
+  }
+  return ctx;
+}
+
+/** The GPS-fetch status + refresh action, in its own context so its frequent flips
+ *  don't re-render the resolved-coordinate consumers. Used by Inställningar. */
+export function useLocationStatus(): LocationStatusValue {
+  const ctx = useContext(LocationStatusContext);
+  if (!ctx) {
+    throw new Error('useLocationStatus must be used within a LocationProvider');
   }
   return ctx;
 }

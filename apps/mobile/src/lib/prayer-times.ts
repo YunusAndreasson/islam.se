@@ -219,18 +219,37 @@ const TIME_ZONE = 'Europe/Stockholm';
  * compute (Invalid Date), which happens above the Arctic Circle when polar
  * resolution is 'unresolved'.
  */
-export function formatTime(date: Date | null | undefined): string {
-  if (!(date instanceof Date) || Number.isNaN(date.getTime())) return '—';
+// Built once and reused: formatTime renders every prayer row and re-runs on each
+// clock tick (PrayerDock), so a per-call Intl.DateTimeFormat construction was pure
+// overhead. Cached null if the runtime lacks full Intl tz data, so fallbackFormat
+// still fires exactly as before.
+let timeFmt: Intl.DateTimeFormat | null | undefined;
+function getTimeFmt(): Intl.DateTimeFormat | null {
+  if (timeFmt !== undefined) return timeFmt;
   try {
-    return new Intl.DateTimeFormat('sv-SE', {
+    timeFmt = new Intl.DateTimeFormat('sv-SE', {
       timeZone: TIME_ZONE,
       hour: '2-digit',
       minute: '2-digit',
-    }).format(date);
+    });
   } catch {
-    // Hermes without full Intl tz data: fall back to a fixed Swedish offset.
-    return fallbackFormat(date);
+    timeFmt = null;
   }
+  return timeFmt;
+}
+
+export function formatTime(date: Date | null | undefined): string {
+  if (!(date instanceof Date) || Number.isNaN(date.getTime())) return '—';
+  const fmt = getTimeFmt();
+  if (fmt) {
+    try {
+      return fmt.format(date);
+    } catch {
+      // fall through to the fixed-offset fallback below
+    }
+  }
+  // Hermes without full Intl tz data: fall back to a fixed Swedish offset.
+  return fallbackFormat(date);
 }
 
 // Last-Sunday-of-`month0` at 01:00 UTC — the EU daylight-saving switch instants.

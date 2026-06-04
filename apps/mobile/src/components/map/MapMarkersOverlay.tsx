@@ -23,17 +23,21 @@
 // marker / pills follow the OS palette so the layer reads coherently against both
 // basemaps.
 import { StyleSheet, Text, View } from 'react-native';
+import Animated, { type SharedValue, useAnimatedStyle } from 'react-native-reanimated';
 
 import { type Camera, project } from '../../lib/map/projection';
 import { type LatLng, PRAYER_LABELS, type PrayerKey } from '../../lib/prayer-times';
 import type { PrayerLineLabel } from '../../lib/solar/field';
 import { prayerColorFor } from '../../lib/solar/palette';
-import { radius, shadow, space, type } from '../../theme/tokens';
+import { type Palette, radius, shadow, space, type } from '../../theme/tokens';
 import { useActiveScheme, useColors } from '../../theme/useColors';
 
 interface Props {
-  /** React-state camera (settled after each region change) shared with the Skia canvas. */
-  camera: Camera;
+  /** The LIVE camera shared value (same one the Skia canvas reads). Projecting against
+   *  it on the UI thread keeps the dot/pills glued to the basemap as it pans/zooms
+   *  WITHOUT a per-frame React render — the screen only re-renders when the prayer
+   *  labels or theme change, not on every camera tick. */
+  camera: SharedValue<Camera>;
   userCoords: LatLng;
   /** Pill anchors from buildLines: where each active prayer line wants its label. */
   labels: PrayerLineLabel[];
@@ -46,14 +50,16 @@ export function MapMarkersOverlay({ camera, userCoords, labels, nextKey }: Props
   // Marker rim flips warm/dark by basemap so the dot always reads against the ground.
   const rim = scheme === 'dark' ? 'rgba(225,232,255,0.9)' : '#ffffff';
 
-  const user = project(userCoords.longitude, userCoords.latitude, camera);
-
-  // Pill placements computed once — reused for projection of every active prayer
-  // line's label anchor.
-  const pills = labels.map((l) => {
-    const p = project(l.lngLat[0], l.lngLat[1], camera);
-    return { l, x: p.x, y: p.y };
-  });
+  // "You are here" — projected on the UI thread so it tracks the map live. Two layers
+  // (glow + dot) share one projection; each centres itself with its own offset.
+  const glowStyle = useAnimatedStyle(() => {
+    const p = project(userCoords.longitude, userCoords.latitude, camera.value);
+    return { left: p.x - 13, top: p.y - 13 };
+  }, [userCoords.longitude, userCoords.latitude]);
+  const dotStyle = useAnimatedStyle(() => {
+    const p = project(userCoords.longitude, userCoords.latitude, camera.value);
+    return { left: p.x - 6, top: p.y - 6 };
+  }, [userCoords.longitude, userCoords.latitude]);
 
   return (
     <View style={StyleSheet.absoluteFill} pointerEvents="none">
@@ -61,30 +67,9 @@ export function MapMarkersOverlay({ camera, userCoords, labels, nextKey }: Props
           place marker so it stays the unmistakable hero of the layer. No text label:
           the place name lives in the dock + Settings, so the marker never duplicates
           the basemap's own town label (see the file header). */}
-      <View
-        style={{
-          position: 'absolute',
-          left: user.x - 13,
-          top: user.y - 13,
-          width: 26,
-          height: 26,
-          borderRadius: 13,
-          backgroundColor: c.highlight,
-          opacity: 0.16,
-        }}
-      />
-      <View
-        style={{
-          position: 'absolute',
-          left: user.x - 6,
-          top: user.y - 6,
-          width: 12,
-          height: 12,
-          borderRadius: 6,
-          backgroundColor: c.highlight,
-          borderColor: rim,
-          borderWidth: 2,
-        }}
+      <Animated.View style={[styles.userGlow, { backgroundColor: c.highlight }, glowStyle]} />
+      <Animated.View
+        style={[styles.userDot, { backgroundColor: c.highlight, borderColor: rim }, dotStyle]}
       />
 
       {/* Prayer pills — each sits ON its line (centred on the line's anchor point), so the
@@ -92,36 +77,64 @@ export function MapMarkersOverlay({ camera, userCoords, labels, nextKey }: Props
           its own distinct line, so Maghrib and Isha separate instead of stacking where the
           lines converge. No time (the line is just "where it is this prayer right now", so a
           clock time read as an adhan time); the hue dot + border identify the line. */}
-      {pills.map(({ l, x, y }) => {
-        const isNext = l.prayer === nextKey;
-        const hue = prayerColorFor(l.prayer, scheme);
-        return (
-          <View
-            key={`pill-${l.prayer}`}
-            style={[
-              styles.pill,
-              {
-                left: x,
-                top: y,
-                backgroundColor: c.pillSurface,
-                // Border carries the prayer hue (same colour as the line it sits on), so the
-                // pill reads as part of its line; the label text stays ink-legible. "Next"
-                // is distinguished by a thicker ring, not a different colour.
-                borderColor: hue,
-              },
-              isNext && styles.pillNext,
-            ]}
-          >
-            <View style={[styles.dot, { backgroundColor: hue }]} />
-            <Text style={[styles.pillLabel, { color: c.ink }]}>{PRAYER_LABELS[l.prayer]}</Text>
-          </View>
-        );
-      })}
+      {labels.map((l) => (
+        <PrayerPill
+          key={`pill-${l.prayer}`}
+          label={l}
+          camera={camera}
+          colors={c}
+          scheme={scheme}
+          isNext={l.prayer === nextKey}
+        />
+      ))}
     </View>
   );
 }
 
+/** One prayer-line label pill. Split into its own component so each can hold a
+ *  useAnimatedStyle hook (the active label set varies, so the projection can't live in
+ *  a .map() in the parent body). Positioned on the UI thread against the live camera. */
+function PrayerPill({
+  label,
+  camera,
+  colors,
+  scheme,
+  isNext,
+}: {
+  label: PrayerLineLabel;
+  camera: SharedValue<Camera>;
+  colors: Palette;
+  scheme: ReturnType<typeof useActiveScheme>;
+  isNext: boolean;
+}) {
+  // Border carries the prayer hue (same colour as the line it sits on), so the pill
+  // reads as part of its line; the label text stays ink-legible. "Next" is distinguished
+  // by a thicker ring, not a different colour.
+  const hue = prayerColorFor(label.prayer, scheme);
+  const posStyle = useAnimatedStyle(() => {
+    const p = project(label.lngLat[0], label.lngLat[1], camera.value);
+    return { left: p.x, top: p.y };
+  }, [label.lngLat[0], label.lngLat[1]]);
+  return (
+    <Animated.View
+      style={[
+        styles.pill,
+        { backgroundColor: colors.pillSurface, borderColor: hue },
+        isNext && styles.pillNext,
+        posStyle,
+      ]}
+    >
+      <View style={[styles.dot, { backgroundColor: hue }]} />
+      <Text style={[styles.pillLabel, { color: colors.ink }]}>{PRAYER_LABELS[label.prayer]}</Text>
+    </Animated.View>
+  );
+}
+
 const styles = StyleSheet.create({
+  // "You are here" glow + dot. Static geometry lives here; the animated style supplies
+  // only the live-projected left/top, so these objects stay referentially stable.
+  userGlow: { position: 'absolute', width: 26, height: 26, borderRadius: 13, opacity: 0.16 },
+  userDot: { position: 'absolute', width: 12, height: 12, borderRadius: 6, borderWidth: 2 },
   // A quiet map annotation, not a floating UI chip: compact, medium-weight, with only
   // a whisper of shadow. The prayer field is the hero — the pill just names a line.
   pill: {

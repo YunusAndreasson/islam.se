@@ -1,4 +1,5 @@
-import { beforeEach, describe, expect, it } from '@jest/globals';
+import { beforeEach, describe, expect, it, jest } from '@jest/globals';
+import { PermissionStatus } from 'expo-modules-core';
 import * as Notifications from 'expo-notifications';
 
 import { syncPrayerNotifications } from '../notifications';
@@ -12,6 +13,12 @@ const STOCKHOLM = { latitude: 59.3293, longitude: 18.0686 };
 const scheduleMock = Notifications.scheduleNotificationAsync as unknown as {
   mock: { calls: [{ trigger: { date: Date } }][] };
   mockClear: () => void;
+};
+const getPermissionsMock = Notifications.getPermissionsAsync as unknown as jest.MockedFunction<
+  typeof Notifications.getPermissionsAsync
+>;
+const cancelMock = Notifications.cancelAllScheduledNotificationsAsync as unknown as {
+  mock: { calls: unknown[] };
 };
 
 function withNotifications(patch: Partial<PrayerSettings['notifications']>): PrayerSettings {
@@ -29,7 +36,10 @@ function scheduledTimes(): number[] {
 }
 
 describe('syncPrayerNotifications lead time', () => {
-  beforeEach(() => scheduleMock.mockClear());
+  beforeEach(() => {
+    scheduleMock.mockClear();
+    jest.clearAllMocks();
+  });
 
   it('fires the alert leadMinutes before the prayer time', async () => {
     await syncPrayerNotifications(STOCKHOLM, withNotifications({ leadMinutes: 0 }));
@@ -60,6 +70,34 @@ describe('syncPrayerNotifications lead time', () => {
       ...DEFAULT_SETTINGS,
       notifications: { ...DEFAULT_SETTINGS.notifications, enabled: false },
     });
+    expect(scheduledTimes()).toHaveLength(0);
+  });
+
+  it('does not let an older enabled sync schedule after a newer disabled sync wins', async () => {
+    let resolvePermission!: (value: Awaited<ReturnType<typeof Notifications.getPermissionsAsync>>) => void;
+    getPermissionsMock.mockImplementationOnce(
+      () =>
+        new Promise((resolve) => {
+          resolvePermission = resolve;
+        }),
+    );
+
+    const oldSync = syncPrayerNotifications(STOCKHOLM, withNotifications({ leadMinutes: 0 }));
+    await Promise.resolve();
+    expect(cancelMock.mock.calls.length).toBeGreaterThan(0);
+
+    await syncPrayerNotifications(STOCKHOLM, {
+      ...DEFAULT_SETTINGS,
+      notifications: { ...DEFAULT_SETTINGS.notifications, enabled: false },
+    });
+    resolvePermission({
+      granted: true,
+      canAskAgain: true,
+      status: PermissionStatus.GRANTED,
+      expires: 'never',
+    });
+    await oldSync;
+
     expect(scheduledTimes()).toHaveLength(0);
   });
 });
