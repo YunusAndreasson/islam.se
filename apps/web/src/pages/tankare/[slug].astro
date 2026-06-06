@@ -1,8 +1,8 @@
 ---
 import EssayList from "../../components/EssayList.astro";
 import Base from "../../layouts/Base.astro";
-import type { Article } from "../../lib/articles";
-import { breadcrumbList } from "../../lib/jsonld";
+import { type Article, essayCount } from "../../lib/articles";
+import { breadcrumbList, collectionPageJsonLd } from "../../lib/jsonld";
 import { type Tradition, getTankare } from "../../lib/tankare";
 
 export async function getStaticPaths() {
@@ -37,26 +37,21 @@ const traditionLabel =
 	description={`${name} i essäerna: ${framing}`}
 	ogImage={`/tankare/${slug}/og.png`}
 	jsonLd={[
-		{
-			"@context": "https://schema.org",
-			"@type": "CollectionPage",
+		collectionPageJsonLd({
 			name,
 			description: framing,
-			url: `https://islam.se/tankare/${slug}`,
-			inLanguage: "sv",
+			url: `/tankare/${slug}`,
+			essays,
 			// Ties the page to the thinker as an entity — both the classical
 			// scholars and the Swedish/Western voices the essays return to.
-			about: {
-				"@type": "Person",
-				name,
-				description: framing,
+			extra: {
+				about: {
+					"@type": "Person",
+					name,
+					description: framing,
+				},
 			},
-			hasPart: essays.map((e) => ({
-				"@type": "Article",
-				headline: e.title,
-				url: `https://islam.se/${e.slug}`,
-			})),
-		},
+		}),
 		breadcrumbList([
 			{ name: "Hem", url: "/" },
 			{ name: "Tänkare", url: "/tankare" },
@@ -70,7 +65,7 @@ const traditionLabel =
 			<h1>{name}</h1>
 			<p class="collection-lead">{framing}</p>
 			<p class="label collection-count">
-				Engageras i {count} {count === 1 ? "essä" : "essäer"}
+				Engageras i {essayCount(count)}
 			</p>
 		</header>
 

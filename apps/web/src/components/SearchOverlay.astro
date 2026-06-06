@@ -314,8 +314,22 @@ const index = await buildPaletteIndex();
 
 		let opts: HTMLAnchorElement[] = [];
 		let active = -1;
+		// The control that opened the palette, so focus can return there on close
+		// (keyboard users keep their place instead of being dropped on <body>).
+		let lastFocused: HTMLElement | null = null;
 
 		const isOpen = () => !overlay.hidden;
+
+		// While the modal is open, mark the rest of the page inert so assistive tech
+		// and Tab can't reach the now-covered content behind it. The overlay is the
+		// last body child, so every sibling is background chrome.
+		function setBackgroundInert(on: boolean): void {
+			for (const child of Array.from(document.body.children)) {
+				if (child === overlay) continue;
+				if (on) child.setAttribute("inert", "");
+				else child.removeAttribute("inert");
+			}
+		}
 
 		function setActive(idx: number) {
 			const prev = opts[active];
@@ -399,23 +413,30 @@ const index = await buildPaletteIndex();
 		// --- open / close --------------------------------------------------
 		function open() {
 			if (isOpen()) return;
+			lastFocused = document.activeElement instanceof HTMLElement ? document.activeElement : null;
 			overlay.hidden = false;
 			document.documentElement.classList.add("palette-open");
+			setBackgroundInert(true);
 			render();
 			requestAnimationFrame(() => overlay.setAttribute("data-visible", ""));
 			setTimeout(() => input.focus(), 50);
 		}
-		function reset() {
+		// restoreFocus returns the caret to the opener — wanted when the user dismisses
+		// the palette in place (Escape / close button), not when an option navigates away.
+		function reset(restoreFocus = false) {
 			overlay.hidden = true;
 			overlay.removeAttribute("data-visible");
 			document.documentElement.classList.remove("palette-open");
+			setBackgroundInert(false);
 			input.value = "";
+			if (restoreFocus && lastFocused?.isConnected) lastFocused.focus();
+			lastFocused = null;
 		}
 		function close() {
 			if (!isOpen()) return;
 			overlay.removeAttribute("data-visible");
 			document.documentElement.classList.remove("palette-open");
-			const done = () => reset();
+			const done = () => reset(true);
 			overlay.addEventListener("transitionend", done, { once: true });
 			setTimeout(done, 250);
 		}
@@ -475,6 +496,10 @@ const index = await buildPaletteIndex();
 			overlay.removeAttribute("data-visible");
 		}
 		document.documentElement.classList.remove("palette-open");
+		// Defensive: never let a stale inert (from an interrupted open) survive a nav.
+		for (const child of Array.from(document.body.children)) {
+			if (child !== overlay) child.removeAttribute("inert");
+		}
 		const input = overlay?.querySelector<HTMLInputElement>(".palette-input");
 		if (input) input.value = "";
 

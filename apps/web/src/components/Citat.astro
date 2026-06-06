@@ -1,5 +1,6 @@
 ---
 import { formatDate, getArticles } from "../lib/articles";
+import { dayIndex } from "../lib/daily";
 import { pullQuotes } from "../lib/pullquotes";
 
 const articles = await getArticles();
@@ -7,8 +8,7 @@ const titleBySlug = new Map(articles.map((a) => [a.slug, a]));
 
 // Deterministic date-based pick (same pattern as the daily verse, §7.5).
 const valid = pullQuotes.filter((q) => titleBySlug.has(q.slug));
-const dayIndex = Math.floor(Date.now() / 86_400_000) % valid.length;
-const quote = valid[dayIndex];
+const quote = valid[dayIndex(valid.length)];
 const article = titleBySlug.get(quote.slug)!;
 ---
 

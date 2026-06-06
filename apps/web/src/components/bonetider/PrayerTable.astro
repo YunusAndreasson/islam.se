@@ -1,5 +1,13 @@
 ---
-import { computePrayerTimes, formatTime, PRAYER_LABELS, PRAYER_ORDER } from "../../lib/bonetider/prayer-times";
+import {
+	computePrayerTimes,
+	dateForStockholmDay,
+	formatTime,
+	PRAYER_LABELS,
+	PRAYER_ORDER,
+	stockholmDateParts,
+	TIME_ZONE,
+} from "../../lib/bonetider/prayer-times";
 import { DEFAULT_SETTINGS } from "../../lib/bonetider/settings";
 
 interface Props {
@@ -11,17 +19,15 @@ const { location } = Astro.props;
 // indexable prayer-time content, correct for the explicit dates shown. The interactive
 // field above reflects the visitor's own settings; this table is the SEO/no-JS baseline.
 const now = new Date();
-const year = now.getFullYear();
-const month = now.getMonth();
+const { year, month, day: todayD } = stockholmDateParts(now);
 const fmt = (opts: Intl.DateTimeFormatOptions, d: Date) =>
-	new Intl.DateTimeFormat("sv-SE", { timeZone: "Europe/Stockholm", ...opts }).format(d);
-const monthLabel = `${fmt({ month: "long" }, now)} ${year}`;
+	new Intl.DateTimeFormat("sv-SE", { timeZone: TIME_ZONE, ...opts }).format(d);
+const monthLabel = `${fmt({ month: "long" }, new Date(Date.UTC(year, month, 15, 12)))} ${year}`;
 const daysInMonth = new Date(year, month + 1, 0).getDate();
-const todayD = now.getDate();
 
 const rows = Array.from({ length: daysInMonth }, (_, i) => {
 	const d = i + 1;
-	const date = new Date(year, month, d, 12, 0, 0);
+	const date = dateForStockholmDay(year, month, d);
 	const t = computePrayerTimes(location, date, DEFAULT_SETTINGS);
 	return {
 		d,
@@ -32,8 +38,13 @@ const rows = Array.from({ length: daysInMonth }, (_, i) => {
 });
 ---
 
-<figure class="bt-table-wrap">
-	<figcaption class="bt-table-cap">
+<figure
+	class="bt-table-wrap"
+	data-name={location.name}
+	data-lat={location.latitude}
+	data-lon={location.longitude}
+>
+	<figcaption class="bt-table-cap" data-bt-table-caption>
 		Bönetider i {location.name} — {monthLabel}
 	</figcaption>
 	<div class="bt-scroll">
@@ -44,7 +55,7 @@ const rows = Array.from({ length: daysInMonth }, (_, i) => {
 					{PRAYER_ORDER.map((k) => <th scope="col">{PRAYER_LABELS[k]}</th>)}
 				</tr>
 			</thead>
-			<tbody>
+			<tbody data-bt-table-body>
 				{rows.map((r) => (
 					<tr data-day={r.d} class:list={{ "is-today": r.d === todayD }}>
 						<th scope="row">
@@ -139,15 +150,78 @@ const rows = Array.from({ length: daysInMonth }, (_, i) => {
 </style>
 
 <script>
-	// Re-mark "today" against the real date, so a day-old build doesn't highlight the
-	// wrong row. (The table values themselves are this month's fixed schedule.)
-	document.addEventListener("astro:page-load", () => {
-		const now = new Date();
-		const d = now.getDate();
-		for (const tbody of document.querySelectorAll(".bt-table tbody")) {
-			for (const tr of tbody.querySelectorAll<HTMLElement>("tr[data-day]")) {
-				tr.classList.toggle("is-today", Number(tr.dataset.day) === d);
-			}
+	import {
+		computePrayerTimes,
+		dateForStockholmDay,
+		formatTime,
+		PRAYER_ORDER,
+		stockholmDateParts,
+		TIME_ZONE,
+	} from "../../lib/bonetider/prayer-times";
+	import { DEFAULT_SETTINGS } from "../../lib/bonetider/settings";
+
+	const fmt = (opts: Intl.DateTimeFormatOptions, d: Date): string =>
+		new Intl.DateTimeFormat("sv-SE", { timeZone: TIME_ZONE, ...opts }).format(d);
+
+	let renderedMonthKey = "";
+	let refreshTimer: number | undefined;
+
+	function renderTable(fig: HTMLElement): void {
+		const tbody = fig.querySelector<HTMLElement>("[data-bt-table-body]");
+		if (!tbody) return;
+		const name = fig.dataset.name ?? "";
+		const latitude = Number(fig.dataset.lat);
+		const longitude = Number(fig.dataset.lon);
+		if (!Number.isFinite(latitude) || !Number.isFinite(longitude)) return;
+
+		const { year, month, day: todayD } = stockholmDateParts(new Date());
+		const daysInMonth = new Date(year, month + 1, 0).getDate();
+		const caption = fig.querySelector<HTMLElement>("[data-bt-table-caption]");
+		if (caption) {
+			const monthLabel = `${fmt({ month: "long" }, new Date(Date.UTC(year, month, 15, 12)))} ${year}`;
+			caption.textContent = `Bönetider i ${name} — ${monthLabel}`;
 		}
+
+		tbody.replaceChildren(
+			...Array.from({ length: daysInMonth }, (_, i) => {
+				const d = i + 1;
+				const date = dateForStockholmDay(year, month, d);
+				const times = computePrayerTimes({ latitude, longitude }, date, DEFAULT_SETTINGS);
+				const tr = document.createElement("tr");
+				tr.dataset.day = String(d);
+				tr.classList.toggle("is-today", d === todayD);
+
+				const th = document.createElement("th");
+				th.scope = "row";
+				const time = document.createElement("time");
+				time.dateTime = `${year}-${String(month + 1).padStart(2, "0")}-${String(d).padStart(2, "0")}`;
+				time.textContent = `${fmt({ weekday: "short" }, new Date(Date.UTC(year, month, d, 12)))} ${d}`;
+				th.append(time);
+				tr.append(th);
+
+				for (const key of PRAYER_ORDER) {
+					const td = document.createElement("td");
+					td.textContent = formatTime(times[key]);
+					tr.append(td);
+				}
+				return tr;
+			}),
+		);
+	}
+
+	function renderAllTables(): void {
+		const { year, month, day } = stockholmDateParts(new Date());
+		const monthKey = `${year}-${month}-${day}`;
+		if (monthKey === renderedMonthKey) return;
+		renderedMonthKey = monthKey;
+		for (const fig of document.querySelectorAll<HTMLElement>(".bt-table-wrap")) {
+			renderTable(fig);
+		}
+	}
+
+	document.addEventListener("astro:page-load", () => {
+		renderedMonthKey = "";
+		renderAllTables();
+		if (refreshTimer === undefined) refreshTimer = window.setInterval(renderAllTables, 60000);
 	});
 </script>

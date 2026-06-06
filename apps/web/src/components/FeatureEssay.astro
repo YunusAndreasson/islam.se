@@ -1,13 +1,16 @@
 ---
 import type { Article } from "../lib/articles";
 import { formatDate, inlineMarkdown } from "../lib/articles";
+import { FEATURE_HERO_SIZES, FEATURE_HERO_WIDTHS } from "../lib/hero";
 import EssayImage from "./EssayImage.astro";
 
 interface Props {
 	article: Article;
+	widths?: number[];
+	sizes?: string;
 }
 
-const { article } = Astro.props;
+const { article, widths = FEATURE_HERO_WIDTHS, sizes = FEATURE_HERO_SIZES } = Astro.props;
 ---
 
 <section class="feature home-movement" aria-labelledby="feature-title">
@@ -15,8 +18,8 @@ const { article } = Astro.props;
 		<div class="feature-media media-frame">
 			<EssayImage
 				article={article}
-				widths={[480, 640, 768, 1024, 1280, 1600, 2048]}
-				sizes="(max-width: 1024px) 100vw, 1024px"
+				widths={widths}
+				sizes={sizes}
 				loading="eager"
 				fetchpriority="high"
 			/>

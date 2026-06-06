@@ -430,6 +430,24 @@ article .prose > p:first-child::first-line {
 	}
 }
 
+/* Forced colors (Windows High Contrast) — the resting link underline is normally
+   transparent and only fades in on hover, which leaves links indistinguishable from
+   text under a forced palette. Pin a visible underline and let the OS colours win. */
+@media (forced-colors: active) {
+	a {
+		text-decoration-color: currentColor;
+	}
+
+	/* Glass/translucent surfaces lose their backdrop; give focusable chrome a
+	   real border so it stays legible. */
+	.search-trigger,
+	.share-btn,
+	.back-to-top,
+	.fn-popover {
+		border: 1px solid currentColor;
+	}
+}
+
 /* Reduced motion — respect user preference */
 @media (prefers-reduced-motion: reduce) {
 	*,

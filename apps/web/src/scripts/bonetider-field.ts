@@ -22,6 +22,10 @@ interface Instance {
 	el: HTMLElement;
 	fixed: boolean;
 	base: FieldLocation;
+	/** Whether the field is on (or near) screen. The per-minute canvas render is
+	 *  skipped while off-screen — it's pure GPU/CPU waste on a long page. Defaults
+	 *  true (fail-open: a field always renders unless proven off-screen). */
+	visible: boolean;
 	/** Present for map fields; absent for the canvas-less top strip. */
 	render?: (
 		cfg: Parameters<ReturnType<typeof createFieldRenderer>["render"]>[0],
@@ -41,6 +45,25 @@ interface Instance {
 }
 
 const instances: Instance[] = [];
+
+// Skip the canvas render for off-screen fields. rootMargin pre-renders just before
+// a field scrolls in, so there's no pop-in. Fail-open if the API is missing.
+const visObserver =
+	typeof IntersectionObserver !== "undefined"
+		? new IntersectionObserver(
+				(entries) => {
+					for (const e of entries) {
+						const inst = instances.find((i) => i.el === e.target);
+						if (!inst) continue;
+						const wasVisible = inst.visible;
+						inst.visible = e.isIntersecting;
+						// Becoming visible: render now rather than waiting for the next minute tick.
+						if (inst.visible && !wasVisible) paint(inst, new Date());
+					}
+				},
+				{ rootMargin: "200px" },
+			)
+		: null;
 
 function schemeNow(): Scheme {
 	const explicit = document.documentElement.dataset.theme;
@@ -102,6 +125,7 @@ function mountOne(el: HTMLElement): void {
 		el,
 		fixed,
 		base,
+		visible: true,
 		render,
 		readout: {
 			nextName: el.querySelector(".bf-next-name"),
@@ -114,6 +138,8 @@ function mountOne(el: HTMLElement): void {
 		},
 	};
 	instances.push(inst);
+	// Only canvas fields are worth observing; the strip/readout have no render to skip.
+	if (render) visObserver?.observe(el);
 	paint(inst, new Date());
 }
 
@@ -128,7 +154,9 @@ function paint(inst: Instance, now: Date): void {
 	const settings = loadSettings();
 	const location = resolveLocation(inst);
 	const scheme = schemeNow();
-	inst.render?.({ location, settings, scheme, variant: "home" }, now);
+	// Skip the (expensive) canvas render when the field is scrolled off-screen; the
+	// cheap readout below still updates so times are fresh the moment it scrolls in.
+	if (inst.visible) inst.render?.({ location, settings, scheme, variant: "home" }, now);
 	if (inst.readout.dayIcon) inst.readout.dayIcon.dataset.day = String(isDaylight(location, now));
 	updateReadout(inst, now, location);
 }
@@ -163,11 +191,33 @@ function updateReadout(inst: Instance, now: Date, location: FieldLocation): void
 	if (inst.readout.place) inst.readout.place.textContent = location.name;
 }
 
+/** Hide every "use my location" button when the browser has no Geolocation API
+ *  (older browsers, insecure context) — a control that can't do anything reads as
+ *  broken. Runs on every page-load, so view-transition pages are covered too. */
+function hideUnsupportedGeo(): void {
+	if ("geolocation" in navigator) return;
+	for (const btn of document.querySelectorAll<HTMLElement>(".bf-geo")) btn.hidden = true;
+}
+
 function wireGeolocation(): void {
 	document.addEventListener("click", (e) => {
-		const btn = (e.target as HTMLElement)?.closest<HTMLElement>(".bf-geo");
-		if (!(btn && navigator.geolocation)) return;
+		const btn = (e.target as HTMLElement)?.closest<HTMLButtonElement>(".bf-geo");
+		// Ignore re-clicks while a lookup is in flight (the button is dimmed via aria-busy).
+		if (!(btn && navigator.geolocation) || btn.getAttribute("aria-busy") === "true") return;
+		const label = btn.textContent ?? "";
 		btn.setAttribute("aria-busy", "true");
+		// On failure the button has no adjacent status slot, so it speaks for itself:
+		// a brief message in place of its label, then back. Success needs no message —
+		// saveLocation fires the change event and every field repaints to the new place.
+		const finish = (message?: string): void => {
+			btn.removeAttribute("aria-busy");
+			if (message) {
+				btn.textContent = message;
+				window.setTimeout(() => {
+					btn.textContent = label;
+				}, 3000);
+			}
+		};
 		navigator.geolocation.getCurrentPosition(
 			async (pos) => {
 				// Load the 2 118-place dataset only on demand — it's far too big to ship in
@@ -187,9 +237,9 @@ function wireGeolocation(): void {
 					latitude: pos.coords.latitude,
 					longitude: pos.coords.longitude,
 				});
-				btn.removeAttribute("aria-busy");
+				finish();
 			},
-			() => btn.removeAttribute("aria-busy"),
+			() => finish("Hittade inte platsen"),
 			{ enableHighAccuracy: false, timeout: 8000, maximumAge: 600000 },
 		);
 	});
@@ -206,6 +256,7 @@ function startClock(): void {
 		for (let i = instances.length - 1; i >= 0; i--) {
 			const inst = instances[i];
 			if (!inst.el.isConnected) {
+				visObserver?.unobserve(inst.el);
 				instances.splice(i, 1);
 				continue;
 			}
@@ -243,13 +294,19 @@ function repaintAll(): void {
 }
 
 function mountAll(): void {
-	for (const el of document.querySelectorAll<HTMLElement>(".bonetider-field, .bonetider-strip"))
+	// .bonetider-readout is a canvas-less today's-times list (the city pages' "Dagens
+	// bönetider" block): mounted like the strip so its per-prayer times track the
+	// visitor's saved method/madhab live, instead of being frozen at the SSR default.
+	for (const el of document.querySelectorAll<HTMLElement>(
+		".bonetider-field, .bonetider-strip, .bonetider-readout",
+	))
 		mountOne(el);
 }
 
 let booted = false;
 export function boot(): void {
 	mountAll();
+	hideUnsupportedGeo();
 	if (booted) {
 		repaintAll();
 		return;

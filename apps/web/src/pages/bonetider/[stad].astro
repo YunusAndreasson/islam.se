@@ -115,12 +115,19 @@ const faq = [
 				ʿIshāʾ ligger nära varandra — kartan ovan visar varför: solen sjunker bara en bit under
 				horisonten.
 			</p>
-			<ul class="bt-stad-today">
+			<ul
+				class="bt-stad-today bonetider-readout"
+				data-name={place.name}
+				data-lat={place.lat}
+				data-lon={place.lon}
+				data-fixed="1"
+				aria-label={`Bönetider för ${place.name} i dag`}
+			>
 				{rows.map((r) => (
-					<li>
+					<li data-prayer={r.key}>
 						<span class="bt-st-name">{r.label}</span>
 						<span class="bt-st-sv">{r.sv}</span>
-						<span class="bt-st-time" data-prayer-static={r.key}>{r.time}</span>
+						<span class="bt-st-time bf-t-time">{r.time}</span>
 					</li>
 				))}
 			</ul>
@@ -281,6 +288,13 @@ const faq = [
 		font-variant-numeric: tabular-nums;
 		font-size: 1.05rem;
 		color: var(--color-text);
+	}
+
+	/* The live script marks the upcoming prayer with .is-next (same as the field) —
+	   give it the same quiet brass accent so the list and the map agree. */
+	.bt-stad-today li.is-next .bt-st-name,
+	.bt-stad-today li.is-next .bt-st-time {
+		color: var(--color-accent);
 	}
 
 	.bt-prose p {

@@ -73,14 +73,32 @@ function haversineKm(a: SwedishPlace, b: SwedishPlace): number {
 	return 2 * R * Math.asin(Math.min(1, Math.sqrt(h)));
 }
 
+// Precomputed k-nearest neighbours per place. Without this, every one of the 2000+
+// /bonetider/[stad] pages re-scanned and re-sorted the *entire* index (an O(n²)
+// haversine sweep across the whole build); now the neighbour lists are computed once,
+// lazily, on first use and looked up by slug. NEIGHBOUR_K caps each list — callers
+// ask for ≤8, so 8 covers every current need.
+const NEIGHBOUR_K = 8;
+let neighbourCache: Map<string, IndexedPlace[]> | null = null;
+
+function buildNeighbours(): Map<string, IndexedPlace[]> {
+	const map = new Map<string, IndexedPlace[]>();
+	for (const a of INDEXED_PLACES) {
+		const nearest = INDEXED_PLACES.filter((b) => b.slug !== a.slug)
+			.map((b) => ({ b, d: haversineKm(a, b) }))
+			.sort((x, y) => x.d - y.d)
+			.slice(0, NEIGHBOUR_K)
+			.map((x) => x.b);
+		map.set(a.slug, nearest);
+	}
+	return map;
+}
+
 /** The `count` nearest other places, for the per-city "närliggande orter" links that
  *  web the pages together (good for crawl depth and for users). */
 export function nearbyPlaces(place: IndexedPlace, count = 6): IndexedPlace[] {
-	return INDEXED_PLACES.filter((p) => p.slug !== place.slug)
-		.map((p) => ({ p, d: haversineKm(place, p) }))
-		.sort((a, b) => a.d - b.d)
-		.slice(0, count)
-		.map((x) => x.p);
+	neighbourCache ??= buildNeighbours();
+	return (neighbourCache.get(place.slug) ?? []).slice(0, count);
 }
 
 /** Places grouped by county (län), counties alphabetical, places by population desc —

@@ -6,7 +6,7 @@
 // the list never goes stale between manual deploys (§7.9 caveat). The ±1-day
 // sighting uncertainty is inherent: dates are presented as observed, not oracle.
 
-const MS_PER_DAY = 86_400_000;
+import { MS_PER_DAY } from "./daily";
 
 const HIJRI_MONTHS = [
 	"",
