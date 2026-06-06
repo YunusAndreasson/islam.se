@@ -28,11 +28,12 @@ function PrayerTimesWidgetLayout(rawPayload: WidgetPayload, environment: WidgetE
 
   // Brand palette (mirrors src/theme/tokens.ts — only the tokens this widget uses).
   const LIGHT = {
-    paper: '#f4f0e8',
+    paper: '#f6f3ed',
     ink: '#1a1712',
     inkMuted: '#6f6456',
     inkFaint: '#978c7b',
     highlight: '#b8862f',
+    highlightText: '#805b1f',
   };
   const DARK = {
     paper: '#161a26',
@@ -40,6 +41,7 @@ function PrayerTimesWidgetLayout(rawPayload: WidgetPayload, environment: WidgetE
     inkMuted: '#a8acba',
     inkFaint: '#7a8094',
     highlight: '#c89a48',
+    highlightText: '#c89a48',
   };
   const SF: Record<string, SFSymbol> = {
     fajr: 'moon.stars.fill',
@@ -66,19 +68,21 @@ function PrayerTimesWidgetLayout(rawPayload: WidgetPayload, environment: WidgetE
   const nextAtMs = typeof p.nextAtMs === 'number' ? p.nextAtMs : null;
   const nextRow = rows.find((r) => r.isNext);
   const nextIcon: SFSymbol = nextRow ? SF[nextRow.key] : SF.fajr;
+  const nextKindLabel = nextRow?.isMarker ? 'NÄSTA TID' : 'NÄSTA BÖN';
 
   // Shared root chrome: even padding + the iOS-17 widget background. No widgetURL —
   // a bare widget tap already foregrounds the app; an `islamse://` deep link instead
   // presented a fresh screen sliding in over the running app.
   const root = [padding({ all: 16 }), containerBackground(c.paper, 'widget')];
 
-  // The eyebrow row: icon + "NÄSTA BÖN". Keeping the icon HERE (not beside the name)
-  // lets the name, time and countdown below all share one clean leading edge.
+  // The eyebrow row: icon + "NÄSTA BÖN" / "NÄSTA TID" for sunrise. Keeping the
+  // icon HERE (not beside the name) lets the name, time and countdown below all
+  // share one clean leading edge.
   const eyebrow = (iconSize: number) => (
     <HStack spacing={5} alignment="center">
       {nextArabic ? <Image systemName={nextIcon} size={iconSize} color={c.highlight} /> : null}
       <Text modifiers={[font({ size: 11, weight: 'semibold' }), foregroundStyle(c.inkFaint)]}>
-        NÄSTA BÖN
+        {nextKindLabel}
       </Text>
     </HStack>
   );
@@ -88,7 +92,7 @@ function PrayerTimesWidgetLayout(rawPayload: WidgetPayload, environment: WidgetE
     return (
       <VStack alignment="leading" spacing={6} modifiers={root}>
         <Spacer />
-        <Text modifiers={[font({ size: 19, weight: 'bold' }), foregroundStyle(c.highlight)]}>
+        <Text modifiers={[font({ size: 19, weight: 'bold' }), foregroundStyle(c.highlightText)]}>
           Bönetider
         </Text>
         <Text modifiers={[font({ size: 13 }), foregroundStyle(c.inkMuted)]}>
@@ -106,7 +110,7 @@ function PrayerTimesWidgetLayout(rawPayload: WidgetPayload, environment: WidgetE
       <VStack alignment="leading" spacing={3} modifiers={root}>
         {eyebrow(13)}
         <Spacer />
-        <Text modifiers={[font({ size: 22, weight: 'bold' }), foregroundStyle(c.highlight)]}>
+        <Text modifiers={[font({ size: 22, weight: 'bold' }), foregroundStyle(c.highlightText)]}>
           {nextArabic || 'Bönetider'}
         </Text>
         <Text modifiers={[font({ size: 38, weight: 'bold' }), foregroundStyle(c.ink)]}>
@@ -137,7 +141,7 @@ function PrayerTimesWidgetLayout(rawPayload: WidgetPayload, environment: WidgetE
         {/* Hero (left) — eyebrow, prayer name (brass), big time, live countdown */}
         <VStack alignment="leading" spacing={3}>
           {eyebrow(14)}
-          <Text modifiers={[font({ size: 22, weight: 'bold' }), foregroundStyle(c.highlight)]}>
+          <Text modifiers={[font({ size: 22, weight: 'bold' }), foregroundStyle(c.highlightText)]}>
             {nextArabic || 'Bönetider'}
           </Text>
           {nextSwedish ? (
@@ -158,7 +162,7 @@ function PrayerTimesWidgetLayout(rawPayload: WidgetPayload, environment: WidgetE
         {/* Schedule (right) — names left, times right-aligned, next prayer in brass */}
         <VStack alignment="leading" spacing={5}>
           {rows.map((row) => {
-            const col = row.isNext ? c.highlight : row.isMarker ? c.inkFaint : c.ink;
+            const col = row.isNext ? c.highlightText : row.isMarker ? c.inkFaint : c.ink;
             const w: 'semibold' | 'regular' = row.isNext ? 'semibold' : 'regular';
             return (
               <HStack key={row.key} spacing={12} alignment="firstTextBaseline">

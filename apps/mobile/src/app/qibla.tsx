@@ -25,16 +25,14 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { ModalBar } from '../components/ui/ModalBar';
 import { hapticSuccess } from '../lib/haptics';
 import { useLocation } from '../lib/location/context';
-import { angleDelta, formatKm, headingReliable, qiblaBearing, qiblaDistanceKm } from '../lib/qibla';
+import { deriveQiblaStatus, formatKm, normalizeHeading, qiblaBearing, qiblaDistanceKm, qiblaProximity, type QiblaStatus, shortestTurn } from '../lib/qibla';
 import { mono, motion, type Palette, radius, shadow, space, type } from '../theme/tokens';
 import { useColors } from '../theme/useColors';
 
-// Degrees within which we call it "facing the qibla".
-const ALIGN_TOL = 4;
-// Degrees within which the readout encourages "you're on your way".
-const NEAR_TOL = 30;
-// Over this many degrees off, proximity feedback is fully cold.
-const PROX_RANGE = 45;
+// The coarse, heading-derived state the dial actually shows (computed by lib/qibla's
+// `deriveQiblaStatus`; the lock tolerance, hysteresis, near/proximity ranges all live there
+// too). We store THIS, never the raw degree — see `status` below for why.
+const COLD: QiblaStatus = { aligned: false, near: false, calibrating: false };
 // Cardinal points, Swedish (Nord/Ost/Syd/Väst — "O" for east per the Swedish
 // cartographic/meteorological convention, as used by SMHI and in seafaring).
 const CARDINALS: readonly { deg: number; label: string }[] = [
@@ -72,16 +70,21 @@ export default function Qibla() {
   // would tear down and re-subscribe the magnetometer on every fix, resetting its
   // calibration warm-up and dropping the lock on a moving device.
   const bearingRef = useRef(bearing);
-  useEffect(() => {
-    bearingRef.current = bearing;
-  }, [bearing]);
 
-  const [heading, setHeading] = useState<number | null>(null);
+  // The ONLY heading-derived thing the React tree shows: the coarse status (the pill, and
+  // whether the direction overlays are drawn). We deliberately do NOT keep the raw heading
+  // in state — `watchHeadingAsync` fires up to ~60×/s, and storing the degree would re-render
+  // (reconciling all ~30 dial Views) on every tick, even though the degree is never shown.
+  // Instead the raw reading lives in refs, the rose rotation + brass warmth ride shared values
+  // on the UI thread, and React only re-renders when the user crosses a band (cold → on your
+  // way → locked). `noCompass` is its own flag (set by the no-event timeout / permission denial).
+  const [status, setStatus] = useState<QiblaStatus>(COLD);
   const [noCompass, setNoCompass] = useState(false);
-  // expo-location heading calibration level (0–3); null until the first event. Below
-  // MEDIUM (2) the magnetometer is mid-calibration and can be tens of degrees off — the
-  // "wrong at first, then right" warm-up — so we don't trust it for the ≤4° lock.
-  const [accuracy, setAccuracy] = useState<number | null>(null);
+  // Latest reading, kept out of state. `accRef` is the expo-location calibration level (0–3);
+  // below MEDIUM (2) the magnetometer is mid-calibration and can be tens of degrees off — the
+  // "wrong at first, then right" warm-up — so we don't trust it for the lock.
+  const headingRef = useRef<number | null>(null);
+  const accRef = useRef<number | null>(null);
 
   // Continuous (unwrapped) rotation so 359°→1° eases the short way instead of
   // spinning 358° backwards. The rose's rotation lives on the UI thread.
@@ -93,29 +96,47 @@ export default function Qibla() {
   const unwrapped = useRef(0);
   const wasAligned = useRef(false);
 
+  // Fold a heading reading into the coarse status (lib/qibla `deriveQiblaStatus`), bailing if
+  // the band is unchanged so the common case — holding roughly steady — costs zero renders.
+  const applyStatus = useCallback((norm: number, acc: number | null, brg: number) => {
+    setStatus((prev) => {
+      const next = deriveQiblaStatus(norm, acc, brg, prev.aligned);
+      return prev.aligned === next.aligned && prev.near === next.near && prev.calibrating === next.calibrating
+        ? prev
+        : next;
+    });
+  }, []);
+
   const onHeading = useCallback(
     (raw: number, acc: number | null) => {
-      const norm = ((raw % 360) + 360) % 360;
-      const delta = ((norm - lastRaw.current + 540) % 360) - 180;
-      unwrapped.current += delta;
+      const norm = normalizeHeading(raw);
+      // Accumulate the SHORT signed turn so the rose unwraps (eases across the 0/360 seam)
+      // rather than spinning the long way; the running total drives the UI-thread rotation.
+      unwrapped.current += shortestTurn(lastRaw.current, norm);
       lastRaw.current = norm;
-      // Only feed the "getting warmer" proximity glow when the heading is trustworthy —
-      // otherwise an uncalibrated reading would warm the dial toward a wrong bearing.
-      const p = headingReliable(acc)
-        ? Math.max(0, Math.min(1, 1 - angleDelta(norm, bearingRef.current) / PROX_RANGE))
-        : 0;
+      headingRef.current = norm;
+      accRef.current = acc;
+      const p = qiblaProximity(norm, acc, bearingRef.current);
       // Idiomatic reanimated: drive the shared values from JS. The compiler's
       // immutability rule can't see that a SharedValue is meant to be mutated.
       // eslint-disable-next-line react-hooks/immutability
       roseDeg.value = withTiming(-unwrapped.current, { duration: motion.quick });
       // eslint-disable-next-line react-hooks/immutability
       prox.value = withTiming(p, { duration: motion.quick });
-      setHeading(norm);
-      setAccuracy(acc);
+      applyStatus(norm, acc, bearingRef.current);
       setNoCompass((v) => (v ? false : v));
     },
-    [roseDeg, prox],
+    [roseDeg, prox, applyStatus],
   );
+
+  // Keep `bearingRef` current and re-fold the last reading when the bearing moves on a fresh
+  // GPS fix — the magnetometer may not tick while the phone is still, so without this the
+  // status would lag a location change. (Listing `bearing` in `onHeading`'s deps instead
+  // would re-subscribe the magnetometer on every fix, resetting its calibration warm-up.)
+  useEffect(() => {
+    bearingRef.current = bearing;
+    if (headingRef.current != null) applyStatus(headingRef.current, accRef.current, bearing);
+  }, [bearing, applyStatus]);
 
   // Subscribe to the magnetometer only while the screen is focused (battery), and
   // fall back to a north-up dial if no heading arrives (emulator / no sensor).
@@ -162,14 +183,10 @@ export default function Qibla() {
     }, [onHeading]),
   );
 
-  const delta = heading != null ? angleDelta(heading, bearing) : null;
-  const reliable = headingReliable(accuracy);
-  // "Calibrating": we have a live heading but the magnetometer isn't trustworthy yet.
-  // While calibrating we don't claim alignment / "on your way" (both would point at a
-  // possibly-wrong bearing) — we ask the user to figure-8 the phone instead.
-  const calibrating = !noCompass && heading != null && !reliable;
-  const aligned = reliable && delta != null && delta <= ALIGN_TOL;
-  const near = reliable && delta != null && !aligned && delta <= NEAR_TOL;
+  // The coarse status drives the pill and which overlays draw. `calibrating` means we have a
+  // live-but-untrusted heading: while it holds we don't claim alignment / "on your way" (both
+  // would point at a possibly-wrong bearing) — we ask the user to figure-8 the phone instead.
+  const { aligned, near, calibrating } = status;
 
   // A single confirming tap the moment you line up (not on every frame while held).
   useEffect(() => {
@@ -200,7 +217,14 @@ export default function Qibla() {
         </Text>
       </View>
 
-      <View style={styles.compassArea}>
+      {/* The dial is a purely visual instrument — its rotating letters (N/O/S/V) and ticks
+          convey nothing to a screen-reader user and would just clutter the swipe order, so
+          hide it from accessibility. The status pill + bearing readout below carry the state. */}
+      <View
+        style={styles.compassArea}
+        accessibilityElementsHidden
+        importantForAccessibility="no-hide-descendants"
+      >
         <View style={[styles.dialWrap, { width: dial, height: dial }]}>
           {/* Fixed warm face — a gentle top-down sheen gives the instrument depth.
               It does NOT rotate, so the "light" always falls from the top. */}
@@ -286,7 +310,7 @@ export default function Qibla() {
                     slot bottom (the dial centre) so it grows out of the hub with no gap. */}
                 <View style={[StyleSheet.absoluteFill, rot(bearing + 180)]} pointerEvents="none">
                   <View style={[styles.needleSlot, styles.tailSlot, { height: r }]}>
-                    <View style={styles.needleTail} />
+                    <View style={[styles.needleTail, { borderBottomWidth: r * 0.48 }]} />
                   </View>
                 </View>
               </>
@@ -305,7 +329,14 @@ export default function Qibla() {
 
       {/* Status + readout. */}
       <View style={styles.readout}>
-        <View style={[styles.statusPill, near && styles.statusPillNear, aligned && styles.statusPillOn]}>
+        {/* A polite live region so TalkBack re-announces the moment the state changes
+            (e.g. "Du är vänd mot Mecka" on lock) without the user re-focusing it. */}
+        <View
+          style={[styles.statusPill, near && styles.statusPillNear, aligned && styles.statusPillOn]}
+          accessible
+          accessibilityRole="text"
+          accessibilityLiveRegion="polite"
+        >
           <MaterialIcons
             name={
               aligned
@@ -317,7 +348,7 @@ export default function Qibla() {
                     : 'navigation'
             }
             size={16}
-            color={aligned ? c.onHighlight : near ? c.highlight : c.accent}
+            color={aligned ? c.onHighlight : near ? c.highlightText : c.accent}
           />
           <Text style={[styles.statusText, near && styles.statusTextNear, aligned && styles.statusTextOn]}>
             {aligned
@@ -332,14 +363,23 @@ export default function Qibla() {
           </Text>
         </View>
 
-        <View style={styles.facts}>
+        {/* One accessible node so a screen reader speaks "Qibla 148 grader från norr"
+            instead of the split visual pieces ("148", "°", "från norr"). */}
+        <View
+          style={styles.facts}
+          accessible
+          accessibilityRole="text"
+          accessibilityLabel={`Qibla ${Math.round(bearing)} grader från norr`}
+        >
           <View style={styles.bearingRow}>
             <Text style={styles.bearingNum}>{Math.round(bearing)}</Text>
             <Text style={styles.bearingDeg}>°</Text>
           </View>
           <Text style={styles.factLabel}>från norr</Text>
         </View>
-        <Text style={styles.distance}>Mecka · {formatKm(distanceKm)}</Text>
+        <Text style={styles.distance} accessibilityLabel={`Avstånd till Mecka: ${formatKm(distanceKm)}`}>
+          Mecka · {formatKm(distanceKm)}
+        </Text>
 
         {noCompass ? (
           <Text style={styles.note}>
@@ -433,22 +473,31 @@ function makeStyles(c: Palette) {
     needleShaftBrass: { backgroundColor: c.highlight, borderRadius: 2 },
     // Pin the tail to the centre end of the slot so it meets the hub like the shaft.
     tailSlot: { justifyContent: 'flex-end' },
+    // The south counterweight, tapered to a fine point — widest (4px) where it pivots on the
+    // hub, narrowing to nothing at the tip, the way a real compass needle carries its mass.
+    // Its length is set inline from the dial radius so it scales. (A triangle via the border
+    // trick: a coloured bottom edge + transparent sides → the apex points outward to the rim.)
     needleTail: {
-      width: 3,
-      height: '50%',
-      marginBottom: 2,
-      borderRadius: 2,
-      backgroundColor: c.track,
-    },
-
-    index: {
-      position: 'absolute',
-      top: -11,
       width: 0,
       height: 0,
-      borderLeftWidth: 9,
-      borderRightWidth: 9,
-      borderTopWidth: 14,
+      marginBottom: 2,
+      borderLeftWidth: 2,
+      borderRightWidth: 2,
+      borderLeftColor: 'transparent',
+      borderRightColor: 'transparent',
+      borderBottomColor: c.track,
+    },
+
+    // The fixed aim sight at 12 o'clock — a slim, acute wedge (taller than it is wide) so it
+    // reads as a precise pointer to line the Kaaba up against, not a blunt arrowhead.
+    index: {
+      position: 'absolute',
+      top: -13,
+      width: 0,
+      height: 0,
+      borderLeftWidth: 7,
+      borderRightWidth: 7,
+      borderTopWidth: 16,
       borderLeftColor: 'transparent',
       borderRightColor: 'transparent',
       borderTopColor: c.accent,

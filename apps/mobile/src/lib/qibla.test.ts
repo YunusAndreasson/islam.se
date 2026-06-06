@@ -2,9 +2,13 @@ import { describe, expect, it } from '@jest/globals';
 
 import {
   angleDelta,
+  deriveQiblaStatus,
   formatKm,
   headingReliable,
   KAABA,
+  QIBLA_ALIGN_RELEASE,
+  QIBLA_ALIGN_TOL,
+  qiblaAligned,
   qiblaBearing,
   qiblaDistanceKm,
 } from './qibla';
@@ -58,6 +62,58 @@ describe('headingReliable', () => {
   it('accepts medium and high calibration', () => {
     expect(headingReliable(2)).toBe(true);
     expect(headingReliable(3)).toBe(true); // high (<20° uncertainty on iOS)
+  });
+});
+
+describe('qiblaAligned', () => {
+  it('acquires a lock only within the tight tolerance', () => {
+    expect(qiblaAligned(0, false)).toBe(true);
+    expect(qiblaAligned(QIBLA_ALIGN_TOL, false)).toBe(true); // exactly at the edge → lock
+    expect(qiblaAligned(QIBLA_ALIGN_TOL + 0.1, false)).toBe(false);
+  });
+
+  it('holds a lock through the wider release band (hysteresis)', () => {
+    // The whole point: a heading sitting at 5° off is NOT close enough to acquire a fresh
+    // lock, but IS close enough to keep an existing one. That gap is what stops jitter on
+    // the 4° edge from strobing the brass lock and re-buzzing the haptic frame after frame.
+    expect(qiblaAligned(5, false)).toBe(false); // can't acquire here…
+    expect(qiblaAligned(5, true)).toBe(true); // …but holds if already locked
+    expect(qiblaAligned(QIBLA_ALIGN_RELEASE, true)).toBe(true); // holds to the release edge
+    expect(qiblaAligned(QIBLA_ALIGN_RELEASE + 0.1, true)).toBe(false); // past it → release
+  });
+
+  it('keeps acquire tighter than release so the band is real', () => {
+    expect(QIBLA_ALIGN_TOL).toBeLessThan(QIBLA_ALIGN_RELEASE);
+  });
+});
+
+describe('deriveQiblaStatus', () => {
+  const BEARING = 148; // a Stockholm-ish qibla, due south-east
+
+  it('does NOT lock onto an uncalibrated reading pointing dead at the qibla', () => {
+    // THE documented "wrong at first, then right" bug: during magnetometer warm-up the heading
+    // can read tens of degrees off while the OS still reports low calibration. Even when such a
+    // reading happens to point EXACTLY at the bearing, accuracy below MEDIUM must surface as
+    // `calibrating` — never `aligned` — or the app buzzes "du är vänd mot Mecka" at the wrong
+    // orientation. This is the single most important correctness property of the screen.
+    expect(deriveQiblaStatus(BEARING, 0, BEARING, false)).toEqual({ aligned: false, near: false, calibrating: true });
+    expect(deriveQiblaStatus(BEARING, 1, BEARING, false)).toEqual({ aligned: false, near: false, calibrating: true });
+  });
+
+  it('locks the instant the reading is both trusted and aimed', () => {
+    expect(deriveQiblaStatus(BEARING, 2, BEARING, false)).toEqual({ aligned: true, near: false, calibrating: false });
+    expect(deriveQiblaStatus(BEARING, 3, BEARING, false)).toEqual({ aligned: true, near: false, calibrating: false });
+  });
+
+  it('reports "on your way" in the approach band, not a lock', () => {
+    expect(deriveQiblaStatus(BEARING + 20, 3, BEARING, false)).toEqual({ aligned: false, near: true, calibrating: false });
+  });
+
+  it('carries the lock hysteresis through `wasAligned`', () => {
+    // 6° off: not close enough to ACQUIRE a fresh lock (so it reads "near"), but close enough
+    // to HOLD one already established — the gap that stops 4°-edge jitter from strobing it.
+    expect(deriveQiblaStatus(BEARING + 6, 3, BEARING, false)).toEqual({ aligned: false, near: true, calibrating: false });
+    expect(deriveQiblaStatus(BEARING + 6, 3, BEARING, true)).toEqual({ aligned: true, near: false, calibrating: false });
   });
 });
 

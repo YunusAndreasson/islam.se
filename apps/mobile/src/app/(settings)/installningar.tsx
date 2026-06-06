@@ -15,7 +15,7 @@
 import { MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
 import { router, useIsFocused } from 'expo-router';
 import { type ReactNode, useEffect, useMemo, useRef, useState } from 'react';
-import { ActivityIndicator, Alert, Linking, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { ActivityIndicator, Alert, Linking, Platform, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { DisclosureGroup } from '@/components/settings/DisclosureGroup';
@@ -44,9 +44,15 @@ import {
 } from '@/lib/prayer-times';
 import { useSettings } from '@/lib/settings/context';
 import {
+  HIJRI_OFFSET_MAX,
+  HIJRI_OFFSET_MIN,
+  NOTIFICATION_LEAD_MAX,
+  NOTIFICATION_LEAD_MIN,
+} from '@/lib/settings/types';
+import {
   LOCATION_MODE_OPTIONS,
+  calculationSummary,
   MAP_STYLE_OPTIONS,
-  methodLabel,
   ROUNDING_OPTIONS,
   THEME_OPTIONS,
   visningSummary,
@@ -170,12 +176,14 @@ export default function Installningar() {
         : notificationPermission === 'undetermined'
           ? 'Ej frågat'
           : 'Kontrollerar…';
+  const systemSettingsName = Platform.OS === 'ios' ? 'iOS-inställningar' : 'appinställningar';
+  const calcSummary = calculationSummary(settings);
   const notificationFootnote = settings.notifications.enabled
     ? notificationPermission === 'denied'
-      ? 'Notiser är blockerade i iOS. Öppna systeminställningar för att tillåta dem.'
+      ? `Notiser är blockerade. Öppna ${systemSettingsName} för att tillåta dem.`
       : notificationPermission === 'granted'
         ? 'Planeras lokalt på din enhet – inget skickas online.'
-        : 'iOS frågar om tillstånd när påminnelser aktiveras.'
+        : 'Systemet frågar om tillstånd när påminnelser aktiveras.'
     : undefined;
 
   return (
@@ -193,7 +201,7 @@ export default function Installningar() {
           footnote={
             settings.locationMode === 'gps'
               ? permissionStatus === 'denied'
-                ? 'Platsåtkomst nekad – visar standardplats. Tillåt i systeminställningar.'
+                ? `Platsåtkomst nekad – visar standardplats. Tillåt i ${systemSettingsName}.`
                 : 'Använder enhetens plats.'
               : undefined
           }
@@ -261,12 +269,12 @@ export default function Installningar() {
         <Pressable
           onPress={() => router.push('/(settings)/berakning')}
           accessibilityRole="button"
-          accessibilityLabel={`Beräkning: ${methodLabel(settings)}. Tryck för att ändra.`}
+          accessibilityLabel={`Beräkning: ${calcSummary}. Tryck för att ändra.`}
           style={({ pressed }) => [styles.card, styles.cardRow, pressed && styles.rowPressed]}
         >
           <Text style={styles.rowLabel}>Beräkning</Text>
           <View style={styles.rowTrailing}>
-            <Text style={styles.rowValue}>{methodLabel(settings)}</Text>
+            <Text style={styles.rowValue}>{calcSummary}</Text>
             <MaterialIcons name="chevron-right" size={20} color={colors.textMuted} />
           </View>
         </Pressable>
@@ -293,10 +301,17 @@ export default function Installningar() {
                   style={styles.previewIcon}
                 />
                 <View style={styles.previewLabelWrap}>
-                  <Text style={styles.previewLabel}>{p.label}</Text>
-                  <Text style={styles.previewSwedish}>{p.swedishName}</Text>
+                  <Text style={[styles.previewLabel, p.key === 'sunrise' && styles.previewMarkerText]}>
+                    {p.label}
+                  </Text>
+                  <Text style={[styles.previewSwedish, p.key === 'sunrise' && styles.previewMarkerSub]}>
+                    {p.swedishName}
+                  </Text>
                 </View>
-                <Text testID={`preview-time-${p.key}`} style={styles.previewTime}>
+                <Text
+                  testID={`preview-time-${p.key}`}
+                  style={[styles.previewTime, p.key === 'sunrise' && styles.previewMarkerText]}
+                >
                   {p.time}
                 </Text>
               </View>
@@ -335,10 +350,10 @@ export default function Installningar() {
             <Pressable
               onPress={() => void Linking.openSettings()}
               accessibilityRole="button"
-              accessibilityLabel="Öppna iOS-inställningar för notiser"
+              accessibilityLabel={`Öppna ${systemSettingsName} för notiser`}
               style={({ pressed }) => [styles.row, pressed && styles.rowPressed]}
             >
-              <Text style={styles.rowAction}>Öppna iOS-inställningar</Text>
+              <Text style={styles.rowAction}>Öppna {systemSettingsName}</Text>
               <MaterialIcons name="open-in-new" size={18} color={colors.accent} />
             </Pressable>
           ) : null}
@@ -347,8 +362,8 @@ export default function Installningar() {
               label="Påminn i förväg"
               value={settings.notifications.leadMinutes}
               divider
-              min={0}
-              max={60}
+              min={NOTIFICATION_LEAD_MIN}
+              max={NOTIFICATION_LEAD_MAX}
               step={5}
               format={(v) => (v === 0 ? 'Vid bönetid' : `${v} min innan`)}
               onChange={(leadMinutes) =>
@@ -361,6 +376,7 @@ export default function Installningar() {
                 <Toggle
                   key={key}
                   label={PRAYER_LABELS[key]}
+                  description={PRAYER_SWEDISH_NAMES[key]}
                   value={settings.notifications.prayers[key]}
                   divider
                   onValueChange={(v) =>
@@ -433,8 +449,8 @@ export default function Installningar() {
             <Stepper
               label="Dagar"
               value={settings.hijriOffset}
-              min={-2}
-              max={2}
+              min={HIJRI_OFFSET_MIN}
+              max={HIJRI_OFFSET_MAX}
               format={(v) => `${v > 0 ? '+' : ''}${v} d`}
               onChange={(hijriOffset) => update({ hijriOffset })}
             />
@@ -496,11 +512,11 @@ export default function Installningar() {
         <Pressable
           onPress={confirmReset}
           accessibilityRole="button"
-          accessibilityLabel="Återställ alla inställningar till standard"
+          accessibilityLabel="Återställ alla inställningar till appens standard"
           style={({ pressed }) => [styles.resetButton, pressed && styles.rowPressed]}
         >
           <MaterialIcons name="settings-backup-restore" size={18} color={colors.accent} />
-          <Text style={styles.resetLabel}>Återställ till standard</Text>
+          <Text style={styles.resetLabel}>Återställ appens standard</Text>
         </Pressable>
 
         {/* A quiet sign-off at the end of the screen — project line + version +
@@ -605,12 +621,14 @@ function makeStyles(colors: SettingsColors) {
     // Solar-cycle glyph on the left of each row — small, ink-muted, sits in
     // the same vertical rhythm as the two-line label block beside it.
     previewIcon: { marginRight: space.md, width: 22 },
-    // Two-line label block: Arabic name body weight, Swedish translation
+    // Two-line label block: transliterated name body weight, Swedish translation
     // caption-muted below.
     previewLabelWrap: { flex: 1 },
     previewLabel: { ...type.body, color: colors.text },
     previewSwedish: { ...type.caption, color: colors.textMuted, marginTop: 1 },
     previewTime: { ...type.body, ...mono, color: colors.text },
+    previewMarkerText: { color: colors.textMuted },
+    previewMarkerSub: { opacity: 0.8 },
 
     // --- Generic in-card row (used inside Plats, and as the Beräkning card) -
     // 48pt min — comfortable touch target without feeling cramped.

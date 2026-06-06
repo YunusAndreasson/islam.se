@@ -63,7 +63,7 @@ export const FAQ: readonly { question: string; answer: string }[] = [
   {
     question: 'Hur räknas bönetiderna ut?',
     answer:
-      'Tiderna beräknas med det öppna biblioteket adhan, som bygger på vedertagna astronomiska metoder. islam.se har inget eget uträkningssystem utan använder dessa etablerade metoder. Du väljer själv beräkningsmetod (Muslim World League är standard i Sverige), madhhab och hur höga breddgrader hanteras under Inställningar.',
+      'Tiderna beräknas med det öppna biblioteket adhan, som bygger på vedertagna astronomiska metoder. islam.se har inget eget uträkningssystem utan använder dessa etablerade metoder. Du väljer själv beräkningsmetod (Diyanet är appens standard), madhhab och hur höga breddgrader hanteras under Inställningar.',
   },
   {
     question: 'Stämmer det islamiska datumet?',

@@ -32,6 +32,7 @@ import {
   SHAFAQ_OPTIONS,
   signedMinutes,
 } from '@/lib/settings/options';
+import { PRAYER_ADJUSTMENT_MAX, PRAYER_ADJUSTMENT_MIN } from '@/lib/settings/types';
 import { space, type } from '@/theme/tokens';
 
 const ZERO_ADJUSTMENTS = { fajr: 0, sunrise: 0, dhuhr: 0, asr: 0, maghrib: 0, isha: 0 } as const;
@@ -52,7 +53,7 @@ export default function Berakning() {
 
         <SettingSection
           title="Beräkningsmetod"
-          footnote="Muslim World League är standard i Sverige. Diyanet är vanlig i den svensk-turkiska församlingen."
+          footnote="Diyanet är appens standard. Välj den metod som din moské eller församling följer."
         >
           <OptionGroup
             options={METHOD_OPTIONS}
@@ -106,7 +107,7 @@ export default function Berakning() {
 
         <SettingSection
           title="Manuella justeringar"
-          footnote="Förskjut varje tid i minuter för att matcha din lokala moské."
+          footnote="Förskjut varje tid i minuter för att matcha din lokala moské, till exempel vid Ramadan-justeringar."
         >
           {PRAYER_ORDER.map((key, i) => (
             <Stepper
@@ -114,8 +115,8 @@ export default function Berakning() {
               label={PRAYER_LABELS[key]}
               value={settings.adjustments[key]}
               divider={i > 0}
-              min={-60}
-              max={60}
+              min={PRAYER_ADJUSTMENT_MIN}
+              max={PRAYER_ADJUSTMENT_MAX}
               format={signedMinutes}
               onChange={(v) => update({ adjustments: { ...settings.adjustments, [key]: v } })}
             />

@@ -27,20 +27,19 @@ export const LOCATION_MODE_OPTIONS: readonly Option<LocationMode>[] = [
 ];
 
 // Sweden-first and Sweden-only by intent: a Swedish-Muslim user is realistically
-// served by one of MWL / Diyanet / Umm al-Qura / Egyptian / Moonsighting / ISNA.
-// Methods bound to specific Gulf countries (Karachi, Dubai, Qatar, Kuwait,
-// Singapore, Tehran) are NOT shown — they don't fit a Swedish congregation and
-// were noise in a list this important. They remain in CalculationMethodKey for
-// back-compat: a user with an older saved value still computes correctly via
-// adhan; they just can't re-pick that method from the picker.
+// served by one of Diyanet / MWL / Umm al-Qura / Egyptian / Moonsighting / ISNA.
+// Region-specific presets (Karachi, Dubai, Qatar, Kuwait, Singapore, Tehran) are
+// NOT shown — they are noise in a Sweden-focused list this important. They remain
+// in CalculationMethodKey for back-compat: a user with an older saved value still
+// computes correctly via adhan; they just can't re-pick that method from the picker.
 export const METHOD_OPTIONS: readonly Option<CalculationMethodKey>[] = [
+  { value: 'Turkey', label: 'Turkiet (Diyanet)', description: 'Fajr 18°, Isha 17° · appens standard' },
   {
     value: 'MuslimWorldLeague',
     label: 'Muslim World League',
-    description: 'Fajr 18°, Isha 17° · rekommenderad i Sverige',
+    description: 'Fajr 18°, Isha 17° · vanlig i bönetidstjänster',
   },
-  { value: 'Turkey', label: 'Turkiet (Diyanet)', description: 'Fajr 18°, Isha 17°' },
-  { value: 'UmmAlQura', label: 'Umm al-Qura (Mecka)', description: 'Fajr 18,5°, Isha efter 90 min' },
+  { value: 'UmmAlQura', label: 'Umm al-Qura (Mecka)', description: 'Fajr 18,5°, Isha 90 min efter Maghrib' },
   { value: 'Egyptian', label: 'Egyptiska myndigheten', description: 'Fajr 19,5°, Isha 17,5°' },
   {
     value: 'MoonsightingCommittee',
@@ -121,6 +120,13 @@ export const methodLabel = (s: PrayerSettings): string =>
   labelOf(METHOD_OPTIONS, s.calculationMethod);
 
 export const madhabLabel = (s: PrayerSettings): string => labelOf(MADHAB_OPTIONS, s.madhab);
+
+export const calculationSummary = (s: PrayerSettings): string => {
+  const method = methodLabel(s) || s.calculationMethod;
+  const parts = [method, madhabLabel(s)];
+  if (s.highLatitudeRule !== 'auto') parts.push(labelOf(HIGHLAT_OPTIONS, s.highLatitudeRule));
+  return parts.filter(Boolean).join(' · ');
+};
 
 /** Collapsed-header summary for the "Utseende och format" disclosure group: the AREAS
  *  it covers, not their values. Showing only the rounding label ("Närmaste minut") made

@@ -25,6 +25,7 @@ export function useSettingsColors() {
       thumb: c.thumb,
       // Brass "next" emphasis, kept consistent with the dock + map.
       highlight: c.highlight,
+      highlightText: c.highlightText,
       highlightSoft: c.highlightSoft,
     }),
     [c],

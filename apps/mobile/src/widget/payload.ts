@@ -28,7 +28,7 @@ export type DayResolver = (prayerDate: Date) => PrayerTimes;
  *  window), not a prayer — flagged so the UI can render it quietly. */
 export interface WidgetPrayerRow {
   key: PrayerKey;
-  /** Arabic name in the app's transliteration, e.g. "Ẓuhr". */
+  /** Transliterated prayer/time-marker name, e.g. "Ẓuhr". */
   arabic: string;
   /** Swedish name, e.g. "Middagsbönen". */
   swedish: string;
@@ -51,7 +51,7 @@ export interface WidgetPayload {
   hijri: string;
   /** All six slots in chronological order (incl. sunrise marker). */
   rows: WidgetPrayerRow[];
-  /** The next prayer/marker's Arabic name ("" when none could be resolved). */
+  /** The next prayer/time marker's transliterated name ("" when none could be resolved). */
   nextArabic: string;
   nextSwedish: string;
   /** Its clock time, or "—". */

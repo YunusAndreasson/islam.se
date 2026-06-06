@@ -1,4 +1,4 @@
-// "Återställ till standard" — the reset button on Inställningar and the context reset
+// "Återställ appens standard" — the reset button on Inställningar and the context reset
 // behind it. Two guards: (1) reset() truly restores EVERY field to DEFAULT_SETTINGS (a
 // missed field would silently survive a "reset"), and (2) the screen's button is wired to
 // the confirm → reset path, observed through a probe sharing the same SettingsProvider so
@@ -77,7 +77,7 @@ describe('settings reset() — restores every field to the app defaults', () => 
   });
 });
 
-describe('Inställningar — the "Återställ till standard" button', () => {
+describe('Inställningar — the "Återställ appens standard" button', () => {
   // Auto-confirm the native dialog by invoking its destructive button, the way a user
   // tapping "Återställ" would.
   let alertSpy: ReturnType<typeof jest.spyOn>;
@@ -108,7 +108,7 @@ describe('Inställningar — the "Återställ till standard" button', () => {
     expect(dump().notifications.enabled).toBe(true);
 
     // Press the REAL reset button on the screen; the mocked Alert confirms for us.
-    fireEvent.press(screen.getByLabelText('Återställ alla inställningar till standard'));
+    fireEvent.press(screen.getByLabelText('Återställ alla inställningar till appens standard'));
 
     expect(alertSpy).toHaveBeenCalledTimes(1);
     await waitFor(() => expect(dump()).toEqual(DEFAULT_SETTINGS));

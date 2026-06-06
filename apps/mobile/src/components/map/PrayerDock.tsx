@@ -760,7 +760,7 @@ function makeStyles(c: Palette) {
     listTime: { ...type.callout, color: c.ink, fontVariant: ['tabular-nums'] },
     // The next prayer = brass everywhere (here, the countdown, the map pill), so
     // "what's coming" reads in one colour across the dock and the map.
-    nextEmphasis: { color: c.highlight, fontWeight: '700' },
+    nextEmphasis: { color: c.highlightText, fontWeight: '700' },
 
     pressed: { opacity: 0.6 },
 
@@ -782,12 +782,12 @@ function makeStyles(c: Palette) {
     //    plus the 14px "i morgon" sibling. These numeric-display sizes are used nowhere
     //    else; tokenizing them would pollute the global scale for one component. ──
     heroTomorrow: { fontSize: 14, fontWeight: '400', color: c.inkMuted },
-    countdown: { marginLeft: space.sm, fontSize: 18, fontWeight: '700', color: c.highlight, fontVariant: ['tabular-nums'] },
+    countdown: { marginLeft: space.sm, fontSize: 18, fontWeight: '700', color: c.highlightText, fontVariant: ['tabular-nums'] },
     countdownPrefix: { fontSize: 13, fontWeight: '400', color: c.inkMuted },
     // Unit ("t" / "min") at ~65% of the digit size, medium-weight, same brass.
     // Flush against the digit (no inter-character space) — the hierarchy +
     // proximity that the old equal-weight string lacked.
-    countdownUnit: { fontSize: 12, fontWeight: '600', color: c.highlight },
+    countdownUnit: { fontSize: 12, fontWeight: '600', color: c.highlightText },
     heroSub: { flexDirection: 'row', alignItems: 'center', gap: space.xs, marginTop: 2 }, // optical nudge
     heroPlaceRow: { flexDirection: 'row', alignItems: 'center', gap: space.xs, marginLeft: space.sm, flexShrink: 1, minWidth: 0 },
     subTime: { ...type.caption, color: c.inkMuted, fontVariant: ['tabular-nums'] },
