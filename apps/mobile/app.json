@@ -15,7 +15,7 @@
         "tinted": "./assets/images/ios-tinted.png"
       },
       "bundleIdentifier": "se.islam.mobile",
-      "buildNumber": "9",
+      "buildNumber": "10",
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false
       }
