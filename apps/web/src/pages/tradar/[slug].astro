@@ -2,8 +2,8 @@
 import { getCollection } from "astro:content";
 import EssayList from "../../components/EssayList.astro";
 import Base from "../../layouts/Base.astro";
-import { type Article, getArticles } from "../../lib/articles";
-import { breadcrumbList } from "../../lib/jsonld";
+import { type Article, essayCount, getArticles } from "../../lib/articles";
+import { breadcrumbList, collectionPageJsonLd } from "../../lib/jsonld";
 
 export async function getStaticPaths() {
 	const [threads, articles] = await Promise.all([getCollection("tradar"), getArticles()]);
@@ -35,19 +35,12 @@ const slug = Astro.params.slug;
 	description={framing}
 	ogImage={`/tradar/${slug}/og.png`}
 	jsonLd={[
-		{
-			"@context": "https://schema.org",
-			"@type": "CollectionPage",
+		collectionPageJsonLd({
 			name: title,
 			description: framing,
-			url: `https://islam.se/tradar/${slug}`,
-			inLanguage: "sv",
-			hasPart: essays.map((e) => ({
-				"@type": "Article",
-				headline: e.title,
-				url: `https://islam.se/${e.slug}`,
-			})),
-		},
+			url: `/tradar/${slug}`,
+			essays,
+		}),
 		breadcrumbList([
 			{ name: "Hem", url: "/" },
 			{ name: "Trådar", url: "/tradar" },
@@ -60,7 +53,7 @@ const slug = Astro.params.slug;
 			<p class="label collection-kicker">Tråd</p>
 			<h1>{title}</h1>
 			<p class="collection-lead">{framing}</p>
-			<p class="label collection-count">{count} {count === 1 ? "essä" : "essäer"}</p>
+			<p class="label collection-count">{essayCount(count)}</p>
 		</header>
 
 		<EssayList articles={essays} />

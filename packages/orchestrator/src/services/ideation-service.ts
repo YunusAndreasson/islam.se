@@ -262,7 +262,11 @@ export class IdeationService {
 				model: getModelId(this.options.model),
 				jsonSchema: getIdeationJsonSchema(),
 				effort: "high",
-				maxBudgetUsd: 1.0,
+				// Opus 4.8 at effort "high" generating 10 sophisticated ideas (with
+				// extended thinking) routinely costs >$1 — the old 1.0 cap aborted the
+				// CLI mid-generation with "Exceeded USD budget" → silent exit 1. 4.0
+				// leaves headroom while still guarding against a runaway run.
+				maxBudgetUsd: 4.0,
 				fallbackModel: "sonnet",
 				noSessionPersistence: true,
 				skipPermissions: true,
@@ -588,7 +592,9 @@ export class IdeationService {
 				model: getModelId(this.options.model),
 				jsonSchema: getIdeationCritiqueJsonSchema(),
 				effort: "high",
-				maxBudgetUsd: 0.5,
+				// Same budget reasoning as the generation stage (see above); 0.5 was
+				// too low for Opus 4.8 and would abort the critique with exit 1.
+				maxBudgetUsd: 2.0,
 				fallbackModel: "sonnet",
 				noSessionPersistence: true,
 				skipPermissions: true,

@@ -3,6 +3,7 @@ import glossesData from "../content/verser/glosses.json";
 import { type Segment, wordCount } from "./arabic";
 import { getArticles } from "./articles";
 import { essaysCiting } from "./citations";
+import { dayIndex } from "./daily";
 
 export type { Segment, VerseToken } from "./arabic";
 export { tokenizeArabic } from "./arabic";
@@ -118,6 +119,5 @@ export async function getRotationVerses(): Promise<VerseOfDay[]> {
 export async function getVerseOfDay(): Promise<VerseOfDay | null> {
 	const verses = await getRotationVerses();
 	if (verses.length === 0) return null;
-	const dayIndex = Math.floor(Date.now() / 86_400_000) % verses.length;
-	return verses[dayIndex];
+	return verses[dayIndex(verses.length)];
 }

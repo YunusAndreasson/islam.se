@@ -9,7 +9,11 @@
 	--color-text: light-dark(#1a1914, #e0ddd8);
 	--color-bg: light-dark(#faf8f5, #1a1917);
 	--color-accent: light-dark(#3a3830, #c8c4be);
-	--color-muted: light-dark(#847a6e, #8a8278);
+	/* Light muted darkened from #847a6e (3.97:1) to clear WCAG AA (4.5:1) — it is
+	   the site's most-used secondary colour and lands on small text (.label,
+	   .archive-meta, captions). #776d61 = 4.78:1 on --color-bg, still a quiet warm
+	   taupe. Dark muted #8a8278 already passes (4.64:1 on dark bg). */
+	--color-muted: light-dark(#776d61, #8a8278);
 	--color-warm: light-dark(#b0a090, #6a5e4a);
 	--color-divider: color-mix(in srgb, var(--color-muted), transparent 80%);
 

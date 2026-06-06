@@ -98,6 +98,47 @@ function coordsValid(coords: LatLng): boolean {
 	);
 }
 
+// Swedish locations all sit in Europe/Stockholm. adhan reads a Date's local
+// getFullYear/getMonth/getDate values, so callers must not let the visitor's or
+// build host's timezone decide which Swedish calendar day is being calculated.
+export const TIME_ZONE = "Europe/Stockholm";
+
+const STOCKHOLM_DATE_FORMAT = new Intl.DateTimeFormat("sv-SE", {
+	timeZone: TIME_ZONE,
+	year: "numeric",
+	month: "2-digit",
+	day: "2-digit",
+});
+
+export interface StockholmDateParts {
+	year: number;
+	/** Zero-based month, matching Date#getMonth(). */
+	month: number;
+	day: number;
+}
+
+export function stockholmDateParts(date: Date): StockholmDateParts {
+	const parts = STOCKHOLM_DATE_FORMAT.formatToParts(date);
+	const value = (type: string) => Number(parts.find((p) => p.type === type)?.value);
+	return {
+		year: value("year"),
+		month: value("month") - 1,
+		day: value("day"),
+	};
+}
+
+/** An instant safely inside the requested Stockholm calendar day. */
+export function dateForStockholmDay(year: number, month: number, day: number): Date {
+	return new Date(Date.UTC(year, month, day, 12, 0, 0));
+}
+
+function calculationDateForStockholmDay(date: Date): Date {
+	const { year, month, day } = stockholmDateParts(date);
+	// adhan reads local Y/M/D from the Date object. This Date is not the target
+	// instant; it is an adapter so those local getters return the Stockholm day.
+	return new Date(year, month, day, 12, 0, 0);
+}
+
 export function computePrayerTimes(
 	coords: LatLng,
 	date: Date,
@@ -116,7 +157,7 @@ export function computePrayerTimes(
 		: new Coordinates(Number.NaN, Number.NaN);
 	const params = buildParams(settings, c);
 	if (!valid) params.polarCircleResolution = PolarCircleResolution.Unresolved;
-	return new PrayerTimes(c, date, params);
+	return new PrayerTimes(c, calculationDateForStockholmDay(date), params);
 }
 
 /** The six daily prayers plus sunrise, in chronological order, with Swedish labels. */
@@ -181,10 +222,6 @@ export const PRAYER_SWEDISH_NAMES: Record<PrayerKey, string> = {
 	maghrib: "Solnedgångsbönen",
 	isha: "Nattbönen",
 };
-
-// Swedish locations all sit in Europe/Stockholm; formatting there (rather than the
-// device zone) keeps times correct even on an emulator pinned to another zone.
-const TIME_ZONE = "Europe/Stockholm";
 
 /**
  * Format a prayer-time Date for display, in 24-hour Europe/Stockholm time (Sweden

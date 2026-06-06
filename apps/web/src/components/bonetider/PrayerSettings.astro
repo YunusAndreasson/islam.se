@@ -223,7 +223,10 @@ const withDesc = (label: string, desc?: string) => (desc ? `${label} — ${desc}
 		if (!form || form.dataset.wired) return;
 		form.dataset.wired = "1";
 		apply(form);
+		// `change` only: selects commit on selection and the two number inputs commit
+		// on blur/Enter/spinner. Binding `input` too would re-save, re-announce the
+		// aria-live summary, and repaint every field's canvas on every keystroke while
+		// typing a minute adjustment — noisy for screen readers and wasteful.
 		form.addEventListener("change", onChange);
-		form.addEventListener("input", onChange);
 	});
 </script>

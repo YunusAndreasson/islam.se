@@ -10,8 +10,10 @@ import Markesdagar from "../components/Markesdagar.astro";
 import RecentEssays from "../components/RecentEssays.astro";
 import TankareGroups from "../components/TankareGroups.astro";
 import TradarHome from "../components/TradarHome.astro";
+import { getImage } from "astro:assets";
 import Base from "../layouts/Base.astro";
 import { getArticles } from "../lib/articles";
+import { FEATURE_HERO_SIZES, FEATURE_HERO_WIDTHS } from "../lib/hero";
 import { getVerseOfDay } from "../lib/verse";
 
 const articles = await getArticles();
@@ -30,13 +32,26 @@ if (feature?.heroImage) usedImageSlugs.add(feature.slug);
 for (const a of recent) if (a.heroImage) usedImageSlugs.add(a.slug);
 
 const ogImage = feature?.heroImage;
+
+// LCP preload: the feature hero renders through Astro's responsive <Image>, so a
+// preload must carry the same srcset/sizes (not the raw original URL) for the
+// browser to preload the exact candidate it will paint. getImage() with identical
+// options yields the same optimized URLs the <Image> emits.
+const heroPreload = feature?.heroImage
+	? await getImage({
+			src: feature.heroImage,
+			widths: FEATURE_HERO_WIDTHS,
+			sizes: FEATURE_HERO_SIZES,
+		})
+	: null;
 ---
 
 <Base
 	title="islam.se — Essäer om islamisk intellektuell tradition och svenskt kulturarv"
 	description="Essäer om islamisk intellektuell tradition och svenskt kulturarv."
 	ogImage={ogImage?.src}
-	preloadImage={ogImage?.src}
+	preloadImageSrcset={heroPreload?.srcSet.attribute}
+	preloadImageSizes={FEATURE_HERO_SIZES}
 	jsonLd={{
 		"@context": "https://schema.org",
 		"@type": "WebSite",

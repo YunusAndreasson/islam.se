@@ -1101,8 +1101,12 @@ ${formatted}`;
 						wordCount: body.split(/\s+/).filter((w) => w.length > 0).length,
 					}) as DraftOutput,
 			},
-			effort: "max",
-			timeout: 2700000, // 45 min — authoring with effort:max needs room for deep thinking
+			// Downshifted max→xhigh: Opus 4.8 at effort "max" did not converge within
+			// the 45-min timeout (two consecutive timeouts on a real run), the same
+			// reason Review was moved off "max". xhigh keeps deep prose quality while
+			// actually finishing; 30-min timeout catches a hang sooner.
+			effort: "xhigh",
+			timeout: 1800000, // 30 min
 		});
 
 		if (!(result.success && result.data)) {
