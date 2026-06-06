@@ -2,6 +2,14 @@
 # per-app dirs are local agent state and should not be committed)
 apps/.claude/
 apps/mobile/.claude/
+.claude/projects/
+
+# Local editor / AI-tool configs (per-dev, not committed)
+.codex/
+.opencode/
+.zed/
+.mcp.json
+opencode.json
 
 # Dependencies
 node_modules/
