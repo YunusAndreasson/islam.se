@@ -152,16 +152,16 @@ export function nextPrayerKeyAt(times: PrayerTimes, now: number): PrayerKey | nu
   return null;
 }
 
-// Arabic prayer names in academic transliteration (DIN 31635 / ALA-LC style):
+// Prayer names in academic Arabic transliteration (DIN 31635 / ALA-LC style):
 //   ʿayn  = ʿ        ḍ = emphatic d        ī = long i
 //   hamza = ʾ        ḥ = pharyngeal h      ū = long u
 //                    ṣ = emphatic s        ā = long a
 //                    ẓ = emphatic z
 //
 // The Swedish translation in PRAYER_SWEDISH_NAMES sits as a muted second line
-// under the Arabic name in places that have room (Förhandsvisning). Sunrise
+// under the transliterated name in places that have room (Förhandsvisning). Sunrise
 // (Shurūq) is included here even though it's a *marker* not a prayer — the
-// user expects to see the Arabic name everywhere a prayer time appears.
+// user expects to see the same label everywhere a prayer time appears.
 export const PRAYER_LABELS: Record<PrayerKey, string> = {
   fajr: 'Fajr',
   sunrise: 'Shurūq',
@@ -172,7 +172,7 @@ export const PRAYER_LABELS: Record<PrayerKey, string> = {
 };
 
 /**
- * Swedish translations, paired with the Arabic name in two-line displays.
+ * Swedish translations, paired with the transliterated name in two-line displays.
  *  – Fajr     → Gryningsbönen   (true dawn, before sunrise)
  *  – Shurūq   → Soluppgång      (the marker — end of fajr-time)
  *  – Ẓuhr     → Middagsbönen    (sun past zenith)

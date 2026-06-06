@@ -58,6 +58,18 @@ describe('buildPayloadAt — next prayer & schedule', () => {
     expect(p.rows.filter((r) => r.isNext).map((r) => r.key)).toEqual(['asr']);
   });
 
+  it('after Fajr, the next event can be sunrise and remains marked as a time marker', () => {
+    const now = ref.fajr.getTime() + 60_000;
+    const p = buildPayloadAt(STOCKHOLM, settings(), now, 'Stockholm');
+    const next = p.rows.find((r) => r.isNext);
+
+    expect(p.nextArabic).toBe(PRAYER_LABELS.sunrise);
+    expect(p.nextSwedish).toBe(PRAYER_SWEDISH_NAMES.sunrise);
+    expect(p.nextTime).toBe(formatTime(ref.sunrise));
+    expect(next?.key).toBe('sunrise');
+    expect(next?.isMarker).toBe(true);
+  });
+
   it('after Isha, rolls over to tomorrow’s Fajr and stops highlighting today', () => {
     const now = ref.isha.getTime() + 60_000;
     const tomorrow = oracleTimes(STOCKHOLM, SPRING_DAY_NEXT);

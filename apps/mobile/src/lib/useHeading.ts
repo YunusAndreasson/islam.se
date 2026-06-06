@@ -12,7 +12,7 @@ import * as Location from 'expo-location';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { type SharedValue, useSharedValue, withTiming } from 'react-native-reanimated';
 
-import { headingReliable } from './qibla';
+import { headingReliable, normalizeHeading, shortestTurn } from './qibla';
 
 interface Options {
   /** Subscribe only while true (pass `useIsFocused()`); unsubscribes on false/unmount. */
@@ -45,10 +45,9 @@ export function useHeading({ active, request }: Options): Heading {
 
   const onHeading = useCallback(
     (raw: number, acc: number | null) => {
-      const norm = ((raw % 360) + 360) % 360;
+      const norm = normalizeHeading(raw);
       // Unwrap so the needle takes the short path across the 0/360 seam.
-      const delta = ((norm - lastRaw.current + 540) % 360) - 180;
-      unwrapped.current += delta;
+      unwrapped.current += shortestTurn(lastRaw.current, norm);
       lastRaw.current = norm;
       // Idiomatic reanimated: drive the shared value from JS. The compiler's
       // immutability rule can't see a SharedValue is meant to be mutated.

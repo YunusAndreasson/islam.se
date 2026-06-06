@@ -9,6 +9,11 @@
     "icon": "./assets/images/icon.png",
     "ios": {
       "supportsTablet": true,
+      "icon": {
+        "light": "./assets/images/icon.png",
+        "dark": "./assets/images/ios-dark.png",
+        "tinted": "./assets/images/ios-tinted.png"
+      },
       "bundleIdentifier": "se.islam.mobile",
       "buildNumber": "9",
       "infoPlist": {
@@ -21,7 +26,8 @@
       "versionCode": 4,
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
-        "backgroundColor": "#000000"
+        "monochromeImage": "./assets/images/adaptive-icon-monochrome.png",
+        "backgroundColor": "#161a26"
       },
       "permissions": [
         "android.permission.ACCESS_COARSE_LOCATION",
@@ -44,7 +50,7 @@
       [
         "expo-notifications",
         {
-          "color": "#3a4684",
+          "color": "#33437a",
           "icon": "./assets/images/notification-icon.png"
         }
       ],

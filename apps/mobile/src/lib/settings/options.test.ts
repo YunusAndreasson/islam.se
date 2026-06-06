@@ -14,6 +14,7 @@ import {
   POLAR_OPTIONS,
   ROUNDING_OPTIONS,
   SHAFAQ_OPTIONS,
+  calculationSummary,
   madhabLabel,
   methodLabel,
   signedMinutes,
@@ -37,10 +38,10 @@ import {
 // Karachi/Dubai/Qatar/Kuwait/Singapore/Tehran remain in the CalculationMethodKey
 // type union (so a user with an older saved value keeps computing correctly via
 // adhan), but are intentionally not in the picker — they're tied to specific
-// Gulf / South-Asian contexts that don't fit a Swedish congregation.
+// regional contexts that would make the Sweden-focused picker noisy.
 const SHOWN_METHOD_KEYS: readonly CalculationMethodKey[] = [
-  'MuslimWorldLeague',
   'Turkey',
+  'MuslimWorldLeague',
   'UmmAlQura',
   'Egyptian',
   'MoonsightingCommittee',
@@ -106,6 +107,10 @@ describe('OPTIONS — every typed key has exactly one labelled entry', () => {
       expect(o.label.trim().length).toBeGreaterThan(0);
     }
   });
+
+  it('puts the app default calculation method first', () => {
+    expect(METHOD_OPTIONS[0]?.value).toBe(DEFAULT_SETTINGS.calculationMethod);
+  });
 });
 
 describe('label helpers', () => {
@@ -125,6 +130,23 @@ describe('label helpers', () => {
       const s: PrayerSettings = { ...DEFAULT_SETTINGS, madhab: key };
       expect(madhabLabel(s).length).toBeGreaterThan(0);
     }
+  });
+
+  it('summarises calculation settings beyond just the method', () => {
+    expect(calculationSummary(DEFAULT_SETTINGS)).toBe('Turkiet (Diyanet) · Standard');
+    expect(
+      calculationSummary({
+        ...DEFAULT_SETTINGS,
+        madhab: 'hanafi',
+        highLatitudeRule: 'twilightAngle',
+      }),
+    ).toBe('Turkiet (Diyanet) · Hanafi · Skymningsvinkel');
+  });
+
+  it('keeps a readable summary for persisted back-compat methods hidden from the picker', () => {
+    expect(calculationSummary({ ...DEFAULT_SETTINGS, calculationMethod: 'Karachi' })).toBe(
+      'Karachi · Standard',
+    );
   });
 
   it('visningSummary names the group topics (scope), not their values', () => {

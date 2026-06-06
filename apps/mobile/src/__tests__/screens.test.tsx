@@ -1,18 +1,26 @@
-import { describe, expect, it, jest } from '@jest/globals';
+import { beforeEach, describe, expect, it, jest } from '@jest/globals';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { act, fireEvent, render, screen, waitFor } from '@testing-library/react-native';
 import * as MailComposer from 'expo-mail-composer';
+import * as Location from 'expo-location';
+import * as Notifications from 'expo-notifications';
 import { router } from 'expo-router';
 import * as StoreReview from 'expo-store-review';
 import * as WebBrowser from 'expo-web-browser';
 import type { ReactElement, ReactNode } from 'react';
+import { Platform } from 'react-native';
 
 import Bonetider from '../app/bonetider';
+import BytPlats from '../app/(settings)/byt-plats';
 import Installningar from '../app/(settings)/installningar';
 import Om from '../app/(settings)/om';
 import VanligaFragor from '../app/(settings)/vanliga-fragor';
 import Qibla from '../app/qibla';
 import { LocationProvider } from '../lib/location/context';
 import { SettingsProvider } from '../lib/settings/context';
+import { DEFAULT_SETTINGS } from '../lib/settings/types';
+
+const SETTINGS_KEY = 'prayerSettings:v1';
 
 // Bönetider and Inställningar read settings + location context, so wrap them as
 // the app does.
@@ -35,6 +43,16 @@ async function renderSettled(node: ReactElement): Promise<void> {
   await act(async () => {});
 }
 
+async function withPlatform<T>(os: 'ios' | 'android', run: () => Promise<T>): Promise<T> {
+  const original = Platform.OS;
+  Object.defineProperty(Platform, 'OS', { configurable: true, get: () => os });
+  try {
+    return await run();
+  } finally {
+    Object.defineProperty(Platform, 'OS', { configurable: true, get: () => original });
+  }
+}
+
 // Smoke tests: each tab screen mounts and shows its content. Cheap regression
 // guard that the screens stay renderable as the app grows.
 describe('tab screens', () => {
@@ -42,6 +60,11 @@ describe('tab screens', () => {
   // overlay + the floating MapNav), so it gets headroom past the 5 s default — under
   // parallel-worker CPU contention a heavy render legitimately runs a few seconds.
   const MAP_RENDER_TIMEOUT = 20_000;
+
+  beforeEach(async () => {
+    await AsyncStorage.clear();
+    jest.clearAllMocks();
+  });
 
   it(
     'renders the Bönetider map',
@@ -77,6 +100,10 @@ describe('tab screens', () => {
     expect(screen.getByRole('button', { name: 'Stäng' })).toBeTruthy();
     expect(screen.getByText('från norr')).toBeTruthy();
     expect(screen.getByText(/Mecka ·/)).toBeTruthy();
+    // The bearing readout exposes ONE clean spoken label (not the split "148"/"°"/"från
+    // norr" visual pieces) so a screen reader announces the qibla as a sentence. Pattern,
+    // not a fixed bearing, so it doesn't couple to the test env's default coordinates.
+    expect(screen.getByLabelText(/^Qibla \d+ grader från norr$/)).toBeTruthy();
   });
 
   it('renders the Inställningar screen once settings load', async () => {
@@ -89,6 +116,93 @@ describe('tab screens', () => {
     // calculation module — ran end-to-end inside the screen.
     fireEvent.press(screen.getByRole('button', { name: /^Förhandsvisning/ }));
     expect(screen.getAllByText(/Fajr/).length).toBeGreaterThan(0);
+  });
+
+  it('uses platform-aware copy when GPS location permission is denied', async () => {
+    jest
+      .mocked(Location.requestForegroundPermissionsAsync)
+      .mockResolvedValueOnce({ status: 'denied', granted: false } as never);
+
+    await withPlatform('android', async () => {
+      await renderSettled(withProviders(<Installningar />));
+      await waitFor(() =>
+        expect(
+          screen.getByText('Platsåtkomst nekad – visar standardplats. Tillåt i appinställningar.'),
+        ).toBeTruthy(),
+      );
+    });
+  });
+
+  it('uses platform-aware copy when notification permission is denied', async () => {
+    await AsyncStorage.setItem(
+      SETTINGS_KEY,
+      JSON.stringify({
+        ...DEFAULT_SETTINGS,
+        notifications: { ...DEFAULT_SETTINGS.notifications, enabled: true },
+      }),
+    );
+    jest
+      .mocked(Notifications.getPermissionsAsync)
+      .mockResolvedValueOnce({ granted: false, canAskAgain: false, status: 'denied' } as never);
+
+    await withPlatform('ios', async () => {
+      await renderSettled(withProviders(<Installningar />));
+      await waitFor(() =>
+        expect(
+          screen.getByText('Notiser är blockerade. Öppna iOS-inställningar för att tillåta dem.'),
+        ).toBeTruthy(),
+      );
+      expect(screen.getByRole('button', { name: 'Öppna iOS-inställningar för notiser' })).toBeTruthy();
+    });
+  });
+
+  it('announces Swedish prayer names on notification switches', async () => {
+    await AsyncStorage.setItem(
+      SETTINGS_KEY,
+      JSON.stringify({
+        ...DEFAULT_SETTINGS,
+        notifications: { ...DEFAULT_SETTINGS.notifications, enabled: true },
+      }),
+    );
+
+    await renderSettled(withProviders(<Installningar />));
+    await waitFor(() => expect(screen.getByLabelText('Fajr, Gryningsbönen')).toBeTruthy());
+    expect(screen.getByLabelText('Ẓuhr, Middagsbönen')).toBeTruthy();
+    expect(screen.getByLabelText('ʿIshāʾ, Nattbönen')).toBeTruthy();
+  });
+
+  it('searches the city picker diacritic-insensitively', async () => {
+    await renderSettled(
+      <SettingsProvider>
+        <BytPlats />
+      </SettingsProvider>,
+    );
+
+    fireEvent.changeText(screen.getByLabelText('Sök stad'), 'umea');
+
+    expect(screen.getByText('Umeå')).toBeTruthy();
+    expect(screen.queryByText('Stockholm')).toBeNull();
+  });
+
+  it('selecting a city persists manual location mode and returns', async () => {
+    jest.clearAllMocks();
+    await renderSettled(
+      <SettingsProvider>
+        <BytPlats />
+      </SettingsProvider>,
+    );
+
+    fireEvent.changeText(screen.getByLabelText('Sök stad'), 'umea');
+    fireEvent.press(screen.getByRole('button', { name: /^Umeå,/ }));
+
+    await waitFor(async () => {
+      const raw = await AsyncStorage.getItem(SETTINGS_KEY);
+      expect(raw).not.toBeNull();
+      const saved = JSON.parse(raw ?? '{}') as typeof DEFAULT_SETTINGS;
+      expect(saved.locationMode).toBe('manual');
+      expect(saved.manualLocation?.name).toBe('Umeå');
+    });
+    expect(router.back).toHaveBeenCalled();
   });
 
   // Progressive disclosure: the "Utseende" group lives in a collapsible

@@ -24,7 +24,7 @@ jest.mock('expo-router', () => ({
     const React = require('react');
     React.useEffect(callback, [callback]);
   },
-  router: { navigate: jest.fn(), push: jest.fn(), back: jest.fn() },
+  router: { navigate: jest.fn(), push: jest.fn(), back: jest.fn(), replace: jest.fn(), canGoBack: jest.fn(() => true) },
 }));
 
 // MapLibre is a native module with no JS implementation under test. Render its
@@ -222,6 +222,7 @@ jest.mock('expo-notifications', () => ({
   setNotificationCategoryAsync: jest.fn(async (identifier, actions, options) => ({ identifier, actions, options })),
   scheduleNotificationAsync: jest.fn(async () => 'id'),
   cancelAllScheduledNotificationsAsync: jest.fn(async () => {}),
+  cancelScheduledNotificationAsync: jest.fn(async () => {}),
   SchedulableTriggerInputTypes: { DATE: 'date' },
   AndroidImportance: { HIGH: 4, DEFAULT: 3 },
 }));

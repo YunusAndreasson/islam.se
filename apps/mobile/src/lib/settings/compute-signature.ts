@@ -25,3 +25,13 @@ export const COMPUTE_KEYS = [
 export function computeSignature(s: PrayerSettings): string {
   return JSON.stringify(COMPUTE_KEYS.map((k) => s[k]));
 }
+
+/** Settings that can change local notification fire times, labels, or enabled prayers. */
+export function notificationSignature(s: PrayerSettings): string {
+  return JSON.stringify([COMPUTE_KEYS.map((k) => s[k]), s.notifications]);
+}
+
+/** Settings that can change the widget's prayer timeline or displayed Hijri date. */
+export function widgetSignature(s: PrayerSettings): string {
+  return JSON.stringify([COMPUTE_KEYS.map((k) => s[k]), s.hijriOffset]);
+}

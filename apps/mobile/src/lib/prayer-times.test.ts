@@ -186,9 +186,10 @@ const spanMin = (a: Date, b: Date): number => (b.getTime() - a.getTime()) / MIN;
 describe('metamorphic solar-geometry relations', () => {
   it('places Dhuhr (solar noon) midway between sunrise and Maghrib (sunset)', () => {
     // Sunrise and sunset straddle the sun's meridian transit; Dhuhr is that transit
-    // and (MWL, 0° offset) Maghrib is sunset. Their midpoint must land on Dhuhr to
-    // within a few minutes — the only slack is the sun's declination drifting across
-    // the day (largest near the equinox, which SPRING_DAY deliberately is).
+    // and Maghrib is sunset plus the active method's small adjustment. Their midpoint
+    // must land near Dhuhr, with enough slack for that adjustment and the sun's
+    // declination drifting across the day (largest near the equinox, which SPRING_DAY
+    // deliberately is).
     const pt = computePrayerTimes(STOCKHOLM, SPRING_DAY, settings());
     const midpoint = (pt.sunrise.getTime() + pt.maghrib.getTime()) / 2;
     expect(Math.abs(midpoint - pt.dhuhr.getTime()) / MIN).toBeLessThan(5);

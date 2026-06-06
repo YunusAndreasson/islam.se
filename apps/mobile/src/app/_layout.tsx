@@ -1,12 +1,13 @@
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { AppState } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import { useLocation, LocationProvider } from '@/lib/location/context';
 import { syncPrayerNotifications } from '@/lib/notifications';
+import { notificationSignature, widgetSignature } from '@/lib/settings/compute-signature';
 import { SettingsProvider, useSettings } from '@/lib/settings/context';
 import { syncPrayerWidget } from '@/widget/sync';
 import { useActiveScheme, useColors } from '@/theme/useColors';
@@ -33,15 +34,21 @@ function AppStatusBar() {
 function NotificationSync() {
   const { coords } = useLocation();
   const { settings, loaded } = useSettings();
+  const latestSettings = useRef(settings);
+  const signature = notificationSignature(settings);
+
+  useEffect(() => {
+    latestSettings.current = settings;
+  }, [settings]);
 
   useEffect(() => {
     if (!loaded) return;
-    void syncPrayerNotifications(coords, settings);
+    void syncPrayerNotifications(coords, latestSettings.current);
     const sub = AppState.addEventListener('change', (state) => {
-      if (state === 'active') void syncPrayerNotifications(coords, settings);
+      if (state === 'active') void syncPrayerNotifications(coords, latestSettings.current);
     });
     return () => sub.remove();
-  }, [loaded, coords, settings]);
+  }, [loaded, coords, signature]);
 
   return null;
 }
@@ -53,15 +60,21 @@ function NotificationSync() {
 function WidgetSync() {
   const { coords, label } = useLocation();
   const { settings, loaded } = useSettings();
+  const latestSettings = useRef(settings);
+  const signature = widgetSignature(settings);
+
+  useEffect(() => {
+    latestSettings.current = settings;
+  }, [settings]);
 
   useEffect(() => {
     if (!loaded) return;
-    void syncPrayerWidget(coords, settings, label);
+    void syncPrayerWidget(coords, latestSettings.current, label);
     const sub = AppState.addEventListener('change', (state) => {
-      if (state === 'active') void syncPrayerWidget(coords, settings, label);
+      if (state === 'active') void syncPrayerWidget(coords, latestSettings.current, label);
     });
     return () => sub.remove();
-  }, [loaded, coords, settings, label]);
+  }, [loaded, coords, signature, label]);
 
   return null;
 }

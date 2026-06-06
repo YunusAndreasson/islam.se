@@ -5,6 +5,7 @@
 // settings, the location, or the app's foreground state change. No server, no
 // push — purely on-device, so it works offline.
 import * as Notifications from 'expo-notifications';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Platform } from 'react-native';
 
 import { palette } from '../theme/tokens';
@@ -29,6 +30,7 @@ const CATEGORY_ID = 'prayer-reminder';
 // iOS caps pending notifications at 64; 7 days × 5 prayers = 35, comfortably under,
 // and we re-sync on every foreground so the window keeps rolling forward.
 const DAYS_AHEAD = 7;
+const PRAYER_NOTIFICATION_IDS_KEY = 'prayerNotificationIds:v1';
 let syncGeneration = 0;
 
 // Show prayer alerts even when the app is foregrounded (the user may be staring at
@@ -89,19 +91,40 @@ export async function getNotificationPermissionState(): Promise<NotificationPerm
   }
 }
 
+async function loadPrayerNotificationIds(): Promise<string[]> {
+  try {
+    const raw = await AsyncStorage.getItem(PRAYER_NOTIFICATION_IDS_KEY);
+    const parsed = raw ? JSON.parse(raw) : [];
+    return Array.isArray(parsed) ? parsed.filter((id): id is string => typeof id === 'string') : [];
+  } catch {
+    return [];
+  }
+}
+
+async function savePrayerNotificationIds(ids: readonly string[]): Promise<void> {
+  await AsyncStorage.setItem(PRAYER_NOTIFICATION_IDS_KEY, JSON.stringify(ids));
+}
+
+async function cancelPrayerNotifications(): Promise<void> {
+  const ids = await loadPrayerNotificationIds();
+  await Promise.all(ids.map((id) => Notifications.cancelScheduledNotificationAsync(id).catch(() => undefined)));
+  await AsyncStorage.removeItem(PRAYER_NOTIFICATION_IDS_KEY);
+}
+
 /**
- * Reconcile scheduled notifications with the current settings + location. Always
- * clears first, then (if enabled and permitted) schedules every selected prayer for
- * the next {@link DAYS_AHEAD} days that lies in the future. Idempotent — safe to
- * call on any change or foreground.
+ * Reconcile scheduled prayer notifications with the current settings + location.
+ * Clears only this module's previously scheduled prayer IDs, then (if enabled and
+ * permitted) schedules every selected prayer for the next {@link DAYS_AHEAD} days
+ * that lies in the future. Idempotent — safe to call on any relevant change or foreground.
  */
 export async function syncPrayerNotifications(
   coords: LatLng,
   settings: PrayerSettings,
 ): Promise<void> {
   const generation = ++syncGeneration;
+  const scheduledIds: string[] = [];
   try {
-    await Notifications.cancelAllScheduledNotificationsAsync();
+    await cancelPrayerNotifications();
     if (generation !== syncGeneration) return;
     if (!settings.notifications.enabled) return;
 
@@ -133,13 +156,16 @@ export async function syncPrayerNotifications(
         if (fireAt.getTime() <= now + 60_000) continue;
         if (generation !== syncGeneration) return;
 
-        await Notifications.scheduleNotificationAsync({
+        const label = PRAYER_LABELS[key as PrayerKey];
+        const id = await Notifications.scheduleNotificationAsync({
           content: {
-            title: PRAYER_LABELS[key as PrayerKey],
-            body:
-              leadMs > 0
-                ? `Bönetid ${formatTime(at)} · om ${settings.notifications.leadMinutes} min`
-                : `Bönetid ${formatTime(at)}`,
+            // Lead with the glanceable answer in the bold title — which prayer, how
+            // soon — and demote the exact clock time to the lighter body as the
+            // durable fact. The alert fires exactly `leadMs` before the prayer, so
+            // "om N min" is correct at the moment it buzzes; with no lead offset it
+            // fires at the time itself, so the message is simply "now".
+            title: leadMs > 0 ? `${label} om ${settings.notifications.leadMinutes} min` : `Dags för ${label}`,
+            body: `Klockan ${formatTime(at)}`,
             // `true` = the OS default sound (iOS reads this; on Android the channel
             // governs). A string here would be treated as a custom bundled filename.
             sound: true,
@@ -151,9 +177,20 @@ export async function syncPrayerNotifications(
             channelId: CHANNEL_ID,
           },
         });
+        if (generation !== syncGeneration) {
+          await Notifications.cancelScheduledNotificationAsync(id).catch(() => undefined);
+          return;
+        }
+        scheduledIds.push(id);
       }
     }
+    if (generation !== syncGeneration) {
+      await Promise.all(scheduledIds.map((id) => Notifications.cancelScheduledNotificationAsync(id).catch(() => undefined)));
+      return;
+    }
+    await savePrayerNotificationIds(scheduledIds);
   } catch {
+    if (scheduledIds.length > 0) await savePrayerNotificationIds(scheduledIds).catch(() => undefined);
     // Notifications are a best-effort enhancement — never let a scheduling failure
     // (permissions revoked mid-flight, OS quota) crash the app.
   }

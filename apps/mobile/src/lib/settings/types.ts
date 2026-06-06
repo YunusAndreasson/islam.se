@@ -58,6 +58,13 @@ export interface PrayerAdjustments {
   isha: number;
 }
 
+export const PRAYER_ADJUSTMENT_MIN = -60;
+export const PRAYER_ADJUSTMENT_MAX = 60;
+export const NOTIFICATION_LEAD_MIN = 0;
+export const NOTIFICATION_LEAD_MAX = 60;
+export const HIJRI_OFFSET_MIN = -2;
+export const HIJRI_OFFSET_MAX = 2;
+
 export interface NamedLocation {
   name: string;
   latitude: number;
@@ -108,7 +115,7 @@ export interface PrayerSettings {
 }
 
 export const DEFAULT_SETTINGS: PrayerSettings = {
-  calculationMethod: 'MuslimWorldLeague',
+  calculationMethod: 'Turkey',
   madhab: 'shafi',
   // 'auto' (recommended) picks SeventhOfTheNight for most of Sweden — the right
   // default at these latitudes rather than the library's bare MiddleOfTheNight.

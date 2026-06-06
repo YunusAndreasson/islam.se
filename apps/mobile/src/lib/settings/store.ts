@@ -4,6 +4,12 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import {
   DEFAULT_SETTINGS,
+  HIJRI_OFFSET_MAX,
+  HIJRI_OFFSET_MIN,
+  NOTIFICATION_LEAD_MAX,
+  NOTIFICATION_LEAD_MIN,
+  PRAYER_ADJUSTMENT_MAX,
+  PRAYER_ADJUSTMENT_MIN,
   type CalculationMethodKey,
   type HighLatitudeRuleKey,
   type LocationMode,
@@ -63,6 +69,11 @@ function numberValue(value: unknown, fallback: number): number {
   return typeof value === 'number' && Number.isFinite(value) ? value : fallback;
 }
 
+function boundedNumberValue(value: unknown, fallback: number, min: number, max: number): number {
+  const n = numberValue(value, fallback);
+  return Math.max(min, Math.min(max, n));
+}
+
 function booleanValue(value: unknown, fallback: boolean): boolean {
   return typeof value === 'boolean' ? value : fallback;
 }
@@ -78,7 +89,14 @@ function validLongitude(value: unknown): value is number {
 function sanitizeAdjustments(value: unknown): PrayerAdjustments {
   const raw = isRecord(value) ? value : {};
   const out = { ...DEFAULT_SETTINGS.adjustments };
-  for (const key of ADJUSTMENT_KEYS) out[key] = numberValue(raw[key], DEFAULT_SETTINGS.adjustments[key]);
+  for (const key of ADJUSTMENT_KEYS) {
+    out[key] = boundedNumberValue(
+      raw[key],
+      DEFAULT_SETTINGS.adjustments[key],
+      PRAYER_ADJUSTMENT_MIN,
+      PRAYER_ADJUSTMENT_MAX,
+    );
+  }
   return out;
 }
 
@@ -96,10 +114,20 @@ function sanitizeSettings(parsed: unknown): PrayerSettings {
     shafaq: enumValue(raw.shafaq, SHAFAQS, DEFAULT_SETTINGS.shafaq),
     adjustments: sanitizeAdjustments(raw.adjustments),
     rounding: enumValue(raw.rounding, ROUNDINGS, DEFAULT_SETTINGS.rounding),
-    hijriOffset: numberValue(raw.hijriOffset, DEFAULT_SETTINGS.hijriOffset),
+    hijriOffset: boundedNumberValue(
+      raw.hijriOffset,
+      DEFAULT_SETTINGS.hijriOffset,
+      HIJRI_OFFSET_MIN,
+      HIJRI_OFFSET_MAX,
+    ),
     notifications: {
       enabled: booleanValue(rawNotifications.enabled, DEFAULT_SETTINGS.notifications.enabled),
-      leadMinutes: numberValue(rawNotifications.leadMinutes, DEFAULT_SETTINGS.notifications.leadMinutes),
+      leadMinutes: boundedNumberValue(
+        rawNotifications.leadMinutes,
+        DEFAULT_SETTINGS.notifications.leadMinutes,
+        NOTIFICATION_LEAD_MIN,
+        NOTIFICATION_LEAD_MAX,
+      ),
       prayers: {
         fajr: booleanValue(rawPrayers.fajr, DEFAULT_SETTINGS.notifications.prayers.fajr),
         dhuhr: booleanValue(rawPrayers.dhuhr, DEFAULT_SETTINGS.notifications.prayers.dhuhr),

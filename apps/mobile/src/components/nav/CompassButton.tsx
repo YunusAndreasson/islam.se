@@ -24,7 +24,7 @@ import Animated, { useAnimatedStyle, useSharedValue, withSpring } from 'react-na
 
 import { hapticSuccess } from '../../lib/haptics';
 import { useLocation } from '../../lib/location/context';
-import { angleDelta, qiblaBearing } from '../../lib/qibla';
+import { angleDelta, QIBLA_ALIGN_TOL, qiblaBearing } from '../../lib/qibla';
 import { useHeading } from '../../lib/useHeading';
 import { useColors } from '../../theme/useColors';
 import { GlassRoundButton } from './GlassRoundButton';
@@ -34,9 +34,6 @@ import { GlassRoundButton } from './GlassRoundButton';
 // (locked on qibla).
 const LOGO = require('../../../assets/images/logo-mark.png');
 
-// Same tolerance the Qibla screen uses for its lock pill — one canonical "you're
-// facing it" definition across the chrome and the full screen.
-const ALIGN_TOL = 4;
 // A crisp, slightly springy lock so the mark "snaps" brass when you hit the bearing.
 const LOCK_SPRING = { damping: 14, stiffness: 240, mass: 0.5 };
 
@@ -52,7 +49,7 @@ export function CompassButton({ active }: { active: boolean }) {
   // warm-up / calibration window the heading can be tens of degrees off, so an ungated
   // lock would flash brass + buzz "you're facing Mecca" at the wrong orientation (the
   // "wrong at first, then right" the needle shows). The logo still rotates live meanwhile.
-  const aligned = reliable && heading != null && angleDelta(heading, bearing) <= ALIGN_TOL;
+  const aligned = reliable && heading != null && angleDelta(heading, bearing) <= QIBLA_ALIGN_TOL;
   // One confirming tap the instant it locks (and again on the next re-lock after the
   // user has wandered off and returned), not on every frame while they hold the angle.
   // The same transition drives the spring scale-up that makes the lock feel physical.
@@ -76,12 +73,12 @@ export function CompassButton({ active }: { active: boolean }) {
   // base, reading at a glance even peripherally). The logo mark follows: accent while
   // live-but-searching, brass on lock.
   const tint = aligned ? c.highlightSoft : c.cardGlass;
-  const rim = aligned ? c.highlight : c.hairline;
+  const rim = aligned ? c.highlightText : c.hairline;
   // Neutral ink at rest — the SAME glyph colour as the settings cog (MapNav), so the two
   // nav discs read as one consistent family — and brass only on lock. No indigo
   // "searching" tint: with the fixed-arrow-glows model the one signal that matters is the
   // brass glow when you're facing the qibla.
-  const logoHue = aligned ? c.highlight : c.ink;
+  const logoHue = aligned ? c.highlightText : c.ink;
 
   return (
     <GlassRoundButton

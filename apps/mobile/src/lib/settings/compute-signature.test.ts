@@ -7,7 +7,12 @@
 // philosophy as options.test.ts.
 import { describe, expect, it } from '@jest/globals';
 
-import { COMPUTE_KEYS, computeSignature } from './compute-signature';
+import {
+  COMPUTE_KEYS,
+  computeSignature,
+  notificationSignature,
+  widgetSignature,
+} from './compute-signature';
 import { DEFAULT_SETTINGS, type PrayerSettings } from './types';
 
 // Hand-listed authoritative classifications, written independently of COMPUTE_KEYS so the
@@ -69,6 +74,44 @@ describe('computeSignature — reacts to time-affecting fields only', () => {
     for (const key of COSMETIC_KEYS) {
       const mutated: PrayerSettings = { ...DEFAULT_SETTINGS, [key]: ALT[key] };
       expect(computeSignature(mutated)).toBe(base);
+    }
+  });
+});
+
+describe('notificationSignature', () => {
+  it('changes for prayer-time settings and notification settings', () => {
+    const base = notificationSignature(DEFAULT_SETTINGS);
+    for (const key of TIME_AFFECTING_KEYS) {
+      const mutated: PrayerSettings = { ...DEFAULT_SETTINGS, [key]: ALT[key] };
+      expect(notificationSignature(mutated)).not.toBe(base);
+    }
+    expect(notificationSignature({ ...DEFAULT_SETTINGS, notifications: ALT.notifications })).not.toBe(base);
+  });
+
+  it('ignores settings that cannot affect notification scheduling', () => {
+    const base = notificationSignature(DEFAULT_SETTINGS);
+    for (const key of ['hijriOffset', 'locationMode', 'manualLocation', 'theme', 'mapStyle', 'haptics'] as const) {
+      const mutated: PrayerSettings = { ...DEFAULT_SETTINGS, [key]: ALT[key] };
+      expect(notificationSignature(mutated)).toBe(base);
+    }
+  });
+});
+
+describe('widgetSignature', () => {
+  it('changes for prayer-time settings and Hijri display settings', () => {
+    const base = widgetSignature(DEFAULT_SETTINGS);
+    for (const key of TIME_AFFECTING_KEYS) {
+      const mutated: PrayerSettings = { ...DEFAULT_SETTINGS, [key]: ALT[key] };
+      expect(widgetSignature(mutated)).not.toBe(base);
+    }
+    expect(widgetSignature({ ...DEFAULT_SETTINGS, hijriOffset: ALT.hijriOffset })).not.toBe(base);
+  });
+
+  it('ignores settings that cannot affect the widget payload', () => {
+    const base = widgetSignature(DEFAULT_SETTINGS);
+    for (const key of ['notifications', 'locationMode', 'manualLocation', 'theme', 'mapStyle', 'haptics'] as const) {
+      const mutated: PrayerSettings = { ...DEFAULT_SETTINGS, [key]: ALT[key] };
+      expect(widgetSignature(mutated)).toBe(base);
     }
   });
 });

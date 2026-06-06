@@ -34,6 +34,10 @@ function fold(s: string): string {
 }
 
 const NUMBER_FMT = new Intl.NumberFormat('sv-SE');
+const SEARCH_PLACES = PLACES.map((place) => ({
+  place,
+  searchText: `${fold(place.name)} ${fold(place.county)}`,
+}));
 
 // Fixed list-row metric — must be a constant for FlatList getItemLayout below
 // (not a spacing token). Holds the row at a comfortable two-line height.
@@ -61,7 +65,7 @@ export default function BytPlats() {
   const results = useMemo(() => {
     const q = fold(query.trim());
     if (!q) return PLACES;
-    return PLACES.filter((p) => fold(p.name).includes(q) || fold(p.county).includes(q));
+    return SEARCH_PLACES.filter((entry) => entry.searchText.includes(q)).map((entry) => entry.place);
   }, [query]);
 
   const handlePick = (p: SwedishPlace): void => {
@@ -94,7 +98,7 @@ export default function BytPlats() {
             {`${NUMBER_FMT.format(item.population)} inv.`}
           </Text>
         </View>
-        {isSelected ? <MaterialIcons name="check" size={20} color={colors.highlight} /> : null}
+        {isSelected ? <MaterialIcons name="check" size={20} color={colors.highlightText} /> : null}
       </Pressable>
     );
   };
@@ -178,11 +182,11 @@ function makeStyles(colors: SettingsColors) {
       borderWidth: StyleSheet.hairlineWidth,
       borderColor: colors.border,
     },
-    rowSelected: { backgroundColor: colors.highlightSoft, borderColor: colors.highlight },
+    rowSelected: { backgroundColor: colors.highlightSoft, borderColor: colors.highlightText },
     rowPressed: { backgroundColor: colors.accentSoft },
     rowText: { flex: 1 },
     rowName: { ...type.body, color: colors.text },
-    rowNameSelected: { color: colors.highlight, fontWeight: '600' },
+    rowNameSelected: { color: colors.highlightText, fontWeight: '600' },
     rowMeta: { ...type.caption, color: colors.textMuted, marginTop: 2 }, // optical nudge
     separator: { height: space.xs },
     empty: { color: colors.textMuted, textAlign: 'center', paddingVertical: space.xl },

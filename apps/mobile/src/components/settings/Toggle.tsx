@@ -24,6 +24,7 @@ export function Toggle({
 }) {
   const colors = useSettingsColors();
   const styles = useMemo(() => makeStyles(colors), [colors]);
+  const accessibilityLabel = description ? `${label}, ${description}` : label;
   return (
     <View style={[styles.row, divider && styles.divider, disabled && styles.dim]}>
       <View style={styles.text}>
@@ -34,7 +35,7 @@ export function Toggle({
         value={value}
         onValueChange={onValueChange}
         disabled={disabled}
-        accessibilityLabel={label}
+        accessibilityLabel={accessibilityLabel}
         trackColor={{ true: colors.accent, false: colors.track }}
         thumbColor={colors.thumb}
         ios_backgroundColor={colors.track}

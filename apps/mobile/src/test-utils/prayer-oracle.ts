@@ -34,7 +34,7 @@ export function oracleTimes(
   overrides: OracleOverrides = {},
 ): PrayerTimes {
   const c = new Coordinates(coords.latitude, coords.longitude);
-  const params = (overrides.method ?? CalculationMethod.MuslimWorldLeague)();
+  const params = (overrides.method ?? CalculationMethod.Turkey)();
   params.madhab = overrides.madhab ?? Madhab.Shafi; // DEFAULT_SETTINGS.madhab = 'shafi'
   params.highLatitudeRule = HighLatitudeRule.recommended(c); // DEFAULT_SETTINGS uses 'auto'
   params.polarCircleResolution = PolarCircleResolution.AqrabBalad;

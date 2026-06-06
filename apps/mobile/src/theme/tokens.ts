@@ -44,8 +44,8 @@ export const radius = {
 //     (sunrise/asr), so it isn't foreign — and it bridges to the website's warmth.
 export const lightPalette = {
   // Grounds & surfaces
-  paper: '#f4f0e8', //        screen background — warm parchment
-  paperSunken: '#ece6da', //  insets / pressed grouping
+  paper: '#f6f3ed', //        screen background — warm neutral parchment
+  paperSunken: '#eee9df', //  insets / pressed grouping
   surface: '#fffdf8', //      opaque cards — warm white
   cardGlass: 'rgba(255,253,248,0.90)', // translucent card over the living map
 
@@ -57,7 +57,7 @@ export const lightPalette = {
 
   // Structure — warm borders, hairline opacity bumped 0.08 → 0.10 so edges show.
   border: '#e4ddce',
-  separator: '#ece6da',
+  separator: '#eee9df',
   hairline: 'rgba(26,23,18,0.10)',
 
   // Accent — Prussian night-indigo (isha). Structure / interactive / "now".
@@ -68,9 +68,11 @@ export const lightPalette = {
   accentSoft: '#e7e8f1',
 
   // Highlight — warm brass-gold. The "live right now" emphasis (next prayer, qibla
-  // lock). `onHighlight` is the legible text/icon colour on a brass fill.
+  // lock). `highlightText` is the legible brass foreground on light surfaces; `onHighlight`
+  // is the legible text/icon colour on a brass fill.
   highlight: '#b8862f',
   highlightSoft: '#f1e7d0',
+  highlightText: '#805b1f',
   onAccent: '#ffffff', //     text/icon on an indigo fill
   onHighlight: '#1a1712', //  text/icon on a brass fill
 
@@ -91,7 +93,7 @@ export const lightPalette = {
   // countdown carries, so "what's next" reads in one colour across dock and map.
   pillSurface: '#fffdf8',
   pillBorder: 'rgba(26,23,18,0.10)',
-  pillNextBorder: '#b8862f',
+  pillNextBorder: '#805b1f',
 
   shadow: '#1c150b', //       warm shadow (was cool #0b1220)
   white: '#ffffff',
@@ -131,6 +133,7 @@ export const darkPalette: Palette = {
   // against the night map (≈5.5:1), so the next-prayer signal stays legible.
   highlight: '#c89a48',
   highlightSoft: 'rgba(200,154,72,0.16)',
+  highlightText: '#c89a48',
   onAccent: '#161a26',
   onHighlight: '#161a26',
 
@@ -165,12 +168,12 @@ export const palette = lightPalette;
 // the object can be `as const` (literal weights) and spread straight into styles;
 // tabular figures live in `mono` below.
 export const type = {
-  display: { fontSize: 34, fontWeight: '700', letterSpacing: 0.2, lineHeight: 40 },
-  title: { fontSize: 28, fontWeight: '700', letterSpacing: 0.2, lineHeight: 34 },
-  headline: { fontSize: 20, fontWeight: '700', letterSpacing: 0.2, lineHeight: 26 },
+  display: { fontSize: 34, fontWeight: '700', letterSpacing: 0, lineHeight: 40 },
+  title: { fontSize: 28, fontWeight: '700', letterSpacing: 0, lineHeight: 34 },
+  headline: { fontSize: 20, fontWeight: '700', letterSpacing: 0, lineHeight: 26 },
   bodyStrong: { fontSize: 16, fontWeight: '600', lineHeight: 22 },
-  body: { fontSize: 16, fontWeight: '400', lineHeight: 23 },
-  callout: { fontSize: 15, fontWeight: '400', lineHeight: 21 },
+  body: { fontSize: 16, fontWeight: '400', lineHeight: 24 },
+  callout: { fontSize: 15, fontWeight: '400', lineHeight: 22 },
   // Settings section header. Sentence-case (not uppercase) — a calm Linear/Notion-style
   // header that whispers the group name rather than shouting it. Paired with a muted ink
   // colour at the call-site; the near-zero tracking keeps it quiet next to 16pt body rows.
