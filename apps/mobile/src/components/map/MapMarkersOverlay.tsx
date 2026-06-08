@@ -29,6 +29,7 @@ import { type Camera, project } from '../../lib/map/projection';
 import { type LatLng, PRAYER_LABELS, type PrayerKey } from '../../lib/prayer-times';
 import type { PrayerLineLabel } from '../../lib/solar/field';
 import { prayerColorFor } from '../../lib/solar/palette';
+import type { PolarBoundary } from '../../lib/solar/sun';
 import { type Palette, radius, shadow, space, type } from '../../theme/tokens';
 import { useActiveScheme, useColors } from '../../theme/useColors';
 
@@ -42,9 +43,18 @@ interface Props {
   /** Pill anchors from buildLines: where each active prayer line wants its label. */
   labels: PrayerLineLabel[];
   nextKey: PrayerKey | null;
+  /** The polar daylight boundary for this date (null off-season) — labels the dashed
+   *  reference line the Skia overlay draws at the same latitude. */
+  polarBoundary: PolarBoundary | null;
 }
 
-export function MapMarkersOverlay({ camera, userCoords, labels, nextKey }: Props) {
+export function MapMarkersOverlay({
+  camera,
+  userCoords,
+  labels,
+  nextKey,
+  polarBoundary,
+}: Props) {
   const c = useColors();
   const scheme = useActiveScheme();
   // Marker rim flips warm/dark by basemap so the dot always reads against the ground.
@@ -87,7 +97,49 @@ export function MapMarkersOverlay({ camera, userCoords, labels, nextKey }: Props
           isNext={l.prayer === nextKey}
         />
       ))}
+
+      {/* Names the dashed polar boundary the Skia layer draws — turns the "why do the
+          lines stop here?" gap into a labelled phenomenon. */}
+      {polarBoundary != null && (
+        <PolarBoundaryLabel boundary={polarBoundary} camera={camera} scheme={scheme} />
+      )}
     </View>
+  );
+}
+
+/** A whisper-quiet annotation sitting just above the polar boundary line: a tiny name +
+ *  one-line reason, no chip/background, so it reads as a faint caption on the map rather
+ *  than a UI element. Tells the user WHY the prayer lines stop at this latitude. */
+function PolarBoundaryLabel({
+  boundary,
+  camera,
+  scheme,
+}: {
+  boundary: PolarBoundary;
+  camera: SharedValue<Camera>;
+  scheme: ReturnType<typeof useActiveScheme>;
+}) {
+  const midnight = boundary.kind === 'midnight-sun';
+  const tint = midnight
+    ? scheme === 'dark'
+      ? 'rgba(255,224,168,0.62)'
+      : 'rgba(120,86,24,0.78)'
+    : scheme === 'dark'
+      ? 'rgba(170,206,255,0.66)'
+      : 'rgba(48,80,134,0.82)';
+  const name = midnight ? 'Midnattssol' : 'Polarnatt';
+  const why = midnight ? 'solen går inte ner' : 'solen går inte upp';
+  // Anchored over central Sweden (lon ~16), away from the prayer pills that cluster on
+  // the sweeping lines further south. Sits just above the line (small upward nudge).
+  const posStyle = useAnimatedStyle(() => {
+    const p = project(16, boundary.lat, camera.value);
+    return { left: p.x, top: p.y - 18 };
+  }, [boundary.lat]);
+  return (
+    <Animated.View style={[styles.polarWrap, posStyle]}>
+      <Text style={[styles.polarName, { color: tint }]}>{name}</Text>
+      <Text style={[styles.polarWhy, { color: tint }]}>{why}</Text>
+    </Animated.View>
   );
 }
 
@@ -156,4 +208,13 @@ const styles = StyleSheet.create({
   pillNext: { borderWidth: 1.5 },
   dot: { width: 6, height: 6, borderRadius: 3 },
   pillLabel: { ...type.micro },
+  // Faint map caption (no chip): centred on its anchor, sitting just above the boundary.
+  polarWrap: {
+    position: 'absolute',
+    alignItems: 'center',
+    transform: [{ translateX: '-50%' }, { translateY: '-100%' }],
+  },
+  // Tiny, letter-spaced, all-quiet — a caption, not a label chip.
+  polarName: { ...type.micro, fontSize: 9, fontWeight: '600', letterSpacing: 0.6 },
+  polarWhy: { ...type.micro, fontSize: 8, letterSpacing: 0.2, opacity: 0.85 },
 });
