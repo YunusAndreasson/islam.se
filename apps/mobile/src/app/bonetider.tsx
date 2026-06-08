@@ -39,6 +39,7 @@ import { computePrayerTimes, nextPrayerKeyAt, PRAYER_ORDER, type PrayerKey } fro
 import { computeSignature } from '../lib/settings/compute-signature';
 import { useSettings } from '../lib/settings/context';
 import { buildGrid, buildLines } from '../lib/solar/field';
+import { polarBoundaryFor } from '../lib/solar/sun';
 import { useSolarClock } from '../lib/solar/useSolarClock';
 import { stockholmPrayerDate } from '../lib/stockholm-time';
 import { motion, radius, space, type } from '../theme/tokens';
@@ -198,6 +199,16 @@ export default function Bonetider() {
     [solar],
   );
 
+  // The polar daylight boundary for this date: in summer the midnight-sun line (sun never
+  // sets), in winter the polar-night line (sun never rises) — the latitude past which
+  // sunrise/fajr/maghrib/ishaʾ have no defined time, so their sweeping lines simply stop.
+  // Null near the equinoxes when it climbs off the top of the map. Derived from the day's
+  // solar declination; coincides with adhan's NaN boundary (see polar-boundary.test.ts).
+  const polarBoundary = useMemo(
+    () => polarBoundaryFor(new Date(clock.dayStart + clock.dayLength / 2)),
+    [clock.dayStart, clock.dayLength],
+  );
+
   // The user's own prayer times for today — drives the "next prayer", the day
   // marks under the slider, and the full list in the dock. Independent of the grid.
   const userTimes = useMemo(
@@ -347,6 +358,7 @@ export default function Bonetider() {
           camera={cam}
           lines={prayerLines}
           nextKey={nextKey}
+          polarBoundary={polarBoundary}
         />
       )}
 
@@ -359,6 +371,7 @@ export default function Bonetider() {
           userCoords={coords}
           labels={solar.labels}
           nextKey={nextKey}
+          polarBoundary={polarBoundary}
         />
       )}
 

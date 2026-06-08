@@ -58,6 +58,34 @@ export function solarParams(date: Date): SolarParams {
   return { declRad, eotMin };
 }
 
+/** The polar daylight boundary visible on a Nordic map: a latitude north of which a
+ *  sun-event-dependent prayer ceases to exist on this date. */
+export interface PolarBoundary {
+  /** Boundary latitude (°N). */
+  lat: number;
+  /** 'midnight-sun' (summer: sun never SETS) or 'polar-night' (winter: sun never RISES). */
+  kind: 'midnight-sun' | 'polar-night';
+}
+
+/**
+ * The midnight-sun / polar-night boundary for `date`, or null when it sits off the top of
+ * the Swedish map (toward the equinoxes the boundary climbs past the pole).
+ *
+ * Derivation: a place's sun altitude at solar midnight is −cos(lat+δ); the sun *never sets*
+ * once that stays above the −0.833° rise threshold (refraction + half the solar disc), i.e.
+ * lat ≥ 90 − 0.833 − δ. By the mirror argument the sun *never rises* (its noon altitude
+ * 90 − |lat−δ| stays below −0.833°) once lat ≥ 90 + 0.833 + δ (δ < 0 in winter). This is the
+ * exact latitude where adhan stops resolving sunrise/fajr/maghrib/ishaʾ — verified against
+ * the engine in polar-boundary.test.ts. Independent of longitude, so it maps to a perfectly
+ * horizontal line.
+ */
+export function polarBoundaryFor(date: Date, maxLat = 71): PolarBoundary | null {
+  const declDeg = solarParams(date).declRad / DEG;
+  const lat = declDeg >= 0 ? 90 - 0.833 - declDeg : 90 + 0.833 + declDeg;
+  if (!Number.isFinite(lat) || lat > maxLat) return null;
+  return { lat, kind: declDeg >= 0 ? 'midnight-sun' : 'polar-night' };
+}
+
 /**
  * Sun altitude in degrees (negative = below the horizon) at a place and instant. The shader
  * computes the same thing per pixel from (declRad, eotMin, utcMinutes) uniforms — keep the

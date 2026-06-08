@@ -10,7 +10,7 @@
 // stays glued to the basemap as the map pans/zooms — the line paths re-project on the
 // UI thread (useDerivedValue), and the wash shader re-projects per pixel from camera
 // uniforms. `pointerEvents="none"` lets map gestures fall through.
-import { BlurMask, Canvas, Fill, Path, Shader, Skia } from '@shopify/react-native-skia';
+import { BlurMask, Canvas, DashPathEffect, Fill, Path, Shader, Skia } from '@shopify/react-native-skia';
 import { useEffect, useMemo, useRef } from 'react';
 import { StyleSheet } from 'react-native';
 import {
@@ -23,7 +23,7 @@ import {
 import { PRAYER_ORDER, type PrayerKey } from '../../../lib/prayer-times';
 import { type Camera, mercX, mercY, project } from '../../../lib/map/projection';
 import { prayerColorFor, washStopsFor } from '../../../lib/solar/palette';
-import { solarParams } from '../../../lib/solar/sun';
+import { type PolarBoundary, solarParams } from '../../../lib/solar/sun';
 import { useActiveScheme } from '../../../theme/useColors';
 import { buildWashSksl } from './washShader';
 
@@ -45,6 +45,9 @@ interface Props {
   lines: PrayerLineData[];
   /** The user's next prayer — its line is drawn brighter/thicker. Null if tomorrow's. */
   nextKey: PrayerKey | null;
+  /** The polar daylight boundary for this date (null off-season) — a static dashed
+   *  reference line marking where sunrise/fajr/maghrib/ishaʾ cease to exist. */
+  polarBoundary: PolarBoundary | null;
 }
 
 export function SolarSkiaOverlay({
@@ -54,6 +57,7 @@ export function SolarSkiaOverlay({
   camera,
   lines,
   nextKey,
+  polarBoundary,
 }: Props) {
   // The wash composites onto the themed basemap, so its colour stops swap with
   // the active scheme — Apple Maps-style. `useActiveScheme()` is the user-aware
@@ -97,6 +101,32 @@ export function SolarSkiaOverlay({
     return m;
   }, [lines]);
 
+  // The boundary is a constant latitude (independent of longitude), so in a north-up
+  // Mercator it's a perfectly horizontal screen line: one y, full viewport width.
+  // Re-projected on the UI thread so it stays glued to the map through pans/zooms.
+  const polarBoundaryLat = polarBoundary?.lat ?? null;
+  const polarBoundaryPath = useDerivedValue(() => {
+    const cam = camera.value;
+    const b = Skia.PathBuilder.Make();
+    if (polarBoundaryLat != null) {
+      const y = project(0, polarBoundaryLat, cam).y;
+      b.moveTo(0, y);
+      b.lineTo(cam.width, y);
+    }
+    return b.detach();
+  });
+  // Dashed, no glow — reads as a *boundary*, deliberately unlike the glowing solid prayer
+  // sweeps. Kept faint: a quiet reference line. Warm gold for midnight sun, cool blue for
+  // polar night, echoing each phenomenon's light.
+  const polarBoundaryColor =
+    polarBoundary?.kind === 'polar-night'
+      ? scheme === 'dark'
+        ? 'rgba(150, 196, 255, 0.34)'
+        : 'rgba(56, 92, 150, 0.42)'
+      : scheme === 'dark'
+        ? 'rgba(255, 224, 168, 0.34)'
+        : 'rgba(150, 108, 34, 0.42)';
+
   return (
     <Canvas style={StyleSheet.absoluteFill} pointerEvents="none">
       {washEffect && (
@@ -104,6 +134,18 @@ export function SolarSkiaOverlay({
           {/* Pure per-pixel sun geometry — no image inputs. */}
           <Shader source={washEffect} uniforms={washUniforms} />
         </Fill>
+      )}
+
+      {polarBoundaryLat != null && (
+        <Path
+          path={polarBoundaryPath}
+          style="stroke"
+          strokeCap="butt"
+          color={polarBoundaryColor}
+          strokeWidth={1}
+        >
+          <DashPathEffect intervals={[4, 6]} />
+        </Path>
       )}
 
       {PRAYER_ORDER.map((prayer) => (
