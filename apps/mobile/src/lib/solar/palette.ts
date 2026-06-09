@@ -18,7 +18,7 @@ import type { PrayerKey } from '../prayer-times';
 /** [r, g, b, a] with a in 0..1. */
 export type RGBA = [number, number, number, number];
 
-/** The six wash colour stops the SkSL shader composes per pixel. */
+/** The five wash colour stops the SkSL shader composes per pixel. */
 export interface WashStops {
   /** Midday — basemap untouched. */
   DAY: RGBA;
@@ -34,14 +34,6 @@ export interface WashStops {
    *  gives Shurūq its own warm signature. Kept subtler than DUSK_WARM so Maghrib
    *  stays the hero — a dawn whisper, not a second sunset. */
   DAWN_WARM: RGBA;
-  /** A faint same-hue tint right at the Maghrib line — so the wash begins AT the
-   *  line, not far out in the band. */
-  DUSK_EDGE: RGBA;
-  /** Same idea at the sunrise line. */
-  DAWN_EDGE: RGBA;
-  /** Polar / midnight-sun fallback: a place that never reaches night keeps a pale
-   *  "white night" tint rather than going black or throwing on NaN times. */
-  WHITE_NIGHT: RGBA;
 }
 
 // Light wash. Alpha encodes how much the overlay dims the warm parchment basemap.
@@ -65,9 +57,6 @@ export const washStopsLight: WashStops = {
   // alpha (0.36 < 0.5) — a dawn gold that reads next to the cool blue without upstaging
   // Maghrib's red.
   DAWN_WARM: [226, 156, 94, 0.36],
-  DUSK_EDGE: [183, 78, 52, 0.2],
-  DAWN_EDGE: [80, 110, 186, 0.18],
-  WHITE_NIGHT: [120, 132, 172, 0.24],
 };
 
 // Dark wash. The basemap is ALREADY dark navy (`#1d2333`), so the wash no longer
@@ -90,9 +79,6 @@ export const washStopsDark: WashStops = {
   // Lifted golden sunrise for the navy basemap; alpha (0.26) below both the dark dusk
   // (0.32) and the light dawn-warm (0.36), per the gentler-dark-wash rule.
   DAWN_WARM: [236, 174, 110, 0.26],
-  DUSK_EDGE: [205, 108, 76, 0.14],
-  DAWN_EDGE: [120, 146, 210, 0.14],
-  WHITE_NIGHT: [148, 160, 200, 0.18],
 };
 
 /** Pick the wash stops for an OS appearance. */
