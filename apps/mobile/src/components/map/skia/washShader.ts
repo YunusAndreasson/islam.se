@@ -105,6 +105,18 @@ half4 main(float2 fragCoord) {
   float altDeg = asin(clamp(sinAlt, -1.0, 1.0)) / DEG;
 
   half4 c = twilight(altDeg, ha);
+  // ±0.5/255 ordered dither so the slow twilight ramps don't band on 8-bit output
+  // (visible especially in the dark-mode navy night, where the banding lives in the
+  // ALPHA ramp — hence alpha is dithered too). Interleaved gradient noise (Jimenez):
+  // stable per pixel, mediump-safe (no large-argument sin hash), no derivatives.
+  // Gated on c.a so daytime pixels stay exactly transparent. Dither is a render
+  // detail of main(), not part of the twilight() compositing spec — washColor.ts
+  // (the tested twin) deliberately does not mirror it.
+  if (c.a > 0.0) {
+    float n = fract(52.9829189 * fract(0.06711056 * fragCoord.x + 0.00583715 * fragCoord.y));
+    half d = half((n - 0.5) / 255.0);
+    c = clamp(c + half4(d, d, d, d), half4(0.0), half4(1.0));
+  }
   // Runtime-shader output is premultiplied.
   return half4(c.rgb * c.a, c.a);
 }

@@ -249,13 +249,12 @@ export default function Bonetider() {
   // it's today — tomorrow's Fajr has no line sweeping the country yet).
   const nextKey = next && !next.tomorrow ? next.key : null;
 
-  // The native maxBounds / minZoom camera props don't constrain on this
-  // MapLibre build, so we keep the view on Sweden in JS: after each settled
-  // pan/zoom, ease the camera back so the visible region stays within the
-  // country and never zooms out past the framing level.
-  // While the map is moving, track the live camera so the overlays follow it (the
-  // effect above mirrors this into the Skia canvas's shared value). The map is
-  // bounds-locked and snaps back, so this fires only during brief, incidental pans.
+  // The user is free to pan/zoom anywhere — there is no bounds enforcement. The
+  // settled handler below only records the initial framing and drives the
+  // "Återställ" reset chip when the user has drifted from it.
+  // While the map is moving, track the live camera so the overlays follow it:
+  // both the Skia field canvas and the RN marker layer read the `cam` shared
+  // value and re-project on the UI thread, so no React render happens per frame.
   const onRegionIsChanging = useCallback(
     (e: NativeSyntheticEvent<ViewStateChangeEvent>) => {
       const { zoom, bounds } = e.nativeEvent;
