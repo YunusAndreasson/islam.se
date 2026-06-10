@@ -21,8 +21,13 @@
 	   Heading steps ×1.061 to optically match Source Sans 3's smaller metrics. */
 	--step-0: 1.1875rem; /* 19px — body (Literata) */
 	--step-1: 1.512rem; /* 24.2px — archive titles (22.8 × 1.061, compensated) */
-	--step-2: 1.814rem; /* 29.0px — h2 (27.4 × 1.061, compensated) */
-	--step-4: 2.612rem; /* 41.8px — h1 (39.4 × 1.061, compensated) */
+	/* Heading steps are fluid: the old fixed values snapped h1 2rem→2.612rem
+	   (+30%) across the 768px breakpoint. clamp() interpolates 480→768px and
+	   lands exactly on the former mobile/desktop sizes at the ends. The rem
+	   intercept keeps page-zoom scaling (pure-vw clamps fail WCAG 1.4.4).
+	   Body and φ spacing stay stepped — they co-snap at 768px by design. */
+	--step-2: clamp(1.562rem, 1.144rem + 1.4vw, 1.814rem); /* 25px@480 → 29px@768 (h2) */
+	--step-4: clamp(2rem, 0.98rem + 3.4vw, 2.612rem); /* 32px@480 → 41.8px@768 (h1) */
 
 	/* Spacing — golden progression from body line-height (φ ≈ 1.618) */
 	--space-unit: 1.9rem;

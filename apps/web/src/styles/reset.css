@@ -11,11 +11,12 @@ html {
 	text-size-adjust: 100%;
 	scroll-behavior: smooth;
 	-webkit-tap-highlight-color: transparent;
-	scrollbar-width: none;
-
-	&::-webkit-scrollbar {
-		display: none;
-	}
+	/* Thin, palette-tinted document scrollbar — a long-form reading site keeps
+	   its position affordance and drag handle; stable gutter stops the layout
+	   jump when the command palette locks the page (overflow: hidden). */
+	scrollbar-width: thin;
+	scrollbar-color: color-mix(in srgb, var(--color-warm) 65%, transparent) transparent;
+	scrollbar-gutter: stable;
 }
 
 img {

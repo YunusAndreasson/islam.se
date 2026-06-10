@@ -132,7 +132,8 @@ const rows = articles.map((article) => {
 		text-wrap: balance;
 	}
 
-	.recent-link:hover .recent-title {
+	.recent-link:hover .recent-title,
+	.recent-link:focus-visible .recent-title {
 		text-decoration: underline;
 		text-decoration-thickness: 1px;
 		text-underline-offset: 0.12em;

@@ -202,7 +202,8 @@ const sections = groups.map(({ amne, essays }) => {
 		}
 	}
 
-	.amnen a:hover .amne-essay-title {
+	.amnen a:hover .amne-essay-title,
+	.amnen a:focus-visible .amne-essay-title {
 		text-decoration: underline;
 		text-underline-offset: 0.12em;
 	}
