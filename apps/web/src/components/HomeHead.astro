@@ -1,0 +1,20 @@
+---
+// A homepage section head-row: the kicker label with a quiet "Alla X" link on its
+// baseline. Shared by the truncated discovery movements (Trådar, Tänkare) so they
+// read as one family. The styling lives with the rest of the home vocabulary in
+// styles/layout.css (.home-head / .home-head-all), beside .home-kicker.
+interface Props {
+	label: string;
+	/** Kicker element id, referenced by the owning section's aria-labelledby. */
+	id: string;
+	href: string;
+	linkLabel: string;
+}
+
+const { label, id, href, linkLabel } = Astro.props;
+---
+
+<div class="home-head">
+	<p class="label home-kicker" id={id}>{label}</p>
+	<a class="label home-head-all arrow-link" href={href}>{linkLabel}</a>
+</div>

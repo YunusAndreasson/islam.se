@@ -15,7 +15,7 @@ const { article, widths = FEATURE_HERO_WIDTHS, sizes = FEATURE_HERO_SIZES } = As
 
 <section class="feature home-movement" aria-labelledby="feature-title">
 	<a class="feature-link" href={`/${article.slug}`} data-astro-prefetch="viewport">
-		<div class="feature-media media-frame">
+		<div class="feature-media media-frame" transition:name={`hero-${article.slug}`}>
 			<EssayImage
 				article={article}
 				widths={widths}

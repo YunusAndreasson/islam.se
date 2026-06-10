@@ -29,6 +29,7 @@
 	--space-half: 0.95rem;
 	--space-phi: 3.074rem; /* unit × φ */
 	--space-phi2: 4.974rem; /* unit × φ² */
+	--space-phi3: 8.048rem; /* unit × φ³ — act boundaries on the homepage */
 
 	/* Layout */
 	--content-width: 42rem;
@@ -53,5 +54,6 @@
 		--space-half: 0.75rem;
 		--space-phi: 2.427rem; /* 1.5 × φ */
 		--space-phi2: 3.927rem; /* 1.5 × φ² */
+		--space-phi3: 6.354rem; /* 1.5 × φ³ */
 	}
 }

@@ -1,5 +1,6 @@
 ---
 import { type Tankare, getTankare } from "../lib/tankare";
+import HomeHead from "./HomeHead.astro";
 
 // `limit` turns the full directory into a balanced homepage glimpse: the most-
 // present voices on each side, capped to equal-length columns so the facing
@@ -27,23 +28,29 @@ if (limit) {
 }
 ---
 
-<div class="tankare-groups">
-	{groups.map((group) => (
-		<div class="tankare-group">
-			<p class="label tankare-group-label">{group.label}</p>
-			<ul class="tankare-list">
-				{group.items.map((t) => (
-					<li class="tankare-row">
-						<a href={`/tankare/${t.slug}`} data-astro-prefetch="viewport">
-							<span class="tankare-name">{t.name}</span>
-							<span class="tankare-count" aria-label={`${t.essays.length} essäer`}>{t.essays.length}</span>
-						</a>
-					</li>
-				))}
-			</ul>
-		</div>
-	))}
-</div>
+<!-- On the homepage (limit set) this owns its movement: a head-row with the
+	 kicker + an "Alla tänkare" link, matching Trådar. On the /tankare index
+	 (no limit) it renders just the bare columns the page frames with its own h1. -->
+<section class:list={["tankare-home", { "home-movement": limit }]} aria-labelledby={limit ? "tankare-home-kicker" : null}>
+	{limit && <HomeHead label="Tänkare" id="tankare-home-kicker" href="/tankare" linkLabel="Alla tänkare" />}
+	<div class="tankare-groups">
+		{groups.map((group) => (
+			<div class="tankare-group">
+				<p class="label tankare-group-label">{group.label}</p>
+				<ul class="tankare-list">
+					{group.items.map((t) => (
+						<li class="tankare-row">
+							<a href={`/tankare/${t.slug}`} data-astro-prefetch="viewport">
+								<span class="tankare-name">{t.name}</span>
+								<span class="tankare-count" aria-label={`${t.essays.length} essäer`}>{t.essays.length}</span>
+							</a>
+						</li>
+					))}
+				</ul>
+			</div>
+		))}
+	</div>
+</section>
 
 <style>
 	/* Two facing columns — the composition itself shows the dialogue that

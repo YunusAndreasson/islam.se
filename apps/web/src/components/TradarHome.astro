@@ -1,5 +1,6 @@
 ---
 import { getCollection } from "astro:content";
+import HomeHead from "./HomeHead.astro";
 
 // `limit` keeps the homepage glimpse balanced: an even count fills the 2-column
 // grid into clean rows, while the /tradar index renders the collection unbounded.
@@ -18,7 +19,7 @@ if (limit) {
 ---
 
 <section class="tradar-home home-movement" aria-labelledby="tradar-kicker">
-	<p class="label home-kicker" id="tradar-kicker">Trådar</p>
+	<HomeHead label="Trådar" id="tradar-kicker" href="/tradar" linkLabel="Alla trådar" />
 	<ul class="tradar-grid">
 		{threads.map((thread) => (
 			<li class="tradar-card">

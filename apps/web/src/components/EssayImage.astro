@@ -1,5 +1,5 @@
 ---
-import { Image } from "astro:assets";
+import { getImage, Picture } from "astro:assets";
 import type { Article } from "../lib/articles";
 
 interface Props {
@@ -30,23 +30,49 @@ const hero = article.heroImage;
 const mobileCandidate = article.mobileHeroImage;
 const mobile =
 	mobileCandidate && mobileCandidate.width >= mobileCandidate.height ? mobileCandidate : undefined;
+
+// AVIF in production (~⅓ the bytes of webp on the LCP hero); webp-only in dev,
+// because Astro's dev image endpoint serves AVIF with a `image/heif` content-type
+// that Firefox refuses to decode (Chromium sniffs the bytes and copes). Production
+// builds emit real `.avif` files with the correct type, so the win lands where it
+// matters and local previews stay un-broken in every browser. webp is the universal
+// fallback in both.
+const FORMATS = import.meta.env.DEV ? (["webp"] as const) : (["avif", "webp"] as const);
+const MIME: Record<string, string> = { avif: "image/avif", webp: "image/webp" };
+const MOBILE_WIDTHS = [360, 540, 720, 1080];
+
+// The rare art-directed path (a few essays ship a landscape -mobile crop) hand-rolls
+// one <source> per format for both the portrait-phone crop and the desktop hero.
+const mobileSrcs: { type: string; srcset: string }[] = [];
+const desktopSrcs: { type: string; srcset: string }[] = [];
+let fallbackSrc = "";
+if (mobile && hero) {
+	for (const f of FORMATS) {
+		mobileSrcs.push({
+			type: MIME[f],
+			srcset: (await getImage({ src: mobile, widths: MOBILE_WIDTHS, sizes: "100vw", format: f })).srcSet.attribute,
+		});
+		desktopSrcs.push({
+			type: MIME[f],
+			srcset: (await getImage({ src: hero, widths, sizes, format: f })).srcSet.attribute,
+		});
+	}
+	fallbackSrc = (await getImage({ src: hero, widths, sizes, format: "webp" })).src;
+}
 ---
 
 {hero && (
 	mobile ? (
 		<picture>
-			<source
-				srcset={mobile.src}
-				media="(max-width: 768px) and (orientation: portrait)"
-				type="image/webp"
-				width={mobile.width}
-				height={mobile.height}
-			/>
-			<Image
-				src={hero}
+			{mobileSrcs.map((s) => (
+				<source media="(max-width: 768px) and (orientation: portrait)" type={s.type} srcset={s.srcset} sizes="100vw" />
+			))}
+			{desktopSrcs.map((s) => <source type={s.type} srcset={s.srcset} sizes={sizes} />)}
+			<img
+				src={fallbackSrc}
+				width={hero.width}
+				height={hero.height}
 				alt={article.title}
-				widths={widths}
-				sizes={sizes}
 				loading={loading}
 				fetchpriority={fetchpriority}
 				decoding="async"
@@ -54,8 +80,10 @@ const mobile =
 			/>
 		</picture>
 	) : (
-		<Image
+		<Picture
 			src={hero}
+			formats={[...FORMATS]}
+			fallbackFormat="webp"
 			alt={article.title}
 			widths={widths}
 			sizes={sizes}

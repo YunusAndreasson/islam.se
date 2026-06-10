@@ -42,6 +42,9 @@ const heroPreload = feature?.heroImage
 			src: feature.heroImage,
 			widths: FEATURE_HERO_WIDTHS,
 			sizes: FEATURE_HERO_SIZES,
+			// Match what EssayImage paints: webp in dev (Astro's dev endpoint mislabels
+			// AVIF as image/heif → Firefox rejects it), AVIF in the production build.
+			format: import.meta.env.DEV ? "webp" : "avif",
 		})
 	: null;
 ---
@@ -52,6 +55,7 @@ const heroPreload = feature?.heroImage
 	ogImage={ogImage?.src}
 	preloadImageSrcset={heroPreload?.srcSet.attribute}
 	preloadImageSizes={FEATURE_HERO_SIZES}
+	preloadImageType={heroPreload ? (import.meta.env.DEV ? "image/webp" : "image/avif") : undefined}
 	jsonLd={{
 		"@context": "https://schema.org",
 		"@type": "WebSite",
@@ -68,9 +72,9 @@ const heroPreload = feature?.heroImage
 
 		{feature && <FeatureEssay article={feature} />}
 
-		{verseOfDay && <DagensVers verseOfDay={verseOfDay} />}
-
 		<RecentEssays articles={recent} />
+
+		{verseOfDay && <DagensVers verseOfDay={verseOfDay} />}
 
 		<Citat />
 
@@ -78,13 +82,7 @@ const heroPreload = feature?.heroImage
 
 		<TradarHome limit={4} />
 
-		<section class="home-movement tankare-home" aria-labelledby="tankare-home-kicker">
-			<div class="tankare-home-head">
-				<p class="label home-kicker" id="tankare-home-kicker">Tänkare</p>
-				<a class="label tankare-home-all arrow-link" href="/tankare">Alla tänkare</a>
-			</div>
-			<TankareGroups limit={6} />
-		</section>
+		<TankareGroups limit={6} />
 
 		<Markesdagar />
 
@@ -113,36 +111,6 @@ const heroPreload = feature?.heroImage
 </Base>
 
 <style>
-	/* Tänkare kicker row: the section label, with a quiet path to the full
-	   directory on its baseline (the homepage shows a balanced glimpse). */
-	.tankare-home-head {
-		display: flex;
-		justify-content: space-between;
-		align-items: baseline;
-		gap: 1rem;
-		margin-bottom: var(--space-unit);
-	}
-
-	.tankare-home-head .home-kicker {
-		margin-bottom: 0;
-	}
-
-	.tankare-home-all {
-		flex-shrink: 0;
-		text-decoration: none;
-		transition: color 0.15s ease;
-	}
-
-	.tankare-home-all:hover {
-		color: var(--color-accent);
-	}
-
-	.tankare-home-all:focus-visible {
-		outline: 2px solid var(--color-accent);
-		outline-offset: 3px;
-		border-radius: 2px;
-	}
-
 	/* Closing pair — what islam.se is, and that it reaches a modern assistant.
 	   Quiet text-led movements in the site voice; the link mirrors the arrow
 	   convention used by Tänkare and the archive link. */
