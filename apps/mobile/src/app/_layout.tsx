@@ -9,6 +9,7 @@ import { useLocation, LocationProvider } from '@/lib/location/context';
 import { syncPrayerNotifications } from '@/lib/notifications';
 import { notificationSignature, widgetSignature } from '@/lib/settings/compute-signature';
 import { SettingsProvider, useSettings } from '@/lib/settings/context';
+import { syncPrayerLiveActivity } from '@/widget/live-activity';
 import { syncPrayerWidget } from '@/widget/sync';
 import { useActiveScheme, useColors } from '@/theme/useColors';
 
@@ -55,8 +56,10 @@ function NotificationSync() {
 
 // Keeps the iOS home-screen widget's prayer timeline in step with the user's settings
 // and location, refreshing on every foreground (WidgetKit advances the pushed entries
-// itself, but the ~36 h window needs re-seeding so it never runs dry). iOS-only and
-// best-effort — a no-op on Android (see syncPrayerWidget). Renders nothing.
+// itself, but the ~36 h window needs re-seeding so it never runs dry). Also reconciles
+// the prayer-countdown Live Activity — iOS only lets the app start one while
+// foregrounded, so this is exactly the right hook. iOS-only and best-effort — a no-op
+// on Android (see syncPrayerWidget / syncPrayerLiveActivity). Renders nothing.
 function WidgetSync() {
   const { coords, label } = useLocation();
   const { settings, loaded } = useSettings();
@@ -70,8 +73,12 @@ function WidgetSync() {
   useEffect(() => {
     if (!loaded) return;
     void syncPrayerWidget(coords, latestSettings.current, label);
+    void syncPrayerLiveActivity(coords, latestSettings.current, label);
     const sub = AppState.addEventListener('change', (state) => {
-      if (state === 'active') void syncPrayerWidget(coords, latestSettings.current, label);
+      if (state === 'active') {
+        void syncPrayerWidget(coords, latestSettings.current, label);
+        void syncPrayerLiveActivity(coords, latestSettings.current, label);
+      }
     });
     return () => sub.remove();
   }, [loaded, coords, signature, label]);
