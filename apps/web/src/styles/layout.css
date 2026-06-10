@@ -67,10 +67,63 @@
    between movements; a hairline rule is the only divider, used sparingly. */
 .home-movement {
 	margin-block: var(--space-phi2);
+	/* Modern-browser perf: skip layout/paint for movements still off-screen until
+	   the reader scrolls near them — a real win on this long, multi-movement page.
+	   `auto` remembers the actual height after first render so the scrollbar never
+	   jumps; 700px is only the pre-first-render placeholder estimate. The feature
+	   (first movement) is above the fold, so it renders immediately — no LCP cost. */
+	content-visibility: auto;
+	contain-intrinsic-size: auto 700px;
 }
 
 .home-movement:first-child {
 	margin-top: var(--space-phi);
+}
+
+/* Act grouping — the homepage falls into five movements-of-movements (det nya ·
+   stillhet · arkivet · den dagliga rytmen · avslut). Sections inside an act keep
+   the default phi2 rhythm; an act's opening section gets a phi3 top — the gap
+   ratio is φ itself — so the eye reads five groups, not a flat ladder of equal
+   blocks. Openers are tagged by their root class. (Stillhet opens on .vers, with
+   Citat a normal phi2 sibling after it.) */
+.home > .vers,
+.home > .amnen,
+.home > .markesdagar,
+.home > .bookpod {
+	margin-top: var(--space-phi3);
+}
+
+/* Section head-row — a kicker paired with a quiet "Alla X" link on one baseline.
+   Shared by the truncated discovery sections (Trådar, Tänkare) so they read as
+   one family; the link appears precisely where the homepage shows a glimpse and
+   the full set lives behind an index. (Ämnen shows every topic, so it needs no
+   such link and keeps a bare kicker — similarity following function.) */
+.home-head {
+	display: flex;
+	justify-content: space-between;
+	align-items: baseline;
+	gap: 1rem;
+	margin-bottom: var(--space-unit);
+}
+
+.home-head .home-kicker {
+	margin-bottom: 0;
+}
+
+.home-head-all {
+	flex-shrink: 0;
+	text-decoration: none;
+	transition: color 0.15s ease;
+}
+
+.home-head-all:hover {
+	color: var(--color-accent);
+}
+
+.home-head-all:focus-visible {
+	outline: 2px solid var(--color-accent);
+	outline-offset: 3px;
+	border-radius: 2px;
 }
 
 /* Movement label — the kicker that names a section in the site voice. A small

@@ -22,7 +22,8 @@ import {
 import { PRAYER_COLORS, washStopsDark, washStopsLight } from "./solar/palette";
 import { solarParams, sunPositionAt } from "./solar/sun";
 import { washColorAt } from "./solar/washColor";
-import { SWEDEN_BBOX, SWEDEN_OUTLINE } from "./sweden-outline";
+import { NEIGHBORS_OUTLINE } from "./neighbors-outline";
+import { SWEDEN_OUTLINE } from "./sweden-outline";
 
 const invMercX = (mx: number): number => mx * 360 - 180;
 
@@ -48,11 +49,21 @@ const EDGE = { light: "rgba(26,23,18,0.20)", dark: "rgba(164,173,214,0.28)" } as
 const SEA = { light: "#dfe7ec", dark: "#141a26" } as const;
 const BRASS = { light: "#b8862f", dark: "#c89a48" } as const;
 const ON_MARK = { light: "#fffdf8", dark: "#161a26" } as const;
+// Surrounding countries — a muted tone between sea and Sweden's land, plus a barely-there
+// coast, so the neighbours read as quiet context and Sweden stays the clear subject.
+const NEIGHBOR_LAND = { light: "#e6e0d2", dark: "#171d2b" } as const;
+const NEIGHBOR_EDGE = { light: "rgba(26,23,18,0.10)", dark: "rgba(164,173,214,0.13)" } as const;
 
-// Grid resolution per variant: the small home card needs fewer points than the big hub
-// map. Bounds hug Sweden (the silhouette clip hides anything past the edge) so the
-// one-time grid build stays cheap on the client.
-const GRID_BOUNDS: [number, number, number, number] = [8, 54.5, 25.6, 69.6];
+// The visible map AND the line grid both span Sweden plus a generous margin of
+// surrounding sea and neighbours, so the sweeping prayer isolines read as full lines
+// across the map (as in the app) — not stubs clipped at the coast. A prayer's line is
+// the locus where that prayer happens *right now*; for most of the day it sits out over
+// the sea east or west of Sweden, so a frame that hugged the country (the old
+// [8,54.5,25.6,69.6]) cut those lines to a short streak at the edge. The silhouette
+// still marks Sweden inside this wider frame; everything past its coast is open water
+// the lines sweep across.
+const VIEW_BBOX: [number, number, number, number] = [-8, 50, 30, 72];
+const GRID_BOUNDS: [number, number, number, number] = VIEW_BBOX;
 const GRID_STEP: Record<Variant, { latStep: number; lonStep: number }> = {
 	home: { latStep: 0.6, lonStep: 0.95 },
 	full: { latStep: 0.4, lonStep: 0.6 },
@@ -77,7 +88,7 @@ function fitTransform(
 	padTop: number,
 	padBottom: number,
 ): Transform {
-	const [W, S, E, N] = SWEDEN_BBOX;
+	const [W, S, E, N] = VIEW_BBOX;
 	const mxMin = mercX(W);
 	const mxMax = mercX(E);
 	const myMin = mercY(N); // north → smaller mercator y
@@ -95,9 +106,9 @@ const projY = (lat: number, t: Transform): number => t.oy + (mercY(lat) - t.myMi
 const unLon = (x: number, t: Transform): number => invMercX(t.mxMin + (x - t.ox) / t.scale);
 const unLat = (y: number, t: Transform): number => invMercY(t.myMin + (y - t.oy) / t.scale);
 
-function silhouette(t: Transform): Path2D {
+function pathFor(rings: readonly (readonly [number, number])[][], t: Transform): Path2D {
 	const p = new Path2D();
-	for (const ring of SWEDEN_OUTLINE) {
+	for (const ring of rings) {
 		ring.forEach(([lon, lat], i) => {
 			const x = projX(lon, t);
 			const y = projY(lat, t);
@@ -273,11 +284,16 @@ export function createFieldRenderer(canvas: HTMLCanvasElement) {
 		// never sits under it — the glass dock floats over open sea, not over land.
 		const reserveBottom = Math.max(74, h * 0.14);
 		const t = fitTransform(w, h, w * 0.05, h * 0.04, h * 0.04 + reserveBottom);
-		const path = silhouette(t);
+		const path = pathFor(SWEDEN_OUTLINE, t);
+		const neighbors = pathFor(NEIGHBORS_OUTLINE, t);
 
-		// 1. Sea (opaque base) then land — the two basemap tones.
+		// 1. Sea (opaque base), then the surrounding countries in a muted tone, then Sweden
+		//    in the full land tone on top — so the frame reads as a real Nordic/Baltic map
+		//    with Sweden as the clear subject, not a lone silhouette in empty sea.
 		ctx.fillStyle = SEA[cfg.scheme];
 		ctx.fillRect(0, 0, w, h);
+		ctx.fillStyle = NEIGHBOR_LAND[cfg.scheme];
+		ctx.fill(neighbors, "evenodd");
 		ctx.fillStyle = LAND[cfg.scheme];
 		ctx.fill(path);
 
@@ -294,10 +310,12 @@ export function createFieldRenderer(canvas: HTMLCanvasElement) {
 		const solar = buildLines(g, now.getTime());
 		drawLines(t, solar.lines, cfg.scheme, nextKey);
 
-		// 4. Coastline.
-		ctx.strokeStyle = EDGE[cfg.scheme];
-		ctx.lineWidth = 1;
+		// 4. Coastlines — neighbours barely there, Sweden crisp on top.
 		ctx.lineJoin = "round";
+		ctx.lineWidth = 1;
+		ctx.strokeStyle = NEIGHBOR_EDGE[cfg.scheme];
+		ctx.stroke(neighbors);
+		ctx.strokeStyle = EDGE[cfg.scheme];
 		ctx.stroke(path);
 
 		// 5. Place marker.

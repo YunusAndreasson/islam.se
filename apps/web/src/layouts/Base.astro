@@ -22,6 +22,9 @@ interface Props {
 	 *  emits, so the browser preloads the same candidate it will paint. */
 	preloadImageSrcset?: string;
 	preloadImageSizes?: string;
+	/** MIME type of the preloaded candidate (e.g. "image/avif"), so the preload
+	 *  matches the right `<source>` in the painted `<picture>`. */
+	preloadImageType?: string;
 	articleMeta?: {
 		publishedAt: string;
 		wordCount: number;
@@ -38,6 +41,7 @@ const {
 	preloadImage,
 	preloadImageSrcset,
 	preloadImageSizes,
+	preloadImageType,
 	articleMeta,
 	jsonLd,
 } = Astro.props;
@@ -110,7 +114,7 @@ if (articleMeta) {
 		<Font cssVariable="--font-heading" preload />
 		<Font cssVariable="--font-arabic" />
 		{preloadImageSrcset ? (
-			<link rel="preload" as="image" imagesrcset={preloadImageSrcset} imagesizes={preloadImageSizes} fetchpriority="high" />
+			<link rel="preload" as="image" type={preloadImageType} imagesrcset={preloadImageSrcset} imagesizes={preloadImageSizes} fetchpriority="high" />
 		) : preloadImage ? (
 			<link rel="preload" as="image" href={preloadImage} fetchpriority="high" />
 		) : null}

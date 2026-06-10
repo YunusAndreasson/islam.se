@@ -1,0 +1,14 @@
+# Cloudflare Pages headers. https://developers.cloudflare.com/pages/configuration/headers/
+
+# Content-hashed, immutable build assets (JS, CSS, images, fonts all live here).
+# The filename changes whenever the bytes do, so browsers can keep them forever and
+# skip revalidation entirely on repeat visits.
+/_astro/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Baseline security headers for every response. (Cache-Control is intentionally left
+# to Cloudflare's default for HTML so content edits go live without a stale window.)
+/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  X-Frame-Options: SAMEORIGIN

@@ -27,7 +27,7 @@ const rows = articles.map((article) => {
 			<li class:list={["recent-item", `recent-item--${side}`]}>
 				<a class="recent-link" href={`/${article.slug}`} data-astro-prefetch="viewport">
 					{side !== "none" && (
-						<div class="recent-media media-frame">
+						<div class="recent-media media-frame" transition:name={`hero-${article.slug}`}>
 							<EssayImage
 								article={article}
 								widths={[320, 480, 640]}

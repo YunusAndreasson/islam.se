@@ -131,10 +131,12 @@ const nextKey = nextPrayerKeyAt(times, now.getTime()) ?? "fajr";
 		margin: 0;
 	}
 
+	/* Arabic name on top, the (sometimes long) Swedish gloss stacked beneath it, so a
+	   wide name like "Solnedgångsbönen" gets the group's full width instead of being
+	   clipped to "Solnedgång…" beside the countdown in the narrow home dock. */
 	.bf-next-prayer {
 		display: flex;
-		align-items: baseline;
-		gap: 0.4rem;
+		flex-direction: column;
 		min-width: 0;
 	}
 

@@ -1,4 +1,4 @@
-import { readdirSync, readFileSync } from "node:fs";
+import { readdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 import sitemap from "@astrojs/sitemap";
@@ -28,9 +28,10 @@ try {
 	// articles dir may not exist during first build
 }
 
-// 301 redirects for old WordPress URLs → homepage (preserves SEO on same domain)
-// Pages with actual content on the new site are excluded.
-const legacyRedirects: Record<string, { status: 301; destination: string }> = {};
+// Old WordPress URLs with no counterpart on the new site — 301'd to the homepage to
+// preserve SEO on the same domain. Emitted as a Cloudflare Pages `_redirects` file
+// (true edge 301s) by the integration below, and excluded from the sitemap. Pages
+// that DO have real content on the new site are deliberately not listed here.
 const oldPaths = [
 	// Posts (islam/)
 	"/islam/liknelsen-for-den-fastande-ar-en-man-som-bar-pa-en-sack-mysk",
@@ -317,17 +318,16 @@ const oldPaths = [
 	"/author/knut",
 ];
 
-for (const path of oldPaths) {
-	legacyRedirects[path] = { status: 301, destination: "/" };
-}
-
 export default defineConfig({
 	site: "https://islam.se",
 	output: "static",
-	redirects: legacyRedirects,
 	prefetch: { defaultStrategy: "hover" },
 	build: { inlineStylesheets: "always" },
 	experimental: { contentIntellisense: true },
+	// Modern-browser-only build target: keep modern JS native (top-level await,
+	// optional chaining, nullish coalescing, class fields) instead of transpiling
+	// down to a legacy baseline — smaller, faster client bundles.
+	vite: { build: { target: "es2022" } },
 	markdown: {
 		remarkPlugins: [
 			[
@@ -409,5 +409,16 @@ export default defineConfig({
 				return item;
 			},
 		}),
+		// Emit a Cloudflare Pages `_redirects` file (true edge 301s) for the dead
+		// legacy URLs, instead of Astro's default per-path meta-refresh HTML pages.
+		{
+			name: "legacy-redirects",
+			hooks: {
+				"astro:build:done": ({ dir }) => {
+					const body = `${oldPaths.map((p) => `${p} / 301`).join("\n")}\n`;
+					writeFileSync(new URL("_redirects", dir), body);
+				},
+			},
+		},
 	],
 });

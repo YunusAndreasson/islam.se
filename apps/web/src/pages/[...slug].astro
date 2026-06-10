@@ -50,7 +50,7 @@ const amne = article.category ? amneByName.get(article.category) : undefined;
 			</header>
 
 			{article.heroImage && (
-				<figure class="article-hero media-frame">
+				<figure class="article-hero media-frame" transition:name={`hero-${article.slug}`}>
 					<EssayImage
 						article={article}
 						widths={[640, 960, 1280]}
