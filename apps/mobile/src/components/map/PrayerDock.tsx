@@ -48,6 +48,7 @@ import {
   type PrayerKey,
 } from '../../lib/prayer-times';
 import type { PrayerSettings } from '../../lib/settings/types';
+import { stockholmPrayerDate } from '../../lib/stockholm-time';
 import { prayerColorFor } from '../../lib/solar/palette';
 import type { SolarClock } from '../../lib/solar/useSolarClock';
 import { motion, type Palette, radius, shadow, space, type } from '../../theme/tokens';
@@ -121,6 +122,9 @@ type Countdown = { kind: 'now' } | { kind: 'mins'; m: number } | { kind: 'hrs'; 
 function countdownParts(ms: number): Countdown {
   if (ms <= 0) return { kind: 'now' };
   const mins = Math.round(ms / 60_000);
+  // Under 30 s the rounded count is 0, and "om 0 min" reads as broken — the honest
+  // rounding of "less than half a minute away" is the same "nu" the zero case shows.
+  if (mins === 0) return { kind: 'now' };
   const h = Math.floor(mins / 60);
   const m = mins % 60;
   if (h === 0) return { kind: 'mins', m };
@@ -257,13 +261,19 @@ export function PrayerDock({
   // aligned to the local mosque's sighting. Memoised on the day + offset so the two
   // Intl/Hijri formats don't re-run on every 30 s tick or scrub frame (the dock
   // re-renders for the countdown, but the viewed DAY rarely changes).
-  const { hijriLabel, gregorianLabel } = useMemo(() => {
-    const viewDate = new Date(clock.dayStart + DAY_MS / 2);
-    return {
-      hijriLabel: formatHijri(viewDate, settings.hijriOffset),
-      gregorianLabel: formatGregorian(viewDate),
-    };
-  }, [clock.dayStart, settings.hijriOffset]);
+  //
+  // Both lines label the STOCKHOLM calendar day. formatGregorian pins its own time
+  // zone, so the midday instant is enough; formatHijri reads local date FIELDS, so it
+  // gets stockholmPrayerDate (a local Date carrying the Stockholm Y/M/D) — passing the
+  // instant would read the DEVICE's calendar day and let the two lines disagree by a
+  // day on a phone far from Europe/Stockholm.
+  const { hijriLabel, gregorianLabel } = useMemo(
+    () => ({
+      hijriLabel: formatHijri(stockholmPrayerDate(clock.dayStart), settings.hijriOffset),
+      gregorianLabel: formatGregorian(new Date(clock.dayStart + DAY_MS / 2)),
+    }),
+    [clock.dayStart, settings.hijriOffset],
+  );
 
   // The "time left" / return-to-now control, shared by both hero layouts: live →
   // the countdown; scrubbed → a chip that taps back to now (the only such control,
@@ -320,7 +330,7 @@ export function PrayerDock({
             at dawn before). */}
         <GlassSurface
           style={StyleSheet.absoluteFill}
-          borderRadius={22}
+          borderRadius={radius.xl}
           interactive
           tint={c.cardGlass}
         />
@@ -379,10 +389,15 @@ export function PrayerDock({
               timeline below never reflows when the content swaps. */}
           <GestureDetector gesture={heroGesture}>
             <View style={styles.hero}>
-              {/* Layer A — collapsed headline. Fades/slides out first. */}
+              {/* Layer A — collapsed headline. Fades/slides out first. Only ONE hero
+                  layer may exist for assistive tech at a time — without the a11y
+                  hiding, a screen reader announced the place + countdown twice (once
+                  per layer), since visual opacity doesn't prune the a11y tree. */}
               <Animated.View
                 style={[styles.heroLayer, { opacity: 1 }, collapsedLayerStyle]}
                 pointerEvents={expanded ? 'none' : 'auto'}
+                accessibilityElementsHidden={expanded}
+                importantForAccessibility={expanded ? 'no-hide-descendants' : 'auto'}
               >
                 <View style={styles.heroTop}>
                   {next ? (
@@ -413,10 +428,15 @@ export function PrayerDock({
               {/* Layer B — expanded facts. Fades in as the schedule appears; the list
                   already names today's prayers + times, so this slims to countdown +
                   place. When the next prayer is TOMORROW's it isn't in today's list, so
-                  name it here to give the countdown a referent. */}
+                  name it here to give the countdown a referent. Sides mirror the
+                  collapsed layer (place left, brass countdown right) so the dock's
+                  brightest element never jumps corners mid-crossfade — the countdown
+                  holds the right edge in both states. */}
               <Animated.View
                 style={[styles.heroLayer, { opacity: 0 }, expandedLayerStyle]}
                 pointerEvents={expanded ? 'auto' : 'none'}
+                accessibilityElementsHidden={!expanded}
+                importantForAccessibility={!expanded ? 'no-hide-descendants' : 'auto'}
               >
                 <View style={styles.heroTop}>
                   {next ? (
@@ -427,6 +447,12 @@ export function PrayerDock({
                           <Text style={styles.heroTomorrow}> i morgon</Text>
                         </Text>
                       ) : null}
+                      <View style={styles.heroPlaceRow}>
+                        <Text style={styles.subPlace} numberOfLines={1}>
+                          {locationLabel}
+                        </Text>
+                      </View>
+                      <View style={styles.flex} />
                       {aside}
                     </>
                   ) : (
@@ -434,14 +460,6 @@ export function PrayerDock({
                       Inga fler böner i dag
                     </Text>
                   )}
-                  <View style={styles.flex} />
-                  {next ? (
-                    <View style={styles.heroPlaceRow}>
-                      <Text style={styles.subPlace} numberOfLines={1}>
-                        {locationLabel}
-                      </Text>
-                    </View>
-                  ) : null}
                 </View>
               </Animated.View>
             </View>
@@ -523,7 +541,7 @@ function ScheduleRow({
       <Pressable
         disabled={!valid}
         onPress={onPress}
-        style={({ pressed }) => [styles.listRow, pressed && styles.listRowPressed]}
+        style={({ pressed }) => [styles.listRow, isNext && styles.listRowNext, pressed && styles.listRowPressed]}
         accessibilityRole="button"
         accessibilityLabel={`${PRAYER_LABELS[prayerKey]} ${valid ? formatTime(date) : 'kan inte beräknas'}`}
         accessibilityHint="Tryck för att flytta tidslinjen till den här bönen."
@@ -746,12 +764,22 @@ function makeStyles(c: Palette) {
     dateGreg: { ...type.caption, color: c.inkMuted, marginTop: 1 }, // optical nudge
 
     list: { marginBottom: space.sm },
+    // Rows carry a symmetric bleed (padding in, margin out) so a row background can
+    // extend past the text column without shifting any text: every row's label/time
+    // stay aligned with the date header above, highlighted or not.
     listRow: {
       flexDirection: 'row',
       alignItems: 'center',
       gap: space.sm,
       paddingVertical: 7, // row touch-target height — kept (snapping would reflow the list)
+      paddingHorizontal: space.sm,
+      marginHorizontal: -space.sm,
+      borderRadius: radius.md,
     },
+    // The next prayer's row sits in a soft brass container (common region), so "what's
+    // coming" reads as a place in the schedule, not just a recoloured line of text —
+    // the same highlightSoft the qibla lock uses, so brass-tint still means "live now".
+    listRowNext: { backgroundColor: c.highlightSoft },
     listRowPressed: { opacity: 0.55 },
     // Same 18px width the old listDot occupied (8 + 10 gap) is now the icon's
     // intrinsic size; rely on the row's `gap` for spacing.
@@ -762,7 +790,7 @@ function makeStyles(c: Palette) {
     // "what's coming" reads in one colour across the dock and the map.
     nextEmphasis: { color: c.highlightText, fontWeight: '700' },
 
-    pressed: { opacity: 0.6 },
+    pressed: { opacity: 0.55 }, // same pressed step as listRowPressed — one dimming voice
 
     // Hero holds two cross-fading layers (collapsed headline ↔ expanded facts). It has
     // a FIXED height so swapping content never reflows the timeline pinned below it;
@@ -775,7 +803,7 @@ function makeStyles(c: Palette) {
     // Expanded hero name: a touch smaller than collapsed (the date header crowns the
     // open dock), shown only when the next prayer is tomorrow's and thus absent from
     // today's list.
-    heroPrayerExpanded: { ...type.bodyStrong, fontWeight: '700', letterSpacing: 0.2, color: c.ink },
+    heroPrayerExpanded: { ...type.bodyStrong, fontWeight: '700', letterSpacing: 0.2, color: c.ink, marginRight: space.sm },
     heroNone: { ...type.body, color: c.inkMuted },
     // ── Dock countdown numerals — intentionally bespoke, NOT on the type scale: a big
     //    tabular brass digit (18) with a flush small unit (12) and a quiet prefix (13),
@@ -789,10 +817,15 @@ function makeStyles(c: Palette) {
     // proximity that the old equal-weight string lacked.
     countdownUnit: { fontSize: 12, fontWeight: '600', color: c.highlightText },
     heroSub: { flexDirection: 'row', alignItems: 'center', gap: space.xs, marginTop: 2 }, // optical nudge
-    heroPlaceRow: { flexDirection: 'row', alignItems: 'center', gap: space.xs, marginLeft: space.sm, flexShrink: 1, minWidth: 0 },
+    // Sits LEFT in the expanded hero (no leading margin — it aligns with the list
+    // column); when the tomorrow-name precedes it, that name carries the gap.
+    heroPlaceRow: { flexDirection: 'row', alignItems: 'center', gap: space.xs, flexShrink: 1, minWidth: 0 },
     subTime: { ...type.caption, color: c.inkMuted, fontVariant: ['tabular-nums'] },
     subSep: { ...type.caption, color: c.inkMuted },
-    subPlace: { ...type.micro, color: c.inkFaint, flexShrink: 1 },
+    // Same caption size as the time beside it — one quiet line, ONE size; the place
+    // de-emphasises through ink alone (faint vs muted), not a second tier of
+    // size/weight/tracking on the same baseline (which read as a mismatch, not hierarchy).
+    subPlace: { ...type.caption, color: c.inkFaint, flexShrink: 1 },
 
     flex: { flex: 1 },
     previewBadge: {

@@ -58,7 +58,7 @@ import {
   visningSummary,
 } from '@/lib/settings/options';
 import { stockholmPrayerDate } from '@/lib/stockholm-time';
-import { mono, space, type } from '@/theme/tokens';
+import { mono, radius, space, type } from '@/theme/tokens';
 
 export default function Installningar() {
   const { settings, loaded, update, reset } = useSettings();
@@ -144,7 +144,10 @@ export default function Installningar() {
     const pt = computePrayerTimes(coords, prayerDate, settings);
     return {
       gregorian: `${formatGregorian(now)} · ${label}`,
-      hijri: formatHijri(now, settings.hijriOffset),
+      // formatHijri reads local date FIELDS, so it gets the Stockholm-calendar-day
+      // Date (prayerDate), not the raw instant — keeps the Hijri line on the same
+      // civil day as the Stockholm-pinned Gregorian line on a travelling device.
+      hijri: formatHijri(prayerDate, settings.hijriOffset),
       times: PRAYER_ORDER.map((key) => ({
         key,
         label: PRAYER_LABELS[key],
@@ -254,7 +257,7 @@ export default function Installningar() {
               <Text style={styles.rowLabel}>Stad</Text>
               <View style={styles.rowTrailing}>
                 <Text style={styles.rowValue}>{cityValue}</Text>
-                <MaterialIcons name="chevron-right" size={20} color={colors.textMuted} />
+                <MaterialIcons name="chevron-right" size={22} color={colors.textMuted} />
               </View>
             </Pressable>
           )}
@@ -275,7 +278,7 @@ export default function Installningar() {
           <Text style={styles.rowLabel}>Beräkning</Text>
           <View style={styles.rowTrailing}>
             <Text style={styles.rowValue}>{calcSummary}</Text>
-            <MaterialIcons name="chevron-right" size={20} color={colors.textMuted} />
+            <MaterialIcons name="chevron-right" size={22} color={colors.textMuted} />
           </View>
         </Pressable>
 
@@ -443,7 +446,7 @@ export default function Installningar() {
           <SubGroup
             styles={styles}
             title="Hijri-justering"
-            footnote={`I dag: ${formatHijri(now, settings.hijriOffset)}. Justera för att matcha lokal månsiktning.`}
+            footnote={`I dag: ${preview.hijri}. Justera för att matcha lokal månsiktning.`}
             divider
           >
             <Stepper
@@ -656,7 +659,7 @@ function makeStyles(colors: SettingsColors) {
     // Single-row card variant for the Beräkning push.
     card: {
       backgroundColor: colors.card,
-      borderRadius: 12,
+      borderRadius: radius.md,
       borderWidth: StyleSheet.hairlineWidth,
       borderColor: colors.border,
       marginBottom: space.xxl,
@@ -698,26 +701,27 @@ function makeStyles(colors: SettingsColors) {
       marginTop: space.xl,
       paddingVertical: space.md,
       paddingHorizontal: space.lg,
-      borderRadius: 12,
+      borderRadius: radius.md,
     },
     resetLabel: { ...type.body, color: colors.accent, fontWeight: '600' },
 
-    // Centered, faintest ink, no card chrome — a paper-edge colophon.
+    // Centered, faintest ink, no card chrome — a paper-edge colophon. The palette's
+    // faint tier (not an opacity over muted) so secondary text steps down the same
+    // ladder here as everywhere else: ink → inkMuted → inkFaint.
     colophon: {
       ...type.micro,
-      color: colors.textMuted,
+      color: colors.textFaint,
       textAlign: 'center',
-      opacity: 0.7,
       marginTop: space.sm,
     },
-    // OTA line — quieter still than the colophon (smaller opacity, no bottom air
-    // until the screen end), so it reads as a subsidiary debug-y imprint, not as
-    // a second sign-off.
+    // OTA line — quieter still than the colophon (one opacity step below the faint
+    // tier, no bottom air until the screen end), so it reads as a subsidiary
+    // debug-y imprint, not as a second sign-off.
     colophonSub: {
       ...type.micro,
-      color: colors.textMuted,
+      color: colors.textFaint,
       textAlign: 'center',
-      opacity: 0.45,
+      opacity: 0.65,
       marginBottom: space.lg,
     },
 

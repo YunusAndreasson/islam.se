@@ -77,7 +77,7 @@ jest.mock('expo-glass-effect', () => {
 // async native bridge work.
 jest.mock('expo-blur', () => {
   const { View } = require('react-native');
-  return { BlurView: View };
+  return { BlurView: View, BlurTargetView: View };
 });
 
 // react-native-reanimated has no JS-thread implementation under test. Provide a
