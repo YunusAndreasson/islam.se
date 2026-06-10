@@ -95,7 +95,8 @@ export default function BytPlats() {
           <Text style={[styles.rowName, isSelected && styles.rowNameSelected]}>{item.name}</Text>
           <Text style={styles.rowMeta}>
             {item.county ? `${item.county} · ` : ''}
-            {`${NUMBER_FMT.format(item.population)} inv.`}
+            {/* NBSP keeps the count and its unit together on one line. */}
+            {`${NUMBER_FMT.format(item.population)} inv.`}
           </Text>
         </View>
         {isSelected ? <MaterialIcons name="check" size={20} color={colors.highlightText} /> : null}
@@ -129,8 +130,8 @@ export default function BytPlats() {
         </View>
         <Text style={styles.count}>
           {results.length === PLACES.length
-            ? `${NUMBER_FMT.format(PLACES.length)} platser i Sverige`
-            : `${NUMBER_FMT.format(results.length)} träffar`}
+            ? `${NUMBER_FMT.format(PLACES.length)} platser i Sverige`
+            : `${NUMBER_FMT.format(results.length)} träffar`}
         </Text>
         <FlatList
           data={results}

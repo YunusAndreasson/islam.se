@@ -365,7 +365,7 @@ export default function Installningar() {
               min={NOTIFICATION_LEAD_MIN}
               max={NOTIFICATION_LEAD_MAX}
               step={5}
-              format={(v) => (v === 0 ? 'Vid bönetid' : `${v} min innan`)}
+              format={(v) => (v === 0 ? 'Vid bönetid' : `${v} min innan`)}
               onChange={(leadMinutes) =>
                 update({ notifications: { ...settings.notifications, leadMinutes } })
               }

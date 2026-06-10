@@ -17,7 +17,8 @@
       "bundleIdentifier": "se.islam.mobile",
       "buildNumber": "10",
       "infoPlist": {
-        "ITSAppUsesNonExemptEncryption": false
+        "ITSAppUsesNonExemptEncryption": false,
+        "CFBundleDevelopmentRegion": "sv"
       }
     },
     "android": {
@@ -44,7 +45,7 @@
       [
         "expo-location",
         {
-          "locationWhenInUsePermission": "Platsåtkomst används för att beräkna bönetider för var du befinner dig."
+          "locationWhenInUsePermission": "Platsåtkomst används för att beräkna bönetider där du befinner dig."
         }
       ],
       [

@@ -22,7 +22,7 @@ export function ErrorScreen({ error, retry }: ErrorBoundaryProps) {
       <View style={styles.center}>
         <Text style={styles.title}>Något gick fel</Text>
         <Text style={styles.body}>
-          Appen stötte på ett oväntat fel. Försök igen — dina inställningar är kvar.
+          Appen stötte på ett oväntat fel. Försök igen – dina inställningar är kvar.
         </Text>
 
         {__DEV__ ? <Text style={styles.detail}>{error.message}</Text> : null}

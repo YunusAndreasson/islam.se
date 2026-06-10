@@ -164,7 +164,9 @@ export async function syncPrayerNotifications(
             // durable fact. The alert fires exactly `leadMs` before the prayer, so
             // "om N min" is correct at the moment it buzzes; with no lead offset it
             // fires at the time itself, so the message is simply "now".
-            title: leadMs > 0 ? `${label} om ${settings.notifications.leadMinutes} min` : `Dags för ${label}`,
+            // NBSP (fast mellanslag) between the numeral and "min" so the unit can
+            // never wrap away from its number in a narrow notification banner.
+            title: leadMs > 0 ? `${label} om ${settings.notifications.leadMinutes} min` : `Dags för ${label}`,
             body: `Klockan ${formatTime(at)}`,
             // `true` = the OS default sound (iOS reads this; on Android the channel
             // governs). A string here would be treated as a custom bundled filename.

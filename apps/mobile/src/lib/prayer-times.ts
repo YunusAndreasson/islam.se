@@ -243,7 +243,10 @@ export function formatTime(date: Date | null | undefined): string {
   const fmt = getTimeFmt();
   if (fmt) {
     try {
-      return fmt.format(date);
+      // Some ICU builds render the sv-SE time separator as "." instead of ":"
+      // (see prayer-times.dst.test.ts). Normalise so app, widget and
+      // notifications always show one separator, matching fallbackFormat.
+      return fmt.format(date).replace('.', ':');
     } catch {
       // fall through to the fixed-offset fallback below
     }

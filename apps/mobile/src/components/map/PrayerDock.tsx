@@ -525,7 +525,7 @@ function ScheduleRow({
         onPress={onPress}
         style={({ pressed }) => [styles.listRow, pressed && styles.listRowPressed]}
         accessibilityRole="button"
-        accessibilityLabel={`${PRAYER_LABELS[prayerKey]} ${valid ? formatTime(date) : 'okänd'}`}
+        accessibilityLabel={`${PRAYER_LABELS[prayerKey]} ${valid ? formatTime(date) : 'kan inte beräknas'}`}
         accessibilityHint="Tryck för att flytta tidslinjen till den här bönen."
       >
         {/* Sun-cycle glyph tinted in the prayer's solar colour — replaces the

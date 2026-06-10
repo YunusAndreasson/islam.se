@@ -39,7 +39,7 @@ export const METHOD_OPTIONS: readonly Option<CalculationMethodKey>[] = [
     label: 'Muslim World League',
     description: 'Fajr 18°, Isha 17° · vanlig i bönetidstjänster',
   },
-  { value: 'UmmAlQura', label: 'Umm al-Qura (Mecka)', description: 'Fajr 18,5°, Isha 90 min efter Maghrib' },
+  { value: 'UmmAlQura', label: 'Umm al-Qura (Mecka)', description: 'Fajr 18,5°, Isha 90 min efter Maghrib' },
   { value: 'Egyptian', label: 'Egyptiska myndigheten', description: 'Fajr 19,5°, Isha 17,5°' },
   {
     value: 'MoonsightingCommittee',
@@ -75,7 +75,7 @@ export const SHAFAQ_OPTIONS: readonly Option<Shafaq>[] = [
 ];
 
 export const ROUNDING_OPTIONS: readonly Option<Rounding>[] = [
-  { value: 'nearest', label: 'Närmaste minut' },
+  { value: 'nearest', label: 'Närmaste minut' },
   { value: 'up', label: 'Uppåt' },
   { value: 'none', label: 'Ingen' },
 ];
@@ -108,8 +108,9 @@ export const MAP_STYLE_OPTIONS: readonly Option<MapStyleId>[] = HAS_MAPTILER
       { value: 'nordic', label: 'Nordisk', description: 'Lugn karta i appens palett (rekommenderad)' },
     ];
 
-/** Stepper display formatter: a signed minute offset, e.g. "+5 min" / "−3 min". */
-export const signedMinutes = (v: number) => `${v > 0 ? '+' : ''}${v} min`;
+/** Stepper display formatter: a signed minute offset, e.g. "+5 min" / "−3 min".
+ *  NBSP before the unit so the number and "min" stay on one line. */
+export const signedMinutes = (v: number) => `${v > 0 ? '+' : ''}${v} min`;
 
 // --- Summary helpers: the current value's label, for a collapsed group's header. ---
 
@@ -129,7 +130,7 @@ export const calculationSummary = (s: PrayerSettings): string => {
 };
 
 /** Collapsed-header summary for the "Utseende och format" disclosure group: the AREAS
- *  it covers, not their values. Showing only the rounding label ("Närmaste minut") made
+ *  it covers, not their values. Showing only the rounding label ("Närmaste minut") made
  *  the group look like it did just that, hiding Tema / Karttyp / Hijri — so instead we
  *  name the scope and let the values live inside the card. The topics are listed in the
  *  same order as the sub-sections render inside the card (Tema, Karttyp, Avrundning,
