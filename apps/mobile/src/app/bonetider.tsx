@@ -286,20 +286,25 @@ export default function Bonetider() {
     return out;
   }, [userTimes, clock.dayStart, clock.dayLength]);
 
+  // Tomorrow's Fajr (ms epoch, null where adhan can't resolve it) — the fallback the
+  // `next` memo reaches for after today's Isha. Memoised per (day, place, settings),
+  // NOT per tick: `next` re-runs every 30 s, and recomputing a whole adhan day each
+  // tick all evening for a value that only changes at midnight was waste.
+  const tomorrowFajrAt = useMemo(() => {
+    const fajr = computePrayerTimes(coords, stockholmPrayerDate(clock.dayStart, 1), settings).fajr;
+    const at = fajr instanceof Date ? fajr.getTime() : Number.NaN;
+    return Number.isFinite(at) ? at : null;
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- sig + coords + day fully determine this
+  }, [coords.latitude, coords.longitude, clock.dayStart, sig]);
+
   const next = useMemo<NextPrayer | null>(() => {
     // First prayer at-or-after the viewed instant (inclusive, so scrubbing exactly onto a
     // prayer selects THAT prayer, not the next — see nextPrayerKeyAt).
     const key = nextPrayerKeyAt(userTimes, clock.now);
     if (key) return { key, at: userTimes[key].getTime(), tomorrow: false };
     // Past today's Isha → tomorrow's Fajr.
-    const fajr = computePrayerTimes(
-      coords,
-      stockholmPrayerDate(clock.dayStart, 1),
-      settings,
-    ).fajr;
-    const at = fajr instanceof Date ? fajr.getTime() : Number.NaN;
-    return Number.isFinite(at) ? { key: 'fajr', at, tomorrow: true } : null;
-  }, [userTimes, clock.now, clock.dayStart, coords, settings]);
+    return tomorrowFajrAt != null ? { key: 'fajr', at: tomorrowFajrAt, tomorrow: true } : null;
+  }, [userTimes, clock.now, tomorrowFajrAt]);
 
   // The user's next prayer drives the emphasised line/pill on the map (only when
   // it's today — tomorrow's Fajr has no line sweeping the country yet).
