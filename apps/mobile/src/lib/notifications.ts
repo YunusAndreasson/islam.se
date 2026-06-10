@@ -105,9 +105,13 @@ async function savePrayerNotificationIds(ids: readonly string[]): Promise<void> 
   await AsyncStorage.setItem(PRAYER_NOTIFICATION_IDS_KEY, JSON.stringify(ids));
 }
 
+async function cancelByIds(ids: readonly string[]): Promise<void> {
+  await Promise.all(ids.map((id) => Notifications.cancelScheduledNotificationAsync(id).catch(() => undefined)));
+}
+
 async function cancelPrayerNotifications(): Promise<void> {
   const ids = await loadPrayerNotificationIds();
-  await Promise.all(ids.map((id) => Notifications.cancelScheduledNotificationAsync(id).catch(() => undefined)));
+  await cancelByIds(ids);
   await AsyncStorage.removeItem(PRAYER_NOTIFICATION_IDS_KEY);
 }
 
@@ -123,6 +127,12 @@ export async function syncPrayerNotifications(
 ): Promise<void> {
   const generation = ++syncGeneration;
   const scheduledIds: string[] = [];
+  // A newer sync has taken over: this run's notifications must not survive. The newer
+  // run's own cancel pass can't see them (they were never saved), so cancelling them
+  // here is the only thing standing between a superseded sync and duplicate alerts.
+  const bailStale = async (): Promise<void> => {
+    await cancelByIds(scheduledIds);
+  };
   try {
     await cancelPrayerNotifications();
     if (generation !== syncGeneration) return;
@@ -141,7 +151,10 @@ export async function syncPrayerNotifications(
 
     const now = Date.now();
     for (let d = 0; d < DAYS_AHEAD; d++) {
-      if (generation !== syncGeneration) return;
+      if (generation !== syncGeneration) {
+        await bailStale();
+        return;
+      }
       const dayMidday = stockholmPrayerDate(now, d);
       const times = computePrayerTimes(coords, dayMidday, settings);
 
@@ -154,7 +167,10 @@ export async function syncPrayerNotifications(
         const fireAt = new Date(at.getTime() - leadMs);
         // Skip anything already past (or within the next minute — too late to be useful).
         if (fireAt.getTime() <= now + 60_000) continue;
-        if (generation !== syncGeneration) return;
+        if (generation !== syncGeneration) {
+          await bailStale();
+          return;
+        }
 
         const label = PRAYER_LABELS[key as PrayerKey];
         const id = await Notifications.scheduleNotificationAsync({
@@ -179,21 +195,28 @@ export async function syncPrayerNotifications(
             channelId: CHANNEL_ID,
           },
         });
+        scheduledIds.push(id);
         if (generation !== syncGeneration) {
-          await Notifications.cancelScheduledNotificationAsync(id).catch(() => undefined);
+          await bailStale();
           return;
         }
-        scheduledIds.push(id);
       }
     }
     if (generation !== syncGeneration) {
-      await Promise.all(scheduledIds.map((id) => Notifications.cancelScheduledNotificationAsync(id).catch(() => undefined)));
+      await bailStale();
       return;
     }
     await savePrayerNotificationIds(scheduledIds);
   } catch {
-    if (scheduledIds.length > 0) await savePrayerNotificationIds(scheduledIds).catch(() => undefined);
     // Notifications are a best-effort enhancement — never let a scheduling failure
-    // (permissions revoked mid-flight, OS quota) crash the app.
+    // (permissions revoked mid-flight, OS quota) crash the app. If this run is still
+    // the current one, save whatever was scheduled so the next sync can cancel it;
+    // if a newer sync has taken over, saving would CLOBBER its saved ids (orphaning
+    // them), so cancel this run's notifications instead.
+    if (generation === syncGeneration) {
+      if (scheduledIds.length > 0) await savePrayerNotificationIds(scheduledIds).catch(() => undefined);
+    } else {
+      await cancelByIds(scheduledIds);
+    }
   }
 }

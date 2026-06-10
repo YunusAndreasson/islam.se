@@ -39,7 +39,7 @@ export function normalizeHeading(raw: number): number {
   return ((raw % 360) + 360) % 360;
 }
 
-/** The shortest *signed* turn (degrees, in (−180, 180]) from bearing `from` to bearing `to`.
+/** The shortest *signed* turn (degrees, in [−180, 180)) from bearing `from` to bearing `to`.
     Accumulating these is what unwraps the dial: it always steps the SHORT way across the
     0/360 seam (359°→1° is +2°, not −358°), so a needle eases instead of whipping all the way
     around. By construction `from + shortestTurn(from, to) ≡ to (mod 360)` and the step never

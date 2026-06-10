@@ -62,8 +62,9 @@ half4 twilight(float altDeg, float haDeg) {
   // it that bleeds through muddies the night to a pale grey. The latitude gradient still
   // reads — Kiruna only reaches a few degrees' depression, so it stays light.
   float dark = smoothstep(1.0, 14.0, d);
-  // A warm sunset / cool dawn glow confined to civil twilight (gone by nautical), fading IN
-  // from the horizon so there's no hard line at sunset and clean blue takes over below.
+  // A warm sunset / cool dawn glow peaking in civil twilight and tapering out through
+  // nautical (gone by 10°), fading IN from the horizon so there's no hard line at sunset
+  // and clean blue takes over below.
   // sin(ha) is +through the evening (sun in the west), − through the morning, ~0 at solar
   // midnight, so the warm→cool handover is smooth, never a seam.
   float glow = smoothstep(0.0, 2.0, d) * (1.0 - smoothstep(5.0, 10.0, d));
@@ -99,7 +100,7 @@ half4 main(float2 fragCoord) {
   // Sun hour angle + altitude at this point and instant (NOAA; mirrors sun.ts altitudeFrom).
   float tst = u_utcMin + u_eotMin + 4.0 * lon;     // true solar time, minutes (4 min per °E)
   float ha = tst / 4.0 - 180.0;                     // hour angle, degrees (0 at solar noon)
-  ha = ha - 360.0 * floor((ha + 180.0) / 360.0);    // normalise to (−180, 180]
+  ha = ha - 360.0 * floor((ha + 180.0) / 360.0);    // normalise to [−180, 180)
   float latR = lat * DEG;
   float sinAlt = sin(latR) * sin(u_declRad) + cos(latR) * cos(u_declRad) * cos(ha * DEG);
   float altDeg = asin(clamp(sinAlt, -1.0, 1.0)) / DEG;

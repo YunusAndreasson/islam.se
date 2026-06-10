@@ -31,7 +31,7 @@ function PrayerTimesWidgetLayout(rawPayload: WidgetPayload, environment: WidgetE
     paper: '#f6f3ed',
     ink: '#1a1712',
     inkMuted: '#6f6456',
-    inkFaint: '#978c7b',
+    inkFaint: '#8c8170',
     highlight: '#b8862f',
     highlightText: '#805b1f',
   };

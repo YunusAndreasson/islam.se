@@ -46,8 +46,8 @@ export function washColorAt(
   // physical 18°, so the high alpha drowns the warm parchment basemap rather than letting a
   // third of it bleed through and muddy the night to grey — see washShader.ts).
   const dark = smoothstep(1, 14, d);
-  // A warm sunset / cool dawn glow confined to civil twilight (gone by nautical), fading in
-  // from the horizon so there is no hard line at sunset.
+  // A warm sunset / cool dawn glow peaking in civil twilight and tapering out through
+  // nautical (gone by 10°), fading in from the horizon so there is no hard line at sunset.
   const glow = smoothstep(0, 2, d) * (1 - smoothstep(5, 10, d));
   // sin(ha) is + through the evening (sun in the west), − through the morning, ~0 at solar
   // midnight, so the warm→cool handover is smooth and seamless.

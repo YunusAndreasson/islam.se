@@ -94,6 +94,58 @@ describe('representativePoint', () => {
     );
     expect(onLine).toBe(true);
   });
+
+  // A prayer line passes through the user's coordinates exactly when that prayer's
+  // time arrives at their city — without avoidance, the label pill parked ON the
+  // user's brass dot + city name at the most-watched moment (the reported overlap).
+  describe('avoid point (the user-dot clearance)', () => {
+    // A west→east chain whose centroid snap is the middle point (15, 56).
+    const segs: [[number, number], [number, number]][] = [
+      [
+        [10, 55],
+        [15, 56],
+      ],
+      [
+        [15, 56],
+        [20, 57],
+      ],
+    ];
+
+    it('is the unchanged centroid snap when the avoid point is far away', () => {
+      expect(representativePoint(segs, [40, 30], 0.9)).toEqual(representativePoint(segs));
+    });
+
+    it('slides along the line to the nearest clear endpoint when the dot sits on the snap', () => {
+      const p = representativePoint(segs, [15, 56], 0.9);
+      // Still a real endpoint of the line — the pill must stay ON its line…
+      const onLine = segs.some(([a, b]) => [a, b].some((q) => q[0] === p?.[0] && q[1] === p?.[1]));
+      expect(onLine).toBe(true);
+      // …but no longer the avoided point.
+      expect(p).not.toEqual([15, 56]);
+    });
+
+    it('falls back to the farthest endpoint when the whole line is inside the radius', () => {
+      // Huge radius: nothing clears, so it must still return SOME endpoint (the pill
+      // never vanishes because of avoidance) — specifically the farthest one.
+      const p = representativePoint(segs, [10, 55], 50);
+      expect(p).toEqual([20, 57]);
+    });
+
+    it('measures clearance round-on-screen (lon compressed by cos lat), not in raw degrees', () => {
+      // Two candidate endpoints, both 1.2° of raw distance from the avoid point at
+      // lat 60 — but east-west degrees are half-width on a Mercator screen up there,
+      // so the eastward endpoint is effectively 0.6° away (inside a 0.9 radius)
+      // while the northward one is a full 1.2° (clear). A raw-degree metric would
+      // accept both and keep the visually-overlapping eastward pill.
+      const eastAndNorth: [[number, number], [number, number]][] = [
+        [
+          [16.2, 60], // 1.2° east of the dot → ~0.6° on screen → NOT clear
+          [15, 61.2], // 1.2° north of the dot → 1.2° on screen → clear
+        ],
+      ];
+      expect(representativePoint(eastAndNorth, [15, 60], 0.9)).toEqual([15, 61.2]);
+    });
+  });
 });
 
 // Smoothing the lines depends on first chaining marchingSquares' independent

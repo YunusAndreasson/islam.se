@@ -159,9 +159,12 @@ function PrayerPill({
   scheme: ReturnType<typeof useActiveScheme>;
   isNext: boolean;
 }) {
-  // Border carries the prayer hue (same colour as the line it sits on), so the pill
-  // reads as part of its line; the label text stays ink-legible. "Next" is distinguished
-  // by a thicker ring, not a different colour.
+  // Border + dot carry the prayer hue (same colour as the line the pill sits on), so
+  // the pill always reads as part of its line — for EVERY prayer, next included. The
+  // "next" emphasis is a thicker ring and brass BOLD label text, mirroring the dock's
+  // nextEmphasis rows: brass layers ON TOP of the hue, never replaces it. (A brass
+  // border here used to override the hue — Isha's indigo line wore a yellow ring while
+  // Maghrib's matched, which read as a bug, not a signal.)
   const hue = prayerColorFor(label.prayer, scheme);
   const posStyle = useAnimatedStyle(() => {
     const p = project(label.lngLat[0], label.lngLat[1], camera.value);
@@ -177,7 +180,15 @@ function PrayerPill({
       ]}
     >
       <View style={[styles.dot, { backgroundColor: hue }]} />
-      <Text style={[styles.pillLabel, { color: colors.ink }]}>{PRAYER_LABELS[label.prayer]}</Text>
+      <Text
+        style={[
+          styles.pillLabel,
+          { color: colors.ink },
+          isNext && [styles.pillLabelNext, { color: colors.highlightText }],
+        ]}
+      >
+        {PRAYER_LABELS[label.prayer]}
+      </Text>
     </Animated.View>
   );
 }
@@ -208,6 +219,8 @@ const styles = StyleSheet.create({
   pillNext: { borderWidth: 1.5 },
   dot: { width: 6, height: 6, borderRadius: 3 },
   pillLabel: { ...type.micro },
+  // Brass bold for the next prayer's label — the dock's nextEmphasis, on the map.
+  pillLabelNext: { fontWeight: '700' },
   // Faint map caption (no chip): centred on its anchor, sitting just above the boundary.
   polarWrap: {
     position: 'absolute',

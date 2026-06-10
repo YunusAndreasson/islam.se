@@ -155,4 +155,45 @@ describe('syncPrayerNotifications lead time', () => {
 
     expect(scheduledTimes()).toHaveLength(0);
   });
+
+  // Regression: a superseded sync used to abandon the notifications it had ALREADY
+  // scheduled before noticing it was stale — they were never saved (so no later sync's
+  // cancel pass could find them) and never cancelled, leaving orphans that fired as
+  // duplicate alerts alongside the newer sync's set. A stale sync must cancel every
+  // id it created, not just bail.
+  it('cancels its already-scheduled notifications when a newer sync supersedes it mid-run', async () => {
+    let nextId = 0;
+    let releaseThird!: () => void;
+    const thirdScheduled = new Promise<void>((resolveScheduled) => {
+      const gate = new Promise<void>((release) => {
+        releaseThird = release;
+      });
+      scheduleMock.mockImplementation(async () => {
+        const id = `old-${++nextId}`;
+        if (nextId === 3) {
+          resolveScheduled();
+          await gate; // hold the old sync here while the newer sync wins
+        }
+        return id;
+      });
+    });
+
+    const oldSync = syncPrayerNotifications(STOCKHOLM, withNotifications({ leadMinutes: 0 }));
+    await thirdScheduled; // old sync has created old-1, old-2 and is creating old-3
+
+    scheduleMock.mockImplementation(async () => 'new-id');
+    const newSync = syncPrayerNotifications(STOCKHOLM, {
+      ...DEFAULT_SETTINGS,
+      notifications: { ...DEFAULT_SETTINGS.notifications, enabled: false },
+    });
+    releaseThird();
+    await Promise.all([oldSync, newSync]);
+
+    // Every notification the stale sync managed to schedule must be cancelled —
+    // including the ones created BEFORE the newer sync started.
+    const cancelled = cancelScheduledMock.mock.calls.map((call) => call[0]);
+    expect(cancelled).toEqual(expect.arrayContaining(['old-1', 'old-2', 'old-3']));
+    // And nothing of the stale run survives in storage for a later sync to trip on.
+    expect(await AsyncStorage.getItem('prayerNotificationIds:v1')).toBeNull();
+  });
 });
