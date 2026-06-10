@@ -107,7 +107,7 @@ function altitudeFrom(
 ): number {
   const tst = utcMin + eotMin + 4 * lonDeg; // true solar time, minutes (4 min per ° east)
   let ha = tst / 4 - 180; // hour angle, degrees (0 at solar noon)
-  ha -= 360 * Math.floor((ha + 180) / 360); // normalise to (−180, 180]
+  ha -= 360 * Math.floor((ha + 180) / 360); // normalise to [−180, 180)
   const latR = latDeg * DEG;
   const haR = ha * DEG;
   const sinAlt =

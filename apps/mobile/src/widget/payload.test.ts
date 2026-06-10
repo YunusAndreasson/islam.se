@@ -9,6 +9,7 @@ import {
   PRAYER_SWEDISH_NAMES,
 } from '../lib/prayer-times';
 import { DEFAULT_SETTINGS, type PrayerSettings } from '../lib/settings/types';
+import { stockholmPrayerDate } from '../lib/stockholm-time';
 import { oracleTimes } from '../test-utils/prayer-oracle';
 import { buildPayloadAt } from './payload';
 
@@ -87,7 +88,12 @@ describe('buildPayloadAt — next prayer & schedule', () => {
     const now = ref.dhuhr.getTime();
     const base = buildPayloadAt(STOCKHOLM, settings({ hijriOffset: 0 }), now, 'Stockholm');
     const shifted = buildPayloadAt(STOCKHOLM, settings({ hijriOffset: 1 }), now, 'Stockholm');
-    expect(base.hijri).toBe(formatHijri(new Date(now), 0));
+    // The Hijri label is derived from the STOCKHOLM calendar day (stockholmPrayerDate),
+    // not the device-local day of the raw instant — formatHijri reads local date fields,
+    // so passing `new Date(now)` made the Hijri line follow the phone's time zone while
+    // the Gregorian line stayed pinned to Stockholm; the two could disagree by a day on
+    // a travelling device.
+    expect(base.hijri).toBe(formatHijri(stockholmPrayerDate(now), 0));
     // A non-zero offset must actually move the rendered Hijri date.
     expect(shifted.hijri).not.toBe(base.hijri);
   });

@@ -107,8 +107,25 @@ export function marchingSquares(
  * A representative point on a set of segments, for placing a label. We take the
  * centroid of all segment endpoints, then snap to the nearest actual point so the
  * label sits on the line rather than floating off it (e.g. on a curved isoline).
+ *
+ * `avoid` + `avoidRadius` (optional): a point the label must keep clear of — in
+ * practice the user's location dot. The moment a prayer's line reaches the user's
+ * city is exactly when the line passes through their coordinates, so the centroid
+ * snap used to park the pill ON the brass dot and the city name at the
+ * most-watched moment. With an avoid point the label slides ALONG its line (still
+ * snapped to a real endpoint) to the spot nearest the centroid that clears the
+ * radius; if the whole line is inside it, fall back to the endpoint farthest from
+ * `avoid` — best effort, never null because of avoidance.
+ *
+ * `avoidRadius` is in latitude-degrees of screen distance: longitude deltas are
+ * compressed by cos(lat) so the clearance circle is round on the Mercator screen,
+ * not an ellipse twice as wide as it is tall up at Nordic latitudes.
  */
-export function representativePoint(segments: Segment[]): [number, number] | null {
+export function representativePoint(
+  segments: Segment[],
+  avoid?: [number, number],
+  avoidRadius = 0,
+): [number, number] | null {
   if (segments.length === 0) return null;
   let sx = 0;
   let sy = 0;
@@ -120,10 +137,28 @@ export function representativePoint(segments: Segment[]): [number, number] | nul
   }
   const cx = sx / n;
   const cy = sy / n;
-  let best: [number, number] = segments[0][0];
+  const lonScale = avoid ? Math.cos((avoid[1] * Math.PI) / 180) : 1;
+  // Squared screen-equivalent distance from `avoid` (Infinity when no avoid point,
+  // so every endpoint counts as clear and the legacy centroid snap is unchanged).
+  const clearance = (p: readonly [number, number]): number => {
+    if (!avoid) return Infinity;
+    const dx = (p[0] - avoid[0]) * lonScale;
+    const dy = p[1] - avoid[1];
+    return dx * dx + dy * dy;
+  };
+  const minClear = avoidRadius * avoidRadius;
+  let best: [number, number] | null = null;
   let bestD = Infinity;
+  let farthest: [number, number] = segments[0][0];
+  let farthestD = -Infinity;
   for (const [a, b] of segments) {
     for (const p of [a, b]) {
+      const away = clearance(p);
+      if (away > farthestD) {
+        farthestD = away;
+        farthest = p;
+      }
+      if (away < minClear) continue;
       const d = (p[0] - cx) ** 2 + (p[1] - cy) ** 2;
       if (d < bestD) {
         bestD = d;
@@ -131,7 +166,7 @@ export function representativePoint(segments: Segment[]): [number, number] | nul
       }
     }
   }
-  return best;
+  return best ?? farthest;
 }
 
 export interface LabelPlacement {
@@ -148,8 +183,12 @@ export interface LabelPlacement {
  * sweeping line never crosses the label text (a vertical line, for instance, needs
  * its label pushed sideways — lifting it straight up would keep it on the line).
  */
-export function labelPlacement(segments: Segment[]): LabelPlacement | null {
-  const point = representativePoint(segments);
+export function labelPlacement(
+  segments: Segment[],
+  avoid?: [number, number],
+  avoidRadius = 0,
+): LabelPlacement | null {
+  const point = representativePoint(segments, avoid, avoidRadius);
   if (!point) return null;
   let dir: [number, number] | null = null;
   for (const [a, b] of segments) {

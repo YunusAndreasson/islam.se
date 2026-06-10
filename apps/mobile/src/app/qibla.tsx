@@ -163,6 +163,14 @@ export default function Qibla() {
             return;
           }
           const s = await Location.watchHeadingAsync((h) => {
+            // TRUE heading (declination-corrected) when the OS can provide it; -1 means it
+            // can't yet. The magHeading fallback is knowingly imperfect — in Sweden the
+            // magnetic declination runs ~+5° (Skåne) to ~+13° (Kiruna), past the 4° lock
+            // tolerance — but the window is brief: Android computes declination itself
+            // (WMM via GeomagneticField) as soon as it has any location fix, which it
+            // self-requests, and the magnetometer's own calibration gate (accuracy < 2 →
+            // no direction drawn) covers those first seconds. Only a device with location
+            // services off entirely stays magnetic — rare, and still roughly right.
             const raw = h.trueHeading != null && h.trueHeading >= 0 ? h.trueHeading : h.magHeading;
             if (raw == null || Number.isNaN(raw)) return;
             gotEvent = true;
@@ -231,9 +239,16 @@ export default function Qibla() {
           <LinearGradient colors={[c.surface, c.paperSunken]} style={[styles.face, { borderRadius: r }]} />
           <View style={[styles.innerRing, { width: dial * 0.66, height: dial * 0.66, borderRadius: dial * 0.33 }]} pointerEvents="none" />
           {/* Fixed sight line from the aim index down to the hub — shows the axis the
-              Kaaba must travel up to meet (the conceptual model, made visible). */}
-          <View style={[styles.sightWrap, { height: r }]} pointerEvents="none">
-            <LinearGradient colors={[hexToRgba(c.ink, 0.16), hexToRgba(c.ink, 0)]} style={styles.sight} />
+              Kaaba must travel up to meet (the conceptual model, made visible). It starts
+              BELOW the cardinal band (the index wedge + 0° tick already carry the axis up
+              there) so it never strikes through the "N" letter; a short fade-in keeps the
+              start soft rather than a chopped end. */}
+          <View style={[styles.sightWrap, { top: SIGHT_TOP, height: r - SIGHT_TOP }]} pointerEvents="none">
+            <LinearGradient
+              colors={[hexToRgba(c.ink, 0), hexToRgba(c.ink, 0.16), hexToRgba(c.ink, 0)]}
+              locations={[0, 0.2, 1]}
+              style={styles.sight}
+            />
           </View>
 
           {/* The rotating rose: beam, ticks, cardinals, and the qibla needle. */}
@@ -291,7 +306,10 @@ export default function Qibla() {
                 <View style={[StyleSheet.absoluteFill, rot(bearing)]} pointerEvents="none">
                   <View style={[styles.needleSlot, { height: r }]}>
                     {/* The Kaaba — an abstract cube, fitting and quieter than any glyph,
-                        over a warm glow that swells as you align. */}
+                        over a warm glow that swells as you align. It rides the needle's
+                        rotation (a needle ornament, not a screen-pinned marker), so the
+                        kiswa band stays perpendicular to the shaft with the belt toward
+                        Mecca — the cube visibly POINTS with the needle. */}
                     <View style={styles.kaabaWrap}>
                       <Animated.View style={[styles.glow, glowStyle]} />
                       <View style={styles.kaaba}>
@@ -372,8 +390,11 @@ export default function Qibla() {
           accessibilityLabel={`Qibla ${Math.round(bearing)} grader från norr`}
         >
           <View style={styles.bearingRow}>
-            <Text style={styles.bearingNum}>{Math.round(bearing)}</Text>
-            <Text style={styles.bearingDeg}>°</Text>
+            {/* "148°" as ONE run of text: the typeface places the ° where a degree sign
+                belongs (small, top-right, at cap height) and it shares the numerals' ink —
+                a unit mark is part of the number, not an accent. (It used to be a separate
+                30px accent-coloured glyph bottom-nudged to the numerals' mid-height.) */}
+            <Text style={styles.bearingNum}>{Math.round(bearing)}°</Text>
           </View>
           <Text style={styles.factLabel}>från norr</Text>
         </View>
@@ -396,6 +417,11 @@ export default function Qibla() {
 }
 
 const rot = (deg: number) => ({ transform: [{ rotate: `${deg}deg` }] });
+
+// Where the fixed sight line starts, just under the cardinal letters (ticks end at 21,
+// the cardinal glyphs at ~46) — so the line reads index → tick → N → line → hub without
+// ever striking through the letter.
+const SIGHT_TOP = 48;
 
 function makeStyles(c: Palette) {
   return StyleSheet.create({
@@ -453,22 +479,28 @@ function makeStyles(c: Palette) {
     cardinalN: { color: c.accent },
 
     needleSlot: { position: 'absolute', top: 0, left: 0, right: 0, alignItems: 'center' },
-    kaabaWrap: { marginTop: 22, width: 64, height: 64, alignItems: 'center', justifyContent: 'center' },
+    // zIndex (+ the cube's own Android elevation) keeps the cube painted ABOVE the
+    // shaft tip that tucks under it — see shaftWrap's negative margin.
+    kaabaWrap: { marginTop: 22, width: 64, height: 64, alignItems: 'center', justifyContent: 'center', zIndex: 1 },
     glow: { position: 'absolute', width: 60, height: 60, borderRadius: 30, backgroundColor: hexToRgba(c.highlight, 0.45) },
+    // A CUBE, not a chip: corners stay tight (radius 2) so it reads as a building. The
+    // centred-band + radius-6 version read as a hamburger glyph once you saw it.
     kaaba: {
       width: 22,
       height: 22,
-      borderRadius: 6,
-      alignItems: 'center',
-      justifyContent: 'center',
+      borderRadius: 2,
       overflow: 'hidden',
       backgroundColor: c.accent,
       ...shadow.thumb,
     },
-    kaabaBrass: { backgroundColor: c.highlight, borderRadius: 6 },
-    // A thin lighter band across the cube — the kiswa's gold belt, abstracted.
-    kaabaBand: { width: 22, height: 4, backgroundColor: 'rgba(255,255,255,0.5)' },
-    shaftWrap: { flex: 1, width: 3, marginBottom: 2, alignItems: 'center' },
+    kaabaBrass: { backgroundColor: c.highlight, borderRadius: 2 },
+    // The kiswa's belt (the ḥizām) runs around the UPPER THIRD of the real Kaaba — that
+    // asymmetry is what makes the icon recognisable, so the band sits there, not centred.
+    kaabaBand: { position: 'absolute', top: 5, width: 22, height: 3, backgroundColor: 'rgba(255,255,255,0.55)' },
+    // The negative top margin reaches the shaft up through the glow wrapper's dead space
+    // so its tip touches the cube's bottom edge — without it the needle stopped ~21 px
+    // short and the upright cube read as a separate, floating object off the needle line.
+    shaftWrap: { flex: 1, width: 3, marginTop: -20, marginBottom: 2, alignItems: 'center' },
     needleShaft: { flex: 1, width: 3, borderRadius: 2, backgroundColor: c.accent },
     needleShaftBrass: { backgroundColor: c.highlight, borderRadius: 2 },
     // Pin the tail to the centre end of the slot so it meets the hub like the shaft.
@@ -533,7 +565,6 @@ function makeStyles(c: Palette) {
     // Bearing readout — bespoke display numerals (a big instrument reading), not on the
     // type scale; the 54/30px sizes are intentional and used nowhere else.
     bearingNum: { fontSize: 54, fontWeight: '400', color: c.ink, letterSpacing: 0.5, ...mono },
-    bearingDeg: { fontSize: 30, fontWeight: '400', color: c.accent, marginBottom: 7 }, // optical baseline
     factLabel: { ...type.body, color: c.inkMuted, marginBottom: 13 },
     distance: { ...type.callout, color: c.inkMuted, marginTop: 2, ...mono },
     note: { ...type.caption, color: c.inkFaint, textAlign: 'center', marginTop: space.lg, maxWidth: 300 },

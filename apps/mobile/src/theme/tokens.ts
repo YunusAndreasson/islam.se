@@ -51,9 +51,12 @@ export const lightPalette = {
 
   // Ink — warm charcoal, web-aligned. Muted/faint are deepened vs the old cool
   // greys so secondary text actually reads (the old #8b94a0 was the "faint" feel).
+  // inkFaint sits at ≥3:1 on every ground it renders on (paper 3.45, surface 3.76,
+  // basemap land 3.07) — the WCAG floor for large/UI text — while staying a clear
+  // tier below inkMuted (5.2). The previous #978c7b dipped to 2.98 on paper.
   ink: '#1a1712',
   inkMuted: '#6f6456',
-  inkFaint: '#978c7b',
+  inkFaint: '#8c8170',
 
   // Structure — warm borders, hairline opacity bumped 0.08 → 0.10 so edges show.
   border: '#e4ddce',
@@ -89,11 +92,9 @@ export const lightPalette = {
   // Map prayer-pill surface. Opaque on purpose: the pills float over the changing
   // wash and basemap, so a translucent border composites unevenly behind the rounded
   // caps and they read as ragged. Opaque fill + opaque border = uniform smooth edge.
-  // `pillNextBorder` is the brass ring around the next prayer — same brass the dock
-  // countdown carries, so "what's next" reads in one colour across dock and map.
+  // (The pill BORDER is the prayer's own line hue, set at the call site — next-prayer
+  // emphasis is brass label text, never a border recolour that breaks the line bond.)
   pillSurface: '#fffdf8',
-  pillBorder: 'rgba(26,23,18,0.10)',
-  pillNextBorder: '#805b1f',
 
   shadow: '#1c150b', //       warm shadow (was cool #0b1220)
   white: '#ffffff',
@@ -147,11 +148,8 @@ export const darkPalette: Palette = {
 
   // Map prayer-pill surface (dark). A touch LIGHTER than `paper`/`surface` so pills lift
   // off the night basemap as discrete elements; opaque so their rounded caps stay smooth
-  // over the changing wash. Pill border is a soft navy line; `pillNextBorder` is the
-  // muted dark brass — same hue as the dock's "next prayer" countdown.
+  // over the changing wash. (Border = the prayer's line hue, set at the call site.)
   pillSurface: '#222840',
-  pillBorder: '#4e5878',
-  pillNextBorder: '#c89a48',
 
   shadow: '#000000',
   white: '#ffffff',

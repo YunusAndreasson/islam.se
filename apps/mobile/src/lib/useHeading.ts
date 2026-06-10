@@ -84,6 +84,10 @@ export function useHeading({ active, request }: Options): Heading {
           return;
         }
         const s = await Location.watchHeadingAsync((h) => {
+          // TRUE heading (declination-corrected) when available; -1 = not yet. The brief
+          // magHeading fallback can sit ~5–13° off in Sweden (declination), but Android
+          // self-heals once any location fix exists and the accuracy<2 calibration gate
+          // hides the direction during exactly that warm-up — see qibla.tsx for the full note.
           const raw = h.trueHeading != null && h.trueHeading >= 0 ? h.trueHeading : h.magHeading;
           if (raw == null || Number.isNaN(raw)) return;
           gotEvent = true;

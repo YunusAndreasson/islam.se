@@ -397,6 +397,13 @@ function buildStyle(c: BasemapPalette, name: string): StyleSpecification {
           'text-size': ['interpolate', ['linear'], ['zoom'], 3, 11, 6, 13, 10, 16, 14, 19],
           'text-max-width': 8,
           'symbol-sort-key': ['coalesce', ['get', 'rank'], 99],
+          // Name sits ABOVE the place point (atlas-style), not centred on it: the RN
+          // overlay draws the user's brass dot AT the chosen city's coordinates, and
+          // it can't join the basemap's symbol collision — a centred label put the
+          // dot mid-word ("Stoc●holm"). Bottom anchor + a small lift reserves the
+          // point itself for markers, for every city the user might pick.
+          'text-anchor': 'bottom',
+          'text-offset': [0, -0.5],
         },
         paint: {
           'text-color': c.PLACE_INK,
@@ -423,6 +430,11 @@ function buildStyle(c: BasemapPalette, name: string): StyleSpecification {
           ],
           'text-max-width': 8,
           'symbol-sort-key': ['coalesce', ['get', 'rank'], 99],
+          // Same above-the-point anchoring as label_city (see there): the user can
+          // pick ANY town from the places list, so every place label keeps its point
+          // clear for the overlay's location dot.
+          'text-anchor': 'bottom',
+          'text-offset': [0, -0.5],
         },
         paint: {
           'text-color': c.PLACE_INK,

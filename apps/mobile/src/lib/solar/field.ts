@@ -109,14 +109,26 @@ export interface SolarLines {
   labels: PrayerLineLabel[];
 }
 
+// Label clearance around `avoid` (the user's dot), in screen-equivalent latitude
+// degrees (see representativePoint). ~0.9° ≈ 55 dp at the whole-Sweden zoom — the
+// pill's half-width plus the dot's glow, so the pill clears the dot and the city
+// name above it without sliding further along the line than it has to.
+const LABEL_AVOID_RADIUS = 0.9;
+
 /**
  * The sweeping prayer lines: for each prayer, the level-0 contour of
  * (prayerTime − now). A line only exists where that prayer is crossing the map at
  * this instant, so lines appear, sweep, and vanish on their own as time advances.
+ *
+ * `avoid` ([lon, lat], optional): keep each line's label pill clear of this point —
+ * the user's location dot. Without it, a pill parks ON the dot exactly when its
+ * prayer's time reaches the user's city (the line passes through their coordinates
+ * at that instant — the most-watched moment on the screen).
  */
 export function buildLines(
   grid: SolarGrid,
   now: number,
+  avoid?: [number, number],
   prayers: readonly PrayerKey[] = PRAYER_ORDER,
 ): SolarLines {
   const { lats, lons, pt } = grid;
@@ -153,7 +165,7 @@ export function buildLines(
       properties: { prayer },
       geometry: { type: 'MultiLineString', coordinates: smoothed },
     });
-    const placement = labelPlacement(segments);
+    const placement = labelPlacement(segments, avoid, LABEL_AVOID_RADIUS);
     if (placement) labels.push({ prayer, lngLat: placement.point, tangent: placement.tangent });
   }
   return { lines: { type: 'FeatureCollection', features }, labels };

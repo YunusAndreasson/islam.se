@@ -83,7 +83,13 @@ export function buildPayloadAt(
   // timeline's many entries on the same calendar day share a single adhan computation.
   const compute = resolveDay ?? ((d: Date) => computePrayerTimes(coords, d, settings));
   const date = new Date(atMs);
-  const times = compute(stockholmPrayerDate(atMs));
+  // The Stockholm calendar day, as a local Date carrying its Y/M/D — the same civil
+  // day every other label uses. formatHijri reads local date FIELDS, so passing the
+  // raw instant would read the DEVICE's calendar day instead: on a phone outside
+  // Europe/Stockholm the Hijri line could disagree with the (Stockholm-pinned)
+  // Gregorian line by a day around midnight.
+  const civilDay = stockholmPrayerDate(atMs);
+  const times = compute(civilDay);
   const nextKey = nextPrayerKeyAt(times, atMs);
 
   let nextArabic = '';
@@ -123,7 +129,7 @@ export function buildPayloadAt(
   return {
     location,
     gregorian: formatGregorian(date),
-    hijri: formatHijri(date, settings.hijriOffset),
+    hijri: formatHijri(civilDay, settings.hijriOffset),
     rows,
     nextArabic,
     nextSwedish,

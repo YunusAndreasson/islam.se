@@ -59,12 +59,12 @@ export const washStopsLight: WashStops = {
   DAWN_WARM: [226, 156, 94, 0.36],
 };
 
-// Dark wash. The basemap is ALREADY dark navy (`#1d2333`), so the wash no longer
+// Dark wash. The basemap is ALREADY dark navy (`#1d2233`), so the wash no longer
 // has to do the work of darkening — it just carries hue (warm dusk / cool dawn /
 // deeper night-blue). All alphas drop substantially. The dusk warmth and dawn
 // coolness are slightly brighter so the temperature contrast still reads over the
 // dark base. NIGHT stays the same indigo HUE but at lower alpha — it deepens the
-// basemap from `#1d2333` toward `#161c2f`, an honest "this region of the sky is
+// basemap from `#1d2233` toward `#191f37`, an honest "this region of the sky is
 // truly dark" cue without flattening the basemap to black.
 export const washStopsDark: WashStops = {
   DAY: [255, 255, 255, 0],
