@@ -96,7 +96,27 @@ jest.mock('react-native-reanimated', () => {
     useReducedMotion: () => false,
     withSpring: (value) => value,
     withTiming: (value) => value,
+    withRepeat: (value) => value,
+    withSequence: (...values) => values[values.length - 1],
     runOnJS: (fn) => fn,
+    // Easing combinators only need to be callables returning callables under test —
+    // the with* shims above ignore easing entirely.
+    Easing: (() => {
+      const id = (t) => t;
+      const wrap = (f) => f ?? id;
+      return {
+        linear: id,
+        ease: id,
+        quad: id,
+        cubic: id,
+        sin: id,
+        exp: id,
+        in: wrap,
+        out: wrap,
+        inOut: wrap,
+        bezier: () => id,
+      };
+    })(),
     // The dock drives its reveals through interpolate()/Extrapolation; provide a real
     // piecewise-linear implementation so module eval + render don't throw under test.
     interpolate: (x, input, output) => {

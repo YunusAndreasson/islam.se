@@ -205,6 +205,23 @@ export function labelPlacement(
   return { point, tangent: [dir[0] / len, dir[1] / len] };
 }
 
+/**
+ * Orient an open polyline north-first. The renderer's sweep-in reveal trims the path
+ * from its START, so without a convention each line appears from whichever end
+ * chainSegments happened to walk first — one prayer's line could sweep upward while
+ * the next swept downward. North-first makes every reveal pour top-of-screen →
+ * south, one deliberate direction across all prayers. A closed loop is returned
+ * unchanged: it has no ends, so its (arbitrary) seam is as good a start as any.
+ */
+export function orientNorthFirst(line: [number, number][]): [number, number][] {
+  if (line.length < 2) return line;
+  const first = line[0];
+  const last = line[line.length - 1];
+  const closed = first[0] === last[0] && first[1] === last[1];
+  if (closed) return line;
+  return first[1] >= last[1] ? line : [...line].reverse();
+}
+
 // marchingSquares emits independent 2-point segments, not ordered polylines, so a
 // line can't be smoothed until its segments are chained back into a path. Shared
 // endpoints between adjacent cells are mathematically identical (proven by the edge

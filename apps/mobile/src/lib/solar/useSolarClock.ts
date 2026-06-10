@@ -18,7 +18,10 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { startOfStockholmDay, stockholmDayLength } from '../stockholm-time';
 
-const LIVE_TICK_MS = 30_000;
+/** Live-mode tick interval. Exported so the map can glide the displayed instant
+ *  CONTINUOUSLY between ticks (a linear ease toward the predicted next tick) instead
+ *  of stepping the wash and prayer lines every 30 s. */
+export const LIVE_TICK_MS = 30_000;
 
 export type ClockMode = 'live' | 'scrub';
 

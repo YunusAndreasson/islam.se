@@ -80,6 +80,24 @@ describe('buildLines', () => {
     expect(noon.lines.features.find((f) => prayerOf(f) === 'maghrib')).toBeUndefined();
   });
 
+  it('orients every open polyline north-first so the sweep-in reveal pours southward', () => {
+    // The renderer trims each line from its start; this pins the buildLines contract
+    // that the start is the NORTHERN end — otherwise reveals sweep in random directions
+    // depending on which end chainSegments happened to walk first.
+    const grid = buildGrid(DATE, DEFAULT_SETTINGS, GRID_OPTS);
+    const central = computePrayerTimes({ latitude: 62, longitude: 15.5 }, DATE, DEFAULT_SETTINGS);
+    const { lines } = buildLines(grid, central.maghrib.getTime());
+    for (const f of lines.features) {
+      if (f.geometry.type !== 'MultiLineString') continue;
+      for (const line of f.geometry.coordinates as [number, number][][]) {
+        const first = line[0];
+        const last = line[line.length - 1];
+        const closed = first[0] === last[0] && first[1] === last[1];
+        if (!closed) expect(first[1]).toBeGreaterThanOrEqual(last[1]);
+      }
+    }
+  });
+
   it('emits no NaN coordinates under polar (unresolved) settings in summer', () => {
     const summer = new Date(2026, 5, 21, 12, 0, 0); // midnight-sun season up north
     const settings = { ...DEFAULT_SETTINGS, polarCircleResolution: 'unresolved' as const };

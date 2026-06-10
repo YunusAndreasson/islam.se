@@ -18,6 +18,7 @@ import {
   chainSegments,
   labelPlacement,
   marchingSquares,
+  orientNorthFirst,
   type Segment,
   smoothChain,
 } from './contour';
@@ -159,7 +160,11 @@ export function buildLines(
     // leaves a sharp facet that 3 passes left visible (and Mercator magnifies it up north).
     // Extra passes pull the control polygon onto the smooth underlying curve before
     // Catmull-Rom resamples it; endpoints stay pinned, so open lines still reach the edge.
-    const smoothed = chainSegments(segments).map((line) => catmullRom(smoothChain(line, 6)));
+    // North-first orientation so the renderer's sweep-in reveal always pours
+    // north → south, one deliberate direction for every prayer (see orientNorthFirst).
+    const smoothed = chainSegments(segments).map((line) =>
+      orientNorthFirst(catmullRom(smoothChain(line, 6))),
+    );
     features.push({
       type: 'Feature',
       properties: { prayer },

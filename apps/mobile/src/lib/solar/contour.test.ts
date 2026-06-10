@@ -4,6 +4,7 @@ import {
   catmullRom,
   chainSegments,
   marchingSquares,
+  orientNorthFirst,
   representativePoint,
   smoothChain,
 } from './contour';
@@ -355,5 +356,71 @@ describe('smoothChain', () => {
       [1, 1],
     ];
     expect(smoothChain(line)).toEqual(line);
+  });
+});
+
+// The sweep-in reveal trims each rendered line from its START, so the polyline's
+// orientation IS the direction the line pours onto the map. Without this guard a
+// refactor of chainSegments' walk order would silently make some lines sweep
+// south→north and others north→south — the kind of inconsistency nobody traces
+// back to geometry ordering.
+describe('orientNorthFirst', () => {
+  it('keeps a line that already starts at its northern end', () => {
+    const line: [number, number][] = [
+      [15, 68],
+      [15.5, 62],
+      [16, 56],
+    ];
+    expect(orientNorthFirst(line)).toEqual(line);
+  });
+
+  it('reverses a south-first line so the reveal pours north → south', () => {
+    const line: [number, number][] = [
+      [16, 56],
+      [15.5, 62],
+      [15, 68],
+    ];
+    expect(orientNorthFirst(line)).toEqual([
+      [15, 68],
+      [15.5, 62],
+      [16, 56],
+    ]);
+  });
+
+  it('preserves the exact point set — orientation must never move geometry', () => {
+    const line: [number, number][] = [
+      [16, 56.123456],
+      [15.5, 61.9],
+      [15, 67.5],
+    ];
+    const out = orientNorthFirst(line);
+    expect([...out].sort()).toEqual([...line].sort());
+  });
+
+  it('does not mutate its input when reversing', () => {
+    const line: [number, number][] = [
+      [16, 56],
+      [15, 68],
+    ];
+    const copy = line.map((p) => [...p]);
+    orientNorthFirst(line);
+    expect(line).toEqual(copy);
+  });
+
+  it('leaves a closed loop unchanged (a loop has no end to lead from)', () => {
+    const loop: [number, number][] = [
+      [10, 60],
+      [12, 58],
+      [14, 60],
+      [12, 62],
+      [10, 60],
+    ];
+    expect(orientNorthFirst(loop)).toBe(loop);
+  });
+
+  it('leaves degenerate lines unchanged', () => {
+    const point: [number, number][] = [[10, 60]];
+    expect(orientNorthFirst(point)).toBe(point);
+    expect(orientNorthFirst([])).toEqual([]);
   });
 });
