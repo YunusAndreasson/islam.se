@@ -129,6 +129,14 @@ export function createFieldRenderer(canvas: HTMLCanvasElement) {
 	const ctx = ctx0;
 	const offscreen = document.createElement("canvas");
 
+	// Label type matches the site's heading face (Source Sans 3) instead of the
+	// system sans — the canvas is the only surface that can't inherit it via CSS.
+	// Resolved once: ctx.font can't read custom properties.
+	const labelFontFamily = (() => {
+		const fam = getComputedStyle(canvas).getPropertyValue("--font-heading").trim();
+		return fam || "ui-sans-serif, system-ui, -apple-system, sans-serif";
+	})();
+
 	let grid: SolarGrid | null = null;
 	let gridKey = "";
 
@@ -218,7 +226,7 @@ export function createFieldRenderer(canvas: HTMLCanvasElement) {
 	function drawLabels(t: Transform, labels: PrayerLineLabel[], scheme: Scheme): void {
 		if (labels.length === 0) return;
 		ctx.save();
-		ctx.font = "600 11px ui-sans-serif, system-ui, -apple-system, sans-serif";
+		ctx.font = `600 11px ${labelFontFamily}`;
 		ctx.textAlign = "center";
 		ctx.textBaseline = "middle";
 		ctx.lineJoin = "round";

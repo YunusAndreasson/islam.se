@@ -19,7 +19,8 @@
 	transition: translate 0.2s ease;
 }
 
-.arrow-link:hover::after {
+.arrow-link:hover::after,
+.arrow-link:focus-visible::after {
 	translate: 0.2em 0;
 }
 
@@ -163,7 +164,22 @@
 	/* Soft, modern corners — no longer a hard rectangular cut, but restrained
 	   enough to stay in the strict editorial voice. */
 	border-radius: 10px;
+	/* Warm undertone while a lazy image decodes — the frame arrives seated in
+	   the palette instead of popping from blank page background. Invisible once
+	   the opaque cover image paints. */
+	background-color: color-mix(in srgb, var(--color-warm) 18%, var(--color-bg));
 	transition: box-shadow 0.5s cubic-bezier(0.2, 0, 0.1, 1);
+	/* Hero morphs (16:9/4:3 card → 3:2 article hero) crop instead of stretch. */
+	view-transition-class: hero;
+}
+
+/* Snapshots of replaced content stretch to the animating group box by default —
+   distorting the photo mid-flight. Cover-fit them instead. */
+::view-transition-old(.hero),
+::view-transition-new(.hero) {
+	height: 100%;
+	object-fit: cover;
+	overflow: clip;
 }
 
 /* Film grain — desaturated fractal noise, blended soft-light at a whisper. */
@@ -220,7 +236,8 @@ a:focus-visible .media-frame::before {
 	object-fit: cover;
 }
 
-a:hover .media-frame img {
+a:hover .media-frame img,
+a:focus-visible .media-frame img {
 	scale: var(--frame-zoom, 1.03);
 	filter: saturate(1) contrast(1) brightness(1) sepia(0);
 }
@@ -246,6 +263,9 @@ a:hover .media-frame img {
 		transform: translateY(-100%);
 	}
 
+	/* Under-mast fade — communicates "content passing underneath", so it only
+	   appears once the page is actually scrolled (.is-scrolled from Header.astro).
+	   At rest it used to wash out faint borders on flush-to-top content. */
 	&::after {
 		content: "";
 		position: absolute;
@@ -253,6 +273,12 @@ a:hover .media-frame img {
 		height: 1.5rem;
 		background: linear-gradient(to bottom, var(--color-bg), transparent);
 		pointer-events: none;
+		opacity: 0;
+		transition: opacity 0.2s ease;
+	}
+
+	&.is-scrolled::after {
+		opacity: 1;
 	}
 }
 
@@ -472,6 +498,24 @@ a:hover .media-frame img {
 .site-footer a:focus-visible {
 	outline: 2px solid var(--color-accent);
 	outline-offset: 2px;
+}
+
+/* Pressed feedback — touch has no hover, so a tap must answer immediately.
+   One restrained shared rule for every pill/circle/play control; the scale
+   snaps (no transition) like a native pressed state. (.resume-pill excluded —
+   it owns a translateX transform.) */
+.search-trigger:active,
+.palette-chip:active,
+.bookpod-action:active,
+.bh-geo:active,
+.bs-geo:active,
+.vers-play:active,
+.qv-play:active,
+.fp-play:active,
+.btn-circle:active,
+.share-btn:active,
+.citat-share:active {
+	transform: scale(0.97);
 }
 
 /* ============================================================
@@ -767,7 +811,8 @@ html[data-player-visible] .fixed-actions {
 		text-decoration: none;
 		color: inherit;
 
-		&:hover .archive-title {
+		&:hover .archive-title,
+		&:focus-visible .archive-title {
 			text-decoration: underline;
 		}
 	}

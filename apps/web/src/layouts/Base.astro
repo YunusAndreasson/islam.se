@@ -25,6 +25,10 @@ interface Props {
 	/** MIME type of the preloaded candidate (e.g. "image/avif"), so the preload
 	 *  matches the right `<source>` in the painted `<picture>`. */
 	preloadImageType?: string;
+	/** Preload Amiri Quran on pages that always paint Arabic (homepage daily
+	 *  verse, essays) — kills the font-swap restyle of the verses. ~45 kB once,
+	 *  cached site-wide. */
+	preloadArabicFont?: boolean;
 	articleMeta?: {
 		publishedAt: string;
 		wordCount: number;
@@ -42,6 +46,7 @@ const {
 	preloadImageSrcset,
 	preloadImageSizes,
 	preloadImageType,
+	preloadArabicFont = false,
 	articleMeta,
 	jsonLd,
 } = Astro.props;
@@ -112,7 +117,7 @@ if (articleMeta) {
 		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 		<Font cssVariable="--font-body" preload />
 		<Font cssVariable="--font-heading" preload />
-		<Font cssVariable="--font-arabic" />
+		{preloadArabicFont ? <Font cssVariable="--font-arabic" preload /> : <Font cssVariable="--font-arabic" />}
 		{preloadImageSrcset ? (
 			<link rel="preload" as="image" type={preloadImageType} imagesrcset={preloadImageSrcset} imagesizes={preloadImageSizes} fetchpriority="high" />
 		) : preloadImage ? (
@@ -157,7 +162,8 @@ if (articleMeta) {
 	</head>
 	<body>
 		<a href="#main" class="skip-link">Hoppa till innehåll</a>
-		<div class="reading-progress" aria-hidden="true" data-slug={articleMeta?.slug} />
+		{/* Reading progress is an essay metaphor — browse pages get no bar. */}
+		{articleMeta && <div class="reading-progress" aria-hidden="true" data-slug={articleMeta.slug} />}
 		<Header />
 		<slot />
 		<Footer />

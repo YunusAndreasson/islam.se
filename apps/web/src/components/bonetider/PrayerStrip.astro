@@ -173,7 +173,7 @@ const isDay = altDeg >= 0;
 	/* The colour anchor — quieter in size, lifted by the accent so the eye still lands. */
 	.bf-countdown {
 		font-family: var(--font-body);
-		font-variant-numeric: tabular-nums;
+		font-variant-numeric: lining-nums tabular-nums;
 		font-size: 0.95rem;
 		color: var(--color-accent);
 		white-space: nowrap;
@@ -217,7 +217,7 @@ const isDay = altDeg >= 0;
 
 	.bs-t .bf-t-time {
 		font-family: var(--font-body);
-		font-variant-numeric: tabular-nums;
+		font-variant-numeric: lining-nums tabular-nums;
 		font-size: 0.95rem;
 		line-height: 1;
 		color: var(--color-text);
@@ -294,6 +294,16 @@ const isDay = altDeg >= 0;
 
 	.bs-all:hover::after {
 		translate: 0.18em 0;
+	}
+
+	/* Bare-text controls need real tap targets on touch — pad out, pull the
+	   padding back with negative margins so the layout doesn't move. */
+	@media (hover: none), (pointer: coarse) {
+		.bs-geo,
+		.bs-all {
+			padding: 0.6rem 0.4rem;
+			margin: -0.6rem -0.4rem;
+		}
 	}
 
 	.bs-geo:focus-visible,

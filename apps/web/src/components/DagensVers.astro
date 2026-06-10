@@ -96,6 +96,9 @@ const koranBook =
 	.vers-arabic {
 		font-family: var(--font-arabic);
 		font-weight: 400;
+		/* Amiri Quran ships a single weight/style — never let the engine fake-bold
+		   or slant a mushaf naskh. */
+		font-synthesis: none;
 		font-size: clamp(1.5rem, 3.2vw, 2.125rem);
 		line-height: 1.85;
 		letter-spacing: 0;

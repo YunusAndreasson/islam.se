@@ -105,6 +105,16 @@ const article = titleBySlug.get(quote.slug)!;
 		color: var(--color-accent);
 	}
 
+	/* The icon is the quote's only share affordance on touch — give it a real
+	   tap target (padding pulled back so the cite line doesn't shift). */
+	@media (hover: none), (pointer: coarse) {
+		.citat-share {
+			padding: 0.6rem;
+			margin: -0.6rem;
+			margin-left: calc(0.25rem - 0.6rem);
+		}
+	}
+
 	.citat-share:focus-visible {
 		outline: 2px solid var(--color-accent);
 		outline-offset: 3px;

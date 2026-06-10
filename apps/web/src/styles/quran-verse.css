@@ -22,6 +22,9 @@
 .qv-arabic {
 	font-family: var(--font-arabic);
 	font-weight: 400;
+	/* Amiri Quran ships a single weight/style — never let the engine fake-bold
+	   or slant a mushaf naskh. */
+	font-synthesis: none;
 	font-size: 1.5rem;
 	line-height: 1.95;
 	margin: 0;

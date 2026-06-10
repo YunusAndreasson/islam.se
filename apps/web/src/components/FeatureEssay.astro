@@ -107,7 +107,8 @@ const { article, widths = FEATURE_HERO_WIDTHS, sizes = FEATURE_HERO_SIZES } = As
 		font-feature-settings: "titl" 1, "dlig" 1;
 	}
 
-	.feature-link:hover .feature-title {
+	.feature-link:hover .feature-title,
+	.feature-link:focus-visible .feature-title {
 		text-decoration: underline;
 		text-decoration-thickness: 1px;
 		text-underline-offset: 0.12em;

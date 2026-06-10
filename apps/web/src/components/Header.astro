@@ -35,18 +35,40 @@ const isHome = path === "/";
 		scrollCtrl = new AbortController();
 
 		let lastY = window.scrollY;
+		let upDist = 0;
 		const threshold = 10;
+		header.classList.toggle("is-scrolled", lastY > 4);
 		window.addEventListener(
 			"scroll",
 			() => {
 				const y = window.scrollY;
-				if (y < threshold) header.classList.remove("header-hidden");
-				else if (y > lastY) header.classList.add("header-hidden");
-				else if (lastY - y > threshold) header.classList.remove("header-hidden");
+				const dy = y - lastY;
+				// The under-header fade shade only makes sense once content
+				// actually passes underneath.
+				header.classList.toggle("is-scrolled", y > 4);
+				if (y < threshold) {
+					upDist = 0;
+					header.classList.remove("header-hidden");
+				} else if (dy > 0) {
+					upDist = 0;
+					// Don't hide until the mast has fully scrolled past itself.
+					if (y > (header as HTMLElement).offsetHeight) header.classList.add("header-hidden");
+				} else if (dy < 0) {
+					// Accumulate slow upward panning across events — a single-event
+					// delta never reaches the threshold on smooth touch scrolling.
+					upDist -= dy;
+					if (upDist > threshold) header.classList.remove("header-hidden");
+				}
 				lastY = y;
 			},
 			{ passive: true, signal: scrollCtrl.signal },
 		);
+
+		// A hidden mast still holds two focusable controls — reveal it the moment
+		// keyboard focus lands inside so focus is never on an invisible element.
+		header.addEventListener("focusin", () => header.classList.remove("header-hidden"), {
+			signal: scrollCtrl.signal,
+		});
 	}
 
 	document.addEventListener("astro:page-load", bindHeader);

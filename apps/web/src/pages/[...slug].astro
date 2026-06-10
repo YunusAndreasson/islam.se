@@ -36,6 +36,7 @@ const amne = article.category ? amneByName.get(article.category) : undefined;
 	description={article.description}
 	ogImage={`/og/${article.slug}.png`}
 	articleMeta={{ publishedAt: article.publishedAt, wordCount: article.wordCount, description: article.description, slug: article.slug }}
+	preloadArabicFont
 >
 	<main id="main" class="content-column">
 		<article>
@@ -172,7 +173,10 @@ const amne = article.category ? amneByName.get(article.category) : undefined;
 
 	@media (prefers-reduced-motion: reduce) {
 		.resume-pill {
+			/* Deliberate survivor: opacity-only fade, no motion. !important beats
+			   the global kill-switch in typography.css. */
 			transition: opacity 0.25s ease;
+			transition-duration: 0.25s !important;
 			transform: translateX(-50%);
 		}
 		.resume-pill[data-visible] {
@@ -224,22 +228,26 @@ const amne = article.category ? amneByName.get(article.category) : undefined;
 			footnotes.classList.add("footnotes-relocated");
 			nav.after(footnotes);
 		}
-		document.addEventListener("keydown", (e) => {
-			if (e.target instanceof HTMLElement && e.target.matches("input, textarea, select")) return;
-			if (e.key === "Escape" && !document.querySelector(".fn-popover--visible")) navigate("/essaer");
-		}, { signal: ctrl.signal });
-
-		// Swipe between articles
+		// Swipe between articles — guarded so it can't collide with the OS edge
+		// back-gesture, multi-touch, slow drags or text-selection drags.
 		const prevLink = document.querySelector<HTMLAnchorElement>(".article-nav a[rel=prev]");
 		const nextLink = document.querySelector<HTMLAnchorElement>(".article-nav a[rel=next]");
 		if (prevLink || nextLink) {
 			let startX = 0;
 			let startY = 0;
+			let startT = 0;
+			let eligible = false;
 			document.addEventListener("touchstart", (e) => {
 				startX = e.touches[0].clientX;
 				startY = e.touches[0].clientY;
+				startT = performance.now();
+				// Edge starts belong to the browser's back/forward gesture.
+				eligible = e.touches.length === 1 && startX >= 28 && startX <= window.innerWidth - 28;
 			}, { passive: true, signal: ctrl.signal });
 			document.addEventListener("touchend", (e) => {
+				if (!eligible || e.changedTouches.length !== 1) return;
+				if (performance.now() - startT > 700) return;
+				if (document.getSelection()?.toString()) return;
 				const dx = e.changedTouches[0].clientX - startX;
 				const dy = e.changedTouches[0].clientY - startY;
 				if (Math.abs(dx) > 80 && Math.abs(dx) > Math.abs(dy) * 2) {
@@ -249,12 +257,14 @@ const amne = article.category ? amneByName.get(article.category) : undefined;
 			}, { passive: true, signal: ctrl.signal });
 		}
 
-		// Footnote popovers — hover on desktop, click on touch
+		// Footnote popovers — hover on desktop, click on touch, focus on keyboard
 		const popover = document.createElement("div");
 		popover.className = "fn-popover";
+		popover.id = "fn-popover";
 		popover.setAttribute("role", "tooltip");
 		document.body.appendChild(popover);
 		let hideTimer: ReturnType<typeof setTimeout> | null = null;
+		let describedRef: HTMLElement | null = null;
 		const isTouch = window.matchMedia("(hover: none) and (pointer: coarse)").matches;
 
 		function positionPopover(anchor: Element) {
@@ -289,6 +299,10 @@ const amne = article.category ? amneByName.get(article.category) : undefined;
 			popover.innerHTML = clone.innerHTML;
 			popover.setAttribute("data-fn-id", fnId);
 			positionPopover(ref.closest("sup") ?? ref);
+			// Announce the note content to screen readers while it is shown.
+			describedRef?.removeAttribute("aria-describedby");
+			ref.setAttribute("aria-describedby", popover.id);
+			describedRef = ref;
 		}
 
 		const honorificTitles: Record<string, string> = {
@@ -309,6 +323,8 @@ const amne = article.category ? amneByName.get(article.category) : undefined;
 		function dismissPopover() {
 			popover.classList.remove("fn-popover--visible");
 			popover.removeAttribute("data-fn-id");
+			describedRef?.removeAttribute("aria-describedby");
+			describedRef = null;
 		}
 
 		function scheduleDismiss() {
@@ -342,13 +358,24 @@ const amne = article.category ? amneByName.get(article.category) : undefined;
 		});
 		popover.addEventListener("mouseleave", scheduleDismiss);
 
-		// Click: prevent default jump; on touch devices toggle popover
+		// Keyboard: show on Tab-focus, dismiss when focus moves on. :focus-visible
+		// keeps tap- and click-driven focus from double-triggering the touch toggle
+		// and hover paths below.
+		document.addEventListener("focusin", (e) => {
+			const ref = (e.target as HTMLElement).closest?.<HTMLAnchorElement>("a[data-footnote-ref]");
+			if (ref?.matches(":focus-visible")) showPopover(ref);
+		}, { signal: ctrl.signal });
+		document.addEventListener("focusout", (e) => {
+			if ((e.target as HTMLElement).closest?.("a[data-footnote-ref]")) scheduleDismiss();
+		}, { signal: ctrl.signal });
+
+		// Click: prevent default jump; on touch and keyboard (detail === 0) toggle
 		document.addEventListener("click", (e) => {
 			const target = e.target as HTMLElement;
 			const ref = target.closest<HTMLAnchorElement>("a[data-footnote-ref]");
 			if (ref) {
 				e.preventDefault();
-				if (isTouch) {
+				if (isTouch || e.detail === 0) {
 					const fnId = ref.getAttribute("href")?.replace("#", "");
 					if (popover.getAttribute("data-fn-id") === fnId && popover.classList.contains("fn-popover--visible")) {
 						dismissPopover();

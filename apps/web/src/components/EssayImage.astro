@@ -114,7 +114,10 @@ if (mobile && hero) {
 
 	@media (prefers-reduced-motion: reduce) {
 		img {
+			/* Deliberate survivor: a filter cross-fade is not motion. !important
+			   beats the global kill-switch in typography.css. */
 			transition: filter 0.6s ease;
+			transition-duration: 0.6s !important;
 		}
 	}
 </style>

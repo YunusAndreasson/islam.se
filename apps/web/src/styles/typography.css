@@ -2,6 +2,26 @@
 	scroll-margin-top: 5rem;
 }
 
+/* Footnote round-trips land mid-prose with no cue — flash the arrival point.
+   Explicit no-preference guard: the global reduce kill-switch uses * selectors
+   and would lose the cascade to this attribute selector. */
+@media (prefers-reduced-motion: no-preference) {
+	sup a[data-footnote-ref]:target,
+	.footnotes li:target,
+	.footnotes-relocated li:target {
+		animation: target-flash 1.6s ease-out 1 both;
+	}
+
+	@keyframes target-flash {
+		from {
+			background-color: color-mix(in srgb, var(--color-warm), transparent 55%);
+		}
+		to {
+			background-color: transparent;
+		}
+	}
+}
+
 ::selection {
 	background: color-mix(in srgb, var(--color-warm), transparent 70%);
 	color: var(--color-text);
@@ -32,6 +52,10 @@ h2 {
 	text-wrap: balance;
 	font-variant-numeric: normal;
 	font-variant-ligatures: discretionary-ligatures;
+	/* .prose sets hyphens: auto, which inherits — balanced headings must never
+	   auto-hyphenate Swedish compounds. manual keeps &shy; as an escape hatch. */
+	-webkit-hyphens: manual;
+	hyphens: manual;
 }
 
 h1 {
@@ -91,12 +115,14 @@ a {
 	}
 }
 
-/* Block quotes — warm border, italic for quoted voices */
+/* Block quotes — warm border, italic for quoted voices.
+   Same size as body text (DESIGN.md: quotes carry the argument's weight).
+   Border darkened toward text to clear the 3:1 non-text contrast threshold
+   (--color-warm alone is 2.4:1 light / 2.8:1 dark). */
 blockquote {
-	border-inline-start: 3px solid var(--color-warm);
+	border-inline-start: 3px solid color-mix(in srgb, var(--color-warm) 80%, var(--color-text));
 	padding-inline-start: var(--space-unit);
 	margin-block: var(--space-phi);
-	font-size: 0.95em;
 
 	p:last-child {
 		margin-bottom: 0;
@@ -176,8 +202,12 @@ sup {
 
 .data-footnote-backref {
 	text-decoration: none;
-	margin-inline-start: 0.25em;
 	font-size: 0;
+	/* Inflate the ~12px ↑ glyph to a usable tap target (rem: font-size is 0,
+	   so em units collapse). Same negative-margin trick as sup a above. */
+	padding: 0.6rem;
+	margin: -0.6rem;
+	margin-inline-start: -0.35rem;
 
 	&::after {
 		content: "↑";
@@ -239,14 +269,23 @@ sup {
 .prose {
 	-webkit-hyphens: auto;
 	hyphens: auto;
+	/* Swedish hyphenation discipline: min 7-letter words, ≥4 before / ≥3 after
+	   the break — kills "o-/lika" fragments. Safari prefixes add a 2-line
+	   ladder cap. Firefox ignores all of these gracefully. */
+	hyphenate-limit-chars: 7 4 3;
+	-webkit-hyphenate-limit-before: 4;
+	-webkit-hyphenate-limit-after: 3;
+	-webkit-hyphenate-limit-lines: 2;
 
 	@media (width > 768px) {
 		text-wrap: pretty;
 	}
 
-	/* Book-style paragraph rhythm: indent consecutive paragraphs, tighten gap */
+	/* Book-style paragraph rhythm: the indent alone marks consecutive
+	   paragraphs (Bringhurst: no added space between indented paragraphs;
+	   DESIGN.md: spacing or indentation, never both). */
 	> p:has(+ p) {
-		margin-bottom: 0.5em;
+		margin-bottom: 0;
 	}
 
 	> p + p:not([class]) {
@@ -310,13 +349,20 @@ article .prose > p:first-child {
 }
 
 article .prose > p:first-child::first-letter {
-	-webkit-initial-letter: 3;
-	initial-letter: 3;
 	font-weight: 600;
 	color: var(--color-accent);
-	margin-right: 0.08em;
-	/* Å/Ä/Ö ring and dots extend above cap height — negative margin gives room */
-	margin-top: -0.08em;
+}
+
+/* The metric compensations only make sense alongside the big letter —
+   Firefox (no initial-letter) must not get the spurious margins. */
+@supports (initial-letter: 3) or (-webkit-initial-letter: 3) {
+	article .prose > p:first-child::first-letter {
+		-webkit-initial-letter: 3;
+		initial-letter: 3;
+		margin-right: 0.08em;
+		/* Å/Ä/Ö ring and dots extend above cap height — negative margin gives room */
+		margin-top: -0.08em;
+	}
 }
 
 article .prose > p:first-child::first-line {
@@ -353,12 +399,9 @@ article .prose > p:first-child::first-line {
 		font-size: 1.0625rem; /* 17px */
 	}
 
-	h1 {
-		font-size: 2rem;
-	}
-
+	/* h1/h2 sizes are fluid via the clamp()ed --step-* tokens; only the
+	   optical compensations (weight, tracking) stay breakpoint-bound. */
 	h2 {
-		font-size: 1.562rem;
 		font-weight: 630;
 		letter-spacing: -0.01em;
 	}
@@ -448,15 +491,28 @@ article .prose > p:first-child::first-line {
 	}
 }
 
-/* Reduced motion — respect user preference */
+/* Reduced motion — respect user preference.
+   !important is load-bearing: * has zero specificity, so without it every
+   classed `transition` shorthand on the site wins the cascade and the
+   kill-switch is a no-op. Deliberate survivors (EssayImage filter cross-fade,
+   resume-pill opacity fade) re-assert themselves locally with !important. */
 @media (prefers-reduced-motion: reduce) {
 	*,
 	*::before,
 	*::after {
-		animation-duration: 0.01ms;
-		animation-iteration-count: 1;
-		transition-duration: 0.01ms;
+		animation-duration: 0.01ms !important;
+		animation-iteration-count: 1 !important;
+		animation-delay: 0.01ms !important;
+		transition-duration: 0.01ms !important;
+		transition-delay: 0ms !important;
 		scroll-behavior: auto;
+	}
+
+	/* The kill-switch can't reach the view-transition pseudo-tree. */
+	::view-transition-group(*),
+	::view-transition-old(*),
+	::view-transition-new(*) {
+		animation: none !important;
 	}
 
 	/* Override html { scroll-behavior: smooth } in reset.css (higher specificity needed) */
