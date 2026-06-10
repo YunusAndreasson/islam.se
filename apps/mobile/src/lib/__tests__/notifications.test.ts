@@ -86,8 +86,10 @@ describe('syncPrayerNotifications lead time', () => {
   it('leads the title with a countdown when a lead offset is set', async () => {
     await syncPrayerNotifications(STOCKHOLM, withNotifications({ leadMinutes: 15 }));
     const { content } = scheduleMock.mock.calls[0][0];
-    // Title: "<prayer> om 15 min" — the countdown is the headline, not an afterthought.
-    expect(content.title).toMatch(/ om 15 min$/);
+    // Title: "<prayer> om 15 min" — the countdown is the headline, not an
+    // afterthought. The space before "min" is NBSP (fast mellanslag) so the
+    // unit never wraps away from its number in a narrow banner.
+    expect(content.title).toMatch(/ om 15 min$/);
     // Body: the durable clock time, e.g. "Klockan 14:32".
     expect(content.body).toMatch(/^Klockan \d{2}:\d{2}$/);
   });

@@ -174,9 +174,11 @@ describe('label helpers', () => {
     // The stepper formatter is the only place "+5 min" / "−3 min" is constructed,
     // and the leading sign is what tells the user a tweak is applied. A missing
     // "+" on positive values silently hides positive adjustments at a glance.
-    expect(signedMinutes(5)).toBe('+5 min');
-    expect(signedMinutes(-3)).toBe('-3 min'); // adhan offsets use ASCII minus
-    expect(signedMinutes(0)).toBe('0 min');
+    // The space before "min" is NBSP (Swedish fast mellanslag) so the unit
+    // never wraps away from its number.
+    expect(signedMinutes(5)).toBe('+5 min');
+    expect(signedMinutes(-3)).toBe('-3 min'); // adhan offsets use ASCII minus
+    expect(signedMinutes(0)).toBe('0 min');
   });
 });
 

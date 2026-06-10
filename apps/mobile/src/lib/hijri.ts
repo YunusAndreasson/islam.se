@@ -82,9 +82,12 @@ export const HIJRI_MONTHS: readonly string[] = [
   'Muḥarram',
   'Ṣafar',
   'Rabīʿ al-awwal',
-  'Rabīʿ al-thānī',
-  'Jumādā al-awwal',
-  'Jumādā al-thānī',
+  // Classical forms — Rabīʿ (masc.) takes al-ākhir, Jumādā (fem.) al-ūlā /
+  // al-ākhira — matching the academic register over the colloquial
+  // al-thānī/al-awwal variants common in prayer apps.
+  'Rabīʿ al-ākhir',
+  'Jumādā al-ūlā',
+  'Jumādā al-ākhira',
   'Rajab',
   'Shaʿbān',
   'Ramaḍān',
@@ -93,7 +96,7 @@ export const HIJRI_MONTHS: readonly string[] = [
   'Dhū al-ḥijja',
 ];
 
-/** e.g. "9 Dhul-hijja 1447". */
+/** e.g. "9 Dhū al-ḥijja 1447". */
 export function formatHijri(date: Date, offsetDays = 0): string {
   const h = toHijri(date, offsetDays);
   return `${h.day} ${HIJRI_MONTHS[h.month - 1]} ${h.year}`;
