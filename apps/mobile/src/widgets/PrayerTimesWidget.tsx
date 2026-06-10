@@ -99,7 +99,13 @@ function PrayerTimesWidgetLayout(rawPayload: WidgetPayload, environment: WidgetE
   const nextIcon: SFSymbol = nextRow ? SF[nextRow.key] : SF.fajr;
   const nextKindLabel = nextRow?.isMarker ? 'NÄSTA TID' : 'NÄSTA BÖN';
   // Post-Isha the hero shows tomorrow's Fajr — say so (app convention: "i morgon").
-  const eyebrowLabel = p.nextIsTomorrow === true ? `${nextKindLabel} · I MORGON` : nextKindLabel;
+  // Two widths: the narrow families (small, accessoryRectangular) can't fit
+  // "NÄSTA BÖN · I MORGON" at 11pt — it truncates — so they swap the whole label
+  // for just "I MORGON" (the countdown already says it's a bön being announced);
+  // medium has the width for the full form.
+  const tomorrow = p.nextIsTomorrow === true;
+  const eyebrowNarrow = tomorrow ? 'I MORGON' : nextKindLabel;
+  const eyebrowWide = tomorrow ? `${nextKindLabel} · I MORGON` : nextKindLabel;
 
   // Tabular figures for every clock/countdown — the widget twin of the app's `mono`
   // token (tabular-nums): schedule times column-align, the countdown doesn't jitter.
@@ -116,15 +122,12 @@ function PrayerTimesWidgetLayout(rawPayload: WidgetPayload, environment: WidgetE
 
   // The eyebrow row: icon + "NÄSTA BÖN" / "NÄSTA TID" for sunrise. Keeping the
   // icon HERE (not beside the name) lets the name, time and countdown below all
-  // share one clean leading edge. `showIcon: false` frees width for the longer
-  // "· I MORGON" suffix on the small family.
-  const eyebrow = (iconSize: number, showIcon: boolean) => (
+  // share one clean leading edge.
+  const eyebrow = (iconSize: number, label: string) => (
     <HStack spacing={5} alignment="center">
-      {showIcon && nextArabic ? (
-        <Image systemName={nextIcon} size={iconSize} color={c.highlight} />
-      ) : null}
+      {nextArabic ? <Image systemName={nextIcon} size={iconSize} color={c.highlight} /> : null}
       <Text modifiers={[font({ size: 11, weight: 'semibold' }), tracked, foregroundStyle(c.inkFaint)]}>
-        {eyebrowLabel}
+        {label}
       </Text>
     </HStack>
   );
@@ -157,7 +160,7 @@ function PrayerTimesWidgetLayout(rawPayload: WidgetPayload, environment: WidgetE
         <HStack spacing={4} alignment="center">
           {nextArabic ? <Image systemName={nextIcon} size={11} color={c.inkFaint} /> : null}
           <Text modifiers={[font({ size: 11, weight: 'semibold' }), tracked, foregroundStyle(c.inkFaint)]}>
-            {eyebrowLabel}
+            {eyebrowNarrow}
           </Text>
         </HStack>
         <HStack spacing={6} alignment="firstTextBaseline">
@@ -200,8 +203,7 @@ function PrayerTimesWidgetLayout(rawPayload: WidgetPayload, environment: WidgetE
   if (environment.widgetFamily === 'systemSmall') {
     return (
       <VStack alignment="leading" spacing={3} modifiers={root}>
-        {/* Drop the icon when "· I MORGON" needs the width. */}
-        {eyebrow(13, p.nextIsTomorrow !== true)}
+        {eyebrow(13, eyebrowNarrow)}
         <Spacer />
         <Text modifiers={[font({ size: 22, weight: 'bold' }), foregroundStyle(c.highlightText)]}>
           {nextArabic || 'Bönetider'}
@@ -233,7 +235,7 @@ function PrayerTimesWidgetLayout(rawPayload: WidgetPayload, environment: WidgetE
       <HStack spacing={14} alignment="center">
         {/* Hero (left) — eyebrow, prayer name (brass), big time, live countdown */}
         <VStack alignment="leading" spacing={3}>
-          {eyebrow(14, true)}
+          {eyebrow(14, eyebrowWide)}
           <Text modifiers={[font({ size: 22, weight: 'bold' }), foregroundStyle(c.highlightText)]}>
             {nextArabic || 'Bönetider'}
           </Text>
