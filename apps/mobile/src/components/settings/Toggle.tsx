@@ -56,7 +56,7 @@ function makeStyles(colors: SettingsColors) {
       gap: space.md,
     },
     divider: { borderTopWidth: StyleSheet.hairlineWidth, borderTopColor: colors.separator },
-    dim: { opacity: 0.45 },
+    dim: { opacity: 0.5 }, // disabled-control dimming — one step shared with Stepper's `disabled`
     text: { flex: 1 },
     label: { ...type.body, color: colors.text },
     description: { ...type.caption, color: colors.textMuted, marginTop: 2 },

@@ -59,7 +59,7 @@ export function DisclosureGroup({
     opacity: open.value,
   }));
   const chevronStyle = useAnimatedStyle(() => ({
-    transform: [{ rotate: `${open.value * 90}deg` }],
+    transform: [{ rotate: `${open.value * 180}deg` }],
   }));
   // The collapsed value sits BELOW the title (a subtitle), so it has the full card
   // width and never truncates to "…" the way a right-aligned same-row value did when
@@ -104,8 +104,12 @@ export function DisclosureGroup({
               </Text>
             </Animated.View>
           </View>
+          {/* A DOWN chevron (rotating to up), not the right-pointing one: › is the
+              app-wide "pushes a screen" glyph (muted, 22), so an inline reveal needs
+              its own form — same accent colour still marks it interactive. One glyph
+              family per behaviour keeps the affordances predictable. */}
           <Animated.View style={chevronStyle}>
-            <MaterialIcons name="chevron-right" size={24} color={colors.accent} />
+            <MaterialIcons name="expand-more" size={22} color={colors.accent} />
           </Animated.View>
         </Pressable>
 

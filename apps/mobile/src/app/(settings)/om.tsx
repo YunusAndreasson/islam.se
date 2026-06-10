@@ -208,12 +208,12 @@ function makeStyles(c: Palette) {
 
     // --- Imprint + credits ----------------------------------------------
     // Faintest ink, no chrome — imprint position at the paper's edge. Mirrors
-    // Inställningar's colophon so the two screens share a sign-off.
+    // Inställningar's colophon so the two screens share a sign-off; the faint
+    // ink TIER (not an opacity over muted) keeps the text ladder consistent.
     colophon: {
       ...type.micro,
-      color: c.inkMuted,
+      color: c.inkFaint,
       textAlign: 'center',
-      opacity: 0.7,
       marginTop: space.md,
     },
     // Required map attribution as fine print: smaller + fainter than the colophon, so it

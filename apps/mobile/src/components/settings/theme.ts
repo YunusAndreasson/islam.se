@@ -16,6 +16,7 @@ export function useSettingsColors() {
       border: c.border,
       text: c.ink,
       textMuted: c.inkMuted,
+      textFaint: c.inkFaint,
       accent: c.accent,
       accentSoft: c.accentSoft,
       separator: c.separator,

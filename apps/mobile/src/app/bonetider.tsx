@@ -31,7 +31,11 @@ import {
 import { MapMarkersOverlay } from '../components/map/MapMarkersOverlay';
 import { type PrayerLineData, SolarSkiaOverlay } from '../components/map/skia/SolarSkiaOverlay';
 import { MapNav } from '../components/nav/MapNav';
-import { GlassSurface } from '../components/ui/GlassSurface';
+import {
+  GlassBackdropProvider,
+  GlassBackdropTarget,
+  GlassSurface,
+} from '../components/ui/GlassSurface';
 import { useLocation } from '../lib/location/context';
 import { type Camera as MapCamera, invMercY, mercY } from '../lib/map/projection';
 import { mapStyleFor } from '../lib/map/nordicStyle';
@@ -176,8 +180,20 @@ export default function Bonetider() {
   // jagged, and it draws a confident prayer line where there is really perpetual twilight.
   // 'unresolved' leaves the polar zone NaN, so the lines stay smooth and simply stop at the
   // boundary. The user's OWN prayer times (userTimes below) keep their chosen resolution.
+  //
+  // It also forces rounding 'none': minute-rounding is a DISPLAY convention, but on the
+  // grid it quantises the time field into ~15–30 km plateaus (the sun sweeps ~0.25° of
+  // longitude per minute), and the level-0 contour stair-steps along those plateau edges —
+  // measured: the rounded grid tripled the lines' spurious turning (11.3 vs 3.7 rad per
+  // Mercator unit) and left visible long-wave wobble after smoothing. Unrounded times give
+  // the smooth field the isolines actually live on; the dock/widget still show rounded times.
   const grid = useMemo(
-    () => buildGrid(stockholmPrayerDate(clock.dayStart), { ...settings, polarCircleResolution: 'unresolved' }),
+    () =>
+      buildGrid(stockholmPrayerDate(clock.dayStart), {
+        ...settings,
+        polarCircleResolution: 'unresolved',
+        rounding: 'none',
+      }),
     // eslint-disable-next-line react-hooks/exhaustive-deps -- sig captures the settings fields that matter
     [clock.dayStart, sig],
   );
@@ -186,7 +202,13 @@ export default function Bonetider() {
   // now) per prayer (appears/sweeps/vanishes on its own). Computed in JS here (cheap
   // arithmetic on the cached grid); the Skia overlay projects them to screen-space paths
   // on the UI thread, and the labels anchor the marker overlay's pills.
-  const solar = useMemo(() => buildLines(grid, clock.now), [grid, clock.now]);
+  // `avoid` keeps each line's pill clear of the user's dot (see buildLines): when a
+  // prayer's line sweeps through the user's city the pill would otherwise sit right
+  // on the brass dot + city name.
+  const solar = useMemo(
+    () => buildLines(grid, clock.now, [coords.longitude, coords.latitude]),
+    [grid, clock.now, coords.longitude, coords.latitude],
+  );
   const prayerLines = useMemo<PrayerLineData[]>(
     () =>
       solar.lines.features.map((f) => ({
@@ -305,6 +327,7 @@ export default function Bonetider() {
   );
 
   return (
+    <GlassBackdropProvider>
     <View
       style={[styles.container, { backgroundColor: colors.paperSunken }]}
       // Capture the Map's true rendered viewport so the Skia overlay's projection
@@ -319,6 +342,10 @@ export default function Bonetider() {
         );
       }}
     >
+      {/* Everything the glass chrome should blur — basemap, wash, markers — lives in
+          this target; the dock/nav/reset glass below sample it on Android (true
+          behind-content blur needs an explicit render source there, unlike iOS). */}
+      <GlassBackdropTarget style={StyleSheet.absoluteFill}>
       <Map
         testID="sweden-map"
         style={StyleSheet.absoluteFill}
@@ -373,6 +400,7 @@ export default function Bonetider() {
           polarBoundary={polarBoundary}
         />
       )}
+      </GlassBackdropTarget>
 
       {/* The one bottom surface: next prayer + day scrubber, expandable to the full
           schedule. */}
@@ -431,6 +459,7 @@ export default function Bonetider() {
           dissolving against navy. Same the other way round. */}
       <StatusBar style={scheme === 'dark' ? 'light' : 'dark'} animated />
     </View>
+    </GlassBackdropProvider>
   );
 }
 
