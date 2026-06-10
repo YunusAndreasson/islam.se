@@ -78,7 +78,10 @@
               "ios": {
                 "supportedFamilies": [
                   "systemSmall",
-                  "systemMedium"
+                  "systemMedium",
+                  "accessoryInline",
+                  "accessoryRectangular",
+                  "accessoryCircular"
                 ]
               },
               "android": null
