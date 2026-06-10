@@ -150,12 +150,17 @@ export async function syncPrayerNotifications(
     const leadMs = Math.max(0, settings.notifications.leadMinutes) * 60_000;
 
     const now = Date.now();
+    // One Stockholm calendar resolve for the whole horizon: stockholmPrayerDate(now, d)
+    // would re-derive the SAME Stockholm Y/M/D from `now` (an Intl format) on each of
+    // the 7 iterations. Resolve day 0 once and step the calendar locally — the Date
+    // constructor rolls month/year boundaries exactly like the helper's own d+offset.
+    const day0 = stockholmPrayerDate(now);
     for (let d = 0; d < DAYS_AHEAD; d++) {
       if (generation !== syncGeneration) {
         await bailStale();
         return;
       }
-      const dayMidday = stockholmPrayerDate(now, d);
+      const dayMidday = new Date(day0.getFullYear(), day0.getMonth(), day0.getDate() + d, 12, 0, 0, 0);
       const times = computePrayerTimes(coords, dayMidday, settings);
 
       for (const key of NOTIFY_PRAYERS) {
