@@ -17,7 +17,7 @@ import {
   View,
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { useSharedValue } from 'react-native-reanimated';
+import { Easing, useSharedValue, withTiming } from 'react-native-reanimated';
 
 import { hapticLight } from '../lib/haptics';
 
@@ -29,7 +29,11 @@ import {
   PrayerDock,
 } from '../components/map/PrayerDock';
 import { MapMarkersOverlay } from '../components/map/MapMarkersOverlay';
-import { type PrayerLineData, SolarSkiaOverlay } from '../components/map/skia/SolarSkiaOverlay';
+import {
+  type PrayerArrival,
+  type PrayerLineData,
+  SolarSkiaOverlay,
+} from '../components/map/skia/SolarSkiaOverlay';
 import { MapNav } from '../components/nav/MapNav';
 import {
   GlassBackdropProvider,
@@ -44,7 +48,7 @@ import { computeSignature } from '../lib/settings/compute-signature';
 import { useSettings } from '../lib/settings/context';
 import { buildGrid, buildLines } from '../lib/solar/field';
 import { polarBoundaryFor } from '../lib/solar/sun';
-import { useSolarClock } from '../lib/solar/useSolarClock';
+import { LIVE_TICK_MS, useSolarClock } from '../lib/solar/useSolarClock';
 import { stockholmPrayerDate } from '../lib/stockholm-time';
 import { motion, radius, space, type } from '../theme/tokens';
 import { useActiveScheme, useColors } from '../theme/useColors';
@@ -87,6 +91,11 @@ function viewportCentreFromBounds(
 // the tile-rendered Malmö label now — 16dp is the floor that still leaves the
 // halo readable above the dock's top edge.
 const DOCK_MARGIN = space.lg;
+
+// How close (ms) the next prayer must be before its line starts breathing — the
+// "prayer is about to begin" signal. Ten minutes: matches the common adhan-reminder
+// horizon, long enough to be noticed, short enough that the breath stays special.
+const IMMINENT_WINDOW_MS = 10 * 60_000;
 
 export default function Bonetider() {
   const scheme = useActiveScheme();
@@ -163,10 +172,29 @@ export default function Bonetider() {
 
   // The displayed instant as a fraction of the Stockholm day, on the UI thread, so the
   // wash shader redraws as the day is scrubbed without a React render or basemap re-tile.
+  //
+  // Live mode GLIDES instead of stepping: each 30 s tick re-anchors at the true now and
+  // eases linearly toward the PREDICTED next tick (now + LIVE_TICK), so the wash (per
+  // pixel) and the prayer lines (worklet drift in SolarSkiaOverlay) move at the sun's
+  // real rate continuously. Because each segment's target is exactly where the next
+  // tick lands, consecutive segments join seamlessly — withTiming animates from the
+  // current value, so no snap is needed tick-to-tick. A value left STALE (returning
+  // from scrub or a paused background clock) is snapped first, then glides. Scrub mode
+  // pins the value directly — the finger is the clock there.
   const nowFraction = useSharedValue(clock.fraction);
   useEffect(() => {
-    nowFraction.value = clock.fraction;
-  }, [clock.fraction, nowFraction]);
+    if (clock.mode === 'live') {
+      const staleBy = Math.abs(nowFraction.value - clock.fraction);
+      if (staleBy > (2 * LIVE_TICK_MS) / clock.dayLength) nowFraction.value = clock.fraction;
+      const target = Math.min(1, clock.fraction + LIVE_TICK_MS / clock.dayLength);
+      nowFraction.value = withTiming(target, {
+        duration: LIVE_TICK_MS,
+        easing: Easing.linear,
+      });
+    } else {
+      nowFraction.value = clock.fraction;
+    }
+  }, [clock.fraction, clock.mode, clock.dayLength, nowFraction]);
 
   const sig = computeSignature(settings);
   // The whole-country prayer-time lattice — the one expensive step, cached per day
@@ -208,6 +236,12 @@ export default function Bonetider() {
   const solar = useMemo(
     () => buildLines(grid, clock.now, [coords.longitude, coords.latitude]),
     [grid, clock.now, coords.longitude, coords.latitude],
+  );
+  // The user's dot as [lon, lat] — anchors the Skia arrival bloom. Stable identity so
+  // the overlay's memoised props don't churn on unrelated renders.
+  const userPoint = useMemo<[number, number]>(
+    () => [coords.longitude, coords.latitude],
+    [coords.longitude, coords.latitude],
   );
   const prayerLines = useMemo<PrayerLineData[]>(
     () =>
@@ -270,6 +304,31 @@ export default function Bonetider() {
   // The user's next prayer drives the emphasised line/pill on the map (only when
   // it's today — tomorrow's Fajr has no line sweeping the country yet).
   const nextKey = next && !next.tomorrow ? next.key : null;
+
+  // "About to begin": when the viewed instant is within the breathing window of the
+  // next prayer, its line's halo breathes (see PrayerLine). Works in scrub too — parking
+  // the thumb just before a prayer shows the same signal the live map gives.
+  const imminentKey =
+    nextKey != null && next != null && next.at - clock.now <= IMMINENT_WINDOW_MS
+      ? nextKey
+      : null;
+
+  // The arrival bloom trigger: in live mode, fire exactly at the next prayer's instant
+  // (a timer, not the 30 s tick — the tick would land the bloom up to 30 s late, and
+  // the climax of the whole sweep deserves the exact minute). The id is the prayer's
+  // epoch instant, so re-arming the timer across ticks can never replay a bloom, and
+  // scrubbing never fires one (mode gate). The timer also pauses with focus — the
+  // bloom only matters while the map is watched.
+  const [arrival, setArrival] = useState<PrayerArrival | null>(null);
+  useEffect(() => {
+    if (!isFocused || clock.mode !== 'live' || !next || next.tomorrow) return;
+    const delay = next.at - Date.now();
+    if (delay < 0) return;
+    const key = next.key;
+    const at = next.at;
+    const id = setTimeout(() => setArrival({ prayer: key, id: at }), delay);
+    return () => clearTimeout(id);
+  }, [next, clock.mode, isFocused]);
 
   // The user is free to pan/zoom anywhere — there is no bounds enforcement. The
   // settled handler below only records the initial framing and drives the
@@ -381,9 +440,13 @@ export default function Bonetider() {
           dayStart={clock.dayStart}
           dayLength={clock.dayLength}
           nowFraction={nowFraction}
+          geometryNow={clock.now}
           camera={cam}
           lines={prayerLines}
           nextKey={nextKey}
+          imminentKey={imminentKey}
+          userPoint={userPoint}
+          arrival={arrival}
           polarBoundary={polarBoundary}
         />
       )}

@@ -13,6 +13,7 @@
 import {
   BlurMask,
   Canvas,
+  Circle,
   DashPathEffect,
   Fill,
   Group,
@@ -30,6 +31,8 @@ import {
   type SharedValue,
   useDerivedValue,
   useSharedValue,
+  withRepeat,
+  withSequence,
   withTiming,
 } from 'react-native-reanimated';
 
@@ -46,18 +49,37 @@ export interface PrayerLineData {
   polylines: [number, number][][];
 }
 
+/** A prayer instant that just arrived at the user's location (live mode): blooms a
+ *  soft prayer-hued ring from the brass dot. `id` is the prayer's epoch-ms instant —
+ *  stable across re-renders, so a bloom plays exactly once per arrival. */
+export interface PrayerArrival {
+  prayer: PrayerKey;
+  id: number;
+}
+
 interface Props {
   /** Stockholm day window for the displayed instant — turns nowFraction into a real time. */
   dayStart: number;
   dayLength: number;
   /** Displayed instant as a fraction of the Stockholm day (drives the wash; UI-thread). */
   nowFraction: SharedValue<number>;
+  /** The instant the line GEOMETRY was built for (clock.now). nowFraction glides ahead
+   *  of it between live ticks; the gap drives the worklet drift that keeps the lines
+   *  moving at the sun's true rate instead of stepping every tick. */
+  geometryNow: number;
   /** Map camera (centre/zoom/viewport), updated from MapLibre region events. */
   camera: SharedValue<Camera>;
   /** The active prayer contours at this instant (0–7), from buildLines. */
   lines: PrayerLineData[];
   /** The user's next prayer — its line is drawn brighter/thicker. Null if tomorrow's. */
   nextKey: PrayerKey | null;
+  /** The next prayer when it is IMMINENT (within the breathing window) — its halo
+   *  breathes gently, the visual "prayer is about to begin" signal. Null otherwise. */
+  imminentKey: PrayerKey | null;
+  /** The user's location ([lon, lat]) — the arrival bloom radiates from here. */
+  userPoint: [number, number];
+  /** Latest live-mode prayer arrival, or null before the first one. */
+  arrival: PrayerArrival | null;
   /** The polar daylight boundary for this date (null off-season) — a static dashed
    *  reference line marking where sunrise/fajr/maghrib/ishaʾ cease to exist. */
   polarBoundary: PolarBoundary | null;
@@ -67,9 +89,13 @@ export function SolarSkiaOverlay({
   dayStart,
   dayLength,
   nowFraction,
+  geometryNow,
   camera,
   lines,
   nextKey,
+  imminentKey,
+  userPoint,
+  arrival,
   polarBoundary,
 }: Props) {
   // The wash composites onto the themed basemap, so its colour stops swap with
@@ -104,6 +130,21 @@ export function SolarSkiaOverlay({
       u_eotMin: solar.eotMin,
       u_declRad: solar.declRad,
     };
+  });
+
+  // The sun's hour angle carries every prayer isoline westward at exactly one world
+  // revolution per mean solar day, so between geometry rebuilds the lines DRIFT on the
+  // UI thread at the physically exact first-order rate: Δ(normalised-Mercator x) per ms
+  // = −1 / 86 400 000. nowFraction glides ahead of geometryNow between live ticks (see
+  // bonetider's predictive withTiming) and each 30 s rebuild re-anchors the true shape,
+  // so the lines move continuously — a glide, not a step. The drift is clamped to a
+  // little over one tick so the single render→effect frame after a big scrub (geometry
+  // already new, nowFraction still old) can never fling the lines across the map.
+  const driftMerc = useDerivedValue(() => {
+    const nowMs = dayStart + nowFraction.value * dayLength;
+    const dt = nowMs - geometryNow;
+    const clamped = dt < 0 ? 0 : dt > MAX_DRIFT_MS ? MAX_DRIFT_MS : dt;
+    return -clamped / 86_400_000;
   });
 
   // Active prayers this instant, by key, so the fixed BOUNDARY/CROSSING maps can look
@@ -232,7 +273,9 @@ export function SolarSkiaOverlay({
             key={prayer}
             polylines={byPrayer.get(prayer) ?? EMPTY}
             camera={camera}
+            drift={driftMerc}
             isNext={prayer === nextKey}
+            imminent={prayer === imminentKey}
             color={prayerColorFor(prayer, scheme)}
           />
         ))}
@@ -255,10 +298,25 @@ export function SolarSkiaOverlay({
           key={prayer}
           polylines={byPrayer.get(prayer) ?? EMPTY}
           camera={camera}
+          drift={driftMerc}
           isNext={prayer === nextKey}
+          imminent={prayer === imminentKey}
           color={prayerColorFor(prayer, scheme)}
         />
       ))}
+
+      {/* The arrival bloom — the sweep's payoff. The moment a prayer's line reaches the
+          user's city (its time arrives, live mode), a soft prayer-hued ring radiates
+          once from the brass dot. Mounted from the first arrival on; each new arrival
+          id replays it. */}
+      {arrival && (
+        <ArrivalBloom
+          camera={camera}
+          point={userPoint}
+          color={prayerColorFor(arrival.prayer, scheme)}
+          trigger={arrival.id}
+        />
+      )}
     </Canvas>
   );
 }
@@ -275,18 +333,88 @@ const CROSSING_PRAYERS: PrayerKey[] = ['dhuhr', 'asr'];
 const DISSOLVE_PX = 28;
 const DISSOLVE_COLORS = ['black', 'transparent'];
 
+/** Drift ceiling (ms): a little over one live tick, so the one stale frame after a
+ *  scrub can't displace the lines, while a normal tick-to-tick glide never clamps. */
+const MAX_DRIFT_MS = 45_000;
+
+/** Sweep-in reveal length. Long enough to read as a deliberate pour down the country
+ *  (and to show the comet tip), short enough never to feel like a loading animation. */
+const REVEAL_MS = 950;
+
+/** The comet tip's trim window — the fraction of the path lit behind the leading edge. */
+const TIP_SPAN = 0.085;
+
 /** Edge-fade stops for the boundary dash: solid through the middle 70 % of the screen. */
 const BOUNDARY_FADE_POSITIONS = [0, 0.15, 0.85, 1];
+
+/** The arrival bloom: when a prayer's sweeping line reaches the user's city (its time
+ *  arrives), one soft prayer-hued ring + inner glow radiate from the brass dot and
+ *  dissolve — the quiet climax of the sweep. Screen-space radii (not map-space) so the
+ *  gesture reads identically at any zoom; the centre re-projects per frame so it stays
+ *  glued to the dot through pans. Replays whenever `trigger` (the prayer's epoch ms)
+ *  changes; at rest every opacity is 0, so the mounted slot costs nothing visible. */
+function ArrivalBloom({
+  camera,
+  point,
+  color,
+  trigger,
+}: {
+  camera: SharedValue<Camera>;
+  point: [number, number];
+  color: string;
+  trigger: number;
+}) {
+  const progress = useSharedValue(1);
+  useEffect(() => {
+    progress.value = 0;
+    progress.value = withTiming(1, { duration: 2400, easing: Easing.out(Easing.cubic) });
+  }, [trigger, progress]);
+  const lon = point[0];
+  const lat = point[1];
+  const cx = useDerivedValue(() => project(lon, lat, camera.value).x);
+  const cy = useDerivedValue(() => project(lon, lat, camera.value).y);
+  // Outer ring: expands 10 → 66 px, thinning and fading as it goes.
+  const ringR = useDerivedValue(() => 10 + progress.value * 56);
+  const ringWidth = useDerivedValue(() => 2.5 - progress.value * 1.9);
+  const ringOpacity = useDerivedValue(() => (1 - progress.value) * 0.7);
+  // Inner glow: a soft breath of the prayer's hue around the dot itself.
+  const glowR = useDerivedValue(() => 6 + progress.value * 22);
+  const glowOpacity = useDerivedValue(() => (1 - progress.value) * 0.45);
+  return (
+    <Group>
+      <Circle cx={cx} cy={cy} r={glowR} color={color} opacity={glowOpacity}>
+        <BlurMask blur={12} style="normal" />
+      </Circle>
+      <Circle
+        cx={cx}
+        cy={cy}
+        r={ringR}
+        style="stroke"
+        strokeWidth={ringWidth}
+        color={color}
+        opacity={ringOpacity}
+      >
+        <BlurMask blur={3} style="normal" />
+      </Circle>
+    </Group>
+  );
+}
 
 function PrayerLine({
   polylines,
   camera,
+  drift,
   isNext,
+  imminent,
   color,
 }: {
   polylines: [number, number][][];
   camera: SharedValue<Camera>;
+  /** UI-thread solar drift (normalised-Mercator x) — see driftMerc in the parent. */
+  drift: SharedValue<number>;
   isNext: boolean;
+  /** The next prayer inside the breathing window: the halo inhales/exhales gently. */
+  imminent: boolean;
   color: string;
 }) {
   const active = polylines.length > 0;
@@ -320,17 +448,20 @@ function PrayerLine({
     [drawPolylines],
   );
 
-  // Per-frame (pan/zoom/scrub): Mercator → screen px is just scale + translate, so the
-  // path rebuild is two multiply-adds per point — no trig/log, no per-point objects.
+  // Per-frame (pan/zoom/scrub/drift): Mercator → screen px is just scale + translate, so
+  // the path rebuild is two multiply-adds per point — no trig/log, no per-point objects.
+  // `drift` adds the live solar glide: a westward x-shift at the sun's exact rate, so
+  // the line keeps moving between the 30 s geometry rebuilds.
   const path = useDerivedValue(() => {
     const cam = camera.value;
     const ws = worldSize(cam.zoom);
+    const dx = drift.value;
     const ox = cam.width / 2 - mercX(cam.lon) * ws;
     const oy = cam.height / 2 - mercY(cam.lat) * ws;
     const b = Skia.PathBuilder.Make();
     for (const arr of merc) {
       for (let i = 0; i < arr.length; i += 2) {
-        const x = arr[i] * ws + ox;
+        const x = (arr[i] + dx) * ws + ox;
         const y = arr[i + 1] * ws + oy;
         if (i === 0) b.moveTo(x, y);
         else b.lineTo(x, y);
@@ -351,7 +482,10 @@ function PrayerLine({
       fade.value = withTiming(1, { duration: 150 });
       if (fresh) {
         reveal.value = 0;
-        reveal.value = withTiming(1, { duration: 650, easing: Easing.out(Easing.cubic) });
+        reveal.value = withTiming(1, {
+          duration: REVEAL_MS,
+          easing: Easing.inOut(Easing.cubic),
+        });
       }
     } else if (wasRendered.current) {
       fade.value = withTiming(0, { duration: 300 }, (finished) => {
@@ -361,6 +495,36 @@ function PrayerLine({
     }
     wasRendered.current = active || rendered;
   }, [active, rendered, fade, reveal]);
+
+  // "Prayer is about to begin": while this line is the imminent next prayer, its halo
+  // breathes — a slow sine inhale/exhale layered onto the steady glow. Calm by design
+  // (opacity only, ~4 s period); leaving the window eases the breath back out instead
+  // of cutting it.
+  const breath = useSharedValue(0);
+  useEffect(() => {
+    if (imminent) {
+      breath.value = withRepeat(
+        withSequence(
+          withTiming(1, { duration: 2100, easing: Easing.inOut(Easing.sin) }),
+          withTiming(0, { duration: 2100, easing: Easing.inOut(Easing.sin) }),
+        ),
+        -1,
+        false,
+      );
+    } else {
+      breath.value = withTiming(0, { duration: 700, easing: Easing.out(Easing.quad) });
+    }
+  }, [imminent, breath]);
+  const haloOpacity = useDerivedValue(() => (isNext ? 0.6 : 0.4) + breath.value * 0.22);
+
+  // The comet tip leading the sweep-in: a short, bright trim window riding just behind
+  // the reveal's leading edge, melting into the line as the reveal completes. Pure path
+  // trim — no per-frame contour measuring.
+  const tipStart = useDerivedValue(() => Math.max(0, reveal.value - TIP_SPAN));
+  const tipOpacity = useDerivedValue(() => {
+    const r = reveal.value;
+    return r >= 1 ? 0 : 0.9 * (1 - r * r);
+  });
 
   if (!rendered) return null;
 
@@ -376,7 +540,7 @@ function PrayerLine({
         strokeJoin="round"
         color={color}
         strokeWidth={isNext ? 17 : 11}
-        opacity={isNext ? 0.6 : 0.4}
+        opacity={haloOpacity}
         start={0}
         end={reveal}
       >
@@ -394,6 +558,20 @@ function PrayerLine({
         start={0}
         end={reveal}
       />
+      {/* Comet tip — only luminous while the reveal is running (opacity hits 0 at 1). */}
+      <Path
+        path={path}
+        style="stroke"
+        strokeCap="round"
+        strokeJoin="round"
+        color={color}
+        strokeWidth={isNext ? 6 : 4.5}
+        opacity={tipOpacity}
+        start={tipStart}
+        end={reveal}
+      >
+        <BlurMask blur={5} style="normal" />
+      </Path>
     </Group>
   );
 }
