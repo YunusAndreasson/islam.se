@@ -19,7 +19,7 @@ Dess motsats, *shukr*, drar åt rakt motsatt håll. Somliga lärde härleder ord
 
 Den moderna otillräckligheten är, på detta äldre språk, inte en brist på ting. Den är en handling: ett oavbrutet övertäckande. Vi skottar jämförelsen, kravet och självklarheten över allt vi fått, tills hälsan, hemmet och det dagliga brödet ligger begravda under det vi ännu saknar. Koranen ställde diagnosen för fjorton sekel sedan, kortare än någon rapport: "Vi har gett er en fast plats på jorden och där sörjt för ert uppehälle. Men sällan visar ni tacksamhet."[^7]
 
-Att gräva fram det begravda igen är ett arbete, och Ibn al-Qayyim delar det i tre led: hjärtat erkänner att gåvan kommer från en Givare, tungan nämner den och prisar, lemmarna brukar den så som Givaren vill.[^6] Det är den som ser brödet på bordet, nämner Givaren, och bryter det utan brådska. Att tala om gåvan är att avtäcka den; att förtiga den är att börja mylla över den. Tacksamhet blir därmed en uppmärksamhetens disciplin. Samtida lyckoforskning har återfunnit halva sanningen: att medvetet lägga märke till det man har bromsar avtrubbningen. Men forskningen kan beskriva övningen. Den kan inte säga vem man tackar.
+Att gräva fram det begravda igen är ett arbete, och Ibn al-Qayyim delar det i tre led: hjärtat erkänner att gåvan kommer från en Givare, tungan nämner den och prisar, lemmarna brukar den så som Givaren vill.[^6] Det är den som ser brödet på bordet, nämner Givaren och bryter det utan brådska. Att tala om gåvan är att avtäcka den; att förtiga den är att börja mylla över den. Tacksamhet blir därmed en uppmärksamhetens disciplin. Samtida lyckoforskning har återfunnit halva sanningen: att medvetet lägga märke till det man har bromsar avtrubbningen. Men forskningen kan beskriva övningen. Den kan inte säga vem man tackar.
 
 ## Hjärtats rikedom
 
@@ -31,7 +31,7 @@ Girigheten gör tvärtom. Den är såret som aldrig sluter sig: ju mer man ger d
 
 Men, invänder den moderna läsaren med fog, jag behöver ingen Gud för detta. Jag tackar mina föräldrar, mina vänner, den lyckliga slumpen, livet självt. Och islam tvistar inte om halva saken: Profeten ﷺ sade att den som inte tackar människorna inte tackar Gud.[^12] Tacksamhet mot människor är påbjuden, inte föraktad.
 
-Och ändå. Tacksamhet mot människor är delvis. Dina föräldrar gav dig mycket – men inte ögonen som läser detta, inte andetaget mellan orden, inte själva förmågan att känna tacksamhet. Bakom varje givare reser sig frågan: och vem gav mig honom? Tacksamhet mot "livet" eller "universum" är däremot ett tack med mottagaren överstruken, en känsla riktad mot ingen – och därför rinner den bort lika fort som den stiger.
+Och ändå. Tacksamhet mot människor är ofullständig. Dina föräldrar gav dig mycket – men inte ögonen som läser detta, inte andetaget mellan orden, inte själva förmågan att känna tacksamhet. Bakom varje givare reser sig frågan: och vem gav mig honom? Tacksamhet mot "livet" eller "universum" är däremot ett tack med mottagaren överstruken, en känsla riktad mot ingen – och därför rinner den bort lika fort som den stiger.
 
 Nu lämnar jag det belagda för det tolkade: det sekulära överflödet botar inte bara otillräckligheten dåligt, det *tillverkar* den, genom att avskaffa den till vilken tacksägelse kunde riktas. En gåva förutsätter en givare. Stryk givaren, och gåvan sjunker till ägodel; och ägodelen kan, hur stor den än blir, hopas men aldrig tas emot. Endast det mottagna mättar.
 
@@ -43,7 +43,7 @@ Lättnaden är verklig. Tacksamheten är verklig. Den har ingenstans att landa �
 
 Vad det moderna jaget inte förmår, det gör Ibn al-Qayyim: han sluter cirkeln som det sekulära tacket lämnar öppen.
 
-> Han är ju Givaren som skapar både tacksamheten, den tacksamme och det man tackar för. Själva tacksamheten är alltså en gåva från Gud som man måste tacka för på nytt – och så vidare i oändlighet.[^14]
+> Han är ju Givaren som skapar tacksamheten, den tacksamme och det man tackar för. Själva tacksamheten är alltså en gåva från Gud som man måste tacka för på nytt – och så vidare i oändlighet.[^14]
 
 Det finns ingen punkt där frågan "men vem gav mig det?" tar slut på svar. Endast en outtömlig Givare kan vara tacksamhetens ändpunkt – Den man tackar för gåvan, för sig själv, och för själva tackandet. Och därför visar sig versen som låter som from önsketänkande vara ren struktur:
 
@@ -53,7 +53,7 @@ Det finns ingen punkt där frågan "men vem gav mig det?" tar slut på svar. End
 
 ## Det oroliga hjärtat
 
-Kvar står själva oron. Augustinus namngav den en gång för alla: hjärtat är skapat för Gud och förblir oroligt tills det finner vila i Honom – en rad som Ellen Key, svensk reformivrare långt från all renlärighet, inte kunde lämna i fred.[^16] Den moderna människan har inte förlorat det oroliga hjärtat. Det är den som lägger sig mätt och trygg och ändå sträcker sig efter telefonen i mörkret. Hon har bara förlorat namnet på dess vila.
+Kvar står själva oron. Augustinus namngav den en gång för alla: hjärtat är skapat för Gud och förblir oroligt tills det finner vila i Honom – en rad som Ellen Key, svensk reformivrare långt från all renlärighet, inte kunde lämna i fred.[^16] Den moderna människan har inte förlorat det oroliga hjärtat. Det är hon som lägger sig mätt och trygg och ändå sträcker sig efter telefonen i mörkret. Hon har bara förlorat namnet på dess vila.
 
 Koranen ger namnet tillbaka:
 

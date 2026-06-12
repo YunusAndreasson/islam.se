@@ -34,7 +34,7 @@ En advokat som visste att hans bevis var vattentätt skulle aldrig foga en såda
 
 ## Tecknet tvingar inte
 
-Omkastningen ligger där. Vi väntar oss att skriften ska bruka skapelsens ordning som det bevis som fäller varje tvivlare – övermäktig bevisning, en övertygad jury. I stället medger Koranen vad varje ärlig skeptiker anar: tecknen väljer sina läsare. Rigvedas tvivel var aldrig en brist på stjärnor.
+Omkastningen ligger där. Vi väntar oss att skriften ska bruka skapelsens ordning som det bevis som fäller varje tvivlare – överväldigande bevisning, en övertygad jury. I stället medger Koranen vad varje ärlig skeptiker anar: tecknen väljer sina läsare. Rigvedas tvivel var aldrig en brist på stjärnor.
 
 Och bristen ligger heller aldrig i tecknet. Ibn al-Qayyim:
 
@@ -56,7 +56,7 @@ Hjärtat är skapat för denna kunskap; dess egentligaste njutning, skriver han 
 
 > Tvivlet födde oro, oron en längtan att frigöra sig därifrån.[^15]
 
-Den längtan är poleringen; dess mål är vad de gamla kallade *yaqīn*, vissheten. Det är den som ser upp mot samma himmel utan att längre leta efter ett svar i den.
+Den längtan är poleringen; dess mål är vad de gamla kallade *yaqīn*, vissheten – att kunna se upp mot samma himmel utan att längre leta efter ett svar i den.
 
 Carl von Linné såg bilden klarare än han kanske själv visste:
 
@@ -70,7 +70,7 @@ Hon placerar tron rätt – i människonaturens djup, i känslan, inte i beviset
 
 ## Vad siaren inte kunde veta
 
-Man kunde säga att Veda och Koran till sist möts: båda ödmjuka inför mysteriet, båda ovilliga vid advokatens visshet. Men det vore för snabbt. Nasadiya-hymnen betvivlar föremålet – den frågar om ursprunget alls kan vetas, ens av honom som vakar i högsta himlen. I Koranen finns inte det tvivlet. Dess urval faller på betraktaren: tecknen kan läsas – frågan gäller bara om detta hjärta gör det. Siaren, heter det i hymnen, sökte med hjärtats tanke och fann linjen där vetandet tar slut.[^18] Svaret kommer ur samma organ, ur *qalb*, men linjen varken går i himlen eller vid vetandets gräns; den löper tvärs genom en spegel som lämnats oputsad.
+Man kunde säga att Veda och Koran till sist möts: båda ödmjuka inför mysteriet, båda ovilliga vid advokatens visshet. Men det vore för snabbt. Nasadiya-hymnen betvivlar föremålet – den frågar om ursprunget alls kan vetas, ens av honom som vakar i högsta himlen. I Koranen finns inte det tvivlet. Dess urval faller på betraktaren: tecknen kan läsas – frågan gäller bara om detta hjärta gör det. Siaren, heter det i hymnen, sökte med hjärtats tanke och fann linjen där vetandet tar slut.[^18] Svaret kommer ur samma organ, ur *qalb*, men linjen går varken genom himlen eller vid vetandets gräns; den löper tvärs genom en spegel som lämnats oputsad.
 
 Natthimlen har inte ändrat sig på tre tusen år. Det Koranen envisas med är att den som ser upp kan göra det. Därför är den egendomliga adressen, vid närmare påseende, en inbjudan och ingen dom: tecken inte för dem som ser, utan för dem som tänker efter. Och att tänka efter kan vem som helst börja med.
 

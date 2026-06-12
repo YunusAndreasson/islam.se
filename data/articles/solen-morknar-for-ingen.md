@@ -20,7 +20,7 @@ Detta är inte vidskepelse. Det är något den islamiska traditionen genast kän
 
 > Lär av detta, ni som har ögon att se med.[^3]
 
-Orden avslutar berättelsen om hur en folkstam fördrevs från sina hem, och budet – *fa'tabirū* – har gett ett helt begrepp dess namn: *i'tibār*. I ordet bor bilden av en överfart. Att dra lärdom är att gå över, från det synliga tecknet till den osynlige som tecknet visar hän mot.[^4] Linné gjorde just denna överfart. Han såg getingen, galgen, det tillstötande ödet, och bakom dem anade han en vilja. Han hade alltså inte fel i att läsa. Felet låg i vad han läste in.
+Orden avslutar berättelsen om hur en folkstam fördrevs från sina hem, och budet – *fa'tabirū* – har gett ett helt begrepp dess namn: *i'tibār*. I ordet bor bilden av en överfart. Att dra lärdom är att gå över, från det synliga tecknet till den osynlige som tecknet pekar mot.[^4] Linné gjorde just denna överfart. Han såg getingen, galgen, det tillstötande ödet, och bakom dem anade han en vilja. Han hade alltså inte fel i att läsa. Felet låg i vad han läste in.
 
 ## Solförmörkelsen som inte sörjde
 
@@ -34,11 +34,11 @@ Han vägrar att låta tecknet bli ett utslag över en enskild människa. Solen v
 
 ## Domen som sköts upp
 
-Varför denna vägran? Svaret ligger i en av Koranens mest svindlande verser:
+Varför denna vägran? Svaret ligger i en av Koranens mest hisnande verser:
 
 > Om Gud skulle ställa människorna till svars för allt de gör, skulle Han inte lämna en enda levande varelse kvar på jorden. Men Han ger dem uppskov till en fastställd tid.[^6]
 
-Domen är uppskjuten – inte av glömska, utan av beslut. Räkenskapens dag har ett fastställt datum, och det är inte idag. Uppskovet är en barmhärtighet: tiden ges för att människan ska hinna vända om. Det är den tid fogden ännu har att lämna tillbaka hästarna. Den som tyder en bondes död eller en fogdes galge som själva domslutet upphäver i tysthet detta uppskov. Han kräver att böckerna ska gå jämnt ut redan nu, framför hans egna ögon – och avvisar därmed, utan att märka det, just den barmhärtighet som lät domen dröja.
+Domen är uppskjuten – inte av glömska, utan av beslut. Räkenskapens dag har ett fastställt datum, och det är inte i dag. Uppskovet är en barmhärtighet: tiden ges för att människan ska hinna vända om. Det är den tid fogden ännu har att lämna tillbaka hästarna. Den som tyder en bondes död eller en fogdes galge som själva domslutet upphäver i tysthet detta uppskov. Han kräver att böckerna ska gå jämnt ut redan nu, framför hans egna ögon – och avvisar därmed, utan att märka det, just den barmhärtighet som lät domen dröja.
 
 Här går i'tibār och Linnés räknekonst skilda vägar. Överfarten går uppåt, från tecknet till Skaparen, ut mot det gränslösa. Linné böjde samma rörelse nedåt, in i en bokföring tillskuren efter ett mänskligt mått av rätt och orätt. Fotspåret pekar framåt, mot den som gick förbi. Linné stannade vid avtrycket och försökte stava de dömdas namn i dammet.
 
@@ -50,7 +50,7 @@ Nej. Dessa domar är uppenbarade, inte uträknade. De gäller hela folk genom hi
 
 ## Det längre seendet
 
-Det egendomliga är att Linné, som såg mer av naturen än någon i sin samtid, på just denna punkt såg mindre. Den blick som låter tecknet peka mot Skaparen öppnar sig mot det oändliga; den blick som låter tecknet fälla en dom sluter sig kring en uträkning. Ty för att läsa ett enda utslag ur en bondes död måste man göra anspråk på att överblicka hela räkenskapen för den själen – och det enda en åskådare ser är den synliga spillran. Den som håller tillbaka ser därför inte mindre; han inser att räkenskapen sträcker sig bortom det synliga, in i det uppskjutna. Återhållsamheten inför det fördolda är ett längre seende: ögat som vägrar att döma når längre än ögat som dömer.
+Det besynnerliga är att Linné, som såg mer av naturen än någon i sin samtid, på just denna punkt såg mindre. Den blick som låter tecknet peka mot Skaparen öppnar sig mot det oändliga; den blick som låter tecknet fälla en dom sluter sig kring en uträkning. Ty för att läsa ett enda utslag ur en bondes död måste man göra anspråk på att överblicka hela räkenskapen för den själen – och det enda en åskådare ser är den synliga spillran. Den som håller tillbaka ser därför inte mindre; han inser att räkenskapen sträcker sig bortom det synliga, in i det uppskjutna. Återhållsamheten inför det fördolda är ett längre seende: ögat som vägrar att döma når längre än ögat som dömer.
 
 Linnés egen första mening var sann. Han såg den evige gå förbi. Övermodet började först när han böjde sig mot fotspåret och ville läsa ett utslag i det. Avtrycket var aldrig en dom. Det var en riktning.
 

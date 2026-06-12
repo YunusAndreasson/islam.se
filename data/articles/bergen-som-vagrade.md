@@ -16,7 +16,7 @@ Fjorton århundraden senare bygger vi system som beslutar om domar, anställning
 
 ## Sultanens tomt
 
-Ibn Qayyim al-Jawziyyah (1292–1350) tecknade hjärtat som kroppens konung. Lemmarna är dess armé och undersåtar; de lyder hjärtat av nödvändighet, kan inte annat. Ingen lem rör sig utom på hjärtats befallning, ingen tanke eller vilja föds utom genom dess styre.[^3] Hela denna ordning förutsätter att konungen är vaken. Det är den som känner vreden stiga innan ordet formas, som vet att beslutet finns innan handlingen.
+Ibn Qayyim al-Jawziyyah (1292–1350) tecknade hjärtat som kroppens konung. Lemmarna är dess armé och undersåtar; de lyder hjärtat av nödvändighet, kan inte annat. Ingen lem rör sig utom på hjärtats befallning, ingen tanke eller vilja föds utom genom dess styre.[^3] Hela denna ordning förutsätter att konungen är vaken. Den vakne känner vreden stiga innan ordet formas och vet att beslutet finns innan handlingen.
 
 Ett beslut är inte en beräkning utan en handling där hjärtat väger, tvekar, bär ansvar. Förnuftet kan räkna, lemmarna verkställa, men ingen av dem kan *regera*.
 

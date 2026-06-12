@@ -8,7 +8,7 @@ category: "Skapelsen"
 ---
 En augustinatt 1953 riktade Harry Martinson ett teleskop mot stjärnbilden Andromeda och fann ett blekt ljus, knappt skönjbart, som ändå bar miljarder solar.[^1] Synen släppte honom aldrig. Gång på gång skulle han klaga över att språket kom till korta – att orden, byggda för åkrar och årstider, inte räckte till för det astrofysiken bredde ut. Det är vanmakten hos den som står vid en grav och inte finner ett ord stort nog. Ur den vanmakten växte *Aniara*, eposet om rymdskeppet som driver bort från en förgiftad jord, slås ur sin bana och faller vidare mot Lyran utan möjlighet att vända.
 
-Det vore lätt att läsa dikten som en olyckshistoria. Den är något kallare än så. *Aniara* förnekar inte rymdens storhet – tvärtom besjunger den dess väldighet i bild efter bild. Den förnekar något annat: att väldigheten skulle vara riktad till någon. Det är skillnaden mellan att höra sitt namn ropas över torget och att höra regnet trumma mot rutan.
+Man kunde läsa dikten som en olyckshistoria. Den är något kallare än så. *Aniara* förnekar inte rymdens storhet – tvärtom besjunger den dess väldighet i bild efter bild. Den förnekar något annat: att väldigheten skulle vara riktad till någon. Det är skillnaden mellan att höra sitt namn ropas över torget och att höra regnet trumma mot rutan.
 
 ## Rösten som brister
 
@@ -38,11 +38,11 @@ Vari består då olikheten, om inte i skala eller bävan? Den samlas i ett ord.
 
 ## Tecknet
 
-Koranen kallar himlarna ett *tecken* – på arabiska *āyah*.
+Koranen kallar himlarna ett *tecken* – på arabiska *āya*.
 
 > Himlarnas och jordens skapelse är något vida större än skapelsen av människan, men de flesta människor inser inte [att det förhåller sig så].[^6]
 
-Versen skryter inte om storlek; storleken tar den för given. Påståendet är ett annat: att denna väldighet är ett *tecken*. Men inte varje tecken är ett tilltal. Rök är ett tecken på eld, fullt läsbart, utan att någon menade röken som ett budskap. Det avgörande i ordet *āyah* är att det inte tillhör den ordningen: det är samma ord som betecknar en vers i Koranen, alltså yttrad avsikt, tal riktat till någon. Stjärnhimlen och skriften kallas med ett och samma namn. Världen är då en text som förutsätter en läsare den vänder sig till.
+Versen skryter inte om storlek; storleken tar den för given. Påståendet är ett annat: att denna väldighet är ett *tecken*. Men inte varje tecken är ett tilltal. Rök är ett tecken på eld, fullt läsbart, utan att någon menade röken som ett budskap. Det avgörande i ordet *āya* är att det inte tillhör den ordningen: det är samma ord som betecknar en vers i Koranen, alltså yttrad avsikt, tal riktat till någon. Stjärnhimlen och skriften kallas med ett och samma namn. Världen är då en text som förutsätter en läsare den vänder sig till.
 
 Så blir också versens underliga slutkläm begriplig: *de flesta inser det inte*. Tecknet finns, men publiken är döv. Det är exakt passagerarnas belägenhet sedan miman tystnat – omgivna av ett tilltal de inte längre kan ta emot.
 
@@ -97,5 +97,5 @@ Martinson valde gåtan, och han visste att han valde. Det är hans storhet och h
 [^9]: Tillskrivet Carl von Linné (om skapelsens vittnesbörd om Gud).
 [^10]: Harry Martinson, *Aniara* (1956), Sång 13.
 [^11]: Ibn Abi ad-Dunya, citerad i al-Suyuti, *Al-Itqan fi Ulum al-Quran*.
-[^12]: Koranen, Al Imran (Imrans ätt) 3:190–191.
+[^12]: Koranen, Āl ʿImrān (Imrans ätt) 3:190–191.
 [^13]: Koranen, Fussilat (Fast och klart framställda) 41:53.

@@ -14,7 +14,7 @@ Det vore lätt att vifta bort detta som ett logistiskt randproblem för några h
 
 > och i växlingen mellan natt och dag och i regnet, som Gud sänder ned från skyn för att med detta ge nytt liv åt den jord som varit död, och i vindarnas växlingar – [i allt detta] ligger tecken för människor som använder sitt förstånd.[^2]
 
-Tecknet återvänder i sura efter sura, i skapelseberättelsen, i naturskildringen, i åkallan.[^3] När växlingen upphör rämnar inte bara en tidtabell. Ett av uppenbarelsens favoritargument tycks tystna just där en troende råkar stå. Frågan skriver sig själv: ett tecken som gäller överallt utom i Kiruna – är det ett tecken, eller ett tecken med ett hål i?
+Tecknet återvänder i sura efter sura, i skapelseberättelsen, i naturskildringen, i åkallan.[^3] När växlingen upphör rämnar inte bara en tidtabell. Ett av uppenbarelsens favoritargument tycks tystna just där en troende råkar stå. Frågan ställer sig själv: ett tecken som gäller överallt utom i Kiruna – är det ett tecken, eller ett tecken med ett hål i?
 
 ## Ett tecken är en ordning, inte en bild
 
@@ -28,15 +28,15 @@ Svaret hämtade de ur en hadith om Dajjāl, den falske messias vars dagar vid ti
 
 > Vi sade: "Guds sändebud, den dag som är lång som ett år – räcker det att vi ber en dags böner under den?" Han svarade: "Nej – beräkna [tiderna] åt den efter dess längd."[^6]
 
-*Uqdurū lahu qadrahu* – uppskatta, mät ut. Profeten ﷺ tillfrågades om en kommande kosmisk avvikelse och svarade med *taqdīr*, beräkning. De fem bönerna består; tiderna räknas fram. Det är den som reser sig till maghrib medan solen ännu lyser in genom fönstret. Där börjar varje polarfatwa.
+*Uqdurū lahu qadrahu* – uppskatta, mät ut. Profeten ﷺ tillfrågades om en kommande kosmisk avvikelse och svarade med *taqdīr*, beräkning. De fem bönerna består; tiderna räknas fram. Så reser sig den troende till maghrib medan solen ännu lyser in genom fönstret. Där börjar varje polarfatwa.
 
-Ur detta frö har flera grenar vuxit. AMJA, en församling amerikanska jurister, förordar att man beräknar tiderna efter den närmaste plats där natt alls kan skiljas från dag, och tillägger att saken är föremål för *ijtihād*, självständigt rättsligt omdöme.[^7] Det europeiska fatwarådet rekommenderade i stället att utgå från det sista dygn där dag och natt gick att urskilja; i Kiruna förvandlade det en tidigare fasta på närmare ett dygn till tider kring tre på morgonen och åtta på kvällen.[^8] Andra håller före att man bör räkna efter Mekka eller Medina:
+Ur detta frö har flera grenar vuxit. AMJA, en församling amerikanska jurister, förordar att man beräknar tiderna efter den närmaste plats där natt alls kan skiljas från dag, och tillägger att saken är föremål för *ijtihād*, självständigt rättsligt omdöme.[^7] Det europeiska fatwarådet rekommenderade i stället att utgå från det sista dygn där dag och natt gick att urskilja; i Kiruna förvandlade det en tidigare fasta på närmare ett dygn till tider kring tre på morgonen och åtta på kvällen.[^8] Andra håller före att man bör räkna efter Mecka eller Medina:
 
-> Argumentet hos dem som menar att beräkningen bör utgå från en av de två heliga städerna är att Mekka är uppenbarelsens ursprungsplats, jordens mittpunkt och den mest tempererade, mediana platsen.[^9]
+> Argumentet hos dem som menar att beräkningen bör utgå från en av de två heliga städerna är att Mecka är uppenbarelsens ursprungsplats, jordens mittpunkt och den mest tempererade, mediana platsen.[^9]
 
 Och söder om polcirkeln, där breddgraden ändå är extrem, delar man natten i sjundedelar eller följer närmaste tempererade ort kring den 45:e breddgraden.[^5]
 
-Så långt ger detta skeptikern rätt: en provkarta på lagningar, och lagningarna splittrar. I norra Sverige används minst fyra olika tidtabeller parallellt – Mekka, Istanbul, Stockholm, lokal tid – och i avsaknad av en gemensam auktoritet väljer varje hushåll själv. Lina Farhat berättar att det skapade sprickor till och med inom familjer: hon känner en kvinna som följer lokal tid medan mannen vill följa Turkiet.[^10] Mohammed Amin Kharraki vid Islamiska Förbundet kallar det "en väldigt svår fråga som vi kommer att brottas med under flera år" och tillstår att sista ordet knappast är sagt.[^11] Tecknet, kunde man säga, har upplösts i en kakofoni av klockslag.
+Så långt ger detta skeptikern rätt: en provkarta på lagningar, och lagningarna splittrar. I norra Sverige används minst fyra olika tidtabeller parallellt – Mecka, Istanbul, Stockholm, lokal tid – och i avsaknad av en gemensam auktoritet väljer varje hushåll själv. Lina Farhat berättar att det skapade sprickor till och med inom familjer: hon känner en kvinna som följer lokal tid medan mannen vill följa Turkiet.[^10] Mohammed Amin Kharraki vid Islamiska Förbundet kallar det "en väldigt svår fråga som vi kommer att brottas med under flera år" och tillstår att sista ordet knappast är sagt.[^11] Tecknet, kunde man säga, har upplösts i en kakofoni av klockslag.
 
 ## Räkningen fanns där från början
 
@@ -80,7 +80,7 @@ Tur, kanske, att leva där tecknet måste tänkas och inte bara ses. Där natten
 
 [^1]: SMHI, "Midnattssol och polarnatt". I Kiruna står solen över horisonten oavbrutet från 29 maj till 14 juli, 47 dygn i följd; polarnatten varar omkring 27 dygn.
 [^2]: al-Jathiya 45:5. Svensk tolkning enligt Mohammed Knut Bernströms *Koranens budskap*.
-[^3]: Se Al Imran 3:190, Yunus 10:6 och al-Baqara 2:164, där samma tecken åberopas i tur och ordning för "dem som har förstånd", "människor som fruktar Honom" och "människor som använder sitt förstånd".
+[^3]: Se Āl ʿImrān 3:190, Yunus 10:6 och al-Baqara 2:164, där samma tecken åberopas i tur och ordning för "dem som har förstånd", "människor som fruktar Honom" och "människor som använder sitt förstånd".
 [^4]: Abul A'la Mawdudi, *Tafhim al-Qur'an*, kommentaren till sura al-Jathiya (45). Originalspråk urdu/arabiska.
 [^5]: "Prayer in Polar Areas", islamicfiqh.net. Breddgrad 45–48°: tecknen finns hela dygnet. 48–66°: *ishā* och *fajr* smälter samman; beräkna efter närmaste ort med tydliga tecken. Bortom 66°: uppskatta efter motsvarande tempererad plats, vanligen kring 45°. Originalspråk arabiska.
 [^6]: Sahih Muslim, *Kitab al-Fitan*, nr 2937a, återberättat av al-Nawwas ibn Sam'an. Originalspråk arabiska; min översättning.

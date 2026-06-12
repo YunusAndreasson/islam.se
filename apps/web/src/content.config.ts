@@ -6,7 +6,10 @@ const articles = defineCollection({
 	loader: glob({ pattern: "**/*.md", base: "../../data/articles" }),
 	schema: z.object({
 		title: z.string(),
-		publishedAt: z.string(),
+		// ISO-validated but kept as a string: templates pass it straight to
+		// datetime attrs/JSON-LD, and a malformed pipeline timestamp should
+		// fail the build rather than silently mis-sort the essay list.
+		publishedAt: z.string().datetime(),
 		wordCount: z.number(),
 		description: z.string(),
 		audioFile: z.string().optional(),
