@@ -10,7 +10,7 @@ Gudarna dräpte en jätte och byggde världen av hans kropp. Av Ymers kött blev
 
 > Av Ymers kött / blev jorden skapt, / och av hans svett haven; / berg av benen, / träd av håret, / och av hans skalle himlen; / och av hans hjärna / gjordes alla / de tunga molnen.[^2]
 
-Också Esaias Tegnér kokade, i noterna till *Frithiofs saga*, ned alltsammans till en uppställning: kött, ben, tänder, skalle, blod – jord, berg, klippor, himmel, hav.[^3] Vi kallar detta utan att blinka en skapelseberättelse och ställer den på hyllan bredvid de andra – bredvid Bibelns, bredvid Koranens tal om himlarnas och jordens skapelse. Två skapelseberättelser, tänker vi, två rivaliserande svar på en och samma fråga: varifrån kom världen? Men likheten är ett bländverk. Frågar man vad slags utsaga var och en av dem egentligen är, faller de isär i händerna.
+Också Esaias Tegnér kokade, i noterna till *Frithiofs saga*, ned alltsammans till en uppställning: kött, ben, tänder, skalle, blod – jord, berg, klippor, himmel, hav.[^3] Vi kallar detta, utan att blinka, en skapelseberättelse och ställer den på hyllan bredvid de andra – bredvid Bibelns, bredvid Koranens tal om himlarnas och jordens skapelse. Två skapelseberättelser, tänker vi, två rivaliserande svar på en och samma fråga: varifrån kom världen? Men likheten är ett bländverk. Frågar man vad slags utsaga var och en av dem egentligen är, faller de isär i händerna.
 
 ## Bara en förteckning över ämnen
 
@@ -28,9 +28,9 @@ Tecken. Själva språket vittnar. Det arabiska *āya* betyder tecken, bevis och 
 
 Och riktningen är den motsatta mot Eddans. Där rör sig blicken *nedåt*, in i ämnet: himlen är en skalle. Här rör den sig *igenom* tinget och *ut*:
 
-> Vi skall visa dem Våra tecken bortom horisonterna och hos dem själva tills det står klart för dem att detta är sanningen. Är det inte tillräckligt att din Herre är vittne till allt?[^7]
+> Vi skall visa dem Våra tecken vid horisonten och inom dem själva, till dess det står klart för dem att detta är sanningen. Är det inte tillräckligt att din Herre är vittne till allt?[^7]
 
-Bortom horisonterna och hos dem själva: rörelsen går från tinget mot det tinget betyder. Därav Ibn Qayyims väldiga anspråk: "Hela universum, med allt det rymmer, är tecken, vittnesbörd och bevis; Gud har inte skapat något av det för att vilseleda, och inte satt något i dess mitt förgäves."[^8] Intet förgäves – varje ting ett vittne. Och vittne om vad? "Den sanning genom vilken och för vars skull himlarna och jorden skapades är tawhīd – Guds enhet."[^9]
+Vid horisonten och inom dem själva: rörelsen går från tinget mot det tinget betyder. Därav Ibn Qayyims väldiga anspråk: "Hela universum, med allt det rymmer, är tecken, vittnesbörd och bevis; Gud har inte skapat något av det för att vilseleda, och inte ställt något i det förgäves."[^8] Intet förgäves – varje ting ett vittne. Och vittne om vad? "Den sanning genom vilken och för vars skull himlarna och jorden skapades är tawhīd – Guds enhet."[^9]
 
 Skillnaden blir nu tydlig. Vi trodde oss hålla två svar på en fråga. Vi håller två svar på två frågor. Ymers kropp besvarar *vad världen är gjord av*. Tecknet besvarar *vad världen betyder*. Den ena är en redogörelse för stoff, den andra för mening. De möttes aldrig på samma fält.
 

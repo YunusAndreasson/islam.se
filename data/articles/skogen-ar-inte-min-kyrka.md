@@ -40,7 +40,7 @@ Längtan stannar inte i landskapet, den sträcker sig förbi det. Inte ens den p
 
 ## Tecknet och konstnären
 
-Arabiskan har ett ord för detta. *Aya* (i plural *ayat*) betyder samtidigt två ting: en vers i skriften och en företeelse i naturen.[^8] Solen, regnet, växlingen mellan natt och dag, skillnaderna mellan människors språk och hudfärger – allt är *ayat*, tecken att läsa. Naturen är en text. Koranen upprepar att i skapelsen av himlarna och jorden ligger "tecken för dem som har förstånd".[^9] Verbet är *tafakkur*, eftertanke. Naturen är given att läsas, inte att tillbes. Det är den som stannar på stigen för att se hur ljuset faller mellan stammarna.
+Arabiskan har ett ord för detta. *Aya* (i plural *ayat*) betyder samtidigt två ting: en vers i skriften och en företeelse i naturen.[^8] Solen, regnet, växlingen mellan natt och dag, skillnaderna mellan människors språk och hudfärger – allt är *ayat*, tecken att läsa. Naturen är en text. Koranen upprepar att i skapelsen av himlarna och jorden ligger "tecken för dem som har förstånd".[^9] Verbet är *tafakkur*, eftertanke. Naturen är given att läsas, inte att tillbes. Det är skillnaden mellan att stanna på stigen för att se hur ljuset faller och att falla på knä inför träden.
 
 Och så den vers där hela frågan avgörs:
 
@@ -54,13 +54,13 @@ Här förändras bilden. Vi är vana att ställa upp dem mot varandra: immanense
 
 Den panteistiska immanensen låter tecknet smälta samman med det betecknade tills bara landskapet återstår. Och landskapet, som inte längre har någon Annan över sig, blir, precis som i den romantiska traditionen, en spegel för jaget. Den som tillber Gud i skogen slutar, genom en besynnerlig logik, med att tillbe sina egna stämningar kastade tillbaka mot honom. Immanensen, driven till sin spets, är hemligt självupptagen.
 
-Teckenrelationen gör det motsatta. Genom att hålla tecknet skilt från det betecknade – naturen ett tecken på Gud, inte Gud – skänker den naturen en verklig annanhet. Skogen får vara skog, inte en duk för mina känslor, just därför att den inte är gudomlig utan tilltalad till mig av en Annan. Prepositionen "på" är ingen köld. Den är avståndet som låter skogen förbli skog och Gud förbli Gud.
+Teckenrelationen gör det motsatta. Genom att hålla tecknet skilt från det betecknade – naturen ett tecken på Gud, inte Gud – skänker den naturen en verklig annanhet. Skogen får vara skog, inte en duk för mina känslor, just därför att den inte är gudomlig utan riktad till mig av en Annan. Prepositionen "på" är ingen köld. Den är avståndet som låter skogen förbli skog och Gud förbli Gud.
 
 Men är Koranens Gud en fjärran Gud, undandragen bakom horisonten? Invändningen är berättigad, och den reser sig inte minst inifrån islam självt. Traditionens mystiker har i sekler brottats med hur nära Gud kan sägas vara, och spänningen mellan att hålla Gud fri från all liknelse (*tanzih*) och att tala om Hans närhet hör till dess äldsta inre tvister. Ty Koranens Gud är inte avlägsen:
 
 > Vi är närmare människan än hennes egen halspulsåder. Vart ni än vänder er, där är Guds ansikte.[^12]
 
-Det är en närhet mer intim än någon panteism mäktar. Och ändå – det är en Skapares närhet till sin skapelse, en Vetandes till det vetna, inte de tvås sammansmältning. Gud är mig närmare än min egen halspulsåder; men min halspulsåder är inte Gud. Panteismen löser upp gränsen – men när Gud är allt finns det ingen Annan att vändas mot. Tecknet bevarar bägge: en Gud nära nog att vändas till vart jag än ser, åtskild nog att blicken inte slutar i en spegel.
+Det är en närhet mer intim än någon panteism mäktar. Och ändå – det är en Skapares närhet till sin skapelse, en Vetandes till det Han vet, inte de tvås sammansmältning. Gud är mig närmare än min egen halspulsåder; men min halspulsåder är inte Gud. Panteismen löser upp gränsen – men när Gud är allt finns det ingen Annan att vändas mot. Tecknet bevarar bägge: en Gud nära nog att vändas till vart jag än ser, åtskild nog att blicken inte slutar i en spegel.
 
 Därför pekar Koranen åt två håll på en gång:
 
@@ -78,8 +78,8 @@ Tecknen vid horisonten: skogen, bergen, växlingen mellan natt och dag. Och teck
 [^6]: "Den besjälade naturen", teologisk essä, Läsarna.
 [^7]: Dan Andersson, "Omkring tiggarn från Luossa", ur *Svarta ballader* (1917).
 [^8]: Om *aya* som "tecken" för både skriftvers och naturfenomen, se *Dixikon*, "Koranen och skapelsen – om sharia, ansvar och ekologisk islam".
-[^9]: Koranen, Âl ʿImrân 3:190; jfr al-Baqara 2:164 och ar-Rûm 30:22. Svensk tolkning efter Mohammed Knut Bernström, *Koranens budskap*.
+[^9]: Koranen, Āl ʿImrān 3:190; jfr al-Baqara 2:164 och ar-Rūm 30:22. Svensk tolkning efter Mohammed Knut Bernström, *Koranens budskap*.
 [^10]: Koranen, Fussilat 41:37.
 [^11]: "Skaparen och skapelsen: Konstverket är inte konstnären", islam.se.
-[^12]: Koranen, Qâf 50:16 och al-Baqara 2:115.
+[^12]: Koranen, Qāf 50:16 och al-Baqara 2:115.
 [^13]: Koranen, Fussilat 41:53.

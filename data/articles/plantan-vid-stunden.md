@@ -14,7 +14,7 @@ Sätter man siffrorna bredvid varandra uppstår en motsägelse som vår tid inte
 
 ## Lindhagens andra ärende
 
-Den första svenska koloniföreningen anlades 1895 i Pildammsparken i Malmö. Nio år senare började Anna Lindhagen, sjuksköterska och socialdemokratisk politiker, sin envetna kamp för stadens lotter i Stockholm. Hon hade inspirerats av danska förebilder och fick 1904 Kungliga Djurgårdsförvaltningen att tillåta odling på sina marker. Den första föreningen invigdes året därpå på Söderbrunn, och den finns kvar än idag.[^1]
+Den första svenska koloniföreningen anlades 1895 i Pildammsparken i Malmö. Nio år senare började Anna Lindhagen, sjuksköterska och socialdemokratisk politiker, sin envetna kamp för stadens lotter i Stockholm. Hon hade inspirerats av danska förebilder och fick 1904 Kungliga Djurgårdsförvaltningen att tillåta odling på sina marker. Den första föreningen invigdes året därpå på Söderbrunn, och den finns kvar än i dag.[^1]
 
 Lindhagens motiv brukar förenklas till matberedskap och folkhälsa, men det är att läsa henne ytligt. I hennes egen argumentation återkommer ett annat ord: skönhet. Hon talade om "skönhet och själsrekreation" som lika djupa bevekelsegrunder. Arbetaren skulle få mer än sin potatis: sin trädgård. Tanken var att människan, om hon överhuvudtaget skulle bli något i industristadens skugga, måste ha en bit jord att vårda. Inte att utvinna ur, utan att leva med.
 

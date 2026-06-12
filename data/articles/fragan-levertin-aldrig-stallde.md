@@ -97,9 +97,9 @@ Den subtilaste formuleringen finns hos Ibn Qayyim i *al-Fawāʾid*:
 
 En koranisk vers bär hela argumentet:
 
-> Vi skall visa dem Våra tecken bortom horisonterna och hos dem själva tills det står klart för dem att detta är sanningen.[^23]
+> Vi skall visa dem Våra tecken vid horisonten och inom dem själva, till dess det står klart för dem att detta är sanningen.[^23]
 
-Tecknen finns på två ställen: *bortom horisonterna* och *hos dem själva*. Den yttre världen och den inre – vetenskap och *fiṭrah*. Men ett tecken som bara pekar på sig självt har upphört att vara tecken; det har blivit dekoration.
+Tecknen finns på två ställen: *vid horisonten* och *inom dem själva*. Den yttre världen och den inre – vetenskap och *fiṭrah*. Men ett tecken som bara pekar på sig självt har upphört att vara tecken; det har blivit dekoration.
 
 Söderblom förstod det. Strindberg anade det. Levertin noterade det – och stannade. Den svenska kulturen har sedan dess levt i den hållning hans formulering stadfäste: medveten om törsten, misstänksam mot källan.
 
