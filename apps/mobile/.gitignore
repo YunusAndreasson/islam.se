@@ -23,6 +23,10 @@ expo-env.d.ts
 *.key
 *.mobileprovision
 
+# Google Play service-account key (NEVER commit)
+/secrets/
+*service-account*.json
+
 # Metro
 .metro-health-check*
 
@@ -46,3 +50,4 @@ yarn-error.*
 # generated native folders
 /ios
 /android
+dist-js/

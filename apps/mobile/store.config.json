@@ -1,0 +1,114 @@
+{
+  "configVersion": 0,
+  "apple": {
+    "version": "1.0.2",
+    "copyright": "2026 islam.se",
+    "release": {
+      "automaticRelease": true
+    },
+    "categories": ["LIFESTYLE", "REFERENCE"],
+    "info": {
+      "sv": {
+        "title": "islam.se",
+        "subtitle": "Bönetider, qibla och karta",
+        "promoText": "Sveriges bönetider, ritade med solens vandring över landet. Qibla, karta och aviseringar – helt utan konton, spårning eller reklam.",
+        "keywords": [
+          "bön",
+          "bönetider",
+          "qibla",
+          "qiblariktning",
+          "qiblakompass",
+          "salah",
+          "salat",
+          "muslim",
+          "moské",
+          "ramadan",
+          "adhan",
+          "böneutrop"
+        ],
+        "description": "islam.se visar bönetiderna för hela Sverige – beräknade lokalt på din enhet och ritade med solens vandring över landet.\n\nEn lugn, vacker app för dig som vill hålla reda på bönetiderna utan krångel. Ingen inloggning, ingen spårning, ingen reklam. Din plats lämnar aldrig enheten.\n\n• BÖNETIDER\nExakta tider för Fajr, Dhuhr, Asr, Maghrib och Isha, beräknade med det välbeprövade adhan-biblioteket. Justera beräkningsmetod och vinklar så att de stämmer med din moské.\n\n• SOLUR\nEn levande bild av dygnet, där solens båge över horisonten visar var på dagen du befinner dig och hur långt det är kvar till nästa bön.\n\n• QIBLARIKTNING\nEn tydlig kompass som pekar mot Kaba i Mecka, med korrekt missvisning för platsen där du står.\n\n• KARTA ÖVER SVERIGE\nUtforska bönetiderna var som helst i landet på en vacker, nordisk karta.\n\n• AVISERINGAR\nFå en stillsam påminnelse när det är dags för bön.\n\n• WIDGETS OCH LÅSSKÄRM\nNästa bön på hemskärmen, på låsskärmen och i Live Activity – alltid en blick bort.\n\n• INTEGRITET I FÖRSTA HAND\nInga konton. Ingen spårning. Ingen reklam. Bönetiderna beräknas på din enhet och din plats stannar där.\n\nislam.se är ett ideellt projekt för Sveriges muslimer.",
+        "releaseNotes": "Detta är den första versionen av islam.se i App Store.\n\nBönetider, solur, qibla, karta, aviseringar och widgets – allt med integriteten i centrum. Din plats lämnar aldrig enheten.\n\nTack för att du provar appen! Hör gärna av dig på support@islam.se.",
+        "marketingUrl": "https://islam.se",
+        "supportUrl": "https://islam.se",
+        "privacyPolicyUrl": "https://islam.se/integritetspolicy/",
+        "screenshots": {
+          "APP_IPHONE_67": [
+            "store/apple/screenshot/sv/APP_IPHONE_67/01.png",
+            "store/apple/screenshot/sv/APP_IPHONE_67/02.png",
+            "store/apple/screenshot/sv/APP_IPHONE_67/03.png",
+            "store/apple/screenshot/sv/APP_IPHONE_67/04.png"
+          ]
+        }
+      },
+      "en-US": {
+        "title": "islam.se",
+        "subtitle": "Prayer times, qibla & map",
+        "promoText": "Sweden's prayer times, drawn from the sun's path across the land. Qibla, map and reminders – with no accounts, tracking or ads.",
+        "keywords": [
+          "prayer times",
+          "qibla",
+          "qibla compass",
+          "salah",
+          "salat",
+          "muslim",
+          "mosque",
+          "ramadan",
+          "adhan",
+          "athan",
+          "islamic",
+          "sweden"
+        ],
+        "description": "islam.se shows prayer times across Sweden – calculated locally on your device and drawn from the sun's path over the land.\n\nA calm, beautiful app for keeping track of the prayer times without any fuss. No sign-in, no tracking, no ads. Your location never leaves your device.\n\nNote: the app's interface is in Swedish.\n\n• PRAYER TIMES\nAccurate times for Fajr, Dhuhr, Asr, Maghrib and Isha, computed with the well-tested adhan library. Adjust the calculation method and angles to match your mosque.\n\n• SOLAR CLOCK\nA living picture of the day, where the sun's arc across the horizon shows where you are in the day and how long is left until the next prayer.\n\n• QIBLA DIRECTION\nA clear compass pointing toward the Kaaba in Mecca, with the correct magnetic declination for where you stand.\n\n• MAP OF SWEDEN\nExplore prayer times anywhere in the country on a beautiful Nordic map.\n\n• REMINDERS\nA quiet notification when it is time to pray.\n\n• WIDGETS AND LOCK SCREEN\nThe next prayer on your home screen, lock screen and in a Live Activity – always a glance away.\n\n• PRIVACY FIRST\nNo accounts. No tracking. No ads. Prayer times are computed on your device and your location stays there.\n\nislam.se is a non-profit project for Sweden's Muslims.",
+        "releaseNotes": "This is the first release of islam.se on the App Store.\n\nPrayer times, a solar clock, qibla, a map, reminders and widgets – all with privacy at the centre. Your location never leaves your device.\n\nThank you for trying the app! Reach us any time at support@islam.se.",
+        "marketingUrl": "https://islam.se",
+        "supportUrl": "https://islam.se",
+        "privacyPolicyUrl": "https://islam.se/integritetspolicy/",
+        "screenshots": {
+          "APP_IPHONE_67": [
+            "store/apple/screenshot/en-US/APP_IPHONE_67/01.png",
+            "store/apple/screenshot/en-US/APP_IPHONE_67/02.png",
+            "store/apple/screenshot/en-US/APP_IPHONE_67/03.png",
+            "store/apple/screenshot/en-US/APP_IPHONE_67/04.png"
+          ]
+        }
+      }
+    },
+    "advisory": {
+      "ageRatingOverride": "NONE",
+      "alcoholTobaccoOrDrugUseOrReferences": "NONE",
+      "contests": "NONE",
+      "gambling": false,
+      "gamblingSimulated": "NONE",
+      "horrorOrFearThemes": "NONE",
+      "kidsAgeBand": null,
+      "koreaAgeRatingOverride": "NONE",
+      "lootBox": false,
+      "matureOrSuggestiveThemes": "NONE",
+      "medicalOrTreatmentInformation": "NONE",
+      "profanityOrCrudeHumor": "NONE",
+      "sexualContentGraphicAndNudity": "NONE",
+      "sexualContentOrNudity": "NONE",
+      "unrestrictedWebAccess": false,
+      "violenceCartoonOrFantasy": "NONE",
+      "violenceRealistic": "NONE",
+      "violenceRealisticProlongedGraphicOrSadistic": "NONE",
+      "advertising": false,
+      "ageAssurance": false,
+      "ageRatingOverrideV2": "NONE",
+      "developerAgeRatingInfoUrl": null,
+      "gunsOrOtherWeapons": "NONE",
+      "healthOrWellnessTopics": false,
+      "messagingAndChat": false,
+      "parentalControls": false,
+      "userGeneratedContent": false
+    },
+    "review": {
+      "firstName": "Yunus",
+      "lastName": "Andreasson",
+      "email": "support@islam.se",
+      "phone": "+46760331550",
+      "demoRequired": false,
+      "notes": "islam.se is a Swedish prayer-times app. No account or login is required — all features are available immediately. The app asks for location permission to calculate prayer times for the user's position; this is optional and can be declined (a location can also be chosen manually on the map). Prayer times are computed entirely on-device; no personal data is collected or sent to a server."
+    }
+  }
+}
