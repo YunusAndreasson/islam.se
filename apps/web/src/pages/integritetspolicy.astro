@@ -1,0 +1,116 @@
+---
+import Base from "../layouts/Base.astro";
+import { breadcrumbList } from "../lib/jsonld";
+
+const updated = "12 juni 2026";
+---
+
+<Base
+	title="Integritetspolicy — islam.se"
+	description="Så hanterar islam.se-appen dina uppgifter: din plats lämnar aldrig enheten, inga konton, ingen spårning, ingen reklam."
+	jsonLd={[
+		{
+			"@context": "https://schema.org",
+			"@type": "WebPage",
+			name: "Integritetspolicy — islam.se",
+			url: "https://islam.se/integritetspolicy",
+			inLanguage: "sv",
+			description:
+				"Integritetspolicy för islam.se-appen: bönetider beräknas på din enhet, din plats lämnar aldrig enheten.",
+		},
+		breadcrumbList([
+			{ name: "Hem", url: "/" },
+			{ name: "Integritetspolicy", url: "/integritetspolicy" },
+		]),
+	]}
+>
+	<main id="main" class="content-column">
+		<header class="article-header">
+			<h1>Integritetspolicy</h1>
+		</header>
+
+		<div class="article-body prose">
+			<p>
+				islam.se-appen är byggd med integriteten först. Den visar bönetider,
+				qiblariktning och en karta över Sverige – och allt det viktiga sker på
+				din egen enhet. Den här policyn beskriver vilka uppgifter appen använder
+				och hur de hanteras.
+			</p>
+
+			<h2>Din plats</h2>
+			<p>
+				Om du ger appen tillåtelse använder den enhetens position för att räkna
+				ut bönetiderna och qiblariktningen där du befinner dig. Positionen
+				bearbetas enbart lokalt på din enhet – den lämnar aldrig enheten, skickas
+				aldrig till någon server och sparas aldrig hos oss. Du kan när som helst
+				neka platsåtkomst och i stället välja plats manuellt på kartan. Appen
+				fungerar utan platstillstånd.
+			</p>
+
+			<h2>Inställningar och lokal lagring</h2>
+			<p>
+				Dina val – som vald plats, beräkningsmetod och aviseringsinställningar –
+				sparas endast i enhetens eget lagringsutrymme så att appen minns dem
+				mellan gångerna. Inget av detta lämnar enheten, och det går att rensa
+				genom att avinstallera appen.
+			</p>
+
+			<h2>Aviseringar</h2>
+			<p>
+				Om du slår på påminnelser för bönetider schemaläggs de lokalt på din
+				enhet. Det krävs inget konto och ingen extern aviseringstjänst för detta.
+			</p>
+
+			<h2>Kartbilder</h2>
+			<p>
+				Kartan hämtar bildplattor från externa karttjänster (MapTiler och
+				OpenFreeMap, med kartdata från OpenStreetMap). När appen hämtar
+				kartbilder ser dessa tjänster, som vilken webbtjänst som helst, den
+				IP-adress begäran kommer ifrån. Vi skickar inte din exakta GPS-position
+				till dessa tjänster och kopplar inte sådana förfrågningar till dig som
+				person.
+			</p>
+
+			<h2>Ingen spårning, inga konton, ingen reklam</h2>
+			<p>
+				Appen har inga användarkonton, ingen inloggning, ingen reklam och inga
+				analys- eller spårningsverktyg från tredje part. Vi samlar inte in,
+				lagrar eller säljer några personuppgifter, och vi delar inga uppgifter
+				med tredje part i marknadsförings- eller spårningssyfte.
+			</p>
+
+			<h2>Barn</h2>
+			<p>
+				Appen är lämplig för alla åldrar och samlar inte in några
+				personuppgifter, varken från barn eller vuxna.
+			</p>
+
+			<h2>Ändringar i policyn</h2>
+			<p>
+				Om vi uppdaterar den här policyn publicerar vi den nya versionen på den
+				här sidan med ett nytt datum nedan.
+			</p>
+
+			<h2>Kontakt</h2>
+			<p>
+				Har du frågor om hur appen hanterar uppgifter? Hör av dig till
+				<a href="mailto:support@islam.se">support@islam.se</a>.
+			</p>
+
+			<div class="section-ornament"></div>
+
+			<p class="policy-updated">Senast uppdaterad: {updated}</p>
+		</div>
+	</main>
+</Base>
+
+<style>
+	.policy-updated {
+		font-family: var(--font-heading);
+		font-size: 0.862rem;
+		letter-spacing: 0.04em;
+		color: var(--color-muted);
+		text-align: center;
+		margin-top: var(--space-phi1);
+	}
+</style>
