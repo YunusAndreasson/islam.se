@@ -7,6 +7,10 @@ import { defineConfig } from "vitest/config";
 // and its Jest tests must not be picked up by the root vitest run.
 export default defineConfig({
 	test: {
-		projects: ["packages/quotes/vitest.config.ts", "packages/orchestrator/vitest.config.ts"],
+		projects: [
+			"packages/quotes/vitest.config.ts",
+			"packages/orchestrator/vitest.config.ts",
+			"apps/web/vitest.config.ts",
+		],
 	},
 });

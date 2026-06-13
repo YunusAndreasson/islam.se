@@ -62,6 +62,13 @@ export function placeBySlug(slug: string): IndexedPlace | undefined {
 	return BY_SLUG.get(slug);
 }
 
+/** The population to display: the official SCB tätort figure when we matched one,
+ *  otherwise the GeoNames estimate. Pair with `place.scbPopulation != null` to know
+ *  which it is (and to decide whether to cite SCB / show the stat block). */
+export function officialPopulation(place: SwedishPlace): number {
+	return place.scbPopulation ?? place.population;
+}
+
 // Great-circle distance (km) — for "nearby towns" cross-links.
 function haversineKm(a: SwedishPlace, b: SwedishPlace): number {
 	const R = 6371;

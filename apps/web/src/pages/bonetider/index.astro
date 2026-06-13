@@ -2,7 +2,8 @@
 import PrayerField from "../../components/bonetider/PrayerField.astro";
 import PrayerSettings from "../../components/bonetider/PrayerSettings.astro";
 import Base from "../../layouts/Base.astro";
-import { breadcrumbList } from "../../lib/jsonld";
+import { breadcrumbList, dataset } from "../../lib/jsonld";
+import { SCB_SOURCE } from "../../lib/bonetider/meta";
 import { INDEXED_PLACES, placesByCounty } from "../../lib/bonetider/places-index";
 import { DEFAULT_COORDS } from "../../lib/bonetider/settings";
 
@@ -13,6 +14,7 @@ const stockholm = {
 };
 const counties = placesByCounty();
 const total = INDEXED_PLACES.length;
+const withScb = INDEXED_PLACES.filter((p) => p.scbPopulation != null).length;
 const description =
 	"Bönetider för hela Sverige — Fajr, Shurūq, Ẓuhr, ʿAṣr, Maghrib och ʿIshāʾ för tusentals orter, beräknade efter solens läge över landet. Välj beräkningsmetod och madhhab.";
 ---
@@ -30,6 +32,15 @@ const description =
 			url: "https://islam.se/bonetider",
 			inLanguage: "sv",
 		},
+		dataset({
+			name: "Bönetider och ortsstatistik för svenska tätorter",
+			description:
+				"Dagliga bönetider (Fajr, Shurūq, Ẓuhr, ʿAṣr, Maghrib, ʿIshāʾ) för svenska orter, beräknade efter solens läge, med officiell befolkningsstatistik per tätort.",
+			url: "/bonetider",
+			license: "https://creativecommons.org/licenses/by/4.0/",
+			creator: ["islam.se", "SCB (Statistiska centralbyrån)", "GeoNames"],
+			spatialCoverage: "Sverige",
+		}),
 		breadcrumbList([
 			{ name: "Hem", url: "/" },
 			{ name: "Bönetider", url: "/bonetider" },
@@ -65,7 +76,10 @@ const description =
 
 		<section class="bh2-section" aria-labelledby="bh2-find">
 			<h2 id="bh2-find">Hitta din ort</h2>
-			<p class="bh2-lead">{total.toLocaleString("sv-SE")} orter, ordnade efter län.</p>
+			<p class="bh2-lead">
+				{total.toLocaleString("sv-SE")} orter, ordnade efter län — varav {withScb.toLocaleString("sv-SE")} med
+				officiell befolkningsstatistik från {SCB_SOURCE}. Läs om <a href="/bonetider/metod">hur tiderna beräknas</a>.
+			</p>
 			<input
 				type="search"
 				class="bt-search"
@@ -94,8 +108,9 @@ const description =
 		</section>
 
 		<p class="bt-attrib">
-			Ortsdata från GeoNames (CC BY 4.0). Sveriges kontur från öppna kartdata (public domain).
-			Beräkningar med <span lang="en">adhan</span> i tidszonen Europe/Stockholm.
+			Befolkningsstatistik: {SCB_SOURCE}. Ortsdata från GeoNames (CC BY 4.0). Sveriges kontur från
+			öppna kartdata (public domain). Beräkningar med <span lang="en">adhan</span> i tidszonen
+			Europe/Stockholm. <a href="/bonetider/metod">Om beräkningen</a>
 		</p>
 	</main>
 </Base>
@@ -269,6 +284,11 @@ const description =
 		margin: var(--space-phi) 0 0;
 		padding-top: var(--space-half);
 		border-top: 1px solid var(--color-divider);
+	}
+
+	.bt-attrib a,
+	.bh2-lead a {
+		color: var(--color-accent);
 	}
 </style>
 
