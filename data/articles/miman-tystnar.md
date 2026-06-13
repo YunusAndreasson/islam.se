@@ -6,7 +6,7 @@ qualityScore: 8.9
 description: "En augustinatt 1953 riktade Harry Martinson ett teleskop mot stjärnbilden Andromeda och fann ett blekt ljus, knappt skönjbart, som ändå bar miljarder solar. Synen släppte honom aldrig."
 category: "Skapelsen"
 ---
-En augustinatt 1953 riktade Harry Martinson ett teleskop mot stjärnbilden Andromeda och fann ett blekt ljus, knappt skönjbart, som ändå bar miljarder solar.[^1] Synen släppte honom aldrig. Gång på gång skulle han klaga över att språket kom till korta – att orden, byggda för åkrar och årstider, inte räckte till för det astrofysiken bredde ut. Det är vanmakten hos den som står vid en grav och inte finner ett ord stort nog. Ur den vanmakten växte *Aniara*, eposet om rymdskeppet som driver bort från en förgiftad jord, slås ur sin bana och faller vidare mot Lyran utan möjlighet att vända.
+En augustinatt 1953 riktade Harry Martinson ett teleskop mot stjärnbilden Andromeda och fann ett blekt ljus, knappt skönjbart, som ändå bar miljarder solar.[^1] Synen släppte honom aldrig. Gång på gång skulle han klaga över att språket kom till korta – att orden, byggda för åkrar och årstider, inte räckte till för det astrofysiken bredde ut. Samma vanmakt griper den som står vid en grav och inte finner ett ord stort nog. Ur den vanmakten växte *Aniara*, eposet om rymdskeppet som driver bort från en förgiftad jord, slås ur sin bana och faller vidare mot Lyran utan möjlighet att vända.
 
 Man kunde läsa dikten som en olyckshistoria. Den är något kallare än så. *Aniara* förnekar inte rymdens storhet – tvärtom besjunger den dess väldighet i bild efter bild. Den förnekar något annat: att väldigheten skulle vara riktad till någon. Det är skillnaden mellan att höra sitt namn ropas över torget och att höra regnet trumma mot rutan.
 

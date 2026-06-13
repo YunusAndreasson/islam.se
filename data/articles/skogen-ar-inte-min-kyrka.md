@@ -14,7 +14,7 @@ Den sägs med värme och med självklarhet. Ändå bär den på ett ord som säl
 
 ## Det ordlösa rummet
 
-Thurfjell lade märke till något egendomligt. Så snart han förde religion på tal började hans sekulariserade landsmän tala om naturen i stället. Det var där de djupaste upplevelserna fanns – känslan av samhörighet med andra arter, med ett oöverskådligt universum. Men orden saknades. Det religiösa språket hade de lämnat bakom sig, och inget hade trätt i dess ställe. Det är vandraren som stannar mellan stammarna, känner något stiga i bröstet och inte har ett enda ord att ge det.
+Thurfjell lade märke till något påfallande. Så snart han förde religion på tal började hans sekulariserade landsmän tala om naturen i stället. Det var där de djupaste upplevelserna fanns – känslan av samhörighet med andra arter, med ett oöverskådligt universum. Men orden saknades. Det religiösa språket hade de lämnat bakom sig, och inget hade trätt i dess ställe. Det är vandraren som stannar mellan stammarna, känner något stiga i bröstet och inte har ett enda ord att ge det.
 
 > De saknar det symbolmättade språk som kristendomen erbjuder och lämnas i ett ordlöst inre rum.[^2]
 
@@ -28,7 +28,7 @@ Priset blir synligt här. Är Gud lika fullt närvarande i giftet som i brödet,
 
 > Utan transcendens – Gud som är fjärran – finns ingen immanens, ingen Gud som är nära; utan immanens ingen transcendens.[^5]
 
-Panteismen köper närheten genom att avskaffa avståndet, och blir därmed av med båda. En essäist drar slutsatsen kärvt: panteismen "förminskar både Gud, människan och naturen och tenderar alltid att leda till avgudadyrkan".[^6]
+Panteismen köper närheten genom att avskaffa avståndet, och blir därmed av med båda. En essäist drar slutsatsen kärvt: panteismen "förminskar såväl Gud som människan och naturen och tenderar alltid att leda till avgudadyrkan".[^6]
 
 ## Något bortom bergen
 
@@ -46,13 +46,13 @@ Och så den vers där hela frågan avgörs:
 
 > Bland Hans tecken är natten och dagen, solen och månen. Fall inte ned i tillbedjan inför solen, inte heller inför månen – fall ned inför Gud som har skapat dem, om det är Honom ni vill dyrka.[^10]
 
-Solen är den mest naturliga gud man kan tänka sig – ljusets, värmens, livets källa. Och just den förbjuder Koranen som föremål för tillbedjan. Solen är ett tecken, och ett tecken pekar mot sin källa. Att stanna vid tecknet är att förväxla konstverket med konstnären. Universum, skriver islam.se, "är ett tecken på Guds allmakt – det är ett konstverk och inte konstnären själv".[^11]
+Solen är den mest naturliga gud man kan tänka sig – ljusets, värmens, livets källa. Och just den förbjuder Koranen som föremål för tillbedjan. Solen är ett tecken, och ett tecken pekar mot sin källa. Att stanna vid tecknet är att förväxla konstverket med konstnären. Universum "är ett tecken på Guds allmakt – det är ett konstverk och inte konstnären själv".[^11]
 
 ## Avståndet som räddar
 
 Här förändras bilden. Vi är vana att ställa upp dem mot varandra: immanensen, Gud i naturen, den varma och generösa tron; transcendensen, Guds avlägsenhet, det kyliga alternativet. Kontrasten tycks tala till skogskyrkans fördel. Men en närmare blick ger en annan bild.
 
-Den panteistiska immanensen låter tecknet smälta samman med det betecknade tills bara landskapet återstår. Och landskapet, som inte längre har någon Annan över sig, blir, precis som i den romantiska traditionen, en spegel för jaget. Den som tillber Gud i skogen slutar, genom en besynnerlig logik, med att tillbe sina egna stämningar kastade tillbaka mot honom. Immanensen, driven till sin spets, är hemligt självupptagen.
+Den panteistiska immanensen låter tecknet smälta samman med det betecknade tills bara landskapet återstår. Och landskapet, som inte längre har någon Annan över sig, blir, precis som i den romantiska traditionen, en spegel för jaget. Den som tillber Gud i skogen slutar, genom en bakvänd logik, med att tillbe sina egna stämningar kastade tillbaka mot honom. Immanensen, driven till sin spets, är hemligt självupptagen.
 
 Teckenrelationen gör det motsatta. Genom att hålla tecknet skilt från det betecknade – naturen ett tecken på Gud, inte Gud – skänker den naturen en verklig annanhet. Skogen får vara skog, inte en duk för mina känslor, just därför att den inte är gudomlig utan riktad till mig av en Annan. Prepositionen "på" är ingen köld. Den är avståndet som låter skogen förbli skog och Gud förbli Gud.
 

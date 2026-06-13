@@ -6,7 +6,7 @@ qualityScore: 8.8
 description: "Tre tusen år innan någon brydde sig om att räkna åren satt en namnlös siare under den nordindiska natthimlen och försökte säga något sant om världens början. Han misslyckades med avsikt."
 category: "Skapelsen"
 ---
-Tre tusen år innan någon brydde sig om att räkna åren satt en namnlös siare under den nordindiska natthimlen och försökte säga något sant om världens början. Han misslyckades med avsikt. Rigvedas hundratjugonionde hymn i den tionde mandalan – Nasadiya-sukta – är förmodligen den äldsta bevarade dikt som ställer ursprungsfrågan rakt ut, och dess storhet ligger i att den vägrar att låtsas veta.
+Tre tusen år innan någon brydde sig om att räkna åren satt en namnlös siare under den nordindiska natthimlen och försökte säga något sant om världens början. Rigvedas hundratjugonionde hymn i den tionde mandalan – Nasadiya-sukta – är förmodligen den äldsta bevarade dikt som ställer ursprungsfrågan rakt ut, och dess storhet ligger i att den vägrar att låtsas veta.
 
 > Hur denna skapelse är för sig gången, om nu den skaptes eller icke skaptes, det vet förvisso han, som den bevakar i högsta himlen, eller vet det icke.[^1]
 

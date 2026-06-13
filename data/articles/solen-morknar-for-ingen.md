@@ -50,7 +50,7 @@ Nej. Dessa domar är uppenbarade, inte uträknade. De gäller hela folk genom hi
 
 ## Det längre seendet
 
-Det besynnerliga är att Linné, som såg mer av naturen än någon i sin samtid, på just denna punkt såg mindre. Den blick som låter tecknet peka mot Skaparen öppnar sig mot det oändliga; den blick som låter tecknet fälla en dom sluter sig kring en uträkning. Ty för att läsa ett enda utslag ur en bondes död måste man göra anspråk på att överblicka hela räkenskapen för den själen – och det enda en åskådare ser är den synliga spillran. Den som håller tillbaka ser därför inte mindre; han inser att räkenskapen sträcker sig bortom det synliga, in i det uppskjutna. Återhållsamheten inför det fördolda är ett längre seende: ögat som vägrar att döma når längre än ögat som dömer.
+Det märkliga är att Linné, som såg mer av naturen än någon i sin samtid, på just denna punkt såg mindre. Den blick som låter tecknet peka mot Skaparen öppnar sig mot det oändliga; den blick som låter tecknet fälla en dom sluter sig kring en uträkning. Ty för att läsa ett enda utslag ur en bondes död måste man göra anspråk på att överblicka hela räkenskapen för den själen – och det enda en åskådare ser är den synliga spillran. Den som håller tillbaka ser därför inte mindre; han inser att räkenskapen sträcker sig bortom det synliga, in i det uppskjutna. Återhållsamheten inför det fördolda är ett längre seende: ögat som vägrar att döma når längre än ögat som dömer.
 
 Linnés egen första mening var sann. Han såg den evige gå förbi. Övermodet började först när han böjde sig mot fotspåret och ville läsa ett utslag i det. Avtrycket var aldrig en dom. Det var en riktning.
 
