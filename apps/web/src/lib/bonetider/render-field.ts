@@ -10,6 +10,7 @@
 // A brass marker pins the chosen place. Pure-ish: hand it a <canvas> and a config, it draws.
 
 import { invMercY, mercX, mercY } from "./map/projection";
+import { NEIGHBORS_OUTLINE } from "./neighbors-outline";
 import { computePrayerTimes, nextPrayerKeyAt, PRAYER_LABELS, type PrayerKey } from "./prayer-times";
 import type { PrayerSettings } from "./settings";
 import {
@@ -22,7 +23,6 @@ import {
 import { PRAYER_COLORS, washStopsDark, washStopsLight } from "./solar/palette";
 import { solarParams, sunPositionAt } from "./solar/sun";
 import { washColorAt } from "./solar/washColor";
-import { NEIGHBORS_OUTLINE } from "./neighbors-outline";
 import { SWEDEN_OUTLINE } from "./sweden-outline";
 
 const invMercX = (mx: number): number => mx * 360 - 180;

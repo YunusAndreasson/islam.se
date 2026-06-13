@@ -3,7 +3,12 @@
 // grid/contour, the wash twin, and that our computePrayerTimes matches adhan directly.
 import * as adhan from "adhan";
 import { INDEXED_PLACES, nearbyPlaces, placeBySlug } from "../src/lib/bonetider/places-index";
-import { computePrayerTimes, formatTime, nextPrayerKeyAt, PRAYER_ORDER } from "../src/lib/bonetider/prayer-times";
+import {
+	computePrayerTimes,
+	formatTime,
+	nextPrayerKeyAt,
+	PRAYER_ORDER,
+} from "../src/lib/bonetider/prayer-times";
 import { DEFAULT_SETTINGS } from "../src/lib/bonetider/settings";
 import { slugify } from "../src/lib/bonetider/slug";
 import { buildGrid, buildLines } from "../src/lib/bonetider/solar/field";
@@ -12,10 +17,11 @@ import { washColorAt } from "../src/lib/bonetider/solar/washColor";
 
 let fail = 0;
 const ok = (cond: boolean, msg: string) => {
-	if (!cond) {
+	if (cond) console.log("  ✓", msg);
+	else {
 		console.error("  ✗", msg);
 		fail++;
-	} else console.log("  ✓", msg);
+	}
 };
 
 console.log("slug:");
@@ -37,9 +43,15 @@ const coords = { latitude: 59.32938, longitude: 18.06871 };
 const t = computePrayerTimes(coords, date, DEFAULT_SETTINGS);
 const params = adhan.CalculationMethod.MuslimWorldLeague();
 params.madhab = adhan.Madhab.Shafi;
-params.highLatitudeRule = adhan.HighLatitudeRule.recommended(new adhan.Coordinates(coords.latitude, coords.longitude));
+params.highLatitudeRule = adhan.HighLatitudeRule.recommended(
+	new adhan.Coordinates(coords.latitude, coords.longitude),
+);
 params.polarCircleResolution = adhan.PolarCircleResolution.AqrabBalad;
-const oracle = new adhan.PrayerTimes(new adhan.Coordinates(coords.latitude, coords.longitude), date, params);
+const oracle = new adhan.PrayerTimes(
+	new adhan.Coordinates(coords.latitude, coords.longitude),
+	date,
+	params,
+);
 for (const k of PRAYER_ORDER) {
 	ok(t[k].getTime() === oracle[k].getTime(), `${k}: ${formatTime(t[k])} (matches adhan)`);
 }
@@ -49,7 +61,10 @@ console.log("solar field:");
 const grid = buildGrid(date, DEFAULT_SETTINGS);
 ok(grid.lats.length > 10 && grid.lons.length > 5, `grid ${grid.lats.length}×${grid.lons.length}`);
 const lines = buildLines(grid, date.getTime());
-ok(lines.lines.features.length >= 0, `buildLines → ${lines.lines.features.length} prayer line features`);
+ok(
+	lines.lines.features.length >= 0,
+	`buildLines → ${lines.lines.features.length} prayer line features`,
+);
 
 console.log("wash twin:");
 // Midnight-ish over Stockholm in midsummer: sun is below horizon but barely (luminous night).

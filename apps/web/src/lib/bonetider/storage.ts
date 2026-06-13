@@ -3,8 +3,8 @@
 // single `bonetider:change` window event lets the settings panel, the location
 // picker and every PrayerField on the page stay in sync without a framework.
 import {
-	DEFAULT_SETTINGS,
 	type CalculationMethodKey,
+	DEFAULT_SETTINGS,
 	type HighLatitudeRuleKey,
 	type Madhab,
 	type NamedLocation,
@@ -60,7 +60,9 @@ function finiteOrDefault(value: unknown, fallback: number): number {
 
 function sanitizeAdjustments(value: unknown): PrayerAdjustments {
 	const input =
-		value && typeof value === "object" ? (value as Partial<Record<keyof PrayerAdjustments, unknown>>) : {};
+		value && typeof value === "object"
+			? (value as Partial<Record<keyof PrayerAdjustments, unknown>>)
+			: {};
 	return {
 		fajr: finiteOrDefault(input.fajr, DEFAULT_SETTINGS.adjustments.fajr),
 		sunrise: finiteOrDefault(input.sunrise, DEFAULT_SETTINGS.adjustments.sunrise),
@@ -73,7 +75,9 @@ function sanitizeAdjustments(value: unknown): PrayerAdjustments {
 
 function sanitizeSettings(value: unknown): PrayerSettings {
 	const parsed =
-		value && typeof value === "object" ? (value as Partial<Record<keyof PrayerSettings, unknown>>) : {};
+		value && typeof value === "object"
+			? (value as Partial<Record<keyof PrayerSettings, unknown>>)
+			: {};
 	return {
 		...DEFAULT_SETTINGS,
 		calculationMethod: enumOrDefault(
