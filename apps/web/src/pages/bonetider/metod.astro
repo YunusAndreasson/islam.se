@@ -1,0 +1,258 @@
+---
+import Base from "../../layouts/Base.astro";
+import { breadcrumbList } from "../../lib/jsonld";
+import { BONETIDER_DATA_DATE, SCB_REF, SCB_SOURCE } from "../../lib/bonetider/meta";
+
+const description =
+	"Så beräknas bönetiderna på islam.se: solens verkliga läge, beräkningsmetoder (Muslim World League m.fl.), madhhab, regler för höga latituder, tidszon — och våra källor (SCB, GeoNames, adhan).";
+---
+
+<Base
+	title="Så beräknas bönetiderna — islam.se"
+	description={description}
+	ogImage="/bonetider/og.png"
+	jsonLd={[
+		{
+			"@context": "https://schema.org",
+			"@type": "TechArticle",
+			headline: "Så beräknas bönetiderna",
+			description,
+			url: "https://islam.se/bonetider/metod",
+			inLanguage: "sv",
+			datePublished: BONETIDER_DATA_DATE,
+			dateModified: BONETIDER_DATA_DATE,
+			author: { "@type": "Organization", name: "islam.se", url: "https://islam.se" },
+			publisher: {
+				"@type": "Organization",
+				name: "islam.se",
+				url: "https://islam.se",
+				logo: { "@type": "ImageObject", url: "https://islam.se/apple-touch-icon.png", width: 180, height: 180 },
+			},
+			about: { "@type": "Thing", name: "Islamiska bönetider" },
+		},
+		breadcrumbList([
+			{ name: "Hem", url: "/" },
+			{ name: "Bönetider", url: "/bonetider" },
+			{ name: "Så beräknas bönetiderna", url: "/bonetider/metod" },
+		]),
+	]}
+>
+	<main id="main" class="home bonetider-metod bt-prose">
+		<nav class="bt-crumbs" aria-label="Brödsmulor">
+			<a href="/">Hem</a> <span aria-hidden="true">/</span>
+			<a href="/bonetider">Bönetider</a> <span aria-hidden="true">/</span>
+			<span aria-current="page">Metod</span>
+		</nav>
+
+		<header class="bt-metod-header">
+			<p class="label">Bönetider</p>
+			<h1>Så beräknas bönetiderna</h1>
+			<p class="bt-metod-lead">
+				Bönetiderna på islam.se beräknas från solens verkliga läge för varje orts position — inte
+				hämtade från en färdig tabell. Här förklarar vi modellen, vilka beräkningsmetoder du kan
+				välja, hur ljusa sommarnätter hanteras, och vilka källor vi använder.
+			</p>
+		</header>
+
+		<section aria-labelledby="m-boner">
+			<h2 id="m-boner">De sex tiderna</h2>
+			<p>
+				Varje bön är knuten till en bestämd solhöjd. Vi visar sex tidpunkter per dygn:
+			</p>
+			<dl class="bt-deflist">
+				<div><dt>Fajr</dt><dd>gryningen, när solen står en bestämd vinkel under horisonten före soluppgången.</dd></div>
+				<div><dt>Shurūq</dt><dd>soluppgången, då Fajr-tiden tar slut.</dd></div>
+				<div><dt>Ẓuhr</dt><dd>strax efter att solen passerat sin högsta punkt (solens meridianpassage).</dd></div>
+				<div><dt>ʿAṣr</dt><dd>på eftermiddagen, när ett föremåls skugga nått en viss längd (beror på madhhab).</dd></div>
+				<div><dt>Maghrib</dt><dd>solnedgången.</dd></div>
+				<div><dt>ʿIshāʾ</dt><dd>kvällen, när solen åter står en bestämd vinkel under horisonten.</dd></div>
+			</dl>
+		</section>
+
+		<section aria-labelledby="m-solen">
+			<h2 id="m-solen">Solens läge, inte en tabell</h2>
+			<p>
+				Tiderna räknas fram ur solens position med en etablerad astronomisk modell (NOAA:s
+				solpositionsalgoritm). För varje ort används latitud och longitud, så att Ẓuhr infaller exakt
+				när solen står som högst just där, och Fajr/ʿIshāʾ när solen når de valda vinklarna under
+				horisonten. Allt sker direkt i din webbläsare och uppdateras varje dygn.
+			</p>
+		</section>
+
+		<section aria-labelledby="m-metoder">
+			<h2 id="m-metoder">Beräkningsmetoder och madhhab</h2>
+			<p>
+				Olika institutioner använder lite olika vinklar för Fajr och ʿIshāʾ. Standard på islam.se är
+				<strong>Muslim World League</strong> (Fajr 18°, ʿIshāʾ 17°), som passar svenska latituder väl.
+				I inställningarna kan du byta till bland andra Diyanet (Turkiet), Umm al-Qurā (Mecka), ISNA
+				(Nordamerika), Egyptiska myndigheten och Karachi — kartan och tiderna uppdateras direkt.
+			</p>
+			<p>
+				För <strong>ʿAṣr</strong> kan du välja madhhab: standard (Shāfiʿī, Mālikī, Ḥanbalī) där skuggan
+				är lika lång som föremålet, eller Ḥanafī där den är dubbelt så lång. Vill du att tiderna ska
+				stämma exakt med din moské, välj samma metod och madhhab som den — och justera vid behov
+				enskilda böner med några minuter under Avancerat. Inställningarna sparas lokalt i din
+				webbläsare.
+			</p>
+		</section>
+
+		<section aria-labelledby="m-latitud">
+			<h2 id="m-latitud">Höga latituder och ljusa nätter</h2>
+			<p>
+				På svenska breddgrader blir sommarnatten ofta så ljus att solen aldrig sjunker de 18° under
+				horisonten som krävs för den vanliga vinkelberäkningen av Fajr och ʿIshāʾ. Då används en regel
+				för höga latituder — som standard <em>närmaste lämpliga plats</em> (Aqrab al-Balad) — så att
+				tider ändå kan anges på ett rimligt sätt. Norr om polcirkeln, där midnattssol och polarnatt
+				råder delar av året, är denna regel nödvändig. Inställningen väljs automatiskt utifrån orten,
+				men kan ändras manuellt.
+			</p>
+		</section>
+
+		<section aria-labelledby="m-tid">
+			<h2 id="m-tid">Tidszon och sommartid</h2>
+			<p>
+				Alla tider visas i tidszonen Europe/Stockholm och växlar automatiskt mellan normaltid och
+				sommartid (DST). Tiderna gäller den valda ortens position, inte din webbläsares tidszon.
+			</p>
+		</section>
+
+		<section aria-labelledby="m-kallor">
+			<h2 id="m-kallor">Källor och öppenhet</h2>
+			<p>Vi är öppna med varifrån data kommer och hur den används:</p>
+			<ul class="bt-sources">
+				<li>
+					<strong>Beräkning:</strong> det öppna biblioteket <span lang="en">adhan</span>, en etablerad
+					implementation av bönetidsberäkning.
+				</li>
+				<li>
+					<strong>Orter och koordinater:</strong> GeoNames (CC BY 4.0).
+				</li>
+				<li>
+					<strong>Befolkningsstatistik:</strong> {SCB_SOURCE} ({SCB_REF}) — officiell statistik per
+					tätort. SCB:s statistik är fri att återanvända.
+				</li>
+				<li>
+					<strong>Sveriges kontur på kartan:</strong> öppna kartdata (public domain).
+				</li>
+			</ul>
+			<p>
+				En upplysning: islam.se driver inget eget system för månsiktning. Bönetiderna beräknas
+				astronomiskt enligt ovan; helgdagar som ramadan och de två högtiderna fastställs av officiell
+				månsiktning och kan därför skilja sig något från ren uträkning.
+			</p>
+		</section>
+
+		<p class="bt-attrib">
+			<a href="/bonetider">← Alla bönetider i Sverige</a>
+		</p>
+	</main>
+</Base>
+
+<style>
+	.bonetider-metod {
+		margin-block: var(--space-phi);
+	}
+
+	.bt-crumbs {
+		font-family: var(--font-heading);
+		font-size: 0.8125rem;
+		color: var(--color-muted);
+		margin-bottom: var(--space-unit);
+	}
+
+	.bt-crumbs a {
+		color: var(--color-accent);
+		text-decoration: none;
+	}
+
+	.bt-crumbs a:hover {
+		text-decoration: underline;
+	}
+
+	.bt-metod-header h1 {
+		margin: var(--space-half) 0 0;
+	}
+
+	.bt-metod-lead {
+		font-family: var(--font-body);
+		font-size: 1.0625rem;
+		line-height: 1.6;
+		color: color-mix(in srgb, var(--color-text) 88%, var(--color-muted));
+		max-width: 42rem;
+		margin: var(--space-unit) 0 0;
+		text-wrap: pretty;
+	}
+
+	.bonetider-metod section {
+		margin-top: var(--space-phi);
+	}
+
+	.bonetider-metod h2 {
+		font-size: var(--step-1);
+	}
+
+	.bt-prose p {
+		font-family: var(--font-body);
+		font-size: 1.0625rem;
+		line-height: 1.6;
+		color: color-mix(in srgb, var(--color-text) 88%, var(--color-muted));
+		max-width: 42rem;
+		margin: var(--space-half) 0;
+		text-wrap: pretty;
+	}
+
+	.bt-prose a {
+		color: var(--color-accent);
+	}
+
+	.bt-deflist {
+		margin: var(--space-half) 0 0;
+		max-width: 42rem;
+	}
+
+	.bt-deflist > div {
+		padding: var(--space-half) 0;
+		border-bottom: 1px solid var(--color-divider);
+	}
+
+	.bt-deflist dt {
+		font-family: var(--font-heading);
+		font-weight: 600;
+		color: var(--color-accent);
+		margin-bottom: 0.2rem;
+	}
+
+	.bt-deflist dd {
+		font-family: var(--font-body);
+		line-height: 1.55;
+		color: var(--color-muted);
+		margin: 0;
+	}
+
+	.bt-sources {
+		max-width: 42rem;
+		margin: var(--space-half) 0;
+		padding-left: 1.2rem;
+	}
+
+	.bt-sources li {
+		font-family: var(--font-body);
+		line-height: 1.55;
+		color: color-mix(in srgb, var(--color-text) 88%, var(--color-muted));
+		margin: 0.35rem 0;
+	}
+
+	.bt-attrib {
+		font-family: var(--font-body);
+		font-size: 0.8125rem;
+		color: var(--color-muted);
+		margin: var(--space-phi) 0 0;
+		padding-top: var(--space-half);
+		border-top: 1px solid var(--color-divider);
+	}
+
+	.bt-attrib a {
+		color: var(--color-accent);
+		text-decoration: none;
+	}
+</style>

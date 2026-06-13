@@ -1,10 +1,11 @@
 import { readdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
-import sitemap from "@astrojs/sitemap";
+import sitemap, { ChangeFreqEnum } from "@astrojs/sitemap";
 import type { AstroUserConfig } from "astro";
 import { defineConfig, fontProviders } from "astro/config";
 import remarkSmartypants from "remark-smartypants";
+import { BONETIDER_DATA_DATE } from "./src/lib/bonetider/meta";
 import { rehypeHonorific } from "./src/plugins/rehype-honorific";
 import { rehypeQuranVerse } from "./src/plugins/rehype-quran-verse";
 import { remarkAbbr } from "./src/plugins/remark-abbr";
@@ -405,6 +406,20 @@ export default defineConfig({
 				const slug = item.url.replace("https://islam.se/", "").replace(/\/$/, "");
 				if (articleDates[slug]) {
 					item.lastmod = new Date(articleDates[slug]).toISOString();
+				} else if (slug === "bonetider") {
+					item.lastmod = new Date(BONETIDER_DATA_DATE).toISOString();
+					item.changefreq = ChangeFreqEnum.WEEKLY;
+					item.priority = 0.8;
+				} else if (slug === "bonetider/metod") {
+					item.lastmod = new Date(BONETIDER_DATA_DATE).toISOString();
+					item.changefreq = ChangeFreqEnum.MONTHLY;
+					item.priority = 0.7;
+				} else if (slug.startsWith("bonetider/")) {
+					// The 2,118 city pages: a credible dataset-version lastmod (Google
+					// largely ignores priority/changefreq, but uses lastmod for crawl scheduling).
+					item.lastmod = new Date(BONETIDER_DATA_DATE).toISOString();
+					item.changefreq = ChangeFreqEnum.DAILY;
+					item.priority = 0.6;
 				}
 				return item;
 			},
