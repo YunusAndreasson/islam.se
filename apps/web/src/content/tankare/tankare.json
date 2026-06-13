@@ -5,7 +5,11 @@
 		"slug": "ibn-qayyim",
 		"tradition": "sunni",
 		"framing": "Damaskensisk teolog och Ibn Taymiyyas främste lärjunge (1292–1350). Hans kartläggning av hjärtats sjukdomar – begärets stadier, blickens dubbelhet, vanans långsamma infärgning – löper genom essäerna som en återkommande puls.",
-		"match": ["Ibn Qayyim"]
+		"match": ["Ibn Qayyim"],
+		"sameAs": [
+			"https://en.wikipedia.org/wiki/Ibn_Qayyim_al-Jawziyya",
+			"https://www.wikidata.org/wiki/Q119679"
+		]
 	},
 	{
 		"id": "ibn-taymiyya",
@@ -13,7 +17,11 @@
 		"slug": "ibn-taymiyya",
 		"tradition": "sunni",
 		"framing": "Hanbalitisk lärd (1263–1328) vars stränga, systematiska tänkande om tro och handling återkommer som måttstock i essäerna – ofta genom sin lärjunge Ibn Qayyim.",
-		"match": ["Ibn Taymiyy"]
+		"match": ["Ibn Taymiyy"],
+		"sameAs": [
+			"https://sv.wikipedia.org/wiki/Ibn_Taymiyya",
+			"https://www.wikidata.org/wiki/Q491558"
+		]
 	},
 	{
 		"id": "ibn-al-jawzi",
@@ -21,7 +29,11 @@
 		"slug": "ibn-al-jawzi",
 		"tradition": "sunni",
 		"framing": "Bagdadisk predikant och mångskrivare (1116–1201). Hans fördömande av begäret ger essäerna ett tidigt språk för själens oroliga rörelser.",
-		"match": ["Ibn al-Jawzī"]
+		"match": ["Ibn al-Jawzī"],
+		"sameAs": [
+			"https://en.wikipedia.org/wiki/Ibn_al-Jawzi",
+			"https://www.wikidata.org/wiki/Q731866"
+		]
 	},
 	{
 		"id": "ibn-khaldun",
@@ -29,7 +41,8 @@
 		"slug": "ibn-khaldun",
 		"tradition": "sunni",
 		"framing": "Historiefilosofen (1332–1406) som läste samhällen som levande kroppar. Hans ʿaṣabiyya – den sammanhållande kraften – återkommer där essäerna prövar gemenskapens villkor.",
-		"match": ["Ibn Khaldūn"]
+		"match": ["Ibn Khaldūn"],
+		"sameAs": ["https://sv.wikipedia.org/wiki/Ibn_Khaldun", "https://www.wikidata.org/wiki/Q9294"]
 	},
 	{
 		"id": "al-mawardi",
@@ -37,7 +50,8 @@
 		"slug": "al-mawardi",
 		"tradition": "sunni",
 		"framing": "Shafiitisk domare och statstänkare (972–1058); hans verk om styre och rättvisa bär essäernas frågor om makt och ansvar.",
-		"match": ["Māwardī"]
+		"match": ["Māwardī"],
+		"sameAs": ["https://en.wikipedia.org/wiki/Al-Mawardi", "https://www.wikidata.org/wiki/Q335635"]
 	},
 	{
 		"id": "al-ghazali",
@@ -45,7 +59,8 @@
 		"slug": "al-ghazali",
 		"tradition": "sunni",
 		"framing": "Teologen (1058–1111) som lämnade lärostolen för att söka visshet. Hans väg från tvivel till tillit skymtar där essäerna talar om kunskapens gränser.",
-		"match": ["Ghazālī"]
+		"match": ["Ghazālī"],
+		"sameAs": ["https://en.wikipedia.org/wiki/Al-Ghazali", "https://www.wikidata.org/wiki/Q9546"]
 	},
 	{
 		"id": "strindberg",
@@ -53,7 +68,11 @@
 		"slug": "strindberg",
 		"tradition": "western",
 		"framing": "Under Inferno-åren prövade han varje hållning han kunde nå, och ingen bar hans vikt – den svenska litteraturens närmaste motsvarighet till själens kris.",
-		"match": ["Strindberg"]
+		"match": ["Strindberg"],
+		"sameAs": [
+			"https://sv.wikipedia.org/wiki/August_Strindberg",
+			"https://www.wikidata.org/wiki/Q7724"
+		]
 	},
 	{
 		"id": "boye",
@@ -61,7 +80,8 @@
 		"slug": "boye",
 		"tradition": "western",
 		"framing": "Boye gav längtan röst utan att fråga vart den ledde; hennes »längtan är vårt väsens hjärta« återkommer som motpol till traditionens svar.",
-		"match": ["Boye"]
+		"match": ["Boye"],
+		"sameAs": ["https://sv.wikipedia.org/wiki/Karin_Boye", "https://www.wikidata.org/wiki/Q237413"]
 	},
 	{
 		"id": "soderberg",
@@ -69,7 +89,11 @@
 		"slug": "soderberg",
 		"tradition": "western",
 		"framing": "Söderbergs svala skepsis och hans fråga om viljans frihet möter i essäerna en tradition som aldrig övergav motparten.",
-		"match": ["Söderberg"]
+		"match": ["Söderberg"],
+		"sameAs": [
+			"https://sv.wikipedia.org/wiki/Hjalmar_S%C3%B6derberg",
+			"https://www.wikidata.org/wiki/Q331845"
+		]
 	},
 	{
 		"id": "ellen-key",
@@ -77,7 +101,8 @@
 		"slug": "ellen-key",
 		"tradition": "western",
 		"framing": "Det fjärde mest citerade namnet i hela korpusen; hennes sekulära livstro och syn på själ och uppfostran prövas mot den islamiska traditionens.",
-		"match": ["Ellen Key"]
+		"match": ["Ellen Key"],
+		"sameAs": ["https://sv.wikipedia.org/wiki/Ellen_Key", "https://www.wikidata.org/wiki/Q238443"]
 	},
 	{
 		"id": "geijer",
@@ -85,7 +110,11 @@
 		"slug": "geijer",
 		"tradition": "western",
 		"framing": "Erik Gustaf Geijer – historiker, skald, den götiska väckelsens röst – bär det svenska arvets möte med det nya ljuset.",
-		"match": ["Geijer"]
+		"match": ["Geijer"],
+		"sameAs": [
+			"https://sv.wikipedia.org/wiki/Erik_Gustaf_Geijer",
+			"https://www.wikidata.org/wiki/Q380937"
+		]
 	},
 	{
 		"id": "lagerlof",
@@ -93,7 +122,11 @@
 		"slug": "lagerlof",
 		"tradition": "western",
 		"framing": "Lagerlöf lät längtan bli saga; hennes berättarröst återkommer där essäerna söker det heligas plats i landskapet.",
-		"match": ["Lagerlöf"]
+		"match": ["Lagerlöf"],
+		"sameAs": [
+			"https://sv.wikipedia.org/wiki/Selma_Lagerl%C3%B6f",
+			"https://www.wikidata.org/wiki/Q44519"
+		]
 	},
 	{
 		"id": "rydberg",
@@ -101,7 +134,11 @@
 		"slug": "rydberg",
 		"tradition": "western",
 		"framing": "Rydbergs idealism och hans brottning med tro och vetande hör hemma där essäerna mäter förnuftets räckvidd.",
-		"match": ["Rydberg"]
+		"match": ["Rydberg"],
+		"sameAs": [
+			"https://sv.wikipedia.org/wiki/Viktor_Rydberg",
+			"https://www.wikidata.org/wiki/Q432129"
+		]
 	},
 	{
 		"id": "hammarskjold",
@@ -109,7 +146,11 @@
 		"slug": "hammarskjold",
 		"tradition": "western",
 		"framing": "»Den längsta resan är resan inåt« – Hammarskjölds Vägmärken gav den svenska ensamheten ett språk som essäerna känner igen och besvarar.",
-		"match": ["Hammarskjöld"]
+		"match": ["Hammarskjöld"],
+		"sameAs": [
+			"https://sv.wikipedia.org/wiki/Dag_Hammarskj%C3%B6ld",
+			"https://www.wikidata.org/wiki/Q1267"
+		]
 	},
 	{
 		"id": "swedenborg",
@@ -117,7 +158,11 @@
 		"slug": "swedenborg",
 		"tradition": "western",
 		"framing": "Emanuel Swedenborg – vetenskapsman som blev siare; hans inre resor markerar det moderna sökandets början i Norden.",
-		"match": ["Swedenborg"]
+		"match": ["Swedenborg"],
+		"sameAs": [
+			"https://sv.wikipedia.org/wiki/Emanuel_Swedenborg",
+			"https://www.wikidata.org/wiki/Q185832"
+		]
 	},
 	{
 		"id": "levertin",
@@ -125,7 +170,11 @@
 		"slug": "levertin",
 		"tradition": "western",
 		"framing": "Oscar Levertin, kritiker och poet vid sekelskiftet, ställde frågor om tro och skönhet som essäerna tar upp där han själv lämnade dem öppna.",
-		"match": ["Levertin"]
+		"match": ["Levertin"],
+		"sameAs": [
+			"https://sv.wikipedia.org/wiki/Oscar_Levertin",
+			"https://www.wikidata.org/wiki/Q668328"
+		]
 	},
 	{
 		"id": "kierkegaard",
@@ -133,7 +182,11 @@
 		"slug": "kierkegaard",
 		"tradition": "western",
 		"framing": "Den danske filosofen för vilken ångesten var frihetens svindel; hans Begreppet ångest möter Ibn Qayyims läsning av samma oro.",
-		"match": ["Kierkegaard"]
+		"match": ["Kierkegaard"],
+		"sameAs": [
+			"https://sv.wikipedia.org/wiki/S%C3%B8ren_Kierkegaard",
+			"https://www.wikidata.org/wiki/Q6512"
+		]
 	},
 	{
 		"id": "linne",
@@ -141,6 +194,10 @@
 		"slug": "linne",
 		"tradition": "western",
 		"framing": "Carl von Linné läste skapelsen som en ordnad bok; hans blick på naturens ordning återkommer där essäerna talar om tecknen.",
-		"match": ["Linné"]
+		"match": ["Linné"],
+		"sameAs": [
+			"https://sv.wikipedia.org/wiki/Carl_von_Linn%C3%A9",
+			"https://www.wikidata.org/wiki/Q1043"
+		]
 	}
 ]

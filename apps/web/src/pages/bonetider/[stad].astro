@@ -3,7 +3,7 @@ import PrayerField from "../../components/bonetider/PrayerField.astro";
 import PrayerSettings from "../../components/bonetider/PrayerSettings.astro";
 import PrayerTable from "../../components/bonetider/PrayerTable.astro";
 import Base from "../../layouts/Base.astro";
-import { breadcrumbList, cityPlace } from "../../lib/jsonld";
+import { ORG_ID, breadcrumbList, cityPlace } from "../../lib/jsonld";
 import { computePrayerTimes, formatTime, PRAYER_LABELS, PRAYER_ORDER, PRAYER_SWEDISH_NAMES } from "../../lib/bonetider/prayer-times";
 import { BONETIDER_DATA_DATE, SCB_POP_YEAR, SCB_REF, SCB_SOURCE } from "../../lib/bonetider/meta";
 import { placeFacts } from "../../lib/bonetider/place-facts";
@@ -77,6 +77,20 @@ const description = `Bönetider för ${place.name} (${place.county || "Sverige"}
 
 const ogImage = place.population >= OG_POPULATION ? `/bonetider/${place.slug}/og.png` : "/bonetider/og.png";
 
+// Machine-readable provenance for the WebPage (isBasedOn) — the same sources as
+// the visible footer attribution, so the data origin is legible to crawlers.
+const sources: Record<string, unknown>[] = [
+	{ "@type": "Dataset", name: "GeoNames", url: "https://www.geonames.org/", license: "https://creativecommons.org/licenses/by/4.0/" },
+	{ "@type": "SoftwareSourceCode", name: "adhan", url: "https://github.com/batoulapps/adhan-js" },
+];
+if (hasScb) {
+	sources.unshift({
+		"@type": "Dataset",
+		name: `${SCB_SOURCE} (${SCB_REF})`,
+		creator: { "@type": "GovernmentOrganization", name: "Statistiska centralbyrån" },
+	});
+}
+
 const faq = [
 	{
 		q: `Vilken metod används för bönetiderna i ${place.name}?`,
@@ -127,12 +141,8 @@ if (hasScb) {
 				population: hasScb ? pop : undefined,
 				populationYear: SCB_POP_YEAR,
 			}),
-			publisher: {
-				"@type": "Organization",
-				name: "islam.se",
-				url: "https://islam.se",
-				logo: { "@type": "ImageObject", url: "https://islam.se/apple-touch-icon.png", width: 180, height: 180 },
-			},
+			isBasedOn: sources,
+			publisher: { "@id": ORG_ID },
 		},
 		{
 			"@context": "https://schema.org",

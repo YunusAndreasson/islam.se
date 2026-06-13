@@ -123,3 +123,70 @@ export function collectionPageJsonLd(opts: {
 		})),
 	};
 }
+
+// ── Site entity graph ───────────────────────────────────────────────────────
+// One canonical Organization + WebSite node, referenced by `@id` from every
+// Article/AboutPage author/publisher instead of being re-declared inline. A
+// single well-connected entity is the strongest 2026 AI-citation signal (entity
+// authority): the shared `@id` lets LLMs and search engines merge every page's
+// claims onto one node rather than treating each inline copy as a new entity.
+
+export const ORG_ID = `${SITE}/#org`;
+export const WEBSITE_ID = `${SITE}/#website`;
+
+// Real, OWNED external profiles for islam.se — NOT the founders' personal sites
+// (those live under `founder`). Populate with the project's own verified
+// accounts: a Wikidata item, YouTube channel, podcast-directory page, Mastodon/X,
+// etc. Left empty rather than fabricated; each entry flows into Organization
+// `sameAs`, which materially strengthens entity grounding for AI citation.
+const ORG_SAME_AS: string[] = [];
+
+/** The canonical islam.se Organization node. Other schemas reference it via
+ *  `{ "@id": ORG_ID }` instead of repeating name/logo/founder. */
+export function organization(): Record<string, unknown> {
+	return {
+		"@context": "https://schema.org",
+		"@type": "Organization",
+		"@id": ORG_ID,
+		name: "islam.se",
+		url: SITE,
+		description:
+			"Essäer om islamisk intellektuell tradition i dialog med svenskt och nordiskt kulturarv, byggda på primära arabiska källor och den svenska litterära kanon.",
+		logo: {
+			"@type": "ImageObject",
+			"@id": `${SITE}/#logo`,
+			url: `${SITE}/apple-touch-icon.png`,
+			width: 180,
+			height: 180,
+		},
+		knowsAbout: [
+			"Islam",
+			"Islamisk teologi",
+			"Koranen",
+			"Islamisk filosofi",
+			"Sufism",
+			"Svensk litteratur",
+			"Den islamiska kalendern",
+			"Bönetider",
+		],
+		founder: [
+			{ "@type": "Person", name: "Bilal", url: "https://bilal.se" },
+			{ "@type": "Person", name: "Yunus", url: "https://andreassonphoto.com" },
+		],
+		...(ORG_SAME_AS.length > 0 ? { sameAs: ORG_SAME_AS } : {}),
+	};
+}
+
+/** The canonical WebSite node, published by the Organization. */
+export function webSite(): Record<string, unknown> {
+	return {
+		"@context": "https://schema.org",
+		"@type": "WebSite",
+		"@id": WEBSITE_ID,
+		url: SITE,
+		name: "islam.se",
+		description: "Essäer om islamisk intellektuell tradition och svenskt kulturarv.",
+		inLanguage: "sv",
+		publisher: { "@id": ORG_ID },
+	};
+}

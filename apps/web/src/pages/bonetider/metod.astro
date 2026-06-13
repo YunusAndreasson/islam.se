@@ -1,10 +1,38 @@
 ---
 import Base from "../../layouts/Base.astro";
-import { breadcrumbList } from "../../lib/jsonld";
+import { ORG_ID, breadcrumbList } from "../../lib/jsonld";
 import { BONETIDER_DATA_DATE, SCB_REF, SCB_SOURCE } from "../../lib/bonetider/meta";
 
 const description =
 	"Så beräknas bönetiderna på islam.se: solens verkliga läge, beräkningsmetoder (Muslim World League m.fl.), madhhab, regler för höga latituder, tidszon — och våra källor (SCB, GeoNames, adhan).";
+
+// Machine-readable sources for the TechArticle citation[].
+const sources: Record<string, unknown>[] = [
+	{ "@type": "SoftwareSourceCode", name: "adhan", url: "https://github.com/batoulapps/adhan-js" },
+	{ "@type": "Dataset", name: "GeoNames", url: "https://www.geonames.org/", license: "https://creativecommons.org/licenses/by/4.0/" },
+	{ "@type": "Dataset", name: `${SCB_SOURCE} (${SCB_REF})`, creator: { "@type": "GovernmentOrganization", name: "Statistiska centralbyrån" } },
+];
+
+// Visible Q&A (also emitted as FAQPage) — the question-shaped queries AI engines
+// get for prayer-time calculation. Answers condense the sections below.
+const faq = [
+	{
+		q: "Hur beräknas bönetiderna på islam.se?",
+		a: "Tiderna räknas fram ur solens verkliga läge för varje orts latitud och longitud med en etablerad astronomisk modell (NOAA:s solpositionsalgoritm) — inte ur en färdig tabell. Beräkningen sker i din webbläsare och uppdateras varje dygn.",
+	},
+	{
+		q: "Vilken beräkningsmetod används som standard?",
+		a: "Muslim World League (Fajr 18°, ʿIshāʾ 17°), som passar svenska latituder väl. I inställningarna kan du byta till bland andra Diyanet, Umm al-Qurā, ISNA, Egyptiska myndigheten och Karachi.",
+	},
+	{
+		q: "Hur hanteras Sveriges ljusa sommarnätter?",
+		a: "När solen inte sjunker de 18° under horisonten som krävs för Fajr och ʿIshāʾ används en regel för höga latituder — som standard närmaste lämpliga plats (Aqrab al-Balad) — så att tider ändå kan anges. Norr om polcirkeln är regeln nödvändig.",
+	},
+	{
+		q: "Vilka källor bygger bönetiderna på?",
+		a: `Beräkning med det öppna biblioteket adhan, orter och koordinater från GeoNames (CC BY 4.0) och befolkningsstatistik från ${SCB_SOURCE} (${SCB_REF}). islam.se driver inget eget system för månsiktning — helgdagar fastställs av officiell månsiktning.`,
+	},
+];
 ---
 
 <Base
@@ -21,14 +49,19 @@ const description =
 			inLanguage: "sv",
 			datePublished: BONETIDER_DATA_DATE,
 			dateModified: BONETIDER_DATA_DATE,
-			author: { "@type": "Organization", name: "islam.se", url: "https://islam.se" },
-			publisher: {
-				"@type": "Organization",
-				name: "islam.se",
-				url: "https://islam.se",
-				logo: { "@type": "ImageObject", url: "https://islam.se/apple-touch-icon.png", width: 180, height: 180 },
-			},
+			author: { "@id": ORG_ID },
+			publisher: { "@id": ORG_ID },
 			about: { "@type": "Thing", name: "Islamiska bönetider" },
+			citation: sources,
+		},
+		{
+			"@context": "https://schema.org",
+			"@type": "FAQPage",
+			mainEntity: faq.map((f) => ({
+				"@type": "Question",
+				name: f.q,
+				acceptedAnswer: { "@type": "Answer", text: f.a },
+			})),
 		},
 		breadcrumbList([
 			{ name: "Hem", url: "/" },
@@ -140,6 +173,15 @@ const description =
 				astronomiskt enligt ovan; helgdagar som ramadan och de två högtiderna fastställs av officiell
 				månsiktning och kan därför skilja sig något från ren uträkning.
 			</p>
+		</section>
+
+		<section aria-labelledby="m-faq">
+			<h2 id="m-faq">Vanliga frågor</h2>
+			<dl class="bt-deflist">
+				{faq.map((f) => (
+					<div><dt>{f.q}</dt><dd>{f.a}</dd></div>
+				))}
+			</dl>
 		</section>
 
 		<p class="bt-attrib">

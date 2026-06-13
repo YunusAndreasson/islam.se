@@ -6,6 +6,8 @@ export interface Article {
 	slug: string;
 	title: string;
 	publishedAt: string;
+	/** Set only on a genuine later revision; drives dateModified + "Uppdaterad". */
+	updatedAt?: string;
 	wordCount: number;
 	readingTime: number;
 	description: string;
@@ -63,6 +65,7 @@ async function buildArticles(): Promise<Article[]> {
 			slug: entry.id,
 			title: entry.data.title,
 			publishedAt: entry.data.publishedAt,
+			updatedAt: entry.data.updatedAt,
 			wordCount: entry.data.wordCount,
 			readingTime: Math.ceil(entry.data.wordCount / 200),
 			description: entry.data.description,

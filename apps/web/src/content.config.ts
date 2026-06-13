@@ -10,6 +10,10 @@ const articles = defineCollection({
 		// datetime attrs/JSON-LD, and a malformed pipeline timestamp should
 		// fail the build rather than silently mis-sort the essay list.
 		publishedAt: z.string().datetime(),
+		// Set ONLY on a genuine later revision (a metadata stamp — never an LLM
+		// rewrite). Surfaces as schema.org dateModified + a quiet "Uppdaterad"
+		// line; freshness lifts AI-citation odds. Absent on never-revised essays.
+		updatedAt: z.string().datetime().optional(),
 		wordCount: z.number(),
 		description: z.string(),
 		audioFile: z.string().optional(),
@@ -77,6 +81,10 @@ const tankare = defineCollection({
 		// matches the poem "ghazal". Verified to reproduce the prior hand-curated
 		// lists exactly across the whole corpus.
 		match: z.array(z.string()).min(1),
+		// Authoritative external identities for this real, canonical figure
+		// (Swedish Wikipedia + Wikidata Q-id). Emitted as schema.org `sameAs` on
+		// the thinker's Person node so LLMs ground our page to the global entity.
+		sameAs: z.array(z.string().url()).optional(),
 	}),
 });
 
