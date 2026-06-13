@@ -15,8 +15,17 @@ import {
 	type FieldLocation,
 	type Scheme,
 } from "../lib/bonetider/render-field";
+import type { PrayerSettings } from "../lib/bonetider/settings";
 import { solarParams, sunPositionAt } from "../lib/bonetider/solar/sun";
 import { CHANGE_EVENT, loadLocation, loadSettings, saveLocation } from "../lib/bonetider/storage";
+
+interface PrayerState {
+	/** `day|settings|lat,lon` — the inputs the day's times depend on. */
+	key: string;
+	today: ReturnType<typeof computePrayerTimes>;
+	nextKey: PrayerKey;
+	target: number;
+}
 
 interface Instance {
 	el: HTMLElement;
@@ -42,15 +51,52 @@ interface Instance {
 		times: Map<PrayerKey, HTMLElement>;
 		rows: Map<PrayerKey, HTMLElement>;
 	};
+	/** Cached prayer-time state, recomputed only when the day, settings, location, or the
+	 *  current next-prayer target changes — NOT every second. The per-second tick reads
+	 *  `target` from here and only re-renders the countdown string. */
+	state?: PrayerState;
+	/** The next-prayer key currently reflected in the DOM (is-next class + name), so a
+	 *  roll-over between per-minute repaints can refresh those without a full readout rewrite. */
+	renderedNextKey?: PrayerKey;
 }
 
 const instances: Instance[] = [];
 
+// Settings and the stored location change rarely (only via the settings panel / location
+// picker, which fire CHANGE_EVENT) but were being re-read from localStorage and JSON.parsed on
+// every per-second tick, per field. Cache them in memory and invalidate on change, so the hot
+// path touches neither localStorage nor the parser.
+let cachedSettings: PrayerSettings | null = null;
+let cachedSettingsKey = "";
+function currentSettings(): PrayerSettings {
+	if (!cachedSettings) {
+		cachedSettings = loadSettings();
+		cachedSettingsKey = JSON.stringify(cachedSettings);
+	}
+	return cachedSettings;
+}
+
+let storedLocationLoaded = false;
+let cachedStoredLocation: ReturnType<typeof loadLocation> = null;
+function currentStoredLocation(): ReturnType<typeof loadLocation> {
+	if (!storedLocationLoaded) {
+		cachedStoredLocation = loadLocation();
+		storedLocationLoaded = true;
+	}
+	return cachedStoredLocation;
+}
+
+function invalidateStorageCache(): void {
+	cachedSettings = null;
+	storedLocationLoaded = false;
+}
+
 // Skip the canvas render for off-screen fields. rootMargin pre-renders just before
 // a field scrolls in, so there's no pop-in. Fail-open if the API is missing.
 const visObserver =
-	typeof IntersectionObserver !== "undefined"
-		? new IntersectionObserver(
+	typeof IntersectionObserver === "undefined"
+		? null
+		: new IntersectionObserver(
 				(entries) => {
 					for (const e of entries) {
 						const inst = instances.find((i) => i.el === e.target);
@@ -62,8 +108,7 @@ const visObserver =
 					}
 				},
 				{ rootMargin: "200px" },
-			)
-		: null;
+			);
 
 function schemeNow(): Scheme {
 	const explicit = document.documentElement.dataset.theme;
@@ -73,7 +118,7 @@ function schemeNow(): Scheme {
 
 function resolveLocation(inst: Instance): FieldLocation {
 	if (inst.fixed) return inst.base;
-	const stored = loadLocation();
+	const stored = currentStoredLocation();
 	return stored
 		? { name: stored.name, latitude: stored.latitude, longitude: stored.longitude }
 		: inst.base;
@@ -151,44 +196,78 @@ function isDaylight(loc: FieldLocation, now: Date): boolean {
 }
 
 function paint(inst: Instance, now: Date): void {
-	const settings = loadSettings();
+	const settings = currentSettings();
 	const location = resolveLocation(inst);
 	const scheme = schemeNow();
+	const st = ensureState(inst, now, location, settings);
 	// Skip the (expensive) canvas render when the field is scrolled off-screen; the
 	// cheap readout below still updates so times are fresh the moment it scrolls in.
 	if (inst.visible) inst.render?.({ location, settings, scheme, variant: "home" }, now);
 	if (inst.readout.dayIcon) inst.readout.dayIcon.dataset.day = String(isDaylight(location, now));
-	updateReadout(inst, now, location);
+	writeReadout(inst, now, st, location);
 }
 
-function updateReadout(inst: Instance, now: Date, location: FieldLocation): void {
-	const settings = loadSettings();
-	const today = computePrayerTimes(location, now, settings);
+// The day's prayer times depend only on (day, settings, location); the next-prayer target only
+// advances when a prayer passes. Compute both lazily and cache on the instance, so the
+// per-second tick reuses them instead of re-running adhan's solar maths every second. Recomputes
+// today's times on a day/settings/location change, and rolls the target forward (cheaply)
+// whenever the current one has passed.
+function ensureState(
+	inst: Instance,
+	now: Date,
+	location: FieldLocation,
+	settings: PrayerSettings,
+): PrayerState {
+	const dayKey = `${now.getFullYear()}-${now.getMonth()}-${now.getDate()}`;
+	const key = `${dayKey}|${cachedSettingsKey}|${location.latitude},${location.longitude}`;
+	let st = inst.state;
+	if (!st || st.key !== key) {
+		const today = computePrayerTimes(location, now, settings);
+		st = { key, today, ...resolveNext(today, now, location, settings) };
+		inst.state = st;
+	} else if (now.getTime() >= st.target) {
+		Object.assign(st, resolveNext(st.today, now, location, settings));
+	}
+	return st;
+}
+
+// The next prayer to count down to, rolling to tomorrow's Fajr once the day's are all past.
+// Tomorrow's Fajr is computed only at that roll-over (then cached as the target), not per tick.
+function resolveNext(
+	today: ReturnType<typeof computePrayerTimes>,
+	now: Date,
+	location: FieldLocation,
+	settings: PrayerSettings,
+): { nextKey: PrayerKey; target: number } {
+	const nk = nextPrayerKeyAt(today, now.getTime());
+	if (nk) return { nextKey: nk, target: today[nk].getTime() };
+	const tomorrowFajr = computePrayerTimes(
+		location,
+		new Date(now.getTime() + 86400000),
+		settings,
+	).fajr.getTime();
+	return { nextKey: "fajr", target: tomorrowFajr };
+}
+
+// Full readout rewrite (per-minute / on change): today's six times, the next-prayer name and
+// highlight, the countdown and the place. The per-second path (updateCountdownOnly) rewrites
+// only the countdown string.
+function writeReadout(inst: Instance, now: Date, st: PrayerState, location: FieldLocation): void {
 	for (const key of PRAYER_ORDER) {
-		inst.readout.times.get(key)?.replaceChildren(document.createTextNode(formatTime(today[key])));
+		inst.readout.times
+			.get(key)
+			?.replaceChildren(document.createTextNode(formatTime(st.today[key])));
 	}
-
-	// Next prayer (rolling to tomorrow's Fajr once the day's are all past).
-	let nextKey = nextPrayerKeyAt(today, now.getTime());
-	let target: number;
-	if (nextKey) {
-		target = today[nextKey].getTime();
-	} else {
-		const tomorrow = computePrayerTimes(location, new Date(now.getTime() + 86400000), settings);
-		nextKey = "fajr";
-		target = tomorrow.fajr.getTime();
-	}
-
-	for (const [key, row] of inst.readout.rows) row.classList.toggle("is-next", key === nextKey);
-	if (inst.readout.nextName && nextKey) inst.readout.nextName.textContent = PRAYER_LABELS[nextKey];
-	if (inst.readout.nextSub && nextKey)
-		inst.readout.nextSub.textContent = PRAYER_SWEDISH_NAMES[nextKey];
+	for (const [key, row] of inst.readout.rows) row.classList.toggle("is-next", key === st.nextKey);
+	if (inst.readout.nextName) inst.readout.nextName.textContent = PRAYER_LABELS[st.nextKey];
+	if (inst.readout.nextSub) inst.readout.nextSub.textContent = PRAYER_SWEDISH_NAMES[st.nextKey];
 	if (inst.readout.countdown) {
-		inst.readout.countdown.textContent = Number.isFinite(target)
-			? formatCountdown(target - now.getTime())
+		inst.readout.countdown.textContent = Number.isFinite(st.target)
+			? formatCountdown(st.target - now.getTime())
 			: "—";
 	}
 	if (inst.readout.place) inst.readout.place.textContent = location.name;
+	inst.renderedNextKey = st.nextKey;
 }
 
 /** Hide every "use my location" button when the browser has no Geolocation API
@@ -260,35 +339,38 @@ function startClock(): void {
 				instances.splice(i, 1);
 				continue;
 			}
-			const location = resolveLocation(inst);
 			if (repaint) paint(inst, now);
-			else updateCountdownOnly(inst, now, location); // cheap per-second countdown
+			else updateCountdownOnly(inst, now); // cheap per-second countdown (cached state)
 		}
 	};
 	tick();
 	window.setInterval(tick, 1000);
 }
 
-// Per-second path: only the countdown text changes (avoids recomputing the grid/wash).
-function updateCountdownOnly(inst: Instance, now: Date, location: FieldLocation): void {
+// Per-second path: reuse the cached prayer state (no adhan recompute) and rewrite only the
+// countdown string. ensureState rolls the target forward cheaply when a prayer passes; on that
+// roll the next-prayer name/highlight is refreshed too, so the page stays correct between the
+// per-minute repaints.
+function updateCountdownOnly(inst: Instance, now: Date): void {
 	if (!inst.readout.countdown) return;
-	const settings = loadSettings();
-	const today = computePrayerTimes(location, now, settings);
-	const nextKey = nextPrayerKeyAt(today, now.getTime());
-	let target: number;
-	if (nextKey) target = today[nextKey].getTime();
-	else
-		target = computePrayerTimes(
-			location,
-			new Date(now.getTime() + 86400000),
-			settings,
-		).fajr.getTime();
-	inst.readout.countdown.textContent = Number.isFinite(target)
-		? formatCountdown(target - now.getTime())
+	const settings = currentSettings();
+	const location = resolveLocation(inst);
+	const st = ensureState(inst, now, location, settings);
+	if (inst.renderedNextKey !== st.nextKey) {
+		for (const [key, row] of inst.readout.rows) row.classList.toggle("is-next", key === st.nextKey);
+		if (inst.readout.nextName) inst.readout.nextName.textContent = PRAYER_LABELS[st.nextKey];
+		if (inst.readout.nextSub) inst.readout.nextSub.textContent = PRAYER_SWEDISH_NAMES[st.nextKey];
+		inst.renderedNextKey = st.nextKey;
+	}
+	inst.readout.countdown.textContent = Number.isFinite(st.target)
+		? formatCountdown(st.target - now.getTime())
 		: "—";
 }
 
 function repaintAll(): void {
+	// A settings or location change fired CHANGE_EVENT — drop the cached settings/location so
+	// the repaint (and the new instance state keys) pick up the new values.
+	invalidateStorageCache();
 	const now = new Date();
 	for (const inst of instances) paint(inst, now);
 }
