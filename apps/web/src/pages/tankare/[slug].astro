@@ -13,6 +13,7 @@ export async function getStaticPaths() {
 			name: thinker.name,
 			framing: thinker.framing,
 			tradition: thinker.tradition,
+			sameAs: thinker.sameAs,
 			essays: thinker.essays,
 		},
 	}));
@@ -22,10 +23,11 @@ interface Props {
 	name: string;
 	framing: string;
 	tradition: Tradition;
+	sameAs?: string[];
 	essays: Article[];
 }
 
-const { name, framing, tradition, essays } = Astro.props;
+const { name, framing, tradition, sameAs, essays } = Astro.props;
 const count = essays.length;
 const slug = Astro.params.slug;
 const traditionLabel =
@@ -49,6 +51,7 @@ const traditionLabel =
 					"@type": "Person",
 					name,
 					description: framing,
+					...(sameAs && sameAs.length > 0 ? { sameAs } : {}),
 				},
 			},
 		}),

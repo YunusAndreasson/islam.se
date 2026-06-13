@@ -19,6 +19,7 @@ export async function GET(context: APIContext) {
 ## Om
 - Språk: svenska (sv)
 - Format: essäer i markdown med YAML-frontmatter (title, publishedAt, description, wordCount)
+- Markdown: varje essä finns även som ren markdown — lägg till \`.md\` på dess URL
 - Teman: teologi, filosofi, litteratur, etik, psykologi, eskatologi
 - Källor: klassiska islamiska texter, den svenska litterära kanon, nordisk mytologi
 
@@ -33,6 +34,9 @@ ${essayLines}
 
 ## Resurser
 - [Alla essäer](${site}/essaer): hela arkivet, ordnat efter ämne
+- [Fulltext för språkmodeller](${site}/llms-full.txt): hela essäarkivet i ett dokument
+- [Bönetider](${site}/bonetider): bönetider för 2 100+ svenska orter, med [beräkningsmetod och källor](${site}/bonetider/metod)
+- [Det islamiska året](${site}/det-islamiska-aret): kalender med islamiska högtider
 - [RSS](${site}/rss.xml): nyaste essäerna som flöde
 - [Sitemap](${site}/sitemap-index.xml): samtliga URL:er
 - [MCP-server](${site}/ai): anslut en AI-assistent och sök, läs och citera essäerna direkt (${site.replace("https://", "https://mcp.")}/mcp)

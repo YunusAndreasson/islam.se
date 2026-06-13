@@ -15,6 +15,8 @@ export interface Tankare {
 	slug: string;
 	tradition: Tradition;
 	framing: string;
+	/** Authoritative external identities (Wikipedia/Wikidata) → schema.org sameAs. */
+	sameAs?: string[];
 	/** Essays engaging this thinker, in the feed's date order (newest first). */
 	essays: Article[];
 }
@@ -51,6 +53,7 @@ async function build(): Promise<Tankare[]> {
 			slug: entry.data.slug,
 			tradition: entry.data.tradition,
 			framing: entry.data.framing,
+			sameAs: entry.data.sameAs,
 			essays,
 		};
 	});

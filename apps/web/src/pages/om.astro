@@ -2,7 +2,7 @@
 import BookPod from "../components/BookPod.astro";
 import Base from "../layouts/Base.astro";
 import { getArticles } from "../lib/articles";
-import { breadcrumbList } from "../lib/jsonld";
+import { ORG_ID, breadcrumbList } from "../lib/jsonld";
 
 const articles = await getArticles();
 ---
@@ -18,21 +18,9 @@ const articles = await getArticles();
 			url: "https://islam.se/om",
 			inLanguage: "sv",
 			description: "Essäer där islamisk lärdomstradition möter svenskt kulturarv.",
-			mainEntity: {
-				"@type": "Organization",
-				name: "islam.se",
-				url: "https://islam.se",
-				logo: {
-					"@type": "ImageObject",
-					url: "https://islam.se/apple-touch-icon.png",
-					width: 180,
-					height: 180,
-				},
-				founder: [
-					{ "@type": "Person", name: "Bilal", url: "https://bilal.se" },
-					{ "@type": "Person", name: "Yunus", url: "https://andreassonphoto.com" },
-				],
-			},
+			// References the canonical Organization node (emitted site-wide by
+			// Base.astro) so the About page strengthens one entity, not a copy.
+			mainEntity: { "@id": ORG_ID },
 		},
 		breadcrumbList([
 			{ name: "Hem", url: "/" },

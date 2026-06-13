@@ -24,6 +24,18 @@ const koranBook =
 ---
 
 <section class="vers home-movement" aria-labelledby="vers-kicker">
+	{/* The verse as a citable, machine-readable Quotation grounded to its ayah. */}
+	<script is:inline type="application/ld+json" set:html={JSON.stringify({
+		"@context": "https://schema.org",
+		"@type": "Quotation",
+		text: verse.textSwedish,
+		inLanguage: "sv",
+		isBasedOn: {
+			"@type": "CreativeWork",
+			name: `Koranen ${verse.surah}:${verse.ayah}`,
+			url: `https://quran.com/${verse.surah}/${verse.ayah}`,
+		},
+	})} />
 	<p class="label home-kicker" id="vers-kicker">Dagens vers</p>
 	<div class="vers-body">
 		<p class="vers-sv" lang="sv"><em>{verse.textSwedish}</em></p>

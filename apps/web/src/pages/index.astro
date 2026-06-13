@@ -57,14 +57,6 @@ const heroPreload = feature?.heroImage
 	preloadImageSizes={FEATURE_HERO_SIZES}
 	preloadImageType={heroPreload ? (import.meta.env.DEV ? "image/webp" : "image/avif") : undefined}
 	preloadArabicFont
-	jsonLd={{
-		"@context": "https://schema.org",
-		"@type": "WebSite",
-		name: "islam.se",
-		url: "https://islam.se",
-		description: "Essäer om islamisk intellektuell tradition och svenskt kulturarv.",
-		inLanguage: "sv",
-	}}
 >
 	<main id="main" class="home">
 		<h1 class="sr-only">islam.se — essäer om islamisk intellektuell tradition och svenskt kulturarv</h1>

@@ -5,7 +5,7 @@ import FloatingPlayer from "../components/FloatingPlayer.astro";
 import Footer from "../components/Footer.astro";
 import Header from "../components/Header.astro";
 import SearchOverlay from "../components/SearchOverlay.astro";
-import { breadcrumbList } from "../lib/jsonld";
+import { ORG_ID, breadcrumbList, organization, webSite } from "../lib/jsonld";
 import "../styles/tokens.css";
 import "../styles/reset.css";
 import "../styles/typography.css";
@@ -31,9 +31,13 @@ interface Props {
 	preloadArabicFont?: boolean;
 	articleMeta?: {
 		publishedAt: string;
+		/** Genuine later revision only — emits dateModified (freshness signal). */
+		updatedAt?: string;
 		wordCount: number;
 		description: string;
 		slug: string;
+		/** Sources cited by the essay (derived from Quran footnotes) → schema citation. */
+		citations?: { name: string; url: string }[];
 	};
 	jsonLd?: Record<string, unknown> | Record<string, unknown>[];
 }
@@ -56,9 +60,11 @@ const ogImageUrl = ogImage
 	: new URL("/og-default.png", Astro.site).href;
 const pageTitle = title.replace(/ — islam\.se$/, "").replace(/^islam\.se — /, "");
 const ogImageAlt = articleMeta ? pageTitle : "islam.se — essäer om islamisk intellektuell tradition och svenskt kulturarv";
-const orgLogo = new URL("/apple-touch-icon.png", Astro.site).href;
 
-const jsonLdBlocks: Record<string, unknown>[] = [];
+// Every page carries the canonical Organization + WebSite entity nodes; page-
+// and article-level blocks reference them by @id so all claims merge onto one
+// well-connected entity — the strongest AI-citation signal.
+const jsonLdBlocks: Record<string, unknown>[] = [organization(), webSite()];
 
 if (jsonLd) {
 	jsonLdBlocks.push(...(Array.isArray(jsonLd) ? jsonLd : [jsonLd]));
@@ -71,26 +77,23 @@ if (articleMeta) {
 		headline: title.replace(/ — islam\.se$/, ""),
 		description: articleMeta.description,
 		datePublished: articleMeta.publishedAt,
+		// Falls back to publishedAt so every essay carries a dateModified.
+		dateModified: articleMeta.updatedAt ?? articleMeta.publishedAt,
 		wordCount: articleMeta.wordCount,
 		inLanguage: "sv",
 		url: canonicalUrl.href,
 		...(ogImage ? { image: new URL(ogImage, Astro.site).href } : {}),
-		author: {
-			"@type": "Organization",
-			name: "islam.se",
-			url: "https://islam.se",
-		},
-		publisher: {
-			"@type": "Organization",
-			name: "islam.se",
-			url: "https://islam.se",
-			logo: {
-				"@type": "ImageObject",
-				url: orgLogo,
-				width: 180,
-				height: 180,
-			},
-		},
+		author: { "@id": ORG_ID },
+		publisher: { "@id": ORG_ID },
+		...(articleMeta.citations && articleMeta.citations.length > 0
+			? {
+					citation: articleMeta.citations.map((c) => ({
+						"@type": "CreativeWork",
+						name: c.name,
+						url: c.url,
+					})),
+				}
+			: {}),
 	});
 	jsonLdBlocks.push(
 		breadcrumbList([
@@ -151,6 +154,10 @@ if (articleMeta) {
 		<!-- RSS -->
 		<link rel="alternate" type="application/rss+xml" title="islam.se" href="/rss.xml" />
 		<link rel="alternate" type="application/rss+xml" title="islam.se podcast" href="/podcast.xml" />
+
+		<!-- AI / LLM discovery: curated site map + a clean-markdown copy of each essay -->
+		<link rel="alternate" type="text/plain" title="llms.txt" href="/llms.txt" />
+		{articleMeta && <link rel="alternate" type="text/markdown" title={pageTitle} href={`/${articleMeta.slug}.md`} />}
 
 		<!-- View Transitions -->
 		<ClientRouter />

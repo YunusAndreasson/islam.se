@@ -48,6 +48,50 @@ const eventLd = events.map((e) => ({
 	url: "https://islam.se/det-islamiska-aret",
 	inLanguage: "sv",
 }));
+
+// Answer-first dates for the queries AI engines get most ("när är ramadan 2026").
+// `events` is already filtered to upcoming, so find() returns the next occurrence.
+const nextOf = (n: string) => events.find((e) => e.name === n);
+const ramadan = nextOf("Ramadan");
+const eidFitr = nextOf("Eid al-fitr");
+const eidAdha = nextOf("Eid al-adha");
+
+const dateFaq: { q: string; a: string }[] = [];
+if (ramadan)
+	dateFaq.push({
+		q: `När är Ramadan ${ramadan.startISO.slice(0, 4)}?`,
+		a: `Ramadan ${ramadan.hijriYear} e.H. infaller ${gregorian(ramadan.startISO, ramadan.endISO)} enligt Umm al-Qura-kalendern. Den exakta första dagen bekräftas genom månsiktning och kan skilja sig en dag.`,
+	});
+if (eidFitr)
+	dateFaq.push({
+		q: `När är Eid al-fitr ${eidFitr.startISO.slice(0, 4)}?`,
+		a: `Eid al-fitr infaller omkring ${gregorian(eidFitr.startISO)} (1 Shawwāl) enligt Umm al-Qura-kalendern; den fastställs slutligen genom månsiktning.`,
+	});
+if (eidAdha)
+	dateFaq.push({
+		q: `När är Eid al-adha ${eidAdha.startISO.slice(0, 4)}?`,
+		a: `Eid al-adha infaller omkring ${gregorian(eidAdha.startISO)} (10 Dhū al-ḥijja) enligt Umm al-Qura-kalendern.`,
+	});
+
+const leadSummary =
+	ramadan && eidFitr && eidAdha
+		? `Nästa Ramadan börjar omkring ${gregorian(ramadan.startISO)}, Eid al-fitr infaller omkring ${gregorian(eidFitr.startISO)} och Eid al-adha omkring ${gregorian(eidAdha.startISO)}. Datumen följer Umm al-Qura-kalendern; den exakta dagen bekräftas genom månsiktning.`
+		: "";
+
+const faqLd =
+	dateFaq.length > 0
+		? [
+				{
+					"@context": "https://schema.org",
+					"@type": "FAQPage",
+					mainEntity: dateFaq.map((f) => ({
+						"@type": "Question",
+						name: f.q,
+						acceptedAnswer: { "@type": "Answer", text: f.a },
+					})),
+				},
+			]
+		: [];
 ---
 
 <Base
@@ -58,6 +102,7 @@ const eventLd = events.map((e) => ({
 			{ name: "Hem", url: "/" },
 			{ name: "Det islamiska året", url: "/det-islamiska-aret" },
 		]),
+		...faqLd,
 		...eventLd,
 	]}
 >
@@ -72,6 +117,8 @@ const eventLd = events.map((e) => ({
 				har stöd i hadith tas upp.
 			</p>
 		</header>
+
+		{leadSummary && <p class="md-answer">{leadSummary}</p>}
 
 		<p class="md-subscribe label">
 			<a href="webcal://islam.se/det-islamiska-aret.ics">Prenumerera i din kalender</a>
@@ -106,6 +153,20 @@ const eventLd = events.map((e) => ({
 		<p class="md-also">
 			Och i <em>Shaʿbān</em>, månaden före Ramadan, fastade Profeten <span class="honorific honorific--saw">ﷺ</span> fler dagar än under någon annan månad utom Ramadan.
 		</p>
+
+		{dateFaq.length > 0 && (
+			<section class="md-faq" aria-labelledby="md-faq-head">
+				<h2 id="md-faq-head">Vanliga frågor</h2>
+				<dl>
+					{dateFaq.map((f) => (
+						<div class="md-faq-item">
+							<dt>{f.q}</dt>
+							<dd>{f.a}</dd>
+						</div>
+					))}
+				</dl>
+			</section>
+		)}
 	</main>
 </Base>
 
@@ -231,6 +292,52 @@ const eventLd = events.map((e) => ({
 		font-size: 0.9375rem;
 		color: var(--color-muted);
 		margin: var(--space-half) 0 var(--space-phi2);
+	}
+
+	.md-answer {
+		font-family: var(--font-body);
+		font-size: 1.0625rem;
+		line-height: 1.6;
+		color: color-mix(in srgb, var(--color-text) 88%, var(--color-muted));
+		max-width: 42rem;
+		margin: var(--space-unit) 0 0;
+		text-wrap: pretty;
+	}
+
+	.md-faq {
+		max-width: 42rem;
+		margin-top: var(--space-phi1, 1.5rem);
+		padding-top: var(--space-half);
+		border-top: 1px solid var(--color-divider);
+	}
+
+	.md-faq h2 {
+		font-family: var(--font-heading);
+		font-size: var(--step-1);
+		margin: 0 0 var(--space-half);
+	}
+
+	.md-faq dl {
+		margin: 0;
+	}
+
+	.md-faq-item {
+		padding: var(--space-half) 0;
+		border-bottom: 1px solid var(--color-divider);
+	}
+
+	.md-faq-item dt {
+		font-family: var(--font-heading);
+		font-weight: 600;
+		color: var(--color-accent);
+		margin-bottom: 0.3rem;
+	}
+
+	.md-faq-item dd {
+		font-family: var(--font-body);
+		line-height: 1.55;
+		color: var(--color-muted);
+		margin: 0;
 	}
 
 	@media (width <= 768px) {

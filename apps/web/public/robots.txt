@@ -1,3 +1,43 @@
+# islam.se welcomes AI crawlers — we want the essays read, quoted and cited.
+# A curated map for LLMs lives at /llms.txt (and /llms-full.txt for the full corpus).
+# The wildcard below already permits everyone; the named stanzas are an explicit,
+# future-proof signal to the engines that drive AI answers and citations.
+
+# OpenAI — training, search and on-demand browsing
+User-agent: GPTBot
+Allow: /
+User-agent: OAI-SearchBot
+Allow: /
+User-agent: ChatGPT-User
+Allow: /
+
+# Anthropic (Claude)
+User-agent: ClaudeBot
+Allow: /
+User-agent: Claude-SearchBot
+Allow: /
+User-agent: Claude-User
+Allow: /
+User-agent: anthropic-ai
+Allow: /
+
+# Perplexity
+User-agent: PerplexityBot
+Allow: /
+User-agent: Perplexity-User
+Allow: /
+
+# Google (Gemini / AI Overviews training opt-in) and Apple Intelligence
+User-agent: Google-Extended
+Allow: /
+User-agent: Applebot-Extended
+Allow: /
+
+# Common Crawl — feeds many open models
+User-agent: CCBot
+Allow: /
+
+# Everyone else
 User-agent: *
 Allow: /
 
