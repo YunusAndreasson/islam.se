@@ -8,8 +8,8 @@
 // simplified (these are background context, not the subject), islets dropped, and clipped by
 // ring bbox to the map's view so we don't ship the whole of Norway/Finland/etc.
 import { writeFileSync } from "node:fs";
-import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
+import { fileURLToPath } from "node:url";
 
 const BASE = "https://raw.githubusercontent.com/georgique/world-geojson/develop/countries/";
 const COUNTRIES = [
@@ -55,12 +55,16 @@ function rdp(pts, eps) {
 			idx = i;
 		}
 	}
-	if (max > eps) return rdp(pts.slice(0, idx + 1), eps).slice(0, -1).concat(rdp(pts.slice(idx), eps));
+	if (max > eps)
+		return rdp(pts.slice(0, idx + 1), eps)
+			.slice(0, -1)
+			.concat(rdp(pts.slice(idx), eps));
 	return [pts[0], pts[pts.length - 1]];
 }
 const shoelace = (ring) => {
 	let a = 0;
-	for (let k = 0; k < ring.length - 1; k++) a += ring[k][0] * ring[k + 1][1] - ring[k + 1][0] * ring[k][1];
+	for (let k = 0; k < ring.length - 1; k++)
+		a += ring[k][0] * ring[k + 1][1] - ring[k + 1][0] * ring[k][1];
 	return Math.abs(a / 2);
 };
 const round = (p) => [Math.round(p[0] * 1000) / 1000, Math.round(p[1] * 1000) / 1000];
@@ -108,6 +112,9 @@ const body = `// AUTO-GENERATED — faint surrounding-country landmasses for the
 // Regenerate with: node scripts/build-neighbors-outline.mjs
 export const NEIGHBORS_OUTLINE: readonly (readonly [number, number])[][] = ${JSON.stringify(allRings)};
 `;
-const dest = join(dirname(fileURLToPath(import.meta.url)), "../src/lib/bonetider/neighbors-outline.ts");
+const dest = join(
+	dirname(fileURLToPath(import.meta.url)),
+	"../src/lib/bonetider/neighbors-outline.ts",
+);
 writeFileSync(dest, body);
 console.log(`wrote ${dest}: ${allRings.length} rings, ${pts} pts`);

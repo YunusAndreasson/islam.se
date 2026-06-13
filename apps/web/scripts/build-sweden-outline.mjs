@@ -5,10 +5,11 @@
 // country scale (area ≥ 0.02 deg²: mainland + Gotland + Öland), Douglas–Peucker simplify
 // to ~2 km, and round coordinates to 3 decimals — a ~9 KB silhouette with no runtime deps.
 import { writeFileSync } from "node:fs";
-import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
+import { fileURLToPath } from "node:url";
 
-const SRC = "https://raw.githubusercontent.com/georgique/world-geojson/develop/countries/sweden.json";
+const SRC =
+	"https://raw.githubusercontent.com/georgique/world-geojson/develop/countries/sweden.json";
 const EPS = 0.018; // degrees (~2 km)
 const MIN_AREA = 0.02; // deg² — drop islets below this
 
@@ -32,19 +33,28 @@ function rdp(pts, eps) {
 			idx = i;
 		}
 	}
-	if (max > eps) return rdp(pts.slice(0, idx + 1), eps).slice(0, -1).concat(rdp(pts.slice(idx), eps));
+	if (max > eps)
+		return rdp(pts.slice(0, idx + 1), eps)
+			.slice(0, -1)
+			.concat(rdp(pts.slice(idx), eps));
 	return [pts[0], pts[pts.length - 1]];
 }
 const shoelace = (ring) => {
 	let a = 0;
-	for (let k = 0; k < ring.length - 1; k++) a += ring[k][0] * ring[k + 1][1] - ring[k + 1][0] * ring[k][1];
+	for (let k = 0; k < ring.length - 1; k++)
+		a += ring[k][0] * ring[k + 1][1] - ring[k + 1][0] * ring[k][1];
 	return Math.abs(a / 2);
 };
 const round = (p) => [Math.round(p[0] * 1000) / 1000, Math.round(p[1] * 1000) / 1000];
 
 const g = await (await fetch(SRC)).json();
-const rings = g.features.filter((f) => f.geometry.type === "Polygon").map((f) => f.geometry.coordinates[0]);
-const kept = rings.map((r) => ({ r, area: shoelace(r) })).filter((s) => s.area >= MIN_AREA).sort((a, b) => b.area - a.area);
+const rings = g.features
+	.filter((f) => f.geometry.type === "Polygon")
+	.map((f) => f.geometry.coordinates[0]);
+const kept = rings
+	.map((r) => ({ r, area: shoelace(r) }))
+	.filter((s) => s.area >= MIN_AREA)
+	.sort((a, b) => b.area - a.area);
 const outRings = kept.map(({ r }) => {
 	const s = rdp(r, EPS).map(round);
 	if (s[0][0] !== s.at(-1)[0] || s[0][1] !== s.at(-1)[1]) s.push(s[0]);
@@ -66,6 +76,9 @@ export const SWEDEN_BBOX: readonly [number, number, number, number] = [${bbox.jo
 
 export const SWEDEN_OUTLINE: readonly (readonly [number, number])[][] = ${JSON.stringify(outRings)};
 `;
-const dest = join(dirname(fileURLToPath(import.meta.url)), "../src/lib/bonetider/sweden-outline.ts");
+const dest = join(
+	dirname(fileURLToPath(import.meta.url)),
+	"../src/lib/bonetider/sweden-outline.ts",
+);
 writeFileSync(dest, body);
 console.log(`wrote ${dest}: ${outRings.length} rings, ${pts.length} pts, bbox ${bbox.join(",")}`);
