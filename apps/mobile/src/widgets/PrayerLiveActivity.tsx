@@ -17,6 +17,7 @@ import {
   foregroundStyle,
   kerning,
   monospacedDigit,
+  multilineTextAlignment,
   padding,
 } from '@expo/ui/swift-ui/modifiers';
 import { createLiveActivity } from 'expo-widgets';
@@ -83,6 +84,12 @@ function PrayerLiveActivityLayout(rawProps: PrayerActivityProps) {
 
   const tabular = monospacedDigit();
   const tracked = kerning(0.5);
+  // A self-updating timer Text reserves the width of its WIDEST value over the whole
+  // interval but renders leading-aligned inside that box — so once it ticks under
+  // 10 min ("9:59" is a glyph narrower than "25:07") a gap opens on the trailing edge.
+  // Right-align it so the digits always hug the right edge (matters most in the
+  // Dynamic Island, where that gap reads as stray right padding around the camera).
+  const trailingText = multilineTextAlignment('trailing');
 
   // The live countdown — system-rendered, ticks on its own, stops at 00:00.
   const countdown = (size: number, color: string) =>
@@ -90,7 +97,12 @@ function PrayerLiveActivityLayout(rawProps: PrayerActivityProps) {
       <Text
         timerInterval={{ lower: new Date(startedAtMs), upper: new Date(nextAtMs) }}
         countsDown
-        modifiers={[font({ size, weight: 'semibold' }), tabular, foregroundStyle(color)]}
+        modifiers={[
+          font({ size, weight: 'semibold' }),
+          tabular,
+          trailingText,
+          foregroundStyle(color),
+        ]}
       />
     ) : (
       <Text modifiers={[font({ size, weight: 'semibold' }), foregroundStyle(color)]}>—</Text>
@@ -98,27 +110,34 @@ function PrayerLiveActivityLayout(rawProps: PrayerActivityProps) {
 
   return {
     // Lock Screen / notification banner — system supplies the material background.
+    // Laid out as aligned ROWS, not two free-floating columns: the target time rides
+    // the prayer name's baseline and the countdown rides the Swedish subtitle's, so
+    // every right-hand value lines up with its left-hand label instead of the right
+    // column floating at the HStack's vertical centre against a taller left column.
     banner: (
-      <HStack spacing={12} alignment="center" modifiers={[padding({ all: 16 })]}>
+      <HStack spacing={14} alignment="center" modifiers={[padding({ all: 16 })]}>
         <Image systemName={icon} size={26} color={C.highlight} />
-        <VStack alignment="leading" spacing={2}>
+        <VStack alignment="leading" spacing={3}>
           <Text
             modifiers={[font({ size: 11, weight: 'semibold' }), tracked, foregroundStyle(C.inkFaint)]}>
             {kindLabel}
           </Text>
-          <Text modifiers={[font({ size: 19, weight: 'bold' }), foregroundStyle(C.highlightText)]}>
-            {name}
-          </Text>
-          {swedish ? (
-            <Text modifiers={[font({ size: 12 }), foregroundStyle(C.inkMuted)]}>{swedish}</Text>
-          ) : null}
-        </VStack>
-        <Spacer />
-        <VStack alignment="trailing" spacing={2}>
-          <Text modifiers={[font({ size: 22, weight: 'bold' }), tabular, foregroundStyle(C.ink)]}>
-            {time}
-          </Text>
-          {countdown(14, C.inkMuted)}
+          <HStack alignment="firstTextBaseline" spacing={10}>
+            <Text modifiers={[font({ size: 19, weight: 'bold' }), foregroundStyle(C.highlightText)]}>
+              {name}
+            </Text>
+            <Spacer />
+            <Text modifiers={[font({ size: 22, weight: 'bold' }), tabular, foregroundStyle(C.ink)]}>
+              {time}
+            </Text>
+          </HStack>
+          <HStack alignment="firstTextBaseline" spacing={10}>
+            {swedish ? (
+              <Text modifiers={[font({ size: 12 }), foregroundStyle(C.inkMuted)]}>{swedish}</Text>
+            ) : null}
+            <Spacer />
+            {countdown(14, C.inkMuted)}
+          </HStack>
         </VStack>
       </HStack>
     ),
