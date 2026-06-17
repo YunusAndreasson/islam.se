@@ -19,7 +19,7 @@ import {
   monospacedDigit,
   padding,
 } from '@expo/ui/swift-ui/modifiers';
-import { createLiveActivity, type LiveActivityEnvironment } from 'expo-widgets';
+import { createLiveActivity } from 'expo-widgets';
 import type { SFSymbol } from 'sf-symbols-typescript';
 
 import type { PrayerKey } from '../lib/prayer-times';
@@ -43,28 +43,23 @@ export interface PrayerActivityProps {
   isMarker: boolean;
 }
 
-function PrayerLiveActivityLayout(
-  rawProps: PrayerActivityProps,
-  environment: LiveActivityEnvironment,
-) {
+function PrayerLiveActivityLayout(rawProps: PrayerActivityProps) {
   'widget';
   // Everything below is INTENTIONALLY inline — see the file header.
 
-  // Brand palette (mirrors src/theme/tokens.ts). The banner follows the system colour
-  // scheme; the Dynamic Island is always black, so island sections use the DARK tones.
-  const LIGHT = {
-    ink: '#1a1712',
-    inkMuted: '#6f6456',
-    inkFaint: '#8c8170',
-    highlight: '#b8862f',
-    highlightText: '#805b1f',
-  };
-  const DARK = {
-    ink: '#e8e3d8',
-    inkMuted: '#a8acba',
-    inkFaint: '#7a8094',
-    highlight: '#c89a48',
-    highlightText: '#c89a48',
+  // Brand palette (mirrors src/theme/tokens.ts), tuned for a DARK backdrop. Both the
+  // Lock Screen banner AND the Dynamic Island render on a dark vibrant material — the
+  // banner's background is the system material, NOT the wallpaper, and does NOT follow
+  // the device's Light/Dark appearance. An earlier version branched on
+  // `environment.colorScheme` and, in Light appearance, painted near-black "light"
+  // inks (#1a1712 / #6f6456) onto that dark material — the prayer name, target time and
+  // countdown came out near-invisible. So we use ONE bright, warm palette everywhere.
+  const C = {
+    ink: '#f0ebe0', // bright cream — primary numerals (the big target time)
+    inkMuted: '#c2b8a6', // warm light grey — countdown + Swedish subtitle
+    inkFaint: '#a79d8b', // warm muted — the small section label ("NÄSTA BÖN")
+    highlight: '#d2a04c', // bright gold — the prayer icon
+    highlightText: '#d8a44c', // bright gold — the prayer name
   };
   const SF: Record<string, SFSymbol> = {
     fajr: 'moon.stars.fill',
@@ -77,8 +72,6 @@ function PrayerLiveActivityLayout(
 
   // Null/partial-safe, like the widget: never throw inside the extension.
   const p = (rawProps ?? {}) as Partial<PrayerActivityProps>;
-  const c = environment.colorScheme === 'dark' ? DARK : LIGHT;
-  const d = DARK; // island sections — always on black
 
   const icon: SFSymbol = (typeof p.nextKey === 'string' && SF[p.nextKey]) || SF.fajr;
   const name = typeof p.nextArabic === 'string' && p.nextArabic ? p.nextArabic : 'Bönetider';
@@ -107,50 +100,59 @@ function PrayerLiveActivityLayout(
     // Lock Screen / notification banner — system supplies the material background.
     banner: (
       <HStack spacing={12} alignment="center" modifiers={[padding({ all: 16 })]}>
-        <Image systemName={icon} size={26} color={c.highlight} />
+        <Image systemName={icon} size={26} color={C.highlight} />
         <VStack alignment="leading" spacing={2}>
           <Text
-            modifiers={[font({ size: 11, weight: 'semibold' }), tracked, foregroundStyle(c.inkFaint)]}>
+            modifiers={[font({ size: 11, weight: 'semibold' }), tracked, foregroundStyle(C.inkFaint)]}>
             {kindLabel}
           </Text>
-          <Text modifiers={[font({ size: 19, weight: 'bold' }), foregroundStyle(c.highlightText)]}>
+          <Text modifiers={[font({ size: 19, weight: 'bold' }), foregroundStyle(C.highlightText)]}>
             {name}
           </Text>
           {swedish ? (
-            <Text modifiers={[font({ size: 12 }), foregroundStyle(c.inkMuted)]}>{swedish}</Text>
+            <Text modifiers={[font({ size: 12 }), foregroundStyle(C.inkMuted)]}>{swedish}</Text>
           ) : null}
         </VStack>
         <Spacer />
         <VStack alignment="trailing" spacing={2}>
-          <Text modifiers={[font({ size: 22, weight: 'bold' }), tabular, foregroundStyle(c.ink)]}>
+          <Text modifiers={[font({ size: 22, weight: 'bold' }), tabular, foregroundStyle(C.ink)]}>
             {time}
           </Text>
-          {countdown(14, c.inkMuted)}
+          {countdown(14, C.inkMuted)}
         </VStack>
       </HStack>
     ),
-    // Dynamic Island — compact: icon ↔ ticking countdown around the camera.
-    compactLeading: <Image systemName={icon} size={14} color={d.highlight} />,
-    compactTrailing: countdown(13, d.ink),
-    minimal: <Image systemName={icon} size={13} color={d.highlight} />,
+    // Dynamic Island — compact: icon + prayer name ↔ ticking countdown around the
+    // camera. The name rides in the leading slot so the next prayer is identifiable
+    // at a glance without long-pressing to expand.
+    compactLeading: (
+      <HStack spacing={4} alignment="center">
+        <Image systemName={icon} size={14} color={C.highlight} />
+        <Text modifiers={[font({ size: 13, weight: 'semibold' }), foregroundStyle(C.highlightText)]}>
+          {name}
+        </Text>
+      </HStack>
+    ),
+    compactTrailing: countdown(13, C.ink),
+    minimal: <Image systemName={icon} size={13} color={C.highlight} />,
     // Dynamic Island — expanded (long-press).
     expandedLeading: (
       <HStack spacing={6} alignment="center">
-        <Image systemName={icon} size={16} color={d.highlight} />
-        <Text modifiers={[font({ size: 16, weight: 'bold' }), foregroundStyle(d.highlightText)]}>
+        <Image systemName={icon} size={16} color={C.highlight} />
+        <Text modifiers={[font({ size: 16, weight: 'bold' }), foregroundStyle(C.highlightText)]}>
           {name}
         </Text>
       </HStack>
     ),
     expandedTrailing: (
-      <Text modifiers={[font({ size: 16, weight: 'bold' }), tabular, foregroundStyle(d.ink)]}>
+      <Text modifiers={[font({ size: 16, weight: 'bold' }), tabular, foregroundStyle(C.ink)]}>
         {time}
       </Text>
     ),
     expandedBottom: (
       <HStack spacing={6} alignment="firstTextBaseline">
-        <Text modifiers={[font({ size: 12 }), foregroundStyle(d.inkFaint)]}>om</Text>
-        {countdown(26, d.ink)}
+        <Text modifiers={[font({ size: 12 }), foregroundStyle(C.inkFaint)]}>om</Text>
+        {countdown(26, C.ink)}
       </HStack>
     ),
   };
