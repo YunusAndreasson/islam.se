@@ -39,6 +39,9 @@ Allow: /
 
 # Everyone else
 User-agent: *
+# Content Signals (https://contentsignals.org) — we explicitly permit search
+# indexing, AI training and AI answer/agent input on our content.
+Content-Signal: ai-train=yes, search=yes, ai-input=yes
 Allow: /
 
 Sitemap: https://islam.se/sitemap-index.xml
