@@ -9,10 +9,10 @@ import {
 	SHAFAQ_OPTIONS,
 } from "../../lib/bonetider/settings-options";
 
-// Sunrise is a marker, not an adjustable obligatory prayer — omit it from the per-prayer
+// Sunrise is a marker, not an adjustable obligatory prayer – omit it from the per-prayer
 // nudges (matches the app, which adjusts the six computed slots minus the Shurūq marker).
 const adjustablePrayers = PRAYER_ORDER.filter((k) => k !== "sunrise");
-const withDesc = (label: string, desc?: string) => (desc ? `${label} — ${desc}` : label);
+const withDesc = (label: string, desc?: string) => (desc ? `${label} – ${desc}` : label);
 ---
 
 <form class="bt-settings" aria-label="Inställningar för bönetider">
@@ -241,7 +241,7 @@ const withDesc = (label: string, desc?: string) => (desc ? `${label} — ${desc}
 		// `change` only: selects commit on selection and the two number inputs commit
 		// on blur/Enter/spinner. Binding `input` too would re-save, re-announce the
 		// aria-live summary, and repaint every field's canvas on every keystroke while
-		// typing a minute adjustment — noisy for screen readers and wasteful.
+		// typing a minute adjustment – noisy for screen readers and wasteful.
 		form.addEventListener("change", onChange);
 	});
 </script>

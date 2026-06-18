@@ -1,10 +1,11 @@
 ---
+import AppPromo from "../../components/AppPromo.astro";
 import Base from "../../layouts/Base.astro";
 import { ORG_ID, breadcrumbList } from "../../lib/jsonld";
 import { BONETIDER_DATA_DATE, SCB_REF, SCB_SOURCE } from "../../lib/bonetider/meta";
 
 const description =
-	"Så beräknas bönetiderna på islam.se: solens verkliga läge, beräkningsmetoder (Muslim World League m.fl.), madhhab, regler för höga latituder, tidszon — och våra källor (SCB, GeoNames, adhan).";
+	"Så beräknas bönetiderna på islam.se: solens verkliga läge, beräkningsmetoder (Muslim World League m.fl.), madhhab, regler för höga latituder, tidszon – och våra källor (SCB, GeoNames, adhan).";
 
 // Machine-readable sources for the TechArticle citation[].
 const sources: Record<string, unknown>[] = [
@@ -13,12 +14,12 @@ const sources: Record<string, unknown>[] = [
 	{ "@type": "Dataset", name: `${SCB_SOURCE} (${SCB_REF})`, creator: { "@type": "GovernmentOrganization", name: "Statistiska centralbyrån" } },
 ];
 
-// Visible Q&A (also emitted as FAQPage) — the question-shaped queries AI engines
+// Visible Q&A (also emitted as FAQPage) – the question-shaped queries AI engines
 // get for prayer-time calculation. Answers condense the sections below.
 const faq = [
 	{
 		q: "Hur beräknas bönetiderna på islam.se?",
-		a: "Tiderna räknas fram ur solens verkliga läge för varje orts latitud och longitud med en etablerad astronomisk modell (NOAA:s solpositionsalgoritm) — inte ur en färdig tabell. Beräkningen sker i din webbläsare och uppdateras varje dygn.",
+		a: "Tiderna räknas fram ur solens verkliga läge för varje orts latitud och longitud med en etablerad astronomisk modell (NOAA:s solpositionsalgoritm) – inte ur en färdig tabell. Beräkningen sker i din webbläsare och uppdateras varje dygn.",
 	},
 	{
 		q: "Vilken beräkningsmetod används som standard?",
@@ -26,11 +27,11 @@ const faq = [
 	},
 	{
 		q: "Hur hanteras Sveriges ljusa sommarnätter?",
-		a: "När solen inte sjunker de 18° under horisonten som krävs för Fajr och ʿIshāʾ används en regel för höga latituder — som standard närmaste lämpliga plats (Aqrab al-Balad) — så att tider ändå kan anges. Norr om polcirkeln är regeln nödvändig.",
+		a: "När solen inte sjunker de 18° under horisonten som krävs för Fajr och ʿIshāʾ används en regel för höga latituder – som standard närmaste lämpliga plats (Aqrab al-Balad) – så att tider ändå kan anges. Norr om polcirkeln är regeln nödvändig.",
 	},
 	{
 		q: "Vilka källor bygger bönetiderna på?",
-		a: `Beräkning med det öppna biblioteket adhan, orter och koordinater från GeoNames (CC BY 4.0) och befolkningsstatistik från ${SCB_SOURCE} (${SCB_REF}). islam.se driver inget eget system för månsiktning — helgdagar fastställs av officiell månsiktning.`,
+		a: `Beräkning med det öppna biblioteket adhan, orter och koordinater från GeoNames (CC BY 4.0) och befolkningsstatistik från ${SCB_SOURCE} (${SCB_REF}). islam.se driver inget eget system för månsiktning – helgdagar fastställs av officiell månsiktning.`,
 	},
 ];
 ---
@@ -81,7 +82,7 @@ const faq = [
 			<p class="label">Bönetider</p>
 			<h1>Så beräknas bönetiderna</h1>
 			<p class="bt-metod-lead">
-				Bönetiderna på islam.se beräknas från solens verkliga läge för varje orts position — inte
+				Bönetiderna på islam.se beräknas från solens verkliga läge för varje orts position – inte
 				hämtade från en färdig tabell. Här förklarar vi modellen, vilka beräkningsmetoder du kan
 				välja, hur ljusa sommarnätter hanteras, och vilka källor vi använder.
 			</p>
@@ -118,12 +119,12 @@ const faq = [
 				Olika institutioner använder lite olika vinklar för Fajr och ʿIshāʾ. Standard på islam.se är
 				<strong>Muslim World League</strong> (Fajr 18°, ʿIshāʾ 17°), som passar svenska latituder väl.
 				I inställningarna kan du byta till bland andra Diyanet (Turkiet), Umm al-Qurā (Mecka), ISNA
-				(Nordamerika), Egyptiska myndigheten och Karachi — kartan och tiderna uppdateras direkt.
+				(Nordamerika), Egyptiska myndigheten och Karachi – kartan och tiderna uppdateras direkt.
 			</p>
 			<p>
 				För <strong>ʿAṣr</strong> kan du välja madhhab: standard (Shāfiʿī, Mālikī, Ḥanbalī) där skuggan
 				är lika lång som föremålet, eller Ḥanafī där den är dubbelt så lång. Vill du att tiderna ska
-				stämma exakt med din moské, välj samma metod och madhhab som den — och justera vid behov
+				stämma exakt med din moské, välj samma metod och madhhab som den – och justera vid behov
 				enskilda böner med några minuter under Avancerat. Inställningarna sparas lokalt i din
 				webbläsare.
 			</p>
@@ -134,7 +135,7 @@ const faq = [
 			<p>
 				På svenska breddgrader blir sommarnatten ofta så ljus att solen aldrig sjunker de 18° under
 				horisonten som krävs för den vanliga vinkelberäkningen av Fajr och ʿIshāʾ. Då används en regel
-				för höga latituder — som standard <em>närmaste lämpliga plats</em> (Aqrab al-Balad) — så att
+				för höga latituder – som standard <em>närmaste lämpliga plats</em> (Aqrab al-Balad) – så att
 				tider ändå kan anges på ett rimligt sätt. Norr om polcirkeln, där midnattssol och polarnatt
 				råder delar av året, är denna regel nödvändig. Inställningen väljs automatiskt utifrån orten,
 				men kan ändras manuellt.
@@ -161,7 +162,7 @@ const faq = [
 					<strong>Orter och koordinater:</strong> GeoNames (CC BY 4.0).
 				</li>
 				<li>
-					<strong>Befolkningsstatistik:</strong> {SCB_SOURCE} ({SCB_REF}) — officiell statistik per
+					<strong>Befolkningsstatistik:</strong> {SCB_SOURCE} ({SCB_REF}) – officiell statistik per
 					tätort. SCB:s statistik är fri att återanvända.
 				</li>
 				<li>
@@ -184,6 +185,8 @@ const faq = [
 			</dl>
 		</section>
 
+		<AppPromo variant="compact" />
+
 		<p class="bt-attrib">
 			<a href="/bonetider">← Alla bönetider i Sverige</a>
 		</p>
@@ -193,6 +196,7 @@ const faq = [
 <style>
 	.bonetider-metod {
 		margin-block: var(--space-phi);
+		overflow-x: clip;
 	}
 
 	.bt-crumbs {

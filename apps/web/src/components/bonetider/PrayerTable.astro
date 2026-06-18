@@ -15,7 +15,7 @@ interface Props {
 }
 const { location } = Astro.props;
 
-// The whole current month, computed at build time with the default (MWL) method — real,
+// The whole current month, computed at build time with the default (MWL) method – real,
 // indexable prayer-time content, correct for the explicit dates shown. The interactive
 // field above reflects the visitor's own settings; this table is the SEO/no-JS baseline.
 const now = new Date();
@@ -45,7 +45,7 @@ const rows = Array.from({ length: daysInMonth }, (_, i) => {
 	data-lon={location.longitude}
 >
 	<figcaption class="bt-table-cap" data-bt-table-caption>
-		Bönetider i {location.name} — {monthLabel}
+		Bönetider i {location.name} – {monthLabel}
 	</figcaption>
 	<div class="bt-scroll">
 		<table class="bt-table">
@@ -69,7 +69,7 @@ const rows = Array.from({ length: daysInMonth }, (_, i) => {
 	</div>
 	<p class="bt-table-note">
 		Tiderna beräknas med Muslim World League (Fajr 18°, Isha 17°) i tidszonen Europe/Stockholm.
-		Ändra metod och madhab i inställningarna ovan — kartan och dagens tider uppdateras direkt.
+		Ändra metod och madhab i inställningarna ovan – kartan och dagens tider uppdateras direkt.
 	</p>
 </figure>
 
@@ -179,7 +179,7 @@ const rows = Array.from({ length: daysInMonth }, (_, i) => {
 		const caption = fig.querySelector<HTMLElement>("[data-bt-table-caption]");
 		if (caption) {
 			const monthLabel = `${fmt({ month: "long" }, new Date(Date.UTC(year, month, 15, 12)))} ${year}`;
-			caption.textContent = `Bönetider i ${name} — ${monthLabel}`;
+			caption.textContent = `Bönetider i ${name} – ${monthLabel}`;
 		}
 
 		tbody.replaceChildren(

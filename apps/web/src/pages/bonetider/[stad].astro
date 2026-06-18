@@ -1,4 +1,5 @@
 ---
+import AppPromo from "../../components/AppPromo.astro";
 import PrayerField from "../../components/bonetider/PrayerField.astro";
 import PrayerSettings from "../../components/bonetider/PrayerSettings.astro";
 import PrayerTable from "../../components/bonetider/PrayerTable.astro";
@@ -20,7 +21,7 @@ interface Props {
 const { place } = Astro.props;
 const location = { name: place.name, latitude: place.lat, longitude: place.lon };
 
-// Build-time facts (default MWL method) — evergreen prose, not stale clock values.
+// Build-time facts (default MWL method) – evergreen prose, not stale clock values.
 const now = new Date();
 const times = computePrayerTimes(location, now, DEFAULT_SETTINGS);
 const rows = PRAYER_ORDER.map((key) => ({
@@ -48,7 +49,7 @@ const popText = nf0.format(pop);
 const depText = nf1.format(facts.summerMidnightDepressionDeg);
 
 // Swedish ordinal: 1:a, 2:a, 3:e … 11:e, 12:e … 21:a (suffix ":a" for forms ending
-// in -a — första/andra — else ":e", with the 11/12 exception).
+// in -a – första/andra – else ":e", with the 11/12 exception).
 function ordinal(n: number): string {
 	const d1 = n % 10;
 	const d2 = n % 100;
@@ -63,21 +64,21 @@ if (place.kommun && place.kommun !== place.name) whereParts.push(`${place.kommun
 if (place.county && place.county !== place.name && place.county !== place.kommun) whereParts.push(place.county);
 const where = whereParts.length ? ` i ${whereParts.join(", ")}` : "";
 
-// Direct-answer lead (AEO): a concise, true summary up top — no stale clock values.
+// Direct-answer lead (AEO): a concise, true summary up top – no stale clock values.
 const popClause = hasScb ? ` Orten har ${popText} invånare (${SCB_SOURCE}).` : "";
 const lead = `Bönetider för ${place.name}${where}.${popClause} Tiderna för Fajr, Shurūq, Ẓuhr, ʿAṣr, Maghrib och ʿIshāʾ beräknas efter solens läge och uppdateras automatiskt varje dag.`;
 
-// Per-place daylight prose — what actually makes each page different by latitude.
+// Per-place daylight prose – what actually makes each page different by latitude.
 const daylightPara =
 	facts.midnightSun || facts.polarNight
-		? `Så här långt norrut råder midnattssol kring midsommar — solen går inte ner alls — och polarnatt kring midvinter. Då går Fajr och ʿIshāʾ inte att beräkna med den vanliga vinkelmetoden, så regeln närmaste lämpliga plats (Aqrab al-Balad) används i stället.`
-		: `I ${place.name} är den ljusaste sommardagen omkring ${facts.summerDayText} och den mörkaste vinterdagen ${facts.winterDayText}. Vid sommarsolståndet sjunker solen som mest ${depText}° under horisonten — mindre än de 18° som krävs för astronomisk natt — vilket är varför Fajr och ʿIshāʾ ligger nära varandra i juni och beräknas med regeln för höga latituder.`;
+		? `Så här långt norrut råder midnattssol kring midsommar – solen går inte ner alls – och polarnatt kring midvinter. Då går Fajr och ʿIshāʾ inte att beräkna med den vanliga vinkelmetoden, så regeln närmaste lämpliga plats (Aqrab al-Balad) används i stället.`
+		: `I ${place.name} är den ljusaste sommardagen omkring ${facts.summerDayText} och den mörkaste vinterdagen ${facts.winterDayText}. Vid sommarsolståndet sjunker solen som mest ${depText}° under horisonten – mindre än de 18° som krävs för astronomisk natt – vilket är varför Fajr och ʿIshāʾ ligger nära varandra i juni och beräknas med regeln för höga latituder.`;
 
 const description = `Bönetider för ${place.name} (${place.county || "Sverige"}): exakta tider för Fajr, Shurūq, Ẓuhr, ʿAṣr, Maghrib och ʿIshāʾ varje dag, beräknade efter solens läge. Välj beräkningsmetod och madhhab.`;
 
 const ogImage = place.population >= OG_POPULATION ? `/bonetider/${place.slug}/og.png` : "/bonetider/og.png";
 
-// Machine-readable provenance for the WebPage (isBasedOn) — the same sources as
+// Machine-readable provenance for the WebPage (isBasedOn) – the same sources as
 // the visible footer attribution, so the data origin is legible to crawlers.
 const sources: Record<string, unknown>[] = [
 	{ "@type": "Dataset", name: "GeoNames", url: "https://www.geonames.org/", license: "https://creativecommons.org/licenses/by/4.0/" },
@@ -94,7 +95,7 @@ if (hasScb) {
 const faq = [
 	{
 		q: `Vilken metod används för bönetiderna i ${place.name}?`,
-		a: "Standardmetoden är Muslim World League (Fajr 18°, Isha 17°), som rekommenderas för svenska latituder. Du kan byta till Diyanet, Umm al-Qura, ISNA med flera i inställningarna — kartan och tiderna uppdateras direkt.",
+		a: "Standardmetoden är Muslim World League (Fajr 18°, Isha 17°), som rekommenderas för svenska latituder. Du kan byta till Diyanet, Umm al-Qura, ISNA med flera i inställningarna – kartan och tiderna uppdateras direkt.",
 	},
 	{
 		q: "Hur får jag tiderna att stämma med min moské?",
@@ -182,7 +183,7 @@ if (hasScb) {
 			<h2 id="bt-stad-idag">Dagens bönetider i {place.name}</h2>
 			<p class="bt-stad-note">
 				Tiderna nedan beräknas live i din webbläsare. Sveriges ljusa sommarnätter gör att Fajr och
-				ʿIshāʾ ligger nära varandra — kartan ovan visar varför: solen sjunker bara en bit under
+				ʿIshāʾ ligger nära varandra – kartan ovan visar varför: solen sjunker bara en bit under
 				horisonten.
 			</p>
 			<ul
@@ -202,6 +203,8 @@ if (hasScb) {
 				))}
 			</ul>
 		</section>
+
+		<AppPromo variant="section" />
 
 		{hasScb && (
 			<section class="bt-stad-section" aria-labelledby="bt-stad-fakta">
@@ -257,8 +260,8 @@ if (hasScb) {
 			<h2 id="bt-stad-about">Om bönetiderna i {place.name}</h2>
 			<p>
 				{place.name} ligger {place.county ? `i ${place.county}, ` : ""}på {lat1}° nordlig bredd.
-				Bönetiderna beräknas utifrån solens verkliga läge för just denna position — inte från en
-				tabell — så att de stämmer med dygnet på orten.
+				Bönetiderna beräknas utifrån solens verkliga läge för just denna position – inte från en
+				tabell – så att de stämmer med dygnet på orten.
 			</p>
 			<p>{daylightPara}</p>
 			<p>
@@ -315,6 +318,9 @@ if (hasScb) {
 <style>
 	.bonetider-stad {
 		margin-block: var(--space-phi);
+		/* Guard against any child overflowing the viewport on mobile (e.g. the
+		   today readout's tabular times); clip keeps sticky/position working. */
+		overflow-x: clip;
 	}
 
 	.bt-crumbs {
@@ -412,7 +418,7 @@ if (hasScb) {
 		color: var(--color-text);
 	}
 
-	/* The live script marks the upcoming prayer with .is-next (same as the field) —
+	/* The live script marks the upcoming prayer with .is-next (same as the field) –
 	   give it the same quiet brass accent so the list and the map agree. */
 	.bt-stad-today li.is-next .bt-st-name,
 	.bt-stad-today li.is-next .bt-st-time {
