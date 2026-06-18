@@ -17,7 +17,7 @@ export const GET: APIRoute = async ({ props }) => {
 	const png = await renderOg({
 		kicker: "Bönetider",
 		title: props.name as string,
-		framing: `Fajr · Dhuhr · Asr · Maghrib · Isha — varje dag${county ? `, ${county}` : ""}`,
+		framing: `Fajr · Dhuhr · Asr · Maghrib · Isha – varje dag${county ? `, ${county}` : ""}`,
 	});
 	return new Response(new Uint8Array(png), {
 		headers: {

@@ -1,4 +1,5 @@
 ---
+import AppPromo from "../../components/AppPromo.astro";
 import PrayerField from "../../components/bonetider/PrayerField.astro";
 import PrayerSettings from "../../components/bonetider/PrayerSettings.astro";
 import Base from "../../layouts/Base.astro";
@@ -16,7 +17,7 @@ const counties = placesByCounty();
 const total = INDEXED_PLACES.length;
 const withScb = INDEXED_PLACES.filter((p) => p.scbPopulation != null).length;
 const description =
-	"Bönetider för hela Sverige — Fajr, Shurūq, Ẓuhr, ʿAṣr, Maghrib och ʿIshāʾ för tusentals orter, beräknade efter solens läge över landet. Välj beräkningsmetod och madhhab.";
+	"Bönetider för hela Sverige – Fajr, Shurūq, Ẓuhr, ʿAṣr, Maghrib och ʿIshāʾ för tusentals orter, beräknade efter solens läge över landet. Välj beräkningsmetod och madhhab.";
 ---
 
 <Base
@@ -53,7 +54,7 @@ const description =
 			<h1>Bönetider i Sverige</h1>
 			<p class="bh2-intro">
 				Bönernas tider följer solen, inte klockan. Kartan färgas av hur djupt solen står under
-				horisonten — Sveriges ljusa sommarnatt blir aldrig svart — och de svepande linjerna visar
+				horisonten – Sveriges ljusa sommarnatt blir aldrig svart – och de svepande linjerna visar
 				var varje bön infaller just nu. Välj din ort nedan, eller justera metod och madhhab så att
 				tiderna stämmer med din moské.
 			</p>
@@ -64,6 +65,8 @@ const description =
 		<div class="bh2-actions">
 			<button type="button" class="bf-geo bh2-geo">Använd min plats</button>
 		</div>
+
+		<AppPromo variant="section" />
 
 		<section class="bh2-section" aria-labelledby="bh2-settings">
 			<h2 id="bh2-settings">Inställningar</h2>
@@ -77,7 +80,7 @@ const description =
 		<section class="bh2-section" aria-labelledby="bh2-find">
 			<h2 id="bh2-find">Hitta din ort</h2>
 			<p class="bh2-lead">
-				{total.toLocaleString("sv-SE")} orter, ordnade efter län — varav {withScb.toLocaleString("sv-SE")} med
+				{total.toLocaleString("sv-SE")} orter, ordnade efter län – varav {withScb.toLocaleString("sv-SE")} med
 				officiell befolkningsstatistik från {SCB_SOURCE}. Läs om <a href="/bonetider/metod">hur tiderna beräknas</a>.
 			</p>
 			<input
@@ -118,6 +121,9 @@ const description =
 <style>
 	.bonetider-hub {
 		margin-block: var(--space-phi);
+		/* Never let a child (wide table, expanded directory) make the page scroll
+		   sideways on mobile. clip (not hidden) keeps sticky/position intact. */
+		overflow-x: clip;
 	}
 
 	.bh2-header {
@@ -202,13 +208,17 @@ const description =
 		font-style: italic;
 	}
 
+	/* Grid, not CSS multi-column: an expanded <details> in a multi-column box
+	   spills past the container (huge gaps / overlap on mobile). Grid reflows
+	   cleanly — 1 column on phones, more as width allows. */
 	.bt-counties {
-		columns: 2 18rem;
-		column-gap: var(--space-unit);
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(min(100%, 16rem), 1fr));
+		gap: 0 var(--space-unit);
+		align-items: start;
 	}
 
 	.bt-county {
-		break-inside: avoid;
 		margin-bottom: var(--space-half);
 		border-bottom: 1px solid var(--color-divider);
 		padding-bottom: var(--space-half);
@@ -249,12 +259,9 @@ const description =
 		list-style: none;
 		margin: var(--space-half) 0 0;
 		padding: 0;
-		columns: 2 8rem;
-		column-gap: 1rem;
-	}
-
-	.bt-county-list li {
-		break-inside: avoid;
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(min(100%, 7rem), 1fr));
+		gap: 0 1rem;
 	}
 
 	.bt-county-list a {
@@ -293,7 +300,7 @@ const description =
 </style>
 
 <script>
-	// Client-side place filter over the rendered links — no extra data shipped, just DOM.
+	// Client-side place filter over the rendered links – no extra data shipped, just DOM.
 	document.addEventListener("astro:page-load", () => {
 		const search = document.querySelector<HTMLInputElement>(".bt-search");
 		const empty = document.querySelector<HTMLElement>(".bt-search-empty");

@@ -1,0 +1,209 @@
+---
+// Web → app promotion. Concentrated where prayer-time intent is highest; never a
+// pop-up or interstitial (Google demotes those in mobile search). Both store
+// badges render server-side — crawlable and working without JS — then a small
+// client script narrows to the visitor's platform on mobile (Android → Google
+// Play only, iPhone → App Store only). Desktop / unknown shows both.
+import { APP_FEATURES, APP_STORE_URL, APP_TAGLINE, PLAY_STORE_URL } from "../lib/app";
+
+interface Props {
+	/** section = full card (prayer pages); compact = one-line (teaser/metod); page = /app landing. */
+	variant?: "section" | "compact" | "page";
+}
+const { variant = "section" } = Astro.props;
+const showHeading = variant !== "compact";
+---
+
+<aside class:list={["apppromo", `apppromo--${variant}`]} data-platform="other" aria-label="Ladda ned islam.se-appen">
+	{variant === "section" && <p class="label apppromo-kicker">Appen</p>}
+	<div class="apppromo-body">
+		<div class="apppromo-text">
+			{showHeading && <h2 class="apppromo-heading">Bönetider i fickan</h2>}
+			{variant === "compact" ? (
+				<p class="apppromo-lead"><strong>islam.se i mobilen.</strong> {APP_TAGLINE}</p>
+			) : (
+				<p class="apppromo-lead">{APP_TAGLINE}</p>
+			)}
+			{variant === "page" && (
+				<ul class="apppromo-features">
+					{APP_FEATURES.map((f) => <li>{f}</li>)}
+				</ul>
+			)}
+		</div>
+		<div class="apppromo-badges">
+			<a class="apppromo-badge apppromo-badge--ios" href={APP_STORE_URL} aria-label="Ladda ned islam.se på App Store">
+				<picture>
+					<source media="(prefers-color-scheme: dark)" srcset="/badge-appstore-sv-dark.svg" />
+					<img src="/badge-appstore-sv.svg" alt="" width="120" height="40" loading="lazy" decoding="async" />
+				</picture>
+			</a>
+			<a class="apppromo-badge apppromo-badge--android" href={PLAY_STORE_URL} aria-label="Ladda ned islam.se på Google Play">
+				<img src="/badge-googleplay-sv.png" alt="" width="646" height="250" loading="lazy" decoding="async" />
+			</a>
+		</div>
+	</div>
+</aside>
+
+<script>
+	// Narrow the visible badge to the device's store. Both stay visible until this
+	// runs (and on desktop / unknown), so no-JS and crawlers see both links.
+	function applyPlatform() {
+		const cards = document.querySelectorAll<HTMLElement>(".apppromo");
+		if (cards.length === 0) return;
+		const nav = navigator as Navigator & { userAgentData?: { platform?: string } };
+		const ua = navigator.userAgent;
+		const uaData = nav.userAgentData?.platform?.toLowerCase() ?? "";
+		let platform: "ios" | "android" | "other" = "other";
+		if (uaData === "android" || /Android/i.test(ua)) {
+			platform = "android";
+		} else if (
+			/iPad|iPhone|iPod/.test(ua) ||
+			// iPadOS Safari reports as desktop macOS — distinguish by touch points.
+			(navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1)
+		) {
+			platform = "ios";
+		}
+		for (const c of cards) c.dataset.platform = platform;
+	}
+	document.addEventListener("astro:page-load", applyPlatform);
+</script>
+
+<style>
+	.apppromo {
+		font-family: var(--font-body);
+	}
+
+	.apppromo-kicker {
+		margin: 0 0 var(--space-half);
+	}
+
+	.apppromo-heading {
+		font-size: var(--step-1);
+		margin: 0;
+	}
+
+	.apppromo-lead {
+		font-size: 1.0625rem;
+		line-height: 1.55;
+		color: color-mix(in srgb, var(--color-text) 82%, var(--color-muted));
+		margin: var(--space-half) 0 0;
+		max-width: 38rem;
+		text-wrap: pretty;
+	}
+
+	.apppromo-lead strong {
+		font-weight: 600;
+		color: var(--color-text);
+	}
+
+	.apppromo-features {
+		margin: var(--space-unit) 0 0;
+		padding: 0;
+		list-style: none;
+		display: grid;
+		gap: 0.4rem 1.5rem;
+		grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr));
+		max-width: 34rem;
+	}
+
+	.apppromo-features li {
+		position: relative;
+		padding-left: 1.4rem;
+		color: color-mix(in srgb, var(--color-text) 82%, var(--color-muted));
+	}
+
+	/* A quiet brass tick, matching the home-kicker mark. */
+	.apppromo-features li::before {
+		content: "";
+		position: absolute;
+		left: 0;
+		top: 0.62em;
+		width: 0.7rem;
+		height: 2px;
+		background: var(--color-warm);
+	}
+
+	.apppromo-badges {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: 0.75rem 1rem;
+		margin-top: var(--space-unit);
+	}
+
+	.apppromo-badge {
+		display: inline-flex;
+		border-radius: 9px;
+		transition: transform 0.15s ease, opacity 0.15s ease;
+	}
+
+	.apppromo-badge img {
+		display: block;
+		width: auto;
+	}
+
+	/* Equalise optical pill height: Apple's art is tight (pill ≈ 0.92 of the image),
+	   Google's generic badge bakes in clear space (pill ≈ 0.77), so Google needs a
+	   taller box for the two pills to line up. */
+	.apppromo-badge--ios img {
+		height: 2.6rem;
+	}
+
+	.apppromo-badge--android img {
+		height: 3.1rem;
+	}
+
+	.apppromo-badge:hover {
+		opacity: 0.85;
+	}
+
+	.apppromo-badge:active {
+		transform: scale(0.97);
+	}
+
+	.apppromo-badge:focus-visible {
+		outline: 2px solid var(--color-accent);
+		outline-offset: 3px;
+	}
+
+	/* Per-platform gating — JS sets data-platform; default (other / no-JS) shows both. */
+	.apppromo[data-platform="ios"] .apppromo-badge--android,
+	.apppromo[data-platform="android"] .apppromo-badge--ios {
+		display: none;
+	}
+
+	/* ---- section: a calm card on prayer pages, on a faintly raised surface so the
+	   dark badge pills keep contrast in dark mode too. ---- */
+	.apppromo--section {
+		margin-top: var(--space-phi);
+		padding: var(--space-unit);
+		border: 1px solid var(--color-divider);
+		border-radius: 12px;
+		background: color-mix(in srgb, var(--color-text) 3%, var(--color-bg));
+	}
+
+	.apppromo--section .apppromo-heading {
+		font-family: var(--font-heading);
+	}
+
+	/* ---- compact: a quiet one-liner for the homepage teaser and the method page. ---- */
+	.apppromo--compact {
+		margin-top: var(--space-unit);
+		padding-top: var(--space-unit);
+		border-top: 1px solid var(--color-divider);
+	}
+
+	.apppromo--compact .apppromo-lead {
+		margin-top: 0;
+	}
+
+	/* ---- page: the /app landing, given a little more room. ---- */
+	.apppromo--page {
+		margin-top: var(--space-unit);
+	}
+
+	.apppromo--page .apppromo-heading {
+		font-family: var(--font-heading);
+		font-size: var(--step-2);
+	}
+</style>

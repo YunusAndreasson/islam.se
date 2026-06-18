@@ -1,0 +1,92 @@
+---
+import AppPromo from "../components/AppPromo.astro";
+import Base from "../layouts/Base.astro";
+import { APP_STORE_URL, PLAY_STORE_URL } from "../lib/app";
+import { ORG_ID, breadcrumbList } from "../lib/jsonld";
+
+const description =
+	"Hämta islam.se-appen för iPhone och Android: bönetider med påminnelser före varje bön, en widget på hemskärmen, qibla-kompass och tider även offline.";
+---
+
+<Base
+	title="Appen islam.se för iPhone och Android — islam.se"
+	description={description}
+	ogImage="/bonetider/og.png"
+	jsonLd={[
+		{
+			"@context": "https://schema.org",
+			"@type": "WebPage",
+			name: "islam.se i mobilen",
+			description,
+			url: "https://islam.se/app",
+			inLanguage: "sv",
+			publisher: { "@id": ORG_ID },
+		},
+		{
+			"@context": "https://schema.org",
+			"@type": "MobileApplication",
+			name: "islam.se",
+			operatingSystem: "iOS, Android",
+			applicationCategory: "LifestyleApplication",
+			inLanguage: "sv",
+			publisher: { "@id": ORG_ID },
+			installUrl: [APP_STORE_URL, PLAY_STORE_URL],
+			offers: { "@type": "Offer", price: "0", priceCurrency: "SEK" },
+		},
+		breadcrumbList([
+			{ name: "Hem", url: "/" },
+			{ name: "Appen", url: "/app" },
+		]),
+	]}
+>
+	<main id="main" class="content-column app-page">
+		<header class="app-header">
+			<p class="label">Appen</p>
+			<h1>islam.se i mobilen</h1>
+			<p class="app-lead">
+				Bönetiderna du läser här, alltid i fickan: en diskret påminnelse före varje bön, en widget
+				på hemskärmen och qibla-kompass. Tiderna beräknas på enheten, så de fungerar även offline.
+				Gratis och utan annonser.
+			</p>
+		</header>
+
+		<AppPromo variant="page" />
+
+		<p class="app-note">
+			Letar du efter tider för din ort? Se <a href="/bonetider">bönetider för hela Sverige</a> eller
+			läs om <a href="/bonetider/metod">hur tiderna beräknas</a>.
+		</p>
+	</main>
+</Base>
+
+<style>
+	.app-page {
+		margin-block: var(--space-phi);
+	}
+
+	.app-header h1 {
+		margin: var(--space-half) 0 0;
+	}
+
+	.app-lead {
+		font-family: var(--font-body);
+		font-size: 1.0625rem;
+		line-height: 1.6;
+		color: color-mix(in srgb, var(--color-text) 88%, var(--color-muted));
+		margin: var(--space-unit) 0 0;
+		text-wrap: pretty;
+	}
+
+	.app-note {
+		font-family: var(--font-body);
+		font-size: 0.9375rem;
+		color: var(--color-muted);
+		margin: var(--space-phi) 0 0;
+		padding-top: var(--space-half);
+		border-top: 1px solid var(--color-divider);
+	}
+
+	.app-note a {
+		color: var(--color-accent);
+	}
+</style>

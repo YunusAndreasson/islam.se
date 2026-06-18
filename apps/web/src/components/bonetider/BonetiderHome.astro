@@ -1,4 +1,5 @@
 ---
+import AppPromo from "../AppPromo.astro";
 import { DEFAULT_COORDS } from "../../lib/bonetider/settings";
 import PrayerField from "./PrayerField.astro";
 
@@ -17,7 +18,7 @@ const stockholm = {
 
 	<p class="bh-intro">
 		Bönernas tider följer solen, inte klockan. Kartan färgas av hur djupt solen står under
-		horisonten — Sveriges ljusa sommarnatt blir aldrig svart — och de svepande linjerna visar var
+		horisonten – Sveriges ljusa sommarnatt blir aldrig svart – och de svepande linjerna visar var
 		varje bön infaller just nu, från Malmö till Kiruna.
 	</p>
 
@@ -27,6 +28,8 @@ const stockholm = {
 		<button type="button" class="bf-geo bh-geo">Använd min plats</button>
 		<a class="bh-link arrow-link" href="/bonetider">Se hela kartan och alla orter</a>
 	</div>
+
+	<AppPromo variant="compact" />
 </section>
 
 <style>

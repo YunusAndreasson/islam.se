@@ -7,6 +7,18 @@
 	"background_color": "#faf8f5",
 	"theme_color": "#faf8f5",
 	"lang": "sv",
+	"related_applications": [
+		{
+			"platform": "itunes",
+			"url": "https://apps.apple.com/se/app/islam-se/id6774383118",
+			"id": "6774383118"
+		},
+		{
+			"platform": "play",
+			"url": "https://play.google.com/store/apps/details?id=se.islam.mobile",
+			"id": "se.islam.mobile"
+		}
+	],
 	"icons": [
 		{
 			"src": "/favicon.svg",
