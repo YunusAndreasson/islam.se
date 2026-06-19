@@ -40,7 +40,7 @@ const PAGES: PaletteEntry[] = [
 		type: "Sida",
 		label: "Bönetider",
 		sub: "Bönetider för hela Sverige, ort för ort, efter solens läge.",
-		href: "/bonetider",
+		href: "/bonetider/",
 	},
 	{ type: "Sida", label: "Om", sub: "Om idén bakom islam.se.", href: "/om" },
 	{ type: "Sida", label: "AI", sub: "Koppla hela arkivet till din AI-assistent.", href: "/ai" },

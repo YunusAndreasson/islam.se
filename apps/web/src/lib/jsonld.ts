@@ -1,7 +1,23 @@
 // Small JSON-LD builders shared across pages. Base.astro accepts a single block
 // or an array, so a page can pass e.g. [collectionPage, breadcrumbList(...)].
 
+import { APP_STORE_URL, PLAY_STORE_URL } from "./app";
+
 const SITE = "https://islam.se";
+
+/** Resolve a site path to its absolute, trailing-slash form — the way the static
+ *  pages are actually served (Cloudflare 308s the slash-less form to it). Keeping
+ *  every JSON-LD `url`/`item` byte-identical to the page's <link rel=canonical>
+ *  means a crawler sees one URL per entity, not a canonical-vs-structured-data
+ *  split. File endpoints (a dot in the last path segment) and URLs carrying a
+ *  query/hash are returned untouched. */
+function pageUrl(url: string): string {
+	const abs = url.startsWith("http") ? url : `${SITE}${url}`;
+	if (!abs.startsWith(SITE) || /[?#]/.test(abs)) return abs;
+	const last = abs.split("/").pop() ?? "";
+	if (last.includes(".")) return abs;
+	return abs.endsWith("/") ? abs : `${abs}/`;
+}
 
 interface Crumb {
 	name: string;
@@ -19,7 +35,7 @@ export function breadcrumbList(items: Crumb[]): Record<string, unknown> {
 			"@type": "ListItem",
 			position: i + 1,
 			name: c.name,
-			item: c.url.startsWith("http") ? c.url : `${SITE}${c.url}`,
+			item: pageUrl(c.url),
 		})),
 	};
 }
@@ -87,7 +103,7 @@ export function dataset(opts: {
 		"@type": "Dataset",
 		name: opts.name,
 		description: opts.description,
-		url: opts.url.startsWith("http") ? opts.url : `${SITE}${opts.url}`,
+		url: pageUrl(opts.url),
 		inLanguage: "sv",
 		...(opts.license ? { license: opts.license } : {}),
 		...(opts.spatialCoverage ? { spatialCoverage: opts.spatialCoverage } : {}),
@@ -113,13 +129,13 @@ export function collectionPageJsonLd(opts: {
 		"@type": "CollectionPage",
 		name: opts.name,
 		description: opts.description,
-		url: opts.url.startsWith("http") ? opts.url : `${SITE}${opts.url}`,
+		url: pageUrl(opts.url),
 		inLanguage: "sv",
 		...opts.extra,
 		hasPart: opts.essays.map((e) => ({
 			"@type": "Article",
 			headline: e.title,
-			url: `${SITE}/${e.slug}`,
+			url: pageUrl(`/${e.slug}`),
 		})),
 	};
 }
@@ -135,11 +151,11 @@ export const ORG_ID = `${SITE}/#org`;
 export const WEBSITE_ID = `${SITE}/#website`;
 
 // Real, OWNED external profiles for islam.se — NOT the founders' personal sites
-// (those live under `founder`). Populate with the project's own verified
-// accounts: a Wikidata item, YouTube channel, podcast-directory page, Mastodon/X,
-// etc. Left empty rather than fabricated; each entry flows into Organization
-// `sameAs`, which materially strengthens entity grounding for AI citation.
-const ORG_SAME_AS: string[] = [];
+// (those live under `founder`). These flow into Organization `sameAs`, which
+// strengthens entity grounding for AI citation and Knowledge-Panel eligibility.
+// The App Store + Google Play listings are verified owned profiles of the brand.
+// TODO: add a Wikidata item / podcast-directory page / social profile when they exist.
+const ORG_SAME_AS: string[] = [APP_STORE_URL, PLAY_STORE_URL];
 
 /** The canonical islam.se Organization node. Other schemas reference it via
  *  `{ "@id": ORG_ID }` instead of repeating name/logo/founder. */

@@ -139,13 +139,11 @@ const oldPaths = [
 	"/kost/amning",
 	"/kost/rokning",
 	"/kost/traning",
-	"/kost/griskott",
 	"/kost/muslimsk-matkultur-i-historien",
 	"/kost/medicinska-anledningar-for-alkoholforbud",
 	"/kost/utbrandhet",
 	"/kost/inre-och-yttre-valbefinnande",
 	"/kost/partnerskapet-mellan-kropp-och-sjal",
-	"/kost/halalslakt",
 	"/kost/mediciner",
 	"/kost/vinager",
 	"/gud/kunskap-om-guds-namn-och-attribut",
@@ -242,12 +240,9 @@ const oldPaths = [
 	"/existens/syftet-med-skapelsen-av-manniskoslaktet",
 	"/existens/konstverket-ar-inte-konstnaren",
 	"/pelare/dyrkan",
-	"/pelare/hogtider",
 	"/pelare/sharia",
-	"/pelare/trosbekannelsen",
 	"/pelare/sunna",
 	"/pelare/mosken",
-	"/pelare/bonen",
 	"/pelare/allmosan",
 	"/pelare/vallfarden",
 	"/pelare/ramadan-2",
@@ -264,13 +259,10 @@ const oldPaths = [
 	"/gudssyn",
 	"/islam-i-praktik/konvertera",
 	"/islam-i-praktik",
-	"/islam-i-praktik/tvagningen",
 	"/islam-i-praktik/ghusl",
-	"/islam-i-praktik/nar-tvagning-kravs",
 	"/islam-i-praktik/video-tvagningen",
 	"/islam-i-praktik/video-bonen",
 	"/islam-i-praktik/odmjukhet-under-bonen",
-	"/islam-i-praktik/boneguide",
 	"/halsa",
 	"/arbete",
 	"/arbete/salja-varor-till-olika-priser",
@@ -306,8 +298,6 @@ const oldPaths = [
 	"/category/faq",
 	"/category/xslider",
 	// Tags
-	"/tag/bonetid",
-	"/tag/bonetider",
 	"/tag/faste-tider",
 	"/tag/fastetider",
 	"/tag/ramadankalender",
@@ -317,6 +307,28 @@ const oldPaths = [
 	"/author/muhammad-bin-salih-al-uthaymin",
 	"/author/admin",
 	"/author/knut",
+];
+
+// Legacy URLs that map to a *specific* new page instead of the homepage — funnels their
+// existing search equity to the most relevant destination. The old WordPress prayer-time
+// tag pages still earn impressions (Search Console, 2026-06), so point them at the
+// bönetider hub rather than wasting that signal on a homepage 301. (Both slash forms are
+// emitted by the redirect hook below, so list each path once.)
+const customRedirects: [string, string][] = [
+	["/tag/bonetider", "/bonetider/"],
+	["/tag/bonetid", "/bonetider/"],
+	// Dead WordPress reference URLs that still rank → the new /svar/ pages that
+	// actually answer the query (a relevant 301 transfers the ranking; a homepage
+	// 301 would be a soft-404 and lose it). See content.config.ts `svar`.
+	["/kost/griskott", "/svar/varfor-ater-muslimer-inte-griskott/"],
+	["/kost/halalslakt", "/svar/vad-ar-halalslakt/"],
+	["/historia/kaba", "/svar/vad-ar-kaba/"],
+	["/pelare/trosbekannelsen", "/svar/trosbekannelsen-shahada/"],
+	["/pelare/hogtider", "/svar/eid-al-fitr-och-eid-al-adha/"],
+	["/pelare/bonen", "/svar/sa-ber-man-steg-for-steg/"],
+	["/islam-i-praktik/boneguide", "/svar/sa-ber-man-steg-for-steg/"],
+	["/islam-i-praktik/nar-tvagning-kravs", "/svar/tvagning-wudu/"],
+	["/islam-i-praktik/tvagningen", "/svar/tvagning-wudu/"],
 ];
 
 export default defineConfig({
@@ -430,7 +442,16 @@ export default defineConfig({
 			name: "legacy-redirects",
 			hooks: {
 				"astro:build:done": ({ dir }) => {
-					const body = `${oldPaths.map((p) => `${p} / 301`).join("\n")}\n`;
+					// Cloudflare _redirects matches the path literally, so emit BOTH the
+					// slash-less and trailing-slash form of every rule. The legacy WordPress
+					// URLs Google still ranks use trailing slashes; without the slash form they
+					// 404 — which was dropping ~40% of all search impressions onto the 404 page
+					// (Search Console, 2026-06). Custom (specific-target) rules first so a
+					// first-match win beats the generic homepage fallback for the same path.
+					const both = (from: string, to: string) => [`${from} ${to} 301`, `${from}/ ${to} 301`];
+					const custom = customRedirects.flatMap(([from, to]) => both(from, to));
+					const legacy = oldPaths.flatMap((p) => both(p, "/"));
+					const body = `${[...custom, ...legacy].join("\n")}\n`;
 					writeFileSync(new URL("_redirects", dir), body);
 				},
 			},

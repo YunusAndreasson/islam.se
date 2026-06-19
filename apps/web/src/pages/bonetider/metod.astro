@@ -7,11 +7,13 @@ import { BONETIDER_DATA_DATE, SCB_REF, SCB_SOURCE } from "../../lib/bonetider/me
 const description =
 	"Så beräknas bönetiderna på islam.se: solens verkliga läge, beräkningsmetoder (Muslim World League m.fl.), madhhab, regler för höga latituder, tidszon – och våra källor (SCB, GeoNames, adhan).";
 
-// Machine-readable sources for the TechArticle citation[].
+// Machine-readable sources for the TechArticle citation[]. External works are
+// typed CreativeWork (not Dataset): citation accepts the supertype, and bare
+// Dataset nodes get validated as standalone Dataset rich results by Google.
 const sources: Record<string, unknown>[] = [
 	{ "@type": "SoftwareSourceCode", name: "adhan", url: "https://github.com/batoulapps/adhan-js" },
-	{ "@type": "Dataset", name: "GeoNames", url: "https://www.geonames.org/", license: "https://creativecommons.org/licenses/by/4.0/" },
-	{ "@type": "Dataset", name: `${SCB_SOURCE} (${SCB_REF})`, creator: { "@type": "GovernmentOrganization", name: "Statistiska centralbyrån" } },
+	{ "@type": "CreativeWork", name: "GeoNames", url: "https://www.geonames.org/", license: "https://creativecommons.org/licenses/by/4.0/" },
+	{ "@type": "CreativeWork", name: `${SCB_SOURCE} (${SCB_REF})`, creator: { "@type": "GovernmentOrganization", name: "Statistiska centralbyrån" } },
 ];
 
 // Visible Q&A (also emitted as FAQPage) – the question-shaped queries AI engines
@@ -40,13 +42,14 @@ const faq = [
 	title="Så beräknas bönetiderna — islam.se"
 	description={description}
 	ogImage="/bonetider/og.png"
+	ogImageAlt="Så beräknas islamiska bönetider för svenska latituder — islam.se"
 	jsonLd={[
 		{
 			"@context": "https://schema.org",
 			"@type": "TechArticle",
 			headline: "Så beräknas bönetiderna",
 			description,
-			url: "https://islam.se/bonetider/metod",
+			url: "https://islam.se/bonetider/metod/",
 			inLanguage: "sv",
 			datePublished: BONETIDER_DATA_DATE,
 			dateModified: BONETIDER_DATA_DATE,
@@ -74,7 +77,7 @@ const faq = [
 	<main id="main" class="home bonetider-metod bt-prose">
 		<nav class="bt-crumbs" aria-label="Brödsmulor">
 			<a href="/">Hem</a> <span aria-hidden="true">/</span>
-			<a href="/bonetider">Bönetider</a> <span aria-hidden="true">/</span>
+			<a href="/bonetider/">Bönetider</a> <span aria-hidden="true">/</span>
 			<span aria-current="page">Metod</span>
 		</nav>
 
@@ -188,7 +191,7 @@ const faq = [
 		<AppPromo variant="compact" />
 
 		<p class="bt-attrib">
-			<a href="/bonetider">← Alla bönetider i Sverige</a>
+			<a href="/bonetider/">← Alla bönetider i Sverige</a>
 		</p>
 	</main>
 </Base>

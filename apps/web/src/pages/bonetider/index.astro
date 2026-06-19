@@ -24,13 +24,14 @@ const description =
 	title="Bönetider i Sverige — islam.se"
 	description={description}
 	ogImage="/bonetider/og.png"
+	ogImageAlt="Bönetider för hela Sverige — Fajr, Shurūq, Ẓuhr, ʿAṣr, Maghrib och ʿIshāʾ beräknade efter solens läge"
 	jsonLd={[
 		{
 			"@context": "https://schema.org",
 			"@type": "CollectionPage",
 			name: "Bönetider i Sverige",
 			description,
-			url: "https://islam.se/bonetider",
+			url: "https://islam.se/bonetider/",
 			inLanguage: "sv",
 		},
 		dataset({
@@ -81,7 +82,7 @@ const description =
 			<h2 id="bh2-find">Hitta din ort</h2>
 			<p class="bh2-lead">
 				{total.toLocaleString("sv-SE")} orter, ordnade efter län – varav {withScb.toLocaleString("sv-SE")} med
-				officiell befolkningsstatistik från {SCB_SOURCE}. Läs om <a href="/bonetider/metod">hur tiderna beräknas</a>.
+				officiell befolkningsstatistik från {SCB_SOURCE}. Läs om <a href="/bonetider/metod/">hur tiderna beräknas</a>.
 			</p>
 			<input
 				type="search"
@@ -101,7 +102,7 @@ const description =
 						<ul class="bt-county-list">
 							{g.places.map((p) => (
 								<li>
-									<a href={`/bonetider/${p.slug}`} data-name={p.name.toLowerCase()}>{p.name}</a>
+									<a href={`/bonetider/${p.slug}/`} data-name={p.name.toLowerCase()}>{p.name}</a>
 								</li>
 							))}
 						</ul>

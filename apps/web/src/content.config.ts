@@ -88,4 +88,32 @@ const tankare = defineCollection({
 	}),
 });
 
-export const collections = { articles, verser, tradar, tankare };
+// Svar — SEO reference / Q&A pages (NOT essays). A separate collection from
+// `articles`, so these never surface on the front page, the essay archive, or the
+// RSS feed (all of which read `getArticles()`). Their job is to recover the search
+// rankings the old WordPress reference URLs still hold (Search Console, 2026-06):
+// the dead legacy URLs 301 here, and Google finds real, on-topic content again.
+// Fiqh rulings are grounded in al-ibadah.com (Athari/Sunni) and the Qurʾān.
+const svar = defineCollection({
+	loader: glob({ pattern: "**/*.md", base: "../../data/svar" }),
+	schema: z.object({
+		title: z.string(),
+		// The primary question this page answers, in the user's words — drives the
+		// QAPage/FAQ schema and should mirror a real high-volume search query.
+		question: z.string(),
+		description: z.string(),
+		publishedAt: z.string().datetime(),
+		updatedAt: z.string().datetime().optional(),
+		// Target search queries (our reference only; not rendered) — keeps each
+		// article honest about which keywords it must actually cover in the body.
+		keywords: z.array(z.string()).optional(),
+		// Extra Q&A pairs → FAQPage schema + an on-page "Vanliga frågor" block.
+		faq: z.array(z.object({ q: z.string(), a: z.string() })).optional(),
+		// Attribution / further reading. al-ibadah.com links carry the fiqh weight.
+		sources: z.array(z.object({ name: z.string(), url: z.string().url().optional() })).optional(),
+		// Slugs of related svar pages, for internal linking / crawl depth.
+		related: z.array(z.string()).optional(),
+	}),
+});
+
+export const collections = { articles, verser, tradar, tankare, svar };

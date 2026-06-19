@@ -4,10 +4,12 @@
 // not the homepage's top five, each carrying Event JSON-LD so the dates are
 // machine-readable for search and calendar tools.
 //
-// Caveat on the structured data: these are global observances with no venue, so
-// Google may not grant full Event rich-result cards (which prefer a location).
-// The primary win is this indexable, well-headed page ranking for date queries
-// ("ramadan 2026 datum", "eid 2026"); the Event markup is supporting structure.
+// Caveat on the structured data: these are global observances with no venue,
+// performer, or tickets, so even with a VirtualLocation (see eventLd below) they
+// won't earn full Event rich-result cards — Google reserves those for ticketed,
+// located events. The primary win is this indexable, well-headed page ranking for
+// date queries ("ramadan 2026 datum", "eid 2026"); the Event markup is supporting
+// structure (and now passes validation — the location field was the critical gap).
 import Base from "../layouts/Base.astro";
 import { breadcrumbList } from "../lib/jsonld";
 import { type Markesdag, getUpcomingMarkesdagar, gregorian } from "../lib/markesdagar";
@@ -37,6 +39,14 @@ for (const g of groups) {
 	g.gregSpan = lo === hi ? lo : `${lo}–${hi}`;
 }
 
+// These are worldwide religious observances with no physical venue. Google's
+// Event type requires `location`, so we declare an OnlineEventAttendanceMode +
+// VirtualLocation pointing at this canonical calendar page — honest (no invented
+// address) and it clears the critical "Missing location" error. performer/offers/
+// organizer are deliberately omitted: a date observance has no performer, no
+// tickets, and no single organizer — faking them would be dishonest, and those
+// are non-critical warnings that don't affect validity.
+const CALENDAR_URL = "https://islam.se/det-islamiska-aret/";
 const eventLd = events.map((e) => ({
 	"@context": "https://schema.org",
 	"@type": "Event",
@@ -44,8 +54,11 @@ const eventLd = events.map((e) => ({
 	startDate: e.startISO,
 	...(e.endISO ? { endDate: e.endISO } : {}),
 	eventStatus: "https://schema.org/EventScheduled",
+	eventAttendanceMode: "https://schema.org/OnlineEventAttendanceMode",
+	location: { "@type": "VirtualLocation", url: CALENDAR_URL },
+	image: "https://islam.se/og-default.png",
 	...(e.note ? { description: e.note } : {}),
-	url: "https://islam.se/det-islamiska-aret",
+	url: CALENDAR_URL,
 	inLanguage: "sv",
 }));
 

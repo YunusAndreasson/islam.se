@@ -35,7 +35,7 @@ ${essayLines}
 ## Resurser
 - [Alla essäer](${site}/essaer): hela arkivet, ordnat efter ämne
 - [Fulltext för språkmodeller](${site}/llms-full.txt): hela essäarkivet i ett dokument
-- [Bönetider](${site}/bonetider): bönetider för 2 100+ svenska orter, med [beräkningsmetod och källor](${site}/bonetider/metod)
+- [Bönetider](${site}/bonetider/): bönetider för 2 100+ svenska orter, med [beräkningsmetod och källor](${site}/bonetider/metod/)
 - [Det islamiska året](${site}/det-islamiska-aret): kalender med islamiska högtider
 - [RSS](${site}/rss.xml): nyaste essäerna som flöde
 - [Sitemap](${site}/sitemap-index.xml): samtliga URL:er

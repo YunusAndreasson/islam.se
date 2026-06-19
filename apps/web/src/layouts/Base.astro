@@ -17,6 +17,10 @@ interface Props {
 	title: string;
 	description?: string;
 	ogImage?: string;
+	/** Alt text for the OG/Twitter image. Defaults to the page title on essays and
+	 *  a site descriptor elsewhere; pass an explicit value when the share card shows
+	 *  page-specific content (e.g. a city's prayer-time card). */
+	ogImageAlt?: string;
 	/** Single-URL LCP preload (non-responsive images). */
 	preloadImage?: string;
 	/** Responsive LCP preload — the exact `srcset`/`sizes` the page's `<Image>`
@@ -47,6 +51,7 @@ const {
 	title,
 	description = "Essäer om islamisk intellektuell tradition och svenskt kulturarv.",
 	ogImage,
+	ogImageAlt,
 	preloadImage,
 	preloadImageSrcset,
 	preloadImageSizes,
@@ -60,7 +65,9 @@ const ogImageUrl = ogImage
 	? new URL(ogImage, Astro.site).href
 	: new URL("/og-default.png", Astro.site).href;
 const pageTitle = title.replace(/ — islam\.se$/, "").replace(/^islam\.se — /, "");
-const ogImageAlt = articleMeta ? pageTitle : "islam.se — essäer om islamisk intellektuell tradition och svenskt kulturarv";
+const resolvedOgImageAlt =
+	ogImageAlt ??
+	(articleMeta ? pageTitle : "islam.se — essäer om islamisk intellektuell tradition och svenskt kulturarv");
 
 // Every page carries the canonical Organization + WebSite entity nodes; page-
 // and article-level blocks reference them by @id so all claims merge onto one
@@ -114,6 +121,25 @@ if (articleMeta) {
 		<meta name="color-scheme" content="light dark" />
 		<meta name="theme-color" content="#faf8f5" media="(prefers-color-scheme: light)" />
 		<meta name="theme-color" content="#1a1917" media="(prefers-color-scheme: dark)" />
+
+		<!-- Google Analytics 4 (gtag). Manual page_view on astro:page-load so the
+		     View-Transitions (SPA-style) navigations are counted; send_page_view:false
+		     prevents a double count on the initial load. -->
+		<script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-TTJ71Z0QKS"></script>
+		<script is:inline>
+			window.dataLayer = window.dataLayer || [];
+			function gtag() { dataLayer.push(arguments); }
+			gtag("js", new Date());
+			gtag("config", "G-TTJ71Z0QKS", { send_page_view: false });
+			document.addEventListener("astro:page-load", () => {
+				gtag("event", "page_view", {
+					page_title: document.title,
+					page_location: location.href,
+					page_path: location.pathname + location.search,
+				});
+			});
+		</script>
+
 		<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
 		<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 		<link rel="manifest" href="/manifest.webmanifest" />
@@ -144,7 +170,7 @@ if (articleMeta) {
 		<meta property="og:image" content={ogImageUrl} />
 		<meta property="og:image:width" content="1200" />
 		<meta property="og:image:height" content="630" />
-		<meta property="og:image:alt" content={ogImageAlt} />
+		<meta property="og:image:alt" content={resolvedOgImageAlt} />
 		{articleMeta && <meta property="article:published_time" content={articleMeta.publishedAt} />}
 		{articleMeta && <meta property="article:author" content="https://islam.se" />}
 
@@ -153,7 +179,7 @@ if (articleMeta) {
 		<meta name="twitter:title" content={pageTitle} />
 		<meta name="twitter:description" content={description} />
 		<meta name="twitter:image" content={ogImageUrl} />
-		<meta name="twitter:image:alt" content={ogImageAlt} />
+		<meta name="twitter:image:alt" content={resolvedOgImageAlt} />
 
 		<!-- RSS -->
 		<link rel="alternate" type="application/rss+xml" title="islam.se" href="/rss.xml" />

@@ -45,6 +45,18 @@ const facts = placeFacts(place.lat, place.lon);
 
 const nf0 = new Intl.NumberFormat("sv-SE", { maximumFractionDigits: 0 });
 const nf1 = new Intl.NumberFormat("sv-SE", { maximumFractionDigits: 1 });
+
+// Visible date for the "Dagens bönetider" block. Static build → this is the build
+// date; the inline script below refreshes it to the reader's real today on load, and
+// a daily rebuild keeps the crawled value current. Stockholm time = the times' zone.
+const todayIso = now.toLocaleDateString("sv-SE", { timeZone: "Europe/Stockholm" });
+const todayLabel = new Intl.DateTimeFormat("sv-SE", {
+	weekday: "long",
+	day: "numeric",
+	month: "long",
+	year: "numeric",
+	timeZone: "Europe/Stockholm",
+}).format(now);
 const popText = nf0.format(pop);
 const depText = nf1.format(facts.summerMidnightDepressionDeg);
 
@@ -80,13 +92,17 @@ const ogImage = place.population >= OG_POPULATION ? `/bonetider/${place.slug}/og
 
 // Machine-readable provenance for the WebPage (isBasedOn) – the same sources as
 // the visible footer attribution, so the data origin is legible to crawlers.
+// External works the page is based on, expressed as CreativeWork (not Dataset):
+// `isBasedOn` accepts the supertype, and typing these as Dataset made Google
+// validate each as a standalone Dataset rich result — flooding Search Console
+// with "missing description/creator/license" across every city page.
 const sources: Record<string, unknown>[] = [
-	{ "@type": "Dataset", name: "GeoNames", url: "https://www.geonames.org/", license: "https://creativecommons.org/licenses/by/4.0/" },
+	{ "@type": "CreativeWork", name: "GeoNames", url: "https://www.geonames.org/", license: "https://creativecommons.org/licenses/by/4.0/" },
 	{ "@type": "SoftwareSourceCode", name: "adhan", url: "https://github.com/batoulapps/adhan-js" },
 ];
 if (hasScb) {
 	sources.unshift({
-		"@type": "Dataset",
+		"@type": "CreativeWork",
 		name: `${SCB_SOURCE} (${SCB_REF})`,
 		creator: { "@type": "GovernmentOrganization", name: "Statistiska centralbyrån" },
 	});
@@ -124,13 +140,14 @@ if (hasScb) {
 	title={`Bönetider i ${place.name} — islam.se`}
 	description={description}
 	ogImage={ogImage}
+	ogImageAlt={`Bönetider i ${place.name} — dagens tider för Fajr, Shurūq, Ẓuhr, ʿAṣr, Maghrib och ʿIshāʾ`}
 	jsonLd={[
 		{
 			"@context": "https://schema.org",
 			"@type": "WebPage",
 			name: `Bönetider i ${place.name}`,
 			description,
-			url: `https://islam.se/bonetider/${place.slug}`,
+			url: `https://islam.se/bonetider/${place.slug}/`,
 			inLanguage: "sv",
 			dateModified: BONETIDER_DATA_DATE,
 			about: cityPlace({
@@ -164,7 +181,7 @@ if (hasScb) {
 	<main id="main" class="home bonetider-stad">
 		<nav class="bt-crumbs" aria-label="Brödsmulor">
 			<a href="/">Hem</a> <span aria-hidden="true">/</span>
-			<a href="/bonetider">Bönetider</a> <span aria-hidden="true">/</span>
+			<a href="/bonetider/">Bönetider</a> <span aria-hidden="true">/</span>
 			<span aria-current="page">{place.name}</span>
 		</nav>
 
@@ -181,6 +198,9 @@ if (hasScb) {
 
 		<section class="bt-stad-section" aria-labelledby="bt-stad-idag">
 			<h2 id="bt-stad-idag">Dagens bönetider i {place.name}</h2>
+			<p class="bt-stad-date">
+				I dag · <time datetime={todayIso} class="bt-today-date">{todayLabel}</time>
+			</p>
 			<p class="bt-stad-note">
 				Tiderna nedan beräknas live i din webbläsare. Sveriges ljusa sommarnätter gör att Fajr och
 				ʿIshāʾ ligger nära varandra – kartan ovan visar varför: solen sjunker bara en bit under
@@ -267,7 +287,7 @@ if (hasScb) {
 			<p>
 				Tiderna gäller tidszonen Europe/Stockholm och växlar automatiskt mellan vinter- och
 				sommartid. Vill du finjustera mot din moské kan du byta metod och madhhab nedan, eller läsa
-				mer om <a href="/bonetider/metod">hur tiderna beräknas</a>.
+				mer om <a href="/bonetider/metod/">hur tiderna beräknas</a>.
 			</p>
 		</section>
 
@@ -292,7 +312,7 @@ if (hasScb) {
 				))}
 			</dl>
 			<p class="bt-faq-more">
-				<a href="/bonetider/metod">Mer om hur bönetiderna beräknas →</a>
+				<a href="/bonetider/metod/">Mer om hur bönetiderna beräknas →</a>
 			</p>
 		</section>
 
@@ -301,7 +321,7 @@ if (hasScb) {
 				<h2 id="bt-stad-nearby">Bönetider i närliggande orter</h2>
 				<ul class="bt-nearby">
 					{nearby.map((p) => (
-						<li><a href={`/bonetider/${p.slug}`}>{p.name}</a></li>
+						<li><a href={`/bonetider/${p.slug}/`}>{p.name}</a></li>
 					))}
 				</ul>
 			</section>
@@ -309,8 +329,8 @@ if (hasScb) {
 
 		<p class="bt-attrib">
 			Befolkningsstatistik: {SCB_SOURCE} ({SCB_REF}). Ortsdata från GeoNames (CC BY 4.0). Beräkningar
-			med <span lang="en">adhan</span> i tidszonen Europe/Stockholm. <a href="/bonetider/metod">Om beräkningen</a> ·
-			<a href="/bonetider">Alla orter →</a>
+			med <span lang="en">adhan</span> i tidszonen Europe/Stockholm. <a href="/bonetider/metod/">Om beräkningen</a> ·
+			<a href="/bonetider/">Alla orter →</a>
 		</p>
 	</main>
 </Base>
@@ -366,6 +386,18 @@ if (hasScb) {
 
 	.bt-stad-section h2 {
 		font-size: var(--step-1);
+	}
+
+	.bt-stad-date {
+		font-family: var(--font-heading);
+		font-size: 0.875rem;
+		color: var(--color-muted);
+		margin: var(--space-half) 0 0;
+	}
+
+	.bt-stad-date time {
+		color: var(--color-text);
+		text-transform: capitalize;
 	}
 
 	.bt-stad-note {
@@ -557,3 +589,24 @@ if (hasScb) {
 		text-decoration: none;
 	}
 </style>
+
+<script>
+	// The page is statically built, so the server-rendered date is the build date.
+	// Refresh it to the reader's real today on load (and across view-transition
+	// navigations) so "Dagens bönetider" always names the correct day. Times zone =
+	// Europe/Stockholm, matching the prayer-time calculation.
+	document.addEventListener("astro:page-load", () => {
+		const el = document.querySelector<HTMLTimeElement>(".bt-today-date");
+		if (!el) return;
+		const now = new Date();
+		const tz = { timeZone: "Europe/Stockholm" } as const;
+		el.setAttribute("datetime", now.toLocaleDateString("sv-SE", tz));
+		el.textContent = now.toLocaleDateString("sv-SE", {
+			weekday: "long",
+			day: "numeric",
+			month: "long",
+			year: "numeric",
+			...tz,
+		});
+	});
+</script>
