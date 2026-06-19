@@ -1,0 +1,118 @@
+---
+import { getCollection } from "astro:content";
+import Base from "../../layouts/Base.astro";
+import { breadcrumbList, collectionPageJsonLd } from "../../lib/jsonld";
+
+const entries = (await getCollection("svar")).sort((a, b) =>
+	a.data.title.localeCompare(b.data.title, "sv"),
+);
+
+const description =
+	"Tydliga, källbelagda svar på vanliga frågor om islam – tro, dyrkan, mat, familj och praktik. Grundade i Koranen och klassisk sunnitisk lärdom.";
+---
+
+<Base
+	title="Frågor och svar om islam — islam.se"
+	description={description}
+	ogImageAlt="Frågor och svar om islam — islam.se"
+	jsonLd={[
+		collectionPageJsonLd({
+			name: "Frågor och svar om islam",
+			description,
+			url: "/svar/",
+			essays: entries.map((e) => ({ title: e.data.title, slug: `svar/${e.id}` })),
+		}),
+		breadcrumbList([
+			{ name: "Hem", url: "/" },
+			{ name: "Frågor och svar", url: "/svar/" },
+		]),
+	]}
+>
+	<main id="main" class="svar-index content-column">
+		<nav class="bt-crumbs" aria-label="Brödsmulor">
+			<a href="/">Hem</a> <span aria-hidden="true">/</span>
+			<span aria-current="page">Frågor och svar</span>
+		</nav>
+
+		<header class="svar-index-header">
+			<p class="label">Frågor och svar</p>
+			<h1>Frågor och svar om islam</h1>
+			<p class="svar-index-lead">
+				Korta, tydliga och källbelagda svar på de vanligaste frågorna om islam – från mat och
+				familj till tro och dyrkan. Varje svar är grundat i Koranen och klassisk sunnitisk
+				lärdom; för fördjupade rättsliga frågor hänvisar vi till <a href="https://al-ibadah.com" rel="noopener">al-ibadah.com</a>.
+			</p>
+		</header>
+
+		{entries.length > 0 ? (
+			<ul class="svar-list">
+				{entries.map((e) => (
+					<li class="svar-list-item">
+						<a href={`/svar/${e.id}/`}>
+							<span class="svar-list-title">{e.data.title}</span>
+							<span class="svar-list-desc">{e.data.description}</span>
+						</a>
+					</li>
+				))}
+			</ul>
+		) : (
+			<p>Inga frågor publicerade ännu.</p>
+		)}
+	</main>
+</Base>
+
+<style>
+	.svar-index { margin-block: var(--space-phi); }
+
+	.bt-crumbs {
+		font-family: var(--font-heading);
+		font-size: 0.8125rem;
+		color: var(--color-muted);
+		margin-bottom: var(--space-unit);
+	}
+	.bt-crumbs a { color: var(--color-accent); text-decoration: none; }
+
+	.svar-index-header h1 { margin: var(--space-half) 0 0; }
+
+	.svar-index-lead {
+		font-family: var(--font-body);
+		font-size: 1.0625rem;
+		line-height: 1.6;
+		color: color-mix(in srgb, var(--color-text) 88%, var(--color-muted));
+		max-width: 42rem;
+		margin: var(--space-unit) 0 0;
+		text-wrap: pretty;
+	}
+	.svar-index-lead a { color: var(--color-accent); }
+
+	.svar-list {
+		list-style: none;
+		margin: var(--space-phi) 0 0;
+		padding: 0;
+	}
+	.svar-list-item {
+		border-bottom: 1px solid var(--color-divider);
+	}
+	.svar-list-item a {
+		display: block;
+		padding: var(--space-unit) 0;
+		text-decoration: none;
+	}
+	.svar-list-title {
+		display: block;
+		font-family: var(--font-heading);
+		font-weight: 600;
+		font-size: 1.0625rem;
+		color: var(--color-accent);
+	}
+	.svar-list-desc {
+		display: block;
+		font-family: var(--font-body);
+		font-size: 0.9375rem;
+		line-height: 1.55;
+		color: var(--color-muted);
+		margin-top: 0.25rem;
+		text-wrap: pretty;
+	}
+	.svar-list-item a:hover .svar-list-title { text-decoration: underline; }
+</style>

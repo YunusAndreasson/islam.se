@@ -1,0 +1,222 @@
+---
+import { type CollectionEntry, getCollection, render } from "astro:content";
+import Base from "../../layouts/Base.astro";
+import { ORG_ID, breadcrumbList } from "../../lib/jsonld";
+
+export async function getStaticPaths() {
+	const entries = await getCollection("svar");
+	const bySlug = new Map(entries.map((e) => [e.id, e]));
+	return entries.map((entry) => ({
+		params: { slug: entry.id },
+		props: {
+			entry,
+			related: (entry.data.related ?? [])
+				.map((id) => bySlug.get(id))
+				.filter((e): e is NonNullable<typeof e> => Boolean(e)),
+		},
+	}));
+}
+
+type SvarEntry = CollectionEntry<"svar">;
+interface Props {
+	entry: SvarEntry;
+	related: SvarEntry[];
+}
+
+const { entry, related } = Astro.props;
+const { data } = entry;
+const { Content } = await render(entry);
+const url = `https://islam.se/svar/${entry.id}/`;
+
+const updated =
+	data.updatedAt && data.updatedAt.slice(0, 10) !== data.publishedAt.slice(0, 10)
+		? data.updatedAt
+		: null;
+
+// Article + FAQPage + breadcrumb. The page answers one primary question, so the
+// Article carries it as mainEntityOfPage and the FAQ block (when present) earns the
+// FAQ rich-result eligibility for the long-tail variants.
+const jsonLd: Record<string, unknown>[] = [
+	{
+		"@context": "https://schema.org",
+		"@type": "Article",
+		headline: data.title,
+		description: data.description,
+		inLanguage: "sv",
+		url,
+		mainEntityOfPage: url,
+		datePublished: data.publishedAt,
+		dateModified: data.updatedAt ?? data.publishedAt,
+		author: { "@id": ORG_ID },
+		publisher: { "@id": ORG_ID },
+		...(data.sources && data.sources.length > 0
+			? {
+					citation: data.sources.map((s) => ({
+						"@type": "CreativeWork",
+						name: s.name,
+						...(s.url ? { url: s.url } : {}),
+					})),
+				}
+			: {}),
+	},
+	breadcrumbList([
+		{ name: "Hem", url: "/" },
+		{ name: "Frågor och svar", url: "/svar/" },
+		{ name: data.title, url },
+	]),
+];
+if (data.faq && data.faq.length > 0) {
+	jsonLd.push({
+		"@context": "https://schema.org",
+		"@type": "FAQPage",
+		mainEntity: data.faq.map((f) => ({
+			"@type": "Question",
+			name: f.q,
+			acceptedAnswer: { "@type": "Answer", text: f.a },
+		})),
+	});
+}
+---
+
+<Base
+	title={`${data.title} — islam.se`}
+	description={data.description}
+	ogImageAlt={data.title}
+	jsonLd={jsonLd}
+>
+	<main id="main" class="svar-page content-column">
+		<nav class="bt-crumbs" aria-label="Brödsmulor">
+			<a href="/">Hem</a> <span aria-hidden="true">/</span>
+			<a href="/svar/">Frågor och svar</a> <span aria-hidden="true">/</span>
+			<span aria-current="page">{data.title}</span>
+		</nav>
+
+		<article>
+			<header class="svar-header">
+				<p class="label">Fråga &amp; svar</p>
+				<h1>{data.title}</h1>
+				{updated ? (
+					<p class="svar-updated">Uppdaterad <time datetime={updated.slice(0, 10)}>{updated.slice(0, 10)}</time></p>
+				) : null}
+			</header>
+
+			<div class="article-body prose">
+				<Content />
+			</div>
+
+			{data.faq && data.faq.length > 0 && (
+				<section class="svar-faq" aria-labelledby="svar-faq-rubrik">
+					<h2 id="svar-faq-rubrik">Vanliga frågor</h2>
+					<dl>
+						{data.faq.map((f) => (
+							<div class="svar-faq-item">
+								<dt>{f.q}</dt>
+								<dd>{f.a}</dd>
+							</div>
+						))}
+					</dl>
+				</section>
+			)}
+
+			{data.sources && data.sources.length > 0 && (
+				<section class="svar-sources" aria-labelledby="svar-kallor">
+					<h2 id="svar-kallor">Källor och fördjupning</h2>
+					<ul>
+						{data.sources.map((s) => (
+							<li>{s.url ? <a href={s.url} rel="noopener">{s.name}</a> : s.name}</li>
+						))}
+					</ul>
+				</section>
+			)}
+
+			{related.length > 0 && (
+				<section class="svar-related" aria-labelledby="svar-relaterat">
+					<h2 id="svar-relaterat">Relaterade frågor</h2>
+					<ul>
+						{related.map((r) => (
+							<li><a href={`/svar/${r.id}/`}>{r.data.title}</a></li>
+						))}
+					</ul>
+				</section>
+			)}
+
+			<p class="svar-back"><a href="/svar/">← Alla frågor och svar</a></p>
+		</article>
+	</main>
+</Base>
+
+<style>
+	.svar-page {
+		margin-block: var(--space-phi);
+	}
+
+	.bt-crumbs {
+		font-family: var(--font-heading);
+		font-size: 0.8125rem;
+		color: var(--color-muted);
+		margin-bottom: var(--space-unit);
+	}
+	.bt-crumbs a { color: var(--color-accent); text-decoration: none; }
+	.bt-crumbs a:hover { text-decoration: underline; }
+
+	.svar-header h1 {
+		margin: var(--space-half) 0 0;
+		text-wrap: balance;
+	}
+
+	.svar-updated {
+		font-family: var(--font-heading);
+		font-size: 0.8125rem;
+		color: var(--color-muted);
+		margin: var(--space-half) 0 0;
+	}
+
+	.svar-faq,
+	.svar-sources,
+	.svar-related {
+		margin-top: var(--space-phi);
+		padding-top: var(--space-unit);
+		border-top: 1px solid var(--color-divider);
+	}
+
+	.svar-faq h2,
+	.svar-sources h2,
+	.svar-related h2 {
+		font-size: var(--step-1);
+	}
+
+	.svar-faq-item {
+		padding: var(--space-half) 0;
+		border-bottom: 1px solid var(--color-divider);
+	}
+	.svar-faq dt {
+		font-family: var(--font-heading);
+		font-weight: 600;
+		color: var(--color-text);
+		margin-bottom: 0.3rem;
+	}
+	.svar-faq dd {
+		margin: 0;
+		font-family: var(--font-body);
+		line-height: 1.6;
+		color: color-mix(in srgb, var(--color-text) 85%, var(--color-muted));
+	}
+
+	.svar-sources ul,
+	.svar-related ul {
+		font-family: var(--font-body);
+		line-height: 1.7;
+		color: var(--color-muted);
+		margin: var(--space-half) 0 0;
+		padding-left: 1.1rem;
+	}
+	.svar-sources a,
+	.svar-related a { color: var(--color-accent); }
+
+	.svar-back {
+		margin-top: var(--space-phi);
+		font-family: var(--font-heading);
+		font-size: 0.9375rem;
+	}
+	.svar-back a { color: var(--color-accent); text-decoration: none; }
+</style>
