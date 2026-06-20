@@ -1347,4 +1347,74 @@ program
 		process.exit(0);
 	});
 
+// ─── Svar answer-page production ─────────────────────────────────────────────
+
+program
+	.command("svar")
+	.description("Produce a single SEO Q&A answer page → data/svar/<slug>.md")
+	.argument("<question>", 'The question/term to answer, e.g. "Vad är sunna?"')
+	.option("-m, --model <model>", "Model to use (opus|sonnet)", "opus")
+	.option("-e, --effort <level>", "Author-pass effort (low|medium|high|xhigh|max)", "xhigh")
+	.option("--review-effort <level>", "Review-pass effort (default max)", "max")
+	.option("--single-pass", "Skip the pass-2 review/revise pass", false)
+	.option("--save-draft", "Also save the pre-review draft to a temp file", false)
+	.option("-s, --slug <slug>", "Explicit slug (else derived from the title)")
+	.option("-l, --legacy <path>", "Legacy URL this page replaces (proposes a 301)")
+	.option("--overwrite", "Overwrite an existing data/svar/<slug>.md", false)
+	.action(async (question: string, options) => {
+		const { SvarProducer } = await import("./svar-producer.js");
+		const repoRoot = join(__prodDir, "..", "..", "..");
+
+		console.log("");
+		console.log("╔══════════════════════════════════════════════════════════╗");
+		console.log("║            Islam.se Answer-Page (svar) Producer          ║");
+		console.log("╚══════════════════════════════════════════════════════════╝");
+		console.log("");
+		console.log(`Question: ${question}`);
+		console.log(
+			`Model: ${options.model}   Effort: ${options.effort} (author) / ${options.singlePass ? "—" : options.reviewEffort} (review)`,
+		);
+		console.log("");
+
+		const producer = new SvarProducer({
+			repoRoot,
+			model: options.model as "opus" | "sonnet",
+			effort: options.effort,
+			reviewEffort: options.reviewEffort,
+			singlePass: options.singlePass === true,
+			saveDraft: options.saveDraft === true,
+			promptFile: join(__prodDir, "..", "prompts", "svar-author.md"),
+			reviewPromptFile: join(__prodDir, "..", "prompts", "svar-review.md"),
+			mcpConfig: join(repoRoot, ".mcp.json"),
+		});
+
+		const res = await producer.produce({
+			question,
+			slug: options.slug,
+			legacyPath: options.legacy,
+			overwrite: options.overwrite === true,
+		});
+
+		console.log("");
+		if (res.success) {
+			console.log("✅ SUCCESS");
+			console.log(`   File:  ${res.filePath}`);
+			console.log(`   Title: ${res.frontmatter?.title}`);
+			console.log(
+				`   Words: ${res.wordCount}   FAQ: ${res.frontmatter?.faq?.length ?? 0}   Sources: ${res.frontmatter?.sources?.length ?? 0}`,
+			);
+			console.log(`   Pass 2 (review): ${res.reviewed ? "✓ applied" : "— skipped/failed"}`);
+			if (res.draftPath) console.log(`   Draft saved: ${res.draftPath}`);
+			if (res.redirect) {
+				console.log("");
+				console.log("   Add to customRedirects in apps/web/astro.config.ts:");
+				console.log(`     ["${res.redirect[0]}", "${res.redirect[1]}"],`);
+			}
+			process.exit(0);
+		} else {
+			console.log(`❌ FAILED: ${res.error}`);
+			process.exit(1);
+		}
+	});
+
 program.parse();
