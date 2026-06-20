@@ -131,11 +131,18 @@ export function createFieldRenderer(canvas: HTMLCanvasElement) {
 
 	// Label type matches the site's heading face (Source Sans 3) instead of the
 	// system sans — the canvas is the only surface that can't inherit it via CSS.
-	// Resolved once: ctx.font can't read custom properties.
-	const labelFontFamily = (() => {
-		const fam = getComputedStyle(canvas).getPropertyValue("--font-heading").trim();
-		return fam || "ui-sans-serif, system-ui, -apple-system, sans-serif";
-	})();
+	// Resolved lazily and cached on first use: getComputedStyle forces a style recalc,
+	// so deferring it to the first real render (which is itself deferred until the field
+	// scrolls into view) keeps that cost off the boot critical path for off-screen maps.
+	// ctx.font can't read custom properties, so this must be resolved in JS.
+	let labelFontFamily = "";
+	function resolveLabelFont(): string {
+		if (!labelFontFamily) {
+			const fam = getComputedStyle(canvas).getPropertyValue("--font-heading").trim();
+			labelFontFamily = fam || "ui-sans-serif, system-ui, -apple-system, sans-serif";
+		}
+		return labelFontFamily;
+	}
 
 	let grid: SolarGrid | null = null;
 	let gridKey = "";
@@ -226,7 +233,7 @@ export function createFieldRenderer(canvas: HTMLCanvasElement) {
 	function drawLabels(t: Transform, labels: PrayerLineLabel[], scheme: Scheme): void {
 		if (labels.length === 0) return;
 		ctx.save();
-		ctx.font = `600 11px ${labelFontFamily}`;
+		ctx.font = `600 11px ${resolveLabelFont()}`;
 		ctx.textAlign = "center";
 		ctx.textBaseline = "middle";
 		ctx.lineJoin = "round";

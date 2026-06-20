@@ -423,12 +423,31 @@ export default defineConfig({
 			options: {
 				variants: [
 					{
-						weight: "200 900",
+						// Axis instanced to the weights actually used (300–700) — see the
+						// .woff2 note below; declaring the true range keeps the browser from
+						// assuming 200/800/900 masters that no longer exist in the file.
+						weight: "300 700",
 						style: "normal",
 						src: ["./src/assets/fonts/literata-roman.woff2"],
 					},
+				],
+			},
+		},
+		{
+			// Italic Literata is split into its own entry (same family name, so
+			// `font-style: italic` on var(--font-body) still resolves to it) PURELY so it
+			// is NOT preloaded: the 240 kB italic file is almost never above the fold
+			// (pull-quotes, scattered <em>), and preloading it stole ~1.4 s of Slow-4G
+			// bandwidth from the LCP hero image. It now loads lazily with font-display:swap
+			// the moment italic text first renders — invisible, since that's below the fold.
+			provider: fontProviders.local(),
+			name: "Literata",
+			cssVariable: "--font-body-italic",
+			fallbacks: ["Georgia", "Times New Roman", "serif"],
+			options: {
+				variants: [
 					{
-						weight: "200 900",
+						weight: "300 700",
 						style: "italic",
 						src: ["./src/assets/fonts/literata-italic.woff2"],
 					},
@@ -443,7 +462,7 @@ export default defineConfig({
 			options: {
 				variants: [
 					{
-						weight: "200 900",
+						weight: "300 700",
 						style: "normal",
 						src: ["./src/assets/fonts/source-sans-3-roman.woff2"],
 					},

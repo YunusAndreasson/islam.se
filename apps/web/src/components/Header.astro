@@ -6,7 +6,12 @@ const isHome = path === "/";
 <header class="site-header" transition:persist>
 	<nav class="site-nav" aria-label="Huvudnavigering">
 		<a href="/" aria-current={isHome ? "page" : undefined}><svg class="nav-rub" aria-hidden="true" viewBox="0 0 20 20" fill="none"><rect x="3.5" y="3.5" width="13" height="13" stroke="currentColor" stroke-width="1"/><rect x="3.5" y="3.5" width="13" height="13" stroke="currentColor" stroke-width="1" transform="rotate(45 10 10)"/><circle cx="10" cy="10" r="2.85" stroke="currentColor" stroke-width="0.8"/></svg><span class="site-wordmark">islam<span class="site-tld">.se</span></span></a>
-		<button class="search-trigger" type="button" aria-label="Sök och bläddra" aria-keyshortcuts="Meta+K Control+K">
+		{/* No aria-label: the accessible name comes from the visible label span, which
+		    CSS swaps "Sök" (pointer) ↔ "Meny" (touch) by media query. A fixed aria-label
+		    matches only one, tripping WCAG 2.5.3 (label-in-name) on the other; letting the
+		    visible text be the name keeps them in sync in every mode. The ⌘K kbd is
+		    aria-hidden, so it never pollutes the name. */}
+		<button class="search-trigger" type="button" aria-keyshortcuts="Meta+K Control+K">
 			<svg class="search-trigger-icon search-trigger-icon--search" width="16" height="16" viewBox="0 0 18 18" fill="none" aria-hidden="true">
 				<circle cx="8" cy="8" r="5.25" stroke="currentColor" stroke-width="1.25" />
 				<path d="M12 12l4 4" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" />

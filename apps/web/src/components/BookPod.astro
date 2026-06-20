@@ -11,7 +11,7 @@ const year = new Date().getFullYear();
 <section class:list={["bookpod", `bookpod--${variant}`]} aria-labelledby="bookpod-heading">
 	{variant === "home" && <p class="label home-kicker" id="bookpod-heading">Boken &amp; podden</p>}
 	<div class="bookpod-inner">
-		<a class="bookpod-cover" href="/samlingsvolym.pdf" download aria-label="Ladda ner Samlade essäer som PDF">
+		<a class="bookpod-cover" href="/samlingsvolym.pdf" download>
 			<span class="bookpod-cover-brand">islam.se</span>
 			<span class="bookpod-cover-title">Samlade<br />essäer</span>
 			<span class="bookpod-cover-sub">Essäer om islamisk intellektuell tradition och svenskt kulturarv</span>
@@ -88,13 +88,21 @@ const year = new Date().getFullYear();
 		}
 	}
 
+	/* The cover sits on a 4%-text tint (a paper wash), which drops plain --color-muted
+	   to ~4.24:1 (dark) / ~4.42:1 (light) on the small cover text — just under AA. This
+	   nudge mixes muted toward --color-text, so it darkens in light mode and lightens in
+	   dark mode: ≥4.5:1 on the tint in both schemes while staying a quiet cover label. */
+	.bookpod-cover {
+		--cover-label: color-mix(in srgb, var(--color-muted), var(--color-text) 22%);
+	}
+
 	.bookpod-cover-brand {
 		font-family: var(--font-heading);
 		font-size: 0.66rem;
 		font-weight: 600;
 		letter-spacing: 0.22em;
 		text-transform: uppercase;
-		color: var(--color-muted);
+		color: var(--cover-label);
 	}
 
 	.bookpod-cover-title {
@@ -111,7 +119,7 @@ const year = new Date().getFullYear();
 		font-style: italic;
 		font-size: 0.7rem;
 		line-height: 1.4;
-		color: var(--color-muted);
+		color: var(--cover-label);
 		margin-top: 0.9em;
 		text-wrap: balance;
 	}
@@ -130,7 +138,7 @@ const year = new Date().getFullYear();
 		font-family: var(--font-heading);
 		font-size: 0.7rem;
 		letter-spacing: 0.1em;
-		color: var(--color-muted);
+		color: var(--cover-label);
 	}
 
 	/* ---- Text + actions ---- */

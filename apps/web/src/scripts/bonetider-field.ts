@@ -184,7 +184,25 @@ function mountOne(el: HTMLElement): void {
 	};
 	instances.push(inst);
 	// Only canvas fields are worth observing; the strip/readout have no render to skip.
-	if (render) visObserver?.observe(el);
+	if (render) {
+		// A below-the-fold canvas must NOT render at boot: the per-pixel twilight wash +
+		// marching-squares contour build is a ~550ms long task that, on the homepage (the
+		// map sits far down the page), blocks the hero image's LCP paint.
+		//
+		// Hand the visibility decision to the IntersectionObserver rather than reading
+		// getBoundingClientRect here: a synchronous rect read at boot forces a full layout
+		// (~30ms forced reflow on the long homepage) only to learn the map is off-screen.
+		// The observer reports the same thing asynchronously, off the critical path, and
+		// paints the field the instant it scrolls in — or right away (pre-paint) if it is
+		// already on screen. Start hidden so the boot paint below skips the canvas; the
+		// cheap readout still paints now, so times/countdown are live immediately. Fail
+		// open to the visible:true default when IntersectionObserver is unavailable, so
+		// those browsers still render the map at boot.
+		if (visObserver) {
+			inst.visible = false;
+			visObserver.observe(el);
+		}
+	}
 	paint(inst, new Date());
 }
 

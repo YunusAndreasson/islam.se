@@ -89,7 +89,10 @@ const article = titleBySlug.get(quote.slug)!;
 		background: transparent;
 		padding: 0;
 		margin-left: 0.25rem;
-		color: var(--color-warm);
+		/* Was --color-warm, which is ~2:1 on the page bg in dark mode (near-invisible
+		   when the button reveals on hover/touch). --color-muted is the quiet-but-legible
+		   secondary colour (≥4.5:1 both schemes); hover still lifts it to --color-accent. */
+		color: var(--color-muted);
 		cursor: pointer;
 		opacity: 0;
 		transition: opacity 0.2s ease, color 0.15s ease;
@@ -121,9 +124,13 @@ const article = titleBySlug.get(quote.slug)!;
 		border-radius: 2px;
 	}
 
+	/* On touch there's no hover to reveal it, so the share control sits visible — but
+	   at full opacity, not 0.7: a 0.7 wash blended --color-muted down to ~2.9:1 on the
+	   dark page bg (below AA). At opacity 1 it's the quiet-but-legible muted (≥4.5:1),
+	   and it's the quote's only share affordance on touch, so it should read clearly. */
 	@media (hover: none) {
 		.citat-share {
-			opacity: 0.7;
+			opacity: 1;
 		}
 	}
 </style>
