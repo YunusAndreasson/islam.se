@@ -151,8 +151,16 @@ if (articleMeta) {
 					s.src = "https://www.googletagmanager.com/gtag/js?id=G-TTJ71Z0QKS";
 					document.head.appendChild(s);
 				}
-				if ("requestIdleCallback" in window) requestIdleCallback(loadGtag, { timeout: 4000 });
-				else window.addEventListener("load", function () { setTimeout(loadGtag, 2500); });
+				// Defer the auto-load until AFTER window.load so gtag's ~390 ms of main-thread
+				// work lands past the LCP/TTI window (it was firing on an early idle slot and
+				// inflating TBT). It still loads for every visitor — just once the page is
+				// interactive — so no pageviews are lost; a real interaction loads it at once.
+				function schedule() {
+					if ("requestIdleCallback" in window) requestIdleCallback(loadGtag, { timeout: 4000 });
+					else setTimeout(loadGtag, 2000);
+				}
+				if (document.readyState === "complete") schedule();
+				else window.addEventListener("load", schedule, { once: true });
 				["pointerdown", "keydown", "touchstart", "scroll"].forEach(function (ev) {
 					window.addEventListener(ev, loadGtag, { once: true, passive: true });
 				});
