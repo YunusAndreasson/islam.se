@@ -127,6 +127,11 @@ const rows = events.map((e) => {
 			font-size: 0.9375rem;
 			color: var(--color-accent);
 			text-decoration: none;
+			/* WCAG 2.5.8 (target size ≥24px): this "Se hela året" link is only ~20px tall.
+			   Pad the hit area past 24px; the negative margin reclaims the layout space. */
+			display: inline-block;
+			padding-block: 0.3rem;
+			margin-block: -0.3rem;
 
 			&:hover {
 				text-decoration: underline;

@@ -161,6 +161,13 @@ const sections = groups.map(({ amne, essays }) => {
 		text-decoration: none;
 		white-space: nowrap;
 		transition: color 0.15s ease;
+		/* WCAG 2.5.8: this small-caps label is ~22px tall, which both undersizes it and
+		   trips the spacing check against the adjacent (32px) topic-title link. Pad it
+		   past 24px; the negative margin keeps the baseline head-row height unchanged. */
+		display: inline-flex;
+		align-items: center;
+		padding-block: 0.3rem;
+		margin-block: -0.3rem;
 	}
 
 	.amne-all:hover {
@@ -189,6 +196,10 @@ const sections = groups.map(({ amne, essays }) => {
 	.amne-essay-meta {
 		margin: 0.3rem 0 0;
 		font-size: 0.78rem;
+		/* Plain --color-muted lands at ~4.24:1 here (just under AA) on this small date
+		   label. Nudged toward --color-text — darker in light mode, lighter in dark — so
+		   it clears 4.5:1 in both schemes while staying a quiet meta line. */
+		color: color-mix(in srgb, var(--color-muted), var(--color-text) 22%);
 	}
 
 	.amnen a {

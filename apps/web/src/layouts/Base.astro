@@ -122,10 +122,13 @@ if (articleMeta) {
 		<meta name="theme-color" content="#faf8f5" media="(prefers-color-scheme: light)" />
 		<meta name="theme-color" content="#1a1917" media="(prefers-color-scheme: dark)" />
 
-		<!-- Google Analytics 4 (gtag). Manual page_view on astro:page-load so the
-		     View-Transitions (SPA-style) navigations are counted; send_page_view:false
-		     prevents a double count on the initial load. -->
-		<script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-TTJ71Z0QKS"></script>
+		<!-- Google Analytics 4 (gtag). The ~160 kB gtag.js is the page's heaviest script
+		     (~390 ms of main-thread work) and nothing above the fold needs it, so it's loaded
+		     LAZILY — on the first idle slot, first interaction, or page-load fallback — instead
+		     of async-in-head where it competed with the hero paint and inflated LCP/TBT. The
+		     dataLayer queue is set up synchronously, so every gtag() call (including the manual
+		     page_view on each View-Transitions navigation) is buffered and flushed the moment
+		     gtag.js arrives — no events are lost. send_page_view:false avoids a double count. -->
 		<script is:inline>
 			window.dataLayer = window.dataLayer || [];
 			function gtag() { dataLayer.push(arguments); }
@@ -138,6 +141,22 @@ if (articleMeta) {
 					page_path: location.pathname + location.search,
 				});
 			});
+			(function () {
+				var loaded = false;
+				function loadGtag() {
+					if (loaded) return;
+					loaded = true;
+					var s = document.createElement("script");
+					s.async = true;
+					s.src = "https://www.googletagmanager.com/gtag/js?id=G-TTJ71Z0QKS";
+					document.head.appendChild(s);
+				}
+				if ("requestIdleCallback" in window) requestIdleCallback(loadGtag, { timeout: 4000 });
+				else window.addEventListener("load", function () { setTimeout(loadGtag, 2500); });
+				["pointerdown", "keydown", "touchstart", "scroll"].forEach(function (ev) {
+					window.addEventListener(ev, loadGtag, { once: true, passive: true });
+				});
+			})();
 		</script>
 
 		<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
@@ -149,6 +168,9 @@ if (articleMeta) {
 		    page; the strong in-page promo stays on the prayer surfaces. */}
 		<meta name="apple-itunes-app" content={`app-id=${APP_STORE_ID}`} />
 		<Font cssVariable="--font-body" preload />
+		{/* Italic Literata: same family, emitted as an @font-face but deliberately NOT
+		    preloaded (see astro.config.ts) — it loads on demand when italic text renders. */}
+		<Font cssVariable="--font-body-italic" />
 		<Font cssVariable="--font-heading" preload />
 		{preloadArabicFont ? <Font cssVariable="--font-arabic" preload /> : <Font cssVariable="--font-arabic" />}
 		{preloadImageSrcset ? (
