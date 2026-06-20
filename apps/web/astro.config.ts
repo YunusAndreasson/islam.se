@@ -329,6 +329,37 @@ const customRedirects: [string, string][] = [
 	["/islam-i-praktik/boneguide", "/svar/sa-ber-man-steg-for-steg/"],
 	["/islam-i-praktik/nar-tvagning-kravs", "/svar/tvagning-wudu/"],
 	["/islam-i-praktik/tvagningen", "/svar/tvagning-wudu/"],
+	// === 2026-06-20 answer-page batch (GSC-ranked soft-404 recovery) ===
+	// nar-ghusl-kravs had NO redirect at all — a hard 404 and the single biggest
+	// leak (≈17.5k impressions / 1035 clicks over 90d, Search Console).
+	["/islam-i-praktik/nar-ghusl-kravs", "/svar/vad-ar-ghusl/"],
+	["/islam-i-praktik/ghusl", "/svar/vad-ar-ghusl/"],
+	["/kvinna/slojan", "/svar/vad-ar-hijab/"],
+	["/islam/slojan-i-koranen", "/svar/vad-ar-hijab/"],
+	["/kvinna/abort", "/svar/vad-sager-islam-om-abort/"],
+	["/historia/symboler", "/svar/islams-symboler/"],
+	["/religion/shia", "/svar/sunni-och-shia/"],
+	["/gud/kunskap-om-guds-namn-och-attribut", "/svar/vad-ar-tawhid/"],
+	["/gud/guds-namn", "/svar/vad-ar-tawhid/"],
+	["/guider/sa-blir-du-muslim", "/svar/hur-blir-man-muslim/"],
+	["/religion/sufism", "/svar/vad-ar-sufism/"],
+	["/kost/rokning", "/svar/far-muslimer-roka/"],
+	["/kost/medicinska-anledningar-for-alkoholforbud", "/svar/far-muslimer-dricka-alkohol/"],
+	["/kvinna/polygami-polygyni-polyandri", "/svar/far-muslimska-man-ha-flera-fruar/"],
+	["/kvinna/kvinnosyn", "/svar/islams-syn-pa-kvinnan/"],
+	["/kvinna/jamstalldhet", "/svar/islams-syn-pa-kvinnan/"],
+	["/pelare/mosken", "/svar/vad-ar-en-moske/"],
+	["/pelare/allmosan", "/svar/vad-ar-zakat/"],
+	["/pelare/ramadan-2", "/svar/vad-ar-ramadan/"],
+	["/jihad/jihad", "/svar/vad-ar-jihad/"],
+	["/jihad/misstolkade-koranverser", "/svar/vad-ar-jihad/"],
+	["/tro/profeten-muhammed", "/svar/vem-var-profeten-muhammed/"],
+	["/tro/koranen", "/svar/vad-ar-koranen/"],
+	["/kvinna/hedersmord", "/svar/vad-sager-islam-om-hedersmord/"],
+	// Earlier-session pages (sunna/sharia/hajj), previously unwired:
+	["/pelare/sunna", "/svar/vad-ar-sunna/"],
+	["/pelare/sharia", "/svar/vad-ar-sharia/"],
+	["/pelare/vallfarden", "/svar/vad-ar-hajj/"],
 ];
 
 export default defineConfig({

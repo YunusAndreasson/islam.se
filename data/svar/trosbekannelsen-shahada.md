@@ -1,53 +1,78 @@
 ---
-title: "Trosbekännelsen i islam (shahada) – ingen gud utom Gud"
+title: "Vad är trosbekännelsen (shahada) i islam?"
 question: "Vad är trosbekännelsen (shahada) i islam?"
-description: "Trosbekännelsen, shahada, är islams första pelare: att vittna att ingen gud finns utom Allah och att Muhammed är Hans sändebud. Här förklaras dess innebörd."
-publishedAt: "2026-06-19T00:00:00Z"
+description: "Shahada är islams första pelare och porten in i tron: en mening i två led som skiljer tro från otro. Så lyder trosbekännelsen — och så blir den giltig."
+publishedAt: "2026-06-20T00:00:00Z"
 keywords:
   - "trosbekännelsen islam"
-  - "ingen gud utom gud"
   - "shahada"
+  - "shahada betydelse"
+  - "islams första pelare"
+  - "ingen gud utom gud"
   - "la ilaha illa allah"
-  - "islams trosbekännelse"
+  - "hur blir man muslim"
+  - "de två vittnesmålen"
 faq:
-  - q: "Vad betyder ”ingen gud utom Gud”?"
-    a: "Den arabiska formeln lā ilāha illā Allāh betyder att ingen och inget förtjänar dyrkan utom Allah. Den förenar en negation – att avvisa alla falska föremål för dyrkan – med en bekräftelse: att rikta all dyrkan till Gud ensam."
-  - q: "Hur blir man muslim?"
-    a: "Genom att uppriktigt och med övertygelse uttala de två vittnesbörden: att ingen gud finns utom Allah och att Muhammed är Hans sändebud. Ingen ceremoni eller mellanhand krävs."
-  - q: "Räcker det att säga orden för att vara troende?"
-    a: "Orden måste bäras av kunskap om vad de betyder, visshet utan tvivel, uppriktighet och vilja att leva efter dem. Uttalad utan tro är formeln tom; levd är den islams grund."
-  - q: "Vad är den andra delen av bekännelsen?"
-    a: "Att Muhammed är Allahs sändebud (Muhammadan rasūl Allāh). Den innebär att tro på hans budskap, lyda det han befallt, hålla sig från det han förbjudit och dyrka Gud så som han visat – varken mer eller mindre."
+  - q: "Hur lyder den islamiska trosbekännelsen?"
+    a: "På arabiska Lā ilāha illā Allāh, Muhammadun rasūl Allāh — 'Det finns ingen gud utom Gud, och Muhammed är Guds sändebud.' Den består av två vittnesmål."
+  - q: "Vad betyder ordet shahada?"
+    a: "Shahada kommer av arabiskans ord för 'att vittna'. Det betecknar det vittnesmål den troende avlägger om Guds enhet och om Muhammeds budskap."
+  - q: "Blir man muslim genom att säga trosbekännelsen?"
+    a: "Ja. Den som uttalar shahada med tunga och hjärta i uppriktig tro har trätt in i islam i samma stund — utan ceremoni eller mellanhand."
+  - q: "Är shahada en av islams fem pelare?"
+    a: "Ja, den är den första av de fem pelarna och villkoret för de övriga fyra: bön, allmosa (zakat), fasta och vallfärd (hajj)."
+  - q: "Vad menas med 'ingen gud utom Gud'?"
+    a: "Att ingenting utom Gud förtjänar dyrkan. Ledet förnekar alla falska gudar (shirk) och bekräftar att dyrkan tillkommer Gud ensam (tawhid)."
+  - q: "Måste man säga shahada på arabiska?"
+    a: "Det avgörande är tron och innebörden, inte språket. Den som ännu inte behärskar arabiska kan bekänna den på sitt eget språk och är då muslim, men uppmuntras att lära sig orden på arabiska, eftersom de ingår i den dagliga bönen."
 sources:
-  - name: "Koranen 2:163, 3:18, 47:19, 112"
-  - name: "al-ibadah.com – Troslära (ʿAqīdah)"
-    url: "https://al-ibadah.com/troslara/"
+  - name: "Koranen 3:18"
+  - name: "Sahīh al-Bukhārī 8"
+  - name: "al-ibadah.com – Förklaring av trosbekännelserna"
+    url: "https://al-ibadah.com/troslara/tawhid/forklaring-av-trosbekannelserna"
+  - name: "al-ibadah.com – Definitionen av tawhid och dess olika typer"
+    url: "https://al-ibadah.com/troslara/tawhid/definitionen-av-tawhid-och-dess-olika-typer"
 related:
-  - "sa-ber-man-steg-for-steg"
+  - "vad-ar-tawhid"
+  - "hur-blir-man-muslim"
+  - "vem-var-profeten-muhammed"
 ---
 
-**Trosbekännelsen – *shahada* på arabiska – är islams första och bärande pelare.** Den består av två vittnesbörd: *ash-hadu an lā ilāha illā Allāh, wa ash-hadu anna Muhammadan rasūl Allāh* – "jag vittnar att ingen gud finns utom Allah, och jag vittnar att Muhammed är Allahs sändebud". Med dessa ord, uppriktigt uttalade och förstådda, träder människan in i islam. På dem vilar allt annat.
+**Trosbekännelsen, på arabiska *shahada*, är islams första pelare: vittnesmålet att det inte finns någon gud utom Gud och att Muhammed är Guds sändebud.** Den lyder på arabiska *Lā ilāha illā Allāh, Muhammadun rasūl Allāh* och bärs upp av två led — ett som förnekar och ett som bekräftar. Att uttala den med uppriktig övertygelse är att träda in i islam; den är porten in i tron och villkoret för de övriga fyra pelarna.
 
-## Den första delen: ingen gud utom Gud
+## Vad betyder shahada och hur lyder den?
 
-Kärnan i *lā ilāha illā Allāh* är *tawhīd* – Guds enhet. Formeln bärs av två rörelser: först en negation, *lā ilāha* ("ingen gud finns"), som river ned varje falskt föremål för dyrkan; sedan en bekräftelse, *illā Allāh* ("utom Allah"), som riktar all dyrkan mot Gud ensam. Att avvisa det falska och bejaka det sanna är ett och samma andetag.
+*Shahada* kommer av den arabiska roten för "att vittna" eller "att bevittna": den troende avlägger ett vittnesmål om vad sanningen är. Formeln rymmer två vittnesmål, på arabiska *ash-shahadatayn* — "Jag vittnar att det inte finns någon gud utom Gud" (*ashhadu an lā ilāha illā Allāh*) och "Jag vittnar att Muhammed är Guds sändebud" (*ashhadu anna Muhammadan rasūl Allāh*). Den som bekänner den kallas *muslim*, och den som lever efter den hör till *ahl as-sunna*, sunnas folk. Orden är få och vardagliga, men de bär hela religionens innehåll: vem som ensam får dyrkas, och genom vem vägledningen kommer. Ingen annan formel i islam är kortare — och ingen väger tyngre.
 
-Koranen återkommer ständigt till denna sanning:
+## Vad innebär "ingen gud utom Gud"?
 
-> "Er Gud är en enda Gud. Ingen [sann] gud finns utom Han, den Nåderike, den Benådande."
-> — Koranen 2:163
+Det första ledet rör sig i två steg. Först en förnekelse (*nafy*): allt som dyrkas vid sidan av Gud avvisas som falskt. Sedan en bekräftelse (*ithbāt*): dyrkan tillkommer Gud ensam. Detta är kärnan i *tawhīd*, läran om Guds enhet — och då särskilt enheten i dyrkan (*tawhīd al-ulūhiyya*), den av tawhīds tre delar som avguderiet kränker. Dess raka motsats är *shirk*: att ge åt något skapat den dyrkan som tillkommer Skaparen ensam.
 
-Att Gud är en betyder här inte bara att Han är numeriskt en, utan att Han ensam förtjänar dyrkan – ingen ängel, profet, helgon eller skapad ting delar den rätten med Honom. Just därför inleds Koranens renhetsbekännelse: "Säg: Han är Allah, [och Han är] en" (112:1).
-
-## Den andra delen: Muhammed är Hans sändebud
-
-Att vittna att Muhammed är Allahs sändebud är inte ett tillägg vid sidan av tawhīd, utan dess naturliga följd. Om Gud ensam ska dyrkas måste man veta *hur* – och det vet man genom det Han uppenbarat för Sitt sändebud. Den andra bekännelsen innebär därför att tro på det Muhammed förmedlade, lyda det han bjöd, hålla sig från det han förbjöd och dyrka Gud på det sätt han visade. Egna tillägg i dyrkan har ingen plats; vägledningen är redan fullständig.
-
-## Mer än ord
-
-Bekännelsen är inte en trollformel. De lärde har av Koranen och sunna utläst de villkor som ger orden liv: kunskap om vad de betyder, visshet utan tvivel, uppriktighet fri från skrymteri, sanningsenlighet, kärlek till det man bekänner, och underkastelse inför det. Koranen knyter själva vittnesbördet till kunskap:
-
-> "Allah vittnar att ingen [sann] gud finns utom Han, och [det gör också] änglarna och de som har kunskap – Han upprätthåller alltid rättvisa."
+> GUD [SJÄLV] vittnar — och [så gör] änglarna och de som har kunskap — att det inte finns en annan gud än Han, Upprätthållaren av rättvisa och jämvikt; ingen annan gud finns än Han, den Allsmäktige, den Vise.
 > — Koranen 3:18
 
-Därför bjuder Gud Sitt sändebud: "Vet att ingen [sann] gud finns utom Allah" (47:19). Först kunskap, sedan bekännelse. Den som uttalar orden med detta i hjärtat har gripit tag om islams fasta handtag – och har, om Gud vill, lagt grunden till allt som följer: bönen, fastan, allmosan och vallfärden.
+Den klassiske lärde Muhammad bin Sālih al-ʿUthaymīn förklarar att de "gudar" som dyrkas jämte Gud saknar all gudomlighet och all rätt till dyrkan — de är namn utan verklighet. Förnekelsen river ner allt falskt, bekräftelsen reser det enda sanna; mellan dessa två ord går gränsen mellan tro och otro.
+
+## Vad innebär "Muhammed är Guds sändebud"?
+
+Det andra vittnesmålet binder den troende vid profeten Muhammed. Enligt al-ʿUthaymīn medför det fyra ting: att tro på allt han berättade, att lyda det han befallde, att hålla sig borta från det han förbjöd, och att dyrka Gud endast på det sätt han föreskrev — det vill säga genom hans *sunna*. Samtidigt är Muhammed själv en tjänare (*ʿabd*) och ett sändebud, aldrig ett föremål för dyrkan; Koranen framställer honom genomgående som budbärare utan egen makt över skada eller vägledning. Att hedra profeten är att följa honom, inte att tillbe honom; den som gör Muhammed till föremål för dyrkan upphäver med andra andetaget det han bekände med det första.
+
+## Hur blir man muslim genom shahada?
+
+Man blir muslim genom att uttala trosbekännelsen med både tunga och hjärta: orden ska sägas, och deras innebörd omfattas med övertygelse. De klassiska lärde räknar upp villkor för att vittnesmålet ska vara giltigt — bland dem kunskap om vad det betyder, visshet utan tvivel, uppriktighet, sanning, godtagande, underkastelse och kärlek. Ett vittnesmål som bara rör läpparna men inte hjärtat gör ingen till troende. Omvänt krävs ingen ceremoni och ingen mellanhand: den som med uppriktigt hjärta säger orden har trätt in i islam i samma stund. Shahada är därför inte slutpunkten på en lång väg, utan steget som öppnar den.
+
+## Varför är trosbekännelsen islams första pelare?
+
+Därför att de andra pelarna vilar på den. Bön, allmosa (*zakat*), fasta och vallfärd (*hajj*) får mening först sedan man vittnat om vem de riktas till. Profeten sade:
+
+> Islam är byggt på fem [pelare]: vittnesmålet att det inte finns någon gud utom Gud och att Muhammed är Hans tjänare och sändebud, att förrätta bönen, att ge allmosan, vallfärden och fastan under ramadan.
+> — Sahīh al-Bukhārī 8
+
+Vittnesmålet genomsyrar sedan hela livet: det ropas ut i böneutropet (*adhān*), upprepas i varje föreskriven bön (*tashahhud*) och viskas helst som en muslims sista ord. Den pryder till och med Saudiarabiens flagga, och bland världens omkring två miljarder muslimer är den den enda mening som alla delar. Allt annat i islam är förgrening; *shahada* är roten.
+
+## Källor
+
+- Koranen 3:18
+- Sahīh al-Bukhārī 8
+- [al-ibadah.com – Förklaring av trosbekännelserna](https://al-ibadah.com/troslara/tawhid/forklaring-av-trosbekannelserna)
+- [al-ibadah.com – Definitionen av tawhid och dess olika typer](https://al-ibadah.com/troslara/tawhid/definitionen-av-tawhid-och-dess-olika-typer)
