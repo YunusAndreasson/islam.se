@@ -20,6 +20,11 @@ Numbers are 180-day `impressions` (i) / `clicks` (c) / avg `position` (p).
 
 ## P0 — Free redirects to pages that already exist ✅ DONE 2026-06-20 (deployed)
 
+**Update 2026-06-20 (click-leak sweep):** 3 more free redirects wired (built, ship pending) —
+`/islam/guds-profeter → vem-var-profeten-muhammed`, `/religion/kristendomens-gudssyn → islams-gudssyn`,
+and `/featured/omsesidig-karlek → aktenskap-i-islam` (the old 115c "biggest leak" — see P2, it ranks
+for marriage queries, not love/brotherhood). After this, remaining leaks are all ≤10c P1 content gaps.
+
 **Status: all wired + shipped** — 40 free redirects total (the table below + a second sub-150i/`/category/`
 wave: tron-pa-gud/treenigheten/gud-ar-skild → islams-gudssyn, tron-pa-yttersta-dagen → domedagen,
 tron-pa-sandebuden → profeten, tafsir → koranen, category/kvinna + frun-foder-en-dotter + tvangsaktenskap
@@ -84,9 +89,12 @@ homepage 301._
 These are old WordPress **essays/posts** still ranking, now 301'd to the homepage. They're not FAQ
 answer-page material; decide per item: restore as an essay, write a thematic /svar/, or redirect.
 
-- **/featured/omsesidig-karlek — 3722i / 115c / p6 🔴** the single biggest *click* leak (115 clicks
-  landing on the homepage). Topic = mutual love / brotherhood. Options: restore the essay, a /svar/
-  "Vad säger islam om kärlek och broderskap?", or redirect to the closest essay.
+- **/featured/omsesidig-karlek — 3722i / 115c / p6 ✅ FIXED 2026-06-20 (free redirect).** Was tagged
+  the biggest click leak and assumed to be "mutual love / brotherhood." **GSC query data proved that
+  wrong** — the URL ranks for *marriage* queries ("äktenskap islam" 11c p4, "giftermål islam regler"
+  9c p7, …); the love-themed terms have ~0 clicks. So it was NOT a content gap: repointed
+  `/featured/omsesidig-karlek → /svar/aktenskap-i-islam/` (already answers those queries). **Lesson:
+  pull per-URL GSC queries before assuming an essay's topic from its slug.** No page needed.
 - /kost/muslimsk-matkultur-i-historien (1206i, p11) — Muslim food culture in history (essay).
 - /featured/planeterna-i-solsystemet (634i), /featured/mangudemyten (624i),
   /featured/fastans-historiska-anknytning (156i) — old science/comparative essays.

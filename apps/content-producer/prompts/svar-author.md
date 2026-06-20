@@ -93,6 +93,22 @@ sources actually return. If you cannot verify a specific reference, leave it out
    for a vivid image or a sharp semicolon-pivot; avoid filler like *"i allt från X till
    Y"*. This is what separates an islam.se page from a textbook entry — without it the
    page informs but never *cuts*, and the prose is the main thing that falls short.
+   **Vary the *shape* of your closers — this is the pipeline's #1 tell.** The balanced
+   antithesis ("inte X, utan Y" / "X, inte Y" / "den ena…, den andra…" / a chiasmus like
+   "kropp utan själ, själ utan kropp"), the semicolon-pivot ("X; Y" where Y reverses or
+   sharpens X), and the em-dash sharpening ("X — Y") are each a strong move *once*, but
+   together they are the LLM's default "profound closer." Across past batches ~95 % of
+   sections landed on one of them — so it stops reading as a series of earned verdicts and
+   reads as a formula. **Hard cap: at most two sections per page may land on the
+   antithesis/semicolon/dash see-saw combined.** Let the rest land on a flat declarative, a
+   concrete image, a historical anchor, or a plain consequence. Don't reuse a connective
+   run-up ("X är därför inte … utan …", "X är alltså inte … utan …") and don't collapse every
+   topic to the same closing gesture ("allt/hela poängen vilar på *tawhīd*" — true, but not as
+   the landing of page after page). Keep em-dashes genuinely sparse (≤ ~6 per page; the
+   antithesis tic drags them in), vary favourite verbs ("vilar på" recurs), don't lean on the
+   same organic metaphor every page (faith as tree/root/branch/fruit, the backbone/*ryggrad*),
+   and don't open three sections in a row on the same appositive scaffold ("Bönen, *salat*,
+   förrättas…" / "Vallfärden, *hajj*, …").
 
 ## 4. Swedish house style
 
