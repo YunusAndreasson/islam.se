@@ -68,7 +68,7 @@ Därför att de andra pelarna vilar på den. Bön, allmosa (*zakat*), fasta och 
 > Islam är byggt på fem [pelare]: vittnesmålet att det inte finns någon gud utom Gud och att Muhammed är Hans tjänare och sändebud, att förrätta bönen, att ge allmosan, vallfärden och fastan under ramadan.
 > — Sahīh al-Bukhārī 8
 
-Vittnesmålet genomsyrar sedan hela livet: det ropas ut i böneutropet (*adhān*), upprepas i varje föreskriven bön (*tashahhud*) och viskas helst som en muslims sista ord. Den pryder till och med Saudiarabiens flagga, och bland världens omkring två miljarder muslimer är den den enda mening som alla delar. Allt annat i islam är förgrening; *shahada* är roten.
+Vittnesmålet genomsyrar sedan hela livet: det ropas ut i böneutropet (*adhān*), upprepas i varje föreskriven bön (*tashahhud*) och viskas helst som en muslims sista ord. Den pryder till och med Saudiarabiens flagga, och bland världens omkring två miljarder muslimer är den enda mening som alla delar. Allt annat i islam är förgrening; *shahada* är roten.
 
 ## Källor
 

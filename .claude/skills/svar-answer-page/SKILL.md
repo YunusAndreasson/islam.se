@@ -79,6 +79,13 @@ Overview*, which ~2× the CTR, not just to rank). Per-page **musts**:
   *"Tydligare än så kan gränsen … inte dras"*). On the eval of `vad-ar-sunna`, accuracy
   (9/10) and SEO came out strong but **prose was the weak dimension (5–6/10)** — flat,
   expository, no per-section landing. If a section just trails off, rewrite the closing.
+  **But the opposite over-correction is now the bigger tic (2026-06-20 batch audit of 30
+  pages: 173/179 section closers landed on the *same* see-saw — "inte X, utan Y", a
+  semicolon-pivot, or an em-dash sharpening).** Cap that shape at **two sections per page**;
+  let the rest land on a flat declarative, a concrete image, or a historical anchor. Watch
+  the connective run-up ("X är därför/alltså inte … utan …"), the "vilar på *tawhīd*"
+  reduction, em-dash overuse (≤ ~6/page), and reused organic metaphors (tree/root/branch/
+  fruit, *ryggrad*). Both prompts now enforce this.
 - **Title** leads with the literal query ("Vad är X? …", like kaba's "Vad är Kaba?"),
   ≤ ~58 chars, == H1 sense. **Meta description** 150–160 chars with a curiosity gap the
   AI Overview won't summarize.

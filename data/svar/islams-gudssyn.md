@@ -51,7 +51,7 @@ Gud har alltså ingen partner, inget barn, ingen like och inget ursprung. Detta 
 
 ## Vem är Allah – och är det en annan gud?
 
-*Allah* är inte ett egennamn för en särskild "muslimsk" gud, utan helt enkelt det arabiska ordet för Gud, *al-ilāh*. Arabisktalande kristna och judar har använt samma ord i århundraden. Islam lär att det är samme Gud som uppenbarade sig för Abraham *(Ibrāhīm)*, Moses och Jesus – profeternas budskap var i grunden ett och detsamma: tillbe den ende Skaparen. Skillnaden ligger inte i *vem* Gud är, utan i *hur* Gud beskrivs. Islam avvisar bestämt tanken att Gud skulle ha avlat en son, ingå i en treenighet eller ta mänsklig gestalt. Gud är en – inte en av tre, inte en far i mänsklig mening. Det är alltså inte en annan Gud islam tillber, utan samme Gud, renad från allt som människan med tiden lade till.
+*Allah* är inte ett egennamn för en särskild "muslimsk" gud, utan helt enkelt det arabiska ordet för Gud, *al-ilāh*. Arabisktalande kristna och judar har använt samma ord i århundraden. Islam lär att det är samme Gud som uppenbarade sig för Abraham *(Ibrāhīm)*, Moses och Jesus – profeternas budskap var i grunden ett och detsamma: tillbe den ende Skaparen. Skillnaden ligger inte i *vem* Gud är, utan i *hur* Gud beskrivs. Islam avvisar bestämt tanken att Gud skulle ha avlat en son, ingå i en treenighet eller ta mänsklig gestalt. Gud är en – inte en av tre, inte en far i mänsklig mening. Islam tillber alltså samme Gud, renad från allt som människan med tiden lade till.
 
 ## Hur beskriver Koranen Guds egenskaper?
 

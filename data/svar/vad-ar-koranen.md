@@ -52,7 +52,7 @@ För de klassiska lärda är Koranen inte en bok *om* Gud, utan Guds eget, oskap
 > DENNA Skrift - här råder inget tvivel - är en vägledning för dem som fruktar Gud och ständigt har Honom för ögonen
 > — Koranen 2:2
 
-Koranen är därför inte en bok om tron utan trons källa — inte ord om Gud, utan Guds egna ord.
+Koranen är därför inte en bok om tron utan trons källa.
 
 ## Hur uppenbarades Koranen för Muhammad?
 

@@ -369,7 +369,10 @@ const customRedirects: [string, string][] = [
 	["/islam/ateruppstandelsens-dag", "/svar/vad-ar-domedagen/"],
 	["/religion/jesus", "/svar/jesus-i-islam/"],
 	["/religion/islams-gudssyn", "/svar/islams-gudssyn/"],
-	["/islam/ar-det-sant-att-muhammad-ma-guds-frid-och-valsignelser-vara-over-honom-skrev-koranen", "/svar/skrev-muhammed-koranen/"],
+	[
+		"/islam/ar-det-sant-att-muhammad-ma-guds-frid-och-valsignelser-vara-over-honom-skrev-koranen",
+		"/svar/skrev-muhammed-koranen/",
+	],
 	["/kvinna/kvinnlig-omskarelse-konsstympning", "/svar/vad-sager-islam-om-kvinnlig-omskarelse/"],
 	["/gud/big-bang", "/svar/islam-och-big-bang/"],
 	["/islam/fasta-under-graviditeten", "/svar/maste-gravida-fasta/"],
@@ -377,7 +380,10 @@ const customRedirects: [string, string][] = [
 	["/historia/det-muslimska-arvet-i-spanien", "/svar/det-muslimska-spanien-al-andalus/"],
 	["/historia/emigrationen-till-medina", "/svar/vad-var-hijra/"],
 	["/historia/abu-bakrs-och-umars-kalifat", "/svar/de-rattledda-kaliferna/"],
-	["/islam/en-grundlaggande-forklaring-av-koranens-forsta-kapitel-al-fatihah", "/svar/vad-betyder-al-fatiha/"],
+	[
+		"/islam/en-grundlaggande-forklaring-av-koranens-forsta-kapitel-al-fatihah",
+		"/svar/vad-betyder-al-fatiha/",
+	],
 	["/kost/vinager", "/svar/ar-vinager-halal/"],
 	["/kost/omskarelse", "/svar/manlig-omskarelse-i-islam/"],
 	["/vetenskap/embryologi", "/svar/koranen-och-embryologi/"],
@@ -398,7 +404,10 @@ const customRedirects: [string, string][] = [
 	["/kvinna/kvinnofortryck", "/svar/islams-syn-pa-kvinnan/"],
 	["/kvinna/vad-onskar-den-muslimska-kvinnan", "/svar/islams-syn-pa-kvinnan/"],
 	["/kvinna/temporara-aktenskap", "/svar/aktenskap-i-islam/"],
-	["/islam/koranen-sager-att-muslimer-skall-drapa-de-som-inte-tror-varhelst-de-finner-dem-betyder-detta-att-islam-stodjer-vald-och-blodspillan", "/svar/vad-ar-jihad/"],
+	[
+		"/islam/koranen-sager-att-muslimer-skall-drapa-de-som-inte-tror-varhelst-de-finner-dem-betyder-detta-att-islam-stodjer-vald-och-blodspillan",
+		"/svar/vad-ar-jihad/",
+	],
 	["/jihad/manniskors-lika-varde", "/svar/vad-ar-jihad/"],
 	["/jihad/islam-spreds-inte-med-svardet", "/svar/vad-ar-jihad/"],
 	["/category/jihad", "/svar/vad-ar-jihad/"],
@@ -427,9 +436,37 @@ const customRedirects: [string, string][] = [
 	["/islam-i-praktik/odmjukhet-under-bonen", "/svar/sa-ber-man-steg-for-steg/"],
 	["/islam-i-praktik", "/svar/sa-ber-man-steg-for-steg/"],
 	["/jihad/attacker-mot-civila-under-jihad", "/svar/vad-ar-jihad/"],
-	["/islam/varfor-alagger-islam-sa-stranga-straff-for-utomaktenskapliga-forbindelser", "/svar/vad-ar-sharia/"],
+	[
+		"/islam/varfor-alagger-islam-sa-stranga-straff-for-utomaktenskapliga-forbindelser",
+		"/svar/vad-ar-sharia/",
+	],
 	["/islam/motsager-islam-vetenskap", "/svar/islam-och-big-bang/"],
 	["/religion/skillnader-mellan-religion-och-vetenskap", "/svar/islam-och-big-bang/"],
+	// === 2026-06-20 free redirects (GSC click-leak sweep): legacy URLs answered by an existing page ===
+	// "Guds profeter" (all prophets) → the Muhammad page, which carries the prophethood
+	// answer; repoint if a dedicated profeterna-i-islam page is ever built.
+	["/islam/guds-profeter", "/svar/vem-var-profeten-muhammed/"],
+	// "Kristendomens gudssyn" is the comparative half of tawhid vs. trinity, which
+	// islams-gudssyn already addresses.
+	["/religion/kristendomens-gudssyn", "/svar/islams-gudssyn/"],
+	// The biggest remaining click leak (115c/180d). The backlog read the "omsesidig
+	// kärlek" essay as love/brotherhood, but GSC shows it ranks for MARRIAGE queries
+	// ("äktenskap islam", "giftermål islam regler") — already answered by aktenskap-i-islam.
+	// So it's a free redirect, not a content gap. Repoint if a love/brotherhood page is built.
+	["/featured/omsesidig-karlek", "/svar/aktenskap-i-islam/"],
+	// New page (2026-06-20): the "five pillars" overview. /tro/islams-fem-pelare and
+	// /category/pelare were HARD 404s (not even in oldPaths) pulling ~3,150 impr/180d
+	// of focused "islams fem pelare" intent at p10–12; now answered + 301'd to the page.
+	["/tro/islams-fem-pelare", "/svar/islams-fem-pelare/"],
+	["/category/pelare", "/svar/islams-fem-pelare/"],
+	// "Dyrkan" (worship/ibadah) — GSC shows definitional intent ("dyrkan", "vad betyder
+	// dyrka") at p3–11; tawhid al-ulūhiyya (worship of God alone) is exactly this answer.
+	["/pelare/dyrkan", "/svar/vad-ar-tawhid/"],
+	// === 2026-06-20 batch 3 (orchestrated): new /svar/ pages for GSC content gaps ===
+	// Superstition / amulets / evil eye (1017i p6.8). Horoscopes/fortune-telling share
+	// the same shirk frame → fold the divination URL into the same page.
+	["/religion/vidskepelse", "/svar/vad-sager-islam-om-vidskepelse/"],
+	["/religion/spadomar-och-horoskop", "/svar/vad-sager-islam-om-vidskepelse/"],
 ];
 
 export default defineConfig({
