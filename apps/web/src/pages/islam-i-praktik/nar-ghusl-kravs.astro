@@ -43,6 +43,55 @@ const description = "När måste man göra ghusl? En genomgång av de situatione
 				<p><strong>Författare:</strong> Muhammad bin Salih al-'Uthaymin</p>
 				<p><strong>Källor:</strong> Fahd bin Nasir bin Ibrahim as-Sulaiman (1424), <em>Fatawa Arkanul-Islam</em>; Muhammed Knut Bernström (1421), <em>Koranens budskap</em></p>
 			</div>
+
+			<nav class="article-related" aria-label="Relaterade sidor">
+				<h2>Relaterat</h2>
+				<ul>
+					<li><a href="/svar/tvagning-wudu/">Hur gör man wudu (tvagning)?</a></li>
+					<li><a href="/svar/vad-ar-ghusl/">Vad är ghusl?</a></li>
+					<li><a href="/svar/sa-ber-man-steg-for-steg/">Hur ber man – bönen steg för steg</a></li>
+				</ul>
+			</nav>
 		</article>
 	</main>
 </Base>
+
+<style>
+	.article-related {
+		margin-top: var(--space-phi);
+		padding-top: var(--space-unit);
+		border-top: 1px solid var(--color-divider);
+	}
+
+	.article-related h2 {
+		font-family: var(--font-heading);
+		font-size: var(--step-0);
+		color: var(--color-muted);
+		margin: 0 0 var(--space-half);
+	}
+
+	.article-related ul {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.5rem 0.75rem;
+	}
+
+	.article-related a {
+		font-family: var(--font-body);
+		font-size: 0.9375rem;
+		color: var(--color-text);
+		text-decoration: none;
+		border: 1px solid var(--color-divider);
+		border-radius: 999px;
+		padding: 0.3rem 0.85rem;
+		transition: border-color 0.15s ease, color 0.15s ease;
+	}
+
+	.article-related a:hover {
+		border-color: var(--color-warm);
+		color: var(--color-accent);
+	}
+</style>
