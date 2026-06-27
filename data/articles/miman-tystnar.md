@@ -4,6 +4,8 @@ publishedAt: "2026-06-05T17:01:45.558Z"
 wordCount: 1494
 qualityScore: 8.9
 description: "En augustinatt 1953 riktade Harry Martinson ett teleskop mot stjärnbilden Andromeda och fann ett blekt ljus, knappt skönjbart, som ändå bar miljarder solar. Synen släppte honom aldrig."
+imageAlt: "Andromedagalaxen lyser i ett stjärnvimlande mörker medan ett litet rymdskepp driver bort mot djupet."
+imageCaption: "Skeppet på drift mot Andromeda, där Miman till sist tystnar."
 category: "Skapelsen"
 ---
 En augustinatt 1953 riktade Harry Martinson ett teleskop mot stjärnbilden Andromeda och fann ett blekt ljus, knappt skönjbart, som ändå bar miljarder solar.[^1] Synen släppte honom aldrig. Gång på gång skulle han klaga över att språket kom till korta – att orden, byggda för åkrar och årstider, inte räckte till för det astrofysiken bredde ut. Samma vanmakt griper den som står vid en grav och inte finner ett ord stort nog. Ur den vanmakten växte *Aniara*, eposet om rymdskeppet som driver bort från en förgiftad jord, slås ur sin bana och faller vidare mot Lyran utan möjlighet att vända.

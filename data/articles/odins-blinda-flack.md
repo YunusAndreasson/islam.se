@@ -4,6 +4,8 @@ publishedAt: "2026-02-26T12:00:00.000Z"
 wordCount: 1953
 qualityScore: 8.9
 description: "Ett öga ligger på botten av Mimers brunn, pantsatt av Odin själv i utbyte mot en klunk av all världens visdom. Snorre Sturlason nedtecknade myten i *Prosaeddan* – men den fråga som sällan ställs är varför den högste guden lämnade brunnen som precis samma gud han var när han kom."
+imageAlt: "Röd skärgårdsstuga på kala klippor speglas i stilla vatten, sett genom en springa mellan vittrade träplankor."
+imageCaption: "Den stilla vattenspegeln — Mimers brunn, där blicken möter sig själv."
 category: "Norden"
 ---
 Ett öga ligger på botten av Mimers brunn. Det har legat där sedan tidernas gryning, pantsatt av den högste guden själv i utbyte mot en klunk av det vatten som bär all visdom och allt förstånd. Episoden tolkas nästan alltid som en historia om kunskapens pris. Odin betalade dyrt och fick vad han sökte.

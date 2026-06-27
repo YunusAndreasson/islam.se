@@ -1,0 +1,149 @@
+---
+import Base from "../../layouts/Base.astro";
+import { getArticles } from "../../lib/articles";
+import { ORG_ID, breadcrumbList } from "../../lib/jsonld";
+
+const articles = await getArticles();
+const articleCount = articles.length;
+
+const description =
+	"Så skrivs och granskas essäerna på islam.se: källor, redaktionell process, teologisk hållning och hur du rapporterar fel.";
+---
+
+<Base
+	title="Redaktionella principer — islam.se"
+	description={description}
+	jsonLd={[
+		{
+			"@context": "https://schema.org",
+			"@type": "AboutPage",
+			name: "Redaktionella principer",
+			url: "https://islam.se/om/redaktion/",
+			inLanguage: "sv",
+			description,
+			// The page that islam.se's Organization node points to as its
+			// publishingPrinciples (wired in lib/jsonld.ts) — references the same
+			// canonical entity rather than declaring a copy.
+			mainEntity: { "@id": ORG_ID },
+		},
+		breadcrumbList([
+			{ name: "Hem", url: "/" },
+			{ name: "Om", url: "/om" },
+			{ name: "Redaktionella principer", url: "/om/redaktion" },
+		]),
+	]}
+>
+	<main id="main" class="content-column">
+		<header class="article-header">
+			<p class="label">Om islam.se</p>
+			<h1>Redaktionella principer</h1>
+			<p class="redaktion-lead">
+				Här är vi öppna med hur essäerna på islam.se kommer till: varifrån de hämtar sitt
+				material, hur de skrivs och granskas, vilken tradition de står i, och hur du hör av dig om
+				något blivit fel.
+			</p>
+		</header>
+
+		<div class="article-body prose redaktion-prose">
+			<h2>Syfte</h2>
+			<p>
+				islam.se samlar essäer där islamisk lärdomstradition möter svenskt och nordiskt kulturarv.
+				Texterna är skrivna för att läsas långsamt – inte för att ranka högt – och vänder sig till
+				den som vill förstå islams tankevärld i samtal med Strindberg, Lagerlöf, Boye och
+				Hammarskjöld lika gärna som med al-Ghazālī och Ibn al-Qayyim.
+			</p>
+
+			<h2>Källor</h2>
+			<p>
+				Essäerna vilar på primärkällor. Den islamiska sidan hämtas ur Koranen, sunna och de
+				klassiska verken på arabiska; den svenska ur den litterära kanon den läser tillsammans med
+				dem. Koranverser återges i tolkning, och de verser en essä bygger på anges i fotnoter med
+				länk till den arabiska texten. Vi citerar hellre källan själv än andrahandsreferat.
+			</p>
+
+			<h2>Så blir en essä till</h2>
+			<p>
+				Varje essä går igenom flera steg innan den publiceras: efterforskning i källorna,
+				källkontroll, författande och en avslutande granskning av sak, språk och teologi. Vi
+				använder AI som ett verktyg i arbetet, men en text vilar alltid på sina primärkällor, prövas
+				mot dem och läses igenom av oss innan den går ut. Det som inte håller – i sak, i källäge
+				eller i språk – publiceras inte. Just nu rymmer samlingen {articleCount} essäer.
+			</p>
+
+			<h2>Teologisk hållning</h2>
+			<p>
+				Essäerna håller sig inom den klassiska islamiska traditionens ramar och prövas mot Koranen
+				och sunna så som de lästs av lärde som Ibn Taymiyya och Ibn al-Qayyim. Där en text rör vid
+				trosläran är det den traditionen som är måttstocken; litterära jämförelser med svenska
+				författare är till för att belysa, aldrig för att jämställa eller lägga till något i läran.
+			</p>
+
+			<h2>Rättelser och kontakt</h2>
+			<p>
+				Vi vill att det som står här ska stämma. Hittar du ett fel – i en översättning, en
+				hänvisning eller en uppgift – hör av dig, så rättar vi det. Du når oss via
+				<a href="https://bilal.se" rel="author">Bilal</a> och
+				<a href="https://andreassonphoto.com" rel="author">Yunus</a>, som driver islam.se.
+			</p>
+
+			<h2>Vem står bakom islam.se</h2>
+			<p>
+				islam.se grundades av <a href="https://bilal.se" rel="author">Bilal</a> 2003 och drivs i dag
+				av honom och <a href="https://andreassonphoto.com" rel="author">Yunus</a>. Att sajten har
+				funnits i över tjugo år hör till det vi står på. Mer om tanken bakom den finns på
+				<a href="/om">Om-sidan</a>; vill du läsa eller söka i essäerna med en AI-assistent beskriver
+				<a href="/ai">AI-sidan</a> hur du kopplar in dem.
+			</p>
+		</div>
+
+		<p class="redaktion-seealso label">
+			<a href="/om">← Om islam.se</a>
+			<span class="nav-dot" aria-hidden="true">·</span>
+			<a href="/essaer">Alla essäer</a>
+		</p>
+	</main>
+</Base>
+
+<style>
+	.redaktion-lead {
+		font-family: var(--font-body);
+		font-size: 1.0625rem;
+		line-height: 1.6;
+		color: color-mix(in srgb, var(--color-text) 88%, var(--color-muted));
+		max-width: 42rem;
+		margin: var(--space-unit) 0 0;
+		text-wrap: pretty;
+	}
+
+	/* Editorial prose, not book prose — no first-line indents, even paragraph rhythm. */
+	.redaktion-prose > :global(p) {
+		text-indent: 0;
+		margin-bottom: var(--space-unit);
+	}
+
+	.redaktion-prose > :global(h2) {
+		font-size: var(--step-1);
+		margin-top: var(--space-phi);
+	}
+
+	.redaktion-seealso {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.5rem;
+		align-items: baseline;
+		margin: var(--space-phi) 0 0;
+		padding-top: var(--space-half);
+		border-top: 1px solid var(--color-divider);
+		color: var(--color-muted);
+	}
+
+	.redaktion-seealso a {
+		color: var(--color-accent);
+		text-decoration: none;
+	}
+
+	.redaktion-seealso a:hover {
+		text-decoration: underline;
+		text-underline-offset: 0.15em;
+	}
+</style>

@@ -4,6 +4,8 @@ publishedAt: "2026-06-05T20:02:12.611Z"
 wordCount: 2020
 qualityScore: 8.6
 description: "Fyrtiosju dygn i sträck står solen över Kiruna utan att gå ned. Under dessa veckor ska en muslim be maghrib – bönen som inträder i samma stund som solen sjunker under horisonten. Men någon nedgång kommer inte. Den fjärde av dagens fem böner hänger på en himmelsk händelse som har uteblivit."
+imageAlt: "Ung kvinna i hijab står på en höjd i kvällsljus och blickar ut över en nordsvensk stad medan solen står lågt vid horisonten."
+imageCaption: "Långt norrut, där solen vägrar gå ned och maghrib ändå måste bes."
 category: "Skapelsen"
 ---
 Fyrtiosju dygn i sträck står solen över Kiruna utan att gå ned.[^1] Under dessa veckor ska en muslim be maghrib – bönen som inträder i samma stund som solen sjunker under horisonten. Men någon nedgång kommer inte. Den fjärde av dagens fem böner hänger på en himmelsk händelse som har uteblivit.

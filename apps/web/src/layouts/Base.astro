@@ -45,6 +45,10 @@ interface Props {
 		section?: string;
 		/** Sources cited by the essay (derived from Quran footnotes) → schema citation. */
 		citations?: { name: string; url: string }[];
+		/** Prebuilt schema.org ImageObject for the essay's original hero photo. When
+		 *  present it becomes the Article's representative `image` (the clean photo,
+		 *  not the OG share card) — see lib/jsonld.ts `imageObject()`. */
+		image?: Record<string, unknown>;
 	};
 	jsonLd?: Record<string, unknown> | Record<string, unknown>[];
 }
@@ -94,7 +98,16 @@ if (articleMeta) {
 		url: canonicalUrl.href,
 		mainEntityOfPage: canonicalUrl.href,
 		isPartOf: { "@id": WEBSITE_ID },
-		...(ogImage ? { image: new URL(ogImage, Astro.site).href } : {}),
+		// Each essay links to the site's editorial standards (sourcing, process,
+		// review) — a direct E-E-A-T "How" signal. See /om/redaktion.
+		publishingPrinciples: new URL("/om/redaktion/", Astro.site).href,
+		// Prefer the clean hero ImageObject (Google Images / Licensable badge);
+		// fall back to the OG card URL so image-less essays still carry an image.
+		...(articleMeta.image
+			? { image: articleMeta.image }
+			: ogImage
+				? { image: new URL(ogImage, Astro.site).href }
+				: {}),
 		author: { "@id": ORG_ID },
 		publisher: { "@id": ORG_ID },
 		...(articleMeta.citations && articleMeta.citations.length > 0

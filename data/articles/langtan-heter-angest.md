@@ -4,6 +4,8 @@ publishedAt: "2025-09-11T12:00:00.000Z"
 wordCount: 1533
 qualityScore: 8.6
 description: "Under 1300-talets första hälft ägnade sig Ibn Qayyim al-Jawziyyah i Damaskus åt att kartlägga hjärtats sjukdomar. I *al-Dāʾ wa-l-Dawāʾ* beskrev han hur synden försvagar hjärtat – inte som en katastrof utan som en tilltagande bedövning där den sjuke till slut inte ens märker att han är sjuk."
+imageAlt: "Blick rakt ner i en stenlagd spiraltrappa som vindlar nedåt i allt mindre cirklar, med ett fönster högst upp."
+imageCaption: "Hjärtats nedstigande — varv efter varv, allt djupare."
 category: "Själen"
 ---
 Handen sträcker sig efter telefonen innan ångesten ens fått ord. Tabletten, podden – vad som helst som tystar. Medicinera, meditera, söka distraktion. Modern psykologi skiljer visserligen mellan patologisk och vardaglig oro – KBT och ACT behandlar inte all oro som sjukdom. Men den kulturella reflexen pekar åt samma håll: ångest är ett fel i maskineriet, en störning att undanröja.

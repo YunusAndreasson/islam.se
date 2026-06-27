@@ -6,6 +6,8 @@ qualityScore: 8.6
 description: "Gunnar på Hlíðarendi är dömd till landsflykt. När han vänder sig i sadeln och ser ut över ängarna, stiger han av och stannar – han vet att det kostar honom livet. Lugnet kom inte av okunskap. Det kom av att han visste var han stod."
 audioFile: "vikingarna-hade-inte-angest.mp3"
 audioDuration: 411
+imageAlt: "Närbild på en ärrad vikingakrigare med flätat hår och pälsmantel, med långskepp och en dimmig fjord i bakgrunden."
+imageCaption: "Lugnet kom inte av okunskap — krigaren som visste var han stod."
 category: "Norden"
 ---
 Gunnar på Hlíðarendi, dömd till landsflykt, vänder sig i sadeln och ser ut över sin gård. Ängarna lyser klarare än någonsin. Han stiger av hästen och stannar – väl medveten om att beslutet kostar honom livet.

@@ -72,7 +72,7 @@ if (mobile && hero) {
 				src={fallbackSrc}
 				width={hero.width}
 				height={hero.height}
-				alt={article.title}
+				alt={article.imageAlt ?? article.title}
 				loading={loading}
 				fetchpriority={fetchpriority}
 				decoding="async"
@@ -84,7 +84,7 @@ if (mobile && hero) {
 			src={hero}
 			formats={[...FORMATS]}
 			fallbackFormat="webp"
-			alt={article.title}
+			alt={article.imageAlt ?? article.title}
 			widths={widths}
 			sizes={sizes}
 			loading={loading}

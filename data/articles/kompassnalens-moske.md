@@ -4,6 +4,8 @@ publishedAt: "2026-03-08T12:00:00.000Z"
 wordCount: 1665
 qualityScore: 8.9
 description: "Landsvägen stiger i två kilometer. Från höjden breder sig en rund dal, och mitt i tratten ligger byn med sin kyrka. Bilden är Strindbergs, men mönstret är äldre."
+imageAlt: "Utblick genom ett stort valvfönster i Meckas moské mot Kaba, omgiven av tusentals pilgrimer."
+imageCaption: "Böneriktningens mittpunkt: Kaba bortom valvbågen, dit varje bön vänds."
 category: "Samhälle"
 ---
 Landsvägen stiger i två kilometer. Från höjden breder sig en rund dal, och mitt i tratten ligger byn med sin kyrka.[^1] Bilden är Strindbergs, men mönstret är äldre. Sockenkyrkan låg alltid mitt i bebyggelsen – landskapets tyngdpunkt, den fasta punkt efter vilken allt annat ordnades. Kyrkan definierar landskapet, landskapet binder gemenskapen, gemenskapen formar den enskilda människan. Dit bars barnet till dop. Dit gick bonden med tionde. Därifrån styrde prästen bygdens angelägenheter.

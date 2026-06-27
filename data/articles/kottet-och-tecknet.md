@@ -4,6 +4,8 @@ publishedAt: "2026-06-05T19:06:04.213Z"
 wordCount: 1685
 qualityScore: 9
 description: "Gudarna dräpte en jätte och byggde världen av hans kropp. Av Ymers kött blev jorden, av blodet haven, av benen restes bergen; tänderna och de sönderslagna käkarna blev sten och grus, och skallen välvdes till himmel, buren i sina fyra hörn av lika många dvärgar."
+imageAlt: "Snöstänkt bergsmassiv över en stilla fjord under stormmoln, med blekt drivved på klippstranden och en ensam liten gestalt."
+imageCaption: "Av jättens kropp restes bergen — köttet blev land."
 category: "Skapelsen"
 ---
 Gudarna dräpte en jätte och byggde världen av hans kropp. Av Ymers kött blev jorden, av blodet haven, av benen restes bergen; tänderna och de sönderslagna käkarna blev sten och grus, och skallen välvdes till himmel, buren i sina fyra hörn av lika många dvärgar.[^1] Bilden är så ofta återgiven att vi har slutat se hur ohygglig den är. Världen är ett återvunnet lik.

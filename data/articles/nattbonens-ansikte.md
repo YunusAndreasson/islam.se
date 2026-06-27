@@ -6,6 +6,8 @@ qualityScore: 8.6
 description: "En kvinna vaknar mitt i natten, inte för att sminka sig – för att be. Tillfrågad varför svarar hon att bönen förskönar ansiktet. Det är ett svar skönhetsindustrin inte kan sälja."
 audioFile: "nattbonens-ansikte.mp3"
 audioDuration: 636
+imageAlt: "Kvinna i sjal knäböjer i bön vid en fotogenlampa i ett dunkelt rum om natten, med en uppslagen bok på bordet."
+imageCaption: "Hon vaknar i mörkret för att be — nattbönen som förskönar ansiktet."
 category: "Själen"
 ---
 Mitt i natten vaknar en kvinna. Inte för att sminka sig – för att be. Hon står i timmar, knäböjer, reser sig, medan världen sover.

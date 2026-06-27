@@ -1,4 +1,5 @@
 ---
+import { getImage } from "astro:assets";
 import { render } from "astro:content";
 import AudioPlayer from "../components/AudioPlayer.astro";
 import EssayConnections from "../components/EssayConnections.astro";
@@ -8,6 +9,7 @@ import { amneByName } from "../lib/amnen";
 import type { Article } from "../lib/articles";
 import { formatDate, getArticles } from "../lib/articles";
 import { getVersesByEssay } from "../lib/citations";
+import { imageObject } from "../lib/jsonld";
 
 export async function getStaticPaths() {
 	const articles = await getArticles();
@@ -49,13 +51,29 @@ const citations = citedAyahs.map((key) => {
 	const [surah, ayah] = key.split(":");
 	return { name: `Koranen ${key}`, url: `https://quran.com/${surah}/${ayah}` };
 });
+
+// Build a schema.org ImageObject for the original hero photo so the CLEAN image —
+// not the text-laden OG share card — becomes the Article's representative `image`
+// (Google Images + Licensable badge). contentUrl is a canonical 1200px webp rendition.
+let heroImageObject: Record<string, unknown> | undefined;
+if (article.heroImage) {
+	const rendition = await getImage({ src: article.heroImage, width: 1200, format: "webp" });
+	heroImageObject = imageObject({
+		contentUrl: new URL(rendition.src, Astro.site).href,
+		url: new URL(Astro.url.pathname, Astro.site).href,
+		name: article.imageAlt ?? article.title,
+		caption: article.imageCaption,
+		width: 1200,
+		height: Math.round((1200 * article.heroImage.height) / article.heroImage.width),
+	});
+}
 ---
 
 <Base
 	title={`${article.title} — islam.se`}
 	description={article.description}
 	ogImage={`/og/${article.slug}.png`}
-	articleMeta={{ publishedAt: article.publishedAt, updatedAt: article.updatedAt, wordCount: article.wordCount, description: article.description, slug: article.slug, section: article.category, citations }}
+	articleMeta={{ publishedAt: article.publishedAt, updatedAt: article.updatedAt, wordCount: article.wordCount, description: article.description, slug: article.slug, section: article.category, citations, image: heroImageObject }}
 	preloadArabicFont
 >
 	<main id="main" class="content-column">
@@ -81,6 +99,7 @@ const citations = citedAyahs.map((key) => {
 						loading="eager"
 						fetchpriority="high"
 					/>
+					{article.imageCaption && <figcaption class="hero-caption">{article.imageCaption}</figcaption>}
 				</figure>
 			)}
 
@@ -149,6 +168,19 @@ const citations = citedAyahs.map((key) => {
 	   No hover bloom here — the hero is a <figure>, not a link. */
 	.article-hero :global(img) {
 		aspect-ratio: 3 / 2;
+	}
+
+	/* A quiet editorial caption under the hero — a descriptive line only (never a
+	   credit; photographer attribution lives in the ImageObject structured data).
+	   Reads as a plate caption, not a stock label: small, muted, lightly italic,
+	   left-aligned to the prose column. */
+	.hero-caption {
+		margin-top: 0.7rem;
+		font-size: 0.85rem;
+		line-height: 1.45;
+		font-style: italic;
+		color: var(--color-muted);
+		text-wrap: pretty;
 	}
 
 	@media (width <= 768px) {

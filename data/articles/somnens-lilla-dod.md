@@ -6,6 +6,8 @@ qualityScore: 8.9
 description: "Klockan tre på natten. Du ligger vaken. Kroppen är trött men tankarna kretsar – sluter aldrig sin bana. Telefonen lyser. Du vet att skärmljuset förvärrar allt."
 audioFile: "somnens-lilla-dod.mp3"
 audioDuration: 410
+imageAlt: "En person sover i en bädd i ett nästan helmörkt rum, med svagt blått nattljus genom ett litet fönster."
+imageCaption: "Sömnen, dödens lilla syster — överlämnandet varje natt."
 category: "Själen"
 ---
 Klockan tre på natten. Du ligger vaken. Kroppen är trött men tankarna kretsar – sluter aldrig sin bana. Telefonen lyser. Du vet att skärmljuset förvärrar allt. Ändå griper du den – inte för att du behöver veta något, utan för att din hand behöver hålla.
