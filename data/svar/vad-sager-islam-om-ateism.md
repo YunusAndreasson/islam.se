@@ -37,6 +37,8 @@ related:
   - "vad-sager-islam-om-agnosticism"
   - "islams-gudssyn"
   - "vad-ar-tawhid"
+essays:
+  - "fragan-levertin-aldrig-stallde"
 ---
 
 **Ateism, förnekandet av att Gud finns, räknas i islam som otro (*kufr*) och beskrivs framför allt som ett avsteg från *fitra* — ett medfött gudsmedvetande som varje människa enligt Koranen föds med.** Islam betraktar därför inte ateismen som en neutral utgångspunkt, utan som ett aktivt avvisande av något själen redan känner igen. Och eftersom *tawḥīd*, bekännelsen att Gud är en, är trons allra första sats, blir förnekandet av Gud den tyngsta avvikelse en människa kan göra.

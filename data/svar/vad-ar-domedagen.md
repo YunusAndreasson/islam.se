@@ -33,6 +33,8 @@ related:
   - "vad-ar-tawhid"
   - "tror-muslimer-pa-anglar"
   - "vem-var-profeten-muhammed"
+essays:
+  - "stillheten-fore-slutet"
 ---
 
 **Domedagen — på arabiska *yawm al-qiyāma*, "Uppståndelsens dag" — är den dag då Gud återuppväcker alla människor ur döden, ställer var och en till svars för sitt liv och dömer dem till paradiset eller helvetet.** I Koranen kallas den också *yawm ad-dīn*, "Domens dag", och tron på den är en av islams sex trosartiklar (*arkān al-īmān*). För världens omkring 1,9 miljarder muslimer är den ingen avlägsen myt utan en kommande verklighet som ger livet dess yttersta mening: ingenting går förlorat, och ingen orätt förblir oavgjord.

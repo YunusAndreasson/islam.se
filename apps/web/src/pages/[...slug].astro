@@ -55,7 +55,7 @@ const citations = citedAyahs.map((key) => {
 	title={`${article.title} — islam.se`}
 	description={article.description}
 	ogImage={`/og/${article.slug}.png`}
-	articleMeta={{ publishedAt: article.publishedAt, updatedAt: article.updatedAt, wordCount: article.wordCount, description: article.description, slug: article.slug, citations }}
+	articleMeta={{ publishedAt: article.publishedAt, updatedAt: article.updatedAt, wordCount: article.wordCount, description: article.description, slug: article.slug, section: article.category, citations }}
 	preloadArabicFont
 >
 	<main id="main" class="content-column">

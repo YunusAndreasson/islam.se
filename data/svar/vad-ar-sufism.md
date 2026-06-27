@@ -38,6 +38,9 @@ related:
   - "vad-ar-tawhid"
   - "vad-ar-sunna"
   - "sunni-och-shia"
+essays:
+  - "langtan-heter-angest"
+  - "ormboet-i-hjartat"
 ---
 
 **Sufism (arabiska *taṣawwuf*) är islams mystiska, inåtvända strömning – strävan att rena själen och dyrka Gud med fullkomlig uppriktighet (*iḥsān*).** Själva ordet och den organiserade rörelsen växte dock fram långt efter profeten Muhammeds tid. Klassisk islam tar därför emot kärnan – själens rening – men prövar varje sufisk sed mot Koranen och *sunna*, och avvisar det som korsar gränsen till otillåten nyhet (*bidʿa*) eller avgudadyrkan (*shirk*).

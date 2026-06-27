@@ -34,6 +34,9 @@ related:
   - "vad-ar-tawhid"
   - "islams-gudssyn"
   - "jesus-i-islam"
+essays:
+  - "kottet-och-tecknet"
+  - "odins-blinda-flack"
 ---
 
 **Månggudadyrkan, på arabiska *shirk*, är att ge någon eller något del i det som tillhör Gud ensam — och i islam är det den enda synd som aldrig förlåts den som dör utan att ha ångrat sig.** *Shirk* är den raka motsatsen till *tawhīd*, tron på Guds absoluta enhet, och därmed religionens allvarligaste överträdelse: den angriper själva grunden som allt annat vilar på.

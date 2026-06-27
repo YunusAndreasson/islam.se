@@ -35,6 +35,9 @@ related:
   - "det-muslimska-spanien-al-andalus"
   - "islam-och-big-bang"
   - "koranen-och-embryologi"
+essays:
+  - "sibawayhs-brytning"
+  - "domaren-utan-svard"
 ---
 
 **Den islamiska guldåldern var den period, ungefär 750–1258, då den muslimska civilisationen ledde världen inom matematik, medicin, astronomi och filosofi.** Med huvudstaden Bagdad och översättningscentret *Bayt al-Hikma* (Vishetens hus) som nav samlade abbasidkalifatet grekisk, persisk och indisk lärdom, byggde vidare på den och förde den så småningom till Europa.

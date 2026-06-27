@@ -31,6 +31,8 @@ related:
   - "islams-gudssyn"
   - "vad-ar-tawhid"
   - "vad-ar-koranen"
+essays:
+  - "samma-stjarnhimmel"
 ---
 
 **Islam står inte i konflikt med Big Bang-teorin.** Big Bang är för en muslim en beskrivning av *hur* universum kan ha börjat — inte ett svar på *vem* som låg bakom. Den klassiska islamiska traditionen bekräftar tvärtom det teorin förutsätter: att kosmos hade en början och en skapare. Frågan lyder därför inte "Big Bang eller Gud?" utan: vem orsakade smällen? Det är inte två svar på samma fråga, utan svar på två skilda frågor.
