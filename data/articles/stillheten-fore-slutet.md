@@ -4,6 +4,8 @@ publishedAt: "2026-03-08T12:00:00.000Z"
 wordCount: 1237
 qualityScore: 8.9
 description: "Tre vintrar utan sommar. Bröder som dödar varandra för småpengar. Solen svartnar, stjärnorna faller, elden slukar allt."
+imageAlt: "Hopkurad, trasig gestalt sitter på en kullfallen stam vid en halvfrusen flod i ett ödelagt vinterlandskap med döda träd och en blek låg sol."
+imageCaption: "Fimbulvintern — tre vintrar utan sommar, världen före slutet."
 category: "Norden"
 ---
 Tre vintrar utan sommar. Bröder som dödar varandra för småpengar. Solen svartnar, stjärnorna faller, elden slukar allt.

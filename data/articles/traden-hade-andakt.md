@@ -6,6 +6,8 @@ qualityScore: 8.7
 description: "Kolvaktaren sitter ensam i natten och lyssnar. Runt honom arbetar elden sakta under milan; ovanför honom står stjärnorna orörliga på sina banor. Och träden – träden har andakt."
 audioFile: "traden-hade-andakt.mp3"
 audioDuration: 498
+imageAlt: "En ensam kolare sitter vid en glödande, rykande kolmila i en skogsglänta under stjärnhimlen om natten."
+imageCaption: "Kolvaktaren i natten — och träden runt omkring i andakt."
 category: "Skapelsen"
 ---
 Kolvaktaren sitter ensam i natten och lyssnar. Runt honom arbetar elden sakta under milan; ovanför honom står stjärnorna orörliga på sina banor. Och träden – träden har andakt. Dan Andersson skrev det i *David Ramms arv* med en bitterhet som bara den hör som läser noga:

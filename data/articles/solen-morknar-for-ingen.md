@@ -4,6 +4,8 @@ publishedAt: "2026-06-05T22:02:42.925Z"
 wordCount: 1106
 qualityScore: 8.8
 description: "Ingen har bringat världen i ordning så grundligt som Carl von Linné. Han gav arterna deras dubbla namn, fördelade det levande i klasser och ordningar och lärde Europa att läsa naturen som ett register. Ändå ägnade han sina sista årtionden, i det tysta, åt något som var taxonomins raka motsats."
+imageAlt: "Man i 1700-talsperuk skriver med gåspenna vid levande ljus, omgiven av pressade växter och handskrivna blad vid ett fönster mot en mörk sjö."
+imageCaption: "Vid stearinljuset förde han räkenskap över rättvisan som mörknar för ingen."
 category: "Skapelsen"
 ---
 Ingen har bringat världen i ordning så grundligt som Carl von Linné. Han gav arterna deras dubbla namn, fördelade det levande i klasser och ordningar och lärde Europa att läsa naturen som ett register. Ändå ägnade han sina sista årtionden, i det tysta, åt något som var taxonomins raka motsats. I ett efterlämnat manuskript, skrivet för sonens ögon och annars hållet för sig själv, slutade han att sortera. Där började han tyda.

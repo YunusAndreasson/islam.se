@@ -13,6 +13,10 @@ export interface Article {
 	description: string;
 	/** The essay's ämne (primary category), if assigned. */
 	category?: AmneName;
+	/** Image-specific alt for the hero photo; falls back to `title` when absent. */
+	imageAlt?: string;
+	/** Short visible figcaption under the hero (descriptive — never a credit). */
+	imageCaption?: string;
 	audioFile?: string;
 	audioDuration?: number;
 	heroImage?: ImageMetadata;
@@ -60,7 +64,7 @@ let articlesCache: Promise<Article[]> | null = null;
 
 async function buildArticles(): Promise<Article[]> {
 	const entries = await getCollection("articles");
-	return entries
+	const built = entries
 		.map((entry) => ({
 			slug: entry.id,
 			title: entry.data.title,
@@ -70,6 +74,8 @@ async function buildArticles(): Promise<Article[]> {
 			readingTime: Math.ceil(entry.data.wordCount / 200),
 			description: entry.data.description,
 			category: entry.data.category,
+			imageAlt: entry.data.imageAlt,
+			imageCaption: entry.data.imageCaption,
 			audioFile: entry.data.audioFile,
 			audioDuration: entry.data.audioDuration,
 			heroImage: heroImageMap.get(entry.id),
@@ -77,6 +83,20 @@ async function buildArticles(): Promise<Article[]> {
 			entry,
 		}))
 		.sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime());
+
+	// Guardrail: a hero image without image-specific alt silently regresses to the
+	// title as alt (weak image SEO + no ImageObject caption). Warn at build so a
+	// newly-dropped photo gets descriptive copy in its frontmatter.
+	for (const a of built) {
+		if (a.heroImage && !a.imageAlt) {
+			console.warn(
+				`[image-seo] ${a.slug}: hero image has no imageAlt — falls back to the title. ` +
+					`Add imageAlt/imageCaption to data/articles/${a.slug}.md`,
+			);
+		}
+	}
+
+	return built;
 }
 
 export function getArticles(): Promise<Article[]> {

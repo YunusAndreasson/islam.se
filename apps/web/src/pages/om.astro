@@ -56,6 +56,7 @@ const articles = await getArticles();
 		<footer class="about-colophon">
 			<p class="colophon-names"><a href="https://bilal.se">Bilal</a> och <a href="https://andreassonphoto.com">Yunus</a></p>
 			<p class="colophon-place">Sverige, 2026</p>
+			<p class="colophon-link"><a href="/om/redaktion">Så skrivs essäerna →</a></p>
 		</footer>
 	</main>
 </Base>
@@ -66,12 +67,17 @@ const articles = await getArticles();
 		margin-bottom: var(--space-phi2);
 
 		.colophon-names,
-		.colophon-place {
+		.colophon-place,
+		.colophon-link {
 			font-family: var(--font-heading);
 			font-size: 0.862rem;
 			letter-spacing: 0.06em;
 			color: var(--color-muted);
 			margin: 0;
+		}
+
+		.colophon-link {
+			margin-top: var(--space-half);
 		}
 
 		a {

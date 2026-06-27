@@ -20,6 +20,35 @@ function pageUrl(url: string): string {
 	return abs.endsWith("/") ? abs : `${abs}/`;
 }
 
+/** A schema.org ImageObject for an essay's hero image. Emitted as the Article's
+ *  `image` so the clean illustration — not the text-laden OG share card — is the
+ *  page's representative image for Google Images, carrying its own alt/caption and
+ *  dimensions. Structured-data only; nothing here renders on the page. No author or
+ *  licence is asserted — the imagery is not licensable stock or photography. */
+export function imageObject(opts: {
+	/** Absolute URL of the optimized hero rendition (the file Google should index). */
+	contentUrl: string;
+	/** The page the image represents (absolute URL). */
+	url: string;
+	/** Image-specific alt → ImageObject name. */
+	name: string;
+	/** Visible figcaption, when the essay has one. */
+	caption?: string;
+	width: number;
+	height: number;
+}): Record<string, unknown> {
+	return {
+		"@type": "ImageObject",
+		contentUrl: opts.contentUrl,
+		url: opts.url,
+		name: opts.name,
+		...(opts.caption ? { caption: opts.caption } : {}),
+		width: opts.width,
+		height: opts.height,
+		representativeOfPage: true,
+	};
+}
+
 interface Crumb {
 	name: string;
 	/** Path or absolute URL; bare paths are resolved against the site origin. */
@@ -169,8 +198,13 @@ export function organization(): Record<string, unknown> {
 		"@id": ORG_ID,
 		name: "islam.se",
 		url: SITE,
+		// Registered and online since 2003 — a real longevity/authority signal.
+		foundingDate: "2003",
 		description:
 			"Essäer om islamisk intellektuell tradition i dialog med svenskt och nordiskt kulturarv, byggda på primära arabiska källor och den svenska litterära kanon.",
+		// The editorial-standards page (how essays are sourced, written, reviewed) —
+		// Google's "How/Who/Why" E-E-A-T signal, linked from every Article too.
+		publishingPrinciples: `${SITE}/om/redaktion/`,
 		logo: {
 			"@type": "ImageObject",
 			"@id": `${SITE}/#logo`,
@@ -188,10 +222,7 @@ export function organization(): Record<string, unknown> {
 			"Den islamiska kalendern",
 			"Bönetider",
 		],
-		founder: [
-			{ "@type": "Person", name: "Bilal", url: "https://bilal.se" },
-			{ "@type": "Person", name: "Yunus", url: "https://andreassonphoto.com" },
-		],
+		founder: { "@type": "Person", name: "Bilal", url: "https://bilal.se", description: "Grundare av islam.se." },
 		...(ORG_SAME_AS.length > 0 ? { sameAs: ORG_SAME_AS } : {}),
 	};
 }

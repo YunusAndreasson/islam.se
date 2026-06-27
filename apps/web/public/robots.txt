@@ -45,3 +45,4 @@ Content-Signal: ai-train=yes, search=yes, ai-input=yes
 Allow: /
 
 Sitemap: https://islam.se/sitemap-index.xml
+Sitemap: https://islam.se/sitemap-images.xml

@@ -16,6 +16,14 @@ const articles = defineCollection({
 		updatedAt: z.string().datetime().optional(),
 		wordCount: z.number(),
 		description: z.string(),
+		// Image-specific alt text for the hero photo (the essay's own original
+		// photography). Describes WHAT THE IMAGE SHOWS — the single highest-impact
+		// image-SEO signal — not the headline. Falls back to the title when absent.
+		imageAlt: z.string().optional(),
+		// One short, literary Swedish line shown as a visible <figcaption> under the
+		// hero. Descriptive only — never a photographer credit (attribution lives in
+		// the ImageObject structured data, never in visible page copy).
+		imageCaption: z.string().optional(),
 		audioFile: z.string().optional(),
 		audioDuration: z.number().optional(),
 		// Ämne (primary category). Order is the canonical da'wah sequence — see

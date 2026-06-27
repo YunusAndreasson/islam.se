@@ -64,6 +64,16 @@ const year = new Intl.DateTimeFormat("sv-SE", { year: "numeric", timeZone: "Euro
 const popText = nf0.format(pop);
 const depText = nf1.format(facts.summerMidnightDepressionDeg);
 
+// Daylight as a sentence fragment for the slot "kring midsommar/midvinter <desc>":
+// polar cases swap the duration for the phenomenon, so the FAQ answers below stay
+// grammatical and genuinely place-specific (real per-latitude facts, not a name swap).
+const midsummerDesc = facts.midnightSun
+	? "går solen aldrig ner (midnattssol)"
+	: `är dagen som längst, omkring ${facts.summerDayText}`;
+const midwinterDesc = facts.polarNight
+	? "går solen aldrig upp (polarnatt)"
+	: `är dagen som kortast, bara ${facts.winterDayText}`;
+
 // Swedish ordinal: 1:a, 2:a, 3:e … 11:e, 12:e … 21:a (suffix ":a" for forms ending
 // in -a – första/andra – else ":e", with the 11/12 exception).
 function ordinal(n: number): string {
@@ -115,29 +125,17 @@ if (hasScb) {
 const faq = [
 	{
 		q: `När börjar Fajr i ${place.name}?`,
-		a: `Fajr är dagens första bön och inträder vid gryningen, när det första ljuset visar sig en stund före soluppgången. Den exakta Fajr-tiden för ${place.name} ändras varje dygn och står högst upp under Dagens bönetider, där den räknas om automatiskt.`,
+		a: `Fajr är dagens första bön och inträder vid gryningen, strax före soluppgången (Shurūq). Dygnets längd i ${place.name} svänger kraftigt över året – kring midsommar ${midsummerDesc}, kring midvinter ${midwinterDesc} – så Fajr-tiden varierar mycket mellan sommar och vinter. Den exakta tiden räknas om automatiskt varje dygn och står högst upp under Dagens bönetider.`,
 	},
 	{
 		q: `När är Maghrib i ${place.name}?`,
-		a: `Maghrib är bönen direkt efter solnedgången och är den tid då fastan bryts under ramadan. Tiden följer solnedgången och skiftar dag för dag – aktuell Maghrib-tid för ${place.name} visas i listan över dagens bönetider ovan.`,
+		a: `Maghrib är bönen direkt efter solnedgången och tiden då fastan bryts under ramadan. Tiden följer solnedgången och skiftar dag för dag – på ${place.name}s breddgrad (${lat1}° N) infaller den sent på kvällen kring midsommar och tidigt på eftermiddagen mitt i vintern. Aktuell Maghrib-tid för ${place.name} visas i listan över dagens bönetider ovan.`,
 	},
 	{
-		q: `Vad kallas bönetiderna på arabiska?`,
-		a: `Bönen heter på arabiska ṣalāh (صلاة) och själva tidtabellen awqāt aṣ-ṣalāh; på turkiska och bosniska används ordet namaz. De fem dagliga bönerna i ${place.name} är Fajr, Ẓuhr, ʿAṣr, Maghrib och ʿIshāʾ.`,
-	},
-	{
-		q: `Vilken metod används för bönetiderna i ${place.name}?`,
-		a: "Standardmetoden är Muslim World League (Fajr 18°, Isha 17°), som rekommenderas för svenska latituder. Du kan byta till Diyanet, Umm al-Qura, ISNA med flera i inställningarna – kartan och tiderna uppdateras direkt.",
-	},
-	{
-		q: "Hur får jag tiderna att stämma med min moské?",
-		a: "Välj samma beräkningsmetod och madhhab som din moské, och justera vid behov enskilda böner med minuter under Avancerat. Inställningarna sparas lokalt i din webbläsare.",
-	},
-	{
-		q: `Varför kan Fajr och ʿIshāʾ vara svåra att beräkna på sommaren i ${place.name}?`,
-		a: highNorth
-			? "Så här långt norrut blir sommarnatten ofta så ljus att solen aldrig sjunker tillräckligt djupt under horisonten för den vanliga vinkelberäkningen. Då används regeln 'närmaste lämpliga plats' (Aqrab al-Balad) så att tider ändå kan visas."
-			: "Vid höga latituder kan natten bli för ljus för den vanliga vinkelberäkningen. Inställningen för höga latituder (automatiskt vald) hanterar detta så att tider ändå kan visas.",
+		q: `Varför ligger Fajr och ʿIshāʾ nära varandra på sommaren i ${place.name}?`,
+		a: facts.midnightSun
+			? `Kring midsommar går solen i ${place.name} inte ner alls (midnattssol), och då går Fajr och ʿIshāʾ inte att beräkna med den vanliga vinkelmetoden. I stället används regeln närmaste lämpliga plats (Aqrab al-Balad) så att tider ändå kan visas. ${place.name} ligger på ${lat1}° N.`
+			: `Vid sommarsolståndet sjunker solen i ${place.name} som mest ${depText}° under horisonten – mindre än de 18° som krävs för astronomisk natt. Natten blir därför aldrig riktigt mörk, så Fajr och ʿIshāʾ ligger nära varandra i juni och beräknas med regeln för höga latituder${highNorth ? " (närmaste lämpliga plats, Aqrab al-Balad)" : ""}.`,
 	},
 ];
 if (hasScb) {
