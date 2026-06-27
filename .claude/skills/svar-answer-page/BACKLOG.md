@@ -65,6 +65,17 @@ homepage 301._
 
 ## P1 — New /svar/ pages, genuine gaps (ranked by impressions)
 
+**✅ DONE 2026-06-24 (batch 4 — orchestrated, shipped + verified prod).** All P1 rows below are now
+built and 301'd, plus **agnosticism** (`/religion/agnosticism`, 2150i/90d — the single biggest
+soft-404, was missing from this list) and the science-history cluster folded into guldåldern.
+Shipped slugs: vad-sager-islam-om-agnosticism, islam-och-polyteism, vad-sager-islam-om-ateism,
+islam-deism-och-sekularism, koranen-och-tidigare-skrifter, tror-muslimer-pa-karma,
+den-islamiska-guldaldern, fyra-vittnen-och-valdtakt (⚠️ sensitive — passed adversarial Athari
+review), forsta-uppenbarelsen, varfor-skapade-gud-manniskan, erovringen-av-mecka, finns-bevis-for-gud.
+(profeterna-i-islam and kristendomens-gudssyn were handled earlier as free redirects.) The big GSC
+soft-404 leaks are now all recovered; what remains is P2 essay-restore + the niche tail. Regenerate
+this file from fresh GSC data before the next batch.
+
 | topic | legacy (180d) | suggested slug | question |
 |---|---|---|---|
 | Superstition / amulets / evil eye | /religion/vidskepelse (1017i) | vad-sager-islam-om-vidskepelse | "Vad säger islam om vidskepelse, amuletter och onda ögat?" |

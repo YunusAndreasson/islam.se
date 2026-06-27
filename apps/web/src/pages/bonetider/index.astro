@@ -16,12 +16,14 @@ const stockholm = {
 const counties = placesByCounty();
 const total = INDEXED_PLACES.length;
 const withScb = INDEXED_PLACES.filter((p) => p.scbPopulation != null).length;
-const description =
-	"Bönetider för hela Sverige – Fajr, Shurūq, Ẓuhr, ʿAṣr, Maghrib och ʿIshāʾ för tusentals orter, beräknade efter solens läge över landet. Välj beräkningsmetod och madhhab.";
+// Build-time year (Stockholm tz) for the title/H1 — "bönetider" searchers add the
+// year, and it signals freshness on the generic head term. Daily rebuild rolls it over.
+const year = new Intl.DateTimeFormat("sv-SE", { year: "numeric", timeZone: "Europe/Stockholm" }).format(new Date());
+const description = `Bönetider för hela Sverige ${year} – Fajr, Shurūq, Ẓuhr, ʿAṣr, Maghrib och ʿIshāʾ för tusentals orter, beräknade efter solens läge över landet. Välj beräkningsmetod och madhhab.`;
 ---
 
 <Base
-	title="Bönetider i Sverige — islam.se"
+	title={`Bönetider i Sverige ${year} — islam.se`}
 	description={description}
 	ogImage="/bonetider/og.png"
 	ogImageAlt="Bönetider för hela Sverige — Fajr, Shurūq, Ẓuhr, ʿAṣr, Maghrib och ʿIshāʾ beräknade efter solens läge"
@@ -52,7 +54,7 @@ const description =
 	<main id="main" class="home bonetider-hub">
 		<header class="bh2-header">
 			<p class="label">Bönetider</p>
-			<h1>Bönetider i Sverige</h1>
+			<h1>Bönetider i Sverige {year}</h1>
 			<p class="bh2-intro">
 				Bönernas tider följer solen, inte klockan. Kartan färgas av hur djupt solen står under
 				horisonten – Sveriges ljusa sommarnatt blir aldrig svart – och de svepande linjerna visar

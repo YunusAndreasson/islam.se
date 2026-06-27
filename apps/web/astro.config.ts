@@ -467,6 +467,23 @@ const customRedirects: [string, string][] = [
 	// the same shirk frame → fold the divination URL into the same page.
 	["/religion/vidskepelse", "/svar/vad-sager-islam-om-vidskepelse/"],
 	["/religion/spadomar-och-horoskop", "/svar/vad-sager-islam-om-vidskepelse/"],
+	// === 2026-06-24 batch 4 (orchestrated): new /svar/ pages for the remaining GSC content gaps ===
+	// Agnosticism was the single biggest soft-404 to the homepage (2150i/90d, p8.2) — now answered.
+	["/religion/agnosticism", "/svar/vad-sager-islam-om-agnosticism/"],
+	["/islam/hinduismens-manga-gudar", "/svar/islam-och-polyteism/"],
+	["/religion/ateism", "/svar/vad-sager-islam-om-ateism/"],
+	["/religion/deism-och-sekularism", "/svar/islam-deism-och-sekularism/"],
+	["/islam/hur-skiljer-sig-koranen-fran-de-andra-skrifterna", "/svar/koranen-och-tidigare-skrifter/"],
+	["/islam/karma", "/svar/tror-muslimer-pa-karma/"],
+	["/kvinna/fyra-vittnen-till-en-valdtakt", "/svar/fyra-vittnen-och-valdtakt/"],
+	["/historia/uppenbarelsens-borjan", "/svar/forsta-uppenbarelsen/"],
+	["/existens/syftet-med-skapelsen-av-manniskoslaktet", "/svar/varfor-skapade-gud-manniskan/"],
+	["/historia/erovringen-av-mecka", "/svar/erovringen-av-mecka/"],
+	["/gud/argument-for-guds-existens", "/svar/finns-bevis-for-gud/"],
+	// Islamic golden age (science in history): the dedicated page absorbs the whole science-history cluster.
+	["/historia/vetenskap-i-den-islamiska-varlden-under-medeltiden", "/svar/den-islamiska-guldaldern/"],
+	["/historia/ett-vetenskapligt-synsatt", "/svar/den-islamiska-guldaldern/"],
+	["/historia/kultur-som-undervarderar-vetenskap", "/svar/den-islamiska-guldaldern/"],
 ];
 
 export default defineConfig({

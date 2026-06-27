@@ -57,6 +57,10 @@ const todayLabel = new Intl.DateTimeFormat("sv-SE", {
 	year: "numeric",
 	timeZone: "Europe/Stockholm",
 }).format(now);
+// Current year (Stockholm tz) for the title/H1 — searchers add it ("bönetider
+// <stad> 2026"), and it lifts perceived freshness on the competitive metro queries.
+// Build-time value; the daily rebuild rolls it over each January.
+const year = new Intl.DateTimeFormat("sv-SE", { year: "numeric", timeZone: "Europe/Stockholm" }).format(now);
 const popText = nf0.format(pop);
 const depText = nf1.format(facts.summerMidnightDepressionDeg);
 
@@ -86,7 +90,7 @@ const daylightPara =
 		? `Så här långt norrut råder midnattssol kring midsommar – solen går inte ner alls – och polarnatt kring midvinter. Då går Fajr och ʿIshāʾ inte att beräkna med den vanliga vinkelmetoden, så regeln närmaste lämpliga plats (Aqrab al-Balad) används i stället.`
 		: `I ${place.name} är den ljusaste sommardagen omkring ${facts.summerDayText} och den mörkaste vinterdagen ${facts.winterDayText}. Vid sommarsolståndet sjunker solen som mest ${depText}° under horisonten – mindre än de 18° som krävs för astronomisk natt – vilket är varför Fajr och ʿIshāʾ ligger nära varandra i juni och beräknas med regeln för höga latituder.`;
 
-const description = `Bönetider för ${place.name} (${place.county || "Sverige"}): exakta tider för Fajr, Shurūq, Ẓuhr, ʿAṣr, Maghrib och ʿIshāʾ varje dag, beräknade efter solens läge. Välj beräkningsmetod och madhhab.`;
+const description = `Bönetider för ${place.name} (${place.county || "Sverige"}) ${year}: exakta tider för Fajr, Shurūq, Ẓuhr, ʿAṣr, Maghrib och ʿIshāʾ varje dag, beräknade efter solens läge. Välj beräkningsmetod och madhhab.`;
 
 const ogImage = place.population >= OG_POPULATION ? `/bonetider/${place.slug}/og.png` : "/bonetider/og.png";
 
@@ -109,6 +113,18 @@ if (hasScb) {
 }
 
 const faq = [
+	{
+		q: `När börjar Fajr i ${place.name}?`,
+		a: `Fajr är dagens första bön och inträder vid gryningen, när det första ljuset visar sig en stund före soluppgången. Den exakta Fajr-tiden för ${place.name} ändras varje dygn och står högst upp under Dagens bönetider, där den räknas om automatiskt.`,
+	},
+	{
+		q: `När är Maghrib i ${place.name}?`,
+		a: `Maghrib är bönen direkt efter solnedgången och är den tid då fastan bryts under ramadan. Tiden följer solnedgången och skiftar dag för dag – aktuell Maghrib-tid för ${place.name} visas i listan över dagens bönetider ovan.`,
+	},
+	{
+		q: `Vad kallas bönetiderna på arabiska?`,
+		a: `Bönen heter på arabiska ṣalāh (صلاة) och själva tidtabellen awqāt aṣ-ṣalāh; på turkiska och bosniska används ordet namaz. De fem dagliga bönerna i ${place.name} är Fajr, Ẓuhr, ʿAṣr, Maghrib och ʿIshāʾ.`,
+	},
 	{
 		q: `Vilken metod används för bönetiderna i ${place.name}?`,
 		a: "Standardmetoden är Muslim World League (Fajr 18°, Isha 17°), som rekommenderas för svenska latituder. Du kan byta till Diyanet, Umm al-Qura, ISNA med flera i inställningarna – kartan och tiderna uppdateras direkt.",
@@ -137,7 +153,7 @@ if (hasScb) {
 ---
 
 <Base
-	title={`Bönetider i ${place.name} — islam.se`}
+	title={`Bönetider i ${place.name} ${year} — islam.se`}
 	description={description}
 	ogImage={ogImage}
 	ogImageAlt={`Bönetider i ${place.name} — dagens tider för Fajr, Shurūq, Ẓuhr, ʿAṣr, Maghrib och ʿIshāʾ`}
@@ -187,7 +203,7 @@ if (hasScb) {
 
 		<header class="bt-stad-header">
 			<p class="label">Bönetider</p>
-			<h1>Bönetider i {place.name}</h1>
+			<h1>Bönetider i {place.name} {year}</h1>
 			<p class="bt-stad-sub">
 				{place.county ? `${place.county} · ` : ""}{lat1}° N, {lon1}° O
 			</p>
