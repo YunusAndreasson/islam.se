@@ -1,11 +1,13 @@
 ---
 import { type CollectionEntry, getCollection, render } from "astro:content";
 import Base from "../../layouts/Base.astro";
-import { ORG_ID, breadcrumbList } from "../../lib/jsonld";
+import { getArticles } from "../../lib/articles";
+import { ORG_ID, WEBSITE_ID, breadcrumbList } from "../../lib/jsonld";
 
 export async function getStaticPaths() {
 	const entries = await getCollection("svar");
 	const bySlug = new Map(entries.map((e) => [e.id, e]));
+	const essayBySlug = new Map((await getArticles()).map((a) => [a.slug, a]));
 	return entries.map((entry) => ({
 		params: { slug: entry.id },
 		props: {
@@ -13,6 +15,19 @@ export async function getStaticPaths() {
 			related: (entry.data.related ?? [])
 				.map((id) => bySlug.get(id))
 				.filter((e): e is NonNullable<typeof e> => Boolean(e)),
+			// Curated cross-silo links into the essay corpus. A stale slug fails the
+			// build (we never want a dead "Läs vidare" link), the same guarantee the
+			// tänkare/tråd derivations give.
+			essays: (entry.data.essays ?? []).map((slug) => {
+				const essay = essayBySlug.get(slug);
+				if (!essay) {
+					throw new Error(
+						`svar/${entry.id}.md: \`essays\` references unknown essay slug "${slug}". ` +
+							"Use a slug from data/articles/ (the filename without .md).",
+					);
+				}
+				return { slug: essay.slug, title: essay.title };
+			}),
 		},
 	}));
 }
@@ -21,9 +36,10 @@ type SvarEntry = CollectionEntry<"svar">;
 interface Props {
 	entry: SvarEntry;
 	related: SvarEntry[];
+	essays: { slug: string; title: string }[];
 }
 
-const { entry, related } = Astro.props;
+const { entry, related, essays } = Astro.props;
 const { data } = entry;
 const { Content } = await render(entry);
 const url = `https://islam.se/svar/${entry.id}/`;
@@ -45,6 +61,7 @@ const jsonLd: Record<string, unknown>[] = [
 		inLanguage: "sv",
 		url,
 		mainEntityOfPage: url,
+		isPartOf: { "@id": WEBSITE_ID },
 		datePublished: data.publishedAt,
 		dateModified: data.updatedAt ?? data.publishedAt,
 		author: { "@id": ORG_ID },
@@ -140,7 +157,18 @@ if (data.faq && data.faq.length > 0) {
 				</section>
 			)}
 
-			<p class="svar-back"><a href="/svar/">← Alla frågor och svar</a></p>
+			{essays.length > 0 && (
+					<section class="svar-essays" aria-labelledby="svar-essaer">
+						<h2 id="svar-essaer">Läs vidare</h2>
+						<ul>
+							{essays.map((e) => (
+								<li><a href={`/${e.slug}`}>{e.title}</a></li>
+							))}
+						</ul>
+					</section>
+				)}
+
+				<p class="svar-back"><a href="/svar/">← Alla frågor och svar</a></p>
 		</article>
 	</main>
 </Base>
@@ -173,7 +201,8 @@ if (data.faq && data.faq.length > 0) {
 
 	.svar-faq,
 	.svar-sources,
-	.svar-related {
+	.svar-related,
+	.svar-essays {
 		margin-top: var(--space-phi);
 		padding-top: var(--space-unit);
 		border-top: 1px solid var(--color-divider);
@@ -181,7 +210,8 @@ if (data.faq && data.faq.length > 0) {
 
 	.svar-faq h2,
 	.svar-sources h2,
-	.svar-related h2 {
+	.svar-related h2,
+	.svar-essays h2 {
 		font-size: var(--step-1);
 	}
 
@@ -203,7 +233,8 @@ if (data.faq && data.faq.length > 0) {
 	}
 
 	.svar-sources ul,
-	.svar-related ul {
+	.svar-related ul,
+	.svar-essays ul {
 		font-family: var(--font-body);
 		line-height: 1.7;
 		color: var(--color-muted);
@@ -211,7 +242,8 @@ if (data.faq && data.faq.length > 0) {
 		padding-left: 1.1rem;
 	}
 	.svar-sources a,
-	.svar-related a { color: var(--color-accent); }
+	.svar-related a,
+	.svar-essays a { color: var(--color-accent); }
 
 	.svar-back {
 		margin-top: var(--space-phi);

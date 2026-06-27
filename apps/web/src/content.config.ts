@@ -113,6 +113,11 @@ const svar = defineCollection({
 		sources: z.array(z.object({ name: z.string(), url: z.string().url().optional() })).optional(),
 		// Slugs of related svar pages, for internal linking / crawl depth.
 		related: z.array(z.string()).optional(),
+		// Slugs of essays this answer page should point readers to ("Läs vidare").
+		// Curated, cross-silo: lets a high-traffic /svar/ page pass authority into the
+		// essay corpus and deepen the reader path. Validated against the essay list at
+		// build time (a stale slug fails the build), so it can never silently rot.
+		essays: z.array(z.string()).optional(),
 	}),
 });
 

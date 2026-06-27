@@ -38,6 +38,9 @@ related:
   - "vad-ar-koranen"
   - "vem-var-profeten-muhammed"
   - "vad-ar-sunna"
+essays:
+  - "skelettet-som-holl"
+  - "poesins-kapitulation"
 ---
 
 **Nej, profeten Muhammed skrev inte Koranen.** Enligt islam är Koranen Guds eget tal (*kalām Allāh*), ordagrant uppenbarat till Muhammed genom ängeln Jibril (Gabriel) under tjugotre år. Profeten var mottagaren och förmedlaren av budskapet – aldrig dess författare.

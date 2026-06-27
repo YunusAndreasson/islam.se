@@ -37,6 +37,9 @@ related:
   - "vad-ar-tawhid"
   - "vad-ar-koranen"
   - "vem-var-profeten-muhammed"
+essays:
+  - "lognens-bokforing"
+  - "guden-som-bokfor"
 ---
 
 **Ja — muslimer tror på änglar, och tron på änglarna (*al-malāʾika*) är inte frivillig: den är en av islams sex trosartiklar (*arkān al-īmān*).** Änglarna är varelser av ljus som Gud har skapat utan egen vilja och som aldrig trotsar Honom. Tron på dem hör lika nära samman med *tawḥīd*, Guds absoluta enhet, som tron på Gud själv — den är inte en from utsmyckning, utan en del av själva trons grund.

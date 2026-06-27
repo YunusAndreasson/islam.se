@@ -36,6 +36,9 @@ related:
   - "vad-ar-tawhid"
   - "trosbekannelsen-shahada"
   - "vad-ar-koranen"
+essays:
+  - "bergen-som-vagrade"
+  - "vikingarna-hade-inte-angest"
 ---
 
 **Ödet i islam — *qadar* — är tron att Gud i sin eviga kunskap har känt, skrivit ner, velat och skapat allt som sker; det är den sjätte av islams sex trosartiklar.** Samtidigt lär islam att människan har en verklig vilja och fullt ansvar för sina handlingar — *qadar* är varken blind ödestro eller en ursäkt för synd. Tron på det förutbestämda hör till *tawḥīd*: erkännandet av Gud som ensam herre (*rubūbiyya*) över allt som finns och sker.

@@ -25,12 +25,14 @@ const description =
 		{
 			"@context": "https://schema.org",
 			"@type": "MobileApplication",
+			"@id": "https://islam.se/#app",
 			name: "islam.se",
 			operatingSystem: "iOS, Android",
 			applicationCategory: "LifestyleApplication",
 			inLanguage: "sv",
 			publisher: { "@id": ORG_ID },
 			installUrl: [APP_STORE_URL, PLAY_STORE_URL],
+			sameAs: [APP_STORE_URL, PLAY_STORE_URL],
 			offers: { "@type": "Offer", price: "0", priceCurrency: "SEK" },
 		},
 		breadcrumbList([

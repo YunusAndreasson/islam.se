@@ -39,6 +39,8 @@ related:
   - "vad-ar-kaba"
   - "sa-ber-man-steg-for-steg"
   - "tvagning-wudu"
+essays:
+  - "tyst-teologi"
 ---
 
 **En moské är en muslimsk böneplats – ett hus rest enbart för dyrkan av Gud och för den gemensamma bönen.** Det arabiska namnet *masjid* betyder ordagrant "platsen för nedfall", och moskén är samtidigt de troendes självklara samlingspunkt: här hålls de fem dagliga bönerna, fredagsbönen, undervisningen och gemenskapen.

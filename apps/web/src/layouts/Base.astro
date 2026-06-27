@@ -6,7 +6,7 @@ import Footer from "../components/Footer.astro";
 import Header from "../components/Header.astro";
 import SearchOverlay from "../components/SearchOverlay.astro";
 import { APP_STORE_ID } from "../lib/app";
-import { ORG_ID, breadcrumbList, organization, webSite } from "../lib/jsonld";
+import { ORG_ID, WEBSITE_ID, breadcrumbList, organization, webSite } from "../lib/jsonld";
 import "../styles/tokens.css";
 import "../styles/reset.css";
 import "../styles/typography.css";
@@ -41,6 +41,8 @@ interface Props {
 		wordCount: number;
 		description: string;
 		slug: string;
+		/** Ämne (primary category) → emitted as the article:section OG tag. */
+		section?: string;
 		/** Sources cited by the essay (derived from Quran footnotes) → schema citation. */
 		citations?: { name: string; url: string }[];
 	};
@@ -90,6 +92,8 @@ if (articleMeta) {
 		wordCount: articleMeta.wordCount,
 		inLanguage: "sv",
 		url: canonicalUrl.href,
+		mainEntityOfPage: canonicalUrl.href,
+		isPartOf: { "@id": WEBSITE_ID },
 		...(ogImage ? { image: new URL(ogImage, Astro.site).href } : {}),
 		author: { "@id": ORG_ID },
 		publisher: { "@id": ORG_ID },
@@ -202,7 +206,9 @@ if (articleMeta) {
 		<meta property="og:image:height" content="630" />
 		<meta property="og:image:alt" content={resolvedOgImageAlt} />
 		{articleMeta && <meta property="article:published_time" content={articleMeta.publishedAt} />}
+		{articleMeta && <meta property="article:modified_time" content={articleMeta.updatedAt ?? articleMeta.publishedAt} />}
 		{articleMeta && <meta property="article:author" content="https://islam.se" />}
+		{articleMeta?.section && <meta property="article:section" content={articleMeta.section} />}
 
 		<!-- Twitter -->
 		<meta name="twitter:card" content="summary_large_image" />

@@ -2,6 +2,7 @@
 // or an array, so a page can pass e.g. [collectionPage, breadcrumbList(...)].
 
 import { APP_STORE_URL, PLAY_STORE_URL } from "./app";
+import { APPLE_PODCAST_URL, SPOTIFY_SHOW_URL } from "./podcast";
 
 const SITE = "https://islam.se";
 
@@ -131,6 +132,7 @@ export function collectionPageJsonLd(opts: {
 		description: opts.description,
 		url: pageUrl(opts.url),
 		inLanguage: "sv",
+		isPartOf: { "@id": WEBSITE_ID },
 		...opts.extra,
 		hasPart: opts.essays.map((e) => ({
 			"@type": "Article",
@@ -152,10 +154,11 @@ export const WEBSITE_ID = `${SITE}/#website`;
 
 // Real, OWNED external profiles for islam.se — NOT the founders' personal sites
 // (those live under `founder`). These flow into Organization `sameAs`, which
-// strengthens entity grounding for AI citation and Knowledge-Panel eligibility.
-// The App Store + Google Play listings are verified owned profiles of the brand.
-// TODO: add a Wikidata item / podcast-directory page / social profile when they exist.
-const ORG_SAME_AS: string[] = [APP_STORE_URL, PLAY_STORE_URL];
+// strengthens entity grounding for AI citation and Knowledge-Panel eligibility:
+// the App Store, Google Play, Apple Podcasts, and Spotify listings are all verified
+// owned profiles of the brand, so an LLM sees the same entity vouched for across
+// four independent platforms. TODO: add a Wikidata item / YouTube channel when they exist.
+const ORG_SAME_AS: string[] = [APP_STORE_URL, PLAY_STORE_URL, APPLE_PODCAST_URL, SPOTIFY_SHOW_URL];
 
 /** The canonical islam.se Organization node. Other schemas reference it via
  *  `{ "@id": ORG_ID }` instead of repeating name/logo/founder. */

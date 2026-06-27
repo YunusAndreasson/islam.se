@@ -36,6 +36,10 @@ related:
   - "vad-ar-sunna"
   - "vad-ar-tawhid"
   - "vad-ar-ramadan"
+essays:
+  - "skelettet-som-holl"
+  - "eld-mot-en-rost"
+  - "poesins-kapitulation"
 ---
 
 **Koranen är islams heliga skrift: Guds eget tal (*kalām Allāh*), uppenbarat på arabiska för profeten Muhammad genom ärkeängeln Jibrīl (Gabriel) under cirka 23 år.** Den består av 114 kapitel (*suror*) och drygt 6 000 verser (*āyāt*), och är för muslimer den slutgiltiga vägledningen från Gud till mänskligheten.

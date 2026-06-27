@@ -30,6 +30,10 @@ related:
   - "vad-ar-sunna"
   - "vad-ar-halalslakt"
   - "trosbekannelsen-shahada"
+essays:
+  - "lagen-ingen-skrev"
+  - "domaren-utan-svard"
+  - "rattigheterna-utan-grund"
 ---
 
 **Sharia är Guds väg — den vägledning som Gud har uppenbarat för människan i Koranen och i profeten Muhammeds *sunna* om hur hon ska tro, dyrka och leva.** Ordet betyder ursprungligen "vägen ner till vattenkällan", och i islam står *sharia* för den raka väg som leder till Gud. Den vilar helt på *tawḥīd*, tron på Guds enhet, och omfattar långt mer än straffrätt: dess kärna är bön, renhet, ärlighet och hur människor möter varandra.

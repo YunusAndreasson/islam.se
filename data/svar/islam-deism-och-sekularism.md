@@ -36,6 +36,9 @@ related:
   - "vad-ar-tawhid"
   - "vad-sager-islam-om-agnosticism"
   - "vad-ar-sharia"
+essays:
+  - "skogen-ar-inte-min-kyrka"
+  - "fragan-levertin-aldrig-stallde"
 ---
 
 **Islam förkastar både deism och sekularism, eftersom var och en urholkar tron på Guds enhet (*tawhīd*) på sitt eget sätt: deismen behåller en skapare men förnekar att Han talar till människan genom uppenbarelse och profeter, medan sekularismen medger att Gud finns men förvisar Hans vägledning ur lag, politik och samhälle.**

@@ -35,6 +35,9 @@ related:
   - "tvagning-wudu"
   - "vad-ar-kaba"
   - "vad-ar-koranen"
+essays:
+  - "nattbonens-ansikte"
+  - "nar-natten-inte-faller"
 ---
 
 **Man ber i islam genom att först rena sig, vända sig mot Kaba i Mecka och sedan utföra bönen i en fast följd av ställningar — stående med recitation, bugning (*rukūʿ*), nedfallande (*sujūd*) och sittande — som upprepas i varje bönecykel.** Bönen, på arabiska *ṣalāt*, är islams andra pelare och den handling som mest konkret binder den troende till Gud fem gånger om dygnet. Formen är inte fritt vald: den följer det mönster profeten Muhammed själv visade och som sedan dess utförts på samma sätt av muslimer världen över.

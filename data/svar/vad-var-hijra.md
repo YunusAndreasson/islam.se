@@ -35,6 +35,8 @@ related:
   - "vem-var-profeten-muhammed"
   - "vad-ar-kaba"
   - "vad-ar-tawhid"
+essays:
+  - "silvertarnans-hijra"
 ---
 
 **Hijra var profeten Muhammeds och de första muslimernas utvandring från Mecka till Medina år 622 – uppbrottet undan förföljelse som blev startpunkten för den islamiska tideräkningen och för det första muslimska samhället.** Ordet *hijra* (هجرة) betyder "utvandring" eller "att bryta upp", och den som utvandrar kallas *muhajir*. Det var ingen flykt i panik utan ett planerat uppbrott: de troende lämnade hem, släkt och egendom för Guds sak för att i stället bygga en gemenskap kring tron på en enda Gud (*tawhid*).
