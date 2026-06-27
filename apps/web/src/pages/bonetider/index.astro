@@ -5,7 +5,7 @@ import PrayerSettings from "../../components/bonetider/PrayerSettings.astro";
 import Base from "../../layouts/Base.astro";
 import { breadcrumbList, dataset } from "../../lib/jsonld";
 import { SCB_SOURCE } from "../../lib/bonetider/meta";
-import { INDEXED_PLACES, placesByCounty } from "../../lib/bonetider/places-index";
+import { INDEXED_PLACES, officialPopulation, placesByCounty } from "../../lib/bonetider/places-index";
 import { DEFAULT_COORDS } from "../../lib/bonetider/settings";
 
 const stockholm = {
@@ -16,6 +16,12 @@ const stockholm = {
 const counties = placesByCounty();
 const total = INDEXED_PLACES.length;
 const withScb = INDEXED_PLACES.filter((p) => p.scbPopulation != null).length;
+// Sweden's largest places, surfaced as a prominent shortcut above the county
+// accordions. Most visitors want a metro, not to expand a län – and these are the
+// pages with the most search demand, so featuring them concentrates internal links
+// where they matter. Sorted by the official figure so the order is defensible.
+const nfPop = new Intl.NumberFormat("sv-SE", { maximumFractionDigits: 0 });
+const biggest = [...INDEXED_PLACES].sort((a, b) => officialPopulation(b) - officialPopulation(a)).slice(0, 18);
 // Build-time year (Stockholm tz) for the title/H1 — "bönetider" searchers add the
 // year, and it signals freshness on the generic head term. Daily rebuild rolls it over.
 const year = new Intl.DateTimeFormat("sv-SE", { year: "numeric", timeZone: "Europe/Stockholm" }).format(new Date());
@@ -78,6 +84,24 @@ const description = `Bönetider för hela Sverige ${year} – Fajr, Shurūq, Ẓ
 				kartan och dagens tider.
 			</p>
 			<PrayerSettings />
+		</section>
+
+		<section class="bh2-section" aria-labelledby="bh2-biggest">
+			<h2 id="bh2-biggest">Bönetider i Sveriges största orter</h2>
+			<p class="bh2-lead">
+				Direkt till de mest sökta orterna. Varje sida visar dagens tider för Fajr, Shurūq, Ẓuhr,
+				ʿAṣr, Maghrib och ʿIshāʾ, beräknade efter solens läge.
+			</p>
+			<ul class="bh2-biggest-grid">
+				{biggest.map((p) => (
+					<li>
+						<a href={`/bonetider/${p.slug}/`}>
+							<span class="bh2-big-name">{p.name}</span>
+							<span class="bh2-big-pop">{nfPop.format(officialPopulation(p))} inv.</span>
+						</a>
+					</li>
+				))}
+			</ul>
 		</section>
 
 		<section class="bh2-section" aria-labelledby="bh2-find">
@@ -186,6 +210,48 @@ const description = `Bönetider för hela Sverige ${year} – Fajr, Shurūq, Ẓ
 		color: var(--color-muted);
 		margin: var(--space-half) 0 var(--space-unit);
 		max-width: 38rem;
+	}
+
+	.bh2-biggest-grid {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(min(100%, 10rem), 1fr));
+		gap: var(--space-half);
+	}
+
+	.bh2-biggest-grid a {
+		display: flex;
+		flex-direction: column;
+		gap: 0.1rem;
+		height: 100%;
+		text-decoration: none;
+		border: 1px solid var(--color-divider);
+		border-radius: var(--radius, 0.5rem);
+		padding: 0.6rem 0.85rem;
+		transition: border-color 0.15s ease, color 0.15s ease;
+	}
+
+	.bh2-biggest-grid a:hover {
+		border-color: var(--color-warm);
+	}
+
+	.bh2-big-name {
+		font-family: var(--font-heading);
+		font-weight: 600;
+		color: var(--color-text);
+	}
+
+	.bh2-biggest-grid a:hover .bh2-big-name {
+		color: var(--color-accent);
+	}
+
+	.bh2-big-pop {
+		font-family: var(--font-body);
+		font-size: 0.8rem;
+		color: var(--color-muted);
+		font-variant-numeric: lining-nums tabular-nums;
 	}
 
 	.bt-search {
