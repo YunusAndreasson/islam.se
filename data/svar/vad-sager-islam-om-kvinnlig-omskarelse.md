@@ -63,12 +63,3 @@ Könsstympning är geografiskt koncentrerad, inte allmänt muslimsk. WHO uppskat
 ## Vad gäller i Sverige?
 
 I Sverige är varje form av kvinnlig könsstympning förbjuden enligt Lag (1982:316) med förbud mot könsstympning av kvinnor – Sverige var det första landet i västvärlden att kriminalisera ingreppet. Sedan kravet på dubbel straffbarhet togs bort den 1 juli 1999 är handlingen straffbar även när den utförs utomlands, om gärningspersonen har hemvist i Sverige. Straffet är fängelse i lägst två och högst sex år, och för grovt brott upp till tio. Här pekar svensk lag och en korrekt läsning av islam åt samma håll: ett barns kropp är inte någons att stympa.
-
-## Källor
-
-- Koranen 4:119 (Bernströms tolkning)
-- *Fitra*-hadithen: Sahīh al-Bukhārī 5889; Sahīh Muslim 257
-- Umm ʿAtiyya: Sunan Abī Dāwūd 5271
-- Förbudet mot skada (*lā ḍarar wa lā ḍirār*): Sunan Ibn Mājah 2341
-- [Dar al-Iftaʾ (Egypten) – Könsstympning är förbjuden](https://www.dar-alifta.org/en/article/details/40/female-genital-mutilation)
-- [WHO – Female genital mutilation (faktablad)](https://www.who.int/news-room/fact-sheets/detail/female-genital-mutilation)

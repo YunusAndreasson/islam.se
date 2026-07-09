@@ -66,10 +66,3 @@ Här går de lärda isär. *Niqāb* — slöjan som döljer även ansiktet och l
 ## Varför bär muslimska kvinnor slöja?
 
 Det främsta skälet är lydnad mot Gud, inte tryck från män — slöjan vilar på *tawḥīd*, tron på Guds enhet och Hans rätt att vägleda människan. Funktionen är blygsamhet: att det privata förblir privat och att kvinnans värde inte mäts i hennes utseende. Den klassiske koranuttolkaren Ibn Kathīr förklarar *khimār* som det plagg som täcker huvudet och dras ned över hals och barm. För många muslimska kvinnor i Sverige i dag är slöjan dessutom en frivillig markör av tro och tillhörighet. Den som ser slöjan som ett tvång läser den utifrån; den som bär den läser den som ett svar — riktat uppåt, inte mot omgivningen.
-
-## Källor
-
-- Koranen 24:30 och 24:31 (Mohammed Knut Bernströms översättning, *Koranens budskap*)
-- Koranen 33:53 och 33:59 (Bernströms översättning)
-- Sahīh al-Bukhārī 4759 (Aisha om hur kvinnorna täckte sig när 24:31 uppenbarades)
-- al-ibadah.com – "Bära tunna kläder som inte täcker ʿawrahn under bönen" (kvinnans ʿawra, efter Ibn Bāz): https://al-ibadah.com/bon/kladseln/bara-tunna-klader-som-inte-tacker-awrahn-under-bon

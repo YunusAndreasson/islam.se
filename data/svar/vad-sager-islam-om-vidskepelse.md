@@ -77,16 +77,3 @@ Detta är *ruqya*: tillåten recitation av Koranen och åkallan, så länge orde
 ## Varför är vidskepelse och amuletter *shirk*?
 
 All vidskepelse krockar med *tawhīd*. Att tillskriva ett tecken, en siffra eller en amulett makt över nytta och skada är att ge Guds ensamrätt åt skapelsen, och det underminerar samtidigt *tawakkul*, den troendes tillit till att allt sker enligt Guds beslut (*qadar*). Koranen påminner om att ingen olycka drabbar någon utan Guds tillåtelse och att ingen utom Han kan avvärja den. En muslim får därför söka lagliga orsaker (medicin, försiktighet, *ruqya*) men aldrig fästa sitt hjärta vid orsaken i stället för vid Orsakaren. En muslim som tappar bort sin amulett har alltså inte förlorat något skydd alls. Hans trygghet låg hela tiden i förtröstan på Gud, och den kan ingen olyckshändelse rycka ifrån honom.
-
-## Källor
-
-- Koranen 113:1–5 (*al-Falaq*)
-- Sahīh al-Bukhārī 5740; Sahīh Muslim 2188 – det onda ögat är verkligt
-- Sahīh al-Bukhārī 5776; Sahīh Muslim 2224 – ingen smitta, inget omen
-- Sunan at-Tirmidhī 1614; Sunan Abī Dāwūd 3910 – *tiyara* är shirk
-- Sunan Abī Dāwūd 3883; Sunan Ibn Mājah 3530 – besvärjelser och amuletter är shirk
-- Musnad Ahmad 16969 – den som bär en amulett har begått shirk
-- Sahīh al-Bukhārī 3371 – profetens skyddsåkallan för al-Hasan och al-Husayn
-- [al-ibadah.com – Amuletter och talismaner](https://al-ibadah.com/troslara/amuletter-och-talismaner)
-- [al-ibadah.com – Jinn, magi och det onda ögat](https://al-ibadah.com/troslara/jinn-magi-och-det-onda-ogat)
-- [Wikipedia – Onda ögat](https://sv.wikipedia.org/wiki/Onda_%C3%B6gat)

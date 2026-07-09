@@ -62,9 +62,3 @@ Det placerar besjälningen omkring 120 dagar efter befruktningen, en gräns som 
 Här krävs både ärlighet och måtta. En populär apologetik – förknippad bland andra med predikanten Zakir Naik – framställer verserna som ett *iʿjāz ʿilmī*, ett naturvetenskapligt under som en oläskunnig man på 600-talet omöjligt kunde ha känt till. Kritiker invänder att en stadieindelad embryologi fanns redan i antikens medicin, hos den grekiske läkaren Galenos, och att sådana föreställningar levde kvar i senantikens lärda värld.
 
 Den klassiska hållningen behöver inte ta strid om den frågan. Att Koranens bilder så nära följer fostrets verkliga utveckling får gärna stärka den troendes förundran – men verserna är ingen lärobok, och deras sanning hänger inte på en modern jämförelse. Koranen vill inte vinna en laboratorietvist; den vill att du läser moderlivet som ett tecken, och tecknet pekar bortom embryot – mot den som formar det.
-
-## Källor
-
-- Koranen 22:5 och 23:12–14 (Mohammed Knut Bernström, *Koranens budskap*, Proprius 1998)
-- Sahīh al-Bukhārī 3208 och Sahīh Muslim 2643 (hadithen från Ibn Masʿūd om de tre fyrtiodagarsstadierna)
-- [al-ibadah.com – Allahs förutbestämmelse (qadar)](https://al-ibadah.com/troslara/allahs-forutbestammelse)

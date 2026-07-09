@@ -64,8 +64,3 @@ Ja. Förbudet omfattar hela djuret och alla dess produkter: ister, korv, charkva
 ## Får en muslim äta griskött i en nödsituation?
 
 Ja – islam är ingen lag utan undantag. Samma vers som förbjuder svinkött, Koranen 2:173, fortsätter med att den som tvingas av nöd, utan att åtrå det och utan att gå längre än nödvändigt, inte begår någon synd. Detta kallas *darūra*, tvingande nödvändighet, och gäller verklig livsfara: en människa som annars skulle svälta eller dö får äta precis så mycket som krävs för att överleva. Vanlig hunger, social obekvämlighet eller ovisshet om en ingrediens räknas inte hit, och oavsiktligt intag medför ingen skuld. Undantaget bekräftar regeln snarare än upphäver den; förbudet viker bara för livet självt.
-
-## Källor
-
-- Koranen 2:173, 5:3, 6:145 och 16:115 (*Koranens budskap*, övers. Mohammed Knut Bernström)
-- al-ibadah.com – "Visdomen bakom att förbjuda griskött"

@@ -68,10 +68,3 @@ Förbudet träffar hela kedjan, inte bara den som lyfter glaset. Enligt en hadit
 ## Får muslimer dricka alkoholfri öl eller använda alkohol i parfym?
 
 Eftersom det är den berusande egenskapen som förbjuds, faller produkter utan sådan verkan utanför förbudet. Alkoholfri öl och läsk som inte kan berusa räknas i regel inte som khamr och är tillåtna. Vin som av sig självt har surnat till ättika blir likaså rent och tillåtet. Och alkohol som används utvärtes – i parfym, rengöringsmedel eller handsprit – är enligt majoriteten av nutida lärda tillåten, eftersom den varken dricks eller berusar. Gränsen går alltid vid ruset: det som grumlar sinnet är förbjudet, det som bara bär samma kemiska namn är det inte.
-
-## Källor
-
-- Koranen 2:219, 4:43, 5:90–91 (Bernströms svenska tolkning, *Koranens budskap*)
-- Sahīh Muslim 2003 – "Varje berusningsmedel är khamr …"
-- Jāmiʿ at-Tirmidhī 1865 – berusning i stor och liten mängd
-- Sunan Ibn Mājah 3380 – de tio som förbannades i samband med khamr

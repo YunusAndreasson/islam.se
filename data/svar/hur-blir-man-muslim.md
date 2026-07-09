@@ -74,12 +74,3 @@ Det förflutna är inget hinder för att börja; i islam är det just det som tv
 ## Hur många svenskar konverterar till islam?
 
 Sverige för ingen officiell statistik över religiös tillhörighet, så alla siffror är uppskattningar. Forskning och sammanställningar om islam i Sverige brukar ange att de svenska konvertiterna rör sig om några tusen — siffran omkring 5 000 nämns ofta — bland landets flera hundra tusen muslimer. Konvertiter är inget nytt; de har funnits här sedan åtminstone 1950-talet. Och vägen in har aldrig krävt en viss bakgrund eller ett visst modersmål — Koranens svenske översättare Muhammed Knut Bernström, vars tolkning godkänts av al-Azhar, var själv konvertit. Från diplomaten som tolkade Koranen till svenska till tonåringen som läser detta i kväll är vittnesbördet ett och detsamma.
-
-## Källor
-
-- Koranen 3:19 och 2:208 (svensk tolkning av Muhammed Knut Bernström)
-- Sahīh al-Bukhārī 1 (handlingarna bedöms efter avsikterna)
-- Sahīh Muslim 121 (islam utplånar det som föregick det)
-- [al-ibadah.com – Trosbekännelsen](https://al-ibadah.com/troslara/trosbekannelsen)
-- [islamqa.info – Hur man blir muslim](https://islamqa.info/en/answers/11819)
-- [Wikipedia – Islam i Sverige](https://sv.wikipedia.org/wiki/Islam_i_Sverige)

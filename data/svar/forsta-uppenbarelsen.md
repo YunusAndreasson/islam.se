@@ -64,11 +64,3 @@ Den natt då uppenbarelsen började kallas *Laylat al-Qadr*, Allmaktens Natt, so
 ## Hur fortsatte uppenbarelsen efter den första natten?
 
 Efter mötet i Hira följde en tystnad, *fatra*, då ingen ny uppenbarelse kom och Muhammed väntade i ovisshet. När den återupptogs fortsatte *wahy*, den gudomliga ingivelsen, att komma del för del under resten av profetens liv. Till skillnad från en bok som skrivs i ett svep växte Koranen fram gradvis (*munajjam*) under omkring tjugotre år, ofta som svar på konkreta händelser i det unga muslimska samfundet. Enligt islamisk troslära är detta själva grundmönstret för hur Gud vägleder människan: genom sändebud som tar emot uppenbarelse och förmedlar den ordagrant (al-ibadah.com – Sändebuden). Den uppenbarelse som börjat med ett enda ord i Hiras mörker var fullbordad först kort före profetens död år 632, då Koranens 114 suror stod färdiga.
-
-## Källor
-
-- Koranen 96:1–5 (sura al-ʿAlaq)
-- Koranen 2:185 (sura al-Baqara)
-- Koranen 97:1 (sura al-Qadr)
-- Sahih al-Bukhari 3 (uppenbarelsens början, berättat av Aisha)
-- al-ibadah.com – Sändebuden

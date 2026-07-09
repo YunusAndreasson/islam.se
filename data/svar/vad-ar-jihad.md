@@ -77,13 +77,3 @@ Väpnad jihad är tillåten men strängt reglerad. Koranen tillåter strid endas
 > — Koranen 2:190
 
 Strid förs mot stridande, inte mot civila; klassisk fiqh förbjuder uttryckligen att döda kvinnor, barn, åldringar och gudstjänare, liksom att förstöra grödor och boskap. Beslutet om *qital* tillkommer en legitim ledare, inte enskilda grupper eller individer. Och målet är aldrig att framtvinga tro, ty "TVÅNG skall inte förekomma i trosfrågor" (Koranen 2:256). Den som dödar oskyldiga i jihads namn strider inte för Guds sak – utan mot den.
-
-## Källor
-
-- Koranen 2:190, 2:256, 25:52 och 29:69 (Koranens budskap, Mohammed Knut Bernström)
-- Sahīh al-Bukhārī 1520 (vallfärden som kvinnans bästa jihad) och 3004 (tjäna föräldrarna)
-- Jāmiʿ at-Tirmidhī 1621 (mujahid är den som kämpar mot sin själ)
-- Sunan an-Nasāʾī 4209 (ett sant ord inför en orättfärdig härskare)
-- Ibn al-Qayyim, *Zād al-Maʿād* (jihads tretton grader och fyra slag)
-- Ibn Taymiyya, *Majmūʿ al-Fatāwā* (berättelsen om "stora och lilla jihad" saknar grund)
-- [islamqa.info – Domen om jihad och dess slag](https://islamqa.info/en/answers/20214)

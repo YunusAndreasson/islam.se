@@ -74,13 +74,3 @@ Den andra är passiv rökning: att tvinga på andra sin rök bryter mot samma »
 ## Varför röker då så många muslimer?
 
 För att en religiös dom och människors vanor är två skilda ting. Trots det tydliga förbudet hör flera muslimska länder till världens mest rökande: i Indonesien röker omkring sju av tio vuxna män, men bara ett par procent av kvinnorna (Tobacco Atlas). Glappet mellan norm och praktik visar hur starkt nikotinberoendet är, men säger ingenting om domen. Tvärtom pekar siffrorna ut precis det beroende som de lärda varnar för: de mäter beroendets styrka, inte domens giltighet.
-
-## Källor
-
-- Koranen 2:195
-- Koranen 7:157
-- Koranen 17:27
-- an-Nawawīs 40 hadīther, nr 32 (*lā ḍarar wa-lā ḍirār*)
-- al-ibadah.com – Fastan (https://al-ibadah.com/fasta/)
-- islamqa.info – Domen om rökning (Muhammad Sālih al-Munajjid)
-- Tobacco Atlas – Indonesien

@@ -66,11 +66,3 @@ Koranen återkommer ständigt till klyftan mellan vetande och okunnighet: "Kan d
 ## Stred tron mot vetenskapen, och varför tog guldåldern slut?
 
 Den populära berättelsen att en strängare islam, ofta personifierad av teologen al-Ghazālī, "dödade" vetenskapen håller inte för granskning. al-Ghazālī kritiserade den grekiska *falsafans* metafysiska anspråk, inte matematik, medicin eller astronomi, och vetenskapshistoriker som George Saliba har visat att den islamiska astronomin nådde nya höjder ända in på 1500-talet. Tusentals vetenskapliga verk skrevs under århundradena efter honom. Det som till slut bröt ned blomstringen var inre politisk söndring och, framför allt, mongolernas förödelse av Bagdad år 1258, då stadens väldiga bibliotek enligt samtida vittnen tömdes i floden. Det var inte en fatwa som släckte Bagdad, utan Tigris som färgades svart av bläcket från dränkta böcker.
-
-## Källor
-
-- Koranen 96:1–5 (Bernströms översättning)
-- Koranen 39:9 (Bernströms översättning)
-- Sunan Ibn Mājah 224
-- George Saliba, *Islamic Science and the Making of the European Renaissance* (2007)
-- [Wikipedia – Islamic Golden Age](https://en.wikipedia.org/wiki/Islamic_Golden_Age)

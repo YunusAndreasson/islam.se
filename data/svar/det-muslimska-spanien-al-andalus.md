@@ -66,10 +66,3 @@ Från norr pressade de kristna kungarikena söderut i det som kallas *Reconquist
 > — Koranen 3:140
 
 Men för al-Andalus kom ingen vändning tillbaka. Kapitulationsfördraget lovade muslimerna att få behålla sin tro; inom ett decennium var löftet brutet, och de som inte konverterade eller flydde — *moriskerna* — fördrevs slutgiltigt 1609–1614, uppemot 300 000 människor. I dag är stora moskén i Córdoba en katedral, och av åtta hundra muslimska år återstår knappt mer än ett namn på en spansk landsdel: Andalusien.
-
-## Källor
-
-- Koranen 3:140 (Bernström)
-- Sahīh al-Bukhārī 71
-- Wikipedia – Al-Andalus
-- Wikipedia – Kalifatet Córdoba

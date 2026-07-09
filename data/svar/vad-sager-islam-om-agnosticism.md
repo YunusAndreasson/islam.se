@@ -75,11 +75,3 @@ Den klassiska hållningen skiljer på personen och positionen: tron kan aldrig t
 > Vi skall visa dem Våra tecken vid horisonten och inom dem själva, ända till dess [uppenbarelsens] sanning står klar för dem (Koranen 41:53)
 
 Metoden är att bjuda in snarare än att pressa, och ett ärligt sökande räknas redan som ett steg mot tron. Men allvaret är verkligt: den som låter sanningen nå sig och ändå vägrar att avgöra frågan har redan avgjort den.
-
-## Källor
-
-- Koranen 2:2, 10:36, 30:30, 41:53, 45:24 (Koranens budskap, övers. Mohammed Knut Bernström)
-- Sahīh al-Bukhārī 1385; Sahīh Muslim 2658 (om *fitra*)
-- Sahīh al-Bukhārī 3276; Sahīh Muslim 134 (om tvivlets viskning)
-- al-ibadah.com – "Definitionen av *tawḥīd* och dess olika typer": https://al-ibadah.com/troslara/tawhid/definitionen-av-tawhid-och-dess-olika-typer
-- Thomas Henry Huxley och termen "agnostiker", Wikipedia: https://en.wikipedia.org/wiki/Agnosticism

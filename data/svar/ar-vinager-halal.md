@@ -61,11 +61,3 @@ Skillnaden gäller avsikten. Det är förbjudet för en muslim att äga vin och 
 ## Hur vet jag om vinäger i butiken är tillåten?
 
 I svenska butiker lönar det sig att skilja på två ord. *Ättika* är utspädd ättiksyra, ofta kallad spritvinäger, och har inget med vin att göra – den är helt oproblematisk. *Vinäger* kan vara gjord på frukt (äppelcidervinäger) eller på vin (rödvinsvinäger, vitvinsvinäger, balsamvinäger). Även vinbaserad vinäger räknas av majoriteten lärda som tillåten, eftersom förvandlingen till ättika redan är fullbordad när produkten når hyllan; samtida lärda har uttryckligen tillåtit importerad vinäger från icke-muslimer av just det skälet. Spår av alkohol som kan finnas kvar efter jäsningen är försumbara och berusar inte. Vill man vara extra försiktig väljer man äppelcider- eller spritvinäger. Men slutsatsen står fast: det du häller över salladen är halal, och det som en gång kunde berusa surnade bort långt innan flaskan nådde butikshyllan.
-
-## Källor
-
-- Koranen 5:90 (Bernströms svenska tolkning)
-- Sahīh Muslim 2051 – Aisha: »Vilket utmärkt sovel ättika är«
-- Sahīh Muslim 2052 – profeten upprepar berömmet av ättika
-- Sunan Abī Dāwūd 3675 – om vin, föräldralösa barn och att göra ättika (autentisk enligt al-Albānī)
-- [islamqa.info – Vin som blir vinäger](https://islamqa.info/en/answers/191176)

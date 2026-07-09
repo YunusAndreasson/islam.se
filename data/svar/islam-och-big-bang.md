@@ -68,11 +68,3 @@ Nej. Big Bang är en vetenskaplig modell, inte en trosartikel. En muslim är fö
 ## Vem tände Big Bang? Tawhid som svar
 
 Här ligger den avgörande islamiska poängen. Även en fullständig fysikalisk beskrivning av de första sekunderna förklarar *mekanismen*, aldrig varför det finns något snarare än ingenting. Termen "Big Bang" myntades hånfullt av Fred Hoyle, som själv höll fast vid ett evigt universum — och fick fel. En smäll förutsätter någon som tänder den. Detta är *tawḥīd ar-rubūbiyya*, tron på Gud som ensam herre och skapare: som al-ʿUthaymīn skriver innebär den att "det enbart är Allāh som är Skaparen och att det inte finns någon skapare jämsides med Honom" — den ende som frambringar ur ingenting. Vetenskapen kan kartlägga gnistan; den kan aldrig göra sig av med tändaren.
-
-## Källor
-
-- Koranen 21:30 (Bernström, *Koranens budskap*)
-- Koranen 51:47 (Bernström, *Koranens budskap*)
-- Koranen 41:11 (Bernström, *Koranens budskap*)
-- Koranen 22:47 (Bernström, *Koranens budskap*)
-- al-ibadah.com – [Definitionen av *tawḥīd* och dess olika typer](https://al-ibadah.com/troslara/tawhid/definitionen-av-tawhid-och-dess-olika-typer) (Muhammad ibn Sālih al-ʿUthaymīn)

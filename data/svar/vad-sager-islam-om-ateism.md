@@ -78,11 +78,3 @@ En muslim inbjuds att vädja till *fitra*: att peka på skapelsens tecken och l�
 ## Hur vanligt är ateism i Sverige?
 
 För en svensk läsare är ateismen snarare norm än undantag. I Special Eurobarometer 225 (2005) uppgav bara 23 procent av svenskarna att de tror på en Gud, en av de lägsta andelarna i hela Europa, och i World Values Survey hör Sverige återkommande till världens mest sekulariserade länder. Samtidigt sade 53 procent i samma mätning sig tro på "någon form av ande eller livskraft", vilket i islams läsning är just *fitra* som söker ett namn. Att andelen uttalat troende sjunker betyder därför inte att gudsmedvetandet har slocknat. Gnistan ligger kvar under det sekulära lagret och väntar på att friläggas.
-
-## Källor
-
-- Koranen 16:125, 30:30, 41:53, 45:24, 52:35–36 (Bernström, *Koranens budskap*)
-- Sahīh al-Bukhārī 1358; Sahīh Muslim 2658 (hadithen om *fitra*, berättad av Abū Hurayra)
-- [al-ibadah.com – Monoteism (tawhīd)](https://al-ibadah.com/troslara/tawhid)
-- Special Eurobarometer 225 – "Social values, Science and Technology" (2005)
-- [Religion in the European Union (Wikipedia)](https://en.wikipedia.org/wiki/Religion_in_the_European_Union)

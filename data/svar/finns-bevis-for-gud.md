@@ -73,9 +73,3 @@ Tanken är att två obegränsade viljor skulle dra kosmos åt skilda håll och u
 ## Räcker förnuftet, eller behövs uppenbarelsen?
 
 Förnuftet kan enligt islam föra människan ända fram till att en Skapare måste finnas, men det kan inte avslöja Hans namn, Hans vilja eller hur Han vill dyrkas: det hör uppenbarelsen till. Abraham framställs i Koranen som mönstret. Genom att betrakta stjärnorna, månen och solen tänkte han sig bort från avgudarna, och resultatet sammanfattas så: "Vi visade nu Abraham [Vårt] herravälde över himlarna och jorden, för att han skulle bli fullt övertygad" (Koranen 6:75). Tecknen väcker frågan; profeterna och Koranen ger svaret. Den som begär en filosofisk garanti bortom varje tvivel missförstår vad islam erbjuder: tillräckligt med ljus för den som är ärlig nog att följa det. Abrahams väg är ännu islams väg: betrakta, begrunda, och låt sedan uppenbarelsen säga vem det är man har funnit.
-
-## Källor
-
-- Koranen 3:190, 6:75, 21:22, 30:8, 41:53, 52:35–36 (övers. Mohammed Knut Bernström, *Koranens budskap*)
-- Sahīh al-Bukhari 1385 (berättad av Abu Hurayra)
-- [al-ibadah.com – Tawhid (troslära)](https://al-ibadah.com/troslara/tawhid/)

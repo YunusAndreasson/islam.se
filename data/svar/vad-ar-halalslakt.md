@@ -72,12 +72,3 @@ Ja – men bara med bedövning. Svensk djurskyddslag kräver att alla djur bedö
 ## Är all halalmärkt mat verkligen halal?
 
 Inte automatiskt. En halalmärkning är bara så pålitlig som den kedja den vilar på – slaktmetod, *tasmiya* och att inget svin- eller blodtillsatt korsar vägen i förädlingen. Köttet är dessutom bara en del; samma logik gör alkohol och andra berusningsmedel förbjudna, eftersom det rena ska hållas skilt från det orena. Den årliga offerslakten vid *Eid al-Adha* (*qurbānī*) följer exakt samma regler som vardagens slakt och påminner om var köttet kommer ifrån. Halal är i grunden inte en stämpel på förpackningen utan en hållning: ett liv togs med Guds namn på läpparna och minsta möjliga lidande.
-
-## Källor
-
-- Koranen 5:3 – förbudet mot självdött, blod, svin och kött slaktat i annat namn än Guds
-- Koranen 6:121 – att inte äta av det Guds namn inte uttalats över
-- Koranen 5:5 – Bokens folks mat tillåten
-- Sahīh Muslim 1955 – *iḥsān* vid slakt, slipa bladet och skona djuret
-- [IslamQA – villkoret att nämna Guds namn vid slakt](https://islamqa.info/en/answers/85669/condition-of-saying-bismillaah-in-order-for-meat-to-be-halaal)
-- [Jordbruksverket – Religiös slakt](https://jordbruksverket.se/djur/djurtransportorer-och-slakterier/religios-slakt)

@@ -60,11 +60,3 @@ Profetens *sunna* beskrivs av hans hustru ʿĀʾisha: han tvättade först händ
 ## Måste man göra wudu efter ghusl — och vad gäller utan vatten?
 
 Nej. Utförs ghusl på det föreskrivna sättet ingår den lilla tvagningen redan i den, och man får be utan att förnya wudu; ʿĀʾisha berättade att profeten inte tog någon ny wudu efter sitt bad. Saknas vatten helt, eller skulle användningen skada en sjuk, öppnar samma vers 5:6 en utväg: *tayammum*, torrtvagning med ren jord eller sten, som tillfälligt ersätter både wudu och ghusl. Det är en lättnad, inte en genväg — så snart vatten åter finns utförs ghusl på vanligt sätt inför nästa bön. Vatten där det finns, ren jord där det fattas: reningen görs aldrig ogörlig.
-
-## Källor
-
-- Koranen 5:6; Koranen 4:43 (svensk tolkning: Knut Bernström)
-- Sahīh al-Bukhārī 248 (ʿĀʾisha om profetens ghusl)
-- Sahīh Muslim 343 ("vattnet kommer av vattnet")
-- al-ibadah.com – Den stora tvagningen (Ghusl)
-- islamqa.info – Vad gör ghusl obligatorisk (fatwa 93027)

@@ -71,12 +71,3 @@ Islam fastställer ingen exakt ålder. Källorna anger inget bestämt datum, och
 ## Är manlig omskärelse detsamma som kvinnlig omskärelse?
 
 Nej. De delar det arabiska ordet *khitān* men är två helt skilda ting. Manlig omskärelse — borttagandet av förhuden — är ett avgränsat ingrepp som erkänns inom sjukvården och som de klassiska skolorna är eniga om. Kvinnlig könsstympning (FGM), som Världshälsoorganisationen fördömer, har en helt annan rättslig och medicinsk ställning och behandlas separat i islamisk rätt och på en egen sida här. Att blanda samman dem är att låta ett gemensamt ord skymma två väsensskilda ingrepp; likheten ligger i namnet, inte i saken.
-
-## Källor
-
-- Koranen 16:123 (Bernströms svenska tolkning)
-- Sahīh al-Bukhārī 5889; Sahīh Muslim 257 (de fem dragen i *fitra*)
-- Sahīh al-Bukhārī 6298; Sahīh Muslim 2370 (Abraham omskar sig vid åttio års ålder)
-- [al-ibadah.com – Omskärelse för män och kvinnor](https://al-ibadah.com/renhet/blandade-utlatanden) (Ibn al-ʿUthaymīn)
-- [islamqa.info – Domen om omskärelse](https://islamqa.info/en/answers/9412)
-- [University of Sydney (2016) – global omskärelsestatistik](https://www.sydney.edu.au/news-opinion/news/2016/03/08/male-circumcision--1-in-3-globally-but-almost-universal-in-musli.html)

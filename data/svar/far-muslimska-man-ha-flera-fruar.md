@@ -74,9 +74,3 @@ Nej. Polyandri – att en kvinna är gift med flera män samtidigt – är *ḥa
 ## Är månggifte lagligt i alla länder?
 
 Nej – inte ens överallt i den muslimska världen. Turkiet avskaffade det 1926 och Tunisien förbjöd det helt 1956, medan länder som Egypten och Marocko tillåter men reglerar det hårt genom domstol och äktenskapskontrakt. I Sverige är månggifte förbjudet i lag, och en muslim som bor här är bunden av landets civilrätt. Även där flergiftet är lagligt är det statistiskt en minoritetsföreteelse; de allra flesta muslimska äktenskap består av en man och en kvinna. Lagen kan tillåta fyra – men rättvisan, och oftast verkligheten, stannar vid en.
-
-## Källor
-
-- Koranen 4:3 och 4:129 (Mohammed Knut Bernströms översättning, *Koranens budskap*)
-- Sunan Abi Dawud 2133 (autentisk; även återgiven av at-Tirmidhi, an-Nasāʾī och Ibn Mājah)
-- islamqa.info – "Ruling on plural marriage"

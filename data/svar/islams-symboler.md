@@ -62,10 +62,3 @@ Att använda halvmånen är inte i sig en synd, men den saknar religiös grund �
 ## Vilka tecken använde de tidiga muslimerna?
 
 I stället för bilder lutade sig de första muslimerna mot färg, ord och skrift. Grönt förknippas traditionellt med islam och med paradisets dräkter och sägs ha varit profeten Muhammeds favoritfärg. Profetens fanor var enfärgade och utan figurer. Till och med Kaba, islams mittpunkt, bär inga bilder – dess svarta täcke (*kiswa*) är broderat med Koranens ord i guld. Det närmaste islam har ett samlande kännetecken är trosbekännelsen, *shahada* – orden som gör en människa till muslim och som binder samman alla som följer profetens väg, *ahl as-sunna*. Saudiarabiens flagga är grön och bär just shahadan, "Det finns ingen gud utom Gud, och Muhammed är Hans sändebud", över ett vitt svärd. Även kalligrafin av Guds namn fyller den rollen bättre än någon halvmåne. Den enda symbol islam självt reser är en mening: "Det finns ingen gud utom Gud."
-
-## Källor
-
-- Koranen 2:189 (Koranens budskap, övers. Mohammed Knut Bernström)
-- [IslamQA – Har islam en symbol? (fatwa 1528)](https://islamqa.info/en/answers/1528)
-- [IslamQA – Halvmåne på minaret (fatwa 575)](https://islamqa.info/en/answers/575/putting-a-crescent-on-top-of-the-minaret-of-a-mosque)
-- [Wikipedia – Saudiarabiens flagga](https://sv.wikipedia.org/wiki/Saudiarabiens_flagga)

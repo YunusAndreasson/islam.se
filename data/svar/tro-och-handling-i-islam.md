@@ -71,9 +71,3 @@ Därför talar de lärda om att "förnya sin tro": bön, åminnelse av Gud (*dhi
 ## Räcker tron i hjärtat utan handlingar?
 
 Nej – en tro utan spår i livet är enligt islams källor en svag och hotad tro. Men slutsatsen är inte att syndaren förlorar islam. En muslim som brister i sina gärningar förblir muslim, om än med försvagad tro, och vägen tillbaka är ånger (*tawba*). Det är skillnaden mellan att tron *minskar* och att den *upphör*. Att medvetet förkasta trosbekännelsen, eller förneka något som otvetydigt hör till religionen, är något helt annat. Hos alla andra bär hjärtats tro och kroppens handling upp varandra: utan handling vissnar tron, och utan tro saknar handlingen rot.
-
-## Källor
-
-- Koranen 103:1–3 (al-ʿAsr) och 8:2 (al-Anfāl), svensk tolkning av Mohammed Knut Bernström
-- Sahīh Muslim 35 och Sahīh al-Bukhārī 9 – hadithen om trons grenar
-- al-ibadah.com – Förståelse av islam (troslära)

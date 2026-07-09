@@ -60,11 +60,3 @@ Genom de bevismedel varje rättssystem använder: gärningsmannens bekännelse, 
 ## Var kommer missförståndet ifrån?
 
 Myten är till stor del en produkt av modern lagstiftning. Pakistans Hudood-förordning från 1979 blandade ihop våldtäkt med *zinā* och kunde i praktiken vända beviskravet mot offret: en kvinna som inte kunde styrka övergreppet riskerade själv att åtalas för otukt. Ordningen kritiserades hårt och mjukades upp genom Protection of Women Act 2006. I västerländsk debatt har just den tillämpningen ofta framställts som "det islam säger", trots att klassisk rätt dömt tvärtom i sekler. Felet låg i en pakistansk lag från 1979, inte i den klassiska rätten den påstod sig tillämpa.
-
-## Källor
-
-- Koranen 24:4
-- Jāmiʿ at-Tirmidhī 1454
-- Sahīh al-Bukhārī 6949
-- Sunan Ibn Mājah 2045
-- islamqa.info – Straffet för våldtäkt
