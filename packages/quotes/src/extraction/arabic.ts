@@ -249,7 +249,7 @@ Extract 30-50 quotes. Prioritize standalone scores 4-5. Output ONLY JSON.`;
 			});
 
 			const content = response.content[0];
-			if (!content || content.type !== "text") {
+			if (content?.type !== "text") {
 				throw new Error("Unexpected response type from Claude");
 			}
 

@@ -2037,6 +2037,9 @@ If the draft has anglicisms, fix them in the revised article.
 	}
 }
 
+// Exposed for sibling producers (e.g. the svar answer-page producer) that drive
+// a single Claude stage directly instead of the full essay pipeline.
+export { ClaudeRunner, type ClaudeRunOptions } from "./claude-runner.js";
 // Re-export services
 export {
 	ArticlePublisher,
@@ -2065,7 +2068,4 @@ export {
 	searchQuotesComprehensive,
 } from "./services/index.js";
 export { SourceValidator } from "./source-validator.js";
-// Exposed for sibling producers (e.g. the svar answer-page producer) that drive
-// a single Claude stage directly instead of the full essay pipeline.
-export { ClaudeRunner, type ClaudeRunOptions } from "./claude-runner.js";
 export { slugify } from "./utils.js";
