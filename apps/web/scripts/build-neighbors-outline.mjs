@@ -78,7 +78,7 @@ const intersects = (b) => b[0] <= CLIP[2] && b[2] >= CLIP[0] && b[1] <= CLIP[3] 
 
 const allRings = [];
 for (const name of COUNTRIES) {
-	const res = await fetch(BASE + name + ".json");
+	const res = await fetch(`${BASE}${name}.json`);
 	if (!res.ok) {
 		console.log(`${name}: HTTP ${res.status} — skipped`);
 		continue;
