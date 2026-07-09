@@ -75,12 +75,3 @@ När profeten erövrade Mecka år 630 fann han 360 avgudabilder kring Kaʿba och
 ## Räknas treenigheten som shirk?
 
 Frågan om kristendomens treenighet är känslig men har ett tydligt svar i klassisk islam: att tillskriva Gud en son eller kalla Jesus gudomlig är *shirk*, eftersom det ger en skapad varelse del i Guds gudomlighet. Koranen vänder sig skarpt mot detta utan att förminska Jesus själv: han föddes av jungfrun Maria, stärktes av Guds ande och räknas till de största sändebuden. Det är anspråket på gudomlighet som avvisas, ingenting annat. För islam är Jesus en älskad profet, inte en gudom.
-
-## Källor
-
-- Koranen 4:48 (Mohammed Knut Bernström, *Koranens budskap*)
-- Koranen 21:22
-- Koranen 31:13
-- Sahīh al-Bukhārī 4477
-- Sahīh al-Bukhārī 4287
-- [al-ibadah.com – Avgudadyrkan (shirk)](https://al-ibadah.com/troslara/shirk)

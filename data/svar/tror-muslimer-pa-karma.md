@@ -71,11 +71,3 @@ Dessutom avgörs en handlings värde av avsikten (*niyya*). Profeten Muhammed sa
 
 ## Men stämmer det inte att "det man sår får man skörda"?
 Många använder ordet karma löst, i betydelsen "som man bäddar får man ligga". På den punkten ger islam ett visst medhåll: Gud låter ingen god gärning gå förlorad och ingen orätt passera ostraffad. Men likheten är ytlig. I islam kommer vedergällningen från en personlig, allvetande och barmhärtig Gud, den är knuten till detta enda liv och nästa värld, och den kan mildras av ånger. Den föds inte ur ett opersonligt kretslopp av återfödelser. Bakom ett välbekant ordspråk gömmer sig en helt annan religion.
-
-## Källor
-- Koranen 23:99–100 (Bernströms översättning)
-- Koranen 25:70
-- Koranen 53:38–39
-- Koranen 99:6–8
-- Sahīh al-Bukhārī 1
-- al-ibadah.com – Domedagen och dess tecken

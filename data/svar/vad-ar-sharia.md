@@ -71,10 +71,3 @@ Allt som lämnar rättvisan för förtryck eller barmhärtigheten för hårdhet 
 ## Är sharia samma sak som "sharialagar" och straffrätt?
 
 Nej. I svensk debatt har "sharialagar" kommit att betyda piskrapp och stympning, men straffrätten (*ḥudūd*) är en liten utkant av sharia, omgärdad av så hårda beviskrav att den i praktiken sällan kunde tillämpas. Lejonparten rör den enskildes bön, fasta, kost och hederlighet. För en muslim i Sverige innebär det att följa landets lag och samtidigt leva efter sharia i sin gudsdyrkan och moral — att be, fasta i ramadan, äta *halal* och tala sanning kräver ingen domstol, bara en troende. Sharia är därför inget straffsystem påtvingat utifrån; det är vägen den enskilde själv går mot källan.
-
-## Källor
-
-- Koranen 45:18 (Bernströms översättning)
-- Koranen 5:48 (Bernströms översättning)
-- Ibn al-Qayyim al-Jawziyya, *Iʿlām al-muwaqqiʿīn ʿan rabb al-ʿālamīn*
-- al-ibadah.com – Troslära (ʿaqīda): https://al-ibadah.com/troslara/

@@ -70,13 +70,3 @@ Klassisk islam dömer ingen sed efter dess etikett utan efter en enda måttstock
 > — Koranen 6:153
 
 Det betyder inte att hela traditionen avfärdas. Ibn Taymiyya (d. 1328) hyllade tidiga, nyktra asketer som al-Junayd, och hans elev Ibn al-Qayyim skrev *Madārij as-Sālikīn*, en hel bok som renar de andliga "stationerna" och förankrar dem i Sunnan. Skiljelinjen går alltså inte mellan sufi och icke-sufi, utan mellan profetens väg och allt vid sidan av den; och ingen etikett, hur andlig den än klingar, gör *bidʿa* till *sunna* eller *shirk* till dyrkan.
-
-## Källor
-
-- Koranen 91:9–10 (Bernströms översättning)
-- Koranen 6:153 (Bernströms översättning)
-- Sahīh Muslim 8 – hadithen om Jibrīl och *iḥsān*
-- [al-ibadah.com – Innovationer (bidʿa)](https://al-ibadah.com/troslara/innovationer)
-- [al-ibadah.com – Gravdyrkan](https://al-ibadah.com/troslara/gravdyrkan)
-- [islamqa.info – Vad är sufism?](https://islamqa.info/en/answers/47431)
-- [Pew Research Center – The World's Muslims: Unity and Diversity (2012)](https://www.pewresearch.org/religion/2012/08/09/the-worlds-muslims-unity-and-diversity-1-religious-affiliation/)

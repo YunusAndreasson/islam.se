@@ -77,11 +77,3 @@ Att enbart röra vid en kvinna bryter däremot inte tvagningen enligt majoritete
 ## Måste man göra ny tvagning inför varje bön?
 
 Nej. En giltig wudu håller tills något bryter den, och på en enda tvagning kan muslimen be flera böner i rad. Vid större orenhet (*janāba*) – efter samlag, utlösning eller avslutad menstruation – räcker inte wudu, utan hela kroppen tvättas i *ghusl*. Och saknas vatten, eller kan det inte användas, föreskriver samma vers i stället *tayammum*: en torr rening där man stryker rena händer mot ren mark och sedan över ansikte och händer. Koranen 5:6 slutar med att Gud inte vill lägga på er bördor utan rena er – därför får en bön aldrig falla på att vattnet var slut.
-
-## Källor
-
-- Koranen 5:6 (Mohammed Knut Bernströms tolkning)
-- Sahīh al-Bukhārī 159 (Uthmān ibn ʿAffān om Profetens tvagning)
-- Sahīh Muslim 360 (Jābir ibn Samura, om kamelkött)
-- al-ibadah.com – [Tvagning (renhet)](https://al-ibadah.com/renhet/tvagning)
-- al-ibadah.com – [Tvagning utan vatten (tayammum)](https://al-ibadah.com/renhet/tayammum)

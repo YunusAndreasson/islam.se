@@ -77,9 +77,3 @@ Nej, och skillnaderna spelar roll. Ateismen förnekar att Gud över huvud taget 
 ## Hur skiljer sig islams hållning från kristendomens?
 
 Frågan är rimlig, eftersom sekularismen växte fram i en kristen kulturkrets. Evangeliernas ord om att "ge kejsaren det som tillhör kejsaren och Gud det som tillhör Gud" har gett kristendomen ett inbyggt utrymme för åtskillnad mellan kyrka och stat. En muslim kan visserligen leva lojalt i ett sekulärt samhälle utan att göra sekularismen till livsåskådning, men någon motsvarande delning av själva tron känner islam inte. Profeten Muhammed var i Medina på en och samma gång budbärare, domare och statsöverhuvud, och i den förebilden finns ingen kejsare att lämna något åt.
-
-## Källor
-
-- Koranen 39:38, 12:40 och 6:162 (svensk översättning av Mohammed Knut Bernström)
-- al-ibadah.com – "Definitionen av tawhīd och dess olika typer"
-- Wikipedia – "Deism" och "Secularism" (för termernas ursprung och datering)

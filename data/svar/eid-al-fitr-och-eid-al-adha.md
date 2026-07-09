@@ -67,10 +67,3 @@ I praktiken slaktas ett får, en get, en ko eller en kamel enligt halalreglerna.
 ## Hur firar man Eid?
 
 Båda högtiderna börjar likadant. Man tvättar sig (*ghusl*), tar på sina bästa kläder och beger sig till eid-bönen, gärna på öppen plats, medan *takbīr* höjs med hög röst. Före Eid al-Fitr ges zakat al-fitr — ett mått (*sāʿ*) baslivsmedel — "på varje muslim, slav eller fri, man eller kvinna, ung eller gammal" och "innan folket går ut till bönen" (Sahīh al-Bukhārī 1503). Efteråt hälsar man varandra med "Eid mubarak" eller den äldre formeln "taqabbala Allāhu minnā wa minkum". Resten av dagarna fylls av mat, gåvor till barnen och besök hos släkt, sjuka och ensamma. Det privata och det gemensamma möts: ingen firar Eid riktigt ensam.
-
-## Källor
-
-- [Koranen 108:2 (al-Kawthar)](https://heliga-koranen.se/koranen/surat/108/al-kawthar) och Koranen 37:107 (as-Saffat), svensk tolkning av Mohammed Knut Bernström
-- [Sunan Abi Dawud 1134](https://sunnah.com/abudawud:1134) (*sahīh*)
-- [Sahīh al-Bukhārī 1503](https://sunnah.com/bukhari:1503)
-- [Wikipedia – Eid al-Adha](https://en.wikipedia.org/wiki/Eid_al-Adha) (datum, längd och köttets fördelning)

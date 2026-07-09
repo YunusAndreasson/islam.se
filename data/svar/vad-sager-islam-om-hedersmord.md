@@ -74,15 +74,3 @@ Islam tillskriver kvinnan ett eget, okränkbart människovärde och en själ lik
 ## Vad säger svensk lag om hedersmord?
 
 Fadime Şahindal, kurdisk-svensk aktivist, mördades den 21 januari 2002 av sin egen far — bara veckor efter att hon i Sveriges riksdag öppet vittnat mot hedersförtryck. Fallet väckte Sverige. Sedan 2019 markerar polisen hedersmotiv särskilt, sedan den 1 juli 2020 räknas hedersmotiv som försvårande omständighet i brottsbalken, och sedan 2022 är hedersförtryck ett eget brott. Svensk lag och klassisk islamisk rätt landar i samma slutsats från var sitt håll: detta är mord, inte rättskipning. Den som söker religiöst stöd för ett hedersmord söker förgäves — texterna fördömer honom, de ursäktar honom inte.
-
-## Källor
-
-- Koranen 4:93
-- Koranen 5:32 (Koranens budskap, övers. Mohammed Knut Bernström)
-- Koranen 6:151
-- Koranen 16:58–59
-- Koranen 17:33
-- Sahīh al-Bukhārī 6878
-- Sahīh Muslim 1676
-- [islamqa.info – Hedersmord i islam (svar 101972)](https://islamqa.info/en/answers/101972/honor-killing-in-islam)
-- Wikipedia – Fadime Şahindal

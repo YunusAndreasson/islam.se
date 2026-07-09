@@ -75,12 +75,3 @@ Att fraserna sitter så löst beror på att de inte är fyllnadsord utan uttryck
 ## Är inshallah ett sätt att slippa hålla löften?
 
 Ett vanligt missförstånd, även bland muslimer, är att "inshallah" i praktiken betyder "förmodligen inte" – ett artigt nej. Den användningen är en förvrängning, inte frasens innebörd. Att svära att göra något och sedan gömma sig bakom "om Gud vill" är att missbruka Guds namn, inte att ära det; uppriktighet betyder att göra vad man kan och lämna utgången åt Gud. På samma sätt är mashallah ingen vidskeplig formel utan ett erkännande, och alhamdulillah ingen tom reflex utan tacksamhet med mening. Ett "inshallah" är inte ett nej i förklädnad – det är ett ja som vet sin plats.
-
-## Källor
-
-- Koranen 1:2 (al-Fatiha)
-- Koranen 18:23–24 (al-Kahf)
-- Koranen 18:39 (al-Kahf)
-- Sahīh Muslim 223
-- Sahīh al-Bukhārī 5242
-- [islamqa.info – Mā shāʾ Allāh och det onda ögat](https://islamqa.info/en/answers/130786)

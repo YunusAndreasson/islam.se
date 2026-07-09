@@ -76,10 +76,3 @@ Då försvinner själva grunden för att tala om mening. Koranen ställer fråga
 > — Koranen 23:115
 
 Utan en Skapare som handlat med avsikt blir tillvaron mållös och döden ett slut utan räkenskap. Islams svar är det motsatta: människan är skapad med ett ändamål, ansvarig inför Gud och på väg tillbaka till Honom. Trosbekännelsen (*shahāda*), "det finns ingen gud utom Gud", är inte bara islams första pelare utan en komprimerad sammanfattning av hela människans uppgift. Den som vet varför hon skapades vet också vart hon är på väg; den som förnekar frågan blir till sist en gåta för sig själv.
-
-## Källor
-
-- Koranen 51:56, 23:115, 67:2 och 2:30 (Bernströms tolkning, *Koranens budskap*)
-- Sahīh al-Bukhārī 2856; Sahīh Muslim 30 (hadithen om Muʿādh ibn Jabal)
-- Ibn Taymiyya, *al-ʿUbūdiyya* (definitionen av *ʿibāda*)
-- [al-ibadah.com – Troslära: tawḥīd](https://al-ibadah.com/troslara/tawhid)

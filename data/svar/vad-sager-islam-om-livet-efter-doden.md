@@ -68,11 +68,3 @@ Domens utfall är två slutmål: paradiset, *al-Janna*, och helvetet, *an-Nār* 
 ## Varför är tron på livet efter döden så viktig?
 
 Därför att den ger det jordiska livet både mening och tyngd. Om ingen slutgiltig dom fanns skulle förtryckaren och den förtryckte till sist mötas av samma intet; tron på *al-ākhira* svarar att ingen orätt förblir oavgjord. Den binder samman *tawḥīd*, moraliskt ansvar och hopp: människan är skapad för att prövas, hålls ansvarig för sina val och bärs av löftet om Guds barmhärtighet. Det är därför döden i islam inte talas om i viskningar — den är gränsen där allt till sist vägs rätt.
-
-## Källor
-- Koranen 3:185, 21:47, 23:100, 32:11, 67:2 (svensk tolkning av Mohammed Knut Bernström)
-- Sahīh Muslim 8 (Jibrīl-haditen)
-- Sunan Abī Dāwūd 4753 (al-Barāʾ ibn ʿĀzibs hadith)
-- al-ibadah.com – Gravlivet (barzakh)
-- al-ibadah.com – Domedagen och dess tecken
-- al-ibadah.com – Paradiset och Helvetet

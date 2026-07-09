@@ -71,10 +71,3 @@ Här ligger den vanligaste missuppfattningen. Koranen ger mannen *qiwāma* – e
 ## Hade kvinnor inflytande och kunskap i islam?
 
 Den tidiga islams historia bärs i hög grad av kvinnor. Profetens första hustru Khadija, en självständig affärskvinna, var den första att tro på budskapet. Hans hustru Aisha blev en av islams främsta auktoriteter och källa till fler än 2 000 hadither; manliga följeslagare och senare lärda gick till henne för svar i juridik och i Koranens tolkning. Att söka kunskap räknas som en plikt för varje muslim, kvinna som man, och kvinnor undervisade i moskéer och studiekretsar genom hela den klassiska epoken. Föreställningen att islam dömer kvinnan till tystnad och okunnighet faller på religionens egen historia: dess hadithsamlingar vilar delvis på en kvinnas minne.
-
-## Källor
-
-- Koranen 4:1, 33:35, 16:97, 9:71, 4:7, 4:19, 4:34 (svensk tolkning av Mohammed Knut Bernström)
-- Sahīh al-Bukhārī 5971
-- Sunan at-Tirmidhī 3895
-- al-ibadah.com – den klassiska trosläran om mäns och kvinnors lika värde inför Gud

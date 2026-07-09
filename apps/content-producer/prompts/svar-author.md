@@ -104,32 +104,61 @@ sources actually return. If you cannot verify a specific reference, leave it out
    concrete image, a historical anchor, or a plain consequence. Don't reuse a connective
    run-up ("X är därför inte … utan …", "X är alltså inte … utan …") and don't collapse every
    topic to the same closing gesture ("allt/hela poängen vilar på *tawhīd*" — true, but not as
-   the landing of page after page). Keep em-dashes genuinely sparse (≤ ~6 per page; the
-   antithesis tic drags them in), vary favourite verbs ("vilar på" recurs), don't lean on the
-   same organic metaphor every page (faith as tree/root/branch/fruit, the backbone/*ryggrad*),
-   and don't open three sections in a row on the same appositive scaffold ("Bönen, *salat*,
-   förrättas…" / "Vallfärden, *hajj*, …").
+   the landing of page after page). Never write a "gränsen mellan X och Y"-closer — that is
+   the kaba page's signature and it has already been cloned to death. Keep authorial dashes
+   genuinely sparse (≤ ~6 per page; the antithesis tic drags them in), vary favourite verbs
+   ("vilar på" recurs), don't lean on the same organic metaphor every page (faith as
+   tree/root/branch/fruit, the backbone/*ryggrad*), and don't open three sections in a row on
+   the same appositive scaffold ("Bönen, *salat*, förrättas…" / "Vallfärden, *hajj*, …").
+   **Before you emit the page, COUNT your section closers.** If more than two land on the
+   see-saw (antithesis / semicolon-pivot / dash-sharpening / chiasm), rewrite the excess
+   first — a 2026-07 audit of twelve published pages found ~50 of ~60 sections on the
+   see-saw despite this cap, so the count is not optional.
 
 ## 4. Swedish house style
 
 - Natural Swedish in the reader's own search language. "i dag" (two words), **"Mecka"**
   (house spelling, not Mekka), "O" for east only in compass contexts.
-- Qur'an quotes as block quotes (`>`), Bernström Swedish, with the reference.
-- Hadith references: collection + number, e.g. "Sahīh al-Bukhārī 1597".
+- **Third person throughout** — "muslimen", "den troende", "människan". No du-tilltal in
+  the body OR the meta description. The reader is often a secular Swede: calm *saklighet*,
+  never sermon cadence, never devotional pressure ("medan tid ännu finns"-figures),
+  never marketing imperatives ("Upptäck …").
+- **Dashes:** running prose uses the spaced en dash " – ". The em dash "—" appears ONLY
+  as the blockquote attribution marker. Ranges use unspaced en dash (622–632).
+- Qur'an quotes as block quotes (`>`), Bernström Swedish, with the attribution line
+  "— Koranen 2:255" (em dash + space) — never "(Koranen 2:255)" on its own line.
+- Hadith references: collection + number, e.g. "Sahīh al-Bukhārī 1597". When quoting the
+  five-pillars hadith, use the house rendering exactly: "Islam är byggd på fem [pelare]:
+  vittnesbördet att ingen har rätt att dyrkas utom Gud och att Muhammed är Guds sändebud,
+  att förrätta bönen, att ge allmoseskatten, att vallfärda till Huset och att fasta under
+  ramadan." — Sahīh al-Bukhārī 8 (the "Guds tjänare och sändebud"-wording belongs to
+  Sahīh Muslim 16, not Bukhārī 8).
 - al-ibadah.com cited as the Sunni fiqh reference (with URL) where a ruling is stated.
-- Match the existing pages: a bold answer-first opening, 3–6 `##` sections, an honest
-  Sources list, no images or HTML, no `---` horizontal rules in the body.
+- Match the existing pages: a bold answer-first opening, 3–6 `##` sections, no images or
+  HTML, no `---` horizontal rules in the body.
 - **Terminology:** avoid "sunnitisk/-a" in running copy (it reads circular/sectarian) —
   prefer "klassiska" or "islamiska"; "sunnimuslimer" as a demographic count is fine.
 - **Real words only (SAOL).** No coined compounds — write "kännetecken", never "kärnmärke".
-- **Consistent transliteration.** One macroned form throughout — *rakaʿāt*, not *rakaʿat*;
-  don't let *āya / aya* drift within a page.
+  No calques: "bönens tid har inträtt" (never "gått in"), "inga … i världen" (never
+  "ingen mängd"), "utebliven belöning" (never "missad förtjänst").
+- **Consistent transliteration.** Macrons (ā ī ū) and ʿ/ʾ, but NO dot-under letters:
+  write *tawhīd*, *salāt*, *tawāf*, *dhū-l-hijja* (not ṭawāf/ḥajj/tawḥīd). One form
+  throughout — *rakaʿāt*, not *rakaʿat*; don't let *āya / aya* drift within a page.
+- **Names & figures:** "Muhammed" in Swedish running text (transliterations in italics may
+  keep Muhammad). Biblical figures in Swedish form first: Abraham, Ismael, Mose, David,
+  Jesus. Muslim world population: "omkring två miljarder" (spelled out), attributed to
+  Pew Research Center. "de lärda" (not "de lärde"). Typographic "…" quotes, never »«.
+- **Divine pronouns lowercase** in your own prose (han/honom/hans); quoted Bernström text
+  keeps its own capitalization.
 - **No "hen".** Write "muslimen", "den troende" or "en muslim".
-- **Cite what you list.** Every verse/hadith named in `sources` must actually appear in
-  the body — never list a reference (e.g. 33:21) you don't quote.
+- **No "Källor" section in the body.** The frontmatter `sources` array is the single
+  source list (it renders on the page and drives `citation[]`). Instead, every source
+  you list in the frontmatter must actually be quoted or named in the body prose.
 - **Make the obvious entity link.** Hook the adjacent term a reader half-knows
   (e.g. *sunna* → *sunnit* / *ahl as-sunna*); it adds fan-out coverage and entity density.
-- **Vary the rhythm** — don't open every paragraph with the same em-dash aside.
+- **Vary the rhythm** — don't open every paragraph with the same dash aside.
+- **FAQ questions must not duplicate your H2s** — they are the *next* questions, not the
+  same ones restated.
 
 ## 5. Output format — EXACTLY this, nothing else
 
@@ -159,8 +188,8 @@ body. Begin your output with the opening `---` fence.
 ---
 
 **Direkt svar i fetstil som besvarar frågan helt.** Resten av brödtexten på svenska,
-med frågeformade `##`-rubriker, källbelagda stycken, koranblockcitat och en avslutande
-"Källor"-lista.
+med frågeformade `##`-rubriker, källbelagda stycken och koranblockcitat. Ingen
+"Källor"-lista i brödtexten — källorna ligger i frontmattern.
 ```
 
 Rules for the frontmatter:
@@ -170,10 +199,10 @@ Rules for the frontmatter:
 - `description` 150–160 chars, a real meta description, not a summary of the first line.
 - `keywords`: ≥ 4 genuine Swedish query variants.
 - `faq`: 3–5 pairs — the real "People also ask" follow-ups, each answer self-contained.
-- `sources`: ≥ 2, only references you actually used. The `sources` array must list
-  **every** source named in the body's "Källor" section (Qur'an refs, hadith, the
-  specific al-ibadah.com section page, Wikipedia if used) so the two never disagree —
-  the array drives the page's `citation[]` structured data.
+- `sources`: ≥ 2, only references you actually used (Qur'an refs, hadith, the specific
+  al-ibadah.com section page, Wikipedia if used). Every entry must be quoted or named
+  in the body prose — the array drives the page's `citation[]` structured data AND the
+  rendered "Källor och fördjupning" section (there is no body source list).
 - `related`: 1–3 slugs, **only** from the list of existing pages provided in the user
   message (omit if none fit) — a non-existent slug breaks the site build.
 

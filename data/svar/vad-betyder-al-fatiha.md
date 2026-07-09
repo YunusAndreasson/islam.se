@@ -67,11 +67,3 @@ Ja – al-Fatiha är inte vilken sura som helst, utan bönens ryggrad. Profeten 
 ## Vad lär en hadith qudsi om al-Fatiha?
 
 En *hadith qudsi*, där profeten återger Guds egna ord, visar varför suran står i bönens centrum. Gud säger: "Jag har delat bönen mellan Mig och Min tjänare i två hälfter, och Min tjänare ska få vad han ber om" (Sahīh Muslim 395). När tjänaren säger "Lov och pris tillkommer Gud, världarnas Herre", svarar Gud: "Min tjänare har prisat Mig." Vid "den Nåderike, den Barmhärtige" säger Han: "Min tjänare har lovordat Mig", och vid "som allsmäktig råder över Domens dag": "Min tjänare har förhärligat Mig." Vid orden "Dig tillber vi; Dig anropar vi om hjälp" säger Gud: "Detta är mellan Mig och Min tjänare." Och vid bönen om vägledning: "Detta tillhör Min tjänare, och han ska få vad han bett om." Bönen är därför ingen monolog; i al-Fatiha talar tjänaren och Gud svarar, vers för vers.
-
-## Källor
-
-- Koranen 1:1–7 (Koranens budskap, Mohammed Knut Bernströms tolkning)
-- Sahīh al-Bukhārī 756
-- Sahīh Muslim 394
-- Sahīh Muslim 395
-- al-ibadah.com – bön och recitation av al-Fātiha

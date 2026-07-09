@@ -89,9 +89,13 @@ Overview*, which ~2× the CTR, not just to rank). Per-page **musts**:
 - **Title** leads with the literal query ("Vad är X? …", like kaba's "Vad är Kaba?"),
   ≤ ~58 chars, == H1 sense. **Meta description** 150–160 chars with a curiosity gap the
   AI Overview won't summarize.
-- **FAQ** 3–5 real follow-ups (auto-emits FAQPage JSON-LD — keep it, but expect NO rich
-  result; FAQ rich results were removed May 2026, it's an AI-parsing aid only).
-- **Sources** section (≥2), al-ibadah.com URL where a ruling is stated.
+- **FAQ** 3–5 real follow-ups that do NOT restate the H2s (auto-emits FAQPage JSON-LD —
+  keep it, but expect NO rich result; FAQ rich results were removed May 2026, it's an
+  AI-parsing aid only).
+- **Sources**: ≥2 in frontmatter, al-ibadah.com URL where a ruling is stated. **No
+  "Källor" section in the body** (2026-07-09: body lists rendered as a duplicate of the
+  template's frontmatter-driven "Källor och fördjupning" — all 61 were stripped). Every
+  frontmatter source must be quoted or named in the body prose.
 - **Internal links**: `related` to 1–3 existing sibling pages (producer validates they exist).
 - **Orthodoxy**: orthodox Sunni (Athari) only; sensitive topics factual + fair, not polemical.
 - **House style (the slips the critic caught):** real Swedish only (SAOL — no coinages:
@@ -153,8 +157,16 @@ tail to the nearest relevant page/hub instead of writing thin pages. Top targets
   `/troslara/` (creed — incl. the Messenger's authority), `/bon/`, `/fasta/`,
   `/vallfard/`, `/renhet/`, `/allmosa/`. Verify with WebFetch; if none fits, cite by
   name without a URL.
-- **`sources` (frontmatter) must equal the body "Källor" list** — the array drives the
-  Article `citation[]` JSON-LD; a mismatch silently drops citations.
+- **The body must have NO "Källor" list** (changed 2026-07-09) — frontmatter `sources`
+  is the single list; it drives both the rendered section and `citation[]` JSON-LD.
+- **The see-saw closer cap does not self-enforce.** The 2026-07-09 cornerstone audit
+  found ~50/60 sections on the see-saw despite the prompt cap — the author prompt now
+  demands an explicit closer COUNT before emitting; the critic must always count too.
+  House micro-conventions now binding (see the fix-pass policy + audit memory
+  [[fakta-cornerstone-audit]]): prose dashes are spaced en dashes " – " (em dash only in
+  blockquote attributions "— Koranen 2:255"), no dot-under transliteration (tawhīd not
+  tawḥīd), "Muhammed" in Swedish prose, divine pronouns lowercase in prose, third person
+  (no du-tilltal), "omkring två miljarder" for the ummah figure, "de lärda", "…" quotes.
 - **E-E-A-T author gap (site-level):** the rendered `Article.author` is `{@id: #org}`
   (Organization), not a named `Person`. Resolve with the user before scaling — a named,
   credentialed author/reviewer is a near-binary trust gate for YMYL religious content.

@@ -59,12 +59,3 @@ Ordningsföljden återspeglar deras rang, inte bara kronologin. Följeslagaren I
 ## Varför ser shiamuslimer annorlunda på kaliferna?
 
 Skillnaden gäller successionen. Shia menar att profeten vid Ghadir Khumm utpekade Ali som sin omedelbara efterträdare, och betraktar därför de tre första kaliferna som orättmätiga. Den klassiska hållningen, formulerad av lärde som Ibn Baz (al-ibadah.com), avvisar detta: det finns ingen autentisk text där profeten utser Ali, utan följeslagarna valde Abu Bakr genom samråd (*shūrā*) — ett val Ali till sist själv slöt upp bakom och tjänade under. Inför striderna under *fitnan* och tvisterna följeslagarna emellan avhåller sig *ahl as-sunna* från att fördöma; man ber i stället om Guds nåd över dem alla. För *ahl as-sunna* är de fyra inte rivaler att välja mellan, utan en enda obruten kedja — att älska den ene är att hedra de tre andra.
-
-## Källor
-
-- Koranen 24:55 (an-Nur), svensk tolkning av Mohammed Knut Bernström.
-- Sunan Abī Dāwūd 4607; Jāmiʿ at-Tirmidhī 2676 (hadith av Irbad ibn Sariya).
-- Sahīh al-Bukhārī 3655 (Ibn Umars rangordning av följeslagarna).
-- Sahīh al-Bukhārī 7217 (Abu Bakr befalls leda bönen).
-- al-ibadah.com – "Utsåg profeten ʿAli till kalif?" (ʿAbd al-ʿAziz ibn Baz).
-- Wikipedia – "Kalif" (regeringsåren 632–661).

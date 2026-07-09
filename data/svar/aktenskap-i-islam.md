@@ -61,9 +61,3 @@ Därtill skyddar äktenskapet kyskheten: "Den av er unga män som har möjlighet
 ## Vilka får en muslim gifta sig med?
 
 Den gemensamma tron är den fasta grunden — Koranen uppmanar: "Och välj hustru eller man bland dem av er som är ensamstående" (24:32). En muslimsk man får gifta sig med en kysk kvinna bland *ahl al-kitāb* (judar och kristna), medan en muslimsk kvinna gifter sig med en muslimsk man; så lyder den klassiska rättslärans dom, eftersom den gemensamma tron ska bära hemmet och barnens fostran. Avgörande i alla led är samtycke och rättvisa: tvång, bedrägeri och hemliga förbindelser hör inte hemma i ett *nikāḥ*. Och religionen rangordnar friare efter karaktär snarare än rikedom — profeten rådde den som söker maka att välja den troende framför den vackra och den förmögna. Tron väger tyngst i valet av livspartner, för det är den som ska bära äktenskapet när allt annat tunnas ut.
-
-## Källor
-- Koranen 30:21, 24:32 och 4:21 (svensk tolkning: Mohammed Knut Bernström, *Koranens budskap*)
-- Sahīh al-Bukhārī 5063 (boken om äktenskapet, *Kitāb al-nikāḥ*)
-- Sahīh al-Bukhārī 5066
-- al-Ghazālī, *Iḥyāʾ ʿulūm al-dīn* – boken om äktenskapets etik (*Ādāb al-nikāḥ*)

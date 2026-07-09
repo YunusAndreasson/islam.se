@@ -75,11 +75,3 @@ Den islamiska kalendern – *hijri*-kalendern – räknar sina år från hijra, 
 ## Gäller hijra fortfarande i dag?
 
 Efter att Mecka erövrades år 8 sade profeten: "Det finns ingen hijra efter erövringen, men *jihad* och avsikt [kvarstår]" (Sahīh al-Bukhārī 2783). Den specifika plikten att utvandra just från Mecka upphörde alltså. Men principen lever kvar i den klassiska rättsläran: den muslim som inte kan utöva sin religion öppet är skyldig att utvandra till en plats där det går, medan utvandring för den som redan kan praktisera fritt räknas som rekommenderad (islamqa.info). Bakom allt ligger profetens första lärdom: "Handlingar bedöms efter avsikt ... den vars utvandring var för Gud och Hans sändebud, hans utvandring var för Gud och Hans sändebud" (Sahīh al-Bukhārī 1). Den yttre hijra kan ta slut; den inre – att lämna synden och vända sig till Gud – tar aldrig slut.
-
-## Källor
-
-- Koranen 4:100, 9:40 och 8:72 (Bernströms svenska tolkning, *Koranens budskap*)
-- Sahīh al-Bukhārī 1 – "Handlingar bedöms efter avsikt"
-- Sahīh al-Bukhārī 2783 – "Ingen hijra efter erövringen"
-- islamqa.info – Är hijra obligatorisk i dag? (https://islamqa.info/en/answers/47672)
-- Wikipedia – "Hidjra" (https://sv.wikipedia.org/wiki/Hidjra)

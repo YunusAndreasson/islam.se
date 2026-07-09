@@ -78,16 +78,3 @@ Helgden gäller dock dyrkan av Gud allena. Koranens ord om böneplatserna är ot
 ## Hur många moskéer finns det i Sverige?
 
 Det finns ingen officiell räkning av moskéer i Sverige; Myndigheten för stöd till trossamfund för ingen sådan statistik. Uppskattningar talar om ett tiotal egentliga, ändamålsbyggda moskéer med minaret och kupol, medan antalet enklare bönelokaler (*musallā*) – ofta inredda i källare eller industrilokaler – rör sig kring 300 (Wikipedia: Islam i Sverige). Drygt två tredjedelar av Sveriges muslimer räknas som sunnimuslimer. Skillnaden mellan en påkostad moské och ett undanskymt källarrum betyder dock mindre än man tror: för den troende börjar moskén där pannan möter marken.
-
-## Källor
-
-- Koranen 9:18 (Bernströms tolkning)
-- Koranen 62:9 (Bernströms tolkning)
-- Koranen 72:18 (Bernströms tolkning)
-- Koranen 9:108 (Bernströms tolkning)
-- Sahīh al-Bukhārī 438
-- Sahīh al-Bukhārī 645
-- Sahīh al-Bukhārī 3366
-- Sahīh al-Bukhārī 1390
-- [al-ibadah.com – Moskén](https://al-ibadah.com/bon/mosken)
-- [Wikipedia – Islam i Sverige](https://sv.wikipedia.org/wiki/Islam_i_Sverige)

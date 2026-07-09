@@ -70,10 +70,3 @@ Enligt *ahl as-sunna wa'l-jamāʿa* är kärnan att älska och försvara alla pr
 > — Sahīh al-Bukhārī 3655
 
 Den klassiska hållningen avvisar därför påståendet att profeten skulle ha utsett Ali till efterträdare; som Ibn Bāz framhåller fanns ingen sådan anvisning, och Ali själv erkände Abu Bakrs och Umars företräde ([al-ibadah.com](https://al-ibadah.com/troslara/sekter-rorelser-och-den-ratta-vagen-ahlus-sunnah/utsag-profeten-ali-till-kalif)). Samtidigt är Ali djupt vördad – den fjärde rättledde kalifen, profetens svärson, en av de tio som under sin livstid fick löftet om paradiset. Att hålla fast vid följeslagarna utan att förkasta någon av dem är ingen partståndpunkt; det är gränsen mellan att följa samfundet och att splittra det.
-
-## Källor
-
-- Koranen 9:100 och 3:103 (Bernströms svenska tolkning)
-- Sahīh al-Bukhārī 3655
-- al-ibadah.com – "Utsåg profeten ʿAli till kalif?" (ʿAbd al-ʿAzīz Ibn Bāz)
-- Pew Research Center – *Mapping the Global Muslim Population*

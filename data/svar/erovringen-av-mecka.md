@@ -70,11 +70,3 @@ Erövringen blev vändpunkten som öppnade hela Arabien för islam. Med Mecka, K
 > — Koranen 110:1–3
 
 Året därpå förklarades Mecka helig mark där avgudadyrkan var förbjuden, och de polyteister som inte antog islam fick en frist på fyra månader innan helgedomen stängdes för dem. Inom två år hade nästan hela halvön samlats kring den tro som Mecka en gång förkastat.
-
-## Källor
-
-- Koranen 17:81
-- Koranen 110:1–3 (*an-Nasr*)
-- Koranen 12:92
-- Sahīh al-Bukhārī 4287
-- [Wikipedia – Erövringen av Mecka](https://sv.wikipedia.org/wiki/Er%C3%B6vringen_av_Mecka)

@@ -102,9 +102,3 @@ Koranen reciteras dagligen i bönen, memoreras i sin helhet av *ḥuffāẓ* och
 > — Sahīh al-Bukhārī 5027
 
 Att tro på Koranen är därför inte att ställa den vördad på hyllan, utan att läsa, förstå och leva den; recitationen är början, inte slutet.
-
-## Källor
-
-- Koranen 2:2, 2:185, 4:82, 15:9, 17:88, 96:1 (svensk tolkning: Knut Bernström, *Koranens budskap*)
-- Sahīh al-Bukhārī 5027
-- [al-ibadah.com – Tawhīd](https://al-ibadah.com/troslara/tawhid/definitionen-av-tawhid-och-dess-olika-typer)

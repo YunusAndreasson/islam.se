@@ -59,10 +59,3 @@ Före själens inblåsning råder oenighet mellan de fyra klassiska lagskolorna 
 ## När är abort tillåtet – och när är det inte det?
 
 Det starkaste och mest samstämmiga undantaget är fara för moderns liv. Står valet mellan modern och fostret väger moderns redan etablerade liv tyngst, och abort tillåts även efter 120 dagar. Vid våldtäkt eller säkerställd, svår fosterskada tillåter en del lärde abort i ett tidigt skede – före 40 eller 120 dagar – medan andra håller fast vid förbudet, eftersom fostret är oskyldigt till hur det blivit till. Däremot avvisar samtliga skolor abort som preventivmedel eller av sociala och ekonomiska bekvämlighetsskäl. För en svensk läsare är tidslinjen talande: gränsen vid 120 dagar infaller kring graviditetsvecka 17 – nästan exakt där den svenska abortlagens fria gräns vid vecka 18 går. Där den svenska lagen ser ett fritt val, ser islam en själ som just fått sitt liv.
-
-## Källor
-
-- Koranen 17:31 (Bernströms översättning)
-- Koranen 23:13–14 (Bernströms översättning)
-- Sahīh al-Bukhārī 3208; Sahīh Muslim 2643 (hadith om fostrets skapelse och själens inblåsning)
-- islamqa.info – Abort av foster före 40 och 120 dagar

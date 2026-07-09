@@ -78,10 +78,3 @@ Versens första led avvisar varje liknelse vid skapelsen; det andra bekräftar a
 ## Vad är motsatsen till tawhid?
 
 Motsatsen är *shirk* — att ge någon eller något del i det som tillkommer Gud ensam, vare sig i hans herravälde, hans dyrkan eller hans egenskaper. Koranen kallar shirk den enda synd som inte förlåts den som dör utan att ångra den, just därför att den träffar tawhids hjärta. Därför pekar islams hela vägledning, från trosbekännelsen till bönen, mot en enda sak: att hålla dyrkan ren och odelad för Gud. Tawhid är ingen lärosats bland andra — det är linjen som skiljer tro från avgudadyrkan.
-
-## Källor
-- Koranen 112:1–4 (al-Ikhlās), Bernströms översättning
-- Koranen 7:180 (al-Aʿrāf), Bernströms översättning
-- Koranen 42:11 (ash-Shūrā), Bernströms översättning
-- Sahīh al-Bukhārī 2736; Sahīh Muslim 2677
-- [al-ibadah.com – Allāhs namn och om de är begränsade](https://al-ibadah.com/troslara/tawhid/allahs-den-upphojdes-namn-och-om-de-ar-begransade-/)

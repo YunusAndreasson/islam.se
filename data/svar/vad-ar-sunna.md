@@ -76,10 +76,3 @@ Här finns den vanligaste missuppfattningen. Vid sidan av den breda betydelsen �
 ## Hur hänger sunna ihop med ordet sunnit?
 
 *Sunnit* kommer av *ahl as-sunna wa-l-jamāʿa* – "sunnans och samfundets folk" – den största grenen inom islam. Namnet uttrycker själva det som beskrivits här: att hålla fast vid profetens sunna så som följeslagarna och de tidiga generationerna förstod den, snarare än vid senare nyheter i religionen. Att vara sunnit är därför ingen etnisk eller politisk etikett, utan ett anspråk på att gå profetens väg.
-
-## Källor
-
-- Koranen 33:21, 4:59 och 59:7 (Mohammed Knut Bernströms svenska tolkning, *Koranens budskap*)
-- *Sahīh al-Bukhārī* 5063
-- [al-ibadah.com – Troslära: sändebudets auktoritet](https://al-ibadah.com/troslara/)
-- [Sunna (islam) – Wikipedia](https://sv.wikipedia.org/wiki/Sunna_(islam))

@@ -62,10 +62,3 @@ Oenigheten gäller endast om *fidya* ska läggas till qadā när hon avbröt av 
 Regeln är identisk för den ammande: fruktar hon att fastan skadar henne själv eller barnet får hon avbryta och tar normalt igen dagarna. I Sverige – med uppemot 800 000 muslimer enligt Pew Research Center – får frågan dessutom en nordisk dimension, eftersom fastedygnet kan svänga mellan tio timmar på vintern och långt över tjugo på sommaren. En tjugotimmarsfasta sent i graviditeten är just den sortens påfrestning där fruktan för skada blir konkret snarare än inbillad.
 
 Här väger en grundläggande princip tungt: skada ska avlägsnas, och bevarandet av liv går före. Därför ska kvinnan rådgöra med läkare. Visar undersökningen verklig fara för henne eller barnet är det inte längre bara tillåtet utan en plikt att bryta fastan – att fasta då vore olydnad, inte fromhet. Islam begär aldrig att en mor ska riskera det liv hon bär.
-
-## Källor
-
-- Koranen 2:184 och 2:185 (svensk tolkning av Mohammed Knut Bernström)
-- Sunan at-Tirmidhī 715 (hadith av Anas ibn Mālik al-Kaʿbī, bedömd *ḥasan*)
-- [al-ibadah.com – Graviditet och amning (avsnittet om fasta)](https://al-ibadah.com/fasta/amning-och-graviditet)
-- [Pew Research Center – Europas växande muslimska befolkning (2017)](https://www.pewresearch.org/religion/2017/11/29/europes-growing-muslim-population/)
