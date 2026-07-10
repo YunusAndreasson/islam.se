@@ -17,7 +17,13 @@ import {
   View,
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { Easing, useSharedValue, withTiming } from 'react-native-reanimated';
+import {
+  Easing,
+  runOnJS,
+  useReducedMotion,
+  useSharedValue,
+  withTiming,
+} from 'react-native-reanimated';
 
 import { hapticLight } from '../lib/haptics';
 
@@ -46,7 +52,7 @@ import { mapStyleFor } from '../lib/map/nordicStyle';
 import { computePrayerTimes, nextPrayerKeyAt, PRAYER_ORDER, type PrayerKey } from '../lib/prayer-times';
 import { computeSignature } from '../lib/settings/compute-signature';
 import { useSettings } from '../lib/settings/context';
-import { buildGrid, buildLines } from '../lib/solar/field';
+import { buildGrid, buildLines, type PrayerLineLabel } from '../lib/solar/field';
 import { polarBoundaryFor } from '../lib/solar/sun';
 import { LIVE_TICK_MS, useSolarClock } from '../lib/solar/useSolarClock';
 import { stockholmPrayerDate } from '../lib/stockholm-time';
@@ -96,6 +102,20 @@ const DOCK_MARGIN = space.lg;
 // "prayer is about to begin" signal. Ten minutes: matches the common adhan-reminder
 // horizon, long enough to be noticed, short enough that the breath stays special.
 const IMMINENT_WINDOW_MS = 10 * 60_000;
+
+// Stable empty collections handed to the overlays while the daybreak intro plays: the
+// prayer lines and pills are held back, then "pour in" via their existing reveal as the
+// sweep settles on now. Module-scope so their identity is steady across renders.
+const EMPTY_LINES: PrayerLineData[] = [];
+const EMPTY_LABELS: PrayerLineLabel[] = [];
+
+// Daybreak intro (see the block in Bonetider). Sweep length: long enough to read as a
+// deliberate daybreak, short enough it never feels like a loading screen.
+const INTRO_SWEEP_MS = 2800;
+// Plays ONCE PER COLD LAUNCH. A module-scope flag survives component remounts within a JS
+// context but resets when the process is cold-started, so a resume from background (same
+// JS context, flag still true) never replays it — exactly "every cold launch, not resume".
+let introConsumed = false;
 
 export default function Bonetider() {
   const scheme = useActiveScheme();
@@ -182,7 +202,68 @@ export default function Bonetider() {
   // from scrub or a paused background clock) is snapped first, then glides. Scrub mode
   // pins the value directly — the finger is the clock there.
   const nowFraction = useSharedValue(clock.fraction);
+
+  // ── Daybreak intro ──────────────────────────────────────────────────────────────────
+  // On a cold launch, greet the user by sweeping the wash — and the dock thumb — from
+  // Stockholm midnight (fraction 0) to now. It OWNS nowFraction while playing, so the live
+  // glide below stands down; the prayer lines/pills are held (EMPTY_* above) and pour in
+  // via their existing reveal as the sweep settles. Wash-only by design: the line CONTOUR
+  // geometry (clock.now) stays put and its UI-thread drift is clamped, so sweeping
+  // nowFraction alone can't drag the lines across the day — hence holding them here.
+  const reduceMotion = useReducedMotion();
+  const introActive = useSharedValue(false);
+  const [introPlaying, setIntroPlaying] = useState(false);
+  const introStarted = useRef(false);
+
+  const finishIntro = useCallback(() => {
+    // eslint-disable-next-line react-hooks/immutability
+    introActive.value = false;
+    setIntroPlaying(false);
+  }, [introActive]);
+
+  const skipIntro = useCallback(() => {
+    if (!introStarted.current) return;
+    // Just end it: flipping introPlaying off re-runs the live glide below, whose
+    // stale-value branch snaps nowFraction from mid-sweep to the real "now" (a raw assign,
+    // which also cancels the in-flight timing) and resumes gliding. No write needed here —
+    // keeping nowFraction's mutations confined to effects is what keeps the compiler happy.
+    finishIntro();
+  }, [finishIntro]);
+
+  // Grabbing the slider mid-intro (clock → scrub) bails to the user's scrub — the finger
+  // is the clock from that point on.
   useEffect(() => {
+    if (introPlaying && clock.mode === 'scrub') skipIntro();
+  }, [introPlaying, clock.mode, skipIntro]);
+
+  // The single owner of nowFraction: the daybreak intro on cold launch, then the live
+  // glide. Keeping every nowFraction write in ONE effect is deliberate — the React
+  // Compiler forbids mutating a shared value across multiple effects.
+  useEffect(() => {
+    // Intro: fire once when the map is first framed, on a cold launch, with motion on.
+    if (!introStarted.current && !introConsumed && !reduceMotion && cameraReady) {
+      introStarted.current = true;
+      introConsumed = true;
+      // eslint-disable-next-line react-hooks/immutability
+      introActive.value = true;
+      setIntroPlaying(true);
+      // Jump to midnight, then glide to now (assigning 0 cancels any in-flight glide).
+      nowFraction.value = 0;
+      nowFraction.value = withTiming(
+        clock.fraction,
+        { duration: INTRO_SWEEP_MS, easing: Easing.inOut(Easing.cubic) },
+        (fin) => {
+          'worklet';
+          if (fin) runOnJS(finishIntro)();
+        },
+      );
+      return;
+    }
+    if (introPlaying) return; // the intro owns nowFraction until it settles on now
+    // Live mode GLIDES instead of stepping: each 30 s tick re-anchors at the true now and
+    // eases linearly toward the PREDICTED next tick, so the wash and lines move at the
+    // sun's real rate. A stale value (from a paused/backgrounded clock, or the intro
+    // handoff) is snapped first, then glides. Scrub mode pins the value directly.
     if (clock.mode === 'live') {
       const staleBy = Math.abs(nowFraction.value - clock.fraction);
       if (staleBy > (2 * LIVE_TICK_MS) / clock.dayLength) nowFraction.value = clock.fraction;
@@ -194,7 +275,17 @@ export default function Bonetider() {
     } else {
       nowFraction.value = clock.fraction;
     }
-  }, [clock.fraction, clock.mode, clock.dayLength, nowFraction]);
+  }, [
+    cameraReady,
+    reduceMotion,
+    introPlaying,
+    clock.fraction,
+    clock.mode,
+    clock.dayLength,
+    nowFraction,
+    introActive,
+    finishIntro,
+  ]);
 
   const sig = computeSignature(settings);
   // The whole-country prayer-time lattice — the one expensive step, cached per day
@@ -447,7 +538,7 @@ export default function Bonetider() {
           nowFraction={nowFraction}
           geometryNow={clock.now}
           camera={cam}
-          lines={prayerLines}
+          lines={introPlaying ? EMPTY_LINES : prayerLines}
           nextKey={nextKey}
           imminentKey={imminentKey}
           userPoint={userPoint}
@@ -463,12 +554,25 @@ export default function Bonetider() {
         <MapMarkersOverlay
           camera={cam}
           userCoords={coords}
-          labels={solar.labels}
+          labels={introPlaying ? EMPTY_LABELS : solar.labels}
           nextKey={nextKey}
           polarBoundary={polarBoundary}
         />
       )}
       </GlassBackdropTarget>
+
+      {/* Tap anywhere on the map during the daybreak intro to skip straight to now. Sits
+          above the map/overlays but BELOW the dock and nav (rendered later), so grabbing
+          the slider still starts a scrub (which also ends the intro) and the nav discs
+          stay live. */}
+      {introPlaying && (
+        <Pressable
+          style={StyleSheet.absoluteFill}
+          onPress={skipIntro}
+          accessibilityRole="button"
+          accessibilityLabel="Hoppa över introduktionen"
+        />
+      )}
 
       {/* The one bottom surface: next prayer + day scrubber, expandable to the full
           schedule. */}
@@ -479,6 +583,8 @@ export default function Bonetider() {
         next={next}
         locationLabel={placeLabel}
         settings={settings}
+        introFraction={nowFraction}
+        introActive={introActive}
       />
 
       {/* Floating navigation: a live qibla compass (left) and the settings cog (right),

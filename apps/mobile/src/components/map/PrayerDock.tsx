@@ -104,6 +104,11 @@ interface Props {
   next: NextPrayer | null;
   locationLabel: string;
   settings: PrayerSettings;
+  /** While the daybreak intro plays, the slider thumb/fill track this UI-thread fraction
+   *  (bonetider's nowFraction) instead of the clock, so they glide 00→now with the wash.
+   *  `introActive` is the worklet gate. Both are absent for non-map callers. */
+  introFraction?: SharedValue<number>;
+  introActive?: SharedValue<boolean>;
   /** Optional host notification for analytics or layout hooks. The map does not refit
       on expansion; the dock opens over the current slice. */
   onExpandedChange?: (expanded: boolean, expandedHeight: number) => void;
@@ -138,9 +143,15 @@ export function PrayerDock({
   next,
   locationLabel,
   settings,
+  introFraction,
+  introActive,
   onExpandedChange,
 }: Props) {
   const insets = useSafeAreaInsets();
+  // Fallbacks so the timeline always receives concrete shared values (non-map callers, or
+  // before the intro props are wired). Defaults read as "no intro": inactive, fraction 0.
+  const fallbackIntroFraction = useSharedValue(0);
+  const fallbackIntroActive = useSharedValue(false);
   // The dock is chrome, so it follows the OS theme: light glass over the parchment
   // basemap (light OS), dark glass over the navy basemap (dark OS) — see Apple
   // Maps. The wash and prayer-line colours are still sun-driven (they're map
@@ -471,6 +482,8 @@ export function PrayerDock({
             marks={marks}
             onScrub={clock.setFraction}
             scheme={scheme}
+            introFraction={introFraction ?? fallbackIntroFraction}
+            introActive={introActive ?? fallbackIntroActive}
           />
         </View>
 
@@ -583,12 +596,16 @@ function SolarTimeline({
   marks,
   onScrub,
   scheme,
+  introFraction,
+  introActive,
 }: {
   styles: DockStyles;
   fraction: number;
   marks: DayMark[];
   onScrub: (f: number) => void;
   scheme: ColorSchemeName;
+  introFraction: SharedValue<number>;
+  introActive: SharedValue<boolean>;
 }) {
   const [trackW, setTrackW] = useState(0);
   // Two disjoint shared values, by design (see also react-hooks/immutability): the
@@ -658,13 +675,20 @@ function SolarTimeline({
   // mirror (`follow`). Both are shared values, so neither is hostage to JS-thread lag
   // the way reading `fraction` here was. trackW is captured at render, so the thumb
   // repositions when the track lays out.
-  const fillStyle = useAnimatedStyle(() => ({
-    width: (dragging.value ? prog.value : follow.value) * trackW,
-  }));
-  const thumbStyle = useAnimatedStyle(() => ({
-    left: (dragging.value ? prog.value : follow.value) * trackW - 9,
-    transform: [{ scale: withSpring(dragging.value ? 1.16 : 1, SPRING) }],
-  }));
+  // While the daybreak intro plays the thumb/fill track the intro sweep (UI-thread), so
+  // they glide 00→now with the wash; otherwise dragging → the finger (`prog`), idle → the
+  // eased clock mirror (`follow`).
+  const fillStyle = useAnimatedStyle(() => {
+    const f = introActive.value ? introFraction.value : dragging.value ? prog.value : follow.value;
+    return { width: f * trackW };
+  });
+  const thumbStyle = useAnimatedStyle(() => {
+    const f = introActive.value ? introFraction.value : dragging.value ? prog.value : follow.value;
+    return {
+      left: f * trackW - 9,
+      transform: [{ scale: withSpring(dragging.value ? 1.16 : 1, SPRING) }],
+    };
+  });
 
   return (
     <View style={styles.timelineArea}>
