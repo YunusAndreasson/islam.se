@@ -19,13 +19,14 @@ import {
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import {
   Easing,
-  runOnJS,
+  useAnimatedReaction,
   useReducedMotion,
   useSharedValue,
   withTiming,
 } from 'react-native-reanimated';
+import { scheduleOnRN } from 'react-native-worklets';
 
-import { hapticLight } from '../lib/haptics';
+import { hapticLight, hapticSuccess } from '../lib/haptics';
 
 import {
   type DayMark,
@@ -35,6 +36,8 @@ import {
   PrayerDock,
 } from '../components/map/PrayerDock';
 import { MapMarkersOverlay } from '../components/map/MapMarkersOverlay';
+import { MosqueCard } from '../components/map/MosqueCard';
+import { MosqueLayer } from '../components/map/MosqueLayer';
 import {
   type PrayerArrival,
   type PrayerLineData,
@@ -48,6 +51,7 @@ import {
 } from '../components/ui/GlassSurface';
 import { useLocation } from '../lib/location/context';
 import { type Camera as MapCamera, invMercY, mercY } from '../lib/map/projection';
+import type { Mosque } from '../lib/mosques';
 import { mapStyleFor } from '../lib/map/nordicStyle';
 import { computePrayerTimes, nextPrayerKeyAt, PRAYER_ORDER, type PrayerKey } from '../lib/prayer-times';
 import { computeSignature } from '../lib/settings/compute-signature';
@@ -104,14 +108,22 @@ const DOCK_MARGIN = space.lg;
 const IMMINENT_WINDOW_MS = 10 * 60_000;
 
 // Stable empty collections handed to the overlays while the daybreak intro plays: the
-// prayer lines and pills are held back, then "pour in" via their existing reveal as the
-// sweep settles on now. Module-scope so their identity is steady across renders.
+// name PILLS are held back and appear as the sweep settles (their moving labels would be
+// a blur during the fast replay). The prayer LINES, by contrast, now replay through the
+// day (see introLines below). Module-scope so their identity is steady across renders.
 const EMPTY_LINES: PrayerLineData[] = [];
 const EMPTY_LABELS: PrayerLineLabel[] = [];
 
 // Daybreak intro (see the block in Bonetider). Sweep length: long enough to read as a
-// deliberate daybreak, short enough it never feels like a loading screen.
-const INTRO_SWEEP_MS = 2800;
+// deliberate daybreak — and now to let the day's prayer lines visibly sweep past — short
+// enough it never feels like a loading screen. Tunable; every intro timing rides this.
+const INTRO_SWEEP_MS = 3800;
+// The prayer lines replay through the day by rebuilding their contours at the swept
+// instant every this-much of a DAY fraction (position between rebuilds is carried
+// smoothly by the overlay's UI-thread drift, so this only governs how often the SHAPE
+// refreshes — coarser = fewer JS rebuilds, staler shape between). ~1/48 → ≈24 rebuilds
+// across a midnight→noon sweep.
+const INTRO_LINE_STEP = 1 / 48;
 // Plays ONCE PER COLD LAUNCH. A module-scope flag survives component remounts within a JS
 // context but resets when the process is cold-started, so a resume from background (same
 // JS context, flag still true) never replays it — exactly "every cold launch, not resume".
@@ -136,6 +148,8 @@ export default function Bonetider() {
 
   const { settings } = useSettings();
   const { coords, label } = useLocation();
+  // The mosque whose detail card is open (tapped on the mosque POI layer), or null.
+  const [selectedMosque, setSelectedMosque] = useState<Mosque | null>(null);
   // The dock glance only needs the place — drop status qualifiers like "(standard)"
   // or "(GPS)" that matter on the Inställningar screen but are noise here.
   const placeLabel = label.replace(/\s*\([^)]*\)\s*$/, '');
@@ -214,6 +228,14 @@ export default function Bonetider() {
   const introActive = useSharedValue(false);
   const [introPlaying, setIntroPlaying] = useState(false);
   const introStarted = useRef(false);
+  // The day's prayer lines, replayed during the intro: their contours REBUILT at the
+  // swept instant (introGeometryNow) as the sweep advances, so each prayer's line sweeps
+  // in and past on the way to now (a fast time-lapse of the day). Between rebuilds the
+  // overlay's drift glides them at the sun's rate. Outside the intro the live prayerLines
+  // take over. introStep throttles the rebuilds to INTRO_LINE_STEP grid (UI thread).
+  const [introLines, setIntroLines] = useState<PrayerLineData[]>(EMPTY_LINES);
+  const [introGeometryNow, setIntroGeometryNow] = useState(clock.now);
+  const introStep = useSharedValue(-1);
 
   const finishIntro = useCallback(() => {
     // eslint-disable-next-line react-hooks/immutability
@@ -247,6 +269,10 @@ export default function Bonetider() {
       // eslint-disable-next-line react-hooks/immutability
       introActive.value = true;
       setIntroPlaying(true);
+      // Seed the line replay at midnight: no lines yet, geometry anchored at the day's
+      // start so the first drift frame reads ~0 (the reaction below rebuilds as it sweeps).
+      setIntroLines(EMPTY_LINES);
+      setIntroGeometryNow(clock.dayStart);
       // Jump to midnight, then glide to now (assigning 0 cancels any in-flight glide).
       nowFraction.value = 0;
       nowFraction.value = withTiming(
@@ -254,7 +280,15 @@ export default function Bonetider() {
         { duration: INTRO_SWEEP_MS, easing: Easing.inOut(Easing.cubic) },
         (fin) => {
           'worklet';
-          if (fin) runOnJS(finishIntro)();
+          // `fin` is true ONLY when the sweep completes naturally — i.e. it lands on
+          // "now". A skip reassigns nowFraction, cancelling this with fin=false, so the
+          // arrival cue never fires on a skip (skipping isn't arriving). Reaching the
+          // present moment is a "landed it" outcome → hapticSuccess, the same tier as
+          // the qibla lock; once per cold launch keeps it a meaningful, rare cue.
+          if (fin) {
+            scheduleOnRN(hapticSuccess);
+            scheduleOnRN(finishIntro);
+          }
         },
       );
       return;
@@ -281,6 +315,7 @@ export default function Bonetider() {
     introPlaying,
     clock.fraction,
     clock.mode,
+    clock.dayStart,
     clock.dayLength,
     nowFraction,
     introActive,
@@ -344,6 +379,42 @@ export default function Bonetider() {
             : [],
       })),
     [solar],
+  );
+
+  // Rebuild the prayer-line contours for one swept instant (the daybreak replay). buildLines
+  // is cheap arithmetic on the already-cached grid, so stepping it across the day is fine.
+  // geometryNow is stamped alongside so the overlay's drift reads ~0 at each rebuild and
+  // glides the lines between them.
+  const rebuildIntroLines = useCallback(
+    (virtualNowMs: number) => {
+      const replay = buildLines(grid, virtualNowMs, [coords.longitude, coords.latitude]);
+      setIntroLines(
+        replay.lines.features.map((f) => ({
+          prayer: (f.properties as { prayer: PrayerKey }).prayer,
+          polylines:
+            f.geometry.type === 'MultiLineString'
+              ? (f.geometry.coordinates as [number, number][][])
+              : [],
+        })),
+      );
+      setIntroGeometryNow(virtualNowMs);
+    },
+    [grid, coords.longitude, coords.latitude],
+  );
+
+  // Drives the replay: while the intro sweeps nowFraction 0→now on the UI thread, step the
+  // rebuilt instant across the day on a throttled grid and hand it to buildLines (JS thread).
+  // Idle outside the intro (returns before touching anything), so live mode pays nothing.
+  useAnimatedReaction(
+    () => nowFraction.value,
+    (frac) => {
+      if (!introActive.value) return;
+      const step = Math.floor(frac / INTRO_LINE_STEP);
+      if (step === introStep.value) return;
+      introStep.value = step;
+      scheduleOnRN(rebuildIntroLines, clock.dayStart + frac * clock.dayLength);
+    },
+    [rebuildIntroLines, clock.dayStart, clock.dayLength],
   );
 
   // The polar daylight boundary for this date: in summer the midnight-sun line (sun never
@@ -523,6 +594,12 @@ export default function Bonetider() {
             padding: { top: 0, right: 0, bottom: collapsedDock + DOCK_MARGIN, left: 0 },
           }}
         />
+        {/* Sweden's mosques as quiet POIs on the basemap — a NATIVE source+layer (not a
+            projected RN overlay), so it gets zoom-gating, collision culling and tap
+            hit-testing for free. It draws under the wash/lines above, which is right: a
+            mosque is a place on the ground, not chrome floating over the sky. Off when
+            the user hides it in Inställningar. */}
+        {settings.showMosques && <MosqueLayer onSelect={setSelectedMosque} />}
       </Map>
 
       {/* The custom graphics ride ABOVE the basemap on a Skia canvas: the GPU twilight
@@ -536,9 +613,13 @@ export default function Bonetider() {
           dayStart={clock.dayStart}
           dayLength={clock.dayLength}
           nowFraction={nowFraction}
-          geometryNow={clock.now}
+          // During the intro the geometry is the swept replay instant (rebuilt as it
+          // advances); in live mode it's the true now.
+          geometryNow={introPlaying ? introGeometryNow : clock.now}
           camera={cam}
-          lines={introPlaying ? EMPTY_LINES : prayerLines}
+          // Replay the day's lines during the intro; hand off to the live contours after.
+          lines={introPlaying ? introLines : prayerLines}
+          introActive={introActive}
           nextKey={nextKey}
           imminentKey={imminentKey}
           userPoint={userPoint}
@@ -586,6 +667,18 @@ export default function Bonetider() {
         introFraction={nowFraction}
         introActive={introActive}
       />
+
+      {/* Mosque detail card — floats just above the collapsed dock when a mosque POI is
+          tapped. Gated on showMosques too, so hiding the layer also dismisses any open
+          card. Sits after the dock so it layers above if they ever meet. */}
+      {settings.showMosques && selectedMosque && (
+        <MosqueCard
+          mosque={selectedMosque}
+          userCoords={coords}
+          bottom={collapsedDock + DOCK_MARGIN}
+          onClose={() => setSelectedMosque(null)}
+        />
+      )}
 
       {/* Floating navigation: a live qibla compass (left) and the settings cog (right),
           each opening its screen as a sheet over the map. `active` (the screen's focus)

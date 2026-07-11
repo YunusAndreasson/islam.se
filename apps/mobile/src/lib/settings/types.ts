@@ -108,6 +108,10 @@ export interface PrayerSettings {
   theme: ThemePreference;
   /** Bönetider basemap. Defaults to the custom Nordic cartography. */
   mapStyle: MapStyleId;
+  /** Show Sweden's mosques as quiet POIs on the map (revealed as you zoom into a
+   *  city). On by default; off gives a pure solar field. See src/components/map/
+   *  MosqueLayer.tsx. */
+  showMosques: boolean;
   /** Haptic feedback (selection ticks, snaps, the qibla-lock confirm). On by
    *  default; turning it off silences every haptic app-wide via the haptics
    *  wrapper's module flag (see src/lib/haptics.ts + ./context.tsx). */
@@ -137,6 +141,7 @@ export const DEFAULT_SETTINGS: PrayerSettings = {
   manualLocation: null,
   theme: 'system',
   mapStyle: 'nordic',
+  showMosques: true,
   haptics: true,
 };
 
