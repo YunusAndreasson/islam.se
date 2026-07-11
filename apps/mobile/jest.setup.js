@@ -35,6 +35,7 @@ jest.mock('@maplibre/maplibre-react-native', () => ({
   Camera: 'Camera',
   GeoJSONSource: 'GeoJSONSource',
   Layer: 'Layer',
+  Images: 'Images',
   ViewAnnotation: 'ViewAnnotation',
   Marker: 'Marker',
 }));
@@ -83,8 +84,9 @@ jest.mock('expo-blur', () => {
 // react-native-reanimated has no JS-thread implementation under test. Provide a
 // minimal shim covering what the dock/menu/disclosure-group + Skia overlay use
 // (Animated.View & Animated.Text, shared/derived values, animated styles, the with*
-// helpers, runOnJS, useReducedMotion) so they render as host views. useDerivedValue
-// runs its worklet once so the Skia overlay's projected paths/uniforms compute.
+// helpers, useReducedMotion) so they render as host views. useDerivedValue runs its
+// worklet once so the Skia overlay's projected paths/uniforms compute. The worklet→JS
+// bridge (scheduleOnRN) is mocked separately below, from react-native-worklets.
 jest.mock('react-native-reanimated', () => {
   const { View, Text } = require('react-native');
   return {
@@ -93,12 +95,14 @@ jest.mock('react-native-reanimated', () => {
     useSharedValue: (value) => ({ value }),
     useDerivedValue: (fn) => ({ value: fn() }),
     useAnimatedStyle: () => ({}),
+    // No UI thread under test, so the reaction never fires — matches reanimated's own
+    // jest mock (NOOP). The daybreak line-replay it drives is exercised on-device.
+    useAnimatedReaction: () => {},
     useReducedMotion: () => false,
     withSpring: (value) => value,
     withTiming: (value) => value,
     withRepeat: (value) => value,
     withSequence: (...values) => values[values.length - 1],
-    runOnJS: (fn) => fn,
     // Easing combinators only need to be callables returning callables under test —
     // the with* shims above ignore easing entirely.
     Easing: (() => {
@@ -134,6 +138,15 @@ jest.mock('react-native-reanimated', () => {
     Extrapolation: { CLAMP: 'clamp', EXTEND: 'extend', IDENTITY: 'identity' },
   };
 });
+
+// Reanimated 4 moved the worklet→JS bridge into react-native-worklets: `scheduleOnRN`
+// replaces the deprecated `runOnJS`. Under test there's one JS thread, so scheduling
+// on "RN" just means invoking the function with its args synchronously — the same shim
+// the old `runOnJS: (fn) => fn` provided, updated for the new (fn, ...args) signature.
+jest.mock('react-native-worklets', () => ({
+  __esModule: true,
+  scheduleOnRN: (fn, ...args) => fn(...args),
+}));
 
 // @shopify/react-native-skia is a native graphics module with no JS-thread renderer
 // under test. Render the Canvas + container nodes as host views (so the Bönetider

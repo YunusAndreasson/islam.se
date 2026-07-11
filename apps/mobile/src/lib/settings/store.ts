@@ -150,6 +150,7 @@ function sanitizeSettings(parsed: unknown): PrayerSettings {
         : DEFAULT_SETTINGS.manualLocation,
     theme: enumValue(raw.theme, THEMES, DEFAULT_SETTINGS.theme),
     mapStyle: enumValue(raw.mapStyle, MAP_STYLES, DEFAULT_SETTINGS.mapStyle),
+    showMosques: booleanValue(raw.showMosques, DEFAULT_SETTINGS.showMosques),
     haptics: booleanValue(raw.haptics, DEFAULT_SETTINGS.haptics),
   };
 }

@@ -34,6 +34,7 @@ const COSMETIC_KEYS = [
   'manualLocation',
   'theme',
   'mapStyle',
+  'showMosques',
   'haptics',
 ] as const satisfies readonly (keyof PrayerSettings)[];
 
@@ -57,6 +58,7 @@ const ALT: PrayerSettings = {
   manualLocation: { name: 'Test', latitude: 60, longitude: 15 },
   theme: 'dark',
   mapStyle: 'standard',
+  showMosques: false,
   haptics: false,
 };
 
@@ -90,7 +92,7 @@ describe('notificationSignature', () => {
 
   it('ignores settings that cannot affect notification scheduling', () => {
     const base = notificationSignature(DEFAULT_SETTINGS);
-    for (const key of ['hijriOffset', 'locationMode', 'manualLocation', 'theme', 'mapStyle', 'haptics'] as const) {
+    for (const key of ['hijriOffset', 'locationMode', 'manualLocation', 'theme', 'mapStyle', 'showMosques', 'haptics'] as const) {
       const mutated: PrayerSettings = { ...DEFAULT_SETTINGS, [key]: ALT[key] };
       expect(notificationSignature(mutated)).toBe(base);
     }

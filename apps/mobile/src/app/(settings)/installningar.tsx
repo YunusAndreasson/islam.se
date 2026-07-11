@@ -432,6 +432,16 @@ export default function Installningar() {
             </SubGroup>
           ) : null}
 
+          {/* Moskéer — Sweden's mosques as quiet POIs, revealed as you zoom into a
+              city. On by default; off leaves a pure solar field. See MosqueLayer. */}
+          <Toggle
+            label="Visa moskéer"
+            description="Moskéer visas på kartan när du zoomar in."
+            value={settings.showMosques}
+            onValueChange={(showMosques) => update({ showMosques })}
+            divider
+          />
+
           {/* Avrundning shapes the displayed time string. Per-prayer minute offsets
               used to live here too — they moved to Beräkning, alongside the other
               adhan CalculationParameters, where they conceptually belong. */}

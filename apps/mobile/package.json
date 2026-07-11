@@ -14,6 +14,7 @@
     "test": "jest",
     "test:cov": "jest --coverage",
     "mutation": "stryker run",
+    "sync:mosques": "cp ../web/src/data/moskeer-sverige.json src/lib/mosques/data.json",
     "release": "node scripts/release.js"
   },
   "dependencies": {
