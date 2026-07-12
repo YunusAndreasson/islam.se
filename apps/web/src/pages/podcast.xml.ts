@@ -1,16 +1,18 @@
 import { statSync } from "node:fs";
 import type { APIContext } from "astro";
 import { getArticles } from "../lib/articles";
+import { SITE_URL } from "../lib/config";
+import { PODCAST_COVER, PODCAST_DESCRIPTION, PODCAST_TITLE } from "../lib/podcast";
+import { escapeXml } from "../lib/xml";
 
-const SITE = "https://islam.se";
+const SITE = SITE_URL;
 
 const SHOW = {
-	title: "islam.se: andliga essäer",
-	description:
-		"Svenskan bär sina djupaste begrepp i sammansatta ord. Samvete — sam och vete — betyder att veta tillsammans med någon; ansvar, att svara inför någon. Orden förutsätter en motpart. Fjorton hundra år av islamiskt tänkande har känt den ensamheten — men aldrig förlorat motparten. Här får samtalet en svensk röst.",
+	title: PODCAST_TITLE,
+	description: PODCAST_DESCRIPTION,
 	author: "Islam.se",
 	email: "yunus@edenmind.com",
-	image: `${SITE}/podcast-cover.jpg`,
+	image: `${SITE}${PODCAST_COVER}`,
 	language: "sv",
 	category: "Religion &amp; Spirituality",
 	subcategory: "Islam",
@@ -18,15 +20,6 @@ const SHOW = {
 
 function toRFC2822(iso: string): string {
 	return new Date(iso).toUTCString();
-}
-
-function escapeXml(str: string): string {
-	return str
-		.replace(/&/g, "&amp;")
-		.replace(/</g, "&lt;")
-		.replace(/>/g, "&gt;")
-		.replace(/"/g, "&quot;")
-		.replace(/'/g, "&apos;");
 }
 
 function getFileBytes(filename: string): number {

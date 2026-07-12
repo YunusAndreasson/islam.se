@@ -115,9 +115,9 @@ const index = await buildPaletteIndex();
 		flex: 1;
 		min-width: 0;
 		font-family: var(--font-heading);
-		font-size: clamp(1.5rem, 4.5vw, 2.2rem);
+		font-size: 2.2rem;
 		font-weight: 400;
-		letter-spacing: -0.01em;
+		letter-spacing: 0;
 		color: var(--color-text);
 		background: transparent;
 		border: none;
@@ -230,6 +230,10 @@ const index = await buildPaletteIndex();
 	}
 
 	@media (width <= 768px) {
+		.palette-input {
+			font-size: 1.5rem;
+		}
+
 		.palette-row-type { display: none; }
 	}
 
@@ -270,7 +274,9 @@ const index = await buildPaletteIndex();
 	const SEARCH_ORDER: SectionKey[] = ["Sida", "Ämne", "Tråd", "Sunni", "Western", "Essä"];
 	const BROWSE_ORDER: SectionKey[] = ["Ämne", "Tråd", "Sunni", "Western", "Sida"];
 	// Pages worth surfacing as browse chips (the rest are reachable by typing).
-	const BROWSE_PAGES = ["Essäer", "Om", "AI"];
+	// On touch the palette is the whole menu, so this must carry the same standing
+	// destinations the desktop mast shows inline: the utility pages + editorial core.
+	const BROWSE_PAGES = ["Pelare & tro", "Essäer", "Frågor & svar", "Bönetider", "Moskéer", "App", "Podd", "Om", "AI"];
 	const ESSAY_CAP = 8;
 	// Small tiebreak so structure edges out an essay at equal textual score.
 	const TYPE_BONUS: Record<PType, number> = { Sida: 4, Ämne: 3, Tråd: 2, Tänkare: 1, Essä: 0 };

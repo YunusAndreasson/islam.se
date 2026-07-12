@@ -1,0 +1,321 @@
+---
+import Base from "../layouts/Base.astro";
+import { formatDate, getArticles } from "../lib/articles";
+import { SITE_URL } from "../lib/config";
+import { breadcrumbList, ORG_ID } from "../lib/jsonld";
+import {
+	APPLE_PODCAST_URL,
+	PODCAST_COVER,
+	PODCAST_DESCRIPTION,
+	PODCAST_FEED,
+	SPOTIFY_SHOW_URL,
+} from "../lib/podcast";
+
+const SITE = SITE_URL;
+
+// Episodes are the essays that have been read aloud — the audio lives on the
+// essay page (where the word-by-word player is), so each episode links there.
+const articles = await getArticles();
+const episodes = articles.filter(
+	(a): a is typeof a & { audioFile: string } => typeof a.audioFile === "string",
+);
+
+// itunes:duration is raw seconds; readers only need a rough length.
+function formatDuration(seconds?: number): string | null {
+	if (!seconds) return null;
+	const min = Math.round(seconds / 60);
+	return `${min} min`;
+}
+
+const description =
+	"islam.se: andliga essäer — podden där varje essä läses som ett samtal. Lyssna i Apple Podcasts, Spotify eller via RSS.";
+---
+
+<Base
+	title="Podd — andliga essäer från islam.se"
+	description={description}
+	jsonLd={[
+		{
+			"@context": "https://schema.org",
+			"@type": "PodcastSeries",
+			"@id": `${SITE}/podcast#series`,
+			name: "islam.se: andliga essäer",
+			description: PODCAST_DESCRIPTION,
+			url: `${SITE}/podcast`,
+			inLanguage: "sv",
+			image: `${SITE}${PODCAST_COVER}`,
+			webFeed: `${SITE}${PODCAST_FEED}`,
+			publisher: { "@id": ORG_ID },
+			sameAs: [APPLE_PODCAST_URL, SPOTIFY_SHOW_URL],
+		},
+		breadcrumbList([
+			{ name: "Hem", url: "/" },
+			{ name: "Podd", url: "/podcast" },
+		]),
+	]}
+>
+	<main id="main" class="home podcast-page">
+		<header class="podcast-hero">
+			<img
+				class="podcast-cover"
+				src={PODCAST_COVER}
+				width="320"
+				height="320"
+				alt="Omslag till podden islam.se: andliga essäer"
+				loading="eager"
+			/>
+			<div class="podcast-hero-text">
+				<h1>Andliga essäer</h1>
+				<p class="podcast-lead">{PODCAST_DESCRIPTION}</p>
+				<div class="podcast-subscribe">
+					<a class="podcast-action" href={APPLE_PODCAST_URL} target="_blank" rel="noopener">
+						<svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M5.34 0A5.328 5.328 0 000 5.34v13.32A5.328 5.328 0 005.34 24h13.32A5.328 5.328 0 0024 18.66V5.34A5.328 5.328 0 0018.66 0zm6.525 2.568c2.336 0 4.448.902 6.056 2.587 1.224 1.272 1.912 2.619 2.264 4.392.12.59.12 2.2.007 2.864a8.506 8.506 0 01-3.24 5.296c-.608.46-2.096 1.261-2.336 1.261-.088 0-.096-.091-.056-.46.072-.592.144-.715.48-.856.536-.224 1.448-.874 2.008-1.435a7.644 7.644 0 002.008-3.536c.208-.824.184-2.656-.048-3.504-.728-2.696-2.928-4.792-5.624-5.352-.784-.16-2.208-.16-3 0-2.728.56-4.984 2.76-5.672 5.528-.184.752-.184 2.584 0 3.336.456 1.832 1.64 3.512 3.192 4.512.304.2.672.408.824.472.336.144.408.264.472.856.04.36.03.464-.056.464-.056 0-.464-.176-.896-.384l-.04-.03c-2.472-1.216-4.056-3.274-4.632-6.012-.144-.706-.168-2.392-.03-3.04.36-1.74 1.048-3.1 2.192-4.304 1.648-1.737 3.768-2.656 6.128-2.656zm.134 2.81c.409.004.803.04 1.106.106 2.784.62 4.76 3.408 4.376 6.174-.152 1.114-.536 2.03-1.216 2.88-.336.43-1.152 1.15-1.296 1.15-.023 0-.048-.272-.048-.603v-.605l.416-.496c1.568-1.878 1.456-4.502-.256-6.224-.664-.67-1.432-1.064-2.424-1.246-.64-.118-.776-.118-1.448-.008-1.02.167-1.81.562-2.512 1.256-1.72 1.704-1.832 4.342-.264 6.222l.413.496v.608c0 .336-.027.608-.06.608-.03 0-.264-.16-.512-.36l-.034-.011c-.832-.664-1.568-1.842-1.872-2.997-.184-.698-.184-2.024.008-2.72.504-1.878 1.888-3.335 3.808-4.019.41-.145 1.133-.22 1.814-.211zm-.13 2.99c.31 0 .62.06.844.178.488.253.888.745 1.04 1.259.464 1.578-1.208 2.96-2.72 2.254h-.015c-.712-.331-1.096-.956-1.104-1.77 0-.733.408-1.371 1.112-1.745.224-.117.534-.176.844-.176zm-.011 4.728c.988-.004 1.706.349 1.97.97.198.464.124 1.932-.218 4.302-.232 1.656-.36 2.074-.68 2.356-.44.39-1.064.498-1.656.288h-.003c-.716-.257-.87-.605-1.164-2.644-.341-2.37-.416-3.838-.218-4.302.262-.616.974-.966 1.97-.97z"/></svg>
+						Apple Podcasts
+					</a>
+					<a class="podcast-action" href={SPOTIFY_SHOW_URL} target="_blank" rel="noopener">
+						<svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg>
+						Spotify
+					</a>
+					<a class="podcast-action podcast-action--feed" href={PODCAST_FEED}>
+						<svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4.257 18.485a2.745 2.745 0 1 0 0 5.49 2.745 2.745 0 0 0 0-5.49zM.5 9.668v3.886c5.79 0 10.49 4.7 10.49 10.49h3.886C14.876 15.86 8.61 9.594.5 9.668zm0-6.218v3.886C9.842 7.336 16.74 14.234 16.81 23.576h3.885C20.625 11.998 12.078 3.45.5 3.45z"/></svg>
+						RSS
+					</a>
+				</div>
+			</div>
+		</header>
+
+		<section class="podcast-episodes" aria-labelledby="episodes-heading">
+			<h2 id="episodes-heading" class="podcast-episodes-heading label">
+				Avsnitt <span class="podcast-episodes-count">{episodes.length}</span>
+			</h2>
+			<ol class="podcast-list">
+				{episodes.map((ep, i) => {
+					const duration = formatDuration(ep.audioDuration);
+					return (
+						<li class="podcast-item">
+							<a class="podcast-item-link" href={`/${ep.slug}/`}>
+								<span class="podcast-item-num" aria-hidden="true">{episodes.length - i}</span>
+								<span class="podcast-item-body">
+									<span class="podcast-item-title">{ep.title}</span>
+									<span class="podcast-item-desc">{ep.description}</span>
+									<span class="podcast-item-meta label">
+										<time datetime={ep.publishedAt}>{formatDate(ep.publishedAt)}</time>
+										{duration && <span class="nav-dot" aria-hidden="true">&middot;</span>}
+										{duration && <span>{duration}</span>}
+									</span>
+								</span>
+							</a>
+						</li>
+					);
+				})}
+			</ol>
+		</section>
+
+		<p class="podcast-note">
+			Avsnitten är essäerna inlästa – läs dem i stället på <a href="/essaer">essäsidan</a>, eller
+			klistra in <a href={PODCAST_FEED}>RSS-flödet</a> i valfri poddspelare.
+		</p>
+	</main>
+</Base>
+
+<style>
+	.podcast-page {
+		margin-block: var(--space-phi);
+	}
+
+	/* ---- Hero: cover + show identity, the same two-column object/text rhythm as
+	   the homepage book-and-podd module. ---- */
+	.podcast-hero {
+		display: grid;
+		grid-template-columns: auto 1fr;
+		align-items: center;
+		gap: clamp(1.5rem, 5vw, 3rem);
+	}
+
+	.podcast-cover {
+		width: clamp(8rem, 26vw, 12rem);
+		height: auto;
+		aspect-ratio: 1 / 1;
+		border-radius: 12px;
+		border: 1px solid var(--color-divider);
+		box-shadow: 0 1.25rem 2.5rem -1rem rgb(0 0 0 / 0.28);
+	}
+
+	.podcast-hero-text h1 {
+		margin: var(--space-half) 0 0;
+	}
+
+	.podcast-lead {
+		font-family: var(--font-body);
+		font-size: 1.0625rem;
+		line-height: 1.6;
+		color: color-mix(in srgb, var(--color-text) 86%, var(--color-muted));
+		margin: var(--space-unit) 0 0;
+		text-wrap: pretty;
+		max-width: 40rem;
+	}
+
+	.podcast-subscribe {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.5rem;
+		margin-top: var(--space-unit);
+	}
+
+	.podcast-action {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.45em;
+		padding: 0.5rem 1.125rem;
+		font-family: var(--font-heading);
+		font-size: 0.862rem;
+		font-weight: 500;
+		letter-spacing: 0.05em;
+		text-transform: uppercase;
+		font-feature-settings: "case";
+		color: var(--color-accent);
+		border: 1px solid var(--color-divider);
+		border-radius: 1.25rem;
+		text-decoration: none;
+		transition: border-color 0.2s, color 0.2s;
+
+		&:hover {
+			border-color: var(--color-warm);
+			color: var(--color-text);
+			text-decoration: none;
+		}
+
+		&:focus-visible {
+			outline: 2px solid var(--color-accent);
+			outline-offset: 2px;
+		}
+	}
+
+	/* RSS is the quieter, technical option — muted until hovered. */
+	.podcast-action--feed {
+		color: var(--color-muted);
+	}
+
+	/* ---- Episode list ---- */
+	.podcast-episodes {
+		margin-top: var(--space-phi);
+	}
+
+	.podcast-episodes-heading {
+		display: flex;
+		align-items: baseline;
+		gap: 0.5ch;
+		margin: 0 0 var(--space-unit);
+		padding-bottom: var(--space-half);
+		border-bottom: 1px solid var(--color-divider);
+	}
+
+	.podcast-episodes-count {
+		color: var(--color-muted);
+	}
+
+	/* Widened to the shared 64rem canvas (so the top-menu page width never jumps);
+	   the episode list flows as a two-column index on the wide canvas, one column
+	   on a phone — each row carries a bottom hairline (matches the Essäer archive),
+	   so the columns read as one even grid rather than offset border-top pairs. */
+	.podcast-list {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(min(100%, 26rem), 1fr));
+		column-gap: clamp(1.75rem, 4vw, 3.5rem);
+	}
+
+	.podcast-item {
+		border-bottom: 1px solid var(--color-divider);
+	}
+
+	.podcast-item-link {
+		display: grid;
+		grid-template-columns: 2.5rem 1fr;
+		gap: 1rem;
+		padding: var(--space-unit) 0.4rem;
+		margin-inline: -0.4rem;
+		border-radius: 8px;
+		text-decoration: none;
+		color: inherit;
+		transition: background-color 0.15s;
+
+		&:hover {
+			background: color-mix(in srgb, var(--color-warm) 9%, transparent);
+			text-decoration: none;
+		}
+
+		&:focus-visible {
+			outline: 2px solid var(--color-accent);
+			outline-offset: 2px;
+		}
+	}
+
+	.podcast-item-num {
+		font-family: var(--font-heading);
+		font-size: 1.1rem;
+		font-weight: 300;
+		color: var(--color-muted);
+		text-align: right;
+		font-variant-numeric: tabular-nums;
+		padding-top: 0.1rem;
+	}
+
+	.podcast-item-title {
+		display: block;
+		font-family: var(--font-heading);
+		font-size: 1.2rem;
+		font-weight: 600;
+		line-height: 1.25;
+		color: var(--color-accent);
+	}
+
+	.podcast-item-desc {
+		display: -webkit-box;
+		-webkit-line-clamp: 2;
+		-webkit-box-orient: vertical;
+		overflow: hidden;
+		font-family: var(--font-body);
+		font-size: 0.95rem;
+		line-height: 1.5;
+		color: color-mix(in srgb, var(--color-text) 78%, var(--color-muted));
+		margin-top: 0.3rem;
+	}
+
+	.podcast-item-meta {
+		display: flex;
+		align-items: center;
+		gap: 0.5ch;
+		margin-top: 0.5rem;
+		color: var(--color-muted);
+	}
+
+	.podcast-note {
+		font-family: var(--font-body);
+		font-size: 0.9375rem;
+		color: var(--color-muted);
+		max-width: var(--content-width);
+		margin: var(--space-phi) 0 0;
+		padding-top: var(--space-half);
+		border-top: 1px solid var(--color-divider);
+	}
+
+	.podcast-note a {
+		color: var(--color-accent);
+	}
+
+	@media (width <= 640px) {
+		.podcast-hero {
+			grid-template-columns: 1fr;
+			justify-items: start;
+			gap: var(--space-unit);
+		}
+
+		.podcast-item-link {
+			grid-template-columns: 1.75rem 1fr;
+			gap: 0.75rem;
+		}
+	}
+</style>

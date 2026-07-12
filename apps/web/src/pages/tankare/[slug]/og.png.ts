@@ -1,6 +1,5 @@
 import { getCollection } from "astro:content";
-import type { APIRoute } from "astro";
-import { renderOg } from "../../../lib/og";
+import { ogEndpoint } from "../../../lib/og-endpoints";
 
 export async function getStaticPaths() {
 	const thinkers = await getCollection("tankare");
@@ -14,18 +13,9 @@ export async function getStaticPaths() {
 	}));
 }
 
-export const GET: APIRoute = async ({ props }) => {
-	const kicker =
-		props.tradition === "sunni" ? "Tänkare — klassisk islamisk tradition" : "Tänkare — svensk röst";
-	const png = await renderOg({
-		kicker,
-		title: props.title as string,
-		framing: props.framing as string,
-	});
-	return new Response(new Uint8Array(png), {
-		headers: {
-			"Content-Type": "image/png",
-			"Cache-Control": "public, max-age=31536000, immutable",
-		},
-	});
-};
+export const GET = ogEndpoint<{ title: string; framing: string; tradition: string }>((p) => ({
+	kicker:
+		p.tradition === "sunni" ? "Tänkare — klassisk islamisk tradition" : "Tänkare — svensk röst",
+	title: p.title,
+	framing: p.framing,
+}));

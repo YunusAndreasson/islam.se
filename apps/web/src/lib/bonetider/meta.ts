@@ -4,7 +4,7 @@
 /** The date the bönetider place dataset / page content was last materially updated.
  *  Bump when regenerating places.ts (scripts/enrich-places-scb.py) or reworking the
  *  city-page template. Used for JSON-LD `dateModified` and sitemap `lastmod`. */
-export const BONETIDER_DATA_DATE = "2026-06-13";
+export const BONETIDER_DATA_DATE = "2026-06-27";
 
 /** Official population source, reused in prose, JSON-LD and attribution. */
 export const SCB_SOURCE = "SCB, Statistiska tätorter 2023";

@@ -16,6 +16,7 @@
 		"@astrojs/sitemap": "^3.7.3",
 		"adhan": "^4.4.4",
 		"astro": "^6.4.8",
+		"maplibre-gl": "^5.24.0",
 		"remark-smartypants": "^3.0.2",
 		"satori": "^0.26.0",
 		"sharp": "^0.34.5"

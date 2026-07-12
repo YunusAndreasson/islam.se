@@ -10,15 +10,33 @@ export const APP_STORE_URL = `https://apps.apple.com/se/app/islam-se/id${APP_STO
 export const PLAY_PACKAGE = "se.islam.mobile";
 export const PLAY_STORE_URL = `https://play.google.com/store/apps/details?id=${PLAY_PACKAGE}`;
 
-/** What the native app gives a prayer-times reader that the web can't — the pitch.
- *  House style: sentence case, no sectarian terms. Reused across every variant. */
+/** The app's pillars — each a short term and an explanatory line. Drawn from the
+ *  App Store description, trimmed to the house voice (calm, sentence case, no
+ *  sectarian framing). Rendered as the feature list on the /app page. */
 export const APP_FEATURES = [
-	"Påminnelser före varje bön",
-	"En widget på hemskärmen",
-	"Qibla-kompass",
-	"Fungerar även offline",
+	{
+		term: "Exakta bönetider",
+		gloss: "Tider för dygnets fem böner, beräknade på din enhet och justerbara efter din moské.",
+	},
+	{
+		term: "Solur över Sverige",
+		gloss:
+			"Solens båge över landet visar var på dygnet du är och hur långt det är kvar till nästa bön.",
+	},
+	{
+		term: "Qibla mot Mecka",
+		gloss: "En tydlig kompass mot Kaba, rättad för platsen där du står.",
+	},
+	{
+		term: "Påminnelser och widget",
+		gloss: "En stillsam avisering före bön, och nästa bön på hem- och låsskärmen.",
+	},
+	{
+		term: "Privat som standard",
+		gloss: "Ingen inloggning, ingen spårning, ingen reklam. Din plats stannar på enheten.",
+	},
 ] as const;
 
 /** One-line value proposition. Swedish house style: no em dash. */
 export const APP_TAGLINE =
-	"Påminnelser före varje bön, en widget på hemskärmen och qibla-kompass. Fungerar även offline.";
+	"Bönetider för hela Sverige, beräknade på din enhet och ritade med solens vandring över landet.";

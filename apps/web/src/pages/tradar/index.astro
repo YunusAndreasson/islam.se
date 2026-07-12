@@ -1,5 +1,6 @@
 ---
 import { getCollection } from "astro:content";
+import PageHead from "../../components/PageHead.astro";
 import Base from "../../layouts/Base.astro";
 import { breadcrumbList } from "../../lib/jsonld";
 
@@ -23,11 +24,11 @@ const threads = await getCollection("tradar");
 		]),
 	]}
 >
-	<main id="main" class="content-column">
-		<header class="article-header">
-			<h1>Trådar</h1>
-			<p class="collection-lead">Kuraterade läsningar genom korpusen — några essäer som hör ihop, samlade och inramade.</p>
-		</header>
+	<main id="main" class="home">
+		<PageHead title="Trådar">
+			Kuraterade läsningar genom essäerna – några som hör ihop, samlade och inramade till en tråd att
+			följa.
+		</PageHead>
 
 		<ul class="collection-index">
 			{threads.map((thread) => (
@@ -40,22 +41,25 @@ const threads = await getCollection("tradar");
 				</li>
 			))}
 		</ul>
+
+		<p class="collection-back"><a href="/essaer">Hela arkivet →</a></p>
 	</main>
 </Base>
 
 <style>
+	/* Two-column index on the wide canvas (one column on a phone), matching the
+	   Essäer / Fakta archive grid so every browse page fills its frame. */
 	.collection-index {
-		margin: var(--space-unit) 0 var(--space-phi2);
+		margin: var(--space-unit) 0 0;
 		padding: 0;
 		list-style: none;
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(min(100%, 26rem), 1fr));
+		column-gap: clamp(1.75rem, 4vw, 3.5rem);
 	}
 
 	.collection-index-item {
-		border-top: 1px solid var(--color-divider);
-
-		&:first-child {
-			border-top: none;
-		}
+		border-bottom: 1px solid var(--color-divider);
 	}
 
 	.collection-index-item a {
@@ -81,7 +85,7 @@ const threads = await getCollection("tradar");
 		font-size: var(--step-2);
 		font-weight: 620;
 		line-height: 1.2;
-		letter-spacing: -0.018em;
+		letter-spacing: 0;
 		color: var(--color-accent);
 		margin: 0;
 	}

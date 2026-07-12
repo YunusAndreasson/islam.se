@@ -1,0 +1,145 @@
+---
+// One crawlable card per mosque, shared by the county and city pages. Each <li> carries
+// the mosque id as its anchor, so a /moskeer/<stad>/#<id> deep link (from the hub map or
+// a bönetider page) lands on the right card. On county pages the name links to the city
+// page (`cityLink`); on a city page the mosque IS the content, so the name is plain text.
+import { type Mosque, directionsLinks, locationLabel, mosqueUrl } from "../../lib/moskeer";
+
+interface Props {
+	mosques: readonly Mosque[];
+	/** Link each mosque name to its city page anchor (used on county pages). */
+	cityLink?: boolean;
+}
+const { mosques, cityLink = false } = Astro.props;
+---
+
+<ul class="mk-list">
+	{mosques.map((m) => {
+		const dir = directionsLinks(m);
+		return (
+			<li class="mk-list-item" id={m.id}>
+				{cityLink ? (
+					<a href={`/moskeer/${m.citySlug}/#${m.id}`} class="mk-list-name mk-list-name-link focus-ring">{m.name}</a>
+				) : (
+					<p class="mk-list-name">{m.name}</p>
+				)}
+				{m.address && (
+					<p class="mk-list-addr">
+						{m.address}{m.postalCode ? `, ${m.postalCode}` : ""}
+					</p>
+				)}
+				<p class="mk-list-meta">
+					{locationLabel(m)}{m.opened ? ` · öppnad ${m.opened}` : ""}
+				</p>
+				{m.organisation && <p class="mk-list-org">Huvudman: {m.organisation}</p>}
+				<p class="mk-list-dir">
+					<a href={dir.apple} class="mk-list-dir-link focus-ring">Apple Maps</a>
+					<a href={dir.google} class="mk-list-dir-link focus-ring">Google Maps</a>
+					<span class="mk-list-canon"><a href={mosqueUrl(m)} class="focus-ring">Permalänk</a></span>
+				</p>
+			</li>
+		);
+	})}
+</ul>
+
+<style>
+	.mk-list {
+		list-style: none;
+		margin: var(--space-half) 0 0;
+		padding: 0;
+		max-width: 44rem;
+	}
+
+	.mk-list-item {
+		padding: var(--space-unit) 0;
+		border-bottom: 1px solid var(--color-divider);
+		scroll-margin-top: 5rem;
+	}
+
+	.mk-list-item:target {
+		border-left: 2px solid var(--color-warm);
+		padding-left: var(--space-half);
+		margin-left: calc(-1 * var(--space-half) - 2px);
+	}
+
+	.mk-list-name {
+		font-family: var(--font-heading);
+		font-weight: 600;
+		font-size: 1.0625rem;
+		color: var(--color-text);
+		margin: 0 0 0.2rem;
+		line-height: 1.25;
+	}
+
+	.mk-list-name-link {
+		display: inline-block;
+		color: var(--color-accent);
+		text-decoration: none;
+		width: fit-content;
+	}
+
+	.mk-list-name-link:hover {
+		text-decoration: underline;
+		text-underline-offset: 0.12em;
+	}
+
+	.mk-list-addr {
+		font-family: var(--font-body);
+		font-size: 0.9375rem;
+		color: var(--color-text);
+		margin: 0 0 0.15rem;
+	}
+
+	.mk-list-meta {
+		font-family: var(--font-body);
+		font-size: 0.85rem;
+		color: var(--color-muted);
+		margin: 0 0 0.15rem;
+		font-variant-numeric: lining-nums tabular-nums;
+	}
+
+	.mk-list-org {
+		font-family: var(--font-body);
+		font-size: 0.85rem;
+		color: var(--color-muted);
+		margin: 0 0 0.35rem;
+	}
+
+	.mk-list-dir {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: 0.5rem 0.6rem;
+		margin: 0.6rem 0 0;
+	}
+
+	/* Pill buttons matching the hub map callout (.mk-dir-btn) so directions look and tap
+	   the same everywhere. The permalink stays a quiet text link (secondary action). */
+	.mk-list-dir-link {
+		font-family: var(--font-heading);
+		font-size: 0.82rem;
+		font-weight: 600;
+		text-decoration: none;
+		color: var(--color-accent);
+		background: var(--color-bg);
+		border: 1px solid var(--color-divider);
+		border-radius: 999px;
+		padding: 0.45rem 0.95rem;
+		transition: border-color 0.15s ease;
+	}
+
+	.mk-list-dir-link:hover {
+		border-color: var(--color-warm);
+	}
+
+	.mk-list-canon a {
+		font-family: var(--font-body);
+		font-size: 0.78rem;
+		color: var(--color-muted);
+		text-decoration: none;
+	}
+
+	.mk-list-canon a:hover {
+		text-decoration: underline;
+	}
+</style>

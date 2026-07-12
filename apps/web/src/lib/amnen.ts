@@ -64,7 +64,6 @@ export const AMNEN: Amne[] = [
 	},
 ];
 
-export const amneBySlug = new Map(AMNEN.map((a) => [a.slug, a]));
 export const amneByName = new Map(AMNEN.map((a) => [a.name, a]));
 
 /** Articles carrying a given ämne, already in the feed's date order. */

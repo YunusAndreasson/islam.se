@@ -76,7 +76,7 @@ if (article.heroImage) {
 	articleMeta={{ publishedAt: article.publishedAt, updatedAt: article.updatedAt, wordCount: article.wordCount, description: article.description, slug: article.slug, section: article.category, citations, image: heroImageObject }}
 	preloadArabicFont
 >
-	<main id="main" class="content-column">
+	<main id="main" class="reading">
 		<article>
 			<header class="article-header">
 				{amne && (
@@ -94,8 +94,8 @@ if (article.heroImage) {
 				<figure class="article-hero media-frame" transition:name={`hero-${article.slug}`}>
 					<EssayImage
 						article={article}
-						widths={[640, 960, 1280]}
-						sizes="(max-width: 768px) 100vw, 42rem"
+						widths={[768, 1152, 1536]}
+						sizes="(max-width: 768px) 100vw, 64rem"
 						loading="eager"
 						fetchpriority="high"
 					/>

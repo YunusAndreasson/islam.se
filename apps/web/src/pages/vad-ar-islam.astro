@@ -1,0 +1,210 @@
+---
+import { getCollection } from "astro:content";
+import FaktaCard from "../components/FaktaCard.astro";
+import PageHead from "../components/PageHead.astro";
+import { getArticles } from "../lib/articles";
+import { FAKTA_CLUSTERS } from "../lib/fakta";
+import { ORG_ID, WEBSITE_ID, breadcrumbList, collectionPageJsonLd } from "../lib/jsonld";
+import Base from "../layouts/Base.astro";
+
+// The "Fakta" hub — the encyclopedic answer for the head term "islam" / "vad är
+// islam" / "fakta om islam". It opens with the head-term introduction, then
+// presents islam's cornerstone as two image-led card grids: the Five Pillars (what
+// a muslim does) and the six Articles of Faith (what a muslim believes). Each card
+// opens an existing answer at its unchanged /svar/<slug>/ URL; the full Q&A list
+// lives at /svar/.
+const url = "https://islam.se/vad-ar-islam/";
+const published = "2026-06-27T00:00:00Z";
+const description =
+	"Vad är islam? En klar, källbelagd introduktion: ordets betydelse, de fem pelarna (det en muslim gör) och de sex trosartiklarna (det en muslim tror) – islams kärna förklarad, grundad i Koranen och klassisk sunnitisk lärdom.";
+
+// Resolve each cornerstone card's borrowed essay photo + the answer entry it links
+// to (for the cluster-overview heading link and the collection JSON-LD).
+const articleBySlug = new Map((await getArticles()).map((a) => [a.slug, a]));
+const svarBySlug = new Map((await getCollection("svar")).map((e) => [e.id, e]));
+
+const clusters = FAKTA_CLUSTERS.map((c) => ({
+	slug: c.slug,
+	name: c.name,
+	intro: c.intro,
+	overview: c.overview,
+	cards: c.items.map((it) => ({
+		href: `/svar/${it.svarSlug}/`,
+		label: it.label,
+		blurb: it.blurb,
+		image: articleBySlug.get(it.image),
+		entry: svarBySlug.get(it.svarSlug),
+	})),
+}));
+
+// The cornerstone answers, for the collection structured data (preserves a Q&A
+// CollectionPage signal on the hub; the full corpus lives at /svar/).
+const cornerstone = clusters.flatMap((c) => [
+	...(c.overview ? [svarBySlug.get(c.overview)] : []),
+	...c.cards.map((cd) => cd.entry),
+]);
+const cornerstoneEssays = cornerstone
+	.filter((e): e is NonNullable<typeof e> => Boolean(e))
+	.map((e) => ({ title: e.data.title, slug: `svar/${e.id}` }));
+
+const jsonLd = [
+	{
+		"@context": "https://schema.org",
+		"@type": "Article",
+		headline: "Vad är islam?",
+		description,
+		inLanguage: "sv",
+		url,
+		mainEntityOfPage: url,
+		isPartOf: { "@id": WEBSITE_ID },
+		datePublished: published,
+		dateModified: published,
+		author: { "@id": ORG_ID },
+		publisher: { "@id": ORG_ID },
+		about: { "@type": "Thing", name: "Islam" },
+	},
+	collectionPageJsonLd({
+		name: "Islams fem pelare och sex trosartiklar",
+		description:
+			"Islams kärna – de fem pelarna (dyrkan) och de sex trosartiklarna (tron), källbelagt förklarade.",
+		url,
+		essays: cornerstoneEssays,
+	}),
+	breadcrumbList([
+		{ name: "Hem", url: "/" },
+		{ name: "Fakta", url },
+	]),
+];
+---
+
+<Base
+	title="Vad är islam? Fakta, de fem pelarna och trosartiklarna — islam.se"
+	description={description}
+	ogImageAlt="Vad är islam? — islam.se"
+	jsonLd={jsonLd}
+>
+	<main id="main" class="pillar-page home">
+		<article>
+			<PageHead title="Pelare & tro">
+				Islam betyder <strong>underkastelse under Guds vilja</strong> – en monoteistisk religion
+				som växte fram på 600-talet genom profeten Muhammed och som i dag har omkring två miljarder
+				anhängare. Dess kärna vilar på <strong>de fem pelarna</strong> – det en muslim gör – och
+				<strong>de sex trosartiklarna</strong> – det en muslim tror, källbelagt grundade i Koranen
+				och klassisk sunnitisk lärdom.
+			</PageHead>
+
+			{clusters.map((c) => (
+				<section class="fakta-cluster" id={c.slug} aria-labelledby={`fc-${c.slug}`}>
+					<header class="fakta-cluster-head">
+						<h2 id={`fc-${c.slug}`}>
+							{c.overview ? <a href={`/svar/${c.overview}/`}>{c.name}</a> : c.name}
+						</h2>
+						<p>{c.intro}</p>
+					</header>
+					<div class="fakta-grid">
+						{c.cards.map((cd) => (
+							<FaktaCard href={cd.href} label={cd.label} blurb={cd.blurb} image={cd.image} />
+						))}
+					</div>
+				</section>
+			))}
+
+			<section class="pillar-more" aria-labelledby="pillar-mer">
+				<h2 id="pillar-mer">Läs vidare</h2>
+				<ul class="pillar-links">
+					<li><a href="/svar/">Alla frågor och svar om islam</a></li>
+					<li><a href="/bonetider/">Bönetider för hela Sverige</a></li>
+					<li><a href="/det-islamiska-aret">Det islamiska året och dess högtider</a></li>
+					<li><a href="/essaer">Essäer om islamisk tradition och svenskt kulturarv</a></li>
+				</ul>
+				<p class="pillar-fiqh">
+					För fördjupade rättsliga (fiqh-)frågor hänvisar vi till
+					<a href="https://al-ibadah.com" rel="noopener">al-ibadah.com</a>.
+				</p>
+			</section>
+		</article>
+	</main>
+</Base>
+
+<style>
+	.pillar-page {
+		margin-block: var(--space-phi);
+	}
+
+	.fakta-cluster {
+		margin-top: var(--space-phi2);
+		padding-top: var(--space-phi);
+		border-top: 1px solid var(--color-divider);
+	}
+
+	.fakta-cluster-head {
+		margin-bottom: var(--space-unit);
+	}
+
+	.fakta-cluster-head h2 {
+		font-size: var(--step-2);
+		letter-spacing: 0;
+		margin: 0;
+	}
+	.fakta-cluster-head h2 a {
+		color: var(--color-text);
+		text-decoration: none;
+	}
+	.fakta-cluster-head h2 a:hover {
+		text-decoration: underline;
+		text-underline-offset: 0.15em;
+	}
+
+	.fakta-cluster-head p {
+		font-family: var(--font-body);
+		font-size: 1.0625rem;
+		line-height: 1.6;
+		color: var(--color-muted);
+		max-width: 42rem;
+		margin: 0.4rem 0 0;
+		text-wrap: pretty;
+	}
+
+	/* auto-fit fills the 64rem canvas with as many ~16rem cards as fit — 3 across on
+	   desktop, 2 on a tablet, 1 on a phone — so both the 5-card and 6-card cluster
+	   stay even without a breakpoint. */
+	.fakta-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
+		gap: var(--space-phi) clamp(1.25rem, 3vw, 2.5rem);
+	}
+
+	.pillar-more {
+		margin-top: var(--space-phi2);
+		padding-top: var(--space-phi);
+		border-top: 1px solid var(--color-divider);
+	}
+
+	.pillar-more h2 {
+		font-size: var(--step-1);
+		margin: 0 0 var(--space-half);
+	}
+
+	.pillar-links {
+		font-family: var(--font-body);
+		font-size: 1.0625rem;
+		line-height: 1.8;
+		color: var(--text-body);
+		margin: 0;
+		list-style: revert;
+		padding-inline-start: 1.5em;
+	}
+	.pillar-links a {
+		color: var(--color-accent);
+	}
+
+	.pillar-fiqh {
+		font-family: var(--font-body);
+		font-size: 0.9375rem;
+		color: var(--color-muted);
+		margin: var(--space-unit) 0 0;
+	}
+	.pillar-fiqh a {
+		color: var(--color-accent);
+	}
+</style>

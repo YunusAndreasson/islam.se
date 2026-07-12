@@ -28,6 +28,20 @@ export interface PaletteEntry {
 // even though the browse view lists their members under their own headings.
 const PAGES: PaletteEntry[] = [
 	{ type: "Sida", label: "Essäer", sub: "Hela arkivet, ordnat efter ämne.", href: "/essaer" },
+	{
+		type: "Sida",
+		label: "Pelare & tro",
+		sub: "Vad är islam – fakta om de fem pelarna och de sex trosartiklarna, källbelagt.",
+		href: "/vad-ar-islam/",
+	},
+	{
+		type: "Sida",
+		label: "Frågor & svar",
+		// "Frågor och svar" kept in the gloss so the spelled-out query still matches
+		// even though the label uses the canonical mast ampersand.
+		sub: "Frågor och svar: källbelagda svar på vanliga frågor om islam – tro, dyrkan, mat och familj.",
+		href: "/svar/",
+	},
 	{ type: "Sida", label: "Trådar", sub: "Kuraterade läsningar genom essäerna.", href: "/tradar" },
 	{ type: "Sida", label: "Tänkare", sub: "De röster essäerna återvänder till.", href: "/tankare" },
 	{
@@ -41,6 +55,26 @@ const PAGES: PaletteEntry[] = [
 		label: "Bönetider",
 		sub: "Bönetider för hela Sverige, ort för ort, efter solens läge.",
 		href: "/bonetider/",
+	},
+	{
+		type: "Sida",
+		label: "Moskéer",
+		sub: "Karta över moskéer i hela Sverige, län för län.",
+		href: "/moskeer",
+	},
+	{
+		type: "Sida",
+		label: "App",
+		// "Appen" kept in the gloss so the definite-form query still matches the
+		// shortened mast label.
+		sub: "Appen för iPhone och Android: bönetider, påminnelser och qibla.",
+		href: "/app",
+	},
+	{
+		type: "Sida",
+		label: "Podd",
+		sub: "Andliga essäer, inlästa — i Apple Podcasts, Spotify eller via RSS.",
+		href: "/podcast",
 	},
 	{ type: "Sida", label: "Om", sub: "Om idén bakom islam.se.", href: "/om" },
 	{ type: "Sida", label: "AI", sub: "Koppla hela arkivet till din AI-assistent.", href: "/ai" },

@@ -14,7 +14,7 @@ const { article, widths = FEATURE_HERO_WIDTHS, sizes = FEATURE_HERO_SIZES } = As
 ---
 
 <section class="feature home-movement" aria-labelledby="feature-title">
-	<a class="feature-link" href={`/${article.slug}`} data-astro-prefetch="viewport">
+	<a class="feature-link focus-ring" href={`/${article.slug}`} data-astro-prefetch="viewport">
 		<div class="feature-media media-frame" transition:name={`hero-${article.slug}`}>
 			<EssayImage
 				article={article}
@@ -25,7 +25,7 @@ const { article, widths = FEATURE_HERO_WIDTHS, sizes = FEATURE_HERO_SIZES } = As
 			/>
 		</div>
 		<div class="feature-text">
-			<p class="label home-kicker feature-kicker">Senaste essän</p>
+			<p class="label home-kicker feature-kicker">Senast publicerat</p>
 			<h2 id="feature-title" class="feature-title">{article.title}</h2>
 			{article.description && (
 				<p class="feature-lead" set:html={inlineMarkdown(article.description)} />
@@ -42,6 +42,7 @@ const { article, widths = FEATURE_HERO_WIDTHS, sizes = FEATURE_HERO_SIZES } = As
 	/* The page's lead movement: a wide image carries the focal point, with the
 	   title and meta set beneath it in the site serif — no text over photo. */
 	.feature-link {
+		--focus-offset: 0.75rem; /* keyboard ring via the shared .focus-ring utility */
 		display: block;
 		text-decoration: none;
 		color: inherit;
@@ -51,12 +52,6 @@ const { article, widths = FEATURE_HERO_WIDTHS, sizes = FEATURE_HERO_SIZES } = As
 		&:active {
 			text-decoration: none;
 			color: inherit;
-		}
-
-		&:focus-visible {
-			outline: 2px solid var(--color-accent);
-			outline-offset: 0.75rem;
-			border-radius: 2px;
 		}
 	}
 
@@ -98,9 +93,9 @@ const { article, widths = FEATURE_HERO_WIDTHS, sizes = FEATURE_HERO_SIZES } = As
 	/* Larger than --step-4 (2.612rem): a deliberate, contained exception to the
 	   type scale, earned by this being the page's lead headline. */
 	.feature-title {
-		font-size: clamp(2.1rem, 4.5vw, 3rem);
+		font-size: 3rem;
 		line-height: 1.08;
-		letter-spacing: -0.025em;
+		letter-spacing: 0;
 		margin: 0;
 		max-width: 24ch;
 		text-wrap: balance;
@@ -118,7 +113,7 @@ const { article, widths = FEATURE_HERO_WIDTHS, sizes = FEATURE_HERO_SIZES } = As
 		font-family: var(--font-body);
 		font-size: 1.0625rem;
 		line-height: 1.55;
-		color: color-mix(in srgb, var(--color-text) 80%, var(--color-muted));
+		color: var(--text-body);
 		margin: var(--space-unit) 0 0;
 		max-width: 42rem;
 	}
@@ -137,6 +132,10 @@ const { article, widths = FEATURE_HERO_WIDTHS, sizes = FEATURE_HERO_SIZES } = As
 		.feature-lead {
 			font-size: 1rem;
 			margin-top: var(--space-half);
+		}
+
+		.feature-title {
+			font-size: 2.1rem;
 		}
 
 		.feature-meta {

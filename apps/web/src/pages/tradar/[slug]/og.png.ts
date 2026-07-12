@@ -1,6 +1,5 @@
 import { getCollection } from "astro:content";
-import type { APIRoute } from "astro";
-import { renderOg } from "../../../lib/og";
+import { ogEndpoint } from "../../../lib/og-endpoints";
 
 export async function getStaticPaths() {
 	const threads = await getCollection("tradar");
@@ -10,16 +9,8 @@ export async function getStaticPaths() {
 	}));
 }
 
-export const GET: APIRoute = async ({ props }) => {
-	const png = await renderOg({
-		kicker: "Tråd",
-		title: props.title as string,
-		framing: props.framing as string,
-	});
-	return new Response(new Uint8Array(png), {
-		headers: {
-			"Content-Type": "image/png",
-			"Cache-Control": "public, max-age=31536000, immutable",
-		},
-	});
-};
+export const GET = ogEndpoint<{ title: string; framing: string }>((p) => ({
+	kicker: "Tråd",
+	title: p.title,
+	framing: p.framing,
+}));

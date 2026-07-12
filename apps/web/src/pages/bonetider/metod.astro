@@ -79,14 +79,7 @@ const faq = [
 	]}
 >
 	<main id="main" class="home bonetider-metod bt-prose">
-		<nav class="bt-crumbs" aria-label="Brödsmulor">
-			<a href="/">Hem</a> <span aria-hidden="true">/</span>
-			<a href="/bonetider/">Bönetider</a> <span aria-hidden="true">/</span>
-			<span aria-current="page">Metod</span>
-		</nav>
-
 		<header class="bt-metod-header">
-			<p class="label">Bönetider</p>
 			<h1>Så beräknas bönetiderna</h1>
 			<p class="bt-metod-lead">
 				Bönetiderna på islam.se beräknas från solens verkliga läge för varje orts position – inte
@@ -206,22 +199,6 @@ const faq = [
 		overflow-x: clip;
 	}
 
-	.bt-crumbs {
-		font-family: var(--font-heading);
-		font-size: 0.8125rem;
-		color: var(--color-muted);
-		margin-bottom: var(--space-unit);
-	}
-
-	.bt-crumbs a {
-		color: var(--color-accent);
-		text-decoration: none;
-	}
-
-	.bt-crumbs a:hover {
-		text-decoration: underline;
-	}
-
 	.bt-metod-header h1 {
 		margin: var(--space-half) 0 0;
 	}
@@ -230,7 +207,7 @@ const faq = [
 		font-family: var(--font-body);
 		font-size: 1.0625rem;
 		line-height: 1.6;
-		color: color-mix(in srgb, var(--color-text) 88%, var(--color-muted));
+		color: var(--text-strong);
 		max-width: 42rem;
 		margin: var(--space-unit) 0 0;
 		text-wrap: pretty;
@@ -248,7 +225,7 @@ const faq = [
 		font-family: var(--font-body);
 		font-size: 1.0625rem;
 		line-height: 1.6;
-		color: color-mix(in srgb, var(--color-text) 88%, var(--color-muted));
+		color: var(--text-strong);
 		max-width: 42rem;
 		margin: var(--space-half) 0;
 		text-wrap: pretty;
@@ -291,7 +268,7 @@ const faq = [
 	.bt-sources li {
 		font-family: var(--font-body);
 		line-height: 1.55;
-		color: color-mix(in srgb, var(--color-text) 88%, var(--color-muted));
+		color: var(--text-strong);
 		margin: 0.35rem 0;
 	}
 

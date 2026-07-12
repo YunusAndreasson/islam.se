@@ -44,6 +44,8 @@ interface Instance {
 		nextName: HTMLElement | null;
 		/** Optional Swedish gloss under/after the Arabic name (field overlay has it; strip omits it). */
 		nextSub: HTMLElement | null;
+		/** Optional clock time of the next prayer (the mast chip shows this instead of a countdown). */
+		nextTime: HTMLElement | null;
 		countdown: HTMLElement | null;
 		place: HTMLElement | null;
 		/** Strip only: the sun/moon icon container, toggled day vs night over the place. */
@@ -175,6 +177,7 @@ function mountOne(el: HTMLElement): void {
 		readout: {
 			nextName: el.querySelector(".bf-next-name"),
 			nextSub: el.querySelector(".bf-next-sub"),
+			nextTime: el.querySelector(".bf-next-time"),
 			countdown: el.querySelector(".bf-countdown"),
 			place: el.querySelector(".bf-place"),
 			dayIcon: el.querySelector(".bs-icon"),
@@ -279,6 +282,7 @@ function writeReadout(inst: Instance, now: Date, st: PrayerState, location: Fiel
 	for (const [key, row] of inst.readout.rows) row.classList.toggle("is-next", key === st.nextKey);
 	if (inst.readout.nextName) inst.readout.nextName.textContent = PRAYER_LABELS[st.nextKey];
 	if (inst.readout.nextSub) inst.readout.nextSub.textContent = PRAYER_SWEDISH_NAMES[st.nextKey];
+	if (inst.readout.nextTime) inst.readout.nextTime.textContent = formatTime(st.today[st.nextKey]);
 	if (inst.readout.countdown) {
 		inst.readout.countdown.textContent = Number.isFinite(st.target)
 			? formatCountdown(st.target - now.getTime())
@@ -378,6 +382,7 @@ function updateCountdownOnly(inst: Instance, now: Date): void {
 		for (const [key, row] of inst.readout.rows) row.classList.toggle("is-next", key === st.nextKey);
 		if (inst.readout.nextName) inst.readout.nextName.textContent = PRAYER_LABELS[st.nextKey];
 		if (inst.readout.nextSub) inst.readout.nextSub.textContent = PRAYER_SWEDISH_NAMES[st.nextKey];
+		if (inst.readout.nextTime) inst.readout.nextTime.textContent = formatTime(st.today[st.nextKey]);
 		inst.renderedNextKey = st.nextKey;
 	}
 	inst.readout.countdown.textContent = Number.isFinite(st.target)
@@ -398,7 +403,7 @@ function mountAll(): void {
 	// bönetider" block): mounted like the strip so its per-prayer times track the
 	// visitor's saved method/madhab live, instead of being frozen at the SSR default.
 	for (const el of document.querySelectorAll<HTMLElement>(
-		".bonetider-field, .bonetider-strip, .bonetider-readout",
+		".bonetider-field, .bonetider-strip, .bonetider-readout, .bonetider-mast",
 	))
 		mountOne(el);
 }

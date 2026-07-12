@@ -26,7 +26,12 @@ const showHeading = variant !== "compact";
 			)}
 			{variant === "page" && (
 				<ul class="apppromo-features">
-					{APP_FEATURES.map((f) => <li>{f}</li>)}
+					{APP_FEATURES.map((f) => (
+						<li>
+							<span class="apppromo-feature-term">{f.term}</span>
+							<span class="apppromo-feature-gloss">{f.gloss}</span>
+						</li>
+					))}
 				</ul>
 			)}
 		</div>
@@ -101,23 +106,42 @@ const showHeading = variant !== "compact";
 		padding: 0;
 		list-style: none;
 		display: grid;
-		gap: 0.4rem 1.5rem;
-		grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr));
-		max-width: 34rem;
+		gap: 1rem 2rem;
+		grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
+		max-width: 40rem;
 	}
 
+	/* Two columns: a brass-tick gutter and the text. The term and gloss both sit in
+	   column 2 so the gloss aligns under the term, not under the tick. */
 	.apppromo-features li {
-		position: relative;
-		padding-left: 1.4rem;
-		color: color-mix(in srgb, var(--color-text) 82%, var(--color-muted));
+		display: grid;
+		grid-template-columns: 0.7rem 1fr;
+		column-gap: 0.7rem;
 	}
 
-	/* A quiet brass tick, matching the home-kicker mark. */
+	.apppromo-feature-term {
+		grid-column: 2;
+		grid-row: 1;
+		font-weight: 600;
+		color: var(--color-text);
+	}
+
+	.apppromo-feature-gloss {
+		grid-column: 2;
+		grid-row: 2;
+		margin-top: 0.15rem;
+		font-size: 0.95rem;
+		line-height: 1.45;
+		color: var(--color-muted);
+	}
+
+	/* The tick is its own grid cell, vertically centred on the term's line via
+	   align-self — no hand-tuned em offset that drifts when the text reflows. */
 	.apppromo-features li::before {
 		content: "";
-		position: absolute;
-		left: 0;
-		top: 0.62em;
+		grid-column: 1;
+		grid-row: 1;
+		align-self: center;
 		width: 0.7rem;
 		height: 2px;
 		background: var(--color-warm);

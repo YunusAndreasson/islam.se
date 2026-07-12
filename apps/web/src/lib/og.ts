@@ -19,7 +19,7 @@ const TEXT = "#1a1914";
 const MUTED = "#847a6e";
 const ACCENT = "#3a3830";
 
-interface OgInput {
+export interface OgInput {
 	kicker: string;
 	title: string;
 	framing: string;

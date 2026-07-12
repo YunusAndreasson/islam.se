@@ -6,6 +6,7 @@ import type { AstroUserConfig } from "astro";
 import { defineConfig, fontProviders } from "astro/config";
 import remarkSmartypants from "remark-smartypants";
 import { BONETIDER_DATA_DATE } from "./src/lib/bonetider/meta";
+import { MOSKEER_DATA_DATE } from "./src/lib/moskeer/meta";
 import { rehypeHonorific } from "./src/plugins/rehype-honorific";
 import { rehypeQuranVerse } from "./src/plugins/rehype-quran-verse";
 import { remarkAbbr } from "./src/plugins/remark-abbr";
@@ -28,6 +29,13 @@ try {
 } catch {
 	// articles dir may not exist during first build
 }
+
+// The 2,118 /bonetider/[stad] pages server-render *this day's* prayer times, so a fresh
+// build genuinely changes their content. Their sitemap <lastmod> must therefore track the
+// build date, not a frozen dataset constant — otherwise the DAILY changefreq we already
+// signal contradicts a weeks-old lastmod and Google discounts the freshness. Computed once
+// per build so every city URL shares one consistent timestamp.
+const BONETIDER_BUILD_LASTMOD = new Date().toISOString();
 
 // Old WordPress URLs with no counterpart on the new site — 301'd to the homepage to
 // preserve SEO on the same domain. Emitted as a Cloudflare Pages `_redirects` file
@@ -121,8 +129,6 @@ const oldPaths = [
 	"/uncategorized/forberedelser-infor-bonen-2",
 	"/uncategorized/sa-blir-du-muslim-2",
 	"/uncategorized/naderik-eller-bestraffande",
-	// Posts (utvalda/)
-	"/utvalda/fakta-om-islam",
 	// Posts (other prefixes)
 	"/tro/gud",
 	"/tro/sandebuden-och-skrifterna",
@@ -473,7 +479,10 @@ const customRedirects: [string, string][] = [
 	["/islam/hinduismens-manga-gudar", "/svar/islam-och-polyteism/"],
 	["/religion/ateism", "/svar/vad-sager-islam-om-ateism/"],
 	["/religion/deism-och-sekularism", "/svar/islam-deism-och-sekularism/"],
-	["/islam/hur-skiljer-sig-koranen-fran-de-andra-skrifterna", "/svar/koranen-och-tidigare-skrifter/"],
+	[
+		"/islam/hur-skiljer-sig-koranen-fran-de-andra-skrifterna",
+		"/svar/koranen-och-tidigare-skrifter/",
+	],
 	["/islam/karma", "/svar/tror-muslimer-pa-karma/"],
 	["/kvinna/fyra-vittnen-till-en-valdtakt", "/svar/fyra-vittnen-och-valdtakt/"],
 	["/historia/uppenbarelsens-borjan", "/svar/forsta-uppenbarelsen/"],
@@ -481,9 +490,26 @@ const customRedirects: [string, string][] = [
 	["/historia/erovringen-av-mecka", "/svar/erovringen-av-mecka/"],
 	["/gud/argument-for-guds-existens", "/svar/finns-bevis-for-gud/"],
 	// Islamic golden age (science in history): the dedicated page absorbs the whole science-history cluster.
-	["/historia/vetenskap-i-den-islamiska-varlden-under-medeltiden", "/svar/den-islamiska-guldaldern/"],
+	[
+		"/historia/vetenskap-i-den-islamiska-varlden-under-medeltiden",
+		"/svar/den-islamiska-guldaldern/",
+	],
 	["/historia/ett-vetenskapligt-synsatt", "/svar/den-islamiska-guldaldern/"],
 	["/historia/kultur-som-undervarderar-vetenskap", "/svar/den-islamiska-guldaldern/"],
+	// === 2026-06-27: head-term ("islam") recovery → the new /vad-ar-islam pillar ===
+	// The old WordPress "fakta om islam" page is still served (200) but Google has
+	// dropped it ("Crawled – currently not indexed"); consolidate its intent onto the
+	// new encyclopedic pillar instead of a soft-404 to the homepage (it was in oldPaths).
+	["/utvalda/fakta-om-islam", "/vad-ar-islam/"],
+	// The legacy author archive was a hard 404 still pulling ~3,000 "islam" impressions
+	// (Search Console) — point that residual equity at the pillar, the relevant live page.
+	["/author/user", "/vad-ar-islam/"],
+	// === 2026-06-28: split FAKTA (cornerstone) from FRÅGOR & SVAR (the question list) ===
+	// FAKTA lives at /vad-ar-islam/ (the Five Pillars + six Articles of Faith, image-led);
+	// the full question list lives at /svar/ (a real index page again). Every
+	// /svar/<slug> answer page keeps its exact URL — cornerstone answers are reclassified
+	// in the data layer, never moved. Courtesy: the intuitive /fakta resolves to the hub.
+	["/fakta", "/vad-ar-islam/"],
 ];
 
 export default defineConfig({
@@ -601,11 +627,25 @@ export default defineConfig({
 					item.changefreq = ChangeFreqEnum.MONTHLY;
 					item.priority = 0.7;
 				} else if (slug.startsWith("bonetider/")) {
-					// The 2,118 city pages: a credible dataset-version lastmod (Google
-					// largely ignores priority/changefreq, but uses lastmod for crawl scheduling).
-					item.lastmod = new Date(BONETIDER_DATA_DATE).toISOString();
+					// The 2,118 city pages regenerate their day's times each build, so lastmod =
+					// build date (Google uses lastmod for crawl scheduling; a moving lastmod on a
+					// DAILY page prompts re-crawl and keeps the indexed times current).
+					item.lastmod = BONETIDER_BUILD_LASTMOD;
 					item.changefreq = ChangeFreqEnum.DAILY;
 					item.priority = 0.6;
+				} else if (slug === "moskeer") {
+					item.lastmod = new Date(MOSKEER_DATA_DATE).toISOString();
+					item.changefreq = ChangeFreqEnum.MONTHLY;
+					item.priority = 0.6;
+					// `moskeer/lan/x` also matches `moskeer/`, so test the län prefix first.
+				} else if (slug.startsWith("moskeer/lan/")) {
+					item.lastmod = new Date(MOSKEER_DATA_DATE).toISOString();
+					item.changefreq = ChangeFreqEnum.MONTHLY;
+					item.priority = 0.6;
+				} else if (slug.startsWith("moskeer/")) {
+					item.lastmod = new Date(MOSKEER_DATA_DATE).toISOString();
+					item.changefreq = ChangeFreqEnum.MONTHLY;
+					item.priority = 0.5;
 				}
 				return item;
 			},

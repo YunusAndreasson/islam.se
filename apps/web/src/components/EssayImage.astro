@@ -4,6 +4,10 @@ import type { Article } from "../lib/articles";
 
 interface Props {
 	article: Article;
+	/** Override alt text. Pass "" for a decorative borrow (e.g. a FAKTA card where
+	    the visible label already names the concept). Defaults to the essay's own
+	    imageAlt, then its title. */
+	alt?: string;
 	widths?: number[];
 	sizes?: string;
 	loading?: "eager" | "lazy";
@@ -13,12 +17,15 @@ interface Props {
 
 const {
 	article,
+	alt,
 	widths = [400, 800, 1200],
 	sizes = "(max-width: 768px) 100vw, 50vw",
 	loading = "lazy",
 	fetchpriority = "auto",
 	class: className,
 } = Astro.props;
+
+const altText = alt ?? article.imageAlt ?? article.title;
 
 const hero = article.heroImage;
 // Only use a mobile-specific crop when it is landscape-ish. Every card layout
@@ -72,7 +79,7 @@ if (mobile && hero) {
 				src={fallbackSrc}
 				width={hero.width}
 				height={hero.height}
-				alt={article.imageAlt ?? article.title}
+				alt={altText}
 				loading={loading}
 				fetchpriority={fetchpriority}
 				decoding="async"

@@ -1,5 +1,6 @@
 import { getCollection } from "astro:content";
 import { type Article, getArticles } from "./articles";
+import { memoize } from "./cache";
 
 // Tänkare — the recurring interlocutors. Membership is DERIVED from the corpus:
 // each thinker's `match` terms (the distinctive spelling of the name, diacritics
@@ -20,8 +21,6 @@ export interface Tankare {
 	/** Essays engaging this thinker, in the feed's date order (newest first). */
 	essays: Article[];
 }
-
-let cache: Promise<Tankare[]> | null = null;
 
 async function build(): Promise<Tankare[]> {
 	const [entries, articles] = await Promise.all([getCollection("tankare"), getArticles()]);
@@ -60,10 +59,7 @@ async function build(): Promise<Tankare[]> {
 }
 
 /** All tänkare with their derived essay lists. Memoized for the build. */
-export function getTankare(): Promise<Tankare[]> {
-	if (!cache) cache = build();
-	return cache;
-}
+export const getTankare = memoize(build);
 
 /** The thinkers a given essay engages, in directory order. */
 export async function tankareForEssay(slug: string): Promise<Tankare[]> {

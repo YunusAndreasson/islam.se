@@ -1,6 +1,7 @@
 import { getImage } from "astro:assets";
 import type { APIContext } from "astro";
 import { getArticles } from "../lib/articles";
+import { escapeXml } from "../lib/xml";
 
 // Image sitemap (developers.google.com/search/docs/crawling-indexing/sitemaps/image-sitemaps).
 // The standard @astrojs/sitemap emits no <image:image> entries, so the site's hero
@@ -10,9 +11,6 @@ import { getArticles } from "../lib/articles";
 // <image:title>/<image:caption>/<image:license> sitemap tags since 2022; that richness
 // is carried instead by each image's alt text and its ImageObject structured data.
 // Linked from public/robots.txt and submitted in Search Console.
-
-const xmlEscape = (s: string) =>
-	s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 
 export async function GET(context: APIContext) {
 	const site = context.site?.href.replace(/\/$/, "") ?? "https://islam.se";
@@ -27,9 +25,9 @@ export async function GET(context: APIContext) {
 		const imageUrl = new URL(rendition.src, `${site}/`).href;
 		entries.push(
 			"  <url>\n" +
-				`    <loc>${xmlEscape(`${site}/${a.slug}/`)}</loc>\n` +
+				`    <loc>${escapeXml(`${site}/${a.slug}/`)}</loc>\n` +
 				"    <image:image>\n" +
-				`      <image:loc>${xmlEscape(imageUrl)}</image:loc>\n` +
+				`      <image:loc>${escapeXml(imageUrl)}</image:loc>\n` +
 				"    </image:image>\n" +
 				"  </url>",
 		);

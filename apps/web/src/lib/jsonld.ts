@@ -2,9 +2,10 @@
 // or an array, so a page can pass e.g. [collectionPage, breadcrumbList(...)].
 
 import { APP_STORE_URL, PLAY_STORE_URL } from "./app";
+import { SITE_URL } from "./config";
 import { APPLE_PODCAST_URL, SPOTIFY_SHOW_URL } from "./podcast";
 
-const SITE = "https://islam.se";
+const SITE = SITE_URL;
 
 /** Resolve a site path to its absolute, trailing-slash form — the way the static
  *  pages are actually served (Cloudflare 308s the slash-less form to it). Keeping
@@ -171,6 +172,20 @@ export function collectionPageJsonLd(opts: {
 	};
 }
 
+/** A schema.org FAQPage from {q,a} pairs — shared by the bönetider city page and the
+ *  moskeer city/county pages, which each built this identical block by hand. */
+export function faqPageJsonLd(faqs: readonly { q: string; a: string }[]): Record<string, unknown> {
+	return {
+		"@context": "https://schema.org",
+		"@type": "FAQPage",
+		mainEntity: faqs.map((f) => ({
+			"@type": "Question",
+			name: f.q,
+			acceptedAnswer: { "@type": "Answer", text: f.a },
+		})),
+	};
+}
+
 // ── Site entity graph ───────────────────────────────────────────────────────
 // One canonical Organization + WebSite node, referenced by `@id` from every
 // Article/AboutPage author/publisher instead of being re-declared inline. A
@@ -222,7 +237,12 @@ export function organization(): Record<string, unknown> {
 			"Den islamiska kalendern",
 			"Bönetider",
 		],
-		founder: { "@type": "Person", name: "Bilal", url: "https://bilal.se", description: "Grundare av islam.se." },
+		founder: {
+			"@type": "Person",
+			name: "Bilal",
+			url: "https://bilal.se",
+			description: "Grundare av islam.se.",
+		},
 		...(ORG_SAME_AS.length > 0 ? { sameAs: ORG_SAME_AS } : {}),
 	};
 }

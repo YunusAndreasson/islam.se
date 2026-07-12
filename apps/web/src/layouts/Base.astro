@@ -205,6 +205,12 @@ if (articleMeta) {
 		) : null}
 		<title>{title}</title>
 		<meta name="description" content={description} />
+		{/* Everything is indexable; non-canonical URLs are 301-redirected at the edge, never
+		    served. The preview directives are the part Google actually reads: max-image-preview:large
+		    makes each page eligible for a large image in Search and Discover (so the OG/hero card can
+		    show big), and max-snippet:-1 / max-video-preview:-1 lift the text- and video-snippet caps.
+		    A JSX-style comment keeps this rationale in source without shipping it on every page. */}
+		<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
 		<link rel="canonical" href={canonicalUrl.href} />
 
 		<!-- Open Graph -->

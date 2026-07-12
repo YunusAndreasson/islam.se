@@ -1,7 +1,9 @@
 ---
 import { type CollectionEntry, getCollection, render } from "astro:content";
+import EssayImage from "../../components/EssayImage.astro";
 import Base from "../../layouts/Base.astro";
 import { getArticles } from "../../lib/articles";
+import { FAKTA_IMAGE_BY_SVAR, FAKTA_SLUGS } from "../../lib/fakta";
 import { ORG_ID, WEBSITE_ID, breadcrumbList } from "../../lib/jsonld";
 
 export async function getStaticPaths() {
@@ -44,6 +46,16 @@ const { data } = entry;
 const { Content } = await render(entry);
 const url = `https://islam.se/svar/${entry.id}/`;
 
+// Cornerstone answers (the Five Pillars + six Articles of Faith) belong to the
+// FAKTA hub: they get a borrowed hero image so the page reads as an article, and
+// they breadcrumb / link back to /vad-ar-islam/. Ordinary questions belong to the
+// /svar/ index.
+const isFakta = FAKTA_SLUGS.has(entry.id);
+const heroEssaySlug = FAKTA_IMAGE_BY_SVAR.get(entry.id);
+const heroArticle = heroEssaySlug
+	? (await getArticles()).find((a) => a.slug === heroEssaySlug)
+	: undefined;
+
 const updated =
 	data.updatedAt && data.updatedAt.slice(0, 10) !== data.publishedAt.slice(0, 10)
 		? data.updatedAt
@@ -78,7 +90,9 @@ const jsonLd: Record<string, unknown>[] = [
 	},
 	breadcrumbList([
 		{ name: "Hem", url: "/" },
-		{ name: "Frågor och svar", url: "/svar/" },
+		isFakta
+			? { name: "Fakta", url: "/vad-ar-islam/" }
+			: { name: "Frågor och svar", url: "/svar/" },
 		{ name: data.title, url },
 	]),
 ];
@@ -101,21 +115,27 @@ if (data.faq && data.faq.length > 0) {
 	ogImageAlt={data.title}
 	jsonLd={jsonLd}
 >
-	<main id="main" class="svar-page content-column">
-		<nav class="bt-crumbs" aria-label="Brödsmulor">
-			<a href="/">Hem</a> <span aria-hidden="true">/</span>
-			<a href="/svar/">Frågor och svar</a> <span aria-hidden="true">/</span>
-			<span aria-current="page">{data.title}</span>
-		</nav>
-
+	<main id="main" class="svar-page reading">
 		<article>
 			<header class="svar-header">
-				<p class="label">Fråga &amp; svar</p>
 				<h1>{data.title}</h1>
 				{updated ? (
 					<p class="svar-updated">Uppdaterad <time datetime={updated.slice(0, 10)}>{updated.slice(0, 10)}</time></p>
 				) : null}
 			</header>
+
+			{heroArticle?.heroImage && (
+				<div class="svar-hero media-frame">
+					<EssayImage
+						article={heroArticle}
+						alt=""
+						widths={[480, 800, 1200]}
+						sizes="(max-width: 64rem) 100vw, 64rem"
+						loading="eager"
+						fetchpriority="high"
+					/>
+				</div>
+			)}
 
 			<div class="article-body prose">
 				<Content />
@@ -168,7 +188,13 @@ if (data.faq && data.faq.length > 0) {
 					</section>
 				)}
 
-				<p class="svar-back"><a href="/svar/">← Alla frågor och svar</a></p>
+				<p class="svar-back">
+					{isFakta ? (
+						<a href="/vad-ar-islam/">← Tillbaka till Fakta om islam</a>
+					) : (
+						<a href="/svar/">← Alla frågor och svar</a>
+					)}
+				</p>
 		</article>
 	</main>
 </Base>
@@ -177,15 +203,6 @@ if (data.faq && data.faq.length > 0) {
 	.svar-page {
 		margin-block: var(--space-phi);
 	}
-
-	.bt-crumbs {
-		font-family: var(--font-heading);
-		font-size: 0.8125rem;
-		color: var(--color-muted);
-		margin-bottom: var(--space-unit);
-	}
-	.bt-crumbs a { color: var(--color-accent); text-decoration: none; }
-	.bt-crumbs a:hover { text-decoration: underline; }
 
 	.svar-header h1 {
 		margin: var(--space-half) 0 0;
@@ -197,6 +214,16 @@ if (data.faq && data.faq.length > 0) {
 		font-size: 0.8125rem;
 		color: var(--color-muted);
 		margin: var(--space-half) 0 0;
+	}
+
+	/* Cornerstone (FAKTA) answers carry a borrowed hero so the page reads as an
+	   article. It spans the reading frame, above the body. */
+	.svar-hero {
+		margin-top: var(--space-unit);
+	}
+	.svar-hero :global(img) {
+		aspect-ratio: 16 / 9;
+		width: 100%;
 	}
 
 	.svar-faq,
@@ -243,12 +270,17 @@ if (data.faq && data.faq.length > 0) {
 	}
 	.svar-sources a,
 	.svar-related a,
-	.svar-essays a { color: var(--color-accent); }
+	.svar-essays a {
+		color: var(--color-accent);
+	}
 
 	.svar-back {
 		margin-top: var(--space-phi);
 		font-family: var(--font-heading);
 		font-size: 0.9375rem;
 	}
-	.svar-back a { color: var(--color-accent); text-decoration: none; }
+	.svar-back a {
+		color: var(--color-accent);
+		text-decoration: none;
+	}
 </style>

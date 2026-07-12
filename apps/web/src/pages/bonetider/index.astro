@@ -1,10 +1,14 @@
 ---
 import AppPromo from "../../components/AppPromo.astro";
+import AnnualPrayerChart from "../../components/bonetider/AnnualPrayerChart.astro";
+import DaylightLatitude from "../../components/bonetider/DaylightLatitude.astro";
 import PrayerField from "../../components/bonetider/PrayerField.astro";
 import PrayerSettings from "../../components/bonetider/PrayerSettings.astro";
 import Base from "../../layouts/Base.astro";
-import { breadcrumbList, dataset } from "../../lib/jsonld";
+import { breadcrumbList, dataset, faqPageJsonLd } from "../../lib/jsonld";
+import { nf0 } from "../../lib/format";
 import { SCB_SOURCE } from "../../lib/bonetider/meta";
+import { PRAYER_LABELS, PRAYER_ORDER, PRAYER_SWEDISH_NAMES } from "../../lib/bonetider/prayer-times";
 import { INDEXED_PLACES, officialPopulation, placesByCounty } from "../../lib/bonetider/places-index";
 import { DEFAULT_COORDS } from "../../lib/bonetider/settings";
 
@@ -16,20 +20,63 @@ const stockholm = {
 const counties = placesByCounty();
 const total = INDEXED_PLACES.length;
 const withScb = INDEXED_PLACES.filter((p) => p.scbPopulation != null).length;
+
+// One-line definition of each of the five daily prayers (+ the Shurūq marker), for
+// the explainer below. The "what marks it" phrasing matches /bonetider/metod/ but
+// stays short — depth lives on the method page, this is the head-term-page primer.
+const prayerDefs: Record<(typeof PRAYER_ORDER)[number], string> = {
+	fajr: "gryningen, när himlen ljusnar före soluppgången.",
+	sunrise: "soluppgången, då tiden för Fajr tar slut.",
+	dhuhr: "strax efter att solen passerat sin högsta punkt mitt på dagen.",
+	asr: "eftermiddagen, när skuggan nått en viss längd (beror på madhhab).",
+	maghrib: "solnedgången.",
+	isha: "kvällen, när skymningen övergått i natt.",
+};
+
+// Visible Q&A (also emitted as FAQPage). Questions mirror the real question-shaped
+// queries the page is seen for in Search Console — "de fem bönetiderna", "idag",
+// the Arabic/namaz synonyms, the summer-night question, and the city differences.
+const faq = [
+	{
+		q: "Vilka är de fem dagliga bönetiderna?",
+		a: "De fem dagliga bönerna är Fajr (gryningen), Ẓuhr (efter middagstid), ʿAṣr (eftermiddagen), Maghrib (solnedgången) och ʿIshāʾ (natten). Därtill markeras Shurūq, soluppgången, som avslutar Fajr-tiden.",
+	},
+	{
+		q: "Vad är bönetiderna i dag?",
+		a: "Kartan högst upp visar dagens tider för din ort, beräknade efter solens läge just nu. Tryck på «Använd min plats» eller välj din ort i listan för att se Fajr, Ẓuhr, ʿAṣr, Maghrib och ʿIshāʾ för i dag.",
+	},
+	{
+		q: "Hur räknas bönetiderna ut?",
+		a: "Tiderna räknas fram ur solens verkliga läge för ortens latitud och longitud med en etablerad astronomisk modell – inte ur en färdig tabell. Standardmetoden är Muslim World League, och du kan byta metod och madhhab i inställningarna. Läs mer om hur tiderna beräknas på metodsidan.",
+	},
+	{
+		q: "Varför ligger Fajr och ʿIshāʾ nära varandra på sommaren i Sverige?",
+		a: "På svenska sommarnätter sjunker solen aldrig de 18° under horisonten som krävs för Fajr och ʿIshāʾ. Natten mellan dem krymper därför nästan bort, och tiderna anges med en regel för höga latituder (som standard närmaste lämpliga plats, Aqrab al-Balad). Norr om polcirkeln är regeln nödvändig.",
+	},
+	{
+		q: "Skiljer sig bönetiderna mellan olika orter i Sverige?",
+		a: `Ja. Eftersom tiderna följer solens läge skiljer de sig med både longitud (öst–väst) och latitud (syd–nord) – mest på sommaren, då en dag i Kiruna är timmar längre än i Malmö. Därför har varje av de ${total.toLocaleString("sv-SE")} orterna en egen sida med sina egna tider.`,
+	},
+	{
+		q: "Vad heter bönetider på arabiska?",
+		a: "Bönen heter på arabiska ṣalāh (صلاة) och själva tidtabellen awqāt aṣ-ṣalāh; på turkiska, bosniska och albanska används ordet namaz. Det handlar om samma fem dagliga bönetider.",
+	},
+];
 // Sweden's largest places, surfaced as a prominent shortcut above the county
 // accordions. Most visitors want a metro, not to expand a län – and these are the
 // pages with the most search demand, so featuring them concentrates internal links
 // where they matter. Sorted by the official figure so the order is defensible.
-const nfPop = new Intl.NumberFormat("sv-SE", { maximumFractionDigits: 0 });
 const biggest = [...INDEXED_PLACES].sort((a, b) => officialPopulation(b) - officialPopulation(a)).slice(0, 18);
 // Build-time year (Stockholm tz) for the title/H1 — "bönetider" searchers add the
 // year, and it signals freshness on the generic head term. Daily rebuild rolls it over.
 const year = new Intl.DateTimeFormat("sv-SE", { year: "numeric", timeZone: "Europe/Stockholm" }).format(new Date());
-const description = `Bönetider för hela Sverige ${year} – Fajr, Shurūq, Ẓuhr, ʿAṣr, Maghrib och ʿIshāʾ för tusentals orter, beräknade efter solens läge över landet. Välj beräkningsmetod och madhhab.`;
+// Front-load the value the head-term searcher wants — *their* town's times, today —
+// to lift the click-through on the generic "bönetider" query.
+const description = `Bönetider ${year} för din ort – dagens Fajr, Ẓuhr, ʿAṣr, Maghrib och ʿIshāʾ för tusentals orter i hela Sverige, beräknade efter solens läge. Välj metod och madhhab.`;
 ---
 
 <Base
-	title={`Bönetider i Sverige ${year} — islam.se`}
+	title={`Bönetider i Sverige ${year} för din ort — islam.se`}
 	description={description}
 	ogImage="/bonetider/og.png"
 	ogImageAlt="Bönetider för hela Sverige — Fajr, Shurūq, Ẓuhr, ʿAṣr, Maghrib och ʿIshāʾ beräknade efter solens läge"
@@ -51,6 +98,7 @@ const description = `Bönetider för hela Sverige ${year} – Fajr, Shurūq, Ẓ
 			creator: ["islam.se", "SCB (Statistiska centralbyrån)", "GeoNames"],
 			spatialCoverage: "Sverige",
 		}),
+		faqPageJsonLd(faq),
 		breadcrumbList([
 			{ name: "Hem", url: "/" },
 			{ name: "Bönetider", url: "/bonetider" },
@@ -59,13 +107,13 @@ const description = `Bönetider för hela Sverige ${year} – Fajr, Shurūq, Ẓ
 >
 	<main id="main" class="home bonetider-hub">
 		<header class="bh2-header">
-			<p class="label">Bönetider</p>
 			<h1>Bönetider i Sverige {year}</h1>
 			<p class="bh2-intro">
-				Bönernas tider följer solen, inte klockan. Kartan färgas av hur djupt solen står under
-				horisonten – Sveriges ljusa sommarnatt blir aldrig svart – och de svepande linjerna visar
-				var varje bön infaller just nu. Välj din ort nedan, eller justera metod och madhhab så att
-				tiderna stämmer med din moské.
+				Bönetider (även <i lang="ar">ṣalāh</i> / <i lang="ar">awqāt aṣ-ṣalāh</i>, <i>namaz</i>) för
+				hela Sverige: Fajr, Ẓuhr, ʿAṣr, Maghrib och ʿIshāʾ. Tiderna följer solen, inte klockan.
+				Kartan färgas av hur djupt solen står under horisonten – Sveriges ljusa sommarnatt blir
+				aldrig svart – och de svepande linjerna visar var varje bön infaller just nu. Välj din ort
+				nedan, eller justera metod och madhhab så att tiderna stämmer med din moské.
 			</p>
 		</header>
 
@@ -73,18 +121,26 @@ const description = `Bönetider för hela Sverige ${year} – Fajr, Shurūq, Ẓ
 
 		<div class="bh2-actions">
 			<button type="button" class="bf-geo bh2-geo">Använd min plats</button>
+			<details class="bh2-settings">
+				<summary class="bh2-settings-summary">
+					<svg class="bh2-cog" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+						<circle cx="12" cy="12" r="3" />
+						<path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" />
+					</svg>
+					Inställningar
+					<span class="bh2-settings-hint">metod, madhhab, höga latituder</span>
+				</summary>
+				<div class="bh2-settings-body">
+					<p class="bh2-lead">
+						Tiderna beräknas direkt i din webbläsare och sparas lokalt – de påverkar både kartan och
+						dagens tider. Standard är Muslim World League.
+					</p>
+					<PrayerSettings />
+				</div>
+			</details>
 		</div>
 
 		<AppPromo variant="section" />
-
-		<section class="bh2-section" aria-labelledby="bh2-settings">
-			<h2 id="bh2-settings">Inställningar</h2>
-			<p class="bh2-lead">
-				Tiderna beräknas direkt i din webbläsare. Inställningarna sparas lokalt och påverkar både
-				kartan och dagens tider.
-			</p>
-			<PrayerSettings />
-		</section>
 
 		<section class="bh2-section" aria-labelledby="bh2-biggest">
 			<h2 id="bh2-biggest">Bönetider i Sveriges största orter</h2>
@@ -97,7 +153,7 @@ const description = `Bönetider för hela Sverige ${year} – Fajr, Shurūq, Ẓ
 					<li>
 						<a href={`/bonetider/${p.slug}/`}>
 							<span class="bh2-big-name">{p.name}</span>
-							<span class="bh2-big-pop">{nfPop.format(officialPopulation(p))} inv.</span>
+							<span class="bh2-big-pop">{nf0.format(officialPopulation(p))} inv.</span>
 						</a>
 					</li>
 				))}
@@ -108,7 +164,8 @@ const description = `Bönetider för hela Sverige ${year} – Fajr, Shurūq, Ẓ
 			<h2 id="bh2-find">Hitta din ort</h2>
 			<p class="bh2-lead">
 				{total.toLocaleString("sv-SE")} orter, ordnade efter län – varav {withScb.toLocaleString("sv-SE")} med
-				officiell befolkningsstatistik från {SCB_SOURCE}. Läs om <a href="/bonetider/metod/">hur tiderna beräknas</a>.
+				officiell befolkningsstatistik från {SCB_SOURCE}. Läs om <a href="/bonetider/metod/">hur tiderna beräknas</a>,
+				eller hitta en moské på vår <a href="/moskeer/">karta över moskéer i Sverige</a>.
 			</p>
 			<input
 				type="search"
@@ -135,6 +192,48 @@ const description = `Bönetider för hela Sverige ${year} – Fajr, Shurūq, Ẓ
 					</details>
 				))}
 			</div>
+		</section>
+
+		<section class="bh2-section" aria-labelledby="bh2-boner">
+			<h2 id="bh2-boner">De fem dagliga bönetiderna</h2>
+			<p class="bh2-lead">
+				Islam har fem dagliga böner. Deras tider bestäms av solen, så de förskjuts under året – och i
+				Sverige mer än på de flesta håll.
+			</p>
+			<dl class="bt-deflist">
+				{PRAYER_ORDER.filter((k) => k !== "sunrise").map((k) => (
+					<div>
+						<dt>{PRAYER_LABELS[k]} <span class="bh2-def-sv">· {PRAYER_SWEDISH_NAMES[k]}</span></dt>
+						<dd>{prayerDefs[k]}</dd>
+					</div>
+				))}
+			</dl>
+			<p class="bh2-def-note">
+				Därtill markeras <b>Shurūq</b> (soluppgången) i tidtabellen – inte en bön, men den avslutar
+				tiden för Fajr.
+			</p>
+		</section>
+
+		<section class="bh2-section" aria-labelledby="bh2-ar">
+			<h2 id="bh2-ar">Bönetidernas år i Sverige</h2>
+			<p class="bh2-lead">
+				Så rör sig bönetiderna över ett helt år. Mot midsommar dyker Fajr ned och ʿIshāʾ upp tills
+				natten mellan dem nästan stänger – det är därför Sveriges latituder kräver särskilda regler.
+			</p>
+			<AnnualPrayerChart location={stockholm} />
+			<DaylightLatitude />
+		</section>
+
+		<section class="bh2-section" aria-labelledby="bh2-faq">
+			<h2 id="bh2-faq">Vanliga frågor</h2>
+			<dl class="bt-deflist">
+				{faq.map((f) => (
+					<div><dt>{f.q}</dt><dd>{f.a}</dd></div>
+				))}
+			</dl>
+			<p class="bh2-lead bh2-faq-more">
+				Mer om <a href="/bonetider/metod/">hur bönetiderna beräknas</a>.
+			</p>
 		</section>
 
 		<p class="bt-attrib">
@@ -166,13 +265,16 @@ const description = `Bönetider för hela Sverige ${year} – Fajr, Shurūq, Ẓ
 		font-size: 1.0625rem;
 		line-height: 1.6;
 		color: color-mix(in srgb, var(--color-text) 85%, var(--color-muted));
-		max-width: 42rem;
 		margin: var(--space-half) 0 var(--space-unit);
 		text-wrap: pretty;
 	}
 
 	.bh2-actions {
 		margin-top: var(--space-unit);
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: 0.6rem 0.75rem;
 	}
 
 	.bh2-geo {
@@ -197,6 +299,77 @@ const description = `Bönetider för hela Sverige ${year} – Fajr, Shurūq, Ẓ
 		pointer-events: none;
 	}
 
+	/* Settings tucked behind a cog (progressive disclosure) right under the map it
+	   configures — most visitors want their times, not to retune the method. */
+	/* display: contents lets the <summary> sit in the .bh2-actions flex row beside the
+	   "Använd min plats" pill, while the settings panel breaks to its own full-width row
+	   below. (Trades the ::details-content height animation, which needs a details box,
+	   for the one-line layout — the panel snaps open instead.) */
+	.bh2-settings {
+		display: contents;
+	}
+
+	.bh2-settings:not([open]) .bh2-settings-body {
+		display: none;
+	}
+
+	.bh2-settings-summary {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.5rem;
+		font-family: var(--font-heading);
+		font-size: 0.9375rem;
+		font-weight: 600;
+		color: var(--color-accent);
+		background: var(--color-bg);
+		border: 1px solid var(--color-divider);
+		border-radius: 999px;
+		padding: 0.45rem 1.1rem;
+		cursor: pointer;
+		list-style: none;
+		transition: border-color 0.15s ease;
+	}
+
+	.bh2-settings-summary::-webkit-details-marker {
+		display: none;
+	}
+
+	.bh2-settings-summary:hover {
+		border-color: var(--color-warm);
+	}
+
+	.bh2-settings-summary:focus-visible {
+		outline: 2px solid var(--color-accent);
+		outline-offset: 2px;
+	}
+
+	.bh2-cog {
+		flex: none;
+		transition: transform 0.25s ease;
+	}
+
+	.bh2-settings[open] .bh2-cog {
+		transform: rotate(60deg);
+	}
+
+	.bh2-settings-hint {
+		font-family: var(--font-body);
+		font-weight: 400;
+		font-size: 0.8125rem;
+		color: var(--color-muted);
+	}
+
+	.bh2-settings-body {
+		flex-basis: 100%;
+		margin-top: var(--space-half);
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.bh2-cog {
+			transition: none;
+		}
+	}
+
 	.bh2-section {
 		margin-top: var(--space-phi);
 	}
@@ -209,7 +382,51 @@ const description = `Bönetider för hela Sverige ${year} – Fajr, Shurūq, Ẓ
 		font-family: var(--font-body);
 		color: var(--color-muted);
 		margin: var(--space-half) 0 var(--space-unit);
-		max-width: 38rem;
+		text-wrap: pretty;
+	}
+
+	/* Shared definition-list look (mirrors /bonetider/metod/); Astro scopes styles per
+	   component, so the rule is re-declared here rather than imported. */
+	.bt-deflist {
+		margin: var(--space-half) 0 0;
+		max-width: 42rem;
+	}
+
+	.bt-deflist > div {
+		padding: var(--space-half) 0;
+		border-bottom: 1px solid var(--color-divider);
+	}
+
+	.bt-deflist dt {
+		font-family: var(--font-heading);
+		font-weight: 600;
+		color: var(--color-accent);
+		margin-bottom: 0.2rem;
+	}
+
+	.bh2-def-sv {
+		font-weight: 400;
+		color: var(--color-muted);
+	}
+
+	.bt-deflist dd {
+		font-family: var(--font-body);
+		line-height: 1.55;
+		color: var(--color-muted);
+		margin: 0;
+	}
+
+	.bh2-faq-more {
+		margin-top: var(--space-unit);
+	}
+
+	.bh2-def-note {
+		font-family: var(--font-body);
+		font-size: 0.875rem;
+		line-height: 1.55;
+		color: var(--color-muted);
+		margin: var(--space-half) 0 0;
+		max-width: 42rem;
 	}
 
 	.bh2-biggest-grid {
