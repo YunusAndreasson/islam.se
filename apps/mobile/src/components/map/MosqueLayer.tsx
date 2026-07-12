@@ -3,28 +3,29 @@
 // (a child of <Map>), unlike the app's other overlays (the solar wash / prayer pills,
 // which are RN/Skia siblings projected over the map). Going native buys things for free
 // that would be painful to hand-roll over hundreds of points: zoom gating, collision
-// culling, hit-testing, and — the reason for the two-tier design below — a GPU density
-// field that pools light across all 255 points at national zoom without 255 blurs.
+// culling, and hit-testing.
 //
 // TWO TIERS, crossfading by zoom so a mosque always reads at the right scale:
-//   • GLOW  (heatmap, z≲8) — at the fully-zoomed-out national view the individual glyphs
-//     would be invisible specks, so instead a warm single-hue heatmap pools soft light
-//     where mosques concentrate: Stockholm / Göteborg / Malmö glow, the sparse north
-//     stays dark — a truthful, beautiful "where the mosques are" field. In dark mode it
-//     reads as lantern/city light through the twilight wash; in light mode as a gentle
-//     warm bloom on the parchment. A single warm ramp (not a thermal green→red heatmap)
-//     is what makes it illumination rather than data-viz. It is deliberately SUBTLE — an
-//     accent, never loud enough to unseat the solar field as the hero.
-//   • GLYPHS (symbol, z≥7) — as you zoom into a city the glow fades out and the muted
+//   • DUST  (circle, z≲8) — at the fully-zoomed-out national view a mosque glyph would be an
+//     invisible speck, so instead each of the ~255 mosques renders as a tiny, soft warm dot:
+//     a fine "snow" dusting scattered across the country, naturally denser where mosques
+//     concentrate (the south / the metros) and sparse in the north — a truthful "where the
+//     mosques are" without a heavy glow. Mosques are a SECONDARY feature, so this is only a
+//     quiet hint that invites a zoom-in, deliberately never loud enough to unseat the solar
+//     field as the hero. (A circle layer, NOT a heatmap: every mosque shows as its own dot
+//     independent of its neighbours, so lone rural mosques still appear — the old heatmap
+//     pooled them into city blobs and dropped isolated ones below its density floor, and even
+//     dialled right down it read as an attention-grabbing glow rather than a light dusting.)
+//   • GLYPHS (symbol, z≥7) — as you zoom into a city the dots fade out and the muted
 //     mosque silhouettes fade in (icon-size stays small — a place mark, not a billboard),
 //     names only when zoomed in close (text-size → 0 below ~z12). Collision keeps them
 //     from overlapping each other or the basemap's own town labels.
-// The two overlap across ~z7–8, so the glow dissolves INTO the glyphs rather than
+// The two overlap across ~z7–8, so the dust dissolves INTO the glyphs rather than
 // popping. (History: this layer used to render NOTHING below z7, which left the national
-// view with no mosque impression at all — the glow tier fixes exactly that.)
+// view with no mosque impression at all — the dust tier fixes exactly that.)
 //
 // It all draws UNDER the Skia wash by design: a mosque is a place on the ground, not
-// chrome floating above the sky, and the glow reading as warm light THROUGH the cool
+// chrome floating above the sky, and the dots reading as warm specks THROUGH the cool
 // twilight is the point. The wash overlay is pointerEvents="none", so a tap falls
 // straight through to the symbol layer and onPress fires (default 44×44 hitbox).
 //
@@ -33,7 +34,6 @@
 // <Images>. That keeps a real mosque silhouette without shipping an SDF, and it re-tints
 // itself when the OS light/dark theme flips.
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import type { ExpressionSpecification } from '@maplibre/maplibre-gl-style-spec';
 import { GeoJSONSource, Images, Layer } from '@maplibre/maplibre-react-native';
 import type { PressEventWithFeatures } from '@maplibre/maplibre-react-native';
 import { useEffect, useMemo, useState } from 'react';
@@ -45,76 +45,26 @@ import { useActiveScheme, useColors } from '../../theme/useColors';
 
 const SOURCE_ID = 'mosques';
 const LAYER_ID = 'mosque-symbols';
-const GLOW_LAYER_ID = 'mosque-glow';
+const DUST_LAYER_ID = 'mosque-dust';
 // Rendered glyph size in px; scaled DOWN on the map by icon-size so the marker stays a
 // quiet ~20–26 px place mark, never a billboard.
 const GLYPH_PX = 48;
 
-// The illumination ramp maps heatmap density (0→1) to a warm glow. Kept to a SINGLE hue
-// family (transparent gold → luminous core) so it reads as pooled light, not a thermal
-// map. Stop 0 is the warm hue at alpha 0 — never `transparent` (= black@0), which would
-// ring each pool with a faint dark fringe (the same trap the wash gradient avoids).
-//
-// TRANSPARENT FLOOR: the ramp holds fully transparent up through a low density before any
-// colour appears. That floor is what keeps the overview CLEAN rather than "dirty" — the
-// broadly-populated south otherwise fills with a diffuse low-density warm veil that mixes
-// with the cool twilight wash into a muddy brown smear. With the floor, only genuine
-// concentrations light up as crisp gold pools on clean dark ground; the smear is gone.
-type GlowRamp = {
-  color: ExpressionSpecification;
-  /** Master opacity at the national view; tapers to 0 by the glyph handoff. */
+// Each mosque is one tiny, soft warm dot — a "snow" dusting, not a glow. A per-scheme colour +
+// master opacity (`peak`) is all the circle layer needs; radius / blur / the zoom crossfade live
+// on the layer itself. Kept intentionally faint: mosques are a SECONDARY feature that should only
+// hint "zoom in here", never a field that competes with the prayer lines.
+type DotStyle = {
+  /** Opaque rgb — the dot's alpha comes from circle-opacity (`peak`), not the colour. */
+  color: string;
+  /** Dot opacity at the national view; tapers to 0 by the glyph handoff. */
   peak: number;
 };
-// Dark: clean amber pools brightening to a rich warm-gold core at the densest cities —
-// the hero case, glowing up through the navy basemap + thin twilight wash. No brown ember
-// at the low end (brown-on-navy is exactly what read as "dirty"); it goes straight from
-// transparent to a clean amber once density is real.
-const GLOW_DARK: GlowRamp = {
-  color: [
-    'interpolate',
-    ['linear'],
-    ['heatmap-density'],
-    0,
-    'rgba(210,164,88,0)',
-    // Hold transparent through the diffuse low-density fog — this is the anti-"dirty" floor.
-    0.2,
-    'rgba(210,164,88,0)',
-    // Glow begins only where mosques actually concentrate, as a clean amber (not brown).
-    0.4,
-    'rgba(216,168,90,0.42)',
-    0.62,
-    'rgba(232,190,116,0.66)',
-    0.82,
-    'rgba(244,208,140,0.85)',
-    // Densest city cores stay a rich warm gold, not a blown-out cream-white — lantern
-    // light, not a hotspot.
-    1,
-    'rgba(250,226,168,0.96)',
-  ],
-  peak: 0.72,
-};
-// Light: a gentle brass bloom on the warm parchment — same transparent floor so it never
-// becomes a stain, golden (not brown), and lower in both ramp-alpha and master opacity.
-const GLOW_LIGHT: GlowRamp = {
-  color: [
-    'interpolate',
-    ['linear'],
-    ['heatmap-density'],
-    0,
-    'rgba(190,140,52,0)',
-    0.2,
-    'rgba(190,140,52,0)',
-    0.42,
-    'rgba(196,148,60,0.28)',
-    0.66,
-    'rgba(206,162,80,0.42)',
-    0.85,
-    'rgba(218,182,108,0.52)',
-    1,
-    'rgba(230,200,138,0.6)',
-  ],
-  peak: 0.5,
-};
+// Dark: a warm pale-gold fleck glinting on the navy basemap through the twilight wash.
+const SNOW_DARK: DotStyle = { color: 'rgb(232,200,148)', peak: 0.5 };
+// Light: a deeper muted brass so the tiny dot still registers on warm parchment (a pale fleck
+// would vanish there), a touch lower to match the lighter ground.
+const SNOW_LIGHT: DotStyle = { color: 'rgb(150,112,56)', peak: 0.42 };
 
 interface Props {
   /** Tapped-mosque callback — the map screen lifts this into the detail card. */
@@ -124,9 +74,9 @@ interface Props {
 export function MosqueLayer({ onSelect }: Props) {
   const c = useColors();
   const scheme = useActiveScheme();
-  // The glow tier IS allowed brass — it's light emitted by a place, not a UI accent, so
-  // it doesn't collide with the "live now" reservation the way a brass glyph would.
-  const glow = scheme === 'dark' ? GLOW_DARK : GLOW_LIGHT;
+  // Warm — not the reserved brass accent: a mosque dot reads as emitted place-light, so it
+  // doesn't collide with the "live now" reservation the way a brass glyph would.
+  const snow = scheme === 'dark' ? SNOW_DARK : SNOW_LIGHT;
   // Muted ink, not accent/brass: a mosque GLYPH reads as a neutral place on the map, and
   // brass stays reserved for the "live now" prayer signal. `c` (and thus glyphColor)
   // changes when the OS theme flips, which re-renders the glyph at the new colour.
@@ -176,43 +126,38 @@ export function MosqueLayer({ onSelect }: Props) {
     <>
       {/* Register the glyph bitmap only once it has rasterised — the symbol layer below
           is gated on the same icon, so the source never references a missing image. The
-          glow tier does NOT wait on it: at the national view (where the glow lives) the
-          few-ms raster is long done, and gating the country-scale hero on a city-scale
+          dust tier does NOT wait on it: at the national view (where the dust lives) the
+          few-ms raster is long done, and gating the country-scale view on a city-scale
           glyph would be backwards. */}
       {icon && <Images images={{ 'mosque-pin': { source: icon, sdf: false } }} />}
       <GeoJSONSource id={SOURCE_ID} data={data} onPress={handlePress}>
-        {/* GLOW — the national-view illumination. maxzoom caps native work once the
-            crossfade has handed off to the glyphs (opacity already 0 by then). All five
-            heatmap knobs are paint props; keys are kebab-case (the RN lib camel-cases
-            them) and the `['heatmap-density']` token inside the ramp passes through. */}
+        {/* DUST — the national-view "snow": one tiny soft dot per mosque. maxzoom caps native
+            work once the crossfade has handed off to the glyphs (opacity already 0 by then). */}
         <Layer
-          id={GLOW_LAYER_ID}
-          type="heatmap"
+          id={DUST_LAYER_ID}
+          type="circle"
           maxzoom={8}
           paint={{
-            // Radius (px) of one point's influence: kept tight at national zoom so metros
-            // pool into crisp light instead of smearing into a haze (a wide radius over the
-            // dense south is what made the overview read "dirty"), softening as it grows.
-            'heatmap-radius': ['interpolate', ['linear'], ['zoom'], 4, 8, 6, 16, 8, 36],
-            // Global multiplier — lifted a touch with zoom so lone rural mosques still
-            // register a faint warm dot rather than vanishing.
-            'heatmap-intensity': ['interpolate', ['linear'], ['zoom'], 4, 1.1, 7, 1.5],
-            'heatmap-color': glow.color,
-            // Crossfade: reach full strength by the national view (z4 — the fully
-            // zoomed-out state the layer exists to fix), hold through the regional view,
-            // then taper to 0 by ~z7.8 as the glyphs (minzoom 7) fade in — a dissolve,
-            // not a pop. A short lead-in below z4 keeps an even-further-out view (all of
-            // Scandinavia) from snapping on abruptly.
-            'heatmap-opacity': [
+            'circle-color': snow.color,
+            // Tiny — a snow fleck at national zoom, growing only slightly toward the glyph
+            // handoff. Small enough that even 255 of them read as a light dusting, not clutter.
+            'circle-radius': ['interpolate', ['linear'], ['zoom'], 4, 1.2, 6, 1.7, 8, 2.6],
+            // A little blur turns each hard pixel into a soft speck (snow, not confetti).
+            'circle-blur': 0.4,
+            // Crossfade: fade in by the national view (z4 — the fully zoomed-out state the layer
+            // exists to fix), hold through the regional view, then taper to 0 by ~z7.8 as the
+            // glyphs (minzoom 7) fade in — a dissolve, not a pop. A short lead-in below z4 keeps
+            // an even-further-out view (all of Scandinavia) from snapping on abruptly.
+            'circle-opacity': [
               'interpolate',
               ['linear'],
               ['zoom'],
               3.4,
               0,
               4,
-              glow.peak,
+              snow.peak,
               6.4,
-              glow.peak,
+              snow.peak,
               7.8,
               0,
             ],

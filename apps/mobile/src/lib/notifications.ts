@@ -192,6 +192,13 @@ export async function syncPrayerNotifications(
             // `true` = the OS default sound (iOS reads this; on Android the channel
             // governs). A string here would be treated as a custom bundled filename.
             sound: true,
+            // Prayer times are the textbook Time Sensitive case: the alert must break
+            // through Focus, Sleep and Do Not Disturb — a prayer reminder that a Focus
+            // mode silences has failed at the app's one job. iOS honours this level ONLY
+            // with the matching entitlement (app.json → ios.entitlements); without it the
+            // level silently degrades to 'active'. On Android the HIGH-importance channel
+            // already carries the equivalent weight, and this field is simply ignored.
+            interruptionLevel: 'timeSensitive',
             categoryIdentifier: CATEGORY_ID,
           },
           trigger: {

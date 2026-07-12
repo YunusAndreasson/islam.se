@@ -38,14 +38,21 @@ interface LocationContextValue {
   permissionStatus: PermissionStatus;
 }
 
+/** Outcome of a refresh() call, so a caller can give the right feedback: `ok` = a fresh fix
+ *  landed, `denied` = permission refused, `error` = services off / timeout, `busy` = a fix was
+ *  already in flight so this call was a no-op. Lets Inställningar buzz success vs warning
+ *  correctly (and stop firing a success haptic on a denied permission). */
+export type GpsOutcome = 'ok' | 'denied' | 'error' | 'busy';
+
 /** The volatile GPS-fetch status, split out of the main value so its frequent flips
  *  (every fix sets locating true→false) don't re-render the map / nav / sync consumers
  *  that only read the resolved coordinate. Only Inställningar consumes this. */
 interface LocationStatusValue {
   /** True while a GPS fix is in flight. */
   locating: boolean;
-  /** Re-request permission (if needed) and fetch a fresh GPS fix. */
-  refresh: () => Promise<void>;
+  /** Re-request permission (if needed) and fetch a fresh GPS fix. Resolves to the outcome so
+   *  the caller can pick success vs warning feedback; auto-acquire callers ignore it. */
+  refresh: () => Promise<GpsOutcome>;
 }
 
 const LocationContext = createContext<LocationContextValue | null>(null);
@@ -77,15 +84,15 @@ export function LocationProvider({ children }: { children: ReactNode }) {
   // Guards against overlapping fixes (e.g. mount effect + a manual refresh).
   const inFlight = useRef(false);
 
-  const acquireGps = useCallback(async () => {
-    if (inFlight.current) return;
+  const acquireGps = useCallback(async (): Promise<GpsOutcome> => {
+    if (inFlight.current) return 'busy';
     inFlight.current = true;
     try {
       // Await the permission first so no state is set synchronously inside the
       // mount effect that calls this (keeps the effect side-effect-free on entry).
       const perm = await Location.requestForegroundPermissionsAsync();
       setPermissionStatus(perm.granted ? 'granted' : 'denied');
-      if (!perm.granted) return;
+      if (!perm.granted) return 'denied';
       setLocating(true);
 
       // Last-known is instant; current is authoritative. Use last-known first so
@@ -99,8 +106,10 @@ export function LocationProvider({ children }: { children: ReactNode }) {
       const next = { latitude: current.coords.latitude, longitude: current.coords.longitude };
       setGpsCoords(next);
       void AsyncStorage.setItem(GPS_CACHE_KEY, JSON.stringify(next));
+      return 'ok';
     } catch {
       // Services off / timeout: keep whatever we have (cached or default).
+      return 'error';
     } finally {
       inFlight.current = false;
       setLocating(false);

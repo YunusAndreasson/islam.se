@@ -9,18 +9,28 @@ App Store Connect app ID: **6774383118** · Bundle: `se.islam.mobile` · EAS: `@
 
 ---
 
-## ▶ CURRENT STATUS (2026-06-12)
+## ▶ CURRENT STATUS (2026-06-22)
 
-**Done (automated):**
-- ✅ Build **12** (iPhone-only, v1.0.2) built on EAS and **uploaded to App Store Connect** (processing)
-- ✅ Listing copy (sv + en-US), categories, 4+ age rating, **App Review contact incl. phone + notes** — pushed
-- ✅ **4 screenshots** (1290×2796, `APP_IPHONE_67`) uploaded + processed for both locales
+**v1.0.2 (build 12) is LIVE on the App Store.** The listing shows "islam.se" /
+subtitle "Bönetider, qibla och karta", free, iPhone-only.
+
+**Staged for the NEXT version — do NOT push to 1.0.2 (it's released and locked):**
+- ⏳ **sv title → `islam.se - bönetider`** — changed in `store.config.json` (was `islam.se`).
+  Renaming a live app requires a new version through App Review, so this can't go out via a
+  metadata-only push. It rides along with the next version bump + build. `eas metadata:push`
+  against 1.0.2 fails with *"version number has been previously used"* / *"age rating
+  declaration is not editable"* — that's expected, not a bug.
+
+When cutting the next release: bump `apple.version` (store.config.json) **and** `version`
+(app.json) to e.g. `1.0.3`, build, then `eas metadata:push` creates the editable version and
+pushes the new title, then Submit for Review.
+
+**Done (v1.0.2, for the record):**
+- ✅ Build **12** (iPhone-only, v1.0.2) built on EAS, uploaded, selected, **released**
+- ✅ Listing copy (sv + en-US), categories, 4+ age rating, App Review contact + notes — pushed
+- ✅ **4 screenshots** (1290×2796, `APP_IPHONE_67`) uploaded for both locales
+- ✅ App Privacy → "Data Not Collected", IDFA = No
 - ✅ Privacy policy **live** at https://islam.se/integritetspolicy/
-
-**Remaining — web-only, in App Store Connect → app 6774383118:**
-1. ☐ Wait for build 12 to finish processing (~5–10 min; email when done), then **select it** on the 1.0.2 version
-2. ☐ **App Privacy** → "Data Not Collected" (+ IDFA = No) — see section below
-3. ☐ **Submit for Review** (the final button)
 
 ---
 
