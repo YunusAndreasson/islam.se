@@ -238,10 +238,13 @@ export default function Bonetider() {
   const introStep = useSharedValue(-1);
 
   const finishIntro = useCallback(() => {
-    // eslint-disable-next-line react-hooks/immutability
-    introActive.value = false;
+    // Only flip the React state here. introActive (the UI-thread drift-clamp flag) is cleared
+    // by the main nowFraction effect on the NEXT render — once introPlaying is false and the
+    // overlay has swapped geometryNow from the coarse (≤30 min stale) intro instant to the live
+    // clock.now. Clearing it here, before that render, would re-arm the clamp for one frame
+    // against the stale geometry and snap the lines back ~30 min: the end-of-intro "flick".
     setIntroPlaying(false);
-  }, [introActive]);
+  }, []);
 
   const skipIntro = useCallback(() => {
     if (!introStarted.current) return;
@@ -266,7 +269,6 @@ export default function Bonetider() {
     if (!introStarted.current && !introConsumed && !reduceMotion && cameraReady) {
       introStarted.current = true;
       introConsumed = true;
-      // eslint-disable-next-line react-hooks/immutability
       introActive.value = true;
       setIntroPlaying(true);
       // Seed the line replay at midnight: no lines yet, geometry anchored at the day's
@@ -294,6 +296,11 @@ export default function Bonetider() {
       return;
     }
     if (introPlaying) return; // the intro owns nowFraction until it settles on now
+    // First pass after the intro ends: the overlay has now swapped to the live geometryNow
+    // (dt≈0), so it's finally safe to re-arm the drift clamp. Deferring the clear to here —
+    // rather than doing it in finishIntro before this render — is what removes the end-of-intro
+    // flick (a stale-geometry clamp would otherwise snap the lines back for a frame).
+    if (introActive.value) introActive.value = false;
     // Live mode GLIDES instead of stepping: each 30 s tick re-anchors at the true now and
     // eases linearly toward the PREDICTED next tick, so the wash and lines move at the
     // sun's real rate. A stale value (from a paused/backgrounded clock, or the intro

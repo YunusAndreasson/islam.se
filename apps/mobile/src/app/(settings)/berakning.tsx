@@ -22,6 +22,7 @@ import { SettingSection } from '@/components/settings/SettingSection';
 import { Stepper } from '@/components/settings/Stepper';
 import { useSettingsColors, type SettingsColors } from '@/components/settings/theme';
 import { ModalBar } from '@/components/ui/ModalBar';
+import { hapticLight } from '@/lib/haptics';
 import { PRAYER_LABELS, PRAYER_ORDER } from '@/lib/prayer-times';
 import { useSettings } from '@/lib/settings/context';
 import {
@@ -123,7 +124,10 @@ export default function Berakning() {
           ))}
           {hasAdjustments ? (
             <Pressable
-              onPress={() => update({ adjustments: { ...ZERO_ADJUSTMENTS } })}
+              onPress={() => {
+                hapticLight();
+                update({ adjustments: { ...ZERO_ADJUSTMENTS } });
+              }}
               accessibilityRole="button"
               accessibilityLabel="Återställ alla justeringar"
               style={({ pressed }) => [styles.resetRow, pressed && styles.resetPressed]}

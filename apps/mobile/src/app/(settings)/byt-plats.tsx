@@ -24,6 +24,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 
 import { ModalBar } from '@/components/ui/ModalBar';
 import { useSettingsColors, type SettingsColors } from '@/components/settings/theme';
+import { hapticSelection } from '@/lib/haptics';
 import { PLACES, type SwedishPlace } from '@/lib/places/data';
 import { useSettings } from '@/lib/settings/context';
 import { radius, space, type } from '@/theme/tokens';
@@ -69,6 +70,8 @@ export default function BytPlats() {
   }, [query]);
 
   const handlePick = (p: SwedishPlace): void => {
+    // A discrete selection change (same class as OptionGroup) — buzz before the screen pops.
+    hapticSelection();
     update({
       locationMode: 'manual',
       manualLocation: { name: p.name, latitude: p.lat, longitude: p.lon },

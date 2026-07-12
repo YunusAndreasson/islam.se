@@ -28,7 +28,6 @@ import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import Animated, {
   Extrapolation,
   interpolate,
-  runOnJS,
   type SharedValue,
   useAnimatedStyle,
   useDerivedValue,
@@ -37,6 +36,7 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { scheduleOnRN } from 'react-native-worklets';
 
 import { hapticLight, hapticSelection } from '../../lib/haptics';
 import { formatGregorian, formatHijri } from '../../lib/hijri';
@@ -176,7 +176,7 @@ export function PrayerDock({
   // so every interpolate() below clamps. (Reanimated's canonical bottom-sheet pattern.)
   const progress = useDerivedValue(() => (height.value - COLLAPSED) / (EXPANDED - COLLAPSED));
 
-  // State change on the JS thread (from gesture worklets via runOnJS): flip the flag,
+  // State change on the JS thread (from gesture worklets via scheduleOnRN): flip the flag,
   // tap a light haptic on a real open/close, and notify the host if it cares.
   const applyExpanded = useCallback(
     (open: boolean) => {
@@ -207,13 +207,13 @@ export function PrayerDock({
       .onEnd((e) => {
         const open = e.velocityY < -350 ? true : e.velocityY > 350 ? false : height.value > MID;
         height.value = withSpring(open ? EXPANDED : COLLAPSED, SPRING);
-        runOnJS(applyExpanded)(open);
+        scheduleOnRN(applyExpanded, open);
       });
 
   const tap = Gesture.Tap().onEnd(() => {
     const open = height.value < MID;
     height.value = withSpring(open ? EXPANDED : COLLAPSED, SPRING);
-    runOnJS(applyExpanded)(open);
+    scheduleOnRN(applyExpanded, open);
   });
 
   // Handle: drag OR tap toggles. Hero: drag-only — a Pan needs movement to activate,
@@ -638,13 +638,13 @@ function SolarTimeline({
     .minDistance(0)
     .onBegin((e) => {
       dragging.value = true;
-      runOnJS(hapticLight)();
+      scheduleOnRN(hapticLight);
       if (trackW <= 0) return;
       const f = Math.max(0, Math.min(1, e.x / trackW));
       prog.value = f;
       lastHaptic.value = f;
       lastSent.value = f;
-      runOnJS(onScrub)(f);
+      scheduleOnRN(onScrub, f);
     })
     .onUpdate((e) => {
       if (trackW <= 0) return;
@@ -654,7 +654,7 @@ function SolarTimeline({
       for (let i = 0; i < markFractions.length; i++) {
         const m = markFractions[i];
         if ((lastHaptic.value < m && f >= m) || (lastHaptic.value > m && f <= m)) {
-          runOnJS(hapticSelection)();
+          scheduleOnRN(hapticSelection);
           break;
         }
       }
@@ -662,13 +662,13 @@ function SolarTimeline({
       // Throttle the JS field recompute; the thumb above stays at 60fps.
       if (Math.abs(f - lastSent.value) >= 0.0025) {
         lastSent.value = f;
-        runOnJS(onScrub)(f);
+        scheduleOnRN(onScrub, f);
       }
     })
     .onFinalize(() => {
       dragging.value = false;
-      runOnJS(hapticLight)();
-      runOnJS(onScrub)(prog.value);
+      scheduleOnRN(hapticLight);
+      scheduleOnRN(onScrub, prog.value);
     });
 
   // Dragging → the finger (`prog`, 60fps on the UI thread); idle → the eased clock

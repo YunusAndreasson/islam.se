@@ -20,7 +20,7 @@ import {
   multilineTextAlignment,
   padding,
 } from '@expo/ui/swift-ui/modifiers';
-import { createLiveActivity } from 'expo-widgets';
+import { createLiveActivity, type LiveActivityEnvironment } from 'expo-widgets';
 import type { SFSymbol } from 'sf-symbols-typescript';
 
 import type { PrayerKey } from '../lib/prayer-times';
@@ -44,7 +44,10 @@ export interface PrayerActivityProps {
   isMarker: boolean;
 }
 
-function PrayerLiveActivityLayout(rawProps: PrayerActivityProps) {
+function PrayerLiveActivityLayout(
+  rawProps: PrayerActivityProps,
+  environment: LiveActivityEnvironment,
+) {
   'widget';
   // Everything below is INTENTIONALLY inline — see the file header.
 
@@ -55,13 +58,29 @@ function PrayerLiveActivityLayout(rawProps: PrayerActivityProps) {
   // `environment.colorScheme` and, in Light appearance, painted near-black "light"
   // inks (#1a1712 / #6f6456) onto that dark material — the prayer name, target time and
   // countdown came out near-invisible. So we use ONE bright, warm palette everywhere.
-  const C = {
-    ink: '#f0ebe0', // bright cream — primary numerals (the big target time)
-    inkMuted: '#c2b8a6', // warm light grey — countdown + Swedish subtitle
-    inkFaint: '#a79d8b', // warm muted — the small section label ("NÄSTA BÖN")
-    highlight: '#d2a04c', // bright gold — the prayer icon
-    highlightText: '#d8a44c', // bright gold — the prayer name
-  };
+  //
+  // Always-On Display (iPhone 14 Pro and later): iOS sets `isLuminanceReduced` while the
+  // Lock Screen is in its dimmed always-on state, and Apple's HIG asks the activity to
+  // pull its OWN luminance back there (OLED power + burn-in) rather than blaze at full
+  // brightness. We keep the exact same warm hue hierarchy but at a lower key; the live,
+  // interactive Lock Screen and the Dynamic Island keep the full-brightness palette.
+  // (colorScheme is still ignored on purpose — the material is dark in both appearances.)
+  const dimmed = environment?.isLuminanceReduced === true;
+  const C = dimmed
+    ? {
+        ink: '#b8b2a6', // dimmed cream — primary numerals (the big target time)
+        inkMuted: '#928a7c', // dimmed countdown + Swedish subtitle
+        inkFaint: '#7c7466', // dimmed section label ("NÄSTA BÖN")
+        highlight: '#a07a39', // dimmed gold — the prayer icon
+        highlightText: '#a47d3a', // dimmed gold — the prayer name
+      }
+    : {
+        ink: '#f0ebe0', // bright cream — primary numerals (the big target time)
+        inkMuted: '#c2b8a6', // warm light grey — countdown + Swedish subtitle
+        inkFaint: '#a79d8b', // warm muted — the small section label ("NÄSTA BÖN")
+        highlight: '#d2a04c', // bright gold — the prayer icon
+        highlightText: '#d8a44c', // bright gold — the prayer name
+      };
   const SF: Record<string, SFSymbol> = {
     fajr: 'moon.stars.fill',
     sunrise: 'sunrise.fill',

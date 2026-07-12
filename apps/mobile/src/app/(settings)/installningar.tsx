@@ -26,7 +26,7 @@ import { type SettingsColors, useSettingsColors } from '@/components/settings/th
 import { Toggle } from '@/components/settings/Toggle';
 import { ModalBar } from '@/components/ui/ModalBar';
 import { APP_VERSION, OTA_LABEL, emailSupport } from '@/lib/about';
-import { hapticSuccess } from '@/lib/haptics';
+import { hapticSuccess, hapticWarning } from '@/lib/haptics';
 import { formatGregorian, formatHijri } from '@/lib/hijri';
 import { useLocation, useLocationStatus } from '@/lib/location/context';
 import {
@@ -96,6 +96,23 @@ export default function Installningar() {
     };
   }, [isFocused, settings.notifications.enabled]);
 
+  // Warn once (haptically) if the user turned notifications ON but the OS has them blocked —
+  // a discrete negative outcome of their tap. Set by the Toggle's enable path and cleared on
+  // disable; a screen opened with notifications already-denied stays silent (passive state,
+  // not a fresh failure). The permission is *requested* app-side in _layout's sync, so the
+  // denied read can lag the toggle — hence this keys on the permission value settling to a
+  // definitive granted/denied rather than on the toggle instant.
+  const enableRequestedRef = useRef(false);
+  useEffect(() => {
+    if (!enableRequestedRef.current) return;
+    if (notificationPermission === 'denied') {
+      enableRequestedRef.current = false;
+      hapticWarning();
+    } else if (notificationPermission === 'granted') {
+      enableRequestedRef.current = false;
+    }
+  }, [notificationPermission]);
+
   // "Uppdatera plats" confirmation — a brief "Uppdaterad ✓" flash after a TAP-initiated
   // refresh resolves, so the user knows the action did something. Auto-acquires (mount /
   // permission flip) do NOT trigger this — we'd be lying about user intent and firing a
@@ -107,11 +124,19 @@ export default function Installningar() {
     if (justUpdatedTimer.current) clearTimeout(justUpdatedTimer.current);
   }, []);
   const onRefreshTap = async (): Promise<void> => {
-    await refresh();
-    hapticSuccess();
-    if (justUpdatedTimer.current) clearTimeout(justUpdatedTimer.current);
-    setJustUpdated(true);
-    justUpdatedTimer.current = setTimeout(() => setJustUpdated(false), 1800);
+    const outcome = await refresh();
+    // A fix was already in flight (double-tap) — don't double-signal.
+    if (outcome === 'busy') return;
+    if (outcome === 'ok') {
+      hapticSuccess();
+      if (justUpdatedTimer.current) clearTimeout(justUpdatedTimer.current);
+      setJustUpdated(true);
+      justUpdatedTimer.current = setTimeout(() => setJustUpdated(false), 1800);
+    } else {
+      // denied / error: the fix the user asked for didn't land. Warn instead of lying with a
+      // success buzz + "Uppdaterad ✓" flash (the pre-branch code fired success unconditionally).
+      hapticWarning();
+    }
   };
 
   // "Återställ till standard" — wipes every preference back to DEFAULT_SETTINGS
@@ -332,9 +357,12 @@ export default function Installningar() {
           <Toggle
             label="Påminn om bönetider"
             value={settings.notifications.enabled}
-            onValueChange={(enabled) =>
-              update({ notifications: { ...settings.notifications, enabled } })
-            }
+            onValueChange={(enabled) => {
+              // Remember an *enable* attempt so the effect above can warn once if the OS has
+              // notifications blocked; disabling clears any pending warning.
+              enableRequestedRef.current = enabled;
+              update({ notifications: { ...settings.notifications, enabled } });
+            }}
           />
           {settings.notifications.enabled ? (
             <View style={[styles.row, styles.rowDivider]}>

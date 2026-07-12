@@ -2,7 +2,7 @@
   "expo": {
     "name": "islam.se",
     "slug": "islam-se-mobile",
-    "version": "1.0.2",
+    "version": "1.0.3",
     "orientation": "portrait",
     "scheme": "islamse",
     "userInterfaceStyle": "automatic",
@@ -15,10 +15,13 @@
         "tinted": "./assets/images/ios-tinted.png"
       },
       "bundleIdentifier": "se.islam.mobile",
-      "buildNumber": "12",
+      "buildNumber": "16",
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false,
         "CFBundleDevelopmentRegion": "sv"
+      },
+      "entitlements": {
+        "com.apple.developer.usernotifications.time-sensitive": true
       }
     },
     "android": {

@@ -240,8 +240,32 @@ jest.mock('expo-haptics', () => ({
   selectionAsync: jest.fn(async () => {}),
   impactAsync: jest.fn(async () => {}),
   notificationAsync: jest.fn(async () => {}),
+  // The Android path (src/lib/haptics on Platform.OS === 'android') routes to the semantic
+  // haptic engine instead of the Vibrator; stub it and mirror the AndroidHaptics enum values.
+  performAndroidHapticsAsync: jest.fn(async () => {}),
   ImpactFeedbackStyle: { Light: 'light', Medium: 'medium', Heavy: 'heavy', Rigid: 'rigid', Soft: 'soft' },
   NotificationFeedbackType: { Success: 'success', Warning: 'warning', Error: 'error' },
+  AndroidHaptics: {
+    Confirm: 'confirm',
+    Reject: 'reject',
+    Gesture_Start: 'gesture-start',
+    Gesture_End: 'gesture-end',
+    Toggle_On: 'toggle-on',
+    Toggle_Off: 'toggle-off',
+    Clock_Tick: 'clock-tick',
+    Context_Click: 'context-click',
+    Drag_Start: 'drag-start',
+    Keyboard_Tap: 'keyboard-tap',
+    Keyboard_Press: 'keyboard-press',
+    Keyboard_Release: 'keyboard-release',
+    Long_Press: 'long-press',
+    Virtual_Key: 'virtual-key',
+    Virtual_Key_Release: 'virtual-key-release',
+    No_Haptics: 'no-haptics',
+    Segment_Tick: 'segment-tick',
+    Segment_Frequent_Tick: 'segment-frequent-tick',
+    Text_Handle_Move: 'text-handle-move',
+  },
 }));
 
 // expo-notifications is native. Mock the surface src/lib/notifications uses so the

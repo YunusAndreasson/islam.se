@@ -14,6 +14,11 @@ import { type SharedValue, useSharedValue, withTiming } from 'react-native-reani
 
 import { headingReliable, normalizeHeading, shortestTurn } from './qibla';
 
+// Below this heading change (deg) the qibla-lock decision (tolerance ~several degrees) can't
+// flip, so we skip the React re-render for it. The UI-thread needle (`rotation`) still updates
+// on every tick, so smoothness is untouched — this only gates the coarse React readout.
+const HEADING_RENDER_EPS = 0.5;
+
 interface Options {
   /** Subscribe only while true (pass `useIsFocused()`); unsubscribes on false/unmount. */
   active: boolean;
@@ -53,8 +58,16 @@ export function useHeading({ active, request }: Options): Heading {
       // immutability rule can't see a SharedValue is meant to be mutated.
       // eslint-disable-next-line react-hooks/immutability
       rotation.value = withTiming(unwrapped.current, { duration: 110 });
-      setHeading(norm);
-      setAccuracy(acc);
+      // Coarse-gate the React state so the consumer (CompassButton) re-renders on a MEANINGFUL
+      // heading change, not every magnetometer tick (~60/s). Its only heading-derived output is
+      // the qibla lock, whose tolerance is several degrees, so sub-0.5° jitter — the steady-hand
+      // case while the map is open — can't flip it and shouldn't cost a render (the needle rides
+      // `rotation`, updated above every tick). accuracy is an integer band that rarely moves, so
+      // dedup it outright. Mirrors the Qibla screen's band-crossing discipline (qibla.tsx).
+      setHeading((prev) =>
+        prev !== null && Math.abs(shortestTurn(prev, norm)) < HEADING_RENDER_EPS ? prev : norm,
+      );
+      setAccuracy((prev) => (prev === acc ? prev : acc));
       setNoCompass((v) => (v ? false : v));
     },
     [rotation],
