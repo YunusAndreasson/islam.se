@@ -36,7 +36,7 @@ const koranBook =
 			url: `https://quran.com/${verse.surah}/${verse.ayah}`,
 		},
 	})} />
-	<p class="label home-kicker" id="vers-kicker">Dagens vers</p>
+	<h2 class="label home-kicker" id="vers-kicker">Dagens vers</h2>
 	<div class="vers-body">
 		<p class="vers-sv" lang="sv"><em>{verse.textSwedish}</em></p>
 
@@ -111,7 +111,7 @@ const koranBook =
 		/* Amiri Quran ships a single weight/style — never let the engine fake-bold
 		   or slant a mushaf naskh. */
 		font-synthesis: none;
-		font-size: clamp(1.5rem, 3.2vw, 2.125rem);
+		font-size: 2.125rem;
 		line-height: 1.85;
 		letter-spacing: 0;
 		color: var(--color-text);
@@ -185,7 +185,7 @@ const koranBook =
 
 	.vers-sv {
 		font-family: var(--font-body);
-		font-size: clamp(1.0625rem, 1.6vw, 1.25rem);
+		font-size: 1.25rem;
 		line-height: 1.6;
 		color: color-mix(in srgb, var(--color-text) 78%, var(--color-muted));
 		/* The readable meaning, leading the citation; fills the shared frame, and its
@@ -302,7 +302,7 @@ const koranBook =
 		font-family: var(--font-heading);
 		font-size: 1.0625rem;
 		font-weight: 500;
-		letter-spacing: -0.005em;
+		letter-spacing: 0;
 		color: var(--color-accent);
 		text-decoration: none;
 
@@ -348,7 +348,12 @@ const koranBook =
 
 	@media (width <= 768px) {
 		.vers-arabic {
+			font-size: 1.5rem;
 			line-height: 1.85;
+		}
+
+		.vers-sv {
+			font-size: 1.0625rem;
 		}
 	}
 

@@ -13,7 +13,7 @@ const article = titleBySlug.get(quote.slug)!;
 ---
 
 <section class="citat home-movement" aria-labelledby="citat-kicker">
-	<p class="label home-kicker" id="citat-kicker">Ur essäerna</p>
+	<h2 class="label home-kicker" id="citat-kicker">Ur essäerna</h2>
 	<figure class="citat-fig">
 		<blockquote class="citat-quote" cite={`/${quote.slug}`}>{quote.text}</blockquote>
 		<figcaption class="citat-cite">
@@ -32,25 +32,26 @@ const article = titleBySlug.get(quote.slug)!;
 </section>
 
 <style>
-	/* The section spans the full home width, so its kicker left-anchors with every
-	   other section label down the page (§7.5). Only the pull-quote itself is the
-	   centred 46rem column below the kicker. */
+	/* The section spans the full home width; the pull-quote sits in a measure
+	   anchored to the SAME left axis as the kicker above it and the daily verse
+	   beside it (§7.5). It was centred, which orphaned the left-anchored kicker and
+	   broke the strong left edge every other movement holds — so the quote now
+	   reads flush-left, mirroring "Dagens vers". */
 	.citat-fig {
 		max-width: 46rem;
-		margin-inline: auto;
 		margin-block: 0;
-		text-align: center;
+		text-align: left;
 	}
 
 	/* An editorial pull-quote: the site's voice, given space. No decorative
 	   quotation marks — the scale and whitespace carry it (§7.5). */
 	.citat-quote {
 		font-family: var(--font-body);
-		font-size: clamp(1.375rem, 3vw, 1.95rem);
+		font-size: 1.95rem;
 		font-weight: 400;
 		font-style: italic;
 		line-height: 1.4;
-		letter-spacing: -0.01em;
+		letter-spacing: 0;
 		color: var(--color-text);
 		margin: 0;
 		border: none;
@@ -60,10 +61,10 @@ const article = titleBySlug.get(quote.slug)!;
 	}
 
 	.citat-cite {
-		display: inline-flex;
+		display: flex;
 		flex-wrap: wrap;
 		align-items: baseline;
-		justify-content: center;
+		justify-content: flex-start;
 		gap: 0.5rem;
 		margin-top: var(--space-unit);
 	}
@@ -122,6 +123,12 @@ const article = titleBySlug.get(quote.slug)!;
 		outline: 2px solid var(--color-accent);
 		outline-offset: 3px;
 		border-radius: 2px;
+	}
+
+	@media (width <= 768px) {
+		.citat-quote {
+			font-size: 1.375rem;
+		}
 	}
 
 	/* On touch there's no hover to reveal it, so the share control sits visible — but

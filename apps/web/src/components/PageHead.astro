@@ -1,0 +1,19 @@
+---
+// Shared header for every section/index page — Fakta (/vad-ar-islam/), Frågor &
+// svar (/svar/), Essäer (/essaer), Trådar, Tänkare and Kalender — so they all open
+// the same way: one title and one ingress paragraph, nothing else. The title is the
+// page's navigation label (optionally extended, e.g. "Frågor & svar om islam"), so
+// landing on a page instantly confirms which menu entry you followed. The ingress is
+// a slot so each page can weave in its own links. Styling lives globally in
+// layout.css (.page-head*) since the slotted ingress text is owned by the parent.
+interface Props {
+	title: string;
+}
+
+const { title } = Astro.props;
+---
+
+<header class="page-head">
+	<h1 class="page-head-title">{title}</h1>
+	<p class="page-head-lead"><slot /></p>
+</header>

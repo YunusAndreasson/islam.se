@@ -1,0 +1,256 @@
+---
+// Annual prayer-time rhythm chart — the one infographic that is uniquely *Swedish*.
+//
+// All six daily times plotted across a year for one place: Fajr plunges and ʿIshāʾ
+// soars toward midsummer, so the night between ʿIshāʾ and the next Fajr (the shaded
+// fields) nearly closes — which is exactly *why* the two crowd together in June and
+// the high-latitude rule has to step in. Built entirely at build time (static SVG,
+// no JS), the same "real, indexable, correct-for-the-dates-shown" contract as
+// PrayerTable.astro. Reusable: pass any location; the hub renders Stockholm.
+import {
+	computePrayerTimes,
+	dateForStockholmDay,
+	PRAYER_LABELS,
+	PRAYER_ORDER,
+	PRAYER_SWEDISH_NAMES,
+	type PrayerKey,
+	TIME_ZONE,
+} from "../../lib/bonetider/prayer-times";
+import { PRAYER_COLORS } from "../../lib/bonetider/solar/palette";
+import { DEFAULT_SETTINGS } from "../../lib/bonetider/settings";
+
+interface Props {
+	location: { name: string; latitude: number; longitude: number };
+}
+const { location } = Astro.props;
+
+const year = Number(
+	new Intl.DateTimeFormat("sv-SE", { year: "numeric", timeZone: TIME_ZONE }).format(new Date()),
+);
+
+// SVG geometry. viewBox units; the element scales to its container via CSS.
+const W = 760;
+const H = 380;
+const padL = 30; // hour labels
+const padR = 12;
+const padT = 12;
+const padB = 26; // month labels
+const plotW = W - padL - padR;
+const plotH = H - padT - padB;
+
+// Minute-of-day in *normaltid* (CET, UTC+1 year-round). Plotting standard time drops
+// the two 1-hour wall-clock steps at the DST switches, so the annual curve is smooth
+// and shows pure solar movement. Noted in the caption.
+const cetMinutes = (d: Date): number => {
+	const t = d.getTime();
+	if (!Number.isFinite(t)) return Number.NaN;
+	const shifted = Math.floor(t / 60000) + 60; // → UTC+1
+	return ((shifted % 1440) + 1440) % 1440;
+};
+
+const x = (dayOfYear: number): number => padL + (dayOfYear / 365) * plotW;
+const y = (min: number): number => padT + (1 - min / 1440) * plotH;
+
+const dayOfYear = (month: number, day: number): number =>
+	Math.round((Date.UTC(year, month, day) - Date.UTC(year, 0, 1)) / 86_400_000);
+
+// Sample every 6 days — ample for smooth curves, ~61 points × 6 prayers at build time.
+const STEP = 6;
+type Pt = { x: number; y: number };
+const series: Record<PrayerKey, Pt[]> = {
+	fajr: [],
+	sunrise: [],
+	dhuhr: [],
+	asr: [],
+	maghrib: [],
+	isha: [],
+};
+for (let doy = 0; doy <= 365; doy += STEP) {
+	const date = dateForStockholmDay(year, 0, 1 + doy);
+	const t = computePrayerTimes(location, date, DEFAULT_SETTINGS);
+	const px = x(doy);
+	for (const key of PRAYER_ORDER) {
+		const min = cetMinutes(t[key]);
+		if (Number.isFinite(min)) series[key].push({ x: px, y: y(min) });
+	}
+}
+
+const polyline = (pts: Pt[]): string => pts.map((p) => `${p.x.toFixed(1)},${p.y.toFixed(1)}`).join(" ");
+
+// Night = the two shaded fields: below Fajr (down to 00:00) and above ʿIshāʾ (up to
+// 24:00). Both pinch toward midsummer — the visual heart of the chart.
+const yBottom = y(0);
+const yTop = y(1440);
+const fajr = series.fajr;
+const isha = series.isha;
+const nightBottom =
+	fajr.length > 0
+		? `M ${fajr[0].x.toFixed(1)} ${yBottom.toFixed(1)} ` +
+			fajr.map((p) => `L ${p.x.toFixed(1)} ${p.y.toFixed(1)}`).join(" ") +
+			` L ${fajr[fajr.length - 1].x.toFixed(1)} ${yBottom.toFixed(1)} Z`
+		: "";
+const nightTop =
+	isha.length > 0
+		? `M ${isha[0].x.toFixed(1)} ${yTop.toFixed(1)} ` +
+			isha.map((p) => `L ${p.x.toFixed(1)} ${p.y.toFixed(1)}`).join(" ") +
+			` L ${isha[isha.length - 1].x.toFixed(1)} ${yTop.toFixed(1)} Z`
+		: "";
+
+const monthShort = (m: number): string =>
+	new Intl.DateTimeFormat("sv-SE", { month: "short", timeZone: TIME_ZONE })
+		.format(new Date(Date.UTC(year, m, 1, 12)))
+		.replace(".", "");
+const months = Array.from({ length: 12 }, (_, m) => ({ label: monthShort(m), at: x(dayOfYear(m, 1)) }));
+// Hour gridlines every 4h.
+const hourLines = [0, 4, 8, 12, 16, 20, 24].map((h) => ({ label: h, at: y(h * 60) }));
+
+// Stroke colour per prayer, themed via CSS light-dark() to match the map palette.
+const stroke = (key: PrayerKey): string =>
+	`light-dark(${PRAYER_COLORS[key].light}, ${PRAYER_COLORS[key].dark})`;
+---
+
+<figure class="apc">
+	<svg
+		class="apc-svg"
+		viewBox={`0 0 ${W} ${H}`}
+		role="img"
+		aria-label={`Diagram över bönetiderna i ${location.name} under hela ${year} – hur Fajr, Shurūq, Ẓuhr, ʿAṣr, Maghrib och ʿIshāʾ förskjuts med årstiderna, och hur natten mellan ʿIshāʾ och Fajr krymper mot midsommar.`}
+	>
+		<!-- Night fields: below Fajr and above ʿIshāʾ. -->
+		{nightBottom && <path d={nightBottom} class="apc-night" />}
+		{nightTop && <path d={nightTop} class="apc-night" />}
+
+		<!-- Hour gridlines + labels (00–24). -->
+		{hourLines.map((h) => (
+			<g>
+				<line x1={padL} y1={h.at} x2={W - padR} y2={h.at} class="apc-grid" />
+				<text x={padL - 5} y={h.at + 3} class="apc-axis apc-axis-y">{h.label}</text>
+			</g>
+		))}
+
+		<!-- Month labels. -->
+		{months.map((mo) => (
+			<text x={mo.at} y={H - 8} class="apc-axis apc-axis-x">{mo.label}</text>
+		))}
+
+		<!-- Prayer lines, drawn back-to-front so Maghrib (hero) and Fajr/ʿIshāʾ read clearly. -->
+		{PRAYER_ORDER.map((key) => (
+			<polyline points={polyline(series[key])} fill="none" stroke={stroke(key)} class="apc-line" />
+		))}
+	</svg>
+
+	<ul class="apc-legend">
+		{PRAYER_ORDER.map((key) => (
+			<li>
+				<span class="apc-chip" style={`background:${stroke(key)}`} aria-hidden="true"></span>
+				<span class="apc-chip-name">{PRAYER_LABELS[key]}</span>
+				<span class="apc-chip-sv">{PRAYER_SWEDISH_NAMES[key]}</span>
+			</li>
+		))}
+	</ul>
+
+	<figcaption class="apc-cap">
+		Bönetiderna i {location.name} timme för timme över {year}. De skuggade fälten är natten – mellan
+		ʿIshāʾ och nästa Fajr. Mot midsommar krymper den nästan bort, och då hamnar Fajr och ʿIshāʾ så
+		nära varandra att tiderna måste anges med en regel för höga latituder. Visas i normaltid för en
+		jämn årskurva; det faktiska klockslaget hoppar en timme när sommartiden börjar och slutar.
+	</figcaption>
+</figure>
+
+<style>
+	.apc {
+		margin: var(--space-unit) 0 0;
+		max-width: 46rem;
+	}
+
+	.apc-svg {
+		width: 100%;
+		height: auto;
+		display: block;
+		border: 1px solid var(--color-divider);
+		border-radius: 10px;
+		background: var(--color-bg);
+		padding: 0.4rem 0.2rem;
+	}
+
+	.apc-night {
+		fill: color-mix(in srgb, light-dark(#33437a, #94a2dd), transparent 88%);
+		stroke: none;
+	}
+
+	.apc-grid {
+		stroke: var(--color-divider);
+		stroke-width: 1;
+	}
+
+	.apc-axis {
+		font-family: var(--font-body);
+		fill: var(--color-muted);
+		font-size: 11px;
+	}
+
+	.apc-axis-y {
+		text-anchor: end;
+		font-variant-numeric: lining-nums tabular-nums;
+	}
+
+	.apc-axis-x {
+		text-anchor: middle;
+	}
+
+	.apc-line {
+		stroke-width: 2;
+		stroke-linejoin: round;
+		stroke-linecap: round;
+	}
+
+	.apc-legend {
+		list-style: none;
+		margin: var(--space-half) 0 0;
+		padding: 0;
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.35rem 0.9rem;
+	}
+
+	.apc-legend li {
+		display: flex;
+		align-items: baseline;
+		gap: 0.3rem;
+		font-family: var(--font-body);
+		font-size: 0.8125rem;
+	}
+
+	.apc-chip {
+		align-self: center;
+		width: 0.7rem;
+		height: 0.7rem;
+		border-radius: 2px;
+		flex: none;
+	}
+
+	.apc-chip-name {
+		color: var(--color-text);
+		font-weight: 600;
+	}
+
+	.apc-chip-sv {
+		color: var(--color-muted);
+	}
+
+	.apc-cap {
+		font-family: var(--font-body);
+		font-size: 0.8125rem;
+		line-height: 1.5;
+		color: var(--color-muted);
+		margin: var(--space-half) 0 0;
+		max-width: 42rem;
+		text-wrap: pretty;
+	}
+
+	@media (max-width: 30rem) {
+		.apc-chip-sv {
+			display: none;
+		}
+	}
+</style>

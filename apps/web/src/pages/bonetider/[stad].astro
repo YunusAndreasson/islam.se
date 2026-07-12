@@ -4,12 +4,14 @@ import PrayerField from "../../components/bonetider/PrayerField.astro";
 import PrayerSettings from "../../components/bonetider/PrayerSettings.astro";
 import PrayerTable from "../../components/bonetider/PrayerTable.astro";
 import Base from "../../layouts/Base.astro";
-import { ORG_ID, breadcrumbList, cityPlace } from "../../lib/jsonld";
+import { ORG_ID, breadcrumbList, cityPlace, faqPageJsonLd } from "../../lib/jsonld";
+import { nf0, nf1 } from "../../lib/format";
 import { computePrayerTimes, formatTime, PRAYER_LABELS, PRAYER_ORDER, PRAYER_SWEDISH_NAMES } from "../../lib/bonetider/prayer-times";
-import { BONETIDER_DATA_DATE, SCB_POP_YEAR, SCB_REF, SCB_SOURCE } from "../../lib/bonetider/meta";
+import { SCB_POP_YEAR, SCB_REF, SCB_SOURCE } from "../../lib/bonetider/meta";
 import { placeFacts } from "../../lib/bonetider/place-facts";
 import { type IndexedPlace, INDEXED_PLACES, nearbyPlaces, officialPopulation, OG_POPULATION } from "../../lib/bonetider/places-index";
 import { DEFAULT_SETTINGS } from "../../lib/bonetider/settings";
+import { cityBySlug, directionsLinks, locationLabel, mosqueUrl, nearestMosques } from "../../lib/moskeer";
 
 export function getStaticPaths() {
 	return INDEXED_PLACES.map((place) => ({ params: { stad: place.slug }, props: { place } }));
@@ -35,6 +37,25 @@ const lat1 = place.lat.toFixed(2).replace(".", ",");
 const lon1 = place.lon.toFixed(2).replace(".", ",");
 const highNorth = place.lat >= 62;
 const nearby = nearbyPlaces(place, 8);
+// Mosques within ~20 km of the place — surfaced so a reader checking prayer times can
+// also find the nearest physical mosque (links into the /moskeer map, deep-selected).
+const nearbyMosques = nearestMosques(place.lat, place.lon, 3, 20);
+// The town's OWN mosques — its /moskeer/[stad] page shares this slug. A city that
+// actually contains a mosque is the strongest "there's a mosque here" signal, so we
+// surface it in the lead, the meta description, a dedicated FAQ, and as City→Mosque
+// containment in the JSON-LD. That binds this prayer-times page to its mosque page as
+// one topical cluster (bönetider + moské for the same town), which is what lifts a
+// city into Google's favour for the combined intent.
+const mosqueCity = cityBySlug(place.slug);
+const hasMosquePage = mosqueCity !== undefined;
+const cityMosques = mosqueCity?.mosques ?? [];
+const cityMosqueCount = cityMosques.length;
+// "en registrerad moské" / "N registrerade moskéer" — reused across lead, FAQ and prose.
+const cityMosquePhrase = cityMosqueCount === 1 ? "en registrerad moské" : `${cityMosqueCount} registrerade moskéer`;
+// The mosque set shown in the on-page block: the town's own (heading "Moskéer i {stad}",
+// the exact target query) when it has them, else the nearest within 20 km. Capped so a
+// metro's page stays a teaser that hands off to the full /moskeer/[stad] list.
+const featuredMosques = (hasMosquePage ? cityMosques : nearbyMosques).slice(0, 6);
 
 // Official SCB statistics are present only where we matched a tätort. Everything in
 // the stat block + the population claims is gated on this, so unmatched places never
@@ -42,9 +63,6 @@ const nearby = nearbyPlaces(place, 8);
 const hasScb = place.scbPopulation != null;
 const pop = officialPopulation(place);
 const facts = placeFacts(place.lat, place.lon);
-
-const nf0 = new Intl.NumberFormat("sv-SE", { maximumFractionDigits: 0 });
-const nf1 = new Intl.NumberFormat("sv-SE", { maximumFractionDigits: 1 });
 
 // Visible date for the "Dagens bönetider" block. Static build → this is the build
 // date; the inline script below refreshes it to the reader's real today on load, and
@@ -92,7 +110,12 @@ const where = whereParts.length ? ` i ${whereParts.join(", ")}` : "";
 
 // Direct-answer lead (AEO): a concise, true summary up top – no stale clock values.
 const popClause = hasScb ? ` Orten har ${popText} invånare (${SCB_SOURCE}).` : "";
-const lead = `Bönetider för ${place.name}${where}.${popClause} Tiderna för Fajr, Shurūq, Ẓuhr, ʿAṣr, Maghrib och ʿIshāʾ beräknas efter solens läge och uppdateras automatiskt varje dag.`;
+// When the town has its own mosque page, name it up front (real "moské i {stad}"
+// keyword, above the fold) and point to the addresses further down.
+const mosqueLead = hasMosquePage
+	? ` I ${place.name} finns också ${cityMosquePhrase} med adress och vägbeskrivning längre ned på sidan.`
+	: "";
+const lead = `Bönetider för ${place.name}${where}.${popClause} Tiderna för Fajr, Shurūq, Ẓuhr, ʿAṣr, Maghrib och ʿIshāʾ beräknas efter solens läge och uppdateras automatiskt varje dag.${mosqueLead}`;
 
 // Per-place daylight prose – what actually makes each page different by latitude.
 const daylightPara =
@@ -100,7 +123,13 @@ const daylightPara =
 		? `Så här långt norrut råder midnattssol kring midsommar – solen går inte ner alls – och polarnatt kring midvinter. Då går Fajr och ʿIshāʾ inte att beräkna med den vanliga vinkelmetoden, så regeln närmaste lämpliga plats (Aqrab al-Balad) används i stället.`
 		: `I ${place.name} är den ljusaste sommardagen omkring ${facts.summerDayText} och den mörkaste vinterdagen ${facts.winterDayText}. Vid sommarsolståndet sjunker solen som mest ${depText}° under horisonten – mindre än de 18° som krävs för astronomisk natt – vilket är varför Fajr och ʿIshāʾ ligger nära varandra i juni och beräknas med regeln för höga latituder.`;
 
-const description = `Bönetider för ${place.name} (${place.county || "Sverige"}) ${year}: exakta tider för Fajr, Shurūq, Ẓuhr, ʿAṣr, Maghrib och ʿIshāʾ varje dag, beräknade efter solens läge. Välj beräkningsmetod och madhhab.`;
+// Meta description: front-load the prayer keywords, then close with either the mosque
+// cross-sell (towns with a moské page) or the method CTA (everywhere else). Both stay
+// under the snippet cap and the mosque variant captures the "moské i {stad}" reader.
+const descTail = hasMosquePage
+	? ` Se även moskéer i ${place.name} med adress och vägbeskrivning.`
+	: " Välj beräkningsmetod och madhhab.";
+const description = `Bönetider för ${place.name} (${place.county || "Sverige"}) ${year}: exakta tider för Fajr, Shurūq, Ẓuhr, ʿAṣr, Maghrib och ʿIshāʾ varje dag, beräknade efter solens läge.${descTail}`;
 
 const ogImage = place.population >= OG_POPULATION ? `/bonetider/${place.slug}/og.png` : "/bonetider/og.png";
 
@@ -122,6 +151,23 @@ if (hasScb) {
 	});
 }
 
+// The WebPage's `about` City node. When the town has mosques we add City→Mosque
+// containment by @id — the very same @ids fully defined on /moskeer/[stad] — so the
+// two pages describe one entity graph instead of competing nodes, and Google reads a
+// first-class "this city contains these mosques" fact rather than inferring it.
+const aboutCity = cityPlace({
+	name: place.name,
+	county: place.county,
+	lat: place.lat,
+	lon: place.lon,
+	kommun: place.kommun,
+	population: hasScb ? pop : undefined,
+	populationYear: SCB_POP_YEAR,
+});
+if (hasMosquePage) {
+	aboutCity.containsPlace = cityMosques.map((m) => ({ "@id": mosqueUrl(m) }));
+}
+
 const faq = [
 	{
 		q: `När börjar Fajr i ${place.name}?`,
@@ -138,6 +184,15 @@ const faq = [
 			: `Vid sommarsolståndet sjunker solen i ${place.name} som mest ${depText}° under horisonten – mindre än de 18° som krävs för astronomisk natt. Natten blir därför aldrig riktigt mörk, så Fajr och ʿIshāʾ ligger nära varandra i juni och beräknas med regeln för höga latituder${highNorth ? " (närmaste lämpliga plats, Aqrab al-Balad)" : ""}.`,
 	},
 ];
+if (hasMosquePage) {
+	// A real question-shaped query ("moské i {stad}?"), answered in plain text so it
+	// also feeds the FAQPage JSON-LD (the visible <dd> escapes HTML, so no link here —
+	// the "Moskéer nära" section below carries the actual links).
+	faq.push({
+		q: `Finns det någon moské i ${place.name}?`,
+		a: `Ja. Enligt vår karta över moskéer i Sverige finns ${cityMosquePhrase} i ${place.name}. Adress, öppningsår och vägbeskrivning visas längre ned på sidan.`,
+	});
+}
 if (hasScb) {
 	const subject = place.scbName ? `tätorten ${place.scbName}` : place.name;
 	const densityClause = place.densityPerKm2
@@ -163,28 +218,20 @@ if (hasScb) {
 			description,
 			url: `https://islam.se/bonetider/${place.slug}/`,
 			inLanguage: "sv",
-			dateModified: BONETIDER_DATA_DATE,
-			about: cityPlace({
-				name: place.name,
-				county: place.county,
-				lat: place.lat,
-				lon: place.lon,
-				kommun: place.kommun,
-				population: hasScb ? pop : undefined,
-				populationYear: SCB_POP_YEAR,
-			}),
+			// Freshness signal for a page whose value IS *today's* times: the build date
+			// (Stockholm tz), not a hand-bumped dataset constant. The prior constant froze at
+			// the last manual deploy (live pages showed a dateModified weeks stale, and an "I
+			// dag" date to match), which undercuts freshness on time-sensitive prayer queries.
+			// A daily rebuild keeps this honest — the server-rendered times regenerate each build.
+			dateModified: todayIso,
+			about: aboutCity,
+			// Explicit related-resource edge to the town's mosque page (when one exists),
+			// so crawlers see the reciprocal bönetider ↔ moské link in structured data too.
+			...(hasMosquePage ? { relatedLink: `https://islam.se/moskeer/${place.slug}/` } : {}),
 			isBasedOn: sources,
 			publisher: { "@id": ORG_ID },
 		},
-		{
-			"@context": "https://schema.org",
-			"@type": "FAQPage",
-			mainEntity: faq.map((f) => ({
-				"@type": "Question",
-				name: f.q,
-				acceptedAnswer: { "@type": "Answer", text: f.a },
-			})),
-		},
+		faqPageJsonLd(faq),
 		breadcrumbList([
 			{ name: "Hem", url: "/" },
 			{ name: "Bönetider", url: "/bonetider" },
@@ -193,14 +240,7 @@ if (hasScb) {
 	]}
 >
 	<main id="main" class="home bonetider-stad">
-		<nav class="bt-crumbs" aria-label="Brödsmulor">
-			<a href="/">Hem</a> <span aria-hidden="true">/</span>
-			<a href="/bonetider/">Bönetider</a> <span aria-hidden="true">/</span>
-			<span aria-current="page">{place.name}</span>
-		</nav>
-
 		<header class="bt-stad-header">
-			<p class="label">Bönetider</p>
 			<h1>Bönetider i {place.name} {year}</h1>
 			<p class="bt-stad-sub">
 				{place.county ? `${place.county} · ` : ""}{lat1}° N, {lon1}° O
@@ -330,6 +370,40 @@ if (hasScb) {
 			</p>
 		</section>
 
+		{featuredMosques.length > 0 && (
+			<section class="bt-stad-section" aria-labelledby="bt-stad-moske">
+				<h2 id="bt-stad-moske">
+					{featuredMosques.length === 1 ? "Moské" : "Moskéer"} {hasMosquePage ? "i" : "nära"} {place.name}
+				</h2>
+				<p class="bt-stad-note">
+					{hasMosquePage
+						? `Moskéer i ${place.name} enligt vår `
+						: `Närmaste ${featuredMosques.length === 1 ? "registrerade moské" : "registrerade moskéer"} enligt vår `}
+					<a href="/moskeer">karta över moskéer i Sverige</a>. Välj en för plats och vägbeskrivning.
+				</p>
+				<ul class="bt-mosques">
+					{featuredMosques.map((m) => {
+						const dir = directionsLinks(m);
+						return (
+							<li class="bt-mosque">
+								<a href={`/moskeer/${m.citySlug}/#${m.id}`} class="bt-mosque-name">{m.name}</a>
+								<span class="bt-mosque-loc">{locationLabel(m)}{m.opened ? ` · öppnad ${m.opened}` : ""}</span>
+								<span class="bt-mosque-dir">
+									<a href={dir.apple}>Apple Maps</a>
+									<a href={dir.google}>Google Maps</a>
+								</span>
+							</li>
+						);
+					})}
+				</ul>
+				<p class="bt-faq-more">
+					<a href={hasMosquePage ? `/moskeer/${place.slug}/` : "/moskeer"}>
+						{hasMosquePage ? `Moskéer i ${place.name} →` : "Alla moskéer i Sverige →"}
+					</a>
+				</p>
+			</section>
+		)}
+
 		{nearby.length > 0 && (
 			<section class="bt-stad-section" aria-labelledby="bt-stad-nearby">
 				<h2 id="bt-stad-nearby">Bönetider i närliggande orter</h2>
@@ -357,22 +431,6 @@ if (hasScb) {
 		overflow-x: clip;
 	}
 
-	.bt-crumbs {
-		font-family: var(--font-heading);
-		font-size: 0.8125rem;
-		color: var(--color-muted);
-		margin-bottom: var(--space-unit);
-	}
-
-	.bt-crumbs a {
-		color: var(--color-accent);
-		text-decoration: none;
-	}
-
-	.bt-crumbs a:hover {
-		text-decoration: underline;
-	}
-
 	.bt-stad-header h1 {
 		margin: var(--space-half) 0 0;
 	}
@@ -388,7 +446,7 @@ if (hasScb) {
 		font-family: var(--font-body);
 		font-size: 1.0625rem;
 		line-height: 1.6;
-		color: color-mix(in srgb, var(--color-text) 88%, var(--color-muted));
+		color: var(--text-strong);
 		max-width: 42rem;
 		margin: var(--space-unit) 0 0;
 		text-wrap: pretty;
@@ -518,7 +576,7 @@ if (hasScb) {
 		font-family: var(--font-body);
 		font-size: 1.0625rem;
 		line-height: 1.6;
-		color: color-mix(in srgb, var(--color-text) 88%, var(--color-muted));
+		color: var(--text-strong);
 		max-width: 42rem;
 		margin: 0 0 var(--space-half);
 		text-wrap: pretty;
@@ -561,6 +619,58 @@ if (hasScb) {
 	.bt-faq-more a {
 		color: var(--color-accent);
 		text-decoration: none;
+	}
+
+	.bt-mosques {
+		list-style: none;
+		margin: var(--space-half) 0 0;
+		padding: 0;
+		max-width: 42rem;
+	}
+
+	.bt-mosque {
+		display: grid;
+		gap: 0.1rem 0.75rem;
+		padding: var(--space-half) 0;
+		border-bottom: 1px solid var(--color-divider);
+	}
+
+	.bt-mosque-name {
+		font-family: var(--font-heading);
+		font-weight: 600;
+		color: var(--color-accent);
+		text-decoration: none;
+		width: fit-content;
+	}
+
+	.bt-mosque-name:hover {
+		text-decoration: underline;
+		text-underline-offset: 0.12em;
+	}
+
+	.bt-mosque-loc {
+		font-family: var(--font-body);
+		font-size: 0.85rem;
+		color: var(--color-muted);
+	}
+
+	.bt-mosque-dir {
+		display: flex;
+		gap: 0.75rem;
+		margin-top: 0.15rem;
+	}
+
+	.bt-mosque-dir a {
+		font-family: var(--font-heading);
+		font-size: 0.8rem;
+		font-weight: 600;
+		color: var(--color-accent);
+		text-decoration: none;
+	}
+
+	.bt-mosque-dir a:hover {
+		text-decoration: underline;
+		text-underline-offset: 0.12em;
 	}
 
 	.bt-nearby {

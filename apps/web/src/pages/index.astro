@@ -1,35 +1,22 @@
 ---
-import AmnenSections from "../components/AmnenSections.astro";
-import BonetiderHome from "../components/bonetider/BonetiderHome.astro";
-import PrayerStrip from "../components/bonetider/PrayerStrip.astro";
 import BookPod from "../components/BookPod.astro";
-import Citat from "../components/Citat.astro";
-import DagensVers from "../components/DagensVers.astro";
 import FeatureEssay from "../components/FeatureEssay.astro";
 import Markesdagar from "../components/Markesdagar.astro";
 import RecentEssays from "../components/RecentEssays.astro";
-import TankareGroups from "../components/TankareGroups.astro";
-import TradarHome from "../components/TradarHome.astro";
 import { getImage } from "astro:assets";
 import Base from "../layouts/Base.astro";
 import { getArticles } from "../lib/articles";
 import { FEATURE_HERO_SIZES, FEATURE_HERO_WIDTHS } from "../lib/hero";
-import { getVerseOfDay } from "../lib/verse";
 
 const articles = await getArticles();
-const verseOfDay = await getVerseOfDay();
 
-// The signature spread needs art, so the feature is the most recent essay that
-// carries a hero image; if none do, fall back to the most recent essay.
-const feature = articles.find((a) => a.heroImage) ?? articles[0];
-const recent = articles.filter((a) => a.slug !== feature?.slug).slice(0, 5);
-
-// Hero images already spent at the top of the page — the feature plus any
-// "Nyligen publicerat" row that carries one. Passed to AmnenSections so each
-// topic leads with a different picture and no image repeats further down.
-const usedImageSlugs = new Set<string>();
-if (feature?.heroImage) usedImageSlugs.add(feature.slug);
-for (const a of recent) if (a.heroImage) usedImageSlugs.add(a.slug);
+// The "Senast publicerat" feed shows only essays that carry a hero image — the
+// feature (most recent with art) plus the next 8 — so every row reads as an image
+// card and no text-only essay slips into the spread. Falls back to the most recent
+// essay if somehow none carry an image.
+const withImage = articles.filter((a) => a.heroImage);
+const feature = withImage[0] ?? articles[0];
+const recent = withImage.filter((a) => a.slug !== feature?.slug).slice(0, 8);
 
 const ogImage = feature?.heroImage;
 
@@ -50,102 +37,137 @@ const heroPreload = feature?.heroImage
 ---
 
 <Base
-	title="islam.se — Essäer om islamisk intellektuell tradition och svenskt kulturarv"
-	description="Essäer om islamisk intellektuell tradition och svenskt kulturarv."
+	title="islam.se — Vad är islam? Frågor & svar, bönetider & essäer på svenska"
+	description="Vad är islam? Källbelagda svar på vanliga frågor, bönetider för hela Sverige, och essäer om islamisk intellektuell tradition i möte med svenskt kulturarv."
 	ogImage={ogImage?.src}
 	preloadImageSrcset={heroPreload?.srcSet.attribute}
 	preloadImageSizes={FEATURE_HERO_SIZES}
 	preloadImageType={heroPreload ? (import.meta.env.DEV ? "image/webp" : "image/avif") : undefined}
 >
 	<main id="main" class="home">
-		<h1 class="sr-only">islam.se — essäer om islamisk intellektuell tradition och svenskt kulturarv</h1>
+		<h1 class="sr-only">islam.se — kunskap om islam på svenska</h1>
 
-		<PrayerStrip />
+		{/* Primary doorways — the high-intent destinations a visitor most often arrives
+		    for, made reachable the moment the page loads. These mirror the standing mast
+		    links; here they carry a line of orientation. */}
+		<nav class="home-pillars" aria-label="Sajtens huvudingångar">
+			<a class="home-pillar" href="/vad-ar-islam/">
+				<span class="home-pillar-title">Pelare &amp; tro</span>
+				<span class="home-pillar-desc">Vad är islam – tron och de fem pelarna</span>
+			</a>
+			<a class="home-pillar" href="/svar/">
+				<span class="home-pillar-title">Frågor &amp; svar</span>
+				<span class="home-pillar-desc">Svar på vanliga frågor om islam</span>
+			</a>
+			<a class="home-pillar" href="/essaer">
+				<span class="home-pillar-title">Essäer</span>
+				<span class="home-pillar-desc">Islamisk tradition och svenskt kulturarv</span>
+			</a>
+			<a class="home-pillar" href="/bonetider/">
+				<span class="home-pillar-title">Bönetider</span>
+				<span class="home-pillar-desc">Dagens tider för hela Sverige</span>
+			</a>
+			<a class="home-pillar" href="/moskeer">
+				<span class="home-pillar-title">Moskéer</span>
+				<span class="home-pillar-desc">Karta över Sveriges moskéer</span>
+			</a>
+		</nav>
 
+		{/* The homepage body opens on the latest published — the feature + recent feed —
+		    then the Islamic calendar and the book/podcast. The other sections are reached
+		    from the intro links, the doorways and the mast. */}
 		{feature && <FeatureEssay article={feature} />}
 
 		<RecentEssays articles={recent} />
 
-		{verseOfDay && <DagensVers verseOfDay={verseOfDay} />}
-
-		<Citat />
-
-		<AmnenSections usedImageSlugs={usedImageSlugs} />
-
-		<TradarHome limit={4} />
-
-		<TankareGroups limit={6} />
-
 		<Markesdagar />
 
-		<BonetiderHome />
-
 		<BookPod count={articles.length} variant="home" />
-
-		<section class="om-teaser home-movement" aria-labelledby="om-teaser-kicker">
-			<p class="label home-kicker" id="om-teaser-kicker">Om islam.se</p>
-			<p class="om-teaser-text">
-				Essäer där islamisk lärdomstradition möter svenskt kulturarv.
-				<span class="om-teaser-coda">Samma samtal, fört i skilda rum.</span>
-			</p>
-			<a class="home-coda-link arrow-link" href="/om">Om idén bakom islam.se</a>
-		</section>
-
-		<section class="ai-connect home-movement" aria-labelledby="ai-connect-kicker">
-			<p class="label home-kicker" id="ai-connect-kicker">AI</p>
-			<p class="ai-connect-text">
-				Hela arkivet går att nå direkt från din AI-assistent. Be Claude eller ChatGPT söka i essäerna och citera dem
-				– med länk tillbaka hit. En öppen anslutning (MCP) gör kopplingen på en minut.
-			</p>
-			<a class="home-coda-link arrow-link" href="/ai">Koppla din assistent</a>
-		</section>
 	</main>
 </Base>
 
 <style>
-	/* Closing pair — what islam.se is, and that it reaches a modern assistant.
-	   Quiet text-led movements in the site voice; the link mirrors the arrow
-	   convention used by Tänkare and the archive link. */
-	.om-teaser-text,
-	.ai-connect-text {
-		font-family: var(--font-body);
-		font-size: 1.0625rem;
-		line-height: 1.55;
-		color: color-mix(in srgb, var(--color-text) 80%, var(--color-muted));
-		max-width: 38rem;
-		margin: 0 0 var(--space-half);
-		text-wrap: pretty;
+	/* Primary doorways — a calm four-up of the site's highest-intent destinations,
+	   set in the site voice (heading link + a muted line), whitespace-grouped rather
+	   than boxed. The feature's own φ² top margin carries the gap down to it.
+
+	   Shown ONLY where the mast's inline links are hidden — on touch/coarse pointers
+	   and below 900px, the same conditions the header uses to collapse its nav into
+	   the "Meny" trigger. On a wide pointer screen those links are already visible in
+	   the mast, so this row would just echo the menu directly beneath it; there it is
+	   hidden. (The links stay in the DOM either way, so crawlers still see them.) */
+	.home-pillars {
+		display: none;
+		grid-template-columns: repeat(auto-fit, minmax(min(100%, 11rem), 1fr));
+		gap: var(--space-unit) clamp(1.25rem, 3vw, 2.75rem);
+		margin: 0;
 	}
 
-	.om-teaser-coda {
-		font-style: italic;
+	@media (hover: none), (pointer: coarse) {
+		.home-pillars {
+			display: grid;
+		}
 	}
 
-	/* Quiet heading-style links that grow a muted → (the arrow motion is .arrow-link).
-	   Shared by the om/AI codas, so the convention is defined once. */
-	.home-coda-link {
-		display: inline-block;
-		font-family: var(--font-heading);
-		font-size: 1.05rem;
-		font-weight: 500;
-		letter-spacing: 0.02em;
-		color: var(--color-accent);
+	@media (width <= 900px) {
+		.home-pillars {
+			display: grid;
+			gap: var(--space-half) clamp(1rem, 3vw, 2rem);
+		}
+
+		.home-pillar-desc {
+			display: none;
+		}
+	}
+
+	.home-pillar {
+		display: flex;
+		flex-direction: column;
+		gap: 0.25rem;
 		text-decoration: none;
+		/* A touch of block padding so the tap target clears WCAG 2.5.8 comfortably. */
+		padding-block: 0.2rem;
 	}
 
-	.home-coda-link::after {
-		color: var(--color-muted);
+	.home-pillar-title {
+		font-family: var(--font-heading);
+		font-size: 1.0625rem;
+		font-weight: 600;
+		letter-spacing: 0;
+		color: var(--color-accent);
 	}
 
-	.home-coda-link:hover {
+	.home-pillar:hover .home-pillar-title {
 		text-decoration: underline;
 		text-decoration-thickness: 1px;
 		text-underline-offset: 0.15em;
 	}
 
-	.home-coda-link:focus-visible {
+	.home-pillar-desc {
+		font-family: var(--font-body);
+		font-size: 0.9rem;
+		line-height: 1.4;
+		color: var(--color-muted);
+		text-wrap: pretty;
+	}
+
+	.home-pillar:focus-visible {
 		outline: 2px solid var(--color-accent);
 		outline-offset: 3px;
 		border-radius: 2px;
 	}
+
+	/* Two-up on tablets, single column on the narrowest phones. */
+	@media (width <= 760px) {
+		.home-pillars {
+			grid-template-columns: repeat(2, 1fr);
+		}
+	}
+
+	@media (width <= 26rem) {
+		.home-pillars {
+			grid-template-columns: 1fr;
+		}
+	}
+
 </style>

@@ -1,0 +1,1282 @@
+---
+import Base from "../layouts/Base.astro";
+import { breadcrumbList, dataset } from "../lib/jsonld";
+import { directionsLinks, getMosques, lanSlug, locationLabel, mosqueUrl, mosquesByLan } from "../lib/moskeer";
+import { MOSKEER_DATA_DATE } from "../lib/moskeer/meta";
+import "maplibre-gl/dist/maplibre-gl.css";
+
+const mosques = getMosques();
+const groups = mosquesByLan();
+const total = mosques.length;
+const cityCount = new Set(mosques.map((m) => m.citySlug)).size;
+// Län with the most mosques, for the FAQ answer.
+const biggestLan = [...groups].sort((a, b) => b.mosques.length - a.mosques.length)[0];
+
+// Founding-year growth: mosques with a known `opened` year, bucketed by decade. Drives the
+// inline bar chart in the history section. Computed from the data so it tracks any refresh.
+const openedYears = mosques
+	.map((m) => m.opened)
+	.filter((y): y is number => typeof y === "number");
+const withYearCount = openedYears.length;
+const growthDecades: { label: string; count: number }[] = [];
+if (openedYears.length) {
+	const start = Math.floor(Math.min(...openedYears) / 10) * 10;
+	const end = Math.floor(Math.max(...openedYears) / 10) * 10;
+	for (let d = start; d <= end; d += 10) {
+		growthDecades.push({
+			label: `${d}-tal`,
+			count: openedYears.filter((y) => Math.floor(y / 10) * 10 === d).length,
+		});
+	}
+}
+const growthMax = Math.max(1, ...growthDecades.map((d) => d.count));
+
+// Top-10 counties by mosque count, for the ranked distribution chart.
+const lanRanked = [...groups].sort((a, b) => b.mosques.length - a.mosques.length).slice(0, 10);
+const lanMax = Math.max(1, ...lanRanked.map((g) => g.mosques.length));
+
+const updated = new Date(MOSKEER_DATA_DATE).toLocaleDateString("sv-SE", {
+	year: "numeric",
+	month: "long",
+	day: "numeric",
+});
+
+// Diacritic-folding normaliser, mirrored in moskeer-map.ts so a server-rendered
+// `data-search` string matches a client-typed query.
+const norm = (s: string) =>
+	s
+		.toLowerCase()
+		.normalize("NFD")
+		.replace(/[̀-ͯ]/g, "");
+
+// The per-mosque detail the map callout needs, looked up by id on click. Kept lean and
+// embedded once as JSON; `<` is escaped so a name can never break out of the script tag.
+const payload = mosques.map((m) => {
+	const d = directionsLinks(m);
+	return {
+		id: m.id,
+		name: m.name,
+		lng: m.lng,
+		lat: m.lat,
+		location: locationLabel(m),
+		opened: m.opened,
+		organisation: m.organisation,
+		google: d.google,
+		apple: d.apple,
+		geo: d.geo,
+	};
+});
+const payloadJson = JSON.stringify(payload).replace(/</g, "\\u003c");
+
+const description = `Karta och katalog över ${total} moskéer i Sverige i ${cityCount} orter, med adress och ordnade län för län. Sök, filtrera och få vägbeskrivning till närmaste moské. Senast uppdaterad ${updated}.`;
+
+const faq = [
+	{
+		q: "Hur många moskéer finns i Sverige?",
+		a: `Vår karta visar ${total} moskéer och muslimska församlingar i Sverige, fördelade på ${cityCount} orter och ${groups.length} län. Uppgifterna kan vara ofullständiga.`,
+	},
+	{
+		q: "Hur hittar jag närmaste moské?",
+		a: "Använd knappen ”Hitta moské nära mig” ovanför kartan för att utgå från din position, eller sök på ortens namn. Välj en moské för adress, öppningsår och vägbeskrivning via Apple Maps eller Google Maps.",
+	},
+	{
+		q: "Vilket län har flest moskéer?",
+		a: `${biggestLan.lanLabel} har flest registrerade moskéer (${biggestLan.mosques.length} stycken). Du kan bläddra alla moskéer län för län längre ner på sidan.`,
+	},
+	{
+		q: "När kom de första muslimerna till Sverige?",
+		a: "Den första bofasta muslimen brukar räknas vara den tatariske pälshandlaren Ebrahim Umerkajeff, som kom till Stockholm 1897. Sveriges första muslimska församling, som var sunnimuslimsk, bildades 1949. Kontakten mellan Sverige och den muslimska världen är äldre än så och går tillbaka till vikingatiden.",
+	},
+	{
+		q: "Är alla moskéer byggda som moskéer?",
+		a: "Nej. De flesta moskéer i Sverige är församlingar som inrymts i befintliga lokaler, till exempel föreningslokaler eller ombyggda byggnader. Bara ett mindre antal är uppförda som moskébyggnader med kupol och minaret. Stockholms stora moské ligger i ett före detta elverk ritat av Ferdinand Boberg, och Fittja moské har en kupol klädd i björkträ.",
+	},
+	{
+		q: "Får man besöka en moské om man inte är muslim?",
+		a: "Ja. Moskéer tar emot besökare, och många ordnar öppet hus eller bokade studiebesök. Som besökare tar man av sig skorna, klär sig täckande och är tyst om en bön pågår. Man behöver varken vara muslim eller delta i bönen.",
+	},
+	{
+		q: "Vad finns inuti en moské?",
+		a: "Framför allt en öppen, mattbelagd bönehall utan stolar eller bänkar, eftersom man ber på golvet. I väggen mot Mecka finns en nisch, mihrab, som visar böneriktningen, och bredvid den en predikstol, minbar. I stället för bilder och statyer pryds moskén av geometriska mönster och kalligrafi.",
+	},
+	{
+		q: "Varför tar man av sig skorna i en moské?",
+		a: "För att hålla golvet rent, eftersom bönen sker direkt på mattan med pannan mot golvet. Det är samma omtanke om rena golv som när man tar av sig skorna i ett svenskt hem.",
+	},
+	{
+		q: "Vad betyder ordet moské?",
+		a: "Det kommer från arabiskans masjid, som betyder ungefär plats där man böjer sig ner i bön. Via franskans mosquée är ordet belagt i svenskan sedan 1600-talet.",
+	},
+];
+---
+
+<Base
+	title="Moskéer i Sverige — karta och adresser län för län — islam.se"
+	description={description}
+	jsonLd={[
+		{
+			"@context": "https://schema.org",
+			"@type": "CollectionPage",
+			name: "Moskéer i Sverige",
+			description,
+			url: "https://islam.se/moskeer/",
+			inLanguage: "sv",
+		},
+		dataset({
+			name: "Moskéer i Sverige",
+			description:
+				"Öppen karta över moskéer och muslimska församlingar i Sverige med plats (kommun och län), öppningsår och, där det är känt, huvudman eller finansiering.",
+			url: "/moskeer",
+			spatialCoverage: "Sverige",
+		}),
+		{
+			"@context": "https://schema.org",
+			"@type": "ItemList",
+			name: "Moskéer i Sverige",
+			numberOfItems: total,
+			itemListElement: mosques.map((m, i) => ({
+				"@type": "ListItem",
+				position: i + 1,
+				name: m.name,
+				url: mosqueUrl(m),
+			})),
+		},
+		{
+			"@context": "https://schema.org",
+			"@type": "FAQPage",
+			mainEntity: faq.map((f) => ({
+				"@type": "Question",
+				name: f.q,
+				acceptedAnswer: { "@type": "Answer", text: f.a },
+			})),
+		},
+		breadcrumbList([
+			{ name: "Hem", url: "/" },
+			{ name: "Moskéer i Sverige", url: "/moskeer" },
+		]),
+	]}
+>
+	<main id="main" class="home moskeer">
+		<header class="mk-header">
+			<h1>Moskéer i Sverige</h1>
+			<p class="mk-intro">
+				En karta över moskéer och muslimska församlingar i hela Sverige – från källarmoskéer till
+				stora bönehus. Zooma och panorera, sök på namn eller ort, eller bläddra län för län. Välj en
+				moské för plats, öppningsår och vägbeskrivning.
+			</p>
+			<p class="mk-meta">
+				Senast uppdaterad <time datetime={MOSKEER_DATA_DATE}>{updated}</time> · {total} moskéer
+			</p>
+		</header>
+
+		<div class="mk-controls">
+			<div class="mk-search-wrap">
+				<svg class="mk-search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m21 21-4.3-4.3"></path></svg>
+				<input
+					type="search"
+					id="mk-search"
+					class="mk-search"
+					placeholder="Sök moské eller ort…"
+					aria-label="Sök efter moské eller ort"
+					autocomplete="off"
+				/>
+			</div>
+			<label class="mk-lan-filter">
+				<span class="visually-hidden">Filtrera efter län</span>
+				<select id="mk-lan" aria-label="Filtrera efter län">
+					<option value="">Alla län</option>
+					{groups.map((g) => <option value={g.lan}>{g.lanLabel}</option>)}
+				</select>
+				<svg class="mk-lan-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"></path></svg>
+			</label>
+			<button type="button" id="mk-geo" class="mk-geo">
+				<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"></circle><path d="M12 2v3M12 19v3M22 12h-3M5 12H2"></path></svg>
+				<span>Hitta moské nära mig</span>
+			</button>
+			<p id="mk-count" class="mk-count" aria-live="polite">{total} moskéer</p>
+		</div>
+		<p id="mk-geo-status" class="mk-geo-status" role="status"></p>
+
+		<div class="mk-stage">
+			<div id="moskeer-map" class="mk-map" role="application" aria-label="Karta över moskéer i Sverige"></div>
+			<aside id="mk-callout" class="mk-callout" aria-live="polite" hidden></aside>
+		</div>
+		<noscript>
+			<p class="mk-noscript">Den interaktiva kartan kräver JavaScript. Alla moskéer finns i listan nedan, ordnade efter län.</p>
+		</noscript>
+
+		<section class="mk-section" aria-labelledby="mk-find">
+			<h2 id="mk-find">Hitta moské</h2>
+			<p class="mk-lead">{total} moskéer, ordnade efter län. Välj en för plats, öppningsår och vägbeskrivning. Se även <a href="/bonetider/">bönetider för din ort</a>.</p>
+			<div class="mk-lan-groups">
+				{groups.map((g) => (
+					<details class="mk-lan" data-lan={g.lan}>
+						<summary>
+							<span class="mk-lan-name">{g.lanLabel}</span>
+							<span class="mk-lan-count">{g.mosques.length}</span>
+						</summary>
+						<ul class="mk-lan-list">
+							{g.mosques.map((m) => (
+								<li>
+									<button
+										type="button"
+										class="mk-item"
+										data-id={m.id}
+										data-lan={g.lan}
+										data-search={norm(`${m.name} ${locationLabel(m)} ${m.address ?? ""}`)}
+									>
+										<span class="mk-item-name">{m.name}</span>
+										{m.address && <span class="mk-item-addr">{m.address}</span>}
+										<span class="mk-item-loc">
+											{locationLabel(m)}{m.opened ? ` · öppnad ${m.opened}` : ""}
+										</span>
+									</button>
+								</li>
+							))}
+						</ul>
+						<a class="mk-lan-all" href={`/moskeer/lan/${lanSlug(g.lan)}/`}>
+							Alla moskéer i {g.lanLabel} →
+						</a>
+					</details>
+				))}
+			</div>
+			<div id="mk-empty" class="mk-empty" hidden>
+				<p class="mk-empty-msg">Inga moskéer matchar din sökning.</p>
+				<button type="button" id="mk-clear" class="mk-clear">Rensa filter</button>
+			</div>
+		</section>
+
+		<section class="mk-section mk-history" aria-labelledby="mk-history-h">
+			<h2 id="mk-history-h">Moskéernas långa historia i Sverige</h2>
+			<p class="mk-history-lead">
+				Frågan är inte om islam hör hemma i Sverige, utan hur länge den redan har gjort det.
+			</p>
+
+			<dl class="mk-stats">
+				<div class="mk-stat">
+					<dt>moskéer</dt>
+					<dd>{total}</dd>
+				</div>
+				<div class="mk-stat">
+					<dt>orter</dt>
+					<dd>{cityCount}</dd>
+				</div>
+				<div class="mk-stat">
+					<dt>län</dt>
+					<dd>{groups.length}</dd>
+				</div>
+				<div class="mk-stat">
+					<dt>första församlingen</dt>
+					<dd>1949</dd>
+				</div>
+			</dl>
+
+			<h3>Milstolpar</h3>
+			<ol class="mk-timeline">
+				<li class="mk-tl-item">
+					<span class="mk-tl-year">Vikingatiden</span>
+					<p class="mk-tl-label">
+						Arabiska silvermynt och runstenar med namnet Särkland vittnar om kontakt med den
+						muslimska världen.
+					</p>
+				</li>
+				<li class="mk-tl-item">
+					<span class="mk-tl-year">1897</span>
+					<p class="mk-tl-label">
+						Den tatariske pälshandlaren Ebrahim Umerkajeff bosätter sig i Stockholm och blir
+						Sveriges förste muslim.
+					</p>
+				</li>
+				<li class="mk-tl-item">
+					<span class="mk-tl-year">1949</span>
+					<p class="mk-tl-label">
+						Sveriges första muslimska församling grundas i Stockholm, sunnimuslimsk, med Osman
+						Soukkan som förste imam.
+					</p>
+				</li>
+				<li class="mk-tl-item">
+					<span class="mk-tl-year">1984</span>
+					<p class="mk-tl-label">
+						Malmö moské, en av landets första stora församlingsmoskéer, står klar.
+					</p>
+				</li>
+				<li class="mk-tl-item">
+					<span class="mk-tl-year">2000</span>
+					<p class="mk-tl-label">
+						Stockholms stora moské öppnar i Ferdinand Bobergs gamla elverk på Södermalm.
+					</p>
+				</li>
+				<li class="mk-tl-item">
+					<span class="mk-tl-year">I dag</span>
+					<p class="mk-tl-label">
+						Omkring {total} moskéer och församlingar finns runt om i Sverige.
+					</p>
+				</li>
+			</ol>
+
+			<h3>Uråldrig kontakt</h3>
+			<p>
+				Banden mellan Norden och den muslimska världen är gamla. Fler vikingatida arabiska silvermynt,
+				så kallade dirhamer, har hittats i svensk jord än i något annat land, och på flera sörmländska
+				runstenar nämns Särkland, det fornnordiska namnet på saracenernas land. På Gripsholmsstenen i
+				Mariefred står att männen ”dogo söderut i Särkland”. Det handlade om handel och resor snarare
+				än om religion, men kontakten är mycket gammal.
+			</p>
+
+			<h3>De första muslimerna</h3>
+			<p>
+				Den moderna muslimska närvaron i Sverige börjar med tatariska invandrare. Pälshandlaren
+				Ebrahim Umerkajeff kom till Stockholm 1897 och blev en av landets första bofasta muslimer.
+				Tatarerna är ett sunnimuslimskt turkfolk som funnits kring Östersjön sedan medeltiden, och
+				under och efter andra världskriget kom fler tatariska muslimer från Estland och Ryssland.
+			</p>
+			<p>
+				År 1949 grundades Sveriges första muslimska församling i Stockholm. Den var sunnimuslimsk,
+				bildad av tatarer och turkar, med Osman Soukkan som landets förste imam. Soukkan hade vuxit
+				upp i Izmir, tagit sig genom Europa på cykel och undervisat tatariska muslimer i Finland innan
+				han kom till Stockholm. Därmed blev islam det första icke-kristna trossamfundet som etablerades
+				i Sverige efter judendomen, och mycket av det som följde växte fram underifrån, lokal för lokal,
+				ungefär som de svenska frikyrkorna.
+			</p>
+
+			<h3>Allt fler moskéer</h3>
+			<p>
+				Antalet moskéer har vuxit stadigt sedan 1970-talet, i takt med att församlingarna blivit fler
+				och större.
+			</p>
+			<figure class="mk-growth">
+				<div
+					class="mk-growth-chart"
+					role="img"
+					aria-label={`Stapeldiagram över antal moskéer grundade per decennium, bland de ${withYearCount} med känt grundningsår.`}
+				>
+					{growthDecades.map((d) => (
+						<div class="mk-growth-col">
+							<div class="mk-growth-track">
+								<span class="mk-growth-val">{d.count}</span>
+								<div class="mk-growth-bar" style={`height:${Math.round((d.count / growthMax) * 100)}%`}></div>
+							</div>
+							<span class="mk-growth-lab">{d.label}</span>
+						</div>
+					))}
+				</div>
+				<figcaption class="mk-growth-cap">
+					Antal moskéer och församlingar som grundats per decennium, bland de {withYearCount} med känt
+					grundningsår. Underlaget är ofullständigt och det pågående decenniet ännu inte fullt.
+				</figcaption>
+			</figure>
+
+			<h3>Var finns moskéerna?</h3>
+			<figure class="mk-lanbars">
+				<div class="mk-lanbars-chart">
+					{lanRanked.map((g) => (
+						<div class="mk-lanbar-row">
+							<span class="mk-lanbar-name">{g.lan}</span>
+							<span class="mk-lanbar-track">
+								<span class="mk-lanbar-fill" style={`width:${Math.round((g.mosques.length / lanMax) * 100)}%`}></span>
+							</span>
+							<span class="mk-lanbar-val">{g.mosques.length}</span>
+						</div>
+					))}
+				</div>
+				<figcaption class="mk-growth-cap">
+					De tio län som har flest registrerade moskéer. Övriga län finns längre ner på sidan.
+				</figcaption>
+			</figure>
+
+			<h3>Moskén som svensk byggnad</h3>
+			<p>
+				De flesta moskéer i Sverige är inte uppförda som moskéer, utan inrymda i lokaler som byggts om.
+				Stockholms stora moské på Södermalm finns i en byggnad som ritades av Ferdinand Boberg, samme
+				arkitekt som gav Sverige Rosenbad och varuhuset NK. Den uppfördes kring sekelskiftet 1900 som
+				en station i elverkets nät och hade redan då drag av orientalisk arkitektur.
+			</p>
+			<p>
+				Där moskéer byggts från grunden möts ofta nordiskt och islamiskt. Fittja moské utanför
+				Stockholm kröns av en mittkupol klädd i björkträ, en medveten förening av osmansk form och
+				svenskt material som visades upp när kungaparet besökte moskén 2013. Kartan ovan visar var
+				Sveriges moskéer finns i dag.
+			</p>
+		</section>
+
+		<section class="mk-section" aria-labelledby="mk-faq">
+			<h2 id="mk-faq">Vanliga frågor</h2>
+			<dl class="mk-faq">
+				{faq.map((f) => (
+					<div class="mk-faq-item">
+						<dt>{f.q}</dt>
+						<dd>{f.a}</dd>
+					</div>
+				))}
+			</dl>
+		</section>
+
+		<p class="mk-attrib">
+			Underlaget kan vara ofullständigt – vissa moskéer saknas, och uppgifter om öppningsår
+			eller huvudman är inte alltid kända. Adresser och positioner är ungefärliga.
+		</p>
+	</main>
+
+	<script id="moskeer-data" type="application/json" is:inline set:html={payloadJson}></script>
+</Base>
+
+<script>
+	import "../scripts/moskeer-map";
+</script>
+
+<style>
+	.moskeer {
+		margin-block: var(--space-phi);
+		overflow-x: clip;
+	}
+
+	.mk-header h1 {
+		margin: var(--space-half) 0 0;
+	}
+
+	.mk-intro {
+		font-family: var(--font-body);
+		font-size: 1.0625rem;
+		line-height: 1.6;
+		color: color-mix(in srgb, var(--color-text) 85%, var(--color-muted));
+		margin: var(--space-half) 0 var(--space-half);
+		text-wrap: pretty;
+	}
+
+	.mk-meta {
+		font-family: var(--font-body);
+		font-size: 0.8125rem;
+		color: var(--color-muted);
+		margin: 0 0 var(--space-unit);
+		font-variant-numeric: lining-nums tabular-nums;
+	}
+
+	/* Controls row above the map — one cohesive toolbar: the search field, län filter and
+	   the geolocation CTA share a pill shape, height and focus treatment. */
+	.mk-controls {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: var(--space-half);
+		margin-bottom: var(--space-half);
+	}
+
+	.mk-search-wrap {
+		position: relative;
+		flex: 1 1 16rem;
+		max-width: 22rem;
+		display: flex;
+		align-items: center;
+	}
+
+	.mk-search-icon {
+		position: absolute;
+		left: 0.85rem;
+		color: var(--color-muted);
+		pointer-events: none;
+	}
+
+	.mk-search {
+		width: 100%;
+		font-family: var(--font-body);
+		font-size: 1rem;
+		color: var(--color-text);
+		background: var(--color-bg);
+		border: 1px solid var(--color-divider);
+		border-radius: 999px;
+		padding: 0.55rem 1rem 0.55rem 2.5rem;
+	}
+
+	.mk-search::placeholder {
+		color: var(--color-muted);
+	}
+
+	.mk-lan-filter {
+		position: relative;
+		display: inline-flex;
+		align-items: center;
+	}
+
+	.mk-lan-chevron {
+		position: absolute;
+		right: 0.8rem;
+		color: var(--color-accent);
+		pointer-events: none;
+	}
+
+	#mk-lan {
+		appearance: none;
+		font-family: var(--font-heading);
+		font-size: 0.9375rem;
+		color: var(--color-accent);
+		background: var(--color-bg);
+		border: 1px solid var(--color-divider);
+		border-radius: 999px;
+		padding: 0.55rem 2.4rem 0.55rem 1rem;
+		cursor: pointer;
+	}
+
+	.mk-geo {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.4rem;
+		font-family: var(--font-heading);
+		font-size: 0.9375rem;
+		font-weight: 600;
+		color: var(--color-accent);
+		background: var(--color-bg);
+		border: 1px solid var(--color-divider);
+		border-radius: 999px;
+		padding: 0.5rem 1.1rem;
+		cursor: pointer;
+		transition: border-color 0.15s ease;
+	}
+
+	.mk-geo svg {
+		color: var(--color-warm);
+		flex: none;
+	}
+
+	.mk-geo:hover {
+		border-color: var(--color-warm);
+	}
+
+	.mk-geo[aria-busy="true"] {
+		opacity: 0.6;
+		pointer-events: none;
+	}
+
+	.mk-search:focus-visible,
+	#mk-lan:focus-visible,
+	.mk-geo:focus-visible,
+	.mk-clear:focus-visible {
+		outline: 2px solid var(--color-accent);
+		outline-offset: 1px;
+	}
+
+	.mk-count {
+		font-family: var(--font-body);
+		font-size: 0.8125rem;
+		color: var(--color-muted);
+		margin: 0;
+		margin-left: auto;
+		font-variant-numeric: lining-nums tabular-nums;
+	}
+
+	/* Geolocation feedback (denial / errors). Collapses when empty so it never adds a gap. */
+	.mk-geo-status {
+		font-family: var(--font-body);
+		font-size: 0.85rem;
+		color: var(--color-warm);
+		margin: 0 0 var(--space-half);
+	}
+
+	.mk-geo-status:empty {
+		display: none;
+	}
+
+	/* The map stage — mirrors the Bönetider field's framing. */
+	.mk-stage {
+		position: relative;
+	}
+
+	.mk-map {
+		/* Taller than wide-ish: Sweden is a portrait country, so give it vertical room
+		   (the dimension that bounds the fit) and it fills the frame instead of floating
+		   in sea. */
+		height: min(80vh, 760px);
+		min-height: 420px;
+		border-radius: 14px;
+		overflow: hidden;
+		background: light-dark(#dfe7ec, #141a26);
+		border: 1px solid var(--color-divider);
+		box-shadow: 0 1px 2px rgb(0 0 0 / 0.04), 0 12px 28px -16px rgb(0 0 0 / 0.25);
+	}
+
+	/* In fullscreen the stage fills the screen; the map (normally a fixed height) and its
+	   callout must grow to fill it. FullscreenControl targets .mk-stage so the callout +
+	   controls stay inside the fullscreen subtree. */
+	.mk-stage:fullscreen {
+		width: 100%;
+		height: 100%;
+		background: var(--color-bg);
+	}
+
+	.mk-stage:fullscreen .mk-map {
+		height: 100%;
+		min-height: 0;
+		border: 0;
+		border-radius: 0;
+	}
+
+	.mk-callout {
+		position: absolute;
+		/* Bottom-right: clear of the top-right control stack and of Sweden's dense
+		   south-west cluster (the attribution sits bottom-left). */
+		right: 0.75rem;
+		bottom: 0.75rem;
+		width: min(22rem, calc(100% - 1.5rem));
+		padding: 0.85rem 1rem 0.95rem;
+		border-radius: 0.8rem;
+		background: light-dark(rgb(255 253 248 / 0.94), rgb(22 26 38 / 0.92));
+		backdrop-filter: blur(10px);
+		border: 1px solid var(--color-divider);
+		box-shadow: 0 1px 14px -4px rgb(0 0 0 / 0.45);
+		z-index: 2;
+	}
+
+	/* On phones the card becomes a bottom sheet pinned to the foot of the map. */
+	@media (max-width: 600px) {
+		.mk-callout {
+			right: 0;
+			left: 0;
+			bottom: 0;
+			width: 100%;
+			border-radius: 0.9rem 0.9rem 0 0;
+			padding-bottom: calc(0.95rem + env(safe-area-inset-bottom, 0px));
+		}
+	}
+
+	.mk-noscript {
+		font-family: var(--font-body);
+		color: var(--color-muted);
+		margin-top: var(--space-half);
+	}
+
+	.mk-section {
+		margin-top: var(--space-phi);
+	}
+
+	.mk-section h2 {
+		font-size: var(--step-1);
+	}
+
+	.mk-lead {
+		font-family: var(--font-body);
+		color: var(--color-muted);
+		margin: var(--space-half) 0 var(--space-unit);
+		text-wrap: pretty;
+	}
+
+	.mk-lead a {
+		color: var(--color-accent);
+	}
+
+	.mk-lan-groups {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(min(100%, 16rem), 1fr));
+		gap: 0 var(--space-unit);
+		align-items: start;
+	}
+
+	.mk-lan {
+		margin-bottom: var(--space-half);
+		border-bottom: 1px solid var(--color-divider);
+		padding-bottom: var(--space-half);
+	}
+
+	.mk-lan[hidden] {
+		display: none;
+	}
+
+	.mk-lan summary {
+		display: flex;
+		justify-content: space-between;
+		align-items: baseline;
+		gap: 0.5rem;
+		cursor: pointer;
+		font-family: var(--font-heading);
+		font-weight: 600;
+		color: var(--color-accent);
+	}
+
+	.mk-lan summary:focus-visible {
+		outline: 2px solid var(--color-accent);
+		outline-offset: 2px;
+		border-radius: 2px;
+	}
+
+	.mk-lan-count {
+		font-family: var(--font-body);
+		font-size: 0.8125rem;
+		color: var(--color-muted);
+		font-variant-numeric: lining-nums tabular-nums;
+	}
+
+	.mk-lan-list {
+		list-style: none;
+		margin: var(--space-half) 0 0;
+		padding: 0;
+	}
+
+	.mk-lan-list li[hidden] {
+		display: none;
+	}
+
+	.mk-item {
+		display: flex;
+		flex-direction: column;
+		gap: 0.05rem;
+		width: 100%;
+		text-align: left;
+		background: none;
+		border: none;
+		border-left: 2px solid transparent;
+		padding: 0.3rem 0.2rem 0.3rem 0.6rem;
+		cursor: pointer;
+	}
+
+	.mk-item:hover .mk-item-name,
+	.mk-item:focus-visible .mk-item-name {
+		color: var(--color-accent);
+		text-decoration: underline;
+		text-underline-offset: 0.12em;
+	}
+
+	.mk-item:focus-visible {
+		outline: 2px solid var(--color-accent);
+		outline-offset: 1px;
+		border-radius: 2px;
+	}
+
+	.mk-item.is-active {
+		border-left-color: var(--color-warm);
+	}
+
+	.mk-item.is-active .mk-item-name {
+		color: var(--color-accent);
+	}
+
+	.mk-item-name {
+		font-family: var(--font-body);
+		font-size: 0.9375rem;
+		color: var(--color-text);
+	}
+
+	.mk-item-addr {
+		font-family: var(--font-body);
+		font-size: 0.78rem;
+		color: color-mix(in srgb, var(--color-text) 70%, var(--color-muted));
+	}
+
+	.mk-item-loc {
+		font-family: var(--font-body);
+		font-size: 0.78rem;
+		color: var(--color-muted);
+	}
+
+	.mk-lan-all {
+		display: inline-block;
+		margin-top: var(--space-half);
+		font-family: var(--font-heading);
+		font-size: 0.82rem;
+		font-weight: 600;
+		color: var(--color-accent);
+		text-decoration: none;
+	}
+
+	.mk-lan-all:hover {
+		text-decoration: underline;
+		text-underline-offset: 0.12em;
+	}
+
+	/* Shown by the map script when a search/filter matches nothing. */
+	.mk-empty {
+		padding: var(--space-unit) 0;
+		text-align: center;
+	}
+
+	.mk-empty-msg {
+		font-family: var(--font-body);
+		color: var(--color-muted);
+		margin: 0 0 var(--space-half);
+	}
+
+	.mk-clear {
+		font-family: var(--font-heading);
+		font-size: 0.9375rem;
+		font-weight: 600;
+		color: var(--color-accent);
+		background: var(--color-bg);
+		border: 1px solid var(--color-divider);
+		border-radius: 999px;
+		padding: 0.45rem 1.1rem;
+		cursor: pointer;
+		transition: border-color 0.15s ease;
+	}
+
+	.mk-clear:hover {
+		border-color: var(--color-warm);
+	}
+
+	/* Editorial background section (Wikipedia-derived, fact-checked, neutral). */
+	.mk-history p {
+		font-family: var(--font-body);
+		font-size: 1.0625rem;
+		line-height: 1.7;
+		color: var(--text-body);
+		max-width: 42rem;
+		margin: var(--space-half) 0 0;
+		text-wrap: pretty;
+	}
+
+	.mk-history p.mk-history-lead {
+		color: var(--text-strong);
+		line-height: 1.6;
+		margin-bottom: var(--space-unit);
+	}
+
+	.mk-history h3 {
+		font-family: var(--font-heading);
+		font-size: 1.05rem;
+		font-weight: 600;
+		color: var(--color-accent);
+		margin: var(--space-unit) 0 0;
+	}
+
+	/* Server-rendered founding-year bar chart (no JS, no chart lib). Brass bars echo the
+	   map markers; bar heights are inlined % of the tallest decade. */
+	.mk-growth {
+		margin: var(--space-half) 0 0;
+		max-width: 40rem;
+	}
+
+	.mk-growth-chart {
+		display: flex;
+		align-items: stretch;
+		gap: 0.5rem;
+		height: 200px;
+		margin: var(--space-half) 0;
+	}
+
+	.mk-growth-col {
+		flex: 1 1 0;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 0.4rem;
+		min-width: 0;
+	}
+
+	.mk-growth-track {
+		display: flex;
+		flex-direction: column;
+		justify-content: flex-end;
+		align-items: center;
+		width: 100%;
+		flex: 1;
+	}
+
+	.mk-growth-val {
+		font-family: var(--font-body);
+		font-size: 0.8125rem;
+		color: var(--color-muted);
+		font-variant-numeric: lining-nums tabular-nums;
+		margin-bottom: 0.25rem;
+	}
+
+	.mk-growth-bar {
+		width: 62%;
+		max-width: 2.6rem;
+		min-height: 3px;
+		background: light-dark(#b8862f, #c89a48);
+		border-radius: 3px 3px 0 0;
+	}
+
+	.mk-growth-lab {
+		font-family: var(--font-body);
+		font-size: 0.78rem;
+		color: var(--color-muted);
+		font-variant-numeric: lining-nums tabular-nums;
+		white-space: nowrap;
+	}
+
+	.mk-growth-cap {
+		font-family: var(--font-body);
+		font-size: 0.8125rem;
+		line-height: 1.5;
+		color: var(--color-muted);
+		max-width: 40rem;
+	}
+
+	@media (max-width: 480px) {
+		.mk-growth-val {
+			font-size: 0.72rem;
+		}
+
+		.mk-growth-lab {
+			font-size: 0.68rem;
+		}
+	}
+
+	/* Key-figures band */
+	.mk-stats {
+		display: flex;
+		flex-wrap: wrap;
+		gap: var(--space-half) var(--space-unit);
+		margin: 0 0 var(--space-unit);
+		padding: 0;
+	}
+
+	.mk-stat {
+		display: flex;
+		flex-direction: column-reverse;
+	}
+
+	.mk-stat dd {
+		margin: 0;
+		font-family: var(--font-heading);
+		font-weight: 600;
+		font-size: 1.9rem;
+		line-height: 1;
+		color: light-dark(#b8862f, #c89a48);
+		font-variant-numeric: lining-nums tabular-nums;
+	}
+
+	.mk-stat dt {
+		font-family: var(--font-body);
+		font-size: 0.8125rem;
+		color: var(--color-muted);
+		margin-top: 0.25rem;
+	}
+
+	/* Vertical milestone timeline. The rail line is drawn per item (::before); the dot
+	   (::after) paints on top, centred both on the line and on the year row so the year
+	   label lines up exactly with its dot. */
+	.mk-timeline {
+		list-style: none;
+		margin: var(--space-half) 0 var(--space-unit);
+		padding: 0;
+		max-width: 40rem;
+	}
+
+	.mk-tl-item {
+		position: relative;
+		padding: 0 0 var(--space-unit) 1.6rem;
+	}
+
+	.mk-tl-item::before {
+		content: "";
+		position: absolute;
+		left: 5px;
+		top: 0;
+		bottom: 0;
+		width: 2px;
+		background: var(--color-divider);
+	}
+
+	.mk-tl-item:first-child::before {
+		top: 3px;
+	}
+
+	.mk-tl-item:last-child::before {
+		display: none;
+	}
+
+	.mk-tl-item::after {
+		content: "";
+		position: absolute;
+		box-sizing: border-box;
+		left: 0;
+		/* dot is 12px tall; the year line-height is 1.2 × 0.9375rem (≈18px), so its centre
+		   sits ~9px down — top:3px puts the dot centre there too. */
+		top: 3px;
+		width: 12px;
+		height: 12px;
+		border-radius: 50%;
+		background: light-dark(#b8862f, #c89a48);
+		border: 2px solid var(--color-bg);
+	}
+
+	.mk-tl-year {
+		display: block;
+		line-height: 1.2;
+		font-family: var(--font-heading);
+		font-weight: 600;
+		font-size: 0.9375rem;
+		color: var(--color-accent);
+		font-variant-numeric: lining-nums tabular-nums;
+	}
+
+	.mk-timeline .mk-tl-label {
+		font-family: var(--font-body);
+		font-size: 0.95rem;
+		line-height: 1.5;
+		color: var(--text-body);
+		margin: 0.2rem 0 0;
+		max-width: 36rem;
+	}
+
+	/* Ranked county-distribution bars */
+	.mk-lanbars {
+		margin: var(--space-half) 0 0;
+		max-width: 40rem;
+	}
+
+	.mk-lanbars-chart {
+		display: flex;
+		flex-direction: column;
+		gap: 0.45rem;
+		margin: var(--space-half) 0;
+	}
+
+	.mk-lanbar-row {
+		display: grid;
+		grid-template-columns: 8rem 1fr 1.8rem;
+		align-items: center;
+		gap: 0.6rem;
+	}
+
+	.mk-lanbar-name {
+		font-family: var(--font-body);
+		font-size: 0.85rem;
+		color: var(--text-body);
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+
+	.mk-lanbar-track {
+		height: 0.7rem;
+		background: var(--color-divider);
+		border-radius: 999px;
+		overflow: hidden;
+	}
+
+	.mk-lanbar-fill {
+		display: block;
+		height: 100%;
+		background: light-dark(#b8862f, #c89a48);
+		border-radius: 999px;
+	}
+
+	.mk-lanbar-val {
+		font-family: var(--font-body);
+		font-size: 0.8125rem;
+		color: var(--color-muted);
+		font-variant-numeric: lining-nums tabular-nums;
+		text-align: right;
+	}
+
+	.mk-faq {
+		margin: var(--space-unit) 0 0;
+		max-width: 42rem;
+	}
+
+	.mk-faq-item {
+		padding: var(--space-half) 0;
+		border-bottom: 1px solid var(--color-divider);
+	}
+
+	.mk-faq dt {
+		font-family: var(--font-heading);
+		font-weight: 600;
+		color: var(--color-accent);
+		margin-bottom: 0.3rem;
+	}
+
+	.mk-faq dd {
+		font-family: var(--font-body);
+		line-height: 1.55;
+		color: var(--color-muted);
+		margin: 0;
+	}
+
+	.mk-attrib {
+		font-family: var(--font-body);
+		font-size: 0.8125rem;
+		line-height: 1.5;
+		color: var(--color-muted);
+		margin: var(--space-phi) 0 0;
+		padding-top: var(--space-half);
+		border-top: 1px solid var(--color-divider);
+	}
+
+	.visually-hidden {
+		position: absolute;
+		width: 1px;
+		height: 1px;
+		padding: 0;
+		margin: -1px;
+		overflow: hidden;
+		clip: rect(0 0 0 0);
+		white-space: nowrap;
+		border: 0;
+	}
+
+	@media (max-width: 480px) {
+		.mk-count {
+			margin-left: 0;
+		}
+	}
+</style>
+
+<!-- Callout internals are injected by JS (innerHTML), so scoped styles can't reach
+     them — style them globally, scoped by the .mk-callout prefix. -->
+<style is:global>
+	.mk-callout-close {
+		position: absolute;
+		top: 0.4rem;
+		right: 0.5rem;
+		background: none;
+		border: none;
+		font-size: 1.25rem;
+		line-height: 1;
+		color: var(--color-muted);
+		cursor: pointer;
+		padding: 0.1rem 0.3rem;
+	}
+
+	.mk-callout-close:hover {
+		color: var(--color-accent);
+	}
+
+	.mk-callout-name {
+		font-family: var(--font-heading);
+		font-weight: 600;
+		font-size: 1.0625rem;
+		color: var(--color-text);
+		margin: 0 1.5rem 0.25rem 0;
+		line-height: 1.25;
+	}
+
+	.mk-callout-meta {
+		font-family: var(--font-body);
+		font-size: 0.85rem;
+		color: var(--color-muted);
+		margin: 0 0 0.4rem;
+	}
+
+	.mk-callout-org {
+		font-family: var(--font-body);
+		font-size: 0.82rem;
+		color: var(--color-text);
+		margin: 0 0 0.5rem;
+	}
+
+	.mk-callout-org .label {
+		display: block;
+		margin-bottom: 0.1rem;
+	}
+
+	.mk-dir {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: 0.4rem;
+		margin-bottom: 0.4rem;
+	}
+
+	.mk-dir .label {
+		flex-basis: 100%;
+		margin-bottom: 0.1rem;
+	}
+
+	.mk-dir-btn {
+		font-family: var(--font-heading);
+		font-size: 0.82rem;
+		font-weight: 600;
+		text-decoration: none;
+		color: var(--color-accent);
+		background: var(--color-bg);
+		border: 1px solid var(--color-divider);
+		border-radius: 999px;
+		padding: 0.45rem 0.95rem;
+		transition: border-color 0.15s ease;
+	}
+
+	.mk-dir-btn:hover {
+		border-color: var(--color-warm);
+	}
+
+	/* Keep the OSM/OpenMapTiles credit quiet: a small, muted ⓘ that expands on click. */
+	.maplibregl-ctrl-attrib {
+		font-size: 10px;
+		background: color-mix(in srgb, var(--color-bg) 78%, transparent);
+	}
+
+	.maplibregl-ctrl-attrib.maplibregl-compact:not(.maplibregl-compact-show) {
+		background: color-mix(in srgb, var(--color-bg) 70%, transparent);
+	}
+
+	.maplibregl-ctrl-attrib a,
+	.maplibregl-ctrl-attrib {
+		color: var(--color-muted);
+	}
+
+	.maplibregl-ctrl-attrib-button {
+		opacity: 0.6;
+	}
+
+	/* Theme the built-in control group (zoom, reset-view, fullscreen) to the warm palette so
+	   the controls read as designed rather than generic white chips. Scoped to .moskeer. */
+	.moskeer .maplibregl-ctrl-group {
+		background: light-dark(rgb(255 253 248 / 0.92), rgb(22 26 38 / 0.92));
+		border: 1px solid var(--color-divider);
+		box-shadow: 0 1px 10px -4px rgb(0 0 0 / 0.4);
+	}
+
+	.moskeer .maplibregl-ctrl-group button {
+		background: transparent;
+		color: var(--color-accent);
+	}
+
+	.moskeer .maplibregl-ctrl-group button + button {
+		border-top: 1px solid var(--color-divider);
+	}
+
+	.moskeer .maplibregl-ctrl-group button:hover {
+		background: color-mix(in srgb, var(--color-warm) 16%, transparent);
+	}
+
+	/* The built-in zoom/fullscreen icons are fixed dark SVG masks (not currentColor), so in
+	   dark mode they'd vanish on the dark control bg — invert them. Our reset button uses an
+	   inline currentColor SVG and is unaffected (it tracks the accent colour above). */
+	@media (prefers-color-scheme: dark) {
+		.moskeer .maplibregl-ctrl-group button .maplibregl-ctrl-icon {
+			filter: invert(1) brightness(1.4);
+		}
+	}
+
+	/* The labelled "Hitta moské nära mig" button is the visible geolocation trigger; hide
+	   the GeolocateControl's own corner button (we still use the control for the location
+	   dot + accuracy ring, driven via trigger()). */
+	.moskeer .maplibregl-ctrl-group:has(.maplibregl-ctrl-geolocate) {
+		display: none;
+	}
+
+	/* Desktop hover tooltip — a clean tail-less name chip in the warm palette. */
+	.mk-hover .maplibregl-popup-content {
+		background: light-dark(rgb(255 253 248 / 0.96), rgb(22 26 38 / 0.95));
+		border: 1px solid var(--color-divider);
+		border-radius: 0.5rem;
+		padding: 0.3rem 0.6rem;
+		box-shadow: 0 2px 12px -4px rgb(0 0 0 / 0.5);
+	}
+
+	.mk-hover .maplibregl-popup-tip {
+		display: none;
+	}
+
+	.mk-hover-name {
+		font-family: var(--font-heading);
+		font-size: 0.82rem;
+		font-weight: 600;
+		color: var(--color-text);
+		white-space: nowrap;
+	}
+
+	/* Hold the map canvas hidden until the base style is recolored (moskeer-map.ts adds
+	   .is-ready on first render), so the light Positron palette never flashes — most
+	   visible as a white blink when entering the page in dark mode. The .mk-map container
+	   keeps its dark water background underneath during load, so the reveal is a calm fade
+	   from the dark box into the dark map, not a white flash. */
+	#moskeer-map .maplibregl-canvas {
+		opacity: 0;
+		transition: opacity 0.3s ease;
+	}
+
+	#moskeer-map.is-ready .maplibregl-canvas {
+		opacity: 1;
+	}
+</style>

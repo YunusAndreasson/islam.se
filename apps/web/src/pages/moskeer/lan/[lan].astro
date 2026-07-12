@@ -1,0 +1,244 @@
+---
+import MosqueList from "../../../components/moskeer/MosqueList.astro";
+import Base from "../../../layouts/Base.astro";
+import { ORG_ID, breadcrumbList, faqPageJsonLd } from "../../../lib/jsonld";
+import {
+	type Mosque,
+	lanSlug,
+	mosqueItemList,
+	mosquesByLan,
+} from "../../../lib/moskeer";
+import { MOSKEER_DATA_DATE } from "../../../lib/moskeer/meta";
+
+export function getStaticPaths() {
+	return mosquesByLan().map((g) => ({
+		params: { lan: lanSlug(g.lan) },
+		props: { lan: g.lan, lanLabel: g.lanLabel, mosques: g.mosques },
+	}));
+}
+
+interface Props {
+	lan: string;
+	lanLabel: string;
+	mosques: Mosque[];
+}
+const { lanLabel, mosques } = Astro.props;
+const total = mosques.length;
+
+// Group the county's mosques by city, cities alphabetical, so the list reads
+// ort-by-ort and each city heading funnels to its own /moskeer/[stad] page.
+const cityMap = new Map<string, { city: string; citySlug: string; mosques: Mosque[] }>();
+for (const m of mosques) {
+	const g = cityMap.get(m.citySlug);
+	if (g) g.mosques.push(m);
+	else cityMap.set(m.citySlug, { city: m.city, citySlug: m.citySlug, mosques: [m] });
+}
+const cityGroups = [...cityMap.values()].sort((a, b) => a.city.localeCompare(b.city, "sv"));
+const cityCount = cityGroups.length;
+
+const openedYears = mosques.map((m) => m.opened).filter((y): y is number => y !== undefined);
+const oldest = openedYears.length ? Math.min(...openedYears) : undefined;
+const oldestMosque = oldest ? mosques.find((m) => m.opened === oldest) : undefined;
+
+const updated = new Date(MOSKEER_DATA_DATE).toLocaleDateString("sv-SE", {
+	year: "numeric",
+	month: "long",
+	day: "numeric",
+});
+
+const cityNames = cityGroups.map((g) => g.city);
+const cityList =
+	cityNames.length <= 1
+		? cityNames.join("")
+		: `${cityNames.slice(0, -1).join(", ")} och ${cityNames[cityNames.length - 1]}`;
+
+const lead = `I ${lanLabel} finns ${total} ${total === 1 ? "registrerad moské" : "registrerade moskéer"} i ${cityCount} ${cityCount === 1 ? "ort" : "orter"}. Nedan hittar du adress, öppningsår och vägbeskrivning till varje moské, ordnade efter ort.`;
+
+const description = `Moskéer i ${lanLabel}: ${total} ${total === 1 ? "moské" : "moskéer"} i ${cityCount} ${cityCount === 1 ? "ort" : "orter"} med adress, öppningsår och vägbeskrivning. Hitta närmaste moské på kartan över hela Sverige.`;
+
+const faq = [
+	{
+		q: `Hur många moskéer finns i ${lanLabel}?`,
+		a: `Enligt vår sammanställning finns ${total} ${total === 1 ? "registrerad moské" : "registrerade moskéer"} i ${lanLabel}, fördelade på ${cityCount} ${cityCount === 1 ? "ort" : "orter"}. Uppgifterna kan vara ofullständiga.`,
+	},
+	{
+		q: `Vilka orter i ${lanLabel} har en moské?`,
+		a: `Orter med minst en registrerad moské i ${lanLabel}: ${cityList}.`,
+	},
+];
+if (oldestMosque?.opened) {
+	faq.push({
+		q: `Vilken är den äldsta moskén i ${lanLabel}?`,
+		a: `Den äldsta registrerade moskén i ${lanLabel} med känt öppningsår är ${oldestMosque.name} i ${oldestMosque.city}, öppnad ${oldestMosque.opened}.`,
+	});
+}
+---
+
+<Base
+	title={`Moskéer i ${lanLabel} — ${total} ${total === 1 ? "moské" : "moskéer"} med adress — islam.se`}
+	description={description}
+	jsonLd={[
+		{
+			"@context": "https://schema.org",
+			"@type": "CollectionPage",
+			name: `Moskéer i ${lanLabel}`,
+			description,
+			url: `https://islam.se/moskeer/lan/${lanSlug(Astro.props.lan)}/`,
+			inLanguage: "sv",
+			dateModified: MOSKEER_DATA_DATE,
+			about: { "@type": "AdministrativeArea", name: lanLabel, containedInPlace: { "@type": "Country", name: "Sverige" } },
+			publisher: { "@id": ORG_ID },
+		},
+		mosqueItemList(mosques, `Moskéer i ${lanLabel}`),
+		faqPageJsonLd(faq),
+		breadcrumbList([
+			{ name: "Hem", url: "/" },
+			{ name: "Moskéer", url: "/moskeer" },
+			{ name: lanLabel, url: `/moskeer/lan/${lanSlug(Astro.props.lan)}` },
+		]),
+	]}
+>
+	<main id="main" class="home moskeer-lan">
+		<header class="mk-lan-header">
+			<h1>Moskéer i {lanLabel}</h1>
+			<p class="mk-lan-meta">
+				{total} {total === 1 ? "moské" : "moskéer"} · {cityCount} {cityCount === 1 ? "ort" : "orter"} ·
+				Senast uppdaterad <time datetime={MOSKEER_DATA_DATE}>{updated}</time>
+			</p>
+			<p class="mk-lan-lead">{lead}</p>
+		</header>
+
+		{cityGroups.map((g) => (
+			<section class="mk-city-group" aria-label={`Moskéer i ${g.city}`}>
+				<h2 class="mk-city-head">
+					<a href={`/moskeer/${g.citySlug}/`}>{g.city}</a>
+					<span class="mk-city-count">{g.mosques.length}</span>
+				</h2>
+				<MosqueList mosques={g.mosques} cityLink={true} />
+			</section>
+		))}
+
+		<section class="mk-section" aria-labelledby="mk-lan-faq">
+			<h2 id="mk-lan-faq">Vanliga frågor</h2>
+			<dl class="mk-faq">
+				{faq.map((f) => (
+					<div class="mk-faq-item">
+						<dt>{f.q}</dt>
+						<dd>{f.a}</dd>
+					</div>
+				))}
+			</dl>
+		</section>
+
+		<p class="mk-attrib">
+			Underlaget kan vara ofullständigt. Adresser och positioner är ungefärliga.
+			<a href="/moskeer">Karta över alla moskéer i Sverige →</a>
+		</p>
+	</main>
+</Base>
+
+<style>
+	.moskeer-lan {
+		margin-block: var(--space-phi);
+		overflow-x: clip;
+	}
+
+	.mk-lan-header h1 {
+		margin: var(--space-half) 0 0;
+	}
+
+	.mk-lan-meta {
+		font-family: var(--font-body);
+		font-size: 0.8125rem;
+		color: var(--color-muted);
+		margin: var(--space-half) 0 0;
+		font-variant-numeric: lining-nums tabular-nums;
+	}
+
+	.mk-lan-lead {
+		font-family: var(--font-body);
+		font-size: 1.0625rem;
+		line-height: 1.6;
+		color: var(--text-strong);
+		max-width: 42rem;
+		margin: var(--space-unit) 0 0;
+		text-wrap: pretty;
+	}
+
+	.mk-city-group {
+		margin-top: var(--space-phi);
+	}
+
+	.mk-city-head {
+		font-size: var(--step-1);
+		display: flex;
+		align-items: baseline;
+		gap: 0.6rem;
+		margin: 0;
+	}
+
+	.mk-city-head a {
+		color: var(--color-accent);
+		text-decoration: none;
+	}
+
+	.mk-city-head a:hover {
+		text-decoration: underline;
+		text-underline-offset: 0.12em;
+	}
+
+	.mk-city-count {
+		font-family: var(--font-body);
+		font-size: 0.8125rem;
+		font-weight: 400;
+		color: var(--color-muted);
+		font-variant-numeric: lining-nums tabular-nums;
+	}
+
+	.mk-section {
+		margin-top: var(--space-phi);
+	}
+
+	.mk-section h2 {
+		font-size: var(--step-1);
+	}
+
+	.mk-faq {
+		margin: var(--space-unit) 0 0;
+		max-width: 42rem;
+	}
+
+	.mk-faq-item {
+		padding: var(--space-half) 0;
+		border-bottom: 1px solid var(--color-divider);
+	}
+
+	.mk-faq dt {
+		font-family: var(--font-heading);
+		font-weight: 600;
+		color: var(--color-accent);
+		margin-bottom: 0.3rem;
+	}
+
+	.mk-faq dd {
+		font-family: var(--font-body);
+		line-height: 1.55;
+		color: var(--color-muted);
+		margin: 0;
+	}
+
+	.mk-attrib {
+		font-family: var(--font-body);
+		font-size: 0.8125rem;
+		line-height: 1.5;
+		color: var(--color-muted);
+		margin: var(--space-phi) 0 0;
+		padding-top: var(--space-half);
+		border-top: 1px solid var(--color-divider);
+	}
+
+	.mk-attrib a {
+		color: var(--color-accent);
+		text-decoration: none;
+	}
+</style>

@@ -2,6 +2,7 @@
 // entries for the /bonetider/[stad] pages and the ⌘K palette. Pure + build-time:
 // the slug uniqueness guard runs at module load, so a routing regression fails the
 // build with a clear message instead of silently dropping a page.
+import { haversineKm } from "../geom";
 import { PLACES, type SwedishPlace } from "./places";
 import { slugify } from "./slug";
 
@@ -69,17 +70,6 @@ export function officialPopulation(place: SwedishPlace): number {
 	return place.scbPopulation ?? place.population;
 }
 
-// Great-circle distance (km) — for "nearby towns" cross-links.
-function haversineKm(a: SwedishPlace, b: SwedishPlace): number {
-	const R = 6371;
-	const dLat = ((b.lat - a.lat) * Math.PI) / 180;
-	const dLon = ((b.lon - a.lon) * Math.PI) / 180;
-	const la1 = (a.lat * Math.PI) / 180;
-	const la2 = (b.lat * Math.PI) / 180;
-	const h = Math.sin(dLat / 2) ** 2 + Math.cos(la1) * Math.cos(la2) * Math.sin(dLon / 2) ** 2;
-	return 2 * R * Math.asin(Math.min(1, Math.sqrt(h)));
-}
-
 // Precomputed k-nearest neighbours per place. Without this, every one of the 2000+
 // /bonetider/[stad] pages re-scanned and re-sorted the *entire* index (an O(n²)
 // haversine sweep across the whole build); now the neighbour lists are computed once,
@@ -92,7 +82,7 @@ function buildNeighbours(): Map<string, IndexedPlace[]> {
 	const map = new Map<string, IndexedPlace[]>();
 	for (const a of INDEXED_PLACES) {
 		const nearest = INDEXED_PLACES.filter((b) => b.slug !== a.slug)
-			.map((b) => ({ b, d: haversineKm(a, b) }))
+			.map((b) => ({ b, d: haversineKm(a.lat, a.lon, b.lat, b.lon) }))
 			.sort((x, y) => x.d - y.d)
 			.slice(0, NEIGHBOUR_K)
 			.map((x) => x.b);

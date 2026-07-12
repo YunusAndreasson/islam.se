@@ -10,6 +10,7 @@
 // located events. The primary win is this indexable, well-headed page ranking for
 // date queries ("ramadan 2026 datum", "eid 2026"); the Event markup is supporting
 // structure (and now passes validation — the location field was the critical gap).
+import PageHead from "../components/PageHead.astro";
 import Base from "../layouts/Base.astro";
 import { breadcrumbList } from "../lib/jsonld";
 import { type Markesdag, getUpcomingMarkesdagar, gregorian } from "../lib/markesdagar";
@@ -120,16 +121,12 @@ const faqLd =
 	]}
 >
 	<main id="main" class="content-column">
-		<header class="article-header">
-			<p class="label collection-kicker">Kalender</p>
-			<h1>Det islamiska året</h1>
-			<p class="collection-lead">
-				De återkommande högtiderna och fastedagarna, räknade från utvandringen (hijra) till Medina år 622.
-				Datumen följer Umm al-Qura-kalendern och visas här mot den gregorianska; eftersom varje månad
-				inleds med den nya månens iakttagelse kan en dag infalla tidigare eller senare. Endast det som
-				har stöd i hadith tas upp.
-			</p>
-		</header>
+		<PageHead title="Det islamiska året">
+			De återkommande högtiderna och fastedagarna, räknade från utvandringen (hijra) till Medina år 622.
+			Datumen följer Umm al-Qura-kalendern och visas här mot den gregorianska; eftersom varje månad
+			inleds med den nya månens iakttagelse kan en dag infalla tidigare eller senare. Endast det som
+			har stöd i hadith tas upp.
+		</PageHead>
 
 		{leadSummary && <p class="md-answer">{leadSummary}</p>}
 
@@ -311,7 +308,7 @@ const faqLd =
 		font-family: var(--font-body);
 		font-size: 1.0625rem;
 		line-height: 1.6;
-		color: color-mix(in srgb, var(--color-text) 88%, var(--color-muted));
+		color: var(--text-strong);
 		max-width: 42rem;
 		margin: var(--space-unit) 0 0;
 		text-wrap: pretty;

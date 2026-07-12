@@ -1,6 +1,5 @@
-import type { APIRoute } from "astro";
 import { INDEXED_PLACES, OG_POPULATION } from "../../../lib/bonetider/places-index";
-import { renderOg } from "../../../lib/og";
+import { ogEndpoint } from "../../../lib/og-endpoints";
 
 // Personalised OG cards for the larger towns only (population ≥ OG_POPULATION); smaller
 // places fall back to the shared /bonetider/og.png card, keeping the build cheap. Prayer
@@ -12,17 +11,8 @@ export function getStaticPaths() {
 	}));
 }
 
-export const GET: APIRoute = async ({ props }) => {
-	const county = props.county as string;
-	const png = await renderOg({
-		kicker: "Bönetider",
-		title: props.name as string,
-		framing: `Fajr · Dhuhr · Asr · Maghrib · Isha – varje dag${county ? `, ${county}` : ""}`,
-	});
-	return new Response(new Uint8Array(png), {
-		headers: {
-			"Content-Type": "image/png",
-			"Cache-Control": "public, max-age=31536000, immutable",
-		},
-	});
-};
+export const GET = ogEndpoint<{ name: string; county: string }>((p) => ({
+	kicker: "Bönetider",
+	title: p.name,
+	framing: `Fajr · Dhuhr · Asr · Maghrib · Isha – varje dag${p.county ? `, ${p.county}` : ""}`,
+}));

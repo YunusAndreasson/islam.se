@@ -1,0 +1,299 @@
+---
+import MosqueList from "../../components/moskeer/MosqueList.astro";
+import Base from "../../layouts/Base.astro";
+import { SCB_POP_YEAR } from "../../lib/bonetider/meta";
+import { nearbyPlaces, officialPopulation, placeBySlug } from "../../lib/bonetider/places-index";
+import { nf0 } from "../../lib/format";
+import { ORG_ID, breadcrumbList, cityPlace, faqPageJsonLd } from "../../lib/jsonld";
+import {
+	type MosqueCityGroup,
+	cityBySlug,
+	lanSlug,
+	mosqueItemList,
+	mosqueUrl,
+	mosquesByCity,
+} from "../../lib/moskeer";
+import { MOSKEER_DATA_DATE } from "../../lib/moskeer/meta";
+
+export function getStaticPaths() {
+	return mosquesByCity().map((g) => ({ params: { stad: g.citySlug }, props: g }));
+}
+
+type Props = MosqueCityGroup;
+const { citySlug, city, kommun, lan, lanLabel, mosques } = Astro.props;
+const n = mosques.length;
+
+// Place context (geo + official population) from the shared bönetider dataset. citySlug
+// is a bönetider place slug by construction, so this resolves; the ?? fallbacks only
+// satisfy the type and cover any future data drift.
+const place = placeBySlug(citySlug);
+const lat = place?.lat ?? mosques[0].lat;
+const lon = place?.lon ?? mosques[0].lng;
+const county = place?.county || lan;
+const hasScb = place?.scbPopulation != null;
+const pop = place ? officialPopulation(place) : undefined;
+
+const popText = pop !== undefined ? nf0.format(pop) : "";
+
+// Nearby towns that ALSO have a moské page — webs the city pages together for crawl
+// depth and gives the reader a sensible next step.
+const nearbyCities = place
+	? nearbyPlaces(place, 8)
+			.map((p) => cityBySlug(p.slug))
+			.filter((g): g is MosqueCityGroup => g !== undefined)
+			.slice(0, 6)
+	: [];
+
+const updated = new Date(MOSKEER_DATA_DATE).toLocaleDateString("sv-SE", {
+	year: "numeric",
+	month: "long",
+	day: "numeric",
+});
+
+const openedYears = mosques.map((m) => m.opened).filter((y): y is number => y !== undefined);
+const oldest = openedYears.length ? Math.min(...openedYears) : undefined;
+const oldestMosque = oldest ? mosques.find((m) => m.opened === oldest) : undefined;
+
+const whereKommun = kommun && kommun !== city ? `, ${kommun} kommun` : "";
+const popClause = hasScb ? ` ${city} har ${popText} invånare.` : "";
+const lead = `I ${city}${whereKommun} finns ${n} ${n === 1 ? "registrerad moské" : "registrerade moskéer"}. Här hittar du adress, öppningsår, huvudman och vägbeskrivning till ${n === 1 ? "moskén" : "varje moské"}.${popClause}`;
+
+const description = `Moskéer i ${city} (${lanLabel}): adress, öppningsår, huvudman och vägbeskrivning till ${n === 1 ? "moskén" : "varje moské"}. Se även bönetider för ${city}.`;
+
+const faq = [
+	{
+		q: `Hur många moskéer finns i ${city}?`,
+		a: `Enligt vår sammanställning finns ${n} ${n === 1 ? "registrerad moské" : "registrerade moskéer"} i ${city}. Uppgifterna kan vara ofullständiga.`,
+	},
+	{
+		q: `Var ligger ${mosques[0].name}?`,
+		a: mosques[0].address
+			? `${mosques[0].name} ligger på ${mosques[0].address}${mosques[0].postalCode ? `, ${mosques[0].postalCode}` : ""}, i ${kommun} kommun (${lanLabel}). På sidan finns vägbeskrivning via Apple Maps och Google Maps.`
+			: `${mosques[0].name} ligger i ${kommun} kommun (${lanLabel}). På sidan finns vägbeskrivning via Apple Maps och Google Maps.`,
+	},
+];
+if (oldestMosque?.opened) {
+	faq.push({
+		q: n === 1 ? `När öppnade moskén i ${city}?` : `När öppnade den äldsta moskén i ${city}?`,
+		a:
+			n === 1
+				? `${oldestMosque.name} öppnade ${oldestMosque.opened}.`
+				: `Den äldsta registrerade moskén i ${city} med känt öppningsår är ${oldestMosque.name}, öppnad ${oldestMosque.opened}.`,
+	});
+}
+---
+
+<Base
+	title={`${n === 1 ? "Moské" : "Moskéer"} i ${city} — adress och vägbeskrivning — islam.se`}
+	description={description}
+	jsonLd={[
+		{
+			"@context": "https://schema.org",
+			"@type": "WebPage",
+			name: `Moskéer i ${city}`,
+			description,
+			url: `https://islam.se/moskeer/${citySlug}/`,
+			inLanguage: "sv",
+			dateModified: MOSKEER_DATA_DATE,
+			about: {
+				...cityPlace({
+					name: city,
+					county,
+					lat,
+					lon,
+					kommun,
+					population: hasScb ? pop : undefined,
+					populationYear: SCB_POP_YEAR,
+				}),
+				// City→Mosque containment by @id — the same nodes the ItemList below defines
+				// in full, and the same @ids the /bonetider/[stad] page references. Both pages
+				// then merge onto one entity graph rather than describing rival City nodes.
+				containsPlace: mosques.map((m) => ({ "@id": mosqueUrl(m) })),
+			},
+			// Reciprocal related-resource edge back to the town's prayer-times page.
+			relatedLink: `https://islam.se/bonetider/${citySlug}/`,
+			publisher: { "@id": ORG_ID },
+		},
+		mosqueItemList(mosques, `Moskéer i ${city}`),
+		faqPageJsonLd(faq),
+		breadcrumbList([
+			{ name: "Hem", url: "/" },
+			{ name: "Moskéer", url: "/moskeer" },
+			{ name: city, url: `/moskeer/${citySlug}` },
+		]),
+	]}
+>
+	<main id="main" class="home moskeer-stad">
+		<header class="mk-stad-header">
+			<h1>{n === 1 ? "Moské" : "Moskéer"} i {city}</h1>
+			<p class="mk-stad-meta">
+				{lanLabel} · {n} {n === 1 ? "moské" : "moskéer"} ·
+				Senast uppdaterad <time datetime={MOSKEER_DATA_DATE}>{updated}</time>
+			</p>
+			<p class="mk-stad-lead">{lead}</p>
+		</header>
+
+		<MosqueList mosques={mosques} />
+
+		<section class="mk-section mk-cross" aria-label="Se även">
+			<p>
+				<a href={`/bonetider/${citySlug}/`} class="mk-cross-link">Bönetider i {city} →</a>
+			</p>
+			<p>
+				<a href={`/moskeer/lan/${lanSlug(lan)}/`} class="mk-cross-link">Alla moskéer i {lanLabel} →</a>
+			</p>
+		</section>
+
+		<section class="mk-section" aria-labelledby="mk-stad-faq">
+			<h2 id="mk-stad-faq">Vanliga frågor</h2>
+			<dl class="mk-faq">
+				{faq.map((f) => (
+					<div class="mk-faq-item">
+						<dt>{f.q}</dt>
+						<dd>{f.a}</dd>
+					</div>
+				))}
+			</dl>
+		</section>
+
+		{nearbyCities.length > 0 && (
+			<section class="mk-section" aria-labelledby="mk-stad-nearby">
+				<h2 id="mk-stad-nearby">Moskéer i närliggande orter</h2>
+				<ul class="mk-nearby">
+					{nearbyCities.map((g) => (
+						<li><a href={`/moskeer/${g.citySlug}/`}>{g.city}</a></li>
+					))}
+				</ul>
+			</section>
+		)}
+
+		<p class="mk-attrib">
+			Underlaget kan vara ofullständigt. Adresser och positioner är ungefärliga.
+			<a href="/moskeer">Karta över alla moskéer i Sverige →</a>
+		</p>
+	</main>
+</Base>
+
+<style>
+	.moskeer-stad {
+		margin-block: var(--space-phi);
+		overflow-x: clip;
+	}
+
+	.mk-stad-header h1 {
+		margin: var(--space-half) 0 0;
+	}
+
+	.mk-stad-meta {
+		font-family: var(--font-body);
+		font-size: 0.8125rem;
+		color: var(--color-muted);
+		margin: var(--space-half) 0 0;
+		font-variant-numeric: lining-nums tabular-nums;
+	}
+
+	.mk-stad-lead {
+		font-family: var(--font-body);
+		font-size: 1.0625rem;
+		line-height: 1.6;
+		color: var(--text-strong);
+		max-width: 42rem;
+		margin: var(--space-unit) 0 0;
+		text-wrap: pretty;
+	}
+
+	.mk-section {
+		margin-top: var(--space-phi);
+	}
+
+	.mk-section h2 {
+		font-size: var(--step-1);
+	}
+
+	.mk-cross {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.4rem 1.5rem;
+	}
+
+	.mk-cross p {
+		margin: 0;
+	}
+
+	.mk-cross-link {
+		font-family: var(--font-heading);
+		font-weight: 600;
+		font-size: 0.9375rem;
+		color: var(--color-accent);
+		text-decoration: none;
+	}
+
+	.mk-cross-link:hover {
+		text-decoration: underline;
+		text-underline-offset: 0.12em;
+	}
+
+	.mk-faq {
+		margin: var(--space-unit) 0 0;
+		max-width: 42rem;
+	}
+
+	.mk-faq-item {
+		padding: var(--space-half) 0;
+		border-bottom: 1px solid var(--color-divider);
+	}
+
+	.mk-faq dt {
+		font-family: var(--font-heading);
+		font-weight: 600;
+		color: var(--color-accent);
+		margin-bottom: 0.3rem;
+	}
+
+	.mk-faq dd {
+		font-family: var(--font-body);
+		line-height: 1.55;
+		color: var(--color-muted);
+		margin: 0;
+	}
+
+	.mk-nearby {
+		list-style: none;
+		margin: var(--space-half) 0 0;
+		padding: 0;
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.5rem 0.75rem;
+	}
+
+	.mk-nearby a {
+		font-family: var(--font-body);
+		font-size: 0.9375rem;
+		color: var(--color-text);
+		text-decoration: none;
+		border: 1px solid var(--color-divider);
+		border-radius: 999px;
+		padding: 0.3rem 0.85rem;
+		transition: border-color 0.15s ease;
+	}
+
+	.mk-nearby a:hover {
+		border-color: var(--color-warm);
+		color: var(--color-accent);
+	}
+
+	.mk-attrib {
+		font-family: var(--font-body);
+		font-size: 0.8125rem;
+		line-height: 1.5;
+		color: var(--color-muted);
+		margin: var(--space-phi) 0 0;
+		padding-top: var(--space-half);
+		border-top: 1px solid var(--color-divider);
+	}
+
+	.mk-attrib a {
+		color: var(--color-accent);
+		text-decoration: none;
+	}
+</style>

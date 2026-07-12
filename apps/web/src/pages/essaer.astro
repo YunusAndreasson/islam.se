@@ -1,5 +1,9 @@
 ---
 import { getCollection } from "astro:content";
+import EssayImage from "../components/EssayImage.astro";
+import PageHead from "../components/PageHead.astro";
+import TankareGroups from "../components/TankareGroups.astro";
+import TradarHome from "../components/TradarHome.astro";
 import Base from "../layouts/Base.astro";
 import { AMNEN, amnenWithEssays } from "../lib/amnen";
 import { type Article, formatDate, getArticles, inlineMarkdown } from "../lib/articles";
@@ -39,45 +43,88 @@ const western = thinkers.filter((t) => t.data.tradition === "western");
 		]),
 	]}
 >
-	<main id="main" class="content-column">
-		<header class="article-header">
-			<h1>Essäer</h1>
-			<p class="label archive-stats" aria-live="polite"></p>
-		</header>
+	<main id="main" class="home essaer-page">
+		<PageHead title="Essäer">
+			Essäer där den islamiska lärdomstraditionen möter svenskt kulturarv – om skapelsen och själen,
+			rättvisa och sökande – lästa tillsammans med tänkare från Ibn Qayyim al-Jawziyya till
+			Strindberg.
+		</PageHead>
 
 		<nav class="filter-row" aria-label="Filtrera och sortera">
-			<button class="filter-btn label" type="button" data-overlay="amnen">Ämnen</button>
-			<button class="filter-btn label" type="button" data-overlay="tradar">Trådar</button>
-			<button class="filter-btn label" type="button" data-overlay="tankare">Tänkare</button>
-			<button class="filter-btn label" type="button" data-overlay="langd">Längd</button>
-			<button class="filter-btn label" type="button" data-sort-toggle aria-pressed="false">Kronologiskt</button>
+			<button class="filter-chip label" type="button" data-overlay="amnen">Ämnen</button>
+			<button class="filter-chip label" type="button" data-overlay="tradar">Trådar</button>
+			<button class="filter-chip label" type="button" data-overlay="tankare">Tänkare</button>
+			<button class="filter-chip label" type="button" data-overlay="langd">Längd</button>
+			<button class="filter-chip label" type="button" data-sort-toggle aria-pressed="false">Kronologiskt</button>
 		</nav>
 
-		{/* ---- Default view: grouped by ämne, da'wah order ---- */}
+		{/* Curated reading paths first — an inviting way in before the topical
+		    archive below; the /tradar index holds the rest. */}
+		<TradarHome limit={4} />
+
+		{/* ---- Default view: grouped by ämne, da'wah order. Each ämne opens with up to
+		    three image cards (like the start page), then the rest as the 2-col index.
+		    Every essay stays an .archive-item[data-slug][data-minutes] so the read /
+		    length-filter / sort JS below keeps working unchanged. ---- */}
 		<div id="by-amne">
-			{amneGroups.map(({ amne, essays }) => (
-				<section class="archive-section" id={`amne-${amne.slug}`}>
-					<h2 class="label archive-section-heading">
-						<a href={`/amnen/${amne.slug}`}>{amne.name}</a>
-					</h2>
-					<ul class="archive-list">
-						{essays.map((article) => (
-							<li class="archive-item" data-slug={article.slug} data-minutes={article.readingTime}>
-								<a href={`/${article.slug}`} data-astro-prefetch="viewport">
-									<span class="archive-title">{article.title}</span>
-									<p class="label archive-meta">
-										<time datetime={article.publishedAt}>{formatDate(article.publishedAt)}</time>
-										&middot; {article.readingTime} min läsning<span class="read-flag"> &middot; läst</span>
-									</p>
-									{article.description && (
-										<p class="archive-description" set:html={inlineMarkdown(article.description)} />
-									)}
-								</a>
-							</li>
-						))}
-					</ul>
-				</section>
-			))}
+			{amneGroups.map(({ amne, essays }) => {
+				// Up to the three most recent essays with art open the ämne as image cards
+				// (the start-page welcome); the rest follow as the 2-col text index.
+				const cards = essays.filter((e) => e.heroImage).slice(0, 3);
+				const cardSlugs = new Set(cards.map((e) => e.slug));
+				const rest = essays.filter((e) => !cardSlugs.has(e.slug));
+				return (
+					<section class="archive-section essay-section" id={`amne-${amne.slug}`}>
+						<header class="essay-section-head">
+							<h2 class="essay-section-title archive-section-heading">
+								<a href={`/amnen/${amne.slug}`}>{amne.name}</a>
+							</h2>
+							<p class="essay-section-framing">{amne.framing}</p>
+						</header>
+
+						{cards.length > 0 && (
+							<ul class="essay-cards">
+								{cards.map((article) => (
+									<li class="archive-item essay-card" data-slug={article.slug} data-minutes={article.readingTime}>
+										<a href={`/${article.slug}`} data-astro-prefetch="viewport">
+											<div class="essay-card-media media-frame">
+												<EssayImage article={article} widths={[300, 450, 600]} sizes="(max-width: 600px) 100vw, 20rem" />
+											</div>
+											<span class="archive-title essay-card-title">{article.title}</span>
+											{article.description && (
+												<p class="archive-description essay-card-desc" set:html={inlineMarkdown(article.description)} />
+											)}
+											<p class="label archive-meta">
+												<time datetime={article.publishedAt}>{formatDate(article.publishedAt)}</time>
+												&middot; {article.readingTime} min läsning<span class="read-flag"> &middot; läst</span>
+											</p>
+										</a>
+									</li>
+								))}
+							</ul>
+						)}
+
+						{rest.length > 0 && (
+							<ul class="archive-list essay-rest">
+								{rest.map((article) => (
+									<li class="archive-item" data-slug={article.slug} data-minutes={article.readingTime}>
+										<a href={`/${article.slug}`} data-astro-prefetch="viewport">
+											<span class="archive-title">{article.title}</span>
+											<p class="label archive-meta">
+												<time datetime={article.publishedAt}>{formatDate(article.publishedAt)}</time>
+												&middot; {article.readingTime} min läsning<span class="read-flag"> &middot; läst</span>
+											</p>
+											{article.description && (
+												<p class="archive-description" set:html={inlineMarkdown(article.description)} />
+											)}
+										</a>
+									</li>
+								))}
+							</ul>
+						)}
+					</section>
+				);
+			})}
 		</div>
 
 		{/* ---- Chronological view: grouped by year (hidden until toggled) ---- */}
@@ -104,6 +151,9 @@ const western = thinkers.filter((t) => t.data.tradition === "western");
 				</section>
 			))}
 		</div>
+
+		{/* The voices the essays return to — a quiet directory after the archive. */}
+			<TankareGroups limit={6} />
 	</main>
 
 	{/* ---- Quiet filter overlay (one element, panels swapped by JS) ---- */}
@@ -157,6 +207,87 @@ const western = thinkers.filter((t) => t.data.tradition === "western");
 </Base>
 
 <style>
+	/* The two-column archive grid + cell fixups live globally on
+	   `.home .archive-list` (layout.css). The rest of an ämne keeps that 2-col
+	   index; the styles below add the image-led chrome (section frame, framing
+	   line, and the lead feature) so Essäer reads like the start page. */
+
+	/* Each ämne is a bounded block separated by a full-width hairline. */
+	.essay-section {
+		margin-top: var(--space-phi2);
+		padding-top: var(--space-phi);
+		border-top: 1px solid var(--color-divider);
+	}
+	.essay-section:first-of-type {
+		margin-top: var(--space-unit);
+		padding-top: 0;
+		border-top: none;
+	}
+
+	.essay-section-head {
+		margin-bottom: var(--space-unit);
+	}
+	.essay-section-title {
+		font-family: var(--font-heading);
+		font-size: var(--step-1);
+		font-weight: 600;
+		letter-spacing: 0;
+		line-height: 1.2;
+		margin: 0;
+	}
+	.essay-section-framing {
+		font-family: var(--font-body);
+		font-size: 1rem;
+		line-height: 1.5;
+		color: var(--color-muted);
+		margin: 0.4rem 0 0;
+		max-width: 40rem;
+	}
+
+	/* Up to three of the most recent essays with art open each ämne as image cards —
+	   the same warm welcome as the start page — then the rest follows as the 2-col
+	   text index. Cards stay .archive-item for the read/length/sort JS, so the global
+	   .archive-item border/padding is reset here. */
+	.essay-cards {
+		list-style: none;
+		margin: 0 0 var(--space-phi);
+		padding: 0;
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(min(100%, 16rem), 1fr));
+		gap: clamp(1.75rem, 3.5vw, 2.75rem) clamp(1.25rem, 3vw, 2.25rem);
+	}
+	.essay-card {
+		padding-block: 0;
+		border-bottom: none;
+	}
+	.essay-card a {
+		display: flex;
+		flex-direction: column;
+	}
+	.essay-card-media {
+		margin: 0 0 0.85rem;
+	}
+	.essay-card-media :global(img) {
+		aspect-ratio: 3 / 2;
+		width: 100%;
+	}
+	.essay-card .archive-title.essay-card-title {
+		font-size: 1.2rem;
+		line-height: 1.22;
+	}
+	.essay-card-desc {
+		font-size: 0.9375rem;
+		color: var(--text-quiet);
+		margin-top: 0.4rem;
+		display: -webkit-box;
+		-webkit-line-clamp: 2;
+		-webkit-box-orient: vertical;
+		overflow: hidden;
+	}
+	.essay-card .archive-meta {
+		margin-top: 0.5rem;
+	}
+
 	.filter-row {
 		display: flex;
 		flex-wrap: wrap;
@@ -164,26 +295,8 @@ const western = thinkers.filter((t) => t.data.tradition === "western");
 		margin-bottom: var(--space-unit);
 	}
 
-	.filter-btn {
-		padding: 0.4rem 0.875rem;
-		border: 1px solid var(--color-divider);
-		border-radius: 1.25rem;
-		background: transparent;
-		color: var(--color-muted);
-		cursor: pointer;
-		transition: border-color 0.15s, color 0.15s;
-
-		&:hover,
-		&[aria-pressed="true"] {
-			border-color: var(--color-warm);
-			color: var(--color-text);
-		}
-
-		&:focus-visible {
-			outline: 2px solid var(--color-accent);
-			outline-offset: 2px;
-		}
-	}
+	/* The filter pills are the shared global `.filter-chip` (+ `.label`), identical to
+	   the Frågor & svar category nav. */
 
 	/* Read/unread value-shift within the ämne group (§9) — not two sections. */
 	.read-flag {
@@ -337,24 +450,13 @@ const western = thinkers.filter((t) => t.data.tradition === "western");
 		const ctrl = new AbortController();
 		const { signal } = ctrl;
 
-		// ---- Read-progress: value-shift each row, in place, + the stat ----
+		// ---- Read-progress: value-shift each row in place (muted title + "läst"). ----
 		function applyReadState() {
-			const items = document.querySelectorAll<HTMLElement>(".archive-item[data-slug]");
-			const readSlugs = new Set<string>();
-			let total = 0;
-			const seen = new Set<string>();
-			for (const item of items) {
+			for (const item of document.querySelectorAll<HTMLElement>(".archive-item[data-slug]")) {
 				const slug = item.dataset.slug;
 				if (!slug) continue;
 				const pct = +(localStorage.getItem(`rp:${slug}`) || 0);
-				const read = pct > 0.85;
-				item.toggleAttribute("data-read", read);
-				if (!seen.has(slug)) { seen.add(slug); total++; if (read) readSlugs.add(slug); }
-			}
-			const stats = document.querySelector<HTMLElement>(".archive-stats");
-			if (stats) {
-				stats.textContent = `${readSlugs.size} av ${total} lästa`;
-				stats.style.setProperty("--progress", String(total ? readSlugs.size / total : 0));
+				item.toggleAttribute("data-read", pct > 0.85);
 			}
 		}
 
@@ -400,7 +502,7 @@ const western = thinkers.filter((t) => t.data.tradition === "western");
 			setTimeout(done, 250);
 		}
 
-		for (const btn of document.querySelectorAll<HTMLButtonElement>(".filter-btn[data-overlay]"))
+		for (const btn of document.querySelectorAll<HTMLButtonElement>("[data-overlay]"))
 			btn.addEventListener("click", () => openOverlay(btn.dataset.overlay || ""), { signal });
 
 		overlay.querySelector(".overlay-close")?.addEventListener("click", closeOverlay, { signal });

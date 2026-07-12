@@ -1,6 +1,7 @@
 import { type CollectionEntry, getCollection } from "astro:content";
 import type { ImageMetadata } from "astro";
 import type { AmneName } from "./amnen";
+import { memoize } from "./cache";
 
 export interface Article {
 	slug: string;
@@ -55,13 +56,6 @@ const mobileImageMap = new Map(
 		]),
 );
 
-// Content is immutable during a build, but getArticles() is called many times per
-// page (index, Citat, AmnenSections, getTankare, getVerseOfDay…) and across the
-// 2000+ generated pages. Cache the built+sorted array once so the map/sort and the
-// per-entry shaping run a single time per build, not hundreds of times. The cached
-// promise is shared, so concurrent callers await the same work.
-let articlesCache: Promise<Article[]> | null = null;
-
 async function buildArticles(): Promise<Article[]> {
 	const entries = await getCollection("articles");
 	const built = entries
@@ -99,10 +93,10 @@ async function buildArticles(): Promise<Article[]> {
 	return built;
 }
 
-export function getArticles(): Promise<Article[]> {
-	articlesCache ??= buildArticles();
-	return articlesCache;
-}
+// getArticles() is called many times per page (index, Citat, FaktaHome,
+// getTankare, getVerseOfDay…) and across the 2000+ generated pages; memoize() runs
+// the build+sort+per-entry shaping once and shares the one promise. See lib/cache.ts.
+export const getArticles = memoize(buildArticles);
 
 export function formatDate(dateStr: string): string {
 	return new Date(dateStr).toLocaleDateString("sv-SE", {

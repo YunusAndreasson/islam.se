@@ -1,17 +1,88 @@
 ---
+import {
+	computePrayerTimes,
+	formatTime,
+	nextPrayerKeyAt,
+	PRAYER_LABELS,
+} from "../lib/bonetider/prayer-times";
+import { DEFAULT_COORDS, DEFAULT_SETTINGS } from "../lib/bonetider/settings";
+import { solarParams, sunPositionAt } from "../lib/bonetider/solar/sun";
+
 const path = Astro.url.pathname;
 const isHome = path === "/";
+const here = (p: string) => path === p || path === `${p}/`;
+
+// The mast's primary destinations, shown inline on pointer/wide screens. These are
+// the high-intent utility pages + the editorial core — the rest of the site is
+// reached by typing in the palette. On touch/narrow the whole row collapses into
+// the "Meny" trigger (the palette), which lists the same set as browse chips.
+const links = [
+	{ href: "/vad-ar-islam/", label: "Pelare & tro" },
+	{ href: "/svar/", label: "Frågor & svar" },
+	{ href: "/essaer", label: "Essäer" },
+	{ href: "/bonetider/", label: "Bönetider" },
+	{ href: "/moskeer", label: "Moskéer" },
+	{ href: "/app", label: "App" },
+	{ href: "/podcast", label: "Podd" },
+];
+
+// Next-prayer chip in the mast: a build-time Stockholm baseline (no flash); the
+// client script (bonetider-field) recomputes it live for the real now and the
+// visitor's saved location, and toggles the sun/moon icon by day vs night.
+const mastNow = new Date();
+const mastTimes = computePrayerTimes(DEFAULT_COORDS, mastNow, DEFAULT_SETTINGS);
+const mastNextKey = nextPrayerKeyAt(mastTimes, mastNow.getTime()) ?? "fajr";
+const { declRad: mastDecl, eotMin: mastEot } = solarParams(mastNow);
+const mastUtcMin = mastNow.getUTCHours() * 60 + mastNow.getUTCMinutes();
+const mastIsDay =
+	sunPositionAt(DEFAULT_COORDS.latitude, DEFAULT_COORDS.longitude, mastUtcMin, mastDecl, mastEot)
+		.altDeg >= 0;
 ---
 
 <header class="site-header" transition:persist>
 	<nav class="site-nav" aria-label="Huvudnavigering">
-		<a href="/" aria-current={isHome ? "page" : undefined}><svg class="nav-rub" aria-hidden="true" viewBox="0 0 20 20" fill="none"><rect x="3.5" y="3.5" width="13" height="13" stroke="currentColor" stroke-width="1"/><rect x="3.5" y="3.5" width="13" height="13" stroke="currentColor" stroke-width="1" transform="rotate(45 10 10)"/><circle cx="10" cy="10" r="2.85" stroke="currentColor" stroke-width="0.8"/></svg><span class="site-wordmark">islam<span class="site-tld">.se</span></span></a>
-		{/* No aria-label: the accessible name comes from the visible label span, which
-		    CSS swaps "Sök" (pointer) ↔ "Meny" (touch) by media query. A fixed aria-label
-		    matches only one, tripping WCAG 2.5.3 (label-in-name) on the other; letting the
-		    visible text be the name keeps them in sync in every mode. The ⌘K kbd is
-		    aria-hidden, so it never pollutes the name. */}
-		<button class="search-trigger" type="button" aria-keyshortcuts="Meta+K Control+K">
+		<a class="site-home" href="/" aria-current={isHome ? "page" : undefined}><svg class="nav-rub" aria-hidden="true" viewBox="0 0 20 20" fill="none"><rect x="3.5" y="3.5" width="13" height="13" stroke="currentColor" stroke-width="1"/><rect x="3.5" y="3.5" width="13" height="13" stroke="currentColor" stroke-width="1" transform="rotate(45 10 10)"/><circle cx="10" cy="10" r="2.85" stroke="currentColor" stroke-width="0.8"/></svg><span class="site-wordmark">islam<span class="site-tld">.se</span></span></a>
+		<ul class="site-links">
+			{links.map((l) => (
+				<li><a href={l.href} aria-current={here(l.href) ? "page" : undefined}>{l.label}</a></li>
+			))}
+		</ul>
+		<div class="site-nav-end">
+			<a
+				class="bonetider-mast mast-prayer"
+				href="/bonetider/"
+				data-name={DEFAULT_COORDS.name}
+				data-lat={DEFAULT_COORDS.latitude}
+				data-lon={DEFAULT_COORDS.longitude}
+				data-variant="strip"
+				data-fixed="0"
+				aria-label={`Nästa bön: ${PRAYER_LABELS[mastNextKey]} ${formatTime(mastTimes[mastNextKey])} – visa bönetider`}
+			>
+				<span class="bs-icon mast-prayer-icon" data-day={mastIsDay ? "true" : "false"} aria-hidden="true">
+					<svg class="mp-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+						<circle cx="12" cy="12" r="4"></circle>
+						<line x1="12" y1="2.5" x2="12" y2="4.5"></line>
+						<line x1="12" y1="19.5" x2="12" y2="21.5"></line>
+						<line x1="4.6" y1="4.6" x2="6" y2="6"></line>
+						<line x1="18" y1="18" x2="19.4" y2="19.4"></line>
+						<line x1="2.5" y1="12" x2="4.5" y2="12"></line>
+						<line x1="19.5" y1="12" x2="21.5" y2="12"></line>
+						<line x1="4.6" y1="19.4" x2="6" y2="18"></line>
+						<line x1="18" y1="6" x2="19.4" y2="4.6"></line>
+					</svg>
+					<svg class="mp-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+						<path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8z"></path>
+					</svg>
+				</span>
+				<span class="bf-next-name mast-prayer-name">{PRAYER_LABELS[mastNextKey]}</span>
+				<span class="bf-next-time mast-prayer-time">{formatTime(mastTimes[mastNextKey])}</span>
+			</a>
+			{/* No aria-label: the accessible name comes from the visible label span, which
+			    CSS swaps "Sök" (pointer) ↔ "Meny" (touch) by media query. A fixed aria-label
+			    matches only one, tripping WCAG 2.5.3 (label-in-name) on the other; letting the
+			    visible text be the name keeps them in sync in every mode. The ⌘K kbd is
+			    aria-hidden, so it never pollutes the name. */}
+			<button class="search-trigger" type="button" aria-keyshortcuts="Meta+K Control+K">
 			<svg class="search-trigger-icon search-trigger-icon--search" width="16" height="16" viewBox="0 0 18 18" fill="none" aria-hidden="true">
 				<circle cx="8" cy="8" r="5.25" stroke="currentColor" stroke-width="1.25" />
 				<path d="M12 12l4 4" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" />
@@ -23,10 +94,16 @@ const isHome = path === "/";
 			<span class="search-trigger-label search-trigger-label--menu">Meny</span>
 			<kbd class="search-trigger-kbd" aria-hidden="true"><span class="search-trigger-cmd">⌘</span>K</kbd>
 		</button>
+		</div>
 	</nav>
 </header>
 
 <script>
+	// Boot the prayer-times client glue site-wide so the mast's next-prayer chip ticks
+	// live (real now + the visitor's saved location). Idempotent: the module self-boots
+	// once and only mounts elements it hasn't already.
+	import "../scripts/bonetider-field";
+
 	// The mast is wordmark + a single palette trigger now (navigation lives in
 	// the command palette). The only behaviour kept here is the auto-hide: the
 	// mast slides away on scroll-down, returns on scroll-up.

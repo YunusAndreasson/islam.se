@@ -1,4 +1,5 @@
 ---
+import PageHead from "../../components/PageHead.astro";
 import TankareGroups from "../../components/TankareGroups.astro";
 import Base from "../../layouts/Base.astro";
 import { breadcrumbList } from "../../lib/jsonld";
@@ -21,11 +22,11 @@ import { breadcrumbList } from "../../lib/jsonld";
 		]),
 	]}
 >
-	<main id="main" class="content-column">
-		<header class="article-header">
-			<h1>Tänkare</h1>
-			<p class="collection-lead">De röster essäerna återvänder till — den klassiska islamiska traditionen och de svenska och västerländska som möter den.</p>
-		</header>
+	<main id="main" class="home">
+		<PageHead title="Tänkare">
+			De röster essäerna återvänder till – den klassiska islamiska traditionen och de svenska och
+			västerländska som möter den.
+		</PageHead>
 
 		<TankareGroups />
 

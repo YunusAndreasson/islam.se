@@ -1,0 +1,140 @@
+---
+// Why Swedish prayer times are special, in three rows: the daylight gradient from
+// Malmö up to Kiruna. placeFacts() is pure solstice geometry (tested), so these
+// midsummer/midwinter day lengths are evergreen — and Kiruna already comes back as
+// "Midnattssol" / "Polarnatt". The single number that explains the prayer schedule,
+// the summer-midnight depression, rides along as a quiet caption.
+import { placeFacts } from "../../lib/bonetider/place-facts";
+import { placeBySlug } from "../../lib/bonetider/places-index";
+
+// Canonical coords come from the place index when the slug resolves; the fallback
+// keeps the figure correct even if a slug ever changes.
+const TARGETS = [
+	{ slug: "malmo", name: "Malmö", lat: 55.6059, lon: 13.0007 },
+	{ slug: "stockholm", name: "Stockholm", lat: 59.3293, lon: 18.0686 },
+	{ slug: "kiruna", name: "Kiruna", lat: 67.8558, lon: 20.2253 },
+];
+
+const rows = TARGETS.map((t) => {
+	const p = placeBySlug(t.slug);
+	const lat = p?.lat ?? t.lat;
+	const lon = p?.lon ?? t.lon;
+	const facts = placeFacts(lat, lon);
+	return {
+		name: p?.name ?? t.name,
+		latText: `${lat.toFixed(1).replace(".", ",")}° N`,
+		summer: facts.summerDayText,
+		winter: facts.winterDayText,
+		special: facts.midnightSun || facts.polarNight,
+	};
+});
+---
+
+<figure class="dl">
+	<figcaption class="dl-cap">Dagsljus från söder till norr</figcaption>
+	<table class="dl-table">
+		<thead>
+			<tr>
+				<th scope="col">Ort</th>
+				<th scope="col">Midsommar</th>
+				<th scope="col">Midvinter</th>
+			</tr>
+		</thead>
+		<tbody>
+			{rows.map((r) => (
+				<tr>
+					<th scope="row">
+						<span class="dl-city">{r.name}</span>
+						<span class="dl-lat">{r.latText}</span>
+					</th>
+					<td class:list={["dl-sun", { "dl-special": r.special }]}>{r.summer}</td>
+					<td class:list={["dl-win", { "dl-special": r.special }]}>{r.winter}</td>
+				</tr>
+			))}
+		</tbody>
+	</table>
+	<p class="dl-note">
+		Ju längre norrut, desto längre sommardag och kortare vinterdag. I Kiruna går solen inte ner alls
+		kring midsommar (midnattssol) och inte upp kring midvinter (polarnatt) – därför kan Fajr och
+		ʿIshāʾ inte räknas ut på vanligt sätt, utan en regel för höga latituder används.
+	</p>
+</figure>
+
+<style>
+	.dl {
+		margin: var(--space-unit) 0 0;
+		max-width: 32rem;
+	}
+
+	.dl-cap {
+		font-family: var(--font-heading);
+		font-weight: 600;
+		font-size: 1.0625rem;
+		color: var(--color-accent);
+		margin-bottom: var(--space-half);
+	}
+
+	.dl-table {
+		width: 100%;
+		border-collapse: collapse;
+		font-family: var(--font-body);
+		font-size: 0.9375rem;
+	}
+
+	.dl-table th,
+	.dl-table td {
+		padding: 0.45rem 0.5rem;
+		text-align: end;
+		white-space: nowrap;
+	}
+
+	.dl-table thead th {
+		color: var(--color-muted);
+		font-weight: 600;
+		font-size: 0.8125rem;
+		border-bottom: 1px solid var(--color-divider);
+	}
+
+	.dl-table tbody th[scope="row"] {
+		text-align: start;
+		display: flex;
+		flex-direction: column;
+		gap: 0.05rem;
+	}
+
+	.dl-city {
+		font-weight: 600;
+		color: var(--color-text);
+	}
+
+	.dl-lat {
+		font-size: 0.75rem;
+		color: var(--color-muted);
+		font-variant-numeric: lining-nums tabular-nums;
+	}
+
+	.dl-table tbody td {
+		color: var(--color-text);
+		font-variant-numeric: lining-nums tabular-nums;
+	}
+
+	.dl-table tbody tr:not(:last-child) th,
+	.dl-table tbody tr:not(:last-child) td {
+		border-bottom: 1px solid color-mix(in srgb, var(--color-divider), transparent 40%);
+	}
+
+	.dl-special {
+		color: var(--color-accent);
+		font-weight: 600;
+		font-variant-numeric: normal;
+	}
+
+	.dl-note {
+		font-family: var(--font-body);
+		font-size: 0.8125rem;
+		line-height: 1.5;
+		color: var(--color-muted);
+		margin: var(--space-half) 0 0;
+		text-wrap: pretty;
+	}
+</style>

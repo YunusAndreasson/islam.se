@@ -1,11 +1,35 @@
 ---
+import { Image } from "astro:assets";
+import appKarta from "../assets/app/app-karta.png";
+import appQibla from "../assets/app/app-qibla.png";
+import appTider from "../assets/app/app-tider.png";
 import AppPromo from "../components/AppPromo.astro";
 import Base from "../layouts/Base.astro";
-import { APP_STORE_URL, PLAY_STORE_URL } from "../lib/app";
+import { APP_FEATURES, APP_STORE_URL, PLAY_STORE_URL } from "../lib/app";
 import { ORG_ID, breadcrumbList } from "../lib/jsonld";
 
 const description =
 	"Hämta islam.se-appen för iPhone och Android: bönetider med påminnelser före varje bön, en widget på hemskärmen, qibla-kompass och tider även offline.";
+
+// The actual App Store screenshots (Swedish 6.7" set). Presented as plain phone
+// captures — no marketing banners — so they read as a quiet preview, not an ad.
+const shots = [
+	{
+		src: appKarta,
+		caption: "Bönetiderna på kartan",
+		alt: "islam.se-appen: bönetiderna utritade som ljusbågar över en karta av Sverige, med en tidslinje för dygnet.",
+	},
+	{
+		src: appTider,
+		caption: "Dagens tider",
+		alt: "islam.se-appen: dagens bönetider i en lista — Fajr, Shurūq, Ẓuhr, ʿAṣr, Maghrib och ʿIshāʾ — med islamiskt datum.",
+	},
+	{
+		src: appQibla,
+		caption: "Qibla mot Mecka",
+		alt: "islam.se-appen: en qibla-kompass som pekar mot Mecka, med riktning i grader och avstånd.",
+	},
+];
 ---
 
 <Base
@@ -33,6 +57,10 @@ const description =
 			publisher: { "@id": ORG_ID },
 			installUrl: [APP_STORE_URL, PLAY_STORE_URL],
 			sameAs: [APP_STORE_URL, PLAY_STORE_URL],
+			downloadUrl: [APP_STORE_URL, PLAY_STORE_URL],
+			description,
+			image: "https://islam.se/bonetider/og.png",
+			featureList: APP_FEATURES.map((f) => f.term),
 			offers: { "@type": "Offer", price: "0", priceCurrency: "SEK" },
 		},
 		breadcrumbList([
@@ -41,9 +69,8 @@ const description =
 		]),
 	]}
 >
-	<main id="main" class="content-column app-page">
+	<main id="main" class="home app-page">
 		<header class="app-header">
-			<p class="label">Appen</p>
 			<h1>islam.se i mobilen</h1>
 			<p class="app-lead">
 				Bönetiderna du läser här, alltid i fickan: en diskret påminnelse före varje bön, en widget
@@ -51,6 +78,21 @@ const description =
 				Gratis och utan annonser.
 			</p>
 		</header>
+
+		<section class="app-shots" aria-label="Skärmbilder ur appen">
+			{shots.map((s) => (
+				<figure class="app-shot">
+					<Image
+						src={s.src}
+						alt={s.alt}
+						widths={[192, 384, 576]}
+						sizes="(max-width: 640px) 58vw, 12rem"
+						loading="lazy"
+					/>
+					<figcaption class="label">{s.caption}</figcaption>
+				</figure>
+			))}
+		</section>
 
 		<AppPromo variant="page" />
 
@@ -62,19 +104,78 @@ const description =
 </Base>
 
 <style>
+	/* Widened to the shared 64rem canvas (matches Home/Bönetider/Moskéer/Essäer/Podd
+	   so the top-menu page width never jumps). The prose blocks keep the reading
+	   measure within the wider frame; the screenshot trio carries the width. */
 	.app-page {
 		margin-block: var(--space-phi);
+	}
+
+	.app-header {
+		max-width: var(--content-width);
 	}
 
 	.app-header h1 {
 		margin: var(--space-half) 0 0;
 	}
 
+	/* Screenshot preview — three phone captures, centred on wide screens and a
+	   gentle scroll-snap carousel on phones. Restrained: rounded screens with a
+	   hairline edge and a soft lift, no skeuomorphic bezel or store chrome. */
+	.app-shots {
+		display: grid;
+		grid-template-columns: repeat(3, minmax(0, 14rem));
+		justify-content: center;
+		gap: clamp(0.85rem, 2.5vw, 1.6rem);
+		margin-block: var(--space-phi);
+	}
+
+	.app-shot {
+		margin: 0;
+		min-width: 0;
+		text-align: center;
+	}
+
+	.app-shot img {
+		display: block;
+		width: 100%;
+		height: auto;
+		border-radius: 1.6rem;
+		border: 1px solid var(--color-divider);
+		box-shadow: 0 1.5rem 3rem -1.25rem rgb(0 0 0 / 0.35);
+	}
+
+	.app-shot figcaption {
+		margin-top: 0.85rem;
+		color: var(--color-muted);
+	}
+
+	/* Phones: a horizontal scroll-snap rail instead of cramming three abreast. */
+	@media (width <= 640px) {
+		.app-shots {
+			display: flex;
+			grid-template-columns: none;
+			overflow-x: auto;
+			scroll-snap-type: x mandatory;
+			scroll-padding-inline: var(--padding-inline);
+			justify-content: flex-start;
+			margin-inline: calc(-1 * var(--padding-inline));
+			padding-inline: var(--padding-inline);
+			padding-bottom: 0.5rem;
+		}
+
+		.app-shot {
+			flex: 0 0 auto;
+			width: 58vw;
+			scroll-snap-align: center;
+		}
+	}
+
 	.app-lead {
 		font-family: var(--font-body);
 		font-size: 1.0625rem;
 		line-height: 1.6;
-		color: color-mix(in srgb, var(--color-text) 88%, var(--color-muted));
+		color: var(--text-strong);
 		margin: var(--space-unit) 0 0;
 		text-wrap: pretty;
 	}
@@ -83,6 +184,7 @@ const description =
 		font-family: var(--font-body);
 		font-size: 0.9375rem;
 		color: var(--color-muted);
+		max-width: var(--content-width);
 		margin: var(--space-phi) 0 0;
 		padding-top: var(--space-half);
 		border-top: 1px solid var(--color-divider);

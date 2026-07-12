@@ -1,4 +1,5 @@
 import { getCollection } from "astro:content";
+import { memoize } from "./cache";
 
 // The corpus cites the Quran in a uniform footnote form — "Koranen, <surah> N:N"
 // (a few use "sura <surah> N:N"). This parser derives an essay→verse index from
@@ -11,8 +12,6 @@ export interface VerseCitation {
 	slug: string;
 	publishedAt: string;
 }
-
-let indexPromise: Promise<Map<string, VerseCitation[]>> | null = null;
 
 async function build(): Promise<Map<string, VerseCitation[]>> {
 	const entries = await getCollection("articles");
@@ -40,10 +39,7 @@ async function build(): Promise<Map<string, VerseCitation[]>> {
 	return map;
 }
 
-export function getCitationIndex(): Promise<Map<string, VerseCitation[]>> {
-	if (!indexPromise) indexPromise = build();
-	return indexPromise;
-}
+export const getCitationIndex = memoize(build);
 
 /** Essays that cite the given ayah, most-recent first. */
 export async function essaysCiting(ayahKey: string): Promise<VerseCitation[]> {

@@ -21,11 +21,11 @@ const rows = articles.map((article) => {
 ---
 
 <section class="recent home-movement" aria-labelledby="recent-heading">
-	<p class="label home-kicker" id="recent-heading">Nyligen publicerat</p>
+	<p class="label home-kicker" id="recent-heading">Fler essäer</p>
 	<ul class="recent-list">
 		{rows.map(({ article, side }) => (
 			<li class:list={["recent-item", `recent-item--${side}`]}>
-				<a class="recent-link" href={`/${article.slug}`} data-astro-prefetch="viewport">
+				<a class="recent-link focus-ring" href={`/${article.slug}`} data-astro-prefetch="viewport">
 					{side !== "none" && (
 						<div class="recent-media media-frame" transition:name={`hero-${article.slug}`}>
 							<EssayImage
@@ -67,6 +67,7 @@ const rows = articles.map((article) => {
 	}
 
 	.recent-link {
+		--focus-offset: 0.5rem; /* keyboard ring via the shared .focus-ring utility */
 		display: grid;
 		align-items: center;
 		gap: clamp(1.5rem, 4vw, 3rem);
@@ -79,12 +80,6 @@ const rows = articles.map((article) => {
 		&:active {
 			text-decoration: none;
 			color: inherit;
-		}
-
-		&:focus-visible {
-			outline: 2px solid var(--color-accent);
-			outline-offset: 0.5rem;
-			border-radius: 2px;
 		}
 	}
 
@@ -126,7 +121,7 @@ const rows = articles.map((article) => {
 		font-size: var(--step-2);
 		font-weight: 620;
 		line-height: 1.18;
-		letter-spacing: -0.018em;
+		letter-spacing: 0;
 		color: var(--color-accent);
 		margin: 0;
 		text-wrap: balance;
@@ -143,7 +138,7 @@ const rows = articles.map((article) => {
 		font-family: var(--font-body);
 		font-size: 1rem;
 		line-height: 1.5;
-		color: color-mix(in srgb, var(--color-text) 72%, var(--color-muted));
+		color: var(--text-quiet);
 		margin: 0.625rem 0 0;
 		max-width: 36rem;
 	}

@@ -24,6 +24,17 @@
 	translate: 0.2em 0;
 }
 
+/* Focus ring — the single keyboard-focus outline for any directly-focusable
+   element that carries a class (cards, list links, controls). Colour/width/radius
+   are constant; only the offset varies, set per use via --focus-offset. The older
+   scoped `… a:focus-visible` descendant rules elsewhere predate this primitive and
+   are left as the author tuned them. */
+.focus-ring:focus-visible {
+	outline: 2px solid var(--color-accent);
+	outline-offset: var(--focus-offset, 2px);
+	border-radius: 2px;
+}
+
 /* Skip link — visible only on keyboard focus */
 .skip-link {
 	position: absolute;
@@ -144,8 +155,13 @@
 	display: flex;
 	align-items: center;
 	gap: 0.7rem;
+	/* margin-top/font-weight are pinned so a section kicker reads identically whether
+	   it is a <p> or a promoted <h2> (the global h2 rule would otherwise add a φ top
+	   margin and 620 weight). The kicker is the section's real heading. */
+	margin-top: 0;
 	margin-bottom: var(--space-unit);
 	font-size: 0.92rem;
+	font-weight: 400;
 	letter-spacing: 0.09em;
 	color: color-mix(in srgb, var(--color-muted) 65%, var(--color-text));
 }
@@ -296,7 +312,7 @@ a:focus-visible .media-frame img {
 }
 
 /* Home link — flex container so ۞ and text align perfectly */
-.site-nav a:first-child {
+.site-home {
 	display: inline-flex;
 	align-items: center;
 	gap: 0.25em;
@@ -315,9 +331,14 @@ a:focus-visible .media-frame img {
 	flex-shrink: 0;
 }
 
+/* Three tracks: wordmark (left), links (centred in the mast), trigger (right).
+   Centring the middle track on the viewport — not packing it next to the
+   wordmark — needs equal 1fr gutters either side. Columns are assigned
+   explicitly so that when the links are hidden (touch / narrow) the wordmark and
+   trigger keep their left/right gutters instead of collapsing toward centre. */
 .site-nav {
-	display: flex;
-	justify-content: space-between;
+	display: grid;
+	grid-template-columns: 1fr auto 1fr;
 	align-items: center;
 	width: 100%;
 	font-family: var(--font-heading);
@@ -327,6 +348,114 @@ a:focus-visible .media-frame img {
 	letter-spacing: 0.04em;
 	text-transform: uppercase;
 	font-feature-settings: "case";
+}
+
+.site-home {
+	grid-column: 1;
+	justify-self: start;
+}
+
+/* Right track: the next-prayer chip + the palette trigger, packed to the end. */
+.site-nav-end {
+	grid-column: 3;
+	justify-self: end;
+	display: flex;
+	align-items: center;
+	gap: clamp(0.6rem, 1.6vw, 1.1rem);
+}
+
+/* The next-prayer chip — a calm, glanceable indicator that links to /bonetider/.
+   Sun by day, crescent by night (toggled live by bonetider-field). */
+.mast-prayer {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.45rem;
+	text-decoration: none;
+	color: var(--color-text);
+	text-transform: none;
+	letter-spacing: normal;
+	font-feature-settings: normal;
+	white-space: nowrap;
+}
+
+.mast-prayer-icon {
+	flex: none;
+	display: grid;
+	place-items: center;
+	width: 1.05rem;
+	height: 1.05rem;
+}
+
+.mast-prayer-icon svg {
+	width: 100%;
+	height: 100%;
+}
+
+.mast-prayer-icon .mp-sun {
+	color: var(--color-warm);
+}
+
+.mast-prayer-icon .mp-moon {
+	color: var(--color-muted);
+}
+
+.mast-prayer-icon[data-day="true"] .mp-moon,
+.mast-prayer-icon[data-day="false"] .mp-sun {
+	display: none;
+}
+
+.mast-prayer-name {
+	font-family: var(--font-heading);
+	font-size: 0.875rem;
+	font-weight: 600;
+}
+
+.mast-prayer-time {
+	font-family: var(--font-body);
+	font-variant-numeric: lining-nums tabular-nums;
+	font-size: 0.85rem;
+	color: var(--color-accent);
+}
+
+.mast-prayer:hover .mast-prayer-name {
+	color: var(--color-accent);
+}
+
+.mast-prayer:focus-visible {
+	outline: 2px solid var(--color-accent);
+	outline-offset: 3px;
+	border-radius: 4px;
+}
+
+/* Tight mast (small phones): keep the icon + time, drop the name — the moon/sun
+   already says "prayer" and the aria-label carries the full label for SR. */
+@media (width <= 26rem) {
+	.mast-prayer-name {
+		display: none;
+	}
+}
+
+.site-nav .search-trigger {
+	justify-self: end;
+}
+
+/* Inline links — the mast's standing destinations, centred in the middle track
+   and vertically centred with the wordmark (align-items: center on both the grid
+   and the list). */
+.site-links {
+	grid-column: 2;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: clamp(0.9rem, 2vw, 1.6rem);
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.site-links a {
+	font-size: 0.875rem;
+	font-weight: 500;
 }
 
 .site-nav a {
@@ -341,6 +470,24 @@ a:focus-visible .media-frame img {
 
 .site-nav a[aria-current] {
 	color: var(--color-accent);
+}
+
+/* On touch / coarse pointers the trigger becomes "Meny" and the palette is the
+   whole menu — so the inline links would duplicate it. Hide them there, and on
+   any viewport too narrow to carry the row comfortably (the palette still covers
+   them: ⌘K / "/" on a keyboard, the Meny button on touch). */
+@media (hover: none), (pointer: coarse) {
+	.site-links {
+		display: none;
+	}
+}
+
+/* Too narrow to carry the wordmark + 5 links + trigger without crowding — drop
+   the inline links (⌘K / "/" still opens the palette on a keyboard). */
+@media (width <= 900px) {
+	.site-links {
+		display: none;
+	}
 }
 
 /* Palette trigger — the mast's only control now that navigation lives in the
@@ -434,8 +581,9 @@ a:focus-visible .media-frame img {
 
 /* ============================================================
    Site footer — global, site-wide chrome (rendered from Base on every page).
-   Two tiers: the navigation row (prominent), then the colophon (quiet), set
-   apart by space rather than a rule so it never reads as a packed block.
+   Two tiers: a quiet navigation row (the crawlable sitemap, kept lighter than the
+   masthead), then the colophon (quieter still), set apart by space rather than a
+   rule so it never reads as a packed block.
    ============================================================ */
 .site-footer {
 	max-width: var(--home-width);
@@ -457,7 +605,10 @@ a:focus-visible .media-frame img {
 	   keeps each box well past 24×24. */
 	gap: 1.5rem;
 	font-family: var(--font-heading);
-	font-size: 0.95rem;
+	/* Quiet secondary chrome: smaller than the mast links (0.875rem) and muted, so
+	   the footer never out-shouts the top menu — it's the crawlable sitemap, not a
+	   second headline nav. */
+	font-size: 0.8125rem;
 	font-weight: 500;
 	letter-spacing: 0.05em;
 	text-transform: uppercase;
@@ -465,7 +616,7 @@ a:focus-visible .media-frame img {
 }
 
 .site-footer-nav a {
-	color: var(--color-text);
+	color: var(--color-muted);
 	text-decoration: none;
 	transition: color 0.15s;
 	/* WCAG 2.5.8 (target size ≥24px): short labels — "AI" was 14px wide, "Om" 23px —
@@ -659,7 +810,7 @@ html[data-player-visible] .fixed-actions {
 	font-family: var(--font-body);
 	font-size: 1.0625rem;
 	line-height: 1.55;
-	color: color-mix(in srgb, var(--color-text) 80%, var(--color-muted));
+	color: var(--text-body);
 	margin: var(--space-half) 0 var(--space-half);
 	max-width: 34rem;
 }
@@ -846,7 +997,7 @@ html[data-player-visible] .fixed-actions {
 		font-family: var(--font-heading);
 		font-weight: 600;
 		line-height: 1.3;
-		letter-spacing: -0.01em;
+		letter-spacing: 0;
 	}
 
 	.archive-meta {
@@ -873,6 +1024,121 @@ html[data-player-visible] .fixed-actions {
 	}
 }
 
+/* Shared index header (Fakta / Essäer / Frågor & svar) — kicker + title + one
+   ingress paragraph, so the three knowledge pages open identically. Rendered by
+   PageHead.astro; styled globally because the ingress is slotted parent content. */
+.page-head {
+	/* The shared section header owns its own top AND bottom rhythm, so every page
+	   that follows it (Essäer's filter pills, Frågor & svar's category nav, the
+	   collection lists) sits the same distance below the ingress — the page tops stay
+	   homogeneous without each page setting its own top margin. */
+	margin-top: var(--space-phi);
+	margin-bottom: var(--space-phi);
+}
+.page-head-title {
+	margin: 0;
+	text-wrap: balance;
+}
+.page-head-lead {
+	font-family: var(--font-body);
+	font-size: 1.1875rem;
+	line-height: 1.6;
+	color: var(--text-strong);
+	max-width: 42rem;
+	margin: var(--space-unit) 0 0;
+	text-wrap: pretty;
+}
+.page-head-lead a {
+	color: var(--color-accent);
+}
+
+/* Filter / category chip — a small pill shared by Essäer's filter row and the
+   Frågor & svar category nav, so both index pages divide their content the same way
+   at the top (same shape, same padding above/below). Pair with `.label` for the
+   tight uppercase look. Active = aria-pressed (Essäer buttons) or aria-current
+   (Frågor & svar jump links). */
+.filter-chip {
+	display: inline-block;
+	padding: 0.4rem 0.875rem;
+	border: 1px solid var(--color-divider);
+	border-radius: 1.25rem;
+	background: transparent;
+	color: var(--color-muted);
+	text-decoration: none;
+	cursor: pointer;
+	transition:
+		border-color 0.15s,
+		color 0.15s;
+}
+.filter-chip:hover,
+.filter-chip[aria-pressed="true"],
+.filter-chip[aria-current="true"] {
+	border-color: var(--color-warm);
+	color: var(--color-text);
+}
+.filter-chip:focus-visible {
+	outline: 2px solid var(--color-accent);
+	outline-offset: 2px;
+}
+
+/* ============================================================
+   Reading & browse canvas — every single page now shares the home
+   canvas width (--home-width, 64rem) so the page frame never changes
+   width as you move between an index and an article: no "flicking".
+
+   • Browse pages (Essäer, the Fakta hub, the ämne / tråd / tänkare
+     collections) use `.home` and let the archive fill the frame as a
+     two-column index — promoted here from essaer.astro so every archive
+     shares one rule.
+   • Reading pages (a single essay or answer) use `.reading`: the same
+     64rem frame, but the running prose is held to the reading measure
+     (--content-width) and centred, while the hero spans the full frame —
+     so the page reads as wide as the index it came from, with lines that
+     stay comfortable. The approved layout: full-bleed hero, centred column.
+   ============================================================ */
+.reading {
+	max-width: var(--home-width);
+	margin-inline: auto;
+	padding-left: var(--safe-left);
+	padding-right: var(--safe-right);
+}
+
+/* Text blocks stay at the reading measure, centred in the wide frame. The
+   hero (and audio player) opt out and span the full frame. */
+.reading .article-header,
+.reading .article-body,
+.reading .article-nav,
+.reading .essay-connections,
+.reading .svar-header,
+.reading .svar-faq,
+.reading .svar-sources,
+.reading .svar-related,
+.reading .svar-essays,
+.reading .svar-back {
+	max-width: var(--content-width);
+	margin-inline: auto;
+}
+
+/* Two-column archive index on the wide canvas (one column on a phone),
+   shared by Essäer, the Fakta hub and the collection pages — so every
+   index fills its frame instead of trailing a narrow ribbon of titles. */
+.home .archive-list {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(min(100%, 24rem), 1fr));
+	column-gap: clamp(1.75rem, 4vw, 3.5rem);
+}
+
+/* The global first/last special-casing tucks a single-column list up and
+   drops its last rule; in the grid that misaligns the two columns. Give
+   every cell equal padding + a hairline so the columns read as one index. */
+.home .archive-list .archive-item:first-child {
+	padding-top: var(--space-unit);
+}
+
+.home .archive-list .archive-item:last-child {
+	border-bottom: 1px solid var(--color-divider);
+}
+
 /* ============================================================
    Mobile
    ============================================================ */
@@ -897,7 +1163,7 @@ html[data-player-visible] .fixed-actions {
 	}
 
 	/* Compensate tap-target padding so logo aligns with content column */
-	.site-nav a:first-child {
+	.site-home {
 		margin-left: -0.25rem;
 	}
 }

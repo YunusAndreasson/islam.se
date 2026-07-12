@@ -1,0 +1,94 @@
+---
+// One cornerstone card on the FAKTA hub: a borrowed essay photo, the pillar /
+// article-of-faith name, and a calm line — the whole card links to the existing
+// answer at /svar/<slug>/. The photo is decorative (the label carries the meaning),
+// so it renders with empty alt; swap the borrow per card via lib/fakta.ts.
+import type { Article } from "../lib/articles";
+import EssayImage from "./EssayImage.astro";
+
+interface Props {
+	href: string;
+	label: string;
+	blurb: string;
+	/** Borrowed essay whose hero photo illustrates the card; may be missing. */
+	image?: Article;
+	/** Homepage showcase: smaller image, drop the blurb (image + label only). */
+	compact?: boolean;
+}
+
+const { href, label, blurb, image, compact = false } = Astro.props;
+---
+
+<a class:list={["fakta-card", { "fakta-card--compact": compact }]} href={href} data-astro-prefetch="viewport">
+	{image?.heroImage && (
+		<div class="fakta-card-media media-frame">
+			<EssayImage
+				article={image}
+				alt=""
+				widths={[300, 450, 600]}
+				sizes="(max-width: 768px) 50vw, 14rem"
+			/>
+		</div>
+	)}
+	<div class="fakta-card-text">
+		<span class="fakta-card-label">{label}</span>
+		{!compact && <p class="fakta-card-blurb">{blurb}</p>}
+	</div>
+</a>
+
+<style>
+	.fakta-card {
+		display: flex;
+		flex-direction: column;
+		text-decoration: none;
+		color: inherit;
+	}
+
+	.fakta-card-media {
+		margin-bottom: var(--space-half);
+	}
+
+	.fakta-card-media :global(img) {
+		aspect-ratio: 3 / 2;
+		width: 100%;
+	}
+
+	.fakta-card-label {
+		display: block;
+		font-family: var(--font-heading);
+		font-size: 1.1875rem;
+		font-weight: 600;
+		letter-spacing: 0;
+		line-height: 1.2;
+		color: var(--color-accent);
+		text-wrap: balance;
+	}
+
+	.fakta-card-blurb {
+		font-family: var(--font-body);
+		font-size: 0.95rem;
+		line-height: 1.5;
+		color: var(--text-quiet);
+		margin: 0.3rem 0 0;
+		text-wrap: pretty;
+	}
+
+	.fakta-card--compact .fakta-card-media {
+		margin-bottom: 0.4rem;
+	}
+	.fakta-card--compact .fakta-card-label {
+		font-size: 1.05rem;
+	}
+
+	.fakta-card:hover .fakta-card-label {
+		text-decoration: underline;
+		text-decoration-thickness: 1px;
+		text-underline-offset: 0.15em;
+	}
+
+	.fakta-card:focus-visible {
+		outline: 2px solid var(--color-accent);
+		outline-offset: 0.4rem;
+		border-radius: 2px;
+	}
+</style>

@@ -17,17 +17,27 @@
 	--color-warm: light-dark(#b0a090, #6a5e4a);
 	--color-divider: color-mix(in srgb, var(--color-muted), transparent 80%);
 
+	/* Muted body-text ramp — body text blended toward the warm muted taupe, named
+	   so the tonal steps live in one tunable place instead of being hand-mixed at
+	   every call site. `strong` = leads / secondary prose that should stay close to
+	   full text; `body` = standard secondary prose; `quiet` = the lightest readable
+	   lead. `--text-meta` is the inverse mix (muted nudged toward text), tuned to
+	   clear WCAG AA on small meta labels. The handful of one-off percentages
+	   elsewhere (70/75/78/82/85/86) stay inline, where a comment explains the
+	   specific contrast tuning that earned them. */
+	--text-strong: color-mix(in srgb, var(--color-text) 88%, var(--color-muted));
+	--text-body: color-mix(in srgb, var(--color-text) 80%, var(--color-muted));
+	--text-quiet: color-mix(in srgb, var(--color-text) 72%, var(--color-muted));
+	--text-meta: color-mix(in srgb, var(--color-muted), var(--color-text) 22%);
+
 	/* Type scale — 1.2 ratio (minor third) from 19px Literata base.
 	   Heading steps ×1.061 to optically match Source Sans 3's smaller metrics. */
 	--step-0: 1.1875rem; /* 19px — body (Literata) */
 	--step-1: 1.512rem; /* 24.2px — archive titles (22.8 × 1.061, compensated) */
-	/* Heading steps are fluid: the old fixed values snapped h1 2rem→2.612rem
-	   (+30%) across the 768px breakpoint. clamp() interpolates 480→768px and
-	   lands exactly on the former mobile/desktop sizes at the ends. The rem
-	   intercept keeps page-zoom scaling (pure-vw clamps fail WCAG 1.4.4).
-	   Body and φ spacing stay stepped — they co-snap at 768px by design. */
-	--step-2: clamp(1.562rem, 1.144rem + 1.4vw, 1.814rem); /* 25px@480 → 29px@768 (h2) */
-	--step-4: clamp(2rem, 0.98rem + 3.4vw, 2.612rem); /* 32px@480 → 41.8px@768 (h1) */
+	/* Heading steps stay viewport-independent: type should respond to user zoom and
+	   deliberate breakpoints, not continuously scale with window width. */
+	--step-2: 1.814rem; /* 29px — h2 */
+	--step-4: 2.612rem; /* 41.8px — h1 */
 
 	/* Spacing — golden progression from body line-height (φ ≈ 1.618) */
 	--space-unit: 1.9rem;
@@ -60,5 +70,7 @@
 		--space-phi: 2.427rem; /* 1.5 × φ */
 		--space-phi2: 3.927rem; /* 1.5 × φ² */
 		--space-phi3: 6.354rem; /* 1.5 × φ³ */
+		--step-2: 1.562rem; /* 25px — h2 */
+		--step-4: 2rem; /* 32px — h1 */
 	}
 }

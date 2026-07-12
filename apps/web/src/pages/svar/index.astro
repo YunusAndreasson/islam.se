@@ -1,14 +1,21 @@
 ---
 import { getCollection } from "astro:content";
+import PageHead from "../../components/PageHead.astro";
 import Base from "../../layouts/Base.astro";
 import { breadcrumbList, collectionPageJsonLd } from "../../lib/jsonld";
+import { groupSvar } from "../../lib/svar";
 
-const entries = (await getCollection("svar")).sort((a, b) =>
-	a.data.title.localeCompare(b.data.title, "sv"),
-);
+// FRÅGOR & SVAR — the full, browsable question list. `groupSvar` arranges the
+// corpus into themed sections and drops the cornerstone Five Pillars + six Articles
+// of Faith (they live in the FAKTA hub at /vad-ar-islam/), so this index and the
+// hub never duplicate each other. A sticky category nav lets a reader jump straight
+// to a theme.
+const entries = await getCollection("svar");
+const groups = groupSvar(entries);
+const listed = groups.flatMap((g) => g.entries);
 
 const description =
-	"Tydliga, källbelagda svar på vanliga frågor om islam – tro, dyrkan, mat, familj och praktik. Grundade i Koranen och klassisk sunnitisk lärdom.";
+	"Tydliga, källbelagda svar på vanliga frågor om islam – tro, dyrkan, mat, familj, samhälle och historia. Grundade i Koranen och klassisk sunnitisk lärdom.";
 ---
 
 <Base
@@ -20,7 +27,7 @@ const description =
 			name: "Frågor och svar om islam",
 			description,
 			url: "/svar/",
-			essays: entries.map((e) => ({ title: e.data.title, slug: `svar/${e.id}` })),
+			essays: listed.map((e) => ({ title: e.data.title, slug: `svar/${e.id}` })),
 		}),
 		breadcrumbList([
 			{ name: "Hem", url: "/" },
@@ -28,66 +35,125 @@ const description =
 		]),
 	]}
 >
-	<main id="main" class="svar-index content-column">
-		<nav class="bt-crumbs" aria-label="Brödsmulor">
-			<a href="/">Hem</a> <span aria-hidden="true">/</span>
-			<span aria-current="page">Frågor och svar</span>
-		</nav>
+	<main id="main" class="svar-index home">
+		<PageHead title="Frågor & svar om islam">
+			Korta, tydliga och källbelagda svar på vanliga frågor om islam – från tro och dyrkan till mat,
+			familj, samhälle och historia. Vill du i stället ha grunderna förklarade finns
+			<a href="/vad-ar-islam/">de fem pelarna och trosartiklarna</a>; för fördjupade rättsliga frågor
+			hänvisar vi till <a href="https://al-ibadah.com" rel="noopener">al-ibadah.com</a>.
+		</PageHead>
 
-		<header class="svar-index-header">
-			<p class="label">Frågor och svar</p>
-			<h1>Frågor och svar om islam</h1>
-			<p class="svar-index-lead">
-				Korta, tydliga och källbelagda svar på de vanligaste frågorna om islam – från mat och
-				familj till tro och dyrkan. Varje svar är grundat i Koranen och klassisk sunnitisk
-				lärdom; för fördjupade rättsliga frågor hänvisar vi till <a href="https://al-ibadah.com" rel="noopener">al-ibadah.com</a>.
-			</p>
-		</header>
+		{groups.length > 0 ? (
+			<>
+				<nav class="svar-nav" aria-label="Kategorier">
+					<ul>
+						{groups.map((g) => (
+							<li>
+								<a href={`#${g.category.slug}`} data-cat={g.category.slug} class="filter-chip label">{g.category.short ?? g.category.name}</a>
+							</li>
+						))}
+					</ul>
+				</nav>
 
-		{entries.length > 0 ? (
-			<ul class="svar-list">
-				{entries.map((e) => (
-					<li class="svar-list-item">
-						<a href={`/svar/${e.id}/`}>
-							<span class="svar-list-title">{e.data.title}</span>
-							<span class="svar-list-desc">{e.data.description}</span>
-						</a>
-					</li>
+				{groups.map((g) => (
+					<section class="svar-section" id={g.category.slug} aria-labelledby={`sc-${g.category.slug}`}>
+						<h2 id={`sc-${g.category.slug}`}>{g.category.name}</h2>
+						{g.category.intro && <p class="svar-section-intro">{g.category.intro}</p>}
+						<ul class="svar-list">
+							{g.entries.map((e) => (
+								<li class="svar-list-item">
+									<a href={`/svar/${e.id}/`}>
+										<span class="svar-list-title">{e.data.title}</span>
+										<span class="svar-list-desc">{e.data.description}</span>
+									</a>
+								</li>
+							))}
+						</ul>
+					</section>
 				))}
-			</ul>
+			</>
 		) : (
 			<p>Inga frågor publicerade ännu.</p>
 		)}
 	</main>
 </Base>
 
-<style>
-	.svar-index { margin-block: var(--space-phi); }
+<script>
+	// Progressive enhancement: highlight the category chip whose section is in view.
+	// Plain anchors already work without this (jump + scroll-margin handle landing).
+	function bindSvarNav() {
+		const sections = Array.from(document.querySelectorAll<HTMLElement>(".svar-section"));
+		const chips = new Map(
+			Array.from(document.querySelectorAll<HTMLAnchorElement>(".svar-nav a")).map((a) => [
+				a.dataset.cat ?? "",
+				a,
+			]),
+		);
+		if (!sections.length || !chips.size) return;
 
-	.bt-crumbs {
-		font-family: var(--font-heading);
-		font-size: 0.8125rem;
-		color: var(--color-muted);
-		margin-bottom: var(--space-unit);
+		const obs = new IntersectionObserver(
+			(items) => {
+				for (const it of items) {
+					if (!it.isIntersecting) continue;
+					const id = (it.target as HTMLElement).id;
+					for (const [cat, chip] of chips)
+						chip.setAttribute("aria-current", cat === id ? "true" : "false");
+				}
+			},
+			// Trip when a heading reaches the upper third, under the sticky nav.
+			{ rootMargin: "-30% 0px -65% 0px" },
+		);
+		for (const s of sections) obs.observe(s);
 	}
-	.bt-crumbs a { color: var(--color-accent); text-decoration: none; }
 
-	.svar-index-header h1 { margin: var(--space-half) 0 0; }
+	document.addEventListener("astro:page-load", bindSvarNav);
+</script>
 
-	.svar-index-lead {
+<style>
+	.svar-index {
+		margin-block: var(--space-phi);
+	}
+
+	/* Category jump-nav: a wrapping pill row (no horizontal scroll), borrowed from
+	   Essäer's filter row so the two index pages divide their content the same way. */
+	.svar-nav {
+		/* Top gap is owned by .page-head's margin-bottom (shared by every section
+		   page); the nav only sets its space down to the first category. */
+		margin: 0 0 var(--space-unit);
+	}
+	.svar-nav ul {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.5rem;
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+	/* The pill itself is the shared global `.filter-chip` (+ `.label`), identical to
+	   Essäer's filter row. */
+
+	.svar-section {
+		margin-top: var(--space-phi);
+		/* Anchor jumps land below the sticky nav, not under it. */
+		scroll-margin-top: 4rem;
+	}
+	.svar-section h2 {
+		font-size: var(--step-1);
+		margin: 0;
+	}
+	.svar-section-intro {
 		font-family: var(--font-body);
 		font-size: 1.0625rem;
 		line-height: 1.6;
-		color: color-mix(in srgb, var(--color-text) 88%, var(--color-muted));
+		color: var(--color-muted);
 		max-width: 42rem;
-		margin: var(--space-unit) 0 0;
+		margin: 0.4rem 0 0;
 		text-wrap: pretty;
 	}
-	.svar-index-lead a { color: var(--color-accent); }
 
 	.svar-list {
 		list-style: none;
-		margin: var(--space-phi) 0 0;
+		margin: var(--space-unit) 0 0;
 		padding: 0;
 	}
 	.svar-list-item {
@@ -114,5 +180,7 @@ const description =
 		margin-top: 0.25rem;
 		text-wrap: pretty;
 	}
-	.svar-list-item a:hover .svar-list-title { text-decoration: underline; }
+	.svar-list-item a:hover .svar-list-title {
+		text-decoration: underline;
+	}
 </style>
