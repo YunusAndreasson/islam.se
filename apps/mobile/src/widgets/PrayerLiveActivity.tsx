@@ -8,9 +8,8 @@
 //
 // The countdown itself is `Text timerInterval … countsDown` — rendered live BY THE SYSTEM,
 // so it ticks every second with zero JS execution, no pushes and no background tasks.
-// Known limitation (no push infra, no background JS): when the countdown reaches 00:00 at
-// prayer time the activity lingers until the next app foreground ends/replaces it — see
-// src/widget/live-activity.ts. Push-to-start / APNs updates are a future follow-up.
+// At the prayer boundary ActivityKit's stale state switches the layout to the preloaded
+// following prayer, so the completed prayer never remains labelled as "next" at 00:00.
 import { HStack, Image, Spacer, Text, VStack } from '@expo/ui/swift-ui';
 import {
   font,
@@ -42,6 +41,13 @@ export interface PrayerActivityProps {
   startedAtMs: number;
   /** True when the slot is a time marker (sunrise), not an obligatory prayer. */
   isMarker: boolean;
+  /** The event to show after ActivityKit marks the current countdown stale. */
+  afterKey: PrayerKey;
+  afterArabic: string;
+  afterSwedish: string;
+  afterTime: string;
+  afterAtMs: number;
+  afterIsMarker: boolean;
 }
 
 function PrayerLiveActivityLayout(
@@ -93,13 +99,23 @@ function PrayerLiveActivityLayout(
   // Null/partial-safe, like the widget: never throw inside the extension.
   const p = (rawProps ?? {}) as Partial<PrayerActivityProps>;
 
-  const icon: SFSymbol = (typeof p.nextKey === 'string' && SF[p.nextKey]) || SF.fajr;
-  const name = typeof p.nextArabic === 'string' && p.nextArabic ? p.nextArabic : 'Bönetider';
-  const swedish = typeof p.nextSwedish === 'string' ? p.nextSwedish : '';
-  const time = typeof p.nextTime === 'string' && p.nextTime ? p.nextTime : '—';
-  const nextAtMs = typeof p.nextAtMs === 'number' ? p.nextAtMs : null;
-  const startedAtMs = typeof p.startedAtMs === 'number' ? p.startedAtMs : null;
-  const kindLabel = p.isMarker === true ? 'NÄSTA TID' : 'NÄSTA BÖN';
+  // Stock expo-widgets does not expose ActivityKit's stale state. The activity is
+  // advanced the next time the app refreshes it rather than inside the extension.
+  const advanced = false;
+  const key = advanced ? p.afterKey : p.nextKey;
+  const icon: SFSymbol = (typeof key === 'string' && SF[key]) || SF.fajr;
+  const rawName = advanced ? p.afterArabic : p.nextArabic;
+  const name = typeof rawName === 'string' && rawName ? rawName : 'Bönetider';
+  const rawSwedish = advanced ? p.afterSwedish : p.nextSwedish;
+  const swedish = typeof rawSwedish === 'string' ? rawSwedish : '';
+  const rawTime = advanced ? p.afterTime : p.nextTime;
+  const time = typeof rawTime === 'string' && rawTime ? rawTime : '—';
+  const targetAtMs = advanced ? p.afterAtMs : p.nextAtMs;
+  const nextAtMs = typeof targetAtMs === 'number' ? targetAtMs : null;
+  const lowerAtMs = advanced ? p.nextAtMs : p.startedAtMs;
+  const startedAtMs = typeof lowerAtMs === 'number' ? lowerAtMs : null;
+  const marker = advanced ? p.afterIsMarker : p.isMarker;
+  const kindLabel = marker === true ? 'NÄSTA TID' : 'NÄSTA BÖN';
 
   const tabular = monospacedDigit();
   const tracked = kerning(0.5);
