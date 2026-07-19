@@ -41,4 +41,23 @@ describe('LocationProvider startup', () => {
     await waitFor(() => expect(screen.getByTestId('location').props.children).toBe('manual:Göteborg'));
     expect(Location.requestForegroundPermissionsAsync).not.toHaveBeenCalled();
   });
+
+  it('ignores malformed fresh native fixes instead of exposing or caching them', async () => {
+    jest.mocked(Location.getCurrentPositionAsync).mockResolvedValueOnce({
+      coords: { latitude: Number.NaN, longitude: 18 },
+    } as never);
+
+    render(
+      <SettingsProvider>
+        <LocationProvider>
+          <Probe />
+        </LocationProvider>
+      </SettingsProvider>,
+    );
+
+    await waitFor(() => expect(Location.getCurrentPositionAsync).toHaveBeenCalledTimes(1));
+    await act(async () => {});
+    expect(screen.getByTestId('location').props.children).toBe('default:Stockholm (standard)');
+    expect(await AsyncStorage.getItem('lastGpsCoords:v1')).toBeNull();
+  });
 });

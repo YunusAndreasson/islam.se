@@ -55,4 +55,27 @@ describe('resolveLocation', () => {
     expect(r.source).toBe('manual');
     expect(r.coords.latitude).toBe(GOTHENBURG.latitude);
   });
+
+  it('rejects a malformed GPS fix and falls back honestly to the default', () => {
+    const r = resolveLocation('gps', null, { latitude: Number.NaN, longitude: 18 });
+    expect(r.source).toBe('default');
+    expect(r.coords).toEqual({
+      latitude: DEFAULT_COORDS.latitude,
+      longitude: DEFAULT_COORDS.longitude,
+    });
+    expect(r.label).toBe('Stockholm (standard)');
+  });
+
+  it('rejects corrupt manual coordinates instead of snapping them to an arbitrary place', () => {
+    const r = resolveLocation(
+      'manual',
+      { name: 'Corrupt', latitude: 200, longitude: 18 },
+      null,
+    );
+    expect(r.coords).toEqual({
+      latitude: DEFAULT_COORDS.latitude,
+      longitude: DEFAULT_COORDS.longitude,
+    });
+    expect(r.label).toBe('Stockholm');
+  });
 });

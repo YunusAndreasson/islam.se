@@ -55,19 +55,15 @@ describe('computePrayerTimes — invalid coordinates degrade to "—", never a w
   });
 });
 
-describe('qibla & nearestPlace — bad coordinates do not throw', () => {
-  it('qiblaBearing / qiblaDistanceKm return without throwing on NaN/out-of-range input', () => {
+describe('qibla & nearestPlace — bad coordinates fail explicitly', () => {
+  it('qiblaBearing / qiblaDistanceKm reject NaN/out-of-range input instead of returning NaN', () => {
     for (const coords of BAD_COORDS) {
-      expect(() => qiblaBearing(coords)).not.toThrow();
-      expect(() => qiblaDistanceKm(coords)).not.toThrow();
+      expect(() => qiblaBearing(coords)).toThrow(RangeError);
+      expect(() => qiblaDistanceKm(coords)).toThrow(RangeError);
     }
   });
 
-  it('nearestPlace returns a place without throwing on NaN input', () => {
-    // Every haversine comes back NaN, so no candidate ever beats the initial Infinity — the
-    // function must still return a valid place (the first), not crash the GPS-snap path.
-    const match = nearestPlace(Number.NaN, Number.NaN);
-    expect(match.place).toBeDefined();
-    expect(typeof match.place.name).toBe('string');
+  it('nearestPlace rejects NaN instead of silently returning the first dataset entry', () => {
+    expect(() => nearestPlace(Number.NaN, Number.NaN)).toThrow(RangeError);
   });
 });

@@ -4,6 +4,7 @@
 // drifting: the React context (live, inside the app) and the home-screen widget's
 // timeline builder (outside React, where there are no hooks). Keeping it framework-
 // free also makes the resolution table trivially unit-testable.
+import { isValidLatLng } from '../coordinates';
 import type { SwedishPlace } from '../places/data';
 import { nearestPlace } from '../places/nearest';
 import type { LatLng } from '../prayer-times';
@@ -37,14 +38,15 @@ export function resolveLocation(
   gpsCoords: LatLng | null,
 ): ResolvedLocation {
   if (locationMode === 'manual') {
-    const loc: NamedLocation = manualLocation ?? DEFAULT_COORDS;
+    const loc: NamedLocation =
+      manualLocation && isValidLatLng(manualLocation) ? manualLocation : DEFAULT_COORDS;
     const coords = { latitude: loc.latitude, longitude: loc.longitude };
     // In manual mode the chosen tätort IS the place — snap so the marker sits on the
     // canonical centre even if the stored coords drifted (older rounded picker entry).
     const snapped = nearestPlace(coords.latitude, coords.longitude).place;
     return { coords, label: loc.name, source: 'manual', place: snapped };
   }
-  if (gpsCoords) {
+  if (gpsCoords && isValidLatLng(gpsCoords)) {
     const snapped = nearestPlace(gpsCoords.latitude, gpsCoords.longitude).place;
     return { coords: gpsCoords, label: snapped.name, source: 'gps', place: snapped };
   }
