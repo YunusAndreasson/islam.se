@@ -54,7 +54,10 @@ const SHAFAQS = ['general', 'ahmer', 'abyad'] as const satisfies readonly Shafaq
 const ROUNDINGS = ['nearest', 'up', 'none'] as const satisfies readonly Rounding[];
 const LOCATION_MODES = ['gps', 'manual'] as const satisfies readonly LocationMode[];
 const THEMES = ['system', 'light', 'dark'] as const satisfies readonly ThemePreference[];
-const MAP_STYLES = ['nordic', 'standard', 'satellite'] as const satisfies readonly MapStyleId[];
+// `standard`/`satellite` remain in MapStyleId only to read older in-memory callers;
+// persisted values migrate to Nordic so remote stock labels cannot bypass the
+// app's Swedish place-label policy.
+const MAP_STYLES = ['nordic'] as const satisfies readonly MapStyleId[];
 const ADJUSTMENT_KEYS = ['fajr', 'sunrise', 'dhuhr', 'asr', 'maghrib', 'isha'] as const;
 
 function isRecord(x: unknown): x is Record<string, unknown> {

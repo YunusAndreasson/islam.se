@@ -45,6 +45,11 @@ describe('settings store', () => {
     expect(loaded.calculationMethod).toBe('MuslimWorldLeague');
   });
 
+  it('migrates legacy stock map styles to Nordic so label policy cannot be bypassed', async () => {
+    await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify({ mapStyle: 'satellite' }));
+    expect((await loadSettings()).mapStyle).toBe('nordic');
+  });
+
   it('deep-merges a partial adjustments object', async () => {
     await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify({ adjustments: { fajr: 7 } }));
     const loaded = await loadSettings();

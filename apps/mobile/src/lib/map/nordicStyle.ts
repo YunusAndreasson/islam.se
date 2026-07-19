@@ -59,6 +59,18 @@ const GLYPHS = USE_MAPTILER
 // so a label is never blank and never Cyrillic.
 const SV_LABEL: unknown = ['coalesce', ['get', 'name:sv'], ['get', 'name:latin'], ['get', 'name']];
 
+// Keep the country overview Swedish-first without maintaining a second city
+// source/layer. Copenhagen sits close enough to Malmö to win the shared symbol
+// collision at this zoom, so omit it and give Sweden's three largest cities —
+// followed by a sparse set of regional places — placement priority inside the
+// two existing vector-tile place layers. OpenMapTiles only starts emitting
+// `class=town` features at z7, so Kiruna/Borlänge enter there; no style filter can
+// make a feature exist in lower-zoom tiles without adding another data source.
+const PRIMARY_SWEDISH_CITIES = ['Stockholm', 'Göteborg', 'Malmö'];
+const FEATURED_SWEDISH_CITIES = ['Östersund', 'Växjö'];
+const FEATURED_SWEDISH_TOWNS = ['Kiruna', 'Borlänge'];
+const COPENHAGEN_NAMES = ['Köpenhamn', 'København', 'Copenhagen'];
+
 interface BasemapPalette {
   /** Land fill (background). */
   LAND: string;
@@ -389,14 +401,26 @@ function buildStyle(c: BasemapPalette, name: string): StyleSpecification {
         type: 'symbol',
         source: 'openmaptiles',
         'source-layer': 'place',
-        filter: ['==', ['get', 'class'], 'city'],
+        filter: [
+          'all',
+          ['==', ['get', 'class'], 'city'],
+          ['!', ['in', SV_LABEL, ['literal', COPENHAGEN_NAMES]]],
+        ],
         minzoom: 3,
         layout: {
           'text-field': SV_LABEL,
           'text-font': ['Noto Sans Bold'],
           'text-size': ['interpolate', ['linear'], ['zoom'], 3, 11, 6, 13, 10, 16, 14, 19],
           'text-max-width': 8,
-          'symbol-sort-key': ['coalesce', ['get', 'rank'], 99],
+          'symbol-sort-key': [
+            'match',
+            SV_LABEL,
+            PRIMARY_SWEDISH_CITIES,
+            0,
+            FEATURED_SWEDISH_CITIES,
+            1,
+            ['+', 10, ['coalesce', ['get', 'rank'], 99]],
+          ],
           // Name sits ABOVE the place point (atlas-style), not centred on it: the RN
           // overlay draws the user's brass dot AT the chosen city's coordinates, and
           // it can't join the basemap's symbol collision — a centred label put the
@@ -413,14 +437,15 @@ function buildStyle(c: BasemapPalette, name: string): StyleSpecification {
       },
 
       // Smaller Swedish towns and villages — fill in as you zoom into a region.
-      // minzoom 9 so the country view stays calm (only the city layer appears earlier).
+      // OpenMapTiles first emits towns at z7. Giving the two requested towns first
+      // placement priority keeps that regional view useful without a curated overlay.
       {
         id: 'label_town',
         type: 'symbol',
         source: 'openmaptiles',
         'source-layer': 'place',
         filter: ['in', ['get', 'class'], ['literal', ['town', 'village']]],
-        minzoom: 9,
+        minzoom: 7,
         layout: {
           'text-field': SV_LABEL,
           'text-font': ['Noto Sans Regular'],
@@ -429,7 +454,13 @@ function buildStyle(c: BasemapPalette, name: string): StyleSpecification {
             14, ['case', ['==', ['get', 'class'], 'town'], 14, 11.5],
           ],
           'text-max-width': 8,
-          'symbol-sort-key': ['coalesce', ['get', 'rank'], 99],
+          'symbol-sort-key': [
+            'match',
+            SV_LABEL,
+            FEATURED_SWEDISH_TOWNS,
+            0,
+            ['+', 10, ['coalesce', ['get', 'rank'], 99]],
+          ],
           // Same above-the-point anchoring as label_city (see there): the user can
           // pick ANY town from the places list, so every place label keeps its point
           // clear for the overlay's location dot.
@@ -505,30 +536,16 @@ export function nordicMapStyleFor(scheme: ColorSchemeName): StyleSpecification {
   return scheme === 'dark' ? NORDIC_DARK : NORDIC_LIGHT;
 }
 
-/** MapTiler stock-style URLs (returned as plain strings — MapLibre RN's `mapStyle`
-    prop accepts both a StyleSpecification and a URL). Each style.json carries its
-    own glyphs/sprites/sources/layers, so the basemap looks identical to MapTiler's
-    own renderer. Only available when a key is bundled — otherwise these fall back
-    to the Nordic style so the map is never blank. */
-const STREETS_URL = USE_MAPTILER
-  ? `https://api.maptiler.com/maps/streets-v2/style.json?key=${MAPTILER_KEY}`
-  : null;
-const SATELLITE_URL = USE_MAPTILER
-  ? `https://api.maptiler.com/maps/satellite/style.json?key=${MAPTILER_KEY}`
-  : null;
-
-/** Pick a basemap for the chosen `styleId` and current OS appearance. Falls back to
-    Nordic if a stock style is requested but no MapTiler key is bundled. */
+/** Pick the app-owned Nordic style. Legacy persisted stock-style values are accepted
+    by the type for migration, but deliberately resolve here too: a remote MapTiler
+    style owns its label layers, so it cannot honour the no-Copenhagen policy without
+    fetching/rewriting that style or adding a second label layer. */
 export function mapStyleFor(
-  styleId: 'nordic' | 'standard' | 'satellite',
+  _styleId: 'nordic' | 'standard' | 'satellite',
   scheme: ColorSchemeName,
-): StyleSpecification | string {
-  if (styleId === 'standard' && STREETS_URL) return STREETS_URL;
-  if (styleId === 'satellite' && SATELLITE_URL) return SATELLITE_URL;
+): StyleSpecification {
   return nordicMapStyleFor(scheme);
 }
 
-/** True if the build was bundled with a MapTiler key — drives the credits line in
-    Om appen and gates the Standard/Satellit choices in the Visning picker. */
+/** Tile provider used by the Nordic style — drives the credits line in Om appen. */
 export const TILES_PROVIDER: 'maptiler' | 'openfreemap' = USE_MAPTILER ? 'maptiler' : 'openfreemap';
-export const HAS_MAPTILER = USE_MAPTILER;
