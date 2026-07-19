@@ -39,13 +39,9 @@ export type Rounding = 'nearest' | 'up' | 'none';
  *  `'light'` / `'dark'` lock the app to one palette regardless of the OS. */
 export type ThemePreference = 'system' | 'light' | 'dark';
 
-/** Bönetider basemap. `'nordic'` is the custom warm-parchment / cool-navy
- *  cartography (the original Nordic Calm look — recommended). `'standard'` swaps
- *  in MapTiler's classic OSM streets style, more detail at city zoom for users
- *  who want roads + transit + addresses. `'satellite'` shows MapTiler's aerial
- *  imagery — useful for landmark recognition. The solar wash + prayer-line +
- *  city overlays continue rendering on top of every basemap. The 'standard' /
- *  'satellite' options require a MapTiler key bundled at build time. */
+/** Bönetider basemap. Nordic is the only selectable style. The two legacy values
+ *  remain in the serialised type so older persisted state can migrate cleanly; the
+ *  store and map renderer both resolve them to Nordic. */
 export type MapStyleId = 'nordic' | 'standard' | 'satellite';
 
 /** The six computed prayer slots plus sunrise, used as adjustment keys. */

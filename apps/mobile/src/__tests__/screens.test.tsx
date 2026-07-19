@@ -106,17 +106,21 @@ describe('tab screens', () => {
     expect(screen.getByLabelText(/^Qibla \d+ grader från norr$/)).toBeTruthy();
   });
 
-  it('renders the Inställningar screen once settings load', async () => {
-    await renderSettled(withProviders(<Installningar />));
-    // The header appears after the async settings hydration flips `loaded` (settled above).
-    await waitFor(() => expect(screen.getByText('Inställningar')).toBeTruthy());
-    // The "Förhandsvisning" preview is now folded into a DisclosureGroup
-    // (collapsed by default), so its prayer labels are hidden from queries until opened.
-    // Expanding it and finding a prayer label proves the live preview — and thus the
-    // calculation module — ran end-to-end inside the screen.
-    fireEvent.press(screen.getByRole('button', { name: /^Förhandsvisning/ }));
-    expect(screen.getAllByText(/Fajr/).length).toBeGreaterThan(0);
-  });
+  it(
+    'renders the Inställningar screen once settings load',
+    async () => {
+      await renderSettled(withProviders(<Installningar />));
+      // The header appears after the async settings hydration flips `loaded` (settled above).
+      await waitFor(() => expect(screen.getByText('Inställningar')).toBeTruthy());
+      // The "Förhandsvisning" preview is now folded into a DisclosureGroup
+      // (collapsed by default), so its prayer labels are hidden from queries until opened.
+      // Expanding it and finding a prayer label proves the live preview — and thus the
+      // calculation module — ran end-to-end inside the screen.
+      fireEvent.press(screen.getByRole('button', { name: /^Förhandsvisning/ }));
+      expect(screen.getAllByText(/Fajr/).length).toBeGreaterThan(0);
+    },
+    MAP_RENDER_TIMEOUT,
+  );
 
   it('uses platform-aware copy when GPS location permission is denied', async () => {
     jest

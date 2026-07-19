@@ -111,6 +111,10 @@ describe('OPTIONS — every typed key has exactly one labelled entry', () => {
   it('puts the app default calculation method first', () => {
     expect(METHOD_OPTIONS[0]?.value).toBe(DEFAULT_SETTINGS.calculationMethod);
   });
+
+  it('offers only the app-owned Nordic map style', () => {
+    expect(MAP_STYLE_OPTIONS.map((option) => option.value)).toEqual(['nordic']);
+  });
 });
 
 describe('label helpers', () => {

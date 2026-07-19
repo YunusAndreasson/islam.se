@@ -3,7 +3,6 @@
 // Extracted from the settings screen so the screen file stays thin and either an
 // inline control or (later) a sub-screen can share one source of truth.
 import type { Option } from '@/components/settings/OptionGroup';
-import { HAS_MAPTILER } from '@/lib/map/nordicStyle';
 
 import type {
   CalculationMethodKey,
@@ -92,21 +91,12 @@ export const THEME_OPTIONS: readonly Option<ThemePreference>[] = [
   { value: 'dark', label: 'Mörkt' },
 ];
 
-// Basemap picker. Nordic is the custom warm-parchment / cool-navy cartography —
-// the visual identity. Standard is MapTiler's classic OSM streets style for users
-// who want full road + address detail. Satellit is aerial imagery for landmark
-// recognition. The solar wash + prayer-line + city overlays render on top of every
-// basemap. The two MapTiler options are hidden when no key is bundled (otherwise
-// the picker would show choices that silently fall back to Nordic).
-export const MAP_STYLE_OPTIONS: readonly Option<MapStyleId>[] = HAS_MAPTILER
-  ? [
-      { value: 'nordic', label: 'Nordisk', description: 'Lugn karta i appens palett (rekommenderad)' },
-      { value: 'standard', label: 'Standard', description: 'Gator, transit och adresser' },
-      { value: 'satellite', label: 'Satellit', description: 'Flygfoto för platsigenkänning' },
-    ]
-  : [
-      { value: 'nordic', label: 'Nordisk', description: 'Lugn karta i appens palett (rekommenderad)' },
-    ];
+// One app-owned basemap keeps the Swedish label policy deterministic. Remote stock
+// styles own their place labels and would reintroduce Copenhagen unless we added a
+// second/custom label layer, which this map intentionally avoids.
+export const MAP_STYLE_OPTIONS: readonly Option<MapStyleId>[] = [
+  { value: 'nordic', label: 'Nordisk', description: 'Lugn karta i appens palett (rekommenderad)' },
+];
 
 /** Stepper display formatter: a signed minute offset, e.g. "+5 min" / "−3 min".
  *  NBSP before the unit so the number and "min" stay on one line. */
