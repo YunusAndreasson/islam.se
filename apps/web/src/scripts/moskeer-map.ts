@@ -14,6 +14,7 @@ import maplibregl, {
 // maplibre-gl.css is imported from the page frontmatter (moskeer.astro) so Astro emits
 // it as a real <link> in <head> — no runtime style injection / flash.
 import { SWEDEN_BBOX } from "../lib/bonetider/sweden-outline";
+import { haversineKm } from "../lib/geom";
 
 interface MosqueDatum {
 	id: string;
@@ -206,11 +207,12 @@ function mount() {
 		if (geoStatus) geoStatus.textContent = "";
 		const c = (e as GeolocationPosition).coords;
 		if (!c) return;
-		// Nearest mosque by squared-degree distance (fine at this scale).
+		// Longitude degrees get much shorter toward northern Sweden, so use a real
+		// great-circle distance rather than treating latitude/longitude as a flat grid.
 		let best: MosqueDatum | null = null;
 		let bestD = Number.POSITIVE_INFINITY;
 		for (const m of data) {
-			const d = (m.lat - c.latitude) ** 2 + (m.lng - c.longitude) ** 2;
+			const d = haversineKm(c.latitude, c.longitude, m.lat, m.lng);
 			if (d < bestD) {
 				bestD = d;
 				best = m;
@@ -380,13 +382,17 @@ function mount() {
 
 	// ── Filtering: search + län drive the map source, the list, and the count together ──
 	const lanById = new Map(items.map((it) => [it.dataset.id, it.dataset.lan]));
+	// Reuse the server-rendered haystack for the map as well as the list. It includes
+	// street addresses in addition to the name/location shown in the map payload.
+	const searchById = new Map(items.map((it) => [it.dataset.id, it.dataset.search ?? ""]));
 
 	function applyFilter() {
 		const q = norm(search?.value.trim() ?? "");
 		const lan = lanSelect?.value ?? "";
 		// Map: filter the data array by query + län (län comes from the rendered list item).
 		const visible = data.filter((m) => {
-			const okQ = q === "" || norm(`${m.name} ${m.location}`).includes(q);
+			const okQ =
+				q === "" || (searchById.get(m.id) ?? norm(`${m.name} ${m.location}`)).includes(q);
 			const okLan = lan === "" || lanById.get(m.id) === lan;
 			return okQ && okLan;
 		});
@@ -506,6 +512,9 @@ function mount() {
 				"circle-stroke-color": PALETTE[scheme].brassOn,
 			},
 		});
+		// A list item can be selected while the external style is still loading. In that
+		// case setActiveRing() returned early because this layer did not exist yet.
+		setActiveRing(activeId);
 
 		// Cluster click → zoom to expand.
 		map.on("click", "mk-clusters", async (e) => {
