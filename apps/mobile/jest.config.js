@@ -14,6 +14,7 @@ module.exports = {
   // It's an explicit allow-list, not a wildcard, so adding a new pure module is a
   // conscious decision to hold it to this bar.
   collectCoverageFrom: [
+    'src/lib/coordinates.ts',
     'src/lib/prayer-times.ts',
     'src/lib/hijri.ts',
     'src/lib/qibla.ts',
