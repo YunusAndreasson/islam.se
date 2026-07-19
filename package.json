@@ -8,13 +8,15 @@
 		"check:fix": "biome check --write .",
 		"lint:articles": "markdownlint-cli2 'data/articles/*.md'",
 		"knip": "knip",
+		"verify": "pnpm check && pnpm test && pnpm build",
 		"test": "vitest run",
 		"test:watch": "vitest",
 		"cli": "pnpm --filter @islam-se/cli run cli",
 		"produce": "pnpm --filter @islam-se/content-producer run produce",
 		"tui": "ISLAM_OUTPUT_DIR=$(pwd)/apps/content-producer/output pnpm --filter @islam-se/tui run dev",
 		"pdf": "pnpm --filter @islam-se/web run pdf",
-		"ship": "pnpm build && pnpm pdf && cd apps/web && wrangler pages deploy dist --project-name islam-se --branch master --commit-dirty=true"
+		"ship": "pnpm build && pnpm pdf && cd apps/web && wrangler pages deploy dist --project-name islam-se --branch master --commit-dirty=true",
+		"deploy": "pnpm ship"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "^2.4.16",
