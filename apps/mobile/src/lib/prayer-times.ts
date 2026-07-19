@@ -18,6 +18,7 @@ import type {
   PolarCircleResolutionKey,
   PrayerSettings,
 } from './settings/types';
+import { isValidLatLng } from './coordinates';
 
 export interface LatLng {
   latitude: number;
@@ -88,16 +89,6 @@ export function buildParams(settings: PrayerSettings, coords: Coordinates): Calc
   return params;
 }
 
-/** Whether a coordinate is real and on the globe — guards adhan against garbage input. */
-function coordsValid(coords: LatLng): boolean {
-  return (
-    Number.isFinite(coords.latitude) &&
-    Number.isFinite(coords.longitude) &&
-    Math.abs(coords.latitude) <= 90 &&
-    Math.abs(coords.longitude) <= 180
-  );
-}
-
 export function computePrayerTimes(
   coords: LatLng,
   date: Date,
@@ -110,7 +101,7 @@ export function computePrayerTimes(
   // valid night that never comes) — a hard crash. So for invalid input, substitute NaN
   // coordinates and the no-op Unresolved resolver: every slot becomes an Invalid Date that
   // formatTime renders as "—" — honest, and crash-free. Valid coordinates are untouched.
-  const valid = coordsValid(coords);
+  const valid = isValidLatLng(coords);
   const c = valid
     ? new Coordinates(coords.latitude, coords.longitude)
     : new Coordinates(Number.NaN, Number.NaN);

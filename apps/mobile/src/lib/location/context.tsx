@@ -15,6 +15,7 @@ import {
   useState,
 } from 'react';
 
+import { isValidLatLng } from '../coordinates';
 import { useSettings } from '../settings/context';
 import type { LatLng } from '../prayer-times';
 import type { SwedishPlace } from '../places/data';
@@ -58,22 +59,6 @@ interface LocationStatusValue {
 const LocationContext = createContext<LocationContextValue | null>(null);
 const LocationStatusContext = createContext<LocationStatusValue | null>(null);
 
-// A cached fix is untrusted input (could be a corrupt or partial blob): only accept it
-// when both coordinates are finite and in range, so a bad cache can't flow into
-// nearestPlace as NaN. Mirrors the validation the settings store applies to manualLocation.
-function validCachedFix(value: unknown): value is LatLng {
-  if (typeof value !== 'object' || value === null) return false;
-  const { latitude, longitude } = value as Record<string, unknown>;
-  return (
-    typeof latitude === 'number' &&
-    Number.isFinite(latitude) &&
-    Math.abs(latitude) <= 90 &&
-    typeof longitude === 'number' &&
-    Number.isFinite(longitude) &&
-    Math.abs(longitude) <= 180
-  );
-}
-
 export function LocationProvider({ children }: { children: ReactNode }) {
   const { settings, loaded } = useSettings();
   const { locationMode, manualLocation } = settings;
@@ -98,12 +83,16 @@ export function LocationProvider({ children }: { children: ReactNode }) {
       // Last-known is instant; current is authoritative. Use last-known first so
       // the UI updates immediately, then upgrade to the fresh fix.
       const last = await Location.getLastKnownPositionAsync();
-      if (last) setGpsCoords({ latitude: last.coords.latitude, longitude: last.coords.longitude });
+      const lastCoords = last
+        ? { latitude: last.coords.latitude, longitude: last.coords.longitude }
+        : null;
+      if (isValidLatLng(lastCoords)) setGpsCoords(lastCoords);
 
       const current = await Location.getCurrentPositionAsync({
         accuracy: Location.LocationAccuracy.Balanced,
       });
       const next = { latitude: current.coords.latitude, longitude: current.coords.longitude };
+      if (!isValidLatLng(next)) return 'error';
       setGpsCoords(next);
       void AsyncStorage.setItem(GPS_CACHE_KEY, JSON.stringify(next));
       return 'ok';
@@ -124,7 +113,7 @@ export function LocationProvider({ children }: { children: ReactNode }) {
         if (!active || !raw) return;
         try {
           const parsed: unknown = JSON.parse(raw);
-          if (validCachedFix(parsed)) setGpsCoords((prev) => prev ?? parsed);
+          if (isValidLatLng(parsed)) setGpsCoords((prev) => prev ?? parsed);
         } catch {
           // ignore corrupt cache
         }

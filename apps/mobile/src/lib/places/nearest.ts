@@ -6,6 +6,7 @@
 //     no separate geocoder needed (works offline, no API key).
 // Brute-force great-circle distance over ~2,100 places is well under 1 ms on
 // a phone, so no spatial index. Keep it that way.
+import { isValidLatLng } from '../coordinates';
 import { PLACES, type SwedishPlace } from './data';
 
 const EARTH_KM = 6371.0088;
@@ -31,6 +32,9 @@ export interface NearestPlaceMatch {
 
 /** Closest place in PLACES to (lat, lon). Always returns a match — the dataset is non-empty. */
 export function nearestPlace(lat: number, lon: number): NearestPlaceMatch {
+  if (!isValidLatLng({ latitude: lat, longitude: lon })) {
+    throw new RangeError('nearestPlace requires finite latitude/longitude within ±90/±180');
+  }
   let bestIdx = 0;
   let bestKm = Number.POSITIVE_INFINITY;
   for (let i = 0; i < PLACES.length; i++) {
