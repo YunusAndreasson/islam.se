@@ -103,9 +103,22 @@ describe('buildPrayerActivityProps', () => {
     expect(props?.isMarker).toBe(false);
   });
 
+  it('preloads the following prayer for the stale-date transition', () => {
+    const now = ref.asr.getTime() - 30 * 60 * 1000;
+    const payload = buildPayloadAt(STOCKHOLM, settings(), now, 'Stockholm');
+    const following = buildPayloadAt(STOCKHOLM, settings(), ref.asr.getTime() + 1000, 'Stockholm');
+    const props = buildPrayerActivityProps(payload, now, following);
+
+    expect(props).not.toBeNull();
+    expect(props?.nextKey).toBe('asr');
+    expect(props?.afterKey).toBe('maghrib');
+    expect(props?.afterAtMs).toBe(ref.maghrib.getTime());
+    expect(props?.afterIsMarker).toBe(false);
+  });
+
   it('returns null in the polar midnight sun when no next slot resolves', () => {
-    // Kiruna midsummer: Fajr/Isha/sunrise/sunset are unresolved; depending on the hour
-    // there may be nothing to count down to at all — must not fabricate a countdown.
+    // With the explicit unresolved polar rule, every remaining/tomorrow-Fajr candidate
+    // is absent at this hour — the activity must not fabricate a countdown.
     const noon = new Date(
       MIDSUMMER.getFullYear(),
       MIDSUMMER.getMonth(),
@@ -113,13 +126,13 @@ describe('buildPrayerActivityProps', () => {
       23,
       30,
     ).getTime();
-    const payload = buildPayloadAt(KIRUNA, settings(), noon, 'Kiruna');
-    if (payload.nextAtMs == null) {
-      expect(buildPrayerActivityProps(payload, noon)).toBeNull();
-    } else {
-      // If a slot did resolve, the props must agree with the payload, never invent one.
-      const props = buildPrayerActivityProps(payload, noon);
-      if (props) expect(props.nextAtMs).toBe(payload.nextAtMs);
-    }
+    const payload = buildPayloadAt(
+      KIRUNA,
+      settings({ polarCircleResolution: 'unresolved' }),
+      noon,
+      'Kiruna',
+    );
+    expect(payload.nextAtMs).toBeNull();
+    expect(buildPrayerActivityProps(payload, noon)).toBeNull();
   });
 });

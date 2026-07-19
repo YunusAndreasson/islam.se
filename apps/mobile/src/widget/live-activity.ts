@@ -5,10 +5,8 @@
 // WidgetSync), alongside the widget timeline push.
 //
 // The countdown itself is system-rendered (Text timerInterval), so once started it
-// ticks with no JS. With no push infra and no background JS the activity can't be
-// ended AT prayer time — it sits at 00:00 until the next foreground reconciles it.
-// The 60-minute window below keeps that staleness bounded (and is when a countdown
-// is actually glanceable). Push-to-start / APNs updates are a future follow-up.
+// ticks with no JS. ActivityKit marks the content stale at the prayer boundary; the
+// layout then switches to a preloaded following prayer without waking the app.
 import { Platform } from 'react-native';
 
 import type { LatLng } from '../lib/prayer-times';
@@ -34,6 +32,7 @@ export function isWithinLiveActivityWindow(nextAtMs: number | null, now: number)
 export function buildPrayerActivityProps(
   payload: WidgetPayload,
   now: number,
+  followingPayload?: WidgetPayload,
 ): PrayerActivityProps | null {
   if (!isWithinLiveActivityWindow(payload.nextAtMs, now)) return null;
   // Post-Isha the next slot is tomorrow's Fajr (no row is flagged isNext then) — but
@@ -42,6 +41,27 @@ export function buildPrayerActivityProps(
     ? { key: 'fajr' as const, isMarker: false }
     : payload.rows.find((r) => r.isNext);
   if (!nextRow || payload.nextAtMs == null) return null;
+  const followingRow = followingPayload?.nextIsTomorrow
+    ? { key: 'fajr' as const, isMarker: false }
+    : followingPayload?.rows.find((r) => r.isNext);
+  const after =
+    followingRow && followingPayload?.nextAtMs != null
+      ? {
+          key: followingRow.key,
+          arabic: followingPayload.nextArabic,
+          swedish: followingPayload.nextSwedish,
+          time: followingPayload.nextTime,
+          atMs: followingPayload.nextAtMs,
+          isMarker: followingRow.isMarker,
+        }
+      : {
+          key: nextRow.key,
+          arabic: payload.nextArabic,
+          swedish: payload.nextSwedish,
+          time: payload.nextTime,
+          atMs: payload.nextAtMs,
+          isMarker: nextRow.isMarker,
+        };
   return {
     nextKey: nextRow.key,
     nextArabic: payload.nextArabic,
@@ -50,6 +70,12 @@ export function buildPrayerActivityProps(
     nextAtMs: payload.nextAtMs,
     startedAtMs: now,
     isMarker: nextRow.isMarker,
+    afterKey: after.key,
+    afterArabic: after.arabic,
+    afterSwedish: after.swedish,
+    afterTime: after.time,
+    afterAtMs: after.atMs,
+    afterIsMarker: after.isMarker,
   };
 }
 
@@ -72,7 +98,11 @@ export async function syncPrayerLiveActivity(
     // without the widget extension.
     const { default: PrayerLiveActivity } = await import('../widgets/PrayerLiveActivity');
     const payload = buildPayloadAt(coords, settings, now, location);
-    const props = buildPrayerActivityProps(payload, now);
+    const followingPayload =
+      payload.nextAtMs == null
+        ? undefined
+        : buildPayloadAt(coords, settings, payload.nextAtMs + 1000, location);
+    const props = buildPrayerActivityProps(payload, now, followingPayload);
     const instances = PrayerLiveActivity.getInstances();
 
     if (!props) {
