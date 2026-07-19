@@ -15,7 +15,9 @@ pnpm check                      # Run Biome linting
 pnpm check:fix                  # Fix linting issues
 pnpm knip                       # Find dead code/unused exports
 pnpm test                       # Run vitest tests
+pnpm verify                     # check + test + build (full check — run before finishing)
 pnpm tui                        # Launch terminal UI (Ink)
+pnpm deploy                     # Alias for pnpm ship (build + pdf + deploy web app)
 
 # Quote database
 pnpm cli import-url <url>       # Import from single URL
@@ -42,6 +44,15 @@ pnpm produce research-only <topic>  # Research stage only
 pnpm produce ideate <topic>     # Generate 10 article ideas with quote enrichment
 pnpm produce status <path>      # Check article/idea status
 ```
+
+## Deploy
+
+- **Web app (`apps/web`, Astro → Cloudflare Pages):** `pnpm deploy` (alias for
+  `pnpm ship`) from the repo root — builds all packages, generates PDFs, then
+  `wrangler pages deploy dist --project-name islam-se --branch master`.
+  Requires wrangler auth (`wrangler login`).
+- **MCP articles worker (`apps/mcp-articles`, Cloudflare Worker):**
+  `pnpm deploy` inside `apps/mcp-articles` — bundles articles then `wrangler deploy`.
 
 ## Architecture
 
@@ -73,7 +84,7 @@ apps/
 ├── content-producer/    # Article production CLI
 ├── tui/                 # Terminal UI for idea management and pipeline (Ink/React)
 ├── mcp-quotes/          # MCP server for quote/book/Quran/Wikipedia tools
-└── web/                 # Future web app placeholder
+└── web/                 # Astro site (islam.se), deployed to Cloudflare Pages via pnpm ship
 ```
 
 **Data flow:** URL → Fetch → Claude extraction → Local embeddings → SQLite → Search/Content pipeline
