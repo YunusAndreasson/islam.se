@@ -111,6 +111,8 @@ const KNOWN_KOMMUNS = new Set(PLACES.map((p) => p.kommun).filter((k): k is strin
 /** "Stockholms" → "Stockholm" (address genitive → SCB nominative), but only when the
  *  stripped form is a real kommun, so genuine -s names ("Tranås", "Bollnäs") survive. */
 function normalizeKommun(k: string): string {
+	if (k === "Falu") return "Falun";
+	if (k === "Sundbybergs") return "Sundbyberg";
 	if (KNOWN_KOMMUNS.has(k)) return k;
 	if (k.endsWith("s") && KNOWN_KOMMUNS.has(k.slice(0, -1))) return k.slice(0, -1);
 	return k;
@@ -129,6 +131,29 @@ function nearestPlace(lat: number, lng: number): IndexedPlace {
 		}
 	}
 	return best;
+}
+
+/** Prefer an explicitly named locality in the address over the geometrically nearest
+ *  prayer-times place. The nearest point can be a neighbouring district or locality
+ *  (for example Håga for an address explicitly in Uppsala), which is unsuitable for
+ *  the user-facing mosque city pages. The last matching address component is normally
+ *  the postal town, after any neighbourhood names. */
+function placeFromAddress(address: string): IndexedPlace | undefined {
+	const addressKommun = kommunFromAddress(address);
+	const expectedKommun = addressKommun ? normalizeKommun(addressKommun) : undefined;
+	const parts = address
+		.split(",")
+		.map((part) => part.trim().toLocaleLowerCase("sv"))
+		.filter(Boolean);
+	for (let i = parts.length - 1; i >= 0; i--) {
+		const match = INDEXED_PLACES.find(
+			(place) =>
+				place.name.toLocaleLowerCase("sv") === parts[i] &&
+				(!expectedKommun || place.kommun === expectedKommun),
+		);
+		if (match) return match;
+	}
+	return undefined;
 }
 
 /** Parse "…, X kommun, …" out of the long Nominatim-style address, when present. */
@@ -187,19 +212,48 @@ function cleanAddress(raw: string): { address?: string; postalCode?: string } {
 
 /** Stable, unique slug for a mosque: name → kebab, qualified by kommun on collision,
  *  then a numeric suffix. Mutates `taken` to reserve the result. */
-function uniqueSlug(name: string, city: string, kommun: string, taken: Set<string>): string {
+function uniqueSlug(
+	name: string,
+	city: string,
+	kommun: string,
+	taken: Set<string>,
+	reserved: ReadonlySet<string>,
+): string {
 	let slug = slugify(name) || slugify(`moske-${city}`);
-	if (taken.has(slug)) {
+	if (taken.has(slug) || reserved.has(slug)) {
 		slug = `${slug}-${slugify(kommun)}`;
 		let n = 2;
-		while (taken.has(slug)) slug = `${slugify(name)}-${slugify(kommun)}-${n++}`;
+		while (taken.has(slug) || reserved.has(slug)) {
+			slug = `${slugify(name)}-${slugify(kommun)}-${n++}`;
+		}
 	}
 	taken.add(slug);
 	return slug;
 }
 
+function coordinateKey(lat: number, lng: number): string {
+	return `${lat},${lng}`;
+}
+
 async function main() {
 	const text = await readFile(csvPath, "utf8");
+	// IDs are public fragment identifiers used by map and city-page permalinks. Preserve
+	// the ID already assigned to the same coordinates so editorial name changes do not
+	// silently break existing links when this importer is run again.
+	let previousMosques: Mosque[] = [];
+	try {
+		previousMosques = JSON.parse(await readFile(jsonPath, "utf8")) as Mosque[];
+	} catch (error) {
+		if ((error as NodeJS.ErrnoException).code !== "ENOENT") throw error;
+	}
+	const previousByCoordinates = new Map<string, Mosque[]>();
+	const reservedSlugs = new Set(previousMosques.map((mosque) => mosque.id));
+	for (const mosque of previousMosques) {
+		const key = coordinateKey(mosque.lat, mosque.lng);
+		const matches = previousByCoordinates.get(key);
+		if (matches) matches.push(mosque);
+		else previousByCoordinates.set(key, [mosque]);
+	}
 	const rows = parseCsv(text);
 	const header = rows[0];
 	const expected = [
@@ -237,17 +291,20 @@ async function main() {
 			throw new Error(`Row ${i + 1}: coordinates outside Sweden (${lat}, ${lng})`);
 		}
 
-		const place = nearestPlace(lat, lng);
+		const rawAddress = col(r, "address");
+		const place = placeFromAddress(rawAddress) ?? nearestPlace(lat, lng);
 		const city = place.name;
 		const citySlug = place.slug;
 		const lan = place.county || "Övriga";
-		const rawAddress = col(r, "address");
 		// Prefer the SCB nominative kommun ("Karlshamn") over the address genitive
 		// ("Karlshamns kommun"); fall back to the address, then the nearest town name.
 		const addressKommun = kommunFromAddress(rawAddress);
-		const kommun = normalizeKommun(place.kommun ?? addressKommun ?? city);
+		const kommun = normalizeKommun(addressKommun ?? place.kommun ?? city);
 		if (!addressKommun) derivedLan++;
-		const { address, postalCode } = cleanAddress(rawAddress);
+		const cleanedAddress = cleanAddress(rawAddress);
+		// A locality-only value helps select the correct city but is not a useful street address.
+		const address = cleanedAddress.address === city ? undefined : cleanedAddress.address;
+		const { postalCode } = cleanedAddress;
 
 		let name = col(r, "name").replace(/\s+/g, " ").trim();
 		if (!name) {
@@ -255,7 +312,11 @@ async function main() {
 			namedFromCity++;
 		}
 
-		const slug = uniqueSlug(name, city, kommun, takenSlugs);
+		const previous = previousByCoordinates
+			.get(coordinateKey(lat, lng))
+			?.find((candidate) => !takenSlugs.has(candidate.id));
+		const slug = previous?.id ?? uniqueSlug(name, city, kommun, takenSlugs, reservedSlugs);
+		takenSlugs.add(slug);
 
 		const mosque: Mosque = {
 			id: slug,
