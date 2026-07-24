@@ -35,7 +35,7 @@ const threads = await getCollection("tradar");
 				<li class="collection-index-item">
 					<a href={`/tradar/${thread.id}/`}>
 						<h2 class="collection-index-title">{thread.data.title}</h2>
-						<p class="collection-index-framing">{thread.data.framing}</p>
+						<p class="lead collection-index-framing">{thread.data.framing}</p>
 						<p class="label collection-index-count">{thread.data.essays.length} essäer</p>
 					</a>
 				</li>
@@ -91,12 +91,9 @@ const threads = await getCollection("tradar");
 	}
 
 	.collection-index-framing {
-		font-family: var(--font-body);
-		font-size: 1rem;
-		line-height: 1.5;
-		color: color-mix(in srgb, var(--color-text) 75%, var(--color-muted));
-		margin: 0.5rem 0 0;
-		max-width: 38rem;
+		--lead-color: var(--text-quiet);
+		--lead-measure: 38rem;
+		--lead-margin: 0.5rem 0 0;
 	}
 
 	.collection-index-count {

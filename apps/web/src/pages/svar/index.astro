@@ -58,7 +58,7 @@ const description =
 				{groups.map((g) => (
 					<section class="svar-section" id={g.category.slug} aria-labelledby={`sc-${g.category.slug}`}>
 						<h2 id={`sc-${g.category.slug}`}>{g.category.name}</h2>
-						{g.category.intro && <p class="svar-section-intro">{g.category.intro}</p>}
+						{g.category.intro && <p class="lead svar-section-intro">{g.category.intro}</p>}
 						<ul class="svar-list">
 							{g.entries.map((e) => (
 								<li class="svar-list-item">
@@ -149,13 +149,8 @@ const description =
 		margin: 0;
 	}
 	.svar-section-intro {
-		font-family: var(--font-body);
-		font-size: 1.0625rem;
-		line-height: 1.6;
-		color: var(--color-muted);
-		max-width: 42rem;
-		margin: 0.4rem 0 0;
-		text-wrap: pretty;
+		--lead-color: var(--color-muted);
+		--lead-margin: 0.4rem 0 0;
 	}
 
 	.svar-list {

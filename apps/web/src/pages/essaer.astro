@@ -79,7 +79,7 @@ const western = thinkers.filter((t) => t.data.tradition === "western");
 							<h2 class="essay-section-title archive-section-heading">
 								<a href={`/amnen/${amne.slug}`}>{amne.name}</a>
 							</h2>
-							<p class="essay-section-framing">{amne.framing}</p>
+							<p class="lead essay-section-framing">{amne.framing}</p>
 						</header>
 
 						{cards.length > 0 && (
@@ -236,12 +236,9 @@ const western = thinkers.filter((t) => t.data.tradition === "western");
 		margin: 0;
 	}
 	.essay-section-framing {
-		font-family: var(--font-body);
-		font-size: 1rem;
-		line-height: 1.5;
-		color: var(--color-muted);
-		margin: 0.4rem 0 0;
-		max-width: 40rem;
+		--lead-color: var(--color-muted);
+		--lead-measure: 40rem;
+		--lead-margin: 0.4rem 0 0;
 	}
 
 	/* Up to three of the most recent essays with art open each ämne as image cards —

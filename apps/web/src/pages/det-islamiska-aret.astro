@@ -128,7 +128,7 @@ const faqLd =
 			har stöd i hadith tas upp.
 		</PageHead>
 
-		{leadSummary && <p class="md-answer">{leadSummary}</p>}
+		{leadSummary && <p class="lead md-answer">{leadSummary}</p>}
 
 		<p class="md-subscribe label">
 			<a href="webcal://islam.se/det-islamiska-aret.ics">Prenumerera i din kalender</a>
@@ -276,13 +276,8 @@ const faqLd =
 	}
 
 	.md-answer {
-		font-family: var(--font-body);
-		font-size: 1.0625rem;
-		line-height: 1.6;
-		color: var(--text-strong);
-		max-width: 42rem;
-		margin: var(--space-unit) 0 0;
-		text-wrap: pretty;
+		--lead-color: var(--text-strong);
+		--lead-margin: var(--space-unit) 0 0;
 	}
 
 	.md-faq {

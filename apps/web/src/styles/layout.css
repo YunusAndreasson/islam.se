@@ -1,200 +1,241 @@
-/* Label — Source Sans 3 small-caps utility (meta lines, stats, colophons) */
-.label {
-	font-family: var(--font-heading);
-	font-variant-numeric: lining-nums tabular-nums;
-	font-size: 0.862rem;
-	letter-spacing: 0.06em;
-	text-transform: uppercase;
-	font-feature-settings: "case";
-	color: var(--color-muted);
-}
+@layer primitives {
+	/* Lead — the line of framing under a page or section heading.
 
-/* Arrow link — a heading/label link that grows a → on hover. The arrow inherits
+   This was the site's most-duplicated pattern: fourteen scoped blocks under
+   fourteen names (.page-head-lead, .collection-lead, .svar-section-intro,
+   .fakta-cluster-head p, .bh2-lead, .md-answer, .podcast-lead,
+   .essay-section-framing, .collection-index-framing …), which between them had
+   drifted to three font sizes, three line-heights, four colours and four
+   measures for what is one thing. That variance was drift, not design — it is
+   why the index pages never quite read as one family.
+
+   One definition, with knobs for the differences that are real. Set them on the
+   element's own rule; don't re-declare the properties.
+     --lead-size     type size          (default: the section lead)
+     --lead-color    text colour
+     --lead-measure  max-width
+     --lead-margin   surrounding space */
+	.lead {
+		font-family: var(--font-body);
+		font-size: var(--lead-size, 1.0625rem);
+		line-height: 1.6;
+		color: var(--lead-color, var(--text-body));
+		max-width: var(--lead-measure, var(--content-width));
+		margin: var(--lead-margin, var(--space-half) 0 0);
+		text-wrap: pretty;
+	}
+
+	.lead a {
+		color: var(--color-accent);
+	}
+
+	/* The ingress under an index page's h1 — the one lead that should carry more
+   weight than the section leads beneath it. */
+	.lead--page {
+		--lead-size: 1.1875rem;
+		--lead-color: var(--text-strong);
+		--lead-margin: var(--space-unit) 0 0;
+	}
+
+	/* Label — Source Sans 3 small-caps utility (meta lines, stats, colophons) */
+	.label {
+		font-family: var(--font-heading);
+		font-variant-numeric: lining-nums tabular-nums;
+		font-size: 0.862rem;
+		letter-spacing: 0.06em;
+		text-transform: uppercase;
+		font-feature-settings: "case";
+		color: var(--color-muted);
+	}
+
+	/* Arrow link — a heading/label link that grows a → on hover. The arrow inherits
    the link's colour; links that want a quieter arrow than their text set their own
    ::after colour. Used by the section links, the ämne overflow link, the daily
    verse links, and the archive link. */
-.arrow-link::after {
-	content: " →";
-	display: inline-block;
-	transition: translate 0.2s ease;
-}
+	.arrow-link::after {
+		content: " →";
+		display: inline-block;
+		transition: translate 0.2s ease;
+	}
 
-.arrow-link:hover::after,
-.arrow-link:focus-visible::after {
-	translate: 0.2em 0;
-}
+	.arrow-link:hover::after,
+	.arrow-link:focus-visible::after {
+		translate: 0.2em 0;
+	}
 
-/* Focus ring — the single keyboard-focus outline for any directly-focusable
+	/* Focus ring — the single keyboard-focus outline for any directly-focusable
    element that carries a class (cards, list links, controls). Colour/width/radius
    are constant; only the offset varies, set per use via --focus-offset. The older
    scoped `… a:focus-visible` descendant rules elsewhere predate this primitive and
    are left as the author tuned them. */
-.focus-ring:focus-visible {
-	outline: 2px solid var(--color-accent);
-	outline-offset: var(--focus-offset, 2px);
-	border-radius: 2px;
-}
+	.focus-ring:focus-visible {
+		outline: 2px solid var(--color-accent);
+		outline-offset: var(--focus-offset, 2px);
+		border-radius: 2px;
+	}
 
-/* Skip link — visible only on keyboard focus */
-.skip-link {
-	position: absolute;
-	top: -100%;
-	left: var(--padding-inline);
-	z-index: 100;
-	padding: 0.5rem 1rem;
-	background: var(--color-bg);
-	color: var(--color-accent);
-	font-family: var(--font-heading);
-	font-size: 0.875rem;
-	text-decoration: none;
-	border: 1px solid var(--color-divider);
-	border-radius: 1.25rem;
+	/* Skip link — visible only on keyboard focus */
+	.skip-link {
+		position: absolute;
+		top: -100%;
+		left: var(--padding-inline);
+		z-index: 100;
+		padding: 0.5rem 1rem;
+		background: var(--color-bg);
+		color: var(--color-accent);
+		font-family: var(--font-heading);
+		font-size: 0.875rem;
+		text-decoration: none;
+		border: 1px solid var(--color-divider);
+		border-radius: 1.25rem;
 
-	&:focus {
-		top: var(--padding-inline);
+		&:focus {
+			top: var(--padding-inline);
+		}
 	}
 }
 
-/* Content column — centered, constrained measure (reading + utility pages) */
-.content-column {
-	max-width: var(--content-width);
-	margin-inline: auto;
-	padding-left: var(--safe-left);
-	padding-right: var(--safe-right);
-}
+@layer layout {
+	/* Content column — centered, constrained measure (reading + utility pages) */
+	.content-column {
+		max-width: var(--content-width);
+		margin-inline: auto;
+		padding-left: var(--safe-left);
+		padding-right: var(--safe-right);
+	}
 
-/* ============================================================
+	/* ============================================================
    Home shell — a wider editorial canvas than the reading column.
    Modules share this left/right edge and inner measure so the page
    reads as one composition rather than a stack (plan §11 gestalt).
    ============================================================ */
-.home {
-	max-width: var(--home-width);
-	margin-inline: auto;
-	padding-left: var(--safe-left);
-	padding-right: var(--safe-right);
-}
+	.home {
+		max-width: var(--home-width);
+		margin-inline: auto;
+		padding-left: var(--safe-left);
+		padding-right: var(--safe-right);
+	}
 
-/* A movement in the homepage sequence. Generous vertical breathing
+	/* A movement in the homepage sequence. Generous vertical breathing
    between movements; a hairline rule is the only divider, used sparingly. */
-.home-movement {
-	margin-block: var(--space-phi2);
-	/* Modern-browser perf: skip layout/paint for movements still off-screen until
+	.home-movement {
+		margin-block: var(--space-phi2);
+		/* Modern-browser perf: skip layout/paint for movements still off-screen until
 	   the reader scrolls near them — a real win on this long, multi-movement page.
 	   `auto` remembers the actual height after first render so the scrollbar never
 	   jumps; 700px is only the pre-first-render placeholder estimate. The feature
 	   (first movement) is above the fold, so it renders immediately — no LCP cost. */
-	content-visibility: auto;
-	contain-intrinsic-size: auto 700px;
-}
+		content-visibility: auto;
+		contain-intrinsic-size: auto 700px;
+	}
 
-.home-movement:first-child {
-	margin-top: var(--space-phi);
-}
+	.home-movement:first-child {
+		margin-top: var(--space-phi);
+	}
 
-/* Act grouping — the homepage falls into five movements-of-movements (det nya ·
+	/* Act grouping — the homepage falls into five movements-of-movements (det nya ·
    stillhet · arkivet · den dagliga rytmen · avslut). Sections inside an act keep
    the default phi2 rhythm; an act's opening section gets a phi3 top — the gap
    ratio is φ itself — so the eye reads five groups, not a flat ladder of equal
    blocks. Openers are tagged by their root class. (Stillhet opens on .vers, with
    Citat a normal phi2 sibling after it.) */
-.home > .vers,
-.home > .amnen,
-.home > .markesdagar,
-.home > .bookpod {
-	margin-top: var(--space-phi3);
-}
+	.home > .vers,
+	.home > .amnen,
+	.home > .markesdagar,
+	.home > .bookpod {
+		margin-top: var(--space-phi3);
+	}
 
-/* Section head-row — a kicker paired with a quiet "Alla X" link on one baseline.
+	/* Section head-row — a kicker paired with a quiet "Alla X" link on one baseline.
    Shared by the truncated discovery sections (Trådar, Tänkare) so they read as
    one family; the link appears precisely where the homepage shows a glimpse and
    the full set lives behind an index. (Ämnen shows every topic, so it needs no
    such link and keeps a bare kicker — similarity following function.) */
-.home-head {
-	display: flex;
-	justify-content: space-between;
-	align-items: baseline;
-	gap: 1rem;
-	margin-bottom: var(--space-unit);
-}
+	.home-head {
+		display: flex;
+		justify-content: space-between;
+		align-items: baseline;
+		gap: 1rem;
+		margin-bottom: var(--space-unit);
+	}
 
-.home-head .home-kicker {
-	margin-bottom: 0;
-}
+	.home-head .home-kicker {
+		margin-bottom: 0;
+	}
 
-.home-head-all {
-	flex-shrink: 0;
-	text-decoration: none;
-	transition: color 0.15s ease;
-	/* WCAG 2.5.8 (target size ≥24px): the small-caps label is only ~22px tall. Pad the
+	.home-head-all {
+		flex-shrink: 0;
+		text-decoration: none;
+		transition: color 0.15s ease;
+		/* WCAG 2.5.8 (target size ≥24px): the small-caps label is only ~22px tall. Pad the
 	   hit area past 24px; the matching negative margin reclaims the space so the
 	   baseline head-row keeps its exact height. */
-	display: inline-flex;
-	align-items: center;
-	padding-block: 0.3rem;
-	margin-block: -0.3rem;
-}
+		display: inline-flex;
+		align-items: center;
+		padding-block: 0.3rem;
+		margin-block: -0.3rem;
+	}
 
-.home-head-all:hover {
-	color: var(--color-accent);
-}
+	.home-head-all:hover {
+		color: var(--color-accent);
+	}
 
-.home-head-all:focus-visible {
-	outline: 2px solid var(--color-accent);
-	outline-offset: 3px;
-	border-radius: 2px;
-}
+	.home-head-all:focus-visible {
+		outline: 2px solid var(--color-accent);
+		outline-offset: 3px;
+		border-radius: 2px;
+	}
 
-/* Movement label — the kicker that names a section in the site voice. A small
+	/* Movement label — the kicker that names a section in the site voice. A small
    warm accent tick + the uppercase label + the generous whitespace between
    movements mark each section; that quiet tick (not a full-width rule) is the
    threshold, so the page reads as distinct chapters without a ladder of lines.
    (The feature hero overrides the tick off — there the kicker is an eyebrow
    beneath the image, not a section joint.) */
-.home-kicker {
-	display: flex;
-	align-items: center;
-	gap: 0.7rem;
-	/* margin-top/font-weight are pinned so a section kicker reads identically whether
+	.home-kicker {
+		display: flex;
+		align-items: center;
+		gap: 0.7rem;
+		/* margin-top/font-weight are pinned so a section kicker reads identically whether
 	   it is a <p> or a promoted <h2> (the global h2 rule would otherwise add a φ top
 	   margin and 620 weight). The kicker is the section's real heading. */
-	margin-top: 0;
-	margin-bottom: var(--space-unit);
-	font-size: 0.92rem;
-	font-weight: 400;
-	letter-spacing: 0.09em;
-	color: color-mix(in srgb, var(--color-muted) 65%, var(--color-text));
-}
+		margin-top: 0;
+		margin-bottom: var(--space-unit);
+		font-size: 0.92rem;
+		font-weight: 400;
+		letter-spacing: 0.09em;
+		color: color-mix(in srgb, var(--color-muted) 65%, var(--color-text));
+	}
 
-.home-kicker::before {
-	content: "";
-	flex: none;
-	inline-size: 1.6rem;
-	block-size: 2px;
-	background: var(--color-warm);
-}
+	.home-kicker::before {
+		content: "";
+		flex: none;
+		inline-size: 1.6rem;
+		block-size: 2px;
+		background: var(--color-warm);
+	}
 
-/* Media frame — the shared art-directed container for every essay photo.
+	/* Media frame — the shared art-directed container for every essay photo.
    Wraps the image (which carries EssayImage's base tonal wash) with a fine film
    grain and a soft inset vignette, so each picture is seated rather than pasted
    on as a hard rectangle. The two overlay layers are pointer-transparent and
    sit above the image, so they don't interfere with the hover scale/bloom. The
    grain stays fixed while the image scales — it reads as a real film layer.
    Used by .feature-media, .recent-media, .amne-lead-media, .amne-trio-media. */
-.media-frame {
-	position: relative;
-	overflow: hidden;
-	/* Soft, modern corners — no longer a hard rectangular cut, but restrained
+	.media-frame {
+		position: relative;
+		overflow: hidden;
+		/* Soft, modern corners — no longer a hard rectangular cut, but restrained
 	   enough to stay in the strict editorial voice. */
-	border-radius: 10px;
-	/* Warm undertone while a lazy image decodes — the frame arrives seated in
+		border-radius: 10px;
+		/* Warm undertone while a lazy image decodes — the frame arrives seated in
 	   the palette instead of popping from blank page background. Invisible once
 	   the opaque cover image paints. */
-	background-color: color-mix(in srgb, var(--color-warm) 18%, var(--color-bg));
-	transition: box-shadow 0.5s cubic-bezier(0.2, 0, 0.1, 1);
-}
+		background-color: color-mix(in srgb, var(--color-warm) 18%, var(--color-bg));
+		transition: box-shadow 0.5s cubic-bezier(0.2, 0, 0.1, 1);
+	}
 
-/* Page transitions — deliberately none.
+	/* Page transitions — deliberately none.
 
    This used to run Astro's default root cross-fade plus a hero morph
    (view-transition-class on every .media-frame, paired by transition:name).
@@ -213,907 +254,893 @@
 
    ClientRouter stays: it is what persists that chrome and keeps the audio
    playing across pages. Only the animation is dropped. */
-::view-transition-group(root),
-::view-transition-old(root),
-::view-transition-new(root) {
-	animation: none;
-}
+	::view-transition-group(root),
+	::view-transition-old(root),
+	::view-transition-new(root) {
+		animation: none;
+	}
 
-::view-transition-old(root) {
-	/* Without this the outgoing snapshot lingers at full opacity on top of the
+	::view-transition-old(root) {
+		/* Without this the outgoing snapshot lingers at full opacity on top of the
 	   new page for the (now zero-length) animation and the swap looks stuck. */
-	display: none;
-}
+		display: none;
+	}
 
-/* Film grain — desaturated fractal noise, blended soft-light at a whisper. */
-.media-frame::after {
-	content: "";
-	position: absolute;
-	inset: 0;
-	pointer-events: none;
-	border-radius: inherit;
-	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-	background-size: 160px 160px;
-	opacity: 0.07;
-	mix-blend-mode: soft-light;
-}
+	/* Film grain — desaturated fractal noise, blended soft-light at a whisper. */
+	.media-frame::after {
+		content: "";
+		position: absolute;
+		inset: 0;
+		pointer-events: none;
+		border-radius: inherit;
+		background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+		background-size: 160px 160px;
+		opacity: 0.07;
+		mix-blend-mode: soft-light;
+	}
 
-/* Soft inset vignette — gently darkens the edges so the crop melts into the
+	/* Soft inset vignette — gently darkens the edges so the crop melts into the
    page instead of cutting against the cream. Lifted above the image; recedes on
    hover so the photo opens up. */
-.media-frame::before {
-	content: "";
-	position: absolute;
-	inset: 0;
-	z-index: 1;
-	pointer-events: none;
-	border-radius: inherit;
-	box-shadow: inset 0 0 26px -4px rgb(var(--hero-black) / 0.2);
-	opacity: 1;
-	transition: opacity 0.6s cubic-bezier(0.2, 0, 0.1, 1);
-}
+	.media-frame::before {
+		content: "";
+		position: absolute;
+		inset: 0;
+		z-index: 1;
+		pointer-events: none;
+		border-radius: inherit;
+		box-shadow: inset 0 0 26px -4px rgb(var(--hero-black) / 0.2);
+		opacity: 1;
+		transition: opacity 0.6s cubic-bezier(0.2, 0, 0.1, 1);
+	}
 
-/* Hover / keyboard-focus: the frame lifts off the page on a soft shadow and the
+	/* Hover / keyboard-focus: the frame lifts off the page on a soft shadow and the
    edge vignette opens — the image "awakens." Pairs with the per-module colour
    bloom + gentle zoom on the <img>. Every .media-frame sits inside an <a>, so a
    single rule drives all the homepage modules. */
-a:hover .media-frame,
-a:focus-visible .media-frame {
-	box-shadow: 0 22px 48px -28px rgb(var(--hero-black) / 0.55);
-}
+	a:hover .media-frame,
+	a:focus-visible .media-frame {
+		box-shadow: 0 22px 48px -28px rgb(var(--hero-black) / 0.55);
+	}
 
-a:hover .media-frame::before,
-a:focus-visible .media-frame::before {
-	opacity: 0.3;
-}
+	a:hover .media-frame::before,
+	a:focus-visible .media-frame::before {
+		opacity: 0.3;
+	}
 
-/* Every framed image fills its frame and is cropped uniformly — each module sets
+	/* Every framed image fills its frame and is cropped uniformly — each module sets
    only its own aspect-ratio (on the inner <img>, via :global from its scope). The
    base tonal wash lives on the <img> in EssayImage; on hover the wrapping link
    eases that wash back to full colour and lifts the picture a touch. Per-module
    zoom via --frame-zoom (default 1.03; the larger feature uses 1.02). One rule
    here replaces the cover + bloom that every picture module used to repeat. */
-.media-frame img {
-	display: block;
-	width: 100%;
-	object-fit: cover;
-}
+	.media-frame img {
+		display: block;
+		width: 100%;
+		object-fit: cover;
+	}
 
-a:hover .media-frame img,
-a:focus-visible .media-frame img {
-	scale: var(--frame-zoom, 1.03);
-	filter: saturate(1) contrast(1) brightness(1) sepia(0);
-}
+	a:hover .media-frame img,
+	a:focus-visible .media-frame img {
+		scale: var(--frame-zoom, 1.03);
+		filter: saturate(1) contrast(1) brightness(1) sepia(0);
+	}
 
-/* ============================================================
+	/* ============================================================
    Site header — wordmark + palette trigger. Static, sticky, auto-hides
    on scroll-down. (Navigation lives in the command palette.)
    ============================================================ */
-.site-header {
-	padding: var(--padding-inline);
-	padding-left: var(--safe-left);
-	padding-right: var(--safe-right);
-	display: flex;
-	justify-content: space-between;
-	align-items: baseline;
-	position: sticky;
-	top: 0;
-	z-index: 10;
-	background-color: var(--color-bg);
-	transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+	.site-header {
+		padding: var(--padding-inline);
+		padding-left: var(--safe-left);
+		padding-right: var(--safe-right);
+		display: flex;
+		justify-content: space-between;
+		align-items: baseline;
+		position: sticky;
+		top: 0;
+		z-index: 10;
+		background-color: var(--color-bg);
+		transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
-	&.header-hidden {
-		transform: translateY(-100%);
-	}
+		&.header-hidden {
+			transform: translateY(-100%);
+		}
 
-	/* Under-mast fade — communicates "content passing underneath", so it only
+		/* Under-mast fade — communicates "content passing underneath", so it only
 	   appears once the page is actually scrolled (.is-scrolled from Header.astro).
 	   At rest it used to wash out faint borders on flush-to-top content. */
-	&::after {
-		content: "";
-		position: absolute;
-		inset: 100% 0 auto;
-		height: 1.5rem;
-		background: linear-gradient(to bottom, var(--color-bg), transparent);
-		pointer-events: none;
-		opacity: 0;
-		transition: opacity 0.2s ease;
+		&::after {
+			content: "";
+			position: absolute;
+			inset: 100% 0 auto;
+			height: 1.5rem;
+			background: linear-gradient(to bottom, var(--color-bg), transparent);
+			pointer-events: none;
+			opacity: 0;
+			transition: opacity 0.2s ease;
+		}
+
+		&.is-scrolled::after {
+			opacity: 1;
+		}
 	}
 
-	&.is-scrolled::after {
-		opacity: 1;
+	.nav-dot {
+		color: var(--color-divider);
+		font-size: 1.25em;
+		line-height: 1;
 	}
-}
 
-.nav-dot {
-	color: var(--color-divider);
-	font-size: 1.25em;
-	line-height: 1;
-}
+	/* Home link — flex container so ۞ and text align perfectly */
+	.site-home {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.25em;
+		letter-spacing: 0.08em;
+		font-weight: 600;
+	}
 
-/* Home link — flex container so ۞ and text align perfectly */
-.site-home {
-	display: inline-flex;
-	align-items: center;
-	gap: 0.25em;
-	letter-spacing: 0.08em;
-	font-weight: 600;
-}
+	.site-tld {
+		position: relative;
+		top: 0.04em;
+	}
 
-.site-tld {
-	position: relative;
-	top: 0.04em;
-}
+	.nav-rub {
+		width: 1.35em;
+		height: 1.35em;
+		flex-shrink: 0;
+	}
 
-.nav-rub {
-	width: 1.35em;
-	height: 1.35em;
-	flex-shrink: 0;
-}
-
-/* Three tracks: wordmark (left), links (centred in the mast), trigger (right).
+	/* Three tracks: wordmark (left), links (centred in the mast), trigger (right).
    Centring the middle track on the viewport — not packing it next to the
    wordmark — needs equal 1fr gutters either side. Columns are assigned
    explicitly so that when the links are hidden (touch / narrow) the wordmark and
    trigger keep their left/right gutters instead of collapsing toward centre. */
-.site-nav {
-	display: grid;
-	grid-template-columns: 1fr auto 1fr;
-	align-items: center;
-	width: 100%;
-	font-family: var(--font-heading);
-	font-size: 1rem;
-	font-weight: 500;
-	line-height: 1;
-	letter-spacing: 0.04em;
-	text-transform: uppercase;
-	font-feature-settings: "case";
-}
+	.site-nav {
+		display: grid;
+		grid-template-columns: 1fr auto 1fr;
+		align-items: center;
+		width: 100%;
+		font-family: var(--font-heading);
+		font-size: 1rem;
+		font-weight: 500;
+		line-height: 1;
+		letter-spacing: 0.04em;
+		text-transform: uppercase;
+		font-feature-settings: "case";
+	}
 
-.site-home {
-	grid-column: 1;
-	justify-self: start;
-}
+	.site-home {
+		grid-column: 1;
+		justify-self: start;
+	}
 
-/* Right track: the next-prayer chip + the palette trigger, packed to the end. */
-.site-nav-end {
-	grid-column: 3;
-	justify-self: end;
-	display: flex;
-	align-items: center;
-	gap: clamp(0.6rem, 1.6vw, 1.1rem);
-}
+	/* Right track: the next-prayer chip + the palette trigger, packed to the end. */
+	.site-nav-end {
+		grid-column: 3;
+		justify-self: end;
+		display: flex;
+		align-items: center;
+		gap: clamp(0.6rem, 1.6vw, 1.1rem);
+	}
 
-/* The next-prayer chip — a calm, glanceable indicator that links to /bonetider/.
+	/* The next-prayer chip — a calm, glanceable indicator that links to /bonetider/.
    Sun by day, crescent by night (toggled live by bonetider-field). */
-.mast-prayer {
-	display: inline-flex;
-	align-items: center;
-	gap: 0.45rem;
-	text-decoration: none;
-	color: var(--color-text);
-	text-transform: none;
-	letter-spacing: normal;
-	font-feature-settings: normal;
-	white-space: nowrap;
-}
+	.mast-prayer {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.45rem;
+		text-decoration: none;
+		color: var(--color-text);
+		text-transform: none;
+		letter-spacing: normal;
+		font-feature-settings: normal;
+		white-space: nowrap;
+	}
 
-.mast-prayer-icon {
-	flex: none;
-	display: grid;
-	place-items: center;
-	width: 1.05rem;
-	height: 1.05rem;
-}
+	.mast-prayer-icon {
+		flex: none;
+		display: grid;
+		place-items: center;
+		width: 1.05rem;
+		height: 1.05rem;
+	}
 
-.mast-prayer-icon svg {
-	width: 100%;
-	height: 100%;
-}
+	.mast-prayer-icon svg {
+		width: 100%;
+		height: 100%;
+	}
 
-.mast-prayer-icon .mp-sun {
-	color: var(--color-warm);
-}
+	.mast-prayer-icon .mp-sun {
+		color: var(--color-warm);
+	}
 
-.mast-prayer-icon .mp-moon {
-	color: var(--color-muted);
-}
+	.mast-prayer-icon .mp-moon {
+		color: var(--color-muted);
+	}
 
-.mast-prayer-icon[data-day="true"] .mp-moon,
-.mast-prayer-icon[data-day="false"] .mp-sun {
-	display: none;
-}
-
-.mast-prayer-name {
-	font-family: var(--font-heading);
-	font-size: 0.875rem;
-	font-weight: 600;
-}
-
-.mast-prayer-time {
-	font-family: var(--font-body);
-	font-variant-numeric: lining-nums tabular-nums;
-	font-size: 0.85rem;
-	color: var(--color-accent);
-}
-
-.mast-prayer:hover .mast-prayer-name {
-	color: var(--color-accent);
-}
-
-.mast-prayer:focus-visible {
-	outline: 2px solid var(--color-accent);
-	outline-offset: 3px;
-	border-radius: 4px;
-}
-
-/* Tight mast (small phones): keep the icon + time, drop the name — the moon/sun
-   already says "prayer" and the aria-label carries the full label for SR. */
-@media (width <= 26rem) {
-	.mast-prayer-name {
+	.mast-prayer-icon[data-day="true"] .mp-moon,
+	.mast-prayer-icon[data-day="false"] .mp-sun {
 		display: none;
 	}
-}
 
-.site-nav .search-trigger {
-	justify-self: end;
-}
+	.mast-prayer-name {
+		font-family: var(--font-heading);
+		font-size: 0.875rem;
+		font-weight: 600;
+	}
 
-/* Inline links — the mast's standing destinations, centred in the middle track
+	.mast-prayer-time {
+		font-family: var(--font-body);
+		font-variant-numeric: lining-nums tabular-nums;
+		font-size: 0.85rem;
+		color: var(--color-accent);
+	}
+
+	.mast-prayer:hover .mast-prayer-name {
+		color: var(--color-accent);
+	}
+
+	.mast-prayer:focus-visible {
+		outline: 2px solid var(--color-accent);
+		outline-offset: 3px;
+		border-radius: 4px;
+	}
+
+	/* Tight mast (small phones): keep the icon + time, drop the name — the moon/sun
+   already says "prayer" and the aria-label carries the full label for SR. */
+	@media (width <= 26rem) {
+		.mast-prayer-name {
+			display: none;
+		}
+	}
+
+	.site-nav .search-trigger {
+		justify-self: end;
+	}
+
+	/* Inline links — the mast's standing destinations, centred in the middle track
    and vertically centred with the wordmark (align-items: center on both the grid
    and the list). */
-.site-links {
-	grid-column: 2;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	gap: clamp(0.9rem, 2vw, 1.6rem);
-	margin: 0;
-	padding: 0;
-	list-style: none;
-}
+	.site-links {
+		grid-column: 2;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: clamp(0.9rem, 2vw, 1.6rem);
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
 
-.site-links a {
-	font-size: 0.875rem;
-	font-weight: 500;
-}
+	.site-links a {
+		font-size: 0.875rem;
+		font-weight: 500;
+	}
 
-.site-nav a {
-	color: var(--color-text);
-	text-decoration: none;
-	transition: color 0.15s;
-}
+	.site-nav a {
+		color: var(--color-text);
+		text-decoration: none;
+		transition: color 0.15s;
+	}
 
-.site-nav a:hover {
-	color: var(--color-accent);
-}
+	.site-nav a:hover {
+		color: var(--color-accent);
+	}
 
-.site-nav a[aria-current] {
-	color: var(--color-accent);
-}
+	.site-nav a[aria-current] {
+		color: var(--color-accent);
+	}
 
-/* On touch / coarse pointers the trigger becomes "Meny" and the palette is the
+	/* On touch / coarse pointers the trigger becomes "Meny" and the palette is the
    whole menu — so the inline links would duplicate it. Hide them there, and on
    any viewport too narrow to carry the row comfortably (the palette still covers
    them: ⌘K / "/" on a keyboard, the Meny button on touch). */
-@media (hover: none), (pointer: coarse) {
-	.site-links {
-		display: none;
+	@media (hover: none), (pointer: coarse) {
+		.site-links {
+			display: none;
+		}
 	}
-}
 
-/* Too narrow to carry the wordmark + 5 links + trigger without crowding — drop
+	/* Too narrow to carry the wordmark + 5 links + trigger without crowding — drop
    the inline links (⌘K / "/" still opens the palette on a keyboard). */
-@media (width <= 900px) {
-	.site-links {
-		display: none;
+	@media (width <= 900px) {
+		.site-links {
+			display: none;
+		}
 	}
-}
 
-/* Palette trigger — the mast's only control now that navigation lives in the
+	/* Palette trigger — the mast's only control now that navigation lives in the
    command palette. On pointer devices it's a quiet hairline pill: magnifier +
    "Sök" + a ⌘K hint. On touch the palette IS the whole site menu, so the pill
    becomes a conventional ☰ "Meny" affordance instead (the ⌘K hint, meaningless
    without a keyboard, is dropped). The menu variant is hidden by default and
    revealed only in the touch media query below. */
-.search-trigger {
-	display: inline-flex;
-	align-items: center;
-	gap: 0.45rem;
-	padding: 0.4rem 0.7rem;
-	border: 1px solid var(--color-divider);
-	border-radius: 1.4rem;
-	background: transparent;
-	color: var(--color-muted);
-	font-family: var(--font-heading);
-	font-size: 0.9rem;
-	font-weight: 500;
-	letter-spacing: 0.04em;
-	line-height: 1;
-	text-transform: uppercase;
-	font-feature-settings: "case";
-	cursor: pointer;
-	transition:
-		color 0.15s,
-		border-color 0.15s;
+	.search-trigger {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.45rem;
+		padding: 0.4rem 0.7rem;
+		border: 1px solid var(--color-divider);
+		border-radius: 1.4rem;
+		background: transparent;
+		color: var(--color-muted);
+		font-family: var(--font-heading);
+		font-size: 0.9rem;
+		font-weight: 500;
+		letter-spacing: 0.04em;
+		line-height: 1;
+		text-transform: uppercase;
+		font-feature-settings: "case";
+		cursor: pointer;
+		transition:
+			color 0.15s,
+			border-color 0.15s;
 
-	&:hover {
-		color: var(--color-accent);
-		border-color: color-mix(in srgb, var(--color-warm) 55%, var(--color-divider));
+		&:hover {
+			color: var(--color-accent);
+			border-color: color-mix(in srgb, var(--color-warm) 55%, var(--color-divider));
+		}
+
+		&:focus-visible {
+			outline: 2px solid var(--color-accent);
+			outline-offset: 2px;
+		}
 	}
 
-	&:focus-visible {
-		outline: 2px solid var(--color-accent);
-		outline-offset: 2px;
+	.search-trigger-icon {
+		flex-shrink: 0;
 	}
-}
 
-.search-trigger-icon {
-	flex-shrink: 0;
-}
-
-/* The menu (☰) icon + "Meny" label belong to touch only; hidden on pointer
+	/* The menu (☰) icon + "Meny" label belong to touch only; hidden on pointer
    devices, where the magnifier + "Sök" + ⌘K pill stands. */
-.search-trigger-icon--menu,
-.search-trigger-label--menu {
-	display: none;
-}
-
-.search-trigger-kbd {
-	display: inline-flex;
-	align-items: center;
-	gap: 0.05em;
-	padding: 0.15em 0.4em;
-	font-size: 0.72em;
-	letter-spacing: 0.02em;
-	color: var(--color-muted);
-	background: color-mix(in srgb, var(--color-text) 7%, transparent);
-	border-radius: 0.4rem;
-}
-
-.search-trigger-cmd {
-	font-size: 1.05em;
-}
-
-/* Touch / no-hover pointers: the pill becomes a ☰ "Meny" button (the palette is
-   the whole navigation here), the keyboard hint is dropped, and the tap target
-   widens. */
-@media (hover: none), (pointer: coarse) {
-	.search-trigger-icon--search,
-	.search-trigger-label--search,
-	.search-trigger-kbd {
+	.search-trigger-icon--menu,
+	.search-trigger-label--menu {
 		display: none;
 	}
 
-	.search-trigger-icon--menu {
-		display: inline-block;
+	.search-trigger-kbd {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.05em;
+		padding: 0.15em 0.4em;
+		font-size: 0.72em;
+		letter-spacing: 0.02em;
+		color: var(--color-muted);
+		background: color-mix(in srgb, var(--color-text) 7%, transparent);
+		border-radius: 0.4rem;
 	}
 
-	.search-trigger-label--menu {
-		display: inline;
+	.search-trigger-cmd {
+		font-size: 1.05em;
 	}
 
-	.search-trigger {
-		min-height: 2.75rem;
-		padding-inline: 0.85rem;
-	}
-}
+	/* Touch / no-hover pointers: the pill becomes a ☰ "Meny" button (the palette is
+   the whole navigation here), the keyboard hint is dropped, and the tap target
+   widens. */
+	@media (hover: none), (pointer: coarse) {
+		.search-trigger-icon--search,
+		.search-trigger-label--search,
+		.search-trigger-kbd {
+			display: none;
+		}
 
-/* ============================================================
+		.search-trigger-icon--menu {
+			display: inline-block;
+		}
+
+		.search-trigger-label--menu {
+			display: inline;
+		}
+
+		.search-trigger {
+			min-height: 2.75rem;
+			padding-inline: 0.85rem;
+		}
+	}
+
+	/* ============================================================
    Site footer — global, site-wide chrome (rendered from Base on every page).
    Two tiers: a quiet navigation row (the crawlable sitemap, kept lighter than the
    masthead), then the colophon (quieter still), set apart by space rather than a
    rule so it never reads as a packed block.
    ============================================================ */
-.site-footer {
-	max-width: var(--home-width);
-	margin: var(--space-phi2) auto 0;
-	padding-block: var(--space-phi) var(--space-phi2);
-	padding-left: var(--safe-left);
-	padding-right: var(--safe-right);
-	border-top: 1px solid var(--color-divider);
-	text-align: center;
-}
+	.site-footer {
+		max-width: var(--home-width);
+		margin: var(--space-phi2) auto 0;
+		padding-block: var(--space-phi) var(--space-phi2);
+		padding-left: var(--safe-left);
+		padding-right: var(--safe-right);
+		border-top: 1px solid var(--color-divider);
+		text-align: center;
+	}
 
-.site-footer-nav {
-	display: flex;
-	flex-wrap: wrap;
-	justify-content: center;
-	/* WCAG 2.5.8: on mobile the 8 links wrap to several rows. axe measures the
+	.site-footer-nav {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
+		/* WCAG 2.5.8: on mobile the 8 links wrap to several rows. axe measures the
 	   safe-clickable space between neighbouring links in BOTH axes, so both the row and
 	   column gap clear 24px (≥24px between adjacent link boxes). The links' own padding
 	   keeps each box well past 24×24. */
-	gap: 1.5rem;
-	font-family: var(--font-heading);
-	/* Quiet secondary chrome: smaller than the mast links (0.875rem) and muted, so
+		gap: 1.5rem;
+		font-family: var(--font-heading);
+		/* Quiet secondary chrome: smaller than the mast links (0.875rem) and muted, so
 	   the footer never out-shouts the top menu — it's the crawlable sitemap, not a
 	   second headline nav. */
-	font-size: 0.8125rem;
-	font-weight: 500;
-	letter-spacing: 0.05em;
-	text-transform: uppercase;
-	font-feature-settings: "case";
-}
+		font-size: 0.8125rem;
+		font-weight: 500;
+		letter-spacing: 0.05em;
+		text-transform: uppercase;
+		font-feature-settings: "case";
+	}
 
-.site-footer-nav a {
-	color: var(--color-muted);
-	text-decoration: none;
-	transition: color 0.15s;
-	/* WCAG 2.5.8 (target size ≥24px): short labels — "AI" was 14px wide, "Om" 23px —
+	.site-footer-nav a {
+		color: var(--color-muted);
+		text-decoration: none;
+		transition: color 0.15s;
+		/* WCAG 2.5.8 (target size ≥24px): short labels — "AI" was 14px wide, "Om" 23px —
 	   fell under 24px. Pad each link past 24×24; the trimmed nav gap above keeps the
 	   footer's spacing visually identical. */
-	display: inline-flex;
-	align-items: center;
-	padding: 0.2rem 0.5rem;
-}
+		display: inline-flex;
+		align-items: center;
+		padding: 0.2rem 0.5rem;
+	}
 
-.site-footer-nav a:hover,
-.site-footer-nav a[aria-current] {
-	color: var(--color-accent);
-}
+	.site-footer-nav a:hover,
+	.site-footer-nav a[aria-current] {
+		color: var(--color-accent);
+	}
 
-.site-footer-colophon {
-	margin-top: var(--space-phi);
-}
+	.site-footer-colophon {
+		margin-top: var(--space-phi);
+	}
 
-.site-footer-names {
-	font-family: var(--font-heading);
-	font-size: 0.862rem;
-	letter-spacing: 0.06em;
-	color: var(--color-muted);
-	margin: 0 0 0.5rem;
-}
+	.site-footer-names {
+		font-family: var(--font-heading);
+		font-size: 0.862rem;
+		letter-spacing: 0.06em;
+		color: var(--color-muted);
+		margin: 0 0 0.5rem;
+	}
 
-.site-footer-meta {
-	display: inline-flex;
-	flex-wrap: wrap;
-	align-items: baseline;
-	justify-content: center;
-	gap: 0.5rem;
-	margin: 0;
-}
+	.site-footer-meta {
+		display: inline-flex;
+		flex-wrap: wrap;
+		align-items: baseline;
+		justify-content: center;
+		gap: 0.5rem;
+		margin: 0;
+	}
 
-.site-footer-colophon a {
-	color: var(--color-muted);
-	text-decoration: none;
-	transition: color 0.15s;
-	/* WCAG 2.5.8: these meta links sit at ~22px tall. Pad the hit area past 24px; the
+	.site-footer-colophon a {
+		color: var(--color-muted);
+		text-decoration: none;
+		transition: color 0.15s;
+		/* WCAG 2.5.8: these meta links sit at ~22px tall. Pad the hit area past 24px; the
 	   negative margin keeps the baseline-aligned colophon line at its original height. */
-	display: inline-block;
-	padding-block: 0.3rem;
-	margin-block: -0.3rem;
-}
+		display: inline-block;
+		padding-block: 0.3rem;
+		margin-block: -0.3rem;
+	}
 
-.site-footer-colophon a:hover {
-	color: var(--color-accent);
-}
+	.site-footer-colophon a:hover {
+		color: var(--color-accent);
+	}
 
-.site-footer a:focus-visible {
-	outline: 2px solid var(--color-accent);
-	outline-offset: 2px;
-}
+	.site-footer a:focus-visible {
+		outline: 2px solid var(--color-accent);
+		outline-offset: 2px;
+	}
 
-/* Pressed feedback — touch has no hover, so a tap must answer immediately.
+	/* Pressed feedback — touch has no hover, so a tap must answer immediately.
    One restrained shared rule for every pill/circle/play control; the scale
    snaps (no transition) like a native pressed state. (.resume-pill excluded —
    it owns a translateX transform.) */
-.search-trigger:active,
-.palette-chip:active,
-.bookpod-action:active,
-.bh-geo:active,
-.bs-geo:active,
-.vers-play:active,
-.qv-play:active,
-.fp-play:active,
-.btn-circle:active,
-.share-btn:active,
-.citat-share:active {
-	transform: scale(0.97);
-}
+	.search-trigger:active,
+	.palette-chip:active,
+	.bookpod-action:active,
+	.bh-geo:active,
+	.bs-geo:active,
+	.vers-play:active,
+	.qv-play:active,
+	.fp-play:active,
+	.btn-circle:active,
+	.share-btn:active,
+	.citat-share:active {
+		transform: scale(0.97);
+	}
 
-/* ============================================================
+	/* ============================================================
    Circular action button — shared by search trigger and back-to-top
    ============================================================ */
-.btn-circle {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	width: var(--btn-size);
-	height: var(--btn-size);
-	border: 1px solid;
-	border-radius: 50%;
-	background: transparent;
-	cursor: pointer;
+	.btn-circle {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: var(--btn-size);
+		height: var(--btn-size);
+		border: 1px solid;
+		border-radius: 50%;
+		background: transparent;
+		cursor: pointer;
 
-	&:focus-visible {
-		outline-offset: 2px;
+		&:focus-visible {
+			outline-offset: 2px;
+		}
+
+		&:disabled {
+			opacity: 0.25;
+			cursor: default;
+		}
 	}
 
-	&:disabled {
-		opacity: 0.25;
-		cursor: default;
+	/* Reading progress bar */
+	.reading-progress {
+		position: fixed;
+		top: 0;
+		left: 0;
+		z-index: 20;
+		width: 0;
+		height: 2px;
+		background: var(--color-warm);
+		transition: none;
+		pointer-events: none;
 	}
-}
 
-/* Reading progress bar */
-.reading-progress {
-	position: fixed;
-	top: 0;
-	left: 0;
-	z-index: 20;
-	width: 0;
-	height: 2px;
-	background: var(--color-warm);
-	transition: none;
-	pointer-events: none;
-}
+	/* Fixed action buttons — bottom-right corner */
+	.fixed-actions {
+		position: fixed;
+		right: var(--safe-right);
+		bottom: var(--safe-bottom);
+		z-index: 10;
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+		opacity: 0;
+		pointer-events: none;
+		transform: translateY(0.5rem);
+		transition:
+			opacity 0.3s ease,
+			transform 0.3s ease,
+			bottom 0.25s ease;
 
-/* Fixed action buttons — bottom-right corner */
-.fixed-actions {
-	position: fixed;
-	right: var(--safe-right);
-	bottom: var(--safe-bottom);
-	z-index: 10;
-	display: flex;
-	align-items: center;
-	gap: 0.5rem;
-	opacity: 0;
-	pointer-events: none;
-	transform: translateY(0.5rem);
-	transition:
-		opacity 0.3s ease,
-		transform 0.3s ease,
-		bottom 0.25s ease;
-
-	&.visible {
-		opacity: 1;
-		pointer-events: auto;
-		transform: translateY(0);
+		&.visible {
+			opacity: 1;
+			pointer-events: auto;
+			transform: translateY(0);
+		}
 	}
-}
 
-/* Shift up when floating audio player is visible */
-html[data-player-visible] .fixed-actions {
-	bottom: calc(var(--safe-bottom) + 3.5rem);
-}
-
-.back-to-top,
-.share-btn {
-	backdrop-filter: blur(12px);
-	-webkit-backdrop-filter: blur(12px);
-}
-
-.share-btn {
-	padding: 0.5rem 0.75rem;
-	border: 1px solid var(--color-divider);
-	border-radius: 1.25rem;
-	color: var(--color-muted);
-	font-weight: 500;
-	background: color-mix(in srgb, var(--color-bg) 80%, transparent);
-	cursor: pointer;
-	transition:
-		color 0.15s,
-		border-color 0.15s;
-
-	&:hover,
-	&:active {
-		color: var(--color-text);
-		border-color: var(--color-warm);
+	/* Shift up when floating audio player is visible */
+	html[data-player-visible] .fixed-actions {
+		bottom: calc(var(--safe-bottom) + 3.5rem);
 	}
-}
 
-.back-to-top {
-	--btn-size: 2.5rem;
-	border-color: var(--color-divider);
-	color: var(--color-muted);
-	background: color-mix(in srgb, var(--color-bg) 80%, transparent);
-	transition:
-		color 0.15s,
-		border-color 0.15s;
-
-	&:hover,
-	&:active {
-		color: var(--color-text);
-		border-color: var(--color-warm);
+	.back-to-top,
+	.share-btn {
+		backdrop-filter: blur(12px);
+		-webkit-backdrop-filter: blur(12px);
 	}
-}
 
-/* ============================================================
+	.share-btn {
+		padding: 0.5rem 0.75rem;
+		border: 1px solid var(--color-divider);
+		border-radius: 1.25rem;
+		color: var(--color-muted);
+		font-weight: 500;
+		background: color-mix(in srgb, var(--color-bg) 80%, transparent);
+		cursor: pointer;
+		transition:
+			color 0.15s,
+			border-color 0.15s;
+
+		&:hover,
+		&:active {
+			color: var(--color-text);
+			border-color: var(--color-warm);
+		}
+	}
+
+	.back-to-top {
+		--btn-size: 2.5rem;
+		border-color: var(--color-divider);
+		color: var(--color-muted);
+		background: color-mix(in srgb, var(--color-bg) 80%, transparent);
+		transition:
+			color 0.15s,
+			border-color 0.15s;
+
+		&:hover,
+		&:active {
+			color: var(--color-text);
+			border-color: var(--color-warm);
+		}
+	}
+
+	/* ============================================================
    Collection pages (ämne / tråd / tänkare) — inherit the essay
    header rhythm; a kicker names the kind, a lead frames the set.
    ============================================================ */
-.collection-kicker {
-	margin-bottom: var(--space-half);
-}
-
-.collection-lead {
-	font-family: var(--font-body);
-	font-size: 1.0625rem;
-	line-height: 1.55;
-	color: var(--text-body);
-	margin: var(--space-half) 0 var(--space-half);
-	max-width: 34rem;
-}
-
-.collection-count {
-	margin: 0;
-}
-
-.collection-back {
-	margin-top: var(--space-unit);
-	margin-bottom: var(--space-phi2);
-	font-family: var(--font-heading);
-	font-size: 0.9375rem;
-}
-
-.collection-back a {
-	/* inline-block + padding so the "back to the archive" link on every
-	   collection page clears the 24px target floor; it was 17px tall. The
-	   negative margin keeps it optically flush with the column edge. */
-	display: inline-block;
-	padding: 0.4rem 0.5rem;
-	margin-inline-start: -0.5rem;
-	color: var(--color-accent);
-	text-decoration: none;
-	font-weight: 500;
-
-	&:hover {
-		text-decoration: underline;
-		text-underline-offset: 0.15em;
-	}
-
-	&:focus-visible {
-		outline: 2px solid var(--color-accent);
-		outline-offset: 2px;
-		border-radius: var(--radius-xs);
-	}
-}
-
-/* ============================================================
-   Article header
-   ============================================================ */
-.article-header {
-	margin-top: var(--space-phi);
-	margin-bottom: var(--space-unit);
-
-	h1 {
+	.collection-kicker {
 		margin-bottom: var(--space-half);
 	}
 
-	&:has(.archive-stats) h1 {
-		margin-bottom: 0.25rem;
+	.collection-lead {
+		--lead-measure: 34rem;
+		--lead-margin: var(--space-half) 0 var(--space-half);
 	}
-}
 
-.basmala {
-	font-family: var(--font-body);
-	font-variant-caps: small-caps;
-	line-height: 1.6;
-	letter-spacing: 0.02em;
-}
+	.collection-count {
+		margin: 0;
+	}
 
-.article-body {
-	margin-bottom: 0;
-}
+	.collection-back {
+		margin-top: var(--space-unit);
+		margin-bottom: var(--space-phi2);
+		font-family: var(--font-heading);
+		font-size: 0.9375rem;
+	}
 
-/* Prev/next navigation */
-.article-nav {
-	display: flex;
-	flex-wrap: wrap;
-	justify-content: space-between;
-	gap: var(--space-unit);
-	margin-top: var(--space-unit);
-	margin-bottom: var(--space-phi);
-	font-family: var(--font-heading);
-	font-size: 0.9375rem;
-
-	a {
+	.collection-back a {
+		/* inline-block + padding so the "back to the archive" link on every
+	   collection page clears the 24px target floor; it was 17px tall. The
+	   negative margin keeps it optically flush with the column edge. */
+		display: inline-block;
+		padding: 0.4rem 0.5rem;
+		margin-inline-start: -0.5rem;
 		color: var(--color-accent);
 		text-decoration: none;
-		min-width: 0;
-		flex: 1 1 0;
 		font-weight: 500;
-
-		&:last-child {
-			text-align: end;
-		}
-
-		&:only-child {
-			margin-inline-start: auto;
-			text-align: end;
-		}
 
 		&:hover {
 			text-decoration: underline;
+			text-underline-offset: 0.15em;
+		}
+
+		&:focus-visible {
+			outline: 2px solid var(--color-accent);
+			outline-offset: 2px;
+			border-radius: var(--radius-xs);
 		}
 	}
 
-	.nav-label {
-		display: block;
-		font-size: 0.796rem;
-		margin-bottom: 0.25rem;
+	/* ============================================================
+   Article header
+   ============================================================ */
+	.article-header {
+		margin-top: var(--space-phi);
+		margin-bottom: var(--space-unit);
+
+		h1 {
+			margin-bottom: var(--space-half);
+		}
+
+		&:has(.archive-stats) h1 {
+			margin-bottom: 0.25rem;
+		}
 	}
-}
 
-/* Archive stats — reading progress ring + count */
-.archive-stats {
-	display: inline-flex;
-	align-items: center;
-	gap: 0.4em;
+	.basmala {
+		font-family: var(--font-body);
+		font-variant-caps: small-caps;
+		line-height: 1.6;
+		letter-spacing: 0.02em;
+	}
 
-	&:empty {
+	.article-body {
+		margin-bottom: 0;
+	}
+
+	/* Prev/next navigation */
+	.article-nav {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: space-between;
+		gap: var(--space-unit);
+		margin-top: var(--space-unit);
+		margin-bottom: var(--space-phi);
+		font-family: var(--font-heading);
+		font-size: 0.9375rem;
+
+		a {
+			color: var(--color-accent);
+			text-decoration: none;
+			min-width: 0;
+			flex: 1 1 0;
+			font-weight: 500;
+
+			&:last-child {
+				text-align: end;
+			}
+
+			&:only-child {
+				margin-inline-start: auto;
+				text-align: end;
+			}
+
+			&:hover {
+				text-decoration: underline;
+			}
+		}
+
+		.nav-label {
+			display: block;
+			font-size: 0.796rem;
+			margin-bottom: 0.25rem;
+		}
+	}
+
+	/* Archive stats — reading progress ring + count */
+	.archive-stats {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.4em;
+
+		&:empty {
+			display: none;
+		}
+
+		&::before {
+			content: "";
+			width: 1rem;
+			height: 1rem;
+			border-radius: 50%;
+			flex-shrink: 0;
+			background: conic-gradient(
+				var(--color-warm) calc(var(--progress, 0) * 360deg),
+				var(--color-divider) calc(var(--progress, 0) * 360deg)
+			);
+			-webkit-mask: radial-gradient(
+				farthest-side,
+				transparent calc(100% - 2.5px),
+				#000 calc(100% - 2.5px)
+			);
+			mask: radial-gradient(farthest-side, transparent calc(100% - 2.5px), #000 calc(100% - 2.5px));
+		}
+	}
+
+	/* Archive sections (read / unread split) */
+	.archive-section {
+		margin-top: var(--space-unit);
+	}
+
+	.archive-section + .archive-section {
+		margin-top: 0;
+	}
+
+	.archive-section-heading {
+		font-size: 0.928rem;
+		font-weight: 500;
+		color: var(--color-accent);
+		margin-top: 0;
+	}
+
+	/* Hide section entirely when its list is empty (e.g. "Lasta" with 0 read articles) */
+	.archive-section:has(> .archive-list:empty) {
 		display: none;
 	}
 
-	&::before {
-		content: "";
-		width: 1rem;
-		height: 1rem;
-		border-radius: 50%;
-		flex-shrink: 0;
-		background: conic-gradient(
-			var(--color-warm) calc(var(--progress, 0) * 360deg),
-			var(--color-divider) calc(var(--progress, 0) * 360deg)
-		);
-		-webkit-mask: radial-gradient(
-			farthest-side,
-			transparent calc(100% - 2.5px),
-			#000 calc(100% - 2.5px)
-		);
-		mask: radial-gradient(farthest-side, transparent calc(100% - 2.5px), #000 calc(100% - 2.5px));
-	}
-}
-
-/* Archive sections (read / unread split) */
-.archive-section {
-	margin-top: var(--space-unit);
-}
-
-.archive-section + .archive-section {
-	margin-top: 0;
-}
-
-.archive-section-heading {
-	font-size: 0.928rem;
-	font-weight: 500;
-	color: var(--color-accent);
-	margin-top: 0;
-}
-
-/* Hide section entirely when its list is empty (e.g. "Lasta" with 0 read articles) */
-.archive-section:has(> .archive-list:empty) {
-	display: none;
-}
-
-.archive-section .archive-list {
-	margin-bottom: 0;
-}
-
-.archive-section:last-child .archive-list {
-	margin-bottom: var(--space-phi2);
-}
-
-/* Archive list */
-.archive-list {
-	margin-top: var(--space-unit);
-	margin-bottom: var(--space-phi2);
-}
-
-.archive-item {
-	padding-block: var(--space-unit);
-	border-bottom: 1px solid var(--color-divider);
-
-	&:first-child {
-		padding-top: 0;
+	.archive-section .archive-list {
+		margin-bottom: 0;
 	}
 
-	&:last-child {
-		border-bottom: none;
+	.archive-section:last-child .archive-list {
+		margin-bottom: var(--space-phi2);
 	}
 
-	a {
-		display: block;
-		text-decoration: none;
-		color: inherit;
+	/* Archive list */
+	.archive-list {
+		margin-top: var(--space-unit);
+		margin-bottom: var(--space-phi2);
+	}
 
-		&:hover .archive-title,
-		&:focus-visible .archive-title {
-			text-decoration: underline;
+	.archive-item {
+		padding-block: var(--space-unit);
+		border-bottom: 1px solid var(--color-divider);
+
+		&:first-child {
+			padding-top: 0;
+		}
+
+		&:last-child {
+			border-bottom: none;
+		}
+
+		a {
+			display: block;
+			text-decoration: none;
+			color: inherit;
+
+			&:hover .archive-title,
+			&:focus-visible .archive-title {
+				text-decoration: underline;
+			}
+		}
+
+		.archive-title {
+			display: block;
+			color: var(--color-accent);
+			font-size: var(--step-1);
+			font-family: var(--font-heading);
+			font-weight: 600;
+			line-height: 1.3;
+			letter-spacing: 0;
+		}
+
+		.archive-meta {
+			font-size: 0.796rem;
+			margin-top: 0.25rem;
+			margin-bottom: 0;
+		}
+
+		.archive-description {
+			font-family: var(--font-body);
+			font-size: 0.9375rem;
+			font-weight: 400;
+			color: color-mix(in srgb, var(--color-text) 70%, var(--color-muted));
+			line-height: 1.45;
+			margin-top: 0.375rem;
+			overflow: hidden;
+			transition: color 0.2s;
+
+			margin-bottom: 0;
+		}
+
+		a:hover .archive-description {
+			color: var(--color-text);
 		}
 	}
 
-	.archive-title {
-		display: block;
-		color: var(--color-accent);
-		font-size: var(--step-1);
-		font-family: var(--font-heading);
-		font-weight: 600;
-		line-height: 1.3;
-		letter-spacing: 0;
-	}
-
-	.archive-meta {
-		font-size: 0.796rem;
-		margin-top: 0.25rem;
-		margin-bottom: 0;
-	}
-
-	.archive-description {
-		font-family: var(--font-body);
-		font-size: 0.9375rem;
-		font-weight: 400;
-		color: color-mix(in srgb, var(--color-text) 70%, var(--color-muted));
-		line-height: 1.45;
-		margin-top: 0.375rem;
-		overflow: hidden;
-		transition: color 0.2s;
-
-		margin-bottom: 0;
-	}
-
-	a:hover .archive-description {
-		color: var(--color-text);
-	}
-}
-
-/* Shared index header (Fakta / Essäer / Frågor & svar) — kicker + title + one
+	/* Shared index header (Fakta / Essäer / Frågor & svar) — kicker + title + one
    ingress paragraph, so the three knowledge pages open identically. Rendered by
    PageHead.astro; styled globally because the ingress is slotted parent content. */
-.page-head {
-	/* The shared section header owns its own top AND bottom rhythm, so every page
+	.page-head {
+		/* The shared section header owns its own top AND bottom rhythm, so every page
 	   that follows it (Essäer's filter pills, Frågor & svar's category nav, the
 	   collection lists) sits the same distance below the ingress — the page tops stay
 	   homogeneous without each page setting its own top margin. */
-	margin-top: var(--space-phi);
-	margin-bottom: var(--space-phi);
-}
-.page-head-title {
-	margin: 0;
-	text-wrap: balance;
-}
-.page-head-lead {
-	font-family: var(--font-body);
-	font-size: 1.1875rem;
-	line-height: 1.6;
-	color: var(--text-strong);
-	max-width: 42rem;
-	margin: var(--space-unit) 0 0;
-	text-wrap: pretty;
-}
-.page-head-lead a {
-	color: var(--color-accent);
-}
+		margin-top: var(--space-phi);
+		margin-bottom: var(--space-phi);
+	}
+	.page-head-title {
+		margin: 0;
+		text-wrap: balance;
+	}
+	/* The ingress is now `.lead.lead--page` (see the top of this file); PageHead
+   emits both classes. */
 
-/* Filter / category chip — a small pill shared by Essäer's filter row and the
+	/* Filter / category chip — a small pill shared by Essäer's filter row and the
    Frågor & svar category nav, so both index pages divide their content the same way
    at the top (same shape, same padding above/below). Pair with `.label` for the
    tight uppercase look. Active = aria-pressed (Essäer buttons) or aria-current
    (Frågor & svar jump links). */
-.filter-chip {
-	display: inline-block;
-	padding: 0.4rem 0.875rem;
-	border: 1px solid var(--color-divider);
-	border-radius: 1.25rem;
-	background: transparent;
-	color: var(--color-muted);
-	text-decoration: none;
-	cursor: pointer;
-	transition:
-		border-color 0.15s,
-		color 0.15s;
-}
-.filter-chip:hover,
-.filter-chip[aria-pressed="true"],
-.filter-chip[aria-current="true"] {
-	border-color: var(--color-warm);
-	color: var(--color-text);
-}
-.filter-chip:focus-visible {
-	outline: 2px solid var(--color-accent);
-	outline-offset: 2px;
-}
+	.filter-chip {
+		display: inline-block;
+		padding: 0.4rem 0.875rem;
+		border: 1px solid var(--color-divider);
+		border-radius: 1.25rem;
+		background: transparent;
+		color: var(--color-muted);
+		text-decoration: none;
+		cursor: pointer;
+		transition:
+			border-color 0.15s,
+			color 0.15s;
+	}
+	.filter-chip:hover,
+	.filter-chip[aria-pressed="true"],
+	.filter-chip[aria-current="true"] {
+		border-color: var(--color-warm);
+		color: var(--color-text);
+	}
+	.filter-chip:focus-visible {
+		outline: 2px solid var(--color-accent);
+		outline-offset: 2px;
+	}
 
-/* ============================================================
+	/* ============================================================
    Reading & browse canvas — every single page now shares the home
    canvas width (--home-width, 64rem) so the page frame never changes
    width as you move between an index and an article: no "flicking".
@@ -1128,36 +1155,36 @@ html[data-player-visible] .fixed-actions {
      so the page reads as wide as the index it came from, with lines that
      stay comfortable. The approved layout: full-bleed hero, centred column.
    ============================================================ */
-.reading {
-	max-width: var(--home-width);
-	margin-inline: auto;
-	padding-left: var(--safe-left);
-	padding-right: var(--safe-right);
-}
+	.reading {
+		max-width: var(--home-width);
+		margin-inline: auto;
+		padding-left: var(--safe-left);
+		padding-right: var(--safe-right);
+	}
 
-/* Text blocks stay at the reading measure, centred in the wide frame. The
+	/* Text blocks stay at the reading measure, centred in the wide frame. The
    hero (and audio player) opt out and span the full frame. */
-.reading .article-header,
-.reading .article-body,
-.reading .article-nav,
-.reading .essay-connections,
-.reading .svar-header,
-.reading .svar-faq,
-.reading .svar-sources,
-.reading .svar-related,
-.reading .svar-essays,
-.reading .svar-back,
-/* The footnotes start inside .article-body (constrained) but a script moves
+	.reading .article-header,
+	.reading .article-body,
+	.reading .article-nav,
+	.reading .essay-connections,
+	.reading .svar-header,
+	.reading .svar-faq,
+	.reading .svar-sources,
+	.reading .svar-related,
+	.reading .svar-essays,
+	.reading .svar-back,
+	/* The footnotes start inside .article-body (constrained) but a script moves
    them out below .article-nav so prev/next stays reachable — at which point
    they inherited the full 64rem frame and set at 136 characters a line, the
    widest text on the site. They are the sources: they belong at the same
    measure as the prose that cites them. */
-.reading .footnotes-relocated {
-	max-width: var(--content-width);
-	margin-inline: auto;
-}
+	.reading .footnotes-relocated {
+		max-width: var(--content-width);
+		margin-inline: auto;
+	}
 
-/* ============================================================
+	/* ============================================================
    The Islamic-calendar list. Two surfaces render the same rows — the
    homepage section (Markesdagar.astro, next five) and the full year
    (/det-islamiska-aret) — and each carried its own byte-identical copy of
@@ -1171,133 +1198,134 @@ html[data-player-visible] .fixed-actions {
    rules; the date column and the row spacing carry the agenda, and
    .md-standing's single rule is the section's only divider.
    ============================================================ */
-.md-list {
-	padding: 0;
-	list-style: none;
-}
+	.md-list {
+		padding: 0;
+		list-style: none;
+	}
 
-.md-row {
-	display: grid;
-	grid-template-columns: 11rem 1fr auto;
-	align-items: baseline;
-	gap: clamp(1rem, 3vw, 2.5rem);
-	padding-block: var(--space-half);
-}
-
-.md-row[hidden] {
-	display: none;
-}
-
-.md-greg {
-	margin: 0;
-	color: var(--color-text);
-	text-transform: none;
-	letter-spacing: 0.02em;
-	font-feature-settings: normal;
-}
-
-.md-body {
-	min-width: 0;
-}
-
-.md-name {
-	font-family: var(--font-heading);
-	font-size: 1.0625rem;
-	font-weight: 500;
-	color: var(--color-accent);
-	margin: 0;
-}
-
-.md-note {
-	font-family: var(--font-body);
-	font-size: 0.875rem;
-	line-height: 1.45;
-	color: var(--color-muted);
-	margin: 0.2rem 0 0;
-	max-width: 28rem;
-}
-
-.md-hijri {
-	font-family: var(--font-body);
-	font-style: italic;
-	font-size: 0.875rem;
-	color: var(--color-muted);
-	margin: 0;
-	white-space: nowrap;
-	text-align: end;
-}
-
-.md-standing,
-.md-also {
-	font-family: var(--font-body);
-	font-size: 0.9375rem;
-	color: var(--color-muted);
-}
-
-.md-standing {
-	margin: var(--space-unit) 0 0;
-	padding-top: var(--space-half);
-	border-top: 1px solid var(--color-divider);
-}
-
-@media (width <= 768px) {
 	.md-row {
-		grid-template-columns: 1fr;
-		gap: 0.35rem;
-		padding-block: var(--space-unit);
+		display: grid;
+		grid-template-columns: 11rem 1fr auto;
+		align-items: baseline;
+		gap: clamp(1rem, 3vw, 2.5rem);
+		padding-block: var(--space-half);
+	}
+
+	.md-row[hidden] {
+		display: none;
+	}
+
+	.md-greg {
+		margin: 0;
+		color: var(--color-text);
+		text-transform: none;
+		letter-spacing: 0.02em;
+		font-feature-settings: normal;
+	}
+
+	.md-body {
+		min-width: 0;
+	}
+
+	.md-name {
+		font-family: var(--font-heading);
+		font-size: 1.0625rem;
+		font-weight: 500;
+		color: var(--color-accent);
+		margin: 0;
+	}
+
+	.md-note {
+		font-family: var(--font-body);
+		font-size: 0.875rem;
+		line-height: 1.45;
+		color: var(--color-muted);
+		margin: 0.2rem 0 0;
+		max-width: 28rem;
 	}
 
 	.md-hijri {
-		text-align: start;
-		white-space: normal;
+		font-family: var(--font-body);
+		font-style: italic;
+		font-size: 0.875rem;
+		color: var(--color-muted);
+		margin: 0;
+		white-space: nowrap;
+		text-align: end;
 	}
-}
 
-/* Two-column archive index on the wide canvas (one column on a phone),
+	.md-standing,
+	.md-also {
+		font-family: var(--font-body);
+		font-size: 0.9375rem;
+		color: var(--color-muted);
+	}
+
+	.md-standing {
+		margin: var(--space-unit) 0 0;
+		padding-top: var(--space-half);
+		border-top: 1px solid var(--color-divider);
+	}
+
+	@media (width <= 768px) {
+		.md-row {
+			grid-template-columns: 1fr;
+			gap: 0.35rem;
+			padding-block: var(--space-unit);
+		}
+
+		.md-hijri {
+			text-align: start;
+			white-space: normal;
+		}
+	}
+
+	/* Two-column archive index on the wide canvas (one column on a phone),
    shared by Essäer, the Fakta hub and the collection pages — so every
    index fills its frame instead of trailing a narrow ribbon of titles. */
-.home .archive-list {
-	display: grid;
-	grid-template-columns: repeat(auto-fill, minmax(min(100%, 24rem), 1fr));
-	column-gap: clamp(1.75rem, 4vw, 3.5rem);
-}
+	.home .archive-list {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(min(100%, 24rem), 1fr));
+		column-gap: clamp(1.75rem, 4vw, 3.5rem);
+	}
 
-/* The global first/last special-casing tucks a single-column list up and
+	/* The global first/last special-casing tucks a single-column list up and
    drops its last rule; in the grid that misaligns the two columns. Give
    every cell equal padding + a hairline so the columns read as one index. */
-.home .archive-list .archive-item:first-child {
-	padding-top: var(--space-unit);
-}
+	.home .archive-list .archive-item:first-child {
+		padding-top: var(--space-unit);
+	}
 
-.home .archive-list .archive-item:last-child {
-	border-bottom: 1px solid var(--color-divider);
-}
+	.home .archive-list .archive-item:last-child {
+		border-bottom: 1px solid var(--color-divider);
+	}
 
-/* ============================================================
+	/* ============================================================
    Mobile
    ============================================================ */
-@media (width <= 768px) {
-	.article-header {
-		margin-top: var(--space-unit);
-	}
+	@media (width <= 768px) {
+		.article-header {
+			margin-top: var(--space-unit);
+		}
 
-	.article-nav a {
-		font-size: 0.862rem;
-		padding: 0.75rem 0;
-		margin: -0.75rem 0;
-	}
+		.article-nav a {
+			font-size: 0.862rem;
+			padding: 0.75rem 0;
+			margin: -0.75rem 0;
+		}
 
-	.archive-item .archive-title {
-		font-size: 1.26rem;
-	}
+		.archive-item .archive-title {
+			font-size: 1.26rem;
+		}
 
-	/* Comfortable tap targets for nav links */
-	.site-nav a {
-		padding: 0.5rem 0.25rem;
-	}
+		/* Comfortable tap targets for nav links */
+		.site-nav a {
+			padding: 0.5rem 0.25rem;
+		}
 
-	/* Compensate tap-target padding so logo aligns with content column */
-	.site-home {
-		margin-left: -0.25rem;
+		/* Compensate tap-target padding so logo aligns with content column */
+		.site-home {
+			margin-left: -0.25rem;
+		}
 	}
 }

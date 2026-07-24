@@ -1,4 +1,5 @@
-/* Essay Quran player (.quran-verse) — injected after a verse-citing block by
+@layer components {
+	/* Essay Quran player (.quran-verse) — injected after a verse-citing block by
    rehype-quran-verse. The homepage daily verse is the apex moment (large, on the
    page's left axis); inside an essay the same recitation must read as part of the
    column, so the Arabic is sized to sit just above the body measure, set as a quiet
@@ -7,135 +8,136 @@
    a scoped hash would never match. No Swedish, no glosses — the prose already quotes
    the verse, and per-word glosses are a homepage-only aid. */
 
-.quran-verse {
-	margin: var(--space-unit) 0;
-	padding-right: var(--space-unit);
-	border-right: 2px solid var(--color-divider);
-}
+	.quran-verse {
+		margin: var(--space-unit) 0;
+		padding-right: var(--space-unit);
+		border-right: 2px solid var(--color-divider);
+	}
 
-/* The recited line. Amiri Quran reads large for its point size, so a value just
+	/* The recited line. Amiri Quran reads large for its point size, so a value just
    above the body step keeps the verse legible with its harakat yet clearly part of
    the column — not the homepage's commanding clamp. Right-aligned: Arabic is a
    right-to-left script, so the verse must begin at the right edge and the play
    control / reference settle beneath it. The `dir="rtl"` on the element already
    sets this; we state `text-align: right` so no inherited rule can left-align it. */
-.qv-arabic {
-	font-family: var(--font-arabic);
-	font-weight: 400;
-	/* Amiri Quran ships a single weight/style — never let the engine fake-bold
+	.qv-arabic {
+		font-family: var(--font-arabic);
+		font-weight: 400;
+		/* Amiri Quran ships a single weight/style — never let the engine fake-bold
 	   or slant a mushaf naskh. */
-	font-synthesis: none;
-	font-size: 1.5rem;
-	line-height: 1.95;
-	margin: 0;
-	text-indent: 0;
-	text-align: right;
-	text-wrap: pretty;
-	color: var(--color-text);
-}
+		font-synthesis: none;
+		font-size: 1.5rem;
+		line-height: 1.95;
+		margin: 0;
+		text-indent: 0;
+		text-align: right;
+		text-wrap: pretty;
+		color: var(--color-text);
+	}
 
-/* Word spotlight — the same opaque colour-mix dim as the homepage verse (§7.2):
+	/* Word spotlight — the same opaque colour-mix dim as the homepage verse (§7.2):
    dimming the WORD'S COLOUR, not its opacity, so overlapping diacritics and final
    swashes never composite to uneven seams. While a word is recited the rest of the
    verse settles into a quiet wash and the live word holds full strength. */
-.qv-w,
-.qv-waqf {
-	transition: color 0.25s ease;
-}
-
-.qv-arabic[data-active] .qv-w,
-.qv-arabic[data-active] .qv-waqf {
-	color: color-mix(in srgb, var(--color-text) 34%, var(--color-bg));
-}
-
-.qv-arabic[data-active] .qv-w.is-active {
-	color: var(--color-text);
-}
-
-@media (prefers-reduced-motion: reduce) {
 	.qv-w,
 	.qv-waqf {
-		transition: none;
+		transition: color 0.25s ease;
 	}
-}
 
-/* Play control + reference, in the meta register beneath the verse's start
+	.qv-arabic[data-active] .qv-w,
+	.qv-arabic[data-active] .qv-waqf {
+		color: color-mix(in srgb, var(--color-text) 34%, var(--color-bg));
+	}
+
+	.qv-arabic[data-active] .qv-w.is-active {
+		color: var(--color-text);
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.qv-w,
+		.qv-waqf {
+			transition: none;
+		}
+	}
+
+	/* Play control + reference, in the meta register beneath the verse's start
    (right) edge. A smaller sibling of the homepage's lone play glyph; no scrubber,
    no timeline. Justified to the right so it sits under the right-aligned Arabic. */
-.qv-meta {
-	display: flex;
-	align-items: center;
-	justify-content: flex-end;
-	gap: 0.55rem;
-	margin-top: 0.7rem;
-}
-
-.qv-cite {
-	color: var(--color-muted);
-}
-
-.qv-play {
-	display: inline-flex;
-	align-items: center;
-	justify-content: center;
-	width: 2rem;
-	height: 2rem;
-	flex-shrink: 0;
-	padding: 0;
-	border: 1px solid var(--color-divider);
-	border-radius: 50%;
-	background: transparent;
-	color: var(--color-accent);
-	cursor: pointer;
-	transition:
-		border-color 0.15s,
-		background 0.15s,
-		color 0.15s;
-}
-
-.qv-play:hover {
-	border-color: var(--color-warm);
-}
-
-.qv-play:focus-visible {
-	outline: 2px solid var(--color-accent);
-	outline-offset: 2px;
-}
-
-.qv-play[data-playing] {
-	background: color-mix(in srgb, var(--color-warm), transparent 82%);
-	border-color: var(--color-warm);
-}
-
-.qv-icon-pause {
-	display: none;
-}
-
-.qv-play[data-playing] .qv-icon-play {
-	display: none;
-}
-
-.qv-play[data-playing] .qv-icon-pause {
-	display: inline;
-}
-
-@media (width <= 768px) {
-	.quran-verse {
-		padding-right: var(--space-half);
+	.qv-meta {
+		display: flex;
+		align-items: center;
+		justify-content: flex-end;
+		gap: 0.55rem;
+		margin-top: 0.7rem;
 	}
 
-	.qv-arabic {
-		font-size: 1.375rem;
-		line-height: 1.9;
+	.qv-cite {
+		color: var(--color-muted);
 	}
-}
 
-/* Touch: the 2rem ring is a fine visual register but a 32px tap target. On
+	.qv-play {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 2rem;
+		height: 2rem;
+		flex-shrink: 0;
+		padding: 0;
+		border: 1px solid var(--color-divider);
+		border-radius: 50%;
+		background: transparent;
+		color: var(--color-accent);
+		cursor: pointer;
+		transition:
+			border-color 0.15s,
+			background 0.15s,
+			color 0.15s;
+	}
+
+	.qv-play:hover {
+		border-color: var(--color-warm);
+	}
+
+	.qv-play:focus-visible {
+		outline: 2px solid var(--color-accent);
+		outline-offset: 2px;
+	}
+
+	.qv-play[data-playing] {
+		background: color-mix(in srgb, var(--color-warm), transparent 82%);
+		border-color: var(--color-warm);
+	}
+
+	.qv-icon-pause {
+		display: none;
+	}
+
+	.qv-play[data-playing] .qv-icon-play {
+		display: none;
+	}
+
+	.qv-play[data-playing] .qv-icon-pause {
+		display: inline;
+	}
+
+	@media (width <= 768px) {
+		.quran-verse {
+			padding-right: var(--space-half);
+		}
+
+		.qv-arabic {
+			font-size: 1.375rem;
+			line-height: 1.9;
+		}
+	}
+
+	/* Touch: the 2rem ring is a fine visual register but a 32px tap target. On
    coarse pointers grow it to the 44px (2.75rem) minimum so the recitation is
    reliably tappable; pointer devices keep the quieter ring. */
-@media (hover: none), (pointer: coarse) {
-	.qv-play {
-		width: 2.75rem;
-		height: 2.75rem;
+	@media (hover: none), (pointer: coarse) {
+		.qv-play {
+			width: 2.75rem;
+			height: 2.75rem;
+		}
 	}
 }
