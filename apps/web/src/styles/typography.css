@@ -152,23 +152,37 @@ hr {
 	margin-block: var(--space-phi);
 }
 
-/* Footnote references — native Literata sups glyphs (optically drawn for
-   superscript position). font-size: 1em because the sups glyph is already
-   compact; scaling it again would make it too small. */
+/* Footnote references.
+
+   This used to ask for Literata's native `sups` glyphs at font-size: 1em. It
+   never rendered: body sets `font-variant-numeric: oldstyle-nums`, and the
+   high-level font-variant-* properties beat low-level font-feature-settings for
+   the features they both control — so every marker came out as a full-size
+   oldstyle figure sitting on the baseline. "…eller vet det icke.1" read as a
+   typo rather than a citation, on every essay on the site.
+
+   So position the marker explicitly instead of relying on the font: lining
+   figures (oldstyle digits have descenders and wobble at superscript size), a
+   real size reduction, and a real raise. line-height: 0 keeps the raised glyph
+   from opening up the line it sits in. */
 sup {
-	font-feature-settings: "sups" 1;
-	font-size: 1em;
+	font-variant-numeric: lining-nums;
+	font-feature-settings: normal;
+	font-size: 0.68em;
 	line-height: 0;
 	position: relative;
-	vertical-align: baseline;
+	vertical-align: super;
 	top: 0;
 
 	a {
 		color: var(--color-accent);
 		text-decoration: none;
 		font-weight: 500;
-		padding: 0.5em;
-		margin: -0.5em;
+		/* rem, not em: the marker is now 0.68em, so em padding would shrink the
+		   tap target with it and drop it under the 24px floor. Same trick as
+		   .data-footnote-backref below. */
+		padding: 0.6rem;
+		margin: -0.6rem;
 
 		&:hover {
 			text-decoration: underline;
@@ -204,9 +218,11 @@ sup {
 	text-decoration: none;
 	font-size: 0;
 	/* Inflate the ~12px ↑ glyph to a usable tap target (rem: font-size is 0,
-	   so em units collapse). Same negative-margin trick as sup a above. */
-	padding: 0.6rem;
-	margin: -0.6rem;
+	   so em units collapse). Same negative-margin trick as sup a above.
+	   0.75rem, not 0.6: the glyph itself contributes no height, so the box is
+	   exactly twice the padding — 0.6rem landed at 19px, just under the floor. */
+	padding: 0.75rem;
+	margin: -0.75rem;
 	margin-inline-start: -0.35rem;
 
 	&::after {

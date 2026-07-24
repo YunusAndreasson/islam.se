@@ -91,7 +91,7 @@ if (article.heroImage) {
 			</header>
 
 			{article.heroImage && (
-				<figure class="article-hero media-frame" transition:name={`hero-${article.slug}`}>
+				<figure class="article-hero media-frame">
 					<EssayImage
 						article={article}
 						widths={[768, 1152, 1536]}
@@ -141,6 +141,12 @@ if (article.heroImage) {
 	}
 
 	.article-kicker a {
+		/* Standalone link on its own line — the WCAG inline exception doesn't
+		   cover it, and it was 15px tall. Padded to clear 24px, pulled back
+		   flush so the kicker still aligns with the h1 below it. */
+		display: inline-block;
+		padding: 0.3rem 0.4rem;
+		margin: -0.3rem -0.4rem;
 		color: var(--color-accent);
 		text-decoration: none;
 
@@ -152,7 +158,7 @@ if (article.heroImage) {
 		&:focus-visible {
 			outline: 2px solid var(--color-accent);
 			outline-offset: 2px;
-			border-radius: 2px;
+			border-radius: var(--radius-xs);
 		}
 	}
 

@@ -27,7 +27,7 @@ const rows = articles.map((article) => {
 			<li class:list={["recent-item", `recent-item--${side}`]}>
 				<a class="recent-link focus-ring" href={`/${article.slug}`} data-astro-prefetch="viewport">
 					{side !== "none" && (
-						<div class="recent-media media-frame" transition:name={`hero-${article.slug}`}>
+						<div class="recent-media media-frame">
 							<EssayImage
 								article={article}
 								widths={[320, 480, 640]}
@@ -41,8 +41,7 @@ const rows = articles.map((article) => {
 							<p class="recent-lead" set:html={inlineMarkdown(article.description)} />
 						)}
 						<p class="label recent-meta">
-							<time datetime={article.publishedAt}>{formatDate(article.publishedAt)}</time>
-							&middot; {article.readingTime} min läsning
+							<time datetime={article.publishedAt}>{formatDate(article.publishedAt)}</time> &middot; {article.readingTime} min läsning
 						</p>
 					</div>
 				</a>
