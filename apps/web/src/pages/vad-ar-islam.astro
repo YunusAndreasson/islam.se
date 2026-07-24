@@ -2,6 +2,7 @@
 import { getCollection } from "astro:content";
 import FaktaCard from "../components/FaktaCard.astro";
 import PageHead from "../components/PageHead.astro";
+import QuranVerse from "../components/QuranVerse.astro";
 import { getArticles } from "../lib/articles";
 import { FAKTA_CLUSTERS } from "../lib/fakta";
 import { ORG_ID, WEBSITE_ID, breadcrumbList, collectionPageJsonLd } from "../lib/jsonld";
@@ -93,6 +94,26 @@ const jsonLd = [
 				och klassisk sunnitisk lärdom.
 			</PageHead>
 
+			{/* Sura al-Ikhlās — the most concentrated statement of what a muslim
+			    believes, and so the shortest possible answer to the question this page
+			    asks. Paired with its Swedish exactly as the answer pages pair theirs:
+			    the reader meets the meaning first, then can hear it recited with each
+			    word lighting as it is read. Audio and word timing come from the same
+			    committed data the essays use. */}
+			<div class="pillar-verse">
+				<blockquote>
+					{/* <abbr> matches what the answer pages get: their markdown pipeline wraps
+					    an all-caps opener so it sets as small caps (typography.css). Written by
+					    hand here because that plugin only runs on markdown. */}
+					<p>
+						<abbr>SÄG</abbr>: »Han är Gud – En, Gud, den Evige, den av skapelsen Oberoende, av
+						vilken alla beror. Han har inte avlat och inte blivit avlad, och ingen finns som kan
+						liknas vid Honom.«
+					</p>
+				</blockquote>
+				<QuranVerse ayah="112:1-4" name="al-Ikhlās" />
+			</div>
+
 			{clusters.map((c) => (
 				<section class="fakta-cluster" id={c.slug} aria-labelledby={`fc-${c.slug}`}>
 					<header class="fakta-cluster-head">
@@ -126,9 +147,27 @@ const jsonLd = [
 	</main>
 </Base>
 
+<script>
+	// Wire the recitation player. Same component and same script as the essays and
+	// the answer pages.
+	import { initQuranPlayers } from "../scripts/quran-player";
+	document.addEventListener("astro:page-load", () => initQuranPlayers());
+</script>
+
 <style>
 	.pillar-page {
 		margin-block: var(--space-phi);
+	}
+
+	/* The verse sits in the reading column, not the 64rem card canvas — it is prose,
+	   and prose keeps its measure. */
+	.pillar-verse {
+		max-width: var(--content-width);
+		margin-top: var(--space-phi);
+	}
+
+	.pillar-verse blockquote {
+		margin-block: 0;
 	}
 
 	.fakta-cluster {
@@ -187,7 +226,7 @@ const jsonLd = [
 	   shared .arrow-link affordance. */
 	.pillar-links {
 		font-family: var(--font-body);
-		font-size: 1.0625rem;
+		font-size: var(--step--1);
 		color: var(--text-body);
 		margin: 0;
 		padding: 0;
@@ -219,7 +258,7 @@ const jsonLd = [
 
 	.pillar-fiqh {
 		font-family: var(--font-body);
-		font-size: 0.9375rem;
+		font-size: var(--step--2);
 		color: var(--color-muted);
 		margin: var(--space-unit) 0 0;
 	}

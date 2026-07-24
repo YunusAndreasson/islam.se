@@ -182,17 +182,69 @@ const pauseIcon = (): HastElement =>
 		],
 	);
 
+/**
+ * The answer pages (data/svar) carry no footnotes — not one of the 63 does. They
+ * quote the Qur'an as a blockquote closed by an attribution line:
+ *
+ *     > SÄG: "Han är Gud – En, …"
+ *     > — Koranen 112:1–4
+ *
+ * so that line is their citation, and matching it is how the same player reaches
+ * them. Ranges are ordinary here (a short sura quoted whole) and are supported end
+ * to end: `sync-verses` cuts the range as one contiguous span of the reciter's
+ * surah master, so the highlight runs straight through it.
+ *
+ * Mirrors SVAR_ATTRIBUTION in scripts/sync-verses.ts — the set of verses generated
+ * and the set injected must stay the same set.
+ */
+const SVAR_ATTRIBUTION =
+	/[—–-]\s*Koranen\s+(\d{1,3}):(\d{1,3})(?:\s*[–—-]\s*(\d{1,3}))?(?:\s*\([^)]*\))?[\s.]*$/;
+
+/** Normalized verse key: "2:255" for a single ayah, "112:1-4" for a range. */
+function verseKey(surah: string, from: string, to?: string): string {
+	return to && Number(to) > Number(from) ? `${surah}:${from}-${to}` : `${surah}:${from}`;
+}
+
+/** Human citation for a key: "112:1–4" (en dash, as the page writes it). */
+function citeRange(key: string): string {
+	const [surah, ayahs] = key.split(":");
+	return `${surah}:${ayahs.replace("-", "–")}`;
+}
+
+/** The verse a blockquote attributes itself to, if we have audio for it.
+ *
+ *  The attribution CLOSES the quote, but it is usually not its own paragraph:
+ *  markdown joins consecutive `>` lines into one paragraph separated by a soft
+ *  break, so
+ *      > SÄG: »Han är Gud – En, …«
+ *      > — Koranen 112:1–4
+ *  becomes a single <p> whose text carries a newline, while the pages that leave a
+ *  blank `>` line get two <p>s. Only 5 of the 51 pages use the second form. So
+ *  match the END of the last paragraph rather than the start of a line: that covers
+ *  both spellings and any separator, and the `$` anchor is what keeps a "Koranen
+ *  2:255" mentioned mid-quotation from being read as an attribution. */
+function attributedVerse(block: HastNode): string | null {
+	if (!isElement(block) || block.tagName !== "blockquote") return null;
+	const paras = childrenOf(block).filter((c) => isElement(c) && c.tagName === "p");
+	const last = paras[paras.length - 1];
+	if (!last) return null;
+	const m = SVAR_ATTRIBUTION.exec(textOf(last).trim());
+	if (!m) return null;
+	const key = verseKey(m[1], m[2], m[3]);
+	return VERSES[key] ? key : null;
+}
+
 function buildPlayer(ayahKey: string, refName: string): HastElement {
 	const v = VERSES[ayahKey];
-	const [surah, ayah] = ayahKey.split(":");
 	const tokens = tokenizeArabic(v.textArabic);
 	const words = tokens.map((t) =>
 		t.word === null
 			? h("span", { className: ["qv-waqf"] }, [text(`${t.text} `)])
 			: h("span", { className: ["qv-w"], dataW: t.word }, [text(`${t.text} `)]),
 	);
+	const ref = citeRange(ayahKey);
 	const nameLabel = refName ? `${refName} ` : "";
-	const cite = `Koranen · ${nameLabel}${surah}:${ayah}`;
+	const cite = `Koranen · ${nameLabel}${ref}`;
 	return h("figure", { className: ["quran-verse"] }, [
 		h(
 			"p",
@@ -211,7 +263,7 @@ function buildPlayer(ayahKey: string, refName: string): HastElement {
 					type: "button",
 					className: ["qv-play"],
 					dataAudio: v.audioFile,
-					ariaLabel: `Lyssna på ${nameLabel}${surah}:${ayah}, reciterad av ${v.reciter}`,
+					ariaLabel: `Lyssna på ${nameLabel}${ref}, reciterad av ${v.reciter}`,
 				},
 				[playIcon(), pauseIcon()],
 			),
@@ -225,14 +277,32 @@ export function rehypeQuranVerse() {
 		if (!("children" in tree && tree.children)) return;
 		const blocks = tree.children;
 		const section = blocks.find(isFootnotesSection) as HastElement | undefined;
-		if (!section) return;
-		const fnMap = buildFootnoteMap(section);
-		if (fnMap.size === 0) return;
+		// Essays cite in footnotes; answer pages attribute under a blockquote. A
+		// document with neither gets no players.
+		const fnMap = section ? buildFootnoteMap(section) : new Map();
 
 		const out: HastNode[] = [];
 		for (const node of blocks) {
 			out.push(node);
 			if (node === section || !isElement(node)) continue;
+
+			// A blockquote that names its verse gets the player directly beneath it —
+			// the reader has just read the Swedish, and can now hear the Arabic.
+			//
+			// No surah name here, deliberately. An essay's player takes its name from
+			// the essay's own footnote, so it always matches that essay's prose. The
+			// answer pages attribute with digits only ("— Koranen 112:1–4"), and the
+			// nearest machine source is Tarteel's ASCII transliteration — which would
+			// have put "Al-Ma'idah" and "Al-Ahzab" on 51 pages next to essays writing
+			// al-Māʾida and al-Aḥzāb. A third transliteration style is worse than no
+			// name at all, and the citation is already spelled out one line above.
+			const attributed = attributedVerse(node);
+			if (attributed) {
+				out.push(buildPlayer(attributed, ""));
+				continue;
+			}
+
+			if (fnMap.size === 0) continue;
 			for (const { ayahKey, refName } of versesInBlock(node, fnMap)) {
 				out.push(buildPlayer(ayahKey, refName));
 			}
