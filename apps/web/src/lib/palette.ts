@@ -27,7 +27,7 @@ export interface PaletteEntry {
 // Trådar/Tänkare appear here so a literal "trådar" query finds the index page,
 // even though the browse view lists their members under their own headings.
 const PAGES: PaletteEntry[] = [
-	{ type: "Sida", label: "Essäer", sub: "Hela arkivet, ordnat efter ämne.", href: "/essaer" },
+	{ type: "Sida", label: "Essäer", sub: "Hela arkivet, ordnat efter ämne.", href: "/essaer/" },
 	{
 		type: "Sida",
 		label: "Pelare & tro",
@@ -42,13 +42,13 @@ const PAGES: PaletteEntry[] = [
 		sub: "Frågor och svar: källbelagda svar på vanliga frågor om islam – tro, dyrkan, mat och familj.",
 		href: "/svar/",
 	},
-	{ type: "Sida", label: "Trådar", sub: "Kuraterade läsningar genom essäerna.", href: "/tradar" },
-	{ type: "Sida", label: "Tänkare", sub: "De röster essäerna återvänder till.", href: "/tankare" },
+	{ type: "Sida", label: "Trådar", sub: "Kuraterade läsningar genom essäerna.", href: "/tradar/" },
+	{ type: "Sida", label: "Tänkare", sub: "De röster essäerna återvänder till.", href: "/tankare/" },
 	{
 		type: "Sida",
 		label: "Det islamiska året",
 		sub: "Islamiska högtider och fastedagar med datum.",
-		href: "/det-islamiska-aret",
+		href: "/det-islamiska-aret/",
 	},
 	{
 		type: "Sida",
@@ -76,8 +76,8 @@ const PAGES: PaletteEntry[] = [
 		sub: "Andliga essäer, inlästa — i Apple Podcasts, Spotify eller via RSS.",
 		href: "/podcast",
 	},
-	{ type: "Sida", label: "Om", sub: "Om idén bakom islam.se.", href: "/om" },
-	{ type: "Sida", label: "AI", sub: "Koppla hela arkivet till din AI-assistent.", href: "/ai" },
+	{ type: "Sida", label: "Om", sub: "Om idén bakom islam.se.", href: "/om/" },
+	{ type: "Sida", label: "AI", sub: "Koppla hela arkivet till din AI-assistent.", href: "/ai/" },
 	{ type: "Sida", label: "Hem", sub: "Startsidan.", href: "/" },
 ];
 
@@ -99,14 +99,14 @@ export async function buildPaletteIndex(): Promise<PaletteEntry[]> {
 		type: "Tråd",
 		label: t.data.title,
 		sub: t.data.framing,
-		href: `/tradar/${t.id}`,
+		href: `/tradar/${t.id}/`,
 	}));
 
 	const tankareEntries: PaletteEntry[] = tankare.map((t) => ({
 		type: "Tänkare",
 		label: t.data.name,
 		sub: t.data.framing,
-		href: `/tankare/${t.data.slug}`,
+		href: `/tankare/${t.data.slug}/`,
 		group: t.data.tradition,
 	}));
 

@@ -6,11 +6,11 @@
 //
 // Bundled once by Astro but re-mounted on every `astro:page-load` (View Transitions),
 // so all state lives inside mount() and is torn down on `astro:before-swap`.
-import maplibregl, {
-	type GeoJSONSource,
-	type LngLatBoundsLike,
-	type MapGeoJSONFeature,
-} from "maplibre-gl";
+// maplibre-gl 6 dropped the default export (named exports only) — a namespace import
+// keeps every existing `maplibregl.X` reference in this file working unchanged.
+
+import type { GeoJSONSource, LngLatBoundsLike, MapGeoJSONFeature } from "maplibre-gl";
+import * as maplibregl from "maplibre-gl";
 // maplibre-gl.css is imported from the page frontmatter (moskeer.astro) so Astro emits
 // it as a real <link> in <head> — no runtime style injection / flash.
 import { SWEDEN_BBOX } from "../lib/bonetider/sweden-outline";
@@ -205,7 +205,8 @@ function mount() {
 	geolocate.on("geolocate", (e) => {
 		geoBtn?.removeAttribute("aria-busy");
 		if (geoStatus) geoStatus.textContent = "";
-		const c = (e as GeolocationPosition).coords;
+		// maplibre-gl 6 types `coords` directly on the event (no cast needed anymore).
+		const c = e.coords;
 		if (!c) return;
 		// Longitude degrees get much shorter toward northern Sweden, so use a real
 		// great-circle distance rather than treating latitude/longitude as a flat grid.
@@ -228,7 +229,16 @@ function mount() {
 
 	// Which paint props to overwrite for a given Positron layer, keyed generically by
 	// type + id so we don't hard-code Positron's (versioned) layer list.
-	type Edit = [string, string | number];
+	// The exact paint-property names touched below — maplibre-gl 6 tightened
+	// setPaintProperty's key to `keyof AllPaintProperties` instead of a bare string.
+	type PaintProp =
+		| "background-color"
+		| "text-color"
+		| "text-halo-color"
+		| "fill-color"
+		| "line-color"
+		| "line-opacity";
+	type Edit = [PaintProp, string | number];
 	function fillEdits(id: string): Edit[] {
 		const p = PALETTE[scheme];
 		if (/water/.test(id)) return [["fill-color", p.water]];
@@ -391,8 +401,7 @@ function mount() {
 		const lan = lanSelect?.value ?? "";
 		// Map: filter the data array by query + län (län comes from the rendered list item).
 		const visible = data.filter((m) => {
-			const okQ =
-				q === "" || (searchById.get(m.id) ?? norm(`${m.name} ${m.location}`)).includes(q);
+			const okQ = q === "" || (searchById.get(m.id) ?? norm(`${m.name} ${m.location}`)).includes(q);
 			const okLan = lan === "" || lanById.get(m.id) === lan;
 			return okQ && okLan;
 		});
@@ -551,9 +560,10 @@ function mount() {
 			map.getCanvas().style.cursor = "pointer";
 			if (!hoverPopup) return;
 			const f = e.features?.[0] as MapGeoJSONFeature | undefined;
-			const name = f?.properties?.name as string | undefined;
+			if (!f) return;
+			const name = f.properties?.name as string | undefined;
 			if (!name) return;
-			const coords = (f?.geometry as { coordinates: [number, number] }).coordinates;
+			const coords = (f.geometry as { coordinates: [number, number] }).coordinates;
 			hoverPopup
 				.setLngLat(coords)
 				.setHTML(`<span class="mk-hover-name">${escapeHtml(name)}</span>`)

@@ -1,8 +1,8 @@
 import { readdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
+import { type UnifiedProcessorOptions, unified } from "@astrojs/markdown-remark";
 import sitemap, { ChangeFreqEnum } from "@astrojs/sitemap";
-import type { AstroUserConfig } from "astro";
 import { defineConfig, fontProviders } from "astro/config";
 import remarkSmartypants from "remark-smartypants";
 import { BONETIDER_DATA_DATE } from "./src/lib/bonetider/meta";
@@ -14,7 +14,7 @@ import { remarkAbbr } from "./src/plugins/remark-abbr";
 // remark-smartypants resolves its own `unified` version, whose Plugin type does not
 // nominally match Astro's bundled RemarkPlugin (they are identical at runtime). This
 // alias lets us cast the plugin list to the type Astro's markdown config expects.
-type RemarkPlugins = NonNullable<NonNullable<AstroUserConfig["markdown"]>["remarkPlugins"]>;
+type RemarkPlugins = NonNullable<UnifiedProcessorOptions["remarkPlugins"]>;
 
 const articlesDir = fileURLToPath(new URL("../../data/articles", import.meta.url));
 const articleDates: Record<string, string> = {};
@@ -517,24 +517,52 @@ export default defineConfig({
 	output: "static",
 	prefetch: { defaultStrategy: "hover" },
 	build: { inlineStylesheets: "always" },
-	experimental: { contentIntellisense: true },
+	// Astro 7 defaults this to "warn". Nearly every route here is generated from a DERIVED
+	// slug — ~2100 bonetider/[stad] pages plus moskeer/[stad] and moskeer/lan/[lan] — and a
+	// collision means one page silently overwrites another (we have already been bitten by
+	// counties colliding under /lan/). A warning in a 2500-page build log is a warning
+	// nobody reads; fail the build instead.
+	prerenderConflictBehavior: "error",
+	experimental: {
+		contentIntellisense: true,
+		// Upgrades the `prefetch` hover strategy from "fetch the HTML" to a real Speculation
+		// Rules prerender in supporting browsers (Chrome), falling back to plain prefetch
+		// elsewhere. Worth it on a densely cross-linked prose site. The usual objection —
+		// prerendered pages inflating analytics — does not apply since GA4 was removed.
+		clientPrerender: true,
+	},
 	// Modern-browser-only build target: keep modern JS native (top-level await,
 	// optional chaining, nullish coalescing, class fields) instead of transpiling
 	// down to a legacy baseline — smaller, faster client bundles.
 	vite: { build: { target: "es2022" } },
 	markdown: {
-		remarkPlugins: [
-			[
-				remarkSmartypants,
-				{
-					openingQuotes: { double: "»", single: "\u2019" },
-					closingQuotes: { double: "«", single: "\u2019" },
-					dashes: "oldschool",
-				},
-			],
-			remarkAbbr,
-		] as unknown as RemarkPlugins,
-		rehypePlugins: [rehypeHonorific, rehypeQuranVerse],
+		// Astro 7 made Sätteri (Rust) the default Markdown processor, and deprecated the
+		// top-level `remarkPlugins`/`rehypePlugins` keys — they only still work through a
+		// compatibility shim that silently swaps in `unified()` and warns on every build.
+		// Declaring the processor explicitly pins the pipeline we actually run.
+		//
+		// We stay on unified deliberately. Sätteri's `smartPunctuation` is boolean-only
+		// (quotes/dashes/ellipses) and cannot emit the house guillemets »…« configured
+		// below — switching would rewrite the quotes in every essay and svar page to the
+		// curly English pair. The three local plugins are unist/hast-based as well, and
+		// rehype-quran-verse drives the essay recitation player.
+		//
+		// `unified()` defaults to `gfm: true` / `smartypants: true`, exactly what the shim
+		// produced, so the emitted HTML is unchanged.
+		processor: unified({
+			remarkPlugins: [
+				[
+					remarkSmartypants,
+					{
+						openingQuotes: { double: "»", single: "\u2019" },
+						closingQuotes: { double: "«", single: "\u2019" },
+						dashes: "oldschool",
+					},
+				],
+				remarkAbbr,
+			] as unknown as RemarkPlugins,
+			rehypePlugins: [rehypeHonorific, rehypeQuranVerse],
+		}),
 	},
 	fonts: [
 		{
@@ -542,6 +570,12 @@ export default defineConfig({
 			name: "Literata",
 			cssVariable: "--font-body",
 			fallbacks: ["Georgia", "Times New Roman", "serif"],
+			// EXPERIMENT (2026-07-23): "optional" instead of the "swap" default — a cold-cache
+			// visit renders the metric-matched fallback and never swaps mid-load (no flash), while
+			// a warm cache (repeat visitor) still gets the real font immediately. This is what
+			// actually keeps the font off the LCP-scoring critical path; removing `preload` alone
+			// (tried first) didn't move the Lighthouse LCP score at all.
+			display: "optional",
 			options: {
 				variants: [
 					{
@@ -581,6 +615,8 @@ export default defineConfig({
 			name: "Source Sans 3",
 			cssVariable: "--font-heading",
 			fallbacks: ["system-ui", "sans-serif"],
+			// See the --font-body entry above for why "optional" replaces the "swap" default here.
+			display: "optional",
 			options: {
 				variants: [
 					{

@@ -139,51 +139,6 @@ if (articleMeta) {
 		<meta name="theme-color" content="#faf8f5" media="(prefers-color-scheme: light)" />
 		<meta name="theme-color" content="#1a1917" media="(prefers-color-scheme: dark)" />
 
-		<!-- Google Analytics 4 (gtag). The ~160 kB gtag.js is the page's heaviest script
-		     (~390 ms of main-thread work) and nothing above the fold needs it, so it's loaded
-		     LAZILY — on the first idle slot, first interaction, or page-load fallback — instead
-		     of async-in-head where it competed with the hero paint and inflated LCP/TBT. The
-		     dataLayer queue is set up synchronously, so every gtag() call (including the manual
-		     page_view on each View-Transitions navigation) is buffered and flushed the moment
-		     gtag.js arrives — no events are lost. send_page_view:false avoids a double count. -->
-		<script is:inline>
-			window.dataLayer = window.dataLayer || [];
-			function gtag() { dataLayer.push(arguments); }
-			gtag("js", new Date());
-			gtag("config", "G-TTJ71Z0QKS", { send_page_view: false });
-			document.addEventListener("astro:page-load", () => {
-				gtag("event", "page_view", {
-					page_title: document.title,
-					page_location: location.href,
-					page_path: location.pathname + location.search,
-				});
-			});
-			(function () {
-				var loaded = false;
-				function loadGtag() {
-					if (loaded) return;
-					loaded = true;
-					var s = document.createElement("script");
-					s.async = true;
-					s.src = "https://www.googletagmanager.com/gtag/js?id=G-TTJ71Z0QKS";
-					document.head.appendChild(s);
-				}
-				// Defer the auto-load until AFTER window.load so gtag's ~390 ms of main-thread
-				// work lands past the LCP/TTI window (it was firing on an early idle slot and
-				// inflating TBT). It still loads for every visitor — just once the page is
-				// interactive — so no pageviews are lost; a real interaction loads it at once.
-				function schedule() {
-					if ("requestIdleCallback" in window) requestIdleCallback(loadGtag, { timeout: 4000 });
-					else setTimeout(loadGtag, 2000);
-				}
-				if (document.readyState === "complete") schedule();
-				else window.addEventListener("load", schedule, { once: true });
-				["pointerdown", "keydown", "touchstart", "scroll"].forEach(function (ev) {
-					window.addEventListener(ev, loadGtag, { once: true, passive: true });
-				});
-			})();
-		</script>
-
 		<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
 		<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 		<link rel="manifest" href="/manifest.webmanifest" />
@@ -192,11 +147,17 @@ if (articleMeta) {
 		{/* Native iOS Smart App Banner — a subtle, dismissible nudge in Safari on every
 		    page; the strong in-page promo stays on the prayer surfaces. */}
 		<meta name="apple-itunes-app" content={`app-id=${APP_STORE_ID}`} />
-		<Font cssVariable="--font-body" preload />
+		{/* Body/heading are NOT preloaded (EXPERIMENT, 2026-07-23): both were competing with the
+		    LCP hero image for early bandwidth (confirmed by blocking .woff2 in Lighthouse — LCP
+		    3.2s → 1.5s). Astro's `optimizedFallbacks` (on by default, active for both families
+		    since their last fallback is a generic name) already generates a metric-matched
+		    fallback face, so the swap-in shouldn't cause layout shift or a jarring flash — see
+		    https://developer.chrome.com/blog/font-fallbacks. `display` defaults to "swap". */}
+		<Font cssVariable="--font-body" />
 		{/* Italic Literata: same family, emitted as an @font-face but deliberately NOT
 		    preloaded (see astro.config.ts) — it loads on demand when italic text renders. */}
 		<Font cssVariable="--font-body-italic" />
-		<Font cssVariable="--font-heading" preload />
+		<Font cssVariable="--font-heading" />
 		{preloadArabicFont ? <Font cssVariable="--font-arabic" preload /> : <Font cssVariable="--font-arabic" />}
 		{preloadImageSrcset ? (
 			<link rel="preload" as="image" type={preloadImageType} imagesrcset={preloadImageSrcset} imagesizes={preloadImageSizes} fetchpriority="high" />

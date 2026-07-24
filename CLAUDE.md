@@ -45,6 +45,23 @@ pnpm produce ideate <topic>     # Generate 10 article ideas with quote enrichmen
 pnpm produce status <path>      # Check article/idea status
 ```
 
+## Web dev server (`apps/web`)
+
+Astro 7 ships a managed background dev server. Prefer it over `pnpm dev` for any
+agent-driven or scripted work (screenshot loops, Lighthouse passes) — it does not
+occupy a terminal and it exposes a real readiness signal.
+
+```bash
+pnpm dev:bg        # astro dev --background — detached, prints URL + PID, JSON logging
+pnpm dev:status    # URL, PID, uptime
+pnpm dev:logs      # structured logs; add -f to stream
+pnpm dev:stop      # SIGTERM, escalating to SIGKILL after 5s
+```
+
+**Poll `GET /_astro/status` (returns `{"ok":true}`) instead of sleeping before
+driving the browser.** The port is not fixed — 4321 upward, whichever is free —
+so read it from `pnpm dev:status` rather than hardcoding 4321.
+
 ## Deploy
 
 - **Web app (`apps/web`, Astro → Cloudflare Pages):** `pnpm deploy` (alias for

@@ -29,7 +29,7 @@ const hasContext = Boolean(amne) || tradar.length > 0 || tankare.length > 0;
 							{tradar.map((t, i) => (
 								<>
 									{i > 0 && <span class="ec-sep" aria-hidden="true">·</span>}
-									<a href={`/tradar/${t.id}`}>{t.title}</a>
+									<a href={`/tradar/${t.id}/`}>{t.title}</a>
 								</>
 							))}
 						</dd>
@@ -42,7 +42,7 @@ const hasContext = Boolean(amne) || tradar.length > 0 || tankare.length > 0;
 							{tankare.map((t, i) => (
 								<>
 									{i > 0 && <span class="ec-sep" aria-hidden="true">·</span>}
-									<a href={`/tankare/${t.slug}`}>{t.name}</a>
+									<a href={`/tankare/${t.slug}/`}>{t.name}</a>
 								</>
 							))}
 						</dd>
