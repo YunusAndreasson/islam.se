@@ -42,80 +42,15 @@ const rows = events.map((e) => {
 </section>
 
 <style>
-	/* A quiet two-column rhythm in the editorial register — not a calendar UI.
-	   No countdowns, no urgency: events sit in time (§7.9). */
+	/* Shared calendar-list rules (.md-list/.md-row/.md-greg/.md-body/.md-name/
+	   .md-note/.md-hijri/.md-standing/.md-also, plus the mobile stack) live in
+	   styles/layout.css — /det-islamiska-aret renders the same rows and used to
+	   carry an identical copy. Only this section's own spacing stays here. */
 	.md-list {
 		margin: var(--space-unit) 0 0;
-		padding: 0;
-		list-style: none;
-	}
-
-	/* No per-row rules — the date column + row spacing carry the agenda; the one
-	   standing rule below (.md-standing) is the section's only divider. */
-	.md-row {
-		display: grid;
-		grid-template-columns: 11rem 1fr auto;
-		align-items: baseline;
-		gap: clamp(1rem, 3vw, 2.5rem);
-		padding-block: var(--space-half);
-	}
-
-	.md-row[hidden] {
-		display: none;
-	}
-
-	.md-greg {
-		margin: 0;
-		color: var(--color-text);
-		text-transform: none;
-		letter-spacing: 0.02em;
-		font-feature-settings: normal;
-	}
-
-	.md-body {
-		min-width: 0;
-	}
-
-	.md-name {
-		font-family: var(--font-heading);
-		font-size: 1.0625rem;
-		font-weight: 500;
-		color: var(--color-accent);
-		margin: 0;
-	}
-
-	.md-note {
-		font-family: var(--font-body);
-		font-size: 0.875rem;
-		line-height: 1.45;
-		color: var(--color-muted);
-		margin: 0.2rem 0 0;
-		max-width: 28rem;
-	}
-
-	.md-hijri {
-		font-family: var(--font-body);
-		font-style: italic;
-		font-size: 0.875rem;
-		color: var(--color-muted);
-		margin: 0;
-		white-space: nowrap;
-		text-align: end;
-	}
-
-	.md-standing {
-		font-family: var(--font-body);
-		font-size: 0.9375rem;
-		color: var(--color-muted);
-		margin: var(--space-unit) 0 0;
-		padding-top: var(--space-half);
-		border-top: 1px solid var(--color-divider);
 	}
 
 	.md-also {
-		font-family: var(--font-body);
-		font-size: 0.9375rem;
-		color: var(--color-muted);
 		margin: var(--space-half) 0 0;
 	}
 
@@ -142,19 +77,6 @@ const rows = events.map((e) => {
 				outline: 2px solid var(--color-accent);
 				outline-offset: 2px;
 			}
-		}
-	}
-
-	@media (width <= 768px) {
-		.md-row {
-			grid-template-columns: 1fr;
-			gap: 0.35rem;
-			padding-block: var(--space-unit);
-		}
-
-		.md-hijri {
-			text-align: start;
-			white-space: normal;
 		}
 	}
 </style>

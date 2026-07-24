@@ -1157,6 +1157,102 @@ html[data-player-visible] .fixed-actions {
 	margin-inline: auto;
 }
 
+/* ============================================================
+   The Islamic-calendar list. Two surfaces render the same rows — the
+   homepage section (Markesdagar.astro, next five) and the full year
+   (/det-islamiska-aret) — and each carried its own byte-identical copy of
+   these rules, media query included. Astro scopes styles per component, so
+   the duplication was the only way to share them; here they are once,
+   globally, and each surface keeps only what is genuinely its own (its
+   list margin and the trailing paragraph's spacing).
+
+   A quiet two-column rhythm in the editorial register, not a calendar UI:
+   no countdowns, no urgency — events sit in time. There are no per-row
+   rules; the date column and the row spacing carry the agenda, and
+   .md-standing's single rule is the section's only divider.
+   ============================================================ */
+.md-list {
+	padding: 0;
+	list-style: none;
+}
+
+.md-row {
+	display: grid;
+	grid-template-columns: 11rem 1fr auto;
+	align-items: baseline;
+	gap: clamp(1rem, 3vw, 2.5rem);
+	padding-block: var(--space-half);
+}
+
+.md-row[hidden] {
+	display: none;
+}
+
+.md-greg {
+	margin: 0;
+	color: var(--color-text);
+	text-transform: none;
+	letter-spacing: 0.02em;
+	font-feature-settings: normal;
+}
+
+.md-body {
+	min-width: 0;
+}
+
+.md-name {
+	font-family: var(--font-heading);
+	font-size: 1.0625rem;
+	font-weight: 500;
+	color: var(--color-accent);
+	margin: 0;
+}
+
+.md-note {
+	font-family: var(--font-body);
+	font-size: 0.875rem;
+	line-height: 1.45;
+	color: var(--color-muted);
+	margin: 0.2rem 0 0;
+	max-width: 28rem;
+}
+
+.md-hijri {
+	font-family: var(--font-body);
+	font-style: italic;
+	font-size: 0.875rem;
+	color: var(--color-muted);
+	margin: 0;
+	white-space: nowrap;
+	text-align: end;
+}
+
+.md-standing,
+.md-also {
+	font-family: var(--font-body);
+	font-size: 0.9375rem;
+	color: var(--color-muted);
+}
+
+.md-standing {
+	margin: var(--space-unit) 0 0;
+	padding-top: var(--space-half);
+	border-top: 1px solid var(--color-divider);
+}
+
+@media (width <= 768px) {
+	.md-row {
+		grid-template-columns: 1fr;
+		gap: 0.35rem;
+		padding-block: var(--space-unit);
+	}
+
+	.md-hijri {
+		text-align: start;
+		white-space: normal;
+	}
+}
+
 /* Two-column archive index on the wide canvas (one column on a phone),
    shared by Essäer, the Fakta hub and the collection pages — so every
    index fills its frame instead of trailing a narrow ribbon of titles. */
