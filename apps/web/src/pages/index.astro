@@ -53,7 +53,7 @@ const heroPreload = feature?.heroImage
 		    told what this site is. Deliberately one sentence in body type: the
 		    heavier three-pillar portal that stood here before was removed for
 		    being too much, and this is not an attempt to bring it back. */}
-		<p class="home-intro">
+		<p class="lead home-intro">
 			En källbelagd kunskapssida om islam på svenska — skriven för den som vill
 			förstå, oavsett var man själv står.
 		</p>
@@ -104,16 +104,11 @@ const heroPreload = feature?.heroImage
 	   feature that follows so it reads as the page opening rather than a
 	   paragraph adrift in the whitespace above the photograph. */
 	.home-intro {
-		font-family: var(--font-body);
-		font-size: 1.0625rem;
-		line-height: 1.6;
-		color: var(--text-body);
-		max-width: 34rem;
+		--lead-measure: 34rem;
 		/* The top margin is not optional: .site-header::after lays a 1.5rem
 		   background-to-transparent fade over the top of <main>, and anything
 		   flush against it gets washed out. */
-		margin: var(--space-unit) 0 var(--space-unit);
-		text-wrap: pretty;
+		--lead-margin: var(--space-unit) 0 var(--space-unit);
 	}
 
 	/* Primary doorways — a calm four-up of the site's highest-intent destinations,

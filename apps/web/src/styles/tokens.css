@@ -1,3 +1,25 @@
+/* Cascade layers. Declaring the order once, here, means conflicts between the
+   global stylesheets resolve by layer instead of by specificity.
+
+   `primitives` sits BEFORE `layout`, not after — which is the opposite of the
+   usual "utilities last" advice, and deliberate. The shared classes here are not
+   override utilities; they are base classes that components legitimately refine.
+   `.archive-meta` is `class="label archive-meta"` and sets a smaller size than
+   `.label`; `.collection-lead` tunes `.lead`'s knobs. Putting primitives last
+   broke exactly those refinements (measured: .archive-meta jumped 12.7px to
+   13.8px across every archive row on the site). Early is correct for a base.
+
+   Note what this does NOT do: Astro emits per-component scoped styles
+   *unlayered* (`.foo[data-astro-cid-x]`), and unlayered CSS beats every named
+   layer. A page's own <style> block therefore still wins over everything here,
+   as it did before. The way to give the design system authority over a pattern
+   is to move that pattern out of the scoped block and into this directory —
+   which is what .lead and the .md-* calendar rules now do.
+
+   Tokens stay unlayered: they are custom-property declarations, which don't
+   participate in these conflicts. */
+@layer reset, base, primitives, layout, components;
+
 :root {
 	color-scheme: light dark;
 

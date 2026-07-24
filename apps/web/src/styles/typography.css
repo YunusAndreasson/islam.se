@@ -1,158 +1,159 @@
-:target {
-	scroll-margin-top: 5rem;
-}
+@layer base {
+	:target {
+		scroll-margin-top: 5rem;
+	}
 
-/* Footnote round-trips land mid-prose with no cue — flash the arrival point.
+	/* Footnote round-trips land mid-prose with no cue — flash the arrival point.
    Explicit no-preference guard: the global reduce kill-switch uses * selectors
    and would lose the cascade to this attribute selector. */
-@media (prefers-reduced-motion: no-preference) {
-	sup a[data-footnote-ref]:target,
-	.footnotes li:target,
-	.footnotes-relocated li:target {
-		animation: target-flash 1.6s ease-out 1 both;
+	@media (prefers-reduced-motion: no-preference) {
+		sup a[data-footnote-ref]:target,
+		.footnotes li:target,
+		.footnotes-relocated li:target {
+			animation: target-flash 1.6s ease-out 1 both;
+		}
+
+		@keyframes target-flash {
+			from {
+				background-color: color-mix(in srgb, var(--color-warm), transparent 55%);
+			}
+			to {
+				background-color: transparent;
+			}
+		}
 	}
 
-	@keyframes target-flash {
-		from {
-			background-color: color-mix(in srgb, var(--color-warm), transparent 55%);
-		}
-		to {
-			background-color: transparent;
-		}
+	::selection {
+		background: color-mix(in srgb, var(--color-warm), transparent 70%);
+		color: var(--color-text);
 	}
-}
 
-::selection {
-	background: color-mix(in srgb, var(--color-warm), transparent 70%);
-	color: var(--color-text);
-}
+	/* Body */
+	body {
+		font-family: var(--font-body);
+		font-size: var(--step-0);
+		line-height: 1.618;
+		color: var(--color-text);
+		background-color: var(--color-bg);
+		font-optical-sizing: auto;
+		font-variant-numeric: oldstyle-nums;
+		font-variant-ligatures: discretionary-ligatures;
+		-webkit-font-smoothing: antialiased;
+		text-wrap: auto;
+		hanging-punctuation: first last;
+		overflow-wrap: break-word;
+		quotes: "»" "«" "›" "‹";
+	}
 
-/* Body */
-body {
-	font-family: var(--font-body);
-	font-size: var(--step-0);
-	line-height: 1.618;
-	color: var(--color-text);
-	background-color: var(--color-bg);
-	font-optical-sizing: auto;
-	font-variant-numeric: oldstyle-nums;
-	font-variant-ligatures: discretionary-ligatures;
-	-webkit-font-smoothing: antialiased;
-	text-wrap: auto;
-	hanging-punctuation: first last;
-	overflow-wrap: break-word;
-	quotes: "»" "«" "›" "‹";
-}
-
-/* Headings — Source Sans 3 with discretionary ligatures */
-h1,
-h2 {
-	font-family: var(--font-heading);
-	line-height: 1.2;
-	text-wrap: balance;
-	font-variant-numeric: normal;
-	font-variant-ligatures: discretionary-ligatures;
-	/* .prose sets hyphens: auto, which inherits — balanced headings must never
+	/* Headings — Source Sans 3 with discretionary ligatures */
+	h1,
+	h2 {
+		font-family: var(--font-heading);
+		line-height: 1.2;
+		text-wrap: balance;
+		font-variant-numeric: normal;
+		font-variant-ligatures: discretionary-ligatures;
+		/* .prose sets hyphens: auto, which inherits — balanced headings must never
 	   auto-hyphenate Swedish compounds. manual keeps &shy; as an escape hatch. */
-	-webkit-hyphens: manual;
-	hyphens: manual;
-}
-
-h1 {
-	font-size: var(--step-4);
-	font-weight: 700;
-	letter-spacing: 0;
-	line-height: 1.15;
-	/* titl: display-optimized numerals for large titles */
-	font-feature-settings: "titl" 1;
-}
-
-h2 {
-	font-size: var(--step-2);
-	font-weight: 620;
-	letter-spacing: 0;
-	line-height: 1.25;
-	margin-top: var(--space-phi);
-	margin-bottom: var(--space-half);
-}
-
-/* Prose */
-p {
-	margin-bottom: var(--space-unit);
-}
-
-/* Links — underline fades in on hover instead of popping */
-a {
-	color: var(--color-accent);
-	text-decoration: underline;
-	text-decoration-color: transparent;
-	text-decoration-thickness: 1px;
-	text-underline-offset: 0.15em;
-	transition: text-decoration-color 0.2s ease;
-
-	&:hover {
-		text-decoration-color: currentColor;
+		-webkit-hyphens: manual;
+		hyphens: manual;
 	}
 
-	&:focus-visible {
-		outline: 2px solid var(--color-accent);
-		outline-offset: 2px;
+	h1 {
+		font-size: var(--step-4);
+		font-weight: 700;
+		letter-spacing: 0;
+		line-height: 1.15;
+		/* titl: display-optimized numerals for large titles */
+		font-feature-settings: "titl" 1;
 	}
-}
 
-/* Honorifics — ﷻ (jalla jalaluhu) and ﷺ (sallallahu alayhi wa salam)
+	h2 {
+		font-size: var(--step-2);
+		font-weight: 620;
+		letter-spacing: 0;
+		line-height: 1.25;
+		margin-top: var(--space-phi);
+		margin-bottom: var(--space-half);
+	}
+
+	/* Prose */
+	p {
+		margin-bottom: var(--space-unit);
+	}
+
+	/* Links — underline fades in on hover instead of popping */
+	a {
+		color: var(--color-accent);
+		text-decoration: underline;
+		text-decoration-color: transparent;
+		text-decoration-thickness: 1px;
+		text-underline-offset: 0.15em;
+		transition: text-decoration-color 0.2s ease;
+
+		&:hover {
+			text-decoration-color: currentColor;
+		}
+
+		&:focus-visible {
+			outline: 2px solid var(--color-accent);
+			outline-offset: 2px;
+		}
+	}
+
+	/* Honorifics — ﷻ (jalla jalaluhu) and ﷺ (sallallahu alayhi wa salam)
    Chrome renders these ligatures ~50 % taller than Firefox/Safari.
    Scale down in Blink so the glyph matches other engines. */
-.honorific {
-	color: var(--color-accent);
-	margin-inline: 0.05em;
-}
-
-/* Chromium: shrink the oversized glyph */
-@supports (-webkit-app-region: inherit) {
 	.honorific {
-		font-size: 0.65em;
+		color: var(--color-accent);
+		margin-inline: 0.05em;
 	}
-}
 
-/* Block quotes — warm border, italic for quoted voices.
+	/* Chromium: shrink the oversized glyph */
+	@supports (-webkit-app-region: inherit) {
+		.honorific {
+			font-size: 0.65em;
+		}
+	}
+
+	/* Block quotes — warm border, italic for quoted voices.
    Same size as body text (DESIGN.md: quotes carry the argument's weight).
    Border darkened toward text to clear the 3:1 non-text contrast threshold
    (--color-warm alone is 2.4:1 light / 2.8:1 dark). */
-blockquote {
-	border-inline-start: 3px solid color-mix(in srgb, var(--color-warm) 80%, var(--color-text));
-	padding-inline-start: var(--space-unit);
-	margin-block: var(--space-phi);
+	blockquote {
+		border-inline-start: 3px solid color-mix(in srgb, var(--color-warm) 80%, var(--color-text));
+		padding-inline-start: var(--space-unit);
+		margin-block: var(--space-phi);
 
-	p:last-child {
-		margin-bottom: 0;
+		p:last-child {
+			margin-bottom: 0;
+		}
 	}
-}
 
-/* Strong */
-strong {
-	font-weight: 600;
-}
+	/* Strong */
+	strong {
+		font-weight: 600;
+	}
 
-/* Emphasis — subtle weight boost so italic is easier to spot in Literata */
-em {
-	font-weight: 580;
-}
+	/* Emphasis — subtle weight boost so italic is easier to spot in Literata */
+	em {
+		font-weight: 580;
+	}
 
-/* Abbreviations — small caps via Literata's smcp/c2sc glyphs, classical convention */
-abbr {
-	font-variant-caps: all-small-caps;
-	letter-spacing: 0.04em;
-}
+	/* Abbreviations — small caps via Literata's smcp/c2sc glyphs, classical convention */
+	abbr {
+		font-variant-caps: all-small-caps;
+		letter-spacing: 0.04em;
+	}
 
-/* Horizontal rule */
-hr {
-	border: none;
-	border-top: 1px solid var(--color-divider);
-	margin-block: var(--space-phi);
-}
+	/* Horizontal rule */
+	hr {
+		border: none;
+		border-top: 1px solid var(--color-divider);
+		margin-block: var(--space-phi);
+	}
 
-/* Footnote references.
+	/* Footnote references.
 
    This used to ask for Literata's native `sups` glyphs at font-size: 1em. It
    never rendered: body sets `font-variant-numeric: oldstyle-nums`, and the
@@ -165,374 +166,375 @@ hr {
    figures (oldstyle digits have descenders and wobble at superscript size), a
    real size reduction, and a real raise. line-height: 0 keeps the raised glyph
    from opening up the line it sits in. */
-sup {
-	font-variant-numeric: lining-nums;
-	font-feature-settings: normal;
-	font-size: 0.68em;
-	line-height: 0;
-	position: relative;
-	vertical-align: super;
-	top: 0;
+	sup {
+		font-variant-numeric: lining-nums;
+		font-feature-settings: normal;
+		font-size: 0.68em;
+		line-height: 0;
+		position: relative;
+		vertical-align: super;
+		top: 0;
 
-	a {
-		color: var(--color-accent);
-		text-decoration: none;
-		font-weight: 500;
-		/* rem, not em: the marker is now 0.68em, so em padding would shrink the
+		a {
+			color: var(--color-accent);
+			text-decoration: none;
+			font-weight: 500;
+			/* rem, not em: the marker is now 0.68em, so em padding would shrink the
 		   tap target with it and drop it under the 24px floor. Same trick as
 		   .data-footnote-backref below. */
-		padding: 0.6rem;
-		margin: -0.6rem;
+			padding: 0.6rem;
+			margin: -0.6rem;
 
-		&:hover {
-			text-decoration: underline;
+			&:hover {
+				text-decoration: underline;
+			}
 		}
 	}
-}
 
-/* Screen reader only (remark-gfm footnote heading) */
-.sr-only {
-	position: absolute;
-	width: 1px;
-	height: 1px;
-	padding: 0;
-	margin: -1px;
-	overflow: hidden;
-	clip-path: inset(50%);
-	white-space: nowrap;
-	border-width: 0;
-}
+	/* Screen reader only (remark-gfm footnote heading) */
+	.sr-only {
+		position: absolute;
+		width: 1px;
+		height: 1px;
+		padding: 0;
+		margin: -1px;
+		overflow: hidden;
+		clip-path: inset(50%);
+		white-space: nowrap;
+		border-width: 0;
+	}
 
-/* Article-ending HR → ornament (replaces the markdown --- before footnotes) */
-.prose > hr:last-of-type {
-	border: none;
-	width: 10rem;
-	height: 1.5rem;
-	margin: var(--space-phi) auto;
-	background: var(--color-divider);
-	-webkit-mask: url("/ornament.svg?v=3") center / 100% 100% no-repeat;
-	mask: url("/ornament.svg?v=3") center / 100% 100% no-repeat;
-}
+	/* Article-ending HR → ornament (replaces the markdown --- before footnotes) */
+	.prose > hr:last-of-type {
+		border: none;
+		width: 10rem;
+		height: 1.5rem;
+		margin: var(--space-phi) auto;
+		background: var(--color-divider);
+		-webkit-mask: url("/ornament.svg?v=3") center / 100% 100% no-repeat;
+		mask: url("/ornament.svg?v=3") center / 100% 100% no-repeat;
+	}
 
-.data-footnote-backref {
-	text-decoration: none;
-	font-size: 0;
-	/* Inflate the ~12px ↑ glyph to a usable tap target (rem: font-size is 0,
+	.data-footnote-backref {
+		text-decoration: none;
+		font-size: 0;
+		/* Inflate the ~12px ↑ glyph to a usable tap target (rem: font-size is 0,
 	   so em units collapse). Same negative-margin trick as sup a above.
 	   0.75rem, not 0.6: the glyph itself contributes no height, so the box is
 	   exactly twice the padding — 0.6rem landed at 19px, just under the floor. */
-	padding: 0.75rem;
-	margin: -0.75rem;
-	margin-inline-start: -0.35rem;
+		padding: 0.75rem;
+		margin: -0.75rem;
+		margin-inline-start: -0.35rem;
 
-	&::after {
-		content: "↑";
-		font-size: 0.875rem;
-		/* Literata's ↑ glyph is optically drawn for body text scale */
-		font-family: var(--font-body);
-		font-style: normal;
-		color: var(--color-muted);
-	}
-}
-
-/* Footnote popover — inline preview on hover/click */
-.fn-popover {
-	position: absolute;
-	z-index: 100;
-	max-width: min(28rem, calc(100vw - 24px));
-	padding: 0.75rem 1.214rem;
-	background: var(--color-bg);
-	border: 1px solid var(--color-divider);
-	border-radius: 0.75rem;
-	box-shadow: 0 4px 24px rgb(0 0 0 / 0.08);
-	font-family: var(--font-heading);
-	font-size: 0.862rem;
-	line-height: 1.55;
-	letter-spacing: 0.01em;
-	color: var(--color-text);
-	font-variant-numeric: oldstyle-nums;
-	opacity: 0;
-	pointer-events: none;
-	transform: translateY(4px);
-	transition:
-		opacity 0.15s ease,
-		transform 0.15s ease;
-
-	p {
-		margin-bottom: 0;
+		&::after {
+			content: "↑";
+			font-size: 0.875rem;
+			/* Literata's ↑ glyph is optically drawn for body text scale */
+			font-family: var(--font-body);
+			font-style: normal;
+			color: var(--color-muted);
+		}
 	}
 
-	em {
-		font-family: var(--font-body);
-	}
-}
-
-.fn-popover--visible {
-	opacity: 1;
-	pointer-events: auto;
-	transform: translateY(0);
-}
-
-@media (prefers-color-scheme: dark) {
+	/* Footnote popover — inline preview on hover/click */
 	.fn-popover {
-		box-shadow: 0 4px 24px rgb(0 0 0 / 0.3);
-	}
-}
-
-/* ============================================================
-   Prose — article body content
-   ============================================================ */
-.prose {
-	-webkit-hyphens: auto;
-	hyphens: auto;
-	/* Swedish hyphenation discipline: min 7-letter words, ≥4 before / ≥3 after
-	   the break — kills "o-/lika" fragments. Safari prefixes add a 2-line
-	   ladder cap. Firefox ignores all of these gracefully. */
-	hyphenate-limit-chars: 7 4 3;
-	-webkit-hyphenate-limit-before: 4;
-	-webkit-hyphenate-limit-after: 3;
-	-webkit-hyphenate-limit-lines: 2;
-
-	@media (width > 768px) {
-		text-wrap: pretty;
-	}
-
-	/* Book-style paragraph rhythm: the indent alone marks consecutive
-	   paragraphs (Bringhurst: no added space between indented paragraphs;
-	   DESIGN.md: spacing or indentation, never both). */
-	> p:has(+ p) {
-		margin-bottom: 0;
-	}
-
-	> p + p:not([class]) {
-		text-indent: 1.618em;
-	}
-
-	ul,
-	ol {
-		list-style: revert;
-		padding-inline-start: 1.5em;
-		margin-bottom: var(--space-unit);
-	}
-
-	li {
-		margin-bottom: calc(var(--space-unit) * 0.25);
-	}
-}
-
-/* Footnotes relocated below article-nav (moved via JS) */
-.footnotes-relocated {
-	margin-top: 0;
-	padding-top: 0;
-	margin-bottom: calc(var(--space-phi2) + env(safe-area-inset-bottom, 0px));
-	font-size: 0.875rem;
-	line-height: 1.5;
-	color: var(--color-text);
-
-	ol {
-		list-style: decimal;
-		padding-inline-start: 1.5em;
-		font-variant-numeric: lining-nums tabular-nums;
-	}
-
-	li {
-		margin-bottom: var(--space-half);
+		position: absolute;
+		z-index: 100;
+		max-width: min(28rem, calc(100vw - 24px));
+		padding: 0.75rem 1.214rem;
+		background: var(--color-bg);
+		border: 1px solid var(--color-divider);
+		border-radius: 0.75rem;
+		box-shadow: 0 4px 24px rgb(0 0 0 / 0.08);
+		font-family: var(--font-heading);
+		font-size: 0.862rem;
+		line-height: 1.55;
+		letter-spacing: 0.01em;
+		color: var(--color-text);
+		font-variant-numeric: oldstyle-nums;
+		opacity: 0;
+		pointer-events: none;
+		transform: translateY(4px);
+		transition:
+			opacity 0.15s ease,
+			transform 0.15s ease;
 
 		p {
 			margin-bottom: 0;
 		}
+
+		em {
+			font-family: var(--font-body);
+		}
 	}
 
-	a {
+	.fn-popover--visible {
+		opacity: 1;
+		pointer-events: auto;
+		transform: translateY(0);
+	}
+
+	@media (prefers-color-scheme: dark) {
+		.fn-popover {
+			box-shadow: 0 4px 24px rgb(0 0 0 / 0.3);
+		}
+	}
+
+	/* ============================================================
+   Prose — article body content
+   ============================================================ */
+	.prose {
+		-webkit-hyphens: auto;
+		hyphens: auto;
+		/* Swedish hyphenation discipline: min 7-letter words, ≥4 before / ≥3 after
+	   the break — kills "o-/lika" fragments. Safari prefixes add a 2-line
+	   ladder cap. Firefox ignores all of these gracefully. */
+		hyphenate-limit-chars: 7 4 3;
+		-webkit-hyphenate-limit-before: 4;
+		-webkit-hyphenate-limit-after: 3;
+		-webkit-hyphenate-limit-lines: 2;
+
+		@media (width > 768px) {
+			text-wrap: pretty;
+		}
+
+		/* Book-style paragraph rhythm: the indent alone marks consecutive
+	   paragraphs (Bringhurst: no added space between indented paragraphs;
+	   DESIGN.md: spacing or indentation, never both). */
+		> p:has(+ p) {
+			margin-bottom: 0;
+		}
+
+		> p + p:not([class]) {
+			text-indent: 1.618em;
+		}
+
+		ul,
+		ol {
+			list-style: revert;
+			padding-inline-start: 1.5em;
+			margin-bottom: var(--space-unit);
+		}
+
+		li {
+			margin-bottom: calc(var(--space-unit) * 0.25);
+		}
+	}
+
+	/* Footnotes relocated below article-nav (moved via JS) */
+	.footnotes-relocated {
+		margin-top: 0;
+		padding-top: 0;
+		margin-bottom: calc(var(--space-phi2) + env(safe-area-inset-bottom, 0px));
+		font-size: 0.875rem;
+		line-height: 1.5;
+		color: var(--color-text);
+
+		ol {
+			list-style: decimal;
+			padding-inline-start: 1.5em;
+			font-variant-numeric: lining-nums tabular-nums;
+		}
+
+		li {
+			margin-bottom: var(--space-half);
+
+			p {
+				margin-bottom: 0;
+			}
+		}
+
+		a {
+			color: var(--color-accent);
+		}
+	}
+
+	/* Section ornament — eight-pointed star flanked by thin rules */
+	.section-ornament {
+		display: block;
+		width: 10rem;
+		height: 1.5rem;
+		margin: var(--space-phi) auto;
+		background: var(--color-divider);
+		-webkit-mask: url("/ornament.svg?v=3") center / 100% 100% no-repeat;
+		mask: url("/ornament.svg?v=3") center / 100% 100% no-repeat;
+	}
+
+	/* Drop cap — article opening paragraph */
+	article .prose > p:first-child {
+		overflow: visible;
+	}
+
+	article .prose > p:first-child::first-letter {
+		font-weight: 600;
 		color: var(--color-accent);
 	}
-}
 
-/* Section ornament — eight-pointed star flanked by thin rules */
-.section-ornament {
-	display: block;
-	width: 10rem;
-	height: 1.5rem;
-	margin: var(--space-phi) auto;
-	background: var(--color-divider);
-	-webkit-mask: url("/ornament.svg?v=3") center / 100% 100% no-repeat;
-	mask: url("/ornament.svg?v=3") center / 100% 100% no-repeat;
-}
-
-/* Drop cap — article opening paragraph */
-article .prose > p:first-child {
-	overflow: visible;
-}
-
-article .prose > p:first-child::first-letter {
-	font-weight: 600;
-	color: var(--color-accent);
-}
-
-/* The metric compensations only make sense alongside the big letter —
+	/* The metric compensations only make sense alongside the big letter —
    Firefox (no initial-letter) must not get the spurious margins. */
-@supports (initial-letter: 3) or (-webkit-initial-letter: 3) {
-	article .prose > p:first-child::first-letter {
-		-webkit-initial-letter: 3;
-		initial-letter: 3;
-		margin-right: 0.08em;
-		/* Å/Ä/Ö ring and dots extend above cap height — negative margin gives room */
-		margin-top: -0.08em;
+	@supports (initial-letter: 3) or (-webkit-initial-letter: 3) {
+		article .prose > p:first-child::first-letter {
+			-webkit-initial-letter: 3;
+			initial-letter: 3;
+			margin-right: 0.08em;
+			/* Å/Ä/Ö ring and dots extend above cap height — negative margin gives room */
+			margin-top: -0.08em;
+		}
 	}
-}
 
-article .prose > p:first-child::first-line {
-	font-variant-caps: small-caps;
-}
-
-/* Dark mode — compensate for thinner light-on-dark rendering */
-@media (prefers-color-scheme: dark) {
-	body {
-		font-weight: 420;
+	article .prose > p:first-child::first-line {
+		font-variant-caps: small-caps;
 	}
-}
 
-/* External link indicator — Literata's native → glyph, optically matched */
-.prose a[href^="http"]::after {
-	content: " →";
-	font-family: var(--font-body);
-	font-size: 0.75em;
-	opacity: 0.35;
-	text-decoration: none;
-	display: inline;
-	transition: opacity 0.2s;
-}
+	/* Dark mode — compensate for thinner light-on-dark rendering */
+	@media (prefers-color-scheme: dark) {
+		body {
+			font-weight: 420;
+		}
+	}
 
-.prose a[href^="http"]:hover::after {
-	opacity: 0.6;
-}
+	/* External link indicator — Literata's native → glyph, optically matched */
+	.prose a[href^="http"]::after {
+		content: " →";
+		font-family: var(--font-body);
+		font-size: 0.75em;
+		opacity: 0.35;
+		text-decoration: none;
+		display: inline;
+		transition: opacity 0.2s;
+	}
 
-/* ============================================================
+	.prose a[href^="http"]:hover::after {
+		opacity: 0.6;
+	}
+
+	/* ============================================================
    Mobile adjustments
    ============================================================ */
-@media (width <= 768px) {
-	body {
-		font-size: 1.0625rem; /* 17px */
-	}
+	@media (width <= 768px) {
+		body {
+			font-size: 1.0625rem; /* 17px */
+		}
 
-	/* h1/h2 sizes are fluid via the clamp()ed --step-* tokens; only the
+		/* h1/h2 sizes are fluid via the clamp()ed --step-* tokens; only the
 	   optical compensations (weight, tracking) stay breakpoint-bound. */
-	h2 {
-		font-weight: 630;
-		letter-spacing: 0;
+		h2 {
+			font-weight: 630;
+			letter-spacing: 0;
+		}
+
+		.prose > p + p:not([class]) {
+			text-indent: 1.309em;
+		}
+
+		blockquote {
+			padding-inline-start: var(--space-half);
+			margin-block: var(--space-unit);
+		}
 	}
 
-	.prose > p + p:not([class]) {
-		text-indent: 1.309em;
-	}
-
-	blockquote {
-		padding-inline-start: var(--space-half);
-		margin-block: var(--space-unit);
-	}
-}
-
-/* ============================================================
+	/* ============================================================
    Print — clean black-on-white for essay printing
    ============================================================ */
-@media print {
-	*,
-	*::before,
-	*::after {
-		background: transparent !important;
-		color: #000 !important;
-		box-shadow: none !important;
-		text-shadow: none !important;
+	@media print {
+		*,
+		*::before,
+		*::after {
+			background: transparent !important;
+			color: #000 !important;
+			box-shadow: none !important;
+			text-shadow: none !important;
+		}
+
+		body {
+			font-size: 11pt;
+			line-height: 1.5;
+		}
+
+		h1,
+		h2 {
+			page-break-after: avoid;
+		}
+
+		blockquote,
+		img,
+		pre {
+			page-break-inside: avoid;
+		}
+
+		.site-header,
+		.site-header--hero,
+		.reading-progress,
+		.fixed-actions,
+		.article-nav,
+		.section-ornament,
+		.fn-popover {
+			display: none !important;
+		}
+
+		.prose a[href^="http"]::after {
+			content: " (" attr(href) ")";
+			font-size: 0.8em;
+			opacity: 1;
+			word-break: break-all;
+		}
+
+		.content-column {
+			max-width: none;
+			padding: 0;
+		}
+
+		.footnotes,
+		.footnotes-relocated {
+			font-size: 9pt;
+		}
 	}
 
-	body {
-		font-size: 11pt;
-		line-height: 1.5;
-	}
-
-	h1,
-	h2 {
-		page-break-after: avoid;
-	}
-
-	blockquote,
-	img,
-	pre {
-		page-break-inside: avoid;
-	}
-
-	.site-header,
-	.site-header--hero,
-	.reading-progress,
-	.fixed-actions,
-	.article-nav,
-	.section-ornament,
-	.fn-popover {
-		display: none !important;
-	}
-
-	.prose a[href^="http"]::after {
-		content: " (" attr(href) ")";
-		font-size: 0.8em;
-		opacity: 1;
-		word-break: break-all;
-	}
-
-	.content-column {
-		max-width: none;
-		padding: 0;
-	}
-
-	.footnotes,
-	.footnotes-relocated {
-		font-size: 9pt;
-	}
-}
-
-/* Forced colors (Windows High Contrast) — the resting link underline is normally
+	/* Forced colors (Windows High Contrast) — the resting link underline is normally
    transparent and only fades in on hover, which leaves links indistinguishable from
    text under a forced palette. Pin a visible underline and let the OS colours win. */
-@media (forced-colors: active) {
-	a {
-		text-decoration-color: currentColor;
-	}
+	@media (forced-colors: active) {
+		a {
+			text-decoration-color: currentColor;
+		}
 
-	/* Glass/translucent surfaces lose their backdrop; give focusable chrome a
+		/* Glass/translucent surfaces lose their backdrop; give focusable chrome a
 	   real border so it stays legible. */
-	.search-trigger,
-	.share-btn,
-	.back-to-top,
-	.fn-popover {
-		border: 1px solid currentColor;
+		.search-trigger,
+		.share-btn,
+		.back-to-top,
+		.fn-popover {
+			border: 1px solid currentColor;
+		}
 	}
-}
 
-/* Reduced motion — respect user preference.
+	/* Reduced motion — respect user preference.
    !important is load-bearing: * has zero specificity, so without it every
    classed `transition` shorthand on the site wins the cascade and the
    kill-switch is a no-op. Deliberate survivors (EssayImage filter cross-fade,
    resume-pill opacity fade) re-assert themselves locally with !important. */
-@media (prefers-reduced-motion: reduce) {
-	*,
-	*::before,
-	*::after {
-		animation-duration: 0.01ms !important;
-		animation-iteration-count: 1 !important;
-		animation-delay: 0.01ms !important;
-		transition-duration: 0.01ms !important;
-		transition-delay: 0ms !important;
-		scroll-behavior: auto;
-	}
+	@media (prefers-reduced-motion: reduce) {
+		*,
+		*::before,
+		*::after {
+			animation-duration: 0.01ms !important;
+			animation-iteration-count: 1 !important;
+			animation-delay: 0.01ms !important;
+			transition-duration: 0.01ms !important;
+			transition-delay: 0ms !important;
+			scroll-behavior: auto;
+		}
 
-	/* The kill-switch can't reach the view-transition pseudo-tree. */
-	::view-transition-group(*),
-	::view-transition-old(*),
-	::view-transition-new(*) {
-		animation: none !important;
-	}
+		/* The kill-switch can't reach the view-transition pseudo-tree. */
+		::view-transition-group(*),
+		::view-transition-old(*),
+		::view-transition-new(*) {
+			animation: none !important;
+		}
 
-	/* Override html { scroll-behavior: smooth } in reset.css (higher specificity needed) */
-	html {
-		scroll-behavior: auto;
+		/* Override html { scroll-behavior: smooth } in reset.css (higher specificity needed) */
+		html {
+			scroll-behavior: auto;
+		}
 	}
 }

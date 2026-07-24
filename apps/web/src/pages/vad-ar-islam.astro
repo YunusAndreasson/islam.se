@@ -99,7 +99,7 @@ const jsonLd = [
 						<h2 id={`fc-${c.slug}`}>
 							{c.overview ? <a href={`/svar/${c.overview}/`}>{c.name}</a> : c.name}
 						</h2>
-						<p>{c.intro}</p>
+						<p class="lead">{c.intro}</p>
 					</header>
 					<div class="fakta-grid">
 						{c.cards.map((cd) => (
@@ -155,14 +155,9 @@ const jsonLd = [
 		text-underline-offset: 0.15em;
 	}
 
-	.fakta-cluster-head p {
-		font-family: var(--font-body);
-		font-size: 1.0625rem;
-		line-height: 1.6;
-		color: var(--color-muted);
-		max-width: 42rem;
-		margin: 0.4rem 0 0;
-		text-wrap: pretty;
+	.fakta-cluster-head .lead {
+		--lead-color: var(--color-muted);
+		--lead-margin: 0.4rem 0 0;
 	}
 
 	/* auto-fit fills the 64rem canvas with as many ~16rem cards as fit — 3 across on
