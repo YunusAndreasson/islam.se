@@ -54,8 +54,8 @@ const heroPreload = feature?.heroImage
 		    heavier three-pillar portal that stood here before was removed for
 		    being too much, and this is not an attempt to bring it back. */}
 		<p class="lead home-intro">
-			En källbelagd kunskapssida om islam på svenska — skriven för den som vill
-			förstå, oavsett var man själv står.
+			Islam på svenska, förklarad ur källorna – Koranen, sunna och de tidiga
+			generationernas lärda.
 		</p>
 
 		{/* Primary doorways — the high-intent destinations a visitor most often arrives
@@ -104,11 +104,17 @@ const heroPreload = feature?.heroImage
 	   feature that follows so it reads as the page opening rather than a
 	   paragraph adrift in the whitespace above the photograph. */
 	.home-intro {
-		--lead-measure: 34rem;
+		/* No measure: the line is meant to sit on ONE line, centred under the mast,
+		   and the 64rem home canvas is wide enough to hold it. */
+		--lead-measure: none;
 		/* The top margin is not optional: .site-header::after lays a 1.5rem
 		   background-to-transparent fade over the top of <main>, and anything
 		   flush against it gets washed out. */
 		--lead-margin: var(--space-unit) 0 var(--space-unit);
+		text-align: center;
+		/* Only reached on narrow screens, where one line is impossible; balance keeps
+		   the two halves even instead of leaving a stub under a full line. */
+		text-wrap: balance;
 	}
 
 	/* Primary doorways — a calm four-up of the site's highest-intent destinations,
@@ -155,7 +161,7 @@ const heroPreload = feature?.heroImage
 
 	.home-pillar-title {
 		font-family: var(--font-heading);
-		font-size: 1.0625rem;
+		font-size: var(--step--1);
 		font-weight: 600;
 		letter-spacing: 0;
 		color: var(--color-accent);
@@ -169,7 +175,7 @@ const heroPreload = feature?.heroImage
 
 	.home-pillar-desc {
 		font-family: var(--font-body);
-		font-size: 0.9rem;
+		font-size: var(--step--2);
 		line-height: 1.4;
 		color: var(--color-muted);
 		text-wrap: pretty;

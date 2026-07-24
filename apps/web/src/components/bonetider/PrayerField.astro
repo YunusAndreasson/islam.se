@@ -143,13 +143,13 @@ const nextKey = nextPrayerKeyAt(times, now.getTime()) ?? "fajr";
 	.bf-next-name {
 		font-family: var(--font-heading);
 		font-weight: 600;
-		font-size: 0.9rem;
+		font-size: var(--step--2);
 		color: var(--color-text);
 	}
 
 	.bf-next-sub {
 		font-family: var(--font-body);
-		font-size: 0.78rem;
+		font-size: var(--step--4);
 		color: var(--color-muted);
 		white-space: nowrap;
 		overflow: hidden;
@@ -159,7 +159,7 @@ const nextKey = nextPrayerKeyAt(times, now.getTime()) ?? "fajr";
 	.bf-countdown {
 		font-family: var(--font-body);
 		font-variant-numeric: lining-nums tabular-nums;
-		font-size: 0.9rem;
+		font-size: var(--step--2);
 		color: var(--color-accent);
 		white-space: nowrap;
 	}
@@ -167,7 +167,7 @@ const nextKey = nextPrayerKeyAt(times, now.getTime()) ?? "fajr";
 	.bf-place {
 		margin: 0.1rem 0 0;
 		font-family: var(--font-body);
-		font-size: 0.75rem;
+		font-size: var(--step--4);
 		color: var(--color-muted);
 	}
 
@@ -193,14 +193,14 @@ const nextKey = nextPrayerKeyAt(times, now.getTime()) ?? "fajr";
 		grid-area: name;
 		font-family: var(--font-heading);
 		font-weight: 600;
-		font-size: 1rem;
+		font-size: var(--step--1);
 		color: var(--color-text);
 	}
 
 	.bf-t-sv {
 		grid-area: sv;
 		font-family: var(--font-body);
-		font-size: 0.8rem;
+		font-size: var(--step--4);
 		color: var(--color-muted);
 	}
 
@@ -209,7 +209,7 @@ const nextKey = nextPrayerKeyAt(times, now.getTime()) ?? "fajr";
 		align-self: center;
 		font-family: var(--font-body);
 		font-variant-numeric: lining-nums tabular-nums;
-		font-size: 1.05rem;
+		font-size: var(--step--1);
 		color: var(--color-text);
 	}
 

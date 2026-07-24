@@ -163,7 +163,7 @@ const description =
 		gap: 0.45em;
 		padding: 0.5rem 1.125rem;
 		font-family: var(--font-heading);
-		font-size: 0.862rem;
+		font-size: var(--step--3);
 		font-weight: 500;
 		letter-spacing: 0.05em;
 		text-transform: uppercase;
@@ -250,8 +250,11 @@ const description =
 
 	.podcast-item-num {
 		font-family: var(--font-heading);
-		font-size: 1.1rem;
-		font-weight: 300;
+		font-size: var(--step--1);
+		/* 300 was the site's only Light weight outside the book-cover artwork — one
+		   number in one list, carrying a weight nothing else uses. Muted colour
+		   already makes it recede. */
+		font-weight: 400;
 		color: var(--color-muted);
 		text-align: right;
 		font-variant-numeric: tabular-nums;
@@ -261,7 +264,7 @@ const description =
 	.podcast-item-title {
 		display: block;
 		font-family: var(--font-heading);
-		font-size: 1.2rem;
+		font-size: var(--step-0);
 		font-weight: 600;
 		line-height: 1.25;
 		color: var(--color-accent);
@@ -273,9 +276,9 @@ const description =
 		-webkit-box-orient: vertical;
 		overflow: hidden;
 		font-family: var(--font-body);
-		font-size: 0.95rem;
+		font-size: var(--step--2);
 		line-height: 1.5;
-		color: color-mix(in srgb, var(--color-text) 78%, var(--color-muted));
+		color: var(--text-quiet);
 		margin-top: 0.3rem;
 	}
 
@@ -289,7 +292,7 @@ const description =
 
 	.podcast-note {
 		font-family: var(--font-body);
-		font-size: 0.9375rem;
+		font-size: var(--step--2);
 		color: var(--color-muted);
 		max-width: var(--content-width);
 		margin: var(--space-phi) 0 0;

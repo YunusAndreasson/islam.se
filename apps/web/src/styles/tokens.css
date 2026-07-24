@@ -39,17 +39,44 @@
 	--color-warm: light-dark(#b0a090, #6a5e4a);
 	--color-divider: color-mix(in srgb, var(--color-muted), transparent 80%);
 
-	/* Muted body-text ramp — body text blended toward the warm muted taupe, named
-	   so the tonal steps live in one tunable place instead of being hand-mixed at
-	   every call site. `strong` = leads / secondary prose that should stay close to
-	   full text; `body` = standard secondary prose; `quiet` = the lightest readable
-	   lead. `--text-meta` is the inverse mix (muted nudged toward text), tuned to
-	   clear WCAG AA on small meta labels. The handful of one-off percentages
-	   elsewhere (70/75/78/82/85/86) stay inline, where a comment explains the
-	   specific contrast tuning that earned them. */
-	--text-strong: color-mix(in srgb, var(--color-text) 88%, var(--color-muted));
-	--text-body: color-mix(in srgb, var(--color-text) 80%, var(--color-muted));
-	--text-quiet: color-mix(in srgb, var(--color-text) 72%, var(--color-muted));
+	/* Muted body-text ramp — body text blended toward the warm muted taupe.
+
+	   These steps are spaced by PERCEIVED lightness (CIE L*), not by mix
+	   percentage, because mix percentage is not what the eye reads. The previous
+	   ramp mixed 88/80/72 % and, with the one-off 70/75/78/82/85 % values scattered
+	   through the components, put SEVEN prose tiers inside ΔL* = 12.3 — adjacent
+	   steps of 0.8–2.4 L*, all under the ~3 L* just-noticeable difference. Measured:
+	   `--text-quiet` (72 %) and the inline 70 % mix differed by ΔL* 0.8. Nine shades
+	   that read as one. Then a 25-point void down to `--color-muted`.
+
+	   Now: three prose tiers, each a real step of ΔL* ≈ 11, landing evenly between
+	   full text and muted. Blur the page and the ranks separate.
+
+	     tier          light L*  contrast   dark L*  contrast   role
+	     --color-text      8.7     16.6       88.2     12.97    body prose, titles
+	     --text-body      19.7     12.53      77.2      9.51    leads, decks, framing
+	     --text-quiet     30.7      8.58      66.2      6.79    descriptions, blurbs
+	     --color-muted    46.6      4.78      54.8      4.64    meta labels, captions
+
+	   The mix percentages differ per scheme because color-mix is linear in sRGB
+	   channels, not in L* — 74 % light and 66 % dark are the values that land on the
+	   same perceived step. Every tier clears WCAG AA; the top three clear AAA in
+	   light mode. Do NOT hand-mix new percentages at call sites; that is exactly the
+	   drift this table replaces. */
+	--text-body: light-dark(
+		color-mix(in srgb, var(--color-text) 74%, var(--color-muted)),
+		color-mix(in srgb, var(--color-text) 66%, var(--color-muted))
+	);
+	--text-quiet: light-dark(
+		color-mix(in srgb, var(--color-text) 45%, var(--color-muted)),
+		color-mix(in srgb, var(--color-text) 33%, var(--color-muted))
+	);
+	/* `strong` prose (a lead that must not read as secondary) is simply full text —
+	   weight and size carry it, not a 5 % tint nobody can see. Kept as an alias so
+	   call sites keep saying what they mean. */
+	--text-strong: var(--color-text);
+	/* Meta labels that need a touch more presence than --color-muted (used by the
+	   BookPod cover, which sits on its own tinted panel). */
 	--text-meta: color-mix(in srgb, var(--color-muted), var(--color-text) 22%);
 
 	/* Type scale — 1.2 ratio (minor third) from 19px Literata base.
@@ -60,6 +87,33 @@
 	   deliberate breakpoints, not continuously scale with window width. */
 	--step-2: 1.814rem; /* 29px — h2 */
 	--step-4: 2.612rem; /* 41.8px — h1 */
+
+	/* Sub-body scale — the half of the system that was never written down.
+
+	   Above body the scale was fully specified (four steps, ~25 uses). Below body
+	   there was nothing, and the components filled the vacuum with THIRTEEN ad-hoc
+	   values across ~155 declarations: 0.66 0.7 0.75 0.78 0.796 0.8 0.8125 0.82
+	   0.85 0.862 0.875 0.9 0.92 0.95 1.05 1.0625 1.1rem. Sizes 0.3px apart doing
+	   different jobs on different pages — 13px and 13.12px and 13.6px and 13.79px
+	   all meaning "label". That is not a hierarchy the eye can read; it is noise.
+	   And this band is where most of the site's text actually lives (meta, captions,
+	   card blurbs, chips, tables, prayer and map UI).
+
+	   Ratio here is 1.125 (major second), not the 1.2 used above. Deliberate: below
+	   body, rank is carried by caps, weight and the colour ramp as much as by size,
+	   so the steps can be finer — and a 1.2 ladder would drop the label step to 13.2
+	   and the micro step to 11px, too small for the meta lines that carry dates and
+	   sources. Every existing value snaps to its nearest step with a shift of under
+	   1px, so this is a consolidation, not a restyle.
+
+	   Above-body display type (the feature title, the pull-quote, the Arabic verse,
+	   the search overlay) stays composition-specific and is deliberately not snapped:
+	   those are one-off editorial decisions, not a rank in the text hierarchy. */
+	--step--1: 1.0556rem; /* 16.9px — secondary prose: leads, blurbs, card copy */
+	--step--2: 0.9384rem; /* 15.0px — dense prose: descriptions, table cells */
+	--step--3: 0.8342rem; /* 13.3px — labels, meta lines, chips (the .label size) */
+	--step--4: 0.7415rem; /* 11.9px — micro meta: attribution, dense map/prayer UI */
+	--step--5: 0.6591rem; /* 10.5px — the smallest marks (book-cover brand line) */
 
 	/* Spacing — golden progression from body line-height (φ ≈ 1.618) */
 	--space-unit: 1.9rem;
@@ -104,6 +158,7 @@
 		--space-phi: 2.427rem; /* 1.5 × φ */
 		--space-phi2: 3.927rem; /* 1.5 × φ² */
 		--space-phi3: 6.354rem; /* 1.5 × φ³ */
+		--step-0: 1.0625rem; /* 17px — body (DESIGN.md floor for mobile; never below 16) */
 		--step-2: 1.562rem; /* 25px — h2 */
 		--step-4: 2rem; /* 32px — h1 */
 	}

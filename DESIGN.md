@@ -76,6 +76,24 @@ Optimal line length for Swedish prose with its compound words: **60–70 charact
 
 Every font size on the site must belong to a single coherent scale — no ad-hoc sizes. The reader should perceive a natural hierarchy where each level feels proportionally larger, never arbitrary.
 
+The scale has **two halves**, both in `tokens.css`. Reach for a token; never type a new rem value.
+
+| token | px | role |
+|---|---|---|
+| `--step-4` | 41.8 | h1 |
+| `--step-2` | 29.0 | h2 (essay register) |
+| `--step-1` | 24.2 | h3, list and card titles, h2 in the compact reference register |
+| `--step-0` | 19 / 17 mobile | body prose |
+| `--step--1` | 16.9 | secondary prose: leads, blurbs, card copy |
+| `--step--2` | 15.0 | dense prose: descriptions, table cells |
+| `--step--3` | 13.3 | labels, meta lines, chips (`.label`) |
+| `--step--4` | 11.9 | micro meta: attribution, dense map/prayer UI |
+| `--step--5` | 10.5 | the smallest marks |
+
+Above body the ratio is 1.2; below it 1.1250 — finer because rank down there is also carried by caps, weight and colour. The sub-body half did not exist until the components had already invented thirteen ad-hoc sizes for it (13px and 13.12px and 13.6px and 13.79px all meaning "label"); that is the failure this table prevents.
+
+Deliberate exceptions are allowed and must say so in a comment at the call site: display type composed for one place (the feature headline, the pull-quote, the Arabic verse, the book-cover artwork) and the 16px floor on form inputs, below which iOS Safari auto-zooms on focus.
+
 **Body text** must be generous: 18–20px on desktop, 17–18px on mobile. Anything smaller signals that you do not respect the reader's time.
 
 **Line height** must give long-form prose room to breathe: 1.5–1.6 for body text.
@@ -227,6 +245,21 @@ Near-black, not pure black. Dark charcoal (#1a1a1a to #2d2d2d range) on warm off
 ### Accent
 
 One color. Used for links and interactive elements only. Muted, not saturated — this is a literary publication, not a SaaS landing page. The accent should feel inevitable, like it belongs to the palette.
+
+### The Text Ramp
+
+Secondary prose is not a new colour; it is a step down the same one. Four ranks, in `tokens.css`:
+
+| token | role | light L\* | contrast |
+|---|---|---|---|
+| `--color-text` | body prose, titles | 8.7 | 16.6 |
+| `--text-body` | leads, decks, framing | 19.7 | 12.5 |
+| `--text-quiet` | descriptions, blurbs, captions | 30.7 | 8.6 |
+| `--color-muted` | meta labels | 46.6 | 4.8 |
+
+Space the steps by **perceived lightness (L\*), not by mix percentage** — roughly ΔL\* 11 apart, which is what the eye actually reads. The earlier ramp mixed 88/80/72 % and the components hand-mixed 70/75/78/82/85 % besides, which put seven prose tiers inside ΔL\* 12.3 — steps of under 1 L\* in places, all beneath the just-noticeable difference. Nine shades that read as one, and then a 25-point void down to muted. Never hand-mix a new percentage at a call site; if a tier is missing, add it here and justify it in L\*.
+
+A colour that encodes data (the brass on the mosque map's markers and bars) earns its place by encoding something. The moment it is used for ordinary text it is just a fifth colour.
 
 ### Dark Mode
 
