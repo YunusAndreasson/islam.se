@@ -3,7 +3,8 @@ import { type CollectionEntry, getCollection, render } from "astro:content";
 import EssayImage from "../../components/EssayImage.astro";
 import Base from "../../layouts/Base.astro";
 import { getArticles } from "../../lib/articles";
-import { FAKTA_IMAGE_BY_SVAR, FAKTA_SLUGS } from "../../lib/fakta";
+import { FAKTA_CLUSTERS, FAKTA_IMAGE_BY_SVAR, FAKTA_SLUGS } from "../../lib/fakta";
+import { SVAR_CATEGORIES } from "../../lib/svar";
 import { ORG_ID, WEBSITE_ID, breadcrumbList } from "../../lib/jsonld";
 
 export async function getStaticPaths() {
@@ -55,6 +56,18 @@ const heroEssaySlug = FAKTA_IMAGE_BY_SVAR.get(entry.id);
 const heroArticle = heroEssaySlug
 	? (await getArticles()).find((a) => a.slug === heroEssaySlug)
 	: undefined;
+
+// The section this answer sits in, for the header kicker. Cornerstone answers are
+// clustered in the FAKTA hub; every other question belongs to a /svar/ category.
+// Both taxonomies are editorial and live in lib/, so this is a lookup, not a
+// frontmatter field.
+const faktaCluster = FAKTA_CLUSTERS.find((c) => c.items.some((i) => i.svarSlug === entry.id));
+const svarCategory = SVAR_CATEGORIES.find((c) => c.ids.includes(entry.id));
+const kicker = faktaCluster
+	? { name: faktaCluster.name, href: `/vad-ar-islam/#${faktaCluster.slug}` }
+	: svarCategory
+		? { name: svarCategory.name, href: `/svar/#${svarCategory.slug}` }
+		: null;
 
 const updated =
 	data.updatedAt && data.updatedAt.slice(0, 10) !== data.publishedAt.slice(0, 10)
@@ -118,6 +131,16 @@ if (data.faq && data.faq.length > 0) {
 	<main id="main" class="svar-page reading">
 		<article>
 			<header class="svar-header">
+				{/* The section this answer belongs to, in the same register the essay
+				    pages use for their ämne. It gives the header a line above the
+				    title instead of dropping the h1 straight onto a full-width photo,
+				    and it is a real way back into the hub the reader came from.
+				    (The frontmatter description was the obvious filler here, but it
+				    is near-verbatim the body's opening sentence — it would have read
+				    as an immediate repeat.) */}
+				{kicker && (
+					<p class="label svar-kicker"><a href={kicker.href}>{kicker.name}</a></p>
+				)}
 				<h1>{data.title}</h1>
 				{updated ? (
 					<p class="svar-updated">Uppdaterad <time datetime={updated.slice(0, 10)}>{updated.slice(0, 10)}</time></p>
@@ -204,9 +227,41 @@ if (data.faq && data.faq.length > 0) {
 		margin-block: var(--space-phi);
 	}
 
+	/* The header owns the gap down to whatever follows, so an answer with a hero
+	   and one without open with the same rhythm. Without this the h1 on a
+	   hero-less answer sat directly on the body's drop cap. */
+	.svar-header {
+		margin-bottom: var(--space-phi);
+	}
+
 	.svar-header h1 {
 		margin: var(--space-half) 0 0;
 		text-wrap: balance;
+	}
+
+	/* Same register as the essay page's ämne kicker, so an answer and an essay
+	   open the same way. */
+	.svar-kicker {
+		margin: 0;
+	}
+
+	.svar-kicker a {
+		display: inline-block;
+		padding: 0.3rem 0.4rem;
+		margin: -0.3rem -0.4rem;
+		color: var(--color-accent);
+		text-decoration: none;
+
+		&:hover {
+			text-decoration: underline;
+			text-underline-offset: 0.15em;
+		}
+
+		&:focus-visible {
+			outline: 2px solid var(--color-accent);
+			outline-offset: 2px;
+			border-radius: var(--radius-xs);
+		}
 	}
 
 	.svar-updated {
@@ -218,8 +273,13 @@ if (data.faq && data.faq.length > 0) {
 
 	/* Cornerstone (FAKTA) answers carry a borrowed hero so the page reads as an
 	   article. It spans the reading frame, above the body. */
+	/* The hero breaks out past the 42rem text column to the full 64rem frame, so
+	   it needs a real gap above it — at --space-unit it sat almost flush under the
+	   h1 and read as though the title were a caption for the photo. φ above, φ
+	   below, the same rhythm the essay hero uses. */
 	.svar-hero {
-		margin-top: var(--space-unit);
+		/* Top gap comes from .svar-header; this is the gap down to the prose. */
+		margin-block: 0 var(--space-phi);
 	}
 	.svar-hero :global(img) {
 		aspect-ratio: 16 / 9;
