@@ -91,14 +91,20 @@ if (article.heroImage) {
 			</header>
 
 			{article.heroImage && (
-				<figure class="article-hero media-frame">
-					<EssayImage
-						article={article}
-						widths={[768, 1152, 1536]}
-						sizes="(max-width: 768px) 100vw, 64rem"
-						loading="eager"
-						fetchpriority="high"
-					/>
+				<figure class="article-hero">
+					{/* The frame wraps the image only. With the figcaption inside it,
+					    the caption sat on .media-frame's warm image-decode placeholder
+					    and underneath the frame's vignette and film-grain layers — a
+					    brown band clipped by the frame's rounded corners. */}
+					<div class="article-hero-frame media-frame">
+						<EssayImage
+							article={article}
+							widths={[768, 1152, 1536]}
+							sizes="(max-width: 768px) 100vw, 64rem"
+							loading="eager"
+							fetchpriority="high"
+						/>
+					</div>
 					{article.imageCaption && <figcaption class="hero-caption">{article.imageCaption}</figcaption>}
 				</figure>
 			)}
@@ -174,6 +180,13 @@ if (article.heroImage) {
 	   No hover bloom here — the hero is a <figure>, not a link. */
 	.article-hero :global(img) {
 		aspect-ratio: 3 / 2;
+	}
+
+	/* The caption is set to the reading measure and left-aligned with the prose
+	   below it, rather than running the full width of the 64rem image. */
+	.hero-caption {
+		max-width: var(--content-width);
+		margin-inline: auto;
 	}
 
 	/* A quiet editorial caption under the hero — a descriptive line only (never a
