@@ -109,8 +109,8 @@ const faqLd =
 ---
 
 <Base
-	title="Det islamiska året — islam.se"
-	description="Islamiska högtider och märkesdagar med datum: Ramadan, Eid al-fitr, Eid al-adha, Arafa, Ashura och hajj — i både gregoriansk och islamisk kalender (Umm al-Qura)."
+	title={`${ramadan ? `Ramadan ${ramadan.startISO.slice(0, 4)} & ` : ""}Det islamiska året — islam.se`}
+	description={`${ramadan ? `Ramadan ${ramadan.startISO.slice(0, 4)}, ` : ""}Eid al-fitr, Eid al-adha, Arafa, Ashura och hajj — datum i både gregoriansk och islamisk kalender (Umm al-Qura).`}
 	jsonLd={[
 		breadcrumbList([
 			{ name: "Hem", url: "/" },

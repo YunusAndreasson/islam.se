@@ -3,6 +3,7 @@
 		Rub el hizb (۞): two interlocking square outlines with inner ring.
 		Flanking rules taper into the star for a connected feel.
 	-->
+	<title>Rub el hizb-ornament</title>
 	<line x1="0" y1="9" x2="48" y2="9" stroke="white" stroke-width="0.85" stroke-linecap="round"/>
 	<rect x="53" y="2" width="14" height="14" stroke="white" stroke-width="1.2" fill="none"/>
 	<rect x="53" y="2" width="14" height="14" stroke="white" stroke-width="1.2" fill="none" transform="rotate(45 60 9)"/>

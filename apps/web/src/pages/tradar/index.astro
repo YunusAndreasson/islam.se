@@ -15,7 +15,7 @@ const threads = await getCollection("tradar");
 			"@context": "https://schema.org",
 			"@type": "CollectionPage",
 			name: "Trådar",
-			url: "https://islam.se/tradar",
+			url: "https://islam.se/tradar/",
 			inLanguage: "sv",
 		},
 		breadcrumbList([
@@ -33,7 +33,7 @@ const threads = await getCollection("tradar");
 		<ul class="collection-index">
 			{threads.map((thread) => (
 				<li class="collection-index-item">
-					<a href={`/tradar/${thread.id}`}>
+					<a href={`/tradar/${thread.id}/`}>
 						<h2 class="collection-index-title">{thread.data.title}</h2>
 						<p class="collection-index-framing">{thread.data.framing}</p>
 						<p class="label collection-index-count">{thread.data.essays.length} essäer</p>
@@ -42,7 +42,7 @@ const threads = await getCollection("tradar");
 			))}
 		</ul>
 
-		<p class="collection-back"><a href="/essaer">Hela arkivet →</a></p>
+		<p class="collection-back"><a href="/essaer/">Hela arkivet →</a></p>
 	</main>
 </Base>
 

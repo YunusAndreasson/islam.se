@@ -235,6 +235,7 @@ function coordinateKey(lat: number, lng: number): string {
 	return `${lat},${lng}`;
 }
 
+// biome-ignore lint/complexity/noExcessiveCognitiveComplexity: one-off, hand-run CSV importer (see file header) — splitting the linear row-processing pipeline into helpers isn't worth the risk of a subtle behavior change in geo-matching logic that already has dedicated tests.
 async function main() {
 	const text = await readFile(csvPath, "utf8");
 	// IDs are public fragment identifiers used by map and city-page permalinks. Preserve

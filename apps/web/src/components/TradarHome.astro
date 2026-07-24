@@ -19,11 +19,11 @@ if (limit) {
 ---
 
 <section class="tradar-home home-movement" aria-labelledby="tradar-kicker">
-	<HomeHead label="Trådar" id="tradar-kicker" href="/tradar" linkLabel="Alla trådar" />
+	<HomeHead label="Trådar" id="tradar-kicker" href="/tradar/" linkLabel="Alla trådar" />
 	<ul class="tradar-grid">
 		{threads.map((thread) => (
 			<li class="tradar-card">
-				<a href={`/tradar/${thread.id}`} data-astro-prefetch="viewport">
+				<a href={`/tradar/${thread.id}/`} data-astro-prefetch="viewport">
 					<h3 class="tradar-card-title">{thread.data.title}</h3>
 					<p class="tradar-card-framing">{thread.data.framing}</p>
 					<p class="label tradar-card-count">{thread.data.essays.length} essäer</p>

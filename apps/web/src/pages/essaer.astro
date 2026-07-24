@@ -34,7 +34,7 @@ const western = thinkers.filter((t) => t.data.tradition === "western");
 			"@context": "https://schema.org",
 			"@type": "CollectionPage",
 			name: "Essäer",
-			url: "https://islam.se/essaer",
+			url: "https://islam.se/essaer/",
 			inLanguage: "sv",
 		},
 		breadcrumbList([
@@ -174,7 +174,7 @@ const western = thinkers.filter((t) => t.data.tradition === "western");
 				<p class="label overlay-heading">Trådar</p>
 				<ul class="overlay-list">
 					{threads.map((t) => (
-						<li><a href={`/tradar/${t.id}`}>{t.data.title}</a></li>
+						<li><a href={`/tradar/${t.id}/`}>{t.data.title}</a></li>
 					))}
 				</ul>
 			</div>
@@ -183,12 +183,12 @@ const western = thinkers.filter((t) => t.data.tradition === "western");
 				<div class="overlay-cols">
 					<ul class="overlay-list">
 						{sunni.map((t) => (
-							<li><a href={`/tankare/${t.data.slug}`}>{t.data.name}</a></li>
+							<li><a href={`/tankare/${t.data.slug}/`}>{t.data.name}</a></li>
 						))}
 					</ul>
 					<ul class="overlay-list">
 						{western.map((t) => (
-							<li><a href={`/tankare/${t.data.slug}`}>{t.data.name}</a></li>
+							<li><a href={`/tankare/${t.data.slug}/`}>{t.data.name}</a></li>
 						))}
 					</ul>
 				</div>
