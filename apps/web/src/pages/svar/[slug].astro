@@ -222,6 +222,13 @@ if (data.faq && data.faq.length > 0) {
 	</main>
 </Base>
 
+<script>
+	// Wire the Quran recitation players injected under each attributed blockquote
+	// (rehype-quran-verse). Same component and same script the essays use.
+	import { initQuranPlayers } from "../../scripts/quran-player";
+	document.addEventListener("astro:page-load", () => initQuranPlayers());
+</script>
+
 <style>
 	.svar-page {
 		margin-block: var(--space-phi);
@@ -266,7 +273,7 @@ if (data.faq && data.faq.length > 0) {
 
 	.svar-updated {
 		font-family: var(--font-heading);
-		font-size: 0.8125rem;
+		font-size: var(--step--3);
 		color: var(--color-muted);
 		margin: var(--space-half) 0 0;
 	}
@@ -316,7 +323,7 @@ if (data.faq && data.faq.length > 0) {
 		margin: 0;
 		font-family: var(--font-body);
 		line-height: 1.6;
-		color: color-mix(in srgb, var(--color-text) 85%, var(--color-muted));
+		color: var(--text-body);
 	}
 
 	.svar-sources ul,
@@ -337,7 +344,7 @@ if (data.faq && data.faq.length > 0) {
 	.svar-back {
 		margin-top: var(--space-phi);
 		font-family: var(--font-heading);
-		font-size: 0.9375rem;
+		font-size: var(--step--2);
 	}
 	.svar-back a {
 		color: var(--color-accent);

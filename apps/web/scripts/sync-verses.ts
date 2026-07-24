@@ -82,11 +82,34 @@ const audioDir = join(webRoot, "public/audio/quran");
 const qulSegmentsPath = join(__dirname, "data/qul-alnufais-segments.json");
 const quranDbPath = join(webRoot, "../../data/quran.db");
 const articlesDir = join(webRoot, "../../data/articles");
+const svarDir = join(webRoot, "../../data/svar");
 
 // The Quran footnote form essays already use — "Koranen, <Name> S:A" (a few use
 // "sura <Name> S:A"). Mirrors src/lib/citations.ts so the set of verses we generate
 // audio for is exactly the set readers can meet in the prose.
 const QURAN_FOOTNOTE = /\[\^[^\]]+\]:\s*(?:Koranen,\s*|sura\s+)[^0-9\n]*?(\d{1,3}):(\d{1,3})/g;
+
+// The answer pages (data/svar) never use footnotes — not one of the 63 does. They
+// quote the Qur'an as a blockquote closed by an attribution line:
+//     > SÄG: "Han är Gud – En, …"
+//     > — Koranen 112:1–4
+// so that attribution is their citation form, and it is what the rehype plugin keys
+// on. Ranges are common here (whole short suras, quoted entire) and are first-class:
+// see sliceRange below. Mirrors SVAR_ATTRIBUTION in src/plugins/rehype-quran-verse.ts.
+const SVAR_ATTRIBUTION = /^>\s*[—–-]\s*Koranen\s+(\d{1,3}):(\d{1,3})(?:\s*[–—-]\s*(\d{1,3}))?/gm;
+
+/** Normalized verse key: "2:255" for a single ayah, "112:1-4" for a range. */
+function verseKey(surah: string | number, from: string | number, to?: string | number): string {
+	return to && Number(to) > Number(from) ? `${surah}:${from}-${to}` : `${surah}:${from}`;
+}
+
+/** Parse a verse key back into its parts. `to === from` for a single ayah. */
+function parseKey(key: string): { surah: number; from: number; to: number } {
+	const m = /^(\d+):(\d+)(?:-(\d+))?$/.exec(key);
+	if (!m) throw new Error(`unparseable verse key: ${key}`);
+	const from = Number(m[2]);
+	return { surah: Number(m[1]), from, to: m[3] ? Number(m[3]) : from };
+}
 
 /** Every ayahKey cited in any essay footnote, de-duplicated. */
 async function citedKeys(): Promise<string[]> {
@@ -95,6 +118,17 @@ async function citedKeys(): Promise<string[]> {
 	for (const f of files) {
 		const body = await readFile(join(articlesDir, f), "utf8");
 		for (const m of body.matchAll(QURAN_FOOTNOTE)) set.add(`${m[1]}:${m[2]}`);
+	}
+	return [...set];
+}
+
+/** Every verse (single or range) quoted in an answer page, de-duplicated. */
+async function svarQuotedKeys(): Promise<string[]> {
+	const files = (await readdir(svarDir)).filter((f) => f.endsWith(".md"));
+	const set = new Set<string>();
+	for (const f of files) {
+		const body = await readFile(join(svarDir, f), "utf8");
+		for (const m of body.matchAll(SVAR_ATTRIBUTION)) set.add(verseKey(m[1], m[2], m[3]));
 	}
 	return [...set];
 }
@@ -241,49 +275,95 @@ function repairTrailingArtifact(segments: Segment[]): Segment[] {
 	return segments;
 }
 
-async function fetchVerse(key: string, qul: QulVerse): Promise<VerseEntry> {
-	const [surah, ayah] = key.split(":").map((n) => Number.parseInt(n, 10));
-
-	// 1. Uthmanic Arabic + chapter names from Tarteel (one call); the Swedish in
-	// this payload is ignored — we take ours from the local DB below.
+/** One ayah's Uthmanic Arabic + chapter names, from Tarteel (the Swedish in this
+ *  payload is ignored — ours comes from the local DB). */
+async function arabicFromTarteel(
+	ayahKey: string,
+): Promise<{ textArabic: string; chapterName: string; chapterNameArabic: string }> {
 	const tr = await callTarteel("get_translation_text", {
-		queries: [{ start_ayah: key, translations: [TRANSLATION_SLUG] }],
+		queries: [{ start_ayah: ayahKey, translations: [TRANSLATION_SLUG] }],
 	});
 	const trText: string = tr.content?.[0]?.text ?? "";
 	const trJson = trText.match(/\{[\s\S]*\}/);
-	if (!trJson) throw new Error(`${key}: could not parse translation payload`);
-	const trData = JSON.parse(trJson[0]);
-	const ayahData = trData.ayahs?.[0];
-	if (!ayahData) throw new Error(`${key}: no ayah in translation payload`);
-	const textArabic: string = ayahData.text_arabic;
+	if (!trJson) throw new Error(`${ayahKey}: could not parse translation payload`);
+	const ayahData = JSON.parse(trJson[0]).ayahs?.[0];
+	if (!ayahData) throw new Error(`${ayahKey}: no ayah in translation payload`);
+	return {
+		textArabic: ayahData.text_arabic,
+		chapterName: ayahData.chapter_name,
+		chapterNameArabic: ayahData.chapter_name_arabic,
+	};
+}
 
-	// 2. Swedish — Den ädla Koranen, from the local Quran DB (not Tarteel).
-	const textSwedish = swedishFromDb(surah, ayah);
+/**
+ * Build one verse entry — a single ayah, or a RANGE quoted whole (112:1-4).
+ *
+ * A range is not a concatenation job. QUL's timestamps are absolute within the
+ * surah master, so ayahs 1–4 of a sura are one CONTIGUOUS span of that recording:
+ * cut once from the first word of the first ayah to the last word of the last, and
+ * the recitation flows exactly as al-Nufais recited it, pauses and all. The only
+ * bookkeeping is word numbering — QUL restarts at 1 per ayah, so each ayah's word
+ * indices are offset by the running word count, which is precisely how the joined
+ * Arabic text tokenizes. Highlight and audio therefore stay on one clock across the
+ * whole range, exactly as they do for a single ayah.
+ *
+ * Alignment is validated PER AYAH: every ayah in the range must start at word 1 and
+ * end on its own last word. If any ayah disagrees, the whole range ships without a
+ * highlight rather than risk lighting the wrong word — the same bulletproof rule the
+ * single-ayah path has always applied.
+ */
+async function fetchVerse(key: string, qulSegments: Record<string, QulVerse>): Promise<VerseEntry> {
+	const { surah, from, to } = parseKey(key);
+	const isRange = to > from;
 
-	// 3. The QUL word timing can drive the highlight ONLY when the segment word
-	// numbers line up with the tokenized text one-for-one — proven by an exact count
-	// match. That is the bulletproof guarantee: a mid-verse split would otherwise
-	// shift the spotlight onto the wrong word, which is unacceptable for the Qur'an.
-	// When they disagree (QUL omitted a word's timing, or has none), we ship the
-	// verse WITHOUT a highlight — the reader still sees the Arabic and can listen.
-	const repaired = repairTrailingArtifact(qul.segments ?? []);
-	const maxWord = repaired.length ? Math.max(...repaired.map((s) => s[0])) : 0;
-	const canHighlight = repaired[0]?.[0] === 1 && maxWord === wordCount(textArabic);
+	const arabicParts: string[] = [];
+	const swedishParts: string[] = [];
+	const merged: Segment[] = [];
+	let wordOffset = 0;
+	let canHighlight = true;
+	let chapterName = "";
+	let chapterNameArabic = "";
 
-	const fileName = `${pad3(surah)}${pad3(ayah)}.mp3`;
+	for (let ayah = from; ayah <= to; ayah++) {
+		const ayahKey = `${surah}:${ayah}`;
+		const meta = await arabicFromTarteel(ayahKey);
+		if (!chapterName) {
+			chapterName = meta.chapterName;
+			chapterNameArabic = meta.chapterNameArabic;
+		}
+		arabicParts.push(meta.textArabic);
+		swedishParts.push(swedishFromDb(surah, ayah));
+
+		const repaired = repairTrailingArtifact(qulSegments[ayahKey]?.segments ?? []);
+		const maxWord = repaired.length ? Math.max(...repaired.map((s) => s[0])) : 0;
+		const words = wordCount(meta.textArabic);
+		if (repaired[0]?.[0] === 1 && maxWord === words) {
+			for (const [w, s, e] of repaired) merged.push([w + wordOffset, s, e]);
+		} else {
+			canHighlight = false;
+		}
+		wordOffset += words;
+	}
+
+	const textArabic = arabicParts.join(" ");
+	const textSwedish = swedishParts.join(" ");
+
+	const fileName = isRange
+		? `${pad3(surah)}${pad3(from)}-${pad3(to)}.mp3`
+		: `${pad3(surah)}${pad3(from)}.mp3`;
 	const outPath = join(audioDir, fileName);
 	await mkdir(audioDir, { recursive: true });
-	// Idempotent: an ayah already produced is left untouched, so a re-run only fetches
+	// Idempotent: a clip already produced is left untouched, so a re-run only fetches
 	// the newly-cited verses. Delete the mp3 by hand to force a refresh.
 	const cached = existsSync(outPath);
 
 	let segments: Segment[];
-	if (canHighlight) {
-		// 4a. Slice the ayah out of the surah master at QUL's boundaries (so the cut
-		// shares one clock with the timing), trimming the gap before the first word
-		// and ringing out the last. Offsets are normalized to the saved clip.
-		const firstStart = repaired[0][1];
-		const lastEnd = Math.max(...repaired.map((s) => s[2]));
+	if (canHighlight && merged.length) {
+		// Slice at QUL's own boundaries (so the cut shares one clock with the timing),
+		// trimming the gap before the first word and ringing out the last. Offsets are
+		// normalized to the saved clip.
+		const firstStart = merged[0][1];
+		const lastEnd = Math.max(...merged.map((s) => s[2]));
 		const sliceStart = Math.max(0, firstStart - LEAD_PAD_MS);
 		const sliceEnd = lastEnd + TAIL_PAD_MS;
 		if (!cached) {
@@ -294,27 +374,31 @@ async function fetchVerse(key: string, qul: QulVerse): Promise<VerseEntry> {
 				outPath,
 			);
 		}
-		segments = repaired.map(
+		segments = merged.map(
 			([w, s, e]) => [w, Math.max(0, s - sliceStart), e - sliceStart] as Segment,
 		);
+	} else if (isRange) {
+		// No ready-made clip exists for a range, and stitching one from the per-ayah
+		// files would drift. Better no player than a misaligned one.
+		throw new Error("range has no usable QUL word alignment");
 	} else {
-		// 4b. No usable word timing — download the ready-made per-ayah clip (no ffmpeg)
+		// No usable word timing — download the ready-made per-ayah clip (no ffmpeg)
 		// and ship with empty segments; the player renders the verse without a spotlight.
 		if (!cached) await downloadFile(`${AYAH_AUDIO_BASE}/${fileName}`, outPath);
 		segments = [];
 	}
 
 	console.log(
-		`  ${canHighlight ? "✓" : "♪"} ${key}  ${ayahData.chapter_name}  (${fileName}${cached ? ", cached" : ""}, ${canHighlight ? `${segments.length} segments` : "audio only — no QUL word alignment"})`,
+		`  ${segments.length ? "✓" : "♪"} ${key}  ${chapterName}  (${fileName}${cached ? ", cached" : ""}, ${segments.length ? `${segments.length} segments` : "audio only — no QUL word alignment"})`,
 	);
 
 	return {
 		id: key,
 		surah,
-		ayah,
+		ayah: from,
 		ayahKey: key,
-		surahName: ayahData.chapter_name,
-		surahNameArabic: ayahData.chapter_name_arabic,
+		surahName: chapterName,
+		surahNameArabic: chapterNameArabic,
 		textArabic,
 		textSwedish,
 		translator: TRANSLATOR,
@@ -324,22 +408,25 @@ async function fetchVerse(key: string, qul: QulVerse): Promise<VerseEntry> {
 	};
 }
 
-/** Numeric ayahKey sort (surah, then ayah) so output diffs stay stable. */
+/** Numeric verse-key sort (surah, then first ayah) so output diffs stay stable. */
 function bySurahAyah(a: string, b: string): number {
-	const [as, aa] = a.split(":").map(Number);
-	const [bs, ba] = b.split(":").map(Number);
-	return as - bs || aa - ba;
+	const ka = parseKey(a);
+	const kb = parseKey(b);
+	return ka.surah - kb.surah || ka.from - kb.from || ka.to - kb.to;
 }
 
 async function main() {
 	const qulSegments: Record<string, QulVerse> = JSON.parse(await readFile(qulSegmentsPath, "utf8"));
 	const rotation = new Set(ROTATION_KEYS);
 	const cited = await citedKeys();
-	// Every verse a reader can meet (essays) ∪ the homepage rotation.
-	const allKeys = [...new Set([...ROTATION_KEYS, ...cited])].sort(bySurahAyah);
+	const svarQuoted = await svarQuotedKeys();
+	// Every verse a reader can meet — essay footnotes ∪ answer-page blockquotes ∪ the
+	// homepage rotation.
+	const allKeys = [...new Set([...ROTATION_KEYS, ...cited, ...svarQuoted])].sort(bySurahAyah);
 
 	console.log(
-		`Syncing ${allKeys.length} verses (${cited.length} cited in essays, ${ROTATION_KEYS.length} in rotation) — ` +
+		`Syncing ${allKeys.length} verses (${cited.length} cited in essays, ` +
+			`${svarQuoted.length} quoted in svar, ${ROTATION_KEYS.length} in rotation) — ` +
 			"Arabic via Tarteel, al-Nufais via QUL, Den ädla Koranen via quran.db…",
 	);
 
@@ -350,14 +437,10 @@ async function main() {
 
 	for (const key of allKeys) {
 		const isRotation = rotation.has(key);
-		const qul = qulSegments[key];
-		// `!qul` (no entry at all) → can still play via the per-ayah clip fallback;
-		// pass a hollow QulVerse so fetchVerse takes the no-highlight path.
+		// An ayah missing from the QUL export can still play via the ready-made
+		// per-ayah clip; fetchVerse falls back to it and ships no highlight.
 		try {
-			const entry = await fetchVerse(
-				key,
-				qul ?? { segments: [], timestamp_from: 0, timestamp_to: 0 },
-			);
+			const entry = await fetchVerse(key, qulSegments);
 			if (isRotation && entry.segments.length === 0) {
 				// The homepage rotation relies on the word highlight — never ship one silently flat.
 				throw new Error("rotation verse lost its QUL word alignment — fix before shipping");

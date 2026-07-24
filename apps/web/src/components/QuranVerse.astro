@@ -1,0 +1,78 @@
+---
+/**
+ * A Quran recitation player for an .astro page — the same figure, the same markup
+ * and the same client script (`scripts/quran-player`) that `rehype-quran-verse`
+ * injects into essay and answer-page markdown. Markdown gets its players from the
+ * rehype plugin; a hand-composed page uses this.
+ *
+ * Reads the committed map produced by `pnpm sync-verses`, so a verse only renders
+ * if its audio and word timing were actually generated — an unknown or unsynced
+ * key renders nothing rather than a broken control.
+ *
+ *   <QuranVerse ayah="112:1-4" />        single ayah or a range
+ *
+ * The Swedish translation is deliberately not rendered: on every surface that uses
+ * this, the literary Swedish is already in the prose above it.
+ */
+import versesJson from "../data/quran-verses.json";
+import { tokenizeArabic } from "../lib/arabic";
+
+interface Props {
+	/** Verse key: "2:255" for one ayah, "112:1-4" for a range. */
+	ayah: string;
+	/** Surah name for the citation, in the site's own transliteration (al-Ikhlās,
+	 *  not Al-Ikhlas). Passed by hand on purpose: the synced data only knows
+	 *  Tarteel's ASCII spelling, and mixing that into a page whose prose uses
+	 *  macrons is worse than citing the verse by number alone. Omit it and the
+	 *  citation reads "Koranen · 112:1–4". */
+	name?: string;
+}
+
+interface MapEntry {
+	textArabic: string;
+	audioFile: string;
+	/** [word, startMs, endMs] — typed loosely because that is how TypeScript infers
+	 *  the imported JSON, and this component only re-serializes it for the client. */
+	segments: number[][];
+	reciter: string;
+}
+
+const { ayah, name } = Astro.props;
+const verse = (versesJson as Record<string, MapEntry>)[ayah];
+
+const tokens = verse ? tokenizeArabic(verse.textArabic) : [];
+// "112:1-4" → "112:1–4": the citation is typeset with an en dash, as the prose is.
+const ref = ayah.replace("-", "–");
+const label = name ?? "";
+const cite = `Koranen · ${label ? `${label} ` : ""}${ref}`;
+---
+
+{
+	verse && (
+		<figure class="quran-verse">
+			<p class="qv-arabic" dir="rtl" lang="ar" data-segments={JSON.stringify(verse.segments)}>
+				{tokens.map((t) =>
+					t.word === null ? (
+						<span class="qv-waqf">{t.text} </span>
+					) : (
+						<span class="qv-w" data-w={t.word}>
+							{t.text}{" "}
+						</span>
+					),
+				)}
+			</p>
+			<div class="qv-meta">
+				<button
+					type="button"
+					class="qv-play"
+					data-audio={verse.audioFile}
+					aria-label={`Lyssna på ${label ? `${label} ` : ""}${ref}, reciterad av ${verse.reciter}`}
+				>
+					<svg class="qv-icon-play" width="13" height="13" viewBox="0 0 18 18" fill="currentColor" aria-hidden="true"><path d="M4 2.5v13l11-6.5z" /></svg>
+					<svg class="qv-icon-pause" width="13" height="13" viewBox="0 0 18 18" fill="currentColor" aria-hidden="true"><rect x="4" y="2" width="3.5" height="14" rx="0.5" /><rect x="10.5" y="2" width="3.5" height="14" rx="0.5" /></svg>
+				</button>
+				<span class="qv-cite label">{cite}</span>
+			</div>
+		</figure>
+	)
+}
