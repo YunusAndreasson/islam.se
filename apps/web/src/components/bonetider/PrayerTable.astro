@@ -81,7 +81,7 @@ const rows = Array.from({ length: daysInMonth }, (_, i) => {
 	.bt-table-cap {
 		font-family: var(--font-heading);
 		font-weight: 600;
-		font-size: 1.0625rem;
+		font-size: var(--step--1);
 		color: var(--color-accent);
 		margin-bottom: var(--space-half);
 	}
@@ -97,7 +97,7 @@ const rows = Array.from({ length: daysInMonth }, (_, i) => {
 		border-collapse: collapse;
 		font-family: var(--font-body);
 		font-variant-numeric: lining-nums tabular-nums;
-		font-size: 0.875rem;
+		font-size: var(--step--3);
 	}
 
 	.bt-table th,
@@ -113,7 +113,7 @@ const rows = Array.from({ length: daysInMonth }, (_, i) => {
 		background: var(--color-bg);
 		color: var(--color-muted);
 		font-weight: 600;
-		font-size: 0.8125rem;
+		font-size: var(--step--3);
 		border-bottom: 1px solid var(--color-divider);
 	}
 
@@ -141,7 +141,7 @@ const rows = Array.from({ length: daysInMonth }, (_, i) => {
 
 	.bt-table-note {
 		font-family: var(--font-body);
-		font-size: 0.8125rem;
+		font-size: var(--step--3);
 		line-height: 1.5;
 		color: var(--color-muted);
 		margin: var(--space-half) 0 0;

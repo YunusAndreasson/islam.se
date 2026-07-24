@@ -65,7 +65,7 @@ const { mosques, cityLink = false } = Astro.props;
 	.mk-list-name {
 		font-family: var(--font-heading);
 		font-weight: 600;
-		font-size: 1.0625rem;
+		font-size: var(--step--1);
 		color: var(--color-text);
 		margin: 0 0 0.2rem;
 		line-height: 1.25;
@@ -85,14 +85,14 @@ const { mosques, cityLink = false } = Astro.props;
 
 	.mk-list-addr {
 		font-family: var(--font-body);
-		font-size: 0.9375rem;
+		font-size: var(--step--2);
 		color: var(--color-text);
 		margin: 0 0 0.15rem;
 	}
 
 	.mk-list-meta {
 		font-family: var(--font-body);
-		font-size: 0.85rem;
+		font-size: var(--step--3);
 		color: var(--color-muted);
 		margin: 0 0 0.15rem;
 		font-variant-numeric: lining-nums tabular-nums;
@@ -100,7 +100,7 @@ const { mosques, cityLink = false } = Astro.props;
 
 	.mk-list-org {
 		font-family: var(--font-body);
-		font-size: 0.85rem;
+		font-size: var(--step--3);
 		color: var(--color-muted);
 		margin: 0 0 0.35rem;
 	}
@@ -117,7 +117,7 @@ const { mosques, cityLink = false } = Astro.props;
 	   the same everywhere. The permalink stays a quiet text link (secondary action). */
 	.mk-list-dir-link {
 		font-family: var(--font-heading);
-		font-size: 0.82rem;
+		font-size: var(--step--3);
 		font-weight: 600;
 		text-decoration: none;
 		color: var(--color-accent);
@@ -134,7 +134,7 @@ const { mosques, cityLink = false } = Astro.props;
 
 	.mk-list-canon a {
 		font-family: var(--font-body);
-		font-size: 0.78rem;
+		font-size: var(--step--4);
 		color: var(--color-muted);
 		text-decoration: none;
 	}
