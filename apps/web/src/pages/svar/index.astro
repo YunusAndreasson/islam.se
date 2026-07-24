@@ -8,8 +8,8 @@ import { groupSvar } from "../../lib/svar";
 // FRÅGOR & SVAR — the full, browsable question list. `groupSvar` arranges the
 // corpus into themed sections and drops the cornerstone Five Pillars + six Articles
 // of Faith (they live in the FAKTA hub at /vad-ar-islam/), so this index and the
-// hub never duplicate each other. A sticky category nav lets a reader jump straight
-// to a theme.
+// hub never duplicate each other. A category jump-nav lets a reader go straight
+// to a theme, and an observer marks which one they are currently in.
 const entries = await getCollection("svar");
 const groups = groupSvar(entries);
 const listed = groups.flatMap((g) => g.entries);
@@ -38,7 +38,7 @@ const description =
 	<main id="main" class="svar-index home">
 		<PageHead title="Frågor & svar om islam">
 			Korta, tydliga och källbelagda svar på vanliga frågor om islam – från tro och dyrkan till mat,
-			familj, samhälle och historia. Vill du i stället ha grunderna förklarade finns
+			familj, samhälle och historia. Vill du i stället ha grunderna förklarade finns{" "}
 			<a href="/vad-ar-islam/">de fem pelarna och trosartiklarna</a>; för fördjupade rättsliga frågor
 			hänvisar vi till <a href="https://al-ibadah.com" rel="noopener">al-ibadah.com</a>.
 		</PageHead>
@@ -96,11 +96,16 @@ const description =
 				for (const it of items) {
 					if (!it.isIntersecting) continue;
 					const id = (it.target as HTMLElement).id;
-					for (const [cat, chip] of chips)
-						chip.setAttribute("aria-current", cat === id ? "true" : "false");
+					// Remove rather than set "false": aria-current="false" means
+					// "not current" but still counts as the attribute being present,
+					// and it left ~12 links carrying it on every scroll.
+					for (const [cat, chip] of chips) {
+						if (cat === id) chip.setAttribute("aria-current", "true");
+						else chip.removeAttribute("aria-current");
+					}
 				}
 			},
-			// Trip when a heading reaches the upper third, under the sticky nav.
+			// Trip when a heading reaches the upper third of the viewport.
 			{ rootMargin: "-30% 0px -65% 0px" },
 		);
 		for (const s of sections) obs.observe(s);
@@ -134,7 +139,9 @@ const description =
 
 	.svar-section {
 		margin-top: var(--space-phi);
-		/* Anchor jumps land below the sticky nav, not under it. */
+		/* Clears the sticky mast, so an anchor jump doesn't drop the heading
+		   underneath it. (The category nav itself is not sticky — a sticky
+		   section nav was considered and turned down as too much chrome.) */
 		scroll-margin-top: 4rem;
 	}
 	.svar-section h2 {
@@ -171,6 +178,15 @@ const description =
 		font-size: 1.0625rem;
 		color: var(--color-accent);
 	}
+	/* Held to the reading measure. On the 64rem canvas these ran the full width —
+	   103 characters a line, against the 60–70 the rest of the site is set to —
+	   which is what made the index feel like a wall rather than a list. The row
+	   and its hairline still span the canvas; only the text is constrained. */
+	.svar-list-title,
+	.svar-list-desc {
+		max-width: var(--content-width);
+	}
+
 	.svar-list-desc {
 		display: block;
 		font-family: var(--font-body);

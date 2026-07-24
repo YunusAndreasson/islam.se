@@ -15,7 +15,7 @@ const { article, widths = FEATURE_HERO_WIDTHS, sizes = FEATURE_HERO_SIZES } = As
 
 <section class="feature home-movement" aria-labelledby="feature-title">
 	<a class="feature-link focus-ring" href={`/${article.slug}`} data-astro-prefetch="viewport">
-		<div class="feature-media media-frame" transition:name={`hero-${article.slug}`}>
+		<div class="feature-media media-frame">
 			<EssayImage
 				article={article}
 				widths={widths}
@@ -31,8 +31,7 @@ const { article, widths = FEATURE_HERO_WIDTHS, sizes = FEATURE_HERO_SIZES } = As
 				<p class="feature-lead" set:html={inlineMarkdown(article.description)} />
 			)}
 			<p class="label feature-meta">
-				<time datetime={article.publishedAt}>{formatDate(article.publishedAt)}</time>
-				&middot; {article.readingTime} min läsning
+				<time datetime={article.publishedAt}>{formatDate(article.publishedAt)}</time> &middot; {article.readingTime} min läsning
 			</p>
 		</div>
 	</a>

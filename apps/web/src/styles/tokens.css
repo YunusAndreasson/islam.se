@@ -46,6 +46,18 @@
 	--space-phi2: 4.974rem; /* unit × φ² */
 	--space-phi3: 8.048rem; /* unit × φ³ — act boundaries on the homepage */
 
+	/* Corner radii. These were 27 distinct hardcoded values across the codebase,
+	   including a `var(--radius, 0.5rem)` pointing at a property that was never
+	   defined. Named here so the shapes are a decision rather than an accident.
+	   Call sites whose value already matched exactly now reference the token;
+	   the handful that differ (1.25rem/1.4rem pills in the map and prayer UI)
+	   were left alone rather than silently restyled. */
+	--radius-xs: 2px; /* focus rings */
+	--radius-sm: 0.5rem; /* inputs, small controls */
+	--radius-md: 10px; /* .media-frame — the art-directed image corner */
+	--radius-lg: 0.75rem; /* cards */
+	--radius-pill: 999px;
+
 	/* Layout */
 	--content-width: 42rem;
 	/* Home canvas — wider editorial frame the homepage modules share */

@@ -97,6 +97,11 @@ const hasContext = Boolean(amne) || tradar.length > 0 || tankare.length > 0;
 	}
 
 	.ec-context a {
+		/* These are navigation chips, not words in a sentence, so the 24px target
+		   floor applies. They were 17px tall. inline-block + padding, with the row
+		   gap tightened to absorb it so the key stays as compact as before. */
+		display: inline-block;
+		padding-block: 0.25rem;
 		color: var(--color-accent);
 		text-decoration: none;
 		font-weight: 500;

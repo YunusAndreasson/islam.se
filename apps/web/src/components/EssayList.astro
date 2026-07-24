@@ -15,8 +15,7 @@ const { articles } = Astro.props;
 			<a href={`/${article.slug}`} data-astro-prefetch="viewport">
 				<span class="archive-title">{article.title}</span>
 				<p class="label archive-meta">
-					<time datetime={article.publishedAt}>{formatDate(article.publishedAt)}</time>
-					&middot; {article.readingTime} min läsning
+					<time datetime={article.publishedAt}>{formatDate(article.publishedAt)}</time> &middot; {article.readingTime} min läsning
 				</p>
 				{article.description && (
 					<p class="archive-description" set:html={inlineMarkdown(article.description)} />
