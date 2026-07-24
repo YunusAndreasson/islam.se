@@ -570,12 +570,25 @@ export default defineConfig({
 			name: "Literata",
 			cssVariable: "--font-body",
 			fallbacks: ["Georgia", "Times New Roman", "serif"],
-			// EXPERIMENT (2026-07-23): "optional" instead of the "swap" default — a cold-cache
-			// visit renders the metric-matched fallback and never swaps mid-load (no flash), while
-			// a warm cache (repeat visitor) still gets the real font immediately. This is what
-			// actually keeps the font off the LCP-scoring critical path; removing `preload` alone
-			// (tried first) didn't move the Lighthouse LCP score at all.
-			display: "optional",
+			// REVERTED 2026-07-24, back to the "swap" default.
+			//
+			// The 2026-07-23 experiment set "optional" to keep the font off the LCP
+			// critical path, accepting that a cold-cache visit renders the
+			// metric-matched fallback. Measured on a cold cache (CDP
+			// CSS.getPlatformFontsForNode, which reports what was actually
+			// rasterised rather than what document.fonts claims), the cost turned out
+			// to be the whole typeface: both .woff2 files download fine and report
+			// `loaded`, but they arrive after "optional"'s ~100ms block period, so
+			// the browser locks in the fallback for the entire page load and never
+			// swaps. Body rendered as Liberation Serif, headings as Liberation Sans.
+			//
+			// That is every first-time visitor — which on this site is most of them,
+			// arriving from search — reading a typography-led page in Times New Roman.
+			// Too high a price for the LCP points. "swap" paints text immediately in
+			// the fallback and upgrades when the font lands; because
+			// optimizedFallbacks generates a metric-matched face (size-adjust +
+			// ascent/descent overrides), that swap costs almost no layout shift.
+			display: "swap",
 			options: {
 				variants: [
 					{
@@ -615,8 +628,8 @@ export default defineConfig({
 			name: "Source Sans 3",
 			cssVariable: "--font-heading",
 			fallbacks: ["system-ui", "sans-serif"],
-			// See the --font-body entry above for why "optional" replaces the "swap" default here.
-			display: "optional",
+			// See the --font-body entry above for why "optional" was reverted here too.
+			display: "swap",
 			options: {
 				variants: [
 					{
