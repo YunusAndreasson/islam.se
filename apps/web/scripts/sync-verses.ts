@@ -489,6 +489,17 @@ async function main() {
 		console.log("Invalidated Astro content cache → next build re-renders the players.");
 	}
 
+	// The rehype plugin readFileSync's this map at MODULE LOAD, and Vite caches the
+	// transformed module — so a dev server that is already running (or one restarted
+	// without clearing the cache) keeps injecting players from the OLD map, while a
+	// fresh `astro build` gets it right. That split is genuinely confusing to debug:
+	// the page looks broken in dev and correct in prod. Clear the dep cache too.
+	const viteCache = join(webRoot, "node_modules/.vite");
+	if (existsSync(viteCache)) {
+		await rm(viteCache, { recursive: true, force: true });
+		console.log("Cleared Vite module cache → restart `pnpm dev:bg` to see the new players.");
+	}
+
 	console.log(
 		"\nCommit src/content/verser/verses.json, src/data/quran-verses.json and public/audio/quran/*.mp3.",
 	);
