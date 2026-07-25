@@ -27,6 +27,7 @@ sources:
   - name: "Koranen 20:14"
   - name: "Sahīh al-Bukhārī 631"
   - name: "Sahīh al-Bukhārī 756"
+  - name: "Ibn Taymiyya, al-Qawāʿid an-nūrāniyya"
   - name: "al-ibadah.com – Bönens praktik"
     url: "https://al-ibadah.com/bon/praktiska-detaljer-i-bonen"
 related:
@@ -42,11 +43,15 @@ essays:
 
 ## Vad måste man göra innan bönen börjar?
 
-Innan det första *Allāhu akbar* ska flera villkor vara uppfyllda. Bönens tid ska ha inträtt; var och en av de fem bönerna har sitt eget tidsfönster, från Fajr i gryningen till Isha om natten. Den bedjande ska ha utfört den rituella tvagningen, *wudūʾ*, och ha rena kläder och en ren plats. Saknas vatten, eller kan det inte användas, ersätts tvagningen av *tayammum*, en symbolisk rening med ren jord. Kroppen ska vara anständigt täckt. Slutligen vänder man sig mot *qibla*, riktningen mot Kaba i Mecka, och fattar i hjärtat avsikten, *niyya*, att be just denna bön. Avsikten uttalas inte högt; den är ett beslut, inte en formel. I klassisk fiqh räknas dessa förberedelser till bönens giltighetsvillkor, de förutsättningar som ska finnas på plats innan själva bönen kan börja (al-ibadah.com).
+Innan det första *Allāhu akbar* ska flera villkor vara uppfyllda. Bönens tid ska ha inträtt: var och en av de fem bönerna har sitt eget tidsfönster, från Fajr i gryningen till Isha om natten. Den bedjande ska ha utfört den rituella tvagningen, *wudūʾ*, och ha rena kläder och en ren plats. Saknas vatten, eller kan det inte användas, ersätts tvagningen av *tayammum*, en symbolisk rening med ren jord. Kroppen ska vara anständigt täckt. Slutligen vänder man sig mot *qibla*, riktningen mot Kaba i Mecka, och fattar i hjärtat avsikten, *niyya*, att be just denna bön. Avsikten uttalas inte högt; den är ett beslut, inte en formel. I klassisk fiqh kallas de bönens giltighetsvillkor (al-ibadah.com): är något av dem ogjort har bönen inte börjat, hur noggrant den än utförs.
 
 ## Hur går bönen till steg för steg?
 
-Bönen inleds stående. Man höjer händerna och säger *takbīrat al-ihrām* – "Allāhu akbar", "Gud är större" – vilket öppnar bönen; denna takbir sägs bara en gång. Därefter består bönen av *rakaʿāt*, likadana bönecykler. Stående reciterar man al-Fātiha, under de två första rakaʿāt följd av ytterligare ett stycke ur Koranen. Sedan böjer man sig framåt i *rukūʿ*, med rak rygg och händerna på knäna, och lovprisar Gud. Man reser sig till stående (*iʿtidāl*) och faller därefter ned i *sujūd*, så att panna och näsa, händerna, knäna och tårna rör marken, sitter kort (*julūs*) och faller ned en andra gång. Därmed är en rakaʿa fullbordad och nästa börjar. I böner om tre eller fyra rakaʿāt sitter man i *tashahhud* även efter de två första cyklerna; efter den sista läses *tashahhud* på nytt, och bönen avslutas med *taslīm*: man vänder huvudet åt höger och åt vänster och säger "as-salāmu ʿalaykum". Varje rakaʿa följer samma rörelse: man sänker kroppen stegvis från stående ända till marken och reser sig igen.
+Bönen inleds stående. Man höjer händerna och säger *takbīrat al-ihrām* – "Allāhu akbar", "Gud är större" – vilket öppnar bönen. Den takbiren sägs bara en gång. Därefter består bönen av *rakaʿāt*, likadana bönecykler. Stående reciterar man al-Fātiha, under de två första rakaʿāt följd av ytterligare ett stycke ur Koranen. Sedan böjer man sig framåt i *rukūʿ*, med rak rygg och händerna på knäna, och lovprisar Gud. Man reser sig till stående (*iʿtidāl*) och faller därefter ned i *sujūd*, så att panna och näsa, händerna, knäna och tårna rör marken, sitter kort (*julūs*) och faller ned en andra gång. Därmed är en rakaʿa fullbordad och nästa börjar. I böner om tre eller fyra rakaʿāt sitter man i *tashahhud* även efter de två första cyklerna; efter den sista läses *tashahhud* på nytt, och bönen avslutas med *taslīm*: man vänder huvudet åt höger och åt vänster och säger "as-salāmu ʿalaykum". Varje rakaʿa följer samma rörelse: man sänker kroppen stegvis från stående ända till marken och reser sig igen. Varje ställning ska dessutom hinna bli stilla innan nästa börjar – lugnet kallas *tumaʾnīna* och räknas av flertalet rättsskolor som en nödvändig del av bönen, inte som en förfining. Ibn Taymiyya förklarar varför i *al-Qawāʿid an-nūrāniyya*:
+
+> Bönen är hjärtats föda liksom maten är kroppens föda. Och eftersom kroppen inte får någon näring av en smula mat, får hjärtat ingen näring av en bön som hackas fram – det krävs en fullgången bön för att hjärtan ska mättas.
+
+Den som jäktar genom rörelserna har därför inte förrättat bönen fullt ut.
 
 ## Vad reciterar man i bönen?
 

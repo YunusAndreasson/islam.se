@@ -47,7 +47,7 @@ Ordet *ḥijāb* betyder på arabiska "förhänge", "skärm" eller "barriär" �
 Den centrala versen står i sura an-Nūr:
 
 > Och säg till de troende kvinnorna att de bör sänka blicken och lägga band på sin sinnlighet och inte visa mera av sina behag än vad som [anständigtvis] kan vara synligt; låt dem därför fästa slöjan så att den täcker barmen.
-> (Koranen 24:31)
+> — Koranen 24:31
 
 Versen föregås av exakt samma uppmaning till männen — att "sänka blicken och lägga band på sin sinnlighet" (24:30). Blygsamheten är alltså ömsesidig och börjar hos mannen, inte hos kvinnan. I sura al-Aḥzāb befalls kvinnorna dessutom att "noga svepa om sig sina ytterplagg" (*jilbāb*) när de går ut, "så att de blir igenkända och inte ofredade" (33:59). I Koranen är slöjan därför inte ett mode utan ett skydd; gränsen dras inte mot kvinnan, utan runt det som är hennes.
 

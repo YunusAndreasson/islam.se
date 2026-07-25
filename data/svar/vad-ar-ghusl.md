@@ -49,7 +49,8 @@ Ordet *ghusl* betyder ordagrant "tvättning", och i islamisk rätt syftar det p�
 
 Påbudet är koranskt:
 
-> Och om ni befinner er i ett tillstånd av stor rituell orenhet, skall ni rena er [genom att skölja hela kroppen]. (Koranen 5:6)
+> Och om ni befinner er i ett tillstånd av stor rituell orenhet, skall ni rena er [genom att skölja hela kroppen].
+> — Koranen 5:6
 
 De klassiska lärda räknar med sex orsaker (sammanfattade bland annat i islamqa.info, fatwa 93027), och de fyra rättsskolorna — *ḥanafī*, *mālikī*, *shāfiʿī* och *ḥanbalī* — är eniga om kärnan. Först utlösning av sädesvätska (*manī*) med lust, vare sig man är vaken eller sover; profeten Muhammed sade att "vattnet [tvagningen] kommer av vattnet [sädesvätskan]" (Sahīh Muslim 343). För det andra samlag, även utan utlösning — "när de två omskurna delarna möts". För det tredje och fjärde slutet på menstruation (*ḥayḍ*) och barnsängsblödning (*nifās*); profeten befallde Fāṭima bint Abī Ḥubaysh att bada och återuppta bönen så snart blödningen var över (al-Bukhārī och Muslim). För kvinnan är detta avgörande: så länge blödningen pågår är både bön och fasta uppskjutna, och det är ghusl som öppnar dem på nytt. Den femte orsaken är att den döde muslimen tvättas. Hanbaliterna räknar dessutom den som antar islam, medan övriga skolor ser den nyomvändes ghusl som starkt rekommenderad — profeten lät ändå Thumāma ibn Uthāl bada när han blev muslim. Sex tillstånd utlöser plikten — varken fler eller färre; det är den rituella statusen som avgör, inte hur ren man råkar känna sig.
 

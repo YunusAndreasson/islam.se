@@ -41,7 +41,7 @@ related:
 Ja. De klassiska lärda är eniga om att en gravid eller ammande kvinna som fruktar för sig själv eller barnet får bryta fastan. Grunden är en *rukhsa* – en lättnad given för nödens skull, inte ett straff för svaghet. Hon räknas till de sjuka och nödställda som Koranen uttryckligen skonar:
 
 > Men den som är sjuk eller [stadd] på resa [skall fasta därefter] under motsvarande antal dagar.
-> (Koranen 2:185)
+> — Koranen 2:185
 
 Till detta kommer profeten Muhammeds ord, återgivna av följeslagaren Anas ibn Mālik al-Kaʿbī: "Gud har befriat resenären från halva bönen och från fastan, och den ammande och den gravida kvinnan från fastan" (Sunan at-Tirmidhī 715, bedömd *ḥasan*). Att hon får bryta fastan är alltså ingen senare uppmjukning – undantaget kommer från profetens egen mun.
 

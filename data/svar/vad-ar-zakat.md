@@ -32,6 +32,7 @@ sources:
   - name: "Sahīh al-Bukhārī 1395"
   - name: "Sahīh al-Bukhārī 1403"
   - name: "al-Māwardī, al-Ahkām as-sultāniyya"
+  - name: "Ibn al-Qayyim, al-Wābil as-sayyib"
   - name: "al-ibadah.com – Allmosan (zakāt)"
     url: "https://al-ibadah.com/allmosa/"
 related:
@@ -49,7 +50,11 @@ Ordets rot rymmer två betydelser på en gång: rening och tillväxt (*namāʾ*)
 > Tag då emot något av dem som offergåva [Muhammad]; så renar du dem [från synd] och hjälper dem att växa [i rättfärdighet].
 > — Koranen 9:103
 
-Versen riktar sig till profeten Muhammed, som tog emot allmosan och fördelade den bland behövande; givandet och renandet beskrivs som ett och samma skeende.
+Versen riktar sig till profeten Muhammed, som tog emot allmosan och fördelade den bland behövande; givandet och renandet beskrivs som ett och samma skeende. Vad reningen gäller preciserar Ibn al-Qayyim i *al-Wābil as-sayyib*, där han skiljer två närbesläktade fel åt:
+
+> Skillnaden mellan girigheten och snålheten är att girigheten är ett häftigt begär efter en sak, en enveten jakt på den och en glupsk lystnad efter att få den, medan snålheten är att vägra ge ut den när man väl fått den, att älska den och hålla den kvar. Människan är alltså girig innan hon har fått, och snål efter att hon har fått.
+
+Zakat riktar sig mot det senare: den lösgör en bestämd del ur en hand som redan slutit sig om den.
 
 ## Är zakat obligatoriskt i islam?
 
@@ -62,7 +67,7 @@ Hadithen återges också i Sahīh Muslim 16. Plikten upprepas över trettio gån
 
 ## Hur mycket zakat ska man betala?
 
-Standardsatsen är 2,5 procent – en fjärdedel av en tiondel – av det sparade överskottet per år. Men plikten inträder först när två villkor är uppfyllda. För det första måste förmögenheten nå *nisāb*, den minsta nivån: i klassisk rätt 20 gulddinarer eller 200 silverdirhamer, i dag omkring 85 gram guld eller 595 gram silver i värde. För det andra måste man ha ägt detta överskott i ett helt månår, en period som kallas *hawl*. Den som äger mindre än nisāb, eller nyss kommit över gränsen, är inte skyldig något alls. Först när båda villkoren är uppfyllda förfaller beloppet, på samma sätt som en skuld. Denna form, på pengar och förmögenhet, kallas *zakāt al-māl*. Beräkningen i detalj (på smycken, lön, handelsvaror och skulder) behandlas utförligt på [al-ibadah.com](https://al-ibadah.com/allmosa/).
+Standardsatsen är 2,5 procent – en fjärdedel av en tiondel – av det sparade överskottet per år. Men plikten inträder först när två villkor är uppfyllda. För det första måste förmögenheten nå *nisāb*, den minsta nivån: i klassisk rätt 20 gulddinarer eller 200 silverdirhamer, i dag omkring 85 gram guld eller 595 gram silver i värde. För det andra måste man ha ägt detta överskott i ett helt månår, en period som kallas *hawl*. Denna form, på pengar och förmögenhet, kallas *zakāt al-māl*, och beräkningen i detalj – på smycken, lön, handelsvaror och skulder – behandlas på [al-ibadah.com](https://al-ibadah.com/allmosa/). Den som äger mindre än nisāb, eller nyss kommit över gränsen, är inte skyldig något alls. Först när båda villkoren är uppfyllda förfaller beloppet, och då som en skuld, inte som en gåva.
 
 ## Vem får ta emot zakat?
 
@@ -71,8 +76,8 @@ Mottagarna är inte fritt valda av givaren utan utpekade i Koranen själv. Åtta
 > Offergåvorna är avsedda enbart för de fattiga och de nödställda och för dem som har hand om insamlandet av dem och för att vinna hjärtan [för tron] och för att friköpa människor ur fångenskap och slaveri och [för att lätta] de skuldtyngdas [bördor] och för [kampen för] Guds sak och för vandringsmannen.
 > — Koranen 9:60
 
-Här ingår de fattiga, de nödställda, de som sköter insamlingen, hjärtan som ska vinnas för tron, friköpta fångar, de skuldtyngda, kampen för Guds sak och den strandsatte resenären. Zakat går däremot inte till den som själv är förmögen och självförsörjande, och en muslim kan inte ge den till sina egna föräldrar eller barn, dem man redan är försörjningsskyldig för. Ett undantag från förmögenhetsregeln är insamlarna själva: de får sin ersättning ur medlen för arbetets skull, oavsett egen förmögenhet.
+Här ingår de fattiga, de nödställda, de som sköter insamlingen, hjärtan som ska vinnas för tron, friköpta fångar, de skuldtyngda, kampen för Guds sak och den strandsatte resenären. Zakat går däremot inte till den som själv är förmögen och självförsörjande, och en muslim kan inte ge den till sina egna föräldrar eller barn, dem man redan är försörjningsskyldig för. Ett undantag från förmögenhetsregeln är insamlarna själva: de får sin ersättning ur medlen för arbetets skull, oavsett egen förmögenhet. Givaren avgör alltså inte vem som förtjänar hjälpen. Listan är redan skriven.
 
 ## Vad skiljer zakat från frivillig sadaqa?
 
-Zakat och *sadaqa* förväxlas ofta, men skillnaden är skarp. Zakat är obligatorisk, med fast sats, fast tröskel och bestämda mottagare. *Sadaqa* är frivillig välgörenhet utan övre gräns, som kan ges när som helst till vem som helst. En tredje, närbesläktad plikt är *zakat al-fitr*, en liten avgift per familjemedlem som betalas före Eid-bönen vid ramadans slut. Att avstå frivillig sadaqa är bara en utebliven belöning; att vägra själva zakat räknas i klassisk islam som ett svek mot tron. Profeten varnade att den som äger förmögenhet och inte ger dess zakat ska se sin skatt förvandlad på Uppståndelsens dag till en väsande giftorm som slingrar sig kring hans hals och säger: "Jag är din rikedom, jag är din skatt" (Sahīh al-Bukhārī 1403). Sadaqa är frivillig generositet; zakat är de fattigas rätt.
+Zakat och *sadaqa* förväxlas ofta. Zakat är obligatorisk, med fast sats, fast tröskel och bestämda mottagare. *Sadaqa* är frivillig välgörenhet utan övre gräns, som kan ges när som helst till vem som helst. En tredje, närbesläktad plikt är *zakat al-fitr*, en liten avgift per familjemedlem som betalas före Eid-bönen vid ramadans slut. Att avstå frivillig sadaqa är bara en utebliven belöning. Att vägra själva zakat räknas i klassisk islam som ett svek mot tron. Profeten varnade att den som äger förmögenhet och inte ger dess zakat ska se sin skatt förvandlad på Uppståndelsens dag till en väsande giftorm som slingrar sig kring hans hals och säger: "Jag är din rikedom, jag är din skatt" (Sahīh al-Bukhārī 1403). Sadaqa är frivillig generositet; zakat är de fattigas rätt.

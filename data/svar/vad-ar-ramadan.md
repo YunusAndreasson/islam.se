@@ -28,6 +28,7 @@ sources:
   - name: "Sahīh al-Bukhārī 8"
   - name: "Sahīh al-Bukhārī 38"
   - name: "Sahīh al-Bukhārī 1896"
+  - name: "Ibn al-Qayyim, al-Fawāʾid"
   - name: "al-ibadah.com – Fasta"
     url: "https://al-ibadah.com/fasta/"
   - name: "Pew Research Center – Global Religious Landscape 2010–2020"
@@ -47,7 +48,7 @@ Ramadan följer månkalendern, vilket gör att den vandrar bakåt med omkring ti
 > För att ge människorna vägledning [inleddes] i månaden Ramadan uppenbarelsen av Koranen i vilken vägledningen klargörs och en måttstock ges med vilken rätt kan mätas och skiljas från orätt.
 > — Koranen 2:185
 
-Inom månaden ligger också *Laylat al-Qadr*, "Maktens natt", som söks under de udda nätterna i den sista tredjedelen och i traditionen ofta knyts till den 27:e. Islams fem pelare är trosbekännelsen (*shahada*), bönen, allmosan (*zakāt*), fastan och vallfärden (*hajj*); av dem är ramadanfastan den enda vars plikt fyller en hel månad (Sahīh al-Bukhārī 8). Omkring två miljarder människor – 26 procent av jordens befolkning år 2020, enligt Pew Research Center – delar samma fastemånad. Ingen annan andakt återkommer i den skalan.
+Inom månaden ligger också *Laylat al-Qadr*, "Maktens natt", som söks under de udda nätterna i den sista tredjedelen och i traditionen ofta knyts till den 27:e. Av islams fem pelare är ramadanfastan den enda vars plikt fyller en hel månad (Sahīh al-Bukhārī 8). Omkring två miljarder människor – 26 procent av jordens befolkning år 2020, enligt Pew Research Center – delar samma fastemånad. Ingen annan andakt återkommer i den skalan.
 
 ## Vad innebär det att fasta under ramadan?
 
@@ -56,7 +57,7 @@ Att fasta (*sawm*) betyder att helt avstå från mat, dryck, rökning och sexuel
 > ...ni får äta och dricka till dess den vita strimman av gryningsljuset kan urskiljas mot nattens mörker. Återuppta då fastan och håll den tills natten faller på.
 > — Koranen 2:187
 
-Att äta eller dricka av ren glömska bryter däremot inte fastan, och dagen fullföljs som vanligt.
+Att äta eller dricka av ren glömska bryter däremot inte fastan, och dagen fullföljs som vanligt. Fastan hänger på avsikten, och avsikten kan glömskan inte upphäva.
 
 ## Vem måste fasta och vem är undantagen?
 
@@ -69,7 +70,11 @@ Syftet är inte svält utan *taqwā*, gudsmedvetenhet. Det är själva slutkläm
 > TROENDE! Det är en plikt för er att fasta, liksom det var en plikt för dem som levde före er – kanske skall ni frukta Gud.
 > — Koranen 2:183
 
-Versen påminner samtidigt om att fastan är äldre än islam: den var föreskriven även för tidigare troende, och den muslimska fastemånaden ställer sig i den raden. Genom att frivilligt avstå det i sig tillåtna under dagen tränar den troende viljan, känner med den hungrande och flyttar uppmärksamheten från magen till bönen och Koranen. Många tillbringar också nätterna i de frivilliga *tarāwīh*-bönerna, där stora delar av Koranen reciteras högt under månaden. Belöningen är knuten till uppriktigheten: profeten Muhammed sade att den som fastar ramadan "av tro och i hopp om belöning får sina tidigare synder förlåtna" (Sahīh al-Bukhārī 38). I paradiset, lär samma tradition, finns en port kallad *ar-Rayyān* som enbart de fastande träder in genom (Sahīh al-Bukhārī 1896).
+Versen påminner samtidigt om att fastan är äldre än islam: den var föreskriven även för tidigare troende, och den muslimska fastemånaden ställer sig i den raden. Genom att frivilligt avstå det i sig tillåtna under dagen tränar den troende viljan, känner med den hungrande och flyttar uppmärksamheten från magen till bönen och Koranen. Ibn al-Qayyim beskriver i *al-Fawāʾid* hjärtat i kroppens termer:
+
+> Hjärtat blottas liksom kroppen blottas, och dess klädnad är gudsfruktan. Det hungrar och törstar liksom kroppen hungrar, och dess mat och dryck är kunskapen om Gud, kärleken till honom, förtröstan, ånger och tjänst.
+
+Många tillbringar också nätterna i de frivilliga *tarāwīh*-bönerna, där stora delar av Koranen reciteras högt under månaden. Belöningen är knuten till uppriktigheten: profeten Muhammed sade att den som fastar ramadan "av tro och i hopp om belöning får sina tidigare synder förlåtna" (Sahīh al-Bukhārī 38). I paradiset, lär samma tradition, finns en port kallad *ar-Rayyān* som enbart de fastande träder in genom (Sahīh al-Bukhārī 1896).
 
 ## Hur avslutas ramadan?
 

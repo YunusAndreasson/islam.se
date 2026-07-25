@@ -37,9 +37,10 @@ related:
 
 ## Vilka stadier nämner Koranen?
 
-Den utförligaste passagen står i sura al-Muʾminūn (23:12–14), här i Mohammed Knut Bernströms svenska tolkning *Koranens budskap*:
+Den utförligaste passagen står i sura al-Muʾminūn, här i Mohammed Knut Bernströms svenska tolkning *Koranens budskap*:
 
 > VI HAR skapat människan av finaste lera; därefter lämnar Vi henne som en droppe säd i [skötets] fasta förvar. Därefter skapar Vi av droppen en grodd som sätter sig fast och av grodden en klump och i klumpen skapar Vi ben och dessa ben klär Vi med kött; därefter låter Vi henne stiga fram som en ny skapelse. Välsignad vare Gud, den bäste Formgivaren!
+> — Koranen 23:12–14
 
 De arabiska orden bär varsin bild: *nutfa* är droppen, *ʿalaqa* det som hänger eller sätter sig fast, *mudgha* en tuggad köttklump. Samma ordning återkommer i sura al-Hajj (22:5), och redan den allra första uppenbarelsen – sura al-ʿAlaq – säger att människan skapades av en *ʿalaq*. Koranen ger alltså ingen ögonblicksbild utan ett hantverk i flera led, och hantverkaren sätter själv sin signatur under raden: "den bäste Formgivaren".
 
@@ -48,6 +49,7 @@ De arabiska orden bär varsin bild: *nutfa* är droppen, *ʿalaqa* det som häng
 Koranen lägger inte fram dessa stadier som biologi för sin egen skull. De är ett *āya*, ett tecken, och förs nästan alltid fram med ett bestämt ärende: att svara den som tvivlar på att de döda kan väckas till liv. Sura al-Hajj (22:5) inleder själva uppräkningen just så:
 
 > Om ni tvivlar på uppståndelsen, [tänk då på att] Vi har skapat er av jord och sedan av en droppe säd, därefter av en grodd som sätter sig fast, därefter av en klump, dels formad, dels ännu formlös.
+> — Koranen 22:5
 
 Klassiska kommentatorer som Ibn Kathīr och al-Qurtubī läser därför verserna som bevis för Guds makt och för domens dag, inte som en anatomilektion. Och hela poängen vilar på *tawhīd*: argumentet är omöjligt att värja sig mot, för den som en gång format en hel människa ur nästan ingenting har redan visat att en andra gång inte kostar honom något.
 

@@ -47,7 +47,8 @@ essays:
 
 I klassisk islamisk vokabulär kallas förnekandet av Skaparen *ilḥād*, ordagrant "att avvika", och den som gör det en *mulḥid*. De som redan på Profetens tid hävdade att bara materien och tiden finns kallades *dahriyya*, efter *dahr*, "tiden". Deras hållning återges nästan ordagrant i Koranen:
 
-> Och de säger: "Det finns inget liv utom livet på jorden. Några [av oss] dör och några lever [vidare] och enbart tiden förintar oss." (Koranen 45:24)
+> Och de säger: "Det finns inget liv utom livet på jorden. Några [av oss] dör och några lever [vidare] och enbart tiden förintar oss."
+> — Koranen 45:24
 
 Varje förnekande av en skapande Gud faller under *kufr*, otro, och står i rak motsats till *tawḥīd* ([al-ibadah.com](https://al-ibadah.com/troslara/tawhid)). Att göra tiden till den som "förintar oss" är att sätta en blind, opersonlig kraft på Skaparens plats; där ligger förnekelsens kärna. För islam är ateismen alltså mindre ett filosofiskt undantag än ett undertryckande av det självklara. Klassiska lärde ägnade *dahriyya* utförliga vederläggningar långt före vår tid. Ateismen är lika gammal som uppenbarelsen den förnekar.
 
@@ -55,7 +56,8 @@ Varje förnekande av en skapande Gud faller under *kufr*, otro, och står i rak 
 
 Koranens grundpåstående är att människan inte börjar som ett oskrivet blad. Hon föds med *fitra*, en naturlig läggning som känner igen sin Skapare:
 
-> GE DIG hän med hela din själ ... åt den rena, ursprungliga tron, den tro som Gud vid skapelsen lade ned som en naturens norm i människan. (Koranen 30:30)
+> GE DIG hän med hela din själ ... åt den rena, ursprungliga tron, den tro som Gud vid skapelsen lade ned som en naturens norm i människan.
+> — Koranen 30:30
 
 Profeten Muhammed uttryckte samma sak: "Inget barn föds annat än i enlighet med *fitra*; det är dess föräldrar som gör det till jude, kristen eller zoroastrier" (Sahīh al-Bukhārī 1358; Sahīh Muslim 2658, berättad av Abū Hurayra). Ibn Taymiyya och Ibn al-Qayyim drog slutsatsen att gudsmedvetandet är förinställt i själen. Lämnad orörd dras människan mot sin Herre lika självklart som ögat vänder sig mot ljuset.
 
@@ -63,7 +65,8 @@ Profeten Muhammed uttryckte samma sak: "Inget barn föds annat än i enlighet me
 
 Eftersom tron räknas som medfödd argumenterar Koranen sällan långrandigt för Guds existens. Där den gör det pekar den på skapelsen och ställer en fråga som lämnas hängande:
 
-> Skapades de kanske av en slump? Eller är de själva skaparna? Har de [också] skapat himlarna och jorden? Nej, de är inte säkra på något! (Koranen 52:35–36)
+> Skapades de kanske av en slump? Eller är de själva skaparna? Har de [också] skapat himlarna och jorden? Nej, de är inte säkra på något!
+> — Koranen 52:35–36
 
 Samma rörelse återkommer i löftet "Vi skall visa dem Våra tecken vid horisonten och inom dem själva, ända till dess [uppenbarelsens] sanning står klar för dem" (Koranen 41:53). Det är samma slutledning som islam.se annars sammanfattar så: konstverket förutsätter en konstnär, ordningen en ordnare. Koranen möter alltså inte påståendet att allt uppstod ur ingenting med en lång beviskedja. Den ställer en motfråga och lägger bevisbördan hos den som menar att ordningen ordnade sig själv.
 
@@ -71,7 +74,8 @@ Samma rörelse återkommer i löftet "Vi skall visa dem Våra tecken vid horison
 
 Den klassiska hållningen är att möta ateisten med förnuftsskäl och gott uppträdande, inte med tvång — övertygelse kan inte framtvingas. Koranen lägger själv fast tonen:
 
-> KALLA [människorna, Muhammad] med kloka och goda ord att följa din Herres väg, och lägg fram argumenten på ett måttfullt och försynt sätt. (Koranen 16:125)
+> KALLA [människorna, Muhammad] med kloka och goda ord att följa din Herres väg, och lägg fram argumenten på ett måttfullt och försynt sätt.
+> — Koranen 16:125
 
 En muslim inbjuds att vädja till *fitra*: att peka på skapelsens tecken och låta frågan om ursprunget tala för sig själv. Samtidigt skiljer islam mellan övertygelsen och människan. Hadithen om barnet och föräldrarna rymmer en nyckel: många är ateister av miljö och uppfostran snarare än av prövad slutsats. *Daʿwa* till en ateist börjar därför i tonen långt innan den når själva argumentet. Argumentet biter inte på någon som först har blivit illa bemött.
 

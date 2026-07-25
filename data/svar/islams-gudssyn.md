@@ -29,6 +29,8 @@ sources:
   - name: "Koranen 50:16"
   - name: "Sahīh al-Bukhārī 2736"
   - name: "Sahīh Muslim 2677"
+  - name: "Ibn Taymiyya, Kitāb al-Īmān"
+  - name: "Carl von Linné, Nemesis Divina"
   - name: "al-ibadah.com – Monoteism (tawhīd)"
     url: "https://al-ibadah.com/troslara/tawhid"
   - name: "Pew Research Center – global muslimsk befolkning"
@@ -49,6 +51,12 @@ Läran om Guds enhet kallas *tawhīd* och är islams absoluta kärna. Klassiska 
 
 Surans fyra korta rader avvisar i tur och ordning allt som skulle göra Gud till en bland flera: partner, barn, like och ursprung. I muslimsk undervisning hör den därför till det första ett barn får lära sig recitera.
 
+Att en sådan Gud kan anas ur naturen är ingen främmande tanke i Sverige. Carl von Linné, som ägnade sitt liv åt att ordna och namnge det skapade, förde privata anteckningar under namnet *Nemesis Divina*, och den regellista han ställde upp där inleds med orden, här i moderniserad språkdräkt:
+
+> Var övertygad av naturen och erfarenheten om en Gud som har gjort, uppehåller och regerar allt; som ser, hör och vet allt; inför vars ansikte du står.
+
+Formuleringen rör vid den första av tawhīds tre delar, *rubūbiyya*: Gud som ensam skapar, uppehåller och råder. Islam låter dock inte tron vila på naturen. Tecknen i skapelsen väcker en igenkänning som redan finns i människan, medan innehållet i gudstron kommer med uppenbarelsen.
+
 ## Vem är Allah – och är det en annan gud?
 
 *Allah* är inte ett egennamn för en särskild "muslimsk" gud, utan helt enkelt det arabiska ordet för Gud, *al-ilāh*. Arabisktalande kristna och judar har använt samma ord i århundraden och gör det än i dag. Islam lär att det är samme Gud som uppenbarade sig för Abraham *(Ibrāhīm)*, Mose och Jesus – profeternas budskap var i grunden ett och detsamma: tillbe den ende Skaparen. Skillnaden ligger inte i *vem* Gud är, utan i *hur* Gud beskrivs. Islam avvisar bestämt tanken att Gud skulle ha avlat en son, ingå i en treenighet eller ta mänsklig gestalt. Gud är en: inte en av tre, inte en far i mänsklig mening. Muslimer tillber alltså samme Gud – men med en gudsbild rensad från det som människor med tiden lagt till.
@@ -60,7 +68,11 @@ Koranen beskriver Gud som levande, vetande och allsmäktig. Den mest kända vers
 > GUD – det finns ingen gud utom Han, den Levande, skapelsens evige Vidmakthållare. Slummer överraskar Honom inte och inte heller sömn. [...] Hans allmakts tron omsluter himlarna och jorden. Att värna och bevara dem är för Honom ingen börda. Han är den Höge, den Härlige.
 > — Koranen 2:255
 
-Gud beskrivs genom sina skönaste namn *(al-asmāʾ al-husnā)* – den Nåderike, den Barmhärtige, den Förlåtande. En hadith fastslår att "Gud har nittionio namn" och att den som lär känna dem stiger in i paradiset (Sahīh al-Bukhārī 2736; Sahīh Muslim 2677). Den athariska traditionen, företrädd av Ibn Taymiyya och Ibn al-Qayyim, bekräftar dessa namn och egenskaper precis som de uppenbarats, utan att förvränga dem, förneka dem, fråga "hur?" eller likna Gud vid det skapade. Gud är därför ingen gåta att lösa, utan en Herre att lära känna.
+Gud beskrivs genom sina skönaste namn *(al-asmāʾ al-husnā)* – den Nåderike, den Barmhärtige, den Förlåtande. En hadith fastslår att "Gud har nittionio namn" och att den som lär känna dem stiger in i paradiset (Sahīh al-Bukhārī 2736; Sahīh Muslim 2677). Den athariska traditionen, företrädd av Ibn Taymiyya och Ibn al-Qayyim, bekräftar dessa namn och egenskaper precis som de uppenbarats, utan att förvränga dem, förneka dem, fråga "hur?" eller likna Gud vid det skapade. Ibn Taymiyya drar slutsatsen i *Kitāb al-Īmān*:
+
+> Den som vet och känner mest om Guds namn och egenskaper, vet och känner mest om Gud själv.
+
+Gud är därför ingen gåta att lösa, utan en Herre att lära känna.
 
 ## Kan Gud avbildas eller liknas vid något?
 
@@ -78,4 +90,4 @@ Trots att Gud är upphöjd över sin skapelse är han inte fjärran. Koranen bes
 > Vi har skapat människan och Vi vet vad hennes själ viskar till henne; ja, Vi är närmare henne än hennes egen halspulsåder.
 > — Koranen 50:16
 
-Denna närhet förstås i klassisk troslära som en närhet genom Guds vetande – inte genom att han blandas med skapelsen: Gud förblir upphöjd över allt, och ändå undgår honom ingenting. Förhållandet till Gud är därför ett av både vördnad och förtröstan: människan dyrkar honom i bön, hoppas på hans nåd och fruktar hans rättvisa. En direkt följd är åkallan *(duʿā)*: muslimen ber till Gud utan mellanhänder, i förvissningen att han hör varje ord. Fem gånger om dagen vänder sig den troende i bön till denne ende Gud.
+Denna närhet förstås i klassisk troslära som en närhet genom Guds vetande – inte genom att han blandas med skapelsen: Gud förblir upphöjd över allt, och ändå undgår honom ingenting. Därför präglas förhållandet till Gud av både vördnad och förtröstan. Människan dyrkar honom i bön, hoppas på hans nåd och fruktar hans rättvisa, och hon åkallar honom *(duʿā)* utan mellanhänder, i förvissningen att han hör varje ord. Ingen instans står emellan bönen och den som hör den.

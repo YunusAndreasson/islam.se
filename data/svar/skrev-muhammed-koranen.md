@@ -78,4 +78,4 @@ Texten gick aldrig genom en enda penna – den bars av tusen minnen på samma g�
 
 ## Varför spelar det någon roll vem som skrev Koranen?
 
-Frågan rör islams själva fundament. Hela trons anspråk – för världens närmare två miljarder muslimer – vilar på att Koranen är Guds ord och inte en människas: är den Muhammeds verk, är den mänsklig litteratur; är den Guds tal, är den uppenbarelse. Detta hänger ihop med *tawḥīd*, Guds absoluta enhet – endast Gud är källan till vägledningen, och profeten är hans tjänare och sändebud, inte en medförfattare. Frågan om författarskapet är till sist en fråga om tawḥīd: äran för ordet tillhör Gud ensam.
+Frågan rör islams själva fundament. Hela trons anspråk – för världens omkring två miljarder muslimer – vilar på att Koranen är Guds ord och inte en människas: är den Muhammeds verk, är den mänsklig litteratur; är den Guds tal, är den uppenbarelse. Detta hänger ihop med *tawḥīd*, Guds absoluta enhet – endast Gud är källan till vägledningen, och profeten är hans tjänare och sändebud, inte en medförfattare. Frågan om författarskapet är till sist en fråga om tawḥīd: äran för ordet tillhör Gud ensam.

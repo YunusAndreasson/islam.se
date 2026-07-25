@@ -52,7 +52,8 @@ Ordet *agnostiker* myntades av den brittiske naturvetaren Thomas Henry Huxley 18
 
 Ja. I klassisk islam är kunskapen om en Skapare ingen osäker slutsats, utan något nästan självklart som lagts ned i människans natur. Koranen kallar denna läggning *fitra*:
 
-> GE DIG hän med hela din själ, [du som söker sanningen,] åt den rena, ursprungliga tron, den tro som Gud vid skapelsen lade ned som en naturens norm i människan (Koranen 30:30)
+> GE DIG hän med hela din själ, [du som söker sanningen,] åt den rena, ursprungliga tron, den tro som Gud vid skapelsen lade ned som en naturens norm i människan
+> — Koranen 30:30
 
 Profeten Muhammed sade att varje barn föds i enlighet med *fitra* innan omgivningen formar det (Sahīh al-Bukhārī 1385; Sahīh Muslim 2658). Att Gud är Skapare och Herre kallas *tawḥīd ar-rubūbiyya*, och enligt al-ibadah.com bekräftade till och med de avgudadyrkare som profeten bekämpade just denna sanning. Quraysh i Mecka förnekade aldrig att Gud skapat dem. Striden stod om något helt annat: vem som förtjänade dyrkan.
 
@@ -60,7 +61,8 @@ Profeten Muhammed sade att varje barn föds i enlighet med *fitra* innan omgivni
 
 Agnostikern framställer ofta sin hållning som intellektuell ödmjukhet, ett löfte att inte påstå mer än man kan belägga. Koranen bedömer den annorlunda. Dess återkommande kritik gäller *zann*, lösa antaganden som tas för kunskap:
 
-> De flesta av dem lyssnar bara till antaganden; men antaganden kan aldrig bli en ersättning för sanningen (Koranen 10:36)
+> De flesta av dem lyssnar bara till antaganden; men antaganden kan aldrig bli en ersättning för sanningen
+> — Koranen 10:36
 
 Samma dom faller över dem som krymper tillvaron till det jordiska: "Det finns inget liv utom livet på jorden ... Men om detta har de ingen kunskap — de rör sig bara med lösa antaganden" (Koranen 45:24). Mot denna ovisshet ställer Koranen sin egen utgångspunkt: "DENNA Skrift — här råder inget tvivel" (Koranen 2:2). Det agnostiska "kanske" är därför, med Koranens mått, inte ödmjukhet utan *zann*: en gissning klädd i försiktighet.
 
@@ -72,6 +74,7 @@ Islam skiljer mellan det plötsliga tvivlet och den valda otron. Att drabbas av 
 
 Den klassiska hållningen skiljer på personen och positionen: tron kan aldrig tvingas fram, så frågeställaren bemöts med respekt även när själva påståendet prövas hårt. En muslim pekar på det agnostikern själv kan se: ordningen i kosmos, livets finstämda villkor, samvetets röst. Resten får *fitra* sköta. Här åberopar Koranen tecknen (*āyāt*):
 
-> Vi skall visa dem Våra tecken vid horisonten och inom dem själva, ända till dess [uppenbarelsens] sanning står klar för dem (Koranen 41:53)
+> Vi skall visa dem Våra tecken vid horisonten och inom dem själva, ända till dess [uppenbarelsens] sanning står klar för dem
+> — Koranen 41:53
 
 Metoden är att bjuda in snarare än att pressa, och ett ärligt sökande räknas redan som ett steg mot tron. Men allvaret är verkligt: den som låter sanningen nå sig och ändå vägrar att avgöra frågan har redan avgjort den.

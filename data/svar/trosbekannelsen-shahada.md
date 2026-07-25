@@ -24,10 +24,17 @@ faq:
 sources:
   - name: "Koranen 3:18"
   - name: "Sahīh al-Bukhārī 8"
+  - name: "Ibn al-Jawzi, Talbīs Iblīs"
+  - name: "Ibn al-Qayyim, ad-Dāʾ wa-d-dawāʾ"
   - name: "al-ibadah.com – Förklaring av trosbekännelserna"
     url: "https://al-ibadah.com/troslara/tawhid/forklaring-av-trosbekannelserna"
   - name: "al-ibadah.com – Definitionen av tawhid och dess olika typer"
     url: "https://al-ibadah.com/troslara/tawhid/definitionen-av-tawhid-och-dess-olika-typer"
+  - name: "Klippdomens inskrifter, Jerusalem (72 AH / 691–692)"
+  - name: "Historiska museet – Världens största vikingatida skatt (Spillingsskatten)"
+    url: "https://historiska.se/utforska-historien/kunskapsbank/varldens-storsta-vikingatida-skatt/"
+  - name: "The Metropolitan Museum of Art – Coin (abbasidisk dirhem med trosbekännelsen)"
+    url: "https://www.metmuseum.org/art/collection/search/457209"
   - name: "Pew Research Center – How the Global Religious Landscape Changed From 2010 to 2020"
     url: "https://www.pewresearch.org/religion/2025/06/09/how-the-global-religious-landscape-changed-from-2010-to-2020/"
 related:
@@ -49,7 +56,9 @@ Det första ledet består av två steg. Först en förnekelse (*nafy*): allt som
 > GUD [SJÄLV] vittnar – och [så gör] änglarna och de som har kunskap – att det inte finns en annan gud än Han, Upprätthållaren av rättvisa och jämvikt; ingen annan gud finns än Han, den Allsmäktige, den Vise.
 > — Koranen 3:18
 
-Den klassiske lärde Muhammad bin Sālih al-ʿUthaymīn förklarar att de "gudar" som dyrkas jämte Gud saknar all gudomlighet och all rätt till dyrkan: de är namn utan verklighet.
+Den klassiske lärde Muhammad bin Sālih al-ʿUthaymīn förklarar att de "gudar" som dyrkas jämte Gud saknar all gudomlighet och all rätt till dyrkan: de är namn utan verklighet. Ibn al-Jawzi skriver om dem som tillbad stenbilder i *Talbīs Iblīs*:
+
+> En människa bör dyrka den som har gjort henne, inte det som hon själv har gjort.
 
 ## Vad innebär "Muhammed är Guds sändebud"?
 
@@ -66,4 +75,10 @@ Därför att de andra pelarna förutsätter den. Bön, allmosa (*zakat*), fasta 
 > Islam är byggd på fem [pelare]: vittnesbördet att ingen har rätt att dyrkas utom Gud och att Muhammed är Guds sändebud, att förrätta bönen, att ge allmoseskatten, att vallfärda till Huset och att fasta under ramadan.
 > — Sahīh al-Bukhārī 8
 
-Vittnesmålet genomsyrar sedan hela livet: det ropas ut i böneutropet (*adhān*), upprepas i varje föreskriven bön i *tashahhud* och viskas helst som en muslims sista ord. Trosbekännelsen pryder till och med Saudiarabiens flagga, och bland världens omkring två miljarder muslimer (enligt Pew Research Center) är shahada den mening som alla, oavsett språk och rättsskola, har gemensam.
+Vilken tyngd orden *lā ilāha illā Allāh* bär beskriver Ibn al-Qayyim i *ad-Dāʾ wa-d-dawāʾ*:
+
+> Det är ordet som jorden och himlarna står på, det som Gud har skapat allt levande i enlighet med, det som trosgemenskapen har grundats på och som böneriktningen har rests för.
+
+Vittnesmålet genomsyrar sedan hela livet: det ropas ut i böneutropet (*adhān*), upprepas i varje föreskriven bön i *tashahhud* och viskas helst som en muslims sista ord.
+
+Att formeln är lika gammal som den är spridd går att se med egna ögon: i Klippdomen i Jerusalem löper den i guldkufi längs arkaderna, i en inskrift som daterar sig själv till år 72 efter hijra, alltså 691–692. Tvåhundra år senare nådde formeln svensk jord: arabiska dirhemer, präglade med trosbekännelsen i kufisk skrift, är den vanligaste mynttypen i svenska vikingatida skattfynd, och i Spillingsskatten på Gotland utgör de merparten av omkring 14 300 mynt. I dag pryder formeln också Saudiarabiens flagga. Bland världens omkring två miljarder muslimer (enligt Pew Research Center) är shahada den enda mening som alla delar, oavsett språk och rättsskola.
