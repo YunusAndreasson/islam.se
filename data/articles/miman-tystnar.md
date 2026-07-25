@@ -18,8 +18,8 @@ Mitt i skeppet står miman. Hon är dess tänkande maskin, passagerarnas livlina
 
 Chefsastronomen ger driften dess formel:
 
-> Ja, genom Gud och Död och Gåta
-> går vårt rymdskepp Aniara
+> Ja, genom Gud och Död och Gåta  
+> går vårt rymdskepp Aniara  
 > utan mål och utan spår.[^3]
 
 Och rymden själv blir, i hans mun, "en liten blåsa i Guds andes glas".[^4] Bilden är svindlande och stum på en gång. Den rymmer Gud – men som ett glas rymmer en luftblåsa: utan att veta om den, utan att tala till den.

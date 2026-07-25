@@ -35,6 +35,7 @@ sources:
   - name: "Sahīh Muslim 8"
   - name: "Sahīh Muslim 2996"
   - name: "Jāmiʿ at-Tirmidhī 1071"
+  - name: "Ibn Taymiyya, ar-Radd ʿalā al-mantiqiyyīn"
   - name: "al-ibadah.com – Troslära: Änglarna"
     url: "https://al-ibadah.com/troslara/anglarna"
 related:
@@ -63,6 +64,10 @@ Den som däremot vänder änglarna ryggen får en sträng dom: om den som förne
 
 > Gud ske lov och pris, himlarnas och jordens Skapare, som sänder änglarna som Sina budbärare, försedda med två eller tre eller fyra vingpar.
 > — Koranen 35:1
+
+Att de kan visa sig i mänsklig gestalt är enligt Ibn Taymiyya inget enstaka undantag. I *ar-Radd ʿalā al-mantiqiyyīn* skriver han:
+
+> I de gudomliga skrifterna och i de profetiska berättelserna har det kommit i obruten överlämning att änglarna antar mänsklig gestalt – och likaså jinnerna – och att de ses i den gestalten: så som Gud på flera ställen i sin bok har berättat om Abrahams gäster, och om Maria, till vilken han sände Anden, det vill säga Jibrīl, som visade sig för henne som en välskapad man.
 
 Framför allt saknar änglarna egen vilja: de gör uteslutande vad Gud befaller – "änglar som aldrig brister i lydnad för Gud, vad Han än befaller dem" (Koranen 66:6). En ängel kan därför inte falla i synd. Lydnaden ligger i deras natur.
 

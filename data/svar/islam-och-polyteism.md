@@ -46,7 +46,7 @@ essays:
 *Shirk* betyder ordagrant att "göra någon till delägare": att ge en skapad varelse, en avgud, ett helgon eller en idé del i Guds gudomlighet. Motsatsen, *tawhīd*, delas i klassisk teologi (så som Ibn Taymiyya och Ibn al-Qayyim formulerar den) i tre delar: *rubūbiyya* (Gud ensam är skapare och upprätthållare), *ulūhiyya* (Gud ensam ska dyrkas) och *al-asmāʾ wa-s-sifāt* (Guds namn och egenskaper bekräftas utan förvanskning). Att brista i någon av dessa är *shirk*. Trosbekännelsen, *shahāda*, bygger in detta i sin första mening: *lā ilāha illā-llāh*, "ingen gud utom Gud", förnekar först varje gudom och bekräftar sedan en enda. Koranen kallar månggudadyrkan den största oförrätten, och den vise Luqmān förmanade sin son:
 
 > Sätt inte medhjälpare vid Guds sida; att sätta medhjälpare vid Hans sida är att begå en svår orätt!
-> (Koranen 31:13)
+> — Koranen 31:13
 
 Detta är islams första trossats. Rubbas den, rasar allt annat med den.
 
@@ -55,7 +55,7 @@ Detta är islams första trossats. Rubbas den, rasar allt annat med den.
 Koranen gör *shirk* till en synd i särklass. I sura an-Nisāʾ heter det:
 
 > GUD förlåter inte dem som sätter medhjälpare vid Hans sida, men Han förlåter den Han vill hans mindre synder; den som sätter medhjälpare vid Guds sida har sannerligen gjort sig skyldig till en oerhörd synd.
-> (Koranen 4:48, Bernströms översättning)
+> — Koranen 4:48 (Bernströms översättning)
 
 När en följeslagare frågade profeten Muhammed vilken synd som är störst svarade han: "Att du sätter upp en like vid Guds sida, fastän Han har skapat dig" (Sahīh al-Bukhārī 4477). Det oförlåtliga gäller dock den som dör i sin *shirk*. Den synd Gud aldrig förlåter är därför också den Han alltid förlåter, så länge omvändelsen kommer före döden.
 
@@ -68,7 +68,7 @@ Klassiska lärde delar *shirk* i två grader. Större *shirk* (*ash-shirk al-akb
 Islam betraktar all dyrkan av flera gudar som *shirk*, vare sig det rör antikens gudavärld, hinduismens många gudomar eller de förislamiska arabernas idoler, eftersom dyrkan rätteligen tillkommer Skaparen ensam. Ett återkommande argument i Koranen är att månggudadyrkarna, *mushrikūn*, själva erkände en högste skapare men ändå tillbad andra vid sidan av Honom; felet låg inte i att förneka Gud utan i att dela upp dyrkan. Koranen pekar på ordningen i skapelsen som tecken på en enda vilja:
 
 > Men om det i himlen eller på jorden hade funnits gudar vid sidan av Gud skulle världsalltets ordning ha brutit samman!
-> (Koranen 21:22)
+> — Koranen 21:22
 
 När profeten erövrade Mecka år 630 fann han 360 avgudabilder kring Kaʿba och stötte omkull dem med staven i sin hand (Sahīh al-Bukhārī 4287). Helgedomen återgick till den ende Gud som *hanīfen* Abraham en gång rest den för.
 

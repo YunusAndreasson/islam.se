@@ -36,7 +36,7 @@ related:
   - sa-ber-man-steg-for-steg
 ---
 
-**Sunna är profeten Muhammeds vägledande exempel – det han sade, gjorde och tyst godkände – och utgör islams andra rättskälla efter Koranen.** Ordet *sunna* betyder ordagrant "sedvänja" eller "väg", och i islam syftar det på den levande förebild som Muhammad lämnade efter sig. Tillsammans med Koranen formar sunnan grunden för *sharia* och för hur en muslim tror och lever. För sunnimuslimer – majoriteten av världens omkring 1,9 miljarder muslimer – är troheten mot sunnan ett kännetecken för den rätta vägen.
+**Sunna är profeten Muhammeds vägledande exempel – det han sade, gjorde och tyst godkände – och utgör islams andra rättskälla efter Koranen.** Ordet *sunna* betyder ordagrant "sedvänja" eller "väg", och i islam syftar det på den levande förebild som Muhammad lämnade efter sig. Tillsammans med Koranen formar sunnan grunden för *sharia* och för hur en muslim tror och lever. För sunnimuslimer – majoriteten av världens omkring två miljarder muslimer – är troheten mot sunnan ett kännetecken för den rätta vägen.
 
 ## Vad betyder ordet sunna egentligen?
 

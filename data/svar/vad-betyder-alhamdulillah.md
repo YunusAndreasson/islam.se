@@ -44,7 +44,8 @@ related:
 
 *Al-ḥamdu li-Llāh* (الحمد لله) betyder ordagrant "lovprisningen tillhör Gud". Ordet *ḥamd* rymmer mer än beröm – det förenar pris, tacksamhet och kärlek till den som prisas. Frasen inleder Koranens allra första kapitel, *al-Fatiha*:
 
-> Lov och pris tillkommer Gud, världarnas Herre (Koranen 1:2)
+> Lov och pris tillkommer Gud, världarnas Herre
+> — Koranen 1:2
 
 En muslim säger alhamdulillah som svar på "hur mår du", efter en måltid, vid goda nyheter och när någon nyser – varpå den som hör svarar *yarḥamuk Allāh*, "Gud förbarme sig över dig". Profeten Muhammed vägde frasens tyngd i ord: Abū Mālik al-Ashʿarī återger att han sade att "alhamdulillah fyller vågskålen" (Sahīh Muslim 223). Ett ord så lätt att säga väger alltså tyngst av allt på domens dag.
 
@@ -52,7 +53,8 @@ En muslim säger alhamdulillah som svar på "hur mår du", efter en måltid, vid
 
 *In shāʾ Allāh* (إن شاء الله) betyder "om Gud vill" och fogas till varje uttalande om framtiden – en resa, ett möte, ett löfte. Det är inte en artighetsfras utan en befallning i Koranen:
 
-> Säg aldrig under några omständigheter: "Detta skall jag göra i morgon" utan [att lägga till:] "om Gud vill" (Koranen 18:23–24)
+> Säg aldrig under några omständigheter: "Detta skall jag göra i morgon" utan [att lägga till:] "om Gud vill"
+> — Koranen 18:23–24
 
 Bakgrunden är profeten Sulaymān (Salomo), som svor att han skulle få söner med alla sina hustrur men glömde säga "om Gud vill" – och ingen födde det utlovade barnet. Profeten Muhammed kommenterade att hade Sulaymān sagt *in shāʾ Allāh*, hade önskan uppfyllts (Sahīh al-Bukhārī 5242). Att säga "om Gud vill" är alltså inte att gardera sig – det är att lämna morgondagen åt den som äger den.
 
@@ -60,7 +62,8 @@ Bakgrunden är profeten Sulaymān (Salomo), som svor att han skulle få söner m
 
 *Mā shāʾ Allāh* (ما شاء الله) betyder "det Gud har velat [har skett]". Den sägs när man beundrar något gott – ett barn, en framgång, skönhet – för att tillskriva Gud gåvan och samtidigt avvärja det onda ögat (*al-ʿayn*), avunden som enligt islam kan skada den avundade. Grunden är liknelsen om mannen som steg in i sin vingård utan att tacka Gud:
 
-> Om du bara hade sagt när du gick ut i din vingård: "Ske Guds vilja! Det finns ingen styrka utom hos Gud!" (Koranen 18:39)
+> Om du bara hade sagt när du gick ut i din vingård: "Ske Guds vilja! Det finns ingen styrka utom hos Gud!"
+> — Koranen 18:39
 
 Den fullständiga frasen lyder därför ofta *mā shāʾ Allāh, lā quwwata illā bi-Llāh* – "det Gud har velat; det finns ingen kraft utom hos Gud". Klassiska lärde rekommenderar den för den som ser något gott, för att vända blicken från gåvan till Givaren ([islamqa.info](https://islamqa.info/en/answers/130786)). Beundran utan mashallah är beröm som glömt var det kom ifrån.
 

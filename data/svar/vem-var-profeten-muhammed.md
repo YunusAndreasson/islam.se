@@ -29,10 +29,13 @@ sources:
   - name: "Koranen 33:40"
   - name: "al-Bukhārī, al-Adab al-Mufrad 273"
   - name: "Ibn Hishām, Sīrat Rasūl Allāh"
+  - name: "Ibn al-Qayyim, Madārij as-sālikīn"
   - name: "al-ibadah.com – Sändebuden"
     url: "https://al-ibadah.com/troslara/sandebuden"
   - name: "Pew Research Center – muslimsk befolkning (2025)"
     url: "https://www.pewresearch.org/religion/2025/06/09/muslim-population-change/"
+  - name: "Patricia Crone, What do we actually know about Mohammed? (openDemocracy, 2008)"
+    url: "https://www.opendemocracy.net/en/mohammed_3866jsp/"
 related:
   - "trosbekannelsen-shahada"
   - "vad-ar-sunna"
@@ -43,7 +46,7 @@ related:
 
 ## När och var levde Muhammed?
 
-Muhammed föddes omkring år 570 i Mecka, i den mäktiga stammen Quraysh och klanen Banū Hāshim. Mecka var vid den tiden en handelsstad och ett hedniskt kultcentrum, där Kaba omgavs av hundratals avgudabilder. Muhammed blev tidigt föräldralös: fadern ʿAbdullah dog före hans födelse, modern Āmina när han var omkring sex år. Han uppfostrades först av farfadern ʿAbd al-Muttalib och sedan av farbrodern Abū Tālib. Som vuxen försörjde han sig som köpman och blev känd för sådan ärlighet att meckaborna kallade honom *al-Amīn*, ”den pålitlige”. Han gifte sig med affärskvinnan Khadīja, vars handelsresor han hade lett; hon blev den första att tro på hans budskap. Den äldsta levnadsteckningen, *sīra*, nedtecknades av Ibn Ishāq och bevarades av Ibn Hishām. Inom ett par årtionden hade köpmannen från Mecka enat större delen av Arabiska halvön.
+Muhammed föddes omkring år 570 i Mecka, i den mäktiga stammen Quraysh och klanen Banū Hāshim. Mecka var vid den tiden en handelsstad och ett hedniskt kultcentrum, där Kaba omgavs av hundratals avgudabilder. Muhammed blev tidigt föräldralös: fadern ʿAbdullah dog före hans födelse, modern Āmina när han var omkring sex år. Han uppfostrades först av farfadern ʿAbd al-Muttalib och sedan av farbrodern Abū Tālib. Som vuxen försörjde han sig som köpman och blev känd för sådan ärlighet att meckaborna kallade honom *al-Amīn*, "den pålitlige". Han gifte sig med affärskvinnan Khadīja, vars handelsresor han hade lett; hon blev den första att tro på hans budskap. Den äldsta levnadsteckningen, *sīra*, nedtecknades av Ibn Ishāq och bevarades av Ibn Hishām, alltså mer än hundra år efter profetens död. Att källorna är sena har prövats hårt av modern historieforskning. Patricia Crone, den källkritiska skolans mest kända namn, slår ändå fast att det inte råder något tvivel om att Muhammed existerade, och att belägget för en profet verksam bland araberna under 600-talets första decennier är exceptionellt gott. Inom ett par årtionden hade köpmannen från Mecka enat större delen av Arabiska halvön.
 
 ## Hur blev Muhammed profet?
 
@@ -72,12 +75,16 @@ Några månader senare, i juni 632, dog Muhammed i Medina.
 
 ## Varför är Muhammed ett föredöme för muslimer?
 
-För muslimer är Muhammed inte bara budbärare utan det levande mönstret för hur tron ska levas. Hans *sunna* – hans handlingar, ord och tysta gillanden, bevarade i *hadīth*-samlingar som Sahīh al-Bukhārī – vägleder allt från bön till handel. De som håller fast vid denna *sunna* kallas *ahl as-sunna*, ”traditionens folk”. Koranen gör föredömet uttryckligt:
+För muslimer är Muhammed inte bara budbärare utan det levande mönstret för hur tron ska levas. Hans *sunna* – hans handlingar, ord och tysta gillanden, bevarade i *hadīth*-samlingar som Sahīh al-Bukhārī – vägleder allt från bön till handel. De som håller fast vid denna *sunna* kallas *ahl as-sunna*, "traditionens folk". Koranen gör föredömet uttryckligt:
 
 > I GUDS Sändebud har ni ett gott föredöme för alla som [med bävan och hopp] ser fram mot [mötet med] Gud och den Yttersta dagen och som ständigt har Gud för ögonen.
 > — Koranen 33:21
 
-Själv sammanfattade han sitt syfte: ”Jag sändes endast för att fullkomna de ädla karaktärsdragen” (al-Bukhārī, al-Adab al-Mufrad 273). Att vittna om att Muhammed är Guds sändebud utgör den andra halvan av trosbekännelsen, *shahāda*. Men Muhammed dyrkas aldrig; han efterföljs.
+Själv sammanfattade han sitt syfte: "Jag sändes endast för att fullkomna de ädla karaktärsdragen" (al-Bukhārī, al-Adab al-Mufrad 273). Att vittna om att Muhammed är Guds sändebud utgör den andra halvan av trosbekännelsen, *shahāda*. Ibn al-Qayyim binder samman de två halvorna i *Madārij as-sālikīn*:
+
+> Det är två slags enhet, och ingen räddas undan Guds straff utom genom dem båda: att den som sände är en enda, och att sändebudet är den ende som följs.
+
+Men Muhammed dyrkas aldrig; han efterföljs.
 
 ## Hur många följer Muhammed i dag?
 

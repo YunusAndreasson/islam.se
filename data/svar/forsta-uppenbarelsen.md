@@ -45,7 +45,8 @@ Innan Muhammed kallades till profet brukade han dra sig undan till grottan *Hira
 
 De ord ängeln gav blev inledningen till Koranens 96:e sura, al-ʿAlaq:
 
-> LÄS I din Herres namn, Han som har skapat – skapat människan av en grodd som sätter sig fast! Läs! Din Herre är den Främste Givaren, som har lärt [människan] pennans [bruk], lärt människan vad hon inte visste! (Koranen 96:1–5)
+> LÄS I din Herres namn, Han som har skapat – skapat människan av en grodd som sätter sig fast! Läs! Din Herre är den Främste Givaren, som har lärt [människan] pennans [bruk], lärt människan vad hon inte visste!
+> — Koranen 96:1–5
 
 Att den sista uppenbarelsen till mänskligheten öppnar med ordet "Läs" har de lärde i alla tider läst som ett program för hela tron: kunskap kommer först. Mannen som tog emot orden kunde själv varken läsa eller skriva; han var *ummī*, oläskunnig. Att hans allra första gudsord ändå blev en befallning att läsa är för muslimer beviset att Koranen aldrig kunde ha varit hans eget verk.
 
@@ -57,7 +58,8 @@ Mötet skakade honom djupt. Enligt Aisha återvände Muhammed till sin hustru Kh
 
 Att den första uppenbarelsen kom just under Ramadan hör samman med månadens hela mening. Koranen själv knyter sin nedstigning till denna månad:
 
-> För att ge människorna vägledning [inleddes] i månaden Ramadan uppenbarelsen av Koranen (Koranen 2:185)
+> För att ge människorna vägledning [inleddes] i månaden Ramadan uppenbarelsen av Koranen
+> — Koranen 2:185
 
 Den natt då uppenbarelsen började kallas *Laylat al-Qadr*, Allmaktens Natt, som en egen sura beskriver: "SE, VI har uppenbarat denna [heliga Skrift] under Allmaktens Natt" (Koranen 97:1). Samma sura säger att natten är mera värd än tusen månader. De lärde förklarar att hela Koranen denna natt först sänktes ned till den nedersta himlen, för att därifrån ges till profeten del för del under tjugotre år. Så blir både månadens ära och den gradvisa uppenbarelsen sanna på en gång. Det är därför muslimer fastar och vakar särskilt under Ramadans sista tio nätter, i hopp om att träffa just den natt då Koranens ord en gång steg ned från himlen.
 

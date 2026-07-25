@@ -29,6 +29,7 @@ sources:
   - name: "Sahīh Muslim 8"
   - name: "Sahīh Muslim 2577"
   - name: "Sahīh Muslim 2901"
+  - name: "Ibn al-Qayyim, al-Wābil as-sayyib"
   - name: "al-ibadah.com – Domedagen och dess tecken"
     url: "https://al-ibadah.com/troslara/domedagen-och-tecknen-infor-den/"
 related:
@@ -39,19 +40,19 @@ essays:
   - "stillheten-fore-slutet"
 ---
 
-**Domedagen (på arabiska *yawm al-qiyāma*, ”Uppståndelsens dag”) är den dag då Gud återuppväcker alla människor ur döden, ställer var och en till svars för sitt liv och dömer dem till paradiset eller helvetet.** I Koranen kallas den också *yawm ad-dīn*, ”Domens dag”, och tron på den är en av islams sex trosartiklar (*arkān al-īmān*). För muslimer är den ingen avlägsen myt utan en kommande verklighet: ingenting går förlorat, och ingen orätt förblir utan upprättelse.
+**Domedagen (på arabiska *yawm al-qiyāma*, "Uppståndelsens dag") är den dag då Gud återuppväcker alla människor ur döden, ställer var och en till svars för sitt liv och dömer dem till paradiset eller helvetet.** I Koranen kallas den också *yawm ad-dīn*, "Domens dag", och tron på den är en av islams sex trosartiklar (*arkān al-īmān*). För muslimer är den ingen avlägsen myt utan en kommande verklighet: ingenting går förlorat, och ingen orätt förblir utan upprättelse.
 
 ## Vad betyder domedagen i islam?
 
-Domedagen markerar slutet på den nuvarande världsordningen och inledningen till det eviga livet. Koranen ger dagen flera namn som var för sig fångar en sida av den: *al-qiyāma* (uppståndelsen), *yawm ad-dīn* (domens dag), *as-sāʿa* (Stunden) och *al-qāriʿa* (det dånande slaget). Först förgås allt levande, därefter återuppväcks människorna kroppsligen för att möta sin Skapare. Domedagen hör till det fördolda (*al-ghayb*), det som människan känner enbart genom uppenbarelsen. Till skillnad från en symbolisk bild av ”yttersta tiden” är den i islam en konkret, framtida händelse vars exakta tidpunkt bara Gud känner till; profeten Muhammed sade att inte ens han visste när Stunden skulle infalla.
+Domedagen markerar slutet på den nuvarande världsordningen och inledningen till det eviga livet. Koranen ger dagen flera namn som var för sig fångar en sida av den: *al-qiyāma* (uppståndelsen), *yawm ad-dīn* (domens dag), *as-sāʿa* (Stunden) och *al-qāriʿa* (det dånande slaget). Först förgås allt levande, därefter återuppväcks människorna kroppsligen för att möta sin Skapare. Domedagen hör till det fördolda (*al-ghayb*), det som människan känner enbart genom uppenbarelsen. Till skillnad från en symbolisk bild av "yttersta tiden" är den i islam en konkret, framtida händelse vars exakta tidpunkt bara Gud känner till; profeten Muhammed sade att inte ens han visste när Stunden skulle infalla.
 
 ## Varför är tron på den yttersta dagen så viktig?
 
-Tron på den yttersta dagen är en av de sex trosartiklarna. I den berömda hadithen där ängeln Jibrīl frågar profeten Muhammed vad *īmān* (tro) är, svarar han: att tro på Gud, hans änglar, hans böcker, hans sändebud, den yttersta dagen och ödet, det goda såväl som det onda (Sahīh Muslim 8). Utan denna tro är *īmān* inte giltig. Koranen och sunnan grundar domen i Guds eget ord: i en helig hadith, *hadīth qudsī*, återger profeten Guds ord om att han har förbjudit sig själv orättvisan och gjort den förbjuden människor emellan (Sahīh Muslim 2577). På den yttersta dagen skipas den rättvisan fullt ut, också mellan förtryckare och förtryckta.
+I den berömda hadithen där ängeln Jibrīl frågar profeten Muhammed vad *īmān* (tro) är, räknas den yttersta dagen upp bland de sex: att tro på Gud, hans änglar, hans böcker, hans sändebud, den yttersta dagen och ödet, det goda såväl som det onda (Sahīh Muslim 8). Utan denna tro är *īmān* inte giltig. Koranen och sunnan grundar domen i Guds eget ord: i en helig hadith, *hadīth qudsī*, återger profeten Guds ord om att han har förbjudit sig själv orättvisan och gjort den förbjuden människor emellan (Sahīh Muslim 2577). På den yttersta dagen skipas den rättvisan fullt ut, också mellan förtryckare och förtryckta.
 
 ## Vilka är tecknen på att domedagen närmar sig?
 
-Klassiska lärda delar in tecknen i mindre och större (al-ibadah.com). De mindre tecknen (*ʿalāmāt sughrā*) inträffar gradvis och anses till stor del redan ha passerat – profeten Muhammeds egen ankomst räknas som det första, följt av att kunskapen dras tillbaka, omoralen breder ut sig och tiden tycks gå allt fortare. De större tecknen (*ʿalāmāt kubrā*) följer tätt på varandra strax före Stunden. I en hadith räknar profeten upp tio: röken, *al-Masīh ad-Dajjāl* (Antikrist), vilddjuret, solens uppgång i väster, ʿĪsā ibn Maryams (Jesu) återkomst, *Yaʾjūj wa Maʾjūj* (Gog och Magog), tre jordskred samt en eld som driver människorna till samlingsplatsen (Sahīh Muslim 2901). När det första stora tecknet väl visar sig följer de övriga som pärlor från ett band där tråden brustit, som traditionen uttrycker det.
+Klassiska lärda delar in tecknen i mindre och större (al-ibadah.com). De mindre tecknen (*ʿalāmāt sughrā*) inträffar gradvis och anses till stor del redan ha passerat – profeten Muhammeds egen ankomst räknas som det första, följt av att kunskapen dras tillbaka, omoralen breder ut sig och tiden tycks gå allt fortare. De större tecknen (*ʿalāmāt kubrā*) följer tätt på varandra strax före Stunden. I en hadith räknar profeten upp tio: röken, *al-Masīh ad-Dajjāl* (Antikrist), vilddjuret, solens uppgång i väster, ʿĪsā ibn Maryams (Jesu) återkomst, *Yaʾjūj wa Maʾjūj* (Gog och Magog), tre jordskred samt en eld som driver människorna till samlingsplatsen (Sahīh Muslim 2901). Traditionen har en bild för det: när det första stora tecknet väl visar sig följer de övriga som pärlor från ett band där tråden brustit.
 
 ## Vad händer på själva domedagen?
 
@@ -69,4 +70,8 @@ På vågen prövas människans gärningar, och Koranen är tydlig med att ingent
 > Den Dagen skall människorna stiga fram i spridda skaror för att se sina handlingar. Och den som har gjort så litet som ett stoftkorns vikt av gott skall se det, och den som har gjort så litet som ett stoftkorns vikt av ont skall se det.
 > — Koranen 99:6–8
 
-Men avgörande är inte mängden goda gärningar i sig, utan *tawhīd*. Redan i graven (mellantillståndet *barzakh*) förhörs den döde av änglarna Munkar och Nakīr om sin tro, ett ämne som klassiska lärda – bland dem Ibn al-Qayyim i *Kitāb ar-Rūh* – ägnade hela verk åt. På den yttersta dagen leder samma trosfråga till slutmålet: det eviga paradiset (*al-janna*) eller elden (*an-nār*). Gärningarna väger, men *tawhīd* fäller utslaget; inga goda gärningar i världen friköper den som mött Gud med en avgud i hjärtat.
+Men avgörande är inte mängden goda gärningar i sig, utan *tawhīd*. Redan i graven (mellantillståndet *barzakh*) förhörs den döde av änglarna Munkar och Nakīr om sin tro, ett ämne som klassiska lärda – bland dem Ibn al-Qayyim i *Kitāb ar-Rūh* – ägnade hela verk åt. På den yttersta dagen leder samma trosfråga till slutmålet: det eviga paradiset (*al-janna*) eller elden (*an-nār*). Samma lära rymmer ett hopp för den som trott men syndat; Ibn al-Qayyim skriver i *al-Wābil as-sayyib*:
+
+> Ingen av dem som bekänt Guds enhet men syndat blir kvar i helvetet, för när de har straffats i mån av sin skuld förs de ut ur elden och in i paradiset.
+
+Gärningarna väger, men *tawhīd* fäller utslaget; inga goda gärningar i världen friköper den som mött Gud med en avgud i hjärtat.

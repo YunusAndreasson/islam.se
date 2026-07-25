@@ -30,10 +30,15 @@ sources:
   - name: "Koranen 29:46"
   - name: "Sahīh al-Bukhārī 7362"
   - name: "Sahīh Muslim 8"
+  - name: "Ibn al-Qayyim, ad-Dāʾ wa-d-dawāʾ"
   - name: "islamqa.info – Har Toran och Evangeliet ändrats?"
     url: "https://islamqa.info/en/answers/2001"
   - name: "al-ibadah.com – Troslära"
     url: "https://al-ibadah.com/troslara/"
+  - name: "Marijn van Putten, \"The Grace of God\" as evidence for a written Uthmanic archetype, BSOAS 82:2 (2019)"
+    url: "https://www.cambridge.org/core/journals/bulletin-of-the-school-of-oriental-and-african-studies/article/grace-of-god-as-evidence-for-a-written-uthmanic-archetype-the-importance-of-shared-orthographic-idiosyncrasies/23C45AC7BC649A5228E0DA6F6BA15C06"
+  - name: "University of Birmingham – Birmingham Qur'an manuscript dated among the oldest in the world (2015)"
+    url: "https://www.birmingham.ac.uk/news-archive/2015/birmingham-quran-manuscript-dated-among-the-oldest-in-the-world"
 related:
   - "vad-ar-koranen"
   - "skrev-muhammed-koranen"
@@ -44,7 +49,11 @@ related:
 
 ## Vad är Toran och Bibeln enligt islam?
 
-Enligt islam är Toran (*at-tawrāt*) och Evangeliet (*al-injīl*) gudomliga skrifter, uppenbarade av samma Gud som sände Koranen. Att tro på Guds böcker, *īmān bi'l-kutub*, är en av de sex trosartiklarna i klassisk islamisk troslära, uppräknad i hadithen om Jibrīl (Sahīh Muslim 8) vid sidan av tron på Gud, änglarna, sändebuden, den Yttersta dagen och förutbestämmelsen. Traditionen räknar fyra namngivna skrifter: Toran till profeten Mose (Mūsā), Psaltaren (*az-zabūr*) till David (Dāwūd), Evangeliet till Jesus (ʿĪsā) och Koranen till Muhammed. De tre tidigare profeterna bär enligt denna syn samma grundbudskap, och därför kallar Koranen judar och kristna *ahl al-kitāb*, "Bokens folk", en benämning som understryker släktskapet mellan dem. Den som förnekar att Gud sände Toran eller Evangeliet förnekar därmed en del av sin egen tro.
+Enligt islam är Toran (*at-tawrāt*) och Evangeliet (*al-injīl*) gudomliga skrifter, uppenbarade av samma Gud som sände Koranen. Att tro på Guds böcker, *īmān bi'l-kutub*, är en av de sex trosartiklarna i klassisk islamisk troslära, uppräknad i hadithen om Jibrīl (Sahīh Muslim 8) vid sidan av tron på Gud, änglarna, sändebuden, den Yttersta dagen och förutbestämmelsen. Traditionen räknar fyra namngivna skrifter: Toran till profeten Mose (Mūsā), Psaltaren (*az-zabūr*) till David (Dāwūd), Evangeliet till Jesus (ʿĪsā) och Koranen till Muhammed. De tre tidigare profeterna bär enligt denna syn samma grundbudskap, och därför kallar Koranen judar och kristna *ahl al-kitāb*, "Bokens folk", en benämning som understryker släktskapet mellan dem. Att skrifterna hör ihop beror på att de bär samma ärende; Ibn al-Qayyim formulerar det i *ad-Dāʾ wa-d-dawāʾ*:
+
+> Gud sände sina sändebud, uppenbarade sina skrifter och skapade himlarna och jorden för att han skulle bli känd, dyrkad och bekänd som en enda.
+
+Den som förnekar att Gud sände Toran eller Evangeliet förnekar därmed en del av sin egen tro.
 
 ## Erkänner Koranen Bibeln och Toran?
 
@@ -66,8 +75,10 @@ Skillnaden ligger i ett uttryckligt löfte och i hur texten förts vidare. Om Ko
 > Det är Vi som har uppenbarat denna Koran steg för steg och Vi skall helt visst slå vakt om den!
 > — Koranen 15:9
 
-Något sådant löfte gavs aldrig om Toran eller Evangeliet. Också formen skiljer sig. Koranen uppenbarades för en enda man, Muhammed, genom ängeln Jibrīl (Gabriel) under cirka 23 år, på ett enda språk, arabiska, och samlades i 114 suror med drygt 6 200 verser. Bibeln är däremot ett helt bibliotek: enligt traditionell kristen räkning omkring 66 skrifter, nedtecknade av ett fyrtiotal författare på hebreiska, arameiska och grekiska under närmare 1 500 år. Till det skriftliga kommer det muntliga bevarandet: redan på 600-talet kunde följeslagarna hela texten utantill, och i dag reciterar miljoner *huffāz* den ord för ord. Därför ljuder i dag exakt samma arabiska ordalydelse i Jakarta som i Marocko – en obruten kedja som varken Toran eller Evangeliet kan visa upp.
+Något sådant löfte gavs aldrig om Toran eller Evangeliet. Också formen skiljer sig. Koranen uppenbarades för en enda man, Muhammed, genom ängeln Jibrīl (Gabriel) under cirka 23 år, på ett enda språk, arabiska, och samlades i 114 suror med drygt 6 200 verser. Bibeln är däremot ett helt bibliotek: enligt traditionell kristen räkning omkring 66 skrifter, nedtecknade av ett fyrtiotal författare på hebreiska, arameiska och grekiska under närmare 1 500 år. Till det skriftliga kommer det muntliga bevarandet: redan på 600-talet kunde följeslagarna hela texten utantill, och i dag reciterar miljoner *huffāz* den ord för ord.
+
+Den sekulära handskriftsforskningen pekar åt samma håll. Marijn van Putten har visat att fjorton av de äldsta bevarade koranhandskrifterna delar samma ortografiska egenheter: ordet *niʿmat* kan skrivas på två sätt, och växlingen mellan dem sker på exakt samma ställen i samtliga fjorton, något som är svårt att förklara utan en gemensam skriven förlaga. Pergamentet i en av de äldsta, Birminghamhandskriften, har kol-14-daterats till åren 568–645 med 95,4 procents säkerhet. Därför ljuder i dag exakt samma arabiska ordalydelse i Jakarta som i Marocko – en obruten kedja som varken Toran eller Evangeliet kan visa upp.
 
 ## Förkastar islam Bibeln och Toran?
 
-Nej. Islam förkastar varken Bibeln eller Toran som helhet, och muslimer förbjuds att håna dem. Spår av den ursprungliga sanningen anses leva kvar, invävda med senare mänskliga tillägg, och den troende läser därför skrifterna med urskillning och låter Koranen avgöra vad som består. Den djupaste skillnaden är teologisk och rör Guds enhet, *tawhīd* – kärnan i hela den islamiska trosläran (al-ibadah.com): där Bibeln på sina ställen gör Jesus till Gud, håller Koranen fast vid att han var Guds tjänare och profet. Koranen anger också tonen för mötet med judar och kristna: muslimer uppmanas att inte tvista med Bokens folk annat än på hövligast möjliga sätt, utan i stället framhålla att de tror på det som uppenbarats för båda parter och att muslimernas Gud och Bokens folks Gud är en och densamme (29:46).
+Nej. Islam förkastar varken Bibeln eller Toran som helhet, och muslimer förbjuds att håna dem. Spår av den ursprungliga sanningen anses leva kvar, invävda med senare mänskliga tillägg, och den troende läser därför skrifterna med urskillning och låter Koranen avgöra vad som består. Teologiskt går skiljelinjen vid Guds enhet, *tawhīd* – kärnan i hela den islamiska trosläran (al-ibadah.com): där Bibeln på sina ställen gör Jesus till Gud, håller Koranen fast vid att han var Guds tjänare och profet. Koranen anger också tonen för mötet med judar och kristna: muslimer uppmanas att inte tvista med Bokens folk annat än på hövligast möjliga sätt, utan i stället framhålla att de tror på det som uppenbarats för båda parter och att muslimernas Gud och Bokens folks Gud är en och densamme (29:46).

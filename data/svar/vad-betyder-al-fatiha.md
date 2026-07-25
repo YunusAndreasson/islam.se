@@ -45,14 +45,14 @@ Ordet *al-Fātiha* betyder "öppningen" eller "öppnaren" och är en kortform av
 
 Suran består av sju korta verser. I Mohammed Knut Bernströms svenska tolkning *Koranens budskap* lyder de:
 
-> I GUDS, DEN NÅDERIKES, DEN BARMHÄRTIGES NAMN
-> Lov och pris tillkommer Gud, världarnas Herre,
-> den Nåderike, den Barmhärtige,
-> som allsmäktig råder över Domens dag!
-> Dig tillber vi; Dig anropar vi om hjälp.
-> Led oss på den raka vägen –
-> den väg de vandrat som Du har välsignat med Dina gåvor; inte de som har drabbats av [Din] vrede och inte de som har gått vilse!
-> *(Koranen 1:1–7)*
+> I GUDS, DEN NÅDERIKES, DEN BARMHÄRTIGES NAMN  
+> Lov och pris tillkommer Gud, världarnas Herre,  
+> den Nåderike, den Barmhärtige,  
+> som allsmäktig råder över Domens dag!  
+> Dig tillber vi; Dig anropar vi om hjälp.  
+> Led oss på den raka vägen –  
+> den väg de vandrat som Du har välsignat med Dina gåvor; inte de som har drabbats av [Din] vrede och inte de som har gått vilse!  
+> — Koranen 1:1–7
 
 Den andra versen, "Lov och pris tillkommer Gud", är just orden *al-hamdu lillāh*. På sju rader ryms hela trons grammatik: först vem Gud är, sedan vad tjänaren bekänner, till sist vad han ber om.
 

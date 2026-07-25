@@ -29,6 +29,7 @@ sources:
   - name: "Koranen 41:53"
   - name: "Koranen 52:35–36"
   - name: "Sahīh al-Bukhari 1385"
+  - name: "Carl von Linné, Egenhändiga anteckningar"
   - name: "al-ibadah.com – Tawhid (troslära)"
     url: "https://al-ibadah.com/troslara/tawhid/"
 related:
@@ -51,6 +52,12 @@ Koranens mest använda argument är att ingenting bringar sig självt till exist
 > — Koranen 52:35–36
 
 Antingen blev människan till av en slump, eller skapade hon sig själv, eller har hon en Skapare. De två första svaren är orimliga, och då återstår bara det tredje. Till detta fogar Koranen ordningen i det skapade som tecken på avsikt: "I skapelsen av himlarna och jorden och i växlingen mellan natt och dag ligger helt visst budskap till dem som vill använda sitt förstånd" (Koranen 3:190). Ibn al-Qayyim menade att varje skapat ting vittnar om sin formgivare genom själva sitt tillstånd. Frågan i sura Berget rymmer inget fjärde svar, och av de tre den ställer faller två genast.
+
+Iakttagelsen har en svensk klang. Carl von Linné, som ägnade sitt liv åt att ordna och namnge det skapade, skrev i sina egenhändiga anteckningar, här i moderniserad språkdräkt:
+
+> Världen är vid, allestädes lika full av Skaparens under.
+
+Ett sådant konstaterande når dock aldrig längre än till att en Skapare finns.
 
 ## Vad är fitra, människans medfödda gudstro?
 

@@ -38,7 +38,7 @@ related:
 
 ## Vad är sunni och shia?
 
-Sunni är islams klart största gren. Namnet kommer av *ahl as-sunna wa'l-jamāʿa*, "efterföljelsens och samfundets folk", och syftar på den som följer Koranen och profetens *sunna* så som de tre första generationerna (*salaf*) förstod dem. Enligt Pew Research Center utgör sunnimuslimerna omkring 85–90 procent av världens muslimer – i dag närmare två miljarder människor – medan shia utgör ungefär 10–13 procent. Shia kommer av *shīʿat ʿAlī*, "Alis parti", och har sin tyngdpunkt i Iran, Irak, Azerbajdzjan, Bahrain och Libanon. Den största inriktningen är tolvarna (*ithnā ʿashariyya*), som väntar på den dolde tolfte imamens återkomst. Frågan som delar de två är inte *vad* de tror om Gud, utan *vem* de följer efter profeten.
+Sunni är islams klart största gren. Namnet kommer av *ahl as-sunna wa'l-jamāʿa*, "efterföljelsens och samfundets folk", och syftar på den som följer Koranen och profetens *sunna* så som de tre första generationerna (*salaf*) förstod dem. Enligt Pew Research Center utgör sunnimuslimerna omkring 85–90 procent av världens muslimer – i dag omkring två miljarder människor – medan shia utgör ungefär 10–13 procent. Shia kommer av *shīʿat ʿAlī*, "Alis parti", och har sin tyngdpunkt i Iran, Irak, Azerbajdzjan, Bahrain och Libanon. Den största inriktningen är tolvarna (*ithnā ʿashariyya*), som väntar på den dolde tolfte imamens återkomst. Frågan som delar de två är inte *vad* de tror om Gud, utan *vem* de följer efter profeten.
 
 ## Hur uppstod splittringen mellan sunni och shia?
 

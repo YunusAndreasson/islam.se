@@ -45,11 +45,13 @@ Ja, och det är teologins kärna. Hela den islamiska gudssynen vilar på *tawḥ
 
 Många moderna uttolkare läser två verser så. Den första talar om hur himmel och jord en gång var sammanfogade och skildes åt:
 
-> INSER DE inte, de som vill förneka sanningen, att himlarna och jorden [en gång] utgjorde en enda, sammanhållen massa och [att] Vi skilde dem åt? (Koranen 21:30)
+> INSER DE inte, de som vill förneka sanningen, att himlarna och jorden [en gång] utgjorde en enda, sammanhållen massa och [att] Vi skilde dem åt?
+> — Koranen 21:30
 
 Den andra läses som en föraning om det expanderande universum:
 
-> VI HAR byggt världsalltet och gett det en fast struktur, och förvisso är det Vi som utvidgar det. (Koranen 51:47)
+> VI HAR byggt världsalltet och gett det en fast struktur, och förvisso är det Vi som utvidgar det.
+> — Koranen 51:47
 
 Översättaren Mohammed Knut Bernström såg själv i dessa verser en antydan om Big Bang. Men den klassiska traditionen manar till försiktighet med sådan *tafsīr ʿilmī* (vetenskaplig exegetik): Koranen är vägledning (*hudā*), inte en lärobok i fysik. Att spika fast en vers vid dagens teori riskerar tron den dag teorin revideras. Verserna pekar på en Skapare — inte på en ekvation.
 
@@ -57,7 +59,8 @@ Den andra läses som en föraning om det expanderande universum:
 
 Nej, inte om man läser texten som den klassiska traditionen gör. Det arabiska *yawm* betyder "dag" men också "skede" eller "epok", och Koranen säger själv att ett dygn inför Gud kan vara som tusen år (22:47) — i en annan vers till och med femtiotusen. "Sex dagar" beskriver alltså ordnade faser, inte sex dygn à 24 timmar. En annan vers målar dessutom upp ett tidigt kosmos som ännu var formlöst:
 
-> Och Han vände sig mot rymden, som var rök (Koranen 41:11)
+> Och Han vände sig mot rymden, som var rök
+> — Koranen 41:11
 
 Bilden av en ursprunglig "rök" (*dukhān*) — ett hett, diffust urtillstånd — krockar inte med tanken på en het urplasma. Poängen i Koranen är ordningen och avsikten bakom skapelsen, inte tidtabellen. Spänningen mellan "sex dagar" och miljarder år löses upp så fort man slutar läsa skriften som en kronometer.
 

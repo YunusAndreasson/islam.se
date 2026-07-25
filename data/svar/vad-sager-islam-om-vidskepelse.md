@@ -65,11 +65,11 @@ Ja. Till skillnad från vidskepelsen är det onda ögat (*al-ʿayn*) en del av t
 
 Det islamiska skyddet mot det onda ögat består av recitation och åkallan. Profeten reciterade *al-Muʿawwidhatān*, de två sista surorna *al-Falaq* (113) och *an-Nās* (114), som värn mot avund, magi (*siḥr*) och allt ont:
 
-> Säg: "Jag söker skydd hos gryningens Herre,
-> mot det onda i det som Han har skapat,
-> mot det onda i nattens tätnande mörker,
-> mot det onda från dem som blåser på knutar
-> och mot det onda i avunden från den som avundas."
+> Säg: "Jag söker skydd hos gryningens Herre,  
+> mot det onda i det som Han har skapat,  
+> mot det onda i nattens tätnande mörker,  
+> mot det onda från dem som blåser på knutar  
+> och mot det onda i avunden från den som avundas."  
 > — Koranen 113:1–5
 
 Detta är *ruqya*: tillåten recitation av Koranen och åkallan, så länge orden är begripliga och den troende vet att verkan kommer från Gud, inte från orden i sig. Med samma vapen mötte profeten även magi och jinn, som islam erkänner som verkliga men maktlösa inför Guds ord (al-ibadah.com, *Jinn, magi och det onda ögat*). Han anförtrodde sina dottersöner al-Hasan och al-Husayn åt "Guds fullkomliga ord, mot varje djävul och varje skadedjur och mot varje ont öga" (Sahīh al-Bukhārī 3371). Den som vållat skadan kan dessutom ombedas tvätta sig, varpå vattnet hälls över den drabbade. Skyddet finns redan i den troendes mun; det behöver inte hängas runt halsen.
