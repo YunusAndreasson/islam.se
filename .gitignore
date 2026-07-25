@@ -49,3 +49,7 @@ Thumbs.db
 *.log
 npm-debug.log*
 pnpm-debug.log*
+
+# Python bytecode from scripts/
+__pycache__/
+*.pyc
