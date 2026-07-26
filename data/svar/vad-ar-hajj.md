@@ -65,7 +65,7 @@ Av de fem pelarna är hajj den enda som är bunden till en bestämd plats på jo
 
 ## När och var utförs vallfärden?
 
-Hajj är bunden till en enda månad i året: *dhū-l-hijja*, den tolfte i den islamiska månkalendern, med höjdpunkten den 8 till 13. Eftersom månåret är kortare än solåret vandrar vallfärden omkring elva dagar bakåt i den gregorianska kalendern varje år: år 2026 inföll de centrala dagarna 25–30 maj, och år 2027 väntas de infalla i mitten av maj. Skådeplatsen är inte bara den heliga moskén (al-Masjid al-Harām) utan en rad platser utanför staden: slätten ʿArafat, dalen Muzdalifa och tältstaden Mina. Koranen knyter denna folkvandring direkt till Abraham:
+Hajj är bunden till en enda månad i året: *dhū-l-hijja*, den tolfte i den islamiska månkalendern, med höjdpunkten den 8 till 13. Eftersom månåret är kortare än solåret vandrar vallfärden omkring elva dagar bakåt i den gregorianska kalendern varje år: år 2026 inföll de centrala dagarna 25–30 maj, och år 2027 väntas de infalla 14–19 maj. Skådeplatsen är inte bara den heliga moskén (al-Masjid al-Harām) utan en rad platser utanför staden: slätten ʿArafat, dalen Muzdalifa och tältstaden Mina. Koranen knyter denna folkvandring direkt till Abraham:
 
 > Kungör för människorna [plikten att fullgöra] vallfärden. De skall komma till dig till fots och ridande på alla slag av snabbfotade riddjur och de skall komma från alla håll och från avlägsna trakter.
 > — Koranen 22:27

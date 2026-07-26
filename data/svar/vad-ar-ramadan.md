@@ -11,11 +11,11 @@ keywords:
   - "fastemånaden"
   - "sawm"
   - "varför fastar muslimer"
-  - "ramadan 2026"
+  - "ramadan 2027"
   - "islams fem pelare"
 faq:
-  - q: "När är ramadan 2026?"
-    a: "Ramadan 2026 infaller ungefär 18 februari–19 mars, beroende på månobservationen. Eftersom månkalendern är kortare än solåret vandrar månaden bakåt med omkring tio–elva dagar varje år."
+  - q: "När är ramadan 2027?"
+    a: "Ramadan 2027 infaller ungefär 8 februari–8 mars, beroende på månobservationen, och Eid al-Fitr firas den 9 mars. Eftersom månkalendern är kortare än solåret vandrar månaden bakåt med omkring tio–elva dagar varje år."
   - q: "Måste barn fasta under ramadan?"
     a: "Nej. Fastan blir en plikt först vid puberteten. Barn vänjs gradvis vid den genom att fasta enstaka eller halva dagar, men omfattas inte av kravet."
   - q: "Vad bryter fastan?"
@@ -56,7 +56,7 @@ related:
 
 ## Varför är ramadan en helig månad?
 
-Ramadan följer månkalendern och vandrar därför bakåt med omkring tio–elva dagar varje år i den svenska almanackan; år 2026 infaller den ungefär 18 februari–19 mars. Månadens särställning beror på att uppenbarelsen av Koranen inleddes just då – något texten själv slår fast i den andra suran, *al-Baqara*:
+Ramadan följer månkalendern och vandrar därför bakåt med omkring tio–elva dagar varje år i den svenska almanackan; år 2027 infaller den ungefär 8 februari–8 mars. Månadens särställning beror på att uppenbarelsen av Koranen inleddes just då – något texten själv slår fast i den andra suran, *al-Baqara*:
 
 > För att ge människorna vägledning [inleddes] i månaden Ramadan uppenbarelsen av Koranen i vilken vägledningen klargörs och en måttstock ges med vilken rätt kan mätas och skiljas från orätt.
 > — Koranen 2:185

@@ -63,7 +63,7 @@ const eventLd = events.map((e) => ({
 	inLanguage: "sv",
 }));
 
-// Answer-first dates for the queries AI engines get most ("när är ramadan 2026").
+// Answer-first dates for the queries AI engines get most ("när är ramadan <år>").
 // `events` is already filtered to upcoming, so find() returns the next occurrence.
 const nextOf = (n: string) => events.find((e) => e.name === n);
 const ramadan = nextOf("Ramadan");
