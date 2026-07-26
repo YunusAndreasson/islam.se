@@ -68,6 +68,7 @@
 			"!apps/mobile",
 			"!**/node_modules",
 			"!**/dist",
+			"!**/dist-check",
 			"!**/data",
 			"!**/output",
 			"!**/.astro",
