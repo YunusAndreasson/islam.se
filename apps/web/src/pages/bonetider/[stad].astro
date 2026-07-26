@@ -1,5 +1,6 @@
 ---
 import AppPromo from "../../components/AppPromo.astro";
+import OmBonen from "../../components/bonetider/OmBonen.astro";
 import PrayerField from "../../components/bonetider/PrayerField.astro";
 import PrayerSettings from "../../components/bonetider/PrayerSettings.astro";
 import PrayerTable from "../../components/bonetider/PrayerTable.astro";
@@ -427,6 +428,8 @@ if (hasScb) {
 				</ul>
 			</section>
 		)}
+
+		<OmBonen />
 
 		<p class="bt-attrib">
 			Befolkningsstatistik: {SCB_SOURCE} ({SCB_REF}). Ortsdata från GeoNames (CC BY 4.0). Beräkningar

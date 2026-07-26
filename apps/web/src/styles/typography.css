@@ -313,10 +313,16 @@
 		transform: translateY(0);
 	}
 
+	/* Same resolved-theme keying as the body weight below: a shadow tuned for the
+	   dark palette has to follow the toggle, not the OS. */
 	@media (prefers-color-scheme: dark) {
-		.fn-popover {
+		:root:not([data-theme="light"]) .fn-popover {
 			box-shadow: 0 4px 24px rgb(0 0 0 / 0.3);
 		}
+	}
+
+	:root[data-theme="dark"] .fn-popover {
+		box-shadow: 0 4px 24px rgb(0 0 0 / 0.3);
 	}
 
 	/* ============================================================
@@ -425,11 +431,23 @@
 		font-variant-caps: small-caps;
 	}
 
-	/* Dark mode — compensate for thinner light-on-dark rendering */
+	/* Dark mode — compensate for thinner light-on-dark rendering.
+	   Keyed to the RESOLVED theme, not to the OS alone. Every colour in this
+	   codebase re-resolves through light-dark(), which follows `color-scheme` and
+	   therefore follows the [data-theme] the toggle writes; font-weight cannot use
+	   light-dark() (it takes only <color> values), so before this it stayed keyed
+	   to prefers-color-scheme and silently disagreed with the palette: a reader on
+	   a light OS who switched to dark got the dark page at weight 400, without the
+	   compensation the dark palette is drawn to expect. Two rules are needed —
+	   OS-dark unless overridden to light, plus the explicit dark override. */
 	@media (prefers-color-scheme: dark) {
-		body {
+		:root:not([data-theme="light"]) body {
 			font-weight: 420;
 		}
+	}
+
+	:root[data-theme="dark"] body {
+		font-weight: 420;
 	}
 
 	/* External link indicator — Literata's native → glyph, optically matched */

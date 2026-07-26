@@ -1,5 +1,6 @@
 ---
 import AppPromo from "../../components/AppPromo.astro";
+import OmBonen from "../../components/bonetider/OmBonen.astro";
 import Base from "../../layouts/Base.astro";
 import { ORG_ID, breadcrumbList } from "../../lib/jsonld";
 import { BONETIDER_DATA_DATE, SCB_REF, SCB_SOURCE } from "../../lib/bonetider/meta";
@@ -184,6 +185,8 @@ const faq = [
 				))}
 			</dl>
 		</section>
+
+		<OmBonen />
 
 		<AppPromo variant="compact" />
 

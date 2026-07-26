@@ -1,5 +1,6 @@
 ---
 import BookPod from "../components/BookPod.astro";
+import FaktaBand from "../components/FaktaBand.astro";
 import FeatureEssay from "../components/FeatureEssay.astro";
 import Markesdagar from "../components/Markesdagar.astro";
 import RecentEssays from "../components/RecentEssays.astro";
@@ -89,11 +90,16 @@ const heroPreload = feature?.heroImage
 		</nav>
 
 		{/* The homepage body opens on the latest published — the feature + recent feed —
-		    then the Islamic calendar and the book/podcast. The other sections are reached
-		    from the intro links, the doorways and the mast. */}
+		    then the reference band, the Islamic calendar and the book/podcast. The other
+		    sections are reached from the intro links, the doorways and the mast. */}
 		{feature && <FeatureEssay article={feature} />}
 
 		<RecentEssays articles={recent} />
+
+		{/* The encyclopedic half of the site. Placed AFTER the essay feed on purpose:
+		    the opening screen is a composed spread and stays as it is. This is the only
+		    place on the homepage that carries "Vad är islam" in visible text. */}
+		<FaktaBand />
 
 		<Markesdagar />
 

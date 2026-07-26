@@ -11,7 +11,11 @@ export interface Article {
 	updatedAt?: string;
 	wordCount: number;
 	readingTime: number;
+	/** The visible deck, shown on every card and index row. */
 	description: string;
+	/** Meta-description override for pages whose deck overruns the SERP cut.
+	 *  Never rendered on the page — use `description` for anything visible. */
+	seoDescription?: string;
 	/** The essay's ämne (primary category), if assigned. */
 	category?: AmneName;
 	/** Image-specific alt for the hero photo; falls back to `title` when absent. */
@@ -67,6 +71,7 @@ async function buildArticles(): Promise<Article[]> {
 			wordCount: entry.data.wordCount,
 			readingTime: Math.ceil(entry.data.wordCount / 200),
 			description: entry.data.description,
+			seoDescription: entry.data.seoDescription,
 			category: entry.data.category,
 			imageAlt: entry.data.imageAlt,
 			imageCaption: entry.data.imageCaption,

@@ -3,6 +3,7 @@ import { MOSKEER_ENABLED } from "../../lib/config";
 import AppPromo from "../../components/AppPromo.astro";
 import AnnualPrayerChart from "../../components/bonetider/AnnualPrayerChart.astro";
 import DaylightLatitude from "../../components/bonetider/DaylightLatitude.astro";
+import OmBonen from "../../components/bonetider/OmBonen.astro";
 import PrayerField from "../../components/bonetider/PrayerField.astro";
 import PrayerSettings from "../../components/bonetider/PrayerSettings.astro";
 import Base from "../../layouts/Base.astro";
@@ -237,6 +238,8 @@ const description = `Bönetider ${year} för din ort – dagens Fajr, Ẓuhr, ʿ
 				Mer om <a href="/bonetider/metod/">hur bönetiderna beräknas</a>.
 			</p>
 		</section>
+
+		<OmBonen />
 
 		<p class="bt-attrib">
 			Befolkningsstatistik: {SCB_SOURCE}. Ortsdata från GeoNames (CC BY 4.0). Sveriges kontur från

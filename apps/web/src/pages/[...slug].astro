@@ -69,9 +69,13 @@ if (article.heroImage) {
 }
 ---
 
+{/* `description` is the visible deck and runs well past the ~155 characters a
+    result actually shows; `seoDescription` is the authored short form for the
+    meta tag. Falls back to the deck, so an essay without one is unchanged. The
+    JSON-LD keeps the full deck — it is a description of the work, not a snippet. */}
 <Base
 	title={`${article.title} — islam.se`}
-	description={article.description}
+	description={article.seoDescription ?? article.description}
 	ogImage={`/og/${article.slug}.png`}
 	articleMeta={{ publishedAt: article.publishedAt, updatedAt: article.updatedAt, wordCount: article.wordCount, description: article.description, slug: article.slug, section: article.category, citations, image: heroImageObject }}
 	preloadArabicFont

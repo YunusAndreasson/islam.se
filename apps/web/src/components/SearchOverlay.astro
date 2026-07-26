@@ -253,17 +253,18 @@ const index = await buildPaletteIndex();
 <script>
 	import { navigate } from "astro:transitions/client";
 
-	type PType = "Sida" | "Svar" | "Ämne" | "Tråd" | "Tänkare" | "Essä";
-	interface Entry { type: PType; label: string; sub: string; alt?: string; href: string; group?: "sunni" | "western"; }
+	type PType = "Sida" | "Svar" | "Ort" | "Ämne" | "Tråd" | "Tänkare" | "Essä";
+	interface Entry { type: PType; label: string; sub: string; alt?: string; core?: true; href: string; group?: "sunni" | "western"; }
 
 	// Results render in sections, not raw types: Tänkare splits into its two
 	// traditions so the classical Islamic scholars never interleave with the
 	// Swedish/Western voices (the same division the /tankare directory draws).
 	// Each section is one heading + the entries it claims.
-	type SectionKey = "Sida" | "Svar" | "Ämne" | "Tråd" | "Sunni" | "Western" | "Essä";
+	type SectionKey = "Sida" | "Svar" | "Ort" | "Ämne" | "Tråd" | "Sunni" | "Western" | "Essä";
 	const SECTION: Record<SectionKey, { heading: string; match: (e: Entry) => boolean }> = {
 		Sida:    { heading: "Sidor",  match: (e) => e.type === "Sida" },
 		Svar:    { heading: "Frågor & svar", match: (e) => e.type === "Svar" },
+		Ort:     { heading: "Bönetider", match: (e) => e.type === "Ort" },
 		Ämne:    { heading: "Ämnen",  match: (e) => e.type === "Ämne" },
 		Tråd:    { heading: "Trådar", match: (e) => e.type === "Tråd" },
 		Sunni:   { heading: "Den klassiska islamiska traditionen", match: (e) => e.type === "Tänkare" && e.group === "sunni" },
@@ -275,8 +276,12 @@ const index = await buildPaletteIndex();
 	// looking for the answer, not the essay that alludes to it. Browse mirrors the
 	// homepage axes (pages last) and omits both essays and answers — the corpus is
 	// too large for chips, and "Frågor & svar" is already a browse page.
-	const SEARCH_ORDER: SectionKey[] = ["Sida", "Svar", "Ämne", "Tråd", "Sunni", "Western", "Essä"];
-	const BROWSE_ORDER: SectionKey[] = ["Ämne", "Tråd", "Sunni", "Western", "Sida"];
+	const SEARCH_ORDER: SectionKey[] = ["Sida", "Svar", "Ort", "Ämne", "Tråd", "Sunni", "Western", "Essä"];
+	// Browse led with Ämnen and buried Sidor beneath ~30 thinker chips. On touch
+	// this view IS the site menu — the trigger reads "Meny" there — so a reader
+	// opening it to navigate met a wall of philosophers with Pelare & tro, Frågor
+	// & svar, Essäer and Bönetider last. Destinations first; the browse axes after.
+	const BROWSE_ORDER: SectionKey[] = ["Sida", "Ämne", "Tråd", "Sunni", "Western"];
 	// Pages worth surfacing as browse chips (the rest are reachable by typing).
 	// On touch the palette is the whole menu, so this must carry the same standing
 	// destinations the desktop mast shows inline: the utility pages + editorial core.
@@ -284,7 +289,7 @@ const index = await buildPaletteIndex();
 	const ESSAY_CAP = 8;
 	const SVAR_CAP = 8;
 	// Small tiebreak so structure edges out an essay at equal textual score.
-	const TYPE_BONUS: Record<PType, number> = { Sida: 5, Svar: 4, Ämne: 3, Tråd: 2, Tänkare: 1, Essä: 0 };
+	const TYPE_BONUS: Record<PType, number> = { Sida: 5, Svar: 4, Ort: 4, Ämne: 3, Tråd: 2, Tänkare: 1, Essä: 0 };
 
 	function fold(s: string): string {
 		return s.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "");
@@ -300,9 +305,18 @@ const index = await buildPaletteIndex();
 		else if (label.startsWith(q)) base = 700;
 		else if (label.includes(` ${q}`)) base = 500; // start of a later word
 		else if (label.includes(q)) base = 300;
+		else if (e.alt && fold(e.alt) === q) base = 700; // a locality's bare name
 		else if (fold(e.sub).includes(q)) base = 120;
 		else if (e.alt && fold(e.alt).includes(q)) base = 110;
-		return base ? base + TYPE_BONUS[e.type] : 0;
+		if (!base) return 0;
+		// Sub-point tiebreaks, deliberately smaller than any TYPE_BONUS step so they
+		// only separate entries that are otherwise dead level. "ramadan" hit both
+		// "Vad är ramadan?" and "Måste gravida fasta under ramadan?" at the same
+		// word-start score, and the broader page lost on array order alone.
+		const cornerstone = e.core ? 0.5 : 0;
+		// Shorter titles are the more canonical page for a bare-noun query.
+		const brevity = Math.max(0, 60 - e.label.length) / 1000;
+		return base + TYPE_BONUS[e.type] + cornerstone + brevity;
 	}
 
 	let bound = false;
