@@ -7,7 +7,7 @@ description: "Koloniföreningen Dalen i Enskede har odlats utan avbrott sedan ti
 audioFile: "plantan-vid-stunden.mp3"
 audioDuration: 783
 imageAlt: "Utblick genom ett gammalt fönster över en stadsodling i skymning, med ett blommande träd, kolonilotter och hyreshus i bakgrunden."
-imageCaption: "Plantan sätts i jorden trots allt — kolonilotten i kvällsljuset."
+imageCaption: "Plantan sätts i jorden trots allt – kolonilotten i kvällsljuset."
 category: "Skapelsen"
 ---
 Koloniföreningen Dalen i Enskede har odlats utan avbrott sedan tidigt nittonhundratal. Nu hotas den av rivning för bostadsbygge. I Göteborg planerar staden att omvandla över tusen lotter till åretruntboenden. Köerna till de återstående platserna är tio till tjugo år långa. Sju av tio svenskar oroar sig för klimatet. Färre än två procent av oss har tillgång till en jordbit att vårda.[^1]
@@ -20,7 +20,7 @@ Den första svenska koloniföreningen anlades 1895 i Pildammsparken i Malmö. Ni
 
 Lindhagens motiv brukar förenklas till matberedskap och folkhälsa, men det är att läsa henne ytligt. I hennes egen argumentation återkommer ett annat ord: skönhet. Hon talade om "skönhet och själsrekreation" som lika djupa bevekelsegrunder. Arbetaren skulle få mer än sin potatis: sin trädgård. Tanken var att människan, om hon överhuvudtaget skulle bli något i industristadens skugga, måste ha en bit jord att vårda. Inte att utvinna ur, utan att leva med.
 
-Den moderna debatten om kolonilotter har tappat denna nyans. Argumenten är numera nyttobaserade: självförsörjning, klimatpolitik, beredskap. Det är legitima skäl. Men de förmår inte förklara varför Lindhagen själv såg trädgården som något *mer* än en resurs. För att finna det svaret måste man söka sig längre tillbaka, och i en annan riktning.
+Den moderna debatten om kolonilotter har tappat denna nyans. Argumenten är numera nyttobaserade: självförsörjning, klimatpolitik, beredskap. Det är rimliga skäl. Men de förmår inte förklara varför Lindhagen själv såg trädgården som något *mer* än en resurs. För att finna det svaret måste man söka sig längre tillbaka, och i en annan riktning.
 
 ## Stunden och plantan
 
@@ -28,7 +28,7 @@ I *al-Adab al-Mufrad* finns en hadith som hör till de mest egendomliga i hela t
 
 > Om Stunden inträffar och en av er har en planta i sin hand, så låt honom plantera den om han hinner innan han reser sig.[^2]
 
-Stunden, al-Sāʿah, är den yttersta timmen, världens slut. Profeten talar om att fortsätta plantera — varken om dom, bön eller botgöring. Också när skörden är omöjlig, också när det inte längre finns någon morgondag som plantan kan växa in i.
+Stunden, al-Sāʿah, är den yttersta timmen, världens slut. Profeten talar om att fortsätta plantera – varken om dom, bön eller botgöring. Också när skörden är omöjlig, också när det inte längre finns någon morgondag som plantan kan växa in i.
 
 Miljödebatten rår inte med denna omkullkastning. Vi planterar för att skörda. Vi sparar gärningen för dess utfall. Hadithen säger något annat: handlingen själv är meningen. Det är rörelsen i sig som helgar den lilla gesten att stoppa ner plantan i jorden, oberoende av den frukt som kanske följer. Knäet i jorden, handen som sluter mullen kring en rotklump.
 

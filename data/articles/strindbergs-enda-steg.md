@@ -5,7 +5,7 @@ wordCount: 1160
 qualityScore: 8.9
 description: "Han kunde inte sluta vara tacksam. Det var Strindbergs verkliga kris sommaren 1896 – inte ockultismen, inte nervsammanbrotten, utan en tacksamhet som envist vägrade lyda hans förnuft."
 imageAlt: "Man med rakat huvud sitter i en dunkel vardagsrumssoffa och läser en uppslagen bok, med böcker och en mugg på soffbordet."
-imageCaption: "Det enda steget börjar i stillheten — en bok, en kväll, en eftertanke."
+imageCaption: "Det enda steget börjar i stillheten – en bok, en kväll, en eftertanke."
 category: "Sökandet"
 ---
 Han kunde inte sluta vara tacksam. Det var Strindbergs verkliga kris sommaren 1896 – inte ockultismen, inte nervsammanbrotten, utan en tacksamhet som envist vägrade lyda hans förnuft.
@@ -62,7 +62,7 @@ Gravitationen är tyst. Den syns inte, känns inte – förrän motståndet upph
 
 Dag Hammarskjöld, ett halvsekel efter Strindberg, fångar ögonblicket då motståndet ger vika – utan dramatik, utan sammanbrott, utan feber:
 
-> Jag vet inte Vem – eller vad – som ställde frågan. Jag vet inte när den ställdes. Jag minns inte att jag svarade. Men en gång svarade jag ja till Någon – eller Något.[^9]
+> Jag vet ej vem – eller vad – som ställde frågan. Jag vet ej när den ställdes. Jag minns ej att jag svarade. Men en gång svarade jag ja till någon – eller något.[^9]
 
 Frånvaron av dramatik gör vittnesmålet svårare att avfärda. Strindbergs erfarenhet kan skyllas på sammanbrott; Hammarskjölds kan det inte. Att samma rörelse sker utan sjukdom antyder att krisen inte *skapar* den – den gör den synlig. Det stilla jaet och det febrila fallet är samma gravitation i olika hastigheter.
 

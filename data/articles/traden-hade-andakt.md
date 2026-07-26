@@ -7,7 +7,7 @@ description: "Kolvaktaren sitter ensam i natten och lyssnar. Runt honom arbetar 
 audioFile: "traden-hade-andakt.mp3"
 audioDuration: 498
 imageAlt: "En ensam kolare sitter vid en glödande, rykande kolmila i en skogsglänta under stjärnhimlen om natten."
-imageCaption: "Kolvaktaren i natten — och träden runt omkring i andakt."
+imageCaption: "Kolvaktaren i natten – och träden runt omkring i andakt."
 category: "Skapelsen"
 ---
 Kolvaktaren sitter ensam i natten och lyssnar. Runt honom arbetar elden sakta under milan; ovanför honom står stjärnorna orörliga på sina banor. Och träden – träden har andakt. Dan Andersson skrev det i *David Ramms arv* med en bitterhet som bara den hör som läser noga:
@@ -46,7 +46,7 @@ Samma kör finns i sura al-Isrā:
 
 Träden, stjärnorna, backrinkorna – den kör Andersson bevittnade finns i den koraniska världsbilden, och den sjunger utan uppehåll. Men versen slutar med ett förbehåll: *ni förstår inte*. Människan hör kören. Hon har bara glömt hur man lyssnar.
 
-Men Koranen nöjer sig inte med det — den kräver att människan *väljer* att delta: "Dyrka Mig och förrätta bönen för att åminnas Mig."[^10] Versen kunde ha sagt *upplev* eller *känn*. Den säger *åminns* – *udhkurni*. Åminnelsen, *dhikr*, är handling före känsla, övning före stämning. Tungan formar ett namn innan hjärtat hunnit vakna. Denna omkastning är svaret på det svenska glappet. Naturandligheten börjar med känslan och hoppas att handlingen skall följa. Men känslan kommer och går: den infinner sig när skogen rör sig och försvinner när man lämnar gläntan. Börjar man med handlingen är man inte längre beroende av att bli berörd.
+Men Koranen nöjer sig inte med det – den kräver att människan *väljer* att delta: "Dyrka Mig och förrätta bönen för att åminnas Mig."[^10] Versen kunde ha sagt *upplev* eller *känn*. Den säger *åminns* – *udhkurni*. Åminnelsen, *dhikr*, är handling före känsla, övning före stämning. Tungan formar ett namn innan hjärtat hunnit vakna. Denna omkastning är svaret på det svenska glappet. Naturandligheten börjar med känslan och hoppas att handlingen skall följa. Men känslan kommer och går: den infinner sig när skogen rör sig och försvinner när man lämnar gläntan. Börjar man med handlingen är man inte längre beroende av att bli berörd.
 
 Den som låter bli har ett namn i Koranen: "Satan har tagit över dem och fått dem att släppa Allah ur minnet."[^11] Den som hör kören men aldrig svarar väljer fångenskap.
 

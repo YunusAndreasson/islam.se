@@ -7,7 +7,7 @@ description: "Gunnar på Hlíðarendi är dömd till landsflykt. När han vände
 audioFile: "vikingarna-hade-inte-angest.mp3"
 audioDuration: 411
 imageAlt: "Närbild på en ärrad vikingakrigare med flätat hår och pälsmantel, med långskepp och en dimmig fjord i bakgrunden."
-imageCaption: "Lugnet kom inte av okunskap — krigaren som visste var han stod."
+imageCaption: "Lugnet kom inte av okunskap – krigaren som visste var han stod."
 category: "Norden"
 ---
 Gunnar på Hlíðarendi, dömd till landsflykt, vänder sig i sadeln och ser ut över sin gård. Ängarna lyser klarare än någonsin. Han stiger av hästen och stannar – väl medveten om att beslutet kostar honom livet.
@@ -80,7 +80,7 @@ Samma Karin Boye som kallade ångesten outtömlig fann ett ögonblicks klarhet i
 
 Boye nådde insikten men kunde inte stanna kvar i den. Överlåtelse utan mottagare är bara uppgivenhet. Dag Hammarskjöld fann ordningen i kristen tro. I *Vägmärken* tecknade han ögonblicket:
 
-> Jag vet inte vem – eller vad – som ställde frågan, jag vet inte när den ställdes. Jag minns inte att jag svarade. Men en gång svarade jag ja till någon – eller något – och från den stunden har jag varit viss om att tillvaron är meningsfull och att mitt liv, i underkastelse, har ett mål.[^15]
+> Jag vet ej vem – eller vad – som ställde frågan. Jag vet ej när den ställdes. Jag minns ej att jag svarade. Men en gång svarade jag ja till någon – eller något. Från den stunden härrör vissheten att tillvaron är meningsfylld och att mitt liv därför, i underkastelse, har ett mål.[^15]
 
 Vikingarna vilade i det givna, men deras ordning var kall och opersonlig. Den moderna svensken saknar både vila och ordning. Koranen varnar för vad som händer när tillit fästs vid det skapade i stället för Skaparen:
 

@@ -26,11 +26,20 @@ faq:
     a: "Ja. Det första uppenbarade ordet var 'Läs', och både Koranen och profetens sunna ålägger den troende att söka kunskap."
 sources:
   - name: "Koranen 96:1–5"
+    url: "https://quran.com/96/1-5?translations=48"
   - name: "Koranen 39:9"
+    url: "https://quran.com/39/9?translations=48"
   - name: "Sunan Ibn Mājah 224"
-  - name: "George Saliba, Islamic Science and the Making of the European Renaissance"
+    url: "https://sunnah.com/ibnmajah:224"
+  - name: "George Saliba, Islamic Science and the Making of the European Renaissance (MIT Press, 2007)"
   - name: "Wikipedia – Islamic Golden Age"
     url: "https://en.wikipedia.org/wiki/Islamic_Golden_Age"
+  - name: "Wikipedia – House of Wisdom (Bayt al-Hikma)"
+    url: "https://en.wikipedia.org/wiki/House_of_Wisdom"
+  - name: "Wikipedia – History of Baghdad (folkmängden under abbasiderna, spridda uppskattningar)"
+    url: "https://en.wikipedia.org/wiki/History_of_Baghdad"
+  - name: "Wikipedia – Siege of Baghdad (1258)"
+    url: "https://en.wikipedia.org/wiki/Siege_of_Baghdad"
 related:
   - "det-muslimska-spanien-al-andalus"
   - "islam-och-big-bang"
@@ -44,7 +53,7 @@ essays:
 
 ## När inföll den islamiska guldåldern?
 
-Den islamiska guldåldern brukar räknas från mitten av 700-talet till mongolernas plundring av Bagdad år 1258, och sammanföll med abbasidernas storhetstid. Dynastin flyttade huvudstaden från Damaskus till det nygrundade Bagdad år 762, och under kaliferna Harun al-Rashid (786–809) och hans son al-Maʾmūn (813–833) växte staden till ett lärdomscentrum utan motstycke. Vid sekelskiftet 800 hade Bagdad kanske en miljon invånare och var världens största stad utanför Kina. Men epoken var aldrig bunden till en enda stad. Kunskapen flödade i ett nät som sträckte sig från Cordoba i muslimska Spanien, *al-Andalus*, i väster till Samarkand och Buchara i öster, och blomstringen fortsatte långt efter att kalifatet börjat vittra sönder.
+Den islamiska guldåldern brukar räknas från mitten av 700-talet till mongolernas plundring av Bagdad år 1258, och sammanföll med abbasidernas storhetstid. Dynastin flyttade huvudstaden från Damaskus till det nygrundade Bagdad år 762, och under kaliferna Harun al-Rashid (786–809) och hans son al-Maʾmūn (813–833) växte staden till ett lärdomscentrum utan motstycke. Hur folkrik staden hann bli råder ingen enighet om: uppskattningarna för 800-talets Bagdad spänner från ett par hundra tusen invånare till långt över en miljon. Att den under abbasidernas höjdpunkt hörde till världens största städer, i klass med Chang'an i Kina, är däremot väl belagt. Men epoken var aldrig bunden till en enda stad. Kunskapen flödade i ett nät som sträckte sig från Cordoba i muslimska Spanien, *al-Andalus*, i väster till Samarkand och Buchara i öster, och blomstringen fortsatte långt efter att kalifatet börjat vittra sönder.
 
 ## Vad var Vishetens hus i Bagdad?
 
@@ -56,13 +65,13 @@ Namnen är många och deras avtryck konkreta. Matematikern al-Khwārizmī (cirka
 
 ## Varför uppmuntrar islam kunskap?
 
-Drivkraften var inte sekulär nyfikenhet utan en religiös plikt. Det allra första som uppenbarades för profeten Muhammed var en uppmaning att läsa:
+Drivkraften var en religiös plikt snarare än sekulär nyfikenhet. Det allra första som uppenbarades för profeten Muhammed var en uppmaning att läsa:
 
 > LÄS I din Herres namn, Han som har skapat – skapat människan av en grodd som sätter sig fast! Läs! Din Herre är den Främste Givaren, som har lärt [människan] pennans [bruk], lärt människan vad hon inte visste!
 > — Koranen 96:1–5
 
-Koranen återkommer ständigt till klyftan mellan vetande och okunnighet: "Kan de som har kunskap likställas med dem som inte har kunskap?" (Koranen 39:9). Profeten sade vidare: "Att söka kunskap är en plikt för varje muslim" (Sunan Ibn Mājah 224). För den troende var det att studera stjärnorna, kroppen eller talen ett sätt att läsa Guds tecken, *āyāt*, i skapelsen. Att lära känna det skapade var att närma sig Skaparen, och så blev vetandet en del av *tawhīd*. Plikten var dessutom handfast: böneriktningen mot Kaba, de fem dagliga bönetiderna och nymånen som inleder ramadan kunde inte fastställas utan astronomi och matematik. Fromheten ställde frågorna som vetenskapen fick besvara.
+Koranen återkommer ständigt till klyftan mellan vetande och okunnighet: "Kan de som vet likställas med de som inte vet?" (Koranen 39:9). Profeten sade vidare: "Att söka kunskap är en plikt för varje muslim" (Sunan Ibn Mājah 224). För den troende var det att studera stjärnorna, kroppen eller talen ett sätt att läsa Guds tecken, *āyāt*, i skapelsen. Att lära känna det skapade var att närma sig Skaparen, och så blev vetandet en del av *tawhīd*. Plikten var dessutom handfast: böneriktningen mot Kaba, de fem dagliga bönetiderna och nymånen som inleder ramadan kunde inte fastställas utan astronomi och matematik. Fromheten ställde frågorna som vetenskapen fick besvara.
 
 ## Stred tron mot vetenskapen, och varför tog guldåldern slut?
 
-Den populära berättelsen att en strängare islam, ofta personifierad av teologen al-Ghazālī, "dödade" vetenskapen håller inte för granskning. al-Ghazālī kritiserade den grekiska *falsafans* metafysiska anspråk, inte matematik, medicin eller astronomi, och vetenskapshistoriker som George Saliba har visat att den islamiska astronomin nådde nya höjder ända in på 1500-talet. Tusentals vetenskapliga verk skrevs under århundradena efter honom. Det som till slut bröt ned blomstringen var inre politisk söndring och, framför allt, mongolernas förödelse av Bagdad år 1258, då stadens väldiga bibliotek enligt samtida vittnen tömdes i floden. Det var inte en fatwa som släckte Bagdad, utan Tigris som färgades svart av bläcket från dränkta böcker.
+Den populära berättelsen att en strängare islam, ofta personifierad av teologen al-Ghazālī, "dödade" vetenskapen håller inte för granskning. al-Ghazālī kritiserade den grekiska *falsafans* metafysiska anspråk, inte matematik, medicin eller astronomi, och vetenskapshistoriker som George Saliba har visat att den islamiska astronomin nådde nya höjder ända in på 1500-talet. Tusentals vetenskapliga verk skrevs under århundradena efter honom. Det som till slut bröt ned blomstringen var inre politisk söndring och, framför allt, mongolernas förödelse av Bagdad år 1258, då stadens bibliotek brändes och plundrades. Bilden av en Tigris svart av bläck från dränkta böcker hör hemma i senare krönikor snarare än hos ögonvittnena, men den fångar rätt sak: det var svärdet som släckte Bagdad, inte en fatwa.

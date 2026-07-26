@@ -18,7 +18,7 @@ Strindberg iakttog, Key angrep, Le Bon obducerade. Koranen förklarar *varför*.
 
 ## Den oprövade premissen
 
-Den liberala demokratin vilar på en outtalad premiss: att folkviljan, genom rätt förfarande, närmar sig det goda. Förfarandet ger enighet, legitimitet, det minst skadliga – aldrig sanning. Premissen har aldrig bevisats. Bara antagits.
+Den liberala demokratin vilar på en outtalad premiss: att folkviljan, genom rätt förfarande, närmar sig det goda. Förfarandet ger enighet, rättmätighet, det minst skadliga – aldrig sanning. Premissen har aldrig bevisats. Bara antagits.
 
 Sverige ger två exempel. År 1955 avskaffade riksdagen motbokssystemet, det så kallade Brattsystemet, trots att den medicinska expertisen varnade för konsekvenserna. Alkoholkonsumtionen steg. Skadorna följde. Riksdagen hade talat i folkets namn, och den hade fel.[^5] Men saken är inte enkel: Brattsystemet var också ett redskap för klasskontroll, där läkare och byråkrater godtyckligt begränsade fattiga medborgares inköp medan överklassen drack obehindrat. Experternas sanning var verklig men förmedlades genom förnedring. Demokratin löste ett rättviseproblem och skapade ett folkhälsoproblem, utan medel att hantera konflikten.
 

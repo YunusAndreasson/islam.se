@@ -20,7 +20,7 @@ Han hade sökt sin Gud alltifrån barndomen, skrev han, och funnit demonen.[^3] 
 
 ## Tre rader
 
-Fjorton sekler före Strindberg restes samma fråga, renare:
+Tretton sekler före Strindberg restes samma fråga, renare:
 
 > Har de skapats av ingenting, eller är det de själva som är skaparna? Eller har de skapat himlarna och jorden?[^4]
 

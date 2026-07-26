@@ -1,7 +1,7 @@
 ---
 title: "Vad säger islam om månggudadyrkan (shirk)?"
 question: "Vad säger islam om månggudadyrkan?"
-description: "Månggudadyrkan kallas shirk och är islams enda oförlåtliga synd — men bara för den som dör utan ånger. Så ser tawhīd på hinduismens gudar och treenigheten."
+description: "Månggudadyrkan kallas shirk och är islams enda oförlåtliga synd – men bara för den som dör utan ånger. Så ser tawhīd på hinduismens gudar och treenigheten."
 publishedAt: "2026-06-23T00:00:00Z"
 keywords:
   - "månggudadyrkan islam"
@@ -24,12 +24,19 @@ faq:
     a: "Genom trosbekännelsen, shahāda, som förnekar alla andra gudar och bekräftar en enda, och genom att rikta all dyrkan uppriktigt till Gud ensam."
 sources:
   - name: "Koranen 4:48"
+    url: "https://quran.com/4/48?translations=48"
   - name: "Koranen 21:22"
+    url: "https://quran.com/21/22?translations=48"
   - name: "Koranen 31:13"
+    url: "https://quran.com/31/13?translations=48"
   - name: "Sahīh al-Bukhārī 4477"
+    url: "https://sunnah.com/bukhari:4477"
   - name: "Sahīh al-Bukhārī 4287"
+    url: "https://sunnah.com/bukhari:4287"
   - name: "al-ibadah.com – Avgudadyrkan (shirk)"
     url: "https://al-ibadah.com/troslara/shirk"
+  - name: "Wikipedia – Conquest of Mecca (år 630)"
+    url: "https://en.wikipedia.org/wiki/Conquest_of_Mecca"
 related:
   - "vad-ar-tawhid"
   - "islams-gudssyn"
@@ -39,7 +46,7 @@ essays:
   - "odins-blinda-flack"
 ---
 
-**Månggudadyrkan, på arabiska *shirk*, är att ge någon eller något del i det som tillhör Gud ensam — och i islam är det den enda synd som aldrig förlåts den som dör utan att ha ångrat sig.** *Shirk* är den raka motsatsen till *tawhīd*, tron på Guds absoluta enhet, och därmed religionens allvarligaste överträdelse: den angriper själva grunden som allt annat vilar på.
+**Månggudadyrkan, på arabiska *shirk*, är att ge någon eller något del i det som tillhör Gud ensam – och i islam är det den enda synd som aldrig förlåts den som dör utan att ha ångrat sig.** *Shirk* är den raka motsatsen till *tawhīd*, tron på Guds absoluta enhet, och därmed religionens allvarligaste överträdelse: den angriper själva grunden som allt annat vilar på.
 
 ## Vad är shirk och vad är dess motsats?
 
@@ -61,7 +68,7 @@ När en följeslagare frågade profeten Muhammed vilken synd som är störst sva
 
 ## Vad skiljer stor från liten shirk?
 
-Klassiska lärde delar *shirk* i två grader. Större *shirk* (*ash-shirk al-akbar*) är att rikta dyrkan (bön, offer, åkallan, tillit) till någon annan än Gud, och den försätter en människa utanför islam (al-ibadah.com, *Avgudadyrkan*). Mindre *shirk* (*ash-shirk al-asghar*) upphäver inte tron men räknas som en svår synd. Det främsta exemplet är *riyāʾ*: att utföra fromma handlingar för människors skull i stället för Guds. Hit hör också att svära vid något annat än Gud. Farligast av allt är den tysta *shirk*: *riyāʾ* som bor i hjärtat hos den som ber, fastar och skänker allmosa inför andras blickar.
+Klassiska lärda delar *shirk* i två grader. Större *shirk* (*ash-shirk al-akbar*) är att rikta dyrkan (bön, offer, åkallan, tillit) till någon annan än Gud, och den försätter en människa utanför islam. Mindre *shirk* (*ash-shirk al-asghar*) upphäver inte tron men räknas som en svår synd. Det främsta exemplet är *riyāʾ*: att utföra fromma handlingar för människors skull i stället för Guds. Hit hör också att svära vid något annat än Gud. Farligast av allt är den tysta *shirk*: *riyāʾ* som bor i hjärtat hos den som ber, fastar och skänker allmosa inför andras blickar.
 
 ## Vad säger islam om hinduismens och antikens många gudar?
 

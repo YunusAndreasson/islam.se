@@ -23,10 +23,15 @@ faq:
     a: "Ibland prövas människan redan här, men den fulla räkenskapen sker i livet efter detta. Lön och straff är knutna till domedagen, inte till en mekanisk återbetalning."
 sources:
   - name: "Koranen 23:99–100"
+    url: "https://quran.com/23/99-100?translations=48"
   - name: "Koranen 25:70"
+    url: "https://quran.com/25/70?translations=48"
   - name: "Koranen 53:38–39"
+    url: "https://quran.com/53/38-39?translations=48"
   - name: "Koranen 99:6–8"
+    url: "https://quran.com/99/6-8?translations=48"
   - name: "Sahīh al-Bukhārī 1"
+    url: "https://sunnah.com/bukhari:1"
   - name: "al-ibadah.com – Domedagen och dess tecken"
     url: "https://al-ibadah.com/troslara/domedagen-och-tecknen-infor-den/"
 related:
@@ -38,7 +43,7 @@ related:
 **Nej, muslimer tror inte på karma.** Islam avvisar tanken på en opersonlig kosmisk lag som av sig själv lönar och bestraffar våra handlingar genom ständig återfödelse. I stället är *tawhīd*, Guds absoluta enhet, ramen: varje gärning vägs och vedergälls av Gud (*Allāh*) själv, i ett enda liv och inför domedagen, med dörren till ånger alltid öppen.
 
 ## Vad betyder karma, och varför avvisar islam tanken?
-Ordet *karma* är sanskrit och betyder helt enkelt "handling" eller "gärning", av roten *kṛ*, "att göra". Läran är central i de indiska religionerna (hinduism, buddhism, jainism och sikhism) och beskriver en opersonlig morallag av orsak och verkan: goda och onda handlingar föder konsekvenser som följer själen genom *samsara*, kretsloppet av födelse, död och återfödelse, ända tills den till slut befrias (*moksha* eller *nirvana*). Islam förkastar själva utgångspunkten. Det finns ingen självgående mekanism som dömer i universum, och ingen själ som vandrar vidare för att kvitta gamla skulder. Allt vilar i stället på Gud, *al-Hakam* (Domaren), vars vetande och vilja (*qadar*) omsluter varje skeende. I islam dömer ingen lag i Guds ställe.
+Ordet *karma* är sanskrit och betyder helt enkelt "handling" eller "gärning", av roten *kr*, "att göra". Läran är central i de indiska religionerna (hinduism, buddhism, jainism och sikhism) och beskriver en opersonlig morallag av orsak och verkan: goda och onda handlingar föder konsekvenser som följer själen genom *samsara*, kretsloppet av födelse, död och återfödelse, ända tills den till slut befrias (*moksha* eller *nirvana*). Islam förkastar själva utgångspunkten. Det finns ingen självgående mekanism som dömer i universum, och ingen själ som vandrar vidare för att kvitta gamla skulder. Allt vilar i stället på Gud, *al-Hakam* (Domaren), vars vetande och vilja (*qadar*) omsluter varje skeende. I islam dömer ingen lag i Guds ställe.
 
 ## Hur ser islam på gärningar och deras lön?
 Islam har en egen lära om gärningarnas lön, men den heter *jazāʾ* (vedergällning) och fungerar helt annorlunda. Varje handling, hur liten den än är, antecknas av de två skrivande änglarna (*kirām al-kātibīn*) och vägs på vågen (*al-mīzān*) på Räkenskapens dag. Tron på domedagen och tron på ödet (*qadar*) hör båda till islams sex trosartiklar. Koranen är tydlig med att ingenting faller utanför denna räkenskap:
@@ -62,7 +67,7 @@ Någon andra chans ges aldrig. Och ingen själ bär en annans börda, lika lite 
 Var och en bär sin egen börda, en enda gång.
 
 ## Kan man arbeta bort dålig karma i islam?
-Här blir skillnaden som skarpast. Karma är automatisk: följden klistrar sig fast vid själen som en naturlag, oåterkalleligt. I islam är ingen utgång mekanisk. Allt vilar på Guds barmhärtighet. Uppriktig ånger (*tawba*) kan radera en synd helt, och goda gärningar utplånar onda. Vänder den troende om, lovar Gud till och med att byta ut det förflutna:
+Karma är automatisk: följden klistrar sig fast vid själen som en naturlag, oåterkalleligt. I islam är ingen utgång mekanisk. Allt vilar på Guds barmhärtighet. Uppriktig ånger (*tawba*) kan radera en synd helt, och goda gärningar utplånar onda. Vänder den troende om, lovar Gud till och med att byta ut det förflutna:
 
 > I stället för deras dåliga handlingar skall Gud sätta goda handlingar, därför att Gud är ständigt förlåtande, barmhärtig.
 > — Koranen 25:70

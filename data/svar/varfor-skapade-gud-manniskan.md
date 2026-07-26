@@ -21,11 +21,17 @@ faq:
     a: "Koranen 2:30 beskriver människan som khalīfa på jorden – en förvaltare med ett anförtrott uppdrag och ett ansvar hon en dag ska redovisa inför Gud."
 sources:
   - name: "Koranen 51:56"
+    url: "https://quran.com/51/56?translations=48"
   - name: "Koranen 23:115"
+    url: "https://quran.com/23/115?translations=48"
   - name: "Koranen 67:2"
+    url: "https://quran.com/67/2?translations=48"
   - name: "Koranen 2:30"
+    url: "https://quran.com/2/30?translations=48"
   - name: "Sahīh al-Bukhārī 2856"
+    url: "https://sunnah.com/bukhari:2856"
   - name: "Sahīh Muslim 30"
+    url: "https://sunnah.com/muslim:30"
   - name: "Ibn Taymiyya, al-ʿUbūdiyya"
   - name: "al-ibadah.com – Troslära: tawḥīd"
     url: "https://al-ibadah.com/troslara/tawhid"
@@ -35,7 +41,7 @@ related:
   - "tro-och-handling-i-islam"
 ---
 
-**Gud skapade människan för att hon ska känna, dyrka och tjäna Honom ensam.** Det är det enda syfte Koranen själv anger, klart uttalat i sura *adh-Dhāriyāt* (51:56), och hela meningen ramas in av *tawḥīd*, tron på Guds absoluta enhet. Människan är inte en biprodukt av blind slump utan skapad med ett mål: att rikta sin kärlek, sin lydnad och sin tillbedjan mot sin Skapare.
+**Gud skapade människan för att hon ska känna, dyrka och tjäna Honom ensam.** Det är det enda syfte Koranen själv anger, klart uttalat i sura *adh-Dhāriyāt* (51:56), och hela meningen ramas in av *tawhīd*, tron på Guds absoluta enhet. Människan är skapad med ett mål: att rikta sin kärlek, sin lydnad och sin tillbedjan mot sin Skapare.
 
 ## Vad säger Koranen om varför Gud skapade människan?
 
@@ -44,15 +50,15 @@ Koranen ger ett ovanligt rakt svar på en av mänsklighetens äldsta frågor. I 
 > "Jag har skapat de osynliga väsendena och människorna enbart för att de skall [känna Mig och] dyrka Mig."
 > — Koranen 51:56
 
-Verbet är *dyrka*, på arabiska *ʿibāda*, och orden gäller både *jinn* (de osynliga väsendena) och människor. Att *jinn* nämns vid sidan av människan visar att ändamålet inte är godtyckligt knutet till en enda art, utan gäller allt skapat som fått förnuft och vilja. I den klassiska läran är tillvarons mål därför ingen gåta som var och en måste lösa på egen hand. Svaret står redan skrivet i den uppenbarelse människan har fått. Lägg märke till ett enda ord i versen: *enbart*. Det finns inget annat uttalat skäl till att människan finns till.
+Verbet är *dyrka*, på arabiska *ʿibāda*, och orden gäller både *jinn* (de osynliga väsendena) och människor. Att *jinn* nämns vid sidan av människan visar att ändamålet inte är godtyckligt knutet till en enda art, utan gäller allt skapat som fått förnuft och vilja. I den klassiska läran är tillvarons mål därför ingen gåta som var och en måste lösa på egen hand. Svaret står redan skrivet i den uppenbarelse människan har fått. Ett enda ord i versen bär hela svaret: *enbart*. Något annat skäl till att människan finns till anges inte.
 
 ## Betyder "dyrkan" bara bön och ritualer?
 
-Nej, och här missförstås islam ofta. *ʿibāda* är inte begränsat till bön, fasta eller pilgrimsfärd. Ibn Taymiyya ger den klassiska definitionen: dyrkan är "ett heltäckande namn för allt Gud älskar och är nöjd med, av ord och handlingar, yttre som inre". Det innebär att också ärlighet i affärer, vänlighet mot föräldrar och arbete med rätt avsikt räknas som dyrkan, när det görs för Guds skull. Ibn al-Qayyim beskrev kärnan i denna hållning som den renaste kärleken förenad med fullkomlig ödmjukhet inför Gud. Dyrkan är i islam inte en avdelning av livet, utan hela livets inriktning.
+Nej. Begreppet är vidare än så: *ʿibāda* rymmer långt mer än bön, fasta och pilgrimsfärd. Ibn Taymiyya ger den klassiska definitionen: dyrkan är "ett heltäckande namn för allt Gud älskar och är nöjd med, av ord och handlingar, yttre som inre". Det innebär att också ärlighet i affärer, vänlighet mot föräldrar och arbete med rätt avsikt räknas som dyrkan, när det görs för Guds skull. Ibn al-Qayyim beskrev kärnan i denna hållning som den renaste kärleken förenad med fullkomlig ödmjukhet inför Gud. Dyrkan är i islam inte en avdelning av livet, utan hela livets inriktning.
 
 ## Behöver Gud människans dyrkan?
 
-Nej. Gud är *al-Ghaniyy*, den fullkomligt självtillräcklige, som varken stärks av lydnad eller försvagas av olydnad. Att människan dyrkar Honom tillför Honom ingenting. Profeten Muhammad förklarade förhållandet för sin följeslagare Muʿādh ibn Jabal:
+Nej. Gud är *al-Ghaniyy*, den fullkomligt självtillräcklige, som varken stärks av lydnad eller försvagas av olydnad. Att människan dyrkar Honom tillför Honom ingenting. Profeten Muhammed förklarade förhållandet för sin följeslagare Muʿādh ibn Jabal:
 
 > "Guds rätt över Sina tjänare är att de dyrkar Honom och inte sätter något vid Hans sida; och tjänarnas rätt över Gud är att Han inte straffar den som inte sätter något vid Hans sida."
 > — Sahīh al-Bukhārī 2856; Sahīh Muslim 30
@@ -75,4 +81,4 @@ Då försvinner själva grunden för att tala om mening. Koranen ställer fråga
 > "Trodde ni att Vi skapade er för nöjes skull och att ni inte skulle föras tillbaka till Oss?"
 > — Koranen 23:115
 
-Utan en Skapare som handlat med avsikt blir tillvaron mållös och döden ett slut utan räkenskap. Islams svar är det motsatta: människan är skapad med ett ändamål, ansvarig inför Gud och på väg tillbaka till Honom. Trosbekännelsen (*shahāda*), "det finns ingen gud utom Gud", är inte bara islams första pelare utan en komprimerad sammanfattning av hela människans uppgift. Den som vet varför hon skapades vet också vart hon är på väg; den som förnekar frågan blir till sist en gåta för sig själv.
+Utan en Skapare som handlat med avsikt blir tillvaron mållös och döden ett slut utan räkenskap. Islams svar är det motsatta: människan är skapad med ett ändamål, ansvarig inför Gud och på väg tillbaka till Honom. Trosbekännelsen (*shahāda*), "det finns ingen gud utom Gud", är islams första pelare och på samma gång hela människans uppgift i en enda mening. Den som vet varför hon skapades vet också vart hon är på väg; den som förnekar frågan blir till sist en gåta för sig själv.

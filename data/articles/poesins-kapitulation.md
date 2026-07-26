@@ -38,7 +38,7 @@ Häri döljer sig essäns hårdaste insikt. Walīd var inte en tillfällig åhö
 
 ## Ordning, inte ordval
 
-Varför kunde inte ens den främste poeten i sin generation upprepa det han hört? ʿAbd al-Qāhir al-Jurjānī – tusentalets skarpaste retoriker – ägnade sitt livsverk åt den frågan. Hans teori om *naẓm*, kompositionens ordning, visade att innebörden i en arabisk sats inte bara bärs av orden utan av deras uppställning.[^5] Placeringen av ett subjekt, fördröjningen av ett predikat, valet att framskjuta eller hålla tillbaka en satsdel: allt detta skapar mening som det enskilda ordet aldrig bär ensamt. Ett enda ord bär olika tyngd beroende på var det faller i satsen; positionen styr innebörden lika mycket som ordvalet.
+Varför kunde inte ens den främste poeten i sin generation upprepa det han hört? ʿAbd al-Qāhir al-Jurjānī – tusentalets skarpaste retoriker – ägnade sitt livsverk åt den frågan. Hans teori om *naẓm*, kompositionens ordning, visade att innebörden i en arabisk sats inte bara bärs av orden utan av deras uppställning.[^5] Placeringen av ett subjekt, fördröjningen av ett predikat, valet att framskjuta eller hålla tillbaka en satsdel: allt detta skapar mening som det enskilda ordet aldrig bär ensamt. Ett enda ord bär olika tyngd beroende på var det faller i satsen; platsen styr innebörden lika mycket som ordvalet.
 
 I Koranen var denna ordning utan motstycke. Form och innehåll var oskiljaktiga – att ändra ordningen var att ändra innebörden. Att efterhärma Koranens stil krävde därför inte poetisk begåvning utan uppfinningen av en helt ny satsbyggnad. Och en ny ordning är inte längre en kopia.[^6]
 

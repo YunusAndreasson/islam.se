@@ -26,10 +26,14 @@ faq:
     a: "Nej. Preventivmedel som hindrar befruktning är en annan fråga än abort, som avbryter en redan påbörjad graviditet. De flesta lärde tillåter familjeplanering med preventivmedel av giltiga skäl, medan abort förblir förbjuden utom i de undantagsfall som nämns ovan."
 sources:
   - name: "Koranen 17:31"
+    url: "https://quran.com/17/31?translations=48"
   - name: "Koranen 23:13–14"
+    url: "https://quran.com/23/13-14?translations=48"
   - name: "Sahīh al-Bukhārī 3208"
+    url: "https://sunnah.com/bukhari:3208"
   - name: "Sahīh Muslim 2643"
-  - name: "islamqa.info – Abort av foster före 40 och 120 dagar"
+    url: "https://sunnah.com/muslim:2643"
+  - name: "islamqa.info (Muhammad Sālih al-Munajjid) – Abort av foster före 40 och 120 dagar"
     url: "https://islamqa.info/en/answers/171943"
 related:
   - "vad-ar-sharia"
@@ -37,25 +41,25 @@ related:
   - "trosbekannelsen-shahada"
 ---
 
-**Abort är enligt islam i grunden förbjudet (*ḥarām*), eftersom livet är heligt och fostret en skapelse vars liv ytterst tillhör Gud.** Förbudet är ovillkorligt efter 120 dagar, då själen (*rūḥ*) anses blåsas in i fostret; därefter likställs abort med att döda en människa, med ett enda undantag – att rädda moderns liv. Före den gränsen skiljer sig de klassiska lagskolorna åt, men ingen av dem tillåter abort av bekvämlighet eller av rädsla för fattigdom.
+**Abort är enligt islam i grunden förbjudet (*harām*), eftersom livet är heligt och fostret en skapelse vars liv ytterst tillhör Gud.** Förbudet är ovillkorligt efter 120 dagar, då själen (*rūh*) anses blåsas in i fostret; därefter likställs abort med att döda en människa, med ett enda undantag – att rädda moderns liv. Före den gränsen skiljer sig de klassiska lagskolorna åt, men ingen av dem tillåter abort av bekvämlighet eller av rädsla för fattigdom.
 
 ## Varför ser islam fostret som ett liv värt att skydda?
 
-Människolivet är i islam okränkbart därför att det tillhör Gud, inte människan – en direkt följd av *tawḥīd*, tron på Guds enhet och oinskränkta herravälde. I det förislamiska Arabien förekom att nyfödda flickor begravdes levande (*waʾd*) av fattigdom och skam; Koranen avskaffade seden och bröt med själva tanken att ett barn kan offras för försörjningens skull:
+Människolivet är i islam okränkbart därför att det tillhör Gud, inte människan, en direkt följd av *tawhīd*, tron på Guds enhet och oinskränkta herravälde. I det förislamiska Arabien förekom att nyfödda flickor begravdes levande (*waʾd*) av fattigdom och skam; Koranen avskaffade seden och bröt med själva tanken att ett barn kan offras för försörjningens skull:
 
 > Döda inte era barn av rädsla för fattigdom; Vi sörjer för dem och för er. Att döda [dem] är en svår synd.
 > — Koranen 17:31
 
-Versen riktar sig mot spädbarnsdråp, men de lärde har av samma princip läst ut ett skydd för fostret: ett kommande liv får inte släckas för att det är obekvämt eller dyrt. Den som dödar sitt barn av rädsla för fattigdom misstror till sist inte sin försörjning, utan sin Försörjare.
+Versen riktar sig mot spädbarnsdråp, men de lärda har av samma princip läst ut ett skydd för fostret: ett kommande liv får inte släckas för att det är obekvämt eller dyrt. Den som dödar sitt barn av rädsla för fattigdom misstror till sist inte sin försörjning, utan sin Försörjare.
 
 ## Vad innebär "själens inblåsning" efter 120 dagar?
 
-Den avgörande gränsen i islamisk rätt går vid 120 dagar, och den vilar på både Koranen och profetens *sunna*. I en hadith återberättad av Abdullāh ibn Masʿūd beskriver profeten Muhammed fostrets tillblivelse i tre steg om vardera fyrtio dagar – en droppe (*nutfa*), en hängande klump (*ʿalaqa*) och en köttklump (*mudgha*) – varefter en ängel sänds för att blåsa in själen (Sahīh al-Bukhārī 3208; Sahīh Muslim 2643). Samma stegvisa skapelse skildras i Koranen 23:13–14, där droppen blir "en grodd som sätter sig fast" och därefter "en klump". Efter att själen blåsts in räknas fostret som en levande människa: abort blir då enhälligt (*ijmāʿ*) förbjudet och behandlas som dråp, och de lärde ålägger en föreskriven gottgörelse (*ghurra*) för den som dödar ett besjälat foster. Här går islams hårdaste gräns – efter dag 120 är fostret inte längre en möjlighet, utan en själ.
+Den avgörande gränsen i islamisk rätt går vid 120 dagar, och den vilar på både Koranen och profetens *sunna*. I en hadith återberättad av Abdullāh ibn Masʿūd beskriver profeten Muhammed fostrets tillblivelse i tre steg om vardera fyrtio dagar: en droppe (*nutfa*), en hängande klump (*ʿalaqa*) och en köttklump (*mudgha*). Därefter sänds en ängel för att blåsa in själen (Sahīh al-Bukhārī 3208; Sahīh Muslim 2643). Samma stegvisa skapelse skildras i Koranen 23:13–14, där droppen blir "en grodd som sätter sig fast" och därefter "en klump". Efter att själen blåsts in räknas fostret som en levande människa: abort blir då enhälligt (*ijmāʿ*) förbjudet och behandlas som dråp, och de lärda ålägger en föreskriven gottgörelse (*ghurra*) för den som dödar ett besjälat foster. Här går islams hårdaste gräns – efter dag 120 är fostret inte längre en möjlighet, utan en själ.
 
 ## Vad säger de fyra lagskolorna om abort före 120 dagar?
 
-Före själens inblåsning råder oenighet mellan de fyra klassiska lagskolorna (*madhāhib*). Den malikitiska skolan – liksom den zāhiritiska – förbjuder abort i varje skede, ända från befruktningen. Hanbaliterna tillåter i sin etablerade ståndpunkt abort under de första fyrtio dagarna om det finns ett giltigt skäl, men förbjuder därefter. En del hanafiter och shāfiʿiter tillåter abort fram till 120 dagar vid verkligt behov, medan andra inom samma skolor avråder bestämt. Det saudiska lärdomsrådet (Hayʾat Kibār al-ʿUlamāʾ) sammanfattar en utbredd hållning: under de första fyrtio dagarna kan abort vara tillåten om den tjänar ett godtagbart syfte eller avvärjer en verklig skada – men aldrig för att föräldrarna anser sig ha barn nog eller fruktar kostnaden. Skolorna är oeniga om nästan allt utom det avgörande: att "vi har barn nog" aldrig har varit ett giltigt skäl i någon av dem.
+Före själens inblåsning råder oenighet mellan de fyra klassiska lagskolorna (*madhāhib*). Den malikitiska skolan, liksom den zāhiritiska, förbjuder abort i varje skede, ända från befruktningen. Hanbaliterna tillåter i sin etablerade ståndpunkt abort under de första fyrtio dagarna om det finns ett giltigt skäl, men förbjuder därefter. En del hanafiter och shāfiʿiter tillåter abort fram till 120 dagar vid verkligt behov, medan andra inom samma skolor avråder bestämt. Det saudiska lärdomsrådet (Hayʾat Kibār al-ʿUlamāʾ) sammanfattar en utbredd hållning: under de första fyrtio dagarna kan abort vara tillåten om den tjänar ett godtagbart syfte eller avvärjer en verklig skada, men aldrig för att föräldrarna anser sig ha barn nog eller fruktar kostnaden. Skolorna är oeniga om nästan allt utom det avgörande: att "vi har barn nog" aldrig har varit ett giltigt skäl i någon av dem.
 
 ## När är abort tillåtet – och när är det inte det?
 
-Det starkaste och mest samstämmiga undantaget är fara för moderns liv. Står valet mellan modern och fostret väger moderns redan etablerade liv tyngst, och abort tillåts även efter 120 dagar. Vid våldtäkt eller säkerställd, svår fosterskada tillåter en del lärde abort i ett tidigt skede – före 40 eller 120 dagar – medan andra håller fast vid förbudet, eftersom fostret är oskyldigt till hur det blivit till. Däremot avvisar samtliga skolor abort som preventivmedel eller av sociala och ekonomiska bekvämlighetsskäl. För en svensk läsare är tidslinjen talande: gränsen vid 120 dagar infaller kring graviditetsvecka 17 – nästan exakt där den svenska abortlagens fria gräns vid vecka 18 går. Där den svenska lagen ser ett fritt val, ser islam en själ som just fått sitt liv.
+Det starkaste och mest samstämmiga undantaget är fara för moderns liv. Står valet mellan modern och fostret väger moderns redan etablerade liv tyngst, och abort tillåts även efter 120 dagar. Vid våldtäkt eller säkerställd, svår fosterskada tillåter en del lärda abort i ett tidigt skede, före 40 eller 120 dagar, medan andra håller fast vid förbudet, eftersom fostret är oskyldigt till hur det blivit till. Däremot avvisar samtliga skolor abort som preventivmedel eller av sociala och ekonomiska bekvämlighetsskäl. För en svensk läsare är tidslinjen talande: gränsen vid 120 dagar infaller kring graviditetsvecka 17 – nästan exakt där den svenska abortlagens fria gräns vid vecka 18 går. Där den svenska lagen ser ett fritt val, ser islam en själ som just fått sitt liv.

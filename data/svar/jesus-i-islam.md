@@ -24,11 +24,17 @@ faq:
     a: "ʿĪsā ibn Maryam – Jesus, Marias son. I Koranen bär han även hederstiteln al-Masīh, Messias."
 sources:
   - name: "Koranen 19:30"
+    url: "https://quran.com/19/30?translations=48"
   - name: "Koranen 4:171"
+    url: "https://quran.com/4/171?translations=48"
   - name: "Koranen 4:157"
+    url: "https://quran.com/4/157?translations=48"
   - name: "Koranen 5:75"
+    url: "https://quran.com/5/75?translations=48"
   - name: "Koranen 61:6"
+    url: "https://quran.com/61/6?translations=48"
   - name: "Sahīh al-Bukhārī 3448"
+    url: "https://sunnah.com/bukhari:3448"
   - name: "al-ibadah.com – Domedagen och dess tecken (Jesus stiger ned vid tidens ände)"
     url: "https://al-ibadah.com/troslara/domedagen-och-tecknen-infor-den/"
 related:
@@ -37,25 +43,25 @@ related:
   - "vad-sager-islam-om-livet-efter-doden"
 ---
 
-**Jesus – på arabiska *ʿĪsā ibn Maryam* – är i islam en av Guds största profeter och sändebud, men varken Gud eller Guds son.** Muslimer älskar och vördar honom, tror på hans jungfrufödsel och hans under, och väntar på hans återkomst före domedagen – men avvisar bestämt att han korsfästes eller var gudomlig. Att tro på Jesus är ett villkor för att vara muslim; att tillbe honom vore *shirk*, avgudadyrkan.
+**Jesus, på arabiska *ʿĪsā ibn Maryam*, är i islam en av Guds största profeter och sändebud, men varken Gud eller Guds son.** Muslimer älskar och vördar honom, tror på hans jungfrufödsel och hans under, och väntar på hans återkomst före domedagen, men avvisar bestämt att han korsfästes eller var gudomlig. Att tro på Jesus är ett villkor för att vara muslim; att tillbe honom vore *shirk*, avgudadyrkan.
 
 ## Vem är Jesus (Isa) i islam?
 
-Jesus räknas till de fem mest framstående sändebuden (*ulū al-ʿazm*) vid sidan av Noa, Abraham, Mose och Muhammed. Han sändes till Israels barn (*Banū Isrāʾīl*) med en uppenbarad skrift, *Injīl* (evangeliet), och bär i Koranen hederstiteln *al-Masīh* – Messias. Vid namn omnämns han omkring tjugofem gånger. Hans mor Maria (*Maryam*) är den enda kvinna som nämns vid namn i Koranen och den enda efter vilken en hel sura är uppkallad (sura 19). Jesus föddes utan far, genom ett rent Guds påbud, och talade redan som spädbarn i vaggan:
+Jesus räknas till de fem mest framstående sändebuden (*ulū al-ʿazm*) vid sidan av Noa, Abraham, Mose och Muhammed. Han sändes till Israels barn (*Banū Isrāʾīl*) med en uppenbarad skrift, *Injīl* (evangeliet), och bär i Koranen hederstiteln *al-Masīh*, Messias. Vid namn omnämns han omkring tjugofem gånger. Hans mor Maria (*Maryam*) är den enda kvinna som nämns vid namn i Koranen och den enda efter vilken en hel sura är uppkallad (sura 19). Jesus föddes utan far, genom ett rent Guds påbud, och talade redan som spädbarn i vaggan:
 
-> [Barnet] sade: "Jag är Guds tjänare. Han har gett mig uppenbarelsen och kallat mig till profet."
+> [Då talade] han [till dem]: "Jag är Guds tjänare. Han har gett mig uppenbarelsen och kallat mig till profet."
 > — Koranen 19:30
 
 Med Guds tillåtelse botade han blinda och väckte döda. Men varje under bar samma villkor – *med Guds tillåtelse*; det som för andra blev beviset på hans gudomlighet är i islam beviset på motsatsen.
 
 ## Är Jesus Guds son enligt islam?
 
-Nej, och här går den skarpaste skiljelinjen mot kristendomen. Hela islam vilar på *tawhīd* – Guds absoluta enhet – och tanken att Gud skulle ha en son förkastas som *shirk*, att sätta något vid Guds sida. Till bokens folk (*ahl al-kitāb*) riktar Koranen en rak uppmaning:
+Nej, och här går den skarpaste skiljelinjen mot kristendomen. Hela islam vilar på *tawhīd*, Guds absoluta enhet, och tanken att Gud skulle ha en son förkastas som *shirk*, att sätta något vid Guds sida. Till bokens folk (*ahl al-kitāb*) riktar Koranen en rak uppmaning:
 
 > Kristus, Jesus, Marias son, var Guds Sändebud och Hans ord förkunnat för Maria och ande av Hans [ande] … säg inte: "[Gud är] tre."
 > — Koranen 4:171
 
-Treenigheten och tanken på en gudomlig Jesus avvisas alltså uttryckligen. Jesus tillbad själv Gud och åt jordisk föda: "Kristus, Marias son, var inget annat än ett sändebud … Båda åt [jordisk] föda" (Koranen 5:75). Att upphöja en skapad människa till Gud är i islam inte en djupare kärlek till Jesus, utan just den synd han sändes för att utplåna.
+Treenigheten och tanken på en gudomlig Jesus avvisas alltså uttryckligen. Jesus tillbad själv Gud och åt jordisk föda: "Ett sändebud, varken mer eller mindre, var Kristus, Marias son … Båda åt [jordisk] föda" (Koranen 5:75). Att upphöja en skapad människa till Gud är i islam inte en djupare kärlek till Jesus, utan just den synd han sändes för att utplåna.
 
 ## Korsfästes Jesus enligt islam?
 
@@ -68,8 +74,8 @@ I stället upphöjde Gud honom levande till sig. Den klassiska tolkningen, hos e
 
 ## Kommer Jesus tillbaka enligt islam?
 
-Ja. Att Isa återvänder före domedagen tillhör den klassiska islamiska trosläran. Vid tidens ände stiger han ned (*nuzūl ʿĪsā*), dödar den falske Messias *al-Masīh ad-Dajjāl*, bryter korset och styr en tid i rättvisa innan han dör en naturlig död och begravs som vilken människa som helst. Profeten Muhammed sade att Marias son skall stiga ned, "bryta korset och döda svinet" (Sahīh al-Bukhārī 3448). Den permanenta fatwakommittén (*al-Lajna ad-Dāʾima*) räknar nedstigandet bland domedagens stora tecken ([al-ibadah.com](https://al-ibadah.com/troslara/domedagen-och-tecknen-infor-den/)). Han som kristendomen väntar tillbaka som den korsfäste frälsaren återvänder i islam för att med egen hand bryta korset.
+Ja. Att Isa återvänder före domedagen tillhör den klassiska islamiska trosläran. Vid tidens ände stiger han ned (*nuzūl ʿĪsā*), dödar den falske Messias *al-Masīh ad-Dajjāl*, bryter korset och styr en tid i rättvisa innan han dör en naturlig död och begravs som vilken människa som helst. Profeten Muhammed sade att Marias son skall stiga ned, "bryta korset och döda svinet" (Sahīh al-Bukhārī 3448). Den permanenta fatwakommittén (*al-Lajna ad-Dāʾima*) räknar nedstigandet bland domedagens stora tecken. Han som kristendomen väntar tillbaka som den korsfäste frälsaren återvänder i islam för att med egen hand bryta korset.
 
 ## Varför vördar muslimer Jesus?
 
-Därför att alla profeter – från Adam till Muhammed – bar ett och samma budskap: dyrka Gud allena. Jesus förnekade aldrig denna enhet; tvärtom förebådade han enligt Koranen "ett sändebud … vars namn är Ahmad" (Koranen 61:6), det vill säga Muhammed. För en muslim är tron på Jesus därför inte valfri: att förneka honom är att förneka islam, och att smäda honom är förbjudet. Muslimen och den kristne kan båda säga att de älskar Jesus; oenigheten gäller inte om han ska äras, utan om han får tillbes.
+Därför att alla profeter, från Adam till Muhammed, bar ett och samma budskap: dyrka Gud allena. Jesus förnekade aldrig denna enhet; tvärtom förebådade han enligt Koranen "ett sändebud skall komma efter mig vars namn skall vara Ahmad" (Koranen 61:6), det vill säga Muhammed. För en muslim är tron på Jesus därför inte valfri: att förneka honom är att förneka islam, och att smäda honom är förbjudet. Muslimen och den kristne kan båda säga att de älskar Jesus; oenigheten gäller inte om han ska äras, utan om han får tillbes.

@@ -24,8 +24,11 @@ faq:
     a: "Ja. Orden om att 'ge kejsaren det som tillhör kejsaren' ger kristendomen ett utrymme för åtskillnad mellan kyrka och stat; någon sådan tudelning finns inte i islam."
 sources:
   - name: "Koranen 39:38"
+    url: "https://quran.com/39/38?translations=48"
   - name: "Koranen 12:40"
+    url: "https://quran.com/12/40?translations=48"
   - name: "Koranen 6:162"
+    url: "https://quran.com/6/162?translations=48"
   - name: "al-ibadah.com – Definitionen av tawhīd och dess olika typer"
     url: "https://al-ibadah.com/troslara/tawhid/definitionen-av-tawhid-och-dess-olika-typer/"
   - name: "Wikipedia – Deism"
@@ -45,7 +48,7 @@ essays:
 
 ## Vad är deism och sekularism?
 
-Deism är tron, byggd enbart på det mänskliga förnuftet, på en gud som skapade världen men sedan inte ingriper i den — en avlägsen "urmakargud" som varken sänder uppenbarelse, gör under, reser profeter eller besvarar bön. Idén hör hemma i 1600- och 1700-talets Europa; Lord Herbert of Cherbury, vars *De Veritate* utkom 1624, brukar kallas den engelska deismens fader. Sekularism är något annat: principen att religionen ska hållas åtskild från statens och det gemensamma livets angelägenheter. Ordet myntades av den brittiske fritänkaren George Holyoake 1851. Deismen handlar om Gud, sekularismen om samhället. I grunden gör de ändå samma sak: de upphöjer människans eget förnuft till högsta domare, över både himmel och lagbok.
+Deism är tron, byggd enbart på det mänskliga förnuftet, på en gud som skapade världen men sedan inte ingriper i den, en avlägsen "urmakargud" som varken sänder uppenbarelse, gör under, reser profeter eller besvarar bön. Idén hör hemma i 1600- och 1700-talets Europa; Lord Herbert of Cherbury, vars *De Veritate* utkom 1624, brukar kallas den engelska deismens fader. Sekularism är något annat: principen att religionen ska hållas åtskild från statens och det gemensamma livets angelägenheter. Ordet myntades av den brittiske fritänkaren George Holyoake 1851. Deismen handlar om Gud, sekularismen om samhället. I grunden gör de ändå samma sak: de upphöjer människans eget förnuft till högsta domare, över både himmel och lagbok.
 
 ## Varför förkastar islam deismen?
 
@@ -72,7 +75,7 @@ Sekularismen låter alltså Gud behålla himlen men avskedar Honom ur lagboken; 
 
 ## Är deism och sekularism samma sak som ateism?
 
-Nej, och skillnaderna spelar roll. Ateismen förnekar att Gud över huvud taget finns. Deismen behåller Gud men berövar Honom uppenbarelsens röst och varje ingripande i världen. Sekularismen kan tillåta en privat tro men stänger ute den ur lag och samhälle. För islam är ingen av dessa en neutral medelväg: även den som behåller en skapare men förnekar att Han talar och stiftar lag har övergett *tawhīd al-ulūhiyya* och fallit i en form av *shirk*. Skillnaden mellan dem ligger i graden: ateisten stryker Gud, deisten tystar Honom, sekularisten avsätter Honom som lagstiftare. Ingen av de tre når ända fram till att dyrka Gud som den ende.
+Nej, och skillnaderna spelar roll. Ateismen förnekar att Gud över huvud taget finns. Deismen behåller Gud men berövar Honom uppenbarelsens röst och varje ingripande i världen. Sekularismen kan tillåta en privat tro men stänger ute den ur lag och samhälle. För islam är ingen av dessa en neutral medelväg: även den som behåller en skapare men förnekar att Han talar och stiftar lag har övergett *tawhīd al-ulūhiyya* och fallit i en form av *shirk*. Graden skiljer dem åt: ateisten stryker Gud, deisten tystar Honom, sekularisten avsätter Honom som lagstiftare. Ingen av de tre når ända fram till att dyrka Gud som den ende.
 
 ## Hur skiljer sig islams hållning från kristendomens?
 

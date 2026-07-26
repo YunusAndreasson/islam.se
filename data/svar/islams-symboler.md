@@ -15,7 +15,7 @@ faq:
   - q: "Är halvmånen en islamisk symbol?"
     a: "Nej. Halvmånen har ingen grund i Koranen eller sunna. Den blev förknippad med islam först genom Osmanska riket efter erövringen av Konstantinopel 1453."
   - q: "Vilken färg representerar islam?"
-    a: "Grönt förknippas traditionellt med islam och med paradisets dräkter, och sägs ha varit profeten Muhammeds favoritfärg. Det är en sed, inte en föreskrift."
+    a: "Grönt förknippas traditionellt med islam och med paradisets dräkter, som Koranen beskriver i grönt siden. Att färgen skulle ha varit profeten Muhammeds favoritfärg vilar däremot på en svag berättarkedja. Det är en sed, inte en föreskrift."
   - q: "Vad betyder halvmånen (hilāl)?"
     a: "Nymånen markerar början på varje islamisk månad och styr Ramadan, Eid och hajj. Koranen 2:189 kallar nymånarna tidsmarkörer för människorna och för vallfärden."
   - q: "Är det tillåtet att sätta en halvmåne på en moské?"
@@ -24,9 +24,14 @@ faq:
     a: "Trosbekännelsen (shahada) – 'Det finns ingen gud utom Gud' – är det närmaste islam har ett tecken, och den pryder bland annat Saudiarabiens flagga."
 sources:
   - name: "Koranen 2:189"
-  - name: "islamqa.info – Har islam en symbol?"
+    url: "https://quran.com/2/189?translations=48"
+  - name: "Koranen 18:31"
+    url: "https://quran.com/18/31?translations=48"
+  - name: "Grokipedia – Green in Islam"
+    url: "https://grokipedia.com/page/Green_in_Islam"
+  - name: "islamqa.info (Muhammad Sālih al-Munajjid) – Har islam en symbol?"
     url: "https://islamqa.info/en/answers/1528"
-  - name: "islamqa.info – Halvmåne på minaret"
+  - name: "islamqa.info (Muhammad Sālih al-Munajjid) – Halvmåne på minaret"
     url: "https://islamqa.info/en/answers/575/putting-a-crescent-on-top-of-the-minaret-of-a-mosque"
   - name: "Wikipedia – Saudiarabiens flagga"
     url: "https://sv.wikipedia.org/wiki/Saudiarabiens_flagga"
@@ -40,7 +45,7 @@ related:
 
 ## Har islam någon officiell symbol?
 
-Nej. För att fästa ett enda tecken vid islam krävs en grund i Koranen eller *sunna*, och någon sådan finns inte. Varken halvmånen eller stjärnan var känd som muslimskt märke under profeten Muhammeds tid, under de rättledda kaliferna eller under umayyaderna. Den islamiska lärans kärna är *tawḥīd*, Guds absoluta enhet: all dyrkan riktas mot Skaparen ensam, och inget skapat ting får bli föremål för hängivenhet. De tidiga arméerna bar enfärgade fanor – en svart *rāya*, en vit *liwāʾ* – utan skrift eller figurer. Som IslamQA fastslår: "Varken halvmånen eller stjärnorna är muslimernas symboler, även om somliga muslimer använder dem så." Islam föddes utan emblem och har klarat sig utan i fjorton sekler.
+Nej. För att fästa ett enda tecken vid islam krävs en grund i Koranen eller *sunna*, och någon sådan finns inte. Varken halvmånen eller stjärnan var känd som muslimskt märke under profeten Muhammeds tid, under de rättledda kaliferna eller under umayyaderna. Den islamiska lärans kärna är *tawhīd*, Guds absoluta enhet: all dyrkan riktas mot Skaparen ensam, och inget skapat ting får bli föremål för hängivenhet. De tidiga arméerna bar enfärgade fanor, en svart *rāya* och en vit *liwāʾ*, utan skrift eller figurer. Som Muhammad Sālih al-Munajjid fastslår: "Varken halvmånen eller stjärnorna är muslimernas symboler, även om somliga muslimer använder dem så." Islam föddes utan emblem och har klarat sig utan i fjorton sekler.
 
 ## Vad betyder halvmånen (hilāl) i islam?
 
@@ -57,8 +62,8 @@ Symbolens väg in i den muslimska världen går genom en erövrad stad, inte gen
 
 ## Är det tillåtet att använda halvmånen som symbol?
 
-Att använda halvmånen är inte i sig en synd, men den saknar religiös grund – och här går en viktig gräns. Det är skillnad mellan att tillskriva *islam* en symbol, vilket kräver ett heligt belägg, och att en stat eller förening väljer ett emblem, precis som umayyader och abbasider hade sina. Att sätta en halvmåne överst på minareten har däremot ingen grund i religionen, och flera lärda räknar det som en nyhet, *bidʿa*, som inte hör hemma i tron (IslamQA, fatwa 575). Faran är ytterst teologisk: *tawḥīd* förbjuder att det skapade – månen, stjärnorna – ges en helig eller dyrkad roll. Att bära halvmånen är en vana; skulle den vördas vore det avguderi – och just där går gränsen som *tawḥīd* drar.
+Att använda halvmånen är inte i sig en synd, men den saknar religiös grund. Det är skillnad mellan att tillskriva *islam* en symbol, vilket kräver ett heligt belägg, och att en stat eller förening väljer ett emblem, precis som umayyader och abbasider hade sina. Att sätta en halvmåne överst på minareten har däremot ingen grund i religionen, och flera lärda räknar det som en nyhet, *bidʿa*, som inte hör hemma i tron (Muhammad Sālih al-Munajjid, fatwa 575). Faran är ytterst teologisk: *tawhīd* förbjuder att det skapade, månen och stjärnorna, ges en helig eller dyrkad roll. Att bära halvmånen är en vana; att vörda den vore avguderi.
 
 ## Vilka tecken använde de tidiga muslimerna?
 
-I stället för bilder lutade sig de första muslimerna mot färg, ord och skrift. Grönt förknippas traditionellt med islam och med paradisets dräkter och sägs ha varit profeten Muhammeds favoritfärg. Profetens fanor var enfärgade och utan figurer. Till och med Kaba, islams mittpunkt, bär inga bilder – dess svarta täcke (*kiswa*) är broderat med Koranens ord i guld. Det närmaste islam har ett samlande kännetecken är trosbekännelsen, *shahada* – orden som gör en människa till muslim och som binder samman alla som följer profetens väg, *ahl as-sunna*. Saudiarabiens flagga är grön och bär just shahadan, "Det finns ingen gud utom Gud, och Muhammed är Hans sändebud", över ett vitt svärd. Även kalligrafin av Guds namn fyller den rollen bättre än någon halvmåne. Den enda symbol islam självt reser är en mening: "Det finns ingen gud utom Gud."
+I stället för bilder lutade sig de första muslimerna mot färg, ord och skrift. Grönt förknippas traditionellt med islam och med paradisets dräkter, som Koranen klär i grönt siden (18:31). Att färgen också skulle ha varit profeten Muhammeds egen favoritfärg är däremot en sedvänja utan fast grund: berättelsen förs tillbaka på Anas ibn Mālik men går genom en svag kedja, och ingen tillförlitlig hadith gör grönt till sunna. Profetens fanor var enfärgade och utan figurer. Till och med Kaba, islams mittpunkt, bär inga bilder – dess svarta täcke (*kiswa*) är broderat med Koranens ord i guld. Det närmaste islam har ett samlande kännetecken är trosbekännelsen, *shahada*: orden som gör en människa till muslim och som binder samman alla som följer profetens väg, *ahl as-sunna*. Saudiarabiens flagga är grön och bär just shahadan, "Det finns ingen gud utom Gud, och Muhammed är Hans sändebud", över ett vitt svärd. Även kalligrafin av Guds namn fyller den rollen bättre än någon halvmåne. Den enda symbol islam självt reser är en mening: "Det finns ingen gud utom Gud."

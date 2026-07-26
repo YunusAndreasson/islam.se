@@ -22,15 +22,23 @@ faq:
     a: "Koranen argumenterar främst utifrån skapelsen: ordningen i himlarna och i människan själv förutsätter en Skapare (Koranen 52:35–36). Tron räknas dessutom som medfödd, så Koranen behandlar Guds existens som självklar snarare än som ett påstående som först måste bevisas."
 sources:
   - name: "Koranen 16:125"
+    url: "https://quran.com/16/125?translations=48"
   - name: "Koranen 30:30"
+    url: "https://quran.com/30/30?translations=48"
   - name: "Koranen 41:53"
+    url: "https://quran.com/41/53?translations=48"
   - name: "Koranen 45:24"
+    url: "https://quran.com/45/24?translations=48"
   - name: "Koranen 52:35–36"
+    url: "https://quran.com/52/35-36?translations=48"
   - name: "Sahīh al-Bukhārī 1358"
+    url: "https://sunnah.com/bukhari:1358"
   - name: "Sahīh Muslim 2658"
+    url: "https://sunnah.com/muslim:2658"
   - name: "al-ibadah.com – Monoteism (tawhīd)"
     url: "https://al-ibadah.com/troslara/tawhid"
   - name: "Special Eurobarometer 225 – Social values, Science and Technology (2005)"
+    url: "https://europa.eu/eurobarometer/surveys/detail/448"
   - name: "Religion in the European Union (Wikipedia)"
     url: "https://en.wikipedia.org/wiki/Religion_in_the_European_Union"
 related:
@@ -41,16 +49,16 @@ essays:
   - "fragan-levertin-aldrig-stallde"
 ---
 
-**Ateism, förnekandet av att Gud finns, räknas i islam som otro (*kufr*) och beskrivs framför allt som ett avsteg från *fitra* — ett medfött gudsmedvetande som varje människa enligt Koranen föds med.** Islam betraktar därför inte ateismen som en neutral utgångspunkt, utan som ett aktivt avvisande av något själen redan känner igen. Och eftersom *tawḥīd*, bekännelsen att Gud är en, är trons allra första sats, blir förnekandet av Gud den tyngsta avvikelse en människa kan göra.
+**Ateism, förnekandet av att Gud finns, räknas i islam som otro (*kufr*) och beskrivs framför allt som ett avsteg från *fitra*, ett medfött gudsmedvetande som varje människa enligt Koranen föds med.** Islam betraktar därför inte ateismen som en neutral utgångspunkt, utan som ett aktivt avvisande av något själen redan känner igen. Och eftersom *tawhīd*, bekännelsen att Gud är en, är trons allra första sats, blir förnekandet av Gud den tyngsta avvikelse en människa kan göra.
 
 ## Vad menar islam med ateism?
 
-I klassisk islamisk vokabulär kallas förnekandet av Skaparen *ilḥād*, ordagrant "att avvika", och den som gör det en *mulḥid*. De som redan på Profetens tid hävdade att bara materien och tiden finns kallades *dahriyya*, efter *dahr*, "tiden". Deras hållning återges nästan ordagrant i Koranen:
+I klassiskt islamiskt språkbruk kallas förnekandet av Skaparen *ilhād*, ordagrant "att avvika", och den som gör det en *mulhid*. De som redan på Profetens tid hävdade att bara materien och tiden finns kallades *dahriyya*, efter *dahr*, "tiden". Deras hållning återges nästan ordagrant i Koranen:
 
 > Och de säger: "Det finns inget liv utom livet på jorden. Några [av oss] dör och några lever [vidare] och enbart tiden förintar oss."
 > — Koranen 45:24
 
-Varje förnekande av en skapande Gud faller under *kufr*, otro, och står i rak motsats till *tawḥīd* ([al-ibadah.com](https://al-ibadah.com/troslara/tawhid)). Att göra tiden till den som "förintar oss" är att sätta en blind, opersonlig kraft på Skaparens plats; där ligger förnekelsens kärna. För islam är ateismen alltså mindre ett filosofiskt undantag än ett undertryckande av det självklara. Klassiska lärde ägnade *dahriyya* utförliga vederläggningar långt före vår tid. Ateismen är lika gammal som uppenbarelsen den förnekar.
+Varje förnekande av en skapande Gud faller under *kufr*, otro, och står i rak motsats till *tawhīd*. Att göra tiden till den som "förintar oss" är att sätta en blind, opersonlig kraft på Skaparens plats; där ligger förnekelsens kärna. För islam är ateismen alltså mindre ett filosofiskt undantag än ett undertryckande av det självklara. Klassiska lärda ägnade *dahriyya* utförliga vederläggningar långt före vår tid. Ateismen är lika gammal som uppenbarelsen den förnekar.
 
 ## Varför säger Koranen att tron är medfödd?
 
@@ -72,7 +80,7 @@ Samma rörelse återkommer i löftet "Vi skall visa dem Våra tecken vid horison
 
 ## Hur ska en muslim bemöta ateister?
 
-Den klassiska hållningen är att möta ateisten med förnuftsskäl och gott uppträdande, inte med tvång — övertygelse kan inte framtvingas. Koranen lägger själv fast tonen:
+Den klassiska hållningen är att möta ateisten med förnuftsskäl och gott uppträdande, inte med tvång: övertygelse kan inte framtvingas. Koranen lägger själv fast tonen:
 
 > KALLA [människorna, Muhammad] med kloka och goda ord att följa din Herres väg, och lägg fram argumenten på ett måttfullt och försynt sätt.
 > — Koranen 16:125

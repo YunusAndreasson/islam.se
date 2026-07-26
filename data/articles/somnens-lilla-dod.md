@@ -7,7 +7,7 @@ description: "Klockan tre på natten. Du ligger vaken. Kroppen är trött men ta
 audioFile: "somnens-lilla-dod.mp3"
 audioDuration: 410
 imageAlt: "En person sover i en bädd i ett nästan helmörkt rum, med svagt blått nattljus genom ett litet fönster."
-imageCaption: "Sömnen, dödens lilla syster — överlämnandet varje natt."
+imageCaption: "Sömnen, dödens lilla syster – överlämnandet varje natt."
 category: "Själen"
 ---
 Klockan tre på natten. Du ligger vaken. Kroppen är trött men tankarna kretsar – sluter aldrig sin bana. Telefonen lyser. Du vet att skärmljuset förvärrar allt. Ändå griper du den – inte för att du behöver veta något, utan för att din hand behöver hålla.
@@ -50,15 +50,15 @@ Profeten Muḥammad ﷺ somnade inte. Han överlämnade sig. Varje kväll en lit
 
 Varje morgon den omvända bönen: "All lovprisning tillkommer Allah ﷻ som har gett oss liv efter det att Han låtit oss dö – och till Honom är återkomsten."[^8]
 
-Ordet för denna överlåtelse är *tawakkul*. Ibn Qayyim al-Jawziyyah (1292–1350) definierade det som hjärtats förlitan på Allah ﷻ ensam.[^9] Att släppa greppet om utfallet — falla utan fallskärm och lita på den hand som bär.
+Ordet för denna överlåtelse är *tawakkul*. Ibn Qayyim al-Jawziyyah (1292–1350) definierade det som hjärtats förlitan på Allah ﷻ ensam.[^9] Att släppa greppet om utfallet – falla utan fallskärm och lita på den hand som bär.
 
 Vid sömnens gräns blir tawakkul kroppslig: handen mot bröstet, orden riktade till Gud, erkännandet att morgondagen aldrig var din. I det erkännandet lossnar tankens grepp av sig självt.
 
-I ett samhälle byggt kring att aldrig ge sig blir det enklaste — att somna — det svåraste.
+I ett samhälle byggt kring att aldrig ge sig blir det enklaste – att somna – det svåraste.
 
 ## Tre ord
 
-Koranen sammanfattar sömnens hela ontologi i en enda vers:
+Koranen sammanfattar vad sömnen är i en enda vers:
 
 > Det är Han som gör natten till en klädnad för er och sömnen till en avkoppling och gör dagen till en uppståndelse.[^10]
 

@@ -23,21 +23,27 @@ faq:
     a: "Nej. Även judendomen förbjuder svinkött genom kosherreglerna (kashrut), så förbudet är inte unikt för islam."
 sources:
   - name: "Koranen 2:173"
+    url: "https://quran.com/2/173?translations=48"
   - name: "Koranen 5:3"
+    url: "https://quran.com/5/3?translations=48"
   - name: "Koranen 6:145"
+    url: "https://quran.com/6/145?translations=48"
   - name: "Koranen 16:115"
+    url: "https://quran.com/16/115?translations=48"
   - name: "al-ibadah.com – Visdomen bakom att förbjuda griskött"
+  - name: "islamqa.info (Muhammad Sālih al-Munajjid) – Varför är griskött förbjudet?"
+    url: "https://islamqa.info/en/answers/49688"
 related:
   - "vad-ar-halalslakt"
   - "far-muslimer-dricka-alkohol"
   - "far-muslimer-roka"
 ---
 
-**Muslimer äter inte griskött därför att Koranen uttryckligen förbjuder det: svinkött (*lahm al-khinzir*) räknas som *ḥarām* – otillåtet – och beskrivs i uppenbarelsen som orent.** Den djupare grunden är inte hälsa utan lydnad inför Gud; att avstå är en konkret handling av *tawḥīd*, underkastelse under Skaparens bud. Förbudet hör till de mest entydiga inom islamisk kost: det upprepas fyra gånger i Koranen, och alla klassiska rättsskolor är överens om det.
+**Muslimer äter inte griskött därför att Koranen uttryckligen förbjuder det: svinkött (*lahm al-khinzir*) räknas som *harām*, otillåtet, och beskrivs i uppenbarelsen som orent.** Den djupare grunden är inte hälsa utan lydnad inför Gud; att avstå är en konkret handling av *tawhīd*, underkastelse under Skaparens bud. Förbudet hör till de mest entydiga inom islamisk kost: det upprepas fyra gånger i Koranen, och alla klassiska rättsskolor är överens om det.
 
 ## Var i Koranen förbjuds griskött?
 
-Svinkött förbjuds på fyra ställen i Koranen: 2:173, 5:3, 6:145 och 16:115. I varje fall står grisen i samma andetag som självdöda djur (*al-mayta*) och blod – de tre grundpelarna i det förbjudna:
+Svinkött förbjuds på fyra ställen i Koranen: 2:173, 5:3, 6:145 och 16:115. I varje fall står grisen i samma andetag som självdöda djur (*al-mayta*) och blod, de tre grundpelarna i det förbjudna:
 
 > Vad Han har förbjudit er är kött av självdöda djur, blod och svinkött och sådant som offrats åt en annan än Gud.
 > — Koranen 2:173
@@ -51,15 +57,15 @@ Att samma bud återkommer i både tidiga och sena uppenbarelser gör saken oomtv
 
 ## Är det av hälsoskäl muslimer avstår från griskött?
 
-Nej – och här missförstås islam ofta. Att fläsk kan bära parasiter som trikiner förs gärna fram som förklaring, men det är inte den egentliga grunden. För en muslim handlar avståndstagandet i första hand om *lydnad inför Guds vilja*: budet följs därför att Gud gett det, inte därför att ett laboratorium bekräftat en risk. Klassiska lärde som Ibn al-Qayyim räknade visserligen upp grisens skadeverkningar, men de gjorde det som en eftertanke kring budets vishet (*ḥikma*) – aldrig som dess fundament. Skillnaden är avgörande: en regel som vilar på vetenskap faller när vetenskapen ändras, medan ett gudomligt bud står oberört. Hälsoargumentet är en fotnot, inte grunden; rycks det undan, står förbudet ändå kvar.
+Nej – och här missförstås islam ofta. Att fläsk kan bära parasiter som trikiner förs gärna fram som förklaring, men det är inte den egentliga grunden. För en muslim handlar avståndstagandet i första hand om *lydnad inför Guds vilja*: budet följs därför att Gud gett det, inte därför att ett laboratorium bekräftat en risk. Klassiska lärda som Ibn al-Qayyim räknade visserligen upp grisens skadeverkningar, men de gjorde det som en eftertanke kring budets vishet (*hikma*), aldrig som dess grundval. En regel som vilar på vetenskap faller när vetenskapen ändras; ett gudomligt bud står oberört. Hälsoargumentet är en fotnot, inte grunden; rycks det undan, står förbudet ändå kvar.
 
 ## Vad betyder det att svinkött är "orent" (najis)?
 
-När Koranen kallar svinkött *rijs* uttrycker den mer än ett kostförbud. I klassisk fiqh räknas grisen som *najis* – rituellt oren – vilket innebär att det inte bara är otillåtet att äta, utan att kontakt med köttet eller dess fett kan påverka renheten (*ṭahāra*) inför bönen. Här råder *ijmāʿ*, samstämmighet: de fyra rättsskolorna – hanafi, maliki, shafiʿi och hanbali – är eniga om att svinet är förbjudet, och de flesta håller hela djuret för orent. Just därför skiljer sig grisen från ett djur som blivit otillåtet enbart genom felaktig slakt; jämför hur en korrekt *halalslakt* avgör om annat kött blir tillåtet. Grisen är inte otillåten på grund av ett misstag – den är det i sitt väsen.
+När Koranen kallar svinkött *rijs* uttrycker den mer än ett kostförbud. I klassisk fiqh räknas grisen som *najis*, rituellt oren, vilket innebär att det inte bara är otillåtet att äta, utan att kontakt med köttet eller dess fett kan påverka renheten (*tahāra*) inför bönen. Här råder *ijmāʿ*, samstämmighet: de fyra rättsskolorna, hanafi, maliki, shafiʿi och hanbali, är eniga om att svinet är förbjudet, och de flesta håller hela djuret för orent. Just därför skiljer sig grisen från ett djur som blivit otillåtet enbart genom felaktig slakt; jämför hur en korrekt *halalslakt* avgör om annat kött blir tillåtet. Grisen är inte otillåten på grund av ett misstag – den är det i sitt väsen.
 
 ## Gäller förbudet även gelatin och fläsk i charkvaror?
 
-Ja. Förbudet omfattar hela djuret och alla dess produkter: ister, korv, charkvaror och dolda ingredienser. Gelatin utvunnet ur gris (ofta dolt bakom E441) räknas som otillåtet, liksom emulgeringsmedel och enzymer av grisursprung. Därför läser många muslimer innehållsförteckningar noga och söker *ḥalāl*-märkning. Gelatin från halalslaktade djur eller från växtkällor är däremot tillåtet, och en minoritet av lärde diskuterar *istihāla* – om en råvara som kemiskt förvandlats helt upphör att vara svin. Men huvudregeln är enkel och försiktig: är ursprunget gris, är produkten otillåten tills motsatsen är bevisad. I tveksamma fall väljer den troende det säkra framför det misstänkta.
+Ja. Förbudet omfattar hela djuret och alla dess produkter: ister, korv, charkvaror och dolda ingredienser. Gelatin utvunnet ur gris (ofta dolt bakom E441) räknas som otillåtet, liksom emulgeringsmedel och enzymer av grisursprung. Därför läser många muslimer innehållsförteckningar noga och söker *halāl*-märkning. Gelatin från halalslaktade djur eller från växtkällor är däremot tillåtet, och en minoritet av lärda diskuterar *istihāla*, om en råvara som kemiskt förvandlats helt upphör att vara svin. Men huvudregeln är enkel och försiktig: är ursprunget gris, är produkten otillåten tills motsatsen är bevisad. I tveksamma fall väljer den troende det säkra framför det misstänkta.
 
 ## Får en muslim äta griskött i en nödsituation?
 

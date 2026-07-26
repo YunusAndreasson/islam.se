@@ -23,10 +23,15 @@ faq:
     a: "Nej. Det finns inget belägg för att profeten lät någon av sina fyra döttrar genomgå ingreppet, vilket anförs som ett tungt argument mot seden."
 sources:
   - name: "Koranen 4:119"
+    url: "https://quran.com/4/119?translations=48"
   - name: "Sahīh al-Bukhārī 5889"
+    url: "https://sunnah.com/bukhari:5889"
   - name: "Sahīh Muslim 257"
+    url: "https://sunnah.com/muslim:257a"
   - name: "Sunan Abī Dāwūd 5271"
+    url: "https://sunnah.com/abudawud:5271"
   - name: "Sunan Ibn Mājah 2341"
+    url: "https://sunnah.com/ibnmajah:2341"
   - name: "Dar al-Iftaʾ (Egypten) – Könsstympning är förbjuden"
     url: "https://www.dar-alifta.org/en/article/details/40/female-genital-mutilation"
   - name: "WHO – Female genital mutilation (faktablad)"
@@ -37,11 +42,11 @@ related:
   - "vad-ar-sharia"
 ---
 
-**Islam påbjuder inte kvinnlig könsstympning: Koranen nämner den inte med ett enda ord, och de skärande, skadliga formerna är förbjudna (*ḥarām*).** Det som klassisk islamisk rättslära (*fiqh*) diskuterade under namnet *khitān al-nisāʾ* eller *khafḍ* var en symbolisk, icke stympande handling – något helt annat än den könsstympning som Världshälsoorganisationen (WHO) beskriver. Att förväxla de två är källan till nästan all förvirring i frågan.
+**Islam påbjuder inte kvinnlig könsstympning: Koranen nämner den inte med ett enda ord, och de skärande, skadliga formerna är förbjudna (*harām*).** Det som klassisk islamisk rättslära (*fiqh*) diskuterade under namnet *khitān al-nisāʾ* eller *khafd* var en symbolisk, icke stympande handling – något helt annat än den könsstympning som Världshälsoorganisationen (WHO) beskriver. Att förväxla de två är källan till nästan all förvirring i frågan.
 
 ## Står kvinnlig omskärelse i Koranen?
 
-Nej. Koranen tar inte upp kvinnlig omskärelse någonstans, varken uttryckligen eller antydningsvis – till skillnad från bön, fasta och allmosa, som regleras i detalj. Seden är dessutom äldre än islam; den fanns i Nildalen och på den arabiska halvön långt före profeten Muhammeds tid och har aldrig hört till trosbekännelsen. Den enda koranvers som brukar åberopas pekar i motsatt riktning – den fördömer att fördärva människans skapnad. Djävulen får där säga:
+Nej. Koranen tar inte upp kvinnlig omskärelse någonstans, varken uttryckligen eller antydningsvis, till skillnad från bön, fasta och allmosa, som regleras i detalj. Seden är dessutom äldre än islam; den fanns i Nildalen och på den arabiska halvön långt före profeten Muhammeds tid och har aldrig hört till trosbekännelsen. Den enda koranvers som brukar åberopas pekar i motsatt riktning: den fördömer att fördärva människans skapnad. Djävulen får där säga:
 
 > och jag skall befalla dem att skära öronen av boskapen och jag skall befalla dem att förvanska [och fördärva] Guds skapelse.
 > — Koranen 4:119
@@ -50,11 +55,11 @@ Att lemlästa en frisk kropp tillhör alltså det onda uppdraget, inte gudstjän
 
 ## Vad menade de klassiska lärda med khitān al-nisāʾ?
 
-De fyra klassiska rättsskolorna behandlade en mild form, *khafḍ*, och var oeniga om dess status. Hanafiyya och Malikiyya såg den som en hedrande men frivillig handling (*makruma*), medan äldre texter inom Shafiʿiyya och Hanbaliyya bedömde den strängare. Stödet hämtades dels ur *fitra*-hadithen, där omskärelse räknas bland naturens sedvänjor (Sahīh al-Bukhārī 5889; Sahīh Muslim 257), dels ur en berättelse om Umm ʿAtiyya – vars kedja är omdiskuterad bland hadithlärda – där profeten ska ha sagt till en kvinna som utförde ingreppet: »skär inte djupt« – *ashimmī wa lā tunhikī* (Sunan Abī Dāwūd 5271). Poängen i den hadithen är återhållsamhet, inte stympning: även de som tillät handlingen menade det allra minsta, aldrig bortskärande av klitoris eller blygdläppar. Den strängaste klassiska åsikten ligger närmare ett symboliskt nålstick än kniven; avståndet därifrån till könsstympning är ingen gradskillnad utan en artskillnad.
+De fyra klassiska rättsskolorna behandlade en mild form, *khafd*, och var oeniga om dess status. Hanafiyya och Malikiyya såg den som en hedrande men frivillig handling (*makruma*), medan äldre texter inom Shafiʿiyya och Hanbaliyya bedömde den strängare. Stödet hämtades dels ur *fitra*-hadithen, där omskärelse räknas bland naturens sedvänjor (Sahīh al-Bukhārī 5889; Sahīh Muslim 257), dels ur en berättelse om Umm ʿAtiyya – vars kedja är omdiskuterad bland hadithlärda – där profeten ska ha sagt till en kvinna som utförde ingreppet: "skär inte djupt", *ashimmī wa lā tunhikī* (Sunan Abī Dāwūd 5271). Poängen i den hadithen är återhållsamhet, inte stympning: även de som tillät handlingen menade det allra minsta, aldrig bortskärande av klitoris eller blygdläppar. Den strängaste klassiska åsikten ligger närmare ett symboliskt nålstick än kniven; avståndet därifrån till könsstympning är ingen gradskillnad utan en artskillnad.
 
 ## Är könsstympning (FGM) förbjudet i islam?
 
-Ja. När ingreppet skär bort frisk vävnad faller det under entydiga förbud. Profeten förbjöd *muthla*, lemlästning, och fastställde grundsatsen *lā ḍarar wa lā ḍirār* – »ingen skada får tillfogas och ingen besvaras med skada« (Sunan Ibn Mājah 2341). WHO konstaterar att könsstympning saknar varje hälsofördel och endast medför skada. Eftersom en handling som enbart skadar varken kan vara påbjuden eller tillåten, har samtida auktoriteter dragit slutsatsen rakt ut. Egyptens Dar al-Iftaʾ förklarar att könsstympning är förbjuden och »saknar grund i islams källor, Koranen och profetens sunna«. Vid en konferens vid al-Azhar 2006 och i en fatwa av stormuftin Ali Gomaa 2007 slogs samma sak fast. Det som skadar utan nytta kan kallas mycket, men inte islamiskt.
+Ja. När ingreppet skär bort frisk vävnad faller det under entydiga förbud. Profeten förbjöd *muthla*, lemlästning, och fastställde grundsatsen *lā darar wa lā dirār*, "ingen skada får tillfogas och ingen besvaras med skada" (Sunan Ibn Mājah 2341). WHO konstaterar att könsstympning saknar varje hälsofördel och endast medför skada. Eftersom en handling som enbart skadar varken kan vara påbjuden eller tillåten, har samtida auktoriteter dragit slutsatsen rakt ut. Egyptens Dar al-Iftaʾ förklarar att könsstympning är förbjuden och "saknar grund i islams källor, Koranen och profetens sunna". Vid en konferens vid al-Azhar 2006 och i en fatwa av stormuftin Ali Gomaa 2007 slogs samma sak fast. Det som skadar utan nytta kan kallas mycket, men inte islamiskt.
 
 ## Hur vanlig är seden, och var praktiseras den?
 
@@ -62,4 +67,4 @@ Könsstympning är geografiskt koncentrerad, inte allmänt muslimsk. WHO uppskat
 
 ## Vad gäller i Sverige?
 
-I Sverige är varje form av kvinnlig könsstympning förbjuden enligt Lag (1982:316) med förbud mot könsstympning av kvinnor – Sverige var det första landet i västvärlden att kriminalisera ingreppet. Sedan kravet på dubbel straffbarhet togs bort den 1 juli 1999 är handlingen straffbar även när den utförs utomlands, om gärningspersonen har hemvist i Sverige. Straffet är fängelse i lägst två och högst sex år, och för grovt brott upp till tio. Här pekar svensk lag och en korrekt läsning av islam åt samma håll: ett barns kropp är inte någons att stympa.
+I Sverige är varje form av kvinnlig könsstympning förbjuden enligt Lag (1982:316) med förbud mot könsstympning av kvinnor. Sverige var det första landet i västvärlden att kriminalisera ingreppet. Sedan kravet på dubbel straffbarhet togs bort den 1 juli 1999 är handlingen straffbar även när den utförs utomlands, om gärningspersonen har hemvist i Sverige. Straffet är fängelse i lägst två och högst sex år, och för grovt brott upp till tio. Här pekar svensk lag och en korrekt läsning av islam åt samma håll: ett barns kropp är inte någons att stympa.

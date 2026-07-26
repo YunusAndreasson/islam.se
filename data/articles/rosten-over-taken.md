@@ -5,7 +5,7 @@ wordCount: 1802
 qualityScore: 8.7
 description: "I en riksdagsmotion från 2024 formulerar Hans Eklind en ovanlig åtskillnad: kyrkklockor är en 'oartikulerad ljudsignal', medan böneutropet innehåller 'artikulerade ord med ett religiöst budskap'. Två religiösa ljud i det offentliga rummet ska alltså behandlas olika – för att det ena bär ord."
 imageAlt: "Ensam man i svart rock går längs en regnvåt Stockholmskaj med Stadshusets torn och Riddarholmskyrkans spira i grå fjärran."
-imageCaption: "Stadens torn och spiror — men vems röst får ljuda över taken?"
+imageCaption: "Stadens torn och spiror – men vems röst får ljuda över taken?"
 category: "Samhälle"
 ---
 Kyrkklockor ringer från torn i varje svensk stad, varje söndag, ibland dagligen. Tungt, metalliskt, över 100 decibel.[^1] Ingen riksdagsmotion kräver deras tystnad.
@@ -20,7 +20,7 @@ Riksdagsmotionerna om böneutrop är talande dokument, framför allt genom *hur*
 
 > Kyrkklockors klang i sig utgör en oartikulerad ljudsignal, medan böneutrop (*adhān*) innehåller artikulerade ord med ett religiöst budskap.[^4]
 
-Två religiösa ljud i det offentliga rummet ska alltså behandlas olika för att det ena *bär ord* medan det andra inte gör det. Richard Jomshof (SD) är lika tydlig: böneutropet är problematiskt som *budskap* snarare än som ljud, specifikt frasen *Allāhu akbar*.[^5]
+Två religiösa ljud i det offentliga rummet ska alltså behandlas olika för att det ena *bär ord* medan det andra inte gör det. Richard Jomshof (SD) är lika tydlig: böneutropet är problematiskt som *budskap* snarare än som ljud, närmare bestämt frasen *Allāhu akbar*.[^5]
 
 Ordningslagen, som reglerar böneutrop genom krav på polistillstånd, är blind för innehåll; den hanterar ljudnivåer, inte teologi.[^6] Motionerna försöker införa något den befintliga rättsordningen saknar: en gräns dragen efter vad ljudet *betyder*. Lagstiftaren byggde ett regelverk för decibel; politikerna vill bygga ett för mening.
 

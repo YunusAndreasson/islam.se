@@ -5,12 +5,12 @@ wordCount: 1673
 qualityScore: 8.7
 description: "I *Doktor Glas* skiljer Hjalmar Söderberg kärleken från drömmen om den, men svenskan ger honom bara ett ord att arbeta med. Redan på 1300-talet hade den damascenske juristen Ibn Qayyim al-Jawziyyah kartlagt närmare sextio arabiska namn, ordnade inte som synonymer utan som stadier, symptom och prognoser."
 imageAlt: "Vitkalkad spiraltrappa fotograferad uppifrån, där trappsteg och ledstång virar sig i allt tätare varv mot ett mörkt centrum."
-imageCaption: "Passionen som klängväxt — den virar sig uppåt i allt trängre varv."
+imageCaption: "Passionen som klängväxt – den virar sig uppåt i allt trängre varv."
 category: "Själen"
 ---
 Hjalmar Söderberg såg det tydligt: "Den källan heter icke kärleken, utan den heter: drömmen om kärlek."[^1] Men hans språk gav honom inte redskapet att följa insikten till botten. Vad skiljer kärleken från drömmen om den? Söderberg visste att gränsen fanns. Han hade bara ett ord, *kärlek*, som skall täcka allt: förälderns nattliga vaka, den erotiska besattheten, den tysta troheten som överlever årtionden, den gudomliga hängivenheten. Modersmålet tvingar oss att famla i mörker.
 
-Sjuhundra år före Söderberg öppnade den damascenske juristen och teologen Ibn Qayyim al-Jawziyyah (1292–1350) sin bok *Rawḍat al-Muḥibbīn*, De älskandes trädgård, och förtecknade närmare sextio arabiska namn för det vi kallar kärlek.[^2] Inte synonymer. Diagnoser.
+Sexhundra år före Söderberg öppnade den damascenske juristen och teologen Ibn Qayyim al-Jawziyyah (1292–1350) sin bok *Rawḍat al-Muḥibbīn*, De älskandes trädgård, och förtecknade närmare sextio arabiska namn för det vi kallar kärlek.[^2] Inte synonymer. Diagnoser.
 
 ## Läkaren, inte kartografen
 
@@ -30,9 +30,9 @@ Och *maḥabbah* är bara första steget.
 
 ## Murbräckans botanik
 
-Högre i ordningen: *al-ʿishq*, det ord som närmast svarar mot vårt "passion". Ibn Qayyim spårar ordet till *ʿashaqah*, en klängväxt som slingrar sig kring träd, suger deras sav och till slut dödar dem.[^7] Etymologin *är* diagnosen. Den som drabbats av *ʿishq* upplever inte stark kärlek utan härbärgerar en parasit.
+Högre i ordningen: *al-ʿishq*, det ord som närmast svarar mot vårt "passion". Ibn Qayyim spårar ordet till *ʿashaqah*, en klängväxt som slingrar sig kring träd, suger deras sav och till slut dödar dem.[^7] Etymologin *är* diagnosen. Den som drabbats av *ʿishq* har ingen stark kärlek. Han har en parasit.
 
-Den schweiziske kulturfilosofen Denis de Rougemont (1906–1985) landade i samma insikt sex sekler senare. I *L'Amour et l'Occident* (1939) blottlägger han att den europeiska passionen, från trubadurerna till Tristan, inte älskar den älskade utan begäret självt. Den kräver hinder för att överleva.[^8] Han hade inte ordet *ʿishq*; det krävdes en hel bok. Men skillnaden ligger inte bara i omfång. De Rougemonts diagnos är en slutsats, nådd efter hundratals sidor. Ibn Qayyims diagnos bor i själva ordet: den som säger *ʿishq* uttalar varningen innan erfarenheten börjat.
+Den schweiziske kulturfilosofen Denis de Rougemont (1906–1985) såg samma sak sex sekler senare. I *L'Amour et l'Occident* (1939) blottlägger han att den europeiska passionen, från trubadurerna till Tristan, inte älskar den älskade utan begäret självt. Den kräver hinder för att överleva.[^8] Han hade inte ordet *ʿishq*; det krävdes en hel bok. Men skillnaden ligger inte bara i omfång. De Rougemonts slutsats kommer efter hundratals sidor. Ibn Qayyims diagnos bor i själva ordet: den som säger *ʿishq* uttalar varningen innan erfarenheten börjat.
 
 Ibn Qayyim konstaterar: "Början av *ʿishq* är plåga, dess mitt är sjukdom, dess slut är död."[^9] Det förtjänar varken beröm eller klander som sådant; allt beror på dess föremål.[^10] Men den kärlek som tillkommer Allah ﷻ bär ett annat namn: *maḥabbah* och *ʿubūdiyyah*, den fullkomliga kärleken förenad med fullkomlig underkastelse. Pannan mot mattan, fem gånger om dagen, år efter år. De tidiga generationerna (*salaf*) använde inte ordet *ʿishq* om Skaparen;[^23] de ansåg det för smalt, för sjukligt, alltför bundet till brist. Den *maḥabbah* de föredrog rymmer det som *ʿishq* saknar: stadga, lydnad, vördnad.
 
@@ -44,7 +44,7 @@ Ta Arvid Stjärnblom i *Den allvarsamma leken*. Han älskar Lydia och har älska
 
 Söderberg preciserar: "Det värsta var, att han inte riktigt tordes lita på sina egna känslor."[^12]
 
-Svenskan kallar detta kärlek. Ibn Qayyims system ställer en skarpare diagnos. Arvid befinner sig i en *ʿishq* som aldrig övergått i *mawaddah*. Hans passion saknar den mogna tillgivenhetens stadga, den *luzūm* som inte vacklar, och han pendlar mellan besatthet och handlingsförlamning. Ibn Qayyim: "*ʿIshq* slår inte rot utom i ett tomt hjärta."[^13] Arvids hjärta fylls inte av Lydia; det har tömts på allt annat, och i det vakuumet frodas passionens klängväxt.
+Svenskan kallar detta kärlek. Ibn Qayyims system har ett finare raster. Arvid befinner sig i en *ʿishq* som aldrig övergått i *mawaddah*. Hans passion saknar den mogna tillgivenhetens stadga, den *luzūm* som inte vacklar, och han pendlar mellan besatthet och handlingsförlamning. Ibn Qayyim: "*ʿIshq* slår inte rot utom i ett tomt hjärta."[^13] Arvids hjärta fylls inte av Lydia; det har tömts på allt annat, och i det vakuumet frodas passionens klängväxt.
 
 ## Det som brinner och det som bär
 
@@ -60,7 +60,7 @@ Men mitt i *Infernos* kaos:
 
 > Att älska ett barn är för en man att bliva kvinna, det är att avlägga det manliga, att erfara himlainnevånarnes könlösa kärlek, såsom Swedenborg kallar det.[^16]
 
-Utan tillgång till orden snuddar Strindberg vid det som Ibn Qayyims system benämner med precision: kärlekens förmåga att *förvandla* sin bärare, en rörelse mot *raḥmah*, den barmhärtighet Koranen sammanför med kärleken:
+Utan tillgång till orden snuddar Strindberg vid det som Ibn Qayyims system kan namnge: kärlekens förmåga att *förvandla* sin bärare, en rörelse mot *raḥmah*, den barmhärtighet Koranen sammanför med kärleken:
 
 > Och av Hans tecken är att Han har skapat hustrur åt er av er egen art, så att ni kan finna ro hos dem, och Han har låtit kärlek (*mawaddah*) och barmhärtighet (*raḥmah*) uppstå mellan er. I detta ligger förvisso tecken för människor som tänker.[^17]
 
@@ -74,7 +74,7 @@ Den som säger *ʿishq* varnar redan. Den som säger *mawaddah* lovar redan. Den
 
 ## Kärlekens tomma hjärta
 
-Ibn Qayyims ordning är teologisk: den mänskliga kärlekens hela spektrum pekar mot ett centrum, kärleken till Allah ﷻ. Inte genom att varje form av kärlek leder dit – de flesta leder bort – utan genom att varje diagnos i hans katalog förutsätter det hälsotillstånd den avviker ifrån. *ʿIshq* är parasitär för att den fäster vid det som inte kan bära den; *hawā* är blind för att den saknar rätt föremål. Att katalogisera sjukdomarna är att teckna, i negativ, den hälsa som bara ett föremål kan ge. Han skriver:
+Ibn Qayyims ordning är teologisk: den mänskliga kärlekens hela spektrum pekar mot ett centrum, kärleken till Allah ﷻ. Inte så att varje form av kärlek leder dit – de flesta leder bort. Men varje sjukdomsbild i hans katalog förutsätter det hälsotillstånd den avviker ifrån. *ʿIshq* är parasitär för att den fäster vid det som inte kan bära den; *hawā* är blind för att den saknar rätt föremål. Att katalogisera sjukdomarna är att teckna, i negativ, den hälsa som bara ett föremål kan ge. Han skriver:
 
 > Det finns inget ljuvare, inget ädlare, inget sötare för hjärtat och själen än kärleken till Allah ﷻ och hängivenheten till Honom allena.[^20]
 
@@ -86,7 +86,7 @@ Ibn al-Jawzī anför Platon med ett ord som fortfarande bränner: "*ʿIshq* är 
 
 Det hjärta som är fullt, fullt av *dhikr*, av närvaro inför Allah ﷻ, det som dröjer kvar på mattan när bönen slutat och världen långsamt återvänder, det hjärtat ger ingen jord åt passionens klängväxt. Men det tomma hjärtat, det som saknar centrum, det som den moderna sekulariteten berömmer sig av att ha befriat från alla dogmer, det hjärtat är värnlöst mot den kärlek som förtär utan att nära, som binder utan att bära.
 
-Ibn Qayyim kartlade sextio grundämnen. Vi äger ett enda och undrar varför banden brister.
+Ibn Qayyim skilde ut sextio grundämnen. Vi äger ett enda och undrar varför banden brister.
 
 ---
 

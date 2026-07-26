@@ -5,7 +5,7 @@ wordCount: 1127
 qualityScore: 8.6
 description: "Vad köper du egentligen när du betalar ränta? Inte en vara, inte en tjänst, inte någons arbete. Du köper tid. Hela det moderna finanssystemet vilar på detta: tid har ett pris, och det priset kallas ränta. Det syns på kontoutdraget: en rad för skulden, en rad för väntan. Men vems tid säljs?"
 imageAlt: "En människa står som siluett framför en väldig genomlyst tornursklocka med romerska siffror, en stad skymtar genom glaset i solnedgången."
-imageCaption: "Tiden bakom urtavlan — det enda räntan egentligen säljer."
+imageCaption: "Tiden bakom urtavlan – det enda räntan egentligen säljer."
 category: "Rättvisa"
 ---
 Vad köper du egentligen när du betalar ränta? Inte en vara, inte en tjänst, inte någons arbete. Du köper tid. Hela det moderna finanssystemet vilar på detta: tid har ett pris, och det priset kallas ränta. Det syns på kontoutdraget: en rad för skulden, en rad för väntan.
@@ -20,7 +20,7 @@ al-Ghazālī, verksam i 1000-talets Bagdad, fann en bild som fortfarande skär g
 
 Att ta ränta innebär att tvinga spegeln att alstra eget ljus. Man hävdar att pengar i sig, fria från förankring i varor, bär frukt, ger avkastning, föder avkomma. Men speglar alstrar inte ljus. De kastar det tillbaka.
 
-Aristoteles, fem sekler före Koranen, rörde vid samma problem. I *Politiken* kallade han ränta *tokos* – det grekiska ordet för "avkomma" – med öppet förakt. Att pengar föder pengar var det mest onaturliga av alla förvärvssätt. Pengar var uppfunna som bytesmedel. Att de skulle föröka sig låg aldrig i deras natur.[^2]
+Aristoteles, nio sekler före Koranen, rörde vid samma problem. I *Politiken* kallade han ränta *tokos* – det grekiska ordet för "avkomma" – med öppet förakt. Att pengar föder pengar var det mest onaturliga av alla förvärvssätt. Pengar var uppfunna som bytesmedel. Att de skulle föröka sig låg aldrig i deras natur.[^2]
 
 Men här når Aristoteles sin gräns. Han kan peka ut det onaturliga men inte förklara det. För honom är felet ett brott mot naturen. För al-Ghazālī är det ett brott mot tingens väsen: pengar *är* reflektion. Att kräva av dem att de skall skapa är att missförstå vad de är.
 

@@ -14,7 +14,7 @@ Det är halva sanningen. Och en halv sanning kan vara farligare än en hel lögn
 
 ## Krigsrådet
 
-Ibn Qayyim al-Jawziyyah iscensätter i *al-Dāʾ wa-l-Dawāʾ* en scen som avslöjar mer om den mänskliga tungan än de flesta psykologiska avhandlingar. Satan samlar sina trupper och pekar ut målet – tungans gränsfästning, den största av alla fästningar, belägen mitt emot kungens port. Sedan avslöjar han taktiken:
+Ibn Qayyim al-Jawziyyah iscensätter i *al-Dāʾ wa-l-Dawāʾ* en scen som avslöjar mer om den mänskliga tungan än de flesta psykologiska avhandlingar. Satan samlar sina trupper och pekar ut målet – tungans gränsfästning, den största av alla fästningar, belägen mitt emot kungens port. Sedan röjer han taktiken:
 
 > Ställ er vid tungans gränsfästning. I denna fästning erbjuds er två stora segrar – det gör detsamma vilken ni vinner: den första är att han talar falskt, ty den som talar falskt är en av era bröder och bland era största soldater. Den andra är att han tiger om sanningen, ty den som tiger om sanningen är en stum broder till er.[^1]
 
@@ -36,7 +36,7 @@ En tolk – inte en skapare, inte en förvrängare. Talet *avslöjar*. Det ger y
 
 Koranen skärper ytterligare: "Hon yttrar inte ett ord utan att vid sig ha en väktare redo."[^4] Inte bara de onda orden. *Varje* ord bokförs.
 
-Neurovetenskapen har gett den bokföringen en fysisk dimension. Kronisk exponering för verbal aggression leder till strukturella förändringar i hjärnan, särskilt i prefrontala cortex och det limbiska systemet – de områden som styr omdöme och känslohantering.[^5] Hårda ord lämnar spår inte bara i minnet utan i själva hjärnvävnaden. De omformar den som hör dem, skärper stressystemets reflexer, försvagar förmågan att reglera känslor. Och de omformar den som uttalar dem – varje ord slungat i vrede gräver sig in i två hjärnor, lyssnarens och talarens. Fjorton sekler före den första hjärnskannern förstod al-Māwardī att ordet inte kan återkallas. Nu vet vi att det inte heller kan raderas.
+Neurovetenskapen har gett den bokföringen en kropp. Unga vuxna som växt upp med föräldrars verbala aggression bär fjorton procent mer grå substans i vänstra tinninglobens övre vindling – den hjärnbark där språkljud blir betydelse – och avvikelsen följer hur hårt orden fallit.[^5] Träffpunkten är ingen slump. Orden avsätter sig i just den vävnad som hör ord; det som sägs formar organet som lyssnar. Nio sekler före den första hjärnskannern visste al-Māwardī att ordet inte kan återkallas. Nu vet vi att det inte heller kan raderas.
 
 Det är den fara vi känner igen. Den vi debatterar. Den vi försöker lagstifta bort.
 
@@ -48,11 +48,11 @@ Fästningen kan falla utan att ett ord yttras.
 
 Forskning publicerad 2024 visar att tystnad och tal inte ens är psykologiska motsatser – de drivs av separata system.[^6] Tal aktiveras av beteendeaktiveringssystemet, riktat mot närmande och handling. Tystnad av beteendeinhibitionssystemet, riktat mot undvikande och flykt. Skillnaden är avgörande: den som tiger *väljer* inte nödvändigtvis klokskap. Han *undviker* obehag.
 
-Och flykten kostar. Tystnad visar sig ha en starkare koppling till utbrändhet än tal – den som sväljer sina ord bär dem inåt tills de fräter. Men det verkligt oroande fyndet gäller inte den som tiger utan dem runt honom: tystnad uppmuntrar den som handlar orätt att fortsätta.[^6] Exakt den mekanism Ibn Qayyim beskrev. Den stumme brodern lämnar fältet fritt – inte genom att öppna porten för fienden, utan genom att lämna den obevakad.
+Och flykten kostar. Tystnad visar sig ha en starkare koppling till utbrändhet än tal – den som sväljer sina ord bär dem inåt tills de fräter. Men det verkligt oroande fyndet gäller inte den som tiger utan dem runt honom: tystnad uppmuntrar den som handlar orätt att fortsätta.[^6] Exakt den mekanism Ibn Qayyim beskrev. Den stumme brodern lämnar fältet fritt. Han öppnar ingen port för fienden; han lämnar den obevakad.
 
-Här avslöjas vår tids hemmablindhet i full storlek. Vi har utvecklat en detaljerad vokabulär för talets synder – *mansplaining*, *gaslighting*, *hate speech* – men saknar ett enda ord för tystnadens synd. Den som tiger kallas ansvarsfull. Diskret. Respektfull. Den islamiska traditionen kallar honom Satans stumme broder.
+Här står vår tids hemmablindhet i full storlek. Vi har utvecklat ett finmaskigt ordförråd för talets synder – *mansplaining*, *gaslighting*, *hate speech* – men saknar ett enda ord för tystnadens synd. Den som tiger kallas ansvarsfull. Diskret. Respektfull. Den islamiska traditionen kallar honom Satans stumme broder.
 
-Koranen erbjuder ingen enkel utväg – varken "tala alltid" eller "tig alltid":
+Här ger Koranen ingen enkel utväg – varken "tala alltid" eller "tig alltid":
 
 > Säg till Mina tjänare att de alltid skall säga det som är lämpligast.[^7]
 
@@ -62,13 +62,13 @@ Den moderna debatten ställer yttrandefrihet mot censur, som om valet stod mella
 
 ## Fästningens fred
 
-Den nordiska traditionen anade skillnaden. Hávamál: "En man bör veta när han ska tala och när han ska hålla fred."[^8] Torrt, utan moraliskt överslag. Inte allt ska sägas – men inte allt ska sväljas heller. Den som kan båda behärskar inte bara sin tunga utan sig själv.
+Den nordiska traditionen anade skillnaden. Hávamál: "En man bör veta när han ska tala och när han ska hålla fred."[^8] Torrt, utan moraliskt överslag. Inte allt ska sägas – men inte allt ska sväljas heller. Att rå på båda är att rå på sig själv.
 
-Men det finns en tystnad bortom urskillningens kalkyl – en som varken flyr sanningen eller undviker konflikten, en som inte beror på rädsla utan på fullbordan. Karin Boye:
+Men det finns en tystnad bortom urskillningens kalkyl – en som varken flyr sanningen eller undviker konflikten. Den kommer ur fullbordan. Karin Boye:
 
 > Gott är att lyss till sin Moders röst – ordlöst bekymmer får ordlös tröst.[^9]
 
-En tystnad som inte saknar ord utan har överskridit dem. Bekymret behöver inga ord. Trösten behöver inga ord. Det som behöver sägas har redan blivit sagt – inte genom tal utan genom närvaro.
+En tystnad som inte saknar ord utan har överskridit dem. Bekymret behöver inga ord. Trösten behöver inga ord. Det som behöver sägas är redan sagt. Närvaron sade det.
 
 Varken den falske broderns tal eller den stumme broderns tystnad. En tredje tystnad: den som uppstår när fästningen är så väl bevakad att portarna varken behöver stängas eller öppnas.
 
@@ -78,7 +78,7 @@ Varken den falske broderns tal eller den stumme broderns tystnad. En tredje tyst
 [^2]: al-Māwardī, *Adab al-Dunyā wa-l-Dīn* (Etik för religion och världsligt liv).
 [^3]: Ṣaḥīḥ al-Bukhārī, Kitāb al-Riqāq, nr. 6477; Ṣaḥīḥ Muslim, Kitāb al-Zuhd, nr. 2988.
 [^4]: Koranen, Qāf 50:18.
-[^5]: A. J. Tomoda et al., "Exposure to Parental Verbal Abuse Is Associated with Increased Gray Matter Volume in Superior Temporal Gyrus," *NeuroImage* 54 (2011); jfr forskningssammanställningar i *Annual Review of Organizational Psychology*, 2024–2025.
+[^5]: A. Tomoda et al., "Exposure to Parental Verbal Abuse Is Associated with Increased Gray Matter Volume in Superior Temporal Gyrus," *NeuroImage* 54 (2011), s. S280–S286.
 [^6]: Distinguishing Voice and Silence at Work: Unique Relationships with Perceived Impact, Psychological Safety, and Burnout, *Academy of Management Journal*, 2024; Employee Voice and Silence: Taking Stock a Decade Later, *Annual Review of Organizational Psychology*, 2024.
 [^7]: Koranen, al-Isrāʾ 17:53.
 [^8]: *Hávamál*, den poetiska Eddan.

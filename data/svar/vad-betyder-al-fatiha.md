@@ -24,11 +24,19 @@ faq:
     a: "Man säger \"Āmīn\" (\"så må det ske\") efter den sjunde versen, som ett instämmande i bönen om vägledning."
 sources:
   - name: "Koranen 1:1–7 (Koranens budskap, Mohammed Knut Bernströms tolkning)"
+    url: "https://quran.com/1/1-7?translations=48"
   - name: "Sahīh al-Bukhārī 756"
+    url: "https://sunnah.com/bukhari:756"
   - name: "Sahīh Muslim 394"
+    url: "https://sunnah.com/muslim:394"
   - name: "Sahīh Muslim 395"
+    url: "https://sunnah.com/muslim:395"
   - name: "al-ibadah.com – bön och recitation av al-Fātiha"
     url: "https://al-ibadah.com/bon/"
+  - name: "islamqa.info (Muhammad Sālih al-Munajjid) – al-Fātihas förtjänster"
+    url: "https://islamqa.info/en/answers/132386"
+  - name: "islamqa.info (Muhammad Sālih al-Munajjid) – al-Fātiha som bönens pelare"
+    url: "https://islamqa.info/en/answers/10995"
 related:
   - "vad-ar-koranen"
   - "sa-ber-man-steg-for-steg"
@@ -39,7 +47,7 @@ related:
 
 ## Vad betyder ordet al-Fatiha?
 
-Ordet *al-Fātiha* betyder "öppningen" eller "öppnaren" och är en kortform av *Fātihat al-Kitāb*, "bokens öppning". Suran bär flera namn som alla pekar åt samma håll. Den kallas *Umm al-Kitāb*, "bokens moder", *Sūrat al-Hamd*, "lovprisningens sura", och *as-Sabʿ al-Mathānī*, "de sju ofta upprepade verserna" – ett uttryck som Koranen själv använder (Koranen 15:87). Den räknas av de flesta lärda som en meckansk sura, uppenbarad innan profeten Muhammed utvandrade till Medina, och hos många överlämnare som den första hela sura som uppenbarades. Namnens mångfald är ingen tillfällighet; var och en markerar samma sak – att både skriften och varje bön öppnas med vändningen mot Gud.
+Ordet *al-Fātiha* betyder "öppningen" eller "öppnaren" och är en kortform av *Fātihat al-Kitāb*, "bokens öppning". Suran bär flera namn som alla pekar åt samma håll. Den kallas *Umm al-Kitāb*, "bokens moder", *Sūrat al-Hamd*, "lovprisningens sura", och *as-Sabʿ al-Mathānī*, "de sju ofta upprepade verserna", ett uttryck som Koranen själv använder (Koranen 15:87). Den räknas av de flesta lärda som en meckansk sura, uppenbarad innan profeten Muhammed utvandrade till Medina, och hos många överlämnare som den första hela sura som uppenbarades. Namnens mångfald är ingen tillfällighet; var och en markerar samma sak: att både skriften och varje bön öppnas med vändningen mot Gud.
 
 ## Vad står det i al-Fatiha?
 
@@ -58,11 +66,11 @@ Den andra versen, "Lov och pris tillkommer Gud", är just orden *al-hamdu lillā
 
 ## Varför kallas al-Fatiha "Koranens moder"?
 
-Att al-Fatiha kallas *Umm al-Qurʾān*, "Koranens moder", beror på att den i komprimerad form rymmer hela skriftens budskap. De klassiska kommentatorerna, som Ibn Kathīr, påpekar att suran samlar Koranens kärnteman på en gång: lovprisningen av Gud, bekräftelsen av *tawhīd* i orden "Dig tillber vi; Dig anropar vi om hjälp", och bönen om vägledning på den raka vägen. Resten av Koranen utvecklar och förklarar det som öppningen redan slagit fast. Därför inleds skriften inte med en berättelse eller en lag, utan med en bön som tjänaren själv ber. Den som förstått al-Fatiha har redan greppat Koranens kärna; allt därefter är utläggning.
+Att al-Fatiha kallas *Umm al-Qurʾān*, "Koranens moder", beror på att den sammanfattar hela skriftens budskap. De klassiska kommentatorerna, som Ibn Kathīr, påpekar att suran samlar Koranens kärnteman på en gång: lovprisningen av Gud, bekräftelsen av *tawhīd* i orden "Dig tillber vi; Dig anropar vi om hjälp", och bönen om vägledning på den raka vägen. Resten av Koranen utvecklar och förklarar det som öppningen redan slagit fast. Därför inleds skriften inte med en berättelse eller en lag, utan med en bön som tjänaren själv ber. Den som förstått al-Fatiha har redan greppat Koranens kärna; allt därefter är utläggning.
 
 ## Måste man läsa al-Fatiha i varje bön?
 
-Ja – al-Fatiha är inte vilken sura som helst, utan bönens ryggrad. Profeten Muhammed sade enligt följeslagaren ʿUbāda ibn as-Sāmit: "Det finns ingen bön för den som inte läser bokens öppning" (Sahīh al-Bukhārī 756; Sahīh Muslim 394). Majoriteten av de lärda – imamerna Mālik, ash-Shāfiʿī och Ahmad ibn Hanbal – drar slutsatsen att recitationen är en obligatorisk pelare i varje *rakaʿa*, så att bönen är ogiltig utan den. Abū Hanīfa höll att man måste recitera Koranen men inte nödvändigtvis just al-Fatiha – även om al-Fatiha också hos honom är det självklara valet. Den som ansluter sent och hinner med böjningen räknas ha bönecykeln med sig; imamens recitation gäller då för honom (al-ibadah.com). Orden är inte en inledning till bönen – de är bönen.
+Ja – al-Fatiha är inte vilken sura som helst, utan bönens ryggrad. Profeten Muhammed sade enligt följeslagaren ʿUbāda ibn as-Sāmit: "Det finns ingen bön för den som inte läser bokens öppning" (Sahīh al-Bukhārī 756; Sahīh Muslim 394). Majoriteten av de lärda, imamerna Mālik, ash-Shāfiʿī och Ahmad ibn Hanbal, drar slutsatsen att recitationen är en obligatorisk pelare i varje *rakaʿa*, så att bönen är ogiltig utan den. Abū Hanīfa höll att man måste recitera Koranen men inte nödvändigtvis just al-Fatiha, även om al-Fatiha också hos honom är det självklara valet. Den som ansluter sent och hinner med böjningen räknas ha bönecykeln med sig; imamens recitation gäller då för honom. Orden är inte en inledning till bönen – de är bönen.
 
 ## Vad lär en hadith qudsi om al-Fatiha?
 

@@ -20,9 +20,9 @@ Det sekulära svaret gör frågan olöslig. Hjalmar Söderberg spetsade till den
 
 > Förlåtelse förutsätter ånger och bättring. Och jag kan varken lova det ena eller det andra.[^3]
 
-Avväpnande ärligt. Men orden låser dörren. Om förlåtelse kräver ett löfte om förändring, och du är för ärlig att lova det du inte kan garantera, består skulden – orörd, oberoende av insikt eller vilja. Det är insiktens paradox: ju djupare du förstår din skuld, desto tyngre bär du den. Kunskapen befriar inte; den binder. Söderbergs ärliga människa sitter fast – inte av okunnighet utan av sin egen klarhet.
+Avväpnande ärligt. Men orden låser dörren. Om förlåtelse kräver ett löfte om förändring, och du är för ärlig att lova det du inte kan garantera, består skulden – orörd, oberoende av insikt eller vilja. Det är insiktens paradox: ju djupare du förstår din skuld, desto tyngre bär du den. Kunskapen befriar inte; den binder. Söderbergs ärliga människa sitter fast i sin egen klarhet.
 
-Sven Elversson tar inte emot nåd utifrån. Han fastnar inte i insikt inifrån. Vad varken nådeläran eller Söderbergs klarsynthet räknar med är att handlingen i sig – den oåterkalleliga sanningen sagd högt – kan bära förvandlande kraft.
+Sven Elversson tar inte emot nåd utifrån. Han fastnar inte heller i sin egen förståelse. Vad varken nådeläran eller Söderbergs klarsynthet räknar med är att handlingen i sig – den oåterkalleliga sanningen sagd högt – kan bära förvandlande kraft.
 
 ## Helomvändning
 
@@ -52,15 +52,15 @@ Men traditionen stannar inte vid förlåtelse. Koranen drar en djärvare slutsat
 
 Inte förlåtna *trots* synden. Inte strukna ur registret, inte glömda, inte mildrade av omständigheter. *Omvandlade.* Skulden byter tecken – som om den genomlevda synden, fullständigt bekänd, förvandlas till den jord ur vilken ett annat liv växer.
 
-Tanken rubbar den vanliga moraliska logiken. Vi tänker oss att skuld i bästa fall kan *tas bort* – genom nåd, genom straff, genom tid. Men omvandling innebär att synden inte försvinner utan byter riktning. Den smärta skulden orsakade, den självkännedom den framtvingade, den ödmjukhet den födde – allt detta blir den ångerfulles styrka. Inte trots skulden utan *genom* den. Den som djupast förstår syndens tyngd har mest att ge den som ännu bär sin.
+Tanken rubbar den vanliga moraliska logiken. Vi tänker oss att skuld i bästa fall kan *tas bort* – genom nåd, genom straff, genom tid. Men omvandling betyder något annat: synden byter riktning. Den smärta skulden orsakade, den självkännedom den framtvingade, den ödmjukhet den födde – allt detta blir den ångerfulles styrka. Inte trots skulden utan *genom* den. Den som djupast förstår syndens tyngd har mest att ge den som ännu bär sin.
 
-Här skiftar Lagerlöfs slutscen skepnad. Sven Elversson ser inte ut som en man som lagt ifrån sig en börda. Han är inte lättad utan förändrad – *lycklig, tillfredsställd, renad*. Ordvalet visar sig vara exaktare än Lagerlöf troligen anade. *Renad* beskriver inte att fläcken är borttorkad utan att personen genomgått en förändring inifrån.
+Här skiftar Lagerlöfs slutscen skepnad. Sven Elversson ser inte ut som en man som lagt ifrån sig en börda. Han är inte lättad. Han är förändrad – *lycklig, tillfredsställd, renad*. Ordvalet visar sig vara exaktare än Lagerlöf troligen anade. *Renad* beskriver en förändring inifrån, inte en borttorkad fläck.
 
 Och här gömmer sig essäns vändpunkt. Läsaren – och troligen Lagerlöf själv – antar att bekännelsen handlar om det förflutna: att göra upp med det som skett. Men *tawbah* avslöjar att bekännelsen handlar om *riktning*. Den löser inte det gamla; den skapar det nya. Synden tillhör den väg personen inte längre går. Söderberg kunde inte lova bättring, och i hans värld slutade allt där. Koranen svarar:
 
 > Den som ångrar sig och handlar rättfärdigt har sannerligen vänt tillbaka till Allah ﷻ i sann ånger.[^8]
 
-Ånger och handling, sammanflätade och oskiljbara. Bekännelsen *är* den rättfärdiga handlingen – inte förberedelsen för ett nytt liv utan det nya livets första steg.
+Ånger och handling, sammanflätade och oskiljbara. Bekännelsen *är* den rättfärdiga handlingen. Inte förberedelsen för ett nytt liv – dess första steg.
 
 Lagerlöf var inte teolog. Hon läste inte Ibn Qayyim, kände sannolikt inte till begreppet *tawbah*. Men hon var konstnär nog att se vad som skedde i bekännelsen och gestalta det utan att förklara bort det. *Renad, frigjord från synd.* Fem ord som bär det Ibn Qayyim fyllde volymer med att utforska – och som den moderna västerlänningen saknar språk för.
 
