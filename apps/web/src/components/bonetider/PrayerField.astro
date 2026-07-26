@@ -96,7 +96,10 @@ const nextKey = nextPrayerKeyAt(times, now.getTime()) ?? "fajr";
 		aspect-ratio: 4 / 5;
 		border-radius: 14px;
 		overflow: hidden;
-		background: light-dark(#dfe7ec, #141a26);
+		/* The sea, before the canvas mounts. Must equal SEA in lib/bonetider/render-field.ts,
+		   which is where the reasoning for this value lives — otherwise the stage visibly
+		   changes colour the moment the renderer takes over. */
+		background: light-dark(#dfe4e2, #141a26);
 		border: 1px solid var(--color-divider);
 		box-shadow: 0 1px 2px rgb(0 0 0 / 0.04), 0 12px 28px -16px rgb(0 0 0 / 0.25);
 	}

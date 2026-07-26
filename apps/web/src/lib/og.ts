@@ -14,7 +14,7 @@ const sourceRegular = readFileSync(join(fontDir, "SourceSans3-Regular.ttf"));
 const literataItalic = readFileSync(join(fontDir, "Literata-RegularItalic.ttf"));
 
 // Warm palette, matching the site's light surface (tokens.css).
-const BG = "#faf8f5";
+const BG = "#fff6e8";
 const TEXT = "#1a1914";
 const MUTED = "#847a6e";
 const ACCENT = "#3a3830";

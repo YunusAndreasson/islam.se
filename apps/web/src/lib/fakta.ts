@@ -9,11 +9,15 @@
  * removed from the FRÅGOR & SVAR index (see `groupSvar` in lib/svar.ts) so FAKTA
  * and the Q&A list don't duplicate each other.
  *
- * `image` borrows an essay hero (by essay slug, resolved via the
- * `src/assets/images/*` glob in lib/articles.ts) until bespoke FAKTA photography
- * lands — swap that one field per card. The borrowed photo is decorative (the card
- * label carries the meaning), so the hub renders it with an empty alt.
+ * ART, in two tiers. A card shows bespoke FAKTA photography when it exists, and
+ * otherwise borrows an essay hero via `image` (an essay slug, resolved through the
+ * `src/assets/images/*` glob in lib/articles.ts). Either way the photo is
+ * decorative — the card label carries the meaning — so it renders with empty alt.
+ *
+ * Bespoke art needs no entry here at all: see FAKTA_ART below.
  */
+
+import type { ImageMetadata } from "astro";
 
 export interface FaktaItem {
 	/** The answer this card opens, at `/svar/<svarSlug>/` (URL never changes). */
@@ -22,7 +26,9 @@ export interface FaktaItem {
 	label: string;
 	/** One calm line under the label. */
 	blurb: string;
-	/** Essay slug whose hero photo is borrowed for the card (temporary art). */
+	/** Essay slug whose hero photo is borrowed when this card has no bespoke art
+	 *  of its own in FAKTA_ART. Kept even once art lands — it is the fallback if
+	 *  a file is ever removed. */
 	image: string;
 }
 
@@ -76,7 +82,9 @@ export const FAKTA_CLUSTERS: FaktaCluster[] = [
 				svarSlug: "vad-ar-hajj",
 				label: "Vallfärden",
 				blurb: "Resan till Mecka som varje muslim med möjlighet gör en gång i livet.",
-				image: "silvertarnans-hijra",
+				// The arch shot, not an aerial of the Grand Mosque: pilgrims at eye level,
+				// people who have travelled, rather than a postcard of a monument.
+				image: "kompassnalens-moske",
 			},
 		],
 	},
@@ -114,7 +122,9 @@ export const FAKTA_CLUSTERS: FaktaCluster[] = [
 				svarSlug: "vad-ar-domedagen",
 				label: "Domedagen",
 				blurb: "Tron på uppståndelsen och räkenskapen inför Gud.",
-				image: "solen-morknar-for-ingen",
+				// A figure waiting before a monumental clock — as-Sāʿah, the Hour, which
+				// is the Quran's own name for this day.
+				image: "tid-till-salu",
 			},
 			{
 				svarSlug: "vad-ar-odet-qadar",
@@ -125,6 +135,32 @@ export const FAKTA_CLUSTERS: FaktaCluster[] = [
 		],
 	},
 ];
+
+/** Bespoke FAKTA photography — art made FOR the pillars and articles of faith,
+ *  rather than an essay hero pressed into service.
+ *
+ *  Convention over configuration: the file is named after the answer it belongs
+ *  to, `src/assets/images/fakta/<svarSlug>.webp`, and that is the whole wiring.
+ *  Drop a file in and that card stops borrowing; delete it and the borrow in
+ *  `image` takes over again. No data edit either way, which matters because the
+ *  remaining cards (Trosbekännelsen, Bönen, Gud, Ödet and the pillars overview)
+ *  are still waiting for theirs.
+ *
+ *  The subfolder is deliberate: lib/articles.ts globs `images/*` NON-recursively
+ *  for essay heroes, so FAKTA art can never collide with an essay slug — which it
+ *  otherwise would the day someone writes an essay called "vad-ar-hajj". */
+const artEntries = Object.entries(
+	import.meta.glob<{ default: ImageMetadata }>("../assets/images/fakta/*.{jpg,jpeg,png,webp}", {
+		eager: true,
+	}),
+);
+
+export const FAKTA_ART: ReadonlyMap<string, ImageMetadata> = new Map(
+	artEntries.map(([path, mod]) => {
+		const file = path.split("/").pop() ?? "";
+		return [file.replace(/\.[^.]+$/, ""), mod.default] as [string, ImageMetadata];
+	}),
+);
 
 /** Every cornerstone answer slug, including each cluster's overview. `groupSvar()`
  *  removes these from the FRÅGOR & SVAR index so FAKTA and the Q&A list never show

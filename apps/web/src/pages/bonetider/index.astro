@@ -1,4 +1,5 @@
 ---
+import { MOSKEER_ENABLED } from "../../lib/config";
 import AppPromo from "../../components/AppPromo.astro";
 import AnnualPrayerChart from "../../components/bonetider/AnnualPrayerChart.astro";
 import DaylightLatitude from "../../components/bonetider/DaylightLatitude.astro";
@@ -164,8 +165,9 @@ const description = `Bönetider ${year} för din ort – dagens Fajr, Ẓuhr, ʿ
 			<h2 id="bh2-find">Hitta din ort</h2>
 			<p class="lead bh2-lead">
 				{total.toLocaleString("sv-SE")} orter, ordnade efter län – varav {withScb.toLocaleString("sv-SE")} med
-				officiell befolkningsstatistik från {SCB_SOURCE}. Läs om <a href="/bonetider/metod/">hur tiderna beräknas</a>,
-				eller hitta en moské på vår <a href="/moskeer/">karta över moskéer i Sverige</a>.
+				officiell befolkningsstatistik från {SCB_SOURCE}. Läs om <a href="/bonetider/metod/">hur tiderna beräknas</a>{MOSKEER_ENABLED ? (
+				<Fragment>, eller hitta en moské på vår <a href="/moskeer/">karta över moskéer i Sverige</a>.</Fragment>
+			) : "."}
 			</p>
 			<input
 				type="search"

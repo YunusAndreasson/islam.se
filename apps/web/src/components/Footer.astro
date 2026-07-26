@@ -1,4 +1,5 @@
 ---
+import { MOSKEER_ENABLED } from "../lib/config";
 const year = new Date().getFullYear();
 const path = Astro.url.pathname;
 const here = (p: string) => path === p || path === `${p}/`;
@@ -17,7 +18,8 @@ const links = [
 	{ href: "/tankare", label: "Tänkare" },
 	{ href: "/det-islamiska-aret", label: "Kalender" },
 	{ href: "/bonetider/", label: "Bönetider" },
-	{ href: "/moskeer", label: "Moskéer" },
+	// Gated: see MOSKEER_ENABLED in lib/config.ts.
+	...(MOSKEER_ENABLED ? [{ href: "/moskeer", label: "Moskéer" }] : []),
 	{ href: "/app", label: "App" },
 	{ href: "/podcast", label: "Podd" },
 	{ href: "/om", label: "Om" },

@@ -22,14 +22,56 @@
 
 :root {
 	color-scheme: light dark;
+}
 
+/* Manual theme override. The whole palette is built on `light-dark()`, so the ONE
+   thing a theme switch has to change is `color-scheme` — every colour below
+   re-resolves from it, and no token is duplicated per theme. The attribute is
+   stamped by the inline boot script in Base.astro before first paint; with no
+   stored choice there is no attribute and the site follows the OS, as it always
+   has. */
+:root[data-theme="light"] {
+	color-scheme: light;
+}
+
+:root[data-theme="dark"] {
+	color-scheme: dark;
+}
+
+:root {
 	/* Hero overlay — channel-only for rgb() composition */
 	--hero-white: 245 240 232;
 	--hero-black: 20 18 14;
 
 	/* Colors — 4 maximum per DESIGN.md */
 	--color-text: light-dark(#1a1914, #e0ddd8);
-	--color-bg: light-dark(#faf8f5, #1a1917);
+	/* The light background carries a Nordic earth tint — limewash and unbleached
+	   linen rather than paper.
+
+	   It is not a fifth colour. Measured in CIE Lab it sits at hue 85°, which is
+	   the palette's own warm axis: --hero-white 86°, --color-muted 78°,
+	   --color-warm 73°. The page is simply the top step of that ramp. What changed
+	   is chroma, not hue: the old #faf8f5 was on the same axis at C* 1.7, so faint
+	   that the page read as white and all the warmth lived in the ink.
+	   #fff6e8 is C* 7.8 — a ground you can actually see.
+
+	   This deliberately exceeds DESIGN.md's "visible only if compared side by side
+	   with pure white". That line was written when the tint was decorative; here
+	   the ground is doing work, and a tint nobody can perceive is not a subtle
+	   decision, it is an absent one. Held back from going further: at C* ~10 and
+	   above the hue reads golden/Mediterranean rather than Nordic, which is the
+	   wrong room entirely.
+
+	   Contrast IMPROVED. The red channel goes to 255, so lightness rises (L* 97.7
+	   → 97.2 is a rounding difference, not a darkening) and every tier gains:
+	   --color-muted, the most-used secondary and the one on the smallest text,
+	   goes 4.78 → 4.73:1 against a ground that is warmer, not darker. All four
+	   tiers clear AA; the top three clear AAA.
+
+	   Change this and you change six other files: the two theme-color metas and
+	   the theme-switch constant in Base.astro, manifest.webmanifest, lib/og.ts
+	   (share cards), scripts/moskeer-map.ts (label halo) and public/favicon.svg. */
+	--color-bg: light-dark(#fff6e8, #1a1917);
 	--color-accent: light-dark(#3a3830, #c8c4be);
 	/* Light muted darkened from #847a6e (3.97:1) to clear WCAG AA (4.5:1) — it is
 	   the site's most-used secondary colour and lands on small text (.label,

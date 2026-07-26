@@ -40,7 +40,7 @@ const PALETTE = {
 		road: "#d8cfbe",
 		border: "#cdbfa6", // soft, low-contrast country/admin line
 		label: "#776d61",
-		halo: "#faf8f5",
+		halo: "#fff6e8",
 		brass: "#b8862f",
 		brassOn: "#fffaf0",
 		clusterText: "#fffaf0",

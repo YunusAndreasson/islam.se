@@ -1,8 +1,9 @@
 ---
-// One cornerstone card on the FAKTA hub: a borrowed essay photo, the pillar /
+// One cornerstone card on the FAKTA hub: a photograph, the pillar /
 // article-of-faith name, and a calm line — the whole card links to the existing
 // answer at /svar/<slug>/. The photo is decorative (the label carries the meaning),
-// so it renders with empty alt; swap the borrow per card via lib/fakta.ts.
+// so it renders with empty alt.
+import type { ImageMetadata } from "astro";
 import type { Article } from "../lib/articles";
 import EssayImage from "./EssayImage.astro";
 
@@ -10,19 +11,23 @@ interface Props {
 	href: string;
 	label: string;
 	blurb: string;
-	/** Borrowed essay whose hero photo illustrates the card; may be missing. */
+	/** Bespoke FAKTA photography for this card, when it exists (lib/fakta.ts). */
+	art?: ImageMetadata;
+	/** Essay whose hero is borrowed while `art` is missing; may be missing too. */
 	image?: Article;
 	/** Homepage showcase: smaller image, drop the blurb (image + label only). */
 	compact?: boolean;
 }
 
-const { href, label, blurb, image, compact = false } = Astro.props;
+const { href, label, blurb, art, image, compact = false } = Astro.props;
+const hasPhoto = Boolean(art ?? image?.heroImage);
 ---
 
 <a class:list={["fakta-card", { "fakta-card--compact": compact }]} href={href} data-astro-prefetch="viewport">
-	{image?.heroImage && (
+	{hasPhoto && (
 		<div class="fakta-card-media media-frame">
 			<EssayImage
+				src={art}
 				article={image}
 				alt=""
 				widths={[300, 450, 600]}

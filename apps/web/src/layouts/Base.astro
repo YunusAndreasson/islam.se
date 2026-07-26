@@ -136,8 +136,97 @@ if (articleMeta) {
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content" />
 		<meta name="color-scheme" content="light dark" />
-		<meta name="theme-color" content="#faf8f5" media="(prefers-color-scheme: light)" />
+		<meta name="theme-color" content="#fff6e8" media="(prefers-color-scheme: light)" />
 		<meta name="theme-color" content="#1a1917" media="(prefers-color-scheme: dark)" />
+
+		{/* The theme switch, whole. It lives inline in the <head> — not in a bundled
+		    module — for two reasons, both about the reader:
+
+		    1. It must stamp the stored theme BEFORE first paint. A deferred script
+		       lets the page paint in the OS scheme and then flip, and a light page
+		       flashing dark (or the reverse) is the most jarring thing we can show.
+		    2. The press is handled by delegation on `document`, so the button works
+		       from the moment it exists rather than from whenever a module finishes
+		       downloading. Binding it in Header.astro's module script measurably lost
+		       early clicks on a cold load — the reader pressed and nothing happened.
+
+		    Delegation also means there is nothing to re-bind: the control survives
+		    every ClientRouter swap on its own.
+
+		    All it changes is one attribute; tokens.css turns that into a palette via
+		    `color-scheme`, so no colour is defined twice. No stored value means no
+		    attribute, which means the site follows the OS — we only override a
+		    system setting the reader has explicitly overridden themselves. */}
+		<script is:inline>
+			(() => {
+				const KEY = "theme";
+				const read = () => {
+					try {
+						const v = localStorage.getItem(KEY);
+						return v === "light" || v === "dark" ? v : null;
+					} catch {
+						return null; // private mode / storage blocked — follow the OS
+					}
+				};
+				const active = () =>
+					read() ?? (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+
+				const stamp = () => {
+					const chosen = read();
+					const root = document.documentElement;
+					if (chosen) root.dataset.theme = chosen;
+					else delete root.dataset.theme;
+					// Both media-scoped metas get the chosen colour, so whichever one the
+					// OS matches paints the right browser chrome under an override.
+					if (chosen) {
+						const c = chosen === "dark" ? "#1a1917" : "#fff6e8";
+						for (const m of document.querySelectorAll('meta[name="theme-color"]'))
+							m.setAttribute("content", c);
+					}
+				};
+
+				const paintButton = () => {
+					const btn = document.querySelector(".theme-toggle");
+					if (!btn) return;
+					const dark = active() === "dark";
+					btn.dataset.theme = dark ? "dark" : "light";
+					// Not aria-pressed: the button does not represent dark mode, it moves
+					// to the other one. The name says which one that is.
+					btn.setAttribute("aria-label", dark ? "Byt till ljust läge" : "Byt till mörkt läge");
+				};
+
+				stamp(); // the reason this script is inline and in the head
+
+				document.addEventListener("click", (e) => {
+					if (!e.target.closest?.(".theme-toggle")) return;
+					// Two states, not three. Settling on an explicit light/dark means there
+					// is no way back to "follow the system" from the button — a deliberate
+					// trade: a tri-state control needs a visible label to be understood,
+					// and the mast has no room for one.
+					try {
+						localStorage.setItem(KEY, active() === "dark" ? "light" : "dark");
+					} catch {
+						/* storage blocked — nothing to persist, but still repaint below */
+					}
+					stamp();
+					paintButton();
+				});
+
+				// ClientRouter swaps in the new document's <html> attributes, dropping
+				// data-theme on every navigation; re-stamp before the new page paints.
+				for (const ev of ["DOMContentLoaded", "astro:after-swap"])
+					document.addEventListener(ev, () => {
+						stamp();
+						paintButton();
+					});
+
+				// Still following the OS? Then follow it live — macOS and iOS flip at
+				// sunset, Android on a schedule, and the reader may be mid-essay.
+				matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => {
+					if (!read()) paintButton();
+				});
+			})();
+		</script>
 
 		<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
 		<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
