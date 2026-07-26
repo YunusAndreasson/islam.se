@@ -152,11 +152,24 @@ def rule_guillemets(doc: Doc) -> list[dict]:
 
 
 def rule_curly_quotes(doc: Doc) -> list[dict]:
-    return [
-        _hit("curly-quotes", WARN, n, line, 'byt ”…” mot raka "…"')
-        for n, line in doc.frontmatter + doc.body
-        if "”" in line or "“" in line or "„" in line
-    ]
+    """Krulliga citattecken byts mot raka i prosan.
+
+    Två undantag, båda av samma skäl som em dash-regeln. Inne i ett blockcitat
+    är tecknet källans eget och rapporteras bara som info. I frontmatter hoppas
+    regeln över helt: där ligger texten i YAML-strängar som redan är dubbel-
+    citerade, och ”…” är då enda sättet att citera inuti utan att bryta
+    parsningen.
+    """
+    hits = []
+    for n, line in doc.body:
+        if not ("”" in line or "“" in line or "„" in line):
+            continue
+        if doc.is_blockquote(line):
+            hits.append(_hit("curly-quotes-i-citat", INFO, n, line,
+                             "citattext — lämna orörd"))
+            continue
+        hits.append(_hit("curly-quotes", WARN, n, line, 'byt ”…” mot raka "…"'))
+    return hits
 
 
 def rule_idag(doc: Doc) -> list[dict]:
@@ -184,13 +197,34 @@ def rule_double_space(doc: Doc) -> list[dict]:
     ]
 
 
+_TALORD = (
+    r"(?:noll|en|ett|två|tre|fyra|fem|sex|sju|åtta|nio|tio|elva|tolv|tretton|"
+    r"fjorton|femton|sexton|sjutton|arton|nitton|tjugo|trettio|fyrtio|femtio|"
+    r"sextio|sjuttio|åttio|nittio|hundra|tusen)"
+)
+
+
 def rule_unspaced_dash(doc: Doc) -> list[dict]:
-    """ord–ord utan blanksteg. Sifferintervall (1300–1373, 112:1–4) är korrekta."""
-    return [
-        _hit("unspaced-dash", WARN, n, line, "tankstreck mellan ord spatieras: ord – ord")
-        for n, line in doc.prose()
-        if re.search(r"(?<=[^\s\d–])–(?=[^\s\d–])", line)
-    ]
+    """ord–ord utan blanksteg.
+
+    Intervall skrivs med ospatierat tankstreck och är alltså korrekta — både med
+    siffror (1300–1373, 112:1–4) och med talen utskrivna (tio–elva dagar). Bara
+    det senare behöver kollas här; sifferfallen faller redan på regexets \\d.
+    """
+    hits = []
+    for n, line in doc.prose():
+        for m in re.finditer(r"(?<=[^\s\d–])–(?=[^\s\d–])", line):
+            vänster, höger = line[: m.start()], line[m.end() :]
+            if re.search(rf"(?:^|\W){_TALORD}$", vänster, re.I) and re.match(
+                rf"{_TALORD}\b", höger, re.I
+            ):
+                continue
+            hits.append(
+                _hit("unspaced-dash", WARN, n, line,
+                     "tankstreck mellan ord spatieras: ord – ord")
+            )
+            break
+    return hits
 
 
 def rule_du_tilltal(doc: Doc) -> list[dict]:

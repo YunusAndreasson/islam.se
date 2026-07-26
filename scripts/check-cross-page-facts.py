@@ -81,9 +81,11 @@ CANONICAL_FACTS = [
     {
         "id": "hajj-pilgrimer",
         "find": r"(?:omkring |cirka |drygt |närmare )?([\d,]+|en|två|tre)\s+miljon\w*\s+pilgrimer",
-        "ok": r"drygt 1,8 miljoner",
-        "canonical": "drygt 1,8 miljoner (GASTAT 2024)",
-        "note": "vad-ar-hajj har den källbelagda siffran — övriga sidor ska följa den",
+        "ok": r"omkring 1,7 miljoner",
+        "canonical": "omkring 1,7 miljoner (GASTAT 2026)",
+        "note": "vad-ar-hajj har den källbelagda siffran — övriga sidor ska följa den. "
+                "Uppdateras varje år när GASTAT publicerar säsongen (2024: 1 833 164, "
+                "2025: 1 673 230, 2026: 1 707 301)",
     },
     {
         "id": "nisab-guld",
