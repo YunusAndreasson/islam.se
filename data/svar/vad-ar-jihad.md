@@ -24,16 +24,24 @@ faq:
     a: "Som svar på angrepp, beslutad av en legitim ledare, utan att skada civila och utan att tvinga någon till tro."
 sources:
   - name: "Koranen 2:190"
+    url: "https://quran.com/2/190?translations=48"
   - name: "Koranen 2:256"
+    url: "https://quran.com/2/256?translations=48"
   - name: "Koranen 25:52"
+    url: "https://quran.com/25/52?translations=48"
   - name: "Koranen 29:69"
+    url: "https://quran.com/29/69?translations=48"
   - name: "Sahīh al-Bukhārī 1520"
+    url: "https://sunnah.com/bukhari:1520"
   - name: "Sahīh al-Bukhārī 3004"
+    url: "https://sunnah.com/bukhari:3004"
   - name: "Jāmiʿ at-Tirmidhī 1621"
+    url: "https://sunnah.com/tirmidhi:1621"
   - name: "Sunan an-Nasāʾī 4209"
+    url: "https://sunnah.com/nasai:4209"
   - name: "Ibn al-Qayyim, Zād al-Maʿād"
   - name: "Ibn Taymiyya, Majmūʿ al-Fatāwā"
-  - name: "islamqa.info – Domen om jihad och dess slag"
+  - name: "islamqa.info (Muhammad Sālih al-Munajjid) – Domen om jihad och dess slag"
     url: "https://islamqa.info/en/answers/20214"
 related:
   - "vad-ar-tawhid"
@@ -45,7 +53,7 @@ related:
 
 ## Vad betyder ordet jihad?
 
-Ordet *jihad* kommer från den arabiska roten *j-h-d*, som också ger *juhd* – möda, ansträngning. Att utföra jihad är att lägga ned all sin kraft för ett mål som Gud älskar. Den fulla termen i Koranen är *jihad fi sabilillah*, "strävan på Guds väg", och den som utövar den kallas *mujahid*, "den som strävar" – inte "den heliga krigaren" som ordet så ofta blir i nyhetsspråk. Koranen knyter strävan direkt till vägledning:
+Ordet *jihad* kommer från den arabiska roten *j-h-d*, som också ger *juhd*, möda och ansträngning. Att utföra jihad är att lägga ned all sin kraft för ett mål som Gud älskar. Den fulla termen i Koranen är *jihad fi sabilillah*, "strävan på Guds väg", och den som utövar den kallas *mujahid*, "den som strävar", inte "den heliga krigaren" som ordet så ofta blir i nyhetsspråk. Koranen knyter strävan direkt till vägledning:
 
 > Men dem som strävar och kämpar för Vår sak skall Vi sannerligen leda på de vägar som för till Oss. Gud är alltid med dem som gör det goda och det rätta.
 > — Koranen 29:69
@@ -54,15 +62,15 @@ Roten handlar alltså om riktning och uthållighet, inte om vapen; svärdet är 
 
 ## Är jihad detsamma som heligt krig?
 
-Nej. "Heligt krig" är en europeisk term utan motsvarighet i islams källor; det arabiska ordet för väpnad strid är *qital*, som är *en* av jihads former, inte hela jihad. Jihad är inte heller en av islams fem pelare (trosbekännelsen, bönen, allmosan, fastan och *hajj*). Profeten Muhammed pekade tvärtom ut fredliga handlingar som den högsta strävan. När en man bad om lov att gå ut i strid frågade Profeten om hans föräldrar levde och sade: "Sträva då i deras tjänst" (Sahīh al-Bukhārī 3004). Till Aisha förklarade han att kvinnans bästa jihad är en godtagen vallfärd (Sahīh al-Bukhārī 1520), och han kallade "ett sant ord inför en orättfärdig härskare" för den främsta jihad (Sunan an-Nasāʾī 4209). Våldet är undantaget och det mest reglerade; strävan är regeln.
+Nej. "Heligt krig" är en europeisk term utan motsvarighet i islams källor; det arabiska ordet för väpnad strid är *qital*, som är *en* av jihads former, inte hela jihad. Jihad är inte heller en av islams fem pelare (trosbekännelsen, bönen, allmosan, fastan och *hajj*). Profeten Muhammed pekade tvärtom ut fredliga handlingar som den högsta strävan. När en man bad om lov att gå ut i strid frågade profeten om hans föräldrar levde och sade: "Sträva då i deras tjänst" (Sahīh al-Bukhārī 3004). Till Aisha förklarade han att kvinnans bästa jihad är en godtagen vallfärd (Sahīh al-Bukhārī 1520), och han kallade "ett sant ord inför en orättfärdig härskare" för den främsta jihad (Sunan an-Nasāʾī 4209). Våldet är undantaget och det mest reglerade; strävan är regeln.
 
 ## Vilka former av jihad finns det?
 
-Den lärde Ibn al-Qayyim (d. 1350), elev till Ibn Taymiyya, räknar i sitt verk *Zād al-Maʿād* upp hela tretton grader av jihad, ordnade i fyra slag: strävan mot det egna jaget (*jihad an-nafs*), strävan mot Djävulen (*jihad ash-shaytan*), strävan mot förnekare och hycklare, och strävan mot förtryck och orätt. Kampen mot själen rymmer i sin tur fyra steg – att lära sig sanningen, handla efter den, kalla andra till den och hålla ut. Mot förnekare förs jihad med hjärtat, tungan, egendomen eller kroppen; mot orättvisa med handen, annars tungan, annars hjärtat. Endast en enda av de tretton graderna bär vapen – de övriga utkämpas i hjärtat, i munnen och i plånboken.
+Den lärde Ibn al-Qayyim (d. 1350), elev till Ibn Taymiyya, räknar i sitt verk *Zād al-Maʿād* upp hela tretton grader av jihad, ordnade i fyra slag: strävan mot det egna jaget (*jihad an-nafs*), strävan mot Djävulen (*jihad ash-shaytan*), strävan mot förnekare och hycklare, och strävan mot förtryck och orätt. Kampen mot själen rymmer i sin tur fyra steg: att lära sig sanningen, handla efter den, kalla andra till den och hålla ut. Mot förnekare förs jihad med hjärtat, tungan, egendomen eller kroppen; mot orättvisa med handen, annars tungan, annars hjärtat. Endast en enda av de tretton graderna bär vapen – de övriga utkämpas i hjärtat, i munnen och i plånboken.
 
 ## Vad är den största jihad – det inre eller det yttre?
 
-Många har hört att Profeten efter ett fältslag ska ha sagt: "Vi har återvänt från den lilla jihad till den stora jihad", med syftning på kampen mot själen. Ibn Taymiyya konstaterar dock att denna berättelse saknar varje kedja och inte kan tillskrivas Profeten. Rangordningen den uttrycker är ändå sann av andra skäl: Ibn al-Qayyim förklarar att strävan mot det egna jaget måste komma först och bär upp allt annat, för den som inte besegrat sina egna lustar kan aldrig besegra en yttre fiende. Med säker kedja sade Profeten: "Den som strävar är den som kämpar mot sin egen själ i lydnad mot Gud" (Jāmiʿ at-Tirmidhī 1621). Koranen kallar till och med kampen med uppenbarelsens budskap för en väldig strävan:
+Många har hört att profeten efter ett fältslag ska ha sagt: "Vi har återvänt från den lilla jihad till den stora jihad", med syftning på kampen mot själen. Ibn Taymiyya konstaterar dock att denna berättelse saknar varje kedja och inte kan tillskrivas profeten. Rangordningen den uttrycker är ändå sann av andra skäl: Ibn al-Qayyim förklarar att strävan mot det egna jaget måste komma först och bär upp allt annat, för den som inte besegrat sina egna lustar kan aldrig besegra en yttre fiende. Med säker kedja sade profeten: "Den som strävar är den som kämpar mot sin egen själ i lydnad mot Gud" (Jāmiʿ at-Tirmidhī 1621). Koranen kallar till och med kampen med uppenbarelsens budskap för en väldig strävan:
 
 > Men lyssna inte till vad förnekarna säger utan kämpa oförtröttligt mot dem med [Koranens hjälp].
 > — Koranen 25:52
@@ -76,4 +84,4 @@ Väpnad jihad är tillåten men strängt reglerad. Koranen tillåter strid endas
 > KÄMPA för Guds sak mot dem som för krig mot er, men var inte de första som griper till vapen; Gud älskar sannerligen inte angripare.
 > — Koranen 2:190
 
-Strid förs mot stridande, inte mot civila; klassisk fiqh förbjuder uttryckligen att döda kvinnor, barn, åldringar och gudstjänare, liksom att förstöra grödor och boskap. Beslutet om *qital* tillkommer en legitim ledare, inte enskilda grupper eller individer. Och målet är aldrig att framtvinga tro, ty "TVÅNG skall inte förekomma i trosfrågor" (Koranen 2:256). Den som dödar oskyldiga i jihads namn strider inte för Guds sak – utan mot den.
+Strid förs mot stridande, inte mot civila; klassisk fiqh förbjuder uttryckligen att döda kvinnor, barn, åldringar och gudstjänare, liksom att förstöra grödor och boskap. Beslutet om *qital* tillkommer en rättmätig ledare, inte enskilda grupper eller individer. Och målet är aldrig att framtvinga tro, ty "TVÅNG skall inte förekomma i trosfrågor" (Koranen 2:256). Den som dödar oskyldiga i jihads namn strider inte för Guds sak – utan mot den.

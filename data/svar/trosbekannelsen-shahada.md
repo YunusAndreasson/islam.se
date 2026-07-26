@@ -23,7 +23,9 @@ faq:
     a: "Shirk är motsatsen till shahadans första led: att ge något skapat den dyrkan som endast tillkommer Gud. Koranen beskriver shirk som den synd Gud inte förlåter den som dör i den (Koranen 4:48)."
 sources:
   - name: "Koranen 3:18"
+    url: "https://quran.com/3/18?translations=48"
   - name: "Sahīh al-Bukhārī 8"
+    url: "https://sunnah.com/bukhari:8"
   - name: "Ibn al-Jawzi, Talbīs Iblīs"
   - name: "Ibn al-Qayyim, ad-Dāʾ wa-d-dawāʾ"
   - name: "al-ibadah.com – Förklaring av trosbekännelserna"
@@ -37,6 +39,8 @@ sources:
     url: "https://www.metmuseum.org/art/collection/search/457209"
   - name: "Pew Research Center – How the Global Religious Landscape Changed From 2010 to 2020"
     url: "https://www.pewresearch.org/religion/2025/06/09/how-the-global-religious-landscape-changed-from-2010-to-2020/"
+  - name: "islamqa.info (Muhammad Sālih al-Munajjid) – Villkoren för lā ilāha illā Allāh"
+    url: "https://islamqa.info/en/answers/12295"
 related:
   - "vad-ar-tawhid"
   - "hur-blir-man-muslim"
@@ -47,26 +51,26 @@ related:
 
 ## Vad betyder shahada och hur lyder den?
 
-*Shahada* kommer av ett arabiskt verb för "att vittna": den troende avlägger ett vittnesmål om vad sanningen är. Samma ord används på arabiska om ett vittnesmål inför domstol, och något av den handlingens allvar ligger i bekännelsen. Formeln rymmer två vittnesmål, på arabiska *ash-shahadatayn* – "Jag vittnar att det inte finns någon gud utom Gud" (*ashhadu an lā ilāha illā Allāh*) och "Jag vittnar att Muhammed är Guds sändebud" (*ashhadu anna Muhammadan rasūl Allāh*). Den som bekänner den kallas *muslim*, "en som underkastar sig". Som sammanhängande formel står den inte i Koranen, men båda leden har direkt koraniskt stöd: det första bland annat i sura 47:19, det andra i 48:29. Orden är få och enkla, men de sammanfattar religionens hela innehåll: vem som ensam ska dyrkas, och genom vem vägledningen har kommit.
+*Shahada* kommer av ett arabiskt verb för "att vittna": den troende avlägger ett vittnesmål om vad sanningen är. Samma ord används om ett vittnesmål inför domstol, och något av den handlingens allvar ligger i bekännelsen. Formeln rymmer två vittnesmål, på arabiska *ash-shahadatayn* – "Jag vittnar att det inte finns någon gud utom Gud" (*ashhadu an lā ilāha illā Allāh*) och "Jag vittnar att Muhammed är Guds sändebud" (*ashhadu anna Muhammadan rasūl Allāh*). Den som bekänner den kallas *muslim*, "en som underkastar sig". Som sammanhängande formel står den inte i Koranen, men båda leden har direkt koraniskt stöd: det första bland annat i sura 47:19, det andra i 48:29. Orden är få och enkla, men de sammanfattar religionens hela innehåll: vem som ensam ska dyrkas, och genom vem vägledningen har kommit.
 
 ## Vad innebär "ingen gud utom Gud"?
 
-Det första ledet består av två steg. Först en förnekelse (*nafy*): allt som dyrkas vid sidan av Gud avvisas som falskt. Sedan en bekräftelse (*ithbāt*): dyrkan tillkommer Gud ensam. Detta är kärnan i *tawhīd*, läran om Guds enhet, och då särskilt enheten i dyrkan (*tawhīd al-ulūhiyya*), den av tawhīds tre delar som avguderiet kränker (al-ibadah.com). Dess raka motsats är *shirk*: att ge åt något skapat den dyrkan som tillkommer Skaparen ensam.
+Det första ledet består av två steg. Först en förnekelse (*nafy*): allt som dyrkas vid sidan av Gud avvisas som falskt. Sedan en bekräftelse (*ithbāt*): dyrkan tillkommer Gud ensam. Detta är kärnan i *tawhīd*, läran om Guds enhet, och då särskilt enheten i dyrkan (*tawhīd al-ulūhiyya*), den av tawhīds tre delar som avguderiet kränker. Dess raka motsats är *shirk*: att ge åt något skapat den dyrkan som tillkommer Skaparen ensam.
 
 > GUD [SJÄLV] vittnar – och [så gör] änglarna och de som har kunskap – att det inte finns en annan gud än Han, Upprätthållaren av rättvisa och jämvikt; ingen annan gud finns än Han, den Allsmäktige, den Vise.
 > — Koranen 3:18
 
-Den klassiske lärde Muhammad bin Sālih al-ʿUthaymīn förklarar att de "gudar" som dyrkas jämte Gud saknar all gudomlighet och all rätt till dyrkan: de är namn utan verklighet. Ibn al-Jawzi skriver om dem som tillbad stenbilder i *Talbīs Iblīs*:
+Den lärde Muhammad bin Sālih al-ʿUthaymīn förklarar att de "gudar" som dyrkas jämte Gud saknar all gudomlighet och all rätt till dyrkan: de är namn utan verklighet. Ibn al-Jawzi skriver om dem som tillbad stenbilder i *Talbīs Iblīs*:
 
 > En människa bör dyrka den som har gjort henne, inte det som hon själv har gjort.
 
 ## Vad innebär "Muhammed är Guds sändebud"?
 
-Det andra vittnesmålet binder den troende vid profeten Muhammed. Enligt al-ʿUthaymīn medför det fyra ting: att tro på allt han berättade, att lyda det han befallde, att hålla sig borta från det han förbjöd och att dyrka Gud endast på det sätt han föreskrev, det vill säga genom hans *sunna* (al-ibadah.com). Denna efterföljd av profetens sunna är också vad som har gett *ahl as-sunna*, sunnas folk, dess namn. Koranen kallar Muhammed profeternas sigill (33:40): han är den siste i raden av sändebud, och hans föredöme förblir därför måttstocken för hur Gud ska dyrkas. Samtidigt är han själv en tjänare (*ʿabd*) och ett sändebud, aldrig ett föremål för dyrkan; Koranen framställer honom genomgående som en budbärare utan egen makt över skada eller vägledning. Att hedra profeten är att följa honom, inte att tillbe honom.
+Det andra vittnesmålet binder den troende vid profeten Muhammed. Enligt al-ʿUthaymīn medför det fyra ting: att tro på allt han berättade, att lyda det han befallde, att hålla sig borta från det han förbjöd och att dyrka Gud endast på det sätt han föreskrev, det vill säga genom hans *sunna*. Denna efterföljd har också gett *ahl as-sunna*, sunnas folk, sitt namn. Koranen kallar Muhammed profeternas sigill (33:40): han är den siste i raden av sändebud, och hans föredöme förblir därför måttstocken för hur Gud ska dyrkas. Samtidigt är han själv en tjänare (*ʿabd*) och ett sändebud, aldrig ett föremål för dyrkan; genomgående framställs han som en budbärare utan egen makt över skada eller vägledning. Att hedra profeten är att följa honom, inte att tillbe honom.
 
 ## Hur blir man muslim genom shahada?
 
-Man blir muslim genom att uttala trosbekännelsen med både tunga och hjärta: orden ska sägas, och deras innebörd omfattas med övertygelse. Senare lärda har sammanställt sju villkor för att vittnesmålet ska vara giltigt (jämför Ibn Abī al-ʿIzz kommentar till *at-Tahāwiyya*): att man vet vad orden betyder, är viss utan tvivel, menar dem uppriktigt och talar sanning, tar emot dem, underkastar sig dem och älskar dem. Ett vittnesmål som bara rör läpparna men inte hjärtat gör ingen till troende. Omvänt krävs ingen ceremoni och ingen mellanhand: den som med uppriktigt hjärta säger orden har trätt in i islam i samma stund. I praktiken sker inträdet ofta i en moské, där den nye muslimen uttalar orden högt och får hjälp med uttalet, men giltigheten avgörs av hjärtat och tungan. Shahada är därför inte slutpunkten på en lång väg, utan steget som öppnar den.
+Man blir muslim genom att uttala trosbekännelsen med både tunga och hjärta: orden ska sägas, och deras innebörd omfattas med övertygelse. Senare lärda har sammanställt sju villkor för att vittnesmålet ska vara giltigt (jämför Ibn Abī al-ʿIzz' kommentar till *at-Tahāwiyya*): att man vet vad orden betyder, är viss utan tvivel, menar dem uppriktigt och talar sanning, tar emot dem, underkastar sig dem och älskar dem. Ett vittnesmål som bara rör läpparna men inte hjärtat gör ingen till troende. Omvänt krävs ingen ceremoni och ingen mellanhand: den som med uppriktigt hjärta säger orden har trätt in i islam i samma stund. I praktiken sker inträdet ofta i en moské, där den nye muslimen uttalar orden högt och får hjälp med uttalet, men giltigheten avgörs av hjärtat och tungan. Shahada är därför inte slutpunkten på en lång väg, utan steget som öppnar den.
 
 ## Varför är trosbekännelsen islams första pelare?
 

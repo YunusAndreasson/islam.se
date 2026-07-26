@@ -5,7 +5,7 @@ wordCount: 1423
 qualityScore: 8.6
 description: "Det finns en mening som de flesta sekulariserade svenskar kan skriva under på utan att tveka."
 imageAlt: "En ensam person står på en stig djupt inne i en hög, dimmig svensk granskog och blickar in bland stammarna."
-imageCaption: "Skogen är vacker — men den är inte en kyrka."
+imageCaption: "Skogen är vacker – men den är inte en kyrka."
 category: "Skapelsen"
 ---
 Det finns en mening som de flesta sekulariserade svenskar kan skriva under på utan att tveka. Religionssociologen David Thurfjell hörde den gång på gång när han intervjuade ett sjuttiotal vandrare i skogsområdena kring Stockholm och Uppsala:

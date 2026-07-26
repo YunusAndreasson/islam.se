@@ -12,7 +12,7 @@ keywords:
   - "shiaislam och sunniislam"
 faq:
   - q: "Vilka är fler, sunni eller shia?"
-    a: "Sunnimuslimerna är den stora majoriteten, omkring 85–90 procent av världens muslimer, medan shiamuslimerna utgör ungefär 10–13 procent. Shia har dock majoritet i bland annat Iran, Irak, Azerbajdzjan och Bahrain."
+    a: "Sunnimuslimerna är den stora majoriteten, omkring 87–90 procent av världens muslimer, medan shiamuslimerna utgör ungefär 10–13 procent. Shia har dock majoritet i bland annat Iran, Irak, Azerbajdzjan och Bahrain."
   - q: "Tror sunni och shia på samma Gud och samma Koran?"
     a: "Ja. Båda bekänner samma ende Gud, läser samma Koran, ber mot Kaba i Mecka och följer de fem pelarna. Skillnaderna gäller ledarskapet efter profeten, synen på följeslagarna och delvis vilka hadithsamlingar man stödjer sig på."
   - q: "Varför är Ali så viktig för shiamuslimer?"
@@ -23,11 +23,15 @@ faq:
     a: "I grunden ber båda samma bön mot Kaba, men praktiken skiljer sig på punkter: tolvarshia slår ofta samman de fem bönerna till tre tidpunkter och faller med pannan mot en lertavla (turba), medan sunnimuslimer ber vid fem skilda tider. Tolvarshia tillåter även tidsbegränsat äktenskap (mutʿa), vilket ahl as-sunna förkastar."
 sources:
   - name: "Koranen 9:100"
+    url: "https://quran.com/9/100?translations=48"
   - name: "Koranen 3:103"
+    url: "https://quran.com/3/103?translations=48"
   - name: "Sahīh al-Bukhārī 3655"
+    url: "https://sunnah.com/bukhari:3655"
   - name: "al-ibadah.com – Utsåg profeten ʿAli till kalif? (ʿAbd al-ʿAzīz Ibn Bāz)"
     url: "https://al-ibadah.com/troslara/sekter-rorelser-och-den-ratta-vagen-ahlus-sunnah/utsag-profeten-ali-till-kalif"
-  - name: "Pew Research Center – Mapping the Global Muslim Population"
+  - name: "Pew Research Center – Mapping the Global Muslim Population (2009)"
+    url: "https://www.pewresearch.org/religion/2009/10/07/mapping-the-global-muslim-population/"
 related:
   - "vad-ar-sunna"
   - "trosbekannelsen-shahada"
@@ -38,15 +42,15 @@ related:
 
 ## Vad är sunni och shia?
 
-Sunni är islams klart största gren. Namnet kommer av *ahl as-sunna wa'l-jamāʿa*, "efterföljelsens och samfundets folk", och syftar på den som följer Koranen och profetens *sunna* så som de tre första generationerna (*salaf*) förstod dem. Enligt Pew Research Center utgör sunnimuslimerna omkring 85–90 procent av världens muslimer – i dag omkring två miljarder människor – medan shia utgör ungefär 10–13 procent. Shia kommer av *shīʿat ʿAlī*, "Alis parti", och har sin tyngdpunkt i Iran, Irak, Azerbajdzjan, Bahrain och Libanon. Den största inriktningen är tolvarna (*ithnā ʿashariyya*), som väntar på den dolde tolfte imamens återkomst. Frågan som delar de två är inte *vad* de tror om Gud, utan *vem* de följer efter profeten.
+Sunni är islams klart största gren. Namnet kommer av *ahl as-sunna wa'l-jamāʿa*, "efterföljelsens och samfundets folk", och syftar på den som följer Koranen och profetens *sunna* så som de tre första generationerna (*salaf*) förstod dem. Enligt Pew Research Center utgör sunnimuslimerna omkring 87–90 procent av världens muslimer – i dag omkring två miljarder människor – medan shia utgör ungefär 10–13 procent. Shia kommer av *shīʿat ʿAlī*, "Alis parti", och har sin tyngdpunkt i Iran, Irak, Azerbajdzjan, Bahrain och Libanon. Den största inriktningen är tolvarna (*ithnā ʿashariyya*), som väntar på den dolde tolfte imamens återkomst. Frågan som delar de två är inte *vad* de tror om Gud, utan *vem* de följer efter profeten.
 
 ## Hur uppstod splittringen mellan sunni och shia?
 
-När Muhammad dog i Medina år 632 lämnade han ingen ostridig anvisning om vem som skulle efterträda honom. Majoriteten av följeslagarna samlades kring Abu Bakr, profetens närmaste vän, som blev den förste *kalifen* (efterträdaren). En mindre grupp menade att Ali hade pekats ut i förväg. Ali svor själv trohetsed till Abu Bakr och tjänade senare som den fjärde kalifen. Den verkliga brytningen kom årtionden senare: när Alis son Husayn dödades vid Karbala år 680 fick shia sin egen sorgehistoria och identitet, som varje år återupplevs under *ʿĀshūrāʾ*. Det som började som en fråga om ledarskap hade blivit två skilda minnen av samma historia.
+När Muhammed dog i Medina år 632 lämnade han ingen ostridig anvisning om vem som skulle efterträda honom. Majoriteten av följeslagarna samlades kring Abu Bakr, profetens närmaste vän, som blev den förste *kalifen* (efterträdaren). En mindre grupp menade att Ali hade pekats ut i förväg. Ali svor själv trohetsed till Abu Bakr och tjänade senare som den fjärde kalifen. Den verkliga brytningen kom årtionden senare: när Alis son Husayn dödades vid Karbala år 680 fick shia sin egen sorgehistoria och identitet, som varje år återupplevs under *ʿĀshūrāʾ*. Det som började som en fråga om ledarskap hade blivit två skilda minnen av samma historia.
 
 ## Vad är den största teologiska skillnaden?
 
-Skillnaden växte från frågan om ledarskap till en fråga om auktoritet. För shia är imamen inte bara en ledare utan en av Gud utsedd, syndfri och ofelbar (*ʿiṣma*) uttolkare av religionen – tolvarna räknar tolv sådana imamer med början i Ali. För *ahl as-sunna* är kalifen en vald, felbar ledare; den religiösa auktoriteten ligger i Koranen, *sunna* och de lärdas samstämmighet (*ijmāʿ*), inte i en ofelbar person. Eftersom grupperna delvis stödjer sig på olika hadithsamlingar uppstår också skillnader i lag och rituell praktik. Djupast ligger ändå synen på profetens följeslagare (*ṣaḥāba*), som Koranen prisar:
+Skillnaden växte från frågan om ledarskap till en fråga om auktoritet. För shia är imamen inte bara en ledare utan en av Gud utsedd, syndfri och ofelbar (*ʿisma*) uttolkare av religionen – tolvarna räknar tolv sådana imamer med början i Ali. För *ahl as-sunna* är kalifen en vald, felbar ledare; den religiösa auktoriteten ligger i Koranen, *sunna* och de lärdas samstämmighet (*ijmāʿ*), inte i en ofelbar person. Eftersom grupperna delvis stödjer sig på olika hadithsamlingar uppstår också skillnader i lag och rituell praktik. Djupast ligger ändå synen på profetens följeslagare (*sahāba*), som Koranen prisar:
 
 > Föregångsmännen, de första av dem som utvandrade och [de första] hjälparna, och de rättsinniga [människor] som följde i deras spår – Gud är nöjd med dem och de är nöjda [där de njuter] Hans [gåvor].
 > — Koranen 9:100
@@ -55,7 +59,7 @@ Där *ahl as-sunna* hedrar alla följeslagarna förhåller sig shia kritiskt til
 
 ## Vad har sunni och shia gemensamt?
 
-Det gemensamma är större än det skiljande. Båda bekänner *tawḥīd*, Guds absoluta enhet, och att Muhammad är det sista sändebudet. Båda läser samma Koran, vänder sig i bön mot Kaba i Mecka, fastar i ramadan och vallfärdar till samma heliga platser. Båda vilar på trosbekännelsen *shahāda* och de fem pelarna. Just enheten är ett uttryckligt koranbud:
+Det gemensamma är större än det skiljande. Båda bekänner *tawhīd*, Guds absoluta enhet, och att Muhammed är det sista sändebudet. Båda läser samma Koran, vänder sig i bön mot Kaba i Mecka, fastar i ramadan och vallfärdar till samma heliga platser. Båda vilar på trosbekännelsen *shahāda* och de fem pelarna. Just enheten är ett uttryckligt koranbud:
 
 > Och grip alla med ett fast grepp om Guds räddningslina och låt er inte splittras!
 > — Koranen 3:103
@@ -69,4 +73,4 @@ Enligt *ahl as-sunna wa'l-jamāʿa* är kärnan att älska och försvara alla pr
 > Vi ansåg under Guds sändebuds livstid Abu Bakr vara den främste, därefter Umar och därefter Uthman.
 > — Sahīh al-Bukhārī 3655
 
-Den klassiska hållningen avvisar därför påståendet att profeten skulle ha utsett Ali till efterträdare; som Ibn Bāz framhåller fanns ingen sådan anvisning, och Ali själv erkände Abu Bakrs och Umars företräde ([al-ibadah.com](https://al-ibadah.com/troslara/sekter-rorelser-och-den-ratta-vagen-ahlus-sunnah/utsag-profeten-ali-till-kalif)). Samtidigt är Ali djupt vördad – den fjärde rättledde kalifen, profetens svärson, en av de tio som under sin livstid fick löftet om paradiset. Att hålla fast vid följeslagarna utan att förkasta någon av dem är ingen partståndpunkt; det är gränsen mellan att följa samfundet och att splittra det.
+Den klassiska hållningen avvisar därför påståendet att profeten skulle ha utsett Ali till efterträdare; som Ibn Bāz framhåller fanns ingen sådan anvisning, och Ali själv erkände Abu Bakrs och Umars företräde. Samtidigt är Ali djupt vördad – den fjärde rättledde kalifen, profetens svärson, en av de tio som under sin livstid fick löftet om paradiset. Att hålla fast vid följeslagarna utan att förkasta någon av dem är ingen partståndpunkt; det skiljer den som följer samfundet från den som splittrar det.

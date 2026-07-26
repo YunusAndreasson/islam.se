@@ -8,7 +8,7 @@ category: "Skapelsen"
 ---
 En tredjedel av mänskligheten har aldrig sett Vintergatan. Siffran är ny – den kommer ur en internationell kartläggning av konstgjort nattljus publicerad i *Science Advances* 2016.[^1] I Europa lever nittio procent under himlar så genomlysta att stjärnhimlen krympt till ett fåtal punkter. Sverige, Norge och norra Skottland tillhör de sista europeiska regioner där Vintergatan överhuvudtaget kan urskiljas.
 
-Under nästan hela den mänskliga historien såg varje människa Vintergatan varje klar natt. Nomaden navigerade efter den, bonden sådde efter den, diktaren och teologen tydde den. Att vi gjort den osynlig är det tystaste av alla civilisationsexperiment. Inget beslut fattades. Inget larm ljöd. Vi tände en gatlampa i taget, och en natt var himlen tom.
+Under nästan hela den mänskliga historien såg varje människa Vintergatan varje klar natt. Nomaden styrde efter den, bonden sådde efter den, diktaren och teologen tydde den. Att vi gjort den osynlig är det tystaste av alla civilisationsexperiment. Inget beslut fattades. Inget larm ljöd. Vi tände en gatlampa i taget, och en natt var himlen tom.
 
 Frågan är inte estetisk. Vintergatan var aldrig bara vacker – den var en erfarenhet, en kroppslig påminnelse om att det synliga har en gräns. Det vi förlorade var inte skönhetsvärde utan vad mörkret möjliggjorde.
 

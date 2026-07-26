@@ -24,20 +24,28 @@ faq:
     a: "Att stå på slätten ʿArafat (wuqūf) den 9:e dhū-l-hijja. Den som missar wuqūf har missat själva hajj och får fullgöra vallfärden ett senare år."
 sources:
   - name: "Koranen 3:97"
+    url: "https://quran.com/3/97?translations=48"
   - name: "Koranen 22:27"
+    url: "https://quran.com/22/27?translations=48"
   - name: "Koranen 2:197"
+    url: "https://quran.com/2/197?translations=48"
   - name: "Sahīh al-Bukhārī 8"
+    url: "https://sunnah.com/bukhari:8"
   - name: "Sahīh al-Bukhārī 1521"
+    url: "https://sunnah.com/bukhari:1521"
   - name: "al-ibadah.com – Vallfärdens status inom islam och villkor"
     url: "https://al-ibadah.com/vallfard/status-for-vallfarden-inom-islam-och-villkor-for-a/"
-  - name: "Saudiarabiens statistikmyndighet GASTAT – Hajj 2024"
+  - name: "Saudiarabiens statistikmyndighet GASTAT – Hajj 2026 (1 707 301 pilgrimer)"
+    url: "https://www.stats.gov.sa/en/w/news/194"
+  - name: "islamqa.info (Muhammad Sālih al-Munajjid) – Kvinna på hajj utan mahram"
+    url: "https://islamqa.info/en/answers/34380"
 related:
   - "vad-ar-kaba"
   - "eid-al-fitr-och-eid-al-adha"
   - "trosbekannelsen-shahada"
 ---
 
-**Hajj är den islamiska vallfärden till Mecka och islams femte pelare – en plikt som varje vuxen, fri muslim vid sina sinnens fulla bruk ska fullgöra en gång i livet, förutsatt fysisk och ekonomisk förmåga.** Varje år samlar den enligt Saudiarabiens statistikmyndighet GASTAT drygt 1,8 miljoner pilgrimer (2024) i och kring Mecka under några bestämda dagar, männen klädda i samma enkla vita tyg.
+**Hajj är den islamiska vallfärden till Mecka och islams femte pelare – en plikt som varje vuxen, fri muslim vid sina sinnens fulla bruk ska fullgöra en gång i livet, förutsatt fysisk och ekonomisk förmåga.** Varje år samlar den omkring 1,7 miljoner pilgrimer i och kring Mecka under några bestämda dagar, männen klädda i samma enkla vita tyg.
 
 ## Vad betyder hajj och varför är den en pelare?
 
@@ -50,7 +58,7 @@ Av de fem pelarna är hajj den enda som är bunden till en bestämd plats på jo
 
 ## När och var utförs vallfärden?
 
-Hajj är bunden till en enda månad i året: *dhū-l-hijja*, den tolfte i den islamiska månkalendern, med höjdpunkten den 8 till 13. Eftersom månåret är kortare än solåret vandrar vallfärden runt elva dagar bakåt i den vanliga kalendern varje år; år 2026 väntas de centrala dagarna infalla i slutet av maj. Skådeplatsen är inte bara den heliga moskén (al-Masjid al-Harām) utan en rad platser utanför staden: slätten ʿArafat, dalen Muzdalifa och tältstaden Mina. Koranen knyter denna folkvandring direkt till Abraham:
+Hajj är bunden till en enda månad i året: *dhū-l-hijja*, den tolfte i den islamiska månkalendern, med höjdpunkten den 8 till 13. Eftersom månåret är kortare än solåret vandrar vallfärden omkring elva dagar bakåt i den gregorianska kalendern varje år; år 2026 väntas de centrala dagarna infalla i slutet av maj. Skådeplatsen är inte bara den heliga moskén (al-Masjid al-Harām) utan en rad platser utanför staden: slätten ʿArafat, dalen Muzdalifa och tältstaden Mina. Koranen knyter denna folkvandring direkt till Abraham:
 
 > Kungör för människorna [plikten att fullgöra] vallfärden. De skall komma till dig till fots och ridande på alla slag av snabbfotade riddjur och de skall komma från alla håll och från avlägsna trakter.
 > — Koranen 22:27
@@ -59,11 +67,11 @@ Ingen annan samling är så hårt bunden till en bestämd tid och plats – och 
 
 ## Vilka är de viktigaste riterna under hajj?
 
-Vallfärden börjar med att pilgrimen vid en bestämd gränsstation (*mīqāt*) träder in i vigningstillståndet *ihrām* och tar på sig pilgrimsdräkten, för männen två sömlösa vita tygstycken. Därefter följer en fast ordning: *tawāf*, sju varv runt Kaba; *saʿy*, sju vandringar mellan höjderna Safa och Marwa till minne av Hagars sökande efter vatten åt sin son Ismael; och den centrala riten *wuqūf*, att stå på ʿArafat den 9:e i bön och åkallan. Natten tillbringas i Muzdalifa, varpå pilgrimen i Mina kastar sten mot pelarna (*jamarāt*), slaktar ett offerdjur i samband med offerfesten Eid al-Adha och klipper håret. Sedan återvänder pilgrimen till Mecka för *tawāf al-ifāda*, vallfärdens andra oumbärliga rit, och tar till sist farväl av Huset med en avslutande *tawāf*. Utan *wuqūf* på ʿArafat är hela vallfärden ogiltig.
+Vallfärden börjar med att pilgrimen vid en bestämd gränsstation (*mīqāt*) träder in i vigningstillståndet *ihrām* och tar på sig pilgrimsdräkten, för männen två sömlösa vita tygstycken. Därefter följer en fast ordning: *tawāf*, sju varv runt Kaba; *saʿy*, sju vandringar mellan höjderna Safa och Marwa till minne av Hagars sökande efter vatten åt sin son Ismael; och den centrala riten *wuqūf*, att stå på ʿArafat den 9:e i bön och åkallan. Natten tillbringas i Muzdalifa, varpå pilgrimen i Mina kastar sten mot pelarna (*jamarāt*), slaktar ett offerdjur i samband med offerfesten Eid al-Adha och klipper håret. Sedan går färden tillbaka till Mecka för *tawāf al-ifāda*, vallfärdens andra oumbärliga rit, och pilgrimen tar till sist farväl av Huset med en avslutande *tawāf*. Utan *wuqūf* på ʿArafat är hela vallfärden ogiltig.
 
 ## Vem är skyldig att vallfärda och vad krävs?
 
-Skyldigheten gäller den som uppfyller fem villkor: att vara muslim, vuxen, vid sunda sinnen, fri och att ha *istitāʿa*, både ekonomisk och fysisk förmåga, vilket enligt flera rättsskolor för en kvinna även innefattar en *mahram* (al-ibadah.com: [Vallfärdens status och villkor](https://al-ibadah.com/vallfard/status-for-vallfarden-inom-islam-och-villkor-for-a/)). I förmågan ligger enligt klassisk rätt också att resvägen ska vara trygg och att familjens försörjning är tryggad under bortovaron. Den som har medel men av ålder eller sjukdom inte längre orkar resan kan låta en ställföreträdare vallfärda i sitt ställe. Grunden är Koranens ord:
+Skyldigheten gäller den som uppfyller fem villkor: att vara muslim, vuxen, vid sunda sinnen och fri, samt att ha *istitāʿa*, både ekonomisk och fysisk förmåga. För en kvinna innefattar förmågan enligt flera rättsskolor även en *mahram*. I förmågan ligger enligt klassisk rätt också att resvägen ska vara säker och att familjens försörjning är tryggad under bortovaron. Den som har medel men av ålder eller sjukdom inte längre orkar resan kan låta någon annan vallfärda i sitt ställe. Grunden är Koranens ord:
 
 > Vallfärden till denna Helgedom är en plikt gentemot Gud för var och en som har möjlighet att genomföra den.
 > — Koranen 3:97
@@ -76,4 +84,4 @@ Plikten är knuten till just förmågan: den fattige eller sjuke bär ingen skul
 
 ## Vad är belöningen för en godtagen hajj?
 
-En riktigt utförd vallfärd beskrivs som en fullständig nystart. Hadithlitteraturen knyter ett bestämt löfte till den pilgrim som håller sig fri från synd under riterna. Profeten sade: "Den som utför hajj och varken har samlag eller begår synd återvänder så som den dag då hans mor födde honom" (Sahīh al-Bukhārī 1521). Därför kräver Koranen renhet under själva färden: 2:197 förbjuder uttryckligen oanständigt tal, synd och tvister medan ihrām varar. Det vita tyget gör saken synlig: i Mecka står kungen i samma dräkt som den fattige, utan rang och utan namnskylt. Så länge ihrām varar är dessutom parfym, huvudbonad och sydda kläder förbjudna för männen, så att allt som skiljer en pilgrim från en annan läggs av. Alla går samma sju varv och ropar samma talbiya. Hajj är inte en resa till en plats, utan en generalrepetition inför domens dag.
+En godtagen vallfärd beskrivs som en fullständig nystart. Hadithlitteraturen knyter ett bestämt löfte till den pilgrim som håller sig fri från synd under riterna. Profeten sade: "Den som utför hajj och varken har samlag eller begår synd återvänder så som den dag då hans mor födde honom" (Sahīh al-Bukhārī 1521). Därför kräver Koranen renhet under själva färden: 2:197 förbjuder uttryckligen oanständigt tal, synd och tvister medan ihrām varar. Det vita tyget gör saken synlig: i Mecka står kungen i samma dräkt som den fattige, utan rang och utan namnskylt. I ihrām är dessutom parfym, huvudbonad och sydda kläder förbjudna för männen, så att allt som skiljer en pilgrim från en annan läggs av. Alla går samma sju varv och ropar samma talbiya. Hajj är inte en resa till en plats, utan en generalrepetition inför domens dag.

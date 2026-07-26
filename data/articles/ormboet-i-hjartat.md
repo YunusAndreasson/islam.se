@@ -52,11 +52,11 @@ Karin Boye, *Kallocain* (1940):
 
 Inte rikedom, inte befattning, inte makt. Ett *ögonblick av hög salighet* – en upplevelse så flyktig att dess ägare knappt minns den. Boyes berättare lever i en totalitär stat som kontrollerar allt utom detta: den inre upplevelsen. Det är där avunden finner sitt mål.
 
-Hjalmar Söderberg destillerade till sju ord i *Doktor Glas*: "Han är lycklig, och honom afundas jag."[^8]
+Hjalmar Söderberg fick ned det i sju ord i *Doktor Glas*: "Han är lycklig, och honom afundas jag."[^8]
 
 Söderbergs skärpa ligger i att han inte ens försöker förklara. Ingen orättvisa behöver ha begåtts, ingen förlust ha drabbat den avundsjuke – bara det outhärdliga faktum att en annan människa äger ett tillstånd man själv saknar. Avunden riktar sig inte mot ägandet utan mot *lyckan*. Och eftersom lycka inte kan överföras återstår bara önskan att den ska upphöra – att ljuset i den andres ögon ska slockna.
 
-Här sluts cirkeln till al-Māwardīs ursynd. Iblis avundades inte Adams kropp av lera – han avundades Adams rang inför Gud, att vara sedd och föredragen. Kain avundades inte Abels offer utan Guds blick mot det. Avunden är en protest inte mot fördelningen av ting utan mot att en annan varelse bär ljus.
+Här sluts cirkeln till al-Māwardīs ursynd. Iblis avundades inte Adams kropp av lera – han avundades Adams rang inför Gud, att vara sedd och föredragen. Kain avundades inte offret. Han avundades Guds blick mot det. Avunden protesterar mot något annat än tingens fördelning: mot att en annan varelse bär ljus.
 
 ## Mellanrummet
 
@@ -72,9 +72,9 @@ Al-Ḥasan al-Baṣrī (ca. 642–728) erbjöd den avgörande nyansen:
 
 Inte: undvik avund. Inte: bekämpa avund. Utan: avunden finns i dig redan – den har alltid funnits, den kommer alltid att finnas. Men den behöver inte nå längre än till bröstet.
 
-Mellan impulsen och handlingen ligger ett mellanrum, och i det mellanrummet avgörs allt. Strindberg saknade det. Hans avund drev rakt igenom till handling – han stötte bort vännerna, lät ormboet myllra ostört, blev dess första offer. Han kunde beskriva sjukdomen men inte bryta den, för insikt utan val förblir en del av sjukdomen.
+Mellan impulsen och handlingen ligger ett mellanrum, och i det mellanrummet avgörs allt. Strindberg saknade det. Hans avund drev rakt igenom till handling – han stötte bort vännerna, lät ormboet myllra ostört, blev dess första offer. Han kunde beskriva sjukdomen men inte bryta den. Insikt utan val är bara ett symtom till.
 
-Traditionen erbjuder inte en uppmaning att sluta känna utan en uppfordran att inte lyda. Avunden behöver jämförelsen för att andas – den lever av mätningen, min lycka mot din, mitt värde mot ditt. Den som slutar mäta sig mot andra och börjar mäta sig efter sina löften till Gud tar syret från ormboet. Gaddarna myllrar fortfarande. Men de når inte längre ut.
+Traditionen befaller ingen att sluta känna. Den befaller att inte lyda. Avunden behöver jämförelsen för att andas – den lever av mätningen, min lycka mot din, mitt värde mot ditt. Den som slutar mäta sig mot andra och börjar mäta sig efter sina löften till Gud tar syret från ormboet. Gaddarna myllrar fortfarande. Men de når inte längre ut.
 
 ---
 

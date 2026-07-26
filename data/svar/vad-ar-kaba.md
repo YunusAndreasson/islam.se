@@ -20,7 +20,9 @@ faq:
     a: "För att Allah befallt det. En gemensam riktning förenar världens muslimer i en enda orientering oavsett var de befinner sig – ett synligt uttryck för att de tillber en och samma Gud."
 sources:
   - name: "Koranen 2:125–127, 3:96–97, 5:97, 14:37"
+    url: "https://quran.com/2/125-127?translations=48"
   - name: "Umar om svarta stenen: Sahīh al-Bukhārī 1597; Sahīh Muslim 1270"
+    url: "https://sunnah.com/bukhari:1597"
   - name: "al-ibadah.com – Vallfärd (Hajj)"
     url: "https://al-ibadah.com/vallfard/"
 related:
@@ -33,7 +35,7 @@ related:
 
 Koranen ger Kaba en unik ställning: den var den första plats som någonsin restes på jorden för dyrkan av Gud.
 
-> "Det första Hus som grundlades för människorna var förvisso det i Bakkah, en välsignelse och vägledning för hela skapelsen."
+> Det första tempel som restes för människornas bruk var helt visst Helgedomen i Bakkah, en välsignelse och en ledstjärna för hela världen.
 > — Koranen 3:96
 
 Bakkah är ett av Meckas äldre namn. Att huset kallas det *första* förankrar muslimens gudstro i något ursprungligt – inte en sentida uppfinning, utan en återgång till den äldsta platsen för ren monoteism.
@@ -42,7 +44,7 @@ Bakkah är ett av Meckas äldre namn. Att huset kallas det *första* förankrar 
 
 Enligt Koranen byggdes – eller återuppbyggdes – Kaba av profeten Abraham och hans son Ismael på Allahs befallning:
 
-> "Och [minns] då Abraham byggde upp grunden till Huset tillsammans med Ismael [bedjande]: ”Vår Herre! Godta [detta] av oss. Du är sannerligen den Hörande, den Vetande.”"
+> Och när Abraham och Ismael lade grunden till Helgedomen [bad de:] "Herre! Tag nådigt emot vår [möda]! Du är den som hör allt, vet allt."
 > — Koranen 2:127
 
 Abraham lämnade en del av sin släkt i den karga dalen vid huset "för att de där skall förrätta bön" (14:37), och fick i uppdrag att rena platsen från avgudadyrkan åt dem som vandrar runt den (2:125). Häri ligger Kabas hela mening: en plats helgad åt den ende Guden, fri från avgudar.

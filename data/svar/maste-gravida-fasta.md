@@ -23,8 +23,11 @@ faq:
     a: "Exakt samma regel: hon får avbryta om hon fruktar skada för sig själv eller barnet, och tar normalt igen dagarna senare."
 sources:
   - name: "Koranen 2:184"
+    url: "https://quran.com/2/184?translations=48"
   - name: "Koranen 2:185"
+    url: "https://quran.com/2/185?translations=48"
   - name: "Sunan at-Tirmidhī 715"
+    url: "https://sunnah.com/tirmidhi:715"
   - name: "al-ibadah.com – Graviditet och amning (fasta)"
     url: "https://al-ibadah.com/fasta/amning-och-graviditet"
   - name: "Pew Research Center – Europas muslimska befolkning (2017)"
@@ -38,27 +41,27 @@ related:
 
 ## Får en gravid kvinna avbryta fastan under ramadan?
 
-Ja. De klassiska lärda är eniga om att en gravid eller ammande kvinna som fruktar för sig själv eller barnet får bryta fastan. Grunden är en *rukhsa* – en lättnad given för nödens skull, inte ett straff för svaghet. Hon räknas till de sjuka och nödställda som Koranen uttryckligen skonar:
+Ja. De klassiska lärda är eniga om att en gravid eller ammande kvinna som fruktar för sig själv eller barnet får bryta fastan. Grunden är en *rukhsa*, en lättnad given för nödens skull, inte ett straff för svaghet. Hon räknas till de sjuka och nödställda som Koranen uttryckligen skonar:
 
 > Men den som är sjuk eller [stadd] på resa [skall fasta därefter] under motsvarande antal dagar.
 > — Koranen 2:185
 
-Till detta kommer profeten Muhammeds ord, återgivna av följeslagaren Anas ibn Mālik al-Kaʿbī: "Gud har befriat resenären från halva bönen och från fastan, och den ammande och den gravida kvinnan från fastan" (Sunan at-Tirmidhī 715, bedömd *ḥasan*). Att hon får bryta fastan är alltså ingen senare uppmjukning – undantaget kommer från profetens egen mun.
+Till detta kommer profeten Muhammeds ord, återgivna av följeslagaren Anas ibn Mālik al-Kaʿbī: "Gud har befriat resenären från halva bönen och från fastan, och den ammande och den gravida kvinnan från fastan" (Sunan at-Tirmidhī 715, bedömd *hasan*). Att hon får bryta fastan är alltså ingen senare uppmjukning – undantaget kommer från profetens egen mun.
 
 ## Måste en frisk gravid kvinna ändå fasta?
 
-Ja. Det är en vanlig missuppfattning att graviditet automatiskt befriar från fastan. Så är det inte. Så länge kvinnan är vid god hälsa och varken hon eller läkare ser någon verklig risk, kvarstår fastan som en personlig plikt (*farḍ*) på samma villkor som för alla andra. Många kvinnor fastar utan problem, särskilt tidigt i graviditeten. En fastställd plikt faller inte bort på lösa antaganden, utan först när ett verkligt hinder visar sig.
+Ja. Det är en vanlig missuppfattning att graviditet automatiskt befriar från fastan. Så är det inte. Så länge kvinnan är vid god hälsa och varken hon eller läkare ser någon verklig risk, kvarstår fastan som en personlig plikt (*fard*) på samma villkor som för alla andra. Många kvinnor fastar utan problem, särskilt tidigt i graviditeten. En fastställd plikt faller inte bort på lösa antaganden, utan först när ett verkligt hinder visar sig.
 
-Tillåtelsen att avbryta vilar på ett verkligt *ʿudhr* (giltigt skäl) – kraftig utmattning, uttorkning, medicinsk varning eller välgrundad fruktan för fostret. Inbillad oro eller bekvämlighet räcker inte. Den troende följer här både uppenbarelsen och sitt eget omdöme inför Gud, som känner avsikten. Graviditeten i sig är inget undantag från fastan; bara den verkliga faran är det.
+Tillåtelsen att avbryta vilar på ett verkligt *ʿudhr* (giltigt skäl): kraftig utmattning, uttorkning, medicinsk varning eller välgrundad fruktan för fostret. Inbillad oro eller bekvämlighet räcker inte. Den troende följer här både uppenbarelsen och sitt eget omdöme inför Gud, som känner avsikten. Graviditeten i sig är inget undantag från fastan; bara den verkliga faran är det.
 
 ## Ska hon ta igen dagarna eller betala lösen (fidya)?
 
 Huvudregeln är *qadā*: hon fastar igen lika många dagar efter ramadan, eftersom graviditet är ett *tillfälligt* hinder (Koranen 2:185). Dagarna tas igen när hon orkar – helst före nästa ramadan, men de skjuts upp om fortsatt graviditet eller amning gör det omöjligt. Det skiljer henne från den kroniskt sjuke och den åldrige, som aldrig kan fasta och i stället ger *fidya* – mat åt en behövande för varje dag. Den som inte längre orkar fasta omfattas av versen "de som har möjlighet skall som offer ge en nödställd att äta" (Koranen 2:184), så som följeslagaren Ibn ʿAbbās förklarade den.
 
-Oenigheten gäller endast om *fidya* ska läggas till qadā när hon avbröt av fruktan för *barnet*. Skälet till tvisten är att Koranen själv bara nämner den sjuke och resenären, medan stödet för en extra måltid vilar på uttalanden från följeslagare som Ibn ʿAbbās. Permanenta kommittén (al-Lajna ad-Dāʾima) kräver enbart qadā. Abū Ḥanīfa är av samma åsikt, en ståndpunkt som Ibn ʿUthaymīn kallade stark eftersom ingen tydlig text påbjuder lösen. Mālik, ash-Shāfiʿī och Aḥmad ibn Ḥanbal lägger däremot till fidya i det fallet. Det minsta alla är eniga om: dagarna ska tas igen; tvisten rör enbart en extra måltid åt de fattiga.
+Oenigheten gäller endast om *fidya* ska läggas till qadā när hon avbröt av fruktan för *barnet*. Skälet till tvisten är att Koranen själv bara nämner den sjuke och resenären, medan stödet för en extra måltid vilar på uttalanden från följeslagare som Ibn ʿAbbās. Permanenta kommittén (al-Lajna ad-Dāʾima) kräver enbart qadā. Abū Hanīfa är av samma åsikt, en ståndpunkt som Ibn ʿUthaymīn kallade stark eftersom ingen tydlig text påbjuder lösen. Mālik, ash-Shāfiʿī och Ahmad ibn Hanbal lägger däremot till fidya i det fallet. Det minsta alla är eniga om: dagarna ska tas igen; tvisten rör enbart en extra måltid åt de fattiga.
 
 ## Vad gäller ammande kvinnor och fastan i Sverige?
 
-Regeln är identisk för den ammande: fruktar hon att fastan skadar henne själv eller barnet får hon avbryta och tar normalt igen dagarna. I Sverige – med uppemot 800 000 muslimer enligt Pew Research Center – får frågan dessutom en nordisk dimension, eftersom fastedygnet kan svänga mellan tio timmar på vintern och långt över tjugo på sommaren. En tjugotimmarsfasta sent i graviditeten är just den sortens påfrestning där fruktan för skada blir konkret snarare än inbillad.
+Regeln är identisk för den ammande: fruktar hon att fastan skadar henne själv eller barnet får hon avbryta och tar normalt igen dagarna. I Sverige, med uppemot 800 000 muslimer enligt Pew Research Center, får frågan dessutom en nordisk tyngd, eftersom fastedygnet kan svänga mellan tio timmar på vintern och långt över tjugo på sommaren. En tjugotimmarsfasta sent i graviditeten är just den sortens påfrestning där fruktan för skada blir konkret snarare än inbillad.
 
 Här väger en grundläggande princip tungt: skada ska avlägsnas, och bevarandet av liv går före. Därför ska kvinnan rådgöra med läkare. Visar undersökningen verklig fara för henne eller barnet är det inte längre bara tillåtet utan en plikt att bryta fastan – att fasta då vore olydnad, inte fromhet. Islam begär aldrig att en mor ska riskera det liv hon bär.

@@ -24,11 +24,17 @@ faq:
     a: "I omkring tjugotre år, från den första natten i Hira år 610 fram till profeten Muhammeds död år 632. Koranen uppenbarades gradvis, vers för vers."
 sources:
   - name: "Koranen 96:1–5"
+    url: "https://quran.com/96/1-5?translations=48"
   - name: "Koranen 2:185"
+    url: "https://quran.com/2/185?translations=48"
   - name: "Koranen 97:1"
+    url: "https://quran.com/97/1?translations=48"
   - name: "Sahih al-Bukhari 3"
+    url: "https://sunnah.com/bukhari:3"
   - name: "al-ibadah.com – Sändebuden"
     url: "https://al-ibadah.com/troslara/sandebuden"
+  - name: "Wikipedia – Muhammad (610 till 632)"
+    url: "https://en.wikipedia.org/wiki/Muhammad"
 related:
   - "vem-var-profeten-muhammed"
   - "vad-ar-koranen"
@@ -48,7 +54,7 @@ De ord ängeln gav blev inledningen till Koranens 96:e sura, al-ʿAlaq:
 > LÄS I din Herres namn, Han som har skapat – skapat människan av en grodd som sätter sig fast! Läs! Din Herre är den Främste Givaren, som har lärt [människan] pennans [bruk], lärt människan vad hon inte visste!
 > — Koranen 96:1–5
 
-Att den sista uppenbarelsen till mänskligheten öppnar med ordet "Läs" har de lärde i alla tider läst som ett program för hela tron: kunskap kommer först. Mannen som tog emot orden kunde själv varken läsa eller skriva; han var *ummī*, oläskunnig. Att hans allra första gudsord ändå blev en befallning att läsa är för muslimer beviset att Koranen aldrig kunde ha varit hans eget verk.
+Att den sista uppenbarelsen till mänskligheten öppnar med ordet "Läs" har de lärda i alla tider läst som ett program för hela tron: kunskap kommer först. Mannen som tog emot orden kunde själv varken läsa eller skriva; han var *ummī*, oläskunnig. Att hans allra första gudsord ändå blev en befallning att läsa är för muslimer beviset att Koranen aldrig kunde ha varit hans eget verk.
 
 ## Hur reagerade Muhammed på mötet med ängeln?
 
@@ -61,8 +67,8 @@ Att den första uppenbarelsen kom just under Ramadan hör samman med månadens h
 > För att ge människorna vägledning [inleddes] i månaden Ramadan uppenbarelsen av Koranen
 > — Koranen 2:185
 
-Den natt då uppenbarelsen började kallas *Laylat al-Qadr*, Allmaktens Natt, som en egen sura beskriver: "SE, VI har uppenbarat denna [heliga Skrift] under Allmaktens Natt" (Koranen 97:1). Samma sura säger att natten är mera värd än tusen månader. De lärde förklarar att hela Koranen denna natt först sänktes ned till den nedersta himlen, för att därifrån ges till profeten del för del under tjugotre år. Så blir både månadens ära och den gradvisa uppenbarelsen sanna på en gång. Det är därför muslimer fastar och vakar särskilt under Ramadans sista tio nätter, i hopp om att träffa just den natt då Koranens ord en gång steg ned från himlen.
+Den natt då uppenbarelsen började kallas *Laylat al-Qadr*, Allmaktens Natt, som en egen sura beskriver: "SE, VI har uppenbarat denna [heliga Skrift] under Allmaktens Natt" (Koranen 97:1). Samma sura säger att natten är mera värd än tusen månader. De lärda förklarar att hela Koranen denna natt först sänktes ned till den nedersta himlen, för att därifrån ges till profeten del för del under tjugotre år. Så blir både månadens ära och den gradvisa uppenbarelsen sanna på en gång. Det är därför muslimer fastar och vakar särskilt under Ramadans sista tio nätter, i hopp om att träffa just den natt då Koranens ord en gång steg ned från himlen.
 
 ## Hur fortsatte uppenbarelsen efter den första natten?
 
-Efter mötet i Hira följde en tystnad, *fatra*, då ingen ny uppenbarelse kom och Muhammed väntade i ovisshet. När den återupptogs fortsatte *wahy*, den gudomliga ingivelsen, att komma del för del under resten av profetens liv. Till skillnad från en bok som skrivs i ett svep växte Koranen fram gradvis (*munajjam*) under omkring tjugotre år, ofta som svar på konkreta händelser i det unga muslimska samfundet. Enligt islamisk troslära är detta själva grundmönstret för hur Gud vägleder människan: genom sändebud som tar emot uppenbarelse och förmedlar den ordagrant (al-ibadah.com – Sändebuden). Den uppenbarelse som börjat med ett enda ord i Hiras mörker var fullbordad först kort före profetens död år 632, då Koranens 114 suror stod färdiga.
+Efter mötet i Hira följde en tystnad, *fatra*, då ingen ny uppenbarelse kom och Muhammed väntade i ovisshet. När den återupptogs fortsatte *wahy*, den gudomliga ingivelsen, att komma del för del under resten av profetens liv. Till skillnad från en bok som skrivs i ett svep växte Koranen fram gradvis (*munajjam*) under omkring tjugotre år, ofta som svar på konkreta händelser i det unga muslimska samfundet. Enligt islamisk troslära är detta själva grundmönstret för hur Gud vägleder människan: genom sändebud som tar emot uppenbarelse och förmedlar den ordagrant. Den uppenbarelse som börjat med ett enda ord i Hiras mörker var fullbordad först kort före profetens död år 632, då Koranens 114 suror stod färdiga.

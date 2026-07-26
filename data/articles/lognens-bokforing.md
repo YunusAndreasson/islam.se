@@ -44,7 +44,7 @@ Hjalmar Bergman rörde vid samma skuld, klädd i luthersk ångest:
 
 > Samvetet, kära mor, är en säck för goda gärningar såväl som onda. Vad man än stoppar i den, så tynger den till jorden och kommer oss att längta efter långa vilan.[^12]
 
-Bergmans gestalt finner ingen utväg; han längtar efter döden som befrielse. Den islamiska traditionen öppnar en annan väg: *tawbah*, vändningen, möjligheten att lägga ner skulden utan att lägga ner livet. Möjligheten vilar på ett specifikt antagande: att sanningsenlighet är människans grundtillstånd, inte en prestation. Lögnen är ett avsteg från något som redan finns – och den som avvikit kan återvända, därför att det han återvänder till aldrig förstördes. Det är stunden då han hör sin egen röst säga det som verkligen hände och inte längre behöver minnas vad han påstod.
+Bergmans gestalt finner ingen utväg; han längtar efter döden som befrielse. Den islamiska traditionen öppnar en annan väg: *tawbah*, vändningen, möjligheten att lägga ner skulden utan att lägga ner livet. Möjligheten vilar på ett bestämt antagande: att sanningsenlighet är människans grundtillstånd, inte en prestation. Lögnen är ett avsteg från något som redan finns – och den som avvikit kan återvända, därför att det han återvänder till aldrig förstördes. Det är stunden då han hör sin egen röst säga det som verkligen hände och inte längre behöver minnas vad han påstod.
 
 ## Tre slag av osanning
 

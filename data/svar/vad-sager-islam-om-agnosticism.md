@@ -1,7 +1,7 @@
 ---
 title: "Vad säger islam om agnosticism?"
 question: "Vad säger islam om agnosticism?"
-description: "Agnosticism säger att Gud inte kan vetas — men islam hävdar motsatsen. Så ser Koranen på tvivel, visshet och kunskap om Skaparen som finns i människans natur."
+description: "Agnosticism säger att Gud inte kan vetas – men islam hävdar motsatsen. Så ser Koranen på tvivel, visshet och kunskap om Skaparen som finns i människans natur."
 publishedAt: "2026-06-23T00:00:00Z"
 keywords:
   - "islam agnosticism"
@@ -21,17 +21,26 @@ faq:
   - q: "Räknas en agnostiker som otrogen i islam?"
     a: "Tro (īmān) kräver att man bekräftar Gud och Hans sändebud, så den som efter att budskapet nått honom vägrar tro saknar denna tro. Samtidigt skiljer islam på den uppriktige sökaren och den som avvisar, och den slutliga domen tillhör Gud allena."
   - q: "Vilka bevis för Gud lyfter islam fram?"
-    a: "Främst människans medfödda fitra och tecknen (āyāt) i skapelsen — ordningen i kosmos och i människan själv (Koranen 41:53). Klassiska lärde läste varje sådan ordning som ett bevis för en Skapare."
+    a: "Främst människans medfödda fitra och tecknen (āyāt) i skapelsen – ordningen i kosmos och i människan själv (Koranen 41:53). Klassiska lärde läste varje sådan ordning som ett bevis för en Skapare."
 sources:
   - name: "Koranen 2:2"
+    url: "https://quran.com/2/2?translations=48"
   - name: "Koranen 10:36"
+    url: "https://quran.com/10/36?translations=48"
   - name: "Koranen 30:30"
+    url: "https://quran.com/30/30?translations=48"
   - name: "Koranen 41:53"
+    url: "https://quran.com/41/53?translations=48"
   - name: "Koranen 45:24"
+    url: "https://quran.com/45/24?translations=48"
   - name: "Sahīh al-Bukhārī 1385"
+    url: "https://sunnah.com/bukhari:1385"
   - name: "Sahīh Muslim 2658"
+    url: "https://sunnah.com/muslim:2658"
   - name: "Sahīh al-Bukhārī 3276"
+    url: "https://sunnah.com/bukhari:3276"
   - name: "Sahīh Muslim 134"
+    url: "https://sunnah.com/muslim:134"
   - name: "al-ibadah.com – Definitionen av tawḥīd och dess olika typer"
     url: "https://al-ibadah.com/troslara/tawhid/definitionen-av-tawhid-och-dess-olika-typer"
   - name: "Wikipedia – Agnosticism"
@@ -55,7 +64,7 @@ Ja. I klassisk islam är kunskapen om en Skapare ingen osäker slutsats, utan n�
 > GE DIG hän med hela din själ, [du som söker sanningen,] åt den rena, ursprungliga tron, den tro som Gud vid skapelsen lade ned som en naturens norm i människan
 > — Koranen 30:30
 
-Profeten Muhammed sade att varje barn föds i enlighet med *fitra* innan omgivningen formar det (Sahīh al-Bukhārī 1385; Sahīh Muslim 2658). Att Gud är Skapare och Herre kallas *tawḥīd ar-rubūbiyya*, och enligt al-ibadah.com bekräftade till och med de avgudadyrkare som profeten bekämpade just denna sanning. Quraysh i Mecka förnekade aldrig att Gud skapat dem. Striden stod om något helt annat: vem som förtjänade dyrkan.
+Profeten Muhammed sade att varje barn föds i enlighet med *fitra* innan omgivningen formar det (Sahīh al-Bukhārī 1385; Sahīh Muslim 2658). Att Gud är Skapare och Herre kallas *tawhīd ar-rubūbiyya*, och till och med de avgudadyrkare som profeten bekämpade bekräftade just denna sanning. Quraysh i Mecka förnekade aldrig att Gud skapat dem. Striden stod om något helt annat: vem som förtjänade dyrkan.
 
 ## Vad säger Koranen om att bygga sin världsbild på antaganden?
 
@@ -64,7 +73,7 @@ Agnostikern framställer ofta sin hållning som intellektuell ödmjukhet, ett l�
 > De flesta av dem lyssnar bara till antaganden; men antaganden kan aldrig bli en ersättning för sanningen
 > — Koranen 10:36
 
-Samma dom faller över dem som krymper tillvaron till det jordiska: "Det finns inget liv utom livet på jorden ... Men om detta har de ingen kunskap — de rör sig bara med lösa antaganden" (Koranen 45:24). Mot denna ovisshet ställer Koranen sin egen utgångspunkt: "DENNA Skrift — här råder inget tvivel" (Koranen 2:2). Det agnostiska "kanske" är därför, med Koranens mått, inte ödmjukhet utan *zann*: en gissning klädd i försiktighet.
+Samma dom faller över dem som krymper tillvaron till det jordiska: "Det finns inget liv utom livet på jorden ... Men om detta har de ingen kunskap – de rör sig bara med lösa antaganden" (Koranen 45:24). Mot denna ovisshet ställer Koranen sin egen utgångspunkt: "DENNA Skrift – här råder inget tvivel" (Koranen 2:2). Det agnostiska "kanske" är därför, med Koranens mått, inte ödmjukhet utan *zann*: en gissning klädd i försiktighet.
 
 ## Är det synd att tvivla på Gud i islam?
 
@@ -72,7 +81,7 @@ Islam skiljer mellan det plötsliga tvivlet och den valda otron. Att drabbas av 
 
 ## Hur bör en muslim möta en agnostiker?
 
-Den klassiska hållningen skiljer på personen och positionen: tron kan aldrig tvingas fram, så frågeställaren bemöts med respekt även när själva påståendet prövas hårt. En muslim pekar på det agnostikern själv kan se: ordningen i kosmos, livets finstämda villkor, samvetets röst. Resten får *fitra* sköta. Här åberopar Koranen tecknen (*āyāt*):
+Den klassiska hållningen skiljer på personen och ståndpunkten: tron kan aldrig tvingas fram, så frågeställaren bemöts med respekt även när själva påståendet prövas hårt. En muslim pekar på det agnostikern själv kan se: ordningen i kosmos, livets finstämda villkor, samvetets röst. Resten får *fitra* sköta. Här åberopar Koranen tecknen (*āyāt*):
 
 > Vi skall visa dem Våra tecken vid horisonten och inom dem själva, ända till dess [uppenbarelsens] sanning står klar för dem
 > — Koranen 41:53

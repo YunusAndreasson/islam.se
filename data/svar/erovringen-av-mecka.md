@@ -23,9 +23,13 @@ faq:
     a: "Nej. Det var Qurayshs allierade Banu Bakr som överföll den muslimskt allierade stammen Banu Khuzaʿa, vilket upphävde vapenvilan."
 sources:
   - name: "Koranen 17:81"
+    url: "https://quran.com/17/81?translations=48"
   - name: "Koranen 110:1–3 (an-Nasr)"
+    url: "https://quran.com/110/1-3?translations=48"
   - name: "Koranen 12:92"
+    url: "https://quran.com/12/92?translations=48"
   - name: "Sahīh al-Bukhārī 4287"
+    url: "https://sunnah.com/bukhari:4287"
   - name: "Wikipedia – Erövringen av Mecka"
     url: "https://sv.wikipedia.org/wiki/Er%C3%B6vringen_av_Mecka"
 related:

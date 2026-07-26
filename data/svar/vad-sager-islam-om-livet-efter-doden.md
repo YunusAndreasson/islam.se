@@ -24,12 +24,19 @@ faq:
     a: "Människans gärningar vägs på vågen (al-mīzān). Koranen 21:47 säger att inte ens något så litet som ett senapskorn lämnas utanför räkenskapen."
 sources:
   - name: "Koranen 3:185"
+    url: "https://quran.com/3/185?translations=48"
   - name: "Koranen 21:47"
+    url: "https://quran.com/21/47?translations=48"
   - name: "Koranen 23:100"
+    url: "https://quran.com/23/100?translations=48"
   - name: "Koranen 32:11"
+    url: "https://quran.com/32/11?translations=48"
   - name: "Koranen 67:2"
+    url: "https://quran.com/67/2?translations=48"
   - name: "Sahīh Muslim 8"
+    url: "https://sunnah.com/muslim:8"
   - name: "Sunan Abī Dāwūd 4753"
+    url: "https://sunnah.com/abudawud:4753"
   - name: "al-ibadah.com – Gravlivet (barzakh)"
     url: "https://al-ibadah.com/troslara/livet-i-graven"
   - name: "al-ibadah.com – Domedagen och dess tecken"
@@ -46,25 +53,25 @@ related:
 
 ## Är livet efter döden en av islams trosartiklar?
 
-Ja. I den berömda *Jibrīl*-haditen, återgiven i Sahīh Muslim 8, räknar profeten Muhammed upp trons sex grundpelare (*arkān al-īmān*): tro på Allah, Hans änglar, Hans böcker, Hans sändebud, den Yttersta dagen och ödet (*qadar*). Tron på *al-ākhira* hör alltså till själva definitionen av att vara troende, och den vilar på *tawḥīd* — att Allah ensam dömer och belönar. Koranen beskriver hela det jordiska livet som ett prov: Allah har "skapat döden och livet" för att pröva "vem av er som i sitt handlande är den bäste" (Koranen 67:2). Det jordiska livet är provet; den Yttersta dagen är när det rättas — och då går inga svar längre att sudda.
+Ja. I den berömda *Jibrīl*-haditen, återgiven i Sahīh Muslim 8, räknar profeten Muhammed upp trons sex grundpelare (*arkān al-īmān*): tro på Allah, Hans änglar, Hans böcker, Hans sändebud, den Yttersta dagen och ödet (*qadar*). Tron på *al-ākhira* hör alltså till själva definitionen av att vara troende, och den vilar på *tawhīd*: att Allah ensam dömer och belönar. Koranen beskriver hela det jordiska livet som ett prov: Allah har "skapat döden och livet" för att pröva "vem av er som i sitt handlande är den bäste" (Koranen 67:2). Det jordiska livet är provet; den Yttersta dagen är när det rättas – och då går inga svar längre att sudda.
 
 ## Vad händer med själen i graven (barzakh)?
 
-När den utsatta tiden är inne tar dödsängeln själen (jfr Koranen 32:11). Därefter inträder *barzakh*, mellantillståndet mellan döden och uppståndelsen; Koranen talar om ett hinder som skiljer de döda från återkomsten till världen ända till uppståndelsen (Koranen 23:100). I graven kommer två änglar, *Munkar* och *Nakīr*, och ställer den döde tre frågor: vem var din Herre, vad var din religion, vem var din profet? Enligt al-Barāʾ ibn ʿĀzibs hadith (Sunan Abī Dāwūd 4753) svarar den rättfärdige med trygghet och möter ro och ljus, medan förnekaren drabbas av gravens straff, *ʿadhāb al-qabr*. Ibn al-Qayyim ägnade ett helt verk, *Kitāb ar-Rūḥ*, åt själens tillstånd i detta skede. Graven är därför inget tyst väntrum — den är förhörssalen där domen redan har börjat.
+När den utsatta tiden är inne tar dödsängeln själen (jfr Koranen 32:11). Därefter inträder *barzakh*, mellantillståndet mellan döden och uppståndelsen; Koranen talar om ett hinder som skiljer de döda från återkomsten till världen ända till uppståndelsen (Koranen 23:100). I graven kommer två änglar, *Munkar* och *Nakīr*, och ställer den döde tre frågor: vem hans Herre var, vilken hans religion var och vem hans profet var. Enligt al-Barāʾ ibn ʿĀzibs hadith (Sunan Abī Dāwūd 4753) svarar den rättfärdige med trygghet och möter ro och ljus, medan förnekaren drabbas av gravens straff, *ʿadhāb al-qabr*. Ibn al-Qayyim ägnade ett helt verk, *Kitāb ar-Rūh*, åt själens tillstånd i detta skede. Graven är därför inget tyst väntrum – den är förhörssalen där domen redan har börjat.
 
 ## Vad innebär uppståndelsen och domedagen?
 
-På *Yawm al-Qiyāma*, Uppståndelsens dag, blåses det i basunen, kropparna återuppväcks (*al-baʿth*) och hela mänskligheten samlas inför Allah. Då hålls räkenskapen, *al-ḥisāb*: varje gärning, stor som liten, läggs fram och vägs på vågen, *al-mīzān*.
+På *Yawm al-Qiyāma*, Uppståndelsens dag, blåses det i basunen, kropparna återuppväcks (*al-baʿth*) och hela mänskligheten samlas inför Allah. Då hålls räkenskapen, *al-hisāb*: varje gärning, stor som liten, läggs fram och vägs på vågen, *al-mīzān*.
 
 > På Uppståndelsens dag skall Vi ställa fram rättvisande vågar och ingen skall då lida den minsta orätt. [Allt,] till och med det som väger så litet som ett senapskorn, skall Vi dra fram i ljuset.
 > — Koranen 21:47
 
-Den som får sin bok i höger hand är räddad, den som får den i vänster går mot straffet. Till sist måste var och en passera bron *aṣ-ṣirāṭ*, spänd över själva helvetet. Där hjälper varken börd, rikedom eller mäktiga vänner — var och en står ensam med sin egen bok i handen.
+Den som får sin bok i höger hand är räddad, den som får den i vänster går mot straffet. Till sist måste var och en passera bron *as-sirāt*, spänd över själva helvetet. Där hjälper varken börd, rikedom eller mäktiga vänner – var och en står ensam med sin egen bok i handen.
 
 ## Hur ser paradiset och helvetet ut i islam?
 
-Domens utfall är två slutmål: paradiset, *al-Janna*, och helvetet, *an-Nār* (även kallat Jahannam). Paradiset skildras i Koranen som lustgårdar med porlande floder, bestående glädje och framför allt Allahs välbehag, medan Elden är straffet för förnekelse och orättfärdighet. "Varje själ skall smaka döden", säger Koranen, och full lön ges först på Uppståndelsens dag (Koranen 3:185). Klassiska lärde betonar att Allah är på en gång fullkomligt rättvis och oändligt barmhärtig: en troende som tyngs av synder kan efter en tid föras ut ur Elden genom förbön och Guds nåd, medan paradiset är evigt. Elden kan ta slut för den som bar så lite som ett senapskorn av tro — men paradiset tar aldrig slut; i islam får barmhärtigheten sista ordet.
+Domens utfall är två slutmål: paradiset, *al-Janna*, och helvetet, *an-Nār* (även kallat Jahannam). Paradiset skildras i Koranen som lustgårdar med porlande floder, bestående glädje och framför allt Allahs välbehag, medan Elden är straffet för förnekelse och orättfärdighet. "Varje själ skall smaka döden", säger Koranen, och full lön ges först på Uppståndelsens dag (Koranen 3:185). Klassiska lärda betonar att Allah är på en gång fullkomligt rättvis och oändligt barmhärtig: en troende som tyngs av synder kan efter en tid föras ut ur Elden genom förbön och Guds nåd, medan paradiset är evigt. Elden kan ta slut för den som bar så lite som ett senapskorn av tro, men paradiset tar aldrig slut; i islam får barmhärtigheten sista ordet.
 
 ## Varför är tron på livet efter döden så viktig?
 
-Därför att den ger det jordiska livet både mening och tyngd. Om ingen slutgiltig dom fanns skulle förtryckaren och den förtryckte till sist mötas av samma intet; tron på *al-ākhira* svarar att ingen orätt förblir oavgjord. Den binder samman *tawḥīd*, moraliskt ansvar och hopp: människan är skapad för att prövas, hålls ansvarig för sina val och bärs av löftet om Guds barmhärtighet. Det är därför döden i islam inte talas om i viskningar — den är gränsen där allt till sist vägs rätt.
+Därför att den ger det jordiska livet både mening och tyngd. Om ingen slutgiltig dom fanns skulle förtryckaren och den förtryckte till sist mötas av samma intet; tron på *al-ākhira* svarar att ingen orätt förblir oavgjord. Den binder samman *tawhīd*, moraliskt ansvar och hopp: människan är skapad för att prövas, hålls ansvarig för sina val och bärs av löftet om Guds barmhärtighet. Därför talas det i islam inte om döden i viskningar – den är gränsen där allt till sist vägs rätt.

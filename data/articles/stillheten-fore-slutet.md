@@ -5,7 +5,7 @@ wordCount: 1237
 qualityScore: 8.9
 description: "Tre vintrar utan sommar. Bröder som dödar varandra för småpengar. Solen svartnar, stjärnorna faller, elden slukar allt."
 imageAlt: "Hopkurad, trasig gestalt sitter på en kullfallen stam vid en halvfrusen flod i ett ödelagt vinterlandskap med döda träd och en blek låg sol."
-imageCaption: "Fimbulvintern — tre vintrar utan sommar, världen före slutet."
+imageCaption: "Fimbulvintern – tre vintrar utan sommar, världen före slutet."
 category: "Norden"
 ---
 Tre vintrar utan sommar. Bröder som dödar varandra för småpengar. Solen svartnar, stjärnorna faller, elden slukar allt.
@@ -40,25 +40,26 @@ Det är inte undergången som förlamar. Det är att den inte leder någonstans.
 
 Anders skrev om kärnvapnen, men diagnosen träffar klimatångesten med ännu större skärpa. Den som fruktar atomkriget fruktar åtminstone en handling – ett beslut, en knapp som trycks. Den som fruktar klimatkollapsen fruktar trögheten: att ingen trycker på något alls. Att undergången inte ens förtjänar ordet *händelse*. Den bara sker, graders vis, medan vi ser på. I en apokalyps med rike finns martyriet – lidande som tjänar något. I en apokalyps utan rike finns bara uthärdandet. Handlingen saknar vittne.
 
-Harry Martinson formulerade spänningen i *Aniara* – inte som bön utan som iakttagelse:
+Harry Martinson formulerade spänningen i *Aniara*. Ingen bön – en iakttagelse:
 
-> Hur svårt att tro på livet efter detta. Hur rätt att önska livet efter detta.[^3]
+> Hur svårt att tro på livet efter detta.  
+> Hur rätt att önska livet efter detta.[^3]
 
 *Att önska* – inte att tro. Längtan som överlever förlusten av tron. Det är Anders apokalyps i en mening: själen som fortfarande söker riket fast intellektet avskaffat det.
 
 ## Ångesten som längtan
 
-Koranen namnger villkoret. Inte som diagnos utan som skapelseakt:
+Koranen namnger villkoret, och namnger det som skapelseakt:
 
 > Människan har sannerligen skapats ängslig.[^4]
 
-Det arabiska ordet är *halūʾan*: rastlös, otålig – den som grips av skräck vid motgång och av girighet vid framgång. Inte ett symtom att bota utan ett tillstånd att begripa. Människan bär en oro som inget skapat kan stilla, för oron pekar bortom det skapade. Den är inte ett fel i konstruktionen utan konstruktionens själva ärende.
+Det arabiska ordet är *halūʾan*: rastlös, otålig – den som grips av skräck vid motgång och av girighet vid framgång. Inget symtom att bota. Ett tillstånd att begripa. Människan bär en oro som inget skapat kan stilla, för oron pekar bortom det skapade. Oron hör till konstruktionen. Den *är* dess ärende.
 
 Ibn Qayyim al-Jawziyyah (1292–1350) vände på perspektivet. Det jordiska livet, skrev han, är "den kommande världens åkerfält och dess förebud".[^5] Ångesten inför förstörelsen är inte rädsla – den är förklädd längtan efter det som kommer *efter*. Rädslan för att allting tar slut är, på djupet, hoppet att något kommer sedan. Det är hoppet vänt ut och in.
 
 Tanken är skoningslös i sin enkelhet. Om ångesten vore ren rädsla kunde den bedövas – med förströelse, med aktivism, med vetenskapens löfte om hanterbarhet. Men den går inte att bedöva, för den bär på ett behov. Och behov stillas bara av det de söker.
 
-Anders såg att vår tid förlorat riket bortom undergången. Ibn Qayyim såg att förlusten inte är intellektuell utan existentiell: själen söker sitt upphov, och när den inte finner det kallar den sin längtan *ångest*. Klimatångesten saknar inte kunskap. Den saknar ett namn för det den är.
+Anders såg att vår tid förlorat riket bortom undergången. Ibn Qayyim såg att förlusten sitter djupare än i intellektet: själen söker sitt upphov, och när den inte finner det kallar den sin längtan *ångest*. Klimatångesten saknar inte kunskap. Den saknar ett namn för det den är.
 
 Martinsons astronauter i *Aniara* vet exakt vart de far. De saknar inte data. De saknar det som data inte kan ge: ett skäl att anlända.
 
@@ -76,7 +77,8 @@ Ibn Taymiyyah (1263–1328) lade till den avgörande nyansen: "Det man älskar n
 
 Koranen upprepar:
 
-> På varje svårighet följer förvisso lättnad. På varje svårighet följer förvisso lättnad.[^9]
+> På varje svårighet följer förvisso lättnad.  
+> På varje svårighet följer förvisso lättnad.[^9]
 
 Upprepningen är inte retorik. Den är grundsats: svårigheten *föder* lättnaden, som Ragnaröks eld föder den förnyade jorden. Men inte som naturlag. Som löfte.
 

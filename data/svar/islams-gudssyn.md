@@ -24,16 +24,24 @@ faq:
     a: "Det är Guds skönaste namn (al-asmāʾ al-husnā), till exempel den Nåderike och den Barmhärtige. En hadith nämner att Gud har nittionio namn (Sahīh al-Bukhārī 2736)."
 sources:
   - name: "Koranen 112:1–4"
+    url: "https://quran.com/112/1-4?translations=48"
   - name: "Koranen 2:255"
+    url: "https://quran.com/2/255?translations=48"
   - name: "Koranen 42:11"
+    url: "https://quran.com/42/11?translations=48"
   - name: "Koranen 50:16"
+    url: "https://quran.com/50/16?translations=48"
   - name: "Sahīh al-Bukhārī 2736"
+    url: "https://sunnah.com/bukhari:2736"
   - name: "Sahīh Muslim 2677"
+    url: "https://sunnah.com/muslim:2677"
   - name: "Ibn Taymiyya, Kitāb al-Īmān"
   - name: "Carl von Linné, Nemesis Divina"
+  - name: "Ahmad ibn Fadlan, Risāla (922)"
   - name: "al-ibadah.com – Monoteism (tawhīd)"
     url: "https://al-ibadah.com/troslara/tawhid"
   - name: "Pew Research Center – global muslimsk befolkning"
+    url: "https://www.pewresearch.org/religion/2025/06/09/how-the-global-religious-landscape-changed-from-2010-to-2020/"
 related:
   - "vad-ar-tawhid"
   - "trosbekannelsen-shahada"
@@ -44,9 +52,12 @@ related:
 
 ## Vad menar islam med att Gud är "en"?
 
-Läran om Guds enhet kallas *tawhīd* och är islams absoluta kärna. Klassiska lärda delar in den i tre delar (al-ibadah.com): Gud är ensam *Herre* som skapar och upprätthåller allt *(rubūbiyya)*, Gud är den ende som får dyrkas *(ulūhiyya)*, och Gud äger ensam sina fullkomliga namn och egenskaper *(asmāʾ wa sifāt)*. Den mest koncentrerade beskrivningen ger sura *al-Ikhlās*, "Den rena tron":
+Läran om Guds enhet kallas *tawhīd* och är islams absoluta kärna. De klassiska lärda urskiljer tre delar: Gud är ensam *Herre* som skapar och upprätthåller allt *(rubūbiyya)*, Gud är den ende som får dyrkas *(ulūhiyya)*, och Gud äger ensam sina fullkomliga namn och egenskaper *(asmāʾ wa sifāt)*. Den mest koncentrerade beskrivningen ger sura *al-Ikhlās*, "Den rena tron":
 
-> SÄG: "Han är Gud – En, Gud, den Evige, den av skapelsen Oberoende, av vilken alla beror. Han har inte avlat och inte blivit avlad, och ingen finns som kan liknas vid Honom."
+> SÄG: "Han är Gud – En,  
+> Gud, den Evige, den av skapelsen Oberoende, av vilken alla beror.  
+> Han har inte avlat och inte blivit avlad,  
+> och ingen finns som kan liknas vid Honom."
 > — Koranen 112:1–4
 
 Surans fyra korta rader avvisar i tur och ordning allt som skulle göra Gud till en bland flera: partner, barn, like och ursprung. I muslimsk undervisning hör den därför till det första ett barn får lära sig recitera.
@@ -63,7 +74,7 @@ Formuleringen rör vid den första av tawhīds tre delar, *rubūbiyya*: Gud som 
 
 ## Hur beskriver Koranen Guds egenskaper?
 
-Koranen beskriver Gud som levande, vetande och allsmäktig. Den mest kända versen om detta är Tronversen *(Āyat al-Kursī)*:
+Koranen beskriver Gud som levande, vetande och allsmäktig, ingenstans tydligare än i Tronversen *(Āyat al-Kursī)*:
 
 > GUD – det finns ingen gud utom Han, den Levande, skapelsens evige Vidmakthållare. Slummer överraskar Honom inte och inte heller sömn. [...] Hans allmakts tron omsluter himlarna och jorden. Att värna och bevara dem är för Honom ingen börda. Han är den Höge, den Härlige.
 > — Koranen 2:255
@@ -76,12 +87,18 @@ Gud är därför ingen gåta att lösa, utan en Herre att lära känna.
 
 ## Kan Gud avbildas eller liknas vid något?
 
-Nej. Eftersom Gud är fullkomligt olik allt skapat kan han varken avbildas, föreställas eller jämföras med en mänsklig förebild. Koranen sätter principen kort:
+Nej. Eftersom Gud är fullkomligt olik allt skapat kan han varken avbildas, föreställas eller jämföras med en mänsklig förebild. Koranen uttrycker principen kort:
 
 > Ingenting är som Han.
 > — Koranen 42:11
 
 Gud liknar ingenting som kan ses eller avbildas, och därför finns det i islam aldrig några bilder eller statyer av honom. Gud tillskrivs inte heller något kön: de grammatiskt maskulina formerna i arabiskan innebär inget sådant. Att likna Gud vid skapelsen kallas *tamthīl* och avvisas kategoriskt; de lärda tar emot Guds egna beskrivningar av sig själv som de står, utan att fråga hur *(bilā kayf)*. Att tillskriva Gud en like, eller att rikta tillbedjan mot något annat än honom, kallas *shirk* och räknas som den allvarligaste av alla synder – själva motsatsen till *tawhīd*. Moskéernas konst består därför av kalligrafi och geometriska mönster, aldrig av gudsbilder.
+
+Hur shirk såg ut i praktiken har beskrivits av en muslim som stod bredvid. År 922 färdades Ahmad ibn Fadlan som sändebud för kalifen i Bagdad uppför Volga och mötte där de handelsmän han kallar *rūs*, i allmänhet identifierade som nordbor. Han såg dem gå i land, söka upp en hög trästolpe med ett ansikte som en människas och falla ner inför den:
+
+> Herre, jag har kommit från ett avlägset land med så och så många trälinnor och så och så många sobelskinn. [...] Jag har med mig den här gåvan till dig, och jag önskar att du sänder mig en köpman med gott om dinarer och dirhemer, som köper allt jag vill sälja utan att pruta.
+
+Gick handeln väl, slaktade mannen boskap och lade köttet framför stolpen. Om natten kom hundarna och åt upp det, och han förklarade att hans herre var nöjd och hade tagit emot gåvan. Bönen är mänsklig nog: en köpman långt hemifrån ber om hjälp med det han rest för. Men den riktas till något som människan själv har täljt, och som därför går att köpslå med. Det är just den möjligheten tawhīd stänger.
 
 ## Hur nära är Gud människan?
 
@@ -90,4 +107,4 @@ Trots att Gud är upphöjd över sin skapelse är han inte fjärran. Koranen bes
 > Vi har skapat människan och Vi vet vad hennes själ viskar till henne; ja, Vi är närmare henne än hennes egen halspulsåder.
 > — Koranen 50:16
 
-Denna närhet förstås i klassisk troslära som en närhet genom Guds vetande – inte genom att han blandas med skapelsen: Gud förblir upphöjd över allt, och ändå undgår honom ingenting. Därför präglas förhållandet till Gud av både vördnad och förtröstan. Människan dyrkar honom i bön, hoppas på hans nåd och fruktar hans rättvisa, och hon åkallar honom *(duʿā)* utan mellanhänder, i förvissningen att han hör varje ord. Ingen instans står emellan bönen och den som hör den.
+Klassisk troslära förstår detta som en närhet i vetande – inte som att Gud blandas med skapelsen: han förblir upphöjd över allt, och ändå undgår honom ingenting. Därför präglas förhållandet till Gud av både vördnad och förtröstan. Människan dyrkar honom i bön, hoppas på hans nåd och fruktar hans rättvisa, och hon åkallar honom *(duʿā)* utan mellanhänder, i förvissningen att han hör varje ord. Ingen instans står emellan bönen och den som hör den.

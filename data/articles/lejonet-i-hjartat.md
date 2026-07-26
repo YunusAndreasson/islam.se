@@ -18,7 +18,7 @@ Men en fråga ställdes aldrig. Hastigheten är konstant, snedvridningarna finns
 
 ## Lejonet
 
-Ibn Qayyim al-Jawziyyah, verksam i 1300-talets Damaskus, ägnade i *Madārij al-Sālikīn* ett kapitel åt begreppet *firāsah* – en klarsyn han skilde skarpt från både vardaglig intuition och gudomlig uppenbarelse. Hans ord:
+Ibn Qayyim al-Jawziyyah, verksam i 1300-talets Damaskus, ägnade i *Madārij al-Sālikīn* ett kapitel åt begreppet *firāsah* – en klarsyn han höll noga isär från både vardaglig intuition och gudomlig uppenbarelse. Hans ord:
 
 > Firāsah är ett ljus som Gud kastar i Sin tjänares hjärta, genom vilket han skiljer sanning från lögn.[^2]
 
@@ -30,7 +30,7 @@ Lejonet tvekar inte. Det beräknar inte. Det slår ned med hela sin kraft i ett 
 
 > Firāsah är i enlighet med trons styrka; den med starkast tro har skarpast firāsah.[^4]
 
-Här skiljer sig traditionen från allt Kahneman kan erbjuda. Modern kognitionsvetenskap förklarar intuitionens fel som *kognitiva* – snedvridningar i hjärnans genvägar – och föreskriver övervakning: låt System 2, det analytiska tänkandet, granska varje impuls. Ibn Qayyim ställer en annan diagnos. Felet är inte kognitivt utan moraliskt: ingivelsen slår fel för att betraktarens hjärta är grumligt. Och behandlingen är inte övervakning utan rening. Skillnaden i människosyn är grundläggande: Kahneman ser en maskin med inbyggda fel, Ibn Qayyim ett instrument skapat för klarhet, fördunklat av hur dess ägare lever.
+Här skiljer sig traditionen från Kahneman i grunden. Modern kognitionsvetenskap förklarar intuitionens fel som *kognitiva* – snedvridningar i hjärnans genvägar – och föreskriver övervakning: låt System 2, det analytiska tänkandet, granska varje impuls. Ibn Qayyim ställer en annan diagnos. Felet är moraliskt: ingivelsen slår fel för att betraktarens hjärta är grumligt, och grumlighet botas med rening, inte med tillsyn. Skillnaden i människosyn är grundläggande: Kahneman ser en maskin med inbyggda fel, Ibn Qayyim ett instrument skapat för klarhet, fördunklat av hur dess ägare lever.
 
 Profeten Muḥammad ﷺ sammanfattade grundsatsen: "Akta er för den troendes firāsah, ty han ser med Guds ljus."[^5]
 
@@ -42,13 +42,13 @@ Shāh al-Kirmānī, en tidig asket som Ibn Qayyim ofta anförde som föredöme, 
 
 Fyra handlingar. Ingen rör förståndet. Ingen ber dig läsa mer, tänka snabbare, granska djupare. Samtliga rör levnadssättet: hur du bär dig, vad du äter, vart du riktar ögonen, huruvida du vakar över ditt eget inre.
 
-Här vänds ett modernt grundantagande på huvudet. Vi skiljer kunskap från moral – vad du *vet* har inget med hur du *lever* att göra. En skarp analytiker kan vara moraliskt fördärvad; en god människa kan vara trångsynt. Så lyder den outtalade övertygelsen, och hela det västerländska kunskapsidealet vilar på den. En professor kan vara en bedragare utan att hans forskning lider. Eller det är åtminstone vad vi inbillar oss.
+Här vänds ett modernt grundantagande på huvudet. Vi skiljer kunskap från moral – vad du *vet* har inget med hur du *lever* att göra. En vass analytiker kan vara moraliskt fördärvad; en god människa kan vara trångsynt. Så lyder den outtalade övertygelsen, och hela det västerländska kunskapsidealet vilar på den. En professor kan vara en bedragare utan att hans forskning lider. Eller det är åtminstone vad vi inbillar oss.
 
-Shāh al-Kirmānī hävdar motsatsen. Ditt levnadssätt avgör inte bara vad du gör utan vad du *förmår se*. Den som äter det förbjudna fördunklar sitt hjärta; det fördunklade hjärtat ser inte klart; den som inte ser klart fattar dåliga beslut och kallar det omdöme. Kedjan är oundviklig – inte gudfruktighet som belöning utan kausalitet: ett bestämt sätt att leva formar en bestämd förmåga att se.
+Shāh al-Kirmānī hävdar motsatsen. Ditt levnadssätt avgör mer än vad du gör. Det avgör vad du *förmår se*. Den som äter det förbjudna fördunklar sitt hjärta. Ett fördunklat hjärta ser inte klart. Och den som inte ser klart fattar dåliga beslut och kallar det omdöme. Kedjan är oundviklig – orsak och verkan, ingen belöning för gudsfruktan: ett bestämt sätt att leva formar en bestämd förmåga att se.
 
 Och lägg märke till att inget av villkoren kräver en viss grad av övertygelse. De beskriver handlingar, inte trosbekännelser. Man kan pröva dem som man prövar en levnadsregel: följ dem under en tid och se om skärpan tilltar. Traditionen hävdar att den gör det. Det är ett påstående om verkligheten, inte ett krav på förhandstro.
 
-Var och en känner igen det villkoren pekar mot. Stunder av klarhet, ögonblick då man ser rakt igenom ett läge med en skärpa som förvånar en själv – och perioder av dimma, då omdömet sviker och man fattar beslut man senare inte begriper. Ibn Qayyim hävdar att skillnaden inte är slumpmässig. Den som lever oredligt blir inte bara moraliskt svag. Han blir hjärteblind – handlar inte bara fel utan *ser* fel, förväxlar fara med trygghet, tillfälligt med beständigt, yta med djup.
+Var och en känner igen det villkoren pekar mot. Stunder av klarhet, ögonblick då man ser rakt igenom ett läge med en skärpa som förvånar en själv – och perioder av dimma, då omdömet sviker och man fattar beslut man senare inte begriper. Ibn Qayyim hävdar att skillnaden inte är slumpmässig. Den som lever oredligt blir inte bara moraliskt svag. Han blir hjärteblind. Han *ser* fel – förväxlar fara med trygghet, tillfälligt med beständigt, yta med djup.
 
 ## Teckenläsarna
 

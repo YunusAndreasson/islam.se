@@ -5,7 +5,7 @@ wordCount: 1590
 qualityScore: 8.7
 description: "År 1377 skrev den nordafrikanske historikern Ibn Khaldūn att samhällen föds ur gemensamma måltider och dör när aptiten blir privat. Sexhundra år senare lever fyrtiotvå procent av Sveriges hushåll ensamma, och ett möbelföretag reser ett långbord på torget för att fylla tomrummet."
 imageAlt: "Ensam man i vit bönemössa på en busskur vid en grå svensk sjö, blicken sänkt mot telefonen."
-imageCaption: "Gemenskapen som krympt till en skärm — den enskilde vid det grå vattnet."
+imageCaption: "Gemenskapen som krympt till en skärm – den enskilde vid det grå vattnet."
 category: "Samhälle"
 ---
 En stockholmare sitter vid köksbordet, om det ens finns ett köksbord; kanske är det skrivbordet, omgjort till matplats för stunden. Matkassen levererades till dörren, portionerad för en, vald av en algoritm. Måltiden tar tolv minuter. Ingen ser honom äta. Ingen vet vad han åt.

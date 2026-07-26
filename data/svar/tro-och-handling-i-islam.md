@@ -24,9 +24,13 @@ faq:
     a: "Den högsta grenen är trosbekännelsen lā ilāha illā-llāh, och den lägsta är att avlägsna något skadligt från vägen (Sahīh Muslim 35)."
 sources:
   - name: "Koranen 103:1–3"
+    url: "https://quran.com/103/1-3?translations=48"
   - name: "Koranen 8:2"
+    url: "https://quran.com/8/2?translations=48"
   - name: "Sahīh Muslim 35"
+    url: "https://sunnah.com/muslim:35"
   - name: "Sahīh al-Bukhārī 9"
+    url: "https://sunnah.com/bukhari:9"
   - name: "al-ibadah.com – Förståelse av islam (troslära)"
     url: "https://al-ibadah.com/troslara/forstaelse-av-islam"
 related:
@@ -39,7 +43,7 @@ related:
 
 ## Vad menas med tro (imān) och handling i islam?
 
-Den klassiska definitionen av *imān* har tre delar: övertygelse i hjärtat, ord på tungan och handling med kroppen. Hjärtats del är *tawḥīd* – att erkänna att ingen förtjänar dyrkan utom Gud. Tungans del är trosbekännelsen, *shahāda*. Kroppens del är handlingarna: bönen, allmosan, fastan och all annan lydnad som tron kräver. De lärda inom *ahl as-sunna* – traditionens folk, vars väg Ibn Taymiyya och Ibn al-Qayyim företräder – sammanfattar det i formeln "övertygelse, ord och handling" (*iʿtiqād, qawl wa ʿamal*). Tron är alltså inte en känsla man håller dold i bröstet, utan ett liv som syns; ett hjärta som verkligen tror sätter lemmarna i rörelse.
+Den klassiska definitionen av *imān* har tre delar: övertygelse i hjärtat, ord på tungan och handling med kroppen. Hjärtats del är *tawhīd*: att erkänna att ingen förtjänar dyrkan utom Gud. Tungans del är trosbekännelsen, *shahāda*. Kroppens del är handlingarna: bönen, allmosan, fastan och all annan lydnad som tron kräver. De lärda inom *ahl as-sunna*, traditionens folk, vars väg Ibn Taymiyya och Ibn al-Qayyim företräder, sammanfattar det i formeln "övertygelse, ord och handling" (*iʿtiqād, qawl wa ʿamal*). Tron är alltså inte en känsla man håller dold i bröstet, utan ett liv som syns; ett hjärta som verkligen tror sätter lemmarna i rörelse.
 
 ## Hör de goda handlingarna till tron eller följer de av den?
 
@@ -48,7 +52,7 @@ Här ligger frågans kärna. Enligt *ahl as-sunna* är handlingarna en *del* av 
 > Tron har sextio- eller sjuttiotal grenar; den förnämsta är orden "ingen gud finns utom Gud", och den ringaste att avlägsna något skadligt från vägen. Och blygsamheten (*al-ḥayāʾ*) är en gren av tron.
 > — Sahīh Muslim 35; Sahīh al-Bukhārī 9
 
-I en och samma mening rymmer hadithen ett ord (trosbekännelsen), en kroppslig gärning (att röja vägen) och ett hjärtats tillstånd (blygsamheten) – alla kallade grenar av *tron*. Koranen binder samman dem lika hårt:
+I en och samma mening rymmer hadithen ett ord (trosbekännelsen), en kroppslig gärning (att röja vägen) och ett hjärtats tillstånd (blygsamheten), alla kallade grenar av *tron*. Koranen binder samman dem lika hårt:
 
 > VID DEN flyende tiden! Människan förbereder helt visst sin egen undergång, utom de som tror och lever ett rättskaffens liv och råder varandra [att hålla fast vid] sanningen och råder varandra [att bära motgång med] tålamod.
 > — Koranen 103:1–3
@@ -57,11 +61,11 @@ Gärningen är alltså inte trons frukt utan en av dess grenar; att vilja skilja
 
 ## Varför kallas detta en medelväg mellan tro och handling?
 
-Den gamla rubriken över denna fråga – "en medelväg mellan tro och handling" – syftar på traditionens folk och deras plats mellan två ytterligheter. *Murjiʾa* skilde handlingen helt från tron och menade att synder inte skadar tron så länge hjärtat tror; därmed riskerade de att göra lydnaden likgiltig. *Khawārij* gjorde tvärtom: de räknade varje stor synd som otro och förklarade syndaren för icke-muslim. *Ahl as-sunna* avvisar bådadera. Handlingen hör till tron, så synd försvagar den verkligen – men den som faller i synd lämnar inte därmed islam. Mellan likgiltighet och fördömande löper en smalare väg: allvar utan utestängning.
+Uttrycket "en medelväg mellan tro och handling" syftar på traditionens folk och deras plats mellan två ytterligheter. *Murjiʾa* skilde handlingen helt från tron och menade att synder inte skadar tron så länge hjärtat tror; därmed riskerade de att göra lydnaden likgiltig. *Khawārij* gjorde tvärtom: de räknade varje stor synd som otro och förklarade syndaren för icke-muslim. *Ahl as-sunna* avvisar bådadera. Handlingen hör till tron, så synd försvagar den verkligen, men den som faller i synd lämnar inte därmed islam. Mellan likgiltighet och fördömande löper en smalare väg: allvar utan utestängning.
 
 ## Kan tron öka och minska?
 
-Ja. Eftersom handlingen är en del av tron, växer tron med lydnad och försvagas av synd – en grundsats hos *salaf*, de tre första generationerna. Koranen säger det rakt ut:
+Ja. Eftersom handlingen är en del av tron, växer tron med lydnad och försvagas av synd, en grundsats hos *salaf*, de tre första generationerna. Koranen säger det rakt ut:
 
 > Troende är enbart de som bävar i sina hjärtan då de hör Guds namn nämnas, och som känner sig stärkta i tron då de hör Hans budskap läsas upp …
 > — Koranen 8:2

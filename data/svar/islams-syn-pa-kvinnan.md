@@ -24,14 +24,23 @@ faq:
     a: "Den klassiska hållningen är att täckande klädsel inför icke-mahram är påbjuden, men den får inte framtvingas och definierar inte kvinnans värde. Läs mer på sidan om hijab."
 sources:
   - name: "Koranen 4:1"
+    url: "https://quran.com/4/1?translations=48"
   - name: "Koranen 33:35"
+    url: "https://quran.com/33/35?translations=48"
   - name: "Koranen 16:97"
+    url: "https://quran.com/16/97?translations=48"
   - name: "Koranen 9:71"
+    url: "https://quran.com/9/71?translations=48"
   - name: "Koranen 4:7"
+    url: "https://quran.com/4/7?translations=48"
   - name: "Koranen 4:19"
+    url: "https://quran.com/4/19?translations=48"
   - name: "Koranen 4:34"
+    url: "https://quran.com/4/34?translations=48"
   - name: "Sahīh al-Bukhārī 5971"
+    url: "https://sunnah.com/bukhari:5971"
   - name: "Sunan at-Tirmidhī 3895"
+    url: "https://sunnah.com/tirmidhi:3895"
   - name: "al-ibadah.com – troslära"
     url: "https://al-ibadah.com/troslara/"
 related:
@@ -40,7 +49,7 @@ related:
   - "vad-ar-tawhid"
 ---
 
-**Islams syn på kvinnan är att hon är mannens fullvärdiga andliga jämlike inför Gud, med egna och okränkbara rättigheter till liv, egendom, utbildning, arv och giftermål – samtidigt som man och kvinna tilldelas delvis olika roller i familjen.** Allt ramas in av *tawhīd*, att Gud ensam tillbeds: inför Honom står de båda könen på exakt samma grund. Jämlikhet i värde betyder här inte att rollerna är identiska. Båda mäts med samma måttstock – *taqwā*, gudsmedvetenhet – men bär olika ansvar.
+**Islams syn på kvinnan är att hon är mannens fullvärdiga andliga jämlike inför Gud, med egna och okränkbara rättigheter till liv, egendom, utbildning, arv och giftermål – samtidigt som man och kvinna tilldelas delvis olika roller i familjen.** Allt ramas in av *tawhīd*, att Gud ensam tillbeds: inför Honom står de båda könen på exakt samma grund. Jämlikhet i värde betyder här inte att rollerna är identiska. Båda mäts med samma måttstock, *taqwā* eller gudsmedvetenhet, men bär olika ansvar.
 
 ## Är kvinnan jämlik mannen i islam?
 
@@ -49,24 +58,24 @@ I sin religiösa och mänskliga värdighet är kvinnan mannens jämlike. Koranen
 > [För] de män och de kvinnor som har underkastat sig Guds vilja … har Gud i beredskap förlåtelse för deras synder och en rik belöning.
 > — Koranen 33:35
 
-Den som gör gott, "man eller kvinna", utlovas "ett gott liv" (Koranen 16:97), och de troende av båda könen kallas "varandras [sanna] vänner och fasta stöd" (Koranen 9:71). Den klassiska trosläran, sammanfattad på al-ibadah.com, drar samma slutsats: man och kvinna skiljer sig inte i värde inför Gud, bara i de uppgifter de anförtros. Inför Gud vägs ingen efter sitt kön utan efter sitt hjärta, och vågen är densamma för man som för kvinna.
+Den som gör gott, "man eller kvinna", utlovas "ett gott liv" (Koranen 16:97), och de troende av båda könen kallas "varandras [sanna] vänner och fasta stöd" (Koranen 9:71). Den klassiska trosläran drar samma slutsats: man och kvinna skiljer sig inte i värde inför Gud, bara i de uppgifter de anförtros. Inför Gud vägs ingen efter sitt kön utan efter sitt hjärta, och vågen är densamma för man som för kvinna.
 
 ## Vilka rättigheter ger islam kvinnan?
 
-Kvinnan i islam har en helt självständig rättslig ställning. Hon äger sin egendom på egen hand – före, under och efter ett äktenskap – och varken make eller far får förfoga över den. Hon har en garanterad arvsandel:
+Kvinnan i islam har en helt självständig rättslig ställning. Hon äger sin egendom på egen hand före, under och efter ett äktenskap, och varken make eller far får förfoga över den. Hon har en garanterad arvsandel:
 
-> Männen har rätt till en andel av vad föräldrar och nära anhöriga efterlämnar och kvinnorna har rätt till en andel … en andel föreskriven [av Gud].
+> MÄN HAR rätt till en andel av vad föräldrar och nära anhöriga efterlämnar och kvinnor har rätt till en andel av vad föräldrar och nära anhöriga efterlämnar, vare sig det är litet eller mycket – en andel föreskriven [av Gud].
 > — Koranen 4:7
 
-Vid giftermål tillfaller brudgåvan, *mahr*, henne personligen, och inget äktenskap är giltigt utan hennes eget samtycke. Hon har rätt att söka kunskap och att arbeta. Dessa rättigheter – egendom, arv och samtycke – fastställdes i den klassiska rättstraditionen långt innan flera europeiska rättssystem gav gifta kvinnor motsvarande egendomsrätt. Det som i dag firas som en modern landvinning var här en religiös plikt – nedtecknad sekler innan Europa följde efter.
+Vid giftermål tillfaller brudgåvan, *mahr*, henne personligen, och inget äktenskap är giltigt utan hennes eget samtycke. Hon har rätt att söka kunskap och att arbeta. Egendom, arv och samtycke stod fast i den klassiska rättstraditionen sekler innan flera europeiska rättssystem gav gifta kvinnor motsvarande egendomsrätt. Det som i dag firas som en modern landvinning var här en religiös plikt.
 
 ## Vad säger islam om modern och hustrun?
 
-Få relationer ges högre rang än moderns. När en man frågade profeten Muhammad vem som mest förtjänar hans goda sällskap, svarade Profeten "din mor" tre gånger innan han nämnde fadern (Sahīh al-Bukhārī 5971). Det berömda uttrycket att paradiset ligger vid mödrarnas fötter har svaga ordalydelser men en innebörd som de lärda bekräftar. Mot hustrun är måttstocken lika tydlig: "De bästa av er är de som är bäst mot sina hustrur" (Sunan at-Tirmidhī 3895). Koranen befaller mannen att leva med sin hustru "i vänskap och samförstånd" (Koranen 4:19) och beskriver makarna som en källa till ro och ömhet för varandra. En tro som gör vänligheten mot kvinnan till själva måttet på mannens tro kan omöjligt förakta henne.
+Få relationer ges högre rang än moderns. När en man frågade profeten Muhammed vem som mest förtjänar hans goda sällskap, svarade profeten "din mor" tre gånger innan han nämnde fadern (Sahīh al-Bukhārī 5971). Det berömda uttrycket att paradiset ligger vid mödrarnas fötter har svaga ordalydelser men en innebörd som de lärda bekräftar. Mot hustrun är måttstocken lika tydlig: "De bästa av er är de som är bäst mot sina hustrur" (Sunan at-Tirmidhī 3895). Koranen befaller mannen att leva med sin hustru "i vänskap och samförstånd" (Koranen 4:19) och beskriver makarna som en källa till ro och ömhet för varandra. En religion som gör vänligheten mot kvinnan till måttet på mannens tro kan omöjligt förakta henne.
 
 ## Betyder olika roller att kvinnan är underordnad?
 
-Här ligger den vanligaste missuppfattningen. Koranen ger mannen *qiwāma* – ett ansvar att "ha ansvar för och omsorg om kvinnorna … i kraft av att de underhåller dem med sina ägodelar" (Koranen 4:34). Den klassiska traditionen läser detta som en börda lagd på mannen, inte ett privilegium: han är skyldig att försörja och skydda henne oavsett hennes egen förmögenhet. Olika roller speglar olika ansvar, inte olika människovärde. Athari-lärda som Ibn al-Qayyim betonar att hela förhållandet vilar på barmhärtighet och rättvisa, och att den som missbrukar sin ställning syndar. *Qiwāma* är inte en tron mannen sitter på över henne, utan en börda han bär för hennes skull.
+Här ligger den vanligaste missuppfattningen. Koranen ger mannen *qiwāma*, ett ansvar att "ha ansvar för och omsorg om kvinnorna … i egenskap av [kvinnornas] försörjare" (Koranen 4:34). Den klassiska traditionen läser detta som en börda lagd på mannen: han är skyldig att försörja och skydda henne oavsett hennes egen förmögenhet. Olika roller speglar olika ansvar, inte olika människovärde. Athari-lärda som Ibn al-Qayyim betonar att hela förhållandet vilar på barmhärtighet och rättvisa, och att den som missbrukar sin ställning syndar. *Qiwāma* är inte en tron mannen sitter på över henne, utan en börda han bär för hennes skull.
 
 ## Hade kvinnor inflytande och kunskap i islam?
 

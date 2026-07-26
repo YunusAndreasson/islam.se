@@ -1,7 +1,7 @@
 ---
 title: "Finns det bevis för Guds existens i islam?"
 question: "Finns det bevis för Guds existens i islam?"
-description: "I islam är Guds existens inget olöst mysterium — skapelsen och människans egen natur sägs redan vittna om Honom. Här är argumenten, och var de tar slut."
+description: "I islam är Guds existens inget olöst mysterium – skapelsen och människans egen natur sägs redan vittna om Honom. Här är argumenten, och var de tar slut."
 publishedAt: "2026-06-23T00:00:00Z"
 keywords:
   - "bevis för Guds existens islam"
@@ -23,12 +23,19 @@ faq:
     a: "Nej. Klassisk islamisk teologi håller att förnuftet leder fram till en Skapare, medan uppenbarelsen sedan berättar vem Han är och hur Han ska dyrkas."
 sources:
   - name: "Koranen 3:190"
+    url: "https://quran.com/3/190?translations=48"
   - name: "Koranen 6:75"
+    url: "https://quran.com/6/75?translations=48"
   - name: "Koranen 21:22"
+    url: "https://quran.com/21/22?translations=48"
   - name: "Koranen 30:8"
+    url: "https://quran.com/30/8?translations=48"
   - name: "Koranen 41:53"
+    url: "https://quran.com/41/53?translations=48"
   - name: "Koranen 52:35–36"
+    url: "https://quran.com/52/35-36?translations=48"
   - name: "Sahīh al-Bukhari 1385"
+    url: "https://sunnah.com/bukhari:1385"
   - name: "Carl von Linné, Egenhändiga anteckningar"
   - name: "al-ibadah.com – Tawhid (troslära)"
     url: "https://al-ibadah.com/troslara/tawhid/"
@@ -38,7 +45,7 @@ related:
   - "vad-sager-islam-om-ateism"
 ---
 
-**Ja, islam håller Guds existens för bevisad** — men beviset liknar inte en matematisk formel. Det består av *āyāt*, "tecken", som enligt Koranen pekar mot Skaparen i allt som finns och i människans egen natur. Ordet *āya* betyder på samma gång "vers" och "tecken": universum och uppenbarelsen är för islam två sidor av samma bevis. Den verkliga frågan blir då varför människan vänder sig bort trots att tecknen omger henne.
+**Ja, islam håller Guds existens för bevisad** – men beviset liknar inte en matematisk formel. Det består av *āyāt*, "tecken", som enligt Koranen pekar mot Skaparen i allt som finns och i människans egen natur. Ordet *āya* betyder på samma gång "vers" och "tecken": universum och uppenbarelsen är för islam två sidor av samma bevis. Den verkliga frågan blir då varför människan vänder sig bort trots att tecknen omger henne.
 
 ## Vad menar islam med "bevis" för Gud?
 
@@ -70,12 +77,12 @@ Gudsmedvetandet är därför något människan bär med sig från början, en gl
 
 ## Varför kan det bara finnas en skapare?
 
-Islam stannar inte vid att något har skapat världen, utan håller fast vid att Skaparen med nödvändighet är *en*. Koranen argumenterar utifrån ordningen:
+Islam går ett steg längre: Skaparen är med nödvändighet *en*. Koranen argumenterar utifrån ordningen:
 
 > Men om det i himlen eller på jorden hade funnits gudar vid sidan av Gud skulle världsalltets ordning ha brutit samman!
 > — Koranen 21:22
 
-Tanken är att två obegränsade viljor skulle dra kosmos åt skilda håll och upplösa dess samordning; att allt löper enligt enhetliga lagar förutsätter en enda lagstiftare. Detta är kärnan i *tawhīd*, Guds absoluta enhet, och i *rubūbiyya*, läran om Gud som ensam Herre och Skapare. Ibn Taymiyya framhöll att makten att skapa och frambringa ur intet är Herrens mest utmärkande egenskap, och att den inte tillkommer någon annan. Att erkänna en skapare men sedan fördela gudomligheten på flera är i islam *shirk* — avgudadyrkan. Enheten i skapelsen är signaturen av en enda hand.
+Tanken är att två obegränsade viljor skulle dra kosmos åt skilda håll och upplösa dess samordning; att allt löper enligt enhetliga lagar förutsätter en enda lagstiftare. Detta är kärnan i *tawhīd*, Guds absoluta enhet, och i *rubūbiyya*, läran om Gud som ensam Herre och Skapare. Ibn Taymiyya framhöll att makten att skapa och frambringa ur intet är Herrens mest utmärkande egenskap, och att den inte tillkommer någon annan. Att erkänna en skapare men sedan fördela gudomligheten på flera är i islam *shirk*, avgudadyrkan. Enheten i skapelsen är signaturen av en enda hand.
 
 ## Räcker förnuftet, eller behövs uppenbarelsen?
 

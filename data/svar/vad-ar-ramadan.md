@@ -23,11 +23,17 @@ faq:
     a: "Den som är sjuk eller på resa tar igen (qadāʾ) dagarna senare. Den som av kronisk sjukdom eller hög ålder aldrig kan ta igen dem ger i stället fidya – mat till en behövande."
 sources:
   - name: "Koranen 2:183"
+    url: "https://quran.com/2/183?translations=48"
   - name: "Koranen 2:185"
+    url: "https://quran.com/2/185?translations=48"
   - name: "Koranen 2:187"
+    url: "https://quran.com/2/187?translations=48"
   - name: "Sahīh al-Bukhārī 8"
+    url: "https://sunnah.com/bukhari:8"
   - name: "Sahīh al-Bukhārī 38"
+    url: "https://sunnah.com/bukhari:38"
   - name: "Sahīh al-Bukhārī 1896"
+    url: "https://sunnah.com/bukhari:1896"
   - name: "Ibn al-Qayyim, al-Fawāʾid"
   - name: "al-ibadah.com – Fasta"
     url: "https://al-ibadah.com/fasta/"
@@ -43,16 +49,16 @@ related:
 
 ## Varför är ramadan en helig månad?
 
-Ramadan följer månkalendern, vilket gör att den vandrar bakåt med omkring tio–elva dagar varje år i den svenska almanackan; år 2026 infaller den ungefär 18 februari–19 mars. Månadens särställning beror på att uppenbarelsen av Koranen inleddes just då – något texten själv slår fast i den andra suran, *al-Baqara*:
+Ramadan följer månkalendern och vandrar därför bakåt med omkring tio–elva dagar varje år i den svenska almanackan; år 2026 infaller den ungefär 18 februari–19 mars. Månadens särställning beror på att uppenbarelsen av Koranen inleddes just då – något texten själv slår fast i den andra suran, *al-Baqara*:
 
 > För att ge människorna vägledning [inleddes] i månaden Ramadan uppenbarelsen av Koranen i vilken vägledningen klargörs och en måttstock ges med vilken rätt kan mätas och skiljas från orätt.
 > — Koranen 2:185
 
-Inom månaden ligger också *Laylat al-Qadr*, "Maktens natt", som söks under de udda nätterna i den sista tredjedelen och i traditionen ofta knyts till den 27:e. Av islams fem pelare är ramadanfastan den enda vars plikt fyller en hel månad (Sahīh al-Bukhārī 8). Omkring två miljarder människor – 26 procent av jordens befolkning år 2020, enligt Pew Research Center – delar samma fastemånad. Ingen annan andakt återkommer i den skalan.
+Inom månaden ligger också *Laylat al-Qadr*, "Maktens natt", som söks under de udda nätterna i den sista tredjedelen och i traditionen ofta knyts till den 27:e. Av islams fem pelare är ramadanfastan den enda vars plikt fyller en hel månad (Sahīh al-Bukhārī 8). Omkring två miljarder människor – 25,6 procent av jordens befolkning år 2020, enligt Pew Research Center – delar samma fastemånad. Ingen annan andakt återkommer i den skalan.
 
 ## Vad innebär det att fasta under ramadan?
 
-Att fasta (*sawm*) betyder att helt avstå från mat, dryck, rökning och sexuellt umgänge mellan gryningen (*fajr*) och solnedgången (*maghrib*). Fastedygnet ramas in av två måltider: *suhūr* före gryningen och *iftār* när solen gått ner, som enligt profetisk sedvänja (*sunna*) gärna bryts med dadlar och vatten. I Sverige varierar fastedygnets längd kraftigt med årstiden: en vinterramadan ger korta fastedagar, medan en högsommarramadan i norr kan sträcka sig mot tjugo timmar. Fastan är inte bara yttre avhållsamhet; den kräver en *niyya*, en uppriktig avsikt fattad i förväg, och att den fastande också tyglar tunga och temperament. Koranen drar den yttre gränsen exakt:
+Att fasta (*sawm*) betyder att helt avstå från mat, dryck, rökning och sexuellt umgänge mellan gryningen (*fajr*) och solnedgången (*maghrib*). Fastedygnet ramas in av två måltider: *suhūr* före gryningen och *iftār* när solen gått ner; enligt profetisk sedvänja (*sunna*) bryts fastan gärna med dadlar och vatten. I Sverige varierar fastedygnets längd kraftigt med årstiden: en vinterramadan ger korta fastedagar, medan en högsommarramadan i norr kan sträcka sig mot tjugo timmar. Fastan är inte bara yttre avhållsamhet; den kräver en *niyya*, en uppriktig avsikt fattad i förväg, och att den fastande tyglar tunga och temperament. Koranen drar den yttre gränsen exakt:
 
 > ...ni får äta och dricka till dess den vita strimman av gryningsljuset kan urskiljas mot nattens mörker. Återuppta då fastan och håll den tills natten faller på.
 > — Koranen 2:187
@@ -61,7 +67,7 @@ Att äta eller dricka av ren glömska bryter däremot inte fastan, och dagen ful
 
 ## Vem måste fasta och vem är undantagen?
 
-Fastan är en plikt (*fard*) för varje muslim som nått puberteten, är vid sina sinnens fulla bruk och har kroppslig förmåga att klara den. Barn omfattas inte men vänjs gradvis vid övningen. Koranen friar uttryckligen den sjuke och den resande, som i stället tar igen (*qadāʾ*) motsvarande antal dagar senare. I samma vers (2:185) heter det att "Gud vill göra det lätt – inte tungt – för er". Undantagna är även menstruerande och nyförlösta kvinnor, som fullgör de missade dagarna i efterhand, medan gravida och ammande får skjuta upp fastan. Den som av kronisk sjukdom eller hög ålder aldrig kan ta igen dagarna ger i stället *fidya*, mat till en behövande för varje missad dag. Vem som är skyldig att fasta och vad som upphäver fastan beskrivs samlat hos den klassiska fiqh-referensen [al-ibadah.com](https://al-ibadah.com/fasta/). Islam lägger alltså inte fastan på den som den skulle skada, men den som kan bära den är inte undantagen.
+Fastan är en plikt (*fard*) för varje muslim som nått puberteten, är vid sina sinnens fulla bruk och har kroppslig förmåga att klara den. Barn omfattas inte men vänjs gradvis vid den. Koranen friar uttryckligen den sjuke och den resande, som i stället tar igen (*qadāʾ*) motsvarande antal dagar senare. I samma vers (2:185) heter det att "Gud vill göra det lätt – inte tungt – för er". Undantagna är även menstruerande och nyförlösta kvinnor, som fullgör de missade dagarna i efterhand, medan gravida och ammande får skjuta upp fastan. Den som av kronisk sjukdom eller hög ålder aldrig kan ta igen dagarna ger i stället *fidya*, mat till en behövande för varje missad dag. Fastan krävs alltså aldrig av den som den skulle skada; av den som kan bära den krävs den alltid.
 
 ## Vad är den egentliga meningen med fastan?
 
@@ -70,7 +76,7 @@ Syftet är inte svält utan *taqwā*, gudsmedvetenhet. Det är själva slutkläm
 > TROENDE! Det är en plikt för er att fasta, liksom det var en plikt för dem som levde före er – kanske skall ni frukta Gud.
 > — Koranen 2:183
 
-Versen påminner samtidigt om att fastan är äldre än islam: den var föreskriven även för tidigare troende, och den muslimska fastemånaden ställer sig i den raden. Genom att frivilligt avstå det i sig tillåtna under dagen tränar den troende viljan, känner med den hungrande och flyttar uppmärksamheten från magen till bönen och Koranen. Ibn al-Qayyim beskriver i *al-Fawāʾid* hjärtat i kroppens termer:
+Versen påminner samtidigt om att fastan är äldre än islam: den var föreskriven även för tidigare troende, och den muslimska fastemånaden ställer sig i den raden. Genom att frivilligt avstå från det i sig tillåtna under dagen tränar den troende viljan, känner med den hungrande och flyttar uppmärksamheten från magen till bönen och Koranen. Ibn al-Qayyim liknar i *al-Fawāʾid* hjärtat vid en kropp:
 
 > Hjärtat blottas liksom kroppen blottas, och dess klädnad är gudsfruktan. Det hungrar och törstar liksom kroppen hungrar, och dess mat och dryck är kunskapen om Gud, kärleken till honom, förtröstan, ånger och tjänst.
 
@@ -78,4 +84,4 @@ Många tillbringar också nätterna i de frivilliga *tarāwīh*-bönerna, där s
 
 ## Hur avslutas ramadan?
 
-Redan under de sista tio nätterna ändrar månaden karaktär. Många följer profetens sed att dra sig tillbaka i moskén för *iʿtikāf*, en sammanhängande vistelse helgad åt bön och recitation, i hopp om att vaka just under *Laylat al-Qadr*. När månaden är till ända firas *Eid al-Fitr*, fastebrytandets högtid. På högtidsmorgonen samlas församlingen till Eid-bönen, en gemensam bön följd av en predikan; i Sverige hålls den ofta i hyrda hallar eller utomhus, eftersom moskéerna sällan rymmer alla. Dagen präglas av festmåltider, nya kläder och besök hos släkt och vänner. Före bönen ska varje hushåll ge *zakāt al-fitr*, en mindre matallmosa som ser till att också de fattiga kan delta i festen. Många fortsätter därefter med sex frivilliga fastedagar under den följande månaden *Shawwāl* – en *sunna* som enligt traditionen ger lön som om man fastat hela året.
+Redan under de sista tio nätterna ändrar månaden karaktär. Många följer profetens sed att dra sig tillbaka i moskén för *iʿtikāf*, en sammanhängande vistelse helgad åt bön och recitation, i hopp om att vaka just under *Laylat al-Qadr*. När månaden är till ända firas *Eid al-Fitr*, fastebrytandets högtid. På högtidsmorgonen samlas församlingen till Eid-bönen, som följs av en predikan; i Sverige hålls den ofta i hyrda hallar eller utomhus, eftersom moskéerna sällan rymmer alla. Dagen präglas av festmåltider, nya kläder och besök hos släkt och vänner. Före bönen ska varje hushåll ge *zakāt al-fitr*, en mindre matallmosa som ser till att också de fattiga kan delta i festen. Många fortsätter därefter med sex frivilliga fastedagar under den följande månaden *Shawwāl* – en *sunna* som enligt traditionen ger lön som om man fastat hela året.

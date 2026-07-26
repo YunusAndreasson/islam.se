@@ -22,11 +22,18 @@ faq:
     a: "Arabiska för droppen av säd, något som hänger eller sätter sig fast, respektive en tuggad köttklump – de tre bilder Koranen använder för de tidiga stadierna."
 sources:
   - name: "Koranen 22:5"
+    url: "https://quran.com/22/5?translations=48"
   - name: "Koranen 23:12–14"
+    url: "https://quran.com/23/12-14?translations=48"
   - name: "Sahīh al-Bukhārī 3208"
+    url: "https://sunnah.com/bukhari:3208"
   - name: "Sahīh Muslim 2643"
+    url: "https://sunnah.com/muslim:2643"
   - name: "al-ibadah.com – Allahs förutbestämmelse (qadar)"
     url: "https://al-ibadah.com/troslara/allahs-forutbestammelse"
+  - name: "Basim Musallam, Sex and Society in Islam (Cambridge University Press, 1983)"
+  - name: "Wikipedia – Galen (den antika stadieindelade embryologin)"
+    url: "https://en.wikipedia.org/wiki/Galen"
 related:
   - "islam-och-big-bang"
   - "vad-sager-islam-om-abort"
@@ -57,10 +64,10 @@ Klassiska kommentatorer som Ibn Kathīr och al-Qurtubī läser därför verserna
 
 Det avgörande tillägget finns i sunna, inte i Koranen. Enligt ʿAbdullāh ibn Masʿūd förklarade profeten Muhammed hur stadierna fördelar sig i tid (Sahīh al-Bukhārī 3208; Sahīh Muslim 2643): var och en av oss samlas i moderlivet som en droppe i fyrtio dagar, blir därefter en *ʿalaqa* lika länge och sedan en *mudgha* lika länge – varpå Gud sänder en ängel som blåser in själen och befaller honom att skriva ned fyra ting: människans försörjning, hennes livslängd, hennes gärningar och om hon ska bli salig eller osalig.
 
-Det placerar besjälningen omkring 120 dagar efter befruktningen, en gräns som klassiska jurister knyter till frågor om livets början och om abort. Beskedet hör hemma i läran om *qadar*, ödet, som al-ibadah.com behandlar i avsnittet om Allahs förutbestämmelse. Innan barnet drar sitt första andetag är dess uppehälle, dess tid och dess väg redan skrivna.
+Det placerar besjälningen omkring 120 dagar efter befruktningen, en gräns som klassiska jurister knyter till frågor om livets början och om abort. Beskedet hör hemma i läran om *qadar*, Guds förutbestämmelse. Innan barnet drar sitt första andetag är dess uppehälle, dess tid och dess väg redan skrivna.
 
 ## Är detta ett "vetenskapligt mirakel"?
 
-Här krävs både ärlighet och måtta. En populär apologetik – förknippad bland andra med predikanten Zakir Naik – framställer verserna som ett *iʿjāz ʿilmī*, ett naturvetenskapligt under som en oläskunnig man på 600-talet omöjligt kunde ha känt till. Kritiker invänder att en stadieindelad embryologi fanns redan i antikens medicin, hos den grekiske läkaren Galenos, och att sådana föreställningar levde kvar i senantikens lärda värld.
+Här krävs både ärlighet och måtta. En populär apologetik, förknippad bland andra med predikanten Zakir Naik, framställer verserna som ett *iʿjāz ʿilmī*, ett naturvetenskapligt under som en oläskunnig man på 600-talet omöjligt kunde ha känt till. Kritiker invänder att en stadieindelad embryologi fanns redan i antikens medicin, hos den grekiske läkaren Galenos, och att sådana föreställningar levde kvar i senantikens lärda värld.
 
-Den klassiska hållningen behöver inte ta strid om den frågan. Att Koranens bilder så nära följer fostrets verkliga utveckling får gärna stärka den troendes förundran – men verserna är ingen lärobok, och deras sanning hänger inte på en modern jämförelse. Koranen vill inte vinna en laboratorietvist; den vill att du läser moderlivet som ett tecken, och tecknet pekar bortom embryot – mot den som formar det.
+Den klassiska hållningen behöver inte ta strid om den frågan. Att Koranens bilder så nära följer fostrets verkliga utveckling får gärna stärka den troendes förundran – men verserna är ingen lärobok, och deras sanning hänger inte på en modern jämförelse. Koranen vill inte vinna en laboratorietvist; den vill att moderlivet läses som ett tecken, och tecknet pekar bortom embryot – mot den som formar det.

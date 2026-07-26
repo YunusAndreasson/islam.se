@@ -64,7 +64,7 @@ Men varifrån kommer rätten? *Fiṭrah* svarar: personligheten har rätt för a
 
 Dag Hammarskjöld skrev i *Vägmärken* ett vittnesbörd som, utan att namnge källan, bär samma klang:
 
-> Jag vet inte vem – eller vad – som ställde frågan, jag vet inte när den ställdes. Jag minns inte att jag svarade. Men en gång sade jag ja till någon – eller något – och från den stunden var jag viss om att tillvaron är meningsfull och att mitt liv, därför, i underkastelse, har ett mål.[^16]
+> Jag vet ej vem – eller vad – som ställde frågan. Jag vet ej när den ställdes. Jag minns ej att jag svarade. Men en gång svarade jag ja till någon – eller något. Från den stunden härrör vissheten att tillvaron är meningsfylld och att mitt liv därför, i underkastelse, har ett mål.[^16]
 
 Vad Hammarskjöld tecknar har samma form som Koranens förbund: ett svar som föregick medvetenheten om frågan, ett ja som grundlade allt. Hammarskjöld ledde den institution vars grunddokument inte förmådde namnge denna grund, och vittnade ändå om den. Det visar att *fiṭrah* verkar oavsett om den erkänns. Pär Lagerkvist vittnade om samma djup i *Aftonland*: "Min längtan är inte min. Den är gammal så som stjärnorna."[^17]
 

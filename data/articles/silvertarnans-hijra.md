@@ -7,7 +7,7 @@ description: "Hundra gram. En hjärna stor som en ärta. Varje höst lämnar sil
 audioFile: "silvertarnans-hijra.mp3"
 audioDuration: 566
 imageAlt: "En silvertärna med upplyfta vingar svävar över isflak och snöklädda berg i ett polart skymningsljus."
-imageCaption: "Silvertärnans hijra — pol till pol, ett öga vänt mot horisonten."
+imageCaption: "Silvertärnans hijra – pol till pol, ett öga vänt mot horisonten."
 category: "Skapelsen"
 ---
 Hundra gram. En hjärna stor som en ärta. Varje höst lämnar silvertärnan Arktis och flyger till Antarktis – 70 000 kilometer om året, den längsta kända flytten i djurriket.[^1] Under resan sover den troligen med halva hjärnan i taget: ett öga öppet mot horisonten, det andra slutet.[^2] Sedan vänder den och gör allting igen.
@@ -20,7 +20,7 @@ Det moderna samhället kan inte tänka sig en sådan resa. Ulrich Beck kallade t
 
 Fågeln beräknar ingenting.
 
-Men fågeln är inte dum. Med jordens magnetfält, solens vinkel och stjärnmönster navigerar silvertärnan med en precision som forskare vid Lunds universitet fortfarande kartlägger.[^4] Kroppen lagrar fett inför avfärden. Fjäderdräkten byts. Den biologiska klockan ställs mot rätt breddgrad. Allt som kan förberedas förbereds. Fågeln saknar inte medel – den saknar försäkring.
+Men fågeln är inte dum. Med jordens magnetfält, solens vinkel och stjärnmönster styr silvertärnan sin kurs med en precision som forskare vid Lunds universitet fortfarande kartlägger.[^4] Kroppen lagrar fett inför avfärden. Fjäderdräkten byts. Den biologiska klockan ställs mot rätt breddgrad. Allt som kan förberedas förbereds. Fågeln saknar inte medel – den saknar försäkring.
 
 Skillnaden låter hårfin. Men den genomsyrar allt. Fågeln förbereder sig *för* sin resa – med medel riktade mot ett bestämt mål. Försäkringssamhället förbereder sig *mot* det som kan gå fel – med skydd mot alla tänkbara utfall. Den ena förberedelsen rör sig framåt. Den andra vänder sig bakåt och kallar det framsteg.
 

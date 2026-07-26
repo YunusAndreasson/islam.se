@@ -23,13 +23,22 @@ faq:
     a: "De fem pelarna (arkan al-islam) är yttre handlingar. Trons sex artiklar (arkan al-iman) är inre tro: på Gud, änglarna, skrifterna, sändebuden, Domedagen och ödet."
 sources:
   - name: "Koranen 2:43"
+    url: "https://quran.com/2/43?translations=48"
   - name: "Koranen 2:183"
+    url: "https://quran.com/2/183?translations=48"
   - name: "Koranen 3:97"
+    url: "https://quran.com/3/97?translations=48"
   - name: "Koranen 9:60"
+    url: "https://quran.com/9/60?translations=48"
   - name: "Sahīh al-Bukhārī 8"
+    url: "https://sunnah.com/bukhari:8"
   - name: "Sahīh Muslim 16"
+    url: "https://sunnah.com/muslim:16"
   - name: "Sahīh Muslim 8"
+    url: "https://sunnah.com/muslim:8"
   - name: "Ibn Taymiyya, Kitāb al-Īmān"
+  - name: "Saudiarabiens statistikmyndighet GASTAT – Hajj 2026 (1 707 301 pilgrimer)"
+    url: "https://www.stats.gov.sa/en/w/news/194"
   - name: "al-ibadah.com – Trosbekännelsen (shahada)"
     url: "https://al-ibadah.com/troslara/trosbekannelsen/"
 related:
@@ -38,7 +47,7 @@ related:
   - "tro-och-handling-i-islam"
 ---
 
-**Islams fem pelare är trosbekännelsen (*shahada*), bönen (*salāt*), allmoseskatten (*zakat*), fastan (*sawm*) under ramadan och vallfärden (*hajj*) till Mecka – religionens fem grundläggande plikter.** Tillsammans kallas de *arkan al-islam*. Uppräkningen går tillbaka på profeten Muhammed och har sett likadan ut sedan 600-talet: samma fem plikter gäller muslimer i alla länder och rättsskolor, från den dagliga bönen till den vallfärd som görs en gång i livet.
+**Islams fem pelare är trosbekännelsen (*shahada*), bönen (*salāt*), allmoseskatten (*zakat*), fastan (*sawm*) under ramadan och vallfärden (*hajj*) till Mecka – religionens fem grundläggande plikter.** Tillsammans kallas de *arkan al-islam*. Uppräkningen går tillbaka på profeten Muhammed och har sett likadan ut sedan 600-talet: samma fem plikter gäller muslimer i alla länder och rättsskolor, från bönen fem gånger om dygnet till vallfärden en gång i livet.
 
 ## Vilka är islams fem pelare?
 
@@ -47,11 +56,13 @@ De fem pelarna räknas upp i en välkänd hadith som återberättas av profetens
 > Islam är byggd på fem [pelare]: vittnesbördet att ingen har rätt att dyrkas utom Gud och att Muhammed är Guds sändebud, att förrätta bönen, att ge allmoseskatten, att vallfärda till Huset och att fasta under ramadan.
 > — Sahīh al-Bukhārī 8
 
-Hadithen finns i de två mest auktoritativa samlingarna, *Sahīh al-Bukhārī* (nr 8) och *Sahīh Muslim* (nr 16); hos Muslim nämns fastan före vallfärden, i övrigt är innehållet detsamma. Bilden av pelare är hadithens egen: islam liknas vid en byggnad som hålls uppe av fem bärande punkter. Den första skiljer sig från de andra i art – den är ett vittnesbörd, en trosakt, medan de fyra övriga är handlingar som förutsätter den. Om någon av de fyra sviktar hos en troende, av svaghet eller lättja, står huset ändå kvar. Men rivs den första, rasar allt.
+Hadithen finns i de två mest tillförlitliga samlingarna, *Sahīh al-Bukhārī* (nr 8) och *Sahīh Muslim* (nr 16); hos Muslim nämns fastan före vallfärden, i övrigt är innehållet detsamma. Bilden av pelare är hadithens egen: islam liknas vid en byggnad som vilar på fem bärande stöd. Den första pelaren skiljer sig till sin art från de andra: den är ett vittnesbörd, en trosakt, medan de fyra övriga är handlingar som förutsätter den. Om någon av de fyra sviktar hos en troende, av svaghet eller lättja, står huset ändå kvar. Men rivs den första, rasar allt.
 
 ## Varför är trosbekännelsen den första pelaren?
 
-Trosbekännelsen, *shahada*, består av två led: att ingen gud finns utom Gud (*Lā ilāha illā Allāh*) och att Muhammed är hans sändebud. Det första ledet uttrycker *tawhīd*, Guds absoluta enhet, och det är hela islams nav: varje annan handling får sitt värde av den. En bön, en gåva eller en vallfärd som riktas till någon annan än Gud är därför inte from dyrkan utan dess raka motsats. Ledet om Muhammed binder samtidigt muslimen vid profetens exempel: Gud dyrkas på det sätt sändebudet visade. Att uttala *shahada* med övertygelse är det som gör en människa till muslim. Den klassiska traditionen (*ahl as-sunna*) räknar uppriktig *tawhīd* som den första plikt som åligger varje människa (al-ibadah.com – Trosbekännelsen). Utan vittnesbördet blir de fyra andra pelarna handlingar utan adressat.
+Trosbekännelsen, *shahada*, består av två led: att ingen gud finns utom Gud (*Lā ilāha illā Allāh*) och att Muhammed är hans sändebud. Det första ledet uttrycker *tawhīd*, Guds absoluta enhet, och det är hela islams nav: varje annan handling får sitt värde av den. En bön, en gåva eller en vallfärd som riktas till någon annan än Gud blir därför dyrkans raka motsats.
+
+Ledet om Muhammed binder muslimen vid profetens exempel: Gud dyrkas på det sätt sändebudet visade. Att uttala *shahada* med övertygelse gör människan till muslim. Den klassiska traditionen (*ahl as-sunna*) räknar uppriktig *tawhīd* som den första plikt som åligger varje människa. Utan vittnesbördet blir de fyra andra pelarna handlingar utan adressat.
 
 ## Hur ser bön, zakat och fasta ut i praktiken?
 
@@ -74,7 +85,7 @@ Den femte pelaren är vallfärden, *hajj*, till Mecka, förlagd till bestämda d
 > Vallfärden till denna Helgedom är en plikt gentemot Gud för var och en som har möjlighet att genomföra den.
 > — Koranen 3:97
 
-Den som saknar hälsa, medel eller en trygg resväg är alltså inte förpliktad; skyldigheten inträder först när möjligheten finns. Varje år samlas drygt 1,8 miljoner pilgrimer i Mecka, alla klädda i samma enkla vita *ihram*-dräkt, som utplånar varje synlig skillnad i rang och rikedom. Under vallfärdsdagarna går pilgrimerna sju varv runt Kaba och följer i övrigt de riter som islam för tillbaka på Abraham. Höjdpunkten är vistelsen på ʿArafat-slätten den nionde dhū-l-hijja, då pilgrimerna står i bön till solnedgången. Dagen därpå börjar offerhögtiden Eid al-Adha, som firas av muslimer världen över. Ingen annan pelare krävs så sällan, och ingen annan är så uttryckligt lagd i förmågans händer.
+Den som saknar hälsa, medel eller en trygg resväg är alltså inte förpliktad; skyldigheten inträder först när möjligheten finns. Varje år samlas omkring 1,7 miljoner pilgrimer i Mecka, alla klädda i samma enkla vita *ihram*-dräkt, som utplånar varje synlig skillnad i rang och rikedom. Under vallfärdsdagarna går pilgrimerna sju varv runt Kaba och följer i övrigt de riter som islam för tillbaka på Abraham. Höjdpunkten är vistelsen på ʿArafat-slätten den nionde dhū-l-hijja, då pilgrimerna står i bön till solnedgången. Dagen därpå börjar offerhögtiden Eid al-Adha, som firas av muslimer världen över. Ingen annan pelare krävs så sällan, och ingen annan är så uttryckligt lagd i förmågans händer.
 
 ## Räcker de fem pelarna för att vara muslim?
 
@@ -84,4 +95,4 @@ Tro och handling hänger därmed samman. I klassisk troslära beskrivs *iman* so
 
 > Tron är ord och handling; den ökar och den minskar – den ökar genom lydnad och minskar genom synd.
 
-Att utföra pelarna mekaniskt utan tro ger dem därför inget värde, och en tro som aldrig tar sig uttryck i handling godtas inte heller.
+Pelarna utförda mekaniskt, utan tro, väger därför ingenting. Och en tro som aldrig tar sig uttryck i handling godtas heller inte.

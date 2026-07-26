@@ -24,16 +24,25 @@ faq:
     a: "Nej, enligt islam är texten oförändrad. Gud lovar själv att bevara den (15:9), och miljontals muslimer kan hela Koranen utantill."
 sources:
   - name: "Koranen 2:23"
+    url: "https://quran.com/2/23?translations=48"
   - name: "Koranen 7:157"
+    url: "https://quran.com/7/157?translations=48"
   - name: "Koranen 15:9"
+    url: "https://quran.com/15/9?translations=48"
   - name: "Koranen 16:103"
+    url: "https://quran.com/16/103?translations=48"
   - name: "Koranen 29:48"
+    url: "https://quran.com/29/48?translations=48"
   - name: "Koranen 53:3–4"
+    url: "https://quran.com/53/3-4?translations=48"
   - name: "Sahīh al-Bukhārī 3"
+    url: "https://sunnah.com/bukhari:3"
   - name: "al-ibadah.com – Sändebuden (troslära)"
     url: "https://al-ibadah.com/troslara/sandebuden/"
-  - name: "IslamQA – Vem skrev Koranen?"
+  - name: "islamqa.info (Muhammad Sālih al-Munajjid) – Vem skrev Koranen?"
     url: "https://islamqa.info/en/answers/10012/who-wrote-the-quran"
+  - name: "Wikipedia – Muhammad (uppenbarelsens början omkring 610)"
+    url: "https://en.wikipedia.org/wiki/Muhammad"
 related:
   - "vad-ar-koranen"
   - "vem-var-profeten-muhammed"
@@ -51,7 +60,7 @@ Koranen (av arabiskans *qurʾān*, "recitation" eller "uppläsning") är enligt 
 
 ## Kunde profeten Muhammed läsa och skriva?
 
-Nej. Koranen beskriver honom uttryckligen som *ummī*, "den olärde Profeten" (7:157) – en man som varken kunde läsa eller skriva. Den mest berömda berättelsen om uppenbarelsens början fångar detta: när Jibril första gången kom till honom i grottan Hira befallde ängeln »Läs!« (*iqraʾ*), och Muhammed svarade: »Jag kan inte läsa« (Sahīh al-Bukhārī 3). Just därför blir påståendet att han skulle ha skrivit boken själv ohållbart inifrån islams ramverk. Koranen drar själv slutsatsen:
+Nej. Koranen beskriver honom uttryckligen som *ummī*, "den olärde Profeten" (7:157), en man som varken kunde läsa eller skriva. Den mest berömda berättelsen om uppenbarelsens början fångar detta: när Jibril första gången kom till honom i grottan Hira befallde ängeln "Läs!" (*iqraʾ*), och Muhammed svarade: "Jag kan inte läsa" (Sahīh al-Bukhārī 3). Just därför blir påståendet att han skulle ha skrivit boken själv ohållbart inifrån islams ramverk. Koranen drar själv slutsatsen:
 
 > Du har aldrig läst upp [något ur en] uppenbarad Skrift innan denna [uppenbarades för dig]; inte heller har du egenhändigt skrivit ned något [ur en Skrift]; annars kunde de som ifrågasätter [uppenbarelsens sanning] haft fog för sina tvivel.
 > — Koranen 29:48
@@ -60,16 +69,16 @@ En man som aldrig lärt sig forma en bokstav efterlämnade arabiskans oöverträ
 
 ## Hittade inte profeten bara på Koranen själv?
 
-Invändningen är lika gammal som uppenbarelsen själv. Redan profetens motståndare i Mecka påstod att »det är bara en människa som lär honom denna [Koran]« – ett påstående Koranen tillbakavisar (16:103). Koranen tillskriver heller inte Muhammed någon egen röst i texten:
+Invändningen är lika gammal som uppenbarelsen själv. Redan profetens motståndare i Mecka påstod att "det är bara en människa som lär honom denna [Koran]", ett påstående Koranen tillbakavisar (16:103). Koranen tillskriver heller inte Muhammed någon egen röst i texten:
 
 > och han talar inte av egen drift – nej, [det är] uppenbarelsens ord,
 > — Koranen 53:3–4
 
-Mot tvivlaren ställer Koranen i stället en öppen utmaning, *taḥaddī*: den som tror att en människa författat den uppmanas att frambringa en enda *sura* av samma slag (2:23). För en muslim skiljer sig dessutom profetens egna ord, *sunna* och hadith, märkbart i stil från Koranen – ännu ett skäl till att de två aldrig blandas samman. Hade en människa hittat på Koranen kunde en annan människa ha gjort om den; på fjorton sekler har ingen lyckats.
+Mot tvivlaren ställer Koranen i stället en öppen utmaning, *tahaddī*: den som tror att en människa författat den uppmanas att frambringa en enda *sura* av samma slag (2:23). För en muslim skiljer sig dessutom profetens egna ord, *sunna* och hadith, märkbart i stil från Koranen, ännu ett skäl till att de två aldrig blandas samman. Hade en människa hittat på Koranen kunde en annan människa ha gjort om den; på fjorton sekler har ingen lyckats.
 
 ## Hur bevarades Koranen om profeten inte skrev den?
 
-Genom två kanaler samtidigt: minne och nedteckning. Följeslagarna lärde sig verserna utantill allteftersom de uppenbarades – de som kan hela Koranen utantill kallas *ḥuffāẓ* och räknas i dag i miljontal. Parallellt utsåg profeten särskilda skrivare, *kuttāb al-waḥy*, bland dem Zayd ibn Thābit, som tecknade ned orden på palmblad, läderbitar och ben och fick exakt besked om var varje vers hörde hemma. Efter profetens död samlades materialet till en enda bokrulle under kalifen Abu Bakr, och texten standardiserades till ett enhetligt exemplar, *muṣḥaf*, under Uthman ibn Affan. Gud lovar i Koranen själv att vaka över den:
+Genom två kanaler samtidigt: minne och nedteckning. Följeslagarna lärde sig verserna utantill allteftersom de uppenbarades. De som kan hela Koranen utantill kallas *huffāz* och räknas i dag i miljontal. Parallellt utsåg profeten särskilda skrivare, *kuttāb al-wahy*, bland dem Zayd ibn Thābit, som tecknade ned orden på palmblad, läderbitar och ben och fick exakt besked om var varje vers hörde hemma. Efter profetens död samlades materialet till en enda bokrulle under kalifen Abu Bakr, och texten standardiserades till ett enhetligt exemplar, *mushaf*, under Uthman ibn Affan. Gud lovar i Koranen själv att vaka över den:
 
 > Det är Vi som har uppenbarat denna Koran steg för steg och Vi skall helt visst slå vakt om den!
 > — Koranen 15:9
@@ -78,4 +87,4 @@ Texten gick aldrig genom en enda penna – den bars av tusen minnen på samma g�
 
 ## Varför spelar det någon roll vem som skrev Koranen?
 
-Frågan rör islams själva fundament. Hela trons anspråk – för världens omkring två miljarder muslimer – vilar på att Koranen är Guds ord och inte en människas: är den Muhammeds verk, är den mänsklig litteratur; är den Guds tal, är den uppenbarelse. Detta hänger ihop med *tawḥīd*, Guds absoluta enhet – endast Gud är källan till vägledningen, och profeten är hans tjänare och sändebud, inte en medförfattare. Frågan om författarskapet är till sist en fråga om tawḥīd: äran för ordet tillhör Gud ensam.
+Frågan rör islams själva grundval. Hela trons anspråk, för världens omkring två miljarder muslimer, vilar på att Koranen är Guds ord och inte en människas: är den Muhammeds verk, är den mänsklig litteratur; är den Guds tal, är den uppenbarelse. Detta hänger ihop med *tawhīd*, Guds absoluta enhet: endast Gud är källan till vägledningen, och profeten är hans tjänare och sändebud, inte en medförfattare. Författarskapet är till sist en fråga om tawhīd: äran för ordet tillhör Gud ensam.
