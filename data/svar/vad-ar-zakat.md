@@ -3,6 +3,7 @@ title: "Vad är zakat? Islams obligatoriska allmosa"
 question: "Vad är zakat, den obligatoriska allmosan?"
 description: "Zakat är islams tredje pelare: en obligatorisk allmosa på 2,5 procent. Men plikten gäller först över gränsen nisāb – och bara åtta grupper får ta emot den."
 publishedAt: "2026-06-20T00:00:00Z"
+updatedAt: "2026-07-26T00:00:00Z"
 keywords:
   - "vad är zakat"
   - "zakat islam"
@@ -30,12 +31,16 @@ sources:
     url: "https://quran.com/9/60?translations=48"
   - name: "Koranen 9:103"
     url: "https://quran.com/9/103?translations=48"
+  - name: "Koranen 70:24–25"
+    url: "https://quran.com/70/24-25?translations=48"
   - name: "Sahīh al-Bukhārī 8"
     url: "https://sunnah.com/bukhari:8"
   - name: "Sahīh Muslim 16"
     url: "https://sunnah.com/muslim:16"
   - name: "Sahīh al-Bukhārī 1395"
     url: "https://sunnah.com/bukhari:1395"
+  - name: "Sahīh al-Bukhārī 1399"
+    url: "https://sunnah.com/bukhari:1399"
   - name: "Sahīh al-Bukhārī 1403"
     url: "https://sunnah.com/bukhari:1403"
   - name: "Sahīh Muslim 1631"
@@ -55,7 +60,7 @@ related:
   - "vad-ar-hajj"
 ---
 
-**Zakat är den obligatoriska allmosan i islam – en årlig avgift på vanligen 2,5 procent av en muslims sparade överskott, som ges till bestämda grupper av behövande.** Den är den tredje av islams fem pelare och nämns gång på gång i Koranen tillsammans med bönen. Ordet *zakat* betyder ungefär rening: att ge bort en del av förmögenheten renar resten. Zakat är ingen statlig skatt: plikten räknas som gudstjänst och är lika bindande som bönen.
+**Zakat är den obligatoriska allmosan i islam – en årlig avgift på vanligen 2,5 procent av en muslims sparade överskott, som ges till bestämda grupper av behövande.** Den är den tredje av islams fem pelare och nämns gång på gång i Koranen tillsammans med bönen. Ordet *zakat* betyder ungefär rening: att ge bort en del av förmögenheten renar resten. Zakat är ingen vanlig skatt: plikten räknas som gudstjänst och är lika bindande som bönen.
 
 ## Vad betyder ordet zakat?
 
@@ -83,7 +88,7 @@ Ja. Zakat är en av de fem pelare som hela religionen vilar på. Profeten Muhamm
 > Islam är byggd på fem [pelare]: vittnesbördet att ingen har rätt att dyrkas utom Gud och att Muhammed är Guds sändebud, att förrätta bönen, att ge allmoseskatten, att vallfärda till Huset och att fasta under ramadan.
 > — Sahīh al-Bukhārī 8
 
-Hadithen återges också i Sahīh Muslim 16. Plikten upprepas över trettio gånger i Koranen, nästan alltid sida vid sida med bönen: "Förrätta bönen och ge åt de behövande" (2:43). När profeten sände Muʿādh ibn Jabal till Jemen befallde han honom att lära folket "att Gud har gjort en allmosa obligatorisk för dem, tagen från de rika bland dem och given till de fattiga" (Sahīh al-Bukhārī 1395). Efter profetens död förde den förste kalifen Abū Bakr till och med krig mot de stammar som ville behålla bönen men vägra allmosan – den som skiljer bönen från zakat bryter isär det Koranen band samman.
+Hadithen återges också i Sahīh Muslim 16. Plikten upprepas över trettio gånger i Koranen, nästan alltid sida vid sida med bönen: "Förrätta bönen och ge åt de behövande" (2:43). När profeten sände Muʿādh ibn Jabal till Jemen befallde han honom att lära folket "att Gud har gjort en allmosa obligatorisk för dem, tagen från de rika bland dem och given till de fattiga" (Sahīh al-Bukhārī 1395). Efter profetens död förde den förste kalifen Abū Bakr till och med krig mot de stammar som ville behålla bönen men vägra allmosan. Hans motivering är bevarad ordagrant: "Vid Gud, jag skall strida mot den som skiljer bönen från allmosan" (Sahīh al-Bukhārī 1399). Att skilja dem åt är att bryta isär det Koranen band samman.
 
 ## Hur mycket zakat ska man betala?
 
@@ -96,8 +101,8 @@ Mottagarna är inte fritt valda av givaren utan utpekade i Koranen själv. Åtta
 > Offergåvorna är avsedda enbart för de fattiga och de nödställda och för dem som har hand om insamlandet av dem och för att vinna hjärtan [för tron] och för att friköpa människor ur fångenskap och slaveri och [för att lätta] de skuldtyngdas [bördor] och för [kampen för] Guds sak och för vandringsmannen.
 > — Koranen 9:60
 
-Här ingår de fattiga, de nödställda, de som sköter insamlingen, hjärtan som ska vinnas för tron, friköpta fångar, de skuldtyngda, kampen för Guds sak och den strandsatte resenären. Zakat går däremot inte till den som själv är förmögen och självförsörjande, och en muslim kan inte ge den till sina egna föräldrar eller barn, dem man redan är försörjningsskyldig för. Ett undantag från förmögenhetsregeln är insamlarna själva: de får sin ersättning ur medlen för arbetets skull, oavsett egna tillgångar. Givaren avgör alltså inte vem som förtjänar hjälpen. Listan är redan skriven.
+Uppräkningen är sluten: fler mottagare än dessa åtta finns inte. Zakat går därför inte till den som själv är förmögen och självförsörjande, och en muslim kan inte ge den till sina egna föräldrar eller barn, dem man redan är försörjningsskyldig för. Ett undantag från förmögenhetsregeln är insamlarna själva: de får sin ersättning ur medlen för arbetets skull, oavsett egna tillgångar. Givaren avgör alltså inte vem som förtjänar hjälpen. Listan är redan skriven.
 
 ## Vad skiljer zakat från frivillig sadaqa?
 
-Zakat och *sadaqa* förväxlas ofta. Zakat är obligatorisk, med fast sats, fast tröskel och bestämda mottagare. *Sadaqa* är frivillig välgörenhet utan övre gräns, som kan ges när som helst till vem som helst. En tredje, närbesläktad plikt är *zakat al-fitr*, en liten avgift per familjemedlem som betalas före Eid-bönen vid ramadans slut. Att avstå frivillig sadaqa är bara en utebliven belöning. Att vägra själva zakat räknas i klassisk islam som ett svek mot tron. Profeten varnade att den som äger förmögenhet och inte ger zakat på den ska se sin skatt förvandlad på Uppståndelsens dag till en väsande giftorm som slingrar sig kring hans hals och säger: "Jag är din rikedom, jag är din skatt" (Sahīh al-Bukhārī 1403). Sadaqa är frivillig generositet; zakat är de fattigas rätt.
+Zakat och *sadaqa* förväxlas ofta. Zakat är obligatorisk, med fast sats, fast tröskel och bestämda mottagare. *Sadaqa* är frivillig välgörenhet utan övre gräns, som kan ges när som helst till vem som helst. En tredje, närbesläktad plikt är *zakat al-fitr*, en liten avgift per familjemedlem som betalas före Eid-bönen vid ramadans slut. Att avstå frivillig sadaqa är bara en utebliven belöning. Att vägra själva zakat räknas i klassisk islam som ett svek mot tron. Profeten varnade att den som äger förmögenhet och inte ger zakat på den ska se sin skatt förvandlad på Uppståndelsens dag till en väsande giftorm som slingrar sig kring hans hals och säger: "Jag är din rikedom, jag är din skatt" (Sahīh al-Bukhārī 1403). Att kalla den en rätt är ingen tolkning. Koranen talar om *haqq maʿlūm*, en fastställd rätt i den troendes egendom, tillkommande den som ber om hjälp och den som står utan (70:24–25). Sadaqa är frivillig generositet; zakat är de fattigas rätt.

@@ -3,6 +3,7 @@ title: "Vad är islams fem pelare? – arkan al-islam"
 question: "Vad är islams fem pelare?"
 description: "Islams fem pelare – shahada, bön, zakat, fasta och hajj – utgör arkan al-islam. Här är vad var och en kräver och varför trosbekännelsen räknas som den första."
 publishedAt: "2026-06-20T00:00:00Z"
+updatedAt: "2026-07-26T00:00:00Z"
 keywords:
   - "islams fem pelare"
   - "arkan al-islam"
@@ -66,7 +67,7 @@ Ledet om Muhammed binder muslimen vid profetens exempel: Gud dyrkas på det sät
 
 ## Hur ser bön, zakat och fasta ut i praktiken?
 
-Bönen, *salāt*, förrättas fem gånger varje dygn: Fajr i gryningen, Dhuhr mitt på dagen, Asr på eftermiddagen, Maghrib efter solnedgången och Isha om natten, alltid vänd mot Kaba i Mecka. Allmoseskatten, *zakat*, är en årlig avgift på 2,5 procent (en fyrtiondel) som tas ut på hela förmögenheten när den överstiger en viss gräns, *nisab* (klassiskt räknad som värdet av 85 gram guld), och tillfaller de fattiga och de övriga grupper Koranen anger (9:60). Koranen nämner ofta bönen och allmosan tillsammans:
+Bönen, *salāt*, förrättas fem gånger varje dygn: Fajr i gryningen, Dhuhr mitt på dagen, Asr på eftermiddagen, Maghrib efter solnedgången och Isha om natten, alltid vänd mot Kaba i Mecka. Allmoseskatten, *zakat*, är en årlig avgift på 2,5 procent (en fyrtiondel) som tas ut på det sparade överskottet när det överstiger en viss gräns, *nisab* (klassiskt räknad som värdet av 85 gram guld), och tillfaller de fattiga och de övriga grupper Koranen anger (9:60). Koranen nämner ofta bönen och allmosan tillsammans:
 
 > Förrätta bönen och ge åt de behövande och böj era huvuden med de andra som böjer sina huvuden [i bön].
 > — Koranen 2:43
@@ -89,7 +90,7 @@ Den som saknar hälsa, medel eller en trygg resväg är alltså inte förpliktad
 
 ## Räcker de fem pelarna för att vara muslim?
 
-En vanlig missuppfattning är att islam inte skulle vara mer än dessa fem handlingar. Pelarna utgör *islam*, den yttre underkastelsen. Vid sidan av dem står *iman*, tron, med sina sex artiklar: tron på Gud, hans änglar, hans skrifter, hans sändebud, Domedagen och ödet (*qadar*). Över båda står *ihsan*, dyrkans fullkomning, som profeten förklarade med orden: "Att du dyrkar Gud som om du såg honom; ty även om du inte ser honom, så ser han dig." Alla tre nivåerna beskrivs i den så kallade Jibrīl-hadithen (Sahīh Muslim 8), där ängeln Jibrīl (Gabriel) i en människas gestalt frågar ut profeten inför hans följeslagare.
+En vanlig missuppfattning är att islam inte skulle vara mer än dessa fem handlingar. Pelarna utgör *islam*, den yttre underkastelsen. Vid sidan av dem står *iman*, tron, med sina sex artiklar: tron på Gud, hans änglar, hans skrifter, hans sändebud, Domedagen och ödet (*qadar*). Över båda står *ihsan*, dyrkans fullkomning, som profeten förklarade med orden: "Att du dyrkar Gud som om du såg honom; ty även om du inte ser honom, så ser han dig." Alla tre nivåerna beskrivs i Jibrīl-hadithen (Sahīh Muslim 8), där ängeln Jibrīl (Gabriel) i en människas gestalt frågar ut profeten inför hans följeslagare.
 
 Tro och handling hänger därmed samman. I klassisk troslära beskrivs *iman* som övertygelse i hjärtat, bekännelse med tungan och handling med lemmarna; Ibn Taymiyya återger traditionens formel i *Kitāb al-Īmān*:
 

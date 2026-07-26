@@ -3,6 +3,7 @@ title: "Hur ber man i islam? Bönen steg för steg"
 question: "Hur ber man i islam steg för steg?"
 description: "Att be i islam följer en fast ordning – tvagning, riktning mot Mecka, takbir, recitation, bugning och nedfallande. Ett moment får aldrig utelämnas: al-Fātiha."
 publishedAt: "2026-06-20T00:00:00Z"
+updatedAt: "2026-07-26T00:00:00Z"
 keywords:
   - "hur ber man i islam"
   - "bönen steg för steg"
@@ -23,6 +24,7 @@ faq:
     a: "Den tas igen (qadāʾ) så snart man minns den. Profeten sade att den som sover förbi en bön eller glömmer den ska be den när han minns det (Sahīh Muslim 684)."
 sources:
   - name: "Koranen 1 (al-Fātiha)"
+    url: "https://quran.com/1?translations=48"
   - name: "Koranen 4:103"
     url: "https://quran.com/4/103?translations=48"
   - name: "Koranen 20:14"
@@ -31,6 +33,12 @@ sources:
     url: "https://sunnah.com/bukhari:631"
   - name: "Sahīh al-Bukhārī 756"
     url: "https://sunnah.com/bukhari:756"
+  - name: "Sahīh al-Bukhārī 757"
+    url: "https://sunnah.com/bukhari:757"
+  - name: "Sahīh al-Bukhārī 1117"
+    url: "https://sunnah.com/bukhari:1117"
+  - name: "Sahīh Muslim 684"
+    url: "https://sunnah.com/muslim:684"
   - name: "Ibn Taymiyya, al-Qawāʿid an-nūrāniyya"
   - name: "al-ibadah.com – Bönens praktik"
     url: "https://al-ibadah.com/bon/praktiska-detaljer-i-bonen"
@@ -61,7 +69,7 @@ Bönen inleds stående. Man höjer händerna och säger *takbīrat al-ihrām* �
 
 Därmed är en rakaʿa fullbordad och nästa börjar. I böner om tre eller fyra rakaʿāt sitter man i *tashahhud* även efter de två första cyklerna; efter den sista läses *tashahhud* på nytt, och bönen avslutas med *taslīm*: man vänder huvudet åt höger och åt vänster och säger "as-salāmu ʿalaykum".
 
-Rörelsen är densamma varje gång: kroppen sänks stegvis från stående ända till marken och reser sig igen. Varje ställning ska dessutom hinna bli stilla innan nästa börjar – lugnet kallas *tumaʾnīna* och räknas av flertalet rättsskolor som en nödvändig del av bönen, inte en förfining. Ibn Taymiyya förklarar varför i *al-Qawāʿid an-nūrāniyya*:
+Rörelsen är densamma varje gång: kroppen sänks stegvis från stående ända till marken och reser sig igen. Varje ställning ska dessutom hinna bli stilla innan nästa börjar – lugnet kallas *tumaʾnīna* och räknas av flertalet rättsskolor som en nödvändig del av bönen, inte en förfining. Kravet går tillbaka på en berömd händelse. En man bad i moskén, och profeten sände tillbaka honom tre gånger med orden "Gå tillbaka och be, för du har inte bett". Först därefter lärde han honom bönen moment för moment, och samma villkor upprepades vid varje moment: att buga tills kroppen kommit till ro, resa sig tills ryggen är rak, falla ned tills kroppen åter kommit till ro (Sahīh al-Bukhārī 757). Ibn Taymiyya förklarar varför i *al-Qawāʿid an-nūrāniyya*:
 
 > Bönen är hjärtats föda liksom maten är kroppens föda. Och eftersom kroppen inte får någon näring av en smula mat, får hjärtat ingen näring av en bön som hackas fram – det krävs en fullgången bön för att hjärtan ska mättas.
 
@@ -80,7 +88,7 @@ Islam föreskriver fem obligatoriska (*fard*) böner per dygn, var och en knuten
 > Bönen är alla troendes plikt, knuten till bestämda tider.
 > — Koranen 4:103
 
-Det ger sammanlagt sjutton obligatoriska rakaʿāt: Fajr i gryningen (2), Dhuhr efter middagshöjd (4), Asr på eftermiddagen (4), Maghrib strax efter solnedgången (3) och Isha på natten (4). Tiderna styrs av solens gång och skiftar över året och med platsen; därför räknas bönetabeller ut lokalt. Den som är på resa får korta bönerna med fyra rakaʿāt till två. Utöver de fem finns frivilliga böner (*nawāfil*), bland dem *witr* som avslutar natten och de regelbundna *sunna*-bönerna kring de föreskrivna, men de fem är pliktens kärna. Fem böner, sjutton rakaʿāt: dygnet får en återkommande puls som ingen annan vana ger.
+Det ger sammanlagt sjutton obligatoriska rakaʿāt: Fajr i gryningen (2), Dhuhr efter middagshöjd (4), Asr på eftermiddagen (4), Maghrib strax efter solnedgången (3) och Isha på natten (4). Tiderna styrs av solens gång och skiftar över året och med platsen; därför räknas bönetabeller ut lokalt. Den som är på resa får korta bönerna med fyra rakaʿāt till två. Utöver de fem finns frivilliga böner (*nawāfil*), bland dem *witr* som avslutar natten och de regelbundna *sunna*-bönerna kring de föreskrivna, men de fem är pliktens kärna. Fem böner, sjutton rakaʿāt: dygnet får en puls som ingen annan vana ger.
 
 ## Varför ber muslimer på just detta sätt?
 

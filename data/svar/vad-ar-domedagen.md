@@ -3,6 +3,7 @@ title: "Vad är domedagen (den yttersta dagen) i islam?"
 question: "Vad är domedagen (den yttersta dagen) i islam?"
 description: "Domedagen är en av islams sex trosartiklar. Vad händer när basunen ljuder, hur vägs människans gärningar i vågen – och vilka tecken visar att Stunden är nära?"
 publishedAt: "2026-06-20T00:00:00Z"
+updatedAt: "2026-07-26T00:00:00Z"
 keywords:
   - "domedagen islam"
   - "den yttersta dagen islam"
@@ -25,12 +26,18 @@ faq:
 sources:
   - name: "Koranen 21:47"
     url: "https://quran.com/21/47?translations=48"
+  - name: "Koranen 39:68"
+    url: "https://quran.com/39/68?translations=48"
+  - name: "Koranen 81:1–3"
+    url: "https://quran.com/81/1-3?translations=48"
   - name: "Koranen 99:6–8"
     url: "https://quran.com/99/6-8?translations=48"
   - name: "Sahīh al-Bukhārī 7510"
     url: "https://sunnah.com/bukhari:7510"
   - name: "Sahīh Muslim 8"
     url: "https://sunnah.com/muslim:8"
+  - name: "Sahīh Muslim 183"
+    url: "https://sunnah.com/muslim:183"
   - name: "Sahīh Muslim 2577"
     url: "https://sunnah.com/muslim:2577"
   - name: "Sahīh Muslim 2901"
@@ -52,7 +59,7 @@ essays:
 
 ## Vad betyder domedagen i islam?
 
-Domedagen markerar slutet på den nuvarande världsordningen och inledningen till det eviga livet. Koranen ger dagen flera namn som var för sig fångar en sida av den: *al-qiyāma* (uppståndelsen), *yawm ad-dīn* (domens dag), *as-sāʿa* (Stunden) och *al-qāriʿa* (det dånande slaget). Först förgås allt levande, därefter återuppväcks människorna kroppsligen för att möta sin Skapare. Domedagen hör till det fördolda (*al-ghayb*), det som människan känner enbart genom uppenbarelsen. Till skillnad från en symbolisk bild av "yttersta tiden" är den i islam en verklig, framtida händelse vars exakta tidpunkt bara Gud känner till; profeten Muhammed sade att inte ens han visste när Stunden skulle infalla.
+Domedagen markerar slutet på den nuvarande världsordningen och inledningen till det eviga livet. Koranen ger dagen flera namn som var för sig fångar en sida av den: *al-qiyāma* (uppståndelsen), *yawm ad-dīn* (domens dag), *as-sāʿa* (Stunden) och *al-qāriʿa* (det dånande slaget). Först förgås allt levande, därefter återuppväcks människorna kroppsligen för att möta sin Skapare. Domedagen hör till det fördolda (*al-ghayb*), det som människan känner enbart genom uppenbarelsen. Till skillnad från en symbolisk bild av "yttersta tiden" är den i islam en verklig, framtida händelse vars exakta tidpunkt bara Gud känner till. När Jibrīl frågade när Stunden skulle infalla svarade profeten: "Den tillfrågade vet inte mer om saken än den som frågar" (Sahīh Muslim 8).
 
 Att världen en gång ska gå under var ingen främmande tanke i Norden. I *Völuspá*, völvans spådom, tecknas slutet i samma slags bilder som Koranen använder om Stunden (81:1–3):
 
@@ -70,12 +77,12 @@ Klassiska lärda delar in tecknen i mindre och större. De mindre tecknen (*ʿal
 
 ## Vad händer på själva domedagen?
 
-Förloppet inleds när ängeln blåser i basunen (*as-sūr*): vid det första stötet förgås allt levande, vid det andra återuppväcks alla. Människorna samlas (*al-hashr*) barfota och nakna inför Gud. Enligt hadithen om den stora förbönen (*ash-shafāʿa*) vänder de sig i sin nöd till profet efter profet för att någon ska be Gud inleda domen, till dess att Muhammed med Guds tillstånd träder fram (Sahīh al-Bukhārī 7510). Därefter börjar *al-hisāb*, räkenskapen: var och en får boken över sina gärningar – i höger hand för de räddade, i vänster för de fördömda. Sedan ställs *al-mīzān*, vågen, upp:
+Förloppet inleds när ängeln blåser i basunen (*as-sūr*): vid det första stötet förgås allt levande utom den Gud vill skona, vid det andra reser sig alla och ser sig omkring (Koranen 39:68). Människorna samlas (*al-hashr*) barfota och nakna inför Gud. Enligt hadithen om den stora förbönen (*ash-shafāʿa*) vänder de sig i sin nöd till profet efter profet för att någon ska be Gud inleda domen, till dess att Muhammed med Guds tillstånd träder fram (Sahīh al-Bukhārī 7510). Därefter börjar *al-hisāb*, räkenskapen: var och en får boken över sina gärningar – i höger hand för de räddade, i vänster för de fördömda. Sedan ställs *al-mīzān*, vågen, upp:
 
 > På Uppståndelsens dag skall Vi ställa fram rättvisande vågar och ingen skall då lida den minsta orätt. [Allt,] till och med det som väger så litet som ett senapskorn, skall Vi dra fram i ljuset.
 > — Koranen 21:47
 
-Till sist måste alla passera *as-sirāt*, bron som spänns över helvetet, tunnare än ett hårstrå och vassare än ett svärd.
+Till sist måste alla passera *as-sirāt*, bron som spänns över helvetet – enligt profetens ord tunnare än ett hårstrå och vassare än ett svärd (Sahīh Muslim 183).
 
 ## Vad avgör paradiset eller helvetet?
 

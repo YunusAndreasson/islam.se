@@ -3,6 +3,7 @@ title: "Hur ser islam på Gud? Islams gudssyn"
 question: "Hur ser islam på Gud?"
 description: "Islam ser Gud som en enda, oskapad skapare – fullkomligt olik allt skapat, ändå nära människan genom sitt vetande. Om tawhīd, Guds namn och tron på Allah."
 publishedAt: "2026-06-20T00:00:00Z"
+updatedAt: "2026-07-26T00:00:00Z"
 keywords:
   - "islams gudssyn"
   - "hur ser islam på gud"
@@ -27,6 +28,8 @@ sources:
     url: "https://quran.com/112/1-4?translations=48"
   - name: "Koranen 2:255"
     url: "https://quran.com/2/255?translations=48"
+  - name: "Koranen 7:180"
+    url: "https://quran.com/7/180?translations=48"
   - name: "Koranen 42:11"
     url: "https://quran.com/42/11?translations=48"
   - name: "Koranen 50:16"
@@ -48,7 +51,7 @@ related:
   - "vad-ar-koranen"
 ---
 
-**Islams gudssyn är en kompromisslös monoteism: det finns bara en enda Gud (på arabiska *Allah*) som har skapat allt, är fullkomligt olik sin skapelse och ensam har rätt att tillbedjas.** Ur denna enda sats följer allt annat i religionen. Att vittna om den, *"det finns ingen gud utom Gud"*, är trosbekännelsens *(shahāda)* första hälft och det som gör en människa till muslim. Omkring två miljarder människor, en dryg fjärdedel av jordens befolkning enligt Pew Research Center, vänder sig i dag till denne ende Gud.
+**Islams gudssyn är en kompromisslös monoteism: det finns bara en enda Gud (på arabiska *Allah*) som har skapat allt, är fullkomligt olik sin skapelse och ensam har rätt att tillbedjas.** Ur denna enda sats följer allt annat i religionen. Att vittna om den, "det finns ingen gud utom Gud", är trosbekännelsens *(shahada)* första hälft och det som gör en människa till muslim. Omkring två miljarder människor, en dryg fjärdedel av jordens befolkning enligt Pew Research Center, vänder sig i dag till denne ende Gud.
 
 ## Vad menar islam med att Gud är "en"?
 
@@ -70,7 +73,7 @@ Formuleringen rör vid den första av tawhīds tre delar, *rubūbiyya*: Gud som 
 
 ## Vem är Allah – och är det en annan gud?
 
-*Allah* är inte ett egennamn för en särskild "muslimsk" gud, utan helt enkelt det arabiska ordet för Gud, *al-ilāh*. Arabisktalande kristna och judar har använt samma ord i århundraden och gör det än i dag. Islam lär att det är samme Gud som uppenbarade sig för Abraham *(Ibrāhīm)*, Mose och Jesus – profeternas budskap var i grunden ett och detsamma: tillbe den ende Skaparen. Skillnaden ligger inte i *vem* Gud är, utan i *hur* Gud beskrivs. Islam avvisar bestämt tanken att Gud skulle ha avlat en son, ingå i en treenighet eller ta mänsklig gestalt. Gud är en: inte en av tre, inte en far i mänsklig mening. Muslimer tillber alltså samme Gud – men med en gudsbild rensad från det som människor med tiden lagt till.
+*Allah* är inte ett egennamn för en särskild "muslimsk" gud, utan helt enkelt det arabiska ordet för Gud, *al-ilāh*. Arabisktalande kristna och judar har använt samma ord i århundraden och gör det än i dag: i arabiska biblar står *Allāh* redan i skapelseberättelsens första mening. Islam lär att det är samme Gud som uppenbarade sig för Abraham *(Ibrāhīm)*, Mose och Jesus – profeternas budskap var i grunden ett och detsamma: tillbe den ende Skaparen. Skillnaden ligger inte i *vem* Gud är, utan i *hur* Gud beskrivs. Islam avvisar bestämt tanken att Gud skulle ha avlat en son, ingå i en treenighet eller ta mänsklig gestalt. Gud är en: inte en av tre, inte en far i mänsklig mening. Muslimer tillber alltså samme Gud – men med en gudsbild rensad från det som människor med tiden lagt till.
 
 ## Hur beskriver Koranen Guds egenskaper?
 
@@ -79,7 +82,7 @@ Koranen beskriver Gud som levande, vetande och allsmäktig, ingenstans tydligare
 > GUD – det finns ingen gud utom Han, den Levande, skapelsens evige Vidmakthållare. Slummer överraskar Honom inte och inte heller sömn. [...] Hans allmakts tron omsluter himlarna och jorden. Att värna och bevara dem är för Honom ingen börda. Han är den Höge, den Härlige.
 > — Koranen 2:255
 
-Gud beskrivs genom sina skönaste namn *(al-asmāʾ al-husnā)* – den Nåderike, den Barmhärtige, den Förlåtande. En hadith fastslår att "Gud har nittionio namn" och att den som lär känna dem stiger in i paradiset (Sahīh al-Bukhārī 2736; Sahīh Muslim 2677). Den athariska traditionen, företrädd av Ibn Taymiyya och Ibn al-Qayyim, bekräftar dessa namn och egenskaper precis som de uppenbarats, utan att förvränga dem, förneka dem, fråga "hur?" eller likna Gud vid det skapade. Ibn Taymiyya drar slutsatsen i *Kitāb al-Īmān*:
+Gud beskrivs genom sina skönaste namn *(al-asmāʾ al-husnā)* – den Nåderike, den Barmhärtige, den Förlåtande. Koranen uppmanar uttryckligen att anropa honom med dem (7:180). En hadith fastslår att "Gud har nittionio namn" och att den som lär känna dem stiger in i paradiset (Sahīh al-Bukhārī 2736; Sahīh Muslim 2677). Den athariska traditionen, företrädd av Ibn Taymiyya och Ibn al-Qayyim, bekräftar dessa namn och egenskaper precis som de uppenbarats, utan att förvränga dem, förneka dem, fråga "hur?" eller likna Gud vid det skapade. Ibn Taymiyya drar slutsatsen i *Kitāb al-Īmān*:
 
 > Den som vet och känner mest om Guds namn och egenskaper, vet och känner mest om Gud själv.
 
