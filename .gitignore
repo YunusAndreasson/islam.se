@@ -53,3 +53,6 @@ pnpm-debug.log*
 # Python bytecode from scripts/
 __pycache__/
 *.pyc
+
+# local verification build output
+dist-check/
