@@ -58,7 +58,12 @@ export const FAKTA_CLUSTERS: FaktaCluster[] = [
 				svarSlug: "trosbekannelsen-shahada",
 				label: "Trosbekännelsen",
 				blurb: "Vittnesbörden: ingen gud utom Gud, och Muhammed är hans sändebud.",
-				image: "det-han-letade-efter",
+				// A man under the Nordic night sky, looking up. The shahāda is a
+				// witnessing, and this is what witnessing looks like. It replaced a
+				// café window with coffee and a bun — a fine picture of seeking, which
+				// is what its own essay is about, but the wrong register for the
+				// testimony itself: it read as an ordinary Swedish afternoon.
+				image: "skapad-ur-ingenting",
 			},
 			{
 				svarSlug: "sa-ber-man-steg-for-steg",
