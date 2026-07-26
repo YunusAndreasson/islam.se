@@ -113,8 +113,9 @@ function markAttribution(block: HastElement): void {
 		if (isText(n) && n.value.trim() === "") br--;
 		else break;
 	}
-	const before = br >= 0 ? last.children[br] : undefined;
-	if (!before || !isElement(before) || before.tagName !== "br") return;
+	if (br < 0) return;
+	const before = last.children[br];
+	if (!isElement(before) || before.tagName !== "br") return;
 
 	last.children.splice(br, last.children.length - br, cite(tail.value.trim()));
 }
