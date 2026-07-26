@@ -3,6 +3,7 @@ title: "Hur skiljer sig Koranen från Bibeln och Toran?"
 question: "Hur skiljer sig Koranen från Bibeln och Toran?"
 description: "Islam räknar Toran och Evangeliet som äkta uppenbarelser i sitt ursprung – ändå litar muslimer bara på Koranen. Varför anses de äldre skrifterna förvanskade?"
 publishedAt: "2026-06-23T00:00:00Z"
+updatedAt: "2026-07-26T00:00:00Z"
 keywords:
   - "hur skiljer sig Koranen från Bibeln"
   - "Koranen och Toran"
@@ -35,11 +36,14 @@ sources:
     url: "https://quran.com/15/9?translations=48"
   - name: "Koranen 29:46"
     url: "https://quran.com/29/46?translations=48"
+  - name: "Sahīh al-Bukhārī 4987"
+    url: "https://sunnah.com/bukhari:4987"
   - name: "Sahīh al-Bukhārī 7362"
     url: "https://sunnah.com/bukhari:7362"
   - name: "Sahīh Muslim 8"
     url: "https://sunnah.com/muslim:8"
   - name: "Ibn al-Qayyim, ad-Dāʾ wa-d-dawāʾ"
+  - name: "Ibn Taymiyya, al-Jawāb as-sahīh li-man baddala dīn al-Masīh"
   - name: "islamqa.info (Muhammad Sālih al-Munajjid) – Har Toran och Evangeliet ändrats?"
     url: "https://islamqa.info/en/answers/2001"
   - name: "al-ibadah.com – Troslära"
@@ -58,7 +62,7 @@ related:
 
 ## Vad är Toran och Bibeln enligt islam?
 
-Enligt islam är Toran (*at-tawrāt*) och Evangeliet (*al-injīl*) gudomliga skrifter, uppenbarade av samma Gud som sände Koranen. Att tro på Guds böcker, *īmān bi'l-kutub*, är en av de sex trosartiklarna i klassisk islamisk troslära, uppräknad i hadithen om Jibrīl (Sahīh Muslim 8) vid sidan av tron på Gud, änglarna, sändebuden, den Yttersta dagen och förutbestämmelsen.
+Enligt islam är Toran (*at-tawrāt*) och Evangeliet (*al-injīl*) gudomliga skrifter, uppenbarade av samma Gud som sände Koranen. Att tro på Guds böcker, *īmān bi'l-kutub*, är en av de sex trosartiklarna i klassisk islamisk troslära, uppräknad i hadithen om Jibrīl (Sahīh Muslim 8) vid sidan av tron på Gud, änglarna, sändebuden, den yttersta dagen och förutbestämmelsen.
 
 Traditionen räknar fyra namngivna skrifter: Toran till profeten Mose (Mūsā), Psaltaren (*az-zabūr*) till David (Dāwūd), Evangeliet till Jesus (ʿĪsā) och Koranen till Muhammed. De tre tidigare profeterna bär enligt denna syn samma grundbudskap, och därför kallar Koranen judar och kristna *ahl al-kitāb*, "Bokens folk", en benämning som understryker släktskapet. Att skrifterna hör ihop beror på att de bär samma ärende; Ibn al-Qayyim formulerar det i *ad-Dāʾ wa-d-dawāʾ*:
 
@@ -77,7 +81,7 @@ Samma tanke återkommer i 3:3: "det är Han som uppenbarade Tora och Evangeliet"
 
 ## Varför anser muslimer att de äldre skrifterna förvanskats?
 
-Begreppet är *tahrīf*, förvanskning, och skulden läggs på människohand, inte på Gud. Om Israels barn heter det att "de förvränger [uppenbarelsens] ord och bryter ut dem ur deras sammanhang" (Koranen 5:13), och Bokens folk sägs ha dolt sådant i Skriften som Sändebudet nu "klargör" (Koranen 5:15). Klassiska lärda beskriver fyra slags förvanskning: att ändra orden, att utelämna stycken, att tillskriva Gud sådant han aldrig sagt och att vrida innebörden genom feltolkning. Ett tydligt exempel gäller det utelämnade: enligt Koranen 7:157 fanns profeten omnämnd redan i Toran och Evangeliet, ett omnämnande som enligt muslimer inte längre går att finna i dagens texter. Muhammad Sālih al-Munajjid sammanfattar majoritetslinjen: de ursprungliga skrifterna ändrades före Muhammeds tid, och Gud åtog sig aldrig att bevara dem så som han bevarat Koranen. Ibn Taymiyya nyanserade bilden: varje enskild avskrift behöver inte vara textligt fördärvad. Budskapets kärna lever kvar; bokstaven är förlorad.
+Begreppet är *tahrīf*, förvanskning, och skulden läggs på människohand, inte på Gud. Om Israels barn heter det att "de förvränger [uppenbarelsens] ord och bryter ut dem ur deras sammanhang" (Koranen 5:13), och om Bokens folk att de dolde sådant i Skriften som Sändebudet nu "klargör" (Koranen 5:15). Klassiska lärda beskriver fyra slags förvanskning: att ändra orden, att utelämna stycken, att tillskriva Gud sådant han aldrig sagt och att vrida innebörden genom feltolkning. Ett tydligt exempel gäller det utelämnade: enligt Koranen 7:157 fanns profeten omnämnd redan i Toran och Evangeliet, ett omnämnande som enligt muslimer inte längre går att finna i dagens texter. Muhammad Sālih al-Munajjid sammanfattar majoritetslinjen: de ursprungliga skrifterna ändrades före Muhammeds tid, och Gud åtog sig aldrig att bevara dem så som han bevarat Koranen. Ibn Taymiyya nyanserade bilden i *al-Jawāb as-sahīh*: varje enskild avskrift behöver inte vara textligt fördärvad. Budskapets kärna lever kvar; bokstaven är förlorad.
 
 ## Hur kan Koranen vara bevarad när de andra inte är det?
 
@@ -86,10 +90,10 @@ Skillnaden ligger i ett uttryckligt löfte och i hur texten förts vidare. Om Ko
 > Det är Vi som har uppenbarat denna Koran steg för steg och Vi skall helt visst slå vakt om den!
 > — Koranen 15:9
 
-Något sådant löfte gavs aldrig om Toran eller Evangeliet. Också formen skiljer sig. Koranen uppenbarades för en enda man, Muhammed, genom ängeln Jibrīl (Gabriel) under omkring 23 år, på ett enda språk, arabiska, och samlades i 114 suror med drygt 6 200 verser. Bibeln är däremot ett helt bibliotek: enligt traditionell kristen räkning 66 skrifter, nedtecknade av ett fyrtiotal författare på hebreiska, arameiska och grekiska under närmare 1 500 år. Till det skriftliga kommer det muntliga bevarandet: redan på 600-talet kunde följeslagarna hela texten utantill, och i dag reciterar miljoner *huffāz* den ord för ord.
+Något sådant löfte gavs aldrig om Toran eller Evangeliet. Också formen skiljer sig. Koranen uppenbarades för en enda man, Muhammed, genom ängeln Jibrīl (Gabriel) under omkring 23 år, på ett enda språk, arabiska, och samlades i 114 suror med drygt 6 200 verser. Bibeln är däremot ett helt bibliotek: 66 skrifter enligt protestantisk räkning, 73 i den katolska kanon och fler i de ortodoxa kyrkornas, nedtecknade av ett fyrtiotal författare på hebreiska, arameiska och grekiska under närmare 1 500 år. Redan att kyrkorna inte är eniga om omfånget är en skillnad i sak: om Koranens 114 suror råder ingen tvist. Till det skriftliga kommer det muntliga bevarandet: redan på 600-talet kunde följeslagarna hela texten utantill, och i dag reciterar miljoner *huffāz* den ord för ord. Standardiseringen skedde tidigt och av uttalat skäl. När följeslagaren Hudhayfa märkte att recitationen började skifta mellan trupperna vände han sig till kalifen ʿUthmān med orden: "Rädda detta samfund innan de blir oense om Boken så som judarna och de kristna blev före dem." ʿUthmān lät då Zayd ibn Thābit och tre andra skriva rena avskrifter och sände en till varje provins (Sahīh al-Bukhārī 4987). Jämförelsen med de äldre skrifterna är alltså ingen senare efterhandskonstruktion: den var motivet redan när texten fastställdes.
 
-Den sekulära handskriftsforskningen pekar åt samma håll. Marijn van Putten har visat att fjorton av de äldsta bevarade koranhandskrifterna delar samma ortografiska egenheter: ordet *niʿmat* kan skrivas på två sätt, och växlingen mellan dem sker på exakt samma ställen i samtliga fjorton, något som är svårt att förklara utan en gemensam skriven förlaga. Pergamentet i en av de äldsta, Birminghamhandskriften, har kol-14-daterats till åren 568–645 med 95,4 procents säkerhet. Därför ljuder i dag exakt samma arabiska ordalydelse i Jakarta som i Marocko – en obruten kedja som varken Toran eller Evangeliet kan visa upp.
+Den sekulära handskriftsforskningen pekar åt samma håll. Marijn van Putten har visat att fjorton av de äldsta bevarade koranhandskrifterna delar samma ortografiska egenheter: ordet *niʿmat* kan skrivas på två sätt, och växlingen mellan dem sker på exakt samma ställen i samtliga fjorton, något som är svårt att förklara utan en gemensam skriven förlaga. Pergamentet i en av de äldsta, Birminghamhandskriften, har kol-14-daterats till åren 568–645 med 95,4 procents säkerhet. Därför ljuder i dag samma arabiska text i Jakarta som i Marocko – en obruten kedja som varken Toran eller Evangeliet kan visa upp. De erkända läsarterna (*qirāʾāt*) är ingen invändning mot detta: de rör uttal och vokalisering inom en och samma konsonanttext och har förts vidare i egna, namngivna överlämningskedjor.
 
 ## Förkastar islam Bibeln och Toran?
 
-Nej. Islam förkastar varken Bibeln eller Toran som helhet, och muslimer förbjuds att håna dem. Spår av den ursprungliga sanningen anses leva kvar, invävda med senare mänskliga tillägg, och den troende läser därför skrifterna med urskillning och låter Koranen avgöra vad som består. Teologiskt går skiljelinjen vid Guds enhet, *tawhīd*: där Bibeln på sina ställen gör Jesus till Gud, håller Koranen fast vid att han var Guds tjänare och profet. Om mötet med judar och kristna är anvisningen samtidigt tydlig: muslimer uppmanas att inte tvista med Bokens folk annat än på det hövligaste sätt, och att framhålla att de tror på det som uppenbarats för båda parter och att muslimernas Gud och Bokens folks Gud är en och densamme (29:46).
+Nej. Islam förkastar varken Bibeln eller Toran som helhet, och muslimer förbjuds i klassisk fiqh att håna dem. Spår av den ursprungliga sanningen anses leva kvar, invävda med senare mänskliga tillägg, och den troende läser därför skrifterna med urskillning och låter Koranen avgöra vad som består. Teologiskt går skiljelinjen vid Guds enhet, *tawhīd*: där Bibeln på sina ställen gör Jesus till Gud, håller Koranen fast vid att han var Guds tjänare och profet. Om mötet med judar och kristna är anvisningen samtidigt tydlig: muslimer uppmanas att inte tvista med Bokens folk annat än på det hövligaste sätt, och att framhålla att de tror på det som uppenbarats för båda parter och att muslimernas Gud och Bokens folks Gud är en och densamme (29:46).

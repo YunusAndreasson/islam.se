@@ -3,6 +3,7 @@ title: "Vad är ödet (qadar)? Islams sjätte trosartikel"
 question: "Vad säger islam om ödet (qadar)?"
 description: "Ödet (qadar) i islam betyder inte att människan saknar vilja. Här är de fyra nivåerna i tron på det förutbestämda – och var gränsen mot ren ödestro går."
 publishedAt: "2026-06-20T00:00:00Z"
+updatedAt: "2026-07-26T00:00:00Z"
 keywords:
   - "qadar"
   - "ödet i islam"
@@ -29,6 +30,8 @@ sources:
     url: "https://quran.com/57/23?translations=48"
   - name: "Koranen 9:51"
     url: "https://quran.com/9/51?translations=48"
+  - name: "Koranen 81:28–29"
+    url: "https://quran.com/81/28-29?translations=48"
   - name: "Sahīh al-Bukhārī 5729"
     url: "https://sunnah.com/bukhari:5729"
   - name: "Sahīh Muslim 8"
@@ -39,6 +42,7 @@ sources:
     url: "https://sunnah.com/abudawud:4700"
   - name: "Jāmiʿ at-Tirmidhī 2155"
     url: "https://sunnah.com/tirmidhi:2155"
+  - name: "an-Nawawīs 40 hadīther, nr 2"
   - name: "Ibn al-Qayyim, Shifāʾ al-ʿalīl"
   - name: "Ibn al-Jawzi, Sayd al-khātir"
   - name: "Ibn Taymiyya, al-ʿUbūdiyya"
@@ -78,7 +82,7 @@ Fyra led – vetskap, skrift, vilja, skapelse – och allt som sker har passerat
 
 ## Har människan fri vilja om allt är förskrivet?
 
-Här väljer *ahl as-sunna* medelvägen mellan två diken. *Qadariyya* förnekade att Gud förutbestämt och skapat människans handlingar, och överdrev därmed den fria viljan. *Jabriyya* förnekade människans vilja helt och gjorde henne till ett viljelöst redskap. Den klassiska läran, så som Ibn Taymiyya formulerade den, håller fast vid båda sanningarna samtidigt: människan har en verklig vilja och förmåga (*qudra*), men både viljan och förmågan är i sin tur skapade av Gud. Hon väljer och handlar i verklig mening, och bär därför fullt ansvar på domens dag. Människan faller inte genom tillvaron som en viljelös sten; hon väljer, men aldrig utanför det Gud har skapat.
+Här väljer *ahl as-sunna* medelvägen mellan två diken. *Qadariyya* förnekade att Gud förutbestämt och skapat människans handlingar, och överdrev därmed den fria viljan. *Jabriyya* förnekade människans vilja helt och gjorde henne till ett viljelöst redskap. Den klassiska läran, så som Ibn Taymiyya formulerade den, håller fast vid båda sanningarna samtidigt: människan har en verklig vilja och förmåga (*qudra*), men både viljan och förmågan är i sin tur skapade av Gud. Koranen ställer de två sanningarna intill varandra i två på varandra följande verser: den ena talar om den människa som vill gå den raka vägen (81:28), den andra säger att ingen kan vilja om inte Gud, världarnas Herre, vill (81:29). Viljan är verklig i den första satsen och skapad i den andra. Hon väljer och handlar i verklig mening, och bär därför fullt ansvar på domens dag. Människan faller inte genom tillvaron som en viljelös sten; hon väljer, men aldrig utanför det Gud har skapat.
 
 ## Får man skylla sina synder på ödet?
 
@@ -90,7 +94,7 @@ Att Pennan skrivit allt upphäver inte plikten att handla och söka medlen (*asb
 
 > Döden kommer när den kommer, var jag än är, om det är mitt öde.
 
-Islam delar utgångspunkten att stunden är utsatt, men drar motsatt slutsats om medlen: också de är skrivna, och därför ska de sökas. När pesten härjade i Shām vände kalifen ʿUmar ibn al-Khattāb om hellre än att rida in i den drabbade staden, och svarade dem som invände att han flydde "från Guds beslut till Guds beslut" (Sahīh al-Bukhārī 5729; Sahīh Muslim 2219). Samma linje dras i den klassiska trosläran: ödet är en trosfråga, inte en täckmantel för lättja eller olydnad. Ödet förklarar det som drabbar människan; det ursäktar aldrig det hon väljer.
+Islam delar utgångspunkten att stunden är utsatt, men drar motsatt slutsats om medlen: också de är skrivna, och därför ska de sökas. När pesten härjade i Shām vände kalifen ʿUmar ibn al-Khattāb om hellre än att rida in i den drabbade staden, och svarade dem som invände att han flydde "från Guds beslut till Guds beslut" (Sahīh al-Bukhārī 5729; Sahīh Muslim 2219). Ödet förklarar det som drabbar människan; det ursäktar aldrig det hon väljer.
 
 ## Vad ger tron på ödet den troende?
 

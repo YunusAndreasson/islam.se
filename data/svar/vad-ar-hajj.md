@@ -3,6 +3,7 @@ title: "Vad är hajj? Vallfärden till Mecka förklarad"
 question: "Vad är hajj (vallfärden)?"
 description: "Hajj är islams femte pelare: vallfärden till Mecka. Vem är skyldig att resa, vilka riter ingår och varför sägs pilgrimen återvända syndfri som en nyfödd?"
 publishedAt: "2026-06-20T00:00:00Z"
+updatedAt: "2026-07-26T00:00:00Z"
 keywords:
   - "vad är hajj"
   - "hajj vallfärden"
@@ -23,6 +24,10 @@ faq:
   - q: "Vad är den viktigaste riten under hajj?"
     a: "Att stå på slätten ʿArafat (wuqūf) den 9:e dhū-l-hijja. Den som missar wuqūf har missat själva hajj och får fullgöra vallfärden ett senare år."
 sources:
+  - name: "Koranen 2:127"
+    url: "https://quran.com/2/127?translations=48"
+  - name: "Koranen 2:158"
+    url: "https://quran.com/2/158?translations=48"
   - name: "Koranen 3:97"
     url: "https://quran.com/3/97?translations=48"
   - name: "Koranen 22:27"
@@ -33,6 +38,8 @@ sources:
     url: "https://sunnah.com/bukhari:8"
   - name: "Sahīh al-Bukhārī 1521"
     url: "https://sunnah.com/bukhari:1521"
+  - name: "Sahīh al-Bukhārī 1549"
+    url: "https://sunnah.com/bukhari:1549"
   - name: "al-ibadah.com – Vallfärdens status inom islam och villkor"
     url: "https://al-ibadah.com/vallfard/status-for-vallfarden-inom-islam-och-villkor-for-a/"
   - name: "Saudiarabiens statistikmyndighet GASTAT – Hajj 2026 (1 707 301 pilgrimer)"
@@ -54,11 +61,11 @@ related:
 > Islam är byggd på fem [pelare]: vittnesbördet att ingen har rätt att dyrkas utom Gud och att Muhammed är Guds sändebud, att förrätta bönen, att ge allmoseskatten, att vallfärda till Huset och att fasta under ramadan.
 > — Sahīh al-Bukhārī 8
 
-Av de fem pelarna är hajj den enda som är bunden till en bestämd plats på jorden. Riterna är till sin kärna *tawhīd* i handling: dyrkan av Gud ensam, utan att byggnaden eller platsen tillskrivs någon egen kraft. De går tillbaka på profeten Abraham (Ibrāhīm), som enligt Koranen befalldes att kalla människorna till vallfärd, och varje pilgrim svarar på den kallelsen med ropet *talbiya*: "Här är jag, o Gud, här är jag."
+Av de fem pelarna är hajj den enda som är bunden till en bestämd plats på jorden. Riterna är till sin kärna *tawhīd* i handling: dyrkan av Gud ensam, utan att byggnaden eller platsen tillskrivs någon egen kraft. De går tillbaka på profeten Abraham (Ibrāhīm), som enligt Koranen lade grunden till Helgedomen tillsammans med sin son Ismael (2:127) och befalldes att kalla människorna till vallfärd, och varje pilgrim svarar på den kallelsen med ropet *talbiya*: "Här är jag, o Gud, här är jag; du har ingen medhjälpare, här är jag" (Sahīh al-Bukhārī 1549).
 
 ## När och var utförs vallfärden?
 
-Hajj är bunden till en enda månad i året: *dhū-l-hijja*, den tolfte i den islamiska månkalendern, med höjdpunkten den 8 till 13. Eftersom månåret är kortare än solåret vandrar vallfärden omkring elva dagar bakåt i den gregorianska kalendern varje år; år 2026 väntas de centrala dagarna infalla i slutet av maj. Skådeplatsen är inte bara den heliga moskén (al-Masjid al-Harām) utan en rad platser utanför staden: slätten ʿArafat, dalen Muzdalifa och tältstaden Mina. Koranen knyter denna folkvandring direkt till Abraham:
+Hajj är bunden till en enda månad i året: *dhū-l-hijja*, den tolfte i den islamiska månkalendern, med höjdpunkten den 8 till 13. Eftersom månåret är kortare än solåret vandrar vallfärden omkring elva dagar bakåt i den gregorianska kalendern varje år: år 2026 inföll de centrala dagarna 25–30 maj, och år 2027 väntas de infalla i mitten av maj. Skådeplatsen är inte bara den heliga moskén (al-Masjid al-Harām) utan en rad platser utanför staden: slätten ʿArafat, dalen Muzdalifa och tältstaden Mina. Koranen knyter denna folkvandring direkt till Abraham:
 
 > Kungör för människorna [plikten att fullgöra] vallfärden. De skall komma till dig till fots och ridande på alla slag av snabbfotade riddjur och de skall komma från alla håll och från avlägsna trakter.
 > — Koranen 22:27
@@ -67,7 +74,7 @@ Ingen annan samling är så hårt bunden till en bestämd tid och plats – och 
 
 ## Vilka är de viktigaste riterna under hajj?
 
-Vallfärden börjar med att pilgrimen vid en bestämd gränsstation (*mīqāt*) träder in i vigningstillståndet *ihrām* och tar på sig pilgrimsdräkten, för männen två sömlösa vita tygstycken. Därefter följer en fast ordning: *tawāf*, sju varv runt Kaba; *saʿy*, sju vandringar mellan höjderna Safa och Marwa till minne av Hagars sökande efter vatten åt sin son Ismael; och den centrala riten *wuqūf*, att stå på ʿArafat den 9:e i bön och åkallan. Natten tillbringas i Muzdalifa, varpå pilgrimen i Mina kastar sten mot pelarna (*jamarāt*), slaktar ett offerdjur i samband med offerfesten Eid al-Adha och klipper håret. Sedan går färden tillbaka till Mecka för *tawāf al-ifāda*, vallfärdens andra oumbärliga rit, och pilgrimen tar till sist farväl av Huset med en avslutande *tawāf*. Utan *wuqūf* på ʿArafat är hela vallfärden ogiltig.
+Vallfärden börjar med att pilgrimen vid en bestämd gränsstation (*mīqāt*) träder in i vigningstillståndet *ihrām* och tar på sig pilgrimsdräkten, för männen två sömlösa vita tygstycken. Därefter följer en fast ordning: *tawāf*, sju varv runt Kaba; *saʿy*, sju vandringar mellan höjderna Safa och Marwa till minne av Hagars sökande efter vatten åt sin son Ismael, två höjder som Koranen räknar bland Guds egna symboler (2:158); och den centrala riten *wuqūf*, att stå på ʿArafat den 9:e i bön och åkallan. Natten tillbringas i Muzdalifa, varpå pilgrimen i Mina kastar sten mot pelarna (*jamarāt*), slaktar ett offerdjur i samband med offerfesten Eid al-Adha och klipper håret. Sedan går färden tillbaka till Mecka för *tawāf al-ifāda*, vallfärdens andra oumbärliga rit, och pilgrimen tar till sist farväl av Huset med en avslutande *tawāf*. Utan *wuqūf* på ʿArafat är hela vallfärden ogiltig.
 
 ## Vem är skyldig att vallfärda och vad krävs?
 

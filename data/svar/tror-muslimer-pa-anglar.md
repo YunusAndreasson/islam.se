@@ -3,6 +3,7 @@ title: "Tror muslimer på änglar? Tron på al-malāʾika"
 question: "Tror muslimer på änglar?"
 description: "Ja – tron på änglarna är en av islams sex trosartiklar. Om vad änglarna är skapade av, varför Iblīs inte är någon ängel och vilka som nedtecknar människans ord."
 publishedAt: "2026-06-20T00:00:00Z"
+updatedAt: "2026-07-26T00:00:00Z"
 keywords:
   - "tror muslimer på änglar"
   - "änglar i islam"
@@ -23,6 +24,8 @@ faq:
   - q: "Skriver änglarna ned vad människan gör?"
     a: "Ja. Vid varje människa sitter två änglar, kirāman kātibīn ('ädla skrivare'), som antecknar varje ord och handling (Koranen 50:18)."
 sources:
+  - name: "Koranen 2:97"
+    url: "https://quran.com/2/97?translations=48"
   - name: "Koranen 2:285"
     url: "https://quran.com/2/285?translations=48"
   - name: "Koranen 4:136"
@@ -63,7 +66,7 @@ essays:
 
 ## Är tron på änglar obligatorisk i islam?
 
-Att tro på änglarna är den andra av de sex trosartiklarna, näst efter tron på Gud. I den berömda *hadithen om Jibrīl* (Sahīh Muslim 8) kommer ängeln Gabriel i en mans gestalt och frågar profeten Muhammed vad tron (*īmān*) är. Svaret räknar upp sex ting: tro på Gud, *hans änglar*, hans uppenbarade skrifter, hans sändebud, den Yttersta dagen och det gudomliga förutbestämmandet (*al-qadar*), dess goda och dess onda. Koranen ställer samma krav:
+Att tro på änglarna är den andra av de sex trosartiklarna, näst efter tron på Gud. I den berömda *hadithen om Jibrīl* (Sahīh Muslim 8) kommer ängeln Gabriel i en mans gestalt och frågar profeten Muhammed vad tron (*īmān*) är. Svaret räknar upp sex ting: tro på Gud, *hans änglar*, hans uppenbarade skrifter, hans sändebud, den yttersta dagen och förutbestämmelsen (*al-qadar*), dess goda och dess onda. Koranen ställer samma krav:
 
 > Sändebudet tror på vad hans Herre har uppenbarat för honom och de troende med honom. De tror alla på Gud och Hans änglar och Hans uppenbarelser och Hans sändebud …
 > — Koranen 2:285
@@ -85,7 +88,7 @@ Framför allt saknar änglarna egen vilja: de gör uteslutande vad Gud befaller 
 
 ## Vilka är de kända änglarna i islam?
 
-Flera änglar nämns vid namn, var och en med sin uppgift; de är inga poetiska bilder för naturkrafter eller samvete utan bestämda varelser med var sin post. **Jibrīl** (Gabriel) är uppenbarelsens ängel – han som under tjugotre år förmedlade hela Koranen till profeten Muhammed. **Mikāʾīl** (Mikael) förknippas med regn och försörjning, och **Isrāfīl** ska blåsa i basunen när uppståndelsen inleds. Dödsängeln (*malak al-mawt*) tar själen när livet är slut, medan **Mālik** är Helvetets väktare. I graven förhör de två änglarna **Munkar** och **Nakīr** den döde om hans tro (Jāmiʿ at-Tirmidhī 1071). Och vid varje människa sitter två nedtecknande änglar, en på höger och en på vänster sida (Koranen 50:17), som Koranen kallar *kirāman kātibīn*, "ädla skrivare" (82:11):
+Flera änglar nämns vid namn, var och en med sin uppgift; de är inga poetiska bilder för naturkrafter eller samvete utan bestämda varelser med var sin post. **Jibrīl** (Gabriel) är uppenbarelsens ängel – han som under tjugotre år förmedlade hela Koranen till profeten Muhammed; Koranen säger uttryckligen att det är han som på Guds befallning sänt ned den till profetens hjärta (2:97). **Mikāʾīl** (Mikael) förknippas med regn och försörjning, och **Isrāfīl** ska blåsa i basunen när uppståndelsen inleds. Dödsängeln (*malak al-mawt*) tar själen när livet är slut, medan **Mālik** är Helvetets väktare. I graven förhör de två änglarna **Munkar** och **Nakīr** den döde om hans tro (Jāmiʿ at-Tirmidhī 1071). Och vid varje människa sitter två nedtecknande änglar, en på höger och en på vänster sida (Koranen 50:17), som Koranen kallar *kirāman kātibīn*, "ädla skrivare" (82:11):
 
 > … kommer inte ett ord över hennes läppar utan att en övervakare är hos henne, färdig [att skriva].
 > — Koranen 50:18
