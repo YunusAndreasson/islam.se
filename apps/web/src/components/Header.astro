@@ -5,6 +5,7 @@ import {
 	nextPrayerKeyAt,
 	PRAYER_LABELS,
 } from "../lib/bonetider/prayer-times";
+import { MOSKEER_ENABLED } from "../lib/config";
 import { DEFAULT_COORDS, DEFAULT_SETTINGS } from "../lib/bonetider/settings";
 import { solarParams, sunPositionAt } from "../lib/bonetider/solar/sun";
 
@@ -21,7 +22,8 @@ const links = [
 	{ href: "/svar/", label: "Frågor & svar" },
 	{ href: "/essaer", label: "Essäer" },
 	{ href: "/bonetider/", label: "Bönetider" },
-	{ href: "/moskeer", label: "Moskéer" },
+	// Gated: see MOSKEER_ENABLED in lib/config.ts.
+	...(MOSKEER_ENABLED ? [{ href: "/moskeer", label: "Moskéer" }] : []),
 	{ href: "/app", label: "App" },
 	{ href: "/podcast", label: "Podd" },
 ];
@@ -77,6 +79,20 @@ const mastIsDay =
 				<span class="bf-next-name mast-prayer-name">{PRAYER_LABELS[mastNextKey]}</span>
 				<span class="bf-next-time mast-prayer-time">{formatTime(mastTimes[mastNextKey])}</span>
 			</a>
+			{/* Theme switch. One glyph — a circle half-filled with the text colour — that
+			    turns 180° between light and dark, rather than swapping a sun for a moon:
+			    the mast already carries a live sun/crescent a few pixels to the left (day
+			    vs night for the prayer times), and a second one would read as the same
+			    signal saying something else. The button starts unlabelled-by-state and is
+			    filled in by the script, because the server cannot know which theme this
+			    reader is on. */}
+			<button class="theme-toggle" type="button" aria-label="Växla mellan ljust och mörkt läge">
+				<svg class="theme-toggle-icon" viewBox="0 0 24 24" aria-hidden="true">
+					<circle cx="12" cy="12" r="8.25" fill="none" stroke="currentColor" stroke-width="1.4" />
+					<path d="M12 3.75a8.25 8.25 0 0 0 0 16.5z" fill="currentColor" />
+				</svg>
+			</button>
+
 			{/* No aria-label: the accessible name comes from the visible label span, which
 			    CSS swaps "Sök" (pointer) ↔ "Meny" (touch) by media query. A fixed aria-label
 			    matches only one, tripping WCAG 2.5.3 (label-in-name) on the other; letting the
@@ -154,4 +170,8 @@ const mastIsDay =
 	}
 
 	document.addEventListener("astro:page-load", bindHeader);
+
+	// The theme switch in the mast is driven entirely from the inline head script in
+	// Base.astro — it has to run before first paint, and it handles the press by
+	// delegation so the control never waits on this bundle. Nothing to do here.
 </script>

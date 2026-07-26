@@ -6,6 +6,7 @@ import RecentEssays from "../components/RecentEssays.astro";
 import { getImage } from "astro:assets";
 import Base from "../layouts/Base.astro";
 import { getArticles } from "../lib/articles";
+import { MOSKEER_ENABLED } from "../lib/config";
 import { FEATURE_HERO_SIZES, FEATURE_HERO_WIDTHS } from "../lib/hero";
 
 const articles = await getArticles();
@@ -78,10 +79,13 @@ const heroPreload = feature?.heroImage
 				<span class="home-pillar-title">Bönetider</span>
 				<span class="home-pillar-desc">Dagens tider för hela Sverige</span>
 			</a>
-			<a class="home-pillar" href="/moskeer">
-				<span class="home-pillar-title">Moskéer</span>
-				<span class="home-pillar-desc">Karta över Sveriges moskéer</span>
-			</a>
+			{/* Gated: see MOSKEER_ENABLED in lib/config.ts. */}
+			{MOSKEER_ENABLED && (
+				<a class="home-pillar" href="/moskeer">
+					<span class="home-pillar-title">Moskéer</span>
+					<span class="home-pillar-desc">Karta över Sveriges moskéer</span>
+				</a>
+			)}
 		</nav>
 
 		{/* The homepage body opens on the latest published — the feature + recent feed —
@@ -100,20 +104,24 @@ const heroPreload = feature?.heroImage
 <style>
 	/* The orientation line: what this site is, for a visitor arriving cold from a
 	   search. Deliberately says nothing the mast already says — listing the
-	   sections here just echoes the menu a few pixels below it. Held close to the
-	   feature that follows so it reads as the page opening rather than a
-	   paragraph adrift in the whitespace above the photograph. */
+	   sections here just echoes the menu a few pixels below it.
+
+	   Set flush left, at body size, on the same edge as the kicker, the headline
+	   and every module below it. It used to be centred, which made the one
+	   sentence on the opening screen the only centred thing on a left-aligned
+	   page — a stray line rather than the page's standfirst. Sharing the edge is
+	   what makes the opening read as one composed block. */
 	.home-intro {
-		/* No measure: the line is meant to sit on ONE line, centred under the mast,
-		   and the 64rem home canvas is wide enough to hold it. */
+		--lead-size: var(--step-0);
+		/* No measure: at body size the sentence still sits on ONE line inside the
+		   64rem canvas, and one line is what keeps the opening screen tall enough
+		   for the whole spread. It only wraps below ~1000px, where balance splits
+		   it evenly instead of leaving a two-word stub. */
 		--lead-measure: none;
 		/* The top margin is not optional: .site-header::after lays a 1.5rem
 		   background-to-transparent fade over the top of <main>, and anything
 		   flush against it gets washed out. */
 		--lead-margin: var(--space-unit) 0 var(--space-unit);
-		text-align: center;
-		/* Only reached on narrow screens, where one line is impossible; balance keeps
-		   the two halves even instead of leaving a stub under a full line. */
 		text-wrap: balance;
 	}
 

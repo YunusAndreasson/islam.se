@@ -46,7 +46,19 @@ export interface FieldConfig {
 // Land + edge colours — the app's nordicStyle land tones (warm parchment / deep navy).
 const LAND = { light: "#ece6d8", dark: "#1d2333" } as const;
 const EDGE = { light: "rgba(26,23,18,0.20)", dark: "rgba(164,173,214,0.28)" } as const;
-const SEA = { light: "#dfe7ec", dark: "#141a26" } as const;
+// The sea was #dfe7ec, and it was the one surface on this page pointing the wrong
+// way. Measured in CIE Lab: the page background sits at b* +7.8 and the map's LAND
+// at b* +7.5 — the same warm axis — while that sea sat at b* −3.35, an 11-point
+// swing to the cold side. Against the older near-neutral page it passed; against
+// the warm ground it read as a cold slab pasted onto the article.
+//
+// #dfe4e2 keeps the sea RELATIVELY cool — still 7 points cooler in b* than the land
+// beside it, which is what makes water read as water — and still slightly darker
+// than land (L* 90.2 vs 91.4) so it stays recessive. What it drops is the absolute
+// blue cast that fought the page. Dark mode is untouched: that page is cold already,
+// so the navy belongs. Keep in sync with `.bf-stage`'s pre-JS background in
+// PrayerField.astro, which is the same sea before the canvas mounts.
+const SEA = { light: "#dfe4e2", dark: "#141a26" } as const;
 const BRASS = { light: "#b8862f", dark: "#c89a48" } as const;
 const ON_MARK = { light: "#fffdf8", dark: "#161a26" } as const;
 // Surrounding countries — a muted tone between sea and Sweden's land, plus a barely-there

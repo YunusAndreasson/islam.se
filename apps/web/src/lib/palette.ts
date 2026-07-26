@@ -1,13 +1,14 @@
 import { getCollection } from "astro:content";
 import { AMNEN } from "./amnen";
 import { getArticles } from "./articles";
+import { MOSKEER_ENABLED } from "./config";
 
 // One flat, typed entry per navigable destination on the site. The command
 // palette (SearchOverlay) is the sole navigation surface now that the mast is
 // wordmark-only, so this index must cover *everything* a reader can reach:
 // the standing pages, the three browse axes (ämnen/trådar/tänkare), and every
 // essay. Built once at build time and serialized into an inline JSON island.
-export type PaletteType = "Sida" | "Ämne" | "Tråd" | "Tänkare" | "Essä";
+export type PaletteType = "Sida" | "Svar" | "Ämne" | "Tråd" | "Tänkare" | "Essä";
 
 export interface PaletteEntry {
 	type: PaletteType;
@@ -15,6 +16,11 @@ export interface PaletteEntry {
 	label: string;
 	/** A one-line gloss — framing prose or the essay lead; also searched. */
 	sub: string;
+	/** Extra wording matched but never shown. Answer pages carry the question in
+	    the reader's own words here, so typing the query the page was written for
+	    ("får muslimer dricka alkohol") finds it even when the title is phrased
+	    differently. */
+	alt?: string;
 	href: string;
 	/** Tänkare only: which tradition the thinker belongs to, so the palette can
 	    list the classical Islamic scholars apart from the Swedish/Western voices
@@ -56,12 +62,17 @@ const PAGES: PaletteEntry[] = [
 		sub: "Bönetider för hela Sverige, ort för ort, efter solens läge.",
 		href: "/bonetider/",
 	},
-	{
-		type: "Sida",
-		label: "Moskéer",
-		sub: "Karta över moskéer i hela Sverige, län för län.",
-		href: "/moskeer",
-	},
+	// Gated: see MOSKEER_ENABLED in lib/config.ts.
+	...(MOSKEER_ENABLED
+		? [
+				{
+					type: "Sida" as const,
+					label: "Moskéer",
+					sub: "Karta över moskéer i hela Sverige, län för län.",
+					href: "/moskeer",
+				},
+			]
+		: []),
 	{
 		type: "Sida",
 		label: "App",
@@ -81,10 +92,17 @@ const PAGES: PaletteEntry[] = [
 	{ type: "Sida", label: "Hem", sub: "Startsidan.", href: "/" },
 ];
 
+/** Case- and diacritic-insensitive, matching the palette's own `fold()` so a
+ *  redundancy test here means the same thing the client's matcher would. */
+function fold(s: string): string {
+	return s.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "");
+}
+
 export async function buildPaletteIndex(): Promise<PaletteEntry[]> {
-	const [tradar, tankare, articles] = await Promise.all([
+	const [tradar, tankare, svar, articles] = await Promise.all([
 		getCollection("tradar"),
 		getCollection("tankare"),
+		getCollection("svar"),
 		getArticles(),
 	]);
 
@@ -110,6 +128,24 @@ export async function buildPaletteIndex(): Promise<PaletteEntry[]> {
 		group: t.data.tradition,
 	}));
 
+	// The whole FRÅGOR & SVAR corpus, cornerstone FAKTA pages included: these are
+	// the site's most-searched destinations, so a reader typing "halal" or "tawhid"
+	// must reach the answer rather than "Inga träffar". The index is inlined into
+	// every page, so `question` is carried only when it isn't already spelled out
+	// in the title or the gloss — for most answers the title opens with the
+	// question verbatim, and repeating it would be pure payload.
+	const svarEntries: PaletteEntry[] = svar.map((s) => {
+		const { title, description, question } = s.data;
+		const covered = fold(`${title} ${description}`).includes(fold(question));
+		return {
+			type: "Svar" as const,
+			label: title,
+			sub: description,
+			...(covered ? {} : { alt: question }),
+			href: `/svar/${s.id}/`,
+		};
+	});
+
 	const essays: PaletteEntry[] = articles.map((a) => ({
 		type: "Essä",
 		label: a.title,
@@ -119,5 +155,5 @@ export async function buildPaletteIndex(): Promise<PaletteEntry[]> {
 
 	// Order mirrors the search group order (pages/structure first, essays last);
 	// the browse view re-orders into ämnen → trådar → tänkare → sidor itself.
-	return [...PAGES, ...amnen, ...tradarEntries, ...tankareEntries, ...essays];
+	return [...PAGES, ...svarEntries, ...amnen, ...tradarEntries, ...tankareEntries, ...essays];
 }

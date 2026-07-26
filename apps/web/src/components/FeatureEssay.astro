@@ -2,6 +2,7 @@
 import type { Article } from "../lib/articles";
 import { formatDate, inlineMarkdown } from "../lib/articles";
 import { FEATURE_HERO_SIZES, FEATURE_HERO_WIDTHS } from "../lib/hero";
+import { heroPlaceholder } from "../lib/lqip";
 import EssayImage from "./EssayImage.astro";
 
 interface Props {
@@ -11,11 +12,20 @@ interface Props {
 }
 
 const { article, widths = FEATURE_HERO_WIDTHS, sizes = FEATURE_HERO_SIZES } = Astro.props;
+
+// Inlined 20px blur of this very photograph, so the spread is never an empty
+// rectangle while the real file lands. ~150 bytes, no extra request.
+const placeholder = await heroPlaceholder(article.slug);
 ---
 
 <section class="feature home-movement" aria-labelledby="feature-title">
 	<a class="feature-link focus-ring" href={`/${article.slug}`} data-astro-prefetch="viewport">
-		<div class="feature-media media-frame">
+		<p class="label home-kicker feature-kicker">Senast publicerat</p>
+		<h2 id="feature-title" class="feature-title">{article.title}</h2>
+		<div
+			class="feature-media media-frame"
+			style={placeholder ? `--lqip: url("${placeholder}")` : undefined}
+		>
 			<EssayImage
 				article={article}
 				widths={widths}
@@ -24,9 +34,7 @@ const { article, widths = FEATURE_HERO_WIDTHS, sizes = FEATURE_HERO_SIZES } = As
 				fetchpriority="high"
 			/>
 		</div>
-		<div class="feature-text">
-			<p class="label home-kicker feature-kicker">Senast publicerat</p>
-			<h2 id="feature-title" class="feature-title">{article.title}</h2>
+		<div class="feature-caption">
 			{article.description && (
 				<p class="feature-lead" set:html={inlineMarkdown(article.description)} />
 			)}
@@ -38,8 +46,27 @@ const { article, widths = FEATURE_HERO_WIDTHS, sizes = FEATURE_HERO_SIZES } = As
 </section>
 
 <style>
-	/* The page's lead movement: a wide image carries the focal point, with the
-	   title and meta set beneath it in the site serif — no text over photo. */
+	/* The page's lead movement, composed as a cover rather than a stack.
+	   Order is deliberate and was inverted in 2026-07: kicker and headline stand
+	   ABOVE the photograph, the way a feature opener is set in print. Beneath the
+	   image the title was the first thing on the page a reader could not see — on
+	   a 1440×800 laptop it began below the fold, so the opening screen was one
+	   line of orientation, a lot of cream, and a picture of nothing named. Now the
+	   essay announces itself, the spread delivers the mood, and the caption row
+	   (deck + date) sits under it. Still no text over the photo — the image is
+	   given its own air, as it always was. */
+
+	/* `.home-movement` turns on `content-visibility: auto`. That is not only a
+	   render-skip for off-screen movements: it applies PAINT containment at all
+	   times, and paint containment clips the spread's bleed straight back to the
+	   canvas edge — the frame measures 1216px in the DOM and paints 976. The
+	   feature is the first movement and always on screen, so there was never
+	   anything here to skip; opting out costs nothing and is what lets the picture
+	   break out. */
+	.feature {
+		content-visibility: visible;
+	}
+
 	.feature-link {
 		--focus-offset: 0.75rem; /* keyboard ring via the shared .focus-ring utility */
 		display: block;
@@ -54,51 +81,47 @@ const { article, widths = FEATURE_HERO_WIDTHS, sizes = FEATURE_HERO_SIZES } = As
 		}
 	}
 
-	/* Frame, grain + vignette come from the shared .media-frame utility
-	   (layout.css). The image is rendered by EssayImage, so the <img> carries
-	   EssayImage's style scope, not ours — a scoped rule on the element never
-	   matches it (this is why the old `.feature-img` aspect-ratio silently did
-	   nothing). Reach it with :global() and pin the ratio on the img itself (not
-	   the wrapper), so the hero is a stable 16:9 crop regardless of the source
-	   file's dimensions. The base tonal wash + its transition also live on the
-	   img in EssayImage; here we only set layout (and relax the wash on hover). */
-	/* Cover fit + hover colour-bloom are shared on .media-frame (layout.css); here
-	   we set only this hero's crop and a gentler zoom than the default. */
-	.feature-media {
-		--frame-zoom: 1.02;
-	}
-
-	.feature-media :global(img) {
-		aspect-ratio: 16 / 9;
-	}
-
-	.feature-text {
-		margin-top: var(--space-unit);
-	}
-
-	/* The hero eyebrow sits beneath the image, naming the lead essay — it is a
-	   caption, not a section joint, so it opts out of the movement-threshold rule
-	   and accent tick that the other kickers carry. */
+	/* The kicker is a section joint again now that it opens the movement rather
+	   than captioning the image, so it keeps the standard warm tick every other
+	   homepage kicker carries — the override that removed it is gone. */
 	.feature-kicker {
 		margin-bottom: var(--space-half);
-		padding-top: 0;
-		border-top: none;
-	}
-
-	.feature-kicker::before {
-		content: none;
 	}
 
 	/* Larger than --step-4 (2.612rem): a deliberate, contained exception to the
-	   type scale, earned by this being the page's lead headline. */
+	   type scale, earned by this being the page's lead headline — and stepped at
+	   the same width as the spread below it, so headline and picture grow together.
+	   Discrete steps, not a vw clamp: per tokens.css, type answers to zoom and
+	   deliberate breakpoints, not to continuous window width. */
 	.feature-title {
 		font-size: 3rem;
-		line-height: 1.08;
-		letter-spacing: 0;
-		margin: 0;
+		/* Tighter than the heading default on both axes, because both are spaced for
+		   text sizes: at 48–58px the leading opens up and the letterfit loosens, so a
+		   headline set at the body's values reads slack. 1.06 and −0.01em bring it
+		   back to how the same face looks at h2. */
+		line-height: 1.06;
+		letter-spacing: -0.01em;
+		margin: 0 0 var(--space-unit);
 		max-width: 24ch;
 		text-wrap: balance;
 		font-feature-settings: "titl" 1, "dlig" 1;
+	}
+
+	/* Optical, not metric, spacing above the headline. Literata carries a leading
+	   half-space above its caps — roughly 8px of invisible padding at this size —
+	   which is why a measured margin under the kicker always reads looser than the
+	   number says. Trimming the TOP edge only is deliberate: trimming the bottom
+	   too would cut to the alphabetic baseline and let descenders (the j in
+	   »stjärnhimmel«) hang into the gap above the photograph, so the space under
+	   the headline would depend on which letters the title happens to end with.
+	   Progressive: without support the top gap is merely a touch airier. */
+	@supports (text-box-trim: trim-start) {
+		.feature-title {
+			text-box-trim: trim-start;
+			text-box-edge: cap alphabetic;
+			/* Re-add, as a real decision, the space the trim just reclaimed. */
+			margin-top: 0.12em;
+		}
 	}
 
 	.feature-link:hover .feature-title,
@@ -108,37 +131,102 @@ const { article, widths = FEATURE_HERO_WIDTHS, sizes = FEATURE_HERO_SIZES } = As
 		text-underline-offset: 0.12em;
 	}
 
+	/* THE SIGNATURE SPREAD.
+	   Every other module on the homepage is held to the 64rem canvas. This one
+	   image bleeds past it, symmetrically, on screens with the room — which is
+	   what makes the lead essay outrank the page below it by scale alone, with no
+	   heavier treatment, no box and no colour. All type stays on the canvas edge,
+	   so the page keeps its single left margin and only the picture breaks out.
+
+	   Stepped at an explicit width rather than computed from `vw`: `vw` includes
+	   the scrollbar, so a vw-derived bleed overflows by the scrollbar width and
+	   gives the whole page a horizontal scroll. The media query guarantees the
+	   room instead — 76rem inside 86rem leaves a 5rem gutter a side. `100%` here
+	   is the canvas content box, so the negative margin is exactly half the
+	   difference. Keep the numbers in step with lib/hero.ts, which explains why
+	   the spread stops at 76rem and why `sizes` has to name the same widths. */
+	.feature-media {
+		--frame-zoom: 1.02; /* gentler than the shared .media-frame default */
+		/* The picture arrives seated in its own tones instead of on an empty warm
+		   rectangle — a 20px WebP of the same photograph, upscaled by the browser
+		   into a blur, under the frame's grain and vignette. */
+		background-image: var(--lqip, none);
+		background-size: cover;
+		background-position: center;
+		/* At rest the spread is barely lifted off the cream; the shared hover rule
+		   in layout.css takes it the rest of the way. */
+		box-shadow: 0 20px 50px -42px rgb(var(--hero-black) / 0.5);
+	}
+
+	@media (width >= 86rem) {
+		.feature-media {
+			--spread: 76rem;
+			margin-inline: calc((100% - var(--spread)) / 2);
+		}
+
+		.feature-title {
+			font-size: 3.6rem;
+		}
+	}
+
+	/* The crop. 16:9 is the shape; `svh` is the ceiling — on a short laptop the
+	   band tightens toward cinemascope so the whole spread, headline and all,
+	   lands inside the first screen instead of running past the fold. Both terms
+	   resolve at layout time and neither depends on the file, so there is no shift
+	   when the image lands. (The <img> carries EssayImage's style scope, not ours;
+	   a plain scoped rule never reaches it — hence :global.) */
+	.feature-media :global(img) {
+		aspect-ratio: 16 / 9;
+		max-block-size: min(60svh, 38rem);
+	}
+
+	/* Deck and date as one caption row beneath the picture: the deck at the
+	   reading measure on the left, the meta pinned to the canvas's right edge and
+	   sharing the deck's first baseline. */
+	.feature-caption {
+		display: grid;
+		grid-template-columns: minmax(0, 42rem) auto;
+		justify-content: space-between;
+		align-items: baseline;
+		gap: var(--space-half) var(--space-unit);
+		margin-top: var(--space-unit);
+	}
+
 	.feature-lead {
 		font-family: var(--font-body);
 		font-size: var(--step--1);
 		line-height: 1.55;
 		color: var(--text-body);
-		margin: var(--space-unit) 0 0;
-		max-width: 42rem;
+		margin: 0;
+		text-wrap: pretty;
 	}
 
 	.feature-meta {
-		margin: var(--space-unit) 0 0;
+		margin: 0;
+		text-align: end;
 	}
 
 	@media (width <= 768px) {
 		/* A 16:9 band reads as a thin letterbox on a phone; 3:2 keeps the image
-		   tall enough to hold the eye before the title takes over. */
+		   tall enough to hold the eye after the title has done its work. */
 		.feature-media :global(img) {
 			aspect-ratio: 3 / 2;
 		}
 
-		.feature-lead {
-			font-size: var(--step--1);
-			margin-top: var(--space-half);
-		}
-
 		.feature-title {
 			font-size: 2.1rem;
+			margin-bottom: var(--space-half);
+		}
+
+		/* One column, meta back under the deck and left-aligned with everything
+		   else — there is no width here for a two-ended caption row. */
+		.feature-caption {
+			grid-template-columns: minmax(0, 1fr);
+			margin-top: var(--space-half);
 		}
 
 		.feature-meta {
-			margin-top: var(--space-half);
+			text-align: start;
 		}
 	}
 </style>

@@ -1,9 +1,16 @@
 ---
 import { getImage, Picture } from "astro:assets";
+import type { ImageMetadata } from "astro";
 import type { Article } from "../lib/articles";
 
 interface Props {
-	article: Article;
+	/** The essay whose hero photo to render. Omit when passing `src`. */
+	article?: Article;
+	/** A photograph that is not an essay hero — bespoke FAKTA art, say. Wins over
+	    `article` when both are given, so a card can name its borrowed fallback and
+	    its real art in one place. Art-directed mobile crops are an essay-frontmatter
+	    feature and do not apply here. */
+	src?: ImageMetadata;
 	/** Override alt text. Pass "" for a decorative borrow (e.g. a FAKTA card where
 	    the visible label already names the concept). Defaults to the essay's own
 	    imageAlt, then its title. */
@@ -17,6 +24,7 @@ interface Props {
 
 const {
 	article,
+	src,
 	alt,
 	widths = [400, 800, 1200],
 	sizes = "(max-width: 768px) 100vw, 50vw",
@@ -25,16 +33,21 @@ const {
 	class: className,
 } = Astro.props;
 
-const altText = alt ?? article.imageAlt ?? article.title;
+// Used by BOTH render paths below. The <Picture> branch used to inline
+// `article.imageAlt ?? article.title` and so ignored the `alt` prop entirely —
+// which meant a decorative borrow asking for alt="" (the FAKTA cards, whose
+// visible label already names the concept) still read the borrowed essay's title
+// aloud to a screen reader.
+const altText = alt ?? article?.imageAlt ?? article?.title ?? "";
 
-const hero = article.heroImage;
+const hero = src ?? article?.heroImage;
 // Only use a mobile-specific crop when it is landscape-ish. Every card layout
 // (feature 3:2, recent 16:9, ämne lead 3:2) renders into a landscape box with
 // object-fit: cover; some -mobile assets are authored as 2:3 portrait, and a
 // portrait source forced into a landscape box shows a thin, zoomed middle slice
 // (reads as a wrong/distorted crop on phones). A portrait crop is dropped so the
 // image falls back to the landscape hero, which cover-crops cleanly to any box.
-const mobileCandidate = article.mobileHeroImage;
+const mobileCandidate = src ? undefined : article?.mobileHeroImage;
 const mobile =
 	mobileCandidate && mobileCandidate.width >= mobileCandidate.height ? mobileCandidate : undefined;
 
@@ -91,7 +104,7 @@ if (mobile && hero) {
 			src={hero}
 			formats={[...FORMATS]}
 			fallbackFormat="webp"
-			alt={article.imageAlt ?? article.title}
+			alt={altText}
 			widths={widths}
 			sizes={sizes}
 			loading={loading}

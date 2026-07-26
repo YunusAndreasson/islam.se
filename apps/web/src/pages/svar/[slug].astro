@@ -3,7 +3,7 @@ import { type CollectionEntry, getCollection, render } from "astro:content";
 import EssayImage from "../../components/EssayImage.astro";
 import Base from "../../layouts/Base.astro";
 import { getArticles } from "../../lib/articles";
-import { FAKTA_CLUSTERS, FAKTA_IMAGE_BY_SVAR, FAKTA_SLUGS } from "../../lib/fakta";
+import { FAKTA_ART, FAKTA_CLUSTERS, FAKTA_IMAGE_BY_SVAR, FAKTA_SLUGS } from "../../lib/fakta";
 import { SVAR_CATEGORIES } from "../../lib/svar";
 import { ORG_ID, WEBSITE_ID, breadcrumbList } from "../../lib/jsonld";
 
@@ -48,11 +48,17 @@ const { Content } = await render(entry);
 const url = `https://islam.se/svar/${entry.id}/`;
 
 // Cornerstone answers (the Five Pillars + six Articles of Faith) belong to the
-// FAKTA hub: they get a borrowed hero image so the page reads as an article, and
-// they breadcrumb / link back to /vad-ar-islam/. Ordinary questions belong to the
+// FAKTA hub: they get a hero image so the page reads as an article, and they
+// breadcrumb / link back to /vad-ar-islam/. Ordinary questions belong to the
 // /svar/ index.
+//
+// The hero is the same two-tier art as the hub card, so a pillar looks like
+// itself in both places: bespoke FAKTA photography when this answer has it,
+// otherwise the essay hero it borrows. Resolving the essay is skipped entirely
+// when bespoke art exists — getArticles() is the expensive half.
 const isFakta = FAKTA_SLUGS.has(entry.id);
-const heroEssaySlug = FAKTA_IMAGE_BY_SVAR.get(entry.id);
+const heroArt = FAKTA_ART.get(entry.id);
+const heroEssaySlug = heroArt ? undefined : FAKTA_IMAGE_BY_SVAR.get(entry.id);
 const heroArticle = heroEssaySlug
 	? (await getArticles()).find((a) => a.slug === heroEssaySlug)
 	: undefined;
@@ -147,9 +153,10 @@ if (data.faq && data.faq.length > 0) {
 				) : null}
 			</header>
 
-			{heroArticle?.heroImage && (
+			{(heroArt ?? heroArticle?.heroImage) && (
 				<div class="svar-hero media-frame">
 					<EssayImage
+						src={heroArt}
 						article={heroArticle}
 						alt=""
 						widths={[480, 800, 1200]}

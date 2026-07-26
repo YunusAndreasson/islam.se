@@ -4,7 +4,7 @@ import FaktaCard from "../components/FaktaCard.astro";
 import PageHead from "../components/PageHead.astro";
 import QuranVerse from "../components/QuranVerse.astro";
 import { getArticles } from "../lib/articles";
-import { FAKTA_CLUSTERS } from "../lib/fakta";
+import { FAKTA_ART, FAKTA_CLUSTERS } from "../lib/fakta";
 import { ORG_ID, WEBSITE_ID, breadcrumbList, collectionPageJsonLd } from "../lib/jsonld";
 import Base from "../layouts/Base.astro";
 
@@ -19,8 +19,10 @@ const published = "2026-06-27T00:00:00Z";
 const description =
 	"Vad är islam? En klar, källbelagd introduktion: ordets betydelse, de fem pelarna (det en muslim gör) och de sex trosartiklarna (det en muslim tror) – islams kärna förklarad, grundad i Koranen och klassisk sunnitisk lärdom.";
 
-// Resolve each cornerstone card's borrowed essay photo + the answer entry it links
-// to (for the cluster-overview heading link and the collection JSON-LD).
+// Resolve each cornerstone card's art + the answer entry it links to (for the
+// cluster-overview heading link and the collection JSON-LD). Art is two-tier:
+// bespoke FAKTA photography when the card has it, the borrowed essay hero when
+// it does not — see FAKTA_ART in lib/fakta.ts.
 const articleBySlug = new Map((await getArticles()).map((a) => [a.slug, a]));
 const svarBySlug = new Map((await getCollection("svar")).map((e) => [e.id, e]));
 
@@ -33,6 +35,7 @@ const clusters = FAKTA_CLUSTERS.map((c) => ({
 		href: `/svar/${it.svarSlug}/`,
 		label: it.label,
 		blurb: it.blurb,
+		art: FAKTA_ART.get(it.svarSlug),
 		image: articleBySlug.get(it.image),
 		entry: svarBySlug.get(it.svarSlug),
 	})),
@@ -124,7 +127,7 @@ const jsonLd = [
 					</header>
 					<div class="fakta-grid">
 						{c.cards.map((cd) => (
-							<FaktaCard href={cd.href} label={cd.label} blurb={cd.blurb} image={cd.image} />
+							<FaktaCard href={cd.href} label={cd.label} blurb={cd.blurb} art={cd.art} image={cd.image} />
 						))}
 					</div>
 				</section>

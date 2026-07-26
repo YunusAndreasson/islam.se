@@ -4,8 +4,8 @@
 	"description": "Essäer om islamisk intellektuell tradition och svenskt kulturarv.",
 	"start_url": "/",
 	"display": "standalone",
-	"background_color": "#faf8f5",
-	"theme_color": "#faf8f5",
+	"background_color": "#fff6e8",
+	"theme_color": "#fff6e8",
 	"lang": "sv",
 	"related_applications": [
 		{

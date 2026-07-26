@@ -8,6 +8,7 @@ import remarkSmartypants from "remark-smartypants";
 import { BONETIDER_DATA_DATE } from "./src/lib/bonetider/meta";
 import { MOSKEER_DATA_DATE } from "./src/lib/moskeer/meta";
 import { rehypeHonorific } from "./src/plugins/rehype-honorific";
+import { rehypeQuoteAttribution } from "./src/plugins/rehype-quote-attribution";
 import { rehypeQuranVerse } from "./src/plugins/rehype-quran-verse";
 import { remarkAbbr } from "./src/plugins/remark-abbr";
 
@@ -534,7 +535,21 @@ export default defineConfig({
 	// Modern-browser-only build target: keep modern JS native (top-level await,
 	// optional chaining, nullish coalescing, class fields) instead of transpiling
 	// down to a legacy baseline — smaller, faster client bundles.
-	vite: { build: { target: "es2022" } },
+	vite: {
+		build: { target: "es2022" },
+		define: {
+			// src/lib/lqip.ts reads the original hero files with sharp at build time to
+			// inline a 20px placeholder behind the homepage spread. It cannot find them
+			// from its own `import.meta.url`: the static build bundles server modules
+			// into a temp chunk directory, so a source-relative URL resolves to nothing
+			// — the placeholder worked in dev and silently vanished from production.
+			// This config file is never bundled, so its `import.meta.url` is the one
+			// dependable anchor to the project.
+			__HERO_IMAGES_DIR__: JSON.stringify(
+				fileURLToPath(new URL("./src/assets/images", import.meta.url)),
+			),
+		},
+	},
 	markdown: {
 		// Astro 7 made Sätteri (Rust) the default Markdown processor, and deprecated the
 		// top-level `remarkPlugins`/`rehypePlugins` keys — they only still work through a
@@ -561,7 +576,10 @@ export default defineConfig({
 				],
 				remarkAbbr,
 			] as unknown as RemarkPlugins,
-			rehypePlugins: [rehypeHonorific, rehypeQuranVerse],
+			// rehype-quote-attribution runs last: rehype-quran-verse decides on the
+			// recitation player by reading the closing attribution as plain text, so it
+			// sees the shape it was written against before the citation is wrapped.
+			rehypePlugins: [rehypeHonorific, rehypeQuranVerse, rehypeQuoteAttribution],
 		}),
 	},
 	fonts: [

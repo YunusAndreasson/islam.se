@@ -11,6 +11,7 @@
 // expensive step — then per displayed instant it's cheap arithmetic on the cache.
 import { computePrayerTimes, PRAYER_ORDER, type PrayerKey } from "../prayer-times";
 import type { PrayerSettings } from "../settings";
+import { solarParams } from "./sun";
 
 // Minimal GeoJSON shapes — the web port carries the few types it needs inline so it
 // pulls in no @types/geojson dependency. Matches the subset field.ts actually emits.
@@ -87,26 +88,89 @@ function axis(min: number, max: number, step: number): number[] {
 	return out;
 }
 
+/** Standard refraction + solar-semidiameter allowance: the sun counts as risen when
+ *  its centre is 0.833° below the geometric horizon. */
+const HORIZON_DEG = -0.833;
+
+/**
+ * Does the sun actually rise and set at this latitude on this date?
+ *
+ * North of the midnight-sun line the answer is no, and that matters here more than
+ * it looks. Sweden's default polar rule is Aqrab al-Balad, so `computePrayerTimes`
+ * does not fail there — it BORROWS the times of the nearest latitude that still has
+ * a night. Measured on 2026-07-25 (declination 19.75°, boundary 69.42°N): 69.0°
+ * returns Fajr 01:28, and 69.5°, 70°, 71° and 72° all return exactly 01:05. So the
+ * field this file contours is a 23-minute cliff followed by a dead-flat plateau.
+ *
+ * Marching squares then does precisely what it is asked: it finds a level crossing
+ * inside the cliff and wanders along the plateau, which renders as the Fajr line
+ * zigzagging back on itself in Norrbotten and Shurūq breaking into stubs, with both
+ * labels piling up in the same corner.
+ *
+ * The honest fix is upstream of the geometry. A sweeping prayer line asserts "this
+ * event is crossing the map right now", and north of this boundary there is no such
+ * event — the displayed time is a jurisprudential substitute, not an astronomical
+ * moment. So those samples are marked NaN, which marchingSquares already drops
+ * cleanly (it skips any cell with a NaN corner, by design).
+ *
+ * Scope is deliberately narrow: ONLY the polar plateau, not the whole high-latitude
+ * band. Most of Sweden gets high-latitude-rule Fajr/Isha in summer (Stockholm's sun
+ * never reaches 18° in June), but those values are smooth and monotonic in latitude
+ * — genuinely contourable. Masking them would erase the lines from the whole
+ * country, which is a different and much worse bug.
+ */
+function sunRisesAndSets(latDeg: number, declDeg: number): boolean {
+	// Altitude at local solar midnight and at solar noon, for a given declination.
+	const minAlt = latDeg + declDeg - 90;
+	const maxAlt = 90 - latDeg + declDeg;
+	const midnightSun = minAlt > HORIZON_DEG;
+	const polarNight = maxAlt < HORIZON_DEG;
+	return !(midnightSun || polarNight);
+}
+
 /** Build the cached prayer-time lattice. Location-independent: it covers the whole map. */
 export function buildGrid(date: Date, settings: PrayerSettings, opts: GridOptions = {}): SolarGrid {
 	const [w, s, e, n] = opts.bounds ?? DEFAULT_GRID_BOUNDS;
 	const lats = axis(s, n, opts.latStep ?? DEFAULT_LAT_STEP);
 	const lons = axis(w, e, opts.lonStep ?? DEFAULT_LON_STEP);
-	const pt = lats.map((lat) =>
-		lons.map((lon) => {
+	const declDeg = (solarParams(date).declRad * 180) / Math.PI;
+	const pt = lats.map((lat) => {
+		// Latitude alone decides this, so it is settled once per row rather than per cell.
+		const solarDay = sunRisesAndSets(lat, declDeg);
+		return lons.map((lon) => {
 			const p = computePrayerTimes({ latitude: lat, longitude: lon }, date, settings);
+			// Dhuhr and Asr survive the polar rows: the sun still culminates even when it
+			// never sets, so those two remain real events with real loci.
 			return {
-				fajr: ms(p.fajr),
-				sunrise: ms(p.sunrise),
+				fajr: solarDay ? ms(p.fajr) : Number.NaN,
+				sunrise: solarDay ? ms(p.sunrise) : Number.NaN,
 				dhuhr: ms(p.dhuhr),
 				asr: ms(p.asr),
-				maghrib: ms(p.maghrib),
-				isha: ms(p.isha),
-				sunset: ms(p.sunset),
+				maghrib: solarDay ? ms(p.maghrib) : Number.NaN,
+				isha: solarDay ? ms(p.isha) : Number.NaN,
+				sunset: solarDay ? ms(p.sunset) : Number.NaN,
 			};
-		}),
-	);
+		});
+	});
 	return { lats, lons, pt };
+}
+
+/** Below this the line is a corner stub, not a sweep worth naming. Measured in
+ *  degrees of latitude-equivalent arc; a prayer line crossing Sweden runs 10–20°,
+ *  so 3° (~330 km) sits well clear of a real one while catching the fragments. */
+const MIN_LABELLED_EXTENT_DEG = 3;
+
+/** Total length of a contour's segments, with longitude compressed by cos(lat) so a
+ *  degree means roughly the same distance at 55°N as at 70°N. */
+function arcExtentDeg(segments: Segment[]): number {
+	let total = 0;
+	for (const [a, b] of segments) {
+		const midLatRad = (((a[1] + b[1]) / 2) * Math.PI) / 180;
+		const dLon = (b[0] - a[0]) * Math.cos(midLatRad);
+		const dLat = b[1] - a[1];
+		total += Math.hypot(dLon, dLat);
+	}
+	return total;
 }
 
 export interface PrayerLineLabel {
@@ -155,8 +219,16 @@ export function buildLines(
 			properties: { prayer },
 			geometry: { type: "MultiLineString", coordinates: smoothed },
 		});
-		const placement = labelPlacement(segments);
-		if (placement) labels.push({ prayer, lngLat: placement.point, tangent: placement.tangent });
+		// Only a line with real presence on the map earns a name. A prayer whose locus
+		// has almost left the frame leaves a stub a few pixels long in a corner, and
+		// two such stubs (Fajr and Shurūq are close together in the northern summer)
+		// put their labels on the same spot, where they overlap into an unreadable
+		// pile. The line is still drawn — it is true — it just goes unlabelled until
+		// enough of it is on screen to be worth naming.
+		if (arcExtentDeg(segments) >= MIN_LABELLED_EXTENT_DEG) {
+			const placement = labelPlacement(segments);
+			if (placement) labels.push({ prayer, lngLat: placement.point, tangent: placement.tangent });
+		}
 	}
 	return { lines: { type: "FeatureCollection", features }, labels };
 }

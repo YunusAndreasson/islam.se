@@ -151,6 +151,21 @@
 		}
 	}
 
+	/* Closing attribution — »…« followed by its source. Markdown joins the two `>`
+	   lines into one paragraph, so without this the citation runs on from the last
+	   quoted word at full body weight and reads as part of the sentence.
+	   rehype-quote-attribution marks it; here it gets its own line, a step down and
+	   the muted tone the rest of the site gives meta text (matching .qv-cite under
+	   the recitation player, which carries the same reference). */
+	.q-attr,
+	.q-attr-p {
+		display: block;
+		margin-top: calc(var(--space-unit) * 0.5);
+		font-size: var(--step--2);
+		font-style: normal;
+		color: var(--color-muted);
+	}
+
 	/* Strong. `b` too: it appears in the prose (bönetider) and, unstyled, took the UA
 	   default 700 — so the same emphasis rendered at two weights depending on which
 	   tag the markdown happened to produce. */
