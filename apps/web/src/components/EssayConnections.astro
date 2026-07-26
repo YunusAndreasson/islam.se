@@ -7,9 +7,10 @@ interface Props {
 }
 
 const { slug } = Astro.props;
-const { amne, tankare, tradar, related } = await getEssayConnections(slug);
+const { amne, tankare, tradar, related, svar } = await getEssayConnections(slug);
 
-const hasContext = Boolean(amne) || tradar.length > 0 || tankare.length > 0;
+const hasContext =
+	Boolean(amne) || tradar.length > 0 || tankare.length > 0 || svar.length > 0;
 ---
 
 {(hasContext || related.length > 0) && (
@@ -43,6 +44,22 @@ const hasContext = Boolean(amne) || tradar.length > 0 || tankare.length > 0;
 								<>
 									{i > 0 && <span class="ec-sep" aria-hidden="true">·</span>}
 									<a href={`/tankare/${t.slug}/`}>{t.name}</a>
+								</>
+							))}
+						</dd>
+					</div>
+				)}
+				{/* The one route out of the essay corpus and into the reference half of
+				    the site. An essay circles its subject; this is the page that states
+				    it plainly. Derived in lib/related.ts, not authored per essay. */}
+				{svar.length > 0 && (
+					<div class="ec-row">
+						<dt class="label">Fakta</dt>
+						<dd>
+							{svar.map((s, i) => (
+								<>
+									{i > 0 && <span class="ec-sep" aria-hidden="true">·</span>}
+									<a href={`/svar/${s.slug}/`}>{s.title}</a>
 								</>
 							))}
 						</dd>

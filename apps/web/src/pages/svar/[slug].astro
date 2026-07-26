@@ -2,7 +2,7 @@
 import { type CollectionEntry, getCollection, render } from "astro:content";
 import EssayImage from "../../components/EssayImage.astro";
 import Base from "../../layouts/Base.astro";
-import { getArticles } from "../../lib/articles";
+import { formatDate, getArticles } from "../../lib/articles";
 import { FAKTA_ART, FAKTA_CLUSTERS, FAKTA_IMAGE_BY_SVAR, FAKTA_SLUGS } from "../../lib/fakta";
 import { SVAR_CATEGORIES } from "../../lib/svar";
 import { ORG_ID, WEBSITE_ID, breadcrumbList } from "../../lib/jsonld";
@@ -148,9 +148,19 @@ if (data.faq && data.faq.length > 0) {
 					<p class="label svar-kicker"><a href={kicker.href}>{kicker.name}</a></p>
 				)}
 				<h1>{data.title}</h1>
-				{updated ? (
-					<p class="svar-updated">Uppdaterad <time datetime={updated.slice(0, 10)}>{updated.slice(0, 10)}</time></p>
-				) : null}
+				{/* Answer pages showed no date at all: the line below only rendered when
+				    `updatedAt` differed from `publishedAt`, and no answer file set
+				    `updatedAt`, so the condition never fired. A reference page with no
+				    date reads as abandoned — to a reader deciding whether to trust it,
+				    and to a crawler weighing freshness. Published always; revised only
+				    when a page genuinely was. Long Swedish form via the same helper the
+				    essays use, not the raw ISO slice this printed before. */}
+				<p class="svar-meta">
+					<time datetime={data.publishedAt.slice(0, 10)}>{formatDate(data.publishedAt)}</time>
+					{updated && (
+						<> &middot; <time datetime={updated.slice(0, 10)}>uppdaterad {formatDate(updated)}</time></>
+					)}
+				</p>
 			</header>
 
 			{(heroArt ?? heroArticle?.heroImage) && (
@@ -278,7 +288,7 @@ if (data.faq && data.faq.length > 0) {
 		}
 	}
 
-	.svar-updated {
+	.svar-meta {
 		font-family: var(--font-heading);
 		font-size: var(--step--3);
 		color: var(--color-muted);

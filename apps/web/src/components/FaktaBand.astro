@@ -1,0 +1,193 @@
+---
+import { getCollection } from "astro:content";
+import { FAKTA_CLUSTERS } from "../lib/fakta";
+import { groupSvar } from "../lib/svar";
+
+/**
+ * The reference band on the homepage — the encyclopedic half of the site,
+ * introduced on the page that until now showed only essays.
+ *
+ * The homepage opened on the latest essay and closed on the book, with no route
+ * into FAKTA or the Q&A anywhere on it: a visitor arriving cold from a search
+ * for "vad är islam" or "fakta om islam" met a photograph and an essay title,
+ * and the mast was the only way onward. This band is that route, and its <h2>
+ * is the only visible heading on the page that carries the head term (the page
+ * <h1> is sr-only by design).
+ *
+ * TEXT-FIRST, deliberately. Every module above this one is image-led; eleven
+ * more cards at the foot of a 5 000px page would read as a second feed rather
+ * than as reference matter, and would compete with the feature spread that is
+ * the page's signature. The links carry the same words either way.
+ *
+ * Placement is below the essay feed, not above it: the opening screen is a
+ * composed spread and stays untouched.
+ */
+
+// Count what /svar/ actually lists, not the collection total — groupSvar drops
+// the twelve cornerstones into the FAKTA hub, so "alla 63" would overpromise
+// what the link opens.
+const entries = await getCollection("svar");
+const listedCount = groupSvar(entries).reduce((n, g) => n + g.entries.length, 0);
+---
+
+<section class="fakta-band home-movement" aria-labelledby="fakta-band-title">
+	<p class="label home-kicker">Fakta om islam</p>
+
+	<h2 class="fakta-band-title" id="fakta-band-title">
+		<a href="/vad-ar-islam/">Vad är islam?</a>
+	</h2>
+
+	<p class="lead fakta-band-lead">
+		Islam vilar på fem pelare – det en muslim gör – och sex trosartiklar – det en
+		muslim tror. Var och en förklaras för sig, ur källorna.
+	</p>
+
+	<div class="fakta-band-cols">
+		{FAKTA_CLUSTERS.map((cluster) => (
+			<div class="fakta-band-col">
+				{/* The cluster heading links to its overview answer where one exists,
+				    exactly as the hub does — so the pillars overview is reachable from
+				    here too without an odd "Översikt" row in the list. */}
+				<p class="label fakta-band-col-head">
+					{cluster.overview
+						? <a href={`/svar/${cluster.overview}/`}>{cluster.name}</a>
+						: cluster.name}
+				</p>
+				<ul class="fakta-band-list">
+					{cluster.items.map((item) => (
+						<li><a href={`/svar/${item.svarSlug}/`}>{item.label}</a></li>
+					))}
+				</ul>
+			</div>
+		))}
+	</div>
+
+	<p class="fakta-band-more">
+		<a class="arrow-link" href="/svar/">Alla {listedCount} frågor och svar</a>
+	</p>
+</section>
+
+<style>
+	/* The band's own heading is a real h2, not the small-caps kicker: it is the
+	   page's only visible heading carrying "Vad är islam", and the kicker above it
+	   names the movement the way every other section on the page is named. Sized
+	   at --step-2 (the global h2) with the φ top margin suppressed — .home-kicker
+	   already opened the section. */
+	.fakta-band-title {
+		margin-top: 0;
+		margin-bottom: var(--space-half);
+	}
+
+	.fakta-band-title a {
+		color: inherit;
+		text-decoration: none;
+
+		&:hover {
+			text-decoration: underline;
+			text-decoration-thickness: 1px;
+			text-underline-offset: 0.12em;
+		}
+
+		&:focus-visible {
+			outline: 2px solid var(--color-accent);
+			outline-offset: 3px;
+			border-radius: var(--radius-xs);
+		}
+	}
+
+	.fakta-band-lead {
+		--lead-margin: 0 0 var(--space-phi);
+	}
+
+	/* Two columns that mirror the hub's two clusters. minmax(min(100%, 18rem), 1fr)
+	   collapses to one column on a phone without a breakpoint, the same way
+	   .fakta-grid does on the hub. */
+	.fakta-band-cols {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr));
+		gap: var(--space-unit) clamp(1.75rem, 4vw, 3.5rem);
+	}
+
+	.fakta-band-col-head {
+		margin: 0 0 0.2rem;
+		color: var(--color-muted);
+	}
+
+	.fakta-band-col-head a {
+		color: inherit;
+		text-decoration: none;
+
+		&:hover {
+			color: var(--color-accent);
+			text-decoration: underline;
+			text-underline-offset: 0.15em;
+		}
+
+		&:focus-visible {
+			outline: 2px solid var(--color-accent);
+			outline-offset: 2px;
+			border-radius: var(--radius-xs);
+		}
+	}
+
+	/* The same hairline row idiom as .pillar-links on the FAKTA hub — body face,
+	   one rule between rows, 0.7rem block padding so each row clears the 24px
+	   target floor (WCAG 2.5.8). Not a third row vocabulary. */
+	.fakta-band-list {
+		font-family: var(--font-body);
+		font-size: var(--step--1);
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	.fakta-band-list li + li {
+		border-top: 1px solid var(--color-divider);
+	}
+
+	.fakta-band-list a {
+		display: block;
+		color: var(--color-accent);
+		text-decoration: none;
+		padding-block: 0.7rem;
+
+		&:hover {
+			text-decoration: underline;
+			text-underline-offset: 0.15em;
+		}
+
+		&:focus-visible {
+			outline: 2px solid var(--color-accent);
+			outline-offset: 2px;
+			border-radius: var(--radius-xs);
+		}
+	}
+
+	.fakta-band-more {
+		font-family: var(--font-heading);
+		font-size: var(--step--2);
+		margin: var(--space-unit) 0 0;
+	}
+
+	.fakta-band-more a {
+		color: var(--color-accent);
+		text-decoration: none;
+		/* WCAG 2.5.8: pad past the 24px floor, reclaim the space with a matching
+		   negative margin so the band's closing rhythm is unchanged. */
+		display: inline-flex;
+		align-items: center;
+		padding-block: 0.3rem;
+		margin-block: -0.3rem;
+
+		&:hover {
+			text-decoration: underline;
+			text-underline-offset: 0.15em;
+		}
+
+		&:focus-visible {
+			outline: 2px solid var(--color-accent);
+			outline-offset: 3px;
+			border-radius: var(--radius-xs);
+		}
+	}
+</style>

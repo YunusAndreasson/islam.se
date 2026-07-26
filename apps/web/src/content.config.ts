@@ -15,7 +15,15 @@ const articles = defineCollection({
 		// line; freshness lifts AI-citation odds. Absent on never-revised essays.
 		updatedAt: z.string().datetime().optional(),
 		wordCount: z.number(),
+		// Doubles as the visible deck on every card and index row, so it is written
+		// for the page, not for Google — the corpus median is ~270 characters.
 		description: z.string(),
+		// The <meta name="description"> when the deck above is too long to survive
+		// the ~155-character SERP truncation. Optional and additive: nothing visible
+		// changes, and an essay without one keeps using `description` as before.
+		// Authored, never auto-truncated — a clipped literary sentence reads worse
+		// in a result than a whole plainer one.
+		seoDescription: z.string().optional(),
 		// Image-specific alt text for the hero photo (the essay's own original
 		// photography). Describes WHAT THE IMAGE SHOWS — the single highest-impact
 		// image-SEO signal — not the headline. Falls back to the title when absent.
