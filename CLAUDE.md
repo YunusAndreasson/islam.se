@@ -119,7 +119,11 @@ apps/
 
 ## Environment Variables
 
-- `ANTHROPIC_API_KEY` - Required for Claude extraction and pipeline
+- `ANTHROPIC_API_KEY` - Only for the direct-SDK quote extractors
+  (`packages/quotes/src/extraction/*`). The content pipeline, svar producer,
+  podcast and book import all shell out to the `claude` CLI and **strip this
+  variable** so they run on the logged-in Claude Code subscription — do not
+  export it expecting the pipeline to use it.
 - `OPENAI_API_KEY` - Optional fallback for embeddings (local preferred)
 
 ## Data Files

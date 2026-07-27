@@ -8,8 +8,8 @@ import { type SvarFrontmatter, SvarFrontmatterSchema } from "./svar-schema.js";
 type Effort = "low" | "medium" | "high" | "xhigh" | "max";
 
 const MODEL_MAP = {
-	opus: "claude-opus-4-8",
-	sonnet: "claude-sonnet-4-6",
+	opus: "claude-opus-5",
+	sonnet: "claude-sonnet-5",
 } as const;
 
 // MCP research tools (loaded via .mcp.json) the author/reviewer may call.
