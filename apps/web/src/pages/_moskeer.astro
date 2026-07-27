@@ -1,6 +1,6 @@
 ---
 import Base from "../layouts/Base.astro";
-import { breadcrumbList, dataset } from "../lib/jsonld";
+import { breadcrumbList, dataset, faqPageJsonLd } from "../lib/jsonld";
 import { directionsLinks, getMosques, lanSlug, locationLabel, mosqueUrl, mosquesByLan } from "../lib/moskeer";
 import { MOSKEER_DATA_DATE } from "../lib/moskeer/meta";
 import "maplibre-gl/dist/maplibre-gl.css";
@@ -141,15 +141,7 @@ const faq = [
 				url: mosqueUrl(m),
 			})),
 		},
-		{
-			"@context": "https://schema.org",
-			"@type": "FAQPage",
-			mainEntity: faq.map((f) => ({
-				"@type": "Question",
-				name: f.q,
-				acceptedAnswer: { "@type": "Answer", text: f.a },
-			})),
-		},
+		faqPageJsonLd(faq),
 		breadcrumbList([
 			{ name: "Hem", url: "/" },
 			{ name: "Moskéer i Sverige", url: "/moskeer" },
@@ -234,8 +226,8 @@ const faq = [
 								</li>
 							))}
 						</ul>
-						<a class="mk-lan-all" href={`/moskeer/lan/${lanSlug(g.lan)}/`}>
-							Alla moskéer i {g.lanLabel} →
+						<a class="mk-lan-all section-link arrow-link" href={`/moskeer/lan/${lanSlug(g.lan)}/`}>
+							Alla moskéer i {g.lanLabel}
 						</a>
 					</details>
 				))}
@@ -401,9 +393,9 @@ const faq = [
 
 		<section class="mk-section" aria-labelledby="mk-faq">
 			<h2 id="mk-faq">Vanliga frågor</h2>
-			<dl class="mk-faq">
+			<dl class="def-list">
 				{faq.map((f) => (
-					<div class="mk-faq-item">
+					<div class="def-item">
 						<dt>{f.q}</dt>
 						<dd>{f.a}</dd>
 					</div>
@@ -484,7 +476,7 @@ const faq = [
 		color: var(--color-text);
 		background: var(--color-bg);
 		border: 1px solid var(--color-divider);
-		border-radius: 999px;
+		border-radius: var(--radius-pill);
 		padding: 0.55rem 1rem 0.55rem 2.5rem;
 	}
 
@@ -512,7 +504,7 @@ const faq = [
 		color: var(--color-accent);
 		background: var(--color-bg);
 		border: 1px solid var(--color-divider);
-		border-radius: 999px;
+		border-radius: var(--radius-pill);
 		padding: 0.55rem 2.4rem 0.55rem 1rem;
 		cursor: pointer;
 	}
@@ -527,7 +519,7 @@ const faq = [
 		color: var(--color-accent);
 		background: var(--color-bg);
 		border: 1px solid var(--color-divider);
-		border-radius: 999px;
+		border-radius: var(--radius-pill);
 		padding: 0.5rem 1.1rem;
 		cursor: pointer;
 		transition: border-color 0.15s ease;
@@ -551,7 +543,6 @@ const faq = [
 	#mk-lan:focus-visible,
 	.mk-geo:focus-visible,
 	.mk-clear:focus-visible {
-		outline: 2px solid var(--color-accent);
 		outline-offset: 1px;
 	}
 
@@ -589,7 +580,10 @@ const faq = [
 		min-height: 420px;
 		border-radius: 14px;
 		overflow: hidden;
-		background: light-dark(#dfe7ec, #141a26);
+		/* Anchors .is-error before maplibre sets it on the container itself. */
+		position: relative;
+		/* Water tone from PALETTE in scripts/moskeer-map.ts — keep in step. */
+		background: light-dark(#dfe7ec, #15171a);
 		border: 1px solid var(--color-divider);
 		box-shadow: 0 1px 2px rgb(0 0 0 / 0.04), 0 12px 28px -16px rgb(0 0 0 / 0.25);
 	}
@@ -619,7 +613,7 @@ const faq = [
 		width: min(22rem, calc(100% - 1.5rem));
 		padding: 0.85rem 1rem 0.95rem;
 		border-radius: 0.8rem;
-		background: light-dark(rgb(255 253 248 / 0.94), rgb(22 26 38 / 0.92));
+		background: light-dark(rgb(255 253 248 / 0.94), rgb(29 25 18 / 0.92));
 		backdrop-filter: blur(10px);
 		border: 1px solid var(--color-divider);
 		box-shadow: 0 1px 14px -4px rgb(0 0 0 / 0.45);
@@ -691,12 +685,6 @@ const faq = [
 		color: var(--color-accent);
 	}
 
-	.mk-lan summary:focus-visible {
-		outline: 2px solid var(--color-accent);
-		outline-offset: 2px;
-		border-radius: 2px;
-	}
-
 	.mk-lan-count {
 		font-family: var(--font-body);
 		font-size: var(--step--3);
@@ -735,9 +723,7 @@ const faq = [
 	}
 
 	.mk-item:focus-visible {
-		outline: 2px solid var(--color-accent);
 		outline-offset: 1px;
-		border-radius: 2px;
 	}
 
 	.mk-item.is-active {
@@ -766,19 +752,9 @@ const faq = [
 		color: var(--color-muted);
 	}
 
+	/* Placement only — the rest is `.section-link .arrow-link`. */
 	.mk-lan-all {
-		display: inline-block;
 		margin-top: var(--space-half);
-		font-family: var(--font-heading);
-		font-size: var(--step--3);
-		font-weight: 600;
-		color: var(--color-accent);
-		text-decoration: none;
-	}
-
-	.mk-lan-all:hover {
-		text-decoration: underline;
-		text-underline-offset: 0.12em;
 	}
 
 	/* Shown by the map script when a search/filter matches nothing. */
@@ -800,7 +776,7 @@ const faq = [
 		color: var(--color-accent);
 		background: var(--color-bg);
 		border: 1px solid var(--color-divider);
-		border-radius: 999px;
+		border-radius: var(--radius-pill);
 		padding: 0.45rem 1.1rem;
 		cursor: pointer;
 		transition: border-color 0.15s ease;
@@ -816,7 +792,7 @@ const faq = [
 		font-size: var(--step--1);
 		line-height: 1.7;
 		color: var(--text-body);
-		max-width: 42rem;
+		max-width: var(--content-width);
 		margin: var(--space-half) 0 0;
 		text-wrap: pretty;
 	}
@@ -1047,7 +1023,7 @@ const faq = [
 	.mk-lanbar-track {
 		height: 0.7rem;
 		background: var(--color-divider);
-		border-radius: 999px;
+		border-radius: var(--radius-pill);
 		overflow: hidden;
 	}
 
@@ -1055,7 +1031,7 @@ const faq = [
 		display: block;
 		height: 100%;
 		background: light-dark(#b8862f, #c89a48);
-		border-radius: 999px;
+		border-radius: var(--radius-pill);
 	}
 
 	.mk-lanbar-val {
@@ -1064,30 +1040,6 @@ const faq = [
 		color: var(--color-muted);
 		font-variant-numeric: lining-nums tabular-nums;
 		text-align: right;
-	}
-
-	.mk-faq {
-		margin: var(--space-unit) 0 0;
-		max-width: 42rem;
-	}
-
-	.mk-faq-item {
-		padding: var(--space-half) 0;
-		border-bottom: 1px solid var(--color-divider);
-	}
-
-	.mk-faq dt {
-		font-family: var(--font-heading);
-		font-weight: 600;
-		color: var(--color-accent);
-		margin-bottom: 0.3rem;
-	}
-
-	.mk-faq dd {
-		font-family: var(--font-body);
-		line-height: 1.55;
-		color: var(--color-muted);
-		margin: 0;
 	}
 
 	.mk-attrib {
@@ -1188,7 +1140,7 @@ const faq = [
 		color: var(--color-accent);
 		background: var(--color-bg);
 		border: 1px solid var(--color-divider);
-		border-radius: 999px;
+		border-radius: var(--radius-pill);
 		padding: 0.45rem 0.95rem;
 		transition: border-color 0.15s ease;
 	}
@@ -1219,7 +1171,7 @@ const faq = [
 	/* Theme the built-in control group (zoom, reset-view, fullscreen) to the warm palette so
 	   the controls read as designed rather than generic white chips. Scoped to .moskeer. */
 	.moskeer .maplibregl-ctrl-group {
-		background: light-dark(rgb(255 253 248 / 0.92), rgb(22 26 38 / 0.92));
+		background: light-dark(rgb(255 253 248 / 0.92), rgb(29 25 18 / 0.92));
 		border: 1px solid var(--color-divider);
 		box-shadow: 0 1px 10px -4px rgb(0 0 0 / 0.4);
 	}
@@ -1255,9 +1207,9 @@ const faq = [
 
 	/* Desktop hover tooltip — a clean tail-less name chip in the warm palette. */
 	.mk-hover .maplibregl-popup-content {
-		background: light-dark(rgb(255 253 248 / 0.96), rgb(22 26 38 / 0.95));
+		background: light-dark(rgb(255 253 248 / 0.96), rgb(29 25 18 / 0.95));
 		border: 1px solid var(--color-divider);
-		border-radius: 0.5rem;
+		border-radius: var(--radius-sm);
 		padding: 0.3rem 0.6rem;
 		box-shadow: 0 2px 12px -4px rgb(0 0 0 / 0.5);
 	}
@@ -1286,5 +1238,21 @@ const faq = [
 
 	#moskeer-map.is-ready .maplibregl-canvas {
 		opacity: 1;
+	}
+
+	/* Third-party basemap: on failure `.is-ready` never arrives, so say why.
+	   The list below is server-rendered and still works. */
+	#moskeer-map.is-error::after {
+		content: "Kartan kunde inte laddas. Listan nedanför fungerar som vanligt.";
+		position: absolute;
+		inset: 0;
+		display: grid;
+		place-content: center;
+		padding: var(--space-unit);
+		text-align: center;
+		font-family: var(--font-body);
+		font-size: var(--step--2);
+		line-height: 1.5;
+		color: var(--color-muted);
 	}
 </style>

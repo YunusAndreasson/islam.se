@@ -137,7 +137,7 @@ if (articleMeta) {
 		<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content" />
 		<meta name="color-scheme" content="light dark" />
 		<meta name="theme-color" content="#fff6e8" media="(prefers-color-scheme: light)" />
-		<meta name="theme-color" content="#1a1917" media="(prefers-color-scheme: dark)" />
+		<meta name="theme-color" content="#1d1912" media="(prefers-color-scheme: dark)" />
 
 		{/* The theme switch, whole. It lives inline in the <head> — not in a bundled
 		    module — for two reasons, both about the reader:
@@ -179,7 +179,7 @@ if (articleMeta) {
 					// Both media-scoped metas get the chosen colour, so whichever one the
 					// OS matches paints the right browser chrome under an override.
 					if (chosen) {
-						const c = chosen === "dark" ? "#1a1917" : "#fff6e8";
+						const c = chosen === "dark" ? "#1d1912" : "#fff6e8";
 						for (const m of document.querySelectorAll('meta[name="theme-color"]'))
 							m.setAttribute("content", c);
 					}

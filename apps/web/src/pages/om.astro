@@ -56,7 +56,7 @@ const articles = await getArticles();
 		<footer class="about-colophon">
 			<p class="colophon-names"><a href="https://bilal.se">Bilal</a> och <a href="https://andreassonphoto.com">Yunus</a></p>
 			<p class="colophon-place">Sverige, 2026</p>
-			<p class="colophon-link"><a href="/om/redaktion">Så skrivs essäerna →</a></p>
+			<p class="colophon-link"><a class="arrow-link" href="/om/redaktion">Så skrivs essäerna</a></p>
 		</footer>
 	</main>
 </Base>
@@ -88,10 +88,6 @@ const articles = await getArticles();
 				color: var(--color-accent);
 			}
 
-			&:focus-visible {
-				outline: 2px solid var(--color-accent);
-				outline-offset: 2px;
-			}
 		}
 	}
 </style>

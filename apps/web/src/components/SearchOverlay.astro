@@ -56,8 +56,9 @@ const index = await buildPaletteIndex();
 		inset: 0;
 		z-index: 70;
 		background: color-mix(in srgb, var(--color-bg) 92%, transparent);
+		/* No hand-written -webkit- twin — Lightning CSS drops the standard property
+	   when both are present. See the same note in essaer.astro. */
 		backdrop-filter: blur(12px) saturate(1.1);
-		-webkit-backdrop-filter: blur(12px) saturate(1.1);
 		opacity: 0;
 		transition: opacity 0.18s ease;
 		overflow-y: auto;
@@ -86,7 +87,7 @@ const index = await buildPaletteIndex();
 		cursor: pointer;
 
 		&:hover { color: var(--color-accent); }
-		&:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; border-radius: 4px; }
+		&:focus-visible { border-radius: var(--radius-xs); }
 	}
 
 	.palette-inner {
@@ -252,6 +253,9 @@ const index = await buildPaletteIndex();
 
 <script>
 	import { navigate } from "astro:transitions/client";
+	// The same fold the build-side index used (lib/search-text) — imported rather
+	// than re-declared so the two can never drift apart.
+	import { fold } from "../lib/search-text";
 
 	type PType = "Sida" | "Svar" | "Ort" | "Ämne" | "Tråd" | "Tänkare" | "Essä";
 	interface Entry { type: PType; label: string; sub: string; alt?: string; core?: true; href: string; group?: "sunni" | "western"; }
@@ -291,9 +295,6 @@ const index = await buildPaletteIndex();
 	// Small tiebreak so structure edges out an essay at equal textual score.
 	const TYPE_BONUS: Record<PType, number> = { Sida: 5, Svar: 4, Ort: 4, Ämne: 3, Tråd: 2, Tänkare: 1, Essä: 0 };
 
-	function fold(s: string): string {
-		return s.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "");
-	}
 	function esc(s: string): string {
 		return s.replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c] || c);
 	}

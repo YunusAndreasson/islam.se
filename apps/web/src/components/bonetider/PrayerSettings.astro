@@ -121,7 +121,6 @@ const withDesc = (label: string, desc?: string) => (desc ? `${label} – ${desc}
 
 	.bt-field select:focus-visible,
 	.bt-field input:focus-visible {
-		outline: 2px solid var(--color-accent);
 		outline-offset: 1px;
 	}
 
@@ -155,6 +154,19 @@ const withDesc = (label: string, desc?: string) => (desc ? `${label} – ${desc}
 		list-style-position: inside;
 	}
 
+	@media (hover: none), (pointer: coarse) {
+		.bt-field select,
+		.bt-field input {
+			min-height: 2.75rem;
+		}
+
+		/* padding, not display:flex — a summary must stay display:list-item or the
+	   disclosure marker disappears. */
+		.bt-adv summary {
+			padding-block: 0.7rem;
+		}
+	}
+
 	.bt-adv-body {
 		margin-top: var(--space-half);
 	}
@@ -162,7 +174,7 @@ const withDesc = (label: string, desc?: string) => (desc ? `${label} – ${desc}
 	.bt-adj {
 		margin: var(--space-unit) 0 0;
 		border: 1px solid var(--color-divider);
-		border-radius: 10px;
+		border-radius: var(--radius-md);
 		padding: var(--space-half) 0.9rem 0.9rem;
 	}
 

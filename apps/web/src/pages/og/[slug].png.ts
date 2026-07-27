@@ -1,4 +1,4 @@
-import { existsSync, readFileSync } from "node:fs";
+import { existsSync, readFileSync, statSync } from "node:fs";
 import { join } from "node:path";
 import sharp from "sharp";
 import { amneByName } from "../../lib/amnen";
@@ -27,19 +27,33 @@ export async function getStaticPaths() {
 	return articles.map((article) => ({ params: { slug: article.slug }, props: { article } }));
 }
 
-export const GET = ogEndpoint<{ article: Article }>(async ({ article }) => {
-	const amne = article.category ? amneByName.get(article.category) : undefined;
-	const source = heroSource(article.slug);
-	const bgImage = source
-		? await sharp(readFileSync(source))
-				.resize(1200, 630, { fit: "cover", position: "attention" })
-				.jpeg({ quality: 80 })
-				.toBuffer()
-		: undefined;
-	return {
-		kicker: amne?.name ?? "Essä",
-		title: article.title,
-		framing: article.description,
-		bgImage,
-	};
-});
+// The hero file's size+mtime stands in for its contents: re-exporting an image
+// changes both, and hashing 53 multi-megabyte photos every build would cost more than
+// the render this cache exists to skip.
+function heroStamp(slug: string): string {
+	const p = heroSource(slug);
+	if (!p) return "nohero";
+	const st = statSync(p);
+	return `${p}:${st.size}:${st.mtimeMs}`;
+}
+
+export const GET = ogEndpoint<{ article: Article }>(
+	async ({ article }) => {
+		const amne = article.category ? amneByName.get(article.category) : undefined;
+		const source = heroSource(article.slug);
+		const bgImage = source
+			? await sharp(readFileSync(source))
+					.resize(1200, 630, { fit: "cover", position: "attention" })
+					.jpeg({ quality: 80 })
+					.toBuffer()
+			: undefined;
+		return {
+			kicker: amne?.name ?? "Essä",
+			title: article.title,
+			framing: article.description,
+			bgImage,
+		};
+	},
+	({ article }) =>
+		`essay|${article.slug}|${article.title}|${article.description}|${article.category ?? ""}|${heroStamp(article.slug)}`,
+);

@@ -9,7 +9,7 @@ const threads = await getCollection("tradar");
 
 <Base
 	title="Trådar — islam.se"
-	description="Kuraterade läsningar genom essäerna: hjärtats anatomi, tungan och sanningen, natten, maskinen och människan, Strindbergs kris."
+	description="Utvalda läsningar genom essäerna: hjärtats anatomi, tungan och sanningen, natten, maskinen och människan, Strindbergs kris."
 	jsonLd={[
 		{
 			"@context": "https://schema.org",
@@ -26,7 +26,7 @@ const threads = await getCollection("tradar");
 >
 	<main id="main" class="home">
 		<PageHead title="Trådar">
-			Kuraterade läsningar genom essäerna – några som hör ihop, samlade och inramade till en tråd att
+			Utvalda läsningar genom essäerna – några som hör ihop, samlade och inramade till en tråd att
 			följa.
 		</PageHead>
 
@@ -42,7 +42,7 @@ const threads = await getCollection("tradar");
 			))}
 		</ul>
 
-		<p class="collection-back"><a href="/essaer/">Hela arkivet →</a></p>
+		<p class="collection-back"><a class="section-link arrow-link" href="/essaer/">Hela arkivet</a></p>
 	</main>
 </Base>
 
@@ -74,9 +74,7 @@ const threads = await getCollection("tradar");
 		}
 
 		&:focus-visible {
-			outline: 2px solid var(--color-accent);
 			outline-offset: 0.4rem;
-			border-radius: 2px;
 		}
 	}
 

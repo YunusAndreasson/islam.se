@@ -38,7 +38,7 @@ const rows = events.map((e) => {
 		I <em>Shaʿbān</em>, månaden före Ramadan, fastade Profeten <span class="honorific honorific--saw">ﷺ</span> fler dagar än under någon annan månad utom Ramadan.
 	</p>
 
-	<p class="md-more"><a href="/det-islamiska-aret/">Se hela året →</a></p>
+	<p class="md-more"><a class="section-link arrow-link" href="/det-islamiska-aret/">Se hela året</a></p>
 </section>
 
 <style>
@@ -54,30 +54,9 @@ const rows = events.map((e) => {
 		margin: var(--space-half) 0 0;
 	}
 
+	/* Placement only — the link inside is a `.section-link .arrow-link`. */
 	.md-more {
 		margin: var(--space-half) 0 0;
-
-		a {
-			font-family: var(--font-heading);
-			font-size: var(--step--2);
-			color: var(--color-accent);
-			text-decoration: none;
-			/* WCAG 2.5.8 (target size ≥24px): this "Se hela året" link is only ~20px tall.
-			   Pad the hit area past 24px; the negative margin reclaims the layout space. */
-			display: inline-block;
-			padding-block: 0.3rem;
-			margin-block: -0.3rem;
-
-			&:hover {
-				text-decoration: underline;
-				text-underline-offset: 0.12em;
-			}
-
-			&:focus-visible {
-				outline: 2px solid var(--color-accent);
-				outline-offset: 2px;
-			}
-		}
 	}
 </style>
 

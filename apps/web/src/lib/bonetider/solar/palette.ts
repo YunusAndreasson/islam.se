@@ -78,9 +78,9 @@ export const washStopsLight: WashStops = {
 export const washStopsDark: WashStops = {
 	DAY: [255, 255, 255, 0],
 	DUSK_WARM: [205, 108, 76, 0.32],
-	// Slightly more blue chroma (b 52→60) so the deep night deepens the navy basemap
-	// with hue, not just darkness. Alpha unchanged (stays well under the light NIGHT).
-	NIGHT: [20, 28, 60, 0.42],
+	// Does the darkening now that LAND (render-field.ts) starts lit at L* 23:
+	// 0.70 takes it to L* ~11, a real day-to-night range. Hue as well as dimming.
+	NIGHT: [14, 18, 40, 0.7],
 	// Richer, bluer dawn lifted for the navy basemap — the cool twin of dusk, now a
 	// distinct cornflower rather than a grey-blue. Alpha (0.34) stays below the light
 	// mode's (0.48) per the gentler-dark-wash rule.

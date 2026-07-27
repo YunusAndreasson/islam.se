@@ -4,6 +4,9 @@ import { getArticles } from "./articles";
 import { INDEXED_PLACES, officialPopulation } from "./bonetider/places-index";
 import { MOSKEER_ENABLED } from "./config";
 import { FAKTA_SLUGS } from "./fakta";
+// Folded here exactly as the client matcher folds it — a redundancy test below
+// only means anything if both ends agree on what "the same text" is.
+import { fold } from "./search-text";
 
 // One flat, typed entry per navigable destination on the site. The command
 // palette (SearchOverlay) is the sole navigation surface now that the mast is
@@ -53,7 +56,7 @@ const PAGES: PaletteEntry[] = [
 		sub: "Frågor och svar: källbelagda svar på vanliga frågor om islam – tro, dyrkan, mat och familj.",
 		href: "/svar/",
 	},
-	{ type: "Sida", label: "Trådar", sub: "Kuraterade läsningar genom essäerna.", href: "/tradar/" },
+	{ type: "Sida", label: "Trådar", sub: "Utvalda läsningar genom essäerna.", href: "/tradar/" },
 	{ type: "Sida", label: "Tänkare", sub: "De röster essäerna återvänder till.", href: "/tankare/" },
 	{
 		type: "Sida",
@@ -101,12 +104,6 @@ const PAGES: PaletteEntry[] = [
  *  would dominate the payload on every page; the largest few cover the queries
  *  people actually type, and the rest stay one click away via the hub. */
 const PLACE_ENTRIES = 30;
-
-/** Case- and diacritic-insensitive, matching the palette's own `fold()` so a
- *  redundancy test here means the same thing the client's matcher would. */
-function fold(s: string): string {
-	return s.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "");
-}
 
 export async function buildPaletteIndex(): Promise<PaletteEntry[]> {
 	const [tradar, tankare, svar, articles] = await Promise.all([

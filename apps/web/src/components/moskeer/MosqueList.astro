@@ -19,7 +19,7 @@ const { mosques, cityLink = false } = Astro.props;
 		return (
 			<li class="mk-list-item" id={m.id}>
 				{cityLink ? (
-					<a href={`/moskeer/${m.citySlug}/#${m.id}`} class="mk-list-name mk-list-name-link focus-ring">{m.name}</a>
+					<a href={`/moskeer/${m.citySlug}/#${m.id}`} class="mk-list-name mk-list-name-link">{m.name}</a>
 				) : (
 					<p class="mk-list-name">{m.name}</p>
 				)}
@@ -33,9 +33,9 @@ const { mosques, cityLink = false } = Astro.props;
 				</p>
 				{m.organisation && <p class="mk-list-org">Huvudman: {m.organisation}</p>}
 				<p class="mk-list-dir">
-					<a href={dir.apple} class="mk-list-dir-link focus-ring">Apple Maps</a>
-					<a href={dir.google} class="mk-list-dir-link focus-ring">Google Maps</a>
-					<span class="mk-list-canon"><a href={mosqueUrl(m)} class="focus-ring">Permalänk</a></span>
+					<a href={dir.apple} class="mk-list-dir-link">Apple Maps</a>
+					<a href={dir.google} class="mk-list-dir-link">Google Maps</a>
+					<span class="mk-list-canon"><a href={mosqueUrl(m)}>Permalänk</a></span>
 				</p>
 			</li>
 		);
@@ -123,7 +123,7 @@ const { mosques, cityLink = false } = Astro.props;
 		color: var(--color-accent);
 		background: var(--color-bg);
 		border: 1px solid var(--color-divider);
-		border-radius: 999px;
+		border-radius: var(--radius-pill);
 		padding: 0.45rem 0.95rem;
 		transition: border-color 0.15s ease;
 	}

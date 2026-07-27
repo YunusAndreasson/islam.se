@@ -172,8 +172,10 @@ export function collectionPageJsonLd(opts: {
 	};
 }
 
-/** A schema.org FAQPage from {q,a} pairs — shared by the bönetider city page and the
- *  moskeer city/county pages, which each built this identical block by hand. */
+/** A schema.org FAQPage from {q,a} pairs — every page with a "Vanliga frågor"
+ *  block emits one. Pairs with the `.def-list` block that renders the same pairs
+ *  on the page. Don't rebuild it inline; a drifted key silently loses the rich
+ *  result. */
 export function faqPageJsonLd(faqs: readonly { q: string; a: string }[]): Record<string, unknown> {
 	return {
 		"@context": "https://schema.org",

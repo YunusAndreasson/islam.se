@@ -1,5 +1,6 @@
 import type { CollectionEntry } from "astro:content";
 import { FAKTA_SLUGS } from "./fakta";
+import { foldedWords } from "./search-text";
 
 type SvarEntry = CollectionEntry<"svar">;
 
@@ -147,6 +148,21 @@ export const SVAR_CATEGORIES: SvarCategory[] = [
 		],
 	},
 ];
+
+/** Search terms the index row does NOT already print — `question`, `keywords`,
+ *  FAQ questions — folded, de-duplicated against the visible title + gloss, and
+ *  emitted as `data-terms`. Surplus only: the filter reads the rest off the DOM,
+ *  so shipping the whole string would duplicate the page (~19 kB) for nothing.
+ *  "" when the frontmatter adds nothing. */
+export function svarSearchTerms(entry: SvarEntry): string {
+	const { title, description, question, keywords = [], faq = [] } = entry.data;
+	const printed = new Set(foldedWords(`${title} ${description}`));
+	const extra = new Set<string>();
+	for (const word of foldedWords([question, ...keywords, ...faq.map((f) => f.q)].join(" "))) {
+		if (!printed.has(word)) extra.add(word);
+	}
+	return [...extra].join(" ");
+}
 
 /** Group the FRÅGOR & SVAR corpus into the themed sections above, preserving each
  *  section's curated order. Cornerstone answers (the Five Pillars + six Articles

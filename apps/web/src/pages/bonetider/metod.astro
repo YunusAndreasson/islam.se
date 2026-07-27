@@ -2,7 +2,7 @@
 import AppPromo from "../../components/AppPromo.astro";
 import OmBonen from "../../components/bonetider/OmBonen.astro";
 import Base from "../../layouts/Base.astro";
-import { ORG_ID, breadcrumbList } from "../../lib/jsonld";
+import { ORG_ID, breadcrumbList, faqPageJsonLd } from "../../lib/jsonld";
 import { BONETIDER_DATA_DATE, SCB_REF, SCB_SOURCE } from "../../lib/bonetider/meta";
 
 const description =
@@ -63,15 +63,7 @@ const faq = [
 			about: { "@type": "Thing", name: "Islamiska bönetider" },
 			citation: sources,
 		},
-		{
-			"@context": "https://schema.org",
-			"@type": "FAQPage",
-			mainEntity: faq.map((f) => ({
-				"@type": "Question",
-				name: f.q,
-				acceptedAnswer: { "@type": "Answer", text: f.a },
-			})),
-		},
+		faqPageJsonLd(faq),
 		breadcrumbList([
 			{ name: "Hem", url: "/" },
 			{ name: "Bönetider", url: "/bonetider" },
@@ -94,13 +86,13 @@ const faq = [
 			<p>
 				Varje bön är knuten till en bestämd solhöjd. Vi visar sex tidpunkter per dygn:
 			</p>
-			<dl class="bt-deflist">
-				<div><dt>Fajr</dt><dd>gryningen, när solen står en bestämd vinkel under horisonten före soluppgången.</dd></div>
-				<div><dt>Shurūq</dt><dd>soluppgången, då Fajr-tiden tar slut.</dd></div>
-				<div><dt>Ẓuhr</dt><dd>strax efter att solen passerat sin högsta punkt (solens meridianpassage).</dd></div>
-				<div><dt>ʿAṣr</dt><dd>på eftermiddagen, när ett föremåls skugga nått en viss längd (beror på madhhab).</dd></div>
-				<div><dt>Maghrib</dt><dd>solnedgången.</dd></div>
-				<div><dt>ʿIshāʾ</dt><dd>kvällen, när solen åter står en bestämd vinkel under horisonten.</dd></div>
+			<dl class="def-list">
+				<div class="def-item"><dt>Fajr</dt><dd>gryningen, när solen står en bestämd vinkel under horisonten före soluppgången.</dd></div>
+				<div class="def-item"><dt>Shurūq</dt><dd>soluppgången, då Fajr-tiden tar slut.</dd></div>
+				<div class="def-item"><dt>Ẓuhr</dt><dd>strax efter att solen passerat sin högsta punkt (solens meridianpassage).</dd></div>
+				<div class="def-item"><dt>ʿAṣr</dt><dd>på eftermiddagen, när ett föremåls skugga nått en viss längd (beror på madhhab).</dd></div>
+				<div class="def-item"><dt>Maghrib</dt><dd>solnedgången.</dd></div>
+				<div class="def-item"><dt>ʿIshāʾ</dt><dd>kvällen, när solen åter står en bestämd vinkel under horisonten.</dd></div>
 			</dl>
 		</section>
 
@@ -153,11 +145,11 @@ const faq = [
 
 		<section aria-labelledby="m-kallor">
 			<h2 id="m-kallor">Källor och öppenhet</h2>
-			<p>Vi är öppna med varifrån data kommer och hur den används:</p>
+			<p>Varifrån uppgifterna kommer och hur de används:</p>
 			<ul class="bt-sources">
 				<li>
 					<strong>Beräkning:</strong> det öppna biblioteket <span lang="en">adhan</span>, en etablerad
-					implementation av bönetidsberäkning.
+					beräkningsmodell för bönetider.
 				</li>
 				<li>
 					<strong>Orter och koordinater:</strong> GeoNames (CC BY 4.0).
@@ -179,9 +171,9 @@ const faq = [
 
 		<section aria-labelledby="m-faq">
 			<h2 id="m-faq">Vanliga frågor</h2>
-			<dl class="bt-deflist">
+			<dl class="def-list">
 				{faq.map((f) => (
-					<div><dt>{f.q}</dt><dd>{f.a}</dd></div>
+					<div class="def-item"><dt>{f.q}</dt><dd>{f.a}</dd></div>
 				))}
 			</dl>
 		</section>
@@ -190,8 +182,8 @@ const faq = [
 
 		<AppPromo variant="compact" />
 
-		<p class="bt-attrib">
-			<a href="/bonetider/">← Alla bönetider i Sverige</a>
+		<p class="bt-back">
+			<a class="section-link back-link" href="/bonetider/">Alla bönetider i Sverige</a>
 		</p>
 	</main>
 </Base>
@@ -211,7 +203,7 @@ const faq = [
 		font-size: var(--step--1);
 		line-height: 1.6;
 		color: var(--text-body);
-		max-width: 42rem;
+		max-width: var(--content-width);
 		margin: var(--space-unit) 0 0;
 		text-wrap: pretty;
 	}
@@ -229,7 +221,7 @@ const faq = [
 		font-size: var(--step--1);
 		line-height: 1.6;
 		color: var(--text-body);
-		max-width: 42rem;
+		max-width: var(--content-width);
 		margin: var(--space-half) 0;
 		text-wrap: pretty;
 	}
@@ -238,32 +230,8 @@ const faq = [
 		color: var(--color-accent);
 	}
 
-	.bt-deflist {
-		margin: var(--space-half) 0 0;
-		max-width: 42rem;
-	}
-
-	.bt-deflist > div {
-		padding: var(--space-half) 0;
-		border-bottom: 1px solid var(--color-divider);
-	}
-
-	.bt-deflist dt {
-		font-family: var(--font-heading);
-		font-weight: 600;
-		color: var(--color-accent);
-		margin-bottom: 0.2rem;
-	}
-
-	.bt-deflist dd {
-		font-family: var(--font-body);
-		line-height: 1.55;
-		color: var(--color-muted);
-		margin: 0;
-	}
-
 	.bt-sources {
-		max-width: 42rem;
+		max-width: var(--content-width);
 		margin: var(--space-half) 0;
 		padding-left: 1.2rem;
 	}
@@ -275,17 +243,8 @@ const faq = [
 		margin: 0.35rem 0;
 	}
 
-	.bt-attrib {
-		font-family: var(--font-body);
-		font-size: var(--step--3);
-		color: var(--color-muted);
+	/* Placement only — the link inside is a `.section-link .back-link`. */
+	.bt-back {
 		margin: var(--space-phi) 0 0;
-		padding-top: var(--space-half);
-		border-top: 1px solid var(--color-divider);
-	}
-
-	.bt-attrib a {
-		color: var(--color-accent);
-		text-decoration: none;
 	}
 </style>

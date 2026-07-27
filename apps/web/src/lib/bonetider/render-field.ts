@@ -14,7 +14,7 @@ import { NEIGHBORS_OUTLINE } from "./neighbors-outline";
 import { computePrayerTimes, nextPrayerKeyAt, PRAYER_LABELS, type PrayerKey } from "./prayer-times";
 import type { PrayerSettings } from "./settings";
 import {
-	buildGrid,
+	buildGridAsync,
 	buildLines,
 	type PrayerLineLabel,
 	type SolarGrid,
@@ -43,28 +43,50 @@ export interface FieldConfig {
 	variant: Variant;
 }
 
-// Land + edge colours — the app's nordicStyle land tones (warm parchment / deep navy).
-const LAND = { light: "#ece6d8", dark: "#1d2333" } as const;
-const EDGE = { light: "rgba(26,23,18,0.20)", dark: "rgba(164,173,214,0.28)" } as const;
+// Land + edge colours. Dark was the app's navy (#1d2333/#141a26/#171d2b) until
+// 2026-07-27: wrong hue for a warm page, and the whole ramp inside L* 9.8–14.1,
+// so at noon — when the wash is fully transparent and the bare land colour IS
+// daylight — Sweden rendered black. Now L* 8 → 14 → 23 on the warm axis, sea
+// kept relatively cooler so water still reads as water. See washStopsDark.NIGHT.
+const LAND = { light: "#ece6d8", dark: "#3d382e" } as const;
+const EDGE = { light: "rgba(26,23,18,0.20)", dark: "rgba(232,229,224,0.34)" } as const;
 // The sea was #dfe7ec, and it was the one surface on this page pointing the wrong
 // way. Measured in CIE Lab: the page background sits at b* +7.8 and the map's LAND
 // at b* +7.5 — the same warm axis — while that sea sat at b* −3.35, an 11-point
 // swing to the cold side. Against the older near-neutral page it passed; against
 // the warm ground it read as a cold slab pasted onto the article.
 //
-// #dfe4e2 keeps the sea RELATIVELY cool — still 7 points cooler in b* than the land
-// beside it, which is what makes water read as water — and still slightly darker
-// than land (L* 90.2 vs 91.4) so it stays recessive. What it drops is the absolute
-// blue cast that fought the page. Dark mode is untouched: that page is cold already,
-// so the navy belongs. Keep in sync with `.bf-stage`'s pre-JS background in
-// PrayerField.astro, which is the same sea before the canvas mounts.
-const SEA = { light: "#dfe4e2", dark: "#141a26" } as const;
+// #dfe4e2 is cool RELATIVE to the land (7 points in b*) without the absolute blue
+// cast that fought the page; dark follows the same rule. Keep in sync with
+// `.bf-stage`'s pre-JS background in PrayerField.astro.
+const SEA = { light: "#dfe4e2", dark: "#15171a" } as const;
 const BRASS = { light: "#b8862f", dark: "#c89a48" } as const;
-const ON_MARK = { light: "#fffdf8", dark: "#161a26" } as const;
+const ON_MARK = { light: "#fffdf8", dark: "#15171a" } as const;
 // Surrounding countries — a muted tone between sea and Sweden's land, plus a barely-there
 // coast, so the neighbours read as quiet context and Sweden stays the clear subject.
-const NEIGHBOR_LAND = { light: "#e6e0d2", dark: "#171d2b" } as const;
-const NEIGHBOR_EDGE = { light: "rgba(26,23,18,0.10)", dark: "rgba(164,173,214,0.13)" } as const;
+const NEIGHBOR_LAND = { light: "#e6e0d2", dark: "#26241e" } as const;
+const NEIGHBOR_EDGE = { light: "rgba(26,23,18,0.10)", dark: "rgba(232,229,224,0.12)" } as const;
+
+// The Arctic Circle: north of it the sun doesn't set at midsummer, which is where
+// prayer times fall back to the nearest-latitude rule (`sunRisesAndSets` in
+// solar/field.ts). Dashed, so it reads as neither coastline nor prayer line.
+const ARCTIC_CIRCLE_LAT = 66.5622;
+const GRATICULE = { light: "rgba(26,23,18,0.28)", dark: "rgba(232,229,224,0.26)" } as const;
+
+// Anchor cities. The prayer isolines are absent ~35% of the day (measured: no line
+// in frame roughly 07:00–12:20, when every locus is out over Asia or the Atlantic),
+// which is honest but left the morning map empty. These give it permanent scale.
+const ANCHORS: readonly { name: string; lat: number; lon: number }[] = [
+	{ name: "Malmö", lat: 55.605, lon: 13.0 },
+	{ name: "Göteborg", lat: 57.707, lon: 11.967 },
+	{ name: "Stockholm", lat: 59.329, lon: 18.069 },
+	{ name: "Sundsvall", lat: 62.39, lon: 17.306 },
+	{ name: "Umeå", lat: 63.826, lon: 20.263 },
+	{ name: "Luleå", lat: 65.584, lon: 22.157 },
+	{ name: "Kiruna", lat: 67.856, lon: 20.226 },
+] as const;
+const ANCHOR_DOT = { light: "rgba(26,23,18,0.42)", dark: "rgba(232,229,224,0.42)" } as const;
+const ANCHOR_TEXT = { light: "rgba(26,23,18,0.62)", dark: "rgba(232,229,224,0.58)" } as const;
 
 // The visible map AND the line grid both span Sweden plus a generous margin of
 // surrounding sea and neighbours, so the sweeping prayer isolines read as full lines
@@ -118,9 +140,28 @@ const projY = (lat: number, t: Transform): number => t.oy + (mercY(lat) - t.myMi
 const unLon = (x: number, t: Transform): number => invMercX(t.mxMin + (x - t.ox) / t.scale);
 const unLat = (y: number, t: Transform): number => invMercY(t.myMin + (y - t.oy) / t.scale);
 
+/**
+ * Un-wrap a ring that crosses the antimeridian. Two of the 30 rings in
+ * NEIGHBORS_OUTLINE (Russia, and an Arctic sliver) span −179.6°…179.9°, and plain
+ * Mercator drew them back across the whole frame as full-width bands of land
+ * colour over open sea — which looks exactly like twilight banding, but isn't.
+ * No-op for rings that don't wrap.
+ */
+function unwrap(ring: readonly (readonly [number, number])[]): readonly [number, number][] {
+	let min = Number.POSITIVE_INFINITY;
+	let max = Number.NEGATIVE_INFINITY;
+	for (const [lon] of ring) {
+		if (lon < min) min = lon;
+		if (lon > max) max = lon;
+	}
+	if (max - min <= 180) return ring as readonly [number, number][];
+	return ring.map(([lon, lat]) => [lon < 0 ? lon + 360 : lon, lat] as [number, number]);
+}
+
 function pathFor(rings: readonly (readonly [number, number])[][], t: Transform): Path2D {
 	const p = new Path2D();
-	for (const ring of rings) {
+	for (const raw of rings) {
+		const ring = unwrap(raw);
 		ring.forEach(([lon, lat], i) => {
 			const x = projX(lon, t);
 			const y = projY(lat, t);
@@ -159,21 +200,54 @@ export function createFieldRenderer(canvas: HTMLCanvasElement) {
 	let grid: SolarGrid | null = null;
 	let gridKey = "";
 
-	function ensureGrid(now: Date, settings: PrayerSettings, variant: Variant): SolarGrid {
-		const key = `${now.getFullYear()}-${now.getMonth()}-${now.getDate()}|${variant}|${JSON.stringify(settings)}`;
-		if (!grid || key !== gridKey) {
-			grid = buildGrid(now, settings, { bounds: GRID_BOUNDS, ...GRID_STEP[variant] });
-			gridKey = key;
-		}
-		return grid;
+	const gridKeyFor = (now: Date, settings: PrayerSettings, variant: Variant) =>
+		`${now.getFullYear()}-${now.getMonth()}-${now.getDate()}|${variant}|${JSON.stringify(settings)}`;
+
+	/** The cached lattice, or null when it still has to be built. */
+	function cachedGrid(now: Date, settings: PrayerSettings, variant: Variant): SolarGrid | null {
+		return grid && gridKeyFor(now, settings, variant) === gridKey ? grid : null;
 	}
 
+	let building: Promise<SolarGrid> | null = null;
+	let buildingKey = "";
+
+	function ensureGridAsync(
+		now: Date,
+		settings: PrayerSettings,
+		variant: Variant,
+	): Promise<SolarGrid> {
+		const key = gridKeyFor(now, settings, variant);
+		if (building && key === buildingKey) return building;
+		buildingKey = key;
+		building = buildGridAsync(now, settings, { bounds: GRID_BOUNDS, ...GRID_STEP[variant] }).then(
+			(g) => {
+				grid = g;
+				gridKey = key;
+				return g;
+			},
+		);
+		return building;
+	}
+
+	// The wash is a pure function of (size, scheme, minute, viewport), and a cold render
+	// now paints twice — once without the lattice, once with. Recomputing ~30 000
+	// per-pixel solar solves for the second pass was the larger half of the remaining
+	// long task. Keyed to the minute because that is the resolution the tick redraws at.
+	let washKey = "";
+
 	function drawWash(t: Transform, now: Date, scheme: Scheme): void {
+		const sw = Math.max(48, Math.round(t.w / 4));
+		const sh = Math.max(48, Math.round(t.h / 4));
+		const key = `${sw}x${sh}|${scheme}|${Math.floor(now.getTime() / 60000)}|${t.scale.toFixed(3)}|${t.ox.toFixed(1)}|${t.oy.toFixed(1)}`;
+		if (key === washKey && offscreen.width === sw && offscreen.height === sh) {
+			ctx.imageSmoothingEnabled = true;
+			ctx.imageSmoothingQuality = "high";
+			ctx.drawImage(offscreen, 0, 0, t.w, t.h);
+			return;
+		}
 		const stops = scheme === "dark" ? washStopsDark : washStopsLight;
 		const { declRad, eotMin } = solarParams(now);
 		const utcMin = now.getUTCHours() * 60 + now.getUTCMinutes() + now.getUTCSeconds() / 60;
-		const sw = Math.max(48, Math.round(t.w / 4));
-		const sh = Math.max(48, Math.round(t.h / 4));
 		offscreen.width = sw;
 		offscreen.height = sh;
 		const octx = offscreen.getContext("2d");
@@ -194,6 +268,7 @@ export function createFieldRenderer(canvas: HTMLCanvasElement) {
 			}
 		}
 		octx.putImageData(img, 0, 0);
+		washKey = key;
 		ctx.imageSmoothingEnabled = true;
 		ctx.imageSmoothingQuality = "high";
 		ctx.drawImage(offscreen, 0, 0, t.w, t.h);
@@ -278,6 +353,54 @@ export function createFieldRenderer(canvas: HTMLCanvasElement) {
 		ctx.restore();
 	}
 
+	/** The Arctic Circle, dashed, named at the left edge. */
+	function drawGraticule(t: Transform, scheme: Scheme, variant: Variant): void {
+		const y = projY(ARCTIC_CIRCLE_LAT, t);
+		if (y < 0 || y > t.h) return;
+		ctx.save();
+		ctx.strokeStyle = GRATICULE[scheme];
+		ctx.lineWidth = 1;
+		ctx.setLineDash([5, 5]);
+		ctx.beginPath();
+		ctx.moveTo(0, y);
+		ctx.lineTo(t.w, y);
+		ctx.stroke();
+		ctx.setLineDash([]);
+		if (variant === "full") {
+			ctx.font = `600 10px ${resolveLabelFont()}`;
+			ctx.textAlign = "left";
+			ctx.textBaseline = "alphabetic";
+			ctx.fillStyle = GRATICULE[scheme];
+			ctx.fillText("Polcirkeln", 10, y - 5);
+		}
+		ctx.restore();
+	}
+
+	/** Anchor cities — a dot each, named on the full variant. The current location
+	 *  is skipped; it already carries the brass marker. */
+	function drawAnchors(t: Transform, loc: FieldLocation, scheme: Scheme, variant: Variant): void {
+		const mx = projX(loc.longitude, t);
+		const my = projY(loc.latitude, t);
+		ctx.save();
+		ctx.font = `500 10px ${resolveLabelFont()}`;
+		ctx.textAlign = "left";
+		ctx.textBaseline = "middle";
+		for (const a of ANCHORS) {
+			const x = projX(a.lon, t);
+			const y = projY(a.lat, t);
+			if (Math.hypot(x - mx, y - my) < 14) continue;
+			ctx.beginPath();
+			ctx.arc(x, y, 1.6, 0, Math.PI * 2);
+			ctx.fillStyle = ANCHOR_DOT[scheme];
+			ctx.fill();
+			if (variant === "full") {
+				ctx.fillStyle = ANCHOR_TEXT[scheme];
+				ctx.fillText(a.name, x + 4.5, y);
+			}
+		}
+		ctx.restore();
+	}
+
 	function drawMarker(t: Transform, loc: FieldLocation, scheme: Scheme): void {
 		const x = projX(loc.longitude, t);
 		const y = projY(loc.latitude, t);
@@ -296,7 +419,10 @@ export function createFieldRenderer(canvas: HTMLCanvasElement) {
 		ctx.restore();
 	}
 
-	function render(cfg: FieldConfig, now: Date): void {
+	/** One full canvas pass. `g` null = the lattice is not ready, so the isolines and
+	 *  their labels are skipped; everything else paints. The map therefore appears at
+	 *  once and the lines arrive on the second pass, in the correct z-order. */
+	function paint(cfg: FieldConfig, now: Date, g: SolarGrid | null): void {
 		const w = canvas.clientWidth || canvas.width;
 		const h = canvas.clientHeight || canvas.height;
 		const dpr = Math.min(window.devicePixelRatio || 1, 2);
@@ -319,8 +445,10 @@ export function createFieldRenderer(canvas: HTMLCanvasElement) {
 		//    with Sweden as the clear subject, not a lone silhouette in empty sea.
 		ctx.fillStyle = SEA[cfg.scheme];
 		ctx.fillRect(0, 0, w, h);
+		// Nonzero, not evenodd: neighbours share borders, and even-odd cancels the
+		// overlaps into holes.
 		ctx.fillStyle = NEIGHBOR_LAND[cfg.scheme];
-		ctx.fill(neighbors, "evenodd");
+		ctx.fill(neighbors);
 		ctx.fillStyle = LAND[cfg.scheme];
 		ctx.fill(path);
 
@@ -331,11 +459,10 @@ export function createFieldRenderer(canvas: HTMLCanvasElement) {
 		// 3. Prayer isolines — drawn across the whole stage (sea included), like the app, so
 		//    every line is visible and matches its label. (Clipping them to land used to hide
 		//    lines that run mostly over sea while their label still showed.)
-		const g = ensureGrid(now, cfg.settings, cfg.variant);
 		const times = computePrayerTimes(cfg.location, now, cfg.settings);
 		const nextKey = nextPrayerKeyAt(times, now.getTime());
-		const solar = buildLines(g, now.getTime());
-		drawLines(t, solar.lines, cfg.scheme, nextKey);
+		const solar = g ? buildLines(g, now.getTime()) : null;
+		if (solar) drawLines(t, solar.lines, cfg.scheme, nextKey);
 
 		// 4. Coastlines — neighbours barely there, Sweden crisp on top.
 		ctx.lineJoin = "round";
@@ -345,11 +472,42 @@ export function createFieldRenderer(canvas: HTMLCanvasElement) {
 		ctx.strokeStyle = EDGE[cfg.scheme];
 		ctx.stroke(path);
 
-		// 5. Place marker.
+		// 5. Standing geography — present at every hour, unlike the sweeping lines.
+		drawGraticule(t, cfg.scheme, cfg.variant);
+		drawAnchors(t, cfg.location, cfg.scheme, cfg.variant);
+
+		// 6. Place marker.
 		drawMarker(t, cfg.location, cfg.scheme);
 
-		// 6. Line labels (over everything) so each isoline names its prayer.
-		drawLabels(t, solar.labels, cfg.scheme);
+		// 7. Line labels (over everything) so each isoline names its prayer.
+		if (solar) drawLabels(t, solar.labels, cfg.scheme);
+	}
+
+	/** Generation guard: a later render (settings change, minute tick) must win, so a
+	 *  slow lattice from a superseded call can never paint over the current one. */
+	let generation = 0;
+
+	function render(cfg: FieldConfig, now: Date): void {
+		const mine = ++generation;
+		const cached = cachedGrid(now, cfg.settings, cfg.variant);
+		if (cached) {
+			paint(cfg, now, cached);
+			return;
+		}
+		// Cold lattice: paint ONCE, when it is ready. Painting a line-less map first and
+		// repainting after cost two full canvas passes (~300 ms each, measured) — worse
+		// than the wait it hid, and the wait is no longer a freeze because buildGridAsync
+		// yields. The pre-JS `.bf-stage` background covers the gap.
+		ensureGridAsync(now, cfg.settings, cfg.variant)
+			.then((g) => {
+				if (mine === generation) paint(cfg, now, g);
+			})
+			.catch(() => {
+				// The base map is already on screen; losing the lattice costs the isolines,
+				// not the page. Reset so the next tick retries instead of caching a failure.
+				building = null;
+				buildingKey = "";
+			});
 	}
 
 	return { render };

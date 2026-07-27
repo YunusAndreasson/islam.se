@@ -140,18 +140,18 @@ if (oldestMosque?.opened) {
 
 		<section class="mk-section mk-cross" aria-label="Se även">
 			<p>
-				<a href={`/bonetider/${citySlug}/`} class="mk-cross-link">Bönetider i {city} →</a>
+				<a href={`/bonetider/${citySlug}/`} class="section-link arrow-link">Bönetider i {city}</a>
 			</p>
 			<p>
-				<a href={`/moskeer/lan/${lanSlug(lan)}/`} class="mk-cross-link">Alla moskéer i {lanLabel} →</a>
+				<a href={`/moskeer/lan/${lanSlug(lan)}/`} class="section-link arrow-link">Alla moskéer i {lanLabel}</a>
 			</p>
 		</section>
 
 		<section class="mk-section" aria-labelledby="mk-stad-faq">
 			<h2 id="mk-stad-faq">Vanliga frågor</h2>
-			<dl class="mk-faq">
+			<dl class="def-list">
 				{faq.map((f) => (
-					<div class="mk-faq-item">
+					<div class="def-item">
 						<dt>{f.q}</dt>
 						<dd>{f.a}</dd>
 					</div>
@@ -172,7 +172,7 @@ if (oldestMosque?.opened) {
 
 		<p class="mk-attrib">
 			Underlaget kan vara ofullständigt. Adresser och positioner är ungefärliga.
-			<a href="/moskeer">Karta över alla moskéer i Sverige →</a>
+			<a class="arrow-link" href="/moskeer">Karta över alla moskéer i Sverige</a>
 		</p>
 	</main>
 </Base>
@@ -200,7 +200,7 @@ if (oldestMosque?.opened) {
 		font-size: var(--step--1);
 		line-height: 1.6;
 		color: var(--text-body);
-		max-width: 42rem;
+		max-width: var(--content-width);
 		margin: var(--space-unit) 0 0;
 		text-wrap: pretty;
 	}
@@ -223,43 +223,6 @@ if (oldestMosque?.opened) {
 		margin: 0;
 	}
 
-	.mk-cross-link {
-		font-family: var(--font-heading);
-		font-weight: 600;
-		font-size: var(--step--2);
-		color: var(--color-accent);
-		text-decoration: none;
-	}
-
-	.mk-cross-link:hover {
-		text-decoration: underline;
-		text-underline-offset: 0.12em;
-	}
-
-	.mk-faq {
-		margin: var(--space-unit) 0 0;
-		max-width: 42rem;
-	}
-
-	.mk-faq-item {
-		padding: var(--space-half) 0;
-		border-bottom: 1px solid var(--color-divider);
-	}
-
-	.mk-faq dt {
-		font-family: var(--font-heading);
-		font-weight: 600;
-		color: var(--color-accent);
-		margin-bottom: 0.3rem;
-	}
-
-	.mk-faq dd {
-		font-family: var(--font-body);
-		line-height: 1.55;
-		color: var(--color-muted);
-		margin: 0;
-	}
-
 	.mk-nearby {
 		list-style: none;
 		margin: var(--space-half) 0 0;
@@ -275,7 +238,7 @@ if (oldestMosque?.opened) {
 		color: var(--color-text);
 		text-decoration: none;
 		border: 1px solid var(--color-divider);
-		border-radius: 999px;
+		border-radius: var(--radius-pill);
 		padding: 0.3rem 0.85rem;
 		transition: border-color 0.15s ease;
 	}
@@ -297,6 +260,6 @@ if (oldestMosque?.opened) {
 
 	.mk-attrib a {
 		color: var(--color-accent);
-		text-decoration: none;
+		text-decoration-color: currentColor;
 	}
 </style>

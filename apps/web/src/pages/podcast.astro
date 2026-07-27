@@ -1,5 +1,6 @@
 ---
 import Base from "../layouts/Base.astro";
+import EssayImage from "../components/EssayImage.astro";
 import { formatDate, getArticles } from "../lib/articles";
 import { SITE_URL } from "../lib/config";
 import { breadcrumbList, ORG_ID } from "../lib/jsonld";
@@ -56,14 +57,6 @@ const description =
 >
 	<main id="main" class="home podcast-page">
 		<header class="podcast-hero">
-			<img
-				class="podcast-cover"
-				src={PODCAST_COVER}
-				width="320"
-				height="320"
-				alt="Omslag till podden islam.se: andliga essäer"
-				loading="eager"
-			/>
 			<div class="podcast-hero-text">
 				<h1>Andliga essäer</h1>
 				<p class="lead podcast-lead">{PODCAST_DESCRIPTION}</p>
@@ -94,11 +87,19 @@ const description =
 					return (
 						<li class="podcast-item">
 							<a class="podcast-item-link" href={`/${ep.slug}/`}>
-								<span class="podcast-item-num" aria-hidden="true">{episodes.length - i}</span>
+								<span class="podcast-item-art media-frame media-frame--sm">
+									{ep.heroImage ? (
+										<EssayImage article={ep} alt="" widths={[128, 192, 256]} sizes="6rem" />
+									) : (
+										<span class="podcast-item-num" aria-hidden="true">{episodes.length - i}</span>
+									)}
+								</span>
 								<span class="podcast-item-body">
 									<span class="podcast-item-title">{ep.title}</span>
 									<span class="podcast-item-desc">{ep.description}</span>
 									<span class="podcast-item-meta label">
+										<span>Avsnitt {episodes.length - i}</span>
+										<span class="nav-dot" aria-hidden="true">&middot;</span>
 										<time datetime={ep.publishedAt}>{formatDate(ep.publishedAt)}</time>
 										{duration && <span class="nav-dot" aria-hidden="true">&middot;</span>}
 										{duration && <span>{duration}</span>}
@@ -123,24 +124,12 @@ const description =
 		margin-block: var(--space-phi);
 	}
 
-	/* ---- Hero: cover + show identity, the same two-column object/text rhythm as
-	   the homepage book-and-podd module. ---- */
-	.podcast-hero {
-		display: grid;
-		grid-template-columns: auto 1fr;
-		align-items: center;
-		gap: clamp(1.5rem, 5vw, 3rem);
-	}
-
-	.podcast-cover {
-		width: clamp(8rem, 26vw, 12rem);
-		height: auto;
-		aspect-ratio: 1 / 1;
-		border-radius: 12px;
-		border: 1px solid var(--color-divider);
-		box-shadow: 0 1.25rem 2.5rem -1rem rgb(0 0 0 / 0.28);
-	}
-
+	/* ---- Hero: show identity. The cover tile that used to sit here was the site's own
+	   wordmark glyph on a white square — it repeated the mast mark 40 px above it, on the
+	   one white surface of a warm-cream page, and it was the only such tile on any
+	   top-menu page. The art the page was missing belongs to the episodes; it is in the
+	   list below now. PODCAST_COVER is still shipped to the feed and the JSON-LD, which
+	   is where Apple and Spotify actually require it. ---- */
 	.podcast-hero-text h1 {
 		margin: var(--space-half) 0 0;
 	}
@@ -180,10 +169,6 @@ const description =
 			text-decoration: none;
 		}
 
-		&:focus-visible {
-			outline: 2px solid var(--color-accent);
-			outline-offset: 2px;
-		}
 	}
 
 	/* RSS is the quieter, technical option — muted until hovered. */
@@ -202,7 +187,7 @@ const description =
 		gap: 0.5ch;
 		margin: 0 0 var(--space-unit);
 		padding-bottom: var(--space-half);
-		border-bottom: 1px solid var(--color-divider);
+		border-bottom: 1px solid var(--color-rule);
 	}
 
 	.podcast-episodes-count {
@@ -228,8 +213,8 @@ const description =
 
 	.podcast-item-link {
 		display: grid;
-		grid-template-columns: 2.5rem 1fr;
-		gap: 1rem;
+		grid-template-columns: 6rem 1fr;
+		gap: 1.25rem;
 		padding: var(--space-unit) 0.4rem;
 		margin-inline: -0.4rem;
 		border-radius: 8px;
@@ -242,23 +227,41 @@ const description =
 			text-decoration: none;
 		}
 
-		&:focus-visible {
-			outline: 2px solid var(--color-accent);
-			outline-offset: 2px;
-		}
+	}
+
+	/* The episode's own art, square like a podcast app's row. Essays without a hero
+	   fall back to the ordinal in the same box, so the column never collapses and the
+	   two-column grid stays even. */
+	.podcast-item-art {
+		display: grid;
+		place-items: center;
+		aspect-ratio: 1 / 1;
+		overflow: hidden;
+	}
+
+	/* EssayImage renders a <picture>; without stretching that too the img fills only
+	   its intrinsic box and the frame's warm backdrop shows as a band above the photo. */
+	.podcast-item-art :global(picture) {
+		display: block;
+		width: 100%;
+		height: 100%;
+	}
+
+	.podcast-item-art :global(img) {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
 	}
 
 	.podcast-item-num {
 		font-family: var(--font-heading);
-		font-size: var(--step--1);
+		font-size: var(--step-1);
 		/* 300 was the site's only Light weight outside the book-cover artwork — one
 		   number in one list, carrying a weight nothing else uses. Muted colour
 		   already makes it recede. */
 		font-weight: 400;
 		color: var(--color-muted);
-		text-align: right;
 		font-variant-numeric: tabular-nums;
-		padding-top: 0.1rem;
 	}
 
 	.podcast-item-title {
@@ -290,14 +293,17 @@ const description =
 		color: var(--color-muted);
 	}
 
+	/* No border-top: every episode row already ends in a hairline and the footer opens
+	   with its own, so a rule here put three lines in one band — and this one stopped at
+	   the 42 rem measure while the others ran the full canvas, which is what made it read
+	   as a stray. `text-wrap: pretty` keeps the last line off a single orphaned word. */
 	.podcast-note {
 		font-family: var(--font-body);
 		font-size: var(--step--2);
 		color: var(--color-muted);
 		max-width: var(--content-width);
 		margin: var(--space-phi) 0 0;
-		padding-top: var(--space-half);
-		border-top: 1px solid var(--color-divider);
+		text-wrap: pretty;
 	}
 
 	.podcast-note a {
@@ -312,7 +318,7 @@ const description =
 		}
 
 		.podcast-item-link {
-			grid-template-columns: 1.75rem 1fr;
+			grid-template-columns: 4.5rem 1fr;
 			gap: 0.75rem;
 		}
 	}

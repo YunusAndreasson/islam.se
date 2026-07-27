@@ -66,13 +66,9 @@ if (limit) {
 			text-underline-offset: 0.12em;
 		}
 
-		&:focus-visible {
-			outline: 2px solid var(--color-accent);
-			/* Was -2px, tucked inside the old card border. With no box to sit in, the
-			   ring belongs outside the text. */
-			outline-offset: 3px;
-			border-radius: 2px;
-		}
+		/* Was -2px, tucked inside the old card border. With no box to sit in, the
+		   ring belongs outside the text. */
+		--focus-offset: 3px;
 	}
 
 	.tradar-card-title {

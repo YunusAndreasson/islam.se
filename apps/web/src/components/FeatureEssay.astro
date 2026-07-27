@@ -19,7 +19,7 @@ const placeholder = await heroPlaceholder(article.slug);
 ---
 
 <section class="feature home-movement" aria-labelledby="feature-title">
-	<a class="feature-link focus-ring" href={`/${article.slug}`} data-astro-prefetch="viewport">
+	<a class="feature-link" href={`/${article.slug}`} data-astro-prefetch="viewport">
 		<p class="label home-kicker feature-kicker">Senast publicerat</p>
 		<h2 id="feature-title" class="feature-title">{article.title}</h2>
 		<div
@@ -68,7 +68,7 @@ const placeholder = await heroPlaceholder(article.slug);
 	}
 
 	.feature-link {
-		--focus-offset: 0.75rem; /* keyboard ring via the shared .focus-ring utility */
+		--focus-offset: 0.75rem; /* pushes the site-wide keyboard ring clear of the card */
 		display: block;
 		text-decoration: none;
 		color: inherit;
@@ -185,7 +185,7 @@ const placeholder = await heroPlaceholder(article.slug);
 	   sharing the deck's first baseline. */
 	.feature-caption {
 		display: grid;
-		grid-template-columns: minmax(0, 42rem) auto;
+		grid-template-columns: minmax(0, var(--content-width)) auto;
 		justify-content: space-between;
 		align-items: baseline;
 		gap: var(--space-half) var(--space-unit);

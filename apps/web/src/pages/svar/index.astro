@@ -3,7 +3,7 @@ import { getCollection } from "astro:content";
 import PageHead from "../../components/PageHead.astro";
 import Base from "../../layouts/Base.astro";
 import { breadcrumbList, collectionPageJsonLd } from "../../lib/jsonld";
-import { groupSvar } from "../../lib/svar";
+import { groupSvar, svarSearchTerms } from "../../lib/svar";
 
 // FRÅGOR & SVAR — the full, browsable question list. `groupSvar` arranges the
 // corpus into themed sections and drops the cornerstone Five Pillars + six Articles
@@ -45,32 +45,63 @@ const description =
 
 		{groups.length > 0 ? (
 			<>
+				{/* Narrows this page only; ⌘K still searches the whole site. */}
+				<form class="svar-search field" role="search" data-total={listed.length}>
+					<svg class="svar-search-icon" width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+						<circle cx="8" cy="8" r="5.25" stroke="currentColor" stroke-width="1.25" />
+						<path d="M12 12l4 4" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" />
+					</svg>
+					<input
+						class="svar-search-input"
+						id="svar-q"
+						type="search"
+						name="q"
+						placeholder={`Sök bland ${listed.length} frågor …`}
+						aria-label="Sök bland frågorna på denna sida"
+						aria-controls="svar-results"
+						autocomplete="off"
+						autocapitalize="off"
+						spellcheck="false"
+						enterkeyhint="search"
+					/>
+					<button class="svar-search-clear label" type="button" hidden>Rensa</button>
+				</form>
+				<p class="svar-search-status label" role="status"></p>
+
 				<nav class="svar-nav" aria-label="Kategorier">
 					<ul>
 						{groups.map((g) => (
-							<li>
+							<li data-cat-item={g.category.slug}>
 								<a href={`#${g.category.slug}`} data-cat={g.category.slug} class="filter-chip label">{g.category.short ?? g.category.name}</a>
 							</li>
 						))}
 					</ul>
 				</nav>
 
-				{groups.map((g) => (
-					<section class="svar-section" id={g.category.slug} aria-labelledby={`sc-${g.category.slug}`}>
-						<h2 id={`sc-${g.category.slug}`}>{g.category.name}</h2>
-						{g.category.intro && <p class="lead svar-section-intro">{g.category.intro}</p>}
-						<ul class="svar-list">
-							{g.entries.map((e) => (
-								<li class="svar-list-item">
-									<a href={`/svar/${e.id}/`}>
-										<span class="svar-list-title">{e.data.title}</span>
-										<span class="svar-list-desc">{e.data.description}</span>
-									</a>
-								</li>
-							))}
-						</ul>
-					</section>
-				))}
+				<div id="svar-results">
+					{groups.map((g) => (
+						<section class="svar-section" id={g.category.slug} aria-labelledby={`sc-${g.category.slug}`}>
+							<h2 id={`sc-${g.category.slug}`}>{g.category.name}</h2>
+							{g.category.intro && <p class="lead svar-section-intro">{g.category.intro}</p>}
+							<ul class="svar-list">
+								{g.entries.map((e) => (
+									<li class="svar-list-item" data-terms={svarSearchTerms(e) || undefined}>
+										<a href={`/svar/${e.id}/`}>
+											<span class="svar-list-title">{e.data.title}</span>
+											<span class="svar-list-desc">{e.data.description}</span>
+										</a>
+									</li>
+								))}
+							</ul>
+						</section>
+					))}
+
+					{/* The status line states the count; this is only the way out. */}
+					<p class="svar-empty" hidden>
+						Frågan kan ändå finnas bland essäerna eller på en annan sida.
+						<button class="svar-empty-all" type="button">Sök i hela sajten</button>
+					</p>
+				</div>
 			</>
 		) : (
 			<p>Inga frågor publicerade ännu.</p>
@@ -79,6 +110,145 @@ const description =
 </Base>
 
 <script>
+	import { closeEnough, fold } from "../../lib/search-text";
+
+	// On-page filter. The haystack is read out of the DOM once (no index to fetch);
+	// `data-terms` adds only the synonyms the page doesn't print. AND over tokens,
+	// both sides folded. No debounce — one pass over 51 rows is microseconds.
+	// A query with no exact hit is retried loosely (`closeEnough`).
+	function bindSvarSearch() {
+		const form = document.querySelector<HTMLFormElement>(".svar-search");
+		const input = document.querySelector<HTMLInputElement>("#svar-q");
+		const status = document.querySelector<HTMLElement>(".svar-search-status");
+		const clear = document.querySelector<HTMLButtonElement>(".svar-search-clear");
+		const empty = document.querySelector<HTMLElement>(".svar-empty");
+		if (!form || !input || !status || !clear || !empty) return;
+
+		const emptyAll = empty.querySelector<HTMLButtonElement>(".svar-empty-all");
+		const items = Array.from(document.querySelectorAll<HTMLLIElement>(".svar-list-item")).map(
+			(el) => ({
+				el,
+				section: el.closest<HTMLElement>(".svar-section"),
+				link: el.querySelector<HTMLAnchorElement>("a"),
+				hay: `${fold(el.textContent ?? "")} ${el.dataset.terms ?? ""}`,
+				// Built lazily on the first loose pass only.
+				words: null as string[] | null,
+			}),
+		);
+		const sections = Array.from(document.querySelectorAll<HTMLElement>(".svar-section"));
+		// Paired up front so the per-keystroke loop needs no lookups.
+		const chips = Array.from(document.querySelectorAll<HTMLElement>("[data-cat-item]")).map(
+			(el) => ({ el, section: document.getElementById(el.dataset.catItem ?? "") }),
+		);
+		const total = items.length;
+		if (!total) return;
+
+		let visible = items.map((i) => i.link);
+
+		type Item = (typeof items)[number];
+
+		/** Loose pass: a token counts if any word in the row is close enough. */
+		function nearly(item: Item, token: string): boolean {
+			if (item.hay.includes(token)) return true;
+			item.words ??= item.hay.split(/[^\p{L}\p{N}]+/u).filter((w) => w.length > 1);
+			return item.words.some((w) => closeEnough(token, w));
+		}
+
+		/* Arrow const, not a `function` declaration — a hoisted one is created before
+		   the null-guard above and loses the narrowing of status/clear/empty. */
+		const apply = (raw: string): void => {
+			const query = raw.trim();
+			const tokens = fold(query).split(/\s+/).filter(Boolean);
+			const live = new Set<HTMLElement>();
+			let hits = 0;
+			visible = [];
+
+			// Exact first; loose only when that found nothing, so near-misses can
+			// never dilute a working query.
+			let on = items.map((item) => tokens.every((t) => item.hay.includes(t)));
+			const loose = tokens.length > 0 && !on.some(Boolean);
+			if (loose) on = items.map((item) => tokens.every((t) => nearly(item, t)));
+
+			for (const [i, item] of items.entries()) {
+				item.el.hidden = !on[i];
+				if (!on[i]) continue;
+				hits++;
+				visible.push(item.link);
+				if (item.section) live.add(item.section);
+			}
+
+			// Empty sections and their chips go too.
+			const filtering = tokens.length > 0;
+			for (const section of sections) section.hidden = filtering && !live.has(section);
+			for (const chip of chips) {
+				chip.el.hidden = filtering && !(chip.section && live.has(chip.section));
+			}
+
+			clear.hidden = !query;
+			empty.hidden = !query || hits > 0;
+			// Name which pass answered.
+			status.textContent = !query
+				? ""
+				: hits === 0
+					? `Inga träffar bland sidans ${total} frågor`
+					: loose
+						? `Ingen exakt träff – visar ${hits} ${hits === 1 ? "snarlik fråga" : "snarlika frågor"}`
+						: `${hits} av ${total} frågor`;
+
+			// replaceState, not push: one entry per keystroke would wreck Back.
+			const url = query ? `?q=${encodeURIComponent(query)}` : location.pathname;
+			history.replaceState(history.state, "", url);
+		};
+
+		input.addEventListener("input", () => apply(input.value));
+
+		// The magnifier is an aria-hidden <svg> and the row's padding belongs to the
+		// form, so a tap that lands beside the input would otherwise hit nothing.
+		form.addEventListener("mousedown", (e) => {
+			if (e.target === input || (e.target as HTMLElement).closest?.("button")) return;
+			e.preventDefault();
+			input.focus();
+		});
+
+		// Enter on a single hit opens it.
+		form.addEventListener("submit", (e) => {
+			e.preventDefault();
+			if (visible.length === 1) visible[0]?.click();
+		});
+
+		input.addEventListener("keydown", (e) => {
+			if (e.key !== "Escape" || !input.value) return;
+			// Don't let the palette's global Escape also fire.
+			e.preventDefault();
+			e.stopPropagation();
+			input.value = "";
+			apply("");
+		});
+
+		clear.addEventListener("click", () => {
+			input.value = "";
+			apply("");
+			input.focus();
+		});
+
+		// Hand the query to the site-wide palette.
+		emptyAll?.addEventListener("click", () => {
+			const query = input.value.trim();
+			document.querySelector<HTMLButtonElement>(".search-trigger")?.click();
+			const field = document.querySelector<HTMLInputElement>(".palette-input");
+			if (!field) return;
+			field.value = query;
+			field.dispatchEvent(new Event("input", { bubbles: true }));
+		});
+
+		// Arriving on /svar/?q=… (a shared link, or the back button) lands filtered.
+		const initial = new URLSearchParams(location.search).get("q");
+		if (initial) {
+			input.value = initial;
+			apply(initial);
+		}
+	}
+
 	// Progressive enhancement: highlight the category chip whose section is in view.
 	// Plain anchors already work without this (jump + scroll-margin handle landing).
 	function bindSvarNav() {
@@ -111,12 +281,103 @@ const description =
 		for (const s of sections) obs.observe(s);
 	}
 
-	document.addEventListener("astro:page-load", bindSvarNav);
+	document.addEventListener("astro:page-load", () => {
+		bindSvarSearch();
+		bindSvarNav();
+	});
 </script>
 
 <style>
 	.svar-index {
 		margin-block: var(--space-phi);
+	}
+
+	/* A hairline under a line of type, like the palette's own field. Held to the
+	   reading measure, not the full canvas. */
+	.svar-search {
+		display: flex;
+		align-items: center;
+		gap: 0.6rem;
+		max-width: var(--content-width);
+		margin: 0 0 0.4rem;
+		padding-bottom: 0.5rem;
+		border-bottom: 1px solid var(--color-divider);
+		transition: border-color 0.15s;
+	}
+
+	.svar-search:focus-within {
+		border-bottom-color: var(--color-warm);
+	}
+
+	.svar-search-icon {
+		flex-shrink: 0;
+		color: var(--color-muted);
+	}
+
+	.svar-search-input {
+		flex: 1;
+		min-width: 0;
+		font-family: var(--font-heading);
+		font-size: var(--step-0);
+		color: var(--color-text);
+		background: transparent;
+		border: none;
+		/* The input itself is the tap target — the icon beside it is decorative and
+	   the hairline is the form's, not the field's. Keep it thumb-sized. */
+		min-height: 2.75rem;
+		padding: 0;
+		outline: none;
+	}
+
+	.svar-search-input::placeholder {
+		color: var(--color-muted);
+	}
+
+	/* The UA's grey ✕ ignores the page's colour; "Rensa" replaces it. */
+	.svar-search-input::-webkit-search-cancel-button {
+		-webkit-appearance: none;
+	}
+
+	.svar-search-clear {
+		flex-shrink: 0;
+		border: none;
+		background: transparent;
+		color: var(--color-muted);
+		cursor: pointer;
+		/* Padded past the 24px WCAG 2.5.8 target from a ~14px label. */
+		padding: 0.35rem 0.5rem;
+		margin-right: -0.5rem;
+
+		&:hover { color: var(--color-accent); }
+		&:focus-visible { border-radius: var(--radius-xs); }
+	}
+
+	/* Reserves its line so nothing below shifts as the reader types. */
+	.svar-search-status {
+		min-height: 1.2em;
+		margin: 0 0 var(--space-half);
+	}
+
+	.svar-empty {
+		font-family: var(--font-body);
+		font-size: var(--step--1);
+		color: var(--color-muted);
+		margin: var(--space-unit) 0 0;
+	}
+
+	.svar-empty-all {
+		font: inherit;
+		color: var(--color-accent);
+		background: transparent;
+		border: none;
+		padding: 0.35rem 0;
+		margin-left: 0.4rem;
+		cursor: pointer;
+		text-decoration: underline;
+		text-decoration-thickness: 1px;
+		text-underline-offset: 0.15em;
+
+		&:focus-visible { border-radius: var(--radius-xs); }
 	}
 
 	/* Category jump-nav: a wrapping pill row (no horizontal scroll), borrowed from

@@ -15,28 +15,28 @@ export const PLAY_STORE_URL = `https://play.google.com/store/apps/details?id=${P
  *  sectarian framing). Rendered as the feature list on the /app page. */
 export const APP_FEATURES = [
 	{
-		term: "Exakta bönetider",
-		gloss: "Tider för dygnets fem böner, beräknade på din enhet och justerbara efter din moské.",
+		term: "Bönetider för din ort",
+		gloss: "Dygnets fem böner, ställda efter den metod din moské följer.",
 	},
 	{
-		term: "Solur över Sverige",
+		term: "Solens gång över landet",
 		gloss:
-			"Solens båge över landet visar var på dygnet du är och hur långt det är kvar till nästa bön.",
+			"En karta där ljuset vandrar över Sverige och visar hur långt det är kvar till nästa bön.",
 	},
 	{
-		term: "Qibla mot Mecka",
-		gloss: "En tydlig kompass mot Kaba, rättad för platsen där du står.",
+		term: "Qiblan",
+		gloss: "En kompass mot Kaba, räknad för platsen där du står.",
 	},
 	{
-		term: "Påminnelser och widget",
-		gloss: "En stillsam avisering före bön, och nästa bön på hem- och låsskärmen.",
+		term: "Påminnelse före bön",
+		gloss: "En avisering när det närmar sig, och nästa bön på hem- och låsskärmen.",
 	},
 	{
-		term: "Privat som standard",
-		gloss: "Ingen inloggning, ingen spårning, ingen reklam. Din plats stannar på enheten.",
+		term: "Ingen spårning",
+		gloss: "Inget konto, inga annonser. Orten du väljer stannar i telefonen.",
 	},
 ] as const;
 
-/** One-line value proposition. Swedish house style: no em dash. */
+/** One line, shown under the heading everywhere the app is mentioned. No em dash. */
 export const APP_TAGLINE =
-	"Bönetider för hela Sverige, beräknade på din enhet och ritade med solens vandring över landet.";
+	"Bönetider för hela Sverige, uträknade i telefonen och ritade efter solens gång över landet.";

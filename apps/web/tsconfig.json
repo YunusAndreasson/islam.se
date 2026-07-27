@@ -1,3 +1,7 @@
 {
-	"extends": "astro/tsconfigs/strict"
+	"extends": "astro/tsconfigs/strict",
+	// `dist` is excluded by the base config; `dist-check` (the local verification build)
+	// is not, so a leftover one fails `pnpm check` on its own minified output. Biome
+	// already skips both — keep the two lists in step.
+	"exclude": ["dist", "dist-check", "node_modules"]
 }

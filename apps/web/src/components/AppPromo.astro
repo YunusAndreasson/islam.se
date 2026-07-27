@@ -15,10 +15,10 @@ const showHeading = variant !== "compact";
 ---
 
 <aside class:list={["apppromo", `apppromo--${variant}`]} data-platform="other" aria-label="Ladda ned islam.se-appen">
-	{variant === "section" && <p class="label apppromo-kicker">Appen</p>}
+	{/* No kicker: it said "Appen" above a heading that now says "Bönetidsappen". */}
 	<div class="apppromo-body">
 		<div class="apppromo-text">
-			{showHeading && <h2 class="apppromo-heading">Bönetider i fickan</h2>}
+			{showHeading && <h2 class="apppromo-heading">Bönetidsappen</h2>}
 			{variant === "compact" ? (
 				<p class="apppromo-lead"><strong>islam.se i mobilen.</strong> {APP_TAGLINE}</p>
 			) : (
@@ -36,11 +36,11 @@ const showHeading = variant !== "compact";
 			)}
 		</div>
 		<div class="apppromo-badges">
+			{/* Black badge in both themes. Apple: use the black badge whenever another
+			    platform's badge sits alongside — and Google forbids recolouring theirs,
+			    so white here would never have a match. The grey border is in the art. */}
 			<a class="apppromo-badge apppromo-badge--ios" href={APP_STORE_URL} aria-label="Ladda ned islam.se på App Store">
-				<picture>
-					<source media="(prefers-color-scheme: dark)" srcset="/badge-appstore-sv-dark.svg" />
-					<img src="/badge-appstore-sv.svg" alt="" width="120" height="40" loading="lazy" decoding="async" />
-				</picture>
+				<img src="/badge-appstore-sv.svg" alt="" width="120" height="40" loading="lazy" decoding="async" />
 			</a>
 			<a class="apppromo-badge apppromo-badge--android" href={PLAY_STORE_URL} aria-label="Ladda ned islam.se på Google Play">
 				<img src="/badge-googleplay-sv.png" alt="" width="646" height="250" loading="lazy" decoding="async" />
@@ -186,7 +186,6 @@ const showHeading = variant !== "compact";
 	}
 
 	.apppromo-badge:focus-visible {
-		outline: 2px solid var(--color-accent);
 		outline-offset: 3px;
 	}
 
@@ -214,7 +213,7 @@ const showHeading = variant !== "compact";
 	.apppromo--compact {
 		margin-top: var(--space-unit);
 		padding-top: var(--space-unit);
-		border-top: 1px solid var(--color-divider);
+		border-top: 1px solid var(--color-rule);
 	}
 
 	.apppromo--compact .apppromo-lead {

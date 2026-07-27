@@ -128,30 +128,78 @@ function sunRisesAndSets(latDeg: number, declDeg: number): boolean {
 	return !(midnightSun || polarNight);
 }
 
+/** One latitude row of the lattice. Split out so the async builder can yield between rows. */
+function gridRow(
+	lat: number,
+	lons: readonly number[],
+	date: Date,
+	settings: PrayerSettings,
+	declDeg: number,
+): PointTimes[] {
+	// Latitude alone decides this, so it is settled once per row rather than per cell.
+	const solarDay = sunRisesAndSets(lat, declDeg);
+	return lons.map((lon) => {
+		const p = computePrayerTimes({ latitude: lat, longitude: lon }, date, settings);
+		// Dhuhr and Asr survive the polar rows: the sun still culminates even when it
+		// never sets, so those two remain real events with real loci.
+		return {
+			fajr: solarDay ? ms(p.fajr) : Number.NaN,
+			sunrise: solarDay ? ms(p.sunrise) : Number.NaN,
+			dhuhr: ms(p.dhuhr),
+			asr: ms(p.asr),
+			maghrib: solarDay ? ms(p.maghrib) : Number.NaN,
+			isha: solarDay ? ms(p.isha) : Number.NaN,
+			sunset: solarDay ? ms(p.sunset) : Number.NaN,
+		};
+	});
+}
+
+function gridAxes(opts: GridOptions) {
+	const [w, s, e, n] = opts.bounds ?? DEFAULT_GRID_BOUNDS;
+	return {
+		lats: axis(s, n, opts.latStep ?? DEFAULT_LAT_STEP),
+		lons: axis(w, e, opts.lonStep ?? DEFAULT_LON_STEP),
+	};
+}
+
 /** Build the cached prayer-time lattice. Location-independent: it covers the whole map. */
 export function buildGrid(date: Date, settings: PrayerSettings, opts: GridOptions = {}): SolarGrid {
-	const [w, s, e, n] = opts.bounds ?? DEFAULT_GRID_BOUNDS;
-	const lats = axis(s, n, opts.latStep ?? DEFAULT_LAT_STEP);
-	const lons = axis(w, e, opts.lonStep ?? DEFAULT_LON_STEP);
+	const { lats, lons } = gridAxes(opts);
 	const declDeg = (solarParams(date).declRad * 180) / Math.PI;
-	const pt = lats.map((lat) => {
-		// Latitude alone decides this, so it is settled once per row rather than per cell.
-		const solarDay = sunRisesAndSets(lat, declDeg);
-		return lons.map((lon) => {
-			const p = computePrayerTimes({ latitude: lat, longitude: lon }, date, settings);
-			// Dhuhr and Asr survive the polar rows: the sun still culminates even when it
-			// never sets, so those two remain real events with real loci.
-			return {
-				fajr: solarDay ? ms(p.fajr) : Number.NaN,
-				sunrise: solarDay ? ms(p.sunrise) : Number.NaN,
-				dhuhr: ms(p.dhuhr),
-				asr: ms(p.asr),
-				maghrib: solarDay ? ms(p.maghrib) : Number.NaN,
-				isha: solarDay ? ms(p.isha) : Number.NaN,
-				sunset: solarDay ? ms(p.sunset) : Number.NaN,
-			};
-		});
-	});
+	return { lats, lons, pt: lats.map((lat) => gridRow(lat, lons, date, settings, declDeg)) };
+}
+
+/** Yield the main thread between row batches so the build never becomes a long task. */
+const yieldToMain = (): Promise<void> =>
+	"scheduler" in globalThis &&
+	typeof (globalThis.scheduler as { yield?: () => Promise<void> })?.yield === "function"
+		? (globalThis.scheduler as { yield: () => Promise<void> }).yield()
+		: new Promise((r) => setTimeout(r, 0));
+
+/** The same lattice, built in slices.
+ *
+ *  ⚠️ The `full` variant is 56 × 64 = 3 584 cells and each one runs a complete adhan
+ *  solve, which measured as ONE 690 ms main-thread task — the page froze for two
+ *  thirds of a second on all 2 118 city pages.
+ *
+ *  ⚠️ Size this against a THROTTLED row, not a desktop one. A row is ~12 ms here but
+ *  ~49 ms on the 4×-slowed CPU that Lighthouse mobile (and a mid-range phone) models,
+ *  so one row per slice is already at the 50 ms long-task threshold. Batching four —
+ *  which looks harmless on a desktop — put it back to ~190 ms per slice. */
+const ROWS_PER_SLICE = 1;
+
+export async function buildGridAsync(
+	date: Date,
+	settings: PrayerSettings,
+	opts: GridOptions = {},
+): Promise<SolarGrid> {
+	const { lats, lons } = gridAxes(opts);
+	const declDeg = (solarParams(date).declRad * 180) / Math.PI;
+	const pt: PointTimes[][] = [];
+	for (const [i, lat] of lats.entries()) {
+		pt.push(gridRow(lat, lons, date, settings, declDeg));
+		if (i % ROWS_PER_SLICE === ROWS_PER_SLICE - 1 && i < lats.length - 1) await yieldToMain();
+	}
 	return { lats, lons, pt };
 }
 

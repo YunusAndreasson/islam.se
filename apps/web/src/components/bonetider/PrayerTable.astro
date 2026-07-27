@@ -89,7 +89,7 @@ const rows = Array.from({ length: daysInMonth }, (_, i) => {
 	.bt-scroll {
 		overflow-x: auto;
 		border: 1px solid var(--color-divider);
-		border-radius: 10px;
+		border-radius: var(--radius-md);
 	}
 
 	.bt-table {
@@ -105,6 +105,16 @@ const rows = Array.from({ length: daysInMonth }, (_, i) => {
 		padding: 0.4rem 0.6rem;
 		text-align: end;
 		white-space: nowrap;
+	}
+
+	/* Seven columns at 0.6rem inline padding measure ~398px and push ʿIshāʾ — the
+	   day's last prayer — off a 390px phone. .bt-scroll still catches anything
+	   narrower. */
+	@media (width <= 30rem) {
+		.bt-table th,
+		.bt-table td {
+			padding-inline: 0.3rem;
+		}
 	}
 
 	.bt-table thead th {
