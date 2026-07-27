@@ -82,7 +82,7 @@ interface ClaudeRunResult {
 }
 
 async function runClaude(options: ClaudeRunOptions): Promise<ClaudeRunResult> {
-	const args = ["--print", "--model", options.model ?? "claude-opus-4-8"];
+	const args = ["--print", "--model", options.model ?? "claude-opus-5"];
 
 	if (options.effort) {
 		args.push("--effort", options.effort);
@@ -349,7 +349,7 @@ type BookSummary = z.infer<typeof BookSummarySchema>;
 // backfill makes. (Low effort only stays reliable because the literary-analyst
 // system prompt frames the JSON request as legitimate; a bare prompt can trip
 // the CLI's prompt-injection guard.)
-const SUMMARY_MODEL = "claude-sonnet-4-6";
+const SUMMARY_MODEL = "claude-sonnet-5";
 const SUMMARY_EFFORT = "low" as const;
 
 /**

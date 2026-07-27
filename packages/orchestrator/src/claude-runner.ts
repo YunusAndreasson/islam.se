@@ -23,7 +23,7 @@ export interface ClaudeRunOptions {
 	/** JSON schema for built-in output validation (uses --json-schema flag) */
 	jsonSchema?: object;
 	/** Model to use */
-	model: "claude-opus-4-8" | "claude-sonnet-4-6";
+	model: "claude-opus-5" | "claude-sonnet-5";
 	/** Effort level for adaptive thinking */
 	effort?: "low" | "medium" | "high" | "xhigh" | "max";
 	/** Maximum budget in USD for this stage (uses --max-budget-usd flag) */
@@ -52,6 +52,23 @@ interface ClaudeRunResult {
 	exitCode?: number;
 }
 
+/** Strips ANTHROPIC_API_KEY so the CLI authenticates with the logged-in Claude Code
+ *  subscription rather than billed per-token API calls. */
+function subscriptionEnv(): NodeJS.ProcessEnv {
+	const { ANTHROPIC_API_KEY: _omitApiKey, ...rest } = process.env;
+	return rest;
+}
+
+/** Writes the prompt to stdin. The child can exit before stdin drains (bad flag,
+ *  auth failure); an unhandled EPIPE on the stream would crash the whole run. */
+function writeStdin(child: ReturnType<typeof spawn>, content: string): void {
+	child.stdin?.on("error", () => {
+		// Swallowed: the close handler reports the real failure.
+	});
+	child.stdin?.write(content);
+	child.stdin?.end();
+}
+
 export class ClaudeRunner extends EventEmitter {
 	/**
 	 * Execute a headless Claude session.
@@ -76,7 +93,7 @@ export class ClaudeRunner extends EventEmitter {
 		return new Promise((resolve) => {
 			const child = spawn("claude", args, {
 				stdio: ["pipe", "pipe", "pipe"],
-				env: process.env,
+				env: subscriptionEnv(),
 				cwd: tmpdir(),
 			});
 
@@ -85,8 +102,7 @@ export class ClaudeRunner extends EventEmitter {
 			let timedOut = false;
 
 			// Write prompt via stdin (handles Arabic/non-ASCII safely)
-			child.stdin.write(stdinContent);
-			child.stdin.end();
+			writeStdin(child, stdinContent);
 
 			// Subprocess timeout
 			const timer = setTimeout(() => {
@@ -156,15 +172,14 @@ export class ClaudeRunner extends EventEmitter {
 		return new Promise((resolve) => {
 			const child = spawn("claude", args, {
 				stdio: ["pipe", "pipe", "pipe"],
-				env: process.env,
+				env: subscriptionEnv(),
 				cwd: tmpdir(),
 			});
 
 			let timedOut = false;
 
 			// Write prompt via stdin
-			child.stdin.write(stdinContent);
-			child.stdin.end();
+			writeStdin(child, stdinContent);
 
 			// Subprocess timeout
 			const timer = setTimeout(() => {
@@ -438,6 +453,10 @@ export class ClaudeRunner extends EventEmitter {
 
 		// Enable print mode (non-interactive)
 		args.push("--print");
+
+		// Moves cwd/env/git-status out of the system prompt so the cached prefix is
+		// identical across runs. Silently ignored if --system-prompt is ever used here.
+		args.push("--exclude-dynamic-system-prompt-sections");
 
 		// Model
 		args.push("--model", options.model);
