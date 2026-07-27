@@ -125,13 +125,13 @@ if (article.heroImage) {
 		<nav class="article-nav" aria-label="Nyare och äldre essä">
 			{prev && (
 				<a href={`/${prev.slug}`} rel="prev">
-					<span class="label nav-label">← Nyare</span>
+					<span class="label nav-label back-link">Nyare</span>
 					{prev.title}
 				</a>
 			)}
 			{next && (
 				<a href={`/${next.slug}`} rel="next">
-					<span class="label nav-label">Äldre →</span>
+					<span class="label nav-label arrow-link">Äldre</span>
 					{next.title}
 				</a>
 			)}
@@ -166,8 +166,6 @@ if (article.heroImage) {
 		}
 
 		&:focus-visible {
-			outline: 2px solid var(--color-accent);
-			outline-offset: 2px;
 			border-radius: var(--radius-xs);
 		}
 	}
@@ -241,11 +239,6 @@ if (article.heroImage) {
 	.resume-pill:hover {
 		border-color: var(--color-warm);
 		color: var(--color-text);
-	}
-
-	.resume-pill:focus-visible {
-		outline: 2px solid var(--color-accent);
-		outline-offset: 2px;
 	}
 
 	@media (prefers-reduced-motion: reduce) {
@@ -416,17 +409,19 @@ if (article.heroImage) {
 		// Hover: show on mouseenter, hide on mouseleave (with grace period)
 		document.addEventListener("mouseenter", (e) => {
 			if (isTouch) return;
+			// closest?. — these are bound to document, so e.target is the document
+			// itself when the pointer crosses the page boundary.
 			const target = e.target as HTMLElement;
-			const ref = target.closest<HTMLAnchorElement>("a[data-footnote-ref]");
+			const ref = target.closest?.<HTMLAnchorElement>("a[data-footnote-ref]");
 			if (ref) { showPopover(ref); return; }
-			const hon = target.closest<HTMLElement>(".honorific");
+			const hon = target.closest?.<HTMLElement>(".honorific");
 			if (hon) showHonorificPopover(hon);
 		}, { capture: true, signal: ctrl.signal });
 
 		document.addEventListener("mouseleave", (e) => {
 			if (isTouch) return;
 			const target = e.target as HTMLElement;
-			if (target.closest("a[data-footnote-ref]") || target.closest(".honorific")) scheduleDismiss();
+			if (target.closest?.("a[data-footnote-ref]") || target.closest?.(".honorific")) scheduleDismiss();
 		}, { capture: true, signal: ctrl.signal });
 
 		// Keep popover visible while hovering over it

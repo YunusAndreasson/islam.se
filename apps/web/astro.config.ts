@@ -517,7 +517,11 @@ export default defineConfig({
 	site: "https://islam.se",
 	output: "static",
 	prefetch: { defaultStrategy: "hover" },
-	build: { inlineStylesheets: "always" },
+	// concurrency: measured 102 s -> 86 s on this 8-core box. Do NOT raise it to 8 —
+	// page rendering is CPU-bound and single-threaded, so 8 measured SLOWER (98 s) than
+	// 4 through contention. inlineStylesheets stays "always": it costs ~5 s of build and
+	// buys the render-blocking-request-free FCP the Lighthouse pass depends on.
+	build: { inlineStylesheets: "always", concurrency: 4 },
 	// Astro 7 defaults this to "warn". Nearly every route here is generated from a DERIVED
 	// slug — ~2100 bonetider/[stad] pages plus moskeer/[stad] and moskeer/lan/[lan] — and a
 	// collision means one page silently overwrites another (we have already been bitten by
@@ -608,6 +612,14 @@ export default defineConfig({
 			// ascent/descent overrides), that swap costs almost no layout shift.
 			display: "swap",
 			options: {
+				// Split by unicode-range: the core carries Latin-1, typography, arrows and
+				// the exact transliteration pairs the corpus sets, so real pages fetch 141 kB
+				// instead of 227 kB and never touch -ext. -ext is the safety net — a glyph
+				// outside the core triggers a fetch, so this can never render tofu.
+				// Regenerate both with pyftsubset --flavor=woff2 --layout-features='*' after
+				// any font change; the ranges below are the --unicodes arguments.
+				// The core MUST keep U+2190-2192 — the ← and → in .back-link/.arrow-link
+				// exist only in CSS `content`, so no text scan will tell you they are needed.
 				variants: [
 					{
 						// Axis instanced to the weights actually used (300–700) — see the
@@ -615,7 +627,45 @@ export default defineConfig({
 						// assuming 200/800/900 masters that no longer exist in the file.
 						weight: "300 700",
 						style: "normal",
-						src: ["./src/assets/fonts/literata-roman.woff2"],
+						src: ["./src/assets/fonts/literata-roman-core.woff2"],
+						unicodeRange: [
+							"U+0000-00FF",
+							"U+2000-206F",
+							"U+2190-21FF",
+							"U+2300-231F",
+							"U+0100-0101",
+							"U+012A-012B",
+							"U+015E-0161",
+							"U+016A-016B",
+							"U+02BE-02BF",
+							"U+1E0C-1E0D",
+							"U+1E24-1E25",
+							"U+1E5A-1E5B",
+							"U+1E62-1E63",
+							"U+1E6C-1E6D",
+							"U+1E92-1E93",
+						],
+					},
+					{
+						weight: "300 700",
+						style: "normal",
+						src: ["./src/assets/fonts/literata-roman-ext.woff2"],
+						unicodeRange: [
+							"U+0102-0129",
+							"U+012C-015D",
+							"U+0162-0169",
+							"U+016C-02BD",
+							"U+02C0-1E0B",
+							"U+1E0E-1E23",
+							"U+1E26-1E59",
+							"U+1E5C-1E61",
+							"U+1E64-1E6B",
+							"U+1E6E-1E91",
+							"U+1E94-1FFF",
+							"U+2070-218F",
+							"U+2200-22FF",
+							"U+2320-FFFF",
+						],
 					},
 				],
 			},
@@ -649,11 +699,50 @@ export default defineConfig({
 			// See the --font-body entry above for why "optional" was reverted here too.
 			display: "swap",
 			options: {
+				// Same core/ext split as --font-body; see the note there.
 				variants: [
 					{
 						weight: "300 700",
 						style: "normal",
-						src: ["./src/assets/fonts/source-sans-3-roman.woff2"],
+						src: ["./src/assets/fonts/source-sans-3-roman-core.woff2"],
+						unicodeRange: [
+							"U+0000-00FF",
+							"U+2000-206F",
+							"U+2190-21FF",
+							"U+2300-231F",
+							"U+0100-0101",
+							"U+012A-012B",
+							"U+015E-0161",
+							"U+016A-016B",
+							"U+02BE-02BF",
+							"U+1E0C-1E0D",
+							"U+1E24-1E25",
+							"U+1E5A-1E5B",
+							"U+1E62-1E63",
+							"U+1E6C-1E6D",
+							"U+1E92-1E93",
+						],
+					},
+					{
+						weight: "300 700",
+						style: "normal",
+						src: ["./src/assets/fonts/source-sans-3-roman-ext.woff2"],
+						unicodeRange: [
+							"U+0102-0129",
+							"U+012C-015D",
+							"U+0162-0169",
+							"U+016C-02BD",
+							"U+02C0-1E0B",
+							"U+1E0E-1E23",
+							"U+1E26-1E59",
+							"U+1E5C-1E61",
+							"U+1E64-1E6B",
+							"U+1E6E-1E91",
+							"U+1E94-1FFF",
+							"U+2070-218F",
+							"U+2200-22FF",
+							"U+2320-FFFF",
+						],
 					},
 				],
 			},

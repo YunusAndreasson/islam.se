@@ -13,9 +13,12 @@ export async function getStaticPaths() {
 	}));
 }
 
-export const GET = ogEndpoint<{ title: string; framing: string; tradition: string }>((p) => ({
-	kicker:
-		p.tradition === "sunni" ? "Tänkare — klassisk islamisk tradition" : "Tänkare — svensk röst",
-	title: p.title,
-	framing: p.framing,
-}));
+export const GET = ogEndpoint<{ title: string; framing: string; tradition: string }>(
+	(p) => ({
+		kicker:
+			p.tradition === "sunni" ? "Tänkare — klassisk islamisk tradition" : "Tänkare — svensk röst",
+		title: p.title,
+		framing: p.framing,
+	}),
+	(p) => `tankare|${p.tradition}|${p.title}|${p.framing}`,
+);

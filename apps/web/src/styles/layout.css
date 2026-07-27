@@ -51,10 +51,30 @@
 		color: var(--color-muted);
 	}
 
+	/* The "go on from here" link that closes a section: "Alla orter", "Hela arkivet".
+   Pair with .arrow-link or .back-link. Sets no margins — placement stays with the
+   page that uses it. */
+	.section-link {
+		/* Padding + matching negative margin: the ~20px line box would miss the 24px
+	   WCAG 2.5.8 target floor, and the negative margin gives the space back. */
+		display: inline-block;
+		padding-block: 0.3rem;
+		margin-block: -0.3rem;
+		font-family: var(--font-heading);
+		font-size: var(--step--2);
+		font-weight: 500;
+		color: var(--color-accent);
+		text-decoration: none;
+	}
+
+	.section-link:hover {
+		text-decoration: underline;
+		text-underline-offset: 0.15em;
+	}
+
 	/* Arrow link — a heading/label link that grows a → on hover. The arrow inherits
    the link's colour; links that want a quieter arrow than their text set their own
-   ::after colour. Used by the section links, the ämne overflow link, the daily
-   verse links, and the archive link. */
+   ::after colour. Add the class; never type a literal → into the link text. */
 	.arrow-link::after {
 		/* The gap is a margin, not a leading space in `content`: `display:inline-block`
 	   makes the pseudo-element its own block container, and a space at the start of
@@ -67,19 +87,48 @@
 	}
 
 	.arrow-link:hover::after,
-	.arrow-link:focus-visible::after {
+	.arrow-link:focus-visible::after,
+	/* The label is often a span INSIDE the anchor (prev/next nav) and never sees
+	   :hover itself — propagate from the enclosing link. */
+	a:hover .arrow-link::after,
+	a:focus-visible .arrow-link::after {
 		translate: 0.2em 0;
 	}
 
-	/* Focus ring — the single keyboard-focus outline for any directly-focusable
-   element that carries a class (cards, list links, controls). Colour/width/radius
-   are constant; only the offset varies, set per use via --focus-offset. The older
-   scoped `… a:focus-visible` descendant rules elsewhere predate this primitive and
-   are left as the author tuned them. */
-	.focus-ring:focus-visible {
+	/* Mirrored .arrow-link: ← leads instead of trailing, and slides the other way. */
+	.back-link::before {
+		content: "←";
+		display: inline-block;
+		margin-inline-end: 0.3em;
+		transition: translate 0.2s ease;
+	}
+
+	.back-link:hover::before,
+	.back-link:focus-visible::before,
+	a:hover .back-link::before,
+	a:focus-visible .back-link::before {
+		translate: -0.2em 0;
+	}
+
+	/* The site-wide keyboard focus ring — no class needed. Push it out from a card
+   or padded control with `--focus-offset` on that element's own rule.
+
+   `:where()` keeps specificity at 0, so a later layer or any scoped Astro rule
+   still overrides — which is also what keeps the border-radius here from
+   flattening an element that declares a shape of its own.
+
+   `.field` marks a composite control (icon + input in a wrapper) whose ring
+   belongs on the wrapper, not the bare input. `:has(:focus-visible)`, NOT
+   `:focus-within` — the latter would draw a ring on mouse click too.
+
+   Do NOT put it on a field that is autofocused as the only control in a modal
+   (the ⌘K palette): focus never moves, so the ring never goes away and reads as
+   a box drawn round the input rather than as an affordance. */
+	:where(a, button, summary, input, select, textarea, [tabindex]):focus-visible,
+	:where(.field:has(:focus-visible)) {
 		outline: 2px solid var(--color-accent);
 		outline-offset: var(--focus-offset, 2px);
-		border-radius: 2px;
+		border-radius: var(--radius-xs);
 	}
 
 	/* Skip link — visible only on keyboard focus */
@@ -188,10 +237,8 @@
 		color: var(--color-accent);
 	}
 
-	.home-head-all:focus-visible {
-		outline: 2px solid var(--color-accent);
-		outline-offset: 3px;
-		border-radius: 2px;
+	.home-head-all {
+		--focus-offset: 3px;
 	}
 
 	/* Movement label — the kicker that names a section in the site voice. A small
@@ -238,7 +285,7 @@
 		overflow: hidden;
 		/* Soft, modern corners — no longer a hard rectangular cut, but restrained
 	   enough to stay in the strict editorial voice. */
-		border-radius: 10px;
+		border-radius: var(--radius-md);
 		/* Warm undertone while a lazy image decodes — the frame arrives seated in
 	   the palette instead of popping from blank page background. Invisible once
 	   the opaque cover image paints. */
@@ -300,7 +347,7 @@
 		z-index: 1;
 		pointer-events: none;
 		border-radius: inherit;
-		box-shadow: inset 0 0 26px -4px rgb(var(--hero-black) / 0.2);
+		box-shadow: inset 0 0 var(--frame-vignette, 26px) -4px rgb(var(--hero-black) / 0.2);
 		opacity: 1;
 		transition: opacity 0.6s cubic-bezier(0.2, 0, 0.1, 1);
 	}
@@ -317,6 +364,14 @@
 	a:hover .media-frame::before,
 	a:focus-visible .media-frame::before {
 		opacity: 0.3;
+	}
+
+	/* Thumbnail scale. The vignette blur and corner are absolute lengths tuned for a
+	   reading-width crop; on a ~6rem list thumb a 26px inset covers half the picture
+	   from every edge and reads as a heavy border, not an edge melt. */
+	.media-frame--sm {
+		--frame-vignette: 7px;
+		border-radius: var(--radius-sm);
 	}
 
 	/* Every framed image fills its frame and is cropped uniformly — each module sets
@@ -390,6 +445,12 @@
 		gap: 0.25em;
 		letter-spacing: 0.08em;
 		font-weight: 600;
+	}
+
+	@media (hover: none), (pointer: coarse) {
+		.site-home {
+			min-height: 2.75rem;
+		}
 	}
 
 	.site-tld {
@@ -494,8 +555,7 @@
 	}
 
 	.mast-prayer:focus-visible {
-		outline: 2px solid var(--color-accent);
-		outline-offset: 3px;
+		--focus-offset: 3px;
 		border-radius: 4px;
 	}
 
@@ -593,11 +653,6 @@
 			color: var(--color-accent);
 			border-color: color-mix(in srgb, var(--color-warm) 55%, var(--color-divider));
 		}
-
-		&:focus-visible {
-			outline: 2px solid var(--color-accent);
-			outline-offset: 2px;
-		}
 	}
 
 	.search-trigger-icon {
@@ -632,11 +687,6 @@
 		&:hover {
 			color: var(--color-accent);
 			border-color: color-mix(in srgb, var(--color-warm) 55%, var(--color-divider));
-		}
-
-		&:focus-visible {
-			outline: 2px solid var(--color-accent);
-			outline-offset: 2px;
 		}
 	}
 
@@ -701,13 +751,23 @@
 			min-height: 2.75rem;
 			padding-inline: 0.85rem;
 		}
+
+		/* The pill grows to 2.75rem here, so the two controls beside it have to
+	   follow or the mast stops being one row of equal thumb targets. */
+		.theme-toggle {
+			inline-size: 2.75rem;
+			block-size: 2.75rem;
+		}
+
+		.mast-prayer {
+			min-height: 2.75rem;
+		}
 	}
 
 	/* ============================================================
    Site footer — global, site-wide chrome (rendered from Base on every page).
-   Two tiers: a quiet navigation row (the crawlable sitemap, kept lighter than the
-   masthead), then the colophon (quieter still), set apart by space rather than a
-   rule so it never reads as a packed block.
+   A quiet navigation row then the colophon. ONE row of links is the design —
+   if the list outgrows a line, cut it rather than let it wrap.
    ============================================================ */
 	.site-footer {
 		max-width: var(--home-width);
@@ -715,7 +775,7 @@
 		padding-block: var(--space-phi) var(--space-phi2);
 		padding-left: var(--safe-left);
 		padding-right: var(--safe-right);
-		border-top: 1px solid var(--color-divider);
+		border-top: 1px solid var(--color-rule);
 		text-align: center;
 	}
 
@@ -751,13 +811,26 @@
 		padding: 0.2rem 0.5rem;
 	}
 
+	/* min-height rather than padding: the box grows to a thumb target while the
+   centred label stays where it sits, so the footer's rhythm is unchanged. */
+	@media (hover: none), (pointer: coarse) {
+		.site-footer-nav {
+			row-gap: 0.5rem;
+		}
+
+		.site-footer-nav a {
+			min-height: 2.75rem;
+		}
+	}
+
 	.site-footer-nav a:hover,
 	.site-footer-nav a[aria-current] {
 		color: var(--color-accent);
 	}
 
+	/* Deliberately smaller than the footer's top padding — unequal spacing groups. */
 	.site-footer-colophon {
-		margin-top: var(--space-phi);
+		margin-top: var(--space-unit);
 	}
 
 	.site-footer-names {
@@ -790,11 +863,6 @@
 
 	.site-footer-colophon a:hover {
 		color: var(--color-accent);
-	}
-
-	.site-footer a:focus-visible {
-		outline: 2px solid var(--color-accent);
-		outline-offset: 2px;
 	}
 
 	/* Pressed feedback — touch has no hover, so a tap must answer immediately.
@@ -883,8 +951,9 @@
 
 	.back-to-top,
 	.share-btn {
+		/* No hand-written -webkit- twin — Lightning CSS drops the standard property
+	   when both are present. See the same note in essaer.astro. */
 		backdrop-filter: blur(12px);
-		-webkit-backdrop-filter: blur(12px);
 	}
 
 	.share-btn {
@@ -922,6 +991,19 @@
 		}
 	}
 
+	/* Must stay after both rules above: a media query adds no specificity, so the
+   .back-to-top override of --btn-size would otherwise win. */
+	@media (hover: none), (pointer: coarse) {
+		.back-to-top {
+			--btn-size: 2.75rem;
+		}
+
+		.share-btn {
+			min-height: 2.75rem;
+			padding-inline: 1rem;
+		}
+	}
+
 	/* ============================================================
    Collection pages (ämne / tråd / tänkare) — inherit the essay
    header rhythm; a kicker names the kind, a lead frames the set.
@@ -939,34 +1021,10 @@
 		margin: 0;
 	}
 
+	/* Placement only — the link inside is a `.section-link .arrow-link`. */
 	.collection-back {
 		margin-top: var(--space-unit);
 		margin-bottom: var(--space-phi2);
-		font-family: var(--font-heading);
-		font-size: var(--step--2);
-	}
-
-	.collection-back a {
-		/* inline-block + padding so the "back to the archive" link on every
-	   collection page clears the 24px target floor; it was 17px tall. The
-	   negative margin keeps it optically flush with the column edge. */
-		display: inline-block;
-		padding: 0.4rem 0.5rem;
-		margin-inline-start: -0.5rem;
-		color: var(--color-accent);
-		text-decoration: none;
-		font-weight: 500;
-
-		&:hover {
-			text-decoration: underline;
-			text-underline-offset: 0.15em;
-		}
-
-		&:focus-visible {
-			outline: 2px solid var(--color-accent);
-			outline-offset: 2px;
-			border-radius: var(--radius-xs);
-		}
 	}
 
 	/* ============================================================
@@ -1182,7 +1240,9 @@
 	.filter-chip {
 		display: inline-block;
 		padding: 0.4rem 0.875rem;
-		border: 1px solid var(--color-divider);
+		/* --color-divider is a hairline for rules (1.28:1) and cannot carry a control
+	   boundary; --color-warm is the quietest token that clears WCAG 1.4.11's 3:1. */
+		border: 1px solid var(--color-warm);
 		border-radius: 1.25rem;
 		background: transparent;
 		color: var(--color-muted);
@@ -1195,12 +1255,47 @@
 	.filter-chip:hover,
 	.filter-chip[aria-pressed="true"],
 	.filter-chip[aria-current="true"] {
-		border-color: var(--color-warm);
+		border-color: var(--color-text);
 		color: var(--color-text);
 	}
-	.filter-chip:focus-visible {
-		outline: 2px solid var(--color-accent);
-		outline-offset: 2px;
+
+	@media (hover: none), (pointer: coarse) {
+		.filter-chip {
+			display: inline-flex;
+			align-items: center;
+			min-height: 2.75rem;
+		}
+	}
+
+	/* Ruled definition list — the "Vanliga frågor" Q/A blocks and the prayer
+   glossaries. Structure is `<dl class="def-list">` of `<div class="def-item">`
+   wrapping each `<dt>`/`<dd>` pair; the row rule hangs off `.def-item`, so a bare
+   `<div>` loses it. Colours follow the ramp in tokens.css — the term is a heading
+   (--color-text), the explanation is prose (--text-body), never --color-muted.
+   No top margin: the heading above owns that gap. Section framing stays with the
+   page. */
+	.def-list {
+		margin: 0;
+		max-width: var(--content-width);
+	}
+	.def-item {
+		padding: var(--space-half) 0;
+		border-bottom: 1px solid var(--color-divider);
+	}
+	.def-list dt {
+		font-family: var(--font-heading);
+		font-weight: 600;
+		color: var(--color-text);
+		margin-bottom: 0.3rem;
+	}
+	.def-list dd {
+		margin: 0;
+		font-family: var(--font-body);
+		line-height: 1.6;
+		color: var(--text-body);
+	}
+	.def-list a {
+		color: var(--color-accent);
 	}
 
 	/* ============================================================
@@ -1327,7 +1422,7 @@
 	.md-standing {
 		margin: var(--space-unit) 0 0;
 		padding-top: var(--space-half);
-		border-top: 1px solid var(--color-divider);
+		border-top: 1px solid var(--color-rule);
 	}
 
 	@media (width <= 768px) {

@@ -12,7 +12,7 @@
 // structure (and now passes validation — the location field was the critical gap).
 import PageHead from "../components/PageHead.astro";
 import Base from "../layouts/Base.astro";
-import { breadcrumbList } from "../lib/jsonld";
+import { breadcrumbList, faqPageJsonLd } from "../lib/jsonld";
 import { type Markesdag, getUpcomingMarkesdagar, gregorian } from "../lib/markesdagar";
 
 const events = getUpcomingMarkesdagar();
@@ -92,20 +92,7 @@ const leadSummary =
 		? `Nästa Ramadan börjar omkring ${gregorian(ramadan.startISO)}, Eid al-fitr infaller omkring ${gregorian(eidFitr.startISO)} och Eid al-adha omkring ${gregorian(eidAdha.startISO)}. Datumen följer Umm al-Qura-kalendern; den exakta dagen bekräftas genom månsiktning.`
 		: "";
 
-const faqLd =
-	dateFaq.length > 0
-		? [
-				{
-					"@context": "https://schema.org",
-					"@type": "FAQPage",
-					mainEntity: dateFaq.map((f) => ({
-						"@type": "Question",
-						name: f.q,
-						acceptedAnswer: { "@type": "Answer", text: f.a },
-					})),
-				},
-			]
-		: [];
+const faqLd = dateFaq.length > 0 ? [faqPageJsonLd(dateFaq)] : [];
 ---
 
 <Base
@@ -167,9 +154,9 @@ const faqLd =
 		{dateFaq.length > 0 && (
 			<section class="md-faq" aria-labelledby="md-faq-head">
 				<h2 id="md-faq-head">Vanliga frågor</h2>
-				<dl>
+				<dl class="def-list">
 					{dateFaq.map((f) => (
-						<div class="md-faq-item">
+						<div class="def-item">
 							<dt>{f.q}</dt>
 							<dd>{f.a}</dd>
 						</div>
@@ -229,8 +216,6 @@ const faqLd =
 			}
 
 			&:focus-visible {
-				outline: 2px solid var(--color-accent);
-				outline-offset: 2px;
 				border-radius: var(--radius-xs);
 			}
 		}
@@ -280,39 +265,16 @@ const faqLd =
 	}
 
 	.md-faq {
-		max-width: 42rem;
+		max-width: var(--content-width);
 		margin-top: var(--space-unit);
 		padding-top: var(--space-half);
-		border-top: 1px solid var(--color-divider);
+		border-top: 1px solid var(--color-rule);
 	}
 
 	.md-faq h2 {
 		font-family: var(--font-heading);
 		font-size: var(--step-1);
 		margin: 0 0 var(--space-half);
-	}
-
-	.md-faq dl {
-		margin: 0;
-	}
-
-	.md-faq-item {
-		padding: var(--space-half) 0;
-		border-bottom: 1px solid var(--color-divider);
-	}
-
-	.md-faq-item dt {
-		font-family: var(--font-heading);
-		font-weight: 600;
-		color: var(--color-accent);
-		margin-bottom: 0.3rem;
-	}
-
-	.md-faq-item dd {
-		font-family: var(--font-body);
-		line-height: 1.55;
-		color: var(--color-muted);
-		margin: 0;
 	}
 
 </style>

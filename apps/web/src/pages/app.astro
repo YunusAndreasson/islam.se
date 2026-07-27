@@ -9,7 +9,7 @@ import { APP_FEATURES, APP_STORE_URL, PLAY_STORE_URL } from "../lib/app";
 import { ORG_ID, breadcrumbList } from "../lib/jsonld";
 
 const description =
-	"Hämta islam.se-appen för iPhone och Android: bönetider med påminnelser före varje bön, en widget på hemskärmen, qibla-kompass och tider även offline.";
+	"Hämta islam.se-appen för iPhone och Android: bönetider för hela Sverige, en påminnelse före varje bön, nästa bön på hemskärmen och en qiblakompass. Fungerar utan uppkoppling.";
 
 // The actual App Store screenshots (Swedish 6.7" set). Presented as plain phone
 // captures — no marketing banners — so they read as a quiet preview, not an ad.
@@ -26,8 +26,8 @@ const shots = [
 	},
 	{
 		src: appQibla,
-		caption: "Qibla mot Mecka",
-		alt: "islam.se-appen: en qibla-kompass som pekar mot Mecka, med riktning i grader och avstånd.",
+		caption: "Qiblan",
+		alt: "islam.se-appen: en qiblakompass som pekar mot Mecka, med riktning i grader och avstånd.",
 	},
 ];
 ---
@@ -73,9 +73,9 @@ const shots = [
 		<header class="app-header">
 			<h1>islam.se i mobilen</h1>
 			<p class="app-lead">
-				Bönetiderna du läser här, alltid i fickan: en diskret påminnelse före varje bön, en widget
-				på hemskärmen och qibla-kompass. Tiderna beräknas på enheten, så de fungerar även offline.
-				Gratis och utan annonser.
+				Samma tider som här på sajten, fast i telefonen: en påminnelse före varje bön, nästa bön
+				på hemskärmen och en kompass mot Mecka. Uträkningen sker i appen, så tiderna finns även
+				utan uppkoppling. Appen kostar ingenting och visar inga annonser.
 			</p>
 		</header>
 
@@ -145,6 +145,29 @@ const shots = [
 		box-shadow: 0 1.5rem 3rem -1.25rem rgb(0 0 0 / 0.35);
 	}
 
+	/* The captures are a dark map UI (rgb ~13–53) and the page behind them is
+	   #1d1912 — without their own edge they read as empty slots, not phones. */
+	@media (prefers-color-scheme: dark) {
+		.app-shot img {
+			border-color: var(--color-warm);
+			box-shadow:
+				0 0 0 0.4rem color-mix(in srgb, var(--color-text) 6%, transparent),
+				0 1.5rem 3rem -1.25rem rgb(0 0 0 / 0.6);
+		}
+	}
+
+	:root[data-theme="light"] .app-shot img {
+		border-color: var(--color-divider);
+		box-shadow: 0 1.5rem 3rem -1.25rem rgb(0 0 0 / 0.35);
+	}
+
+	:root[data-theme="dark"] .app-shot img {
+		border-color: var(--color-warm);
+		box-shadow:
+			0 0 0 0.4rem color-mix(in srgb, var(--color-text) 6%, transparent),
+			0 1.5rem 3rem -1.25rem rgb(0 0 0 / 0.6);
+	}
+
 	.app-shot figcaption {
 		margin-top: 0.85rem;
 		color: var(--color-muted);
@@ -187,7 +210,7 @@ const shots = [
 		max-width: var(--content-width);
 		margin: var(--space-phi) 0 0;
 		padding-top: var(--space-half);
-		border-top: 1px solid var(--color-divider);
+		border-top: 1px solid var(--color-rule);
 	}
 
 	.app-note a {

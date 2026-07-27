@@ -51,10 +51,10 @@ const western = thinkers.filter((t) => t.data.tradition === "western");
 		</PageHead>
 
 		<nav class="filter-row" aria-label="Filtrera och sortera">
-			<button class="filter-chip label" type="button" data-overlay="amnen">Ämnen</button>
-			<button class="filter-chip label" type="button" data-overlay="tradar">Trådar</button>
-			<button class="filter-chip label" type="button" data-overlay="tankare">Tänkare</button>
-			<button class="filter-chip label" type="button" data-overlay="langd">Längd</button>
+			<button class="filter-chip label" type="button" data-overlay="amnen" aria-haspopup="dialog" aria-expanded="false">Ämnen</button>
+			<button class="filter-chip label" type="button" data-overlay="tradar" aria-haspopup="dialog" aria-expanded="false">Trådar</button>
+			<button class="filter-chip label" type="button" data-overlay="tankare" aria-haspopup="dialog" aria-expanded="false">Tänkare</button>
+			<button class="filter-chip label" type="button" data-overlay="langd" aria-haspopup="dialog" aria-expanded="false">Längd</button>
 			<button class="filter-chip label" type="button" data-sort-toggle aria-pressed="false">Kronologiskt</button>
 		</nav>
 
@@ -216,7 +216,7 @@ const western = thinkers.filter((t) => t.data.tradition === "western");
 	.essay-section {
 		margin-top: var(--space-phi2);
 		padding-top: var(--space-phi);
-		border-top: 1px solid var(--color-divider);
+		border-top: 1px solid var(--color-rule);
 	}
 	.essay-section:first-of-type {
 		margin-top: var(--space-unit);
@@ -334,8 +334,11 @@ const western = thinkers.filter((t) => t.data.tradition === "western");
 		inset: 0;
 		z-index: 60;
 		background: color-mix(in srgb, var(--color-bg) 96%, transparent);
+		/* No hand-written -webkit- twin: Lightning CSS treats the pair as duplicates
+	   and keeps only the later one, so the standard property is dropped from the
+	   build — and current Chrome no longer honours -webkit-backdrop-filter. It
+	   adds the prefix itself where a target still needs it. */
 		backdrop-filter: blur(8px);
-		-webkit-backdrop-filter: blur(8px);
 		display: flex;
 		align-items: center;
 		justify-content: center;
@@ -355,10 +358,13 @@ const western = thinkers.filter((t) => t.data.tradition === "western");
 		position: absolute;
 		top: var(--safe-top);
 		right: var(--safe-right);
+		z-index: 1;
 		display: flex;
 		padding: 0.75rem;
 		border: none;
-		background: transparent;
+		/* A tall panel scrolls underneath, so the glyph needs its own ground. */
+		background: var(--color-bg);
+		border-radius: var(--radius-pill);
 		color: var(--color-muted);
 		cursor: pointer;
 
@@ -366,15 +372,16 @@ const western = thinkers.filter((t) => t.data.tradition === "western");
 			color: var(--color-accent);
 		}
 
-		&:focus-visible {
-			outline: 2px solid var(--color-accent);
-			outline-offset: 2px;
-		}
 	}
 
 	.overlay-inner {
 		max-width: var(--content-width);
 		width: 100%;
+		/* The Tänkare panel is ~915px tall; on a 667px phone it would overflow a
+	   fixed overlay at both ends with nothing to scroll. */
+		max-height: 100%;
+		overflow-y: auto;
+		overscroll-behavior: contain;
 		padding: var(--space-unit) var(--padding-inline);
 	}
 
@@ -419,10 +426,6 @@ const western = thinkers.filter((t) => t.data.tradition === "western");
 			text-underline-offset: 0.15em;
 		}
 
-		&:focus-visible {
-			outline: 2px solid var(--color-accent);
-			outline-offset: 2px;
-		}
 	}
 
 	@media (width <= 768px) {
@@ -485,22 +488,31 @@ const western = thinkers.filter((t) => t.data.tradition === "western");
 		sortBtn?.addEventListener("click", () => setView(!chronological), { signal });
 
 		// ---- Overlay ----
-		function openOverlay(panel: string) {
+		let opener: HTMLButtonElement | null = null;
+		function openOverlay(panel: string, btn: HTMLButtonElement | null) {
 			for (const p of overlay.querySelectorAll<HTMLElement>(".overlay-panel"))
 				p.hidden = p.dataset.panel !== panel;
 			overlay.hidden = false;
 			requestAnimationFrame(() => overlay.setAttribute("data-visible", ""));
+			overlay.querySelector<HTMLElement>(".overlay-inner")?.scrollTo(0, 0);
 			overlay.querySelector<HTMLElement>(".overlay-close")?.focus();
+			opener = btn;
+			btn?.setAttribute("aria-expanded", "true");
 		}
 		function closeOverlay() {
 			overlay.removeAttribute("data-visible");
 			const done = () => { overlay.hidden = true; };
 			overlay.addEventListener("transitionend", done, { once: true });
 			setTimeout(done, 250);
+			opener?.setAttribute("aria-expanded", "false");
+			// preventScroll: a jump handler closes the overlay and then scrolls to the
+			// target — returning focus must not fight that.
+			opener?.focus({ preventScroll: true });
+			opener = null;
 		}
 
 		for (const btn of document.querySelectorAll<HTMLButtonElement>("[data-overlay]"))
-			btn.addEventListener("click", () => openOverlay(btn.dataset.overlay || ""), { signal });
+			btn.addEventListener("click", () => openOverlay(btn.dataset.overlay || "", btn), { signal });
 
 		overlay.querySelector(".overlay-close")?.addEventListener("click", closeOverlay, { signal });
 		overlay.addEventListener("click", (e) => { if (e.target === overlay) closeOverlay(); }, { signal });

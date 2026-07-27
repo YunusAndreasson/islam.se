@@ -15,8 +15,19 @@ import { DEFAULT_SETTINGS } from "../../lib/bonetider/settings";
 import { MOSKEER_ENABLED } from "../../lib/config";
 import { cityBySlug, directionsLinks, locationLabel, mosqueUrl, nearestMosques } from "../../lib/moskeer";
 
+// These 2 118 pages are 84 % of the whole build (75 s of 90 s). They only change when
+// the day rolls over, so `pnpm build:fast` sets BONETIDER_SAMPLE to build a handful
+// instead — a design/essay iteration does not need every town in Sweden.
+//
+// ⚠️ OPT-IN, and it must stay that way: an unset variable builds all of them. A sampled
+// build is NOT deployable — shipping one strands 2 118 live URLs. `pnpm ship` never
+// sets it, and scripts/assert-full-build.mjs blocks the deploy if one slips through.
+// ⚠️ Read INSIDE getStaticPaths: Astro hoists this function into its own chunk, so a
+// module-level const declared out here is not defined when it runs.
 export function getStaticPaths() {
-	return INDEXED_PLACES.map((place) => ({ params: { stad: place.slug }, props: { place } }));
+	const sample = Number(process.env.BONETIDER_SAMPLE ?? 0);
+	const places = sample > 0 ? INDEXED_PLACES.slice(0, sample) : INDEXED_PLACES;
+	return places.map((place) => ({ params: { stad: place.slug }, props: { place } }));
 }
 
 interface Props {
@@ -268,7 +279,7 @@ if (hasScb) {
 				I dag · <time datetime={todayIso} class="bt-today-date">{todayLabel}</time>
 			</p>
 			<p class="bt-stad-note">
-				Tiderna nedan beräknas live i din webbläsare. Sveriges ljusa sommarnätter gör att Fajr och
+				Tiderna nedan beräknas direkt i din webbläsare. Sveriges ljusa sommarnätter gör att Fajr och
 				ʿIshāʾ ligger nära varandra – kartan ovan visar varför: solen sjunker bara en bit under
 				horisonten.
 			</p>
@@ -369,16 +380,16 @@ if (hasScb) {
 
 		<section class="bt-stad-section" aria-labelledby="bt-stad-faq">
 			<h2 id="bt-stad-faq">Vanliga frågor</h2>
-			<dl class="bt-faq">
+			<dl class="def-list">
 				{faq.map((f) => (
-					<div class="bt-faq-item">
+					<div class="def-item">
 						<dt>{f.q}</dt>
 						<dd>{f.a}</dd>
 					</div>
 				))}
 			</dl>
 			<p class="bt-faq-more">
-				<a href="/bonetider/metod/">Mer om hur bönetiderna beräknas →</a>
+				<a class="section-link arrow-link" href="/bonetider/metod/">Mer om hur bönetiderna beräknas</a>
 			</p>
 		</section>
 
@@ -411,8 +422,8 @@ if (hasScb) {
 					})}
 				</ul>
 				<p class="bt-faq-more">
-					<a href={hasMosquePage ? `/moskeer/${place.slug}/` : "/moskeer"}>
-						{hasMosquePage ? `Moskéer i ${place.name} →` : "Alla moskéer i Sverige →"}
+					<a class="section-link arrow-link" href={hasMosquePage ? `/moskeer/${place.slug}/` : "/moskeer"}>
+						{hasMosquePage ? `Moskéer i ${place.name}` : "Alla moskéer i Sverige"}
 					</a>
 				</p>
 			</section>
@@ -434,7 +445,7 @@ if (hasScb) {
 		<p class="bt-attrib">
 			Befolkningsstatistik: {SCB_SOURCE} ({SCB_REF}). Ortsdata från GeoNames (CC BY 4.0). Beräkningar
 			med <span lang="en">adhan</span> i tidszonen Europe/Stockholm. <a href="/bonetider/metod/">Om beräkningen</a> ·
-			<a href="/bonetider/">Alla orter →</a>
+			<a class="arrow-link" href="/bonetider/">Alla orter</a>
 		</p>
 	</main>
 </Base>
@@ -463,7 +474,7 @@ if (hasScb) {
 		font-size: var(--step--1);
 		line-height: 1.6;
 		color: var(--text-body);
-		max-width: 42rem;
+		max-width: var(--content-width);
 		margin: var(--space-unit) 0 0;
 		text-wrap: pretty;
 	}
@@ -593,7 +604,7 @@ if (hasScb) {
 		font-size: var(--step--1);
 		line-height: 1.6;
 		color: var(--text-body);
-		max-width: 42rem;
+		max-width: var(--content-width);
 		margin: 0 0 var(--space-half);
 		text-wrap: pretty;
 	}
@@ -602,46 +613,16 @@ if (hasScb) {
 		color: var(--color-accent);
 	}
 
-	.bt-faq {
-		margin: var(--space-unit) 0 0;
-		max-width: 42rem;
-	}
-
-	.bt-faq-item {
-		padding: var(--space-half) 0;
-		border-bottom: 1px solid var(--color-divider);
-	}
-
-	.bt-faq dt {
-		font-family: var(--font-heading);
-		font-weight: 600;
-		color: var(--color-accent);
-		margin-bottom: 0.3rem;
-	}
-
-	.bt-faq dd {
-		font-family: var(--font-body);
-		line-height: 1.55;
-		color: var(--color-muted);
-		margin: 0;
-	}
-
+	/* Placement only — the link inside is a `.section-link .arrow-link`. */
 	.bt-faq-more {
-		font-family: var(--font-body);
-		font-size: var(--step--2);
 		margin: var(--space-unit) 0 0;
-	}
-
-	.bt-faq-more a {
-		color: var(--color-accent);
-		text-decoration: none;
 	}
 
 	.bt-mosques {
 		list-style: none;
 		margin: var(--space-half) 0 0;
 		padding: 0;
-		max-width: 42rem;
+		max-width: var(--content-width);
 	}
 
 	.bt-mosque {
@@ -704,7 +685,7 @@ if (hasScb) {
 		color: var(--color-text);
 		text-decoration: none;
 		border: 1px solid var(--color-divider);
-		border-radius: 999px;
+		border-radius: var(--radius-pill);
 		padding: 0.3rem 0.85rem;
 		transition: border-color 0.15s ease;
 	}
@@ -721,12 +702,15 @@ if (hasScb) {
 		color: var(--color-muted);
 		margin: var(--space-phi) 0 0;
 		padding-top: var(--space-half);
-		border-top: 1px solid var(--color-divider);
+		border-top: 1px solid var(--color-rule);
 	}
 
+	/* Underlined on purpose: at --step--3 on muted fine print the link/text colour
+	   pair is 2.3:1 light and 1.4:1 dark, well under the 3:1 WCAG 1.4.1 wants when
+	   colour is the only cue. The underline is the cue; the colour is decoration. */
 	.bt-attrib a {
 		color: var(--color-accent);
-		text-decoration: none;
+		text-decoration-color: currentColor;
 	}
 </style>
 

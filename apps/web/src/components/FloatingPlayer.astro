@@ -120,7 +120,6 @@ import { APPLE_PODCAST_URL, SPOTIFY_SHOW_URL } from "../lib/podcast";
 			var(--color-divider) var(--fp-fill, 0%)
 		);
 		border-radius: 0.09375rem;
-		outline: none;
 		cursor: pointer;
 		min-width: 3rem;
 	}
@@ -160,7 +159,7 @@ import { APPLE_PODCAST_URL, SPOTIFY_SHOW_URL } from "../lib/podcast";
 		color: var(--color-muted);
 		background: transparent;
 		border: 1px solid var(--color-divider);
-		border-radius: 0.75rem;
+		border-radius: var(--radius-lg);
 		padding: 0.5rem 0.875rem;
 		cursor: pointer;
 		flex-shrink: 0;
@@ -223,13 +222,8 @@ import { APPLE_PODCAST_URL, SPOTIFY_SHOW_URL } from "../lib/podcast";
 	.fp-play:focus-visible,
 	.fp-speed:focus-visible,
 	.fp-sub-link:focus-visible,
-	.fp-close:focus-visible {
-		outline: 2px solid var(--color-accent);
-		outline-offset: 2px;
-	}
 
 	.fp-progress:focus-visible {
-		outline: 2px solid var(--color-accent);
 		outline-offset: 4px;
 	}
 

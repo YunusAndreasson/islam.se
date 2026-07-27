@@ -44,7 +44,7 @@
 	--hero-black: 20 18 14;
 
 	/* Colors — 4 maximum per DESIGN.md */
-	--color-text: light-dark(#1a1914, #e0ddd8);
+	--color-text: light-dark(#1a1914, #e8e5e0);
 	/* The light background carries a Nordic earth tint — limewash and unbleached
 	   linen rather than paper.
 
@@ -68,58 +68,78 @@
 	   goes 4.78 → 4.73:1 against a ground that is warmer, not darker. All four
 	   tiers clear AA; the top three clear AAA.
 
-	   Change this and you change six other files: the two theme-color metas and
-	   the theme-switch constant in Base.astro, manifest.webmanifest, lib/og.ts
-	   (share cards), scripts/moskeer-map.ts (label halo) and public/favicon.svg. */
-	--color-bg: light-dark(#fff6e8, #1a1917);
-	--color-accent: light-dark(#3a3830, #c8c4be);
+	   Change EITHER ground and you change other files with it. Light: the light
+	   theme-color meta and the theme-switch constant in Base.astro,
+	   manifest.webmanifest, lib/og.ts (share cards), public/favicon.svg. Dark: the
+	   dark theme-color meta and the same switch constant, the PrayerField stage
+	   scrim, the _moskeer panel scrims, and scripts/moskeer-map.ts (label halo,
+	   brass-on, cluster text). */
+	/* The dark ground carries the SAME tint. It used to sit at OKLCh chroma 0.0042
+	   against the light ground's 0.0208 — a fifth — so the warm axis this palette is
+	   built on simply vanished when you switched scheme, and the page rendered
+	   greyer than the maps drawn on it (map land is at 0.0182). Now h 79, C 0.0145,
+	   same lightness as before. Do not push past C 0.018: it stops reading as warm
+	   near-black and starts reading as sepia. */
+	--color-bg: light-dark(#fff6e8, #1d1912);
+	--color-accent: light-dark(#3a3830, #d9d4ce);
 	/* Light muted darkened from #847a6e (3.97:1) to clear WCAG AA (4.5:1) — it is
 	   the site's most-used secondary colour and lands on small text (.label,
 	   .archive-meta, captions). #776d61 = 4.78:1 on --color-bg, still a quiet warm
-	   taupe. Dark muted #8a8278 already passes (4.64:1 on dark bg). */
-	--color-muted: light-dark(#776d61, #8a8278);
-	--color-warm: light-dark(#b0a090, #6a5e4a);
+	   taupe.
+
+	   Dark muted was #8a8278. It passed WCAG AA at 4.64:1 — and measured APCA Lc 35,
+	   which is the "non-text / disabled only" band, on 13.3px labels. WCAG 2's
+	   formula is known to misjudge light-on-dark and hid it. Every dark tier is set
+	   by APCA now (see the table below). */
+	--color-muted: light-dark(#776d61, #bdb6aa);
+	/* Not decoration: this is the selected/hover border on the filter chips,
+	   DagensVers, BookPod, podcast, MosqueList and PrayerField, and the mast's sun
+	   icon — all governed by WCAG 1.4.11's 3:1. It was 2.37:1 light / 2.77:1 dark and
+	   failed both; Citat.astro had already routed around it locally. Raised to the
+	   floor, which costs the decorative washes derived from it under 3 L*. */
+	--color-warm: light-dark(#998e7c, #706450);
+	/* Two ranks of rule. The hairline is this site's only structural device, and it
+	   had ONE weight — so the line between two rows of a list looked exactly like the
+	   line between two movements of a page. The rule announced that a boundary existed
+	   but never which kind, which is the one thing a structural device is for.
+
+	   Same 1px hairline, twice the presence: ΔL* 7 light / 9.6 dark against the row
+	   rank, past the ~3 L* just-noticeable difference, and still only 1.56:1 — a
+	   whisper, not a black line. Rows keep --color-divider; a movement boundary (the
+	   rule that opens a page section, the prose <hr>, the footer) takes --color-rule. */
 	--color-divider: color-mix(in srgb, var(--color-muted), transparent 80%);
+	--color-rule: color-mix(in srgb, var(--color-muted), transparent 62%);
 
 	/* Muted body-text ramp — body text blended toward the warm muted taupe.
 
-	   These steps are spaced by PERCEIVED lightness (CIE L*), not by mix
-	   percentage, because mix percentage is not what the eye reads. The previous
-	   ramp mixed 88/80/72 % and, with the one-off 70/75/78/82/85 % values scattered
-	   through the components, put SEVEN prose tiers inside ΔL* = 12.3 — adjacent
-	   steps of 0.8–2.4 L*, all under the ~3 L* just-noticeable difference. Measured:
-	   `--text-quiet` (72 %) and the inline 70 % mix differed by ΔL* 0.8. Nine shades
-	   that read as one. Then a 25-point void down to `--color-muted`.
+	   Mixed `in oklab`, where the percentage IS the perceptual position, so one set
+	   of numbers serves both schemes and the tiers stop being declared twice. In
+	   srgb they could not be: the same percentage landed up to 0.04 of the
+	   text→muted span apart between light and dark, which is what the old
+	   74 %/66 % and 45 %/33 % splits were patching by hand. Do NOT hand-mix new
+	   percentages at call sites.
 
-	   Now: three prose tiers, each a real step of ΔL* ≈ 11, landing evenly between
-	   full text and muted. Blur the page and the ranks separate.
+	   Tiers are set by APCA Lc, not by WCAG ratio. WCAG 2 rated the old dark ramp
+	   equivalent to the light one (4.6–13:1 throughout) while it measured 15–36 Lc
+	   weaker — its formula is inaccurate for light-on-dark, and that is the half of
+	   the palette it was hiding. Every tier now clears APCA 60 (the body-text floor)
+	   in BOTH schemes, and the two spans match: 29.4 Lc light, 27.9 dark.
 
-	     tier          light L*  contrast   dark L*  contrast   role
-	     --color-text      8.7     16.6       88.2     12.97    body prose, titles
-	     --text-body      19.7     12.53      77.2      9.51    leads, decks, framing
-	     --text-quiet     30.7      8.58      66.2      6.79    descriptions, blurbs
-	     --color-muted    46.6      4.78      54.8      4.64    meta labels, captions
-
-	   The mix percentages differ per scheme because color-mix is linear in sRGB
-	   channels, not in L* — 74 % light and 66 % dark are the values that land on the
-	   same perceived step. Every tier clears WCAG AA; the top three clear AAA in
-	   light mode. Do NOT hand-mix new percentages at call sites; that is exactly the
-	   drift this table replaces. */
-	--text-body: light-dark(
-		color-mix(in srgb, var(--color-text) 74%, var(--color-muted)),
-		color-mix(in srgb, var(--color-text) 66%, var(--color-muted))
-	);
-	--text-quiet: light-dark(
-		color-mix(in srgb, var(--color-text) 45%, var(--color-muted)),
-		color-mix(in srgb, var(--color-text) 33%, var(--color-muted))
-	);
+	     tier          light Lc   dark Lc   role
+	     --color-text      99.6      89.9   body prose, titles
+	     --text-body       94.6      81.3   leads, decks, framing
+	     --text-quiet      84.8      72.2   descriptions, blurbs
+	     --text-meta       79.0      67.7   colophon meta on a tinted panel
+	     --color-muted     70.2      62.0   meta labels, captions */
+	--text-body: color-mix(in oklab, var(--color-text) 70%, var(--color-muted));
+	--text-quiet: color-mix(in oklab, var(--color-text) 38%, var(--color-muted));
 	/* `strong` prose (a lead that must not read as secondary) is simply full text —
 	   weight and size carry it, not a 5 % tint nobody can see. Kept as an alias so
 	   call sites keep saying what they mean. */
 	--text-strong: var(--color-text);
 	/* Meta labels that need a touch more presence than --color-muted (used by the
 	   BookPod cover, which sits on its own tinted panel). */
-	--text-meta: color-mix(in srgb, var(--color-muted), var(--color-text) 22%);
+	--text-meta: color-mix(in oklab, var(--color-muted), var(--color-text) 22%);
 
 	/* Type scale — 1.2 ratio (minor third) from 19px Literata base.
 	   Heading steps ×1.061 to optically match Source Sans 3's smaller metrics. */
@@ -167,13 +187,13 @@
 	/* Corner radii. These were 27 distinct hardcoded values across the codebase,
 	   including a `var(--radius, 0.5rem)` pointing at a property that was never
 	   defined. Named here so the shapes are a decision rather than an accident.
-	   Call sites whose value already matched exactly now reference the token;
-	   the handful that differ (1.25rem/1.4rem pills in the map and prayer UI)
-	   were left alone rather than silently restyled. */
-	--radius-xs: 2px; /* focus rings */
+	   Say `var(--radius-pill)`, never `999px`. Deliberately still raw: `50%`
+	   (circles), and the handful that match no token (1.25rem/1.4rem pills in the
+	   map and prayer UI, chart and player chrome) — snapping those is a restyle. */
+	--radius-xs: 2px; /* hairline rounding — focus rings, micro marks */
 	--radius-sm: 0.5rem; /* inputs, small controls */
-	--radius-md: 10px; /* .media-frame — the art-directed image corner */
-	--radius-lg: 0.75rem; /* cards */
+	--radius-md: 10px; /* panels and the art-directed image corner (.media-frame) */
+	--radius-lg: 0.75rem; /* cards, popovers */
 	--radius-pill: 999px;
 
 	/* Layout */

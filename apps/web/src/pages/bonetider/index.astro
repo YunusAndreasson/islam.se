@@ -41,7 +41,7 @@ const prayerDefs: Record<(typeof PRAYER_ORDER)[number], string> = {
 const faq = [
 	{
 		q: "Vilka är de fem dagliga bönetiderna?",
-		a: "De fem dagliga bönerna är Fajr (gryningen), Ẓuhr (efter middagstid), ʿAṣr (eftermiddagen), Maghrib (solnedgången) och ʿIshāʾ (natten). Därtill markeras Shurūq, soluppgången, som avslutar Fajr-tiden.",
+		a: "De fem dagliga bönerna är Fajr (gryningen), Ẓuhr (efter middagstid), ʿAṣr (eftermiddagen), Maghrib (solnedgången) och ʿIshāʾ (natten). I tidtabellen markeras även Shurūq, soluppgången, som avslutar Fajr-tiden.",
 	},
 	{
 		q: "Vad är bönetiderna i dag?",
@@ -203,16 +203,16 @@ const description = `Bönetider ${year} för din ort – dagens Fajr, Ẓuhr, ʿ
 				Islam har fem dagliga böner. Deras tider bestäms av solen, så de förskjuts under året – och i
 				Sverige mer än på de flesta håll.
 			</p>
-			<dl class="bt-deflist">
+			<dl class="def-list">
 				{PRAYER_ORDER.filter((k) => k !== "sunrise").map((k) => (
-					<div>
+					<div class="def-item">
 						<dt>{PRAYER_LABELS[k]} <span class="bh2-def-sv">· {PRAYER_SWEDISH_NAMES[k]}</span></dt>
 						<dd>{prayerDefs[k]}</dd>
 					</div>
 				))}
 			</dl>
 			<p class="bh2-def-note">
-				Därtill markeras <b>Shurūq</b> (soluppgången) i tidtabellen – inte en bön, men den avslutar
+				I tidtabellen markeras även <b>Shurūq</b> (soluppgången) – inte en bön, men den avslutar
 				tiden för Fajr.
 			</p>
 		</section>
@@ -229,9 +229,9 @@ const description = `Bönetider ${year} för din ort – dagens Fajr, Ẓuhr, ʿ
 
 		<section class="bh2-section" aria-labelledby="bh2-faq">
 			<h2 id="bh2-faq">Vanliga frågor</h2>
-			<dl class="bt-deflist">
+			<dl class="def-list">
 				{faq.map((f) => (
-					<div><dt>{f.q}</dt><dd>{f.a}</dd></div>
+					<div class="def-item"><dt>{f.q}</dt><dd>{f.a}</dd></div>
 				))}
 			</dl>
 			<p class="bh2-lead bh2-faq-more">
@@ -284,7 +284,7 @@ const description = `Bönetider ${year} för din ort – dagens Fajr, Ẓuhr, ʿ
 		color: var(--color-accent);
 		background: var(--color-bg);
 		border: 1px solid var(--color-divider);
-		border-radius: 999px;
+		border-radius: var(--radius-pill);
 		padding: 0.45rem 1.1rem;
 		cursor: pointer;
 		transition: border-color 0.15s ease;
@@ -323,7 +323,7 @@ const description = `Bönetider ${year} för din ort – dagens Fajr, Ẓuhr, ʿ
 		color: var(--color-accent);
 		background: var(--color-bg);
 		border: 1px solid var(--color-divider);
-		border-radius: 999px;
+		border-radius: var(--radius-pill);
 		padding: 0.45rem 1.1rem;
 		cursor: pointer;
 		list-style: none;
@@ -338,9 +338,11 @@ const description = `Bönetider ${year} för din ort – dagens Fajr, Ẓuhr, ʿ
 		border-color: var(--color-warm);
 	}
 
-	.bh2-settings-summary:focus-visible {
-		outline: 2px solid var(--color-accent);
-		outline-offset: 2px;
+	@media (hover: none), (pointer: coarse) {
+		.bh2-geo,
+		.bh2-settings-summary {
+			min-height: 2.75rem;
+		}
 	}
 
 	.bh2-cog {
@@ -383,35 +385,10 @@ const description = `Bönetider ${year} för din ort – dagens Fajr, Ẓuhr, ʿ
 		--lead-margin: var(--space-half) 0 var(--space-unit);
 	}
 
-	/* Shared definition-list look (mirrors /bonetider/metod/); Astro scopes styles per
-	   component, so the rule is re-declared here rather than imported. */
-	.bt-deflist {
-		margin: var(--space-half) 0 0;
-		max-width: 42rem;
-	}
-
-	.bt-deflist > div {
-		padding: var(--space-half) 0;
-		border-bottom: 1px solid var(--color-divider);
-	}
-
-	.bt-deflist dt {
-		font-family: var(--font-heading);
-		font-weight: 600;
-		color: var(--color-accent);
-		margin-bottom: 0.2rem;
-	}
-
+	/* The prayer's Swedish name, riding along after the Arabic term. */
 	.bh2-def-sv {
 		font-weight: 400;
 		color: var(--color-muted);
-	}
-
-	.bt-deflist dd {
-		font-family: var(--font-body);
-		line-height: 1.55;
-		color: var(--color-muted);
-		margin: 0;
 	}
 
 	.bh2-faq-more {
@@ -424,7 +401,7 @@ const description = `Bönetider ${year} för din ort – dagens Fajr, Ẓuhr, ʿ
 		line-height: 1.55;
 		color: var(--color-muted);
 		margin: var(--space-half) 0 0;
-		max-width: 42rem;
+		max-width: var(--content-width);
 	}
 
 	.bh2-biggest-grid {
@@ -478,13 +455,12 @@ const description = `Bönetider ${year} för din ort – dagens Fajr, Ẓuhr, ʿ
 		color: var(--color-text);
 		background: var(--color-bg);
 		border: 1px solid var(--color-divider);
-		border-radius: 999px;
+		border-radius: var(--radius-pill);
 		padding: 0.55rem 1rem;
 		margin-bottom: var(--space-unit);
 	}
 
 	.bt-search:focus-visible {
-		outline: 2px solid var(--color-accent);
 		outline-offset: 1px;
 	}
 
@@ -524,14 +500,23 @@ const description = `Bönetider ${year} för din ort – dagens Fajr, Ẓuhr, ʿ
 		color: var(--color-accent);
 	}
 
+	/* Twenty-one rows stacked with no gap between them: padding, not min-height, so
+   the space lands between neighbouring targets too. */
+	@media (hover: none), (pointer: coarse) {
+		.bt-county summary {
+			padding-block: 0.5rem;
+		}
+
+		.bt-county-list a {
+			display: inline-flex;
+			align-items: center;
+			min-height: 2.75rem;
+		}
+	}
+
 	/* The summaries are the primary way to navigate the 2 000+ place directory by
 	   keyboard; customised list-style can suppress the UA focus ring, so make it
 	   explicit (matches .bt-search above). */
-	.bt-county summary:focus-visible {
-		outline: 2px solid var(--color-accent);
-		outline-offset: 2px;
-		border-radius: 2px;
-	}
 
 	.bt-county-count {
 		font-family: var(--font-body);
@@ -575,10 +560,16 @@ const description = `Bönetider ${year} för din ort – dagens Fajr, Ẓuhr, ʿ
 		color: var(--color-muted);
 		margin: var(--space-phi) 0 0;
 		padding-top: var(--space-half);
-		border-top: 1px solid var(--color-divider);
+		border-top: 1px solid var(--color-rule);
 	}
 
-	.bt-attrib a,
+	/* See the note in bonetider/[stad].astro — fine-print links carry a visible
+	   underline because their colour alone is under the WCAG 1.4.1 3:1 floor. */
+	.bt-attrib a {
+		color: var(--color-accent);
+		text-decoration-color: currentColor;
+	}
+
 	.bh2-lead a {
 		color: var(--color-accent);
 	}

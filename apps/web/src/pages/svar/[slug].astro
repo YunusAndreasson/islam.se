@@ -5,7 +5,7 @@ import Base from "../../layouts/Base.astro";
 import { formatDate, getArticles } from "../../lib/articles";
 import { FAKTA_ART, FAKTA_CLUSTERS, FAKTA_IMAGE_BY_SVAR, FAKTA_SLUGS } from "../../lib/fakta";
 import { SVAR_CATEGORIES } from "../../lib/svar";
-import { ORG_ID, WEBSITE_ID, breadcrumbList } from "../../lib/jsonld";
+import { ORG_ID, WEBSITE_ID, breadcrumbList, faqPageJsonLd } from "../../lib/jsonld";
 
 export async function getStaticPaths() {
 	const entries = await getCollection("svar");
@@ -115,17 +115,7 @@ const jsonLd: Record<string, unknown>[] = [
 		{ name: data.title, url },
 	]),
 ];
-if (data.faq && data.faq.length > 0) {
-	jsonLd.push({
-		"@context": "https://schema.org",
-		"@type": "FAQPage",
-		mainEntity: data.faq.map((f) => ({
-			"@type": "Question",
-			name: f.q,
-			acceptedAnswer: { "@type": "Answer", text: f.a },
-		})),
-	});
-}
+if (data.faq && data.faq.length > 0) jsonLd.push(faqPageJsonLd(data.faq));
 ---
 
 <Base
@@ -184,9 +174,9 @@ if (data.faq && data.faq.length > 0) {
 			{data.faq && data.faq.length > 0 && (
 				<section class="svar-faq" aria-labelledby="svar-faq-rubrik">
 					<h2 id="svar-faq-rubrik">Vanliga frågor</h2>
-					<dl>
+					<dl class="def-list">
 						{data.faq.map((f) => (
-							<div class="svar-faq-item">
+							<div class="def-item">
 								<dt>{f.q}</dt>
 								<dd>{f.a}</dd>
 							</div>
@@ -230,9 +220,9 @@ if (data.faq && data.faq.length > 0) {
 
 				<p class="svar-back">
 					{isFakta ? (
-						<a href="/vad-ar-islam/">← Tillbaka till Fakta om islam</a>
+						<a class="section-link back-link" href="/vad-ar-islam/">Tillbaka till Fakta om islam</a>
 					) : (
-						<a href="/svar/">← Alla frågor och svar</a>
+						<a class="section-link back-link" href="/svar/">Alla frågor och svar</a>
 					)}
 				</p>
 		</article>
@@ -282,8 +272,6 @@ if (data.faq && data.faq.length > 0) {
 		}
 
 		&:focus-visible {
-			outline: 2px solid var(--color-accent);
-			outline-offset: 2px;
 			border-radius: var(--radius-xs);
 		}
 	}
@@ -316,7 +304,7 @@ if (data.faq && data.faq.length > 0) {
 	.svar-essays {
 		margin-top: var(--space-phi);
 		padding-top: var(--space-unit);
-		border-top: 1px solid var(--color-divider);
+		border-top: 1px solid var(--color-rule);
 	}
 
 	.svar-faq h2,
@@ -324,23 +312,6 @@ if (data.faq && data.faq.length > 0) {
 	.svar-related h2,
 	.svar-essays h2 {
 		font-size: var(--step-1);
-	}
-
-	.svar-faq-item {
-		padding: var(--space-half) 0;
-		border-bottom: 1px solid var(--color-divider);
-	}
-	.svar-faq dt {
-		font-family: var(--font-heading);
-		font-weight: 600;
-		color: var(--color-text);
-		margin-bottom: 0.3rem;
-	}
-	.svar-faq dd {
-		margin: 0;
-		font-family: var(--font-body);
-		line-height: 1.6;
-		color: var(--text-body);
 	}
 
 	.svar-sources ul,
@@ -358,13 +329,8 @@ if (data.faq && data.faq.length > 0) {
 		color: var(--color-accent);
 	}
 
+	/* Placement only — the link inside is a `.section-link .back-link`. */
 	.svar-back {
 		margin-top: var(--space-phi);
-		font-family: var(--font-heading);
-		font-size: var(--step--2);
-	}
-	.svar-back a {
-		color: var(--color-accent);
-		text-decoration: none;
 	}
 </style>

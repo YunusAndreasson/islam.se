@@ -123,9 +123,9 @@ if (oldestMosque?.opened) {
 
 		<section class="mk-section" aria-labelledby="mk-lan-faq">
 			<h2 id="mk-lan-faq">Vanliga frågor</h2>
-			<dl class="mk-faq">
+			<dl class="def-list">
 				{faq.map((f) => (
-					<div class="mk-faq-item">
+					<div class="def-item">
 						<dt>{f.q}</dt>
 						<dd>{f.a}</dd>
 					</div>
@@ -135,7 +135,7 @@ if (oldestMosque?.opened) {
 
 		<p class="mk-attrib">
 			Underlaget kan vara ofullständigt. Adresser och positioner är ungefärliga.
-			<a href="/moskeer">Karta över alla moskéer i Sverige →</a>
+			<a class="arrow-link" href="/moskeer">Karta över alla moskéer i Sverige</a>
 		</p>
 	</main>
 </Base>
@@ -163,7 +163,7 @@ if (oldestMosque?.opened) {
 		font-size: var(--step--1);
 		line-height: 1.6;
 		color: var(--text-body);
-		max-width: 42rem;
+		max-width: var(--content-width);
 		margin: var(--space-unit) 0 0;
 		text-wrap: pretty;
 	}
@@ -206,30 +206,6 @@ if (oldestMosque?.opened) {
 		font-size: var(--step-1);
 	}
 
-	.mk-faq {
-		margin: var(--space-unit) 0 0;
-		max-width: 42rem;
-	}
-
-	.mk-faq-item {
-		padding: var(--space-half) 0;
-		border-bottom: 1px solid var(--color-divider);
-	}
-
-	.mk-faq dt {
-		font-family: var(--font-heading);
-		font-weight: 600;
-		color: var(--color-accent);
-		margin-bottom: 0.3rem;
-	}
-
-	.mk-faq dd {
-		font-family: var(--font-body);
-		line-height: 1.55;
-		color: var(--color-muted);
-		margin: 0;
-	}
-
 	.mk-attrib {
 		font-family: var(--font-body);
 		font-size: var(--step--3);
@@ -242,6 +218,6 @@ if (oldestMosque?.opened) {
 
 	.mk-attrib a {
 		color: var(--color-accent);
-		text-decoration: none;
+		text-decoration-color: currentColor;
 	}
 </style>

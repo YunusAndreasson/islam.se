@@ -32,6 +32,9 @@ interface MosqueDatum {
 type Scheme = "light" | "dark";
 
 // Palette matched to the Bönetider canvas so the two map surfaces feel identical.
+// Dark was the app's cold navy until 2026-07-27; now the same warm-axis ramp.
+// UNVERIFIED: WebGL won't render in headless Chromium here, so these are derived,
+// not eyeballed — worth a look on real hardware.
 const PALETTE = {
 	light: {
 		land: "#ece6d8", // warm parchment
@@ -46,16 +49,16 @@ const PALETTE = {
 		clusterText: "#fffaf0",
 	},
 	dark: {
-		land: "#1d2333",
-		water: "#141a26",
-		building: "#222a3c",
-		road: "#2a3142",
-		border: "#333c52",
-		label: "#9aa0ac",
-		halo: "#141a26",
+		land: "#24221c",
+		water: "#15171a",
+		building: "#2c2922",
+		road: "#33302a",
+		border: "#45403a",
+		label: "#a09890",
+		halo: "#1d1912",
 		brass: "#c89a48",
-		brassOn: "#141a26",
-		clusterText: "#141a26",
+		brassOn: "#1d1912",
+		clusterText: "#1d1912",
 	},
 } as const;
 
@@ -153,15 +156,22 @@ function mount() {
 	const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 	let scheme = currentScheme();
 
-	const fc = (rows: MosqueDatum[]) =>
-		({
-			type: "FeatureCollection",
-			features: rows.map((m) => ({
-				type: "Feature" as const,
-				geometry: { type: "Point" as const, coordinates: [m.lng, m.lat] },
-				properties: { id: m.id, name: m.name },
-			})),
-		}) as const;
+	// Typed as what `setData` accepts; this was built `as const` and forced through
+	// with `as never`, which silenced checking on exactly the argument v6 could change.
+	// Read off maplibre's own signature: @types/geojson is only a transitive dep, so
+	// the global `GeoJSON` namespace is not reliably in scope.
+	type FeatureCollection = Extract<
+		Parameters<GeoJSONSource["setData"]>[0],
+		{ type: "FeatureCollection" }
+	>;
+	const fc = (rows: MosqueDatum[]): FeatureCollection => ({
+		type: "FeatureCollection",
+		features: rows.map((m) => ({
+			type: "Feature",
+			geometry: { type: "Point", coordinates: [m.lng, m.lat] },
+			properties: { id: m.id, name: m.name },
+		})),
+	});
 
 	const map = new maplibregl.Map({
 		container: el,
@@ -181,6 +191,15 @@ function mount() {
 		cooperativeGestures: true,
 		// Swedish tooltips + cooperative-gesture overlay (see LOCALE above).
 		locale: LOCALE,
+	});
+	// Without this, a failure at tiles.openfreemap.org just means `load` never fires:
+	// an empty rectangle, nothing logged. The list beside the map still works.
+	let mapFailed = false;
+	map.on("error", (e) => {
+		if (mapFailed) return;
+		mapFailed = true;
+		el.classList.add("is-error");
+		console.warn("[moskeer] kartan kunde inte laddas:", e?.error?.message ?? e);
 	});
 	map.addControl(new maplibregl.AttributionControl({ compact: true }), "bottom-left");
 	map.addControl(new maplibregl.NavigationControl({ showCompass: false }), "top-right");
@@ -406,8 +425,12 @@ function mount() {
 			return okQ && okLan;
 		});
 		if (activeId && !visible.some((m) => m.id === activeId)) closeCallout();
+		// setData is async in maplibre 6; nothing waits on it, but the rejection has
+		// to go somewhere.
 		const src = map.getSource("mosques") as GeoJSONSource | undefined;
-		src?.setData(fc(visible) as never);
+		src?.setData(fc(visible)).catch(() => {
+			/* a dropped filter update leaves the previous points on the map */
+		});
 
 		// List: hide non-matching items + empty groups; auto-open groups when searching.
 		let shown = 0;

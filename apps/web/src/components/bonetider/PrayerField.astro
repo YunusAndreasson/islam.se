@@ -99,7 +99,7 @@ const nextKey = nextPrayerKeyAt(times, now.getTime()) ?? "fajr";
 		/* The sea, before the canvas mounts. Must equal SEA in lib/bonetider/render-field.ts,
 		   which is where the reasoning for this value lives — otherwise the stage visibly
 		   changes colour the moment the renderer takes over. */
-		background: light-dark(#dfe4e2, #141a26);
+		background: light-dark(#dfe4e2, #15171a);
 		border: 1px solid var(--color-divider);
 		box-shadow: 0 1px 2px rgb(0 0 0 / 0.04), 0 12px 28px -16px rgb(0 0 0 / 0.25);
 	}
@@ -121,7 +121,8 @@ const nextKey = nextPrayerKeyAt(times, now.getTime()) ?? "fajr";
 		bottom: 0.55rem;
 		padding: 0.5rem 0.7rem;
 		border-radius: 0.7rem;
-		background: light-dark(rgb(255 253 248 / 0.88), rgb(22 26 38 / 0.82));
+		/* Warm near-black in dark, matching the canvas palette (render-field.ts). */
+		background: light-dark(rgb(255 253 248 / 0.88), rgb(29 25 18 / 0.84));
 		backdrop-filter: blur(8px);
 		box-shadow: 0 1px 10px -4px rgb(0 0 0 / 0.4);
 	}

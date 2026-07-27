@@ -60,9 +60,18 @@ const heroPreload = feature?.heroImage
 			generationernas lärda.
 		</p>
 
-		{/* Primary doorways — the high-intent destinations a visitor most often arrives
-		    for, made reachable the moment the page loads. These mirror the standing mast
-		    links; here they carry a line of orientation. */}
+		{/* The homepage body opens on the latest published — the feature + recent feed —
+		    then the reference band, the Islamic calendar and the book/podcast. The other
+		    sections are reached from the intro links, the doorways and the mast. */}
+		{feature && <FeatureEssay article={feature} />}
+
+		{/* Below the feature, not above it. These render only where the mast's inline
+		    links are hidden — i.e. on touch — and there the descriptions are hidden too,
+		    so what a phone actually got was four bare labels stacked under a mast that
+		    already carries a MENY trigger 40 px above them: a menu rendered as content,
+		    duplicating an adjacent affordance, ahead of the photograph. The orientation
+		    line above still tells a cold visitor what this is; wayfinding follows the
+		    thesis. (Desktop is unchanged — they were never displayed there.) */}
 		<nav class="home-pillars" aria-label="Sajtens huvudingångar">
 			<a class="home-pillar" href="/vad-ar-islam/">
 				<span class="home-pillar-title">Pelare &amp; tro</span>
@@ -88,11 +97,6 @@ const heroPreload = feature?.heroImage
 				</a>
 			)}
 		</nav>
-
-		{/* The homepage body opens on the latest published — the feature + recent feed —
-		    then the reference band, the Islamic calendar and the book/podcast. The other
-		    sections are reached from the intro links, the doorways and the mast. */}
-		{feature && <FeatureEssay article={feature} />}
 
 		<RecentEssays articles={recent} />
 
@@ -167,10 +171,19 @@ const heroPreload = feature?.heroImage
 	.home-pillar {
 		display: flex;
 		flex-direction: column;
+		justify-content: center;
 		gap: 0.25rem;
 		text-decoration: none;
 		/* A touch of block padding so the tap target clears WCAG 2.5.8 comfortably. */
 		padding-block: 0.2rem;
+	}
+
+	/* These four are the whole navigation on a phone (the mast drops .site-links),
+   so they carry the full thumb target rather than the 2.5.8 floor. */
+	@media (hover: none), (pointer: coarse) {
+		.home-pillar {
+			min-height: 2.75rem;
+		}
 	}
 
 	.home-pillar-title {

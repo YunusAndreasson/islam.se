@@ -1,27 +1,16 @@
 ---
-import { MOSKEER_ENABLED } from "../lib/config";
 const year = new Date().getFullYear();
 const path = Astro.url.pathname;
 const here = (p: string) => path === p || path === `${p}/`;
 
-// Standing destinations as real <a> links. With the mast reduced to wordmark +
-// palette, this footer is the crawlable navigation every page must carry: from
-// these hubs a crawler reaches every ämne (via /essaer), thread, thinker and
-// essay. Rendered site-wide from Base.astro; styled globally in layout.css
-// (site-wide chrome, like the header — keeps it out of reach of scoped-style
-// HMR fragility).
+// Only what the mast does NOT carry — the mast's own links are in the DOM on
+// every page (CSS-hidden below 900px), so repeating them here bought nothing.
+// Styled globally in layout.css, like the header.
 const links = [
-	{ href: "/vad-ar-islam/", label: "Pelare & tro" },
-	{ href: "/svar/", label: "Frågor & svar" },
-	{ href: "/essaer", label: "Essäer" },
 	{ href: "/tradar", label: "Trådar" },
 	{ href: "/tankare", label: "Tänkare" },
 	{ href: "/det-islamiska-aret", label: "Kalender" },
-	{ href: "/bonetider/", label: "Bönetider" },
-	// Gated: see MOSKEER_ENABLED in lib/config.ts.
-	...(MOSKEER_ENABLED ? [{ href: "/moskeer", label: "Moskéer" }] : []),
-	{ href: "/app", label: "App" },
-	{ href: "/podcast", label: "Podd" },
+	// No /moskeer even when MOSKEER_ENABLED flips — the mast carries it.
 	{ href: "/om", label: "Om" },
 	{ href: "/om/redaktion", label: "Redaktion" },
 	{ href: "/ai", label: "AI" },
