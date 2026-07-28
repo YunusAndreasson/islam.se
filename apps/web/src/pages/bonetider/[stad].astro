@@ -152,7 +152,11 @@ const daylightPara =
 const descTail = hasMosquePage
 	? ` Se även moskéer i ${place.name} med adress och vägbeskrivning.`
 	: " Välj beräkningsmetod och madhhab.";
-const description = `Bönetider för ${place.name} (${place.county || "Sverige"}) ${year}: exakta tider för Fajr, Shurūq, Ẓuhr, ʿAṣr, Maghrib och ʿIshāʾ varje dag, beräknade efter solens läge.${descTail}`;
+// Stockholm, Uppsala, Örebro, Jönköping and Kalmar share their name with their
+// county — the raw interpolation rendered "Stockholm (Stockholm)" in the snippet.
+const descPlace =
+	place.county && place.county !== place.name ? `${place.name} (${place.county})` : place.name;
+const description = `Bönetider för ${descPlace} ${year}: exakta tider för Fajr, Shurūq, Ẓuhr, ʿAṣr, Maghrib och ʿIshāʾ varje dag, beräknade efter solens läge.${descTail}`;
 
 const ogImage = place.population >= OG_POPULATION ? `/bonetider/${place.slug}/og.png` : "/bonetider/og.png";
 

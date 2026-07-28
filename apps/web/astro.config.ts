@@ -511,6 +511,133 @@ const customRedirects: [string, string][] = [
 	// /svar/<slug> answer page keeps its exact URL — cornerstone answers are reclassified
 	// in the data layer, never moved. Courtesy: the intuitive /fakta resolves to the hub.
 	["/fakta", "/vad-ar-islam/"],
+	// === 2026-07-28 (GSC coverage sweep): 151 legacy URLs still 301'd to the homepage,
+	// i.e. soft-404s. These are the ones an existing page actually answers. The rest
+	// stay on "/" — they are the content backlog, not a redirect target. ===
+	// Gud, tawhid, gudssyn
+	["/gudssyn", "/svar/islams-gudssyn/"],
+	["/tro/gud", "/svar/islams-gudssyn/"],
+	["/islam/allah-eller-gud", "/svar/islams-gudssyn/"],
+	["/islam/antropomorfism", "/svar/islams-gudssyn/"],
+	["/islam/guds-attribut", "/svar/islams-gudssyn/"],
+	["/gud/verklig-kunskap-om-gud", "/svar/islams-gudssyn/"],
+	["/gud/intellektets-begransningar", "/svar/islams-gudssyn/"],
+	["/gud/allsmaktighetsparadoxen", "/svar/islams-gudssyn/"],
+	["/religion/filosofernas-gudssyn", "/svar/islams-gudssyn/"],
+	["/religion/judendomens-gudssyn", "/svar/islams-gudssyn/"],
+	["/existens/konstverket-ar-inte-konstnaren", "/svar/islams-gudssyn/"],
+	["/uncategorized/naderik-eller-bestraffande", "/svar/islams-gudssyn/"],
+	["/gud/hur-manga-skapare-finns-det", "/svar/vad-ar-tawhid/"],
+	["/islam/ingen-finns-som-kan-liknas-vid-honom", "/svar/vad-ar-tawhid/"],
+	["/uncategorized/forsta-skyldigheten-som-aligger-manniskan", "/svar/vad-ar-tawhid/"],
+	["/islam/ingen-gud-utom-gud", "/svar/trosbekannelsen-shahada/"],
+	["/religion/de-flesta-har-trott-pa-gud", "/svar/finns-bevis-for-gud/"],
+	["/religion/i-sjalen-medfott", "/svar/finns-bevis-for-gud/"],
+	// Skapelsen, universum, själen
+	["/universum", "/svar/islam-och-big-bang/"],
+	["/uncategorized/evolutio", "/svar/islam-och-big-bang/"],
+	["/existens/manniskans-plats-i-universum", "/svar/varfor-skapade-gud-manniskan/"],
+	["/existens/hur-manniskan-skapar", "/svar/varfor-skapade-gud-manniskan/"],
+	["/gud/gud-skapar-men-manniskan-omvandlar", "/svar/varfor-skapade-gud-manniskan/"],
+	["/gud/anledning-till-att-vi-dyrkar-allah", "/svar/varfor-skapade-gud-manniskan/"],
+	["/featured/meningen-med-livet", "/svar/varfor-skapade-gud-manniskan/"],
+	["/existens/en-levande-planet", "/amnen/skapelsen/"],
+	["/featured/en-levande-planet-2", "/amnen/skapelsen/"],
+	["/category/existens", "/amnen/skapelsen/"],
+	["/islam/sjalens-existens-2", "/amnen/sjalen/"],
+	// Embryologi
+	[
+		"/islam/koranen-namner-att-manniskan-skapats-fran-jordstoff-men-den-namner-ocksa-att-hon-skapats-av-sadesvatska-ar-inte-detta-motsagelsefullt",
+		"/svar/koranen-och-embryologi/",
+	],
+	["/uncategorized/skapad-av-sadesvatska", "/svar/koranen-och-embryologi/"],
+	["/uncategorized/avgora-barnets-kon", "/svar/koranen-och-embryologi/"],
+	["/uncategorized/vad-kvinnans-skote-doljer", "/svar/koranen-och-embryologi/"],
+	// Skrifterna
+	["/islam/tron-pa-skrifterna", "/svar/koranen-och-tidigare-skrifter/"],
+	["/islam/tron-pa-skrifterna-som-gud-sant-ned", "/svar/koranen-och-tidigare-skrifter/"],
+	["/tro/sandebuden-och-skrifterna", "/svar/koranen-och-tidigare-skrifter/"],
+	["/islam/jag-har-delat-bonen-mellan-mig-och-min-tjanare", "/svar/vad-betyder-al-fatiha/"],
+	// Jihad, extremism, terrorism
+	["/jihad/extremism", "/svar/vad-ar-jihad/"],
+	["/jihad/terrorism-2", "/svar/vad-ar-jihad/"],
+	["/jihad/samexistens-och-tolerans", "/svar/vad-ar-jihad/"],
+	["/jihad/en-avslappnad-installning", "/svar/vad-ar-jihad/"],
+	["/uncategorized/terrorism", "/svar/vad-ar-jihad/"],
+	["/islam/ar-islam-en-militant-religion", "/svar/vad-ar-jihad/"],
+	// Kvinnan
+	["/kvinna/hedersrelaterat-vald", "/svar/vad-sager-islam-om-hedersmord/"],
+	["/kvinna/modern-har-tre-rattigheter", "/svar/islams-syn-pa-kvinnan/"],
+	["/kvinna/graviditet-ar-inte-ett-bevis", "/svar/fyra-vittnen-och-valdtakt/"],
+	["/islam/johara-att-bara-sloja-under-en-dag", "/svar/vad-ar-hijab/"],
+	["/islam/sara-varfor-jag-bar-sloja", "/svar/vad-ar-hijab/"],
+	// Konvertering — de fyra sista är konvertitvittnesmål, inte lärotext
+	["/islam-i-praktik/konvertera", "/svar/hur-blir-man-muslim/"],
+	["/islam/annica-folk-visar-mig-mer-respekt", "/svar/hur-blir-man-muslim/"],
+	["/islam/en-kar-mormor", "/svar/hur-blir-man-muslim/"],
+	["/islam/jenny-jag-angrar-inte-min-sjal", "/svar/hur-blir-man-muslim/"],
+	["/islam/rabia-vad-jag-tycker-om-min-sjal", "/svar/hur-blir-man-muslim/"],
+	// Bön och tvagning
+	["/islam-i-praktik/video-tvagningen", "/svar/tvagning-wudu/"],
+	["/uncategorized/forberedelser-infor-bonen-2", "/svar/sa-ber-man-steg-for-steg/"],
+	// Ramadan och fastan
+	["/islam/fastans-inre-hemligheter", "/svar/vad-ar-ramadan/"],
+	["/featured/fastans-historiska-anknytning", "/svar/vad-ar-ramadan/"],
+	["/islam/liknelsen-for-den-fastande-ar-en-man-som-bar-pa-en-sack-mysk", "/svar/vad-ar-ramadan/"],
+	// ⚠️ Fastetider = Fajr/Maghrib, alltså bönetiderna — inte årskalendern.
+	["/tag/faste-tider", "/bonetider/"],
+	["/tag/fastetider", "/bonetider/"],
+	["/tag/ramdan-tidtabell", "/bonetider/"],
+	["/tag/ramadankalender", "/det-islamiska-aret/"],
+	// Historia och vetenskap
+	["/historia/uthmans-kalifat", "/svar/de-rattledda-kaliferna/"],
+	["/historia", "/svar/den-islamiska-guldaldern/"],
+	["/vetenskap", "/svar/den-islamiska-guldaldern/"],
+	["/category/historia", "/svar/den-islamiska-guldaldern/"],
+	// Sunna, sunni, de lärda
+	["/islam/ahlus-sunnah", "/svar/sunni-och-shia/"],
+	["/islam/muhammad-ibn-ismail-al-bukhari", "/svar/vad-ar-sunna/"],
+	["/islam/ibn-taymiyyah", "/tankare/ibn-taymiyya/"],
+	// Ateism, sekularism, sufism, ödet
+	["/islam/ett-liv-utan-religion", "/svar/vad-sager-islam-om-ateism/"],
+	["/religion/anledningar-till-att-religionen-avvisats", "/svar/vad-sager-islam-om-ateism/"],
+	["/islam/existensialism", "/svar/islam-deism-och-sekularism/"],
+	["/religion/mysticism", "/svar/vad-ar-sufism/"],
+	["/featured/mangudemyten", "/svar/islam-och-polyteism/"],
+	["/islam/ar-islam-fatalistiskt", "/svar/vad-ar-odet-qadar/"],
+	// ⚠️ /category/polare är WordPress felstavning av "pelare" — inte "polare".
+	["/category/polare", "/svar/islams-fem-pelare/"],
+	["/category/polare-1a", "/svar/islams-fem-pelare/"],
+	// Arkiv och ingångar som pelarsidan/svarsindexet bär
+	["/category/islam", "/vad-ar-islam/"],
+	["/category/religion", "/vad-ar-islam/"],
+	["/category/tro", "/vad-ar-islam/"],
+	["/islam/islams-troslara", "/vad-ar-islam/"],
+	["/trosartiklar", "/vad-ar-islam/"],
+	["/islam/dawah", "/vad-ar-islam/"],
+	["/livsaskadning", "/vad-ar-islam/"],
+	["/livsaskadning/genomgang", "/vad-ar-islam/"],
+	["/religion/behovet-av-religion", "/vad-ar-islam/"],
+	["/religion/kriterier-for-en-sann-religion", "/vad-ar-islam/"],
+	["/religion/vagarna-till-sann-religion", "/vad-ar-islam/"],
+	["/religion/alla-religioner-sager-sig-vara-den-ratta", "/vad-ar-islam/"],
+	[
+		"/islam/alla-religioner-lar-i-grund-och-botten-dess-anhangare-att-vara-goda-sa-varfor-skall-man-folja-just-islam",
+		"/vad-ar-islam/",
+	],
+	["/category/faq", "/svar/"],
+	["/category/guider", "/svar/"],
+	["/guider", "/svar/"],
+	["/category/kost", "/svar/varfor-ater-muslimer-inte-griskott/"],
+	// Redaktion och policy
+	["/om/kontakt", "/om/"],
+	["/om/forslag", "/om/"],
+	["/om/rattigheter", "/om/"],
+	["/om/integritet", "/integritetspolicy/"],
+	["/author/admin", "/om/redaktion/"],
+	["/author/knut", "/om/redaktion/"],
+	["/author/dr-abdullah-s-ash-shehri", "/om/redaktion/"],
+	["/author/muhammad-bin-salih-al-uthaymin", "/om/redaktion/"],
 ];
 
 export default defineConfig({
@@ -569,6 +696,10 @@ export default defineConfig({
 		// `unified()` defaults to `gfm: true` / `smartypants: true`, exactly what the shim
 		// produced, so the emitted HTML is unchanged.
 		processor: unified({
+			// MUST stay false: Astro registers its OWN remark-smartypants when this is
+			// true, and that one runs with default options — it turns "…" into “…”
+			// before our guillemet-configured instance below ever sees a straight quote.
+			smartypants: false,
 			remarkPlugins: [
 				[
 					remarkSmartypants,
@@ -820,7 +951,10 @@ export default defineConfig({
 					// first-match win beats the generic homepage fallback for the same path.
 					const both = (from: string, to: string) => [`${from} ${to} 301`, `${from}/ ${to} 301`];
 					const custom = customRedirects.flatMap(([from, to]) => both(from, to));
-					const legacy = oldPaths.flatMap((p) => both(p, "/"));
+					// A path that already has a custom rule must not also get a homepage line:
+					// it is unreachable (first match wins) and Cloudflare caps the file at 2100.
+					const claimed = new Set(customRedirects.map(([from]) => from));
+					const legacy = oldPaths.filter((p) => !claimed.has(p)).flatMap((p) => both(p, "/"));
 					const body = `${[...custom, ...legacy].join("\n")}\n`;
 					writeFileSync(new URL("_redirects", dir), body);
 				},
