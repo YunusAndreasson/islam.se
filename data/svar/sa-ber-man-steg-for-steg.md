@@ -55,7 +55,7 @@ essays:
 
 ## Vad måste man göra innan bönen börjar?
 
-Innan det första *Allāhu akbar* ska flera villkor vara uppfyllda. Bönens tid ska ha inträtt: var och en av de fem bönerna har sitt eget tidsfönster, från Fajr i gryningen till Isha om natten. Den bedjande ska ha utfört den rituella tvagningen, *wudūʾ*, och bära rena kläder på en ren plats. Saknas vatten, eller kan det inte användas, ersätts tvagningen av *tayammum*, en symbolisk rening med ren jord. Kroppen ska vara anständigt täckt. Slutligen vänder man sig mot *qibla*, riktningen mot Kaba i Mecka, och fattar i hjärtat avsikten, *niyya*, att be just denna bön. Avsikten uttalas inte högt; den är ett beslut, inte en formel. I klassisk fiqh kallas de bönens giltighetsvillkor: är något av dem ogjort har bönen inte börjat, hur noggrant den än utförs.
+Innan det första *Allāhu akbar* ska flera villkor vara uppfyllda. Bönens tid ska ha inträtt: var och en av de fem bönerna har sitt eget tidsfönster, från Fajr i gryningen till Isha om natten, räknat efter solens läge över den plats man befinner sig på – se [bönetider för din ort](/bonetider/). Den bedjande ska ha utfört den rituella tvagningen, *wudūʾ*, och bära rena kläder på en ren plats. Saknas vatten, eller kan det inte användas, ersätts tvagningen av *tayammum*, en symbolisk rening med ren jord. Kroppen ska vara anständigt täckt. Slutligen vänder man sig mot *qibla*, riktningen mot Kaba i Mecka, och fattar i hjärtat avsikten, *niyya*, att be just denna bön. Avsikten uttalas inte högt; den är ett beslut, inte en formel. I klassisk fiqh kallas de bönens giltighetsvillkor: är något av dem ogjort har bönen inte börjat, hur noggrant den än utförs.
 
 ## Hur går bönen till steg för steg?
 

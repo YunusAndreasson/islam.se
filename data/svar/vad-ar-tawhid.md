@@ -73,7 +73,7 @@ Profeten Muhammed sade: "Gud har nittionio namn, hundra minus ett; den som räkn
 
 ## Hur ska Guds egenskaper förstås?
 
-Här håller *ahl as-sunna* (de som följer Koranen och *sunna* så som de tidiga lärda, *salaf*, förstod dem) en exakt medelväg. Egenskaper som att Gud hör, ser, vet och reser sig över tronen (*istiwāʾ*) bekräftas precis som de uppenbarats, utan att liknas vid skapelsens egenskaper (*tashbīh*) och utan att tömmas på innebörd (*taʿtīl*). De athariska lärda fångar hållningen i orden *bi-lā kayf*, "utan att fråga hur". Grunden är versen:
+Här håller *ahl as-sunna* (de som följer Koranen och *sunna* så som de tidiga lärda, *salaf*, förstod dem) en exakt medelväg. Egenskaper som att Gud hör, ser, vet och reser sig över tronen (*istiwāʾ*) bekräftas precis som de uppenbarats, utan att liknas vid skapelsens egenskaper (*tashbīh*) och utan att tömmas på innebörd (*taʿtīl*). Hållningen fångas i orden *bi-lā kayf*, "utan att fråga hur". Grunden är versen:
 
 > Ingenting är som Han — Han som hör allt, ser allt.
 > — Koranen 42:11

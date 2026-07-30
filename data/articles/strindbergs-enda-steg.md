@@ -5,7 +5,7 @@ wordCount: 1160
 qualityScore: 8.9
 description: "Han kunde inte sluta vara tacksam. Det var Strindbergs verkliga kris sommaren 1896 – inte ockultismen, inte nervsammanbrotten, utan en tacksamhet som envist vägrade lyda hans förnuft."
 imageAlt: "Man med rakat huvud sitter i en dunkel vardagsrumssoffa och läser en uppslagen bok, med böcker och en mugg på soffbordet."
-imageCaption: "Det enda steget börjar i stillheten – en bok, en kväll, en eftertanke."
+imageCaption: "Han läser i stillheten, före det enda steget."
 category: "Sökandet"
 ---
 Han kunde inte sluta vara tacksam. Det var Strindbergs verkliga kris sommaren 1896 – inte ockultismen, inte nervsammanbrotten, utan en tacksamhet som envist vägrade lyda hans förnuft.

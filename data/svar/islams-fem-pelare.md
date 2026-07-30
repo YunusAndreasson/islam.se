@@ -67,7 +67,7 @@ Ledet om Muhammed binder muslimen vid profetens exempel: Gud dyrkas på det sät
 
 ## Hur ser bön, zakat och fasta ut i praktiken?
 
-Bönen, *salāt*, förrättas fem gånger varje dygn: Fajr i gryningen, Dhuhr mitt på dagen, Asr på eftermiddagen, Maghrib efter solnedgången och Isha om natten, alltid vänd mot Kaba i Mecka. Allmoseskatten, *zakat*, är en årlig avgift på 2,5 procent (en fyrtiondel) som tas ut på det sparade överskottet när det överstiger en viss gräns, *nisab* (klassiskt räknad som värdet av 85 gram guld), och tillfaller de fattiga och de övriga grupper Koranen anger (9:60). Koranen nämner ofta bönen och allmosan tillsammans:
+Bönen, *salāt*, förrättas fem gånger varje dygn: Fajr i gryningen, Dhuhr mitt på dagen, Asr på eftermiddagen, Maghrib efter solnedgången och Isha om natten, alltid vänd mot Kaba i Mecka. [De fem dagliga bönetiderna](/bonetider/) följer solen och inte klockan, och skiftar därför med både ort och årstid. Allmoseskatten, *zakat*, är en årlig avgift på 2,5 procent (en fyrtiondel) som tas ut på det sparade överskottet när det överstiger en viss gräns, *nisab* (klassiskt räknad som värdet av 85 gram guld), och tillfaller de fattiga och de övriga grupper Koranen anger (9:60). Koranen nämner ofta bönen och allmosan tillsammans:
 
 > Förrätta bönen och ge åt de behövande och böj era huvuden med de andra som böjer sina huvuden [i bön].
 > — Koranen 2:43

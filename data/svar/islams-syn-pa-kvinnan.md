@@ -75,7 +75,7 @@ Få relationer ges högre rang än moderns. När en man frågade profeten Muhamm
 
 ## Betyder olika roller att kvinnan är underordnad?
 
-Här ligger den vanligaste missuppfattningen. Koranen ger mannen *qiwāma*, ett ansvar att "ha ansvar för och omsorg om kvinnorna … i egenskap av [kvinnornas] försörjare" (Koranen 4:34). Den klassiska traditionen läser detta som en börda lagd på mannen: han är skyldig att försörja och skydda henne oavsett hennes egen förmögenhet. Olika roller speglar olika ansvar, inte olika människovärde. Athari-lärda som Ibn al-Qayyim betonar att hela förhållandet vilar på barmhärtighet och rättvisa, och att den som missbrukar sin ställning syndar. *Qiwāma* är inte en tron mannen sitter på över henne, utan en börda han bär för hennes skull.
+Här ligger den vanligaste missuppfattningen. Koranen ger mannen *qiwāma*, ett ansvar att "ha ansvar för och omsorg om kvinnorna … i egenskap av [kvinnornas] försörjare" (Koranen 4:34). Den klassiska traditionen läser detta som en börda lagd på mannen: han är skyldig att försörja och skydda henne oavsett hennes egen förmögenhet. Olika roller speglar olika ansvar, inte olika människovärde. Ibn al-Qayyim betonar att hela förhållandet vilar på barmhärtighet och rättvisa, och att den som missbrukar sin ställning syndar. *Qiwāma* är inte en tron mannen sitter på över henne, utan en börda han bär för hennes skull.
 
 ## Hade kvinnor inflytande och kunskap i islam?
 

@@ -63,7 +63,7 @@ Det muslimen bär är därför inget sentida påfund, utan samma märke som Abra
 
 ## Är omskärelse av pojkar obligatorisk eller en rekommendation?
 
-Här skiljer sig de fyra klassiska rättsskolorna åt. Hanafī- och Mālikī-skolorna ser omskärelsen som en starkt rekommenderad *sunna* (*sunna muʾakkada*) snarare än ett absolut krav. Shāfiʿī- och Hanbalī-skolorna betraktar den däremot som obligatorisk (*wājib*) för män. Den hanbalitiske rättslärde Ibn Qudāma räknar den som en plikt för männen, och i den athariska traditionen, Ibn Taymiyyas och Ibn al-Qayyims väg, lutade man åt samma håll. Den samtida lärde Ibn al-ʿUthaymīn för samma linje: den mest korrekta uppfattningen är att omskärelsen är obligatorisk för mannen. Skolorna tvistar alltså inte om *huruvida* pojken ska omskäras, utan om *hur tungt* budet väger; "frivilligt" är ett svar ingen av dem ger.
+Här skiljer sig de fyra klassiska rättsskolorna åt. Hanafī- och Mālikī-skolorna ser omskärelsen som en starkt rekommenderad *sunna* (*sunna muʾakkada*) snarare än ett absolut krav. Shāfiʿī- och Hanbalī-skolorna betraktar den däremot som obligatorisk (*wājib*) för män. Den hanbalitiske rättslärde Ibn Qudāma räknar den som en plikt för männen, och Ibn Taymiyya och Ibn al-Qayyim lutade åt samma håll. Den samtida lärde Ibn al-ʿUthaymīn för samma linje: den mest korrekta uppfattningen är att omskärelsen är obligatorisk för mannen. Skolorna tvistar alltså inte om *huruvida* pojken ska omskäras, utan om *hur tungt* budet väger; "frivilligt" är ett svar ingen av dem ger.
 
 ## Varför omskärs muslimska pojkar?
 

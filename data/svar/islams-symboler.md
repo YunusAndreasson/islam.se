@@ -21,7 +21,7 @@ faq:
   - q: "Är det tillåtet att sätta en halvmåne på en moské?"
     a: "Det finns ingen grund för det i islam, och flera lärda betraktar det som en nyhet (bidʿa) i religionen. Det är vanligt men inte föreskrivet."
   - q: "Vad är islams egentliga kännetecken?"
-    a: "Trosbekännelsen (shahada) – 'Det finns ingen gud utom Gud' – är det närmaste islam har ett tecken, och den pryder bland annat Saudiarabiens flagga."
+    a: "Trosbekännelsen (shahada) – 'Det finns ingen gud utom Gud' – är det närmaste islam har ett tecken. Islam föreskriver ingen bild eller symbol alls."
 sources:
   - name: "Koranen 2:189"
     url: "https://quran.com/2/189?translations=48"
@@ -33,8 +33,6 @@ sources:
     url: "https://islamqa.info/en/answers/1528"
   - name: "islamqa.info (Muhammad Sālih al-Munajjid) – Halvmåne på minaret"
     url: "https://islamqa.info/en/answers/575/putting-a-crescent-on-top-of-the-minaret-of-a-mosque"
-  - name: "Wikipedia – Saudiarabiens flagga"
-    url: "https://sv.wikipedia.org/wiki/Saudiarabiens_flagga"
 related:
   - "trosbekannelsen-shahada"
   - "eid-al-fitr-och-eid-al-adha"
@@ -66,4 +64,4 @@ Att använda halvmånen är inte i sig en synd, men den saknar religiös grund. 
 
 ## Vilka tecken använde de tidiga muslimerna?
 
-I stället för bilder lutade sig de första muslimerna mot färg, ord och skrift. Grönt förknippas traditionellt med islam och med paradisets dräkter, som Koranen klär i grönt siden (18:31). Att färgen också skulle ha varit profeten Muhammeds egen favoritfärg är däremot en sedvänja utan fast grund: berättelsen förs tillbaka på Anas ibn Mālik men går genom en svag kedja, och ingen tillförlitlig hadith gör grönt till sunna. Profetens fanor var enfärgade och utan figurer. Till och med Kaba, islams mittpunkt, bär inga bilder – dess svarta täcke (*kiswa*) är broderat med Koranens ord i guld. Det närmaste islam har ett samlande kännetecken är trosbekännelsen, *shahada*: orden som gör en människa till muslim och som binder samman alla som följer profetens väg, *ahl as-sunna*. Saudiarabiens flagga är grön och bär just shahadan, "Det finns ingen gud utom Gud, och Muhammed är Hans sändebud", över ett vitt svärd. Även kalligrafin av Guds namn fyller den rollen bättre än någon halvmåne. Den enda symbol islam självt reser är en mening: "Det finns ingen gud utom Gud."
+I stället för bilder lutade sig de första muslimerna mot färg, ord och skrift. Grönt förknippas traditionellt med islam och med paradisets dräkter, som Koranen klär i grönt siden (18:31). Att färgen också skulle ha varit profeten Muhammeds egen favoritfärg är däremot en sedvänja utan fast grund: berättelsen förs tillbaka på Anas ibn Mālik men går genom en svag kedja, och ingen tillförlitlig hadith gör grönt till sunna. Profetens fanor var enfärgade och utan figurer. Till och med Kaba, islams mittpunkt, bär inga bilder – dess svarta täcke (*kiswa*) är broderat med Koranens ord i guld. Det närmaste islam har ett samlande kännetecken är trosbekännelsen, *shahada*: orden som gör en människa till muslim och som binder samman alla som följer profetens väg, *ahl as-sunna*. Även kalligrafin av Guds namn fyller den rollen bättre än någon halvmåne. Den enda symbol islam självt reser är en mening: "Det finns ingen gud utom Gud."
