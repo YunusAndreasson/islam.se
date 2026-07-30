@@ -1,9 +1,19 @@
 ---
 import AppPromo from "../../components/AppPromo.astro";
+import Breadcrumb from "../../components/Breadcrumb.astro";
 import OmBonen from "../../components/bonetider/OmBonen.astro";
 import Base from "../../layouts/Base.astro";
 import { ORG_ID, breadcrumbList, faqPageJsonLd } from "../../lib/jsonld";
 import { BONETIDER_DATA_DATE, SCB_REF, SCB_SOURCE } from "../../lib/bonetider/meta";
+
+// One array feeds both the visible trail and the JSON-LD, so they cannot drift apart.
+// ⚠️ Trailing slashes are load-bearing here: the visible href is used raw, and
+// Cloudflare 308s the slash-less form.
+const crumbs = [
+	{ name: "Hem", url: "/" },
+	{ name: "Bönetider", url: "/bonetider/" },
+	{ name: "Så beräknas bönetiderna", url: "/bonetider/metod/" },
+];
 
 const description =
 	"Så beräknas bönetiderna på islam.se: solens verkliga läge, beräkningsmetoder (Muslim World League m.fl.), madhhab, regler för höga latituder, tidszon – och våra källor (SCB, GeoNames, adhan).";
@@ -64,15 +74,12 @@ const faq = [
 			citation: sources,
 		},
 		faqPageJsonLd(faq),
-		breadcrumbList([
-			{ name: "Hem", url: "/" },
-			{ name: "Bönetider", url: "/bonetider" },
-			{ name: "Så beräknas bönetiderna", url: "/bonetider/metod" },
-		]),
+		breadcrumbList(crumbs),
 	]}
 >
 	<main id="main" class="home bonetider-metod bt-prose">
 		<header class="bt-metod-header">
+			<Breadcrumb items={crumbs} />
 			<h1>Så beräknas bönetiderna</h1>
 			<p class="bt-metod-lead">
 				Bönetiderna på islam.se beräknas från solens verkliga läge för varje orts position – inte
@@ -109,7 +116,7 @@ const faq = [
 		<section aria-labelledby="m-metoder">
 			<h2 id="m-metoder">Beräkningsmetoder och madhhab</h2>
 			<p>
-				Olika institutioner använder lite olika vinklar för Fajr och ʿIshāʾ. Standard på islam.se är
+				Olika institutioner använder lite olika vinklar för Fajr och ʿIshāʾ. Standard på islam.se är{" "}
 				<strong>Muslim World League</strong> (Fajr 18°, ʿIshāʾ 17°), som passar svenska latituder väl.
 				I inställningarna kan du byta till bland andra Diyanet (Turkiet), Umm al-Qurā (Mecka), ISNA
 				(Nordamerika), Egyptiska myndigheten och Karachi – kartan och tiderna uppdateras direkt.

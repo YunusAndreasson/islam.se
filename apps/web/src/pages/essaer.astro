@@ -45,9 +45,8 @@ const western = thinkers.filter((t) => t.data.tradition === "western");
 >
 	<main id="main" class="home essaer-page">
 		<PageHead title="Essäer">
-			Essäer där den islamiska lärdomstraditionen möter svenskt kulturarv – om skapelsen och själen,
-			rättvisa och sökande – lästa tillsammans med tänkare från Ibn Qayyim al-Jawziyya till
-			Strindberg.
+			Den islamiska lärdomstraditionen läst tillsammans med svensk litteratur: om skapelsen och
+			själen, om rättvisa och sökande.
 		</PageHead>
 
 		<nav class="filter-row" aria-label="Filtrera och sortera">
@@ -450,6 +449,9 @@ const western = thinkers.filter((t) => t.data.tradition === "western");
 		const ctrl = new AbortController();
 		const { signal } = ctrl;
 
+		// An explicit JS `behavior: "smooth"` is not reached by the CSS kill-switch.
+		const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
 		// ---- Read-progress: value-shift each row in place (muted title + "läst"). ----
 		function applyReadState() {
 			for (const item of document.querySelectorAll<HTMLElement>(".archive-item[data-slug]")) {
@@ -525,7 +527,7 @@ const western = thinkers.filter((t) => t.data.tradition === "western");
 			btn.addEventListener("click", () => {
 				if (chronological) setView(false);
 				closeOverlay();
-				document.getElementById(btn.dataset.target || "")?.scrollIntoView({ behavior: "smooth", block: "start" });
+				document.getElementById(btn.dataset.target || "")?.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: "start" });
 			}, { signal });
 
 		// Längd buckets.

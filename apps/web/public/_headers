@@ -6,6 +6,18 @@
 /_astro/*
   Cache-Control: public, max-age=31536000, immutable
 
+# Audio is the heaviest thing on the site (191 MB; 92 MB of it Quran recitation across 240
+# files) and had no explicit Cache-Control at all, so phones revalidated it on every visit.
+# 30 days, NOT immutable: these filenames are not content-hashed, so a re-recorded narration
+# has to be able to propagate. Do not add a second /audio/... rule — Pages MERGES the headers
+# of every matching rule and joins duplicates with a comma instead of picking a winner.
+/audio/*
+  Cache-Control: public, max-age=2592000
+
+# OG cards are crawler-facing, and regenerate under the same URL when a title changes.
+/og/*
+  Cache-Control: public, max-age=86400
+
 # Baseline security headers for every response. (Cache-Control is intentionally left
 # to Cloudflare's default for HTML so content edits go live without a stale window.)
 #

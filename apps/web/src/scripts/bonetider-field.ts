@@ -10,11 +10,10 @@ import {
 	PRAYER_SWEDISH_NAMES,
 	type PrayerKey,
 } from "../lib/bonetider/prayer-times";
-import {
-	createFieldRenderer,
-	type FieldLocation,
-	type Scheme,
-} from "../lib/bonetider/render-field";
+// Type-only: the renderer itself is imported dynamically in mountOne. It drags in the Sweden
+// and neighbour outlines plus the marching-squares contour build, and this module is mounted by
+// the mast on EVERY page — a static import shipped ~32 kB gzip of map to essays and svar pages.
+import type { createFieldRenderer, FieldLocation, Scheme } from "../lib/bonetider/render-field";
 import type { PrayerSettings } from "../lib/bonetider/settings";
 import { solarParams, sunPositionAt } from "../lib/bonetider/solar/sun";
 import { CHANGE_EVENT, loadLocation, loadSettings, saveLocation } from "../lib/bonetider/storage";
@@ -48,6 +47,8 @@ interface Instance {
 		nextTime: HTMLElement | null;
 		countdown: HTMLElement | null;
 		place: HTMLElement | null;
+		/** Hub only: the "Visar <ort> · <dag>" line, so a static build cannot name yesterday. */
+		captionDate: HTMLElement | null;
 		/** Strip only: the sun/moon icon container, toggled day vs night over the place. */
 		dayIcon: HTMLElement | null;
 		times: Map<PrayerKey, HTMLElement>;
@@ -162,24 +163,20 @@ function mountOne(el: HTMLElement): void {
 
 	// The top strip has no canvas — it's a readout only. Map fields get a renderer.
 	const canvas = el.querySelector<HTMLCanvasElement>("canvas.bf-canvas");
-	let render: Instance["render"];
-	if (canvas) {
-		const r = createFieldRenderer(canvas);
-		render = (cfg, now) => r.render({ ...cfg, variant }, now);
-	}
 
 	const inst: Instance = {
 		el,
 		fixed,
 		base,
 		visible: true,
-		render,
+		render: undefined,
 		readout: {
 			nextName: el.querySelector(".bf-next-name"),
 			nextSub: el.querySelector(".bf-next-sub"),
 			nextTime: el.querySelector(".bf-next-time"),
 			countdown: el.querySelector(".bf-countdown"),
 			place: el.querySelector(".bf-place"),
+			captionDate: el.querySelector(".bf-caption-date"),
 			dayIcon: el.querySelector(".bs-icon"),
 			times,
 			rows,
@@ -187,7 +184,7 @@ function mountOne(el: HTMLElement): void {
 	};
 	instances.push(inst);
 	// Only canvas fields are worth observing; the strip/readout have no render to skip.
-	if (render) {
+	if (canvas) {
 		// A below-the-fold canvas must NOT render at boot: the per-pixel twilight wash +
 		// marching-squares contour build is a ~550ms long task that, on the homepage (the
 		// map sits far down the page), blocks the hero image's LCP paint.
@@ -205,8 +202,30 @@ function mountOne(el: HTMLElement): void {
 			inst.visible = false;
 			visObserver.observe(el);
 		}
+		loadRenderer(inst, canvas, variant);
 	}
 	paint(inst, new Date());
+}
+
+/** Fetch the renderer alongside the readout paint, so it is normally in place before the
+ *  field scrolls into view. Until it resolves `inst.render` is undefined and paint() just
+ *  skips the canvas, exactly as it already does for an off-screen field. Never rejects. */
+async function loadRenderer(
+	inst: Instance,
+	canvas: HTMLCanvasElement,
+	variant: "home" | "full",
+): Promise<void> {
+	try {
+		const { createFieldRenderer } = await import("../lib/bonetider/render-field");
+		if (!inst.el.isConnected) return;
+		const r = createFieldRenderer(canvas);
+		inst.render = (cfg, now) => r.render({ ...cfg, variant }, now);
+		// The field may already have scrolled in while the chunk was loading.
+		if (inst.visible) paint(inst, new Date());
+	} catch {
+		// Chunk never arrived: the times, countdown and place stay live, and .bf-stage keeps
+		// the flat SEA colour it is painted with pre-JS, so the block reads as intended.
+	}
 }
 
 /** Is the sun above the horizon over a place right now? Drives the strip's sun/moon icon. */
@@ -289,6 +308,16 @@ function writeReadout(inst: Instance, now: Date, st: PrayerState, location: Fiel
 			: "—";
 	}
 	if (inst.readout.place) inst.readout.place.textContent = location.name;
+	if (inst.readout.captionDate) {
+		const tz = { timeZone: "Europe/Stockholm" } as const;
+		inst.readout.captionDate.setAttribute("datetime", now.toLocaleDateString("sv-SE", tz));
+		inst.readout.captionDate.textContent = now.toLocaleDateString("sv-SE", {
+			weekday: "long",
+			day: "numeric",
+			month: "long",
+			...tz,
+		});
+	}
 	inst.renderedNextKey = st.nextKey;
 }
 
@@ -347,26 +376,51 @@ function wireGeolocation(): void {
 }
 
 let lastMinute = -1;
-function startClock(): void {
-	const tick = (): void => {
-		const now = new Date();
-		const minute = now.getHours() * 60 + now.getMinutes();
-		const repaint = minute !== lastMinute; // canvas + times only need per-minute refresh
-		lastMinute = minute;
-		// Iterate backwards so detached fields (after a view transition) can be pruned.
-		for (let i = instances.length - 1; i >= 0; i--) {
-			const inst = instances[i];
-			if (!inst.el.isConnected) {
-				visObserver?.unobserve(inst.el);
-				instances.splice(i, 1);
-				continue;
-			}
-			if (repaint) paint(inst, now);
-			else updateCountdownOnly(inst, now); // cheap per-second countdown (cached state)
+let clockTimer: number | undefined;
+
+/** Only a mounted countdown needs per-second resolution — the mast chip shows a clock time. */
+function needsSeconds(): boolean {
+	for (const inst of instances) if (inst.readout.countdown) return true;
+	return false;
+}
+
+// Self-rescheduling rather than a fixed 1 Hz interval: this module is imported by the mast, so
+// the old setInterval woke every page on the site 60 times a minute to do nothing. Without a
+// countdown we sleep to the next minute boundary, and a hidden tab does not tick at all.
+function scheduleTick(): void {
+	if (clockTimer !== undefined) clearTimeout(clockTimer);
+	clockTimer = undefined;
+	if (document.hidden) return;
+	const delay = needsSeconds() ? 1000 : 60_000 - (Date.now() % 60_000);
+	clockTimer = window.setTimeout(runTick, delay);
+}
+
+function runTick(): void {
+	const now = new Date();
+	const minute = now.getHours() * 60 + now.getMinutes();
+	const repaint = minute !== lastMinute; // canvas + times only need per-minute refresh
+	lastMinute = minute;
+	// Iterate backwards so detached fields (after a view transition) can be pruned.
+	for (let i = instances.length - 1; i >= 0; i--) {
+		const inst = instances[i];
+		if (!inst.el.isConnected) {
+			visObserver?.unobserve(inst.el);
+			instances.splice(i, 1);
+			continue;
 		}
-	};
-	tick();
-	window.setInterval(tick, 1000);
+		if (repaint) paint(inst, now);
+		else updateCountdownOnly(inst, now); // cheap per-second countdown (cached state)
+	}
+	scheduleTick();
+}
+
+function startClock(): void {
+	runTick();
+	document.addEventListener("visibilitychange", () => {
+		// Coming back can be minutes later, so repaint at once instead of waiting out a delay.
+		if (document.hidden) scheduleTick();
+		else runTick();
+	});
 }
 
 // Per-second path: reuse the cached prayer state (no adhan recompute) and rewrite only the
@@ -399,11 +453,8 @@ function repaintAll(): void {
 }
 
 function mountAll(): void {
-	// .bonetider-readout is a canvas-less today's-times list (the city pages' "Dagens
-	// bönetider" block): mounted like the strip so its per-prayer times track the
-	// visitor's saved method/madhab live, instead of being frozen at the SSR default.
 	for (const el of document.querySelectorAll<HTMLElement>(
-		".bonetider-field, .bonetider-strip, .bonetider-readout, .bonetider-mast",
+		".bonetider-field, .bonetider-strip, .bonetider-mast",
 	))
 		mountOne(el);
 }
@@ -414,6 +465,8 @@ export function boot(): void {
 	hideUnsupportedGeo();
 	if (booted) {
 		repaintAll();
+		// A navigation can add or remove a countdown, so re-pick the cadence now.
+		scheduleTick();
 		return;
 	}
 	booted = true;

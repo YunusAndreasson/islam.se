@@ -14,13 +14,23 @@ interface Props {
 	variant?: "home" | "full";
 	/** City pages pin the location; home/hub may be overridden by the visitor's choice. */
 	fixed?: boolean;
+	/** Names the place and day the times belong to. The hub needs it — its H1 is national
+	 *  but the times below it are one town's, which is unreadable in HTML without this. */
+	caption?: boolean;
 }
 
-const { location, variant = "home", fixed = false } = Astro.props;
+const { location, variant = "home", fixed = false, caption = false } = Astro.props;
 
 // Build-time "today" with default settings — the no-JS / no-flash baseline. The client
 // recomputes live against the real now and the visitor's saved settings.
 const now = new Date();
+const todayIso = now.toLocaleDateString("sv-SE", { timeZone: "Europe/Stockholm" });
+const todayLabel = new Intl.DateTimeFormat("sv-SE", {
+	timeZone: "Europe/Stockholm",
+	weekday: "long",
+	day: "numeric",
+	month: "long",
+}).format(now);
 const times = computePrayerTimes(location, now, DEFAULT_SETTINGS);
 const rows = PRAYER_ORDER.map((key) => ({
 	key,
@@ -40,23 +50,45 @@ const nextKey = nextPrayerKeyAt(times, now.getTime()) ?? "fajr";
 	data-variant={variant}
 	data-fixed={fixed ? "1" : "0"}
 >
+	{/* The floating readout is the home variant's ONLY schedule, so it stays there. On
+	    the full variant the list beside the map already carries every prayer and marks
+	    the next one, so the dock was repeating it — and reserving a band of map to do
+	    it. Dropped, which lets the stage run the full height of that list. */}
 	<div class="bf-stage">
 		<canvas class="bf-canvas" aria-hidden="true"></canvas>
-		<div class="bf-overlay">
-			<p class="bf-next">
-				<span class="bf-next-prayer">
-					<span class="bf-next-name">{PRAYER_LABELS[nextKey]}</span>
-					<span class="bf-next-sub">{PRAYER_SWEDISH_NAMES[nextKey]}</span>
-				</span>
-				<span class="bf-countdown">{formatTime(times[nextKey])}</span>
-			</p>
-			<p class="bf-place">{location.name}</p>
-		</div>
+		{variant === "home" && (
+			<div class="bf-overlay">
+				<p class="bf-next">
+					<span class="bf-next-prayer">
+						<span class="bf-next-name">{PRAYER_LABELS[nextKey]}</span>
+						<span class="bf-next-sub">{PRAYER_SWEDISH_NAMES[nextKey]}</span>
+					</span>
+					<span class="bf-countdown">{formatTime(times[nextKey])}</span>
+				</p>
+				<p class="bf-place">{location.name}</p>
+			</div>
+		)}
 	</div>
+
+	{
+		caption && (
+			<p class="bf-caption">
+				Visar <span class="bf-place">{location.name}</span> ·{" "}
+				<time class="bf-caption-date" datetime={todayIso}>
+					{todayLabel}
+				</time>
+			</p>
+		)
+	}
 
 	<ul class="bf-times" aria-label={`Bönetider för ${location.name} i dag`}>
 		{rows.map((r) => (
-			<li class="bf-t" data-prayer={r.key} class:list={{ "is-next": r.key === nextKey }}>
+			<li
+				class="bf-t"
+				id={variant === "full" ? `bt-${r.key}` : undefined}
+				data-prayer={r.key}
+				class:list={{ "is-next": r.key === nextKey }}
+			>
 				<span class="bf-t-name">{r.label}</span>
 				<span class="bf-t-sv">{r.sv}</span>
 				<span class="bf-t-time">{r.time}</span>
@@ -87,19 +119,41 @@ const nextKey = nextPrayerKeyAt(times, now.getTime()) ?? "fajr";
 			grid-template-columns: minmax(0, var(--bf-stage-w)) 1fr;
 			align-items: center;
 		}
+
+		/* Side by side, the map and the schedule are one object, so they should share a
+		   baseline top and bottom. Centring left a ragged gap under whichever column was
+		   shorter. The 4/5 ratio was only ever there to give the stage a shape before
+		   anything measured it; with the dock gone the list can set the height and the
+		   map fills it. Stacked (< 640px) the ratio still rules — there is nothing
+		   beside it to match. */
+		.bf-full {
+			align-items: stretch;
+		}
+
+		.bf-full .bf-stage {
+			aspect-ratio: auto;
+			height: 100%;
+		}
 	}
 
 	/* The map stage. Pre-JS it's a calm sea rectangle; the canvas paints the silhouette,
 	   twilight wash and sweeping prayer lines over it once mounted. */
+	/* Shared so the stage radius and the overlay's concentric inner radius cannot drift
+	   apart — change the radius here and the corner geometry stays correct. */
+	.bonetider-field {
+		--bf-radius: 14px;
+		--bf-inset: 0.55rem;
+	}
+
 	.bf-stage {
 		position: relative;
 		aspect-ratio: 4 / 5;
-		border-radius: 14px;
+		border-radius: var(--bf-radius);
 		overflow: hidden;
 		/* The sea, before the canvas mounts. Must equal SEA in lib/bonetider/render-field.ts,
 		   which is where the reasoning for this value lives — otherwise the stage visibly
 		   changes colour the moment the renderer takes over. */
-		background: light-dark(#dfe4e2, #15171a);
+		background: light-dark(#c9cdca, #15171a);
 		border: 1px solid var(--color-divider);
 		box-shadow: 0 1px 2px rgb(0 0 0 / 0.04), 0 12px 28px -16px rgb(0 0 0 / 0.25);
 	}
@@ -116,15 +170,48 @@ const nextKey = nextPrayerKeyAt(times, now.getTime()) ?? "fajr";
 	   rounded corners stay crisp over the colour-shifting wash. */
 	.bf-overlay {
 		position: absolute;
-		left: 0.55rem;
-		right: 0.55rem;
-		bottom: 0.55rem;
+		left: var(--bf-inset);
+		right: var(--bf-inset);
+		bottom: var(--bf-inset);
 		padding: 0.5rem 0.7rem;
-		border-radius: 0.7rem;
-		/* Warm near-black in dark, matching the canvas palette (render-field.ts). */
-		background: light-dark(rgb(255 253 248 / 0.88), rgb(29 25 18 / 0.84));
+		/* ⚠️ Concentric, not eyeballed: an inner radius must be the outer radius MINUS
+		   the inset, or the two curves stop running parallel and the corner reads as a
+		   mistake. This was 0.7rem (11.2px) against a 14px stage inset by 8.8px, where
+		   the geometry asks for 5.2px — more than double, and it was the reason the
+		   panel looked stuck on rather than set in. */
+		border-radius: calc(var(--bf-radius) - var(--bf-inset));
+		/* The page's own warm ground, not near-white: at 0.88 over the night sea the
+		   old #fffdf8 picked up enough blue showthrough to read as a cold grey slab on
+		   a warm page. Plus a hairline — a translucent panel over a busy image needs a
+		   defined edge, which a downward drop shadow alone does not give it. */
+		background: light-dark(rgb(255 246 232 / 0.9), rgb(29 25 18 / 0.86));
+		border: 1px solid light-dark(rgb(26 23 18 / 0.1), rgb(232 229 224 / 0.14));
 		backdrop-filter: blur(8px);
-		box-shadow: 0 1px 10px -4px rgb(0 0 0 / 0.4);
+		box-shadow: 0 2px 12px -6px rgb(0 0 0 / 0.35);
+	}
+
+	/* The map now letters the marker with the town's name and the section heading
+	   carries it too, so the dock repeating it made three "Stockholm" inside 300 px.
+	   The home variant keeps it — there the marker is not lettered.
+	   Scoped to the overlay: .bf-caption reuses .bf-place so the existing readout code
+	   renames it, and that one must stay visible. */
+	.bf-full .bf-overlay .bf-place {
+		display: none;
+	}
+
+	/* Which town and which day the times belong to. The hub's H1 is national, so without
+	   this the six times underneath belong to nobody. */
+	.bf-caption {
+		grid-column: 1 / -1;
+		order: -1;
+		margin: 0;
+		font-family: var(--font-body);
+		font-size: var(--step--2);
+		color: var(--color-muted);
+	}
+
+	.bf-caption .bf-place {
+		color: var(--color-text);
 	}
 
 	.bf-next {

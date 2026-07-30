@@ -14,18 +14,34 @@
 # WHAT IT DOES (and deliberately does NOT do)
 #   * Builds ONLY the web package (`pnpm --filter @islam-se/web run build`). The web app has no
 #     workspace deps, so core/quotes/orchestrator are not rebuilt.
-#   * Skips `pnpm pdf` (the slow Puppeteer article-PDF render) — irrelevant to prayer times.
-#     This is the one difference from the interactive root `pnpm ship`.
+#   * Renders the PDF. ⚠️ NOT optional, despite being irrelevant to prayer times: a Pages
+#     deploy is a full SNAPSHOT of dist/, so omitting `pnpm pdf` 404s the already-live
+#     /samlingsvolym.pdf that BookPod links to.
 #   * Deploys the static `dist/` to Cloudflare Pages, production branch `master`.
 #
 # REQUIREMENTS (for cron / CI, non-interactive)
 #   * pnpm + Node installed and on PATH.
+#   * The `typst` binary on PATH — scripts/generate-pdf.ts shells out to it.
 #   * Wrangler authenticated WITHOUT a browser: export CLOUDFLARE_API_TOKEN (a token with the
 #     "Cloudflare Pages: Edit" permission) and CLOUDFLARE_ACCOUNT_ID in the environment.
+#     ⚠️ Set them in cron's own environment; cron does not read your shell profile.
 #
 # USAGE
 #   scripts/deploy-bonetider-daily.sh
 #   SKIP_GIT_PULL=1 scripts/deploy-bonetider-daily.sh   # deploy current checkout as-is
+#
+# CRONTAB (01:30 Europe/Stockholm — inside the new day in both CET and CEST; a run at
+# 00:00 is a coin flip on which date the build stamps)
+#   CRON_TZ=Europe/Stockholm
+#   CLOUDFLARE_API_TOKEN=…
+#   CLOUDFLARE_ACCOUNT_ID=…
+#   30 1 * * * /path/to/islam.se/scripts/deploy-bonetider-daily.sh >> /var/log/islam-se-deploy.log 2>&1
+#
+# Smoke-test it the way cron will run it, not the way your shell does — PATH and auth
+# failures only show up under a stripped environment:
+#   env -i HOME="$HOME" PATH=/usr/local/bin:/usr/bin:/bin \
+#     CLOUDFLARE_API_TOKEN=… CLOUDFLARE_ACCOUNT_ID=… \
+#     /path/to/islam.se/scripts/deploy-bonetider-daily.sh
 #
 set -euo pipefail
 
@@ -34,6 +50,14 @@ REPO_DIR="${REPO_DIR:-$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)}"
 cd "$REPO_DIR"
 
 log() { printf '[deploy-bonetider-daily %s] %s\n' "$(date -u +%FT%TZ)" "$*"; }
+
+# A slow run must not have the next night's run building on top of it. Exit 0, not 1 — an
+# overlap is a skipped refresh, not a failure worth mailing the operator about.
+exec 9>"${TMPDIR:-/tmp}/islam-se-daily-deploy.lock"
+if ! flock -n 9; then
+	log "another run holds the lock — skipping"
+	exit 0
+fi
 
 # Pick up any newly committed code. Freshness itself needs no new commit (the build stamps
 # today's date), so a non-fast-forward or offline box must not abort the daily refresh.
@@ -45,11 +69,26 @@ fi
 log "installing deps"
 pnpm install --frozen-lockfile
 
-# Lean build: astro build + markdown generation for the web app only. No PDF, no other packages.
-log "building web (astro, no pdf)"
+# Parity check against adhan, run on the actual build date so a DST or edge-date regression
+# fails here instead of shipping 2 118 pages of wrong times.
+log "checking prayer-time parity"
+pnpm --filter @islam-se/web exec tsx scripts/check-bonetider.ts
+
+# A wedged dist has survived a rebuild before; start from nothing.
+rm -rf "$REPO_DIR/apps/web/dist"
+
+log "building web (astro + markdown)"
 pnpm --filter @islam-se/web run build
 
+log "rendering pdf (typst)"
+pnpm --filter @islam-se/web run pdf
+
+# Last gate before the snapshot replaces the live site.
+log "running deploy guard"
+node "$REPO_DIR/apps/web/scripts/assert-full-build.mjs"
+
 # Deploy the freshly built static site to Cloudflare Pages (production).
+# ⚠️ --branch master, or Cloudflare files it as a Preview deploy and nothing goes live.
 log "deploying dist to Cloudflare Pages (project islam-se, branch master)"
 pnpm --filter @islam-se/web exec wrangler pages deploy dist \
 	--project-name islam-se \

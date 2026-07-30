@@ -6,14 +6,19 @@ import {
 	PRAYER_LABELS,
 	PRAYER_ORDER,
 	stockholmDateParts,
+	stockholmMonthLabel,
 	TIME_ZONE,
 } from "../../lib/bonetider/prayer-times";
 import { DEFAULT_SETTINGS } from "../../lib/bonetider/settings";
 
 interface Props {
 	location: { name: string; latitude: number; longitude: number };
+	/** id of a heading that already names this table. Given one, the figure is labelled by
+	 *  it instead of repeating the same sentence in a figcaption — and the client refresh
+	 *  renames that heading, so it cannot outlive the month it names. */
+	labelledBy?: string;
 }
-const { location } = Astro.props;
+const { location, labelledBy } = Astro.props;
 
 // The whole current month, computed at build time with the default (MWL) method – real,
 // indexable prayer-time content, correct for the explicit dates shown. The interactive
@@ -22,7 +27,7 @@ const now = new Date();
 const { year, month, day: todayD } = stockholmDateParts(now);
 const fmt = (opts: Intl.DateTimeFormatOptions, d: Date) =>
 	new Intl.DateTimeFormat("sv-SE", { timeZone: TIME_ZONE, ...opts }).format(d);
-const monthLabel = `${fmt({ month: "long" }, new Date(Date.UTC(year, month, 15, 12)))} ${year}`;
+const monthLabel = stockholmMonthLabel(now);
 const daysInMonth = new Date(year, month + 1, 0).getDate();
 
 const rows = Array.from({ length: daysInMonth }, (_, i) => {
@@ -43,10 +48,16 @@ const rows = Array.from({ length: daysInMonth }, (_, i) => {
 	data-name={location.name}
 	data-lat={location.latitude}
 	data-lon={location.longitude}
+	aria-labelledby={labelledBy}
+	data-bt-heading={labelledBy}
 >
-	<figcaption class="bt-table-cap" data-bt-table-caption>
-		Bönetider i {location.name} – {monthLabel}
-	</figcaption>
+	{
+		!labelledBy && (
+			<figcaption class="bt-table-cap" data-bt-table-caption>
+				Bönetider i {location.name} – {monthLabel}
+			</figcaption>
+		)
+	}
 	<div class="bt-scroll">
 		<table class="bt-table">
 			<thead>
@@ -114,6 +125,18 @@ const rows = Array.from({ length: daysInMonth }, (_, i) => {
 		.bt-table th,
 		.bt-table td {
 			padding-inline: 0.3rem;
+		}
+	}
+
+	/* ⚠️ 0.3rem still measured 370px against a 348px container on a 390px phone, so
+	   ʿIshāʾ sat behind a scroll nobody asked for — the one column a reader scrolls
+	   this table to reach. 0.15rem brings it to ~336px and the whole day fits. The
+	   digits are tabular and four characters wide, so the columns stay separable at
+	   this padding; .bt-scroll remains as the backstop for narrower screens still. */
+	@media (width <= 26rem) {
+		.bt-table th,
+		.bt-table td {
+			padding-inline: 0.15rem;
 		}
 	}
 
@@ -186,31 +209,50 @@ const rows = Array.from({ length: daysInMonth }, (_, i) => {
 
 		const { year, month, day: todayD } = stockholmDateParts(new Date());
 		const daysInMonth = new Date(year, month + 1, 0).getDate();
-		const caption = fig.querySelector<HTMLElement>("[data-bt-table-caption]");
-		if (caption) {
-			const monthLabel = `${fmt({ month: "long" }, new Date(Date.UTC(year, month, 15, 12)))} ${year}`;
-			caption.textContent = `Bönetider i ${name} – ${monthLabel}`;
-		}
+		// Whatever names this table — its own figcaption, or a heading outside it — has to be
+		// renamed too. A static build that crosses a month boundary otherwise labels July's
+		// rows "juni".
+		const monthLabel = `${fmt({ month: "long" }, new Date(Date.UTC(year, month, 15, 12)))} ${year}`;
+		const headingId = fig.dataset.btHeading;
+		const label =
+			fig.querySelector<HTMLElement>("[data-bt-table-caption]") ??
+			(headingId ? document.getElementById(headingId) : null);
+		if (label) label.textContent = `Bönetider i ${name} – ${monthLabel}`;
+
+		// ⚠️ Astro scopes this component's CSS behind a `data-astro-cid-*` attribute, and
+		// elements built with createElement do not inherit it. Without this every scoped
+		// rule silently died on the rebuilt month table — cell padding, `white-space:
+		// nowrap`, `text-align`, the row borders — and on a 390 px phone the Fajr and
+		// Shurūq columns ran together into one unreadable number ("02:4903:37"). The
+		// server-rendered markup is correct, so the bug only appeared after hydration.
+		// Take the attribute off the live table rather than hard-coding the hash.
+		const scopeAttr = Array.from(tbody.attributes)
+			.map((a) => a.name)
+			.find((n) => n.startsWith("data-astro-cid-"));
+		const scope = <T extends HTMLElement>(el: T): T => {
+			if (scopeAttr) el.setAttribute(scopeAttr, "");
+			return el;
+		};
 
 		tbody.replaceChildren(
 			...Array.from({ length: daysInMonth }, (_, i) => {
 				const d = i + 1;
 				const date = dateForStockholmDay(year, month, d);
 				const times = computePrayerTimes({ latitude, longitude }, date, DEFAULT_SETTINGS);
-				const tr = document.createElement("tr");
+				const tr = scope(document.createElement("tr"));
 				tr.dataset.day = String(d);
 				tr.classList.toggle("is-today", d === todayD);
 
-				const th = document.createElement("th");
+				const th = scope(document.createElement("th"));
 				th.scope = "row";
-				const time = document.createElement("time");
+				const time = scope(document.createElement("time"));
 				time.dateTime = `${year}-${String(month + 1).padStart(2, "0")}-${String(d).padStart(2, "0")}`;
 				time.textContent = `${fmt({ weekday: "short" }, new Date(Date.UTC(year, month, d, 12)))} ${d}`;
 				th.append(time);
 				tr.append(th);
 
 				for (const key of PRAYER_ORDER) {
-					const td = document.createElement("td");
+					const td = scope(document.createElement("td"));
 					td.textContent = formatTime(times[key]);
 					tr.append(td);
 				}

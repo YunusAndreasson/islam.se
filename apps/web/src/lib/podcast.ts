@@ -17,7 +17,7 @@ export const SPOTIFY_SHOW_URL = "https://open.spotify.com/show/2WgLxCwy5RFu07sEg
  *  never drift between the two. */
 export const PODCAST_TITLE = "islam.se: andliga essäer";
 export const PODCAST_DESCRIPTION =
-	"Svenskan bär sina djupaste begrepp i sammansatta ord. Samvete – sam och vete – betyder att veta tillsammans med någon; ansvar, att svara inför någon. Orden förutsätter en motpart. Fjorton hundra år av islamiskt tänkande har känt den ensamheten – men aldrig förlorat motparten. Här får samtalet en svensk röst.";
+	"Essäerna från islam.se, inlästa. Den islamiska lärdomstraditionen läst tillsammans med svensk litteratur – om samvetet och ansvaret, om skapelsen, natten och tiden.";
 /** Square cover art (3000×3000), served from public/. */
 export const PODCAST_COVER = "/podcast-cover.jpg";
 /** The RSS feed every podcast app subscribes to. */

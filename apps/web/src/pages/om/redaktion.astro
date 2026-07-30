@@ -1,20 +1,10 @@
 ---
-import { getCollection } from "astro:content";
 import Base from "../../layouts/Base.astro";
-import { formatDate, getArticles } from "../../lib/articles";
-import { INDEXED_PLACES } from "../../lib/bonetider/places-index";
+import { formatDate } from "../../lib/articles";
 import { ORG_ID, breadcrumbList } from "../../lib/jsonld";
 
-const articles = await getArticles();
-const articleCount = articles.length;
-const svarCount = (await getCollection("svar")).length;
-const placeCount = INDEXED_PLACES.length;
-
-// Swedish digit grouping (thin space), so "2118" reads as a figure in prose.
-const sv = (n: number) => n.toLocaleString("sv-SE");
-
 // By hand when the principles change — never the build date.
-const POLICY_UPDATED = "2026-07-27";
+const POLICY_UPDATED = "2026-07-29";
 
 const description =
 	"Redaktionella principer för islam.se: vad vi publicerar, vilka källor texterna vilar på, hur de granskas och hur du anmäler ett fel.";
@@ -79,12 +69,8 @@ const description =
 		<div class="article-body prose redaktion-prose">
 			<h2>Vad vi publicerar</h2>
 			<p>
-				Tre slags sidor: {articleCount} essäer där islamisk lärdomstradition möter svenskt och
-				nordiskt kulturarv, {svarCount} källbelagda svar på vanliga frågor om islam, och bönetider
-				för {sv(placeCount)} orter i Sverige. Essäerna är skrivna för att läsas långsamt, och
-				vänder sig till den som vill förstå islams tankevärld i samtal med Strindberg, Lagerlöf,
-				Boye och Hammarskjöld lika gärna som med al-Ghazālī och Ibn al-Qayyim. Svaren har den
-				motsatta uppgiften: att ge ett kort och belagt besked på en rak fråga.
+				Sajten har två slags texter. Essäerna läser islamisk lärdomstradition tillsammans med
+				svensk och nordisk litteratur. Svaren ger ett kort och källbelagt besked på en rak fråga.
 			</p>
 
 			<h2>Källor</h2>
@@ -95,32 +81,103 @@ const description =
 				till den arabiska texten. Vi citerar hellre källan själv än andrahandsreferat, och en
 				uppgift vi inte kunnat föra tillbaka till en källa står inte kvar.
 			</p>
+			<p>
+				Biblioteket vi söker i är vårt eget. Det rymmer 59&nbsp;068 citat av 2&nbsp;752 författare,
+				hämtade ur 1&nbsp;093 verk.
+			</p>
+
+			{/* Counted from data/*.db by hand — bump the date below when they are recounted. */}
+			<dl class="redaktion-masthead redaktion-figures">
+				<div>
+					<dt>Arabiska klassiker</dt>
+					<dd>20&nbsp;106 citat ur 131 verk</dd>
+				</div>
+				<div>
+					<dt>Svensk litteratur</dt>
+					<dd>31&nbsp;956 citat ur 578 verk</dd>
+				</div>
+				<div>
+					<dt>Fornnordiskt och engelskt</dt>
+					<dd>7&nbsp;006 citat</dd>
+				</div>
+				<div>
+					<dt>Koranen</dt>
+					<dd>6&nbsp;233 verser</dd>
+				</div>
+				<div>
+					<dt>Böcker i fulltext</dt>
+					<dd>153 titlar</dd>
+				</div>
+			</dl>
+			<p class="redaktion-figures-note">Siffrorna gäller den 27 juli 2026.</p>
 
 			<h2>Så blir en text till</h2>
+			<p>Varje text går samma väg innan vi publicerar den.</p>
+
+			<ol class="pipeline">
+				<li class="pipeline-step">
+					<span class="pipeline-name">Uppslag</span>
+					<p>Ämnet måste gå att belägga ur källorna.</p>
+				</li>
+				<li class="pipeline-step">
+					<span class="pipeline-name">Efterforskning</span>
+					<p>Underlaget hämtar vi ur biblioteket ovan.</p>
+				</li>
+				<li class="pipeline-step">
+					<span class="pipeline-name">Källkritik</span>
+					<p>
+						Uppgifter utifrån vägs efter källans tillförlitlighet. Vissa källor använder vi inte,
+						och vi håller reda på vilka som visat sig hålla.
+					</p>
+				</li>
+				<li class="pipeline-step is-gate">
+					<span class="pipeline-name">Faktagranskning</span>
+					<p>
+						Varje citat kontrolleras mot sin källa, varje siffra mot ett oberoende belägg, varje
+						hadith mot sin samling och varje versnummer mot versen.
+					</p>
+					<p class="pipeline-exit">Håller underlaget inte, blir det ingen text.</p>
+				</li>
+				<li class="pipeline-step">
+					<span class="pipeline-name">Skrivande</span>
+					<p>Först då skrivs texten.</p>
+				</li>
+				<li class="pipeline-step is-gate">
+					<span class="pipeline-name">Omläsning</span>
+					<p>
+						Texten läses igenom flera gånger, varje gång med ett avgränsat uppdrag: bär
+						resonemanget, är de abstrakta begreppen konkretiserade, är svenskan idiomatisk, ligger
+						trosläran inom traditionen.
+					</p>
+					<p class="pipeline-exit">Håller texten inte, går den tillbaka till skrivbordet.</p>
+				</li>
+				<li class="pipeline-step is-end">
+					<span class="pipeline-name">Publicering</span>
+					<p>Texten går ut med källförteckning och datum.</p>
+				</li>
+			</ol>
+
 			<p>
-				Varje text går igenom samma steg innan den publiceras: efterforskning i källorna,
-				källkontroll, författande och en avslutande granskning av sak, språk och teologi. Vi
-				använder AI som ett verktyg i det arbetet. Ansvaret ligger ändå hos oss: en text prövas mot
-				sina primärkällor och läses igenom av en människa innan den går ut, och det som inte håller
-				– i sak, i källäge eller i språk – publiceras inte.
+				Vi använder AI som verktyg i varje led. Ansvaret är ändå vårt: ingen text publiceras utan
+				att en människa läst igenom den.
 			</p>
 
 			<h2>Teologisk hållning</h2>
 			<p>
 				Texterna håller sig inom den klassiska islamiska traditionens ramar och prövas mot Koranen
-				och sunna så som de lästs av lärda som Ibn Taymiyya och Ibn al-Qayyim. Där en text rör vid
-				trosläran är det den traditionen som är måttstocken; litterära jämförelser med svenska
+				och sunna så som den första generationen muslimer förstod dem. Där en text rör vid
+				trosläran är det den förståelsen som är måttstocken; litterära jämförelser med svenska
 				författare är till för att belysa, aldrig för att jämställa eller lägga till något i läran.
 			</p>
 
-			<h2>Rättelser</h2>
+			<h2 id="rattelser">Rättelser</h2>
 			<p>
 				Vi rättar sakfel så snart vi får veta om dem. Hittar du ett – i en översättning, en
-				hänvisning eller en uppgift – hör av dig via{" "}
-				<a href="https://bilal.se" rel="author">Bilal</a> eller{" "}
-				<a href="https://andreassonphoto.com" rel="author">Yunus</a>. Ändras en text i sak efter
-				publicering får den ett synligt datum för när den senast ändrades; små språkliga justeringar
-				stämplas inte om.
+				hänvisning eller en uppgift – finns ett{" "}
+				<a href="/ratta/">formulär för rättelser</a>, och längst ned i varje text ligger en länk
+				dit med sidan redan ifylld. Ta med meningen det gäller och gärna ett belägg; det är det
+				som avgör hur fort rättelsen går igenom. Ändras en text i sak efter publicering får den
+				ett synligt datum för när den senast ändrades; små språkliga justeringar stämplas inte om.
 			</p>
 
 			<p>
@@ -128,12 +185,6 @@ const description =
 				texterna med en AI-assistent beskriver <a href="/ai/">AI-sidan</a> hur du kopplar in dem.
 			</p>
 		</div>
-
-		<p class="redaktion-seealso label">
-			<a class="back-link" href="/om/">Om islam.se</a>
-			<span class="nav-dot" aria-hidden="true">·</span>
-			<a href="/essaer/">Alla essäer</a>
-		</p>
 	</main>
 </Base>
 
@@ -155,6 +206,19 @@ const description =
 		padding: 0;
 		border-top: 1px solid var(--color-rule);
 		font-size: var(--step--2);
+	}
+
+	/* Same ruled-facts table as the masthead, reused for the library figures — the
+	   format is what keeps a column of numbers reading as data rather than a boast. */
+	.redaktion-figures {
+		margin-top: var(--space-unit);
+	}
+
+	.redaktion-figures-note {
+		font-family: var(--font-body);
+		font-size: var(--step--3);
+		color: var(--color-muted);
+		margin: var(--space-half) 0 0;
 	}
 
 	.redaktion-masthead > div {
@@ -201,6 +265,96 @@ const description =
 		}
 	}
 
+	/* Route from idea to publication: one flow that carries its own descriptions, so
+	   the step names are never listed twice. Each node draws the rail down to the
+	   next one, which means the last node ends it — no length arithmetic to keep
+	   in sync with the content. */
+	.pipeline {
+		--rail: 1.9rem;
+		list-style: none;
+		margin: var(--space-unit) 0 var(--space-phi);
+		padding: 0 0 0 var(--rail);
+		max-width: var(--content-width);
+	}
+
+	.pipeline-step {
+		position: relative;
+		padding-bottom: var(--space-unit);
+	}
+
+	.pipeline-step:last-child {
+		padding-bottom: 0;
+	}
+
+	/* Node. */
+	.pipeline-step::before {
+		content: "";
+		position: absolute;
+		left: calc(var(--rail) * -1);
+		top: 0.72em;
+		width: 9px;
+		height: 9px;
+		border-radius: 50%;
+		background: var(--color-bg);
+		border: 1px solid var(--color-muted);
+		transform: translateY(-50%);
+		z-index: 1;
+	}
+
+	/* Rail from this node to the next. The last step has none, so it terminates. */
+	.pipeline-step::after {
+		content: "";
+		position: absolute;
+		left: calc(var(--rail) * -1 + 4px);
+		top: 0.72em;
+		bottom: -0.72em;
+		width: 1px;
+		background: var(--color-rule);
+	}
+
+	.pipeline-step:last-child::after {
+		content: none;
+	}
+
+	/* A stop is a filled node, not just another colour — the shape carries it where
+	   two close tones would not, and the branch below says it in words anyway. */
+	.pipeline-step.is-gate::before,
+	.pipeline-step.is-end::before {
+		background: var(--color-text);
+		border-color: var(--color-text);
+	}
+
+	.pipeline-name {
+		display: block;
+		font-family: var(--font-heading);
+		font-weight: 600;
+		color: var(--color-text);
+		margin-bottom: 0.25rem;
+	}
+
+	.pipeline-step > :global(p) {
+		margin: 0;
+		font-family: var(--font-body);
+		line-height: 1.6;
+		color: var(--text-body);
+		text-indent: 0;
+	}
+
+	.pipeline-step > :global(p.pipeline-exit) {
+		position: relative;
+		margin-top: 0.35rem;
+		padding-left: 1.3rem;
+		font-size: var(--step--2);
+		color: var(--color-muted);
+	}
+
+	/* The arrow comes from CSS, never from the markup. */
+	.pipeline-step > :global(p.pipeline-exit)::before {
+		content: "→";
+		position: absolute;
+		left: 0;
+	}
+
 	/* Editorial prose, not book prose — no first-line indents, even paragraph rhythm. */
 	.redaktion-prose > :global(p) {
 		text-indent: 0;
@@ -212,24 +366,4 @@ const description =
 		margin-top: var(--space-phi);
 	}
 
-	.redaktion-seealso {
-		display: flex;
-		flex-wrap: wrap;
-		gap: 0.5rem;
-		align-items: baseline;
-		margin: var(--space-phi) 0 0;
-		padding-top: var(--space-half);
-		border-top: 1px solid var(--color-rule);
-		color: var(--color-muted);
-	}
-
-	.redaktion-seealso a {
-		color: var(--color-accent);
-		text-decoration: none;
-	}
-
-	.redaktion-seealso a:hover {
-		text-decoration: underline;
-		text-underline-offset: 0.15em;
-	}
 </style>

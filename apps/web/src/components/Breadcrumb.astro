@@ -1,0 +1,77 @@
+---
+import type { Crumb } from "../lib/jsonld";
+
+interface Props {
+	items: Crumb[];
+}
+
+const { items } = Astro.props;
+// The last crumb is the page you are on, so it is text rather than a self-link.
+const trail = items.slice(0, -1);
+const current = items.at(-1);
+---
+
+{
+	current && (
+		<nav class="breadcrumb" aria-label="Brödsmulor">
+			<ol>
+				{trail.map((c) => (
+					<li>
+						<a href={c.url}>{c.name}</a>
+					</li>
+				))}
+				<li>
+					<span aria-current="page">{current.name}</span>
+				</li>
+			</ol>
+		</nav>
+	)
+}
+
+<style>
+	.breadcrumb {
+		margin: 0 0 var(--space-half);
+	}
+
+	.breadcrumb ol {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: baseline;
+		gap: 0 0.5rem;
+		margin: 0;
+		padding: 0;
+		list-style: none;
+		font-family: var(--font-heading);
+		font-size: var(--step--2);
+		color: var(--color-muted);
+	}
+
+	/* The separator comes from CSS, never from the markup — a literal character in the
+	   list would be read out by screen readers and copied with the text. */
+	.breadcrumb li + li::before {
+		content: "›";
+		margin-inline-end: 0.5rem;
+		color: var(--color-muted);
+	}
+
+	/* Padding + matching negative margin: the ~18px line box misses the 24px WCAG 2.5.8
+	   target floor, and the negative margin gives the space back to the layout. */
+	.breadcrumb a {
+		display: inline-block;
+		padding-block: 0.3rem;
+		margin-block: -0.3rem;
+		color: var(--color-accent);
+		text-decoration: none;
+	}
+
+	.breadcrumb a:hover {
+		text-decoration: underline;
+		text-underline-offset: 0.15em;
+	}
+
+	.breadcrumb a:focus-visible {
+		outline: 2px solid var(--color-accent);
+		outline-offset: 2px;
+		border-radius: 2px;
+	}
+</style>

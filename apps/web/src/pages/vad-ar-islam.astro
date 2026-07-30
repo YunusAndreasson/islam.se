@@ -1,6 +1,7 @@
 ---
 import { getCollection } from "astro:content";
 import FaktaCard from "../components/FaktaCard.astro";
+import Honorific from "../components/Honorific.astro";
 import PageHead from "../components/PageHead.astro";
 import QuranVerse from "../components/QuranVerse.astro";
 import { getArticles } from "../lib/articles";
@@ -90,11 +91,12 @@ const jsonLd = [
 	<main id="main" class="pillar-page home">
 		<article>
 			<PageHead title="Pelare & tro">
-				Islam betyder <strong>underkastelse under Guds vilja</strong> – en monoteistisk religion
-				som växte fram på 600-talet genom profeten Muhammed och som i dag har omkring två miljarder
-				anhängare. Dess kärna vilar på <strong>de fem pelarna</strong> – det en muslim gör – och{" "}
-				<strong>de sex trosartiklarna</strong> – det en muslim tror, källbelagt grundade i Koranen
-				och klassisk sunnitisk lärdom.
+				Islam betyder <strong>underkastelse under Guds vilja</strong>. Religionen förkunnades på
+				600-talet genom profeten Muhammed{" "}
+				<Honorific />{" "}
+				och har i dag omkring två miljarder anhängare. Dess kärna
+				är <strong>de fem pelarna</strong>, det en muslim gör, och <strong>de sex trosartiklarna</strong>,
+				det en muslim tror. Båda hämtas ur Koranen och den klassiska islamiska lärdomen.
 			</PageHead>
 
 			{/* Sura al-Ikhlās — the most concentrated statement of what a muslim

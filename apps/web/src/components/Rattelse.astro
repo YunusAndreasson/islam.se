@@ -1,0 +1,40 @@
+---
+import { rattelseHref } from "../lib/rattelse";
+
+interface Props {
+	/** Defaults to the page being rendered. */
+	path?: string;
+}
+
+const { path = Astro.url.pathname } = Astro.props;
+---
+
+<p class="rattelse">
+	<a href={rattelseHref(path)}>Hittat ett sakfel på den här sidan? Föreslå en rättelse.</a>
+</p>
+
+<style>
+	.rattelse {
+		font-family: var(--font-body);
+		font-size: var(--step--3);
+		line-height: 1.5;
+		color: var(--text-quiet);
+		/* Block axis only. Scoped component styles are unlayered and so beat
+		   @layer layout — a `margin` shorthand here would set margin-inline: 0 and
+		   knock the block out of the reading measure that layout.css centres it in. */
+		margin-block: var(--space-phi) 0;
+	}
+
+	/* Component styles are unlayered and therefore beat @layer base, so the resting
+	   and hover colours both have to be stated here or the base link rule wins. */
+	.rattelse a {
+		color: var(--text-quiet);
+		text-decoration-color: color-mix(in oklab, var(--text-quiet) 40%, transparent);
+	}
+
+	.rattelse a:hover,
+	.rattelse a:focus-visible {
+		color: var(--color-text);
+		text-decoration-color: currentColor;
+	}
+</style>

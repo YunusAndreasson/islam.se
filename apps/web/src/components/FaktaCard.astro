@@ -6,6 +6,7 @@
 import type { ImageMetadata } from "astro";
 import type { Article } from "../lib/articles";
 import EssayImage from "./EssayImage.astro";
+import Honorific from "./Honorific.astro";
 
 interface Props {
 	href: string;
@@ -37,7 +38,12 @@ const hasPhoto = Boolean(art ?? image?.heroImage);
 	)}
 	<div class="fakta-card-text">
 		<span class="fakta-card-label">{label}</span>
-		{!compact && <p class="fakta-card-blurb">{blurb}</p>}
+		{/* A bare ﷺ in the blurb string becomes the styled, labelled glyph. */}
+		{!compact && (
+			<p class="fakta-card-blurb">
+				{blurb.split("ﷺ").map((part, i) => (i === 0 ? part : [<Honorific />, part]))}
+			</p>
+		)}
 	</div>
 </a>
 

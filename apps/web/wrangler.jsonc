@@ -1,0 +1,27 @@
+{
+	"$schema": "../../node_modules/wrangler/config-schema.json",
+	"name": "islam-se",
+	"pages_build_output_dir": "dist",
+	// Matches what the dashboard already had. Bumping it would change runtime
+	// semantics for the markdown middleware that is already live.
+	"compatibility_date": "2026-02-15",
+
+	"d1_databases": [
+		{
+			"binding": "RATTELSER",
+			"database_name": "islam-se-rattelser",
+			"database_id": "e1c0c473-1167-4986-ac36-4136d4b86493",
+			"migrations_dir": "migrations"
+		}
+	],
+
+	// Pages Functions cannot hold a send_email binding, so the notification mail
+	// goes out through a Worker that can. Deploy workers/rattelse-mailer before
+	// any Pages deploy that references it.
+	"services": [
+		{
+			"binding": "MAILER",
+			"service": "islam-se-rattelse-mailer"
+		}
+	]
+}

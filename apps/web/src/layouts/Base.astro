@@ -51,6 +51,8 @@ interface Props {
 		image?: Record<string, unknown>;
 	};
 	jsonLd?: Record<string, unknown> | Record<string, unknown>[];
+	/** Utility pages with no search value (the correction form). */
+	noindex?: boolean;
 }
 
 const {
@@ -65,6 +67,7 @@ const {
 	preloadArabicFont = false,
 	articleMeta,
 	jsonLd,
+	noindex = false,
 } = Astro.props;
 const canonicalUrl = new URL(Astro.url.pathname, Astro.site);
 const ogImageUrl = ogImage
@@ -145,10 +148,10 @@ if (articleMeta) {
 		    1. It must stamp the stored theme BEFORE first paint. A deferred script
 		       lets the page paint in the OS scheme and then flip, and a light page
 		       flashing dark (or the reverse) is the most jarring thing we can show.
-		    2. The press is handled by delegation on `document`, so the button works
+		    2. The choice is handled by delegation on `document`, so the control works
 		       from the moment it exists rather than from whenever a module finishes
-		       downloading. Binding it in Header.astro's module script measurably lost
-		       early clicks on a cold load — the reader pressed and nothing happened.
+		       downloading. Binding it in a component's module script measurably lost
+		       early presses on a cold load — the reader pressed and nothing happened.
 
 		    Delegation also means there is nothing to re-bind: the control survives
 		    every ClientRouter swap on its own.
@@ -156,10 +159,14 @@ if (articleMeta) {
 		    All it changes is one attribute; tokens.css turns that into a palette via
 		    `color-scheme`, so no colour is defined twice. No stored value means no
 		    attribute, which means the site follows the OS — we only override a
-		    system setting the reader has explicitly overridden themselves. */}
+		    system setting the reader has explicitly overridden themselves. The
+		    control itself is the segmented System/Ljust/Mörkt group in the palette's
+		    utility rail (components/SearchOverlay.astro). */}
 		<script is:inline>
 			(() => {
 				const KEY = "theme";
+				const LIGHT = "#fff6e8";
+				const DARK = "#1d1912";
 				const read = () => {
 					try {
 						const v = localStorage.getItem(KEY);
@@ -168,48 +175,44 @@ if (articleMeta) {
 						return null; // private mode / storage blocked — follow the OS
 					}
 				};
-				const active = () =>
-					read() ?? (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
 
 				const stamp = () => {
 					const chosen = read();
 					const root = document.documentElement;
 					if (chosen) root.dataset.theme = chosen;
 					else delete root.dataset.theme;
-					// Both media-scoped metas get the chosen colour, so whichever one the
-					// OS matches paints the right browser chrome under an override.
-					if (chosen) {
-						const c = chosen === "dark" ? "#1d1912" : "#fff6e8";
-						for (const m of document.querySelectorAll('meta[name="theme-color"]'))
-							m.setAttribute("content", c);
+					// Under an override both media-scoped metas get the chosen colour, so
+					// whichever one the OS matches paints the right browser chrome. Back on
+					// "System" each meta must be handed its own colour again — they were
+					// overwritten, and the media query alone can no longer tell them apart.
+					for (const m of document.querySelectorAll('meta[name="theme-color"]')) {
+						const dark = chosen ? chosen === "dark" : (m.getAttribute("media") || "").includes("dark");
+						m.setAttribute("content", dark ? DARK : LIGHT);
 					}
 				};
 
-				const paintButton = () => {
-					const btn = document.querySelector(".theme-toggle");
-					if (!btn) return;
-					const dark = active() === "dark";
-					btn.dataset.theme = dark ? "dark" : "light";
-					// Not aria-pressed: the button does not represent dark mode, it moves
-					// to the other one. The name says which one that is.
-					btn.setAttribute("aria-label", dark ? "Byt till ljust läge" : "Byt till mörkt läge");
+				const paintControl = () => {
+					const val = read() ?? "system";
+					for (const el of document.querySelectorAll('input[name="theme-choice"]'))
+						el.checked = el.value === val;
 				};
 
 				stamp(); // the reason this script is inline and in the head
 
-				document.addEventListener("click", (e) => {
-					if (!e.target.closest?.(".theme-toggle")) return;
-					// Two states, not three. Settling on an explicit light/dark means there
-					// is no way back to "follow the system" from the button — a deliberate
-					// trade: a tri-state control needs a visible label to be understood,
-					// and the mast has no room for one.
+				document.addEventListener("change", (e) => {
+					const t = e.target;
+					if (!t || t.name !== "theme-choice") return;
+					// Three states, not two. The switch used to live in the mast, where
+					// there was room for one glyph and therefore only light↔dark — no way
+					// back to "follow the system" once you had left it. In the palette each
+					// state carries its own word, so the default is reachable again.
 					try {
-						localStorage.setItem(KEY, active() === "dark" ? "light" : "dark");
+						if (t.value === "system") localStorage.removeItem(KEY);
+						else localStorage.setItem(KEY, t.value);
 					} catch {
 						/* storage blocked — nothing to persist, but still repaint below */
 					}
 					stamp();
-					paintButton();
 				});
 
 				// ClientRouter swaps in the new document's <html> attributes, dropping
@@ -217,14 +220,8 @@ if (articleMeta) {
 				for (const ev of ["DOMContentLoaded", "astro:after-swap"])
 					document.addEventListener(ev, () => {
 						stamp();
-						paintButton();
+						paintControl();
 					});
-
-				// Still following the OS? Then follow it live — macOS and iOS flip at
-				// sunset, Android on a schedule, and the reader may be mid-essay.
-				matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => {
-					if (!read()) paintButton();
-				});
 			})();
 		</script>
 
@@ -255,12 +252,20 @@ if (articleMeta) {
 		) : null}
 		<title>{title}</title>
 		<meta name="description" content={description} />
-		{/* Everything is indexable; non-canonical URLs are 301-redirected at the edge, never
-		    served. The preview directives are the part Google actually reads: max-image-preview:large
-		    makes each page eligible for a large image in Search and Discover (so the OG/hero card can
-		    show big), and max-snippet:-1 / max-video-preview:-1 lift the text- and video-snippet caps.
+		{/* Every content page is indexable; non-canonical URLs are 301-redirected at the edge, never
+		    served. Only utility pages that opt in via `noindex` are held back. The preview directives
+		    are the part Google actually reads: max-image-preview:large makes each page eligible for a
+		    large image in Search and Discover (so the OG/hero card can show big), and max-snippet:-1 /
+		    max-video-preview:-1 lift the text- and video-snippet caps.
 		    A JSX-style comment keeps this rationale in source without shipping it on every page. */}
-		<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+		<meta
+			name="robots"
+			content={
+				noindex
+					? "noindex, follow"
+					: "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+			}
+		/>
 		<link rel="canonical" href={canonicalUrl.href} />
 
 		<!-- Open Graph -->

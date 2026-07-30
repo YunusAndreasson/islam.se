@@ -1,0 +1,379 @@
+---
+import Base from "../layouts/Base.astro";
+import { breadcrumbList } from "../lib/jsonld";
+import { TURNSTILE_SITEKEY } from "../lib/rattelse";
+
+const description =
+	"Hittat ett sakfel på islam.se? Peka ut meningen, skriv vad som är fel och skicka in det här. Vi rättar så snart vi får veta.";
+---
+
+<Base
+	title="Föreslå en rättelse — islam.se"
+	description={description}
+	noindex={true}
+	jsonLd={[
+		breadcrumbList([
+			{ name: "Hem", url: "/" },
+			{ name: "Föreslå en rättelse", url: "/ratta" },
+		]),
+	]}
+>
+	<main id="main" class="content-column">
+		<header class="article-header">
+			<h1>Föreslå en rättelse</h1>
+			<p class="ratta-lead">
+				Vi rättar sakfel så snart vi får veta om dem. Ju närmare du kan peka – vilken mening det
+				gäller, vad som är fel i den och var det rätta står – desto snabbare kan vi göra något åt
+				det.
+			</p>
+		</header>
+
+		<div class="ratta-body">
+			<noscript>
+				<p class="ratta-notice">
+					Formuläret behöver JavaScript för skräppostskyddet. Skriv i stället till{" "}
+					<a href="mailto:rattelse@islam.se">rattelse@islam.se</a> och ta med adressen till sidan
+					och meningen det gäller.
+				</p>
+			</noscript>
+
+			<form class="ratta-form" id="ratta-form" novalidate>
+				<div class="ratta-field">
+					<label for="ratta-page">Sidan det gäller</label>
+					<input
+						type="text"
+						id="ratta-page"
+						name="page"
+						required
+						placeholder="/svar/vad-ar-tawhid/"
+						autocomplete="off"
+						spellcheck="false"
+					/>
+					<p class="ratta-hint">Adressen till sidan. Fylls i åt dig om du kom hit från en text.</p>
+				</div>
+
+				<div class="ratta-field">
+					<label for="ratta-passage">Stycket som är fel</label>
+					<textarea id="ratta-passage" name="passage" rows="3"></textarea>
+					<p class="ratta-hint">
+						Klistra in meningen ordagrant, så hittar vi den direkt i texten.
+					</p>
+				</div>
+
+				<div class="ratta-field">
+					<label for="ratta-description">Vad är fel?</label>
+					<textarea id="ratta-description" name="description" rows="5" required></textarea>
+					<p class="ratta-hint">
+						Ett versnummer som inte stämmer, en hadith som tillskrivits fel samling, ett årtal, en
+						översättning – skriv så konkret du kan.
+					</p>
+				</div>
+
+				<div class="ratta-field">
+					<label for="ratta-source">Källa</label>
+					<input type="text" id="ratta-source" name="source" autocomplete="off" />
+					<p class="ratta-hint">
+						Har du ett belägg – en vers, en hadith med samling och nummer, en bok eller en länk –
+						så nämn det här. Det är det som avgör hur fort rättelsen går igenom.
+					</p>
+				</div>
+
+				<div class="ratta-field">
+					<label for="ratta-email">Din e-post <span class="ratta-optional">frivillig</span></label>
+					<input type="email" id="ratta-email" name="reporter_email" autocomplete="email" />
+					<p class="ratta-hint">
+						Bara om du vill kunna få ett svar. Adressen används inte till något annat och lämnas
+						inte vidare.
+					</p>
+				</div>
+
+				{/* Honeypot: off-screen and hidden from assistive tech, so only a bot fills it. */}
+				<div class="ratta-hp" aria-hidden="true">
+					<label for="ratta-website">Lämna tomt</label>
+					<input type="text" id="ratta-website" name="website" tabindex="-1" autocomplete="off" />
+				</div>
+
+				<div class="cf-turnstile" data-sitekey={TURNSTILE_SITEKEY} data-language="sv"></div>
+
+				<div class="ratta-actions">
+					<button type="submit" class="ratta-submit">Skicka rättelsen</button>
+					<p class="ratta-status" id="ratta-status" role="status" aria-live="polite"></p>
+				</div>
+			</form>
+
+			{/* Outside the form: the form itself is hidden once a correction lands. */}
+			<p class="ratta-done" id="ratta-done" role="status" aria-live="polite" hidden></p>
+
+			<p class="ratta-foot">
+				Vad som händer sedan står under <a href="/om/redaktion/#rattelser">Rättelser</a> i våra
+				redaktionella principer. Ändras en text i sak får den ett synligt datum för ändringen.
+			</p>
+		</div>
+	</main>
+</Base>
+
+<script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" async defer
+></script>
+
+<script>
+	const ERRORS: Record<string, string> = {
+		bad_page: "Adressen till sidan ser inte ut att höra till islam.se.",
+		description_too_short: "Skriv några ord till om vad som är fel.",
+		bad_email: "E-postadressen ser inte riktig ut.",
+		missing_turnstile: "Bekräfta att du inte är en robot först.",
+		turnstile_failed: "Kontrollen gick inte igenom. Ladda om sidan och försök igen.",
+		rate_limited: "Du har skickat flera rättelser den senaste timmen. Försök igen om en stund.",
+	};
+
+	function setup() {
+		const form = document.getElementById("ratta-form") as HTMLFormElement | null;
+		if (!form || form.dataset.wired === "true") return;
+		form.dataset.wired = "true";
+
+		const status = document.getElementById("ratta-status") as HTMLParagraphElement;
+		const done = document.getElementById("ratta-done") as HTMLParagraphElement;
+		const pageInput = document.getElementById("ratta-page") as HTMLInputElement;
+		const submit = form.querySelector(".ratta-submit") as HTMLButtonElement;
+		const widget = form.querySelector(".cf-turnstile") as HTMLElement;
+
+		const sida = new URLSearchParams(window.location.search).get("sida");
+		if (sida?.startsWith("/")) pageInput.value = sida;
+
+		let widgetId: string | undefined;
+		const renderWidget = () => {
+			const turnstile = (window as { turnstile?: any }).turnstile;
+			if (!turnstile || !widget || widget.dataset.rendered === "true") return;
+			widget.dataset.rendered = "true";
+			widgetId = turnstile.render(widget, { sitekey: widget.dataset.sitekey, language: "sv" });
+		};
+		renderWidget();
+		// The script may still be in flight on first paint.
+		window.addEventListener("load", renderWidget, { once: true });
+
+		form.addEventListener("submit", async (event) => {
+			event.preventDefault();
+			const turnstile = (window as { turnstile?: any }).turnstile;
+			const token = turnstile?.getResponse(widgetId) ?? "";
+
+			const data = new FormData(form);
+			const body = {
+				page: String(data.get("page") ?? ""),
+				passage: String(data.get("passage") ?? ""),
+				description: String(data.get("description") ?? ""),
+				source: String(data.get("source") ?? ""),
+				reporter_email: String(data.get("reporter_email") ?? ""),
+				website: String(data.get("website") ?? ""),
+				turnstile_token: token,
+			};
+
+			if (!body.page.startsWith("/")) {
+				status.textContent = ERRORS.bad_page;
+				status.dataset.tone = "error";
+				return;
+			}
+			if (body.description.trim().length < 10) {
+				status.textContent = ERRORS.description_too_short;
+				status.dataset.tone = "error";
+				return;
+			}
+
+			submit.disabled = true;
+			status.dataset.tone = "";
+			status.textContent = "Skickar …";
+
+			try {
+				const res = await fetch("/api/rattelse", {
+					method: "POST",
+					headers: { "content-type": "application/json" },
+					body: JSON.stringify(body),
+				});
+				const result = await res.json();
+
+				if (res.ok && result.ok) {
+					status.textContent = "";
+					form.hidden = true;
+					done.hidden = false;
+					done.textContent =
+						"Tack. Rättelsen är noterad och en av oss läser den. Vi hör av oss om du lämnat en adress och något behöver redas ut.";
+					return;
+				}
+
+				status.dataset.tone = "error";
+				status.textContent =
+					ERRORS[result.error] ?? "Något gick fel när rättelsen skulle skickas. Försök igen.";
+				turnstile?.reset(widgetId);
+			} catch {
+				status.dataset.tone = "error";
+				status.textContent =
+					"Rättelsen kunde inte skickas. Kontrollera uppkopplingen och försök igen.";
+				turnstile?.reset(widgetId);
+			} finally {
+				submit.disabled = false;
+			}
+		});
+	}
+
+	document.addEventListener("astro:page-load", setup);
+</script>
+
+<style>
+	.ratta-lead {
+		font-family: var(--font-body);
+		font-size: var(--step--1);
+		line-height: 1.6;
+		color: var(--text-body);
+		max-width: var(--content-width);
+		margin: var(--space-unit) 0 0;
+		text-wrap: pretty;
+	}
+
+	.ratta-body {
+		max-width: var(--content-width);
+		margin-top: var(--space-phi);
+	}
+
+	.ratta-notice {
+		font-family: var(--font-body);
+		font-size: var(--step--1);
+		line-height: 1.6;
+		color: var(--text-body);
+		border-inline-start: 2px solid var(--color-rule);
+		padding-inline-start: var(--space-half);
+		margin-bottom: var(--space-unit);
+	}
+
+	.ratta-form {
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-unit);
+	}
+
+	/* An explicit `display` beats the UA rule for [hidden], so the success state
+	   would leave the whole form on screen without this. */
+	.ratta-form[hidden] {
+		display: none;
+	}
+
+	.ratta-field {
+		display: flex;
+		flex-direction: column;
+		gap: 0.4rem;
+	}
+
+	.ratta-field label {
+		font-family: var(--font-sans, var(--font-body));
+		font-size: var(--step--3);
+		letter-spacing: 0.04em;
+		text-transform: uppercase;
+		color: var(--color-muted);
+	}
+
+	.ratta-optional {
+		text-transform: none;
+		letter-spacing: 0;
+		font-style: italic;
+		color: var(--text-quiet);
+	}
+
+	.ratta-field input,
+	.ratta-field textarea {
+		font-family: var(--font-body);
+		font-size: var(--step--1);
+		line-height: 1.5;
+		color: var(--color-text);
+		background: color-mix(in oklab, var(--color-bg), var(--color-text) 3%);
+		border: 1px solid var(--color-rule);
+		border-radius: var(--radius-sm);
+		padding: 0.6rem 0.7rem;
+		width: 100%;
+	}
+
+	.ratta-field textarea {
+		resize: vertical;
+	}
+
+	.ratta-field input:hover,
+	.ratta-field textarea:hover {
+		border-color: var(--color-muted);
+	}
+
+	.ratta-hint {
+		font-family: var(--font-body);
+		font-size: var(--step--2);
+		line-height: 1.5;
+		color: var(--text-quiet);
+		margin: 0;
+		text-wrap: pretty;
+	}
+
+	.ratta-hp {
+		position: absolute;
+		width: 1px;
+		height: 1px;
+		overflow: hidden;
+		clip-path: inset(50%);
+		white-space: nowrap;
+	}
+
+	.ratta-actions {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: var(--space-half);
+	}
+
+	.ratta-submit {
+		font-family: var(--font-sans, var(--font-body));
+		font-size: var(--step--2);
+		letter-spacing: 0.03em;
+		color: var(--color-bg);
+		background: var(--color-text);
+		border: 1px solid var(--color-text);
+		border-radius: var(--radius-pill);
+		padding: 0.6rem 1.4rem;
+		cursor: pointer;
+	}
+
+	.ratta-submit:hover {
+		background: var(--color-muted);
+		border-color: var(--color-muted);
+	}
+
+	.ratta-submit[disabled] {
+		opacity: 0.55;
+		cursor: progress;
+	}
+
+	.ratta-status {
+		font-family: var(--font-body);
+		font-size: var(--step--2);
+		line-height: 1.5;
+		color: var(--text-quiet);
+		margin: 0;
+		text-wrap: pretty;
+	}
+
+	.ratta-status[data-tone="error"] {
+		color: var(--color-text);
+	}
+
+	.ratta-done {
+		font-family: var(--font-body);
+		font-size: var(--step--1);
+		line-height: 1.6;
+		color: var(--color-text);
+		border-inline-start: 2px solid var(--color-rule);
+		padding-inline-start: var(--space-half);
+		margin: 0;
+		text-wrap: pretty;
+	}
+
+	.ratta-foot {
+		font-family: var(--font-body);
+		font-size: var(--step--2);
+		line-height: 1.6;
+		color: var(--text-quiet);
+		margin-top: var(--space-phi);
+		text-wrap: pretty;
+	}
+</style>
