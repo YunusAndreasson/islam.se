@@ -19,7 +19,7 @@ faq:
   - q: "Räcker det att tvätta varje kroppsdel en gång?"
     a: "Ja, en gång är obligatoriskt och fullt giltigt. Att upprepa tvättningen tre gånger är sunna, alltså en förtjänst men inte ett krav."
   - q: "Bryter det tvagningen att röra vid sin fru?"
-    a: "Enligt majoriteten av de klassiska Athari-lärde, däribland Ibn Taymiyya, bryts den inte. Shāfiʿī-skolan menar däremot att enbart beröring bryter wudu."
+    a: "Enligt Ibn Taymiyya och majoriteten av de klassiska lärda bryts den inte. Shāfiʿī-skolan menar däremot att enbart beröring bryter wudu."
   - q: "Vad gör man om det inte finns vatten?"
     a: "Då utförs tayammum, en torr rening där man stryker händerna mot ren mark och sedan över ansikte och händer, enligt Koranen 5:6."
 sources:
@@ -77,7 +77,7 @@ Tvagningen upphävs av sådant som lämnar kroppen och av att medvetandet släck
 - att förlora medvetandet, vare sig genom djup sömn, svimning, berusning eller sjukdom,
 - att äta kamelkött: på frågan om man måste tvätta sig på nytt efter kamelkött svarade profeten kort "Ja" (Sahīh Muslim 360, berättat av *Jābir ibn Samura*).
 
-Att enbart röra vid en kvinna bryter däremot inte tvagningen enligt majoriteten av de klassiska Athari-lärda, däribland *Ibn Taymiyya*, som läser ordet *lāmastum* i Koranen 5:6 som samlag, medan Shāfiʿī-skolan menar att beröringen i sig räcker. Den som är osäker på om reningen brutits utgår från att den består: en visshet som en gång vunnits rivs inte av ett senare tvivel.
+Att enbart röra vid en kvinna bryter däremot inte tvagningen enligt majoriteten av de klassiska lärda, däribland *Ibn Taymiyya*, som läser ordet *lāmastum* i Koranen 5:6 som samlag, medan Shāfiʿī-skolan menar att beröringen i sig räcker. Den som är osäker på om reningen brutits utgår från att den består: en visshet som en gång vunnits rivs inte av ett senare tvivel.
 
 ## Måste man göra ny tvagning inför varje bön?
 

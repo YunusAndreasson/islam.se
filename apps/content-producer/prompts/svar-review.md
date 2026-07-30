@@ -49,6 +49,8 @@ Ibn al-Qayyim). Preserve everything in the draft that is already correct and wel
 
 - **Orthodoxy:** orthodox Sunni (Athari) only. Do not soften, pluralize, or make sectarian.
   Sensitive topics stay factual and fair. Tawḥīd is the frame.
+  ⚠️ The label is the standard, not the reader's word: strike "athari"/"athariska" from
+  the Swedish prose and name the scholar or say "den klassiska traditionen" instead.
 - **Don't invent.** Only keep/add Qur'an verses (Bernström Swedish, sura:aya) and hadith
   (collection + number) that are real. If you cannot verify a reference with a tool, remove
   it rather than guess. You MAY use the research tools, but only to *verify or fix a

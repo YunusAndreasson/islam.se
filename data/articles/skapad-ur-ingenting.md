@@ -7,7 +7,7 @@ description: "Först ateismen. Sedan ockultismen, alkemin, spiritismen. Sedan Sw
 audioFile: "skapad-ur-ingenting.mp3"
 audioDuration: 512
 imageAlt: "Mörk siluett av en man vid en skogssjö om natten som blickar upp mot en stjärnströdd himmel och Vintergatan."
-imageCaption: "Sökaren under stjärnorna, dragen mot frågan om varifrån allt kom."
+imageCaption: "En natthimmel över sjön, och frågan om varifrån den kom."
 category: "Sökandet"
 ---
 Först ateismen. Sedan ockultismen, alkemin, spiritismen. Sedan Swedenborg. Under de år som omspänner *Inferno* prövade Strindberg varje hållning han kunde nå – och ingen bar hans vikt.

@@ -82,7 +82,7 @@ Koranen beskriver Gud som levande, vetande och allsmäktig, ingenstans tydligare
 > GUD – det finns ingen gud utom Han, den Levande, skapelsens evige Vidmakthållare. Slummer överraskar Honom inte och inte heller sömn. [...] Hans allmakts tron omsluter himlarna och jorden. Att värna och bevara dem är för Honom ingen börda. Han är den Höge, den Härlige.
 > — Koranen 2:255
 
-Gud beskrivs genom sina skönaste namn *(al-asmāʾ al-husnā)* – den Nåderike, den Barmhärtige, den Förlåtande. Koranen uppmanar uttryckligen att anropa honom med dem (7:180). En hadith fastslår att "Gud har nittionio namn" och att den som lär känna dem stiger in i paradiset (Sahīh al-Bukhārī 2736; Sahīh Muslim 2677). Den athariska traditionen, företrädd av Ibn Taymiyya och Ibn al-Qayyim, bekräftar dessa namn och egenskaper precis som de uppenbarats, utan att förvränga dem, förneka dem, fråga "hur?" eller likna Gud vid det skapade. Ibn Taymiyya drar slutsatsen i *Kitāb al-Īmān*:
+Gud beskrivs genom sina skönaste namn *(al-asmāʾ al-husnā)* – den Nåderike, den Barmhärtige, den Förlåtande. Koranen uppmanar uttryckligen att anropa honom med dem (7:180). En hadith fastslår att "Gud har nittionio namn" och att den som lär känna dem stiger in i paradiset (Sahīh al-Bukhārī 2736; Sahīh Muslim 2677). Den klassiska traditionen, företrädd av Ibn Taymiyya och Ibn al-Qayyim, bekräftar dessa namn och egenskaper precis som de uppenbarats, utan att förvränga dem, förneka dem, fråga "hur?" eller likna Gud vid det skapade. Ibn Taymiyya drar slutsatsen i *Kitāb al-Īmān*:
 
 > Den som vet och känner mest om Guds namn och egenskaper, vet och känner mest om Gud själv.
 

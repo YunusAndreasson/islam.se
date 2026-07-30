@@ -219,12 +219,12 @@
       "avgScore": 8.508333333333335
     },
     "sv.wikipedia.org": {
-      "total": 26,
-      "ok": 26,
+      "total": 32,
+      "ok": 32,
       "failed": 0,
-      "lastChecked": "2026-06-05T21:24:11.867Z",
-      "publishedIn": 23,
-      "avgScore": 8.608695652173909
+      "lastChecked": "2026-07-27T20:48:06.913Z",
+      "publishedIn": 24,
+      "avgScore": 8.608333333333329
     },
     "lifewithallah.com": {
       "total": 3,
@@ -279,10 +279,10 @@
       "avgScore": 8.6
     },
     "www.abuaminaelias.com": {
-      "total": 1,
-      "ok": 1,
+      "total": 2,
+      "ok": 2,
       "failed": 0,
-      "lastChecked": "2026-02-12T10:25:51.510Z",
+      "lastChecked": "2026-07-27T20:08:01.461Z",
       "publishedIn": 1,
       "avgScore": 8.6
     },
@@ -579,12 +579,12 @@
       "avgScore": 8.7
     },
     "www.riksdagen.se": {
-      "total": 5,
-      "ok": 5,
+      "total": 8,
+      "ok": 8,
       "failed": 0,
-      "lastChecked": "2026-03-26T09:57:16.335Z",
-      "publishedIn": 5,
-      "avgScore": 8.620000000000001
+      "lastChecked": "2026-07-27T20:48:06.913Z",
+      "publishedIn": 6,
+      "avgScore": 8.616666666666669
     },
     "www.tandfonline.com": {
       "total": 6,
@@ -707,12 +707,12 @@
       "avgScore": 8.55
     },
     "www.svenskakyrkan.se": {
-      "total": 2,
-      "ok": 1,
+      "total": 11,
+      "ok": 10,
       "failed": 1,
-      "lastChecked": "2026-05-17T14:02:43.475Z",
-      "publishedIn": 1,
-      "avgScore": 8.4
+      "lastChecked": "2026-07-27T20:48:06.913Z",
+      "publishedIn": 6,
+      "avgScore": 8.566666666666668
     },
     "pluriel.fuce.eu": {
       "total": 1,
@@ -1138,10 +1138,10 @@
       "avgScore": 8.6
     },
     "islamqa.info": {
-      "total": 6,
-      "ok": 6,
+      "total": 9,
+      "ok": 9,
       "failed": 0,
-      "lastChecked": "2026-05-17T15:06:12.677Z",
+      "lastChecked": "2026-07-27T20:27:36.780Z",
       "publishedIn": 4,
       "avgScore": 8.6
     },
@@ -1602,12 +1602,12 @@
       "avgScore": 8.7
     },
     "www.begravningar.se": {
-      "total": 1,
-      "ok": 1,
+      "total": 3,
+      "ok": 3,
       "failed": 0,
-      "lastChecked": "2026-05-17T14:02:43.475Z",
-      "publishedIn": 1,
-      "avgScore": 8.7
+      "lastChecked": "2026-07-27T20:48:06.913Z",
+      "publishedIn": 2,
+      "avgScore": 8.649999999999999
     },
     "inelda.org": {
       "total": 1,
@@ -1720,12 +1720,12 @@
       "avgScore": 8.7
     },
     "www.islamweb.net": {
-      "total": 1,
-      "ok": 1,
+      "total": 5,
+      "ok": 5,
       "failed": 0,
-      "lastChecked": "2026-05-17T17:47:01.608Z",
-      "publishedIn": 1,
-      "avgScore": 8.7
+      "lastChecked": "2026-07-27T20:48:06.913Z",
+      "publishedIn": 3,
+      "avgScore": 8.633333333333333
     },
     "www.ncbi.nlm.nih.gov": {
       "total": 1,
@@ -1908,6 +1908,70 @@
       "lastChecked": "2026-06-05T22:12:48.427Z",
       "publishedIn": 1,
       "avgScore": 8.8
+    },
+    "www.kyrkanstidning.se": {
+      "total": 3,
+      "ok": 3,
+      "failed": 0,
+      "lastChecked": "2026-07-27T20:48:06.913Z",
+      "publishedIn": 1,
+      "avgScore": 8.6
+    },
+    "begravningsbolaget.se": {
+      "total": 1,
+      "ok": 1,
+      "failed": 0,
+      "lastChecked": "2026-07-27T20:08:01.461Z"
+    },
+    "bellman.org": {
+      "total": 2,
+      "ok": 2,
+      "failed": 0,
+      "lastChecked": "2026-07-27T20:48:06.913Z",
+      "publishedIn": 1,
+      "avgScore": 8.6
+    },
+    "stud.epsilon.slu.se": {
+      "total": 2,
+      "ok": 2,
+      "failed": 0,
+      "lastChecked": "2026-07-27T20:48:06.913Z",
+      "publishedIn": 1,
+      "avgScore": 8.6
+    },
+    "skkf.se": {
+      "total": 1,
+      "ok": 1,
+      "failed": 0,
+      "lastChecked": "2026-07-27T20:08:01.461Z"
+    },
+    "parbricole.se": {
+      "total": 1,
+      "ok": 1,
+      "failed": 0,
+      "lastChecked": "2026-07-27T20:27:36.780Z"
+    },
+    "fiqh.islamonline.net": {
+      "total": 2,
+      "ok": 2,
+      "failed": 0,
+      "lastChecked": "2026-07-27T20:48:06.913Z",
+      "publishedIn": 1,
+      "avgScore": 8.6
+    },
+    "dorar.net": {
+      "total": 1,
+      "ok": 1,
+      "failed": 0,
+      "lastChecked": "2026-07-27T20:27:36.780Z"
+    },
+    "www.lo.se": {
+      "total": 1,
+      "ok": 1,
+      "failed": 0,
+      "lastChecked": "2026-07-27T20:48:06.913Z",
+      "publishedIn": 1,
+      "avgScore": 8.6
     }
   }
 }
