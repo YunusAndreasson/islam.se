@@ -111,15 +111,15 @@ const description = `Bönetider ${year} för din ort – dagens Fajr, Ẓuhr, ʿ
 		<header class="bh2-header">
 			<h1>Bönetider i Sverige {year}</h1>
 			<p class="lead bh2-intro">
-				Bönetider (även <i lang="ar">ṣalāh</i> / <i lang="ar">awqāt aṣ-ṣalāh</i>, <i>namaz</i>) för
-				hela Sverige: Fajr, Ẓuhr, ʿAṣr, Maghrib och ʿIshāʾ. Tiderna följer solen, inte klockan.
-				Kartan färgas av hur djupt solen står under horisonten – Sveriges ljusa sommarnatt blir
-				aldrig svart – och de svepande linjerna visar var varje bön infaller just nu. Välj din ort
-				nedan, eller justera metod och madhhab så att tiderna stämmer med din moské.
+				Bönetider för hela Sverige: Fajr, Ẓuhr, ʿAṣr, Maghrib och ʿIshāʾ. Tiderna följer solen,
+				inte klockan. Kartan färgas av hur djupt solen står under horisonten, så att Sveriges ljusa
+				sommarnatt aldrig blir svart, och de svepande linjerna visar var varje bön infaller just
+				nu. Välj din ort nedan, eller justera metod och madhhab så att tiderna stämmer med din
+				moské.
 			</p>
 		</header>
 
-		<PrayerField location={stockholm} variant="full" fixed={false} />
+		<PrayerField location={stockholm} variant="full" fixed={false} caption />
 
 		<div class="bh2-actions">
 			<button type="button" class="bf-geo bh2-geo">Använd min plats</button>
@@ -221,7 +221,8 @@ const description = `Bönetider ${year} för din ort – dagens Fajr, Ẓuhr, ʿ
 			<h2 id="bh2-ar">Bönetidernas år i Sverige</h2>
 			<p class="lead bh2-lead">
 				Så rör sig bönetiderna över ett helt år. Mot midsommar dyker Fajr ned och ʿIshāʾ upp tills
-				natten mellan dem nästan stänger – det är därför Sveriges latituder kräver särskilda regler.
+				natten mellan dem nästan krymper bort – det är därför Sveriges latituder kräver särskilda
+				regler.
 			</p>
 			<AnnualPrayerChart location={stockholm} />
 			<DaylightLatitude />

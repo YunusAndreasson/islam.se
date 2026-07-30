@@ -106,9 +106,24 @@
 	   Same 1px hairline, twice the presence: ΔL* 7 light / 9.6 dark against the row
 	   rank, past the ~3 L* just-noticeable difference, and still only 1.56:1 — a
 	   whisper, not a black line. Rows keep --color-divider; a movement boundary (the
-	   rule that opens a page section, the prose <hr>, the footer) takes --color-rule. */
-	--color-divider: color-mix(in srgb, var(--color-muted), transparent 80%);
-	--color-rule: color-mix(in srgb, var(--color-muted), transparent 62%);
+	   rule that opens a page section, the prose <hr>, the footer) takes --color-rule.
+
+	   ⚠️ The two schemes need DIFFERENT alphas for the same apparent weight. One srgb
+	   alpha over both gave the dark hairline 1.49× the light one's ΔL* (27.4 vs 18.4)
+	   and the divider 1.56× — L* is compressed near black, so an identical mix travels
+	   much further off a near-black ground than off a near-white one. Matched by ΔL*
+	   against each scheme's own background, not by sharing a number. Mixing `in oklab`
+	   does NOT fix this: mixing with `transparent` only sets alpha, and the compositor
+	   still blends in srgb at paint time. Alpha is kept (not a mix toward --color-bg)
+	   because these rules also sit on cards and players, not just the page ground. */
+	--color-divider: light-dark(
+		color-mix(in srgb, var(--color-muted), transparent 80%),
+		color-mix(in srgb, var(--color-muted), transparent 88%)
+	);
+	--color-rule: light-dark(
+		color-mix(in srgb, var(--color-muted), transparent 62%),
+		color-mix(in srgb, var(--color-muted), transparent 75%)
+	);
 
 	/* Muted body-text ramp — body text blended toward the warm muted taupe.
 
@@ -212,6 +227,18 @@
 	--btn-size: 2.75rem;
 }
 
+/* BREAKPOINTS. Always write the modern range form, `(width <= X)`, never `(max-width: X)`
+   — the two are equivalent and one spelling is enough. There is no @custom-media here:
+   Lightning CSS is not installed, so the literal is repeated by necessity.
+
+   768px is THE system breakpoint — the only one that moves tokens, and the one the mast,
+   prose and every collection page already share. Reach for it first; add a new value only
+   when a specific component genuinely breaks somewhere else.
+
+   ⚠️ px and rem are NOT interchangeable here. A rem breakpoint tracks the reader's own
+   browser font size, so `30rem` fires at 600px for someone running a 20px default while
+   `480px` never moves. Several small components deliberately use rem for that reason.
+   Do not "tidy" one into the other — it silently changes behaviour at non-default sizes. */
 @media (width <= 768px) {
 	:root {
 		--padding-inline: 1.25rem;

@@ -1,5 +1,6 @@
 ---
 import AppPromo from "../../components/AppPromo.astro";
+import Breadcrumb from "../../components/Breadcrumb.astro";
 import OmBonen from "../../components/bonetider/OmBonen.astro";
 import PrayerField from "../../components/bonetider/PrayerField.astro";
 import PrayerSettings from "../../components/bonetider/PrayerSettings.astro";
@@ -7,11 +8,10 @@ import PrayerTable from "../../components/bonetider/PrayerTable.astro";
 import Base from "../../layouts/Base.astro";
 import { ORG_ID, breadcrumbList, cityPlace, faqPageJsonLd } from "../../lib/jsonld";
 import { nf0, nf1 } from "../../lib/format";
-import { computePrayerTimes, formatTime, PRAYER_LABELS, PRAYER_ORDER, PRAYER_SWEDISH_NAMES } from "../../lib/bonetider/prayer-times";
 import { SCB_POP_YEAR, SCB_REF, SCB_SOURCE } from "../../lib/bonetider/meta";
 import { placeFacts } from "../../lib/bonetider/place-facts";
 import { type IndexedPlace, INDEXED_PLACES, nearbyPlaces, officialPopulation, OG_POPULATION } from "../../lib/bonetider/places-index";
-import { DEFAULT_SETTINGS } from "../../lib/bonetider/settings";
+import { stockholmMonthLabel } from "../../lib/bonetider/prayer-times";
 import { MOSKEER_ENABLED } from "../../lib/config";
 import { cityBySlug, directionsLinks, locationLabel, mosqueUrl, nearestMosques } from "../../lib/moskeer";
 
@@ -36,15 +36,7 @@ interface Props {
 const { place } = Astro.props;
 const location = { name: place.name, latitude: place.lat, longitude: place.lon };
 
-// Build-time facts (default MWL method) – evergreen prose, not stale clock values.
 const now = new Date();
-const times = computePrayerTimes(location, now, DEFAULT_SETTINGS);
-const rows = PRAYER_ORDER.map((key) => ({
-	key,
-	label: PRAYER_LABELS[key],
-	sv: PRAYER_SWEDISH_NAMES[key],
-	time: formatTime(times[key]),
-}));
 
 const lat1 = place.lat.toFixed(2).replace(".", ",");
 const lon1 = place.lon.toFixed(2).replace(".", ",");
@@ -102,6 +94,18 @@ const todayLabel = new Intl.DateTimeFormat("sv-SE", {
 // <stad> 2026"), and it lifts perceived freshness on the competitive metro queries.
 // Build-time value; the daily rebuild rolls it over each January.
 const year = new Intl.DateTimeFormat("sv-SE", { year: "numeric", timeZone: "Europe/Stockholm" }).format(now);
+// Same source as PrayerTable's caption, so heading and table can never name different months.
+const monthLabel = stockholmMonthLabel(now);
+
+// One array feeds both the visible trail and the JSON-LD, so they cannot drift apart.
+// ⚠️ Trailing slashes are load-bearing here, unlike in a JSON-LD-only crumb list:
+// breadcrumbList() normalises through pageUrl(), the visible href does not, and
+// Cloudflare 308s the slash-less form.
+const crumbs = [
+	{ name: "Hem", url: "/" },
+	{ name: "Bönetider", url: "/bonetider/" },
+	{ name: place.name, url: `/bonetider/${place.slug}/` },
+];
 const popText = nf0.format(pop);
 const depText = nf1.format(facts.summerMidnightDepressionDeg);
 
@@ -259,15 +263,12 @@ if (hasScb) {
 			publisher: { "@id": ORG_ID },
 		},
 		faqPageJsonLd(faq),
-		breadcrumbList([
-			{ name: "Hem", url: "/" },
-			{ name: "Bönetider", url: "/bonetider" },
-			{ name: place.name, url: `/bonetider/${place.slug}` },
-		]),
+		breadcrumbList(crumbs),
 	]}
 >
 	<main id="main" class="home bonetider-stad">
 		<header class="bt-stad-header">
+			<Breadcrumb items={crumbs} />
 			<h1>Bönetider i {place.name} {year}</h1>
 			<p class="bt-stad-sub">
 				{place.county ? `${place.county} · ` : ""}{lat1}° N, {lon1}° O
@@ -275,34 +276,21 @@ if (hasScb) {
 			<p class="bt-stad-lead">{lead}</p>
 		</header>
 
-		<PrayerField location={location} variant="full" fixed={true} />
-
-		<section class="bt-stad-section" aria-labelledby="bt-stad-idag">
+		{/* PrayerField already renders today's six times beside the map, so the
+		    standalone list that used to sit under this heading printed the identical
+		    readout twice, ~200 px apart. The heading, date and note now frame that one
+		    readout instead of introducing a second copy. */}
+		<section class="bt-stad-section bt-stad-idag" aria-labelledby="bt-stad-idag">
 			<h2 id="bt-stad-idag">Dagens bönetider i {place.name}</h2>
 			<p class="bt-stad-date">
 				I dag · <time datetime={todayIso} class="bt-today-date">{todayLabel}</time>
 			</p>
+			<PrayerField location={location} variant="full" fixed={true} />
 			<p class="bt-stad-note">
-				Tiderna nedan beräknas direkt i din webbläsare. Sveriges ljusa sommarnätter gör att Fajr och
-				ʿIshāʾ ligger nära varandra – kartan ovan visar varför: solen sjunker bara en bit under
+				Tiderna beräknas direkt i din webbläsare. Sveriges ljusa sommarnätter gör att Fajr och
+				ʿIshāʾ ligger nära varandra – kartan visar varför: solen sjunker bara en bit under
 				horisonten.
 			</p>
-			<ul
-				class="bt-stad-today bonetider-readout"
-				data-name={place.name}
-				data-lat={place.lat}
-				data-lon={place.lon}
-				data-fixed="1"
-				aria-label={`Bönetider för ${place.name} i dag`}
-			>
-				{rows.map((r) => (
-					<li data-prayer={r.key}>
-						<span class="bt-st-name">{r.label}</span>
-						<span class="bt-st-sv">{r.sv}</span>
-						<span class="bt-st-time bf-t-time">{r.time}</span>
-					</li>
-				))}
-			</ul>
 		</section>
 
 		<AppPromo variant="section" />
@@ -378,8 +366,8 @@ if (hasScb) {
 		</section>
 
 		<section class="bt-stad-section" aria-labelledby="bt-stad-month">
-			<h2 id="bt-stad-month">Månadens bönetider</h2>
-			<PrayerTable location={location} />
+			<h2 id="bt-stad-month">Bönetider i {place.name} – {monthLabel}</h2>
+			<PrayerTable location={location} labelledBy="bt-stad-month" />
 		</section>
 
 		<section class="bt-stad-section" aria-labelledby="bt-stad-faq">
@@ -498,6 +486,14 @@ if (hasScb) {
 		margin: var(--space-half) 0 0;
 	}
 
+	/* The lead paragraph used to butt straight into the map — measured 0 px where
+	   every neighbouring gap was 15–49 px, so proximity grouped the map with the
+	   header text instead of letting it open its own movement. The date line is the
+	   map's label and stays close to it; the map keeps a full step of air above. */
+	.bt-stad-idag :global(.bonetider-field) {
+		margin-top: var(--space-unit);
+	}
+
 	.bt-stad-date time {
 		color: var(--color-text);
 		text-transform: capitalize;
@@ -509,55 +505,6 @@ if (hasScb) {
 		max-width: 40rem;
 		margin: var(--space-half) 0 var(--space-unit);
 		text-wrap: pretty;
-	}
-
-	.bt-stad-today {
-		list-style: none;
-		margin: 0;
-		padding: 0;
-		display: grid;
-		gap: var(--space-half) clamp(1rem, 4vw, 2.5rem);
-		grid-template-columns: repeat(auto-fit, minmax(min(100%, 9rem), 1fr));
-	}
-
-	.bt-stad-today li {
-		display: grid;
-		grid-template-columns: 1fr auto;
-		grid-template-areas: "name time" "sv time";
-		column-gap: 0.75rem;
-		align-items: baseline;
-		padding: 0.4rem 0;
-		border-bottom: 1px solid var(--color-divider);
-	}
-
-	.bt-st-name {
-		grid-area: name;
-		font-family: var(--font-heading);
-		font-weight: 600;
-		color: var(--color-text);
-	}
-
-	.bt-st-sv {
-		grid-area: sv;
-		font-family: var(--font-body);
-		font-size: var(--step--4);
-		color: var(--color-muted);
-	}
-
-	.bt-st-time {
-		grid-area: time;
-		align-self: center;
-		font-family: var(--font-body);
-		font-variant-numeric: lining-nums tabular-nums;
-		font-size: var(--step--1);
-		color: var(--color-text);
-	}
-
-	/* The live script marks the upcoming prayer with .is-next (same as the field) –
-	   give it the same quiet brass accent so the list and the map agree. */
-	.bt-stad-today li.is-next .bt-st-name,
-	.bt-stad-today li.is-next .bt-st-time {
-		color: var(--color-accent);
 	}
 
 	/* Official-stats block. Reserved, static layout → no CLS. */

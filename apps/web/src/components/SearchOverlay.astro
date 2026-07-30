@@ -1,24 +1,72 @@
 ---
+import { MOSKEER_ENABLED } from "../lib/config";
 import { buildPaletteIndex } from "../lib/palette";
 
-// The command palette is the site's only navigation surface. The full index
-// (pages + ämnen + trådar + tänkare + essays) is built once and embedded as a
-// JSON island — the corpus is small enough that no search infrastructure is
-// warranted. Empty input shows a browse menu; typing filters and ranks.
+// The command palette is the site's only navigation surface, and on touch it is
+// the whole site menu. Two panes share one shell:
+//
+//   • the MENU, below — plain server-rendered markup. It is the same on every
+//     page, so building it in JS from the JSON island bought nothing and cost a
+//     frame; as real HTML it is crawlable, prefetchable and painted before the
+//     module lands.
+//   • the RESULTS, rendered by the script when the reader types. Only that pane
+//     needs the index.
 const index = await buildPaletteIndex();
+const amnen = index.filter((e) => e.type === "Ämne");
+const tradar = index.filter((e) => e.type === "Tråd");
+const sunni = index.filter((e) => e.type === "Tänkare" && e.group === "sunni");
+const western = index.filter((e) => e.type === "Tänkare" && e.group === "western");
+const tankareCount = sunni.length + western.length;
+
+// The menu's two tiers. Splitting the standing pages into "Läs" (the editorial
+// corpus) and "Verktyg" (the daily-use surfaces) is the site's real division —
+// a flat list of seven gave a reader no way to tell an archive from a clock. The
+// glosses are shorter than the palette index's: a menu row is scanned, not read.
+const READ = [
+	{ href: "/vad-ar-islam/", label: "Pelare & tro", sub: "De fem pelarna och de sex trosartiklarna." },
+	{ href: "/svar/", label: "Frågor & svar", sub: "Källbelagda svar på vanliga frågor." },
+	{ href: "/essaer/", label: "Essäer", sub: "Hela arkivet, ordnat efter ämne." },
+];
+const TOOLS = [
+	{ href: "/bonetider/", label: "Bönetider", sub: "Hela Sverige, ort för ort, efter solens läge." },
+	// Gated: see MOSKEER_ENABLED in lib/config.ts.
+	...(MOSKEER_ENABLED
+		? [{ href: "/moskeer", label: "Moskéer", sub: "Karta över moskéer, län för län." }]
+		: []),
+	{ href: "/app", label: "App", sub: "Bönetider, påminnelser och qibla i fickan." },
+	{ href: "/podcast", label: "Podd", sub: "Essäerna inlästa." },
+];
+// The quiet tail: real destinations, but nothing a reader opens the menu to find.
+const MINOR = [
+	{ href: "/det-islamiska-aret/", label: "Det islamiska året" },
+	{ href: "/om/", label: "Om" },
+	{ href: "/om/redaktion/", label: "Redaktion" },
+	{ href: "/ai/", label: "AI" },
+	{ href: "/ratta/", label: "Föreslå en rättelse" },
+];
 ---
 
-<div
+{/* A real <dialog>, opened with showModal(): the top layer gives the focus trap,
+    the background inert-ing, Escape, and focus-return-to-opener that this file
+    used to hand-roll — about eighty lines of a11y plumbing that is now the
+    browser's job, and correct by construction. tabindex="-1" only so the menu
+    can be opened without the caret landing in the search field (see the script:
+    on touch that would raise the keyboard over the menu it just opened). */}
+<dialog
 	class="palette"
 	id="search-overlay"
-	hidden
-	role="dialog"
-	aria-modal="true"
 	aria-label="Sök och bläddra"
+	tabindex="-1"
 	transition:persist
 >
+	{/* The open menu covers the mast, and with it the only way home. The wordmark
+	    is repeated here, in the same corner it occupies underneath, so the overlay
+	    reads as the mast expanded rather than as a screen that replaced it. */}
+	<a class="palette-home" href="/">
+		<svg class="nav-rub" aria-hidden="true" viewBox="0 0 20 20" fill="none"><rect x="3.5" y="3.5" width="13" height="13" stroke="currentColor" stroke-width="1"/><rect x="3.5" y="3.5" width="13" height="13" stroke="currentColor" stroke-width="1" transform="rotate(45 10 10)"/><circle cx="10" cy="10" r="2.85" stroke="currentColor" stroke-width="0.8"/></svg><span>islam<span class="site-tld">.se</span></span>
+	</a>
 	<button class="palette-close" type="button" aria-label="Stäng">
-		<svg width="18" height="18" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"><path d="M2 2l10 10M12 2 2 12" /></svg>
+		<svg width="18" height="18" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" aria-hidden="true"><path d="M2 2l10 10M12 2 2 12" /></svg>
 	</button>
 	<div class="palette-inner">
 		<div class="palette-field">
@@ -30,7 +78,7 @@ const index = await buildPaletteIndex();
 				class="palette-input"
 				type="search"
 				role="combobox"
-				aria-expanded="true"
+				aria-expanded="false"
 				aria-controls="palette-results"
 				aria-autocomplete="list"
 				placeholder="Sök eller hoppa till …"
@@ -42,38 +90,164 @@ const index = await buildPaletteIndex();
 			/>
 		</div>
 		<p class="palette-hint label" aria-live="polite"></p>
-		<div class="palette-results" id="palette-results" role="listbox" aria-label="Resultat"></div>
-	</div>
-	<script is:inline type="application/json" id="search-index" set:html={JSON.stringify(index)} />
-</div>
 
-<!-- Global, not scoped: the groups/rows/chips are built at runtime via innerHTML,
-     so they never get Astro's scoped-style attribute. All selectors are
-     .palette*-namespaced (plus html.palette-open), so there is no collision risk. -->
+		{/* Typed results. Empty and hidden until the reader types — the listbox
+		    semantics belong here and nowhere else. */}
+		<div class="palette-results" id="palette-results" role="listbox" aria-label="Resultat" hidden></div>
+
+		{/* The menu proper. Not a listbox: it is a set of links with headings, and
+		    Tab is the right way through it. */}
+		<nav class="palette-browse" aria-label="Meny">
+			<section class="palette-group">
+				<h2 class="palette-group-head label">Läs</h2>
+				<ul class="palette-dests">
+					{READ.map((d) => (
+						<li>
+							<a class="palette-dest" href={d.href} data-astro-prefetch="tap">
+								<span class="palette-dest-label">{d.label}</span>
+								<span class="palette-dest-sub">{d.sub}</span>
+							</a>
+						</li>
+					))}
+				</ul>
+			</section>
+
+			<section class="palette-group">
+				<h2 class="palette-group-head label">Verktyg</h2>
+				<ul class="palette-dests">
+					{TOOLS.map((d) => (
+						<li>
+							<a class="palette-dest" href={d.href} data-astro-prefetch="tap">
+								<span class="palette-dest-label">{d.label}</span>
+								<span class="palette-dest-sub">{d.sub}</span>
+							</a>
+						</li>
+					))}
+				</ul>
+			</section>
+
+			<section class="palette-group">
+				<h2 class="palette-group-head label">Ämnen</h2>
+				<div class="palette-chips">
+					{amnen.map((e) => (
+						<a class="palette-chip" href={e.href} data-astro-prefetch="tap">{e.label}</a>
+					))}
+				</div>
+			</section>
+
+			<section class="palette-group">
+				<h2 class="palette-group-head label">Trådar</h2>
+				<div class="palette-chips">
+					{tradar.map((e) => (
+						<a class="palette-chip" href={e.href} data-astro-prefetch="tap">{e.label}</a>
+					))}
+				</div>
+			</section>
+
+			{/* The long tail, folded. Eighteen proper names read as a wall next to
+			    "Bönetider" and "Essäer" — same chip, same weight, no way to tell a
+			    destination from a philosopher. Typing still finds any of them. */}
+			<details class="palette-fold">
+				<summary class="palette-fold-summary">
+					<span class="palette-fold-title label">Tänkare</span>
+					<span class="palette-fold-count">{tankareCount}</span>
+				</summary>
+				<div class="palette-fold-body">
+					<p class="palette-group-head label">Den klassiska islamiska traditionen</p>
+					<div class="palette-chips">
+						{sunni.map((e) => (
+							<a class="palette-chip" href={e.href} data-astro-prefetch="tap">{e.label}</a>
+						))}
+					</div>
+					<p class="palette-group-head label">Svenska och västerländska röster</p>
+					<div class="palette-chips">
+						{western.map((e) => (
+							<a class="palette-chip" href={e.href} data-astro-prefetch="tap">{e.label}</a>
+						))}
+					</div>
+					<a class="section-link arrow-link palette-fold-all" href="/tankare/">Alla tänkare</a>
+				</div>
+			</details>
+
+			{/* Utility rail. The theme switch lives here rather than in the mast:
+			    it is a once-a-session choice that was occupying permanent space
+			    beside a per-visit one, and down here there is room for words — so
+			    it can offer the third state ("System") a 34px glyph could not. */}
+			<div class="palette-foot">
+				<fieldset class="theme-picker">
+					<legend class="theme-picker-legend label">Utseende</legend>
+					<div class="theme-picker-opts">
+						<label class="theme-opt"><input type="radio" name="theme-choice" value="system" checked /><span>System</span></label>
+						<label class="theme-opt"><input type="radio" name="theme-choice" value="light" /><span>Ljust</span></label>
+						<label class="theme-opt"><input type="radio" name="theme-choice" value="dark" /><span>Mörkt</span></label>
+					</div>
+				</fieldset>
+				<ul class="palette-minor">
+					{MINOR.map((d) => (
+						<li><a href={d.href}>{d.label}</a></li>
+					))}
+				</ul>
+			</div>
+		</nav>
+	</div>
+</dialog>
+
+<!-- Global, not scoped: the result rows are built at runtime via innerHTML, so
+     they never get Astro's scoped-style attribute. All selectors are
+     .palette*/.theme-*-namespaced, so there is no collision risk. -->
 <style is:global>
+	/* The dialog's own box. `inset: 0` + `max-width/height: none` because the UA
+	   stylesheet centres a modal dialog in a shrink-to-fit box — this one is the
+	   whole viewport. */
 	.palette {
 		position: fixed;
 		inset: 0;
+		width: 100%;
+		max-width: none;
+		height: 100%;
+		max-height: none;
+		margin: 0;
+		padding: 0;
+		border: none;
 		z-index: 70;
+		color: var(--color-text);
 		background: color-mix(in srgb, var(--color-bg) 92%, transparent);
 		/* No hand-written -webkit- twin — Lightning CSS drops the standard property
 	   when both are present. See the same note in essaer.astro. */
 		backdrop-filter: blur(12px) saturate(1.1);
-		opacity: 0;
-		transition: opacity 0.18s ease;
 		overflow-y: auto;
 		overscroll-behavior: contain;
+		opacity: 0;
+		/* The fade both ways without a transitionend/setTimeout dance: `display` and
+	   `overlay` are discrete properties, and allow-discrete keeps the element
+	   painted (and in the top layer) for the length of the fade-out. Browsers
+	   without `overlay` simply cut the exit — no stuck overlay either way. */
+		transition:
+			opacity 0.18s ease,
+			display 0.18s allow-discrete,
+			overlay 0.18s allow-discrete;
 	}
 
-	.palette[hidden] { display: none; }
-	.palette[data-visible] { opacity: 1; }
+	.palette[open] { opacity: 1; }
+
+	@starting-style {
+		.palette[open] { opacity: 0; }
+	}
+
+	.palette::backdrop { background: transparent; }
+
+	.palette:focus-visible { outline: none; }
 
 	@media (prefers-reduced-motion: reduce) {
 		.palette { transition: none; }
 	}
 
-	/* Lock the page behind the open palette. */
-	html.palette-open { overflow: hidden; }
+	/* Lock the page behind the open palette. A modal dialog inert-s the background
+	   but does not reliably stop it scrolling — iOS especially. Read straight off
+	   the dialog's own `open` attribute rather than a class the script maintains:
+	   a second source of truth for "is the palette open" is a second thing that can
+	   be left behind, and a page stuck at overflow:hidden is unusable. */
+	html:has(.palette[open]) { overflow: hidden; }
 
 	.palette-close {
 		position: absolute;
@@ -89,6 +263,30 @@ const index = await buildPaletteIndex();
 		&:hover { color: var(--color-accent); }
 		&:focus-visible { border-radius: var(--radius-xs); }
 	}
+
+	.palette-home {
+		position: absolute;
+		top: var(--safe-top);
+		left: var(--safe-left);
+		display: inline-flex;
+		align-items: center;
+		gap: 0.25em;
+		min-height: 2.75rem;
+		padding-block: 0.5rem;
+		font-family: var(--font-heading);
+		font-size: var(--step--1);
+		font-weight: 600;
+		line-height: 1;
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+		font-feature-settings: "case";
+		color: var(--color-muted);
+
+		&:hover { color: var(--color-accent); }
+	}
+
+	.palette-home,
+	.palette-home:hover { text-decoration: none; }
 
 	.palette-inner {
 		max-width: var(--content-width);
@@ -130,17 +328,82 @@ const index = await buildPaletteIndex();
 
 	.palette-input::-webkit-search-cancel-button { -webkit-appearance: none; }
 
+	/* Never `hidden`: a live region that is removed and restored may not announce
+	   when it comes back. It stays in the tree and collapses when empty instead. */
 	.palette-hint {
 		margin: var(--space-half) 0 0;
 		min-height: 1.2em;
 	}
 
-	.palette-results { margin-top: var(--space-unit); }
+	.palette-hint:empty {
+		margin: 0;
+		min-height: 0;
+	}
+
+	.palette-results[hidden],
+	.palette-browse[hidden] { display: none; }
+
+	.palette-results,
+	.palette-browse { margin-top: var(--space-unit); }
 
 	.palette-group { margin-bottom: var(--space-unit); }
 
 	.palette-group-head {
 		margin: 0 0 0.7rem;
+		font-weight: 500;
+		color: var(--color-muted);
+	}
+
+	/* --- Menu: the standing destinations -------------------------------
+	   One row per place, each a heading-weight label over a scanning gloss, on a
+	   hairline rule. Rows, not chips: these are the answers to "where can I go",
+	   and they have to outrank the browse chips below them at a glance. */
+	.palette-dests {
+		margin: 0;
+		padding: 0;
+		list-style: none;
+		border-top: 1px solid var(--color-divider);
+	}
+
+	.palette-dest {
+		display: block;
+		padding: 0.75rem 0.6rem;
+		margin-inline: -0.6rem;
+		border-bottom: 1px solid var(--color-divider);
+		text-decoration: none;
+		transition: background-color 0.12s;
+	}
+
+	/* Both states declared: these rules are unlayered and would otherwise let the
+	   base layer's rest-state underline through on one of them. */
+	.palette-dest,
+	.palette-dest:hover { text-decoration: none; }
+
+	.palette-dest:hover,
+	.palette-dest:focus-visible {
+		background: color-mix(in srgb, var(--color-warm) 10%, transparent);
+	}
+
+	.palette-dest:focus-visible {
+		--focus-offset: -2px;
+		border-radius: var(--radius-sm);
+	}
+
+	.palette-dest-label {
+		display: block;
+		font-family: var(--font-heading);
+		font-size: var(--step-0);
+		font-weight: 600;
+		line-height: 1.2;
+		color: var(--color-accent);
+	}
+
+	.palette-dest-sub {
+		display: block;
+		margin-top: 0.15rem;
+		font-family: var(--font-body);
+		font-size: var(--step--2);
+		line-height: 1.4;
 		color: var(--color-muted);
 	}
 
@@ -160,11 +423,13 @@ const index = await buildPaletteIndex();
 		font-weight: 500;
 		letter-spacing: 0.01em;
 		color: var(--color-text);
-		text-decoration: none;
 		border: 1px solid var(--color-divider);
-		border-radius: 1.4rem;
+		border-radius: var(--radius-pill);
 		transition: color 0.15s, border-color 0.15s, background-color 0.15s;
 	}
+
+	.palette-chip,
+	.palette-chip:hover { text-decoration: none; }
 
 	.palette-chip:hover,
 	.palette-chip.is-active {
@@ -173,7 +438,148 @@ const index = await buildPaletteIndex();
 		background: color-mix(in srgb, var(--color-warm) 8%, transparent);
 	}
 
-	/* Search view — full-width rows: title + lead, with a type tag. */
+	/* --- The folded tail ------------------------------------------------ */
+	/* Top rule only: the utility rail below closes the region with its own, and two
+	   hairlines a gap apart read as a mistake rather than a boundary. */
+	.palette-fold {
+		margin-bottom: var(--space-unit);
+		border-top: 1px solid var(--color-divider);
+	}
+
+	.palette-fold-summary {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+		padding-block: 0.85rem;
+		cursor: pointer;
+		list-style: none;
+
+		&::-webkit-details-marker { display: none; }
+		&:hover .palette-fold-title { color: var(--color-accent); }
+	}
+
+	.palette-fold-title { color: var(--color-muted); }
+
+	.palette-fold-count {
+		font-family: var(--font-body);
+		font-variant-numeric: lining-nums tabular-nums;
+		font-size: var(--step--3);
+		color: var(--color-muted);
+	}
+
+	/* The marker is drawn here, never typed into the markup: a chevron that turns
+	   a quarter when the fold opens. */
+	.palette-fold-summary::after {
+		content: "";
+		margin-inline-start: auto;
+		inline-size: 0.5rem;
+		block-size: 0.5rem;
+		border-right: 1.25px solid var(--color-muted);
+		border-bottom: 1.25px solid var(--color-muted);
+		rotate: 45deg;
+		translate: 0 -0.1rem;
+		transition: rotate 0.2s ease;
+	}
+
+	.palette-fold[open] .palette-fold-summary::after {
+		rotate: -135deg;
+		translate: 0 0.1rem;
+	}
+
+	.palette-fold-body { padding-bottom: var(--space-half); }
+
+	.palette-fold-body .palette-group-head { margin-top: var(--space-half); }
+
+	.palette-fold-all { display: inline-block; margin-top: var(--space-half); }
+
+	/* --- Utility rail --------------------------------------------------- */
+	.palette-foot {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: end;
+		justify-content: space-between;
+		gap: var(--space-half) var(--space-unit);
+		margin-top: var(--space-phi);
+		padding-top: var(--space-half);
+		border-top: 1px solid var(--color-rule);
+	}
+
+	.theme-picker {
+		margin: 0;
+		padding: 0;
+		border: none;
+	}
+
+	.theme-picker-legend {
+		padding: 0;
+		margin-bottom: 0.55rem;
+	}
+
+	/* A segmented control: one hairline capsule, the chosen segment filled. Three
+	   states, because down here each one can carry its own word — "System" is the
+	   default the site has always honoured and now the reader can return to it. */
+	.theme-picker-opts {
+		display: inline-flex;
+		padding: 3px;
+		border: 1px solid var(--color-divider);
+		border-radius: var(--radius-pill);
+	}
+
+	.theme-opt {
+		position: relative;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		min-height: 2rem;
+		padding-inline: 0.85rem;
+		border-radius: var(--radius-pill);
+		font-family: var(--font-heading);
+		font-size: var(--step--3);
+		font-weight: 500;
+		color: var(--color-muted);
+		cursor: pointer;
+		transition: color 0.15s, background-color 0.15s;
+	}
+
+	/* The radio stays in the accessibility tree and keeps the label's native
+	   activation; only its box is taken out of the layout. */
+	.theme-opt input {
+		position: absolute;
+		opacity: 0;
+		pointer-events: none;
+	}
+
+	.theme-opt:hover { color: var(--color-accent); }
+
+	.theme-opt:has(:checked) {
+		color: var(--color-accent);
+		background: color-mix(in srgb, var(--color-warm) 16%, transparent);
+	}
+
+	.theme-opt:has(:focus-visible) {
+		outline: 2px solid var(--color-accent);
+		outline-offset: 1px;
+	}
+
+	.palette-minor {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.35rem 1rem;
+		margin: 0;
+		padding: 0;
+		list-style: none;
+		font-family: var(--font-heading);
+		font-size: var(--step--3);
+	}
+
+	.palette-minor a {
+		color: var(--color-muted);
+		text-decoration: none;
+
+		&:hover { color: var(--color-accent); }
+	}
+
+	/* --- Search view: full-width rows, title + lead, with a type tag ----- */
 	.palette-rows { display: flex; flex-direction: column; }
 
 	.palette-row {
@@ -184,10 +590,12 @@ const index = await buildPaletteIndex();
 		padding: 0.7rem 0.6rem;
 		margin-inline: -0.6rem;
 		border-radius: 8px;
-		text-decoration: none;
 		color: inherit;
 		transition: background-color 0.12s;
 	}
+
+	.palette-row,
+	.palette-row:hover { text-decoration: none; }
 
 	.palette-row.is-active,
 	.palette-row:hover {
@@ -231,20 +639,40 @@ const index = await buildPaletteIndex();
 	}
 
 	@media (width <= 768px) {
-		.palette-input {
-			font-size: 1.5rem;
-		}
+		.palette-input { font-size: 1.5rem; }
 
 		.palette-row-type { display: none; }
+
+		.palette-foot {
+			flex-direction: column;
+			align-items: stretch;
+		}
 	}
 
-	/* Touch: the palette is the whole site menu here, so the browse chips must be
-	   comfortably tappable. The 0.4rem padding leaves a ~30px target; raise it to
-	   the 44px minimum on coarse pointers. */
+	/* Touch: the palette is the whole site menu here, so every target has to clear
+	   the 44px minimum — the chips' 0.4rem padding leaves about 30px. */
 	@media (hover: none), (pointer: coarse) {
 		.palette-chip {
 			min-height: 2.75rem;
 			padding-inline: 0.95rem;
+		}
+
+		.palette-dest { padding-block: 0.9rem; }
+
+		.palette-fold-summary { padding-block: 1rem; }
+
+		.theme-opt {
+			flex: 1;
+			min-height: 2.75rem;
+		}
+
+		.theme-picker-opts { display: flex; }
+
+		.palette-minor { gap: 0.9rem 1.1rem; }
+
+		.palette-minor a {
+			display: inline-block;
+			padding-block: 0.35rem;
 		}
 	}
 
@@ -277,19 +705,8 @@ const index = await buildPaletteIndex();
 	};
 	// Search ranks structure above essays, with the answer pages right below the
 	// standing pages: a bare noun query ("halal", "hijab") is nearly always someone
-	// looking for the answer, not the essay that alludes to it. Browse mirrors the
-	// homepage axes (pages last) and omits both essays and answers — the corpus is
-	// too large for chips, and "Frågor & svar" is already a browse page.
+	// looking for the answer, not the essay that alludes to it.
 	const SEARCH_ORDER: SectionKey[] = ["Sida", "Svar", "Ort", "Ämne", "Tråd", "Sunni", "Western", "Essä"];
-	// Browse led with Ämnen and buried Sidor beneath ~30 thinker chips. On touch
-	// this view IS the site menu — the trigger reads "Meny" there — so a reader
-	// opening it to navigate met a wall of philosophers with Pelare & tro, Frågor
-	// & svar, Essäer and Bönetider last. Destinations first; the browse axes after.
-	const BROWSE_ORDER: SectionKey[] = ["Sida", "Ämne", "Tråd", "Sunni", "Western"];
-	// Pages worth surfacing as browse chips (the rest are reachable by typing).
-	// On touch the palette is the whole menu, so this must carry the same standing
-	// destinations the desktop mast shows inline: the utility pages + editorial core.
-	const BROWSE_PAGES = ["Pelare & tro", "Essäer", "Frågor & svar", "Bönetider", "Moskéer", "App", "Podd", "Om", "AI"];
 	const ESSAY_CAP = 8;
 	const SVAR_CAP = 8;
 	// Small tiebreak so structure edges out an essay at equal textual score.
@@ -323,40 +740,33 @@ const index = await buildPaletteIndex();
 	let bound = false;
 
 	function initPalette() {
-		// The overlay persists across view transitions (transition:persist), so
+		// The dialog persists across view transitions (transition:persist), so
 		// listeners are bound exactly once against the module-scope element.
-		const overlay = document.getElementById("search-overlay")!;
-		const input = overlay.querySelector<HTMLInputElement>(".palette-input")!;
-		const hint = overlay.querySelector<HTMLElement>(".palette-hint")!;
-		const results = overlay.querySelector<HTMLElement>(".palette-results")!;
-		const closeBtn = overlay.querySelector<HTMLButtonElement>(".palette-close")!;
+		const dialog = document.getElementById("search-overlay") as HTMLDialogElement;
+		const input = dialog.querySelector<HTMLInputElement>(".palette-input")!;
+		const hint = dialog.querySelector<HTMLElement>(".palette-hint")!;
+		const results = dialog.querySelector<HTMLElement>(".palette-results")!;
+		const browse = dialog.querySelector<HTMLElement>(".palette-browse")!;
+		const closeBtn = dialog.querySelector<HTMLButtonElement>(".palette-close")!;
 
+		// The index is fetched, not inlined. `indexReady` rather than `entries.length` is the
+		// guard: a failed fetch leaves an empty array, and length would re-trigger forever.
+		// The dialog is transition:persist, so this module is evaluated once per full page
+		// load and the fetch is not repeated across client-side navigations.
 		let entries: Entry[] = [];
-		function getEntries(): Entry[] {
-			if (entries.length) return entries;
-			const el = document.getElementById("search-index");
-			try { entries = el ? JSON.parse(el.textContent || "[]") : []; } catch { entries = []; }
-			return entries;
+		let indexReady = false;
+		let indexPromise: Promise<void> | null = null;
+		function loadIndex(): Promise<void> {
+			indexPromise ??= fetch("/search-index.json")
+				.then((r) => (r.ok ? r.json() : []))
+				.then((d: unknown) => { entries = Array.isArray(d) ? (d as Entry[]) : []; })
+				.catch(() => { entries = []; })
+				.finally(() => { indexReady = true; });
+			return indexPromise;
 		}
 
 		let opts: HTMLAnchorElement[] = [];
 		let active = -1;
-		// The control that opened the palette, so focus can return there on close
-		// (keyboard users keep their place instead of being dropped on <body>).
-		let lastFocused: HTMLElement | null = null;
-
-		const isOpen = () => !overlay.hidden;
-
-		// While the modal is open, mark the rest of the page inert so assistive tech
-		// and Tab can't reach the now-covered content behind it. The overlay is the
-		// last body child, so every sibling is background chrome.
-		function setBackgroundInert(on: boolean): void {
-			for (const child of Array.from(document.body.children)) {
-				if (child === overlay) continue;
-				if (on) child.setAttribute("inert", "");
-				else child.removeAttribute("inert");
-			}
-		}
 
 		function setActive(idx: number) {
 			const prev = opts[active];
@@ -383,29 +793,13 @@ const index = await buildPaletteIndex();
 
 		// --- rendering -----------------------------------------------------
 		let n = 0;
-		function chip(e: Entry): string {
-			const i = n++;
-			return `<a class="palette-opt palette-chip" role="option" id="palette-opt-${i}" data-i="${i}" href="${e.href}" data-astro-prefetch="hover">${esc(e.label)}</a>`;
-		}
 		function row(e: Entry): string {
 			const i = n++;
-			return `<a class="palette-opt palette-row" role="option" id="palette-opt-${i}" data-i="${i}" href="${e.href}" data-astro-prefetch="hover"><span class="palette-row-main"><span class="palette-row-label">${esc(e.label)}</span><span class="palette-row-sub">${esc(e.sub)}</span></span><span class="palette-row-type label">${esc(e.type)}</span></a>`;
-		}
-
-		function renderBrowse(): string {
-			let out = "";
-			for (const key of BROWSE_ORDER) {
-				const sec = SECTION[key];
-				let list = getEntries().filter(sec.match);
-				if (key === "Sida") list = list.filter((e) => BROWSE_PAGES.includes(e.label));
-				if (!list.length) continue;
-				out += `<section class="palette-group"><p class="palette-group-head label">${sec.heading}</p><div class="palette-chips">${list.map(chip).join("")}</div></section>`;
-			}
-			return out;
+			return `<a class="palette-opt palette-row" role="option" id="palette-opt-${i}" data-i="${i}" href="${e.href}" data-astro-prefetch="tap"><span class="palette-row-main"><span class="palette-row-label">${esc(e.label)}</span><span class="palette-row-sub">${esc(e.sub)}</span></span><span class="palette-row-type label">${esc(e.type)}</span></a>`;
 		}
 
 		function renderSearch(q: string): { html: string; count: number } {
-			const hits = getEntries()
+			const hits = entries
 				.map((e) => ({ e, s: score(e, q) }))
 				.filter((h) => h.s > 0)
 				.sort((a, b) => b.s - a.s);
@@ -423,113 +817,122 @@ const index = await buildPaletteIndex();
 			return { html: out, count };
 		}
 
+		// Two panes, one at a time: the menu is the resting state, results replace
+		// it the moment there is a query and hand it back when the field empties.
 		function render() {
-			const q = fold(input.value.trim());
-			n = 0;
+			const raw = input.value.trim();
+			const q = fold(raw);
 			if (!q) {
-				results.innerHTML = renderBrowse();
+				results.innerHTML = "";
+				results.hidden = true;
 				hint.textContent = "";
-			} else {
-				const { html, count } = renderSearch(q);
-				results.innerHTML = html || `<p class="palette-empty">Inga träffar för ”${esc(input.value.trim())}”.</p>`;
-				hint.textContent = count ? `${count} ${count === 1 ? "träff" : "träffar"}` : "Inga träffar";
+				browse.hidden = false;
+				input.setAttribute("aria-expanded", "false");
+				opts = [];
+				setActive(-1);
+				return;
 			}
+			// Normally warmed by the tap that opened the palette, so this is a rare path.
+			if (!indexReady) {
+				hint.textContent = "Söker …";
+				void loadIndex().then(() => { if (fold(input.value.trim()) === q) render(); });
+				return;
+			}
+			n = 0;
+			const { html, count } = renderSearch(q);
+			results.innerHTML = html || `<p class="palette-empty">Inga träffar för ”${esc(raw)}”.</p>`;
+			browse.hidden = true;
+			results.hidden = false;
+			hint.textContent = count ? `${count} ${count === 1 ? "träff" : "träffar"}` : "Inga träffar";
+			input.setAttribute("aria-expanded", "true");
 			opts = Array.from(results.querySelectorAll<HTMLAnchorElement>(".palette-opt"));
-			setActive(q && opts.length ? 0 : -1);
+			setActive(opts.length ? 0 : -1);
 		}
 
 		// --- open / close --------------------------------------------------
-		function open() {
-			if (isOpen()) return;
-			lastFocused = document.activeElement instanceof HTMLElement ? document.activeElement : null;
-			overlay.hidden = false;
-			document.documentElement.classList.add("palette-open");
-			setBackgroundInert(true);
-			render();
-			requestAnimationFrame(() => overlay.setAttribute("data-visible", ""));
-			setTimeout(() => input.focus(), 50);
-		}
-		// restoreFocus returns the caret to the opener — wanted when the user dismisses
-		// the palette in place (Escape / close button), not when an option navigates away.
-		function reset(restoreFocus = false) {
-			overlay.hidden = true;
-			overlay.removeAttribute("data-visible");
-			document.documentElement.classList.remove("palette-open");
-			setBackgroundInert(false);
+		const coarse = () => matchMedia("(hover: none), (pointer: coarse)").matches;
+
+		// focusField=false lands the caret on the dialog instead of the search box.
+		// On touch, focusing the input raises the on-screen keyboard over the menu
+		// the reader just opened — the "Meny" button must show a menu, not a keyboard.
+		//
+		// Opening is what resets the panes, not closing: a dialog can be dismissed
+		// half a dozen ways (Escape, the button, a link, a route change) and every
+		// one of them would have to remember to tidy up. Tidying on the way in
+		// happens exactly once, on the one path that matters.
+		function open(focusField = !coarse()) {
+			if (dialog.open) return;
+			void loadIndex();
+			dialog.showModal();
 			input.value = "";
-			if (restoreFocus && lastFocused?.isConnected) lastFocused.focus();
-			lastFocused = null;
+			render();
+			(focusField ? input : dialog).focus();
 		}
+
 		function close() {
-			if (!isOpen()) return;
-			overlay.removeAttribute("data-visible");
-			document.documentElement.classList.remove("palette-open");
-			const done = () => reset(true);
-			overlay.addEventListener("transitionend", done, { once: true });
-			setTimeout(done, 250);
+			if (dialog.open) dialog.close();
 		}
+
 		function go(target: HTMLAnchorElement | undefined) {
 			if (!target) return;
 			const href = target.getAttribute("href") || "/";
-			reset();
+			close();
 			navigate(href);
 		}
 
 		// --- wiring (once) -------------------------------------------------
+		// Nothing to do on close: the browser restores focus to whatever opened the
+		// dialog, the scroll lock is CSS reading [open], and the panes reset on the
+		// way back in.
 		input.addEventListener("input", render);
 		results.addEventListener("mouseover", (e) => {
 			const o = (e.target as HTMLElement).closest<HTMLElement>(".palette-opt");
 			if (o?.dataset.i) setActive(+o.dataset.i);
 		});
-		// Clicks on options: let the router navigate the <a>; just tidy up state.
-		results.addEventListener("click", (e) => {
-			if ((e.target as HTMLElement).closest(".palette-opt")) reset();
+		// Clicks on a link: let the router navigate it; just close behind us.
+		dialog.addEventListener("click", (e) => {
+			if ((e.target as HTMLElement).closest("a[href]")) close();
 		});
 		closeBtn.addEventListener("click", close);
 
-		// Keys while open: arrows move, Enter follows, Escape closes. Handled on
-		// the overlay and stopped from propagating so the essay-page Escape→/essaer
-		// binding and footnote popovers never also fire.
-		overlay.addEventListener("keydown", (e) => {
-			if (e.key === "Escape") { e.preventDefault(); e.stopPropagation(); close(); }
-			else if (e.key === "ArrowDown") { e.preventDefault(); move(1); }
+		// Escape is the dialog's own — it only has to be kept from reaching the
+		// essay-page Escape→/essaer binding and the footnote popovers. Arrows and
+		// Enter drive the result list; in menu mode Tab is the right way through.
+		dialog.addEventListener("keydown", (e) => {
+			if (e.key === "Escape") { e.stopPropagation(); return; }
+			if (results.hidden) return;
+			if (e.key === "ArrowDown") { e.preventDefault(); move(1); }
 			else if (e.key === "ArrowUp") { e.preventDefault(); move(-1); }
 			else if (e.key === "Enter") { e.preventDefault(); go(opts[active] ?? opts[0]); }
 			else if (e.key === "Home") { e.preventDefault(); if (opts.length) setActive(0); }
 			else if (e.key === "End") { e.preventDefault(); if (opts.length) setActive(opts.length - 1); }
-			else if (e.key === "Tab") { e.preventDefault(); (document.activeElement === input ? closeBtn : input).focus(); }
 		});
 
 		// Global open shortcuts and the mast trigger (delegated, bound once).
 		document.addEventListener("keydown", (e) => {
 			if ((e.key === "k" || e.key === "K") && (e.metaKey || e.ctrlKey)) {
 				e.preventDefault();
-				isOpen() ? close() : open();
+				dialog.open ? close() : open(true);
 				return;
 			}
 			const t = e.target as HTMLElement | null;
 			const inField = !!t && t.matches("input, textarea, select, [contenteditable=true]");
-			if (e.key === "/" && !inField && !isOpen()) { e.preventDefault(); open(); }
+			if (e.key === "/" && !inField && !dialog.open) { e.preventDefault(); open(true); }
 		});
 		document.addEventListener("click", (e) => {
 			if ((e.target as HTMLElement).closest(".search-trigger")) { e.preventDefault(); open(); }
 		});
+		// Start the index fetch on the press, not the click: it buys the round trip back
+		// that inlining used to hide, so the results pane is ready before the first keypress.
+		document.addEventListener("pointerdown", (e) => {
+			if ((e.target as HTMLElement).closest?.(".search-trigger")) void loadIndex();
+		}, { passive: true });
 	}
 
 	document.addEventListener("astro:page-load", () => {
-		// Land every navigation with the palette closed and scroll unlocked.
-		const overlay = document.getElementById("search-overlay");
-		if (overlay && !overlay.hidden) {
-			overlay.hidden = true;
-			overlay.removeAttribute("data-visible");
-		}
-		document.documentElement.classList.remove("palette-open");
-		// Defensive: never let a stale inert (from an interrupted open) survive a nav.
-		for (const child of Array.from(document.body.children)) {
-			if (child !== overlay) child.removeAttribute("inert");
-		}
-		const input = overlay?.querySelector<HTMLInputElement>(".palette-input");
-		if (input) input.value = "";
+		// Land every navigation with the palette closed (the scroll lock follows).
+		const dialog = document.getElementById("search-overlay") as HTMLDialogElement | null;
+		dialog?.close();
 
 		if (bound) return;
 		bound = true;

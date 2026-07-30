@@ -4,6 +4,7 @@ import { render } from "astro:content";
 import AudioPlayer from "../components/AudioPlayer.astro";
 import EssayConnections from "../components/EssayConnections.astro";
 import EssayImage from "../components/EssayImage.astro";
+import Rattelse from "../components/Rattelse.astro";
 import Base from "../layouts/Base.astro";
 import { amneByName } from "../lib/amnen";
 import type { Article } from "../lib/articles";
@@ -136,6 +137,8 @@ if (article.heroImage) {
 				</a>
 			)}
 		</nav>
+
+		<Rattelse />
 	</main>
 
 	<button class="resume-pill label" type="button" hidden>Fortsätt där du slutade</button>
@@ -234,6 +237,11 @@ if (article.heroImage) {
 	.resume-pill[data-visible] {
 		opacity: 1;
 		transform: translateX(-50%) translateY(0);
+	}
+
+	/* Same lift as .fixed-actions: the player owns the bottom edge and shares this z-index. */
+	html[data-player-visible] .resume-pill {
+		bottom: calc(var(--safe-bottom, 0px) + 1.25rem + 3.5rem);
 	}
 
 	.resume-pill:hover {

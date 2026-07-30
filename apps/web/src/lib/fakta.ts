@@ -57,7 +57,7 @@ export const FAKTA_CLUSTERS: FaktaCluster[] = [
 			{
 				svarSlug: "trosbekannelsen-shahada",
 				label: "Trosbekännelsen",
-				blurb: "Vittnesbörden: ingen gud utom Gud, och Muhammed är hans sändebud.",
+				blurb: "Vittnesbörden: ingen gud utom Gud, och Muhammed ﷺ är hans sändebud.",
 				// A man under the Nordic night sky, looking up. The shahāda is a
 				// witnessing, and this is what witnessing looks like. It replaced a
 				// café window with coffee and a bun — a fine picture of seeking, which
@@ -120,7 +120,7 @@ export const FAKTA_CLUSTERS: FaktaCluster[] = [
 			{
 				svarSlug: "vem-var-profeten-muhammed",
 				label: "Sändebuden",
-				blurb: "Tron på profeternas kedja, beseglad med Muhammed.",
+				blurb: "Tron på profeternas kedja, beseglad med Muhammed ﷺ.",
 				image: "rosten-over-taken",
 			},
 			{
@@ -148,8 +148,8 @@ export const FAKTA_CLUSTERS: FaktaCluster[] = [
  *  to, `src/assets/images/fakta/<svarSlug>.webp`, and that is the whole wiring.
  *  Drop a file in and that card stops borrowing; delete it and the borrow in
  *  `image` takes over again. No data edit either way, which matters because the
- *  remaining cards (Trosbekännelsen, Bönen, Gud, Ödet and the pillars overview)
- *  are still waiting for theirs.
+ *  remaining cards (Bönen, Vallfärden, Domedagen and the pillars overview) are
+ *  still waiting for theirs.
  *
  *  The subfolder is deliberate: lib/articles.ts globs `images/*` NON-recursively
  *  for essay heroes, so FAKTA art can never collide with an essay slug — which it

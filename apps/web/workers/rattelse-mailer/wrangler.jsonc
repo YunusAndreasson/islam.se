@@ -1,0 +1,28 @@
+{
+	"$schema": "../../../../node_modules/wrangler/config-schema.json",
+	"name": "islam-se-rattelse-mailer",
+	"main": "src/index.js",
+	"compatibility_date": "2026-07-01",
+
+	// Reachable only through the Pages service binding — no workers.dev host, no route.
+	"workers_dev": false,
+
+	// Pinned destination: this Worker is incapable of mailing anyone else, so a
+	// compromised form endpoint cannot be turned into a relay.
+	"send_email": [
+		{
+			"name": "EMAIL",
+			"destination_address": "yunus@edenmind.com"
+		}
+	],
+
+	"vars": {
+		"NOTIFY_FROM": "rattelse@islam.se",
+		// Must be stated explicitly — send() dereferences `to` and a null does not
+		// fall back to destination_address. The pin above is still what constrains
+		// where this Worker is allowed to send.
+		"NOTIFY_TO": "yunus@edenmind.com"
+	},
+
+	"observability": { "enabled": true }
+}

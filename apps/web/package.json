@@ -13,6 +13,7 @@
 		"preview": "astro preview",
 		"check": "astro check",
 		"pdf": "tsx scripts/generate-pdf.ts",
+		"rattelser": "tsx scripts/rattelser.ts",
 		"sync-verses": "tsx scripts/sync-verses.ts",
 		"build:fast": "BONETIDER_SAMPLE=12 astro build && tsx scripts/generate-markdown.ts"
 	},

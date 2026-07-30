@@ -50,7 +50,7 @@ export function imageObject(opts: {
 	};
 }
 
-interface Crumb {
+export interface Crumb {
 	name: string;
 	/** Path or absolute URL; bare paths are resolved against the site origin. */
 	url: string;

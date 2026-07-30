@@ -22,6 +22,10 @@ dist/
 .env
 .env.local
 
+# Cloudflare — local Function secrets and the local D1/KV state
+.dev.vars
+.wrangler/
+
 # Data files (keep structure, ignore content)
 data/sources/*
 data/extracted/*

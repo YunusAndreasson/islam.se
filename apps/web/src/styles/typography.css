@@ -103,18 +103,49 @@
 		margin-bottom: var(--space-unit);
 	}
 
-	/* Links — underline fades in on hover instead of popping */
+	/* Links.
+	   ⚠️ The underline used to be `transparent` and appear only on :hover. Measured,
+	   that left the link indistinguishable from its sentence: --color-accent against
+	   --text-body is 1.16:1 in light and 1.04:1 in dark. WCAG 1.4.1 asks for 3:1
+	   before colour alone may carry the meaning, so the rule was not decorative — it
+	   was the only thing marking the link, and on touch, where there is no hover, it
+	   never arrived at all.
+
+	   So: visible at rest, quiet enough to read as texture rather than emphasis.
+	   - `from-font` takes the weight from Literata's own underlineThickness instead of
+	     an arbitrary number, so it scales with the type and sits where the designer
+	     drew it. No px fallback: an engine without it simply computes `auto`, which is
+	     a perfectly good underline — and a second declaration trips biome's
+	     noDuplicateProperties.
+	   - The colour is mixed `in oklab`, where the percentage IS the perceptual
+	     position — the house rule from the palette work; do NOT hand-mix in srgb.
+	   - skip-ink is the browser default, declared so a descender can never be crossed
+	     by a rule we asked for. */
 	a {
 		color: var(--color-accent);
-		text-decoration: underline;
-		text-decoration-color: transparent;
-		text-decoration-thickness: 1px;
-		text-underline-offset: 0.15em;
+		text-decoration-line: underline;
+		text-decoration-color: color-mix(in oklab, currentColor 40%, transparent);
+		text-decoration-thickness: from-font;
+		text-decoration-skip-ink: auto;
+		text-underline-offset: 0.18em;
 		transition: text-decoration-color 0.2s ease;
 
-		&:hover {
+		/* Full strength on hover AND on keyboard focus — the second is not decoration,
+		   it is how a keyboard user sees which link they are on. */
+		&:hover,
+		&:focus-visible {
 			text-decoration-color: currentColor;
 		}
+	}
+
+	/* A link wrapping artwork has no text to underline — the rule draws under the
+	   image instead. Caught the App Store / Google Play badges and the player's
+	   Apple/Spotify icons. `:has()` states the condition once rather than naming
+	   every component that ever wraps an image in a link. */
+	a:has(> img),
+	a:has(> svg),
+	a:has(> picture) {
+		text-decoration-line: none;
 	}
 
 	/* Honorifics — ﷻ (jalla jalaluhu) and ﷺ (sallallahu alayhi wa salam)
@@ -129,6 +160,67 @@
 	@supports (-webkit-app-region: inherit) {
 		.honorific {
 			font-size: 0.65em;
+		}
+	}
+
+	/* Hover meaning. The glyph carries its sense for a reader who already knows it;
+	   this spells it out for one who does not. Screen readers get `aria-label`
+	   instead, so the tooltip stays decorative. Font size is absolute — the glyph
+	   itself is scaled to 0.65em in Blink and the tip must not inherit that. */
+	.honorific[data-tip] {
+		position: relative;
+		cursor: help;
+	}
+
+	.honorific[data-tip]::after {
+		content: attr(data-tip);
+		position: absolute;
+		bottom: calc(100% + 0.4em);
+		left: 50%;
+		translate: -50% 0;
+		z-index: 20;
+		width: max-content;
+		max-width: min(20rem, 60vw);
+		padding: 0.4em 0.6em;
+		border-radius: 0.2rem;
+		background: var(--color-text);
+		color: var(--color-bg);
+		font-family: var(--font-body);
+		font-size: var(--step--3);
+		font-style: normal;
+		font-variant-caps: normal;
+		font-weight: 400;
+		letter-spacing: normal;
+		line-height: 1.4;
+		text-align: center;
+		text-indent: 0;
+		opacity: 0;
+		visibility: hidden;
+		pointer-events: none;
+		transition:
+			opacity 120ms ease,
+			visibility 120ms;
+	}
+
+	.honorific[data-tip]:hover::after,
+	.honorific[data-tip]:focus-visible::after {
+		opacity: 1;
+		visibility: visible;
+		transition-delay: 220ms;
+	}
+
+	/* Touch has no hover, and a tap is not :focus-visible, so the meaning was
+	   unreachable by finger everywhere except essays. Essay pages build #fn-popover
+	   and own the honorific themselves — gating on it keeps both from firing at once. */
+	body:not(:has(#fn-popover)) .honorific[data-tip]:focus::after {
+		opacity: 1;
+		visibility: visible;
+		transition-delay: 0ms;
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.honorific[data-tip]::after {
+			transition: none !important;
 		}
 	}
 

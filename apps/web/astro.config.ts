@@ -337,8 +337,9 @@ const customRedirects: [string, string][] = [
 	["/islam-i-praktik/nar-tvagning-kravs", "/svar/tvagning-wudu/"],
 	["/islam-i-praktik/tvagningen", "/svar/tvagning-wudu/"],
 	// === 2026-06-20 answer-page batch (GSC-ranked soft-404 recovery) ===
-	// nar-ghusl-kravs had NO redirect at all — a hard 404 and the single biggest
-	// leak (≈17.5k impressions / 1035 clicks over 90d, Search Console).
+	// ⚠️ nar-ghusl-kravs still earns ~1 200 impressions / 32 clicks a month at position 3
+	// on legacy authority. A page file at this path shadowed the redirect into the sitemap
+	// until 2026-07-30; do not recreate one.
 	["/islam-i-praktik/nar-ghusl-kravs", "/svar/vad-ar-ghusl/"],
 	["/islam-i-praktik/ghusl", "/svar/vad-ar-ghusl/"],
 	["/kvinna/slojan", "/svar/vad-ar-hijab/"],
@@ -643,7 +644,9 @@ const customRedirects: [string, string][] = [
 export default defineConfig({
 	site: "https://islam.se",
 	output: "static",
-	prefetch: { defaultStrategy: "hover" },
+	// "tap", not "hover": 90 % of traffic is touch, where hover never fires and nothing was
+	// ever prefetched. Astro falls back to tap on saveData/2g anyway, so this only widens it.
+	prefetch: { defaultStrategy: "tap" },
 	// concurrency: measured 102 s -> 86 s on this 8-core box. Do NOT raise it to 8 —
 	// page rendering is CPU-bound and single-threaded, so 8 measured SLOWER (98 s) than
 	// 4 through contention. inlineStylesheets stays "always": it costs ~5 s of build and
@@ -900,7 +903,13 @@ export default defineConfig({
 	],
 	integrations: [
 		sitemap({
-			filter: (page) => !oldPaths.some((p) => page.endsWith(`${p}/`) || page.endsWith(p)),
+			// /ratta is a noindex utility page — keep it out of the sitemap too, or
+			// Search Console reports it as "indexerad, men blockerad".
+			filter: (page) =>
+				!(
+					page.endsWith("/ratta/") ||
+					oldPaths.some((p) => page.endsWith(`${p}/`) || page.endsWith(p))
+				),
 			serialize(item) {
 				const slug = item.url.replace("https://islam.se/", "").replace(/\/$/, "");
 				if (articleDates[slug]) {

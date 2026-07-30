@@ -73,6 +73,7 @@
 			"!**/output",
 			"!**/.astro",
 			"!**/*.astro",
+			"!**/.wrangler",
 			"!**/articles-data.json",
 			"!**/verses.json",
 			"!.markdownlint-rules"

@@ -132,6 +132,16 @@ export function dateForStockholmDay(year: number, month: number, day: number): D
 	return new Date(Date.UTC(year, month, day, 12, 0, 0));
 }
 
+/** Swedish month + year, e.g. "juli 2026". The month table's caption and the heading
+ *  above it must name the same month, so both read it from here. */
+export function stockholmMonthLabel(date: Date): string {
+	const { year, month } = stockholmDateParts(date);
+	const name = new Intl.DateTimeFormat("sv-SE", { timeZone: TIME_ZONE, month: "long" }).format(
+		dateForStockholmDay(year, month, 15),
+	);
+	return `${name} ${year}`;
+}
+
 function calculationDateForStockholmDay(date: Date): Date {
 	const { year, month, day } = stockholmDateParts(date);
 	// adhan reads local Y/M/D from the Date object. This Date is not the target

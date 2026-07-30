@@ -659,53 +659,6 @@
 		flex-shrink: 0;
 	}
 
-	/* Theme switch — a circular sibling to the Sök/Meny pill: same hairline, same
-   muted ink, same hover warmth, so the two read as one control cluster rather
-   than a button that wandered in. Round rather than pill-shaped because it
-   carries a glyph and no word; the shape is the difference between "a control"
-   and "a control with a label". */
-	.theme-toggle {
-		display: inline-flex;
-		align-items: center;
-		justify-content: center;
-		flex-shrink: 0;
-		/* 2.1rem ≈ 34px. Under the 44px ideal but matched to the Sök pill's height so
-	   the mast stays one line; the surrounding gap keeps the real hit area past
-	   the 24px WCAG 2.5.8 minimum. */
-		inline-size: 2.1rem;
-		block-size: 2.1rem;
-		padding: 0;
-		border: 1px solid var(--color-divider);
-		border-radius: var(--radius-pill);
-		background: transparent;
-		color: var(--color-muted);
-		cursor: pointer;
-		transition:
-			color 0.15s,
-			border-color 0.15s;
-
-		&:hover {
-			color: var(--color-accent);
-			border-color: color-mix(in srgb, var(--color-warm) 55%, var(--color-divider));
-		}
-	}
-
-	/* One glyph for both states: a circle half-filled with the current ink, turned
-   180° for dark. The half that is filled is the half you are switching TO, so
-   the control shows its destination rather than its current state — the same
-   logic as its accessible name. The turn is a state change on a 16px mark, not
-   an animation on content; the global reduced-motion kill-switch in
-   typography.css drops it to an instant flip. */
-	.theme-toggle-icon {
-		inline-size: 1rem;
-		block-size: 1rem;
-		transition: rotate 0.45s cubic-bezier(0.2, 0, 0.1, 1);
-	}
-
-	.theme-toggle[data-theme="dark"] .theme-toggle-icon {
-		rotate: 180deg;
-	}
-
 	/* The menu (☰) icon + "Meny" label belong to touch only; hidden on pointer
    devices, where the magnifier + "Sök" + ⌘K pill stands. */
 	.search-trigger-icon--menu,
@@ -752,13 +705,8 @@
 			padding-inline: 0.85rem;
 		}
 
-		/* The pill grows to 2.75rem here, so the two controls beside it have to
-	   follow or the mast stops being one row of equal thumb targets. */
-		.theme-toggle {
-			inline-size: 2.75rem;
-			block-size: 2.75rem;
-		}
-
+		/* The pill grows to 2.75rem here, so the chip beside it has to follow or the
+	   mast stops being one row of equal thumb targets. */
 		.mast-prayer {
 			min-height: 2.75rem;
 		}
@@ -1332,6 +1280,7 @@
 	.reading .svar-related,
 	.reading .svar-essays,
 	.reading .svar-back,
+	.reading .rattelse,
 	/* The footnotes start inside .article-body (constrained) but a script moves
    them out below .article-nav so prev/next stays reachable — at which point
    they inherited the full 64rem frame and set at 136 characters a line, the

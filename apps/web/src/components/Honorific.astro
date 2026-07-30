@@ -1,0 +1,29 @@
+---
+// The honorific glyph for .astro pages. Markdown gets it from
+// plugins/rehype-honorific.ts; this renders the identical markup by hand so
+// both paths share one stylesheet rule and one wording.
+interface Props {
+	/** saw = ﷺ after the Prophet's name, swt = ﷻ after God's. */
+	type?: "saw" | "swt";
+}
+const { type = "saw" } = Astro.props;
+
+const MEANING = {
+	saw: {
+		glyph: "ﷺ",
+		sv: "Guds frid och välsignelser vare över honom",
+		tip: "sallallahu alayhi wa sallam – Guds frid och välsignelser vare över honom",
+	},
+	swt: {
+		glyph: "ﷻ",
+		sv: "upphöjd är Hans majestät",
+		tip: "jalla jalaluhu – upphöjd är Hans majestät",
+	},
+} as const;
+
+const m = MEANING[type];
+---
+
+<span class={`honorific honorific--${type}`} role="img" aria-label={m.sv} data-tip={m.tip} tabindex="-1"
+	>{m.glyph}</span
+>

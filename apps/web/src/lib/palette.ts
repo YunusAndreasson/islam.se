@@ -100,9 +100,10 @@ const PAGES: PaletteEntry[] = [
 	{ type: "Sida", label: "Hem", sub: "Startsidan.", href: "/" },
 ];
 
-/** How many localities ride along in the inline index. The whole 2 118-place set
- *  would dominate the payload on every page; the largest few cover the queries
- *  people actually type, and the rest stay one click away via the hub. */
+/** How many localities ride along in the index. The largest few cover the queries people
+ *  actually type, and the rest stay one click away via the hub. NOTE: the cap was set when
+ *  this index was inlined into every document; it is now fetched once from
+ *  /search-index.json, so raising it costs one page's worth of nothing. */
 const PLACE_ENTRIES = 30;
 
 export async function buildPaletteIndex(): Promise<PaletteEntry[]> {

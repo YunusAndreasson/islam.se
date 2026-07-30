@@ -59,12 +59,19 @@ const EDGE = { light: "rgba(26,23,18,0.20)", dark: "rgba(232,229,224,0.34)" } as
 // #dfe4e2 is cool RELATIVE to the land (7 points in b*) without the absolute blue
 // cast that fought the page; dark follows the same rule. Keep in sync with
 // `.bf-stage`'s pre-JS background in PrayerField.astro.
-const SEA = { light: "#dfe4e2", dark: "#15171a" } as const;
+//
+// ⚠️ 2026-07-28: that sea was right in HUE and wrong in LIGHTNESS. Measured against
+// LAND it was ΔL* 1.2, and the neighbours ΔL* 2.1 — both under the ~3 L* JND, so in
+// light mode the whole frame was one flat pale field and the translucent wash on top
+// turned it to smudge. (Dark was never affected: 16.1 and 9.5.) Now a three-step
+// ramp — Sweden 91.4, neighbours 86.5, sea 82.0 — which survives the wash while
+// keeping b* on the warm side of neutral (+1.0) so it still belongs to this page.
+const SEA = { light: "#c9cdca", dark: "#15171a" } as const;
 const BRASS = { light: "#b8862f", dark: "#c89a48" } as const;
 const ON_MARK = { light: "#fffdf8", dark: "#15171a" } as const;
 // Surrounding countries — a muted tone between sea and Sweden's land, plus a barely-there
 // coast, so the neighbours read as quiet context and Sweden stays the clear subject.
-const NEIGHBOR_LAND = { light: "#e6e0d2", dark: "#26241e" } as const;
+const NEIGHBOR_LAND = { light: "#ddd8cd", dark: "#26241e" } as const;
 const NEIGHBOR_EDGE = { light: "rgba(26,23,18,0.10)", dark: "rgba(232,229,224,0.12)" } as const;
 
 // The Arctic Circle: north of it the sun doesn't set at midsummer, which is where
@@ -87,6 +94,10 @@ const ANCHORS: readonly { name: string; lat: number; lon: number }[] = [
 ] as const;
 const ANCHOR_DOT = { light: "rgba(26,23,18,0.42)", dark: "rgba(232,229,224,0.42)" } as const;
 const ANCHOR_TEXT = { light: "rgba(26,23,18,0.62)", dark: "rgba(232,229,224,0.58)" } as const;
+// The subject town outranks the reference cities, so its name is set at full strength.
+const MARKER_TEXT = { light: "rgba(26,23,18,0.92)", dark: "rgba(240,237,232,0.95)" } as const;
+// Plate behind the isoline labels, in the page's own ground rather than plain white.
+const LABEL_PLATE = { light: "rgba(255,246,232,0.88)", dark: "rgba(20,17,12,0.84)" } as const;
 
 // The visible map AND the line grid both span Sweden plus a generous margin of
 // surrounding sea and neighbours, so the sweeping prayer isolines read as full lines
@@ -324,7 +335,6 @@ export function createFieldRenderer(canvas: HTMLCanvasElement) {
 		ctx.textAlign = "center";
 		ctx.textBaseline = "middle";
 		ctx.lineJoin = "round";
-		const halo = scheme === "dark" ? "rgba(8,10,18,0.88)" : "rgba(255,253,248,0.92)";
 		for (const lab of labels) {
 			const color =
 				scheme === "dark" ? PRAYER_COLORS[lab.prayer].dark : PRAYER_COLORS[lab.prayer].light;
@@ -344,9 +354,16 @@ export function createFieldRenderer(canvas: HTMLCanvasElement) {
 			const lx = x - dy * off;
 			const ly = y + dx * off;
 			const text = PRAYER_LABELS[lab.prayer];
-			ctx.lineWidth = 3;
-			ctx.strokeStyle = halo;
-			ctx.strokeText(text, lx, ly);
+			// ⚠️ These labels are the only ones carrying transliteration marks (ʿIshāʾ,
+			// Ẓuhr). A strokeText halo is wider than those marks at 11 px, so it filled
+			// them in and the word came out chewed. A plate reads cleaner and cannot eat
+			// a glyph. Kept off the city names — they need no protection on quiet land,
+			// and plating all ten would clutter the map.
+			const wpx = ctx.measureText(text).width;
+			ctx.fillStyle = LABEL_PLATE[scheme];
+			ctx.beginPath();
+			ctx.roundRect(lx - wpx / 2 - 4.5, ly - 8, wpx + 9, 16, 4);
+			ctx.fill();
 			ctx.fillStyle = color;
 			ctx.fillText(text, lx, ly);
 		}
@@ -401,7 +418,13 @@ export function createFieldRenderer(canvas: HTMLCanvasElement) {
 		ctx.restore();
 	}
 
-	function drawMarker(t: Transform, loc: FieldLocation, scheme: Scheme): void {
+	/** ⚠️ The marker names itself. Every reference city on the map carried its name
+	 *  while the one the page is ABOUT was the single unlabelled dot — drawAnchors
+	 *  drops any anchor sitting under the marker, and that dropped the name with the
+	 *  dot. Naming it here rather than in ANCHORS covers all 2 118 towns, not the 7
+	 *  anchors. Flipped to the left when the marker sits near the right edge so the
+	 *  name never runs off the canvas. */
+	function drawMarker(t: Transform, loc: FieldLocation, scheme: Scheme, variant: Variant): void {
 		const x = projX(loc.longitude, t);
 		const y = projY(loc.latitude, t);
 		ctx.save();
@@ -416,6 +439,26 @@ export function createFieldRenderer(canvas: HTMLCanvasElement) {
 		ctx.lineWidth = 1.5;
 		ctx.strokeStyle = ON_MARK[scheme];
 		ctx.stroke();
+		if (variant === "full" && loc.name) {
+			ctx.font = `600 11px ${resolveLabelFont()}`;
+			ctx.textBaseline = "middle";
+			const wpx = ctx.measureText(loc.name).width;
+			const flip = x + wpx + 14 > t.w;
+			ctx.textAlign = flip ? "right" : "left";
+			const lx = x + (flip ? -11 : 11);
+			// ⚠️ A stroked halo cannot work on this label. Its colour has to be picked
+			// per SCHEME, but the marker sits wherever the town is, and that ground runs
+			// from full daylight to deep night inside one map — so on the night side the
+			// near-white halo turned into a glow around the word and read as agitated.
+			// The plate is independent of whatever the wash is doing underneath, and it
+			// matches the isoline labels, so the canvas has one label system.
+			ctx.fillStyle = LABEL_PLATE[scheme];
+			ctx.beginPath();
+			ctx.roundRect(flip ? lx - wpx - 4.5 : lx - 4.5, y - 8, wpx + 9, 16, 4);
+			ctx.fill();
+			ctx.fillStyle = MARKER_TEXT[scheme];
+			ctx.fillText(loc.name, lx, y);
+		}
 		ctx.restore();
 	}
 
@@ -435,7 +478,9 @@ export function createFieldRenderer(canvas: HTMLCanvasElement) {
 
 		// Reserve a clear band at the bottom for the floating readout so the silhouette
 		// never sits under it — the glass dock floats over open sea, not over land.
-		const reserveBottom = Math.max(74, h * 0.14);
+		// Only the home variant still has that dock; on the full variant the band would
+		// be map given away for nothing.
+		const reserveBottom = cfg.variant === "home" ? Math.max(74, h * 0.14) : 0;
 		const t = fitTransform(w, h, w * 0.05, h * 0.04, h * 0.04 + reserveBottom);
 		const path = pathFor(SWEDEN_OUTLINE, t);
 		const neighbors = pathFor(NEIGHBORS_OUTLINE, t);
@@ -477,7 +522,7 @@ export function createFieldRenderer(canvas: HTMLCanvasElement) {
 		drawAnchors(t, cfg.location, cfg.scheme, cfg.variant);
 
 		// 6. Place marker.
-		drawMarker(t, cfg.location, cfg.scheme);
+		drawMarker(t, cfg.location, cfg.scheme, cfg.variant);
 
 		// 7. Line labels (over everything) so each isoline names its prayer.
 		if (solar) drawLabels(t, solar.labels, cfg.scheme);

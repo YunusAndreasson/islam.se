@@ -1,6 +1,7 @@
 ---
 import { type CollectionEntry, getCollection, render } from "astro:content";
 import EssayImage from "../../components/EssayImage.astro";
+import Rattelse from "../../components/Rattelse.astro";
 import Base from "../../layouts/Base.astro";
 import { formatDate, getArticles } from "../../lib/articles";
 import { FAKTA_ART, FAKTA_CLUSTERS, FAKTA_IMAGE_BY_SVAR, FAKTA_SLUGS } from "../../lib/fakta";
@@ -225,6 +226,8 @@ if (data.faq && data.faq.length > 0) jsonLd.push(faqPageJsonLd(data.faq));
 						<a class="section-link back-link" href="/svar/">Alla frågor och svar</a>
 					)}
 				</p>
+
+				<Rattelse />
 		</article>
 	</main>
 </Base>
@@ -314,6 +317,17 @@ if (data.faq && data.faq.length > 0) jsonLd.push(faqPageJsonLd(data.faq));
 		font-size: var(--step-1);
 	}
 
+	/* The marker comes from CSS, never from the markup. reset.css nulls list markers
+	   globally and only .prose reverts that, so these three lists sat outside the
+	   revert and rendered as bare indents.
+
+	   ⚠️ A dash marker does NOT work here: the source names carry their own en-dashes
+	   ("Koranen 112:1–4", "al-ibadah.com – Monoteism"), so "–Koranen 112:1–4" put
+	   three dashes on one line doing three different jobs and the marker stopped
+	   reading as a marker. Numbers are out too — they read as footnote references and
+	   nothing in the body points at these by number. A hollow square turned 45° echoes
+	   the rub el hizb in ornament.svg, collides with no glyph in the text, and is drawn
+	   in CSS so it never depends on a font fallback. */
 	.svar-sources ul,
 	.svar-related ul,
 	.svar-essays ul {
@@ -321,11 +335,49 @@ if (data.faq && data.faq.length > 0) jsonLd.push(faqPageJsonLd(data.faq));
 		line-height: 1.7;
 		color: var(--color-muted);
 		margin: var(--space-half) 0 0;
-		padding-left: 1.1rem;
+		padding-left: 0;
 	}
-	.svar-sources a,
+	.svar-sources li,
+	.svar-related li,
+	.svar-essays li {
+		position: relative;
+		padding-left: 1.35rem;
+	}
+	.svar-sources li::before,
+	.svar-related li::before,
+	.svar-essays li::before {
+		content: "";
+		position: absolute;
+		left: 0.15rem;
+		top: 0.63em;
+		width: 0.32em;
+		height: 0.32em;
+		border: 1px solid var(--color-warm);
+		transform: rotate(45deg);
+	}
+	/* ⚠️ Related/essays are navigation, not prose: every row IS a link, the heading says
+	   so and the marker repeats it. The at-rest underline that marks an inline link
+	   inside a sentence (typography.css) stacks here into a wall of rules that fights
+	   the markers, so in these two lists it stays a hover/focus affordance.
+	   Declared on both states because component styles are unlayered and therefore
+	   beat @layer base outright — including its :hover.
+
+	   ⚠️ Källor is NOT in that set. A source without a `url` renders as bare text in the
+	   same list (see the .map above), so 22 of 63 pages mix linked and unlinked rows and
+	   only colour told them apart — accent against the list's muted text measures 1.16:1
+	   light / 1.04:1 dark, under WCAG 1.4.1's 3:1. It keeps the base at-rest underline. */
 	.svar-related a,
 	.svar-essays a {
+		color: var(--color-accent);
+		text-decoration-color: transparent;
+	}
+	.svar-related a:hover,
+	.svar-essays a:hover,
+	.svar-related a:focus-visible,
+	.svar-essays a:focus-visible {
+		text-decoration-color: currentColor;
+	}
+	.svar-sources a {
 		color: var(--color-accent);
 	}
 
