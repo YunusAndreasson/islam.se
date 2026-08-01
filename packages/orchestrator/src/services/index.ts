@@ -17,6 +17,14 @@ export {
 	passagesToResearchFormat,
 	searchBooksComprehensive,
 } from "./book-service.js";
+// Corpus brief — step 0 of the /fordjupning/ pipeline
+export {
+	buildCorpusBrief,
+	type CorpusAngles,
+	type CorpusBrief,
+	type CorpusBriefInput,
+	formatCorpusBrief,
+} from "./corpus-brief.js";
 // Ideation service
 export {
 	type EnrichedIdea,

@@ -1,13 +1,15 @@
 ---
 import BookPod from "../components/BookPod.astro";
-import Base from "../layouts/Base.astro";
+import ArticlePage from "../components/ArticlePage.astro";
+import SectionLink from "../components/SectionLink.astro";
+import SectionOrnament from "../components/SectionOrnament.astro";
 import { getArticles } from "../lib/articles";
 import { ORG_ID, breadcrumbList } from "../lib/jsonld";
 
 const articles = await getArticles();
 ---
 
-<Base
+<ArticlePage
 	title="Om — islam.se"
 	description="Essäer som läser islamisk lärdomstradition tillsammans med svensk litteratur."
 	jsonLd={[
@@ -28,11 +30,6 @@ const articles = await getArticles();
 		]),
 	]}
 >
-	<main id="main" class="content-column">
-		<header class="article-header">
-			<h1>Om</h1>
-		</header>
-
 		<div class="article-body prose">
 			<p class="basmala">I Allahs, den Nåderikes, den Barmhärtiges namn.</p>
 
@@ -48,7 +45,7 @@ const articles = await getArticles();
 
 			<p>Den islamiska traditionen har aldrig tvekat om vem. <em>»När Mina tjänare frågar dig om Mig – Jag är nära«</em>, svarar Koranen; här får svaret en svensk röst.</p>
 
-			<div class="section-ornament"></div>
+			<SectionOrnament />
 		</div>
 
 		<BookPod count={articles.length} variant="about" />
@@ -56,10 +53,9 @@ const articles = await getArticles();
 		<footer class="about-colophon">
 			<p class="colophon-names"><a href="https://bilal.se">Bilal</a> och <a href="https://andreassonphoto.com">Yunus</a></p>
 			<p class="colophon-place">Sverige, 2026</p>
-			<p class="colophon-link"><a class="arrow-link" href="/om/redaktion">Så skrivs essäerna</a></p>
+			<p class="colophon-link"><SectionLink class="colophon-section-link" href="/om/redaktion/">Så skrivs essäerna</SectionLink></p>
 		</footer>
-	</main>
-</Base>
+</ArticlePage>
 
 <style>
 	.about-colophon {
@@ -78,6 +74,11 @@ const articles = await getArticles();
 
 		.colophon-link {
 			margin-top: var(--space-half);
+		}
+
+		.colophon-link :global(.colophon-section-link) {
+			font-size: var(--step--3);
+			color: var(--color-muted);
 		}
 
 		a {

@@ -26,3 +26,30 @@ export const FEATURE_HERO_SIZES = "(min-width: 86rem) 76rem, (min-width: 67rem) 
  *  source's intrinsic width, so the top of this list only starts paying off once
  *  the art is re-exported larger. */
 export const FEATURE_HERO_WIDTHS = [480, 640, 768, 976, 1216, 1600, 2048];
+
+/* ---------------------------------------------------------------------------
+   The other two ladders. `widths` is what actually generates files, so it is
+   shared; `sizes` stays at the call site, because the painted box genuinely
+   differs per layout (a 14rem FAKTA card is not an 18rem recent card).
+
+   ⚠️ Nothing above 1672 belongs in any ladder here: every hero source in
+   src/assets/images is 750–1672px wide, so Astro clamps a larger candidate and
+   it costs a build step for no extra pixels.
+   --------------------------------------------------------------------------- */
+
+/** In-page hero (essay, /svar/, /fordjupning/). Measured painted width, not
+ *  assumed: 350px @390vp, ~728 @768, ~852 @900, then a hard 976 from ~1072 up —
+ *  61rem, the 64rem canvas minus its padding.
+ *  ⚠️ `64rem` here is a LIE and was in all three routes: it declares 1024 for a
+ *  box that never exceeds 976, so tablets over-select a candidate. */
+export const PAGE_HERO_SIZES = "(min-width: 67rem) 61rem, 100vw";
+
+/** 1× and retina steps of the widths above, capped at the source's own 1672. */
+export const PAGE_HERO_WIDTHS = [768, 1024, 1456, 1672];
+
+/** Card thumbnails — archive rows, FAKTA cards, recent, the app shots. Painted
+ *  ~192–320 on desktop and up to ~350 on a phone; these are its 1×/2×/3× steps. */
+export const CARD_WIDTHS = [320, 640, 960];
+
+/** The small square art: podcast episode (6rem) and the /svar/ index (120px). */
+export const CHIP_WIDTHS = [128, 256, 384];

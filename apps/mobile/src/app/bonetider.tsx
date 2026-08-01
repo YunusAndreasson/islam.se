@@ -38,6 +38,7 @@ import {
 import { MapMarkersOverlay } from '../components/map/MapMarkersOverlay';
 import { MosqueCard } from '../components/map/MosqueCard';
 import { MosqueLayer } from '../components/map/MosqueLayer';
+import { NotificationHint } from '../components/map/NotificationHint';
 import {
   type PrayerArrival,
   type PrayerLineData,
@@ -53,6 +54,8 @@ import { useLocation } from '../lib/location/context';
 import { type Camera as MapCamera, invMercY, mercY } from '../lib/map/projection';
 import type { Mosque } from '../lib/mosques';
 import { mapStyleFor } from '../lib/map/nordicStyle';
+import { noteLaunch, noteShown, shouldShowHint } from '../lib/notification-hint';
+import { getNotificationPermissionState } from '../lib/notifications';
 import { computePrayerTimes, nextPrayerKeyAt, PRAYER_ORDER, type PrayerKey } from '../lib/prayer-times';
 import { computeSignature } from '../lib/settings/compute-signature';
 import { useSettings } from '../lib/settings/context';
@@ -129,6 +132,27 @@ const INTRO_LINE_STEP = 1 / 48;
 // JS context, flag still true) never replays it — exactly "every cold launch, not resume".
 let introConsumed = false;
 
+// The post-intro introduction, in three beats: the day's prayer times reveal themselves,
+// they hold long enough to be read, and only then does the notification hint ask whether
+// to be reminded of them. Sequencing it this way is the point — the offer lands as the
+// natural next step after seeing the times, not as an interruption of the sweep.
+//
+// Beat 1: the pause after the lines settle before the dock opens. Not just politeness —
+// `introPlaying` also flips false the instant the user TAPS to skip (see skipIntro), so
+// with no delay the dock would fly open under the finger that just dismissed something.
+// It also covers Reduce Motion, where the intro never runs and introPlaying is false from
+// the first frame; the sequence still starts into a settled screen rather than at t=0.
+const REVEAL_DELAY_MS = 300;
+// Beat 2: how long the schedule stays open. Long enough to read six times, short enough
+// that the map isn't hidden for what feels like a loading screen.
+const REVEAL_HOLD_MS = 2500;
+// Beat 3: the gap between the dock springing shut and the hint fading in, so the two
+// animations never overlap — the times land, the map returns, then the question arrives.
+const HINT_AFTER_REVEAL_MS = 700;
+// The hint clears the two 46 dp MapNav discs (pinned at insets.top + 10) by a gap. It
+// must not land at insets.top + space.lg either — that row belongs to the Återställ chip.
+const HINT_TOP_OFFSET = 10 + 46 + space.md;
+
 export default function Bonetider() {
   const scheme = useActiveScheme();
   const colors = useColors();
@@ -146,7 +170,7 @@ export default function Bonetider() {
   // southern Sweden (Malmö) is never hidden behind the dock.
   const collapsedDock = DOCK_COLLAPSED_BASE + insets.bottom + DOCK_FLOAT;
 
-  const { settings } = useSettings();
+  const { settings, loaded: settingsLoaded, update } = useSettings();
   const { coords, label } = useLocation();
   // The mosque whose detail card is open (tapped on the mosque POI layer), or null.
   const [selectedMosque, setSelectedMosque] = useState<Mosque | null>(null);
@@ -260,6 +284,66 @@ export default function Bonetider() {
   useEffect(() => {
     if (introPlaying && clock.mode === 'scrub') skipIntro();
   }, [introPlaying, clock.mode, skipIntro]);
+
+  // The post-intro introduction: reveal the day's prayer times, then offer to remind the
+  // user of them (see components/map/NotificationHint). Both beats are gated on the SAME
+  // decision — if the hint isn't going to be offered, the dock must not open itself
+  // either. That's what keeps this an introduction rather than an animation a daily user
+  // sits through on every cold launch: it plays at most twice, on exactly the launches
+  // where the offer is still live.
+  // 'idle' → 'reveal' (dock open, times staggering in) → 'settling' (dock shut, map back)
+  // → 'hint' (the offer) → 'done'. Split across two effects on purpose: the GATE below may
+  // be torn down freely by an unrelated change (opening a mosque card flips armOffer), but
+  // once the sequence starts the TIMELINE runs off `phase` alone — so a mid-reveal mosque
+  // tap can't strand the dock open with the hint never arriving.
+  const [phase, setPhase] = useState<'idle' | 'reveal' | 'settling' | 'hint' | 'done'>('idle');
+  // Once played (or the hint dismissed/answered) the sequence must not restart this
+  // session, even though the gate conditions below all go on being true.
+  const introOfferDone = useRef(false);
+  const armOffer = cameraReady && !introPlaying && !selectedMosque && settingsLoaded;
+
+  // The gate: may this launch show the offer at all?
+  useEffect(() => {
+    if (!armOffer || introOfferDone.current) return;
+    // Reminders are already on — there is nothing to offer, so nothing to introduce.
+    if (settings.notifications.enabled) return;
+    let alive = true;
+    const start = setTimeout(() => {
+      void (async () => {
+        // 'undetermined' ONLY: a granted user needs no hint, and a hard-denied one can no
+        // longer be prompted (iOS spends its single dialog once), so offering a button that
+        // would silently do nothing is worse than staying quiet. Both keep to Inställningar.
+        const permission = await getNotificationPermissionState();
+        if (!alive || permission !== 'undetermined') return;
+        const record = await noteLaunch();
+        if (!alive || !shouldShowHint(record)) return;
+        // Nothing may await between that liveness check and the hand-off: the user only
+        // ever gets two showings, and recording one that a teardown then cancelled would
+        // spend a showing on a sequence nobody saw. Commit first, persist afterwards.
+        introOfferDone.current = true;
+        setPhase('reveal');
+        await noteShown();
+      })();
+    }, REVEAL_DELAY_MS);
+    return () => {
+      alive = false;
+      clearTimeout(start);
+    };
+  }, [armOffer, settings.notifications.enabled]);
+
+  // The timeline: hold the open schedule, shut it, then ask. Depends on `phase` only.
+  useEffect(() => {
+    if (phase === 'reveal') {
+      const t = setTimeout(() => setPhase('settling'), REVEAL_HOLD_MS);
+      return () => clearTimeout(t);
+    }
+    if (phase === 'settling') {
+      const t = setTimeout(() => setPhase('hint'), HINT_AFTER_REVEAL_MS);
+      return () => clearTimeout(t);
+    }
+    // 'idle' / 'hint' / 'done' have no timer of their own — the hint retires itself.
+    return undefined;
+  }, [phase]);
 
   // The single owner of nowFraction: the daybreak intro on cold launch, then the live
   // glide. Keeping every nowFraction write in ONE effect is deliberate — the React
@@ -673,6 +757,9 @@ export default function Bonetider() {
         settings={settings}
         introFraction={nowFraction}
         introActive={introActive}
+        // The middle beat of the post-intro introduction: the dock opens itself so the
+        // day's six times stagger in off its existing reveal, holds, then shuts again.
+        revealSchedule={phase === 'reveal'}
       />
 
       {/* Mosque detail card — floats just above the collapsed dock when a mosque POI is
@@ -692,6 +779,21 @@ export default function Bonetider() {
           gates the compass's heading subscription so the magnetometer pauses when a
           sheet is up or the app is backgrounded. */}
       <MapNav active={isFocused} />
+
+      {/* The map's one offer of prayer reminders — a SOFT ASK that appears after the
+          daybreak intro has settled, and only while the OS permission is still
+          undetermined. Its button is the only thing in the app that fires the iOS
+          notification dialog; dismissing leaves that single lifetime prompt unspent.
+          Rendered here, OUTSIDE GlassBackdropTarget (which closed above) — a glass
+          surface inside the target would sample itself instead of the map. Sits below
+          the two nav discs, so it collides with neither them nor the Återställ chip. */}
+      {phase === 'hint' && (
+        <NotificationHint
+          top={insets.top + HINT_TOP_OFFSET}
+          onEnable={() => update({ notifications: { ...settings.notifications, enabled: true } })}
+          onClose={() => setPhase('done')}
+        />
+      )}
 
       {/* "Återställ" — appears only after the user has clearly panned/zoomed off the
           initial framing. Tap to fitBounds back to the whole country. Sits between the

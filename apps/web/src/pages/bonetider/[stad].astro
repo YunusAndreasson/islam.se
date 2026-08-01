@@ -1,10 +1,14 @@
 ---
 import AppPromo from "../../components/AppPromo.astro";
 import Breadcrumb from "../../components/Breadcrumb.astro";
+import DefinitionList from "../../components/DefinitionList.astro";
+import NearbyLinkList from "../../components/NearbyLinkList.astro";
 import OmBonen from "../../components/bonetider/OmBonen.astro";
 import PrayerField from "../../components/bonetider/PrayerField.astro";
 import PrayerSettings from "../../components/bonetider/PrayerSettings.astro";
 import PrayerTable from "../../components/bonetider/PrayerTable.astro";
+import SectionLink from "../../components/SectionLink.astro";
+import TitledSection from "../../components/TitledSection.astro";
 import Base from "../../layouts/Base.astro";
 import { ORG_ID, breadcrumbList, cityPlace, faqPageJsonLd } from "../../lib/jsonld";
 import { nf0, nf1 } from "../../lib/format";
@@ -42,6 +46,7 @@ const lat1 = place.lat.toFixed(2).replace(".", ",");
 const lon1 = place.lon.toFixed(2).replace(".", ",");
 const highNorth = place.lat >= 62;
 const nearby = nearbyPlaces(place, 8);
+const nearbyLinks = nearby.map((p) => ({ href: `/bonetider/${p.slug}/`, label: p.name }));
 // Mosques within ~20 km of the place — surfaced so a reader checking prayer times can
 // also find the nearest physical mosque (links into the /moskeer map, deep-selected).
 const nearbyMosques = nearestMosques(place.lat, place.lon, 3, 20);
@@ -71,6 +76,7 @@ const cityMosquePhrase = cityMosqueCount === 1 ? "en registrerad moské" : `${ci
 const featuredMosques = MOSKEER_ENABLED
 	? (hasMosquePage ? cityMosques : nearbyMosques).slice(0, 6)
 	: [];
+const featuredMosquesTitle = `${featuredMosques.length === 1 ? "Moské" : "Moskéer"} ${hasMosquePage ? "i" : "nära"} ${place.name}`;
 
 // Official SCB statistics are present only where we matched a tätort. Everything in
 // the stat block + the population claims is gated on this, so unmatched places never
@@ -108,6 +114,15 @@ const crumbs = [
 ];
 const popText = nf0.format(pop);
 const depText = nf1.format(facts.summerMidnightDepressionDeg);
+const placeFactRows = [
+	{ term: "Invånare", value: popText, note: place.scbName ? `(tätorten ${place.scbName})` : undefined },
+	place.kommun ? { term: "Kommun", value: place.kommun } : null,
+	place.county ? { term: "Län", value: place.county } : null,
+	place.landAreaKm2 != null ? { term: "Landareal", value: `${nf1.format(place.landAreaKm2)} km²` } : null,
+	place.densityPerKm2 != null ? { term: "Befolkningstäthet", value: `${nf0.format(place.densityPerKm2)} inv./km²` } : null,
+	place.scbRank != null ? { term: "Storleksrang", value: `Sveriges ${ordinal(place.scbRank)} största tätort` } : null,
+	{ term: "Koordinater", value: `${lat1}° N, ${lon1}° O` },
+].filter((row): row is { term: string; value: string; note?: string } => row !== null);
 
 // Daylight as a sentence fragment for the slot "kring midsommar/midvinter <desc>":
 // polar cases swap the duration for the phenomenon, so the FAQ answers below stay
@@ -280,9 +295,8 @@ if (hasScb) {
 		    standalone list that used to sit under this heading printed the identical
 		    readout twice, ~200 px apart. The heading, date and note now frame that one
 		    readout instead of introducing a second copy. */}
-		<section class="bt-stad-section bt-stad-idag" aria-labelledby="bt-stad-idag">
-			<h2 id="bt-stad-idag">Dagens bönetider i {place.name}</h2>
-			<p class="bt-stad-date">
+		<TitledSection class="bt-stad-section bt-stad-idag" id="bt-stad-idag" title={`Dagens bönetider i ${place.name}`}>
+			<p class="meta-line bt-stad-date">
 				I dag · <time datetime={todayIso} class="bt-today-date">{todayLabel}</time>
 			</p>
 			<PrayerField location={location} variant="full" fixed={true} />
@@ -291,62 +305,28 @@ if (hasScb) {
 				ʿIshāʾ ligger nära varandra – kartan visar varför: solen sjunker bara en bit under
 				horisonten.
 			</p>
-		</section>
+		</TitledSection>
 
 		<AppPromo variant="section" />
 
 		{hasScb && (
-			<section class="bt-stad-section" aria-labelledby="bt-stad-fakta">
-				<h2 id="bt-stad-fakta">Fakta om {place.name}</h2>
+			<TitledSection class="bt-stad-section" id="bt-stad-fakta" title={`Fakta om ${place.name}`}>
 				<dl class="bt-facts">
-					<div class="bt-fact">
-						<dt>Invånare</dt>
-						<dd>
-							{popText}
-							{place.scbName ? <span class="bt-fact-note"> (tätorten {place.scbName})</span> : null}
-						</dd>
-					</div>
-					{place.kommun && (
+					{placeFactRows.map((row) => (
 						<div class="bt-fact">
-							<dt>Kommun</dt>
-							<dd>{place.kommun}</dd>
+							<dt>{row.term}</dt>
+							<dd>
+								{row.value}
+								{row.note && <span class="bt-fact-note"> {row.note}</span>}
+							</dd>
 						</div>
-					)}
-					{place.county && (
-						<div class="bt-fact">
-							<dt>Län</dt>
-							<dd>{place.county}</dd>
-						</div>
-					)}
-					{place.landAreaKm2 != null && (
-						<div class="bt-fact">
-							<dt>Landareal</dt>
-							<dd>{nf1.format(place.landAreaKm2)} km²</dd>
-						</div>
-					)}
-					{place.densityPerKm2 != null && (
-						<div class="bt-fact">
-							<dt>Befolkningstäthet</dt>
-							<dd>{nf0.format(place.densityPerKm2)} inv./km²</dd>
-						</div>
-					)}
-					{place.scbRank != null && (
-						<div class="bt-fact">
-							<dt>Storleksrang</dt>
-							<dd>Sveriges {ordinal(place.scbRank)} största tätort</dd>
-						</div>
-					)}
-					<div class="bt-fact">
-						<dt>Koordinater</dt>
-						<dd>{lat1}° N, {lon1}° O</dd>
-					</div>
+					))}
 				</dl>
 				<p class="bt-facts-src">Källa: {SCB_SOURCE} ({SCB_REF}).</p>
-			</section>
+			</TitledSection>
 		)}
 
-		<section class="bt-stad-section bt-prose" aria-labelledby="bt-stad-about">
-			<h2 id="bt-stad-about">Om bönetiderna i {place.name}</h2>
+		<TitledSection class="bt-stad-section bt-prose" id="bt-stad-about" title={`Om bönetiderna i ${place.name}`}>
 			<p>
 				{place.name} ligger {place.county ? `i ${place.county}, ` : ""}på {lat1}° nordlig bredd.
 				Bönetiderna beräknas utifrån solens verkliga läge för just denna position – inte från en
@@ -358,45 +338,32 @@ if (hasScb) {
 				sommartid. Vill du finjustera mot din moské kan du byta metod och madhhab nedan, eller läsa
 				mer om <a href="/bonetider/metod/">hur tiderna beräknas</a>.
 			</p>
-		</section>
+		</TitledSection>
 
-		<section class="bt-stad-section" aria-labelledby="bt-stad-settings">
-			<h2 id="bt-stad-settings">Inställningar</h2>
+		<TitledSection class="bt-stad-section" id="bt-stad-settings" title="Inställningar">
 			<PrayerSettings />
-		</section>
+		</TitledSection>
 
-		<section class="bt-stad-section" aria-labelledby="bt-stad-month">
-			<h2 id="bt-stad-month">Bönetider i {place.name} – {monthLabel}</h2>
+		<TitledSection class="bt-stad-section" id="bt-stad-month" title={`Bönetider i ${place.name} – ${monthLabel}`}>
 			<PrayerTable location={location} labelledBy="bt-stad-month" />
-		</section>
+		</TitledSection>
 
-		<section class="bt-stad-section" aria-labelledby="bt-stad-faq">
-			<h2 id="bt-stad-faq">Vanliga frågor</h2>
-			<dl class="def-list">
-				{faq.map((f) => (
-					<div class="def-item">
-						<dt>{f.q}</dt>
-						<dd>{f.a}</dd>
-					</div>
-				))}
-			</dl>
+		<TitledSection class="bt-stad-section" id="bt-stad-faq" title="Vanliga frågor">
+			<DefinitionList items={faq} />
 			<p class="bt-faq-more">
-				<a class="section-link arrow-link" href="/bonetider/metod/">Mer om hur bönetiderna beräknas</a>
+				<SectionLink href="/bonetider/metod/">Mer om hur bönetiderna beräknas</SectionLink>
 			</p>
-		</section>
+		</TitledSection>
 
 		{/* Gated: see MOSKEER_ENABLED in lib/config.ts — with the section off these
 		    would be 2118 pages of dead links into a /moskeer that is not built. */}
 		{featuredMosques.length > 0 && (
-			<section class="bt-stad-section" aria-labelledby="bt-stad-moske">
-				<h2 id="bt-stad-moske">
-					{featuredMosques.length === 1 ? "Moské" : "Moskéer"} {hasMosquePage ? "i" : "nära"} {place.name}
-				</h2>
+			<TitledSection class="bt-stad-section" id="bt-stad-moske" title={featuredMosquesTitle}>
 				<p class="bt-stad-note">
 					{hasMosquePage
 						? `Moskéer i ${place.name} enligt vår `
 						: `Närmaste ${featuredMosques.length === 1 ? "registrerade moské" : "registrerade moskéer"} enligt vår `}
-					<a href="/moskeer">karta över moskéer i Sverige</a>. Välj en för plats och vägbeskrivning.
+					<a href="/moskeer/">karta över moskéer i Sverige</a>. Välj en för plats och vägbeskrivning.
 				</p>
 				<ul class="bt-mosques">
 					{featuredMosques.map((m) => {
@@ -414,22 +381,17 @@ if (hasScb) {
 					})}
 				</ul>
 				<p class="bt-faq-more">
-					<a class="section-link arrow-link" href={hasMosquePage ? `/moskeer/${place.slug}/` : "/moskeer"}>
+					<SectionLink href={hasMosquePage ? `/moskeer/${place.slug}/` : "/moskeer"}>
 						{hasMosquePage ? `Moskéer i ${place.name}` : "Alla moskéer i Sverige"}
-					</a>
+					</SectionLink>
 				</p>
-			</section>
+			</TitledSection>
 		)}
 
 		{nearby.length > 0 && (
-			<section class="bt-stad-section" aria-labelledby="bt-stad-nearby">
-				<h2 id="bt-stad-nearby">Bönetider i närliggande orter</h2>
-				<ul class="bt-nearby">
-					{nearby.map((p) => (
-						<li><a href={`/bonetider/${p.slug}/`}>{p.name}</a></li>
-					))}
-				</ul>
-			</section>
+			<TitledSection class="bt-stad-section" id="bt-stad-nearby" title="Bönetider i närliggande orter">
+				<NearbyLinkList class="bt-nearby" items={nearbyLinks} />
+			</TitledSection>
 		)}
 
 		<OmBonen />
@@ -469,21 +431,6 @@ if (hasScb) {
 		max-width: var(--content-width);
 		margin: var(--space-unit) 0 0;
 		text-wrap: pretty;
-	}
-
-	.bt-stad-section {
-		margin-top: var(--space-phi);
-	}
-
-	.bt-stad-section h2 {
-		font-size: var(--step-1);
-	}
-
-	.bt-stad-date {
-		font-family: var(--font-heading);
-		font-size: var(--step--3);
-		color: var(--color-muted);
-		margin: var(--space-half) 0 0;
 	}
 
 	/* The lead paragraph used to butt straight into the map — measured 0 px where
@@ -621,48 +568,6 @@ if (hasScb) {
 		text-underline-offset: 0.12em;
 	}
 
-	.bt-nearby {
-		list-style: none;
-		margin: var(--space-half) 0 0;
-		padding: 0;
-		display: flex;
-		flex-wrap: wrap;
-		gap: 0.5rem 0.75rem;
-	}
-
-	.bt-nearby a {
-		font-family: var(--font-body);
-		font-size: var(--step--2);
-		color: var(--color-text);
-		text-decoration: none;
-		border: 1px solid var(--color-divider);
-		border-radius: var(--radius-pill);
-		padding: 0.3rem 0.85rem;
-		transition: border-color 0.15s ease;
-	}
-
-	.bt-nearby a:hover {
-		border-color: var(--color-warm);
-		color: var(--color-accent);
-	}
-
-	.bt-attrib {
-		font-family: var(--font-body);
-		font-size: var(--step--3);
-		line-height: 1.5;
-		color: var(--color-muted);
-		margin: var(--space-phi) 0 0;
-		padding-top: var(--space-half);
-		border-top: 1px solid var(--color-rule);
-	}
-
-	/* Underlined on purpose: at --step--3 on muted fine print the link/text colour
-	   pair is 2.3:1 light and 1.4:1 dark, well under the 3:1 WCAG 1.4.1 wants when
-	   colour is the only cue. The underline is the cue; the colour is decoration. */
-	.bt-attrib a {
-		color: var(--color-accent);
-		text-decoration-color: currentColor;
-	}
 </style>
 
 <script>

@@ -15,6 +15,7 @@
 	"dependencies": {
 		"@clack/prompts": "^1.7.0",
 		"@islam-se/orchestrator": "workspace:*",
+		"@islam-se/quotes": "workspace:*",
 		"commander": "^15.0.0",
 		"diff": "^9.0.0",
 		"dotenv": "^17.4.2",

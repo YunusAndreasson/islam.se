@@ -3,6 +3,8 @@
 // baseline. Shared by the truncated discovery movements (Trådar, Tänkare) so they
 // read as one family. The styling lives with the rest of the home vocabulary in
 // styles/layout.css (.home-head / .home-head-all), beside .home-kicker.
+import SectionLink from "./SectionLink.astro";
+
 interface Props {
 	label: string;
 	/** Kicker element id, referenced by the owning section's aria-labelledby. */
@@ -16,5 +18,5 @@ const { label, id, href, linkLabel } = Astro.props;
 
 <div class="home-head">
 	<h2 class="label home-kicker" id={id}>{label}</h2>
-	<a class="label home-head-all arrow-link" href={href}>{linkLabel}</a>
+	<SectionLink class="label home-head-all" href={href}>{linkLabel}</SectionLink>
 </div>

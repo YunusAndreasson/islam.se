@@ -1,26 +1,34 @@
 ---
+import type { HTMLAttributes } from "astro/types";
 import type { Article } from "../lib/articles";
-import { formatDate, inlineMarkdown } from "../lib/articles";
+import EssayArchiveItem from "./EssayArchiveItem.astro";
 
-interface Props {
+type Props = HTMLAttributes<"ul"> & {
 	articles: Article[];
-}
+	itemVariant?: "row" | "card";
+	showReadFlag?: boolean;
+	showMinutesAttr?: boolean;
+};
 
-const { articles } = Astro.props;
+const {
+	articles,
+	itemVariant = "row",
+	showReadFlag = false,
+	showMinutesAttr = false,
+	class: className,
+	...attrs
+} = Astro.props;
+
+const isCardList = itemVariant === "card";
 ---
 
-<ul class="archive-list">
+<ul {...attrs} class:list={[!isCardList && "archive-list", className]}>
 	{articles.map((article) => (
-		<li class="archive-item" data-slug={article.slug}>
-			<a href={`/${article.slug}`} data-astro-prefetch="viewport">
-				<span class="archive-title">{article.title}</span>
-				<p class="label archive-meta">
-					<time datetime={article.publishedAt}>{formatDate(article.publishedAt)}</time> &middot; {article.readingTime} min läsning
-				</p>
-				{article.description && (
-					<p class="archive-description" set:html={inlineMarkdown(article.description)} />
-				)}
-			</a>
-		</li>
+		<EssayArchiveItem
+			article={article}
+			variant={itemVariant}
+			showReadFlag={showReadFlag}
+			showMinutesAttr={showMinutesAttr}
+		/>
 	))}
 </ul>

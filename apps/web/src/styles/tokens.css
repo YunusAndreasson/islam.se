@@ -93,10 +93,10 @@
 	   by APCA now (see the table below). */
 	--color-muted: light-dark(#776d61, #bdb6aa);
 	/* Not decoration: this is the selected/hover border on the filter chips,
-	   DagensVers, BookPod, podcast, MosqueList and PrayerField, and the mast's sun
+	   BookPod, podcast, MosqueList and PrayerField, and the mast's sun
 	   icon — all governed by WCAG 1.4.11's 3:1. It was 2.37:1 light / 2.77:1 dark and
-	   failed both; Citat.astro had already routed around it locally. Raised to the
-	   floor, which costs the decorative washes derived from it under 3 L*. */
+	   failed both. Raised to the floor, which costs the decorative washes derived
+	   from it under 3 L*. */
 	--color-warm: light-dark(#998e7c, #706450);
 	/* Two ranks of rule. The hairline is this site's only structural device, and it
 	   had ONE weight — so the line between two rows of a list looked exactly like the
@@ -116,6 +116,13 @@
 	   does NOT fix this: mixing with `transparent` only sets alpha, and the compositor
 	   still blends in srgb at paint time. Alpha is kept (not a mix toward --color-bg)
 	   because these rules also sit on cards and players, not just the page ground. */
+	/* The mark. Blue always sits OUTERMOST: gold measures 1.75:1 on the light ground
+	   and cannot carry an outer edge. Two sets because no single pair clears both
+	   grounds — the blue that reads on cream (7.22:1) falls to 2.07:1 on the dark
+	   ground. Inner radius is R/√2, which is the khatam's own incircle. */
+	--mark-blue: light-dark(#2a557f, #4b739d);
+	--mark-gold: light-dark(#e1b761, #fad486);
+
 	--color-divider: light-dark(
 		color-mix(in srgb, var(--color-muted), transparent 80%),
 		color-mix(in srgb, var(--color-muted), transparent 88%)

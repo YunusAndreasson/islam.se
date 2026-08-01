@@ -14,6 +14,7 @@
  * The Swedish translation is deliberately not rendered: on every surface that uses
  * this, the literary Swedish is already in the prose above it.
  */
+import { Pause, Play } from "@lucide/astro";
 import versesJson from "../data/quran-verses.json";
 import { tokenizeArabic } from "../lib/arabic";
 
@@ -68,8 +69,8 @@ const cite = `Koranen · ${label ? `${label} ` : ""}${ref}`;
 					data-audio={verse.audioFile}
 					aria-label={`Lyssna på ${label ? `${label} ` : ""}${ref}, reciterad av ${verse.reciter}`}
 				>
-					<svg class="qv-icon-play" width="13" height="13" viewBox="0 0 18 18" fill="currentColor" aria-hidden="true"><path d="M4 2.5v13l11-6.5z" /></svg>
-					<svg class="qv-icon-pause" width="13" height="13" viewBox="0 0 18 18" fill="currentColor" aria-hidden="true"><rect x="4" y="2" width="3.5" height="14" rx="0.5" /><rect x="10.5" y="2" width="3.5" height="14" rx="0.5" /></svg>
+					<Play class="qv-icon-play" size={13} fill="currentColor" stroke-width={0} />
+					<Pause class="qv-icon-pause" size={13} fill="currentColor" stroke-width={0} />
 				</button>
 				<span class="qv-cite label">{cite}</span>
 			</div>

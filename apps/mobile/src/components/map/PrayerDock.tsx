@@ -22,7 +22,7 @@
 // flipping under the user's hands. The wash and prayer-line colours are still
 // sun-driven (the map IS a live sky), but the dock stays anchored to one OS theme.
 import { MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { type ColorSchemeName, Pressable, StyleSheet, Text, View } from 'react-native';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import Animated, {
@@ -109,6 +109,11 @@ interface Props {
    *  `introActive` is the worklet gate. Both are absent for non-map callers. */
   introFraction?: SharedValue<number>;
   introActive?: SharedValue<boolean>;
+  /** Drives the post-intro schedule reveal: flip it true to spring the dock open (the
+   *  rows stagger in off `progress` exactly as they do for a drag), false to spring it
+   *  shut. The host owns the timing — see bonetider's reveal sequence. A user gesture
+   *  taken mid-reveal simply overwrites `height`, so the finger always wins. */
+  revealSchedule?: boolean;
   /** Optional host notification for analytics or layout hooks. The map does not refit
       on expansion; the dock opens over the current slice. */
   onExpandedChange?: (expanded: boolean, expandedHeight: number) => void;
@@ -145,6 +150,7 @@ export function PrayerDock({
   settings,
   introFraction,
   introActive,
+  revealSchedule = false,
   onExpandedChange,
 }: Props) {
   const insets = useSafeAreaInsets();
@@ -215,6 +221,30 @@ export function PrayerDock({
     height.value = withSpring(open ? EXPANDED : COLLAPSED, SPRING);
     scheduleOnRN(applyExpanded, open);
   });
+
+  // The post-intro schedule reveal: the host flips `revealSchedule` and the dock springs
+  // to match, so the day's times stagger in off the SAME `progress` a drag drives — no
+  // second animation to keep in sync with the first. Deliberately silent: hapticLight is
+  // for a control snapping under the user's own finger (see lib/haptics), and this opens
+  // on its own. The user is still free to grab the dock mid-reveal — the gesture worklets
+  // assign `height` directly, overwriting this spring.
+  const revealArmed = useRef(false);
+  useEffect(() => {
+    // Skip the mount pass: `revealSchedule` starts false and the dock is already collapsed,
+    // so acting here would only fire a spurious onExpandedChange(false) at startup.
+    if (!revealArmed.current) {
+      revealArmed.current = true;
+      if (!revealSchedule) return;
+    }
+    height.value = withSpring(revealSchedule ? EXPANDED : COLLAPSED, SPRING);
+    setExpanded(revealSchedule);
+    onExpandedChange?.(revealSchedule, EXPANDED);
+    // `height` is a shared value (stable identity); listing it would re-run this on every
+    // render. COLLAPSED/EXPANDED are module constants read through local aliases, and
+    // onExpandedChange is the host's callback — re-running on its identity would reopen
+    // the dock on an unrelated parent render.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [revealSchedule]);
 
   // Handle: drag OR tap toggles. Hero: drag-only — a Pan needs movement to activate,
   // so a tap on the hero's "Nu" chip (preview mode) still reaches its Pressable

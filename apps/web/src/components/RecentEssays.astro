@@ -1,6 +1,8 @@
 ---
 import type { Article } from "../lib/articles";
-import { formatDate, inlineMarkdown } from "../lib/articles";
+import { inlineMarkdown } from "../lib/articles";
+import { CARD_WIDTHS } from "../lib/hero";
+import ArticleMeta from "./ArticleMeta.astro";
 import EssayImage from "./EssayImage.astro";
 
 interface Props {
@@ -26,7 +28,7 @@ const rows = articles.map((article) => ({
 						<div class="recent-media media-frame">
 							<EssayImage
 								article={article}
-								widths={[320, 480, 640]}
+								widths={CARD_WIDTHS}
 								sizes="(max-width: 768px) 100vw, 18rem"
 							/>
 						</div>
@@ -36,9 +38,7 @@ const rows = articles.map((article) => ({
 						{article.description && (
 							<p class="recent-lead" set:html={inlineMarkdown(article.description)} />
 						)}
-						<p class="label recent-meta">
-							<time datetime={article.publishedAt}>{formatDate(article.publishedAt)}</time> &middot; {article.readingTime} min läsning
-						</p>
+						<ArticleMeta class="label recent-meta" publishedAt={article.publishedAt} readingTime={article.readingTime} />
 					</div>
 				</a>
 			</li>

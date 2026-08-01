@@ -1,0 +1,22 @@
+# Furūʿ al-fiqh — de klassiska rättsverken. Importerade 2026-08-01 därför att
+# books.db saknade fiqh HELT (33 arabiska verk, noll furūʿ), vilket tvingade
+# fördjupningspipelinen att hämta rätten från webben — och den hittade på
+# shamela-länkar i stället. Se skill `fordjupning-page` och memory
+# `fordjupning_fabricated_sources`.
+#
+# Import: pnpm cli import-books data/urls-arabic-fiqh.txt --language ar
+# ⚠️ Utan --summarize saknar böckerna kapitelsammanfattningar, så "Relevant
+# Themes"-vägen i book-search missar dem. Passage-sökningen fungerar ändå.
+# Kör `pnpm cli summarize-books` i efterhand om temavägen ska täcka dem.
+
+# Ibn Rushd al-Hafid (d. 595 AH) — Bidayat al-Mujtahid (jämförande fiqh, alla skolor)
+# DONE https://raw.githubusercontent.com/OpenITI/0600AH/master/data/0595IbnRushdHafid/0595IbnRushdHafid.BidayatMujtahid/0595IbnRushdHafid.BidayatMujtahid.Shamela0021739-ara1
+
+# Ibn Qudama (d. 620 AH) — al-Mughni (hanbalitisk fiqh, standardverket)
+https://raw.githubusercontent.com/OpenITI/0625AH/master/data/0620IbnQudamaMaqdisi/0620IbnQudamaMaqdisi.Mughni/0620IbnQudamaMaqdisi.Mughni.Shamela0008463-ara1
+
+# al-Nawawi (d. 676 AH) — al-Majmu' sharh al-Muhadhdhab (shafi'itisk fiqh)
+https://raw.githubusercontent.com/OpenITI/0700AH/master/data/0676Nawawi/0676Nawawi.Majmuc/0676Nawawi.Majmuc.JK000913-ara1
+
+# al-Marghinani (d. 593 AH) — al-Hidaya fi sharh al-Bidaya (hanafitisk fiqh)
+https://raw.githubusercontent.com/OpenITI/0600AH/master/data/0593BurhanDinFarghaniMarghinani/0593BurhanDinFarghaniMarghinani.HidayaFiSharhBidaya/0593BurhanDinFarghaniMarghinani.HidayaFiSharhBidaya.Shamela0011820-ara1

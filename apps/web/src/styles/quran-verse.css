@@ -1,12 +1,11 @@
 @layer components {
 	/* Essay Quran player (.quran-verse) — injected after a verse-citing block by
-   rehype-quran-verse. The homepage daily verse is the apex moment (large, on the
-   page's left axis); inside an essay the same recitation must read as part of the
+   rehype-quran-verse. Inside an essay the recitation must read as part of the
    column, so the Arabic is sized to sit just above the body measure, set as a quiet
    aside with a thin rule rather than a full pull-quote. Styles are global (not
    scoped) because the markup is built at compile time, not by an Astro component, so
-   a scoped hash would never match. No Swedish, no glosses — the prose already quotes
-   the verse, and per-word glosses are a homepage-only aid. */
+   a scoped hash would never match. No Swedish translation — the prose already
+   quotes the verse. */
 
 	.quran-verse {
 		margin: var(--space-unit) 0;

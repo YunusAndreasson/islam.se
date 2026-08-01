@@ -1,0 +1,45 @@
+---
+import Base from "../layouts/Base.astro";
+import type { Article } from "../lib/articles";
+import ArticleHeader from "./ArticleHeader.astro";
+import EssayList from "./EssayList.astro";
+import SectionLink from "./SectionLink.astro";
+
+interface Props {
+	title: string;
+	description: string;
+	lead?: string;
+	essays: Article[];
+	kicker: string;
+	countText: string;
+	backHref: string;
+	backLabel: string;
+	ogImage?: string;
+	jsonLd: Record<string, unknown> | Record<string, unknown>[];
+}
+
+const {
+	title,
+	description,
+	lead = description,
+	essays,
+	kicker,
+	countText,
+	backHref,
+	backLabel,
+	ogImage,
+	jsonLd,
+} = Astro.props;
+---
+
+<Base title={`${title} — islam.se`} description={description} ogImage={ogImage} jsonLd={jsonLd}>
+	<main id="main" class="home">
+		<ArticleHeader title={title} kicker={kicker} lead={lead}>
+			<p class="label collection-count">{countText}</p>
+		</ArticleHeader>
+
+		<EssayList articles={essays} />
+
+		<p class="collection-back"><SectionLink href={backHref}>{backLabel}</SectionLink></p>
+	</main>
+</Base>

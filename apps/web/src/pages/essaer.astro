@@ -1,12 +1,14 @@
 ---
+import { X } from "@lucide/astro";
 import { getCollection } from "astro:content";
-import EssayImage from "../components/EssayImage.astro";
-import PageHead from "../components/PageHead.astro";
+import CollectionIndexPage from "../components/CollectionIndexPage.astro";
+import EssayList from "../components/EssayList.astro";
+import FilterOverlayList from "../components/FilterOverlayList.astro";
 import TankareGroups from "../components/TankareGroups.astro";
+import TitledSection from "../components/TitledSection.astro";
 import TradarHome from "../components/TradarHome.astro";
-import Base from "../layouts/Base.astro";
 import { AMNEN, amnenWithEssays } from "../lib/amnen";
-import { type Article, formatDate, getArticles, inlineMarkdown } from "../lib/articles";
+import { type Article, getArticles } from "../lib/articles";
 import { breadcrumbList } from "../lib/jsonld";
 
 const articles = await getArticles();
@@ -24,11 +26,36 @@ const threads = await getCollection("tradar");
 const thinkers = await getCollection("tankare");
 const sunni = thinkers.filter((t) => t.data.tradition === "sunni");
 const western = thinkers.filter((t) => t.data.tradition === "western");
+const amneFilterItems = AMNEN.map((a) => ({
+	label: a.name,
+	buttonClass: "overlay-jump" as const,
+	target: `amne-${a.slug}`,
+}));
+const threadFilterItems = threads.map((t) => ({
+	label: t.data.title,
+	href: `/tradar/${t.id}/`,
+}));
+const sunniFilterItems = sunni.map((t) => ({
+	label: t.data.name,
+	href: `/tankare/${t.data.slug}/`,
+}));
+const westernFilterItems = western.map((t) => ({
+	label: t.data.name,
+	href: `/tankare/${t.data.slug}/`,
+}));
+const lengthFilterItems = [
+	{ label: "Alla längder", buttonClass: "overlay-length" as const, min: 0, max: 999 },
+	{ label: "Kort · under 5 min", buttonClass: "overlay-length" as const, min: 0, max: 4 },
+	{ label: "Medel · 5–9 min", buttonClass: "overlay-length" as const, min: 5, max: 9 },
+	{ label: "Lång · 10 min och mer", buttonClass: "overlay-length" as const, min: 10, max: 999 },
+];
 ---
 
-<Base
-	title="Essäer — islam.se"
+<CollectionIndexPage
+	title="Essäer"
 	description="Samtliga essäer om islamisk intellektuell tradition och svenskt kulturarv, ordnade efter ämne. Al-Ghazālī, Ibn Khaldūn, Strindberg, Lagerlöf och fler."
+	lead="Den islamiska lärdomstraditionen läst tillsammans med svensk litteratur: om skapelsen och själen, om rättvisa och sökande."
+	mainClass="home essaer-page"
 	jsonLd={[
 		{
 			"@context": "https://schema.org",
@@ -43,167 +70,101 @@ const western = thinkers.filter((t) => t.data.tradition === "western");
 		]),
 	]}
 >
-	<main id="main" class="home essaer-page">
-		<PageHead title="Essäer">
-			Den islamiska lärdomstraditionen läst tillsammans med svensk litteratur: om skapelsen och
-			själen, om rättvisa och sökande.
-		</PageHead>
+	<nav class="filter-row" aria-label="Filtrera och sortera">
+		<button class="filter-chip label" type="button" data-overlay="amnen" aria-haspopup="dialog" aria-expanded="false">Ämnen</button>
+		<button class="filter-chip label" type="button" data-overlay="tradar" aria-haspopup="dialog" aria-expanded="false">Trådar</button>
+		<button class="filter-chip label" type="button" data-overlay="tankare" aria-haspopup="dialog" aria-expanded="false">Tänkare</button>
+		<button class="filter-chip label" type="button" data-overlay="langd" aria-haspopup="dialog" aria-expanded="false">Längd</button>
+		<button class="filter-chip label" type="button" data-sort-toggle aria-pressed="false">Kronologiskt</button>
+	</nav>
 
-		<nav class="filter-row" aria-label="Filtrera och sortera">
-			<button class="filter-chip label" type="button" data-overlay="amnen" aria-haspopup="dialog" aria-expanded="false">Ämnen</button>
-			<button class="filter-chip label" type="button" data-overlay="tradar" aria-haspopup="dialog" aria-expanded="false">Trådar</button>
-			<button class="filter-chip label" type="button" data-overlay="tankare" aria-haspopup="dialog" aria-expanded="false">Tänkare</button>
-			<button class="filter-chip label" type="button" data-overlay="langd" aria-haspopup="dialog" aria-expanded="false">Längd</button>
-			<button class="filter-chip label" type="button" data-sort-toggle aria-pressed="false">Kronologiskt</button>
-		</nav>
+	{/* Curated reading paths first — an inviting way in before the topical
+	    archive below; the /tradar index holds the rest. */}
+	<TradarHome limit={4} />
 
-		{/* Curated reading paths first — an inviting way in before the topical
-		    archive below; the /tradar index holds the rest. */}
-		<TradarHome limit={4} />
+	{/* ---- Default view: grouped by ämne, da'wah order. Each ämne opens with up to
+	    three image cards (like the start page), then the rest as the 2-col index.
+	    Every essay stays an .archive-item[data-slug][data-minutes] so the read /
+	    length-filter / sort JS below keeps working unchanged. ---- */}
+	<div id="by-amne">
+		{amneGroups.map(({ amne, essays }) => {
+			// Up to the three most recent essays with art open the ämne as image cards
+			// (the start-page welcome); the rest follow as the 2-col text index.
+			const cards = essays.filter((e) => e.heroImage).slice(0, 3);
+			const cardSlugs = new Set(cards.map((e) => e.slug));
+			const rest = essays.filter((e) => !cardSlugs.has(e.slug));
+			return (
+				<section class="archive-section essay-section" id={`amne-${amne.slug}`}>
+					<header class="essay-section-head">
+						<h2 class="essay-section-title archive-section-heading">
+							<a href={`/amnen/${amne.slug}`}>{amne.name}</a>
+						</h2>
+						<p class="lead essay-section-framing">{amne.framing}</p>
+					</header>
 
-		{/* ---- Default view: grouped by ämne, da'wah order. Each ämne opens with up to
-		    three image cards (like the start page), then the rest as the 2-col index.
-		    Every essay stays an .archive-item[data-slug][data-minutes] so the read /
-		    length-filter / sort JS below keeps working unchanged. ---- */}
-		<div id="by-amne">
-			{amneGroups.map(({ amne, essays }) => {
-				// Up to the three most recent essays with art open the ämne as image cards
-				// (the start-page welcome); the rest follow as the 2-col text index.
-				const cards = essays.filter((e) => e.heroImage).slice(0, 3);
-				const cardSlugs = new Set(cards.map((e) => e.slug));
-				const rest = essays.filter((e) => !cardSlugs.has(e.slug));
-				return (
-					<section class="archive-section essay-section" id={`amne-${amne.slug}`}>
-						<header class="essay-section-head">
-							<h2 class="essay-section-title archive-section-heading">
-								<a href={`/amnen/${amne.slug}`}>{amne.name}</a>
-							</h2>
-							<p class="lead essay-section-framing">{amne.framing}</p>
-						</header>
+					{cards.length > 0 && (
+						<EssayList
+							articles={cards}
+							class="essay-cards"
+							itemVariant="card"
+							showReadFlag
+							showMinutesAttr
+						/>
+					)}
 
-						{cards.length > 0 && (
-							<ul class="essay-cards">
-								{cards.map((article) => (
-									<li class="archive-item essay-card" data-slug={article.slug} data-minutes={article.readingTime}>
-										<a href={`/${article.slug}`} data-astro-prefetch="viewport">
-											<div class="essay-card-media media-frame">
-												<EssayImage article={article} widths={[300, 450, 600]} sizes="(max-width: 600px) 100vw, 20rem" />
-											</div>
-											<span class="archive-title essay-card-title">{article.title}</span>
-											{article.description && (
-												<p class="archive-description essay-card-desc" set:html={inlineMarkdown(article.description)} />
-											)}
-											<p class="label archive-meta">
-												<time datetime={article.publishedAt}>{formatDate(article.publishedAt)}</time>
-												&middot; {article.readingTime} min läsning<span class="read-flag"> &middot; läst</span>
-											</p>
-										</a>
-									</li>
-								))}
-							</ul>
-						)}
-
-						{rest.length > 0 && (
-							<ul class="archive-list essay-rest">
-								{rest.map((article) => (
-									<li class="archive-item" data-slug={article.slug} data-minutes={article.readingTime}>
-										<a href={`/${article.slug}`} data-astro-prefetch="viewport">
-											<span class="archive-title">{article.title}</span>
-											<p class="label archive-meta">
-												<time datetime={article.publishedAt}>{formatDate(article.publishedAt)}</time>
-												&middot; {article.readingTime} min läsning<span class="read-flag"> &middot; läst</span>
-											</p>
-											{article.description && (
-												<p class="archive-description" set:html={inlineMarkdown(article.description)} />
-											)}
-										</a>
-									</li>
-								))}
-							</ul>
-						)}
-					</section>
-				);
-			})}
-		</div>
-
-		{/* ---- Chronological view: grouped by year (hidden until toggled) ---- */}
-		<div id="by-year" hidden>
-			{yearGroups.map(([year, essays]) => (
-				<section class="archive-section">
-					<h2 class="label archive-section-heading">{year}</h2>
-					<ul class="archive-list">
-						{essays.map((article) => (
-							<li class="archive-item" data-slug={article.slug} data-minutes={article.readingTime}>
-								<a href={`/${article.slug}`} data-astro-prefetch="viewport">
-									<span class="archive-title">{article.title}</span>
-									<p class="label archive-meta">
-										<time datetime={article.publishedAt}>{formatDate(article.publishedAt)}</time>
-										&middot; {article.readingTime} min läsning<span class="read-flag"> &middot; läst</span>
-									</p>
-									{article.description && (
-										<p class="archive-description" set:html={inlineMarkdown(article.description)} />
-									)}
-								</a>
-							</li>
-						))}
-					</ul>
+					{rest.length > 0 && (
+						<EssayList articles={rest} class="essay-rest" showReadFlag showMinutesAttr />
+					)}
 				</section>
-			))}
-		</div>
+			);
+		})}
+	</div>
 
-		{/* The voices the essays return to — a quiet directory after the archive. */}
-			<TankareGroups limit={6} />
-	</main>
+	{/* ---- Chronological view: grouped by year (hidden until toggled) ---- */}
+	<div id="by-year" hidden>
+		{yearGroups.map(([year, essays]) => (
+			<TitledSection
+				class="archive-section"
+				id={`essay-year-${year}`}
+				title={year}
+				titleClass="label archive-section-heading"
+			>
+				<EssayList articles={essays} showReadFlag showMinutesAttr />
+			</TitledSection>
+		))}
+	</div>
+
+	{/* The voices the essays return to — a quiet directory after the archive. */}
+	<TankareGroups limit={6} />
 
 	{/* ---- Quiet filter overlay (one element, panels swapped by JS) ---- */}
-	<div class="overlay" id="filter-overlay" hidden role="dialog" aria-modal="true" aria-label="Filter">
+	<div slot="after-main" class="overlay" id="filter-overlay" hidden role="dialog" aria-modal="true" aria-label="Filter">
 		<button class="overlay-close" type="button" aria-label="Stäng">
-			<svg width="18" height="18" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"><path d="M2 2l10 10M12 2 2 12" /></svg>
+			<X size={18} stroke-width={1.75} />
 		</button>
 		<div class="overlay-inner">
 			<div class="overlay-panel" data-panel="amnen" hidden>
 				<p class="label overlay-heading">Ämnen</p>
-				<ul class="overlay-list">
-					{AMNEN.map((a) => (
-						<li><button type="button" class="overlay-jump" data-target={`amne-${a.slug}`}>{a.name}</button></li>
-					))}
-				</ul>
+				<FilterOverlayList items={amneFilterItems} />
 			</div>
 			<div class="overlay-panel" data-panel="tradar" hidden>
 				<p class="label overlay-heading">Trådar</p>
-				<ul class="overlay-list">
-					{threads.map((t) => (
-						<li><a href={`/tradar/${t.id}/`}>{t.data.title}</a></li>
-					))}
-				</ul>
+				<FilterOverlayList items={threadFilterItems} />
 			</div>
 			<div class="overlay-panel" data-panel="tankare" hidden>
 				<p class="label overlay-heading">Tänkare</p>
 				<div class="overlay-cols">
-					<ul class="overlay-list">
-						{sunni.map((t) => (
-							<li><a href={`/tankare/${t.data.slug}/`}>{t.data.name}</a></li>
-						))}
-					</ul>
-					<ul class="overlay-list">
-						{western.map((t) => (
-							<li><a href={`/tankare/${t.data.slug}/`}>{t.data.name}</a></li>
-						))}
-					</ul>
+					<FilterOverlayList items={sunniFilterItems} />
+					<FilterOverlayList items={westernFilterItems} />
 				</div>
 			</div>
 			<div class="overlay-panel" data-panel="langd" hidden>
 				<p class="label overlay-heading">Längd</p>
-				<ul class="overlay-list">
-					<li><button type="button" class="overlay-length" data-min="0" data-max="999">Alla längder</button></li>
-					<li><button type="button" class="overlay-length" data-min="0" data-max="4">Kort &middot; under 5 min</button></li>
-					<li><button type="button" class="overlay-length" data-min="5" data-max="9">Medel &middot; 5–9 min</button></li>
-					<li><button type="button" class="overlay-length" data-min="10" data-max="999">Lång &middot; 10 min och mer</button></li>
-				</ul>
+				<FilterOverlayList items={lengthFilterItems} />
 			</div>
 		</div>
 	</div>
-</Base>
+</CollectionIndexPage>
 
 <style>
 	/* The two-column archive grid + cell fixups live globally on

@@ -1,0 +1,34 @@
+---
+import type { HTMLAttributes } from "astro/types";
+import { formatDate } from "../lib/articles";
+
+type Props = HTMLAttributes<"p"> & {
+	publishedAt: string;
+	updatedAt?: string | null;
+	readingTime?: number;
+	showReadFlag?: boolean;
+};
+
+const {
+	class: className = "label",
+	publishedAt,
+	updatedAt,
+	readingTime,
+	showReadFlag = false,
+	...attrs
+} = Astro.props;
+
+const updated =
+	updatedAt && updatedAt.slice(0, 10) !== publishedAt.slice(0, 10)
+		? updatedAt
+		: null;
+---
+
+<p {...attrs} class:list={[className]}>
+	<time datetime={publishedAt.slice(0, 10)}>{formatDate(publishedAt)}</time>
+	{typeof readingTime === "number" && <> &middot; {readingTime} min läsning</>}
+	{updated && (
+		<> &middot; <time datetime={updated.slice(0, 10)}>uppdaterad {formatDate(updated)}</time></>
+	)}
+	{showReadFlag && <span class="read-flag"> &middot; läst</span>}
+</p>

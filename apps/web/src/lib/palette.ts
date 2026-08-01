@@ -2,8 +2,8 @@ import { getCollection } from "astro:content";
 import { AMNEN } from "./amnen";
 import { getArticles } from "./articles";
 import { INDEXED_PLACES, officialPopulation } from "./bonetider/places-index";
-import { MOSKEER_ENABLED } from "./config";
 import { FAKTA_SLUGS } from "./fakta";
+import { STANDING_PALETTE_PAGES } from "./navigation";
 // Folded here exactly as the client matcher folds it — a redundancy test below
 // only means anything if both ends agree on what "the same text" is.
 import { fold } from "./search-text";
@@ -36,69 +36,6 @@ export interface PaletteEntry {
 	    draws. */
 	group?: "sunni" | "western";
 }
-
-// Standing destinations: the old mast links plus the two collection indexes.
-// Trådar/Tänkare appear here so a literal "trådar" query finds the index page,
-// even though the browse view lists their members under their own headings.
-const PAGES: PaletteEntry[] = [
-	{ type: "Sida", label: "Essäer", sub: "Hela arkivet, ordnat efter ämne.", href: "/essaer/" },
-	{
-		type: "Sida",
-		label: "Pelare & tro",
-		sub: "Vad är islam – fakta om de fem pelarna och de sex trosartiklarna, källbelagt.",
-		href: "/vad-ar-islam/",
-	},
-	{
-		type: "Sida",
-		label: "Frågor & svar",
-		// "Frågor och svar" kept in the gloss so the spelled-out query still matches
-		// even though the label uses the canonical mast ampersand.
-		sub: "Frågor och svar: källbelagda svar på vanliga frågor om islam – tro, dyrkan, mat och familj.",
-		href: "/svar/",
-	},
-	{ type: "Sida", label: "Trådar", sub: "Utvalda läsningar genom essäerna.", href: "/tradar/" },
-	{ type: "Sida", label: "Tänkare", sub: "De röster essäerna återvänder till.", href: "/tankare/" },
-	{
-		type: "Sida",
-		label: "Det islamiska året",
-		sub: "Islamiska högtider och fastedagar med datum.",
-		href: "/det-islamiska-aret/",
-	},
-	{
-		type: "Sida",
-		label: "Bönetider",
-		sub: "Bönetider för hela Sverige, ort för ort, efter solens läge.",
-		href: "/bonetider/",
-	},
-	// Gated: see MOSKEER_ENABLED in lib/config.ts.
-	...(MOSKEER_ENABLED
-		? [
-				{
-					type: "Sida" as const,
-					label: "Moskéer",
-					sub: "Karta över moskéer i hela Sverige, län för län.",
-					href: "/moskeer",
-				},
-			]
-		: []),
-	{
-		type: "Sida",
-		label: "App",
-		// "Appen" kept in the gloss so the definite-form query still matches the
-		// shortened mast label.
-		sub: "Appen för iPhone och Android: bönetider, påminnelser och qibla.",
-		href: "/app",
-	},
-	{
-		type: "Sida",
-		label: "Podd",
-		sub: "Andliga essäer, inlästa — i Apple Podcasts, Spotify eller via RSS.",
-		href: "/podcast",
-	},
-	{ type: "Sida", label: "Om", sub: "Om idén bakom islam.se.", href: "/om/" },
-	{ type: "Sida", label: "AI", sub: "Koppla hela arkivet till din AI-assistent.", href: "/ai/" },
-	{ type: "Sida", label: "Hem", sub: "Startsidan.", href: "/" },
-];
 
 /** How many localities ride along in the index. The largest few cover the queries people
  *  actually type, and the rest stay one click away via the hub. NOTE: the cap was set when
@@ -185,7 +122,7 @@ export async function buildPaletteIndex(): Promise<PaletteEntry[]> {
 	// Order mirrors the search group order (pages/structure first, essays last);
 	// the browse view re-orders into sidor → ämnen → trådar → tänkare itself.
 	return [
-		...PAGES,
+		...STANDING_PALETTE_PAGES.map((page) => ({ type: "Sida" as const, ...page })),
 		...svarEntries,
 		...orter,
 		...amnen,

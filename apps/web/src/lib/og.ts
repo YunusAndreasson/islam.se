@@ -43,6 +43,67 @@ function el(type: string, style: Record<string, unknown>, children: any): any {
 
 const titleSize = (title: string) => (title.length > 22 ? 78 : 96);
 
+// The mark, in the two sets the rest of the brand uses. Blue always sits outermost:
+// gold measures 1.75:1 on the cream card and cannot carry an outer edge.
+const MARK_BLUE = "#2a557f";
+const MARK_GOLD = "#e1b761";
+const MARK_BLUE_DARK = "#4b739d";
+const MARK_GOLD_DARK = "#fad486";
+
+/**
+ * The brand line, set as `islam●se` — the mark standing in for the domain's full
+ * stop, exactly as the site's mast sets it. `dark` picks the lifted pair for the
+ * photo card, whose scrim would swallow the deep blue.
+ */
+function wordmark(fontSize: number, colour: string, dark = false) {
+	const d = Math.round(fontSize * 0.62);
+	const core = Math.round(d / Math.SQRT2);
+	return el(
+		"div",
+		{
+			display: "flex",
+			alignItems: "center",
+			fontSize,
+			fontWeight: 600,
+			letterSpacing: 2,
+			color: colour,
+		},
+		[
+			el("div", { display: "flex" }, "islam"),
+			el(
+				"div",
+				{
+					display: "flex",
+					alignItems: "center",
+					justifyContent: "center",
+					width: d,
+					height: d,
+					borderRadius: d,
+					backgroundColor: dark ? MARK_BLUE_DARK : MARK_BLUE,
+					marginLeft: 5,
+					marginRight: 5,
+					// Flex centring sits on the line box; the cap band is above it.
+					marginBottom: Math.round(fontSize * 0.08),
+				},
+				[
+					el(
+						"div",
+						{
+							display: "flex",
+							width: core,
+							height: core,
+							borderRadius: core,
+							backgroundColor: dark ? MARK_GOLD_DARK : MARK_GOLD,
+						},
+						[],
+					),
+				],
+			),
+			el("div", { display: "flex" }, "se"),
+		],
+	);
+}
+
 // The text-only card (tänkare / trådar): warm surface, kicker + title + framing.
 function textCard({ kicker, title, framing }: OgInput) {
 	return el(
@@ -90,11 +151,7 @@ function textCard({ kicker, title, framing }: OgInput) {
 					framing,
 				),
 			]),
-			el(
-				"div",
-				{ display: "flex", fontSize: 28, fontWeight: 600, letterSpacing: 2, color: MUTED },
-				"islam.se",
-			),
+			wordmark(28, MUTED),
 		],
 	);
 }
@@ -180,20 +237,9 @@ function photoCard({ kicker, title, bgImage }: OgInput) {
 					),
 				],
 			),
-			el(
-				"div",
-				{
-					position: "absolute",
-					top: 64,
-					right: 88,
-					display: "flex",
-					fontSize: 28,
-					fontWeight: 600,
-					letterSpacing: 2,
-					color: "rgba(255,255,255,0.82)",
-				},
-				"islam.se",
-			),
+			el("div", { position: "absolute", top: 64, right: 88, display: "flex" }, [
+				wordmark(28, "rgba(255,255,255,0.82)", true),
+			]),
 		],
 	);
 }

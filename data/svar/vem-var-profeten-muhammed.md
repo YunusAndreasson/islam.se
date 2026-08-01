@@ -39,7 +39,6 @@ sources:
   - name: "Sahīh al-Bukhārī 45"
     url: "https://sunnah.com/bukhari:45"
   - name: "al-Bukhārī, al-Adab al-Mufrad 273"
-    url: "https://sunnah.com/adab:273"
   - name: "Ibn Hishām, Sīrat Rasūl Allāh"
   - name: "Tomas presbytern, Krönikan från år 640 – i A. Palmer, The Seventh Century in the West-Syrian Chronicles (Liverpool University Press, 1993), s. 18–19"
   - name: "Ibn al-Qayyim, Madārij as-sālikīn"

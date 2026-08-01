@@ -1,0 +1,20 @@
+---
+import type { HTMLAttributes } from "astro/types";
+
+type NearbyLink = {
+	href: string;
+	label: string;
+};
+
+type Props = HTMLAttributes<"ul"> & {
+	items: readonly NearbyLink[];
+};
+
+const { class: className, items, ...attrs } = Astro.props;
+---
+
+<ul {...attrs} class:list={[className]}>
+	{items.map((item) => (
+		<li><a href={item.href}>{item.label}</a></li>
+	))}
+</ul>

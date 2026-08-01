@@ -2,15 +2,18 @@
 import { getImage } from "astro:assets";
 import { render } from "astro:content";
 import AudioPlayer from "../components/AudioPlayer.astro";
+import ArticleHeader from "../components/ArticleHeader.astro";
+import ArticleMeta from "../components/ArticleMeta.astro";
 import EssayConnections from "../components/EssayConnections.astro";
 import EssayImage from "../components/EssayImage.astro";
 import Rattelse from "../components/Rattelse.astro";
 import Base from "../layouts/Base.astro";
 import { amneByName } from "../lib/amnen";
 import type { Article } from "../lib/articles";
-import { formatDate, getArticles } from "../lib/articles";
+import { getArticles } from "../lib/articles";
 import { getVersesByEssay } from "../lib/citations";
 import { imageObject } from "../lib/jsonld";
+import { PAGE_HERO_SIZES, PAGE_HERO_WIDTHS } from "../lib/hero";
 
 export async function getStaticPaths() {
 	const articles = await getArticles();
@@ -33,13 +36,6 @@ interface Props {
 const { article, prev, next } = Astro.props;
 const { Content } = await render(article.entry);
 const amne = article.category ? amneByName.get(article.category) : undefined;
-
-// A genuine later revision (date differs from publication) → shown to readers and
-// emitted as dateModified.
-const updated =
-	article.updatedAt && article.updatedAt.slice(0, 10) !== article.publishedAt.slice(0, 10)
-		? article.updatedAt
-		: null;
 
 // Quran verses this essay cites in its footnotes → machine-readable citation[] on
 // the Article JSON-LD. Derived from the corpus, ordered surah:ayah.
@@ -83,17 +79,14 @@ if (article.heroImage) {
 >
 	<main id="main" class="reading">
 		<article>
-			<header class="article-header">
-				{amne && (
-					<p class="label article-kicker"><a href={`/amnen/${amne.slug}`}>{amne.name}</a></p>
-				)}
-				<h1>{article.title}</h1>
-				<p class="label article-meta">
-					<time datetime={article.publishedAt}>{formatDate(article.publishedAt)}</time> &middot; {article.readingTime} min läsning{updated && (
-						<> &middot; <time datetime={updated}>uppdaterad {formatDate(updated)}</time></>
-					)}
-				</p>
-			</header>
+			<ArticleHeader
+				title={article.title}
+				kicker={amne?.name}
+				kickerHref={amne ? `/amnen/${amne.slug}` : undefined}
+				kickerClass="article-kicker"
+			>
+				<ArticleMeta class="label article-meta" publishedAt={article.publishedAt} updatedAt={article.updatedAt} readingTime={article.readingTime} />
+			</ArticleHeader>
 
 			{article.heroImage && (
 				<figure class="article-hero">
@@ -104,8 +97,8 @@ if (article.heroImage) {
 					<div class="article-hero-frame media-frame">
 						<EssayImage
 							article={article}
-							widths={[768, 1152, 1536]}
-							sizes="(max-width: 768px) 100vw, 64rem"
+							widths={PAGE_HERO_WIDTHS}
+							sizes={PAGE_HERO_SIZES}
 							loading="eager"
 							fetchpriority="high"
 						/>
@@ -145,34 +138,6 @@ if (article.heroImage) {
 </Base>
 
 <style>
-	/* The essay's ämne, set above the title as a quiet small-caps link — the same
-	   register the collection pages use as their kicker, so an essay reads as
-	   filed under its ämne from the first line. */
-	.article-kicker {
-		margin-bottom: var(--space-half);
-		color: var(--color-muted);
-	}
-
-	.article-kicker a {
-		/* Standalone link on its own line — the WCAG inline exception doesn't
-		   cover it, and it was 15px tall. Padded to clear 24px, pulled back
-		   flush so the kicker still aligns with the h1 below it. */
-		display: inline-block;
-		padding: 0.3rem 0.4rem;
-		margin: -0.3rem -0.4rem;
-		color: var(--color-accent);
-		text-decoration: none;
-
-		&:hover {
-			text-decoration: underline;
-			text-underline-offset: 0.15em;
-		}
-
-		&:focus-visible {
-			border-radius: var(--radius-xs);
-		}
-	}
-
 	/* A contained hero at the head of each essay — column-width, seated in the
 	   shared media frame (grain + vignette + soft corners from .media-frame). The
 	   crop is pinned via :global(img) because the <img> carries EssayImage's own
@@ -265,6 +230,7 @@ if (article.heroImage) {
 
 <script>
 	import { navigate } from "astro:transitions/client";
+	import { initFootnotePopovers } from "../scripts/footnote-popover";
 
 	document.addEventListener("astro:page-load", () => {
 		if (!document.querySelector(".article-body")) return;
@@ -335,158 +301,11 @@ if (article.heroImage) {
 			}, { passive: true, signal: ctrl.signal });
 		}
 
-		// Footnote popovers — hover on desktop, click on touch, focus on keyboard
-		const popover = document.createElement("div");
-		popover.className = "fn-popover";
-		popover.id = "fn-popover";
-		popover.setAttribute("role", "tooltip");
-		document.body.appendChild(popover);
-		let hideTimer: ReturnType<typeof setTimeout> | null = null;
-		let describedRef: HTMLElement | null = null;
-		const isTouch = window.matchMedia("(hover: none) and (pointer: coarse)").matches;
+		// Footnote + honorific popovers. Shared with the /fordjupning/ route, which carries
+		// the same footnote apparatus; it owns its own AbortController and teardown.
+		initFootnotePopovers();
 
-		function positionPopover(anchor: Element) {
-			const rect = anchor.getBoundingClientRect();
-			popover.classList.add("fn-popover--visible");
-			const popW = popover.offsetWidth;
-			const popH = popover.offsetHeight;
-			const pad = 12;
-			const gap = 8;
-			let left = rect.left + window.scrollX + rect.width / 2 - popW / 2;
-			left = Math.max(pad, Math.min(left, window.innerWidth - popW - pad));
-			// Prefer above; fall back to below if not enough room
-			const above = rect.top - gap - popH;
-			if (above >= pad) {
-				popover.style.top = `${rect.top + window.scrollY - gap - popH}px`;
-			} else {
-				popover.style.top = `${rect.bottom + window.scrollY + gap}px`;
-			}
-			popover.style.left = `${left}px`;
-		}
-
-		function showPopover(ref: HTMLAnchorElement) {
-			const fnId = ref.getAttribute("href")?.replace("#", "");
-			if (!fnId) return;
-			const fnLi = document.getElementById(fnId);
-			if (!fnLi) return;
-
-			if (hideTimer) { clearTimeout(hideTimer); hideTimer = null; }
-
-			const clone = fnLi.cloneNode(true) as HTMLElement;
-			for (const backref of clone.querySelectorAll(".data-footnote-backref")) backref.remove();
-			popover.innerHTML = clone.innerHTML;
-			popover.setAttribute("data-fn-id", fnId);
-			positionPopover(ref.closest("sup") ?? ref);
-			// Announce the note content to screen readers while it is shown.
-			describedRef?.removeAttribute("aria-describedby");
-			ref.setAttribute("aria-describedby", popover.id);
-			describedRef = ref;
-		}
-
-		const honorificTitles: Record<string, string> = {
-			swt: "Jalla jalāluhu — upphöjd är Hans majestät",
-			saw: "Ṣallallāhu ʿalayhi wa-sallam — Guds frid och välsignelser vare med honom",
-		};
-
-		function showHonorificPopover(el: HTMLElement) {
-			const code = el.classList.contains("honorific--swt") ? "swt" : el.classList.contains("honorific--saw") ? "saw" : null;
-			const title = code ? honorificTitles[code] : null;
-			if (!title) return;
-			if (hideTimer) { clearTimeout(hideTimer); hideTimer = null; }
-			popover.textContent = title;
-			popover.setAttribute("data-fn-id", "honorific");
-			positionPopover(el);
-		}
-
-		function dismissPopover() {
-			popover.classList.remove("fn-popover--visible");
-			popover.removeAttribute("data-fn-id");
-			describedRef?.removeAttribute("aria-describedby");
-			describedRef = null;
-		}
-
-		function scheduleDismiss() {
-			hideTimer = setTimeout(dismissPopover, 200);
-		}
-
-		// Prevent footnote links from navigating — capture phase runs before Astro's router
-		document.addEventListener("click", (e) => {
-			if ((e.target as HTMLElement).closest("a[data-footnote-ref]")) e.preventDefault();
-		}, { capture: true, signal: ctrl.signal });
-
-		// Hover: show on mouseenter, hide on mouseleave (with grace period)
-		document.addEventListener("mouseenter", (e) => {
-			if (isTouch) return;
-			// closest?. — these are bound to document, so e.target is the document
-			// itself when the pointer crosses the page boundary.
-			const target = e.target as HTMLElement;
-			const ref = target.closest?.<HTMLAnchorElement>("a[data-footnote-ref]");
-			if (ref) { showPopover(ref); return; }
-			const hon = target.closest?.<HTMLElement>(".honorific");
-			if (hon) showHonorificPopover(hon);
-		}, { capture: true, signal: ctrl.signal });
-
-		document.addEventListener("mouseleave", (e) => {
-			if (isTouch) return;
-			const target = e.target as HTMLElement;
-			if (target.closest?.("a[data-footnote-ref]") || target.closest?.(".honorific")) scheduleDismiss();
-		}, { capture: true, signal: ctrl.signal });
-
-		// Keep popover visible while hovering over it
-		popover.addEventListener("mouseenter", () => {
-			if (hideTimer) { clearTimeout(hideTimer); hideTimer = null; }
-		});
-		popover.addEventListener("mouseleave", scheduleDismiss);
-
-		// Keyboard: show on Tab-focus, dismiss when focus moves on. :focus-visible
-		// keeps tap- and click-driven focus from double-triggering the touch toggle
-		// and hover paths below.
-		document.addEventListener("focusin", (e) => {
-			const ref = (e.target as HTMLElement).closest?.<HTMLAnchorElement>("a[data-footnote-ref]");
-			if (ref?.matches(":focus-visible")) showPopover(ref);
-		}, { signal: ctrl.signal });
-		document.addEventListener("focusout", (e) => {
-			if ((e.target as HTMLElement).closest?.("a[data-footnote-ref]")) scheduleDismiss();
-		}, { signal: ctrl.signal });
-
-		// Click: prevent default jump; on touch and keyboard (detail === 0) toggle
-		document.addEventListener("click", (e) => {
-			const target = e.target as HTMLElement;
-			const ref = target.closest<HTMLAnchorElement>("a[data-footnote-ref]");
-			if (ref) {
-				e.preventDefault();
-				if (isTouch || e.detail === 0) {
-					const fnId = ref.getAttribute("href")?.replace("#", "");
-					if (popover.getAttribute("data-fn-id") === fnId && popover.classList.contains("fn-popover--visible")) {
-						dismissPopover();
-					} else {
-						showPopover(ref);
-					}
-				}
-				return;
-			}
-			const hon = target.closest<HTMLElement>(".honorific");
-			if (hon && isTouch) {
-				if (popover.getAttribute("data-fn-id") === "honorific" && popover.classList.contains("fn-popover--visible")) {
-					dismissPopover();
-				} else {
-					showHonorificPopover(hon);
-				}
-				return;
-			}
-			if (!popover.contains(target)) {
-				dismissPopover();
-			}
-		}, { signal: ctrl.signal });
-
-		document.addEventListener("keydown", (e) => {
-			if (e.key === "Escape" && popover.classList.contains("fn-popover--visible")) {
-				e.stopPropagation();
-				dismissPopover();
-			}
-		}, { capture: true, signal: ctrl.signal });
-
-		document.addEventListener("astro:before-swap", () => { ctrl.abort(); popover.remove(); }, { once: true });
+		document.addEventListener("astro:before-swap", () => { ctrl.abort(); }, { once: true });
 	});
 </script>
 

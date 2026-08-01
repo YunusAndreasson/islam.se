@@ -1,6 +1,6 @@
 import { spawnSync } from "node:child_process";
 import { appendFileSync, existsSync, mkdirSync } from "node:fs";
-import { dirname, join } from "node:path";
+import { dirname, isAbsolute, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { getQuote } from "@islam-se/quotes";
 import { ClaudeRunner, type ClaudeRunOptions } from "./claude-runner.js";
@@ -59,7 +59,7 @@ function findEvalScript(): string | null {
 	return existsSync(candidate) ? candidate : null;
 }
 
-interface ProseEvalResult {
+export interface ProseEvalResult {
 	totalIssues: number;
 	/** Human-readable per-dimension report — fed verbatim to the corrective prompt. */
 	report: string;
@@ -95,6 +95,39 @@ function evaluateProse(filePath: string, scriptPath: string): ProseEvalResult | 
 		return { totalIssues, report };
 	}
 	return null;
+}
+
+/** The composite issue count above which a corrective prose pass is worth running. */
+export const PROSE_EVAL_THRESHOLD = EVAL_CORRECTION_THRESHOLD;
+
+/**
+ * Measure the Swedish prose of an article body with scripts/evaluate-article.py, for
+ * sibling producers that run the language passes without the essay `produce()` loop.
+ *
+ * ⚠️ Wraps the body in minimal frontmatter before measuring, because the evaluator's
+ * parser drops everything before the closing `---` — an unwrapped body measures as
+ * empty and looks flawless. That trap is the reason this is exported instead of the
+ * raw two-argument helper.
+ *
+ * Returns null when Python or the script is unavailable; treat that as "skip", never
+ * as "no issues".
+ */
+export function evaluateProseText(opts: {
+	body: string;
+	title: string;
+	/** Where the wrapped temporary file is written. */
+	scratchDir: string;
+}): ProseEvalResult | null {
+	const scriptPath = findEvalScript();
+	if (!scriptPath) return null;
+	mkdirSync(opts.scratchDir, { recursive: true });
+	const filePath = join(opts.scratchDir, "eval-input.md");
+	saveOutput(
+		opts.scratchDir,
+		"eval-input.md",
+		`---\ntitle: ${JSON.stringify(opts.title)}\n---\n\n${opts.body}`,
+	);
+	return evaluateProse(filePath, scriptPath);
 }
 
 /**
@@ -192,11 +225,22 @@ export interface OrchestratorOptions {
 	onPreview?: (chunk: PreviewChunk) => void;
 	/** Callback for stage lifecycle events (starting, completed, failed) */
 	onStageChange?: (progress: StageProgress) => void;
+	/** Swap a stage's prompt file while keeping its schema, validation and gates.
+	 *
+	 *  Keyed by the DEFAULT prompt filename ("research.md", "author.md", "reviewer.md");
+	 *  values are absolute paths, or bare names resolved against this package's own
+	 *  prompts dir. Lets a sibling producer (the /fordjupning/ pipeline) reuse the essay
+	 *  stages' machinery — the credibility gate, URL verification, the revision loop —
+	 *  with prompts written for its own register, and keep those prompts next to the
+	 *  producer that owns them instead of scattering them in here. */
+	promptOverrides?: Record<string, string>;
 }
 
 export type StageResult<T = unknown> =
 	| { success: true; data: T; error?: undefined; duration?: number }
-	| { success: false; error: string; data?: T; duration?: number };
+	// `output` is the model's raw text. It is already populated on a parse failure;
+	// exposing it lets callers checkpoint a stage they cannot parse instead of losing it.
+	| { success: false; error: string; data?: T; duration?: number; output?: string };
 
 export interface ResearchOutput {
 	topic: string;
@@ -395,13 +439,27 @@ export interface IdeaBrief {
 	seedQuotes?: Array<{ text: string; author: string; source?: string }>;
 }
 
+/**
+ * Poänggrind för essäer. Under detta tvingas ett revisionsvarv till även om granskaren
+ * satt utfallet »publish«.
+ *
+ * ⚠️ Fördjupningsproducenten har haft samma grind i kod sedan början (MIN_FINAL_SCORE = 8)
+ * medan essäpipelinen bara läste `verdict` — så en essä med finalScore 4 och utfall
+ * »publish« gick rakt igenom. Poängen och utfallet sätts av samma modell i samma svar,
+ * och de går isär: på abort-sidan gav varv 1 7,8/»revise« och varv 2 8,6/»publish«, men
+ * inget hindrade den motsatta kombinationen.
+ */
+const MIN_ESSAY_FINAL_SCORE = 8;
+
 export class ContentOrchestrator {
 	private runner: ClaudeRunner;
 	private validator: SourceValidator;
 	private references: ReferenceTracker;
 	private logger: ReturnType<typeof createLogger>;
-	private options: Required<Omit<OrchestratorOptions, "onPreview" | "onStageChange">> &
-		Pick<OrchestratorOptions, "onPreview" | "onStageChange">;
+	private options: Required<
+		Omit<OrchestratorOptions, "onPreview" | "onStageChange" | "promptOverrides">
+	> &
+		Pick<OrchestratorOptions, "onPreview" | "onStageChange" | "promptOverrides">;
 	private promptsDir: string;
 
 	constructor(options: OrchestratorOptions) {
@@ -413,11 +471,14 @@ export class ContentOrchestrator {
 		this.options = {
 			outputDir: options.outputDir,
 			model: options.model ?? "opus",
-			qualityThreshold: options.qualityThreshold ?? 7,
+			// 7.5, matching the documented default and what `produce article` passes. It
+			// read 7 here, so a caller that omitted it silently got a lower bar than the CLI.
+			qualityThreshold: options.qualityThreshold ?? 7.5,
 			maxRevisions: options.maxRevisions ?? 2,
 			quiet: options.quiet ?? false,
 			onPreview: options.onPreview,
 			onStageChange: options.onStageChange,
+			promptOverrides: options.promptOverrides,
 		};
 		this.logger = createLogger(this.options.quiet);
 	}
@@ -460,7 +521,8 @@ export class ContentOrchestrator {
 		const maxRetries = options.maxRetries ?? 2;
 		this.logger.log(`${options.emoji} ${options.name}...`);
 
-		const promptPath = join(this.promptsDir, options.promptFile);
+		const promptFile = this.options.promptOverrides?.[options.promptFile] ?? options.promptFile;
+		const promptPath = isAbsolute(promptFile) ? promptFile : join(this.promptsDir, promptFile);
 		const useStreaming = !!this.options.onPreview;
 		const { markdownMode } = options;
 		const isMarkdown = !!markdownMode;
@@ -602,13 +664,13 @@ export class ContentOrchestrator {
 		},
 	): { success: boolean; output?: string; error?: string; data?: T } {
 		const output = rawResult.output ?? "";
-		const parsed = this.runner.parseMarkdownWithMeta(output);
+		const { parsed, reason } = this.runner.parseMarkdownWithMetaDetailed(output);
 		if (!parsed) {
 			const head = output.slice(0, 500);
 			const tail = output.slice(-300);
 			return {
 				success: false,
-				error: `Output parse failed: no frontmatter block found. Length: ${output.length} chars.\nHEAD: ${head}\nTAIL: ${tail}`,
+				error: `Output parse failed: ${reason}. Length: ${output.length} chars.\nHEAD: ${head}\nTAIL: ${tail}`,
 				output,
 			};
 		}
@@ -898,7 +960,7 @@ Score fairly based on what you can actually verify:
 - Claims from web sources you can fetch and confirm are verified
 - Claims you cannot independently verify are NOT automatically unverified — they may simply be common scholarly knowledge
 - Only mark claims "unverified" if you find contradicting evidence or the claim is extraordinary and unsourced
-- The threshold to pass is 7 — award that score if the research has no fabrications and reasonable sourcing
+- The threshold to pass is ${this.options.qualityThreshold} — award that score if the research has no fabrications and reasonable sourcing
 - WebFetch cannot read PDFs (.pdf) or JS-rendered sites (litteraturbanken.se)
 </review_guidance>${reputation}`;
 
@@ -1664,15 +1726,38 @@ If the draft has anglicisms, fix them in the revised article.
 			saveOutput(outputDir, "review.json", reviewResult.data);
 			const reviewSummary = `${reviewResult.data.finalScore}/10 — ${reviewResult.data.verdict}`;
 
-			// Check verdict
+			// ⚠️ Omdömet ensamt räckte tidigare: `verdict === "publish"` bröt loopen utan att
+			// någon jämförde `finalScore`, så {finalScore: 4, verdict: "publish"} publicerade
+			// en essä. Fördjupningsproducenten har haft en poänggrind i kod hela tiden
+			// (MIN_FINAL_SCORE = 8); essäpipelinen saknade den. En modell som ska sätta både
+			// betyg och utfall sätter dem inte alltid konsekvent, och då är det betyget som
+			// bär information — utfallet är en etikett den kan slarva med.
 			if (reviewResult.data.verdict === "publish") {
-				this.options.onStageChange?.({
-					stage: "review",
-					status: "complete",
-					duration: reviewResult.duration,
-					summary: reviewSummary,
-				});
-				break;
+				const score = reviewResult.data.finalScore;
+				if (score < MIN_ESSAY_FINAL_SCORE && revisionCount < this.options.maxRevisions) {
+					this.logger.log(
+						`   ⚠️  Omdömet »publish« men poängen ${score}/10 < ${MIN_ESSAY_FINAL_SCORE} — kör ett varv till`,
+					);
+					this.options.onStageChange?.({
+						stage: "review",
+						status: "complete",
+						duration: reviewResult.duration,
+						summary: `${reviewSummary} (poäng under grind, reviderar)`,
+					});
+				} else {
+					if (score < MIN_ESSAY_FINAL_SCORE) {
+						this.logger.log(
+							`   ⚠️  PUBLICERAS PÅ ${score}/10, under grinden ${MIN_ESSAY_FINAL_SCORE} — revisionerna tog slut. Läs texten själv.`,
+						);
+					}
+					this.options.onStageChange?.({
+						stage: "review",
+						status: "complete",
+						duration: reviewResult.duration,
+						summary: reviewSummary,
+					});
+					break;
+				}
 			}
 
 			if (reviewResult.data.verdict === "reject") {
@@ -1786,6 +1871,17 @@ If the draft has anglicisms, fix them in the revised article.
 		if (groundResult.success && groundResult.data) {
 			finalText = groundResult.data.body;
 			this.logger.log(`   - Ground: ${groundResult.data.verdict}`);
+			// ⚠️ Ground kör EFTER faktagranskning och granskning — ingenting nedströms läser
+			// de meningar den lägger till. Loggades tidigare bara som »grounded«, vilket gör
+			// en påhittad konkretion osynlig i körningen. På en fördjupningssida skrev steget
+			// in en namngiven ort och ett vårdpåstående som aldrig hänt, under omdömet
+			// »publish«. Additionerna skrivs därför alltid ut, en per rad.
+			for (const c of groundResult.data.changes ?? []) {
+				this.logger.log(`     ✍️  ${c.location}: ${c.addition}`);
+			}
+			if ((groundResult.data.changes ?? []).length > 0) {
+				this.logger.log("     ⚠️  Ingen grind har läst dessa. Kontrollera varje namngiven uppgift.");
+			}
 			saveOutput(outputDir, "ground.json", groundResult.data);
 			this.options.onStageChange?.({
 				stage: "ground",
@@ -2040,15 +2136,28 @@ If the draft has anglicisms, fix them in the revised article.
 // Exposed for sibling producers (e.g. the svar answer-page producer) that drive
 // a single Claude stage directly instead of the full essay pipeline.
 export { ClaudeRunner, type ClaudeRunOptions } from "./claude-runner.js";
+// Exposed for sibling producers that run a research stage of their own: the /fordjupning/
+// pipeline reuses this schema so its output is accepted by runFactCheck() unchanged, and
+// therefore passes the same code-enforced credibility gate the essays do.
+export {
+	FactCheckOutputSchema,
+	getResearchJsonSchema,
+	ResearchOutputSchema,
+} from "./schemas.js";
 // Re-export services
 export {
 	ArticlePublisher,
 	type BookSearchOptions,
 	type BookSearchResult,
+	buildCorpusBrief,
+	type CorpusAngles,
+	type CorpusBrief,
+	type CorpusBriefInput,
 	type EnrichedIdea,
 	type EnrichedIdeationOutput,
 	type EnrichedQuote,
 	formatBooksForPrompt,
+	formatCorpusBrief,
 	formatQuotesForPrompt,
 	hasBookContent,
 	type Idea,
@@ -2068,4 +2177,4 @@ export {
 	searchQuotesComprehensive,
 } from "./services/index.js";
 export { SourceValidator } from "./source-validator.js";
-export { slugify } from "./utils.js";
+export { RESEARCH_ALLOWED_TOOLS, slugify } from "./utils.js";

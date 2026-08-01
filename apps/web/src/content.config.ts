@@ -9,11 +9,11 @@ const articles = defineCollection({
 		// ISO-validated but kept as a string: templates pass it straight to
 		// datetime attrs/JSON-LD, and a malformed pipeline timestamp should
 		// fail the build rather than silently mis-sort the essay list.
-		publishedAt: z.string().datetime(),
+		publishedAt: z.iso.datetime(),
 		// Set ONLY on a genuine later revision (a metadata stamp — never an LLM
 		// rewrite). Surfaces as schema.org dateModified + a quiet "Uppdaterad"
 		// line; freshness lifts AI-citation odds. Absent on never-revised essays.
-		updatedAt: z.string().datetime().optional(),
+		updatedAt: z.iso.datetime().optional(),
 		wordCount: z.number(),
 		// Doubles as the visible deck on every card and index row, so it is written
 		// for the page, not for Google — the corpus median is ~270 characters.
@@ -40,31 +40,6 @@ const articles = defineCollection({
 		category: z
 			.enum(["Skapelsen", "Skriften", "Själen", "Rättvisa", "Samhälle", "Sökandet", "Norden"])
 			.optional(),
-	}),
-});
-
-// Daily-verse rotation (§7.2). All fields are fetched once, by hand, from the
-// Tarteel MCP via `pnpm sync-verses` and committed — the Arabic, Bernström's
-// Swedish, and the reciter mp3 are static thereafter; nothing calls Tarteel at
-// build, deploy, or runtime. `relatedEssay` is NOT stored here: it is derived at
-// build time from the essay footnotes by the citation index (src/lib/citations).
-const verser = defineCollection({
-	loader: file("src/content/verser/verses.json"),
-	schema: z.object({
-		surah: z.number(),
-		ayah: z.number(),
-		ayahKey: z.string(), // "13:28"
-		surahName: z.string(), // transliterated, e.g. "Ar-Ra'd"
-		surahNameArabic: z.string(),
-		textArabic: z.string(), // fully voweled Uthmanic
-		textSwedish: z.string(), // Knut Bernström, Koranens budskap
-		translator: z.string(),
-		reciter: z.string(),
-		audioFile: z.string(), // committed, self-hosted: /audio/quran/013028.mp3
-		// Word-recitation timing for the mp3: [wordNumber, startMs, endMs], offsets
-		// relative to the clip start. Drives the daily-verse word highlight. Synced
-		// from QUL by `pnpm sync-verses`; see src/lib/verse.ts.
-		segments: z.array(z.tuple([z.number(), z.number(), z.number()])),
 	}),
 });
 
@@ -100,7 +75,7 @@ const tankare = defineCollection({
 		// Authoritative external identities for this real, canonical figure
 		// (Swedish Wikipedia + Wikidata Q-id). Emitted as schema.org `sameAs` on
 		// the thinker's Person node so LLMs ground our page to the global entity.
-		sameAs: z.array(z.string().url()).optional(),
+		sameAs: z.array(z.url()).optional(),
 	}),
 });
 
@@ -118,15 +93,15 @@ const svar = defineCollection({
 		// QAPage/FAQ schema and should mirror a real high-volume search query.
 		question: z.string(),
 		description: z.string(),
-		publishedAt: z.string().datetime(),
-		updatedAt: z.string().datetime().optional(),
+		publishedAt: z.iso.datetime(),
+		updatedAt: z.iso.datetime().optional(),
 		// Target search queries (our reference only; not rendered) — keeps each
 		// article honest about which keywords it must actually cover in the body.
 		keywords: z.array(z.string()).optional(),
 		// Extra Q&A pairs → FAQPage schema + an on-page "Vanliga frågor" block.
 		faq: z.array(z.object({ q: z.string(), a: z.string() })).optional(),
 		// Attribution / further reading. al-ibadah.com links carry the fiqh weight.
-		sources: z.array(z.object({ name: z.string(), url: z.string().url().optional() })).optional(),
+		sources: z.array(z.object({ name: z.string(), url: z.url().optional() })).optional(),
 		// Slugs of related svar pages, for internal linking / crawl depth.
 		related: z.array(z.string()).optional(),
 		// Slugs of essays this answer page should point readers to ("Läs vidare").
@@ -137,4 +112,44 @@ const svar = defineCollection({
 	}),
 });
 
-export const collections = { articles, verser, tradar, tankare, svar };
+// Fordjupning — encyclopedic pillar pages (2 800–4 500 words) on the broad topic term,
+// sitting above the short /svar/ answer pages that keep the question intent.
+// ⚠️ Every field the route renders is REQUIRED here, unlike `svar` — the template has
+// no fallbacks, and a pillar page missing its TOC sources or entity anchor is not a
+// pillar page. The producer's schema is stricter still (min lengths, min counts).
+const fordjupning = defineCollection({
+	loader: glob({ pattern: "**/*.md", base: "../../data/fordjupning" }),
+	schema: z.object({
+		title: z.string(),
+		// The head entity in its bare form ("Hijab") — the H1 and schema.org about.name.
+		// Distinct from `title`, which carries the SERP framing.
+		term: z.string(),
+		description: z.string(),
+		seoDescription: z.string().optional(),
+		// One line for a card or an index row — far shorter than either description.
+		// Optional here so a page missing it still builds; the producer requires it.
+		blurb: z.string().optional(),
+		publishedAt: z.iso.datetime(),
+		updatedAt: z.iso.datetime().optional(),
+		keywords: z.array(z.string()),
+		// Grounds the page to the global entity (Wikidata + Wikipedia) via schema.org
+		// sameAs. Organization.sameAs is still empty site-wide; this is per-topic.
+		about: z.object({
+			name: z.string(),
+			sameAs: z.array(z.url()),
+		}),
+		faq: z.array(z.object({ q: z.string(), a: z.string() })),
+		sources: z.array(z.object({ name: z.string(), url: z.url().optional() })),
+		// Slugs of the /svar/ answer pages this pillar sits above. Validated at build.
+		related: z.array(z.string()).default([]),
+		essays: z.array(z.string()).default([]),
+		imageAlt: z.string().optional(),
+		imageCaption: z.string().optional(),
+		// Essay slug whose hero this page borrows until it gets bespoke art at
+		// src/assets/images/fordjupning/<slug>.webp. See lib/fordjupning.ts — the art
+		// file always wins, so this line can stay as the fallback.
+		heroEssay: z.string().optional(),
+	}),
+});
+
+export const collections = { articles, tradar, tankare, svar, fordjupning };

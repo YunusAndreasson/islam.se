@@ -1,9 +1,14 @@
 ---
+import { Search } from "@lucide/astro";
 import { getCollection } from "astro:content";
-import PageHead from "../../components/PageHead.astro";
-import Base from "../../layouts/Base.astro";
+import CollectionIndexPage from "../../components/CollectionIndexPage.astro";
+import SectionLink from "../../components/SectionLink.astro";
+import TextRowList from "../../components/TextRowList.astro";
+import TitledSection from "../../components/TitledSection.astro";
+import { resolveHero } from "../../lib/fordjupning";
 import { breadcrumbList, collectionPageJsonLd } from "../../lib/jsonld";
 import { groupSvar, svarSearchTerms } from "../../lib/svar";
+import { CHIP_WIDTHS } from "../../lib/hero";
 
 // FRÅGOR & SVAR — the full, browsable question list. `groupSvar` arranges the
 // corpus into themed sections and drops the cornerstone Five Pillars + six Articles
@@ -11,6 +16,34 @@ import { groupSvar, svarSearchTerms } from "../../lib/svar";
 // hub never duplicate each other. A category jump-nav lets a reader go straight
 // to a theme, and an observer marks which one they are currently in.
 const entries = await getCollection("svar");
+// The long reference articles. They live at /fordjupning/ but are surfaced here,
+// above the questions: a reader who comes looking for a topic rather than a single
+// question should meet the full treatment first. No mast entry of their own until the
+// set is large enough to carry an index page.
+const allaFordjupningar = (await getCollection("fordjupning")).sort((a, b) =>
+	a.data.term.localeCompare(b.data.term, "sv"),
+);
+// ⚠️ Capped. This type is heading for ~30 topics, and listing them all here would push
+// the 50+ questions this page exists for below the fold. The band is a taster with a way
+// through to the full index, not a second index.
+const FORDJUPNING_BAND_MAX = 6;
+const fordjupning = await Promise.all(
+	allaFordjupningar.slice(0, FORDJUPNING_BAND_MAX).map(async (entry) => ({
+		entry,
+		hero: await resolveHero(entry),
+	})),
+);
+const fordjupningRows = fordjupning.map(({ entry: f, hero }) => ({
+	href: `/fordjupning/${f.id}/`,
+	title: f.data.term,
+	description: f.data.blurb ?? f.data.seoDescription ?? f.data.description,
+	image: hero && {
+		src: hero.src,
+		article: hero.article,
+		widths: CHIP_WIDTHS,
+		sizes: "120px",
+	},
+}));
 const groups = groupSvar(entries);
 const listed = groups.flatMap((g) => g.entries);
 
@@ -18,10 +51,12 @@ const description =
 	"Tydliga, källbelagda svar på vanliga frågor om islam – tro, dyrkan, mat, familj, samhälle och historia. Grundade i Koranen och klassisk sunnitisk lärdom.";
 ---
 
-<Base
-	title="Frågor och svar om islam — islam.se"
+<CollectionIndexPage
+	title="Frågor & svar om islam"
+	pageTitle="Frågor och svar om islam — islam.se"
 	description={description}
 	ogImageAlt="Frågor och svar om islam — islam.se"
+	mainClass="svar-index home"
 	jsonLd={[
 		collectionPageJsonLd({
 			name: "Frågor och svar om islam",
@@ -35,22 +70,19 @@ const description =
 		]),
 	]}
 >
-	<main id="main" class="svar-index home">
-		<PageHead title="Frågor & svar om islam">
-			Källbelagda svar på vanliga frågor om islam, från tro och dyrkan till mat, familj, samhälle
-			och historia. Vill du i stället ha grunderna förklarade, finns{" "}
-			<a href="/vad-ar-islam/">de fem pelarna och trosartiklarna</a>. För fördjupade rättsliga
-			frågor finns <a href="https://al-ibadah.com" rel="noopener">al-ibadah.com</a>.
-		</PageHead>
+	<span slot="lead">
+		Källbelagda svar på vanliga frågor om islam, från tro och dyrkan till mat, familj, samhälle
+		och historia. Vill du i stället ha grunderna förklarade, finns{" "}
+		<a href="/vad-ar-islam/">de fem pelarna och trosartiklarna</a>. För fördjupade rättsliga
+		frågor finns <a href="https://al-ibadah.com" rel="noopener">al-ibadah.com</a>.
+	</span>
+
 
 		{groups.length > 0 ? (
 			<>
 				{/* Narrows this page only; ⌘K still searches the whole site. */}
-				<form class="svar-search field" role="search" data-total={listed.length}>
-					<svg class="svar-search-icon" width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
-						<circle cx="8" cy="8" r="5.25" stroke="currentColor" stroke-width="1.25" />
-						<path d="M12 12l4 4" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" />
-					</svg>
+				<search><form class="svar-search field" data-total={listed.length}>
+					<Search class="svar-search-icon" size={18} stroke-width={1.75} />
 					<input
 						class="svar-search-input"
 						id="svar-q"
@@ -65,7 +97,7 @@ const description =
 						enterkeyhint="search"
 					/>
 					<button class="svar-search-clear label" type="button" hidden>Rensa</button>
-				</form>
+				</form></search>
 				<p class="svar-search-status label" role="status"></p>
 
 				<nav class="svar-nav" aria-label="Kategorier">
@@ -78,22 +110,53 @@ const description =
 					</ul>
 				</nav>
 
+		{fordjupning.length > 0 && (
+			<TitledSection
+				class="svar-fordjupningar"
+				id="svar-fordjupningar-rubrik"
+				title="Fördjupningar"
+				titleClass="label"
+			>
+				<TextRowList
+					class="svar-fordjupningar-list"
+					style="--text-row-title-size: var(--step-0); --text-row-desc-margin: 0.2rem"
+					items={fordjupningRows}
+					titleElement="span"
+				/>
+				{allaFordjupningar.length > FORDJUPNING_BAND_MAX && (
+					<p class="svar-fordjupningar-alla">
+						<SectionLink href="/fordjupning/">
+							Alla {allaFordjupningar.length} fördjupningar
+						</SectionLink>
+					</p>
+				)}
+			</TitledSection>
+		)}
+
+
 				<div id="svar-results">
 					{groups.map((g) => (
-						<section class="svar-section" id={g.category.slug} aria-labelledby={`sc-${g.category.slug}`}>
-							<h2 id={`sc-${g.category.slug}`}>{g.category.name}</h2>
+						<TitledSection
+							class="svar-section"
+							id={`sc-${g.category.slug}`}
+							sectionId={g.category.slug}
+							title={g.category.name}
+						>
 							{g.category.intro && <p class="lead svar-section-intro">{g.category.intro}</p>}
-							<ul class="svar-list">
-								{g.entries.map((e) => (
-									<li class="svar-list-item" data-terms={svarSearchTerms(e) || undefined}>
-										<a href={`/svar/${e.id}/`}>
-											<span class="svar-list-title">{e.data.title}</span>
-											<span class="svar-list-desc">{e.data.description}</span>
-										</a>
-									</li>
-								))}
-							</ul>
-						</section>
+							<TextRowList
+								class="svar-list"
+								variant="question"
+								items={g.entries.map((e) => ({
+									href: `/svar/${e.id}/`,
+									title: e.data.title,
+									description: e.data.description,
+									attrs: {
+										"data-svar-item": "",
+										"data-terms": svarSearchTerms(e) || undefined,
+									},
+								}))}
+							/>
+						</TitledSection>
 					))}
 
 					{/* The status line states the count; this is only the way out. */}
@@ -106,8 +169,7 @@ const description =
 		) : (
 			<p>Inga frågor publicerade ännu.</p>
 		)}
-	</main>
-</Base>
+</CollectionIndexPage>
 
 <script>
 	import { closeEnough, fold } from "../../lib/search-text";
@@ -125,7 +187,7 @@ const description =
 		if (!form || !input || !status || !clear || !empty) return;
 
 		const emptyAll = empty.querySelector<HTMLButtonElement>(".svar-empty-all");
-		const items = Array.from(document.querySelectorAll<HTMLLIElement>(".svar-list-item")).map(
+		const items = Array.from(document.querySelectorAll<HTMLLIElement>("[data-svar-item]")).map(
 			(el) => ({
 				el,
 				section: el.closest<HTMLElement>(".svar-section"),
@@ -415,44 +477,24 @@ const description =
 	}
 
 	.svar-list {
-		list-style: none;
-		margin: var(--space-unit) 0 0;
-		padding: 0;
-	}
-	.svar-list-item {
-		border-bottom: 1px solid var(--color-divider);
-	}
-	.svar-list-item a {
-		display: block;
-		padding: var(--space-unit) 0;
-		text-decoration: none;
-	}
-	.svar-list-title {
-		display: block;
-		font-family: var(--font-heading);
-		font-weight: 600;
-		font-size: var(--step--1);
-		color: var(--color-accent);
-	}
-	/* Held to the reading measure. On the 64rem canvas these ran the full width —
-	   103 characters a line, against the 60–70 the rest of the site is set to —
-	   which is what made the index feel like a wall rather than a list. The row
-	   and its hairline still span the canvas; only the text is constrained. */
-	.svar-list-title,
-	.svar-list-desc {
-		max-width: var(--content-width);
+		--text-row-list-margin: var(--space-unit) 0 0;
 	}
 
-	.svar-list-desc {
-		display: block;
-		font-family: var(--font-body);
-		font-size: var(--step--2);
-		line-height: 1.55;
-		color: var(--color-muted);
-		margin-top: 0.25rem;
-		text-wrap: pretty;
+	/* The fördjupning band: the long reference articles, set above the question list.
+	   Deliberately a different shape from the question rows below — a bordered band with
+	   a term and a line of framing — so the reader sees two kinds of thing, not a
+	   longer list of the same thing. */
+	.svar-fordjupningar {
+		margin-top: var(--space-unit);
+		padding-block: var(--space-unit);
+		border-block: 1px solid var(--color-rule);
 	}
-	.svar-list-item a:hover .svar-list-title {
-		text-decoration: underline;
+
+	.svar-fordjupningar h2 {
+		margin: 0 0 var(--space-half);
+	}
+
+	.svar-fordjupningar-alla {
+		margin: var(--space-unit) 0 0;
 	}
 </style>

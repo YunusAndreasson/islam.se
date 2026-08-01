@@ -20,62 +20,21 @@
  * steg"). If one of these is ever renamed, the redirect map in astro.config.ts
  * is the place that keeps this honest.
  */
+
+import HairlineLinkList from "../HairlineLinkList.astro";
+import TitledSection from "../TitledSection.astro";
+
+const prayerLinks = [
+	{ label: "Så ber man steg för steg", href: "/svar/sa-ber-man-steg-for-steg/" },
+	{ label: "Islams fem pelare", href: "/svar/islams-fem-pelare/" },
+	{ label: "Vad är islam?", href: "/vad-ar-islam/" },
+];
 ---
 
-<section class="om-bonen" aria-labelledby="om-bonen-head">
-	<h2 id="om-bonen-head">Om bönen</h2>
-	<ul class="om-bonen-links">
-		<li><a href="/svar/sa-ber-man-steg-for-steg/">Så ber man steg för steg</a></li>
-		<li><a href="/svar/islams-fem-pelare/">Islams fem pelare</a></li>
-		<li><a href="/vad-ar-islam/">Vad är islam?</a></li>
-	</ul>
-</section>
-
-<style>
-	/* Self-contained on purpose. This renders on three different pages, and Astro
-	   scopes a page's <style> to that page's own markup — the host's
-	   `.bt-stad-section` / `.bt-stad-section h2` rules do not reach in here. So the
-	   section margin and the --step-1 heading are restated rather than inherited,
-	   matching what the surrounding sections on /bonetider/<ort>/ look like. */
-	.om-bonen {
-		margin-top: var(--space-phi);
-	}
-
-	.om-bonen h2 {
-		font-size: var(--step-1);
-	}
-
-	/* The same quiet hairline rows the FAKTA hub uses for its functional lists
-	   (.pillar-links) — NOT the pill row the nearby-localities list uses directly
-	   above this one. Pills there mean "another place"; these are not places, and
-	   giving them the same shape would read as more of the same. */
-	.om-bonen-links {
-		font-family: var(--font-body);
-		font-size: var(--step--1);
-		margin: var(--space-half) 0 0;
-		padding: 0;
-		list-style: none;
-		max-width: var(--content-width);
-	}
-
-	.om-bonen-links li + li {
-		border-top: 1px solid var(--color-rule);
-	}
-
-	.om-bonen-links a {
-		display: block;
-		color: var(--color-accent);
-		text-decoration: none;
-		/* 0.7rem block padding clears the 24px target floor (WCAG 2.5.8). */
-		padding-block: 0.7rem;
-
-		&:hover {
-			text-decoration: underline;
-			text-underline-offset: 0.15em;
-		}
-
-		&:focus-visible {
-			border-radius: var(--radius-xs);
-		}
-	}
-</style>
+<TitledSection class="om-bonen" id="om-bonen-head" title="Om bönen">
+	<HairlineLinkList
+		class="om-bonen-links"
+		style="--hairline-link-list-margin: var(--space-half) 0 0"
+		items={prayerLinks}
+	/>
+</TitledSection>

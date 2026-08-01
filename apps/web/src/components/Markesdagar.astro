@@ -1,4 +1,6 @@
 ---
+import MarkesdagList from "./MarkesdagList.astro";
+import SectionLink from "./SectionLink.astro";
 import { getMarkesdagar, gregorian } from "../lib/markesdagar";
 
 const events = getMarkesdagar();
@@ -11,25 +13,14 @@ const rows = events.map((e) => {
 	const endISO = e.endISO ?? e.startISO;
 	const upcoming = endISO >= todayISO && buildShown < 5;
 	if (upcoming) buildShown++;
-	return { ...e, endISO, upcoming, gregorian: gregorian(e.startISO, e.endISO) };
+	return { ...e, endISO, hidden: !upcoming, gregorian: gregorian(e.startISO, e.endISO) };
 });
 ---
 
 <section class="markesdagar home-movement" aria-labelledby="markesdagar-kicker">
 	<h2 class="label home-kicker" id="markesdagar-kicker">Det islamiska året</h2>
 
-	<ul class="md-list">
-		{rows.map((e) => (
-			<li class="md-row" data-end={e.endISO} hidden={!e.upcoming}>
-				<p class="label md-greg"><time datetime={e.startISO}>{e.gregorian}</time></p>
-				<div class="md-body">
-					<p class="md-name">{e.name}</p>
-					{e.note && <p class="md-note">{e.note}</p>}
-				</div>
-				<p class="md-hijri">{e.hijriLabel}</p>
-			</li>
-		))}
-	</ul>
+	<MarkesdagList rows={rows} />
 
 	<p class="md-standing">
 		Därtill <em>de vita dagarna</em> (Ayyām al-bīḍ) — fasta den 13:e, 14:e och 15:e i varje månmånad.
@@ -38,7 +29,7 @@ const rows = events.map((e) => {
 		I <em>Shaʿbān</em>, månaden före Ramadan, fastade Profeten <span class="honorific honorific--saw">ﷺ</span> fler dagar än under någon annan månad utom Ramadan.
 	</p>
 
-	<p class="md-more"><a class="section-link arrow-link" href="/det-islamiska-aret/">Se hela året</a></p>
+	<p class="md-more"><SectionLink href="/det-islamiska-aret/">Se hela året</SectionLink></p>
 </section>
 
 <style>

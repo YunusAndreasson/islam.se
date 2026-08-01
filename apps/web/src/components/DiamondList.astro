@@ -1,0 +1,29 @@
+---
+import type { HTMLAttributes } from "astro/types";
+
+type DiamondItem = {
+	label: string;
+	href?: string;
+};
+
+type Props = HTMLAttributes<"ul"> & {
+	items: readonly DiamondItem[];
+	nav?: boolean;
+};
+
+const { class: className, items, nav = false, ...attrs } = Astro.props;
+---
+
+<ul {...attrs} class:list={["diamond-list", nav && "diamond-list--nav", className]}>
+	{items.map((item) => (
+		<li>
+			{item.href ? (
+				<a href={item.href} rel={item.href.startsWith("http") ? "noopener" : undefined}>
+					{item.label}
+				</a>
+			) : (
+				item.label
+			)}
+		</li>
+	))}
+</ul>

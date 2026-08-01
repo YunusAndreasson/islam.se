@@ -1,8 +1,7 @@
 /**
  * Drives every essay Quran player (.quran-verse, injected by rehype-quran-verse)
  * on a page: lazy audio on first press, and a word spotlight that follows the
- * recitation. The same mechanism as the homepage daily verse (§7.2), minus the
- * gloss/hover affordances — in an essay the player only plays and highlights.
+ * recitation. In an essay the player only plays and highlights.
  *
  * Framework-agnostic so it can be imported from the essay page's module script.
  * Idempotent per element (a `data-qv-ready` flag), so re-running after a View

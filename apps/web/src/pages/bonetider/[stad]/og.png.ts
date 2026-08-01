@@ -7,11 +7,13 @@ import { ogEndpoint } from "../../../lib/og-endpoints";
 // Sampled alongside the city pages themselves — see the note in ../[stad].astro.
 export function getStaticPaths() {
 	const sample = Number(process.env.BONETIDER_SAMPLE ?? 0);
-	const eligible = INDEXED_PLACES.filter((p) => p.population >= OG_POPULATION);
-	return (sample > 0 ? eligible.slice(0, sample) : eligible).map((p) => ({
-		params: { stad: p.slug },
-		props: { name: p.name, county: p.county },
-	}));
+	const places = sample > 0 ? INDEXED_PLACES.slice(0, sample) : INDEXED_PLACES;
+	return places
+		.filter((p) => p.population >= OG_POPULATION)
+		.map((p) => ({
+			params: { stad: p.slug },
+			props: { name: p.name, county: p.county },
+		}));
 }
 
 export const GET = ogEndpoint<{ name: string; county: string }>(

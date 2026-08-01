@@ -1,6 +1,5 @@
 ---
-import EssayList from "../../components/EssayList.astro";
-import Base from "../../layouts/Base.astro";
+import EssayCollectionPage from "../../components/EssayCollectionPage.astro";
 import { AMNEN, type Amne, essaysInAmne } from "../../lib/amnen";
 import { type Article, essayCount, getArticles } from "../../lib/articles";
 import { breadcrumbList, collectionPageJsonLd } from "../../lib/jsonld";
@@ -22,9 +21,14 @@ const { amne, essays } = Astro.props;
 const count = essays.length;
 ---
 
-<Base
-	title={`${amne.name} — islam.se`}
+<EssayCollectionPage
+	title={amne.name}
 	description={amne.framing}
+	essays={essays}
+	kicker="Ämne"
+	countText={essayCount(count)}
+	backHref="/essaer/"
+	backLabel="Hela arkivet"
 	jsonLd={[
 		collectionPageJsonLd({
 			name: amne.name,
@@ -38,17 +42,4 @@ const count = essays.length;
 			{ name: amne.name, url: `/amnen/${amne.slug}` },
 		]),
 	]}
->
-	<main id="main" class="home">
-		<header class="article-header">
-			<p class="label collection-kicker">Ämne</p>
-			<h1>{amne.name}</h1>
-			<p class="lead collection-lead">{amne.framing}</p>
-			<p class="label collection-count">{essayCount(count)}</p>
-		</header>
-
-		<EssayList articles={essays} />
-
-		<p class="collection-back"><a class="section-link arrow-link" href="/essaer/">Hela arkivet</a></p>
-	</main>
-</Base>
+/>

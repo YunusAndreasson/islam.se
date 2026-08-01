@@ -1,5 +1,8 @@
 ---
+import DefinitionList from "../../../components/DefinitionList.astro";
 import MosqueList from "../../../components/moskeer/MosqueList.astro";
+import MosquePageHeader from "../../../components/moskeer/MosquePageHeader.astro";
+import TitledSection from "../../../components/TitledSection.astro";
 import Base from "../../../layouts/Base.astro";
 import { MOSKEER_ENABLED } from "../../../lib/config";
 import { ORG_ID, breadcrumbList, faqPageJsonLd } from "../../../lib/jsonld";
@@ -102,14 +105,13 @@ if (oldestMosque?.opened) {
 	]}
 >
 	<main id="main" class="home moskeer-lan">
-		<header class="mk-lan-header">
-			<h1>Moskéer i {lanLabel}</h1>
-			<p class="mk-lan-meta">
-				{total} {total === 1 ? "moské" : "moskéer"} · {cityCount} {cityCount === 1 ? "ort" : "orter"} ·
-				Senast uppdaterad <time datetime={MOSKEER_DATA_DATE}>{updated}</time>
-			</p>
-			<p class="mk-lan-lead">{lead}</p>
-		</header>
+		<MosquePageHeader
+			title={`Moskéer i ${lanLabel}`}
+			meta={`${total} ${total === 1 ? "moské" : "moskéer"} · ${cityCount} ${cityCount === 1 ? "ort" : "orter"}`}
+			lead={lead}
+			updatedDate={MOSKEER_DATA_DATE}
+			updatedLabel={updated}
+		/>
 
 		{cityGroups.map((g) => (
 			<section class="mk-city-group" aria-label={`Moskéer i ${g.city}`}>
@@ -121,21 +123,13 @@ if (oldestMosque?.opened) {
 			</section>
 		))}
 
-		<section class="mk-section" aria-labelledby="mk-lan-faq">
-			<h2 id="mk-lan-faq">Vanliga frågor</h2>
-			<dl class="def-list">
-				{faq.map((f) => (
-					<div class="def-item">
-						<dt>{f.q}</dt>
-						<dd>{f.a}</dd>
-					</div>
-				))}
-			</dl>
-		</section>
+		<TitledSection class="mk-section" id="mk-lan-faq" title="Vanliga frågor">
+			<DefinitionList items={faq} />
+		</TitledSection>
 
 		<p class="mk-attrib">
 			Underlaget kan vara ofullständigt. Adresser och positioner är ungefärliga.
-			<a class="arrow-link" href="/moskeer">Karta över alla moskéer i Sverige</a>
+			<a class="arrow-link" href="/moskeer/">Karta över alla moskéer i Sverige</a>
 		</p>
 	</main>
 </Base>
@@ -144,28 +138,6 @@ if (oldestMosque?.opened) {
 	.moskeer-lan {
 		margin-block: var(--space-phi);
 		overflow-x: clip;
-	}
-
-	.mk-lan-header h1 {
-		margin: var(--space-half) 0 0;
-	}
-
-	.mk-lan-meta {
-		font-family: var(--font-body);
-		font-size: var(--step--3);
-		color: var(--color-muted);
-		margin: var(--space-half) 0 0;
-		font-variant-numeric: lining-nums tabular-nums;
-	}
-
-	.mk-lan-lead {
-		font-family: var(--font-body);
-		font-size: var(--step--1);
-		line-height: 1.6;
-		color: var(--text-body);
-		max-width: var(--content-width);
-		margin: var(--space-unit) 0 0;
-		text-wrap: pretty;
 	}
 
 	.mk-city-group {
@@ -198,26 +170,4 @@ if (oldestMosque?.opened) {
 		font-variant-numeric: lining-nums tabular-nums;
 	}
 
-	.mk-section {
-		margin-top: var(--space-phi);
-	}
-
-	.mk-section h2 {
-		font-size: var(--step-1);
-	}
-
-	.mk-attrib {
-		font-family: var(--font-body);
-		font-size: var(--step--3);
-		line-height: 1.5;
-		color: var(--color-muted);
-		margin: var(--space-phi) 0 0;
-		padding-top: var(--space-half);
-		border-top: 1px solid var(--color-divider);
-	}
-
-	.mk-attrib a {
-		color: var(--color-accent);
-		text-decoration-color: currentColor;
-	}
 </style>

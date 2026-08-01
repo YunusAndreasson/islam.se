@@ -1,21 +1,39 @@
 ---
 import { type CollectionEntry, getCollection, render } from "astro:content";
+import ArticleMeta from "../../components/ArticleMeta.astro";
+import ArticleSection from "../../components/ArticleSection.astro";
+import DefinitionList from "../../components/DefinitionList.astro";
+import DiamondList from "../../components/DiamondList.astro";
 import EssayImage from "../../components/EssayImage.astro";
 import Rattelse from "../../components/Rattelse.astro";
+import SectionLink from "../../components/SectionLink.astro";
 import Base from "../../layouts/Base.astro";
-import { formatDate, getArticles } from "../../lib/articles";
+import { getArticles } from "../../lib/articles";
 import { FAKTA_ART, FAKTA_CLUSTERS, FAKTA_IMAGE_BY_SVAR, FAKTA_SLUGS } from "../../lib/fakta";
 import { SVAR_CATEGORIES } from "../../lib/svar";
 import { ORG_ID, WEBSITE_ID, breadcrumbList, faqPageJsonLd } from "../../lib/jsonld";
+import { PAGE_HERO_SIZES, PAGE_HERO_WIDTHS } from "../../lib/hero";
 
 export async function getStaticPaths() {
 	const entries = await getCollection("svar");
 	const bySlug = new Map(entries.map((e) => [e.id, e]));
 	const essayBySlug = new Map((await getArticles()).map((a) => [a.slug, a]));
+	// Reverse index of the pillar pages: whichever /fordjupning/ page lists this answer in
+	// its `related` is this answer's fördjupning. Derived rather than declared on both
+	// sides, so the pair can never drift apart.
+	const pillarBySvar = new Map<string, { slug: string; term: string }>();
+	for (const u of await getCollection("fordjupning")) {
+		for (const svarSlug of u.data.related) {
+			if (!pillarBySvar.has(svarSlug)) {
+				pillarBySvar.set(svarSlug, { slug: u.id, term: u.data.term });
+			}
+		}
+	}
 	return entries.map((entry) => ({
 		params: { slug: entry.id },
 		props: {
 			entry,
+			pillar: pillarBySvar.get(entry.id) ?? null,
 			related: (entry.data.related ?? [])
 				.map((id) => bySlug.get(id))
 				.filter((e): e is NonNullable<typeof e> => Boolean(e)),
@@ -41,12 +59,16 @@ interface Props {
 	entry: SvarEntry;
 	related: SvarEntry[];
 	essays: { slug: string; title: string }[];
+	pillar: { slug: string; term: string } | null;
 }
 
-const { entry, related, essays } = Astro.props;
+const { entry, related, essays, pillar } = Astro.props;
 const { data } = entry;
 const { Content } = await render(entry);
 const url = `https://islam.se/svar/${entry.id}/`;
+const sourceItems = (data.sources ?? []).map((s) => ({ label: s.name, href: s.url }));
+const relatedItems = related.map((r) => ({ label: r.data.title, href: `/svar/${r.id}/` }));
+const essayItems = essays.map((e) => ({ label: e.title, href: `/${e.slug}` }));
 
 // Cornerstone answers (the Five Pillars + six Articles of Faith) belong to the
 // FAKTA hub: they get a hero image so the page reads as an article, and they
@@ -74,11 +96,6 @@ const kicker = faktaCluster
 	? { name: faktaCluster.name, href: `/vad-ar-islam/#${faktaCluster.slug}` }
 	: svarCategory
 		? { name: svarCategory.name, href: `/svar/#${svarCategory.slug}` }
-		: null;
-
-const updated =
-	data.updatedAt && data.updatedAt.slice(0, 10) !== data.publishedAt.slice(0, 10)
-		? data.updatedAt
 		: null;
 
 // Article + FAQPage + breadcrumb. The page answers one primary question, so the
@@ -146,12 +163,7 @@ if (data.faq && data.faq.length > 0) jsonLd.push(faqPageJsonLd(data.faq));
 				    and to a crawler weighing freshness. Published always; revised only
 				    when a page genuinely was. Long Swedish form via the same helper the
 				    essays use, not the raw ISO slice this printed before. */}
-				<p class="svar-meta">
-					<time datetime={data.publishedAt.slice(0, 10)}>{formatDate(data.publishedAt)}</time>
-					{updated && (
-						<> &middot; <time datetime={updated.slice(0, 10)}>uppdaterad {formatDate(updated)}</time></>
-					)}
-				</p>
+				<ArticleMeta class="meta-line" publishedAt={data.publishedAt} updatedAt={data.updatedAt} />
 			</header>
 
 			{(heroArt ?? heroArticle?.heroImage) && (
@@ -160,8 +172,8 @@ if (data.faq && data.faq.length > 0) jsonLd.push(faqPageJsonLd(data.faq));
 						src={heroArt}
 						article={heroArticle}
 						alt=""
-						widths={[480, 800, 1200]}
-						sizes="(max-width: 64rem) 100vw, 64rem"
+						widths={PAGE_HERO_WIDTHS}
+						sizes={PAGE_HERO_SIZES}
 						loading="eager"
 						fetchpriority="high"
 					/>
@@ -172,62 +184,50 @@ if (data.faq && data.faq.length > 0) jsonLd.push(faqPageJsonLd(data.faq));
 				<Content />
 			</div>
 
+			{/* Up to the pillar page that covers this topic in full. Placed straight after
+			    the answer: the reader has just had the short version and is at the exact
+			    point where more depth is the obvious next step. */}
+			{pillar && (
+				<p class="svar-fordjupning">
+					<SectionLink href={`/fordjupning/${pillar.slug}/`}>
+						Fördjupning: {pillar.term}
+					</SectionLink>
+				</p>
+			)}
+
 			{data.faq && data.faq.length > 0 && (
-				<section class="svar-faq" aria-labelledby="svar-faq-rubrik">
-					<h2 id="svar-faq-rubrik">Vanliga frågor</h2>
-					<dl class="def-list">
-						{data.faq.map((f) => (
-							<div class="def-item">
-								<dt>{f.q}</dt>
-								<dd>{f.a}</dd>
-							</div>
-						))}
-					</dl>
-				</section>
+				<ArticleSection class="svar-faq" id="svar-faq-rubrik" title="Vanliga frågor">
+					<DefinitionList items={data.faq} />
+				</ArticleSection>
 			)}
 
 			{data.sources && data.sources.length > 0 && (
-				<section class="svar-sources" aria-labelledby="svar-kallor">
-					<h2 id="svar-kallor">Källor och fördjupning</h2>
-					<ul>
-						{data.sources.map((s) => (
-							<li>{s.url ? <a href={s.url} rel="noopener">{s.name}</a> : s.name}</li>
-						))}
-					</ul>
-				</section>
+				<ArticleSection class="svar-sources" id="svar-kallor" title="Källor och fördjupning">
+					<DiamondList items={sourceItems} />
+				</ArticleSection>
 			)}
 
 			{related.length > 0 && (
-				<section class="svar-related" aria-labelledby="svar-relaterat">
-					<h2 id="svar-relaterat">Relaterade frågor</h2>
-					<ul>
-						{related.map((r) => (
-							<li><a href={`/svar/${r.id}/`}>{r.data.title}</a></li>
-						))}
-					</ul>
-				</section>
+				<ArticleSection class="svar-related" id="svar-relaterat" title="Relaterade frågor">
+					<DiamondList items={relatedItems} nav />
+				</ArticleSection>
 			)}
 
 			{essays.length > 0 && (
-					<section class="svar-essays" aria-labelledby="svar-essaer">
-						<h2 id="svar-essaer">Läs vidare</h2>
-						<ul>
-							{essays.map((e) => (
-								<li><a href={`/${e.slug}`}>{e.title}</a></li>
-							))}
-						</ul>
-					</section>
+				<ArticleSection class="svar-essays" id="svar-essaer" title="Läs vidare">
+					<DiamondList items={essayItems} nav />
+				</ArticleSection>
+			)}
+
+			<p class="svar-back">
+				{isFakta ? (
+					<SectionLink direction="back" href="/vad-ar-islam/">Tillbaka till Fakta om islam</SectionLink>
+				) : (
+					<SectionLink direction="back" href="/svar/">Alla frågor och svar</SectionLink>
 				)}
+			</p>
 
-				<p class="svar-back">
-					{isFakta ? (
-						<a class="section-link back-link" href="/vad-ar-islam/">Tillbaka till Fakta om islam</a>
-					) : (
-						<a class="section-link back-link" href="/svar/">Alla frågor och svar</a>
-					)}
-				</p>
-
-				<Rattelse />
+			<Rattelse />
 		</article>
 	</main>
 </Base>
@@ -279,13 +279,6 @@ if (data.faq && data.faq.length > 0) jsonLd.push(faqPageJsonLd(data.faq));
 		}
 	}
 
-	.svar-meta {
-		font-family: var(--font-heading);
-		font-size: var(--step--3);
-		color: var(--color-muted);
-		margin: var(--space-half) 0 0;
-	}
-
 	/* Cornerstone (FAKTA) answers carry a borrowed hero so the page reads as an
 	   article. It spans the reading frame, above the body. */
 	/* The hero breaks out past the 42rem text column to the full 64rem frame, so
@@ -301,88 +294,14 @@ if (data.faq && data.faq.length > 0) jsonLd.push(faqPageJsonLd(data.faq));
 		width: 100%;
 	}
 
-	.svar-faq,
-	.svar-sources,
-	.svar-related,
-	.svar-essays {
-		margin-top: var(--space-phi);
-		padding-top: var(--space-unit);
-		border-top: 1px solid var(--color-rule);
-	}
-
-	.svar-faq h2,
-	.svar-sources h2,
-	.svar-related h2,
-	.svar-essays h2 {
-		font-size: var(--step-1);
-	}
-
-	/* The marker comes from CSS, never from the markup. reset.css nulls list markers
-	   globally and only .prose reverts that, so these three lists sat outside the
-	   revert and rendered as bare indents.
-
-	   ⚠️ A dash marker does NOT work here: the source names carry their own en-dashes
-	   ("Koranen 112:1–4", "al-ibadah.com – Monoteism"), so "–Koranen 112:1–4" put
-	   three dashes on one line doing three different jobs and the marker stopped
-	   reading as a marker. Numbers are out too — they read as footnote references and
-	   nothing in the body points at these by number. A hollow square turned 45° echoes
-	   the rub el hizb in ornament.svg, collides with no glyph in the text, and is drawn
-	   in CSS so it never depends on a font fallback. */
-	.svar-sources ul,
-	.svar-related ul,
-	.svar-essays ul {
-		font-family: var(--font-body);
-		line-height: 1.7;
-		color: var(--color-muted);
-		margin: var(--space-half) 0 0;
-		padding-left: 0;
-	}
-	.svar-sources li,
-	.svar-related li,
-	.svar-essays li {
-		position: relative;
-		padding-left: 1.35rem;
-	}
-	.svar-sources li::before,
-	.svar-related li::before,
-	.svar-essays li::before {
-		content: "";
-		position: absolute;
-		left: 0.15rem;
-		top: 0.63em;
-		width: 0.32em;
-		height: 0.32em;
-		border: 1px solid var(--color-warm);
-		transform: rotate(45deg);
-	}
-	/* ⚠️ Related/essays are navigation, not prose: every row IS a link, the heading says
-	   so and the marker repeats it. The at-rest underline that marks an inline link
-	   inside a sentence (typography.css) stacks here into a wall of rules that fights
-	   the markers, so in these two lists it stays a hover/focus affordance.
-	   Declared on both states because component styles are unlayered and therefore
-	   beat @layer base outright — including its :hover.
-
-	   ⚠️ Källor is NOT in that set. A source without a `url` renders as bare text in the
-	   same list (see the .map above), so 22 of 63 pages mix linked and unlinked rows and
-	   only colour told them apart — accent against the list's muted text measures 1.16:1
-	   light / 1.04:1 dark, under WCAG 1.4.1's 3:1. It keeps the base at-rest underline. */
-	.svar-related a,
-	.svar-essays a {
-		color: var(--color-accent);
-		text-decoration-color: transparent;
-	}
-	.svar-related a:hover,
-	.svar-essays a:hover,
-	.svar-related a:focus-visible,
-	.svar-essays a:focus-visible {
-		text-decoration-color: currentColor;
-	}
-	.svar-sources a {
-		color: var(--color-accent);
-	}
-
 	/* Placement only — the link inside is a `.section-link .back-link`. */
 	.svar-back {
 		margin-top: var(--space-phi);
+	}
+
+	/* Sits between the answer and the FAQ, so it needs the section rhythm above it but
+	   no rule — it is a single line of navigation, not a section. */
+	.svar-fordjupning {
+		margin-top: var(--space-unit);
 	}
 </style>

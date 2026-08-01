@@ -1,0 +1,11 @@
+# Secrets for the /api/rattelse Pages Function. Copy to .dev.vars (gitignored) before
+# `wrangler pages dev`; in production both live as Pages project secrets, not here.
+# See the comment in wrangler.jsonc.
+
+# Private half of the Turnstile sitekey. 1x0000000000000000000000AA is Cloudflare's
+# always-passes TEST secret — pair it with PUBLIC_TURNSTILE_SITEKEY=1x00000000000000000000AA.
+TURNSTILE_SECRET=1x0000000000000000000000AA
+
+# Salt for the SHA-256 that stands in for the reporter's IP in the rate limiter. Any
+# long random string; changing it resets the per-hour limit for everyone.
+IP_SALT=local-development-salt-not-the-real-one

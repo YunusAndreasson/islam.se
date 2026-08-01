@@ -1,0 +1,38 @@
+---
+import { Rss } from "@lucide/astro";
+import { APPLE_PODCAST_URL, PODCAST_FEED, SPOTIFY_SHOW_URL } from "../lib/podcast";
+import PodcastBrandIcon from "./PodcastBrandIcon.astro";
+
+interface Props {
+	class?: string;
+	actionClass: string;
+	iconSize?: number;
+	includeFeed?: boolean;
+	showLabels?: boolean;
+}
+
+const {
+	class: className,
+	actionClass,
+	iconSize = 14,
+	includeFeed = false,
+	showLabels = true,
+} = Astro.props;
+---
+
+<div class={className}>
+	<a class={actionClass} href={APPLE_PODCAST_URL} target="_blank" rel="noopener" aria-label={showLabels ? undefined : "Apple Podcasts"}>
+		<PodcastBrandIcon platform="apple" size={iconSize} />
+		{showLabels && "Apple Podcasts"}
+	</a>
+	<a class={actionClass} href={SPOTIFY_SHOW_URL} target="_blank" rel="noopener" aria-label={showLabels ? undefined : "Spotify"}>
+		<PodcastBrandIcon platform="spotify" size={iconSize} />
+		{showLabels && "Spotify"}
+	</a>
+	{includeFeed && (
+		<a class:list={[actionClass, "podcast-action--feed"]} href={PODCAST_FEED} aria-label={showLabels ? undefined : "RSS"}>
+			<Rss size={iconSize} fill="currentColor" stroke-width={0} />
+			{showLabels && "RSS"}
+		</a>
+	)}
+</div>

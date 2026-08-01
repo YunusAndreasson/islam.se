@@ -1,0 +1,43 @@
+---
+type Props = {
+	title: string;
+	meta: string;
+	lead: string;
+	updatedDate: string;
+	updatedLabel: string;
+};
+
+const { title, meta, lead, updatedDate, updatedLabel } = Astro.props;
+---
+
+<header class="mk-page-header">
+	<h1>{title}</h1>
+	<p class="mk-page-meta">
+		{meta} · Senast uppdaterad <time datetime={updatedDate}>{updatedLabel}</time>
+	</p>
+	<p class="mk-page-lead">{lead}</p>
+</header>
+
+<style>
+	.mk-page-header h1 {
+		margin: var(--space-half) 0 0;
+	}
+
+	.mk-page-meta {
+		font-family: var(--font-body);
+		font-size: var(--step--3);
+		color: var(--color-muted);
+		margin: var(--space-half) 0 0;
+		font-variant-numeric: lining-nums tabular-nums;
+	}
+
+	.mk-page-lead {
+		font-family: var(--font-body);
+		font-size: var(--step--1);
+		line-height: 1.6;
+		color: var(--text-body);
+		max-width: var(--content-width);
+		margin: var(--space-unit) 0 0;
+		text-wrap: pretty;
+	}
+</style>

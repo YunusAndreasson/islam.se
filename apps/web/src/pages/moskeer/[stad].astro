@@ -1,5 +1,10 @@
 ---
+import DefinitionList from "../../components/DefinitionList.astro";
 import MosqueList from "../../components/moskeer/MosqueList.astro";
+import MosquePageHeader from "../../components/moskeer/MosquePageHeader.astro";
+import NearbyLinkList from "../../components/NearbyLinkList.astro";
+import SectionLink from "../../components/SectionLink.astro";
+import TitledSection from "../../components/TitledSection.astro";
 import Base from "../../layouts/Base.astro";
 import { SCB_POP_YEAR } from "../../lib/bonetider/meta";
 import { MOSKEER_ENABLED } from "../../lib/config";
@@ -46,6 +51,7 @@ const nearbyCities = place
 			.filter((g): g is MosqueCityGroup => g !== undefined)
 			.slice(0, 6)
 	: [];
+const nearbyCityLinks = nearbyCities.map((g) => ({ href: `/moskeer/${g.citySlug}/`, label: g.city }));
 
 const updated = new Date(MOSKEER_DATA_DATE).toLocaleDateString("sv-SE", {
 	year: "numeric",
@@ -127,52 +133,38 @@ if (oldestMosque?.opened) {
 	]}
 >
 	<main id="main" class="home moskeer-stad">
-		<header class="mk-stad-header">
-			<h1>{n === 1 ? "Moské" : "Moskéer"} i {city}</h1>
-			<p class="mk-stad-meta">
-				{lanLabel} · {n} {n === 1 ? "moské" : "moskéer"} ·
-				Senast uppdaterad <time datetime={MOSKEER_DATA_DATE}>{updated}</time>
-			</p>
-			<p class="mk-stad-lead">{lead}</p>
-		</header>
+		<MosquePageHeader
+			title={`${n === 1 ? "Moské" : "Moskéer"} i ${city}`}
+			meta={`${lanLabel} · ${n} ${n === 1 ? "moské" : "moskéer"}`}
+			lead={lead}
+			updatedDate={MOSKEER_DATA_DATE}
+			updatedLabel={updated}
+		/>
 
 		<MosqueList mosques={mosques} />
 
 		<section class="mk-section mk-cross" aria-label="Se även">
 			<p>
-				<a href={`/bonetider/${citySlug}/`} class="section-link arrow-link">Bönetider i {city}</a>
+				<SectionLink href={`/bonetider/${citySlug}/`}>Bönetider i {city}</SectionLink>
 			</p>
 			<p>
-				<a href={`/moskeer/lan/${lanSlug(lan)}/`} class="section-link arrow-link">Alla moskéer i {lanLabel}</a>
+				<SectionLink href={`/moskeer/lan/${lanSlug(lan)}/`}>Alla moskéer i {lanLabel}</SectionLink>
 			</p>
 		</section>
 
-		<section class="mk-section" aria-labelledby="mk-stad-faq">
-			<h2 id="mk-stad-faq">Vanliga frågor</h2>
-			<dl class="def-list">
-				{faq.map((f) => (
-					<div class="def-item">
-						<dt>{f.q}</dt>
-						<dd>{f.a}</dd>
-					</div>
-				))}
-			</dl>
-		</section>
+		<TitledSection class="mk-section" id="mk-stad-faq" title="Vanliga frågor">
+			<DefinitionList items={faq} />
+		</TitledSection>
 
 		{nearbyCities.length > 0 && (
-			<section class="mk-section" aria-labelledby="mk-stad-nearby">
-				<h2 id="mk-stad-nearby">Moskéer i närliggande orter</h2>
-				<ul class="mk-nearby">
-					{nearbyCities.map((g) => (
-						<li><a href={`/moskeer/${g.citySlug}/`}>{g.city}</a></li>
-					))}
-				</ul>
-			</section>
+			<TitledSection class="mk-section" id="mk-stad-nearby" title="Moskéer i närliggande orter">
+				<NearbyLinkList class="mk-nearby" items={nearbyCityLinks} />
+			</TitledSection>
 		)}
 
 		<p class="mk-attrib">
 			Underlaget kan vara ofullständigt. Adresser och positioner är ungefärliga.
-			<a class="arrow-link" href="/moskeer">Karta över alla moskéer i Sverige</a>
+			<a class="arrow-link" href="/moskeer/">Karta över alla moskéer i Sverige</a>
 		</p>
 	</main>
 </Base>
@@ -181,36 +173,6 @@ if (oldestMosque?.opened) {
 	.moskeer-stad {
 		margin-block: var(--space-phi);
 		overflow-x: clip;
-	}
-
-	.mk-stad-header h1 {
-		margin: var(--space-half) 0 0;
-	}
-
-	.mk-stad-meta {
-		font-family: var(--font-body);
-		font-size: var(--step--3);
-		color: var(--color-muted);
-		margin: var(--space-half) 0 0;
-		font-variant-numeric: lining-nums tabular-nums;
-	}
-
-	.mk-stad-lead {
-		font-family: var(--font-body);
-		font-size: var(--step--1);
-		line-height: 1.6;
-		color: var(--text-body);
-		max-width: var(--content-width);
-		margin: var(--space-unit) 0 0;
-		text-wrap: pretty;
-	}
-
-	.mk-section {
-		margin-top: var(--space-phi);
-	}
-
-	.mk-section h2 {
-		font-size: var(--step-1);
 	}
 
 	.mk-cross {
@@ -223,43 +185,4 @@ if (oldestMosque?.opened) {
 		margin: 0;
 	}
 
-	.mk-nearby {
-		list-style: none;
-		margin: var(--space-half) 0 0;
-		padding: 0;
-		display: flex;
-		flex-wrap: wrap;
-		gap: 0.5rem 0.75rem;
-	}
-
-	.mk-nearby a {
-		font-family: var(--font-body);
-		font-size: var(--step--2);
-		color: var(--color-text);
-		text-decoration: none;
-		border: 1px solid var(--color-divider);
-		border-radius: var(--radius-pill);
-		padding: 0.3rem 0.85rem;
-		transition: border-color 0.15s ease;
-	}
-
-	.mk-nearby a:hover {
-		border-color: var(--color-warm);
-		color: var(--color-accent);
-	}
-
-	.mk-attrib {
-		font-family: var(--font-body);
-		font-size: var(--step--3);
-		line-height: 1.5;
-		color: var(--color-muted);
-		margin: var(--space-phi) 0 0;
-		padding-top: var(--space-half);
-		border-top: 1px solid var(--color-divider);
-	}
-
-	.mk-attrib a {
-		color: var(--color-accent);
-		text-decoration-color: currentColor;
-	}
 </style>

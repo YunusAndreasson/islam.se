@@ -44,13 +44,19 @@ Notifications.setNotificationHandler({
   }),
 });
 
-/** Ask for permission if not already granted. Returns whether we may post alerts. */
-async function requestNotificationPermission(): Promise<boolean> {
-  const current = await Notifications.getPermissionsAsync();
-  if (current.granted) return true;
-  if (!current.canAskAgain) return false;
-  const next = await Notifications.requestPermissionsAsync();
-  return next.granted;
+/**
+ * Will the OS actually deliver our alerts?
+ *
+ * `status.granted` alone is NOT the answer on iOS: provisional authorization (the
+ * "quiet" tier, where notifications land in the notification centre without ever
+ * interrupting) reports `granted: false` while still delivering everything we
+ * schedule. Reading only `.granted` would tell a provisional user their prayer
+ * reminders are blocked while they are in fact arriving.
+ */
+function isAllowed(status: Notifications.NotificationPermissionsStatus): boolean {
+  return (
+    status.granted || status.ios?.status === Notifications.IosAuthorizationStatus.PROVISIONAL
+  );
 }
 
 async function ensureAndroidChannel(): Promise<void> {
@@ -81,11 +87,47 @@ async function ensureNotificationCategory(): Promise<void> {
   ]);
 }
 
+/** Read the current permission WITHOUT prompting — safe to call on any render. */
 export async function getNotificationPermissionState(): Promise<NotificationPermissionState> {
   try {
     const current = await Notifications.getPermissionsAsync();
-    if (current.granted) return 'granted';
+    if (isAllowed(current)) return 'granted';
     return current.canAskAgain ? 'undetermined' : 'denied';
+  } catch {
+    return 'unknown';
+  }
+}
+
+/**
+ * Fire the OS permission prompt. **Only ever call this from an explicit user gesture** —
+ * iOS grants exactly one prompt per install, and once it is spent the only way back is
+ * the system Settings app. Everything else in this module reads the permission instead
+ * (see getNotificationPermissionState / syncPrayerNotifications), so the dialog has
+ * exactly two entry points, both a direct tap: the map's notification hint and the
+ * Inställningar toggle.
+ *
+ * Returns the settled state so the caller can react to the user's answer in the same
+ * turn as their tap — no polling, no lag.
+ */
+export async function requestNotificationPermission(): Promise<NotificationPermissionState> {
+  try {
+    const current = await Notifications.getPermissionsAsync();
+    if (isAllowed(current)) return 'granted';
+    // Already refused at the OS level: asking again is a silent no-op, so report the
+    // truth and let the caller offer the system-settings route instead.
+    if (!current.canAskAgain) return 'denied';
+    // The channel must exist BEFORE the prompt on Android 13+ — expo's own permission
+    // example creates it first, noting "a channel is needed for the permissions prompt
+    // to appear". Requesting first and creating the channel afterwards (what this module
+    // used to do) can leave the POST_NOTIFICATIONS dialog unshown.
+    await ensureAndroidChannel();
+    const next = await Notifications.requestPermissionsAsync({
+      // Alert + sound only. The handler above sets `shouldSetBadge: false` and nothing in
+      // the app ever writes a badge count, so asking for badge authorization would claim
+      // a capability we never use. Ask for exactly what we exercise.
+      ios: { allowAlert: true, allowSound: true, allowBadge: false },
+    });
+    return isAllowed(next) ? 'granted' : 'denied';
   } catch {
     return 'unknown';
   }
@@ -138,9 +180,13 @@ export async function syncPrayerNotifications(
     if (generation !== syncGeneration) return;
     if (!settings.notifications.enabled) return;
 
-    const granted = await requestNotificationPermission();
+    // CHECK, never ask. This runs on mount and on every foreground, so prompting from
+    // here would fire the OS dialog with no tap behind it — and spend iOS's single
+    // lifetime prompt on a moment the user never asked for. Permission is requested only
+    // from requestNotificationPermission(), which is wired to explicit taps.
+    const permission = await Notifications.getPermissionsAsync();
     if (generation !== syncGeneration) return;
-    if (!granted) return;
+    if (!isAllowed(permission)) return;
     await ensureAndroidChannel();
     await ensureNotificationCategory();
     if (generation !== syncGeneration) return;

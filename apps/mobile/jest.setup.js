@@ -136,6 +136,29 @@ jest.mock('react-native-reanimated', () => {
       return output[last];
     },
     Extrapolation: { CLAMP: 'clamp', EXTEND: 'extend', IDENTITY: 'identity' },
+    // Layout-animation builders (MosqueCard's FadeIn/OutDown, NotificationHint's
+    // FadeIn/OutUp). Reanimated's real builders are chainable classes; under test the
+    // Animated.View shim ignores entering/exiting entirely, so all these need to do is
+    // survive the chained .duration()/.delay()/.springify() calls without throwing.
+    ...(() => {
+      const chainable = () => {
+        const builder = {};
+        for (const m of ['duration', 'delay', 'springify', 'easing', 'withInitialValues']) {
+          builder[m] = () => builder;
+        }
+        return builder;
+      };
+      const builders = {};
+      for (const dir of ['Up', 'Down', 'Left', 'Right']) {
+        builders[`FadeIn${dir}`] = chainable();
+        builders[`FadeOut${dir}`] = chainable();
+        builders[`SlideIn${dir}`] = chainable();
+        builders[`SlideOut${dir}`] = chainable();
+      }
+      builders.FadeIn = chainable();
+      builders.FadeOut = chainable();
+      return builders;
+    })(),
   };
 });
 
@@ -282,6 +305,16 @@ jest.mock('expo-notifications', () => ({
   cancelScheduledNotificationAsync: jest.fn(async () => {}),
   SchedulableTriggerInputTypes: { DATE: 'date' },
   AndroidImportance: { HIGH: 4, DEFAULT: 3 },
+  // Mirrors expo-notifications' real enum values. src/lib/notifications treats
+  // PROVISIONAL as allowed (iOS reports granted:false for the quiet tier), so this
+  // must be present or that check reads a property off undefined.
+  IosAuthorizationStatus: {
+    NOT_DETERMINED: 0,
+    DENIED: 1,
+    AUTHORIZED: 2,
+    PROVISIONAL: 3,
+    EPHEMERAL: 4,
+  },
 }));
 
 // react-native-gesture-handler: render the root + detector as pass-throughs and

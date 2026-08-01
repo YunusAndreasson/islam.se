@@ -559,32 +559,115 @@ export class ClaudeRunner extends EventEmitter {
 	 * Any preamble text before the first --- is ignored (Claude thinking).
 	 */
 	public parseMarkdownWithMeta(output: string): { meta: unknown; body: string } | null {
-		// Find the first JSON object enclosed in --- markers
-		const fmMatch = output.match(/---[ \t]*\n([\s\S]*?)\n---/);
-		if (!fmMatch?.[1]) return null;
+		return this.parseMarkdownWithMetaDetailed(output).parsed;
+	}
 
-		const rawMeta = fmMatch[1].trim();
+	/**
+	 * As parseMarkdownWithMeta, but reports which step failed. Callers that discard a
+	 * long stage output on failure should log `reason` — "no frontmatter block found"
+	 * is wrong in two of the three failure modes.
+	 */
+	public parseMarkdownWithMetaDetailed(output: string): {
+		parsed: { meta: unknown; body: string } | null;
+		reason?: string;
+	} {
+		const candidates = this.frontmatterCandidates(output);
+		if (candidates.length === 0) return { parsed: null, reason: "no --- fenced block found" };
 
-		// Try to parse as JSON directly
-		let meta: unknown;
-		try {
-			meta = JSON.parse(rawMeta);
-		} catch {
-			// Frontmatter exists but isn't valid JSON — try extracting JSON from it
-			const extracted = this.extractJSON(rawMeta);
-			if (!extracted) return null;
-			try {
-				meta = JSON.parse(extracted);
-			} catch {
-				return null;
+		let lastError = "";
+		for (const cand of candidates) {
+			const meta = this.parseMetaBlock(cand.raw);
+			if (meta.ok) {
+				return { parsed: { meta: meta.value, body: output.slice(cand.bodyStart).trim() } };
 			}
+			lastError = meta.error;
+		}
+		return {
+			parsed: null,
+			reason: `--- block found but its metadata would not parse (${lastError})`,
+		};
+	}
+
+	/**
+	 * Frontmatter regions to try, in order. The lazy-regex candidate is first so that
+	 * output which parses today keeps parsing identically; the brace-balanced candidate
+	 * only rescues cases the regex truncates.
+	 */
+	private frontmatterCandidates(output: string): { raw: string; bodyStart: number }[] {
+		const out: { raw: string; bodyStart: number }[] = [];
+
+		const fmMatch = output.match(/---[ \t]*\n([\s\S]*?)\n---/);
+		if (fmMatch?.[1]) {
+			out.push({
+				raw: fmMatch[1].trim(),
+				bodyStart: output.indexOf(fmMatch[0]) + fmMatch[0].length,
+			});
 		}
 
-		// Body is everything after the closing ---
-		const closingIdx = output.indexOf(fmMatch[0]) + fmMatch[0].length;
-		const body = output.slice(closingIdx).trim();
+		// ⚠️ A `---` line inside the JSON (a reviewer quoting the body's footnote rule, say)
+		// truncates the lazy regex mid-object. Balance braces instead, then treat the next
+		// `---` line as the closing fence.
+		const openIdx = output.search(/---[ \t]*\n/);
+		if (openIdx !== -1) {
+			const braceIdx = output.indexOf("{", openIdx);
+			if (braceIdx !== -1) {
+				const balanced = this.extractJSON(output.slice(braceIdx));
+				if (balanced) {
+					const afterJson = braceIdx + balanced.length;
+					const fence = output.slice(afterJson).search(/\n[ \t]*---[ \t]*(\n|$)/);
+					const bodyStart =
+						fence === -1
+							? afterJson
+							: afterJson + fence + output.slice(afterJson + fence).indexOf("---") + 3;
+					out.push({ raw: balanced, bodyStart });
+				}
+			}
+		}
+		return out;
+	}
 
-		return { meta, body };
+	private parseMetaBlock(raw: string): { ok: true; value: unknown } | { ok: false; error: string } {
+		const attempts = [raw, this.extractJSON(raw), this.repairJSONStrings(raw)];
+		let error = "not valid JSON";
+		for (const text of attempts) {
+			if (!text) continue;
+			try {
+				return { ok: true, value: JSON.parse(text) };
+			} catch (e) {
+				error = e instanceof Error ? e.message : String(e);
+			}
+		}
+		return { ok: false, error };
+	}
+
+	/**
+	 * Escape raw control characters that models leave unescaped inside JSON strings.
+	 * Only touches characters inside string literals, so structure is never altered.
+	 */
+	private repairJSONStrings(text: string): string {
+		const ESCAPES: Record<string, string> = { "\n": "\\n", "\r": "\\r", "\t": "\\t" };
+		let out = "";
+		let inString = false;
+		let escapeNext = false;
+		for (const char of text) {
+			if (escapeNext) {
+				out += char;
+				escapeNext = false;
+				continue;
+			}
+			if (char === "\\") {
+				out += char;
+				escapeNext = true;
+				continue;
+			}
+			if (char === '"') {
+				inString = !inString;
+				out += char;
+				continue;
+			}
+			out += inString && ESCAPES[char] ? ESCAPES[char] : char;
+		}
+		return out;
 	}
 
 	/**

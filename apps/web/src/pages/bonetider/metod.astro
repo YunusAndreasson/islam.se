@@ -1,7 +1,10 @@
 ---
 import AppPromo from "../../components/AppPromo.astro";
 import Breadcrumb from "../../components/Breadcrumb.astro";
+import DefinitionList from "../../components/DefinitionList.astro";
 import OmBonen from "../../components/bonetider/OmBonen.astro";
+import SectionLink from "../../components/SectionLink.astro";
+import TitledSection from "../../components/TitledSection.astro";
 import Base from "../../layouts/Base.astro";
 import { ORG_ID, breadcrumbList, faqPageJsonLd } from "../../lib/jsonld";
 import { BONETIDER_DATA_DATE, SCB_REF, SCB_SOURCE } from "../../lib/bonetider/meta";
@@ -51,6 +54,14 @@ const faq = [
 		a: "Bönen heter på arabiska ṣalāh (صلاة) och själva tidtabellen awqāt aṣ-ṣalāh; på turkiska och bosniska används ordet namaz. De fem dagliga bönerna är Fajr, Ẓuhr, ʿAṣr, Maghrib och ʿIshāʾ, plus Shurūq (soluppgången) som avslutar Fajr-tiden.",
 	},
 ];
+const prayerDefinitions = [
+	{ term: "Fajr", description: "gryningen, när solen står en bestämd vinkel under horisonten före soluppgången." },
+	{ term: "Shurūq", description: "soluppgången, då Fajr-tiden tar slut." },
+	{ term: "Ẓuhr", description: "strax efter att solen passerat sin högsta punkt (solens meridianpassage)." },
+	{ term: "ʿAṣr", description: "på eftermiddagen, när ett föremåls skugga nått en viss längd (beror på madhhab)." },
+	{ term: "Maghrib", description: "solnedgången." },
+	{ term: "ʿIshāʾ", description: "kvällen, när solen åter står en bestämd vinkel under horisonten." },
+];
 ---
 
 <Base
@@ -88,33 +99,23 @@ const faq = [
 			</p>
 		</header>
 
-		<section aria-labelledby="m-boner">
-			<h2 id="m-boner">De sex tiderna</h2>
+		<TitledSection id="m-boner" title="De sex tiderna">
 			<p>
 				Varje bön är knuten till en bestämd solhöjd. Vi visar sex tidpunkter per dygn:
 			</p>
-			<dl class="def-list">
-				<div class="def-item"><dt>Fajr</dt><dd>gryningen, när solen står en bestämd vinkel under horisonten före soluppgången.</dd></div>
-				<div class="def-item"><dt>Shurūq</dt><dd>soluppgången, då Fajr-tiden tar slut.</dd></div>
-				<div class="def-item"><dt>Ẓuhr</dt><dd>strax efter att solen passerat sin högsta punkt (solens meridianpassage).</dd></div>
-				<div class="def-item"><dt>ʿAṣr</dt><dd>på eftermiddagen, när ett föremåls skugga nått en viss längd (beror på madhhab).</dd></div>
-				<div class="def-item"><dt>Maghrib</dt><dd>solnedgången.</dd></div>
-				<div class="def-item"><dt>ʿIshāʾ</dt><dd>kvällen, när solen åter står en bestämd vinkel under horisonten.</dd></div>
-			</dl>
-		</section>
+			<DefinitionList items={prayerDefinitions} />
+		</TitledSection>
 
-		<section aria-labelledby="m-solen">
-			<h2 id="m-solen">Solens läge, inte en tabell</h2>
+		<TitledSection id="m-solen" title="Solens läge, inte en tabell">
 			<p>
 				Tiderna räknas fram ur solens position med en etablerad astronomisk modell (NOAA:s
 				solpositionsalgoritm). För varje ort används latitud och longitud, så att Ẓuhr infaller exakt
 				när solen står som högst just där, och Fajr/ʿIshāʾ när solen når de valda vinklarna under
 				horisonten. Allt sker direkt i din webbläsare och uppdateras varje dygn.
 			</p>
-		</section>
+		</TitledSection>
 
-		<section aria-labelledby="m-metoder">
-			<h2 id="m-metoder">Beräkningsmetoder och madhhab</h2>
+		<TitledSection id="m-metoder" title="Beräkningsmetoder och madhhab">
 			<p>
 				Olika institutioner använder lite olika vinklar för Fajr och ʿIshāʾ. Standard på islam.se är{" "}
 				<strong>Muslim World League</strong> (Fajr 18°, ʿIshāʾ 17°), som passar svenska latituder väl.
@@ -128,10 +129,9 @@ const faq = [
 				enskilda böner med några minuter under Avancerat. Inställningarna sparas lokalt i din
 				webbläsare.
 			</p>
-		</section>
+		</TitledSection>
 
-		<section aria-labelledby="m-latitud">
-			<h2 id="m-latitud">Höga latituder och ljusa nätter</h2>
+		<TitledSection id="m-latitud" title="Höga latituder och ljusa nätter">
 			<p>
 				På svenska breddgrader blir sommarnatten ofta så ljus att solen aldrig sjunker de 18° under
 				horisonten som krävs för den vanliga vinkelberäkningen av Fajr och ʿIshāʾ. Då används en regel
@@ -140,18 +140,16 @@ const faq = [
 				råder delar av året, är denna regel nödvändig. Inställningen väljs automatiskt utifrån orten,
 				men kan ändras manuellt.
 			</p>
-		</section>
+		</TitledSection>
 
-		<section aria-labelledby="m-tid">
-			<h2 id="m-tid">Tidszon och sommartid</h2>
+		<TitledSection id="m-tid" title="Tidszon och sommartid">
 			<p>
 				Alla tider visas i tidszonen Europe/Stockholm och växlar automatiskt mellan normaltid och
 				sommartid (DST). Tiderna gäller den valda ortens position, inte din webbläsares tidszon.
 			</p>
-		</section>
+		</TitledSection>
 
-		<section aria-labelledby="m-kallor">
-			<h2 id="m-kallor">Källor och öppenhet</h2>
+		<TitledSection id="m-kallor" title="Källor och öppenhet">
 			<p>Varifrån uppgifterna kommer och hur de används:</p>
 			<ul class="bt-sources">
 				<li>
@@ -174,23 +172,18 @@ const faq = [
 				astronomiskt enligt ovan; helgdagar som ramadan och de två högtiderna fastställs av officiell
 				månsiktning och kan därför skilja sig något från ren uträkning.
 			</p>
-		</section>
+		</TitledSection>
 
-		<section aria-labelledby="m-faq">
-			<h2 id="m-faq">Vanliga frågor</h2>
-			<dl class="def-list">
-				{faq.map((f) => (
-					<div class="def-item"><dt>{f.q}</dt><dd>{f.a}</dd></div>
-				))}
-			</dl>
-		</section>
+		<TitledSection id="m-faq" title="Vanliga frågor">
+			<DefinitionList items={faq} />
+		</TitledSection>
 
 		<OmBonen />
 
 		<AppPromo variant="compact" />
 
 		<p class="bt-back">
-			<a class="section-link back-link" href="/bonetider/">Alla bönetider i Sverige</a>
+			<SectionLink direction="back" href="/bonetider/">Alla bönetider i Sverige</SectionLink>
 		</p>
 	</main>
 </Base>

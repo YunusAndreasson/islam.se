@@ -59,10 +59,19 @@ function query<T>(sql: string, remote: boolean): T[] {
 		console.error(err.stderr || err.stdout || String(error));
 		process.exit(1);
 	}
-	const start = out.indexOf("[");
-	if (start === -1) return [];
-	const parsed = JSON.parse(out.slice(start)) as { results?: T[] }[];
-	return parsed.flatMap((r) => r.results ?? []);
+	// ⚠️ wrangler prints a banner and log lines to stdout ahead of the payload, and one
+	// bracket in any of them ("[wrangler:info] …", an update notice) makes the first "["
+	// the wrong one. Try each candidate rather than assuming, so the triage tool cannot
+	// die on a SyntaxError over a version notice.
+	for (let i = out.indexOf("["); i !== -1; i = out.indexOf("[", i + 1)) {
+		try {
+			const parsed = JSON.parse(out.slice(i)) as { results?: T[] }[];
+			if (Array.isArray(parsed)) return parsed.flatMap((r) => r.results ?? []);
+		} catch {
+			// Not the start of the payload — keep looking.
+		}
+	}
+	return [];
 }
 
 function field(label: string, value: string | null): string {

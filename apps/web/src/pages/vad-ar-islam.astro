@@ -1,9 +1,11 @@
 ---
 import { getCollection } from "astro:content";
 import FaktaCard from "../components/FaktaCard.astro";
+import HairlineLinkList from "../components/HairlineLinkList.astro";
 import Honorific from "../components/Honorific.astro";
 import PageHead from "../components/PageHead.astro";
 import QuranVerse from "../components/QuranVerse.astro";
+import TitledSection from "../components/TitledSection.astro";
 import { getArticles } from "../lib/articles";
 import { FAKTA_ART, FAKTA_CLUSTERS } from "../lib/fakta";
 import { ORG_ID, WEBSITE_ID, breadcrumbList, collectionPageJsonLd } from "../lib/jsonld";
@@ -41,6 +43,13 @@ const clusters = FAKTA_CLUSTERS.map((c) => ({
 		entry: svarBySlug.get(it.svarSlug),
 	})),
 }));
+
+const furtherLinks = [
+	{ label: "Alla frågor och svar om islam", href: "/svar/" },
+	{ label: "Bönetider för hela Sverige", href: "/bonetider/" },
+	{ label: "Det islamiska året och dess högtider", href: "/det-islamiska-aret/" },
+	{ label: "Essäer om islamisk tradition och svenskt kulturarv", href: "/essaer/" },
+];
 
 // The cornerstone answers, for the collection structured data (preserves a Q&A
 // CollectionPage signal on the hub; the full corpus lives at /svar/).
@@ -135,19 +144,13 @@ const jsonLd = [
 				</section>
 			))}
 
-			<section class="pillar-more" aria-labelledby="pillar-mer">
-				<h2 id="pillar-mer">Läs vidare</h2>
-				<ul class="pillar-links">
-					<li><a href="/svar/">Alla frågor och svar om islam</a></li>
-					<li><a href="/bonetider/">Bönetider för hela Sverige</a></li>
-					<li><a href="/det-islamiska-aret/">Det islamiska året och dess högtider</a></li>
-					<li><a href="/essaer/">Essäer om islamisk tradition och svenskt kulturarv</a></li>
-				</ul>
+			<TitledSection class="pillar-more" id="pillar-mer" title="Läs vidare">
+				<HairlineLinkList class="pillar-links" items={furtherLinks} />
 				<p class="pillar-fiqh">
 					För fördjupade rättsliga (fiqh-)frågor hänvisar vi till{" "}
 					<a href="https://al-ibadah.com" rel="noopener">al-ibadah.com</a>.
 				</p>
-			</section>
+			</TitledSection>
 		</article>
 	</main>
 </Base>
@@ -222,41 +225,6 @@ const jsonLd = [
 	.pillar-more h2 {
 		font-size: var(--step-1);
 		margin: 0 0 var(--space-half);
-	}
-
-	/* Four of the site's largest destinations. As a bulleted list they were 19px
-	   tall — under the 24px target floor this codebase holds itself to elsewhere
-	   — and read as an afterthought at the foot of a cornerstone page. Same quiet
-	   hairline rows the rest of the site uses for functional lists, with the
-	   shared .arrow-link affordance. */
-	.pillar-links {
-		font-family: var(--font-body);
-		font-size: var(--step--1);
-		color: var(--text-body);
-		margin: 0;
-		padding: 0;
-		list-style: none;
-		max-width: var(--content-width);
-	}
-
-	.pillar-links li + li {
-		border-top: 1px solid var(--color-rule);
-	}
-
-	.pillar-links a {
-		display: block;
-		color: var(--color-accent);
-		text-decoration: none;
-		padding-block: 0.7rem;
-
-		&:hover {
-			text-decoration: underline;
-			text-underline-offset: 0.15em;
-		}
-
-		&:focus-visible {
-			border-radius: var(--radius-xs);
-		}
 	}
 
 	.pillar-fiqh {

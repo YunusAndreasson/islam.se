@@ -1,0 +1,58 @@
+---
+import { Check, Copy } from "@lucide/astro";
+
+interface Props {
+	code: string;
+	copyLabel: string;
+}
+
+const { code, copyLabel } = Astro.props;
+---
+
+<div class="code-block">
+	<pre><code>{code}</code></pre>
+	<button class="copy-code" type="button" aria-label={copyLabel}>
+		<Copy class="copy-icon" size={14} stroke-width={1.75} />
+		<Check class="check-icon" size={14} stroke-width={2} style="display:none" />
+	</button>
+</div>
+
+<style>
+	.code-block {
+		position: relative;
+	}
+
+	.copy-code {
+		position: absolute;
+		top: 0.5rem;
+		right: 0.5rem;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 2rem;
+		height: 2rem;
+		padding: 0;
+		color: var(--color-muted);
+		background: color-mix(in srgb, var(--color-bg), var(--color-muted) 8%);
+		border: 1px solid var(--color-divider);
+		border-radius: 0.25rem;
+		cursor: pointer;
+		opacity: 0;
+		transition: opacity 0.15s, color 0.15s, border-color 0.15s;
+
+		&:hover {
+			color: var(--color-accent);
+			border-color: var(--color-warm);
+		}
+	}
+
+	.code-block:hover .copy-code {
+		opacity: 1;
+	}
+
+	@media (hover: none) {
+		.copy-code {
+			opacity: 1;
+		}
+	}
+</style>

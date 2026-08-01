@@ -30,8 +30,8 @@ async function build(): Promise<Map<string, VerseCitation[]>> {
 		}
 	}
 
-	// Order citers most-recent-first so derivation points the daily verse at the
-	// freshest essay that engages it.
+	// Order citers most-recent-first so related surfaces can point to the freshest
+	// essay that engages a verse.
 	for (const arr of map.values()) {
 		arr.sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime());
 	}

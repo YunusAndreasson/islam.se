@@ -98,8 +98,8 @@ async function buildArticles(): Promise<Article[]> {
 	return built;
 }
 
-// getArticles() is called many times per page (index, Citat, FaktaHome,
-// getTankare, getVerseOfDay…) and across the 2000+ generated pages; memoize() runs
+// getArticles() is called many times per page (index, FaktaBand, getTankare…)
+// and across the 2000+ generated pages; memoize() runs
 // the build+sort+per-entry shaping once and shares the one promise. See lib/cache.ts.
 export const getArticles = memoize(buildArticles);
 

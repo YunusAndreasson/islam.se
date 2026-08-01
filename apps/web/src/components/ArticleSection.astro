@@ -1,0 +1,16 @@
+---
+import type { HTMLAttributes } from "astro/types";
+import TitledSection from "./TitledSection.astro";
+
+type Props = Omit<HTMLAttributes<"section">, "id" | "title"> & {
+	id: string;
+	title: string;
+};
+
+const { class: className, id, title, ...attrs } = Astro.props;
+const classes = ["article-section", className].filter(Boolean).join(" ");
+---
+
+<TitledSection {...attrs} class={classes} id={id} title={title}>
+	<slot />
+</TitledSection>

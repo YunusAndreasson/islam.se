@@ -10,8 +10,10 @@
 // located events. The primary win is this indexable, well-headed page ranking for
 // date queries ("ramadan 2026 datum", "eid 2026"); the Event markup is supporting
 // structure (and now passes validation — the location field was the critical gap).
-import PageHead from "../components/PageHead.astro";
-import Base from "../layouts/Base.astro";
+import CollectionIndexPage from "../components/CollectionIndexPage.astro";
+import DefinitionList from "../components/DefinitionList.astro";
+import MarkesdagList from "../components/MarkesdagList.astro";
+import TitledSection from "../components/TitledSection.astro";
 import { breadcrumbList, faqPageJsonLd } from "../lib/jsonld";
 import { type Markesdag, getUpcomingMarkesdagar, gregorian } from "../lib/markesdagar";
 
@@ -95,9 +97,12 @@ const leadSummary =
 const faqLd = dateFaq.length > 0 ? [faqPageJsonLd(dateFaq)] : [];
 ---
 
-<Base
-	title={`${ramadan ? `Ramadan ${ramadan.startISO.slice(0, 4)} & ` : ""}Det islamiska året — islam.se`}
+<CollectionIndexPage
+	title="Det islamiska året"
+	pageTitle={`${ramadan ? `Ramadan ${ramadan.startISO.slice(0, 4)} & ` : ""}Det islamiska året — islam.se`}
 	description={`${ramadan ? `Ramadan ${ramadan.startISO.slice(0, 4)}, ` : ""}Eid al-fitr, Eid al-adha, Arafa, Ashura och hajj — datum i både gregoriansk och islamisk kalender (Umm al-Qura).`}
+	lead="De återkommande högtiderna och fastedagarna, räknade från utvandringen (hijra) till Medina år 622. Datumen följer Umm al-Qura-kalendern och visas här mot den gregorianska; eftersom varje månad inleds med den nya månens iakttagelse kan en dag infalla tidigare eller senare. Endast det som har stöd i hadith tas upp."
+	mainClass="home md-page"
 	jsonLd={[
 		breadcrumbList([
 			{ name: "Hem", url: "/" },
@@ -107,14 +112,6 @@ const faqLd = dateFaq.length > 0 ? [faqPageJsonLd(dateFaq)] : [];
 		...eventLd,
 	]}
 >
-	<main id="main" class="home md-page">
-		<PageHead title="Det islamiska året">
-			De återkommande högtiderna och fastedagarna, räknade från utvandringen (hijra) till Medina år 622.
-			Datumen följer Umm al-Qura-kalendern och visas här mot den gregorianska; eftersom varje månad
-			inleds med den nya månens iakttagelse kan en dag infalla tidigare eller senare. Endast det som
-			har stöd i hadith tas upp.
-		</PageHead>
-
 		{leadSummary && <p class="lead md-answer">{leadSummary}</p>}
 
 		<p class="md-subscribe label">
@@ -129,18 +126,7 @@ const faqLd = dateFaq.length > 0 ? [faqPageJsonLd(dateFaq)] : [];
 					{g.hijriYear}
 					<span class="md-year-greg">e.H. &middot; {g.gregSpan}</span>
 				</h2>
-				<ul class="md-list">
-					{g.rows.map((e) => (
-						<li class="md-row" data-end={e.endISO ?? e.startISO}>
-							<p class="label md-greg"><time datetime={e.startISO}>{e.gregorian}</time></p>
-							<div class="md-body">
-								<p class="md-name">{e.name}</p>
-								{e.note && <p class="md-note">{e.note}</p>}
-							</div>
-							<p class="md-hijri">{e.hijriLabel}</p>
-						</li>
-					))}
-				</ul>
+				<MarkesdagList rows={g.rows} />
 			</section>
 		))}
 
@@ -152,20 +138,11 @@ const faqLd = dateFaq.length > 0 ? [faqPageJsonLd(dateFaq)] : [];
 		</p>
 
 		{dateFaq.length > 0 && (
-			<section class="md-faq" aria-labelledby="md-faq-head">
-				<h2 id="md-faq-head">Vanliga frågor</h2>
-				<dl class="def-list">
-					{dateFaq.map((f) => (
-						<div class="def-item">
-							<dt>{f.q}</dt>
-							<dd>{f.a}</dd>
-						</div>
-					))}
-				</dl>
-			</section>
+			<TitledSection class="md-faq" id="md-faq-head" title="Vanliga frågor">
+				<DefinitionList items={dateFaq} />
+			</TitledSection>
 		)}
-	</main>
-</Base>
+</CollectionIndexPage>
 
 <style>
 	/* The same quiet two-column rhythm as the homepage section (Markesdagar.astro),

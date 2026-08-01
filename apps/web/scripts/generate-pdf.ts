@@ -47,13 +47,16 @@ interface MdastNode {
 // Ornament SVG (rub el-hizb)
 // ---------------------------------------------------------------------------
 
-const ORNAMENT_SVG = `<svg viewBox="0 -2 120 22" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <line x1="0" y1="9" x2="48" y2="9" stroke="#999" stroke-width="0.5" stroke-linecap="round"/>
-  <rect x="53" y="2" width="14" height="14" stroke="#999" stroke-width="0.8" fill="none"/>
-  <rect x="53" y="2" width="14" height="14" stroke="#999" stroke-width="0.8" fill="none" transform="rotate(45 60 9)"/>
-  <circle cx="60" cy="9" r="2" stroke="#999" stroke-width="0.7" fill="none"/>
-  <line x1="72" y1="9" x2="120" y2="9" stroke="#999" stroke-width="0.5" stroke-linecap="round"/>
-</svg>`;
+// Read from public/ rather than inlining a copy: both files are emitted by
+// scripts/generate-brand-assets.mjs, and a second copy here would silently drift
+// from the site the moment the mark changes.
+// ⚠️ The shipped ornament is white because the site uses it as a CSS mask, where the
+// channel is the alpha. Print needs a real grey.
+const ORNAMENT_SVG = readFileSync(join(process.cwd(), "public/ornament.svg"), "utf8").replaceAll(
+	'"white"',
+	'"#999"',
+);
+const MARK_SVG = readFileSync(join(process.cwd(), "public/brand-mark.svg"), "utf8");
 
 // ---------------------------------------------------------------------------
 // Markdown processor
@@ -441,8 +444,8 @@ function buildDocument(articles: Article[]): string {
     Essäer om islamisk intellektuell tradition\\
     och svenskt kulturarv
   ]
-  #v(30pt)
-  #image("ornament.svg", width: 120pt)
+  #v(34pt)
+  #image("brand-mark.svg", width: 44pt)
 ]
 #v(1fr)
 #align(center, text(font: "Source Sans 3", 11pt, fill: luma(102))[${year}])
@@ -549,6 +552,7 @@ async function main() {
 	// Write build files
 	mkdirSync(BUILD_DIR, { recursive: true });
 	writeFileSync(join(BUILD_DIR, "ornament.svg"), ORNAMENT_SVG);
+	writeFileSync(join(BUILD_DIR, "brand-mark.svg"), MARK_SVG);
 	writeFileSync(join(BUILD_DIR, "book.typ"), buildDocument(articles));
 
 	// Compile with Typst

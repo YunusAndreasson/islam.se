@@ -1,0 +1,159 @@
+---
+import type { HTMLAttributes } from "astro/types";
+import type { Article } from "../lib/articles";
+import EssayImage from "./EssayImage.astro";
+
+type TextRowImage = {
+	src?: ImageMetadata;
+	article?: Article;
+	widths: number[];
+	sizes: string;
+};
+
+type TextRowItem = {
+	href: string;
+	title: string;
+	description?: string;
+	image?: TextRowImage | null;
+	attrs?: HTMLAttributes<"li">;
+};
+
+type Props = HTMLAttributes<"ul"> & {
+	items: readonly TextRowItem[];
+	variant?: "media" | "question";
+	titleElement?: "h2" | "span";
+	prefetch?: "tap" | "hover" | "viewport" | "load";
+};
+
+const {
+	class: className,
+	items,
+	variant = "media",
+	titleElement = variant === "media" ? "h2" : "span",
+	prefetch,
+	...attrs
+} = Astro.props;
+
+const Title = titleElement;
+---
+
+<ul {...attrs} class:list={["text-row-list", `text-row-list--${variant}`, className]}>
+	{items.map((item) => (
+		<li {...item.attrs}>
+			<a href={item.href} data-astro-prefetch={prefetch}>
+				{item.image && (
+					<span class="text-row-thumb media-frame">
+						<EssayImage
+							src={item.image.src}
+							article={item.image.article}
+							alt=""
+							widths={item.image.widths}
+							sizes={item.image.sizes}
+							loading="lazy"
+						/>
+					</span>
+				)}
+				<span class="text-row-text">
+					<Title class="text-row-title">{item.title}</Title>
+					{item.description && <span class="text-row-desc">{item.description}</span>}
+				</span>
+			</a>
+		</li>
+	))}
+</ul>
+
+<style>
+	.text-row-list {
+		list-style: none;
+		margin: var(--text-row-list-margin, 0);
+		padding: 0;
+	}
+
+	.text-row-list a {
+		text-decoration: none;
+		color: inherit;
+	}
+
+	.text-row-title {
+		display: block;
+		margin: 0;
+		font-family: var(--font-heading);
+		color: var(--color-accent);
+	}
+
+	.text-row-desc {
+		display: block;
+		font-family: var(--font-body);
+		line-height: 1.55;
+		color: var(--color-muted);
+		max-width: var(--content-width);
+		text-wrap: pretty;
+	}
+
+	.text-row-list a:hover .text-row-title,
+	.text-row-list a:focus-visible .text-row-title {
+		text-decoration: underline;
+		text-underline-offset: 0.15em;
+	}
+
+	.text-row-list--media li + li {
+		margin-top: var(--space-unit);
+		padding-top: var(--text-row-media-separator-padding, 0);
+		border-top: var(--text-row-media-separator, 0);
+	}
+
+	.text-row-list--media a {
+		display: grid;
+		grid-template-columns: 120px 1fr;
+		gap: var(--space-unit);
+		align-items: start;
+	}
+
+	.text-row-list--media a:not(:has(.text-row-thumb)) {
+		grid-template-columns: 1fr;
+	}
+
+	.text-row-list--media .text-row-thumb :global(img) {
+		aspect-ratio: 3 / 2;
+		width: 100%;
+	}
+
+	.text-row-list--media .text-row-title {
+		font-size: var(--text-row-title-size, var(--step-1));
+	}
+
+	.text-row-list--media .text-row-desc {
+		margin-top: var(--text-row-desc-margin, var(--space-half));
+		font-size: var(--text-row-desc-size, var(--step--1));
+	}
+
+	.text-row-list--question li {
+		border-bottom: 1px solid var(--color-divider);
+	}
+
+	.text-row-list--question a {
+		display: block;
+		padding: var(--space-unit) 0;
+	}
+
+	.text-row-list--question .text-row-title {
+		font-weight: 600;
+		font-size: var(--step--1);
+		max-width: var(--content-width);
+	}
+
+	.text-row-list--question .text-row-desc {
+		margin-top: 0.25rem;
+		font-size: var(--step--2);
+	}
+
+	@media (width <= 34rem) {
+		.text-row-list--media a {
+			grid-template-columns: 1fr;
+		}
+
+		.text-row-list--media .text-row-thumb {
+			display: none;
+		}
+	}
+</style>
