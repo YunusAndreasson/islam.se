@@ -33,6 +33,7 @@ import {
   getNotificationPermissionState,
   NOTIFY_PRAYERS,
   type NotificationPermissionState,
+  requestNotificationPermission,
 } from '@/lib/notifications';
 import {
   computePrayerTimes,
@@ -96,22 +97,28 @@ export default function Installningar() {
     };
   }, [isFocused, settings.notifications.enabled]);
 
-  // Warn once (haptically) if the user turned notifications ON but the OS has them blocked —
-  // a discrete negative outcome of their tap. Set by the Toggle's enable path and cleared on
-  // disable; a screen opened with notifications already-denied stays silent (passive state,
-  // not a fresh failure). The permission is *requested* app-side in _layout's sync, so the
-  // denied read can lag the toggle — hence this keys on the permission value settling to a
-  // definitive granted/denied rather than on the toggle instant.
-  const enableRequestedRef = useRef(false);
-  useEffect(() => {
-    if (!enableRequestedRef.current) return;
-    if (notificationPermission === 'denied') {
-      enableRequestedRef.current = false;
-      hapticWarning();
-    } else if (notificationPermission === 'granted') {
-      enableRequestedRef.current = false;
+  // Turning the toggle ON asks the OS right there, awaited under the finger — one of only
+  // two places in the app that fires the notification prompt (the other is the map's
+  // notification hint). syncPrayerNotifications deliberately never asks: it runs on every
+  // foreground, so prompting from it would spend iOS's single lifetime dialog with no tap
+  // behind it. Because the answer settles inline, a refusal can warn immediately — no
+  // deferred "did the permission read change?" bookkeeping.
+  const onNotificationsToggle = (enabled: boolean): void => {
+    if (!enabled) {
+      update({ notifications: { ...settings.notifications, enabled: false } });
+      return;
     }
-  }, [notificationPermission]);
+    void (async () => {
+      const state = await requestNotificationPermission();
+      setNotificationPermission(state);
+      // Enable either way. On a refusal that is not a lie — it is what makes the Status row
+      // and the "Öppna …" recovery link below appear, and it means a user who later allows
+      // notifications in system settings starts receiving them on the next sync.
+      update({ notifications: { ...settings.notifications, enabled: true } });
+      // A discrete negative outcome the user just triggered — the haptics policy's warning case.
+      if (state === 'denied') hapticWarning();
+    })();
+  };
 
   // "Uppdatera plats" confirmation — a brief "Uppdaterad ✓" flash after a TAP-initiated
   // refresh resolves, so the user knows the action did something. Auto-acquires (mount /
@@ -357,12 +364,7 @@ export default function Installningar() {
           <Toggle
             label="Påminn om bönetider"
             value={settings.notifications.enabled}
-            onValueChange={(enabled) => {
-              // Remember an *enable* attempt so the effect above can warn once if the OS has
-              // notifications blocked; disabling clears any pending warning.
-              enableRequestedRef.current = enabled;
-              update({ notifications: { ...settings.notifications, enabled } });
-            }}
+            onValueChange={onNotificationsToggle}
           />
           {settings.notifications.enabled ? (
             <View style={[styles.row, styles.rowDivider]}>

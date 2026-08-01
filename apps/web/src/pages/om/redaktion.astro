@@ -1,5 +1,6 @@
 ---
-import Base from "../../layouts/Base.astro";
+import ArticlePage from "../../components/ArticlePage.astro";
+import RuledFacts from "../../components/RuledFacts.astro";
 import { formatDate } from "../../lib/articles";
 import { ORG_ID, breadcrumbList } from "../../lib/jsonld";
 
@@ -8,9 +9,76 @@ const POLICY_UPDATED = "2026-07-29";
 
 const description =
 	"Redaktionella principer för islam.se: vad vi publicerar, vilka källor texterna vilar på, hur de granskas och hur du anmäler ett fel.";
+
+const mastheadFacts = [
+	{ term: "Grundad", html: '2003, av <a href="https://bilal.se" rel="author">Bilal</a>' },
+	{
+		term: "Redaktion",
+		html: '<a href="https://bilal.se" rel="author">Bilal</a> och <a href="https://andreassonphoto.com" rel="author">Yunus</a>',
+	},
+	{ term: "Utgivningsort", html: "Sverige" },
+	{
+		term: "Sidan uppdaterad",
+		html: `<time datetime="${POLICY_UPDATED}">${formatDate(POLICY_UPDATED)}</time>`,
+	},
+];
+
+const libraryFacts = [
+	{ term: "Arabiska klassiker", html: "20&nbsp;106 citat ur 131 verk" },
+	{ term: "Svensk litteratur", html: "31&nbsp;956 citat ur 578 verk" },
+	{ term: "Fornnordiskt och engelskt", html: "7&nbsp;006 citat" },
+	{ term: "Koranen", html: "6&nbsp;233 verser" },
+	{ term: "Böcker i fulltext", html: "153 titlar" },
+];
+
+type PipelineStep = {
+	name: string;
+	description: string;
+	exit?: string;
+	kind?: "gate" | "end";
+};
+
+const pipelineSteps: readonly PipelineStep[] = [
+	{
+		name: "Uppslag",
+		description: "Ämnet måste gå att belägga ur källorna.",
+	},
+	{
+		name: "Efterforskning",
+		description: "Underlaget hämtar vi ur biblioteket ovan.",
+	},
+	{
+		name: "Källkritik",
+		description:
+			"Uppgifter utifrån vägs efter källans tillförlitlighet. Vissa källor använder vi inte, och vi håller reda på vilka som visat sig hålla.",
+	},
+	{
+		name: "Faktagranskning",
+		description:
+			"Varje citat kontrolleras mot sin källa, varje siffra mot ett oberoende belägg, varje hadith mot sin samling och varje versnummer mot versen.",
+		exit: "Håller underlaget inte, blir det ingen text.",
+		kind: "gate",
+	},
+	{
+		name: "Skrivande",
+		description: "Först då skrivs texten.",
+	},
+	{
+		name: "Omläsning",
+		description:
+			"Texten läses igenom flera gånger, varje gång med ett avgränsat uppdrag: bär resonemanget, är de abstrakta begreppen konkretiserade, är svenskan idiomatisk, ligger trosläran inom traditionen.",
+		exit: "Håller texten inte, går den tillbaka till skrivbordet.",
+		kind: "gate",
+	},
+	{
+		name: "Publicering",
+		description: "Texten går ut med källförteckning och datum.",
+		kind: "end",
+	},
+];
 ---
 
-<Base
+<ArticlePage
 	title="Redaktionella principer — islam.se"
 	description={description}
 	jsonLd={[
@@ -33,38 +101,16 @@ const description =
 		]),
 	]}
 >
-	<main id="main" class="content-column">
-		<header class="article-header">
-			<h1>Redaktionella principer</h1>
-			<p class="redaktion-lead">
-				islam.se publicerar essäer och källbelagda svar om islam på svenska. Här står vad vi
-				publicerar, vilka källor texterna vilar på, hur de granskas innan de går ut, och hur du
-				anmäler ett fel.
-			</p>
-		</header>
+	<Fragment slot="header">
+		<p class="redaktion-lead">
+			islam.se publicerar essäer och källbelagda svar om islam på svenska. Här står vad vi
+			publicerar, vilka källor texterna vilar på, hur de granskas innan de går ut, och hur du
+			anmäler ett fel.
+		</p>
+	</Fragment>
 
 		{/* Utgivningsruta. Facts only — nothing asserted the site can't show. */}
-		<dl class="redaktion-masthead">
-			<div>
-				<dt>Grundad</dt>
-				<dd>2003, av <a href="https://bilal.se" rel="author">Bilal</a></dd>
-			</div>
-			<div>
-				<dt>Redaktion</dt>
-				<dd>
-					<a href="https://bilal.se" rel="author">Bilal</a> och{" "}
-					<a href="https://andreassonphoto.com" rel="author">Yunus</a>
-				</dd>
-			</div>
-			<div>
-				<dt>Utgivningsort</dt>
-				<dd>Sverige</dd>
-			</div>
-			<div>
-				<dt>Sidan uppdaterad</dt>
-				<dd><time datetime={POLICY_UPDATED}>{formatDate(POLICY_UPDATED)}</time></dd>
-			</div>
-		</dl>
+		<RuledFacts items={mastheadFacts} />
 
 		<div class="article-body prose redaktion-prose">
 			<h2>Vad vi publicerar</h2>
@@ -87,74 +133,20 @@ const description =
 			</p>
 
 			{/* Counted from data/*.db by hand — bump the date below when they are recounted. */}
-			<dl class="redaktion-masthead redaktion-figures">
-				<div>
-					<dt>Arabiska klassiker</dt>
-					<dd>20&nbsp;106 citat ur 131 verk</dd>
-				</div>
-				<div>
-					<dt>Svensk litteratur</dt>
-					<dd>31&nbsp;956 citat ur 578 verk</dd>
-				</div>
-				<div>
-					<dt>Fornnordiskt och engelskt</dt>
-					<dd>7&nbsp;006 citat</dd>
-				</div>
-				<div>
-					<dt>Koranen</dt>
-					<dd>6&nbsp;233 verser</dd>
-				</div>
-				<div>
-					<dt>Böcker i fulltext</dt>
-					<dd>153 titlar</dd>
-				</div>
-			</dl>
+			<RuledFacts class="redaktion-figures" items={libraryFacts} />
 			<p class="redaktion-figures-note">Siffrorna gäller den 27 juli 2026.</p>
 
 			<h2>Så blir en text till</h2>
 			<p>Varje text går samma väg innan vi publicerar den.</p>
 
 			<ol class="pipeline">
-				<li class="pipeline-step">
-					<span class="pipeline-name">Uppslag</span>
-					<p>Ämnet måste gå att belägga ur källorna.</p>
-				</li>
-				<li class="pipeline-step">
-					<span class="pipeline-name">Efterforskning</span>
-					<p>Underlaget hämtar vi ur biblioteket ovan.</p>
-				</li>
-				<li class="pipeline-step">
-					<span class="pipeline-name">Källkritik</span>
-					<p>
-						Uppgifter utifrån vägs efter källans tillförlitlighet. Vissa källor använder vi inte,
-						och vi håller reda på vilka som visat sig hålla.
-					</p>
-				</li>
-				<li class="pipeline-step is-gate">
-					<span class="pipeline-name">Faktagranskning</span>
-					<p>
-						Varje citat kontrolleras mot sin källa, varje siffra mot ett oberoende belägg, varje
-						hadith mot sin samling och varje versnummer mot versen.
-					</p>
-					<p class="pipeline-exit">Håller underlaget inte, blir det ingen text.</p>
-				</li>
-				<li class="pipeline-step">
-					<span class="pipeline-name">Skrivande</span>
-					<p>Först då skrivs texten.</p>
-				</li>
-				<li class="pipeline-step is-gate">
-					<span class="pipeline-name">Omläsning</span>
-					<p>
-						Texten läses igenom flera gånger, varje gång med ett avgränsat uppdrag: bär
-						resonemanget, är de abstrakta begreppen konkretiserade, är svenskan idiomatisk, ligger
-						trosläran inom traditionen.
-					</p>
-					<p class="pipeline-exit">Håller texten inte, går den tillbaka till skrivbordet.</p>
-				</li>
-				<li class="pipeline-step is-end">
-					<span class="pipeline-name">Publicering</span>
-					<p>Texten går ut med källförteckning och datum.</p>
-				</li>
+				{pipelineSteps.map((step) => (
+					<li class:list={["pipeline-step", step.kind && `is-${step.kind}`]}>
+						<span class="pipeline-name">{step.name}</span>
+						<p>{step.description}</p>
+						{step.exit && <p class="pipeline-exit">{step.exit}</p>}
+					</li>
+				))}
 			</ol>
 
 			<p>
@@ -185,8 +177,7 @@ const description =
 				texterna med en AI-assistent beskriver <a href="/ai/">AI-sidan</a> hur du kopplar in dem.
 			</p>
 		</div>
-	</main>
-</Base>
+</ArticlePage>
 
 <style>
 	.redaktion-lead {
@@ -199,19 +190,10 @@ const description =
 		text-wrap: pretty;
 	}
 
-	/* A quiet ruled table, not a boxed card: label left, fact right. */
-	.redaktion-masthead {
-		max-width: var(--content-width);
-		margin: var(--space-phi) 0 0;
-		padding: 0;
-		border-top: 1px solid var(--color-rule);
-		font-size: var(--step--2);
-	}
-
 	/* Same ruled-facts table as the masthead, reused for the library figures — the
 	   format is what keeps a column of numbers reading as data rather than a boast. */
 	.redaktion-figures {
-		margin-top: var(--space-unit);
+		--ruled-facts-margin: var(--space-unit) 0 0;
 	}
 
 	.redaktion-figures-note {
@@ -219,50 +201,6 @@ const description =
 		font-size: var(--step--3);
 		color: var(--color-muted);
 		margin: var(--space-half) 0 0;
-	}
-
-	.redaktion-masthead > div {
-		display: grid;
-		grid-template-columns: 11rem 1fr;
-		gap: 0.5rem 1.5rem;
-		padding: 0.65rem 0;
-		border-bottom: 1px solid var(--color-divider);
-	}
-
-	.redaktion-masthead dt {
-		font-family: var(--font-heading);
-		font-size: var(--step--3);
-		font-weight: 500;
-		letter-spacing: 0.05em;
-		text-transform: uppercase;
-		font-feature-settings: "case";
-		color: var(--color-muted);
-		/* Optical: small caps sit high against the text beside them. */
-		padding-top: 0.15em;
-	}
-
-	.redaktion-masthead dd {
-		margin: 0;
-		font-family: var(--font-body);
-		color: var(--text-body);
-	}
-
-	.redaktion-masthead a {
-		color: var(--color-accent);
-		text-decoration: none;
-	}
-
-	.redaktion-masthead a:hover {
-		text-decoration: underline;
-		text-underline-offset: 0.15em;
-	}
-
-	/* Too narrow for two columns — stack. */
-	@media (width <= 30rem) {
-		.redaktion-masthead > div {
-			grid-template-columns: 1fr;
-			gap: 0.2rem;
-		}
 	}
 
 	/* Route from idea to publication: one flow that carries its own descriptions, so

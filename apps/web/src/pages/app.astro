@@ -7,6 +7,7 @@ import AppPromo from "../components/AppPromo.astro";
 import Base from "../layouts/Base.astro";
 import { APP_FEATURES, APP_STORE_URL, PLAY_STORE_URL } from "../lib/app";
 import { ORG_ID, breadcrumbList } from "../lib/jsonld";
+import { CARD_WIDTHS } from "../lib/hero";
 
 const description =
 	"Hämta islam.se-appen för iPhone och Android: bönetider för hela Sverige, en påminnelse före varje bön, nästa bön på hemskärmen och en qiblakompass. Fungerar utan uppkoppling.";
@@ -85,7 +86,7 @@ const shots = [
 					<Image
 						src={s.src}
 						alt={s.alt}
-						widths={[192, 384, 576]}
+						widths={CARD_WIDTHS}
 						sizes="(max-width: 640px) 58vw, 12rem"
 						loading="lazy"
 					/>

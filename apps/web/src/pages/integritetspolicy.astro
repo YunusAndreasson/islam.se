@@ -1,11 +1,12 @@
 ---
-import Base from "../layouts/Base.astro";
+import ArticlePage from "../components/ArticlePage.astro";
+import SectionOrnament from "../components/SectionOrnament.astro";
 import { breadcrumbList } from "../lib/jsonld";
 
 const updated = "29 juli 2026";
 ---
 
-<Base
+<ArticlePage
 	title="Integritetspolicy — islam.se"
 	description="Så hanterar islam.se-appen dina uppgifter: din plats lämnar aldrig enheten, inga konton, ingen spårning, ingen reklam."
 	jsonLd={[
@@ -24,11 +25,6 @@ const updated = "29 juli 2026";
 		]),
 	]}
 >
-	<main id="main" class="content-column">
-		<header class="article-header">
-			<h1>Integritetspolicy</h1>
-		</header>
-
 		<div class="article-body prose">
 			<p>
 				islam.se-appen är byggd för att samla in så lite som möjligt. Den visar bönetider,
@@ -117,19 +113,15 @@ const updated = "29 juli 2026";
 				<a href="mailto:support@islam.se">support@islam.se</a>.
 			</p>
 
-			<div class="section-ornament"></div>
+			<SectionOrnament />
 
-			<p class="policy-updated">Senast uppdaterad: {updated}</p>
+			<p class="meta-line policy-updated">Senast uppdaterad: {updated}</p>
 		</div>
-	</main>
-</Base>
+</ArticlePage>
 
 <style>
 	.policy-updated {
-		font-family: var(--font-heading);
-		font-size: var(--step--3);
 		letter-spacing: 0.04em;
-		color: var(--color-muted);
 		text-align: center;
 		margin-top: var(--space-unit);
 	}

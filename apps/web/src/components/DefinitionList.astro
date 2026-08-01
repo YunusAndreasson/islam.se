@@ -1,0 +1,24 @@
+---
+type DefinitionItem =
+	| { term: string; description: string }
+	| { q: string; a: string };
+
+interface Props {
+	items: readonly DefinitionItem[];
+}
+
+const { items } = Astro.props;
+---
+
+<dl class="def-list">
+	{items.map((item) => {
+		const term = "term" in item ? item.term : item.q;
+		const description = "description" in item ? item.description : item.a;
+		return (
+			<div class="def-item">
+				<dt>{term}</dt>
+				<dd>{description}</dd>
+			</div>
+		);
+	})}
+</dl>

@@ -1,34 +1,39 @@
 ---
-import Base from "../layouts/Base.astro";
+import { Copy } from "@lucide/astro";
+import ArticlePage from "../components/ArticlePage.astro";
+import CopyCodeBlock from "../components/CopyCodeBlock.astro";
+import SectionOrnament from "../components/SectionOrnament.astro";
 import { getArticles } from "../lib/articles";
 
 const articles = await getArticles();
 const articleCount = articles.length;
+const mcpTools = [
+	{ name: "search_articles", description: "Fritextsökning bland alla essäer" },
+	{ name: "get_article", description: "Hämtar en hel essä med metadata" },
+	{ name: "list_articles", description: "Listar alla publicerade essäer" },
+];
+const claudeDesktopConfig = `{
+  "mcpServers": {
+    "islam-se": {
+      "url": "https://mcp.islam.se/mcp"
+    }
+  }
+}`;
+const claudeCodeCommand = "claude mcp add -s user --transport http islam-se https://mcp.islam.se/mcp";
 ---
 
-<Base title="AI — islam.se" description="Anslut din AI-assistent till islam.se och sök bland alla essäer direkt i samtalet.">
-	<main id="main" class="content-column">
-		<header class="article-header">
-			<h1>AI</h1>
-		</header>
-
+<ArticlePage title="AI — islam.se" description="Anslut din AI-assistent till islam.se och sök bland alla essäer direkt i samtalet.">
 		<div class="article-body prose ai-prose">
 			<p>Samtliga {articleCount} essäer finns tillgängliga via en öppen <a href="https://modelcontextprotocol.io" target="_blank" rel="noopener">MCP-server</a> &ndash; ett protokoll som låter AI-assistenter använda externa verktyg. Claude, ChatGPT och andra assistenter kan söka i, läsa och citera essäerna direkt i samtalet.</p>
 
 			<div class="tool-list">
 				<dl>
-					<div class="tool-item">
-						<dt><code>search_articles</code></dt>
-						<dd>Fritextsökning bland alla essäer</dd>
-					</div>
-					<div class="tool-item">
-						<dt><code>get_article</code></dt>
-						<dd>Hämtar en hel essä med metadata</dd>
-					</div>
-					<div class="tool-item">
-						<dt><code>list_articles</code></dt>
-						<dd>Listar alla publicerade essäer</dd>
-					</div>
+					{mcpTools.map((tool) => (
+						<div class="tool-item">
+							<dt><code>{tool.name}</code></dt>
+							<dd>{tool.description}</dd>
+						</div>
+					))}
 				</dl>
 			</div>
 
@@ -36,15 +41,12 @@ const articleCount = articles.length;
 				<span class="server-url-label">Serveradress</span>
 				<code class="server-url-value">https://mcp.islam.se/mcp</code>
 				<button class="copy-btn" type="button" aria-label="Kopiera serveradress">
-					<svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-						<rect x="5.5" y="5.5" width="8" height="8" rx="1.5" stroke="currentColor" stroke-width="1.25" />
-						<path d="M10.5 5.5V3.5a1.5 1.5 0 0 0-1.5-1.5H3.5A1.5 1.5 0 0 0 2 3.5V9a1.5 1.5 0 0 0 1.5 1.5h2" stroke="currentColor" stroke-width="1.25" />
-					</svg>
+					<Copy size={14} stroke-width={1.75} />
 					<span class="copy-label">Kopiera</span>
 				</button>
 			</div>
 
-			<div class="section-ornament"></div>
+			<SectionOrnament />
 
 			<h2>Claude Desktop</h2>
 			<ol>
@@ -52,24 +54,7 @@ const articleCount = articles.length;
 				<li>Gå till <strong>Developer</strong> &rarr; <strong>Edit Config</strong>.</li>
 				<li>Lägg till:</li>
 			</ol>
-			<div class="code-block">
-				<pre><code>{`{
-  "mcpServers": {
-    "islam-se": {
-      "url": "https://mcp.islam.se/mcp"
-    }
-  }
-}`}</code></pre>
-				<button class="copy-code" type="button" aria-label="Kopiera kod">
-					<svg class="copy-icon" width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-						<rect x="5.5" y="5.5" width="8" height="8" rx="1.5" stroke="currentColor" stroke-width="1.25" />
-						<path d="M10.5 5.5V3.5a1.5 1.5 0 0 0-1.5-1.5H3.5A1.5 1.5 0 0 0 2 3.5V9a1.5 1.5 0 0 0 1.5 1.5h2" stroke="currentColor" stroke-width="1.25" />
-					</svg>
-					<svg class="check-icon" width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true" style="display:none">
-						<path d="M3 8.5l3.5 3.5 6.5-7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-					</svg>
-				</button>
-			</div>
+			<CopyCodeBlock code={claudeDesktopConfig} copyLabel="Kopiera kod" />
 			<ol start="4">
 				<li>Spara och starta om Claude.</li>
 			</ol>
@@ -88,20 +73,9 @@ const articleCount = articles.length;
 			</ol>
 
 			<h2>Claude Code</h2>
-			<div class="code-block">
-				<pre><code>claude mcp add -s user --transport http islam-se https://mcp.islam.se/mcp</code></pre>
-				<button class="copy-code" type="button" aria-label="Kopiera kommando">
-					<svg class="copy-icon" width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-						<rect x="5.5" y="5.5" width="8" height="8" rx="1.5" stroke="currentColor" stroke-width="1.25" />
-						<path d="M10.5 5.5V3.5a1.5 1.5 0 0 0-1.5-1.5H3.5A1.5 1.5 0 0 0 2 3.5V9a1.5 1.5 0 0 0 1.5 1.5h2" stroke="currentColor" stroke-width="1.25" />
-					</svg>
-					<svg class="check-icon" width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true" style="display:none">
-						<path d="M3 8.5l3.5 3.5 6.5-7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-					</svg>
-				</button>
-			</div>
+			<CopyCodeBlock code={claudeCodeCommand} copyLabel="Kopiera kommando" />
 
-			<div class="section-ornament"></div>
+			<SectionOrnament />
 
 			<h2>Prova</h2>
 			<p>När servern är kopplad, skriv till exempel:</p>
@@ -110,8 +84,7 @@ const articleCount = articles.length;
 			</blockquote>
 			<p>Assistenten söker, hittar relevanta essäer och kan citera dem med länk tillbaka till islam.se.</p>
 		</div>
-	</main>
-</Base>
+</ArticlePage>
 
 <style>
 	/* Disable book-style paragraph indentation — this is technical prose */
@@ -172,7 +145,6 @@ const articleCount = articles.length;
 		font-size: var(--step--3);
 		line-height: 1.7;
 		overflow-x: auto;
-		-webkit-overflow-scrolling: touch;
 	}
 
 	@media (width <= 480px) {
@@ -180,46 +152,6 @@ const articleCount = articles.length;
 			padding: 0.75rem 0.875rem;
 			font-size: var(--step--4);
 			border-radius: 0.25rem;
-		}
-	}
-
-	/* Code block with copy button */
-	.code-block {
-		position: relative;
-	}
-
-	.copy-code {
-		position: absolute;
-		top: 0.5rem;
-		right: 0.5rem;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		width: 2rem;
-		height: 2rem;
-		padding: 0;
-		color: var(--color-muted);
-		background: color-mix(in srgb, var(--color-bg), var(--color-muted) 8%);
-		border: 1px solid var(--color-divider);
-		border-radius: 0.25rem;
-		cursor: pointer;
-		opacity: 0;
-		transition: opacity 0.15s, color 0.15s, border-color 0.15s;
-
-		&:hover {
-			color: var(--color-accent);
-			border-color: var(--color-warm);
-		}
-	}
-
-	.code-block:hover .copy-code {
-		opacity: 1;
-	}
-
-	/* On touch devices, always show */
-	@media (hover: none) {
-		.copy-code {
-			opacity: 1;
 		}
 	}
 

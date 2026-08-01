@@ -3,7 +3,13 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { PermissionStatus } from 'expo-modules-core';
 import * as Notifications from 'expo-notifications';
 
-import { syncPrayerNotifications } from '../notifications';
+import { Platform } from 'react-native';
+
+import {
+  getNotificationPermissionState,
+  requestNotificationPermission,
+  syncPrayerNotifications,
+} from '../notifications';
 import { DEFAULT_SETTINGS, type PrayerSettings } from '../settings/types';
 
 // Stockholm — below the Arctic Circle, so all five prayers resolve to valid times
@@ -25,6 +31,24 @@ const cancelMock = Notifications.cancelAllScheduledNotificationsAsync as unknown
 const cancelScheduledMock = Notifications.cancelScheduledNotificationAsync as unknown as {
   mock: { calls: [string][] };
 };
+const requestPermissionsMock =
+  Notifications.requestPermissionsAsync as unknown as jest.MockedFunction<
+    typeof Notifications.requestPermissionsAsync
+  >;
+const channelMock = Notifications.setNotificationChannelAsync as unknown as jest.MockedFunction<
+  typeof Notifications.setNotificationChannelAsync
+>;
+
+/** Run `fn` with Platform.OS pinned, then restore — the channel path is Android-only. */
+async function withPlatform<T>(os: 'ios' | 'android', run: () => Promise<T>): Promise<T> {
+  const original = Platform.OS;
+  Object.defineProperty(Platform, 'OS', { configurable: true, get: () => os });
+  try {
+    return await run();
+  } finally {
+    Object.defineProperty(Platform, 'OS', { configurable: true, get: () => original });
+  }
+}
 
 async function waitForPermissionRequest(): Promise<void> {
   for (let i = 0; i < 20; i++) {
@@ -195,5 +219,148 @@ describe('syncPrayerNotifications lead time', () => {
     expect(cancelled).toEqual(expect.arrayContaining(['old-1', 'old-2', 'old-3']));
     // And nothing of the stale run survives in storage for a later sync to trip on.
     expect(await AsyncStorage.getItem('prayerNotificationIds:v1')).toBeNull();
+  });
+});
+
+// The permission layer guards a resource that cannot be replenished: iOS grants exactly
+// ONE notification prompt per install. Everything here protects that single shot, or the
+// correctness of reading the answer back.
+describe('notification permission', () => {
+  beforeEach(async () => {
+    scheduleMock.mockClear();
+    jest.clearAllMocks();
+    scheduleMock.mockImplementation(async () => 'id');
+    await AsyncStorage.clear();
+  });
+
+  // THE load-bearing invariant. syncPrayerNotifications runs on mount and on every
+  // AppState → 'active', so if it ever asks, the OS dialog appears with no tap behind it
+  // and a reflexive "Don't allow" permanently kills prayer reminders. It must only ever
+  // READ. (This used to call requestNotificationPermission() internally.)
+  it('never prompts from a background sync, even when permission is undetermined', async () => {
+    getPermissionsMock.mockResolvedValue({
+      granted: false,
+      canAskAgain: true,
+      status: PermissionStatus.UNDETERMINED,
+      expires: 'never',
+    });
+
+    await syncPrayerNotifications(STOCKHOLM, withNotifications({ leadMinutes: 0 }));
+
+    expect(requestPermissionsMock).not.toHaveBeenCalled();
+    // And with no permission it must not schedule either.
+    expect(scheduledTimes()).toHaveLength(0);
+  });
+
+  // iOS provisional ("quiet") authorization delivers everything we schedule but reports
+  // granted:false. Reading only `.granted` told those users their reminders were blocked
+  // while the alerts were in fact arriving — and made the sync refuse to schedule at all.
+  it('treats iOS provisional authorization as allowed', async () => {
+    getPermissionsMock.mockResolvedValue({
+      granted: false,
+      canAskAgain: true,
+      status: PermissionStatus.UNDETERMINED,
+      expires: 'never',
+      ios: { status: Notifications.IosAuthorizationStatus.PROVISIONAL },
+    } as unknown as Awaited<ReturnType<typeof Notifications.getPermissionsAsync>>);
+
+    expect(await getNotificationPermissionState()).toBe('granted');
+    // Not just cosmetic: the sync must actually schedule for a provisional user.
+    await syncPrayerNotifications(STOCKHOLM, withNotifications({ leadMinutes: 0 }));
+    expect(scheduledTimes().length).toBeGreaterThan(0);
+  });
+
+  it('reports denied only when the OS will not ask again', async () => {
+    getPermissionsMock.mockResolvedValue({
+      granted: false,
+      canAskAgain: false,
+      status: PermissionStatus.DENIED,
+      expires: 'never',
+    });
+    expect(await getNotificationPermissionState()).toBe('denied');
+
+    getPermissionsMock.mockResolvedValue({
+      granted: false,
+      canAskAgain: true,
+      status: PermissionStatus.UNDETERMINED,
+      expires: 'never',
+    });
+    expect(await getNotificationPermissionState()).toBe('undetermined');
+  });
+
+  // Android 13+ shows the POST_NOTIFICATIONS dialog only once a channel exists — expo's
+  // own permission example creates the channel first for exactly this reason. Requesting
+  // before creating it (the previous order) can leave the prompt unshown, which looks
+  // identical to a user who declined.
+  it('creates the Android channel before asking for permission', async () => {
+    getPermissionsMock.mockResolvedValue({
+      granted: false,
+      canAskAgain: true,
+      status: PermissionStatus.UNDETERMINED,
+      expires: 'never',
+    });
+
+    const order: string[] = [];
+    channelMock.mockImplementation(async () => {
+      order.push('channel');
+      return null;
+    });
+    requestPermissionsMock.mockImplementation(async () => {
+      order.push('request');
+      return {
+        granted: true,
+        canAskAgain: true,
+        status: PermissionStatus.GRANTED,
+        expires: 'never',
+      };
+    });
+
+    await withPlatform('android', () => requestNotificationPermission());
+
+    expect(order).toEqual(['channel', 'request']);
+  });
+
+  // The handler sets shouldSetBadge:false and nothing in the app ever writes a badge
+  // count, so asking for badge authorization would claim a capability we never exercise.
+  it('asks for alert and sound but not badge', async () => {
+    getPermissionsMock.mockResolvedValue({
+      granted: false,
+      canAskAgain: true,
+      status: PermissionStatus.UNDETERMINED,
+      expires: 'never',
+    });
+
+    await requestNotificationPermission();
+
+    expect(requestPermissionsMock).toHaveBeenCalledWith({
+      ios: { allowAlert: true, allowSound: true, allowBadge: false },
+    });
+  });
+
+  // Asking again after a hard denial is a silent no-op at the OS level, so spending a
+  // round-trip on it would just return a confusing "undetermined-looking" result. Report
+  // the truth so the caller can offer the system-settings route instead.
+  it('does not re-ask once the OS refuses to ask again', async () => {
+    getPermissionsMock.mockResolvedValue({
+      granted: false,
+      canAskAgain: false,
+      status: PermissionStatus.DENIED,
+      expires: 'never',
+    });
+
+    expect(await requestNotificationPermission()).toBe('denied');
+    expect(requestPermissionsMock).not.toHaveBeenCalled();
+  });
+
+  it('reports granted without prompting when permission is already held', async () => {
+    getPermissionsMock.mockResolvedValue({
+      granted: true,
+      canAskAgain: true,
+      status: PermissionStatus.GRANTED,
+      expires: 'never',
+    });
+
+    expect(await requestNotificationPermission()).toBe('granted');
+    expect(requestPermissionsMock).not.toHaveBeenCalled();
   });
 });

@@ -45,21 +45,15 @@ const NAME_FOLLOWERS = /^\s+(Knut)\b/;
 /** Already carries the honorific — the glyph is picked up on the next match. */
 const ALREADY_HONOURED = new RegExp(`^\\s*${SAW}`);
 
-/** Quotations, headings and code are reproduced as written. */
-const SKIP_TAGS = new Set([
-	"code",
-	"pre",
-	"blockquote",
-	"h1",
-	"h2",
-	"h3",
-	"h4",
-	"h5",
-	"h6",
-	"sup",
-	"script",
-	"style",
-]);
+/** Reproduced verbatim: nothing is added, and nothing is wrapped. */
+const SKIP_TAGS = new Set(["code", "pre", "sup", "script", "style"]);
+
+/** ⚠️ Quotations and headings never get an ADDED honorific — a quote is reproduced as
+ *  written — but a glyph the author DID write still has to be wrapped. Skipping these
+ *  subtrees outright dropped `.honorific` from the ﷺ/ﷻ inside the blockquotes of 20
+ *  essays: full-size ligature in body ink, no aria-label, no tooltip. Suppress the
+ *  insertion, not the walk. */
+const NO_INSERT_TAGS = new Set(["blockquote", "h1", "h2", "h3", "h4", "h5", "h6"]);
 
 const MEANING = {
 	saw: {
@@ -91,7 +85,7 @@ function honorificNode(glyph: string): HastElement {
 	};
 }
 
-function visitText(node: HastText, index: number, parent: HastElement): void {
+function visitText(node: HastText, index: number, parent: HastElement, insert: boolean): void {
 	if (typeof node.value !== "string") return;
 
 	TOKEN_RE.lastIndex = 0;
@@ -115,7 +109,7 @@ function visitText(node: HastText, index: number, parent: HastElement): void {
 		} else {
 			parts.push({ type: "text", value: m[2] });
 			const rest = node.value.slice(last);
-			if (!(ALREADY_HONOURED.test(rest) || NAME_FOLLOWERS.test(rest))) {
+			if (insert && !(ALREADY_HONOURED.test(rest) || NAME_FOLLOWERS.test(rest))) {
 				parts.push({ type: "text", value: " " });
 				parts.push(honorificNode(SAW));
 				changed = true;
@@ -134,21 +128,23 @@ function visitText(node: HastText, index: number, parent: HastElement): void {
 	parent.children.splice(index, 1, ...parts);
 }
 
-function walk(node: HastNode): void {
+function walk(node: HastNode, insert: boolean): void {
 	if (!("children" in node && node.children)) return;
 
 	for (let i = 0; i < node.children.length; i++) {
 		const child = node.children[i];
 		if (child.type === "text") {
 			const before = node.children.length;
-			visitText(child as HastText, i, node as HastElement);
+			visitText(child as HastText, i, node as HastElement, insert);
 			i += node.children.length - before;
-		} else if (child.type === "element" && !SKIP_TAGS.has((child as HastElement).tagName)) {
-			walk(child);
+		} else if (child.type === "element") {
+			const tag = (child as HastElement).tagName;
+			if (SKIP_TAGS.has(tag)) continue;
+			walk(child, insert && !NO_INSERT_TAGS.has(tag));
 		}
 	}
 }
 
 export function rehypeHonorific() {
-	return (tree: HastNode) => walk(tree);
+	return (tree: HastNode) => walk(tree, true);
 }

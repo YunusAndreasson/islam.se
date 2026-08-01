@@ -1,6 +1,8 @@
 import { getImage } from "astro:assets";
+import { getCollection } from "astro:content";
 import type { APIContext } from "astro";
 import { getArticles } from "../lib/articles";
+import { resolveHero } from "../lib/fordjupning";
 import { escapeXml } from "../lib/xml";
 
 // Image sitemap (developers.google.com/search/docs/crawling-indexing/sitemaps/image-sitemaps).
@@ -26,6 +28,25 @@ export async function GET(context: APIContext) {
 		entries.push(
 			"  <url>\n" +
 				`    <loc>${escapeXml(`${site}/${a.slug}/`)}</loc>\n` +
+				"    <image:image>\n" +
+				`      <image:loc>${escapeXml(imageUrl)}</image:loc>\n` +
+				"    </image:image>\n" +
+				"  </url>",
+		);
+	}
+
+	// The pillar pages carry a hero too — bespoke art where it exists, otherwise a
+	// borrowed essay photo. A borrowed one is deliberately NOT listed: the same file
+	// would then appear under two URLs, and Google treats the first as canonical, so the
+	// essay would lose its own entry to a page that merely reuses its picture.
+	for (const entry of await getCollection("fordjupning")) {
+		const hero = await resolveHero(entry);
+		if (!hero?.src) continue;
+		const rendition = await getImage({ src: hero.src, width: 1200, format: "webp" });
+		const imageUrl = new URL(rendition.src, `${site}/`).href;
+		entries.push(
+			"  <url>\n" +
+				`    <loc>${escapeXml(`${site}/fordjupning/${entry.id}/`)}</loc>\n` +
 				"    <image:image>\n" +
 				`      <image:loc>${escapeXml(imageUrl)}</image:loc>\n` +
 				"    </image:image>\n" +

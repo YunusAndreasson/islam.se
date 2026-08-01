@@ -1,33 +1,20 @@
 ---
+import { FOOTER_LINKS } from "../lib/navigation";
+import MarkDot from "./MarkDot.astro";
+
 const year = new Date().getFullYear();
 const path = Astro.url.pathname;
 const here = (p: string) => path === p || path === `${p}/`;
-
-// Only what the mast does NOT carry — the mast's own links are in the DOM on
-// every page (CSS-hidden below 900px), so repeating them here bought nothing.
-// Styled globally in layout.css, like the header.
-const links = [
-	{ href: "/tradar", label: "Trådar" },
-	{ href: "/tankare", label: "Tänkare" },
-	{ href: "/det-islamiska-aret", label: "Kalender" },
-	// No /moskeer even when MOSKEER_ENABLED flips — the mast carries it.
-	{ href: "/om", label: "Om" },
-	{ href: "/om/redaktion", label: "Redaktion" },
-	{ href: "/ai", label: "AI" },
-];
 ---
 
 <footer class="site-footer">
 	<nav class="site-footer-nav" aria-label="Sidfotsnavigering">
-		{links.map((l) => (
+		{FOOTER_LINKS.map((l) => (
 			<a href={l.href} aria-current={here(l.href) ? "page" : undefined}>{l.label}</a>
 		))}
 	</nav>
 
 	<div class="site-footer-colophon">
-		<p class="site-footer-names">
-			<a href="https://bilal.se">Bilal</a> och <a href="https://andreassonphoto.com">Yunus</a>
-		</p>
 		<p class="label site-footer-meta">
 			<span>Sverige, {year}</span>
 			<span class="nav-dot" aria-hidden="true">&middot;</span>
@@ -36,4 +23,9 @@ const links = [
 			<a href="/rss.xml">RSS</a>
 		</p>
 	</div>
+
+	{/* The page closes on the mark itself — the full stop of islam.se, set alone so the
+	    footer tapers from the link row to a single point. Decorative: the colophon above
+	    already links home, and a second link here would only split the target. */}
+	<MarkDot class="site-footer-mark" />
 </footer>

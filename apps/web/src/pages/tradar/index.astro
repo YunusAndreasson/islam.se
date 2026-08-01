@@ -1,15 +1,18 @@
 ---
 import { getCollection } from "astro:content";
-import PageHead from "../../components/PageHead.astro";
-import Base from "../../layouts/Base.astro";
+import CollectionIndexPage from "../../components/CollectionIndexPage.astro";
+import ThreadList from "../../components/ThreadList.astro";
 import { breadcrumbList } from "../../lib/jsonld";
 
 const threads = await getCollection("tradar");
 ---
 
-<Base
-	title="Trådar — islam.se"
+<CollectionIndexPage
+	title="Trådar"
 	description="Utvalda läsningar genom essäerna: hjärtats anatomi, tungan och sanningen, natten, maskinen och människan, Strindbergs kris."
+	lead="Essäer som hör ihop, samlade till trådar att följa."
+	backHref="/essaer/"
+	backLabel="Hela arkivet"
 	jsonLd={[
 		{
 			"@context": "https://schema.org",
@@ -24,76 +27,5 @@ const threads = await getCollection("tradar");
 		]),
 	]}
 >
-	<main id="main" class="home">
-		<PageHead title="Trådar">
-			Essäer som hör ihop, samlade till trådar att följa.
-		</PageHead>
-
-		<ul class="collection-index">
-			{threads.map((thread) => (
-				<li class="collection-index-item">
-					<a href={`/tradar/${thread.id}/`}>
-						<h2 class="collection-index-title">{thread.data.title}</h2>
-						<p class="lead collection-index-framing">{thread.data.framing}</p>
-						<p class="label collection-index-count">{thread.data.essays.length} essäer</p>
-					</a>
-				</li>
-			))}
-		</ul>
-
-		<p class="collection-back"><a class="section-link arrow-link" href="/essaer/">Hela arkivet</a></p>
-	</main>
-</Base>
-
-<style>
-	/* Two-column index on the wide canvas (one column on a phone), matching the
-	   Essäer / Fakta archive grid so every browse page fills its frame. */
-	.collection-index {
-		margin: var(--space-unit) 0 0;
-		padding: 0;
-		list-style: none;
-		display: grid;
-		grid-template-columns: repeat(auto-fill, minmax(min(100%, 26rem), 1fr));
-		column-gap: clamp(1.75rem, 4vw, 3.5rem);
-	}
-
-	.collection-index-item {
-		border-bottom: 1px solid var(--color-divider);
-	}
-
-	.collection-index-item a {
-		display: block;
-		padding-block: var(--space-unit);
-		text-decoration: none;
-		color: inherit;
-
-		&:hover .collection-index-title {
-			text-decoration: underline;
-			text-underline-offset: 0.12em;
-		}
-
-		&:focus-visible {
-			outline-offset: 0.4rem;
-		}
-	}
-
-	.collection-index-title {
-		font-family: var(--font-heading);
-		font-size: var(--step-2);
-		font-weight: 620;
-		line-height: 1.2;
-		letter-spacing: 0;
-		color: var(--color-accent);
-		margin: 0;
-	}
-
-	.collection-index-framing {
-		--lead-color: var(--text-quiet);
-		--lead-measure: 38rem;
-		--lead-margin: 0.5rem 0 0;
-	}
-
-	.collection-index-count {
-		margin: 0.5rem 0 0;
-	}
-</style>
+	<ThreadList threads={threads} />
+</CollectionIndexPage>

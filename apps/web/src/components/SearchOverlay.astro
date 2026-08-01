@@ -1,6 +1,9 @@
 ---
-import { MOSKEER_ENABLED } from "../lib/config";
+import { Search, X } from "@lucide/astro";
 import { buildPaletteIndex } from "../lib/palette";
+import { PALETTE_MINOR_LINKS, PALETTE_READ_LINKS, PALETTE_TOOL_LINKS } from "../lib/navigation";
+import SectionLink from "./SectionLink.astro";
+import Wordmark from "./Wordmark.astro";
 
 // The command palette is the site's only navigation surface, and on touch it is
 // the whole site menu. Two panes share one shell:
@@ -18,32 +21,21 @@ const sunni = index.filter((e) => e.type === "Tänkare" && e.group === "sunni");
 const western = index.filter((e) => e.type === "Tänkare" && e.group === "western");
 const tankareCount = sunni.length + western.length;
 
-// The menu's two tiers. Splitting the standing pages into "Läs" (the editorial
-// corpus) and "Verktyg" (the daily-use surfaces) is the site's real division —
-// a flat list of seven gave a reader no way to tell an archive from a clock. The
-// glosses are shorter than the palette index's: a menu row is scanned, not read.
-const READ = [
-	{ href: "/vad-ar-islam/", label: "Pelare & tro", sub: "De fem pelarna och de sex trosartiklarna." },
-	{ href: "/svar/", label: "Frågor & svar", sub: "Källbelagda svar på vanliga frågor." },
-	{ href: "/essaer/", label: "Essäer", sub: "Hela arkivet, ordnat efter ämne." },
+const paletteDestSections = [
+	{ heading: "Läs", links: PALETTE_READ_LINKS },
+	{ heading: "Verktyg", links: PALETTE_TOOL_LINKS },
 ];
-const TOOLS = [
-	{ href: "/bonetider/", label: "Bönetider", sub: "Hela Sverige, ort för ort, efter solens läge." },
-	// Gated: see MOSKEER_ENABLED in lib/config.ts.
-	...(MOSKEER_ENABLED
-		? [{ href: "/moskeer", label: "Moskéer", sub: "Karta över moskéer, län för län." }]
-		: []),
-	{ href: "/app", label: "App", sub: "Bönetider, påminnelser och qibla i fickan." },
-	{ href: "/podcast", label: "Podd", sub: "Essäerna inlästa." },
+
+const paletteChipSections = [
+	{ heading: "Ämnen", links: amnen },
+	{ heading: "Trådar", links: tradar },
 ];
-// The quiet tail: real destinations, but nothing a reader opens the menu to find.
-const MINOR = [
-	{ href: "/det-islamiska-aret/", label: "Det islamiska året" },
-	{ href: "/om/", label: "Om" },
-	{ href: "/om/redaktion/", label: "Redaktion" },
-	{ href: "/ai/", label: "AI" },
-	{ href: "/ratta/", label: "Föreslå en rättelse" },
+
+const paletteThinkerGroups = [
+	{ heading: "Den klassiska islamiska traditionen", links: sunni },
+	{ heading: "Svenska och västerländska röster", links: western },
 ];
+
 ---
 
 {/* A real <dialog>, opened with showModal(): the top layer gives the focus trap,
@@ -63,17 +55,14 @@ const MINOR = [
 	    is repeated here, in the same corner it occupies underneath, so the overlay
 	    reads as the mast expanded rather than as a screen that replaced it. */}
 	<a class="palette-home" href="/">
-		<svg class="nav-rub" aria-hidden="true" viewBox="0 0 20 20" fill="none"><rect x="3.5" y="3.5" width="13" height="13" stroke="currentColor" stroke-width="1"/><rect x="3.5" y="3.5" width="13" height="13" stroke="currentColor" stroke-width="1" transform="rotate(45 10 10)"/><circle cx="10" cy="10" r="2.85" stroke="currentColor" stroke-width="0.8"/></svg><span>islam<span class="site-tld">.se</span></span>
+		<Wordmark />
 	</a>
 	<button class="palette-close" type="button" aria-label="Stäng">
-		<svg width="18" height="18" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" aria-hidden="true"><path d="M2 2l10 10M12 2 2 12" /></svg>
+		<X size={18} stroke-width={1.75} />
 	</button>
 	<div class="palette-inner">
 		<div class="palette-field">
-			<svg class="palette-field-icon" width="20" height="20" viewBox="0 0 18 18" fill="none" aria-hidden="true">
-				<circle cx="8" cy="8" r="5.25" stroke="currentColor" stroke-width="1.25" />
-				<path d="M12 12l4 4" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" />
-			</svg>
+			<Search class="palette-field-icon" size={20} stroke-width={1.75} />
 			<input
 				class="palette-input"
 				type="search"
@@ -98,51 +87,32 @@ const MINOR = [
 		{/* The menu proper. Not a listbox: it is a set of links with headings, and
 		    Tab is the right way through it. */}
 		<nav class="palette-browse" aria-label="Meny">
-			<section class="palette-group">
-				<h2 class="palette-group-head label">Läs</h2>
-				<ul class="palette-dests">
-					{READ.map((d) => (
-						<li>
-							<a class="palette-dest" href={d.href} data-astro-prefetch="tap">
-								<span class="palette-dest-label">{d.label}</span>
-								<span class="palette-dest-sub">{d.sub}</span>
-							</a>
-						</li>
-					))}
-				</ul>
-			</section>
+			{paletteDestSections.map((section) => (
+				<section class="palette-group">
+					<h2 class="palette-group-head label">{section.heading}</h2>
+					<ul class="palette-dests">
+						{section.links.map((d) => (
+							<li>
+								<a class="palette-dest" href={d.href} data-astro-prefetch="tap">
+									<span class="palette-dest-label">{d.label}</span>
+									<span class="palette-dest-sub">{d.sub}</span>
+								</a>
+							</li>
+						))}
+					</ul>
+				</section>
+			))}
 
-			<section class="palette-group">
-				<h2 class="palette-group-head label">Verktyg</h2>
-				<ul class="palette-dests">
-					{TOOLS.map((d) => (
-						<li>
-							<a class="palette-dest" href={d.href} data-astro-prefetch="tap">
-								<span class="palette-dest-label">{d.label}</span>
-								<span class="palette-dest-sub">{d.sub}</span>
-							</a>
-						</li>
-					))}
-				</ul>
-			</section>
-
-			<section class="palette-group">
-				<h2 class="palette-group-head label">Ämnen</h2>
-				<div class="palette-chips">
-					{amnen.map((e) => (
-						<a class="palette-chip" href={e.href} data-astro-prefetch="tap">{e.label}</a>
-					))}
-				</div>
-			</section>
-
-			<section class="palette-group">
-				<h2 class="palette-group-head label">Trådar</h2>
-				<div class="palette-chips">
-					{tradar.map((e) => (
-						<a class="palette-chip" href={e.href} data-astro-prefetch="tap">{e.label}</a>
-					))}
-				</div>
-			</section>
+			{paletteChipSections.map((section) => (
+				<section class="palette-group">
+					<h2 class="palette-group-head label">{section.heading}</h2>
+					<div class="palette-chips">
+						{section.links.map((e) => (
+							<a class="palette-chip" href={e.href} data-astro-prefetch="tap">{e.label}</a>
+						))}
+					</div>
+				</section>
+			))}
 
 			{/* The long tail, folded. Eighteen proper names read as a wall next to
 			    "Bönetider" and "Essäer" — same chip, same weight, no way to tell a
@@ -153,19 +123,17 @@ const MINOR = [
 					<span class="palette-fold-count">{tankareCount}</span>
 				</summary>
 				<div class="palette-fold-body">
-					<p class="palette-group-head label">Den klassiska islamiska traditionen</p>
-					<div class="palette-chips">
-						{sunni.map((e) => (
-							<a class="palette-chip" href={e.href} data-astro-prefetch="tap">{e.label}</a>
-						))}
-					</div>
-					<p class="palette-group-head label">Svenska och västerländska röster</p>
-					<div class="palette-chips">
-						{western.map((e) => (
-							<a class="palette-chip" href={e.href} data-astro-prefetch="tap">{e.label}</a>
-						))}
-					</div>
-					<a class="section-link arrow-link palette-fold-all" href="/tankare/">Alla tänkare</a>
+					{paletteThinkerGroups.map((group) => (
+						<>
+							<p class="palette-group-head label">{group.heading}</p>
+							<div class="palette-chips">
+								{group.links.map((e) => (
+									<a class="palette-chip" href={e.href} data-astro-prefetch="tap">{e.label}</a>
+								))}
+							</div>
+						</>
+					))}
+					<SectionLink class="palette-fold-all" href="/tankare/">Alla tänkare</SectionLink>
 				</div>
 			</details>
 
@@ -183,7 +151,7 @@ const MINOR = [
 					</div>
 				</fieldset>
 				<ul class="palette-minor">
-					{MINOR.map((d) => (
+					{PALETTE_MINOR_LINKS.map((d) => (
 						<li><a href={d.href}>{d.label}</a></li>
 					))}
 				</ul>

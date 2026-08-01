@@ -15,8 +15,20 @@ const MIN_DESCRIPTION = 10;
 const MAX_PER_HOUR = 5;
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-// Site-relative path only — a full URL or a protocol-relative one is rejected.
 const PATH_PATTERN = /^\/[\w\-./åäöÅÄÖ]*$/;
+
+// Site-relative path only. The pattern alone is not enough: it allows `/` anywhere,
+// so "//evil.example/x" matches it — and that value is interpolated into the
+// notification mail as `https://islam.se{page}` and into `pnpm rattelser`'s output.
+// Resolving against the canonical origin is what actually proves it stays on-site.
+function isSitePath(page) {
+	if (!PATH_PATTERN.test(page)) return false;
+	try {
+		return new URL(page, "https://islam.se").origin === "https://islam.se";
+	} catch {
+		return false;
+	}
+}
 
 function fail(error, status) {
 	return Response.json({ ok: false, error }, { status });
@@ -70,6 +82,19 @@ export async function onRequestPost(context) {
 
 	if (!sameOrigin(request)) return fail("bad_origin", 403);
 
+	// ⚠️ Both are Pages project secrets and neither can be defaulted. An unset IP_SALT
+	// would hash the literal "undefined:<ip>", which is brute-forceable over the whole
+	// IPv4 space and breaks the promise in integritetspolicy.astro; an unset
+	// TURNSTILE_SECRET makes siteverify fail every reader with no server-side trace.
+	// Failing loudly here is the only way either becomes visible.
+	if (!(env.TURNSTILE_SECRET && env.IP_SALT)) {
+		console.error("rattelse: missing secret", {
+			turnstile_secret: Boolean(env.TURNSTILE_SECRET),
+			ip_salt: Boolean(env.IP_SALT),
+		});
+		return fail("server_misconfigured", 500);
+	}
+
 	let body;
 	try {
 		body = await request.json();
@@ -89,7 +114,7 @@ export async function onRequestPost(context) {
 	const source = field(body, "source");
 	const reporterEmail = field(body, "reporter_email");
 
-	if (!PATH_PATTERN.test(page)) return fail("bad_page", 400);
+	if (!isSitePath(page)) return fail("bad_page", 400);
 	if (description.length < MIN_DESCRIPTION) return fail("description_too_short", 400);
 	if (reporterEmail && !EMAIL_PATTERN.test(reporterEmail)) return fail("bad_email", 400);
 

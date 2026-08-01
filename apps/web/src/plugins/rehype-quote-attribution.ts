@@ -46,6 +46,9 @@ const isText = (n: HastNode): n is HastText => n.type === "text";
  *  by a source. Anchored to the end of the paragraph so a dash used mid-quotation
  *  is never mistaken for a citation. */
 const TRAILING_ATTRIBUTION = /\n[ \t]*(—\s*[^\n]+)$/;
+/** Where an attribution BEGINS, for the case where it ends in markup rather than text
+ *  (a work title in italics), so the anchored form above can never match. */
+const TRAILING_ATTRIBUTION_OPEN = /\n[ \t]*—\s*\S/;
 /** The two-paragraph spelling: the whole paragraph is the attribution. */
 const WHOLE_ATTRIBUTION = /^(—\s*\S[^\n]*)$/;
 
@@ -60,64 +63,119 @@ function childrenOf(node: HastNode): HastNode[] {
 	return "children" in node && Array.isArray(node.children) ? node.children : [];
 }
 
-/** Split the closing attribution out of a blockquote's last paragraph. */
-function markAttribution(block: HastElement): void {
-	const paras = childrenOf(block).filter((c) => isElement(c) && c.tagName === "p") as HastElement[];
-	const last = paras[paras.length - 1];
-	if (!last) return;
+/** Concatenated text of a subtree. */
+function textOf(node: HastNode): string {
+	if (isText(node)) return node.value;
+	return childrenOf(node).map(textOf).join("");
+}
 
-	// Already marked (idempotent — the pipeline may run twice in dev).
-	if (last.children.some((c) => isElement(c) && c.tagName === "cite")) return;
+/** Index of the LAST match of a global-less pattern, or -1. */
+function lastMatchIndex(haystack: string, pattern: RegExp): number {
+	const re = new RegExp(pattern.source, `${pattern.flags.replace("g", "")}g`);
+	let idx = -1;
+	for (const m of haystack.matchAll(re)) idx = m.index ?? idx;
+	return idx;
+}
 
-	// Two-paragraph form: the final <p> is nothing but the attribution.
-	if (paras.length > 1 && last.children.length === 1) {
-		const only = last.children[0];
-		if (isText(only) && WHOLE_ATTRIBUTION.test(only.value.trim())) {
-			last.properties = { ...(last.properties ?? {}), className: ["q-attr-p"] };
-			return;
-		}
-	}
-
-	// remark can leave a whitespace-only text node at the very end of a paragraph, so
-	// the attribution is not always the literal last child. Ignore that trailing
-	// padding when deciding what closes the quote.
-	let end = last.children.length - 1;
+/** Trailing padding: remark can leave a whitespace-only text node at the end of a
+ *  paragraph, so the attribution is not always the literal last child. */
+function lastMeaningfulIndex(children: HastNode[]): number {
+	let end = children.length - 1;
 	while (end >= 0) {
-		const n = last.children[end];
+		const n = children[end];
 		if (isText(n) && n.value.trim() === "") end--;
 		else break;
 	}
-	if (end < 0) return;
+	return end;
+}
+
+/** Two-paragraph spelling: the final <p> is nothing but the attribution. */
+function markWholeParagraph(paras: HastElement[], last: HastElement): boolean {
+	if (paras.length <= 1 || last.children.length !== 1) return false;
+	const only = last.children[0];
+	if (!(isText(only) && WHOLE_ATTRIBUTION.test(only.value.trim()))) return false;
+	last.properties = { ...(last.properties ?? {}), className: ["q-attr-p"] };
+	return true;
+}
+
+/** One-paragraph spelling: the attribution trails the quote after a soft break, inside
+ *  the same text node. */
+function markTrailingText(last: HastElement, end: number): boolean {
 	const tail = last.children[end];
-	if (!isText(tail)) return;
-
-	// One-paragraph form: the attribution trails the quote after a soft break, so it
-	// sits in the same text node behind a newline.
+	if (!isText(tail)) return false;
 	const m = TRAILING_ATTRIBUTION.exec(tail.value);
-	if (m) {
-		tail.value = tail.value.slice(0, m.index);
-		last.children.splice(end + 1, last.children.length - end - 1, cite(m[1]));
-		return;
-	}
+	if (!m) return false;
+	tail.value = tail.value.slice(0, m.index);
+	last.children.splice(end + 1, last.children.length - end - 1, cite(m[1]));
+	return true;
+}
 
-	// Verse-per-line form: the author set the quote with markdown hard breaks, so the
-	// line break before the attribution became a <br> element and the attribution is a
-	// text node of its own. remark leaves a bare "\n" text node between the two, so the
-	// <br> is not the immediately preceding child — skip whitespace to find it. Drop
-	// that <br>: the citation is styled display:block, so keeping it would open a blank
-	// line above the source.
-	if (!WHOLE_ATTRIBUTION.test(tail.value.trim())) return;
+/** Verse-per-line spelling: markdown hard breaks turned the line break before the
+ *  attribution into a <br>, and the attribution is a text node of its own. Drop the <br>:
+ *  the citation is styled display:block, so keeping it would open a blank line above. */
+function markAfterHardBreak(last: HastElement, end: number): boolean {
+	const tail = last.children[end];
+	if (!(isText(tail) && WHOLE_ATTRIBUTION.test(tail.value.trim()))) return false;
 	let br = end - 1;
 	while (br >= 0) {
 		const n = last.children[br];
 		if (isText(n) && n.value.trim() === "") br--;
 		else break;
 	}
-	if (br < 0) return;
+	if (br < 0) return false;
 	const before = last.children[br];
-	if (!isElement(before) || before.tagName !== "br") return;
-
+	if (!isElement(before) || before.tagName !== "br") return false;
 	last.children.splice(br, last.children.length - br, cite(tail.value.trim()));
+	return true;
+}
+
+/** General spelling, and the one a literary source takes: the attribution NAMES A WORK
+ *  and so ends in markup — "— Karin Boye, *Astarte*" closes with <em>, never a text node,
+ *  so none of the branches above can see it. remark also does not guarantee the soft break
+ *  and the dash land in the SAME text node (it may emit ["…makt.", "\n", "— Karin Boye, ",
+ *  <em>]). So match on the paragraph's concatenated text, map the offset back to the child
+ *  that owns it, and wrap from there to the end — keeping the italics inside the <cite>
+ *  instead of flattening them to plain text. */
+function markSpanningMarkup(last: HastElement): boolean {
+	const offsets: { node: HastText; start: number }[] = [];
+	let joined = "";
+	for (const child of last.children) {
+		if (isText(child)) {
+			offsets.push({ node: child, start: joined.length });
+			joined += child.value;
+		} else {
+			joined += textOf(child);
+		}
+	}
+	const open = lastMatchIndex(joined, TRAILING_ATTRIBUTION_OPEN);
+	if (open < 0) return false;
+	const owner = [...offsets].reverse().find((o) => o.start <= open);
+	if (!owner) return false;
+	const cut = open - owner.start;
+	const head = owner.node.value.slice(cut).replace(/^\n[ \t]*/, "");
+	owner.node.value = owner.node.value.slice(0, cut);
+	const ownerIndex = last.children.indexOf(owner.node);
+	const rest = last.children.splice(ownerIndex + 1, last.children.length - ownerIndex - 1);
+	const wrapper = cite(head);
+	wrapper.children.push(...rest.filter((n) => !(isText(n) && n.value.trim() === "")));
+	last.children.push(wrapper);
+	return true;
+}
+
+/** Split the closing attribution out of a blockquote's last paragraph. */
+function markAttribution(block: HastElement): void {
+	const paras = childrenOf(block).filter((c) => isElement(c) && c.tagName === "p") as HastElement[];
+	const last = paras[paras.length - 1];
+	if (!last) return;
+	// Idempotent — the pipeline may run twice in dev.
+	if (last.children.some((c) => isElement(c) && c.tagName === "cite")) return;
+	if (markWholeParagraph(paras, last)) return;
+
+	const end = lastMeaningfulIndex(last.children);
+	if (end < 0) return;
+	if (markTrailingText(last, end)) return;
+	if (markAfterHardBreak(last, end)) return;
+	markSpanningMarkup(last);
 }
 
 function walk(node: HastNode): void {

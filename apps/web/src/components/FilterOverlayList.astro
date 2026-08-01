@@ -1,0 +1,38 @@
+---
+type FilterOverlayItem =
+	| {
+			label: string;
+			href: string;
+	  }
+	| {
+			label: string;
+			buttonClass: "overlay-jump";
+			target: string;
+	  }
+	| {
+			label: string;
+			buttonClass: "overlay-length";
+			min: number;
+			max: number;
+	  };
+
+interface Props {
+	items: readonly FilterOverlayItem[];
+}
+
+const { items } = Astro.props;
+---
+
+<ul class="overlay-list">
+	{items.map((item) => (
+		<li>
+			{"href" in item ? (
+				<a href={item.href}>{item.label}</a>
+			) : item.buttonClass === "overlay-jump" ? (
+				<button type="button" class={item.buttonClass} data-target={item.target}>{item.label}</button>
+			) : (
+				<button type="button" class={item.buttonClass} data-min={item.min} data-max={item.max}>{item.label}</button>
+			)}
+		</li>
+	))}
+</ul>

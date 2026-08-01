@@ -56,6 +56,13 @@ export async function searchBooksComprehensive(
 		};
 	}
 
+	// ⚠️ Ingen diversitetsspärr per verk här, till skillnad från `findQuotesLocal` som
+	// kör MMR. En dominerande bok kan alltså fylla hela `passageLimit`. På
+	// fördjupningssidorna var det ett mätbart problem — se `capPerBook` i
+	// corpus-brief.ts, där ett tak per verk tog en angle från 4 till 7 olika verk.
+	// Här är det MEDVETET inte infört: en essä bygger ofta vidare på ett enda verk,
+	// och där är djup i samma bok en fördel, inte brus. Vill man ändå ha spridning
+	// är capPerBook återanvändbar. Antagandet är otestat för essäer — mät före byte.
 	// Run hybrid search (all local embeddings = free)
 	const hybridResult = await searchBooks(topic, {
 		passageLimit,

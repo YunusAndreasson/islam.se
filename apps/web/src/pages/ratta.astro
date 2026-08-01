@@ -1,5 +1,5 @@
 ---
-import Base from "../layouts/Base.astro";
+import ArticlePage from "../components/ArticlePage.astro";
 import { breadcrumbList } from "../lib/jsonld";
 import { TURNSTILE_SITEKEY } from "../lib/rattelse";
 
@@ -7,7 +7,7 @@ const description =
 	"Hittat ett sakfel på islam.se? Peka ut meningen, skriv vad som är fel och skicka in det här. Vi rättar så snart vi får veta.";
 ---
 
-<Base
+<ArticlePage
 	title="Föreslå en rättelse — islam.se"
 	description={description}
 	noindex={true}
@@ -18,22 +18,20 @@ const description =
 		]),
 	]}
 >
-	<main id="main" class="content-column">
-		<header class="article-header">
-			<h1>Föreslå en rättelse</h1>
-			<p class="ratta-lead">
-				Vi rättar sakfel så snart vi får veta om dem. Ju närmare du kan peka – vilken mening det
-				gäller, vad som är fel i den och var det rätta står – desto snabbare kan vi göra något åt
-				det.
-			</p>
-		</header>
+	<Fragment slot="header">
+		<p class="ratta-lead">
+			Vi rättar sakfel så snart vi får veta om dem. Ju närmare du kan peka – vilken mening det
+			gäller, vad som är fel i den och var det rätta står – desto snabbare kan vi göra något åt
+			det.
+		</p>
+	</Fragment>
 
 		<div class="ratta-body">
 			<noscript>
 				<p class="ratta-notice">
 					Formuläret behöver JavaScript för skräppostskyddet. Skriv i stället till{" "}
-					<a href="mailto:rattelse@islam.se">rattelse@islam.se</a> och ta med adressen till sidan
-					och meningen det gäller.
+					<a href="mailto:support@islam.se">support@islam.se</a> och ta med adressen till sidan och
+					meningen det gäller.
 				</p>
 			</noscript>
 
@@ -109,8 +107,7 @@ const description =
 				redaktionella principer. Ändras en text i sak får den ett synligt datum för ändringen.
 			</p>
 		</div>
-	</main>
-</Base>
+</ArticlePage>
 
 <script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" async defer
 ></script>
@@ -123,7 +120,12 @@ const description =
 		missing_turnstile: "Bekräfta att du inte är en robot först.",
 		turnstile_failed: "Kontrollen gick inte igenom. Ladda om sidan och försök igen.",
 		rate_limited: "Du har skickat flera rättelser den senaste timmen. Försök igen om en stund.",
+		server_misconfigured: "Formuläret är ur funktion just nu. Skriv till support@islam.se i stället.",
 	};
+
+	// Mirrors isSitePath() in functions/api/rattelse.js: a leading "//" is a
+	// protocol-relative URL, not a path on this site.
+	const isSitePath = (value: string) => value.startsWith("/") && !value.startsWith("//");
 
 	function setup() {
 		const form = document.getElementById("ratta-form") as HTMLFormElement | null;
@@ -137,7 +139,7 @@ const description =
 		const widget = form.querySelector(".cf-turnstile") as HTMLElement;
 
 		const sida = new URLSearchParams(window.location.search).get("sida");
-		if (sida?.startsWith("/")) pageInput.value = sida;
+		if (sida && isSitePath(sida)) pageInput.value = sida;
 
 		let widgetId: string | undefined;
 		const renderWidget = () => {
@@ -166,7 +168,7 @@ const description =
 				turnstile_token: token,
 			};
 
-			if (!body.page.startsWith("/")) {
+			if (!isSitePath(body.page)) {
 				status.textContent = ERRORS.bad_page;
 				status.dataset.tone = "error";
 				return;
@@ -261,7 +263,7 @@ const description =
 	}
 
 	.ratta-field label {
-		font-family: var(--font-sans, var(--font-body));
+		font-family: var(--font-heading);
 		font-size: var(--step--3);
 		letter-spacing: 0.04em;
 		text-transform: uppercase;
@@ -323,7 +325,7 @@ const description =
 	}
 
 	.ratta-submit {
-		font-family: var(--font-sans, var(--font-body));
+		font-family: var(--font-heading);
 		font-size: var(--step--2);
 		letter-spacing: 0.03em;
 		color: var(--color-bg);

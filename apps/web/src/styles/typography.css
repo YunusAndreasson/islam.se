@@ -337,8 +337,7 @@
 		height: 1.5rem;
 		margin: var(--space-phi) auto;
 		background: var(--color-divider);
-		-webkit-mask: url("/ornament.svg?v=3") center / 100% 100% no-repeat;
-		mask: url("/ornament.svg?v=3") center / 100% 100% no-repeat;
+		mask: url("/ornament.svg?v=4") center / 100% 100% no-repeat;
 	}
 
 	.data-footnote-backref {
@@ -488,8 +487,7 @@
 		height: 1.5rem;
 		margin: var(--space-phi) auto;
 		background: var(--color-divider);
-		-webkit-mask: url("/ornament.svg?v=3") center / 100% 100% no-repeat;
-		mask: url("/ornament.svg?v=3") center / 100% 100% no-repeat;
+		mask: url("/ornament.svg?v=4") center / 100% 100% no-repeat;
 	}
 
 	/* Drop cap — article opening paragraph */

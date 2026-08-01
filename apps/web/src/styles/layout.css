@@ -51,6 +51,14 @@
 		color: var(--color-muted);
 	}
 
+	/* Meta line — date/status rows that are not small-caps labels. */
+	.meta-line {
+		font-family: var(--font-heading);
+		font-size: var(--step--3);
+		color: var(--color-muted);
+		margin: var(--space-half) 0 0;
+	}
+
 	/* The "go on from here" link that closes a section: "Alla orter", "Hela arkivet".
    Pair with .arrow-link or .back-link. Sets no margins — placement stays with the
    page that uses it. */
@@ -108,6 +116,246 @@
 	a:hover .back-link::before,
 	a:focus-visible .back-link::before {
 		translate: -0.2em 0;
+	}
+
+	/* Diamond list — marker styling for source and onward-navigation lists outside
+   prose. The hollow diamond avoids dash/number ambiguity in source titles and is
+   drawn in CSS so it never depends on font fallback. Sources keep the base
+   underline because some rows may be plain text; navigation lists can opt into a
+   quieter at-rest state with the modifier. */
+	.diamond-list {
+		font-family: var(--font-body);
+		line-height: 1.7;
+		color: var(--color-muted);
+		margin: var(--space-half) 0 0;
+		padding-left: 0;
+	}
+
+	.diamond-list li {
+		position: relative;
+		padding-left: 1.35rem;
+	}
+
+	.diamond-list li::before {
+		content: "";
+		position: absolute;
+		left: 0.15rem;
+		top: 0.63em;
+		width: 0.32em;
+		height: 0.32em;
+		border: 1px solid var(--color-warm);
+		transform: rotate(45deg);
+	}
+
+	.diamond-list a {
+		color: var(--color-accent);
+	}
+
+	.diamond-list--nav a {
+		text-decoration-color: transparent;
+	}
+
+	.diamond-list--nav a:hover,
+	.diamond-list--nav a:focus-visible {
+		text-decoration-color: currentColor;
+	}
+
+	/* Hairline link list — functional rows for onward navigation where each item
+	   needs a full tap target and a quiet separator, not a marker or pill. */
+	.hairline-link-list {
+		font-family: var(--font-body);
+		font-size: var(--step--1);
+		color: var(--text-body);
+		margin: var(--hairline-link-list-margin, 0);
+		padding: 0;
+		list-style: none;
+		max-width: var(--hairline-link-list-measure, var(--content-width));
+	}
+
+	.hairline-link-list li + li {
+		border-top: 1px solid var(--color-rule);
+	}
+
+	.hairline-link-list a {
+		display: block;
+		color: var(--color-accent);
+		text-decoration: none;
+		padding-block: 0.7rem;
+	}
+
+	.hairline-link-list a:hover {
+		text-decoration: underline;
+		text-underline-offset: 0.15em;
+	}
+
+	.hairline-link-list a:focus-visible {
+		border-radius: var(--radius-xs);
+	}
+
+	/* Article section — the ruled sections that follow article prose: FAQ, sources,
+   related reading and reference apparatus. Page-specific classes stay available for
+   local layout hooks; the shared rhythm and h2 scale live here. */
+	.article-section {
+		margin-top: var(--space-phi);
+		padding-top: var(--space-unit);
+		border-top: 1px solid var(--color-rule);
+	}
+
+	.article-section > h2 {
+		font-size: var(--step-1);
+	}
+
+	/* Mosque section — compact section rhythm shared by the national map,
+	   county index and city detail pages. */
+	.mk-section {
+		margin-top: var(--space-phi);
+	}
+
+	.mk-section h2 {
+		font-size: var(--step-1);
+	}
+
+	/* Mosque attribution — the quiet data caveat that closes mosque pages. */
+	.mk-attrib {
+		font-family: var(--font-body);
+		font-size: var(--step--3);
+		line-height: 1.5;
+		color: var(--color-muted);
+		margin: var(--space-phi) 0 0;
+		padding-top: var(--space-half);
+		border-top: 1px solid var(--color-divider);
+	}
+
+	.mk-attrib a {
+		color: var(--color-accent);
+		text-decoration-color: currentColor;
+	}
+
+	/* Prayer-time section — shared rhythm for the bönetider hub and city pages. */
+	:is(.bh2-section, .bt-stad-section, .om-bonen) {
+		margin-top: var(--space-phi);
+	}
+
+	:is(.bh2-section, .bt-stad-section, .om-bonen) h2 {
+		font-size: var(--step-1);
+	}
+
+	/* Prayer-time attribution — the fine-print data/source caveat. Underline stays
+	   visible because accent-vs-muted alone is under the 3:1 non-colour cue floor. */
+	.bt-attrib {
+		font-family: var(--font-body);
+		font-size: var(--step--3);
+		line-height: 1.5;
+		color: var(--color-muted);
+		margin: var(--space-phi) 0 0;
+		padding-top: var(--space-half);
+		border-top: 1px solid var(--color-rule);
+	}
+
+	.bt-attrib a {
+		color: var(--color-accent);
+		text-decoration-color: currentColor;
+	}
+
+	/* Nearby pill list — linked neighbouring places on mosque and prayer-time pages. */
+	:is(.mk-nearby, .bt-nearby) {
+		list-style: none;
+		margin: var(--space-half) 0 0;
+		padding: 0;
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.5rem 0.75rem;
+	}
+
+	:is(.mk-nearby, .bt-nearby) a {
+		font-family: var(--font-body);
+		font-size: var(--step--2);
+		color: var(--color-text);
+		text-decoration: none;
+		border: 1px solid var(--color-divider);
+		border-radius: var(--radius-pill);
+		padding: 0.3rem 0.85rem;
+		transition: border-color 0.15s ease;
+	}
+
+	:is(.mk-nearby, .bt-nearby) a:hover {
+		border-color: var(--color-warm);
+		color: var(--color-accent);
+	}
+
+	/* Grouped directory — expandable county/län clusters used by the bönetider and
+	   mosque finders. Item rows stay local because one renders links, the other
+	   map-controlling buttons. */
+	:is(.bt-counties, .mk-lan-groups) {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(min(100%, 16rem), 1fr));
+		gap: 0 var(--space-unit);
+		align-items: start;
+	}
+
+	:is(.bt-county, .mk-lan) {
+		margin-bottom: var(--space-half);
+		border-bottom: 1px solid var(--color-divider);
+		padding-bottom: var(--space-half);
+	}
+
+	:is(.bt-county, .mk-lan)[hidden] {
+		display: none;
+	}
+
+	:is(.bt-county, .mk-lan) summary {
+		display: flex;
+		justify-content: space-between;
+		align-items: baseline;
+		gap: 0.5rem;
+		cursor: pointer;
+		font-family: var(--font-heading);
+		font-weight: 600;
+		color: var(--color-accent);
+	}
+
+	:is(.bt-county-count, .mk-lan-count) {
+		font-family: var(--font-body);
+		font-size: var(--step--3);
+		color: var(--color-muted);
+		font-variant-numeric: lining-nums tabular-nums;
+	}
+
+	:is(.bt-county-list, .mk-lan-list) {
+		list-style: none;
+		margin: var(--space-half) 0 0;
+		padding: 0;
+	}
+
+	:is(.bt-county-list, .mk-lan-list) li[hidden] {
+		display: none;
+	}
+
+	/* Podcast action pill — used by the podcast page and the book/podcast promo. */
+	:is(.podcast-action, .bookpod-action) {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.45em;
+		padding: 0.5rem 1.125rem;
+		font-family: var(--font-heading);
+		font-size: var(--step--3);
+		font-weight: 500;
+		letter-spacing: 0.05em;
+		text-transform: uppercase;
+		font-feature-settings: "case";
+		color: var(--color-accent);
+		border: 1px solid var(--color-divider);
+		border-radius: 1.25rem;
+		text-decoration: none;
+		transition:
+			border-color 0.2s,
+			color 0.2s;
+	}
+
+	:is(.podcast-action, .bookpod-action):hover {
+		border-color: var(--color-warm);
+		color: var(--color-text);
+		text-decoration: none;
 	}
 
 	/* The site-wide keyboard focus ring — no class needed. Push it out from a card
@@ -190,13 +438,11 @@
 		margin-top: var(--space-phi);
 	}
 
-	/* Act grouping — the homepage falls into five movements-of-movements (det nya ·
-   stillhet · arkivet · den dagliga rytmen · avslut). Sections inside an act keep
+	/* Act grouping — the homepage falls into four movements-of-movements (det nya ·
+   arkivet · den årliga rytmen · avslut). Sections inside an act keep
    the default phi2 rhythm; an act's opening section gets a phi3 top — the gap
-   ratio is φ itself — so the eye reads five groups, not a flat ladder of equal
-   blocks. Openers are tagged by their root class. (Stillhet opens on .vers, with
-   Citat a normal phi2 sibling after it.) */
-	.home > .vers,
+   ratio is φ itself — so the eye reads groups, not a flat ladder of equal blocks.
+   Openers are tagged by their root class. */
 	.home > .amnen,
 	.home > .markesdagar,
 	.home > .bookpod {
@@ -222,6 +468,8 @@
 
 	.home-head-all {
 		flex-shrink: 0;
+		font-size: var(--step--3);
+		color: var(--color-muted);
 		text-decoration: none;
 		transition: color 0.15s ease;
 		/* WCAG 2.5.8 (target size ≥24px): the small-caps label is only ~22px tall. Pad the
@@ -293,36 +541,9 @@
 		transition: box-shadow 0.5s cubic-bezier(0.2, 0, 0.1, 1);
 	}
 
-	/* Page transitions — deliberately none.
-
-   This used to run Astro's default root cross-fade plus a hero morph
-   (view-transition-class on every .media-frame, paired by transition:name).
-   Filmstrips of a real navigation showed why it read as glitchy rather than
-   smooth: the root cross-fade holds old and new at partial opacity at the same
-   time, so both pages' headlines ghost through each other; and the morph
-   animates the frame to its new geometry while the article's hero derivative is
-   still being fetched — it is a *different* generated file from the card's, so
-   it is never in cache — leaving a large empty rectangle flashing mid-page for
-   several frames. Navigating to the very same photograph still blanked it.
-
-   So the swap is instant. The mast, the audio player and the palette are all
-   transition:persist, so a navigation reads as the content changing under a
-   fixed frame — which is the calm the cross-fade was reaching for. This also
-   restores DESIGN.md's "No page-level transitions either."
-
-   ClientRouter stays: it is what persists that chrome and keeps the audio
-   playing across pages. Only the animation is dropped. */
-	::view-transition-group(root),
-	::view-transition-old(root),
-	::view-transition-new(root) {
-		animation: none;
-	}
-
-	::view-transition-old(root) {
-		/* Without this the outgoing snapshot lingers at full opacity on top of the
-	   new page for the (now zero-length) animation and the swap looks stuck. */
-		display: none;
-	}
+	/* Page transitions are Astro's own — no overrides here. Tune them with the
+	   `transition:animate` directive (astro:transitions' fade/slide helpers), never
+	   with hand-written ::view-transition rules. */
 
 	/* Film grain — desaturated fractal noise, blended soft-light at a whisper. */
 	.media-frame::after {
@@ -453,15 +674,19 @@
 		}
 	}
 
-	.site-tld {
-		position: relative;
-		top: 0.04em;
-	}
-
-	.nav-rub {
-		width: 1.35em;
-		height: 1.35em;
-		flex-shrink: 0;
+	/* The mark standing in for the domain's full stop. A visually-hidden "." keeps
+	   the link's accessible name "islam.se". Baseline-aligned, so seating it on the
+	   cap band is exactly (diameter − cap height) / 2.
+	   ⚠️ Take the cap height from the CSS `cap` unit, never from canvas measureText:
+	   canvas cannot resolve the hashed @font-face name and silently measures Arial
+	   (0.716em) where Source Sans 3 is 0.660em. */
+	.wordmark-dot {
+		width: 0.62em;
+		height: 0.62em;
+		display: inline-block;
+		vertical-align: baseline;
+		margin-inline: 0.11em;
+		transform: translateY(-0.02em);
 	}
 
 	/* Three tracks: wordmark (left), links (centred in the mast), trigger (right).
@@ -781,12 +1006,15 @@
 		margin-top: var(--space-unit);
 	}
 
-	.site-footer-names {
-		font-family: var(--font-heading);
-		font-size: var(--step--3);
-		letter-spacing: 0.06em;
-		color: var(--color-muted);
-		margin: 0 0 0.5rem;
+	/* The terminal mark — the page's full stop. 1.5rem measures 2.7× the colophon's
+	   cap height: below ~1.25rem the ring thins to a bead, above ~2rem it reads as a
+	   stamp rather than punctuation. The top margin is phi, not the unit, so the mark
+	   detaches from the colophon instead of hanging off it. */
+	.site-footer-mark {
+		display: block;
+		width: 1.5rem;
+		height: 1.5rem;
+		margin: var(--space-phi) auto 0;
 	}
 
 	.site-footer-meta {
@@ -819,15 +1047,12 @@
    it owns a translateX transform.) */
 	.search-trigger:active,
 	.palette-chip:active,
+	.podcast-action:active,
 	.bookpod-action:active,
-	.bh-geo:active,
-	.bs-geo:active,
-	.vers-play:active,
 	.qv-play:active,
 	.fp-play:active,
 	.btn-circle:active,
-	.share-btn:active,
-	.citat-share:active {
+	.share-btn:active {
 		transform: scale(0.97);
 	}
 
@@ -1061,11 +1286,6 @@
 				var(--color-warm) calc(var(--progress, 0) * 360deg),
 				var(--color-divider) calc(var(--progress, 0) * 360deg)
 			);
-			-webkit-mask: radial-gradient(
-				farthest-side,
-				transparent calc(100% - 2.5px),
-				#000 calc(100% - 2.5px)
-			);
 			mask: radial-gradient(farthest-side, transparent calc(100% - 2.5px), #000 calc(100% - 2.5px));
 		}
 	}
@@ -1273,13 +1493,14 @@
 	.reading .article-header,
 	.reading .article-body,
 	.reading .article-nav,
+	.reading .article-section,
 	.reading .essay-connections,
 	.reading .svar-header,
-	.reading .svar-faq,
-	.reading .svar-sources,
-	.reading .svar-related,
-	.reading .svar-essays,
 	.reading .svar-back,
+	.reading .svar-fordjupning,
+	.reading .fordjupning-header,
+	.reading .innehall,
+	.reading .fordjupning-back,
 	.reading .rattelse,
 	/* The footnotes start inside .article-body (constrained) but a script moves
    them out below .article-nav so prev/next stays reachable — at which point

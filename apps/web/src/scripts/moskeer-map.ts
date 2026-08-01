@@ -88,6 +88,11 @@ const LOCALE: Record<string, string> = {
 	"CooperativeGesturesHandler.MobileHelpText": "Använd två fingrar för att flytta kartan",
 };
 
+// Lucide Scan icon. Astro components cannot render inside this MapLibre control,
+// so the script uses the same path data as @lucide/astro's generated icon.
+const RESET_ICON =
+	'<svg class="lucide lucide-scan" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7V5a2 2 0 0 1 2-2h2"/><path d="M17 3h2a2 2 0 0 1 2 2v2"/><path d="M21 17v2a2 2 0 0 1-2 2h-2"/><path d="M7 21H5a2 2 0 0 1-2-2v-2"/></svg>';
+
 // "Visa hela Sverige" — refit the whole country. MapLibre ships no home/reset control, so
 // this minimal IControl drops one button into the top-right control group.
 class ResetViewControl implements maplibregl.IControl {
@@ -103,8 +108,7 @@ class ResetViewControl implements maplibregl.IControl {
 		btn.className = "mk-ctrl-reset";
 		btn.title = "Visa hela Sverige";
 		btn.setAttribute("aria-label", "Visa hela Sverige");
-		btn.innerHTML =
-			'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9V5a1 1 0 0 1 1-1h4M15 4h4a1 1 0 0 1 1 1v4M20 15v4a1 1 0 0 1-1 1h-4M9 20H5a1 1 0 0 1-1-1v-4"/></svg>';
+		btn.innerHTML = RESET_ICON;
 		btn.addEventListener("click", () => {
 			this.map?.fitBounds(SWEDEN_BOUNDS, { padding: 24 });
 		});
@@ -195,11 +199,24 @@ function mount() {
 	// Without this, a failure at tiles.openfreemap.org just means `load` never fires:
 	// an empty rectangle, nothing logged. The list beside the map still works.
 	let mapFailed = false;
+	let styleReady = false;
+	map.on("load", () => {
+		styleReady = true;
+	});
+	// ⚠️ maplibre emits `error` for RECOVERABLE conditions too — one 404 or timed-out
+	// vector tile, a missing sprite id. Only a failure before `load` is the blank-rectangle
+	// case this guard exists for; latching on any error buried a map that was rendering
+	// all 255 mosques under an undismissable overlay.
 	map.on("error", (e) => {
+		const detail = e?.error?.message ?? e;
+		if (styleReady) {
+			console.warn("[moskeer] kartfel (kartan är uppe):", detail);
+			return;
+		}
 		if (mapFailed) return;
 		mapFailed = true;
 		el.classList.add("is-error");
-		console.warn("[moskeer] kartan kunde inte laddas:", e?.error?.message ?? e);
+		console.warn("[moskeer] kartan kunde inte laddas:", detail);
 	});
 	map.addControl(new maplibregl.AttributionControl({ compact: true }), "bottom-left");
 	map.addControl(new maplibregl.NavigationControl({ showCompass: false }), "top-right");
@@ -415,10 +432,8 @@ function mount() {
 	// street addresses in addition to the name/location shown in the map payload.
 	const searchById = new Map(items.map((it) => [it.dataset.id, it.dataset.search ?? ""]));
 
-	function applyFilter() {
-		const q = norm(search?.value.trim() ?? "");
-		const lan = lanSelect?.value ?? "";
-		// Map: filter the data array by query + län (län comes from the rendered list item).
+	/** Map: filter the data array by query + län (län comes from the rendered list item). */
+	function syncMap(q: string, lan: string) {
 		const visible = data.filter((m) => {
 			const okQ = q === "" || (searchById.get(m.id) ?? norm(`${m.name} ${m.location}`)).includes(q);
 			const okLan = lan === "" || lanById.get(m.id) === lan;
@@ -431,16 +446,17 @@ function mount() {
 		src?.setData(fc(visible)).catch(() => {
 			/* a dropped filter update leaves the previous points on the map */
 		});
+	}
 
-		// List: hide non-matching items + empty groups; auto-open groups when searching.
+	/** List: hide non-matching items + empty groups; auto-open groups when searching.
+	 *  Returns the number of items left visible, for the count and the empty state. */
+	function syncList(q: string, lan: string): number {
 		let shown = 0;
 		for (const g of groups) {
 			let gShown = 0;
-			const gLan = g.dataset.lan ?? "";
-			const lanHidden = lan !== "" && gLan !== lan;
+			const lanHidden = lan !== "" && (g.dataset.lan ?? "") !== lan;
 			for (const li of g.querySelectorAll<HTMLElement>("li")) {
-				const it = li.querySelector<HTMLElement>(".mk-item");
-				const hay = it?.dataset.search ?? "";
+				const hay = li.querySelector<HTMLElement>(".mk-item")?.dataset.search ?? "";
 				const hit = !lanHidden && (q === "" || hay.includes(q));
 				li.hidden = !hit;
 				if (hit) gShown++;
@@ -449,6 +465,14 @@ function mount() {
 			g.open = gShown > 0 && (q !== "" || lan !== "");
 			shown += gShown;
 		}
+		return shown;
+	}
+
+	function applyFilter() {
+		const q = norm(search?.value.trim() ?? "");
+		const lan = lanSelect?.value ?? "";
+		syncMap(q, lan);
+		const shown = syncList(q, lan);
 		if (count) count.textContent = `${shown} ${shown === 1 ? "moské" : "moskéer"}`;
 		if (empty) empty.hidden = shown !== 0;
 	}

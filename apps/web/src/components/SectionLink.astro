@@ -1,0 +1,14 @@
+---
+import type { HTMLAttributes } from "astro/types";
+
+type Props = HTMLAttributes<"a"> & {
+	href: string;
+	direction?: "forward" | "back";
+};
+
+const { class: className, direction = "forward", ...attrs } = Astro.props;
+---
+
+<a {...attrs} class:list={["section-link", direction === "back" ? "back-link" : "arrow-link", className]}>
+	<slot />
+</a>

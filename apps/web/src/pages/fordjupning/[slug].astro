@@ -1,0 +1,375 @@
+---
+import { getImage } from "astro:assets";
+import { type CollectionEntry, getCollection, render } from "astro:content";
+import ArticleMeta from "../../components/ArticleMeta.astro";
+import ArticleSection from "../../components/ArticleSection.astro";
+import Breadcrumb from "../../components/Breadcrumb.astro";
+import DefinitionList from "../../components/DefinitionList.astro";
+import DiamondList from "../../components/DiamondList.astro";
+import EssayImage from "../../components/EssayImage.astro";
+import Innehall from "../../components/Innehall.astro";
+import Rattelse from "../../components/Rattelse.astro";
+import SectionLink from "../../components/SectionLink.astro";
+import Base from "../../layouts/Base.astro";
+import { getArticles } from "../../lib/articles";
+import { resolveHero } from "../../lib/fordjupning";
+import { ORG_ID, WEBSITE_ID, breadcrumbList, faqPageJsonLd, imageObject } from "../../lib/jsonld";
+import { PAGE_HERO_SIZES, PAGE_HERO_WIDTHS } from "../../lib/hero";
+
+export async function getStaticPaths() {
+	const entries = await getCollection("fordjupning");
+	const svarBySlug = new Map((await getCollection("svar")).map((e) => [e.id, e]));
+	const essayBySlug = new Map((await getArticles()).map((a) => [a.slug, a]));
+	return entries.map((entry) => ({
+		params: { slug: entry.id },
+		props: {
+			entry,
+			// A pillar page with a dead spoke link is not a pillar page — a stale slug
+			// fails the build rather than shipping a broken reader path.
+			related: entry.data.related.map((slug) => {
+				const svar = svarBySlug.get(slug);
+				if (!svar) {
+					throw new Error(
+						`fordjupning/${entry.id}.md: \`related\` references unknown svar slug "${slug}". ` +
+							"Use a slug from data/svar/ (the filename without .md).",
+					);
+				}
+				return { slug, title: svar.data.title, question: svar.data.question };
+			}),
+			essays: entry.data.essays.map((slug) => {
+				const essay = essayBySlug.get(slug);
+				if (!essay) {
+					throw new Error(
+						`fordjupning/${entry.id}.md: \`essays\` references unknown essay slug "${slug}". ` +
+							"Use a slug from data/articles/ (the filename without .md).",
+					);
+				}
+				return { slug: essay.slug, title: essay.title };
+			}),
+		},
+	}));
+}
+
+type FordjupningEntry = CollectionEntry<"fordjupning">;
+interface Props {
+	entry: FordjupningEntry;
+	related: { slug: string; title: string; question: string }[];
+	essays: { slug: string; title: string }[];
+}
+
+const { entry, related, essays } = Astro.props;
+const { data } = entry;
+const { Content, headings } = await render(entry);
+const url = `https://islam.se/fordjupning/${entry.id}/`;
+const relatedItems = related.map((r) => ({ label: r.question, href: `/svar/${r.slug}/` }));
+const essayItems = essays.map((e) => ({ label: e.title, href: `/${e.slug}` }));
+const sourceItems = data.sources
+	.filter((s) => s.url)
+	.map((s) => ({ label: s.name, href: s.url }));
+
+const hero = await resolveHero(entry);
+// The clean photograph, not the text-laden OG card, is the Article's representative
+// image — the signal Google Images and the Licensable badge read.
+let heroImageObject: Record<string, unknown> | undefined;
+const heroSource = hero?.src ?? hero?.article?.heroImage;
+if (heroSource) {
+	const rendition = await getImage({ src: heroSource, width: 1200, format: "webp" });
+	heroImageObject = imageObject({
+		contentUrl: new URL(rendition.src, Astro.site).href,
+		url: new URL(Astro.url.pathname, Astro.site).href,
+		name: hero?.alt || data.term,
+		caption: hero?.caption,
+		width: 1200,
+		height: Math.round((1200 * heroSource.height) / heroSource.width),
+	});
+}
+
+// Whether to render the "Noter" section the relocating script fills. Detected from
+// the raw markdown rather than the DOM, so the heading is server-rendered: without JS
+// the notes simply stay at the end of the body, which still reads correctly.
+const hasFootnotes = /^\[\^[^\]]+\]:/m.test(entry.body ?? "");
+
+const crumbs = [
+	{ name: "Hem", url: "/" },
+	{ name: "Fördjupning", url: "/fordjupning/" },
+	{ name: data.term, url },
+];
+
+const jsonLd: Record<string, unknown>[] = [
+	{
+		"@context": "https://schema.org",
+		"@type": "Article",
+		headline: data.title,
+		description: data.description,
+		inLanguage: "sv",
+		url,
+		mainEntityOfPage: url,
+		isPartOf: { "@id": WEBSITE_ID },
+		datePublished: data.publishedAt,
+		dateModified: data.updatedAt ?? data.publishedAt,
+		author: { "@id": ORG_ID },
+		publisher: { "@id": ORG_ID },
+		...(heroImageObject ? { image: heroImageObject } : {}),
+		// Grounds the page to the global entity so an LLM resolves "Hijab" here to the
+		// same thing Wikidata means by it. Organization.sameAs is still empty site-wide.
+		about: {
+			"@type": "Thing",
+			name: data.about.name,
+			sameAs: data.about.sameAs,
+		},
+		...(data.sources.length > 0
+			? {
+					citation: data.sources.map((s) => ({
+						"@type": "CreativeWork",
+						name: s.name,
+						...(s.url ? { url: s.url } : {}),
+					})),
+				}
+			: {}),
+	},
+	breadcrumbList(crumbs),
+];
+if (data.faq.length > 0) jsonLd.push(faqPageJsonLd(data.faq));
+---
+
+<Base
+	title={`${data.title} — islam.se`}
+	description={data.seoDescription ?? data.description}
+	ogImageAlt={data.term}
+	jsonLd={jsonLd}
+	preloadArabicFont
+>
+	<main id="main" class="fordjupning-page reading">
+		<article>
+			<header class="fordjupning-header">
+				<Breadcrumb items={crumbs} />
+				<h1>{data.term}</h1>
+				<ArticleMeta class="meta-line" publishedAt={data.publishedAt} updatedAt={data.updatedAt} />
+				<p class="lead fordjupning-lead">{data.description}</p>
+			</header>
+
+			{hero && (
+				<figure class="fordjupning-hero">
+					<div class="fordjupning-hero-frame media-frame">
+						<EssayImage
+							src={hero.src}
+							article={hero.article}
+							alt={hero.alt}
+							widths={PAGE_HERO_WIDTHS}
+							sizes={PAGE_HERO_SIZES}
+							loading="eager"
+							fetchpriority="high"
+						/>
+					</div>
+					{hero.caption && <figcaption class="hero-caption">{hero.caption}</figcaption>}
+				</figure>
+			)}
+
+			<Innehall headings={headings} />
+
+			<div class="article-body fordjupning-body prose">
+				<Content />
+			</div>
+
+			{data.faq.length > 0 && (
+				<ArticleSection class="fordjupning-section" id="fordjupning-faq" title="Vanliga frågor">
+					<DefinitionList items={data.faq} />
+				</ArticleSection>
+			)}
+
+			{/* VIDARE — the one block a reader wants after 3 900 words, so it comes before the
+			    reference apparatus rather than behind 1 788 px of it. Both link sets live
+			    here because they answer the same question: where do I go now. */}
+			{(related.length > 0 || essays.length > 0) && (
+				<ArticleSection class="fordjupning-section fordjupning-vidare" id="fordjupning-vidare-rubrik" title="Vidare">
+					<div class="fordjupning-vidare-grid">
+						{related.length > 0 && (
+							<div class="fordjupning-links">
+								<p class="label">Kortare svar</p>
+								<DiamondList items={relatedItems} nav />
+							</div>
+						)}
+						{essays.length > 0 && (
+							<div class="fordjupning-links">
+								<p class="label">Essäer</p>
+								<DiamondList items={essayItems} nav />
+							</div>
+						)}
+					</div>
+				</ArticleSection>
+			)}
+
+			{/* Reference apparatus closes the page, in a deliberately quieter register: notes
+			    and sources are lookup material, not something to read through. The relocated
+			    footnote block lands in the slot (see the script below); GFM's own note heading
+			    is sr-only and in English, hence a visible one. */}
+			{hasFootnotes && (
+				<ArticleSection class="fordjupning-section fordjupning-apparat" id="fordjupning-noter-rubrik" title="Noter">
+					<div class="fordjupning-noter"></div>
+				</ArticleSection>
+			)}
+
+			{/* Only sources that carry a URL: the full citations are already in the notes,
+			    anchored to the claim they support. This list is what a reader can go and
+			    open. Frontmatter `sources` still drives citation[] JSON-LD in full. */}
+			{data.sources.some((s) => s.url) && (
+				<ArticleSection class="fordjupning-section fordjupning-apparat fordjupning-sources" id="fordjupning-kallor" title="Källor">
+					<DiamondList items={sourceItems} />
+				</ArticleSection>
+			)}
+
+			<p class="fordjupning-back">
+				<SectionLink direction="back" href="/fordjupning/">Alla fördjupningar</SectionLink>
+			</p>
+
+			<Rattelse />
+		</article>
+	</main>
+</Base>
+
+<script>
+	import { initFootnotePopovers } from "../../scripts/footnote-popover";
+	import { initQuranPlayers } from "../../scripts/quran-player";
+
+	document.addEventListener("astro:page-load", () => {
+		if (!document.querySelector(".fordjupning-body")) return;
+
+		// GFM drops the note list at the end of the body, above the FAQ. Move it into
+		// the placeholder so the reference apparatus reads notes → further reading.
+		const footnotes = document.querySelector(".fordjupning-body .footnotes");
+		const slot = document.querySelector(".fordjupning-noter");
+		if (footnotes && slot) {
+			footnotes.classList.remove("footnotes");
+			footnotes.classList.add("footnotes-relocated");
+			slot.append(footnotes);
+		}
+
+		// Anchor links on every section heading. Deliberately client-side: the markdown
+		// `processor` in astro.config.ts is global, so a rehype plugin would rewrite all
+		// 54 essays and 63 answer pages too. The heading `id`s that SEO needs are already
+		// server-rendered by Astro's slugger.
+		for (const h of document.querySelectorAll<HTMLElement>(".fordjupning-body h2[id]")) {
+			if (h.querySelector(".heading-anchor")) continue;
+			const a = document.createElement("a");
+			a.className = "heading-anchor";
+			a.href = `#${h.id}`;
+			a.setAttribute("aria-label", `Länk till avsnittet ${h.textContent ?? ""}`.trim());
+			a.textContent = "#";
+			h.append(a);
+		}
+
+		initFootnotePopovers();
+		initQuranPlayers();
+	});
+</script>
+
+<style>
+	.fordjupning-page {
+		margin-block: var(--space-phi);
+	}
+
+	.fordjupning-header h1 {
+		margin: var(--space-half) 0 0;
+		text-wrap: balance;
+	}
+
+	/* The deck carries the framing a bare one-word encyclopedic h1 cannot. It must not
+	   restate the body's opening sentence — the author prompt enforces that. */
+	.fordjupning-lead {
+		margin-top: var(--space-unit);
+	}
+
+	/* Full-frame hero, like the essays: it breaks past the 42rem measure to the 64rem
+	   reading frame, so it needs real space under it before the table of contents. */
+	.fordjupning-hero {
+		margin: var(--space-unit) 0 var(--space-phi);
+	}
+
+	/* A band rather than a plate: at 3/2 the hero ran 681px and pushed the table of
+	   contents — the wayfinding this page exists on — below the fold. Narrow screens keep
+	   more height, since 21/9 of 390px is a letterbox. */
+	.fordjupning-hero :global(img) {
+		aspect-ratio: 16 / 9;
+		width: 100%;
+	}
+
+	@media (width >= 48rem) {
+		.fordjupning-hero :global(img) {
+			aspect-ratio: 21 / 9;
+		}
+	}
+
+	/* Reference apparatus — notes and sources. Quieter than the content and navigation
+	   above it: this is lookup material, and at 1 788px the notes were the loudest thing
+	   on the page after the body itself. */
+	.fordjupning-apparat h2 {
+		font-size: var(--step--1);
+		font-family: var(--font-heading);
+		letter-spacing: 0.06em;
+		text-transform: uppercase;
+		font-variant-numeric: lining-nums tabular-nums;
+		color: var(--color-muted);
+	}
+
+	.fordjupning-apparat {
+		--lead-color: var(--color-muted);
+	}
+
+	/* Two columns where there is room: the two link sets answer one question between
+	   them, and side by side they read as one offer rather than two lists. */
+	.fordjupning-vidare-grid {
+		display: grid;
+		gap: var(--space-unit) var(--space-phi);
+		margin-top: var(--space-half);
+	}
+
+	@media (width >= 40rem) {
+		.fordjupning-vidare-grid:has(> * + *) {
+			grid-template-columns: 1fr 1fr;
+		}
+	}
+
+	.fordjupning-links > .label {
+		margin: 0 0 0.35rem;
+	}
+
+	/* .def-item carries a bottom rule per row, which on the last row stacked against
+	   the next section's top rule — two rules doing one job. */
+	.fordjupning-section :global(.def-item:last-child) {
+		border-bottom: none;
+	}
+
+	/* The relocated block carries .footnotes-relocated, whose own margin-top is 0 and
+	   whose bottom margin is sized for a page end — reclaim it here, the section is
+	   followed by two more. */
+	.fordjupning-noter :global(.footnotes-relocated) {
+		margin-top: var(--space-half);
+		margin-bottom: 0;
+	}
+
+	.fordjupning-back {
+		margin-top: var(--space-phi);
+	}
+
+	/* Revealed on heading hover/focus only — a permanent row of hashes would compete
+	   with the section titles themselves. */
+	.fordjupning-body :global(.heading-anchor) {
+		margin-inline-start: 0.4em;
+		font-size: 0.7em;
+		color: var(--color-muted);
+		text-decoration: none;
+		opacity: 0;
+		transition: opacity 0.15s ease;
+	}
+
+	.fordjupning-body :global(h2:hover .heading-anchor),
+	.fordjupning-body :global(.heading-anchor:focus-visible) {
+		opacity: 1;
+	}
+
+	@media (hover: none) {
+		.fordjupning-body :global(.heading-anchor) {
+			display: none;
+		}
+	}
+</style>

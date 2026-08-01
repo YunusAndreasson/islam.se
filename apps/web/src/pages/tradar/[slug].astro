@@ -1,7 +1,6 @@
 ---
 import { getCollection } from "astro:content";
-import EssayList from "../../components/EssayList.astro";
-import Base from "../../layouts/Base.astro";
+import EssayCollectionPage from "../../components/EssayCollectionPage.astro";
 import { type Article, essayCount, getArticles } from "../../lib/articles";
 import { breadcrumbList, collectionPageJsonLd } from "../../lib/jsonld";
 
@@ -30,9 +29,14 @@ const count = essays.length;
 const slug = Astro.params.slug;
 ---
 
-<Base
-	title={`${title} — islam.se`}
+<EssayCollectionPage
+	title={title}
 	description={framing}
+	essays={essays}
+	kicker="Tråd"
+	countText={essayCount(count)}
+	backHref="/tradar/"
+	backLabel="Alla trådar"
 	ogImage={`/tradar/${slug}/og.png`}
 	jsonLd={[
 		collectionPageJsonLd({
@@ -47,17 +51,4 @@ const slug = Astro.params.slug;
 			{ name: title, url: `/tradar/${slug}` },
 		]),
 	]}
->
-	<main id="main" class="home">
-		<header class="article-header">
-			<p class="label collection-kicker">Tråd</p>
-			<h1>{title}</h1>
-			<p class="lead collection-lead">{framing}</p>
-			<p class="label collection-count">{essayCount(count)}</p>
-		</header>
-
-		<EssayList articles={essays} />
-
-		<p class="collection-back"><a class="section-link arrow-link" href="/tradar/">Alla trådar</a></p>
-	</main>
-</Base>
+/>

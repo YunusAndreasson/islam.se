@@ -1,8 +1,9 @@
 ---
 import type { Article } from "../lib/articles";
-import { formatDate, inlineMarkdown } from "../lib/articles";
+import { inlineMarkdown } from "../lib/articles";
 import { FEATURE_HERO_SIZES, FEATURE_HERO_WIDTHS } from "../lib/hero";
 import { heroPlaceholder } from "../lib/lqip";
+import ArticleMeta from "./ArticleMeta.astro";
 import EssayImage from "./EssayImage.astro";
 
 interface Props {
@@ -38,9 +39,7 @@ const placeholder = await heroPlaceholder(article.slug);
 			{article.description && (
 				<p class="feature-lead" set:html={inlineMarkdown(article.description)} />
 			)}
-			<p class="label feature-meta">
-				<time datetime={article.publishedAt}>{formatDate(article.publishedAt)}</time> &middot; {article.readingTime} min läsning
-			</p>
+			<ArticleMeta class="label feature-meta" publishedAt={article.publishedAt} readingTime={article.readingTime} />
 		</div>
 	</a>
 </section>

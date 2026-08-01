@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 import { execSync } from "node:child_process";
-import { appendFileSync, existsSync, readFileSync } from "node:fs";
+import { appendFileSync, existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import * as p from "@clack/prompts";
@@ -13,10 +13,12 @@ import {
 	type IdeaBrief,
 	IdeationService,
 	parseFrontmatter,
+	slugify,
 } from "@islam-se/orchestrator";
 import { Command } from "commander";
 import { createPatch } from "diff";
 import { config } from "dotenv";
+import type { FordjupningResult } from "./fordjupning-producer.js";
 
 // Load environment variables from project root
 const __prodDir = dirname(fileURLToPath(import.meta.url));
@@ -1415,6 +1417,188 @@ program
 			console.log(`❌ FAILED: ${res.error}`);
 			process.exit(1);
 		}
+	});
+
+// ─── Fordjupning pillar-page production ─────────────────────────────────────────
+
+/** Every gate outcome in one block, so a run can be judged without reading the log. */
+function reportFordjupningGates(g: FordjupningResult["gates"]): void {
+	if (!g) return;
+	console.log("── Gates ──────────────────────────────────────────────────");
+	console.log(`   Credibility: ${g.credibility ?? "—"} / threshold ${g.credibilityThreshold}`);
+	console.log(
+		`   Review:      ${g.finalScore ?? "—"}/10 »${g.verdict ?? "—"}« after ${g.revisions} revision(s)`,
+	);
+	if (g.corpusQuotes !== undefined) {
+		const inert = g.corpusQuotes > 0 && !g.verifiedQuotes;
+		console.log(
+			`   Korpuscitat: ${g.verifiedQuotes ?? 0} verifierade av ${g.corpusQuotes} i briefen` +
+				(inert ? "  ⚠️  id-grinden kontrollerade ingenting" : ""),
+		);
+	}
+	if (g.droppedSources.length > 0) {
+		console.log(`   Dropped sources: ${g.droppedSources.join("; ")}`);
+	}
+	// The bibliography that ships is the author's, not research's — and it went unchecked
+	// until a fabricated shamela link reached two finished pages under a "publish" verdict.
+	if (g.strippedSourceUrls?.length) {
+		console.log(`   ⚠️  STRÖK ${g.strippedSourceUrls.length} KÄLL-URL:er ur frontmatter:`);
+		for (const s of g.strippedSourceUrls) console.log(`      · ${s}`);
+		console.log("      Källorna står kvar utan länk. Lägg bara tillbaka en URL du själv öppnat.");
+	}
+	// Ground kör efter alla grindar; en tyst tillagd mening är hur en påhittad ort tog sig
+	// ut på en publicerad sida. Skriv alltid ut vad steget stoppade in.
+	if (g.groundAdditions?.length) {
+		console.log(
+			`   ✍️  GROUND LA TILL ${g.groundAdditions.length} MENING(AR) efter grindarna — läs dem:`,
+		);
+		for (const a of g.groundAdditions) console.log(`      · ${a}`);
+		console.log("      Ingen faktagranskning har sett dessa. Kontrollera varje namngiven uppgift.");
+	}
+	if (g.proseIssuesBefore !== undefined) {
+		const after = g.proseIssuesAfter === undefined ? "" : ` → ${g.proseIssuesAfter}`;
+		console.log(`   Prose issues: ${g.proseIssuesBefore}${after}`);
+	}
+	// A non-fatal stage that never ran leaves no trace in the numbers above — the page
+	// simply reads as if it had passed the pass it never got.
+	if (g.skippedStages?.length) {
+		console.log(`   ⚠️  STEG SOM ALDRIG KÖRDE: ${g.skippedStages.join(", ")}`);
+		console.log("      Texten har inte fått den behandlingen. Kör checkskripten för hand.");
+	}
+	console.log("");
+}
+
+function reportFordjupningSuccess(res: FordjupningResult, outputDir: string): void {
+	console.log("✅ SUCCESS");
+	console.log(`   File:  ${res.filePath}`);
+	console.log(`   Title: ${res.frontmatter?.title}`);
+	console.log(
+		`   Words: ${res.wordCount}   FAQ: ${res.frontmatter?.faq.length ?? 0}   Sources: ${res.frontmatter?.sources.length ?? 0}`,
+	);
+	console.log(`   Stage outputs: ${outputDir}`);
+	if (res.redirect) {
+		console.log("");
+		console.log("   Consider adding to customRedirects in apps/web/astro.config.ts:");
+		console.log(`     ["${res.redirect[0]}", "${res.redirect[1]}"],`);
+	}
+	console.log("");
+	console.log("   NEXT: read the page, run an adversarial critic against the rubric,");
+	console.log("   then get human orthodoxy + accuracy sign-off before shipping.");
+}
+
+program
+	.command("fordjupning")
+	.description("Produce one encyclopedic pillar page → data/fordjupning/<slug>.md")
+	.argument("<term>", 'The head entity, e.g. "Hijab"')
+	// ⚠️ Angles are the highest-leverage input to the corpus stage and are NOT optional in
+	// practice: a bare term against the Swedish Quran text returns confident noise. Write
+	// them as full phrases in the language of the text being searched.
+	.option(
+		"--quran <phrase...>",
+		"Swedish search phrases for quran.db (repeatable, space-separated list)",
+	)
+	.option("--arabic <phrase...>", "English thematic phrases for the Arabic classics")
+	.option("--swedish <phrase...>", "Swedish phrases for the intellectual-history bridge")
+	.option(
+		"--verse <ref...>",
+		"Loci classici fetched by reference, e.g. --verse 24:31 33:59 (search misses them)",
+	)
+	.option("-m, --model <model>", "Model to use (opus|sonnet)", "opus")
+	.option("-e, --effort <level>", "Author-pass effort (low|medium|high|xhigh|max)", "xhigh")
+	.option("--review-effort <level>", "Review-pass effort", "max")
+	.option("-q, --quality <score>", "Credibility floor for the fact-check gate", "7.5")
+	.option("-r, --revisions <n>", "Revision rounds after the first review", "2")
+	.option("--skip-language", "Skip the ground / Swedish-voice / prose-eval passes", false)
+	.option("--corpus-only", "Run step 0 only, write the corpus brief and stop", false)
+	.option(
+		"-R, --resume",
+		"Reuse research.json / factcheck.json / draft-raw-N.md in --output from a previous run",
+		false,
+	)
+	.option("-s, --slug <slug>", "Explicit slug (else derived from the term)")
+	.option("-l, --legacy <path>", "Legacy URL this page could inherit (proposes a 301)")
+	.option("-o, --output <dir>", "Where stage outputs are written")
+	.option("--overwrite", "Overwrite an existing data/fordjupning/<slug>.md", false)
+	.action(async (term: string, options) => {
+		const repoRoot = join(__prodDir, "..", "..", "..");
+		const angles = {
+			quran: (options.quran as string[] | undefined) ?? [],
+			arabic: (options.arabic as string[] | undefined) ?? [],
+			swedish: (options.swedish as string[] | undefined) ?? [],
+		};
+		const outputDir = options.output ?? join(repoRoot, "data", "fordjupning-output", slugify(term));
+
+		console.log("");
+		console.log("╔══════════════════════════════════════════════════════════╗");
+		console.log("║        Islam.se Encyclopedic Pillar (fordjupning) Producer    ║");
+		console.log("╚══════════════════════════════════════════════════════════╝");
+		console.log("");
+		console.log(`Term: ${term}`);
+		console.log(
+			`Angles: ${angles.quran.length} quran / ${angles.arabic.length} arabic / ${angles.swedish.length} swedish`,
+		);
+		if (angles.quran.length === 0 || angles.arabic.length === 0 || angles.swedish.length === 0) {
+			console.log(
+				"⚠️  Angles missing for at least one database — the bare term is a poor query and",
+			);
+			console.log("   returns confident noise. Pass --quran/--arabic/--swedish phrases.");
+		}
+		console.log("");
+
+		// Step 0 alone, for judging the material before spending an hour on the full run.
+		if (options.corpusOnly === true) {
+			const { buildCorpusBrief, formatCorpusBrief } = await import("@islam-se/orchestrator");
+			const brief = await buildCorpusBrief({
+				term,
+				angles,
+				pinnedVerses: options.verse as string[] | undefined,
+			});
+			mkdirSync(outputDir, { recursive: true });
+			const path = join(outputDir, "corpus-brief.md");
+			writeFileSync(path, formatCorpusBrief(brief), "utf-8");
+			console.log(`✅ Corpus brief written: ${path}`);
+			if (brief.pinned.missing.length > 0) {
+				console.log(`⚠️  Pinned verses absent from quran.db: ${brief.pinned.missing.join(", ")}`);
+			}
+			process.exit(0);
+		}
+
+		const { FordjupningProducer } = await import("./fordjupning-producer.js");
+		const producer = new FordjupningProducer({
+			repoRoot,
+			model: options.model as "opus" | "sonnet",
+			effort: options.effort,
+			reviewEffort: options.reviewEffort,
+			qualityThreshold: Number(options.quality),
+			maxRevisions: Number(options.revisions),
+			skipLanguagePasses: options.skipLanguage === true,
+			resume: options.resume === true,
+			outputDir,
+			prompts: {
+				research: join(__prodDir, "..", "prompts", "fordjupning-research.md"),
+				author: join(__prodDir, "..", "prompts", "fordjupning-author.md"),
+				review: join(__prodDir, "..", "prompts", "fordjupning-review.md"),
+			},
+			mcpConfig: join(repoRoot, ".mcp.json"),
+		});
+
+		const res = await producer.produce({
+			term,
+			angles,
+			pinnedVerses: options.verse as string[] | undefined,
+			slug: options.slug,
+			legacyPath: options.legacy,
+			overwrite: options.overwrite === true,
+		});
+
+		console.log("");
+		reportFordjupningGates(res.gates);
+		if (res.success) {
+			reportFordjupningSuccess(res, outputDir);
+			process.exit(0);
+		}
+		console.log(`❌ FAILED: ${res.error}`);
+		process.exit(1);
 	});
 
 program.parse();

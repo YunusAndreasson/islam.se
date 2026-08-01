@@ -8,6 +8,7 @@ import {
 	PRAYER_SWEDISH_NAMES,
 } from "../../lib/bonetider/prayer-times";
 import { DEFAULT_SETTINGS } from "../../lib/bonetider/settings";
+import { PRAYER_COLORS } from "../../lib/bonetider/solar/palette";
 
 interface Props {
 	location: { name: string; latitude: number; longitude: number };
@@ -37,6 +38,9 @@ const rows = PRAYER_ORDER.map((key) => ({
 	label: PRAYER_LABELS[key],
 	sv: PRAYER_SWEDISH_NAMES[key],
 	time: formatTime(times[key]),
+	// Same source as the canvas isolines and the year chart's strokes, themed by
+	// light-dark() rather than duplicated per scheme.
+	line: `light-dark(${PRAYER_COLORS[key].light}, ${PRAYER_COLORS[key].dark})`,
 }));
 const nextKey = nextPrayerKeyAt(times, now.getTime()) ?? "fajr";
 ---
@@ -88,6 +92,7 @@ const nextKey = nextPrayerKeyAt(times, now.getTime()) ?? "fajr";
 				id={variant === "full" ? `bt-${r.key}` : undefined}
 				data-prayer={r.key}
 				class:list={{ "is-next": r.key === nextKey }}
+				style={`--prayer-line: ${r.line}`}
 			>
 				<span class="bf-t-name">{r.label}</span>
 				<span class="bf-t-sv">{r.sv}</span>
@@ -277,7 +282,9 @@ const nextKey = nextPrayerKeyAt(times, now.getTime()) ?? "fajr";
 		align-items: baseline;
 		padding: 0.5rem 0.2rem 0.5rem 0.7rem;
 		border-bottom: 1px solid var(--color-divider);
-		border-left: 2px solid transparent;
+		/* --prayer-line is set per row from the canvas palette, so a row's rule is the
+		   same colour as that prayer's isoline on the map beside it. */
+		border-left: 3px solid var(--prayer-line, transparent);
 	}
 
 	.bf-t-name {
@@ -304,10 +311,12 @@ const nextKey = nextPrayerKeyAt(times, now.getTime()) ?? "fajr";
 		color: var(--color-text);
 	}
 
-	/* The upcoming prayer — a warm accent in the site's palette (the canvas carries the
-	   brass; the chrome stays within the 4-colour system). */
+	/* The upcoming prayer. The rule keeps its own hue at every hour, so the emphasis is a
+	   tint of that same hue — the chrome's answer to the wider glow the canvas gives the
+	   next prayer's line. Not the border width: that would shift the row 1 px as the next
+	   prayer advances. */
 	.bf-t.is-next {
-		border-left-color: var(--color-warm);
+		background: color-mix(in oklab, var(--prayer-line) 8%, transparent);
 	}
 
 	.bf-t.is-next .bf-t-name,

@@ -1,0 +1,54 @@
+---
+interface Props {
+	title: string;
+	kicker?: string;
+	kickerHref?: string;
+	kickerClass?: string;
+	lead?: string;
+	leadClass?: string;
+}
+
+const {
+	title,
+	kicker,
+	kickerHref,
+	kickerClass = "collection-kicker",
+	lead,
+	leadClass = "lead collection-lead",
+} = Astro.props;
+---
+
+<header class="article-header">
+	{Boolean(kicker) && (
+		<p class:list={["label", kickerClass]}>
+			{kickerHref ? <a href={kickerHref}>{kicker}</a> : kicker}
+		</p>
+	)}
+	<h1>{title}</h1>
+	{lead && <p class={leadClass}>{lead}</p>}
+	<slot />
+</header>
+
+<style>
+	.article-kicker {
+		margin-bottom: var(--space-half);
+		color: var(--color-muted);
+	}
+
+	.article-kicker a {
+		display: inline-block;
+		padding: 0.3rem 0.4rem;
+		margin: -0.3rem -0.4rem;
+		color: var(--color-accent);
+		text-decoration: none;
+
+		&:hover {
+			text-decoration: underline;
+			text-underline-offset: 0.15em;
+		}
+
+		&:focus-visible {
+			border-radius: var(--radius-xs);
+		}
+	}
+</style>

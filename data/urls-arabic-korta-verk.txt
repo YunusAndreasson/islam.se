@@ -1,0 +1,42 @@
+# Korta, högvärdiga verk — fjärde omgången 2026-08-01. Valda för att de LÖSER KÄNDA
+# PROBLEM i det publicerade materialet, inte för att fylla ut korpus. Hela omgången
+# är ~30 MB, drygt en halvtimme.
+#
+# Import: pnpm cli import-books data/urls-arabic-korta-verk.txt --language ar
+
+# Ibn Fadlan (d. 309 AH) — Risalan/Rihla om beskickningen till Volgabulgarerna.
+# ⚠️ Texten i quotes.db är FÖRVANSKAD (se memory `fakta_norse_anchors`), och FAKTA-sidornas
+# norröna ankare vilar på den. Det här är primärtexten. Ögonvittnet till rus-begravningen
+# vid Volga är dessutom den enskilt mest citerade arabiska källan om vikingatiden.
+# 0,36 MB, ~1 min
+https://raw.githubusercontent.com/OpenITI/0325AH/master/data/0309IbnFadlan/0309IbnFadlan.Rihla/0309IbnFadlan.Rihla.Masaha004121-ara1
+
+# Ibn al-Qayyim (d. 751 AH) — Tuhfat al-mawdud bi-ahkam al-mawlud. Om det nyfödda barnet:
+# aqiqa, namngivning, omskärelse, amning, fostret. Tjänar abort-sidan (granskaren
+# misstänkte att navelsträngsstället felaktigt tillskrivits al-Fawaid och hör hit) och
+# /svar/manlig-omskarelse-i-islam. 0,48 MB, ~1,5 min
+https://raw.githubusercontent.com/OpenITI/0775AH/master/data/0751IbnQayyimJawziyya/0751IbnQayyimJawziyya.TuhfatMawdud/0751IbnQayyimJawziyya.TuhfatMawdud.JK000095-ara1
+
+# Ibn al-Qayyim (d. 751 AH) — Zad al-maad. Profetisk vägledning: dyrkan, umgänge, medicin.
+# 5,55 MB, ~8 min
+https://raw.githubusercontent.com/OpenITI/0775AH/master/data/0751IbnQayyimJawziyya/0751IbnQayyimJawziyya.ZadMacad/0751IbnQayyimJawziyya.ZadMacad.Shamela0021713-ara1
+
+# Ibn Khaldun (d. 808 AH) — Tarikh, inklusive Muqaddiman. /tankare/ibn-khaldun/ rankar på
+# plats 76 utan en enda primärkälla bakom sig. 13,19 MB, ~19 min
+https://raw.githubusercontent.com/OpenITI/0825AH/master/data/0808IbnKhaldun/0808IbnKhaldun.Tarikh/0808IbnKhaldun.Tarikh.Shia003607Vols-ara2
+
+# ── Atharisk kärna (tillagd efter genomgång mot troslinjen) ────────────────────
+
+# Ibn Abi al-Izz al-Hanafi (d. 792 AH) — Sharh al-Aqida al-Tahawiyya. Standardkommentaren
+# till den athariska trosbekännelsen; korpusen hade Ibn Taymiyyas Wasitiyya men ingen
+# utlagd kommentar. 1,25 MB, ~2 min
+https://raw.githubusercontent.com/OpenITI/0800AH/master/data/0792SadrDinIbnAbiCizzAdhraci/0792SadrDinIbnAbiCizzAdhraci.SharhCaqidaTahawiyya/0792SadrDinIbnAbiCizzAdhraci.SharhCaqidaTahawiyya.Shamela0010777-ara1
+
+# Ibn Rajab al-Hanbali (d. 795 AH) — Jami al-ulum wa-l-hikam. Kommentar till al-Nawawis
+# fyrtio hadither, hanbalitisk-atharisk. Korpusen har Arbain men ingen utläggning. 1,84 MB, ~3 min
+https://raw.githubusercontent.com/OpenITI/0800AH/master/data/0795IbnRajabHanbali/0795IbnRajabHanbali.JamicCulumWaHikam/0795IbnRajabHanbali.JamicCulumWaHikam.Shamela0004268-ara1
+
+# al-Dhahabi (d. 748 AH) — Siyar alam al-nubala. Atharisk historiker och hadithkritiker;
+# biografierna över tre sekler lärde. Tjänar /tankare/-sidorna och essäernas personhistoria.
+# 21,94 MB, ~31 min
+https://raw.githubusercontent.com/OpenITI/0750AH/master/data/0748Dhahabi/0748Dhahabi.SiyarAclamNubala/0748Dhahabi.SiyarAclamNubala.Shamela0022669-ara2

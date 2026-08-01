@@ -1,0 +1,51 @@
+---
+import type { HTMLAttributes } from "astro/types";
+import type { Article } from "../lib/articles";
+import { inlineMarkdown } from "../lib/articles";
+import { CARD_WIDTHS } from "../lib/hero";
+import ArticleMeta from "./ArticleMeta.astro";
+import EssayImage from "./EssayImage.astro";
+
+type Props = HTMLAttributes<"li"> & {
+	article: Article;
+	variant?: "row" | "card";
+	showReadFlag?: boolean;
+	showMinutesAttr?: boolean;
+};
+
+const {
+	article,
+	variant = "row",
+	showReadFlag = false,
+	showMinutesAttr = false,
+	class: className,
+	...attrs
+} = Astro.props;
+
+const isCard = variant === "card";
+---
+
+<li
+	{...attrs}
+	class:list={["archive-item", isCard && "essay-card", className]}
+	data-slug={article.slug}
+	data-minutes={showMinutesAttr ? article.readingTime : undefined}
+>
+	<a href={`/${article.slug}`} data-astro-prefetch="viewport">
+		{isCard && article.heroImage && (
+			<div class="essay-card-media media-frame">
+				<EssayImage article={article} widths={CARD_WIDTHS} sizes="(max-width: 600px) 100vw, 20rem" />
+			</div>
+		)}
+		<span class:list={["archive-title", isCard && "essay-card-title"]}>{article.title}</span>
+		{!isCard && (
+			<ArticleMeta class="label archive-meta" publishedAt={article.publishedAt} readingTime={article.readingTime} showReadFlag={showReadFlag} />
+		)}
+		{article.description && (
+			<p class:list={["archive-description", isCard && "essay-card-desc"]} set:html={inlineMarkdown(article.description)} />
+		)}
+		{isCard && (
+			<ArticleMeta class="label archive-meta" publishedAt={article.publishedAt} readingTime={article.readingTime} showReadFlag={showReadFlag} />
+		)}
+	</a>
+</li>

@@ -1,12 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -2 120 22">
-	<!--
-		Rub el hizb (۞): two interlocking square outlines with inner ring.
-		Flanking rules taper into the star for a connected feel.
-	-->
-	<title>Rub el hizb-ornament</title>
-	<line x1="0" y1="9" x2="48" y2="9" stroke="white" stroke-width="0.85" stroke-linecap="round"/>
-	<rect x="53" y="2" width="14" height="14" stroke="white" stroke-width="1.2" fill="none"/>
-	<rect x="53" y="2" width="14" height="14" stroke="white" stroke-width="1.2" fill="none" transform="rotate(45 60 9)"/>
-	<circle cx="60" cy="9" r="2" stroke="white" stroke-width="1" fill="none"/>
-	<line x1="72" y1="9" x2="120" y2="9" stroke="white" stroke-width="0.85" stroke-linecap="round"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -2 120 22" fill="none">
+	<title>Ornament</title>
+	<line x1="0" y1="9" x2="52.8" y2="9" stroke="white" stroke-width="0.85" stroke-linecap="round"/>
+	<path d="M 60 4.8 A 4.2 4.2 0 1 0 60 13.2 A 4.2 4.2 0 1 0 60 4.8 Z M 60 6.029999999999999 A 2.97 2.97 0 1 1 60 11.97 A 2.97 2.97 0 1 1 60 6.029999999999999 Z" fill="white" fill-rule="evenodd"/>
+	<line x1="67.2" y1="9" x2="120" y2="9" stroke="white" stroke-width="0.85" stroke-linecap="round"/>
 </svg>

@@ -1,6 +1,7 @@
 ---
 import { getCollection } from "astro:content";
 import HomeHead from "./HomeHead.astro";
+import ThreadList from "./ThreadList.astro";
 
 // `limit` keeps the homepage glimpse balanced: an even count fills the 2-column
 // grid into clean rows, while the /tradar index renders the collection unbounded.
@@ -20,85 +21,5 @@ if (limit) {
 
 <section class="tradar-home home-movement" aria-labelledby="tradar-kicker">
 	<HomeHead label="Trådar" id="tradar-kicker" href="/tradar/" linkLabel="Alla trådar" />
-	<ul class="tradar-grid">
-		{threads.map((thread) => (
-			<li class="tradar-card">
-				<a href={`/tradar/${thread.id}/`} data-astro-prefetch="viewport">
-					<h3 class="tradar-card-title">{thread.data.title}</h3>
-					<p class="tradar-card-framing">{thread.data.framing}</p>
-					<p class="label tradar-card-count">{thread.data.essays.length} essäer</p>
-				</a>
-			</li>
-		))}
-	</ul>
+	<ThreadList threads={threads} variant="home" headingLevel={3} prefetch="viewport" />
 </section>
-
-<style>
-	/* Text-led, no imagery — a deliberately quieter register than the image-led
-	   ämnen above, so the two discovery layers never read as the same module (§7.7). */
-	/* Whitespace groups these, not rules. This module used to be drawn as a boxed
-	   table — a 1px grid gap over a divider background, plus a border top and
-	   bottom — with the text padded ~32px inside the cells. Measured against every
-	   other module on the page, that made it the ONLY one whose text did not start
-	   on the page's left spine (227px): kickers, headings and body everywhere else
-	   land on it, and the trådar titles landed at 259. Four hairlines and an indent
-	   to say "these four belong together", which the gap already says. Principle 4:
-	   no dividers unless they encode meaning; Principle 5: whitespace is structure. */
-	.tradar-grid {
-		margin: 0;
-		padding: 0;
-		list-style: none;
-		display: grid;
-		grid-template-columns: repeat(2, 1fr);
-		gap: var(--space-unit) clamp(1.5rem, 4vw, 3rem);
-	}
-
-	.tradar-card a {
-		display: block;
-		height: 100%;
-		/* Block padding only — the inline edge is the spine. */
-		padding-block: 0.2rem;
-		text-decoration: none;
-		color: inherit;
-
-		&:hover .tradar-card-title {
-			text-decoration: underline;
-			text-underline-offset: 0.12em;
-		}
-
-		/* Was -2px, tucked inside the old card border. With no box to sit in, the
-		   ring belongs outside the text. */
-		--focus-offset: 3px;
-	}
-
-	.tradar-card-title {
-		font-family: var(--font-heading);
-		font-size: var(--step-1);
-		font-weight: 620;
-		letter-spacing: 0;
-		line-height: 1.2;
-		color: var(--color-accent);
-		margin: 0;
-	}
-
-	.tradar-card-framing {
-		font-family: var(--font-body);
-		font-size: var(--step--2);
-		line-height: 1.5;
-		color: var(--text-quiet);
-		margin: 0.5rem 0 0;
-	}
-
-	.tradar-card-count {
-		margin: 0.625rem 0 0;
-	}
-
-	/* The two-column divider grid is the intended shape down through tablet widths;
-	   only collapse to a single column on phones (≤600px) so iPad-portrait and small
-	   laptops keep both columns instead of dropping to a tall single stack. */
-	@media (width <= 600px) {
-		.tradar-grid {
-			grid-template-columns: 1fr;
-		}
-	}
-</style>

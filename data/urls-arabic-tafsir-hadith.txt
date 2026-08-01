@@ -1,0 +1,29 @@
+# Tafsīr, hadith och sīra — importerade 2026-08-01, andra omgången efter fiqh-verken
+# (`data/urls-arabic-fiqh.txt`). Bakgrunden är densamma: books.db täckte taṣawwuf,
+# ʿaqīda och adab men saknade HELT de genrer sidorna faktiskt bygger på.
+#
+# ⚠️ Korpusen hade NOLL tafsīr — trots att varje fördjupning har ett avsnitt
+# »Vad källorna säger« som bygger på koranexeges. Och bara hadith-DIGEST (Riyāḍ
+# al-Ṣāliḥīn, Adab al-Mufrad), aldrig de två ṣaḥīḥ-samlingarna, trots att
+# /svar/-sidorna länkar sunnah.com 485 gånger.
+#
+# Import: pnpm cli import-books data/urls-arabic-tafsir-hadith.txt --language ar
+# Ordnade efter värde per minut — det går att avbryta var som helst.
+
+# Sahih al-Bukhari (d. 256 AH) — 6,0 MB, ~17 min
+https://raw.githubusercontent.com/OpenITI/0275AH/master/data/0256Bukhari/0256Bukhari.Sahih/0256Bukhari.Sahih.Shamela0001681-ara1
+
+# Sahih Muslim (d. 261 AH) — 4,9 MB, ~14 min
+https://raw.githubusercontent.com/OpenITI/0275AH/master/data/0261Muslim/0261Muslim.Sahih/0261Muslim.Sahih.Shamela0001727-ara1.mARkdown
+
+# Ibn Hisham (d. 213 AH) — Sirat al-Nabawiyya. Tjänar Muhammed, Kaba, Mecka/Medina,
+# hijra — fyra ämnen på topplistan. 2,7 MB, ~7 min
+https://raw.githubusercontent.com/OpenITI/0225AH/master/data/0213IbnHisham/0213IbnHisham.SiraNabawiyya/0213IbnHisham.SiraNabawiyya.Shamela0023833-ara1.completed
+
+# Ibn Kathir (d. 774 AH) — Tafsir al-Quran al-Azim. Standardtafsīren, atharisk linje,
+# stämmer med ortodoxi-grinden. 15,4 MB, ~43 min
+https://raw.githubusercontent.com/OpenITI/0775AH/master/data/0774IbnKathir/0774IbnKathir.TafsirQuran/0774IbnKathir.TafsirQuran.Shamela0008473-ara1.mARkdown
+
+# al-Qurtubi (d. 671 AH) — al-Jami' li-ahkam al-Quran. RÄTTSTAFSĪREN: exeges av just
+# de verser sidorna bygger regler på (abort 23:12–14, slöja 24:31, mat 5:3). 20,5 MB, ~57 min
+https://raw.githubusercontent.com/OpenITI/0675AH/master/data/0671AbuCabdAllahQurtubi/0671AbuCabdAllahQurtubi.JamicLiAhkamQuran/0671AbuCabdAllahQurtubi.JamicLiAhkamQuran.Shamela0020855-ara1

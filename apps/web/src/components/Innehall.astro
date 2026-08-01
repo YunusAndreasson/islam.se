@@ -1,0 +1,107 @@
+---
+import type { MarkdownHeading } from "astro";
+
+interface Props {
+	headings: MarkdownHeading[];
+	/** id of the element this nav labels, for aria-labelledby. */
+	labelId?: string;
+}
+
+const { headings, labelId = "innehall-rubrik" } = Astro.props;
+
+// ⚠️ GFM footnotes emit their own `<h2 class="sr-only" id="footnote-label">`. Whether it
+// reaches `headings` depends on where in the pipeline the footnote section is built, so
+// filter it either way — it must never become a table-of-contents row.
+const sections = headings.filter((h) => h.depth === 2 && h.slug !== "footnote-label");
+---
+
+{
+	sections.length > 1 && (
+		<nav class="innehall" aria-labelledby={labelId}>
+			<p class="label" id={labelId}>
+				Innehåll
+			</p>
+			<ol>
+				{sections.map((h) => (
+					<li>
+						<a href={`#${h.slug}`}>{h.text}</a>
+					</li>
+				))}
+			</ol>
+		</nav>
+	)
+}
+
+<style>
+	.innehall {
+		margin-block: var(--space-phi);
+		padding-block: var(--space-unit);
+		border-block: 1px solid var(--color-rule);
+	}
+
+	.innehall .label {
+		margin: 0 0 var(--space-half);
+	}
+
+	/* Two columns from the point the reading column is wide enough to halve without
+	   the longest section title wrapping every row. */
+	.innehall ol {
+		margin: 0;
+		padding: 0;
+		list-style: none;
+		columns: 1;
+		gap: var(--space-unit);
+		font-family: var(--font-heading);
+		font-size: var(--step--1);
+		line-height: 1.5;
+	}
+
+	@media (min-width: 40rem) {
+		.innehall ol {
+			columns: 2;
+		}
+	}
+
+	.innehall li {
+		/* break-inside keeps a wrapped two-line row from splitting across the columns. */
+		break-inside: avoid;
+		margin-block-end: var(--space-half);
+		counter-increment: toc;
+		position: relative;
+		padding-left: 1.6rem;
+	}
+
+	.innehall ol {
+		counter-reset: toc;
+	}
+
+	.innehall li::before {
+		content: counter(toc);
+		position: absolute;
+		left: 0;
+		font-size: var(--step--3);
+		color: var(--color-muted);
+		font-variant-numeric: tabular-nums;
+	}
+
+	/* ⚠️ Component styles are unlayered and therefore beat @layer base outright,
+	   including its :hover — so both states must be declared here. These rows are
+	   navigation, not prose: every row IS a link and the heading says so, which makes
+	   the base at-rest underline stack into a wall of rules.
+
+	   Padding + matching negative margin: a standalone row link measured 23px, under
+	   the 24px WCAG 2.5.8 floor, and the inline exception doesn't cover it. The negative
+	   margin gives the space back to the list rhythm. */
+	.innehall a {
+		display: inline-block;
+		padding-block: 0.25rem;
+		margin-block: -0.25rem;
+		color: var(--color-accent);
+		text-decoration-color: transparent;
+	}
+
+	.innehall a:hover,
+	.innehall a:focus-visible {
+		text-decoration-color: currentColor;
+	}
+</style>

@@ -1,0 +1,35 @@
+# Sunan-samlingarna, Mālik, Mecka-historien och skolgrundarna — tredje omgången
+# 2026-08-01. Fyller ut det som omgång 1 (fiqh) och 2 (tafsīr/hadith/sīra) lämnade.
+#
+# Efter den här omgången täcker korpusen: de sex hadithböckerna, fyra rättsskolor i
+# både grundverk och standardkommentar, två tafsīrer, sīra och Mecka-historia.
+#
+# Import: pnpm cli import-books data/urls-arabic-sunan-historia.txt --language ar
+# Ordnade efter värde per minut — går att avbryta var som helst.
+
+# al-Azraqi (d. 249 AH) — Akhbar Makka. Den äldsta Mecka-historien: Kabas byggnad,
+# ombyggnader och svarta stenen. Tjänar »Kaba & Mecka« direkt (29 806 visningar,
+# plats 4 på ämneslistan) — de frågor sidan idag svarar på med 753 ord. 1,4 MB, ~4 min
+https://raw.githubusercontent.com/OpenITI/0250AH/master/data/0249Azraqi/0249Azraqi.AkhbarMakka/0249Azraqi.AkhbarMakka.Shamela0009621-ara1
+
+# Malik b. Anas (d. 179 AH) — al-Muwatta. Äldsta bevarade rättsboken, malikitisk grund. 2,4 MB, ~7 min
+https://raw.githubusercontent.com/OpenITI/0200AH/master/data/0179MalikIbnAnas/0179MalikIbnAnas.Muwatta/0179MalikIbnAnas.Muwatta.Shamela0028107-ara1.completed
+
+# Ibn Maja (d. 273 AH) — Sunan. 2,7 MB, ~8 min
+https://raw.githubusercontent.com/OpenITI/0275AH/master/data/0273IbnMaja/0273IbnMaja.Sunan/0273IbnMaja.Sunan.Shamela0098138-ara1
+
+# Abu Dawud (d. 275 AH) — Sunan. 3,5 MB, ~10 min
+https://raw.githubusercontent.com/OpenITI/0275AH/master/data/0275AbuDawudSijistani/0275AbuDawudSijistani.Sunan/0275AbuDawudSijistani.Sunan.ShamAY0033960-ara1
+
+# al-Nasa'i (d. 303 AH) — Sunan al-Sughra (al-Mujtaba), den kanoniska. 3,5 MB, ~10 min
+https://raw.githubusercontent.com/OpenITI/0325AH/master/data/0303Nasai/0303Nasai.SunanSughra/0303Nasai.SunanSughra.Shamela0000829-ara1
+
+# al-Tirmidhi (d. 279 AH) — Sunan (al-Jami'). 3,7 MB, ~10 min
+https://raw.githubusercontent.com/OpenITI/0300AH/master/data/0279Tirmidhi/0279Tirmidhi.Sunan/0279Tirmidhi.Sunan.Shamela0001435-ara1
+
+# al-Shafi'i (d. 204 AH) — al-Umm. Skolgrundarens eget verk, inte kommentaren. 11,0 MB, ~31 min
+https://raw.githubusercontent.com/OpenITI/0225AH/master/data/0204Shafici/0204Shafici.Umm/0204Shafici.Umm.Shamela0001655-ara1
+
+# Ibn Kathir (d. 774 AH) — al-Bidaya wa-l-nihaya. Historieverket: kaliferna, guldåldern,
+# erövringarna — ämnen sidorna redan skriver om utan primärkälla. 22,1 MB, ~62 min
+https://raw.githubusercontent.com/OpenITI/0775AH/master/data/0774IbnKathir/0774IbnKathir.Bidaya/0774IbnKathir.Bidaya.Sham30K0008376-ara2

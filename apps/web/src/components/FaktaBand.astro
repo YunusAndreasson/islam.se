@@ -2,6 +2,8 @@
 import { getCollection } from "astro:content";
 import { FAKTA_CLUSTERS } from "../lib/fakta";
 import { groupSvar } from "../lib/svar";
+import HairlineLinkList from "./HairlineLinkList.astro";
+import SectionLink from "./SectionLink.astro";
 
 /**
  * The reference band on the homepage — the encyclopedic half of the site,
@@ -53,17 +55,19 @@ const listedCount = groupSvar(entries).reduce((n, g) => n + g.entries.length, 0)
 						? <a href={`/svar/${cluster.overview}/`}>{cluster.name}</a>
 						: cluster.name}
 				</p>
-				<ul class="fakta-band-list">
-					{cluster.items.map((item) => (
-						<li><a href={`/svar/${item.svarSlug}/`}>{item.label}</a></li>
-					))}
-				</ul>
+				<HairlineLinkList
+					class="fakta-band-list"
+					items={cluster.items.map((item) => ({
+						label: item.label,
+						href: `/svar/${item.svarSlug}/`,
+					}))}
+				/>
 			</div>
 		))}
 	</div>
 
 	<p class="fakta-band-more">
-		<a class="arrow-link" href="/svar/">Alla {listedCount} frågor och svar</a>
+		<SectionLink href="/svar/">Alla {listedCount} frågor och svar</SectionLink>
 	</p>
 </section>
 
@@ -127,61 +131,9 @@ const listedCount = groupSvar(entries).reduce((n, g) => n + g.entries.length, 0)
 		}
 	}
 
-	/* The same hairline row idiom as .pillar-links on the FAKTA hub — body face,
-	   one rule between rows, 0.7rem block padding so each row clears the 24px
-	   target floor (WCAG 2.5.8). Not a third row vocabulary. */
-	.fakta-band-list {
-		font-family: var(--font-body);
-		font-size: var(--step--1);
-		margin: 0;
-		padding: 0;
-		list-style: none;
-	}
-
-	.fakta-band-list li + li {
-		border-top: 1px solid var(--color-rule);
-	}
-
-	.fakta-band-list a {
-		display: block;
-		color: var(--color-accent);
-		text-decoration: none;
-		padding-block: 0.7rem;
-
-		&:hover {
-			text-decoration: underline;
-			text-underline-offset: 0.15em;
-		}
-
-		&:focus-visible {
-			border-radius: var(--radius-xs);
-		}
-	}
-
 	.fakta-band-more {
 		font-family: var(--font-heading);
 		font-size: var(--step--2);
 		margin: var(--space-unit) 0 0;
-	}
-
-	.fakta-band-more a {
-		color: var(--color-accent);
-		text-decoration: none;
-		/* WCAG 2.5.8: pad past the 24px floor, reclaim the space with a matching
-		   negative margin so the band's closing rhythm is unchanged. */
-		display: inline-flex;
-		align-items: center;
-		padding-block: 0.3rem;
-		margin-block: -0.3rem;
-
-		&:hover {
-			text-decoration: underline;
-			text-underline-offset: 0.15em;
-		}
-
-		&:focus-visible {
-			outline-offset: 3px;
-			border-radius: var(--radius-xs);
-		}
 	}
 </style>

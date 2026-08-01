@@ -1,0 +1,20 @@
+---
+import type { HTMLAttributes } from "astro/types";
+
+type Props = HTMLAttributes<"details"> & {
+	label: string;
+	count: string | number;
+	labelClass: string;
+	countClass: string;
+};
+
+const { class: className, label, count, labelClass, countClass, ...attrs } = Astro.props;
+---
+
+<details {...attrs} class:list={[className]}>
+	<summary>
+		<span class={labelClass}>{label}</span>
+		<span class={countClass}>{count}</span>
+	</summary>
+	<slot />
+</details>

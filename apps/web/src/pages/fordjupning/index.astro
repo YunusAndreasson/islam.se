@@ -1,0 +1,78 @@
+---
+import { getCollection } from "astro:content";
+import CollectionIndexPage from "../../components/CollectionIndexPage.astro";
+import TextRowList from "../../components/TextRowList.astro";
+import { resolveHero } from "../../lib/fordjupning";
+import { breadcrumbList, collectionPageJsonLd } from "../../lib/jsonld";
+
+// FORDJUPNING — the encyclopedic pillar pages. Each covers one broad topic in full
+// (sources, scholarship, history, the Swedish context); the short answers at /svar/
+// handle the single questions underneath them.
+const sorted = (await getCollection("fordjupning")).sort((a, b) =>
+	a.data.term.localeCompare(b.data.term, "sv"),
+);
+// Resolved once here rather than per row, so the index stays one pass over the art map
+// even at thirty topics.
+const entries = await Promise.all(
+	sorted.map(async (entry) => ({ entry, hero: await resolveHero(entry) })),
+);
+const fordjupningRows = entries.map(({ entry: e, hero }) => ({
+	href: `/fordjupning/${e.id}/`,
+	title: e.data.term,
+	description: e.data.blurb ?? e.data.seoDescription ?? e.data.description,
+	image: hero && {
+		src: hero.src,
+		article: hero.article,
+		widths: [200, 400],
+		sizes: "120px",
+	},
+}));
+
+const description =
+	"Utförliga fordjupningsartiklar om omdiskuterade ämnen i islam – källorna, de lärdas tolkningar, historien och den svenska kontexten, samlat på ett ställe.";
+---
+
+<CollectionIndexPage
+	title="Fördjupning om islam"
+	description={description}
+	ogImageAlt="Fördjupning om islam — islam.se"
+	mainClass="fordjupning-index home"
+	jsonLd={[
+		collectionPageJsonLd({
+			name: "Fördjupning om islam",
+			description,
+			url: "/fordjupning/",
+			// `slug` is prefixed because the helper resolves it against the site root.
+			essays: sorted.map((e) => ({ title: e.data.title, slug: `fordjupning/${e.id}` })),
+		}),
+		breadcrumbList([
+			{ name: "Hem", url: "/" },
+			{ name: "Fördjupning", url: "/fordjupning/" },
+		]),
+	]}
+>
+	<span slot="lead">
+		Utförliga artiklar om ämnen som ofta diskuteras och lika ofta missförstås: vad källorna
+		säger, hur de lärda har läst dem, hur bruket har sett ut genom historien och hur frågan
+		ser ut i Sverige. Vill du ha ett kort svar i stället finns{" "}
+		<a href="/svar/">frågor och svar</a>, och grunderna står samlade under{" "}
+		<a href="/vad-ar-islam/">fakta om islam</a>.
+	</span>
+
+	{entries.length > 0 ? (
+		<TextRowList
+			class="fordjupning-list"
+			style="--text-row-list-margin: var(--space-phi) 0 0; --text-row-media-separator: 1px solid var(--color-rule); --text-row-media-separator-padding: var(--space-unit)"
+			items={fordjupningRows}
+		/>
+	) : (
+		<p class="fordjupning-empty">Inga fordjupning är publicerade än.</p>
+	)}
+</CollectionIndexPage>
+
+<style>
+	.fordjupning-empty {
+		margin-top: var(--space-phi);
+		color: var(--color-muted);
+	}
+</style>

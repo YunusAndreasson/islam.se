@@ -62,7 +62,16 @@ for await (const htmlPath of walkIndexHtml(DIST)) {
 		continue;
 	}
 
-	const html = await readFile(htmlPath, "utf8");
+	let html: string;
+	try {
+		html = await readFile(htmlPath, "utf8");
+	} catch (error) {
+		if ((error as NodeJS.ErrnoException).code === "ENOENT") {
+			skipped++;
+			continue;
+		}
+		throw error;
+	}
 	const markdown = NodeHtmlMarkdown.translate(extractMain(html)).trim();
 	if (!markdown) {
 		skipped++;

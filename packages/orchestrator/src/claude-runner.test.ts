@@ -318,5 +318,48 @@ describe("ClaudeRunner", () => {
 
 			expect(result?.meta).toEqual({ title: "Test", score: 9 });
 		});
+
+		// Regression, 2026-07-30: the /fordjupning/ review stage aborted a 25-minute run
+		// on a reviewer verdict that was perfectly good. Two defects, both here.
+		//
+		// The reviewer quotes the draft, and a pillar page ends its body with a `---` rule
+		// before the footnote block. Quoting that put a `---` line INSIDE the JSON, where
+		// the lazy `[\s\S]*?` stopped — so the captured "frontmatter" was a truncated
+		// object that could not parse. Separately, models leave raw newlines inside long
+		// Swedish string values, which JSON.parse rejects outright.
+		//
+		// If either assertion below fails again, a completed review is being thrown away —
+		// do not "simplify" the candidate list or the string repair back out.
+		it("survives a raw --- line inside the frontmatter JSON", () => {
+			// The newline before --- must be REAL, not JSON-escaped: an escaped \n leaves the
+			// lazy regex intact and the case passes without touching the fix.
+			const output =
+				'---\n{"finalScore": 6.8, "verdict": "revise", "summary": "Slutar med\n---\nnoter"}\n---\n\n## Avsnitt\n\nText.\n\n---\n\n[^1]: Not.';
+			const result = runner.parseMarkdownWithMeta(output);
+
+			expect(result?.meta).toEqual({
+				finalScore: 6.8,
+				verdict: "revise",
+				summary: "Slutar med\n---\nnoter",
+			});
+			expect(result?.body).toContain("[^1]: Not.");
+		});
+
+		it("repairs raw newlines left unescaped inside string values", () => {
+			const output = `---\n{"verdict": "revise", "summary": "Rad ett\nrad två"}\n---\n\nBody.`;
+			const result = runner.parseMarkdownWithMeta(output);
+
+			expect(result?.meta).toEqual({ verdict: "revise", summary: "Rad ett\nrad två" });
+			expect(result?.body).toBe("Body.");
+		});
+
+		it("names the failing step instead of always blaming a missing block", () => {
+			expect(runner.parseMarkdownWithMetaDetailed("no markers here").reason).toContain(
+				"no --- fenced block",
+			);
+			expect(runner.parseMarkdownWithMetaDetailed("---\n{oops\n---\n\nBody.").reason).toContain(
+				"would not parse",
+			);
+		});
 	});
 });

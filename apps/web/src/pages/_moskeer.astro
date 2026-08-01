@@ -1,4 +1,9 @@
 ---
+import { ChevronDown, Crosshair, Search } from "@lucide/astro";
+import DefinitionList from "../components/DefinitionList.astro";
+import DisclosureGroup from "../components/DisclosureGroup.astro";
+import SectionLink from "../components/SectionLink.astro";
+import TitledSection from "../components/TitledSection.astro";
 import Base from "../layouts/Base.astro";
 import { breadcrumbList, dataset, faqPageJsonLd } from "../lib/jsonld";
 import { directionsLinks, getMosques, lanSlug, locationLabel, mosqueUrl, mosquesByLan } from "../lib/moskeer";
@@ -69,6 +74,36 @@ const payload = mosques.map((m) => {
 const payloadJson = JSON.stringify(payload).replace(/</g, "\\u003c");
 
 const description = `Karta och katalog över ${total} moskéer i Sverige i ${cityCount} orter, med adress och ordnade län för län. Sök, filtrera och få vägbeskrivning till närmaste moské. Senast uppdaterad ${updated}.`;
+
+const timelineItems = [
+	{
+		year: "Vikingatiden",
+		label:
+			"Arabiska silvermynt och runstenar med namnet Särkland vittnar om kontakt med den muslimska världen.",
+	},
+	{
+		year: "1897",
+		label:
+			"Den tatariske pälshandlaren Ebrahim Umerkajeff bosätter sig i Stockholm och blir Sveriges förste muslim.",
+	},
+	{
+		year: "1949",
+		label:
+			"Sveriges första muslimska församling grundas i Stockholm, sunnimuslimsk, med Osman Soukkan som förste imam.",
+	},
+	{
+		year: "1984",
+		label: "Malmö moské, en av landets första stora församlingsmoskéer, står klar.",
+	},
+	{
+		year: "2000",
+		label: "Stockholms stora moské öppnar i Ferdinand Bobergs gamla elverk på Södermalm.",
+	},
+	{
+		year: "I dag",
+		label: `Omkring ${total} moskéer och församlingar finns runt om i Sverige.`,
+	},
+];
 
 const faq = [
 	{
@@ -163,7 +198,7 @@ const faq = [
 
 		<div class="mk-controls">
 			<div class="mk-search-wrap">
-				<svg class="mk-search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m21 21-4.3-4.3"></path></svg>
+				<Search class="mk-search-icon" size={18} />
 				<input
 					type="search"
 					id="mk-search"
@@ -179,10 +214,10 @@ const faq = [
 					<option value="">Alla län</option>
 					{groups.map((g) => <option value={g.lan}>{g.lanLabel}</option>)}
 				</select>
-				<svg class="mk-lan-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"></path></svg>
+				<ChevronDown class="mk-lan-chevron" size={16} />
 			</label>
 			<button type="button" id="mk-geo" class="mk-geo">
-				<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"></circle><path d="M12 2v3M12 19v3M22 12h-3M5 12H2"></path></svg>
+				<Crosshair size={16} />
 				<span>Hitta moské nära mig</span>
 			</button>
 			<p id="mk-count" class="mk-count" aria-live="polite">{total} moskéer</p>
@@ -197,16 +232,18 @@ const faq = [
 			<p class="mk-noscript">Den interaktiva kartan kräver JavaScript. Alla moskéer finns i listan nedan, ordnade efter län.</p>
 		</noscript>
 
-		<section class="mk-section" aria-labelledby="mk-find">
-			<h2 id="mk-find">Hitta moské</h2>
+		<TitledSection class="mk-section" id="mk-find" title="Hitta moské">
 			<p class="mk-lead">{total} moskéer, ordnade efter län. Välj en för plats, öppningsår och vägbeskrivning. Se även <a href="/bonetider/">bönetider för din ort</a>.</p>
 			<div class="mk-lan-groups">
 				{groups.map((g) => (
-					<details class="mk-lan" data-lan={g.lan}>
-						<summary>
-							<span class="mk-lan-name">{g.lanLabel}</span>
-							<span class="mk-lan-count">{g.mosques.length}</span>
-						</summary>
+					<DisclosureGroup
+						class="mk-lan"
+						data-lan={g.lan}
+						label={g.lanLabel}
+						count={g.mosques.length}
+						labelClass="mk-lan-name"
+						countClass="mk-lan-count"
+					>
 						<ul class="mk-lan-list">
 							{g.mosques.map((m) => (
 								<li>
@@ -226,20 +263,19 @@ const faq = [
 								</li>
 							))}
 						</ul>
-						<a class="mk-lan-all section-link arrow-link" href={`/moskeer/lan/${lanSlug(g.lan)}/`}>
+						<SectionLink class="mk-lan-all" href={`/moskeer/lan/${lanSlug(g.lan)}/`}>
 							Alla moskéer i {g.lanLabel}
-						</a>
-					</details>
+						</SectionLink>
+					</DisclosureGroup>
 				))}
 			</div>
 			<div id="mk-empty" class="mk-empty" hidden>
 				<p class="mk-empty-msg">Inga moskéer matchar din sökning.</p>
 				<button type="button" id="mk-clear" class="mk-clear">Rensa filter</button>
 			</div>
-		</section>
+		</TitledSection>
 
-		<section class="mk-section mk-history" aria-labelledby="mk-history-h">
-			<h2 id="mk-history-h">Moskéernas långa historia i Sverige</h2>
+		<TitledSection class="mk-section mk-history" id="mk-history-h" title="Moskéernas långa historia i Sverige">
 			<p class="mk-history-lead">
 				Frågan är inte om islam hör hemma i Sverige, utan hur länge den redan har gjort det.
 			</p>
@@ -265,45 +301,12 @@ const faq = [
 
 			<h3>Milstolpar</h3>
 			<ol class="mk-timeline">
-				<li class="mk-tl-item">
-					<span class="mk-tl-year">Vikingatiden</span>
-					<p class="mk-tl-label">
-						Arabiska silvermynt och runstenar med namnet Särkland vittnar om kontakt med den
-						muslimska världen.
-					</p>
-				</li>
-				<li class="mk-tl-item">
-					<span class="mk-tl-year">1897</span>
-					<p class="mk-tl-label">
-						Den tatariske pälshandlaren Ebrahim Umerkajeff bosätter sig i Stockholm och blir
-						Sveriges förste muslim.
-					</p>
-				</li>
-				<li class="mk-tl-item">
-					<span class="mk-tl-year">1949</span>
-					<p class="mk-tl-label">
-						Sveriges första muslimska församling grundas i Stockholm, sunnimuslimsk, med Osman
-						Soukkan som förste imam.
-					</p>
-				</li>
-				<li class="mk-tl-item">
-					<span class="mk-tl-year">1984</span>
-					<p class="mk-tl-label">
-						Malmö moské, en av landets första stora församlingsmoskéer, står klar.
-					</p>
-				</li>
-				<li class="mk-tl-item">
-					<span class="mk-tl-year">2000</span>
-					<p class="mk-tl-label">
-						Stockholms stora moské öppnar i Ferdinand Bobergs gamla elverk på Södermalm.
-					</p>
-				</li>
-				<li class="mk-tl-item">
-					<span class="mk-tl-year">I dag</span>
-					<p class="mk-tl-label">
-						Omkring {total} moskéer och församlingar finns runt om i Sverige.
-					</p>
-				</li>
+				{timelineItems.map((item) => (
+					<li class="mk-tl-item">
+						<span class="mk-tl-year">{item.year}</span>
+						<p class="mk-tl-label">{item.label}</p>
+					</li>
+				))}
 			</ol>
 
 			<h3>Uråldrig kontakt</h3>
@@ -389,19 +392,11 @@ const faq = [
 				svenskt material som visades upp när kungaparet besökte moskén 2013. Kartan ovan visar var
 				Sveriges moskéer finns i dag.
 			</p>
-		</section>
+		</TitledSection>
 
-		<section class="mk-section" aria-labelledby="mk-faq">
-			<h2 id="mk-faq">Vanliga frågor</h2>
-			<dl class="def-list">
-				{faq.map((f) => (
-					<div class="def-item">
-						<dt>{f.q}</dt>
-						<dd>{f.a}</dd>
-					</div>
-				))}
-			</dl>
-		</section>
+		<TitledSection class="mk-section" id="mk-faq" title="Vanliga frågor">
+			<DefinitionList items={faq} />
+		</TitledSection>
 
 		<p class="mk-attrib">
 			Underlaget kan vara ofullständigt – vissa moskéer saknas, och uppgifter om öppningsår
@@ -638,14 +633,6 @@ const faq = [
 		margin-top: var(--space-half);
 	}
 
-	.mk-section {
-		margin-top: var(--space-phi);
-	}
-
-	.mk-section h2 {
-		font-size: var(--step-1);
-	}
-
 	.mk-lead {
 		font-family: var(--font-body);
 		color: var(--color-muted);
@@ -655,51 +642,6 @@ const faq = [
 
 	.mk-lead a {
 		color: var(--color-accent);
-	}
-
-	.mk-lan-groups {
-		display: grid;
-		grid-template-columns: repeat(auto-fill, minmax(min(100%, 16rem), 1fr));
-		gap: 0 var(--space-unit);
-		align-items: start;
-	}
-
-	.mk-lan {
-		margin-bottom: var(--space-half);
-		border-bottom: 1px solid var(--color-divider);
-		padding-bottom: var(--space-half);
-	}
-
-	.mk-lan[hidden] {
-		display: none;
-	}
-
-	.mk-lan summary {
-		display: flex;
-		justify-content: space-between;
-		align-items: baseline;
-		gap: 0.5rem;
-		cursor: pointer;
-		font-family: var(--font-heading);
-		font-weight: 600;
-		color: var(--color-accent);
-	}
-
-	.mk-lan-count {
-		font-family: var(--font-body);
-		font-size: var(--step--3);
-		color: var(--color-muted);
-		font-variant-numeric: lining-nums tabular-nums;
-	}
-
-	.mk-lan-list {
-		list-style: none;
-		margin: var(--space-half) 0 0;
-		padding: 0;
-	}
-
-	.mk-lan-list li[hidden] {
-		display: none;
 	}
 
 	.mk-item {
@@ -1040,16 +982,6 @@ const faq = [
 		color: var(--color-muted);
 		font-variant-numeric: lining-nums tabular-nums;
 		text-align: right;
-	}
-
-	.mk-attrib {
-		font-family: var(--font-body);
-		font-size: var(--step--3);
-		line-height: 1.5;
-		color: var(--color-muted);
-		margin: var(--space-phi) 0 0;
-		padding-top: var(--space-half);
-		border-top: 1px solid var(--color-divider);
 	}
 
 	.visually-hidden {

@@ -1,0 +1,43 @@
+---
+import Base from "../layouts/Base.astro";
+import PageHead from "./PageHead.astro";
+import SectionLink from "./SectionLink.astro";
+
+interface Props {
+	title: string;
+	pageTitle?: string;
+	description: string;
+	lead?: string;
+	jsonLd: Record<string, unknown> | Record<string, unknown>[];
+	backHref?: string;
+	backLabel?: string;
+	mainClass?: string;
+	ogImageAlt?: string;
+}
+
+const {
+	title,
+	pageTitle = `${title} — islam.se`,
+	description,
+	lead,
+	jsonLd,
+	backHref,
+	backLabel,
+	mainClass = "home",
+	ogImageAlt,
+} = Astro.props;
+---
+
+<Base title={pageTitle} description={description} ogImageAlt={ogImageAlt} jsonLd={jsonLd}>
+	<main id="main" class={mainClass}>
+		<PageHead title={title}>
+			{lead}
+			<slot name="lead" />
+		</PageHead>
+		<slot />
+		{backHref && backLabel && (
+			<p class="collection-back"><SectionLink href={backHref}>{backLabel}</SectionLink></p>
+		)}
+	</main>
+	<slot name="after-main" />
+</Base>

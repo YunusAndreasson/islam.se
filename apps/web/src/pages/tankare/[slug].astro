@@ -1,6 +1,5 @@
 ---
-import EssayList from "../../components/EssayList.astro";
-import Base from "../../layouts/Base.astro";
+import EssayCollectionPage from "../../components/EssayCollectionPage.astro";
 import { type Article, essayCount } from "../../lib/articles";
 import { breadcrumbList, collectionPageJsonLd } from "../../lib/jsonld";
 import { type Tradition, getTankare } from "../../lib/tankare";
@@ -34,9 +33,15 @@ const traditionLabel =
 	tradition === "sunni" ? "Klassisk islamisk tradition" : "Svensk och västerländsk röst";
 ---
 
-<Base
-	title={`${name} — islam.se`}
+<EssayCollectionPage
+	title={name}
 	description={`${name} i essäerna: ${framing}`}
+	lead={framing}
+	essays={essays}
+	kicker={traditionLabel}
+	countText={`Återkommer i ${essayCount(count)}`}
+	backHref="/tankare/"
+	backLabel="Alla tänkare"
 	ogImage={`/tankare/${slug}/og.png`}
 	jsonLd={[
 		collectionPageJsonLd({
@@ -61,19 +66,4 @@ const traditionLabel =
 			{ name, url: `/tankare/${slug}` },
 		]),
 	]}
->
-	<main id="main" class="home">
-		<header class="article-header">
-			<p class="label collection-kicker">{traditionLabel}</p>
-			<h1>{name}</h1>
-			<p class="lead collection-lead">{framing}</p>
-			<p class="label collection-count">
-				Återkommer i {essayCount(count)}
-			</p>
-		</header>
-
-		<EssayList articles={essays} />
-
-		<p class="collection-back"><a class="section-link arrow-link" href="/tankare/">Alla tänkare</a></p>
-	</main>
-</Base>
+/>

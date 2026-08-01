@@ -27,6 +27,24 @@ import { SWEDEN_OUTLINE } from "./sweden-outline";
 
 const invMercX = (mx: number): number => mx * 360 - 180;
 
+// ⚠️ roundRect is Safari 16.4+ / Chrome 99+. On the cached-lattice path paint() runs
+// synchronously inside the minute tick with nothing to catch a TypeError, so an older
+// WebView would lose the entire canvas — sea, land, coastline, wash and marker — over a
+// 4 px corner radius. Square corners on those engines instead.
+function plate(
+	ctx: CanvasRenderingContext2D,
+	x: number,
+	y: number,
+	w: number,
+	h: number,
+	r: number,
+): void {
+	ctx.beginPath();
+	if (typeof ctx.roundRect === "function") ctx.roundRect(x, y, w, h, r);
+	else ctx.rect(x, y, w, h);
+	ctx.fill();
+}
+
 export type Scheme = "light" | "dark";
 export type Variant = "home" | "full";
 
@@ -230,14 +248,32 @@ export function createFieldRenderer(canvas: HTMLCanvasElement) {
 		const key = gridKeyFor(now, settings, variant);
 		if (building && key === buildingKey) return building;
 		buildingKey = key;
-		building = buildGridAsync(now, settings, { bounds: GRID_BOUNDS, ...GRID_STEP[variant] }).then(
+		// ⚠️ Both writes below are guarded on the slot still being ours. Two settings
+		// changes inside one build let the FIRST lattice resolve LAST: unguarded it
+		// overwrote the newer one — cachedGrid then misses forever, so every minute tick
+		// takes the promise path — and its failure branch cleared the NEWER build's slot,
+		// starting a duplicate ~3 600-cell build on the next tick.
+		const mine = buildGridAsync(now, settings, {
+			bounds: GRID_BOUNDS,
+			...GRID_STEP[variant],
+		}).then(
 			(g) => {
-				grid = g;
-				gridKey = key;
+				if (buildingKey === key) {
+					grid = g;
+					gridKey = key;
+				}
 				return g;
 			},
+			(err) => {
+				if (buildingKey === key) {
+					building = null;
+					buildingKey = "";
+				}
+				throw err;
+			},
 		);
-		return building;
+		building = mine;
+		return mine;
 	}
 
 	// The wash is a pure function of (size, scheme, minute, viewport), and a cold render
@@ -361,9 +397,7 @@ export function createFieldRenderer(canvas: HTMLCanvasElement) {
 			// and plating all ten would clutter the map.
 			const wpx = ctx.measureText(text).width;
 			ctx.fillStyle = LABEL_PLATE[scheme];
-			ctx.beginPath();
-			ctx.roundRect(lx - wpx / 2 - 4.5, ly - 8, wpx + 9, 16, 4);
-			ctx.fill();
+			plate(ctx, lx - wpx / 2 - 4.5, ly - 8, wpx + 9, 16, 4);
 			ctx.fillStyle = color;
 			ctx.fillText(text, lx, ly);
 		}
@@ -453,9 +487,7 @@ export function createFieldRenderer(canvas: HTMLCanvasElement) {
 			// The plate is independent of whatever the wash is doing underneath, and it
 			// matches the isoline labels, so the canvas has one label system.
 			ctx.fillStyle = LABEL_PLATE[scheme];
-			ctx.beginPath();
-			ctx.roundRect(flip ? lx - wpx - 4.5 : lx - 4.5, y - 8, wpx + 9, 16, 4);
-			ctx.fill();
+			plate(ctx, flip ? lx - wpx - 4.5 : lx - 4.5, y - 8, wpx + 9, 16, 4);
 			ctx.fillStyle = MARKER_TEXT[scheme];
 			ctx.fillText(loc.name, lx, y);
 		}
@@ -549,9 +581,8 @@ export function createFieldRenderer(canvas: HTMLCanvasElement) {
 			})
 			.catch(() => {
 				// The base map is already on screen; losing the lattice costs the isolines,
-				// not the page. Reset so the next tick retries instead of caching a failure.
-				building = null;
-				buildingKey = "";
+				// not the page. ensureGridAsync has already freed its own slot — and only its
+				// own — so the next tick retries instead of caching the failure.
 			});
 	}
 

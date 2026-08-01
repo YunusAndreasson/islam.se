@@ -1,0 +1,125 @@
+import { MOSKEER_ENABLED } from "./config";
+
+export interface NavLink {
+	href: string;
+	label: string;
+}
+
+export interface PaletteNavLink extends NavLink {
+	sub: string;
+}
+
+export interface PalettePageLink extends PaletteNavLink {
+	alt?: string;
+}
+
+const pages = {
+	home: { href: "/", label: "Hem", sub: "Startsidan." },
+	pillars: {
+		href: "/vad-ar-islam/",
+		label: "Pelare & tro",
+		menuSub: "De fem pelarna och de sex trosartiklarna.",
+		sub: "Vad är islam – fakta om de fem pelarna och de sex trosartiklarna, källbelagt.",
+	},
+	svar: {
+		href: "/svar/",
+		label: "Frågor & svar",
+		menuSub: "Källbelagda svar på vanliga frågor.",
+		sub: "Frågor och svar: källbelagda svar på vanliga frågor om islam – tro, dyrkan, mat och familj.",
+	},
+	essaer: { href: "/essaer/", label: "Essäer", sub: "Hela arkivet, ordnat efter ämne." },
+	tradar: { href: "/tradar/", label: "Trådar", sub: "Utvalda läsningar genom essäerna." },
+	tankare: { href: "/tankare/", label: "Tänkare", sub: "De röster essäerna återvänder till." },
+	calendar: {
+		href: "/det-islamiska-aret/",
+		label: "Det islamiska året",
+		footerLabel: "Kalender",
+		sub: "Islamiska högtider och fastedagar med datum.",
+	},
+	prayerTimes: {
+		href: "/bonetider/",
+		label: "Bönetider",
+		menuSub: "Hela Sverige, ort för ort, efter solens läge.",
+		sub: "Bönetider för hela Sverige, ort för ort, efter solens läge.",
+	},
+	mosques: {
+		href: "/moskeer/",
+		label: "Moskéer",
+		menuSub: "Karta över moskéer, län för län.",
+		sub: "Karta över moskéer i hela Sverige, län för län.",
+	},
+	app: {
+		href: "/app/",
+		label: "App",
+		menuSub: "Bönetider, påminnelser och qibla i fickan.",
+		sub: "Appen för iPhone och Android: bönetider, påminnelser och qibla.",
+	},
+	podcast: {
+		href: "/podcast/",
+		label: "Podd",
+		menuSub: "Essäerna inlästa.",
+		sub: "Andliga essäer, inlästa — i Apple Podcasts, Spotify eller via RSS.",
+	},
+	about: { href: "/om/", label: "Om", sub: "Om idén bakom islam.se." },
+	editorial: { href: "/om/redaktion/", label: "Redaktion" },
+	ai: { href: "/ai/", label: "AI", sub: "Koppla hela arkivet till din AI-assistent." },
+	corrections: { href: "/ratta/", label: "Föreslå en rättelse" },
+} as const;
+
+const gatedMosques = MOSKEER_ENABLED ? [pages.mosques] : [];
+
+export const PRIMARY_NAV_LINKS: NavLink[] = [
+	pages.pillars,
+	pages.svar,
+	pages.essaer,
+	pages.prayerTimes,
+	...gatedMosques,
+	pages.app,
+	pages.podcast,
+];
+
+export const PALETTE_READ_LINKS: PaletteNavLink[] = [
+	{ href: pages.pillars.href, label: pages.pillars.label, sub: pages.pillars.menuSub },
+	{ href: pages.svar.href, label: pages.svar.label, sub: pages.svar.menuSub },
+	pages.essaer,
+];
+
+export const PALETTE_TOOL_LINKS: PaletteNavLink[] = [
+	{ href: pages.prayerTimes.href, label: pages.prayerTimes.label, sub: pages.prayerTimes.menuSub },
+	...gatedMosques.map((page) => ({ href: page.href, label: page.label, sub: page.menuSub })),
+	{ href: pages.app.href, label: pages.app.label, sub: pages.app.menuSub },
+	{ href: pages.podcast.href, label: pages.podcast.label, sub: pages.podcast.menuSub },
+];
+
+export const PALETTE_MINOR_LINKS: NavLink[] = [
+	pages.calendar,
+	pages.about,
+	pages.editorial,
+	pages.ai,
+	pages.corrections,
+];
+
+export const FOOTER_LINKS: NavLink[] = [
+	pages.tradar,
+	pages.tankare,
+	{ href: pages.calendar.href, label: pages.calendar.footerLabel },
+	pages.about,
+	pages.editorial,
+	pages.ai,
+];
+
+export const STANDING_PALETTE_PAGES: PalettePageLink[] = [
+	pages.essaer,
+	pages.pillars,
+	pages.svar,
+	pages.tradar,
+	pages.tankare,
+	pages.calendar,
+	pages.prayerTimes,
+	...gatedMosques,
+	{ href: pages.app.href, label: pages.app.label, sub: pages.app.sub, alt: "Appen" },
+	pages.podcast,
+	pages.about,
+	pages.ai,
+	pages.home,
+];

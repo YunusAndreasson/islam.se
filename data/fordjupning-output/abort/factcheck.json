@@ -1,0 +1,95 @@
+{
+  "overallCredibility": 8.5,
+  "verdict": "pass",
+  "summary": "Unusually solid research. Every independently checkable figure matched its primary source exactly — Pew's abortion morality data, Bygdeman & Ahlenius's 2002 late-abortion statistics, Sayed's SvJT school-by-school schema (including the unusual Shafi'i \"80 days\"), the 1990 Mecca fiqh council conditions, the Eskilstuna 2009 case, AD 2017 nr 23, and the text of abortlagen. The research's own internal warnings proved correct: the secondary summary claiming Grimmark won at AD is indeed wrong, and week 22 genuinely does not appear in the statute. No fabrications found. Three substantive problems remain. (1) A theological over-reach: Quran 81:8-9 concerns wa'd al-banat, the killing of a BORN infant girl, not abortion — the research's sharpest \"fynd,\" that Swedish law permits \"exactly the act the Quran identifies as a crime,\" conflates infanticide with foeticide and will be caught immediately by informed Muslim readers. 17:31 and 6:151 have the same problem. These function as juristic analogy, not as direct abortion prooftexts, and must be labelled as such. (2) A two-week arithmetic error at the heart of the thesis: classical fiqh counts 120 days from conception while Swedish graviditetsvecka counts from LMP, so 120 days post-conception falls at roughly gestational week 19, not the claimed \"week 17-19.\" Since the near-coincidence of the two timelines is the article's central hook, this offset must be made explicit. (3) The three Ellen Key quotes remain unverified against the database for a second consecutive stage — the quote MCP tools were unavailable in this run as well.",
+  "verifiedClaims": [
+    {
+      "claim": "Pew 2013: three-quarters or more consider abortion morally wrong in 24 of 37 countries; Azerbaijan the only country under a quarter (23%); abortion 'not a moral issue' at 34% Jordan, 22% Egypt, 21% Iraq",
+      "status": "verified",
+      "method": "WebFetch of the Pew Research Center report page; wording matched verbatim including 'Azerbaijan is the only country where fewer than a quarter (23%)'",
+      "notes": "One correction: the report says FIVE countries have one-in-ten or more saying abortion is morally permissible — Bangladesh (18%), Uganda (15%), Bosnia-Herzegovina (14%), Mozambique (13%), DR Congo (10%). The research listed these in a different order and implied Bosnia ranked higher than Uganda. Per-country sample sizes still require the full PDF, which WebFetch cannot read."
+    },
+    {
+      "claim": "Bygdeman & Ahlenius (Läkartidningen 08/2005): 322 applications for 316 women in 2002; 268 (85%) granted, 54 (15%) refused; fosterskada 143, psychosocial 102; fosterskada rose from 79 cases (34.8%) in 1987 to 53% in 2002",
+      "status": "verified",
+      "method": "WebFetch of the Läkartidningen article; all figures, both authors, and the 2005 issue number confirmed",
+      "notes": "Denominators need care. The source gives sjukdom hos kvinnan as 23 cases = 7.3% of total applications; the research's '9%' is the share of GRANTED applications (23/268 = 8.6%). State which denominator is used, or the numbers will appear inconsistent with the source."
+    },
+    {
+      "claim": "Mosa Sayed, SvJT 2014: 'Det föreligger inte något absolut förbud mot abort inom islam'; hanafi 120 days, shafii 80, hanbali 40, maliki most restrictive; Tunisia permits abortion on request before week 12; 'Svenska muslimer är en heterogen och löst sammansatt grupp'",
+      "status": "verified",
+      "method": "WebFetch of svjt.se/svjt/2014/812; both quoted sentences and the full school schema confirmed word-for-word",
+      "notes": "Two nuances the research omits and should carry over. Sayed qualifies the Shafi'i '80 days' by noting that many Shafi'i jurists in fact worked from 120 days — so the divergence from JBIMA's map is smaller than the research implies. And Sayed's Khomeini point is sharper than 'mycket restriktiv': Khomeini forbade abortion after the fourth month EVEN WHEN the pregnancy threatens the woman's life. Sayed also states outright that no surveys exist on abortion attitudes among self-identifying Muslims in Sweden."
+    },
+    {
+      "claim": "Eskilstuna 2009: överläkare Kaj Wedenberg at Mälarsjukhuset asked Socialstyrelsen after a woman sought a second abortion following ultrasound sex determination; Socialstyrelsen replied that abortion cannot be refused before week 18 even when sex is the known reason",
+      "status": "verified",
+      "method": "WebFetch of SVT Nyheter, published 11 May 2009 (updated 28 Nov 2012); named source at Socialstyrelsen is Thomas Tegenfeldt",
+      "notes": "Legally accurate. But a WebSearch for prevalence found that how common sex-selective abortion is in Sweden 'kan inte fastställas' — no sex-ratio-at-birth study establishes a practice. The article must present this as a statement about what the law permits, not about what demonstrably happens, or it becomes innuendo."
+    },
+    {
+      "claim": "Abortlag (1974:595): free abortion through the end of week 18; thereafter Socialstyrelsen permission requires 'synnerliga skäl'; permission may not be granted if there is reason to believe the foetus is viable",
+      "status": "verified",
+      "method": "WebFetch of the riksdagen.se consolidated statute; 1 §, 3 § and 6 § wording confirmed",
+      "notes": "Confirms an important research finding: NO fixed week-22 limit appears in the statute. Week 22 is administrative practice derived from the viability criterion. The research states this correctly and the article must preserve the distinction."
+    },
+    {
+      "claim": "Grimmark lost in Arbetsdomstolen (AD 2017 nr 23, 12 April 2017); ECtHR declared Grimmark (43726/17) and Steen (62309/17) manifestly ill-founded",
+      "status": "verified",
+      "method": "WebSearch confirming AD's reasoning (refusal to perform job duties, not religious conviction) and the ECtHR application numbers and inadmissibility ruling",
+      "notes": "The research's internal warning is correct: the sorenoman.se summary claiming discrimination was found is wrong. Also: the research's dates (decision 11 February 2020, published 12 March 2020) are correct — a Strasbourg Observers fetch summary returned '11 mars', which is the summarizer's error, not the research's. The distinction between 'manifestly ill-founded' (a merits assessment) and a procedural refusal is real and worth keeping."
+    },
+    {
+      "claim": "Muslim World League Islamic Fiqh Council, 12th session, Mecca, 15 Rajab 1410 / 10 February 1990: abortion for severe untreatable deformity permitted within 120 days with a trustworthy medical committee's determination and parental consent; after 120 days impermissible regardless of deformity unless the mother's life is endangered",
+      "status": "verified",
+      "method": "WebFetch of islamqa.info/en/answers/12118; session, both dates, and all conditions confirmed with direct quotation",
+      "notes": "Accurately represented, including the post-120-day absolutism. Good that the research plans to quote rather than paraphrase this position."
+    }
+  ],
+  "unverifiedClaims": [
+    {
+      "claim": "Three Ellen Key quotations (quote-22195 from Lifslinjer I, 1903; quote-23609 and quote-23516 from Barnets århundrade, 1900)",
+      "status": "unverified",
+      "reason": "The quote-database MCP tools (get_quote_by_id, search_text, search_by_filter) were not present in this stage's tool list either — the second consecutive run without them. The research itself flagged this and the flag must survive to the writing stage. These cannot be set as blockquotes until verified by ID. If the tools remain unavailable, either drop them or paraphrase Key's argument without quotation marks. All three are also truncated mid-sentence in the research data, so the full wording is unknown even in substance."
+    },
+    {
+      "claim": "Quran 81:8-9 identifies as a crime 'exactly the act' that Swedish law permits before week 18 (sex-selective abortion)",
+      "status": "unverified",
+      "reason": "Theologically imprecise in a way that will be spotted. Surah al-Takwir 81:8-9 concerns wa'd al-banat — the pre-Islamic burial alive of BORN infant girls. Classical exegesis is unanimous on this; the verse is about infanticide, not foeticide. The Swedish translation supplied in the research even says 'den nyfödda' (the newborn). The same applies to 17:31 and 6:151, which concern killing existing children out of fear of poverty. Jurists did invoke these verses by ANALOGY in abortion discussions, and that is the defensible framing. Rewrite as analogy explicitly, or the article's sharpest point becomes its most attackable."
+    },
+    {
+      "claim": "120 days corresponds to Swedish gestational week 17-19, so the two timelines 'nearly coincide'",
+      "status": "unverified",
+      "reason": "Off by roughly two weeks. Classical fiqh counts from conception (or from the semen settling in the womb); Swedish graviditetsvecka is counted from the last menstrual period, which precedes conception by about two weeks. 120 days post-conception therefore falls near gestational week 19, at or just past the free-abortion boundary rather than spanning it. Because the near-coincidence of the two axes is the article's organising conceit, this must be computed and stated explicitly, with the counting bases named. Done properly it is a stronger finding, not a weaker one: the classical threshold lands just AFTER the Swedish one, not comfortably inside it."
+    },
+    {
+      "claim": "Sahih al-Bukhari 6904 and Sahih Muslim 1681 for the ghurra hadith; Bukhari 3208 and Muslim 2643 for the Ibn Mas'ud hadith",
+      "status": "unverified",
+      "reason": "Not machine-verified — sunnah.com returned HTTP 403 to WebFetch. These are standard, widely used references and I have no reason to doubt them (Bukhari 6904 sits in Kitab al-Diyat, Muslim 1681 in Kitab al-Qasama, Bukhari 3208 in Kitab bad' al-khalq, Muslim 2643 in Kitab al-Qadar). Flagged only so the author confirms the numbers against a printed edition or a working sunnah.com fetch before printing them. Note also that the 40-day ensoulment view rests largely on the Hudhayfa b. Usayd variant (Muslim 2645, '40 or 42 nights'), not on the Ibn Mas'ud hadith — worth naming if the article explains why the schools diverge."
+    }
+  ],
+  "missingPerspectives": [
+    "The European Council for Fatwa and Research (ECFR) is entirely absent. It is the fatwa body with the most direct claim to authority over Muslims in Europe and has addressed abortion. Its omission is conspicuous when the article's premise is precisely what happens when the tradition meets a European legal order.",
+    "No named Swedish Muslim institutional voice. The absolutist position is represented solely by one blog post at islamportalen.se. Sveriges Imamråd, Islamiska Förbundet i Sverige, or any practising Swedish imam would make the section on 'what Swedish Muslims actually encounter' far more substantial — and would test whether the absolutist framing really is what dominates Swedish Muslim discourse.",
+    "Sayed states explicitly that no survey data exists on abortion attitudes among self-identifying Muslims in Sweden. The article must not quietly fill that gap with Pew's 37-country figures as a proxy for Swedish Muslims — that would be exactly the ecological inference Sayed warns against in the sentence the research already plans to quote.",
+    "No prevalence evidence for sex-selective abortion in Sweden. Independent search found that its frequency 'kan inte fastställas' and that the phenomenon is documented mainly in South and East Asia. The Eskilstuna finding is about what the law permits, not about a measurable Swedish practice, and the article needs that caveat in the same paragraph.",
+    "The women's-health and midwifery counter-argument to conscientious objection is present via RFSU and the ECtHR, but the strongest empirical version — the effect on access in small or rural clinics where one objector can eliminate a service — is not sourced. The Oxford Journal of Law and Religion article in the source list is the right place to get it.",
+    "The internal Hanafi dispute is named but its substance is not. Ibn 'Abidin's position is that abortion without an 'udhr is sinful even before 120 days, and his stock example of a valid 'udhr (interruption of nursing milk for an existing child) shows how narrow the excuse was. Without that concreteness, readers will still take the 120-day window for a right of choice — the exact trap the research says it wants to avoid."
+  ],
+  "sourceAssessment": {
+    "totalSources": 35,
+    "highCredibility": 26
+  },
+  "recommendations": [
+    "Reframe the Quran 81:8-9 finding as juristic ANALOGY rather than identity. State that the verse concerns the killing of born infant girls, then argue that the moral logic the jurists extended from it now points in an unexpected direction. This is both more accurate and more interesting than the current claim.",
+    "Compute the 120-day/gestational-week conversion explicitly and name both counting bases (conception vs LMP). The two-week offset means the classical threshold lands just after the Swedish one rather than inside it — sharpen the thesis around that rather than around a vague 'week 17-19'.",
+    "Do not print the Ellen Key quotes as blockquotes until they are verified by database ID. Two stages have now run without the quote tools. If they remain unavailable, paraphrase Key's argument without quotation marks and cite the work.",
+    "Pick one abortion-total figure and one year. RFSU says 35,500 for 2023; Socialstyrelsen says about 34,100 for its latest reported year. These are different years and must not appear side by side as if in tension. Use Socialstyrelsen's own page and state the year.",
+    "Carry over Sayed's two qualifications: that many Shafi'i jurists worked from 120 days despite the 80-day figure (which narrows the apparent disagreement between Sayed's map and JBIMA's), and that Khomeini forbade abortion after four months even when the woman's life was at risk.",
+    "State the denominator for every percentage taken from Bygdeman & Ahlenius. The source computes some shares against all 322 applications and others against the 268 granted.",
+    "Add the ECFR and at least one named Swedish Muslim institutional or scholarly voice, so the absolutist position is not represented by a single anonymous blog post.",
+    "Keep the research's warning about the erroneous AD 2017 nr 23 summary — it is correct, and the court costs (roughly 926,000 kr at tingsrätten, a further 606,000 kr at AD) are a concrete detail worth including.",
+    "When citing the viability limit, say plainly that week 22 appears nowhere in abortlagen and is administrative practice derived from the statutory livsduglighet criterion. This is verified and it strengthens the argument that the Swedish axis rests on a different premise than the Islamic one.",
+    "Pair the Downföreningen material with the fiqh council's 1990 deformity ruling in the same section. Both permit or contest selective abortion on foetal-anomaly grounds, and the convergence between a Swedish disability-rights critique and a conservative Islamic one is the article's most original move — but note that the fiqh council PERMITS such abortion within 120 days, so the convergence is partial, not clean."
+  ]
+}

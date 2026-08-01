@@ -1,0 +1,17 @@
+---
+import type { HTMLAttributes } from "astro/types";
+
+type Props = Omit<HTMLAttributes<"section">, "id" | "title"> & {
+	id: string;
+	title: string | number;
+	sectionId?: string;
+	titleClass?: string;
+};
+
+const { class: className, id, title, sectionId, titleClass, ...attrs } = Astro.props;
+---
+
+<section {...attrs} id={sectionId} class:list={[className]} aria-labelledby={id}>
+	<h2 class:list={[titleClass]} id={id}>{title}</h2>
+	<slot />
+</section>

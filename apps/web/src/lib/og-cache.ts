@@ -11,22 +11,42 @@ import { join } from "node:path";
 // usual "delete node_modules" reset.
 const DIR = join(process.cwd(), "node_modules/.astro/og-cache");
 
-// The card LAYOUT is an input too, and so are the RENDERERS: satori turns the tree into
+// Every SOURCE file a card is built from, plus the RENDERERS: satori turns the tree into
 // SVG and sharp rasterises it, so bumping either changes the bytes just as surely as
-// editing og.ts does. Hashing all three means a version bump or a design edit
+// editing the layout does. Hashing them all means a version bump or a design edit
 // invalidates every cached card automatically — the alternative is a manual version
 // constant that someone forgets to bump and then ships stale cards for weeks.
+//
+// ⚠️ The endpoints are in here because most of the card COPY lives in them, not in og.ts:
+// bonetider/og.png.ts holds its own title and framing behind the constant cache key
+// "bonetider-hub", [stad]/og.png.ts holds the "Fajr · Dhuhr · …" template, and og/[slug]'s
+// kicker comes from amnen.ts while its key only names article.category. Editing any of
+// those changed nothing a per-card key could see, so the old PNG was re-served
+// indefinitely — now with a 24 h `/og/*` cache header in front of it.
+function cardSources(): string[] {
+	const files = ["src/lib/og.ts", "src/lib/og-endpoints.ts", "src/lib/amnen.ts"].map((f) =>
+		join(process.cwd(), f),
+	);
+	const pages = join(process.cwd(), "src/pages");
+	for (const entry of readdirSync(pages, { recursive: true, withFileTypes: true })) {
+		if (entry.isFile() && /^og.*\.png\.ts$/.test(entry.name)) {
+			files.push(join(entry.parentPath, entry.name));
+		}
+	}
+	// Sorted so the digest does not depend on directory order. Contents only — an absolute
+	// path in the hash would give every checkout its own generation.
+	return files.sort();
+}
+
 const layoutHash = (() => {
 	try {
 		const pkg = JSON.parse(readFileSync(join(process.cwd(), "package.json"), "utf8"));
 		const renderers = ["satori", "sharp"]
 			.map((n) => `${n}@${pkg.dependencies?.[n] ?? pkg.devDependencies?.[n] ?? "?"}`)
 			.join(",");
-		return createHash("sha256")
-			.update(readFileSync(join(process.cwd(), "src/lib/og.ts")))
-			.update(renderers)
-			.digest("hex")
-			.slice(0, 12);
+		const hash = createHash("sha256");
+		for (const file of cardSources()) hash.update(readFileSync(file));
+		return hash.update(renderers).digest("hex").slice(0, 12);
 	} catch {
 		// Nothing to read (unexpected) — fall back to a per-process value so the cache
 		// still works within a build but never persists a card built from unknown code.

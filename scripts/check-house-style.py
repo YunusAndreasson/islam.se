@@ -24,6 +24,8 @@ import sys
 from pathlib import Path
 
 ERROR, WARN, INFO = "error", "warn", "info"
+# Referenssidor (svar + fordjupning) delar husreglerna; essäerna har egna.
+REFERENCE_GENRES = ("svar", "fordjupning")
 SEVERITY_ORDER = {ERROR: 0, WARN: 1, INFO: 2}
 
 
@@ -53,7 +55,17 @@ class Doc:
         else:
             self.body = [(i + 1, l) for i, l in enumerate(lines)]
 
-        self.genre = "svar" if "/svar/" in str(path).replace("\\", "/") else "essay"
+        norm = str(path).replace("\\", "/")
+        # ⚠️ Fördjupningssidorna delar reglerna med svarssidorna, inte med essäerna: de är
+        # referenstext, inte litterär prosa. Utan den här grenen föll de på "essay" och
+        # HOPPADE TYST ÖVER gungbrädetaket, tankstrecksbudgeten, punkt-under, du-tilltal
+        # och kontrollen av "Källor" i brödtexten.
+        if "/svar/" in norm:
+            self.genre = "svar"
+        elif "/fordjupning/" in norm:
+            self.genre = "fordjupning"
+        else:
+            self.genre = "essay"
 
     # -- radklasser -------------------------------------------------
 
@@ -172,11 +184,18 @@ def rule_curly_quotes(doc: Doc) -> list[dict]:
     return hits
 
 
+# En URL och en källas EGNA titel är citerad text, inte vår prosa — husstavningen
+# gäller inte där. ⚠️ abort.md fick tre fel för RFSU:s sidtitel "Abortmotstånd idag",
+# varav ett inne i själva URL:en. En kontroll som säger åt en att stava om någon
+# annans boktitel lär läsaren att strunta i kontrollen.
+_CITED_TITLE = re.compile(r'https?://\S+|"[^"]*\bidag\b[^"]*"|»[^»«]*\bidag\b[^»«]*«', re.I)
+
+
 def rule_idag(doc: Doc) -> list[dict]:
     return [
         _hit("idag", ERROR, n, line, '"i dag" skrivs i två ord')
         for n, line in doc.frontmatter + doc.body
-        if re.search(r"\bidag\b", line, re.IGNORECASE)
+        if re.search(r"\bidag\b", _CITED_TITLE.sub("", line), re.IGNORECASE)
     ]
 
 
@@ -229,12 +248,16 @@ def rule_unspaced_dash(doc: Doc) -> list[dict]:
 
 def rule_du_tilltal(doc: Doc) -> list[dict]:
     """Svarssidor skrivs i tredje person. Du-tilltal inne i ett citat är förstås ok."""
-    if doc.genre != "svar":
+    if doc.genre not in REFERENCE_GENRES:
         return []
     hits = []
     for n, line in doc.prose():
         stripped = outside_quotes(line)
-        m = re.search(r"\b(du|dig|din|ditt|dina)\b", stripped, re.IGNORECASE)
+        # ⚠️ Negativ lookbehind på bindestreck: translittererade namn bär "din" som
+        # egen ordled — Muhammad Nasir al-Din al-Albani, Salah al-Din, Nur al-Din — och
+        # \b efter ett bindestreck gör dem till träffar. Varje islamisk referenstext
+        # utlöste regeln på ett författarnamn.
+        m = re.search(r"(?<!-)\b(du|dig|din|ditt|dina)\b", stripped, re.IGNORECASE)
         if m:
             hits.append(_hit("du-tilltal", ERROR, n, line,
                              f'"{m.group()}" — skriv i tredje person ("muslimen", "den som")'))
@@ -244,13 +267,16 @@ def rule_du_tilltal(doc: Doc) -> list[dict]:
 def rule_body_kallor(doc: Doc) -> list[dict]:
     """Frontmatter-`sources` är den enda källistan; en `## Källor` i brödtexten
     renderas som en dubblett av mallens "Källor och fördjupning"."""
-    if doc.genre != "svar":
+    if doc.genre not in REFERENCE_GENRES:
         return []
     return [
         _hit("body-kallor", ERROR, n, line,
              "ta bort — frontmatter `sources` renderar redan listan")
         for n, line in doc.headings()
-        if re.search(r"källor", line, re.IGNORECASE)
+        # ⚠️ Anchored, not a substring search: fördjupningssidorna har ett obligatoriskt
+        # avsnitt som heter "Vad källorna säger", och en fri sökning på "källor"
+        # underkände det. Regeln gäller en KÄLLISTA, inte ordet.
+        if re.match(r"^\s*#+\s*källor\b", line.strip(), re.IGNORECASE)
     ]
 
 
@@ -281,9 +307,9 @@ def rule_sunnitisk(doc: Doc) -> list[dict]:
 
 
 def rule_dot_under(doc: Doc) -> list[dict]:
-    """Svarssidorna translittererar utan punkt under (tawhīd, inte tawḥīd);
+    """Referenssidorna (svar + fordjupning) translittererar utan punkt under (tawhīd, inte tawḥīd);
     makroner behålls. Essäerna använder full translitterering — rör dem inte."""
-    if doc.genre != "svar":
+    if doc.genre not in REFERENCE_GENRES:
         return []
     hits = []
     for n, line in doc.body:
@@ -292,7 +318,7 @@ def rule_dot_under(doc: Doc) -> list[dict]:
         found = sorted(set(re.findall(r"[ḥṣḍṭẓṛḏḳʿ]", line)) - {"ʿ"})
         if found:
             hits.append(_hit("dot-under", INFO, n, line,
-                             f"punkt under ({''.join(found)}) — svarssidor skriver utan"))
+                             f"punkt under ({''.join(found)}) — referenssidor skriver utan"))
     return hits
 
 
@@ -300,9 +326,9 @@ SEESAW = re.compile(r"\binte\b[^.!?]{0,90}?\butan\b", re.IGNORECASE)
 
 
 def rule_seesaw_closers(doc: Doc) -> list[dict]:
-    """Högst två avsnitt per svarssida får landa i samma gungbräda
+    """Högst två avsnitt per referenssida får landa i samma gungbräda
     ("inte X, utan Y"). Revisionen 2026-07-09 hittade 173/179 sådana."""
-    if doc.genre != "svar":
+    if doc.genre not in REFERENCE_GENRES:
         return []
     offenders = []
     for title, lines in doc.sections():
@@ -323,8 +349,8 @@ def rule_seesaw_closers(doc: Doc) -> list[dict]:
 
 
 def rule_dash_budget(doc: Doc) -> list[dict]:
-    """Högst ~6 författartankstreck per svarssida — annars blir de en metronom."""
-    if doc.genre != "svar":
+    """Högst ~6 författartankstreck per referenssida — annars blir de en metronom."""
+    if doc.genre not in REFERENCE_GENRES:
         return []
     total = sum(len(re.findall(r" – ", line)) for _, line in doc.prose())
     if total <= 6:
@@ -333,11 +359,71 @@ def rule_dash_budget(doc: Doc) -> list[dict]:
                  "tak ~6 per sida — gör om några till komma, kolon eller egen mening")]
 
 
+# Ordbrott som Bernström-utgåvans radbrytningar lämnat kvar i quran.db. Kuraterad
+# lista, inte heuristik: att gissa var ett mellanslag är oavsiktligt inuti ett svenskt
+# ord ger falska träffar på verklig text, och det här är skrift.
+QURAN_SCAN_ARTIFACTS = [
+    "dött rar", "kvinn folk", "sö ner", "kläd nad", "utsmyck ning",
+    "avvänj ningen", "underkas tat", "säker het", "hus trur", "otrog na",
+    "såvi da", "gemen skap", "för nämligaste", "medgu dar", "be dem",
+]
+
+
+def rule_quran_scan_artifacts(doc: Doc) -> list[dict]:
+    """Verstext kopierad rå ur quran.db bär den tryckta utgåvans radbrytningar.
+
+    quran.db är inläst ur Bernströms tryckta upplaga och orden är delade där raden
+    bröts. Kopieras versen rakt in i ett blockcitat följer brotten med och sidan
+    publicerar trasig svenska. Den rena lydelsen finns på
+    quran.com/<sura>/<vers>?translations=48.
+    """
+    hits = []
+    for n, line in doc.body:
+        low = line.lower()
+        for frag in QURAN_SCAN_ARTIFACTS:
+            if frag in low:
+                hits.append(_hit("quran-scan-artifact", ERROR, n, line,
+                                 f'"{frag}" är ett radbrott ur den tryckta utgåvan — '
+                                 "hämta den rena lydelsen från quran.com (translations=48)"))
+                break
+    return hits
+
+
+def rule_athari(doc: Doc) -> list[dict]:
+    """Skolterminologin "athari" hör inte hemma i läsartext — namnge de lärda."""
+    return [
+        _hit("athari", ERROR, n, line,
+             "för teknisk skolterminologi i läsartext — namnge den lärde i stället")
+        for n, line in doc.prose()
+        if re.search(r"\bathari\w*\b", line, re.IGNORECASE)
+    ]
+
+
+def rule_fordjupning_verse_attribution(doc: Doc) -> list[dict]:
+    """På fördjupningssidor ska koranblockcitat fotnoteras, inte attribueras med en
+    "— Koranen N:N"-rad.
+
+    Båda vägarna ger en recitationsspelare, men attributionsraden ger en UTAN
+    suranamn medan fotnoten ger en MED. Svarssidorna saknar fotnoter och måste
+    använda raden; fördjupningssidorna har fotnotsapparat och ska inte.
+    """
+    if doc.genre != "fordjupning":
+        return []
+    return [
+        _hit("verse-attribution-line", WARN, n, line,
+             "fotnotera versen i stället (fotnoten lyder \"Koranen, al-Nūr 24:31.\") — "
+             "attributionsraden ger en spelare utan suranamn")
+        for n, line in doc.body
+        if re.match(r"^\s*>\s*[—–-]\s*Koranen\s+\d", line)
+    ]
+
+
 RULES = [
     rule_em_dash, rule_guillemets, rule_curly_quotes, rule_idag, rule_mekka,
     rule_double_space, rule_unspaced_dash, rule_du_tilltal, rule_body_kallor,
     rule_dropcap_opening, rule_sunnitisk, rule_dot_under, rule_seesaw_closers,
-    rule_dash_budget,
+    rule_dash_budget, rule_quran_scan_artifacts, rule_athari,
+    rule_fordjupning_verse_attribution,
 ]
 
 

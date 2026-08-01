@@ -9,62 +9,52 @@ interface Props {
 const { slug } = Astro.props;
 const { amne, tankare, tradar, related, svar } = await getEssayConnections(slug);
 
-const hasContext =
-	Boolean(amne) || tradar.length > 0 || tankare.length > 0 || svar.length > 0;
+type ContextRow = {
+	label: string;
+	links: { href: string; label: string }[];
+};
+
+const contextRows = [
+	amne && {
+		label: "Ämne",
+		links: [{ href: `/amnen/${amne.slug}`, label: amne.name }],
+	},
+	tradar.length > 0 && {
+		label: tradar.length === 1 ? "Tråd" : "Trådar",
+		links: tradar.map((t) => ({ href: `/tradar/${t.id}/`, label: t.title })),
+	},
+	tankare.length > 0 && {
+		label: "Tänkare",
+		links: tankare.map((t) => ({ href: `/tankare/${t.slug}/`, label: t.name })),
+	},
+	// The one route out of the essay corpus and into the reference half of the site.
+	// Derived in lib/related.ts, not authored per essay.
+	svar.length > 0 && {
+		label: "Fakta",
+		links: svar.map((s) => ({ href: `/svar/${s.slug}/`, label: s.title })),
+	},
+].filter((row): row is ContextRow => Boolean(row));
+
+const hasContext = contextRows.length > 0;
 ---
 
 {(hasContext || related.length > 0) && (
 	<aside class="essay-connections" aria-label="Läs vidare och sammanhang">
 		{hasContext && (
 			<dl class="ec-context">
-				{amne && (
+				{contextRows.map((row) => (
 					<div class="ec-row">
-						<dt class="label">Ämne</dt>
-						<dd><a href={`/amnen/${amne.slug}`}>{amne.name}</a></dd>
-					</div>
-				)}
-				{tradar.length > 0 && (
-					<div class="ec-row">
-						<dt class="label">{tradar.length === 1 ? "Tråd" : "Trådar"}</dt>
+						<dt class="label">{row.label}</dt>
 						<dd>
-							{tradar.map((t, i) => (
+							{row.links.map((link, i) => (
 								<>
 									{i > 0 && <span class="ec-sep" aria-hidden="true">·</span>}
-									<a href={`/tradar/${t.id}/`}>{t.title}</a>
+									<a href={link.href}>{link.label}</a>
 								</>
 							))}
 						</dd>
 					</div>
-				)}
-				{tankare.length > 0 && (
-					<div class="ec-row">
-						<dt class="label">Tänkare</dt>
-						<dd>
-							{tankare.map((t, i) => (
-								<>
-									{i > 0 && <span class="ec-sep" aria-hidden="true">·</span>}
-									<a href={`/tankare/${t.slug}/`}>{t.name}</a>
-								</>
-							))}
-						</dd>
-					</div>
-				)}
-				{/* The one route out of the essay corpus and into the reference half of
-				    the site. An essay circles its subject; this is the page that states
-				    it plainly. Derived in lib/related.ts, not authored per essay. */}
-				{svar.length > 0 && (
-					<div class="ec-row">
-						<dt class="label">Fakta</dt>
-						<dd>
-							{svar.map((s, i) => (
-								<>
-									{i > 0 && <span class="ec-sep" aria-hidden="true">·</span>}
-									<a href={`/svar/${s.slug}/`}>{s.title}</a>
-								</>
-							))}
-						</dd>
-					</div>
-				)}
+				))}
 			</dl>
 		)}
 

@@ -1,4 +1,5 @@
 ---
+import { ChevronUp } from "@lucide/astro";
 import { Font } from "astro:assets";
 import { ClientRouter } from "astro:transitions";
 import FloatingPlayer from "../components/FloatingPlayer.astro";
@@ -30,9 +31,8 @@ interface Props {
 	/** MIME type of the preloaded candidate (e.g. "image/avif"), so the preload
 	 *  matches the right `<source>` in the painted `<picture>`. */
 	preloadImageType?: string;
-	/** Preload Amiri Quran on pages that always paint Arabic (homepage daily
-	 *  verse, essays) — kills the font-swap restyle of the verses. ~45 kB once,
-	 *  cached site-wide. */
+	/** Preload Amiri Quran on pages that always paint Arabic — kills the font-swap
+	 *  restyle of the verses. ~45 kB once, cached site-wide. */
 	preloadArabicFont?: boolean;
 	articleMeta?: {
 		publishedAt: string;
@@ -319,9 +319,7 @@ if (articleMeta) {
 				<button class="share-btn label" type="button" aria-label="Dela essä" data-title={pageTitle} data-url={canonicalUrl.href}>Dela</button>
 			)}
 			<button class="btn-circle back-to-top" type="button" aria-label="Tillbaka till toppen">
-				<svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-					<path d="M5 12.5l5-5 5 5" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" />
-				</svg>
+				<ChevronUp size={20} stroke-width={1.75} />
 			</button>
 		</div>
 		<script>

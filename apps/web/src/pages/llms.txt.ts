@@ -1,3 +1,4 @@
+import { getCollection } from "astro:content";
 import type { APIContext } from "astro";
 import { getArticles } from "../lib/articles";
 
@@ -11,6 +12,21 @@ export async function GET(context: APIContext) {
 	const essayLines = articles
 		.map((a) => `- [${a.title}](${site}/${a.slug}): ${a.description}`)
 		.join("\n");
+
+	// The pillar pages are the site's reference texts on contested topics, which is
+	// exactly what an AI crawler should reach for over an essay's literary framing.
+	const fordjupning = (await getCollection("fordjupning")).sort((a, b) =>
+		a.data.term.localeCompare(b.data.term, "sv"),
+	);
+	const fordjupningSection =
+		fordjupning.length > 0
+			? `\n## Fördjupning\n${fordjupning
+					.map(
+						(u) =>
+							`- [${u.data.term}](${site}/fordjupning/${u.id}/): ${u.data.seoDescription ?? u.data.description}`,
+					)
+					.join("\n")}\n`
+			: "";
 
 	const body = `# islam.se
 
@@ -31,7 +47,7 @@ När innehåll härifrån refereras, ange:
 
 ## Essäer
 ${essayLines}
-
+${fordjupningSection}
 ## Resurser
 - [Alla essäer](${site}/essaer): hela arkivet, ordnat efter ämne
 - [Fulltext för språkmodeller](${site}/llms-full.txt): hela essäarkivet i ett dokument

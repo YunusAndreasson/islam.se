@@ -644,14 +644,22 @@ const customRedirects: [string, string][] = [
 export default defineConfig({
 	site: "https://islam.se",
 	output: "static",
-	// "tap", not "hover": 90 % of traffic is touch, where hover never fires and nothing was
-	// ever prefetched. Astro falls back to tap on saveData/2g anyway, so this only widens it.
-	prefetch: { defaultStrategy: "tap" },
+	// ⚠️ "hover", not "tap". The strategies REPLACE each other — "tap" does not widen
+	// "hover", it removes it — and a pointer user always hovers before clicking, so hover
+	// is a strict superset there, with hundreds of ms of head start instead of the tens
+	// "tap" gets from mousedown. It is also the only strategy `clientPrerender` below has
+	// room to finish a real Speculation-Rules prerender in. Touch is not left empty either:
+	// mobile browsers fire mouseover on tap ahead of click, and Astro already downgrades on
+	// saveData/2g.
+	prefetch: { defaultStrategy: "hover" },
 	// concurrency: measured 102 s -> 86 s on this 8-core box. Do NOT raise it to 8 —
 	// page rendering is CPU-bound and single-threaded, so 8 measured SLOWER (98 s) than
-	// 4 through contention. inlineStylesheets stays "always": it costs ~5 s of build and
-	// buys the render-blocking-request-free FCP the Lighthouse pass depends on.
-	build: { inlineStylesheets: "always", concurrency: 4 },
+	// 4 through contention. The sampled validation build is deliberately serial: Astro's
+	// parallel prerender can intermittently ENOENT a freshly-created route directory in
+	// the partial /bonetider sample, which makes `pnpm run build:fast` flaky.
+	// inlineStylesheets stays "always": it costs ~5 s of build and buys the
+	// render-blocking-request-free FCP the Lighthouse pass depends on.
+	build: { inlineStylesheets: "always", concurrency: process.env.BONETIDER_SAMPLE ? 1 : 4 },
 	// Astro 7 defaults this to "warn". Nearly every route here is generated from a DERIVED
 	// slug — ~2100 bonetider/[stad] pages plus moskeer/[stad] and moskeer/lan/[lan] — and a
 	// collision means one page silently overwrites another (we have already been bitten by
@@ -666,11 +674,12 @@ export default defineConfig({
 		// prerendered pages inflating analytics — does not apply since GA4 was removed.
 		clientPrerender: true,
 	},
-	// Modern-browser-only build target: keep modern JS native (top-level await,
-	// optional chaining, nullish coalescing, class fields) instead of transpiling
-	// down to a legacy baseline — smaller, faster client bundles.
 	vite: {
-		build: { target: "es2022" },
+		// Vite's own Baseline target (chrome111 / edge111 / firefox114 / safari16.4 /
+		// ios16.4) rather than a hand-picked `es2022`. It is a HIGHER floor than
+		// es2022's, so less is transpiled, and it advances with Baseline instead of
+		// being re-guessed here.
+		build: { target: "baseline-widely-available" },
 		define: {
 			// src/lib/lqip.ts reads the original hero files with sharp at build time to
 			// inline a 20px placeholder behind the homepage spread. It cannot find them
@@ -883,9 +892,9 @@ export default defineConfig({
 		},
 		{
 			// Amiri Quran — a purpose-made mushaf naskh, subset to the Arabic
-			// blocks + harakat (45 kB woff2). Used only for the daily verse (§7.2),
-			// so it is declared site-wide but not preloaded — the browser fetches
-			// it lazily when an Arabic glyph first renders (font-display: swap).
+			// blocks + harakat (45 kB woff2). Declared site-wide but not preloaded
+			// by default — the browser fetches it lazily when an Arabic glyph first
+			// renders (font-display: swap).
 			provider: fontProviders.local(),
 			name: "Amiri Quran",
 			cssVariable: "--font-arabic",

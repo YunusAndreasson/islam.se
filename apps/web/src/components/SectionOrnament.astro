@@ -1,0 +1,9 @@
+---
+import type { HTMLAttributes } from "astro/types";
+
+type Props = HTMLAttributes<"div">;
+
+const { class: className, ...attrs } = Astro.props;
+---
+
+<div {...attrs} class:list={["section-ornament", className]} aria-hidden="true"></div>

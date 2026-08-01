@@ -1,13 +1,15 @@
 ---
-import PageHead from "../../components/PageHead.astro";
+import CollectionIndexPage from "../../components/CollectionIndexPage.astro";
 import TankareGroups from "../../components/TankareGroups.astro";
-import Base from "../../layouts/Base.astro";
 import { breadcrumbList } from "../../lib/jsonld";
 ---
 
-<Base
-	title="Tänkare — islam.se"
+<CollectionIndexPage
+	title="Tänkare"
 	description="De återkommande samtalspartnerna: den klassiska islamiska traditionen och de svenska och västerländska rösterna som essäerna håller samman."
+	lead="De röster essäerna återvänder till: den klassiska islamiska traditionen, och de svenska och västerländska tänkare som läses tillsammans med den."
+	backHref="/essaer/"
+	backLabel="Hela arkivet"
 	jsonLd={[
 		{
 			"@context": "https://schema.org",
@@ -22,14 +24,5 @@ import { breadcrumbList } from "../../lib/jsonld";
 		]),
 	]}
 >
-	<main id="main" class="home">
-		<PageHead title="Tänkare">
-			De röster essäerna återvänder till: den klassiska islamiska traditionen, och de svenska och
-			västerländska tänkare som läses tillsammans med den.
-		</PageHead>
-
-		<TankareGroups />
-
-		<p class="collection-back"><a class="section-link arrow-link" href="/essaer/">Hela arkivet</a></p>
-	</main>
-</Base>
+	<TankareGroups />
+</CollectionIndexPage>

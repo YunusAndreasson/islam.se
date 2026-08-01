@@ -1,0 +1,30 @@
+---
+type MarkesdagRow = {
+	name: string;
+	note?: string;
+	startISO: string;
+	endISO?: string;
+	gregorian: string;
+	hijriLabel: string;
+	hidden?: boolean;
+};
+
+interface Props {
+	rows: readonly MarkesdagRow[];
+}
+
+const { rows } = Astro.props;
+---
+
+<ul class="md-list">
+	{rows.map((e) => (
+		<li class="md-row" data-end={e.endISO ?? e.startISO} hidden={e.hidden}>
+			<p class="label md-greg"><time datetime={e.startISO}>{e.gregorian}</time></p>
+			<div class="md-body">
+				<p class="md-name">{e.name}</p>
+				{e.note && <p class="md-note">{e.note}</p>}
+			</div>
+			<p class="md-hijri">{e.hijriLabel}</p>
+		</li>
+	))}
+</ul>

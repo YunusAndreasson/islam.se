@@ -3,11 +3,7 @@
  *
  * Run BY HAND (`pnpm sync-verses`) whenever the curated verse list changes.
  * For each verse it produces, all committed to the repo:
- *   - Uthmanic Arabic + chapter names — Tarteel MCP (get_translation_text).
- *   - Swedish — *Den ädla Koranen* (Kent Asante Wennerström), read from the local
- *     Quran DB (data/quran.db), the translation the project uses everywhere. NOT
- *     Bernström, and NOT Tarteel. The DB text has PDF line-wrap artifacts; see
- *     swedishFromDb() — review verses.json's diff after a sync.
+ *   - Uthmanic Arabic — Tarteel MCP (get_translation_text).
  *   - A per-ayah mp3 of Ahmad al-Nufais's murattal, AND the per-word recitation
  *     timing that drives the word highlight — both from QUL (Quranic Universal
  *     Library, qul.tarteel.ai), recitation #461.
@@ -19,17 +15,14 @@
  *
  * The QUL segment export is vendored at scripts/data/qul-alnufais-segments.json
  * (downloaded once from QUL, which gates it behind a free login). From then on
- * `astro build` and `pnpm ship` read only the committed verses.json + mp3s —
+ * `astro build` and `pnpm ship` read only the committed quran-verses.json + mp3s —
  * neither Tarteel's API nor QUL is touched at build, deploy, or runtime.
  *
  * al-Nufais's murattal repeats phrases, so a word can be recited several times;
  * the segment list reflects that (word numbers repeat, `start` stays ordered).
  * The highlight follows it faithfully, re-lighting words as he returns to them.
  *
- * Two artifacts are produced, both committed:
- *   - src/content/verser/verses.json — the homepage daily-verse ROTATION (a small
- *     curated pool); every key must be cited by an essay (the build-time citation
- *     index derives `relatedEssay`).
+ * Two artifact groups are produced, both committed:
  *   - src/data/quran-verses.json — a lean map (ayahKey → {textArabic, audioFile,
  *     segments, reciter}) for EVERY verse cited in any essay footnote. The rehype
  *     plugin (src/plugins/rehype-quran-verse.ts) reads this map to inject a compact
@@ -42,7 +35,7 @@
  * whose text and segments disagree, is skipped (reported in the summary) rather than
  * aborting the whole run; it simply gets no player.
  */
-import { execFileSync, spawn } from "node:child_process";
+import { spawn } from "node:child_process";
 import { existsSync } from "node:fs";
 import { mkdir, readdir, readFile, rm, writeFile } from "node:fs/promises";
 import { dirname, join } from "node:path";
@@ -53,10 +46,6 @@ const TARTEEL_MCP_URL = "https://mcp.tarteel.ai/mcp";
 // Tarteel is now used ONLY for the Uthmanic Arabic + chapter names (get_translation_text
 // still needs a translation slug to answer, so we pass one and ignore its Swedish).
 const TRANSLATION_SLUG = "sv-knut";
-// The DISPLAYED Swedish comes from the local Quran DB — *Den ädla Koranen*
-// (Kent Asante Wennerström), the translation the project uses everywhere — not
-// from Tarteel's Bernström. See swedishFromDb() below.
-const TRANSLATOR = "Kent Asante Wennerström";
 const RECITER = "Ahmad al-Nufais - Murattal"; // QUL recitation #461
 // al-Nufais murattal surah masters on Tarteel's CDN (003.mp3, 013.mp3, …) — sliced
 // per-ayah so the cut shares QUL's clock and the word highlight stays in sync.
@@ -71,16 +60,11 @@ const AYAH_AUDIO_BASE = "https://audio-cdn.tarteel.ai/quran/alnufais";
 const LEAD_PAD_MS = 200;
 const TAIL_PAD_MS = 400;
 
-// Curated homepage rotation — every key is cited by at least one essay (verified).
-const ROTATION_KEYS = ["13:28", "3:190", "17:44", "39:42"];
-
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const webRoot = join(__dirname, "..");
-const versesJsonPath = join(webRoot, "src/content/verser/verses.json");
 const quranVersesPath = join(webRoot, "src/data/quran-verses.json");
 const audioDir = join(webRoot, "public/audio/quran");
 const qulSegmentsPath = join(__dirname, "data/qul-alnufais-segments.json");
-const quranDbPath = join(webRoot, "../../data/quran.db");
 const articlesDir = join(webRoot, "../../data/articles");
 const svarDir = join(webRoot, "../../data/svar");
 
@@ -133,36 +117,12 @@ async function svarQuotedKeys(): Promise<string[]> {
 	return [...set];
 }
 
-/** The lean per-verse record the essay player needs (no Swedish — the prose already
- *  carries the literary translation; no glosses — not used in essays). */
+/** The lean per-verse record the essay player needs. */
 interface EssayVerse {
 	textArabic: string;
 	audioFile: string;
 	segments: Segment[];
 	reciter: string;
-}
-
-/**
- * The committed Swedish, *Den ädla Koranen*, read straight from the local Quran
- * DB via the sqlite3 CLI (no driver dependency — same spirit as shelling out to
- * ffmpeg). The DB text carries PDF line-wrap artifacts: runs of spaces (collapsed
- * here) and the odd word split across a line ("sanner ligen", "kvar håller") that
- * a space-collapse cannot rejoin. Eyeball `git diff` on verses.json after a sync
- * and fix any survivors by hand before committing.
- */
-function cleanSwedish(text: string): string {
-	return text.replace(/\s+/g, " ").trim();
-}
-
-function swedishFromDb(surah: number, ayah: number): string {
-	const sql =
-		`SELECT text_swedish FROM verses WHERE surah_number=${surah} ` +
-		`AND verse_number=${ayah} AND translator='${TRANSLATOR}' LIMIT 1;`;
-	const out = execFileSync("sqlite3", [quranDbPath, sql], { encoding: "utf8" }).trim();
-	if (!out) {
-		throw new Error(`${surah}:${ayah}: no "${TRANSLATOR}" translation in ${quranDbPath}`);
-	}
-	return cleanSwedish(out);
 }
 
 /** QUL surah-by-surah entry: absolute timestamps within the surah master. */
@@ -240,15 +200,7 @@ async function downloadFile(url: string, outPath: string): Promise<void> {
 }
 
 interface VerseEntry {
-	id: string;
-	surah: number;
-	ayah: number;
-	ayahKey: string;
-	surahName: string;
-	surahNameArabic: string;
 	textArabic: string;
-	textSwedish: string;
-	translator: string;
 	reciter: string;
 	audioFile: string;
 	segments: Segment[];
@@ -275,11 +227,8 @@ function repairTrailingArtifact(segments: Segment[]): Segment[] {
 	return segments;
 }
 
-/** One ayah's Uthmanic Arabic + chapter names, from Tarteel (the Swedish in this
- *  payload is ignored — ours comes from the local DB). */
-async function arabicFromTarteel(
-	ayahKey: string,
-): Promise<{ textArabic: string; chapterName: string; chapterNameArabic: string }> {
+/** One ayah's Uthmanic Arabic, from Tarteel. */
+async function arabicFromTarteel(ayahKey: string): Promise<string> {
 	const tr = await callTarteel("get_translation_text", {
 		queries: [{ start_ayah: ayahKey, translations: [TRANSLATION_SLUG] }],
 	});
@@ -288,11 +237,7 @@ async function arabicFromTarteel(
 	if (!trJson) throw new Error(`${ayahKey}: could not parse translation payload`);
 	const ayahData = JSON.parse(trJson[0]).ayahs?.[0];
 	if (!ayahData) throw new Error(`${ayahKey}: no ayah in translation payload`);
-	return {
-		textArabic: ayahData.text_arabic,
-		chapterName: ayahData.chapter_name,
-		chapterNameArabic: ayahData.chapter_name_arabic,
-	};
+	return ayahData.text_arabic;
 }
 
 /**
@@ -317,26 +262,18 @@ async function fetchVerse(key: string, qulSegments: Record<string, QulVerse>): P
 	const isRange = to > from;
 
 	const arabicParts: string[] = [];
-	const swedishParts: string[] = [];
 	const merged: Segment[] = [];
 	let wordOffset = 0;
 	let canHighlight = true;
-	let chapterName = "";
-	let chapterNameArabic = "";
 
 	for (let ayah = from; ayah <= to; ayah++) {
 		const ayahKey = `${surah}:${ayah}`;
-		const meta = await arabicFromTarteel(ayahKey);
-		if (!chapterName) {
-			chapterName = meta.chapterName;
-			chapterNameArabic = meta.chapterNameArabic;
-		}
-		arabicParts.push(meta.textArabic);
-		swedishParts.push(swedishFromDb(surah, ayah));
+		const textArabic = await arabicFromTarteel(ayahKey);
+		arabicParts.push(textArabic);
 
 		const repaired = repairTrailingArtifact(qulSegments[ayahKey]?.segments ?? []);
 		const maxWord = repaired.length ? Math.max(...repaired.map((s) => s[0])) : 0;
-		const words = wordCount(meta.textArabic);
+		const words = wordCount(textArabic);
 		if (repaired[0]?.[0] === 1 && maxWord === words) {
 			for (const [w, s, e] of repaired) merged.push([w + wordOffset, s, e]);
 		} else {
@@ -346,7 +283,6 @@ async function fetchVerse(key: string, qulSegments: Record<string, QulVerse>): P
 	}
 
 	const textArabic = arabicParts.join(" ");
-	const textSwedish = swedishParts.join(" ");
 
 	const fileName = isRange
 		? `${pad3(surah)}${pad3(from)}-${pad3(to)}.mp3`
@@ -389,19 +325,11 @@ async function fetchVerse(key: string, qulSegments: Record<string, QulVerse>): P
 	}
 
 	console.log(
-		`  ${segments.length ? "✓" : "♪"} ${key}  ${chapterName}  (${fileName}${cached ? ", cached" : ""}, ${segments.length ? `${segments.length} segments` : "audio only — no QUL word alignment"})`,
+		`  ${segments.length ? "✓" : "♪"} ${key}  (${fileName}${cached ? ", cached" : ""}, ${segments.length ? `${segments.length} segments` : "audio only — no QUL word alignment"})`,
 	);
 
 	return {
-		id: key,
-		surah,
-		ayah: from,
-		ayahKey: key,
-		surahName: chapterName,
-		surahNameArabic: chapterNameArabic,
 		textArabic,
-		textSwedish,
-		translator: TRANSLATOR,
 		reciter: RECITER,
 		audioFile: `/audio/quran/${fileName}`,
 		segments,
@@ -417,56 +345,42 @@ function bySurahAyah(a: string, b: string): number {
 
 async function main() {
 	const qulSegments: Record<string, QulVerse> = JSON.parse(await readFile(qulSegmentsPath, "utf8"));
-	const rotation = new Set(ROTATION_KEYS);
 	const cited = await citedKeys();
 	const svarQuoted = await svarQuotedKeys();
-	// Every verse a reader can meet — essay footnotes ∪ answer-page blockquotes ∪ the
-	// homepage rotation.
-	const allKeys = [...new Set([...ROTATION_KEYS, ...cited, ...svarQuoted])].sort(bySurahAyah);
+	// Every verse a reader can meet — essay footnotes ∪ answer-page blockquotes.
+	const allKeys = [...new Set([...cited, ...svarQuoted])].sort(bySurahAyah);
 
 	console.log(
 		`Syncing ${allKeys.length} verses (${cited.length} cited in essays, ` +
-			`${svarQuoted.length} quoted in svar, ${ROTATION_KEYS.length} in rotation) — ` +
-			"Arabic via Tarteel, al-Nufais via QUL, Den ädla Koranen via quran.db…",
+			`${svarQuoted.length} quoted in svar) — Arabic via Tarteel, al-Nufais via QUL…`,
 	);
 
-	const rotationEntries: VerseEntry[] = [];
 	const map: Record<string, EssayVerse> = {};
 	const skipped: { key: string; reason: string }[] = [];
 	const audioOnly: string[] = []; // shipped, but with no word highlight
 
 	for (const key of allKeys) {
-		const isRotation = rotation.has(key);
 		// An ayah missing from the QUL export can still play via the ready-made
 		// per-ayah clip; fetchVerse falls back to it and ships no highlight.
 		try {
 			const entry = await fetchVerse(key, qulSegments);
-			if (isRotation && entry.segments.length === 0) {
-				// The homepage rotation relies on the word highlight — never ship one silently flat.
-				throw new Error("rotation verse lost its QUL word alignment — fix before shipping");
-			}
 			map[key] = {
 				textArabic: entry.textArabic,
 				audioFile: entry.audioFile,
 				segments: entry.segments,
 				reciter: entry.reciter,
 			};
-			if (isRotation) rotationEntries.push(entry);
 			if (entry.segments.length === 0) audioOnly.push(key);
 		} catch (err) {
 			const reason = err instanceof Error ? err.message : String(err);
-			if (isRotation) throw new Error(`rotation verse ${key}: ${reason}`);
 			skipped.push({ key, reason });
 		}
 	}
 
-	await mkdir(dirname(versesJsonPath), { recursive: true });
-	await writeFile(versesJsonPath, `${JSON.stringify(rotationEntries, null, "\t")}\n`);
 	await mkdir(dirname(quranVersesPath), { recursive: true });
 	await writeFile(quranVersesPath, `${JSON.stringify(map, null, "\t")}\n`);
 
-	console.log(`\nWrote ${rotationEntries.length} rotation verses → ${versesJsonPath}`);
-	console.log(`Wrote ${Object.keys(map).length} verses → ${quranVersesPath}`);
+	console.log(`\nWrote ${Object.keys(map).length} verses → ${quranVersesPath}`);
 	console.log(`Audio → ${audioDir}`);
 	if (audioOnly.length) {
 		console.log(
@@ -500,9 +414,7 @@ async function main() {
 		console.log("Cleared Vite module cache → restart `pnpm dev:bg` to see the new players.");
 	}
 
-	console.log(
-		"\nCommit src/content/verser/verses.json, src/data/quran-verses.json and public/audio/quran/*.mp3.",
-	);
+	console.log("\nCommit src/data/quran-verses.json and public/audio/quran/*.mp3.");
 }
 
 main().catch((err) => {

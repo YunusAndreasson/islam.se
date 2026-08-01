@@ -1,0 +1,31 @@
+---
+import Base from "../layouts/Base.astro";
+import ArticleHeader from "./ArticleHeader.astro";
+
+interface Props {
+	title: string;
+	heading?: string;
+	description?: string;
+	jsonLd?: Record<string, unknown> | Record<string, unknown>[];
+	noindex?: boolean;
+	mainClass?: string;
+}
+
+const {
+	title,
+	heading = title.replace(/ — islam\.se$/, ""),
+	description,
+	jsonLd,
+	noindex = false,
+	mainClass = "content-column",
+} = Astro.props;
+---
+
+<Base title={title} description={description} jsonLd={jsonLd} noindex={noindex}>
+	<main id="main" class={mainClass}>
+		<ArticleHeader title={heading}>
+			<slot name="header" />
+		</ArticleHeader>
+		<slot />
+	</main>
+</Base>
