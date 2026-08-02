@@ -1,0 +1,123 @@
+{
+  "overallCredibility": 8,
+  "verdict": "pass",
+  "summary": "No fabrications found. Every web claim I spot-checked (DO 2024, Jordbruksverket, Svensk Fågel, Riaz et al. 2021, CJEU C-336/19, SVT 2012) matched the source, in several cases verbatim. Every Arabic book passage I searched exists in the database under the claimed work and author, including the Abu Dawud Ibn ʿAbbas naskh report, which is the juridical hinge of the 5:5 section. The 1937/1933/1929/1893 chronology is independently corroborated. Two substantive problems: (1) the article's headline surprise — that Swedish halal meat is in practice imported — is contradicted by the research's own SVT source, which documents halal slaughter performed in Sweden at Scan's facilities; Svensk Fågel's statement covers poultry only and cannot carry the general claim. (2) Ibn Kathir is implicitly placed among the opponents of 5:5 permissiveness, but the database passage shows him affirming scholarly consensus that People of the Book's slaughter is lawful; his objection is narrowly to Makhul's extension of the verse to meat over which God's name was not pronounced. Both are framing errors, not sourcing failures, and both are fixable in one paragraph each. The research is unusually honest about its own gaps — it flags the unverified 5:88 wording, the age of the EFSA 2004 figures, and the need to check the Jomshof motion's EU percentages against a primary source — which raises rather than lowers my confidence in it.",
+  "verifiedClaims": [
+    {
+      "claim": "DO beslutade 10 oktober 2024 att inte inleda tillsyn; ca 20 anmälningar mot tre kommuner; vegetariskt alternativ utgör inte diskriminering om kosten är näringsriktig och kostnadsfri",
+      "status": "verified",
+      "method": "WebFetch of do.se press release — date, complaint count, municipalities and the Ahlstrand Oxhamre quote all matched",
+      "notes": "The fetched quote ends at 'utgöra diskriminering'; the research appends 'i diskrimineringslagens mening'. Confirm the full sentence before block-quoting."
+    },
+    {
+      "claim": "»Alla djur som slaktas i Sverige måste först bedövas«; halalslakt är möjlig i Sverige, koscherslakt inte; elbedövning är förbjuden för nötkreatur",
+      "status": "verified",
+      "method": "WebFetch of jordbruksverket.se — quoted sentence confirmed verbatim, as was 'Nötkreatur får i Sverige inte bedövas med el' and the halal/kosher asymmetry",
+      "notes": "Cited legislation (2018:1192, 2019:66, EG 1099/2009) confirmed on the page. The page's silence on imports is correctly noted by the research as a gap in the source, not a claim by it."
+    },
+    {
+      "claim": "Inget av Svensk Fågels slakterier utför halalslakt",
+      "status": "verified",
+      "method": "WebFetch of svenskfagel.se — 'Inget av Svensk Fågels slakterier halalslaktar' confirmed verbatim",
+      "notes": "Covers poultry only. Does not support the broader inference drawn from it."
+    },
+    {
+      "claim": "Ca 84 % av fjäderfä, 75 % av nötkreatur, 63 % av får och getter bedövas inom halalslakt globalt; bultbedövning avråds för halal; vattenbadsbedövning är problematisk",
+      "status": "verified",
+      "method": "WebFetch of Riaz et al., Translational Animal Science 5:4 (2021) — all three percentages and both method assessments confirmed",
+      "notes": "The tension the research identifies is real: the paper advises against precisely the method Swedish law mandates for cattle."
+    },
+    {
+      "claim": "EU-domstolen 17 december 2020 (C-336/19): medlemsstat får kräva reversibel bedövning; ingreppet omfattas ändå av art. 10.1 i stadgan; generaladvokat Hogan gick i motsatt riktning; domstolen stödde sig på att kött från rituell slakt utanför Flandern får omsättas",
+      "status": "verified",
+      "method": "WebFetch of europeanpapers.eu analysis — holding, Hogan's contrary opinion and the circulation argument all confirmed",
+      "notes": "The research's observation that the circulation argument becomes awkward for a country that also questions imports is its own analysis, and a defensible one."
+    },
+    {
+      "claim": "Obedövad slakt förbjöds i Schweiz 1893, Norge 1929, Nazityskland 1933, Sverige 1937",
+      "status": "verified",
+      "method": "WebSearch — chronology independently corroborated, including that the German ban came a month after Hitler took power",
+      "notes": "Also corroborated: European bans generally avoided naming shechita or Jews explicitly, following the Swiss formulation. The motivation behind the bans is described in the literature as contested — the article should say so."
+    },
+    {
+      "claim": "Ibn ʿAbbās läste enligt Abū Dāwūd 5:5 som undantag från 6:121",
+      "status": "verified",
+      "method": "search_books — found verbatim in Sunan Abi Dawud, kitab al-dhaba'ih, hadith 2819, matching the research's Arabic text word for word",
+      "notes": "al-Qurtubi's tafsir in the database independently reports the same position from Ibn ʿAbbas, strengthening the chain."
+    },
+    {
+      "claim": "Iḥsān-hadithen (»Gud har föreskrivit gott handlande mot allting … vässa kniven«) som grund för slaktetiken",
+      "status": "verified",
+      "method": "search_books — found in Sunan al-Nasa'i (4412–4414), Sunan Ibn Maja (3170) and quoted inside al-Marghinani's al-Hidaya",
+      "notes": "From Shaddad b. Aws; also in Sahih Muslim. Research attributes it via al-Nawawi's al-Majmu', which is a legitimate route, but the article should name the hadith collection and its grading, not only the fiqh commentary quoting it."
+    },
+    {
+      "claim": "al-Marghīnānī (al-Hidāya) driver iḥsān-argumentet: förkastligt att lägga ner djuret och sedan vässa kniven; onödigt merlidande (zāʾid īlām) är makrūh",
+      "status": "verified",
+      "method": "search_books — al-Hidaya passage located with the matching wording on sharpening the blade and the prohibition of unnecessary suffering",
+      "notes": "Supports the research's point that the animal-welfare argument is internal to classical fiqh, not imported."
+    },
+    {
+      "claim": "Ibn Qudāma (al-Mughnī) behandlar villkoren för giltig slakt och bokens folks slakt",
+      "status": "verified",
+      "method": "search_books — al-Mughni passage on 5:5 and dhaba'ih ahl al-kitab confirmed in the database",
+      "notes": ""
+    },
+    {
+      "claim": "SVT 2012: Qibbla Halal Kött slaktar i Scans anläggningar under myndighetstillsyn; Zetali menar att Koranen kräver att djuret lever, inte att bedövning är förbjuden; Fazlhashemi anger ca 100 000",
+      "status": "verified",
+      "method": "WebFetch of svt.se — all elements confirmed, publication 14 feb 2012, uppdaterad 30 okt 2012",
+      "notes": "Important nuance the research blurs: Fazlhashemi's 100,000 is his estimate of practicing Muslims in Sweden, of whom the vast majority accept the interpretation — not a count of people holding the view. Phrase it as he did, with the year."
+    }
+  ],
+  "unverifiedClaims": [
+    {
+      "claim": "»Halalköttet i svenska butiker är i praktiken importerat — Sveriges strängaste-i-Europa-lag exporterar alltså slakten.«",
+      "status": "unverified",
+      "reason": "This is the article's advertised surprise, and the research's own sources contradict it. Svensk Fågel's statement covers poultry only. The SVT source in the same research documents Qibbla Halal Kött performing halal slaughter in Sweden at Scan's facilities under Jordbruksverket and Livsmedelsverket supervision — i.e. domestically produced, stunned halal meat demonstrably exists. Upphandlingsmyndigheten likewise assumes Swedish halal production is possible. Either find market-share data (Livsmedelsverket, Jordbruksverket slaughter statistics, or the certifiers' own client lists) or downgrade the claim to what is actually supported: the largest poultry producers decline halal certification, so a substantial share of halal meat is imported, and imported meat need not meet Swedish stunning rules."
+    },
+    {
+      "claim": "Ibn Kathīr framställs som stående på motsatt sida av al-Qaraḍāwī i 5:5-frågan",
+      "status": "unverified",
+      "reason": "The database passage shows Ibn Kathir stating that it is a matter of consensus (mujmaʿ ʿalayhi) among scholars that the slaughter of the People of the Book is lawful for Muslims. His objection is narrowly directed at Makhul's inference that permitting their food entails permitting meat over which God's name was not pronounced. Presenting him as an opponent of the permissive reading of 5:5 would misrepresent a named classical authority. Quote him for what he actually argues: the verse permits their slaughter precisely because they invoke God over it — which is itself an argument about modern industrial slaughter."
+    },
+    {
+      "claim": "Belgien upp till 75 % obedövad slakt av får och nöt; 30–40 % i Frankrike och Irland (Jomshof-motionen); och »en fransk kartläggning« om 4–5 minuter till död hos nöt",
+      "status": "unverified",
+      "reason": "The research already flags these as needing primary-source verification, correctly. They originate in a party motion, which is an advocacy document, not evidence. Either trace them to the underlying study (the Dialrel project and national competent-authority reports are the usual origins, and the Belgian figure is disputed) or attribute them explicitly as claims made in the motion rather than as facts."
+    },
+    {
+      "claim": "Bernström-lydelserna för samtliga fjorton verser",
+      "status": "unverified",
+      "reason": "The research honestly flags 5:88 as unverified. I could not confirm any Bernström wording via quran.com, which serves Arabic and English only for this purpose. The renderings look consistent with Bernström's style, but every verse set as a block quote should be checked against a printed or licensed edition of Koranens budskap before publication, since misquoting a copyrighted translation is both a factual and a legal problem."
+    },
+    {
+      "claim": "Scandinavian Halal Certification är »Sveriges första halalcertifieringsorgan«, grundat 2012",
+      "status": "unverified",
+      "reason": "A superlative resting entirely on the company's own about-page. Halal certification activity in Sweden predates 2012 through mosque-based arrangements. Attribute it as a self-description ('uppger sig vara') or drop the superlative; the substantive point — that certification is a private-law arrangement and no Swedish authority defines halal — stands without it."
+    }
+  ],
+  "missingPerspectives": [
+    "The Jewish perspective is structurally absent even though the kosher/halal asymmetry is one of the article's load-bearing claims. Judiska Centralrådet has argued the 1937 ban leaves Swedish Jews wholly dependent on imports, which is the sharper version of the same argument the article makes for Muslims. Quoting Muslims about a ban that affects Jews more absolutely, without letting the affected community speak, is an editorial weakness.",
+    "The antisemitic-genealogy claim rests on a single Lund student thesis. Historians disagree about how far the 1937 law's motives can be read as antisemitic, and the research's own better source — proposition 1937:188 — shows a legislator explicitly aware of the religious-freedom objection who chose animal welfare anyway. Present the genealogy as contested scholarship, with the proposition as the primary evidence, or the article's fairness claim collapses at exactly the point where it matters most.",
+    "No consumer-protection or fraud dimension. Mislabelled halal meat has been a recurring European scandal, and it is the strongest practical argument for certification bodies existing at all — the article treats certification mainly as an industry to be explained rather than as a response to a documented problem.",
+    "EU labelling law is missing. Regulation 1169/2011 does not require slaughter-method labelling, which is precisely why Jomshof's first yrkande exists and why a Swedish consumer cannot tell stunned from unstunned imported meat. Without this, the import argument floats free of the legal mechanism that produces it.",
+    "The global halal-certification economy is asserted but not sourced. If the article's framing question is why a short prohibition list became a global industry, it needs at least one authority on the supply side — JAKIM, the GSO/SMIIC standards, or the OIC's harmonisation efforts — rather than only a Märsta-based Swedish firm.",
+    "Nothing on the Danish (2014) and Norwegian bans and the parallel debates there, which would show that Sweden's position is regional rather than singular and would test the 'strängast i Europa' framing.",
+    "No Swedish Muslim organisational voice from the last decade. SOU 1999:9 documents the three-camp split as of 1999 and SVT reports 2012; the article covers 2024–2025 legal developments with 1999 and 2012 sociology. Islamiska Förbundet or Sveriges Imamråd should be asked where the split stands now, or the age of the sociological evidence should be stated plainly."
+  ],
+  "sourceAssessment": {
+    "totalSources": 28,
+    "highCredibility": 20
+  },
+  "recommendations": [
+    "Rewrite the import claim to what the evidence supports: the dominant poultry producers decline halal certification, domestic stunned halal slaughter exists but is small-scale (Qibbla/Scan), and imported meat is not bound by Swedish stunning rules. Do not assert that Swedish halal meat is 'in practice imported' without market data.",
+    "Correct the Ibn Kathir framing. He affirms consensus that the slaughter of the People of the Book is lawful; use his actual argument — that it is lawful because they invoke God's name — as the bridge to the question of secular industrial slaughter, which is a stronger point than the one currently drafted.",
+    "Attribute the Jomshof motion's European percentages and the 4–5 minute figure to the motion itself, or replace them with the EFSA figures the research already has, which are peer-reviewed and dated.",
+    "State the year with every statistic: EFSA 2004, SVT/Fazlhashemi 2012, SOU 1999:9, Pew 2016. The research is disciplined about this internally; the article must be too, especially for the Pew 8.1 % figure, which measures religious background and not practice and will otherwise be read as a count of halal consumers.",
+    "Verify all fourteen Bernström verse texts against a printed edition of Koranens budskap before setting any as block quotes, and either secure permission or paraphrase where quotation runs long.",
+    "Add the Jewish perspective on the 1937 ban, and present the antisemitic-genealogy research as contested, anchoring the legislative history in proposition 1937:188 rather than in the student thesis.",
+    "Add EU Regulation 1169/2011's absence of a slaughter-method labelling requirement — it is the missing mechanism that connects the Swedish ban to the import question and makes the article's central asymmetry legally legible.",
+    "Keep the internal-to-Islam framing of the animal-welfare argument, which is the research's strongest and best-evidenced move: al-Marghinani's rejection of zaʾid ilam and the ihsan hadith are both verified in the database and let the article make the welfare argument in Islamic terms rather than against them."
+  ]
+}

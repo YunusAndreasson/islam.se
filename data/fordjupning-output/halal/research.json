@@ -1,0 +1,462 @@
+{
+  "topic": "Halal",
+  "summary": "Den svårare frågan artikeln måste besvara är inte \"vad är halal?\" utan \"varför har en kort och tillåtande koranisk förbudslista blivit en global certifieringsindustri och en svensk politisk stridsfråga?\" Halal är inte en matmärkning utan en rättslig kategori — en av de fem aḥkām — vars grundregel är tillåtelse (al-aṣl fi'l-ashyāʾ al-ibāḥa) och vars uttryckliga förbud i Koranen omfattar fem saker: självdött, blod, svin, det som offrats åt annan än Gud, och rusdrycker. Allt annat i den moderna halaldiskussionen — gelatin, E-nummer, bedövning, maskinslakt, räntefria bolån — är juridisk härledning, inte skrift.\n\nFyra kontroverser bär texten, och två av dem går inuti islam, inte mellan islam och Sverige. (1) Bedövningsfrågan: klassisk fiqh kräver att djuret lever vid snittet och att blodet rinner, och den hanafitiska och shafiitiska litteraturen driver redan iḥsān-argumentet (vässa kniven i förväg, undvik \"zāʾid īlām\"), men samtida certifieringsorgan splittras skarpt — Europeiska fatwārådet och brittiska HFA godtar reversibel elbedövning, HMC avvisar all bedövning. (2) Koranen 5:5 om Bokens folks föda: läses den så att vanligt svenskt kött är tillåtet, eller inte? Ibn Qudāma, Ibn Kathīr, al-Ghumārī och al-Qaraḍāwī står på olika sidor, tolvimamitisk fiqh förbjuder det helt, och SOU 1999:9 dokumenterar att svenska muslimer redan 1999 delade upp sig i minst tre läger i exakt denna fråga. (3) Rättsskolorna skiljer sig i grunddetaljerna — tasmiya obligatorisk (hanafi/maliki/hanbali) eller sunna (shafi'i), hästkött makrūh eller tillåtet, havsdjur, jallāla, istiḥāla. (4) Den svenska kontexten är rättsligt asymmetrisk och det är den verkliga nyheten.\n\nVad som skulle överraska en påläst läsare: Sverige förbjöd obedövad slakt 1937, fyra år efter Nazityskland och med en riksdagsdebatt som forskningen visar var genomsyrad av antisemitiska föreställningar — vilket komplicerar men inte upphäver djurskyddsargumentet. Kosherslakt är därmed helt omöjlig i Sverige, medan bedövad halalslakt är laglig. Men de stora svenska fjäderfäproducenterna (Svensk Fågel, Kronfågel, Guldfågeln) halalslaktar uttryckligen inte, så halalköttet i svenska butiker är i praktiken importerat — från länder vars slaktmetod svensk lag förbjuder. Sveriges strängaste-i-Europa-lag exporterar alltså slakten. Och DO beslutade 10 oktober 2024 att det inte utgör diskriminering att en kommun bara erbjuder vegetariskt alternativ när fläsk serveras, förutsatt att kosten är näringsriktig och kostnadsfri.",
+  "quranReferences": [
+    {
+      "surah": "Al-Baqara (2)",
+      "ayah": "168",
+      "text": "MÄNNISKOR! Ät av det som jorden ger och som är tillåtet och hälsosamt, och följ inte i Djävulens spår; han är sannerligen er svurne fiende. [Knut Bernström, quran.com/2/168, översättning 48. Versen är den koraniska grunden för paret ḥalāl + ṭayyib.]"
+    },
+    {
+      "surah": "Al-Baqara (2)",
+      "ayah": "173",
+      "text": "Vad Han har förbjudit er är kött av självdöda djur, blod och svinkött och sådant som offrats åt en annan än Gud. Men den som [av hunger] tvingas [att äta sådant] – inte den som av trots överträder [förbuden] eller som går längre [än hungern driver honom] – begår ingen synd. Gud är ständigt förlåtande, barmhärtig. [Bernström. Den kortaste förbudslistan + nödrättsklausulen ḍarūra.]"
+    },
+    {
+      "surah": "Al-Māʾida (5)",
+      "ayah": "3",
+      "text": "FÖRBJUDET för er är kött av självdöda djur och blod och svinkött och sådant [kött] som har slaktats i ett annat namn än Guds; [vidare kött av] djur som strypts eller kvävts eller dödats genom ett hårt slag eller [som] fallit utför ett stup eller stångats ihjäl eller rivits av ett rovdjur – om ni inte har slaktat djuret på föreskrivet sätt [medan det var vid liv] – och djur som slaktats på hedniska offeraltare. […] Om någon drivs [att bryta mot förbuden ovan] av hunger, inte av lust att överträda dem, [skall han finna] Gud ständigt förlåtande, barmhärtig. [Bernström. Nyckelklausulen »illā mā dhakkaytum« – det som fångats levande och slaktats på föreskrivet sätt – är hela bedövningsdebattens juridiska gångjärn.]"
+    },
+    {
+      "surah": "Al-Māʾida (5)",
+      "ayah": "4",
+      "text": "De frågar dig vad som är tillåtet för dem. Säg: »All god, hälsosam föda är tillåten för er.« [Tillåtet är] också vad sådana djur fångar åt er som ni dresserar för jakt och lär något av det som Gud har lärt er; men uttala Guds namn över det och frukta Gud – Gud är snar att kalla till räkenskap. [Bernström. Grunden för jaktkapitlet: dresserade rovdjur och tasmiya vid utsläppandet.]"
+    },
+    {
+      "surah": "Al-Māʾida (5)",
+      "ayah": "5",
+      "text": "Denna dag har all god, hälsosam föda blivit tillåten för er; och födan hos dem som fick del av uppenbarelsen [i äldre tid] är tillåten för er och er föda är tillåten för dem. [Ni får ta till hustrur] ärbara kvinnor bland de troende och ärbara kvinnor bland dem som före er fick del av uppenbarelsen … [Bernström. Den enskilt mest omtvistade versen för muslimer i Europa.]"
+    },
+    {
+      "surah": "Al-Māʾida (5)",
+      "ayah": "88",
+      "text": "Ät av det som Vi har skänkt er, såvida det är tillåtet och sunt, och frukta Gud som ni tror på. [Bernström-lydelsen bör hämtas separat från quran.com/5/88 innan blockcitat sätts; verifierad lydelse saknas i denna research.]"
+    },
+    {
+      "surah": "Al-Māʾida (5)",
+      "ayah": "90",
+      "text": "TROENDE! Rusdrycker och spel om pengar, alla hedniska bruk och spådomskonst är ingenting annat än Djävulens skamliga påfund; håll er borta från allt sådant, för att det skall gå er väl i händer. [Bernström. Femte förbudet – och den vers som via analogi bär förbudet mot alla berusningsmedel, inkl. Ibn Taymiyyas hashish-fatwā.]"
+    },
+    {
+      "surah": "Al-Māʾida (5)",
+      "ayah": "96",
+      "text": "Det som fiske i hav [och andra vatten] kan ge och allt ätligt som kan hämtas därifrån är tillåtet för er, till nytta och glädje för er och för dem som befinner sig på resa, medan jakt till lands är förbjuden för er under pågående vallfärd. Och frukta Gud – det är till Honom ni skall samlas åter. [Bernström. Havsdjuren undantas från slaktkravet – men rättsskolorna drar gränsen olika (hanafiter: i princip bara fisk).]"
+    },
+    {
+      "surah": "Al-Anʿām (6)",
+      "ayah": "118",
+      "text": "ÄT AV allt det som Guds namn har uttalats över, om ni tror på Hans budskap. [Bernström.]"
+    },
+    {
+      "surah": "Al-Anʿām (6)",
+      "ayah": "121",
+      "text": "Och ät inte av det som Guds namn inte har uttalats över; då trotsar ni Gud. De onda krafterna intalar sina nära vänner [bland människorna] att ingå i diskussion med er [om detta]; men om ni gör dem till viljes har ni helt visst blivit sådana som sätter medhjälpare vid Guds sida. [Bernström. Ibn ʿAbbās läste enligt Abū Dāwūd 5:5 som undantag från just denna vers.]"
+    },
+    {
+      "surah": "Al-Aʿrāf (7)",
+      "ayah": "157",
+      "text": "… han skall anbefalla dem det som är rätt och förbjuda dem det som är orätt och förklara tillåtna för dem alla goda och nyttiga ting och otillåtet allt som är ont och skadligt och befria dem från deras bördor och lösa dem från de bojor som har bundit dem … [Bernström. Ṭayyibāt/khabāʾith-paret; används av jurister som allmän princip bakom matreglerna, och som argument för att förbuden är få och lättnaden regeln.]"
+    },
+    {
+      "surah": "An-Naḥl (16)",
+      "ayah": "114",
+      "text": "ÄT AV alla tillåtna goda ting som Gud har skänkt er för er försörjning och tacka Gud för Hans välgärningar, om det är Honom ni vill dyrka. [Bernström.]"
+    },
+    {
+      "surah": "Al-Ḥajj (22)",
+      "ayah": "37",
+      "text": "[Offerdjurens] kött och deras blod når aldrig Gud; men er gudsfruktan [och er lydnad] når Honom. Och Han har låtit er råda över dem för att ni skall förhärliga Gud, som har väglett er. Och förkunna detta glada budskap för dem som gör det goda och det rätta. [Bernström. Avgörande för att skilja halal från offer-magi: köttet i sig är inte poängen.]"
+    },
+    {
+      "surah": "Al-Baqara (2)",
+      "ayah": "275",
+      "text": "… Men Gud har förklarat handel lovlig och förbjudit ocker … [Bernström. Visar att ḥalāl/ḥarām är en kategori för handlingar och avtal, inte bara för mat – ingången till halal ekonomi och islamisk finans.]"
+    }
+  ],
+  "quotes": [],
+  "bookPassages": [
+    {
+      "id": "passage-160119",
+      "text": "«إن الله كتب الإحسان على كل شىء، فإذا قتلتم فأحسنوا القتلة، وإذا ذبحتم فأحسنوا الذبحة وليحد أحدكم شفرته وليرح ذبيحته» … «ما أنهر الدم وذكر اسم الله عليه فكلوا، ليس السن والظفر» — Svensk översättning: »Gud har föreskrivit gott handlande (iḥsān) mot allting. När ni dödar, döda väl; när ni slaktar, slakta väl. Låt var och en av er vässa sin kniv och skona sitt slaktdjur.« (ḥadīth av Shaddād b. Aws; al-Nawawī anger Muslim som källa.) Och: »Det som får blodet att flöda och över vilket Guds namn uttalats – ät av det; dock inte [med] tand eller klo.« (Rāfiʿ b. Khadīj; al-Nawawī anger al-Bukhārī och Muslim.) OBS: al-Nawawī anmärker uttryckligen att al-Shīrāzī använt den svaga formen »roo­diya« om en autentisk ḥadīth. Iḥsān-hadithen är det viktigaste inomislamiska argumentet för bedövning – och åberopas samtidigt av dem som avvisar den.",
+      "bookTitle": "al-Majmūʿ sharḥ al-Muhadhdhab (kitāb al-dhabāʾiḥ)",
+      "author": "Yaḥyā b. Sharaf al-Nawawī (d. 676/1277)"
+    },
+    {
+      "id": "passage-160128",
+      "text": "«والمستحب أن يسمى الله تعالى على الذبح … فإن ترك التسمية لم يحرم … والمستحب أن يقطع الحلقوم والمرىء والودجين، لأنه أوحى وأروح للذبيحة» — Svensk översättning: »Det är rekommenderat att uttala Guds namn vid slakten … men om tasmiya utelämnas blir [köttet] inte förbjudet … Det rekommenderas att skära av luftstrupen, matstrupen och de båda halsvenerna, eftersom det är snabbare och skonsammare för djuret.« Här står den shafiitiska minoritetspositionen svart på vitt (tasmiya = sunna, inte villkor), tillsammans med ʿĀʾishas ḥadīth om beduinerna vars kött man inte visste om Guds namn uttalats över: »Uttala Guds namn över det och ät.«",
+      "bookTitle": "al-Majmūʿ sharḥ al-Muhadhdhab",
+      "author": "Yaḥyā b. Sharaf al-Nawawī (d. 676/1277)"
+    },
+    {
+      "id": "passage-163337",
+      "text": "«ويكره أن يضجعها ثم يحد الشفرة … «لقد أردت أن تميتها موتات، هلا حددتها قبل أن تضجعها» … والحاصل: أن ما فيه زيادة إيلام لا يحتاج إليه في الذكاة مكروه» — Svensk översättning: »Det är förkastligt att lägga ned djuret och först därefter vässa kniven … [Profeten sade till en man som gjorde så:] ›Vill du döda henne många dödar? Varför vässade du inte kniven innan du lade ned henne?‹ … Slutsatsen är: allt som tillfogar ytterligare smärta utöver vad slakten kräver är förkastligt (makrūh).« Denna hanafitiska rättsregel – överflödigt lidande är makrūh – är den klassiska brygga som moderna bedövningsförespråkare bygger på.",
+      "bookTitle": "al-Hidāya fī sharḥ Bidāyat al-mubtadiʾ",
+      "author": "Burhān al-Dīn al-Marghīnānī (d. 593/1197)"
+    },
+    {
+      "id": "passage-163331",
+      "text": "«أن يذكر موصولا على وجه العطف والشركة بأن يقول: باسم الله واسم فلان … فتحرم الذبيحة لأنه أهل به لغير الله … والشرط هو الذكر الخالص المجرد على ما قال ابن مسعود رضي الله عنه: جردوا التسمية» — Svensk översättning: »Om han sammanbinder [namnen] så att de blir jämställda och säger ›i Guds namn och NN:s namn‹, blir slaktdjuret förbjudet, eftersom det då offrats åt annan än Gud … Villkoret är den rena, oblandade åkallelsen, enligt Ibn Masʿūds ord: ›Håll tasmiya ren.‹« Visar hur snävt förbudet i 5:3 (»slaktats i ett annat namn än Guds«) faktiskt tolkas – det är ett förbud mot delad dedikation, inte mot frånvaro av ord.",
+      "bookTitle": "al-Hidāya fī sharḥ Bidāyat al-mubtadiʾ",
+      "author": "Burhān al-Dīn al-Marghīnānī (d. 593/1197)"
+    },
+    {
+      "id": "passage-147398",
+      "text": "«ويشترط أن يكون عاقلا … ولنا، أن الذكاة يعتبر لها القصد، فيعتبر لها العقل، كالعبادة … فالتسمية مشترطة في كل ذابح مع العمد، سواء كان مسلما أو كتابيا، فإن ترك الكتابي التسمية عن عمد، أو ذكر اسم غير الله، لم تحل ذبيحته … وقال عطاء، ومجاهد، ومكحول: إذا ذبح النصراني باسم المسيح حل، فإن الله تعالى أحل لنا ذبيحته، وقد علم أنه سيقول ذلك» — Svensk översättning: »Slaktaren måste vara vid sina sinnens fulla bruk … Vårt argument är att slakt kräver avsikt, och avsikt kräver förstånd, liksom gudstjänsthandlingar … Tasmiya är villkor för varje slaktare som avsiktligt utelämnar den, vare sig han är muslim eller bokens folk; om en kitābī avsiktligt utelämnar den eller nämner ett annat namn än Guds, är hans slaktdjur inte tillåtet. […] Men ʿAṭāʾ, Mujāhid och Makḥūl sade: om en kristen slaktar i Messias namn är det tillåtet, ty Gud förklarade deras föda tillåten för oss samtidigt som Han visste att de skulle säga så.« Detta är kärnan i 5:5-tvisten, formulerad av en hanbalitisk auktoritet – och båda positionerna finns hos honom.",
+      "bookTitle": "al-Mughnī (kitāb al-dhabāʾiḥ)",
+      "author": "Muwaffaq al-Dīn Ibn Qudāma al-Maqdisī (d. 620/1223)"
+    },
+    {
+      "id": "passage-219892",
+      "text": "«عن ابن عباس قال: (فكلوا مما ذكر اسم الله عليه) (ولا تأكلوا مما لم يذكر اسم الله عليه) فنسخ واستثنى من ذلك فقال (وطعام الذين أوتوا الكتاب حل لكم وطعامكم حل لهم)» — Svensk översättning: »Ibn ʿAbbās sade om [6:118 och 6:121]: detta upphävdes, och ett undantag gjordes, genom orden ›och födan hos dem som fått Skriften är tillåten för er och er föda är tillåten för dem‹ (5:5).« Sunan Abī Dāwūd, kitāb al-ḍaḥāyā, ḥadīth nr 2819 enligt den utgåva passagen är hämtad ur — numret bör kontrolleras mot sunnah.com innan det anges i tryck.",
+      "bookTitle": "Sunan Abī Dāwūd",
+      "author": "Abū Dāwūd al-Sijistānī (d. 275/889)"
+    },
+    {
+      "id": "passage-185120",
+      "text": "«وفي هذا الذي قاله مكحول، رحمه الله، نظر، فإنه لا يلزم من إباحته طعام أهل الكتاب إباحة أكل ما لم يذكر اسم الله عليه؛ لأنهم يذكرون اسم الله على ذبائحهم وقرابينهم، وهم متعبدون بذلك؛ ولهذا لم يبح ذبائح من عداهم من أهل الشرك … بل يأكلون الميتة، بخلاف أهل الكتابين» — Svensk översättning: »Makḥūls uppfattning kan ifrågasättas: att Gud tillåtit bokens folks föda medför inte att det är tillåtet att äta sådant som Guds namn inte uttalats över. De uttalar nämligen Guds namn över sina slaktdjur och offer, och är religiöst förpliktade till det. Just därför tilläts inte slaktdjur från andra, från avgudadyrkarna … som till och med äter självdött, till skillnad från de båda skriftfolken.« Ibn Kathīrs argument är exakt det som moderna kritiker vänder mot 5:5-tillåtelsen i Europa: premissen (att kristna åkallar Gud vid slakten) gäller inte längre.",
+      "bookTitle": "Tafsīr al-Qurʾān al-ʿaẓīm (till 5:5)",
+      "author": "Ismāʿīl Ibn Kathīr (d. 774/1373)"
+    },
+    {
+      "id": "passage-200561",
+      "text": "«ذهب جمهور العلماء من السلف وغيرهم إلى أن كل ما يسكر نوعه حرم شربه، قليلا كان أو كثيرا نيئا كان أو مطبوخا، ولا فرق بين المستخرج من العنب أو غيره … وخالف الكوفيون في القليل مما عدا ما ذكر» — Svensk översättning: »Flertalet lärda, både bland de tidiga och senare, ansåg att allt vars slag berusar är förbjudet att dricka, litet som mycket, rått som kokt, utan skillnad mellan det som utvunnits ur druvor och annat … Kufaborna [dvs. den hanafitiska traditionen] avvek i fråga om små mängder av annat än det nämnda.« Al-Qurṭubī refererar al-Māzarī. Viktigt för artikeln: förbudet mot alkohol är ett av de få där rättsskolorna verkligen skiljer sig i sak, och det avgör i sin tur bedömningen av etanol i livsmedelstillsatser.",
+      "bookTitle": "al-Jāmiʿ li-aḥkām al-Qurʾān",
+      "author": "Muḥammad b. Aḥmad al-Qurṭubī (d. 671/1273)"
+    },
+    {
+      "id": "passage-107692",
+      "text": "«ولكن لما كانت جامدة مطعومة ليست شرابا تنازع الفقهاء في نجاستها … وبكل حال فهي داخلة فيما حرمه الله ورسوله من الخمر والمسكر لفظا أو معنى … فقال: كل مسكر حرام» — Svensk översättning: »Eftersom den är fast och ätbar och inte en dryck, tvistade juristerna om dess orenhet … Men i alla händelser omfattas den av det som Gud och Hans sändebud förbjudit av khamr och berusningsmedel, antingen ordagrant eller till innebörden … [Profeten] sade: ›Allt berusande är förbjudet.‹« Ibn Taymiyyas hashish-avsnitt är det klaraste klassiska exemplet på hur ḥarām utvidgas analogiskt bortom textens bokstav – nödvändig bakgrund för dagens diskussion om tillsatser, nikotin och droger.",
+      "bookTitle": "al-Siyāsa al-sharʿiyya fī iṣlāḥ al-rāʿī wa-l-raʿiyya",
+      "author": "Taqī al-Dīn Ibn Taymiyya (d. 728/1328)"
+    },
+    {
+      "id": "passage-120698",
+      "text": "«وكل من ألف ضربا من ضروب هذه الحيوانات اكتسب من طبعه وخلقه، فإن تغذى بلحمه كان الشبه أقوى فإن الغاذي شبيه بالمغتذى. ولهذا حرم الله أكل لحوم السباع وجوارح الطير لما تورث آكلها من شبه نفوسها بها» — Svensk översättning: »Var och en som umgås med ett slags djur tillägnar sig något av dess natur och lynne; och äter han dess kött blir likheten starkare, ty det som ger näring liknar den som näres. Därför förbjöd Gud köttet av rovdjur och rovfåglar, på grund av den likhet med deras natur som det ingjuter i den som äter dem.« Ibn al-Qayyims karaktärsargument – maten formar själen – är den klassiska motiveringen till varför halal inte betraktas som godtyckligt lydnadsprov. Bör användas som förklaring av en teologisk hållning, inte som empiriskt påstående.",
+      "bookTitle": "Madārij al-sālikīn",
+      "author": "Ibn Qayyim al-Jawziyya (d. 751/1350)"
+    },
+    {
+      "id": "passage-163345",
+      "text": "«ثم قيل: الكراهة عنده كراهة تحريم. وقيل كراهة تنزيه. والأول أصح … قال: «ولا بأس بأكل الأرنب» … «وإذا ذبح ما لا يؤكل لحمه طهر جلده ولحمه إلا الآدمي والخنزير» فإن الذكاة لا تعمل فيهما» — Svensk översättning: »Man har sagt att [Abū Ḥanīfas] ogillande [av hästkött] är ett förbudsogillande; andra säger att det är ett mildare ogillande. Det första är riktigare … Han sade: ›Det är inget fel att äta hare‹ … ›Och om ett djur vars kött inte äts slaktas, blir dess hud och kött rena – utom människan och svinet‹, ty slakten verkar inte på dem.« Konkret exempel på att rättsskolorna faktiskt är oense om vad som är halal att äta – hästkött är tillåtet enligt Abū Yūsuf och Muḥammad, shafiiter och hanbaliter, men makrūh (enligt den starkare hanafitiska läsningen: förbjudet) enligt Abū Ḥanīfa.",
+      "bookTitle": "al-Hidāya fī sharḥ Bidāyat al-mubtadiʾ",
+      "author": "Burhān al-Dīn al-Marghīnānī (d. 593/1197)"
+    },
+    {
+      "id": "passage-132661",
+      "text": "«والحيوان في اشتراط الذكاة في أكله على قسمين: حيوان لا يحل إلا بذكاة، وحيوان يحل بغير ذكاة. ومن هذه ما اتفقوا عليه ومنها ما اختلفوا فيه. واتفقوا على أن الحيوان الذي يعمل فيه الذبح هو الحيوان البري ذو الدم الذي ليس بمحرم ولا منفوذ المقاتل» — Svensk översättning: »Vad gäller kravet på slakt delas djuren i två slag: sådana som blir tillåtna endast genom slakt, och sådana som är tillåtna utan slakt. Om somligt av detta är de eniga, om annat oeniga. De är eniga om att det djur på vilket slakt tillämpas är landdjuret med [flytande] blod, som varken är förbjudet eller redan dödligt sårat.« Ibn Rushds disposition – vad man är enig om, vad man är oenig om, och varför – är den bästa klassiska modellen för hur artikelns rättsskolesektion bör byggas.",
+      "bookTitle": "Bidāyat al-mujtahid wa-nihāyat al-muqtaṣid (kitāb al-dhabāʾiḥ)",
+      "author": "Ibn Rushd al-Ḥafīd (Averroës, d. 595/1198)"
+    },
+    {
+      "id": "passage-260597",
+      "text": "«وليست بحرام لقوله صلى الله عليه وسلم: «ذكاة الجنين ذكاة أمه». ومنع أهل العراق من أكله إلا أن يدركه حيا فيذكيه» — Svensk översättning: »Och det är inte förbjudet, eftersom [Profeten] sade: ›Fostrets slakt är dess moders slakt.‹ Men irakierna [hanafiterna] förbjöd att äta det, såvida man inte påträffar det levande och då slaktar det.« Ett kort men användbart exempel på att även en till synes teknisk detalj i halalslakten är rättsskoleberoende.",
+      "bookTitle": "Zād al-maʿād fī hady khayr al-ʿibād",
+      "author": "Ibn Qayyim al-Jawziyya (d. 751/1350)"
+    }
+  ],
+  "sources": [
+    {
+      "id": "src-jordbruksverket-religios-slakt",
+      "url": "https://jordbruksverket.se/djur/djurtransportorer-och-slakterier/religios-slakt",
+      "title": "Religiös slakt – Jordbruksverket",
+      "keyFindings": [
+        "»Alla djur som slaktas i Sverige måste först bedövas.« Religiös slakt är tillåten endast om djuret är helt bedövat före avblodning.",
+        "Bedövningsmetod per djurslag: elbedövning tillåts och används för fjäderfä och får; för nötkreatur godtas endast bultpistol eller motsvarande – elbedövning är förbjuden för nöt.",
+        "Myndighetens egen slutsats: halalslakt är möjlig i Sverige (med bedövning); koscherslakt är det inte, eftersom den kräver obedövad slakt. Detta är den rättsliga asymmetri artikeln måste redovisa.",
+        "Angiven lagstiftning: djurskyddslag (2018:1192), djurskyddsförordning (2019:66), EU-förordning (EG) nr 1099/2009, samt Jordbruksverkets grundföreskrifter 2019:8 (L22).",
+        "Sidan behandlar inte import av kött från obedövad slakt – luckan är i sig en poäng."
+      ]
+    },
+    {
+      "id": "src-do-skolmat-2024",
+      "url": "https://www.do.se/om-do/pressrum/aktuellt/2024/2024-10-10-anmalningarna-om-skolmaten-i-uddevalla-utreds-inte",
+      "title": "Anmälningarna om skolmaten i Uddevalla utreds inte – Diskrimineringsombudsmannen",
+      "keyFindings": [
+        "Datum för beslutet: 10 oktober 2024. DO beslutade att inte inleda tillsyn.",
+        "Cirka 20 anmälningar mot tre kommuner, varav Uddevalla och Varberg är namngivna. Anmälningarna gällde att elever som av religiösa skäl inte äter fläskkött endast erbjöds vegetariskt alternativ.",
+        "Ordagrant från DO:s juridikchef Karin Ahlstrand Oxhamre: »Under förutsättning att den vegetariska kost som erbjuds av kommunen lever upp till kraven på att vara näringsriktig och kostnadsfri kan detta inte i det här fallet anses utgöra diskriminering i diskrimineringslagens mening.«",
+        "Detta är sannolikt det viktigaste svenska rättsliga ställningstagandet om halal i vardagen och saknas i så gott som all svensk populärframställning."
+      ]
+    },
+    {
+      "id": "src-sou-1999-9",
+      "url": "https://riksdagen.se/sv/dokument-lagar/dokument/statens-offentliga-utredningar/sou-1999-9-_GNB39/html",
+      "title": "Att slakta ett får i Guds namn – om religionsfrihet och demokrati (SOU 1999:9), Göran Gunner, Demokratiutredningens skrift nr 14",
+      "keyFindings": [
+        "Dokumenterar att svenska muslimer redan 1999 delade sig i minst tre hållningar: (a) de som avvisar all bedövning och endast accepterar importerat kött, (b) de som accepterar lätt bedövning före snittet om slaktaren är muslim, (c) de som med stöd av 5:5 accepterar kött från kristna »bokens folk«, vilket inkluderar vanligt svenskt butikskött.",
+        "Ordagrant (s. 14): »en del muslimer hävdar att inget får- eller nötkött slaktat i Sverige är tillåtet så länge lagen kräver bedövning«.",
+        "Djurskyddslagen 1988 förbjöd religiös slakt utan föregående bedövning; Jordbruksverkets rapport 1992 rekommenderade att dispens inte skulle ges för halalslakt.",
+        "Antal muslimer i Sverige vid årsskiftet 1996/97: ca 85 000 enligt Samarbetsnämnden för statsbidrag till trossamfund, mot 200 000–250 000 enligt religionssociologen Jonas Alwall. Skillnaden mellan »betjänade« och »kulturella muslimer« är alltså ett gammalt metodproblem och måste redovisas som sådant.",
+        "Statlig utredningsskrift – den bästa svenska primärkällan för att artikeln inte ska framställa halal som en enhetlig muslimsk position."
+      ]
+    },
+    {
+      "id": "src-riksdag-motion-2024-25-234",
+      "url": "https://www.riksdagen.se/sv/dokument-och-lagar/dokument/motion/forbud-mot-halal-och-koscherslakt_hc02234/",
+      "title": "Motion 2024/25:234 Förbud mot halal- och koscherslakt (Richard Jomshof, SD)",
+      "keyFindings": [
+        "Inlämnad 2024-09-23. Fem yrkanden: varningsmärkning av kött från obedövad slakt, driva märkningsfrågan i EU, söka EU-undantag för importförbud, endast bedövat kött i offentlig upphandling, samt kräva generellt EU-förbud.",
+        "Samtliga fem yrkanden avslogs av miljö- och jordbruksutskottet respektive finansutskottet och av kammaren. Ärendet avslutat.",
+        "Motionären anför att det »enligt en fransk kartläggning« tar i snitt fyra till fem minuter innan kor dör av blodförlust vid obedövad slakt, och att Jordbruksverket beskriver obedövad slakt som förenad med smärta.",
+        "Anförda siffror för obedövad slakt i EU: upp till 75 % av får och nötkreatur i Belgien, 30–40 % i Frankrike och Irland. Bör kontrolleras mot primärkälla innan de återges.",
+        "Samma motion har återkommit minst nio riksdagsår (2011/12, 2017/18, 2018/19, 2020/21, 2021/22, 2022/23, 2024/25, 2025/26) – kontinuiteten är i sig ett faktum om den svenska debatten."
+      ]
+    },
+    {
+      "id": "src-interpellation-olaglig-slakt",
+      "url": "https://www.riksdagen.se/sv/dokument-och-lagar/dokument/interpellation/olaglig-slaktverksamhet-i-sverige_hc10690/",
+      "title": "Interpellation 2024/25:690 Olaglig slaktverksamhet i Sverige (Sara Gille, SD) med landsbygdsminister Peter Kullgrens svar",
+      "keyFindings": [
+        "Konkret rättsfall: en man i Jönköpings län dömdes för grovt djurplågeri efter att ha halalslaktat fyra får i en källare, sedan grannar hört djurens skrik. Han hade använt en salva avsedd mot insektsbett som »bedövning«.",
+        "Livsmedelsverket bedömer enligt ministerns svar att den illegala slakten har ökat de senaste åren.",
+        "Ministerns kategoriska formulering: »Det är inte tillåtet att slakta djur utan bedövning i Sverige« – oavsett religiösa motiv.",
+        "Nödvändig för att artikeln ska kunna skilja mellan laglig, certifierad halalslakt och illegal hemslakt kring offerhögtiden – en distinktion som ofta suddas ut i debatten."
+      ]
+    },
+    {
+      "id": "src-upphandlingsmyndigheten-halal",
+      "url": "https://www.upphandlingsmyndigheten.se/frageportalen/2801328/halalkott-i-offentlig-upphandling/",
+      "title": "Ställa krav på halalkött i offentlig upphandling? – Upphandlingsmyndigheten",
+      "keyFindings": [
+        "Myndighetens svar: ja, halalkött kan efterfrågas i offentlig upphandling. »Det är den upphandlande organisationen som bestämmer vilka krav de vill ställa i sin upphandling.«",
+        "Kött producerat i Sverige måste följa svensk lagstiftning om bedövning före slakt; importerat kött behöver inte uppfylla svenska djurskyddsregler.",
+        "Myndigheten tillhandahåller ett frivilligt hållbarhetskriterium (10763:1, »Bedövning vid slakt – kött«) som en kommun kan använda för att kräva att köttet kommer från bedövade djur.",
+        "Detta gör konflikten konkret: en kommun kan alltså kräva halal och kräva bedövning – kombinationen är laglig men styr i praktiken bort från importerat obedövat kött."
+      ]
+    },
+    {
+      "id": "src-svenskfagel-faq",
+      "url": "https://svenskfagel.se/fragor-och-svar/",
+      "title": "Frågor och svar – Svensk Fågel (branschorganisationen för svensk kyckling och kalkon)",
+      "keyFindings": [
+        "Branschorganisationen anger uttryckligen att inget av Svensk Fågels slakterier utför halalslakt.",
+        "All kyckling och kalkon märkt med Svensk Fågels symbol är bedövad före slakt enligt svensk djurskyddslagstiftning, som anges ställa högre krav än EU-reglerna.",
+        "Organisationen erkänner att det finns olika tolkningar av halalslakt, bl.a. i fråga om bedövning – men väljer att kommunicera frånvaron av halalcertifiering som ett försäljningsargument.",
+        "Avgörande faktum: eftersom de dominerande svenska producenterna avstår från halalcertifiering är svenskt halalkött i praktiken importerat, vilket vänder upp och ned på premissen i den svenska debatten."
+      ]
+    },
+    {
+      "id": "src-svt-halalslakt-bedovning",
+      "url": "https://www.svt.se/nyheter/inrikes/bedovning-anvands-vid-svensk-halal-slakt",
+      "title": "Bedövning används vid svensk halal-slakt – SVT Nyheter (publicerad 14 februari 2012, uppdaterad 30 oktober 2012)",
+      "keyFindings": [
+        "Namngiven svensk aktör: Qibbla Halal Kött utanför Stockholm, med slakt genomförd i Scans anläggningar under Jordbruksverkets och Livsmedelsverkets tillsyn.",
+        "Namir Zetali, vice vd för Qibbla Halal Kött: Koranen förbjuder inte bedövning utan kräver att djuret är vid liv vid snittet – vilket bedövning inte motsäger.",
+        "Professor Mohammad Fazlhashemi (idéhistoria, då Umeå universitet) uppger att omkring 100 000 muslimer i Sverige accepterar denna tolkning; det avgörande är att djuret töms på blod.",
+        "Artikeln är från 2012 och siffran bör anges med årtal och som en uppskattning, inte som aktuell statistik."
+      ]
+    },
+    {
+      "id": "src-djurensratt-eu-dom",
+      "url": "https://djurensratt.se/nyheter/gladjande-besked-sverige-far-behalla-krav-pa-bedovning-vid-slakt",
+      "title": "Glädjande besked: Sverige får behålla krav på bedövning vid slakt – Djurens Rätt (17 december 2020)",
+      "keyFindings": [
+        "Djurskyddsrörelsens läsning av EU-domstolens dom samma dag (C-336/19): medlemsstater får behålla nationella förbud mot bedövningslös slakt.",
+        "Generaladvokaten hade dessförinnan förespeglat motsatt utgång – domstolen gick emot honom.",
+        "Organisationen betonar att obedövad slakt varit förbjuden i Sverige sedan 1937.",
+        "Djurens Rätt anför opinionsundersökningar (med Eurogroup for Animals) om starkt EU-medborgarstöd för bedövningskrav – siffror saknas i notisen och bör hämtas från primärkällan."
+      ]
+    },
+    {
+      "id": "src-djurensratt-slakt-utan-bedovning",
+      "url": "https://www.djurensratt.se/djur-i-livsmedelsindustrin/slakt-utan-bedovning",
+      "title": "Slakt utan bedövning – Djurens Rätt",
+      "keyFindings": [
+        "De europeiska länder som kräver bedövning före all slakt, även religiös, anges vara Sverige, Norge, Danmark, Island, Schweiz och Slovenien.",
+        "Organisationens kärnargument om importen: allt kött som importeras till och säljs i Sverige från länder där obedövad slakt förekommer kan vara kött från obedövade djur.",
+        "Ger invändningen i sin starkaste, egenformulerade form – nödvändigt enligt kravet på att inte bemöta halmgubbar."
+      ]
+    },
+    {
+      "id": "src-efsa-2004",
+      "url": "https://efsa.onlinelibrary.wiley.com/doi/10.2903/j.efsa.2004.45",
+      "title": "Opinion of the Scientific Panel on Animal Health and Welfare (AHAW) on welfare aspects of the main systems of stunning and killing the main commercial species of animals, EFSA Journal (2004) 45, 1–29",
+      "keyFindings": [
+        "Den mest citerade siffran i hela den europeiska debatten: utan bedövning kan tiden från snitt till medvetslöshet uppgå till omkring två minuter hos nötkreatur.",
+        "Motsvarande angivna intervall: upp till ca 20 sekunder hos får, ca 25 sekunder hos gris, upp till ca 2,5 minuter eller mer hos fjäderfä.",
+        "Källan är från 2004 och ska anges med årtal; nyare EFSA-yttranden om nötkreaturs välfärd vid slakt finns från 2020, och 2025–2026 har systematiska översikter ifrågasatt hur långa tiderna faktiskt är – artikeln bör redovisa att den vetenskapliga bilden fortfarande diskuteras."
+      ]
+    },
+    {
+      "id": "src-cjeu-c336-19",
+      "url": "https://www.europeanpapers.eu/europeanforum/religious-slaughtering-stunning-matter-centraal-israelitisch-consistorie-van-belgie",
+      "title": "Religious Slaughtering, a Stunning Matter: Centraal Israëlitisch Consistorie van België and Others (C-336/19) – European Papers",
+      "keyFindings": [
+        "EU-domstolen (stora avdelningen) 17 december 2020: en medlemsstat får kräva reversibel bedövning vid rituell slakt utan att kränka rättigheterna i EU:s rättighetsstadga.",
+        "Domstolen fastslog samtidigt att sådan nationell lagstiftning omfattas av religionsfriheten enligt artikel 10.1 i stadgan – det är alltså ett erkänt ingrepp som rättfärdigas, inte ett icke-ingrepp.",
+        "Domstolens proportionalitetsargument vilade delvis på att kött från djur slaktade enligt religiös rit utanför Flandern fortfarande får omsättas – ett resonemang som blir problematiskt i ett land som Sverige om importen ifrågasätts.",
+        "Generaladvokat Hogans förslag till avgörande gick i motsatt riktning och är den starkaste juridiska formuleringen av religionsfrihetsinvändningen."
+      ]
+    },
+    {
+      "id": "src-echr-chaare-shalom",
+      "url": "https://www.lawpluralism.unimib.it/en/oggetti/597-chaare-shalom-ve-tsedek-v-france-no-27417-95-e-ct-hr-grand-chamber-27-june-2000",
+      "title": "Cha'are Shalom Ve Tsedek mot Frankrike, nr 27417/95, Europadomstolen (stora kammaren), 27 juni 2000",
+      "keyFindings": [
+        "Ingen kränkning av artikel 9 (12 röster mot 5). Prejudikatet som hela den europeiska rättsläget vilar på.",
+        "Domstolens resonemang: ingrepp i religionsfriheten skulle ha förelegat endast om oförmågan att utföra rituell slakt gjort det omöjligt för de troende att äta kött enligt sina föreskrifter.",
+        "Rätten enligt artikel 9 sträcker sig inte till att personligen få delta i rituell slakt och certifiering, förutsatt att de troende inte i praktiken berövas möjligheten att skaffa förenligt kött.",
+        "Den fem röster starka skiljaktiga meningen är den bästa källan till invändningen i dess starkaste form och bör läsas i HUDOC-versionen."
+      ]
+    },
+    {
+      "id": "src-cjeu-c497-17",
+      "url": "https://lawandreligionuk.com/2019/03/01/cjeu-rules-non-stun-slaughter-incompatible-with-organic-labelling/",
+      "title": "CJEU rules non-stun slaughter incompatible with organic labelling (C-497/17, OABA), 26 februari 2019 – Law & Religion UK",
+      "keyFindings": [
+        "EU-domstolen 26 februari 2019: EU:s ekologiska logotyp får inte sättas på kött från djur som slaktats enligt religiös rit utan föregående bedövning.",
+        "Domstolens skäl: syftet med förordningarna är att hålla djurens lidande på ett minimum under hela livet, inbegripet slakten; obedövad slakt uppfyller inte »the highest animal welfare standards«.",
+        "Generaladvokat Wahl gick åt motsatt håll, vilket åter visar att den juridiska frågan inte är avgjord i doktrinen.",
+        "Relevans för Sverige: KRAV och ekologisk märkning blir därmed ytterligare en kanal där halal och svensk/europeisk certifiering kolliderar."
+      ]
+    },
+    {
+      "id": "src-lund-1937-slaktlag",
+      "url": "https://lup.lub.lu.se/student-papers/search/publication/9216998",
+      "title": "Gränsdragningen mellan barbari och religionsutövning. Hur djurens välbefinnande och antisemitiska föreställningar utformade 1937 års slaktlag (Lunds universitet)",
+      "keyFindings": [
+        "Forskningsstöd för att antisemitiska tankemönster uttrycktes i lagstiftningsarbetet genom att framställa skäktning som en omänsklig metod som måste anpassas till majoritetens rättsmedvetande.",
+        "Motion redan vid 1934 års riksdag om humanitära slaktbestämmelser inklusive förbud mot judisk slakt.",
+        "Kronologin är väsentlig: Sverige förbjöd obedövad slakt 1937, fyra år efter att motsvarande förbud införts i Nazityskland, och efter Schweiz (1893) och Norge (1929).",
+        "Detta får inte användas för att avfärda djurskyddsargumentet – men en fördjupningsartikel som utelämnar lagens tillkomsthistoria är ofullständig."
+      ]
+    },
+    {
+      "id": "src-prop-1937-188",
+      "url": "https://www.riksdagen.se/sv/dokument-och-lagar/dokument/proposition/kungl-majts-proposition-nr-188_dy30188/html/",
+      "title": "Kungl. Maj:ts proposition nr 188 år 1937 med förslag till lag angående slakt av husdjur",
+      "keyFindings": [
+        "Primärkällan till 1937 års lag – ska användas i stället för sekundära referat när lagens motiv beskrivs.",
+        "Propositionen erkänner uttryckligen att ett förbud av en betydande del av de judiska troende i Sverige skulle uppfattas som ett upphävande av tidigare åtnjutna rättigheter och ett ingrepp i religiöst grundade traditioner.",
+        "Möjliggör en rättvis framställning: lagstiftaren var medveten om religionsfrihetsinvändningen och valde ändå djurskyddet."
+      ]
+    },
+    {
+      "id": "src-pew-europe-muslims",
+      "url": "https://www.pewresearch.org/religion/2017/11/29/europes-growing-muslim-population/",
+      "title": "Europe's Growing Muslim Population – Pew Research Center, 29 november 2017",
+      "keyFindings": [
+        "Uppskattning för 2016: 8,1 % av Sveriges befolkning muslimer – den mest citerade siffran, men en modellskattning av religiös bakgrund, inte av praktiserande.",
+        "Tre migrationsscenarier till 2050: ca 11,1 % vid noll fortsatt muslimsk migration, ca 20,5 % i mellanscenariot, ca 31 % i högscenariot.",
+        "Måste anges med metodreservation: Pew räknar personer med muslimsk bakgrund, inte medlemmar i församlingar, och skiljer sig därför kraftigt från SST:s betjänade-statistik.",
+        "Metodbilagan (separat sida på pewresearch.org) redovisar urval och antaganden och bör citeras vid sidan av huvudrapporten."
+      ]
+    },
+    {
+      "id": "src-scandinavian-halal-certification",
+      "url": "https://www.halalcertifiering.se/omoss/",
+      "title": "Om oss – Scandinavian Halal Certification AB",
+      "keyFindings": [
+        "Uppges vara Sveriges första halalcertifieringsorgan, grundat 2012, med säte i Märsta.",
+        "Certifierar kött, livsmedel, läkemedel, bageri, godis, mejeri och dryck, samt restauranger, hotell och slakterier.",
+        "Anger sig ha ett ledningssystem enligt ISO 17065:2012 och ISO 9001:2015 – dvs. certifieringen är en ackrediteringslik privaträttslig ordning, inte en myndighetsfunktion. Detta är centralt: ingen svensk myndighet definierar halal.",
+        "Bolagsuppgifter (org.nr 556907-3066) går att kontrollera mot allabolag/bolagsfakta för att ange storlek och verksamhetsår korrekt."
+      ]
+    },
+    {
+      "id": "src-hmc-stunning",
+      "url": "https://halalhmc.org/resources/issues-of-mechanical-slaughter-and-stunning/",
+      "title": "Issues of Mechanical Slaughter and Stunning – Halal Monitoring Committee (HMC), Storbritannien",
+      "keyFindings": [
+        "Den avvisande positionen i sin egen formulering: HMC har ett generellt förbud mot bedövning i varje form, och kräver handslakt utan förbedövning.",
+        "HMC:s teologiska skäl: bedövning skapar osäkerhet om djuret verkligen levde vid snittet; felaktig eller för hög spänning kan orsaka hjärtstillestånd före avblodningen så att blod stannar kvar i kroppen.",
+        "Avvisar även maskinslakt av fjäderfä (en tasmiya över en hel linje i stället för över varje djur).",
+        "Nödvändig som primärkälla för det inomislamiska motargumentet – artikeln får inte referera det i andra hand via bedövningsförespråkare."
+      ]
+    },
+    {
+      "id": "src-riaz-stunning-review",
+      "url": "https://academic.oup.com/tas/article/5/4/txab154/6387877",
+      "title": "Pros and cons of different stunning methods from a Halal perspective: a review, Translational Animal Science, vol. 5:4, oktober 2021 (Riaz m.fl.)",
+      "keyFindings": [
+        "Uppger att ca 84 % av fjäderfä, 75 % av nötkreatur och 63 % av får och getter bedövas inom halalslakt globalt – bedövning är alltså normen, inte undantaget.",
+        "Elektrisk huvudbedövning bedöms som mest lämplig ur halalperspektiv: smärtfri från start och reversibel om djuret inte slaktas omedelbart.",
+        "Penetrerande bultbedövning avråds uttryckligen för halal eftersom den orsakar irreversibel hjärnskada – vilket är precis den metod som svensk lag kräver för nötkreatur. Detta är den skarpaste konkreta konflikten mellan svensk lag och halalkrav och bör vara ett eget stycke i artikeln.",
+        "Vattenbadsbedövning av fjäderfä pekas ut som problematisk eftersom djur kan dö före snittet – exakt HMC:s invändning, men här i en peer review-tidskrift."
+      ]
+    },
+    {
+      "id": "src-frontiers-islamic-animal-ethics",
+      "url": "https://www.frontiersin.org/journals/veterinary-science/articles/10.3389/fvets.2022.785585/full",
+      "title": "Islam and Veterinary Science: Rethinking Animal Suffering Through Islamic Animal Ethics and the Evolving Definition of Halal Slaughter, Frontiers in Veterinary Science (2022)",
+      "keyFindings": [
+        "Akademisk behandling av hur halaldefinitionen förändrats i mötet med veterinärmedicinsk kunskap om lidande – användbar för att visa att fiqh inte är statisk.",
+        "Kopplar iḥsān-principen (»Gud har föreskrivit gott handlande mot allting«) till modern djurvälfärdsforskning.",
+        "Ger den inomislamiska reformpositionen i akademisk form, som komplement till certifieringsorganens partsinlagor."
+      ]
+    },
+    {
+      "id": "src-mdpi-stunning-compliance",
+      "url": "https://www.mdpi.com/2076-2615/13/19/3061",
+      "title": "Stunning Compliance in Halal Slaughter: A Review of Current Scientific Knowledge, Animals 13(19):3061 (2023)",
+      "keyFindings": [
+        "Systematisk genomgång av vilken bedövning som vetenskapligt kan sägas vara reversibel och som därmed kan uppfylla villkoret att djuret lever vid snittet.",
+        "Anger de tre avgörande kriterierna i den inomislamiska bedömningen: maximal avblodning, reversibel medvetslöshet, och att djuret är levande vid snittet.",
+        "Publicerad i öppen tillgång, 2023 – den färskaste översikten att stödja artikelns tekniska avsnitt på."
+      ]
+    },
+    {
+      "id": "src-islamqa-shafii-basmala",
+      "url": "https://islamqa.org/shafii/shafiifiqh/30098/is-saying-the-basmala-obligatory-when-slaughtering-clarification-of-the-true-shafii-opinion/",
+      "title": "Is Saying the Basmala Obligatory When Slaughtering? Clarification of the true Shāfiʿī opinion – IslamQA (shafiitisk sektion)",
+      "keyFindings": [
+        "Sammanfattar rättsskoleskillnaden: hanafi, maliki och hanbali betraktar tasmiya som obligatorisk (farḍ/wājib); shafi'i som sunna muʾakkada.",
+        "Vid avsiktligt utelämnande blir köttet enligt de tre skolorna förbjudet; enligt shafiiterna blir slakten giltig ändå.",
+        "Vid glömska: tillåtet enligt shafi'i, hanafi och maliki – glömskan är uttryckligen undantagen.",
+        "Konsekvensen för Sverige är direkt: enligt en shafiitisk läsning är frånvaron av uttalad tasmiya vid svensk industrislakt inte i sig diskvalificerande, vilket förklarar varför olika svenska muslimer landar olika."
+      ]
+    },
+    {
+      "id": "src-seekersguidance-halal-meat",
+      "url": "https://seekersguidance.org/answers/hanafi-fiqh/the-issue-of-halal-meat-a-detailed-article/",
+      "title": "The Issue of Halal Meat (A Detailed Article) – SeekersGuidance (hanafitisk framställning)",
+      "keyFindings": [
+        "Detaljerad genomgång av 5:5-tvisten med namngivna auktoriteter på båda sidor.",
+        "Redovisar al-Qaraḍāwīs position (bokens folks föda tillåten på grundval av ursprunglig tillåtlighet) och att han jämställt bultbedövning med slakt.",
+        "Redovisar motståndarsidan: den marockanske shaykh ʿAbd al-Ḥayy al-Ghumārī skrev en 107 sidor lång fatwā som vederlade al-Qaraḍāwī i fråga om importerat kött från kristna Europa. Detta är namngiven, dokumenterad lärd oenighet – exakt vad artikeln behöver.",
+        "Nämner även Qāḍī Abū Bakr Ibn al-ʿArabīs mer tillåtande position: det räcker att den som berett köttet tillhör bokens folk och själv anser det tillåtet."
+      ]
+    },
+    {
+      "id": "src-iqraonline-ahl-al-kitab",
+      "url": "https://iqraonline.net/consuming-the-meat-of-the-people-of-the-book-1/",
+      "title": "Consuming the Meat of the People of the Book (1) – Iqra Online (tolvimamitisk/jaʿfaritisk framställning)",
+      "keyFindings": [
+        "Dokumenterar att flertalet imāmiyya (tolvimamiter) betraktar kött slaktat av bokens folk som förbjudet – tvärtemot den sunnitiska huvudlinjen.",
+        "Innebär att en shiitisk muslim i Sverige har snävare handlingsutrymme än en sunnitisk, vilket i praktiken skiljer olika svenska muslimska gruppers vardag åt.",
+        "Artikeln får inte behandla »muslimer i Sverige« som en rättslig enhet; den jaʿfaritiska skolan ska nämnas vid namn, inte som en fotnot."
+      ]
+    },
+    {
+      "id": "src-islamqa-gelatin",
+      "url": "https://islamqa.info/en/answers/219137",
+      "title": "Is Gelatin Halal? – Islam Question & Answer (salafitisk/hanbalitiskt orienterad fatwā)",
+      "keyFindings": [
+        "Den restriktiva positionen om istiḥāla (substansomvandling): gelatin från svin eller icke rituellt slaktade djur förblir förbjudet, eftersom omvandlingen inte anses fullständig.",
+        "Kontrasterar mot hanafitisk och malikitisk tradition samt ECFR, som accepterar istiḥāla och därmed gelatinet.",
+        "Detta är den principiella nyckeln till hela E-nummerdebatten, till läkemedelskapslar och till etanol i livsmedelstillsatser – och den ska presenteras som en genuin rättslig oenighet, inte som ett avgjort fall."
+      ]
+    },
+    {
+      "id": "src-livsmedelsverket-specialkost",
+      "url": "https://www.livsmedelsverket.se/matvanor-halsa--miljo/maltider-i-vard-skola-och-omsorg/specialkost-och-anpassade-maltider-i-vard-skola-och-omsorg/",
+      "title": "Specialkost och anpassade måltider i vård, skola och omsorg – Livsmedelsverket",
+      "keyFindings": [
+        "Myndighetens linje: vid religiösa regler handlar anpassningen normalt om att anpassa köttslag eller erbjuda ett vegetariskt alternativ.",
+        "Det finns ingen skyldighet för kommuner och regioner att tillmötesgå önskemål om religiöst betingad kost – beslutet ligger på huvudmannen och dess resurser. Detta är den rättsliga grunden för DO:s beslut i oktober 2024.",
+        "Livsmedelsverket rekommenderar minst en vegetarisk rätt per dag som alla kan ta av, så att vegetarisk mat inte längre räknas som specialkost.",
+        "Skollagens krav gäller kostnadsfria och näringsriktiga skolmåltider – inte att en viss kötträtt ska erbjudas."
+      ]
+    },
+    {
+      "id": "src-islam-se-halalslakt",
+      "url": "https://islam.se/svar/vad-ar-halalslakt/",
+      "title": "Vad är halalslakt? Så går slakten till – islam.se (husets befintliga sida)",
+      "keyFindings": [
+        "Befintlig sida på samma webbplats: täcker slaktmomentet i detalj (skarp kniv, ett snitt, luftstrupe, matstrupe och båda halspulsådror, ryggraden intakt, tasmiya över varje enskilt djur).",
+        "Den nya fördjupningsartikeln måste därför lägga tyngdpunkten någon annanstans: halal som rättslig kategori bland de fem aḥkām, förbudslistans omfattning, rättsskolornas skillnader, den svenska rättsliga och statistiska verkligheten, certifieringsindustrin, halal utanför maten – och länka till slaktsidan i stället för att upprepa den.",
+        "Ger också husets terminologi och stavningskonventioner (tasmiya, haram, halal)."
+      ]
+    }
+  ]
+}
