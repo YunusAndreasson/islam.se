@@ -69,17 +69,11 @@ export function LocationProvider({ children }: { children: ReactNode }) {
   // Guards against overlapping fixes (e.g. mount effect + a manual refresh).
   const inFlight = useRef(false);
 
-  const acquireGps = useCallback(async (): Promise<GpsOutcome> => {
-    if (inFlight.current) return 'busy';
-    inFlight.current = true;
+  // The fix itself, once permission is known to be granted. Shared by both entry
+  // points below so the prompting and non-prompting paths can never drift.
+  const fetchFix = useCallback(async (): Promise<GpsOutcome> => {
+    setLocating(true);
     try {
-      // Await the permission first so no state is set synchronously inside the
-      // mount effect that calls this (keeps the effect side-effect-free on entry).
-      const perm = await Location.requestForegroundPermissionsAsync();
-      setPermissionStatus(perm.granted ? 'granted' : 'denied');
-      if (!perm.granted) return 'denied';
-      setLocating(true);
-
       // Last-known is instant; current is authoritative. Use last-known first so
       // the UI updates immediately, then upgrade to the fresh fix.
       const last = await Location.getLastKnownPositionAsync();
@@ -100,10 +94,54 @@ export function LocationProvider({ children }: { children: ReactNode }) {
       // Services off / timeout: keep whatever we have (cached or default).
       return 'error';
     } finally {
-      inFlight.current = false;
       setLocating(false);
     }
   }, []);
+
+  /** Prompts. Call ONLY from an explicit gesture — Inställningar's "Uppdatera plats"
+   *  row, or the map's location soft-ask card. See acquireIfPermitted for why. */
+  const acquireGps = useCallback(async (): Promise<GpsOutcome> => {
+    if (inFlight.current) return 'busy';
+    inFlight.current = true;
+    try {
+      // Await the permission first so no state is set synchronously inside the
+      // effect that calls this (keeps the effect side-effect-free on entry).
+      const perm = await Location.requestForegroundPermissionsAsync();
+      setPermissionStatus(perm.granted ? 'granted' : 'denied');
+      if (!perm.granted) return 'denied';
+      return await fetchFix();
+    } catch {
+      return 'error';
+    } finally {
+      inFlight.current = false;
+    }
+  }, [fetchFix]);
+
+  /** Reads the permission WITHOUT prompting and fetches a fix only if it is already
+   *  granted. This is what the mount effect calls.
+   *
+   *  It used to call acquireGps, which meant the OS location dialog fired from a mount
+   *  effect: on a first launch it landed on top of the daybreak intro, asking about a
+   *  screen the user had not seen yet, and a reflexive "Don't allow" is permanent. The
+   *  map now offers a soft-ask card instead (components/map/LocationHint), whose button
+   *  is the one thing in the app that prompts. Until then the cached fix and the
+   *  Stockholm fallback already keep times on screen, so nothing is blank meanwhile. */
+  const acquireIfPermitted = useCallback(async (): Promise<void> => {
+    if (inFlight.current) return;
+    inFlight.current = true;
+    try {
+      const perm = await Location.getForegroundPermissionsAsync();
+      // `granted: false` covers BOTH "not asked yet" and "refused", and conflating them
+      // would make the map show a denied-state card to someone who was never asked.
+      setPermissionStatus(perm.granted ? 'granted' : perm.status === 'denied' ? 'denied' : 'undetermined');
+      if (!perm.granted) return;
+      await fetchFix();
+    } catch {
+      // An unreadable permission is not worth surfacing: the fallback already applies.
+    } finally {
+      inFlight.current = false;
+    }
+  }, [fetchFix]);
 
   // Seed from the cached fix on mount so GPS mode shows times before a new fix.
   useEffect(() => {
@@ -126,13 +164,14 @@ export function LocationProvider({ children }: { children: ReactNode }) {
     };
   }, []);
 
-  // Fetch a fix whenever GPS mode is active. This is the allowed "subscribe to an
-  // external system" effect — acquireGps only setStates inside async callbacks
-  // after awaiting the platform APIs, which the rule's static analysis can't see.
+  // Fetch a fix whenever GPS mode is active AND permission is already granted. This is
+  // the allowed "subscribe to an external system" effect — acquireIfPermitted only
+  // setStates inside async callbacks after awaiting the platform APIs, which the rule's
+  // static analysis can't see. It never prompts: see acquireIfPermitted.
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect -- async GPS fetch, no synchronous setState
-    if (loaded && locationMode === 'gps') void acquireGps();
-  }, [loaded, locationMode, acquireGps]);
+    if (loaded && locationMode === 'gps') void acquireIfPermitted();
+  }, [loaded, locationMode, acquireIfPermitted]);
 
   // Single source of truth for the manual → GPS → Stockholm resolution, shared with
   // the home-screen widget's timeline builder via ./resolve so the two never drift.

@@ -35,6 +35,10 @@ const COSMETIC_KEYS = [
   'theme',
   'mapStyle',
   'showMosques',
+  // Cosmetic, deliberately: the qibla arc is a fixed direction drawn over the map. It
+  // reads no prayer time and changes none, so toggling it must NOT rebuild the 3752-point
+  // grid — that would be a 40–70 ms JS-thread stall to hide one thin line.
+  'showQibla',
   'haptics',
 ] as const satisfies readonly (keyof PrayerSettings)[];
 
@@ -51,14 +55,24 @@ const ALT: PrayerSettings = {
   hijriOffset: 1,
   notifications: {
     enabled: true,
-    leadMinutes: 15,
     prayers: { fajr: false, dhuhr: false, asr: false, maghrib: false, isha: false },
+    fajrWindowEnd: true,
+    lead: { fajr: 15, sunrise: 30, dhuhr: 15, asr: 15, maghrib: 15, isha: 15 },
+    sound: {
+      fajr: 'silent',
+      sunrise: 'silent',
+      dhuhr: 'silent',
+      asr: 'silent',
+      maghrib: 'silent',
+      isha: 'silent',
+    },
   },
   locationMode: 'manual',
   manualLocation: { name: 'Test', latitude: 60, longitude: 15 },
   theme: 'dark',
   mapStyle: 'standard',
   showMosques: false,
+  showQibla: false,
   haptics: false,
 };
 
@@ -88,6 +102,35 @@ describe('notificationSignature', () => {
       expect(notificationSignature(mutated)).not.toBe(base);
     }
     expect(notificationSignature({ ...DEFAULT_SETTINGS, notifications: ALT.notifications })).not.toBe(base);
+  });
+
+  // notificationSignature hashes `s.notifications` WHOLESALE, so the per-prayer lead,
+  // the per-prayer sound and the Fajr-window flag are all covered automatically today.
+  // These pins exist so that a future "optimisation" to a curated field list cannot
+  // silently stop re-scheduling when a user changes a sound — a failure with no error,
+  // no crash, and alerts that keep arriving with the old setting until something else
+  // happens to change.
+  it('re-syncs when a per-prayer lead, a per-prayer sound, or the window flag changes', () => {
+    const base = notificationSignature(DEFAULT_SETTINGS);
+    const n = DEFAULT_SETTINGS.notifications;
+
+    const lead: PrayerSettings = {
+      ...DEFAULT_SETTINGS,
+      notifications: { ...n, lead: { ...n.lead, fajr: n.lead.fajr + 10 } },
+    };
+    expect(notificationSignature(lead)).not.toBe(base);
+
+    const sound: PrayerSettings = {
+      ...DEFAULT_SETTINGS,
+      notifications: { ...n, sound: { ...n.sound, fajr: 'silent' } },
+    };
+    expect(notificationSignature(sound)).not.toBe(base);
+
+    const windowEnd: PrayerSettings = {
+      ...DEFAULT_SETTINGS,
+      notifications: { ...n, fajrWindowEnd: !n.fajrWindowEnd },
+    };
+    expect(notificationSignature(windowEnd)).not.toBe(base);
   });
 
   it('ignores settings that cannot affect notification scheduling', () => {

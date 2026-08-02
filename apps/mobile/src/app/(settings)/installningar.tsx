@@ -31,7 +31,6 @@ import { formatGregorian, formatHijri } from '@/lib/hijri';
 import { useLocation, useLocationStatus } from '@/lib/location/context';
 import {
   getNotificationPermissionState,
-  NOTIFY_PRAYERS,
   type NotificationPermissionState,
   requestNotificationPermission,
 } from '@/lib/notifications';
@@ -47,12 +46,11 @@ import { useSettings } from '@/lib/settings/context';
 import {
   HIJRI_OFFSET_MAX,
   HIJRI_OFFSET_MIN,
-  NOTIFICATION_LEAD_MAX,
-  NOTIFICATION_LEAD_MIN,
 } from '@/lib/settings/types';
 import {
   LOCATION_MODE_OPTIONS,
   calculationSummary,
+  notificationSummary,
   MAP_STYLE_OPTIONS,
   ROUNDING_OPTIONS,
   THEME_OPTIONS,
@@ -390,39 +388,24 @@ export default function Installningar() {
               <MaterialIcons name="open-in-new" size={18} color={colors.accent} />
             </Pressable>
           ) : null}
+          {/* The per-alert detail — lead time and sound, per prayer, plus the
+              Fajr-window marker — lives on its own screen. It is a Stad-style row:
+              the VALUE (how many prayers, how early) is what matters at a glance, so
+              it carries the summary and the chevron rather than a section header. */}
           {settings.notifications.enabled ? (
-            <Stepper
-              label="Påminn i förväg"
-              value={settings.notifications.leadMinutes}
-              divider
-              min={NOTIFICATION_LEAD_MIN}
-              max={NOTIFICATION_LEAD_MAX}
-              step={5}
-              format={(v) => (v === 0 ? 'Vid bönetid' : `${v} min innan`)}
-              onChange={(leadMinutes) =>
-                update({ notifications: { ...settings.notifications, leadMinutes } })
-              }
-            />
+            <Pressable
+              onPress={() => router.push('/(settings)/notiser')}
+              accessibilityRole="button"
+              accessibilityLabel={`Påminnelser: ${notificationSummary(settings)}. Tryck för att ändra.`}
+              style={({ pressed }) => [styles.row, pressed && styles.rowPressed]}
+            >
+              <Text style={styles.rowLabel}>Påminnelser</Text>
+              <View style={styles.rowTrailing}>
+                <Text style={styles.rowValue}>{notificationSummary(settings)}</Text>
+                <MaterialIcons name="chevron-right" size={22} color={colors.textMuted} />
+              </View>
+            </Pressable>
           ) : null}
-          {settings.notifications.enabled
-            ? NOTIFY_PRAYERS.map((key) => (
-                <Toggle
-                  key={key}
-                  label={PRAYER_LABELS[key]}
-                  description={PRAYER_SWEDISH_NAMES[key]}
-                  value={settings.notifications.prayers[key]}
-                  divider
-                  onValueChange={(v) =>
-                    update({
-                      notifications: {
-                        ...settings.notifications,
-                        prayers: { ...settings.notifications.prayers, [key]: v },
-                      },
-                    })
-                  }
-                />
-              ))
-            : null}
         </SettingSection>
 
         {/* Utseende och format — appearance first (Tema, Karttyp), then the format
@@ -469,6 +452,17 @@ export default function Installningar() {
             description="Moskéer visas på kartan när du zoomar in."
             value={settings.showMosques}
             onValueChange={(showMosques) => update({ showMosques })}
+            divider
+          />
+
+          {/* Qibla — the great-circle direction to Mecca, drawn from your dot. On by
+              default: it works where the compass doesn't (indoors, near metal) and is an
+              independent check on the Qibla sheet. See skia/QiblaArc. */}
+          <Toggle
+            label="Visa qibla-riktning"
+            description="En linje på kartan mot Mecka från din plats."
+            value={settings.showQibla}
+            onValueChange={(showQibla) => update({ showQibla })}
             divider
           />
 

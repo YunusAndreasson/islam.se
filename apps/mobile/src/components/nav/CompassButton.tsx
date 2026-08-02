@@ -1,25 +1,25 @@
-// The map's LEFT navigation control: a qibla mini-compass whose mark IS the app's
-// logo. The mark does NOT rotate — it is the concentric brand mark, which has no
-// direction to point. The disc LIGHTS UP (brass) the moment the phone's top is
-// pointed at Mecca, so the signal is unambiguous: glow = you're facing the qibla.
-// (An earlier version rotated the logo toward Mecca as a "it's over there" pointer;
-// that read as "the icon is pointing the wrong way" until you happened to be
-// aligned, so it was dropped in favour of this fixed-mark-that-glows model.)
-// Tapping always opens the full Qibla screen, which owns the permission prompt.
+// The map's LEFT navigation control: a live qibla mini-compass. The arrow ROTATES with
+// the phone so it always points at Mecca, and the whole disc LIGHTS UP in brass the
+// moment you are facing it. Tapping opens the full Qibla screen, which owns the
+// permission prompt.
 //
-// "You're facing qibla" signifier: when angleDelta(heading, bearing) ≤ ALIGN_TOL we
-// (a) swap the disc tint + rim to brass (c.highlight) so it visibly "lights up", (b)
-// repaint the logo in brass, (c) give it a small spring scale-up so it "locks", and
-// (d) fire ONE hapticSuccess at the moment of transition (not every frame while held).
-// Deliberately NO corner checkmark and NO rotating needle: a fixed pointed icon implies
-// a direction it doesn't have, and the off-corner badge read as a stray "indicator" 20–30°
-// off the tip — so the lock is signalled only by the logo recolouring + the haptic. The
-// full Qibla screen owns the actual direction.
+// History worth keeping, because this has now been round the loop twice. The mark used to
+// be the brand logo, rotated as a needle; when the brand became two concentric circles
+// that stopped working — a radially symmetric mark has no direction to point — so it was
+// frozen upright and the lock was signalled by colour alone. That lost the thing people
+// actually used it for: a direction that tracks as you turn. The fix is not to rotate the
+// logo again but to use a glyph that MEANS direction. An arrow reads correctly at every
+// angle, including pointing back at you; the old peaked mark just looked broken upside
+// down, which is what made the rotating version feel wrong rather than the rotation itself.
+//
+// The signal, in one sentence: blue arrow turning with you → gold arrow in a lit disc
+// when you are aimed at Mecca, plus ONE haptic tap at the moment of transition (not every
+// frame while held) and a small spring scale-up so the lock feels physical.
 //
 // Theming: OS-themed via useColors (Apple Maps-style chrome; see MapNav).
+import { MaterialIcons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import { useEffect, useMemo, useRef } from 'react';
-import { Image, StyleSheet } from 'react-native';
 import Animated, { useAnimatedStyle, useSharedValue, withSpring } from 'react-native-reanimated';
 
 import { hapticSuccess } from '../../lib/haptics';
@@ -29,30 +29,22 @@ import { useHeading } from '../../lib/useHeading';
 import { useColors } from '../../theme/useColors';
 import { GlassRoundButton } from './GlassRoundButton';
 
-// The brand mark as a white, transparent-background silhouette — recoloured at runtime
-// with tintColor so the same asset reads as ink (idle), accent (live needle), or brass
-// (locked on qibla).
-const LOGO = require('../../../assets/images/logo-mark.png');
-
-// A crisp, slightly springy lock so the mark "snaps" brass when you hit the bearing.
+/** Glyph size inside the 46 dp disc. */
+const GLYPH = 22;
+// A crisp, slightly springy lock so the arrow "snaps" gold when you hit the bearing.
 const LOCK_SPRING = { damping: 14, stiffness: 240, mass: 0.5 };
 
 export function CompassButton({ active }: { active: boolean }) {
-  // OS-themed like the disc it sits in (see GlassRoundButton): warm light glass with a
-  // dark ink glyph in light mode, dark glass with a pale ink glyph in dark mode.
   const c = useColors();
   const { coords } = useLocation();
   const bearing = useMemo(() => qiblaBearing(coords), [coords]);
-  const { heading, reliable } = useHeading({ active, request: false });
+  const { heading, reliable, rotation } = useHeading({ active, request: false });
 
   // Lock ONLY when the heading is trustworthy (accuracy ≥ 2). During the magnetometer's
-  // warm-up / calibration window the heading can be tens of degrees off, so an ungated
-  // lock would flash brass + buzz "you're facing Mecca" at the wrong orientation (the
-  // "wrong at first, then right" the needle shows). The logo still rotates live meanwhile.
+  // warm-up the heading can be tens of degrees off, so an ungated lock would flash gold
+  // and buzz "you're facing Mecca" at the wrong orientation. The arrow still turns live
+  // meanwhile — showing an uncertain direction is honest, claiming a lock is not.
   const aligned = reliable && heading != null && angleDelta(heading, bearing) <= QIBLA_ALIGN_TOL;
-  // One confirming tap the instant it locks (and again on the next re-lock after the
-  // user has wandered off and returned), not on every frame while they hold the angle.
-  // The same transition drives the spring scale-up that makes the lock feel physical.
   const wasAligned = useRef(false);
   const lockScale = useSharedValue(1);
   useEffect(() => {
@@ -61,41 +53,47 @@ export function CompassButton({ active }: { active: boolean }) {
     lockScale.value = withSpring(aligned ? 1.12 : 1, LOCK_SPRING);
   }, [aligned, lockScale]);
 
-  // The mark never rotates — it only POPS with a small spring scale-up the instant it
-  // locks, so the lock feels physical.
-  const lockStyle = useAnimatedStyle(() => ({
-    transform: [{ scale: lockScale.value }],
+  // Point the arrow at the qibla — the bearing minus the live heading, clockwise — on the
+  // UI thread, so it tracks the phone smoothly without a React render per frame. The lock
+  // scale rides along in the same transform. `rotation` is the UNWRAPPED heading (see
+  // useHeading), so crossing north eases the short way instead of spinning 359°.
+  const needleStyle = useAnimatedStyle(() => ({
+    transform: [{ rotate: `${bearing - rotation.value}deg` }, { scale: lockScale.value }],
   }));
 
-  // Lock-state colours: brass-soft tint and a brass rim so the disc visibly lights up
-  // when the phone is aimed at Mecca (the warmth contrasts with the cool navy / parchment
-  // base, reading at a glance even peripherally). The logo mark follows: accent while
-  // live-but-searching, brass on lock.
+  // The brand pair, through the theme-aware tokens rather than the raw icon hexes:
+  // `accent` is the app's blue (#33437a light / #94a2dd dark) and `highlightText` its
+  // brass gold. Using the icon's literal #2a557f here would go nearly invisible on the
+  // dark chrome. This deliberately breaks the old "same ink as the settings cog" pairing —
+  // the cog is a destination, this is a live instrument, and it should look like one.
+  const arrowHue = aligned ? c.highlightText : c.accent;
   const tint = aligned ? c.highlightSoft : c.cardGlass;
   const rim = aligned ? c.highlightText : c.hairline;
-  // Neutral ink at rest — the SAME glyph colour as the settings cog (MapNav), so the two
-  // nav discs read as one consistent family — and brass only on lock. No indigo
-  // "searching" tint: with the fixed-arrow-glows model the one signal that matters is the
-  // brass glow when you're facing the qibla.
-  const logoHue = aligned ? c.highlightText : c.ink;
 
   return (
     <GlassRoundButton
       tint={tint}
       rim={rim}
-      accessibilityLabel={aligned ? 'Qibla — du är vänd mot Mecka' : 'Qibla'}
+      accessibilityLabel={
+        aligned
+          ? 'Qibla — du är vänd mot Mecka'
+          : heading == null
+            ? 'Qibla — riktningen är inte tillgänglig'
+            : 'Qibla'
+      }
       onPress={() => router.navigate('/qibla')}
     >
-      {/* The brand mark — never rotates. Colour carries the state (ink at rest → brass
-          on lock) and a small scale-pop marks the moment. No corner indicator. */}
-      <Animated.View style={lockStyle}>
-        <Image source={LOGO} style={[styles.logo, { tintColor: logoHue }]} />
-      </Animated.View>
+      {heading == null ? (
+        // No sensor (emulator), or no heading yet. A compass ROSE, not the arrow: an
+        // arrow always claims a direction, and an upright one here would claim "Mecca is
+        // straight ahead" to anyone who happened to be facing north-ish. The rose says
+        // "compass" while pointing nowhere, which is the honest state.
+        <MaterialIcons name="explore" size={GLYPH} color={c.inkMuted} />
+      ) : (
+        <Animated.View style={needleStyle}>
+          <MaterialIcons name="navigation" size={GLYPH} color={arrowHue} />
+        </Animated.View>
+      )}
     </GlassRoundButton>
   );
 }
-
-const styles = StyleSheet.create({
-  // The logo mark, sized to sit inside the 46dp disc with breathing room.
-  logo: { width: 24, height: 24, resizeMode: 'contain' },
-});

@@ -76,6 +76,26 @@ export function stockholmDayLength(dayStart: number): number {
   return startOfStockholmDay(dayStart + 26 * 60 * 60 * 1000) - dayStart;
 }
 
+/**
+ * The start of the Stockholm day `days` calendar days from the one starting at `dayStart`.
+ * Negative steps backwards. This is the ONLY correct way to do day arithmetic in this app.
+ *
+ * THE NOON ANCHOR IS LOAD-BEARING. A Stockholm day is 23, 24 or 25 hours long, so
+ * `dayStart + days * 86_400_000` does not land on a midnight:
+ *
+ *   • On the 25-hour autumn day (DST ends), +24 h lands at 23:00 of the SAME day — so a
+ *     naive "next day" step silently does nothing and the UI appears frozen.
+ *   • On the 23-hour spring day, +24 h lands at 01:00 of the next day — right by luck,
+ *     and only because startOfStockholmDay would then round it back down.
+ *
+ * Stepping to NOON of the target day and asking which day that is puts the probe 11–13
+ * hours clear of either edge, so no transition can reach it. stockholm-time.test.ts pins
+ * the 2026-10-25 case specifically, because it is the one a naive implementation fails.
+ */
+export function addStockholmDays(dayStart: number, days: number): number {
+  return startOfStockholmDay(dayStart + days * 86_400_000 + 12 * 3_600_000);
+}
+
 /** A local Date whose local Y/M/D is the Stockholm calendar day for `epoch`.
  *  adhan reads Date via getFullYear/getMonth/getDate, so this intentionally makes
  *  a floating local-noon Date carrying the Stockholm calendar fields. */

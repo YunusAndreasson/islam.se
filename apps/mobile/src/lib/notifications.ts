@@ -14,35 +14,155 @@ import {
   formatTime,
   type LatLng,
   PRAYER_LABELS,
+  PRAYER_ORDER,
   type PrayerKey,
 } from './prayer-times';
-import type { PrayerSettings } from './settings/types';
-import { stockholmPrayerDate } from './stockholm-time';
+import type { NotificationSettings, NotificationSoundKey, PrayerSettings } from './settings/types';
+import { notificationSignature } from './settings/compute-signature';
+import { stockholmParts, stockholmPrayerDate } from './stockholm-time';
 
 // The five obligatory prayers. Sunrise marks the end of Fajr's window, not a prayer
-// — so it's offered on the map but never as an alert.
+// — so it is offered through settings.notifications.fajrWindowEnd instead of living
+// here. Keeping it OUT of this constant is what makes that framing survive the next
+// refactor; notifications.test.ts asserts it.
 export const NOTIFY_PRAYERS = ['fajr', 'dhuhr', 'asr', 'maghrib', 'isha'] as const;
 export type NotifyPrayerKey = (typeof NOTIFY_PRAYERS)[number];
 export type NotificationPermissionState = 'unknown' | 'granted' | 'denied' | 'undetermined';
 
-const CHANNEL_ID = 'prayers';
 const CATEGORY_ID = 'prayer-reminder';
-// iOS caps pending notifications at 64; 7 days × 5 prayers = 35, comfortably under,
-// and we re-sync on every foreground so the window keeps rolling forward.
-const DAYS_AHEAD = 7;
 const PRAYER_NOTIFICATION_IDS_KEY = 'prayerNotificationIds:v1';
+const SYNC_STAMP_KEY = 'prayerNotificationSync:v1';
+
+// An Android channel's SOUND is frozen at creation — it can never be changed — so a
+// sound choice IS a channel. The ids are versioned from the start so the next time
+// importance or vibration needs to change, that too is a fresh id rather than another
+// migration. v1 was the single 'prayers' channel.
+const CHANNEL_VERSION = 2;
+const LEGACY_CHANNEL_ID = 'prayers';
+const CHANNEL_GROUP_ID = 'prayers';
+
+// iOS keeps at most 64 PENDING notification requests per app and silently drops the
+// rest; 60 leaves headroom. Android has no such cap, but AlarmManager gets unhappy
+// somewhere past ~500 exact alarms, and every one is re-registered on boot.
+const IOS_PENDING_BUDGET = 60;
+const ANDROID_PENDING_BUDGET = 400;
+// Past a month a schedule is likelier to be stale (the user moved, changed method)
+// than useful, so this caps the horizon however much budget is left over.
+export const MAX_DAYS_AHEAD = 30;
+
+/**
+ * The bundled adhan filename, or null until an audio file ships. Flipping this needs an
+ * `eas build` — the file is a native bundle resource (iOS) / res/raw entry (Android)
+ * written by the expo-notifications config plugin, never an OTA update.
+ */
+export const ADHAN_SOUND_FILE: string | null = null;
+export const HAS_ADHAN_SOUND = ADHAN_SOUND_FILE !== null;
+/** The sound choices THIS BUILD can actually play — drives both the settings UI and the
+ *  set of Android channels created. */
+export const AVAILABLE_SOUNDS: readonly NotificationSoundKey[] = HAS_ADHAN_SOUND
+  ? ['default', 'silent', 'adhan']
+  : ['default', 'silent'];
+
 let syncGeneration = 0;
+let channelsEnsured = false;
+// A cold start always performs a real sync; the stamp only suppresses the redundant
+// re-syncs that every foreground would otherwise trigger.
+let firstSyncDone = false;
+
+/** Test seam — mirrors resetLaunchCountForTests() in ./notification-hint.ts. */
+export function resetSyncStateForTests(): void {
+  firstSyncDone = false;
+  channelsEnsured = false;
+}
 
 // Show prayer alerts even when the app is foregrounded (the user may be staring at
 // the map when Asr lands). Set once at module load.
 Notifications.setNotificationHandler({
-  handleNotification: async () => ({
-    shouldShowBanner: true,
-    shouldShowList: true,
-    shouldPlaySound: true,
-    shouldSetBadge: false,
-  }),
+  handleNotification: async (notification) => {
+    // A "Tyst" alert must stay silent even with the app open. This handler overrides
+    // both the Android channel and the iOS content sound, so hard-coding
+    // shouldPlaySound: true here (what this used to do) would make every silent choice
+    // audible the moment the app happened to be foregrounded. The flag rides on the
+    // scheduled content — see the `data` field in syncPrayerNotifications.
+    //
+    // Known limitation, not a bug: because this overrides channel sounds, a future
+    // adhan alert arriving in-foreground plays the default tone instead.
+    const silent = notification.request.content.data?.silent === true;
+    return {
+      shouldShowBanner: true,
+      shouldShowList: true,
+      shouldPlaySound: !silent,
+      shouldSetBadge: false,
+    };
+  },
 });
+
+/** A persisted choice this build cannot honour degrades to the system sound. */
+export function resolveSound(key: NotificationSoundKey): NotificationSoundKey {
+  return key === 'adhan' && !HAS_ADHAN_SOUND ? 'default' : key;
+}
+
+/** iOS reads content.sound: false = silent, true = the system default, a string = a
+ *  filename bundled by the expo-notifications config plugin's `sounds` array. */
+function iosSoundFor(key: NotificationSoundKey): boolean | string {
+  const s = resolveSound(key);
+  if (s === 'silent') return false;
+  if (s === 'adhan' && ADHAN_SOUND_FILE) return ADHAN_SOUND_FILE;
+  return true;
+}
+
+/** Android reads the CHANNEL, never the notification, from API 26 up. */
+export function channelIdFor(key: NotificationSoundKey): string {
+  return `prayers-${resolveSound(key)}-v${CHANNEL_VERSION}`;
+}
+
+/** Whether an alert is enabled for a slot. Sunrise is gated by its own flag — the
+ *  framing that keeps it a marker rather than a sixth prayer. */
+export function isAlertEnabled(n: NotificationSettings, key: PrayerKey): boolean {
+  return key === 'sunrise' ? n.fajrWindowEnd : n.prayers[key];
+}
+
+/** Alerts this settings object produces per FULL day: the enabled prayers plus the
+ *  optional Fajr-window marker. Drives the horizon — turning prayers off buys days. */
+export function alertsPerDay(n: NotificationSettings): number {
+  return NOTIFY_PRAYERS.filter((k) => n.prayers[k]).length + (n.fajrWindowEnd ? 1 : 0);
+}
+
+/**
+ * How many days of alerts fit under the platform's pending-notification budget, given
+ * how many fire per day. Pure and exported so the horizon math is testable without the
+ * OS. Clamped to {@link MAX_DAYS_AHEAD} so a user with a single prayer enabled doesn't
+ * pin two months of stale alarms.
+ */
+export function horizonDays(perDay: number, budget: number): number {
+  if (perDay <= 0) return 0;
+  return Math.max(1, Math.min(MAX_DAYS_AHEAD, Math.floor(budget / perDay)));
+}
+
+/**
+ * Title + body for one alert. Extracted as a pure function so the Swedish copy contract
+ * is testable without running the scheduler. NBSP (fast mellanslag) between the numeral
+ * and "min" so the unit can never wrap away from its number in a narrow banner.
+ */
+export function alertContent(
+  key: PrayerKey,
+  at: Date,
+  lead: number,
+): { title: string; body: string } {
+  if (key === 'sunrise') {
+    return {
+      title: lead > 0 ? `Fajr-tiden slutar om ${lead} min` : 'Fajr-tiden är slut',
+      body: `Soluppgång ${formatTime(at)}`,
+    };
+  }
+  const label = PRAYER_LABELS[key];
+  return {
+    // Lead with the glanceable answer in the bold title — which prayer, how soon — and
+    // demote the exact clock time to the lighter body as the durable fact.
+    title: lead > 0 ? `${label} om ${lead} min` : `Dags för ${label}`,
+    body: `Klockan ${formatTime(at)}`,
+  };
+}
 
 /**
  * Will the OS actually deliver our alerts?
@@ -59,22 +179,47 @@ function isAllowed(status: Notifications.NotificationPermissionsStatus): boolean
   );
 }
 
-async function ensureAndroidChannel(): Promise<void> {
+const CHANNEL_META: Record<NotificationSoundKey, { name: string; description: string }> = {
+  default: {
+    name: 'Bönetider – standardljud',
+    description: 'Påminnelser med systemets notisljud.',
+  },
+  silent: { name: 'Bönetider – tyst', description: 'Påminnelser som visas utan ljud.' },
+  adhan: { name: 'Bönetider – adhan', description: 'Påminnelser med ett kort böneutrop.' },
+};
+
+async function ensureAndroidChannels(): Promise<void> {
   if (Platform.OS !== 'android') return;
-  await Notifications.setNotificationChannelAsync(CHANNEL_ID, {
-    name: 'Bönetider',
-    importance: Notifications.AndroidImportance.HIGH,
-    // Omit `sound` so the channel uses the system default notification tone. Passing
-    // the string 'default' makes expo-notifications look for a *custom* bundled file
-    // named "default" (none exists) and warn — a HIGH-importance channel already
-    // plays the default sound when none is set.
-    vibrationPattern: [0, 250, 120, 250],
-    // The notification LED accent = the app's brand indigo, single-sourced from the
-    // design tokens (was a stale hardcoded `#46527f` left over from before the palette
-    // was refined to Prussian). `palette` is the static light palette tokens.ts exposes
-    // for non-themed call-sites like this one.
-    lightColor: palette.accent,
-  });
+  if (channelsEnsured) return;
+  // One group, so the categories nest under "Bönetider" in Android's notification
+  // settings instead of sitting as unrelated top-level rows.
+  await Notifications.setNotificationChannelGroupAsync(CHANNEL_GROUP_ID, { name: 'Bönetider' });
+  // The pre-v2 single channel can never be given a different sound (Android freezes a
+  // channel's sound at creation), so it is RETIRED rather than reused — otherwise it
+  // lingers as a permanently-unused category in the user's system settings. Deleting is
+  // idempotent, and safe precisely because these ids are never recycled: recreating a
+  // deleted id would resurrect the user's old, possibly muted, channel settings.
+  await Notifications.deleteNotificationChannelAsync(LEGACY_CHANNEL_ID).catch(() => undefined);
+  for (const sound of AVAILABLE_SOUNDS) {
+    await Notifications.setNotificationChannelAsync(channelIdFor(sound), {
+      name: CHANNEL_META[sound].name,
+      description: CHANNEL_META[sound].description,
+      groupId: CHANNEL_GROUP_ID,
+      importance: Notifications.AndroidImportance.HIGH,
+      vibrationPattern: [0, 250, 120, 250],
+      // The notification LED accent = the app's brand indigo, single-sourced from the
+      // design tokens. `palette` is the static light palette tokens.ts exposes for
+      // non-themed call-sites like this one.
+      lightColor: palette.accent,
+      // The `sound` key carries a THREE-way contract in expo's native channel manager
+      // (AndroidXNotificationsChannelManager): key ABSENT → the system default tone;
+      // key present and NULL → no sound at all; key present with a string → a res/raw
+      // basename. All three cases are load-bearing here, which is why 'default' spreads
+      // nothing rather than passing some "default" string.
+      ...(sound === 'default' ? {} : { sound: sound === 'silent' ? null : ADHAN_SOUND_FILE }),
+    });
+  }
+  channelsEnsured = true;
 }
 
 async function ensureNotificationCategory(): Promise<void> {
@@ -116,15 +261,15 @@ export async function requestNotificationPermission(): Promise<NotificationPermi
     // Already refused at the OS level: asking again is a silent no-op, so report the
     // truth and let the caller offer the system-settings route instead.
     if (!current.canAskAgain) return 'denied';
-    // The channel must exist BEFORE the prompt on Android 13+ — expo's own permission
-    // example creates it first, noting "a channel is needed for the permissions prompt
-    // to appear". Requesting first and creating the channel afterwards (what this module
-    // used to do) can leave the POST_NOTIFICATIONS dialog unshown.
-    await ensureAndroidChannel();
+    // The channels must exist BEFORE the prompt on Android 13+ — expo's own permission
+    // example creates one first, noting "a channel is needed for the permissions prompt
+    // to appear". Requesting first and creating afterwards can leave the
+    // POST_NOTIFICATIONS dialog unshown.
+    await ensureAndroidChannels();
     const next = await Notifications.requestPermissionsAsync({
-      // Alert + sound only. The handler above sets `shouldSetBadge: false` and nothing in
-      // the app ever writes a badge count, so asking for badge authorization would claim
-      // a capability we never use. Ask for exactly what we exercise.
+      // Alert + sound only. The handler above never sets a badge and nothing in the app
+      // writes a badge count, so asking for badge authorization would claim a capability
+      // we never use. Ask for exactly what we exercise.
       ios: { allowAlert: true, allowSound: true, allowBadge: false },
     });
     return isAllowed(next) ? 'granted' : 'denied';
@@ -158,10 +303,26 @@ async function cancelPrayerNotifications(): Promise<void> {
 }
 
 /**
+ * What the last successful sync covered. The day component makes the window roll
+ * forward once per Stockholm calendar day; the signature and coordinate catch a real
+ * change. Coordinates are rounded to ~100 m — finer is meaningless for prayer times and
+ * would defeat the stamp entirely on a device with jittery GPS.
+ */
+function syncStampFor(coords: LatLng, settings: PrayerSettings): string {
+  const { y, mo, d } = stockholmParts(Date.now());
+  return JSON.stringify([
+    `${y}-${mo}-${d}`,
+    notificationSignature(settings),
+    `${coords.latitude.toFixed(3)},${coords.longitude.toFixed(3)}`,
+  ]);
+}
+
+/**
  * Reconcile scheduled prayer notifications with the current settings + location.
  * Clears only this module's previously scheduled prayer IDs, then (if enabled and
- * permitted) schedules every selected prayer for the next {@link DAYS_AHEAD} days
- * that lies in the future. Idempotent — safe to call on any relevant change or foreground.
+ * permitted) schedules every selected alert for as many days ahead as the platform's
+ * pending-notification budget allows. Idempotent — safe to call on any relevant change
+ * or foreground.
  */
 export async function syncPrayerNotifications(
   coords: LatLng,
@@ -176,9 +337,24 @@ export async function syncPrayerNotifications(
     await cancelByIds(scheduledIds);
   };
   try {
+    const n = settings.notifications;
+
+    // This runs on mount AND on every foreground. At the old 7×5 that was 35 cancels +
+    // 35 schedules each time; at a 30-day Android horizon it would be 180 + 180, a dozen
+    // times a day — a real battery and latency cost. Skip when nothing that matters has
+    // changed since the last SUCCESSFUL sync. A cold start always does the real thing.
+    const stamp = syncStampFor(coords, settings);
+    if (firstSyncDone) {
+      const previous = await AsyncStorage.getItem(SYNC_STAMP_KEY).catch(() => null);
+      if (previous === stamp) return;
+    }
+
     await cancelPrayerNotifications();
     if (generation !== syncGeneration) return;
-    if (!settings.notifications.enabled) return;
+    if (!n.enabled) return;
+
+    const perDay = alertsPerDay(n);
+    if (perDay === 0) return; // nothing enabled — the cancel pass above already ran
 
     // CHECK, never ask. This runs on mount and on every foreground, so prompting from
     // here would fire the OS dialog with no tap behind it — and spend iOS's single
@@ -187,21 +363,24 @@ export async function syncPrayerNotifications(
     const permission = await Notifications.getPermissionsAsync();
     if (generation !== syncGeneration) return;
     if (!isAllowed(permission)) return;
-    await ensureAndroidChannel();
+    await ensureAndroidChannels();
     await ensureNotificationCategory();
     if (generation !== syncGeneration) return;
 
-    // Heads-up offset: fire this many minutes before the prayer so the user can
-    // set out for the mosque before the adhan. 0 = exactly at the prayer time.
-    const leadMs = Math.max(0, settings.notifications.leadMinutes) * 60_000;
+    const budget = Platform.OS === 'ios' ? IOS_PENDING_BUDGET : ANDROID_PENDING_BUDGET;
+    // The +1 day reclaims the PARTIAL first day (today's already-past alerts are
+    // skipped); the in-loop budget check below is the hard cap that actually protects
+    // the platform limit.
+    const maxDays = Math.min(MAX_DAYS_AHEAD, horizonDays(perDay, budget) + 1);
 
     const now = Date.now();
     // One Stockholm calendar resolve for the whole horizon: stockholmPrayerDate(now, d)
-    // would re-derive the SAME Stockholm Y/M/D from `now` (an Intl format) on each of
-    // the 7 iterations. Resolve day 0 once and step the calendar locally — the Date
-    // constructor rolls month/year boundaries exactly like the helper's own d+offset.
+    // would re-derive the SAME Stockholm Y/M/D from `now` (an Intl format) on each
+    // iteration. Resolve day 0 once and step the calendar locally — the Date constructor
+    // rolls month/year boundaries exactly like the helper's own d+offset.
     const day0 = stockholmPrayerDate(now);
-    for (let d = 0; d < DAYS_AHEAD; d++) {
+    for (let d = 0; d < maxDays; d++) {
+      if (scheduledIds.length + 1 > budget) break;
       if (generation !== syncGeneration) {
         await bailStale();
         return;
@@ -209,62 +388,61 @@ export async function syncPrayerNotifications(
       const dayMidday = new Date(day0.getFullYear(), day0.getMonth(), day0.getDate() + d, 12, 0, 0, 0);
       const times = computePrayerTimes(coords, dayMidday, settings);
 
-      for (const key of NOTIFY_PRAYERS) {
-        if (!settings.notifications.prayers[key]) continue;
+      // One day's alerts go out as ONE batch — 30 days × 6 slots would otherwise be 180
+      // serial bridge round-trips. The batch is small and bounded (≤ 6), so the
+      // generation guard between days still bounds how far a superseded sync can
+      // over-schedule, and bailStale cancels whatever the last batch created. Do NOT
+      // flatten the whole horizon into one Promise.all: the guard would go blind for the
+      // entire run.
+      const batch: Promise<string>[] = [];
+      for (const key of PRAYER_ORDER) {
+        if (!isAlertEnabled(n, key)) continue;
+        if (scheduledIds.length + batch.length >= budget) break;
         const at = times[key];
         if (!(at instanceof Date) || Number.isNaN(at.getTime())) continue;
-        // The alert fires `leadMs` before the prayer; the body still shows the real
-        // prayer time so the user knows when it lands.
-        const fireAt = new Date(at.getTime() - leadMs);
+        const lead = Math.max(0, n.lead[key]);
+        // The alert fires `lead` minutes before the time; the body still shows the real
+        // time so the user knows when it lands.
+        const fireAt = new Date(at.getTime() - lead * 60_000);
         // Skip anything already past (or within the next minute — too late to be useful).
         if (fireAt.getTime() <= now + 60_000) continue;
-        if (generation !== syncGeneration) {
-          await bailStale();
-          return;
-        }
 
-        const label = PRAYER_LABELS[key as PrayerKey];
-        const id = await Notifications.scheduleNotificationAsync({
-          content: {
-            // Lead with the glanceable answer in the bold title — which prayer, how
-            // soon — and demote the exact clock time to the lighter body as the
-            // durable fact. The alert fires exactly `leadMs` before the prayer, so
-            // "om N min" is correct at the moment it buzzes; with no lead offset it
-            // fires at the time itself, so the message is simply "now".
-            // NBSP (fast mellanslag) between the numeral and "min" so the unit can
-            // never wrap away from its number in a narrow notification banner.
-            title: leadMs > 0 ? `${label} om ${settings.notifications.leadMinutes} min` : `Dags för ${label}`,
-            body: `Klockan ${formatTime(at)}`,
-            // `true` = the OS default sound (iOS reads this; on Android the channel
-            // governs). A string here would be treated as a custom bundled filename.
-            sound: true,
-            // Prayer times are the textbook Time Sensitive case: the alert must break
-            // through Focus, Sleep and Do Not Disturb — a prayer reminder that a Focus
-            // mode silences has failed at the app's one job. iOS honours this level ONLY
-            // with the matching entitlement (app.json → ios.entitlements); without it the
-            // level silently degrades to 'active'. On Android the HIGH-importance channel
-            // already carries the equivalent weight, and this field is simply ignored.
-            interruptionLevel: 'timeSensitive',
-            categoryIdentifier: CATEGORY_ID,
-          },
-          trigger: {
-            type: Notifications.SchedulableTriggerInputTypes.DATE,
-            date: fireAt,
-            channelId: CHANNEL_ID,
-          },
-        });
-        scheduledIds.push(id);
-        if (generation !== syncGeneration) {
-          await bailStale();
-          return;
-        }
+        const sound = n.sound[key];
+        batch.push(
+          Notifications.scheduleNotificationAsync({
+            content: {
+              ...alertContent(key, at, lead),
+              sound: iosSoundFor(sound),
+              // Read back by the foreground handler, which would otherwise force sound on.
+              data: { key, silent: resolveSound(sound) === 'silent' },
+              // Prayer times are the textbook Time Sensitive case: the alert must break
+              // through Focus, Sleep and Do Not Disturb — a prayer reminder that a Focus
+              // mode silences has failed at the app's one job. Kept even for a SILENT
+              // choice: the user asked for quiet, not for suppressed. iOS honours this
+              // level ONLY with the matching entitlement (app.json → ios.entitlements);
+              // without it the level silently degrades to 'active'. On Android the
+              // HIGH-importance channel already carries the equivalent weight.
+              interruptionLevel: 'timeSensitive',
+              categoryIdentifier: CATEGORY_ID,
+            },
+            trigger: {
+              type: Notifications.SchedulableTriggerInputTypes.DATE,
+              date: fireAt,
+              channelId: channelIdFor(sound),
+            },
+          }),
+        );
       }
+      scheduledIds.push(...(await Promise.all(batch)));
     }
     if (generation !== syncGeneration) {
       await bailStale();
       return;
     }
     await savePrayerNotificationIds(scheduledIds);
+    // Stamp only on the success path, so a failed or bailed run always re-syncs.
+    await AsyncStorage.setItem(SYNC_STAMP_KEY, stamp).catch(() => undefined);
+    firstSyncDone = true;
   } catch {
     // Notifications are a best-effort enhancement — never let a scheduling failure
     // (permissions revoked mid-flight, OS quota) crash the app. If this run is still

@@ -107,26 +107,42 @@ export function formatHijri(date: Date, offsetDays = 0): string {
 // Built once and reused — the dock re-renders this label on every clock tick, so a
 // per-call Intl.DateTimeFormat construction was wasted work. Cached null on a runtime
 // without full Intl, falling back to toDateString() exactly as before.
-let gregorianFmt: Intl.DateTimeFormat | null | undefined;
-function getGregorianFmt(): Intl.DateTimeFormat | null {
-  if (gregorianFmt !== undefined) return gregorianFmt;
+// Two cached slots, not one: the dock re-renders this label on every clock tick, so a
+// per-call Intl.DateTimeFormat construction was wasted work — and day navigation added a
+// SECOND shape (with the year) that must not thrash the first. Each is cached null on a
+// runtime without full Intl, falling back to toDateString() exactly as before.
+const gregorianFmt: { [K in 'bare' | 'withYear']?: Intl.DateTimeFormat | null } = {};
+function getGregorianFmt(withYear: boolean): Intl.DateTimeFormat | null {
+  const slot = withYear ? 'withYear' : 'bare';
+  const cached = gregorianFmt[slot];
+  if (cached !== undefined) return cached;
+  let built: Intl.DateTimeFormat | null;
   try {
-    gregorianFmt = new Intl.DateTimeFormat('sv-SE', {
+    built = new Intl.DateTimeFormat('sv-SE', {
       // Pin to Swedish civil time like the rest of the app, so the dock's weekday/day
       // can't roll to the wrong calendar day near midnight on a device in another zone.
       timeZone: 'Europe/Stockholm',
       weekday: 'long',
       day: 'numeric',
       month: 'long',
+      ...(withYear ? { year: 'numeric' as const } : {}),
     });
   } catch {
-    gregorianFmt = null;
+    built = null;
   }
-  return gregorianFmt;
+  gregorianFmt[slot] = built;
+  return built;
 }
 
-export function formatGregorian(date: Date): string {
-  const fmt = getGregorianFmt();
+/**
+ * "Tisdag 26 maj" — the dock's date header.
+ *
+ * @param opts.year Add the year: "Tisdag 26 maj 2027". Off by default, because on today
+ * (and its immediate neighbours) the year is noise. The day stepper turns it on once the
+ * viewed day is in another year, where "26 maj" alone would be actively misleading.
+ */
+export function formatGregorian(date: Date, opts: { year?: boolean } = {}): string {
+  const fmt = getGregorianFmt(opts.year === true);
   if (!fmt) return date.toDateString();
   try {
     const s = fmt.format(date);

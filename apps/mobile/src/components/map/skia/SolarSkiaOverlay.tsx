@@ -41,6 +41,7 @@ import { type Camera, mercX, mercY, project, worldSize } from '../../../lib/map/
 import { prayerColorFor, washStopsFor } from '../../../lib/solar/palette';
 import { type PolarBoundary, solarParams } from '../../../lib/solar/sun';
 import { useActiveScheme } from '../../../theme/useColors';
+import { QiblaArc } from './QiblaArc';
 import { buildWashSksl } from './washShader';
 
 /** One prayer's contour for this instant: its colour key + the smoothed lon/lat lines. */
@@ -75,6 +76,8 @@ interface Props {
    *  moves the lines far faster than a live tick) and makes each line appear WHOLE instead
    *  of playing the slow comet reveal it couldn't finish before the line sweeps past. */
   introActive: SharedValue<boolean>;
+  /** Draw the great-circle direction to Mecca from `userPoint` (Inställningar → Utseende). */
+  showQibla: boolean;
   /** The user's next prayer — its line is drawn brighter/thicker. Null if tomorrow's. */
   nextKey: PrayerKey | null;
   /** The next prayer when it is IMMINENT (within the breathing window) — its halo
@@ -97,6 +100,7 @@ export function SolarSkiaOverlay({
   camera,
   lines,
   introActive,
+  showQibla,
   nextKey,
   imminentKey,
   userPoint,
@@ -242,13 +246,26 @@ export function SolarSkiaOverlay({
   const dissolveActive = shownBoundary != null;
 
   return (
-    <Canvas style={StyleSheet.absoluteFill} pointerEvents="none">
+    // `highBitDepth` renders into a surface with more than 8 bits per channel (16-bit
+    // float on iOS, 10-bit on Android) — aimed straight at the twilight wash, whose
+    // slow ramps are the one thing on this canvas that bands. It does NOT replace the
+    // ordered dither in washShader.ts: Skia only guarantees the extra precision
+    // survives composition on Android when the view is also `opaque`, which this
+    // overlay can never be — it sits transparently over the basemap. So the dither
+    // stays as the floor for Android and for any device that falls back to 8-bit,
+    // and this prop lifts the ceiling where the surface can carry it.
+    <Canvas style={StyleSheet.absoluteFill} pointerEvents="none" highBitDepth>
       {washEffect && (
         <Fill>
           {/* Pure per-pixel sun geometry — no image inputs. */}
           <Shader source={washEffect} uniforms={washUniforms} />
         </Fill>
       )}
+
+      {/* Drawn first of the line work, so it reads as quieter ground beneath the glowing
+          prayer contours rather than competing with them. It is the one thing on this
+          canvas that does not move with the day — a fixed direction, always there. */}
+      {showQibla && <QiblaArc camera={camera} from={userPoint} />}
 
       {shownBoundaryLat != null && (
         <Path

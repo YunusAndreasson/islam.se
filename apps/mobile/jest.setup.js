@@ -180,33 +180,33 @@ jest.mock('@shopify/react-native-skia', () => {
   const { View } = require('react-native');
   const container = ({ children }) => React.createElement(View, null, children ?? null);
   const none = () => null;
-  const stubPath = () => ({ moveTo: () => {}, lineTo: () => {}, close: () => {} });
   const stubBuilder = () => {
     const b = { detach: () => ({}), build: () => ({}) };
     for (const m of ['moveTo', 'lineTo', 'quadTo', 'cubicTo', 'close']) b[m] = () => b;
     return b;
   };
+  // This object must cover EVERY Skia symbol the overlay imports, including ones only
+  // reached on a seasonal branch. `vec` is the cautionary tale: it is CALLED inline in
+  // the polar-boundary JSX, so while it was missing here, any date where polarBoundaryFor
+  // returns a boundary (every winter, from about mid-November) would have thrown "vec is
+  // not a function" — a suite that passes in August and fails in December.
+  // SolarSkiaOverlay.test.tsx now renders that branch explicitly. Add the stub when you
+  // add the import, not when the test finally reaches it.
   return {
     Canvas: container,
     Group: container,
     Fill: container,
     Shader: container,
-    ImageShader: none,
     Path: none,
     Circle: none,
     BlurMask: none,
-    Blur: none,
+    LinearGradient: none,
+    DashPathEffect: none,
+    vec: (x, y) => ({ x, y }),
     Skia: {
       RuntimeEffect: { Make: () => null },
-      Data: { fromBytes: () => ({}) },
-      Image: { MakeImage: () => null },
-      Path: { Make: stubPath },
       PathBuilder: { Make: stubBuilder },
     },
-    ColorType: { RGBA_8888: 4 },
-    AlphaType: { Unpremul: 3 },
-    FilterMode: { Nearest: 0, Linear: 1 },
-    MipmapMode: { None: 0 },
   };
 });
 
@@ -299,6 +299,12 @@ jest.mock('expo-notifications', () => ({
   getPermissionsAsync: jest.fn(async () => ({ granted: true, canAskAgain: true, status: 'granted' })),
   requestPermissionsAsync: jest.fn(async () => ({ granted: true, status: 'granted' })),
   setNotificationChannelAsync: jest.fn(async () => null),
+  // A sound choice is an Android channel (a channel's sound is immutable), so the
+  // scheduler creates one channel per available sound inside a group, and deletes the
+  // pre-v2 'prayers' channel. Without these two the module throws at first channel
+  // setup and every notification test fails opaquely.
+  setNotificationChannelGroupAsync: jest.fn(async () => null),
+  deleteNotificationChannelAsync: jest.fn(async () => null),
   setNotificationCategoryAsync: jest.fn(async (identifier, actions, options) => ({ identifier, actions, options })),
   scheduleNotificationAsync: jest.fn(async () => 'id'),
   cancelAllScheduledNotificationsAsync: jest.fn(async () => {}),

@@ -7,19 +7,19 @@ packages: []
 
 # Dependencies explicitly allowed (or denied) to run install/build scripts (pnpm 11).
 allowBuilds:
-  # Skia's postinstall (install-libs.js) stages its prebuilt native libraries for
-  # the Android build — it must run, or the native module won't link.
+  # Kept `true`, but as of Skia 2.10.1 there is nothing left for it to run: the
+  # postinstall (install-libs.js) that used to stage the prebuilt native libraries
+  # into node_modules/@shopify/react-native-skia/libs was removed in 2.6.5. Gradle
+  # and the podspec now read them straight out of the sibling packages
+  # (react-native-skia-android/libs, react-native-skia-apple-ios/libs). Left as
+  # `true` rather than `false` so a future version that reintroduces a lifecycle
+  # script is not silently skipped — pnpm errors on an undecided package, so this
+  # key has to hold some value either way.
   '@shopify/react-native-skia': true
   # Optional native msgpack accelerator; the pure-JS fallback is fine for us.
   msgpackr-extract: false
   # Rust-based module resolver used by lint tooling; native binary is preferred.
   unrs-resolver: true
-
-minimumReleaseAgeExclude:
-  - expo-constants@56.0.16
-  - expo-notifications@56.0.14
-  - expo-modules-autolinking@56.0.14
-  - expo@56.0.6
 
 # React Native / Expo autolinking and Metro do not cope with pnpm's default
 # symlinked, isolated node_modules. Hoisted layout is the supported setup.

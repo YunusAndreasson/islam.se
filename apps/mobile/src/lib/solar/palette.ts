@@ -113,6 +113,40 @@ export function prayerColorFor(
   return scheme === 'dark' ? PRAYER_COLORS[prayer].dark : PRAYER_COLORS[prayer].light;
 }
 
+/**
+ * The same prayer hues, made legible as TEXT on the map pill's surface.
+ *
+ * Why a second table rather than reusing PRAYER_COLORS. Those are LINE colours, tuned to
+ * glow over the basemap — measured as small text on the light pill (`#fffdf8`) they fail
+ * badly: sunrise 2.05:1, dhuhr 2.28:1, asr 2.35:1, maghrib 3.06:1, fajr 3.52:1, against
+ * the 4.5:1 that text under 18 pt needs. (Isha's Prussian indigo is the one that already
+ * passes, at 9.29:1.) Painting a label with its raw line colour would have made five of
+ * six pills unreadable in daylight — the exact opposite of a legibility fix.
+ *
+ * The light values below are each derived from the line colour in OKLab by lowering L
+ * ONLY, keeping a and b — so the hue and chroma are the line's, and just the lightness
+ * moves. They land within 0.563 ± 0.007 L of each other, which is why the six labels read
+ * as one family rather than six unrelated inks. Dark mode needs no adjustment: every line
+ * colour already clears 5.8:1 on the dark pill (`#222840`), so the label wears the line
+ * colour verbatim there.
+ *
+ * palette.test.ts asserts the ratios, so a future hue tweak cannot silently drop a label
+ * below the threshold.
+ */
+export const PRAYER_TEXT_COLORS: Record<PrayerKey, PrayerColors> = {
+  fajr: { light: '#6971a5', dark: '#a4adde' }, //     4.58:1 — L 0.628 → 0.563
+  sunrise: { light: '#9c692c', dark: '#f0c089' }, //  4.62:1 — L 0.773 → 0.564
+  dhuhr: { light: '#7f7358', dark: '#d4c8aa' }, //    4.60:1 — L 0.738 → 0.559
+  asr: { light: '#986b2e', dark: '#e6b87a' }, //      4.61:1 — L 0.734 → 0.563
+  maghrib: { light: '#ae5f3e', dark: '#eb9477' }, //  4.58:1 — L 0.670 → 0.570
+  isha: { light: '#33437a', dark: '#94a2dd' }, //     9.29:1 — already legible, untouched
+};
+
+/** A prayer's colour for LABEL TEXT. See {@link PRAYER_TEXT_COLORS}. */
+export function prayerTextColorFor(prayer: PrayerKey, scheme: ColorSchemeName): string {
+  return scheme === 'dark' ? PRAYER_TEXT_COLORS[prayer].dark : PRAYER_TEXT_COLORS[prayer].light;
+}
+
 function lerp(a: number, b: number, t: number): number {
   return a + (b - a) * t;
 }

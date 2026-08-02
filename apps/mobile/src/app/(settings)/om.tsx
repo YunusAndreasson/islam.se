@@ -24,6 +24,7 @@ import { ModalBar } from '../../components/ui/ModalBar';
 import {
   ADHAN_URL,
   APP_VERSION,
+  AWS_TERRAIN_URL,
   ISLAMSE_URL,
   MAPLIBRE_URL,
   MAPTILER_URL,
@@ -32,7 +33,7 @@ import {
   OSM_URL,
   rateApp,
 } from '../../lib/about';
-import { TILES_PROVIDER } from '../../lib/map/nordicStyle';
+import { TERRAIN_PROVIDER, TILES_PROVIDER } from '../../lib/map/nordicStyle';
 import { type Palette, radius, space, type } from '../../theme/tokens';
 import { useColors } from '../../theme/useColors';
 
@@ -48,6 +49,11 @@ export default function Om() {
     TILES_PROVIDER === 'maptiler'
       ? { name: 'MapTiler', url: MAPTILER_URL }
       : { name: 'OpenFreeMap', url: OPENFREEMAP_URL };
+  // The hillshade reads real elevation tiles. On the MapTiler path those come from the
+  // same house as the vector tiles, so the credit above already covers them; on the
+  // key-less path they come from AWS Terrain Tiles, which is nobody else's data and
+  // gets its own clause.
+  const terrain = TERRAIN_PROVIDER === 'aws' ? { name: 'AWS Terrain Tiles', url: AWS_TERRAIN_URL } : null;
 
   return (
     <SafeAreaView style={styles.safe} edges={['top']}>
@@ -103,6 +109,14 @@ export default function Om() {
           <Text style={styles.creditsLink} accessibilityRole="link" onPress={() => openUrl(tile.url)}>
             {tile.name}
           </Text>
+          {terrain && (
+            <>
+              , höjddata från{' '}
+              <Text style={styles.creditsLink} accessibilityRole="link" onPress={() => openUrl(terrain.url)}>
+                {terrain.name}
+              </Text>
+            </>
+          )}
           . Bönetider med{' '}
           <Text style={styles.creditsLink} accessibilityRole="link" onPress={() => openUrl(ADHAN_URL)}>
             adhan

@@ -24,7 +24,10 @@ export function OptionGroup<T extends string>({
   onChange,
 }: {
   options: readonly Option<T>[];
-  value: T;
+  /** `null` selects nothing — the MIXED state a bulk control shows when the values it
+   *  writes to disagree (see the "Gäller alla" sound picker in (settings)/notiser). The
+   *  selected check already renders off an equality test, so null simply matches none. */
+  value: T | null;
   onChange: (value: T) => void;
 }) {
   const colors = useSettingsColors();

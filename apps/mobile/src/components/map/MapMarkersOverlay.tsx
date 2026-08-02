@@ -28,9 +28,9 @@ import Animated, { type SharedValue, useAnimatedStyle } from 'react-native-reani
 import { type Camera, project } from '../../lib/map/projection';
 import { type LatLng, PRAYER_LABELS, type PrayerKey } from '../../lib/prayer-times';
 import type { PrayerLineLabel } from '../../lib/solar/field';
-import { prayerColorFor } from '../../lib/solar/palette';
+import { prayerColorFor, prayerTextColorFor } from '../../lib/solar/palette';
 import type { PolarBoundary } from '../../lib/solar/sun';
-import { type Palette, radius, shadow, space, type } from '../../theme/tokens';
+import { type Palette, radius, shadow, type } from '../../theme/tokens';
 import { useActiveScheme, useColors } from '../../theme/useColors';
 
 interface Props {
@@ -159,13 +159,18 @@ function PrayerPill({
   scheme: ReturnType<typeof useActiveScheme>;
   isNext: boolean;
 }) {
-  // Border + dot carry the prayer hue (same colour as the line the pill sits on), so
-  // the pill always reads as part of its line — for EVERY prayer, next included. The
-  // "next" emphasis is a thicker ring and brass BOLD label text, mirroring the dock's
-  // nextEmphasis rows: brass layers ON TOP of the hue, never replaces it. (A brass
-  // border here used to override the hue — Isha's indigo line wore a yellow ring while
-  // Maghrib's matched, which read as a bug, not a signal.)
+  // The pill wears its line's colour, and nothing else does the identifying: the border
+  // takes the LINE hue and the label takes that same hue darkened just enough to be
+  // legible as text (see prayerTextColorFor — the raw line colours fail contrast as small
+  // text in light mode). There is no longer a coloured dot: the border and the word were
+  // already saying "this line is Maghrib", so the dot was a third voice repeating them,
+  // inside a chip deliberately kept as small as a map annotation can be.
+  //
+  // "Next" is weight and ring thickness ONLY. It used to also repaint the label brass,
+  // which put a yellow word on Isha's indigo line — the same mismatch that had already
+  // been fixed on the border. Emphasis should not cost a pill its identity.
   const hue = prayerColorFor(label.prayer, scheme);
+  const textHue = prayerTextColorFor(label.prayer, scheme);
   const posStyle = useAnimatedStyle(() => {
     const p = project(label.lngLat[0], label.lngLat[1], camera.value);
     return { left: p.x, top: p.y };
@@ -179,14 +184,7 @@ function PrayerPill({
         posStyle,
       ]}
     >
-      <View style={[styles.dot, { backgroundColor: hue }]} />
-      <Text
-        style={[
-          styles.pillLabel,
-          { color: colors.ink },
-          isNext && [styles.pillLabelNext, { color: colors.highlightText }],
-        ]}
-      >
+      <Text style={[styles.pillLabel, { color: textHue }, isNext && styles.pillLabelNext]}>
         {PRAYER_LABELS[label.prayer]}
       </Text>
     </Animated.View>
@@ -210,16 +208,14 @@ const styles = StyleSheet.create({
     // off-scale on purpose so the pill stays compact against the prayer line.
     paddingVertical: 3,
     paddingHorizontal: 7,
-    gap: space.xs,
     // Centre the pill on its computed point (RN supports % translate on 0.85/Fabric).
     transform: [{ translateX: '-50%' }, { translateY: '-50%' }],
     // The token's whisper-light annotation shadow (warm-palette shadow colour baked in).
     ...shadow.dot,
   },
   pillNext: { borderWidth: 1.5 },
-  dot: { width: 6, height: 6, borderRadius: 3 },
   pillLabel: { ...type.micro },
-  // Brass bold for the next prayer's label — the dock's nextEmphasis, on the map.
+  // Bold only — the colour stays the prayer's, so emphasis never costs identity.
   pillLabelNext: { fontWeight: '700' },
   // Faint map caption (no chip): centred on its anchor, sitting just above the boundary.
   polarWrap: {

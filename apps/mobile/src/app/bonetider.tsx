@@ -37,6 +37,7 @@ import {
 } from '../components/map/PrayerDock';
 import { MapMarkersOverlay } from '../components/map/MapMarkersOverlay';
 import { MosqueCard } from '../components/map/MosqueCard';
+import { LocationHint } from '../components/map/LocationHint';
 import { MosqueLayer } from '../components/map/MosqueLayer';
 import { NotificationHint } from '../components/map/NotificationHint';
 import {
@@ -51,6 +52,12 @@ import {
   GlassSurface,
 } from '../components/ui/GlassSurface';
 import { useLocation } from '../lib/location/context';
+import { getLocationPermissionState } from '../lib/location/permission';
+import {
+  noteLocationLaunch,
+  noteLocationShown,
+  shouldShowLocationHint,
+} from '../lib/location-hint';
 import { type Camera as MapCamera, invMercY, mercY } from '../lib/map/projection';
 import type { Mosque } from '../lib/mosques';
 import { mapStyleFor } from '../lib/map/nordicStyle';
@@ -59,7 +66,9 @@ import { getNotificationPermissionState } from '../lib/notifications';
 import { computePrayerTimes, nextPrayerKeyAt, PRAYER_ORDER, type PrayerKey } from '../lib/prayer-times';
 import { computeSignature } from '../lib/settings/compute-signature';
 import { useSettings } from '../lib/settings/context';
-import { buildGrid, buildLines, type PrayerLineLabel } from '../lib/solar/field';
+import type { LocationMode } from '../lib/settings/types';
+import { buildLines, type PrayerLineLabel } from '../lib/solar/field';
+import { gridForDay } from '../lib/solar/grid-cache';
 import { polarBoundaryFor } from '../lib/solar/sun';
 import { LIVE_TICK_MS, useSolarClock } from '../lib/solar/useSolarClock';
 import { stockholmPrayerDate } from '../lib/stockholm-time';
@@ -81,6 +90,27 @@ const SOUTH = 55.35;
 const EAST = 23.7;
 const NORTH = 69.0;
 const SWEDEN_BOUNDS: [number, number, number, number] = [WEST, SOUTH, EAST, NORTH];
+
+// The furthest the camera may wander. SWEDEN_BOUNDS is the FIT target (what "Visa hela
+// Sverige" returns to); this is the leash, and it is deliberately continental. A user
+// looking across the Öresund at Denmark, up into Finnmark, over to Åland or down to the
+// Mediterranean is doing something reasonable — the solar geometry is correct
+// everywhere, so there is no cartographic reason to pen them into Sweden.
+//
+// What it stops is the far end of that freedom: nothing prevented a fling from parking
+// the camera in the Pacific, where the overlay dutifully projects Sweden's prayer lines
+// over open ocean and the reset chip is the only way home. A hard stop is kinder than a
+// chip, and cheaper — off-bounds panning still fetched tiles for a view nobody wants.
+//
+// WHY SO WIDE — this is sized against the SCREEN, not taste. maxBounds constrains the
+// viewport, so if the box is shorter than the visible map at MIN_ZOOM, MapLibre has to
+// clamp every frame and the map fights the finger. At z3 the tallest supported phone
+// (956 pt) shows 0.233 of the world vertically; this box spans 0.284, so it always has
+// room. Narrowing it means raising MIN_ZOOM to match — check both together.
+const MAX_BOUNDS: [number, number, number, number] = [-20.0, 35.0, 60.0, 80.0];
+// Floor only. The ceiling stays open: the mosque layer and the qibla arc are drawn for
+// city zoom, and the projection handles zoom exactly.
+const MIN_ZOOM = 3;
 
 // The lat/lon at the geometric centre of the visible viewport, derived from the
 // reported bounds. We use this — NOT `event.nativeEvent.center` — because in
@@ -152,6 +182,37 @@ const HINT_AFTER_REVEAL_MS = 700;
 // The hint clears the two 46 dp MapNav discs (pinned at insets.top + 10) by a gap. It
 // must not land at insets.top + space.lg either — that row belongs to the Återställ chip.
 const HINT_TOP_OFFSET = 10 + 46 + space.md;
+// The basemap-failure notice shares the Återställ chip's centred row, so it is pushed
+// one chip-height + gap below it: both states can be true at once (a failed style does
+// not stop the user panning), and stacked is the only arrangement where neither hides
+// the other.
+const MAP_ERROR_OFFSET = 34 + space.sm;
+
+/** The offer queue's decision, as one async function so the gate effect below reads as a
+ *  sequence rather than a nest of conditionals. Returns null when this launch has nothing
+ *  worth asking.
+ *
+ *  Both branches ask the same three questions in the same order: is the feature still
+ *  worth offering, has the OS been asked yet, and does this hint's own frequency policy
+ *  allow another showing? 'undetermined' ONLY for the permission — a granted user needs no
+ *  card, and a hard-denied one can no longer be prompted (iOS spends its single dialog
+ *  once), so offering a button that would silently do nothing is worse than staying quiet.
+ *  Both cases keep to Inställningar, which has the system-settings door. */
+async function pickOffer(
+  locationMode: LocationMode,
+  notificationsEnabled: boolean,
+): Promise<'location' | 'notifications' | null> {
+  // Location first — see the gate. Skipped entirely in manual mode: the user has already
+  // named their city, and asking for GPS on top of that second-guesses them.
+  if (locationMode === 'gps' && (await getLocationPermissionState()) === 'undetermined') {
+    if (shouldShowLocationHint(await noteLocationLaunch())) return 'location';
+  }
+  // Reminders already on — there is nothing to offer, so nothing to introduce.
+  if (!notificationsEnabled && (await getNotificationPermissionState()) === 'undetermined') {
+    if (shouldShowHint(await noteLaunch())) return 'notifications';
+  }
+  return null;
+}
 
 export default function Bonetider() {
   const scheme = useActiveScheme();
@@ -171,12 +232,19 @@ export default function Bonetider() {
   const collapsedDock = DOCK_COLLAPSED_BASE + insets.bottom + DOCK_FLOAT;
 
   const { settings, loaded: settingsLoaded, update } = useSettings();
-  const { coords, label } = useLocation();
+  const { coords, label, source } = useLocation();
   // The mosque whose detail card is open (tapped on the mosque POI layer), or null.
   const [selectedMosque, setSelectedMosque] = useState<Mosque | null>(null);
   // The dock glance only needs the place — drop status qualifiers like "(standard)"
   // or "(GPS)" that matter on the Inställningar screen but are noise here.
   const placeLabel = label.replace(/\s*\([^)]*\)\s*$/, '');
+  // 'default' means NO location was resolved — no GPS fix and no manual city — so the
+  // times are Stockholm's by fallback, not by the user's choice. Stripping the
+  // "(standard)" qualifier above then made the dock read a bare, confident "Stockholm"
+  // to someone standing in Malmö, with times ~20 min wrong and nothing on the map
+  // saying so (the only hint lived in an Inställningar footnote). Tell the dock, so it
+  // offers "Välj plats" instead of naming a city the user never picked.
+  const locationIsFallback = source === 'default';
   // Pause the clock's live tick while another route is on top, so the map's field
   // isn't rebuilt in the background (e.g. every 30 s while the user is on Inställningar).
   const isFocused = useIsFocused();
@@ -206,6 +274,19 @@ export default function Bonetider() {
   // off where the basemap actually rendered after fitBounds. By waiting for the first
   // settled event, the overlay never paints against a stale camera.
   const [cameraReady, setCameraReady] = useState(false);
+
+  // The basemap style is fetched over the network at runtime (vector tiles + glyphs from
+  // OpenFreeMap/MapTiler, elevation from the DEM host), so it can simply fail — offline,
+  // captive portal, provider outage, expired key. Until now that failure was completely
+  // silent: MapLibre renders nothing, the Skia wash and the prayer lines carry on
+  // painting perfectly over the void, and the screen reads as "the map is broken" with
+  // no way to tell whether it's the app or the network.
+  //
+  // The overlay is deliberately NOT gated on this. Its geometry comes from the solar
+  // engine, not from tiles — the prayer lines are still true without a basemap under
+  // them, and hiding them would turn a degraded map into a dead screen. We say what
+  // happened instead, and let the rest keep working.
+  const [styleFailed, setStyleFailed] = useState(false);
 
   // Flips true as soon as the user has noticeably panned or zoomed away from the
   // initial framing. Drives the floating "Visa hela Sverige" reset chip.
@@ -285,51 +366,72 @@ export default function Bonetider() {
     if (introPlaying && clock.mode === 'scrub') skipIntro();
   }, [introPlaying, clock.mode, skipIntro]);
 
-  // The post-intro introduction: reveal the day's prayer times, then offer to remind the
-  // user of them (see components/map/NotificationHint). Both beats are gated on the SAME
-  // decision — if the hint isn't going to be offered, the dock must not open itself
-  // either. That's what keeps this an introduction rather than an animation a daily user
-  // sits through on every cold launch: it plays at most twice, on exactly the launches
-  // where the offer is still live.
+  // The post-intro introduction: reveal the day's prayer times, then ask the ONE question
+  // this launch has earned the right to ask. Both beats are gated on the SAME decision —
+  // if no card is going to be offered, the dock must not open itself either. That's what
+  // keeps this an introduction rather than an animation a daily user sits through on every
+  // cold launch: it plays on exactly the launches where an offer is still live.
+  //
   // 'idle' → 'reveal' (dock open, times staggering in) → 'settling' (dock shut, map back)
-  // → 'hint' (the offer) → 'done'. Split across two effects on purpose: the GATE below may
-  // be torn down freely by an unrelated change (opening a mosque card flips armOffer), but
-  // once the sequence starts the TIMELINE runs off `phase` alone — so a mid-reveal mosque
-  // tap can't strand the dock open with the hint never arriving.
-  const [phase, setPhase] = useState<'idle' | 'reveal' | 'settling' | 'hint' | 'done'>('idle');
-  // Once played (or the hint dismissed/answered) the sequence must not restart this
+  // → 'hint-location' | 'hint-notifications' (the offer) → 'done'. Split across two effects
+  // on purpose: the GATE below may be torn down freely by an unrelated change (opening a
+  // mosque card flips armOffer), but once the sequence starts the TIMELINE runs off `phase`
+  // alone — so a mid-reveal mosque tap can't strand the dock open with no card arriving.
+  const [phase, setPhase] = useState<
+    'idle' | 'reveal' | 'settling' | 'hint-location' | 'hint-notifications' | 'done'
+  >('idle');
+  // Once played (or the card dismissed/answered) the sequence must not restart this
   // session, even though the gate conditions below all go on being true.
   const introOfferDone = useRef(false);
-  const armOffer = cameraReady && !introPlaying && !selectedMosque && settingsLoaded;
+  // Which card the gate picked, carried across the reveal beats. A ref, not state: it is
+  // decided once and never re-read until the timeline hands off to a 'hint-*' phase, so
+  // it must not be able to trigger a render of its own.
+  const pendingOffer = useRef<'location' | 'notifications' | null>(null);
+  // The offer belongs to the app's opening moment, not to time travel. Gating on the
+  // viewed day means a user who steps to next Friday never gets an unprompted card there
+  // — and, because the gate effect's cleanup runs before the 300 ms timer fires, stepping
+  // during that window ABORTS before noteShown(), so no showing is spent on a card nobody
+  // saw. (day-navigation.test.tsx asserts the record stays at shown: 0.)
+  const armOffer =
+    cameraReady &&
+    !introPlaying &&
+    !selectedMosque &&
+    settingsLoaded &&
+    clock.dayOffset === 0 &&
+    clock.mode === 'live';
+  const { locationMode } = settings;
+  const notificationsEnabled = settings.notifications.enabled;
 
-  // The gate: may this launch show the offer at all?
+  // The gate: which offer — if any — may this launch make?
+  //
+  // The app has two soft asks and they share one screen, so they form an ORDERED QUEUE
+  // with room for at most one card per launch. Two unprompted cards must never stack, and
+  // showing them back-to-back in one session would read as an interrogation. Location goes
+  // first because it is a prerequisite for the other being worth anything: a reminder for
+  // the wrong city's Fajr is a reminder at the wrong time. Each hint keeps its OWN launch
+  // counter (see lib/hints), so the notification card's one retry is not burned by the
+  // launches the location card took — the queue defers it rather than consuming it.
   useEffect(() => {
     if (!armOffer || introOfferDone.current) return;
-    // Reminders are already on — there is nothing to offer, so nothing to introduce.
-    if (settings.notifications.enabled) return;
     let alive = true;
     const start = setTimeout(() => {
       void (async () => {
-        // 'undetermined' ONLY: a granted user needs no hint, and a hard-denied one can no
-        // longer be prompted (iOS spends its single dialog once), so offering a button that
-        // would silently do nothing is worse than staying quiet. Both keep to Inställningar.
-        const permission = await getNotificationPermissionState();
-        if (!alive || permission !== 'undetermined') return;
-        const record = await noteLaunch();
-        if (!alive || !shouldShowHint(record)) return;
+        const offer = await pickOffer(locationMode, notificationsEnabled);
+        if (!alive || !offer) return;
         // Nothing may await between that liveness check and the hand-off: the user only
         // ever gets two showings, and recording one that a teardown then cancelled would
         // spend a showing on a sequence nobody saw. Commit first, persist afterwards.
         introOfferDone.current = true;
+        pendingOffer.current = offer;
         setPhase('reveal');
-        await noteShown();
+        await (offer === 'location' ? noteLocationShown() : noteShown());
       })();
     }, REVEAL_DELAY_MS);
     return () => {
       alive = false;
       clearTimeout(start);
     };
-  }, [armOffer, settings.notifications.enabled]);
+  }, [armOffer, locationMode, notificationsEnabled]);
 
   // The timeline: hold the open schedule, shut it, then ask. Depends on `phase` only.
   useEffect(() => {
@@ -338,10 +440,13 @@ export default function Bonetider() {
       return () => clearTimeout(t);
     }
     if (phase === 'settling') {
-      const t = setTimeout(() => setPhase('hint'), HINT_AFTER_REVEAL_MS);
+      const t = setTimeout(
+        () => setPhase(pendingOffer.current === 'location' ? 'hint-location' : 'hint-notifications'),
+        HINT_AFTER_REVEAL_MS,
+      );
       return () => clearTimeout(t);
     }
-    // 'idle' / 'hint' / 'done' have no timer of their own — the hint retires itself.
+    // 'idle' / 'hint-*' / 'done' have no timer of their own — the card retires itself.
     return undefined;
   }, [phase]);
 
@@ -350,7 +455,16 @@ export default function Bonetider() {
   // Compiler forbids mutating a shared value across multiple effects.
   useEffect(() => {
     // Intro: fire once when the map is first framed, on a cold launch, with motion on.
-    if (!introStarted.current && !introConsumed && !reduceMotion && cameraReady) {
+    // The intro sweeps midnight → NOW, so it is meaningless on a day that is not today.
+    // In practice cameraReady lands long before anyone could step, but the gate is cheap
+    // and the alternative is a sweep to an instant the user is not looking at.
+    if (
+      !introStarted.current &&
+      !introConsumed &&
+      !reduceMotion &&
+      cameraReady &&
+      clock.mode === 'live'
+    ) {
       introStarted.current = true;
       introConsumed = true;
       introActive.value = true;
@@ -414,33 +528,20 @@ export default function Bonetider() {
   ]);
 
   const sig = computeSignature(settings);
-  // The whole-country prayer-time lattice — the one expensive step, cached per day
-  // and per compute-affecting setting. Midday avoids any DST edge on the date.
+  // The whole-country prayer-time lattice — the one expensive step (3752 adhan
+  // computations, 200–600 ms of blocked JS on a mid-range Android). Cached per day and
+  // per compute-affecting setting in lib/solar/grid-cache, which also owns the
+  // unresolved/unrounded override the field is built with; see that module for why the
+  // grid deliberately does NOT use the user's polar and rounding choices.
   //
-  // The grid feeds the prayer LINES (buildLines below); the twilight wash is independent now
-  // (pure sun geometry, see SolarSkiaOverlay). It forces polar resolution to 'unresolved',
-  // NOT the user's choice (Sweden defaults to aqrabBalad): up north aqrabBalad borrows a
-  // neighbouring latitude's times, discontinuous across the grid — e.g. today lat 68 and 69
-  // both clamp to 22:21 next to lat 67's real 21:50 — so the Maghrib/Isha isolines came out
-  // jagged, and it draws a confident prayer line where there is really perpetual twilight.
-  // 'unresolved' leaves the polar zone NaN, so the lines stay smooth and simply stop at the
-  // boundary. The user's OWN prayer times (userTimes below) keep their chosen resolution.
-  //
-  // It also forces rounding 'none': minute-rounding is a DISPLAY convention, but on the
-  // grid it quantises the time field into ~15–30 km plateaus (the sun sweeps ~0.25° of
-  // longitude per minute), and the level-0 contour stair-steps along those plateau edges —
-  // measured: the rounded grid tripled the lines' spurious turning (11.3 vs 3.7 rad per
-  // Mercator unit) and left visible long-wave wobble after smoothing. Unrounded times give
-  // the smooth field the isolines actually live on; the dock/widget still show rounded times.
+  // The cache is what makes day stepping usable: without it, stepping forward and back
+  // would pay that cost twice for a grid that has not changed at all.
   const grid = useMemo(
-    () =>
-      buildGrid(stockholmPrayerDate(clock.dayStart), {
-        ...settings,
-        polarCircleResolution: 'unresolved',
-        rounding: 'none',
-      }),
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- sig captures the settings fields that matter
-    [clock.dayStart, sig],
+    () => gridForDay(clock.dayStart, settings, sig),
+    // A cosmetic settings change re-runs this memo, but gridForDay returns the SAME
+    // cached object for an unchanged signature — so `grid`'s identity, and every memo
+    // downstream of it, stays stable.
+    [clock.dayStart, settings, sig],
   );
 
   // The sweeping prayer lines for this instant — the level-0 contour of (prayerTime −
@@ -539,11 +640,12 @@ export default function Bonetider() {
     return out;
   }, [userTimes, clock.dayStart, clock.dayLength]);
 
-  // Tomorrow's Fajr (ms epoch, null where adhan can't resolve it) — the fallback the
-  // `next` memo reaches for after today's Isha. Memoised per (day, place, settings),
-  // NOT per tick: `next` re-runs every 30 s, and recomputing a whole adhan day each
-  // tick all evening for a value that only changes at midnight was waste.
-  const tomorrowFajrAt = useMemo(() => {
+  // The NEXT DAY's Fajr (ms epoch, null where adhan can't resolve it) — the fallback the
+  // `next` memo reaches for after the viewed day's Ishaʾ. Named for the viewed day, not
+  // for "tomorrow": on a day the user stepped to, this is that day's successor. Memoised
+  // per (day, place, settings), NOT per tick — `next` re-runs every 30 s, and recomputing
+  // a whole adhan day each tick all evening for a value that changes at midnight was waste.
+  const nextDayFajrAt = useMemo(() => {
     const fajr = computePrayerTimes(coords, stockholmPrayerDate(clock.dayStart, 1), settings).fajr;
     const at = fajr instanceof Date ? fajr.getTime() : Number.NaN;
     return Number.isFinite(at) ? at : null;
@@ -554,14 +656,14 @@ export default function Bonetider() {
     // First prayer at-or-after the viewed instant (inclusive, so scrubbing exactly onto a
     // prayer selects THAT prayer, not the next — see nextPrayerKeyAt).
     const key = nextPrayerKeyAt(userTimes, clock.now);
-    if (key) return { key, at: userTimes[key].getTime(), tomorrow: false };
-    // Past today's Isha → tomorrow's Fajr.
-    return tomorrowFajrAt != null ? { key: 'fajr', at: tomorrowFajrAt, tomorrow: true } : null;
-  }, [userTimes, clock.now, tomorrowFajrAt]);
+    if (key) return { key, at: userTimes[key].getTime(), nextDay: false };
+    // Past the viewed day's Ishaʾ → the next day's Fajr.
+    return nextDayFajrAt != null ? { key: 'fajr', at: nextDayFajrAt, nextDay: true } : null;
+  }, [userTimes, clock.now, nextDayFajrAt]);
 
   // The user's next prayer drives the emphasised line/pill on the map (only when
   // it's today — tomorrow's Fajr has no line sweeping the country yet).
-  const nextKey = next && !next.tomorrow ? next.key : null;
+  const nextKey = next && !next.nextDay ? next.key : null;
 
   // "About to begin": when the viewed instant is within the breathing window of the
   // next prayer, its line's halo breathes (see PrayerLine). Works in scrub too — parking
@@ -579,7 +681,7 @@ export default function Bonetider() {
   // bloom only matters while the map is watched.
   const [arrival, setArrival] = useState<PrayerArrival | null>(null);
   useEffect(() => {
-    if (!isFocused || clock.mode !== 'live' || !next || next.tomorrow) return;
+    if (!isFocused || clock.mode !== 'live' || !next || next.nextDay) return;
     const delay = next.at - Date.now();
     if (delay < 0) return;
     const key = next.key;
@@ -673,8 +775,36 @@ export default function Bonetider() {
         attribution={false}
         logo={false}
         compass={false}
+        // THE BUG THIS FIXES: a two-finger drag pitches the MapLibre camera and a
+        // two-finger twist rotates it — both enabled by default. Neither the Skia overlay
+        // nor the RN marker layer can represent a pitched or rotated camera: lib/map/
+        // projection.ts is a closed-form north-up Web Mercator (its own header says "no
+        // pitch"), so the moment the basemap tilts, the prayer lines keep drawing flat and
+        // slide off it — far enough south, on a good two-finger drag, to land in Germany.
+        //
+        // It also breaks the camera mirror itself. onRegionDidChange derives the viewport
+        // centre from `bounds`, and under pitch the visible region is a TRAPEZOID reaching
+        // to the horizon, so the bounding box's centre is nowhere near the camera's.
+        //
+        // Disabling the two gestures is the fix rather than teaching the overlay
+        // perspective: this is a north-up map of one country, the compass rose is already
+        // off, and a 3D projection would have to be threaded through the wash shader, the
+        // contour paths and the marker layer for a view nobody asked for. Zoom gestures
+        // stay on — the projection handles zoom exactly.
+        touchPitch={false}
+        touchRotate={false}
+        // The basemap animates under a Skia canvas that redraws every frame. Left at the
+        // default, iOS picks a frame rate adaptively for the map alone, which can leave
+        // the two layers running at different cadences — the wash gliding at the display's
+        // rate while the tiles beneath it step. Asking for 120 lets both keep up on
+        // ProMotion and high-refresh Android; devices that can't simply cap themselves.
+        preferredFramesPerSecond={120}
         onRegionIsChanging={onRegionIsChanging}
         onRegionDidChange={onRegionDidChange}
+        // Recovery is automatic: MapLibre keeps retrying tiles, so a style that comes
+        // back on its own clears the notice without the user doing anything.
+        onDidFinishLoadingStyle={() => setStyleFailed(false)}
+        onDidFailLoadingMap={() => setStyleFailed(true)}
       >
         <Camera
           ref={cameraRef}
@@ -684,6 +814,11 @@ export default function Bonetider() {
             // south coast is framed clearly above it from the very first render.
             padding: { top: 0, right: 0, bottom: collapsedDock + DOCK_MARGIN, left: 0 },
           }}
+          // The leash, not the framing — see MAX_BOUNDS. The "Visa hela Sverige" chip
+          // stays: this bounds how far wrong things can go, it does not replace the way
+          // back from a merely-drifted view.
+          maxBounds={MAX_BOUNDS}
+          minZoom={MIN_ZOOM}
         />
         {/* Sweden's mosques as quiet POIs on the basemap — a NATIVE source+layer (not a
             projected RN overlay), so it gets zoom-gating, collision culling and tap
@@ -711,6 +846,7 @@ export default function Bonetider() {
           // Replay the day's lines during the intro; hand off to the live contours after.
           lines={introPlaying ? introLines : prayerLines}
           introActive={introActive}
+          showQibla={settings.showQibla}
           nextKey={nextKey}
           imminentKey={imminentKey}
           userPoint={userPoint}
@@ -754,6 +890,7 @@ export default function Bonetider() {
         marks={marks}
         next={next}
         locationLabel={placeLabel}
+        locationIsFallback={locationIsFallback}
         settings={settings}
         introFraction={nowFraction}
         introActive={introActive}
@@ -780,14 +917,19 @@ export default function Bonetider() {
           sheet is up or the app is backgrounded. */}
       <MapNav active={isFocused} />
 
-      {/* The map's one offer of prayer reminders — a SOFT ASK that appears after the
-          daybreak intro has settled, and only while the OS permission is still
-          undetermined. Its button is the only thing in the app that fires the iOS
-          notification dialog; dismissing leaves that single lifetime prompt unspent.
-          Rendered here, OUTSIDE GlassBackdropTarget (which closed above) — a glass
-          surface inside the target would sample itself instead of the map. Sits below
-          the two nav discs, so it collides with neither them nor the Återställ chip. */}
-      {phase === 'hint' && (
+      {/* The map's soft asks — at most ONE per launch, chosen by pickOffer above. Each
+          appears only after the daybreak intro has settled and only while its OS
+          permission is still undetermined; their buttons are the only things in the app
+          that fire the system dialogs, so dismissing either leaves that single lifetime
+          prompt unspent. Rendered here, OUTSIDE GlassBackdropTarget (which closed above)
+          — a glass surface inside the target would sample itself instead of the map. They
+          sit below the two nav discs, colliding with neither them nor the Återställ chip,
+          and share one `top` so the two cards are visually interchangeable. */}
+      {phase === 'hint-location' && (
+        <LocationHint top={insets.top + HINT_TOP_OFFSET} onClose={() => setPhase('done')} />
+      )}
+
+      {phase === 'hint-notifications' && (
         <NotificationHint
           top={insets.top + HINT_TOP_OFFSET}
           onEnable={() => update({ notifications: { ...settings.notifications, enabled: true } })}
@@ -829,6 +971,28 @@ export default function Bonetider() {
         </View>
       )}
 
+      {/* The basemap failed to load. Deliberately a NOTICE, not a card with a retry
+          button: MapLibre already retries on its own, and there is nothing useful for a
+          tap to do that waiting doesn't. It says which half is broken — the map, not the
+          times — so a user staring at a blank screen behind correct prayer lines knows
+          the app is still telling the truth. Clears itself when the style arrives.
+          Rendered outside GlassBackdropTarget, like the hint cards, so the glass samples
+          the map rather than itself; `pointerEvents="none"` keeps the map draggable
+          underneath. Sits below the reset chip's row so the two never collide. */}
+      {styleFailed && (
+        <View
+          style={[styles.mapErrorWrap, { top: insets.top + space.lg + MAP_ERROR_OFFSET }]}
+          pointerEvents="none"
+        >
+          <GlassSurface style={styles.mapErrorNotice} borderRadius={radius.lg} tint={colors.cardGlass}>
+            <MaterialIcons name="cloud-off" size={16} color={colors.inkMuted} />
+            <Text style={[styles.mapErrorText, { color: colors.inkMuted }]}>
+              Kartan kunde inte laddas. Bönetiderna stämmer ändå.
+            </Text>
+          </GlassSurface>
+        </View>
+      )}
+
       {/* Status-bar glyphs track the APP's active scheme (useActiveScheme), not the OS,
           so a user who locks the app to "Mörkt" while the phone is in light mode still
           gets light glyphs over the dark basemap — instead of "auto"'s dark glyphs
@@ -858,4 +1022,17 @@ const styles = StyleSheet.create({
   },
   // caption size, weighted up for a button label.
   resetText: { ...type.caption, fontWeight: '700', letterSpacing: 0.2 },
+  // Same centred row as the reset chip, offset below it so the two can coexist — a
+  // basemap failure and a drifted camera are independent states and can both be true.
+  mapErrorWrap: { position: 'absolute', left: space.lg, right: space.lg, alignItems: 'center' },
+  // No ring, muted ink: this is a statement, not a control. Deliberately quieter than
+  // the reset chip so it never competes with a real button for the same glance.
+  mapErrorNotice: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: space.sm,
+    paddingHorizontal: space.md,
+    paddingVertical: space.sm,
+  },
+  mapErrorText: { ...type.caption, flexShrink: 1 },
 });
