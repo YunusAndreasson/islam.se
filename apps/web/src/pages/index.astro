@@ -7,7 +7,6 @@ import RecentEssays from "../components/RecentEssays.astro";
 import { getImage } from "astro:assets";
 import Base from "../layouts/Base.astro";
 import { getArticles } from "../lib/articles";
-import { MOSKEER_ENABLED } from "../lib/config";
 import { FEATURE_HERO_SIZES, FEATURE_HERO_WIDTHS } from "../lib/hero";
 
 const articles = await getArticles();
@@ -90,13 +89,10 @@ const heroPreload = feature?.heroImage
 				<span class="home-pillar-title">Bönetider</span>
 				<span class="home-pillar-desc">Dagens tider för hela Sverige</span>
 			</a>
-			{/* Gated: see MOSKEER_ENABLED in lib/config.ts. */}
-			{MOSKEER_ENABLED && (
-				<a class="home-pillar" href="/moskeer/">
-					<span class="home-pillar-title">Moskéer</span>
-					<span class="home-pillar-desc">Karta över Sveriges moskéer</span>
-				</a>
-			)}
+			<a class="home-pillar" href="/moskeer/">
+				<span class="home-pillar-title">Moskéer</span>
+				<span class="home-pillar-desc">Karta över Sveriges moskéer</span>
+			</a>
 		</nav>
 
 		<RecentEssays articles={recent} />

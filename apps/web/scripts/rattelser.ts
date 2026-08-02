@@ -15,7 +15,10 @@ const DB = "islam-se-rattelser";
 interface Correction {
 	id: number;
 	created_at: string;
+	kind: string;
 	page: string;
+	mosque_id: string | null;
+	reason: string | null;
 	passage: string | null;
 	description: string;
 	source: string | null;
@@ -24,6 +27,20 @@ interface Correction {
 	handled_at: string | null;
 	note: string | null;
 }
+
+// Every column show() and the fix/reject confirmations read. Kept as one constant so the
+// SELECT and the two RETURNING clauses cannot drift apart.
+const COLUMNS =
+	"id, created_at, kind, page, mosque_id, reason, passage, description, source, reporter_email, status, handled_at, note";
+
+// Mirrors REASON_LABELS in workers/rattelse-mailer/src/index.js.
+const REASON_LABELS: Record<string, string> = {
+	stangd: "Moskén har stängt",
+	adress: "Adressen stämmer inte",
+	namn: "Namnet stämmer inte",
+	plats: "Kartnålen sitter fel",
+	annat: "Något annat",
+};
 
 // D1 has no parameter binding over the CLI, so every interpolated value is either
 // checked to be an integer or single-quote escaped before it reaches the shell.
@@ -78,6 +95,16 @@ function field(label: string, value: string | null): string {
 	return value ? `\n  ${label}: ${value.replace(/\n/g, "\n    ")}` : "";
 }
 
+// The identifying line under the header. An article correction points at the page it came
+// from; a mosque report leads with the record id and reason — that is the thing you edit —
+// and then the city page, where the mosque is one anchor among several.
+function subject(row: Correction): string {
+	if (row.kind !== "mosque") return `  https://islam.se${row.page}`;
+	const reason = row.reason ? (REASON_LABELS[row.reason] ?? row.reason) : "okänd anledning";
+	const id = row.mosque_id ?? "(okänt id)";
+	return `  🕌 ${id} · ${reason}\n  https://islam.se${row.page}#${id}`;
+}
+
 function show(rows: Correction[]): void {
 	if (rows.length === 0) {
 		console.log("Inga rättelser att hantera.");
@@ -85,9 +112,12 @@ function show(rows: Correction[]): void {
 	}
 	for (const row of rows) {
 		const date = row.created_at.replace("T", " ").replace("Z", "");
+		// For a mosque row `passage` holds the snapshot of what the app was displaying, which
+		// is what you compare the report against — hence the different label.
+		const passageLabel = row.kind === "mosque" ? "I datan" : "Stycket";
 		console.log(
-			`\n#${row.id}  ${date}  [${row.status}]\n  https://islam.se${row.page}` +
-				field("Stycket", row.passage) +
+			`\n#${row.id}  ${date}  [${row.status}]\n${subject(row)}` +
+				field(passageLabel, row.passage) +
 				field("Fel", row.description) +
 				field("Källa", row.source) +
 				field("Avsändare", row.reporter_email) +
@@ -118,7 +148,7 @@ if (command === "fix" || command === "reject") {
 		     handled_at = strftime('%Y-%m-%dT%H:%M:%SZ', 'now'),
 		     reporter_email = NULL${noteSql}
 		 WHERE id = ${id}
-		 RETURNING id, created_at, page, passage, description, source, reporter_email, status, handled_at, note`,
+		 RETURNING ${COLUMNS}`,
 		remote,
 	);
 
@@ -131,7 +161,7 @@ if (command === "fix" || command === "reject") {
 	const where = all ? "" : "WHERE status = 'new'";
 	show(
 		query<Correction>(
-			`SELECT id, created_at, page, passage, description, source, reporter_email, status, handled_at, note
+			`SELECT ${COLUMNS}
 			 FROM corrections ${where} ORDER BY created_at DESC LIMIT 200`,
 			remote,
 		),

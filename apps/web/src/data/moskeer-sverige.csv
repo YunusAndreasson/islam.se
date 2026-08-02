@@ -170,7 +170,6 @@ Fatih Moské,Sunni (turkisk/Diyanet/Milli Görüş),migrationskartan,1986,Okänt
 Arrahmah Masjid,Sannolikt Sunni,migrationskartan-gissning,2009,Okänt,"152, Vällingbyvägen, Vällingby, Hässelby-Vällingby stadsdelsområde, Stockholm, Stockholms kommun, Stockholms län, 162 55, Sverige",59.363971,17.8781,migrationskartan,1
 Hässelby moské,Sannolikt Sunni,migrationskartan-gissning,,Okänt,"128, Kvarnhagsgatan, Hässelby gård, Hässelby-Vällingby stadsdelsområde, Stockholm, Stockholms kommun, Stockholms län, 165 56, Sverige",59.366148,17.847013,migrationskartan,1
 Rissne Moske,Sannolikt Sunni,migrationskartan-gissning,,Okänt,"8, Frodevägen, Odenslunda, Fresta, Upplands Väsby, Upplands Väsby kommun, Stockholms län, 194 54, Sverige",59.517891,17.940847,migrationskartan,1
-Rinkeby Mevlana Moskén,Sunni (turkisk/Diyanet),migrationskartan,,Okänt,"Rinkeby allé, Rinkeby, Järva stadsdelsområde, Stockholm, Stockholms kommun, Stockholms län, 163 74, Sverige",59.386736,17.933504,migrationskartan,1
 Islamiska Kulturcenter,Sannolikt Sunni,migrationskartan-gissning,1992,Okänt,"Rinkebysvängen, Rinkeby, Järva stadsdelsområde, Stockholm, Stockholms kommun, Stockholms län, 163 74, Sverige",59.383508,17.933685,migrationskartan,1
 Spanga Camii - moské,Sunni (turkisk/Diyanet),migrationskartan,,Okänt,"Västerby backe, Rinkeby, Järva stadsdelsområde, Stockholm, Stockholms kommun, Stockholms län, 163 73, Sverige",59.388336,17.932457,migrationskartan,1
 Islamiska Förbundet I Järva,Sunni,migrationskartan,1992,Okänt,"Hinderstorps gränd, Rinkeby, Järva stadsdelsområde, Stockholm, Stockholms kommun, Stockholms län, 163 73, Sverige",59.38941,17.928368,migrationskartan,1
@@ -214,17 +213,15 @@ Kronoparkens Moské,Sannolikt Sunni,"standard: svensk moské (~95% sunni), ej vi
 Aisha moskén,Sannolikt Sunni,"standard: svensk moské (~95% sunni), ej vidare bekräftad",,,Mäster Påvels gränd 17,58.590477,16.181261,osm+muslimer.se,2
 Säffle moskén,Sannolikt Sunni,"standard: svensk moské (~95% sunni), ej vidare bekräftad",,,Vintergatan 1E 66132 Säffle,59.13458,12.913591,osm,1
 Moské i Åmål,Sannolikt Sunni,"standard: svensk moské (~95% sunni), ej vidare bekräftad",,,"Åmål, Åmåls kommun, Västra Götalands län, Sverige",59.052462,12.703004,osm,1
-Moské i Västerås,Sannolikt Sunni,"standard: svensk moské (~95% sunni), ej vidare bekräftad",,,"Västerås, Västerås kommun, Västmanlands län, Sverige",59.601316,16.470774,osm,1
+Moské i Örtagården,Sannolikt Sunni,"standard: svensk moské (~95% sunni), ej vidare bekräftad",,,"Västerås, Västerås kommun, Västmanlands län, Sverige",59.601316,16.470774,osm,1
 Moské i Borlänge,Sannolikt Sunni,"standard: svensk moské (~95% sunni), ej vidare bekräftad",,,"Borlänge, Borlänge kommun, Dalarnas län, Sverige",60.483775,15.403887,osm,1
 Moské vid Skarphagsleden,Sannolikt Sunni,"standard: svensk moské (~95% sunni), ej vidare bekräftad",,,"Skarphagsleden, Norrköping, Norrköpings kommun, Östergötlands län, Sverige",58.581836,16.173168,osm,1
 Moské i Norrköping,Sannolikt Sunni,"standard: svensk moské (~95% sunni), ej vidare bekräftad",,,"Norrköping, Norrköpings kommun, Östergötlands län, Sverige",58.577965,16.210843,osm,1
-Flens moské,Sannolikt Sunni,"standard: svensk moské (~95% sunni), ej vidare bekräftad",,,,59.055308,16.595292,osm,1
 Svenska Muslimer i Ljungby,Sannolikt Sunni,"standard: svensk moské (~95% sunni), ej vidare bekräftad",,,,56.830536,13.931814,osm,1
 Uppsala moské,Sunni,sv.Wikipedia: Sunni,1995,Okänt,"Vattholmavägen 11, Uppsala, Uppsala kommun, Uppsala län, 754 19, Sverige",59.874003,17.638216,migrationskartan+osm+muslimer.se,3
 Handen moské,Sannolikt Sunni,"standard: svensk moské (~95% sunni), ej vidare bekräftad",1994,Okänt,"Vallavägen 6, Handen, Haninge kommun, Stockholms län, 136 41, Sverige",59.159639,18.142677,migrationskartan+osm+muslimer.se,3
 Luleå Moskéförsamling,Sunni,migrationskartan,,,Krondalsvägen 2,65.592032,22.189899,osm,1
 Falkenberg,Sannolikt Sunni,"standard: svensk moské (~95% sunni), ej vidare bekräftad",,,Kvekatorpsvägen 2b Falkenberg,56.904263,12.481004,osm+muslimer.se,2
-Malmö Islamic Center,Sunni (salafistisk),sv.Wikipedia: salafism (Islamic Center),,,Västra Skrävlinge kyrkoväg 1 Malmö,55.574959,13.051455,osm,1
 ,Sannolikt Sunni,"standard: svensk moské (~95% sunni), ej vidare bekräftad",,,"Stora Gatan 88, 724 60 Västerås",59.604942,16.496631,muslimer.se,1
 ,Sannolikt Sunni,"standard: svensk moské (~95% sunni), ej vidare bekräftad",,,"Grusvägen 15, 254 64 Helsingborg",56.01658,12.728859,muslimer.se,1
 Karlstad,Sannolikt Sunni,"standard: svensk moské (~95% sunni), ej vidare bekräftad",,,Signalhornsgatan 36 Karlstad,59.40228,13.573133,muslimer.se,1

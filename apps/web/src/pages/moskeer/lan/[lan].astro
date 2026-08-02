@@ -4,7 +4,6 @@ import MosqueList from "../../../components/moskeer/MosqueList.astro";
 import MosquePageHeader from "../../../components/moskeer/MosquePageHeader.astro";
 import TitledSection from "../../../components/TitledSection.astro";
 import Base from "../../../layouts/Base.astro";
-import { MOSKEER_ENABLED } from "../../../lib/config";
 import { ORG_ID, breadcrumbList, faqPageJsonLd } from "../../../lib/jsonld";
 import {
 	type Mosque,
@@ -15,8 +14,6 @@ import {
 import { MOSKEER_DATA_DATE } from "../../../lib/moskeer/meta";
 
 export function getStaticPaths() {
-	// Gated: no paths means no pages emitted at all — see MOSKEER_ENABLED in lib/config.ts.
-	if (!MOSKEER_ENABLED) return [];
 	return mosquesByLan().map((g) => ({
 		params: { lan: lanSlug(g.lan) },
 		props: { lan: g.lan, lanLabel: g.lanLabel, mosques: g.mosques },
