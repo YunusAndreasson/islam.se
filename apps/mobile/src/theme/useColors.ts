@@ -13,7 +13,7 @@
 // vocabulary regardless of which mode is active.
 import { type ColorSchemeName, useColorScheme } from 'react-native';
 
-import { useOptionalSettings } from '../lib/settings/context';
+import { useOptionalSettings } from '@/lib/settings/context';
 import { darkPalette, lightPalette, type Palette } from './tokens';
 
 /** Resolve the active palette key (light or dark) for this render. Reads the

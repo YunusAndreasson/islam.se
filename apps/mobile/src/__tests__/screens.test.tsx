@@ -10,16 +10,16 @@ import * as WebBrowser from 'expo-web-browser';
 import type { ReactElement, ReactNode } from 'react';
 import { Platform } from 'react-native';
 
-import Bonetider from '../app/bonetider';
-import BytPlats from '../app/(settings)/byt-plats';
-import Installningar from '../app/(settings)/installningar';
-import Notiser from '../app/(settings)/notiser';
-import Om from '../app/(settings)/om';
-import VanligaFragor from '../app/(settings)/vanliga-fragor';
-import Qibla from '../app/qibla';
-import { LocationProvider } from '../lib/location/context';
-import { SettingsProvider } from '../lib/settings/context';
-import { DEFAULT_SETTINGS } from '../lib/settings/types';
+import Bonetider from '@/app/bonetider';
+import BytPlats from '@/app/(settings)/byt-plats';
+import Installningar from '@/app/(settings)/installningar';
+import Notiser from '@/app/(settings)/notiser';
+import Om from '@/app/(settings)/om';
+import VanligaFragor from '@/app/(settings)/vanliga-fragor';
+import Qibla from '@/app/qibla';
+import { LocationProvider } from '@/lib/location/context';
+import { SettingsProvider } from '@/lib/settings/context';
+import { DEFAULT_SETTINGS } from '@/lib/settings/types';
 
 const SETTINGS_KEY = 'prayerSettings:v1';
 
@@ -122,6 +122,74 @@ describe('tab screens', () => {
       // Zoom stays available — the projection handles zoom exactly, and locking it would
       // cost the city-level view the mosque layer and the qibla arc are drawn for.
       expect(map.props.touchZoom).not.toBe(false);
+    },
+    MAP_RENDER_TIMEOUT,
+  );
+
+  // THE BUG THIS GUARDS: the "Återställ" chip came back the instant it was pressed.
+  //
+  // "Home" was a SAMPLE — the frame that happened to settle at mount — while pressing
+  // the chip runs a fresh fitBounds, and the two need not agree. Its padding is
+  // `collapsedDock + DOCK_MARGIN`, and collapsedDock carries `insets.bottom`, which is
+  // 0 on the first render and settles once the safe-area provider measures. So the
+  // reset lands slightly off the sample, `drifted` reads true again, and the settled
+  // event that ENDS the reset animation puts the chip straight back.
+  //
+  // The landing frame below is therefore deliberately NOT identical to the anchor —
+  // feeding back the exact same numbers would pass against the broken code and prove
+  // nothing. It is off by ~0.9° and 0.1 zoom: past the 0.5°/0.05 thresholds, i.e.
+  // exactly the "close but not equal" case a real fitBounds produces.
+  it(
+    'keeps the reset chip hidden once pressed, even if the camera lands slightly off home',
+    async () => {
+      await renderSettled(withProviders(<Bonetider />));
+      const map = screen.getByTestId('sweden-map');
+      const settle = async (bounds: number[], zoom: number, userInteraction = false) => {
+        await act(async () => {
+          fireEvent(map, 'regionDidChange', { nativeEvent: { zoom, bounds, userInteraction } });
+        });
+      };
+
+      // Mount fit — becomes the anchor. Then a pan far enough to raise the chip.
+      await settle([11.15, 55.35, 23.7, 69.0], 4.5);
+      await settle([20.0, 60.0, 32.0, 72.0], 4.5, true);
+      const chip = screen.getByLabelText('Återställ kartan');
+
+      await act(async () => {
+        fireEvent.press(chip);
+      });
+      // fitBounds settles — near home, but not on the exact frame recorded at mount.
+      await settle([12.05, 56.25, 24.6, 69.9], 4.4);
+
+      expect(screen.queryByLabelText('Återställ kartan')).toBeNull();
+    },
+    MAP_RENDER_TIMEOUT,
+  );
+
+  // Re-anchoring must not swallow a real pan: after a reset, moving again has to bring
+  // the chip back, or the map becomes a screen you can never get home from twice.
+  it(
+    'brings the reset chip back when the map is moved again after a reset',
+    async () => {
+      await renderSettled(withProviders(<Bonetider />));
+      const map = screen.getByTestId('sweden-map');
+      const settle = async (bounds: number[], zoom: number, userInteraction = false) => {
+        await act(async () => {
+          fireEvent(map, 'regionDidChange', { nativeEvent: { zoom, bounds, userInteraction } });
+        });
+      };
+
+      await settle([11.15, 55.35, 23.7, 69.0], 4.5);
+      await settle([20.0, 60.0, 32.0, 72.0], 4.5, true);
+      await act(async () => {
+        fireEvent.press(screen.getByLabelText('Återställ kartan'));
+      });
+      await settle([12.05, 56.25, 24.6, 69.9], 4.4);
+      expect(screen.queryByLabelText('Återställ kartan')).toBeNull();
+
+      await settle([25.0, 62.0, 37.0, 74.0], 4.4, true);
+
+      expect(screen.getByLabelText('Återställ kartan')).toBeTruthy();
     },
     MAP_RENDER_TIMEOUT,
   );

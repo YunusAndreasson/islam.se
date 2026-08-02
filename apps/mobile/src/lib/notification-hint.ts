@@ -7,10 +7,12 @@
 //
 // The policy itself — first launch, one quiet retry, then never — lives in ./hints,
 // shared with the location soft-ask. This file is only the notification instance:
-// its storage key and its numbers. The public API is unchanged from when the policy
-// lived here, which is what lets __tests__/notification-hint.test.ts go on guarding
-// the behaviour through the extraction.
-import { createHintStore, type HintRecord } from './hints';
+// its storage key and its numbers. Every export is named for THIS hint, exactly
+// parallel to ./location-hint's — the two are read side by side in bonetider.tsx's
+// soft-ask queue, and an unprefixed `shouldShowHint` there both hid which card was
+// being decided and collided with ./hints' differently-shaped `shouldShowHint(record,
+// policy)`.
+import { createHintStore } from './hints';
 
 const STORAGE_KEY = 'notificationHintSeen:v1';
 
@@ -24,12 +26,10 @@ const store = createHintStore(STORAGE_KEY, {
   maxShowings: MAX_SHOWINGS,
 });
 
-export type { HintRecord };
-
-export const loadHintRecord = store.loadRecord;
-export const noteLaunch = store.noteLaunch;
-export const noteShown = store.noteShown;
-export const noteResolved = store.noteResolved;
-export const resetLaunchCountForTests = store.resetLaunchCountForTests;
+export const loadNotificationHintRecord = store.loadRecord;
+export const noteNotificationLaunch = store.noteLaunch;
+export const noteNotificationShown = store.noteShown;
+export const noteNotificationResolved = store.noteResolved;
+export const resetNotificationLaunchCountForTests = store.resetLaunchCountForTests;
 /** The re-show policy for the notification card. See ./hints for what it decides. */
-export const shouldShowHint = store.shouldShow;
+export const shouldShowNotificationHint = store.shouldShow;

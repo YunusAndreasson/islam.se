@@ -20,7 +20,7 @@ import {
   type PrayerAdjustments,
   type PrayerSettings,
 } from './settings/types';
-import { oracleTimes } from '../test-utils/prayer-oracle';
+import { oracleTimes } from '@/test-utils/prayer-oracle';
 
 const STOCKHOLM = { latitude: 59.3293, longitude: 18.0686 };
 const KIRUNA = { latitude: 67.8558, longitude: 20.2253 };

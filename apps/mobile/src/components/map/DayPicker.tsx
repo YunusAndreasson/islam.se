@@ -14,13 +14,13 @@ import { useMemo, useState } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import Animated, { FadeIn, FadeOut, useReducedMotion } from 'react-native-reanimated';
 
-import { hapticLight, hapticSelection } from '../../lib/haptics';
-import { relativeDayLabel } from '../../lib/relative-day';
-import { MAX_DAY_OFFSET } from '../../lib/solar/useSolarClock';
-import { addStockholmDays, stockholmParts } from '../../lib/stockholm-time';
-import { motion, type Palette, radius, space, type } from '../../theme/tokens';
-import { useColors } from '../../theme/useColors';
-import { GlassSurface } from '../ui/GlassSurface';
+import { hapticLight, hapticSelection } from '@/lib/haptics';
+import { relativeDayLabel } from '@/lib/relative-day';
+import { MAX_DAY_OFFSET } from '@/lib/solar/useSolarClock';
+import { addStockholmDays, stockholmParts } from '@/lib/stockholm-time';
+import { motion, type Palette, radius, space, type } from '@/theme/tokens';
+import { useColors } from '@/theme/useColors';
+import { GlassSurface } from '@/components/ui/GlassSurface';
 
 // Monday-first, as Swedish calendars are. Single letters would be ambiguous (måndag and
 // onsdag both start with m/o pairs that collide), so two letters — the standard Swedish

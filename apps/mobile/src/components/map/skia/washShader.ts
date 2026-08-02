@@ -17,7 +17,7 @@
 // washStopsLight / washStopsDark). The shader BODY is identical between modes — only the
 // four `half4` colour literals (DAY / DUSK / DAWN / NIGHT) change — so the factory below
 // substitutes them at build time. Callers pick the right stops via useColorScheme.
-import { type RGBA, type WashStops } from '../../../lib/solar/palette';
+import { type RGBA, type WashStops } from '@/lib/solar/palette';
 
 /** A palette RGBA (rgb 0..255, a 0..1) → an SkSL `half4` literal (rgb 0..1, a 0..1). */
 function sksl(c: RGBA): string {

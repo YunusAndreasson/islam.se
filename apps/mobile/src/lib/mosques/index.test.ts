@@ -17,7 +17,7 @@ import {
 describe('mosque dataset', () => {
   it('holds the full set of geocoded Swedish mosques', () => {
     const mosques = getMosques();
-    expect(mosques.length).toBe(255);
+    expect(mosques.length).toBe(236);
     for (const m of mosques) {
       // Coordinates inside Sweden's bbox — the web build asserts the same window, so a
       // point outside it means the import picked up the wrong lat/lng columns.
@@ -57,7 +57,7 @@ describe('toFeatureCollection', () => {
     expect(first.properties).toEqual({ id: m.id, name: m.name });
 
     // Every feature's coordinate[0] is a longitude (10–25), coordinate[1] a latitude
-    // (55–70) — a property-based check that the order holds for all 255, not just the first.
+    // (55–70) — a property-based check that the order holds for all 236, not just the first.
     for (const f of fc.features) {
       const [lng, lat] = f.geometry.coordinates;
       expect(lng).toBeGreaterThanOrEqual(10);

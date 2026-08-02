@@ -13,7 +13,7 @@
 // light-mode Prussian indigo collapses against the navy basemap.
 import type { ColorSchemeName } from 'react-native';
 
-import type { PrayerKey } from '../prayer-times';
+import type { PrayerKey } from '@/lib/prayer-times';
 
 /** [r, g, b, a] with a in 0..1. */
 export type RGBA = [number, number, number, number];
@@ -89,8 +89,13 @@ export function washStopsFor(scheme: ColorSchemeName): WashStops {
 /** Per-prayer line colour, by OS theme. Same warm/cool meaning across both modes;
  *  brightness lifted in dark so the line reads on the navy basemap. Isha is the
  *  one that genuinely SWAPS hue family (the light-mode Prussian indigo `#33437a`
- *  would vanish against the navy basemap), shifted to the periwinkle that
- *  matches `darkPalette.accent`. */
+ *  would vanish against the navy basemap), shifted to a dark periwinkle.
+ *
+ *  These are LINES on a map — graphics, which need Lc 45, and which the muted-Nordic
+ *  brief wants quiet. They deliberately sit lower than the chrome accent and the pill
+ *  LABELS that share their hue (`darkPalette.accent` / PRAYER_TEXT_COLORS, both at
+ *  Lc 65): same hue family, lightness tuned per substrate. Do not "resync" them to one
+ *  value — a line bright enough to be read as text would shout across the whole map. */
 export interface PrayerColors {
   light: string;
   dark: string;
@@ -102,7 +107,7 @@ export const PRAYER_COLORS: Record<PrayerKey, PrayerColors> = {
   dhuhr: { light: '#b6a98d', dark: '#d4c8aa' }, //     pale neutral noon (lifted)
   asr: { light: '#cf9f63', dark: '#e6b87a' }, //       soft afternoon amber (lifted)
   maghrib: { light: '#cf7d5c', dark: '#eb9477' }, //   sunset terracotta — the hero line (lifted)
-  isha: { light: '#33437a', dark: '#94a2dd' }, //      Prussian night-indigo → periwinkle in dark (matches accent)
+  isha: { light: '#33437a', dark: '#94a2dd' }, //      Prussian night-indigo → periwinkle in dark (accent's hue, line-quiet)
 };
 
 /** Pick a prayer's line colour for the active OS appearance. */
@@ -126,20 +131,31 @@ export function prayerColorFor(
  * The light values below are each derived from the line colour in OKLab by lowering L
  * ONLY, keeping a and b — so the hue and chroma are the line's, and just the lightness
  * moves. They land within 0.563 ± 0.007 L of each other, which is why the six labels read
- * as one family rather than six unrelated inks. Dark mode needs no adjustment: every line
- * colour already clears 5.8:1 on the dark pill (`#222840`), so the label wears the line
- * colour verbatim there.
+ * as one family rather than six unrelated inks.
  *
- * palette.test.ts asserts the ratios, so a future hue tweak cannot silently drop a label
- * below the threshold.
+ * DARK USED TO SKIP THIS STEP, and it was wrong to. The rule here was "every line colour
+ * already clears 5.8:1 on the dark pill, so the label wears the line colour verbatim" —
+ * true by WCAG, and misleading, because WCAG 2 systematically flatters light-on-dark. By
+ * APCA those six labels measured Lc 49–69: sunrise and dhuhr were fine at 69, but isha
+ * came in at 49, maghrib 52 and fajr 55, all under the Lc 60 floor for text. They were
+ * also 20 Lc apart from each other, so the dark pills never read as one family the way
+ * the light ones do.
+ *
+ * Dark now gets the SAME treatment as light — lightness moved, hue and chroma held (all
+ * six stayed within 1.9° of hue) — onto a common Lc 65. Note this LOWERS sunrise and
+ * dhuhr slightly rather than brightening everything: the goal is one family above the
+ * floor, not a louder map. Nordic restraint survives.
+ *
+ * palette.test.ts asserts both measures, so a future hue tweak cannot silently drop a
+ * label below either threshold.
  */
 export const PRAYER_TEXT_COLORS: Record<PrayerKey, PrayerColors> = {
-  fajr: { light: '#6971a5', dark: '#a4adde' }, //     4.58:1 — L 0.628 → 0.563
-  sunrise: { light: '#9c692c', dark: '#f0c089' }, //  4.62:1 — L 0.773 → 0.564
-  dhuhr: { light: '#7f7358', dark: '#d4c8aa' }, //    4.60:1 — L 0.738 → 0.559
-  asr: { light: '#986b2e', dark: '#e6b87a' }, //      4.61:1 — L 0.734 → 0.563
-  maghrib: { light: '#ae5f3e', dark: '#eb9477' }, //  4.58:1 — L 0.670 → 0.570
-  isha: { light: '#33437a', dark: '#94a2dd' }, //     9.29:1 — already legible, untouched
+  fajr: { light: '#6971a5', dark: '#b6c0f2' }, //     L 0.628 → 0.563 · dark Lc 55 → 65
+  sunrise: { light: '#9c692c', dark: '#e9b982' }, //  L 0.773 → 0.564 · dark Lc 69 → 65
+  dhuhr: { light: '#7f7358', dark: '#cdc1a3' }, //    L 0.738 → 0.559 · dark Lc 69 → 65
+  asr: { light: '#986b2e', dark: '#e8ba7c' }, //      L 0.734 → 0.563 · dark Lc 64 → 65
+  maghrib: { light: '#ae5f3e', dark: '#ffae90' }, //  L 0.670 → 0.570 · dark Lc 52 → 65
+  isha: { light: '#33437a', dark: '#adbcf8' }, //     light already at Lc 90 · dark Lc 49 → 65
 };
 
 /** A prayer's colour for LABEL TEXT. See {@link PRAYER_TEXT_COLORS}. */

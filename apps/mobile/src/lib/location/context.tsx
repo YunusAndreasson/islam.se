@@ -15,10 +15,10 @@ import {
   useState,
 } from 'react';
 
-import { isValidLatLng } from '../coordinates';
-import { useSettings } from '../settings/context';
-import type { LatLng } from '../prayer-times';
-import type { SwedishPlace } from '../places/data';
+import { isValidLatLng } from '@/lib/coordinates';
+import { useSettings } from '@/lib/settings/context';
+import type { LatLng } from '@/lib/prayer-times';
+import type { SwedishPlace } from '@/lib/places/data';
 import { type LocationSource, resolveLocation } from './resolve';
 
 const GPS_CACHE_KEY = 'lastGpsCoords:v1';

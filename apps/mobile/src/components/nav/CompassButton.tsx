@@ -22,11 +22,11 @@ import { router } from 'expo-router';
 import { useEffect, useMemo, useRef } from 'react';
 import Animated, { useAnimatedStyle, useSharedValue, withSpring } from 'react-native-reanimated';
 
-import { hapticSuccess } from '../../lib/haptics';
-import { useLocation } from '../../lib/location/context';
-import { angleDelta, QIBLA_ALIGN_TOL, qiblaBearing } from '../../lib/qibla';
-import { useHeading } from '../../lib/useHeading';
-import { useColors } from '../../theme/useColors';
+import { hapticSuccess } from '@/lib/haptics';
+import { useLocation } from '@/lib/location/context';
+import { angleDelta, QIBLA_ALIGN_TOL, qiblaBearing } from '@/lib/qibla';
+import { useHeading } from '@/lib/useHeading';
+import { useColors } from '@/theme/useColors';
 import { GlassRoundButton } from './GlassRoundButton';
 
 /** Glyph size inside the 46 dp disc. */
@@ -61,11 +61,13 @@ export function CompassButton({ active }: { active: boolean }) {
     transform: [{ rotate: `${bearing - rotation.value}deg` }, { scale: lockScale.value }],
   }));
 
-  // The brand pair, through the theme-aware tokens rather than the raw icon hexes:
-  // `accent` is the app's blue (#33437a light / #94a2dd dark) and `highlightText` its
-  // brass gold. Using the icon's literal #2a557f here would go nearly invisible on the
-  // dark chrome. This deliberately breaks the old "same ink as the settings cog" pairing —
-  // the cog is a destination, this is a live instrument, and it should look like one.
+  // The brand pair, through the theme-aware tokens rather than the raw mark hexes:
+  // `accent` is the app's blue (#33437a light / #adbcf8 dark) and `highlightText` its
+  // gold. Reaching for `brand.blue` here — the mark's own #2a557f — would go nearly
+  // invisible on the dark chrome, which is exactly the split tokens.ts draws between the
+  // MARK's colours and the functional ones. This deliberately breaks the old "same ink as
+  // the settings cog" pairing — the cog is a destination, this is a live instrument, and
+  // it should look like one.
   const arrowHue = aligned ? c.highlightText : c.accent;
   const tint = aligned ? c.highlightSoft : c.cardGlass;
   const rim = aligned ? c.highlightText : c.hairline;

@@ -6,7 +6,7 @@
 import { describe, expect, it } from '@jest/globals';
 import * as fc from 'fast-check';
 
-import { washStopsLight } from '../../../lib/solar/palette';
+import { washStopsLight } from '@/lib/solar/palette';
 import { washColorAt } from './washColor';
 
 const NIGHT_A = washStopsLight.NIGHT[3];

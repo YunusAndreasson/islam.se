@@ -4,11 +4,11 @@
 // drifting: the React context (live, inside the app) and the home-screen widget's
 // timeline builder (outside React, where there are no hooks). Keeping it framework-
 // free also makes the resolution table trivially unit-testable.
-import { isValidLatLng } from '../coordinates';
-import type { SwedishPlace } from '../places/data';
-import { nearestPlace } from '../places/nearest';
-import type { LatLng } from '../prayer-times';
-import { DEFAULT_COORDS, type LocationMode, type NamedLocation } from '../settings/types';
+import { isValidLatLng } from '@/lib/coordinates';
+import type { SwedishPlace } from '@/lib/places/data';
+import { nearestPlace } from '@/lib/places/nearest';
+import type { LatLng } from '@/lib/prayer-times';
+import { DEFAULT_COORDS, type LocationMode, type NamedLocation } from '@/lib/settings/types';
 
 /** Where the resolved coordinate came from — drives the Inställningar status line. */
 export type LocationSource = 'manual' | 'gps' | 'default';

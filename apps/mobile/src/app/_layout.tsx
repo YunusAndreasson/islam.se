@@ -7,8 +7,10 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import { useLocation, LocationProvider } from '@/lib/location/context';
 import { syncPrayerNotifications } from '@/lib/notifications';
+import type { LatLng } from '@/lib/prayer-times';
 import { notificationSignature, widgetSignature } from '@/lib/settings/compute-signature';
 import { SettingsProvider, useSettings } from '@/lib/settings/context';
+import type { PrayerSettings } from '@/lib/settings/types';
 import { syncPrayerLiveActivity } from '@/widget/live-activity';
 import { syncPrayerWidget } from '@/widget/sync';
 import { useActiveScheme, useColors } from '@/theme/useColors';
@@ -29,28 +31,53 @@ function AppStatusBar() {
   return <StatusBar style={scheme === 'dark' ? 'light' : 'dark'} animated />;
 }
 
+/**
+ * The shape both background syncs below share: run once settings have hydrated, then
+ * again on every return to the foreground — the notification window and the widget
+ * timeline are both rolling and need re-seeding, and iOS only lets the app start a Live
+ * Activity while foregrounded.
+ *
+ * `sync` is invoked through a ref with the LATEST settings, so this re-registers only
+ * when `key` changes. That indirection is the whole point: `key` is a SIGNATURE of the
+ * inputs this particular consumer cares about, so a cosmetic settings change can't
+ * trigger a cancel-and-reschedule of 180 notifications — while the ref keeps the sync
+ * itself from ever running on a stale closure's settings.
+ */
+function useForegroundSync(key: string, sync: (settings: PrayerSettings) => void): void {
+  const { settings, loaded } = useSettings();
+  // Refreshed on EVERY render (no dep array) and read only inside the effect below, so
+  // the pair is always current by the time anything fires.
+  const latest = useRef({ settings, sync });
+  useEffect(() => {
+    latest.current = { settings, sync };
+  });
+
+  useEffect(() => {
+    if (!loaded) return;
+    const run = () => latest.current.sync(latest.current.settings);
+    run();
+    const sub = AppState.addEventListener('change', (state) => {
+      if (state === 'active') run();
+    });
+    return () => sub.remove();
+    // `key` is not read in the body — it IS the dependency, standing in for the
+    // settings and coordinates the caller folded into it. `latest` is a stable ref.
+  }, [loaded, key]);
+}
+
+/** A coordinate as a signature fragment. Full precision: any real move should re-sync,
+ *  and the sync's own stamp (see syncPrayerNotifications) does the coarse debouncing. */
+const coordKey = (c: LatLng): string => `${c.latitude},${c.longitude}`;
+
 // Keeps the scheduled prayer notifications in step with the user's settings and
 // location, and refreshes them whenever the app returns to the foreground (so the
 // rolling multi-day window keeps advancing). Renders nothing — it just reacts.
 function NotificationSync() {
   const { coords } = useLocation();
-  const { settings, loaded } = useSettings();
-  const latestSettings = useRef(settings);
-  const signature = notificationSignature(settings);
-
-  useEffect(() => {
-    latestSettings.current = settings;
-  }, [settings]);
-
-  useEffect(() => {
-    if (!loaded) return;
-    void syncPrayerNotifications(coords, latestSettings.current);
-    const sub = AppState.addEventListener('change', (state) => {
-      if (state === 'active') void syncPrayerNotifications(coords, latestSettings.current);
-    });
-    return () => sub.remove();
-  }, [loaded, coords, signature]);
-
+  const { settings } = useSettings();
+  useForegroundSync(`${notificationSignature(settings)}|${coordKey(coords)}`, (s) => {
+    void syncPrayerNotifications(coords, s);
+  });
   return null;
 }
 
@@ -62,27 +89,11 @@ function NotificationSync() {
 // on Android (see syncPrayerWidget / syncPrayerLiveActivity). Renders nothing.
 function WidgetSync() {
   const { coords, label } = useLocation();
-  const { settings, loaded } = useSettings();
-  const latestSettings = useRef(settings);
-  const signature = widgetSignature(settings);
-
-  useEffect(() => {
-    latestSettings.current = settings;
-  }, [settings]);
-
-  useEffect(() => {
-    if (!loaded) return;
-    void syncPrayerWidget(coords, latestSettings.current, label);
-    void syncPrayerLiveActivity(coords, latestSettings.current, label);
-    const sub = AppState.addEventListener('change', (state) => {
-      if (state === 'active') {
-        void syncPrayerWidget(coords, latestSettings.current, label);
-        void syncPrayerLiveActivity(coords, latestSettings.current, label);
-      }
-    });
-    return () => sub.remove();
-  }, [loaded, coords, signature, label]);
-
+  const { settings } = useSettings();
+  useForegroundSync(`${widgetSignature(settings)}|${coordKey(coords)}|${label}`, (s) => {
+    void syncPrayerWidget(coords, s, label);
+    void syncPrayerLiveActivity(coords, s, label);
+  });
   return null;
 }
 
@@ -110,6 +121,9 @@ export default function RootLayout() {
             <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: c.paper } }}>
               <Stack.Screen name="qibla" options={{ presentation: 'modal' }} />
               <Stack.Screen name="(settings)" options={{ presentation: 'modal', headerShown: false }} />
+              {/* Opened from the mosque detail card on the map, so it presents as a sheet
+                  over it and dismissing returns to the map — same as Qibla and Settings. */}
+              <Stack.Screen name="moske-rattelse" options={{ presentation: 'modal' }} />
             </Stack>
             <NotificationSync />
             <WidgetSync />

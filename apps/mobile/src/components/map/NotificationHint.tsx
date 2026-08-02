@@ -21,16 +21,16 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { Linking, Platform, Pressable, StyleSheet, Text, View } from 'react-native';
 import Animated, { FadeInUp, FadeOutUp, useReducedMotion } from 'react-native-reanimated';
 
-import { hapticSuccess, hapticWarning } from '../../lib/haptics';
-import { noteResolved } from '../../lib/notification-hint';
+import { hapticSuccess, hapticWarning } from '@/lib/haptics';
+import { noteNotificationResolved } from '@/lib/notification-hint';
 import {
   type NotificationPermissionState,
   requestNotificationPermission,
-} from '../../lib/notifications';
-import { motion, type Palette, radius, shadow, space, type } from '../../theme/tokens';
-import { useColors } from '../../theme/useColors';
-import { GlassRoundButton } from '../nav/GlassRoundButton';
-import { GlassSurface } from '../ui/GlassSurface';
+} from '@/lib/notifications';
+import { motion, type Palette, radius, shadow, space, type } from '@/theme/tokens';
+import { useColors } from '@/theme/useColors';
+import { GlassRoundButton } from '@/components/nav/GlassRoundButton';
+import { GlassSurface } from '@/components/ui/GlassSurface';
 
 /** How long the "Påminnelser är på" confirmation lingers before the card retires itself. */
 const CONFIRM_MS = 1600;
@@ -73,7 +73,7 @@ export function NotificationHint({ top, onEnable, onClose }: Props) {
     setBusy(true);
     void (async () => {
       const result: NotificationPermissionState = await requestNotificationPermission();
-      await noteResolved();
+      await noteNotificationResolved();
       // Turn the setting on for EITHER answer, matching the Inställningar toggle. On a
       // refusal that's not a lie — it's what makes Inställningar → Notiser show its
       // "Blockerat" status and the "Öppna …" recovery link, and it means a user who

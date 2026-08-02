@@ -25,13 +25,13 @@
 import { StyleSheet, Text, View } from 'react-native';
 import Animated, { type SharedValue, useAnimatedStyle } from 'react-native-reanimated';
 
-import { type Camera, project } from '../../lib/map/projection';
-import { type LatLng, PRAYER_LABELS, type PrayerKey } from '../../lib/prayer-times';
-import type { PrayerLineLabel } from '../../lib/solar/field';
-import { prayerColorFor, prayerTextColorFor } from '../../lib/solar/palette';
-import type { PolarBoundary } from '../../lib/solar/sun';
-import { type Palette, radius, shadow, type } from '../../theme/tokens';
-import { useActiveScheme, useColors } from '../../theme/useColors';
+import { type Camera, project } from '@/lib/map/projection';
+import { type LatLng, PRAYER_LABELS, type PrayerKey } from '@/lib/prayer-times';
+import type { PrayerLineLabel } from '@/lib/solar/field';
+import { prayerColorFor, prayerTextColorFor } from '@/lib/solar/palette';
+import type { PolarBoundary } from '@/lib/solar/sun';
+import { type Palette, radius, shadow, type } from '@/theme/tokens';
+import { useActiveScheme, useColors } from '@/theme/useColors';
 
 interface Props {
   /** The LIVE camera shared value (same one the Skia canvas reads). Projecting against

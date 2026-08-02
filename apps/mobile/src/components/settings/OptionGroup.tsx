@@ -2,8 +2,8 @@ import { MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
 import { useMemo } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 
-import { hapticSelection } from '../../lib/haptics';
-import { space, type } from '../../theme/tokens';
+import { hapticSelection } from '@/lib/haptics';
+import { space, type } from '@/theme/tokens';
 import { type SettingsColors, useSettingsColors } from './theme';
 
 export interface Option<T extends string> {

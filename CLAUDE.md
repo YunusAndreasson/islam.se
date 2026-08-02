@@ -136,6 +136,29 @@ apps/
 - `data/extracted/` - Raw extraction outputs for review
 - `data/articles/` - Published articles with `index.json` metadata
 
+### Mosque dataset — one canonical file, one direction
+
+```
+apps/web/src/data/moskeer-sverige.csv     raw scrape (migrationskartan + OSM + muslimer.se)
+                │  pnpm tsx scripts/build-moskeer.ts   ← re-import ONLY; overwrites the JSON wholesale
+                ▼
+apps/web/src/data/moskeer-sverige.json    ★ CANONICAL — edit this one
+                │  pnpm sync:mosques      (run from apps/mobile)
+                ▼
+apps/mobile/src/lib/mosques/data.json     generated mirror — NEVER edit by hand
+```
+
+**To remove or correct a mosque:** edit the web JSON, delete the matching row from the CSV
+as well (otherwise the next `build-moskeer` re-import resurrects it), then run
+`pnpm sync:mosques` from `apps/mobile`.
+
+The sync validates as it copies — required fields, unique ids, coordinates inside Sweden —
+and warns about duplicate names and pins under 150 m apart. `pnpm sync:mosques:check` and
+`apps/mobile/src/lib/mosques/sync.test.ts` (which runs in the normal suite) fail if the two
+files disagree. That guard exists because they silently diverged for three weeks in 2026-07
+while the old `cp`-based script was simply never run: the app shipped seven duplicate
+mosques and one record whose coordinates put a Landskrona mosque in Göteborg.
+
 ## The Only Question That Matters
 
 Every change to this codebase exists to serve one outcome: the pipeline produces a better article for the reader. Before writing code, refactoring, adding a feature, or optimizing something, ask:

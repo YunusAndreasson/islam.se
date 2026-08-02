@@ -26,7 +26,7 @@ import {
 } from 'react-native-reanimated';
 import { scheduleOnRN } from 'react-native-worklets';
 
-import { hapticLight, hapticSuccess } from '../lib/haptics';
+import { hapticLight, hapticSuccess } from '@/lib/haptics';
 
 import {
   type DayMark,
@@ -34,46 +34,50 @@ import {
   DOCK_FLOAT,
   type NextPrayer,
   PrayerDock,
-} from '../components/map/PrayerDock';
-import { MapMarkersOverlay } from '../components/map/MapMarkersOverlay';
-import { MosqueCard } from '../components/map/MosqueCard';
-import { LocationHint } from '../components/map/LocationHint';
-import { MosqueLayer } from '../components/map/MosqueLayer';
-import { NotificationHint } from '../components/map/NotificationHint';
+} from '@/components/map/PrayerDock';
+import { MapMarkersOverlay } from '@/components/map/MapMarkersOverlay';
+import { MosqueCard } from '@/components/map/MosqueCard';
+import { LocationHint } from '@/components/map/LocationHint';
+import { MosqueLayer } from '@/components/map/MosqueLayer';
+import { NotificationHint } from '@/components/map/NotificationHint';
 import {
   type PrayerArrival,
   type PrayerLineData,
   SolarSkiaOverlay,
-} from '../components/map/skia/SolarSkiaOverlay';
-import { MapNav } from '../components/nav/MapNav';
+} from '@/components/map/skia/SolarSkiaOverlay';
+import { MapNav } from '@/components/nav/MapNav';
 import {
   GlassBackdropProvider,
   GlassBackdropTarget,
   GlassSurface,
-} from '../components/ui/GlassSurface';
-import { useLocation } from '../lib/location/context';
-import { getLocationPermissionState } from '../lib/location/permission';
+} from '@/components/ui/GlassSurface';
+import { useLocation } from '@/lib/location/context';
+import { getLocationPermissionState } from '@/lib/location/permission';
 import {
   noteLocationLaunch,
   noteLocationShown,
   shouldShowLocationHint,
-} from '../lib/location-hint';
-import { type Camera as MapCamera, invMercY, mercY } from '../lib/map/projection';
-import type { Mosque } from '../lib/mosques';
-import { mapStyleFor } from '../lib/map/nordicStyle';
-import { noteLaunch, noteShown, shouldShowHint } from '../lib/notification-hint';
-import { getNotificationPermissionState } from '../lib/notifications';
-import { computePrayerTimes, nextPrayerKeyAt, PRAYER_ORDER, type PrayerKey } from '../lib/prayer-times';
-import { computeSignature } from '../lib/settings/compute-signature';
-import { useSettings } from '../lib/settings/context';
-import type { LocationMode } from '../lib/settings/types';
-import { buildLines, type PrayerLineLabel } from '../lib/solar/field';
-import { gridForDay } from '../lib/solar/grid-cache';
-import { polarBoundaryFor } from '../lib/solar/sun';
-import { LIVE_TICK_MS, useSolarClock } from '../lib/solar/useSolarClock';
-import { stockholmPrayerDate } from '../lib/stockholm-time';
-import { motion, radius, space, type } from '../theme/tokens';
-import { useActiveScheme, useColors } from '../theme/useColors';
+} from '@/lib/location-hint';
+import { type Camera as MapCamera, invMercY, mercY } from '@/lib/map/projection';
+import type { Mosque } from '@/lib/mosques';
+import { nordicMapStyleFor } from '@/lib/map/nordicStyle';
+import {
+  noteNotificationLaunch,
+  noteNotificationShown,
+  shouldShowNotificationHint,
+} from '@/lib/notification-hint';
+import { getNotificationPermissionState } from '@/lib/notifications';
+import { computePrayerTimes, nextPrayerKeyAt, PRAYER_ORDER, type PrayerKey } from '@/lib/prayer-times';
+import { computeSignature } from '@/lib/settings/compute-signature';
+import { useSettings } from '@/lib/settings/context';
+import type { LocationMode } from '@/lib/settings/types';
+import { buildLines, type PrayerLineLabel } from '@/lib/solar/field';
+import { gridForDay } from '@/lib/solar/grid-cache';
+import { polarBoundaryFor } from '@/lib/solar/sun';
+import { LIVE_TICK_MS, useSolarClock } from '@/lib/solar/useSolarClock';
+import { stockholmPrayerDate } from '@/lib/stockholm-time';
+import { motion, radius, space, type } from '@/theme/tokens';
+import { useActiveScheme, useColors } from '@/theme/useColors';
 
 // Sweden bounding box, flat [west, south, east, north] (MapLibre GL JS style).
 // Tightened 2026-05-29 so the initial framing zooms in a notch — the previous
@@ -209,7 +213,7 @@ async function pickOffer(
   }
   // Reminders already on — there is nothing to offer, so nothing to introduce.
   if (!notificationsEnabled && (await getNotificationPermissionState()) === 'undetermined') {
-    if (shouldShowHint(await noteLaunch())) return 'notifications';
+    if (shouldShowNotificationHint(await noteNotificationLaunch())) return 'notifications';
   }
   return null;
 }
@@ -223,6 +227,10 @@ export default function Bonetider() {
   // map?" (so the Reset chip appears when they have) and as the target the Reset
   // button restores. The user is otherwise free to pan/zoom anywhere they like.
   const initialFrame = useRef<{ lon: number; lat: number; zoom: number } | undefined>(undefined);
+  // Set while a reset's fitBounds is in flight, so the settled event that ends it
+  // re-anchors `initialFrame` instead of being measured against it. See the comment
+  // at the check in onRegionDidChange.
+  const resetPending = useRef(false);
 
   const insets = useSafeAreaInsets();
   const { width: screenW, height: screenH } = useWindowDimensions();
@@ -390,7 +398,7 @@ export default function Bonetider() {
   // The offer belongs to the app's opening moment, not to time travel. Gating on the
   // viewed day means a user who steps to next Friday never gets an unprompted card there
   // — and, because the gate effect's cleanup runs before the 300 ms timer fires, stepping
-  // during that window ABORTS before noteShown(), so no showing is spent on a card nobody
+  // during that window ABORTS before noteNotificationShown(), so no showing is spent on a card nobody
   // saw. (day-navigation.test.tsx asserts the record stays at shown: 0.)
   const armOffer =
     cameraReady &&
@@ -424,7 +432,7 @@ export default function Bonetider() {
         introOfferDone.current = true;
         pendingOffer.current = offer;
         setPhase('reveal');
-        await (offer === 'location' ? noteLocationShown() : noteShown());
+        await (offer === 'location' ? noteLocationShown() : noteNotificationShown());
       })();
     }, REVEAL_DELAY_MS);
     return () => {
@@ -731,6 +739,36 @@ export default function Bonetider() {
         return;
       }
 
+      // THE BUG THIS FIXES: the chip came back the instant it was pressed.
+      //
+      // "Home" used to be a SAMPLE — the frame that happened to land at mount — while
+      // pressing Återställ runs a fresh fitBounds. The two need not agree. The padding
+      // is `collapsedDock + DOCK_MARGIN`, and collapsedDock carries `insets.bottom`,
+      // which is 0 on the first render and settles once the safe-area provider
+      // measures; MapLibre's own camera constraints can nudge the result too. Land
+      // more than 0.5° or 0.05 zoom off the sample and `drifted` reads true again, so
+      // the settled event that ends the reset animation puts the chip straight back.
+      //
+      // So a reset RE-ANCHORS rather than being measured against the old sample: home
+      // is wherever "Visa hela Sverige" actually just put us. That also makes the chip
+      // mean what it says — shown only when the map differs from home — no matter how
+      // the framing drifts over the life of the screen.
+      if (resetPending.current) {
+        // Unless the user grabbed the map mid-flight: then this settled event is
+        // theirs, not the animation's, and re-anchoring would quietly adopt wherever
+        // they dragged to as the new home.
+        if (e.nativeEvent.userInteraction) {
+          resetPending.current = false;
+        } else {
+          if (zoom > 1) {
+            initialFrame.current = { lon: vc.lon, lat: vc.lat, zoom };
+            resetPending.current = false;
+            if (moved) setMoved(false);
+          }
+          return;
+        }
+      }
+
       // Show the Reset chip as soon as the user has clearly moved off the initial
       // framing. Thresholds: ~0.5° lat/lon (~50 km) or 0.05 zoom — enough to ignore
       // floating-point drift, small enough that any real pan/zoom triggers it. If
@@ -768,7 +806,7 @@ export default function Bonetider() {
       <Map
         testID="sweden-map"
         style={StyleSheet.absoluteFill}
-        mapStyle={mapStyleFor(settings.mapStyle, scheme)}
+        mapStyle={nordicMapStyleFor(scheme)}
         // No on-map ornaments: the tappable attribution "i" (bottom-right) and the
         // MapLibre wordmark (bottom-left) are both hidden so nothing floats over the
         // wash. OSM/ODbL + OpenFreeMap credit belongs on the Om screen instead.
@@ -947,6 +985,9 @@ export default function Bonetider() {
           <Pressable
             onPress={() => {
               hapticLight();
+              // Claim the settled event this animation will produce, so it re-anchors
+              // home rather than being compared against the frame recorded at mount.
+              resetPending.current = true;
               cameraRef.current?.fitBounds(SWEDEN_BOUNDS, {
                 padding: { top: 0, right: 0, bottom: collapsedDock + DOCK_MARGIN, left: 0 },
                 duration: motion.slow,

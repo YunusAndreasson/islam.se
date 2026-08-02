@@ -6,7 +6,7 @@
 //     no separate geocoder needed (works offline, no API key).
 // Brute-force great-circle distance over ~2,100 places is well under 1 ms on
 // a phone, so no spatial index. Keep it that way.
-import { isValidLatLng } from '../coordinates';
+import { isValidLatLng } from '@/lib/coordinates';
 import { PLACES, type SwedishPlace } from './data';
 
 const EARTH_KM = 6371.0088;

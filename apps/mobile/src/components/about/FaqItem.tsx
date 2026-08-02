@@ -8,8 +8,8 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 
-import { motion, type Palette, space, type } from '../../theme/tokens';
-import { useColors } from '../../theme/useColors';
+import { motion, type Palette, space, type } from '@/theme/tokens';
+import { useColors } from '@/theme/useColors';
 
 // A single FAQ row: a readable question that expands to reveal its answer. It's the
 // progressive-disclosure primitive for the Om screen — the same animation + a11y as

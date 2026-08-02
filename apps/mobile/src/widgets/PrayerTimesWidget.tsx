@@ -35,7 +35,7 @@ import {
 import { createWidget, type WidgetEnvironment } from 'expo-widgets';
 import type { SFSymbol } from 'sf-symbols-typescript';
 
-import type { WidgetPayload } from '../widget/payload';
+import type { WidgetPayload } from '@/widget/payload';
 
 function PrayerTimesWidgetLayout(rawPayload: WidgetPayload, environment: WidgetEnvironment) {
   'widget';
@@ -51,13 +51,15 @@ function PrayerTimesWidgetLayout(rawPayload: WidgetPayload, environment: WidgetE
     highlight: '#b8862f',
     highlightText: '#805b1f',
   };
+  // Kept byte-for-byte in step with darkPalette — see the APCA note there for why these
+  // three moved (a widget on a dark home screen is exactly where thin tiers show).
   const DARK = {
     paper: '#161a26',
     ink: '#e8e3d8',
-    inkMuted: '#a8acba',
-    inkFaint: '#7a8094',
+    inkMuted: '#c1c6d4',
+    inkFaint: '#b1b8cd',
     highlight: '#c89a48',
-    highlightText: '#c89a48',
+    highlightText: '#fad486',
   };
   // iOS 18 tinted home screens ('accented') and the Lock Screen ('vibrant') desaturate
   // the widget — the brass-vs-ink hue hierarchy collapses, so it rides on white opacity

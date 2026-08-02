@@ -1,7 +1,7 @@
 {
   "name": "mobile",
   "main": "expo-router/entry",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "private": true,
   "scripts": {
     "start": "expo start",
@@ -18,7 +18,8 @@
     "test:cov": "jest --coverage",
     "verify": "pnpm run typecheck && pnpm run lint && pnpm run test:cov",
     "mutation": "stryker run",
-    "sync:mosques": "cp ../web/src/data/moskeer-sverige.json src/lib/mosques/data.json",
+    "sync:mosques": "node scripts/sync-mosques.mjs",
+    "sync:mosques:check": "node scripts/sync-mosques.mjs --check",
     "version:bump": "node scripts/release.js",
     "release": "./scripts/eas-release.sh all",
     "release:check": "./scripts/eas-release.sh --check all",
@@ -62,6 +63,7 @@
     "react-native-worklets": "0.10.1"
   },
   "devDependencies": {
+    "@jest/globals": "^29.7.0",
     "@stryker-mutator/core": "^9.6.1",
     "@stryker-mutator/jest-runner": "^9.6.1",
     "@testing-library/react-native": "^13.3.3",
@@ -69,6 +71,7 @@
     "eslint": "^9.39.5",
     "eslint-config-expo": "~57.0.1",
     "fast-check": "^4.9.0",
+    "globals": "^14.0.0",
     "jest": "^29.7.0",
     "jest-expo": "~57.0.3",
     "typescript": "~6.0.3"

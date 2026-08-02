@@ -39,23 +39,23 @@ import Animated, {
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { scheduleOnRN } from 'react-native-worklets';
 
-import { hapticLight, hapticSelection } from '../../lib/haptics';
-import { formatGregorian, formatHijri } from '../../lib/hijri';
-import { relativeDayLabel } from '../../lib/relative-day';
+import { hapticLight, hapticSelection } from '@/lib/haptics';
+import { formatGregorian, formatHijri } from '@/lib/hijri';
+import { relativeDayLabel } from '@/lib/relative-day';
 import {
   formatTime,
   PRAYER_ICONS,
   PRAYER_LABELS,
   PRAYER_ORDER,
   type PrayerKey,
-} from '../../lib/prayer-times';
-import type { PrayerSettings } from '../../lib/settings/types';
-import { stockholmPrayerDate } from '../../lib/stockholm-time';
-import { prayerColorFor } from '../../lib/solar/palette';
-import { MAX_DAY_OFFSET, type SolarClock } from '../../lib/solar/useSolarClock';
-import { motion, type Palette, radius, shadow, space, type } from '../../theme/tokens';
-import { useActiveScheme, useColors } from '../../theme/useColors';
-import { GlassSurface } from '../ui/GlassSurface';
+} from '@/lib/prayer-times';
+import type { PrayerSettings } from '@/lib/settings/types';
+import { stockholmPrayerDate } from '@/lib/stockholm-time';
+import { prayerColorFor } from '@/lib/solar/palette';
+import { MAX_DAY_OFFSET, type SolarClock } from '@/lib/solar/useSolarClock';
+import { motion, type Palette, radius, shadow, space, type } from '@/theme/tokens';
+import { useActiveScheme, useColors } from '@/theme/useColors';
+import { GlassSurface } from '@/components/ui/GlassSurface';
 import { DayPicker } from './DayPicker';
 
 const DAY_MS = 86_400_000;
@@ -779,7 +779,7 @@ function SolarTimeline({
   // stale, pre-drag value for several frames at drag-release and snap the thumb back
   // before the committed time lands. Written only here, so no worklet mutates it.
   useEffect(() => {
-    follow.value = withTiming(fraction, { duration: 240 });
+    follow.value = withTiming(fraction, { duration: motion.base });
     // eslint-disable-next-line react-hooks/exhaustive-deps -- follow is a stable shared-value ref
   }, [fraction]);
 

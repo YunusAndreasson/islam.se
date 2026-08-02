@@ -12,7 +12,7 @@
 // alpha 0..1): the alpha dims the basemap, the rgb is the twilight hue. The shader emits a
 // premultiplied colour at the very end — that is a render detail; this twin returns straight
 // alpha so tests can read channel relations directly.
-import { type RGBA, type WashStops, washStopsLight } from '../../../lib/solar/palette';
+import { type RGBA, type WashStops, washStopsLight } from '@/lib/solar/palette';
 
 const DEG = Math.PI / 180;
 

@@ -11,8 +11,8 @@
 // expensive step — then per displayed instant it's cheap arithmetic on the cache.
 import type { Feature, FeatureCollection, MultiLineString } from 'geojson';
 
-import { computePrayerTimes, PRAYER_ORDER, type PrayerKey } from '../prayer-times';
-import type { PrayerSettings } from '../settings/types';
+import { computePrayerTimes, PRAYER_ORDER, type PrayerKey } from '@/lib/prayer-times';
+import type { PrayerSettings } from '@/lib/settings/types';
 import {
   catmullRom,
   chainSegments,

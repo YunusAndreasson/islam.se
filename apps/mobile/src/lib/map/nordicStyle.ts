@@ -40,7 +40,7 @@
 import type { StyleSpecification } from '@maplibre/maplibre-react-native';
 import type { ColorSchemeName } from 'react-native';
 
-import { darkPalette, lightPalette } from '../../theme/tokens';
+import { darkPalette, lightPalette } from '@/theme/tokens';
 
 // EXPO_PUBLIC_* env vars are inlined into the JS bundle at build/OTA time, so this
 // resolves once at module load. Empty/undefined => OpenFreeMap fallback (no key
@@ -617,20 +617,12 @@ export const NORDIC_LIGHT: StyleSpecification = buildStyle(LIGHT, 'Nordic Calm �
 /** Cool deep navy basemap (Apple Maps-inspired dark mode). */
 export const NORDIC_DARK: StyleSpecification = buildStyle(DARK, 'Nordic Calm — Dark');
 
-/** Pick a basemap for the current OS appearance — Nordic style only. */
+/** Pick the app-owned basemap for the current OS appearance. There is deliberately no
+    style CHOICE to make: a remote stock style owns its own label layers, so it cannot
+    honour this map's Swedish place-label policy (no Copenhagen) without fetching and
+    rewriting that style or bolting on a second label layer. Appearance is the only axis. */
 export function nordicMapStyleFor(scheme: ColorSchemeName): StyleSpecification {
   return scheme === 'dark' ? NORDIC_DARK : NORDIC_LIGHT;
-}
-
-/** Pick the app-owned Nordic style. Legacy persisted stock-style values are accepted
-    by the type for migration, but deliberately resolve here too: a remote MapTiler
-    style owns its label layers, so it cannot honour the no-Copenhagen policy without
-    fetching/rewriting that style or adding a second label layer. */
-export function mapStyleFor(
-  _styleId: 'nordic' | 'standard' | 'satellite',
-  scheme: ColorSchemeName,
-): StyleSpecification {
-  return nordicMapStyleFor(scheme);
 }
 
 /** Tile provider used by the Nordic style — drives the credits line in Om appen. */

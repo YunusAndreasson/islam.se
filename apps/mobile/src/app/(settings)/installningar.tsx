@@ -51,10 +51,9 @@ import {
   LOCATION_MODE_OPTIONS,
   calculationSummary,
   notificationSummary,
-  MAP_STYLE_OPTIONS,
   ROUNDING_OPTIONS,
   THEME_OPTIONS,
-  visningSummary,
+  VISNING_SUMMARY,
 } from '@/lib/settings/options';
 import { stockholmPrayerDate } from '@/lib/stockholm-time';
 import { mono, radius, space, type } from '@/theme/tokens';
@@ -408,11 +407,11 @@ export default function Installningar() {
           ) : null}
         </SettingSection>
 
-        {/* Utseende och format — appearance first (Tema, Karttyp), then the format
-            knobs (Avrundning, Hijri). The order mirrors the group title ("utseende"
-            then "format") and the collapsed summary, and surfaces the one control a
+        {/* Utseende och format — appearance first (Tema), then the format knobs
+            (Avrundning, Hijri). The order mirrors the group title ("utseende" then
+            "format") and the collapsed summary, and surfaces the one control a
             user actually reaches for here — the light/dark theme — at the very top. */}
-        <DisclosureGroup title="Utseende" summary={visningSummary()}>
+        <DisclosureGroup title="Utseende" summary={VISNING_SUMMARY}>
           {/* Tema — Apple Maps-style theme override; defaults to "Följ system" (the OS
               Display setting decides). The dock, basemap, wash and prayer-line colours
               all swap together the instant the user picks a row, via useActiveScheme().
@@ -424,26 +423,6 @@ export default function Installningar() {
               onChange={(theme) => update({ theme })}
             />
           </SubGroup>
-
-          {/* Karttyp — pick the Bönetider basemap. Nordic is the custom calm
-              cartography (the visual identity). Standard / Satellit appear only
-              when a MapTiler key is bundled — the picker hides them otherwise so
-              a tap doesn't silently fall back. The solar wash + city overlay
-              keep working on every style. */}
-          {MAP_STYLE_OPTIONS.length > 1 ? (
-            <SubGroup
-              styles={styles}
-              title="Karttyp"
-              footnote="Påverkar bara Bönetider-kartan. Solens drag visas på alla."
-              divider
-            >
-              <OptionGroup
-                options={MAP_STYLE_OPTIONS}
-                value={settings.mapStyle}
-                onChange={(mapStyle) => update({ mapStyle })}
-              />
-            </SubGroup>
-          ) : null}
 
           {/* Moskéer — Sweden's mosques as quiet POIs, revealed as you zoom into a
               city. On by default; off leaves a pure solar field. See MosqueLayer. */}

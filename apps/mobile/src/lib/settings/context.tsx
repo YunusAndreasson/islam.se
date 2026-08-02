@@ -11,7 +11,7 @@ import {
   useState,
 } from 'react';
 
-import { setHapticsEnabled } from '../haptics';
+import { setHapticsEnabled } from '@/lib/haptics';
 import { loadSettings, saveSettings } from './store';
 import { DEFAULT_SETTINGS, type PrayerSettings } from './types';
 

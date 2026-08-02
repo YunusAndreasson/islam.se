@@ -8,10 +8,10 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react-native';
 import { type AlertButton, Alert, Pressable, Text } from 'react-native';
 
-import Installningar from '../app/(settings)/installningar';
-import { LocationProvider } from '../lib/location/context';
-import { SettingsProvider, useSettings } from '../lib/settings/context';
-import { DEFAULT_SETTINGS, type PrayerSettings } from '../lib/settings/types';
+import Installningar from '@/app/(settings)/installningar';
+import { LocationProvider } from '@/lib/location/context';
+import { SettingsProvider, useSettings } from '@/lib/settings/context';
+import { DEFAULT_SETTINGS, type PrayerSettings } from '@/lib/settings/types';
 
 // A patch that differs from DEFAULT_SETTINGS in every field (incl. the nested objects),
 // so "reset restores defaults" is a real claim and not vacuously true.
@@ -24,7 +24,6 @@ const MUTATION: Partial<PrayerSettings> = {
   rounding: 'up',
   hijriOffset: 2,
   theme: 'dark',
-  mapStyle: 'satellite',
   showMosques: false,
   showQibla: false,
   haptics: false,

@@ -24,7 +24,7 @@ import { StyleSheet, View } from 'react-native';
 import { space } from '@/theme/tokens';
 import { useColors } from '@/theme/useColors';
 
-import { GlassRoundButton } from '../nav/GlassRoundButton';
+import { GlassRoundButton } from '@/components/nav/GlassRoundButton';
 
 interface Props {
   variant: 'close' | 'back';

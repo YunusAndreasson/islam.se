@@ -2,10 +2,10 @@ import { describe, expect, it, jest } from '@jest/globals';
 import { fireEvent, render, screen } from '@testing-library/react-native';
 import { router } from 'expo-router';
 
-import { computePrayerTimes, PRAYER_ORDER } from '../../lib/prayer-times';
-import { DEFAULT_SETTINGS } from '../../lib/settings/types';
-import { MAX_DAY_OFFSET, type SolarClock } from '../../lib/solar/useSolarClock';
-import { startOfStockholmDay } from '../../lib/stockholm-time';
+import { computePrayerTimes, PRAYER_ORDER } from '@/lib/prayer-times';
+import { DEFAULT_SETTINGS } from '@/lib/settings/types';
+import { MAX_DAY_OFFSET, type SolarClock } from '@/lib/solar/useSolarClock';
+import { startOfStockholmDay } from '@/lib/stockholm-time';
 import { type DayMark, PrayerDock } from './PrayerDock';
 
 const STOCKHOLM = { latitude: 59.3293, longitude: 18.0686 };

@@ -1,7 +1,7 @@
 import { beforeEach, describe, expect, it } from '@jest/globals';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import { createHintStore, type HintRecord, shouldShowHint } from '../hints';
+import { createHintStore, type HintRecord, shouldShowHint } from '@/lib/hints';
 
 function record(patch: Partial<HintRecord> = {}): HintRecord {
   return { launches: 1, shown: 0, resolved: false, ...patch };

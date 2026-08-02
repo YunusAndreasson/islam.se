@@ -39,11 +39,6 @@ export type Rounding = 'nearest' | 'up' | 'none';
  *  `'light'` / `'dark'` lock the app to one palette regardless of the OS. */
 export type ThemePreference = 'system' | 'light' | 'dark';
 
-/** Bönetider basemap. Nordic is the only selectable style. The two legacy values
- *  remain in the serialised type so older persisted state can migrate cleanly; the
- *  store and map renderer both resolve them to Nordic. */
-export type MapStyleId = 'nordic' | 'standard' | 'satellite';
-
 /**
  * One value per computed time slot — the five obligatory prayers plus the sunrise
  * marker. These are the same six keys adhan exposes (PRAYER_ORDER in ../prayer-times),
@@ -138,8 +133,6 @@ export interface PrayerSettings {
   /** Appearance preference. `'system'` follows the OS (default); `'light'` and
    *  `'dark'` lock the app's basemap, wash, prayer-line and chrome palettes. */
   theme: ThemePreference;
-  /** Bönetider basemap. Defaults to the custom Nordic cartography. */
-  mapStyle: MapStyleId;
   /** Show Sweden's mosques as quiet POIs on the map (revealed as you zoom into a
    *  city). On by default; off gives a pure solar field. See src/components/map/
    *  MosqueLayer.tsx. */
@@ -190,7 +183,6 @@ export const DEFAULT_SETTINGS: PrayerSettings = {
   locationMode: 'gps',
   manualLocation: null,
   theme: 'system',
-  mapStyle: 'nordic',
   showMosques: true,
   showQibla: true,
   haptics: true,

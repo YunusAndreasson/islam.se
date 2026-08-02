@@ -19,7 +19,7 @@ import {
   Shafaq,
 } from 'adhan';
 
-import type { LatLng } from '../lib/prayer-times';
+import type { LatLng } from '@/lib/prayer-times';
 
 export interface OracleOverrides {
   method?: () => CalculationParameters;

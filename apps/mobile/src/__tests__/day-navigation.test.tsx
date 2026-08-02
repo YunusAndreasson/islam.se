@@ -16,13 +16,13 @@ import * as Location from 'expo-location';
 import * as Notifications from 'expo-notifications';
 import type { ReactNode } from 'react';
 
-import Bonetider from '../app/bonetider';
-import { LocationProvider } from '../lib/location/context';
-import { resetLocationLaunchCountForTests } from '../lib/location-hint';
-import { resetLaunchCountForTests } from '../lib/notification-hint';
-import { SettingsProvider } from '../lib/settings/context';
-import * as field from '../lib/solar/field';
-import { __resetGridCache } from '../lib/solar/grid-cache';
+import Bonetider from '@/app/bonetider';
+import { LocationProvider } from '@/lib/location/context';
+import { resetLocationLaunchCountForTests } from '@/lib/location-hint';
+import { resetNotificationLaunchCountForTests } from '@/lib/notification-hint';
+import { SettingsProvider } from '@/lib/settings/context';
+import * as field from '@/lib/solar/field';
+import { __resetGridCache } from '@/lib/solar/grid-cache';
 
 const LOCATION_HINT_KEY = 'locationHintSeen:v1';
 const NOTIFICATION_HINT_KEY = 'notificationHintSeen:v1';
@@ -76,7 +76,7 @@ describe('stepping days on the map', () => {
     await AsyncStorage.clear();
     jest.restoreAllMocks();
     jest.clearAllMocks();
-    resetLaunchCountForTests();
+    resetNotificationLaunchCountForTests();
     resetLocationLaunchCountForTests();
     __resetGridCache();
     // Both permissions answered, so the soft-ask queue has nothing to offer and the
@@ -177,7 +177,7 @@ describe('the soft-ask queue while browsing another day', () => {
     await AsyncStorage.clear();
     jest.restoreAllMocks();
     jest.clearAllMocks();
-    resetLaunchCountForTests();
+    resetNotificationLaunchCountForTests();
     resetLocationLaunchCountForTests();
     __resetGridCache();
     jest.useFakeTimers();
@@ -195,7 +195,7 @@ describe('the soft-ask queue while browsing another day', () => {
     async () => {
       await launchMap();
       // Step away INSIDE the gate's 300 ms arming delay: the effect's cleanup runs first,
-      // so the sequence aborts before noteShown() rather than after it. This is the exact
+      // so the sequence aborts before noteNotificationShown() rather than after it. This is the exact
       // race the gate's "commit first, persist afterwards" ordering was written for.
       await step('Nästa dag');
 

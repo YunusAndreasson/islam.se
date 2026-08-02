@@ -4,8 +4,8 @@ import { act, fireEvent, render, screen, waitFor } from '@testing-library/react-
 import * as Location from 'expo-location';
 import { router } from 'expo-router';
 
-import { LocationProvider } from '../../lib/location/context';
-import { SettingsProvider } from '../../lib/settings/context';
+import { LocationProvider } from '@/lib/location/context';
+import { SettingsProvider } from '@/lib/settings/context';
 import { LocationHint } from './LocationHint';
 
 const requestPermission = jest.mocked(Location.requestForegroundPermissionsAsync);

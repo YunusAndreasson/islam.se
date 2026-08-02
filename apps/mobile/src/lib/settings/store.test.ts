@@ -45,11 +45,6 @@ describe('settings store', () => {
     expect(loaded.calculationMethod).toBe('MuslimWorldLeague');
   });
 
-  it('migrates legacy stock map styles to Nordic so label policy cannot be bypassed', async () => {
-    await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify({ mapStyle: 'satellite' }));
-    expect((await loadSettings()).mapStyle).toBe('nordic');
-  });
-
   it('deep-merges a partial adjustments object', async () => {
     await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify({ adjustments: { fajr: 7 } }));
     const loaded = await loadSettings();
@@ -117,7 +112,6 @@ describe('settings store', () => {
         locationMode: 'manual',
         manualLocation: { name: 'Nowhere', latitude: 999, longitude: 18 },
         theme: 'dark',
-        mapStyle: 'missing',
         haptics: false,
       }),
     );
@@ -136,7 +130,6 @@ describe('settings store', () => {
     expect(loaded.locationMode).toBe('manual');
     expect(loaded.manualLocation).toBe(DEFAULT_SETTINGS.manualLocation);
     expect(loaded.theme).toBe('dark');
-    expect(loaded.mapStyle).toBe(DEFAULT_SETTINGS.mapStyle);
     expect(loaded.haptics).toBe(false);
   });
 });

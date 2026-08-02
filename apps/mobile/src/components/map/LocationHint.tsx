@@ -23,13 +23,13 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { Linking, Platform, Pressable, StyleSheet, Text, View } from 'react-native';
 import Animated, { FadeInUp, FadeOutUp, useReducedMotion } from 'react-native-reanimated';
 
-import { hapticSuccess, hapticWarning } from '../../lib/haptics';
-import { useLocationStatus } from '../../lib/location/context';
-import { noteLocationResolved } from '../../lib/location-hint';
-import { motion, type Palette, radius, shadow, space, type } from '../../theme/tokens';
-import { useColors } from '../../theme/useColors';
-import { GlassRoundButton } from '../nav/GlassRoundButton';
-import { GlassSurface } from '../ui/GlassSurface';
+import { hapticSuccess, hapticWarning } from '@/lib/haptics';
+import { useLocationStatus } from '@/lib/location/context';
+import { noteLocationResolved } from '@/lib/location-hint';
+import { motion, type Palette, radius, shadow, space, type } from '@/theme/tokens';
+import { useColors } from '@/theme/useColors';
+import { GlassRoundButton } from '@/components/nav/GlassRoundButton';
+import { GlassSurface } from '@/components/ui/GlassSurface';
 
 /** How long the "Använder din plats" confirmation lingers before the card retires itself. */
 const CONFIRM_MS = 1600;

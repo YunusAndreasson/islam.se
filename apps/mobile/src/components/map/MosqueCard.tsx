@@ -10,20 +10,27 @@
 // There is no denomination, phone or website in the data (by design), so the card
 // never promises more than the dataset holds. Directions hand off to the native maps
 // app (see ../../lib/mosques/directions).
+//
+// Below the directions button sits ONE secondary affordance: "Rapportera fel". The
+// dataset is a snapshot and the person reading this card is standing near the place, so
+// this is where a correction is worth asking for. It is deliberately a quiet text link,
+// not a second button — the card keeps one primary action and the report reads as
+// subordinate to it.
 import { MaterialIcons } from '@expo/vector-icons';
+import { router } from 'expo-router';
 import { useMemo } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import Animated, { FadeInDown, FadeOutDown, useReducedMotion } from 'react-native-reanimated';
 
-import { hapticLight } from '../../lib/haptics';
-import { type Mosque, formatMosqueDistance, locationLabel } from '../../lib/mosques';
-import { openDirections } from '../../lib/mosques/directions';
-import { haversineKm } from '../../lib/places/nearest';
-import type { LatLng } from '../../lib/prayer-times';
-import { motion, mono, type Palette, radius, shadow, space, type } from '../../theme/tokens';
-import { useColors } from '../../theme/useColors';
-import { GlassRoundButton } from '../nav/GlassRoundButton';
-import { GlassSurface } from '../ui/GlassSurface';
+import { hapticLight } from '@/lib/haptics';
+import { type Mosque, formatMosqueDistance, locationLabel } from '@/lib/mosques';
+import { openDirections } from '@/lib/mosques/directions';
+import { haversineKm } from '@/lib/places/nearest';
+import type { LatLng } from '@/lib/prayer-times';
+import { motion, mono, type Palette, radius, shadow, space, type } from '@/theme/tokens';
+import { useColors } from '@/theme/useColors';
+import { GlassRoundButton } from '@/components/nav/GlassRoundButton';
+import { GlassSurface } from '@/components/ui/GlassSurface';
 
 interface Props {
   mosque: Mosque;
@@ -98,6 +105,18 @@ export function MosqueCard({ mosque, userCoords, bottom, onClose }: Props) {
           <MaterialIcons name="directions" size={18} color={c.onAccent} />
           <Text style={styles.directionsText}>Vägbeskrivning</Text>
         </Pressable>
+
+        {/* No haptic: this opens a screen, and navigation is silent feedback under the
+            lib/haptics policy — the transition is the confirmation. */}
+        <Pressable
+          onPress={() => router.push({ pathname: '/moske-rattelse', params: { id: mosque.id } })}
+          accessibilityRole="button"
+          accessibilityLabel={`Rapportera fel om ${mosque.name}`}
+          hitSlop={8}
+          style={({ pressed }) => [styles.report, pressed && styles.reportPressed]}
+        >
+          <Text style={styles.reportText}>Rapportera fel</Text>
+        </Pressable>
       </GlassSurface>
     </Animated.View>
   );
@@ -145,5 +164,18 @@ function makeStyles(c: Palette) {
     },
     directionsPressed: { opacity: 0.85 },
     directionsText: { ...type.bodyStrong, color: c.onAccent },
+    // Tertiary: no fill, no border, muted ink. Centred under the primary action so the
+    // card still reads as one column with a single emphasised control. The negative
+    // margin claws back part of the card's `gap` — the link wants to sit closer to the
+    // button it qualifies than the button does to the meta line above it.
+    report: {
+      alignItems: 'center',
+      justifyContent: 'center',
+      minHeight: 32,
+      marginTop: -space.xs,
+      marginBottom: -space.xs,
+    },
+    reportPressed: { opacity: 0.6 },
+    reportText: { ...type.caption, color: c.inkMuted },
   });
 }

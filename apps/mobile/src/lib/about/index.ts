@@ -11,7 +11,9 @@ import * as MailComposer from 'expo-mail-composer';
 import * as StoreReview from 'expo-store-review';
 import * as WebBrowser from 'expo-web-browser';
 
-export const SUPPORT_EMAIL = 'support@islam.se';
+// Reached only through emailSupport() below — the screens never render the address
+// itself, so it stays module-private.
+const SUPPORT_EMAIL = 'support@islam.se';
 
 // The project's website — the app is one part of islam.se. Linked from the Om page
 // as the outward "read more about the project" anchor.

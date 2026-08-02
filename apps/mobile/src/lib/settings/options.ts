@@ -4,13 +4,12 @@
 // inline control or (later) a sub-screen can share one source of truth.
 import type { Option } from '@/components/settings/OptionGroup';
 
-import { HAS_ADHAN_SOUND, NOTIFY_PRAYERS } from '../notifications';
+import { HAS_ADHAN_SOUND, NOTIFY_PRAYERS } from '@/lib/notifications';
 import type {
   CalculationMethodKey,
   HighLatitudeRuleKey,
   LocationMode,
   Madhab,
-  MapStyleId,
   NotificationSettings,
   NotificationSoundKey,
   PerPrayerSlot,
@@ -93,13 +92,6 @@ export const THEME_OPTIONS: readonly Option<ThemePreference>[] = [
   { value: 'system', label: 'Följ system', description: 'Rekommenderad' },
   { value: 'light', label: 'Ljust' },
   { value: 'dark', label: 'Mörkt' },
-];
-
-// One app-owned basemap keeps the Swedish label policy deterministic. Remote stock
-// styles own their place labels and would reintroduce Copenhagen unless we added a
-// second/custom label layer, which this map intentionally avoids.
-export const MAP_STYLE_OPTIONS: readonly Option<MapStyleId>[] = [
-  { value: 'nordic', label: 'Nordisk', description: 'Lugn karta i appens palett (rekommenderad)' },
 ];
 
 /** Stepper display formatter: a signed minute offset, e.g. "+5 min" / "−3 min".
@@ -214,15 +206,10 @@ export const calculationSummary = (s: PrayerSettings): string => {
 
 /** Collapsed-header summary for the "Utseende och format" disclosure group: the AREAS
  *  it covers, not their values. Showing only the rounding label ("Närmaste minut") made
- *  the group look like it did just that, hiding Tema / Karttyp / Hijri — so instead we
- *  name the scope and let the values live inside the card. The topics are listed in the
- *  same order as the sub-sections render inside the card (Tema, Karttyp, Avrundning,
- *  Hijri) and capitalised consistently so the summary reads as a list of section names.
- *  Value-independent on purpose: the group's breadth is the point. "Karttyp" is listed
- *  only when a MapTiler key bundles the basemap picker (else that sub-section is absent). */
-export const visningSummary = (): string => {
-  const topics = ['Tema'];
-  if (MAP_STYLE_OPTIONS.length > 1) topics.push('Karttyp');
-  topics.push('Avrundning', 'Hijri');
-  return topics.join(' · ');
-};
+ *  the group look like it did just that, hiding Tema / Avrundning / Hijri — so instead
+ *  we name the scope and let the values live inside the card. The topics are listed in
+ *  the same order as the sub-sections render inside the card and capitalised
+ *  consistently so the summary reads as a list of section names. It is a constant, not
+ *  a function of the settings like {@link calculationSummary}, because naming the
+ *  group's breadth is the whole point. */
+export const VISNING_SUMMARY: string = ['Tema', 'Avrundning', 'Hijri'].join(' · ');

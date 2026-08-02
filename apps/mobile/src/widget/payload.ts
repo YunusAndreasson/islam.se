@@ -4,7 +4,7 @@
 // screens use, so the widget can never show a different schedule than the app. The
 // iOS widget UI (src/widgets/PrayerTimesWidget.tsx) consumes a WidgetPayload as its
 // props; the timeline builder (./timeline.ts) calls buildPayloadAt once per segment.
-import { formatGregorian, formatHijri } from '../lib/hijri';
+import { formatGregorian, formatHijri } from '@/lib/hijri';
 import {
   computePrayerTimes,
   formatTime,
@@ -14,10 +14,10 @@ import {
   PRAYER_ORDER,
   type PrayerKey,
   PRAYER_SWEDISH_NAMES,
-} from '../lib/prayer-times';
+} from '@/lib/prayer-times';
 import type { PrayerTimes } from 'adhan';
-import type { PrayerSettings, ThemePreference } from '../lib/settings/types';
-import { stockholmPrayerDate } from '../lib/stockholm-time';
+import type { PrayerSettings, ThemePreference } from '@/lib/settings/types';
+import { stockholmPrayerDate } from '@/lib/stockholm-time';
 
 /** Resolve the prayer times for a given Stockholm prayer-date. A timeline build passes
  *  a per-day-memoised resolver so the same calendar day isn't recomputed for each of

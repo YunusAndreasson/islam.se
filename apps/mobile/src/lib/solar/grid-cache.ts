@@ -13,8 +13,8 @@
 //
 // The compute-affecting settings are folded in as a signature. A change to any of them
 // invalidates EVERY cached day at once, which is right: they are global, not per-day.
-import type { PrayerSettings } from '../settings/types';
-import { stockholmPrayerDate } from '../stockholm-time';
+import type { PrayerSettings } from '@/lib/settings/types';
+import { stockholmPrayerDate } from '@/lib/stockholm-time';
 import { buildGrid, type SolarGrid } from './field';
 
 /** Viewed day ± 1. See the note above on why this is small and why nothing is prefetched. */

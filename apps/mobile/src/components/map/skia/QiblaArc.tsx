@@ -19,9 +19,9 @@ import { LinearGradient, Path, Skia } from '@shopify/react-native-skia';
 import { useMemo } from 'react';
 import { type SharedValue, useDerivedValue } from 'react-native-reanimated';
 
-import { type Camera, mercX, mercY, project, worldSize } from '../../../lib/map/projection';
-import { greatCirclePoints, KAABA } from '../../../lib/qibla';
-import { useColors } from '../../../theme/useColors';
+import { type Camera, mercX, mercY, project, worldSize } from '@/lib/map/projection';
+import { greatCirclePoints, KAABA } from '@/lib/qibla';
+import { useColors } from '@/theme/useColors';
 
 /** Points along the full arc to Mecca. At ~40° of central angle that is a sample every
  *  ~0.4°, far below one screen pixel of chord error at any zoom the map offers, and Skia

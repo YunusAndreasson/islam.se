@@ -5,7 +5,7 @@ import { act, fireEvent, render, screen, waitFor } from '@testing-library/react-
 import { Pressable, Text } from 'react-native';
 
 import { LocationProvider, useLocation, useLocationStatus } from './context';
-import { SettingsProvider } from '../settings/context';
+import { SettingsProvider } from '@/lib/settings/context';
 
 const SETTINGS_KEY = 'prayerSettings:v1';
 

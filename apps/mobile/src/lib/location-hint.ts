@@ -10,7 +10,7 @@
 // The stakes are higher here (without a fix the times are simply another city's), but
 // that argues for offering the card at the right MOMENT, not for asking more often —
 // and the user always has the manual city picker, which the card links to.
-import { createHintStore, type HintRecord } from './hints';
+import { createHintStore } from './hints';
 
 const STORAGE_KEY = 'locationHintSeen:v1';
 
@@ -24,9 +24,6 @@ const store = createHintStore(STORAGE_KEY, {
   maxShowings: MAX_SHOWINGS,
 });
 
-export type { HintRecord };
-
-export const loadLocationHintRecord = store.loadRecord;
 export const noteLocationLaunch = store.noteLaunch;
 export const noteLocationShown = store.noteShown;
 export const noteLocationResolved = store.noteResolved;
