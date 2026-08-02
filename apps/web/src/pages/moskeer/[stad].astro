@@ -7,7 +7,6 @@ import SectionLink from "../../components/SectionLink.astro";
 import TitledSection from "../../components/TitledSection.astro";
 import Base from "../../layouts/Base.astro";
 import { SCB_POP_YEAR } from "../../lib/bonetider/meta";
-import { MOSKEER_ENABLED } from "../../lib/config";
 import { nearbyPlaces, officialPopulation, placeBySlug } from "../../lib/bonetider/places-index";
 import { nf0 } from "../../lib/format";
 import { ORG_ID, breadcrumbList, cityPlace, faqPageJsonLd } from "../../lib/jsonld";
@@ -22,8 +21,6 @@ import {
 import { MOSKEER_DATA_DATE } from "../../lib/moskeer/meta";
 
 export function getStaticPaths() {
-	// Gated: no paths means no pages emitted at all — see MOSKEER_ENABLED in lib/config.ts.
-	if (!MOSKEER_ENABLED) return [];
 	return mosquesByCity().map((g) => ({ params: { stad: g.citySlug }, props: g }));
 }
 

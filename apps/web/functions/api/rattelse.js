@@ -2,6 +2,18 @@
 //
 // The root _middleware.js passes non-GET straight to next(), so this route is
 // untouched by markdown negotiation.
+//
+// The IP hash, the rate limit and the mailer hand-off are shared with
+// /api/moske-rattelse — see ./_corrections.js.
+
+import {
+	clampField,
+	EMAIL_PATTERN,
+	fail,
+	hashIp,
+	isRateLimited,
+	notifyMailer,
+} from "./_corrections.js";
 
 const LIMITS = {
 	page: 200,
@@ -12,9 +24,7 @@ const LIMITS = {
 };
 
 const MIN_DESCRIPTION = 10;
-const MAX_PER_HOUR = 5;
 
-const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const PATH_PATTERN = /^\/[\w\-./åäöÅÄÖ]*$/;
 
 // Site-relative path only. The pattern alone is not enough: it allows `/` anywhere,
@@ -28,10 +38,6 @@ function isSitePath(page) {
 	} catch {
 		return false;
 	}
-}
-
-function fail(error, status) {
-	return Response.json({ ok: false, error }, { status });
 }
 
 // Same-origin guard. Comparing against the request's own host rather than a fixed
@@ -48,18 +54,7 @@ function sameOrigin(request) {
 }
 
 function field(body, name) {
-	const raw = body[name];
-	if (typeof raw !== "string") return "";
-	return raw.trim().slice(0, LIMITS[name]);
-}
-
-async function hashIp(ip, salt) {
-	const bytes = new TextEncoder().encode(`${salt}:${ip}`);
-	const digest = await crypto.subtle.digest("SHA-256", bytes);
-	return [...new Uint8Array(digest)]
-		.map((b) => b.toString(16).padStart(2, "0"))
-		.join("")
-		.slice(0, 32);
+	return clampField(body, name, LIMITS[name]);
 }
 
 async function passesTurnstile(token, ip, secret) {
@@ -128,15 +123,7 @@ export async function onRequestPost(context) {
 
 	const ipHash = await hashIp(ip, env.IP_SALT);
 
-	// Format matches the column's own strftime default, so this compares as a string.
-	const recent = await env.RATTELSER.prepare(
-		`SELECT COUNT(*) AS n FROM corrections
-		 WHERE ip_hash = ?1 AND created_at > strftime('%Y-%m-%dT%H:%M:%SZ', 'now', '-1 hour')`,
-	)
-		.bind(ipHash)
-		.first();
-
-	if (recent && recent.n >= MAX_PER_HOUR) return fail("rate_limited", 429);
+	if (await isRateLimited(env.RATTELSER, ipHash)) return fail("rate_limited", 429);
 
 	const inserted = await env.RATTELSER.prepare(
 		`INSERT INTO corrections (page, passage, description, source, reporter_email, ip_hash)
@@ -148,25 +135,11 @@ export async function onRequestPost(context) {
 
 	const id = inserted?.id ?? 0;
 
-	// The correction is already safe in D1; a failed notification must not fail the
-	// submission, or the reader retries and we store it twice.
-	try {
-		const res = await env.MAILER.fetch("https://rattelse-mailer.internal/", {
-			method: "POST",
-			headers: { "content-type": "application/json" },
-			body: JSON.stringify({
-				id,
-				page,
-				passage,
-				description,
-				source,
-				reporter_email: reporterEmail,
-			}),
-		});
-		if (!res.ok) console.error("rattelse notify failed", { id, status: res.status });
-	} catch (error) {
-		console.error("rattelse notify threw", { id, message: String(error) });
-	}
+	await notifyMailer(
+		env,
+		{ id, page, passage, description, source, reporter_email: reporterEmail },
+		"rattelse",
+	);
 
 	return Response.json({ ok: true, id });
 }

@@ -1,5 +1,3 @@
-import { MOSKEER_ENABLED } from "./config";
-
 export interface NavLink {
 	href: string;
 	label: string;
@@ -66,14 +64,12 @@ const pages = {
 	corrections: { href: "/ratta/", label: "Föreslå en rättelse" },
 } as const;
 
-const gatedMosques = MOSKEER_ENABLED ? [pages.mosques] : [];
-
 export const PRIMARY_NAV_LINKS: NavLink[] = [
 	pages.pillars,
 	pages.svar,
 	pages.essaer,
 	pages.prayerTimes,
-	...gatedMosques,
+	pages.mosques,
 	pages.app,
 	pages.podcast,
 ];
@@ -86,7 +82,7 @@ export const PALETTE_READ_LINKS: PaletteNavLink[] = [
 
 export const PALETTE_TOOL_LINKS: PaletteNavLink[] = [
 	{ href: pages.prayerTimes.href, label: pages.prayerTimes.label, sub: pages.prayerTimes.menuSub },
-	...gatedMosques.map((page) => ({ href: page.href, label: page.label, sub: page.menuSub })),
+	{ href: pages.mosques.href, label: pages.mosques.label, sub: pages.mosques.menuSub },
 	{ href: pages.app.href, label: pages.app.label, sub: pages.app.menuSub },
 	{ href: pages.podcast.href, label: pages.podcast.label, sub: pages.podcast.menuSub },
 ];
@@ -116,7 +112,7 @@ export const STANDING_PALETTE_PAGES: PalettePageLink[] = [
 	pages.tankare,
 	pages.calendar,
 	pages.prayerTimes,
-	...gatedMosques,
+	pages.mosques,
 	{ href: pages.app.href, label: pages.app.label, sub: pages.app.sub, alt: "Appen" },
 	pages.podcast,
 	pages.about,

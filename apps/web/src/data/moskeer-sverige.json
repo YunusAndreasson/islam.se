@@ -1076,17 +1076,6 @@
 		"postalCode": "227 64"
 	},
 	{
-		"id": "malmo-islamic-center",
-		"name": "Malmö Islamic Center",
-		"lat": 55.574959,
-		"lng": 13.051455,
-		"city": "Malmö",
-		"citySlug": "malmo",
-		"kommun": "Malmö",
-		"lan": "Skåne",
-		"address": "Västra Skrävlinge kyrkoväg 1 Malmö"
-	},
-	{
 		"id": "malmo-muslimska-forsamling",
 		"name": "Malmö Muslimska församling",
 		"lat": 55.596677,
@@ -1655,18 +1644,6 @@
 		"postalCode": "762 51"
 	},
 	{
-		"id": "rinkeby-mevlana-mosken",
-		"name": "Rinkeby Mevlana Moskén",
-		"lat": 59.386736,
-		"lng": 17.933504,
-		"city": "Stockholm",
-		"citySlug": "stockholm",
-		"kommun": "Stockholm",
-		"lan": "Stockholm",
-		"address": "Rinkeby allé, Rinkeby, Järva stadsdelsområde, Stockholm",
-		"postalCode": "163 74"
-	},
-	{
 		"id": "rissne-moske",
 		"name": "Rissne Moske",
 		"lat": 59.517891,
@@ -1866,16 +1843,6 @@
 		"lan": "Södermanland",
 		"address": "Floragatan, Salsta, Flen",
 		"postalCode": "642 35"
-	},
-	{
-		"id": "flens-moske-flen",
-		"name": "Flens moské",
-		"lat": 59.055308,
-		"lng": 16.595292,
-		"city": "Flen",
-		"citySlug": "flen",
-		"kommun": "Flen",
-		"lan": "Södermanland"
 	},
 	{
 		"id": "katarinaholm-mosken",
@@ -2313,7 +2280,7 @@
 	},
 	{
 		"id": "namnlos-i-osm-vasteras",
-		"name": "Moské i Västerås",
+		"name": "Moské i Örtagården",
 		"lat": 59.601316,
 		"lng": 16.470774,
 		"city": "Västerås",

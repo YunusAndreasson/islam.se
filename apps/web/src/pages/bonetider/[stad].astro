@@ -16,7 +16,6 @@ import { SCB_POP_YEAR, SCB_REF, SCB_SOURCE } from "../../lib/bonetider/meta";
 import { placeFacts } from "../../lib/bonetider/place-facts";
 import { type IndexedPlace, INDEXED_PLACES, nearbyPlaces, officialPopulation, OG_POPULATION } from "../../lib/bonetider/places-index";
 import { stockholmMonthLabel } from "../../lib/bonetider/prayer-times";
-import { MOSKEER_ENABLED } from "../../lib/config";
 import { cityBySlug, directionsLinks, locationLabel, mosqueUrl, nearestMosques } from "../../lib/moskeer";
 
 // These 2 118 pages are 84 % of the whole build (75 s of 90 s). They only change when
@@ -57,12 +56,11 @@ const nearbyMosques = nearestMosques(place.lat, place.lon, 3, 20);
 // one topical cluster (bönetider + moské for the same town), which is what lifts a
 // city into Google's favour for the combined intent.
 const mosqueCity = cityBySlug(place.slug);
-// Gated at the source, not at each call site: this one flag drives the lead
-// paragraph, the meta description, the FAQ entry, the City→Mosque JSON-LD and the
-// on-page block. With the section off they must all fall silent together — a
-// description promising "se även moskéer i {stad}" is a promise in 2118 search
-// snippets that the page no longer keeps. See MOSKEER_ENABLED in lib/config.ts.
-const hasMosquePage = MOSKEER_ENABLED && mosqueCity !== undefined;
+// One derived flag, not a repeated `mosqueCity !== undefined` at each call site: it
+// drives the lead paragraph, the meta description, the FAQ entry, the City→Mosque
+// JSON-LD and the on-page block, which must agree. A description promising "se även
+// moskéer i {stad}" is a promise in 2118 search snippets that the page has to keep.
+const hasMosquePage = mosqueCity !== undefined;
 const cityMosques = mosqueCity?.mosques ?? [];
 const cityMosqueCount = cityMosques.length;
 // "en registrerad moské" / "N registrerade moskéer" — reused across lead, FAQ and prose.
@@ -70,12 +68,7 @@ const cityMosquePhrase = cityMosqueCount === 1 ? "en registrerad moské" : `${ci
 // The mosque set shown in the on-page block: the town's own (heading "Moskéer i {stad}",
 // the exact target query) when it has them, else the nearest within 20 km. Capped so a
 // metro's page stays a teaser that hands off to the full /moskeer/[stad] list.
-// Empty when the section is gated off — note this cannot lean on `hasMosquePage`,
-// because a false one falls through to the NEAREST mosques, which is exactly the
-// branch that would keep rendering links into a /moskeer that is not built.
-const featuredMosques = MOSKEER_ENABLED
-	? (hasMosquePage ? cityMosques : nearbyMosques).slice(0, 6)
-	: [];
+const featuredMosques = (hasMosquePage ? cityMosques : nearbyMosques).slice(0, 6);
 const featuredMosquesTitle = `${featuredMosques.length === 1 ? "Moské" : "Moskéer"} ${hasMosquePage ? "i" : "nära"} ${place.name}`;
 
 // Official SCB statistics are present only where we matched a tätort. Everything in
@@ -355,8 +348,6 @@ if (hasScb) {
 			</p>
 		</TitledSection>
 
-		{/* Gated: see MOSKEER_ENABLED in lib/config.ts — with the section off these
-		    would be 2118 pages of dead links into a /moskeer that is not built. */}
 		{featuredMosques.length > 0 && (
 			<TitledSection class="bt-stad-section" id="bt-stad-moske" title={featuredMosquesTitle}>
 				<p class="bt-stad-note">
