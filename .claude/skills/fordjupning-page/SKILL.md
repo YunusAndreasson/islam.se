@@ -169,12 +169,20 @@ pages).
 Den här sidan bokförde tidigare »zero fiqh sources on both pages« som ett SKRIVFEL att
 rätta i författarprompten. Det var fel diagnos, och åtgärden gjorde skadan värre.
 
-**Sanningen:** `data/books.db` innehåller 33 arabiska verk och **inte ett enda
-furūʿ al-fiqh-verk** — beståndet är taṣawwuf/akhlāq (Ibn al-Qayyim ×8), ʿaqīda
+**Sanningen då:** `data/books.db` innehöll 33 arabiska verk och **inte ett enda
+furūʿ al-fiqh-verk** — beståndet var taṣawwuf/akhlāq (Ibn al-Qayyim ×8), ʿaqīda
 (Ibn Taymiyya ×12), hadith/adab (Riyāḍ, Adab al-Mufrad), korantolkningsvetenskap
-(al-Suyūṭī) och statsrätt (al-Māwardī). `al-Mughnī`, `al-Majmūʿ`, `al-Hidāya`,
-`Bidāyat al-Mujtahid`, `al-Umm`, `al-Mabsūṭ` ger noll träffar. Ingen promptändring kan
-få författaren att citera ett verk som inte finns.
+(al-Suyūṭī) och statsrätt (al-Māwardī). Ingen promptändring kan få författaren att
+citera ett verk som inte finns.
+
+✅ **LUCKAN ÄR STÄNGD (verifierat 2026-08-02).** `books.db` bär nu 57 arabiska verk,
+däribland alla som då hittades på: al-Mughnī (15 349 avsnitt), al-Majmūʿ (11 625),
+al-Umm (9 427), al-Hidāya (2 895), Bidāyat al-mujtahid (2 598), al-Muwaṭṭaʾ, samtliga
+sex hadithsamlingar samt Ibn Kathīrs och al-Qurṭubīs tafsīr. Halal-körningen citerade
+nio av dem och alla nio belades ordagrant. **Kontrollera beståndet innan du planerar
+ett fiqh-tungt ämne** — `sqlite3 data/books.db "select author, title from books where
+language='ar'"` — och sök på den arabiska facktermen (`ذكاة`, `التسمية`,
+`الاستحالة`) innan du lägger en timme på briefen.
 
 **Vad åtgärden orsakade:** prompten kom att KRÄVA ett klassiskt fiqh-verk och namngav
 tre exempel. Författaren kopierade exempellistan rakt in i bibliografin och hittade på
@@ -278,6 +286,30 @@ a field the schema defaults to `[]`. Research therefore returned nothing in 3 of
 straight from the raw brief. The prompt now says what the list is *for* and names the cost of
 leaving it empty, and the author prompt requires a verified id before any corpus block quote.
 **When adding a gate, write the cost of omission, not only the cost of error.**
+
+⚠️⚠️ **Prompträttningen räckte inte — halal (2026-08-02) gav `quotes: 0 av 19` igen.**
+Det var första skarpa provet efter rättningen, och den föll. MCP är rätt kopplat
+(`.mcp.json` skickas in, `get_quote_by_id` står i `allowedTools`), så orsaken är inte
+saknat verktyg. Behandla id-grinden som **obeväpnad tills motsatsen visas i
+grindrapporten** och kontrollera varje svenskt korpuscitat för hand:
+`grep -oP '(?<=citat-id )\d+' <brief>` ger de lagliga id:na, och allt i texten som inte
+finns bland dem är påhittat. På halal höll bryggan ändå — Strindberg låg byteidentiskt
+mot id 8681, och både han och Heidenstam attribuerades korrekt till en *romanreplik*,
+inte till författaren — men det var författarpromptens förtjänst, inte grindens.
+
+⚠️ **`bookPassages` fylls och är verifierbart — men INGEN grind rör det.** `getQuote()`
+slår bara mot `quotes.db`. De arabiska passagerna bär `passage-id` som ingen kod
+kontrollerar. Kör kontrollen själv; den tar sekunder och är den enda som svarar på
+frågan »kommer fiqh-citaten ur korpusen eller ur modellens minne?«.
+⚠️ **En naiv delsträngsjämförelse underkänner ALLT och är värdelös.** `books.db` är OCR
+av tryckta utgåvor: `~~` i radbörjan, sidmarkörer (`PageV09P076`), handskriftsmarkörer
+(`ms4120`) och saknad hamza mitt i meningar. Normalisera bort skräpet, slå ihop
+`أإآ→ا`, `ىی→ي`, `ة→ه`, strippa all interpunktion — jämför bara konsonantskelettet.
+Att skanningens egen stavning (`شىء` med alef maqṣūra) överlever in i citatet är i sig
+ett äkthetsbevis. På halal gav den rättade kontrollen 13 av 13.
+⚠️ **Kontrollen bevisar att citatet FINNS, aldrig att läsningen stämmer.** Faktakollen
+fångade att Ibn Kathīr framställdes som motståndare till al-Qaraḍāwī när passagen
+tvärtom bekräftar konsensus. Passagen var äkta och ordagrann; slutsatsen var fel.
 
 ⚠️ **A non-fatal stage that dies leaves no trace in the numbers.** Ground, Swedish voice and
 the prose correction are all skip-on-failure; on ramadan two of the three never ran and the
