@@ -1,7 +1,7 @@
 import { describe, expect, it } from '@jest/globals';
 import { validateStyleMin } from '@maplibre/maplibre-gl-style-spec';
 
-import { mapStyleFor, NORDIC_DARK, NORDIC_LIGHT } from './nordicStyle';
+import { nordicMapStyleFor, NORDIC_DARK, NORDIC_LIGHT } from './nordicStyle';
 
 const SV_LABEL = ['coalesce', ['get', 'name:sv'], ['get', 'name:latin'], ['get', 'name']];
 
@@ -130,8 +130,14 @@ describe.each([
   });
 });
 
-it('never delegates legacy map-style values to stock styles that can show Copenhagen', () => {
-  expect(mapStyleFor('nordic', 'light')).toBe(NORDIC_LIGHT);
-  expect(mapStyleFor('standard', 'light')).toBe(NORDIC_LIGHT);
-  expect(mapStyleFor('satellite', 'dark')).toBe(NORDIC_DARK);
+// Appearance is the ONLY axis the basemap resolver has. There is deliberately no style
+// choice: a remote stock style ships its own label layers and would reintroduce
+// Copenhagen, which this map's Swedish place-label policy forbids. If a future change
+// reintroduces a style parameter, this test is where that decision has to be re-argued.
+it('resolves the basemap from the OS appearance alone', () => {
+  expect(nordicMapStyleFor('light')).toBe(NORDIC_LIGHT);
+  expect(nordicMapStyleFor('dark')).toBe(NORDIC_DARK);
+  // An unsettled scheme ('unspecified', what useColorScheme reports before the OS
+  // appearance resolves) must land on light rather than on nothing at all.
+  expect(nordicMapStyleFor('unspecified')).toBe(NORDIC_LIGHT);
 });

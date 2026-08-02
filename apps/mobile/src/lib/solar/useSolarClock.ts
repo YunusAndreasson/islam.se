@@ -16,7 +16,7 @@
 // right and the 23 h day's "24:00" lands at 01:00 the next day).
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
-import { addStockholmDays, startOfStockholmDay, stockholmDayLength } from '../stockholm-time';
+import { addStockholmDays, startOfStockholmDay, stockholmDayLength } from '@/lib/stockholm-time';
 
 /** Live-mode tick interval. Exported so the map can glide the displayed instant
  *  CONTINUOUSLY between ticks (a linear ease toward the predicted next tick) instead

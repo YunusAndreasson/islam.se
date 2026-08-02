@@ -2,8 +2,8 @@ import { describe, expect, it } from '@jest/globals';
 
 import type { FeatureCollection } from 'geojson';
 
-import { computePrayerTimes } from '../prayer-times';
-import { DEFAULT_SETTINGS } from '../settings/types';
+import { computePrayerTimes } from '@/lib/prayer-times';
+import { DEFAULT_SETTINGS } from '@/lib/settings/types';
 import { buildGrid, buildLines } from './field';
 
 // A coarse grid keeps these fast while still spanning the default bounds, which are

@@ -5,8 +5,8 @@
 // analytic boundary (polarBoundaryFor) against adhan itself, the source of truth.
 import { describe, expect, test } from '@jest/globals';
 
-import { computePrayerTimes } from '../prayer-times';
-import { DEFAULT_SETTINGS } from '../settings/types';
+import { computePrayerTimes } from '@/lib/prayer-times';
+import { DEFAULT_SETTINGS } from '@/lib/settings/types';
 import { polarBoundaryFor } from './sun';
 
 // Mirror the line grid's settings: bonetider.tsx forces 'unresolved' so the polar cells go

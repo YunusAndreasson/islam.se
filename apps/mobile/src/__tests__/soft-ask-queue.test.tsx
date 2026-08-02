@@ -24,11 +24,11 @@ import * as Location from 'expo-location';
 import * as Notifications from 'expo-notifications';
 import type { ReactNode } from 'react';
 
-import Bonetider from '../app/bonetider';
-import { LocationProvider } from '../lib/location/context';
-import { resetLocationLaunchCountForTests } from '../lib/location-hint';
-import { resetLaunchCountForTests } from '../lib/notification-hint';
-import { SettingsProvider } from '../lib/settings/context';
+import Bonetider from '@/app/bonetider';
+import { LocationProvider } from '@/lib/location/context';
+import { resetLocationLaunchCountForTests } from '@/lib/location-hint';
+import { resetNotificationLaunchCountForTests } from '@/lib/notification-hint';
+import { SettingsProvider } from '@/lib/settings/context';
 
 const SETTINGS_KEY = 'prayerSettings:v1';
 const LOCATION_HINT_KEY = 'locationHintSeen:v1';
@@ -111,7 +111,7 @@ describe('the map offers at most one soft ask per launch', () => {
   beforeEach(async () => {
     await AsyncStorage.clear();
     jest.clearAllMocks();
-    resetLaunchCountForTests();
+    resetNotificationLaunchCountForTests();
     resetLocationLaunchCountForTests();
     jest.useFakeTimers();
   });

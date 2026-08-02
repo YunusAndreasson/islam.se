@@ -146,50 +146,50 @@ export function GlassSurface({
   const reduce = useReduceTransparency();
   const blurTarget = useContext(BlurTargetContext);
   const radius = { borderRadius };
-  const Glass = LIQUID_GLASS ? (
-    <GlassView
-      style={[StyleSheet.absoluteFill, radius]}
-      glassEffectStyle={glassEffectStyle}
-      isInteractive={interactive}
-    />
-  ) : (
-    // BlurView with a `default` tint so the blur itself is colour-neutral — the chrome
-    // tint above provides the warmth/coolness. Intensity 40 is a real blurred backdrop
-    // without going opaque. On Android true behind-content blur requires a
-    // GlassBackdropTarget (see above); without one the explicit "none" renders the
-    // flat translucent fallback. blurMethod is Android-only — iOS < 26 blurs natively.
-    <BlurView
-      style={[StyleSheet.absoluteFill, radius]}
-      tint="default"
-      intensity={40}
-      blurMethod={blurTarget ? 'dimezisBlurViewSdk31Plus' : 'none'}
-      blurTarget={blurTarget ?? undefined}
-    />
-  );
 
-  // Reduce Transparency on: skip the blur/glass material entirely and show a solid
-  // fill from the chrome `tint` (no separate tint overlay — it would double up). The
-  // chrome passes `cardGlass` (~0.90 alpha), so the solid is near-opaque, far more
-  // legible than a blurred surface; a future refinement could thread a fully-opaque
-  // tint. Decorative surfaces with no `tint` (halos / pills) simply drop the material.
-  if (reduce) {
-    return (
-      <View style={[style, radius, { overflow: 'hidden' }]}>
-        {tint ? (
-          <View pointerEvents="none" style={[StyleSheet.absoluteFill, radius, { backgroundColor: tint }]} />
-        ) : null}
-        {children}
-      </View>
+  // The native material layer, or nothing. Reduce Transparency drops it entirely and
+  // lets the chrome `tint` stand alone as a solid fill: the chrome passes `cardGlass`
+  // (~0.90 alpha), so the solid is near-opaque and far more legible than a blurred
+  // surface. Decorative surfaces with no `tint` (halos / pills) then render nothing of
+  // their own, which is the right answer — they were pure material.
+  let material: ReactNode = null;
+  if (!reduce) {
+    material = LIQUID_GLASS ? (
+      <GlassView
+        style={[StyleSheet.absoluteFill, radius]}
+        glassEffectStyle={glassEffectStyle}
+        isInteractive={interactive}
+      />
+    ) : (
+      // BlurView with a `default` tint so the blur itself is colour-neutral — the chrome
+      // tint below provides the warmth/coolness. Intensity 40 is a real blurred backdrop
+      // without going opaque. On Android true behind-content blur requires a
+      // GlassBackdropTarget (see above); without one the explicit "none" renders the flat
+      // translucent fallback. blurMethod is Android-only — iOS < 26 blurs natively.
+      <BlurView
+        style={[StyleSheet.absoluteFill, radius]}
+        tint="default"
+        intensity={40}
+        blurMethod={blurTarget ? 'dimezisBlurViewSdk31Plus' : 'none'}
+        blurTarget={blurTarget ?? undefined}
+      />
     );
   }
 
   return (
-    <View style={[style, radius, { overflow: 'hidden' }]}>
-      {Glass}
+    <View style={[style, radius, styles.clip]}>
+      {material}
       {tint ? (
-        <View pointerEvents="none" style={[StyleSheet.absoluteFill, radius, { backgroundColor: tint }]} />
+        <View
+          pointerEvents="none"
+          style={[StyleSheet.absoluteFill, radius, { backgroundColor: tint }]}
+        />
       ) : null}
       {children}
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  clip: { overflow: 'hidden' },
+});

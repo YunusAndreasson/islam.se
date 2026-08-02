@@ -36,11 +36,11 @@ import {
 } from 'react-native-reanimated';
 import { scheduleOnRN } from 'react-native-worklets';
 
-import { type PrayerKey } from '../../../lib/prayer-times';
-import { type Camera, mercX, mercY, project, worldSize } from '../../../lib/map/projection';
-import { prayerColorFor, washStopsFor } from '../../../lib/solar/palette';
-import { type PolarBoundary, solarParams } from '../../../lib/solar/sun';
-import { useActiveScheme } from '../../../theme/useColors';
+import { type PrayerKey } from '@/lib/prayer-times';
+import { type Camera, mercX, mercY, project, worldSize } from '@/lib/map/projection';
+import { prayerColorFor, washStopsFor } from '@/lib/solar/palette';
+import { type PolarBoundary, solarParams } from '@/lib/solar/sun';
+import { useActiveScheme } from '@/theme/useColors';
 import { QiblaArc } from './QiblaArc';
 import { buildWashSksl } from './washShader';
 

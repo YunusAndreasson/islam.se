@@ -5,10 +5,10 @@
 // upcoming prayer for the next ~36 h; the entry at (prayerₙ + 1 s) naturally shows
 // prayerₙ₊₁ as next. See ./payload.ts for the per-entry data model.
 import type { PrayerTimes } from 'adhan';
-import type { LatLng } from '../lib/prayer-times';
-import { computePrayerTimes, PRAYER_ORDER } from '../lib/prayer-times';
-import type { PrayerSettings } from '../lib/settings/types';
-import { stockholmPrayerDate } from '../lib/stockholm-time';
+import type { LatLng } from '@/lib/prayer-times';
+import { computePrayerTimes, PRAYER_ORDER } from '@/lib/prayer-times';
+import type { PrayerSettings } from '@/lib/settings/types';
+import { stockholmPrayerDate } from '@/lib/stockholm-time';
 import { buildPayloadAt, type WidgetPayload } from './payload';
 
 /** A WidgetKit timeline entry — matches expo-widgets' WidgetTimelineEntry shape. */

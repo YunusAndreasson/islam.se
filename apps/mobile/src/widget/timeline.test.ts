@@ -1,8 +1,8 @@
 import { describe, expect, it } from '@jest/globals';
 
-import { type LatLng, PRAYER_LABELS } from '../lib/prayer-times';
-import { DEFAULT_SETTINGS, type PrayerSettings } from '../lib/settings/types';
-import { oracleTimes } from '../test-utils/prayer-oracle';
+import { type LatLng, PRAYER_LABELS } from '@/lib/prayer-times';
+import { DEFAULT_SETTINGS, type PrayerSettings } from '@/lib/settings/types';
+import { oracleTimes } from '@/test-utils/prayer-oracle';
 import { buildTimeline, MAX_ENTRIES, SPAN_MS } from './timeline';
 
 const STOCKHOLM: LatLng = { latitude: 59.3293, longitude: 18.0686 };

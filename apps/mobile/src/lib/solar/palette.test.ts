@@ -11,12 +11,15 @@
 // dies on a navy basemap, which is exactly how this redesign started).
 import { describe, expect, it } from '@jest/globals';
 
-import { PRAYER_ORDER, type PrayerKey } from '../prayer-times';
+import { lc, wcagContrast } from '@/test-utils/contrast';
+
+import { PRAYER_ORDER, type PrayerKey } from '@/lib/prayer-times';
 import {
   mix,
   PRAYER_COLORS,
   PRAYER_TEXT_COLORS,
   prayerColorFor,
+  prayerTextColorFor,
   rgbaString,
   type RGBA,
   washStopsDark,
@@ -164,6 +167,20 @@ describe('PRAYER_COLORS — light vs dark', () => {
     expect(prayerColorFor('isha', 'light')).toBe(PRAYER_COLORS.isha.light);
     expect(prayerColorFor('isha', 'unspecified')).toBe(PRAYER_COLORS.isha.light);
   });
+
+  // The label twin of the above. It was previously covered only INCIDENTALLY, by
+  // MapMarkersOverlay happening to render a pill inside a full-screen test — coverage
+  // that came and went with the intro animation's timers. Pinned directly here: the two
+  // pickers must resolve the same way, or a pill's label and its line disagree about
+  // which scheme is active.
+  it('prayerTextColorFor resolves the scheme the same way prayerColorFor does', () => {
+    for (const prayer of PRAYER_ORDER) {
+      expect(prayerTextColorFor(prayer, 'dark')).toBe(PRAYER_TEXT_COLORS[prayer].dark);
+      expect(prayerTextColorFor(prayer, 'light')).toBe(PRAYER_TEXT_COLORS[prayer].light);
+      // An unsettled scheme must fall to light, exactly as the line picker does.
+      expect(prayerTextColorFor(prayer, 'unspecified')).toBe(PRAYER_TEXT_COLORS[prayer].light);
+    }
+  });
 });
 
 // The map pill's label colours. These are the one place a prayer hue is used as small
@@ -178,25 +195,35 @@ describe('PRAYER_COLORS — light vs dark', () => {
 describe('PRAYER_TEXT_COLORS — legible on the pill, and still the line’s hue', () => {
   const PILL_LIGHT = '#fffdf8';
   const PILL_DARK = '#222840';
-  /** WCAG 2.1 relative luminance. */
-  const luminance = (hex: string): number => {
-    const c = [1, 3, 5].map((i) => Number.parseInt(hex.slice(i, i + 2), 16) / 255);
-    const lin = c.map((x) => (x <= 0.03928 ? x / 12.92 : ((x + 0.055) / 1.055) ** 2.4));
-    return 0.2126 * lin[0] + 0.7152 * lin[1] + 0.0722 * lin[2];
-  };
-  const contrast = (a: string, b: string): number => {
-    const [hi, lo] = [luminance(a), luminance(b)].sort((x, y) => y - x);
-    return (hi + 0.05) / (lo + 0.05);
-  };
-
-  it('computes a known ratio correctly (the oracle itself is sane)', () => {
-    expect(contrast('#000000', '#ffffff')).toBeCloseTo(21, 5);
-    expect(contrast('#ffffff', '#ffffff')).toBeCloseTo(1, 5);
-  });
+  // One shared oracle (src/test-utils/contrast.ts), not a local copy — this file used to
+  // carry its own WCAG implementation, and a WCAG-only check is precisely what let the
+  // dark labels sit at Lc 49–55 while reporting a healthy 5.8:1.
+  const contrast = wcagContrast;
 
   it.each(PRAYER_ORDER)('%s clears 4.5:1 as text in both schemes', (prayer: PrayerKey) => {
     expect(contrast(PRAYER_TEXT_COLORS[prayer].light, PILL_LIGHT)).toBeGreaterThanOrEqual(4.5);
     expect(contrast(PRAYER_TEXT_COLORS[prayer].dark, PILL_DARK)).toBeGreaterThanOrEqual(4.5);
+  });
+
+  // The measure that WCAG hides. Both schemes must clear the body-text floor, and — the
+  // real invariant — the six labels must land at roughly ONE strength, because that is
+  // what makes a row of pills read as one family instead of six unrelated inks. The light
+  // set has always done this (all Lc ≈ 71, derived by moving L only); dark did not until
+  // 2026-08, when it ranged Lc 49–69 with three labels under the floor.
+  it.each(PRAYER_ORDER)('%s clears the APCA text floor in both schemes', (prayer: PrayerKey) => {
+    expect(lc(PRAYER_TEXT_COLORS[prayer].light, PILL_LIGHT)).toBeGreaterThanOrEqual(62);
+    expect(lc(PRAYER_TEXT_COLORS[prayer].dark, PILL_DARK)).toBeGreaterThanOrEqual(62);
+  });
+
+  it.each([
+    ['light', PILL_LIGHT],
+    ['dark', PILL_DARK],
+  ])('the six %s labels read as one family', (scheme, pill) => {
+    const strengths = PRAYER_ORDER.map((p) => lc(PRAYER_TEXT_COLORS[p][scheme as 'light' | 'dark'], pill));
+    // Isha's light value is the one deliberate outlier: its Prussian indigo was already
+    // legible and was left untouched rather than lightened to match the other five.
+    const spread = Math.max(...strengths) - Math.min(...strengths);
+    expect(spread).toBeLessThanOrEqual(scheme === 'light' ? 22 : 4);
   });
 
   // Why this file needs to exist at all: it documents that the LINE colours genuinely
@@ -209,11 +236,34 @@ describe('PRAYER_TEXT_COLORS — legible on the pill, and still the line’s hue
     expect(failing.length).toBeGreaterThan(0);
   });
 
-  // Dark mode needs no darkening — the line colours already pass there, so the label
-  // wears the line colour verbatim. Divergence would be an accident, not a decision.
-  it('reuses the line colour unchanged in dark mode', () => {
+  // Dark labels used to BE the line colours verbatim, on the reasoning that they already
+  // cleared 4.5:1 there. They did — and still measured Lc 49–55 on three of six, because
+  // WCAG 2 misjudges light-on-dark. They are now derived the same way the light ones are:
+  // lightness moved, hue held. This asserts the derivation, which is what stops a future
+  // pass from "simplifying" them back onto the line colours.
+  it('derives the dark labels from the line colours rather than reusing them', () => {
+    const derived = PRAYER_ORDER.filter((p) => PRAYER_TEXT_COLORS[p].dark !== PRAYER_COLORS[p].dark);
+    expect(derived).toEqual([...PRAYER_ORDER]);
+    // Note the correction went BOTH ways: fajr/maghrib/isha were lifted off the floor,
+    // while sunrise and dhuhr came DOWN a little to join the family. The goal was one
+    // strength, not a brighter map — "Nordic restraint, no neon" still governs.
+    const brighter = PRAYER_ORDER.filter(
+      (p) => lc(PRAYER_TEXT_COLORS[p].dark, PILL_DARK) > lc(PRAYER_COLORS[p].dark, PILL_DARK),
+    );
+    expect(brighter.length).toBeGreaterThan(0);
+    expect(brighter.length).toBeLessThan(PRAYER_ORDER.length);
+  });
+
+  // The dark half of the hue-family rule the light labels already obey: moving lightness
+  // is allowed, changing which channel dominates is not — a terracotta maghrib label must
+  // not drift blue just because it was lifted.
+  it('keeps each dark text colour in its line’s hue family', () => {
+    const rgb = (h: string) => [1, 3, 5].map((i) => Number.parseInt(h.slice(i, i + 2), 16));
+    const order = ([r, g, b]: number[]) => [r >= g, g >= b, r >= b].join();
     for (const prayer of PRAYER_ORDER) {
-      expect(PRAYER_TEXT_COLORS[prayer].dark).toBe(PRAYER_COLORS[prayer].dark);
+      expect(order(rgb(PRAYER_TEXT_COLORS[prayer].dark))).toBe(
+        order(rgb(PRAYER_COLORS[prayer].dark)),
+      );
     }
   });
 

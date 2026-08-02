@@ -21,19 +21,19 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react-native';
 import { Madhab } from 'adhan';
 
-import Berakning from '../app/(settings)/berakning';
-import Installningar from '../app/(settings)/installningar';
-import { LocationProvider } from '../lib/location/context';
+import Berakning from '@/app/(settings)/berakning';
+import Installningar from '@/app/(settings)/installningar';
+import { LocationProvider } from '@/lib/location/context';
 import {
   formatTime,
   type LatLng,
   PRAYER_LABELS,
   PRAYER_ORDER,
   type PrayerKey,
-} from '../lib/prayer-times';
-import { SettingsProvider } from '../lib/settings/context';
-import { DEFAULT_COORDS, DEFAULT_SETTINGS } from '../lib/settings/types';
-import { oracleTimes } from '../test-utils/prayer-oracle';
+} from '@/lib/prayer-times';
+import { SettingsProvider } from '@/lib/settings/context';
+import { DEFAULT_COORDS, DEFAULT_SETTINGS } from '@/lib/settings/types';
+import { oracleTimes } from '@/test-utils/prayer-oracle';
 
 // jest.setup mocks expo-location to return this exact coordinate, and it equals
 // DEFAULT_COORDS — so in GPS mode (the default) the resolved location is Stockholm

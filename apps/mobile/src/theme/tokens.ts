@@ -25,6 +25,25 @@ export const radius = {
   round: 999,
 } as const;
 
+/**
+ * THE MARK'S OWN COLOURS — the blue/gold concentric rings of the islam.se logo.
+ * These are the SAME values as `--mark-blue` / `--mark-gold` in
+ * `apps/web/src/styles/tokens.css`; the mark is one artwork across web and mobile, so
+ * it gets one pair of colours. Two sets because no single pair clears both grounds:
+ * the blue that reads on cream (7.2:1) collapses to 2.1:1 on the dark ground.
+ *
+ * NOT a UI accent, and deliberately not the same thing as `accent` / `highlight`
+ * below. The mark identifies the app (icon, splash, the Android notification's
+ * tinted glyph); `accent` and `highlight` are FUNCTIONAL colours derived from the
+ * solar palette, and they answer to contrast requirements the mark does not — brand
+ * gold measures 1.75:1 on the light ground and could never carry label text. Reach
+ * for `brand` only where the LOGO is what's being drawn.
+ */
+export const brand = {
+  blue: { light: '#2a557f', dark: '#4b739d' },
+  gold: { light: '#e1b761', dark: '#fad486' },
+} as const;
+
 // Colour. Two palettes — light + dark — sharing one key set, so `useColors()`
 // (theme/useColors.ts) can hand a surface the active one and every component reads
 // the same names. The light palette is a WARM editorial parchment that makes the
@@ -109,7 +128,36 @@ export type Palette = { readonly [K in keyof typeof lightPalette]: string };
 // handoff reads as one continuous world instead of a warm-dark island over a
 // cool-dark map. We keep the WARM pale ink: the warm-on-cool tension is the
 // app's visual signature, and the contrast is high. The 2026 May Prussian /
-// brass jewel-tones stay; accent matches solar isha for both modes.
+// brass jewel-tones stay; accent is the solar isha HUE for both modes.
+//
+// ── The foreground tiers are set by APCA, not by WCAG (2026-08) ────────────────
+// Every tier below used to be chosen against WCAG 2, and by that measure they were
+// all comfortably AA (6.1–7.7:1). Measured with APCA they were not: `inkMuted` came
+// in at Lc 55, `accent`-as-text at Lc 51, `highlightText` at Lc 50, and `inkFaint` —
+// which carries real 13 pt captions (dock sub-place, mosque distance, day-picker
+// weekdays, the Om colophon) — at **Lc 33**, which is APCA's non-text/disabled band.
+//
+// This is not a new opinion, it is a known defect in the WCAG 2 formula: it
+// systematically flatters LIGHT-ON-DARK, so a dark palette can pass AA everywhere and
+// still be thin to read. apps/web hit exactly this and re-cut its own dark column by
+// APCA (see `--color-muted` in apps/web/src/styles/tokens.css, which notes its old
+// value "passed WCAG AA at 4.64:1 — and measured APCA Lc 35"). Mobile never got that
+// pass, which is how the two platforms drifted apart in the dark.
+//
+// The correction moves LIGHTNESS ONLY, holding OKLCh hue and chroma (every tier below
+// stayed within 3° of hue and 0.001 of chroma) — the same technique PRAYER_TEXT_COLORS
+// in lib/solar/palette.ts already used to make the light pill labels legible. So the
+// palette's identity is untouched; only its legibility moved. The resulting ladder
+// lines up with the web's dark ladder almost exactly:
+//
+//     tier            Lc here   web's dark equivalent
+//     ink                87.8   --color-text   89.9
+//     highlightText      81.3   --text-body    81.3
+//     inkMuted           70.0   --text-quiet   72.2
+//     accent             65.5   --text-meta    67.7
+//     inkFaint           62.0   --color-muted  62.0
+//
+// theme/tokens.test.ts pins these, so the two platforms cannot silently diverge again.
 export const darkPalette: Palette = {
   paper: '#161a26', //          cool deep navy ground (was warm #181613)
   paperSunken: '#0f121b', //    deeper sunken navy
@@ -117,29 +165,38 @@ export const darkPalette: Palette = {
   cardGlass: 'rgba(29,34,51,0.90)', // translucent card over the night map
 
   ink: '#e8e3d8', //            warm pale ink (deliberate warm/cool tension)
-  inkMuted: '#a8acba', //       cool muted — neutral on navy
-  inkFaint: '#7a8094', //       cool faint label tier
+  inkMuted: '#c1c6d4', //       cool muted — neutral on navy (was #a8acba, Lc 55 → 70)
+  inkFaint: '#b1b8cd', //       cool faint label tier (was #7a8094, Lc 33 → 62)
 
   border: '#2a3045',
   separator: '#222840',
   hairline: 'rgba(225,232,255,0.12)',
 
   // Dark accent mirrors the light token's Prussian shift (green-ward, not just dimmer),
-  // so light↔dark sits on one hue axis. Soft tint kept unchanged (drift is invisible).
-  accent: '#94a2dd',
-  accentDeep: '#7888ca',
-  accentSoft: 'rgba(148,162,221,0.16)',
+  // so light↔dark sits on one hue axis. Lifted from #94a2dd (Lc 51 → 65) because it is
+  // read as TEXT here, not just drawn as an icon — "Återställ", the Om links, the qibla
+  // status line. `accentDeep` is the PRESSED fill under it and keeps the same OKLab-L
+  // press delta (0.082) it always had, so the press still reads as one step down.
+  accent: '#adbcf8',
+  accentDeep: '#90a1e5',
+  accentSoft: 'rgba(173,188,248,0.16)',
 
-  // 2026 refinement: muted from `#d8a94e` toward Cloud Dancer calm; still WCAG-AA
-  // against the night map (≈5.5:1), so the next-prayer signal stays legible.
+  // `highlight` is the GRAPHIC brass — the qibla needle, the location dot, the widget
+  // glyphs. It stays at the 2026 "Cloud Dancer calm" value: as a graphic it needs Lc 45
+  // and measures 50, so it is fine, and brightening it would make the needle shout.
+  // `highlightText` is a different job — the dock countdown and the next-prayer name —
+  // and at #c89a48 it measured Lc 50, under the Lc 60 floor for text. Dark mode had
+  // simply collapsed the two into one value; light mode never did (#b8862f fill vs
+  // #805b1f text). Split again, and the text half lands on the MARK's own dark gold,
+  // so the app's loudest "look here" is now literally the brand colour.
   highlight: '#c89a48',
   highlightSoft: 'rgba(200,154,72,0.16)',
-  highlightText: '#c89a48',
+  highlightText: brand.gold.dark,
   onAccent: '#161a26',
   onHighlight: '#161a26',
 
   track: 'rgba(225,232,255,0.16)',
-  trackFill: 'rgba(148,162,221,0.45)',
+  trackFill: 'rgba(173,188,248,0.45)', // accent's channels — keep in step with it
   thumb: '#e8e3d8',
   handle: 'rgba(225,232,255,0.32)',
 
@@ -154,11 +211,6 @@ export const darkPalette: Palette = {
   shadow: '#000000',
   white: '#ffffff',
 };
-
-/** The static (light) palette, kept for non-themed call-sites (map cartography,
-    shadow presets, anything sun-driven rather than OS-driven). Theme-aware screens
-    reach for `useColors()` instead. */
-export const palette = lightPalette;
 
 // Type scale. System font (SF / Roboto — both clean and Nordic-friendly) with a
 // disciplined hierarchy: a few sizes, deliberate weights, generous line-height on
@@ -184,24 +236,26 @@ export const type = {
     array doesn't force the scale readonly). Spread alongside a size from `type`. */
 export const mono: TextStyle = { fontVariant: ['tabular-nums'] };
 
-/** Elevation presets — soft, low, Nordic (never a hard drop shadow). */
+/** Elevation presets — soft, low, Nordic (never a hard drop shadow). The shadow colour
+    is the LIGHT palette's on both themes: a shadow reads as the absence of light, and
+    the warm near-black is dark enough to disappear against the night grounds anyway. */
 export const shadow = {
   card: {
-    shadowColor: palette.shadow,
+    shadowColor: lightPalette.shadow,
     shadowOpacity: 0.18,
     shadowRadius: 16,
     shadowOffset: { width: 0, height: 6 },
     elevation: 8,
   },
   button: {
-    shadowColor: palette.shadow,
+    shadowColor: lightPalette.shadow,
     shadowOpacity: 0.16,
     shadowRadius: 10,
     shadowOffset: { width: 0, height: 3 },
     elevation: 6,
   },
   thumb: {
-    shadowColor: palette.shadow,
+    shadowColor: lightPalette.shadow,
     shadowOpacity: 0.25,
     shadowRadius: 3,
     shadowOffset: { width: 0, height: 1 },
@@ -210,7 +264,7 @@ export const shadow = {
   // A whisper of shadow for quiet map annotations (the prayer pills float over the
   // changing wash, so they want presence without a visible drop). Lighter than `thumb`.
   dot: {
-    shadowColor: palette.shadow,
+    shadowColor: lightPalette.shadow,
     shadowOpacity: 0.1,
     shadowRadius: 3,
     shadowOffset: { width: 0, height: 1 },

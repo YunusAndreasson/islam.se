@@ -10,7 +10,7 @@ import {
   hapticSuccess,
   hapticWarning,
   setHapticsEnabled,
-} from '../haptics';
+} from '@/lib/haptics';
 
 // The haptics wrapper is gated by a module-level flag the SettingsProvider syncs from
 // the user's "Haptik" preference (a flag rather than context because the helpers fire

@@ -16,9 +16,9 @@ import {
   requestNotificationPermission,
   resetSyncStateForTests,
   syncPrayerNotifications,
-} from '../notifications';
-import { stockholmParts } from '../stockholm-time';
-import { DEFAULT_SETTINGS, type PrayerSettings } from '../settings/types';
+} from '@/lib/notifications';
+import { stockholmParts } from '@/lib/stockholm-time';
+import { DEFAULT_SETTINGS, type PrayerSettings } from '@/lib/settings/types';
 
 // Stockholm — below the Arctic Circle, so all five prayers resolve to valid times
 // across the 7-day scheduling window (no polar-circle NaNs to muddy the comparison).

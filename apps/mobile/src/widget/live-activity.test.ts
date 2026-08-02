@@ -1,8 +1,8 @@
 import { describe, expect, it } from '@jest/globals';
 
-import { type LatLng, PRAYER_LABELS } from '../lib/prayer-times';
-import { DEFAULT_SETTINGS, type PrayerSettings } from '../lib/settings/types';
-import { oracleTimes } from '../test-utils/prayer-oracle';
+import { type LatLng, PRAYER_LABELS } from '@/lib/prayer-times';
+import { DEFAULT_SETTINGS, type PrayerSettings } from '@/lib/settings/types';
+import { oracleTimes } from '@/test-utils/prayer-oracle';
 import {
   buildPrayerActivityProps,
   isWithinLiveActivityWindow,

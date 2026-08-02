@@ -39,7 +39,7 @@ export interface HintPolicy {
   maxShowings: number;
 }
 
-export const EMPTY_HINT_RECORD: HintRecord = { launches: 0, shown: 0, resolved: false };
+const EMPTY_HINT_RECORD: HintRecord = { launches: 0, shown: 0, resolved: false };
 
 /**
  * The whole re-show policy, as one pure expression so it can be tested without

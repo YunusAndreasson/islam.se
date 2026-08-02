@@ -14,7 +14,7 @@ import { router } from 'expo-router';
 import { StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { useColors } from '../../theme/useColors';
+import { useColors } from '@/theme/useColors';
 import { CompassButton } from './CompassButton';
 import { GlassRoundButton } from './GlassRoundButton';
 

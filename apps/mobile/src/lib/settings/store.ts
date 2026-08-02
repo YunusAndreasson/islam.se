@@ -14,7 +14,6 @@ import {
   type HighLatitudeRuleKey,
   type LocationMode,
   type Madhab,
-  type MapStyleId,
   type NotificationSoundKey,
   type PerPrayerSlot,
   type PolarCircleResolutionKey,
@@ -56,10 +55,6 @@ const SHAFAQS = ['general', 'ahmer', 'abyad'] as const satisfies readonly Shafaq
 const ROUNDINGS = ['nearest', 'up', 'none'] as const satisfies readonly Rounding[];
 const LOCATION_MODES = ['gps', 'manual'] as const satisfies readonly LocationMode[];
 const THEMES = ['system', 'light', 'dark'] as const satisfies readonly ThemePreference[];
-// `standard`/`satellite` remain in MapStyleId only to read older in-memory callers;
-// persisted values migrate to Nordic so remote stock labels cannot bypass the
-// app's Swedish place-label policy.
-const MAP_STYLES = ['nordic'] as const satisfies readonly MapStyleId[];
 // The six computed slots. Shared by all three per-slot records (adjustments, notification
 // lead, notification sound) — they are keyed identically by construction (PerPrayerSlot).
 const PRAYER_SLOT_KEYS = ['fajr', 'sunrise', 'dhuhr', 'asr', 'maghrib', 'isha'] as const;
@@ -207,7 +202,6 @@ function sanitizeSettings(parsed: unknown): PrayerSettings {
           }
         : DEFAULT_SETTINGS.manualLocation,
     theme: enumValue(raw.theme, THEMES, DEFAULT_SETTINGS.theme),
-    mapStyle: enumValue(raw.mapStyle, MAP_STYLES, DEFAULT_SETTINGS.mapStyle),
     showMosques: booleanValue(raw.showMosques, DEFAULT_SETTINGS.showMosques),
     showQibla: booleanValue(raw.showQibla, DEFAULT_SETTINGS.showQibla),
     haptics: booleanValue(raw.haptics, DEFAULT_SETTINGS.haptics),

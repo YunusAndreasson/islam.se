@@ -4,7 +4,7 @@
 import { describe, expect, it, jest } from '@jest/globals';
 import { render, screen } from '@testing-library/react-native';
 
-import type { Camera } from '../../../lib/map/projection';
+import type { Camera } from '@/lib/map/projection';
 import { SolarSkiaOverlay } from './SolarSkiaOverlay';
 
 // Every Skia draw node renders as null under the jest mock, so a path on the canvas is

@@ -18,12 +18,15 @@ jest.mock('react-native-safe-area-context', () => {
 // The screen tests render without a navigator, so report focused and stub router's
 // navigation methods. useFocusEffect runs as a normal React effect so focused-screen
 // behavior (Qibla heading setup/cleanup) is still exercised under test.
+// useLocalSearchParams returns {} by default — the correction screen reads ?id= from it,
+// so its tests override the mock to name a mosque.
 jest.mock('expo-router', () => ({
   useIsFocused: () => true,
   useFocusEffect: (callback) => {
     const React = require('react');
     React.useEffect(callback, [callback]);
   },
+  useLocalSearchParams: jest.fn(() => ({})),
   router: { navigate: jest.fn(), push: jest.fn(), back: jest.fn(), replace: jest.fn(), canGoBack: jest.fn(() => true) },
 }));
 
@@ -247,6 +250,22 @@ jest.mock('expo-mail-composer', () => ({
   isAvailableAsync: jest.fn(async () => true),
   composeAsync: jest.fn(async () => ({ status: 'sent' })),
 }));
+// The mosque correction form (src/app/moske-rattelse) is the app's ONLY outbound request.
+// Default it to a successful submission so screens that merely render the form don't hit
+// the network; tests that care about a specific response override global.fetch themselves.
+//
+// ⚠️ Deliberately NOT polyfilling AbortSignal.timeout here. Node has it and React Native
+// does not (RN swaps the global for the `abort-controller` package, which ships no static
+// timeout()), so a polyfill would make the suite greener than the device — which is
+// exactly how the first version of submitMosqueReport shipped a call that would have
+// thrown TypeError on every submission and been reported to the user as "no connection".
+// If a test ever fails on a missing AbortSignal member, fix the source, not this file.
+global.fetch = jest.fn(async () => ({
+  ok: true,
+  status: 200,
+  json: async () => ({ ok: true, id: 1 }),
+}));
+
 // expo-store-review is native (Om's "Betygsätt appen" row). Report an in-place
 // review action available so the requestReview path runs under test.
 jest.mock('expo-store-review', () => ({

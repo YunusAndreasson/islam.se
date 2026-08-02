@@ -4,9 +4,9 @@
 // about identity (did we get the same object back?) rather than about values.
 import { beforeEach, describe, expect, it } from '@jest/globals';
 
-import { computeSignature } from '../settings/compute-signature';
-import { DEFAULT_SETTINGS, type PrayerSettings } from '../settings/types';
-import { addStockholmDays, startOfStockholmDay } from '../stockholm-time';
+import { computeSignature } from '@/lib/settings/compute-signature';
+import { DEFAULT_SETTINGS, type PrayerSettings } from '@/lib/settings/types';
+import { addStockholmDays, startOfStockholmDay } from '@/lib/stockholm-time';
 import { __resetGridCache, gridForDay } from './grid-cache';
 
 const TODAY = startOfStockholmDay(Date.UTC(2026, 6, 15, 12));

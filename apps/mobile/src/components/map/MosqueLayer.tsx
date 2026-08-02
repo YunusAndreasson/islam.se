@@ -1,4 +1,4 @@
-// The mosque POI layer — Sweden's ~255 mosques on the basemap as quiet, zoom-gated
+// The mosque POI layer — Sweden's ~235 mosques on the basemap as quiet, zoom-gated
 // places, NOT attention-grabbing pins. It renders as a NATIVE MapLibre source+layers
 // (a child of <Map>), unlike the app's other overlays (the solar wash / prayer pills,
 // which are RN/Skia siblings projected over the map). Going native buys things for free
@@ -7,7 +7,7 @@
 //
 // TWO TIERS, crossfading by zoom so a mosque always reads at the right scale:
 //   • DUST  (circle, z≲8) — at the fully-zoomed-out national view a mosque glyph would be an
-//     invisible speck, so instead each of the ~255 mosques renders as a tiny, soft warm dot:
+//     invisible speck, so instead each of the ~235 mosques renders as a tiny, soft warm dot:
 //     a fine "snow" dusting scattered across the country, naturally denser where mosques
 //     concentrate (the south / the metros) and sparse in the north — a truthful "where the
 //     mosques are" without a heavy glow. Mosques are a SECONDARY feature, so this is only a
@@ -39,9 +39,9 @@ import type { PressEventWithFeatures } from '@maplibre/maplibre-react-native';
 import { useEffect, useMemo, useState } from 'react';
 import type { ImageSourcePropType, NativeSyntheticEvent } from 'react-native';
 
-import { hapticLight } from '../../lib/haptics';
-import { type Mosque, mosqueById, toFeatureCollection } from '../../lib/mosques';
-import { useActiveScheme, useColors } from '../../theme/useColors';
+import { hapticLight } from '@/lib/haptics';
+import { type Mosque, mosqueById, toFeatureCollection } from '@/lib/mosques';
+import { useActiveScheme, useColors } from '@/theme/useColors';
 
 const SOURCE_ID = 'mosques';
 const LAYER_ID = 'mosque-symbols';
@@ -150,7 +150,7 @@ export function MosqueLayer({ onSelect }: Props) {
           paint={{
             'circle-color': snow.color,
             // Tiny — a snow fleck at national zoom, growing only slightly toward the glyph
-            // handoff. Small enough that even 255 of them read as a light dusting, not clutter.
+            // handoff. Small enough that even 235 of them read as a light dusting, not clutter.
             'circle-radius': ['interpolate', ['linear'], ['zoom'], 4, 1.2, 6, 1.7, 8, 2.6],
             // A little blur turns each hard pixel into a soft speck (snow, not confetti).
             'circle-blur': 0.4,

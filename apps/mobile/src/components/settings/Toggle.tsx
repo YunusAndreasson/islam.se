@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import { StyleSheet, Switch, Text, View } from 'react-native';
 
-import { space, type } from '../../theme/tokens';
+import { space, type } from '@/theme/tokens';
 import { type SettingsColors, useSettingsColors } from './theme';
 
 // A labelled switch row for boolean settings (notifications on/off, per-prayer

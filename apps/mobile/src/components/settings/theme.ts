@@ -5,7 +5,7 @@
 // `makeStyles(colors)` only rebuilds when the theme flips. See theme/tokens.ts.
 import { useMemo } from 'react';
 
-import { useColors } from '../../theme/useColors';
+import { useColors } from '@/theme/useColors';
 
 export function useSettingsColors() {
   const c = useColors();

@@ -8,7 +8,7 @@ import * as Notifications from 'expo-notifications';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Platform } from 'react-native';
 
-import { palette } from '../theme/tokens';
+import { brand } from '@/theme/tokens';
 import {
   computePrayerTimes,
   formatTime,
@@ -69,7 +69,7 @@ let channelsEnsured = false;
 // re-syncs that every foreground would otherwise trigger.
 let firstSyncDone = false;
 
-/** Test seam — mirrors resetLaunchCountForTests() in ./notification-hint.ts. */
+/** Test seam — mirrors resetNotificationLaunchCountForTests() in ./notification-hint.ts. */
 export function resetSyncStateForTests(): void {
   firstSyncDone = false;
   channelsEnsured = false;
@@ -207,10 +207,14 @@ async function ensureAndroidChannels(): Promise<void> {
       groupId: CHANNEL_GROUP_ID,
       importance: Notifications.AndroidImportance.HIGH,
       vibrationPattern: [0, 250, 120, 250],
-      // The notification LED accent = the app's brand indigo, single-sourced from the
-      // design tokens. `palette` is the static light palette tokens.ts exposes for
-      // non-themed call-sites like this one.
-      lightColor: palette.accent,
+      // The channel accent is the MARK's blue, not the UI accent — this colour tints
+      // the app's glyph in the Android shade, so it is the logo speaking, and it has to
+      // match `expo-notifications.color` in app.json (both are `brand.blue.light`).
+      // They used to disagree: app.json said #2a557f while this said accent #33437a, two
+      // blues 20° apart on one notification. The LIGHT variant specifically — a channel's
+      // colour is frozen at creation and lives in the OS shade, so it cannot follow the
+      // app's theme.
+      lightColor: brand.blue.light,
       // The `sound` key carries a THREE-way contract in expo's native channel manager
       // (AndroidXNotificationsChannelManager): key ABSENT → the system default tone;
       // key present and NULL → no sound at all; key present with a string → a res/raw

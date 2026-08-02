@@ -12,6 +12,7 @@ import * as Location from 'expo-location';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { type SharedValue, useSharedValue, withTiming } from 'react-native-reanimated';
 
+import { motion } from '@/theme/tokens';
 import { headingReliable, normalizeHeading, shortestTurn } from './qibla';
 
 // Below this heading change (deg) the qibla-lock decision (tolerance ~several degrees) can't
@@ -56,8 +57,11 @@ export function useHeading({ active, request }: Options): Heading {
       lastRaw.current = norm;
       // Idiomatic reanimated: drive the shared value from JS. The compiler's
       // immutability rule can't see a SharedValue is meant to be mutated.
+      // `motion.quick` is the token that exists for exactly this — sensor tracking has
+      // to follow the magnetometer near 1:1 or the needle feels laggy. The Qibla screen
+      // eases its rose and proximity on the same token.
       // eslint-disable-next-line react-hooks/immutability
-      rotation.value = withTiming(unwrapped.current, { duration: 110 });
+      rotation.value = withTiming(unwrapped.current, { duration: motion.quick });
       // Coarse-gate the React state so the consumer (CompassButton) re-renders on a MEANINGFUL
       // heading change, not every magnetometer tick (~60/s). Its only heading-derived output is
       // the qibla lock, whose tolerance is several degrees, so sub-0.5° jitter — the steady-hand

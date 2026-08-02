@@ -2,7 +2,7 @@
   "expo": {
     "name": "islam.se",
     "slug": "islam-se-mobile",
-    "version": "1.0.4",
+    "version": "1.0.5",
     "orientation": "portrait",
     "scheme": "islamse",
     "userInterfaceStyle": "automatic",
@@ -15,7 +15,7 @@
         "tinted": "./assets/images/ios-tinted.png"
       },
       "bundleIdentifier": "se.islam.mobile",
-      "buildNumber": "17",
+      "buildNumber": "18",
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false,
         "CFBundleDevelopmentRegion": "sv"
@@ -27,7 +27,7 @@
     "android": {
       "package": "se.islam.mobile",
       "userInterfaceStyle": "automatic",
-      "versionCode": 6,
+      "versionCode": 7,
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "monochromeImage": "./assets/images/adaptive-icon-monochrome.png",
@@ -79,10 +79,10 @@
           "image": "./assets/images/splash-icon.png",
           "imageWidth": 200,
           "resizeMode": "contain",
-          "backgroundColor": "#fff6e8",
+          "backgroundColor": "#f6f3ed",
           "dark": {
             "image": "./assets/images/splash-icon-dark.png",
-            "backgroundColor": "#1d1912"
+            "backgroundColor": "#161a26"
           }
         }
       ],

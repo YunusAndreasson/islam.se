@@ -1,7 +1,7 @@
 import { type ReactNode, useMemo } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
-import { space, type } from '../../theme/tokens';
+import { space, type } from '@/theme/tokens';
 import { type SettingsColors, useSettingsColors } from './theme';
 
 // A card grouping related setting rows. The title (optional) sits INSIDE the card

@@ -7,7 +7,7 @@
 import { describe, expect, it } from '@jest/globals';
 import { render } from '@testing-library/react-native';
 
-import type { Camera } from '../../../lib/map/projection';
+import type { Camera } from '@/lib/map/projection';
 import { QiblaArc } from './QiblaArc';
 
 const shared = <T,>(value: T) => ({ value }) as never;

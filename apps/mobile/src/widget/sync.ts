@@ -5,8 +5,8 @@
 // foreground, and whenever settings or location change (app/_layout.tsx → WidgetSync).
 import { Platform } from 'react-native';
 
-import type { LatLng } from '../lib/prayer-times';
-import type { PrayerSettings } from '../lib/settings/types';
+import type { LatLng } from '@/lib/prayer-times';
+import type { PrayerSettings } from '@/lib/settings/types';
 import { buildTimeline } from './timeline';
 
 /**

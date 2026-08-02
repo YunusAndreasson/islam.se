@@ -1,6 +1,6 @@
 import { describe, expect, it } from '@jest/globals';
 
-import { DEFAULT_COORDS } from '../settings/types';
+import { DEFAULT_COORDS } from '@/lib/settings/types';
 import { resolveLocation } from './resolve';
 
 const GOTHENBURG = { name: 'Göteborg', latitude: 57.7089, longitude: 11.9746 };

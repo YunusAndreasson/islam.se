@@ -8,7 +8,7 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 
-import { motion, radius, space, type } from '../../theme/tokens';
+import { motion, radius, space, type } from '@/theme/tokens';
 import { type SettingsColors, useSettingsColors } from './theme';
 
 // A collapsible card for advanced settings. Collapsed, it shows its category title

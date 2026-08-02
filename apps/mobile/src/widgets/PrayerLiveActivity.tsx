@@ -22,7 +22,7 @@ import {
 import { createLiveActivity, type LiveActivityEnvironment } from 'expo-widgets';
 import type { SFSymbol } from 'sf-symbols-typescript';
 
-import type { PrayerKey } from '../lib/prayer-times';
+import type { PrayerKey } from '@/lib/prayer-times';
 
 /** Plain-JSON props for one activity — set once at start (or via update on foreground);
  *  the countdown needs no further updates because the system renders it. */
@@ -71,6 +71,15 @@ function PrayerLiveActivityLayout(
   // brightness. We keep the exact same warm hue hierarchy but at a lower key; the live,
   // interactive Lock Screen and the Dynamic Island keep the full-brightness palette.
   // (colorScheme is still ignored on purpose — the material is dark in both appearances.)
+  //
+  // WHY THIS IS A THIRD PALETTE and not a drift. tokens.ts holds the app's two schemes
+  // and `brand` holds the mark's; this is a third set because the substrate is neither —
+  // a translucent vibrant material whose backdrop is the user's wallpaper, which no
+  // measurement here can pin. The golds stay in the app's brass hue family (H≈78 vs the
+  // token's 79.6) on purpose. Do NOT "unify" these onto darkPalette or brand.gold: the
+  // dimmed set in particular measures Lc 28–35 BY DESIGN — that is the HIG asking for a
+  // dim always-on render, not a contrast bug, and the APCA floors that govern
+  // theme/tokens.ts deliberately do not reach here.
   const dimmed = environment?.isLuminanceReduced === true;
   const C = dimmed
     ? {

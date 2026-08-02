@@ -2,8 +2,8 @@ import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { useMemo } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 
-import { hapticLight } from '../../lib/haptics';
-import { radius, space, type } from '../../theme/tokens';
+import { hapticLight } from '@/lib/haptics';
+import { radius, space, type } from '@/theme/tokens';
 import { type SettingsColors, useSettingsColors } from './theme';
 
 // A labelled −/value/+ stepper row for integer settings (minute adjustments,

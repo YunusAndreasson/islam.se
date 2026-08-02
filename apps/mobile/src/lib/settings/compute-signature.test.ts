@@ -33,7 +33,6 @@ const COSMETIC_KEYS = [
   'locationMode',
   'manualLocation',
   'theme',
-  'mapStyle',
   'showMosques',
   // Cosmetic, deliberately: the qibla arc is a fixed direction drawn over the map. It
   // reads no prayer time and changes none, so toggling it must NOT rebuild the 3752-point
@@ -70,7 +69,6 @@ const ALT: PrayerSettings = {
   locationMode: 'manual',
   manualLocation: { name: 'Test', latitude: 60, longitude: 15 },
   theme: 'dark',
-  mapStyle: 'standard',
   showMosques: false,
   showQibla: false,
   haptics: false,
@@ -135,7 +133,7 @@ describe('notificationSignature', () => {
 
   it('ignores settings that cannot affect notification scheduling', () => {
     const base = notificationSignature(DEFAULT_SETTINGS);
-    for (const key of ['hijriOffset', 'locationMode', 'manualLocation', 'theme', 'mapStyle', 'showMosques', 'haptics'] as const) {
+    for (const key of ['hijriOffset', 'locationMode', 'manualLocation', 'theme', 'showMosques', 'haptics'] as const) {
       const mutated: PrayerSettings = { ...DEFAULT_SETTINGS, [key]: ALT[key] };
       expect(notificationSignature(mutated)).toBe(base);
     }
@@ -154,7 +152,7 @@ describe('widgetSignature', () => {
 
   it('ignores settings that cannot affect the widget payload', () => {
     const base = widgetSignature(DEFAULT_SETTINGS);
-    for (const key of ['notifications', 'locationMode', 'manualLocation', 'theme', 'mapStyle', 'haptics'] as const) {
+    for (const key of ['notifications', 'locationMode', 'manualLocation', 'theme', 'haptics'] as const) {
       const mutated: PrayerSettings = { ...DEFAULT_SETTINGS, [key]: ALT[key] };
       expect(widgetSignature(mutated)).toBe(base);
     }

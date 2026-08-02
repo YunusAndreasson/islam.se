@@ -1,7 +1,5 @@
 const STOCKHOLM = 'Europe/Stockholm';
 
-export const STOCKHOLM_TIME_ZONE = STOCKHOLM;
-
 // One formatter, built once and reused. startOfStockholmDay calls stockholmParts
 // three times per invocation (directly + twice via stockholmOffsetMs), and the live
 // clock calls it on every 30 s tick — constructing a fresh Intl.DateTimeFormat each

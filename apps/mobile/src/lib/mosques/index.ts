@@ -4,7 +4,7 @@
 // into the SymbolLayer source, the detail card, and tests — mirroring the shape of
 // ../places/data.ts and the pure helpers in apps/web/src/lib/moskeer/index.ts.
 //
-// 255 mosques, every one geocoded. The dataset deliberately carries NO denomination /
+// 236 mosques, every one geocoded. The dataset deliberately carries NO denomination /
 // sect field (the web omits it as a speculative guess) and no phone/website — the only
 // outbound action is directions, derived from the coordinates (see ./directions.ts).
 import mosquesRaw from './data.json';

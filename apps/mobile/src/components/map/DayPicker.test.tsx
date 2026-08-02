@@ -1,7 +1,7 @@
 import { describe, expect, it, jest } from '@jest/globals';
 import { fireEvent, render, screen } from '@testing-library/react-native';
 
-import { addStockholmDays, startOfStockholmDay, stockholmParts } from '../../lib/stockholm-time';
+import { addStockholmDays, startOfStockholmDay, stockholmParts } from '@/lib/stockholm-time';
 import { adjacentMonth, DayPicker, monthGrid } from './DayPicker';
 
 const day = (y: number, m: number, d: number) => startOfStockholmDay(Date.UTC(y, m - 1, d, 12));

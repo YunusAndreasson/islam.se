@@ -11,8 +11,8 @@
 import type { ReactNode } from 'react';
 import { Pressable, StyleSheet } from 'react-native';
 
-import { shadow } from '../../theme/tokens';
-import { GlassSurface } from '../ui/GlassSurface';
+import { shadow } from '@/theme/tokens';
+import { GlassSurface } from '@/components/ui/GlassSurface';
 
 interface Props {
   onPress: () => void;

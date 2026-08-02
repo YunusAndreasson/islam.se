@@ -9,9 +9,9 @@
 // layout then switches to a preloaded following prayer without waking the app.
 import { Platform } from 'react-native';
 
-import type { LatLng } from '../lib/prayer-times';
-import type { PrayerSettings } from '../lib/settings/types';
-import type { PrayerActivityProps } from '../widgets/PrayerLiveActivity';
+import type { LatLng } from '@/lib/prayer-times';
+import type { PrayerSettings } from '@/lib/settings/types';
+import type { PrayerActivityProps } from '@/widgets/PrayerLiveActivity';
 import { buildPayloadAt, type WidgetPayload } from './payload';
 
 /** Only show the activity when the next prayer is this close. */

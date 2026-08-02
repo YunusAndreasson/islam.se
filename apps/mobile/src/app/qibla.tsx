@@ -22,12 +22,12 @@ import { StyleSheet, Text, useWindowDimensions, View } from 'react-native';
 import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import { ModalBar } from '../components/ui/ModalBar';
-import { hapticSuccess } from '../lib/haptics';
-import { useLocation } from '../lib/location/context';
-import { deriveQiblaStatus, formatKm, normalizeHeading, qiblaBearing, qiblaDistanceKm, qiblaProximity, type QiblaStatus, shortestTurn } from '../lib/qibla';
-import { mono, motion, type Palette, radius, shadow, space, type } from '../theme/tokens';
-import { useColors } from '../theme/useColors';
+import { ModalBar } from '@/components/ui/ModalBar';
+import { hapticSuccess } from '@/lib/haptics';
+import { useLocation } from '@/lib/location/context';
+import { deriveQiblaStatus, formatKm, normalizeHeading, qiblaBearing, qiblaDistanceKm, qiblaProximity, type QiblaStatus, shortestTurn } from '@/lib/qibla';
+import { mono, motion, type Palette, radius, shadow, space, type } from '@/theme/tokens';
+import { useColors } from '@/theme/useColors';
 
 // The coarse, heading-derived state the dial actually shows (computed by lib/qibla's
 // `deriveQiblaStatus`; the lock tolerance, hysteresis, near/proximity ranges all live there

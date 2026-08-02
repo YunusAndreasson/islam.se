@@ -19,8 +19,8 @@ import { useMemo } from 'react';
 import { Image, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import { SettingSection } from '../../components/settings/SettingSection';
-import { ModalBar } from '../../components/ui/ModalBar';
+import { SettingSection } from '@/components/settings/SettingSection';
+import { ModalBar } from '@/components/ui/ModalBar';
 import {
   ADHAN_URL,
   APP_VERSION,
@@ -32,10 +32,10 @@ import {
   openUrl,
   OSM_URL,
   rateApp,
-} from '../../lib/about';
-import { TERRAIN_PROVIDER, TILES_PROVIDER } from '../../lib/map/nordicStyle';
-import { type Palette, radius, space, type } from '../../theme/tokens';
-import { useColors } from '../../theme/useColors';
+} from '@/lib/about';
+import { TERRAIN_PROVIDER, TILES_PROVIDER } from '@/lib/map/nordicStyle';
+import { type Palette, radius, space, type } from '@/theme/tokens';
+import { useColors } from '@/theme/useColors';
 
 const ICON = require('../../../assets/images/icon.png');
 

@@ -1,16 +1,16 @@
 import { describe, expect, it } from '@jest/globals';
 
-import { formatHijri } from '../lib/hijri';
+import { formatHijri } from '@/lib/hijri';
 import {
   computePrayerTimes,
   formatTime,
   type LatLng,
   PRAYER_LABELS,
   PRAYER_SWEDISH_NAMES,
-} from '../lib/prayer-times';
-import { DEFAULT_SETTINGS, type PrayerSettings } from '../lib/settings/types';
-import { stockholmPrayerDate } from '../lib/stockholm-time';
-import { oracleTimes } from '../test-utils/prayer-oracle';
+} from '@/lib/prayer-times';
+import { DEFAULT_SETTINGS, type PrayerSettings } from '@/lib/settings/types';
+import { stockholmPrayerDate } from '@/lib/stockholm-time';
+import { oracleTimes } from '@/test-utils/prayer-oracle';
 import { buildPayloadAt } from './payload';
 
 const STOCKHOLM: LatLng = { latitude: 59.3293, longitude: 18.0686 };
