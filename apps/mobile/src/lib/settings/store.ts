@@ -15,6 +15,8 @@ import {
   type LocationMode,
   type Madhab,
   type MapStyleId,
+  type NotificationSoundKey,
+  type PerPrayerSlot,
   type PolarCircleResolutionKey,
   type PrayerAdjustments,
   type PrayerSettings,
@@ -58,7 +60,14 @@ const THEMES = ['system', 'light', 'dark'] as const satisfies readonly ThemePref
 // persisted values migrate to Nordic so remote stock labels cannot bypass the
 // app's Swedish place-label policy.
 const MAP_STYLES = ['nordic'] as const satisfies readonly MapStyleId[];
-const ADJUSTMENT_KEYS = ['fajr', 'sunrise', 'dhuhr', 'asr', 'maghrib', 'isha'] as const;
+// The six computed slots. Shared by all three per-slot records (adjustments, notification
+// lead, notification sound) — they are keyed identically by construction (PerPrayerSlot).
+const PRAYER_SLOT_KEYS = ['fajr', 'sunrise', 'dhuhr', 'asr', 'maghrib', 'isha'] as const;
+const NOTIFICATION_SOUNDS = [
+  'default',
+  'silent',
+  'adhan',
+] as const satisfies readonly NotificationSoundKey[];
 
 function isRecord(x: unknown): x is Record<string, unknown> {
   return typeof x === 'object' && x !== null && !Array.isArray(x);
@@ -92,13 +101,57 @@ function validLongitude(value: unknown): value is number {
 function sanitizeAdjustments(value: unknown): PrayerAdjustments {
   const raw = isRecord(value) ? value : {};
   const out = { ...DEFAULT_SETTINGS.adjustments };
-  for (const key of ADJUSTMENT_KEYS) {
+  for (const key of PRAYER_SLOT_KEYS) {
     out[key] = boundedNumberValue(
       raw[key],
       DEFAULT_SETTINGS.adjustments[key],
       PRAYER_ADJUSTMENT_MIN,
       PRAYER_ADJUSTMENT_MAX,
     );
+  }
+  return out;
+}
+
+/**
+ * Per-slot heads-up minutes, carrying the ONE migration this shape needs.
+ *
+ * Before per-prayer lead times the blob held a single scalar
+ * `notifications.leadMinutes` that applied to all five prayers. Seed every PRAYER key
+ * from it so an upgrading user keeps the heads-up they chose. The `sunrise` key did not
+ * exist then, so it takes the app default instead — that alert is off by default anyway,
+ * and inheriting someone's 30-minute prayer lead as the Fajr-window warning would be a
+ * guess, not a migration.
+ *
+ * A partial new-shape `lead` object still falls back to the legacy seed per key, so a
+ * half-written blob cannot strand one prayer on 0 while the others keep their value.
+ */
+function sanitizeNotificationLead(value: unknown, legacyScalar: unknown): PerPrayerSlot<number> {
+  const raw = isRecord(value) ? value : {};
+  const seed = boundedNumberValue(
+    legacyScalar,
+    DEFAULT_SETTINGS.notifications.lead.fajr,
+    NOTIFICATION_LEAD_MIN,
+    NOTIFICATION_LEAD_MAX,
+  );
+  const out = { ...DEFAULT_SETTINGS.notifications.lead };
+  for (const key of PRAYER_SLOT_KEYS) {
+    const fallback = key === 'sunrise' ? DEFAULT_SETTINGS.notifications.lead.sunrise : seed;
+    out[key] = boundedNumberValue(raw[key], fallback, NOTIFICATION_LEAD_MIN, NOTIFICATION_LEAD_MAX);
+  }
+  return out;
+}
+
+/**
+ * Per-slot sound choice. An UNAVAILABLE key ('adhan' in a build with no bundled audio)
+ * is preserved on purpose: availability is resolved at scheduling time in
+ * ../notifications.ts, not here, so re-installing a build that HAS the file restores the
+ * user's choice rather than having silently rewritten it to 'default'.
+ */
+function sanitizeNotificationSounds(value: unknown): PerPrayerSlot<NotificationSoundKey> {
+  const raw = isRecord(value) ? value : {};
+  const out = { ...DEFAULT_SETTINGS.notifications.sound };
+  for (const key of PRAYER_SLOT_KEYS) {
+    out[key] = enumValue(raw[key], NOTIFICATION_SOUNDS, DEFAULT_SETTINGS.notifications.sound[key]);
   }
   return out;
 }
@@ -125,12 +178,14 @@ function sanitizeSettings(parsed: unknown): PrayerSettings {
     ),
     notifications: {
       enabled: booleanValue(rawNotifications.enabled, DEFAULT_SETTINGS.notifications.enabled),
-      leadMinutes: boundedNumberValue(
-        rawNotifications.leadMinutes,
-        DEFAULT_SETTINGS.notifications.leadMinutes,
-        NOTIFICATION_LEAD_MIN,
-        NOTIFICATION_LEAD_MAX,
+      fajrWindowEnd: booleanValue(
+        rawNotifications.fajrWindowEnd,
+        DEFAULT_SETTINGS.notifications.fajrWindowEnd,
       ),
+      // The legacy scalar is read but never written back, so it evaporates on the first
+      // load-then-save cycle. No storage-key bump needed.
+      lead: sanitizeNotificationLead(rawNotifications.lead, rawNotifications.leadMinutes),
+      sound: sanitizeNotificationSounds(rawNotifications.sound),
       prayers: {
         fajr: booleanValue(rawPrayers.fajr, DEFAULT_SETTINGS.notifications.prayers.fajr),
         dhuhr: booleanValue(rawPrayers.dhuhr, DEFAULT_SETTINGS.notifications.prayers.dhuhr),
@@ -154,6 +209,7 @@ function sanitizeSettings(parsed: unknown): PrayerSettings {
     theme: enumValue(raw.theme, THEMES, DEFAULT_SETTINGS.theme),
     mapStyle: enumValue(raw.mapStyle, MAP_STYLES, DEFAULT_SETTINGS.mapStyle),
     showMosques: booleanValue(raw.showMosques, DEFAULT_SETTINGS.showMosques),
+    showQibla: booleanValue(raw.showQibla, DEFAULT_SETTINGS.showQibla),
     haptics: booleanValue(raw.haptics, DEFAULT_SETTINGS.haptics),
   };
 }

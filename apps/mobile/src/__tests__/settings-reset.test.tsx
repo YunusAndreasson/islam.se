@@ -25,14 +25,25 @@ const MUTATION: Partial<PrayerSettings> = {
   hijriOffset: 2,
   theme: 'dark',
   mapStyle: 'satellite',
+  showMosques: false,
+  showQibla: false,
   haptics: false,
   locationMode: 'manual',
   manualLocation: { name: 'Malmö', latitude: 55.605, longitude: 13.0038 },
   adjustments: { fajr: 5, sunrise: 0, dhuhr: -3, asr: 0, maghrib: 2, isha: 0 },
   notifications: {
     enabled: true,
-    leadMinutes: 15,
     prayers: { fajr: false, dhuhr: true, asr: false, maghrib: true, isha: false },
+    fajrWindowEnd: true,
+    lead: { fajr: 15, sunrise: 30, dhuhr: 10, asr: 5, maghrib: 0, isha: 20 },
+    sound: {
+      fajr: 'silent',
+      sunrise: 'silent',
+      dhuhr: 'silent',
+      asr: 'silent',
+      maghrib: 'silent',
+      isha: 'silent',
+    },
   },
 };
 
@@ -43,11 +54,28 @@ function Probe() {
   return (
     <>
       <Text testID="dump">{JSON.stringify(settings)}</Text>
+      {/* Object IDENTITY against the exported constant, compared HERE, inside the render.
+          It cannot be asserted from `dump` — JSON.parse hands back fresh objects every
+          time, so a `not.toBe(DEFAULT_SETTINGS.lead)` on parsed output passes whether or
+          not the live state aliases the constant, and would silently stop guarding
+          anything. This is what makes the aliasing test below real. */}
+      <Text testID="aliases">
+        {JSON.stringify({
+          adjustments: settings.adjustments === DEFAULT_SETTINGS.adjustments,
+          notifications: settings.notifications === DEFAULT_SETTINGS.notifications,
+          prayers: settings.notifications.prayers === DEFAULT_SETTINGS.notifications.prayers,
+          lead: settings.notifications.lead === DEFAULT_SETTINGS.notifications.lead,
+          sound: settings.notifications.sound === DEFAULT_SETTINGS.notifications.sound,
+        })}
+      </Text>
       <Pressable testID="probe-mutate" onPress={() => update(MUTATION)} />
       <Pressable testID="probe-reset" onPress={reset} />
     </>
   );
 }
+
+const aliases = (): Record<string, boolean> =>
+  JSON.parse(screen.getByTestId('aliases').props.children as string) as Record<string, boolean>;
 
 const dump = (): PrayerSettings =>
   JSON.parse(screen.getByTestId('dump').props.children as string) as PrayerSettings;
@@ -112,5 +140,37 @@ describe('Inställningar — the "Återställ appens standard" button', () => {
 
     expect(alertSpy).toHaveBeenCalledTimes(1);
     await waitFor(() => expect(dump()).toEqual(DEFAULT_SETTINGS));
+
+    // THE BUG THIS GUARDS: reset() spreads DEFAULT_SETTINGS, so every NESTED object it
+    // does not explicitly clone comes back as the very same reference as the exported
+    // constant. One later in-place edit would then rewrite the app's defaults for the
+    // rest of the process — and the toEqual above, which compares by VALUE, would still
+    // pass. Only identity catches it, so assert identity (measured in the Probe, on the
+    // live objects — see its comment for why it cannot be measured out here).
+    expect(aliases()).toEqual({
+      adjustments: false,
+      notifications: false,
+      prayers: false,
+      lead: false,
+      sound: false,
+    });
+  });
+});
+
+// The guard that keeps the two tests above honest. Both rest on MUTATION being a genuinely
+// full mutation; a settings field added to the type but not to MUTATION would sail through
+// "clears a fully-mutated settings object" while never having been mutated at all. Adding
+// a field must therefore force an edit here — treat a failure as the guard working.
+describe('MUTATION covers every settings field', () => {
+  it('names exactly the keys of DEFAULT_SETTINGS', () => {
+    expect(Object.keys(MUTATION).sort()).toEqual(Object.keys(DEFAULT_SETTINGS).sort());
+  });
+
+  it('gives every key a value that actually differs from the default', () => {
+    for (const [key, value] of Object.entries(MUTATION)) {
+      expect({ [key]: value }).not.toEqual({
+        [key]: DEFAULT_SETTINGS[key as keyof PrayerSettings],
+      });
+    }
   });
 });

@@ -110,6 +110,23 @@ for prayer times and never transmitted; no accounts, no analytics, no ads. (Same
 - Contains ads: **No**.
 - Category: **Lifestyle**.
 
+## ☐ 7b. Exact-alarm permission declaration (REQUIRED from the build that adds it)
+
+`app.json` declares `USE_EXACT_ALARM` (plus `SCHEDULE_EXACT_ALARM` with the Android 12 fallback).
+Without one of these, `expo-notifications` falls back to `setAndAllowWhileIdle` on Android 12+ —
+inexact alarms that Doze can batch and delay by minutes. For an app whose one job is "tell you it's
+time to pray", that is a correctness bug, not a nicety.
+
+`USE_EXACT_ALARM` is **policy-restricted**. Play Console → **App content → Exact alarm permission**
+must be answered, declaring the app's core function as an alarm/reminder app:
+
+> Appen visar islamiska bönetider, som infaller vid exakta klockslag som ändras varje dag och med
+> platsen. Påminnelserna måste utlösas på minuten – en fördröjd notis om en bönetid har missat sitt
+> syfte. Alla påminnelser schemaläggs lokalt på enheten; ingen data lämnar telefonen.
+
+A prayer-times reminder app fits the stated exemption (alarm/clock/calendar/reminder), but **the
+declaration must be filled in or the release is rejected.**
+
 ## ☐ 8. Promote and roll out
 
 Once internal testing looks good: promote the release to **Closed/Open testing** or **Production**.

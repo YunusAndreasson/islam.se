@@ -7,14 +7,23 @@
 //
 // Two tile backends, picked at runtime by whether a MapTiler key is set:
 //
-//  • DEFAULT (no key): OpenFreeMap planet vector tiles + a low-zoom Natural Earth
-//    shaded-relief raster (max zoom 6). Free, no signup, but the hillshade fades
-//    out by mid-zoom because there's no data above z6.
+//  • DEFAULT (no key): OpenFreeMap planet vector tiles + AWS Terrain Tiles for
+//    elevation. Free, no signup.
 //  • UPGRADED (EXPO_PUBLIC_MAPTILER_KEY set): MapTiler's OpenMapTiles vector
 //    source (same schema, so every existing layer below keeps working unchanged)
-//    + MapTiler's `hillshade` raster tileset (zoom 0–12), so the Scandinavian
-//    relief carries all the way to city zoom instead of dissolving at z9.
-//    Free tier covers ~100k tile requests/month.
+//    + MapTiler's Terrain RGB elevation tiles. Free tier covers ~100k tile
+//    requests/month.
+//
+// The relief is a REAL `hillshade` layer over a `raster-dem` source, not a
+// pre-baked shaded-relief image. MapLibre Native gained the rewritten hillshade
+// algorithms — including `multidirectional` — in iOS 6.24 / Android 13.0, and the
+// React Native binding exposed `raster-dem` in 11.1.0. Three things follow:
+// the shading is computed from elevation at the zoom you're actually at (so it no
+// longer dissolves at mid-zoom the way the baked raster did), it is lit from
+// several directions at once (which is what makes the Scandes read as a spine
+// rather than a smear), and its shadow/highlight/accent colours are OURS — so the
+// warm parchment map shades warm and the navy map shades cool, instead of both
+// getting the same desaturated grey.
 //
 // Either way the cartographic look is the same: a desaturated shaded-relief
 // base, pale land + soft Nordic-blue water + a whisper of forest/urban tint,
@@ -26,8 +35,8 @@
 // `useColorScheme()` in `bonetider.tsx`. The dark basemap is a cool deep navy
 // (Apple Maps dark mode reference), with water RECEDING under land (opposite of
 // light mode where water is figure-ground) and a dark halo on labels so they
-// read against a navy continent. The relief raster's hillshade is dialled down
-// in dark mode so the mountains hint but don't muddy.
+// read against a navy continent. The hillshade is dialled down in dark mode so
+// the mountains hint but don't muddy.
 import type { StyleSpecification } from '@maplibre/maplibre-react-native';
 import type { ColorSchemeName } from 'react-native';
 
@@ -42,14 +51,22 @@ const USE_MAPTILER = MAPTILER_KEY.length > 0;
 const PLANET = USE_MAPTILER
   ? `https://api.maptiler.com/tiles/v3/tiles.json?key=${MAPTILER_KEY}`
   : 'https://tiles.openfreemap.org/planet';
-// Two raster sources: OpenFreeMap ships Natural Earth shaded relief only up to
-// zoom 6 (great for the country view, gone by city zoom); MapTiler's hillshade
-// tileset reaches z12 so the relief survives all the way in. The source maxzoom
-// is set accordingly below so MapLibre over-zooms appropriately.
-const RELIEF = USE_MAPTILER
-  ? `https://api.maptiler.com/tiles/hillshade/{z}/{x}/{y}.webp?key=${MAPTILER_KEY}`
-  : 'https://tiles.openfreemap.org/natural_earth/ne2sr/{z}/{x}/{y}.png';
-const RELIEF_MAXZOOM = USE_MAPTILER ? 12 : 6;
+// Elevation tiles feeding the hillshade layer. The two providers use DIFFERENT RGB
+// encodings, tile sizes and depths, and getting any of them wrong yields plausible-
+// looking garbage rather than an error — so each value below was decoded from a real
+// tile over Kebnekaise (67.9012 N, 18.5169 E, ~2096 m) rather than taken from docs:
+// MapTiler returned 2063 m under the `mapbox` formula, AWS 2083 m under `terrarium`.
+// If you ever swap a provider, re-run that check before trusting the shading.
+const DEM = USE_MAPTILER
+  ? `https://api.maptiler.com/tiles/terrain-rgb-v2/{z}/{x}/{y}.webp?key=${MAPTILER_KEY}`
+  : 'https://elevation-tiles-prod.s3.amazonaws.com/terrarium/{z}/{x}/{y}.png';
+const DEM_ENCODING: 'mapbox' | 'terrarium' = USE_MAPTILER ? 'mapbox' : 'terrarium';
+// MapTiler serves @2x (512 px) tiles; AWS Terrain Tiles are the classic 256 px.
+const DEM_TILE_SIZE = USE_MAPTILER ? 512 : 256;
+const DEM_MAXZOOM = USE_MAPTILER ? 14 : 15;
+const DEM_ATTRIBUTION = USE_MAPTILER
+  ? '© MapTiler © OpenStreetMap contributors'
+  : 'AWS Terrain Tiles (Mapzen)';
 const GLYPHS = USE_MAPTILER
   ? `https://api.maptiler.com/fonts/{fontstack}/{range}.pbf?key=${MAPTILER_KEY}`
   : 'https://tiles.openfreemap.org/fonts/{fontstack}/{range}.pbf';
@@ -112,9 +129,29 @@ interface BasemapPalette {
       label up in the Scandes. Same family as PLACE_INK but a notch firmer so
       a peak doesn't read as a town. */
   PEAK: string;
-  /** Relief raster opacity stops (zoom 3 / 6 / 9 / 12) — the mountains hint without
-      muddying. Duller in dark mode where any extra ink reads as noise; with the
-      MapTiler upgrade the stops carry shading all the way to city zoom. */
+  /** Hillshade shadow colours — slopes facing AWAY from each light source, one entry
+      per light in `hillshade-illumination-direction`. Warm brown over parchment, cool
+      near-black over navy: this is the half of the upgrade the baked raster could not
+      do, since a pre-shaded image is the same grey in both themes. Alpha decays across
+      the three lights so the primary NW light carries the form and the two fill lights
+      only open up the slopes it leaves flat. */
+  RELIEF_SHADOW: [string, string, string];
+  /** Hillshade highlight colours — slopes facing TOWARD each light source. Same
+      three-light decay as RELIEF_SHADOW. */
+  RELIEF_HIGHLIGHT: [string, string, string];
+  /** Hillshade accent — picks out rugged terrain (sharp ridges, cliff faces) on top of
+      the directional shading. One colour, not per-light. */
+  RELIEF_ACCENT: string;
+  /** Hillshade exaggeration stops (zoom 3 / 6 / 9 / 12) — how strongly slope drives the
+      shading, as the mountains hint without muddying. Duller in dark mode where any
+      extra ink reads as noise.
+
+      These carry over the tuned head of the old relief raster's opacity ramp (z3/z6),
+      including the deliberate z6 bump that makes the Scandes read as a real mountain
+      spine rather than a flat strip. The TAIL is new: the old ramp fell to 0 by z12 on
+      the free tier because the Natural Earth raster simply had no data above z6. The
+      DEM runs to z14/z15, so there is no data cliff to hide any more and the relief is
+      allowed to sustain into city zoom, which was the point of the upgrade. */
   reliefStops: [number, number, number, number];
 }
 
@@ -145,9 +182,14 @@ const LIGHT: BasemapPalette = {
   // Peak ink: a touch deeper than PLACE_INK so triangles + names don't drown in
   // the relief shading.
   PEAK: lightPalette.ink,
+  // Warm umber shadows and a parchment-white lift, so the mountains are made of the
+  // same warm paper as the rest of the light map rather than sitting on it in grey.
+  RELIEF_SHADOW: ['rgba(92,74,50,0.55)', 'rgba(92,74,50,0.26)', 'rgba(92,74,50,0.16)'],
+  RELIEF_HIGHLIGHT: ['rgba(255,251,242,0.50)', 'rgba(255,251,242,0.22)', 'rgba(255,251,242,0.13)'],
+  RELIEF_ACCENT: 'rgba(120,98,66,0.30)',
   // Bumped country-zoom shading (z6) from 0.30 → 0.40 so the Scandes range reads
   // as a real mountain spine rather than a flat strip — the user's main complaint.
-  reliefStops: USE_MAPTILER ? [0.42, 0.40, 0.24, 0.12] : [0.42, 0.36, 0.10, 0],
+  reliefStops: [0.42, 0.4, 0.3, 0.22],
 };
 
 // Dark basemap — Apple Maps-inspired cool deep navy. The hierarchy INVERTS from
@@ -178,7 +220,13 @@ const DARK: BasemapPalette = {
   WETLAND: 'rgba(130,150,180,0.14)',
   // Peak ink: warm pale ink so the small triangles read on the night map.
   PEAK: darkPalette.ink,
-  reliefStops: USE_MAPTILER ? [0.26, 0.26, 0.16, 0.08] : [0.26, 0.20, 0.05, 0],
+  // Cool near-black shadows and a pale moonlit highlight. The highlight is deliberately
+  // weaker than light mode's: on a navy continent a bright ridge line is the fastest way
+  // to make the map noisy, and the shadows alone carry enough form at these zooms.
+  RELIEF_SHADOW: ['rgba(6,10,20,0.60)', 'rgba(6,10,20,0.28)', 'rgba(6,10,20,0.17)'],
+  RELIEF_HIGHLIGHT: ['rgba(186,202,240,0.32)', 'rgba(186,202,240,0.15)', 'rgba(186,202,240,0.09)'],
+  RELIEF_ACCENT: 'rgba(150,170,215,0.22)',
+  reliefStops: [0.26, 0.26, 0.18, 0.12],
 };
 
 function buildStyle(c: BasemapPalette, name: string): StyleSpecification {
@@ -188,30 +236,55 @@ function buildStyle(c: BasemapPalette, name: string): StyleSpecification {
     glyphs: GLYPHS,
     sources: {
       openmaptiles: { type: 'vector', url: PLANET },
-      relief: { type: 'raster', tiles: [RELIEF], tileSize: 256, maxzoom: RELIEF_MAXZOOM },
+      terrain: {
+        type: 'raster-dem',
+        tiles: [DEM],
+        encoding: DEM_ENCODING,
+        tileSize: DEM_TILE_SIZE,
+        maxzoom: DEM_MAXZOOM,
+        attribution: DEM_ATTRIBUTION,
+      },
     },
     layers: [
       // Land base.
       { id: 'background', type: 'background', paint: { 'background-color': c.LAND } },
 
-      // Shaded relief, desaturated to a neutral hillshade so it adds topography, not
-      // Natural Earth's greens/browns. The OpenFreeMap source fades out by z9 because
-      // the data stops at z6; with the MapTiler upgrade the stops keep gentle shading
-      // all the way to city zoom (z12) where mountain valleys still read.
+      // Shaded relief, computed from the elevation tiles rather than painted into them.
+      //
+      // POSITION IS LOAD-BEARING: this must stay above `background` and below `water`.
+      // Both DEM sets encode BATHYMETRY, not just land, so a hillshade drawn above the
+      // water fill would shade the Baltic seafloor — ridges and trenches showing through
+      // the sea. The opaque water fill further down is what hides it.
       {
         id: 'relief',
-        type: 'raster',
-        source: 'relief',
+        type: 'hillshade',
+        source: 'terrain',
         paint: {
-          'raster-saturation': -1,
-          'raster-contrast': 0.08,
-          'raster-opacity': [
+          // `multidirectional` is the reason for the whole upgrade: one primary light
+          // from the north-west (the cartographic convention) plus two fills from the
+          // north-east and south-east, so slopes facing away from a single sun are
+          // modelled instead of going flat black. It is also the only method that
+          // accepts ARRAYS here — direction, altitude, shadow and highlight are read
+          // per light source, and the three arrays must stay the same length.
+          'hillshade-method': 'multidirectional',
+          'hillshade-illumination-direction': [315, 45, 135],
+          'hillshade-illumination-altitude': [55, 40, 30],
+          // Anchored to the map, not the viewport, so the light stays north-west in
+          // GEOGRAPHIC terms. Moot in practice — bonetider.tsx disables touchRotate, so
+          // the map is always north-up and the two anchors coincide — but it is the
+          // honest choice if rotation is ever restored.
+          'hillshade-illumination-anchor': 'map',
+          'hillshade-shadow-color': c.RELIEF_SHADOW,
+          'hillshade-highlight-color': c.RELIEF_HIGHLIGHT,
+          'hillshade-accent-color': c.RELIEF_ACCENT,
+          'hillshade-exaggeration': [
             'interpolate', ['linear'], ['zoom'],
             3, c.reliefStops[0],
             6, c.reliefStops[1],
             9, c.reliefStops[2],
             12, c.reliefStops[3],
           ],
+          resampling: 'linear',
         },
       },
 
@@ -421,13 +494,24 @@ function buildStyle(c: BasemapPalette, name: string): StyleSpecification {
             1,
             ['+', 10, ['coalesce', ['get', 'rank'], 99]],
           ],
-          // Name sits ABOVE the place point (atlas-style), not centred on it: the RN
+          // Name sits OFF the place point (atlas-style), never centred on it: the RN
           // overlay draws the user's brass dot AT the chosen city's coordinates, and
           // it can't join the basemap's symbol collision — a centred label put the
-          // dot mid-word ("Stoc●holm"). Bottom anchor + a small lift reserves the
-          // point itself for markers, for every city the user might pick.
-          'text-anchor': 'bottom',
-          'text-offset': [0, -0.5],
+          // dot mid-word ("Stoc●holm"). Every anchor listed here holds the point clear
+          // at `text-radial-offset` ems, so that invariant survives whichever one wins.
+          // `center` must never appear in this list; it is the bug.
+          //
+          // Variable rather than a single fixed anchor: with one hard-coded side, two
+          // labels that collide mean MapLibre drops one outright. Given four candidates
+          // it slides the loser to another side of its own point and keeps both. Order
+          // is preference — 'bottom' anchors the text box's bottom edge to the point, so
+          // the name still reads ABOVE it exactly as before wherever there is room, and
+          // the alternatives only come into play where the label would otherwise vanish.
+          'text-variable-anchor': ['bottom', 'top', 'left', 'right'],
+          // Replaces the old fixed `text-offset: [0, -0.5]` — same 0.5 em gap, now
+          // applied along whichever direction the chosen anchor points. (`text-offset`
+          // is ignored once a radial offset is set, so the two must not both be here.)
+          'text-radial-offset': 0.5,
         },
         paint: {
           'text-color': c.PLACE_INK,
@@ -461,11 +545,13 @@ function buildStyle(c: BasemapPalette, name: string): StyleSpecification {
             0,
             ['+', 10, ['coalesce', ['get', 'rank'], 99]],
           ],
-          // Same above-the-point anchoring as label_city (see there): the user can
-          // pick ANY town from the places list, so every place label keeps its point
-          // clear for the overlay's location dot.
-          'text-anchor': 'bottom',
-          'text-offset': [0, -0.5],
+          // Same off-the-point anchoring as label_city (see there): the user can pick
+          // ANY town from the places list, so every place label keeps its point clear
+          // for the overlay's location dot. This layer benefits most from the variable
+          // anchor — towns and villages crowd each other at z9-z12 in a way cities
+          // never do at country zoom.
+          'text-variable-anchor': ['bottom', 'top', 'left', 'right'],
+          'text-radial-offset': 0.5,
         },
         paint: {
           'text-color': c.PLACE_INK,
@@ -549,3 +635,10 @@ export function mapStyleFor(
 
 /** Tile provider used by the Nordic style — drives the credits line in Om appen. */
 export const TILES_PROVIDER: 'maptiler' | 'openfreemap' = USE_MAPTILER ? 'maptiler' : 'openfreemap';
+
+/** Elevation provider behind the hillshade — also credited in Om appen. On the MapTiler
+    path this is the same house as the vector tiles and the existing credit already
+    covers it; on the free path AWS Terrain Tiles is a THIRD party whose data (SRTM,
+    EU-DEM/Copernicus and friends) is not covered by the OSM or OpenFreeMap lines, so it
+    needs a credit of its own. */
+export const TERRAIN_PROVIDER: 'maptiler' | 'aws' = USE_MAPTILER ? 'maptiler' : 'aws';

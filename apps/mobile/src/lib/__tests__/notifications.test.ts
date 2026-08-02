@@ -6,10 +6,18 @@ import * as Notifications from 'expo-notifications';
 import { Platform } from 'react-native';
 
 import {
+  alertsPerDay,
+  AVAILABLE_SOUNDS,
+  channelIdFor,
   getNotificationPermissionState,
+  horizonDays,
+  MAX_DAYS_AHEAD,
+  NOTIFY_PRAYERS,
   requestNotificationPermission,
+  resetSyncStateForTests,
   syncPrayerNotifications,
 } from '../notifications';
+import { stockholmParts } from '../stockholm-time';
 import { DEFAULT_SETTINGS, type PrayerSettings } from '../settings/types';
 
 // Stockholm — below the Arctic Circle, so all five prayers resolve to valid times
@@ -64,6 +72,26 @@ function withNotifications(patch: Partial<PrayerSettings['notifications']>): Pra
   };
 }
 
+/** Every slot on the SAME heads-up — what the retired scalar `leadMinutes` used to
+ *  express. Lead is per-prayer now, so the tests that only care about "some uniform
+ *  offset" say so through this rather than hand-writing six identical keys. */
+function withUniformLead(
+  minutes: number,
+  patch: Partial<PrayerSettings['notifications']> = {},
+): PrayerSettings {
+  return withNotifications({
+    lead: {
+      fajr: minutes,
+      sunrise: minutes,
+      dhuhr: minutes,
+      asr: minutes,
+      maghrib: minutes,
+      isha: minutes,
+    },
+    ...patch,
+  });
+}
+
 /** Sorted epoch-ms of every notification the last sync scheduled. */
 function scheduledTimes(): number[] {
   return scheduleMock.mock.calls
@@ -76,15 +104,16 @@ describe('syncPrayerNotifications lead time', () => {
     scheduleMock.mockClear();
     jest.clearAllMocks();
     scheduleMock.mockImplementation(async () => 'id');
+    resetSyncStateForTests();
     await AsyncStorage.clear();
   });
 
-  it('fires the alert leadMinutes before the prayer time', async () => {
-    await syncPrayerNotifications(STOCKHOLM, withNotifications({ leadMinutes: 0 }));
+  it('fires each alert its lead time before the prayer time', async () => {
+    await syncPrayerNotifications(STOCKHOLM, withUniformLead(0));
     const atPrayerTime = scheduledTimes();
 
     scheduleMock.mockClear();
-    await syncPrayerNotifications(STOCKHOLM, withNotifications({ leadMinutes: 15 }));
+    await syncPrayerNotifications(STOCKHOLM, withUniformLead(15));
     const withLead = scheduledTimes();
 
     expect(atPrayerTime.length).toBeGreaterThan(0);
@@ -108,7 +137,7 @@ describe('syncPrayerNotifications lead time', () => {
   // regression here (countdown buried in the body, or no countdown at all) silently
   // defeats the feature, so lock the copy contract for both lead modes.
   it('leads the title with a countdown when a lead offset is set', async () => {
-    await syncPrayerNotifications(STOCKHOLM, withNotifications({ leadMinutes: 15 }));
+    await syncPrayerNotifications(STOCKHOLM, withUniformLead(15));
     const { content } = scheduleMock.mock.calls[0][0];
     // Title: "<prayer> om 15 min" — the countdown is the headline, not an
     // afterthought. The space before "min" is NBSP (fast mellanslag) so the
@@ -119,7 +148,7 @@ describe('syncPrayerNotifications lead time', () => {
   });
 
   it('says it is time now when there is no lead offset', async () => {
-    await syncPrayerNotifications(STOCKHOLM, withNotifications({ leadMinutes: 0 }));
+    await syncPrayerNotifications(STOCKHOLM, withUniformLead(0));
     const { content } = scheduleMock.mock.calls[0][0];
     expect(content.title).toMatch(/^Dags för /);
     expect(content.body).toMatch(/^Klockan \d{2}:\d{2}$/);
@@ -137,7 +166,7 @@ describe('syncPrayerNotifications lead time', () => {
     let nextId = 0;
     scheduleMock.mockImplementation(async () => `prayer-${++nextId}`);
 
-    await syncPrayerNotifications(STOCKHOLM, withNotifications({ leadMinutes: 0 }));
+    await syncPrayerNotifications(STOCKHOLM, withUniformLead(0));
     const scheduledCount = scheduleMock.mock.calls.length;
     expect(scheduledCount).toBeGreaterThan(0);
 
@@ -162,7 +191,7 @@ describe('syncPrayerNotifications lead time', () => {
         }),
     );
 
-    const oldSync = syncPrayerNotifications(STOCKHOLM, withNotifications({ leadMinutes: 0 }));
+    const oldSync = syncPrayerNotifications(STOCKHOLM, withUniformLead(0));
     await waitForPermissionRequest();
 
     await syncPrayerNotifications(STOCKHOLM, {
@@ -202,7 +231,7 @@ describe('syncPrayerNotifications lead time', () => {
       });
     });
 
-    const oldSync = syncPrayerNotifications(STOCKHOLM, withNotifications({ leadMinutes: 0 }));
+    const oldSync = syncPrayerNotifications(STOCKHOLM, withUniformLead(0));
     await thirdScheduled; // old sync has created old-1, old-2 and is creating old-3
 
     scheduleMock.mockImplementation(async () => 'new-id');
@@ -230,6 +259,7 @@ describe('notification permission', () => {
     scheduleMock.mockClear();
     jest.clearAllMocks();
     scheduleMock.mockImplementation(async () => 'id');
+    resetSyncStateForTests();
     await AsyncStorage.clear();
   });
 
@@ -245,7 +275,7 @@ describe('notification permission', () => {
       expires: 'never',
     });
 
-    await syncPrayerNotifications(STOCKHOLM, withNotifications({ leadMinutes: 0 }));
+    await syncPrayerNotifications(STOCKHOLM, withUniformLead(0));
 
     expect(requestPermissionsMock).not.toHaveBeenCalled();
     // And with no permission it must not schedule either.
@@ -266,7 +296,7 @@ describe('notification permission', () => {
 
     expect(await getNotificationPermissionState()).toBe('granted');
     // Not just cosmetic: the sync must actually schedule for a provisional user.
-    await syncPrayerNotifications(STOCKHOLM, withNotifications({ leadMinutes: 0 }));
+    await syncPrayerNotifications(STOCKHOLM, withUniformLead(0));
     expect(scheduledTimes().length).toBeGreaterThan(0);
   });
 
@@ -292,7 +322,7 @@ describe('notification permission', () => {
   // own permission example creates the channel first for exactly this reason. Requesting
   // before creating it (the previous order) can leave the prompt unshown, which looks
   // identical to a user who declined.
-  it('creates the Android channel before asking for permission', async () => {
+  it('creates every Android channel before asking for permission', async () => {
     getPermissionsMock.mockResolvedValue({
       granted: false,
       canAskAgain: true,
@@ -317,7 +347,12 @@ describe('notification permission', () => {
 
     await withPlatform('android', () => requestNotificationPermission());
 
-    expect(order).toEqual(['channel', 'request']);
+    // A sound choice IS a channel (Android freezes a channel's sound at creation), so
+    // there is one per available sound now — but the ORDERING contract is unchanged and
+    // is what this test exists for: every channel exists before the prompt fires.
+    expect(order[order.length - 1]).toBe('request');
+    expect(order.filter((step) => step === 'channel')).toHaveLength(AVAILABLE_SOUNDS.length);
+    expect(order.indexOf('request')).toBe(order.length - 1);
   });
 
   // The handler sets shouldSetBadge:false and nothing in the app ever writes a badge
@@ -362,5 +397,292 @@ describe('notification permission', () => {
 
     expect(await requestNotificationPermission()).toBe('granted');
     expect(requestPermissionsMock).not.toHaveBeenCalled();
+  });
+});
+
+// The alert content the scheduler produced, typed loosely — jest.setup's mock records the
+// raw argument object, and these tests reach into fields the narrow mock type omits.
+type ScheduledCall = {
+  content: { title: string; body: string; sound: unknown; data?: { silent?: boolean } };
+  trigger: { date: Date; channelId?: string };
+};
+const scheduled = (): ScheduledCall[] =>
+  (scheduleMock.mock.calls as unknown as [ScheduledCall][]).map((c) => c[0]);
+
+/** How many distinct Stockholm calendar days the last sync covered. */
+function daysSpanned(): number {
+  const days = scheduled().map((c) => {
+    const { y, mo, d } = stockholmParts(c.trigger.date.getTime());
+    return `${y}-${mo}-${d}`;
+  });
+  return new Set(days).size;
+}
+
+function onlyPrayers(...keys: readonly string[]): PrayerSettings['notifications']['prayers'] {
+  return {
+    fajr: keys.includes('fajr'),
+    dhuhr: keys.includes('dhuhr'),
+    asr: keys.includes('asr'),
+    maghrib: keys.includes('maghrib'),
+    isha: keys.includes('isha'),
+  };
+}
+
+// The horizon is the app's core promise made durable: reminders must keep arriving for
+// as long as the platform will hold them, not stop a week after the user last opened the
+// app. iOS caps PENDING requests at 64 and silently drops the rest, so the window has to
+// be derived from how many alerts a day actually produces.
+describe('notification horizon', () => {
+  beforeEach(async () => {
+    scheduleMock.mockClear();
+    jest.clearAllMocks();
+    scheduleMock.mockImplementation(async () => 'id');
+    resetSyncStateForTests();
+    await AsyncStorage.clear();
+  });
+
+  it('divides the budget by the per-day alert count, clamped to the month', () => {
+    expect(horizonDays(6, 60)).toBe(10);
+    expect(horizonDays(5, 60)).toBe(12); // today's 7-day window was 35 of 64 slots
+    expect(horizonDays(3, 60)).toBe(20);
+    expect(horizonDays(1, 60)).toBe(MAX_DAYS_AHEAD); // clamped, not 60 days
+    expect(horizonDays(0, 60)).toBe(0);
+    expect(horizonDays(6, 400)).toBe(MAX_DAYS_AHEAD); // Android: clamped, not 66
+  });
+
+  it('counts the enabled prayers plus the optional Fajr-window marker', () => {
+    const n = DEFAULT_SETTINGS.notifications;
+    expect(alertsPerDay(n)).toBe(5);
+    expect(alertsPerDay({ ...n, fajrWindowEnd: true })).toBe(6);
+    expect(alertsPerDay({ ...n, prayers: onlyPrayers('fajr') })).toBe(1);
+    expect(alertsPerDay({ ...n, prayers: onlyPrayers() })).toBe(0);
+  });
+
+  it('reaches further ahead when fewer prayers are enabled', async () => {
+    await withPlatform('ios', async () => {
+      await syncPrayerNotifications(STOCKHOLM, withUniformLead(0, { fajrWindowEnd: true }));
+      const dense = daysSpanned();
+      const denseCalls = scheduleMock.mock.calls.length;
+
+      scheduleMock.mockClear();
+      resetSyncStateForTests();
+      await AsyncStorage.clear();
+      await syncPrayerNotifications(
+        STOCKHOLM,
+        withUniformLead(0, { prayers: onlyPrayers('fajr') }),
+      );
+      const sparse = daysSpanned();
+
+      // The adaptation is the contract, not the exact day counts — a budget tweak must
+      // not churn this test.
+      expect(sparse).toBeGreaterThan(dense);
+      expect(denseCalls).toBeLessThan(64);
+      expect(scheduleMock.mock.calls.length).toBeLessThan(64);
+    });
+  });
+
+  it('never exceeds the iOS pending cap for any enabled combination', async () => {
+    const keys = ['fajr', 'dhuhr', 'asr', 'maghrib', 'isha'] as const;
+    await withPlatform('ios', async () => {
+      for (let count = 1; count <= keys.length; count++) {
+        for (const windowEnd of [false, true]) {
+          scheduleMock.mockClear();
+          resetSyncStateForTests();
+          await AsyncStorage.clear();
+          await syncPrayerNotifications(
+            STOCKHOLM,
+            withUniformLead(0, {
+              prayers: onlyPrayers(...keys.slice(0, count)),
+              fajrWindowEnd: windowEnd,
+            }),
+          );
+          // 64 is a hard platform limit: past it iOS drops requests silently, so a
+          // regression here loses the FURTHEST-OUT reminders with no error anywhere.
+          expect(scheduleMock.mock.calls.length).toBeLessThan(64);
+        }
+      }
+    });
+  });
+
+  it('uses a much longer window on Android, which has no pending cap', async () => {
+    await withPlatform('android', async () => {
+      await syncPrayerNotifications(STOCKHOLM, withUniformLead(0, { fajrWindowEnd: true }));
+      expect(daysSpanned()).toBe(MAX_DAYS_AHEAD);
+      expect(scheduleMock.mock.calls.length).toBeLessThanOrEqual(400);
+    });
+  });
+
+  // syncPrayerNotifications runs on mount AND every foreground. At a 30-day Android
+  // horizon an unguarded re-sync is 180 cancels + 180 schedules, a dozen times a day.
+  it('skips a redundant re-sync when nothing relevant changed', async () => {
+    const settings = withUniformLead(0);
+    await syncPrayerNotifications(STOCKHOLM, settings);
+    expect(scheduleMock.mock.calls.length).toBeGreaterThan(0);
+
+    scheduleMock.mockClear();
+    await syncPrayerNotifications(STOCKHOLM, settings);
+    expect(scheduleMock.mock.calls).toHaveLength(0);
+  });
+
+  it('re-syncs when a prayer is toggled off', async () => {
+    await syncPrayerNotifications(STOCKHOLM, withUniformLead(0));
+    scheduleMock.mockClear();
+    await syncPrayerNotifications(
+      STOCKHOLM,
+      withUniformLead(0, { prayers: onlyPrayers('fajr', 'dhuhr', 'asr', 'maghrib') }),
+    );
+    expect(scheduleMock.mock.calls.length).toBeGreaterThan(0);
+  });
+});
+
+// A sound choice is an Android CHANNEL (a channel's sound is frozen at creation) and an
+// iOS content field. Getting the two confused silently makes every alert audible, or
+// every alert mute — with nothing in the UI to show for it.
+describe('notification sounds', () => {
+  beforeEach(async () => {
+    scheduleMock.mockClear();
+    jest.clearAllMocks();
+    scheduleMock.mockImplementation(async () => 'id');
+    resetSyncStateForTests();
+    await AsyncStorage.clear();
+  });
+
+  it('routes each alert to the channel matching its sound choice', async () => {
+    await withPlatform('android', async () => {
+      await syncPrayerNotifications(
+        STOCKHOLM,
+        withUniformLead(0, {
+          sound: { ...DEFAULT_SETTINGS.notifications.sound, fajr: 'silent' },
+        }),
+      );
+      const byTitle = (needle: string) =>
+        scheduled().filter((c) => c.content.title.includes(needle));
+      expect(byTitle('Fajr').length).toBeGreaterThan(0);
+      for (const call of byTitle('Fajr')) {
+        expect(call.trigger.channelId).toBe(channelIdFor('silent'));
+      }
+      for (const call of byTitle('Maghrib')) {
+        expect(call.trigger.channelId).toBe(channelIdFor('default'));
+      }
+    });
+  });
+
+  // THE PLATFORM CONTRACT: expo's native channel manager keys off containsKey("sound").
+  // ABSENT means the system default tone; present-and-null means no sound at all. Passing
+  // some "default" string instead would make Android hunt res/raw for a file named
+  // "default", find nothing, and fall back — and passing nothing for the silent channel
+  // would make a "Tyst" choice audible.
+  it('omits sound entirely for the default channel and nulls it for the silent one', async () => {
+    await withPlatform('android', async () => {
+      await syncPrayerNotifications(STOCKHOLM, withUniformLead(0));
+      const configs = new Map(
+        (channelMock.mock.calls as unknown as [string, Record<string, unknown>][]).map(
+          ([id, cfg]) => [id, cfg],
+        ),
+      );
+      const dflt = configs.get(channelIdFor('default'));
+      const silent = configs.get(channelIdFor('silent'));
+      expect(dflt).toBeDefined();
+      expect(silent).toBeDefined();
+      expect('sound' in (dflt as object)).toBe(false);
+      expect(silent).toHaveProperty('sound', null);
+    });
+  });
+
+  it('retires the pre-v2 channel, which can never be given a new sound', async () => {
+    await withPlatform('android', async () => {
+      await syncPrayerNotifications(STOCKHOLM, withUniformLead(0));
+      expect(Notifications.deleteNotificationChannelAsync).toHaveBeenCalledWith('prayers');
+    });
+  });
+
+  it('silences the iOS notification and flags it for the foreground handler', async () => {
+    await withPlatform('ios', async () => {
+      await syncPrayerNotifications(
+        STOCKHOLM,
+        withUniformLead(0, {
+          sound: { ...DEFAULT_SETTINGS.notifications.sound, fajr: 'silent' },
+        }),
+      );
+      const fajr = scheduled().filter((c) => c.content.title.includes('Fajr'));
+      const other = scheduled().filter((c) => c.content.title.includes('Maghrib'));
+      expect(fajr.length).toBeGreaterThan(0);
+      for (const call of fajr) {
+        expect(call.content.sound).toBe(false);
+        // The handler would otherwise force sound on whenever the app is foregrounded.
+        expect(call.content.data?.silent).toBe(true);
+      }
+      for (const call of other) {
+        expect(call.content.sound).toBe(true);
+        expect(call.content.data?.silent).toBe(false);
+      }
+    });
+  });
+
+  // Ships-without-a-file is the whole design: the plumbing exists, the audio does not.
+  it('falls back to the system sound when no adhan file is bundled', async () => {
+    await withPlatform('android', async () => {
+      await syncPrayerNotifications(
+        STOCKHOLM,
+        withUniformLead(0, {
+          sound: { ...DEFAULT_SETTINGS.notifications.sound, isha: 'adhan' },
+        }),
+      );
+      const isha = scheduled().filter((c) => c.content.title.includes('Isha'));
+      for (const call of isha) {
+        expect(call.content.sound).toBe(true);
+        expect(call.trigger.channelId).toBe(channelIdFor('default'));
+      }
+    });
+  });
+});
+
+// Shurūq is the END of Fajr's window, not a prayer. That framing is load-bearing in both
+// the code and the copy, so it is offered through its own flag rather than as a sixth
+// entry in NOTIFY_PRAYERS.
+describe('Fajr-window alert', () => {
+  beforeEach(async () => {
+    scheduleMock.mockClear();
+    jest.clearAllMocks();
+    scheduleMock.mockImplementation(async () => 'id');
+    resetSyncStateForTests();
+    await AsyncStorage.clear();
+  });
+
+  it('keeps sunrise out of the obligatory-prayer list', () => {
+    expect(NOTIFY_PRAYERS).not.toContain('sunrise');
+  });
+
+  it('schedules no window alert by default', async () => {
+    await syncPrayerNotifications(STOCKHOLM, withUniformLead(0));
+    expect(scheduled().filter((c) => /Fajr-tiden/.test(c.content.title))).toHaveLength(0);
+  });
+
+  it('warns before the window closes when enabled', async () => {
+    await syncPrayerNotifications(
+      STOCKHOLM,
+      withNotifications({
+        fajrWindowEnd: true,
+        lead: { ...DEFAULT_SETTINGS.notifications.lead, sunrise: 15 },
+      }),
+    );
+    const warnings = scheduled().filter((c) => /Fajr-tiden/.test(c.content.title));
+    expect(warnings.length).toBeGreaterThan(0);
+    // Literal NBSP before the unit, like every other numeral+unit pair in the app.
+    expect(warnings[0].content.title).toBe('Fajr-tiden slutar om 15 min');
+    expect(warnings[0].content.body).toMatch(/^Soluppgång \d{2}:\d{2}$/);
+  });
+
+  it('says the window is closed when there is no lead', async () => {
+    await syncPrayerNotifications(
+      STOCKHOLM,
+      withNotifications({
+        fajrWindowEnd: true,
+        lead: { ...DEFAULT_SETTINGS.notifications.lead, sunrise: 0 },
+      }),
+    );
+    const warnings = scheduled().filter((c) => /Fajr-tiden/.test(c.content.title));
+    expect(warnings.length).toBeGreaterThan(0);
+    expect(warnings[0].content.title).toBe('Fajr-tiden är slut');
   });
 });

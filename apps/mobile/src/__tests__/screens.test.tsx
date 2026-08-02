@@ -13,6 +13,7 @@ import { Platform } from 'react-native';
 import Bonetider from '../app/bonetider';
 import BytPlats from '../app/(settings)/byt-plats';
 import Installningar from '../app/(settings)/installningar';
+import Notiser from '../app/(settings)/notiser';
 import Om from '../app/(settings)/om';
 import VanligaFragor from '../app/(settings)/vanliga-fragor';
 import Qibla from '../app/qibla';
@@ -84,11 +85,107 @@ describe('tab screens', () => {
       jest.clearAllMocks();
       await renderSettled(withProviders(<Bonetider />));
 
-      fireEvent.press(screen.getByRole('button', { name: 'Qibla' }));
+      // Prefix match: the compass button's label carries its live state — plain "Qibla"
+      // with a heading, "…du är vänd mot Mecka" on lock, "…riktningen är inte tillgänglig"
+      // with no magnetometer (which is the case under test). What this asserts is the
+      // ROUTE, so pinning the exact wording would only make it break on a copy tweak.
+      fireEvent.press(screen.getByRole('button', { name: /^Qibla/ }));
       expect(router.navigate).toHaveBeenCalledWith('/qibla');
 
       fireEvent.press(screen.getByRole('button', { name: 'Inställningar' }));
       expect(router.navigate).toHaveBeenCalledWith('/installningar');
+    },
+    MAP_RENDER_TIMEOUT,
+  );
+
+  // THE BUG THIS GUARDS: dragging two fingers up or down the map pitches the MapLibre
+  // camera (and a twist rotates it) — both are ON by default. The Skia field and the RN
+  // marker layer both project through lib/map/projection.ts, which is a closed-form
+  // NORTH-UP, ZERO-PITCH Web Mercator. So the instant the basemap tilts, the prayer lines
+  // carry on drawing flat and slide off it; the reported symptom was Sweden's isolines
+  // ending up over Germany. It corrupts the camera mirror too, since onRegionDidChange
+  // derives the viewport centre from `bounds`, and a pitched view's bounds are a trapezoid
+  // running to the horizon.
+  //
+  // Nothing in the app's own code sets bearing or pitch, which is why the projection's
+  // header could claim they are "never set" — the gap was that the USER could set them.
+  // Asserted as props on the map rather than through a gesture because the failure is a
+  // native-camera one that no JS-side test can reproduce.
+  it(
+    'never lets the user pitch or rotate the map away from the overlay projection',
+    async () => {
+      await renderSettled(withProviders(<Bonetider />));
+      const map = screen.getByTestId('sweden-map');
+
+      expect(map.props.touchPitch).toBe(false);
+      expect(map.props.touchRotate).toBe(false);
+      // Zoom stays available — the projection handles zoom exactly, and locking it would
+      // cost the city-level view the mosque layer and the qibla arc are drawn for.
+      expect(map.props.touchZoom).not.toBe(false);
+    },
+    MAP_RENDER_TIMEOUT,
+  );
+
+  // THE BUG THIS GUARDS: nothing stopped a fling from parking the camera in the Pacific,
+  // where the Skia overlay dutifully projects Sweden's prayer lines over open ocean and
+  // the Återställ chip is the only way home.
+  //
+  // The subtle half is the SIZE of the leash. maxBounds constrains the viewport, so a box
+  // shorter than the visible map at minZoom makes MapLibre clamp every frame and the map
+  // fights the finger. The two values are one setting in two variables: tightening the
+  // bounds without raising minZoom (or lowering minZoom without widening the bounds) is
+  // the regression, and it is invisible on a small simulator and obvious on a tall phone.
+  it(
+    'leashes the camera to a box that still clears the screen at minimum zoom',
+    async () => {
+      await renderSettled(withProviders(<Bonetider />));
+      const camera = screen.UNSAFE_getByType('Camera' as never);
+
+      const [west, south, east, north] = camera.props.maxBounds as [number, number, number, number];
+      const minZoom = camera.props.minZoom as number;
+
+      // Sanity: the leash must contain the framing the reset chip returns to.
+      expect(west).toBeLessThan(11.15);
+      expect(south).toBeLessThan(55.35);
+      expect(east).toBeGreaterThan(23.7);
+      expect(north).toBeGreaterThan(69.0);
+
+      // Web Mercator y, as a fraction of the world square — the space maxBounds is
+      // actually measured in.
+      const mercY = (lat: number) => (1 - Math.asinh(Math.tan((lat * Math.PI) / 180)) / Math.PI) / 2;
+      const world = 512 * 2 ** minZoom;
+      // Tallest/widest viewport the app ships to (iPhone 16 Pro Max; supportsTablet is
+      // false, so nothing larger exists).
+      const [widestPt, tallestPt] = [440, 956];
+
+      expect(mercY(south) - mercY(north)).toBeGreaterThan(tallestPt / world);
+      expect((east - west) / 360).toBeGreaterThan(widestPt / world);
+    },
+    MAP_RENDER_TIMEOUT,
+  );
+
+  // THE BUG THIS GUARDS: with no GPS fix and no manual city, resolveLocation falls back to
+  // Stockholm and labels it "Stockholm (standard)" — but the map strips status qualifiers
+  // for the dock, so it rendered a bare, confident "Stockholm" to a user standing in Malmö
+  // whose times were ~20 minutes wrong. Nothing on the map admitted the location wasn't
+  // theirs; the only hint was a footnote inside Inställningar. The dock must offer to pick
+  // a place rather than name one the user never chose.
+  it(
+    'never names the fallback city as the user location on the map',
+    async () => {
+      jest
+        .mocked(Location.requestForegroundPermissionsAsync)
+        .mockResolvedValue({ status: 'denied', granted: false } as never);
+      jest
+        .mocked(Location.getForegroundPermissionsAsync)
+        .mockResolvedValue({ status: 'denied', granted: false } as never);
+
+      await renderSettled(withProviders(<Bonetider />));
+
+      await waitFor(() =>
+        expect(screen.getByLabelText('Ingen plats vald – tryck för att välja stad')).toBeTruthy(),
+      );
+      expect(screen.queryByText('Stockholm')).toBeNull();
     },
     MAP_RENDER_TIMEOUT,
   );
@@ -160,7 +257,9 @@ describe('tab screens', () => {
     });
   });
 
-  it('announces Swedish prayer names on notification switches', async () => {
+  // Per-alert configuration (lead time + sound, per prayer) moved off Inställningar onto
+  // its own screen once it outgrew a section; Inställningar keeps a summary row.
+  it('summarises the alerts on Inställningar and pushes the detail screen', async () => {
     await AsyncStorage.setItem(
       SETTINGS_KEY,
       JSON.stringify({
@@ -170,9 +269,30 @@ describe('tab screens', () => {
     );
 
     await renderSettled(withProviders(<Installningar />));
-    await waitFor(() => expect(screen.getByLabelText('Fajr, Gryningsbönen')).toBeTruthy());
-    expect(screen.getByLabelText('Ẓuhr, Middagsbönen')).toBeTruthy();
-    expect(screen.getByLabelText('ʿIshāʾ, Nattbönen')).toBeTruthy();
+    const row = await waitFor(() =>
+      screen.getByLabelText(/^Påminnelser: Alla böner · vid bönetid\. Tryck för att ändra\.$/),
+    );
+    fireEvent.press(row);
+    expect(router.push).toHaveBeenCalledWith('/(settings)/notiser');
+  });
+
+  it('announces Swedish prayer names on the alert detail screen', async () => {
+    await AsyncStorage.setItem(
+      SETTINGS_KEY,
+      JSON.stringify({
+        ...DEFAULT_SETTINGS,
+        notifications: { ...DEFAULT_SETTINGS.notifications, enabled: true },
+      }),
+    );
+
+    await renderSettled(withProviders(<Notiser />));
+    // Each prayer's controls live inside a collapsed DisclosureGroup, so open one before
+    // querying — the same pattern the Förhandsvisning case above uses.
+    // "Fajr" also prefixes the Fajr-fönstret group's title, so take the first match —
+    // the per-prayer group, which renders above it.
+    await waitFor(() => expect(screen.getAllByRole('button', { name: /^Fajr/ }).length).toBeGreaterThan(0));
+    fireEvent.press(screen.getAllByRole('button', { name: /^Fajr/ })[0]);
+    expect(screen.getByLabelText('Påminnelse, Gryningsbönen')).toBeTruthy();
   });
 
   it('searches the city picker diacritic-insensitively', async () => {
@@ -227,6 +347,28 @@ describe('tab screens', () => {
     expect(
       screen.getByRole('button', { name: /^Utseende,/ }).props.accessibilityState.expanded,
     ).toBe(true);
+  });
+
+  // The qibla arc's switch. It lives inside the collapsed "Utseende" group, so the test
+  // opens the group first — the same path a user takes. What matters is that the control
+  // reaches persistence: the map reads settings.showQibla straight off the store, so a
+  // toggle that renders but writes nothing would look completely correct on screen while
+  // the arc never moved.
+  it('persists the qibla-arc switch from Utseende', async () => {
+    await renderSettled(withProviders(<Installningar />));
+    await waitFor(() => expect(screen.getByText('Inställningar')).toBeTruthy());
+    fireEvent.press(screen.getByRole('button', { name: /^Utseende,/ }));
+
+    // On by default — the arc is a feature, not an opt-in.
+    const toggle = screen.getByRole('switch', { name: /Visa qibla-riktning/ });
+    expect(toggle.props.value).toBe(true);
+
+    fireEvent(toggle, 'valueChange', false);
+
+    await waitFor(async () => {
+      const saved = JSON.parse((await AsyncStorage.getItem(SETTINGS_KEY)) ?? '{}');
+      expect(saved.showQibla).toBe(false);
+    });
   });
 
   it('renders the Om screen as an identity page (masthead + integritet + fine-print credits)', () => {

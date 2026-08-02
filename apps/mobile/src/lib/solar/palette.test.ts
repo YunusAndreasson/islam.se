@@ -15,6 +15,7 @@ import { PRAYER_ORDER, type PrayerKey } from '../prayer-times';
 import {
   mix,
   PRAYER_COLORS,
+  PRAYER_TEXT_COLORS,
   prayerColorFor,
   rgbaString,
   type RGBA,
@@ -162,5 +163,79 @@ describe('PRAYER_COLORS — light vs dark', () => {
     expect(prayerColorFor('isha', 'dark')).toBe(PRAYER_COLORS.isha.dark);
     expect(prayerColorFor('isha', 'light')).toBe(PRAYER_COLORS.isha.light);
     expect(prayerColorFor('isha', 'unspecified')).toBe(PRAYER_COLORS.isha.light);
+  });
+});
+
+// The map pill's label colours. These are the one place a prayer hue is used as small
+// TEXT rather than as a glowing line, and the two jobs need different values: measured on
+// the light pill surface the raw line colours run 2.05:1 (sunrise) to 3.52:1 (fajr),
+// where text under 18 pt needs 4.5:1. Painting labels with the line colours verbatim
+// would have made five of the six unreadable in daylight.
+//
+// This block is the guard on that. It recomputes WCAG contrast from the hex values rather
+// than trusting the comments beside them, so retuning a prayer hue — a thing that has
+// happened repeatedly to this palette — cannot quietly drop a label below the threshold.
+describe('PRAYER_TEXT_COLORS — legible on the pill, and still the line’s hue', () => {
+  const PILL_LIGHT = '#fffdf8';
+  const PILL_DARK = '#222840';
+  /** WCAG 2.1 relative luminance. */
+  const luminance = (hex: string): number => {
+    const c = [1, 3, 5].map((i) => Number.parseInt(hex.slice(i, i + 2), 16) / 255);
+    const lin = c.map((x) => (x <= 0.03928 ? x / 12.92 : ((x + 0.055) / 1.055) ** 2.4));
+    return 0.2126 * lin[0] + 0.7152 * lin[1] + 0.0722 * lin[2];
+  };
+  const contrast = (a: string, b: string): number => {
+    const [hi, lo] = [luminance(a), luminance(b)].sort((x, y) => y - x);
+    return (hi + 0.05) / (lo + 0.05);
+  };
+
+  it('computes a known ratio correctly (the oracle itself is sane)', () => {
+    expect(contrast('#000000', '#ffffff')).toBeCloseTo(21, 5);
+    expect(contrast('#ffffff', '#ffffff')).toBeCloseTo(1, 5);
+  });
+
+  it.each(PRAYER_ORDER)('%s clears 4.5:1 as text in both schemes', (prayer: PrayerKey) => {
+    expect(contrast(PRAYER_TEXT_COLORS[prayer].light, PILL_LIGHT)).toBeGreaterThanOrEqual(4.5);
+    expect(contrast(PRAYER_TEXT_COLORS[prayer].dark, PILL_DARK)).toBeGreaterThanOrEqual(4.5);
+  });
+
+  // Why this file needs to exist at all: it documents that the LINE colours genuinely
+  // cannot be used here. If a future palette pass lifted them enough to pass on their own,
+  // this fails and the whole second table can be deleted — a good failure to get.
+  it('is still needed: the raw line colours fail in light mode', () => {
+    const failing = PRAYER_ORDER.filter(
+      (p) => contrast(PRAYER_COLORS[p].light, PILL_LIGHT) < 4.5,
+    );
+    expect(failing.length).toBeGreaterThan(0);
+  });
+
+  // Dark mode needs no darkening — the line colours already pass there, so the label
+  // wears the line colour verbatim. Divergence would be an accident, not a decision.
+  it('reuses the line colour unchanged in dark mode', () => {
+    for (const prayer of PRAYER_ORDER) {
+      expect(PRAYER_TEXT_COLORS[prayer].dark).toBe(PRAYER_COLORS[prayer].dark);
+    }
+  });
+
+  // The point of deriving in OKLab was to move LIGHTNESS only. A darkened text colour
+  // must stay in its line's hue family, or the pill stops reading as part of the line —
+  // which is the whole reason for the change. Compared as a hue angle in OKLab-ish terms
+  // via the ratio of the colour's RGB spread, which a hue shift would break.
+  it('keeps each light text colour in its line’s hue family', () => {
+    for (const prayer of PRAYER_ORDER) {
+      const line = PRAYER_COLORS[prayer].light;
+      const text = PRAYER_TEXT_COLORS[prayer].light;
+      if (line === text) continue; // isha needed no adjustment
+      const rgb = (h: string) => [1, 3, 5].map((i) => Number.parseInt(h.slice(i, i + 2), 16));
+      const [lr, lg, lb] = rgb(line);
+      const [tr, tg, tb] = rgb(text);
+      // Ordering of the channels (which is what "hue family" means at this resolution)
+      // must survive the darkening: a warm terracotta must not come out blue-dominant.
+      const order = (r: number, g: number, b: number) =>
+        [r >= g, g >= b, r >= b].join();
+      expect(order(tr, tg, tb)).toBe(order(lr, lg, lb));
+      // And it must genuinely be DARKER, not merely different.
+      expect(tr + tg + tb).toBeLessThan(lr + lg + lb);
+    }
   });
 });

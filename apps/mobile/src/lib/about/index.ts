@@ -24,6 +24,9 @@ export const MAPLIBRE_URL = 'https://maplibre.org';
 export const OSM_URL = 'https://www.openstreetmap.org/copyright';
 export const OPENFREEMAP_URL = 'https://openfreemap.org';
 export const MAPTILER_URL = 'https://www.maptiler.com/copyright/';
+// Elevation tiles behind the map's hillshade on the key-less path. Credited separately
+// from the vector tiles because it is a different project with its own data sources.
+export const AWS_TERRAIN_URL = 'https://github.com/tilezen/joerd/blob/master/docs/attribution.md';
 
 export const APP_VERSION: string = Constants.expoConfig?.version ?? '1.0.0';
 

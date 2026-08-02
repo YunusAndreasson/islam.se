@@ -55,16 +55,21 @@ const GLYPH_PX = 48;
 // on the layer itself. Kept intentionally faint: mosques are a SECONDARY feature that should only
 // hint "zoom in here", never a field that competes with the prayer lines.
 type DotStyle = {
-  /** Opaque rgb — the dot's alpha comes from circle-opacity (`peak`), not the colour. */
+  /** Opaque hex — the dot's alpha comes from circle-opacity (`peak`), not the colour.
+   *  ALSO the colour the zoomed-in glyph is rasterised in, so the dot literally becomes
+   *  the mosque as you zoom (see glyphColor). */
   color: string;
   /** Dot opacity at the national view; tapers to 0 by the glyph handoff. */
   peak: number;
 };
 // Dark: a warm pale-gold fleck glinting on the navy basemap through the twilight wash.
-const SNOW_DARK: DotStyle = { color: 'rgb(232,200,148)', peak: 0.5 };
+// 9.87:1 on the navy land — comfortably past the 3:1 a non-text UI element needs.
+const SNOW_DARK: DotStyle = { color: '#e8c894', peak: 0.5 };
 // Light: a deeper muted brass so the tiny dot still registers on warm parchment (a pale fleck
-// would vanish there), a touch lower to match the lighter ground.
-const SNOW_LIGHT: DotStyle = { color: 'rgb(150,112,56)', peak: 0.42 };
+// would vanish there), a touch lower to match the lighter ground. 4.20:1 on parchment — which
+// is what settled the "does gold work in light mode too?" question: it does, but only at THIS
+// weight. The dark mode's pale gold would be 1.4:1 there, i.e. invisible.
+const SNOW_LIGHT: DotStyle = { color: '#967038', peak: 0.42 };
 
 interface Props {
   /** Tapped-mosque callback — the map screen lifts this into the detail card. */
@@ -74,13 +79,18 @@ interface Props {
 export function MosqueLayer({ onSelect }: Props) {
   const c = useColors();
   const scheme = useActiveScheme();
-  // Warm — not the reserved brass accent: a mosque dot reads as emitted place-light, so it
-  // doesn't collide with the "live now" reservation the way a brass glyph would.
+  // Warm — a mosque reads as emitted place-light against the cool field.
   const snow = scheme === 'dark' ? SNOW_DARK : SNOW_LIGHT;
-  // Muted ink, not accent/brass: a mosque GLYPH reads as a neutral place on the map, and
-  // brass stays reserved for the "live now" prayer signal. `c` (and thus glyphColor)
-  // changes when the OS theme flips, which re-renders the glyph at the new colour.
-  const glyphColor = c.inkMuted;
+  // The glyph wears the SAME warm gold as the dust dot it replaces. It used to be neutral
+  // muted ink, on the rule that brass stays reserved for the "live now" prayer signal —
+  // but that rule was already bent for the dot, so zooming in turned a gold fleck into a
+  // grey building for no reason a user could name. One colour across the whole zoom range
+  // makes the handoff read as the same object getting closer.
+  //
+  // The reservation still holds where it matters: the "live now" brass is the palette's
+  // c.highlight family and it moves, pulses or counts down. Mosques are static ground.
+  // Changing this back is one line — glyphColor = c.inkMuted.
+  const glyphColor = snow.color;
   // The rendered glyph as a full RN image source (keeps `scale` so the retina bitmap
   // isn't drawn double-size), or null until it resolves / if it never does.
   const [icon, setIcon] = useState<ImageSourcePropType | null>(null);

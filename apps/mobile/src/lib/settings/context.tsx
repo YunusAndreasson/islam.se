@@ -81,6 +81,13 @@ export function SettingsProvider({ children }: { children: ReactNode }) {
       notifications: {
         ...DEFAULT_SETTINGS.notifications,
         prayers: { ...DEFAULT_SETTINGS.notifications.prayers },
+        // `lead` and `sound` are nested records too — a shallow spread of `notifications`
+        // would leave both aliasing the exported constant, so one later in-place edit
+        // would rewrite the app's defaults for the rest of the process. A value-comparing
+        // `toEqual` in settings-reset.test.tsx cannot catch that; the by-reference
+        // assertion there can.
+        lead: { ...DEFAULT_SETTINGS.notifications.lead },
+        sound: { ...DEFAULT_SETTINGS.notifications.sound },
       },
     });
   }, []);

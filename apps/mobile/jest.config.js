@@ -18,6 +18,7 @@ module.exports = {
     'src/lib/prayer-times.ts',
     'src/lib/hijri.ts',
     'src/lib/qibla.ts',
+    'src/lib/relative-day.ts',
     'src/lib/places/nearest.ts',
     'src/lib/location/resolve.ts',
     'src/lib/settings/store.ts',
@@ -30,6 +31,7 @@ module.exports = {
     'src/lib/solar/contour.ts',
     'src/lib/solar/palette.ts',
     'src/lib/solar/useSolarClock.ts',
+    'src/lib/solar/grid-cache.ts',
   ],
   coverageThreshold: {
     // Calibrated just below the current measured coverage so the gate locks in what the
