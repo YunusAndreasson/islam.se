@@ -332,6 +332,7 @@ furūʿ-verken med `pnpm cli import-books`.
 | URL verification (research) | `SourceValidator.verifyUrls()` | 404/DNS-fail and blacklisted sources dropped — ⚠️ guards `research.sources` ONLY |
 | URL verification (artikeln) | `validateArticleSources()` | the list that actually ships: dead URLs and shamela/islamweb deep links have their `url` stripped, name kept, every strip printed |
 | Quote ids | `getQuote()` | a missing id **aborts** (stricter than the essay pipeline, which only logs) |
+| Quote *wording* | `verifyQuotesAgainstDb()` | ordalydelsen kollationeras mot quotes.db: ett äkta id med **omskriven text** avbryter. Avvikande attribution rapporteras men avbryter inte — `author` är bokens författare, så en rättelse är oftast riktig |
 | Credibility | `runFactCheck()` | `< 7.5` aborts |
 | Review score | producer's loop | `< 8` forces another revision regardless of verdict; `< 6` abandons |
 | Prose | `evaluateProseText()` | `> 12` issues triggers a corrective pass, kept only if the count actually falls |
@@ -358,6 +359,16 @@ grindrapporten** och kontrollera varje svenskt korpuscitat för hand:
 finns bland dem är påhittat. På halal höll bryggan ändå — Strindberg låg byteidentiskt
 mot id 8681, och både han och Heidenstam attribuerades korrekt till en *romanreplik*,
 inte till författaren — men det var författarpromptens förtjänst, inte grindens.
+
+⚠️⚠️ **En modells påstående om sina egna verktyg är INTE ett bevis.** På kaba-körningen
+skrev faktakollen att citatverktygen »were not present in my tool list« och kontrollerade
+därför varken 63441 eller 4166. Verktygen fanns: samma flaggor körda för hand
+(`--mcp-config .mcp.json --allowedTools …mcp__quotes__get_quote_by_id`) slog upp id 63441
+och returnerade Linné korrekt. `runFactCheck` har alltid haft verktyget i sin lista.
+Antingen konfabulerade modellen bortförklaringen eller så föll MCP-starten tyst.
+**Slutsatsen är densamma: en grind får aldrig vila på ett steg som kan påstå att det inte
+kunde köra.** Ordalydelsen kollationeras nu i KOD (`verifyQuotesAgainstDb`), inte i
+faktakollen. Regressionstest i `fordjupning-producer.test.ts`.
 
 ⚠️ **`bookPassages` fylls och är verifierbart — men INGEN grind rör det.** `getQuote()`
 slår bara mot `quotes.db`. De arabiska passagerna bär `passage-id` som ingen kod

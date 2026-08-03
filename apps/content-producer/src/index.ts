@@ -1497,7 +1497,9 @@ program
 		"--quran <phrase...>",
 		"Swedish search phrases for quran.db (repeatable, space-separated list)",
 	)
-	.option("--arabic <phrase...>", "English thematic phrases for the Arabic classics")
+	// ⚠️ Arabic, not English. English against the Arabic corpus returns near-noise:
+	// the same angles gave 0 relevant passages in English and 24 in Arabic.
+	.option("--arabic <phrase...>", "ARABIC thematic phrases for the Arabic classics")
 	.option("--swedish <phrase...>", "Swedish phrases for the intellectual-history bridge")
 	.option(
 		"--verse <ref...>",
