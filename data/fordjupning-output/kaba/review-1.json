@@ -1,0 +1,35 @@
+{
+  "finalScore": 7.6,
+  "verdict": "revise",
+  "revisedTextChars": 29305,
+  "summary": "Välskriven, välstrukturerad text med ett verkligt starkt Sverigeavsnitt och ärlig hantering av tillträdesförbudet — men flera av faktagranskningens uttryckliga rekommendationer har gått obesvarade förbi. Avsnittsavslut som slutar på 'inte X, utan Y', semikolonpivot eller em-streckskärpning: 1 av 7 i utkastet (Pew-meningen 'Det är projektioner byggda på migrationsantaganden, inte registerdata') — inom budget; i min revidering 0 av 7. Streckbudgeten är hållen: inga retoriska em-streck i brödtexten, endast de två citatattributionerna, plus tankstreck i årtalsintervall. Inga påhittade blockcitat: Linné-citatet finns i researchunderlaget och dess guardrail (Psaltarens ord, inte Linnés egen tanke) är hedrad redan i prosan, och Benedictsson-citatet är korrekt utelämnat. Korancitaten är lämnade ordagrant, inklusive Bernströms '[Muhammad]' och versaliserade gudspronomen — de har inte rörts och får inte röras. Det som drar ned betyget är fyra obesvarade rekommendationer med sakinnehåll: 5:97-felet, den helt saknade ombyggnaden 1630, de oreviderade dateringarna kring Ibn al-Zubayr och al-Hajjaj, samt den oattribuerade dödssiffran från 1979. Därtill saknas ja'faritisk rätt trots att researchen täcker Mughniyya, maqam Ibrahim finns bara i termlistan, och qarmater-episoden står med men utan den poäng researchen pekade ut som artikelns starkaste möjliga belägg. Allt detta är åtgärdat i den reviderade texten; ändringarna är inte kosmetiska, därav revise.",
+  "strengths": [
+    "Sverigeavsnittet har verkligt innehåll: 2 kap. 2 § begravningslagen, Mark- och miljööverdomstolen i Kvistofta, 7 kap. 18 § skollagen med delegationsförbudet, Folkhälsomyndighetens vaccinationskrav, mahram-ändringen 2022, Röster om hajj 2017 och Pew med korrekt projektionsförbehåll.",
+    "Tillträdesförbudet för icke-muslimer erkänns som en tyngre invändning och bortförklaras inte; formuleringen 'ett faktum en läsare rimligen får väga in' är rätt hållning för en skeptisk läsare.",
+    "Den akademiska revisionismen refereras i stark form. Kings invändning mot Gibson gäller metod och inte mätdata, och Hawting-invändningen möts inte med förnekelse utan med traditionens egen urartningsmodell hos Ibn al-Jawzi — ett ovanligt hederligt drag.",
+    "Idéhistorieavsnittet drar själv gränsen mot likställighet: 'östern är ett väderstreck som finns överallt, Mecka är en enda punkt på jordklotet, och den brytning som skedde i Sverige på 1500-talet har ingen motsvarighet i islams historia'.",
+    "Hadither är genomgående tillskrivna samlingarna med nummer, inte den lärde som citerar dem, och al-Azraqi, Ibn Kathir och Ibn Khaldun redovisas som återgivare av äldre led.",
+    "Källkritiska markörer är bevarade där researchen ville ha dem: 'yamin Allah'-utsagans omdiskuterade kedja, Linné-attributionen och Pews projektionsstatus."
+  ],
+  "issues": [
+    "SAKFEL, uttryckligen flaggat och ändå kvarlämnat: 'namnet Kaba står i klartext i 5:97'. Ordet al-kaʿba förekommer två gånger, 5:95 och 5:97, båda i femte suran. Rättat.",
+    "Ombyggnaden 1630 under Murad IV saknades helt, trots att den rekommenderades uttryckligen och att artikelns eget huvudargument — att dagens byggnad inte är Abrahams — vilar på skillnaden mellan planlösning och murverk. Tillagd, med Ibn Allans invändning och de fyra rättsskolornas muftier, samt en explicit skiljelinje plan/murverk i ingressen.",
+    "Avsnittet om 1630 behöver en primärkälla före publicering (den meckanska krönikelitteraturen, t.ex. al-Sinjari eller Ibn Allan). Jag har satt den bästa not jag kan belägga, men den är för tunn för en uppgift som argumentet vilar på.",
+    "Dateringarna kring Ibn al-Zubayr var fel på det sätt faktagranskningen förutsåg: 683 är hans maktövertagande, inte ombyggnaden. Rättat till att han rev och byggde upp på nytt 684 (64 efter hijra) och att al-Hajjaj lät återställa 693.",
+    "Dödssiffran 270 för belägringen 1979 stod som fastställt faktum. Nu angiven som saudisk officiell uppgift och markerad som ifrågasatt.",
+    "Qarmater-episoden fanns men utan sin poäng: att vallfärd och tawaf fortsatte i drygt två decennier kring en Kaba utan Svarta stenen, utan att någon lärd hävdade att riten upphört. Tillagd — researchen kallade detta artikelns starkaste möjliga belägg och det låg outnyttjat.",
+    "Eneman–Reland-kartan påstods rakt av med fotnot till svenska Wikipedia. Nu markerad som en uppgift som går igen i uppslagsverken men inte går att belägga i den vetenskapliga litteraturen.",
+    "Ibn Taymiyyas jiha-argument citerades enbart ur al-Radd ala al-mantiqiyyin — en logiktraktat är en udda hemvist för ett qiblaavgörande och en läsare som kontrollerar noten snubblar. Korshänvisning till Majmu al-fatawa tillagd.",
+    "Ja'faritisk rätt saknades helt, trots att researchen täcker Mughniyya. Ett fördjupningsavsnitt om rättsskolornas oenighet som bara redovisar fyra av fem skolor är ofullständigt. Tillagd: kravet att tawaf sker i bandet mellan Kabas mur och maqam Ibrahim.",
+    "Maqam Ibrahim fanns bara i termlistan trots att både 2:125 och 3:97 citeras och båda nämner den. Fiqh kring de två bönböjningarna och inhägnadens flyttning tillagd.",
+    "Kabas tomma inre och den årliga tvättningen saknades. Att helgedomen inte innehåller något att vända sig till är det mest konkreta stöd artikelns egen anti-dyrkanslinje kunde få. Tillagt i invändningsavsnittet.",
+    "Sura al-Fil saknades trots att 106:3 citeras — Koranens egen berättelse om att Huset försvarades ligger i suran omedelbart före och läses klassiskt i sammanhang med den. Tillagd.",
+    "Hadithöversättningen 'Om inte ditt folk stode så nära otron' använder ålderdomlig konjunktiv utanför modern SAOL-svenska och är dessutom trunkerad till en villkorssats utan följdsats. Omskriven till fullständig mening.",
+    "'anti-sakraliseringen' är en nybildning utanför SAOL. Ersatt.",
+    "Figuren 'inte X utan Y' återkom sex till sju gånger i brödtexten (ingressen, avsnittsöppningen om rättsskolorna, byggnadskonventionen, King-meningen, Pew-meningen). Avsnittsavsluten låg inom budget, men tätheten i löptexten är en tydlig AI-tic. Tunnad till de fall där kontrasten bär sakinnehåll.",
+    "Fyra av fyrtio fotnoter går till Wikipedia, däribland fotnot 1 som bär ingressens mått. Måtten är nu preciserade i noten (12,86 × 11,03 × 13,10 m), men källorna för mått, Svarta stenen och belägringen 1979 bör bytas mot facklitteratur.",
+    "Språkstelheter rättade: 'materialiseras qiblan bokstavligt', 'inte anlägga begravningsplatsen på den platsen' (upprepning), 'drar i shafiitisk tradition linjen ännu snävare' (ordföljd).",
+    "Wallin-meningen blandade resa med publicering: 'Den första ögonvittnesskildringen ... kom 1845' gäller året han nådde Mecka, inte året skildringen trycktes. Omformulerad.",
+    "FRONTMATTER (åtgärdas av människa): kontrollera att `sources` täcker Mughniyyas al-Fiqh ala al-madhahib al-khamsa och den osmanska ombyggnaden 1630, som nu namnges i prosan."
+  ]
+}

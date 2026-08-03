@@ -182,6 +182,79 @@ function orderFrontmatter(meta: Record<string, unknown>): Record<string, unknown
 	return out;
 }
 
+/**
+ * Fold a quotation to what a comparison should be sensitive to.
+ *
+ * The corpus is OCR of old print, so typography drifts freely between the database and
+ * anything a model echoes back: curly vs straight quotes, en/em dashes, `se'n` vs `sen`,
+ * doubled spaces. None of that is a rewrite. A changed WORD is.
+ */
+export function normaliseQuote(text: string): string {
+	// Keep letters, digits and single spaces — nothing else. Anything narrower has to
+	// enumerate the punctuation the scans use, and that list is never complete: the first
+	// attempt missed the curly apostrophe (U+2019) and let a comma/em-dash swap through.
+	return text
+		.toLowerCase()
+		.replace(/[^\p{L}\p{N}]+/gu, " ")
+		.trim();
+}
+
+/**
+ * Collate every corpus quotation against quotes.db: does the id exist, does the wording
+ * match, and does the attribution differ?
+ *
+ * ⚠️ Existence alone is not enough. A real id carrying invented text is the same forgery
+ * as an invented id, and nothing in code compared wording until 2026-08-03 — the
+ * fact-check stage was the only guard, and on the kaba run it reported the quote MCP
+ * tools "not present in my tool list" and compared nothing, while the very same flags
+ * resolved the id correctly when run by hand. Never let a model's self-report be the
+ * only guard on a forgery.
+ */
+export function verifyQuotesAgainstDb(
+	quotes: ReadonlyArray<{ id: string | number; text?: string; author?: string }>,
+): { missing: string[]; altered: string[]; reattributed: string[] } {
+	const missing: string[] = [];
+	const altered: string[] = [];
+	const reattributed: string[] = [];
+
+	for (const q of quotes) {
+		const numeric = Number(String(q.id).replace(/\D/g, ""));
+		if (!Number.isFinite(numeric) || numeric === 0) continue;
+		const stored = getQuote(numeric);
+		if (!stored) {
+			missing.push(String(q.id));
+			continue;
+		}
+		// Research may legitimately quote a span, so require containment rather than
+		// equality — but the words it does keep must be the stored words.
+		const claimed = normaliseQuote(q.text ?? "");
+		const actual = normaliseQuote(stored.text ?? "");
+		if (claimed.length >= 12 && !actual.includes(claimed)) altered.push(String(q.id));
+
+		// Attribution differences are reported, never fatal: the author column is the
+		// BOOK's author, not the speaker, so correcting it is usually right — Boye's
+		// Gömda land is filed under "Unknown", and a novel's line belongs to its character.
+		const claimedAuthor = (q.author ?? "").trim();
+		if (claimedAuthor && stored.author && !looseNameMatch(claimedAuthor, stored.author)) {
+			reattributed.push(`${q.id}: "${stored.author}" → "${claimedAuthor}"`);
+		}
+	}
+	return { missing, altered, reattributed };
+}
+
+/** True when two spellings plainly name the same person. */
+export function looseNameMatch(a: string, b: string): boolean {
+	const key = (s: string) =>
+		s
+			.toLowerCase()
+			.normalize("NFD")
+			.replace(/[̀-ͯ]/g, "")
+			.replace(/[^a-z]/g, "");
+	const x = key(a);
+	const y = key(b);
+	return Boolean(x && y && (x.includes(y) || y.includes(x)));
+}
+
 type StageOk = { ok: true; fm: FordjupningFrontmatter; body: string };
 type StageErr = { ok: false; error: string; raw: string };
 
@@ -460,18 +533,30 @@ export class FordjupningProducer {
 		// quoted the corpus in prose (Strindberg, Tegnér, Boye) while research carried zero
 		// ids, so nothing was ever checked. Count it into the gate report rather than let a
 		// run report success with its strictest gate inert.
-		const missing: string[] = [];
-		for (const q of research.quotes ?? []) {
-			const numeric = Number(String(q.id).replace(/\D/g, ""));
-			if (!Number.isFinite(numeric) || numeric === 0) continue;
-			if (!getQuote(numeric)) missing.push(String(q.id));
-		}
+		//
+		// ⚠️ Existence alone is NOT enough. A real id carrying invented text is the same
+		// forgery as an invented id, and it used to pass: the fact-check stage was the only
+		// thing comparing wording, and on the kaba run it reported the quote MCP tools
+		// "not present in my tool list" and checked nothing — while the tools demonstrably
+		// worked when invoked with identical flags. Never let a model's self-report be the
+		// only guard. Compare the text here, in code.
+		const { missing, altered, reattributed } = verifyQuotesAgainstDb(research.quotes ?? []);
 		if (missing.length > 0) {
 			return {
 				research,
 				dropped,
 				fatal: `citat-id finns inte i quotes.db: ${missing.join(", ")} — påhittad attribution, avbryter`,
 			};
+		}
+		if (altered.length > 0) {
+			return {
+				research,
+				dropped,
+				fatal: `citat-id finns men texten stämmer inte med quotes.db: ${altered.join(", ")} — omskrivet citat, avbryter`,
+			};
+		}
+		if (reattributed.length > 0) {
+			this.log(`   ℹ️  Omattribuerade citat (kontrollera för hand): ${reattributed.join("; ")}`);
 		}
 		return { research, dropped };
 	}

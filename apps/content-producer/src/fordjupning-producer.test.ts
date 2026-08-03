@@ -2,6 +2,8 @@ import { describe, expect, it } from "vitest";
 import {
 	adoptRevision,
 	bodyAfterFrontmatter,
+	looseNameMatch,
+	normaliseQuote,
 	UNVERIFIABLE_DEEP_LINK,
 } from "./fordjupning-producer.js";
 
@@ -90,5 +92,49 @@ describe("UNVERIFIABLE_DEEP_LINK", () => {
 		"https://shamela.org/something-else",
 	])("keeps the verifiable source %s", (url) => {
 		expect(UNVERIFIABLE_DEEP_LINK.test(url)).toBe(false);
+	});
+});
+
+describe("normaliseQuote", () => {
+	// The corpus is OCR of old print, so typography drifts between quotes.db and anything
+	// a model echoes back. Folding it away is what lets the gate compare WORDS — and words
+	// are the only thing a forged citation actually changes.
+	it("ignores typography the scans vary freely", () => {
+		const stored = "Det är det märkliga med den stan, att se'n man en gång sett den";
+		const echoed = "Det är det märkliga med den stan — att se’n man en gång sett den";
+		expect(normaliseQuote(stored)).toBe(normaliseQuote(echoed));
+	});
+
+	it("does NOT ignore a changed word", () => {
+		// This is the failure the gate exists for: a real id carrying invented wording.
+		// Until 2026-08-03 only the fact-check stage compared text, and on the kaba run it
+		// reported the quote MCP tools "not present in my tool list" and compared nothing.
+		const stored = normaliseQuote("Man arbetar fåfängt, om ej Herren bygger huset.");
+		const forged = normaliseQuote("Man arbetar förgäves, om ej Herren bygger huset.");
+		expect(stored).not.toBe(forged);
+		expect(stored.includes(forged)).toBe(false);
+	});
+
+	it("accepts a shortened quotation, since research may quote a span", () => {
+		const stored = normaliseQuote(
+			"Ödet är en öken. Där bor Gud. Söker du ditt Sinai, får du hans bud.",
+		);
+		const span = normaliseQuote("Där bor Gud");
+		expect(stored.includes(span)).toBe(true);
+	});
+});
+
+describe("looseNameMatch", () => {
+	it("matches transliteration variants of one name", () => {
+		expect(looseNameMatch("Ibn Qudāma", "Ibn Qudama")).toBe(true);
+		expect(looseNameMatch("al-Qurṭubī", "al-Qurtubi")).toBe(true);
+	});
+
+	it("separates genuinely different people", () => {
+		// A re-attribution must still be REPORTED, so this has to come out false: on the
+		// Kaba corpus, Boye's Gömda land is filed under "Unknown" and a novel's line belongs
+		// to its character, not its author. Both are corrections worth a human's eye.
+		expect(looseNameMatch("Karin Boye", "Unknown")).toBe(false);
+		expect(looseNameMatch("Erik Gustaf Geijer", "Bedouin tradition")).toBe(false);
 	});
 });

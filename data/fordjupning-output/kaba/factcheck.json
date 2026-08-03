@@ -1,0 +1,108 @@
+{
+  "overallCredibility": 8.2,
+  "verdict": "pass",
+  "summary": "No fabrications found. This is unusually disciplined research: it flags its own weak points (the ʿyamīn Allāhʿ report's contested authenticity, the Linné quote as Psalm 127:1 rather than Linné's own words, the Eneman–Reland map as needing separate documentation), presents revisionist theses (Gibson, Crone, Hawting) in their strong form rather than as straw men, and its original qibla calculations survive independent recomputation. Every web-sourced statistic I checked held up: hajj 2024 mortality (1,301 deaths, 83% unregistered), Pew's Sweden figures, the Umar/Black Stone hadith wording and Bukhari 1597 grading, Wallin's arrival date. Two concrete errors: (1) the claim that Bernström renders \"Kaba\" in plain text only in 5:97 is disproven — 5:95 also reads \"Ka`bah\"; (2) the construction history stops at al-Hajjaj (692/693) when the fabric standing today is Murad IV's rebuild after the 1630 flood — a real gap in an article whose thesis turns on \"the building that stands there today.\" Two omissions weaken an otherwise strong argument: the Qarmatian removal of the Black Stone (930–951), which is the single best historical illustration of the brief's own anti-sacralization thesis, and Sūrat al-Fīl. The two database quotes could not be verified: the quote-MCP tools were absent from my tool list this run.",
+  "verifiedClaims": [
+    {
+      "claim": "ʿUmar at the Black Stone: 'I know you are only a stone that can neither harm nor benefit. Had I not seen the Prophet kiss you, I would not have kissed you' — Bukhari 1597 / Muslim 1270",
+      "status": "verified",
+      "method": "WebFetch of hadeethenc.com/en/browse/hadith/3024",
+      "notes": "Wording matches exactly; graded [Authentic] and [Agreed upon]; Bukhari 1597 confirmed. Narrator ʿUmar; the ʿĀbis b. Rabīʿa link in the chain is not shown on that page but is standard."
+    },
+    {
+      "claim": "Hajj 2024: 1,301 deaths, 83% of them unregistered pilgrims, temperatures near 50 °C",
+      "status": "verified",
+      "method": "WebFetch of the Journal of Travel Medicine article (academic.oup.com/jtm/article/31/6/taae096)",
+      "notes": "Article says 51 °C, not 'near 50' — use 51. The '~400,000 unregistered pilgrims' figure is NOT in this source; it says over 300,000 unregistered were cleared from Mecca before the pilgrimage. Do not attribute 400,000 to JTM."
+    },
+    {
+      "claim": "Pew (2017): Sweden 8.1% Muslim in 2016; 2050 projections of 11% (zero migration), 21% (medium), 31% (high)",
+      "status": "verified",
+      "method": "WebSearch confirming the Pew 'Europe's Growing Muslim Population' report",
+      "notes": "Pew rounds to 8% in prose, 8.1% in the data table. The research's insistence that these are estimates, not register data, is correct and should be kept in the article."
+    },
+    {
+      "claim": "G. A. Wallin reached Mecca 7 December 1845 under the name ʿAbd al-Walī and performed hajj including tawaf",
+      "status": "verified",
+      "method": "WebSearch across Wikipedia and biographical sources",
+      "notes": "Sources also note there is no evidence Wallin converted; his diaries suggest religious scepticism. The article should say this — it affects how the eyewitness account is read."
+    },
+    {
+      "claim": "Qibla from Stockholm is 148°; Malmö ca 139°, Kiruna ca 155°; direction is southeasterly, not southerly",
+      "status": "verified",
+      "method": "WebSearch confirmed 148.24° for Stockholm; I independently recomputed the great-circle initial bearings myself — Malmö 138.8°, Kiruna 155.2°",
+      "notes": "The research's own arithmetic is sound. 148° is SSE; describing the range as 'sydostlig' is fair."
+    },
+    {
+      "claim": "Ibn al-Zubayr rebuilt the Kaaba on Abraham's foundations; al-Hajjaj restored the Quraysh plan on ʿAbd al-Malik's orders; ʿAbd al-Malik later regretted it",
+      "status": "verified",
+      "method": "WebSearch across multiple Islamic-history sources, consistent with the Ibn Khaldun passage cited",
+      "notes": "Dates need fixing: the rebuild was 64 AH/683–684, not '683–692' (that is Ibn al-Zubayr's caliphate). Al-Hajjaj's demolition is 74 AH = 693, not 692."
+    },
+    {
+      "claim": "Michael Eneman brought home a map of Mecca and its temple that formed the basis for a map published by Adriaan Reland in Utrecht",
+      "status": "verified",
+      "method": "WebFetch of sv.wikipedia.org/wiki/Michael_Eneman",
+      "notes": "Partial only. Swedish Wikipedia states it verbatim but attaches NO footnote to that sentence, and the Svenskt biografiskt lexikon article omits it entirely. Wikipedia-without-a-citation is not enough for a claim the brief markets as a discovery. Find the scholarly source or downgrade the wording."
+    },
+    {
+      "claim": "1979 seizure of the Grand Mosque: began 20 November, lasted two weeks, 63 rebels publicly executed 9 January 1980",
+      "status": "verified",
+      "method": "WebSearch (Britannica itself returned HTTP 403 to me, so I verified independently)",
+      "notes": "The 63 executions on 9 January 1980 are firmly documented. The death toll is contested: Saudi official figures give 117 militants + 127 security personnel + 26 civilians (~270), but unofficial claims run far higher. Present 'ca 270' as the official figure, not as settled fact. The '~500 followers' number also varies (200–500) across sources."
+    }
+  ],
+  "unverifiedClaims": [
+    {
+      "claim": "Bernström writes the word 'Kaba' in plain text only in 5:97",
+      "status": "unverified",
+      "reason": "DISPROVEN. I fetched the same Quran.com API (translation 48) for 5:95 and it reads: 'en offergåva att överlämnas till Ka`bah'. The word appears at least twice, both in sura 5. The underlying observation — that Bernström overwhelmingly prefers 'Helgedomen' — is sound and worth keeping, but the specific superlative must be corrected to 'only twice, both in al-Māʾida' after checking the full translation for any further occurrences."
+    },
+    {
+      "claim": "Implicit framing that the building standing today is al-Hajjaj's restoration of the Quraysh plan",
+      "status": "unverified",
+      "reason": "Incomplete to the point of being misleading. The current structure is Sultan Murad IV's rebuild after the flood of 1039/1630; the walls were reconstructed with granite from the Meccan hills, and everything since has been repair rather than rebuilding. The Quraysh FLOOR PLAN persists from al-Hajjaj, but the fabric does not. For an article arguing about 'the building that stands there today' not resting on Abraham's foundations, conflating plan with fabric is a real error. Add the 1630 rebuild — it also enriches the thesis, since the ulama-vs-umara dispute over it (Ibn ʿAllān vs. Riḍwān Agha) is another internal fight over the Kaaba's material form."
+    },
+    {
+      "claim": "[quote-63441] Carl von Linné, Nemesis Divina — 'Man arbetar fåfängt, om ej Herren bygger huset'",
+      "status": "unverified",
+      "reason": "Not verifiable this run: the quote-database MCP tools (get_quote_by_id, search_text) were not present in my tool list, so I could not confirm the ID, author or wording. This is a tooling gap, not evidence of fabrication — and the research already flags that the phrase is Linné's rendering of Psalm 127:1 and must not be presented as his own formulation. Re-verify by ID before publication; if it cannot be confirmed, cite Psaltaren 127:1 directly, which is the stronger move anyway."
+    },
+    {
+      "claim": "[quote-4166] Victoria Benedictsson, Den bergtagna — 'Det är det märkliga med den stan...'",
+      "status": "unverified",
+      "reason": "Same tooling gap: could not confirm by ID. Beyond verification, I recommend cutting it. It is a line spoken by a character about Paris in a drama about a woman's ruin; the research itself warns it must never be placed parallel to hajj longing. A quote that requires that many guardrails to avoid a false equivalence is not earning its place in an article about the Kaaba."
+    },
+    {
+      "claim": "'~400,000 oregistrerade pilgrimer deltog' in hajj 2024",
+      "status": "unverified",
+      "reason": "Not found in the cited Journal of Travel Medicine article, which states that over 300,000 unregistered pilgrims were cleared from Mecca before the pilgrimage and does not quantify how many were actually present. Either source the 400,000 figure elsewhere (Saudi/AFP reporting) or drop it and use the JTM figure with its actual framing."
+    }
+  ],
+  "missingPerspectives": [
+    "The Qarmatian seizure of the Black Stone (930 CE, held in Bahrain until c. 951) is entirely absent — and it is the single strongest historical illustration of the brief's own thesis, since hajj and tawaf continued for two decades without the stone. Its omission is the most conspicuous gap in the research.",
+    "The Ottoman rebuild of 1630 under Murad IV, including the ulama–umara dispute over whether the Kaaba could be demolished at all (Ibn ʿAllān's objections vs. fatwas from the muftis of the four schools) — a fourth internal fight over the building's form that fits the article's structure exactly.",
+    "Sūrat al-Fīl (105) and the Year of the Elephant. The brief cites 106:3 while skipping the Quran's own narrative of the House being defended — the immediately preceding sura, and traditionally read as continuous with Quraysh.",
+    "Maqām Ibrāhīm as a distinct object of legal discussion. 2:125 and 3:97 are both cited and both mention it, but the fiqh around praying behind it (the two rakʿas after tawaf, and the 1960s-70s relocation of the enclosure) never appears.",
+    "The annual ghusl of the Kaaba's interior and the question of what is inside it — relevant to the anti-sacralization argument, since the emptiness of the interior is itself a theological statement.",
+    "Non-Sunni beyond Twelver: Mughniyya covers Jaʿfari law well, but Ibadi and Zaydi positions on tawaf conditions go unmentioned. A minor gap given the article's scope, but worth a sentence if breadth is being claimed."
+  ],
+  "sourceAssessment": {
+    "totalSources": 47,
+    "highCredibility": 34
+  },
+  "recommendations": [
+    "Correct the 5:97 claim before writing. Bernström also renders 'Ka`bah' in 5:95. Check every occurrence in the full translation and restate as 'only twice, both in al-Māʾida' — the observation still lands, and lands harder for being precise.",
+    "Extend the construction history to 1630. The Kaaba standing today is Murad IV's post-flood rebuild on the Quraysh plan; distinguish plan from fabric explicitly, since the article's central argument depends on that distinction.",
+    "Add the Qarmatian episode. Twenty-two years of tawaf around a Kaaba with no Black Stone is the best evidence the article could possibly have for its own thesis, and leaving it out is a missed argument, not just a missing fact.",
+    "Fix the dates: Ibn al-Zubayr's rebuild is 64 AH/683–684 (not 683–692, which is his caliphate); al-Hajjaj's demolition is 74 AH/693.",
+    "Attribute the 1979 casualty figures as official Saudi numbers and note that the toll is contested; hedge '~500 followers' as a range (200–500).",
+    "Either source the Eneman–Reland map claim in scholarship or soften it. Swedish Wikipedia asserts it without a footnote and the SBL article does not mention it at all — that is thin ground for a claim the brief presents as an uncited discovery.",
+    "Drop the 400,000 unregistered-pilgrims figure or source it outside the JTM article, which says something different (300,000+ cleared beforehand).",
+    "Cut the Benedictsson quote. The guardrails the research attaches to it are correct, and a quote needing that much insulation against false equivalence is better left out.",
+    "Cite Ibn Taymiyya's jiha argument from Majmūʿ al-fatāwā alongside al-Radd ʿalā al-manṭiqiyyīn. The logic treatise is an unusual home for a qibla ruling and a reader checking the reference will stumble.",
+    "Source the 12×10×15 m dimensions explicitly — measurements vary noticeably between references (several give ~12.86 × 11.03 × 13.1 m), so name the authority rather than stating them flat.",
+    "Keep the source-critical flags already in the brief — the 'yamīn Allāh' report's contested authenticity, the Linné attribution, the estimate-not-register caveat on Pew. They are the strongest thing about this research and should survive into the published text, not be smoothed away.",
+    "Re-run quote verification by ID once the quote-database tools are available; both quotes are currently unconfirmed for tooling reasons rather than substantive ones."
+  ]
+}

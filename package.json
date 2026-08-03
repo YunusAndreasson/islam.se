@@ -19,7 +19,7 @@
 		"ship": "pnpm build && pnpm pdf && cd apps/web && node scripts/assert-full-build.mjs && wrangler pages deploy dist --project-name islam-se --branch master --commit-dirty=true",
 		"ship:mailer": "cd apps/web/workers/rattelse-mailer && wrangler deploy",
 		"deploy": "pnpm ship",
-		"test:checkers": "python3 scripts/check-quran-quotes.py --self-test"
+		"test:checkers": "python3 scripts/check-quran-quotes.py --self-test && python3 scripts/check-book-passages.py --self-test"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "^2.5.5",
