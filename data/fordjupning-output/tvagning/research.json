@@ -1,0 +1,487 @@
+{
+  "topic": "Tvagning (rituell rening inom islam): wudūʾ, ghusl, tayammum och istinjāʾ — källor, rättsskolornas skillnader, svensk rättspraxis och de starkaste invändningarna",
+  "summary": "VIKTIG DRIFTSANMÄRKNING: MCP-verktygen (mcp__quotes__*, search_quran, search_books, get_quote_by_id) var INTE tillgängliga i denna körning — endast WebSearch/WebFetch fanns i verktygslistan. Citat-id kunde därför inte slås upp mot databasen. Jag har därför burit vidare exakt ett citat ur briefen: det enda vars ordalydelse OCH talare kunde korsverifieras mot ett annat material i samma brief (citat-id 61232 mot de arabiska Ibn Fadlan-passagerna 256851/256776). Koranverserna har i stället verifierats direkt mot api.quran.com (Bernström, translation-id 48) och ersätter den OCR-skadade verstexten i briefen.\n\nDEN SVÅRARE FRÅGAN artikeln besvarar: Tvagning framställs nästan alltid som hygien med religiös inramning — »muslimer tvättar sig före bönen«. Men i den klassiska rätten är tvagning inte rengöring alls. Den är en juridisk statusförändring: ḥadath (rituellt tillstånd) är inte samma sak som khabath (fysisk smuts). En nydusch:ad person utan wudūʾ får inte be; en person som utfört wudūʾ med kvarvarande smuts får be. Al-Nawawī och Ibn Rushd är explicita på denna punkt, och al-Shāfiʿī skiljer redan på 800-talet mellan ett *hinder* för vattnet (ʿilk, tjocka substanser — dagens nagellack, plåster, sårförband) och *färgning* av huden, som inte hindrar. Hela artikeln bör byggas kring att förklara denna skillnad, eftersom både det välvilliga svenska »islam är ju hygieniskt« och den fientliga »men de tvättar fötterna i handfatet« bygger på samma missförstånd.\n\nDEN CENTRALA SPÄNNINGEN: mellan tvagning som *formaliserad handling* (ordning, avsikt, oavbrutenhet, exakta kroppsdelar — där rättsskolorna öppet är oeniga) och tvagning som *inre rening* (Koranen 74:4, som Bernström till och med översätter »Och rena ditt hjärta!« där den tryckta utgåvan har »rena dina kläder« — en översättningsdivergens som exakt speglar den klassiska exegetiska striden om thiyāb bokstavligt eller metaforiskt). Denna spänning ger också artikelns svåraste inre problem: waswasa, tvångsmässig upprepning av tvagningen, som Ibn al-Jawzī behandlade i Talbīs Iblīs och som modern klinisk forskning behandlar som religiöst inriktad OCD.\n\nVAD ARTIKELN MÅSTE TÄCKA (fyra fält):\n\n1. KÄLLORNA. Loci classici: 5:6 (den fullständiga tvagningsversen — wudūʾ, ghusl, tayammum i en enda vers, avslutad med »Gud vill inte lägga på er tunga bördor«), 4:43 (samma regel, tidigare uppenbarad, med berusningsförbudet), 2:222 (menstruation), 9:108 (»män som älskar att rena sig«), 74:4, 56:79, 8:11, samt 9:28 (»de som sätter medhjälpare vid Guds sida är orena«) som måste tas upp eftersom den är den vers kritiker faktiskt åberopar. Hadith med nummer: Muslim 223 (Abū Mālik al-Ashʿarī, »al-ṭuhūr shaṭr al-īmān«), Muslim 224a (Ibn ʿUmar, »Gud tar inte emot bön utan rening«), Bukhārī 135, ʿĀʾishas och Maymūnas beskrivningar av Profetens ghusl (Bukhārī, Muslim, Muwaṭṭaʾ, Nasāʾī, Tirmidhī, Ibn Māja — flera parallella versioner som skiljer sig i detalj, vilket i sig är en poäng), Jubayr b. Muṭʿim om att tre handfullar räcker, ʿAmmār b. Yāsir om tayammum, Abū Dharr »al-ṣaʿīd al-ṭayyib wuḍūʾ al-muslim«. Namngivna lärda: Mālik, al-Shāfiʿī, Abū Ḥanīfa (via al-Marghīnānī), Ibn Qudāma, al-Nawawī, Ibn Rushd, al-Qurṭubī, Ibn al-Qayyim.\n\n2. RÄTTSSKOLORNAS SKILLNADER — här ligger de verkliga kontroverserna, och de är sex till antalet: (a) Är avsikten (niyya) obligatorisk? Hanafiterna säger nej, den är sunna (al-Hidāya: »al-niyya fīʾl-wuḍūʾ sunna ʿindanā«); shāfiʿiter, mālikiter och ḥanbaliter säger ja. (b) Bryter beröring av kvinna wudūʾ? Al-Shāfiʿī: all hudkontakt, även med barn eller gammal kvinna (al-Qurṭubī redogör för hans vacklan); Abū Ḥanīfa: nej; Mālik/Aḥmad: bara med begär. Detta är den regel som gör svensk handskakningspraxis till en rättsfråga (AD 2018 nr 51). (c) Mash över strumpor (jawrabayn), inte bara läderstövlar: Mālik, al-Shāfiʿī och Abū Ḥanīfa förbjuder; Abū Yūsuf, Muḥammad al-Shaybānī och al-Thawrī tillåter — direkt avgörande för svensk vinter. (d) Tidsgräns för mash: Mālik sätter ingen, majoriteten sätter ett dygn/tre dygn. (e) Använt vatten (māʾ mustaʿmal) — hanafiterna underkänner det, mālikiter/shāfiʿiter inte. (f) SUNNI–SHIA: den enda skillnad som syns med blotta ögat. Läsningen av »arjulakum« (ackusativ, tvätta) mot »arjulikum« (genitiv, stryk) i 5:6 — båda är kanoniska qirāʾāt. Ibn Abī al-ʿIzz polemiserar i Sharḥ al-ʿAqīda al-Ṭaḥāwiyya mot »al-rāfiḍa« med tawātur-argument. Artikeln får inte framställa detta som en avvikelse utan som två läsningar av samma text.\n\n3. DEN SVENSKA KONTEXTEN — lägg mest tid här; det är fältet ingen konkurrent täcker tillsammans med källorna. Följande är verifierat: (i) Förvaltningsrätten i Malmö, mål 7680-19, dom 2020-09-11: Bromölla kommuns generella förbud mot bön på betald arbetstid upphävdes som stridande mot RF och EKMR — domstolens skäl var just att förbudet var generellt och inte medgav individuell prövning. Eftersom wudūʾ i praktiken föregår varje bön är detta också ett avgörande om tvagning. (ii) AD 2018 nr 51 (2018-08-15, DO ./. Almega och Semantix Tolkjouren AB): indirekt diskriminering; ersättning 40 000 kr. Den religiösa regel som ligger under handskakningsv��gran är samma fiqh-regel som gör beröring till en tvagningsfråga hos shāfiʿiter. (iii) MUCF:s officiella statistik »Trossamfund – antal betjänade«, 2024: islamiska samfund inom Islamiska samarbetsrådet redovisar 203 663 betjänade (SMF 50 479, FIFS 61 350, ISS 35 388, IKUS 27 711, BIS 19 440, IFBS 9 295) — siffror reviderade enligt lag, alltså betydligt fastare mark än Pews uppskattning 810 000 (8,1 %, 2017) som ofta citeras men mäter något annat (bakgrund, inte praktik). Använd båda och förklara skillnaden. (iv) SOSFS 2015:10 om basal hygien: kravet på kortärmad arbetsdräkt ovanför armbågen och förbud mot långärmat — regeln kolliderar direkt med både wudūʾ:s armbågstvätt och med långärmad klädsel, och huvudduk tillåts men ska stoppas in under arbetsdräkten. Här möts två renhetssystem med olika logik i samma handfat. (v) AFS 2020:1 Arbetsplatsens utformning (ikraft 2021-01-01) reglerar personalutrymmen, tvättställ och duschar — det är denna föreskrift, inte religionsfriheten, som avgör om wudūʾ är praktiskt möjligt på en svensk arbetsplats. (vi) Begravningsrätten: begravningslagen (1990:1144) med kravet på gravsättning/kremering inom en månad mot den islamiska normen att begrava utan dröjsmål, helst inom 36 timmar; ghusl al-mayyit utförs på bårhus eller i moské (t.ex. tvagningsrummet vid Lilla Aska); kistkrav enligt Socialstyrelsens föreskrifter. Simon Sorgenfreis MUCF-rapport om muslimska begravningsseder är den bästa svenska källan. (vii) Moskéarkitektur: tvagningsrum är standardpost i svenska bygglovshandlingar (Skärholmen); Eva Vikströms FoU-rapport »Religiösa rum för islam« (RAÄ 2007) inventerar utrymmena. (viii) Vårdhandboken (Inera, godkänd 2022-08-24, Katarina Hjelm) tar upp könsanpassad hygienhjälp men nämner INTE tvagning — en dokumenterbar lucka i det svenska kunskapsstödet, värd att påpeka. (ix) Kriminalvårdens andliga vård (ca 170 präster, pastorer, diakoner och imamer) och SKR:s riktlinjer för andlig vård vid häkten och anstalter. (x) Bostadsfrågan: bidédusch/handdusch för istinjāʾ mot svenska krav på tätskikt — Hem & Hyra rapporterar om hyresgäst som hotades av vräkning efter dusch vid toaletten och fick rätt i hyresnämnden. (xi) Europakontext: Osmanoğlu och Kocabaş mot Schweiz (Europadomstolen 2017) om simundervisning; HFD 2022:51 (Skurups slöjförbud).\n\n4. INVÄNDNINGARNA I SIN STARKASTE FORM — fem, alla i den form kritikerna faktiskt framför dem: (a) Den sekulära arbetsmarknadsinvändningen (t.ex. GP:s ledarsida): arbetsplatser ska inte behöva bygga om lokaler efter religiösa krav; om bönen kräver tvagning, förflyttning och avskildhet är den inte en paus utan frånvaro. (b) Kvinnoinvändningen: menstruation som ḥadath akbar utestänger kvinnor från bön, tawāf och moskévistelse en vecka i månaden, och ʿĀʾishas hadith (»vi befalldes ta igen fastan men inte bönen«) löser fastan men inte bönen. Ibn Rushd listar fyra förbud, al-Qurṭubī elva. Svaret att det är en tillfällig *status* och inte en egenskap hos kvinnan är det starkaste, men det måste möta invändningen, inte ersätta den. (c) 9:28: »de som sätter medhjälpare vid Guds sida är orena« — läses av kritiker som att icke-muslimer är najis. Här måste artikeln redovisa att just detta är en av de största meningsskiljaktigheterna även internt (majoriteten läser najas som andlig/kultisk, tolvimamitisk rätt historiskt bokstavligt). (d) Waswasa-invändningen, den starkaste och mest sympatiska: ett system med exakta villkor för giltighet producerar skrupulositet. Klinisk forskning på religiöst inriktad OCD visar ovanligt höga andelar upprepad partiell tvagning i svåra fall; Ibn al-Jawzī beskrev fenomenet redan på 1100-talet. (e) Vatten- och miljöinvändningen samt den praktiska hygieninvändningen (fottvätt i handfat avsedda för handhygien) — svag i sak men den vanligaste i svensk offentlighet, och måste bemötas med Profetens tre handfullar och Ibn Qudāmas diskussion om måttlighet snarare än med indignation.\n\nVAD SOM SKULLE ÖVERRASKA EN KUNNIG LÄSARE: att den svenska bryggan inte är en analogi utan en faktisk kedja av dokument. Ahmad ibn Faḍlān, som 921–922 mötte rūs vid Volga, beskriver deras morgontvättning ur en gemensam skål — han bedömer nordbor efter ṭahāra-normen, inte tvärtom, och det är det tidigaste kända mötet mellan denna rättsregel och nordisk praktik. Nio sekler senare reser den svenskspråkige orientalisten Georg August Wallin (1811–1852, född i Sund på Åland) från Kairo ut i öknen och noterar att beduinerna kan gå ett helt år mellan två tvagningar och ersätter vatten med eld och sand — en observation av det som rätten kallar tayammum, gjord på svenska, av en resenär som själv bad som muslim. Att artikeln kan sätta Ibn Faḍlāns skål och Wallins sand i samma text, och sedan lägga Bromölla-domen och SOSFS 2015:10 bredvid dem, är sidans unika värde. VARNING: avsnittet ska BESKRIVA denna idéhistoria, aldrig argumentera för islams position via svensk badstugetradition eller lördagsbad — falsk ekvivalens är den enskilt största risken i texten, och den svenska citatskörden i briefen (Runeberg, Strindberg, Topelius, Geijer, Blanche) är rent brus som inte får användas.",
+  "quranReferences": [
+    {
+      "surah": "5",
+      "ayah": "6",
+      "text": "TROENDE! När ni går till bön, två då ansikte och händer samt armarna upp till armbågarna och stryk med [de våta] händerna över huvudet och [två] fötterna upp till fotknölarna. Och om ni befinner er i ett tillstånd av stor rituell orenhet, skall ni rena er [genom att skölja hela kroppen]. Den som är sjuk eller befinner sig på resa eller som just har förrättat sina behov eller haft beröring med kvinnor och inte kan finna vatten, skall ta ren jord och stryka över ansikte och händer. Gud vill inte lägga på er tunga bördor, men [Han] vill rena er och fullkomna Sin nåd mot er - kanske känner ni tacksamhet. [Bernström, verifierad mot api.quran.com translation-id 48. Detta är ämnets huvudvers: den innehåller wudūʾ, ghusl och tayammum i en enda mening och avslutas med en uttrycklig lättnadsklausul.]"
+    },
+    {
+      "surah": "4",
+      "ayah": "43",
+      "text": "TROENDE! Gå inte till bön om ni befinner er i omtöcknat tillstånd, [utan vänta] till dess ni vet vad ni säger. [Gör det] inte heller i ett tillstånd av stor rituell orenhet, utan skölj först hela kroppen; undantagna är de som befinner sig på resa. Om någon av er är sjuk eller befinner sig på resa eller just har förrättat sina behov eller haft beröring med kvinnor och inte finner vatten, skall han ta ren jord och stryka över ansikte och händer. Gud utplånar och förlåter mycken synd. [Bernström, verifierad. Den tidigare av de två parallellverserna; »beröring med kvinnor« (lāmastum al-nisāʾ) är själva stridsfrågan mellan al-Shāfiʿī och Abū Ḥanīfa.]"
+    },
+    {
+      "surah": "2",
+      "ayah": "222",
+      "text": "OCH DE frågar dig om [kvinnans] månadsblödning. Säg: \"Detta är ett ömtåligt och smärtsamt tillstånd. Håll er därför borta från kvinnorna under deras period och kom inte nära dem förrän de är rena; men när de har renat sig ta dem då till er, så som Gud har befallt er.\" Gud älskar dem som vänder tillbaka till Honom i ånger [om de har syndat] och Han älskar dem som vill rena sig. [Bernström, verifierad. Grunden för ḥayḍ som ḥadath akbar och för ghusl efter menstruation.]"
+    },
+    {
+      "surah": "9",
+      "ayah": "108",
+      "text": "Sätt aldrig din fot där! En moské som, från den dag då bygget tog sin början, som [enda] syfte haft att leda [människorna] till sann gudsfruktan, är sannerligen långt mera värd att du där förrättar bön; i den [samlas] män som älskar att rena sig, och Gud älskar dem som strävar efter renhet. [Bernström, verifierad. Klassisk exeges (bl.a. al-Qurṭubī) knyter »älskar att rena sig« till istinjāʾ med vatten.]"
+    },
+    {
+      "surah": "74",
+      "ayah": "4",
+      "text": "Och rena ditt hjärta! [Bernström, verifierad mot api.quran.com. OBS: den tryckta utgåvan i korpusbriefen har »Och rena dina kläder« för samma vers. Divergensen är inte ett fel utan speglar den klassiska striden om huruvida thiyābaka ska läsas bokstavligt (kläder) eller metaforiskt (hjärtat/själen) — en gåva till artikelns avsnitt om yttre och inre rening.]"
+    },
+    {
+      "surah": "56",
+      "ayah": "79",
+      "text": "som inga andra än de rena skall röra, [Bernström, verifierad. Versen är huvudargumentet för regeln att man ska ha wudūʾ för att röra vid muṣḥaf; Ibn Rushd noterar att detta är ett av de få moment utöver bönen där tvagning är villkor.]"
+    },
+    {
+      "surah": "8",
+      "ayah": "11",
+      "text": "[Minns hur] Han ingav er ett stort lugn och en känsla av trygghet och lät ett regn falla från himlen för att rena er och lossa Djävulens smutsiga [grepp] om era [sinnen], stärka ert mod och göra er stadiga på foten. [Bernström, verifierad. Badr-versen: vattnet renar samtidigt kropp och sinne — den koraniska bron mellan de två renhetsbegreppen.]"
+    },
+    {
+      "surah": "9",
+      "ayah": "28",
+      "text": "TROENDE! De som sätter medhjälpare vid Guds sida är orena [på grund av sin avgudadyrkan]! Efter utgången av detta år skall de därför inte tillåtas närma sig den heliga Moskén. Om ni är rädda att fattigdom [hotar er, bör ni veta] att Gud i Sin godhet skall sörja för er, om det är Hans vilja; Gud är allvetande, vis. [Bernström, verifierad. MÅSTE behandlas: det är denna vers kritiker åberopar för påståendet att icke-muslimer betraktas som fysiskt orena, och den är också internt omstridd — Bernströms hakparentes »på grund av sin avgudadyrkan« är i sig ett exegetiskt ställningstagande.]"
+    }
+  ],
+  "quotes": [
+    {
+      "id": "quote-61232",
+      "text": "Varje dag på morgonen kommer en tjänarinna med ett stort kärl vatten, och mannen tvättar sitt ansikte, sina händer och sitt hår, sedan blåser han sin näsa och spyr i det - och detta skepp fortsätter till nästa man.",
+      "textSv": "Varje dag på morgonen kommer en tjänarinna med ett stort kärl vatten, och mannen tvättar sitt ansikte, sina händer och sitt hår, sedan blåser han sin näsa och spyr i det - och detta skepp fortsätter till nästa man.",
+      "author": "Ahmad ibn Faḍlān",
+      "source": "Risāla — Ibn Fadlans berättelse om rūs (färden till Volgabulgarerna 921–922 e.Kr.)"
+    }
+  ],
+  "bookPassages": [
+    {
+      "id": "passage-131490",
+      "text": "Egen översättning från arabiskan: »Muslimerna är eniga om att den rening lagen föreskriver är av två slag: rening från ḥadath (rituellt tillstånd) och rening från khabath (fysisk orenhet). De är också eniga om att reningen från ḥadath är av tre slag: wudūʾ, ghusl, och det som träder i deras ställe, nämligen tayammum — allt detta eftersom tvagningsversen omfattar det.« Ibn Rushd delar sedan in ämnet i fem kapitel: beviset för dess obligatoriska karaktär, dess moment, vad den utförs med (vattnet), vad som bryter den, och vad den är villkor för. — DENNA PASSAGE ÄR ARTIKELNS STRUKTURELLA RYGGRAD: den fastställer att ḥadath inte är smuts.",
+      "bookTitle": "Bidāyat al-mujtahid wa-nihāyat al-muqtaṣid (jämförande rättslära, ca 1180-talet; sv. »Den flitiges begynnelse«; eng. övers. Imran Ahsan Khan Nyazee, Garnet, 1994–2000)",
+      "author": "Ibn Rushd (Averroës), d. 1198"
+    },
+    {
+      "id": "passage-131524",
+      "text": "Egen översättning: »De rättslärde som godtar mash (strykning) är eniga om att det är tillåtet över khuffayn (läderstövlar), men oense om jawrabayn (strumpor). Somliga tillåter det, andra förbjuder det. Bland dem som förbjöd det finns Mālik, al-Shāfiʿī och Abū Ḥanīfa; bland dem som tillät det finns Abū Yūsuf och Muḥammad, Abū Ḥanīfas två lärjungar, samt Sufyān al-Thawrī. Orsaken till oenigheten är dels att de bedömde de överlämnade traditionerna om att Profeten strök över strumpor och sandaler olika, dels frågan om något kan analogislutas till khuff eller om det är en ren dyrkanshandling som inte kan utsträckas.« — Direkt relevant för svensk vinter och för arbetsplatser där skor inte kan tas av.",
+      "bookTitle": "Bidāyat al-mujtahid wa-nihāyat al-muqtaṣid",
+      "author": "Ibn Rushd (Averroës), d. 1198"
+    },
+    {
+      "id": "passage-131621",
+      "text": "Egen översättning: »Muslimerna är eniga om att menstruationen hindrar fyra ting: för det första bönen — både att utföra den och skyldigheten att utföra den, det vill säga att den menstruerande inte behöver ta igen den, till skillnad från fastan; för det andra att fasta, men inte att ta igen fastan, enligt ʿĀʾishas fastställda hadith: 'Vi befalldes att ta igen fastan men befalldes inte att ta igen bönen'; för det tredje — såvitt jag bedömer — kringvandringen [ṭawāf], enligt ʿĀʾishas hadith då Profeten befallde henne att göra allt en pilgrim gör utom att vandra kring Huset; för det fjärde samlag, enligt Guds ord: 'håll er därför borta från kvinnorna under deras period'.« — Grundmaterialet för artikelns svåraste avsnitt; al-Qurṭubī räknar upp elva punkter i stället för fyra.",
+      "bookTitle": "Bidāyat al-mujtahid wa-nihāyat al-muqtaṣid",
+      "author": "Ibn Rushd (Averroës), d. 1198"
+    },
+    {
+      "id": "passage-134586",
+      "text": "Egen översättning: »Tayammum betyder i språket 'att avse, rikta sig mot'... och Gud säger: 'rikta er då mot ren jord', det vill säga: avse den. Sedan överfördes ordet i de rättslärdes bruk till att beteckna strykningen av ansikte och händer med något av jorden. Det är tillåtet enligt Boken, sunnan och konsensus: enligt Boken genom Guds ord 'och ni inte finner vatten, rikta er då mot ren jord och stryk över era ansikten och era händer med den'; enligt sunnan genom ʿAmmārs hadith och andra; och enligt konsensus, ty samfundet är enigt om att tayammum i huvudsak är tillåtet.« Ibn Qudāma tillägger att tayammum gäller såväl vid kort som lång resa.",
+      "bookTitle": "al-Mughnī (ḥanbalitisk rättslära; standardutgåva red. ʿAbd Allāh al-Turkī & ʿAbd al-Fattāḥ al-Ḥulw, Dār ʿĀlam al-Kutub, Riyadh 1997)",
+      "author": "Ibn Qudāma al-Maqdisī, d. 1223"
+    },
+    {
+      "id": "passage-134495",
+      "text": "Egen översättning: »Det välkända i Aḥmads skola är att beröring av kvinnor med begär bryter wudūʾ, men inte utan begär. Detta är också ʿAlqamas, Abū ʿUbaydas, al-Nakhaʿīs, al-Ḥakams, Ḥammāds, Māliks, al-Thawrīs, Isḥāqs och al-Shaʿbīs åsikt... Till dem som ålade wudūʾ vid en kyss hör Ibn Masʿūd, Ibn ʿUmar, al-Zuhrī, Zayd b. Aslam, Makḥūl, Yaḥyā al-Anṣārī, Rabīʿa, al-Awzāʿī, Saʿīd b. ʿAbd al-ʿAzīz och al-Shāfiʿī. Aḥmad sade: medineserna och kufaborna ansåg alltid att kyssen räknas som beröring och bryter wudūʾ, ända till slutet, då Abū Ḥanīfa kom bland dem och de sade: den bryter inte wudūʾ. Från Aḥmad finns också en andra tradering: beröring bryter aldrig — så återges från ʿAlī, Ibn ʿAbbās, ʿAṭāʾ, Ṭāwūs, al-Ḥasan och Masrūq.« — Nyckelpassage: visar att detta är en öppen, namngiven oenighet, inte en enhetlig regel.",
+      "bookTitle": "al-Mughnī",
+      "author": "Ibn Qudāma al-Maqdisī, d. 1223"
+    },
+    {
+      "id": "passage-134549",
+      "text": "Egen översättning av ʿĀʾishas beskrivning såsom Ibn Qudāma återger den: »När Guds sändebud tvättade sig från janāba tvättade han först händerna tre gånger, utförde sedan wudūʾ som för bönen, lät därefter fingrarna gå genom håret tills han menade att han fuktat hårbotten, öste sedan vatten över sig tre gånger och tvättade slutligen resten av kroppen.« Och Maymūna: »Han hällde över händerna och tvättade dem två eller tre gånger, hällde med högra handen över den vänstra och tvättade könet, slog handen mot marken eller väggen två eller tre gånger, sköljde munnen, drog in vatten i näsan, tvättade ansikte och underarmar, öste vatten över huvudet, tvättade kroppen, flyttade sig sedan från platsen och tvättade fötterna. Jag räckte honom en handduk, men han tog inte emot den och skakade av vattnet med händerna.« — ATTRIBUERA TILL HADITHSAMLINGARNA (Bukhārī och Muslim, muttafaq ʿalayh), inte till Ibn Qudāma.",
+      "bookTitle": "al-Mughnī, kapitlet om ghusl från janāba (hadithen är muttafaq ʿalayh: Bukhārī och Muslim)",
+      "author": "Ibn Qudāma al-Maqdisī citerar ʿĀʾisha och Maymūna bint al-Ḥārith"
+    },
+    {
+      "id": "passage-227997",
+      "text": "Egen översättning: »Det minsta som räcker i fråga om det som ska tvättas är att man tar vatten och låter det rinna över ansiktet, händerna och fötterna. Rinner vattnet av sig självt tills det täckt allt detta, är det tillräckligt... Finns det på någon kroppsdel färgämne eller något annat som färgar kroppen, och man låter vattnet rinna över det utan att det försvinner, behöver kroppsdelen inte tvättas om, ty man har gjort det minsta som åligger en. Men finns det harts (ʿilk) eller något tjockt som hindrar vattnet från att nå huden, gäller tvagningen av den kroppsdelen inte förrän man avlägsnat det, eller avlägsnat så mycket att man vet att vattnet nått hela huden utan hinder emellan.« — Al-Shāfiʿīs skillnad mellan FÄRGNING (godtas) och HINDER (godtas inte) är den klassiska grunden för dagens svar om nagellack, plåster, sårförband och gelnaglar i vården.",
+      "bookTitle": "al-Umm (standardutgåva Dār al-Maʿrifa, Beirut 1990, 8 band)",
+      "author": "Muḥammad b. Idrīs al-Shāfiʿī, d. 820"
+    },
+    {
+      "id": "passage-228082",
+      "text": "Egen översättning (sammandrag): al-Shāfiʿī fastställer att man inte får utföra tayammum med jord som man vet har träffats av orenhet förrän man vet att den renats med vatten; inte heller med jord från gravplatser, eftersom den blandats med de dödas kroppar — och även om regn faller över den duger den inte, eftersom den döde ligger kvar i den. Är jorden fuktig får man inte utföra tayammum med den, ty då är den lera. Man får dock utföra tayammum med damm varifrån det än kommer; är kläderna och foten våta kan man låta något torka på en föremålsyta, gnugga loss det och använda det. Smetar man lera i ansiktet duger det inte, ty det faller inte under beteckningen ṣaʿīd.",
+      "bookTitle": "al-Umm, kapitlet om tayammum",
+      "author": "Muḥammad b. Idrīs al-Shāfiʿī, d. 820"
+    },
+    {
+      "id": "passage-161056",
+      "text": "Egen översättning: »Öronen hör till huvudet enligt oss, till skillnad från al-Shāfiʿī, enligt Profetens ord: 'Öronen hör till huvudet' — där avsikten är rättsregeln, inte skapelsen... Och att upprepa tvättningen upp till tre gånger, ty Profeten utförde wudūʾ en gång och sade: 'Detta är en tvagning utan vilken Gud inte tar emot bönen'; och han utförde den två gånger och sade: 'Detta är den tvagning för vilken Gud fördubblar lönen'; och tre gånger, varpå han sade: 'Detta är min och profeternas före mig tvagning; den som lägger till eller drar ifrån har överskridit och gjort orätt.'... Och det rekommenderas att den som utför wudūʾ har för avsikt att rena sig — ty avsikten i wudūʾ är sunna enligt oss.« — SISTA MENINGEN ÄR NYCKELN: hanafitisk rätt gör niyya till sunna, inte till villkor. Det skiljer skolan från de tre övriga och bör citeras när artikeln redogör för fara'iḍ.",
+      "bookTitle": "al-Hidāya fī sharḥ Bidāyat al-mubtadiʾ (ḥanafitisk standardhandbok; eng. övers. Imran Ahsan Khan Nyazee, Amal Press, 2006)",
+      "author": "Burhān al-Dīn al-Marghīnānī, d. 1197"
+    },
+    {
+      "id": "passage-161077",
+      "text": "Egen översättning: »Använt vatten (al-māʾ al-mustaʿmal) får inte användas för rening från ḥadath — till skillnad från Mālik och al-Shāfiʿī. De säger: det renande är det som renar annat gång på gång, likt det skärande. Zufar, och det är en av al-Shāfiʿīs två åsikter, säger: om den som använde det redan hade wudūʾ är vattnet renande; hade han ḥadath är det rent men inte renande... Muḥammad säger, och det traderas också från Abū Ḥanīfa: det är rent men inte renande.« — Utmärkt exempel på hur finfördelad oenigheten är, och praktiskt relevant för uppsamlingskärl och små handfat.",
+      "bookTitle": "al-Hidāya fī sharḥ Bidāyat al-mubtadiʾ",
+      "author": "Burhān al-Dīn al-Marghīnānī, d. 1197"
+    },
+    {
+      "id": "passage-199346",
+      "text": "Egen översättning: »Vad gäller al-Shāfiʿīs ståndpunkt att om mannen rör vid kvinnan med någon kroppsdel utan skiljande skikt, med eller utan begär, så åligger det honom wudūʾ — det är också Koranens uppenbara ordalydelse; och likaså om hon rör vid honom. Undantag är håret: den som rör vid sin hustrus hår, med eller utan begär, behöver inte förnya wudūʾ; likaså tand och nagel, ty dessa skiljer sig från huden... Rör han vid henne eller hon vid honom genom klädet, och han känner njutning eller inte, åligger dem ingenting förrän hud möter hud, oavsett om det skedde avsiktligt eller av glömska, oavsett om kvinnan är levande eller död, om hon är främmande. Al-Shāfiʿīs uttalande växlade i fråga om beröring av ett litet barn, en gammal kvinna eller en kvinna ur de förbjudna släktleden: en gång sade han att wudūʾ bryts, med hänvisning till 'eller ni haft beröring med kvinnor', eftersom versen inte gör åtskillnad; en annan gång att den inte bryts, eftersom begäret inte har någon ingång hos dem.«",
+      "bookTitle": "al-Jāmiʿ li-aḥkām al-Qurʾān (»Tafsīr al-Qurṭubī«), kommentaren till 4:43 / 5:6",
+      "author": "Abū ʿAbd Allāh al-Qurṭubī, d. 1273"
+    },
+    {
+      "id": "passage-210768",
+      "text": "Egen översättning: »Villkoret om wudūʾ är fastställt genom Koranen och sunnan för alla böner, enligt Guds ord: 'När ni går till bön, två då era ansikten' — och Profeten sade: 'Gud tar inte emot bön utan rening.' En grupp har avvikit och sagt att fredagens ghusl är obligatorisk. Ibn al-ʿArabī: detta är ogiltigt, eftersom al-Nasāʾī och Abū Dāwūd traderar att Profeten sade: 'Den som utför wudūʾ på fredagen — det är gott och väl; men den som tvättar hela kroppen, ghusl är förnämligare.'« — Praktiskt viktigt för svenska förhållanden: fredagsbadet är rekommenderat, inte påbjudet, enligt majoriteten.",
+      "bookTitle": "al-Jāmiʿ li-aḥkām al-Qurʾān, kommentaren till 62:9 (al-Jumuʿa)",
+      "author": "Abū ʿAbd Allāh al-Qurṭubī, d. 1273, som citerar Ibn al-ʿArabī (d. 1148)"
+    },
+    {
+      "id": "passage-151034",
+      "text": "Egen översättning: »Det obligatoriska av detta är tre ting: avsikten, avlägsnandet av orenhet om sådan finns, och att låta vattnet flöda över den synliga huden och det hår som finns på den, så att vattnet når det som ligger därunder. Allt utöver detta är sunna, enligt Jubayr b. Muṭʿims tradering: 'Vi samtalade om ghusl från janāba inför Guds sändebud, och han sade: Vad mig beträffar räcker det för mig att ösa tre gånger över huvudet och därefter låta vattnet flöda över resten av kroppen.'« Al-Nawawī tillägger att ʿĀʾishas och Maymūnas hadither om Profetens ghusl är ṣaḥīḥ och återges av både Bukhārī och Muslim. — Kärnpassage: ghusl har TRE obligatoriska moment; resten är rekommendation. Motmedel mot bilden av en oöverkomligt komplicerad rit.",
+      "bookTitle": "al-Majmūʿ sharḥ al-Muhadhdhab (shāfiʿitisk storkommentar, ofullbordad; fortsatt av al-Subkī och al-Muṭīʿī)",
+      "author": "Abū Zakariyyā Yaḥyā al-Nawawī, d. 1277"
+    },
+    {
+      "id": "passage-150590",
+      "text": "Egen översättning: »Om den berörda [malmūs] finns två åsikter. Den ena: hens wudūʾ bryts... Men i Ḥarmala sade han: den bryts inte, eftersom ʿĀʾisha sade: 'Jag saknade Guds sändebud i bädden och steg upp för att söka honom, och min hand föll på hans fotvalv' — och när han slutat sin bön sade han: 'Din shayṭān har kommit till dig.' Hade hans rening brutits skulle han ha avbrutit bönen... Rör han vid hennes hår eller nagel bryts inte wudūʾ, ty man njuter inte av att röra vid det utan av att se det.« — Visar att även inom en och samma skola är regeln omstridd, och att motargumentet hämtas ur en hadith om Profeten själv.",
+      "bookTitle": "al-Majmūʿ sharḥ al-Muhadhdhab",
+      "author": "Abū Zakariyyā Yaḥyā al-Nawawī, d. 1277"
+    },
+    {
+      "id": "passage-274135",
+      "text": "Egen översättning: »Sunnan är överlämnad genom tawātur från Guds sändebud både om mash över khuffayn och om tvättning av fötterna, och rāfiḍa motsäger denna genom tawātur överlämnade sunna. Man säger till dem: de som överlämnat tvagningen från Profeten i ord och handling, och som lärde sig tvagningen av honom och utförde den medan han såg dem och godkände dem, och som förde den vidare till dem efter dem — de är fler till antalet än de som överlämnat versens ordalydelse. Ty alla muslimer utförde tvagning på hans tid och lärde sig den enbart av honom, eftersom denna handling inte var känd bland dem i den förislamiska tiden; de såg honom utföra tvagning otaliga gånger.« — DENNA PASSAGE ÄR SUNNI-SIDANS STARKASTE ARGUMENT I FOTFRÅGAN och bör återges tillsammans med den shiitiska genitivläsningen »arjulikum«, inte i stället för den. Notera polemikens ton — artikeln bör redovisa den, inte återanvända den.",
+      "bookTitle": "Sharḥ al-ʿAqīda al-Ṭaḥāwiyya",
+      "author": "Ibn Abī al-ʿIzz al-Ḥanafī, d. 1390"
+    },
+    {
+      "id": "passage-257622",
+      "text": "Egen översättning: »Det är fastställt om honom att han utförde mash både hemma och på resa, och detta upphävdes inte förrän han dog. Han satte tidsgränsen ett dygn för den bofaste och tre dygn med nätter för den resande, i flera goda och sunda hadither. Han strök över stövlarnas ovansida; att han strukit över undersidan är inte fastställt annat än i en avbruten hadith, och de sunda hadithärna talar emot det. Han strök över strumpor och sandaler, och över turbanen — antingen enbart över den eller tillsammans med pannluggen... Han ålade sig inte motsatsen till det tillstånd fötterna befann sig i: var de i stöveln strök han över dem och tog inte av dem; var de bara tvättade han dem och tog inte på sig stöveln för att kunna stryka över den. Detta är den mest välavvägda ståndpunkten i frågan om vad som är förnämligast, mash eller tvättning — så sade vår läromästare [Ibn Taymiyya].« — Utmärkt avslutningsmaterial: normen är att följa omständigheten, inte att söka den svåraste vägen.",
+      "bookTitle": "Zād al-maʿād fī hady khayr al-ʿibād",
+      "author": "Ibn Qayyim al-Jawziyya, d. 1350"
+    },
+    {
+      "id": "passage-256851",
+      "text": "Egen översättning: »Och varje dag måste en tjänsteflicka på morgonen komma med ett stort fat vatten och ställa fram det åt sin herre. Han tvättar sitt ansikte och sina händer och sitt hår i det, kammar håret med kammen ned i fatet, snyter sig och spottar i det, och lämnar inget av orenlighet ogjort i det vattnet. När han är färdig bär flickan fatet vidare till den som sitter näst intill, och denne gör som hans kamrat, och hon fortsätter att lyfta det från den ene till den andre tills hon burit runt det till alla i huset — och var och en av dem snyter sig och spottar i det och tvättar sitt ansikte och sitt hår i det.« — DEN VIKTIGASTE ENSKILDA PASSAGEN FÖR ARTIKELNS SVENSKA BRYGGA: Ibn Faḍlān bedömer nordborna vid Volga efter ṭahāra-normen. Notera att det är en polemisk resenärsskildring, inte en neutral etnografi, och att rūs-folkets identifiering med skandinaver är omdiskuterad. Citat-id 61232 i citatdatabasen återger samma passage på svenska.",
+      "bookTitle": "Risālat Ibn Faḍlān (reseberättelse från beskickningen till volgabulgarerna 921–922)",
+      "author": "Aḥmad ibn Faḍlān"
+    },
+    {
+      "id": "passage-wallin-oknen-tvagning",
+      "text": "Ur den svenskspråkiga originaltexten (Wallins reseskildring, postumt utgiven 1854): »Som Bedawin i sitt eget land aldrig är i tillfälle att erhålla de annars i hela Orienten så vanliga och välgörande ångbaden, och likaledes högst sällan finner vatten nog att tvätta sig och sina kläder, så att månader, ofta ett helt år förflyter från en tvagning till den andra, är hans hud vanligen mycket oren och spröd, hans porer tillstoppade och den lätta drägt, han bär, full af ohyra. Den brist, hvaraf öknen lider på det mest välsignelserika element, söker han derföre ersätta med tvenne andra, elden och sanden, som är hans ökens jord, och begagnar dem till de ändamål, för hvilka vattnet...« — Detta är tayammum sett utifrån, beskrivet på svenska av Georg August Wallin (1811–1852, född i Sund på Åland, svenskspråkig orientalist som reste som muslim och besökte Mekka 1845). VARNING: passagen bär 1800-talets nedlåtande blick och måste ramas in som en historisk observation, inte återges som beskrivning av islamisk praxis.",
+      "bookTitle": "Första resa från Cairo till Arabiska öknen i april 1845 (utgiven postumt 1854; texten finns hos Projekt Runeberg)",
+      "author": "Georg August Wallin"
+    },
+    {
+      "id": "passage-wallin-bon-oknen",
+      "text": "Ur samma verk: »[Jag lade märke] vid detta tillfälle, såsom vanligen annars, till den omständigheten att våra Beduiner under hela resan ej en enda gång förrättat sin bön. Såsom bekant åligger det hvarje Muhammedan, vare han hemma eller på resa, att fem gånger om dagen göra sin bön, som består af flerehanda ceremonier, af hvilka en del är ganska påkostande och fordrar gymnastisk mjukhet i lemmarne, och den enda lindring, dem häri under resor är tillåten, är att förkorta hvarje särskild bön till ungefär hälften af de vanliga ceremonierna.« Wallin noterar vidare att beduinerna i dessa trakter var »fullkomligen okunnige om den Muhammedanska läran och dess ceremonier«. — Användbar som svensk 1800-talsobservation av avståndet mellan norm och praktik; ordalydelsen är kontrollerad mot korpusbriefens boktext men bör slutverifieras mot Projekt Runebergs utgåva innan blockcitat sätts.",
+      "bookTitle": "Första resa från Cairo till Arabiska öknen i april 1845",
+      "author": "Georg August Wallin"
+    }
+  ],
+  "sources": [
+    {
+      "id": "src-bromolla-fr",
+      "url": "https://www.domstol.se/en/nyheter/2020/09/forvaltningsratten-upphaver-bromolla-kommuns-beslut-om-forbud-mot-bon-pa-arbetstid/",
+      "title": "Förvaltningsrätten upphäver Bromölla kommuns beslut om förbud mot bön på arbetstid — Sveriges Domstolar",
+      "keyFindings": [
+        "Förvaltningsrätten i Malmö, mål nr 7680-19, dom meddelad 2020-09-11 (kommunens riktlinje beslutades 2019-05-28).",
+        "Riktlinjen »bön under betald arbetstid är inte tillåten« upphävdes som stridande mot religionsfriheten i regeringsformen och Europakonventionen.",
+        "Domstolens bärande skäl: religionsfriheten ger inte en anställd rätt att avstå från normala arbetsuppgifter, men varje fall måste bedömas individuellt — riktlinjen var utformad som ett generellt förbud utan utrymme för sådan bedömning.",
+        "Rådman Henrik Hedberg: kommunens senare uppgift att individuella bedömningar skulle göras påverkade inte prövningen, eftersom den beslutade riktlinjen inte gav sådant utrymme.",
+        "Relevans för tvagning: eftersom wudūʾ i praktiken föregår varje bön är detta även ett avgörande om tvagningens plats på svensk arbetstid — den enda svenska domen som direkt träffar frågan."
+      ]
+    },
+    {
+      "id": "src-svt-bromolla",
+      "url": "https://www.svt.se/nyheter/lokalt/skane/bromolla-far-inte-forbjuda-bon-pa-arbetstid",
+      "title": "Bromölla får inte förbjuda bön på arbetstid — SVT Nyheter",
+      "keyFindings": [
+        "Nyhetsrapportering om samma dom; användbar för att belägga den offentliga debatt beslutet väckte.",
+        "Bekräftar att beslutet fattades av kommunstyrelsen och överklagades av en kommunmedlem genom laglighetsprövning."
+      ]
+    },
+    {
+      "id": "src-ad-2018-51",
+      "url": "https://arbetsdomstolen.se/sv/meddelade-domar/arkiverade-domar/2018/2018-08-15-ad-2018-nr-51/",
+      "title": "AD 2018 nr 51 — Arbetsdomstolen (handskakningsmålet)",
+      "keyFindings": [
+        "Dom 2018-08-15. Parter: Diskrimineringsombudsmannen mot Almega Tjänsteföretagen och Semantix Tolkjouren AB.",
+        "En kvinna avbröts i en rekryteringsprocess sedan hon av religiösa skäl avstått från att ta manliga företrädare i hand vid anställningsintervjun (13 maj 2016).",
+        "Arbetsdomstolen fann att hon utsatts för indirekt diskriminering enligt 1 kap. 4 § och 2 kap. 1 § diskrimineringslagen (2008:567); diskrimineringsersättning 40 000 kr.",
+        "Domstolen hänvisade till Europadomstolens praxis, bl.a. Eweida m.fl. mot Storbritannien och S.A.S. mot Frankrike.",
+        "Relevans för tvagning: den religiösa regel som ligger under handskakningsvägran är samma fiqh-regel som hos shāfiʿiter gör beröring av motsatt kön till en wudūʾ-brytande handling — det är kopplingen artikeln kan göra och som ingen annan svensk sida gör."
+      ]
+    },
+    {
+      "id": "src-mucf-betjanade",
+      "url": "https://www.mucf.se/rapporter-och-statistik/trossamfund-antal-betjanade",
+      "title": "Trossamfund — antal betjänade (officiell statistik) — MUCF",
+      "keyFindings": [
+        "2024 års siffror för islamiska samfund inom Islamiska samarbetsrådet: SMF 50 479, FIFS 61 350, ISS (shiasamfunden) 35 388, IKUS 27 711, BIS (bosniakiska) 19 440, IFBS 9 295.",
+        "Summa 2024: 203 663 betjänade i statsbidragsberättigade islamiska samfund.",
+        "Serien omfattar 2020–2024 och är relativt stabil (SMF 44 310 år 2020 → 50 479 år 2024).",
+        "Uppgifterna är revisorsintygade enligt lag — betydligt fastare siffror än de uppskattningar som vanligen citeras i debatten.",
+        "Använd tillsammans med, inte i stället för, Pews uppskattning; de mäter olika saker (organisatorisk anknytning respektive muslimsk bakgrund)."
+      ]
+    },
+    {
+      "id": "src-pew-sv-wiki",
+      "url": "https://sv.wikipedia.org/wiki/Islam_i_Sverige",
+      "title": "Islam i Sverige — Wikipedia (översikt över de motstridiga befolkningsuppskattningarna)",
+      "keyFindings": [
+        "Sammanställer spännvidden: ca 260 000 (baserat på SOM-institutet 2019), 500 000 (forskningsstudie 2020) och 810 000 / 8,1 % (Pew Research 2017).",
+        "Pews siffra kritiseras för att räkna in icke-troende med muslimsk bakgrund — en avgörande metodpoäng för en artikel som vill ange hur många som faktiskt utför tvagning fem gånger om dagen.",
+        "Använd som ingång till primärkällorna, inte som belägg i sig."
+      ]
+    },
+    {
+      "id": "src-sosfs-2015-10",
+      "url": "https://www.socialstyrelsen.se/kunskapsstod-och-regler/regler-och-riktlinjer/foreskrifter-och-allmanna-rad/konsoliderade-foreskrifter/201510-om-basal-hygien-i-vard-och-omsorg/",
+      "title": "SOSFS 2015:10 om basal hygien i vård och omsorg (konsoliderad) — Socialstyrelsen",
+      "keyFindings": [
+        "Kräver kortärmad arbetsdräkt med ärm som slutar ovanför armbågen vid patientnära arbete; långärmade plagg som rock eller kofta får inte användas.",
+        "Kravet motiveras av att korrekt handdesinfektion ska kunna utföras och att smitta inte ska överföras via ärmen.",
+        "Huvudduk är tillåten men ska stoppas in under arbetsdräkten så att den inte kommer i kontakt med patienten.",
+        "Detta är den mest konkreta svenska punkt där två renhetssystem kolliderar i samma handfat: wudūʾ tvättar armarna upp till armbågarna, den svenska vårdhygienen kräver att armbågarna är blottade."
+      ]
+    },
+    {
+      "id": "src-socialstyrelsen-basala",
+      "url": "https://www.socialstyrelsen.se/kunskapsstod-och-regler/omraden/vardhygien/basala-hygienrutiner/",
+      "title": "Basala hygienrutiner — Socialstyrelsen",
+      "keyFindings": [
+        "Myndighetens sammanfattande vägledning om tillämpningen av SOSFS 2015:10.",
+        "Gäller all hälso- och sjukvård, tandvård, hemtjänst, särskilda boenden och viss stödboende — alltså precis de arbetsplatser där många praktiserande muslimer arbetar."
+      ]
+    },
+    {
+      "id": "src-afs-2020-1",
+      "url": "https://lagen.nu/afs/2020:1",
+      "title": "AFS 2020:1 — Arbetsmiljöverkets föreskrifter och allmänna råd om arbetsplatsens utformning",
+      "keyFindings": [
+        "I kraft 1 januari 2021. Reglerar personalutrymmen, antal och utformning av hygienutrymmen: toaletter, tvättställ, duschar och omklädningsrum.",
+        "Det är denna föreskrift, snarare än religionsfriheten, som i praktiken avgör om wudūʾ går att utföra på en svensk arbetsplats — en poäng som saknas helt i den svenska debatten.",
+        "Kan användas för att visa att frågan sällan handlar om att bygga något nytt: kraven på tvättställ finns redan."
+      ]
+    },
+    {
+      "id": "src-vardhandboken",
+      "url": "https://www.vardhandboken.se/arbetssatt-och-ansvar/bemotande-i-vard-och-omsorg/bemotande-i-vard-och-omsorg-transkulturellt-perspektiv/religion-och-halsa/",
+      "title": "Religion och hälsa — Vårdhandboken (Inera)",
+      "keyFindings": [
+        "Godkänd 2022-08-24; författare Katarina Hjelm, professor vid Uppsala universitet.",
+        "Behandlar ramadan (»Ramadan innebär att man inte äter, dricker eller röker från soluppgång till solnedgång«) och könsanpassad omvårdnad (»Önskemål om att bli vårdad av en person med samma kön respekteras«).",
+        "VIKTIGT NEGATIVT FYND, kontrollerat vid hämtning: sidan nämner INTE bön, tvagning eller omhändertagande av avlidna. Det svenska nationella kunskapsstödet för vårdpersonal har alltså en lucka just på den punkt artikeln handlar om — ett belagt, användbart konstaterande."
+      ]
+    },
+    {
+      "id": "src-sorgenfrei-begravning",
+      "url": "https://www.mucf.se/sites/default/files/2025/11/muslimska-begravningar_hela_lag.pdf",
+      "title": "Muslimska begravningsseder och begravningsceremonier — Simon Sorgenfrei (MUCF)",
+      "keyFindings": [
+        "Bästa svenska forskningsöversikten över ghusl al-mayyit (tvagningen av den avlidne) i svensk kontext.",
+        "PDF — kan inte läsas med WebFetch; hämta manuellt eller citera via Sorgenfreis övriga arbeten.",
+        "Relevant för konflikten mellan begravningslagens (1990:1144) tidsramar och normen att begrava utan dröjsmål."
+      ]
+    },
+    {
+      "id": "src-sorgenfrei-bok",
+      "url": "https://www.mucf.se/publikationer/islam-i-sverige-de-forsta-1300-aren",
+      "title": "Simon Sorgenfrei, »Islam i Sverige — de första 1300 åren« (SST, 2018)",
+      "keyFindings": [
+        "347 sidor, utgiven av Myndigheten för stöd till trossamfund 2018, ISBN 9789198345322.",
+        "Spårar kontakterna från vikingatidens kulturmöten till dagens muslimska mångfald; bygger på arkivstudier, observationer och intervjuer.",
+        "Standardreferensen för artikelns svenska idéhistoriska avsnitt och för Ibn Faḍlān-kopplingen; anger kontakter mellan muslimsk kultur och nordbor redan på 700-talet."
+      ]
+    },
+    {
+      "id": "src-raa-religiosa-rum",
+      "url": "https://www.raa.se/publicerat/rapp2007_3.pdf",
+      "title": "Eva Vikström, »Religiösa rum för islam« — FoU-rapport, Riksantikvarieämbetet (2006/2007)",
+      "keyFindings": [
+        "Inventering av islamiska rum i Sverige i tre delstudier, bl.a. en översiktsinventering av små moskéer i Storstockholm.",
+        "Dokumenterar hur tvagningsutrymmen löses i svenska lokaler som ofta inte byggts för ändamålet — källbelägg för artikelns byggnadsavsnitt.",
+        "PDF; WebFetch kan inte läsa den, men URL:en är stabil och återkom i flera sökningar."
+      ]
+    },
+    {
+      "id": "src-svt-skarholmen",
+      "url": "https://www.svt.se/nyheter/lokalt/stockholm/da-kan-mosken-i-skarholmen-oppna-bygget-har-fatt-kritik",
+      "title": "Moskébygget i Skärholmen — SVT Nyheter",
+      "keyFindings": [
+        "Belägg för att tvagningsrum är en standardpost i svenska moskébygglov, vid sidan av bönesal mot Mekka, minaret, skorum, toaletter, imamrum och bibliotek.",
+        "Visar att tvagning är en byggnadsteknisk och planrättslig fråga i Sverige, inte bara en teologisk."
+      ]
+    },
+    {
+      "id": "src-hemhyra-dusch",
+      "url": "https://www.hemhyra.se/nyheter/duschade-pa-toa-och-hotades-av-vrakning-nu-far-hyresgasten-bo-kvar/",
+      "title": "Duschade på toa och hotades av vräkning — nu får hyresgästen bo kvar — Hem & Hyra",
+      "keyFindings": [
+        "Hyresnämndsärende där en hyresgäst som duschade sittande vid toaletten anklagades för vattenskada och hotades med uppsägning, men fick rätt.",
+        "Den enda konkreta svenska bostadsrättsliga beröringspunkten med istinjāʾ / bidédusch som gick att belägga.",
+        "Använd försiktigt: ärendet ramas inte in som en religionsfråga i källan, och artikeln får inte påstå att det var det."
+      ]
+    },
+    {
+      "id": "src-kriminalvarden-andlig-vard",
+      "url": "https://www.kriminalvarden.se/behandling-och-vard/andlig-vard/",
+      "title": "Andlig vård — Kriminalvården",
+      "keyFindings": [
+        "Alla intagna har rätt att utöva sin religion oavsett trosinriktning.",
+        "Omkring 170 präster, pastorer, diakoner och imamer verkar inom svensk kriminalvård.",
+        "Varje anstalt och häkte har en nämnd för andlig vård (NAV); Sveriges kristna råd har det övergripande ansvaret för samordningen — i sig en intressant svensk ordning värd att nämna."
+      ]
+    },
+    {
+      "id": "src-skr-riktlinjer-nav",
+      "url": "https://www.skr.org/vart-arbete/andlig-vard-i-kriminalvarden/material-nav/riktlinjer-for-andlig-vard-vid-hakten-och-anstalter/",
+      "title": "Riktlinjer för andlig vård vid häkten och anstalter — Sveriges kristna råd",
+      "keyFindings": [
+        "Styrdokumentet för hur religionsutövning, inklusive praktiska förutsättningar, ska hanteras i häkte och anstalt.",
+        "Konkretiserar var gränsen går mellan rätt till religionsutövning och säkerhetsrestriktioner — den miljö där tillgången till vatten och avskildhet är mest begränsad i Sverige."
+      ]
+    },
+    {
+      "id": "src-do-uppdrag",
+      "url": "https://www.regeringen.se/regeringsuppdrag/2024/12/uppdrag-till-diskrimineringsombudsmannen-att-genomfora-insatser-for-att-starka-arbetsgivares-arbete-mot-diskriminering-i-arbetslivet/",
+      "title": "Regeringsuppdrag till DO om arbetsgivares arbete mot diskriminering i arbetslivet (december 2024)",
+      "keyFindings": [
+        "DO fick i uppdrag att granska arbetsgivares förebyggande arbete och ta fram vägledning riktad till arbetsgivare.",
+        "Rättsläget som det sammanfattas i debatten: religionsfriheten ger ingen ovillkorlig rätt till bönestund på arbetstid, men om verksamheten inte lider skada kan ett nej utgöra diskriminering; arbetsgivaren behöver starka, objektiva och proportionerliga skäl.",
+        "Ger artikeln den myndighetsförankrade formuleringen av avvägningen."
+      ]
+    },
+    {
+      "id": "src-gp-boscanin",
+      "url": "https://www.gp.se/ledare/ledarkronika/boscanin-arbetsplatser-ska-inte-tvingas-anpassa-sig-efter-religiosa-krav.a9673047-8cf6-4b45-97b4-bc3ad1783ae7",
+      "title": "»Arbetsplatser ska inte tvingas anpassa sig efter religiösa krav« — ledarkrönika, Göteborgs-Posten",
+      "keyFindings": [
+        "Den sekulära invändningen i sin egen, oförvanskade form — hämtad från dem som faktiskt framför den, som instruktionen kräver.",
+        "Kärnargumentet: om religionsutövning kräver ombyggnad, avskildhet och tid på arbetsgivarens bekostnad har den flyttat från den privata till den allmänna sfären.",
+        "Bör citeras rakt och bemötas sakligt, inte refereras i förminskad form."
+      ]
+    },
+    {
+      "id": "src-europaportalen-simning",
+      "url": "https://www.europaportalen.se/notis/2022/11/europadomstolen-flickor-maste-lara-sig-att-simma-med-pojkar",
+      "title": "Europadomstolen: flickor måste lära sig simma med pojkar (Osmanoğlu och Kocabaş mot Schweiz)",
+      "keyFindings": [
+        "Turkisk-schweiziskt föräldrapar vägrade låta döttrarna delta i könsblandad simundervisning och bötfälldes med 1 400 schweizerfranc (2010).",
+        "Europadomstolen fann att skolans integrationsuppdrag väger så tungt att undantag inte kan krävas.",
+        "Relevant som europeisk gränsdragning kring kropp, blygsamhet och obligatorisk skolgång — angränsande till, men inte identiskt med, tvagningsfrågan. Får inte framställas som ett avgörande om tvagning."
+      ]
+    },
+    {
+      "id": "src-hfd-2022-51",
+      "url": "https://lagen.nu/dv/generated/HFD/4266-21.html",
+      "title": "HFD 2022:51 (mål 4266-21) — Skurups kommuns slöjförbud",
+      "keyFindings": [
+        "Högsta förvaltningsdomstolen, avgörande 2022-12-08, om förbud mot huvudduk i kommunens skolor.",
+        "Det tyngsta svenska prejudikatet om religionsfrihetens gränser i kommunal verksamhet under senare år.",
+        "Används för att placera tvagningsfrågan i sitt svenska rättsliga sammanhang — inte som direkt rättskälla för tvagning."
+      ]
+    },
+    {
+      "id": "src-katz-body-of-text",
+      "url": "https://sunypress.edu/Books/B/Body-of-Text2",
+      "title": "Marion Holmes Katz, »Body of Text: The Emergence of the Sunnī Law of Ritual Purity« (SUNY Press, 2002)",
+      "keyFindings": [
+        "Den första engelskspråkiga monografin om renhetsrättens framväxt och rationalitet; 283 sidor, SUNY Series in Medieval Middle East History.",
+        "Rekonstruerar de formativa debatterna ur tidiga källor och visar hur rättsteori, kalifal politik och folklig praxis samverkade när reglerna kristalliserades.",
+        "Recenserad i International Journal of Middle East Studies 36:2 (maj 2004), s. 281–283, av Kathryn Kueny.",
+        "Katz kärnpoäng är artikelns viktigaste akademiska stöd: renhetsrätten är inte nedärvd hygien utan ett juridiskt system som konstruerades under tvist."
+      ]
+    },
+    {
+      "id": "src-maghen-virtues",
+      "url": "https://brill.com/display/title/8787?language=en",
+      "title": "Ze'ev Maghen, »Virtues of the Flesh: Passion and Purity in Early Islamic Jurisprudence« (Brill, 2005)",
+      "keyFindings": [
+        "Studies in Islamic Law and Society, vol. 23; ca 298–308 s.",
+        "Analyserar just striden om huruvida beröring av kvinnor bryter wudūʾ (4:43 / 5:6) och använder den som lins för tidiga muslimska hållningar till erotik och kropp.",
+        "Den bästa vetenskapliga behandlingen av den madhhab-skillnad som förbinder tvagning med AD 2018 nr 51 — och därmed den källa som gör artikelns svenska koppling hållbar."
+      ]
+    },
+    {
+      "id": "src-britannica-tahara",
+      "url": "https://www.britannica.com/topic/tahara-Islam",
+      "title": "Ṭahāra — Encyclopædia Britannica",
+      "keyFindings": [
+        "Kortfattad uppslagsdefinition av ṭahāra som juridisk kategori, användbar för att belägga grundterminologin (ḥadath/khabath, wuḍūʾ/ghusl/tayammum) i en icke-konfessionell källa.",
+        "Lämplig som allmän referens i noter, inte som huvudkälla."
+      ]
+    },
+    {
+      "id": "src-wikishia-wudu-verse",
+      "url": "https://en.wikishia.net/view/Al-Wudu'_Verse",
+      "title": "Al-Wuḍūʾ Verse — WikiShia",
+      "keyFindings": [
+        "Den tolvimamitiska positionen framställd av dess egna företrädare: läsningen »arjulikum« i genitiv kopplar fötterna till huvudet, alltså strykning (masḥ), inte tvättning.",
+        "Anger också att shiiter tvättar armarna uppifrån och ned, till skillnad från vanlig sunnitisk praxis.",
+        "Nödvändig för att artikeln ska återge båda sidorna i fotfrågan med deras egna ord, i stället för genom motpartens sammanfattning."
+      ]
+    },
+    {
+      "id": "src-islamqa-wiping-feet",
+      "url": "https://islamqa.info/en/answers/316320",
+      "title": "Är uppfattningen att fötterna får strykas i stället för tvättas giltig? — IslamQA",
+      "keyFindings": [
+        "Redogör för de kanoniska qirāʾāt: ackusativ (»arjulakum«) hos Nāfiʿ, Ibn ʿĀmir, Ḥafṣ, al-Kisāʾī och Yaʿqūb; genitiv (»arjulikum«) hos Ibn Kathīr, Abū ʿAmr, Ḥamza och Abū Bakr ʿan ʿĀṣim.",
+        "Att BÅDA läsningarna är kanoniska är den avgörande upplysningen: skillnaden mellan sunnitisk och shiitisk praxis går tillbaka på två giltiga recitationer av samma vers, inte på att någon avviker från texten.",
+        "Källan är partisk (salafitisk) och ska användas för recitationsuppgifterna, inte för den polemiska slutsatsen."
+      ]
+    },
+    {
+      "id": "src-yaqeen-waswas",
+      "url": "https://yaqeeninstitute.org/read/paper/clinicians-imams-and-the-whisperings-of-satan",
+      "title": "»Clinicians, Imams, and the Whisperings of Satan« — Yaqeen Institute",
+      "keyFindings": [
+        "Behandlar waswās al-qahrī (»överväldigande viskningar«) som en religiöst inramad OCD-presentation hos muslimer.",
+        "Vanligaste yttringarna delas i fyra grupper, varav den första är rituell renhet och bön: tvångsmässig upprepning av wudūʾ och strävan efter en ouppnåelig perfektion i bönen, driven av katastroftankar.",
+        "Ger artikeln möjlighet att behandla den starkaste inomislamiska invändningen — att ett system med exakta giltighetsvillkor genererar skrupulositet — utan att göra den till religionskritik."
+      ]
+    },
+    {
+      "id": "src-pmc-religious-ocd",
+      "url": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC11728165/",
+      "title": "Obsessive–Compulsive Disorder with a Religious Focus: An Observational Study",
+      "keyFindings": [
+        "Observationsstudie av religiöst inriktad tvångssyndrom; i den redovisade svårt sjuka gruppen förekom religiös tvivelgrubbel hos 13/13 (100 %) och upprepning av delar av tvagningen hos 10/13 (77 %).",
+        "Litet urval — måste anges med antal, inte bara procent, och får inte generaliseras till muslimer i allmänhet.",
+        "Uppskattningar i litteraturen: 10–33 % av personer med OCD kan uppleva religiöst inriktade symtom, med tydliga regionala skillnader."
+      ]
+    },
+    {
+      "id": "src-islamisktforum-tvagning",
+      "url": "https://islamisktforum.se/tvagning-en-port-till-inre-rening/",
+      "title": "»Tvagning — en port till inre rening« — Islamiskt forum",
+      "keyFindings": [
+        "Svenskspråkig muslimsk framställning som betonar wudūʾ som andlig rening snarare än formalitet; hänvisar till 5:6, 2:222 och 9:108.",
+        "Nämner att vissa rättsskolor (mālikitisk) kräver att hälar och armbågar verkligen omfattas.",
+        "Kontrollerat vid hämtning: sidan behandlar varken ghusl eller tayammum och ger ingen specifikt svensk praktisk vägledning — belägger att luckan finns även i svenskt muslimskt material online."
+      ]
+    },
+    {
+      "id": "src-islamse-ghusl",
+      "url": "https://islam.se/svar/vad-ar-ghusl/",
+      "title": "»Vad är ghusl? När den stora tvagningen krävs« — islam.se (husets egen sida)",
+      "keyFindings": [
+        "Befintlig sida på samma webbplats: ghusl häver stor rituell orenhet, krävs efter samlag och sädesutlösning samt när menstruation eller barnsängsblödning upphör.",
+        "Den nya artikeln bör länka hit och INTE upprepa ghusl-momenten i detalj, utan i stället behandla ghusl i förhållande till wudūʾ, tayammum och svensk praktik.",
+        "Använd för att avgränsa artikelns omfång mot befintligt material."
+      ]
+    },
+    {
+      "id": "src-wallin-runeberg",
+      "url": "https://runeberg.org/authors/wallinga.html",
+      "title": "Georg August Wallin — författarsida, Projekt Runeberg",
+      "keyFindings": [
+        "Ingång till Wallins digitaliserade svenskspråkiga texter, däribland reseskildringen från Kairo ut i den arabiska öknen 1845.",
+        "Nödvändig för att slutverifiera ordalydelsen i de två Wallin-passagerna innan de sätts som blockcitat.",
+        "OBS: Litteraturbanken kan inte läsas med WebFetch (JavaScript-renderad); Projekt Runeberg är det praktiska alternativet."
+      ]
+    },
+    {
+      "id": "src-wallin-wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Georg_August_Wallin",
+      "title": "Georg August Wallin — Wikipedia",
+      "keyFindings": [
+        "1811–1852, född i Sund på Åland; finländsk (svenskspråkig) orientalist och upptäcktsresande.",
+        "Reste förklädd som muslim och besökte Mekka och Medina 1845, städer då förbjudna för icke-muslimer; sex år i arabvärlden.",
+        "Berättelsen om den första resan (1845) publicerades postumt två år efter hans död; samlade skrifter utgivna på svenska 2010–2017.",
+        "Källan behövs för att ange rätt nationalitet: Wallin var finländare med svenska som skriftspråk — artikeln får inte kalla honom svensk utan förbehåll."
+      ]
+    }
+  ]
+}

@@ -29,26 +29,34 @@ tvisten om ämnet egentligen handlar om.
 
 Därefter sju `##`-avsnitt i denna ordning, med ordbudget:
 
-1. `## Ordet och dess betydelse` (~300 ord) — arabisk rot, termens faktiska bruk i
-   källtexterna, angränsande begrepp. Entitetstätt: namnge begreppen.
-2. `## Vad källorna säger` (~450 ord) — koranverserna med exakta referenser, hadith med
-   samling och nummer. Fotnotera varje referens.
-3. `## Hur de lärda har tolkat texterna` (~550 ord) — de klassiska positionerna,
-   skillnaderna mellan rättsskolorna, namngivna lärda med **nyöversatt primärtext** ur
-   korpusens arabiska verk. Detta är sidans unika kärna — här finns material ingen
-   konkurrent har.
-4. `## Historia` (~450 ord) — bruket före islam om det är relevant, praxis genom
-   historien, och den moderna politiseringen med årtal och platser.
-5. `## <Ämnet> i Sverige` (~600 ord) — svensk rätt och praxis, myndigheters hållning,
+1. **Ordet** (~300 ord) — arabisk rot, termens faktiska bruk i källtexterna, angränsande
+   begrepp. Entitetstätt: namnge begreppen.
+2. **Källtexterna** (~450 ord) — koranverserna med exakta referenser, hadith med samling
+   och nummer. Fotnotera varje referens.
+3. **De lärdas tolkningar** (~550 ord) — de klassiska positionerna, skillnaderna mellan
+   rättsskolorna, namngivna lärda med **nyöversatt primärtext** ur korpusens arabiska verk.
+   Detta är sidans unika kärna — här finns material ingen konkurrent har.
+4. **Historien** (~450 ord) — bruket före islam om det är relevant, praxis genom historien,
+   och den moderna politiseringen med årtal och platser.
+5. **I Sverige** (~600 ord) — svensk rätt och praxis, myndigheters hållning,
    domstolsavgöranden, siffror med årtal. Och den svenska debattens positioner sakligt
    återgivna. Det längsta avsnittet: det är här sidan blir användbar.
-6. `## <Ämnet> i svensk idéhistoria` (~350 ord) — den idéhistoriska parallellen ur
-   korpusens svenska litteratur.
-7. `## Invändningar och missförstånd` (~450 ord) — de starkaste invändningarna, tagna på
-   allvar, och de sakfel som faktiskt går att rätta. Ingen halmgubbeparad.
+6. **I svensk idéhistoria** (~350 ord) — den idéhistoriska parallellen ur korpusens svenska
+   litteratur.
+7. **Invändningarna** (~450 ord) — de starkaste invändningarna, tagna på allvar, och de
+   sakfel som faktiskt går att rätta. Ingen halmgubbeparad.
 
-Avsnitt 5 och 6 får egna rubriker med ämnesordet i (»Slöjan i Sverige«, inte »I Sverige«) —
-varje `##` ska fungera som en sökfras i sig.
+⛔⛔ **De sju orden ovan är avsnittens UPPGIFT, aldrig deras rubrik. Rubrikerna skriver du
+själv, och varje `##` måste bära ämnesordet eller en verklig synonym till det.** En rubrik
+ska gå att skriva in i Google precis som den står och ge mening utan sidans titel.
+De åtta första fördjupningssidorna fick alla samma fem intetsägande rubriker — »Ordet och
+dess betydelse«, »Vad källorna säger«, »Hur de lärda har tolkat texterna«, »Historia«,
+»Invändningar och missförstånd« — därför att en tidigare version av den här listan namngav
+dem, och ett exempel i en prompt kopieras som mall. **Ingen av de fem får förekomma.**
+Sidan om slöjan skulle till exempel ha haft »Vad ordet hijab betyder«, »Koranens verser om
+slöjan«, »Rättsskolorna om ansiktsslöjan«, »Slöjans historia från 600-talet till i dag«,
+»Slöjan i Sverige«, »Blygsamhet i svensk idéhistoria« och »Vanliga invändningar mot
+slöjan«. Ämnesordet får böjas och varieras; det får aldrig utelämnas.
 
 ⚠️ **Avsnitt 6 är den enskilt största fällan i hela texten.** Att kvinnokroppen, blygsamhet
 eller motsvarande har en svensk idéhistoria är ett **faktum värt att redovisa** — det är
@@ -205,6 +213,7 @@ blankrad, sedan den svenska markdown-brödtexten. Börja utdata med den öppnand
 {
   "title": "…",
   "term": "…",
+  "blurb": "…",
   "description": "…",
   "seoDescription": "…",
   "keywords": ["…"],
@@ -218,7 +227,7 @@ blankrad, sedan den svenska markdown-brödtexten. Börja utdata med den öppnand
 
 **Term** är … (ingressen, utan rubrik)
 
-## Ordet och dess betydelse
+## <din egen rubrik, med ämnesordet i>
 …
 
 ---

@@ -63,6 +63,13 @@ Finns alla sju avsnitten? Håller ingressens första mening som en fristående d
 fetstil? Har avsnittet om Sverige verkligt innehåll — lagrum, avgöranden, siffror med årtal
 — eller bara allmänna formuleringar? Det avsnittet är sidans skäl att finnas.
 
+⛔ **Läs de sju `##`-rubrikerna som sökfraser och skriv om varje rubrik som inte bär
+ämnesordet.** Var och en ska gå att skriva in i Google som den står och ge mening utan
+sidans titel. »Ordet och dess betydelse«, »Vad källorna säger«, »Hur de lärda har tolkat
+texterna«, »Historia« och »Invändningar och missförstånd« är alla underkända — de åtta
+första sidorna fick dem allihop, från ett exempel i en tidigare författarprompt, och ingen
+granskare fångade det. Rätta dem i den förbättrade brödtexten, inte bara i `issues`.
+
 ### 6. AI-tics — räkna, gissa inte
 
 **Räkna avsnittsavsluten.** Högst två av sju får sluta på »inte X, utan Y«, på en

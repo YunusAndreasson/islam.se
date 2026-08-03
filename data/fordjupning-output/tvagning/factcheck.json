@@ -1,0 +1,104 @@
+{
+  "overallCredibility": 7.8,
+  "verdict": "pass",
+  "summary": "No fabrications found. Every Swedish legal, statistical and regulatory claim I tested was confirmed verbatim against its primary source — Bromölla (mål 7680-19, 2020-09-11, rådman Henrik Hedberg, the \"generellt förbud utan individuell prövning\" reasoning), AD 2018 nr 51 (parties, date, indirect discrimination, 40 000 kr, Eweida/S.A.S.), MUCF's six 2024 figures and the 203 663 total with auditor certification, the Vårdhandboken negative finding, and the OCD study's 13/13 and 10/13. Bernström 74:4 confirmed at api.quran.com. Three defects: (1) two source-attribution mismatches where a true fact is credited to a page that does not contain it — the IslamQA reciter list and the 1 400 CHF fine at Europaportalen; (2) an interpretive overreach on 74:4, where the \"translation divergence\" is probably two different translators rather than two editions of Bernström, since Bernström follows Muhammad Asad (\"and thine inner self purify\"); (3) the Arabic corpus — one quote ID and nineteen book passages, all \"egen översättning\" — could not be checked because the quote-database MCP tools were unavailable to me as well as to the researcher. Content of the fiqh passages is consistent with the known contents of Bidāyat al-mujtahid, al-Mughnī, al-Hidāya, al-Majmūʿ and al-Umm, so I do not treat them as suspect, but they remain independently unconfirmed and should be re-run through get_quote_by_id before publication.",
+  "verifiedClaims": [
+    {
+      "claim": "Förvaltningsrätten i Malmö, mål 7680-19, dom 2020-09-11, upphävde Bromölla kommuns generella förbud mot bön på betald arbetstid; bärande skäl var att riktlinjen var generell och inte medgav individuell prövning; rådman Henrik Hedberg.",
+      "status": "verified",
+      "method": "WebFetch of domstol.se press release — returned case number, court, date, outcome and the verbatim reasoning 'Kommunens riktlinje är utformad som ett generellt förbud, utan möjlighet till bedömning i det enskilda fallet' plus the named judge.",
+      "notes": "Exact match on every element. The research's inference that this is 'also a ruling about ablution' because wudūʾ precedes prayer is the researcher's own extrapolation, not the court's — it is labelled as such in the brief, which is acceptable, but the article must not phrase it as a holding."
+    },
+    {
+      "claim": "AD 2018 nr 51, dom 2018-08-15, DO mot Almega Tjänsteföretagen och Semantix Tolkjouren AB: indirekt diskriminering, ersättning 40 000 kr, med hänvisning till Eweida m.fl. mot Storbritannien och S.A.S. mot Frankrike.",
+      "status": "verified",
+      "method": "WebFetch of arbetsdomstolen.se confirmed parties, date, indirect-discrimination finding and the ECtHR citations (also İzzettin Doğan v. Turkey, which the research omits). The 40 000 kr figure was not on the fetched page, so verified independently via WebSearch (lag-avtal.se, Sören Öman, lagen.nu all concur).",
+      "notes": "Search also surfaced the court's rationale for the amount: it could not be established that she would have been hired, and Semantix acted to achieve gender equality rather than with intent to discriminate. The article should include that qualifier — omitting it makes the case sound more one-sided than it is."
+    },
+    {
+      "claim": "MUCF 2024: SMF 50 479, FIFS 61 350, ISS 35 388, IKUS 27 711, BIS 19 440, IFBS 9 295 — summa 203 663 betjänade; uppgifterna är revisorsintygade.",
+      "status": "verified",
+      "method": "WebFetch of mucf.se returned all six figures and the total identically, and confirmed that 'the number of those served must be confirmed by an auditor'.",
+      "notes": "Definition confirmed too: 'betjänad' = member of a faith community or a person who regularly participates in its activities. The research's methodological point — that this measures something different from Pew's 810 000 — is sound and should be kept."
+    },
+    {
+      "claim": "Bernström översätter 74:4 'Och rena ditt hjärta!'",
+      "status": "verified",
+      "method": "WebFetch of api.quran.com/api/v4/quran/translations/48?verse_key=74:4 returned exactly 'Och rena ditt hjärta!' attributed to Knut Bernström.",
+      "notes": "The text is verified; the research's INTERPRETATION of it is not. See unverifiedClaims."
+    },
+    {
+      "claim": "Vårdhandbokens sida 'Religion och hälsa' (godkänd 2022-08-24, Katarina Hjelm) nämner inte bön, tvagning eller omhändertagande av avlidna.",
+      "status": "verified",
+      "method": "WebFetch of the Vårdhandboken page confirmed the author, the approval date, and the absence of any mention of prayer, ritual washing or death rites.",
+      "notes": "IMPORTANT ADDITION the research missed: the page DOES state 'I till exempel Islam får kvinnor inte beröras av män som inte tillhör familjen.' That single line is directly relevant to the article's touch-breaks-wudūʾ thread and to AD 2018 nr 51. The 'lucka' framing is still accurate but must acknowledge this sentence, or a knowledgeable reader will catch the omission."
+    },
+    {
+      "claim": "I den svårt sjuka gruppen förekom religiös tvivelgrubbel hos 13/13 (100 %) och upprepning av delar av tvagningen hos 10/13 (77 %).",
+      "status": "verified",
+      "method": "WebFetch of PMC11728165 confirmed both figures and the subgroup size.",
+      "notes": "Critical context the research states but must not soften: total n=50, all Lebanese Muslim adults ALREADY DIAGNOSED with OCD and religious symptoms — a doubly selected clinical sample. Severity split was mild 26%, moderate 48%, severe 26%. The 77% figure describes 10 individuals. Any phrasing resembling 'a majority of practising Muslims' would be a serious misreading."
+    },
+    {
+      "claim": "Europadomstolen avgjorde Osmanoğlu och Kocabaş mot Schweiz 2017.",
+      "status": "verified",
+      "method": "WebFetch of europaportalen.se confirmed ruling year 2017 and article publication date 11 January 2017.",
+      "notes": "The /2022/11/ segment in the URL is misleading; the piece is from January 2017. The source is a four-sentence news brief and supports only the bare outcome."
+    }
+  ],
+  "unverifiedClaims": [
+    {
+      "claim": "IslamQA 316320 anger vilka läsare som läser 'arjulakum' (Nāfiʿ, Ibn ʿĀmir, Ḥafṣ, al-Kisāʾī, Yaʿqūb) respektive 'arjulikum' (Ibn Kathīr, Abū ʿAmr, Ḥamza, Abū Bakr ʿan ʿĀṣim), och att båda läsningarna är kanoniska.",
+      "status": "unverified",
+      "reason": "SOURCE MISMATCH. I fetched the page: it names no reciters at all, and never describes either reading as mutawātir or canonical. It says only that the variation falls 'in accordance with one of two variations in one of the seven modes of recitation', and concludes that washing is obligatory and the wiping view is 'odd and contrary to scholarly consensus'. The reciter distribution as the research states it is correct standard qirāʾāt scholarship, but it must be sourced to a qirāʾāt reference (e.g. Ibn al-Jazarī's al-Nashr, or a tafsīr such as al-Qurṭubī or al-Ṭabarī on 5:6) rather than to this page. This matters because the research calls the canonicity of both readings 'den avgörande upplysningen' — the load-bearing claim of the sunni–shia section is currently resting on a source that does not make it."
+    },
+    {
+      "claim": "Divergensen mellan 'rena ditt hjärta' och 'rena dina kläder' i 74:4 är en variation inom Bernström som speglar den klassiska exegetiska striden om thiyāb.",
+      "status": "unverified",
+      "reason": "Probable misidentification, not a fabrication. 'Och rena ditt hjärta!' is verified as Bernström — but Bernström renders Muhammad Asad, whose 74:4 reads 'and thine inner self purify'. So the metaphorical rendering IS Bernström's own settled choice, not one of two Bernström printings. The literal 'rena dina kläder' is far more likely a different Swedish translator (Zetterstéen renders it literally). The article should not claim two editions of the same translator diverge. The underlying exegetical dispute over thiyābaka is real and worth writing about — but frame it as one translator's interpretive decision (and name Asad as the model), not as textual instability in Bernström."
+    },
+    {
+      "claim": "Föräldrarna i Osmanoğlu och Kocabaş bötfälldes med 1 400 schweizerfranc (2010).",
+      "status": "unverified",
+      "reason": "SOURCE MISMATCH. The Europaportalen brief contains neither the amount, the currency, the 2010 date, nor the case name. The figure is correct as an independent fact (ECtHR, application no. 29086/12), but must be cited to the judgment itself or to HUDOC, not to this news brief. Second instance of the same failure mode as the IslamQA item — a correct fact hung on a page that doesn't support it. Worth a systematic pass over the remaining citations for this pattern."
+    },
+    {
+      "claim": "Citat 61232 (Ibn Faḍlān) samt de nitton bokpassagerna ur Bidāyat al-mujtahid, al-Mughnī, al-Umm, al-Hidāya, al-Majmūʿ, Tafsīr al-Qurṭubī, Sharḥ al-ʿAqīda al-Ṭaḥāwiyya och Zād al-maʿād.",
+      "status": "unverified",
+      "reason": "Not verifiable in this run: the quote-database MCP tools (get_quote_by_id, search_text, search_books) were absent from my tool list, exactly as the researcher reported for theirs. I am NOT flagging these as suspect — the doctrinal content of each passage matches what these works are independently known to contain (Ibn Rushd's ḥadath/khabath division and his four menstruation prohibitions; al-Marghīnānī on niyya as sunna and on māʾ mustaʿmal; al-Nawawī's two views on the malmūs with the ʿĀʾisha counter-report; Ibn Qayyim on the one-day/three-day mash limits). But every one is presented as 'egen översättning' with no page reference, and none has an independently checkable locus. Before publication: re-run get_quote_by_id on 61232, and add volume/page citations to a named edition for each Arabic passage that will appear as a block quote."
+    },
+    {
+      "claim": "10–33 % av personer med OCD kan uppleva religiöst inriktade symtom.",
+      "status": "unverified",
+      "reason": "Not returned in my fetch of the PMC article, which surfaced the sample findings but not this prevalence range. It is plausible and likely sits in the introduction's literature review, but confirm the exact sentence and cite the underlying study the review points to rather than the review itself."
+    },
+    {
+      "claim": "Ibn Faḍlāns möte 921–922 är 'det tidigaste kända mötet mellan denna rättsregel och nordisk praktik'.",
+      "status": "unverified",
+      "reason": "Unsourced superlative, and in tension with a source the research itself cites: Sorgenfrei's 'Islam i Sverige — de första 1300 åren' is summarised in the brief as dating contacts between Muslim culture and Nordic peoples to the 700s. Either soften to 'the earliest surviving eyewitness description we have' or reconcile it explicitly with Sorgenfrei. As written, a reader holding Sorgenfrei's book can falsify the sentence."
+    }
+  ],
+  "missingPerspectives": [
+    "Contemporary Twelver Shia positions on 9:28. The research says Twelver law was 'historiskt bokstavligt' about non-Muslims being najis, but does not note that most living marājiʿ (Sistani, Khoei and others) rule that People of the Book are ṭāhir. Leaving the reader with the historical position alone misrepresents the practice of the 35 388 people the article's own MUCF figures place in Swedish Shia congregations — and does so in the section handling the most inflammatory verse. This is the single most important gap.",
+    "Disability, illness and jabīra. The most practically urgent Swedish wudūʾ question in healthcare is how ablution works with a cast, stoma, catheter, wound dressing or IV line — and it connects directly to al-Shāfiʿī's ʿilk/colouring distinction the research makes its conceptual centrepiece. The fiqh of masḥ over bandages and tayammum for the bedbound is entirely absent, despite the article positioning itself as the Swedish practical reference.",
+    "Women's and contemporary scholars' voices on the menstruation objection. Objection (b) is raised in its strongest form but answered exclusively through medieval male jurists (Ibn Rushd's four prohibitions, al-Qurṭubī's eleven). No modern female scholarship on ḥayḍ and ritual exclusion, and no Swedish Muslim women quoted. For an article whose stated method is to state objections in their own proponents' terms, this asymmetry is visible.",
+    "Empirical water-use data. The research dismisses the environmental objection as 'svag i sak' but offers no figures on either side — only the three-handfuls hadith and Ibn Qudāma on moderation, both normative rather than empirical. If the objection is genuinely weak, a litres-per-wudūʾ comparison against a Swedish shower would settle it in one sentence; without one, the dismissal is assertion.",
+    "The employer's operational case beyond the GP opinion column. The secular objection is sourced to a single ledarkrönika. Missing: whether any Swedish employer, union or Arbetsmiljöverket has actually taken a position on wudūʾ facilities under AFS 2020:1, and whether SOSFS 2015:10's short-sleeve requirement has ever been litigated or formally addressed by Socialstyrelsen. The research asserts the collision is real but cites no instance of anyone contesting it — which is itself worth stating plainly rather than leaving implied."
+  ],
+  "sourceAssessment": {
+    "totalSources": 31,
+    "highCredibility": 22
+  },
+  "recommendations": [
+    "Re-source the qirāʾāt reciter list. Remove the attribution to IslamQA 316320 for the names and for the canonicity claim — the page contains neither. Cite a qirāʾāt authority (Ibn al-Jazarī, al-Nashr) or a tafsīr on 5:6 (al-Ṭabarī, al-Qurṭubī). IslamQA may still be cited for the salafi conclusion that washing is obligatory, which it does state, and which the research correctly identifies as partisan.",
+    "Re-source the 1 400 CHF fine to the ECtHR judgment (Osmanoğlu and Kocabaş v. Switzerland, no. 29086/12, 10 Jan 2017) or HUDOC. Europaportalen supports only the bare outcome. Then sweep the remaining citations for the same pattern — two instances of a correct fact attached to a non-supporting page suggests it may recur.",
+    "Rewrite the 74:4 passage. Do not present 'rena ditt hjärta' and 'rena dina kläder' as two Bernström editions. State that Bernström, following Muhammad Asad, chose the metaphorical reading, and that other Swedish translators render thiyābaka literally. The exegetical dispute is genuine and the point survives — it just needs to be about a translator's decision rather than about textual instability.",
+    "Add the modern Twelver position on 9:28. One sentence naming that contemporary marājiʿ generally rule People of the Book ṭāhir would close the article's most consequential gap and is required for fairness toward the Shia congregations the article's own statistics count.",
+    "Add a jabīra/illness section. Masḥ over bandages and casts, and tayammum for the bedbound, are the highest-value practical content available and tie directly to the ʿilk distinction the article is built on. Its absence is the biggest missed opportunity relative to the article's stated purpose.",
+    "Quote the Vårdhandboken line that DOES exist — 'I till exempel Islam får kvinnor inte beröras av män som inte tillhör familjen' — before asserting the gap. It strengthens rather than weakens the point: the national guidance registers the touch rule but not the ablution it governs.",
+    "Add the AD 2018 nr 51 compensation rationale (uncertain hiring outcome; no discriminatory intent, the aim was gender equality). Omitting it makes the ruling sound more sweeping than it was and hands a critic an easy correction.",
+    "Before publication, run get_quote_by_id on 61232 and add edition, volume and page for every Arabic passage set as a block quote. They read as authentic, but nineteen unattributed 'egen översättning' passages in one article is a standing liability that one verification pass removes.",
+    "Soften or reconcile the Ibn Faḍlān superlative — Sorgenfrei, cited in the same research, dates Muslim–Nordic contact to the 700s.",
+    "Keep the stated ban on the Swedish bath-house/lördagsbad parallel. The research is right that false equivalence is the largest risk in the piece, and right to exclude the Runeberg/Strindberg/Topelius material as noise. Ibn Faḍlān and Wallin work precisely because they are documents of observation, not analogies."
+  ]
+}

@@ -78,7 +78,6 @@ sources:
 related:
   - "vad-sager-islam-om-livet-efter-doden"
   - "vad-ar-domedagen"
-  - "vad-ar-ghusl"
   - "vad-ar-odet-qadar"
   - "tror-muslimer-pa-anglar"
   - "vad-sager-islam-om-abort"
