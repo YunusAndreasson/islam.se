@@ -979,6 +979,10 @@ Score fairly based on what you can actually verify:
 				"mcp__quotes__search_by_filter",
 				"mcp__quotes__search_text",
 				"mcp__quotes__get_quote_by_id",
+				// Utan search_books kan fördjupningarnas bookPassages inte kontrolleras alls.
+				// Faktakollen rapporterade det som "MCP-verktygen saknades" — halva
+				// påståendet var sant och gällde just det här verktyget.
+				"mcp__quotes__search_books",
 			], // Content verification + independent search + quote attribution checks
 			mcpConfig: mcpConfigPath,
 			schema: FactCheckOutputSchema,

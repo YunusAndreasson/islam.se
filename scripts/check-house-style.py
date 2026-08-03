@@ -418,12 +418,40 @@ def rule_fordjupning_verse_attribution(doc: Doc) -> list[dict]:
     ]
 
 
+GENERIC_HEADINGS = (
+    "ordet och dess betydelse",
+    "vad källorna säger",
+    "hur de lärda har tolkat texterna",
+    "historia",
+    "invändningar och missförstånd",
+)
+
+
+def rule_fordjupning_generic_headings(doc: Doc) -> list[dict]:
+    """Varje ## på en fördjupningssida ska fungera som en sökfras i sig.
+
+    De fem rubrikerna nedan stod som exempel i författarprompten och kopierades
+    därför ordagrant till de åtta första sidorna. Varken granskaren eller någon
+    grind såg det, eftersom en intetsägande rubrik är språkligt oklanderlig.
+    """
+    if doc.genre != "fordjupning":
+        return []
+    return [
+        _hit("generic-heading", WARN, n, line,
+             "skriv om rubriken så att den bär ämnesordet och går att söka på "
+             "(\"Slöjan i Sverige\", inte \"I Sverige\")")
+        for n, line in doc.body
+        if (m := re.match(r"^##\s+(.+?)\s*$", line))
+        and m.group(1).strip().lower() in GENERIC_HEADINGS
+    ]
+
+
 RULES = [
     rule_em_dash, rule_guillemets, rule_curly_quotes, rule_idag, rule_mekka,
     rule_double_space, rule_unspaced_dash, rule_du_tilltal, rule_body_kallor,
     rule_dropcap_opening, rule_sunnitisk, rule_dot_under, rule_seesaw_closers,
     rule_dash_budget, rule_quran_scan_artifacts, rule_athari,
-    rule_fordjupning_verse_attribution,
+    rule_fordjupning_verse_attribution, rule_fordjupning_generic_headings,
 ]
 
 
