@@ -8,7 +8,7 @@
 		"check:fix": "biome check --write .",
 		"lint:articles": "markdownlint-cli2 'data/articles/*.md'",
 		"knip": "knip",
-		"verify": "pnpm check && pnpm test && pnpm build",
+		"verify": "pnpm check && pnpm test && pnpm test:checkers && pnpm build",
 		"test": "vitest run",
 		"test:watch": "vitest",
 		"cli": "pnpm --filter @islam-se/cli run cli",
@@ -18,7 +18,8 @@
 		"rattelser": "pnpm --filter @islam-se/web run rattelser",
 		"ship": "pnpm build && pnpm pdf && cd apps/web && node scripts/assert-full-build.mjs && wrangler pages deploy dist --project-name islam-se --branch master --commit-dirty=true",
 		"ship:mailer": "cd apps/web/workers/rattelse-mailer && wrangler deploy",
-		"deploy": "pnpm ship"
+		"deploy": "pnpm ship",
+		"test:checkers": "python3 scripts/check-quran-quotes.py --self-test"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "^2.5.5",

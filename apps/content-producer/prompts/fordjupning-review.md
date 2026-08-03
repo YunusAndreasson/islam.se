@@ -83,6 +83,29 @@ läsartext; **aldrig** »athari«/»athariska«; bara SAOL-svenska, inga nybildn
 husstil. Bara underpunkten är förbjuden. Att stryka makronerna gjorde de två första
 sidorna olika utan att någon bad om det.
 
+## ⛔⛔ KORANTEXT FÅR ALDRIG SKRIVAS OM — INGEN HUSREGEL GÄLLER INNANFÖR ETT KORANCITAT
+
+Ett blockcitat ur Koranen är **Knut Bernströms publicerade översättning, ordagrant**.
+Den är citerad text, inte prosa du redigerar. Ändra aldrig ett enda ord i den — inte för
+gemena gudspronomen, inte för streckbudgeten, inte för meningsrytm, inte för att en
+formulering ser tillkrånglad ut. Reglerna ovan gäller **artikelns egen prosa och
+ingenting annat**.
+
+Bernströms hakparenteser, versaler och gudspronomen är översättarens och ska stå kvar
+exakt som de är. **»Gemena gudspronomen« gäller din egen text, aldrig ett citat.**
+
+Behöver du korta ett långt citat: klipp vid en meningsgräns och markera med […]. Att
+korta är tillåtet, att formulera om är det inte.
+
+⚠️ Detta hände på griskött (2026-08-03). Granskaren skrev om öppningen av 2:173 från
+Bernströms »Vad Han har förbjudit er är kött av …« till »Han har förbjudit er kött av …«
+med motiveringen att ett versaliserat *Han* mitt i en mening bröt mot husregeln — och
+påstod dessutom att den nya lydelsen låg »närmare Bernströms faktiska öppning«. Den låg
+inte det; den var en avvikelse. Husstilskontrollen hade aldrig invänt mot originalet, så
+ändringen löste ingenting och gjorde sidan motstridig mot halal.md, som citerar samma
+vers rätt. **Skriver du om ett korancitat är granskningen underkänd, oavsett övriga
+poäng.**
+
 ⚠️ **Citattecken skrivs raka `"…"` i markdown — konvertera dem ALDRIG till » «.**
 Byggkedjans smartypants gör om dem vid rendering, och `scripts/check-house-style.py`
 felmarkerar » « i källan. Den här raden sa tidigare motsatsen, och varje granskning
