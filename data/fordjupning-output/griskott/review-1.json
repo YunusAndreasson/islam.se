@@ -1,0 +1,34 @@
+{
+  "finalScore": 7.9,
+  "verdict": "revise",
+  "revisedTextChars": 30306,
+  "summary": "Stilistiskt är utkastet ovanligt disciplinerat: jag räknade avsnittsavsluten och 0 av 7 slutar på »inte X, utan Y«, semikolonpivot eller em-streckskärpning (två slutar på en mildare kolonpivot, avsnitt 6 och 7 — jag har varierat dem i revisionen). Streckbudgeten hålls: de fyra tankstrecken i texten står alla inne i Bernströms egna koranöversättningar, inga i brödtexten. Inga underpunkter, inga utnötta organiska metaforer, inga av de listade anglicismerna, raka citattecken genomgående. Idéhistorieavsnittet är fritt från falsk ekvivalens — författaren avväpnar uttryckligen både hästköttsparallellen och nykterhetsparallellen med egna disanalogier, vilket är precis rätt grepp. Sverigeavsnittet har verkligt innehåll: lagrum, DO-diarienummer, årtal, konsumtionssiffror, kommunbeslut. Poängen dras ned av substansluckor snarare än av hantverket: fem av sex saknade perspektiv är helt frånvarande (shiitisk jaʿfarī-rätt, ECFR/fiqh al-aqalliyyāt, judisk gelatinstrid, kristen upphävning av det levitiska förbudet, motröst i arkeologifrågan), tre faktagranskningsrekommendationer är tyst förbigångna (Europadomstolens räckvidd, DO:s rekvisitterminologi, det kronologiska språnget), en flaggad overifierad formulering står kvar i ingressen, Hitchens återges i sin svagaste och inte sin starkaste form, och slutstycket motsäger sig självt. Ingen svensk muslimsk organisationsröst finns i underlaget och kan inte läggas till utan källa — det måste redaktionen hämta in.",
+  "strengths": [
+    "Idéhistorieavsnittet är ren beskrivande historia och markerar själv var parallellerna slutar bära (»Att ställa de två bredvid varandra förklarar ingendera«) — inget »se, ni gjorde ju samma sak«.",
+    "0 av 7 avsnittsavslut använder de tre förbjudna formerna; streckbudgeten hålls med marginal.",
+    "Sverigeavsnittet bär sidan: skollagens formulering, diskrimineringslagen som enda verktyg, DO:s två motsatta besked inom ett år med datum och diarienummer, Jordbruksverkets siffror, Livsmedelsverkets 2013-analys, kebabtesterna, gelatin i M-M-RVAXPRO, 1937:313.",
+    "Jägnerts likabehandlingsargument återges i sin egen form och medges ha fått rätt av DO — invändningen är inte tillrättalagd.",
+    "Rättsskolornas skillnader är namngivna och konkreta: shāfiʿī mot mālikī om det levande djuret, Abū Hanīfa mot Dāwūd om garvning, Ibn Qudāma mot Abū Hanīfa om istihāla.",
+    "Hadither är tillskrivna samlingarna med berättare, koranverserna har exakta referenser och alla sju stämmer."
+  ],
+  "issues": [
+    "Overifierad formulering kvar: ingressens »ingen domstol har prövat saken« var flaggad. Omskriven till det som faktiskt går att belägga — att DO:s koschermål gjordes upp innan det nådde dom.",
+    "Rekommendationen om Europadomstolen tyst förbigången. De belgiska dekreten tillåter återkallelig bedövning, det svenska kravet gör inte det; domen avgör alltså inte den svenska frågan. Tillagt i avsnittet Historia.",
+    "DO:s terminologi: utkastet skrev att »bedömningen gällde indirekt diskriminering«, men myndigheten använder inte termen i pressmeddelandet. Omskrivet så att »särskilt missgynnar« framgår som rekvisitet.",
+    "Kungsbacka-kronologin bara halvt utredd. Decemberbeslutet 2025 gäller nämnden för gymnasium och arbetsmarknad; Jägnerts artikel från maj 2026 talar om förskola och skola. Skillnaden är nu utskriven.",
+    "Shiitisk jaʿfarī-rätt saknades helt i en artikel om svensk måltidspraktik. Nytt stycke tillagt om ʿayn najis och om den snävare läsningen av 5:5. Fotnot 14 pekar på Sīstānīs *Minhāj al-sālihīn* och bör verifieras mot en exakt utgåva före publicering.",
+    "ECFR och fiqh al-aqalliyyāt saknades. Nytt stycke i avsnitt 3. Fotnot 19 är avsiktligt allmänt hållen — redaktionen bör ersätta den med ett konkret rådsbeslut om livsmedelstillsatser.",
+    "Ingen svensk muslimsk institutionell röst finns i underlaget. Detta går inte att åtgärda utan att uppfinna en källa. Som texten står argumenterar SD och V om muslimer medan muslimska aktörer förekommer som föremål för beslut; ett uttalande från Islamiska förbundet eller Sveriges muslimska råd om Uddevalla- eller Kungsbackabesluten behöver hämtas in.",
+    "Den judiska gelatinstriden (panim hadashot ba'u kan) saknades trots att koschermålet bär artikelns skarpaste juridiska poäng. Tillagd i istihāla-stycket.",
+    "Den kristna upphävningen av det levitiska förbudet (Apg 10, Mark 7) saknades i idéhistorieavsnittet, där den hör hemma som förklaring till varför fläsket kan framstå som neutralt. Tillagd som ren beskrivning.",
+    "Arkeologiavsnittet saknade både motröst och markering av det kronologiska språnget. Price och Adler förklarar det israelitiska tabut, inte den koraniska regeln, och mellan dem ligger över ett årtusende. Båda förbehållen nu utskrivna i avsnittet Historia i stället för överlämnade åt en kritiker.",
+    "Hitchens återgavs i sin svagaste form. Att kalla kannibalismspekulationen »den skarpaste religionskritiska invändningen« och sedan konstatera att den inte är prövbar är en halmgubbe. Hans starkare tes — att ett förbud utan angivet skäl fungerar som lydnadsövning och gränsmarkering — är nu framställd först och medgiven.",
+    "Logiskt fel i slutstycket: »den fråga där de lärda numera är mest samstämmiga« följdes omedelbart av »Gelatinet delar dem«. Omskrivet.",
+    "Attributionsluckor: Hitchens saknade fotnot helt, liksom Bernströms notis om de förislamiska kamelförbuden. Båda tillagda (fotnot 45 respektive 23).",
+    "Blockcitaten går inte att kontrollera mot researchunderlaget: de fem verifierade citaten är svensk skönlitteratur och används inte i artikeln, medan de tre koranstyckena är Bernström-återgivningar. Versreferenserna stämmer och lydelsen har Bernströms bracketstil, men ordalydelsen bör läsas mot *Koranens budskap* före publicering.",
+    "Versaliserat gudspronomen (»Vad Han har förbjudit er«) i 2:173-citatet strider mot husregeln om gemena gudspronomen. Jag har inte ändrat i ett publicerat översättningscitat — redaktionen får avgöra om regeln väger tyngre än citattroheten.",
+    "Språkrättningar: »kostnadsproportionaliteten«, »förklarade begränsningen driftstekniskt« och »Halalcertifiering ... är privat verksamhet och ingen myndighetskontroll« var stela eller ogrammatiska konstruktioner och är omskrivna.",
+    "Ingressens »oftare än något annat utlöser strid om skolmaten« var en obelagd superlativ och är nedtonad.",
+    "Fotnoterna är omnumrerade 1–48 i förekomstordning. Frontmatterns `sources` behöver kompletteras med de nya posterna: Sīstānī, ECFR, Hitchens *God Is Not Great*, Bernströms noter till 6:145 och 5:103, samt Apg 10 och Mark 7."
+  ]
+}

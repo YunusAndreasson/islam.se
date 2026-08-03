@@ -63,8 +63,24 @@ en svensk författare i stället. Sidan om döden gick i den fällan och fick r�
 
 ## 3. Källor och citat
 
+- ⛔⛔ **Korantext får ALDRIG skrivas om.** Ett blockcitat ur Koranen är Knut Bernströms
+  publicerade översättning, ordagrant, hämtad från `quran.com/<sura>/<vers>?translations=48`
+  — aldrig ur korpusbriefen, som är en skanning med brutna ord. Hakparenteser, versaler
+  och gudspronomen är översättarens och ska stå kvar exakt. **Ingen husregel gäller
+  innanför ett korancitat**: inte gemena gudspronomen, inte streckbudgeten, inte
+  meningsrytmen. De reglerna gäller din egen prosa. Behöver citatet kortas: klipp vid en
+  meningsgräns och markera med […]. Korta är tillåtet, formulera om är det inte.
 - **Fotnoter i brödtexten** med GFM-syntax `[^1]`, definitionerna sist under en `---`-regel,
   numrerade i ordning. Använd dem flitigt: det är en referenstext.
+- ⛔ **En fotnot är läsartext, aldrig en lapp till redaktören.** Skriv ALDRIG »bör anges
+  här«, »referensen bör kontrolleras«, »se standardlitteraturen« eller någon annan
+  uppmaning i en not — den publiceras ordagrant. Är du osäker på en referens: utelämna
+  den och skriv bara det du vet. **En not utan källa är ärlig; en not som låtsas ha en
+  källa är en förfalskning**, och ingen grind fångar den eftersom det varken är en död
+  URL eller ett påhittat id.
+- ⛔ Beskriv **det processteg som faktiskt inträffat**. »Meddelade att myndigheten avsåg
+  att stämma« är inte »stämde«, och ett ärende som gjordes upp före stämningsansökan har
+  aldrig varit i domstol.
 - **Ingen »Källor«-lista i brödtexten.** Frontmatterns `sources` är den enda listan och
   driver både den renderade sektionen och sidans `citation[]`-metadata. Varje källa där
   måste vara citerad eller namngiven i prosan.

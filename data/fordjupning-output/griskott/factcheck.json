@@ -1,0 +1,124 @@
+{
+  "overallCredibility": 8.2,
+  "verdict": "pass",
+  "summary": "No fabrications. Every checkable factual claim I tested held up verbatim against its source — the DO Uddevalla wording, the DO kosher case (50 000 kr, dnr 2023/6870, \"särskilt missgynnar praktiserande judar\"), Jordbruksverket's 2025 figures (29,3 / 23,4 / 22,4 / 79,9 kg), the SVT 61 %-enkät (158 av 290, 54 %), the 2013 halalkorv-analysen (99 produkter, 9 med gris, slovensk salami ~10 %), the Kungsbacka-siffrorna (249 av ~13 300 = 1,87 %, 7,8 %), the Mohiuddin-citatet ordagrant, and the Europadomstolens dom 13.2.2024. All five Swedish literary quotes were verified by direct ID lookup — the quote tools WERE available this session even though they were not in the research run, so that caveat can be dropped; ID 49556 is correctly Hjalmar Bergman, Dansen på Frötjärn, with the replica belonging to bergmästare Rygell as stated. Hadith references check out (Bukhārī 2236 / Muslim 1581 for Jābir; Bukhārī 2222 for Abū Hurayra) and all eight Quran verse numbers match their quoted text. Three real problems remain: one factually wrong superlative that its own cited source does not support, a legal inference from Strasbourg that does not transfer cleanly to Sweden, and a madhhab split presented more crisply than the research's own Nawawī passage allows.",
+  "verifiedClaims": [
+    {
+      "claim": "DO tog emot ett tjugotal anmälningar mot tre kommuner och inledde ingen tillsyn; Ahlstrand Oxhamre om näringsriktig och kostnadsfri vegetarisk kost",
+      "status": "verified",
+      "method": "WebFetch av DO:s pressmeddelande 2024-10-10",
+      "notes": "Ordagrant korrekt, inklusive 'DO har beslutat att inte inleda tillsyn'. Detta är artikelns tyngsta rättsliga fynd och det håller."
+    },
+    {
+      "claim": "DO krävde 50 000 kr i koschermålet, dnr DO 2023/6870, med formuleringen 'särskilt missgynnar praktiserande judar som håller kosher'",
+      "status": "verified",
+      "method": "WebFetch av DO:s pressmeddelande 2023-12-12",
+      "notes": "Belopp, diarienummer och citat stämmer. OBS: DO använder inte uttrycket 'indirekt diskriminering' i pressmeddelandet — forskningen drar den slutsatsen. Den är juridiskt välgrundad ('särskilt missgynnar' är rekvisitet i 1 kap. 4 § 2 diskrimineringslagen) men bör presenteras som tolkning, inte som DO:s egen ordval."
+    },
+    {
+      "claim": "Griskött 29,3 kg, fjäderfä 23,4 kg, nöt 22,4 kg, totalt 79,9 kg per person 2025",
+      "status": "verified",
+      "method": "WebFetch av Jordbruksverkets statistikrapport 2026-03-19",
+      "notes": "Samtliga fyra siffror bekräftade i primärkällan."
+    },
+    {
+      "claim": "61 % av kommunerna har skärpt kraven på anpassad skolmat de senaste tre åren; 158 av 290 svarade (54 %); Sollentuna från 419 till 155",
+      "status": "verified",
+      "method": "WebFetch av SVT-artikeln",
+      "notes": "Alla siffror stämmer. Svarsfrekvensen på 54 % bör redovisas i artikeln, inte bara i researchen — 61 % gäller de svarande, inte alla kommuner."
+    },
+    {
+      "claim": "Livsmedelsverket analyserade 99 produkter; nio innehöll odeklarerat griskött; slovensk halalmärkt salami ~10 %",
+      "status": "verified",
+      "method": "WebFetch av SVT 2013",
+      "notes": "Bekräftat. Myndighetens formulering är 'Det förefaller osannolikt att det skulle röra sig om en oavsiktlig förorening' — starkare och mer citérbar än researchens parafras."
+    },
+    {
+      "claim": "Europadomstolen fann 13 februari 2024 att de flamländska och vallonska förbuden mot obedövad slakt inte kränker artikel 9 eller artikel 14",
+      "status": "verified",
+      "method": "WebSearch; bekräftat av HUDOC, Cambridge European Constitutional Law Review och Law & Religion UK",
+      "notes": "Enhälligt (sju domare); domen blev slutgiltig i juni 2024 sedan Grand Chamber-panelen avslog hänskjutning. Lägg till att den blev slutgiltig — det stärker punkten."
+    },
+    {
+      "claim": "Kungsbacka: beslut 18 december 2025 i nämnden för gymnasium och arbetsmarknad; 249 elever av ~13 300 dagliga luncher; kostnaderna nedhållna med 7,8 %",
+      "status": "verified",
+      "method": "WebFetch av V:s debattartikel",
+      "notes": "Siffrorna stämmer. Notera att 7,8 % avser kostnadsutvecklingen jämfört med KPI, inte en absolut besparing — researchens formulering 'hållit nere måltidskostnaderna med 7,8 %' tappar jämförelsepunkten."
+    },
+    {
+      "claim": "Stefan Jägnert (SD): 'Det gemensamma ska vara just gemensamt' och om det vegetariska alternativet",
+      "status": "verified",
+      "method": "WebFetch av Kungsbacka-Posten",
+      "notes": "Citaten stämmer ordagrant. Publicerad 6 maj 2026."
+    },
+    {
+      "claim": "Mohiuddin: 'De säger att förbudet gäller att äta griskött, ingenting annat'",
+      "status": "verified",
+      "method": "WebFetch av fof.se",
+      "notes": "Ordagrant. Researchens observation att inga fatwainstanser namnges är korrekt — han säger bara att han rådfrågat 'en lång rad skriftlärda'."
+    },
+    {
+      "claim": "Samtliga fem svenska litterära citat (Benedictsson, Boye, Bergman, Strindberg, Linné)",
+      "status": "verified",
+      "method": "mcp__quotes__get_quote_by_id med alla fem ID:n i en batch; Bergman-attributionen dessutom korsverifierad med search_text",
+      "notes": "Alla fem finns, med rätt författare och verk. Researchens varning att de inte kunnat maskinverifieras kan strykas."
+    },
+    {
+      "claim": "al-Nawawī om darūra: 'ما يسد به الرمق' och de två uppfattningarna om mättnad",
+      "status": "verified",
+      "method": "mcp__quotes__search_books (ID 160009) — passagen återfunnen ordagrant i al-Majmūʿ",
+      "notes": "Bekräftad, men se anmärkningen om rättsskolebilden nedan."
+    }
+  ],
+  "unverifiedClaims": [
+    {
+      "claim": "'Sverige ... är det EU-land som inte ens undantagsvis tillåter obedövad halal- eller kosherslakt'",
+      "status": "unverified",
+      "reason": "Sakfel, och den angivna källan säger det inte. WebFetch av Tidningen Djurskyddet visar att artikeln endast konstaterar 'I Sverige är det sedan 1937 förbjudet med slakt på obedövade djur' — ingen jämförande utsaga om andra EU-länder. Oberoende sökning (Library of Congress m.fl.) visar att Danmark (sedan februari 2014) och Slovenien likaså saknar undantag, liksom Norge och Island utanför EU. Stryk superlativen eller skriv om till 'ett av ett fåtal EU-länder — vid sidan av Danmark och Slovenien — som inte medger religiöst undantag'. 1937-årtalet är dock korrekt belagt."
+    },
+    {
+      "claim": "Att Europadomstolens dom 2024 visar att Sveriges bedövningskrav är förenligt med artikel 9",
+      "status": "unverified",
+      "reason": "Slutsatsen överförs för lätt. De belgiska dekreten tillåter uttryckligen reversibel (icke-dödande) bedövning vid rituell slakt, och domstolens proportionalitetsbedömning vilar delvis på just den öppningen. Sveriges regim är strängare och saknar motsvarande anpassning. Domen är ett starkt indicium, men Strasbourg har inte prövat en svensk ordning. Formulera som 'pekar i riktning mot' snarare än 'fann förenligt'."
+    },
+    {
+      "claim": "'Kungsbacka avskaffade religiöst motiverad specialkost i december 2025'",
+      "status": "unverified",
+      "reason": "Sammanblandning av två beslut med olika räckvidd. Decemberbeslutet 2025 fattades i nämnden för gymnasium och arbetsmarknad; Jägnerts debattartikel från 6 maj 2026 beskriver avskaffandet i förskola och skola. Researchen behandlar dem som ett beslut. Reda ut vilka nämnder som fattat vilka beslut när, innars artikeln påstår mer än underlaget bär."
+    },
+    {
+      "claim": "'mālikī tillåter mättnad medan shāfiʿī bara tillåter sadd al-ramaq'",
+      "status": "unverified",
+      "reason": "För skarpt dragen skiljelinje, motsagd av researchens egen huvudkälla. al-Majmūʿ (passage-ID 160045) anger uttryckligen 'وعن مالك وأحمد روايتان كالقولين' — två riwāyāt från både Mālik och Ahmad, motsvarande de två shāfiʿī-qawl. al-Nawawī redovisar alltså intern oenighet i shāfiʿī-skolan (al-Muzanī för det restriktiva alternativet) snarare än en ren skolgräns. Skriv om till en fråga där alla fyra skolorna rymmer båda positionerna, med olika tyngdpunkt."
+    },
+    {
+      "claim": "'utan att en enda svensk domstol har prövat saken'",
+      "status": "unverified",
+      "reason": "Negativ existensutsaga som inte går att belägga. Koschermålet slutade i förlikning, vilket är verifierat — men att ingen svensk domstol någonsin prövat religiöst anpassad skolmat är något annat. Mjuka upp till 'utan att någon vägledande dom finns' eller 'utan att frågan avgjorts i domstol'."
+    }
+  ],
+  "missingPerspectives": [
+    "Shiitisk (jaʿfarī) fiqh saknas helt. Artikeln bygger fyra sunnitiska skolor plus zāhirī, men Sverige har en betydande shiitisk minoritet vars ståndpunkt om ʿayn najis och om ahl al-kitāb-mat skiljer sig — särskilt relevant i en artikel om svensk måltidspraktik.",
+    "Europeiska fatwarådet (ECFR) och fiqh al-aqalliyyāt nämns inte. Det är det institutionella organ som faktiskt vägleder europeiska muslimer om gelatin, E-nummer och korskontaminering, och dess frånvaro är påfallande när researchen i stället lutar sig mot saudiska IslamQA och en shāfiʿī-mufti i Sydafrika.",
+    "Ingen svensk muslimsk organisationsröst. Researchen har SD:s argument, V:s motargument och en gymnasieelevs replik, men inget uttalande från Islamiska förbundet, Sveriges muslimska råd eller motsvarande om Uddevalla- eller Kungsbackabesluten. Muslimska aktörer förekommer som föremål för beslut, inte som argumenterande part.",
+    "Den judiska halakhiska parallellen behandlas bara rättsligt, inte religionsrättsligt. Eftersom koschermålet bär artikelns skarpaste juridiska poäng vore en notis om kashrutens egen gelatinstrid (panim ḥadashot bau kan — funktionellt en istihāla-motsvarighet) både naturlig och belysande.",
+    "Den kristna abrogationen av det levitiska förbudet (Apg 10, Mark 7) saknas. I en artikel om varför den svenska matsalen ser ut som den gör är det relevant att majoritetstraditionen en gång hade samma förbud och övergav det — det ger 'det gemensamma'-argumentet en historisk botten som researchen inte utnyttjar.",
+    "Arkeologiavsnittet saknar motröst. Price/Adler-tesen presenteras som 'den starkaste sekulära invändningen' utan att det noteras att sen-identitetsmarkör-tesen är omstridd, och framför allt att den gäller det israelitiska tabut — ett kronologiskt språng på över ett årtusende till den koraniska regeln som artikeln behöver markera själv innan en kritiker gör det."
+  ],
+  "sourceAssessment": {
+    "totalSources": 32,
+    "highCredibility": 24
+  },
+  "recommendations": [
+    "Stryk eller skriv om påståendet att Sverige är det EU-land som saknar undantag från bedövningskravet. Det är fel (Danmark och Slovenien likaså) och står inte i den angivna källan. Behåll 1937 — det är belagt.",
+    "Nyansera Europadomstolen: de belgiska dekreten tillåter reversibel bedövning, Sveriges regim gör inte det. Domen stödjer artikelns poäng men avgör inte den svenska frågan.",
+    "Reda ut Kungsbacka-kronologin. Decemberbeslutet 2025 gäller nämnden för gymnasium och arbetsmarknad; Jägnerts artikel från maj 2026 talar om förskola och skola. Ange vilket beslut som omfattar vad.",
+    "Skriv om darūra-avsnittet efter al-Nawawīs faktiska text: två qawl inom shāfiʿī och två riwāyāt från både Mālik och Ahmad. Den intra-skolastiska oenigheten är dessutom en bättre historia än en ren skolgräns.",
+    "Släpp reservationen om att citaten inte kunnat maskinverifieras — samtliga fem är nu ID-verifierade med rätt författare och verk.",
+    "Kontrollera Benedictsson-citatet i sin kontext före blockcitat. 'Draflet' betyder strunt eller smörja och syftar i Modern med stor sannolikhet på läsning, inte på mat. Citatet finns, men som svältmetafor i en artikel om förbjuden föda riskerar det att vara en dekontextualisering en påläst läsare genomskådar.",
+    "Redovisa SVT-enkätens svarsfrekvens i brödtexten: 61 % avser de 158 kommuner som svarade av 290, inte alla kommuner.",
+    "Hämta in minst en svensk muslimsk institutionell röst och en notis om ECFR/fiqh al-aqalliyyāt. Som underlaget nu ser ut argumenterar SD och V om muslimer, medan muslimska auktoriteter bara citeras via saudiska och sydafrikanska fatwasajter.",
+    "Markera själv det kronologiska språnget i arkeologiavsnittet — Price och Adler förklarar det israelitiska tabut, inte den koraniska regeln. Att göra den distinktionen först är starkare än att låta en kritiker göra den.",
+    "Precisera att DO:s formulering 'särskilt missgynnar' är rekvisitet för indirekt diskriminering, snarare än att skriva att DO grundade målet på 'indirekt diskriminering' — myndigheten använder inte termen i pressmeddelandet."
+  ]
+}

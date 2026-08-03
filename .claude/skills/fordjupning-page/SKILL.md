@@ -51,11 +51,20 @@ its slug (that mistake is recorded in [[svar_answer_pages]]).
    node apps/content-producer/dist/index.js fordjupning "Hijab" --corpus-only \
      --verse 24:30 24:31 33:59 33:53 7:26 \
      --quran "kvinnors klädsel och blygsamhet, slöja och sänkta blickar" … \
-     --arabic "women's veiling, modesty and covering of the head" … \
+     --arabic "تحريم كشف العورة وحجاب المرأة" … \
      --swedish "kvinnans klädsel, blygsamhet och blicken från andra" …
    ```
    Read the brief. Can an article be built on this? If a whole angle group is noise,
    reword it and re-run — it costs seconds.
+
+   ⚠️⚠️ **Skriv `--arabic`-vinklarna PÅ ARABISKA, trots att flaggans hjälptext säger
+   "English thematic phrases".** Mätt på griskött (2026-08-03): engelska temafraser gav
+   nära noll passager som ens nämnde ämnet — sökningen returnerade offerkött, ribā-byten
+   och att äta med höger hand. Samma vinklar på arabiska gav **24 av 64 passager med
+   `خنزير` i sig**. Embeddingmodellen (multilingual-e5-small) matchar arabiska mot
+   arabiska långt bättre än engelska mot arabiska, och fiqh-termerna har inga bra
+   engelska motsvarigheter. Slå upp facktermen först — `sqlite3 data/books.db "select
+   count(*) from passages where text like '%الخنزير%'"` — och använd den ordagrant.
 2. **Produce** (~45–75 min; spawns headless Claude with web + MCP):
    ```bash
    node apps/content-producer/dist/index.js fordjupning "Hijab" --slug hijab \
@@ -74,7 +83,15 @@ its slug (that mistake is recorded in [[svar_answer_pages]]).
    python3 scripts/check-language-tics.py data/fordjupning/<slug>.md
    python3 scripts/check-claim-sourcing.py data/fordjupning/<slug>.md
    python3 scripts/check-source-urls.py data/fordjupning/<slug>.md   # ⛔ blockerande
+   python3 scripts/check-quran-quotes.py data/fordjupning/<slug>.md  # ⛔ blockerande
    ```
+   ⛔⛔ **`check-quran-quotes.py` kollationerar varje korancitat mot Bernström.** Den
+   finns därför att GRANSKAREN skrev om Koranen på griskött: den ändrade öppningen av
+   2:173 från »Vad Han har förbjudit er är kött av …« till »Han har förbjudit er kött
+   av …« med hänvisning till husregeln om gemena gudspronomen, och påstod att den nya
+   lydelsen låg närmare Bernström. Den gjorde inte det. Husreglerna gäller artikelns
+   egen prosa — **innanför ett citat gäller ingen av dem**. Kontrollen skiljer
+   ORDAGRANT / FÖRKORTAT (troget utdrag, tillåtet) / OMSKRIVET (fäller).
    ⛔ **`check-source-urls.py` är den enda kontrollen som får stoppa en sida helt, och
    den är avsiktligt fri från modell — den hämtar varje käll-URL och läser statusraden.**
    En påhittad länk är den defekt varken granskaren, faktakollen eller en människa som
@@ -87,11 +104,28 @@ its slug (that mistake is recorded in [[svar_answer_pages]]).
    »Källor« in the body, plus three rules specific to this type — Bernström scan artifacts
    copied out of `quran.db`, »athari« in reader-facing text, and a `— Koranen N:N`
    attribution line where a footnote belongs.
-5. **Evaluate hard — do not self-rubber-stamp.** Benchmark against `data/svar/vad-ar-kaba.md`
-   (the answer genre's peak) and a literary essay in `data/articles/` (the prose ceiling).
-   Then **run an independent adversarial critic** as a subagent that reads the draft and
-   returns per-dimension scores with a line-level punch-list. The author over-rates its own
-   prose; trust the harsher view on prose.
+5. **Evaluate hard — do not self-rubber-stamp.** Kör **två subagenter parallellt**, båda
+   definierade i `.claude/agents/`:
+   - **`fordjupning-verifier`** (Bash/Read/Grep/WebFetch) — källor, arabiska
+     korpuspassager, korancitat, svenska rätts- och sifferuppgifter, korspelarkonsistens.
+     Ge den både artikeln **och stegutdatakatalogen**; dess mest givande enskilda grepp är
+     att diffa `draft-raw-1.md` mot den levererade filen, eftersom ett SENARE steg kan ha
+     förstört det författaren fick rätt.
+   - **`fordjupning-prose-critic`** (inga verktyg) — register, rytm, AI-tics,
+     avslutningsformer, falsk ekvivalens, invändningarnas styrka. Den jämför mot
+     `data/svar/vad-ar-kaba.md` och en essä i `data/articles/`.
+
+   ⚠️ **Dela alltid upp dem.** En enda agent som ombeds både bedöma prosa och kontrollera
+   fakta gör den billiga halvan. På griskött var prosan ren på varje mekaniskt mått
+   (0 av 7 avslutningar över kvoten) medan **samtliga fem verkliga defekter var sakliga
+   eller strukturella** — en omskriven koranvers, ett felbeskrivet processteg, publicerade
+   redaktörslappar, stulna spokes och ett obelagt påstående. En prosakritiker fångar
+   ingen av dem.
+
+   ⚠️ Kräv **falsifierbara fynd, inte poäng per dimension**. Poängsättning driver mot
+   medhåll: 8,6 »publish« samexisterade med en omskriven koranvers.
+
+   📋 Hela kontrollistan finns i `VALIDERING.md` bredvid den här filen.
 6. **Improve** — apply the punch-list by hand, and **fold every recurring lesson back into
    `prompts/fordjupning-author.md`** so the next page starts higher. That compounding is the
    whole point of one-per-session.
@@ -233,6 +267,34 @@ furūʿ-verken med `pnpm cli import-books`.
 - ⚠️ **Semantic search misses the loci classici.** It never returned 33:59, the jilbāb
   verse, under any angle. Pin the central texts with `--verse`; search is for what you would
   not have thought to look for.
+- ⚠️⚠️ **En ny pelare STJÄL spokes från de gamla — omvända indexet är alfabetiskt.**
+  `svar/[slug].astro` bygger `pillarBySvar` med `if (!pillarBySvar.has(svarSlug))`, och
+  `getCollection("fordjupning")` kommer i id-ordning. **Först i bokstavsordning vinner.**
+  Griskött-utkastet listade `vad-ar-halalslakt`, `ar-vinager-halal`,
+  `far-muslimer-dricka-alkohol` och `islams-fem-pelare` i sin `related`, och eftersom
+  »griskott« < »halal« < »ramadan« flyttades alla fyra svarssidornas fördjupningslänk
+  från rätt pelare till griskött. Producenten kan inte se det: varje enskild slug finns,
+  så bygget går igenom. **Kontrollera efter varje ny sida vilka svar fler än en pelare
+  gör anspråk på, och trimma den nya till det den faktiskt äger.** `related` är dubbelt
+  bokfört — det är både sidans »Relaterade frågor« och dess anspråk i indexet — så en
+  bred lista kostar andra sidor deras rätta pelare.
+  ⚠️ Redan i beståndet: `vad-ar-hijab` pekar på **aktenskap.md**, inte hijab.md, och
+  `vad-sager-islam-om-livet-efter-doden` på abort.md i stället för doden.md — samma
+  alfabetiska orsak, äldre än griskött.
+- ⚠️ **Redaktörsinstruktioner läcker ut i publicerade fotnoter.** Griskött-utkastet
+  skickade »Referensen bör kontrolleras mot en angiven utgåva« och »Ett konkret
+  rådsbeslut om livsmedelstillsatser bör anges här« rakt in i noterna, och en tredje not
+  hänvisade till »standardlitteraturen« som om det vore en källa. Ingen grind ser det:
+  det är inte en död URL, inte ett påhittat id, och prosan är oklanderlig. **Läs noterna
+  som text, inte som apparat** — allt som säger »bör«, »kontrollera« eller »se
+  standardlitteraturen« är en lapp till dig själv, och en not utan källa är ärligare än
+  en not som låtsas ha en.
+- ⚠️ **Rättsprocesser beskrivs ett steg för långt.** Utkastet skrev att DO »stämde« en
+  skola i december 2023; myndigheten hade skickat ett *utkast till stämningsansökan* med
+  svarsfrist, och någon stämning lämnades aldrig in. Ingressen hade dessutom sidan
+  »förd till domstol«. Samma felklass som djurskyddslagen på halal-sidan: ett
+  myndighetsbesked sammanfattas till nästa steg i processen. **Öppna pressmeddelandet
+  och läs vilket processteg som faktiskt inträffat.**
 - ⚠️ **Attribution trap** ([[quotes_db_arabic_attribution_trap]]): the author field is the
   **book's** author, not the speaker, and the text is often a paraphrase — about one in three
   fails. A hadith quoted by Ibn al-Qayyim belongs to the hadith collection.
