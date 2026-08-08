@@ -5,9 +5,27 @@ interface Props {
 	kickerHref?: string;
 	kickerClass?: string;
 	lead?: string;
+	/** Pre-rendered inline markdown for the lead, via `inlineMarkdown()`. Not
+	 *  polish: nine of the 55 essay decks carry *italic* (a cited work title such
+	 *  as *Rawḍat al-Muḥibbīn*), and as plain text they render literal asterisks.
+	 *  Every card on the site already goes through this; the essay page must too. */
+	leadHtml?: string;
+	/** Which rank the lead carries. `collection-lead` is the quiet 34rem ingress an
+	 *  index page wants; `article-standfirst` is the deck under an essay headline,
+	 *  which is a rank up because it is the only prose between the title and the
+	 *  first paragraph. */
+	leadClass?: string;
 }
 
-const { title, kicker, kickerHref, kickerClass = "collection-kicker", lead } = Astro.props;
+const {
+	title,
+	kicker,
+	kickerHref,
+	kickerClass = "collection-kicker",
+	lead,
+	leadHtml,
+	leadClass = "collection-lead",
+} = Astro.props;
 ---
 
 <header class="article-header">
@@ -17,11 +35,28 @@ const { title, kicker, kickerHref, kickerClass = "collection-kicker", lead } = A
 		</p>
 	)}
 	<h1>{title}</h1>
-	{lead && <p class="lead collection-lead">{lead}</p>}
+	{leadHtml ? (
+		<p class:list={["lead", leadClass]} set:html={leadHtml} />
+	) : (
+		lead && <p class:list={["lead", leadClass]}>{lead}</p>
+	)}
 	<slot />
 </header>
 
 <style>
+	/* The essay standfirst. A rank above the index ingress on both axes that
+	   matter: SIZE (body, not the section-lead step) and MEASURE (the full reading
+	   column, not 34rem) — because this one is not a caption beside a list, it is
+	   the sentence the reader weighs before deciding to commit to 1 500 words.
+	   Set on the .lead knobs, never by re-declaring the properties. */
+	.article-standfirst {
+		--lead-size: var(--step-0);
+		/* Space below as well as above: the meta line is a separate rank, and with a
+		   zero bottom margin the date sat straight under the last word of the deck as
+		   if it were the next sentence. */
+		--lead-margin: var(--space-half) 0 var(--space-half);
+	}
+
 	.article-kicker {
 		margin-bottom: var(--space-half);
 		color: var(--color-muted);

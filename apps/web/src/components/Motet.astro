@@ -1,0 +1,194 @@
+---
+import MarkDot from "./MarkDot.astro";
+import type { Tradition } from "../lib/tankare";
+
+// MÖTET — the site's one signature device.
+//
+// Every essay here reads a classical Islamic voice against a Swedish or Western
+// one. That is the whole editorial proposition, and it was invisible: the foot of
+// the essay listed the tänkare it engages as one flat comma-separated row, which
+// says "filed under" when the truth is "these two traditions met on this page".
+//
+// So: an axis. A hairline with the khatam on it, the classical tradition to one
+// side and the Swedish/Western voices to the other. The mark interrupts the rule
+// rather than sitting beside it — the meeting point IS the break in the line.
+//
+// HONESTY RULES, and they are the reason this is defensible rather than decorative:
+//   * Membership is derived (lib/tankare.ts scans the essay bodies for each
+//     thinker's `match` spellings), never authored per essay, so it cannot claim
+//     an encounter the text does not contain.
+//   * The roster is 18 names. An essay built on a voice outside it — Dan Andersson
+//     carries "Träden hade andakt" and is not a tänkare — shows its OTHER
+//     interlocutors. That is why this renders at the foot of the essay, as an
+//     index of who was engaged, and not at the top as a promise about what is
+//     coming. A retrospective list that is incomplete is merely partial; the same
+//     list as a headline would be wrong.
+//   * One side empty is a real state (several essays engage only the classical
+//     tradition). It drops the rule and the mark and renders as a plain labelled
+//     list — an axis with nothing on one arm would read as a rendering fault.
+//   * Nothing at all renders nothing.
+
+interface Voice {
+	name: string;
+	slug: string;
+	tradition: Tradition;
+}
+
+interface Props {
+	tankare: Voice[];
+}
+
+const { tankare } = Astro.props;
+
+const sunni = tankare.filter((t) => t.tradition === "sunni");
+const western = tankare.filter((t) => t.tradition === "western");
+
+// The axis needs two arms. With one tradition present this falls back to a single
+// labelled column; with neither, the component renders nothing at all.
+const isEncounter = sunni.length > 0 && western.length > 0;
+const columns = [
+	sunni.length > 0 && { label: "Den klassiska traditionen", voices: sunni },
+	western.length > 0 && { label: "Svenska och västerländska röster", voices: western },
+].filter((c): c is { label: string; voices: Voice[] } => Boolean(c));
+---
+
+{
+	columns.length > 0 && (
+		<section class:list={["motet", isEncounter && "motet--axis"]} aria-labelledby="motet-head">
+			<h2 id="motet-head" class="label motet-head">
+				{isEncounter ? "Mötet" : "Tänkare"}
+			</h2>
+
+			<div class="motet-cols">
+				{columns.map((col) => (
+					<div class="motet-col">
+						<p class="motet-tradition">{col.label}</p>
+						<ul class="motet-list">
+							{col.voices.map((v) => (
+								<li>
+									<a href={`/tankare/${v.slug}/`}>{v.name}</a>
+								</li>
+							))}
+						</ul>
+					</div>
+				))}
+
+				{isEncounter && <MarkDot class="motet-mark" />}
+			</div>
+		</section>
+	)
+}
+
+<style>
+	.motet {
+		margin-bottom: var(--space-unit);
+	}
+
+	.motet-head {
+		margin-bottom: var(--space-half);
+		color: var(--color-muted);
+	}
+
+	.motet-cols {
+		display: grid;
+		gap: var(--space-half) clamp(1.25rem, 4vw, 2.5rem);
+	}
+
+	/* Two arms only when there genuinely are two. `position: relative` is the
+	   anchor for the mark; it is set here and not on .motet so the mark centres on
+	   the columns rather than on the label above them. */
+	.motet--axis .motet-cols {
+		position: relative;
+		grid-template-columns: 1fr 1fr;
+	}
+
+	/* The axis itself, drawn at exactly 50 % of the columns box.
+
+	   It was a border-inline-start on the second column, which put the rule on that
+	   column's edge — one gap-width to the right of centre — while the mark centred
+	   on the box at 50 %. The two missed each other by ~18px, so the khatam sat
+	   beside the line it is supposed to break. Both are anchored to the same 50 %
+	   now and cannot drift apart.
+
+	   --color-rule, not --color-divider: this is a movement boundary between two
+	   traditions, not a row separator inside a list. Both ranks exist for exactly
+	   this distinction (see tokens.css). */
+	.motet--axis .motet-cols::before {
+		content: "";
+		position: absolute;
+		inset-block: 0;
+		left: 50%;
+		border-inline-start: 1px solid var(--color-rule);
+	}
+
+	/* The khatam sits ON the rule and breaks it. The page-coloured band is what
+	   makes it read as an interruption rather than a bead laid on top; without it
+	   the hairline runs visibly behind the gold.
+
+	   ⚠️ :global() is load-bearing. The mark is rendered by <MarkDot>, a child
+	   component, and Astro's scope attribute lands on elements in THIS template —
+	   not inside a child's. Without :global() the selector matches nothing and the
+	   SVG paints at its natural size, which is roughly a dinner plate. */
+	:global(.motet-mark) {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		width: 0.7rem;
+		height: 0.7rem;
+		transform: translate(-50%, -50%);
+		box-sizing: content-box;
+		padding-block: 0.4rem;
+		background: var(--color-bg);
+	}
+
+	.motet-tradition {
+		margin: 0 0 0.3rem;
+		font-family: var(--font-heading);
+		font-size: var(--step--4);
+		letter-spacing: 0.06em;
+		text-transform: uppercase;
+		color: var(--color-muted);
+	}
+
+	.motet-list {
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	.motet-list a {
+		/* Names, not chrome — the editorial face, same as the /tankare/ index. */
+		display: inline-block;
+		padding-block: 0.25rem;
+		font-family: var(--font-display);
+		font-size: var(--step--1);
+		font-weight: 500;
+		line-height: 1.35;
+		color: var(--color-accent);
+		text-decoration: none;
+
+		&:hover {
+			text-decoration: underline;
+			text-underline-offset: 0.15em;
+		}
+	}
+
+	/* Below this the two arms would set at ~18 characters and the names would break
+	   mid-word, so the axis stacks. The rule moves to the top edge of the second
+	   column and the mark is dropped: a horizontal rule with a bead centred on it
+	   reads as a divider between two sections, which is the opposite of what the
+	   device means. Stacked, the two labels carry the encounter on their own. */
+	@media (width <= 34rem) {
+		.motet--axis .motet-cols {
+			grid-template-columns: 1fr;
+		}
+
+		.motet--axis .motet-cols::before {
+			display: none;
+		}
+
+		:global(.motet-mark) {
+			display: none;
+		}
+	}
+</style>

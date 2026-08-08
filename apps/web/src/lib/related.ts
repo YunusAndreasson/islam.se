@@ -4,7 +4,7 @@ import { type Article, articleBody, getArticles } from "./articles";
 import { memoize } from "./cache";
 import { getVersesByEssay } from "./citations";
 import { FAKTA_SLUGS } from "./fakta";
-import { getTankare } from "./tankare";
+import { type Tradition, getTankare } from "./tankare";
 
 // Everything one essay is connected to, derived from data the site already
 // holds — its ämne (category), the tänkare it engages (corpus-derived), the
@@ -14,6 +14,10 @@ import { getTankare } from "./tankare";
 interface TankareRef {
 	name: string;
 	slug: string;
+	/** Which side of the encounter this voice stands on. Carried through so the
+	 *  essay header can set the two traditions against each other rather than
+	 *  flattening them into one comma-separated list. */
+	tradition: Tradition;
 }
 
 interface TradRef {
@@ -61,7 +65,7 @@ export async function getEssayConnections(slug: string, limit = 3): Promise<Essa
 	const thinkersByEssay = new Map<string, Set<string>>();
 	for (const t of thinkers) {
 		const slugs = new Set(t.essays.map((e) => e.slug));
-		if (slugs.has(slug)) tankare.push({ name: t.name, slug: t.slug });
+		if (slugs.has(slug)) tankare.push({ name: t.name, slug: t.slug, tradition: t.tradition });
 		for (const s of slugs) {
 			const set = thinkersByEssay.get(s) ?? new Set<string>();
 			set.add(t.slug);
