@@ -10,6 +10,7 @@ import { MOSKEER_DATA_DATE } from "./src/lib/moskeer/meta";
 import { rehypeHonorific } from "./src/plugins/rehype-honorific";
 import { rehypeQuoteAttribution } from "./src/plugins/rehype-quote-attribution";
 import { rehypeQuranVerse } from "./src/plugins/rehype-quran-verse";
+import { rehypeSidenotes } from "./src/plugins/rehype-sidenotes";
 import { remarkAbbr } from "./src/plugins/remark-abbr";
 
 // remark-smartypants resolves its own `unified` version, whose Plugin type does not
@@ -748,7 +749,12 @@ export default defineConfig({
 			// rehype-quote-attribution runs last: rehype-quran-verse decides on the
 			// recitation player by reading the closing attribution as plain text, so it
 			// sees the shape it was written against before the citation is wrapped.
-			rehypePlugins: [rehypeHonorific, rehypeQuranVerse, rehypeQuoteAttribution],
+			// rehypeSidenotes runs LAST. It copies footnote bodies into the prose, and
+			// every pass before it reads the document shape it was written against —
+			// rehypeQuranVerse in particular scans paragraph text to decide where a
+			// recitation player belongs, and would otherwise be reading note text that
+			// is not part of the paragraph at all.
+			rehypePlugins: [rehypeHonorific, rehypeQuranVerse, rehypeQuoteAttribution, rehypeSidenotes],
 		}),
 	},
 	fonts: [

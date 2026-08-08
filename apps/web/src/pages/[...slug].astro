@@ -77,7 +77,7 @@ if (article.heroImage) {
 	articleMeta={{ publishedAt: article.publishedAt, updatedAt: article.updatedAt, wordCount: article.wordCount, description: article.description, slug: article.slug, section: article.category, citations, image: heroImageObject }}
 	preloadArabicFont
 >
-	<main id="main" class="reading">
+	<main id="main" class="reading reading--notes">
 		<article>
 			{/* The standfirst. `description` is an authored ~270-character deck and it
 			    rendered on every card on the site EXCEPT the page the reader actually
@@ -145,6 +145,127 @@ if (article.heroImage) {
 </Base>
 
 <style>
+	/* ===== SIDENOTES ==================================================== */
+	/* Off by default, at every width and in print. The gutter they live in only
+	   exists once .reading has reached its 64rem max-width, so this is the honest
+	   default and the wide branch below is the exception. Below it the page behaves
+	   exactly as it always has: notes relocated to the bottom, popovers on hover. */
+	.reading--notes :global(.sidenote) {
+		display: none;
+	}
+
+	/* The gutter appears when .reading stops growing — viewport = --home-width, i.e.
+	   64rem — and does not widen after. 65rem, not 64, is one rem of cushion for the
+	   classic-scrollbar discrepancy between engines (reset.css reserves the gutter
+	   with scrollbar-gutter: stable, so the media query and the layout box disagree
+	   by the scrollbar width on Firefox). Range form, per the house rule. */
+	@media (width >= 65rem) {
+		.reading--notes {
+			--sn-width: 13.5rem; /* 216px ≈ 38 characters at --step--4 */
+			--sn-gap: 1.5rem;
+			--sn-track: calc(var(--sn-width) + var(--sn-gap));
+		}
+
+		/* The FRAME does not move — .reading keeps its 64rem, so the hero still spans
+		   it and the page width never flicks between an index and an article. Only
+		   the text column's axis shifts left, by exactly what is left over:
+		   64 − 2×1.5 (padding) − 42 (measure) − 15 (note track) = 4rem. Derived from
+		   the tokens rather than typed, so it cannot drift when one of them changes. */
+		.reading--notes :global(.article-header),
+		.reading--notes :global(.article-body),
+		.reading--notes :global(.article-nav),
+		.reading--notes :global(.essay-connections),
+		.reading--notes :global(.rattelse),
+		.reading--notes :global(.footnotes-relocated),
+		.reading--notes .hero-caption {
+			margin-inline: calc(
+					var(--home-width) - 2 * var(--padding-inline) - var(--content-width) -
+						var(--sn-track)
+				)
+				auto;
+		}
+
+		/* Tufte's mechanism, and the reason no measurement is needed: a float whose
+		   negative right margin EXCEEDS its own width has a margin box of zero or less,
+		   so the prose is not displaced at all — the note simply hangs beside the line
+		   that introduced it. Floats also begin at the current line box, which is what
+		   aligns the note to its marker for free.
+		   `clear: right` stacks two notes that fall close together instead of letting
+		   them overlap; the second drifts a line or two below its marker, which is the
+		   one thing a JavaScript placement pass would do better and is not worth
+		   shipping a resize observer for. */
+		.reading--notes :global(.sidenote) {
+			display: block;
+			float: right;
+			clear: right;
+			width: var(--sn-width);
+			margin-right: calc(-1 * var(--sn-track));
+			margin-bottom: var(--space-half);
+			font-family: var(--font-heading);
+			font-size: var(--step--4);
+			line-height: 1.45;
+			color: var(--color-muted);
+			/* A marker can sit inside <em> or <cite>; the note must not inherit either. */
+			font-style: normal;
+			font-weight: 400;
+			/* .prose sets `> p + p { text-indent: 1.618em }` and text-indent INHERITS
+			   into block descendants — without this every note after the first would
+			   open with a 31px indent. */
+			text-indent: 0;
+			/* .prose sets hyphens: auto for 42rem of Swedish. At 38 characters it is
+			   brutal. body sets hanging-punctuation: first last, which would hang a
+			   note opening on » outside the note box. */
+			hyphens: none;
+			hanging-punctuation: none;
+			text-align: start;
+		}
+
+		.reading--notes :global(.sidenote-num) {
+			margin-right: 0.35em;
+			font-variant-numeric: lining-nums;
+			color: var(--color-warm);
+		}
+
+		/* Work titles inside a note keep the book face — the note is set in the
+		   apparatus voice, but a cited title is still a title. */
+		.reading--notes :global(.sidenote em) {
+			font-family: var(--font-body);
+		}
+
+		.reading--notes :global(.sidenote a) {
+			color: var(--color-accent);
+		}
+
+		/* With every note in the margin, the relocated list is the same text a second
+		   time. Kept in the DOM — print restores it, and the popover script clones
+		   from it — but not shown. */
+		.reading--notes :global(.footnotes-relocated) {
+			display: none;
+		}
+	}
+
+	/* Print has no gutter and no hover: the apparatus goes back to the foot, and the
+	   column back to centre. */
+	@media print {
+		.reading--notes :global(.sidenote) {
+			display: none;
+		}
+
+		.reading--notes :global(.footnotes-relocated) {
+			display: block;
+		}
+
+		.reading--notes :global(.article-header),
+		.reading--notes :global(.article-body),
+		.reading--notes :global(.article-nav),
+		.reading--notes :global(.essay-connections),
+		.reading--notes :global(.rattelse),
+		.reading--notes :global(.footnotes-relocated),
+		.reading--notes .hero-caption {
+			margin-inline: auto;
+		}
+	}
+
 	/* A contained hero at the head of each essay — column-width, seated in the
 	   shared media frame (grain + vignette + soft corners from .media-frame). The
 	   crop is pinned via :global(img) because the <img> carries EssayImage's own

@@ -4,7 +4,7 @@ import { type Article, articleBody, getArticles } from "./articles";
 import { memoize } from "./cache";
 import { getVersesByEssay } from "./citations";
 import { FAKTA_SLUGS } from "./fakta";
-import { type Tradition, getTankare } from "./tankare";
+import { getTankare, type Tradition } from "./tankare";
 
 // Everything one essay is connected to, derived from data the site already
 // holds — its ämne (category), the tänkare it engages (corpus-derived), the

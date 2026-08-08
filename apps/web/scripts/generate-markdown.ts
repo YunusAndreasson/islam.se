@@ -2,6 +2,7 @@ import { access, readdir, readFile, writeFile } from "node:fs/promises";
 import { join, relative } from "node:path";
 import { fileURLToPath } from "node:url";
 import { NodeHtmlMarkdown } from "node-html-markdown";
+import { stripSidenotes } from "../src/lib/sidenotes";
 
 // Post-build: give every HTML page a markdown twin so the edge `_middleware`
 // can answer `Accept: text/markdown` with real markdown (see functions/_middleware.js).
@@ -37,7 +38,12 @@ function extractMain(html: string): string {
 	const main = html.match(/<main\b[^>]*>([\s\S]*?)<\/main>/i);
 	const body = html.match(/<body\b[^>]*>([\s\S]*?)<\/body>/i);
 	const fragment = main?.[1] ?? body?.[1] ?? html;
-	return fragment
+	// Belt and braces. Essays are skipped below (they ship a hand-authored twin from
+	// src/pages/[slug].md.ts) and rehype-sidenotes is gated to data/articles, so no
+	// page reaching this line should carry one. If either guard ever slips, a twin
+	// that repeats every footnote mid-sentence is a silent corruption of the whole
+	// AI-facing corpus — cheaper to strip unconditionally than to notice later.
+	return stripSidenotes(fragment)
 		.replace(/<script\b[\s\S]*?<\/script>/gi, "")
 		.replace(/<style\b[\s\S]*?<\/style>/gi, "")
 		.replace(/<svg\b[\s\S]*?<\/svg>/gi, "")

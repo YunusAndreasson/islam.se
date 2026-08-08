@@ -3,6 +3,7 @@ import rss from "@astrojs/rss";
 import type { APIContext } from "astro";
 import { experimental_AstroContainer as AstroContainer } from "astro/container";
 import { getArticles } from "../lib/articles";
+import { stripSidenotes } from "../lib/sidenotes";
 
 export async function GET(context: APIContext) {
 	const articles = await getArticles();
@@ -17,7 +18,10 @@ export async function GET(context: APIContext) {
 				description: article.description,
 				pubDate: new Date(article.publishedAt),
 				link: `/${article.slug}/`,
-				content: html,
+				// Without the strip a feed reader gets every note twice — the margin copy
+				// mid-sentence and the original at the foot — because nothing outside the
+				// essay stylesheet hides one of them.
+				content: stripSidenotes(html),
 			};
 		}),
 	);
