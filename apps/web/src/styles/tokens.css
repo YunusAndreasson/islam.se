@@ -169,13 +169,36 @@
 	--text-meta: color-mix(in oklab, var(--color-muted), var(--color-text) 22%);
 
 	/* Type scale — 1.2 ratio (minor third) from 19px Literata base.
-	   Heading steps ×1.061 to optically match Source Sans 3's smaller metrics. */
-	--step-0: 1.1875rem; /* 19px — body (Literata) */
-	--step-1: 1.512rem; /* 24.2px — archive titles (22.8 × 1.061, compensated) */
-	/* Heading steps stay viewport-independent: type should respond to user zoom and
+
+	   The ×1.061 compensation is GONE. It existed for one reason: headings were set
+	   in Source Sans 3, whose glyphs run optically smaller than Literata's at the
+	   same em, so every heading step was inflated 6.1 % to match. Editorial headings
+	   are Literata now — the same face as the body — so the compensation would be
+	   correcting for a mismatch that no longer exists, and every heading on the site
+	   would sit 6 % too large. The ladder below is the pure 1.2 progression.
+
+	   Heading steps stay viewport-independent: type should respond to user zoom and
 	   deliberate breakpoints, not continuously scale with window width. */
-	--step-2: 1.814rem; /* 29px — h2 */
-	--step-4: 2.612rem; /* 41.8px — h1 */
+	--step-0: 1.1875rem; /* 19px — body (Literata) */
+	--step-1: 1.425rem; /* 22.8px — h3, archive and card titles */
+	--step-2: 1.71rem; /* 27.4px — h2 */
+	--step-3: 2.052rem; /* 32.8px — collection h1 (the rung the ladder skipped) */
+	--step-4: 2.4624rem; /* 39.4px — essay h1 */
+	--step-5: 2.9549rem; /* 47.3px — second-tier heads on the front page */
+
+	/* The editorial voice. An alias, not a third face: call sites that mean "this is
+	   display type" should say so rather than reaching for --font-body and leaving
+	   the next reader to guess whether body-face-on-a-heading was deliberate.
+
+	   The split is by ROLE, the way a scholarly book works — text and headings in the
+	   book face, running heads and notes in a second face:
+	     --font-display  editorial headings (essays, collections, front page)
+	     --font-heading  the apparatus (labels, meta, TOC, chips, breadcrumbs,
+	                     buttons, and the compact reference/utility registers) */
+	--font-display: var(--font-body);
+	/* Literata needs tightening at display sizes that it must NOT get at 19px body.
+	   Applied only at --step-3 and above; the body ladder keeps letter-spacing 0. */
+	--tracking-display: -0.018em;
 
 	/* Sub-body scale — the half of the system that was never written down.
 
@@ -260,7 +283,13 @@
 		--space-phi2: 3.927rem; /* 1.5 × φ² */
 		--space-phi3: 6.354rem; /* 1.5 × φ³ */
 		--step-0: 1.0625rem; /* 17px — body (DESIGN.md floor for mobile; never below 16) */
-		--step-2: 1.562rem; /* 25px — h2 */
-		--step-4: 2rem; /* 32px — h1 */
+		/* Hand-set, not ladder values — but translated through the same ÷1.061 as the
+		   desktop steps, so a Literata heading lands at the SAME optical size the
+		   Source Sans one did. Without this the mobile heads alone would stay 6 %
+		   heavy while every desktop head corrected. */
+		--step-2: 1.4727rem; /* 23.6px — h2 (was 25px of Source Sans) */
+		--step-3: 1.7671rem; /* 28.3px — collection h1 */
+		--step-4: 1.885rem; /* 30.2px — h1 (was 32px of Source Sans) */
+		--step-5: 2.262rem; /* 36.2px — second-tier heads */
 	}
 }
