@@ -9,7 +9,7 @@ import {
 import Wordmark from "./Wordmark.astro";
 import { DEFAULT_COORDS, DEFAULT_SETTINGS } from "../lib/bonetider/settings";
 import { solarParams, sunPositionAt } from "../lib/bonetider/solar/sun";
-import { PRIMARY_NAV_LINKS } from "../lib/navigation";
+import { MAST_SECTION_LINKS, MAST_UTILITY_LINKS } from "../lib/navigation";
 
 const path = Astro.url.pathname;
 const isHome = path === "/";
@@ -36,7 +36,7 @@ const mastIsDay =
 	<nav class="site-nav" aria-label="Huvudnavigering">
 		<a class="site-home" href="/" aria-current={isHome ? "page" : undefined}><Wordmark /></a>
 		<ul class="site-links">
-			{PRIMARY_NAV_LINKS.map((l) => (
+			{MAST_SECTION_LINKS.map((l) => (
 				<li><a href={l.href} aria-current={here(l.href) ? "page" : undefined}>{l.label}</a></li>
 			))}
 		</ul>
@@ -78,6 +78,19 @@ const mastIsDay =
 			<kbd class="search-trigger-kbd" aria-hidden="true"><span class="search-trigger-cmd">⌘</span>K</kbd>
 		</button>
 		</div>
+	</nav>
+
+	{/* Tier 2 — the utilities. A distinct <nav> with its own aria-label: two
+	    unlabelled navs in one document is an axe failure, and "Verktyg" is also the
+	    honest name for what these are. Hidden under exactly the same two conditions
+	    that hide tier 1 (touch / ≤900px), where the Meny trigger and the palette
+	    carry all ten destinations. */}
+	<nav class="site-rail" aria-label="Verktyg">
+		<ul class="site-rail-links">
+			{MAST_UTILITY_LINKS.map((l) => (
+				<li><a href={l.href} aria-current={here(l.href) ? "page" : undefined}>{l.label}</a></li>
+			))}
+		</ul>
 	</nav>
 </header>
 

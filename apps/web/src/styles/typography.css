@@ -1,6 +1,14 @@
 @layer base {
+	/* Anchor arrivals must clear the sticky mast, whose height is fluid (two tiers on
+	   a wide pointer, one on touch) and therefore not a number a stylesheet can
+	   state. Header.astro publishes it as --mast-height on <html>; the fallback
+	   covers the window before that script runs, and is sized for the two-tier mast
+	   because that is the case where landing under it actually hides the target.
+	   It was a hardcoded 5rem, which was already short of the one-row mast plus its
+	   fade — a latent bug on every footnote jump that a taller mast would have made
+	   plainly visible. */
 	:target {
-		scroll-margin-top: 5rem;
+		scroll-margin-top: calc(var(--mast-height, 6.25rem) + 0.5rem);
 	}
 
 	/* Footnote round-trips land mid-prose with no cue — flash the arrival point.

@@ -32,6 +32,12 @@ const pages = {
 		menuSub: "Omdiskuterade ämnen tagna hela vägen.",
 		sub: "Fördjupning: källorna, historien och det svenska rättsläget, ämne för ämne.",
 	},
+	amnen: {
+		href: "/amnen/",
+		label: "Ämnen",
+		menuSub: "De sju ingångarna essäerna är ordnade efter.",
+		sub: "Ämnen: de sju ingångarna essäerna är ordnade efter, från skapelsen till Norden.",
+	},
 	tradar: { href: "/tradar/", label: "Trådar", sub: "Utvalda läsningar genom essäerna." },
 	tankare: { href: "/tankare/", label: "Tänkare", sub: "De röster essäerna återvänder till." },
 	calendar: {
@@ -71,10 +77,29 @@ const pages = {
 	privacy: { href: "/integritetspolicy/", label: "Integritetspolicy" },
 } as const;
 
-export const PRIMARY_NAV_LINKS: NavLink[] = [
+// The mast is two tiers. It used to be one flat row that put a magazine, an
+// encyclopedia and two utilities side by side as peers — Pelare & tro · Frågor &
+// svar · Essäer · Bönetider · Moskéer · App · Podd — so the publication competed
+// for attention with a prayer clock.
+//
+// NOTHING IS REMOVED. Bönetider alone is 2 118 of the 2 464 built pages and the
+// mosque map is another 158; dropping either from the mast would put real traffic
+// at risk to win an argument about tone. They move to a quieter second rail, and
+// the three curated axes that were footer-only (Ämnen, Trådar, Tänkare) come up
+// into the first.
+
+/** Tier 1 — what the publication IS. */
+export const MAST_SECTION_LINKS: NavLink[] = [
+	pages.essaer,
+	pages.amnen,
+	pages.tradar,
+	pages.tankare,
 	pages.pillars,
 	pages.svar,
-	pages.essaer,
+];
+
+/** Tier 2 — what it DOES for you. Errands, not reading. */
+export const MAST_UTILITY_LINKS: NavLink[] = [
 	pages.prayerTimes,
 	pages.mosques,
 	pages.app,
@@ -90,6 +115,7 @@ export const PALETTE_READ_LINKS: PaletteNavLink[] = [
 		sub: pages.fordjupning.menuSub,
 	},
 	pages.essaer,
+	{ href: pages.amnen.href, label: pages.amnen.label, sub: pages.amnen.menuSub },
 ];
 
 export const PALETTE_TOOL_LINKS: PaletteNavLink[] = [
@@ -110,6 +136,7 @@ export const PALETTE_MINOR_LINKS: NavLink[] = [
 
 export const FOOTER_LINKS: NavLink[] = [
 	pages.fordjupning,
+	pages.amnen,
 	pages.tradar,
 	pages.tankare,
 	{ href: pages.calendar.href, label: pages.calendar.footerLabel },
@@ -124,6 +151,7 @@ export const STANDING_PALETTE_PAGES: PalettePageLink[] = [
 	pages.pillars,
 	pages.svar,
 	pages.fordjupning,
+	pages.amnen,
 	pages.tradar,
 	pages.tankare,
 	pages.calendar,
