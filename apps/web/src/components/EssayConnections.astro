@@ -1,6 +1,7 @@
 ---
 import { getEssayConnections } from "../lib/related";
 import EssayList from "./EssayList.astro";
+import Motet from "./Motet.astro";
 
 interface Props {
 	slug: string;
@@ -23,10 +24,10 @@ const contextRows = [
 		label: tradar.length === 1 ? "Tråd" : "Trådar",
 		links: tradar.map((t) => ({ href: `/tradar/${t.id}/`, label: t.title })),
 	},
-	tankare.length > 0 && {
-		label: "Tänkare",
-		links: tankare.map((t) => ({ href: `/tankare/${t.slug}/`, label: t.name })),
-	},
+	// Tänkare is deliberately NOT a row here. It used to be, and as one flat
+	// comma-separated list it said "filed under" about the one thing on this site
+	// that is an argument rather than a category. It is rendered above, by <Motet>,
+	// as the two traditions set against each other.
 	// The one route out of the essay corpus and into the reference half of the site.
 	// Derived in lib/related.ts, not authored per essay.
 	svar.length > 0 && {
@@ -36,10 +37,13 @@ const contextRows = [
 ].filter((row): row is ContextRow => Boolean(row));
 
 const hasContext = contextRows.length > 0;
+const hasMotet = tankare.length > 0;
 ---
 
-{(hasContext || related.length > 0) && (
+{(hasContext || hasMotet || related.length > 0) && (
 	<aside class="essay-connections" aria-label="Läs vidare och sammanhang">
+		<Motet tankare={tankare} />
+
 		{hasContext && (
 			<dl class="ec-context">
 				{contextRows.map((row) => (

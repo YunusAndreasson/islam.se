@@ -10,7 +10,7 @@ import Rattelse from "../components/Rattelse.astro";
 import Base from "../layouts/Base.astro";
 import { amneByName } from "../lib/amnen";
 import type { Article } from "../lib/articles";
-import { getArticles } from "../lib/articles";
+import { getArticles, inlineMarkdown } from "../lib/articles";
 import { getVersesByEssay } from "../lib/citations";
 import { imageObject } from "../lib/jsonld";
 import { PAGE_HERO_SIZES, PAGE_HERO_WIDTHS } from "../lib/hero";
@@ -79,11 +79,18 @@ if (article.heroImage) {
 >
 	<main id="main" class="reading">
 		<article>
+			{/* The standfirst. `description` is an authored ~270-character deck and it
+			    rendered on every card on the site EXCEPT the page the reader actually
+			    lands on, where the headline handed straight off to a date. Every
+			    publication this site is measured against runs one: it is the contract
+			    between the headline and the first paragraph. */}
 			<ArticleHeader
 				title={article.title}
 				kicker={amne?.name}
 				kickerHref={amne ? `/amnen/${amne.slug}` : undefined}
 				kickerClass="article-kicker"
+				leadHtml={inlineMarkdown(article.description)}
+				leadClass="article-standfirst"
 			>
 				<ArticleMeta class="label article-meta" publishedAt={article.publishedAt} updatedAt={article.updatedAt} readingTime={article.readingTime} />
 			</ArticleHeader>

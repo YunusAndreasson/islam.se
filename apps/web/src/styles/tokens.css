@@ -186,6 +186,22 @@
 	--step-4: 2.4624rem; /* 39.4px — essay h1 */
 	--step-5: 2.9549rem; /* 47.3px — second-tier heads on the front page */
 
+	/* The APPARATUS ladder — Source Sans 3 set so its caps match the Literata step of
+	   the same rank. The factor is 700/660 = 1.0606: both faces are upm 1000 and
+	   those are their cap heights, measured off the shipped .woff2 files. That ratio
+	   is where the old ×1.061 came from; it was never a fudge.
+
+	   These two are LITERALLY the values --step-1 and --step-2 carried before the
+	   headings moved to Literata. That is the point: a call site that is genuinely
+	   Source Sans renames its token and nothing on screen moves, while one that
+	   keeps --step-1 shrinks 5.7 % because it is now being set in a larger-capped
+	   face. Rename ⇒ identical, keep ⇒ smaller — which makes the migration
+	   verifiable by screenshot rather than by argument.
+
+	   Use these ONLY together with `font-family: var(--font-heading)`. */
+	--step-1-sans: 1.512rem; /* 24.2px — optically equals --step-1 */
+	--step-2-sans: 1.814rem; /* 29.0px — optically equals --step-2 */
+
 	/* The editorial voice. An alias, not a third face: call sites that mean "this is
 	   display type" should say so rather than reaching for --font-body and leaving
 	   the next reader to guess whether body-face-on-a-heading was deliberate.
@@ -288,6 +304,7 @@
 		   Source Sans one did. Without this the mobile heads alone would stay 6 %
 		   heavy while every desktop head corrected. */
 		--step-2: 1.4727rem; /* 23.6px — h2 (was 25px of Source Sans) */
+		--step-2-sans: 1.562rem; /* 25px — unchanged; the apparatus does not move */
 		--step-3: 1.7671rem; /* 28.3px — collection h1 */
 		--step-4: 1.885rem; /* 30.2px — h1 (was 32px of Source Sans) */
 		--step-5: 2.262rem; /* 36.2px — second-tier heads */

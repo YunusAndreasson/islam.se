@@ -76,10 +76,14 @@ const Title = titleElement;
 		color: inherit;
 	}
 
+	/* Apparatus, not editorial. This component is used on exactly two surfaces —
+	   /fordjupning/ and /svar/ — which are the reference half of the site, where
+	   the heading voice is Source Sans. It is a list of encyclopedia entries, not
+	   of essays. */
 	.text-row-title {
 		display: block;
 		margin: 0;
-		font-family: var(--font-display);
+		font-family: var(--font-heading);
 		color: var(--color-accent);
 	}
 
@@ -137,7 +141,7 @@ const Title = titleElement;
 	   620 from the global heading rule, a span falls to 400. Same class, same rank,
 	   two different looks. 620 matches .archive-title, the site's list-title weight. */
 	.text-row-list--media .text-row-title {
-		font-size: var(--text-row-title-size, var(--step-1));
+		font-size: var(--text-row-title-size, var(--step-1-sans));
 		font-weight: 620;
 	}
 
