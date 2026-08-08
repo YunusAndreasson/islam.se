@@ -88,31 +88,29 @@ const pages = {
 // the three curated axes that were footer-only (Ämnen, Trådar, Tänkare) come up
 // into the first.
 
-/** Tier 1 — ordered by the site's purpose, which is to PRESENT ISLAM.
+/** Tier 1 — three links, ordered by the site's purpose, which is to PRESENT ISLAM.
  *
- *  So the three surfaces that do that lead, shortest answer first:
  *    Pelare & tro   what Islam is — the five pillars and the six articles of faith
- *    Frågor & svar  64 sourced answers to the questions people actually search for
- *    Fördjupning    the nine encyclopedic pillar pages, 2 800–4 500 words each
- *  and the literary half follows:
- *    Essäer · Trådar
+ *    Frågor & svar  the reference half: 64 sourced answers, and the nine
+ *                   fördjupning pillar pages that sit above them
+ *    Essäer         the literary half
  *
- *  Fördjupning is promoted here from the footer. It is one of the site's three
- *  explanatory surfaces and it was reachable only from the footer and the palette,
- *  which put the deepest reference writing on the site below a reading device.
+ *  FÖRDJUPNING IS NOT A FOURTH ITEM. A pillar page and the short answers on its
+ *  topic are one thing seen at two depths — /svar/ links up to the pillar and the
+ *  pillar links back down to the answers — so listing both in the mast splits one
+ *  destination into two labels and makes the reader choose between them before
+ *  they know the difference. It stays in the footer and the palette.
  *
- *  Ämnen and Tänkare are deliberately NOT in the mast: they are ways THROUGH the
- *  essays, not ways into Islam, and they stay one click away in the footer and the
- *  palette — Ämnen additionally from every essay's eyebrow and the front page's
- *  departments, Tänkare from the Mötet axis at the foot of every essay. They are
- *  reached from the content that uses them rather than from a standing menu. */
-export const MAST_SECTION_LINKS: NavLink[] = [
-	pages.pillars,
-	pages.svar,
-	pages.fordjupning,
-	pages.essaer,
-	pages.tradar,
-];
+ *  Ämnen, Trådar and Tänkare are not here either: all three are ways THROUGH the
+ *  essays rather than ways into Islam. None loses its link — footer and palette
+ *  carry all three, Ämnen additionally from every essay's eyebrow and the front
+ *  page's departments, Tänkare from the Mötet axis at the foot of every essay,
+ *  Trådar from the front page and /essaer/. They are reached from the content that
+ *  uses them rather than from a standing menu.
+ *
+ *  Resist adding a fourth. The row was seven flat items and the whole point of the
+ *  second tier is that this one stays short enough to read at a glance. */
+export const MAST_SECTION_LINKS: NavLink[] = [pages.pillars, pages.svar, pages.essaer];
 
 /** Tier 2 — what it DOES for you. Errands, not reading. */
 export const MAST_UTILITY_LINKS: NavLink[] = [
