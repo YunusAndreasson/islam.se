@@ -53,9 +53,9 @@ const { mosques, cityLink = false } = Astro.props;
 	.mk-list-item {
 		padding: var(--space-unit) 0;
 		border-bottom: 1px solid var(--color-divider);
-		/* Clears the sticky mast, which is two tiers tall on a wide pointer. See the
-		   :target rule in typography.css — same reasoning, same fallback. */
-		scroll-margin-top: calc(var(--mast-height, 6.25rem) + 0.5rem);
+		/* Clears the sticky mast. See the :target rule in typography.css — same
+		   reasoning, same fallback. */
+		scroll-margin-top: calc(var(--mast-height, 5.5rem) + 0.5rem);
 	}
 
 	.mk-list-item:target {

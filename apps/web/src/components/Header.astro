@@ -35,11 +35,22 @@ const mastIsDay =
 <header class="site-header" transition:name="mast">
 	<nav class="site-nav" aria-label="Huvudnavigering">
 		<a class="site-home" href="/" aria-current={isHome ? "page" : undefined}><Wordmark /></a>
-		<ul class="site-links">
-			{MAST_SECTION_LINKS.map((l) => (
-				<li><a href={l.href} aria-current={here(l.href) ? "page" : undefined}>{l.label}</a></li>
-			))}
-		</ul>
+		{/* One row, two registers. The sections read at full strength; the utilities
+		    follow behind a hairline, a step smaller and a step down the text ramp.
+		    They were on a second row and it read as an afterthought — three centred
+		    labels above four pushed to the right corner. */}
+		<div class="site-links-wrap">
+			<ul class="site-links">
+				{MAST_SECTION_LINKS.map((l) => (
+					<li><a href={l.href} aria-current={here(l.href) ? "page" : undefined}>{l.label}</a></li>
+				))}
+			</ul>
+			<ul class="site-links site-links--util">
+				{MAST_UTILITY_LINKS.map((l) => (
+					<li><a href={l.href} aria-current={here(l.href) ? "page" : undefined}>{l.label}</a></li>
+				))}
+			</ul>
+		</div>
 		<div class="site-nav-end">
 			<a
 				class="bonetider-mast mast-prayer"
@@ -78,19 +89,6 @@ const mastIsDay =
 			<kbd class="search-trigger-kbd" aria-hidden="true"><span class="search-trigger-cmd">⌘</span>K</kbd>
 		</button>
 		</div>
-	</nav>
-
-	{/* Tier 2 — the utilities. A distinct <nav> with its own aria-label: two
-	    unlabelled navs in one document is an axe failure, and "Verktyg" is also the
-	    honest name for what these are. Hidden under exactly the same two conditions
-	    that hide tier 1 (touch / ≤900px), where the Meny trigger and the palette
-	    carry all ten destinations. */}
-	<nav class="site-rail" aria-label="Verktyg">
-		<ul class="site-rail-links">
-			{MAST_UTILITY_LINKS.map((l) => (
-				<li><a href={l.href} aria-current={here(l.href) ? "page" : undefined}>{l.label}</a></li>
-			))}
-		</ul>
 	</nav>
 </header>
 
