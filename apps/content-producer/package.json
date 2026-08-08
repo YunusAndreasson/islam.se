@@ -8,7 +8,7 @@
 		"produce": "./dist/index.js"
 	},
 	"scripts": {
-		"build": "tsc",
+		"build": "rm -rf dist && tsc",
 		"dev": "tsc --watch",
 		"produce": "node --no-warnings dist/index.js"
 	},

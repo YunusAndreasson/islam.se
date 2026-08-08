@@ -207,3 +207,15 @@ export {
 	searchVersesSemantic,
 	type VerseWithScore,
 } from "./quran/index.js";
+
+// ============================================================================
+// Models
+// ============================================================================
+
+export {
+	getModelId,
+	MODEL_MAP,
+	type ModelId,
+	type ModelTier,
+	type PipelineModelTier,
+} from "./models.js";

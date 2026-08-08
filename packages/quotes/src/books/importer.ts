@@ -15,6 +15,7 @@ import { readFileSync } from "node:fs";
 import { z } from "zod";
 import { generateLocalEmbedding, generateLocalEmbeddings } from "../embeddings/local.js";
 import { fetchText } from "../fetcher.js";
+import { MODEL_MAP } from "../models.js";
 import { type ChunkingOptions, chunkBook } from "./chunker.js";
 import {
 	type Book,
@@ -82,7 +83,7 @@ interface ClaudeRunResult {
 }
 
 async function runClaude(options: ClaudeRunOptions): Promise<ClaudeRunResult> {
-	const args = ["--print", "--model", options.model ?? "claude-opus-5"];
+	const args = ["--print", "--model", options.model ?? MODEL_MAP.opus];
 
 	if (options.effort) {
 		args.push("--effort", options.effort);
@@ -349,7 +350,7 @@ type BookSummary = z.infer<typeof BookSummarySchema>;
 // backfill makes. (Low effort only stays reliable because the literary-analyst
 // system prompt frames the JSON request as legitimate; a bare prompt can trip
 // the CLI's prompt-injection guard.)
-const SUMMARY_MODEL = "claude-sonnet-5";
+const SUMMARY_MODEL = MODEL_MAP.sonnet;
 const SUMMARY_EFFORT = "low" as const;
 
 /**
