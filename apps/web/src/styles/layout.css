@@ -688,13 +688,7 @@
 		padding: var(--padding-inline);
 		padding-left: var(--safe-left);
 		padding-right: var(--safe-right);
-		/* A column, not a row: the mast carries two tiers now — the sections above,
-		   the utilities on a quieter rail below. Block padding is trimmed from the
-		   full --padding-inline because two rows at the old value measured ~126px,
-		   a sixth of an 800px laptop viewport standing still above every page. */
 		display: grid;
-		padding-block: 0.9rem 0.7rem;
-		row-gap: 0.5rem;
 		position: sticky;
 		top: 0;
 		z-index: 10;
@@ -870,8 +864,18 @@
 	/* Inline links — the mast's standing destinations, centred in the middle track
    and vertically centred with the wordmark (align-items: center on both the grid
    and the list). */
-	.site-links {
+	/* The centre track: the sections, then the utilities behind a hairline. Two
+	   groups on ONE line — the utilities had their own row and it read as an
+	   afterthought rather than a rank (three centred labels above four shoved into
+	   the right corner). */
+	.site-links-wrap {
 		grid-column: 2;
+		display: flex;
+		align-items: center;
+		gap: clamp(0.9rem, 2vw, 1.6rem);
+	}
+
+	.site-links {
 		display: flex;
 		align-items: center;
 		justify-content: center;
@@ -879,6 +883,20 @@
 		margin: 0;
 		padding: 0;
 		list-style: none;
+	}
+
+	/* Quieter on three axes, none of them colour: one type step down, one weight
+	   down, one rank down the text ramp — plus the site's own structural device, a
+	   hairline, standing between the two groups. */
+	.site-links--util {
+		border-inline-start: 1px solid var(--color-divider);
+		padding-inline-start: clamp(0.9rem, 2vw, 1.6rem);
+	}
+
+	.site-links--util a {
+		font-size: var(--step--4);
+		font-weight: 400;
+		color: var(--color-muted);
 	}
 
 	.site-links a {
@@ -900,69 +918,21 @@
 		color: var(--color-accent);
 	}
 
-	/* TIER 2 — the utility rail.
-	   Quieter on three axes, none of them colour: one type step down, one weight
-	   down, and one rank down the text ramp. Right-packed under the trigger so the
-	   centred sections above stay the mast's optical centre.
-
-	   No rule between the tiers: .site-header::after already lays a fade under the
-	   whole mast, and a second line 20px above it reads as a double rule. */
-	.site-rail-links {
-		display: flex;
-		justify-content: flex-end;
-		gap: clamp(0.8rem, 1.8vw, 1.5rem);
-		margin: 0;
-		padding: 0;
-		list-style: none;
-	}
-
-	.site-rail-links a {
-		font-family: var(--font-heading);
-		font-size: var(--step--4);
-		font-weight: 400;
-		letter-spacing: 0.06em;
-		text-transform: uppercase;
-		color: var(--color-muted);
-		text-decoration: none;
-		transition: color 0.15s;
-	}
-
-	.site-rail-links a:hover,
-	.site-rail-links a[aria-current] {
-		color: var(--color-accent);
-	}
-
 	/* On touch / coarse pointers the trigger becomes "Meny" and the palette is the
    whole menu — so the inline links would duplicate it. Hide them there, and on
-   any viewport too narrow to carry the row comfortably (the palette still covers
-   them: ⌘K / "/" on a keyboard, the Meny button on touch).
-
-   BOTH tiers go together. PALETTE_TOOL_LINKS holds exactly the four utilities and
-   PALETTE_READ_LINKS the sections, so nothing loses its link at any width — and
-   the mast reverts to its one-row block padding so it is not left cramped. */
+   any viewport too narrow to carry the row comfortably. Nothing loses its link:
+   PALETTE_READ_LINKS carries the sections and PALETTE_TOOL_LINKS the utilities. */
 	@media (hover: none), (pointer: coarse) {
-		.site-links,
-		.site-rail {
+		.site-links-wrap {
 			display: none;
-		}
-
-		.site-header {
-			padding-block: var(--padding-inline);
-			row-gap: 0;
 		}
 	}
 
-	/* Too narrow to carry the wordmark + 6 links + trigger without crowding — drop
-   the inline links (⌘K / "/" still opens the palette on a keyboard). */
+	/* Too narrow to carry the wordmark + both groups + trigger without crowding —
+   drop them (⌘K / "/" still opens the palette on a keyboard). */
 	@media (width <= 900px) {
-		.site-links,
-		.site-rail {
+		.site-links-wrap {
 			display: none;
-		}
-
-		.site-header {
-			padding-block: var(--padding-inline);
-			row-gap: 0;
 		}
 	}
 

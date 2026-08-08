@@ -112,13 +112,16 @@ const pages = {
  *  second tier is that this one stays short enough to read at a glance. */
 export const MAST_SECTION_LINKS: NavLink[] = [pages.pillars, pages.svar, pages.essaer];
 
-/** Tier 2 — what it DOES for you. Errands, not reading. */
-export const MAST_UTILITY_LINKS: NavLink[] = [
-	pages.prayerTimes,
-	pages.mosques,
-	pages.app,
-	pages.podcast,
-];
+/** The utility group — what the site DOES for you. Errands, not reading. Same row
+ *  as the sections, set quieter and behind a hairline, so the mast reads as one
+ *  line with two registers rather than two rows of unequal length.
+ *
+ *  App is NOT here. The app IS prayer times — that is its whole first screen — and
+ *  <AppPromo> already runs on /bonetider/, on all 2 118 city pages and on
+ *  /bonetider/metod/. A standing mast link sent the reader to a promo page for
+ *  something the page they were already on offers them. It keeps its page, its
+ *  palette entry and those promos. */
+export const MAST_UTILITY_LINKS: NavLink[] = [pages.prayerTimes, pages.mosques, pages.podcast];
 
 export const PALETTE_READ_LINKS: PaletteNavLink[] = [
 	{ href: pages.pillars.href, label: pages.pillars.label, sub: pages.pillars.menuSub },
