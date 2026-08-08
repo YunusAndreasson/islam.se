@@ -26,6 +26,12 @@ const pages = {
 		sub: "Frågor och svar: källbelagda svar på vanliga frågor om islam – tro, dyrkan, mat och familj.",
 	},
 	essaer: { href: "/essaer/", label: "Essäer", sub: "Hela arkivet, ordnat efter ämne." },
+	fordjupning: {
+		href: "/fordjupning/",
+		label: "Fördjupning",
+		menuSub: "Omdiskuterade ämnen tagna hela vägen.",
+		sub: "Fördjupning: källorna, historien och det svenska rättsläget, ämne för ämne.",
+	},
 	tradar: { href: "/tradar/", label: "Trådar", sub: "Utvalda läsningar genom essäerna." },
 	tankare: { href: "/tankare/", label: "Tänkare", sub: "De röster essäerna återvänder till." },
 	calendar: {
@@ -60,8 +66,9 @@ const pages = {
 	},
 	about: { href: "/om/", label: "Om", sub: "Om idén bakom islam.se." },
 	editorial: { href: "/om/redaktion/", label: "Redaktion" },
-	ai: { href: "/ai/", label: "AI", sub: "Koppla hela arkivet till din AI-assistent." },
+	ai: { href: "/ai/", label: "Läs med AI", sub: "Koppla hela arkivet till din AI-assistent." },
 	corrections: { href: "/ratta/", label: "Föreslå en rättelse" },
+	privacy: { href: "/integritetspolicy/", label: "Integritetspolicy" },
 } as const;
 
 export const PRIMARY_NAV_LINKS: NavLink[] = [
@@ -77,6 +84,11 @@ export const PRIMARY_NAV_LINKS: NavLink[] = [
 export const PALETTE_READ_LINKS: PaletteNavLink[] = [
 	{ href: pages.pillars.href, label: pages.pillars.label, sub: pages.pillars.menuSub },
 	{ href: pages.svar.href, label: pages.svar.label, sub: pages.svar.menuSub },
+	{
+		href: pages.fordjupning.href,
+		label: pages.fordjupning.label,
+		sub: pages.fordjupning.menuSub,
+	},
 	pages.essaer,
 ];
 
@@ -93,21 +105,25 @@ export const PALETTE_MINOR_LINKS: NavLink[] = [
 	pages.editorial,
 	pages.ai,
 	pages.corrections,
+	pages.privacy,
 ];
 
 export const FOOTER_LINKS: NavLink[] = [
+	pages.fordjupning,
 	pages.tradar,
 	pages.tankare,
 	{ href: pages.calendar.href, label: pages.calendar.footerLabel },
 	pages.about,
 	pages.editorial,
 	pages.ai,
+	pages.privacy,
 ];
 
 export const STANDING_PALETTE_PAGES: PalettePageLink[] = [
 	pages.essaer,
 	pages.pillars,
 	pages.svar,
+	pages.fordjupning,
 	pages.tradar,
 	pages.tankare,
 	pages.calendar,

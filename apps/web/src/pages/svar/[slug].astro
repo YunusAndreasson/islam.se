@@ -9,8 +9,10 @@ import Rattelse from "../../components/Rattelse.astro";
 import SectionLink from "../../components/SectionLink.astro";
 import Base from "../../layouts/Base.astro";
 import { getArticles } from "../../lib/articles";
+import { requireBySlug } from "../../lib/content-refs";
 import { FAKTA_ART, FAKTA_CLUSTERS, FAKTA_IMAGE_BY_SVAR, FAKTA_SLUGS } from "../../lib/fakta";
 import { SVAR_CATEGORIES } from "../../lib/svar";
+import { pillarBySvar } from "../../lib/svar-fordjupning";
 import { ORG_ID, WEBSITE_ID, breadcrumbList, faqPageJsonLd } from "../../lib/jsonld";
 import { PAGE_HERO_SIZES, PAGE_HERO_WIDTHS } from "../../lib/hero";
 
@@ -18,38 +20,37 @@ export async function getStaticPaths() {
 	const entries = await getCollection("svar");
 	const bySlug = new Map(entries.map((e) => [e.id, e]));
 	const essayBySlug = new Map((await getArticles()).map((a) => [a.slug, a]));
-	// Reverse index of the pillar pages: whichever /fordjupning/ page lists this answer in
-	// its `related` is this answer's fördjupning. Derived rather than declared on both
-	// sides, so the pair can never drift apart.
-	const pillarBySvar = new Map<string, { slug: string; term: string }>();
-	for (const u of await getCollection("fordjupning")) {
-		for (const svarSlug of u.data.related) {
-			if (!pillarBySvar.has(svarSlug)) {
-				pillarBySvar.set(svarSlug, { slug: u.id, term: u.data.term });
-			}
-		}
-	}
+	// Reverse index of the pillar pages: whichever /fordjupning/ page ranks this answer
+	// highest in its `related` is this answer's fördjupning. Derived rather than declared
+	// on both sides, so the pair can never drift apart.
+	const pillars = pillarBySvar(
+		(await getCollection("fordjupning")).map((u) => ({
+			id: u.id,
+			term: u.data.term,
+			related: u.data.related,
+		})),
+	);
 	return entries.map((entry) => ({
 		params: { slug: entry.id },
 		props: {
 			entry,
-			pillar: pillarBySvar.get(entry.id) ?? null,
-			related: (entry.data.related ?? [])
-				.map((id) => bySlug.get(id))
-				.filter((e): e is NonNullable<typeof e> => Boolean(e)),
+			pillar: pillars.get(entry.id) ?? null,
+			// A stale `related` slug used to be dropped silently. That is the one place
+			// this page under-guarded compared to its `essays` field and to fördjupning's
+			// own `related` — a reader-facing link should fail the build, not vanish.
+			related: requireBySlug(bySlug, entry.data.related ?? [], {
+				sourceFile: `svar/${entry.id}.md`,
+				field: "related",
+				dataDir: "data/svar/",
+			}),
 			// Curated cross-silo links into the essay corpus. A stale slug fails the
 			// build (we never want a dead "Läs vidare" link), the same guarantee the
 			// tänkare/tråd derivations give.
-			essays: (entry.data.essays ?? []).map((slug) => {
-				const essay = essayBySlug.get(slug);
-				if (!essay) {
-					throw new Error(
-						`svar/${entry.id}.md: \`essays\` references unknown essay slug "${slug}". ` +
-							"Use a slug from data/articles/ (the filename without .md).",
-					);
-				}
-				return { slug: essay.slug, title: essay.title };
-			}),
+			essays: requireBySlug(essayBySlug, entry.data.essays ?? [], {
+				sourceFile: `svar/${entry.id}.md`,
+				field: "essays",
+				dataDir: "data/articles/",
+			}).map((essay) => ({ slug: essay.slug, title: essay.title })),
 		},
 	}));
 }

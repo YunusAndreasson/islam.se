@@ -1,9 +1,9 @@
 ---
 title: "Abort i islam: 120-dagarsgränsen och svensk abortlag"
 term: "Abort"
-description: "Islamisk rätt har i tolv sekler bedömt fostret på en tidsaxel med markerade steg. Svensk rätt bedömer det på en annan. Den klassiska gränsen ligger strax utanför den svenska, och premisserna går inte att förena. Sidan följer båda från källtext till gällande svensk lag."
+description: "Islamisk rätt har i tolv sekler bedömt fostret på en tidsaxel med utsatta steg: fyrtio dagar, åttio, hundratjugo. Svensk rätt räknar i veckor och drar sin gräns vid den artonde. Linjerna löper tätt intill varandra utan att mötas, för de mäter inte samma sak."
 seoDescription: "Vad Koranen, haditherna och de fyra rättsskolorna säger om abort, och hur det förhåller sig till abortlagen 1974:595 och gränsen vid vecka 18."
-blurb: "Besjälningen vid 120 dagar, ghurra-boten och gränsen vid vecka 18"
+blurb: "Den klassiska gränsen går vid dagen själen blåses in. Den svenska vid vecka 18"
 publishedAt: "2026-08-01T00:00:00Z"
 keywords:
   - "abort i islam"
@@ -95,6 +95,7 @@ essays:
   - "skapad-ur-ingenting"
   - "plantan-vid-stunden"
   - "lagen-ingen-skrev"
+imageAlt: "Kvinna i sjal vid ett köksbord med en obruten anteckningsbok och en kall kopp, framför ett fönster mot kala vinterträd"
 ---
 
 **Abort** är ett avsiktligt avbrytande av en graviditet, till skillnad från missfall, som inträffar utan ingrepp. I den islamiska rättstraditionen behandlas frågan under termerna *ijhād* och *isqāt*, och den har aldrig besvarats med ett enkelt ja eller nej. Svaret beror på hur långt graviditeten har gått. De klassiska juristerna delade fosterutvecklingen i stadier och band den avgörande rättsverkan till en enda tidpunkt: den stund då själen blåses in i fostret, *nafkh al-rūh*.

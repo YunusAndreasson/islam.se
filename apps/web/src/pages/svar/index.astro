@@ -2,13 +2,15 @@
 import { Search } from "@lucide/astro";
 import { getCollection } from "astro:content";
 import CollectionIndexPage from "../../components/CollectionIndexPage.astro";
+import EssayImage from "../../components/EssayImage.astro";
 import SectionLink from "../../components/SectionLink.astro";
 import TextRowList from "../../components/TextRowList.astro";
 import TitledSection from "../../components/TitledSection.astro";
-import { resolveHero } from "../../lib/fordjupning";
+import { FAKTA_SVAR_ORDER } from "../../lib/fakta";
+import { getSortedFordjupning, resolveHero } from "../../lib/fordjupning";
+import { CARD_WIDTHS } from "../../lib/hero";
 import { breadcrumbList, collectionPageJsonLd } from "../../lib/jsonld";
 import { groupSvar, svarSearchTerms } from "../../lib/svar";
-import { CHIP_WIDTHS } from "../../lib/hero";
 
 // FRÅGOR & SVAR — the full, browsable question list. `groupSvar` arranges the
 // corpus into themed sections and drops the cornerstone Five Pillars + six Articles
@@ -16,36 +18,58 @@ import { CHIP_WIDTHS } from "../../lib/hero";
 // hub never duplicate each other. A category jump-nav lets a reader go straight
 // to a theme, and an observer marks which one they are currently in.
 const entries = await getCollection("svar");
-// The long reference articles. They live at /fordjupning/ but are surfaced here,
-// above the questions: a reader who comes looking for a topic rather than a single
-// question should meet the full treatment first. No mast entry of their own until the
-// set is large enough to carry an index page.
-const allaFordjupningar = (await getCollection("fordjupning")).sort((a, b) =>
-	a.data.term.localeCompare(b.data.term, "sv"),
+const bySlug = new Map(entries.map((e) => [e.id, e]));
+
+// The long reference articles. /svar/ is their only door — /fordjupning/ has no mast
+// entry of its own — so all nine are reachable from here, but in the shape Essäer
+// already uses for a set of things with pictures: up to three cards in the same
+// auto-fill grid, then the rest as text (`essaer.astro` does exactly this per ämne).
+//
+// ⚠️ Three cards, not nine. The art is dark and atmospheric and turns to mud at
+// thumbnail size, so the cards have to stay wide — and nine of them is most of a
+// screen standing between the reader and the questions this page exists for.
+const fordjupningar = await Promise.all(
+	(await getSortedFordjupning()).map(async (entry) => ({ entry, hero: await resolveHero(entry) })),
 );
-// ⚠️ Capped. This type is heading for ~30 topics, and listing them all here would push
-// the 50+ questions this page exists for below the fold. The band is a taster with a way
-// through to the full index, not a second index.
-const FORDJUPNING_BAND_MAX = 6;
-const fordjupning = await Promise.all(
-	allaFordjupningar.slice(0, FORDJUPNING_BAND_MAX).map(async (entry) => ({
-		entry,
-		hero: await resolveHero(entry),
-	})),
-);
-const fordjupningRows = fordjupning.map(({ entry: f, hero }) => ({
-	href: `/fordjupning/${f.id}/`,
-	title: f.data.term,
-	description: f.data.blurb ?? f.data.seoDescription ?? f.data.description,
-	image: hero && {
-		src: hero.src,
-		article: hero.article,
-		widths: CHIP_WIDTHS,
-		sizes: "120px",
-	},
-}));
+// Named, not sliced off the alphabetical list: the first three by letter are Abort,
+// Döden and Griskött — a macabre trio by accident, and the first thing a reader meets.
+// These are the everyday ones with the broadest reach: fasting, dress, food.
+const PELAR_KORT = ["ramadan", "hijab", "halal"];
+const pelarKort = PELAR_KORT.map((id) => {
+	const found = fordjupningar.find((f) => f.entry.id === id);
+	if (!found) {
+		throw new Error(
+			`svar/index.astro: PELAR_KORT names "${id}", which is not a page in data/fordjupning/. ` +
+				"Use a filename without .md, or drop it from the list.",
+		);
+	}
+	return found;
+});
+const pelarRest = fordjupningar.filter((f) => !PELAR_KORT.includes(f.entry.id));
+
+// The cornerstone answers, kept OUT of the browsable list (the hub owns their art and
+// their sequence) but rendered as rows the on-page filter can reach. "vad är ramadan"
+// is the most ordinary thing a reader can type into a page called Frågor & svar, and
+// before this it matched nothing: `ödet` returned 0 rows, `vallfärd` and `zakat` 1 each.
+const grunderna = FAKTA_SVAR_ORDER.map((slug) => bySlug.get(slug)).filter((e) => e !== undefined);
+
 const groups = groupSvar(entries);
 const listed = groups.flatMap((g) => g.entries);
+const searchable = listed.length + grunderna.length;
+
+const svarRows = (items: typeof listed) =>
+	items.map((e) => ({
+		href: `/svar/${e.id}/`,
+		// Title only. It already carries the question AND its short answer ("Vad är
+		// tawhid? Guds enhet, namn och egenskaper"); `description` is the meta tag
+		// Google prints, 163 chars of it, and 51 of those made the list a river.
+		// ⚠️ It moves into `data-terms` — see svarSearchTerms.
+		title: e.data.title,
+		attrs: {
+			"data-svar-item": "",
+			"data-terms": svarSearchTerms(e) || undefined,
+		},
+	}));
 
 const description =
 	"Tydliga, källbelagda svar på vanliga frågor om islam – tro, dyrkan, mat, familj, samhälle och historia. Grundade i Koranen och klassisk sunnitisk lärdom.";
@@ -72,23 +96,22 @@ const description =
 >
 	<span slot="lead">
 		Källbelagda svar på vanliga frågor om islam, från tro och dyrkan till mat, familj, samhälle
-		och historia. Vill du i stället ha grunderna förklarade, finns{" "}
-		<a href="/vad-ar-islam/">de fem pelarna och trosartiklarna</a>. För fördjupade rättsliga
-		frågor finns <a href="https://al-ibadah.com" rel="noopener">al-ibadah.com</a>.
+		och historia. Grunderna – de fem pelarna och de sex trosartiklarna – står med bild och
+		sammanhang på <a href="/vad-ar-islam/">Pelare &amp; tro</a>, och svarar även här på en sökning.
 	</span>
 
 
 		{groups.length > 0 ? (
 			<>
 				{/* Narrows this page only; ⌘K still searches the whole site. */}
-				<search><form class="svar-search field" data-total={listed.length}>
+				<search><form class="svar-search field">
 					<Search class="svar-search-icon" size={18} stroke-width={1.75} />
 					<input
 						class="svar-search-input"
 						id="svar-q"
 						type="search"
 						name="q"
-						placeholder={`Sök bland ${listed.length} frågor …`}
+						placeholder={`Sök bland ${searchable} frågor …`}
 						aria-label="Sök bland frågorna på denna sida"
 						aria-controls="svar-results"
 						autocomplete="off"
@@ -100,6 +123,43 @@ const description =
 				</form></search>
 				<p class="svar-search-status label" role="status"></p>
 
+				{fordjupningar.length > 0 && (
+					<section class="svar-pelare" aria-labelledby="svar-pelare-rubrik">
+						<h2 class="label svar-pelare-label" id="svar-pelare-rubrik">Hela ämnet</h2>
+						{/* The same card as Essäer's, class for class — see styles/layout.css. */}
+						<ul class="essay-cards svar-pelare-cards">
+							{pelarKort.map(({ entry: f, hero }) => (
+								<li class="archive-item essay-card">
+									<a href={`/fordjupning/${f.id}/`}>
+										{hero && (
+											<div class="essay-card-media media-frame">
+												<EssayImage
+													src={hero.src}
+													article={hero.article}
+													alt=""
+													widths={CARD_WIDTHS}
+													sizes="(max-width: 600px) 100vw, 20rem"
+												/>
+											</div>
+										)}
+										<span class="archive-title essay-card-title">{f.data.term}</span>
+										<p class="archive-description essay-card-desc">
+											{f.data.blurb ?? f.data.seoDescription}
+										</p>
+									</a>
+								</li>
+							))}
+						</ul>
+						{pelarRest.length > 0 && (
+							<p class="svar-pelare-alla">
+								<SectionLink href="/fordjupning/">
+									Alla {fordjupningar.length} fördjupningar
+								</SectionLink>
+							</p>
+						)}
+					</section>
+				)}
+
 				<nav class="svar-nav" aria-label="Kategorier">
 					<ul>
 						{groups.map((g) => (
@@ -110,31 +170,30 @@ const description =
 					</ul>
 				</nav>
 
-		{fordjupning.length > 0 && (
-			<TitledSection
-				class="svar-fordjupningar"
-				id="svar-fordjupningar-rubrik"
-				title="Fördjupningar"
-				titleClass="label"
-			>
-				<TextRowList
-					class="svar-fordjupningar-list"
-					style="--text-row-title-size: var(--step-0); --text-row-desc-margin: 0.2rem"
-					items={fordjupningRows}
-					titleElement="span"
-				/>
-				{allaFordjupningar.length > FORDJUPNING_BAND_MAX && (
-					<p class="svar-fordjupningar-alla">
-						<SectionLink href="/fordjupning/">
-							Alla {allaFordjupningar.length} fördjupningar
-						</SectionLink>
-					</p>
-				)}
-			</TitledSection>
-		)}
-
-
 				<div id="svar-results">
+					{/* Search-only: no chip points here, and the script re-hides it the
+					    moment the query is cleared. */}
+					{grunderna.length > 0 && (
+						<TitledSection
+							class="svar-section"
+							id="sc-grunderna"
+							sectionId="grunderna"
+							title="Grunderna"
+							data-search-only
+							hidden
+						>
+							<p class="lead svar-section-intro">
+								De fem pelarna och de sex trosartiklarna, med bild och sammanhang på{" "}
+								<a href="/vad-ar-islam/">Pelare &amp; tro</a>.
+							</p>
+							<TextRowList
+								class="svar-list"
+								variant="question"
+								items={svarRows(grunderna)}
+							/>
+						</TitledSection>
+					)}
+
 					{groups.map((g) => (
 						<TitledSection
 							class="svar-section"
@@ -146,15 +205,7 @@ const description =
 							<TextRowList
 								class="svar-list"
 								variant="question"
-								items={g.entries.map((e) => ({
-									href: `/svar/${e.id}/`,
-									title: e.data.title,
-									description: e.data.description,
-									attrs: {
-										"data-svar-item": "",
-										"data-terms": svarSearchTerms(e) || undefined,
-									},
-								}))}
+								items={svarRows(g.entries)}
 							/>
 						</TitledSection>
 					))}
@@ -175,9 +226,9 @@ const description =
 	import { closeEnough, fold } from "../../lib/search-text";
 
 	// On-page filter. The haystack is read out of the DOM once (no index to fetch);
-	// `data-terms` adds only the synonyms the page doesn't print. AND over tokens,
-	// both sides folded. No debounce — one pass over 51 rows is microseconds.
-	// A query with no exact hit is retried loosely (`closeEnough`).
+	// `data-terms` carries everything the row doesn't print, description included.
+	// AND over tokens, both sides folded. No debounce — one pass over 63 rows is
+	// microseconds. A query with no exact hit is retried loosely (`closeEnough`).
 	function bindSvarSearch() {
 		const form = document.querySelector<HTMLFormElement>(".svar-search");
 		const input = document.querySelector<HTMLInputElement>("#svar-q");
@@ -198,6 +249,13 @@ const description =
 			}),
 		);
 		const sections = Array.from(document.querySelectorAll<HTMLElement>(".svar-section"));
+		// The fördjupning band sits between the field and the results. At 390px its
+		// three cards stack to most of a screen, so a reader who types sees nothing
+		// change without scrolling. It is a browsing affordance, not a result.
+		const pelare = document.querySelector<HTMLElement>(".svar-pelare");
+		// Same reasoning for the category framing sentences: they tell a browser what
+		// a section holds, and only push the hits further down for a searcher.
+		const intros = Array.from(document.querySelectorAll<HTMLElement>(".svar-section-intro"));
 		// Paired up front so the per-keystroke loop needs no lookups.
 		const chips = Array.from(document.querySelectorAll<HTMLElement>("[data-cat-item]")).map(
 			(el) => ({ el, section: document.getElementById(el.dataset.catItem ?? "") }),
@@ -241,10 +299,22 @@ const description =
 
 			// Empty sections and their chips go too.
 			const filtering = tokens.length > 0;
-			for (const section of sections) section.hidden = filtering && !live.has(section);
+			for (const section of sections) {
+				// ⚠️ The search-only section (Grunderna) needs the inverted test, not the
+				// same one. With no query `tokens.every(...)` is vacuously true for every
+				// row, so `live` holds EVERY section — `!live.has(section)` alone would
+				// leave the cornerstone rows on screen at rest, which is the one state
+				// they must never be in.
+				section.hidden =
+					section.dataset.searchOnly !== undefined
+						? !filtering || !live.has(section)
+						: filtering && !live.has(section);
+			}
 			for (const chip of chips) {
 				chip.el.hidden = filtering && !(chip.section && live.has(chip.section));
 			}
+			if (pelare) pelare.hidden = filtering;
+			for (const intro of intros) intro.hidden = filtering;
 
 			clear.hidden = !query;
 			empty.hidden = !query || hits > 0;
@@ -442,13 +512,76 @@ const description =
 		&:focus-visible { border-radius: var(--radius-xs); }
 	}
 
-	/* Category jump-nav: a wrapping pill row (no horizontal scroll), borrowed from
-	   Essäer's filter row so the two index pages divide their content the same way. */
+	/* The nine long-form topics as one line of terms. Deliberately NOT one of the
+	   global list primitives: both HairlineLinkList and DiamondList stack vertically,
+	   so nine of either would be ~22rem of rows — more chrome than the three image
+	   cards this replaced, not less. */
+	/* The long-form topics. No rules around the band — the photographs already mark it
+	   off as a different kind of thing. */
+	.svar-pelare {
+		margin: 0 0 var(--space-unit);
+	}
+
+	.svar-pelare-label {
+		color: var(--color-muted);
+		margin: 0 0 var(--space-half);
+		font-size: var(--step--1);
+	}
+
+	/* Only the band's own rhythm is local — the cards themselves are the global
+	   `.essay-cards` / `.essay-card*` from styles/layout.css. */
+	.svar-pelare-cards {
+		margin-bottom: 0;
+	}
+
+	.svar-pelare-alla {
+		margin: var(--space-unit) 0 0;
+	}
+
+	/* Category jump-nav: a wrapping pill row borrowed from Essäer's filter row so the
+	   two index pages divide their content the same way — but sticky here, because
+	   this page is nine sections deep and the row is its table of contents.
+	   (A sticky section nav was turned down once as too much chrome, against a list
+	   half this many sections that had no way back to the top.) */
 	.svar-nav {
+		/* Published by Header.astro; the fallback is one line of mast plus padding. */
+		--top: var(--mast-height, 4.5rem);
+		position: sticky;
+		top: var(--top);
+		/* Under the mast (z-index 10), over the rows. */
+		z-index: 9;
+		background: var(--color-bg);
 		/* Top gap is owned by .page-head's margin-bottom (shared by every section
 		   page); the nav only sets its space down to the first category. */
 		margin: 0 0 var(--space-unit);
+		padding-block: 0.55rem;
+
+		/* No rule at rest — a hairline here sat a few pixels under the one closing
+		   the fördjupning row and read as a double line. This is the mast's own
+		   under-shade instead: it says "content is passing underneath" only while
+		   that is actually true. */
+		&::after {
+			content: "";
+			position: absolute;
+			inset: 100% 0 auto;
+			height: 1.25rem;
+			background: linear-gradient(to bottom, var(--color-bg), transparent);
+			pointer-events: none;
+			opacity: 0;
+			transition: opacity 0.2s ease;
+		}
 	}
+
+	:global(html.page-scrolled) .svar-nav::after {
+		opacity: 1;
+	}
+
+	/* The mast slides away on scroll-down, so the row would otherwise pin below a
+	   strip of nothing. */
+	:global(html.mast-hidden) .svar-nav {
+		--top: 0px;
+	}
+
 	.svar-nav ul {
 		display: flex;
 		flex-wrap: wrap;
@@ -457,15 +590,31 @@ const description =
 		padding: 0;
 		list-style: none;
 	}
+
+	/* Phones: eight chips wrap to three rows, and three sticky rows eat a quarter of
+	   the viewport. One scrolling row instead — the no-horizontal-scroll rule this
+	   reverses was written for a row that stood still. */
+	@media (width <= 34rem) {
+		.svar-nav ul {
+			flex-wrap: nowrap;
+			overflow-x: auto;
+			scrollbar-width: none;
+			scroll-snap-type: x proximity;
+		}
+		.svar-nav li {
+			flex: 0 0 auto;
+			scroll-snap-align: start;
+		}
+	}
+
 	/* The pill itself is the shared global `.filter-chip` (+ `.label`), identical to
 	   Essäer's filter row. */
 
 	.svar-section {
 		margin-top: var(--space-phi);
-		/* Clears the sticky mast, so an anchor jump doesn't drop the heading
-		   underneath it. (The category nav itself is not sticky — a sticky
-		   section nav was considered and turned down as too much chrome.) */
-		scroll-margin-top: 5rem;
+		/* Clears the mast AND the sticky category row, so an anchor jump doesn't drop
+		   the heading underneath either. */
+		scroll-margin-top: calc(var(--mast-height, 4.5rem) + 4rem);
 	}
 	.svar-section h2 {
 		font-size: var(--step-1);
@@ -478,23 +627,29 @@ const description =
 
 	.svar-list {
 		--text-row-list-margin: var(--space-unit) 0 0;
+		/* A hairline under all 63 rows read as a ledger; the rows are one line each
+		   and hold together on spacing alone. */
+		--text-row-question-separator: 0;
+		--text-row-question-padding: 0.4rem;
 	}
 
-	/* The fördjupning band: the long reference articles, set above the question list.
-	   Deliberately a different shape from the question rows below — a bordered band with
-	   a term and a line of framing — so the reader sees two kinds of thing, not a
-	   longer list of the same thing. */
-	.svar-fordjupningar {
-		margin-top: var(--space-unit);
-		padding-block: var(--space-unit);
-		border-block: 1px solid var(--color-rule);
+	/* Two columns once there is room — the same grid the essay archive uses
+	   (layout.css `.home .archive-list`), so the two indexes read as one system.
+	   The rows are a single line each now, so a section is scannable at a glance.
+	   ⚠️ Bare class, not `.svar-index .svar-list`: `.svar-index` arrives through
+	   CollectionIndexPage's `mainClass` and carries THAT component's scope id, so a
+	   descendant selector written from here silently matches nothing. */
+	.svar-list {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(min(100%, 24rem), 1fr));
+		column-gap: clamp(1.75rem, 4vw, 3.5rem);
 	}
 
-	.svar-fordjupningar h2 {
-		margin: 0 0 var(--space-half);
-	}
-
-	.svar-fordjupningar-alla {
-		margin: var(--space-unit) 0 0;
+	/* Without a hairline between rows the padding is the whole tap target; a
+	   one-line row lands at 40px, under the site's 44px thumb target. */
+	@media (hover: none), (pointer: coarse) {
+		.svar-list {
+			--text-row-question-padding: 0.7rem;
+		}
 	}
 </style>

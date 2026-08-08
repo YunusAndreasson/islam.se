@@ -1,5 +1,5 @@
 ---
-title: "Vad är islams syn på kvinnan? Jämlik men inte identisk"
+title: "Vad är islams syn på kvinnan? Jämlike inför Gud"
 question: "Vad är islams syn på kvinnan?"
 description: "Islam kallar kvinnan mannens jämlike inför Gud – ändå skiljer sig rollerna. Vad Koranen faktiskt ger henne i arv, egendom, kunskap och äktenskap, och varför."
 publishedAt: "2026-06-20T00:00:00Z"

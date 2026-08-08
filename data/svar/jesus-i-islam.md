@@ -1,5 +1,5 @@
 ---
-title: "Vad säger islam om Jesus (Isa)? Profet, inte Gud"
+title: "Vad säger islam om Jesus (Isa)? En av Guds sändebud"
 question: "Vad säger islam om Jesus (Isa)?"
 description: "Islam vördar Jesus som en av sina största profeter – men förnekar både korsfästelsen och att han var Guds son. Vad lär Koranen och sunna egentligen om Isa?"
 publishedAt: "2026-06-20T00:00:00Z"

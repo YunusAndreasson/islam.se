@@ -7,6 +7,7 @@ import { getArticles } from "../lib/articles";
 import { ORG_ID, breadcrumbList } from "../lib/jsonld";
 
 const articles = await getArticles();
+const year = new Date().getFullYear();
 ---
 
 <ArticlePage
@@ -52,7 +53,7 @@ const articles = await getArticles();
 
 		<footer class="about-colophon">
 			<p class="colophon-names"><a href="https://bilal.se">Bilal</a> och <a href="https://andreassonphoto.com">Yunus</a></p>
-			<p class="colophon-place">Sverige, 2026</p>
+			<p class="colophon-place">Sverige, {year}</p>
 			<p class="colophon-link"><SectionLink class="colophon-section-link" href="/om/redaktion/">Så skrivs essäerna</SectionLink></p>
 		</footer>
 </ArticlePage>

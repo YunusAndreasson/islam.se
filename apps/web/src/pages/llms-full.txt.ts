@@ -1,5 +1,5 @@
 import type { APIContext } from "astro";
-import { getArticles } from "../lib/articles";
+import { articleBody, getArticles } from "../lib/articles";
 
 // llms-full.txt — the entire essay corpus as one markdown document. Anthropic
 // (Claude) and Perplexity fetch llms.txt-family files; this hands them every
@@ -10,7 +10,7 @@ export async function GET(context: APIContext) {
 	const articles = await getArticles();
 
 	const essays = articles.map((a) => {
-		const body = ((a.entry as { body?: string }).body ?? "").trim();
+		const body = articleBody(a).trim();
 		const meta = [`Källa: ${site}/${a.slug}`, `Publicerad ${a.publishedAt.slice(0, 10)}`];
 		if (a.updatedAt) meta.push(`Uppdaterad ${a.updatedAt.slice(0, 10)}`);
 		return `# ${a.title}\n\n> ${a.description}\n\n*${meta.join(" · ")}*\n\n${body}`;

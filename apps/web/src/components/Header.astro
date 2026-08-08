@@ -102,27 +102,52 @@ const mastIsDay =
 		let lastY = window.scrollY;
 		let upDist = 0;
 		const threshold = 10;
-		header.classList.toggle("is-scrolled", lastY > 4);
+		// The under-header fade shade only makes sense once content actually passes
+		// underneath. Mirrored onto <html> for anything else that sticks (the category
+		// row on /svar/ shades itself the same way).
+		const setScrolled = (on: boolean) => {
+			header.classList.toggle("is-scrolled", on);
+			document.documentElement.classList.toggle("page-scrolled", on);
+		};
+		setScrolled(lastY > 4);
+		// Mirrored onto <html> because the mast is a sibling of every page's content:
+		// an element that sticks BELOW the mast (the category row on /svar/) has no CSS
+		// route to the mast's own class. Inert on every page that ignores it.
+		const setHidden = (on: boolean) => {
+			header.classList.toggle("header-hidden", on);
+			document.documentElement.classList.toggle("mast-hidden", on);
+		};
+		setHidden(false);
+		// The mast's padding is fluid, so its height is not a number a stylesheet can
+		// state. Anything that sticks below it reads this instead of guessing.
+		const publishHeight = () =>
+			document.documentElement.style.setProperty(
+				"--mast-height",
+				`${(header as HTMLElement).offsetHeight}px`,
+			);
+		publishHeight();
+		window.addEventListener("resize", publishHeight, {
+			passive: true,
+			signal: scrollCtrl.signal,
+		});
 		window.addEventListener(
 			"scroll",
 			() => {
 				const y = window.scrollY;
 				const dy = y - lastY;
-				// The under-header fade shade only makes sense once content
-				// actually passes underneath.
-				header.classList.toggle("is-scrolled", y > 4);
+				setScrolled(y > 4);
 				if (y < threshold) {
 					upDist = 0;
-					header.classList.remove("header-hidden");
+					setHidden(false);
 				} else if (dy > 0) {
 					upDist = 0;
 					// Don't hide until the mast has fully scrolled past itself.
-					if (y > (header as HTMLElement).offsetHeight) header.classList.add("header-hidden");
+					if (y > (header as HTMLElement).offsetHeight) setHidden(true);
 				} else if (dy < 0) {
 					// Accumulate slow upward panning across events — a single-event
 					// delta never reaches the threshold on smooth touch scrolling.
 					upDist -= dy;
-					if (upDist > threshold) header.classList.remove("header-hidden");
+					if (upDist > threshold) setHidden(false);
 				}
 				lastY = y;
 			},
@@ -131,7 +156,7 @@ const mastIsDay =
 
 		// A hidden mast still holds focusable controls — reveal it the moment
 		// keyboard focus lands inside so focus is never on an invisible element.
-		header.addEventListener("focusin", () => header.classList.remove("header-hidden"), {
+		header.addEventListener("focusin", () => setHidden(false), {
 			signal: scrollCtrl.signal,
 		});
 	}

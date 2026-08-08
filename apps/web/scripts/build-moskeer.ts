@@ -27,7 +27,11 @@ import { readFile, writeFile } from "node:fs/promises";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { PLACES, type SwedishPlace } from "../src/lib/bonetider/places";
-import { INDEXED_PLACES, type IndexedPlace } from "../src/lib/bonetider/places-index";
+import {
+	INDEXED_PLACES,
+	type IndexedPlace,
+	officialPopulation,
+} from "../src/lib/bonetider/places-index";
 import { slugify } from "../src/lib/bonetider/slug";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -133,27 +137,66 @@ function nearestPlace(lat: number, lng: number): IndexedPlace {
 	return best;
 }
 
+/** A named locality further than this from the mosque is a same-name place elsewhere in
+ *  Sweden ("Berg", "Viken", "Ås"), not the one this address means. */
+const ADDRESS_MATCH_MAX_KM = 25;
+
+/** A named locality below this is a hamlet or parish, not a place a reader searches for.
+ *  Slaka (573) must lose to Linköping; Angered (1 528) must beat Göteborg. */
+const ADDRESS_MATCH_MIN_POPULATION = 1000;
+
 /** Prefer an explicitly named locality in the address over the geometrically nearest
- *  prayer-times place. The nearest point can be a neighbouring district or locality
- *  (for example Håga for an address explicitly in Uppsala), which is unsuitable for
- *  the user-facing mosque city pages. The last matching address component is normally
- *  the postal town, after any neighbourhood names. */
-function placeFromAddress(address: string): IndexedPlace | undefined {
+ *  prayer-times place: the nearest point can be a neighbouring locality (Håga for an
+ *  address explicitly in Uppsala), which is unsuitable for the mosque city pages.
+ *
+ *  ⚠️ Of the several localities a Nominatim address names, take the one NEAREST the
+ *  mosque, not the last one. "…, Husby, Järva stadsdelsområde, Stockholm" names both
+ *  Husby (0.3 km) and Stockholm (11.5 km); scanning back-to-front returned the postal
+ *  town and filed every Järva mosque under Stockholm.
+ *  ⚠️ Candidates must come from the address only. Adding the geometrically nearest place
+ *  to the pool put Angereds Centrum's mosque in neighbouring Gårdsten.
+ *  ⚠️ The kommun check may only reject a place that declares a kommun — SCB folds the
+ *  suburbs into tätorten Stockholm, so Rinkeby and Kista carry none, and an
+ *  unconditional equality test discarded them. */
+function placeFromAddress(address: string, lat: number, lng: number): IndexedPlace | undefined {
 	const addressKommun = kommunFromAddress(address);
 	const expectedKommun = addressKommun ? normalizeKommun(addressKommun) : undefined;
-	const parts = address
-		.split(",")
-		.map((part) => part.trim().toLocaleLowerCase("sv"))
-		.filter(Boolean);
-	for (let i = parts.length - 1; i >= 0; i--) {
-		const match = INDEXED_PLACES.find(
-			(place) =>
-				place.name.toLocaleLowerCase("sv") === parts[i] &&
-				(!expectedKommun || place.kommun === expectedKommun),
-		);
-		if (match) return match;
+	const parts = new Set(
+		address
+			.split(",")
+			.map((part) => part.trim().toLocaleLowerCase("sv"))
+			.filter(Boolean),
+	);
+	let best: IndexedPlace | undefined;
+	let bestD = ADDRESS_MATCH_MAX_KM;
+	for (const place of INDEXED_PLACES) {
+		if (!parts.has(place.name.toLocaleLowerCase("sv"))) continue;
+		if (officialPopulation(place) < ADDRESS_MATCH_MIN_POPULATION) continue;
+		if (expectedKommun && place.kommun && place.kommun !== expectedKommun) continue;
+		const d = haversineKm(lat, lng, place);
+		if (d < bestD) {
+			bestD = d;
+			best = place;
+		}
 	}
-	return undefined;
+	return best;
+}
+
+/** The kommun of the nearest place that declares one. GeoNames-only suburbs (Rinkeby,
+ *  Hammarkullen) carry none, and falling back to the place NAME wrote "Hammarkullen"
+ *  and "Lövgärdet" into the kommun field. */
+function nearestKommun(lat: number, lng: number): string | undefined {
+	let best: string | undefined;
+	let bestD = Number.POSITIVE_INFINITY;
+	for (const p of INDEXED_PLACES) {
+		if (!p.kommun) continue;
+		const d = haversineKm(lat, lng, p);
+		if (d < bestD) {
+			bestD = d;
+			best = p.kommun;
+		}
+	}
+	return best;
 }
 
 /** Parse "…, X kommun, …" out of the long Nominatim-style address, when present. */
@@ -293,14 +336,16 @@ async function main() {
 		}
 
 		const rawAddress = col(r, "address");
-		const place = placeFromAddress(rawAddress) ?? nearestPlace(lat, lng);
+		const place = placeFromAddress(rawAddress, lat, lng) ?? nearestPlace(lat, lng);
 		const city = place.name;
 		const citySlug = place.slug;
 		const lan = place.county || "Övriga";
 		// Prefer the SCB nominative kommun ("Karlshamn") over the address genitive
 		// ("Karlshamns kommun"); fall back to the address, then the nearest town name.
 		const addressKommun = kommunFromAddress(rawAddress);
-		const kommun = normalizeKommun(addressKommun ?? place.kommun ?? city);
+		const kommun = normalizeKommun(
+			addressKommun ?? place.kommun ?? nearestKommun(lat, lng) ?? city,
+		);
 		if (!addressKommun) derivedLan++;
 		const cleanedAddress = cleanAddress(rawAddress);
 		// A locality-only value helps select the correct city but is not a useful street address.

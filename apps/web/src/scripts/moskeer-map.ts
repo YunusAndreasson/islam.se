@@ -8,13 +8,30 @@
 // so all state lives inside mount() and is torn down on `astro:before-swap`.
 // maplibre-gl 6 dropped the default export (named exports only) — a namespace import
 // keeps every existing `maplibregl.X` reference in this file working unchanged.
+//
+// ⚠️ maplibre-gl and its stylesheet are loaded LAZILY, from inside mount(). Statically
+// imported they were 978 kB of JS (252 kB gzipped) plus 130 kB of CSS inlined into
+// <head> by `inlineStylesheets: "always"` — a 456 kB document on the page that has to
+// rank for "moskéer i sverige". Keep every top-level maplibre import type-only.
 
+import type * as maplibregl from "maplibre-gl";
 import type { GeoJSONSource, LngLatBoundsLike, MapGeoJSONFeature } from "maplibre-gl";
-import * as maplibregl from "maplibre-gl";
-// maplibre-gl.css is imported from the page frontmatter (moskeer.astro) so Astro emits
-// it as a real <link> in <head> — no runtime style injection / flash.
+// `?url` yields the emitted asset's href WITHOUT joining the page's stylesheet graph —
+// a plain `import "…css"` here or in the frontmatter gets inlined into <head> by
+// `inlineStylesheets: "always"`, all 130 kB of it. Linked at mount instead.
+import maplibreCssUrl from "maplibre-gl/dist/maplibre-gl.css?url";
+// ⚠️ maplibre-gl 6 derives its worker URL at RUNTIME —
+// `new URL("./maplibre-gl-worker.mjs", import.meta.url)` — a template-string URL no
+// bundler can see, so the file was never emitted and the worker 404'd. Style JSON
+// loaded, then nothing: no tiles, no sprite, no glyphs, `load` never fired, and the
+// canvas sat at opacity 0 behind a silent failure with no console error.
+// `?worker&url` makes Vite bundle the worker (resolving its own
+// ./maplibre-gl-shared.mjs import) and hand back the emitted href.
+import maplibreWorkerUrl from "maplibre-gl/dist/maplibre-gl-worker.mjs?worker&url";
 import { SWEDEN_BBOX } from "../lib/bonetider/sweden-outline";
 import { haversineKm } from "../lib/geom";
+import { fold } from "../lib/search-text";
+import { escapeXml } from "../lib/xml";
 
 interface MosqueDatum {
 	id: string;
@@ -36,13 +53,19 @@ type Scheme = "light" | "dark";
 // UNVERIFIED: WebGL won't render in headless Chromium here, so these are derived,
 // not eyeballed — worth a look on real hardware.
 const PALETTE = {
+	// ⚠️ Light is set by measured L*, not by eye. It used to run land 91.4 / water 91.2 —
+	// ΔL* 0.22, far under the ~2 just-noticeable difference — so Sweden's coastline
+	// carried no lightness signal at all and the whole map read as a faint wash. Dark had
+	// 5.6 and was never affected. Separations now: land↔water 7.6, land↔page 7.2,
+	// land↔road 13.4, water↔road 5.8 (a coastal road must not sink into the sea),
+	// land↔border 21.0.
 	light: {
-		land: "#ece6d8", // warm parchment
-		water: "#dfe7ec",
-		building: "#e6dfce",
-		road: "#d8cfbe",
-		border: "#cdbfa6", // soft, low-contrast country/admin line
-		label: "#776d61",
+		land: "#e9e2d1", // warm parchment
+		water: "#bcd0de",
+		building: "#ded4bf",
+		road: "#c8bca2",
+		border: "#b9a687", // country/admin line — the strongest mark on the base
+		label: "#6f6555",
 		halo: "#fff6e8",
 		brass: "#b8862f",
 		brassOn: "#fffaf0",
@@ -123,15 +146,33 @@ class ResetViewControl implements maplibregl.IControl {
 	}
 }
 
+/** Link MapLibre's stylesheet once, and resolve only when it has applied — mounting the
+ *  map against unstyled controls leaves the zoom buttons stacked over the canvas. */
+function loadMaplibreCss(): Promise<void> {
+	const existing = document.querySelector<HTMLLinkElement>("link[data-mk-css]");
+	if (existing) return Promise.resolve();
+	return new Promise((resolve) => {
+		const link = document.createElement("link");
+		link.rel = "stylesheet";
+		link.href = maplibreCssUrl;
+		link.dataset.mkCss = "";
+		// Never block the map on a stylesheet that 404s or stalls.
+		link.addEventListener("load", () => resolve(), { once: true });
+		link.addEventListener("error", () => resolve(), { once: true });
+		document.head.appendChild(link);
+	});
+}
+
+/** ⚠️ The site's own theme switch wins over the OS. Reading only the media query painted
+ *  a dark basemap under a light page for anyone whose OS is dark but who chose light
+ *  (or vice versa). Mirrors schemeNow() in scripts/bonetider-field.ts. */
 function currentScheme(): Scheme {
+	const explicit = document.documentElement.dataset.theme;
+	if (explicit === "dark" || explicit === "light") return explicit;
 	return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
 }
 
-function norm(s: string): string {
-	return s.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "");
-}
-
-function mount() {
+async function mount() {
 	const el = document.getElementById("moskeer-map");
 	const dataEl = document.getElementById("moskeer-data");
 	if (!(el && dataEl)) return;
@@ -142,6 +183,23 @@ function mount() {
 	try {
 		data = JSON.parse(dataEl.textContent || "[]");
 	} catch {
+		return;
+	}
+
+	// The heavy pair, fetched only once the stage is about to be seen.
+	let maplibre: typeof maplibregl;
+	try {
+		[maplibre] = await Promise.all([import("maplibre-gl"), loadMaplibreCss()]);
+	} catch {
+		el.classList.add("is-error");
+		delete el.dataset.mkMounted;
+		return;
+	}
+	// Must precede the first Map: the worker pool is built on construction.
+	maplibre.setWorkerUrl(maplibreWorkerUrl);
+	// A View-Transitions navigation during the fetch leaves a detached container.
+	if (!el.isConnected) {
+		delete el.dataset.mkMounted;
 		return;
 	}
 	const byId = new Map(data.map((m) => [m.id, m]));
@@ -177,7 +235,7 @@ function mount() {
 		})),
 	});
 
-	const map = new maplibregl.Map({
+	const map = new maplibre.Map({
 		container: el,
 		style: "https://tiles.openfreemap.org/styles/positron",
 		bounds: SWEDEN_BOUNDS,
@@ -218,19 +276,19 @@ function mount() {
 		el.classList.add("is-error");
 		console.warn("[moskeer] kartan kunde inte laddas:", detail);
 	});
-	map.addControl(new maplibregl.AttributionControl({ compact: true }), "bottom-left");
-	map.addControl(new maplibregl.NavigationControl({ showCompass: false }), "top-right");
+	map.addControl(new maplibre.AttributionControl({ compact: true }), "bottom-left");
+	map.addControl(new maplibre.NavigationControl({ showCompass: false }), "top-right");
 	map.addControl(new ResetViewControl(), "top-right");
 	// Fullscreen the whole .mk-stage (map + callout + controls) so the selection card
 	// doesn't get orphaned outside the fullscreen subtree.
 	map.addControl(
-		new maplibregl.FullscreenControl({ container: el.closest<HTMLElement>(".mk-stage") ?? el }),
+		new maplibre.FullscreenControl({ container: el.closest<HTMLElement>(".mk-stage") ?? el }),
 		"top-right",
 	);
 	// Native geolocation: the familiar user-location dot + accuracy ring. We drive it from
 	// the labelled "Hitta moské nära mig" button (its own corner button is hidden in CSS),
 	// then snap to the nearest mosque on success.
-	const geolocate = new maplibregl.GeolocateControl({
+	const geolocate = new maplibre.GeolocateControl({
 		positionOptions: { enableHighAccuracy: false, timeout: 8000 },
 		trackUserLocation: false,
 		showUserLocation: true,
@@ -410,17 +468,17 @@ function mount() {
 		const facts: string[] = [m.location];
 		if (m.opened) facts.push(`Öppnad ${m.opened}`);
 		const org = m.organisation
-			? `<p class="mk-callout-org"><span class="label">Finansiering / huvudman</span>${escapeHtml(m.organisation)}</p>`
+			? `<p class="mk-callout-org"><span class="label">Finansiering / huvudman</span>${escapeXml(m.organisation)}</p>`
 			: "";
 		callout.innerHTML = `
 			<button type="button" class="mk-callout-close" aria-label="Stäng">×</button>
-			<h3 class="mk-callout-name">${escapeHtml(m.name)}</h3>
-			<p class="mk-callout-meta">${facts.map(escapeHtml).join(" · ")}</p>
+			<p class="mk-callout-name">${escapeXml(m.name)}</p>
+			<p class="mk-callout-meta">${facts.map(escapeXml).join(" · ")}</p>
 			${org}
 			<div class="mk-dir">
 				<span class="label">Vägbeskrivning</span>
-				<a href="${escapeAttr(mapHref(m.apple))}" class="mk-dir-btn">Apple Maps</a>
-				<a href="${escapeAttr(mapHref(m.google))}" class="mk-dir-btn">Google Maps</a>
+				<a href="${escapeXml(mapHref(m.apple))}" class="map-dir-btn">Apple Maps</a>
+				<a href="${escapeXml(mapHref(m.google))}" class="map-dir-btn">Google Maps</a>
 			</div>`;
 		callout.hidden = false;
 		callout.querySelector(".mk-callout-close")?.addEventListener("click", closeCallout);
@@ -435,7 +493,7 @@ function mount() {
 	/** Map: filter the data array by query + län (län comes from the rendered list item). */
 	function syncMap(q: string, lan: string) {
 		const visible = data.filter((m) => {
-			const okQ = q === "" || (searchById.get(m.id) ?? norm(`${m.name} ${m.location}`)).includes(q);
+			const okQ = q === "" || (searchById.get(m.id) ?? fold(`${m.name} ${m.location}`)).includes(q);
 			const okLan = lan === "" || lanById.get(m.id) === lan;
 			return okQ && okLan;
 		});
@@ -469,7 +527,7 @@ function mount() {
 	}
 
 	function applyFilter() {
-		const q = norm(search?.value.trim() ?? "");
+		const q = fold(search?.value.trim() ?? "");
 		const lan = lanSelect?.value ?? "";
 		syncMap(q, lan);
 		const shown = syncList(q, lan);
@@ -485,7 +543,7 @@ function mount() {
 	// fine-pointer devices so it never appears on touch, and aria-hidden so it doesn't
 	// double-announce alongside the aria-live callout.
 	const hoverPopup = window.matchMedia("(hover: hover)").matches
-		? new maplibregl.Popup({
+		? new maplibre.Popup({
 				closeButton: false,
 				closeOnClick: false,
 				offset: 12,
@@ -613,7 +671,7 @@ function mount() {
 			const coords = (f.geometry as { coordinates: [number, number] }).coordinates;
 			hoverPopup
 				.setLngLat(coords)
-				.setHTML(`<span class="mk-hover-name">${escapeHtml(name)}</span>`)
+				.setHTML(`<span class="mk-hover-name">${escapeXml(name)}</span>`)
 				.addTo(map);
 			hoverPopup.getElement()?.setAttribute("aria-hidden", "true");
 		});
@@ -687,12 +745,20 @@ function mount() {
 		applyMarkerColors();
 	};
 	mq.addEventListener("change", onScheme, { signal: sig });
+	// The theme switch stamps data-theme on <html>; without this the basemap keeps the
+	// scheme it mounted with while the page around it flips.
+	const themeObserver = new MutationObserver(onScheme);
+	themeObserver.observe(document.documentElement, {
+		attributes: true,
+		attributeFilter: ["data-theme"],
+	});
 
 	// Teardown on View-Transitions navigation away.
 	document.addEventListener(
 		"astro:before-swap",
 		() => {
 			ac.abort();
+			themeObserver.disconnect();
 			hoverPopup?.remove();
 			map.remove();
 			delete el.dataset.mkMounted;
@@ -705,25 +771,27 @@ function mapHref(s: string): string {
 	return /^https:\/\/(maps\.apple\.com|www\.google\.com)\//.test(s) ? s : "#";
 }
 
-function escapeHtml(s: string): string {
-	return s.replace(/[&<>"']/g, (c) => {
-		switch (c) {
-			case "&":
-				return "&amp;";
-			case "<":
-				return "&lt;";
-			case ">":
-				return "&gt;";
-			case '"':
-				return "&quot;";
-			default:
-				return "&#39;";
-		}
-	});
+// Load the map when the stage comes within a screenful, not on parse. The stage is
+// usually just inside the first viewport, so this normally fires straight away — the
+// gain is that the 978 kB bundle and its stylesheet are no longer part of the document's
+// critical path, and a reader who bounces never pays for them.
+// The search/län filter binds inside mount(), as it always has: it drives the map source
+// and the list together.
+function observe() {
+	const stage = document.querySelector<HTMLElement>(".mk-stage");
+	if (!stage) return;
+	const io = new IntersectionObserver(
+		(entries) => {
+			if (!entries.some((e) => e.isIntersecting)) return;
+			io.disconnect();
+			mount().catch(() => {
+				/* mount() already surfaces its own failure on the stage */
+			});
+		},
+		{ rootMargin: "600px" },
+	);
+	io.observe(stage);
+	document.addEventListener("astro:before-swap", () => io.disconnect(), { once: true });
 }
 
-function escapeAttr(s: string): string {
-	return escapeHtml(s);
-}
-
-document.addEventListener("astro:page-load", mount);
+document.addEventListener("astro:page-load", observe);

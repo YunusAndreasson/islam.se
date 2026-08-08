@@ -27,10 +27,6 @@ import { SWEDEN_OUTLINE } from "./sweden-outline";
 
 const invMercX = (mx: number): number => mx * 360 - 180;
 
-// ⚠️ roundRect is Safari 16.4+ / Chrome 99+. On the cached-lattice path paint() runs
-// synchronously inside the minute tick with nothing to catch a TypeError, so an older
-// WebView would lose the entire canvas — sea, land, coastline, wash and marker — over a
-// 4 px corner radius. Square corners on those engines instead.
 function plate(
 	ctx: CanvasRenderingContext2D,
 	x: number,
@@ -40,8 +36,7 @@ function plate(
 	r: number,
 ): void {
 	ctx.beginPath();
-	if (typeof ctx.roundRect === "function") ctx.roundRect(x, y, w, h, r);
-	else ctx.rect(x, y, w, h);
+	ctx.roundRect(x, y, w, h, r);
 	ctx.fill();
 }
 

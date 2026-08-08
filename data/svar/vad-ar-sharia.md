@@ -1,7 +1,7 @@
 ---
 title: "Vad är sharia? Betydelse, källor och fiqh"
 question: "Vad är sharia?"
-description: "Sharia betyder inte främst straffrätt utan 'vägen till vattenkällan' – Guds vägledning i Koranen och sunna. Så skiljer den sig från fiqh och sharialagar."
+description: "Ordet betyder 'vägen ner till vattenkällan'. Sharia är Guds vägledning i Koranen och sunna om tro, dyrkan och umgänge, och dess kärna är bön, renhet och ärlighet. Skillnaden mot fiqh förklaras här."
 publishedAt: "2026-06-20T00:00:00Z"
 keywords:
   - "vad är sharia"

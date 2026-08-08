@@ -58,7 +58,7 @@ const LAN_DISPLAY: Record<string, string> = {
 	Norrbotten: "Norrbottens län",
 };
 
-export function lanDisplay(county: string): string {
+function lanDisplay(county: string): string {
 	return LAN_DISPLAY[county] ?? `${county} län`;
 }
 
@@ -67,16 +67,16 @@ export function locationLabel(m: Mosque): string {
 	return `${m.kommun} · ${lanDisplay(m.lan)}`;
 }
 
+export interface LanGroup {
+	lan: string;
+	lanLabel: string;
+	mosques: Mosque[];
+}
+
 /** Mosques grouped by län for the browse-by-region list — län alphabetical (Swedish),
  *  mosques by name. Mirrors placesByCounty() in the Bönetider index. */
-export function mosquesByLan(): { lan: string; lanLabel: string; mosques: Mosque[] }[] {
-	const groups = new Map<string, Mosque[]>();
-	for (const m of MOSQUES) {
-		const arr = groups.get(m.lan);
-		if (arr) arr.push(m);
-		else groups.set(m.lan, [m]);
-	}
-	return [...groups.entries()]
+export function mosquesByLan(): LanGroup[] {
+	return [...Map.groupBy(MOSQUES, (m) => m.lan).entries()]
 		.map(([lan, mosques]) => ({
 			lan,
 			lanLabel: lanDisplay(lan),
@@ -85,23 +85,11 @@ export function mosquesByLan(): { lan: string; lanLabel: string; mosques: Mosque
 		.sort((a, b) => a.lanLabel.localeCompare(b.lanLabel, "sv"));
 }
 
-export interface LanGroup {
-	lan: string;
-	lanLabel: string;
-	mosques: Mosque[];
-}
-
 /** URL segment for a county page, e.g. "Västra Götaland" → "vastra-gotaland". County
  *  pages live under /moskeer/lan/ to avoid colliding with city slugs (stockholm,
  *  uppsala, kalmar and orebro are each both a city and a county short-name). */
 export function lanSlug(lan: string): string {
 	return slugify(lan);
-}
-
-const BY_LAN_SLUG = new Map<string, LanGroup>(mosquesByLan().map((g) => [lanSlug(g.lan), g]));
-
-export function lanBySlug(slug: string): LanGroup | undefined {
-	return BY_LAN_SLUG.get(slug);
 }
 
 export interface MosqueCityGroup {
@@ -116,13 +104,7 @@ export interface MosqueCityGroup {
 /** Mosques grouped by their (bönetider) city slug, cities alphabetical, mosques by name.
  *  The slug is the /moskeer/[stad] route segment and pairs 1:1 with /bonetider/[stad]. */
 export function mosquesByCity(): MosqueCityGroup[] {
-	const groups = new Map<string, Mosque[]>();
-	for (const m of MOSQUES) {
-		const arr = groups.get(m.citySlug);
-		if (arr) arr.push(m);
-		else groups.set(m.citySlug, [m]);
-	}
-	return [...groups.values()]
+	return [...Map.groupBy(MOSQUES, (m) => m.citySlug).values()]
 		.map((mosques) => {
 			const first = mosques[0];
 			return {
@@ -143,28 +125,6 @@ export function cityBySlug(slug: string): MosqueCityGroup | undefined {
 	return BY_CITY_SLUG.get(slug);
 }
 
-export interface MosqueFeatureCollection {
-	type: "FeatureCollection";
-	features: {
-		type: "Feature";
-		geometry: { type: "Point"; coordinates: [number, number] };
-		properties: { id: string; name: string };
-	}[];
-}
-
-/** GeoJSON for the MapLibre clustered source. Heavy per-mosque detail stays in the
- *  inlined client payload (looked up by id on click), so the source stays lean. */
-export function toFeatureCollection(mosques: readonly Mosque[] = MOSQUES): MosqueFeatureCollection {
-	return {
-		type: "FeatureCollection",
-		features: mosques.map((m) => ({
-			type: "Feature",
-			geometry: { type: "Point", coordinates: [m.lng, m.lat] },
-			properties: { id: m.id, name: m.name },
-		})),
-	};
-}
-
 /** Mosques near a point (for the Bönetider city pages), nearest first. Distance-based so
  *  it doesn't depend on kommun-name matching: a city "has a mosque" if one sits within
  *  `maxKm`. */
@@ -176,9 +136,45 @@ export function nearestMosques(lat: number, lng: number, count = 3, maxKm = 20):
 		.map((x) => x.m);
 }
 
-export function mosquesInKommun(kommun?: string): Mosque[] {
+function mosquesInKommun(kommun?: string): Mosque[] {
 	if (!kommun) return [];
 	return MOSQUES.filter((m) => m.kommun === kommun);
+}
+
+/** Earliest-founded mosque in a set, or undefined if none carry an `opened` year. */
+export function oldestMosque(mosques: readonly Mosque[]): Mosque | undefined {
+	const years = mosques.map((m) => m.opened).filter((y) => y !== undefined);
+	if (years.length === 0) return undefined;
+	const earliest = Math.min(...years);
+	return mosques.find((m) => m.opened === earliest);
+}
+
+/** "1 moské" / "12 moskéer", optionally "1 registrerad moské" / "12 registrerade moskéer". */
+export function pluralMoske(n: number, registered = false): string {
+	const adj = registered ? (n === 1 ? "registrerad " : "registrerade ") : "";
+	const noun = n === 1 ? "moské" : "moskéer";
+	return `${n} ${adj}${noun}`;
+}
+
+/** "1 ort" / "12 orter". */
+export function pluralOrt(n: number): string {
+	return `${n} ${n === 1 ? "ort" : "orter"}`;
+}
+
+/** The OTHER city pages in the same kommun — the stadsdelar a metro page hands off to.
+ *  Stockholm's own page keeps 4 mosques once Järva, Skärholmen and Vällingby have their
+ *  own; without this the page that answers "moskéer i stockholm" would list a fifth of
+ *  the kommun's mosques. Cities alphabetical, mosques by name. */
+export function siblingCityGroups(kommun: string, citySlug: string): MosqueCityGroup[] {
+	const slugs = new Set(
+		mosquesInKommun(kommun)
+			.filter((m) => m.citySlug !== citySlug)
+			.map((m) => m.citySlug),
+	);
+	return [...slugs]
+		.map((slug) => cityBySlug(slug))
+		.filter((g): g is MosqueCityGroup => g !== undefined)
+		.sort((a, b) => a.city.localeCompare(b.city, "sv"));
 }
 
 export interface DirectionsLinks {
@@ -211,7 +207,7 @@ export function mosqueUrl(m: Mosque): string {
 /** A schema.org Mosque node (already a PlaceOfWorship → CivicStructure → Place subtype).
  *  The stable @id (anchored on the city page) lets the city-page and county-page
  *  emissions of the same mosque merge into one entity rather than competing nodes. */
-export function mosqueSchema(m: Mosque): Record<string, unknown> {
+function mosqueSchema(m: Mosque): Record<string, unknown> {
 	const url = mosqueUrl(m);
 	return {
 		"@type": "Mosque",

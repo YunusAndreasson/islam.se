@@ -54,7 +54,7 @@ Inte förlåtna *trots* synden. Inte strukna ur registret, inte glömda, inte mi
 
 Tanken rubbar den vanliga moraliska logiken. Vi tänker oss att skuld i bästa fall kan *tas bort* – genom nåd, genom straff, genom tid. Men omvandling betyder något annat: synden byter riktning. Den smärta skulden orsakade, den självkännedom den framtvingade, den ödmjukhet den födde – allt detta blir den ångerfulles styrka. Inte trots skulden utan *genom* den. Den som djupast förstår syndens tyngd har mest att ge den som ännu bär sin.
 
-Här skiftar Lagerlöfs slutscen skepnad. Sven Elversson ser inte ut som en man som lagt ifrån sig en börda. Han är inte lättad. Han är förändrad – *lycklig, tillfredsställd, renad*. Ordvalet visar sig vara exaktare än Lagerlöf troligen anade. *Renad* beskriver en förändring inifrån, inte en borttorkad fläck.
+Här skiftar Lagerlöfs slutscen skepnad. Sven Elversson ser inte ut som en man som lagt ifrån sig en börda. Han är förändrad – *lycklig, tillfredsställd, renad*. Ordvalet visar sig vara exaktare än Lagerlöf troligen anade. *Renad* beskriver en förändring inifrån, inte en borttorkad fläck.
 
 Och här gömmer sig essäns vändpunkt. Läsaren – och troligen Lagerlöf själv – antar att bekännelsen handlar om det förflutna: att göra upp med det som skett. Men *tawbah* avslöjar att bekännelsen handlar om *riktning*. Den löser inte det gamla; den skapar det nya. Synden tillhör den väg personen inte längre går. Söderberg kunde inte lova bättring, och i hans värld slutade allt där. Koranen svarar:
 

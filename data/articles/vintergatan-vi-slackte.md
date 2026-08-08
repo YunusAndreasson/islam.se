@@ -10,7 +10,7 @@ En tredjedel av mänskligheten har aldrig sett Vintergatan. Siffran är ny – d
 
 Under nästan hela den mänskliga historien såg varje människa Vintergatan varje klar natt. Nomaden styrde efter den, bonden sådde efter den, diktaren och teologen tydde den. Att vi gjort den osynlig är det tystaste av alla civilisationsexperiment. Inget beslut fattades. Inget larm ljöd. Vi tände en gatlampa i taget, och en natt var himlen tom.
 
-Frågan är inte estetisk. Vintergatan var aldrig bara vacker – den var en erfarenhet, en kroppslig påminnelse om att det synliga har en gräns. Det vi förlorade var inte skönhetsvärde utan vad mörkret möjliggjorde.
+Frågan är inte estetisk. Vintergatan var aldrig bara vacker – den var en erfarenhet, en kroppslig påminnelse om att det synliga har en gräns. Det vi förlorade var vad mörkret möjliggjorde.
 
 ## Mörkerversen
 
@@ -32,11 +32,11 @@ Ljuset härskar i universum. Mörkret är undantaget – en tunn skuggkägla kas
 
 ## Seende kräver mörker
 
-Det moderna antagandet löper rakt: mer ljus, mer kunskap, mer frihet. Vi belyser allt vi kan. Men den islamiska traditionen pekar åt ett annat håll – inte bakåt, inte mot okunskap, utan mot ett seende som förutsätter att det yttre ljuset dämpas för att det inre ska vakna.
+Det moderna antagandet löper rakt: mer ljus, mer kunskap, mer frihet. Vi belyser allt vi kan. Men den islamiska traditionen pekar åt ett annat håll: mot ett seende som förutsätter att det yttre ljuset dämpas för att det inre ska vakna.
 
 Ibn Qayyim (1292–1350) kallar den andliga urskillningsförmågan – *firāsah* – en frukt av hjärtats ljus. Men hjärtats ljus stärks av att *sänka* den yttre blicken. I *Rawḍat al-Muḥibbīn* tydliggör han sambandet: den som matar ögat med ständiga bilder fördunklar det inre seendet; den som drar undan det yttre skärper det inre.[^5] Inte *trots* att det yttre ögat dämpas – *därför att* det dämpas.
 
-I *Ighāthat al-Lahfān* namnger han hjärtesoten: den som förlorat sin *baṣīrah* – sin inre syn – har gjort det genom att aldrig låta ögat vila.[^6] Ljuset utmattade det. Inte mörkret. Det handlar inte om askes utan om synens villkor: den yttre och den inre blicken delar en gemensam resurs, och vad den ena förbrukar saknar den andra. I *al-Wābil al-Ṣayyib* visar han hur hjärtats ljus föds ur samverkan mellan uppenbarelse och *fiṭrah* – den medfödda mottaglighet varje människa bär.[^7] Men fiṭrah formas i stillhet, inte i brus. Utan mörker har uppenbarelsens ljus ingenting att fästa vid.
+I *Ighāthat al-Lahfān* namnger han hjärtesoten: den som förlorat sin *baṣīrah* – sin inre syn – har gjort det genom att aldrig låta ögat vila.[^6] Det var ljuset som utmattade det. Frågan gäller synens villkor: den yttre och den inre blicken delar en gemensam resurs, och vad den ena förbrukar saknar den andra. I *al-Wābil al-Ṣayyib* visar han hur hjärtats ljus föds ur samverkan mellan uppenbarelse och *fiṭrah* – den medfödda mottaglighet varje människa bär.[^7] Men fiṭrah formas i stillhet, inte i brus. Utan mörker har uppenbarelsens ljus ingenting att fästa vid.
 
 Ibn al-Jawzī (d. 1201) fångade villkoret i en enda mening: "Själen är alltjämt vaken och hjärtat vet fortfarande – men avbrotten är många."[^8] Avbrotten: ljus som aldrig släcks, bilder som aldrig upphör, ögat som aldrig vilar.
 
@@ -52,9 +52,9 @@ Tecknet försvinner. Natthimlen över Europa är redan hundra till tusen gånger
 
 Ralph Waldo Emerson ställde 1836 en fråga som då var retorisk: om stjärnorna bara visade sig en enda natt på tusen år – hur skulle inte människor tro och tillbe och i generationer bevara minnet av den gudsstad som uppenbarats för dem?[^13]
 
-Frågan är inte längre retorisk. Vi har besvarat den. Inte med ord utan med gatulyktor, reklamskyltar, köpcentrens nattliga dagrar. Vintergatan försvann inte. Vi slutade kunna se den.
+Frågan är inte längre retorisk. Vi har besvarat den med gatulyktor, reklamskyltar, köpcentrens nattliga dagrar. Vintergatan försvann inte. Vi slutade kunna se den.
 
-Ibn Qayyim visste att hjärtats förblindning inte föds ur ondska utan ur oupphörlig stimulans – ur ljusets ständiga krav på ögat. Mörkret var inte ljusets fiende. Det var dess villkor. Emerson frågade vad som skulle hända om stjärnorna visade sig en enda natt. Vi svarade genom att släcka dem.
+Ibn Qayyim visste att hjärtats förblindning föds ur oupphörlig stimulans – ur ljusets ständiga krav på ögat. Mörkret var inte ljusets fiende. Det var dess villkor. Emerson frågade vad som skulle hända om stjärnorna visade sig en enda natt. Vi svarade genom att släcka dem.
 
 ---
 

@@ -5,7 +5,15 @@
  */
 
 import { execFileSync } from "node:child_process";
-import { existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import {
+	existsSync,
+	mkdirSync,
+	readFileSync,
+	renameSync,
+	rmSync,
+	statSync,
+	writeFileSync,
+} from "node:fs";
 import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -16,6 +24,10 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 const PROMPTS_DIR = join(__dirname, "..", "..", "prompts");
 
+// eleven_v3 rejects previous_text/next_text with HTTP 400 (unsupported_model), and
+// previous_request_ids stitching is unavailable on it too — every chunk is generated
+// blind to its neighbours, so chunk size trades pronunciation against seam count.
+// `seed` is accepted but best-effort: two identical requests still differ byte-wise.
 const PODCAST_CONFIG = {
 	voiceId: "JhAQDwsLijg4qbxGNQGH",
 	modelId: "eleven_v3",
@@ -26,7 +38,22 @@ const PODCAST_CONFIG = {
 	},
 	outputFormat: "mp3_44100_192",
 	maxChunkChars: 5000,
+	seed: 4242,
+	// Cloudflare Pages rejects any single file over 25 MiB, and the whole `pnpm ship`
+	// fails at upload — after the render has already been paid for. At 192 kbps mono
+	// that ceiling arrives around 18 minutes of narration.
+	maxFileBytes: 24 * 1024 * 1024,
 };
+
+export interface PodcastOptions {
+	/** Override PODCAST_CONFIG.maxChunkChars (v3 caps a request at 5000). */
+	chunkChars?: number;
+	seed?: number;
+	/** Reuse the existing {slug}-audio.txt instead of re-running Claude. */
+	reuseScript?: boolean;
+	/** Render to {slug}--{variant}.mp3 and leave frontmatter and cover art alone. */
+	variant?: string;
+}
 
 export interface PodcastResult {
 	success: boolean;
@@ -80,16 +107,18 @@ export class PodcastService {
 	 */
 	async generateAudio(
 		script: string,
+		options: PodcastOptions = {},
 	): Promise<{ success: boolean; audio?: Buffer; error?: string }> {
 		const apiKey = process.env.ELEVENLABS_API_KEY;
 		if (!apiKey) {
 			return { success: false, error: "ELEVENLABS_API_KEY environment variable not set" };
 		}
 
-		const chunks = this.chunkText(script, PODCAST_CONFIG.maxChunkChars);
+		const seed = options.seed ?? PODCAST_CONFIG.seed;
+		const chunks = this.chunkText(script, options.chunkChars ?? PODCAST_CONFIG.maxChunkChars);
 
 		if (chunks.length === 1) {
-			const result = await this.callElevenLabs(apiKey, chunks[0] as string);
+			const result = await this.callElevenLabs(apiKey, chunks[0] as string, seed);
 			if (!(result.success && result.audio)) {
 				return { success: false, error: `Audio generation failed: ${result.error}` };
 			}
@@ -104,7 +133,7 @@ export class PodcastService {
 			const chunkPaths: string[] = [];
 			for (let i = 0; i < chunks.length; i++) {
 				const chunk = chunks[i] as string;
-				const result = await this.callElevenLabs(apiKey, chunk);
+				const result = await this.callElevenLabs(apiKey, chunk, seed);
 				if (!(result.success && result.audio)) {
 					return {
 						success: false,
@@ -143,34 +172,44 @@ export class PodcastService {
 	/**
 	 * Full pipeline: article → script → MP3 → save files → update frontmatter.
 	 */
-	async produce(slug: string): Promise<PodcastResult> {
+	async produce(slug: string, options: PodcastOptions = {}): Promise<PodcastResult> {
 		const articlePath = join(this.articlesDir, `${slug}.md`);
 		if (!existsSync(articlePath)) {
 			return { success: false, error: `Article not found: ${articlePath}` };
 		}
 
-		const articleContent = readFileSync(articlePath, "utf-8");
 		const startTime = Date.now();
+		const scriptPath = join(this.articlesDir, `${slug}-audio.txt`);
 
 		// Step 1: Generate audio script via Claude
-		console.log("🎙️  Generating audio script...");
-		const scriptResult = await this.generateAudioScript(articleContent);
-		if (!(scriptResult.success && scriptResult.script)) {
-			return { success: false, error: scriptResult.error };
+		let script: string;
+		if (options.reuseScript) {
+			if (!existsSync(scriptPath)) {
+				return { success: false, error: `No existing audio script: ${scriptPath}` };
+			}
+			script = readFileSync(scriptPath, "utf-8");
+			console.log(`🎙️  Reusing audio script: ${scriptPath}`);
+		} else {
+			console.log("🎙️  Generating audio script...");
+			const scriptResult = await this.generateAudioScript(readFileSync(articlePath, "utf-8"));
+			if (!(scriptResult.success && scriptResult.script)) {
+				return { success: false, error: scriptResult.error };
+			}
+			script = scriptResult.script;
+			writeFileSync(scriptPath, script, "utf-8");
+			console.log(`   ✓ Audio script saved: ${scriptPath}`);
 		}
 
-		// Save audio script
-		const scriptPath = join(this.articlesDir, `${slug}-audio.txt`);
-		writeFileSync(scriptPath, scriptResult.script, "utf-8");
-		console.log(`   ✓ Audio script saved: ${scriptPath}`);
-
 		// Step 2: Generate MP3 via ElevenLabs
+		const chunkChars = options.chunkChars ?? PODCAST_CONFIG.maxChunkChars;
+		const seed = options.seed ?? PODCAST_CONFIG.seed;
 		console.log("🔊 Generating audio via ElevenLabs v3...");
-		const charCount = scriptResult.script.length;
-		const chunks = Math.ceil(charCount / PODCAST_CONFIG.maxChunkChars);
-		console.log(`   ${charCount} characters, ${chunks} chunk${chunks > 1 ? "s" : ""}`);
+		const chunks = this.chunkText(script, chunkChars).length;
+		console.log(
+			`   ${script.length} characters, ${chunks} chunk${chunks > 1 ? "s" : ""} @ ${chunkChars}, seed ${seed}`,
+		);
 
-		const audioResult = await this.generateAudio(scriptResult.script);
+		const audioResult = await this.generateAudio(script, { chunkChars, seed });
 		if (!(audioResult.success && audioResult.audio)) {
 			return { success: false, error: audioResult.error, scriptPath };
 		}
@@ -179,22 +218,29 @@ export class PodcastService {
 		if (!existsSync(this.audioDir)) {
 			mkdirSync(this.audioDir, { recursive: true });
 		}
-		const audioPath = join(this.audioDir, `${slug}.mp3`);
+		const audioFile = options.variant ? `${slug}--${options.variant}.mp3` : `${slug}.mp3`;
+		const audioPath = join(this.audioDir, audioFile);
 		writeFileSync(audioPath, audioResult.audio);
 		console.log(
 			`   ✓ MP3 saved: ${audioPath} (${(audioResult.audio.length / 1024 / 1024).toFixed(1)} MB)`,
 		);
+		this.fitToDeployLimit(audioPath);
 
 		// Step 3: Get audio duration
 		const duration_secs = this.getAudioDuration(audioPath);
+
+		if (options.variant) {
+			console.log("   ⏭ Variant render — cover art and frontmatter left untouched");
+			return { success: true, audioPath, scriptPath, duration: Date.now() - startTime };
+		}
 
 		// Step 4: Generate episode cover art (square crop of hero image)
 		this.generateEpisodeCover(slug);
 
 		// Step 5: Update article frontmatter
-		this.updateFrontmatter(articlePath, `${slug}.mp3`, duration_secs);
+		this.updateFrontmatter(articlePath, audioFile, duration_secs);
 		console.log(
-			`   ✓ Frontmatter updated: audioFile: "${slug}.mp3", audioDuration: ${duration_secs}s`,
+			`   ✓ Frontmatter updated: audioFile: "${audioFile}", audioDuration: ${duration_secs}s`,
 		);
 
 		const duration = Date.now() - startTime;
@@ -207,6 +253,7 @@ export class PodcastService {
 	private async callElevenLabs(
 		apiKey: string,
 		text: string,
+		seed?: number,
 	): Promise<{ success: boolean; audio?: Buffer; error?: string }> {
 		const outputFormat = PODCAST_CONFIG.outputFormat;
 		const url = `https://api.elevenlabs.io/v1/text-to-speech/${PODCAST_CONFIG.voiceId}?output_format=${outputFormat}`;
@@ -215,6 +262,7 @@ export class PodcastService {
 			text,
 			model_id: PODCAST_CONFIG.modelId,
 			voice_settings: PODCAST_CONFIG.voiceSettings,
+			...(seed === undefined ? {} : { seed }),
 		};
 
 		const maxRetries = 3;
@@ -326,6 +374,49 @@ export class PodcastService {
 		} catch (err) {
 			console.log(`   ⚠ Episode cover failed: ${err instanceof Error ? err.message : String(err)}`);
 		}
+	}
+
+	/**
+	 * Re-encode the episode at a lower bitrate if it exceeds what Pages will upload.
+	 * Speech is mono, so the only lever is bitrate; 128 kbps is transparent for narration
+	 * and matches the back catalogue.
+	 */
+	private fitToDeployLimit(audioPath: string): void {
+		const bytes = statSync(audioPath).size;
+		if (bytes <= PODCAST_CONFIG.maxFileBytes) return;
+
+		const seconds = this.getAudioDuration(audioPath);
+		if (seconds === 0) {
+			console.log("   ⚠ Over the 25 MiB Pages limit but duration unknown — not re-encoding");
+			return;
+		}
+
+		// Land under the cap with headroom, then clamp to a sane spoken-word range.
+		const targetKbps = Math.min(
+			192,
+			Math.max(96, Math.floor((PODCAST_CONFIG.maxFileBytes * 8) / seconds / 1000) - 8),
+		);
+		const reduced = `${audioPath}.reduced.mp3`;
+		execFileSync("ffmpeg", [
+			"-hide_banner",
+			"-nostats",
+			"-y",
+			"-i",
+			audioPath,
+			"-codec:a",
+			"libmp3lame",
+			"-b:a",
+			`${targetKbps}k`,
+			"-ac",
+			"1",
+			"-ar",
+			"44100",
+			reduced,
+		]);
+		renameSync(reduced, audioPath);
+		console.log(
+			`   ↓ Re-encoded to ${targetKbps} kbps for the 25 MiB Pages limit: ${(bytes / 1024 / 1024).toFixed(1)} → ${(statSync(audioPath).size / 1024 / 1024).toFixed(1)} MB`,
+		);
 	}
 
 	/**

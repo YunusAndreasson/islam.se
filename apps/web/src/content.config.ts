@@ -51,6 +51,9 @@ const tradar = defineCollection({
 		title: z.string(),
 		framing: z.string(),
 		essays: z.array(z.string()),
+		// Describes the bespoke art at src/assets/images/tradar/<id>.webp. Optional
+		// because a thread without art renders as text; see lib/tradar.ts.
+		imageAlt: z.string().optional(),
 	}),
 });
 
@@ -133,7 +136,7 @@ const fordjupning = defineCollection({
 		updatedAt: z.iso.datetime().optional(),
 		keywords: z.array(z.string()),
 		// Grounds the page to the global entity (Wikidata + Wikipedia) via schema.org
-		// sameAs. Organization.sameAs is still empty site-wide; this is per-topic.
+		// sameAs. Per-topic — distinct from Organization.sameAs in lib/jsonld.ts.
 		about: z.object({
 			name: z.string(),
 			sameAs: z.array(z.url()),

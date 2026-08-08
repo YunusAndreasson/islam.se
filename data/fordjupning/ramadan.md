@@ -1,9 +1,9 @@
 ---
 title: "Ramadan: fastan, källorna och de svenska dygnen"
 term: "Ramadan"
-description: "Fastemånaden är islams mest regeltäta praktik – och den mest omtvistade. Koranen definierar dygnet optiskt och månaden efter nymånen; norr om polcirkeln har ingen av definitionerna någon uppenbar innebörd. Här är källorna, rättsskolornas oenighet och de svenska besluten."
+description: "Koranen mäter fastedygnet med ögat: man äter och dricker tills den vita strimman kan skiljas från den svarta. Anvisningen fungerar överallt där solen går ned. Norr om polcirkeln gör solen inte det om somrarna, och då finns ingen gryning att räkna från."
 seoDescription: "Vad Koranen och hadith säger om ramadan, hur rättsskolorna skiljer sig, och hur svenska moskéer, domstolar och vård hanterar fastan."
-blurb: "Nymånen, den vita strimman och dygnet som uteblir i Gällivare"
+blurb: "Vad som händer med en fasta mätt i gryningar när gryningen uteblir"
 publishedAt: "2026-07-31T00:00:00Z"
 keywords:
   - "ramadan"
@@ -93,7 +93,7 @@ Så långt är beskrivningen okontroversiell. Men ramadan framställs ofta som i
 
 Tvisten skärps av att Koranen definierar fastetiden optiskt och månaden astronomiskt. Man äter och dricker tills den vita strimman kan skiljas från den svarta, och man fastar när man ser nymånen. Båda definitionerna förutsätter en himmel som ser ut ungefär som den över Hijaz. I Sverige gör den inte det. Norr om polcirkeln finns under delar av sommaren varken gryning eller solnedgång, och nymånen är i praktiken osynlig i svenskt klimat. Sverige är därför inget gränsfall i ämnet utan den plats där dess inneboende rättsliga problem blir synligast. Den svenska diskussionen har producerat konkreta beslut och avgöranden, och resultatet är att en och samma stad kan ha flera parallella fastetidtabeller.
 
-## Ordet och dess betydelse
+## Vad ordet ramadan betyder: den brännheta sanden
 
 Ordet *ramadān* kommer av roten r-m-d, som betecknar stark hetta, förbränd mark, solstekta stenar. *al-Ramdāʾ* är den brännheta sanden. Månaden fick sitt namn i förislamisk tid, då den arabiska kalendern ännu justerades mot solåret och månaden alltså föll under sommarhettan. Efter att interkaleringen förbjöds, av Koranen kallad *al-nasīʾ*, ett tillägg till otron, blev kalendern strikt lunär, och ramadan vandrar sedan dess elva dagar bakåt genom solåret. Namnet minner alltså om en årstid månaden inte längre har.
 
@@ -101,7 +101,7 @@ Själva handlingen heter inte ramadan utan *sawm* eller *siyām*, av en rot som 
 
 Kring kärnbegreppet ligger ett fält av tekniska termer som återkommer i varje diskussion om månaden. *Niyya* är avsikten, som ska föreligga för varje fastedag. *Suhūr* är måltiden före gryningen, *iftār* den som bryter fastan. *Imsāk* betecknar avhållandet som sådant och, i vissa kalendrar, en säkerhetsmarginal före den egentliga gryningen. *Qadāʾ* är att ta igen missade dagar, *fidya* den kompensation i mat som ges av den som aldrig kan ta igen dem, och *kaffāra* det tyngre sonandet för den som medvetet brutit fastan. *Iʿtikāf* är den tillbakadragenhet i moskén som traditionellt hålls under månadens sista tio dagar, *tarāwīh* nattbönen, och *laylat al-qadr* den natt som är månadens teologiska mittpunkt. Hela den rättsliga oenigheten är ordnad under dessa kategorier, och de återkommer i varje avsnitt som följer.
 
-## Vad källorna säger
+## Fastans fem verser i al-Baqara
 
 Föreskriften införs i sura al-Baqara, i en passage om fem verser som är fastans hela koranska grund. Den inleds med en plikt och en jämförelse:
 
@@ -121,7 +121,7 @@ Mellan de rättsliga verserna står en av Koranens mest citerade rader om bön: 
 
 Hadithkorpusen fastställer det Koranen lämnar öppet. Månadens början knyts till siktningen: fasta när ni ser den och bryt fastan när ni ser den, och är den skymd för er, fullborda trettio dagar av shaʿbān.[^8] Laylat al-Qadr placeras bland de udda nätterna i de sista tio.[^9] Måltiden före gryningen förklaras välsignad, och avsikten ska ha fattats innan den bryter in för den obligatoriska fastan.[^10] Den som glömmer sig och äter under fastan har enligt al-Bukhārī och Muslim blivit bespisad av Gud och fullföljer dagen.[^11] Det är den som tar en klunk vid diskbänken av gammal vana och stelnar till med glaset i handen. Och en hadith som ofta citeras i svenska predikningar begränsar hela företaget: om någon inte lämnar falskt tal och handlande därefter, har Gud inget behov av att han lämnar sin mat och dryck.[^12]
 
-## Hur de lärda har tolkat texterna
+## Juristerna om avsikten, niyya, och fastans villkor
 
 Oenigheten börjar redan vid avsikten. Shafiiter och hanbaliter kräver att *niyya* förnyas varje natt före gryningen för varje obligatorisk fastedag; malikiterna godtar en enda avsikt för hela månaden, eftersom fastan i deras ögon är en sammanhängande handling. Hanafiterna intar en mellanställning och tillåter att avsikten fattas fram till strax före middagstid för ramadanfastan, eftersom månaden i sig är entydigt bestämd. Skillnaden märks hos den som vaknar sent och först vid frukostbordet bestämmer sig för att inte äta.
 
@@ -133,7 +133,7 @@ Resenärens fall är särskilt intressant, eftersom Koranen tycks lämna ett val
 
 Också nattbönen delar de lärda, och delar i dag svenska församlingar. Ibn Taymiyya redovisar tre praxis: tjugo, trettiosex eller fyrtio, och elva eller åtta *rakaʿāt*. Han förklarar dem alla giltiga, eftersom den som ber långa böner med få böjningar och den som ber korta med många gör båda rätt, och vilken form som är förmer beror på de bedjandes ork.[^15] Att Ubayy ibn Kaʿb ledde följeslagarna i tjugo under ʿUmars kalifat utan att någon invände har fått de fyra skolorna att traditionellt godta tjugo. Al-Albānī hävdade på 1900-talet att fler än elva är en otillåten nyhet. Båda uppfattningarna finns i svenska moskéer, ibland i samma stad.
 
-## Historia
+## Fastans historia: ashura, Medina och böneriktningens vändning
 
 Fastan föreskrevs enligt den traditionella kronologin under det andra året efter utvandringen till Medina, kort efter att böneriktningen vänts från Jerusalem mot Kaba. Före det hade muslimerna enligt flera överleveranser fastat den tionde dagen i månaden muharram, ʿāshūrāʾ, en dag som också judarna i staden höll, vilket ger Koranens formulering om "dem som levde före er" ett konkret sammanhang. När ramadanfastan blev plikt övergick ʿāshūrāʾ till att vara frivillig.
 
@@ -171,7 +171,7 @@ Reformationen avvisade tanken att fastan är en förtjänstfull gärning inför 
 
 Kvar i den svenska litteraturen finns däremot ett återkommande intresse för hungern som kunskapsväg. Ellen Key skriver i *Lifslinjer* att först när hungern är någorlunda stillad vaknar törsten efter sanning och skönhet, ett resonemang som går rakt emot den asketiska traditionens.[^31] Karin Boye vänder på det i *Astarte*, där den yttersta makten, den att ge värde åt tingen, sägs vara hungerns makt.[^32] Ingen av dem skriver om religiös fasta, och ingen av dem åberopas här som stöd för någon islamisk hållning. De hör hemma i artikeln av det enklare skälet att de visar vad hungern har varit för slags fråga i svensk idédebatt, nämligen en fråga om kunskap och värde snarare än om religiös plikt.
 
-## Invändningar och missförstånd
+## Invändningar: fastan, barnen och skolan
 
 Den starkaste invändningen gäller barnen. Rashid Farivar och Sara Gille har i Bulletin hävdat att fastan skadar barns hälsa och skolresultat, att elever svimmat under skoldagen och att flickor drabbas hårdare eftersom fastan blir obligatorisk vid nio års ålder för dem mot femton för pojkar.[^33] Invändningen förtjänar att tas på allvar i den mån den beskriver socialt tryck på barn som inte nått puberteten. Det förekommer, och den svenska skolan har ingen vägledning att luta sig mot. Två saker bör dock sägas rakt ut. Artikeln hänvisar till "många muslimska teologer" och "olika forskningsrapporter" utan en enda källhänvisning. Och åldersuppgiften är inte påhittad, men den är heller inte allmängiltig. Nio fullbordade månår för flickor och femton för pojkar är den jafaritiska rättsskolans regel, alltså en hållning med verkliga företrädare, och att den återges är i sig inget fel. De fyra övriga skolorna knyter i stället plikten till puberteten, *bulūgh*, med hadithen om att pennan är lyft från tre som klassisk grund.[^34] Att flickor i genomsnitt når puberteten tidigare än pojkar ger också där en könsskillnad i praktiken, men den följer i så fall av biologi och inte av en åldersgräns i almanackan. Felet i invändningen är alltså att en skolas regel presenteras som islams.
 

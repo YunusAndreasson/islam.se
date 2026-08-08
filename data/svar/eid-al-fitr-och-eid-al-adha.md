@@ -1,7 +1,7 @@
 ---
 title: "Vad är Eid al-Fitr och Eid al-Adha?"
 question: "Vad är Eid al-Fitr och Eid al-Adha?"
-description: "Islam har bara två högtider, och den största är inte den de flesta tror. Så skiljer sig Eid al-Fitr efter Ramadan från offerhögtiden Eid al-Adha under hajj."
+description: "Islam har två årliga högtider. Eid al-Fitr avslutar fastemånaden Ramadan, Eid al-Adha infaller mitt under vallfärden hajj. Var och en avslutar sin pelare, och innebörderna skiljer sig."
 publishedAt: "2026-06-20T00:00:00Z"
 keywords:
   - "eid al-fitr"

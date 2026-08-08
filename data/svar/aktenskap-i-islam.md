@@ -1,5 +1,5 @@
 ---
-title: "Hur ser islam på äktenskap? Avtal, inte sakrament"
+title: "Hur ser islam på äktenskap? Ett avtal inför vittnen"
 question: "Hur ser islam på äktenskap?"
 description: "Äktenskapet i islam är inget sakrament utan ett bindande avtal och en del av profetens sunna. Vad nikah kräver, varför celibat avvisas och vad syftet är."
 publishedAt: "2026-06-20T00:00:00Z"

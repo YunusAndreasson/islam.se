@@ -1,9 +1,9 @@
 ---
 title: "Tvagning i islam: wudu, ghusl, tayammum och svensk praxis"
 term: "Tvagning"
-description: "Rituell rening är den mest detaljreglerade av islams vardagshandlingar och den oftast missförstådda. Rättsskolorna är öppet oense om avsikten, om beröring mellan könen och om fötterna, och i Sverige möter reglerna arbetstidsbeslut, vårdhygien, byggnormer och begravningslag."
+description: "Tvagningen är den mest detaljreglerade av islams vardagshandlingar och den oftast missförstådda. Den återställer ett tillstånd, inte ett utseende: den som just har badat kan behöva göra om den, och den som gjort den kan förlora den av att somna."
 seoDescription: "Wudu, ghusl och tayammum: vad Koranen och haditherna säger, hur rättsskolorna skiljer sig åt, och hur reglerna möter svensk rätt och svensk praxis."
-blurb: "Skillnaden mellan rituellt tillstånd och smuts, sanden i öknen och handfatet på jobbet"
+blurb: "Rituell renhet är inte att vara ren – och därför räcker inte alltid handfatet på jobbet"
 publishedAt: "2026-08-03T00:00:00Z"
 keywords:
   - "tvagning islam"
@@ -65,6 +65,7 @@ essays:
   - "bannlyst-och-renad"
   - "nattbonens-ansikte"
   - "kompassnalens-moske"
+imageAlt: "Man som tvättar ansiktet vid ett handfat, med dimma över en skogssjö utanför fönstret"
 ---
 
 **Tvagning** är den rituella rening en muslim utför före bönen, och den finns i tre former: wudu, den lilla tvagningen av händer, mun, näsa, ansikte, underarmar, huvud och fötter; ghusl, tvättningen av hela kroppen; och tayammum, strykningen med ren jord när vatten saknas eller inte kan användas. Alla tre står i en enda mening i Koranens femte sura, vers 6.

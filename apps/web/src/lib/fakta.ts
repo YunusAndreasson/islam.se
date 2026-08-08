@@ -18,8 +18,9 @@
  */
 
 import type { ImageMetadata } from "astro";
+import { basename } from "./path";
 
-export interface FaktaItem {
+interface FaktaItem {
 	/** The answer this card opens, at `/svar/<svarSlug>/` (URL never changes). */
 	svarSlug: string;
 	/** Short card label — the pillar/article name (not the answer's full title). */
@@ -161,21 +162,19 @@ const artEntries = Object.entries(
 );
 
 export const FAKTA_ART: ReadonlyMap<string, ImageMetadata> = new Map(
-	artEntries.map(([path, mod]) => {
-		const file = path.split("/").pop() ?? "";
-		return [file.replace(/\.[^.]+$/, ""), mod.default] as [string, ImageMetadata];
-	}),
+	artEntries.map(([path, mod]) => [basename(path, /\.[^.]+$/), mod.default]),
 );
 
-/** Every cornerstone answer slug, including each cluster's overview. `groupSvar()`
- *  removes these from the FRÅGOR & SVAR index so FAKTA and the Q&A list never show
- *  the same answer twice. */
-export const FAKTA_SLUGS: ReadonlySet<string> = new Set(
-	FAKTA_CLUSTERS.flatMap((c) => [
-		...(c.overview ? [c.overview] : []),
-		...c.items.map((i) => i.svarSlug),
-	]),
-);
+/** Every cornerstone answer slug in hub order — each cluster's overview, then its
+ *  cards. `groupSvar()` removes these from the FRÅGOR & SVAR index so FAKTA and the
+ *  Q&A list never show the same answer twice; /svar/ still renders them in this order
+ *  as rows its on-page search can reach. */
+export const FAKTA_SVAR_ORDER: readonly string[] = FAKTA_CLUSTERS.flatMap((c) => [
+	...(c.overview ? [c.overview] : []),
+	...c.items.map((i) => i.svarSlug),
+]);
+
+export const FAKTA_SLUGS: ReadonlySet<string> = new Set(FAKTA_SVAR_ORDER);
 
 /** Answer slug → borrowed essay slug, so a cornerstone answer page can render its
  *  own hero (it reads as a FAKTA article, not a bare Q&A). Covers the cluster

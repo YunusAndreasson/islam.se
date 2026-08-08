@@ -1,5 +1,5 @@
 import type { APIContext } from "astro";
-import { getArticles } from "../lib/articles";
+import { articleBody, getArticles } from "../lib/articles";
 
 // Per-essay clean-markdown endpoint (/{slug}.md). Agents and AI crawlers get the
 // essay as compact markdown — the representation LLMs read most cheaply and quote
@@ -15,10 +15,12 @@ export async function getStaticPaths() {
 export async function GET(context: APIContext) {
 	const site = context.site?.href.replace(/\/$/, "") ?? "https://islam.se";
 	const slug = context.params.slug as string;
+	// getStaticPaths generates exactly this page's paths from the same article list, so
+	// the lookup always succeeds on a static build.
 	const article = (await getArticles()).find((a) => a.slug === slug);
-	if (!article) return new Response("Not found", { status: 404 });
+	if (!article) throw new Error(`[slug].md.ts: no article for generated slug "${slug}"`);
 
-	const body = ((article.entry as { body?: string }).body ?? "").trim();
+	const body = articleBody(article).trim();
 	const meta = [
 		`Källa: [islam.se](${site}/${slug})`,
 		`Publicerad ${article.publishedAt.slice(0, 10)}`,

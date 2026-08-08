@@ -11,7 +11,8 @@ const SHOW = {
 	title: PODCAST_TITLE,
 	description: PODCAST_DESCRIPTION,
 	author: "Islam.se",
-	email: "yunus@edenmind.com",
+	// The owner contact Apple Podcasts and Spotify display. Must stay on the islam.se domain.
+	email: "support@islam.se",
 	image: `${SITE}${PODCAST_COVER}`,
 	language: "sv",
 	category: "Religion &amp; Spirituality",

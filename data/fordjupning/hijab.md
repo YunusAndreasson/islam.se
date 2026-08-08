@@ -1,9 +1,9 @@
 ---
 title: "Hijab: vad källorna säger och vad svensk rätt tillåter"
 term: "Hijab"
-description: "Få plagg diskuteras så ofta och beskrivs så sällan i sak. Här står koranverserna med sina exakta ord, de klassiska juristernas oenighet om hur långt plikten sträcker sig, den svenska rättspraxis som skiljer skolan från arbetslivet, och invändningarna så som de formuleras av dem som framför dem."
+description: "Få plagg diskuteras så ofta och beskrivs så sällan i sak. När versen om huvudduken uppenbarades tog kvinnorna sina höftskynken, rev sönder dem i kanterna och svepte tyget om huvudet. Därifrån löper en lång linje fram till svenska domstolar, som dragit gränsen rakt mellan klassrummet och arbetsplatsen."
 seoDescription: "Vad Koranen och hadith säger om hijab, hur rättsskolorna tolkat texterna, svensk rättspraxis efter HFD 2022 och de starkaste invändningarna."
-blurb: "Vad källorna säger, hur de lärda läst dem och vad svensk rätt tillåter"
+blurb: "Koranens anvisning om blygsamhet börjar hos männen och deras blickar, en vers före slöjan"
 publishedAt: "2026-07-30T00:00:00Z"
 keywords:
   - "hijab"
@@ -73,12 +73,13 @@ sources:
 related:
   - "vad-ar-hijab"
   - "islams-syn-pa-kvinnan"
-  - "vad-sager-islam-om-hedersmord"
   - "vad-ar-sharia"
   - "aktenskap-i-islam"
+  - "vad-sager-islam-om-hedersmord"
   - "vad-ar-sunna"
 heroEssay: "nar-natten-inte-faller"
-imageCaption: "Kvällsljus över en nordsvensk stad. Frågan om slöjan ställs här, inte någon annanstans."
+imageAlt: "Kvinna i hijab i profil mot en cirkel av varmt ljus på väggen, vid ett fönster i skymningen"
+imageCaption: "Ett rum i vinterskymningen. Frågan om slöjan ställs här, inte någon annanstans."
 essays:
   - "en-handsbredd-over-marken"
   - "det-enogda-begaret"
@@ -91,7 +92,7 @@ Att håret skall täckas inför män utanför den nära släktkretsen har alla f
 
 I Sverige löper tvisten längs tre skiljelinjer som sällan hålls isär. Den första går mellan tvång och val, och den rör verkliga flickor i verkliga familjer. Den andra dras av svensk rätt, som sedan 2023 behandlar huvudduken olika i skolan och i arbetslivet. Den tredje skiljer huvudduk från ansiktsslöja, två plagg med olika utbredning, olika rättsligt läge och olika stöd i de islamiska källorna, som den svenska debatten regelbundet blandar ihop.
 
-## Ordet och dess betydelse
+## Vad ordet hijab betyder: att skärma av
 
 Roten *h-j-b* betyder att skärma av, dölja eller hindra tillträde. Av samma rot kommer *hājib*, dörrvaktare eller kammarherre vid ett hov, och i anatomiskt bruk ögonbrynet, det som skärmar ögat. Det är mannen som står i dörren och avgör vem som får komma in. Ordet *hijab* förekommer sju gånger i Koranen och betecknar i varje enskilt fall en avskärmning i rummet eller mellan tillstånd: draperiet som Maria drar för sig, muren mellan paradiset och elden, skölden mellan Gud och den människa han talar till.[^1] I den vers som gett termen dess ryktbarhet gäller den ett förhänge i profetens hus, och anvisningen riktar sig till männen som skall tala genom det.[^2]
 
@@ -99,7 +100,7 @@ Klädselreglerna vilar i stället på tre andra begrepp. *Khimār*, med pluralfo
 
 I dagens språkbruk skiljer man på plaggen. Hijab täcker hår, hals och axlar och lämnar ansiktet fritt. Niqab är en ansiktsslöja med en springa för ögonen. Burka är ett afghanskt heltäckande plagg med gallerförsett synfält och har aldrig burits i större omfattning utanför Afghanistan och gränstrakterna. Chador är den iranska halvcirkelformade manteln, som inte täcker ansiktet. I Gulfen bärs abaya, ett rymligt och oftast svart överplagg. Att alla dessa på svenska kallas "slöja" är en av de vanligaste källorna till förvirring i debatten.
 
-## Vad källorna säger
+## Verserna om slöjan börjar med en instruktion till männen
 
 Anvisningen börjar inte hos kvinnorna. En vers före den ofta citerade passagen står en instruktion till männen:
 
@@ -117,7 +118,7 @@ Två ytterligare verser hör till materialet. I sura al-Aʿrāf ställs klädsel
 
 Hadithlitteraturen tillför två avgörande texter. Aisha berättar hos al-Bukhari att kvinnorna, när versen om *khimār* uppenbarades, tog sina höftskynken, rev sönder dem i kanterna och svepte tyget om huvudet.[^8] Att sjalen var ett befintligt plagg framgår av berättelsen. Vad som var nytt läses däremot olika, och båda lägren åberopar samma text: de som betonar plaggets kontinuitet läser hadithen som att anvisningen gällde hur sjalen skulle läggas, medan de som argumenterar för strängare täckning ser i den ett vittnesbörd om hur omedelbart och hur fullständigt kvinnorna täckte sig. Den andra texten är den så kallade Asma-hadithen hos Abu Dawud, där profeten vänder bort blicken från Asma bint Abi Bakr i tunna kläder och säger att av en kvinna som nått månadsblödningens ålder bör ingenting synas utom detta och detta, varvid han pekar på ansiktet och händerna.[^9] Den hadithen är den viktigaste enskilda texten i hela frågan om ansiktet, och den är samtidigt den svagaste: Abu Dawud noterade själv att kedjan är bruten. Något straff för den som låter bli föreskriver Koranen inte.
 
-## Hur de lärda har tolkat texterna
+## De fyra orden tolkningen hänger på: illa ma zahara minha
 
 Oenigheten gäller fyra ord: *illā mā zahara minhā*, "annat än vad som syns av den". Redan bland följeslagarna gick tolkningarna isär. Ibn Abbas läste undantaget som ansiktet och händerna, konkretiserat som kolstiftet kring ögat och ringen på fingret. För Ibn Masud syftade det på ytterplagget, alltså bara det som ofrånkomligen syns utifrån. Båda läsningarna refereras i al-Tabaris kommentar till versen, och var och en har haft sina företrädare i varje senare århundrade.[^10]
 
@@ -131,7 +132,7 @@ Den motsvarande disciplinen på mannens sida ägnas i den klassiska litteraturen
 
 Också i modern tid går skiljelinjerna på tvärs mot förväntningarna. Muhammad Nasir al-Din al-Albani, den mest bokstavstrogne av 1900-talets hadithkritiker, skrev en hel bok för att visa att ansiktet inte behöver täckas, mot den saudiska huvudlinjen hos Ibn Baz och Ibn Uthaymin.[^14] I andra änden hävdar en tydlig minoritet, bland dem den egyptiske domaren Muhammad Said al-Ashmawi, Gamal al-Banna och syriern Muhammad Shahrur, att huvudtäckningen över huvud taget inte är en religiös plikt utan en historisk sedvänja. Deras hållning avvisas av det stora flertalet lärda. Oenigheten om räckvidden är däremot lika gammal som traditionen själv.
 
-## Historia
+## Slöjans historia före islam: assyrisk lag och bysantinsk sed
 
 Täckt hår var ett statusmärke i Främre Orienten långt före islam. De mellanassyriska lagarna från omkring 1100 f.Kr. föreskriver att fria mäns hustrur och döttrar skall bära slöja utomhus och förbjuder uttryckligen slavinnor och prostituerade att göra det, med kroppsstraff för överträdelser.[^15] Bysantinska och sasanidiska överklasskvinnor täckte sig, judisk och kristen praxis pekade i samma riktning, och Paulus krav på att kvinnan skall be med täckt huvud står i första Korintierbrevets elfte kapitel. När sura al-Ahzāb anger igenkänning och skydd mot ofredande som skäl knyter den alltså an till en redan etablerad kod, där ett täckt huvud markerade vem som stod under skydd.
 
@@ -164,7 +165,7 @@ Den svenska litteraturen kring sekelskiftet 1900 behandlade bruket som något at
 
 Detta är inte en parallell som ursäktar något. Boye och Söderberg skrev mot den ordning de beskrev, och den svenska sedvänjan saknade det textstöd som muslimska jurister läser ut ur sura al-Nūr. Skillnaden är avgörande och skall inte suddas ut. Vad den svenska idéhistorien däremot förklarar är varför frågan väcker så starka känslor i Sverige: landet har en egen ordning för vem som bestämmer över en kvinnas huvud, och den avvecklades historiskt sett ganska nyligen. Upplösningen skedde till förmån för kvinnan själv, och det är den tanken Ellen Key formulerade när hon skrev att hon ville "kvinnans verkliga frihet, d. v. s. att hon skall kunna följa sin natur, vare sig denna är undantagskvinnans eller den vanliga kvinnans".[^30] Just den principen åberopas i dagens debatt av båda sidor.
 
-## Invändningar och missförstånd
+## Invändningar mot hijab: tvånget, barnen och GAPF:s krav
 
 Den tyngsta invändningen gäller tvånget. Riksorganisationen GAPF beskriver hijab som en symbol för uppfattningen att kvinnor bär ansvaret för mäns sexuella beteende, hävdar att plagget på barn antyder att de är sexobjekt, och kräver förbud för flickor under arton år i förskola, grundskola och gymnasium samt för anställda i offentlig sektor.[^31] Devin Rexvid, forskare i socialt arbete, säger sig inom ramen för sin forskning om hedersrelaterat våld läsa många rättsfall, och säger sig där se LVU-ärenden där flickor sökt hjälp efter att ha misshandlats eller kränkts när de vägrat bära slöja. Han framhåller samtidigt uttryckligen att han inte har gjort någon studie om just slöjan.[^32] Iakttagelsen är alltså ett intryck från ett rättsfallsmaterial, inte ett forskningsresultat, och LVU-ärenden är dessutom per definition ett urval av de mest konfliktfyllda familjerna. Att materialet inte mäter utbredning gör det däremot inte mindre verkligt för dem det gäller. Moderaternas motion formulerar det bärande argumentet för förbud utan omsvep, nämligen att det då är samhället som tar konflikten med familjerna, inte enskilda flickor.[^27] Mot det står att ett förbud drabbar samma flicka: hon riskerar att hållas hemma från skolan, och sanktionen faller på henne, inte på den som utövar påtryckningen. Det är hon som står i hallen på morgonen och skall välja mellan två auktoriteter som båda kan straffa henne. Rexvid själv förespråkar därför förbud mot alla religiösa symboler i skolan, inte mot hijab enbart, vilket är en annan ståndpunkt än GAPF:s och bör hållas isär från den.
 

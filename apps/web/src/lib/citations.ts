@@ -7,7 +7,7 @@ import { memoize } from "./cache";
 // essays, no authored link data (plan §11, citation index).
 const QURAN_FOOTNOTE = /\[\^[^\]]+\]:\s*(?:Koranen,\s*|sura\s+)[^0-9\n]*?(\d{1,3}):(\d{1,3})/g;
 
-export interface VerseCitation {
+interface VerseCitation {
 	ayahKey: string;
 	slug: string;
 	publishedAt: string;
@@ -18,7 +18,7 @@ async function build(): Promise<Map<string, VerseCitation[]>> {
 	const map = new Map<string, VerseCitation[]>();
 
 	for (const entry of entries) {
-		const body = (entry as { body?: string }).body ?? "";
+		const body = entry.body ?? "";
 		const seen = new Set<string>(); // count each verse at most once per essay
 		for (const m of body.matchAll(QURAN_FOOTNOTE)) {
 			const key = `${m[1]}:${m[2]}`;
@@ -39,12 +39,7 @@ async function build(): Promise<Map<string, VerseCitation[]>> {
 	return map;
 }
 
-export const getCitationIndex = memoize(build);
-
-/** Essays that cite the given ayah, most-recent first. */
-export async function essaysCiting(ayahKey: string): Promise<VerseCitation[]> {
-	return (await getCitationIndex()).get(ayahKey) ?? [];
-}
+const getCitationIndex = memoize(build);
 
 /**
  * Inverse of the citation index: each essay slug → the set of ayah keys it cites

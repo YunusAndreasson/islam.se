@@ -1,6 +1,6 @@
 import { getCollection } from "astro:content";
 import { type Amne, type AmneName, amneByName } from "./amnen";
-import { type Article, getArticles } from "./articles";
+import { type Article, articleBody, getArticles } from "./articles";
 import { memoize } from "./cache";
 import { getVersesByEssay } from "./citations";
 import { FAKTA_SLUGS } from "./fakta";
@@ -11,17 +11,17 @@ import { getTankare } from "./tankare";
 // curated trådar it belongs to, and the essays nearest it on those axes. None
 // of this is authored per-essay; it falls out of the existing graph (§13.6/7).
 
-export interface TankareRef {
+interface TankareRef {
 	name: string;
 	slug: string;
 }
 
-export interface TradRef {
+interface TradRef {
 	id: string;
 	title: string;
 }
 
-export interface SvarRef {
+interface SvarRef {
 	slug: string;
 	title: string;
 }
@@ -69,24 +69,18 @@ export async function getEssayConnections(slug: string, limit = 3): Promise<Essa
 		}
 	}
 
-	// The trådar this essay belongs to, and (for scoring) co-members per essay.
+	// The trådar this essay belongs to, and (for scoring) its co-members.
 	const tradar: TradRef[] = [];
-	const threadMatesByEssay = new Map<string, Set<string>>();
+	const myThreadMates = new Set<string>();
 	for (const thread of threads) {
 		const members: string[] = thread.data.essays;
 		if (!members.includes(slug)) continue;
 		tradar.push({ id: thread.id, title: thread.data.title });
-		for (const m of members) {
-			if (m === slug) continue;
-			const set = threadMatesByEssay.get(slug) ?? new Set<string>();
-			set.add(m);
-			threadMatesByEssay.set(slug, set);
-		}
+		for (const m of members) if (m !== slug) myThreadMates.add(m);
 	}
 
 	const myThinkers = thinkersByEssay.get(slug) ?? new Set();
 	const myVerses = versesByEssay.get(slug) ?? new Set();
-	const myThreadMates = threadMatesByEssay.get(slug) ?? new Set();
 
 	const scored = articles
 		.filter((a) => a.slug !== slug)
@@ -213,9 +207,7 @@ async function buildSvarIndex(): Promise<{
 	const [answers, articles] = await Promise.all([getCollection("svar"), getArticles()]);
 
 	// One token set per essay, built once for the whole build.
-	const tokensBySlug = new Map(
-		articles.map((a) => [a.slug, new Set(tokenize((a.entry as { body?: string }).body ?? ""))]),
-	);
+	const tokensBySlug = new Map(articles.map((a) => [a.slug, new Set(tokenize(articleBody(a)))]));
 	const docs = [...tokensBySlug.values()];
 
 	const maxDocs = docs.length * TOKEN_MAX_DOC_SHARE;
@@ -259,7 +251,7 @@ const getSvarIndex = memoize(buildSvarIndex);
 
 /** The reference pages nearest one essay, strongest first. Falls back to the
  *  essay's ämne when nothing genuinely overlaps. */
-export async function getRelatedSvar(slug: string, limit = 2): Promise<SvarRef[]> {
+async function getRelatedSvar(slug: string, limit = 2): Promise<SvarRef[]> {
 	const [{ entries, tokensBySlug, labelBySlug }, articles] = await Promise.all([
 		getSvarIndex(),
 		getArticles(),

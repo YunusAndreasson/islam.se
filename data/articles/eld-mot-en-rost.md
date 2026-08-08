@@ -12,13 +12,13 @@ Sommaren 2023 brann böcker på svenska gator. Ambassader stormades, handelsrela
 
 Redan ordet *Qurʾān* bär svaret. Det stammar ur arabiskans *qaraʾa* – att recitera, att läsa högt, att frambära med rösten. Koranen namngav sig själv efter ljudet, inte efter sidan.
 
-När ängeln Jibrīl kom till Profeten Muḥammad ﷺ i grottan Hira var budet inte "skriv" utan *iqraʾ*, recitera. Därpå följde tjugotre år av muntlig uppenbarelse, buren av en röst till ett öra, memorerad innan den nedtecknades. Den skrivna texten, *muṣḥaf*, kom senare – som kärl för något som redan levde fullt ut utan den.
+När ängeln Jibrīl kom till Profeten Muḥammad ﷺ i grottan Hira löd budet *iqraʾ*, recitera – inte skriv. Därpå följde tjugotre år av muntlig uppenbarelse, buren av en röst till ett öra, memorerad innan den nedtecknades. Den skrivna texten, *muṣḥaf*, kom senare – som kärl för något som redan levde fullt ut utan den.
 
 Här öppnar sig en klyfta. Den västerländska traditionen, formad av Gutenbergs press och protestantismens *sola scriptura*, förstår helig text som skrift. Koranen tillhör en annan ordning: den hör hemma i luften mellan mun och öra, i det ögonblick rösten bär fram de gudomliga orden:
 
 > När Koranen reciteras skall ni lyssna till den och vara tysta så att ni kan få nåd.[^2]
 
-Den tystnad som krävs är inte bibliotekets utan konsertsalens – tystnad inför något som händer *nu*. Ibn Kathīr (ca. 1300–1373) förtydligar att Gud befallde tystnaden som en handling av vördnad, till skillnad från avgudadyrkarna bland Quraysh, som sade: "Lyssna inte på denna Koran och överrösta den, så att ni må segra."
+Den tystnad som krävs är konsertsalens – tystnad inför något som händer *nu*. Ibn Kathīr (ca. 1300–1373) förtydligar att Gud befallde tystnaden som en handling av vördnad, till skillnad från avgudadyrkarna bland Quraysh, som sade: "Lyssna inte på denna Koran och överrösta den, så att ni må segra."
 
 ## Rösten som tillhör Skaparen
 
@@ -54,11 +54,11 @@ I detta ljus framträder koranbränningarna annorlunda. Det som förstördes var
 Walter Ong (1912–2003) satte ord på klyftan mellan dessa världar: i den muntliga kulturen är ordet alltid en *händelse*; skriften förvandlar det till ett *föremål*.[^8]
 Man kan bränna ett exemplar av *Kapitalet* utan att Marx tystnar; idéerna överlever som rena tankar, oberoende av det enskilda exemplaret. Men inom den islamiska förståelsen är varje *muṣḥaf* en plats där Allahs ﷻ tal vilar. Att bränna den är att rikta förakt mot en närvaro, inte mot ett argument.
 
-Koranen har ett ord för denna hållning. *Istihzāʾ* – hån, förlöjligande av det heliga. Ibn Taymiyyah är otvetydig: att håna Allahs ﷻ tecken och visa ringaktning mot Hans sändebud är otro av nödvändighet.[^9] Det som avvisas är inte kritik utan föraktet mot det som upplevs som Guds direkta närvaro i världen.
+Koranen har ett ord för denna hållning. *Istihzāʾ* – hån, förlöjligande av det heliga. Ibn Taymiyyah är otvetydig: att håna Allahs ﷻ tecken och visa ringaktning mot Hans sändebud är otro av nödvändighet.[^9] Det som avvisas är föraktet mot det som upplevs som Guds direkta närvaro i världen.
 
 ## Domen och insikten
 
-Den närmaste invändningen: om Koranens sakralitet skyddas juridiskt, var drar man gränsen? Skiljelinjen går inte mellan det obehagliga och det behagliga utan mellan *kritik* och *förakt*. Den som argumenterar mot Koranens budskap utövar sin rätt. Den som bränner den på gatan riktar sig inte mot ett argument utan mot en närvaro – och mot de människor som bär den. I februari 2025 fastslog Stockholms tingsrätt att koranbränningarna utgjorde hets mot folkgrupp. Svea hovrätt stadfäste domen i november samma år med formuleringen att de budskap handlingarna förmedlade "uttrycker missaktning, inte bara mot islam som religion, utan även mot folkgruppen muslimer."[^10] Handlingen överskred "saklig debatt och kritik"; den riktade sig mot människor, inte mot argument.[^11]
+Den närmaste invändningen: om Koranens sakralitet skyddas juridiskt, var drar man gränsen? Skiljelinjen går inte mellan det obehagliga och det behagliga utan mellan *kritik* och *förakt*. Den som argumenterar mot Koranens budskap utövar sin rätt. Den som bränner den på gatan riktar sig mot en närvaro – och mot de människor som bär den. I februari 2025 fastslog Stockholms tingsrätt att koranbränningarna utgjorde hets mot folkgrupp. Svea hovrätt stadfäste domen i november samma år med formuleringen att de budskap handlingarna förmedlade "uttrycker missaktning, inte bara mot islam som religion, utan även mot folkgruppen muslimer."[^10] Handlingen överskred "saklig debatt och kritik"; den riktade sig mot människor, inte mot argument.[^11]
 
 Den islamiska förklaringen når djupare. Handlingen angriper det som gruppen uppfattar som Guds levande tal.
 
@@ -70,7 +70,7 @@ Erik Gustaf Geijer (1783–1847) varnade 1817 för vad som händer när förakte
 
 > Föraktet för det heliga är döden i samhället och upplöser alla band. Ty samhället är självt en förening på god tro; och ingen tro finnes utan tron på det högsta.[^13]
 
-Geijer talade om kristendomen, men iakttagelsen bär längre. När det heliga är levande tal, inte en tankebyggnad, är föraktet inte bara ett brott mot samhällsfördraget utan ett försök att tysta en röst som fortfarande talar.
+Geijer talade om kristendomen, men iakttagelsen bär längre. När det heliga är levande tal, inte en tankebyggnad, är föraktet mer än ett brott mot samhällsfördraget: ett försök att tysta en röst som fortfarande talar.
 
 Viktor Rydberg fångar något besläktat i *Singoalla*:
 
@@ -84,7 +84,7 @@ Ibn Qayyim återvänder i *al-Wābil al-Ṣayyib* till den liknelse som bär den
 
 Koranen reciteras – i moskéer, i hem, i bilar på motorvägen, i telefoner som spelar *Sūrat al-Kahf* på fredagsmorgnar. Den faller som regn.
 
-Det var denna verklighet – inte en bok, inte en symbol, utan ett ständigt regn av gudomligt tal – som brann på Stockholms gator. De som tände elden trodde sig bränna papper. De som såg visste bättre.
+Det var denna verklighet – ett ständigt regn av gudomligt tal, varken bok eller symbol – som brann på Stockholms gator. De som tände elden trodde sig bränna papper. De som såg visste bättre.
 
 Frågan är inte varför reaktionen blev stark. Frågan är om ett samhälle som inte skiljer en bok från en röst förstår vad det bränner.
 

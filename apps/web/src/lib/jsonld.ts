@@ -3,6 +3,7 @@
 
 import { APP_STORE_URL, PLAY_STORE_URL } from "./app";
 import { SITE_URL } from "./config";
+import { basename } from "./path";
 import { APPLE_PODCAST_URL, SPOTIFY_SHOW_URL } from "./podcast";
 
 const SITE = SITE_URL;
@@ -16,8 +17,7 @@ const SITE = SITE_URL;
 function pageUrl(url: string): string {
 	const abs = url.startsWith("http") ? url : `${SITE}${url}`;
 	if (!abs.startsWith(SITE) || /[?#]/.test(abs)) return abs;
-	const last = abs.split("/").pop() ?? "";
-	if (last.includes(".")) return abs;
+	if (basename(abs).includes(".")) return abs;
 	return abs.endsWith("/") ? abs : `${abs}/`;
 }
 
@@ -82,6 +82,10 @@ function administrativeArea(
  *  kommun→län→Sverige containment chain, and (when we matched SCB) the official
  *  population as a PropertyValue. Used as a WebPage's `about`. */
 export function cityPlace(opts: {
+	/** Bönetider place slug — becomes the stable `@id`. Pass the SAME slug from
+	 *  /bonetider/[stad] and /moskeer/[stad] so the two pages describe one City entity
+	 *  instead of two anonymous nodes Google has to guess are the same town. */
+	slug?: string;
 	name: string;
 	county: string;
 	lat: number;
@@ -97,6 +101,7 @@ export function cityPlace(opts: {
 	const within = opts.kommun ? administrativeArea(opts.kommun, lan) : lan;
 	const place: Record<string, unknown> = {
 		"@type": "City",
+		...(opts.slug ? { "@id": `${SITE}/bonetider/${opts.slug}/#city` } : {}),
 		name: opts.name,
 		address: {
 			"@type": "PostalAddress",
@@ -245,7 +250,7 @@ export function organization(): Record<string, unknown> {
 			url: "https://bilal.se",
 			description: "Grundare av islam.se.",
 		},
-		...(ORG_SAME_AS.length > 0 ? { sameAs: ORG_SAME_AS } : {}),
+		sameAs: ORG_SAME_AS,
 	};
 }
 

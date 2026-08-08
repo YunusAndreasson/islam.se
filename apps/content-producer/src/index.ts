@@ -1316,38 +1316,47 @@ program
 	.command("podcast")
 	.description("Generate audio narration for a published article")
 	.argument("<slug>", "Article slug (from data/articles/)")
-	.action(async (slug: string) => {
-		const { PodcastService } = await import("@islam-se/orchestrator");
+	.option("--chunk-chars <n>", "Characters per ElevenLabs request (v3 caps at 5000)", Number)
+	.option("--seed <n>", "Sampling seed (best-effort on v3, not bit-exact)", Number)
+	.option("--reuse-script", "Skip Claude and narrate the existing {slug}-audio.txt")
+	.option("--variant <name>", "Render to {slug}--{name}.mp3, leaving frontmatter untouched")
+	.action(
+		async (
+			slug: string,
+			options: { chunkChars?: number; seed?: number; reuseScript?: boolean; variant?: string },
+		) => {
+			const { PodcastService } = await import("@islam-se/orchestrator");
 
-		console.log("");
-		console.log("╔══════════════════════════════════════════════════════════╗");
-		console.log("║              Islam.se Podcast Generator                  ║");
-		console.log("╚══════════════════════════════════════════════════════════╝");
-		console.log("");
-		console.log(`Article: ${slug}`);
-		console.log("");
+			console.log("");
+			console.log("╔══════════════════════════════════════════════════════════╗");
+			console.log("║              Islam.se Podcast Generator                  ║");
+			console.log("╚══════════════════════════════════════════════════════════╝");
+			console.log("");
+			console.log(`Article: ${slug}`);
+			console.log("");
 
-		const service = new PodcastService();
-		const result = await service.produce(slug);
+			const service = new PodcastService();
+			const result = await service.produce(slug, options);
 
-		console.log("");
-		if (result.success) {
-			console.log("✅ Podcast generated successfully");
-			if (result.scriptPath) console.log(`   Script: ${result.scriptPath}`);
-			if (result.audioPath) console.log(`   Audio:  ${result.audioPath}`);
-			if (result.duration) {
-				const secs = Math.round(result.duration / 1000);
-				const mins = Math.floor(secs / 60);
-				const rem = secs % 60;
-				console.log(`   Time:   ${mins}m ${rem}s`);
+			console.log("");
+			if (result.success) {
+				console.log("✅ Podcast generated successfully");
+				if (result.scriptPath) console.log(`   Script: ${result.scriptPath}`);
+				if (result.audioPath) console.log(`   Audio:  ${result.audioPath}`);
+				if (result.duration) {
+					const secs = Math.round(result.duration / 1000);
+					const mins = Math.floor(secs / 60);
+					const rem = secs % 60;
+					console.log(`   Time:   ${mins}m ${rem}s`);
+				}
+			} else {
+				console.log(`❌ Failed: ${result.error}`);
+				process.exit(1);
 			}
-		} else {
-			console.log(`❌ Failed: ${result.error}`);
-			process.exit(1);
-		}
 
-		process.exit(0);
-	});
+			process.exit(0);
+		},
+	);
 
 // ─── Svar answer-page production ─────────────────────────────────────────────
 

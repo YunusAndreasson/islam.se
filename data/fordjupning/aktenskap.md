@@ -1,9 +1,9 @@
 ---
 title: "Äktenskapet i islam: kontraktet, rätten och svensk praxis"
 term: "Äktenskapet"
-description: "Islamiskt är äktenskapet ett avtal med villkor och motprestationer, inte ett sakrament. Den formen förklarar både brudgåvan och skilsmässorätten – och varför ett nikāh utan vigselrätt saknar verkan i Sverige medan en svensk skilsmässa inte upplöser det religiösa bandet."
+description: "Ett par kan vara gift inför Gud och ogift inför staten, eller frånskilt i tingsrätten och ändå bundet religiöst. Båda lägena uppstår ur samma sak: svensk rätt och islamisk rätt räknar med olika sorters band, och de upphör inte samtidigt."
 seoDescription: "Vad äktenskapet är i islam: koranverserna, rättsskolornas oenighet om målsman och villkor, mahr i svensk domstol och lagarna 2019–2026."
-blurb: "Kontraktet, brudgåvan och de haltande äktenskapen mellan två rättsordningar"
+blurb: "Nikah är ett avtal som ingås inför vittnen och mot en brudgåva till hustrun själv"
 publishedAt: "2026-07-30T00:00:00Z"
 keywords:
   - "äktenskap i islam"
@@ -83,7 +83,7 @@ essays:
   - "det-enogda-begaret"
   - "rattigheterna-utan-grund"
 heroEssay: "passionens-klangvaxt"
-imageAlt: "Spiraltrappa sedd uppifrån, med räcket i allt trängre vindlingar mot vitkalkade väggar"
+imageAlt: "Par som ligger tätt intill varandra i en träeka på stilla vatten"
 ---
 
 **Äktenskapet** är i islam ett rättsligt avtal, *nikāh*, som ingås mellan två parter inför vittnen och mot en brudgåva som tillfaller hustrun personligen. Det är inte ett sakrament, ingen präst behöver medverka och inget oupplösligt band uppstår. Avtalet kan förses med villkor, det ger vardera parten anspråk mot den andra, och det kan sägas upp. Just denna form, kontraktet snarare än vigningen, förklarar det mesta som skiljer islamisk äktenskapsrätt från den kristna tradition som svensk familjerätt vuxit ur.
@@ -92,7 +92,7 @@ Formen bär både traditionens styrka och dess svaghet. Styrkan: hustrun behåll
 
 Tvisten om ämnet handlar sällan om vad Koranen säger och nästan alltid om två andra saker. Den första är vad de tidiga juristerna gjorde av texterna: Kecia Ali har visat att de beskrev äktenskapet med ett språk hämtat ur ägande och köp. Den andra, som är den svenska frågan, är vad som händer när två rättsordningar överlappar utan att sammanfalla. Ett nikāh utan vigselrätt saknar civilrättslig verkan, medan en svensk skilsmässa inte utan vidare upplöser det religiösa bandet. Resultatet är de haltande äktenskapen: kvinnan är fri enligt lagen och bunden enligt den ordning hennes omgivning erkänner. Hon har domen i handen och kan ändå inte gifta om sig utan att förlora sin familj.
 
-## Ordet och dess betydelse
+## Nikah och aqd: orden bakom äktenskapet som avtal
 
 Roten *n-k-h* betecknar i klassisk arabiska både äktenskapets ingående och samlivet i det. Vilken av betydelserna som är den grundläggande diskuterade grammatikerna länge. I rättslitteraturen används *nikāh* nästan alltid om själva avtalet. Kontraktet kallas också *ʿaqd*, samma ord som används om köpeavtal och andra bindande överenskommelser, och det är ingen tillfällighet: kapitlen om äktenskap i de klassiska rättsverken följer i allt väsentligt avtalsrättens systematik.
 
@@ -102,7 +102,7 @@ Kring kärnbegreppet ligger en rad termer som återkommer i varje diskussion om 
 
 Termen *mutʿa* betecknar i tolvshiitisk rätt ett tidsbegränsat äktenskap. De fyra rättsskolorna anser företeelsen upphävd. I svensk debatt förekommer den under beteckningen njutningsäktenskap.
 
-## Vad källorna säger
+## Vad Koranen säger om äktenskapet: ro, kärlek och ömhet
 
 Den vers som oftast citeras när äktenskapet ska beskrivas positivt står i sura ar-Rūm och räknar förbindelsen till skapelsens tecken:
 
@@ -118,7 +118,7 @@ Skilsmässan regleras i al-Baqara. Upplösningen är återkallelig två gånger.
 
 I hadithlitteraturen är materialet rikt och spretigt. Profeten uppmanar unga som har råd att gifta sig,[^13] kallar en rättskaffens hustru världens bästa tillgång[^14] och säger enligt Ibn Māja att man inte sett något som liknar äktenskapet för två som älskar varandra.[^15] Andra hadither går åt annat håll. Änglarna förbannar den hustru som vägrar mannens säng,[^16] och enligt en hadith hos al-Tirmidhī att om han befallt någon att buga sig för en annan människa hade han befallt hustrun att buga sig för mannen.[^17] Att al-Nawawī samlade båda slagen i samma kapitel av *Riyād al-sālihīn* säger något om hur traditionen faktiskt ser ut.
 
-## Hur de lärda har tolkat texterna
+## Juristerna om anbud, accept, vittnen och brudgåva
 
 Av dessa texter byggde de klassiska juristerna en avtalsrätt. Kontraktet krävde anbud och accept och parternas samtycke. Om vittnena rådde delad mening: hanafiter, shafiiter och hanbaliter kräver två, medan malikiterna i stället kräver att äktenskapet kungörs. Brudgåvan är däremot ingen giltighetsvillkor i någon skola. Ett äktenskap som ingås utan angiven brudgåva, *nikāh al-tafwīd*, är giltigt, och hustrun får då den brudgåva som är gängse för kvinnor i hennes ställning; Koranen 2:236 förutsätter uttryckligen ett sådant äktenskap. Ibn Taymiyya förklarade offentliggörandets funktion som ett rent skydd: vittnena och bekantgörandet finns till för att värna härstamningen och för att kvinnorna inte ska likställas med prostituerade, inte för att någon bestämd formulering skulle vara påbjuden.[^18]
 
@@ -132,7 +132,7 @@ De ömsesidiga skyldigheterna behandlades ofta som en öppen tvistefråga. Ibn T
 
 Den tolvshiitiska rätten, *jaʿfarī*, skiljer sig från de fyra skolorna på flera punkter som har betydelse i Sverige. Vittnen är där inte något giltighetsvillkor för äktenskapskontraktet men däremot för *talāq*, alltså det omvända mot vad som gäller i de fyra skolorna. En myndig kvinna som varit gift förut ingår kontraktet själv, medan frågan om faderns medverkan för den ogifta kvinnan är omtvistad bland de shiitiska lärda. Tidsbegränsat äktenskap, *mutʿa*, är tillåtet. Hustrun kan, som i hanafitisk rätt, förses med en delegerad skilsmässorätt i kontraktet, vilket ger henne en väg ut som inte förutsätter mannens medgivande i efterhand.
 
-## Historia
+## Äktenskapets historia: från förislamiskt Arabien till kodifierad familjerätt
 
 Det förislamiska Arabien kände flera samlevnadsformer. Källorna beskriver bland annat att änkor kunde tillfalla den avlidnes arvingar som del av kvarlåtenskapen, att brudgåvan ofta tillföll brudens familj och att antalet hustrur var obegränsat. Det första förbjuds uttryckligen i 4:19, det andra riktas om till kvinnan själv i 4:4, och 4:3 sätter en övre gräns med ett villkor som gör den svår att nå.
 
@@ -176,7 +176,7 @@ Ellen Key drev frågan längst. Hon menade att kvinnans beroende endast kunde up
 
 Det är en radikalt annan utgångspunkt än den islamiska rättstraditionens. Key flyttar avgörandet till individen, medan fiqh fördelar det mellan parterna, deras familjer och en domare. Att båda traditionerna har genomlevt en strid om giftomannens makt gör dem inte till varandras spegelbilder, och den svenska historien säger ingenting om hur den islamiska frågan bör avgöras. Striden här slutade med att institutet avskaffades helt.
 
-## Invändningar och missförstånd
+## Invändningar mot den islamiska äktenskapsrätten: Kecia Ali och ägandets språk
 
 Den starkaste invändningen är Kecia Alis. Hennes tes är inte att Koranen jämställer hustrun med en slav, utan att de jurister som byggde äktenskapsrätten under 700- och 800-talen använde ägandets begreppsapparat för att göra det: de talade om *milk al-nikāh* i analogi med *milk al-yamīn*, liknade vigseln vid köp och skilsmässan vid frigivning, och lät mahr fungera som motprestation för exklusiv sexuell tillgång.[^42] Om den analysen håller, följer hela rättighetsstrukturen, lydnad mot försörjning och samlivsplikt mot brudgåva, ur en modell som ingen i dag skulle välja. Invändningen riktar sig mot fiqh, inte mot Koranen, och det svar som består i att citera 30:21 träffar den därför inte.
 

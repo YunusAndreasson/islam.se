@@ -6,17 +6,15 @@ import {
 	PRAYER_LABELS,
 	PRAYER_ORDER,
 	stockholmDateParts,
-	stockholmMonthLabel,
 	TIME_ZONE,
 } from "../../lib/bonetider/prayer-times";
 import { DEFAULT_SETTINGS } from "../../lib/bonetider/settings";
 
 interface Props {
 	location: { name: string; latitude: number; longitude: number };
-	/** id of a heading that already names this table. Given one, the figure is labelled by
-	 *  it instead of repeating the same sentence in a figcaption — and the client refresh
-	 *  renames that heading, so it cannot outlive the month it names. */
-	labelledBy?: string;
+	/** id of the heading that already names this table — the client refresh renames it
+	 *  too, so it cannot outlive the month it names. */
+	labelledBy: string;
 }
 const { location, labelledBy } = Astro.props;
 
@@ -27,7 +25,6 @@ const now = new Date();
 const { year, month, day: todayD } = stockholmDateParts(now);
 const fmt = (opts: Intl.DateTimeFormatOptions, d: Date) =>
 	new Intl.DateTimeFormat("sv-SE", { timeZone: TIME_ZONE, ...opts }).format(d);
-const monthLabel = stockholmMonthLabel(now);
 const daysInMonth = new Date(year, month + 1, 0).getDate();
 
 const rows = Array.from({ length: daysInMonth }, (_, i) => {
@@ -51,13 +48,6 @@ const rows = Array.from({ length: daysInMonth }, (_, i) => {
 	aria-labelledby={labelledBy}
 	data-bt-heading={labelledBy}
 >
-	{
-		!labelledBy && (
-			<figcaption class="bt-table-cap" data-bt-table-caption>
-				Bönetider i {location.name} – {monthLabel}
-			</figcaption>
-		)
-	}
 	<div class="bt-scroll">
 		<table class="bt-table">
 			<thead>
@@ -209,14 +199,11 @@ const rows = Array.from({ length: daysInMonth }, (_, i) => {
 
 		const { year, month, day: todayD } = stockholmDateParts(new Date());
 		const daysInMonth = new Date(year, month + 1, 0).getDate();
-		// Whatever names this table — its own figcaption, or a heading outside it — has to be
-		// renamed too. A static build that crosses a month boundary otherwise labels July's
-		// rows "juni".
+		// The heading outside this table names the month, so it has to be renamed too. A
+		// static build that crosses a month boundary otherwise labels July's rows "juni".
 		const monthLabel = `${fmt({ month: "long" }, new Date(Date.UTC(year, month, 15, 12)))} ${year}`;
 		const headingId = fig.dataset.btHeading;
-		const label =
-			fig.querySelector<HTMLElement>("[data-bt-table-caption]") ??
-			(headingId ? document.getElementById(headingId) : null);
+		const label = headingId ? document.getElementById(headingId) : null;
 		if (label) label.textContent = `Bönetider i ${name} – ${monthLabel}`;
 
 		// ⚠️ Astro scopes this component's CSS behind a `data-astro-cid-*` attribute, and

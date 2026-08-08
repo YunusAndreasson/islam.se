@@ -1,51 +1,59 @@
 ---
 import type { CollectionEntry } from "astro:content";
+import { Image } from "astro:assets";
+import { threadArt } from "../lib/tradar";
 
 type ThreadEntry = CollectionEntry<"tradar">;
 
 interface Props {
 	threads: readonly ThreadEntry[];
-	variant?: "home" | "index";
 	headingLevel?: 2 | 3;
 	prefetch?: "tap" | "hover" | "viewport" | "load";
 }
 
-const { threads, variant = "index", headingLevel = 2, prefetch } = Astro.props;
+const { threads, headingLevel = 2, prefetch } = Astro.props;
 const Heading = `h${headingLevel}` as const;
 ---
 
-<ul class:list={["thread-list", `thread-list--${variant}`]}>
-	{threads.map((thread) => (
-		<li class="thread-list-item">
-			<a href={`/tradar/${thread.id}/`} data-astro-prefetch={prefetch}>
-				<Heading class="thread-list-title">{thread.data.title}</Heading>
-				<p class="thread-list-framing">{thread.data.framing}</p>
-				<p class="label thread-list-count">{thread.data.essays.length} essäer</p>
-			</a>
-		</li>
-	))}
+<ul class="thread-list">
+	{threads.map((thread) => {
+		const art = threadArt(thread.id);
+		return (
+			<li class="thread-list-item">
+				<a href={`/tradar/${thread.id}/`} data-astro-prefetch={prefetch}>
+					{art && (
+						<span class="thread-list-thumb media-frame">
+							<Image
+								src={art}
+								alt={thread.data.imageAlt ?? ""}
+								widths={[256, 512, 768]}
+								sizes="(min-width: 48rem) 26rem, 100vw"
+								loading="lazy"
+							/>
+						</span>
+					)}
+					<Heading class="thread-list-title">{thread.data.title}</Heading>
+					<p class="thread-list-framing">{thread.data.framing}</p>
+					<p class="label thread-list-count">{thread.data.essays.length} essäer</p>
+				</a>
+			</li>
+		);
+	})}
 </ul>
 
 <style>
+	/* --thread-list-min lets a caller trade card width for column count: the /tradar
+	   index wants two wide cards, the /essaer/ intro three narrower ones. */
 	.thread-list {
-		margin: var(--thread-list-margin, 0);
+		margin: var(--space-unit) 0 0;
 		padding: 0;
 		list-style: none;
 		display: grid;
-	}
-
-	.thread-list--home {
-		grid-template-columns: repeat(2, 1fr);
-		gap: var(--space-unit) clamp(1.5rem, 4vw, 3rem);
-	}
-
-	.thread-list--index {
-		--thread-list-margin: var(--space-unit) 0 0;
-		grid-template-columns: repeat(auto-fill, minmax(min(100%, 26rem), 1fr));
+		grid-template-columns: repeat(auto-fill, minmax(min(100%, var(--thread-list-min, 26rem)), 1fr));
 		column-gap: clamp(1.75rem, 4vw, 3.5rem);
 	}
 
-	.thread-list--index .thread-list-item {
+	.thread-list-item {
 		border-bottom: 1px solid var(--color-divider);
 	}
 
@@ -53,25 +61,30 @@ const Heading = `h${headingLevel}` as const;
 		display: block;
 		text-decoration: none;
 		color: inherit;
+		padding-block: var(--space-unit);
 
 		&:hover .thread-list-title {
 			text-decoration: underline;
 			text-underline-offset: 0.12em;
 		}
-	}
-
-	.thread-list--home a {
-		height: 100%;
-		padding-block: 0.2rem;
-		--focus-offset: 3px;
-	}
-
-	.thread-list--index a {
-		padding-block: var(--space-unit);
 
 		&:focus-visible {
 			outline-offset: 0.4rem;
 		}
+	}
+
+	/* Picture above the title, full card width — the same shape the fördjupning band
+	   uses. A thread without art simply has no thumb and the title starts the card. */
+	.thread-list-thumb {
+		display: block;
+		margin-bottom: var(--space-half);
+	}
+
+	.thread-list-thumb :global(img) {
+		display: block;
+		width: 100%;
+		aspect-ratio: 3 / 2;
+		object-fit: cover;
 	}
 
 	.thread-list-title {
@@ -81,45 +94,19 @@ const Heading = `h${headingLevel}` as const;
 		letter-spacing: 0;
 		color: var(--color-accent);
 		margin: 0;
-	}
-
-	.thread-list--home .thread-list-title {
-		font-size: var(--step-1);
-	}
-
-	.thread-list--index .thread-list-title {
 		font-size: var(--step-2);
 	}
 
 	.thread-list-framing {
 		font-family: var(--font-body);
-		line-height: var(--thread-list-framing-line-height, 1.5);
+		line-height: 1.6;
 		color: var(--text-quiet);
 		margin: 0.5rem 0 0;
-		max-width: var(--thread-list-framing-measure, none);
-	}
-
-	.thread-list--home .thread-list-framing {
-		font-size: var(--step--2);
-	}
-
-	.thread-list--index .thread-list-framing {
-		--thread-list-framing-line-height: 1.6;
-		--thread-list-framing-measure: 38rem;
+		max-width: 38rem;
 		font-size: var(--step--1);
 	}
 
 	.thread-list-count {
-		margin: var(--thread-list-count-margin, 0.5rem 0 0);
-	}
-
-	.thread-list--home .thread-list-count {
-		--thread-list-count-margin: 0.625rem 0 0;
-	}
-
-	@media (width <= 600px) {
-		.thread-list--home {
-			grid-template-columns: 1fr;
-		}
+		margin: 0.5rem 0 0;
 	}
 </style>

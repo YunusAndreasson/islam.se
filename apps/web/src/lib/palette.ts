@@ -13,7 +13,7 @@ import { fold } from "./search-text";
 // wordmark-only, so this index must cover *everything* a reader can reach:
 // the standing pages, the three browse axes (ämnen/trådar/tänkare), and every
 // essay. Built once at build time and serialized into an inline JSON island.
-export type PaletteType = "Sida" | "Svar" | "Ort" | "Ämne" | "Tråd" | "Tänkare" | "Essä";
+type PaletteType = "Sida" | "Svar" | "Ort" | "Ämne" | "Tråd" | "Tänkare" | "Essä";
 
 export interface PaletteEntry {
 	type: PaletteType;

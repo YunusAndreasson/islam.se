@@ -103,7 +103,7 @@ export function marchingSquares(
  * centroid of all segment endpoints, then snap to the nearest actual point so the
  * label sits on the line rather than floating off it (e.g. on a curved isoline).
  */
-export function representativePoint(segments: Segment[]): [number, number] | null {
+function representativePoint(segments: Segment[]): [number, number] | null {
 	if (segments.length === 0) return null;
 	let sx = 0;
 	let sy = 0;
@@ -223,6 +223,13 @@ export function chainSegments(segments: Segment[]): [number, number][][] {
 	return polylines;
 }
 
+/** A chain closes on itself when chainSegments looped back to its own start point. */
+function isClosedLine(line: readonly [number, number][]): boolean {
+	const first = line[0];
+	const last = line[line.length - 1];
+	return first[0] === last[0] && first[1] === last[1];
+}
+
 /**
  * Light approximating smoothing of a chained contour, to iron out the grid-scale
  * waviness marching squares leaves on a coarse lattice. The crossings stair-step along
@@ -238,7 +245,7 @@ export function chainSegments(segments: Segment[]): [number, number][][] {
  */
 export function smoothChain(line: [number, number][], iterations = 3): [number, number][] {
 	if (line.length < 3) return line;
-	const closed = line[0][0] === line[line.length - 1][0] && line[0][1] === line[line.length - 1][1];
+	const closed = isClosedLine(line);
 	let pts = closed ? line.slice(0, -1) : line;
 	const m = pts.length;
 	if (m < 3) return line;
@@ -296,7 +303,7 @@ export function catmullRom(line: [number, number][], samples = 12): [number, num
 
 	// A loop arrives with its first vertex duplicated at the end (see chainSegments). Drop
 	// that duplicate and treat the spline as cyclic so the seam is smoothed like any knot.
-	const closed = line[0][0] === line[n - 1][0] && line[0][1] === line[n - 1][1];
+	const closed = isClosedLine(line);
 	const pts = closed ? line.slice(0, -1) : line;
 	const m = pts.length;
 	if (m < 3) return line; // a 2-vertex loop is degenerate — nothing to curve

@@ -21,9 +21,9 @@ Fjorton århundraden senare bygger vi system som beslutar om domar, anställning
 
 Ibn Qayyim al-Jawziyyah (1292–1350) tecknade hjärtat som kroppens konung. Lemmarna är dess armé och undersåtar; de lyder hjärtat av nödvändighet, kan inte annat. Ingen lem rör sig utom på hjärtats befallning, ingen tanke eller vilja föds utom genom dess styre.[^3] Hela denna ordning förutsätter att konungen är vaken. Den vakne känner vreden stiga innan ordet formas och vet att beslutet finns innan handlingen.
 
-Ett beslut är inte en beräkning utan en handling där hjärtat väger, tvekar, bär ansvar. Förnuftet kan räkna, lemmarna verkställa, men ingen av dem kan *regera*.
+Ett beslut är en handling där hjärtat väger, tvekar, bär ansvar. Förnuftet kan räkna, lemmarna verkställa, men ingen av dem kan *regera*.
 
-Nu blir bilden bokstavlig: algoritmen ersätter konungen, inte rådgivaren – övertar beslutet, inte bara beräkningen. Ordet *algoritm* är uppkallat efter den muslimske matematikern al-Khwārizmī,[^21] men det han formaliserade var beräkningen, inte domslutet. EU:s AI-förordning, som träder i full kraft i augusti 2026, ställer frågan juridiskt. Artikel 14 kräver att högrisk-AI-system ska ha "mänsklig tillsyn": att en människa alltid ska kunna förstå systemets förmåga, tolka dess utfall och välja att bortse från dess bedömning.[^4] Den svenska utredningen SOU 2025:101 förtydligar och skärper kraven.[^5]
+Nu blir bilden bokstavlig: algoritmen ersätter konungen och övertar själva beslutet. Ordet *algoritm* är uppkallat efter den muslimske matematikern al-Khwārizmī,[^21] men det han formaliserade var beräkningen, inte domslutet. EU:s AI-förordning, som träder i full kraft i augusti 2026, ställer frågan juridiskt. Artikel 14 kräver att högrisk-AI-system ska ha "mänsklig tillsyn": att en människa alltid ska kunna förstå systemets förmåga, tolka dess utfall och välja att bortse från dess bedömning.[^4] Den svenska utredningen SOU 2025:101 förtydligar och skärper kraven.[^5]
 
 Men om den som formellt ska kunna överpröva en algoritm saknar tid, kunskap eller vilja – vem regerar då? Forskningen visar det: människor som övervakar självgående system slutar med tiden att ifrågasätta dem.[^6] Sultanen sover med öppna ögon.
 
@@ -47,7 +47,7 @@ Algoritmisk delegering är inte *ghaflah*. Inget AI-system sover; inget äger de
 
 Ellen Key läste aldrig Ibn Qayyim men såg samma fara. I *Barnets århundrade* skrev hon att kulturens uppgift borde vara att "göra människan målmedveten och ansvarig på alla områden, där hon endast handlat impulsivt och oansvarigt".[^14] Automationen lovar det omvända: befrielse från beslutens börda. Men om bördan *är* det som gör oss ansvariga – om det tunga, det svåra, det som bergen vägrade, danar den mänskliga förmågan – då är befrielsen en förlust.
 
-Och hon såg djupare: det som förnedrar människan är inte felet utan flykten från dess följder:
+Och hon såg djupare: det som förnedrar människan är flykten från felets följder:
 
 > Det hemliga brott, den äldre moralen fann jämförelsevis ofarligt, blir ur den nya sedlighetens synpunkt större än den öppna brytningen. Ty personligheten förnedras genom de svek och den svaghet, hvarigenom man undandrar sig ansvaret för sin handlings följder.[^15]
 
@@ -69,7 +69,7 @@ Den islamiska synvinkeln avvisar inte utan vidare. *Maqāṣid al-sharīʿah*, d
 
 Det avgörande med AI är att det mänskliga beslutsögonblicket försvinner. En domare som följer en rådgivares rekommendation har ändå fattat beslutet. En domare vars system automatiskt levererar utfall som hon bekräftar med ett klick har det inte. Gesten är mänsklig till sin form, maskinell till sitt innehåll.
 
-Ibn Khaldūn (1332–1406) varnade: "De som inte är kvalificerade för domstolen bör inte bli domare, så att de inte vilseleder dem som söker rätt väg."[^19] Den duglighet han krävde var inte teknisk utan moralisk.
+Ibn Khaldūn (1332–1406) varnade: "De som inte är kvalificerade för domstolen bör inte bli domare, så att de inte vilseleder dem som söker rätt väg."[^19] Den duglighet han krävde var moralisk.
 
 ## Erbjudandet som står kvar
 

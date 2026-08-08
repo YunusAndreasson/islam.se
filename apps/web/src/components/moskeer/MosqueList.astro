@@ -33,8 +33,8 @@ const { mosques, cityLink = false } = Astro.props;
 				</p>
 				{m.organisation && <p class="mk-list-org">Huvudman: {m.organisation}</p>}
 				<p class="mk-list-dir">
-					<a href={dir.apple} class="mk-list-dir-link">Apple Maps</a>
-					<a href={dir.google} class="mk-list-dir-link">Google Maps</a>
+					<a href={dir.apple} class="map-dir-btn">Apple Maps</a>
+					<a href={dir.google} class="map-dir-btn">Google Maps</a>
 					<span class="mk-list-canon"><a href={mosqueUrl(m)}>Permalänk</a></span>
 				</p>
 			</li>
@@ -111,25 +111,6 @@ const { mosques, cityLink = false } = Astro.props;
 		align-items: center;
 		gap: 0.5rem 0.6rem;
 		margin: 0.6rem 0 0;
-	}
-
-	/* Pill buttons matching the hub map callout (.mk-dir-btn) so directions look and tap
-	   the same everywhere. The permalink stays a quiet text link (secondary action). */
-	.mk-list-dir-link {
-		font-family: var(--font-heading);
-		font-size: var(--step--3);
-		font-weight: 600;
-		text-decoration: none;
-		color: var(--color-accent);
-		background: var(--color-bg);
-		border: 1px solid var(--color-divider);
-		border-radius: var(--radius-pill);
-		padding: 0.45rem 0.95rem;
-		transition: border-color 0.15s ease;
-	}
-
-	.mk-list-dir-link:hover {
-		border-color: var(--color-warm);
 	}
 
 	.mk-list-canon a {

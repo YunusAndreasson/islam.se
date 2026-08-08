@@ -52,7 +52,7 @@ Från Jerusalem till Mecka. Inte en adressändring utan en teologisk deklaration
 
 Ibn Kathīr berättar ögonblicket. Den första bönen i den nya riktningen var eftermiddagsbönen. En man som bett med Profeten ﷺ lämnade moskén, passerade en annan församling mitt i bön mot Jerusalem, och ropade: "Jag svär vid Gud – jag har just bett med Profeten ﷺ vänd mot Mecka!" Mitt i bönen vände de sig.[^9] Ingen tvekan. Ingen rådplägning.
 
-Bilden rymmer hela teologin. Människor på knä, ansiktena vända åt ett håll – och i ett enda andetag vrider de sig. Inte för att den nya riktningen var "heligare". Inte för att Mecka rymde mer Gud än Jerusalem. Utan för att befallningen kom, och lydnaden vägde tyngre än vanan. Kompassnålen helgar inte sin slutpunkt – den avslöjar den bedjandes underkastelse under den som bestämmer riktningen.
+Bilden rymmer hela teologin. Människor på knä, ansiktena vända åt ett håll – och i ett enda andetag vrider de sig. Befallningen hade kommit, och lydnaden vägde tyngre än vanan. Ingen ny riktning var "heligare"; Mecka rymde inte mer Gud än Jerusalem. Kompassnålen helgar inte sin slutpunkt – den avslöjar den bedjandes underkastelse under den som bestämmer riktningen.
 
 Hade det heliga vilat i platsen hade bytet varit en förlust: man överger Jerusalem, det äldsta centrumet, den stad där profeter bett i generationer. Men ingen förlust inträffade. Riktningen byttes och bönen fortsatte. Det som verkade vara ett geografiskt skifte var något djupare – ett trohetsprov som avgjordes inte av var man stod utan av vart man vände sig.
 

@@ -105,6 +105,8 @@ const description =
 			<p class="ratta-foot">
 				Vad som händer sedan står under <a href="/om/redaktion/#rattelser">Rättelser</a> i våra
 				redaktionella principer. Ändras en text i sak får den ett synligt datum för ändringen.
+				Hur uppgifterna du skickar in hanteras står i{" "}
+				<a href="/integritetspolicy/">integritetspolicyn</a>.
 			</p>
 		</div>
 </ArticlePage>
@@ -127,6 +129,12 @@ const description =
 	// protocol-relative URL, not a path on this site.
 	const isSitePath = (value: string) => value.startsWith("/") && !value.startsWith("//");
 
+	interface TurnstileGlobal {
+		render(el: Element, opts: { sitekey?: string; language?: string }): string;
+		getResponse(widgetId?: string): string | undefined;
+		reset(widgetId?: string): void;
+	}
+
 	function setup() {
 		const form = document.getElementById("ratta-form") as HTMLFormElement | null;
 		if (!form || form.dataset.wired === "true") return;
@@ -143,7 +151,7 @@ const description =
 
 		let widgetId: string | undefined;
 		const renderWidget = () => {
-			const turnstile = (window as { turnstile?: any }).turnstile;
+			const turnstile = (window as { turnstile?: TurnstileGlobal }).turnstile;
 			if (!turnstile || !widget || widget.dataset.rendered === "true") return;
 			widget.dataset.rendered = "true";
 			widgetId = turnstile.render(widget, { sitekey: widget.dataset.sitekey, language: "sv" });
@@ -154,7 +162,7 @@ const description =
 
 		form.addEventListener("submit", async (event) => {
 			event.preventDefault();
-			const turnstile = (window as { turnstile?: any }).turnstile;
+			const turnstile = (window as { turnstile?: TurnstileGlobal }).turnstile;
 			const token = turnstile?.getResponse(widgetId) ?? "";
 
 			const data = new FormData(form);

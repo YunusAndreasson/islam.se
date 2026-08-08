@@ -1,7 +1,7 @@
 ---
 title: "Varför dricker muslimer inte alkohol?"
 question: "Varför dricker muslimer inte alkohol?"
-description: "Alkohol är förbjudet i islam – men inte främst av hälsoskäl. Koranen förbjöd rusdrycker i tre steg, och det verkliga skälet rör något som varje glas hotar."
+description: "Koranen förbjöd rusdrycker i tre steg: först en varning, sedan förbud mot att be berusad, till sist budet att hålla sig borta. Det som skyddas är människans förnuft."
 publishedAt: "2026-06-20T00:00:00Z"
 keywords:
   - "varför dricker muslimer inte alkohol"

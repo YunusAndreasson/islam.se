@@ -1,7 +1,7 @@
 ---
 title: "Tror muslimer på änglar? Tron på al-malāʾika"
 question: "Tror muslimer på änglar?"
-description: "Ja – tron på änglarna är en av islams sex trosartiklar. Om vad änglarna är skapade av, varför Iblīs inte är någon ängel och vilka som nedtecknar människans ord."
+description: "Ja – änglarna hör till islams sex trosartiklar, alltså till trons grund. Om vad de är skapade av, varför Iblīs räknas till jinnerna och vilka som nedtecknar människans ord."
 publishedAt: "2026-06-20T00:00:00Z"
 updatedAt: "2026-07-26T00:00:00Z"
 keywords:

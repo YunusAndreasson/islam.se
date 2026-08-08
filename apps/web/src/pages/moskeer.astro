@@ -5,10 +5,14 @@ import DisclosureGroup from "../components/DisclosureGroup.astro";
 import SectionLink from "../components/SectionLink.astro";
 import TitledSection from "../components/TitledSection.astro";
 import Base from "../layouts/Base.astro";
+import { formatDate } from "../lib/articles";
 import { breadcrumbList, dataset, faqPageJsonLd } from "../lib/jsonld";
 import { directionsLinks, getMosques, lanSlug, locationLabel, mosqueUrl, mosquesByLan } from "../lib/moskeer";
 import { MOSKEER_DATA_DATE } from "../lib/moskeer/meta";
-import "maplibre-gl/dist/maplibre-gl.css";
+import { fold } from "../lib/search-text";
+// ⚠️ maplibre-gl.css is NOT imported here. In the frontmatter it joins the page's
+// stylesheet graph, and `inlineStylesheets: "always"` then inlines 130 kB of it into
+// <head>. scripts/moskeer-map.ts imports it alongside the map bundle instead.
 
 const mosques = getMosques();
 const groups = mosquesByLan();
@@ -40,19 +44,7 @@ const growthMax = Math.max(1, ...growthDecades.map((d) => d.count));
 const lanRanked = [...groups].sort((a, b) => b.mosques.length - a.mosques.length).slice(0, 10);
 const lanMax = Math.max(1, ...lanRanked.map((g) => g.mosques.length));
 
-const updated = new Date(MOSKEER_DATA_DATE).toLocaleDateString("sv-SE", {
-	year: "numeric",
-	month: "long",
-	day: "numeric",
-});
-
-// Diacritic-folding normaliser, mirrored in moskeer-map.ts so a server-rendered
-// `data-search` string matches a client-typed query.
-const norm = (s: string) =>
-	s
-		.toLowerCase()
-		.normalize("NFD")
-		.replace(/[̀-ͯ]/g, "");
+const updated = formatDate(MOSKEER_DATA_DATE);
 
 // The per-mosque detail the map callout needs, looked up by id on click. Kept lean and
 // embedded once as JSON; `<` is escaped so a name can never break out of the script tag.
@@ -77,27 +69,38 @@ const description = `Karta och katalog över ${total} moskéer i Sverige i ${cit
 
 const timelineItems = [
 	{
-		year: "Vikingatiden",
-		label:
-			"Arabiska silvermynt och runstenar med namnet Särkland vittnar om kontakt med den muslimska världen.",
-	},
-	{
-		year: "1897",
-		label:
-			"Den tatariske pälshandlaren Ebrahim Umerkajeff bosätter sig i Stockholm och blir Sveriges förste muslim.",
-	},
-	{
 		year: "1949",
 		label:
 			"Sveriges första muslimska församling grundas i Stockholm, sunnimuslimsk, med Osman Soukkan som förste imam.",
 	},
 	{
 		year: "1984",
-		label: "Malmö moské, en av landets första stora församlingsmoskéer, står klar.",
+		label:
+			"Malmö moské står klar vid Jägersro efter ett års bygge – en av landets första stora församlingsmoskéer.",
+	},
+	{
+		year: "1995",
+		label: "Uppsala moské uppförs på Kapellgärdet, en av de tidiga moskéerna utanför storstäderna.",
 	},
 	{
 		year: "2000",
-		label: "Stockholms stora moské öppnar i Ferdinand Bobergs gamla elverk på Södermalm.",
+		label:
+			"Stockholms moské invigs den 8 juni i Katarinastationen på Södermalm, ett elverk från 1903 ritat av Ferdinand Boberg.",
+	},
+	{
+		year: "2007",
+		label:
+			"Fittja moské står färdig i Botkyrka med en kupol klädd i björkträ och en minaret på 32,5 meter.",
+	},
+	{
+		year: "2011",
+		label:
+			"Göteborgs moské invigs den 16 juni i Brämaregården på Hisingen, 2 000 kvadratmeter vid Ramberget.",
+	},
+	{
+		year: "2013",
+		label:
+			"Från Fittjas minaret hörs det första böneutropet från en minaret i Sverige, den 26 april.",
 	},
 	{
 		year: "I dag",
@@ -120,11 +123,15 @@ const faq = [
 	},
 	{
 		q: "När kom de första muslimerna till Sverige?",
-		a: "Den första bofasta muslimen brukar räknas vara den tatariske pälshandlaren Ebrahim Umerkajeff, som kom till Stockholm 1897. Sveriges första muslimska församling, som var sunnimuslimsk, bildades 1949. Kontakten mellan Sverige och den muslimska världen är äldre än så och går tillbaka till vikingatiden.",
+		a: "Den första bofasta muslimen brukar räknas vara den tatariske pälshandlaren Ebrahim Umerkajeff, som kom till Stockholm 1897. Sveriges första muslimska församling, som var sunnimuslimsk, bildades 1949.",
+	},
+	{
+		q: "Vilka är Sveriges största moskéer?",
+		a: "Malmö moské vid Jägersro, uppförd 1983–84, Stockholms moské på Södermalm som invigdes 2000, Fittja moské i Botkyrka från 2007 och Göteborgs moské på Hisingen som invigdes 2011. De flesta av landets moskéer är betydligt mindre församlingslokaler.",
 	},
 	{
 		q: "Är alla moskéer byggda som moskéer?",
-		a: "Nej. De flesta moskéer i Sverige är församlingar som inrymts i befintliga lokaler, till exempel föreningslokaler eller ombyggda byggnader. Bara ett mindre antal är uppförda som moskébyggnader med kupol och minaret. Stockholms stora moské ligger i ett före detta elverk ritat av Ferdinand Boberg, och Fittja moské har en kupol klädd i björkträ.",
+		a: "Nej. De flesta moskéer i Sverige är församlingar som inrymts i befintliga lokaler, till exempel föreningslokaler eller ombyggda byggnader. Bara ett mindre antal är uppförda som moskébyggnader med kupol och minaret. Stockholms moské ligger i en före detta transformatorstation ritad av Ferdinand Boberg, medan Fittja moské och Göteborgs moské är byggda som moskéer från grunden.",
 	},
 	{
 		q: "Får man besöka en moské om man inte är muslim?",
@@ -226,7 +233,7 @@ const faq = [
 
 		<div class="mk-stage">
 			<div id="moskeer-map" class="mk-map" role="application" aria-label="Karta över moskéer i Sverige"></div>
-			<aside id="mk-callout" class="mk-callout" aria-live="polite" hidden></aside>
+			<aside id="mk-callout" class="mk-callout" aria-label="Vald moské" aria-live="polite" hidden></aside>
 		</div>
 		<noscript>
 			<p class="mk-noscript">Den interaktiva kartan kräver JavaScript. Alla moskéer finns i listan nedan, ordnade efter län.</p>
@@ -252,7 +259,7 @@ const faq = [
 										class="mk-item"
 										data-id={m.id}
 										data-lan={g.lan}
-										data-search={norm(`${m.name} ${locationLabel(m)} ${m.address ?? ""}`)}
+										data-search={fold(`${m.name} ${locationLabel(m)} ${m.address ?? ""}`)}
 									>
 										<span class="mk-item-name">{m.name}</span>
 										{m.address && <span class="mk-item-addr">{m.address}</span>}
@@ -309,28 +316,17 @@ const faq = [
 				))}
 			</ol>
 
-			<h3>Uråldrig kontakt</h3>
-			<p>
-				Banden mellan Norden och den muslimska världen är gamla. Fler vikingatida arabiska silvermynt,
-				så kallade dirhamer, har hittats i svensk jord än i något annat land, och på flera sörmländska
-				runstenar nämns Särkland, det fornnordiska namnet på saracenernas land. På Gripsholmsstenen i
-				Mariefred står att männen ”dogo söderut i Särkland”. Det handlade om handel och resor snarare
-				än om religion, men kontakten är mycket gammal.
-			</p>
-
 			<h3>De första muslimerna</h3>
 			<p>
-				Den moderna muslimska närvaron i Sverige börjar med tatariska invandrare. Pälshandlaren
+				Kontakten mellan Norden och den muslimska världen är gammal – vikingatida arabiska silvermynt
+				ligger i svensk jord och runstenar nämner Särkland – men den handlade om handel, inte om
+				församlingar. Den muslimska närvaron i Sverige börjar med tatariska invandrare. Pälshandlaren
 				Ebrahim Umerkajeff kom till Stockholm 1897 och blev en av landets första bofasta muslimer.
-				Tatarerna är ett sunnimuslimskt turkfolk som funnits kring Östersjön sedan medeltiden, och
-				under och efter andra världskriget kom fler tatariska muslimer från Estland och Ryssland.
 			</p>
 			<p>
-				År 1949 grundades Sveriges första muslimska församling i Stockholm. Den var sunnimuslimsk,
-				bildad av tatarer och turkar, med Osman Soukkan som landets förste imam. Soukkan hade vuxit
-				upp i Izmir, tagit sig genom Europa på cykel och undervisat tatariska muslimer i Finland innan
-				han kom till Stockholm. Därmed blev islam det första icke-kristna trossamfundet som etablerades
-				i Sverige efter judendomen, och mycket av det som följde växte fram underifrån, lokal för lokal,
+				År 1949 grundades Sveriges första muslimska församling i Stockholm, sunnimuslimsk och bildad av
+				tatarer och turkar, med Osman Soukkan som landets förste imam. Först därefter börjar den
+				historia som den här kartan visar: en moskérörelse som växte fram underifrån, lokal för lokal,
 				ungefär som de svenska frikyrkorna.
 			</p>
 
@@ -379,18 +375,30 @@ const faq = [
 				</figcaption>
 			</figure>
 
-			<h3>Moskén som svensk byggnad</h3>
+			<h3>De stora moskéerna</h3>
 			<p>
-				De flesta moskéer i Sverige är inte uppförda som moskéer, utan inrymda i lokaler som byggts om.
-				Stockholms stora moské på Södermalm finns i en byggnad som ritades av Ferdinand Boberg, samme
-				arkitekt som gav Sverige Rosenbad och varuhuset NK. Den uppfördes kring sekelskiftet 1900 som
-				en station i elverkets nät och hade redan då drag av orientalisk arkitektur.
+				Ett fåtal byggnader bär upp bilden av moskén i Sverige. Malmö moské vid Jägersro, uppförd
+				1983–84, är en av landets äldsta moskébyggnader. En del av centret förstördes i en brand i
+				april 2003 och byggdes upp igen på mindre än ett år. I Göteborg invigdes Göteborgs moské i
+				Brämaregården på Hisingen den 16 juni 2011: 2 000 kvadratmeter vid Ramberget, ritad av Björn
+				Sahlqvist.
 			</p>
 			<p>
-				Där moskéer byggts från grunden möts ofta nordiskt och islamiskt. Fittja moské utanför
-				Stockholm kröns av en mittkupol klädd i björkträ, en medveten förening av osmansk form och
-				svenskt material som visades upp när kungaparet besökte moskén 2013. Kartan ovan visar var
-				Sveriges moskéer finns i dag.
+				De flesta moskéer är däremot inte uppförda som moskéer, utan inrymda i lokaler som byggts om.
+				Stockholms moské på Södermalm är det tydligaste exemplet. Den invigdes den 8 juni 2000 i
+				elverkets Katarinastation från 1903, ritad av Ferdinand Boberg – samme arkitekt som gav
+				Sverige Rosenbad och varuhuset NK. Bönesalen ligger i den gamla maskinhallen och tegelfasaderna
+				mot Kapellgränd står kvar. Stadsmuseet har blåmärkt byggnadens äldsta del, den högsta klassen,
+				som betecknar synnerligen högt kulturhistoriskt värde.
+			</p>
+			<p>
+				Där moskéer byggts från grunden möts ofta nordiskt och islamiskt. Fittja moské i Botkyrka, ritad
+				av den turkiske arkitekten Eray Ercan Aygün och klar 2007 efter tio års bygge, kröns av en
+				kupol klädd i björkträ och har en minaret på drygt trettio meter – en medveten förening av
+				osmansk form och svenskt material. Stockholms läns museum för upp moskén bland länets besöksmål
+				och den tar emot studiebesök. Därifrån hördes den 26 april 2013 det första böneutropet
+				från en minaret i Sverige, framfört live av imamen och begränsat till några minuter i veckan.
+				Kartan ovan visar var Sveriges moskéer finns i dag.
 			</p>
 		</TitledSection>
 
@@ -573,12 +581,12 @@ const faq = [
 		   in sea. */
 		height: min(80vh, 760px);
 		min-height: 420px;
-		border-radius: 14px;
+		border-radius: var(--radius-lg);
 		overflow: hidden;
 		/* Anchors .is-error before maplibre sets it on the container itself. */
 		position: relative;
 		/* Water tone from PALETTE in scripts/moskeer-map.ts — keep in step. */
-		background: light-dark(#dfe7ec, #15171a);
+		background: light-dark(#bcd0de, #15171a);
 		border: 1px solid var(--color-divider);
 		box-shadow: 0 1px 2px rgb(0 0 0 / 0.04), 0 12px 28px -16px rgb(0 0 0 / 0.25);
 	}
@@ -607,8 +615,8 @@ const faq = [
 		bottom: 0.75rem;
 		width: min(22rem, calc(100% - 1.5rem));
 		padding: 0.85rem 1rem 0.95rem;
-		border-radius: 0.8rem;
-		background: light-dark(rgb(255 253 248 / 0.94), rgb(29 25 18 / 0.92));
+		border-radius: var(--radius-lg);
+		background: color-mix(in srgb, var(--color-bg) 94%, transparent);
 		backdrop-filter: blur(10px);
 		border: 1px solid var(--color-divider);
 		box-shadow: 0 1px 14px -4px rgb(0 0 0 / 0.45);
@@ -622,7 +630,7 @@ const faq = [
 			left: 0;
 			bottom: 0;
 			width: 100%;
-			border-radius: 0.9rem 0.9rem 0 0;
+			border-radius: var(--radius-lg) var(--radius-lg) 0 0;
 			padding-bottom: calc(0.95rem + env(safe-area-inset-bottom, 0px));
 		}
 	}
@@ -799,7 +807,7 @@ const faq = [
 		width: 62%;
 		max-width: 2.6rem;
 		min-height: 3px;
-		background: light-dark(#b8862f, #c89a48);
+		background: var(--color-brass);
 		border-radius: 3px 3px 0 0;
 	}
 
@@ -910,7 +918,7 @@ const faq = [
 		width: 12px;
 		height: 12px;
 		border-radius: 50%;
-		background: light-dark(#b8862f, #c89a48);
+		background: var(--color-brass);
 		border: 2px solid var(--color-bg);
 	}
 
@@ -972,7 +980,7 @@ const faq = [
 	.mk-lanbar-fill {
 		display: block;
 		height: 100%;
-		background: light-dark(#b8862f, #c89a48);
+		background: var(--color-brass);
 		border-radius: var(--radius-pill);
 	}
 
@@ -1012,7 +1020,7 @@ const faq = [
 		right: 0.5rem;
 		background: none;
 		border: none;
-		font-size: 1.25rem;
+		font-size: var(--step-0);
 		line-height: 1;
 		color: var(--color-muted);
 		cursor: pointer;
@@ -1064,26 +1072,9 @@ const faq = [
 		margin-bottom: 0.1rem;
 	}
 
-	.mk-dir-btn {
-		font-family: var(--font-heading);
-		font-size: var(--step--3);
-		font-weight: 600;
-		text-decoration: none;
-		color: var(--color-accent);
-		background: var(--color-bg);
-		border: 1px solid var(--color-divider);
-		border-radius: var(--radius-pill);
-		padding: 0.45rem 0.95rem;
-		transition: border-color 0.15s ease;
-	}
-
-	.mk-dir-btn:hover {
-		border-color: var(--color-warm);
-	}
-
 	/* Keep the OSM/OpenMapTiles credit quiet: a small, muted ⓘ that expands on click. */
 	.maplibregl-ctrl-attrib {
-		font-size: 10px;
+		font-size: var(--step--5);
 		background: color-mix(in srgb, var(--color-bg) 78%, transparent);
 	}
 
@@ -1103,7 +1094,7 @@ const faq = [
 	/* Theme the built-in control group (zoom, reset-view, fullscreen) to the warm palette so
 	   the controls read as designed rather than generic white chips. Scoped to .moskeer. */
 	.moskeer .maplibregl-ctrl-group {
-		background: light-dark(rgb(255 253 248 / 0.92), rgb(29 25 18 / 0.92));
+		background: color-mix(in srgb, var(--color-bg) 92%, transparent);
 		border: 1px solid var(--color-divider);
 		box-shadow: 0 1px 10px -4px rgb(0 0 0 / 0.4);
 	}
@@ -1139,7 +1130,7 @@ const faq = [
 
 	/* Desktop hover tooltip — a clean tail-less name chip in the warm palette. */
 	.mk-hover .maplibregl-popup-content {
-		background: light-dark(rgb(255 253 248 / 0.96), rgb(29 25 18 / 0.95));
+		background: color-mix(in srgb, var(--color-bg) 95%, transparent);
 		border: 1px solid var(--color-divider);
 		border-radius: var(--radius-sm);
 		padding: 0.3rem 0.6rem;

@@ -8,18 +8,14 @@ import TankareGroups from "../components/TankareGroups.astro";
 import TitledSection from "../components/TitledSection.astro";
 import TradarHome from "../components/TradarHome.astro";
 import { AMNEN, amnenWithEssays } from "../lib/amnen";
-import { type Article, getArticles } from "../lib/articles";
+import { getArticles } from "../lib/articles";
 import { breadcrumbList } from "../lib/jsonld";
 
 const articles = await getArticles();
 const amneGroups = amnenWithEssays(articles);
 
 // Chronological view — essays by year, newest first.
-const byYear = new Map<number, Article[]>();
-for (const a of articles) {
-	const y = new Date(a.publishedAt).getUTCFullYear();
-	(byYear.get(y) ?? byYear.set(y, []).get(y))?.push(a);
-}
+const byYear = Map.groupBy(articles, (a) => new Date(a.publishedAt).getUTCFullYear());
 const yearGroups = [...byYear.entries()].sort((a, b) => b[0] - a[0]);
 
 const threads = await getCollection("tradar");
@@ -80,7 +76,7 @@ const lengthFilterItems = [
 
 	{/* Curated reading paths first — an inviting way in before the topical
 	    archive below; the /tradar index holds the rest. */}
-	<TradarHome limit={4} />
+	<TradarHome limit={3} />
 
 	{/* ---- Default view: grouped by ämne, da'wah order. Each ämne opens with up to
 	    three image cards (like the start page), then the rest as the 2-col index.
@@ -203,47 +199,17 @@ const lengthFilterItems = [
 
 	/* Up to three of the most recent essays with art open each ämne as image cards —
 	   the same warm welcome as the start page — then the rest follows as the 2-col
-	   text index. Cards stay .archive-item for the read/length/sort JS, so the global
-	   .archive-item border/padding is reset here. */
-	.essay-cards {
-		list-style: none;
-		margin: 0 0 var(--space-phi);
-		padding: 0;
-		display: grid;
-		grid-template-columns: repeat(auto-fill, minmax(min(100%, 16rem), 1fr));
-		gap: clamp(1.75rem, 3.5vw, 2.75rem) clamp(1.25rem, 3vw, 2.25rem);
+	   text index. Cards stay .archive-item for the read/length/sort JS; the reset of
+	   the global .archive-item border/padding lives in EssayArchiveItem.astro. */
+	/* Three narrower thread cards across the intro, the same three-up shape the
+	   fördjupning band uses on /svar/.
+	   ⚠️ Fully :global(). `.essaer-page` is rendered by CollectionIndexPage and carries
+	   THAT component's scope id, so a selector scoped to this page never matches it. */
+	:global(.essaer-page .tradar-home .thread-list) {
+		--thread-list-min: 17rem;
 	}
-	.essay-card {
-		padding-block: 0;
-		border-bottom: none;
-	}
-	.essay-card a {
-		display: flex;
-		flex-direction: column;
-	}
-	.essay-card-media {
-		margin: 0 0 0.85rem;
-	}
-	.essay-card-media :global(img) {
-		aspect-ratio: 3 / 2;
-		width: 100%;
-	}
-	.essay-card .archive-title.essay-card-title {
-		font-size: var(--step-0);
-		line-height: 1.22;
-	}
-	.essay-card-desc {
-		font-size: var(--step--2);
-		color: var(--text-quiet);
-		margin-top: 0.4rem;
-		display: -webkit-box;
-		-webkit-line-clamp: 2;
-		-webkit-box-orient: vertical;
-		overflow: hidden;
-	}
-	.essay-card .archive-meta {
-		margin-top: 0.5rem;
-	}
+
+	/* .essay-cards and the card itself are global — see styles/layout.css. */
 
 	.filter-row {
 		display: flex;

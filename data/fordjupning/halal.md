@@ -1,9 +1,9 @@
 ---
-title: "Halal: vad som är tillåtet – och vem som avgör det"
-term: "Halal"
-description: "Koranen förbjuder fem ting och tillåter resten. Ändå har halal blivit en global certifieringsindustri och en svensk stridsfråga om bedövning, skolmat och import. Här är källorna, rättsskolornas oenighet och det svenska rättsläget."
+title: "Halal och haram: vad som är tillåtet – och vem som avgör det"
+term: "Halal och haram"
+description: "Koranen förbjuder fem ting och tillåter allt annat. Ur den korta listan har det vuxit fram ett världsomspännande system av certifikat och kontroller, och i Sverige en återkommande strid om bedövning vid slakt, om skolmaten och om vad som får importeras."
 seoDescription: "Halal betyder tillåtet. Vad Koranen faktiskt förbjuder, hur rättsskolorna skiljer sig åt, och vad svensk lag säger om halalslakt, skolmat och import."
-blurb: "Förbudslistans fem punkter, bedövningstvisten och importens paradox"
+blurb: "Hur fem rader i Koranen blev ett system av certifikat, kontroller och märkningar"
 publishedAt: "2026-08-02T00:00:00Z"
 keywords:
   - "vad betyder halal"
@@ -85,6 +85,7 @@ related:
 essays:
   - "kottet-och-tecknet"
   - "lagen-ingen-skrev"
+imageAlt: "Två svanar på ett vatten som delas i ljust och mörkt: den vita simmar i den mörka halvan, den svarta i den ljusa"
 ---
 
 **Halal** är den islamiska rättens beteckning på det som är tillåtet. Ordet står för en av de fem kategorier som varje mänsklig handling kan sorteras i, och dess motsats är *haram*, det förbjudna. Termen omfattar långt mer än mat: handel, avtal, klädsel, äktenskap och underhållning bedöms med samma begreppspar. I svenskt språkbruk har ordet ändå kommit att betyda ungefär "muslimskt tillåten mat", och särskilt kött från djur slaktade på föreskrivet sätt.
@@ -93,7 +94,7 @@ Grundregeln i klassisk rättsvetenskap är att allt är tillåtet till dess mots
 
 Tvisten om halal går på två håll samtidigt. Inåt gäller den huruvida elbedövning före snittet är förenlig med kravet att djuret ska leva när blodet börjar rinna, och om Koranen 5:5 gör vanligt europeiskt kött tillåtet. Utåt handlar den i Sverige om ett förbud mot obedövad slakt som infördes 1937 och om vad kommuner är skyldiga att servera i skolan. Det som oftast förbises är hur svensk lag och svensk marknad förhåller sig till varandra: bedövad halalslakt är laglig här, men de största köttproducenterna avstår från att certifiera sig, och importerat kött omfattas inte av det svenska bedövningskravet.
 
-## Ordet och dess betydelse
+## Halal och haram: vad rötterna h-l-l och h-r-m betyder
 
 Roten *h-l-l* betyder i klassisk arabiska att lösa upp, att knyta upp en knut, att slå läger. Ur den betydelsen kommer det juridiska bruket: det tillåtna är det som är löst, obundet, inte hopknutet av något förbud. Motsatsen *harām* kommer från roten *h-r-m*, som betyder att avskilja eller helga. Den återfinns också i *haram*, det invigda området kring Kaba, och i *ihrām*, vallfärdsdräkten. Det förbjudna är alltså språkligt sett det avskilda, inte det smutsiga.
 
@@ -101,7 +102,7 @@ Halal är en av fem kategorier i den islamiska rättens handlingslära, *al-ahk�
 
 Bredvid halal finns ett andra ord som ofta står parat med det i Koranen: *tayyib*, det goda och hälsosamma. Koranen 2:168 riktar sig till hela mänskligheten och nämner båda leden, och kombinationen har blivit stående i den moderna litteraturen om islamisk kosthållning. Halal svarar på frågan om tillstånd, tayyib på frågan om kvalitet. En besläktad term är *dhakāt*, den rituella slakten, och *tasmiya*, uttalandet av Guds namn över djuret. I den moderna certifieringsvärlden har därtill *mashbūh* fått fäste, "det tvivelaktiga". Kategorin saknar klassisk juridisk status men fyller en funktion när ingrediensförteckningen inte går att tyda.
 
-## Vad källorna säger
+## Koranens matregler och den korta förbudslistan
 
 Koranens matregler är förvånansvärt kortfattade. Den kortaste listan står i al-Baqara:
 
@@ -117,7 +118,7 @@ Hadithlitteraturen bidrar med två avgörande texter. Shaddād b. Aws återger P
 
 Koranen 22:37 sätter slutligen en teologisk gräns för hela frågan. Om offerdjuren heter det att deras kött och blod aldrig når Gud, men att gudsfruktan gör det.[^8] Versen drar därmed en gräns mot föreställningen att köttet i sig skulle bära någon verkan.
 
-## Hur de lärda har tolkat texterna
+## Ibn Rushd om slakt: det man är enig om och det man tvistar om
 
 Ibn Rushd, domaren i Córdoba som i Europa är känd som Averroës, disponerade sitt kapitel om slakt efter en princip som fortfarande är den klarast tänkbara: skilj det man är enig om från det man tvistar om. Eniga är de lärda, skriver han, om att slakt krävs för "landdjuret med flytande blod, som varken är förbjudet eller redan dödligt sårat", och därifrån går meningarna isär.[^9]
 
@@ -133,7 +134,7 @@ Om berusningsmedlen refererar al-Qurtubī den nordafrikanske juristen al-Māzar�
 
 Ibn al-Qayyim ger slutligen den klassiska motiveringen till varför reglerna inte uppfattas som godtyckliga lydnadsprov. Den som umgås med ett slags djur tillägnar sig något av dess natur, skriver han, och äter han dess kött blir likheten starkare, "ty det som ger näring liknar den som näres". Därför, menar han, förbjöds köttet av rovdjur och rovfåglar.[^17] Förklaringen är teologisk och gör inga anspråk på att vara empirisk. Den visar ändå varför maten i den islamiska traditionen behandlas som en fråga om karaktär.
 
-## Historia
+## Halalreglernas historia: från förislamiska matregler till reform
 
 Det förislamiska Arabien hade omfattande matregler, och Koranen förhåller sig till dem polemiskt. Slaktdjuren tillägnades gudomar, blod ströks på stenaltare, och vissa boskapskategorier belades med tabun som Koranen tillbakavisar som människopåfund. Reformen bestod i två drag: förbudslistan blev kort och offerdedikationen blev odelbar. Kravet att blodet ska rinna ut var däremot inte nytt. Det delas med judisk rätt, och båda traditionerna härleder det ur att blodet bär livet.
 
@@ -175,7 +176,7 @@ Sverige har också en historia av religiöst motiverade matförbud som kyrka och
 
 Den svenska lagstiftaren vande sig alltså tidigt vid att väga djurskydd mot religionsutövning, och 1937 års proposition gjorde avvägningen uttrycklig. Avvägningen är inhemsk och äldre än den muslimska närvaron i landet. Att svensk historia rymmer egna religiöst grundade matregler säger däremot ingenting om huruvida de islamiska är riktiga, och den frågan avgörs inte av parallellen.
 
-## Invändningar och missförstånd
+## Invändningar mot halalslakt: bedövning och djurvälfärd
 
 Den starkaste invändningen mot halalslakt är veterinärmedicinsk och gäller obedövad slakt. EFSA:s panel för djurhälsa och djurvälfärd angav 2004 att tiden från snitt till medvetslöshet utan bedövning kan uppgå till omkring två minuter hos nötkreatur, med kortare intervall hos får och gris.[^33] Siffran är den mest citerade i hela den europeiska debatten, och årtalet hör till bilden: senare EFSA-yttranden och systematiska översikter har diskuterat hur långa tiderna faktiskt är, och forskningsläget är inte avgjort. Men invändningen står sig i sin kärna, och den är skälet till att sex europeiska länder (Sverige, Norge, Danmark, Island, Schweiz och Slovenien) kräver bedövning även vid religiös slakt. Danmark avskaffade den sista undantagsmöjligheten 2014 och fick en debatt vars huvuddrag liknar den svenska. Sveriges hållning är alltså regional snarare än unik.
 

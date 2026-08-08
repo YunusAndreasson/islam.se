@@ -10,7 +10,8 @@
 			"passionens-klangvaxt",
 			"lejonet-i-hjartat",
 			"sjalens-infargning"
-		]
+		],
+		"imageAlt": "Man vid ett bord i lampljus som tecknar ett anatomiskt hjärta i en uppslagen anteckningsbok"
 	},
 	{
 		"id": "tungan-och-sanningen",
@@ -22,7 +23,8 @@
 			"lognens-bokforing",
 			"rosten-over-taken",
 			"eld-mot-en-rost"
-		]
+		],
+		"imageAlt": "Kvinna i sjal vid ett skrivbord i lampljus med ett tomt anteckningsblock framför sig, spegelbilden syns i den mörka rutan"
 	},
 	{
 		"id": "natten",
@@ -34,7 +36,8 @@
 			"somnens-lilla-dod",
 			"traden-hade-andakt",
 			"silvertarnans-hijra"
-		]
+		],
+		"imageAlt": "Man sittande på sängkanten i ett mörkt rum, med regn mot rutan och tända fönster i huset mittemot"
 	},
 	{
 		"id": "maskinen-och-manniskan",
@@ -45,7 +48,8 @@
 			"den-starkaste-tjanaren",
 			"bergen-som-vagrade",
 			"serumet-och-blicken"
-		]
+		],
+		"imageAlt": "Man vid en laptop i kvällsljus, med ett handskrivet block bredvid tangentbordet"
 	},
 	{
 		"id": "strindbergs-kris",
@@ -56,6 +60,7 @@
 			"strindbergs-enda-steg",
 			"kompassnalens-moske",
 			"det-han-letade-efter"
-		]
+		],
+		"imageAlt": "Man i mörk rock lutad mot handen vid ett skrivbord fullt av manuskript, med överkorsade blad uppnålade på väggen"
 	}
 ]

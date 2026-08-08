@@ -12,6 +12,7 @@ import Rattelse from "../../components/Rattelse.astro";
 import SectionLink from "../../components/SectionLink.astro";
 import Base from "../../layouts/Base.astro";
 import { getArticles } from "../../lib/articles";
+import { requireBySlug } from "../../lib/content-refs";
 import { resolveHero } from "../../lib/fordjupning";
 import { ORG_ID, WEBSITE_ID, breadcrumbList, faqPageJsonLd, imageObject } from "../../lib/jsonld";
 import { PAGE_HERO_SIZES, PAGE_HERO_WIDTHS } from "../../lib/hero";
@@ -26,26 +27,16 @@ export async function getStaticPaths() {
 			entry,
 			// A pillar page with a dead spoke link is not a pillar page — a stale slug
 			// fails the build rather than shipping a broken reader path.
-			related: entry.data.related.map((slug) => {
-				const svar = svarBySlug.get(slug);
-				if (!svar) {
-					throw new Error(
-						`fordjupning/${entry.id}.md: \`related\` references unknown svar slug "${slug}". ` +
-							"Use a slug from data/svar/ (the filename without .md).",
-					);
-				}
-				return { slug, title: svar.data.title, question: svar.data.question };
-			}),
-			essays: entry.data.essays.map((slug) => {
-				const essay = essayBySlug.get(slug);
-				if (!essay) {
-					throw new Error(
-						`fordjupning/${entry.id}.md: \`essays\` references unknown essay slug "${slug}". ` +
-							"Use a slug from data/articles/ (the filename without .md).",
-					);
-				}
-				return { slug: essay.slug, title: essay.title };
-			}),
+			related: requireBySlug(svarBySlug, entry.data.related, {
+				sourceFile: `fordjupning/${entry.id}.md`,
+				field: "related",
+				dataDir: "data/svar/",
+			}).map((svar) => ({ slug: svar.id, title: svar.data.title, question: svar.data.question })),
+			essays: requireBySlug(essayBySlug, entry.data.essays, {
+				sourceFile: `fordjupning/${entry.id}.md`,
+				field: "essays",
+				dataDir: "data/articles/",
+			}).map((essay) => ({ slug: essay.slug, title: essay.title })),
 		},
 	}));
 }
@@ -285,18 +276,19 @@ if (data.faq.length > 0) jsonLd.push(faqPageJsonLd(data.faq));
 		margin: var(--space-unit) 0 var(--space-phi);
 	}
 
-	/* A band rather than a plate: at 3/2 the hero ran 681px and pushed the table of
-	   contents — the wayfinding this page exists on — below the fold. Narrow screens keep
-	   more height, since 21/9 of 390px is a letterbox. */
+	/* ⚠️ 3/2 is the gentlest crop this set allows, and it was arrived at twice. The band
+	   was 21/9 to keep the table of contents above the fold; that discarded 43 % of a
+	   4:3 frame and cut the heads off the hijab and griskött portraits and the minaret
+	   tops off the Kaba. Six of the nine sources are 4:3 (hijab, kaba, griskött, halal,
+	   aktenskap, tvagning), two are 3:2 and ramadan is 16:9 — so at 3/2 the 4:3 files
+	   lose 11 % of their height, the 3:2 files nothing, and no subject reaches an edge.
+	   Do not tighten this again to win back fold space: the fold was never actually won
+	   (at a 976px reading frame even 21/9 pushed the contents 7px under it), and the
+	   photographs are the reason the page is worth opening. A centred crop is correct at
+	   11 % — the `object-position` bias that a tighter band needed is gone with it. */
 	.fordjupning-hero :global(img) {
-		aspect-ratio: 16 / 9;
+		aspect-ratio: 3 / 2;
 		width: 100%;
-	}
-
-	@media (width >= 48rem) {
-		.fordjupning-hero :global(img) {
-			aspect-ratio: 21 / 9;
-		}
 	}
 
 	/* Reference apparatus — notes and sources. Quieter than the content and navigation

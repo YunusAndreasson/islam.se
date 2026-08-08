@@ -2,10 +2,9 @@
 interface Props {
 	platform: "apple" | "spotify";
 	size?: number;
-	class?: string;
 }
 
-const { platform, size = 14, class: className } = Astro.props;
+const { platform, size = 14 } = Astro.props;
 
 const paths = {
 	apple:
@@ -15,6 +14,6 @@ const paths = {
 };
 ---
 
-<svg class={className} width={size} height={size} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+<svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
 	<path d={paths[platform]} />
 </svg>

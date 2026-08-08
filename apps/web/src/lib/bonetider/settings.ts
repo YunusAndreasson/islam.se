@@ -2,42 +2,53 @@
 // CalculationParameters (see ../prayer-times.ts) but stay framework-agnostic so
 // they can be JSON-serialised straight into AsyncStorage (see ./store.ts).
 
-/** The 13 adhan calculation-method presets, keyed by their CalculationMethod factory name. */
-export type CalculationMethodKey =
-	| "MuslimWorldLeague"
-	| "Egyptian"
-	| "Karachi"
-	| "UmmAlQura"
-	| "Dubai"
-	| "Qatar"
-	| "Kuwait"
-	| "MoonsightingCommittee"
-	| "Singapore"
-	| "Turkey"
-	| "Tehran"
-	| "NorthAmerica"
-	| "Other";
+/** The 13 adhan calculation-method presets, keyed by their CalculationMethod factory name.
+ *  Declared as a runtime array (not a bare union) so storage.ts's sanitizer can validate an
+ *  unknown value against the exact same list the type is derived from — one spelling, not two
+ *  kept in step by hand. */
+export const CALCULATION_METHOD_KEYS = [
+	"MuslimWorldLeague",
+	"Egyptian",
+	"Karachi",
+	"UmmAlQura",
+	"Dubai",
+	"Qatar",
+	"Kuwait",
+	"MoonsightingCommittee",
+	"Singapore",
+	"Turkey",
+	"Tehran",
+	"NorthAmerica",
+	"Other",
+] as const;
+export type CalculationMethodKey = (typeof CALCULATION_METHOD_KEYS)[number];
 
-export type Madhab = "shafi" | "hanafi";
+export const MADHABS = ["shafi", "hanafi"] as const;
+export type Madhab = (typeof MADHABS)[number];
 
 /** 'auto' resolves to adhan's HighLatitudeRule.recommended(coords) at compute time. */
-export type HighLatitudeRuleKey =
-	| "auto"
-	| "middleOfTheNight"
-	| "seventhOfTheNight"
-	| "twilightAngle";
+export const HIGH_LATITUDE_RULE_KEYS = [
+	"auto",
+	"middleOfTheNight",
+	"seventhOfTheNight",
+	"twilightAngle",
+] as const;
+export type HighLatitudeRuleKey = (typeof HIGH_LATITUDE_RULE_KEYS)[number];
 
-export type PolarCircleResolutionKey = "aqrabBalad" | "aqrabYaum" | "unresolved";
+export const POLAR_CIRCLE_RESOLUTION_KEYS = ["aqrabBalad", "aqrabYaum", "unresolved"] as const;
+export type PolarCircleResolutionKey = (typeof POLAR_CIRCLE_RESOLUTION_KEYS)[number];
 
 /** Only meaningful for the MoonsightingCommittee method. */
-export type Shafaq = "general" | "ahmer" | "abyad";
+export const SHAFAQS = ["general", "ahmer", "abyad"] as const;
+export type Shafaq = (typeof SHAFAQS)[number];
 
-export type Rounding = "nearest" | "up" | "none";
+export const ROUNDINGS = ["nearest", "up", "none"] as const;
+export type Rounding = (typeof ROUNDINGS)[number];
 
 /** Appearance preference for the whole app (basemap, chrome, screens). `'system'`
  *  follows the OS (Settings → Display) and is the default — Apple Maps-style.
  *  `'light'` / `'dark'` lock the app to one palette regardless of the OS. */
-export type ThemePreference = "system" | "light" | "dark";
+type ThemePreference = "system" | "light" | "dark";
 
 /** Bönetider basemap. `'nordic'` is the custom warm-parchment / cool-navy
  *  cartography (the original Nordic Calm look — recommended). `'standard'` swaps
@@ -46,7 +57,7 @@ export type ThemePreference = "system" | "light" | "dark";
  *  imagery — useful for landmark recognition. The solar wash + prayer-line +
  *  city overlays continue rendering on top of every basemap. The 'standard' /
  *  'satellite' options require a MapTiler key bundled at build time. */
-export type MapStyleId = "nordic" | "standard" | "satellite";
+type MapStyleId = "nordic" | "standard" | "satellite";
 
 /** The six computed prayer slots plus sunrise, used as adjustment keys. */
 export interface PrayerAdjustments {
@@ -64,11 +75,11 @@ export interface NamedLocation {
 	longitude: number;
 }
 
-export type LocationMode = "gps" | "manual";
+type LocationMode = "gps" | "manual";
 
 /** Local prayer-time alerts. Off by default — turning it on triggers the OS
     permission prompt. Per-prayer toggles cover the five obligatory prayers. */
-export interface NotificationSettings {
+interface NotificationSettings {
 	enabled: boolean;
 	/** Minutes before the prayer time to fire the alert (0 = exactly at the time).
       A heads-up so you can leave for the mosque before the adhan. */

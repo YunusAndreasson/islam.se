@@ -1,11 +1,17 @@
 ---
 import ArticlePage from "../../components/ArticlePage.astro";
 import RuledFacts from "../../components/RuledFacts.astro";
+import figures from "../../data/library-figures.json";
 import { formatDate } from "../../lib/articles";
+import { nf0 } from "../../lib/format";
 import { ORG_ID, breadcrumbList } from "../../lib/jsonld";
 
 // By hand when the principles change — never the build date.
 const POLICY_UPDATED = "2026-07-29";
+
+// Recounted from data/*.db by scripts/build-library-figures.ts at the head of every
+// build. Non-breaking spaces so a figure never wraps across a line.
+const n = (value: number) => nf0.format(value).replace(/\s/g, " ");
 
 const description =
 	"Redaktionella principer för islam.se: vad vi publicerar, vilka källor texterna vilar på, hur de granskas och hur du anmäler ett fel.";
@@ -17,6 +23,7 @@ const mastheadFacts = [
 		html: '<a href="https://bilal.se" rel="author">Bilal</a> och <a href="https://andreassonphoto.com" rel="author">Yunus</a>',
 	},
 	{ term: "Utgivningsort", html: "Sverige" },
+	{ term: "Kontakt", html: '<a href="mailto:support@islam.se">support@islam.se</a>' },
 	{
 		term: "Sidan uppdaterad",
 		html: `<time datetime="${POLICY_UPDATED}">${formatDate(POLICY_UPDATED)}</time>`,
@@ -24,11 +31,17 @@ const mastheadFacts = [
 ];
 
 const libraryFacts = [
-	{ term: "Arabiska klassiker", html: "20&nbsp;106 citat ur 131 verk" },
-	{ term: "Svensk litteratur", html: "31&nbsp;956 citat ur 578 verk" },
-	{ term: "Fornnordiskt och engelskt", html: "7&nbsp;006 citat" },
-	{ term: "Koranen", html: "6&nbsp;233 verser" },
-	{ term: "Böcker i fulltext", html: "153 titlar" },
+	{
+		term: "Arabiska klassiker",
+		html: `${n(figures.arabicQuotes)} citat ur ${n(figures.arabicWorks)} verk`,
+	},
+	{
+		term: "Svensk litteratur",
+		html: `${n(figures.swedishQuotes)} citat ur ${n(figures.swedishWorks)} verk`,
+	},
+	{ term: "Fornnordiskt och engelskt", html: `${n(figures.norseEnglishQuotes)} citat` },
+	{ term: "Koranen", html: `${n(figures.quranVerses)} verser` },
+	{ term: "Böcker i fulltext", html: `${n(figures.fulltextBooks)} titlar` },
 ];
 
 type PipelineStep = {
@@ -128,13 +141,14 @@ const pipelineSteps: readonly PipelineStep[] = [
 				uppgift vi inte kunnat föra tillbaka till en källa står inte kvar.
 			</p>
 			<p>
-				Biblioteket vi söker i är vårt eget. Det rymmer 59&nbsp;068 citat av 2&nbsp;752 författare,
-				hämtade ur 1&nbsp;093 verk.
+				Biblioteket vi söker i är vårt eget. Det rymmer {n(figures.totalQuotes)} citat av{" "}
+				{n(figures.totalAuthors)} författare, hämtade ur {n(figures.totalWorks)} verk.
 			</p>
 
-			{/* Counted from data/*.db by hand — bump the date below when they are recounted. */}
 			<RuledFacts class="redaktion-figures" items={libraryFacts} />
-			<p class="redaktion-figures-note">Siffrorna gäller den 27 juli 2026.</p>
+			<p class="redaktion-figures-note">
+				Siffrorna gäller den <time datetime={figures.countedAt}>{formatDate(figures.countedAt)}</time>.
+			</p>
 
 			<h2>Så blir en text till</h2>
 			<p>Varje text går samma väg innan vi publicerar den.</p>

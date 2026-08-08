@@ -149,16 +149,21 @@ export const SVAR_CATEGORIES: SvarCategory[] = [
 	},
 ];
 
-/** Search terms the index row does NOT already print — `question`, `keywords`,
- *  FAQ questions — folded, de-duplicated against the visible title + gloss, and
- *  emitted as `data-terms`. Surplus only: the filter reads the rest off the DOM,
- *  so shipping the whole string would duplicate the page (~19 kB) for nothing.
- *  "" when the frontmatter adds nothing. */
+/** Search terms the index row does NOT already print — `description`, `question`,
+ *  `keywords`, FAQ questions — folded, de-duplicated against the visible title, and
+ *  emitted as `data-terms`. Surplus only: the filter reads the title off the DOM,
+ *  so shipping the whole string would duplicate the page for nothing.
+ *  "" when the frontmatter adds nothing.
+ *
+ *  ⚠️ `description` belongs on THIS side of the line. The row used to print it and
+ *  the filter matched it off `textContent`; the row now prints the title alone, so
+ *  dropping the description from here would quietly make it unsearchable. */
 export function svarSearchTerms(entry: SvarEntry): string {
 	const { title, description, question, keywords = [], faq = [] } = entry.data;
-	const printed = new Set(foldedWords(`${title} ${description}`));
+	const printed = new Set(foldedWords(title));
 	const extra = new Set<string>();
-	for (const word of foldedWords([question, ...keywords, ...faq.map((f) => f.q)].join(" "))) {
+	const surplus = [description, question, ...keywords, ...faq.map((f) => f.q)].join(" ");
+	for (const word of foldedWords(surplus)) {
 		if (!printed.has(word)) extra.add(word);
 	}
 	return [...extra].join(" ");

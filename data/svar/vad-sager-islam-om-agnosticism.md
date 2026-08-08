@@ -1,7 +1,7 @@
 ---
 title: "Vad säger islam om agnosticism?"
 question: "Vad säger islam om agnosticism?"
-description: "Agnosticism säger att Gud inte kan vetas – men islam hävdar motsatsen. Så ser Koranen på tvivel, visshet och kunskap om Skaparen som finns i människans natur."
+description: "Agnosticismen håller gudsfrågan för oavgörbar. Koranen svarar att Skaparen kan kännas med visshet, genom människans medfödda natur (fitra) och tecknen i skapelsen. Om tvivel, visshet och kunskap."
 publishedAt: "2026-06-23T00:00:00Z"
 keywords:
   - "islam agnosticism"
