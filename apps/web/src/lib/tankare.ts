@@ -1,5 +1,5 @@
 import { getCollection } from "astro:content";
-import { type Article, getArticles } from "./articles";
+import { type Article, articleBody, getArticles } from "./articles";
 import { memoize } from "./cache";
 
 // Tänkare — the recurring interlocutors. Membership is DERIVED from the corpus:
@@ -29,7 +29,7 @@ async function build(): Promise<Tankare[]> {
 	// filtered slices inherit that order.
 	const bodies = articles.map((a) => ({
 		article: a,
-		body: ((a.entry as { body?: string }).body ?? "").toLowerCase(),
+		body: articleBody(a).toLowerCase(),
 	}));
 
 	return entries.map((entry) => {
@@ -60,8 +60,3 @@ async function build(): Promise<Tankare[]> {
 
 /** All tänkare with their derived essay lists. Memoized for the build. */
 export const getTankare = memoize(build);
-
-/** The thinkers a given essay engages, in directory order. */
-export async function tankareForEssay(slug: string): Promise<Tankare[]> {
-	return (await getTankare()).filter((t) => t.essays.some((e) => e.slug === slug));
-}

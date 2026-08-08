@@ -1,16 +1,13 @@
 ---
-import { getCollection } from "astro:content";
 import CollectionIndexPage from "../../components/CollectionIndexPage.astro";
 import TextRowList from "../../components/TextRowList.astro";
-import { resolveHero } from "../../lib/fordjupning";
+import { getSortedFordjupning, resolveHero } from "../../lib/fordjupning";
 import { breadcrumbList, collectionPageJsonLd } from "../../lib/jsonld";
 
 // FORDJUPNING — the encyclopedic pillar pages. Each covers one broad topic in full
 // (sources, scholarship, history, the Swedish context); the short answers at /svar/
 // handle the single questions underneath them.
-const sorted = (await getCollection("fordjupning")).sort((a, b) =>
-	a.data.term.localeCompare(b.data.term, "sv"),
-);
+const sorted = await getSortedFordjupning();
 // Resolved once here rather than per row, so the index stays one pass over the art map
 // even at thirty topics.
 const entries = await Promise.all(
@@ -29,7 +26,7 @@ const fordjupningRows = entries.map(({ entry: e, hero }) => ({
 }));
 
 const description =
-	"Utförliga fordjupningsartiklar om omdiskuterade ämnen i islam – källorna, de lärdas tolkningar, historien och den svenska kontexten, samlat på ett ställe.";
+	"Fördjupningsartiklar om omdiskuterade ämnen i islam – källorna, historien och det svenska rättsläget, ämne för ämne.";
 ---
 
 <CollectionIndexPage
@@ -52,9 +49,9 @@ const description =
 	]}
 >
 	<span slot="lead">
-		Utförliga artiklar om ämnen som ofta diskuteras och lika ofta missförstås: vad källorna
-		säger, hur de lärda har läst dem, hur bruket har sett ut genom historien och hur frågan
-		ser ut i Sverige. Vill du ha ett kort svar i stället finns{" "}
+		Ämnen som diskuteras oftare än de beskrivs. Varje sida tar ett av dem hela vägen: från
+		vad texterna säger till hur frågan avgörs i en svensk domstol, kommun eller moské.
+		Vill du ha ett kort svar i stället finns{" "}
 		<a href="/svar/">frågor och svar</a>, och grunderna står samlade under{" "}
 		<a href="/vad-ar-islam/">fakta om islam</a>.
 	</span>
@@ -66,7 +63,7 @@ const description =
 			items={fordjupningRows}
 		/>
 	) : (
-		<p class="fordjupning-empty">Inga fordjupning är publicerade än.</p>
+		<p class="fordjupning-empty">Inga fördjupningar är publicerade än.</p>
 	)}
 </CollectionIndexPage>
 

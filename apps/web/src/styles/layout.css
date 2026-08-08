@@ -398,6 +398,39 @@
 			top: var(--padding-inline);
 		}
 	}
+
+	/* Pill button for a "get directions" link — the moskeer hub map's selection
+   callout (rendered client-side by scripts/moskeer-map.ts), its county/city
+   MosqueList cards, and the map's own JS-built markup all want the identical
+   tap target, so this is the one definition all three share. */
+	.map-dir-btn {
+		font-family: var(--font-heading);
+		font-size: var(--step--3);
+		font-weight: 600;
+		text-decoration: none;
+		color: var(--color-accent);
+		background: var(--color-bg);
+		border: 1px solid var(--color-divider);
+		border-radius: var(--radius-pill);
+		padding: 0.45rem 0.95rem;
+		transition: border-color 0.15s ease;
+	}
+
+	.map-dir-btn:hover {
+		border-color: var(--color-warm);
+	}
+
+	/* Cap height onto whatever sits above a title (an image, a thumbnail) —
+   trimming only the top edge, never the bottom: trimming the bottom too would
+   cut to the baseline and let descenders close on the text below. Was three
+   near-identical `@supports` blocks (feature/recent/text-row titles); one
+   definition here, applied via class:list. */
+	@supports (text-box-trim: trim-start) {
+		.cap-trim-start {
+			text-box-trim: trim-start;
+			text-box-edge: cap alphabetic;
+		}
+	}
 }
 
 @layer layout {
@@ -1380,6 +1413,69 @@
 		a:hover .archive-description {
 			color: var(--color-text);
 		}
+	}
+
+	/* Picture card — a set of things with art, shared by Essäer's per-ämne cards and
+   Frågor & svar's fördjupning band, so the two index pages show the same kind of
+   thing the same way. Markup: `<ul class="essay-cards"><li class="archive-item
+   essay-card">` → `<a>` → `.essay-card-media.media-frame` → `.archive-title
+   .essay-card-title` → `.archive-description.essay-card-desc`.
+
+   ⚠️ GLOBAL on purpose. These rules used to be scoped inside EssayArchiveItem.astro
+   because a PAGE that renders the cards only gets its own scope id onto the list
+   root, never onto the <li>s — so `.essay-card` written in a page's <style> compiles
+   to a selector that matches nothing, and the `.archive-item` padding/border above
+   silently wins instead. A global class is reachable from either. */
+	.essay-cards {
+		list-style: none;
+		margin: 0 0 var(--space-phi);
+		padding: 0;
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(min(100%, 16rem), 1fr));
+		gap: clamp(1.75rem, 3.5vw, 2.75rem) clamp(1.25rem, 3vw, 2.25rem);
+	}
+
+	.essay-card {
+		padding-block: 0;
+		border-bottom: none;
+	}
+
+	.essay-card a {
+		display: flex;
+		flex-direction: column;
+	}
+
+	.essay-card-media {
+		margin: 0 0 0.85rem;
+	}
+
+	/* The <img> carries EssayImage's scope, not ours; a plain descendant never reaches it. */
+	.essay-card-media img {
+		aspect-ratio: 3 / 2;
+		width: 100%;
+	}
+
+	.essay-card .archive-title.essay-card-title {
+		font-size: var(--step-0);
+		line-height: 1.22;
+	}
+
+	/* ⚠️ Qualified like the title above, and for the same reason: these rules were
+	   unlayered when they lived in the component, so they outranked everything here.
+	   Inside the layer, the nested `.archive-item .archive-description` above is a
+	   specificity step higher and would take back margin-top. */
+	.essay-card .archive-description.essay-card-desc {
+		font-size: var(--step--2);
+		color: var(--text-quiet);
+		margin-top: 0.4rem;
+		display: -webkit-box;
+		-webkit-line-clamp: 2;
+		-webkit-box-orient: vertical;
+		overflow: hidden;
+	}
+
+	.essay-card .archive-meta {
+		margin-top: 0.5rem;
 	}
 
 	/* Shared index header (Fakta / Essäer / Frågor & svar) — kicker + title + one

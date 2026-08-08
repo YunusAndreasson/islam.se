@@ -1,16 +1,9 @@
 ---
 import { rattelseHref } from "../lib/rattelse";
-
-interface Props {
-	/** Defaults to the page being rendered. */
-	path?: string;
-}
-
-const { path = Astro.url.pathname } = Astro.props;
 ---
 
 <p class="rattelse">
-	<a href={rattelseHref(path)}>Hittat ett sakfel på den här sidan? Föreslå en rättelse.</a>
+	<a href={rattelseHref(Astro.url.pathname)}>Hittat ett sakfel på den här sidan? Föreslå en rättelse.</a>
 </p>
 
 <style>

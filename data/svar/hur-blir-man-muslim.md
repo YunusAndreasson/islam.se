@@ -1,7 +1,7 @@
 ---
 title: "Hur blir man muslim? Shahada steg för steg"
 question: "Hur blir man muslim?"
-description: "Det räcker inte att bara säga shahada – ett villkor avgör om den gäller. Så blir man muslim enligt klassisk islam: orden, avsikten och stegen efteråt."
+description: "Trosbekännelsen uttalad med uppriktig mening är allt som krävs: ingen ceremoni, inget vittne, inget intyg. Här står orden, avsikten bakom dem och de steg som följer efteråt."
 publishedAt: "2026-06-20T00:00:00Z"
 keywords:
   - "hur blir man muslim"

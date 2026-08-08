@@ -72,7 +72,7 @@ const SHAFAQ = {
 } as const;
 
 /** Translate settings into a configured adhan CalculationParameters for `coords`. */
-export function buildParams(settings: PrayerSettings, coords: Coordinates): CalculationParameters {
+function buildParams(settings: PrayerSettings, coords: Coordinates): CalculationParameters {
 	const params = METHOD_FACTORY[settings.calculationMethod]();
 	params.madhab = settings.madhab === "hanafi" ? Madhab.Hanafi : Madhab.Shafi;
 	// 'auto' defers to adhan's latitude-aware recommendation; otherwise honour the
@@ -241,47 +241,9 @@ export const PRAYER_SWEDISH_NAMES: Record<PrayerKey, string> = {
  */
 export function formatTime(date: Date | null | undefined): string {
 	if (!(date instanceof Date) || Number.isNaN(date.getTime())) return "—";
-	try {
-		return new Intl.DateTimeFormat("sv-SE", {
-			timeZone: TIME_ZONE,
-			hour: "2-digit",
-			minute: "2-digit",
-		}).format(date);
-	} catch {
-		// Hermes without full Intl tz data: fall back to a fixed Swedish offset.
-		return fallbackFormat(date);
-	}
-}
-
-// Last-Sunday-of-`month0` at 01:00 UTC — the EU daylight-saving switch instants.
-// Day 0 of the *next* month is the last day of this one; stepping back its weekday
-// lands on that month's final Sunday. (UTC throughout, so it's leap/zone-safe.)
-function lastSundayOneAmUTC(year: number, month0: number): number {
-	const lastDay = new Date(Date.UTC(year, month0 + 1, 0));
-	const lastSunday = lastDay.getUTCDate() - lastDay.getUTCDay();
-	return Date.UTC(year, month0, lastSunday, 1, 0, 0);
-}
-
-// Whether `date` falls in Swedish summer time (CEST, UTC+2) vs winter (CET, UTC+1).
-// EU DST runs from the last Sunday of March to the last Sunday of October, both
-// switching at 01:00 UTC. The previous code used a crude month window (March–October
-// flat), which rendered the transition weeks an hour off — late March before the
-// switch, and late October after it. This honours the real boundary.
-function isStockholmSummer(date: Date): boolean {
-	const t = date.getTime();
-	const year = date.getUTCFullYear();
-	return t >= lastSundayOneAmUTC(year, 2) && t < lastSundayOneAmUTC(year, 9);
-}
-
-// Crude fixed-offset fallback (CET/CEST) — only used if Intl timeZone support is
-// missing (Hermes without full ICU). Good enough to never show a raw UTC string to
-// the user. Exported only so the DST boundary logic is directly unit-testable; the
-// canonical path is the Intl formatter above. Stays pure (no Intl, no allocation
-// beyond two Dates) so a missing-ICU runtime can rely on it.
-export function fallbackFormat(date: Date): string {
-	const offsetHours = isStockholmSummer(date) ? 2 : 1;
-	const shifted = new Date(date.getTime() + offsetHours * 3600_000);
-	const hours = shifted.getUTCHours();
-	const minutes = shifted.getUTCMinutes();
-	return `${String(hours).padStart(2, "0")}:${String(minutes).padStart(2, "0")}`;
+	return new Intl.DateTimeFormat("sv-SE", {
+		timeZone: TIME_ZONE,
+		hour: "2-digit",
+		minute: "2-digit",
+	}).format(date);
 }

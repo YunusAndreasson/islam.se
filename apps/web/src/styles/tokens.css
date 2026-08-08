@@ -98,6 +98,11 @@
 	   failed both. Raised to the floor, which costs the decorative washes derived
 	   from it under 3 L*. */
 	--color-warm: light-dark(#998e7c, #706450);
+	/* Brass — the only accent used for data marks: mosque markers and clusters on the
+	   /moskeer map, and the growth, timeline and län bars beneath it. Mirrored as
+	   PALETTE.light.brass / PALETTE.dark.brass in scripts/moskeer-map.ts, which needs
+	   literals because WebGL paint properties cannot read a custom property. */
+	--color-brass: light-dark(#b8862f, #c89a48);
 	/* Two ranks of rule. The hairline is this site's only structural device, and it
 	   had ONE weight — so the line between two rows of a list looked exactly like the
 	   line between two movements of a page. The rule announced that a boundary existed

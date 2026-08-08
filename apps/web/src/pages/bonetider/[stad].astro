@@ -16,6 +16,7 @@ import { SCB_POP_YEAR, SCB_REF, SCB_SOURCE } from "../../lib/bonetider/meta";
 import { placeFacts } from "../../lib/bonetider/place-facts";
 import { type IndexedPlace, INDEXED_PLACES, nearbyPlaces, officialPopulation, OG_POPULATION } from "../../lib/bonetider/places-index";
 import { stockholmMonthLabel } from "../../lib/bonetider/prayer-times";
+import { slugify } from "../../lib/bonetider/slug";
 import { cityBySlug, directionsLinks, locationLabel, mosqueUrl, nearestMosques } from "../../lib/moskeer";
 
 // These 2 118 pages are 84 % of the whole build (75 s of 90 s). They only change when
@@ -168,6 +169,12 @@ const descTail = hasMosquePage
 // county — the raw interpolation rendered "Stockholm (Stockholm)" in the snippet.
 const descPlace =
 	place.county && place.county !== place.name ? `${place.name} (${place.county})` : place.name;
+
+// ⚠️ A county-qualified slug means another town owns the bare one, so the two pages
+// carried the SAME title ("Bönetider i Alvik 2026" twice, 171 of them). Only these get
+// the county — every page that ranks today keeps its title byte-for-byte.
+const ambiguous = place.slug !== slugify(place.name);
+const titlePlace = ambiguous && place.county ? `${place.name} (${place.county})` : place.name;
 const description = `Bönetider för ${descPlace} ${year}: exakta tider för Fajr, Shurūq, Ẓuhr, ʿAṣr, Maghrib och ʿIshāʾ varje dag, beräknade efter solens läge.${descTail}`;
 
 const ogImage = place.population >= OG_POPULATION ? `/bonetider/${place.slug}/og.png` : "/bonetider/og.png";
@@ -195,6 +202,7 @@ if (hasScb) {
 // two pages describe one entity graph instead of competing nodes, and Google reads a
 // first-class "this city contains these mosques" fact rather than inferring it.
 const aboutCity = cityPlace({
+	slug: place.slug,
 	name: place.name,
 	county: place.county,
 	lat: place.lat,
@@ -245,7 +253,7 @@ if (hasScb) {
 ---
 
 <Base
-	title={`Bönetider i ${place.name} ${year} — islam.se`}
+	title={`Bönetider i ${titlePlace} ${year} — islam.se`}
 	description={description}
 	ogImage={ogImage}
 	ogImageAlt={`Bönetider i ${place.name} — dagens tider för Fajr, Shurūq, Ẓuhr, ʿAṣr, Maghrib och ʿIshāʾ`}
@@ -372,7 +380,7 @@ if (hasScb) {
 					})}
 				</ul>
 				<p class="bt-faq-more">
-					<SectionLink href={hasMosquePage ? `/moskeer/${place.slug}/` : "/moskeer"}>
+					<SectionLink href={hasMosquePage ? `/moskeer/${place.slug}/` : "/moskeer/"}>
 						{hasMosquePage ? `Moskéer i ${place.name}` : "Alla moskéer i Sverige"}
 					</SectionLink>
 				</p>

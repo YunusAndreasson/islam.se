@@ -1,6 +1,8 @@
-import type { CollectionEntry } from "astro:content";
+import { type CollectionEntry, getCollection } from "astro:content";
 import type { ImageMetadata } from "astro";
 import { type Article, getArticles } from "./articles";
+import { memoize } from "./cache";
+import { basename } from "./path";
 
 /**
  * Hero art for the /fordjupning/ pillar pages.
@@ -25,12 +27,16 @@ const artEntries = Object.entries(
 	),
 );
 
-export const FORDJUPNING_ART: ReadonlyMap<string, ImageMetadata> = new Map(
-	artEntries.map(([path, mod]) => {
-		const file = path.split("/").pop() ?? "";
-		return [file.replace(/\.[^.]+$/, ""), mod.default] as [string, ImageMetadata];
-	}),
+const FORDJUPNING_ART: ReadonlyMap<string, ImageMetadata> = new Map(
+	artEntries.map(([path, mod]) => [basename(path, /\.[^.]+$/), mod.default]),
 );
+
+/** Every fördjupning page, term-alphabetical (Swedish) — the pillar index, the
+ *  answer-page "Läs vidare" list, and llms.txt all want the same order. */
+export const getSortedFordjupning = memoize(async () => {
+	const entries = await getCollection("fordjupning");
+	return entries.sort((a, b) => a.data.term.localeCompare(b.data.term, "sv"));
+});
 
 export interface FordjupningHero {
 	/** Bespoke art, when this topic has its own file. */

@@ -17,15 +17,13 @@ interface Props {
 	art?: ImageMetadata;
 	/** Essay whose hero is borrowed while `art` is missing; may be missing too. */
 	image?: Article;
-	/** Homepage showcase: smaller image, drop the blurb (image + label only). */
-	compact?: boolean;
 }
 
-const { href, label, blurb, art, image, compact = false } = Astro.props;
+const { href, label, blurb, art, image } = Astro.props;
 const hasPhoto = Boolean(art ?? image?.heroImage);
 ---
 
-<a class:list={["fakta-card", { "fakta-card--compact": compact }]} href={href} data-astro-prefetch="viewport">
+<a class="fakta-card" href={href} data-astro-prefetch="viewport">
 	{hasPhoto && (
 		<div class="fakta-card-media media-frame">
 			<EssayImage
@@ -40,11 +38,9 @@ const hasPhoto = Boolean(art ?? image?.heroImage);
 	<div class="fakta-card-text">
 		<span class="fakta-card-label">{label}</span>
 		{/* A bare ﷺ in the blurb string becomes the styled, labelled glyph. */}
-		{!compact && (
-			<p class="fakta-card-blurb">
-				{blurb.split("ﷺ").map((part, i) => (i === 0 ? part : [<Honorific />, part]))}
-			</p>
-		)}
+		<p class="fakta-card-blurb">
+			{blurb.split("ﷺ").map((part, i) => (i === 0 ? part : [<Honorific />, part]))}
+		</p>
 	</div>
 </a>
 
@@ -83,13 +79,6 @@ const hasPhoto = Boolean(art ?? image?.heroImage);
 		color: var(--text-quiet);
 		margin: 0.3rem 0 0;
 		text-wrap: pretty;
-	}
-
-	.fakta-card--compact .fakta-card-media {
-		margin-bottom: 0.4rem;
-	}
-	.fakta-card--compact .fakta-card-label {
-		font-size: var(--step--1);
 	}
 
 	.fakta-card:hover .fakta-card-label {

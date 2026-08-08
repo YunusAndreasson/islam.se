@@ -5,17 +5,9 @@ interface Props {
 	kickerHref?: string;
 	kickerClass?: string;
 	lead?: string;
-	leadClass?: string;
 }
 
-const {
-	title,
-	kicker,
-	kickerHref,
-	kickerClass = "collection-kicker",
-	lead,
-	leadClass = "lead collection-lead",
-} = Astro.props;
+const { title, kicker, kickerHref, kickerClass = "collection-kicker", lead } = Astro.props;
 ---
 
 <header class="article-header">
@@ -25,7 +17,7 @@ const {
 		</p>
 	)}
 	<h1>{title}</h1>
-	{lead && <p class={leadClass}>{lead}</p>}
+	{lead && <p class="lead collection-lead">{lead}</p>}
 	<slot />
 </header>
 

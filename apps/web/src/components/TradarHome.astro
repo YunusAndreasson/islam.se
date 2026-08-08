@@ -3,9 +3,9 @@ import { getCollection } from "astro:content";
 import HomeHead from "./HomeHead.astro";
 import ThreadList from "./ThreadList.astro";
 
-// `limit` keeps the homepage glimpse balanced: an even count fills the 2-column
-// grid into clean rows, while the /tradar index renders the collection unbounded.
-// Lead with the threads carrying the most essays (§7.7).
+// `limit` keeps the /essaer/ intro glimpse to its curated top few; the /tradar
+// index renders the collection unbounded. Lead with the threads carrying the
+// most essays (§7.7).
 interface Props {
 	limit?: number;
 }
@@ -21,5 +21,5 @@ if (limit) {
 
 <section class="tradar-home home-movement" aria-labelledby="tradar-kicker">
 	<HomeHead label="Trådar" id="tradar-kicker" href="/tradar/" linkLabel="Alla trådar" />
-	<ThreadList threads={threads} variant="home" headingLevel={3} prefetch="viewport" />
+	<ThreadList threads={threads} headingLevel={3} prefetch="viewport" />
 </section>

@@ -24,7 +24,7 @@ Men fågeln är inte dum. Med jordens magnetfält, solens vinkel och stjärnmön
 
 Skillnaden låter hårfin. Men den genomsyrar allt. Fågeln förbereder sig *för* sin resa – med medel riktade mot ett bestämt mål. Försäkringssamhället förbereder sig *mot* det som kan gå fel – med skydd mot alla tänkbara utfall. Den ena förberedelsen rör sig framåt. Den andra vänder sig bakåt och kallar det framsteg.
 
-Vi har likställt förberedelse med garanti, medel med trygghet. Försäkringen var tänkt att befria oss från rädsla, men den band oss vid sig: den som inte kan ge sig i väg förrän försäkringsbrevet är granskat har inte vunnit trygghet utan förlorat rörelseförmåga. Det vi trodde var en vinst visar sig vara en förlust – inte säkerhet, utan oförmåga att lyfta utan löfte om landning.
+Vi har likställt förberedelse med garanti, medel med trygghet. Försäkringen var tänkt att befria oss från rädsla, men den band oss vid sig: den som inte kan ge sig i väg förrän försäkringsbrevet är granskat har bytt bort sin rörelseförmåga. Det vi trodde var en vinst visar sig vara en oförmåga att lyfta utan löfte om landning.
 
 ## Ansträngningens vila
 
@@ -60,9 +60,9 @@ Koranen vidgar bilden:
 
 > Har de inte fäst avseende vid fåglarna ovan dem, hur de sträcker ut vingarna och fäller in dem? Ingen annan än den Nåderike håller dem uppe. Han ser sannerligen allt.[^9]
 
-Fåglarna flyger redan. De faller inte. Frågan riktar sig inte till fågeln utan till betraktaren: *ser du vad som bär den?* Aerodynamiken beskriver lyftkraften. Ornitologin kartlägger flygrutten. Men versen frågar inte *hur* fåglarna flyger – den frågar *vem* som håller dem uppe. Skillnaden är inte retorisk. Den ena frågan ger kunskap. Den andra ger tillit.
+Fåglarna flyger redan. De faller inte. Frågan riktar sig till betraktaren: *ser du vad som bär den?* Aerodynamiken beskriver lyftkraften. Ornitologin kartlägger flygrutten. Men versen frågar inte *hur* fåglarna flyger – den frågar *vem* som håller dem uppe. Skillnaden är inte retorisk. Den ena frågan ger kunskap. Den andra ger tillit.
 
-Och den sista bisatsen – "Han ser sannerligen allt" – vänder perspektivet helt. Vi ser fåglarna. Men fåglarna *ses*. Vi kan spåra silvertärnans rutt med geolokatorer och mäta dess navigationsförmåga. Men mätning är inte omsorg. Versen pekar mot en blick som inte bara registrerar utan bär.
+Och den sista bisatsen – "Han ser sannerligen allt" – vänder perspektivet helt. Vi ser fåglarna. Men fåglarna *ses*. Vi kan spåra silvertärnans rutt med geolokatorer och mäta dess navigationsförmåga. Men mätning är inte omsorg. Versen pekar mot en blick som bär det den registrerar.
 
 Ur denna bild hämtar Ibn Qayyim trons inre rörelse: rädsla och hopp som två vingar.[^10] När de är i jämvikt bär de hjärtat framåt, som fågelns vingar bär kroppen. Hopp utan rädsla föder sorglöshet. Rädsla utan hopp föder förtvivlan. *Tawakkul* är jämvikten – den punkt där hjärtat varken lutar mot övermod eller hopplöshet utan flyger.
 

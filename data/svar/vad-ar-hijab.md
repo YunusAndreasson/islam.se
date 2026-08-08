@@ -1,7 +1,7 @@
 ---
 title: "Vad är hijab? Om slöjan i islam"
 question: "Vad är hijab och vad säger islam om slöjan?"
-description: "Hijab betyder egentligen 'förhänge', inte huvudduk. Så skiljer Koranen mellan khimar, jilbab och niqab – och varför slöjan är Guds påbud, inte ett tvång."
+description: "Koranen har tre ord där svenskan har ett: hijab betyder förhänge, khimar är huvudduken och jilbab den täckande ytterdräkten. Vad påbudet omfattar, och var niqab och burka hör hemma."
 publishedAt: "2026-06-20T00:00:00Z"
 keywords:
   - "vad är hijab"

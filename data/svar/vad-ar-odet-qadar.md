@@ -1,7 +1,7 @@
 ---
 title: "Vad är ödet (qadar)? Islams sjätte trosartikel"
 question: "Vad säger islam om ödet (qadar)?"
-description: "Ödet (qadar) i islam betyder inte att människan saknar vilja. Här är de fyra nivåerna i tron på det förutbestämda – och var gränsen mot ren ödestro går."
+description: "Qadar är Guds förutbestämmelse i fyra led: han har känt, skrivit ner, velat och skapat allt som sker. Hur det går ihop med människans verkliga vilja, och var gränsen mot ren ödestro går."
 publishedAt: "2026-06-20T00:00:00Z"
 updatedAt: "2026-07-26T00:00:00Z"
 keywords:

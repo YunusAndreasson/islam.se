@@ -37,6 +37,23 @@ ok(placeBySlug("stockholm")?.name === "Stockholm", "placeBySlug('stockholm') →
 const sthlm = placeBySlug("stockholm");
 if (sthlm) ok(nearbyPlaces(sthlm, 6).length === 6, "nearbyPlaces returns 6");
 
+// Which place owns a contested slug is decided by population order alone. /bonetider/husby/
+// served a 250-person Dalarna village to searchers meaning Husby i Järva until 2026-08.
+console.log("contested slugs:");
+for (const [slug, county] of [
+	["husby", "Stockholm"],
+	["husby-dalarna", "Dalarna"],
+	["solberga", "Stockholm"],
+	["alby", "Stockholm"],
+	["varberg", "Halland"],
+] as const) {
+	const place = placeBySlug(slug);
+	ok(
+		place?.county === county,
+		`/bonetider/${slug}/ → ${county} (got ${place?.county ?? "MISSING"})`,
+	);
+}
+
 console.log("prayer times (Stockholm, 2026-06-21) vs adhan-direct:");
 const date = new Date("2026-06-21T12:00:00Z");
 const coords = { latitude: 59.32938, longitude: 18.06871 };

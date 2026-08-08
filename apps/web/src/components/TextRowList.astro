@@ -14,6 +14,9 @@ type TextRowItem = {
 	href: string;
 	title: string;
 	description?: string;
+	/** A quiet third line under the description — counts, dates, provenance. Reference
+	 *  rows carry no thumbnail, so this is what tells a reader how substantial the page is. */
+	meta?: string;
 	image?: TextRowImage | null;
 	attrs?: HTMLAttributes<"li">;
 };
@@ -22,7 +25,6 @@ type Props = HTMLAttributes<"ul"> & {
 	items: readonly TextRowItem[];
 	variant?: "media" | "question";
 	titleElement?: "h2" | "span";
-	prefetch?: "tap" | "hover" | "viewport" | "load";
 };
 
 const {
@@ -30,7 +32,6 @@ const {
 	items,
 	variant = "media",
 	titleElement = variant === "media" ? "h2" : "span",
-	prefetch,
 	...attrs
 } = Astro.props;
 
@@ -40,7 +41,7 @@ const Title = titleElement;
 <ul {...attrs} class:list={["text-row-list", `text-row-list--${variant}`, className]}>
 	{items.map((item) => (
 		<li {...item.attrs}>
-			<a href={item.href} data-astro-prefetch={prefetch}>
+			<a href={item.href} data-astro-prefetch="viewport">
 				{item.image && (
 					<span class="text-row-thumb media-frame">
 						<EssayImage
@@ -54,8 +55,9 @@ const Title = titleElement;
 					</span>
 				)}
 				<span class="text-row-text">
-					<Title class="text-row-title">{item.title}</Title>
+					<Title class="text-row-title cap-trim-start">{item.title}</Title>
 					{item.description && <span class="text-row-desc">{item.description}</span>}
+					{item.meta && <span class="text-row-meta label">{item.meta}</span>}
 				</span>
 			</a>
 		</li>
@@ -90,22 +92,34 @@ const Title = titleElement;
 		text-wrap: pretty;
 	}
 
+	.text-row-meta {
+		display: block;
+		margin-top: 0.35rem;
+		color: var(--color-muted);
+		font-variant-numeric: lining-nums tabular-nums;
+	}
+
 	.text-row-list a:hover .text-row-title,
 	.text-row-list a:focus-visible .text-row-title {
 		text-decoration: underline;
 		text-underline-offset: 0.15em;
 	}
 
+	/* Row spacing is a margin, so a caller that lays the rows out as a grid must be able
+	   to zero it and use row-gap instead — this rule is scoped to the component and
+	   outranks anything the page can write, including :global(). */
 	.text-row-list--media li + li {
-		margin-top: var(--space-unit);
+		margin-top: var(--text-row-row-gap, var(--space-unit));
 		padding-top: var(--text-row-media-separator-padding, 0);
 		border-top: var(--text-row-media-separator, 0);
 	}
 
+	/* Thumb beside text by default. A caller that wants the picture stacked above the
+	   text sets `--text-row-columns: 1fr` — the thumb then becomes the first grid row. */
 	.text-row-list--media a {
 		display: grid;
-		grid-template-columns: 120px 1fr;
-		gap: var(--space-unit);
+		grid-template-columns: var(--text-row-columns, var(--text-row-thumb-width, 120px) 1fr);
+		gap: var(--text-row-thumb-gap, var(--space-unit));
 		align-items: start;
 	}
 
@@ -118,8 +132,13 @@ const Title = titleElement;
 		width: 100%;
 	}
 
+	/* ⚠️ The weight must be stated. Without it the title inherits from whatever
+	   `titleElement` the caller picked for document-outline reasons — an h2 lands on
+	   620 from the global heading rule, a span falls to 400. Same class, same rank,
+	   two different looks. 620 matches .archive-title, the site's list-title weight. */
 	.text-row-list--media .text-row-title {
 		font-size: var(--text-row-title-size, var(--step-1));
+		font-weight: 620;
 	}
 
 	.text-row-list--media .text-row-desc {
@@ -128,12 +147,14 @@ const Title = titleElement;
 	}
 
 	.text-row-list--question li {
-		border-bottom: 1px solid var(--color-divider);
+		border-bottom: var(--text-row-question-separator, 1px solid var(--color-divider));
 	}
 
+	/* A caller whose rows are a single line tightens the padding — at --space-unit a
+	   one-line row is mostly air. Floor is the 24px WCAG 2.5.8 target. */
 	.text-row-list--question a {
 		display: block;
-		padding: var(--space-unit) 0;
+		padding: var(--text-row-question-padding, var(--space-unit)) 0;
 	}
 
 	.text-row-list--question .text-row-title {

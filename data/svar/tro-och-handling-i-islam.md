@@ -1,7 +1,7 @@
 ---
 title: "Vad är förhållandet mellan tro och handling i islam?"
 question: "Vad är förhållandet mellan tro och handling i islam?"
-description: "Tron sitter inte bara i hjärtat. I klassisk islam är handlingen en del av själva tron – en medelväg mellan två ytterligheter. Så hänger tro och handling ihop."
+description: "Klassisk islam definierar tron som övertygelse i hjärtat, bekännelse med tungan och handling med kroppen: tre delar som står och faller tillsammans. Därför räknas handlingen som en gren av tron."
 publishedAt: "2026-06-20T00:00:00Z"
 keywords:
   - "tro och handling i islam"

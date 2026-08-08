@@ -34,7 +34,7 @@ const rows = articles.map((article) => ({
 						</div>
 					)}
 					<div class="recent-text">
-						<h3 class="recent-title">{article.title}</h3>
+						<h3 class="recent-title cap-trim-start">{article.title}</h3>
 						{article.description && (
 							<p class="recent-lead" set:html={inlineMarkdown(article.description)} />
 						)}
@@ -109,14 +109,6 @@ const rows = articles.map((article) => ({
 		color: var(--color-accent);
 		margin: 0;
 		text-wrap: balance;
-	}
-
-	/* Cap height onto the image's top edge (rows are top-aligned). As .feature-title. */
-	@supports (text-box-trim: trim-start) {
-		.recent-title {
-			text-box-trim: trim-start;
-			text-box-edge: cap alphabetic;
-		}
 	}
 
 	.recent-link:hover .recent-title,

@@ -12,9 +12,9 @@ category: "Sökandet"
 ---
 Först ateismen. Sedan ockultismen, alkemin, spiritismen. Sedan Swedenborg. Under de år som omspänner *Inferno* prövade Strindberg varje hållning han kunde nå – och ingen bar hans vikt.
 
-"Jag har nämligen blivit ateist under årens lopp, när jag märkt hur de okända makterna lämnat världen åt dess öde utan att giva ett livstecken ifrån sig."[^1] Meningen förtjänar aktning – inte för att den är sann utan för att den visar vad ateismen kostar den som tar den på allvar. Strindberg ville inte vara ateist. Dit drev honom vad han upplevde som Guds tystnad. Men han kunde inte stanna, för ateismen höll inte ens för hans eget förnuft.
+"Jag har nämligen blivit ateist under årens lopp, när jag märkt hur de okända makterna lämnat världen åt dess öde utan att giva ett livstecken ifrån sig."[^1] Meningen förtjänar aktning, sann eller ej: den visar vad ateismen kostar den som tar den på allvar. Strindberg ville inte vara ateist. Dit drev honom vad han upplevde som Guds tystnad. Men han kunde inte stanna, för ateismen höll inte ens för hans eget förnuft.
 
-"Det är ju märkvärdigt hur jag nu har från ateismen fallit ner i den fullständigaste vidskepelse."[^2] Det som kom efter – ockultism, alkemi, Swedenborg – bar inte heller. Varje ny hållning brast inifrån, inte under yttre kritik utan under sin egen tyngd. Strindbergs kris var inte att han saknade tro. Det var att inget han trodde på bestod sin egen prövning.
+"Det är ju märkvärdigt hur jag nu har från ateismen fallit ner i den fullständigaste vidskepelse."[^2] Det som kom efter – ockultism, alkemi, Swedenborg – bar inte heller. Varje ny hållning brast inifrån, under sin egen tyngd. Strindberg saknade aldrig tro. Krisen låg i att inget han trodde på bestod sin egen prövning.
 
 Han hade sökt sin Gud alltifrån barndomen, skrev han, och funnit demonen.[^3] Det var inte en omvändelseberättelse. Det var ett trilemma som levdes.
 
@@ -24,7 +24,7 @@ Tretton sekler före Strindberg restes samma fråga, renare:
 
 > Har de skapats av ingenting, eller är det de själva som är skaparna? Eller har de skapat himlarna och jorden?[^4]
 
-Tre alternativ, tre rader. Antingen uppstod allting ur intet – verkligt *intet*, inte kvantfält eller energitillstånd utan absolut ingenting. Eller skapade allting sig självt, vilket förutsätter att det finns innan det finns. Eller finns en Skapare.
+Tre alternativ, tre rader. Antingen uppstod allting ur intet – verkligt *intet*, absolut ingenting, varken kvantfält eller energitillstånd. Eller skapade allting sig självt, vilket förutsätter att det finns innan det finns. Eller finns en Skapare.
 
 Ibn Kathīr återger hur Jubayr ibn Muṭʿim, vid den tiden polyteist, hade kommit till Profeten ﷺ efter slaget vid Badr för att lösa ut krigsfångar. Under bönen hörde han dessa verser reciteras. "Mitt hjärta höll på att flyga," sade han.[^5] Ingen bevisföring hade föregått ögonblicket. Inga premisser att bedöma, inga mellanled att granska. Bara frågan – och omöjligheten att undvika den. Det hörde, berättar Ibn Kathīr, till det som förde honom till islam.
 
@@ -32,7 +32,7 @@ Wittgenstein närmade sig samma punkt tretton sekler senare: "Det mystiska är i
 
 ## Vad som brister
 
-Strindbergs vandring var inte unik. Varje hållning utom en faller samman under sin egen logik – inte därför att den motbevisas utifrån utan därför att den motsäger sig själv.
+Strindbergs vandring var inte unik. Varje hållning utom en faller samman under sin egen logik. Ingen yttre motbevisning behövs; den motsäger sig själv.
 
 Panteismen sätter likhetstecken mellan Gud och naturen. En vacker tanke – allt är gudomligt, allt hänger samman. Men om Skaparen *är* skapelsen utplånas skillnaden mellan orsak och verkan. En gud som sammanfaller med universum kan inte förklara universum. Den *är* det som behöver förklaras.
 
@@ -56,11 +56,11 @@ Strindberg nådde aldrig klarhet. Hans Gud förblev dunkel – mer kraft än per
 
 > Av intet blir intet, och allt har en tillräcklig grund.[^12]
 
-*Av intet blir intet* – alltså är det första alternativet omöjligt: ur ingenting kommer ingenting. *Allt har en tillräcklig grund* – alltså räcker inte slumpen, inte det opersonliga, inte det stumma. Strindberg uttalade tawhids logik med egna ord. Han kände inte igen den.
+*Av intet blir intet* – alltså är det första alternativet omöjligt: ur ingenting kommer ingenting. *Allt har en tillräcklig grund* – alltså räcker varken slumpen, det opersonliga eller det stumma. Strindberg uttalade tawhids logik med egna ord. Han kände inte igen den.
 
 Ibn Taymiyyah ställde frågan i sin renaste form: det skapade är uppkommet och beroende, till skillnad från Skaparen som är nödvändig i sitt vara – varje tillägg som läggs till för att förklara Hans enhet undergräver den.[^13] Ibn Qayyim sammanfattade det i en sats: Herren ensam skapar, styr och befaller.[^14]
 
-Inte en trossats som kräver förnuftets underkastelse. Den slutsats förnuftet når när det följer sina egna grunder hela vägen.
+Det är den slutsats förnuftet når när det följer sina egna grunder hela vägen.
 
 *Tawḥīd* – att säga *en* och mena det utan fotnoter. Det är den hållning som inte brister. Ateismen brister vid frågan om grund. Panteismen vid skillnaden mellan orsak och verkan. Deismen vid frågan om mening. Treenigheten vid frågan om inre sammanhang. *Tawḥīd* kvarstår.
 

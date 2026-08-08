@@ -26,21 +26,15 @@ interface YearGroup {
 	gregSpan: string;
 	rows: (Markesdag & { gregorian: string })[];
 }
-const groups: YearGroup[] = [];
-for (const e of events) {
-	let group = groups.find((g) => g.hijriYear === e.hijriYear);
-	if (!group) {
-		group = { hijriYear: e.hijriYear, gregSpan: "", rows: [] };
-		groups.push(group);
-	}
-	group.rows.push({ ...e, gregorian: gregorian(e.startISO, e.endISO) });
-}
-for (const g of groups) {
-	const years = g.rows.flatMap((r) => [r.startISO, r.endISO ?? r.startISO]).map((d) => d.slice(0, 4));
-	const lo = years.reduce((a, b) => (a < b ? a : b));
-	const hi = years.reduce((a, b) => (a > b ? a : b));
-	g.gregSpan = lo === hi ? lo : `${lo}–${hi}`;
-}
+const rows = events.map((e) => ({ ...e, gregorian: gregorian(e.startISO, e.endISO) }));
+const groups: YearGroup[] = [...Map.groupBy(rows, (r) => r.hijriYear).entries()].map(
+	([hijriYear, rows]) => {
+		const years = rows.flatMap((r) => [r.startISO, r.endISO ?? r.startISO]).map((d) => d.slice(0, 4));
+		const lo = years.reduce((a, b) => (a < b ? a : b));
+		const hi = years.reduce((a, b) => (a > b ? a : b));
+		return { hijriYear, gregSpan: lo === hi ? lo : `${lo}–${hi}`, rows };
+	},
+);
 
 // These are worldwide religious observances with no physical venue. Google's
 // Event type requires `location`, so we declare an OnlineEventAttendanceMode +

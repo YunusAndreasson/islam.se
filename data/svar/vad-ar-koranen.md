@@ -110,4 +110,4 @@ Koranen reciteras dagligen i bönen, memoreras i sin helhet av *huffāz* och stu
 > De bästa av er är de som lär sig Koranen och lär ut den.
 > — Sahīh al-Bukhārī 5027
 
-Att tro på Koranen är därför inte att ställa den vördad på hyllan, utan att läsa, förstå och leva den; recitationen är början, inte slutet.
+Att tro på Koranen är därför att läsa den, förstå den och leva den; recitationen är början av det arbetet, inte dess slut.

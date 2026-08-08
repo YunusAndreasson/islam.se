@@ -7,7 +7,7 @@
  * Idempotent per element (a `data-qv-ready` flag), so re-running after a View
  * Transition swap is harmless.
  */
-type Segment = [word: number, start: number, end: number];
+import type { Segment } from "../lib/arabic";
 
 // Only one verse recites at a time across the page — starting one pauses the rest.
 let current: HTMLAudioElement | null = null;
@@ -87,11 +87,9 @@ export function initQuranPlayers(root: ParentNode = document): void {
 }
 
 // Stop and release on navigation (View Transitions) so audio never bleeds across pages.
-if (typeof document !== "undefined") {
-	document.addEventListener("astro:before-swap", () => {
-		if (current) {
-			current.pause();
-			current = null;
-		}
-	});
-}
+document.addEventListener("astro:before-swap", () => {
+	if (current) {
+		current.pause();
+		current = null;
+	}
+});

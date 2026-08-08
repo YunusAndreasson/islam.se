@@ -3,6 +3,7 @@
 // the slug uniqueness guard runs at module load, so a routing regression fails the
 // build with a clear message instead of silently dropping a page.
 import { haversineKm } from "../geom";
+import { DISTRICTS } from "./districts";
 import { PLACES, type SwedishPlace } from "./places";
 import { slugify } from "./slug";
 
@@ -14,18 +15,25 @@ export interface IndexedPlace extends SwedishPlace {
 // Page coverage knob: a place gets its own page when its population is at least this.
 // The dataset bottoms out near 200, so 200 = "every locality". Raise it to trim the
 // long tail to fewer, higher-demand towns — this single constant is the whole dial.
-export const MIN_POPULATION = 200;
+const MIN_POPULATION = 200;
 
 // Above this population a place gets a personalised satori OG card; below it the
 // shared /bonetider silhouette card is used, so the long-tail build stays cheap.
 export const OG_POPULATION = 5000;
 
+// The generated spine plus the hand-curated stadsdelar, re-sorted so the population
+// order below still holds. ⚠️ Re-sorting is load-bearing: it is what hands
+// /bonetider/husby/ to Husby i Järva (11 832) instead of Husby i Hedemora (250).
+const ALL_PLACES: readonly SwedishPlace[] = [...PLACES, ...DISTRICTS].sort(
+	(a, b) => b.population - a.population,
+);
+
 function buildIndex(): IndexedPlace[] {
 	const taken = new Set<string>();
 	const out: IndexedPlace[] = [];
-	// PLACES is sorted by population descending, so the larger town deterministically
-	// wins the clean slug and smaller same-name towns get the disambiguated form.
-	for (const p of PLACES) {
+	// Sorted by population descending, so the larger place deterministically wins the
+	// clean slug and smaller same-name places get the disambiguated form.
+	for (const p of ALL_PLACES) {
 		if (p.population < MIN_POPULATION) continue;
 		const base = slugify(p.name);
 		if (!base) continue; // a name that slugs to nothing (shouldn't happen) is skipped
@@ -101,13 +109,7 @@ export function nearbyPlaces(place: IndexedPlace, count = 6): IndexedPlace[] {
 /** Places grouped by county (län), counties alphabetical, places by population desc —
  *  for the /bonetider hub's browse-by-region list. */
 export function placesByCounty(): { county: string; places: IndexedPlace[] }[] {
-	const groups = new Map<string, IndexedPlace[]>();
-	for (const p of INDEXED_PLACES) {
-		const arr = groups.get(p.county);
-		if (arr) arr.push(p);
-		else groups.set(p.county, [p]);
-	}
-	return [...groups.entries()]
+	return [...Map.groupBy(INDEXED_PLACES, (p) => p.county).entries()]
 		.map(([county, places]) => ({ county: county || "Övriga", places }))
 		.sort((a, b) => a.county.localeCompare(b.county, "sv"));
 }

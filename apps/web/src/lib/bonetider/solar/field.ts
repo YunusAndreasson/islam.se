@@ -52,7 +52,7 @@ const DEFAULT_LAT_STEP = 0.42;
 const DEFAULT_LON_STEP = 0.52;
 
 /** Prayer + sun-event times (ms epoch; NaN where adhan can't resolve them) at one point. */
-export interface PointTimes {
+interface PointTimes {
 	fajr: number;
 	sunrise: number;
 	dhuhr: number;
@@ -75,7 +75,7 @@ export interface GridOptions {
 	lonStep?: number;
 }
 
-const ms = (d: Date): number => (d instanceof Date ? d.getTime() : Number.NaN);
+const ms = (d: Date): number => d.getTime();
 
 function axis(min: number, max: number, step: number): number[] {
 	const out: number[] = [];
@@ -154,6 +154,11 @@ function gridRow(
 	});
 }
 
+/** Solar declination in degrees for `date` — shared by the sync and async grid builders. */
+function declDegOf(date: Date): number {
+	return (solarParams(date).declRad * 180) / Math.PI;
+}
+
 function gridAxes(opts: GridOptions) {
 	const [w, s, e, n] = opts.bounds ?? DEFAULT_GRID_BOUNDS;
 	return {
@@ -165,7 +170,7 @@ function gridAxes(opts: GridOptions) {
 /** Build the cached prayer-time lattice. Location-independent: it covers the whole map. */
 export function buildGrid(date: Date, settings: PrayerSettings, opts: GridOptions = {}): SolarGrid {
 	const { lats, lons } = gridAxes(opts);
-	const declDeg = (solarParams(date).declRad * 180) / Math.PI;
+	const declDeg = declDegOf(date);
 	return { lats, lons, pt: lats.map((lat) => gridRow(lat, lons, date, settings, declDeg)) };
 }
 
@@ -194,7 +199,7 @@ export async function buildGridAsync(
 	opts: GridOptions = {},
 ): Promise<SolarGrid> {
 	const { lats, lons } = gridAxes(opts);
-	const declDeg = (solarParams(date).declRad * 180) / Math.PI;
+	const declDeg = declDegOf(date);
 	const pt: PointTimes[][] = [];
 	for (const [i, lat] of lats.entries()) {
 		pt.push(gridRow(lat, lons, date, settings, declDeg));

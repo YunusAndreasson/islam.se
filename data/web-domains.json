@@ -195,12 +195,12 @@
       "avgScore": 8.4
     },
     "yaqeeninstitute.org": {
-      "total": 14,
-      "ok": 14,
+      "total": 15,
+      "ok": 15,
       "failed": 0,
-      "lastChecked": "2026-06-05T22:12:48.427Z",
-      "publishedIn": 10,
-      "avgScore": 8.64
+      "lastChecked": "2026-08-05T20:51:26.433Z",
+      "publishedIn": 11,
+      "avgScore": 8.636363636363637
     },
     "signum.se": {
       "total": 8,
@@ -219,12 +219,12 @@
       "avgScore": 8.508333333333335
     },
     "sv.wikipedia.org": {
-      "total": 32,
-      "ok": 32,
+      "total": 34,
+      "ok": 34,
       "failed": 0,
-      "lastChecked": "2026-07-27T20:48:06.913Z",
-      "publishedIn": 24,
-      "avgScore": 8.608333333333329
+      "lastChecked": "2026-08-05T20:51:26.433Z",
+      "publishedIn": 26,
+      "avgScore": 8.607692307692306
     },
     "lifewithallah.com": {
       "total": 3,
@@ -243,12 +243,12 @@
       "avgScore": 8.6
     },
     "www.diva-portal.org": {
-      "total": 5,
-      "ok": 5,
+      "total": 6,
+      "ok": 6,
       "failed": 0,
-      "lastChecked": "2026-06-05T19:19:13.620Z",
-      "publishedIn": 2,
-      "avgScore": 8.55
+      "lastChecked": "2026-08-05T20:51:26.433Z",
+      "publishedIn": 3,
+      "avgScore": 8.566666666666668
     },
     "academia.edu": {
       "total": 1,
@@ -579,12 +579,12 @@
       "avgScore": 8.7
     },
     "www.riksdagen.se": {
-      "total": 8,
-      "ok": 8,
+      "total": 10,
+      "ok": 10,
       "failed": 0,
-      "lastChecked": "2026-07-27T20:48:06.913Z",
-      "publishedIn": 6,
-      "avgScore": 8.616666666666669
+      "lastChecked": "2026-08-05T20:51:26.433Z",
+      "publishedIn": 8,
+      "avgScore": 8.612500000000002
     },
     "www.tandfonline.com": {
       "total": 6,
@@ -1055,10 +1055,12 @@
       "lastChecked": "2026-02-14T11:48:45.607Z"
     },
     "www.mucf.se": {
-      "total": 1,
-      "ok": 0,
+      "total": 2,
+      "ok": 1,
       "failed": 1,
-      "lastChecked": "2026-02-14T11:48:45.607Z"
+      "lastChecked": "2026-08-05T20:51:26.433Z",
+      "publishedIn": 1,
+      "avgScore": 8.6
     },
     "www.college-de-france.fr": {
       "total": 1,
@@ -1970,6 +1972,38 @@
       "ok": 1,
       "failed": 0,
       "lastChecked": "2026-07-27T20:48:06.913Z",
+      "publishedIn": 1,
+      "avgScore": 8.6
+    },
+    "judiskamuseet.se": {
+      "total": 1,
+      "ok": 1,
+      "failed": 0,
+      "lastChecked": "2026-08-05T20:51:26.433Z",
+      "publishedIn": 1,
+      "avgScore": 8.6
+    },
+    "islamicvoice.com": {
+      "total": 1,
+      "ok": 1,
+      "failed": 0,
+      "lastChecked": "2026-08-05T20:51:26.433Z",
+      "publishedIn": 1,
+      "avgScore": 8.6
+    },
+    "www.uu.se": {
+      "total": 1,
+      "ok": 1,
+      "failed": 0,
+      "lastChecked": "2026-08-05T20:51:26.433Z",
+      "publishedIn": 1,
+      "avgScore": 8.6
+    },
+    "www.do.se": {
+      "total": 1,
+      "ok": 1,
+      "failed": 0,
+      "lastChecked": "2026-08-05T20:51:26.433Z",
       "publishedIn": 1,
       "avgScore": 8.6
     }

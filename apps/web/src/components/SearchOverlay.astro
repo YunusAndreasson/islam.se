@@ -652,6 +652,7 @@ const paletteThinkerGroups = [
 	// The same fold the build-side index used (lib/search-text) — imported rather
 	// than re-declared so the two can never drift apart.
 	import { fold } from "../lib/search-text";
+	import { escapeXml } from "../lib/xml";
 
 	type PType = "Sida" | "Svar" | "Ort" | "Ämne" | "Tråd" | "Tänkare" | "Essä";
 	interface Entry { type: PType; label: string; sub: string; alt?: string; core?: true; href: string; group?: "sunni" | "western"; }
@@ -679,10 +680,6 @@ const paletteThinkerGroups = [
 	const SVAR_CAP = 8;
 	// Small tiebreak so structure edges out an essay at equal textual score.
 	const TYPE_BONUS: Record<PType, number> = { Sida: 5, Svar: 4, Ort: 4, Ämne: 3, Tråd: 2, Tänkare: 1, Essä: 0 };
-
-	function esc(s: string): string {
-		return s.replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c] || c);
-	}
 
 	function score(e: Entry, q: string): number {
 		const label = fold(e.label);
@@ -763,7 +760,7 @@ const paletteThinkerGroups = [
 		let n = 0;
 		function row(e: Entry): string {
 			const i = n++;
-			return `<a class="palette-opt palette-row" role="option" id="palette-opt-${i}" data-i="${i}" href="${e.href}" data-astro-prefetch="tap"><span class="palette-row-main"><span class="palette-row-label">${esc(e.label)}</span><span class="palette-row-sub">${esc(e.sub)}</span></span><span class="palette-row-type label">${esc(e.type)}</span></a>`;
+			return `<a class="palette-opt palette-row" role="option" id="palette-opt-${i}" data-i="${i}" href="${e.href}" data-astro-prefetch="tap"><span class="palette-row-main"><span class="palette-row-label">${escapeXml(e.label)}</span><span class="palette-row-sub">${escapeXml(e.sub)}</span></span><span class="palette-row-type label">${escapeXml(e.type)}</span></a>`;
 		}
 
 		function renderSearch(q: string): { html: string; count: number } {
@@ -808,7 +805,7 @@ const paletteThinkerGroups = [
 			}
 			n = 0;
 			const { html, count } = renderSearch(q);
-			results.innerHTML = html || `<p class="palette-empty">Inga träffar för ”${esc(raw)}”.</p>`;
+			results.innerHTML = html || `<p class="palette-empty">Inga träffar för »${escapeXml(raw)}«.</p>`;
 			browse.hidden = true;
 			results.hidden = false;
 			hint.textContent = count ? `${count} ${count === 1 ? "träff" : "träffar"}` : "Inga träffar";

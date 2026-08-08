@@ -1,7 +1,7 @@
 ---
 title: "Vad är Kaba? Det första gudshuset i Mecka"
 question: "Vad är Kaba och varför är den viktig för muslimer?"
-description: "Kaba är det kubformade gudshuset i Mecka som muslimer vänder sig mot i bön. Här är dess historia från Abraham, dess roll i hajj – och varför den inte dyrkas."
+description: "Ett kubformat gudshus i Mecka, klätt i svart tyg, som varje bön på jorden riktas mot. Om Kabas historia från Abraham, dess plats under hajj och varför riktningen aldrig är dyrkan."
 publishedAt: "2026-06-19T00:00:00Z"
 keywords:
   - "vad är kaba"

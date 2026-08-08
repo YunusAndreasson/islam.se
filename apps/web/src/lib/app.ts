@@ -6,8 +6,9 @@
 export const APP_STORE_ID = "6774383118";
 export const APP_STORE_URL = `https://apps.apple.com/se/app/islam-se/id${APP_STORE_ID}`;
 
-/** Google Play package name — also used in the manifest's related_applications. */
-export const PLAY_PACKAGE = "se.islam.mobile";
+/** Google Play package name — also hand-mirrored in public/manifest.webmanifest's
+ *  related_applications, which can't reference this module. */
+const PLAY_PACKAGE = "se.islam.mobile";
 export const PLAY_STORE_URL = `https://play.google.com/store/apps/details?id=${PLAY_PACKAGE}`;
 
 /** The app's pillars — each a short term and an explanatory line. Drawn from the

@@ -8,11 +8,9 @@ import EssayImage from "./EssayImage.astro";
 
 interface Props {
 	article: Article;
-	widths?: number[];
-	sizes?: string;
 }
 
-const { article, widths = FEATURE_HERO_WIDTHS, sizes = FEATURE_HERO_SIZES } = Astro.props;
+const { article } = Astro.props;
 
 // Inlined 20px blur of this very photograph, so the spread is never an empty
 // rectangle while the real file lands. ~150 bytes, no extra request.
@@ -29,8 +27,8 @@ const placeholder = await heroPlaceholder(article.slug);
 		>
 			<EssayImage
 				article={article}
-				widths={widths}
-				sizes={sizes}
+				widths={FEATURE_HERO_WIDTHS}
+				sizes={FEATURE_HERO_SIZES}
 				loading="eager"
 				fetchpriority="high"
 			/>

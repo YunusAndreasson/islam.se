@@ -2,6 +2,7 @@ import { type CollectionEntry, getCollection } from "astro:content";
 import type { ImageMetadata } from "astro";
 import type { AmneName } from "./amnen";
 import { memoize } from "./cache";
+import { basename } from "./path";
 
 export interface Article {
 	slug: string;
@@ -36,29 +37,19 @@ const imageEntries = Object.entries(
 	}),
 );
 
-const heroImageMap = new Map(
-	imageEntries
-		.filter(([path]) => !path.includes("-mobile."))
-		.map(([path, mod]) => [
-			path
-				.split("/")
-				.pop()
-				?.replace(/\.[^.]+$/, ""),
-			mod.default,
-		]),
-);
+function buildImageMap(
+	predicate: (path: string) => boolean,
+	stripExt: RegExp,
+): Map<string, ImageMetadata> {
+	return new Map(
+		imageEntries
+			.filter(([path]) => predicate(path))
+			.map(([path, mod]) => [basename(path, stripExt), mod.default]),
+	);
+}
 
-const mobileImageMap = new Map(
-	imageEntries
-		.filter(([path]) => path.includes("-mobile."))
-		.map(([path, mod]) => [
-			path
-				.split("/")
-				.pop()
-				?.replace(/-mobile\.[^.]+$/, ""),
-			mod.default,
-		]),
-);
+const heroImageMap = buildImageMap((path) => !path.includes("-mobile."), /\.[^.]+$/);
+const mobileImageMap = buildImageMap((path) => path.includes("-mobile."), /-mobile\.[^.]+$/);
 
 async function buildArticles(): Promise<Article[]> {
 	const entries = await getCollection("articles");
@@ -126,4 +117,9 @@ export function inlineMarkdown(text: string): string {
 /** "1 essä" / "12 essäer" — Swedish essay-count label, used by collection pages. */
 export function essayCount(count: number): string {
 	return `${count} ${count === 1 ? "essä" : "essäer"}`;
+}
+
+/** Raw markdown body of an essay's content-collection entry. */
+export function articleBody(article: Article): string {
+	return article.entry.body ?? "";
 }

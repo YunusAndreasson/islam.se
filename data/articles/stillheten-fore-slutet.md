@@ -36,7 +36,7 @@ Klimatvetenskapen tecknar kurvor mot sammanbrott – temperaturer stiger, arter 
 
 Günther Anders (1902–1992) gav tillståndet ett namn redan under kärnvapenåldern: *Apokalypse ohne Reich* – apokalyps utan rike.[^2] Naken undergång. Förstörelse som inte öppnar något. Synd utan nåd. Skuld utan förlåtelse. Det religiösa språket har tömts på innehåll men lämnat sin ångest kvar – som en nerv som fortfarande värker efter att tanden dragits. Vi ärver domedagens känsla utan domedagens löfte.
 
-Det är inte undergången som förlamar. Det är att den inte leder någonstans.
+Det förlamande är att undergången inte leder någonstans.
 
 Anders skrev om kärnvapnen, men diagnosen träffar klimatångesten med ännu större skärpa. Den som fruktar atomkriget fruktar åtminstone en handling – ett beslut, en knapp som trycks. Den som fruktar klimatkollapsen fruktar trögheten: att ingen trycker på något alls. Att undergången inte ens förtjänar ordet *händelse*. Den bara sker, graders vis, medan vi ser på. I en apokalyps med rike finns martyriet – lidande som tjänar något. I en apokalyps utan rike finns bara uthärdandet. Handlingen saknar vittne.
 

@@ -17,6 +17,7 @@ import type { createFieldRenderer, FieldLocation, Scheme } from "../lib/bonetide
 import type { PrayerSettings } from "../lib/bonetider/settings";
 import { solarParams, sunPositionAt } from "../lib/bonetider/solar/sun";
 import { CHANGE_EVENT, loadLocation, loadSettings, saveLocation } from "../lib/bonetider/storage";
+import { haversineKm } from "../lib/geom";
 
 interface PrayerState {
 	/** `day|settings|lat,lon` — the inputs the day's times depend on. */
@@ -95,23 +96,20 @@ function invalidateStorageCache(): void {
 }
 
 // Skip the canvas render for off-screen fields. rootMargin pre-renders just before
-// a field scrolls in, so there's no pop-in. Fail-open if the API is missing.
-const visObserver =
-	typeof IntersectionObserver === "undefined"
-		? null
-		: new IntersectionObserver(
-				(entries) => {
-					for (const e of entries) {
-						const inst = instances.find((i) => i.el === e.target);
-						if (!inst) continue;
-						const wasVisible = inst.visible;
-						inst.visible = e.isIntersecting;
-						// Becoming visible: render now rather than waiting for the next minute tick.
-						if (inst.visible && !wasVisible) paint(inst, new Date());
-					}
-				},
-				{ rootMargin: "200px" },
-			);
+// a field scrolls in, so there's no pop-in.
+const visObserver = new IntersectionObserver(
+	(entries) => {
+		for (const e of entries) {
+			const inst = instances.find((i) => i.el === e.target);
+			if (!inst) continue;
+			const wasVisible = inst.visible;
+			inst.visible = e.isIntersecting;
+			// Becoming visible: render now rather than waiting for the next minute tick.
+			if (inst.visible && !wasVisible) paint(inst, new Date());
+		}
+	},
+	{ rootMargin: "200px" },
+);
 
 function schemeNow(): Scheme {
 	const explicit = document.documentElement.dataset.theme;
@@ -195,13 +193,9 @@ function mountOne(el: HTMLElement): void {
 		// The observer reports the same thing asynchronously, off the critical path, and
 		// paints the field the instant it scrolls in — or right away (pre-paint) if it is
 		// already on screen. Start hidden so the boot paint below skips the canvas; the
-		// cheap readout still paints now, so times/countdown are live immediately. Fail
-		// open to the visible:true default when IntersectionObserver is unavailable, so
-		// those browsers still render the map at boot.
-		if (visObserver) {
-			inst.visible = false;
-			visObserver.observe(el);
-		}
+		// cheap readout still paints now, so times/countdown are live immediately.
+		inst.visible = false;
+		visObserver.observe(el);
 		loadRenderer(inst, canvas, variant);
 	}
 	paint(inst, new Date());
@@ -356,7 +350,9 @@ function wireGeolocation(): void {
 				let best = INDEXED_PLACES[0];
 				let bestD = Infinity;
 				for (const p of INDEXED_PLACES) {
-					const d = (p.lat - pos.coords.latitude) ** 2 + (p.lon - pos.coords.longitude) ** 2;
+					// Great-circle distance, not flat lat/lon — degrees of longitude shrink fast
+					// toward northern Sweden, so a flat comparison misjudges "nearest" up there.
+					const d = haversineKm(pos.coords.latitude, pos.coords.longitude, p.lat, p.lon);
 					if (d < bestD) {
 						bestD = d;
 						best = p;
@@ -460,7 +456,7 @@ function mountAll(): void {
 }
 
 let booted = false;
-export function boot(): void {
+function boot(): void {
 	mountAll();
 	hideUnsupportedGeo();
 	if (booted) {

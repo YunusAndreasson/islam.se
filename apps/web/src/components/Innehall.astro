@@ -3,11 +3,10 @@ import type { MarkdownHeading } from "astro";
 
 interface Props {
 	headings: MarkdownHeading[];
-	/** id of the element this nav labels, for aria-labelledby. */
-	labelId?: string;
 }
 
-const { headings, labelId = "innehall-rubrik" } = Astro.props;
+const { headings } = Astro.props;
+const labelId = "innehall-rubrik";
 
 // ⚠️ GFM footnotes emit their own `<h2 class="sr-only" id="footnote-label">`. Whether it
 // reaches `headings` depends on where in the pipeline the footnote section is built, so

@@ -1,7 +1,7 @@
 ---
 title: "Vad betyder jihad i islam? Strävan på Guds väg"
 question: "Vad betyder jihad i islam?"
-description: "Jihad betyder strävan, inte heligt krig. Ibn al-Qayyim räknar tretton grader av jihad – och bara en av dem bär vapen. Resten utkämpas i hjärtat och med ord."
+description: "Jihad betyder strävan på Guds väg: först mot det egna jaget, sedan med kunskap, ord och egendom, och först i sista hand med vapen i rättfärdigt självförsvar. Ibn al-Qayyim räknar tretton grader."
 publishedAt: "2026-06-20T00:00:00Z"
 keywords:
   - "vad betyder jihad"

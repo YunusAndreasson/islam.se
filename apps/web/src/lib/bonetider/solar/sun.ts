@@ -58,6 +58,24 @@ export function solarParams(date: Date): SolarParams {
 	return { declRad, eotMin };
 }
 
+/** NOAA true-solar-time → hour angle → altitude. Mirrored in WASH_SKSL. */
+function solarPosition(
+	latDeg: number,
+	lonDeg: number,
+	utcMin: number,
+	declRad: number,
+	eotMin: number,
+): { altDeg: number; haDeg: number } {
+	const tst = utcMin + eotMin + 4 * lonDeg; // true solar time, minutes (4 min per ° east)
+	let ha = tst / 4 - 180; // hour angle, degrees (0 at solar noon)
+	ha -= 360 * Math.floor((ha + 180) / 360); // normalise to (−180, 180]
+	const latR = latDeg * DEG;
+	const haR = ha * DEG;
+	const sinAlt =
+		Math.sin(latR) * Math.sin(declRad) + Math.cos(latR) * Math.cos(declRad) * Math.cos(haR);
+	return { altDeg: Math.asin(Math.max(-1, Math.min(1, sinAlt))) / DEG, haDeg: ha };
+}
+
 /**
  * Sun altitude in degrees (negative = below the horizon) at a place and instant. The shader
  * computes the same thing per pixel from (declRad, eotMin, utcMinutes) uniforms — keep the
@@ -66,32 +84,14 @@ export function solarParams(date: Date): SolarParams {
 export function sunAltitudeDeg(latDeg: number, lonDeg: number, date: Date): number {
 	const { declRad, eotMin } = solarParams(date);
 	const utcMin = date.getUTCHours() * 60 + date.getUTCMinutes() + date.getUTCSeconds() / 60;
-	return altitudeFrom(latDeg, lonDeg, utcMin, declRad, eotMin);
-}
-
-/** NOAA true-solar-time → hour angle → altitude. Mirrored in WASH_SKSL. */
-function altitudeFrom(
-	latDeg: number,
-	lonDeg: number,
-	utcMin: number,
-	declRad: number,
-	eotMin: number,
-): number {
-	const tst = utcMin + eotMin + 4 * lonDeg; // true solar time, minutes (4 min per ° east)
-	let ha = tst / 4 - 180; // hour angle, degrees (0 at solar noon)
-	ha -= 360 * Math.floor((ha + 180) / 360); // normalise to (−180, 180]
-	const latR = latDeg * DEG;
-	const haR = ha * DEG;
-	const sinAlt =
-		Math.sin(latR) * Math.sin(declRad) + Math.cos(latR) * Math.cos(declRad) * Math.cos(haR);
-	return Math.asin(Math.max(-1, Math.min(1, sinAlt))) / DEG;
+	return solarPosition(latDeg, lonDeg, utcMin, declRad, eotMin).altDeg;
 }
 
 /**
  * Sun altitude AND hour angle (deg) at a place/instant — the two inputs the twilight wash
  * needs (washColorAt(altDeg, haDeg)). Takes precomputed (declRad, eotMin) + utcMin so the
  * web canvas can call solarParams() once per frame and run this cheaply per pixel — exactly
- * the shader's per-pixel derivation. Mirrors altitudeFrom() above and adds the hour angle.
+ * the shader's per-pixel derivation.
  */
 export function sunPositionAt(
 	latDeg: number,
@@ -100,14 +100,7 @@ export function sunPositionAt(
 	declRad: number,
 	eotMin: number,
 ): { altDeg: number; haDeg: number } {
-	const tst = utcMin + eotMin + 4 * lonDeg;
-	let ha = tst / 4 - 180;
-	ha -= 360 * Math.floor((ha + 180) / 360);
-	const latR = latDeg * DEG;
-	const haR = ha * DEG;
-	const sinAlt =
-		Math.sin(latR) * Math.sin(declRad) + Math.cos(latR) * Math.cos(declRad) * Math.cos(haR);
-	return { altDeg: Math.asin(Math.max(-1, Math.min(1, sinAlt))) / DEG, haDeg: ha };
+	return solarPosition(latDeg, lonDeg, utcMin, declRad, eotMin);
 }
 
 // The depression → darkness ramp now lives with the wash it drives: the GPU shader's `dark`

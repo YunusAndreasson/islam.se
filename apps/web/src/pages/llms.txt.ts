@@ -1,6 +1,6 @@
-import { getCollection } from "astro:content";
 import type { APIContext } from "astro";
 import { getArticles } from "../lib/articles";
+import { getSortedFordjupning } from "../lib/fordjupning";
 
 // llms.txt (https://llmstxt.org) — a curated, link-rich map of the site for
 // LLMs. Generated at build so the essay list is always current; the static
@@ -15,9 +15,7 @@ export async function GET(context: APIContext) {
 
 	// The pillar pages are the site's reference texts on contested topics, which is
 	// exactly what an AI crawler should reach for over an essay's literary framing.
-	const fordjupning = (await getCollection("fordjupning")).sort((a, b) =>
-		a.data.term.localeCompare(b.data.term, "sv"),
-	);
+	const fordjupning = await getSortedFordjupning();
 	const fordjupningSection =
 		fordjupning.length > 0
 			? `\n## Fördjupning\n${fordjupning

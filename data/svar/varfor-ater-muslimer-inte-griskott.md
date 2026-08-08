@@ -1,7 +1,7 @@
 ---
 title: "Varför äter muslimer inte griskött? Förbudet i islam"
 question: "Varför äter muslimer inte griskött?"
-description: "Griskött förbjuds fyra gånger i Koranen – men hälsoskäl är inte den egentliga orsaken. Så förklarar islam svinkött, varför det är orent och nödundantaget."
+description: "Förbudet upprepas fyra gånger i Koranen, och alla klassiska rättsskolor är eniga om det. Grunden är lydnad inför Gud. Därtill: vad orenheten innebär och när nöden upphäver förbudet."
 publishedAt: "2026-06-20T00:00:00Z"
 keywords:
   - "varför äter muslimer inte griskött"
