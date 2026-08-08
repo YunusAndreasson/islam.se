@@ -545,7 +545,7 @@ const description =
 	   half this many sections that had no way back to the top.) */
 	.svar-nav {
 		/* Published by Header.astro; the fallback is one line of mast plus padding. */
-		--top: var(--mast-height, 4.5rem);
+		--top: var(--mast-height, 6.25rem);
 		position: sticky;
 		top: var(--top);
 		/* Under the mast (z-index 10), over the rows. */
@@ -614,10 +614,9 @@ const description =
 		margin-top: var(--space-phi);
 		/* Clears the mast AND the sticky category row, so an anchor jump doesn't drop
 		   the heading underneath either. */
-		scroll-margin-top: calc(var(--mast-height, 4.5rem) + 4rem);
+		scroll-margin-top: calc(var(--mast-height, 6.25rem) + 4rem);
 	}
 	.svar-section h2 {
-		font-family: var(--font-heading);
 		font-size: var(--step-1-sans);
 		margin: 0;
 	}

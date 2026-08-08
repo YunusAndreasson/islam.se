@@ -213,6 +213,30 @@
 		font-size: var(--step-1-sans);
 	}
 
+	/* The rest of the reference register, kept HERE rather than in each page's own
+	   <style> — and that is not tidiness, it is the only place the rules work.
+	   Every one of these <h2>s is rendered by a component (TitledSection,
+	   CollectionIndexPage, MosqueList…), so a page-scoped `.svar-section h2`
+	   compiles to `h2[data-astro-cid-PAGE]` and matches nothing: the heading carries
+	   the COMPONENT's scope, never the page's. The rules were written, shipped, and
+	   silently did nothing. tokens.css says as much in its layer comment — the way
+	   to give the design system authority over a pattern is to move it out of the
+	   scoped block and into this directory. */
+	:is(.svar-section, .bonetider-metod, .pillar-more) h2 {
+		font-family: var(--font-heading);
+		font-size: var(--step-1-sans);
+	}
+
+	.fakta-cluster-head h2 {
+		font-family: var(--font-heading);
+		font-size: var(--step-2-sans);
+	}
+
+	.mk-city-head {
+		font-family: var(--font-heading);
+		font-size: var(--step-1-sans);
+	}
+
 	/* Mosque section — compact section rhythm shared by the national map,
 	   county index and city detail pages. */
 	.mk-section {
@@ -664,9 +688,13 @@
 		padding: var(--padding-inline);
 		padding-left: var(--safe-left);
 		padding-right: var(--safe-right);
-		display: flex;
-		justify-content: space-between;
-		align-items: baseline;
+		/* A column, not a row: the mast carries two tiers now — the sections above,
+		   the utilities on a quieter rail below. Block padding is trimmed from the
+		   full --padding-inline because two rows at the old value measured ~126px,
+		   a sixth of an 800px laptop viewport standing still above every page. */
+		display: grid;
+		padding-block: 0.9rem 0.7rem;
+		row-gap: 0.5rem;
 		position: sticky;
 		top: 0;
 		z-index: 10;
@@ -872,21 +900,69 @@
 		color: var(--color-accent);
 	}
 
+	/* TIER 2 — the utility rail.
+	   Quieter on three axes, none of them colour: one type step down, one weight
+	   down, and one rank down the text ramp. Right-packed under the trigger so the
+	   centred sections above stay the mast's optical centre.
+
+	   No rule between the tiers: .site-header::after already lays a fade under the
+	   whole mast, and a second line 20px above it reads as a double rule. */
+	.site-rail-links {
+		display: flex;
+		justify-content: flex-end;
+		gap: clamp(0.8rem, 1.8vw, 1.5rem);
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	.site-rail-links a {
+		font-family: var(--font-heading);
+		font-size: var(--step--4);
+		font-weight: 400;
+		letter-spacing: 0.06em;
+		text-transform: uppercase;
+		color: var(--color-muted);
+		text-decoration: none;
+		transition: color 0.15s;
+	}
+
+	.site-rail-links a:hover,
+	.site-rail-links a[aria-current] {
+		color: var(--color-accent);
+	}
+
 	/* On touch / coarse pointers the trigger becomes "Meny" and the palette is the
    whole menu — so the inline links would duplicate it. Hide them there, and on
    any viewport too narrow to carry the row comfortably (the palette still covers
-   them: ⌘K / "/" on a keyboard, the Meny button on touch). */
+   them: ⌘K / "/" on a keyboard, the Meny button on touch).
+
+   BOTH tiers go together. PALETTE_TOOL_LINKS holds exactly the four utilities and
+   PALETTE_READ_LINKS the sections, so nothing loses its link at any width — and
+   the mast reverts to its one-row block padding so it is not left cramped. */
 	@media (hover: none), (pointer: coarse) {
-		.site-links {
+		.site-links,
+		.site-rail {
 			display: none;
+		}
+
+		.site-header {
+			padding-block: var(--padding-inline);
+			row-gap: 0;
 		}
 	}
 
-	/* Too narrow to carry the wordmark + 5 links + trigger without crowding — drop
+	/* Too narrow to carry the wordmark + 6 links + trigger without crowding — drop
    the inline links (⌘K / "/" still opens the palette on a keyboard). */
 	@media (width <= 900px) {
-		.site-links {
+		.site-links,
+		.site-rail {
 			display: none;
+		}
+
+		.site-header {
+			padding-block: var(--padding-inline);
+			row-gap: 0;
 		}
 	}
 
