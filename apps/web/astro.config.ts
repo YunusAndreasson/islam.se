@@ -639,6 +639,28 @@ const customRedirects: [string, string][] = [
 	["/author/knut", "/om/redaktion/"],
 	["/author/dr-abdullah-s-ash-shehri", "/om/redaktion/"],
 	["/author/muhammad-bin-salih-al-uthaymin", "/om/redaktion/"],
+	// === 2026-08-08 (GSC 90d sweep, 2026-05-07 → 2026-08-05) ===
+	// The soft-404 recovery project is finished: only 10 legacy paths still 301 to the
+	// homepage, and 1 088 of their 1 282 impressions belong to /samlingsvolym.pdf. These
+	// five are the remainder worth a destination. Targets were chosen from each URL's OWN
+	// Search Console queries, never from its slug — the lesson /featured/omsesidig-karlek
+	// taught in 2026-06 (it read as "brotherhood" and ranked for marriage).
+	// Ranks for "hur många muslimer finns det i världen" / "islams utbredning i världen",
+	// i.e. demographics — not the picture gallery the slug promises. No page answers that
+	// yet, so the Fakta hub is the closest honest destination (cf. /utvalda/fakta-om-islam).
+	["/historia/den-islamiska-varlden-bilder", "/vad-ar-islam/"],
+	// Both rank for "bli muslim". The /uncategorized/ twin of sa-blir-du-muslim-2 is
+	// already wired above; this is its /guider/ sibling, which GSC shows separately.
+	["/islam/islams-behorighetskrav", "/svar/hur-blir-man-muslim/"],
+	["/guider/sa-blir-du-muslim-2", "/svar/hur-blir-man-muslim/"],
+	["/author/muhammad-salih-al-munajjid", "/om/redaktion/"],
+	["/author/prof-sami-al-majid", "/om/redaktion/"],
+	// Deliberately NOT redirected, though both still earn impressions:
+	//  • /religion/pandoras-ask (43i) ranks for the Greek idiom ("pandoras ask betyder"),
+	//    not for anything islam.se covers — any Islamic target would just bounce.
+	//  • /samlingsvolym.pdf (1 088i) collects filetype:pdf and unrelated-phrase hits.
+	//  • /islam/foraldrar, /category/featured, /andra-religioners-syn-pa-gud rank only for
+	//    the brand query "islam.se" — the homepage 301 is already the right answer.
 ];
 
 export default defineConfig({
