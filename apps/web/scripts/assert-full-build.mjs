@@ -10,7 +10,7 @@
 // directory becomes a 404 live. Every artefact below has already shipped once, so a
 // build that omits it is a regression, not a no-op. The daily cron makes that the
 // difference between an unattended refresh and an unattended outage.
-import { existsSync, readdirSync } from "node:fs";
+import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 
 const DIST = new URL("../dist/", import.meta.url).pathname;
@@ -49,6 +49,31 @@ if (svarExpected > 0 && svarBuilt !== svarExpected) {
 	failures.push(
 		`dist/svar has ${svarBuilt ?? 0} pages, expected ${svarExpected} (one per data/svar/*.md)`,
 	);
+}
+
+// Sidenotes belong to essays only. The markdown processor in astro.config.ts is
+// GLOBAL — it renders svar and fördjupning through the same rehype chain — and the
+// only thing keeping margin notes out of them is a path check inside
+// src/plugins/rehype-sidenotes.ts. If that check ever stops matching, those pages
+// silently start carrying every footnote twice (once mid-sentence, once in their own
+// "Noter" apparatus) and nothing else in the build would notice.
+for (const section of ["svar", "fordjupning"]) {
+	const dir = join(DIST, section);
+	if (!existsSync(dir)) continue;
+	const leaked = readdirSync(dir, { withFileTypes: true })
+		.filter((e) => e.isDirectory())
+		.filter((e) => {
+			const page = join(dir, e.name, "index.html");
+			return existsSync(page) && readFileSync(page, "utf8").includes('class="sidenote"');
+		})
+		.map((e) => e.name);
+	if (leaked.length > 0) {
+		failures.push(
+			`sidenotes leaked into dist/${section}: ${leaked.slice(0, 5).join(", ")}` +
+				`${leaked.length > 5 ? ` (+${leaked.length - 5} more)` : ""}.\n` +
+				"    The essay path gate in src/plugins/rehype-sidenotes.ts is not matching.",
+		);
+	}
 }
 
 for (const [rel, note] of [

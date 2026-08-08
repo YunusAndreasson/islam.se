@@ -37,9 +37,29 @@ export function initFootnotePopovers(): void {
 		popover.style.left = `${left}px`;
 	}
 
+	/** Is this note already rendered in the margin?
+	 *
+	 *  Above 65rem an essay floats every footnote into the gutter beside its marker,
+	 *  and a popover would then be the same sentence a second time, under the reader's
+	 *  cursor, covering the note it duplicates.
+	 *
+	 *  Asked of the DOM rather than of a matchMedia with the breakpoint copied in:
+	 *  `offsetParent` is null exactly when the CSS branch has `display: none`, so this
+	 *  tracks the media query without repeating its literal — the house rule is one
+	 *  spelling per breakpoint — and re-evaluates on resize for free. Returns false on
+	 *  svar and fördjupning, which emit no sidenotes at all, so their popovers are
+	 *  untouched. The honorific path never reaches here and keeps working at every
+	 *  width. */
+	function sidenoteVisible(fnId: string): boolean {
+		const id = fnId.replace(/^user-content-fn-/, "");
+		const note = document.querySelector<HTMLElement>(`.sidenote[data-fn="${CSS.escape(id)}"]`);
+		return note !== null && note.offsetParent !== null;
+	}
+
 	function showPopover(ref: HTMLAnchorElement) {
 		const fnId = ref.getAttribute("href")?.replace("#", "");
 		if (!fnId) return;
+		if (sidenoteVisible(fnId)) return;
 		const fnLi = document.getElementById(fnId);
 		if (!fnLi) return;
 
