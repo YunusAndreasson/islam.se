@@ -88,14 +88,30 @@ const pages = {
 // the three curated axes that were footer-only (Ämnen, Trådar, Tänkare) come up
 // into the first.
 
-/** Tier 1 — what the publication IS. */
+/** Tier 1 — ordered by the site's purpose, which is to PRESENT ISLAM.
+ *
+ *  So the three surfaces that do that lead, shortest answer first:
+ *    Pelare & tro   what Islam is — the five pillars and the six articles of faith
+ *    Frågor & svar  64 sourced answers to the questions people actually search for
+ *    Fördjupning    the nine encyclopedic pillar pages, 2 800–4 500 words each
+ *  and the literary half follows:
+ *    Essäer · Trådar
+ *
+ *  Fördjupning is promoted here from the footer. It is one of the site's three
+ *  explanatory surfaces and it was reachable only from the footer and the palette,
+ *  which put the deepest reference writing on the site below a reading device.
+ *
+ *  Ämnen and Tänkare are deliberately NOT in the mast: they are ways THROUGH the
+ *  essays, not ways into Islam, and they stay one click away in the footer and the
+ *  palette — Ämnen additionally from every essay's eyebrow and the front page's
+ *  departments, Tänkare from the Mötet axis at the foot of every essay. They are
+ *  reached from the content that uses them rather than from a standing menu. */
 export const MAST_SECTION_LINKS: NavLink[] = [
-	pages.essaer,
-	pages.amnen,
-	pages.tradar,
-	pages.tankare,
 	pages.pillars,
 	pages.svar,
+	pages.fordjupning,
+	pages.essaer,
+	pages.tradar,
 ];
 
 /** Tier 2 — what it DOES for you. Errands, not reading. */
