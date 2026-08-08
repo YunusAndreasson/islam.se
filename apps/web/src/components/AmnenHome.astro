@@ -63,17 +63,28 @@ if (limit) {
 	);
 	groups = groups.filter((d) => chosen.has(d.amne.slug));
 }
+
+// Heading level follows the head row. With the HomeHead present (the homepage
+// glimpse) it renders an h2, so a department is an h3 beneath it; on /amnen/ there
+// is no head row and the page's h1 sits directly above, so h3 would skip a level.
+const DeptHeading = limit ? "h3" : "h2";
 ---
 
-<section class="amnen home-movement" aria-labelledby="amnen-kicker">
-	<HomeHead label="Ämnen" id="amnen-kicker" href="/amnen/" linkLabel="Alla ämnen" />
+{/* The head-row belongs to the homepage GLIMPSE only. On /amnen/ itself the page's
+    own h1 already says "Ämnen" and an "Alla ämnen" link would point at the page the
+    reader is standing on. Same split TankareGroups makes, keyed on the same prop. */}
+<section
+	class:list={["amnen", { "home-movement": limit }]}
+	aria-labelledby={limit ? "amnen-kicker" : null}
+>
+	{limit && <HomeHead label="Ämnen" id="amnen-kicker" href="/amnen/" linkLabel="Alla ämnen" />}
 
 	{groups.map(({ amne, shown, total }) => (
 		<section class="amne-dept" aria-labelledby={`amne-${amne.slug}`}>
 			<div class="amne-dept-head">
-				<h3 class="amne-dept-name" id={`amne-${amne.slug}`}>
+				<DeptHeading class="amne-dept-name" id={`amne-${amne.slug}`}>
 					<a href={`/amnen/${amne.slug}/`}>{amne.name}</a>
-				</h3>
+				</DeptHeading>
 				{total > shown.length && (
 					<SectionLink class="label amne-dept-all" href={`/amnen/${amne.slug}/`}>
 						Alla {essayCount(total)}
@@ -98,8 +109,9 @@ if (limit) {
 		border-top: 1px solid var(--color-rule);
 	}
 
-	/* The first department opens straight under the movement's own head row, which
-	   already carries a boundary. A second line 30px below it reads as a double rule. */
+	/* The first department opens straight under the movement's own head row (or, on
+	   /amnen/, under the page's ingress) — both already carry a boundary, and a
+	   second line 30px below one reads as a double rule. */
 	.amne-dept:first-of-type {
 		margin-top: var(--space-unit);
 		padding-top: 0;
