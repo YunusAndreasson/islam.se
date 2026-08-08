@@ -1,4 +1,5 @@
 ---
+import { amneByName } from "../lib/amnen";
 import type { Article } from "../lib/articles";
 import { inlineMarkdown } from "../lib/articles";
 import { FEATURE_HERO_SIZES, FEATURE_HERO_WIDTHS } from "../lib/hero";
@@ -15,11 +16,22 @@ const { article } = Astro.props;
 // Inlined 20px blur of this very photograph, so the spread is never an empty
 // rectangle while the real file lands. ~150 bytes, no extra request.
 const placeholder = await heroPlaceholder(article.slug);
+
+// The eyebrow names the DEPARTMENT this essay belongs to, not the shelf it was put
+// on. "Senast publicerat" told a reader the one thing the position on the page
+// already told them; the ämne tells them what the piece is about and hands them a
+// way further in. Falls back to the old literal for the single essay that carries
+// no category, so the eyebrow is never empty.
+const amne = article.category ? amneByName.get(article.category) : undefined;
 ---
 
 <section class="feature home-movement" aria-labelledby="feature-title">
+	{/* Outside .feature-link: a nested <a> is invalid, and the eyebrow is its own
+	    destination. */}
+	<p class="label home-kicker feature-kicker">
+		{amne ? <a href={`/amnen/${amne.slug}/`}>{amne.name}</a> : "Senast publicerat"}
+	</p>
 	<a class="feature-link" href={`/${article.slug}`} data-astro-prefetch="viewport">
-		<p class="label home-kicker feature-kicker">Senast publicerat</p>
 		<h2 id="feature-title" class="feature-title">{article.title}</h2>
 		<div
 			class="feature-media media-frame"
@@ -83,6 +95,27 @@ const placeholder = await heroPlaceholder(article.slug);
 	   homepage kicker carries — the override that removed it is gone. */
 	.feature-kicker {
 		margin-bottom: var(--space-half);
+	}
+
+	/* The eyebrow is a link now, and it sits outside .feature-link, so it needs the
+	   underline discipline the rest of the mast-level labels use. Padded to clear
+	   WCAG 2.5.8; the negative margin gives the space back so the head row keeps its
+	   measured height. */
+	.feature-kicker a {
+		display: inline-block;
+		padding: 0.3rem 0.4rem;
+		margin: -0.3rem -0.4rem;
+		color: inherit;
+		text-decoration: none;
+
+		&:hover {
+			text-decoration: underline;
+			text-underline-offset: 0.15em;
+		}
+
+		&:focus-visible {
+			border-radius: var(--radius-xs);
+		}
 	}
 
 	/* Larger than --step-4 (2.612rem): a deliberate, contained exception to the
@@ -189,9 +222,13 @@ const placeholder = await heroPlaceholder(article.slug);
 		margin-top: var(--space-unit);
 	}
 
+	/* The standfirst, a rank up from the deck it was. On the lead of the front page
+	   this is the only prose a reader gets before deciding whether to open a
+	   1 500-word essay, so it is set at body size rather than the secondary step —
+	   the same rank the essay's own standfirst carries when they arrive. */
 	.feature-lead {
 		font-family: var(--font-body);
-		font-size: var(--step--1);
+		font-size: var(--step-0);
 		line-height: 1.55;
 		color: var(--text-body);
 		margin: 0;

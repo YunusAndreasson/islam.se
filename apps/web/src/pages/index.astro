@@ -1,9 +1,12 @@
 ---
+import AmnenHome from "../components/AmnenHome.astro";
 import BookPod from "../components/BookPod.astro";
+import EssayList from "../components/EssayList.astro";
 import FaktaBand from "../components/FaktaBand.astro";
 import FeatureEssay from "../components/FeatureEssay.astro";
 import Markesdagar from "../components/Markesdagar.astro";
-import RecentEssays from "../components/RecentEssays.astro";
+import TankareGroups from "../components/TankareGroups.astro";
+import TradarHome from "../components/TradarHome.astro";
 import { getImage } from "astro:assets";
 import Base from "../layouts/Base.astro";
 import { getArticles } from "../lib/articles";
@@ -11,13 +14,24 @@ import { FEATURE_HERO_SIZES, FEATURE_HERO_WIDTHS } from "../lib/hero";
 
 const articles = await getArticles();
 
-// The "Senast publicerat" feed shows only essays that carry a hero image — the
-// feature (most recent with art) plus the next 8 — so every row reads as an image
-// card and no text-only essay slips into the spread. Falls back to the most recent
+// EDITORIAL RANK. The page used to run the newest essay with art and then eight
+// identical rows, so every piece after the lead carried the same weight and 55
+// essays read as an undifferentiated list. Three ranks now:
+//
+//   1. the lead      — bleeds past the canvas; nothing else on the page does
+//   2. the second tier — two art-led cards, one type step down
+//   3. the departments — grouped under their ämne and its authored framing line
+//
+// The lead and the tier are drawn from the essays that carry art, because those two
+// ranks are art-led; the departments below are deliberately text-first (only 28 of
+// 55 essays have a hero, and Skriften has 1 of 6). Falls back to the most recent
 // essay if somehow none carry an image.
 const withImage = articles.filter((a) => a.heroImage);
 const feature = withImage[0] ?? articles[0];
-const recent = withImage.filter((a) => a.slug !== feature?.slug).slice(0, 8);
+const secondTier = withImage.filter((a) => a.slug !== feature?.slug).slice(0, 2);
+
+// Everything already spent above, so a department cannot show the lead twice.
+const used = new Set([feature?.slug, ...secondTier.map((a) => a.slug)].filter(Boolean) as string[]);
 
 const ogImage = feature?.heroImage;
 
@@ -95,9 +109,31 @@ const heroPreload = feature?.heroImage
 			</a>
 		</nav>
 
-		<RecentEssays articles={recent} />
+		{/* Rank 2. Two, never auto-fill: a tier of four is a feed again. */}
+		{secondTier.length > 0 && (
+			<section class="home-second home-movement" aria-label="Fler essäer">
+				<EssayList articles={secondTier} itemVariant="card" class="essay-cards" />
+			</section>
+		)}
 
-		{/* The encyclopedic half of the site. Placed AFTER the essay feed on purpose:
+		{/* Rank 3, and the act boundary. The seven ämnen have carried an authored
+		    framing line since the taxonomy was built and no reader has ever seen one:
+		    the front page named no section at all. Three departments here, the rest
+		    behind /amnen/. */}
+		<AmnenHome limit={3} exclude={used} />
+
+		{/* The two curated axes through the corpus. Both are first-class authored data
+		    — the trådar carry framing prose, the tänkare are derived from the essay
+		    bodies — and both were reachable only from the footer. */}
+		<TradarHome limit={4} />
+
+		{/* The site's thesis, shown rather than declared: the classical tradition and
+		    the Swedish voices in two facing columns, with counts derived from the
+		    corpus at build time. No explanatory paragraph — the composition is the
+		    argument. It owns its own movement and head-row when `limit` is set. */}
+		<TankareGroups limit={6} />
+
+		{/* The encyclopedic half of the site. Placed AFTER the essays on purpose:
 		    the opening screen is a composed spread and stays as it is. This is the only
 		    place on the homepage that carries "Vad är islam" in visible text. */}
 		<FaktaBand />
@@ -109,6 +145,44 @@ const heroPreload = feature?.heroImage
 </Base>
 
 <style>
+	/* RANK 2 — the second tier.
+	   ⚠️ :global() is not optional here. layout.css records that a page's scope id
+	   lands on the list root but NEVER on its <li>s, so `.essay-card` written plain
+	   in this block would compile to a selector that matches nothing. */
+	.home-second {
+		padding-top: var(--space-phi);
+		border-top: 1px solid var(--color-rule);
+	}
+
+	/* Two, not auto-fill. The global .essay-cards grid fills the 64rem canvas with
+	   four 16rem tracks, and a rank of four is a feed — which is the thing this tier
+	   exists to stop being. */
+	.home-second :global(.essay-cards) {
+		grid-template-columns: 1fr 1fr;
+		/* .essay-cards carries --space-phi below itself for the pages where it is the
+		   whole content. Here the movement's own rhythm follows, and the two stacked
+		   into a hole. */
+		margin-bottom: 0;
+	}
+
+	/* One step above the archive card (--step-0) and well below the lead's 3rem: the
+	   tier is expressed by size and by the rule above it, never by a badge or a
+	   number. Nothing on this site is a sequence except a tråd. */
+	.home-second :global(.essay-card .archive-title) {
+		font-size: var(--step-2);
+	}
+
+	.home-second :global(.essay-card .essay-card-desc) {
+		font-size: var(--step--1);
+		-webkit-line-clamp: 3;
+	}
+
+	@media (width <= 600px) {
+		.home-second :global(.essay-cards) {
+			grid-template-columns: 1fr;
+		}
+	}
+
 	/* The orientation line: what this site is, for a visitor arriving cold from a
 	   search. Deliberately says nothing the mast already says — listing the
 	   sections here just echoes the menu a few pixels below it.
