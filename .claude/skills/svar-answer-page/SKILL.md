@@ -28,9 +28,11 @@ human review + staggered publishing is the whole strategy.
      "Vad är sunna?" --slug vad-ar-sunna --legacy /pelare/sunna/
    ```
    Writes `data/svar/<slug>.md` and prints the redirect tuple to add. Defaults to
-   **Opus 4.8 at `--effort xhigh`** (very high — pass `--effort max` for the hardest
+   **Claude Opus 5 at `--effort xhigh`** (very high — pass `--effort max` for the hardest
    topics, `--model sonnet` only to economize); re-run with `--overwrite` to regenerate.
-   (~10–30 min; it spawns a headless Claude with web + MCP.)
+   (~10–30 min; it spawns a headless Claude with web + MCP.) The `opus`/`sonnet` flags
+   resolve through `MODEL_MAP` in `packages/quotes/src/models.ts` — the one place model
+   IDs live. Never write a model ID into a prompt, script or doc; bump MODEL_MAP instead.
 3. **Evaluate — hard, against the bar (do NOT self-rubber-stamp).** Read the file and:
    - **Benchmark** it against `data/svar/vad-ar-kaba.md` (the genre's quality peak) and a
      literary essay in `data/articles/` (the prose ceiling). Score prose, SEO, accuracy.
@@ -171,23 +173,23 @@ tail to the nearest relevant page/hub instead of writing thin pages. Top targets
   (Organization), not a named `Person`. Resolve with the user before scaling — a named,
   credentialed author/reviewer is a near-binary trust gate for YMYL religious content.
 
-## Prompt-engineering notes (Opus 4.8 — the producer runs on it)
+## Prompt-engineering notes (Claude Opus 5 — the producer runs on it)
 
-Grounded in Anthropic's current docs (platform.claude.com `prompting-claude-opus-4-8` /
+Grounded in Anthropic's current docs (see the `claude-api` skill for the live model table) /
 `claude-4-best-practices`) + 2026 third-party playbooks. The producer prompts already apply:
-- **Be explicit about tool use.** Opus 4.8 *under-reaches for tools by default*; the author
+- **Be explicit about tool use.** The Opus line *under-reaches for tools by default*; the author
   prompt mandates calling `search_quran`+`search_books` before writing. Validated: this
   lifted sourcing richness (hajj = 7 sources / 5 verified citations, vs 4 pre-mandate).
-- **Tight output contract** (complete page, no preamble, don't ask) — 4.8 narrates/asks more.
-- **Review = coverage, not triage** — 4.8 obeys "only flag major issues" too literally and
+- **Tight output contract** (complete page, no preamble, don't ask) — it narrates/asks more otherwise.
+- **Review = coverage, not triage** — it obeys "only flag major issues" too literally and
   drops findings; the review prompt tells the editor to fix everything + self-check first.
 - **Markdown-mode (JSON frontmatter + body) is correct** — Structured Outputs is JSON-only
   and would discard the body; instruction + the exact format spec is the right tool here.
-- Effort: author `xhigh`, review `max` (set explicitly; 4.8 is effort-sensitive).
+- Effort: author `xhigh`, review `max` (set explicitly; the model is effort-sensitive).
 Deferred pass-2 ideas (validate before trusting): XML-tag structure, one worked `<example>`
 of the full page, an explicit-scope sweep on broad rules, a constraint de-dup pass.
 
-Validated articles (two-pass, Opus 4.8): `vad-ar-sunna` (hand-tuned), `vad-ar-sharia`
+Validated articles (two-pass, Opus-tier): `vad-ar-sunna` (hand-tuned), `vad-ar-sharia`
 (critic 8.6/10), `vad-ar-hajj` (7 sources, kaba-bar prose). All build; redirects unwired
 pending review.
 

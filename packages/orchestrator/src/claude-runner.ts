@@ -2,6 +2,7 @@ import { spawn } from "node:child_process";
 import { EventEmitter } from "node:events";
 import { readFileSync } from "node:fs";
 import { tmpdir } from "node:os";
+import type { ModelId } from "@islam-se/quotes";
 import type { z } from "zod";
 
 interface ClaudeStreamChunk {
@@ -22,8 +23,8 @@ export interface ClaudeRunOptions {
 	outputFormat?: "json" | "text";
 	/** JSON schema for built-in output validation (uses --json-schema flag) */
 	jsonSchema?: object;
-	/** Model to use */
-	model: "claude-opus-5" | "claude-sonnet-5";
+	/** Model to use. Resolve a tier through `getModelId` rather than hardcoding. */
+	model: ModelId;
 	/** Effort level for adaptive thinking */
 	effort?: "low" | "medium" | "high" | "xhigh" | "max";
 	/** Maximum budget in USD for this stage (uses --max-budget-usd flag) */

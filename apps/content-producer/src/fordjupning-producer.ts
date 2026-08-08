@@ -19,13 +19,11 @@ import {
 	SourceValidator,
 	slugify,
 } from "@islam-se/orchestrator";
-import { getQuote } from "@islam-se/quotes";
+import { getQuote, MODEL_MAP } from "@islam-se/quotes";
 import { stringify as yamlStringify } from "yaml";
 import { type FordjupningFrontmatter, FordjupningFrontmatterSchema } from "./fordjupning-schema.js";
 
 type Effort = "low" | "medium" | "high" | "xhigh" | "max";
-
-const MODEL_MAP = { opus: "claude-opus-5", sonnet: "claude-sonnet-5" } as const;
 
 const MCP_TOOLS = [
 	"mcp__quotes__search_quran",

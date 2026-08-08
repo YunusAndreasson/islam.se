@@ -35,7 +35,7 @@ echo "" >> "$TMPFILE"
 echo "Nu: skriv om denna essä enligt diagnosbrevet ovan. Ditt output börjar med --- på första raden. Inget annat före det." >> "$TMPFILE"
 
 # Run through claude
-cat "$TMPFILE" | claude --print --model claude-opus-4-6 --effort max --output-format text > "$OUTPUT" 2>/dev/null
+cat "$TMPFILE" | claude --print --model claude-opus-5 --effort max --output-format text > "$OUTPUT" 2>/dev/null
 
 if [ $? -eq 0 ] && [ -s "$OUTPUT" ]; then
     WORDS=$(wc -w < "$OUTPUT")

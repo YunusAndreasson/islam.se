@@ -3,6 +3,7 @@ import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import Anthropic from "@anthropic-ai/sdk";
 import { z } from "zod";
+import { MODEL_MAP } from "../models.js";
 import { SENTENCE_PATTERNS, splitIntoChunks } from "./chunker.js";
 import { parseQuotesResponse, sleep } from "./json-utils.js";
 
@@ -236,7 +237,7 @@ Extract 30-50 quotes. Prioritize standalone scores 4-5. Output ONLY JSON.`;
 	for (let attempt = 0; attempt < maxRetries; attempt++) {
 		try {
 			const response = await client.messages.create({
-				model: "claude-haiku-4-5-20251001",
+				model: MODEL_MAP.haiku,
 				max_tokens: 8192,
 				messages: [{ role: "user", content: userPrompt }],
 				system: [

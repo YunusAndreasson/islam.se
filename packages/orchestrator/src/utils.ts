@@ -1,5 +1,6 @@
 import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
+import { type PipelineModelTier, getModelId as resolveModelId } from "@islam-se/quotes";
 import type { ClaudeRunOptions } from "./claude-runner.js";
 
 /**
@@ -34,10 +35,14 @@ export function slugify(text: string): string {
 }
 
 /**
- * Get model ID for Claude CLI
+ * Get model ID for Claude CLI.
+ *
+ * Kept as a re-export rather than its own mapping: the IDs live in MODEL_MAP
+ * (`@islam-se/quotes`) so a new Opus or Sonnet release is a one-line change
+ * there instead of a hunt through every producer.
  */
-export function getModelId(model: "opus" | "sonnet"): ClaudeRunOptions["model"] {
-	return model === "opus" ? "claude-opus-5" : "claude-sonnet-5";
+export function getModelId(model: PipelineModelTier): ClaudeRunOptions["model"] {
+	return resolveModelId(model);
 }
 
 /**

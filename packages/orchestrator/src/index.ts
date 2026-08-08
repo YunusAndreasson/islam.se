@@ -1167,7 +1167,7 @@ ${formatted}`;
 						wordCount: body.split(/\s+/).filter((w) => w.length > 0).length,
 					}) as DraftOutput,
 			},
-			// Downshifted max→xhigh: Opus 4.8 at effort "max" did not converge within
+			// Downshifted max→xhigh: Opus-tier at effort "max" did not converge within
 			// the 45-min timeout (two consecutive timeouts on a real run), the same
 			// reason Review was moved off "max". xhigh keeps deep prose quality while
 			// actually finishing; 30-min timeout catches a hang sooner.

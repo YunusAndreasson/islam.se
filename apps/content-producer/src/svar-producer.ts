@@ -2,15 +2,11 @@ import { existsSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { ClaudeRunner, slugify } from "@islam-se/orchestrator";
+import { MODEL_MAP } from "@islam-se/quotes";
 import { stringify as yamlStringify } from "yaml";
 import { type SvarFrontmatter, SvarFrontmatterSchema } from "./svar-schema.js";
 
 type Effort = "low" | "medium" | "high" | "xhigh" | "max";
-
-const MODEL_MAP = {
-	opus: "claude-opus-5",
-	sonnet: "claude-sonnet-5",
-} as const;
 
 // MCP research tools (loaded via .mcp.json) the author/reviewer may call.
 const MCP_TOOLS = [
