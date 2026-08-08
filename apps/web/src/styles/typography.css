@@ -45,11 +45,23 @@
 		quotes: "»" "«" "›" "‹";
 	}
 
-	/* Headings — Source Sans 3 with discretionary ligatures */
+	/* Headings — Literata, the same face as the prose beneath them.
+
+	   They used to be Source Sans 3, which meant an essay page carried a neutral
+	   interface sans over a warm literary book serif: headline and body read as two
+	   different publications. One voice now, in two registers — the editorial face
+	   for anything that is content (these), Source Sans reserved for the apparatus
+	   that talks ABOUT the content (.label, meta lines, the TOC, breadcrumbs, chips,
+	   and the compact reference/utility registers, all of which set --font-heading
+	   explicitly at their own call sites).
+
+	   ⚠️ Losing the family contrast means SIZE and WEIGHT now carry the whole
+	   separation between a heading and the paragraph under it. Do not quietly reduce
+	   either; the h2-above-prose case is the one that breaks first. */
 	h1,
 	h2,
 	h3 {
-		font-family: var(--font-heading);
+		font-family: var(--font-display);
 		line-height: 1.2;
 		text-wrap: balance;
 		font-variant-numeric: normal;
@@ -60,18 +72,28 @@
 		hyphens: manual;
 	}
 
+	/* Weights dropped a step with the face change: Literata 600 carries roughly the
+	   colour Source Sans 3 700 did, so keeping 700 would have made every h1 heavier
+	   than it reads today, not merely different. */
 	h1 {
 		font-size: var(--step-4);
-		font-weight: 700;
-		letter-spacing: 0;
-		line-height: 1.15;
-		/* titl: display-optimized numerals for large titles */
+		font-weight: 600;
+		/* Literata sets loose enough for 19px body that it straggles at 39px. The
+		   negative tracking is a display correction and belongs to nothing below
+		   --step-3; see the token. */
+		letter-spacing: var(--tracking-display);
+		line-height: 1.12;
+		/* titl: display-optimized numerals for large titles. The bigger win is
+		   font-optical-sizing: auto, set on body and inherited — Literata is variable
+		   and swaps to its display cut here without being asked. */
 		font-feature-settings: "titl" 1;
 	}
 
 	h2 {
 		font-size: var(--step-2);
-		font-weight: 620;
+		font-weight: 600;
+		/* No display tracking: 27px is inside the text range, where Literata's own
+		   fit is correct. */
 		letter-spacing: 0;
 		line-height: 1.25;
 		margin-top: var(--space-phi);
@@ -86,12 +108,17 @@
 	   it introduces is a hierarchy inversion, not a subtle one.
 
 	   step-1 is exactly the scale step between body (step-0) and h2 (step-2), so
-	   the ladder reads 41.79 / 29.02 / 24.19 / 19 — one 1.2 ratio all the way down.
+	   the ladder reads 39.4 / 27.4 / 22.8 / 19 — one 1.2 ratio all the way down.
 	   Pages that downshift their own h2 to step-1 (the compact reference register:
-	   moskéer, bönetider, det islamiska året) must downshift h3 with it. */
+	   moskéer, bönetider, det islamiska året) must downshift h3 with it.
+
+	   (The old note about h3 falling to Literata and "breaking the two-face contract"
+	   is obsolete: the contract is now by role, not by element, and Literata IS the
+	   heading face. What made that default wrong was the SIZE — 16.8px introducing
+	   19px prose — and step-1 is what fixes it.) */
 	h3 {
 		font-size: var(--step-1);
-		font-weight: 620;
+		font-weight: 600;
 		letter-spacing: 0;
 		line-height: 1.3;
 		margin-top: var(--space-unit);
@@ -559,10 +586,12 @@
 		   together instead of body drifting away from the leads and titles that were
 		   sized against it. */
 
-		/* h1/h2 sizes are fluid via the clamp()ed --step-* tokens; only the
-	   optical compensations (weight, tracking) stay breakpoint-bound. */
+		/* h1/h2 SIZES are redeclared in the tokens.css breakpoint block, not here —
+		   they step discretely at 768px and are deliberately NOT clamp()ed (type
+		   should answer to user zoom and chosen breakpoints, not to window width).
+		   This block carries only the optical compensations. */
 		h2 {
-			font-weight: 630;
+			font-weight: 610;
 			letter-spacing: 0;
 		}
 
