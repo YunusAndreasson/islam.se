@@ -1,6 +1,7 @@
 ---
 import { type Tankare, getTankare } from "../lib/tankare";
 import HomeHead from "./HomeHead.astro";
+import MarkDot from "./MarkDot.astro";
 
 // `limit` turns the full directory into a balanced homepage glimpse: the most-
 // present voices on each side, capped to equal-length columns so the facing
@@ -34,6 +35,11 @@ if (limit) {
 <section class:list={["tankare-home", { "home-movement": limit }]} aria-labelledby={limit ? "tankare-home-kicker" : null}>
 	{limit && <HomeHead label="Tänkare" id="tankare-home-kicker" href="/tankare/" linkLabel="Alla tänkare" />}
 	<div class="tankare-groups">
+		{/* The same khatam that breaks the axis at the foot of an essay (Motet.astro),
+		    here at full scale. One device, two sizes — the encounter between the two
+		    traditions is the site's argument, so it is drawn the same way wherever it
+		    appears rather than being restated in different terms. */}
+		<MarkDot class="tankare-mark" />
 		{groups.map((group) => (
 			<div class="tankare-group">
 				<p class="label tankare-group-label">{group.label}</p>
@@ -77,7 +83,34 @@ if (limit) {
 			bottom: 0;
 			left: 50%;
 			width: 1px;
-			background: var(--color-divider);
+			/* --color-rule, not --color-divider: this is the boundary between two
+			   traditions, which is a movement, not a row. */
+			background: var(--color-rule);
+		}
+	}
+
+	/* ⚠️ :global() — the mark is rendered by <MarkDot>, a child component, and this
+	   template's scope attribute never lands inside a child. Without it the SVG
+	   paints at its natural size. */
+	:global(.tankare-mark) {
+		display: none;
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		width: 0.85rem;
+		height: 0.85rem;
+		transform: translate(-50%, -50%);
+		box-sizing: content-box;
+		padding-block: 0.5rem;
+		background: var(--color-bg);
+	}
+
+	/* Only where the axis exists. Below 600px the columns stack and a bead centred
+	   on a horizontal rule would read as a divider between two sections — the
+	   opposite of a meeting point. */
+	@media (width > 600px) {
+		:global(.tankare-mark) {
+			display: block;
 		}
 	}
 

@@ -1,0 +1,38 @@
+---
+import AmnenHome from "../../components/AmnenHome.astro";
+import CollectionIndexPage from "../../components/CollectionIndexPage.astro";
+import { AMNEN } from "../../lib/amnen";
+import { breadcrumbList } from "../../lib/jsonld";
+
+// The ämnen index. Seven /amnen/<slug>/ pages have existed since the taxonomy was
+// built, but nothing sat above them — so the one axis every essay carries had no
+// front door, and both the mast and the front page's "Alla ämnen" would have
+// pointed at a 404.
+//
+// Renders the same <AmnenHome> the front page does, unbounded: one component for
+// both surfaces is what keeps the department module looking like one thing rather
+// than two that drifted.
+---
+
+<CollectionIndexPage
+	title="Ämnen"
+	description={`De sju ämnena essäerna är ordnade efter: ${AMNEN.map((a) => a.name.toLowerCase()).join(", ")}.`}
+	lead="Sju ingångar i essäerna – från skapelsen och skriften till det svenska mötet."
+	backHref="/essaer/"
+	backLabel="Hela arkivet"
+	jsonLd={[
+		{
+			"@context": "https://schema.org",
+			"@type": "CollectionPage",
+			name: "Ämnen",
+			url: "https://islam.se/amnen/",
+			inLanguage: "sv",
+		},
+		breadcrumbList([
+			{ name: "Hem", url: "/" },
+			{ name: "Ämnen", url: "/amnen" },
+		]),
+	]}
+>
+	<AmnenHome perDept={4} />
+</CollectionIndexPage>

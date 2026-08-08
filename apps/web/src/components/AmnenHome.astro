@@ -1,0 +1,157 @@
+---
+import { type Amne, amnenWithEssays } from "../lib/amnen";
+import { type Article, essayCount, getArticles } from "../lib/articles";
+import EssayList from "./EssayList.astro";
+import HomeHead from "./HomeHead.astro";
+import SectionLink from "./SectionLink.astro";
+
+// The departments. Seven ämnen, each with an authored `framing` line that had been
+// sitting in lib/amnen.ts unused by any surface a reader ever reaches — the front
+// page showed a flat reverse-chronological feed and named no section at all.
+//
+// Deliberately TEXT-FIRST, and that is not a compromise. Only 28 of 55 essays carry
+// art, and it is not spread evenly: Skriften has 1 of 6, Rättvisa 1 of 5. A module
+// built around a thumbnail would show two departments as broken rows and would
+// silently promote the departments that happen to be well illustrated. Rank on this
+// page is already carried above — the lead bleeds past the canvas, the second tier
+// runs two art-led cards — so down here the titles can do the work, which is what a
+// magazine's section index does anyway.
+
+interface Props {
+	/** How many departments to show. Omitted → all of them (the /amnen/ index). */
+	limit?: number;
+	/** Slugs already used higher up the page, so the lead never appears twice. */
+	exclude?: Set<string>;
+	/** Essays listed per department before the "Alla N essäer" link takes over.
+	 *  Keep it EVEN: .home .archive-list is a two-column grid, so an odd count
+	 *  always orphans one essay alone on a second row. */
+	perDept?: number;
+}
+
+const { limit, exclude, perDept = 2 } = Astro.props;
+
+const articles = await getArticles();
+
+interface Dept {
+	amne: Amne;
+	shown: Article[];
+	total: number;
+}
+
+let groups: Dept[] = amnenWithEssays(articles).map(({ amne, essays }) => {
+	const available = exclude ? essays.filter((e) => !exclude.has(e.slug)) : essays;
+	return { amne, shown: available.slice(0, perDept), total: essays.length };
+});
+
+// A department whose every essay is already on the page above has nothing left to
+// show; dropping it before the ranker is what stops it being *chosen* and then
+// rendering empty.
+groups = groups.filter((g) => g.shown.length > 0);
+
+if (limit) {
+	// Choose by recency, render in canonical order. Canonical order alone would put
+	// Skriften — six essays, none published lately — on the front page every time,
+	// while Samhälle, where the newest work is, would never appear. Choosing by the
+	// freshest essay and then re-sorting back into the daʿwah order gives an edited
+	// page that still reads in the site's fixed sequence.
+	const freshest = (d: Dept) => new Date(d.shown[0].publishedAt).getTime();
+	const chosen = new Set(
+		[...groups]
+			.sort((a, b) => freshest(b) - freshest(a))
+			.slice(0, limit)
+			.map((d) => d.amne.slug),
+	);
+	groups = groups.filter((d) => chosen.has(d.amne.slug));
+}
+---
+
+<section class="amnen home-movement" aria-labelledby="amnen-kicker">
+	<HomeHead label="Ämnen" id="amnen-kicker" href="/amnen/" linkLabel="Alla ämnen" />
+
+	{groups.map(({ amne, shown, total }) => (
+		<section class="amne-dept" aria-labelledby={`amne-${amne.slug}`}>
+			<div class="amne-dept-head">
+				<h3 class="amne-dept-name" id={`amne-${amne.slug}`}>
+					<a href={`/amnen/${amne.slug}/`}>{amne.name}</a>
+				</h3>
+				{total > shown.length && (
+					<SectionLink class="label amne-dept-all" href={`/amnen/${amne.slug}/`}>
+						Alla {essayCount(total)}
+					</SectionLink>
+				)}
+			</div>
+			<p class="lead amne-dept-framing">{amne.framing}</p>
+			<EssayList articles={shown} class="amne-dept-list" />
+		</section>
+	))}
+</section>
+
+<style>
+	/* A department boundary is a movement inside a movement, so it takes the heavier
+	   of the two rule ranks — --color-rule, the same weight that opens a page
+	   section — while the essay rows inside keep --color-divider. That distinction is
+	   the whole reason both tokens exist; using one weight for both would announce
+	   that a boundary exists without saying which kind. */
+	.amne-dept {
+		margin-top: var(--space-phi);
+		padding-top: var(--space-unit);
+		border-top: 1px solid var(--color-rule);
+	}
+
+	/* The first department opens straight under the movement's own head row, which
+	   already carries a boundary. A second line 30px below it reads as a double rule. */
+	.amne-dept:first-of-type {
+		margin-top: var(--space-unit);
+		padding-top: 0;
+		border-top: 0;
+	}
+
+	.amne-dept-head {
+		display: flex;
+		justify-content: space-between;
+		align-items: baseline;
+		gap: 1rem;
+	}
+
+	/* One rank below the movement kicker above it and one above the essay titles
+	   below — the department name is the only thing on the page set at this size. */
+	.amne-dept-name {
+		margin: 0;
+		font-size: var(--step-1);
+		font-weight: 600;
+		line-height: 1.2;
+	}
+
+	.amne-dept-name a {
+		color: var(--color-text);
+		text-decoration: none;
+
+		&:hover {
+			text-decoration: underline;
+			text-underline-offset: 0.15em;
+		}
+	}
+
+	.amne-dept-all {
+		flex-shrink: 0;
+		color: var(--color-muted);
+	}
+
+	/* The authored line. Knobs only — the .lead primitive owns the properties. */
+	.amne-dept-framing {
+		--lead-measure: 40rem;
+		--lead-color: var(--color-muted);
+		--lead-margin: 0.4rem 0 0;
+	}
+
+	/* .home .archive-list already lays these out two-up across the 64rem canvas with
+	   a hairline per cell (layout.css). Only the gaps are ours — and the bottom one
+	   has to be reclaimed: .archive-list ships --space-phi2 below itself, which is
+	   correct when it IS the page but here stacks on top of the next department's
+	   own --space-phi and then again on the act opener's --space-phi3, so the page
+	   fell apart into islands with 200px of nothing between them. */
+	.amne-dept-list {
+		margin-top: var(--space-half);
+		margin-bottom: 0;
+	}
+</style>
