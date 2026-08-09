@@ -740,18 +740,30 @@
 	}
 
 	/* The mark standing in for the domain's full stop. A visually-hidden "." keeps
-	   the link's accessible name "islam.se". Baseline-aligned, so seating it on the
-	   cap band is exactly (diameter − cap height) / 2.
+	   the link's accessible name "islam.se".
+
+	   SIZE. It was 0.62em — just under Source Sans 3's 0.660em cap height — which
+	   made it read as a period rather than a mark. At that diameter the khatam's
+	   structure is gone: the core is R/√2, so the blue ring is (1 − 0.707) × R, and
+	   at 13.3px type that is about ONE PIXEL of blue around a gold dot. The two
+	   colours the mark is built from could not be told apart. 0.82em puts the disc
+	   just past the caps, where the ring is ~2px and the mark reads as what it is.
+
+	   VERTICAL. Baseline-aligned, so the disc's bottom sits on the baseline and its
+	   centre is at height/2. Seating that on the cap band's centre (capHeight/2 =
+	   0.33em) means translateY(height/2 − 0.33em) — recompute it if the size ever
+	   changes; at 0.82em that is 0.08em DOWN, where the old 0.62em needed 0.02em up.
 	   ⚠️ Take the cap height from the CSS `cap` unit, never from canvas measureText:
 	   canvas cannot resolve the hashed @font-face name and silently measures Arial
 	   (0.716em) where Source Sans 3 is 0.660em. */
 	.wordmark-dot {
-		width: 0.62em;
-		height: 0.62em;
+		width: 0.82em;
+		height: 0.82em;
 		display: inline-block;
 		vertical-align: baseline;
-		margin-inline: 0.11em;
-		transform: translateY(-0.02em);
+		/* A wider disc needs more air than a period did, or it crowds the M and S. */
+		margin-inline: 0.15em;
+		transform: translateY(0.08em);
 	}
 
 	/* Three tracks: wordmark (left), links (centred in the mast), trigger (right).

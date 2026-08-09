@@ -70,17 +70,39 @@ const done = [];
 const note = (p, what) => done.push(`  ${p.replace(process.cwd(), ".").padEnd(52)} ${what}`);
 
 // ---------------------------------------------------------------- web
-// The favicon keeps its cream tile, so the mark only ever sits on the light ground
-// and the deep blue always applies.
+// The favicon is TRANSPARENT. It used to carry a cream tile so the mark always sat
+// on the light ground the deep blue was chosen for — but a tab strip is not a page:
+// the tile read as a pale sticker in every dark browser chrome, and it cost the mark
+// a third of its diameter (r 11 of 16) to draw a background nobody wanted.
+//
+// Dropping the tile reintroduces the problem the tile solved, so the file solves it
+// properly instead: an SVG favicon may carry a media query, and Chrome and Firefox
+// honour it. Light chrome gets the cream-ground pair, dark chrome the dark-ground
+// pair — the same two sets tokens.css keeps, for the same reason (blue measures
+// 7.22:1 on cream and 2.07:1 on the dark ground, so one pair cannot serve both).
+//
+// r 15 of 16 leaves a single pixel of breathing room at 32px and lets the mark use
+// the space the tile was occupying.
+//
+// ⚠️ Only this file goes transparent. apple-touch-icon and the maskable icon keep
+// their grounds: iOS composites a touch icon onto its own background and Android
+// crops a maskable one, so transparency there produces a hole, not a silhouette.
 const FAVICON = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
 	<title>islam.se</title>
-	<rect width="32" height="32" rx="6" fill="${CREAM}"/>
-	<circle cx="16" cy="16" r="11" fill="${BLUE}"/>
-	<circle cx="16" cy="16" r="${(11 * RATIO).toFixed(3)}" fill="${GOLD}"/>
+	<style>
+		.ring { fill: ${BLUE} }
+		.core { fill: ${GOLD} }
+		@media (prefers-color-scheme: dark) {
+			.ring { fill: ${BLUE_DARK} }
+			.core { fill: ${GOLD_DARK} }
+		}
+	</style>
+	<circle class="ring" cx="16" cy="16" r="15"/>
+	<circle class="core" cx="16" cy="16" r="${(15 * RATIO).toFixed(3)}"/>
 </svg>
 `;
 writeFileSync(join(WEB, "favicon.svg"), FAVICON);
-note(join(WEB, "favicon.svg"), "tile + mark");
+note(join(WEB, "favicon.svg"), "mark, transparent, scheme-aware");
 
 // Standalone vector mark, no tile. Used by the PDF title page (Typst) and anywhere
 // the mark must sit on a ground the file itself does not own.
