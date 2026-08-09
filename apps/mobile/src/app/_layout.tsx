@@ -1,11 +1,12 @@
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
-import { useEffect, useRef } from 'react';
+import { useEffect, useEffectEvent } from 'react';
 import { AppState } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import { useLocation, LocationProvider } from '@/lib/location/context';
+import { subscribeNotificationRouting } from '@/lib/notification-routing';
 import { syncPrayerNotifications } from '@/lib/notifications';
 import type { LatLng } from '@/lib/prayer-times';
 import { notificationSignature, widgetSignature } from '@/lib/settings/compute-signature';
@@ -37,31 +38,27 @@ function AppStatusBar() {
  * timeline are both rolling and need re-seeding, and iOS only lets the app start a Live
  * Activity while foregrounded.
  *
- * `sync` is invoked through a ref with the LATEST settings, so this re-registers only
- * when `key` changes. That indirection is the whole point: `key` is a SIGNATURE of the
- * inputs this particular consumer cares about, so a cosmetic settings change can't
- * trigger a cancel-and-reschedule of 180 notifications — while the ref keeps the sync
- * itself from ever running on a stale closure's settings.
+ * `sync` is invoked through a React 19.2 Effect Event, so this re-registers only when
+ * `key` changes. `key` is a SIGNATURE of the inputs this particular consumer cares about,
+ * so a cosmetic settings change can't trigger a cancel-and-reschedule of 180 notifications,
+ * while the Effect Event always sees the latest committed settings and callback.
  */
 function useForegroundSync(key: string, sync: (settings: PrayerSettings) => void): void {
   const { settings, loaded } = useSettings();
-  // Refreshed on EVERY render (no dep array) and read only inside the effect below, so
-  // the pair is always current by the time anything fires.
-  const latest = useRef({ settings, sync });
-  useEffect(() => {
-    latest.current = { settings, sync };
+  const runSync = useEffectEvent(() => {
+    sync(settings);
   });
 
   useEffect(() => {
     if (!loaded) return;
-    const run = () => latest.current.sync(latest.current.settings);
-    run();
+    runSync();
     const sub = AppState.addEventListener('change', (state) => {
-      if (state === 'active') run();
+      if (state === 'active') runSync();
     });
     return () => sub.remove();
     // `key` is not read in the body — it IS the dependency, standing in for the
-    // settings and coordinates the caller folded into it. `latest` is a stable ref.
+    // settings and coordinates the caller folded into it. Effect Events are deliberately
+    // non-reactive and must not be listed as dependencies.
   }, [loaded, key]);
 }
 
@@ -78,6 +75,14 @@ function NotificationSync() {
   useForegroundSync(`${notificationSignature(settings)}|${coordKey(coords)}`, (s) => {
     void syncPrayerNotifications(coords, s);
   });
+  return null;
+}
+
+// Sends a tapped prayer alert to Bönetider rather than to whichever sheet happened to be
+// open (see @/lib/notification-routing). Mounted at the root, outside the syncs, because
+// it is about arrival, not data. Renders nothing.
+function NotificationRouting() {
+  useEffect(() => subscribeNotificationRouting(), []);
   return null;
 }
 
@@ -126,6 +131,7 @@ export default function RootLayout() {
               <Stack.Screen name="moske-rattelse" options={{ presentation: 'modal' }} />
             </Stack>
             <NotificationSync />
+            <NotificationRouting />
             <WidgetSync />
             <AppStatusBar />
           </LocationProvider>

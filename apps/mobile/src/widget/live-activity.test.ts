@@ -53,11 +53,28 @@ describe('buildPrayerActivityProps', () => {
     expect(props).not.toBeNull();
     expect(props?.nextKey).toBe('asr');
     expect(props?.nextArabic).toBe(PRAYER_LABELS.asr);
-    // The system renders timerInterval [startedAtMs, nextAtMs] — both bounds must be
-    // exact or the live countdown shows the wrong remaining time.
-    expect(props?.startedAtMs).toBe(now);
+    // The system renders timerInterval [startedAtMs, nextAtMs] and shows `upper − now`
+    // for any lower bound already past. The UPPER bound must be the prayer exactly, or
+    // the countdown is wrong; the lower bound is anchored at the moment the prayer
+    // entered the window so refreshes don't perturb it (see the stability test below).
     expect(props?.nextAtMs).toBe(ref.asr.getTime());
+    expect(props?.startedAtMs).toBe(ref.asr.getTime() - LIVE_ACTIVITY_WINDOW_MS);
+    expect(props?.startedAtMs).toBeLessThanOrEqual(now);
     expect(props?.isMarker).toBe(false);
+  });
+
+  it('produces identical props for every instant inside the window', () => {
+    // THE REASON THIS MATTERS: syncPrayerLiveActivity runs on every foreground and skips
+    // the ActivityKit update when the props are unchanged, because iOS budgets Live
+    // Activity updates. An earlier version put `now` in startedAtMs, so every single
+    // foreground looked like a content change and spent an update rendering the exact
+    // same countdown. If this test fails, that waste is back.
+    const target = ref.asr.getTime();
+    const payloadAt = (at: number) => buildPayloadAt(STOCKHOLM, settings(), at, 'Stockholm');
+    const first = buildPrayerActivityProps(payloadAt(target - 59 * 60_000), target - 59 * 60_000);
+    const later = buildPrayerActivityProps(payloadAt(target - 60_000), target - 60_000);
+    expect(first).not.toBeNull();
+    expect(later).toEqual(first);
   });
 
   it('flags the sunrise marker so the UI can say "NÄSTA TID", not "NÄSTA BÖN"', () => {
@@ -103,17 +120,19 @@ describe('buildPrayerActivityProps', () => {
     expect(props?.isMarker).toBe(false);
   });
 
-  it('preloads the following prayer for the stale-date transition', () => {
+  it('carries no preloaded "following prayer" — the extension cannot use one', () => {
+    // A previous version shipped afterKey/afterArabic/afterAtMs/… for a boundary
+    // hand-off, behind a hard-coded `const advanced = false` in the layout. It could
+    // never fire: rolling over inside the extension needs ActivityKit's stale state
+    // (staleDate / Activity.isStale) and expo-widgets exposes neither on start/update
+    // nor in LiveActivityEnvironment. The cost was a whole second prayer-times payload
+    // built on every foreground for props nothing read. Keep the shape honest.
     const now = ref.asr.getTime() - 30 * 60 * 1000;
-    const payload = buildPayloadAt(STOCKHOLM, settings(), now, 'Stockholm');
-    const following = buildPayloadAt(STOCKHOLM, settings(), ref.asr.getTime() + 1000, 'Stockholm');
-    const props = buildPrayerActivityProps(payload, now, following);
-
-    expect(props).not.toBeNull();
-    expect(props?.nextKey).toBe('asr');
-    expect(props?.afterKey).toBe('maghrib');
-    expect(props?.afterAtMs).toBe(ref.maghrib.getTime());
-    expect(props?.afterIsMarker).toBe(false);
+    const props = buildPrayerActivityProps(
+      buildPayloadAt(STOCKHOLM, settings(), now, 'Stockholm'),
+      now,
+    );
+    expect(Object.keys(props ?? {}).filter((k) => k.startsWith('after'))).toEqual([]);
   });
 
   it('returns null in the polar midnight sun when no next slot resolves', () => {

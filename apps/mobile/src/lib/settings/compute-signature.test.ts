@@ -150,9 +150,21 @@ describe('widgetSignature', () => {
     expect(widgetSignature({ ...DEFAULT_SETTINGS, hijriOffset: ALT.hijriOffset })).not.toBe(base);
   });
 
+  it('changes for the appearance preference — the widget renders it too', () => {
+    // `theme` is not a time-affecting setting, but it IS copied into every
+    // WidgetPayload and the widget honours an explicit light/dark lock rather than
+    // WidgetKit's colour scheme. This signature is what re-pushes the timeline, so
+    // when it ignored `theme` (as it once did, and as the sibling test below used to
+    // assert) switching Utseende re-themed the app instantly while the home-screen
+    // widget kept the old palette until the app was next backgrounded and reopened.
+    expect(widgetSignature({ ...DEFAULT_SETTINGS, theme: ALT.theme })).not.toBe(
+      widgetSignature(DEFAULT_SETTINGS),
+    );
+  });
+
   it('ignores settings that cannot affect the widget payload', () => {
     const base = widgetSignature(DEFAULT_SETTINGS);
-    for (const key of ['notifications', 'locationMode', 'manualLocation', 'theme', 'haptics'] as const) {
+    for (const key of ['notifications', 'locationMode', 'manualLocation', 'haptics'] as const) {
       const mutated: PrayerSettings = { ...DEFAULT_SETTINGS, [key]: ALT[key] };
       expect(widgetSignature(mutated)).toBe(base);
     }

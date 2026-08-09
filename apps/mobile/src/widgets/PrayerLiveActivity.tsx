@@ -8,8 +8,16 @@
 //
 // The countdown itself is `Text timerInterval … countsDown` — rendered live BY THE SYSTEM,
 // so it ticks every second with zero JS execution, no pushes and no background tasks.
-// At the prayer boundary ActivityKit's stale state switches the layout to the preloaded
-// following prayer, so the completed prayer never remains labelled as "next" at 00:00.
+//
+// KNOWN CEILING, not an oversight: when the prayer arrives the countdown reaches 00:00 and
+// STAYS there until the app is next foregrounded (which re-points or ends the activity).
+// Rolling over on the device would need ActivityKit's stale state (`Activity.isStale` /
+// `staleDate`), and expo-widgets exposes neither `staleDate` on start/update nor `isStale`
+// in LiveActivityEnvironment — the environment carries only colorScheme,
+// isLuminanceReduced, isActivityFullscreen, isActivityUpdateReduced, activityFamily and
+// levelOfDetail. An earlier version shipped a preloaded `after*` prop set for that
+// transition behind a hard-coded `const advanced = false`; it could never fire, so it was
+// removed rather than left looking implemented.
 import { HStack, Image, Spacer, Text, VStack } from '@expo/ui/swift-ui';
 import {
   font,
@@ -37,17 +45,12 @@ export interface PrayerActivityProps {
   nextTime: string;
   /** The prayer's epoch ms — upper bound of the live countdown. */
   nextAtMs: number;
-  /** When the activity was started/refreshed — lower bound of the countdown. */
+  /** Lower bound of the countdown; any instant already past renders identically, so
+   *  this is the moment the prayer entered the live-activity window rather than the
+   *  moment we started the activity (see buildPrayerActivityProps). */
   startedAtMs: number;
   /** True when the slot is a time marker (sunrise), not an obligatory prayer. */
   isMarker: boolean;
-  /** The event to show after ActivityKit marks the current countdown stale. */
-  afterKey: PrayerKey;
-  afterArabic: string;
-  afterSwedish: string;
-  afterTime: string;
-  afterAtMs: number;
-  afterIsMarker: boolean;
 }
 
 function PrayerLiveActivityLayout(
@@ -108,23 +111,13 @@ function PrayerLiveActivityLayout(
   // Null/partial-safe, like the widget: never throw inside the extension.
   const p = (rawProps ?? {}) as Partial<PrayerActivityProps>;
 
-  // Stock expo-widgets does not expose ActivityKit's stale state. The activity is
-  // advanced the next time the app refreshes it rather than inside the extension.
-  const advanced = false;
-  const key = advanced ? p.afterKey : p.nextKey;
-  const icon: SFSymbol = (typeof key === 'string' && SF[key]) || SF.fajr;
-  const rawName = advanced ? p.afterArabic : p.nextArabic;
-  const name = typeof rawName === 'string' && rawName ? rawName : 'Bönetider';
-  const rawSwedish = advanced ? p.afterSwedish : p.nextSwedish;
-  const swedish = typeof rawSwedish === 'string' ? rawSwedish : '';
-  const rawTime = advanced ? p.afterTime : p.nextTime;
-  const time = typeof rawTime === 'string' && rawTime ? rawTime : '—';
-  const targetAtMs = advanced ? p.afterAtMs : p.nextAtMs;
-  const nextAtMs = typeof targetAtMs === 'number' ? targetAtMs : null;
-  const lowerAtMs = advanced ? p.nextAtMs : p.startedAtMs;
-  const startedAtMs = typeof lowerAtMs === 'number' ? lowerAtMs : null;
-  const marker = advanced ? p.afterIsMarker : p.isMarker;
-  const kindLabel = marker === true ? 'NÄSTA TID' : 'NÄSTA BÖN';
+  const icon: SFSymbol = (typeof p.nextKey === 'string' && SF[p.nextKey]) || SF.fajr;
+  const name = typeof p.nextArabic === 'string' && p.nextArabic ? p.nextArabic : 'Bönetider';
+  const swedish = typeof p.nextSwedish === 'string' ? p.nextSwedish : '';
+  const time = typeof p.nextTime === 'string' && p.nextTime ? p.nextTime : '—';
+  const nextAtMs = typeof p.nextAtMs === 'number' ? p.nextAtMs : null;
+  const startedAtMs = typeof p.startedAtMs === 'number' ? p.startedAtMs : null;
+  const kindLabel = p.isMarker === true ? 'NÄSTA TID' : 'NÄSTA BÖN';
 
   const tabular = monospacedDigit();
   const tracked = kerning(0.5);
@@ -183,6 +176,22 @@ function PrayerLiveActivityLayout(
             {countdown(14, C.inkMuted)}
           </HStack>
         </VStack>
+      </HStack>
+    ),
+    // The `small` activity family — CarPlay and the Apple Watch Smart Stack, which
+    // render an activity started on the phone in a much narrower box. Without this the
+    // system falls back to `banner`, whose three stacked rows and 16pt inset truncate
+    // there. One row: what, and how long. (LiveActivityEnvironment.activityFamily
+    // reports which family is being rendered, but the layout is chosen by the system —
+    // supplying bannerSmall is the supported way to serve it.)
+    bannerSmall: (
+      <HStack spacing={8} alignment="center" modifiers={[padding({ all: 10 })]}>
+        <Image systemName={icon} size={16} color={C.highlight} />
+        <Text modifiers={[font({ size: 15, weight: 'bold' }), foregroundStyle(C.highlightText)]}>
+          {name}
+        </Text>
+        <Spacer />
+        {countdown(15, C.ink)}
       </HStack>
     ),
     // Dynamic Island — compact: icon + prayer name ↔ ticking countdown around the

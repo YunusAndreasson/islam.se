@@ -32,6 +32,9 @@ export type NotificationPermissionState = 'unknown' | 'granted' | 'denied' | 'un
 const CATEGORY_ID = 'prayer-reminder';
 const PRAYER_NOTIFICATION_IDS_KEY = 'prayerNotificationIds:v1';
 const SYNC_STAMP_KEY = 'prayerNotificationSync:v1';
+/** Stamped into every scheduled alert's `data` so the OS's own pending list can be used
+ *  to find our notifications when the persisted id list is not trustworthy. */
+const PRAYER_TAG = 'prayer-times';
 
 // An Android channel's SOUND is frozen at creation — it can never be changed — so a
 // sound choice IS a channel. The ids are versioned from the start so the next time
@@ -65,6 +68,7 @@ export const AVAILABLE_SOUNDS: readonly NotificationSoundKey[] = HAS_ADHAN_SOUND
 
 let syncGeneration = 0;
 let channelsEnsured = false;
+let categoryEnsured = false;
 // A cold start always performs a real sync; the stamp only suppresses the redundant
 // re-syncs that every foreground would otherwise trigger.
 let firstSyncDone = false;
@@ -73,28 +77,46 @@ let firstSyncDone = false;
 export function resetSyncStateForTests(): void {
   firstSyncDone = false;
   channelsEnsured = false;
+  categoryEnsured = false;
 }
 
-// Show prayer alerts even when the app is foregrounded (the user may be staring at
-// the map when Asr lands). Set once at module load.
+/**
+ * What the OS should do with an alert that arrives while the app is foregrounded (the
+ * user may be staring at the map when ʿAṣr lands). Exported so the platform split below
+ * is testable without the native module.
+ *
+ * `shouldPlaySound` means two different things on the two platforms, and treating it as
+ * one thing is what made this wrong:
+ *
+ *   • iOS — the returned behaviour IS the foreground presentation
+ *     (UNNotificationPresentationOptions). The content's own `sound` is not consulted,
+ *     so a "Tyst" choice has to be honoured right here or every silent alert becomes
+ *     audible the moment the app happens to be open.
+ *
+ *   • Android — the CHANNEL is the sound (frozen at creation, which is why each choice
+ *     gets its own channel; see channelIdFor). expo maps `shouldPlaySound: false` onto
+ *     NotificationCompat.setSilent(true), which does NOT merely mute the tone: a silent
+ *     notification gets no heads-up at all, so a "Tyst" alert used to slide quietly into
+ *     the shade instead of appearing over the map — the one moment it had to be seen.
+ *     Deferring to the channel gives the right answer for every choice: silent → no
+ *     sound (its channel has none) but still a HIGH-importance banner, default → the
+ *     system tone, adhan → the adhan. It also retires the old known limitation that an
+ *     in-foreground adhan would be replaced by the default tone.
+ */
+export function foregroundPresentation(silent: boolean): Notifications.NotificationBehavior {
+  return {
+    shouldShowBanner: true,
+    shouldShowList: true,
+    shouldPlaySound: Platform.OS === 'android' ? true : !silent,
+    shouldSetBadge: false,
+  };
+}
+
+// Set once at module load. The `silent` flag rides on the scheduled content — see the
+// `data` field in syncPrayerNotifications.
 Notifications.setNotificationHandler({
-  handleNotification: async (notification) => {
-    // A "Tyst" alert must stay silent even with the app open. This handler overrides
-    // both the Android channel and the iOS content sound, so hard-coding
-    // shouldPlaySound: true here (what this used to do) would make every silent choice
-    // audible the moment the app happened to be foregrounded. The flag rides on the
-    // scheduled content — see the `data` field in syncPrayerNotifications.
-    //
-    // Known limitation, not a bug: because this overrides channel sounds, a future
-    // adhan alert arriving in-foreground plays the default tone instead.
-    const silent = notification.request.content.data?.silent === true;
-    return {
-      shouldShowBanner: true,
-      shouldShowList: true,
-      shouldPlaySound: !silent,
-      shouldSetBadge: false,
-    };
-  },
+  handleNotification: async (notification) =>
+    foregroundPresentation(notification.request.content.data?.silent === true),
 });
 
 /** A persisted choice this build cannot honour degrades to the system sound. */
@@ -227,6 +249,9 @@ async function ensureAndroidChannels(): Promise<void> {
 }
 
 async function ensureNotificationCategory(): Promise<void> {
+  // Idempotent on the OS side, but it is still a bridge round-trip on every sync and
+  // the category never changes within a session — same posture as the channels.
+  if (categoryEnsured) return;
   await Notifications.setNotificationCategoryAsync(CATEGORY_ID, [
     {
       identifier: 'open-prayer-times',
@@ -234,6 +259,7 @@ async function ensureNotificationCategory(): Promise<void> {
       options: { opensAppToForeground: true },
     },
   ]);
+  categoryEnsured = true;
 }
 
 /** Read the current permission WITHOUT prompting — safe to call on any render. */
@@ -300,9 +326,37 @@ async function cancelByIds(ids: readonly string[]): Promise<void> {
   await Promise.all(ids.map((id) => Notifications.cancelScheduledNotificationAsync(id).catch(() => undefined)));
 }
 
+/**
+ * Every pending alert THIS module is responsible for.
+ *
+ * The persisted id list is the fast path, not the truth. It can be missing while the
+ * OS still holds the notifications: a failed AsyncStorage write, a crash between
+ * scheduling and persisting, a superseded sync that saved on the error path, or the
+ * user clearing app storage (Android) — the alarms and UNNotificationRequests survive
+ * all of those. Orphans are not cosmetic: the next sync would schedule a SECOND full
+ * set, so every prayer alerts twice, and on iOS — which keeps only the 64 soonest
+ * pending requests — the orphans push genuine later alerts silently off the end.
+ *
+ * So the OS's own pending list is swept for anything carrying our `source` tag and
+ * unioned in. The tag is what keeps this from cancelling notifications the app might
+ * schedule for some other purpose later; alerts from builds before the tag existed are
+ * still covered by the stored ids, which those builds wrote under the same key.
+ */
+async function pendingPrayerNotificationIds(): Promise<string[]> {
+  const ids = new Set(await loadPrayerNotificationIds());
+  try {
+    for (const request of await Notifications.getAllScheduledNotificationsAsync()) {
+      if (request?.content?.data?.source === PRAYER_TAG) ids.add(request.identifier);
+    }
+  } catch {
+    // Enumeration unavailable (older OS surface, native error) — the stored list alone
+    // still covers every normal run.
+  }
+  return [...ids];
+}
+
 async function cancelPrayerNotifications(): Promise<void> {
-  const ids = await loadPrayerNotificationIds();
-  await cancelByIds(ids);
+  await cancelByIds(await pendingPrayerNotificationIds());
   await AsyncStorage.removeItem(PRAYER_NOTIFICATION_IDS_KEY);
 }
 
@@ -417,8 +471,10 @@ export async function syncPrayerNotifications(
             content: {
               ...alertContent(key, at, lead),
               sound: iosSoundFor(sound),
-              // Read back by the foreground handler, which would otherwise force sound on.
-              data: { key, silent: resolveSound(sound) === 'silent' },
+              // `silent` is read back by the foreground handler, which would otherwise
+              // force sound on; `source` is what lets a later sync find this request in
+              // the OS's pending list (see pendingPrayerNotificationIds).
+              data: { key, silent: resolveSound(sound) === 'silent', source: PRAYER_TAG },
               // Prayer times are the textbook Time Sensitive case: the alert must break
               // through Focus, Sleep and Do Not Disturb — a prayer reminder that a Focus
               // mode silences has failed at the app's one job. Kept even for a SILENT
