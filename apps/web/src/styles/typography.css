@@ -206,7 +206,11 @@
 	}
 
 	.honorific[data-tip]::after {
-		content: attr(data-tip);
+		/* Do not generate the tooltip until it is requested. An absolutely positioned,
+		   visibility:hidden pseudo-element still enlarges the page's scrollable overflow
+		   when the honorific sits near a phone's inline edge (the /vad-ar-islam ingress
+		   measured 427px inside a 380px viewport). */
+		content: none;
 		position: absolute;
 		bottom: calc(100% + 0.4em);
 		left: 50%;
@@ -237,6 +241,7 @@
 
 	.honorific[data-tip]:hover::after,
 	.honorific[data-tip]:focus-visible::after {
+		content: attr(data-tip);
 		opacity: 1;
 		visibility: visible;
 		transition-delay: 220ms;
@@ -246,9 +251,24 @@
 	   unreachable by finger everywhere except essays. Essay pages build #fn-popover
 	   and own the honorific themselves — gating on it keeps both from firing at once. */
 	body:not(:has(#fn-popover)) .honorific[data-tip]:focus::after {
+		content: attr(data-tip);
 		opacity: 1;
 		visibility: visible;
 		transition-delay: 0ms;
+	}
+
+	/* A phone cannot guarantee enough room on both sides of an inline glyph. Keep
+	   the opened explanation inside the visual viewport instead of letting the
+	   centred desktop tooltip create horizontal page overflow. */
+	@media (width <= 30rem) {
+		.honorific[data-tip]::after {
+			position: fixed;
+			inset-inline: 1rem;
+			bottom: 1rem;
+			width: auto;
+			max-width: none;
+			translate: none;
+		}
 	}
 
 	@media (prefers-reduced-motion: reduce) {
