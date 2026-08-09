@@ -28,6 +28,9 @@ import {
 // over defaults so additive changes need no migration.
 const STORAGE_KEY = 'prayerSettings:v1';
 
+// `Other` remains in the type for old in-memory callers, but is deliberately not a
+// persisted choice: adhan's empty preset needs angle controls the app does not expose.
+// Loading that legacy value therefore falls back to the safe Diyanet default.
 const CALCULATION_METHODS = [
   'MuslimWorldLeague',
   'Egyptian',
@@ -41,7 +44,6 @@ const CALCULATION_METHODS = [
   'Turkey',
   'Tehran',
   'NorthAmerica',
-  'Other',
 ] as const satisfies readonly CalculationMethodKey[];
 const MADHABS = ['shafi', 'hanafi'] as const satisfies readonly Madhab[];
 const HIGH_LAT_RULES = [

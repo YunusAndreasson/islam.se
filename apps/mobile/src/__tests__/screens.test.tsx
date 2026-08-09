@@ -8,7 +8,7 @@ import { router } from 'expo-router';
 import * as StoreReview from 'expo-store-review';
 import * as WebBrowser from 'expo-web-browser';
 import type { ReactElement, ReactNode } from 'react';
-import { Platform } from 'react-native';
+import { AppState, type AppStateStatus, Platform } from 'react-native';
 
 import Bonetider from '@/app/bonetider';
 import BytPlats from '@/app/(settings)/byt-plats';
@@ -325,6 +325,36 @@ describe('tab screens', () => {
     });
   });
 
+  it('refreshes notification permission after returning from system settings', async () => {
+    await AsyncStorage.setItem(
+      SETTINGS_KEY,
+      JSON.stringify({
+        ...DEFAULT_SETTINGS,
+        notifications: { ...DEFAULT_SETTINGS.notifications, enabled: true },
+      }),
+    );
+    const appStateListeners: ((state: AppStateStatus) => void)[] = [];
+    jest.spyOn(AppState, 'addEventListener').mockImplementation((_type, listener) => {
+      appStateListeners.push(listener);
+      return { remove: jest.fn() };
+    });
+    jest
+      .mocked(Notifications.getPermissionsAsync)
+      .mockResolvedValueOnce({ granted: false, canAskAgain: false, status: 'denied' } as never)
+      .mockResolvedValue({ granted: true, canAskAgain: true, status: 'granted' } as never);
+
+    await renderSettled(withProviders(<Installningar />));
+    await waitFor(() => expect(screen.getByText(/Notiser är blockerade/)).toBeTruthy());
+
+    await act(async () => {
+      for (const listener of appStateListeners) listener('active');
+    });
+
+    await waitFor(() =>
+      expect(screen.getByText('Planeras lokalt på din enhet – inget skickas online.')).toBeTruthy(),
+    );
+  });
+
   // Per-alert configuration (lead time + sound, per prayer) moved off Inställningar onto
   // its own screen once it outgrew a section; Inställningar keeps a summary row.
   it('summarises the alerts on Inställningar and pushes the detail screen', async () => {
@@ -372,6 +402,7 @@ describe('tab screens', () => {
 
     fireEvent.changeText(screen.getByLabelText('Sök stad'), 'umea');
 
+    expect(screen.getByText('1 träff')).toBeTruthy();
     expect(screen.getByText('Umeå')).toBeTruthy();
     expect(screen.queryByText('Stockholm')).toBeNull();
   });

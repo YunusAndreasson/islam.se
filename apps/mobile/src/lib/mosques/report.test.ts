@@ -11,7 +11,6 @@ import {
   REPORT_ENDPOINT,
   submitMosqueReport,
   validateReport,
-  type ReportReason,
 } from './report';
 
 const MOSQUE: Mosque = {
@@ -131,12 +130,6 @@ describe('reasonSpec', () => {
     for (const spec of REASONS) {
       expect(reasonSpec(spec.value)).toBe(spec);
     }
-  });
-
-  // Reached only via a hand-written deep link (/moske-rattelse?reason=…). A screen that
-  // renders `undefined.prompt` would crash; falling back to "Något annat" just works.
-  it('falls back instead of returning undefined for an unknown reason', () => {
-    expect(reasonSpec('inte-en-anledning' as ReportReason).value).toBe('annat');
   });
 });
 

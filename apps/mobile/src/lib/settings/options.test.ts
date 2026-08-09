@@ -34,10 +34,10 @@ import {
 // so the test catches drift in BOTH directions (key added to type but missing from
 // options, OR a typo in an option value that doesn't actually satisfy the union).
 // The curated subset surfaced in METHOD_OPTIONS for a Swedish-Muslim audience.
-// Karachi/Dubai/Qatar/Kuwait/Singapore/Tehran remain in the CalculationMethodKey
+// Karachi/Dubai/Qatar/Kuwait/Singapore/Tehran/Other remain in the CalculationMethodKey
 // type union (so a user with an older saved value keeps computing correctly via
-// adhan), but are intentionally not in the picker — they're tied to specific
-// regional contexts that would make the Sweden-focused picker noisy.
+// adhan). The regional presets stay out to keep this Sweden-focused picker quiet;
+// Other stays out because the app has no angle controls with which to configure it.
 const SHOWN_METHOD_KEYS: readonly CalculationMethodKey[] = [
   'Turkey',
   'MuslimWorldLeague',
@@ -45,7 +45,6 @@ const SHOWN_METHOD_KEYS: readonly CalculationMethodKey[] = [
   'Egyptian',
   'MoonsightingCommittee',
   'NorthAmerica',
-  'Other',
 ];
 const ALL_MADHAB: readonly Madhab[] = ['shafi', 'hanafi'];
 const ALL_HIGHLAT: readonly HighLatitudeRuleKey[] = [
@@ -157,7 +156,10 @@ describe('label helpers', () => {
     // of the user's choices (the values live inside the expanded card). Topics are
     // capitalised consistently (section names), so the casing is part of the contract,
     // and they appear in the order the sub-sections render inside the card.
-    expect(VISNING_SUMMARY).toBe(['Tema', 'Avrundning', 'Hijri'].join(' · '));
+    // Moskéer and Qibla were added to the card but not to this line, so the two map
+    // toggles were unreachable by recognition: nothing on the collapsed header hinted
+    // that "show mosques" lived behind "Utseende". Every sub-section gets named.
+    expect(VISNING_SUMMARY).toBe(['Tema', 'Moskéer', 'Qibla', 'Avrundning', 'Hijri'].join(' · '));
   });
 
   it('signedMinutes always shows the sign for non-zero values', () => {

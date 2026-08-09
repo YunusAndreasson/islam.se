@@ -15,9 +15,11 @@ import {
 // UI depends on. A broken sync (wrong columns, a null coordinate) would otherwise only
 // surface as invisible/misplaced pins on a device.
 describe('mosque dataset', () => {
-  it('holds the full set of geocoded Swedish mosques', () => {
+  it('exposes the synced set as valid geocoded Swedish mosques', () => {
     const mosques = getMosques();
-    expect(mosques.length).toBe(236);
+    // sync.test.ts proves exact parity with the canonical web dataset. Repeating its
+    // current length here made every legitimate data sync require an unrelated test edit.
+    expect(mosques.length).toBeGreaterThan(0);
     for (const m of mosques) {
       // Coordinates inside Sweden's bbox — the web build asserts the same window, so a
       // point outside it means the import picked up the wrong lat/lng columns.

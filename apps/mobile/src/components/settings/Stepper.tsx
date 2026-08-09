@@ -39,7 +39,14 @@ export function Stepper({
   };
   const display = format ? format(value) : String(value);
   return (
-    <View style={[styles.row, divider && styles.divider]}>
+    // The value lives in its own Text node, so pressing "Öka Fajr" changed a number the
+    // screen reader never spoke — the buttons announce the ACTION, nothing announced the
+    // RESULT. Naming the row and exposing the formatted value gives that reading back.
+    <View
+      style={[styles.row, divider && styles.divider]}
+      accessibilityLabel={label}
+      accessibilityValue={{ text: display }}
+    >
       <Text style={styles.label}>{label}</Text>
       <View style={styles.control}>
         <Pressable

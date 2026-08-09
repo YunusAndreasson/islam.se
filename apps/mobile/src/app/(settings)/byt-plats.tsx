@@ -134,7 +134,7 @@ export default function BytPlats() {
         <Text style={styles.count}>
           {results.length === PLACES.length
             ? `${NUMBER_FMT.format(PLACES.length)} platser i Sverige`
-            : `${NUMBER_FMT.format(results.length)} träffar`}
+            : `${NUMBER_FMT.format(results.length)} ${results.length === 1 ? 'träff' : 'träffar'}`}
         </Text>
         <FlatList
           data={results}

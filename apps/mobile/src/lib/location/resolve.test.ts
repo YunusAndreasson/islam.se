@@ -13,8 +13,8 @@ describe('resolveLocation', () => {
     expect(r.coords).toEqual({ latitude: GOTHENBURG.latitude, longitude: GOTHENBURG.longitude });
     expect(r.label).toBe('Göteborg');
     // The snapped tätort drives the map marker — always a real place from the dataset.
-    expect(typeof r.place.name).toBe('string');
-    expect(r.place.name.length).toBeGreaterThan(0);
+    expect(r.place).not.toBeNull();
+    expect(r.place?.name.length).toBeGreaterThan(0);
   });
 
   it('manual mode with no saved city falls back to Stockholm (still manual source)', () => {
@@ -33,8 +33,18 @@ describe('resolveLocation', () => {
     // Raw precision is preserved (prayer times drift seconds per km) — NOT snapped.
     expect(r.coords).toEqual(KIRUNA_FIX);
     // Label is a human place name, not the bare coordinate.
-    expect(r.label).toBe(r.place.name);
+    expect(r.label).toBe(r.place?.name);
     expect(r.label.length).toBeGreaterThan(0);
+  });
+
+  it('does not mislabel a far-away GPS fix as the nearest Swedish city', () => {
+    const california = { latitude: 37.4219983, longitude: -122.084 };
+    const r = resolveLocation('gps', null, california);
+
+    expect(r.source).toBe('gps');
+    expect(r.coords).toEqual(california);
+    expect(r.label).toBe('Din plats');
+    expect(r.place).toBeNull();
   });
 
   it('gps mode with no fix yet renders Stockholm, flagged as the default standard', () => {

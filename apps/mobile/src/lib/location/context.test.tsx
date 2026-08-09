@@ -2,7 +2,7 @@ import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as Location from 'expo-location';
 import { act, fireEvent, render, screen, waitFor } from '@testing-library/react-native';
-import { Pressable, Text } from 'react-native';
+import { AppState, type AppStateStatus, Pressable, Text } from 'react-native';
 
 import { LocationProvider, useLocation, useLocationStatus } from './context';
 import { SettingsProvider } from '@/lib/settings/context';
@@ -135,6 +135,26 @@ describe('LocationProvider never prompts unprompted', () => {
 
     expect(Location.requestForegroundPermissionsAsync).not.toHaveBeenCalled();
     expect(screen.getByTestId('location').props.children).toBe('default:denied');
+  });
+
+  it('picks up a permission granted in system settings when the app returns', async () => {
+    let onAppStateChange: ((state: AppStateStatus) => void) | undefined;
+    jest.spyOn(AppState, 'addEventListener').mockImplementation((_type, listener) => {
+      onAppStateChange = listener;
+      return { remove: jest.fn() };
+    });
+    jest
+      .mocked(Location.getForegroundPermissionsAsync)
+      .mockResolvedValueOnce(permission('denied') as never)
+      .mockResolvedValue(permission('granted') as never);
+
+    await mountPermissionProbe();
+    expect(screen.getByTestId('location').props.children).toBe('default:denied');
+
+    await act(async () => onAppStateChange?.('active'));
+
+    expect(Location.getCurrentPositionAsync).toHaveBeenCalledTimes(1);
+    expect(screen.getByTestId('location').props.children).toBe('gps:granted');
   });
 
   // The other half of the contract: not prompting must not mean not working. A user who

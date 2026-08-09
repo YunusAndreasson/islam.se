@@ -97,7 +97,7 @@ export function SettingsProvider({ children }: { children: ReactNode }) {
     [settings, loaded, update, reset],
   );
 
-  return <SettingsContext.Provider value={value}>{children}</SettingsContext.Provider>;
+  return <SettingsContext value={value}>{children}</SettingsContext>;
 }
 
 export function useSettings(): SettingsContextValue {

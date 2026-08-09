@@ -55,48 +55,48 @@ export interface ReasonSpec {
   requiresText: boolean;
 }
 
-export const REASONS: readonly ReasonSpec[] = [
-  {
+const REASON_SPECS = {
+  stangd: {
     value: 'stangd',
     label: 'Moskén har stängt',
     prompt: 'Vet du när den stängde?',
     placeholder: 'Till exempel: stängde under 2025',
     requiresText: false,
   },
-  {
+  adress: {
     value: 'adress',
     label: 'Adressen stämmer inte',
     prompt: 'Vad är rätt adress?',
     placeholder: 'Gatuadress och ort',
     requiresText: true,
   },
-  {
+  namn: {
     value: 'namn',
     label: 'Namnet stämmer inte',
     prompt: 'Vad är rätt namn?',
     placeholder: 'Moskéns namn',
     requiresText: true,
   },
-  {
+  plats: {
     value: 'plats',
     label: 'Kartnålen sitter fel',
     prompt: 'Var ligger den egentligen?',
     placeholder: 'Beskriv var nålen borde sitta',
     requiresText: true,
   },
-  {
+  annat: {
     value: 'annat',
     label: 'Något annat',
     prompt: 'Beskriv vad som är fel',
     placeholder: 'Vad stämmer inte?',
     requiresText: true,
   },
-];
+} satisfies Record<ReportReason, ReasonSpec>;
+
+export const REASONS: readonly ReasonSpec[] = Object.values(REASON_SPECS);
 
 export function reasonSpec(reason: ReportReason): ReasonSpec {
-  // Every ReportReason has a spec, so the fallback is unreachable through the type — it
-  // exists so a hand-written string from a deep link can never crash the screen.
-  return REASONS.find((r) => r.value === reason) ?? REASONS[REASONS.length - 1];
+  return REASON_SPECS[reason];
 }
 
 /** Exactly what goes over the wire. No user location — see the privacy note above. */

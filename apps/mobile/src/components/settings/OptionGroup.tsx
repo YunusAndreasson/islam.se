@@ -46,7 +46,15 @@ export function OptionGroup<T extends string>({
               onChange(opt.value);
             }}
             accessibilityRole="radio"
-            accessibilityState={{ selected }}
+            // A radio's selected value is exposed as `checked`, not `selected`.
+            // Android otherwise announces every option identically even though the
+            // trailing checkmark gives sighted users clear state feedback.
+            accessibilityState={{ checked: selected }}
+            // Spell the name out instead of letting Android compose it from the children:
+            // the leading icon and the trailing check are icon-font Text nodes, so the
+            // composed name came out as "󰆤, GPS (min plats), " — a private-use codepoint
+            // read aloud as an unknown symbol, plus an empty fragment for the checkmark.
+            accessibilityLabel={opt.description ? `${opt.label}, ${opt.description}` : opt.label}
             style={({ pressed }) => [
               styles.row,
               i > 0 && styles.rowDivider,
@@ -59,6 +67,8 @@ export function OptionGroup<T extends string>({
                 size={20}
                 color={colors.textMuted}
                 style={styles.icon}
+                accessibilityElementsHidden
+                importantForAccessibility="no"
               />
             ) : null}
             <View style={styles.textWrap}>
@@ -66,7 +76,13 @@ export function OptionGroup<T extends string>({
               {opt.description ? <Text style={styles.description}>{opt.description}</Text> : null}
             </View>
             {selected ? (
-              <MaterialIcons name="check" size={22} color={colors.accent} />
+              <MaterialIcons
+                name="check"
+                size={22}
+                color={colors.accent}
+                accessibilityElementsHidden
+                importantForAccessibility="no"
+              />
             ) : null}
           </Pressable>
         );

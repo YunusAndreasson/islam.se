@@ -51,11 +51,13 @@ describe('PrayerDock schedule reveal', () => {
   it('stays collapsed by default', () => {
     render(<PrayerDock {...dockProps(false)} />);
     expect(screen.getByLabelText('Visa alla bönetider')).toBeTruthy();
+    expect(screen.queryByRole('button', { name: /^Fajr / })).toBeNull();
   });
 
   it('opens itself when the host asks for the reveal', () => {
     render(<PrayerDock {...dockProps(true)} />);
     expect(screen.getByLabelText('Dölj bönetider')).toBeTruthy();
+    expect(screen.getByRole('button', { name: /^Fajr / })).toBeTruthy();
   });
 
   it('closes again when the reveal ends', () => {
