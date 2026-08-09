@@ -20,12 +20,13 @@
 import { MaterialIcons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { Linking, Platform, Pressable, StyleSheet, Text, View } from 'react-native';
+import { Linking, Pressable, StyleSheet, Text, View } from 'react-native';
 import Animated, { FadeInUp, FadeOutUp, useReducedMotion } from 'react-native-reanimated';
 
 import { hapticSuccess, hapticWarning } from '@/lib/haptics';
 import { useLocationStatus } from '@/lib/location/context';
 import { noteLocationResolved } from '@/lib/location-hint';
+import { systemSettingsName } from '@/lib/system-settings';
 import { motion, type Palette, radius, shadow, space, type } from '@/theme/tokens';
 import { useColors } from '@/theme/useColors';
 import { GlassRoundButton } from '@/components/nav/GlassRoundButton';
@@ -55,6 +56,7 @@ export function LocationHint({ top, onClose }: Props) {
   const inFlight = useRef(false);
   const [busy, setBusy] = useState(false);
   const confirmTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const settingsName = systemSettingsName();
 
   useEffect(
     () => () => {
@@ -62,8 +64,6 @@ export function LocationHint({ top, onClose }: Props) {
     },
     [],
   );
-
-  const systemSettingsName = Platform.OS === 'ios' ? 'iOS-inställningar' : 'appinställningar';
 
   const onAllow = (): void => {
     if (inFlight.current) return;
@@ -173,7 +173,7 @@ export function LocationHint({ top, onClose }: Props) {
         {state === 'denied' ? (
           // Same sentence as Inställningar → Plats, so the two surfaces agree word for word.
           <Text style={styles.body}>
-            Platsåtkomst nekad – visar standardplats. Tillåt i {systemSettingsName}.
+            Platsåtkomst nekad – visar standardplats. Tillåt i {settingsName}.
           </Text>
         ) : null}
 
@@ -187,10 +187,10 @@ export function LocationHint({ top, onClose }: Props) {
           <Pressable
             onPress={() => void Linking.openSettings()}
             accessibilityRole="button"
-            accessibilityLabel={`Öppna ${systemSettingsName} för plats`}
+            accessibilityLabel={`Öppna ${settingsName} för plats`}
             style={({ pressed }) => [styles.link, pressed && styles.linkPressed]}
           >
-            <Text style={styles.linkText}>Öppna {systemSettingsName}</Text>
+            <Text style={styles.linkText}>Öppna {settingsName}</Text>
             <MaterialIcons name="open-in-new" size={18} color={c.accent} />
           </Pressable>
         ) : null}

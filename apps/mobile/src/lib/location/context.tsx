@@ -14,6 +14,7 @@ import {
   useRef,
   useState,
 } from 'react';
+import { AppState } from 'react-native';
 
 import { isValidLatLng } from '@/lib/coordinates';
 import { useSettings } from '@/lib/settings/context';
@@ -164,13 +165,19 @@ export function LocationProvider({ children }: { children: ReactNode }) {
     };
   }, []);
 
-  // Fetch a fix whenever GPS mode is active AND permission is already granted. This is
+  // Fetch a fix whenever GPS mode is active AND permission is already granted, including
+  // when the app returns from system settings. This is
   // the allowed "subscribe to an external system" effect — acquireIfPermitted only
   // setStates inside async callbacks after awaiting the platform APIs, which the rule's
   // static analysis can't see. It never prompts: see acquireIfPermitted.
   useEffect(() => {
+    if (!loaded || locationMode !== 'gps') return;
     // eslint-disable-next-line react-hooks/set-state-in-effect -- async GPS fetch, no synchronous setState
-    if (loaded && locationMode === 'gps') void acquireIfPermitted();
+    void acquireIfPermitted();
+    const sub = AppState.addEventListener('change', (state) => {
+      if (state === 'active') void acquireIfPermitted();
+    });
+    return () => sub.remove();
   }, [loaded, locationMode, acquireIfPermitted]);
 
   // Single source of truth for the manual → GPS → Stockholm resolution, shared with
@@ -191,9 +198,9 @@ export function LocationProvider({ children }: { children: ReactNode }) {
   );
 
   return (
-    <LocationContext.Provider value={value}>
-      <LocationStatusContext.Provider value={status}>{children}</LocationStatusContext.Provider>
-    </LocationContext.Provider>
+    <LocationContext value={value}>
+      <LocationStatusContext value={status}>{children}</LocationStatusContext>
+    </LocationContext>
   );
 }
 

@@ -67,7 +67,7 @@ const BlurTargetContext = createContext<RefObject<View | null> | null>(null);
  *  GlassBackdropTarget and every GlassSurface that should sample it. */
 export function GlassBackdropProvider({ children }: { children: ReactNode }) {
   const ref = useRef<View>(null);
-  return <BlurTargetContext.Provider value={ref}>{children}</BlurTargetContext.Provider>;
+  return <BlurTargetContext value={ref}>{children}</BlurTargetContext>;
 }
 
 /** Marks the content that glass surfaces blur (the map + its overlays). Renders a

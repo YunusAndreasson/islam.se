@@ -18,11 +18,12 @@
 // the same family as the dock and the nav discs rather than reading as an ad banner.
 import { MaterialIcons } from '@expo/vector-icons';
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { Linking, Platform, Pressable, StyleSheet, Text, View } from 'react-native';
+import { Linking, Pressable, StyleSheet, Text, View } from 'react-native';
 import Animated, { FadeInUp, FadeOutUp, useReducedMotion } from 'react-native-reanimated';
 
 import { hapticSuccess, hapticWarning } from '@/lib/haptics';
 import { noteNotificationResolved } from '@/lib/notification-hint';
+import { systemSettingsName } from '@/lib/system-settings';
 import {
   type NotificationPermissionState,
   requestNotificationPermission,
@@ -57,6 +58,7 @@ export function NotificationHint({ top, onEnable, onClose }: Props) {
   const inFlight = useRef(false);
   const [busy, setBusy] = useState(false);
   const confirmTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const settingsName = systemSettingsName();
 
   useEffect(
     () => () => {
@@ -64,8 +66,6 @@ export function NotificationHint({ top, onEnable, onClose }: Props) {
     },
     [],
   );
-
-  const systemSettingsName = Platform.OS === 'ios' ? 'iOS-inställningar' : 'appinställningar';
 
   const onAllow = (): void => {
     if (inFlight.current) return;
@@ -158,15 +158,15 @@ export function NotificationHint({ top, onEnable, onClose }: Props) {
           <>
             {/* Same sentence as Inställningar → Notiser, so the two surfaces agree word for word. */}
             <Text style={styles.body}>
-              Notiser är blockerade. Öppna {systemSettingsName} för att tillåta dem.
+              Notiser är blockerade. Öppna {settingsName} för att tillåta dem.
             </Text>
             <Pressable
               onPress={() => void Linking.openSettings()}
               accessibilityRole="button"
-              accessibilityLabel={`Öppna ${systemSettingsName} för notiser`}
+              accessibilityLabel={`Öppna ${settingsName} för notiser`}
               style={({ pressed }) => [styles.link, pressed && styles.linkPressed]}
             >
-              <Text style={styles.linkText}>Öppna {systemSettingsName}</Text>
+              <Text style={styles.linkText}>Öppna {settingsName}</Text>
               <MaterialIcons name="open-in-new" size={18} color={c.accent} />
             </Pressable>
           </>

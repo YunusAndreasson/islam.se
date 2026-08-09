@@ -20,9 +20,14 @@ export interface ResolvedLocation {
    *  "Stockholm (standard)" while no fix is in). */
   label: string;
   source: LocationSource;
-  /** The Swedish tätort `coords` snaps to. Drives the map marker label. */
-  place: SwedishPlace;
+  /** A nearby Swedish tätort, when the fix is close enough to name honestly. */
+  place: SwedishPlace | null;
 }
+
+// Offline GPS labels come from the bundled Swedish place list. Beyond this distance the
+// nearest entry is not a useful description (a California fix previously became
+// "Karesuando"), so keep the precise coordinate but call it simply "Din plats".
+const MAX_PLACE_LABEL_DISTANCE_KM = 100;
 
 /**
  * Resolve the prayer-time coordinate from the location-relevant settings plus the
@@ -47,8 +52,11 @@ export function resolveLocation(
     return { coords, label: loc.name, source: 'manual', place: snapped };
   }
   if (gpsCoords && isValidLatLng(gpsCoords)) {
-    const snapped = nearestPlace(gpsCoords.latitude, gpsCoords.longitude).place;
-    return { coords: gpsCoords, label: snapped.name, source: 'gps', place: snapped };
+    const nearest = nearestPlace(gpsCoords.latitude, gpsCoords.longitude);
+    if (nearest.distanceKm <= MAX_PLACE_LABEL_DISTANCE_KM) {
+      return { coords: gpsCoords, label: nearest.place.name, source: 'gps', place: nearest.place };
+    }
+    return { coords: gpsCoords, label: 'Din plats', source: 'gps', place: null };
   }
   const fallback = nearestPlace(DEFAULT_COORDS.latitude, DEFAULT_COORDS.longitude).place;
   return {

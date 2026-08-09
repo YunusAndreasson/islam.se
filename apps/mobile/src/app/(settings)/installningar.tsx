@@ -15,7 +15,7 @@
 import { MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
 import { router, useIsFocused } from 'expo-router';
 import { type ReactNode, useEffect, useMemo, useRef, useState } from 'react';
-import { ActivityIndicator, Alert, Linking, Platform, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { ActivityIndicator, Alert, AppState, Linking, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { DisclosureGroup } from '@/components/settings/DisclosureGroup';
@@ -56,6 +56,7 @@ import {
   VISNING_SUMMARY,
 } from '@/lib/settings/options';
 import { stockholmPrayerDate } from '@/lib/stockholm-time';
+import { systemSettingsName } from '@/lib/system-settings';
 import { mono, radius, space, type } from '@/theme/tokens';
 
 export default function Installningar() {
@@ -86,11 +87,18 @@ export default function Installningar() {
   useEffect(() => {
     if (!isFocused || !settings.notifications.enabled) return;
     let active = true;
-    void getNotificationPermissionState().then((state) => {
-      if (active) setNotificationPermission(state);
+    const refreshPermission = (): void => {
+      void getNotificationPermissionState().then((state) => {
+        if (active) setNotificationPermission(state);
+      });
+    };
+    refreshPermission();
+    const sub = AppState.addEventListener('change', (state) => {
+      if (state === 'active') refreshPermission();
     });
     return () => {
       active = false;
+      sub.remove();
     };
   }, [isFocused, settings.notifications.enabled]);
 
@@ -112,8 +120,10 @@ export default function Installningar() {
       // and the "Öppna …" recovery link below appear, and it means a user who later allows
       // notifications in system settings starts receiving them on the next sync.
       update({ notifications: { ...settings.notifications, enabled: true } });
-      // A discrete negative outcome the user just triggered — the haptics policy's warning case.
-      if (state === 'denied') hapticWarning();
+      // A discrete negative outcome the user just triggered — the haptics policy's warning
+      // case. ANY answer that is not a grant counts: on Android the first refusal leaves
+      // canAskAgain true, so it arrives as 'undetermined' even though the user just said no.
+      if (state !== 'granted') hapticWarning();
     })();
   };
 
@@ -122,26 +132,31 @@ export default function Installningar() {
   // permission flip) do NOT trigger this — we'd be lying about user intent and firing a
   // haptic on a fix the user never asked for. The flash window is short so it never
   // lingers after a second tap.
-  const [justUpdated, setJustUpdated] = useState(false);
-  const justUpdatedTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  // `ok` flashes "Uppdaterad ✓" in the verb slot; `fail` swaps the section footnote for a
+  // reason. A haptic alone was the ONLY feedback on failure — invisible to anyone with
+  // haptics off (or on a device that doesn't buzz), so a refresh that couldn't get a fix
+  // looked identical to one that changed nothing. The footnote carries it rather than the
+  // row, because it has the full card width and the row's verb slot does not.
+  const [flash, setFlash] = useState<'ok' | 'fail' | null>(null);
+  const flashTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   useEffect(() => () => {
-    if (justUpdatedTimer.current) clearTimeout(justUpdatedTimer.current);
+    if (flashTimer.current) clearTimeout(flashTimer.current);
   }, []);
   const onRefreshTap = async (): Promise<void> => {
     const outcome = await refresh();
     // A fix was already in flight (double-tap) — don't double-signal.
     if (outcome === 'busy') return;
-    if (outcome === 'ok') {
-      hapticSuccess();
-      if (justUpdatedTimer.current) clearTimeout(justUpdatedTimer.current);
-      setJustUpdated(true);
-      justUpdatedTimer.current = setTimeout(() => setJustUpdated(false), 1800);
-    } else {
-      // denied / error: the fix the user asked for didn't land. Warn instead of lying with a
-      // success buzz + "Uppdaterad ✓" flash (the pre-branch code fired success unconditionally).
-      hapticWarning();
-    }
+    const kind = outcome === 'ok' ? 'ok' : 'fail';
+    // denied / error: the fix the user asked for didn't land. Warn instead of lying with a
+    // success buzz + "Uppdaterad ✓" flash (the pre-branch code fired success unconditionally).
+    if (kind === 'ok') hapticSuccess();
+    else hapticWarning();
+    if (flashTimer.current) clearTimeout(flashTimer.current);
+    setFlash(kind);
+    // The failure line is prose the user has to read, so it lingers longer than the tick.
+    flashTimer.current = setTimeout(() => setFlash(null), kind === 'ok' ? 1800 : 4000);
   };
+  const justUpdated = flash === 'ok';
 
   // "Återställ till standard" — wipes every preference back to DEFAULT_SETTINGS
   // (method, madhab, location, theme, notifications, haptics, the lot). It's a
@@ -200,23 +215,31 @@ export default function Installningar() {
   }
 
   const cityValue = settings.manualLocation?.name ?? 'Stockholm';
+  // Reminders are ON but the OS is not delivering them. Android's FIRST refusal leaves
+  // canAskAgain true — which reads as 'undetermined' — and yet nothing will ever ask
+  // again: the toggle is already on, so the prompt's only two entry points (this toggle
+  // flipping off→on, and the map's hint) are both spent. Reporting that as "Ej frågat"
+  // with "systemet frågar när påminnelser aktiveras" promised a dialog that never comes
+  // and hid the recovery link, leaving reminders silently dead. Any non-grant while the
+  // toggle is on is therefore "blocked" — the same view NotificationHint already takes.
+  const notificationsBlocked =
+    settings.notifications.enabled &&
+    (notificationPermission === 'denied' || notificationPermission === 'undetermined');
   const notificationStatus =
     notificationPermission === 'granted'
       ? 'Tillåtet'
-      : notificationPermission === 'denied'
+      : notificationsBlocked
         ? 'Blockerat'
-        : notificationPermission === 'undetermined'
-          ? 'Ej frågat'
-          : 'Kontrollerar…';
-  const systemSettingsName = Platform.OS === 'ios' ? 'iOS-inställningar' : 'appinställningar';
+        : 'Kontrollerar…';
   const calcSummary = calculationSummary(settings);
-  const notificationFootnote = settings.notifications.enabled
-    ? notificationPermission === 'denied'
-      ? `Notiser är blockerade. Öppna ${systemSettingsName} för att tillåta dem.`
+  const settingsName = systemSettingsName();
+  const notificationFootnote = !settings.notifications.enabled
+    ? undefined
+    : notificationsBlocked
+      ? `Notiser är blockerade. Öppna ${settingsName} för att tillåta dem.`
       : notificationPermission === 'granted'
         ? 'Planeras lokalt på din enhet – inget skickas online.'
-        : 'Systemet frågar om tillstånd när påminnelser aktiveras.'
-    : undefined;
+        : undefined;
 
   return (
     <SafeAreaView style={styles.safe} edges={['top']}>
@@ -232,9 +255,11 @@ export default function Installningar() {
           // the manual mode is self-explanatory from the row's state.
           footnote={
             settings.locationMode === 'gps'
-              ? permissionStatus === 'denied'
-                ? `Platsåtkomst nekad – visar standardplats. Tillåt i ${systemSettingsName}.`
-                : 'Använder enhetens plats.'
+              ? flash === 'fail'
+                ? 'Kunde inte hämta din plats. Kontrollera att platstjänster är på.'
+                : permissionStatus === 'denied'
+                  ? `Platsåtkomst nekad – visar standardplats. Tillåt i ${settingsName}.`
+                  : 'Använder enhetens plats.'
               : undefined
           }
         >
@@ -272,7 +297,9 @@ export default function Installningar() {
                   {locating ? 'Hämtar plats…' : 'Uppdatera plats'}
                 </Text>
               )}
-              <Text style={styles.rowValue}>{source === 'gps' ? label : '—'}</Text>
+              <Text style={styles.rowValue} numberOfLines={1}>
+                {source === 'gps' ? label : '—'}
+              </Text>
             </Pressable>
           ) : (
             // "Stad" is a label, not an action — ink, not accent. Value muted +
@@ -285,7 +312,9 @@ export default function Installningar() {
             >
               <Text style={styles.rowLabel}>Stad</Text>
               <View style={styles.rowTrailing}>
-                <Text style={styles.rowValue}>{cityValue}</Text>
+                <Text style={styles.rowValue} numberOfLines={1}>
+                  {cityValue}
+                </Text>
                 <MaterialIcons name="chevron-right" size={22} color={colors.textMuted} />
               </View>
             </Pressable>
@@ -326,11 +355,16 @@ export default function Installningar() {
             </View>
             {preview.times.map((p, i) => (
               <View key={p.key} style={[styles.previewRow, i > 0 && styles.previewDivider]}>
+                {/* Decorative: the row's text already names the prayer. Icon fonts render
+                    their glyph as a private-use codepoint, so left in the tree a screen
+                    reader announces "󰼱" as an unknown symbol before every prayer. */}
                 <MaterialCommunityIcons
                   name={p.icon}
                   size={22}
                   color={colors.textMuted}
                   style={styles.previewIcon}
+                  accessibilityElementsHidden
+                  importantForAccessibility="no"
                 />
                 <View style={styles.previewLabelWrap}>
                   <Text style={[styles.previewLabel, p.key === 'sunrise' && styles.previewMarkerText]}>
@@ -367,23 +401,20 @@ export default function Installningar() {
             <View style={[styles.row, styles.rowDivider]}>
               <Text style={styles.rowLabel}>Status</Text>
               <Text
-                style={[
-                  styles.rowValue,
-                  notificationPermission === 'denied' && styles.rowValueWarning,
-                ]}
+                style={[styles.rowValue, notificationsBlocked && styles.rowValueWarning]}
               >
                 {notificationStatus}
               </Text>
             </View>
           ) : null}
-          {settings.notifications.enabled && notificationPermission === 'denied' ? (
+          {notificationsBlocked ? (
             <Pressable
               onPress={() => void Linking.openSettings()}
               accessibilityRole="button"
-              accessibilityLabel={`Öppna ${systemSettingsName} för notiser`}
+              accessibilityLabel={`Öppna ${settingsName} för notiser`}
               style={({ pressed }) => [styles.row, pressed && styles.rowPressed]}
             >
-              <Text style={styles.rowAction}>Öppna {systemSettingsName}</Text>
+              <Text style={styles.rowAction}>Öppna {settingsName}</Text>
               <MaterialIcons name="open-in-new" size={18} color={colors.accent} />
             </Pressable>
           ) : null}
@@ -657,17 +688,20 @@ function makeStyles(colors: SettingsColors) {
       flexDirection: 'row',
       justifyContent: 'space-between',
       alignItems: 'center',
+      gap: space.md,
     },
     rowPressed: { backgroundColor: colors.accentSoft },
     rowDivider: { borderTopWidth: StyleSheet.hairlineWidth, borderTopColor: colors.separator },
-    rowLabel: { ...type.body, color: colors.text }, // labels: ink (not accent)
-    rowAction: { ...type.body, color: colors.accent }, // verbs: accent
+    rowLabel: { ...type.body, color: colors.text, flexShrink: 0 }, // labels: ink (not accent)
+    rowAction: { ...type.body, color: colors.accent, flexShrink: 0 }, // verbs: accent
     // The momentary "Uppdaterad ✓" confirmation slot — icon + accent text in the same
     // optical position as the verb, so the swap reads as the verb's success state.
     rowActionConfirm: { flexDirection: 'row', alignItems: 'center', gap: 6 },
-    rowValue: { ...type.body, color: colors.textMuted },
+    // Trailing values yield before the leading label/action. Together with `row.gap`,
+    // this prevents joined text such as "Uppdatera platsDin plats" on compact screens.
+    rowValue: { ...type.body, color: colors.textMuted, flexShrink: 1, textAlign: 'right' },
     rowValueWarning: { color: colors.accent, fontWeight: '600' },
-    rowTrailing: { flexDirection: 'row', alignItems: 'center', gap: 2 },
+    rowTrailing: { flexDirection: 'row', alignItems: 'center', gap: 2, flexShrink: 1 },
 
     // Single-row card variant for the Beräkning push.
     card: {

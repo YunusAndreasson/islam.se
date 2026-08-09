@@ -49,7 +49,6 @@ export const METHOD_OPTIONS: readonly Option<CalculationMethodKey>[] = [
     description: 'Fajr 18°, Isha 18° (shafaq)',
   },
   { value: 'NorthAmerica', label: 'Nordamerika (ISNA)', description: 'Fajr 15°, Isha 15°' },
-  { value: 'Other', label: 'Annan', description: 'Anpassad – 0° (justera manuellt)' },
 ];
 
 export const MADHAB_OPTIONS: readonly Option<Madhab>[] = [
@@ -79,7 +78,12 @@ export const SHAFAQ_OPTIONS: readonly Option<Shafaq>[] = [
 export const ROUNDING_OPTIONS: readonly Option<Rounding>[] = [
   { value: 'nearest', label: 'Närmaste minut' },
   { value: 'up', label: 'Uppåt' },
-  { value: 'none', label: 'Ingen' },
+  // The app never renders seconds, so adhan's Rounding.None is not "unrounded" on screen —
+  // dropping the seconds field IS a floor. Labelling it "Ingen" invited a user who wanted
+  // the exact time to pick the one option that shows every prayer up to a minute EARLY,
+  // Maghrib included, which is the direction that matters when it ends a fast. Named for
+  // what the user sees; the persisted VALUE stays 'none', so this is copy, not a migration.
+  { value: 'none', label: 'Nedåt', description: 'Alltid till föregående hela minut' },
 ];
 
 // Theme override. 'System' is first + recommended — the Apple Maps default,
@@ -212,4 +216,6 @@ export const calculationSummary = (s: PrayerSettings): string => {
  *  consistently so the summary reads as a list of section names. It is a constant, not
  *  a function of the settings like {@link calculationSummary}, because naming the
  *  group's breadth is the whole point. */
-export const VISNING_SUMMARY: string = ['Tema', 'Avrundning', 'Hijri'].join(' · ');
+export const VISNING_SUMMARY: string = ['Tema', 'Moskéer', 'Qibla', 'Avrundning', 'Hijri'].join(
+  ' · ',
+);

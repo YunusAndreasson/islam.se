@@ -59,7 +59,10 @@ import { GlassSurface } from '@/components/ui/GlassSurface';
 import { DayPicker } from './DayPicker';
 
 const DAY_MS = 86_400_000;
-const HOUR_TICKS = ['00', '06', '12', '18', '24'];
+/** Hours the ruler under the scrubber labels. Positioned by their true fraction of the
+ *  viewed day (see tickFractions) rather than spaced evenly, so the ruler agrees with the
+ *  prayer marks and thumb — which have always been placed off the REAL 23/24/25 h day. */
+const HOUR_TICKS = [0, 6, 12, 18, 24];
 // The app's one canonical snap spring (tokens.motion.spring), aliased locally so the
 // worklet call sites stay terse.
 const SPRING = motion.spring;
@@ -278,17 +281,20 @@ export function PrayerDock({
     transform: [{ translateY: interpolate(progress.value, [0.7, 1], [8, 0], Extrapolation.CLAMP) }],
   }));
 
-  // The hero cross-fades between two stacked layers instead of hard-swapping on the
-  // `expanded` boolean (which flipped mid-spring and made the big name + time pop).
-  // Layer A (collapsed headline) fades OUT first; Layer B (expanded facts) fades IN,
-  // their windows overlapping (0.18–0.30) for a true dissolve with no blank frame.
-  const collapsedLayerStyle = useAnimatedStyle(() => ({
-    opacity: interpolate(progress.value, [0, 0.3], [1, 0], Extrapolation.CLAMP),
-    transform: [{ translateY: interpolate(progress.value, [0, 0.3], [0, -10], Extrapolation.CLAMP) }],
-  }));
-  const expandedLayerStyle = useAnimatedStyle(() => ({
-    opacity: interpolate(progress.value, [0.18, 0.55], [0, 1], Extrapolation.CLAMP),
-    transform: [{ translateY: interpolate(progress.value, [0.18, 0.55], [8, 0], Extrapolation.CLAMP) }],
+  // Exactly ONE hero layer is mounted at a time — Android kept the opacity-zero layer's
+  // text in its accessibility tree, so an always-mounted cross-fade announced the place
+  // and countdown twice. The consequence is that a layer mounts at the FAR end of
+  // `progress`, where the old cross-fade windows (0→0.3 out, 0.18→0.55 in) both evaluate
+  // to opacity 0: the card sat blank for a beat on every open while the height spring ran.
+  // A mounted layer therefore fades in from its OWN mount, so whatever exists is visible.
+  const heroFade = useSharedValue(1);
+  useEffect(() => {
+    heroFade.value = 0;
+    heroFade.value = withTiming(1, { duration: motion.fast });
+  }, [expanded, heroFade]);
+  const heroLayerStyle = useAnimatedStyle(() => ({
+    opacity: heroFade.value,
+    transform: [{ translateY: interpolate(heroFade.value, [0, 1], [6, 0]) }],
   }));
 
   // Returning to "now" is the one action offered in two places (preview badge +
@@ -499,6 +505,7 @@ export function PrayerDock({
                     prayerKey={key}
                     date={date}
                     settings={settings}
+                    visible={expanded}
                     isNext={next?.key === key && !next.nextDay}
                     onPress={() => scrubTo(at)}
                     iconColor={prayerColorFor(key, scheme)}
@@ -509,23 +516,21 @@ export function PrayerDock({
           </View>
 
           {/* Persistent summary, never moves — and a drag affordance (the hero opens
-              the dock too, not just the handle). Two stacked layers cross-fade off
-              `progress` so nothing pops on release: Layer A (collapsed headline:
-              prayer name + time · place) fades out as Layer B (expanded facts:
-              countdown + place, the only things the schedule above can't say) fades
-              in. Both are absolutely positioned inside a FIXED-height box, so the
-              timeline below never reflows when the content swaps. */}
+              the dock too, not just the handle). The collapsed headline carries
+              prayer + time · place; the expanded one carries the countdown + place,
+              the only facts the schedule above cannot say. Only the active layer is
+              mounted: Android retained opacity-zero text in its accessibility tree,
+              causing screen readers to announce the place and countdown twice. Both
+              layers occupy the same fixed-height box, so the timeline never reflows. */}
           <GestureDetector gesture={heroGesture}>
             <View style={styles.hero}>
               {/* Layer A — collapsed headline. Fades/slides out first. Only ONE hero
                   layer may exist for assistive tech at a time — without the a11y
                   hiding, a screen reader announced the place + countdown twice (once
                   per layer), since visual opacity doesn't prune the a11y tree. */}
-              <Animated.View
-                style={[styles.heroLayer, { opacity: 1 }, collapsedLayerStyle]}
-                pointerEvents={expanded ? 'none' : 'auto'}
-                accessibilityElementsHidden={expanded}
-                importantForAccessibility={expanded ? 'no-hide-descendants' : 'auto'}
+              {!expanded ? <Animated.View
+                style={[styles.heroLayer, heroLayerStyle]}
+                pointerEvents="auto"
               >
                 <View style={styles.heroTop}>
                   {next ? (
@@ -567,7 +572,7 @@ export function PrayerDock({
                     {place}
                   </View>
                 ) : null}
-              </Animated.View>
+              </Animated.View> : null}
 
               {/* Layer B — expanded facts. Fades in as the schedule appears; the list
                   already names today's prayers + times, so this slims to countdown +
@@ -576,11 +581,9 @@ export function PrayerDock({
                   collapsed layer (place left, brass countdown right) so the dock's
                   brightest element never jumps corners mid-crossfade — the countdown
                   holds the right edge in both states. */}
-              <Animated.View
-                style={[styles.heroLayer, { opacity: 0 }, expandedLayerStyle]}
-                pointerEvents={expanded ? 'auto' : 'none'}
-                accessibilityElementsHidden={!expanded}
-                importantForAccessibility={!expanded ? 'no-hide-descendants' : 'auto'}
+              {expanded ? <Animated.View
+                style={[styles.heroLayer, heroLayerStyle]}
+                pointerEvents="auto"
               >
                 <View style={styles.heroTop}>
                   {next ? (
@@ -601,7 +604,7 @@ export function PrayerDock({
                     </Text>
                   )}
                 </View>
-              </Animated.View>
+              </Animated.View> : null}
             </View>
           </GestureDetector>
 
@@ -609,6 +612,7 @@ export function PrayerDock({
             styles={styles}
             fraction={clock.fraction}
             marks={marks}
+            dayLength={clock.dayLength}
             onScrub={clock.setFraction}
             onStepDay={clock.stepDay}
             dayOffset={clock.dayOffset}
@@ -669,6 +673,7 @@ function ScheduleRow({
   prayerKey,
   date,
   settings,
+  visible,
   isNext,
   onPress,
   iconColor,
@@ -682,6 +687,7 @@ function ScheduleRow({
   prayerKey: PrayerKey;
   date: Date;
   settings: PrayerSettings;
+  visible: boolean;
   isNext: boolean;
   onPress: () => void;
   iconColor: string;
@@ -695,31 +701,51 @@ function ScheduleRow({
     return { opacity: local, transform: [{ translateY: interpolate(local, [0, 1], [10, 0]) }] };
   });
 
+  const content = (
+    <>
+      {/* Sun-cycle glyph tinted in the prayer's solar colour — replaces the
+          old 8x8 colour dot. Carries both meanings at once: shape says
+          "where in the day" (dawn / noon / sunset / night), colour preserves
+          the existing link with the map pills (PRAYER_COLORS, per-theme). */}
+      <MaterialCommunityIcons
+        name={PRAYER_ICONS[prayerKey]}
+        size={18}
+        color={iconColor}
+        style={styles.listIcon}
+        accessibilityElementsHidden
+        importantForAccessibility="no"
+      />
+      <Text style={[styles.listLabel, isNext && styles.nextEmphasis]}>{PRAYER_LABELS[prayerKey]}</Text>
+      <Text style={[styles.listTime, isNext && styles.nextEmphasis]}>
+        {valid ? formatTime(date) : '—'}
+      </Text>
+    </>
+  );
+
   return (
-    <Animated.View style={reveal}>
-      <Pressable
-        disabled={!valid}
-        onPress={onPress}
-        style={({ pressed }) => [styles.listRow, isNext && styles.listRowNext, pressed && styles.listRowPressed]}
-        accessibilityRole="button"
-        accessibilityLabel={`${PRAYER_LABELS[prayerKey]} ${valid ? formatTime(date) : 'kan inte beräknas'}`}
-        accessibilityHint="Tryck för att flytta tidslinjen till den här bönen."
-      >
-        {/* Sun-cycle glyph tinted in the prayer's solar colour — replaces the
-            old 8x8 colour dot. Carries both meanings at once: shape says
-            "where in the day" (dawn / noon / sunset / night), colour preserves
-            the existing link with the map pills (PRAYER_COLORS, per-theme). */}
-        <MaterialCommunityIcons
-          name={PRAYER_ICONS[prayerKey]}
-          size={18}
-          color={iconColor}
-          style={styles.listIcon}
-        />
-        <Text style={[styles.listLabel, isNext && styles.nextEmphasis]}>{PRAYER_LABELS[prayerKey]}</Text>
-        <Text style={[styles.listTime, isNext && styles.nextEmphasis]}>
-          {valid ? formatTime(date) : '—'}
-        </Text>
-      </Pressable>
+    // Mounted only while the dock is open. accessibilityElementsHidden +
+    // no-hide-descendants is NOT enough on Android: measured on API 35, the collapsed dock
+    // still exposed "Maghrib 21:01" and "ʿIshāʾ 22:02" as buttons behind the closed card,
+    // so a screen reader read out a schedule that isn't on screen. Unmounting is the only
+    // thing that actually prunes them. The a11y props stay as the belt to that braces.
+    <Animated.View
+      style={reveal}
+      pointerEvents={visible ? 'auto' : 'none'}
+      accessibilityElementsHidden={!visible}
+      importantForAccessibility={visible ? 'auto' : 'no-hide-descendants'}
+    >
+      {visible ? (
+        <Pressable
+          disabled={!valid}
+          onPress={onPress}
+          style={({ pressed }) => [styles.listRow, isNext && styles.listRowNext, pressed && styles.listRowPressed]}
+          accessibilityRole="button"
+          accessibilityLabel={`${PRAYER_LABELS[prayerKey]} ${valid ? formatTime(date) : 'kan inte beräknas'}`}
+          accessibilityHint="Tryck för att flytta tidslinjen till den här bönen."
+        >
+          {content}
+        </Pressable>
+      ) : null}
     </Animated.View>
   );
 }
@@ -740,6 +766,7 @@ function SolarTimeline({
   styles,
   fraction,
   marks,
+  dayLength,
   onScrub,
   onStepDay,
   dayOffset,
@@ -750,6 +777,8 @@ function SolarTimeline({
   styles: DockStyles;
   fraction: number;
   marks: DayMark[];
+  /** Real length of the viewed Stockholm day in ms — 23/24/25 h across DST. */
+  dayLength: number;
   onScrub: (f: number) => void;
   /** Move the viewed day by ±1. The chevrons flanking the track. */
   onStepDay: (delta: number) => void;
@@ -760,6 +789,15 @@ function SolarTimeline({
   introActive: SharedValue<boolean>;
 }) {
   const [trackW, setTrackW] = useState(0);
+  // Where each labelled hour actually falls in the viewed day. The EU switches at
+  // 02:00/03:00 local, so by 06:00 a transition day has already gained or lost its whole
+  // hour — every tick from 06 on carries the full delta, and 00 is the day's start by
+  // definition. On an ordinary day the delta is 0 and this is plain quarters.
+  const tickFractions = useMemo(() => {
+    const dayHours = dayLength / 3_600_000;
+    const shift = dayHours - 24;
+    return HOUR_TICKS.map((h) => (h === 0 ? 0 : (h + shift) / dayHours));
+  }, [dayLength]);
   // Two disjoint shared values, by design (see also react-hooks/immutability): the
   // gesture writes ONLY `prog`/`dragging`; the reconcile effect writes ONLY `follow`.
   // `prog` is the finger position while dragging; `follow` is an eased mirror of the
@@ -864,6 +902,12 @@ function SolarTimeline({
           disabled={dayOffset <= -MAX_DAY_OFFSET}
           onPress={onStepDay}
         />
+      {/* Track and ruler share ONE column so the hours land on the axis they label. The
+          ruler used to be a sibling of this whole row, spanning the chevrons too: it came
+          out ~10% wider than the track, which put "00" under the ‹ chevron and "24" past
+          the › one — a constant stretch that read as over an hour of error at both ends
+          and zero at "12". */}
+      <View style={styles.timelineCol}>
       <GestureDetector gesture={pan}>
         <View
           style={styles.timelineHit}
@@ -914,19 +958,26 @@ function SolarTimeline({
           )}
         </View>
       </GestureDetector>
+        <View style={styles.ticks}>
+          {trackW > 0 &&
+            HOUR_TICKS.map((h, i) => (
+              <Text
+                key={h}
+                style={[styles.tick, { left: tickFractions[i] * trackW }]}
+                accessibilityElementsHidden
+                importantForAccessibility="no"
+              >
+                {String(h).padStart(2, '0')}
+              </Text>
+            ))}
+        </View>
+      </View>
         <DayChevron
           styles={styles}
           direction={1}
           disabled={dayOffset >= MAX_DAY_OFFSET}
           onPress={onStepDay}
         />
-      </View>
-      <View style={styles.ticks}>
-        {HOUR_TICKS.map((t) => (
-          <Text key={t} style={styles.tick}>
-            {t}
-          </Text>
-        ))}
       </View>
     </View>
   );
@@ -1107,7 +1158,9 @@ function makeStyles(c: Palette) {
     timelineArea: {},
     // flex: 1 so the track takes the row's whole remaining width once the two chevrons
     // are laid out — the pan's e.x / trackW maths reads THIS element's onLayout width.
-    timelineHit: { flex: 1, height: 30, justifyContent: 'flex-end', paddingBottom: 6 },
+    timelineHit: { height: 30, justifyContent: 'flex-end', paddingBottom: 6 },
+    // Track + hour ruler, stacked and sharing one width between the two day chevrons.
+    timelineCol: { flex: 1 },
     trackBase: {
       position: 'absolute',
       left: 0,
@@ -1147,10 +1200,21 @@ function makeStyles(c: Palette) {
       // is never covered when the thumb passes beneath a prayer pip.
       zIndex: 3,
     },
-    ticks: { flexDirection: 'row', justifyContent: 'space-between', marginTop: 0 },
+    // Sits inside timelineCol, so its width IS the track's. Each label is absolutely
+    // placed at its hour's fraction and centred on it, rather than evenly distributed —
+    // even spacing silently assumed 24 equal hours, which is wrong on the two DST days.
+    ticks: { height: 13, marginTop: 0 },
     // Hour-axis tick — 10px tabular, deliberately below `micro`; the smallest label in
     // the app and bespoke to the timeline.
-    tick: { fontSize: 10, color: c.inkFaint, fontVariant: ['tabular-nums'] },
+    tick: {
+      position: 'absolute',
+      width: 28,
+      marginLeft: -14,
+      textAlign: 'center',
+      fontSize: 10,
+      color: c.inkFaint,
+      fontVariant: ['tabular-nums'],
+    },
 
     handleHit: {
       position: 'absolute',

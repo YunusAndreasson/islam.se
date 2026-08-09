@@ -14,7 +14,7 @@
 // (23/24/25 h) rather than a fixed 86_400_000, so the slider stays aligned on the two
 // DST-transition days each year (otherwise the 25 h day clamps its last hour at the far
 // right and the 23 h day's "24:00" lands at 01:00 the next day).
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useEffectEvent, useMemo, useState } from 'react';
 
 import { addStockholmDays, startOfStockholmDay, stockholmDayLength } from '@/lib/stockholm-time';
 
@@ -112,20 +112,24 @@ export function useSolarClock(active = true): SolarClock {
   // of on all but one tick a day. What it buys is that parking on "i morgon" across real
   // midnight self-corrects to "i dag" instead of quietly lying. The `!active` pause — the
   // thing that actually protects the battery, by stopping the field rebuild — is untouched.
+  // React 19.2's Effect Event lets every tick read the latest mode without tearing down
+  // and recreating the native interval when the user starts or stops scrubbing.
+  const syncClock = useEffectEvent(() => {
+    const t = Date.now();
+    const today = startOfStockholmDay(t);
+    setTodayStart((prev) => (prev === today ? prev : today));
+    if (mode !== 'live') return;
+    setNow(t);
+    setDayStart((prev) => (prev === today ? prev : today));
+  });
+
   useEffect(() => {
     if (!active) return;
-    const sync = () => {
-      const t = Date.now();
-      const today = startOfStockholmDay(t);
-      setTodayStart((prev) => (prev === today ? prev : today));
-      if (mode !== 'live') return;
-      setNow(t);
-      setDayStart((prev) => (prev === today ? prev : today));
-    };
-    sync();
-    const id = setInterval(sync, LIVE_TICK_MS);
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- Effect Event reads the clock before updating state
+    syncClock();
+    const id = setInterval(syncClock, LIVE_TICK_MS);
     return () => clearInterval(id);
-  }, [mode, active]);
+  }, [active]);
 
   const setFraction = useCallback(
     (f: number) => {

@@ -45,6 +45,12 @@ describe('settings store', () => {
     expect(loaded.calculationMethod).toBe('MuslimWorldLeague');
   });
 
+  it('recovers the unconfigurable Other method to the safe default', async () => {
+    await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify({ calculationMethod: 'Other' }));
+    const loaded = await loadSettings();
+    expect(loaded.calculationMethod).toBe(DEFAULT_SETTINGS.calculationMethod);
+  });
+
   it('deep-merges a partial adjustments object', async () => {
     await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify({ adjustments: { fajr: 7 } }));
     const loaded = await loadSettings();
