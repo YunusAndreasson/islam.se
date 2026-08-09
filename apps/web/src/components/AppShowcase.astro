@@ -1,0 +1,134 @@
+---
+import { Image } from "astro:assets";
+import appKarta from "../assets/app/app-karta.png";
+import appQibla from "../assets/app/app-qibla.png";
+import appTider from "../assets/app/app-tider.png";
+import AppPromo from "./AppPromo.astro";
+
+// The app showcase on /bonetider/.
+//
+// The hub used the same text-only card the city pages get: a heading, a line and
+// two store badges. That is a download prompt, not a showcase — it asks the reader
+// to install something it never shows them, while the three real App Store captures
+// sat in the repo used by one page.
+//
+// It COMPOSES <AppPromo variant="page">: the heading, tagline, feature list, store
+// badges and the platform-narrowing script all come from there, so there is one
+// definition of each and the badges keep working exactly as they do everywhere
+// else. This component only adds the phones and the two-column arrangement.
+//
+// ⚠️ It lives in its own file rather than as an AppPromo variant, and that is a
+// budget decision, not tidiness. AppPromo renders on 2 121 pages — the hub, all
+// 2 118 city pages, /bonetider/metod/ and /app/ — and with `inlineStylesheets:
+// "always"` every byte of its scoped CSS is inlined into all of them. Carried as a
+// variant, these ~1.5 kB shipped to 2 118 pages that never render a screenshot.
+
+const SHOTS = [
+	{ src: appTider, alt: "Appens bönetidsvy med dygnets fem böner." },
+	{ src: appKarta, alt: "Karta över Sverige där solens ljus vandrar över landet." },
+	{ src: appQibla, alt: "Kompass som pekar mot Kaba." },
+];
+---
+
+<section class="app-showcase" aria-label="Bönetidsappen">
+	<div class="app-showcase-text">
+		<AppPromo variant="page" />
+	</div>
+
+	{/* No captions. Overlapped, only the middle one's would be readable, and a single
+	    label floating under the middle phone reads as a mistake. The three screens
+	    are a times list, a map and a compass — the feature list beside them names all
+	    three, and the alt text carries them for a screen reader. */}
+	<div class="app-showcase-shots">
+		{SHOTS.map((s) => (
+			<Image
+				class="app-showcase-shot"
+				src={s.src}
+				alt={s.alt}
+				widths={[180, 360, 540]}
+				sizes="(max-width: 56rem) 28vw, 11rem"
+				loading="lazy"
+			/>
+		))}
+	</div>
+</section>
+
+<style>
+	/* Two columns: the argument left at reading measure, the phones right. Not a
+	   full-bleed hero band — the app does the same job this page already does, so it
+	   sits inside the page's own rhythm rather than interrupting it. */
+	.app-showcase {
+		margin-top: var(--space-phi);
+		padding-top: var(--space-unit);
+		border-top: 1px solid var(--color-rule);
+		display: grid;
+		grid-template-columns: minmax(0, 1fr) auto;
+		column-gap: clamp(1.5rem, 4vw, 3.5rem);
+		align-items: center;
+	}
+
+	/* AppPromo's own margin-top is for standing alone on /app/; here the grid owns
+	   the spacing. :global() because the <aside> carries AppPromo's scope, not ours. */
+	.app-showcase-text :global(.apppromo--page) {
+		margin-top: 0;
+	}
+
+	/* The hub is a reference page, so the heading takes the section rank rather than
+	   the larger one the /app landing gives itself. */
+	.app-showcase-text :global(.apppromo-heading) {
+		font-size: var(--step-1-sans);
+	}
+
+	.app-showcase-shots {
+		display: flex;
+		align-items: flex-start;
+	}
+
+	/* The set reads as one object: they overlap and the middle one lifts. A static
+	   transform, not an animation — nothing here moves, so the global reduced-motion
+	   switch has nothing to take away.
+	   The overlap is 1.6rem of an 11rem phone (≈15 %), enough to bind them into a
+	   group while leaving each screen legible. At 2.25rem the outer two were mostly
+	   hidden behind the raised middle one. */
+	.app-showcase-shot {
+		display: block;
+		width: 11rem;
+		height: auto;
+		border-radius: 1.4rem;
+		/* The captures are a dark UI; on the dark ground they would read as empty
+		   slots without an edge of their own. Same treatment the /app page uses. */
+		border: 1px solid light-dark(var(--color-divider), var(--color-warm));
+		box-shadow: 0 1.25rem 2.5rem -1rem rgb(var(--hero-black) / 0.45);
+		background: var(--color-bg);
+	}
+
+	.app-showcase-shot:not(:first-child) {
+		margin-left: -1.6rem;
+	}
+
+	.app-showcase-shot:nth-child(2) {
+		transform: translateY(-1.25rem);
+		z-index: 1;
+	}
+
+	/* Below this the two columns would each be too narrow to do their job: the
+	   phones stack under the text, still overlapped, still one object. */
+	@media (width <= 56rem) {
+		.app-showcase {
+			grid-template-columns: 1fr;
+		}
+
+		.app-showcase-shots {
+			justify-content: center;
+			margin-top: var(--space-unit);
+		}
+
+		.app-showcase-shot {
+			width: min(11rem, 28vw);
+		}
+
+		.app-showcase-shot:not(:first-child) {
+			margin-left: min(-1.6rem, -4vw);
+		}
+	}
+</style>

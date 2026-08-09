@@ -7,11 +7,15 @@
 import { APP_FEATURES, APP_STORE_URL, APP_TAGLINE, PLAY_STORE_URL } from "../lib/app";
 
 interface Props {
-	/** section = full card (prayer pages); compact = one-line (teaser/metod); page = /app landing. */
+	/** section = full card (city pages); compact = one-line (metod); page = /app
+	 *  landing. The /bonetider hub uses <AppShowcase> instead. */
 	variant?: "section" | "compact" | "page";
 }
 const { variant = "section" } = Astro.props;
 const showHeading = variant !== "compact";
+// Features earn their place where there is room to read them: the /app landing.
+const showFeatures = variant === "page";
+
 ---
 
 <aside class:list={["apppromo", `apppromo--${variant}`]} data-platform="other" aria-label="Ladda ned islam.se-appen">
@@ -24,7 +28,7 @@ const showHeading = variant !== "compact";
 			) : (
 				<p class="apppromo-lead">{APP_TAGLINE}</p>
 			)}
-			{variant === "page" && (
+			{showFeatures && (
 				<ul class="apppromo-features">
 					{APP_FEATURES.map((f) => (
 						<li>

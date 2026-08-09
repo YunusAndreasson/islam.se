@@ -1,6 +1,6 @@
 ---
 import { Settings } from "@lucide/astro";
-import AppPromo from "../../components/AppPromo.astro";
+import AppShowcase from "../../components/AppShowcase.astro";
 import AnnualPrayerChart from "../../components/bonetider/AnnualPrayerChart.astro";
 import DaylightLatitude from "../../components/bonetider/DaylightLatitude.astro";
 import OmBonen from "../../components/bonetider/OmBonen.astro";
@@ -146,7 +146,11 @@ const description = `Bönetider ${year} för din ort – dagens Fajr, Ẓuhr, ʿ
 			</details>
 		</div>
 
-		<AppPromo variant="section" />
+		{/* The hub gets the full showcase — screenshots, the feature list and the
+		    badges. This is the page where prayer-time intent is highest and where the
+		    app does the same job the page does, so it is the one place worth showing
+		    the thing rather than describing it. City pages keep the compact card. */}
+		<AppShowcase />
 
 		<TitledSection class="bh2-section" id="bh2-biggest" title="Bönetider i Sveriges största orter">
 			<p class="lead bh2-lead">
