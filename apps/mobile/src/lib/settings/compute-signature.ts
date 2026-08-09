@@ -31,7 +31,14 @@ export function notificationSignature(s: PrayerSettings): string {
   return JSON.stringify([COMPUTE_KEYS.map((k) => s[k]), s.notifications]);
 }
 
-/** Settings that can change the widget's prayer timeline or displayed Hijri date. */
+/**
+ * Settings that can change anything the widget RENDERS — its timeline, its Hijri date
+ * or its palette. `theme` is load-bearing here even though it changes no time: it is
+ * copied into every WidgetPayload (see ../../widget/payload.ts), and the widget honours
+ * an explicit light/dark lock instead of WidgetKit's colour scheme. Leaving it out meant
+ * switching Utseende re-themed the app instantly while the home-screen widget kept the
+ * old palette until the next foreground — a visible mismatch on the same screen.
+ */
 export function widgetSignature(s: PrayerSettings): string {
-  return JSON.stringify([COMPUTE_KEYS.map((k) => s[k]), s.hijriOffset]);
+  return JSON.stringify([COMPUTE_KEYS.map((k) => s[k]), s.hijriOffset, s.theme]);
 }

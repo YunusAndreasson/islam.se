@@ -1,9 +1,11 @@
 import { describe, expect, it } from '@jest/globals';
 
+import { formatGregorian } from '@/lib/hijri';
 import { type LatLng, PRAYER_LABELS } from '@/lib/prayer-times';
 import { DEFAULT_SETTINGS, type PrayerSettings } from '@/lib/settings/types';
+import { startOfStockholmDay } from '@/lib/stockholm-time';
 import { oracleTimes } from '@/test-utils/prayer-oracle';
-import { buildTimeline, MAX_ENTRIES, SPAN_MS } from './timeline';
+import { buildTimeline, MAX_ENTRIES, SPAN_DAYS, SPAN_MS } from './timeline';
 
 const STOCKHOLM: LatLng = { latitude: 59.3293, longitude: 18.0686 };
 const KIRUNA: LatLng = { latitude: 67.8558, longitude: 20.2253 };
@@ -20,7 +22,7 @@ describe('buildTimeline', () => {
   const now = ref.fajr.getTime() - 60 * 60 * 1000;
   const entries = buildTimeline(STOCKHOLM, settings(), 'Stockholm', now);
 
-  it('starts at now and is sorted ascending within the 36 h window', () => {
+  it('starts at now and is sorted ascending within the span', () => {
     expect(entries.length).toBeGreaterThanOrEqual(2);
     expect(entries.length).toBeLessThanOrEqual(MAX_ENTRIES);
     expect(entries[0].date.getTime()).toBe(now);
@@ -48,6 +50,45 @@ describe('buildTimeline', () => {
     expect(atIsha).toBeDefined();
     expect(atIsha?.props.nextIsTomorrow).toBe(true);
     expect(atIsha?.props.nextArabic).toBe(PRAYER_LABELS.fajr);
+  });
+
+  it('rebuilds the payload at every midnight, not just at prayers', () => {
+    // THE BUG THIS PINS: the only entry covering 00:00 → Fajr used to be the one built
+    // just after YESTERDAY's Isha, and a WidgetKit entry is frozen data. So for the
+    // three-odd hours after midnight the medium widget listed yesterday's schedule
+    // under yesterday's Gregorian/Hijri footer, and the hero still said "I MORGON"
+    // about a Fajr that had become today's.
+    const midnight = startOfStockholmDay(now) + 24 * 60 * 60 * 1000;
+    const entry = entries.find((e) => e.date.getTime() > midnight && e.date.getTime() < midnight + 60_000);
+    expect(entry).toBeDefined();
+    // Its date line is the NEW day, and Fajr is today's — not tomorrow's.
+    expect(entry?.props.gregorian).toBe(formatGregorian(new Date(entry!.date.getTime())));
+    expect(entry?.props.nextIsTomorrow).toBe(false);
+    expect(entry?.props.nextArabic).toBe(PRAYER_LABELS.fajr);
+    // And the schedule column is the new day's: its Fajr row matches the hero.
+    expect(entry?.props.rows.find((r) => r.key === 'fajr')?.time).toBe(entry?.props.nextTime);
+  });
+
+  it('covers the full span so an unopened app cannot strand a stale widget', () => {
+    // expo-widgets' provider uses .atEnd: past the last entry WidgetKit asks for a new
+    // timeline and gets the same stored one back, because only the app can produce a
+    // fresh one. A short horizon therefore froze the widget on an already-passed prayer
+    // after a day and a half away. Assert the last entry really reaches near the span.
+    const last = entries[entries.length - 1].date.getTime();
+    expect(SPAN_DAYS).toBeGreaterThanOrEqual(3);
+    expect(last).toBeGreaterThan(now + SPAN_MS - 24 * 60 * 60 * 1000);
+    // Every day in the span contributes its midnight + prayers, and it still fits.
+    expect(entries.length).toBeGreaterThanOrEqual(SPAN_DAYS * 6);
+    expect(entries.length).toBeLessThanOrEqual(MAX_ENTRIES);
+  });
+
+  it('stays small enough for the shared store the extension parses', () => {
+    // The whole timeline is written to the app group's UserDefaults and re-read by the
+    // WidgetKit extension, which runs under a hard ~30 MB memory limit and parses this
+    // on every render. Five days of entries measures ~32 KB, so this ceiling is three
+    // orders of magnitude of headroom — it exists to catch a payload that grows a
+    // per-entry field (a mosque list, a forecast) without anyone noticing the multiplier.
+    expect(JSON.stringify(entries).length).toBeLessThan(256 * 1024);
   });
 
   it('is deterministic for a fixed (coords, settings, label, now)', () => {

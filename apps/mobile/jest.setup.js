@@ -328,6 +328,11 @@ jest.mock('expo-notifications', () => ({
   scheduleNotificationAsync: jest.fn(async () => 'id'),
   cancelAllScheduledNotificationsAsync: jest.fn(async () => {}),
   cancelScheduledNotificationAsync: jest.fn(async () => {}),
+  // The scheduler sweeps the OS's pending list for its own tagged alerts, so a lost
+  // id list can't leave orphans that double every prayer. Default: nothing pending.
+  getAllScheduledNotificationsAsync: jest.fn(async () => []),
+  // Notification taps are routed to Bönetider (src/lib/notification-routing).
+  addNotificationResponseReceivedListener: jest.fn(() => ({ remove: jest.fn() })),
   SchedulableTriggerInputTypes: { DATE: 'date' },
   AndroidImportance: { HIGH: 4, DEFAULT: 3 },
   // Mirrors expo-notifications' real enum values. src/lib/notifications treats

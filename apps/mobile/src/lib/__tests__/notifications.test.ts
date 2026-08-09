@@ -9,6 +9,7 @@ import {
   alertsPerDay,
   AVAILABLE_SOUNDS,
   channelIdFor,
+  foregroundPresentation,
   getNotificationPermissionState,
   horizonDays,
   MAX_DAYS_AHEAD,
@@ -39,6 +40,10 @@ const cancelMock = Notifications.cancelAllScheduledNotificationsAsync as unknown
 const cancelScheduledMock = Notifications.cancelScheduledNotificationAsync as unknown as {
   mock: { calls: [string][] };
 };
+const getAllScheduledMock =
+  Notifications.getAllScheduledNotificationsAsync as unknown as jest.MockedFunction<
+    typeof Notifications.getAllScheduledNotificationsAsync
+  >;
 const requestPermissionsMock =
   Notifications.requestPermissionsAsync as unknown as jest.MockedFunction<
     typeof Notifications.requestPermissionsAsync
@@ -104,6 +109,9 @@ describe('syncPrayerNotifications lead time', () => {
     scheduleMock.mockClear();
     jest.clearAllMocks();
     scheduleMock.mockImplementation(async () => 'id');
+    // clearAllMocks keeps implementations, so a test that stubs the OS's pending list
+    // would otherwise leak its orphans into every test after it.
+    getAllScheduledMock.mockImplementation(async () => []);
     resetSyncStateForTests();
     await AsyncStorage.clear();
   });
@@ -119,13 +127,16 @@ describe('syncPrayerNotifications lead time', () => {
     expect(atPrayerTime.length).toBeGreaterThan(0);
     expect(withLead.length).toBeGreaterThan(0);
 
-    // The contract: a heads-up offset shifts the FIRE time exactly 15 min earlier —
-    // it must not recompute or drop prayers. The furthest-future alert (last in each
-    // sorted list = the final day's Isha) is immune to the "too soon to be useful"
-    // skip near `now`, so its offset is the clean invariant to assert.
-    const last0 = atPrayerTime[atPrayerTime.length - 1];
-    const last15 = withLead[withLead.length - 1];
-    expect(last0 - last15).toBe(15 * 60_000);
+    // The contract: every heads-up fire time maps to a prayer-time fire exactly
+    // 15 minutes later. Match the sets rather than their first/last elements: in
+    // northern summer Isha can cross midnight and change chronological ordering,
+    // while a near-now lead alert may legitimately be skipped.
+    const atPrayerSet = new Set(atPrayerTime);
+    const matched = withLead.filter((fireAt) => atPrayerSet.has(fireAt + 15 * 60_000));
+    // The pending-notification budget can also cut the final day at a different
+    // prayer when the near-now skip changes the number of available slots. Thus at
+    // most the two horizon edges are unmatched; every interior alert must shift.
+    expect(matched.length).toBeGreaterThanOrEqual(Math.min(atPrayerTime.length, withLead.length) - 2);
 
     // Same prayers scheduled either way — at most one boundary case can differ when
     // shifting earlier brings a near-now prayer below the skip threshold.
@@ -180,6 +191,39 @@ describe('syncPrayerNotifications lead time', () => {
     expect(cancelScheduledMock.mock.calls).toHaveLength(scheduledCount);
     expect(cancelScheduledMock.mock.calls[0][0]).toBe('prayer-1');
     expect(scheduleMock.mock.calls).toHaveLength(0);
+  });
+
+  it('sweeps up its own orphans when the persisted id list is gone', async () => {
+    // THE BUG THIS PREVENTS: the id list is only a cache. A failed AsyncStorage write,
+    // a crash between scheduling and persisting, or the user clearing app storage
+    // leaves the OS holding alerts the app has forgotten. The next sync then scheduled
+    // a SECOND full set on top — every prayer alerting twice — and on iOS, which keeps
+    // only the 64 soonest pending requests, the orphans silently pushed genuine later
+    // alerts off the end. So the OS's pending list is swept for our own tag too.
+    getAllScheduledMock.mockImplementation(async () => [
+      { identifier: 'orphan-1', content: { data: { source: 'prayer-times' } } },
+      { identifier: 'orphan-2', content: { data: { key: 'asr', source: 'prayer-times' } } },
+      // Something else entirely — must survive. The tag is what bounds the sweep.
+      { identifier: 'not-ours', content: { data: { source: 'something-else' } } },
+      // Malformed / dataless entries must not throw the sweep.
+      { identifier: 'bare', content: {} },
+    ] as unknown as Notifications.NotificationRequest[]);
+
+    await syncPrayerNotifications(STOCKHOLM, withUniformLead(0));
+
+    const cancelled = cancelScheduledMock.mock.calls.map(([id]) => id);
+    expect(cancelled).toContain('orphan-1');
+    expect(cancelled).toContain('orphan-2');
+    expect(cancelled).not.toContain('not-ours');
+    expect(cancelled).not.toContain('bare');
+  });
+
+  it('tags every scheduled alert so a later sync can find it without storage', async () => {
+    await syncPrayerNotifications(STOCKHOLM, withUniformLead(0));
+    expect(scheduleMock.mock.calls.length).toBeGreaterThan(0);
+    for (const [request] of scheduleMock.mock.calls) {
+      expect((request.content as { data?: { source?: string } }).data?.source).toBe('prayer-times');
+    }
   });
 
   it('does not let an older enabled sync schedule after a newer disabled sync wins', async () => {
@@ -259,6 +303,9 @@ describe('notification permission', () => {
     scheduleMock.mockClear();
     jest.clearAllMocks();
     scheduleMock.mockImplementation(async () => 'id');
+    // clearAllMocks keeps implementations, so a test that stubs the OS's pending list
+    // would otherwise leak its orphans into every test after it.
+    getAllScheduledMock.mockImplementation(async () => []);
     resetSyncStateForTests();
     await AsyncStorage.clear();
   });
@@ -437,6 +484,9 @@ describe('notification horizon', () => {
     scheduleMock.mockClear();
     jest.clearAllMocks();
     scheduleMock.mockImplementation(async () => 'id');
+    // clearAllMocks keeps implementations, so a test that stubs the OS's pending list
+    // would otherwise leak its orphans into every test after it.
+    getAllScheduledMock.mockImplementation(async () => []);
     resetSyncStateForTests();
     await AsyncStorage.clear();
   });
@@ -543,6 +593,9 @@ describe('notification sounds', () => {
     scheduleMock.mockClear();
     jest.clearAllMocks();
     scheduleMock.mockImplementation(async () => 'id');
+    // clearAllMocks keeps implementations, so a test that stubs the OS's pending list
+    // would otherwise leak its orphans into every test after it.
+    getAllScheduledMock.mockImplementation(async () => []);
     resetSyncStateForTests();
     await AsyncStorage.clear();
   });
@@ -619,6 +672,29 @@ describe('notification sounds', () => {
     });
   });
 
+  it('mutes a silent alert in the foreground on iOS, but defers to the channel on Android', async () => {
+    // Two platforms, two meanings for one flag. On iOS the returned behaviour IS the
+    // foreground presentation, so silence has to be decided here. On Android the channel
+    // already carries the sound — and expo maps shouldPlaySound:false onto
+    // NotificationCompat.setSilent(true), which suppresses the HEADS-UP BANNER too. A
+    // "Tyst" prayer alert therefore used to slip into the shade unseen while the user was
+    // looking at the app. If this test fails, that silent-means-invisible bug is back.
+    await withPlatform('ios', async () => {
+      expect(foregroundPresentation(true).shouldPlaySound).toBe(false);
+      expect(foregroundPresentation(false).shouldPlaySound).toBe(true);
+    });
+    await withPlatform('android', async () => {
+      expect(foregroundPresentation(true).shouldPlaySound).toBe(true);
+      expect(foregroundPresentation(false).shouldPlaySound).toBe(true);
+    });
+    // Either way the alert is shown — that is the whole point of handling it.
+    expect(foregroundPresentation(true).shouldShowBanner).toBe(true);
+    expect(foregroundPresentation(true).shouldShowList).toBe(true);
+    // Nothing in the app writes a badge count, and permission is never requested for
+    // one, so claiming a badge here would be claiming a capability we don't have.
+    expect(foregroundPresentation(true).shouldSetBadge).toBe(false);
+  });
+
   // Ships-without-a-file is the whole design: the plumbing exists, the audio does not.
   it('falls back to the system sound when no adhan file is bundled', async () => {
     await withPlatform('android', async () => {
@@ -645,6 +721,9 @@ describe('Fajr-window alert', () => {
     scheduleMock.mockClear();
     jest.clearAllMocks();
     scheduleMock.mockImplementation(async () => 'id');
+    // clearAllMocks keeps implementations, so a test that stubs the OS's pending list
+    // would otherwise leak its orphans into every test after it.
+    getAllScheduledMock.mockImplementation(async () => []);
     resetSyncStateForTests();
     await AsyncStorage.clear();
   });
