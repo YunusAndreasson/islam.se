@@ -98,11 +98,23 @@ export const lightPalette = {
   onAccent: '#ffffff', //     text/icon on an indigo fill
   onHighlight: '#1a1712', //  text/icon on a brass fill
 
-  // Slider / track + the scrubber knob and the dock's grab handle.
+  // Slider / track, the switch knob and the dock's grab handle.
   track: 'rgba(26,23,18,0.14)',
-  trackFill: 'rgba(51,67,122,0.40)',
-  thumb: '#fffdf8', //        scrubber knob (warm white)
+  thumb: '#fffdf8', //        switch knob (warm white)
   handle: 'rgba(26,23,18,0.20)', // dock grab handle
+
+  // The day scrubber IS the mark: a gold disc inside a blue ring, sliding along a
+  // blue trail. This is the one place in the chrome that draws the logo rather than
+  // referencing it, which is why it reaches for `brand` (see that export's note) —
+  // the elapsed trail is brand blue's channels, and the knob is the mark itself.
+  //
+  // Brand gold is 1.75:1 on this light ground and could never carry text, but a knob
+  // is not text: the 2 px `scrubberRing` at 7.2:1 is what draws its boundary, and
+  // WCAG non-text contrast is satisfied by that boundary, not by the fill. Keep the
+  // ring if the fill is ever changed.
+  trackFill: 'rgba(42,85,127,0.40)', // brand.blue.light channels — keep in step
+  scrubberKnob: brand.gold.light,
+  scrubberRing: brand.blue.light,
 
   // Glass fallback (Android / iOS < 26, where expo-glass-effect is a plain View)
   glass: 'rgba(255,253,248,0.85)',
@@ -196,9 +208,17 @@ export const darkPalette: Palette = {
   onHighlight: '#161a26',
 
   track: 'rgba(225,232,255,0.16)',
-  trackFill: 'rgba(173,188,248,0.45)', // accent's channels — keep in step with it
   thumb: '#e8e3d8',
   handle: 'rgba(225,232,255,0.32)',
+
+  // Scrubber = the mark, dark cut. Both halves take the DARK brand pair for the same
+  // reason the pair exists: #2a557f collapses to 2.1:1 on this ground. The alpha is
+  // 0.60 rather than light mode's 0.40 because brand blue on navy is a far quieter
+  // trail than the periwinkle this replaced — 0.60 restores its old visual weight
+  // without letting the trail outshout the prayer pips riding on it.
+  trackFill: 'rgba(75,115,157,0.60)', // brand.blue.dark channels — keep in step
+  scrubberKnob: brand.gold.dark,
+  scrubberRing: brand.blue.dark,
 
   glass: 'rgba(29,34,51,0.85)',
   glassRim: 'rgba(225,232,255,0.14)',

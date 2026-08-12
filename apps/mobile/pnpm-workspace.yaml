@@ -21,6 +21,58 @@ allowBuilds:
   # Rust-based module resolver used by lint tooling; native binary is preferred.
   unrs-resolver: true
 
+  # --- @swmansion/argent's native deps (added 2026-08-10 with `argent init --local`).
+  # init writes these as the literal string "set this to true or false", which makes
+  # `pnpm install` fail with ERR_PNPM_IGNORED_BUILDS until each one is decided — so they
+  # are decided here rather than left for the next person to hit.
+  #
+  # tree-sitter and its two grammars are REQUIRED dependencies of argent (its code
+  # analysis parses JS/TS), so they build.
+  tree-sitter: true
+  tree-sitter-javascript: true
+  tree-sitter-typescript: true
+  # Optional dependency of argent — the PTY it shells commands through. Allowed so the
+  # local copy has the same capabilities as a global install.
+  node-pty: true
+  # WebTransport-over-HTTP/3, which builds Cloudflare's quiche from source (Rust + C++)
+  # — minutes of compile on every fresh install, on every machine. Denied: it is the
+  # HTTP/3 transport for a WebTransport stack that simulator/emulator control never
+  # takes, and the package resolves to its JS path without the native addon. Same
+  # trade as msgpackr-extract above. If an argent feature ever reports a missing
+  # webtransport binding, this is the line to flip.
+  '@fails-components/webtransport-transport-http3-quiche': false
+
+minimumReleaseAgeExclude:
+  # Deliberately bypasses pnpm's 24 h supply-chain delay for ONE version. 0.20.0 was
+  # published 2026-08-10T17:46Z, so the delay would have pinned this project at 0.19.0
+  # until the following evening while the machine's global argent — which the MCP server
+  # ran from, and which npm installed with no delay at all — was already on 0.20.0. A
+  # tool that reports one version and runs another is worse than the few hours saved.
+  # Drop this line once 0.20.0 is a day old; it does nothing after that.
+  - '@swmansion/argent@0.20.0'
+  - '@expo/cli@57.0.14'
+  - '@expo/fingerprint@0.20.7'
+  - '@expo/inline-modules@0.1.5'
+  - '@expo/local-build-cache-provider@57.0.6'
+  - '@expo/metro-config@57.0.8'
+  - '@expo/prebuild-config@57.0.11'
+  - expo-asset@57.0.10
+  - expo-constants@57.0.10
+  - expo-server@57.0.2
+  - expo@57.0.12
+  - '@expo/metro-runtime@57.0.9'
+  - '@expo/ui@57.0.10'
+  - expo-dev-client@57.0.11
+  - expo-dev-launcher@57.0.11
+  - expo-dev-menu@57.0.11
+  - expo-location@57.0.9
+  - expo-notifications@57.0.10
+  - expo-router@57.0.12
+  - expo-splash-screen@57.0.6
+  - expo-updates@57.0.13
+  - expo-widgets@57.0.9
+  - jest-expo@57.0.4
+
 # React Native / Expo autolinking and Metro do not cope with pnpm's default
 # symlinked, isolated node_modules. Hoisted layout is the supported setup.
 nodeLinker: hoisted

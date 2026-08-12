@@ -9,6 +9,7 @@ import { fireEvent, render, screen, waitFor } from '@testing-library/react-nativ
 import { type AlertButton, Alert, Pressable, Text } from 'react-native';
 
 import Installningar from '@/app/(settings)/installningar';
+import { IntroProvider } from '@/lib/intro-context';
 import { LocationProvider } from '@/lib/location/context';
 import { SettingsProvider, useSettings } from '@/lib/settings/context';
 import { DEFAULT_SETTINGS, type PrayerSettings } from '@/lib/settings/types';
@@ -89,8 +90,10 @@ describe('settings reset() — restores every field to the app defaults', () => 
   it('clears a fully-mutated settings object back to DEFAULT_SETTINGS', async () => {
     render(
       <SettingsProvider>
+      <IntroProvider>
         <Probe />
-      </SettingsProvider>,
+      </IntroProvider>
+    </SettingsProvider>,
     );
     await waitFor(() => expect(screen.getByTestId('dump')).toBeTruthy());
 
@@ -122,11 +125,13 @@ describe('Inställningar — the "Återställ appens standard" button', () => {
   it('confirms, then resets the live settings to defaults', async () => {
     render(
       <SettingsProvider>
+      <IntroProvider>
         <LocationProvider>
           <Installningar />
           <Probe />
         </LocationProvider>
-      </SettingsProvider>,
+      </IntroProvider>
+    </SettingsProvider>,
     );
     await waitFor(() => expect(screen.getByText('Inställningar')).toBeTruthy());
 

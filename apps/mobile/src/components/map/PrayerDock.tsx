@@ -63,6 +63,16 @@ const DAY_MS = 86_400_000;
  *  viewed day (see tickFractions) rather than spaced evenly, so the ruler agrees with the
  *  prayer marks and thumb — which have always been placed off the REAL 23/24/25 h day. */
 const HOUR_TICKS = [0, 6, 12, 18, 24];
+/** Height of the band the track/thumb live in. The day chevrons take the SAME height so
+ *  the row centres them on the track's centre line rather than on the whole column
+ *  (track band + hour ruler) — that 13 px ruler underneath is what used to push both
+ *  chevrons ~6 px below the line they flank. Track geometry is anchored to this band's
+ *  BOTTOM (see trackBase/thumb), so changing it moves the band, not the line inside it. */
+const TRACK_BAND_H = 30;
+/** Height of the hour ruler under the track. Non-interactive labels — the pan target
+ *  deliberately spans it (band + ruler ≈ 43 px) so the scrubber clears the 44 dp touch
+ *  minimum without adding a pixel to the dock. See the GestureDetector below. */
+const RULER_H = 13;
 // The app's one canonical snap spring (tokens.motion.spring), aliased locally so the
 // worklet call sites stay terse.
 const SPRING = motion.spring;
@@ -120,12 +130,7 @@ interface Props {
    *  correct. See bonetider's locationIsFallback. */
   locationIsFallback?: boolean;
   settings: PrayerSettings;
-  /** While the daybreak intro plays, the slider thumb/fill track this UI-thread fraction
-   *  (bonetider's nowFraction) instead of the clock, so they glide 00→now with the wash.
-   *  `introActive` is the worklet gate. Both are absent for non-map callers. */
-  introFraction?: SharedValue<number>;
-  introActive?: SharedValue<boolean>;
-  /** Drives the post-intro schedule reveal: flip it true to spring the dock open (the
+  /** Drives the launch schedule reveal: flip it true to spring the dock open (the
    *  rows stagger in off `progress` exactly as they do for a drag), false to spring it
    *  shut. The host owns the timing — see bonetider's reveal sequence. A user gesture
    *  taken mid-reveal simply overwrites `height`, so the finger always wins. */
@@ -165,16 +170,10 @@ export function PrayerDock({
   locationLabel,
   locationIsFallback = false,
   settings,
-  introFraction,
-  introActive,
   revealSchedule = false,
   onExpandedChange,
 }: Props) {
   const insets = useSafeAreaInsets();
-  // Fallbacks so the timeline always receives concrete shared values (non-map callers, or
-  // before the intro props are wired). Defaults read as "no intro": inactive, fraction 0.
-  const fallbackIntroFraction = useSharedValue(0);
-  const fallbackIntroActive = useSharedValue(false);
   // The dock is chrome, so it follows the OS theme: light glass over the parchment
   // basemap (light OS), dark glass over the navy basemap (dark OS) — see Apple
   // Maps. The wash and prayer-line colours are still sun-driven (they're map
@@ -242,7 +241,7 @@ export function PrayerDock({
     scheduleOnRN(applyExpanded, open);
   });
 
-  // The post-intro schedule reveal: the host flips `revealSchedule` and the dock springs
+  // The launch schedule reveal: the host flips `revealSchedule` and the dock springs
   // to match, so the day's times stagger in off the SAME `progress` a drag drives — no
   // second animation to keep in sync with the first. Deliberately silent: hapticLight is
   // for a control snapping under the user's own finger (see lib/haptics), and this opens
@@ -617,8 +616,6 @@ export function PrayerDock({
             onStepDay={clock.stepDay}
             dayOffset={clock.dayOffset}
             scheme={scheme}
-            introFraction={introFraction ?? fallbackIntroFraction}
-            introActive={introActive ?? fallbackIntroActive}
           />
         </View>
 
@@ -771,8 +768,6 @@ function SolarTimeline({
   onStepDay,
   dayOffset,
   scheme,
-  introFraction,
-  introActive,
 }: {
   styles: DockStyles;
   fraction: number;
@@ -785,8 +780,6 @@ function SolarTimeline({
   /** Which day is on screen, so the chevrons can dim at the rails. */
   dayOffset: number;
   scheme: ColorSchemeName;
-  introFraction: SharedValue<number>;
-  introActive: SharedValue<boolean>;
 }) {
   const [trackW, setTrackW] = useState(0);
   // Where each labelled hour actually falls in the viewed day. The EU switches at
@@ -865,15 +858,12 @@ function SolarTimeline({
   // mirror (`follow`). Both are shared values, so neither is hostage to JS-thread lag
   // the way reading `fraction` here was. trackW is captured at render, so the thumb
   // repositions when the track lays out.
-  // While the daybreak intro plays the thumb/fill track the intro sweep (UI-thread), so
-  // they glide 00→now with the wash; otherwise dragging → the finger (`prog`), idle → the
-  // eased clock mirror (`follow`).
   const fillStyle = useAnimatedStyle(() => {
-    const f = introActive.value ? introFraction.value : dragging.value ? prog.value : follow.value;
+    const f = dragging.value ? prog.value : follow.value;
     return { width: f * trackW };
   });
   const thumbStyle = useAnimatedStyle(() => {
-    const f = introActive.value ? introFraction.value : dragging.value ? prog.value : follow.value;
+    const f = dragging.value ? prog.value : follow.value;
     return {
       left: f * trackW - 9,
       transform: [{ scale: withSpring(dragging.value ? 1.16 : 1, SPRING) }],
@@ -907,15 +897,22 @@ function SolarTimeline({
           out ~10% wider than the track, which put "00" under the ‹ chevron and "24" past
           the › one — a constant stretch that read as over an hour of error at both ends
           and zero at "12". */}
-      <View style={styles.timelineCol}>
+      {/* The pan target is the WHOLE column — track band AND hour ruler — not just the
+          band. The band alone is 30 px tall, well under the 44 dp minimum, and the dock
+          has no spare height to grow into (raising DOCK_COLLAPSED_BASE zooms the map's
+          initial framing out). The ruler beneath it is 13 px of non-interactive labels
+          sitting exactly where a finger reaching for the knob tends to land low, so
+          handing those pixels to the gesture buys ≈43 px for free. `e.x / trackW` is
+          unchanged: this view has the same left edge and width as the band it replaces. */}
       <GestureDetector gesture={pan}>
         <View
-          style={styles.timelineHit}
+          style={styles.timelineCol}
           onLayout={(e) => setTrackW(e.nativeEvent.layout.width)}
           accessibilityRole="adjustable"
           accessibilityLabel="Dagens tidslinje"
           accessibilityHint="Dra för att resa genom dygnet och se bönetiderna."
         >
+        <View style={styles.trackBand}>
           <View style={styles.trackBase} />
           {/* Plain-style `width` first so the freshly-mounted fill already spans to the
               live position; the animated style (which can apply a frame late on mount)
@@ -957,8 +954,7 @@ function SolarTimeline({
             />
           )}
         </View>
-      </GestureDetector>
-        <View style={styles.ticks}>
+        <View style={styles.ticks} pointerEvents="none">
           {trackW > 0 &&
             HOUR_TICKS.map((h, i) => (
               <Text
@@ -971,7 +967,8 @@ function SolarTimeline({
               </Text>
             ))}
         </View>
-      </View>
+        </View>
+      </GestureDetector>
         <DayChevron
           styles={styles}
           direction={1}
@@ -1007,9 +1004,11 @@ function DayChevron({
         onPress(direction);
       }}
       disabled={disabled}
-      // The glyph box is only 22 px; hitSlop lifts the target past 44 without adding
-      // width to the row, which would come straight out of the scrubber track.
-      hitSlop={{ top: 12, bottom: 12, left: 8, right: 8 }}
+      // The glyph box is 22 × TRACK_BAND_H (30); hitSlop lifts the target to 44 × 54
+      // without adding a pixel to the row, which would come straight out of the
+      // scrubber track. Left/right are 11 for exactly 44 — 8 left it at 38, under the
+      // minimum, on the two controls sitting closest to the screen edges.
+      hitSlop={{ top: 12, bottom: 12, left: 11, right: 11 }}
       accessibilityRole="button"
       accessibilityLabel={forward ? 'Nästa dag' : 'Föregående dag'}
       accessibilityState={{ disabled }}
@@ -1131,8 +1130,18 @@ function makeStyles(c: Palette) {
     subDay: { ...type.caption, color: c.inkMuted, flexShrink: 0 },
     // The stepper row: chevron | track (flex) | chevron. The track keeps `flex: 1` so it
     // absorbs whatever the two glyphs leave, on every screen width.
-    timelineRow: { flexDirection: 'row', alignItems: 'center' },
-    dayStep: { alignItems: 'center', justifyContent: 'center', width: 22 },
+    //
+    // THE BUG THIS FIXES: the two chevrons sat visibly below the line they flank. The row
+    // centred them on the whole column — track band (30) + hour ruler (13) = 43, so their
+    // centre landed at y≈21.5 while the track's is at y=15. Six px of droop, on the one
+    // row where three controls are meant to read as a single instrument.
+    //
+    // Fixed by anchoring both chevrons to the TOP of the column and giving them exactly
+    // the band's height, so `justifyContent: center` inside each one puts its glyph on
+    // the band's centre — which is where the track and thumb are centred too. The two
+    // heights must stay equal; that is why they are one constant.
+    timelineRow: { flexDirection: 'row', alignItems: 'flex-start' },
+    dayStep: { alignItems: 'center', justifyContent: 'center', width: 22, height: TRACK_BAND_H },
     dayStepOff: { opacity: 0.3 },
     // The no-location offer that replaces the place name. Accent (the app's "verbs are
     // accent" rule) and semibold, so it reads as the one thing to tap on this line —
@@ -1156,10 +1165,14 @@ function makeStyles(c: Palette) {
     previewBadgeText: { fontSize: 12, fontWeight: '700', color: c.accent },
 
     timelineArea: {},
-    // flex: 1 so the track takes the row's whole remaining width once the two chevrons
-    // are laid out — the pan's e.x / trackW maths reads THIS element's onLayout width.
-    timelineHit: { height: 30, justifyContent: 'flex-end', paddingBottom: 6 },
+    // The band the track/thumb/pips are drawn in. Every child is absolutely positioned
+    // against its BOTTOM edge, so the band's height sets where the line sits in the row
+    // and nothing inside it needs to change when that height does.
+    trackBand: { height: TRACK_BAND_H },
     // Track + hour ruler, stacked and sharing one width between the two day chevrons.
+    // flex: 1 so it takes the row's whole remaining width once the two chevrons are laid
+    // out — the pan's e.x / trackW maths reads THIS element's onLayout width, and the
+    // gesture covers it end to end (band + ruler) for a 44-dp-class drag target.
     timelineCol: { flex: 1 },
     trackBase: {
       position: 'absolute',
@@ -1186,14 +1199,17 @@ function makeStyles(c: Palette) {
     // dots draw at full opacity, future ones soften.
     mark: { width: 7, height: 7, borderRadius: 4, bottom: 11, opacity: 0.7 },
     markPast: { opacity: 1 },
+    // The knob is the app mark in miniature: brand gold inside a brand blue ring (see
+    // the scrubber block in theme/tokens.ts, which also explains why the RING is what
+    // carries this control's contrast).
     thumb: {
       position: 'absolute',
       width: 18,
       height: 18,
       borderRadius: 9,
       bottom: 6,
-      backgroundColor: c.thumb,
-      borderColor: c.accent,
+      backgroundColor: c.scrubberKnob,
+      borderColor: c.scrubberRing,
       borderWidth: 2,
       ...shadow.thumb,
       // Always the topmost layer — above the brass next-pip's zIndex — so "you are here"
@@ -1203,7 +1219,7 @@ function makeStyles(c: Palette) {
     // Sits inside timelineCol, so its width IS the track's. Each label is absolutely
     // placed at its hour's fraction and centred on it, rather than evenly distributed —
     // even spacing silently assumed 24 equal hours, which is wrong on the two DST days.
-    ticks: { height: 13, marginTop: 0 },
+    ticks: { height: RULER_H, marginTop: 0 },
     // Hour-axis tick — 10px tabular, deliberately below `micro`; the smallest label in
     // the app and bespoke to the timeline.
     tick: {

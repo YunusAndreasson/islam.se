@@ -15,6 +15,7 @@ module.exports = {
   // conscious decision to hold it to this bar.
   collectCoverageFrom: [
     'src/lib/coordinates.ts',
+    'src/lib/intro.ts',
     'src/lib/prayer-times.ts',
     'src/lib/hijri.ts',
     'src/lib/qibla.ts',

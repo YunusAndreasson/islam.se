@@ -17,16 +17,9 @@ import {
   View,
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import {
-  Easing,
-  useAnimatedReaction,
-  useReducedMotion,
-  useSharedValue,
-  withTiming,
-} from 'react-native-reanimated';
-import { scheduleOnRN } from 'react-native-worklets';
+import { Easing, useSharedValue, withTiming } from 'react-native-reanimated';
 
-import { hapticLight, hapticSuccess } from '@/lib/haptics';
+import { hapticLight } from '@/lib/haptics';
 
 import {
   type DayMark,
@@ -35,6 +28,7 @@ import {
   type NextPrayer,
   PrayerDock,
 } from '@/components/map/PrayerDock';
+import { MapLessonCard } from '@/components/map/MapLessonCard';
 import { MapMarkersOverlay } from '@/components/map/MapMarkersOverlay';
 import { MosqueCard } from '@/components/map/MosqueCard';
 import { LocationHint } from '@/components/map/LocationHint';
@@ -51,6 +45,7 @@ import {
   GlassBackdropTarget,
   GlassSurface,
 } from '@/components/ui/GlassSurface';
+import { useOptionalIntroStatus, useOptionalMapLesson } from '@/lib/intro-context';
 import { useLocation } from '@/lib/location/context';
 import { getLocationPermissionState } from '@/lib/location/permission';
 import {
@@ -71,7 +66,8 @@ import { computePrayerTimes, nextPrayerKeyAt, PRAYER_ORDER, type PrayerKey } fro
 import { computeSignature } from '@/lib/settings/compute-signature';
 import { useSettings } from '@/lib/settings/context';
 import type { LocationMode } from '@/lib/settings/types';
-import { buildLines, type PrayerLineLabel } from '@/lib/solar/field';
+import { buildLines } from '@/lib/solar/field';
+import { demoFrame, MAP_LESSON_EXAMPLES } from '@/lib/solar/demo-year';
 import { gridForDay } from '@/lib/solar/grid-cache';
 import { polarBoundaryFor } from '@/lib/solar/sun';
 import { LIVE_TICK_MS, useSolarClock } from '@/lib/solar/useSolarClock';
@@ -139,43 +135,42 @@ function viewportCentreFromBounds(
 // halo readable above the dock's top edge.
 const DOCK_MARGIN = space.lg;
 
+// MapLessonCard is a taller surface than the collapsed dock it replaces (a caption, a
+// fact sentence, a dot row and the legend, against the dock's one countdown line and a
+// scrubber) — roughly 360dp against the dock's ~140dp, measured on device. Used for
+// clearing floating UI elements (MosqueCard) above whichever surface is showing — NOT
+// for the camera's own framing (see the note at SWEDEN_BOUNDS's initialViewState): an
+// earlier version fed this into the initial fitBounds' bottom padding too, on the theory
+// that it would keep Malmö clear of the card the same way it keeps MosqueCard clear of
+// it. It did, but fitBounds ties padding to zoom — reserving 360dp instead of the dock's
+// ~140dp forced the WHOLE view to zoom out to keep the bounds fully visible above it,
+// which pulled Norway/Denmark/the Baltic into frame right when a tight Sweden was the
+// point (the map lesson is explaining the country's own prayer lines). Letting the card
+// sit over a bit of the south coast instead of forcing that zoom-out was the trade the
+// product call landed on.
+const LESSON_CARD_HEIGHT = 360;
+
 // How close (ms) the next prayer must be before its line starts breathing — the
 // "prayer is about to begin" signal. Ten minutes: matches the common adhan-reminder
 // horizon, long enough to be noticed, short enough that the breath stays special.
 const IMMINENT_WINDOW_MS = 10 * 60_000;
 
-// Stable empty collections handed to the overlays while the daybreak intro plays: the
-// name PILLS are held back and appear as the sweep settles (their moving labels would be
-// a blur during the fast replay). The prayer LINES, by contrast, now replay through the
-// day (see introLines below). Module-scope so their identity is steady across renders.
-const EMPTY_LINES: PrayerLineData[] = [];
-const EMPTY_LABELS: PrayerLineLabel[] = [];
+// REMOVED 2026-08-10 — the daybreak intro. On every cold launch the map used to jump the
+// displayed instant to Stockholm midnight and sweep it back to now over ~3.8 s, replaying
+// the day's prayer lines and dragging the dock's slider thumb along with it. The user
+// asked for it gone: opening the app should show the present moment, not travel to it.
+// The screen now paints straight at `clock.now` and the live glide owns nowFraction from
+// the first frame. If it is ever wanted back, `git show 0194863 -- src/app/bonetider.tsx`
+// has the whole machine (sweep timing, per-step contour replay, tap-to-skip, and the
+// `introActive` drift-clamp lift in SolarSkiaOverlay/PrayerDock that went with it).
 
-// Daybreak intro (see the block in Bonetider). Sweep length: long enough to read as a
-// deliberate daybreak — and now to let the day's prayer lines visibly sweep past — short
-// enough it never feels like a loading screen. Tunable; every intro timing rides this.
-const INTRO_SWEEP_MS = 3800;
-// The prayer lines replay through the day by rebuilding their contours at the swept
-// instant every this-much of a DAY fraction (position between rebuilds is carried
-// smoothly by the overlay's UI-thread drift, so this only governs how often the SHAPE
-// refreshes — coarser = fewer JS rebuilds, staler shape between). ~1/48 → ≈24 rebuilds
-// across a midnight→noon sweep.
-const INTRO_LINE_STEP = 1 / 48;
-// Plays ONCE PER COLD LAUNCH. A module-scope flag survives component remounts within a JS
-// context but resets when the process is cold-started, so a resume from background (same
-// JS context, flag still true) never replays it — exactly "every cold launch, not resume".
-let introConsumed = false;
-
-// The post-intro introduction, in three beats: the day's prayer times reveal themselves,
-// they hold long enough to be read, and only then does the notification hint ask whether
-// to be reminded of them. Sequencing it this way is the point — the offer lands as the
-// natural next step after seeing the times, not as an interruption of the sweep.
+// The launch introduction, in three beats: the day's prayer times reveal themselves, they
+// hold long enough to be read, and only then does the notification hint ask whether to be
+// reminded of them. Sequencing it this way is the point — the offer lands as the natural
+// next step after seeing the times, not as an interruption.
 //
-// Beat 1: the pause after the lines settle before the dock opens. Not just politeness —
-// `introPlaying` also flips false the instant the user TAPS to skip (see skipIntro), so
-// with no delay the dock would fly open under the finger that just dismissed something.
-// It also covers Reduce Motion, where the intro never runs and introPlaying is false from
-// the first frame; the sequence still starts into a settled screen rather than at t=0.
+// Beat 1: the pause after the map settles before the dock opens, so the sequence starts
+// into a still screen rather than at t=0 alongside the first paint.
 const REVEAL_DELAY_MS = 300;
 // Beat 2: how long the schedule stays open. Long enough to read six times, short enough
 // that the map isn't hidden for what feels like a loading screen.
@@ -257,6 +252,36 @@ export default function Bonetider() {
   // isn't rebuilt in the background (e.g. every 30 s while the user is on Inställningar).
   const isFocused = useIsFocused();
   const clock = useSolarClock(isFocused);
+  // 'done' when there is no provider (the screen tests mount this on its own), so the
+  // soft-ask queue behaves exactly as it did before the introduction existed.
+  const introStatus = useOptionalIntroStatus();
+  // Never pending with no provider either — same fallback, same reasoning.
+  const { pending: mapLessonPending, dismiss: dismissMapLesson } = useOptionalMapLesson();
+
+  // How much bottom clearance a floating UI element (MosqueCard) needs to sit above
+  // whichever of the two mutually-exclusive bottom surfaces is actually showing —
+  // MapLessonCard is roughly 360dp against the dock's ~140dp (see LESSON_CARD_HEIGHT).
+  // mapLessonPending is already settled by the time Bonetider first mounts
+  // (valkommen.tsx's finish() arms it before navigating), so there is no race to
+  // resolve here. NOT used for the camera's own fitBounds padding — see the comment
+  // at SWEDEN_BOUNDS's initialViewState below for why that stays fixed to the dock's
+  // (shorter) height regardless of which surface is up.
+  const dockSlotBottom = mapLessonPending
+    ? LESSON_CARD_HEIGHT + insets.bottom + DOCK_FLOAT
+    : collapsedDock;
+
+  // The map lesson's own stepping state — independent of `clock`, `grid` and `solar`
+  // below, which stay wired to the live day throughout. `today` is captured once, in a
+  // lazy initialiser: it only decides which year the examples are sampled from, and
+  // re-reading the clock would rebuild a frame at midnight for no gain (same trick the
+  // old standalone demo used).
+  //
+  // Deliberately no autoplay: an earlier version played through the examples on a timer
+  // before handing over to manual stepping, but that meant the first thing the lesson did
+  // was something the user didn't do — the chevrons are the only way this advances now, so
+  // every example the user sees is one they asked to see.
+  const [lessonIndex, setLessonIndex] = useState(0);
+  const [lessonToday] = useState(() => Date.now());
 
   // The map camera, mirrored from MapLibre's region events. BOTH overlays — the Skia
   // field canvas and the RN marker/pill layer — now read the `cam` shared value and
@@ -330,51 +355,7 @@ export default function Bonetider() {
   // pins the value directly — the finger is the clock there.
   const nowFraction = useSharedValue(clock.fraction);
 
-  // ── Daybreak intro ──────────────────────────────────────────────────────────────────
-  // On a cold launch, greet the user by sweeping the wash — and the dock thumb — from
-  // Stockholm midnight (fraction 0) to now. It OWNS nowFraction while playing, so the live
-  // glide below stands down; the prayer lines/pills are held (EMPTY_* above) and pour in
-  // via their existing reveal as the sweep settles. Wash-only by design: the line CONTOUR
-  // geometry (clock.now) stays put and its UI-thread drift is clamped, so sweeping
-  // nowFraction alone can't drag the lines across the day — hence holding them here.
-  const reduceMotion = useReducedMotion();
-  const introActive = useSharedValue(false);
-  const [introPlaying, setIntroPlaying] = useState(false);
-  const introStarted = useRef(false);
-  // The day's prayer lines, replayed during the intro: their contours REBUILT at the
-  // swept instant (introGeometryNow) as the sweep advances, so each prayer's line sweeps
-  // in and past on the way to now (a fast time-lapse of the day). Between rebuilds the
-  // overlay's drift glides them at the sun's rate. Outside the intro the live prayerLines
-  // take over. introStep throttles the rebuilds to INTRO_LINE_STEP grid (UI thread).
-  const [introLines, setIntroLines] = useState<PrayerLineData[]>(EMPTY_LINES);
-  const [introGeometryNow, setIntroGeometryNow] = useState(clock.now);
-  const introStep = useSharedValue(-1);
-
-  const finishIntro = useCallback(() => {
-    // Only flip the React state here. introActive (the UI-thread drift-clamp flag) is cleared
-    // by the main nowFraction effect on the NEXT render — once introPlaying is false and the
-    // overlay has swapped geometryNow from the coarse (≤30 min stale) intro instant to the live
-    // clock.now. Clearing it here, before that render, would re-arm the clamp for one frame
-    // against the stale geometry and snap the lines back ~30 min: the end-of-intro "flick".
-    setIntroPlaying(false);
-  }, []);
-
-  const skipIntro = useCallback(() => {
-    if (!introStarted.current) return;
-    // Just end it: flipping introPlaying off re-runs the live glide below, whose
-    // stale-value branch snaps nowFraction from mid-sweep to the real "now" (a raw assign,
-    // which also cancels the in-flight timing) and resumes gliding. No write needed here —
-    // keeping nowFraction's mutations confined to effects is what keeps the compiler happy.
-    finishIntro();
-  }, [finishIntro]);
-
-  // Grabbing the slider mid-intro (clock → scrub) bails to the user's scrub — the finger
-  // is the clock from that point on.
-  useEffect(() => {
-    if (introPlaying && clock.mode === 'scrub') skipIntro();
-  }, [introPlaying, clock.mode, skipIntro]);
-
-  // The post-intro introduction: reveal the day's prayer times, then ask the ONE question
+  // The launch introduction: reveal the day's prayer times, then ask the ONE question
   // this launch has earned the right to ask. Both beats are gated on the SAME decision —
   // if no card is going to be offered, the dock must not open itself either. That's what
   // keeps this an introduction rather than an animation a daily user sits through on every
@@ -402,9 +383,19 @@ export default function Bonetider() {
   // saw. (day-navigation.test.tsx asserts the record stays at shown: 0.)
   const armOffer =
     cameraReady &&
-    !introPlaying &&
     !selectedMosque &&
     settingsLoaded &&
+    // The introduction asks these same two questions with a screen's worth of context in
+    // front of them, and it covers this one while it does. Arming here would spend a
+    // showing on a card nobody can see — and, worse, could put the OS dialog on screen
+    // behind the wizard. index.tsx already redirects a pending intro away from the map;
+    // this is the guard for any path that doesn't go through it. See lib/intro.
+    introStatus === 'done' &&
+    // The map lesson gets the screen to itself first — the moment it's dismissed this
+    // flips true (if the rest still holds) and the reveal effect below fires on its own,
+    // so a skipped location/notification step in the wizard still gets its later, calmer
+    // chance right after, exactly as the soft-ask asymmetry intends.
+    !mapLessonPending &&
     clock.dayOffset === 0 &&
     clock.mode === 'live';
   const { locationMode } = settings;
@@ -458,59 +449,14 @@ export default function Bonetider() {
     return undefined;
   }, [phase]);
 
-  // The single owner of nowFraction: the daybreak intro on cold launch, then the live
-  // glide. Keeping every nowFraction write in ONE effect is deliberate — the React
-  // Compiler forbids mutating a shared value across multiple effects.
+  // The single owner of nowFraction. Keeping every nowFraction write in ONE effect is
+  // deliberate — the React Compiler forbids mutating a shared value across multiple
+  // effects. (It used to share the job with the daybreak intro; see the note at the top.)
   useEffect(() => {
-    // Intro: fire once when the map is first framed, on a cold launch, with motion on.
-    // The intro sweeps midnight → NOW, so it is meaningless on a day that is not today.
-    // In practice cameraReady lands long before anyone could step, but the gate is cheap
-    // and the alternative is a sweep to an instant the user is not looking at.
-    if (
-      !introStarted.current &&
-      !introConsumed &&
-      !reduceMotion &&
-      cameraReady &&
-      clock.mode === 'live'
-    ) {
-      introStarted.current = true;
-      introConsumed = true;
-      introActive.value = true;
-      setIntroPlaying(true);
-      // Seed the line replay at midnight: no lines yet, geometry anchored at the day's
-      // start so the first drift frame reads ~0 (the reaction below rebuilds as it sweeps).
-      setIntroLines(EMPTY_LINES);
-      setIntroGeometryNow(clock.dayStart);
-      // Jump to midnight, then glide to now (assigning 0 cancels any in-flight glide).
-      nowFraction.value = 0;
-      nowFraction.value = withTiming(
-        clock.fraction,
-        { duration: INTRO_SWEEP_MS, easing: Easing.inOut(Easing.cubic) },
-        (fin) => {
-          'worklet';
-          // `fin` is true ONLY when the sweep completes naturally — i.e. it lands on
-          // "now". A skip reassigns nowFraction, cancelling this with fin=false, so the
-          // arrival cue never fires on a skip (skipping isn't arriving). Reaching the
-          // present moment is a "landed it" outcome → hapticSuccess, the same tier as
-          // the qibla lock; once per cold launch keeps it a meaningful, rare cue.
-          if (fin) {
-            scheduleOnRN(hapticSuccess);
-            scheduleOnRN(finishIntro);
-          }
-        },
-      );
-      return;
-    }
-    if (introPlaying) return; // the intro owns nowFraction until it settles on now
-    // First pass after the intro ends: the overlay has now swapped to the live geometryNow
-    // (dt≈0), so it's finally safe to re-arm the drift clamp. Deferring the clear to here —
-    // rather than doing it in finishIntro before this render — is what removes the end-of-intro
-    // flick (a stale-geometry clamp would otherwise snap the lines back for a frame).
-    if (introActive.value) introActive.value = false;
     // Live mode GLIDES instead of stepping: each 30 s tick re-anchors at the true now and
     // eases linearly toward the PREDICTED next tick, so the wash and lines move at the
-    // sun's real rate. A stale value (from a paused/backgrounded clock, or the intro
-    // handoff) is snapped first, then glides. Scrub mode pins the value directly.
+    // sun's real rate. A stale value (from a paused/backgrounded clock) is snapped first,
+    // then glides. Scrub mode pins the value directly.
     if (clock.mode === 'live') {
       const staleBy = Math.abs(nowFraction.value - clock.fraction);
       if (staleBy > (2 * LIVE_TICK_MS) / clock.dayLength) nowFraction.value = clock.fraction;
@@ -522,20 +468,35 @@ export default function Bonetider() {
     } else {
       nowFraction.value = clock.fraction;
     }
-  }, [
-    cameraReady,
-    reduceMotion,
-    introPlaying,
-    clock.fraction,
-    clock.mode,
-    clock.dayStart,
-    clock.dayLength,
-    nowFraction,
-    introActive,
-    finishIntro,
-  ]);
+  }, [clock.fraction, clock.mode, clock.dayLength, nowFraction]);
 
   const sig = computeSignature(settings);
+
+  // The map lesson's currently-shown frame — built with the SAME sig, but through
+  // demoFrame's own coarse cache (see lib/solar/demo-year), never through gridForDay:
+  // running the lesson's three examples through the live grid cache below would evict
+  // today's grid and hand the map a rebuild stutter the instant the lesson closes.
+  // `avoid` is the user's real coordinates, since their location dot is genuinely on
+  // screen here (MapMarkersOverlay draws it in both modes) — unlike the old standalone
+  // demo, which had no dot to keep a pill clear of.
+  const lessonFrame = mapLessonPending
+    ? demoFrame(
+        MAP_LESSON_EXAMPLES[lessonIndex].month,
+        lessonToday,
+        settings,
+        sig,
+        [coords.longitude, coords.latitude],
+      )
+    : null;
+  // Own shared value rather than reusing `nowFraction` above — that one's effect is the
+  // single owner of the live glide's timing (see its comment), and the lesson's fraction
+  // is a plain snap, not a glide, so keeping them apart means neither has to know the
+  // other exists.
+  const lessonFraction = useSharedValue(lessonFrame?.fraction ?? 0);
+  useEffect(() => {
+    if (lessonFrame) lessonFraction.value = lessonFrame.fraction;
+  }, [lessonFrame, lessonFraction]);
+
   // The whole-country prayer-time lattice — the one expensive step (3752 adhan
   // computations, 200–600 ms of blocked JS on a mid-range Android). Cached per day and
   // per compute-affecting setting in lib/solar/grid-cache, which also owns the
@@ -579,42 +540,6 @@ export default function Bonetider() {
             : [],
       })),
     [solar],
-  );
-
-  // Rebuild the prayer-line contours for one swept instant (the daybreak replay). buildLines
-  // is cheap arithmetic on the already-cached grid, so stepping it across the day is fine.
-  // geometryNow is stamped alongside so the overlay's drift reads ~0 at each rebuild and
-  // glides the lines between them.
-  const rebuildIntroLines = useCallback(
-    (virtualNowMs: number) => {
-      const replay = buildLines(grid, virtualNowMs, [coords.longitude, coords.latitude]);
-      setIntroLines(
-        replay.lines.features.map((f) => ({
-          prayer: (f.properties as { prayer: PrayerKey }).prayer,
-          polylines:
-            f.geometry.type === 'MultiLineString'
-              ? (f.geometry.coordinates as [number, number][][])
-              : [],
-        })),
-      );
-      setIntroGeometryNow(virtualNowMs);
-    },
-    [grid, coords.longitude, coords.latitude],
-  );
-
-  // Drives the replay: while the intro sweeps nowFraction 0→now on the UI thread, step the
-  // rebuilt instant across the day on a throttled grid and hand it to buildLines (JS thread).
-  // Idle outside the intro (returns before touching anything), so live mode pays nothing.
-  useAnimatedReaction(
-    () => nowFraction.value,
-    (frac) => {
-      if (!introActive.value) return;
-      const step = Math.floor(frac / INTRO_LINE_STEP);
-      if (step === introStep.value) return;
-      introStep.value = step;
-      scheduleOnRN(rebuildIntroLines, clock.dayStart + frac * clock.dayLength);
-    },
-    [rebuildIntroLines, clock.dayStart, clock.dayLength],
   );
 
   // The polar daylight boundary for this date: in summer the midnight-sun line (sun never
@@ -769,6 +694,26 @@ export default function Bonetider() {
         }
       }
 
+      // THE BUG THIS FIXES: "Återställ" was already on screen at launch, on a map the
+      // user had never touched.
+      //
+      // Only a GESTURE may raise the chip. Everything that moves the camera during
+      // startup is the app's own doing: the initial fitBounds re-runs as `insets.bottom`
+      // lands (0 on the first render, real once the safe-area provider measures), the
+      // viewport is remeasured by onLayout, and MapLibre clamps the result to
+      // maxBounds/minZoom once the style loads. Any one of those settles further from
+      // the sampled anchor than the 0.5°/0.05 thresholds below, and the chip appeared —
+      // claiming "you moved the map" about a move the user did not make.
+      //
+      // A settle the user did not cause is therefore not drift; it IS home, so re-anchor
+      // to it. Only while the chip is down: a spontaneous settle arriving mid-drift must
+      // not quietly adopt the view the user panned to as the new home (that is the same
+      // trap the resetPending branch above guards).
+      if (!e.nativeEvent.userInteraction) {
+        if (!moved && zoom > 1) initialFrame.current = { lon: vc.lon, lat: vc.lat, zoom };
+        return;
+      }
+
       // Show the Reset chip as soon as the user has clearly moved off the initial
       // framing. Thresholds: ~0.5° lat/lon (~50 km) or 0.05 zoom — enough to ignore
       // floating-point drift, small enough that any real pan/zoom triggers it. If
@@ -848,8 +793,9 @@ export default function Bonetider() {
           ref={cameraRef}
           initialViewState={{
             bounds: SWEDEN_BOUNDS,
-            // Reserve the collapsed dock's height (+ margin) at the bottom so the
-            // south coast is framed clearly above it from the very first render.
+            // Always the dock's (shorter) clearance, never dockSlotBottom — see the note
+            // at LESSON_CARD_HEIGHT for why reserving the taller card's height here would
+            // zoom the whole view out instead of just framing Sweden more tightly.
             padding: { top: 0, right: 0, bottom: collapsedDock + DOCK_MARGIN, left: 0 },
           }}
           // The leash, not the framing — see MAX_BOUNDS. The "Visa hela Sverige" chip
@@ -871,19 +817,17 @@ export default function Bonetider() {
           stay glued to the map as it pans/zooms. Gated on `cameraReady` so the overlay
           never paints against the stale seed camera (lat 62.1 / zoom 4) — the basemap's
           actual fit on iOS resolves to a different camera, and that mismatch is what
-          shoved every city ~50 mil south on first paint. */}
-      {cameraReady && (
+          shoved every city ~50 mil south on first paint. Also gated off while the map
+          lesson is up — its own overlay pair (below) takes over instead, so the two never
+          paint the same frame at once. */}
+      {cameraReady && !mapLessonPending && (
         <SolarSkiaOverlay
           dayStart={clock.dayStart}
           dayLength={clock.dayLength}
           nowFraction={nowFraction}
-          // During the intro the geometry is the swept replay instant (rebuilt as it
-          // advances); in live mode it's the true now.
-          geometryNow={introPlaying ? introGeometryNow : clock.now}
+          geometryNow={clock.now}
           camera={cam}
-          // Replay the day's lines during the intro; hand off to the live contours after.
-          lines={introPlaying ? introLines : prayerLines}
-          introActive={introActive}
+          lines={prayerLines}
           showQibla={settings.showQibla}
           nextKey={nextKey}
           imminentKey={imminentKey}
@@ -896,46 +840,88 @@ export default function Bonetider() {
       {/* Point/label layer above the canvas: city dots + collision-managed labels (kept
           legible above the wash), the brass "you are here" dot, and the prayer pills.
           Same `cameraReady` gate — no point projecting cities against a stale camera. */}
-      {cameraReady && (
+      {cameraReady && !mapLessonPending && (
         <MapMarkersOverlay
           camera={cam}
           userCoords={coords}
-          labels={introPlaying ? EMPTY_LABELS : solar.labels}
+          labels={solar.labels}
           nextKey={nextKey}
           polarBoundary={polarBoundary}
         />
       )}
+
+      {/* The map lesson's own overlay pair — same components, independent props, driven
+          by demoFrame's curated months instead of the live clock. Deliberately a SEPARATE
+          instance rather than a prop-swap on the live one above: this is the one landing
+          in the app's whole lifetime where the map explains itself, and keeping it from
+          ever touching the live overlay's prop computation is worth the second Skia
+          canvas for the few seconds this is on screen. Same `cameraReady` gate as the
+          live pair above and for the same reason — `cam` still holds the stale seed
+          camera until the first settled region event lands. */}
+      {cameraReady && mapLessonPending && lessonFrame && (
+        <>
+          <SolarSkiaOverlay
+            dayStart={lessonFrame.dayStart}
+            dayLength={lessonFrame.dayLength}
+            nowFraction={lessonFraction}
+            geometryNow={lessonFrame.instant}
+            camera={cam}
+            lines={lessonFrame.lines}
+            showQibla={false}
+            nextKey={null}
+            imminentKey={null}
+            userPoint={userPoint}
+            arrival={null}
+            polarBoundary={lessonFrame.polarBoundary}
+          />
+          <MapMarkersOverlay
+            camera={cam}
+            userCoords={coords}
+            labels={lessonFrame.labels}
+            nextKey={null}
+            polarBoundary={lessonFrame.polarBoundary}
+          />
+        </>
+      )}
       </GlassBackdropTarget>
 
-      {/* Tap anywhere on the map during the daybreak intro to skip straight to now. Sits
-          above the map/overlays but BELOW the dock and nav (rendered later), so grabbing
-          the slider still starts a scrub (which also ends the intro) and the nav discs
-          stay live. */}
-      {introPlaying && (
-        <Pressable
-          style={StyleSheet.absoluteFill}
-          onPress={skipIntro}
-          accessibilityRole="button"
-          accessibilityLabel="Hoppa över introduktionen"
+      {/* The one bottom surface: normally next prayer + day scrubber, expandable to the
+          full schedule — but for the one landing right after onboarding, the map lesson
+          takes this slot instead. Mutually exclusive, so there is never a moment where
+          both compete for the same strip of screen. */}
+      {mapLessonPending && lessonFrame ? (
+        <MapLessonCard
+          fact={MAP_LESSON_EXAMPLES[lessonIndex].fact}
+          monthLabel={lessonFrame.monthLabel}
+          timeLabel={lessonFrame.timeLabel}
+          index={lessonIndex}
+          total={MAP_LESSON_EXAMPLES.length}
+          atStart={lessonIndex === 0}
+          atEnd={lessonIndex === MAP_LESSON_EXAMPLES.length - 1}
+          onPrev={() => setLessonIndex((i) => Math.max(0, i - 1))}
+          onNext={() => setLessonIndex((i) => Math.min(MAP_LESSON_EXAMPLES.length - 1, i + 1))}
+          onDismiss={dismissMapLesson}
+          // THE BUG THIS FIXES: this used to pass collapsedDock + DOCK_MARGIN — the
+          // offset things floating ABOVE the dock use (MosqueCard). MapLessonCard
+          // REPLACES the dock in the same slot instead, so it needs the dock's OWN
+          // anchor (see PrayerDock's shadowWrap style) or it floats with a ~180dp gap
+          // of bare map showing beneath it, for no reason.
+          bottom={insets.bottom + DOCK_FLOAT}
+        />
+      ) : (
+        <PrayerDock
+          clock={clock}
+          times={userTimes}
+          marks={marks}
+          next={next}
+          locationLabel={placeLabel}
+          locationIsFallback={locationIsFallback}
+          settings={settings}
+          // The middle beat of the launch introduction: the dock opens itself so the
+          // day's six times stagger in off its existing reveal, holds, then shuts again.
+          revealSchedule={phase === 'reveal'}
         />
       )}
-
-      {/* The one bottom surface: next prayer + day scrubber, expandable to the full
-          schedule. */}
-      <PrayerDock
-        clock={clock}
-        times={userTimes}
-        marks={marks}
-        next={next}
-        locationLabel={placeLabel}
-        locationIsFallback={locationIsFallback}
-        settings={settings}
-        introFraction={nowFraction}
-        introActive={introActive}
-        // The middle beat of the post-intro introduction: the dock opens itself so the
-        // day's six times stagger in off its existing reveal, holds, then shuts again.
-        revealSchedule={phase === 'reveal'}
-      />
 
       {/* Mosque detail card — floats just above the collapsed dock when a mosque POI is
           tapped. Gated on showMosques too, so hiding the layer also dismisses any open
@@ -944,7 +930,11 @@ export default function Bonetider() {
         <MosqueCard
           mosque={selectedMosque}
           userCoords={coords}
-          bottom={collapsedDock + DOCK_MARGIN}
+          // dockSlotBottom, not collapsedDock: on the rare chance a mosque is tapped
+          // while the map lesson is still up (its pins are zoom-gated, but map gestures
+          // aren't blocked during the lesson), this floats above whichever of the two
+          // bottom surfaces is actually showing instead of assuming it's always the dock.
+          bottom={dockSlotBottom + DOCK_MARGIN}
           onClose={() => setSelectedMosque(null)}
         />
       )}
@@ -956,7 +946,7 @@ export default function Bonetider() {
       <MapNav active={isFocused} />
 
       {/* The map's soft asks — at most ONE per launch, chosen by pickOffer above. Each
-          appears only after the daybreak intro has settled and only while its OS
+          appears only after the schedule reveal has settled and only while its OS
           permission is still undetermined; their buttons are the only things in the app
           that fire the system dialogs, so dismissing either leaves that single lifetime
           prompt unspent. Rendered here, OUTSIDE GlassBackdropTarget (which closed above)
@@ -989,6 +979,8 @@ export default function Bonetider() {
               // home rather than being compared against the frame recorded at mount.
               resetPending.current = true;
               cameraRef.current?.fitBounds(SWEDEN_BOUNDS, {
+                // Same padding as the initial fit, not dockSlotBottom — see the note at
+                // LESSON_CARD_HEIGHT.
                 padding: { top: 0, right: 0, bottom: collapsedDock + DOCK_MARGIN, left: 0 },
                 duration: motion.slow,
               });

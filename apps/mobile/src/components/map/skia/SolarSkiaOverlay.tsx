@@ -72,10 +72,6 @@ interface Props {
   camera: SharedValue<Camera>;
   /** The active prayer contours at this instant (0–7), from buildLines. */
   lines: PrayerLineData[];
-  /** True while the daybreak intro replays the day. It lifts the drift clamp (the sweep
-   *  moves the lines far faster than a live tick) and makes each line appear WHOLE instead
-   *  of playing the slow comet reveal it couldn't finish before the line sweeps past. */
-  introActive: SharedValue<boolean>;
   /** Draw the great-circle direction to Mecca from `userPoint` (Inställningar → Utseende). */
   showQibla: boolean;
   /** The user's next prayer — its line is drawn brighter/thicker. Null if tomorrow's. */
@@ -99,7 +95,6 @@ export function SolarSkiaOverlay({
   geometryNow,
   camera,
   lines,
-  introActive,
   showQibla,
   nextKey,
   imminentKey,
@@ -154,9 +149,7 @@ export function SolarSkiaOverlay({
     const dt = nowMs - geometryNow;
     if (dt <= 0) return 0;
     // The clamp guards live mode (a big scrub must never fling the lines across the map).
-    // The intro replay legitimately advances the instant far past one tick between rebuilds,
-    // so there the drift runs UNCLAMPED — that gap IS the fast sweep carrying the lines.
-    const capped = introActive.value ? dt : dt > MAX_DRIFT_MS ? MAX_DRIFT_MS : dt;
+    const capped = dt > MAX_DRIFT_MS ? MAX_DRIFT_MS : dt;
     return -capped / 86_400_000;
   });
 
@@ -300,7 +293,6 @@ export function SolarSkiaOverlay({
             polylines={byPrayer.get(prayer) ?? EMPTY}
             camera={camera}
             drift={driftMerc}
-            introActive={introActive}
             isNext={prayer === nextKey}
             imminent={prayer === imminentKey}
             color={prayerColorFor(prayer, scheme)}
@@ -326,7 +318,6 @@ export function SolarSkiaOverlay({
           polylines={byPrayer.get(prayer) ?? EMPTY}
           camera={camera}
           drift={driftMerc}
-          introActive={introActive}
           isNext={prayer === nextKey}
           imminent={prayer === imminentKey}
           color={prayerColorFor(prayer, scheme)}
@@ -432,7 +423,6 @@ function PrayerLine({
   polylines,
   camera,
   drift,
-  introActive,
   isNext,
   imminent,
   color,
@@ -441,9 +431,6 @@ function PrayerLine({
   camera: SharedValue<Camera>;
   /** UI-thread solar drift (normalised-Mercator x) — see driftMerc in the parent. */
   drift: SharedValue<number>;
-  /** During the daybreak replay a freshly-appearing line skips the slow comet reveal
-   *  (it would never finish before the fast sweep carries the line off) and shows whole. */
-  introActive: SharedValue<boolean>;
   isNext: boolean;
   /** The next prayer inside the breathing window: the halo inhales/exhales gently. */
   imminent: boolean;
@@ -513,17 +500,11 @@ function PrayerLine({
       const fresh = !wasRendered.current;
       fade.value = withTiming(1, { duration: 150 });
       if (fresh) {
-        if (introActive.value) {
-          // Replay: the line sweeps past far quicker than the comet could draw it on, so
-          // show it whole and let the drift do the moving (a half-drawn flash reads as a bug).
-          reveal.value = 1;
-        } else {
-          reveal.value = 0;
-          reveal.value = withTiming(1, {
-            duration: REVEAL_MS,
-            easing: Easing.inOut(Easing.cubic),
-          });
-        }
+        reveal.value = 0;
+        reveal.value = withTiming(1, {
+          duration: REVEAL_MS,
+          easing: Easing.inOut(Easing.cubic),
+        });
       }
     } else if (wasRendered.current) {
       fade.value = withTiming(0, { duration: 300 }, (finished) => {
@@ -532,7 +513,7 @@ function PrayerLine({
       });
     }
     wasRendered.current = active || rendered;
-  }, [active, rendered, fade, reveal, introActive]);
+  }, [active, rendered, fade, reveal]);
 
   // "Prayer is about to begin": while this line is the imminent next prayer, its halo
   // breathes — a slow sine inhale/exhale layered onto the steady glow. Calm by design

@@ -36,7 +36,6 @@ function renderOverlay(overrides: Partial<Parameters<typeof SolarSkiaOverlay>[0]
       geometryNow={DAY_START + DAY_MS / 2}
       camera={shared(CAMERA)}
       lines={[]}
-      introActive={shared(false)}
       showQibla
       nextKey={null}
       imminentKey={null}

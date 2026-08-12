@@ -2,7 +2,7 @@
   "expo": {
     "name": "islam.se",
     "slug": "islam-se-mobile",
-    "version": "1.0.6",
+    "version": "1.0.7",
     "orientation": "portrait",
     "scheme": "islamse",
     "userInterfaceStyle": "automatic",
@@ -11,7 +11,7 @@
       "supportsTablet": false,
       "icon": {
         "light": "./assets/images/icon.png",
-        "dark": "./assets/images/ios-dark.png",
+        "dark": "./assets/images/icon.png",
         "tinted": "./assets/images/ios-tinted.png"
       },
       "bundleIdentifier": "se.islam.mobile",
@@ -31,7 +31,7 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "monochromeImage": "./assets/images/adaptive-icon-monochrome.png",
-        "backgroundColor": "#fff6e8"
+        "backgroundColor": "#2a557f"
       },
       "permissions": [
         "android.permission.ACCESS_COARSE_LOCATION",

@@ -23,6 +23,7 @@ import { Madhab } from 'adhan';
 
 import Berakning from '@/app/(settings)/berakning';
 import Installningar from '@/app/(settings)/installningar';
+import { IntroProvider } from '@/lib/intro-context';
 import { LocationProvider } from '@/lib/location/context';
 import {
   formatTime,
@@ -67,9 +68,11 @@ function expandPreview(): void {
 async function renderSettings(): Promise<void> {
   render(
     <SettingsProvider>
+      <IntroProvider>
       <LocationProvider>
         <Installningar />
       </LocationProvider>
+    </IntroProvider>
     </SettingsProvider>,
   );
   // The header appears only after settings hydrate (loaded flips true).
@@ -85,10 +88,12 @@ async function renderSettings(): Promise<void> {
 async function renderSettingsWithBerakning(): Promise<void> {
   render(
     <SettingsProvider>
+      <IntroProvider>
       <LocationProvider>
         <Installningar />
         <Berakning />
       </LocationProvider>
+    </IntroProvider>
     </SettingsProvider>,
   );
   await waitFor(() => expect(screen.getByText('Inställningar')).toBeTruthy());

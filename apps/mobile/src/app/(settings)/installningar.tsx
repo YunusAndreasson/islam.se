@@ -15,7 +15,7 @@
 import { MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
 import { router, useIsFocused } from 'expo-router';
 import { type ReactNode, useEffect, useMemo, useRef, useState } from 'react';
-import { ActivityIndicator, Alert, AppState, Linking, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { ActivityIndicator, Alert, Linking, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { DisclosureGroup } from '@/components/settings/DisclosureGroup';
@@ -27,22 +27,11 @@ import { Toggle } from '@/components/settings/Toggle';
 import { ModalBar } from '@/components/ui/ModalBar';
 import { APP_VERSION, OTA_LABEL, emailSupport } from '@/lib/about';
 import { hapticSuccess, hapticWarning } from '@/lib/haptics';
-import { formatGregorian, formatHijri } from '@/lib/hijri';
+import { useIntro } from '@/lib/intro-context';
 import { useLocation, useLocationStatus } from '@/lib/location/context';
-import {
-  getNotificationPermissionState,
-  type NotificationPermissionState,
-  requestNotificationPermission,
-} from '@/lib/notifications';
-import {
-  computePrayerTimes,
-  formatTime,
-  PRAYER_ICONS,
-  PRAYER_LABELS,
-  PRAYER_ORDER,
-  PRAYER_SWEDISH_NAMES,
-} from '@/lib/prayer-times';
+import { useNotificationPermission } from '@/lib/notifications-permission';
 import { useSettings } from '@/lib/settings/context';
+import { usePrayerPreview } from '@/lib/settings/usePrayerPreview';
 import {
   HIJRI_OFFSET_MAX,
   HIJRI_OFFSET_MIN,
@@ -55,7 +44,6 @@ import {
   THEME_OPTIONS,
   VISNING_SUMMARY,
 } from '@/lib/settings/options';
-import { stockholmPrayerDate } from '@/lib/stockholm-time';
 import { systemSettingsName } from '@/lib/system-settings';
 import { mono, radius, space, type } from '@/theme/tokens';
 
@@ -63,6 +51,7 @@ export default function Installningar() {
   const { settings, loaded, update, reset } = useSettings();
   const { coords, label, source, permissionStatus } = useLocation();
   const { locating, refresh } = useLocationStatus();
+  const { replay } = useIntro();
   const colors = useSettingsColors();
   const styles = useMemo(() => makeStyles(colors), [colors]);
   const isFocused = useIsFocused();
@@ -74,8 +63,6 @@ export default function Installningar() {
   // date roll over and tomorrow's times appear. A minute is plenty for that and
   // the tick is paused off-focus so a backgrounded tab isn't recomputing.
   const [now, setNow] = useState(() => new Date());
-  const [notificationPermission, setNotificationPermission] =
-    useState<NotificationPermissionState>('unknown');
   useEffect(() => {
     if (!isFocused) return;
     const tick = (): void => setNow(new Date());
@@ -84,47 +71,13 @@ export default function Installningar() {
     return () => clearInterval(id);
   }, [isFocused]);
 
-  useEffect(() => {
-    if (!isFocused || !settings.notifications.enabled) return;
-    let active = true;
-    const refreshPermission = (): void => {
-      void getNotificationPermissionState().then((state) => {
-        if (active) setNotificationPermission(state);
-      });
-    };
-    refreshPermission();
-    const sub = AppState.addEventListener('change', (state) => {
-      if (state === 'active') refreshPermission();
-    });
-    return () => {
-      active = false;
-      sub.remove();
-    };
-  }, [isFocused, settings.notifications.enabled]);
-
-  // Turning the toggle ON asks the OS right there, awaited under the finger — one of only
-  // two places in the app that fires the notification prompt (the other is the map's
-  // notification hint). syncPrayerNotifications deliberately never asks: it runs on every
-  // foreground, so prompting from it would spend iOS's single lifetime dialog with no tap
-  // behind it. Because the answer settles inline, a refusal can warn immediately — no
-  // deferred "did the permission read change?" bookkeeping.
+  // The permission read, the status wording and the "asks the OS under the finger"
+  // toggle all live in the shared hook — the introduction's notification step drives the
+  // identical flow, and iOS's single lifetime prompt is not something to have two
+  // implementations of. See lib/notifications-permission.
+  const notifications = useNotificationPermission(isFocused);
   const onNotificationsToggle = (enabled: boolean): void => {
-    if (!enabled) {
-      update({ notifications: { ...settings.notifications, enabled: false } });
-      return;
-    }
-    void (async () => {
-      const state = await requestNotificationPermission();
-      setNotificationPermission(state);
-      // Enable either way. On a refusal that is not a lie — it is what makes the Status row
-      // and the "Öppna …" recovery link below appear, and it means a user who later allows
-      // notifications in system settings starts receiving them on the next sync.
-      update({ notifications: { ...settings.notifications, enabled: true } });
-      // A discrete negative outcome the user just triggered — the haptics policy's warning
-      // case. ANY answer that is not a grant counts: on Android the first refusal leaves
-      // canAskAgain true, so it arrives as 'undetermined' even though the user just said no.
-      if (state !== 'granted') hapticWarning();
-    })();
+    void notifications.setEnabled(enabled);
   };
 
   // "Uppdatera plats" confirmation — a brief "Uppdaterad ✓" flash after a TAP-initiated
@@ -183,24 +136,8 @@ export default function Installningar() {
 
   // Today's times for the resolved location. Recomputes whenever a setting, the
   // location, or the date rolls over — this is how the user sees a setting "land".
-  const preview = useMemo(() => {
-    const prayerDate = stockholmPrayerDate(now.getTime());
-    const pt = computePrayerTimes(coords, prayerDate, settings);
-    return {
-      gregorian: `${formatGregorian(now)} · ${label}`,
-      // formatHijri reads local date FIELDS, so it gets the Stockholm-calendar-day
-      // Date (prayerDate), not the raw instant — keeps the Hijri line on the same
-      // civil day as the Stockholm-pinned Gregorian line on a travelling device.
-      hijri: formatHijri(prayerDate, settings.hijriOffset),
-      times: PRAYER_ORDER.map((key) => ({
-        key,
-        label: PRAYER_LABELS[key],
-        swedishName: PRAYER_SWEDISH_NAMES[key],
-        icon: PRAYER_ICONS[key],
-        time: formatTime(pt[key]),
-      })),
-    };
-  }, [coords, settings, now, label]);
+  // Shared with the introduction's calculation step (lib/settings/usePrayerPreview).
+  const preview = usePrayerPreview(coords, label, settings, now);
 
   // This screen is the Settings sheet over the map — a persistent ✕ dismisses it back.
   if (!loaded) {
@@ -215,31 +152,11 @@ export default function Installningar() {
   }
 
   const cityValue = settings.manualLocation?.name ?? 'Stockholm';
-  // Reminders are ON but the OS is not delivering them. Android's FIRST refusal leaves
-  // canAskAgain true — which reads as 'undetermined' — and yet nothing will ever ask
-  // again: the toggle is already on, so the prompt's only two entry points (this toggle
-  // flipping off→on, and the map's hint) are both spent. Reporting that as "Ej frågat"
-  // with "systemet frågar när påminnelser aktiveras" promised a dialog that never comes
-  // and hid the recovery link, leaving reminders silently dead. Any non-grant while the
-  // toggle is on is therefore "blocked" — the same view NotificationHint already takes.
-  const notificationsBlocked =
-    settings.notifications.enabled &&
-    (notificationPermission === 'denied' || notificationPermission === 'undetermined');
-  const notificationStatus =
-    notificationPermission === 'granted'
-      ? 'Tillåtet'
-      : notificationsBlocked
-        ? 'Blockerat'
-        : 'Kontrollerar…';
+  const notificationsBlocked = notifications.blocked;
+  const notificationStatus = notifications.statusLabel;
   const calcSummary = calculationSummary(settings);
   const settingsName = systemSettingsName();
-  const notificationFootnote = !settings.notifications.enabled
-    ? undefined
-    : notificationsBlocked
-      ? `Notiser är blockerade. Öppna ${settingsName} för att tillåta dem.`
-      : notificationPermission === 'granted'
-        ? 'Planeras lokalt på din enhet – inget skickas online.'
-        : undefined;
+  const notificationFootnote = notifications.footnote;
 
   return (
     <SafeAreaView style={styles.safe} edges={['top']}>
@@ -525,11 +442,28 @@ export default function Installningar() {
             belongs. --- */}
         <View style={styles.supportTop}>
           <SettingSection>
+            {/* The introduction is the only place that explains what the map's lines
+                mean, and it runs once. This is the door back to it — for the user who
+                skipped it, and for every install that predates it (lib/intro treats an
+                existing settings blob as "already seen", so those users never got it
+                automatically). Dismiss the whole settings modal stack first, then open
+                it over the map: the flow is a root-level screen, not a settings page. */}
+            <LinkRow
+              styles={styles}
+              colors={colors}
+              label="Visa introduktionen igen"
+              onPress={() => {
+                replay();
+                if (router.canDismiss()) router.dismissAll();
+                router.navigate('/valkommen');
+              }}
+            />
             <LinkRow
               styles={styles}
               colors={colors}
               label="Vanliga frågor"
               onPress={() => router.push('/(settings)/vanliga-fragor')}
+              divider
             />
             {/* Kontakt = mail. No intermediate screen — tapping the row opens
                 the native mail composer directly (falls back to mailto: if no
