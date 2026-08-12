@@ -23,7 +23,7 @@
 // sun-driven (the map IS a live sky), but the dock stays anchored to one OS theme.
 import { MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
 import { router } from 'expo-router';
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useEffectEvent, useMemo, useRef, useState } from 'react';
 import { type ColorSchemeName, Pressable, StyleSheet, Text, View } from 'react-native';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import Animated, {
@@ -248,6 +248,15 @@ export function PrayerDock({
   // on its own. The user is still free to grab the dock mid-reveal — the gesture worklets
   // assign `height` directly, overwriting this spring.
   const revealArmed = useRef(false);
+  // Only `revealSchedule` should retrigger the reveal; onExpandedChange is the host's
+  // callback, and re-running on ITS identity would reopen the dock on an unrelated parent
+  // render. The Effect Event always calls the LATEST onExpandedChange without being a
+  // dependency, so the effect below can list just [revealSchedule].
+  const onReveal = useEffectEvent((open: boolean) => {
+    height.value = withSpring(open ? EXPANDED : COLLAPSED, SPRING);
+    setExpanded(open);
+    onExpandedChange?.(open, EXPANDED);
+  });
   useEffect(() => {
     // Skip the mount pass: `revealSchedule` starts false and the dock is already collapsed,
     // so acting here would only fire a spurious onExpandedChange(false) at startup.
@@ -255,14 +264,7 @@ export function PrayerDock({
       revealArmed.current = true;
       if (!revealSchedule) return;
     }
-    height.value = withSpring(revealSchedule ? EXPANDED : COLLAPSED, SPRING);
-    setExpanded(revealSchedule);
-    onExpandedChange?.(revealSchedule, EXPANDED);
-    // `height` is a shared value (stable identity); listing it would re-run this on every
-    // render. COLLAPSED/EXPANDED are module constants read through local aliases, and
-    // onExpandedChange is the host's callback — re-running on its identity would reopen
-    // the dock on an unrelated parent render.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    onReveal(revealSchedule);
   }, [revealSchedule]);
 
   // Handle: drag OR tap toggles. Hero: drag-only — a Pan needs movement to activate,
