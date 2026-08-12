@@ -88,7 +88,7 @@ const FEATURED_SWEDISH_CITIES = ['Östersund', 'Växjö'];
 const FEATURED_SWEDISH_TOWNS = ['Kiruna', 'Borlänge'];
 const COPENHAGEN_NAMES = ['Köpenhamn', 'København', 'Copenhagen'];
 
-interface BasemapPalette {
+export interface BasemapPalette {
   /** Land fill (background). */
   LAND: string;
   /** Water fill — Sweden's coastline + the great lakes. */

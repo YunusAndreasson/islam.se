@@ -185,7 +185,9 @@ jest.mock('@shopify/react-native-skia', () => {
   const none = () => null;
   const stubBuilder = () => {
     const b = { detach: () => ({}), build: () => ({}) };
-    for (const m of ['moveTo', 'lineTo', 'quadTo', 'cubicTo', 'close']) b[m] = () => b;
+    for (const m of ['moveTo', 'lineTo', 'quadTo', 'cubicTo', 'close', 'addArc', 'arcToOval']) {
+      b[m] = () => b;
+    }
     return b;
   };
   // This object must cover EVERY Skia symbol the overlay imports, including ones only
@@ -209,6 +211,7 @@ jest.mock('@shopify/react-native-skia', () => {
     Skia: {
       RuntimeEffect: { Make: () => null },
       PathBuilder: { Make: stubBuilder },
+      XYWHRect: (x, y, width, height) => ({ x, y, width, height }),
     },
   };
 });

@@ -24,6 +24,11 @@ const cache = new Map<number, SolarGrid>();
 let cachedSignature: string | null = null;
 
 /**
+ * Exported because the introduction's year demo (./demo-year) builds its own coarse
+ * grids and must apply the SAME two overrides — a demo drawn from the user's polar and
+ * rounding choices would show the jagged, stair-stepped lines the real map never has, on
+ * the one screen whose whole job is explaining what the lines are.
+ *
  * The grid is built with polar resolution forced to 'unresolved' and rounding to 'none',
  * NOT the user's choices. This override lives here — rather than at the call site — so
  * that day navigation cannot make the cached days and the freshly-built ones disagree
@@ -44,7 +49,7 @@ let cachedSignature: string | null = null;
  * The user's OWN prayer times keep their chosen resolution and rounding; only the field
  * the lines are drawn from is overridden.
  */
-function gridSettings(settings: PrayerSettings): PrayerSettings {
+export function lineGridSettings(settings: PrayerSettings): PrayerSettings {
   return { ...settings, polarCircleResolution: 'unresolved', rounding: 'none' };
 }
 
@@ -76,7 +81,7 @@ export function gridForDay(
     return hit;
   }
 
-  const grid = buildGrid(stockholmPrayerDate(dayStart), gridSettings(settings));
+  const grid = buildGrid(stockholmPrayerDate(dayStart), lineGridSettings(settings));
   cache.set(dayStart, grid);
   // Map preserves insertion order, so the first key is the least recently used.
   while (cache.size > MAX_ENTRIES) {

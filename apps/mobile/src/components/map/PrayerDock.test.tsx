@@ -42,7 +42,7 @@ function dockProps(revealSchedule: boolean, clockOverrides: Partial<SolarClock> 
   };
 }
 
-// `revealSchedule` is what lets the map play its post-intro introduction: the dock opens
+// `revealSchedule` is what lets the map play its launch introduction: the dock opens
 // itself so the day's times stagger in, then shuts again, and only then does the
 // notification hint ask whether to be reminded of them (see app/bonetider). The dock's
 // toggle label is the observable proof of the open/closed state — the height itself is a

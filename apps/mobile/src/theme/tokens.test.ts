@@ -141,4 +141,26 @@ describe('brand mark', () => {
     expect(darkPalette.highlightText).toBe(brand.gold.dark);
     expect(lc(brand.gold.dark, darkPalette.paper)).toBeGreaterThanOrEqual(70);
   });
+
+  // The day scrubber's knob is the mark, drawn small: gold disc, blue ring. That is a
+  // deliberate request, not a coincidence of two tokens happening to match — so it is
+  // pinned. The neighbouring rule ("brand gold could never carry label text") is the
+  // thing most likely to talk a future session out of it; the answer is that a knob is
+  // not text and its RING is what carries the contrast, which is the next assertion.
+  it('is what the day scrubber knob is drawn in, in both schemes', () => {
+    expect(lightPalette.scrubberKnob).toBe(brand.gold.light);
+    expect(lightPalette.scrubberRing).toBe(brand.blue.light);
+    expect(darkPalette.scrubberKnob).toBe(brand.gold.dark);
+    expect(darkPalette.scrubberRing).toBe(brand.blue.dark);
+  });
+
+  // A control's boundary is what has to clear 3:1 for WCAG non-text contrast, and on the
+  // light ground the gold fill alone is 1.75:1. Drop the ring (or recolour it to
+  // something quiet) and the knob stops being a discernible control in daylight, with
+  // nothing else in the scrubber to say where it is.
+  it('gives the scrubber knob its contrast through the ring, not the fill', () => {
+    expect(wcagContrast(lightPalette.scrubberKnob, lightPalette.paper)).toBeLessThan(3);
+    expect(wcagContrast(lightPalette.scrubberRing, lightPalette.paper)).toBeGreaterThanOrEqual(3);
+    expect(lc(darkPalette.scrubberKnob, darkPalette.paper)).toBeGreaterThanOrEqual(70);
+  });
 });

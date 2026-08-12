@@ -91,6 +91,15 @@ export const FAQ: readonly { question: string; answer: string }[] = [
       'Platsen används bara i din enhet för att räkna ut bönetider och qibla. Appen har inga konton och samlar inte in några uppgifter om dig. Du kan också ange en plats för hand under Inställningar.',
   },
   {
+    // The permanent home for the map lesson (bonetider's MapLessonCard, shown once after
+    // onboarding finishes). The intro runs once; this is where the answer lives for
+    // everyone who skipped it, installed the app before it existed, or simply wants to
+    // read it again.
+    question: 'Vad betyder linjerna på kartan?',
+    answer:
+      'Varje linje är en bön. Maghrib-linjen visar var i landet klockan just nu är exakt Maghrib – den vandrar västerut med jordens rotation, tänds, sveper över kartan och slocknar. Färgtoningen är något annat: solens höjd under horisonten, punkt för punkt, vilket är därför sommarnatten i söder är djupblå men aldrig svart. Norr om den streckade linjen går solen inte ner på sommaren (och inte upp på vintern) – där saknar Fajr och ʿIshāʾ tider, och deras linjer tonar bort. Du hittar hela genomgången under Inställningar → Visa introduktionen igen.',
+  },
+  {
     question: 'Varifrån kommer kartan?',
     answer:
       'Kartan visas med MapLibre. Kartdatan kommer från MapTiler (med höjdrelief), OpenMapTiles och OpenStreetMap-bidragsgivare. Saknas en MapTiler-nyckel används OpenFreeMap utan kostnad.',

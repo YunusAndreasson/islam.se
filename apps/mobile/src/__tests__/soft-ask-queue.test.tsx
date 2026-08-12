@@ -13,6 +13,7 @@
 //      wrong time, so the position question is a prerequisite for the reminder question.
 //   3. A deferred card is DEFERRED, not consumed: its own record is untouched.
 //   4. A user who already named their city is never asked for GPS on top of it.
+//   5. Nothing fires behind the introduction, which asks the same two questions itself.
 //
 // (The cards themselves are covered in components/map/{Location,Notification}Hint.test.tsx;
 // the frequency policy in lib/__tests__/{hints,notification-hint}.test.ts. This file only
@@ -25,6 +26,7 @@ import * as Notifications from 'expo-notifications';
 import type { ReactNode } from 'react';
 
 import Bonetider from '@/app/bonetider';
+import { IntroProvider } from '@/lib/intro-context';
 import { LocationProvider } from '@/lib/location/context';
 import { resetLocationLaunchCountForTests } from '@/lib/location-hint';
 import { resetNotificationLaunchCountForTests } from '@/lib/notification-hint';
@@ -42,10 +44,21 @@ const HINT_AFTER_REVEAL_MS = 700;
 
 const MAP_RENDER_TIMEOUT = 20_000;
 
-function withProviders(node: ReactNode) {
+/** `introSeen` decides whether the map may arm its queue at all. The default is the
+ *  settled world these tests are about: the introduction is behind the user. Passing
+ *  false stands the wizard back up in front of the map. */
+function withProviders(node: ReactNode, introSeen = true) {
   return (
     <SettingsProvider>
-      <LocationProvider>{node}</LocationProvider>
+      {introSeen ? (
+        // No IntroProvider: useOptionalIntroStatus falls back to 'done', which is exactly
+        // how every other screen test mounts this screen.
+        <LocationProvider>{node}</LocationProvider>
+      ) : (
+        <IntroProvider>
+          <LocationProvider>{node}</LocationProvider>
+        </IntroProvider>
+      )}
     </SettingsProvider>
   );
 }
@@ -65,12 +78,9 @@ function setPermissions(location: 'granted' | 'denied' | 'undetermined', notific
 }
 
 /** Renders the map and brings it to the state where the offer gate is armed: the camera
- *  has settled (every overlay is gated on the first settled region event) and the daybreak
- *  intro is over. The intro's completion callback runs on the UI thread, which the
- *  reanimated mock never drives, so it is skipped the way a user would — by tapping. It
- *  plays only on the first cold launch in a JS context, hence the conditional. */
-async function launchMap(): Promise<void> {
-  render(withProviders(<Bonetider />));
+ *  has settled (every overlay is gated on the first settled region event). */
+async function launchMap(introSeen = true): Promise<void> {
+  render(withProviders(<Bonetider />, introSeen));
   await act(async () => {});
 
   await act(async () => {
@@ -79,12 +89,6 @@ async function launchMap(): Promise<void> {
     });
   });
 
-  const skip = screen.queryByLabelText('Hoppa över introduktionen');
-  if (skip) {
-    await act(async () => {
-      fireEvent.press(skip);
-    });
-  }
 }
 
 async function advance(ms: number): Promise<void> {
@@ -96,7 +100,7 @@ async function advance(ms: number): Promise<void> {
   await act(async () => {});
 }
 
-/** Runs the whole post-intro sequence: the gate decides, the dock reveals the day's times,
+/** Runs the whole launch sequence: the gate decides, the dock reveals the day's times,
  *  holds, shuts, and only then does a card arrive. */
 async function runOfferSequence(): Promise<void> {
   await advance(REVEAL_DELAY_MS);
@@ -214,6 +218,30 @@ describe('the map offers at most one soft ask per launch', () => {
 
       expect(locationCard()).toBeNull();
       expect(notificationCard()).toBeNull();
+      expect(await AsyncStorage.getItem(LOCATION_HINT_KEY)).toBeNull();
+      expect(await AsyncStorage.getItem(NOTIFICATION_HINT_KEY)).toBeNull();
+    },
+    MAP_RENDER_TIMEOUT,
+  );
+
+  // Contract 5, added with the introduction (src/app/valkommen). The intro asks these same
+  // two questions with a screen of context in front of them, and covers the map while it
+  // does. If the queue armed anyway it would spend a showing on a card nobody can see —
+  // and could put the OS dialog on screen BEHIND the wizard, which is the exact failure
+  // the soft asks exist to prevent. index.tsx already routes a pending intro away from the
+  // map; this asserts the second guard, for any path that doesn't go through it.
+  it(
+    'never fires behind the introduction',
+    async () => {
+      setPermissions('undetermined', 'undetermined');
+
+      await launchMap(false);
+      await runOfferSequence();
+
+      expect(locationCard()).toBeNull();
+      expect(notificationCard()).toBeNull();
+      // Deferred, not consumed — the introduction has not answered anything on the user's
+      // behalf, so neither card may have spent one of its two showings.
       expect(await AsyncStorage.getItem(LOCATION_HINT_KEY)).toBeNull();
       expect(await AsyncStorage.getItem(NOTIFICATION_HINT_KEY)).toBeNull();
     },

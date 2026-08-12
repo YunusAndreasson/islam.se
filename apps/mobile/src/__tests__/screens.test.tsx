@@ -17,6 +17,7 @@ import Notiser from '@/app/(settings)/notiser';
 import Om from '@/app/(settings)/om';
 import VanligaFragor from '@/app/(settings)/vanliga-fragor';
 import Qibla from '@/app/qibla';
+import { IntroProvider } from '@/lib/intro-context';
 import { LocationProvider } from '@/lib/location/context';
 import { SettingsProvider } from '@/lib/settings/context';
 import { DEFAULT_SETTINGS } from '@/lib/settings/types';
@@ -28,7 +29,9 @@ const SETTINGS_KEY = 'prayerSettings:v1';
 function withProviders(node: ReactNode) {
   return (
     <SettingsProvider>
+      <IntroProvider>
       <LocationProvider>{node}</LocationProvider>
+    </IntroProvider>
     </SettingsProvider>
   );
 }
@@ -122,6 +125,45 @@ describe('tab screens', () => {
       // Zoom stays available — the projection handles zoom exactly, and locking it would
       // cost the city-level view the mosque layer and the qibla arc are drawn for.
       expect(map.props.touchZoom).not.toBe(false);
+    },
+    MAP_RENDER_TIMEOUT,
+  );
+
+  // THE BUG THIS GUARDS: "Återställ" was on screen at launch, on a map nobody had
+  // touched. Reported as "I see Återställ, which is unexpected after not having touched
+  // the map."
+  //
+  // The startup camera settles more than once and not always on the same frame: the
+  // initial fitBounds re-runs as `insets.bottom` lands (0 on the first render, real once
+  // the safe-area provider measures), onLayout remeasures the viewport, and MapLibre
+  // clamps to maxBounds/minZoom when the style loads. Measured against the frame sampled
+  // at mount, any of those clears the 0.5°/0.05 drift thresholds — so the chip claimed
+  // "you moved the map" about a move the app made itself.
+  //
+  // The gate is `userInteraction`: a settle the user did not cause is home, not drift.
+  // The second settle below is deliberately a long way off the first (5°, 0.4 zoom) —
+  // far past any threshold — so the test fails loudly if the gate is ever dropped.
+  it(
+    'never shows the reset chip for camera settles the user did not cause',
+    async () => {
+      await renderSettled(withProviders(<Bonetider />));
+      const map = screen.getByTestId('sweden-map');
+      const settle = async (bounds: number[], zoom: number, userInteraction = false) => {
+        await act(async () => {
+          fireEvent(map, 'regionDidChange', { nativeEvent: { zoom, bounds, userInteraction } });
+        });
+      };
+
+      await settle([11.15, 55.35, 23.7, 69.0], 4.5);
+      // The app re-fitting itself once the insets/viewport land — no finger involved.
+      await settle([16.15, 60.35, 28.7, 74.0], 4.1);
+
+      expect(screen.queryByLabelText('Återställ kartan')).toBeNull();
+
+      // And home has moved with it: a pan back to the ORIGINAL mount frame is now a
+      // real drift from where the map actually settled, so the chip appears.
+      await settle([11.15, 55.35, 23.7, 69.0], 4.5, true);
+      expect(screen.getByLabelText('Återställ kartan')).toBeTruthy();
     },
     MAP_RENDER_TIMEOUT,
   );
@@ -396,8 +438,10 @@ describe('tab screens', () => {
   it('searches the city picker diacritic-insensitively', async () => {
     await renderSettled(
       <SettingsProvider>
+      <IntroProvider>
         <BytPlats />
-      </SettingsProvider>,
+      </IntroProvider>
+    </SettingsProvider>,
     );
 
     fireEvent.changeText(screen.getByLabelText('Sök stad'), 'umea');
@@ -411,8 +455,10 @@ describe('tab screens', () => {
     jest.clearAllMocks();
     await renderSettled(
       <SettingsProvider>
+      <IntroProvider>
         <BytPlats />
-      </SettingsProvider>,
+      </IntroProvider>
+    </SettingsProvider>,
     );
 
     fireEvent.changeText(screen.getByLabelText('Sök stad'), 'umea');

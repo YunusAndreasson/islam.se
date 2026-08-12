@@ -5,6 +5,7 @@ import { AppState } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
+import { IntroProvider } from '@/lib/intro-context';
 import { useLocation, LocationProvider } from '@/lib/location/context';
 import { subscribeNotificationRouting } from '@/lib/notification-routing';
 import { syncPrayerNotifications } from '@/lib/notifications';
@@ -119,22 +120,43 @@ export default function RootLayout() {
     <GestureHandlerRootView style={{ flex: 1 }}>
       <SafeAreaProvider>
         <SettingsProvider>
-          <LocationProvider>
-            {/* Opaque paper ground so screen-to-screen transitions never flash the
-                map through an incoming page. Qibla and the Settings group present as
-                sheets over the map; everything else keeps the default card transition. */}
-            <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: c.paper } }}>
-              <Stack.Screen name="qibla" options={{ presentation: 'modal' }} />
-              <Stack.Screen name="(settings)" options={{ presentation: 'modal', headerShown: false }} />
-              {/* Opened from the mosque detail card on the map, so it presents as a sheet
-                  over it and dismissing returns to the map — same as Qibla and Settings. */}
-              <Stack.Screen name="moske-rattelse" options={{ presentation: 'modal' }} />
-            </Stack>
-            <NotificationSync />
-            <NotificationRouting />
-            <WidgetSync />
-            <AppStatusBar />
-          </LocationProvider>
+          <IntroProvider>
+            <LocationProvider>
+              {/* Opaque paper ground so screen-to-screen transitions never flash the
+                  map through an incoming page. Qibla and the Settings group present as
+                  sheets over the map; everything else keeps the default card transition. */}
+              <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: c.paper } }}>
+                {/* Home. Reached two ways — index.tsx's cold-launch redirect, and
+                    valkommen's router.replace() on finish — and both are "the app
+                    appearing", not one screen sliding over another, so no animation:
+                    the default native-stack push (slide in from the right on iOS) read
+                    as the app visibly opening a second screen on its own first frame. */}
+                <Stack.Screen name="bonetider" options={{ animation: 'none' }} />
+                <Stack.Screen name="qibla" options={{ presentation: 'modal' }} />
+                <Stack.Screen name="(settings)" options={{ presentation: 'modal', headerShown: false }} />
+                {/* Opened from the mosque detail card on the map, so it presents as a sheet
+                    over it and dismissing returns to the map — same as Qibla and Settings. */}
+                <Stack.Screen name="moske-rattelse" options={{ presentation: 'modal' }} />
+                {/* The introduction covers the app rather than sitting beside it: it runs
+                    before the map has ever been seen, so a card transition revealing the
+                    map underneath would give away the thing it is about to explain. No
+                    swipe-back either — "Hoppa över" is the way out, and a half-dismissed
+                    wizard behind the map is a state nothing else in the app can recover. */}
+                <Stack.Screen
+                  name="valkommen"
+                  options={{
+                    presentation: 'fullScreenModal',
+                    gestureEnabled: false,
+                    animation: 'fade',
+                  }}
+                />
+              </Stack>
+              <NotificationSync />
+              <NotificationRouting />
+              <WidgetSync />
+              <AppStatusBar />
+            </LocationProvider>
+          </IntroProvider>
         </SettingsProvider>
       </SafeAreaProvider>
     </GestureHandlerRootView>

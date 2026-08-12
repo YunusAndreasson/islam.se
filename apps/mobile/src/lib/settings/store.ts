@@ -26,7 +26,13 @@ import {
 
 // Bump the version suffix if the shape changes incompatibly; loadSettings merges
 // over defaults so additive changes need no migration.
-const STORAGE_KEY = 'prayerSettings:v1';
+//
+// Exported because lib/intro.ts reads this key's PRESENCE (not its contents) as the
+// signal that an install predates the introduction, and must not carry its own copy of
+// the string — a silent divergence there would put the first-run wizard in front of
+// every existing user on an ordinary update.
+export const SETTINGS_STORAGE_KEY = 'prayerSettings:v1';
+const STORAGE_KEY = SETTINGS_STORAGE_KEY;
 
 // `Other` remains in the type for old in-memory callers, but is deliberately not a
 // persisted choice: adhan's empty preset needs angle controls the app does not expose.

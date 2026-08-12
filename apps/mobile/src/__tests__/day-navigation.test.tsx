@@ -46,9 +46,8 @@ function permission(status: 'granted' | 'denied' | 'undetermined') {
 }
 
 /** Renders the map and brings it to the state a user actually navigates from: camera
- *  settled, daybreak intro over. (The intro's completion callback runs on the UI thread,
- *  which the reanimated mock never drives, so it is skipped the way a user would — by
- *  tapping. It only plays on the first cold launch in a JS context.) */
+ *  settled. (There is no launch sweep to sit through any more — the map paints at the
+ *  present moment from the first frame.) */
 async function launchMap(): Promise<void> {
   render(withProviders(<Bonetider />));
   await act(async () => {});
@@ -57,12 +56,6 @@ async function launchMap(): Promise<void> {
       nativeEvent: { zoom: 4.5, bounds: [11.15, 55.35, 23.7, 69.0] },
     });
   });
-  const skip = screen.queryByLabelText('Hoppa över introduktionen');
-  if (skip) {
-    await act(async () => {
-      fireEvent.press(skip);
-    });
-  }
 }
 
 async function step(direction: 'Nästa dag' | 'Föregående dag'): Promise<void> {

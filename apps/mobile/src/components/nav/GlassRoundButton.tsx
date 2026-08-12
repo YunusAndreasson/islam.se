@@ -24,9 +24,21 @@ interface Props {
   rim: string;
   /** Disc diameter in dp. Defaults to 46 (map discs); 38 reads better on a 44-pt modal bar. */
   size?: number;
+  /** Dims the disc and blocks the press — a control that can go stale within its own
+   *  card (MapLessonCard's "Föregående exempel" on the first example) rather than one
+   *  that opens or closes a screen, which is what every other caller uses this for. */
+  disabled?: boolean;
 }
 
-export function GlassRoundButton({ onPress, accessibilityLabel, children, tint, rim, size = 46 }: Props) {
+export function GlassRoundButton({
+  onPress,
+  accessibilityLabel,
+  children,
+  tint,
+  rim,
+  size = 46,
+  disabled,
+}: Props) {
   const radius = size / 2;
   return (
     <Pressable
@@ -34,15 +46,20 @@ export function GlassRoundButton({ onPress, accessibilityLabel, children, tint, 
       // close ✕ / back ←). Routine transitions don't buzz — the screen change is the
       // feedback, and buzzing them all drains the signal value of the meaningful haptics
       // (e.g. the qibla lock, fired separately in CompassButton). See lib/haptics policy.
+      // A caller that DOES want a tick (MapLessonCard's chevrons) fires its own, in the
+      // onPress it hands us — this component still never does it internally.
       onPress={onPress}
+      disabled={disabled}
       accessibilityRole="button"
       accessibilityLabel={accessibilityLabel}
+      accessibilityState={disabled ? { disabled: true } : undefined}
       hitSlop={8}
     >
       <GlassSurface
         style={[
           styles.button,
           { width: size, height: size, borderRadius: radius, borderColor: rim },
+          disabled && styles.disabled,
         ]}
         borderRadius={radius}
         interactive
@@ -61,4 +78,5 @@ const styles = StyleSheet.create({
     borderWidth: StyleSheet.hairlineWidth,
     ...shadow.button,
   },
+  disabled: { opacity: 0.3 },
 });

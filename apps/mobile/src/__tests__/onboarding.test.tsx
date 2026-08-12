@@ -1,0 +1,245 @@
+// The introduction, end to end.
+//
+// Two things here are worth a test rather than a careful reading, and both are about the
+// OS permission dialogs the flow stands in front of:
+//
+//   1. A dialog is spent exactly once per install. So the prompt must fire on a TAP and
+//      never on a mount, and a double-tap must not put two of them in flight.
+//   2. Whether the flow writes a hint "resolution" is what decides if the map's soft-ask
+//      card ever gets a second chance. Answering the OS closes the question for good;
+//      SKIPPING the step must leave it wide open. That asymmetry is the whole reason the
+//      two surfaces can coexist, and nothing about it is visible from either file alone.
+//
+// Everything else asserted below is ordinary wiring: the steps advance, the pickers write
+// settings, and finishing (or skipping) records the flow as seen.
+import { beforeEach, describe, expect, it, jest } from '@jest/globals';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { act, fireEvent, render, screen } from '@testing-library/react-native';
+import * as Location from 'expo-location';
+import * as Notifications from 'expo-notifications';
+
+import Valkommen from '@/app/valkommen';
+import { IntroProvider } from '@/lib/intro-context';
+import { LocationProvider } from '@/lib/location/context';
+import { resetLocationLaunchCountForTests } from '@/lib/location-hint';
+import { resetNotificationLaunchCountForTests } from '@/lib/notification-hint';
+import { SettingsProvider } from '@/lib/settings/context';
+
+const INTRO_KEY = 'introSeen:v1';
+const SETTINGS_KEY = 'prayerSettings:v1';
+const LOCATION_HINT_KEY = 'locationHintSeen:v1';
+const NOTIFICATION_HINT_KEY = 'notificationHintSeen:v1';
+
+function permission(status: 'granted' | 'denied' | 'undetermined') {
+  return { status, granted: status === 'granted', canAskAgain: status !== 'denied', expires: 'never' };
+}
+
+/** Answer the notification prompt with `status` — and make the read-only check agree.
+ *  Both matter: the request is what the button fires, and the hook re-reads the state
+ *  straight afterwards (that re-read is how a user who allowed notifications out in
+ *  system settings gets picked up). A fixture that granted the request but kept
+ *  reporting 'undetermined' on the read would describe an OS that does not exist. */
+function answerNotifications(status: 'granted' | 'denied'): void {
+  jest.mocked(Notifications.requestPermissionsAsync).mockResolvedValue(permission(status) as never);
+  jest.mocked(Notifications.getPermissionsAsync).mockResolvedValue(permission(status) as never);
+}
+
+/** The same, for location. */
+function answerLocation(status: 'granted' | 'denied'): void {
+  jest
+    .mocked(Location.requestForegroundPermissionsAsync)
+    .mockResolvedValue(permission(status) as never);
+  jest
+    .mocked(Location.getForegroundPermissionsAsync)
+    .mockResolvedValue(permission(status) as never);
+}
+
+/** Renders the flow and drains the providers' hydration promises, so nothing below runs
+ *  against the pre-hydration `loaded === false` ground. */
+async function launch(): Promise<void> {
+  render(
+    <SettingsProvider>
+      <IntroProvider>
+        <LocationProvider>
+          <Valkommen />
+        </LocationProvider>
+      </IntroProvider>
+    </SettingsProvider>,
+  );
+  await act(async () => {});
+}
+
+async function press(label: string): Promise<void> {
+  await act(async () => {
+    fireEvent.press(screen.getByText(label));
+  });
+  await act(async () => {});
+}
+
+describe('the introduction', () => {
+  beforeEach(async () => {
+    await AsyncStorage.clear();
+    jest.clearAllMocks();
+    resetLocationLaunchCountForTests();
+    resetNotificationLaunchCountForTests();
+    jest
+      .mocked(Location.getForegroundPermissionsAsync)
+      .mockResolvedValue(permission('undetermined') as never);
+    jest
+      .mocked(Notifications.getPermissionsAsync)
+      .mockResolvedValue(permission('undetermined') as never);
+  });
+
+  it('opens on the welcome step and asks the OS for nothing at all', async () => {
+    await launch();
+
+    expect(screen.getByText('Bönetider för Sverige')).toBeTruthy();
+    // The point of a soft ask: arriving in the app must not, by itself, spend either
+    // dialog. Both of these are the REQUEST calls, not the read-only checks.
+    expect(Location.requestForegroundPermissionsAsync).not.toHaveBeenCalled();
+    expect(Notifications.requestPermissionsAsync).not.toHaveBeenCalled();
+  });
+
+  it('walks all four steps and records itself as seen at the end', async () => {
+    await launch();
+
+    await press('Kom igång');
+    expect(screen.getByText('Var är du?')).toBeTruthy();
+
+    await press('Nästa');
+    expect(screen.getByText('Ska vi påminna dig?')).toBeTruthy();
+
+    await press('Nästa');
+    expect(screen.getByText('Hur ska tiderna räknas ut?')).toBeTruthy();
+
+    // The last step: no separate skip, "Visa bönetider" is the only way out — the map
+    // lesson this used to lead into now lives on bonetider.tsx itself, driving the real
+    // map (see MapLessonCard and intro-context.test.tsx's mapLessonPending coverage).
+    await press('Visa bönetider');
+    expect(await AsyncStorage.getItem(INTRO_KEY)).not.toBeNull();
+  });
+
+  it('records itself as seen when skipped outright', async () => {
+    await launch();
+    await press('Hoppa över');
+
+    // Skipping is a real answer to "shall I explain the app?", so it must not be asked
+    // again on the next cold launch.
+    expect(await AsyncStorage.getItem(INTRO_KEY)).not.toBeNull();
+  });
+
+  describe('the location step', () => {
+    it('fires the OS prompt once, however fast the button is tapped twice', async () => {
+      answerLocation('granted');
+      jest.mocked(Location.getCurrentPositionAsync).mockResolvedValue({
+        coords: { latitude: 57.7089, longitude: 11.9746 },
+      } as never);
+
+      await launch();
+      await press('Kom igång');
+
+      // Both presses land in the same frame, before any state update has committed —
+      // which is exactly the case a `busy` state cannot catch and the in-flight ref can.
+      await act(async () => {
+        fireEvent.press(screen.getByText('Använd min plats'));
+        fireEvent.press(screen.getByText('Använd min plats'));
+      });
+      await act(async () => {});
+
+      expect(Location.requestForegroundPermissionsAsync).toHaveBeenCalledTimes(1);
+    });
+
+    it('closes the map card question once the OS has answered — even with a refusal', async () => {
+      answerLocation('denied');
+
+      await launch();
+      await press('Kom igång');
+      await press('Använd min plats');
+
+      // A refusal is still an ANSWER: the OS will not ask again, so the map's location
+      // card has nothing left to offer and would only be a dead button.
+      const record = JSON.parse((await AsyncStorage.getItem(LOCATION_HINT_KEY)) as string);
+      expect(record.resolved).toBe(true);
+      // ...and the user is not stranded: the city picker is still one tap away.
+      expect(screen.getByText('Välj stad i stället')).toBeTruthy();
+    });
+
+    it('leaves the map card its second chance when the step is skipped', async () => {
+      await launch();
+      await press('Kom igång');
+      await press('Hoppa över');
+
+      // THE asymmetry. Nothing was asked, so nothing is recorded, so the map may still
+      // offer its location card on a later launch — see lib/hints for that policy. Writing
+      // a resolution here would silently cost the user the feature for good.
+      expect(await AsyncStorage.getItem(LOCATION_HINT_KEY)).toBeNull();
+    });
+
+    it('writes the chosen city, and the manual mode that goes with it', async () => {
+      await launch();
+      await press('Kom igång');
+      await press('Välj stad i stället');
+      await press('Göteborg');
+
+      const stored = JSON.parse((await AsyncStorage.getItem(SETTINGS_KEY)) as string);
+      expect(stored.locationMode).toBe('manual');
+      expect(stored.manualLocation.name).toBe('Göteborg');
+    });
+  });
+
+  describe('the reminders step', () => {
+    it('turns reminders on and reveals the per-prayer choice once granted', async () => {
+      answerNotifications('granted');
+
+      await launch();
+      await press('Kom igång');
+      await press('Nästa');
+      await press('Slå på påminnelser');
+
+      expect(screen.getByText('Vilka böner?')).toBeTruthy();
+      const stored = JSON.parse((await AsyncStorage.getItem(SETTINGS_KEY)) as string);
+      expect(stored.notifications.enabled).toBe(true);
+      const record = JSON.parse((await AsyncStorage.getItem(NOTIFICATION_HINT_KEY)) as string);
+      expect(record.resolved).toBe(true);
+    });
+
+    it('enables reminders on a refusal too, and offers the way back', async () => {
+      answerNotifications('denied');
+
+      await launch();
+      await press('Kom igång');
+      await press('Nästa');
+      await press('Slå på påminnelser');
+
+      // Enabled-but-blocked is not a lie: it is what makes Inställningar show "Blockerat"
+      // with its recovery link, and it means a user who later allows notifications in
+      // system settings starts receiving them on the very next sync — without having to
+      // find the toggle again. Same rule as the map's NotificationHint.
+      const stored = JSON.parse((await AsyncStorage.getItem(SETTINGS_KEY)) as string);
+      expect(stored.notifications.enabled).toBe(true);
+      expect(screen.getByText(/Notiser är blockerade/)).toBeTruthy();
+    });
+
+    it('leaves the map card its second chance when the step is skipped', async () => {
+      await launch();
+      await press('Kom igång');
+      await press('Nästa');
+      await press('Hoppa över');
+
+      expect(await AsyncStorage.getItem(NOTIFICATION_HINT_KEY)).toBeNull();
+      expect(Notifications.requestPermissionsAsync).not.toHaveBeenCalled();
+    });
+  });
+
+  it('writes the calculation method the user picks', async () => {
+    await launch();
+    await press('Kom igång');
+    await press('Nästa');
+    await press('Nästa');
+
+    await press('Muslim World League');
+
+    const stored = JSON.parse((await AsyncStorage.getItem(SETTINGS_KEY)) as string);
+    expect(stored.calculationMethod).toBe('MuslimWorldLeague');
+  });
+});
