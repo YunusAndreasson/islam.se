@@ -15,14 +15,14 @@
 		"dev": "tsc --watch"
 	},
 	"dependencies": {
-		"@anthropic-ai/sdk": "^0.113.0",
+		"@anthropic-ai/sdk": "^0.116.0",
 		"@huggingface/transformers": "^4.2.0",
-		"better-sqlite3": "^13.0.2",
-		"openai": "^6.49.0",
+		"better-sqlite3": "^13.0.3",
+		"openai": "^7.4.0",
 		"sqlite-vec": "0.1.9",
 		"zod": "^4.4.3"
 	},
 	"devDependencies": {
-		"@types/better-sqlite3": "^7.6.13"
+		"@types/better-sqlite3": "^9.6.0"
 	}
 }

@@ -55,7 +55,7 @@ essays:
 
 ## Vad måste man göra innan bönen börjar?
 
-Innan det första *Allāhu akbar* ska flera villkor vara uppfyllda. Bönens tid ska ha inträtt: var och en av de fem bönerna har sitt eget tidsfönster, från Fajr i gryningen till Isha om natten, räknat efter solens läge över den plats man befinner sig på – se [bönetider för din ort](/bonetider/). Den bedjande ska ha utfört den rituella tvagningen, *wudūʾ*, och bära rena kläder på en ren plats. Saknas vatten, eller kan det inte användas, ersätts tvagningen av *tayammum*, en symbolisk rening med ren jord. Kroppen ska vara anständigt täckt. Slutligen vänder man sig mot *qibla*, riktningen mot Kaba i Mecka, och fattar i hjärtat avsikten, *niyya*, att be just denna bön. Avsikten uttalas inte högt; den är ett beslut, inte en formel. I klassisk fiqh kallas de bönens giltighetsvillkor: är något av dem ogjort har bönen inte börjat, hur noggrant den än utförs.
+Innan det första *Allāhu akbar* ska flera villkor vara uppfyllda. Bönens tid ska ha inträtt: var och en av de fem bönerna har sitt eget tidsfönster, från Fajr i gryningen till Isha om natten, räknat efter solens läge över den plats man befinner sig på – se [bönetider för din ort](/bonetider/). Den bedjande ska ha utfört den rituella tvagningen, *wudūʾ*, och bära rena kläder på en ren plats. Saknas vatten, eller kan det inte användas, ersätts tvagningen av *tayammum*, en symbolisk rening med ren jord. Kroppen ska vara anständigt täckt. Slutligen vänder man sig mot *qibla*, riktningen mot Kaba i Mecka, och fattar i hjärtat avsikten, *niyya*, att be just denna bön. Avsikten uttalas inte högt utan fattas i hjärtat. I klassisk fiqh kallas de bönens giltighetsvillkor: är något av dem ogjort har bönen inte börjat, hur noggrant den än utförs.
 
 ## Hur går bönen till steg för steg?
 
@@ -69,7 +69,7 @@ Bönen inleds stående. Man höjer händerna och säger *takbīrat al-ihrām* �
 
 Därmed är en rakaʿa fullbordad och nästa börjar. I böner om tre eller fyra rakaʿāt sitter man i *tashahhud* även efter de två första cyklerna; efter den sista läses *tashahhud* på nytt, och bönen avslutas med *taslīm*: man vänder huvudet åt höger och åt vänster och säger "as-salāmu ʿalaykum".
 
-Rörelsen är densamma varje gång: kroppen sänks stegvis från stående ända till marken och reser sig igen. Varje ställning ska dessutom hinna bli stilla innan nästa börjar – lugnet kallas *tumaʾnīna* och räknas av flertalet rättsskolor som en nödvändig del av bönen, inte en förfining. Kravet går tillbaka på en berömd händelse. En man bad i moskén, och profeten sände tillbaka honom tre gånger med orden "Gå tillbaka och be, för du har inte bett". Först därefter lärde han honom bönen moment för moment, och samma villkor upprepades vid varje moment: att buga tills kroppen kommit till ro, resa sig tills ryggen är rak, falla ned tills kroppen åter kommit till ro (Sahīh al-Bukhārī 757). Ibn Taymiyya förklarar varför i *al-Qawāʿid an-nūrāniyya*:
+Rörelsen är densamma varje gång: kroppen sänks stegvis från stående ända till marken och reser sig igen. Varje ställning ska dessutom hinna bli stilla innan nästa börjar – lugnet kallas *tumaʾnīna* och räknas av flertalet rättsskolor som en nödvändig del av bönen. Kravet går tillbaka på en berömd händelse. En man bad i moskén, och profeten sände tillbaka honom tre gånger med orden "Gå tillbaka och be, för du har inte bett". Först därefter lärde han honom bönen moment för moment, och samma villkor upprepades vid varje moment: att buga tills kroppen kommit till ro, resa sig tills ryggen är rak, falla ned tills kroppen åter kommit till ro (Sahīh al-Bukhārī 757). Ibn Taymiyya förklarar varför i *al-Qawāʿid an-nūrāniyya*:
 
 > Bönen är hjärtats föda liksom maten är kroppens föda. Och eftersom kroppen inte får någon näring av en smula mat, får hjärtat ingen näring av en bön som hackas fram – det krävs en fullgången bön för att hjärtan ska mättas.
 
@@ -88,7 +88,7 @@ Islam föreskriver fem obligatoriska (*fard*) böner per dygn, var och en knuten
 > Bönen är alla troendes plikt, knuten till bestämda tider.
 > — Koranen 4:103
 
-Det ger sammanlagt sjutton obligatoriska rakaʿāt: Fajr i gryningen (2), Dhuhr efter middagshöjd (4), Asr på eftermiddagen (4), Maghrib strax efter solnedgången (3) och Isha på natten (4). Tiderna styrs av solens gång och skiftar över året och med platsen; därför räknas bönetabeller ut lokalt. Den som är på resa får korta bönerna med fyra rakaʿāt till två. Utöver de fem finns frivilliga böner (*nawāfil*), bland dem *witr* som avslutar natten och de regelbundna *sunna*-bönerna kring de föreskrivna, men de fem är pliktens kärna. Fem böner, sjutton rakaʿāt: dygnet får en puls som ingen annan vana ger.
+Det ger sammanlagt sjutton obligatoriska rakaʿāt: Fajr i gryningen (2), Dhuhr efter middagshöjd (4), Asr på eftermiddagen (4), Maghrib strax efter solnedgången (3) och Isha på natten (4). Tiderna styrs av solens gång och skiftar över året och med platsen; därför räknas bönetabeller ut lokalt. Den som är på resa får korta bönerna med fyra rakaʿāt till två. Utöver de fem finns frivilliga böner (*nawāfil*), bland dem *witr* som avslutar natten och de regelbundna *sunna*-bönerna kring de föreskrivna, men de fem är pliktens kärna.
 
 ## Varför ber muslimer på just detta sätt?
 
@@ -97,4 +97,4 @@ Bönens form går tillbaka på profeten Muhammed själv. När han undervisade si
 > Jag är Gud; ingen gudom finns utom Jag. Dyrka Mig därför och förrätta bönen för att minnas Mig!
 > — Koranen 20:14
 
-Bönen är alltså inte i första hand en begäran om något, utan *dhikr*: att minnas Gud och ställa sig inför honom med hela kroppen. Någon präst eller mellanhand finns inte; varje muslim förrättar bönen på samma sätt och står själv inför sin Herre. Kan någon inte stå ber han sittande, och kan han inte det ber han liggande – formen anpassas efter förmåga men ändras aldrig efter tycke.
+Bönen är alltså inte i första hand en begäran om något, utan *dhikr*: att minnas Gud och ställa sig inför honom med hela kroppen. Någon präst eller mellanhand finns inte; varje muslim förrättar bönen på samma sätt och står själv inför sin Herre. Kan någon inte stå ber han sittande, och kan han inte det ber han liggande; formen anpassas efter förmågan.

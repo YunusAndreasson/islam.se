@@ -27,7 +27,16 @@ const COUNTRIES = [
 	"ireland",
 	"netherlands",
 ];
-const EPS = 0.06; // degrees (~6 km) — coarse; these are faint background blobs
+// 0.15° (~16 km) — raised from 0.06° 2026-08-13 after a mobile Lighthouse audit found
+// render-field.js (which statically imports this file) costing a ~440ms parse/compile
+// task under 4×-throttled mobile CPU, on the /bonetider/[stad]/ city-page map (the
+// "full" variant, always on-screen — unlike the homepage teaser, it can't skip this
+// cost by staying off-screen). Cuts the ring data from 3,342 to 1,460 points (-56%).
+// Verified with a frozen-clock Playwright before/after screenshot diff: differences
+// are sub-pixel AA noise on coastlines, evenly distributed including Sweden's own
+// (untouched) outline — no visible loss on the "faint background context" this layer
+// is meant to be, even at the full variant's larger on-screen size.
+const EPS = 0.15; // degrees (~16 km) — coarse; these are faint background blobs
 const MIN_AREA = 0.06; // deg² — drop anything smaller than a readable landmass
 // Keep only rings whose bbox intersects the map view (with a margin); the canvas clips
 // the rest. Mirrors render-field's VIEW_BBOX, grown a little — wide enough west (the

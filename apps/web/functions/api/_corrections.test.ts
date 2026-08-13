@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from "vitest";
 
-// @ts-expect-error — plain JS module, no types; it runs on the Workers runtime.
+// A plain JS module — it runs on the Workers runtime; types are inferred via `allowJs`.
 import { clampField, hashIp, isRateLimited, MAX_PER_HOUR, notifyMailer } from "./_corrections.js";
 
 /** A D1 stand-in whose COUNT(*) answers with `n`. */

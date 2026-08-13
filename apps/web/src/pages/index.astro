@@ -119,8 +119,14 @@ const heroPreload = feature?.heroImage
 		{/* Rank 3, and the act boundary. The seven ämnen have carried an authored
 		    framing line since the taxonomy was built and no reader has ever seen one:
 		    the front page named no section at all. Three departments here, the rest
-		    behind /amnen/. */}
-		<AmnenHome limit={3} exclude={used} />
+		    behind /amnen/.
+
+		    `art` runs the rows with their hero thumbnails and lets a department
+		    prefer its illustrated essays. Rank is still carried by size and by the
+		    rules above — the lead bleeds past the canvas, the tier runs two cards,
+		    and these are 7rem thumbs on a row — so the page does not flatten into
+		    three tiers of the same picture. */}
+		<AmnenHome limit={3} exclude={used} art />
 
 		{/* The two curated axes through the corpus. Both are first-class authored data
 		    — the trådar carry framing prose, the tänkare are derived from the essay

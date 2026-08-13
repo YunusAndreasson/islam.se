@@ -61,7 +61,7 @@ Ramadan följer månkalendern och vandrar därför bakåt med omkring tio–elva
 > För att ge människorna vägledning [inleddes] i månaden Ramadan uppenbarelsen av Koranen i vilken vägledningen klargörs och en måttstock ges med vilken rätt kan mätas och skiljas från orätt.
 > — Koranen 2:185
 
-Inom månaden ligger också *Laylat al-Qadr*, "Maktens natt", som Koranen ägnar en egen sura och säger är mer värd än tusen månader (97:3). Den söks under de udda nätterna i den sista tredjedelen och knyts i traditionen ofta till den 27:e. Fastan är en av islams fem pelare (Sahīh al-Bukhārī 8), och den enda vars plikt fyller en hel månad. Omkring två miljarder människor – 25,6 procent av jordens befolkning år 2020, enligt Pew Research Center – delar samma fastemånad. Ingen annan andakt samlar så många i samma månad.
+Inom månaden ligger också *Laylat al-Qadr*, "Maktens natt", som Koranen ägnar en egen sura och säger är mer värd än tusen månader (97:3). Den söks under de udda nätterna i den sista tredjedelen och knyts i traditionen ofta till den 27:e. Fastan är en av islams fem pelare (Sahīh al-Bukhārī 8), och den enda vars plikt fyller en hel månad. Omkring två miljarder människor – 25,6 procent av jordens befolkning år 2020, enligt Pew Research Center – delar samma fastemånad.
 
 ## Vad innebär det att fasta under ramadan?
 
@@ -70,11 +70,11 @@ Att fasta (*sawm*) betyder att helt avstå från mat, dryck, rökning och sexuel
 > ...ni får äta och dricka till dess den vita strimman av gryningsljuset kan urskiljas mot nattens mörker. Återuppta då fastan och håll den tills natten faller på.
 > — Koranen 2:187
 
-Att äta eller dricka av ren glömska bryter däremot inte fastan, och dagen fullföljs som vanligt. Fastan hänger på avsikten, och avsikten kan glömskan inte upphäva.
+Att äta eller dricka av ren glömska bryter däremot inte fastan, och dagen fullföljs som vanligt. Skälet är att fastan hänger på avsikten, och den upphävs inte av ett ögonblicks glömska.
 
 ## Vem måste fasta och vem är undantagen?
 
-Fastan är en plikt (*fard*) för varje muslim som nått puberteten, är vid sina sinnens fulla bruk och har kroppslig förmåga att klara den. Barn omfattas inte men vänjs gradvis vid den. Koranen friar uttryckligen den sjuke och den resande, som i stället tar igen (*qadāʾ*) motsvarande antal dagar senare. I samma vers (2:185) heter det att "Gud vill göra det lätt – inte tungt – för er". Undantagna är även menstruerande och nyförlösta kvinnor, som fullgör de missade dagarna i efterhand, medan gravida och ammande får skjuta upp fastan. Den som av kronisk sjukdom eller hög ålder aldrig kan ta igen dagarna ger i stället *fidya*, mat till en behövande för varje missad dag. Fastan krävs alltså aldrig av den som den skulle skada; av den som kan bära den krävs den alltid.
+Fastan är en plikt (*fard*) för varje muslim som nått puberteten, är vid sina sinnens fulla bruk och har kroppslig förmåga att klara den. Barn omfattas inte men vänjs gradvis vid den. Koranen friar uttryckligen den sjuke och den resande, som i stället tar igen (*qadāʾ*) motsvarande antal dagar senare. I samma vers (2:185) heter det att "Gud vill göra det lätt – inte tungt – för er". Undantagna är även menstruerande och nyförlösta kvinnor, som fullgör de missade dagarna i efterhand, medan gravida och ammande får skjuta upp fastan. Den som av kronisk sjukdom eller hög ålder aldrig kan ta igen dagarna ger i stället *fidya*, mat till en behövande för varje missad dag.
 
 ## Vad är den egentliga meningen med fastan?
 

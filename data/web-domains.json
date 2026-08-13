@@ -119,12 +119,12 @@
       "avgScore": 8.65
     },
     "popularhistoria.se": {
-      "total": 3,
-      "ok": 3,
+      "total": 4,
+      "ok": 4,
       "failed": 0,
-      "lastChecked": "2026-05-17T12:23:59.802Z",
-      "publishedIn": 2,
-      "avgScore": 8.55
+      "lastChecked": "2026-08-09T21:10:34.549Z",
+      "publishedIn": 3,
+      "avgScore": 8.6
     },
     "hal.science": {
       "total": 1,
@@ -219,12 +219,12 @@
       "avgScore": 8.508333333333335
     },
     "sv.wikipedia.org": {
-      "total": 34,
-      "ok": 34,
+      "total": 38,
+      "ok": 38,
       "failed": 0,
-      "lastChecked": "2026-08-05T20:51:26.433Z",
-      "publishedIn": 26,
-      "avgScore": 8.607692307692306
+      "lastChecked": "2026-08-09T21:10:34.549Z",
+      "publishedIn": 30,
+      "avgScore": 8.619999999999997
     },
     "lifewithallah.com": {
       "total": 3,
@@ -243,12 +243,12 @@
       "avgScore": 8.6
     },
     "www.diva-portal.org": {
-      "total": 6,
-      "ok": 6,
+      "total": 7,
+      "ok": 7,
       "failed": 0,
-      "lastChecked": "2026-08-05T20:51:26.433Z",
-      "publishedIn": 3,
-      "avgScore": 8.566666666666668
+      "lastChecked": "2026-08-09T21:10:34.549Z",
+      "publishedIn": 4,
+      "avgScore": 8.600000000000001
     },
     "academia.edu": {
       "total": 1,
@@ -327,12 +327,12 @@
       "avgScore": 8.5
     },
     "www.so-rummet.se": {
-      "total": 1,
-      "ok": 1,
+      "total": 2,
+      "ok": 2,
       "failed": 0,
-      "lastChecked": "2026-02-12T12:26:16.581Z",
-      "publishedIn": 1,
-      "avgScore": 8.5
+      "lastChecked": "2026-08-09T21:10:34.549Z",
+      "publishedIn": 2,
+      "avgScore": 8.6
     },
     "www.culawreview.org": {
       "total": 1,
@@ -1025,12 +1025,12 @@
       "avgScore": 8.6
     },
     "www.sverigesradio.se": {
-      "total": 4,
-      "ok": 4,
+      "total": 5,
+      "ok": 5,
       "failed": 0,
-      "lastChecked": "2026-05-17T15:06:12.677Z",
-      "publishedIn": 4,
-      "avgScore": 8.55
+      "lastChecked": "2026-08-09T21:10:34.549Z",
+      "publishedIn": 5,
+      "avgScore": 8.580000000000002
     },
     "kyrkaochfolk.se": {
       "total": 1,
@@ -2006,6 +2006,22 @@
       "lastChecked": "2026-08-05T20:51:26.433Z",
       "publishedIn": 1,
       "avgScore": 8.6
+    },
+    "www.searchforbeauty.org": {
+      "total": 1,
+      "ok": 1,
+      "failed": 0,
+      "lastChecked": "2026-08-09T21:10:34.549Z",
+      "publishedIn": 1,
+      "avgScore": 8.7
+    },
+    "www.rotter.se": {
+      "total": 1,
+      "ok": 1,
+      "failed": 0,
+      "lastChecked": "2026-08-09T21:10:34.549Z",
+      "publishedIn": 1,
+      "avgScore": 8.7
     }
   }
 }

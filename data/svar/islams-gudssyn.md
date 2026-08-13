@@ -86,8 +86,6 @@ Gud beskrivs genom sina skönaste namn *(al-asmāʾ al-husnā)* – den Nåderik
 
 > Den som vet och känner mest om Guds namn och egenskaper, vet och känner mest om Gud själv.
 
-Gud är därför ingen gåta att lösa, utan en Herre att lära känna.
-
 ## Kan Gud avbildas eller liknas vid något?
 
 Nej. Eftersom Gud är fullkomligt olik allt skapat kan han varken avbildas, föreställas eller jämföras med en mänsklig förebild. Koranen uttrycker principen kort:
@@ -110,4 +108,4 @@ Trots att Gud är upphöjd över sin skapelse är han inte fjärran. Koranen bes
 > Vi har skapat människan och Vi vet vad hennes själ viskar till henne; ja, Vi är närmare henne än hennes egen halspulsåder.
 > — Koranen 50:16
 
-Klassisk troslära förstår detta som en närhet i vetande – inte som att Gud blandas med skapelsen: han förblir upphöjd över allt, och ändå undgår honom ingenting. Därför präglas förhållandet till Gud av både vördnad och förtröstan. Människan dyrkar honom i bön, hoppas på hans nåd och fruktar hans rättvisa, och hon åkallar honom *(duʿā)* utan mellanhänder, i förvissningen att han hör varje ord. Ingen instans står emellan bönen och den som hör den.
+Klassisk troslära förstår detta som en närhet i vetande – inte som att Gud blandas med skapelsen: han förblir upphöjd över allt, och ändå undgår honom ingenting. Därför präglas förhållandet till Gud av både vördnad och förtröstan. Människan dyrkar honom i bön, hoppas på hans nåd och fruktar hans rättvisa, och hon åkallar honom *(duʿā)* utan mellanhänder, i förvissningen att han hör varje ord.

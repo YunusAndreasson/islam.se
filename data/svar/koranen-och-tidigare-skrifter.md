@@ -77,7 +77,7 @@ Ja. Koranen kallar sig själv *musaddiq*, en bekräftare av de tidigare skrifter
 > [Muhammad!] Vi har uppenbarat Koranen för dig med sanningen, som bekräftar det som består av [äldre tiders] uppenbarade Skrifter och vars uppgift det är att vaka över det
 > — Koranen 5:48
 
-Samma tanke återkommer i 3:3: "det är Han som uppenbarade Tora och Evangeliet", skrifter som getts mänskligheten till vägledning. Att vara väktare gör Koranen till måttstock: det i de äldre skrifterna som stämmer med den bekräftas, det som motsäger den räknas som senare tillägg. Profeten Muhammed lärde följeslagarna en avvägd hållning till de skrifter som Bokens folk bär på. I en hadith hos al-Bukhārī säger han: "Tro inte Bokens folk och beskyll dem inte heller för lögn, utan säg: Vi tror på Gud och på det som uppenbarats för oss och det som uppenbarats för er" (Sahīh al-Bukhārī 7362). Att erkänna de äldre skrifterna betyder alltså att läsa dem med Koranen i hand och låta den fälla utslaget.
+Samma tanke återkommer i 3:3: "det är Han som uppenbarade Tora och Evangeliet", skrifter som getts mänskligheten till vägledning. Att vara väktare gör Koranen till måttstock: det i de äldre skrifterna som stämmer med den bekräftas, det som motsäger den räknas som senare tillägg. Profeten Muhammed lärde följeslagarna en avvägd hållning till de skrifter som Bokens folk bär på. I en hadith hos al-Bukhārī säger han: "Tro inte Bokens folk och beskyll dem inte heller för lögn, utan säg: Vi tror på Gud och på det som uppenbarats för oss och det som uppenbarats för er" (Sahīh al-Bukhārī 7362).
 
 ## Varför anser muslimer att de äldre skrifterna förvanskats?
 

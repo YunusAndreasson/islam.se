@@ -8,6 +8,9 @@ type Props = HTMLAttributes<"ul"> & {
 	itemVariant?: "row" | "card";
 	showReadFlag?: boolean;
 	showMinutesAttr?: boolean;
+	/** Row variant only — see EssayArchiveItem. Rows whose essay has no hero
+	 *  render unchanged, so a mixed list stays flush left. */
+	showThumb?: boolean;
 };
 
 const {
@@ -15,6 +18,7 @@ const {
 	itemVariant = "row",
 	showReadFlag = false,
 	showMinutesAttr = false,
+	showThumb = false,
 	class: className,
 	...attrs
 } = Astro.props;
@@ -29,6 +33,7 @@ const isCardList = itemVariant === "card";
 			variant={itemVariant}
 			showReadFlag={showReadFlag}
 			showMinutesAttr={showMinutesAttr}
+			showThumb={showThumb}
 		/>
 	))}
 </ul>

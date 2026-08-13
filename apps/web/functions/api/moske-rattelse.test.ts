@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
-// @ts-expect-error — plain JS module, no types; it runs on the Workers runtime.
+// A plain JS module — it runs on the Workers runtime; types are inferred via `allowJs`.
 import { onRequest, onRequestPost } from "./moske-rattelse.js";
 
 // A minimal, valid report: "the address is wrong, here is the right one".

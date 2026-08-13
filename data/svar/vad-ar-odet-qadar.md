@@ -78,11 +78,9 @@ De lärda, däribland Ibn al-Qayyim i *Shifāʾ al-ʿalīl*, sammanfattar tron p
 > Ingen olycka drabbar jorden och inte heller er själva utan att den förts in i [Vår] bok, innan Vi sätter den i verket
 > — Koranen 57:22
 
-Fyra led – vetskap, skrift, vilja, skapelse – och allt som sker har passerat alla fyra.
-
 ## Har människan fri vilja om allt är förskrivet?
 
-Här väljer *ahl as-sunna* medelvägen mellan två diken. *Qadariyya* förnekade att Gud förutbestämt och skapat människans handlingar, och överdrev därmed den fria viljan. *Jabriyya* förnekade människans vilja helt och gjorde henne till ett viljelöst redskap. Den klassiska läran, så som Ibn Taymiyya formulerade den, håller fast vid båda sanningarna samtidigt: människan har en verklig vilja och förmåga (*qudra*), men både viljan och förmågan är i sin tur skapade av Gud. Koranen ställer de två sanningarna intill varandra i två på varandra följande verser: den ena talar om den människa som vill gå den raka vägen (81:28), den andra säger att ingen kan vilja om inte Gud, världarnas Herre, vill (81:29). Viljan är verklig i den första satsen och skapad i den andra. Hon väljer och handlar i verklig mening, och bär därför fullt ansvar på domens dag. Människan faller inte genom tillvaron som en viljelös sten; hon väljer, men aldrig utanför det Gud har skapat.
+Här väljer *ahl as-sunna* medelvägen mellan två diken. *Qadariyya* förnekade att Gud förutbestämt och skapat människans handlingar, och överdrev därmed den fria viljan. *Jabriyya* förnekade människans vilja helt och gjorde henne till ett viljelöst redskap. Den klassiska läran, så som Ibn Taymiyya formulerade den, håller fast vid båda sanningarna samtidigt: människan har en verklig vilja och förmåga (*qudra*), men både viljan och förmågan är i sin tur skapade av Gud. Koranen ställer de två sanningarna intill varandra i två på varandra följande verser: den ena talar om den människa som vill gå den raka vägen (81:28), den andra säger att ingen kan vilja om inte Gud, världarnas Herre, vill (81:29). Viljan är verklig i den första satsen och skapad i den andra. Hon väljer och handlar i verklig mening, och bär därför fullt ansvar på domens dag, men aldrig utanför det Gud har skapat.
 
 ## Får man skylla sina synder på ödet?
 
@@ -94,7 +92,7 @@ Att Pennan skrivit allt upphäver inte plikten att handla och söka medlen (*asb
 
 > Döden kommer när den kommer, var jag än är, om det är mitt öde.
 
-Islam delar utgångspunkten att stunden är utsatt, men drar motsatt slutsats om medlen: också de är skrivna, och därför ska de sökas. När pesten härjade i Shām vände kalifen ʿUmar ibn al-Khattāb om hellre än att rida in i den drabbade staden, och svarade dem som invände att han flydde "från Guds beslut till Guds beslut" (Sahīh al-Bukhārī 5729; Sahīh Muslim 2219). Ödet förklarar det som drabbar människan; det ursäktar aldrig det hon väljer.
+Islam delar utgångspunkten att stunden är utsatt, men drar motsatt slutsats om medlen: också de är skrivna, och därför ska de sökas. När pesten härjade i Shām vände kalifen ʿUmar ibn al-Khattāb om hellre än att rida in i den drabbade staden, och svarade dem som invände att han flydde "från Guds beslut till Guds beslut" (Sahīh al-Bukhārī 5729; Sahīh Muslim 2219).
 
 ## Vad ger tron på ödet den troende?
 
@@ -107,4 +105,4 @@ Koranen lägger orden i de troendes mun:
 > Säg: ”Ingenting kan drabba oss om det inte är förutbestämt för oss av Gud. Han är vår Herre och vår Beskyddare. Till Gud skall de troende lita!”
 > — Koranen 9:51
 
-Tron är utbredd: i 19 av 23 undersökta länder delade minst sju av tio muslimer tron på det förutbestämda, i Tunisien hela 98 procent (Pew Research Center, 2012). Vad den ger är ett fäste för den som inser hur lite av livet som låter sig styras.
+Tron är utbredd: i 19 av 23 undersökta länder delade minst sju av tio muslimer tron på det förutbestämda, i Tunisien hela 98 procent (Pew Research Center, 2012).
