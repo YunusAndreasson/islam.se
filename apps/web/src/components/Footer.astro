@@ -1,10 +1,20 @@
 ---
+import { gregorianToHijri } from "../lib/markesdagar";
 import { FOOTER_LINKS } from "../lib/navigation";
 import MarkDot from "./MarkDot.astro";
 
 const year = new Date().getFullYear();
 const path = Astro.url.pathname;
 const here = (p: string) => path === p || path === `${p}/`;
+
+// A colophon date, not a feature version — the site has no release train, so a semver
+// triplet would just be three arbitrary-looking digits. The Hijri build date reads the
+// same shape (X.Y.Z) but every digit means something: which Hijri year, month and day
+// this was deployed. Zero-padded so the stamp holds a fixed width across every build —
+// "1447.02.06", never a jittery "1447.2.6".
+const buildHijri = gregorianToHijri(new Date());
+const pad2 = (n: number) => String(n).padStart(2, "0");
+const buildStamp = `${buildHijri.y}.${pad2(buildHijri.m)}.${pad2(buildHijri.d)}`;
 ---
 
 <footer class="site-footer">
@@ -30,4 +40,12 @@ const here = (p: string) => path === p || path === `${p}/`;
 	    footer tapers from the link row to a single point. Decorative: the colophon above
 	    already links home, and a second link here would only split the target. */}
 	<MarkDot class="site-footer-mark" />
+
+	{/* A colophon date beneath the printer's device, not a UI element — deliberately
+	    quieter than the meta line above it. title carries the readable date for anyone
+	    who hovers; the digits alone are legible to no one who doesn't already know the
+	    scheme, which is the point. */}
+	<p class="site-footer-build" title={`Publicerad ${buildStamp} (den islamiska kalendern)`}>
+		{buildStamp}
+	</p>
 </footer>

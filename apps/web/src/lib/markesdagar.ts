@@ -31,13 +31,13 @@ const hijriFmt = new Intl.DateTimeFormat("en-u-ca-islamic-umalqura", {
 	timeZone: "UTC",
 });
 
-interface Hijri {
+export interface Hijri {
 	y: number;
 	m: number;
 	d: number;
 }
 
-function gregorianToHijri(date: Date): Hijri {
+export function gregorianToHijri(date: Date): Hijri {
 	const parts = hijriFmt.formatToParts(date);
 	const get = (t: string) => Number.parseInt(parts.find((p) => p.type === t)?.value ?? "0", 10);
 	return { y: get("year"), m: get("month"), d: get("day") };

@@ -97,4 +97,4 @@ Men avgörande är inte mängden goda gärningar i sig, utan *tawhīd*. Redan i 
 
 > Ingen av dem som bekänt Guds enhet men syndat blir kvar i helvetet, för när de har straffats i mån av sin skuld förs de ut ur elden och in i paradiset.
 
-Gärningarna väger, men *tawhīd* fäller utslaget; inga goda gärningar i världen friköper den som mött Gud med en avgud i hjärtat.
+Gärningarna väger, men *tawhīd* fäller utslaget.

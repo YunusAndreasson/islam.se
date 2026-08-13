@@ -34,6 +34,12 @@ interface Props {
 	/** Preload Amiri Quran on pages that always paint Arabic — kills the font-swap
 	 *  restyle of the verses. ~45 kB once, cached site-wide. */
 	preloadArabicFont?: boolean;
+	/** Preload Literata + Source Sans on pages with no competing LCP image preload.
+	 *  Body/heading stay unpreloaded site-wide (see the comment below — that
+	 *  bandwidth is reserved for the hero image), but a page with no hero has no
+	 *  such contention, and text set high enough to still be visible when the
+	 *  fonts land otherwise costs real CLS on this page's font-swap reflow. */
+	preloadTextFonts?: boolean;
 	articleMeta?: {
 		publishedAt: string;
 		/** Genuine later revision only — emits dateModified (freshness signal). */
@@ -65,6 +71,7 @@ const {
 	preloadImageSizes,
 	preloadImageType,
 	preloadArabicFont = false,
+	preloadTextFonts = false,
 	articleMeta,
 	jsonLd,
 	noindex = false,
@@ -239,11 +246,11 @@ if (articleMeta) {
 		    since their last fallback is a generic name) already generates a metric-matched
 		    fallback face, so the swap-in shouldn't cause layout shift or a jarring flash — see
 		    https://developer.chrome.com/blog/font-fallbacks. `display` defaults to "swap". */}
-		<Font cssVariable="--font-body" />
+		{preloadTextFonts ? <Font cssVariable="--font-body" preload /> : <Font cssVariable="--font-body" />}
 		{/* Italic Literata: same family, emitted as an @font-face but deliberately NOT
 		    preloaded (see astro.config.ts) — it loads on demand when italic text renders. */}
 		<Font cssVariable="--font-body-italic" />
-		<Font cssVariable="--font-heading" />
+		{preloadTextFonts ? <Font cssVariable="--font-heading" preload /> : <Font cssVariable="--font-heading" />}
 		{preloadArabicFont ? <Font cssVariable="--font-arabic" preload /> : <Font cssVariable="--font-arabic" />}
 		{preloadImageSrcset ? (
 			<link rel="preload" as="image" type={preloadImageType} imagesrcset={preloadImageSrcset} imagesizes={preloadImageSizes} fetchpriority="high" />

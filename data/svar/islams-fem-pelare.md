@@ -77,8 +77,6 @@ Fastan, *sawm*, hålls under hela månaden ramadan: från gryningens första lju
 > TROENDE! Det är en plikt för er att fasta, liksom det var en plikt för dem som levde före er – kanske skall ni frukta Gud.
 > — Koranen 2:183
 
-Bönen mäter dygnet, fastan mäter året – två klockor som ställer livet efter Gud.
-
 ## Vem måste utföra hajj?
 
 Den femte pelaren är vallfärden, *hajj*, till Mecka, förlagd till bestämda dagar i månaden dhū-l-hijja. Den är en plikt en gång i livet, men Koranen villkorar den uttryckligen med förmågan:
@@ -86,7 +84,7 @@ Den femte pelaren är vallfärden, *hajj*, till Mecka, förlagd till bestämda d
 > Vallfärden till denna Helgedom är en plikt gentemot Gud för var och en som har möjlighet att genomföra den.
 > — Koranen 3:97
 
-Den som saknar hälsa, medel eller en trygg resväg är alltså inte förpliktad; skyldigheten inträder först när möjligheten finns. Varje år samlas omkring 1,7 miljoner pilgrimer i Mecka, alla klädda i samma enkla vita *ihram*-dräkt, som utplånar varje synlig skillnad i rang och rikedom. Under vallfärdsdagarna går pilgrimerna sju varv runt Kaba och följer i övrigt de riter som islam för tillbaka på Abraham. Höjdpunkten är vistelsen på ʿArafat-slätten den nionde dhū-l-hijja, då pilgrimerna står i bön till solnedgången. Dagen därpå börjar offerhögtiden Eid al-Adha, som firas av muslimer världen över. Ingen annan pelare krävs så sällan, och ingen annan är så uttryckligt lagd i förmågans händer.
+Den som saknar hälsa, medel eller en trygg resväg är alltså inte förpliktad; skyldigheten inträder först när möjligheten finns. Varje år samlas omkring 1,7 miljoner pilgrimer i Mecka, alla klädda i samma enkla vita *ihram*-dräkt, som utplånar varje synlig skillnad i rang och rikedom. Under vallfärdsdagarna går pilgrimerna sju varv runt Kaba och följer i övrigt de riter som islam för tillbaka på Abraham. Höjdpunkten är vistelsen på ʿArafat-slätten den nionde dhū-l-hijja, då pilgrimerna står i bön till solnedgången. Dagen därpå börjar offerhögtiden Eid al-Adha, som firas av muslimer världen över.
 
 ## Räcker de fem pelarna för att vara muslim?
 
@@ -96,4 +94,4 @@ Tro och handling hänger därmed samman. I klassisk troslära beskrivs *iman* so
 
 > Tron är ord och handling; den ökar och den minskar – den ökar genom lydnad och minskar genom synd.
 
-Pelarna utförda mekaniskt, utan tro, väger därför ingenting. Och en tro som aldrig tar sig uttryck i handling godtas heller inte.
+Pelarna utförda mekaniskt, utan tro, väger därför ingenting, och en tro som aldrig tar sig uttryck i handling räknas inte som fullständig.

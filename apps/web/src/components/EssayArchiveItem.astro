@@ -2,7 +2,7 @@
 import type { HTMLAttributes } from "astro/types";
 import type { Article } from "../lib/articles";
 import { inlineMarkdown } from "../lib/articles";
-import { CARD_WIDTHS } from "../lib/hero";
+import { CARD_WIDTHS, CHIP_WIDTHS } from "../lib/hero";
 import ArticleMeta from "./ArticleMeta.astro";
 import EssayImage from "./EssayImage.astro";
 
@@ -11,6 +11,10 @@ type Props = HTMLAttributes<"li"> & {
 	variant?: "row" | "card";
 	showReadFlag?: boolean;
 	showMinutesAttr?: boolean;
+	/** Row variant only: run a small hero thumbnail down the right of the row.
+	 *  Asking for one is not a promise of one — 28 of 55 essays carry art, so a
+	 *  row without a hero silently stays the plain full-width row. */
+	showThumb?: boolean;
 };
 
 const {
@@ -18,16 +22,23 @@ const {
 	variant = "row",
 	showReadFlag = false,
 	showMinutesAttr = false,
+	showThumb = false,
 	class: className,
 	...attrs
 } = Astro.props;
 
 const isCard = variant === "card";
+
+// Gated on the image, not just the prop: the modifier class is what switches the
+// row from `display: block` to the two-column grid, so putting it on an artless
+// row would reserve an empty thumb column and indent that title past its
+// neighbours. See the .archive-item--thumb block in layout.css.
+const hasThumb = !isCard && showThumb && !!article.heroImage;
 ---
 
 <li
 	{...attrs}
-	class:list={["archive-item", isCard && "essay-card", className]}
+	class:list={["archive-item", isCard && "essay-card", hasThumb && "archive-item--thumb", className]}
 	data-slug={article.slug}
 	data-minutes={showMinutesAttr ? article.readingTime : undefined}
 >
@@ -46,6 +57,14 @@ const isCard = variant === "card";
 		)}
 		{isCard && (
 			<ArticleMeta class="label archive-meta" publishedAt={article.publishedAt} readingTime={article.readingTime} showReadFlag={showReadFlag} />
+		)}
+		{/* Last in the DOM, second in the grid. The picture is the row's least
+		    important content and repeats the title in its alt, so a screen reader
+		    and a text browser both get the headline first. */}
+		{hasThumb && (
+			<div class="archive-thumb media-frame media-frame--sm">
+				<EssayImage article={article} widths={CHIP_WIDTHS} sizes="(max-width: 600px) 5.5rem, 7rem" />
+			</div>
 		)}
 	</a>
 </li>

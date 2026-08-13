@@ -9,13 +9,15 @@ import SectionLink from "./SectionLink.astro";
 // sitting in lib/amnen.ts unused by any surface a reader ever reaches — the front
 // page showed a flat reverse-chronological feed and named no section at all.
 //
-// Deliberately TEXT-FIRST, and that is not a compromise. Only 28 of 55 essays carry
-// art, and it is not spread evenly: Skriften has 1 of 6, Rättvisa 1 of 5. A module
-// built around a thumbnail would show two departments as broken rows and would
-// silently promote the departments that happen to be well illustrated. Rank on this
-// page is already carried above — the lead bleeds past the canvas, the second tier
-// runs two art-led cards — so down here the titles can do the work, which is what a
-// magazine's section index does anyway.
+// TEXT-FIRST BY DEFAULT, art-led on request (`art`). Only 28 of 55 essays carry a
+// hero and it is not spread evenly — Skriften has 1 of 6, Rättvisa 1 of 5 — so a
+// module that simply hung a thumbnail on every row would show two departments as
+// broken rows and quietly promote the well-illustrated ämnen. The `art` mode
+// answers both halves of that instead of ignoring them: within a department it
+// PREFERS the essays that carry art when choosing which few to show, and the row
+// itself only becomes a thumbnail row when the essay actually has one (the thumb
+// runs down the right, so an artless row keeps the same left edge). /amnen/, which
+// lists four per department and cannot cherry-pick that hard, stays text-first.
 
 interface Props {
 	/** How many departments to show. Omitted → all of them (the /amnen/ index). */
@@ -26,9 +28,12 @@ interface Props {
 	 *  Keep it EVEN: .home .archive-list is a two-column grid, so an odd count
 	 *  always orphans one essay alone on a second row. */
 	perDept?: number;
+	/** Show hero thumbnails, and prefer illustrated essays when choosing which
+	 *  essays a department shows. The homepage only — see the note above. */
+	art?: boolean;
 }
 
-const { limit, exclude, perDept = 2 } = Astro.props;
+const { limit, exclude, perDept = 2, art = false } = Astro.props;
 
 const articles = await getArticles();
 
@@ -38,9 +43,23 @@ interface Dept {
 	total: number;
 }
 
+// In `art` mode the pick is by illustration first, date second; the SELECTION is
+// re-sorted back into date order before it renders, so the rows still read newest
+// first. Taking `essays.filter(hero)` and slicing it would have been the same
+// choice but shown in a scrambled order whenever an illustrated essay was older
+// than an artless one it displaced.
+function pick(available: Article[]): Article[] {
+	if (!art) return available.slice(0, perDept);
+	const illustrated = available.filter((e) => e.heroImage);
+	const rest = available.filter((e) => !e.heroImage);
+	return [...illustrated, ...rest]
+		.slice(0, perDept)
+		.sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime());
+}
+
 let groups: Dept[] = amnenWithEssays(articles).map(({ amne, essays }) => {
 	const available = exclude ? essays.filter((e) => !exclude.has(e.slug)) : essays;
-	return { amne, shown: available.slice(0, perDept), total: essays.length };
+	return { amne, shown: pick(available), total: essays.length };
 });
 
 // A department whose every essay is already on the page above has nothing left to
@@ -80,7 +99,7 @@ const DeptHeading = limit ? "h3" : "h2";
 	{limit && <HomeHead label="Ämnen" id="amnen-kicker" href="/amnen/" linkLabel="Alla ämnen" />}
 
 	{groups.map(({ amne, shown, total }) => (
-		<section class="amne-dept" aria-labelledby={`amne-${amne.slug}`}>
+		<section class:list={["amne-dept", { "amne-dept--art": art }]} aria-labelledby={`amne-${amne.slug}`}>
 			<div class="amne-dept-head">
 				<DeptHeading class="amne-dept-name" id={`amne-${amne.slug}`}>
 					<a href={`/amnen/${amne.slug}/`}>{amne.name}</a>
@@ -92,7 +111,7 @@ const DeptHeading = limit ? "h3" : "h2";
 				)}
 			</div>
 			<p class="lead amne-dept-framing">{amne.framing}</p>
-			<EssayList articles={shown} class="amne-dept-list" />
+			<EssayList articles={shown} showThumb={art} class="amne-dept-list" />
 		</section>
 	))}
 </section>
@@ -156,6 +175,13 @@ const DeptHeading = limit ? "h3" : "h2";
 		--lead-margin: 0.4rem 0 0;
 	}
 
+	/* In art mode every other text block in the module is capped at 34rem, and a
+	   framing line running six characters wider than the decks beneath it gives the
+	   module two ragged right edges instead of one. */
+	.amne-dept--art .amne-dept-framing {
+		--lead-measure: 34rem;
+	}
+
 	/* .home .archive-list already lays these out two-up across the 64rem canvas with
 	   a hairline per cell (layout.css). Only the gaps are ours — and the bottom one
 	   has to be reclaimed: .archive-list ships --space-phi2 below itself, which is
@@ -165,5 +191,67 @@ const DeptHeading = limit ? "h3" : "h2";
 	.amne-dept-list {
 		margin-top: var(--space-half);
 		margin-bottom: 0;
+	}
+
+	/* ART MODE — one essay per row, across the whole canvas.
+	   .home .archive-list packs an index two-up at a 24rem minimum, which is right
+	   for a column of titles and wrong the moment a photograph joins the row: a
+	   460px cell minus the picture leaves the headline about twenty characters of
+	   measure, so every head broke over two lines and every deck was cut mid-word.
+	   One column gives the text ~46rem and lets the picture be art rather than a
+	   stamp. The two-up grid stays exactly as it is for /amnen/, /essaer/ and the
+	   collection indexes, which have no art in the row.
+
+	   :global() is not optional: the scope id lands on this <section>, never on the
+	   <ul>/<li>s EssayList and EssayArchiveItem render. Same split index.astro
+	   makes for .essay-cards. And because these rules are UNLAYERED they outrank
+	   everything in layout.css's @layer — which is why the phone step below has to
+	   be restated here rather than left to the one in layout.css. */
+	.amne-dept--art :global(.archive-list) {
+		grid-template-columns: 1fr;
+	}
+
+	.amne-dept--art :global(.archive-item--thumb a) {
+		--archive-thumb-w: 16rem;
+	}
+
+	/* THE MEASURE. The row is 61rem wide and the text column takes whatever the
+	   picture leaves — about 44rem — which sets the deck at roughly 110 characters
+	   a line. That is the thing that reads as thin: not the size of the headline
+	   (which is one rank below the second tier ON PURPOSE and must stay there), but
+	   a 15px deck run out to a measure no printed page would allow. Capped at 34rem
+	   the deck lands near 70 characters, the headline breaks where a sub-editor
+	   would break it, and the air that opens between the text and the picture is
+	   the gutter — the picture stays flush to the right edge of the canvas, in line
+	   with "ALLA 11 ESSÄER" above it and the rule beneath. */
+	.amne-dept--art :global(.archive-title),
+	.amne-dept--art :global(.archive-description) {
+		max-width: 34rem;
+	}
+
+	@media (width <= 600px) {
+		.amne-dept--art :global(.archive-item--thumb a) {
+			--archive-thumb-w: 7.5rem;
+		}
+	}
+
+	/* The two-up grid gives its last cell a hairline so the two columns close level
+	   (layout.css). In one column that hairline lands a few pixels above the next
+	   department's own --color-rule and reads as a double rule. */
+	.amne-dept--art :global(.archive-list .archive-item:last-child) {
+		border-bottom: 0;
+	}
+
+	/* The archive row has never clamped its deck — on /amnen/ and /essaer/ the full
+	   deck IS the row. Next to a picture it needs a floor: the deck sets the height
+	   of the text column, and one essay with a six-line deck would cut its
+	   photograph to twice the height of the row above it. Three lines is nearly the
+	   whole deck at this measure, and it keeps the six pictures of the module the
+	   same 3:2 as each other. */
+	.amne-dept--art :global(.archive-description) {
+		display: -webkit-box;
+		-webkit-line-clamp: 3;
+		-webkit-box-orient: vertical;
+		overflow: hidden;
 	}
 </style>

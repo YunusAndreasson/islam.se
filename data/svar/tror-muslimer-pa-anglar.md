@@ -71,7 +71,7 @@ Att tro på änglarna är den andra av de sex trosartiklarna, näst efter tron p
 > Sändebudet tror på vad hans Herre har uppenbarat för honom och de troende med honom. De tror alla på Gud och Hans änglar och Hans uppenbarelser och Hans sändebud …
 > — Koranen 2:285
 
-Den som däremot vänder änglarna ryggen får en sträng dom: den som förnekar Gud, hans änglar, hans uppenbarelser och sändebud "har drivit synden till dess yttersta gräns" (Koranen 4:136). Svaret är alltså inget ljummet ja. Utan tron på änglarna finns ingen *īmān* att tala om.
+Den som däremot vänder änglarna ryggen får en sträng dom: den som förnekar Gud, hans änglar, hans uppenbarelser och sändebud "har drivit synden till dess yttersta gräns" (Koranen 4:136). Utan tron på änglarna finns alltså ingen fullständig *īmān*.
 
 ## Vad är änglarna skapade av, och kan de synda?
 
@@ -84,7 +84,7 @@ Att de kan visa sig i mänsklig gestalt är enligt Ibn Taymiyya inget enstaka un
 
 > I de gudomliga skrifterna och i de profetiska berättelserna har det kommit i obruten överlämning att änglarna antar mänsklig gestalt – och likaså jinnerna – och att de ses i den gestalten: så som Gud på flera ställen i sin bok har berättat om Abrahams gäster, och om Maria, till vilken han sände Anden, det vill säga Jibrīl, som visade sig för henne som en välskapad man.
 
-Framför allt saknar änglarna egen vilja: de gör uteslutande vad Gud befaller – "änglar som aldrig brister i lydnad för Gud, vad Han än befaller dem" (Koranen 66:6). En ängel kan därför inte falla i synd. Lydnaden ligger i deras natur.
+Framför allt saknar änglarna egen vilja: de gör uteslutande vad Gud befaller – "änglar som aldrig brister i lydnad för Gud, vad Han än befaller dem" (Koranen 66:6). Lydnaden ligger i deras natur, och en ängel kan därför inte falla i synd.
 
 ## Vilka är de kända änglarna i islam?
 
@@ -100,8 +100,8 @@ Här skiljer sig islam tydligt från en utbredd västerländsk föreställning. 
 > … alla föll ned utom [Iblīs]; han tillhörde skaran av osynliga väsen och han trotsade sin Herres befallning.
 > — Koranen 18:50
 
-De "osynliga väsen" som versen nämner är just jinnerna, och till skillnad från änglarna har de egen vilja och kan välja olydnad. Islam saknar därför berättelsen om ett uppror i änglarnas värld: olydnaden kom från en jinn som valde den. Iblīs föll aldrig ur änglarnas led; där stod han aldrig.
+De "osynliga väsen" som versen nämner är just jinnerna, och till skillnad från änglarna har de egen vilja och kan välja olydnad. Islam saknar därför berättelsen om ett uppror i änglarnas värld: olydnaden kom från en jinn som valde den.
 
 ## Vad betyder tron på änglarna i praktiken?
 
-Tron på änglarna formar den troendes dagliga liv. Vetskapen om att *kirāman kātibīn* nedtecknar varje ord och handling gör människan medveten om att hon aldrig är ensam och alltid står till svars. Änglarna är samtidigt de troendes förespråkare: de som bär Guds tron lovprisar honom och ber om förlåtelse för dem som tror (40:7). Enligt profeten Muhammed avlöser änglar dessutom varandra hos människorna natt och dag och samlas vid gryningens och eftermiddagens böner, där de vittnar inför Gud om de bedjande (Sahīh al-Bukhārī 555). För muslimen är de osynliga väsendena därför ständigt närvarande – ett följe av vittnen från första andetaget till graven. Att tro på dem är att leva som om himlen ser.
+Tron på änglarna formar den troendes dagliga liv. Vetskapen om att *kirāman kātibīn* nedtecknar varje ord och handling gör människan medveten om att hon aldrig är ensam och alltid står till svars. Änglarna är samtidigt de troendes förespråkare: de som bär Guds tron lovprisar honom och ber om förlåtelse för dem som tror (40:7). Enligt profeten Muhammed avlöser änglar dessutom varandra hos människorna natt och dag och samlas vid gryningens och eftermiddagens böner, där de vittnar inför Gud om de bedjande (Sahīh al-Bukhārī 555). För muslimen är de osynliga väsendena därför ständigt närvarande – ett följe av vittnen från första andetaget till graven.

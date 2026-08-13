@@ -107,8 +107,8 @@ Själv sammanfattade han sitt syfte: "Jag sändes endast för att fullkomna de �
 
 > Det är två slags enhet, och ingen räddas undan Guds straff utom genom dem båda: att den som sände är en enda, och att sändebudet är den ende som följs.
 
-Men Muhammed dyrkas aldrig; han efterföljs.
+Efterföljelsen är däremot aldrig dyrkan: profeten förblir en tjänare (*ʿabd*) och ett sändebud.
 
 ## Hur många följer Muhammed i dag?
 
-Muslimer världen över ber mot Mecka, fastar i ramadan och formar sina liv efter Muhammeds exempel, oavsett språk eller folk. Varje gång hans namn uttalas följs det av fridshälsningen ﷺ. I dag har islam omkring två miljarder anhängare, ungefär en fjärdedel av mänskligheten, och är världens näst största religion (Pew Research Center). Mellan 2010 och 2020 växte antalet muslimer mer än alla andra religioners anhängare tillsammans; nästan sex av tio muslimer bor i Asien- och Stillahavsregionen, där Indonesien, Pakistan och Indien har de största muslimska befolkningarna. Siffrorna växlar med årtiondena. Föredömet har inte ändrats sedan avskedsvallfärden.
+Muslimer världen över ber mot Mecka, fastar i ramadan och formar sina liv efter Muhammeds exempel, oavsett språk eller folk. Varje gång hans namn uttalas följs det av fridshälsningen ﷺ. I dag har islam omkring två miljarder anhängare, ungefär en fjärdedel av mänskligheten, och är världens näst största religion (Pew Research Center). Mellan 2010 och 2020 växte antalet muslimer mer än alla andra religioners anhängare tillsammans; nästan sex av tio muslimer bor i Asien- och Stillahavsregionen, där Indonesien, Pakistan och Indien har de största muslimska befolkningarna.

@@ -1167,12 +1167,16 @@ ${formatted}`;
 						wordCount: body.split(/\s+/).filter((w) => w.length > 0).length,
 					}) as DraftOutput,
 			},
-			// Downshifted max→xhigh: Opus-tier at effort "max" did not converge within
-			// the 45-min timeout (two consecutive timeouts on a real run), the same
-			// reason Review was moved off "max". xhigh keeps deep prose quality while
-			// actually finishing; 30-min timeout catches a hang sooner.
-			effort: "xhigh",
-			timeout: 1800000, // 30 min
+			// Back on "max" — deliberately, and with the timeout raised to match.
+			// History: max was downshifted to xhigh after Opus-tier failed to converge
+			// twice within a 45-min timeout. That was a timeout problem, not a quality
+			// one: the stage was killed mid-thought, so we never learned what max writes.
+			// 75 min gives it room the earlier attempts never had. If this times out
+			// again, the finding is that Opus at max genuinely does not terminate on
+			// this prompt — go back to xhigh and record that here rather than raising
+			// the ceiling a third time.
+			effort: "max",
+			timeout: 4500000, // 75 min
 		});
 
 		if (!(result.success && result.data)) {
@@ -1300,8 +1304,15 @@ If the draft has anglicisms, fix them in the revised article.
 						revisedText: body || null,
 					}) as ReviewOutput,
 			},
-			effort: "xhigh",
-			timeout: 1800000, // 30 min — review at xhigh does full rewrite + language audit
+			// Raised to "max" alongside Authoring. Review is the last stage that can
+			// restructure the argument, and its score drives the revision loop — a
+			// blunt reviewer that hands out an 8.5 skips revision entirely, so depth
+			// here buys more than in the prose passes downstream.
+			// Timeout 45 min rather than 30: a Review timeout is FATAL (produce()
+			// returns with no article), unlike the non-fatal passes after it, so this
+			// stage gets headroom the others don't need.
+			effort: "max",
+			timeout: 2700000, // 45 min — full rewrite + language audit at max
 		});
 
 		if (!(result.success && result.data)) {
@@ -1441,8 +1452,17 @@ If the draft has anglicisms, fix them in the revised article.
 						body,
 					}) as DeepenOutput,
 			},
-			effort: "high",
-			timeout: 600000, // 10 min — Opus needs extended thinking for argument analysis
+			// xhigh rather than max, deliberately: Deepen runs after fact-check AND
+			// after the review gate, so nothing verifies what it writes. Its operation
+			// — "add an inferential step the reader could not predict" — is exactly the
+			// move that can smuggle in an unsourced claim, and max maximises ambition
+			// on the one stage with no grader downstream. Review got max because a gate
+			// follows it; this one does not.
+			// Timeout 20 min, raised with the effort: this stage is non-fatal, so a
+			// timeout degrades silently to "no deepening" with nothing in the log to
+			// say the essay lost a pass.
+			effort: "xhigh",
+			timeout: 1200000, // 20 min — argument analysis at xhigh
 		});
 
 		return result;

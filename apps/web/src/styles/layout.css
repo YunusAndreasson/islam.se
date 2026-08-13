@@ -598,9 +598,14 @@
 	.media-frame {
 		position: relative;
 		overflow: hidden;
-		/* Soft, modern corners — no longer a hard rectangular cut, but restrained
-	   enough to stay in the strict editorial voice. */
-		border-radius: var(--radius-md);
+		/* SQUARE. Every photograph on this site is cut at a right angle — no radius
+	   here, and none on any of the frames that compose from it (hero, cards, the
+	   ämnen thumbs, podcast art, FAKTA art). A rounded photo is app furniture; a
+	   printed page cuts its pictures square, and that is the register this site
+	   is written in. The grain and vignette below are what seat a picture on the
+	   page — the corner never was.
+	   The device mock-ups on /app/ keep their radius: that curve is a phone's
+	   bezel, not a picture frame. */
 		/* Warm undertone while a lazy image decodes — the frame arrives seated in
 	   the palette instead of popping from blank page background. Invisible once
 	   the opaque cover image paints. */
@@ -618,7 +623,6 @@
 		position: absolute;
 		inset: 0;
 		pointer-events: none;
-		border-radius: inherit;
 		background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 		background-size: 160px 160px;
 		opacity: 0.07;
@@ -634,7 +638,6 @@
 		inset: 0;
 		z-index: 1;
 		pointer-events: none;
-		border-radius: inherit;
 		box-shadow: inset 0 0 var(--frame-vignette, 26px) -4px rgb(var(--hero-black) / 0.2);
 		opacity: 1;
 		transition: opacity 0.6s cubic-bezier(0.2, 0, 0.1, 1);
@@ -654,12 +657,11 @@
 		opacity: 0.3;
 	}
 
-	/* Thumbnail scale. The vignette blur and corner are absolute lengths tuned for a
-	   reading-width crop; on a ~6rem list thumb a 26px inset covers half the picture
+	/* Thumbnail scale. The vignette blur is an absolute length tuned for a
+	   reading-width crop; on a ~7rem list thumb a 26px inset covers half the picture
 	   from every edge and reads as a heavy border, not an edge melt. */
 	.media-frame--sm {
 		--frame-vignette: 7px;
-		border-radius: var(--radius-sm);
 	}
 
 	/* Every framed image fills its frame and is cropped uniformly — each module sets
@@ -1118,6 +1120,21 @@
 		margin: var(--space-phi) auto 0;
 	}
 
+	/* The build stamp beneath the mark — quieter than everything above it in the
+	   footer, which is the whole point. --step--5 is the smallest size the type scale
+	   defines at all; --color-muted (not a further-faded mix) because text can't go
+	   more transparent than that and still clear the site's own APCA floor. Subtlety
+	   here comes from size and restraint, not from illegibility. */
+	.site-footer-build {
+		margin: 0.4rem 0 0;
+		color: var(--color-muted);
+		font-family: var(--font-body);
+		font-size: var(--step--5);
+		font-variant-numeric: lining-nums tabular-nums;
+		letter-spacing: 0.02em;
+		cursor: default;
+	}
+
 	.site-footer-meta {
 		display: inline-flex;
 		flex-wrap: wrap;
@@ -1546,6 +1563,102 @@
 
 	.essay-card .archive-meta {
 		margin-top: 0.5rem;
+	}
+
+	/* Thumbnail row — the archive row with its hero run small down the right edge.
+   Used by the homepage ämnen departments, where the two ranks above are art-led
+   and the departments below them were the one wholly text module on the page.
+
+   GLOBAL for the same reason the cards above are: a page's scope id lands on the
+   list root and never on its <li>s, so this cannot live in a page's <style>. It
+   sits after `.archive-item { a { display: block } }` on purpose — same
+   specificity, later wins.
+
+   Two things carry the mixed corpus (28 of 55 essays have art). EssayArchiveItem
+   puts `--thumb` on a row ONLY when that essay has a hero, so an artless row falls
+   back to the plain full-width row rather than reserving an empty column. And the
+   picture is in column TWO, so every title in the module — illustrated or not —
+   starts on the same left edge as the kicker, the department name and the framing
+   line. Hanging the thumb on the left would have indented half the titles by 7rem
+   and broken the spine the whole front page is composed on. */
+	.archive-item--thumb a {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr) var(--archive-thumb-w, 10rem);
+		/* Five rows: a 1fr strut, the three text rows, another 1fr strut. The struts
+	   split whatever height the picture has that the text does not use, so a row
+	   with a one-line deck sits CENTRED against its photograph instead of clinging
+	   to the top of it with 60px of nothing underneath. When the text is the taller
+	   of the two the struts resolve to zero and nothing moves.
+	   ⚠️ Declaring the rows is also the only reason `grid-row: 1 / -1` below works.
+	   In an implicit grid, row line -1 is the end of the *explicit* grid — line 1
+	   when no rows are declared — so `1 / -1` silently collapses to `1 / 1`, the
+	   picture sizes row one to its own height, and the stretched title box opens a
+	   45px hole between the headline and its date. (Measured in Gecko, which is
+	   where it was caught.) */
+		grid-template-rows: 1fr auto auto auto 1fr;
+		column-gap: clamp(1rem, 2vw, 1.5rem);
+		/* Fill the <li>. Grid stretches the two cells of a department to equal height,
+	   and this passes that height down so BOTH pictures in a row are cut to the
+	   same size — the pair reads as a spread rather than two loose items. */
+		height: 100%;
+	}
+
+	/* Placed by hand into rows 2–4, between the two struts. Auto-placement would put
+   them in rows 1, 2, 3 — i.e. into the top strut — and the centring would be a
+   half-measure that only ever pushed the text down. */
+	.archive-item--thumb .archive-title,
+	.archive-item--thumb .archive-meta,
+	.archive-item--thumb .archive-description {
+		grid-column: 1;
+	}
+
+	.archive-item--thumb .archive-title {
+		grid-row: 2;
+	}
+
+	.archive-item--thumb .archive-meta {
+		grid-row: 3;
+	}
+
+	/* ⚠️ `align-self: start` is load-bearing, not tidying. Should this row ever be
+   handed slack, a grid item would stretch to fill it — and a stretched
+   -webkit-line-clamp box does NOT hide its overflow: the clamp still writes its
+   ellipsis at the last allowed line, but the box is now tall enough to paint the
+   next line underneath it. The row read "…för att be…. / Tillfrågad varför svarar
+   hon att". Sizing the deck to its own content keeps the slack in the struts. */
+	.archive-item--thumb .archive-description {
+		grid-row: 4;
+		align-self: start;
+	}
+
+	/* Column two, spanning the struts and the text between them, and centred on that
+   span. ONE SIZE for every picture in the module: the crop is pinned to 3:2 below
+   rather than stretched to the height of the row it happens to sit in.
+   That was the first attempt — `align-self: stretch` with a 3:2 min-height — and
+   it measured 224×177, 224×199 and 224×221 down a single module, because the row
+   is as tall as its deck and the decks run one, two and three lines. Six pictures
+   at three sizes is the thing that reads as unbalanced; a fixed ratio with the
+   text centred beside it does not. */
+	.archive-item--thumb .archive-thumb {
+		grid-column: 2;
+		grid-row: 1 / -1;
+		align-self: center;
+	}
+
+	/* The <img> carries EssayImage's scope, not ours — same note as the cards, and
+   the same 3:2 the cards cut to. object-fit: cover (on .media-frame img) does the
+   rest, so the source's own ratio never matters. */
+	.archive-item--thumb .archive-thumb img {
+		aspect-ratio: 3 / 2;
+	}
+
+	/* Phones get a smaller picture, not a different composition: the canvas is one
+   column here, so 11rem of it would leave the headline a 10-character measure. */
+	@media (width <= 600px) {
+		.archive-item--thumb a {
+			--archive-thumb-w: 7.5rem;
+			column-gap: 1rem;
+		}
 	}
 
 	/* Shared index header (Fakta / Essäer / Frågor & svar) — kicker + title + one
