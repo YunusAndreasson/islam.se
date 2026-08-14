@@ -10,6 +10,23 @@ describe("slugify", () => {
 		expect(slugify("Ödmjukhet och Ärlighetens Väg")).toBe("odmjukhet-och-arlighetens-vag");
 	});
 
+	// Regression: only å, ä and ö were folded, so every other accented letter hit the
+	// `[^a-z0-9]` catch-all and turned into a hyphen. "Moskén som skulle skada" was
+	// written to disk as mosk-n-som-skulle-skada.md — a hole in the first word, caught
+	// before deploy. An accented letter must never widen into a word separator.
+	it("folds accents to their base letter instead of dropping them", () => {
+		expect(slugify("Moskén som skulle skada")).toBe("mosken-som-skulle-skada");
+		expect(slugify("Café")).toBe("cafe");
+		expect(slugify("Ibn Rushds naïva läsare")).toBe("ibn-rushds-naiva-lasare");
+	});
+
+	// ø/æ/ð/þ are atomic code points: NFD does not decompose them, so folding them
+	// needs its own rule. The corpus covers the Norse sagas — these turn up in names.
+	it("folds Nordic letters that do not decompose", () => {
+		expect(slugify("Ragnarøk")).toBe("ragnarok");
+		expect(slugify("Ælfred och Þorsteinn")).toBe("aelfred-och-thorsteinn");
+	});
+
 	it("truncates at word boundary, not mid-word", () => {
 		const long = "Sibawayhs revolution mannen som gav arabiskan skelett";
 		const slug = slugify(long);
