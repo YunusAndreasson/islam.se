@@ -649,17 +649,25 @@
 			line-height: 1.5;
 		}
 
+		/* `break-*`, not the deprecated `page-break-*`: the CSS Fragmentation
+	   properties superseded them, they are what Innehall.astro already uses, and
+	   every engine this site targets supports them. */
 		h1,
 		h2 {
-			page-break-after: avoid;
+			break-after: avoid;
 		}
 
 		blockquote,
 		img,
 		pre {
-			page-break-inside: avoid;
+			break-inside: avoid;
 		}
 
+		/* Chrome the reader presses rather than reads. Anything `position: fixed`
+	   belongs here or in its own component's print block — on paper it does not
+	   scroll away, it is stamped across the first page. FloatingPlayer and
+	   SearchOverlay already hide themselves; `.resume-pill` does the same in
+	   pages/[...slug].astro, next to the rule that positions it. */
 		.site-header,
 		.site-header--hero,
 		.reading-progress,

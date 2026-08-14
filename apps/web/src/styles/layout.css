@@ -168,7 +168,6 @@
 		color: var(--text-body);
 		margin: var(--hairline-link-list-margin, 0);
 		padding: 0;
-		list-style: none;
 		max-width: var(--hairline-link-list-measure, var(--content-width));
 	}
 
@@ -293,7 +292,6 @@
 
 	/* Nearby pill list — linked neighbouring places on mosque and prayer-time pages. */
 	:is(.mk-nearby, .bt-nearby) {
-		list-style: none;
 		margin: var(--space-half) 0 0;
 		padding: 0;
 		display: flex;
@@ -356,7 +354,6 @@
 	}
 
 	:is(.bt-county-list, .mk-lan-list) {
-		list-style: none;
 		margin: var(--space-half) 0 0;
 		padding: 0;
 	}
@@ -896,7 +893,6 @@
 		gap: clamp(0.9rem, 2vw, 1.6rem);
 		margin: 0;
 		padding: 0;
-		list-style: none;
 	}
 
 	/* Quieter on three axes, none of them colour: one type step down, one weight
@@ -1514,7 +1510,6 @@
    to a selector that matches nothing, and the `.archive-item` padding/border above
    silently wins instead. A global class is reachable from either. */
 	.essay-cards {
-		list-style: none;
 		margin: 0 0 var(--space-phi);
 		padding: 0;
 		display: grid;
@@ -1807,7 +1802,6 @@
    ============================================================ */
 	.md-list {
 		padding: 0;
-		list-style: none;
 	}
 
 	.md-row {
