@@ -6,12 +6,36 @@ import type { ClaudeRunOptions } from "./claude-runner.js";
 /**
  * Generate a URL-safe slug from text.
  * Handles Swedish characters and falls back to a hash for non-Latin text (e.g. Arabic).
+ *
+ * Accents are folded via NFD — decompose to base letter + combining mark, then drop
+ * the marks. This used to be three hand-written rules for å, ä and ö, which meant
+ * every OTHER accented letter fell through to the `[^a-z0-9]` catch-all and became a
+ * hyphen: "Moskén som skulle skada" was written to disk as mosk-n-som-skulle-skada.md
+ * — a hole in the middle of the first word, caught before it was ever deployed. NFD
+ * reproduces the Swedish three exactly (å→a, ä→a, ö→o are all base+mark) and fixes
+ * é, è, ü, ñ, á and the rest in the same step.
+ *
+ * The Nordic four are listed separately because they do NOT decompose — ø, æ, ð and
+ * þ are atomic code points, so NFD leaves them intact and the catch-all would still
+ * eat them. This corpus covers the sagas; a Norse name losing a letter is not
+ * hypothetical.
  */
+const ATOMIC_FOLDS: [RegExp, string][] = [
+	[/ø/g, "o"],
+	[/æ/g, "ae"],
+	[/ð/g, "d"],
+	[/þ/g, "th"],
+	[/ß/g, "ss"],
+];
+
 export function slugify(text: string): string {
-	let slug = text
-		.toLowerCase()
-		.replace(/[åä]/g, "a")
-		.replace(/[ö]/g, "o")
+	let folded = text.toLowerCase();
+	for (const [pattern, replacement] of ATOMIC_FOLDS) folded = folded.replace(pattern, replacement);
+
+	let slug = folded
+		.normalize("NFD")
+		// U+0300–U+036F, the combining diacritical marks NFD just split off.
+		.replace(/[̀-ͯ]/g, "")
 		.replace(/[^a-z0-9]+/g, "-")
 		.replace(/^-|-$/g, "");
 
