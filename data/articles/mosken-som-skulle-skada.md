@@ -1,7 +1,7 @@
 ---
 title: "Moskén som skulle skada"
 publishedAt: "2026-08-14T20:06:49.457Z"
-wordCount: 2783
+wordCount: 2882
 qualityScore: 8.7
 description: "Vad skiljer ett bönehus från ett maktmedel? Plan- och bygglagen får inte fråga, och de två stora svenska försöken att ändå avgöra saken slutade båda i strid. Traditionen bär ett eget prov, ställt en gång mot en moské i Medina: det frågar efter pengar och ansvarskedja, aldrig efter tro."
 imageAlt: "Man med kort skägg sitter vid ett skrivbord i dunkelt vinterljus och läser i en uppslagen bok, med inramad arabisk kalligrafi på väggen, inbundna band i hyllan bakom och snötäckta tak utanför fönstret."
@@ -10,9 +10,9 @@ category: "Samhälle"
 ---
 ## Ett ärende utan mätsticka
 
-I Lambohov utanför Linköping vill en stiftelse köpa omkring tretusen kvadratmeter kommunal mark och bygga en moské med kulturcentrum. Kommunen har bett en statlig utredning om hjälp att granska finansieringen; skälet, uppger samhällsbyggnadsnämndens ordförande, är risken för kopplingar till utländsk extremism eller islamism.[^1] I stiftelsens egen förvaltningsberättelse för 2019 står att man kontaktat vissa utländska ambassader, året därpå att man behöver hitta seriösa finansiärer som kan investera; omkring sju miljoner kronor hade då samlats in. Stiftelsens ordförande säger i Corren något annat: vi betalar själva.[^2]
+Vid Kåparp utanför Lambohov i Linköping har en stiftelse sedan flera år planer på en moské med kulturcentrum på kommunal mark. Samhällsbyggnadsnämnden sa ja till platsen i januari 2023, och detaljplanen var på samråd våren 2025. Finansieringen har hela tiden varit ärendets svåraste fråga: kommunen har bett om statlig hjälp att granska den, med hänvisning till risken för kopplingar till utländsk extremism eller islamism.[^1] I stiftelsens egen förvaltningsberättelse för 2019 står att man kontaktat vissa utländska ambassader, året därpå att man behöver hitta seriösa finansiärer som kan investera; omkring sju miljoner kronor hade då samlats in. Stiftelsens ordförande sade i Corren något annat: vi betalar själva.[^2]
 
-Ärendet är ett av flera. Sverigedemokraterna motionerade om att kommuner ska kunna stoppa moskébyggen; konstitutionsutskottet föreslog avslag och kammaren biföll utan votering.[^3] Kristdemokraterna har sedan återkommit med samma önskan.[^4] I juni tillsatte regeringen en utredning om religiös radikalisering med särskild inriktning på politisk islam.[^5] Samtidigt får bygglovsprövningen enligt svensk rätt inte väga in varifrån pengarna kommer eller inför vem byggherren svarar. Plan- och bygglagen känner inte till byggherrens ideologi.
+Ärendet är ett av flera, och det är inte nytt. Sverigedemokraterna motionerade om att kommuner ska kunna stoppa moskébyggen; konstitutionsutskottet föreslog avslag och kammaren biföll utan votering.[^3] Kristdemokraterna har sedan återkommit med samma önskan.[^4] Först i juni i år tillsatte regeringen en utredning om religiös radikalisering med särskild inriktning på politisk islam.[^5] Under alla dessa år har bygglovsprövningen enligt svensk rätt inte fått väga in varifrån pengarna kommer eller inför vem byggherren svarar. Plan- och bygglagen känner inte till byggherrens ideologi.
 
 Att islam är politisk avgör ingenting; all religion får politiska följder, Svenska kyrkan och befrielseteologin inbegripna. Frågan gäller vad som skiljer ett bönehus från ett maktmedel. Vem äger det provet, och hur lyder det?
 
@@ -118,7 +118,7 @@ Den syns i räkenskaperna.
 
 ---
 
-[^1]: Sveriges Radio, "Moskéns finansiering utreds – kommunen vill hindra islamism" (Östergötland).
+[^1]: Sveriges Radio, "Moskéns finansiering utreds – kommunen vill hindra islamism" (Östergötland). Ärendets gång: stiftelsen erbjöds platsen vid Kåparp i slutet av 2021, samhällsbyggnadsnämnden sa ja till den i januari 2023, och detaljplanen (del av Lambohov 2:20) var på samråd 7 maj–18 juni 2025 och bearbetas därefter — se Linköpings kommuns plansida för detaljplanen. Kommunens begäran om statlig hjälp att granska finansieringen rapporterades före regeringens direktiv i not 5 och ska inte läsas som en följd av det.
 [^2]: Corren, "Oklar finansiering kan stoppa Linköpingsmoské"; uppgifterna om förvaltningsberättelserna 2019 och 2020 samt ordföranden Noor Hassans uttalande återges där.
 [^3]: Motion 2024/25:189 av Jonas Andersson m.fl. (SD), "Utökade möjligheter för kommuner att stoppa moskébyggen"; bet. 2024/25:KU25, förslagspunkt 16. Kammaren biföll utskottets avslagsförslag genom acklamation.
 [^4]: Motion 2025/26:3576 av Christian Carlsson (KD), "Åtgärder för att stoppa moskébyggen".
