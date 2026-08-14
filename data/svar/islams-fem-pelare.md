@@ -57,7 +57,7 @@ De fem pelarna räknas upp i en välkänd hadith som återberättas av profetens
 > Islam är byggd på fem [pelare]: vittnesbördet att ingen har rätt att dyrkas utom Gud och att Muhammed är Guds sändebud, att förrätta bönen, att ge allmoseskatten, att vallfärda till Huset och att fasta under ramadan.
 > — Sahīh al-Bukhārī 8
 
-Hadithen finns i de två mest tillförlitliga samlingarna, *Sahīh al-Bukhārī* (nr 8) och *Sahīh Muslim* (nr 16); hos Muslim nämns fastan före vallfärden, i övrigt är innehållet detsamma. Bilden av pelare är hadithens egen: islam liknas vid en byggnad som vilar på fem bärande stöd. Den första pelaren skiljer sig till sin art från de andra: den är ett vittnesbörd, en trosakt, medan de fyra övriga är handlingar som förutsätter den. Om någon av de fyra sviktar hos en troende, av svaghet eller lättja, står huset ändå kvar. Men rivs den första, rasar allt.
+Hadithen finns i de två mest tillförlitliga samlingarna, *Sahīh al-Bukhārī* (nr 8) och *Sahīh Muslim* (nr 16); hos Muslim nämns fastan före vallfärden, i övrigt är innehållet detsamma. Själva pelarbilden är hadithens egen: islam liknas vid en byggnad som vilar på fem bärande stöd. Den första pelaren skiljer sig till sin art från de andra: den är ett vittnesbörd, en trosakt, medan de fyra övriga är handlingar som förutsätter den. Om någon av de fyra sviktar hos en troende, av svaghet eller lättja, står huset ändå kvar. Men rivs den första, rasar allt.
 
 ## Varför är trosbekännelsen den första pelaren?
 

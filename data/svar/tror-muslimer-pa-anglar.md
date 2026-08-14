@@ -62,7 +62,7 @@ essays:
   - "guden-som-bokfor"
 ---
 
-**Ja – muslimer tror på änglar, och tron på änglarna (*al-malāʾika*) är inte frivillig: den är en av islams sex trosartiklar (*arkān al-īmān*).** Änglarna är varelser av ljus som Gud har skapat utan egen vilja och som aldrig trotsar honom. Tron på dem hör lika nära samman med *tawhīd*, Guds absoluta enhet, som tron på Gud själv; den tillhör själva trons grund.
+**Ja – muslimer tror på änglar, och tron på änglarna (*al-malāʾika*) är inte frivillig: den är en av islams sex trosartiklar (*arkān al-īmān*).** Änglarna är varelser av ljus, skapade av Gud utan egen vilja och oförmögna att någonsin trotsa honom. Tron på dem hör lika nära samman med *tawhīd*, Guds absoluta enhet, som tron på Gud själv; den tillhör själva trons grund.
 
 ## Är tron på änglar obligatorisk i islam?
 

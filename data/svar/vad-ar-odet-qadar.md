@@ -1,7 +1,7 @@
 ---
 title: "Vad är ödet (qadar)? Islams sjätte trosartikel"
 question: "Vad säger islam om ödet (qadar)?"
-description: "Qadar är Guds förutbestämmelse i fyra led: han har känt, skrivit ner, velat och skapat allt som sker. Hur det går ihop med människans verkliga vilja, och var gränsen mot ren ödestro går."
+description: "Qadar är Guds förutbestämmelse i fyra led: han har vetat, skrivit ner, velat och skapat allt som sker. Hur det går ihop med människans verkliga vilja, och var gränsen mot ren ödestro går."
 publishedAt: "2026-06-20T00:00:00Z"
 updatedAt: "2026-07-26T00:00:00Z"
 keywords:
@@ -60,7 +60,7 @@ essays:
   - "vikingarna-hade-inte-angest"
 ---
 
-**Qadar (ödet) är Guds förutbestämmelse: att han i sin eviga kunskap har känt, skrivit ner, velat och skapat allt som sker. Tron på detta är den sjätte av islams sex trosartiklar.** Samtidigt lär islam att människan har en verklig vilja och fullt ansvar för sina handlingar – *qadar* är varken blind ödestro eller en ursäkt för synd. Tron på det förutbestämda hör till *tawhīd*: erkännandet av Gud som ensam herre (*rubūbiyya*) över allt som finns och sker.
+**Qadar (ödet) är Guds förutbestämmelse: att han i sin eviga kunskap har vetat, skrivit ner, velat och skapat allt som sker. Tron på detta är den sjätte av islams sex trosartiklar.** Samtidigt lär islam att människan har en verklig vilja och fullt ansvar för sina handlingar – *qadar* är varken blind ödestro eller en ursäkt för synd. Tron på det förutbestämda hör till *tawhīd*: erkännandet av Gud som ensam herre (*rubūbiyya*) över allt som finns och sker.
 
 ## Vad betyder ödet (qadar) i islam?
 
@@ -78,9 +78,9 @@ De lärda, däribland Ibn al-Qayyim i *Shifāʾ al-ʿalīl*, sammanfattar tron p
 > Ingen olycka drabbar jorden och inte heller er själva utan att den förts in i [Vår] bok, innan Vi sätter den i verket
 > — Koranen 57:22
 
-## Har människan fri vilja om allt är förskrivet?
+## Har människan fri vilja om allt redan är skrivet?
 
-Här väljer *ahl as-sunna* medelvägen mellan två diken. *Qadariyya* förnekade att Gud förutbestämt och skapat människans handlingar, och överdrev därmed den fria viljan. *Jabriyya* förnekade människans vilja helt och gjorde henne till ett viljelöst redskap. Den klassiska läran, så som Ibn Taymiyya formulerade den, håller fast vid båda sanningarna samtidigt: människan har en verklig vilja och förmåga (*qudra*), men både viljan och förmågan är i sin tur skapade av Gud. Koranen ställer de två sanningarna intill varandra i två på varandra följande verser: den ena talar om den människa som vill gå den raka vägen (81:28), den andra säger att ingen kan vilja om inte Gud, världarnas Herre, vill (81:29). Viljan är verklig i den första satsen och skapad i den andra. Hon väljer och handlar i verklig mening, och bär därför fullt ansvar på domens dag, men aldrig utanför det Gud har skapat.
+Här väljer *ahl as-sunna* medelvägen mellan två diken. *Qadariyya* förnekade att Gud förutbestämt och skapat människans handlingar, och överdrev därmed den fria viljan. *Jabriyya* förnekade människans vilja helt och gjorde henne till ett viljelöst redskap. Den klassiska läran, så som Ibn Taymiyya formulerade den, håller fast vid båda sanningarna samtidigt: människan har en verklig vilja och förmåga (*qudra*), men både viljan och förmågan är i sin tur skapade av Gud. Koranen ställer de två sanningarna intill varandra i två på varandra följande verser: den ena talar om den människa som vill gå den raka vägen (81:28), den andra säger att ingen kan vilja om inte Gud, världarnas Herre, vill (81:29). Viljan är verklig i den första satsen och skapad i den andra. Människan väljer och handlar i verklig mening, och bär därför fullt ansvar på domens dag, men aldrig utanför det Gud har skapat.
 
 ## Får man skylla sina synder på ödet?
 
@@ -92,7 +92,7 @@ Att Pennan skrivit allt upphäver inte plikten att handla och söka medlen (*asb
 
 > Döden kommer när den kommer, var jag än är, om det är mitt öde.
 
-Islam delar utgångspunkten att stunden är utsatt, men drar motsatt slutsats om medlen: också de är skrivna, och därför ska de sökas. När pesten härjade i Shām vände kalifen ʿUmar ibn al-Khattāb om hellre än att rida in i den drabbade staden, och svarade dem som invände att han flydde "från Guds beslut till Guds beslut" (Sahīh al-Bukhārī 5729; Sahīh Muslim 2219).
+Islam delar utgångspunkten att stunden är utsatt, men drar motsatt slutsats om medlen: också de är skrivna, och därför ska de sökas. När pesten härjade i Shām vände kalifen ʿUmar ibn al-Khattāb om hellre än att rida in i den drabbade staden. De som invände frågade om han flydde undan Guds beslut; han svarade att han flydde "från Guds beslut till Guds beslut" (Sahīh al-Bukhārī 5729; Sahīh Muslim 2219).
 
 ## Vad ger tron på ödet den troende?
 

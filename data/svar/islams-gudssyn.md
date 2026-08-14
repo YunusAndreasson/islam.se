@@ -51,7 +51,7 @@ related:
   - "vad-ar-koranen"
 ---
 
-**Islams gudssyn är en kompromisslös monoteism: det finns bara en enda Gud (på arabiska *Allah*) som har skapat allt, är fullkomligt olik sin skapelse och ensam har rätt att tillbedjas.** Ur denna enda sats följer allt annat i religionen. Att vittna om den, "det finns ingen gud utom Gud", är trosbekännelsens *(shahada)* första hälft och det som gör en människa till muslim. Omkring två miljarder människor, en dryg fjärdedel av jordens befolkning enligt Pew Research Center, vänder sig i dag till denne ende Gud.
+**Islams gudssyn är en kompromisslös monoteism: det finns bara en enda Gud (på arabiska *Allah*) som har skapat allt, är fullkomligt olik sin skapelse och ensam har rätt att dyrkas.** Ur denna enda sats följer allt annat i religionen. Att vittna om den, "det finns ingen gud utom Gud", är trosbekännelsens *(shahada)* första hälft och det som gör en människa till muslim. Omkring två miljarder människor, en dryg fjärdedel av jordens befolkning enligt Pew Research Center, vänder sig i dag till denne ende Gud.
 
 ## Vad menar islam med att Gud är "en"?
 

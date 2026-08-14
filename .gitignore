@@ -11,6 +11,15 @@ apps/mobile/.claude/
 .mcp.json
 opencode.json
 
+# Argent's local install state — same category as the per-app agent dirs above.
+# `.agents/skills/` is a cache of skill files downloaded from
+# software-mansion/argent, and `.argent/install.json` records this machine's
+# install. skills-lock.json IS tracked: it pins the versions the cache is
+# restored from, so the lockfile is committed and the cache is not, as with
+# node_modules.
+.agents/
+.argent/
+
 # Dependencies
 node_modules/
 
