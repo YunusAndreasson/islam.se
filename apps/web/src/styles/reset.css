@@ -26,8 +26,45 @@
 		height: auto;
 	}
 
+	/* Markerless lists that are STILL lists.
+
+	   Safari drops a list's `role=list` — no "lista, 6 objekt" from VoiceOver, no
+	   list-navigation commands — the moment the computed `list-style-type` is
+	   `none`. That silently cost every structural list on the site its semantics:
+	   prayer times, mosques, essays, trådar, ämnen, breadcrumbs, the podcast
+	   archive. An empty-string marker draws nothing and is not `none`, so it keeps
+	   the role. Measured in Zen/Gecko over 8 pages and 141 lists: zero layout
+	   movement — the marker box is `outside` and the reset already zeroes padding.
+
+	   ⚠️ The @supports wrapper is load-bearing, not tidiness. Fold it back into a
+	   second declaration on the rule above and the minifier merges the pair into a
+	   lone `list-style:""` (verified in the built output), taking the fallback with
+	   it — an engine that cannot parse the string form then drops the declaration
+	   entirely and the UA's `disc` appears on the mast, the breadcrumbs, the essay
+	   cards. Nothing can hoist across @supports, so the floor survives there.
+
+	   ⚠️ This rule reaches a list only if nothing re-states it. Twenty-five
+	   components used to repeat `list-style: none` in their own scoped blocks,
+	   which Astro emits UNLAYERED — and unlayered beats every named layer, so the
+	   reset was decorative and the string form could never take effect. Do not
+	   re-add it to a list component: it takes the role away again, and nothing on
+	   screen changes to show it. A <summary> is the one honest local use, where the
+	   declaration removes a disclosure triangle rather than a list marker; the two
+	   that remain are both named `*-summary`.
+
+	   `.prose` lists are untouched — typography.css gives them `list-style: revert`
+	   in the `base` layer, which outranks this one. Checked across all 2263 built
+	   pages carrying `.prose`: no structural list is ever nested inside one, so the
+	   two rules never meet. */
 	ul,
 	ol {
 		list-style: none;
+	}
+
+	@supports (list-style-type: "") {
+		ul,
+		ol {
+			list-style-type: "";
+		}
 	}
 }

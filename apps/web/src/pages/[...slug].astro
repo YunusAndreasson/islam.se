@@ -255,6 +255,14 @@ if (article.heroImage) {
 			display: block;
 		}
 
+		/* The resume pill is position: fixed, so on paper it does not scroll away —
+		   it prints as a band across the first page. It is `hidden` at rest, which
+		   is why the omission stayed invisible: print an essay you left part-read
+		   and the offer to resume comes out with it. */
+		.resume-pill {
+			display: none !important;
+		}
+
 		.reading--notes :global(.article-header),
 		.reading--notes :global(.article-body),
 		.reading--notes :global(.article-nav),

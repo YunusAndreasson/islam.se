@@ -183,6 +183,13 @@ const stroke = (key: PrayerKey): string =>
 		stroke-width: 1;
 	}
 
+	/* ⚠️ px, and NOT a --step-- token — the one place on the site where that is the
+   right answer. This text lives inside the viewBox, so `11px` means 11 *user
+   units*: it scales with the chart and stays in fixed proportion to padL, H and
+   the gridline spacing, which are user units too. A rem token would resolve
+   against the reader's root font size instead, so a 20px browser default would
+   grow the labels ~35 % while the geometry around them stood still, and the hour
+   labels would run into the gridlines. Do not "snap this to the scale". */
 	.apc-axis {
 		font-family: var(--font-body);
 		fill: var(--color-muted);
@@ -205,7 +212,6 @@ const stroke = (key: PrayerKey): string =>
 	}
 
 	.apc-legend {
-		list-style: none;
 		margin: var(--space-half) 0 0;
 		padding: 0;
 		display: flex;
