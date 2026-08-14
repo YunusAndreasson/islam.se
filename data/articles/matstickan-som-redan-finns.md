@@ -1,7 +1,7 @@
 ---
-title: "Moskén som skulle skada"
+title: "Mätstickan som redan finns"
 publishedAt: "2026-08-14T20:06:49.457Z"
-wordCount: 2882
+wordCount: 2952
 qualityScore: 8.7
 description: "Vad skiljer ett bönehus från ett maktmedel? Plan- och bygglagen får inte fråga, och de två stora svenska försöken att ändå avgöra saken slutade båda i strid. Traditionen bär ett eget prov, ställt en gång mot en moské i Medina: det frågar efter pengar och ansvarskedja, aldrig efter tro."
 imageAlt: "Man med kort skägg sitter vid ett skrivbord i dunkelt vinterljus och läser i en uppslagen bok, med inramad arabisk kalligrafi på väggen, inbundna band i hyllan bakom och snötäckta tak utanför fönstret."
@@ -10,9 +10,9 @@ category: "Samhälle"
 ---
 ## Ett ärende utan mätsticka
 
-Vid Kåparp utanför Lambohov i Linköping har en stiftelse sedan flera år planer på en moské med kulturcentrum på kommunal mark. Samhällsbyggnadsnämnden sa ja till platsen i januari 2023, och detaljplanen var på samråd våren 2025. Finansieringen har hela tiden varit ärendets svåraste fråga: kommunen har bett om statlig hjälp att granska den, med hänvisning till risken för kopplingar till utländsk extremism eller islamism.[^1] I stiftelsens egen förvaltningsberättelse för 2019 står att man kontaktat vissa utländska ambassader, året därpå att man behöver hitta seriösa finansiärer som kan investera; omkring sju miljoner kronor hade då samlats in. Stiftelsens ordförande sade i Corren något annat: vi betalar själva.[^2]
+Vid Kåparp utanför Lambohov i Linköping planerar en stiftelse sedan flera år en moské med kulturcentrum på kommunal mark. Samhällsbyggnadsnämnden sa ja till platsen i januari 2023, detaljplanen var på samråd våren 2025, och hela tiden har finansieringen varit den svåraste frågan: kommunen har bett om statlig hjälp att granska den, med hänvisning till risken för kopplingar till utländsk extremism eller islamism.[^1]
 
-Ärendet är ett av flera, och det är inte nytt. Sverigedemokraterna motionerade om att kommuner ska kunna stoppa moskébyggen; konstitutionsutskottet föreslog avslag och kammaren biföll utan votering.[^3] Kristdemokraterna har sedan återkommit med samma önskan.[^4] Först i juni i år tillsatte regeringen en utredning om religiös radikalisering med särskild inriktning på politisk islam.[^5] Under alla dessa år har bygglovsprövningen enligt svensk rätt inte fått väga in varifrån pengarna kommer eller inför vem byggherren svarar. Plan- och bygglagen känner inte till byggherrens ideologi.
+Ärendet är ett av flera, och det är inte nytt. Sverigedemokraterna motionerade om att kommuner ska kunna stoppa moskébyggen; konstitutionsutskottet föreslog avslag och kammaren biföll utan votering.[^3] Kristdemokraterna återkom hösten 2025 med tre yrkanden, bland dem ett förbud mot utländsk finansiering av moskéer. Riksdagen avslog samtliga.[^4] Först i juni i år tillsatte regeringen en utredning om religiös radikalisering med särskild inriktning på politisk islam.[^5] Under alla dessa år har bygglovsprövningen enligt svensk rätt inte fått väga in varifrån pengarna kommer eller inför vem byggherren svarar. Plan- och bygglagen känner inte till byggherrens ideologi.
 
 Att islam är politisk avgör ingenting; all religion får politiska följder, Svenska kyrkan och befrielseteologin inbegripna. Frågan gäller vad som skiljer ett bönehus från ett maktmedel. Vem äger det provet, och hur lyder det?
 
@@ -92,7 +92,7 @@ Frågan om det inre har Sverige nu ställt två gånger.
 
 År 2023 lade Sameh Egyptson fram avhandlingen *Global politisk islam?* i Lund, med tesen att Islamiska förbundet är Brödraskapets svenska gren. Kritiker pekade ut över hundra möjliga fel. Nämnden för prövning av oredlighet i forskning friade honom från oredlighet men konstaterade fem allvarliga avvikelser från god forskningssed; han fälldes inte eftersom uppsåt eller grov oaktsamhet inte kunde styrkas. Islamiska förbundet har i egna svar tillbakavisat både rapportens och avhandlingens slutsats.[^25]
 
-Gardell invänder att det inte finns *en* politisk islam utan ett vidsträckt spänningsfält, från väpnade celler till ickevåldsrörelser. Simon Sorgenfrei varnar: moské, halal och ramadan glider ihop med islamismen i den offentliga bilden.[^26] Båda invändningarna håller. Ingen av dem hjälper en kommun som ska besluta om tretusen kvadratmeter mark.
+Gardell invänder att det inte finns *en* politisk islam utan ett vidsträckt spänningsfält, från väpnade celler till ickevåldsrörelser. Simon Sorgenfrei varnar: moské, halal och ramadan glider ihop med islamismen i den offentliga bilden.[^26] Båda invändningarna håller. Ingen av dem hjälper en kommun som ska ta ställning till en markförsäljning.
 
 Två gånger har frågan ställts, två gånger har svaret blivit omtvistat. Utredarna slarvade inte och kritikerna var inte ohederliga. Felet sitter i frågan. "Är detta politisk islam?" är en fråga om vad människor egentligen menar – den enda fråga ingen metod avgör och ingen stat bör ställa.
 
@@ -100,11 +100,13 @@ Två gånger har frågan ställts, två gånger har svaret blivit omtvistat. Utr
 
 Ibn Taymiyya sammanfattar vad ett ämbete kräver i två ord: *quwwa* och *amana*, förmåga och pålitlighet, hämtade ur versen om att återlämna det anförtrodda till dess rättmätiga ägare och döma med rättvisa.[^27] Båda är prövbara på gärningar, ingendera på tro. Förmågan syns i om arbetet blir gjort, pålitligheten i om kassan stämmer när någon räknar efter.
 
-Mohammad Fazlhashemi har pekat på precis det som betyder något i Lambohov-fallet: främmande stater som finansierar bönehus brukar begära inflytande i utbyte, platser i styrelsen, anpassning i lärofrågor.[^28] Han är själv part i den svenska striden, en av MSB-rapportens kritiker, och det bör sägas. Men ingen tro prövas där. Iakttagelsen gäller vem som håller i huset, just vad det klassiska provet efterfrågar.
+Mohammad Fazlhashemi har pekat på precis det som betyder något i ett sådant ärende: främmande stater som finansierar bönehus brukar begära inflytande i utbyte, platser i styrelsen, anpassning i lärofrågor.[^28] Han är själv part i den svenska striden, en av MSB-rapportens kritiker, och det bör sägas. Men ingen tro prövas där. Iakttagelsen gäller vem som håller i huset, just vad det klassiska provet efterfrågar.
 
-Plan- och bygglagens ideologiblindhet är en princip, inte en lucka: likhet inför lagen, neutralitet inför åskådningar. Handläggaren som mäter takhöjd frågar inte vad byggherren tror. Konstitutionsutskottets avslag var ett övervägt ställningstagande. Det klassiska provet hotar inte den principen. Lika lite som lagen frågar det efter tro. Sverigedemokraternas motion ville väga in ideologi. Dirar-kriteriet väger in pengar, styrning och ansvarskedja, men lämnar tron ifred.
+Plan- och bygglagens ideologiblindhet är en princip, inte en lucka: likhet inför lagen, neutralitet inför åskådningar. Handläggaren som mäter takhöjd frågar inte vad byggherren tror. Konstitutionsutskottets avslag var ett övervägt ställningstagande, och det klassiska provet hotar inte den principen — lika lite som lagen frågar det efter tro. Sverigedemokraternas motion ville väga in ideologi, Kristdemokraternas förbjuda utländska pengar; riksdagen avslog båda. Dirar-kriteriet begär ingen sådan förbudsregel: det väger pengar, styrning och ansvarskedja, och lämnar tron ifred.
 
-Och redskapen finns redan. En stiftelses räkenskaper är offentliga. Statsbidraget till trossamfund villkoras av demokratikrav. Provet finns; debatten har bara riktat det mot fel föremål. Den bästa bevisningen i Lambohov kom inte från någon myndighet med spaningsbefogenheter. Den kom från en tidningsredaktion som läste en förvaltningsberättelse.
+Redskapen finns nämligen redan. En stiftelses räkenskaper är offentliga. Statsbidraget till trossamfund villkoras sedan januari 2025 av demokratikrav. Provet finns; debatten har bara riktat det mot fel föremål.
+
+Linköping visar det i miniatyr. I stiftelsens egen förvaltningsberättelse för 2019 står att man kontaktat vissa utländska ambassader, året därpå att man behöver hitta seriösa finansiärer som kan investera; omkring sju miljoner kronor hade då samlats in. Stiftelsens ordförande sade i Corren något annat: vi betalar själva.[^2] Den motsägelsen hittades utan spaningsbefogenheter, av en tidningsredaktion som läste en årsredovisning.
 
 ## Efter det som syns
 
@@ -119,10 +121,9 @@ Den syns i räkenskaperna.
 ---
 
 [^1]: Sveriges Radio, "Moskéns finansiering utreds – kommunen vill hindra islamism" (Östergötland). Ärendets gång: stiftelsen erbjöds platsen vid Kåparp i slutet av 2021, samhällsbyggnadsnämnden sa ja till den i januari 2023, och detaljplanen (del av Lambohov 2:20) var på samråd 7 maj–18 juni 2025 och bearbetas därefter — se Linköpings kommuns plansida för detaljplanen. Kommunens begäran om statlig hjälp att granska finansieringen rapporterades före regeringens direktiv i not 5 och ska inte läsas som en följd av det.
-[^2]: Corren, "Oklar finansiering kan stoppa Linköpingsmoské"; uppgifterna om förvaltningsberättelserna 2019 och 2020 samt ordföranden Noor Hassans uttalande återges där.
 [^3]: Motion 2024/25:189 av Jonas Andersson m.fl. (SD), "Utökade möjligheter för kommuner att stoppa moskébyggen"; bet. 2024/25:KU25, förslagspunkt 16. Kammaren biföll utskottets avslagsförslag genom acklamation.
-[^4]: Motion 2025/26:3576 av Christian Carlsson (KD), "Åtgärder för att stoppa moskébyggen".
-[^5]: Dir. 2026:53, "Religiös radikalisering med fokus på politisk islam – konsekvenser för demokratin, integration och utanförskap". Magnus Ranstorp är särskild utredare. Direktivets beskrivning av islamismen som demokratiskt hot återges här i referat; någon uttrycklig definition av "politisk islam" lämnas inte.
+[^4]: Motion 2025/26:3576 av Christian Carlsson (KD), "Åtgärder för att stoppa moskébyggen", inlämnad 7 oktober 2025. Tre yrkanden: stopp för offentliga bidrag till föreningar med islamistiska eller odemokratiska kopplingar (avslag, bet. 2025/26:KrU8), förbud mot utländsk finansiering av moskéer (avslag, bet. 2025/26:KU28) och en utredning om kommunal rätt att stoppa moskébyggen (avslag, samma betänkande).
+[^5]: Dir. 2026:53, "Religiös radikalisering med fokus på politisk islam – konsekvenser för demokratin, integration och utanförskap", beslutat den 18 juni 2026. Magnus Ranstorp är särskild utredare. Direktivets beskrivning av islamismen som demokratiskt hot återges här i referat; någon uttrycklig definition av "politisk islam" lämnas inte.
 [^6]: Rashid Rida, *al-Khilafa aw al-Imama al-'Uzma*, artikelserie i al-Manar vintern 1922–23, utgiven som bok 1923.
 [^7]: Qamaruddin Khan, *Political Concepts in the Quran* (Lahore 1982). Sohail H. Hashmi beskriver på samma sätt *dawla islamiyya* som en nybildning i samtida islamistiska texter. Påståendet ska tillskrivas Khan, inte "forskningen".
 [^8]: Abu al-Hasan al-Mawardi, *al-Ahkam al-Sultaniyya*, kap. 1 (om imamatets åligganden). Listan omfattar tio punkter; de som återges här i referat är den andra, tredje och femte.
@@ -146,5 +147,6 @@ Den syns i räkenskaperna.
 [^26]: Mattias Gardell i intervju i *Forskning & Framsteg*; Simon Sorgenfrei, religionsvetare vid Södertörns högskola.
 [^27]: Ibn Taymiyya, *al-Siyasa al-Shar'iyya*; jfr Koranen, Kvinnorna (an-Nisa) 4:58.
 [^28]: Mohammad Fazlhashemi, refererad i Corren (se not 2). Referatet återger hans argument, inte hans ordalydelse.
+[^2]: Corren, "Oklar finansiering kan stoppa Linköpingsmoské"; uppgifterna om förvaltningsberättelserna 2019 och 2020 samt ordföranden Noor Hassans uttalande återges där.
 [^29]: Sahih al-Bukhari, nr 6064; Sahih Muslim, nr 2563. Jfr Ibn Hibban al-Busti, som i *Rawdat al-'Uqala* återger att spioneriet är en gren av hyckleriet, liksom att tänka väl om andra är en gren av tron.
 [^30]: Karin Boye, *Kallocain*.
