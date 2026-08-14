@@ -55,7 +55,7 @@ essays:
 
 ## Vad måste man göra innan bönen börjar?
 
-Innan det första *Allāhu akbar* ska flera villkor vara uppfyllda. Bönens tid ska ha inträtt: var och en av de fem bönerna har sitt eget tidsfönster, från Fajr i gryningen till Isha om natten, räknat efter solens läge över den plats man befinner sig på – se [bönetider för din ort](/bonetider/). Den bedjande ska ha utfört den rituella tvagningen, *wudūʾ*, och bära rena kläder på en ren plats. Saknas vatten, eller kan det inte användas, ersätts tvagningen av *tayammum*, en symbolisk rening med ren jord. Kroppen ska vara anständigt täckt. Slutligen vänder man sig mot *qibla*, riktningen mot Kaba i Mecka, och fattar i hjärtat avsikten, *niyya*, att be just denna bön. Avsikten uttalas inte högt utan fattas i hjärtat. I klassisk fiqh kallas de bönens giltighetsvillkor: är något av dem ogjort har bönen inte börjat, hur noggrant den än utförs.
+Innan det första *Allāhu akbar* ska flera villkor vara uppfyllda. Bönens tid ska ha inträtt: var och en av de fem bönerna har sitt eget tidsfönster, från Fajr i gryningen till Isha om natten, räknat efter solens läge över den plats man befinner sig på – se [bönetider för din ort](/bonetider/). Den bedjande ska ha utfört den rituella tvagningen, *wudūʾ*, och bära rena kläder på en ren plats. Saknas vatten, eller kan det inte användas, ersätts tvagningen av *tayammum*, en symbolisk rening med ren jord. Kroppen ska vara anständigt täckt. Slutligen vänder man sig mot *qibla*, riktningen mot Kaba i Mecka, och fattar avsikten, *niyya*, att be just denna bön – en avsikt som hålls i hjärtat och aldrig uttalas högt. I klassisk fiqh kallas de bönens giltighetsvillkor: är något av dem ogjort har bönen inte börjat, hur noggrant den än utförs.
 
 ## Hur går bönen till steg för steg?
 
@@ -97,4 +97,4 @@ Bönens form går tillbaka på profeten Muhammed själv. När han undervisade si
 > Jag är Gud; ingen gudom finns utom Jag. Dyrka Mig därför och förrätta bönen för att minnas Mig!
 > — Koranen 20:14
 
-Bönen är alltså inte i första hand en begäran om något, utan *dhikr*: att minnas Gud och ställa sig inför honom med hela kroppen. Någon präst eller mellanhand finns inte; varje muslim förrättar bönen på samma sätt och står själv inför sin Herre. Kan någon inte stå ber han sittande, och kan han inte det ber han liggande; formen anpassas efter förmågan.
+Bönen är alltså inte i första hand en begäran om något, utan *dhikr*: att minnas Gud och ställa sig inför honom med hela kroppen. Någon präst eller mellanhand finns inte; varje muslim förrättar bönen på samma sätt och står själv inför sin Herre. Den som inte kan stå ber sittande, och den som inte kan sitta ber liggande; formen anpassas efter förmågan.

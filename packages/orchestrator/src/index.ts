@@ -987,8 +987,13 @@ Score fairly based on what you can actually verify:
 			mcpConfig: mcpConfigPath,
 			schema: FactCheckOutputSchema,
 			jsonSchema: getFactCheckJsonSchema(),
-			effort: "high",
-			timeout: 1800000, // 30 min — fact-check verifies sources via web + MCP
+			effort: "max",
+			// Raised to max: fact-check is the only fatal, non-retryable gate (a low
+			// score kills the run with no article), and it's pure verification with
+			// no downstream grader — more reasoning depth can only catch more
+			// fabrications, not introduce new ones. Timeout raised in step with the
+			// effort bump, matching Review's max-effort budget.
+			timeout: 2700000, // 45 min — fact-check verifies sources via web + MCP
 		});
 
 		if (!(result.success && result.data)) {
@@ -1028,6 +1033,64 @@ Score fairly based on what you can actually verify:
 		}
 
 		return { ...result, data };
+	}
+
+	/**
+	 * Revise research after a failing fact-check — a targeted correction pass,
+	 * not a fresh research assignment. Reuses the research tools (web + MCP) so
+	 * the model can actually verify replacements instead of guessing fixes.
+	 */
+	async runResearchRevision(
+		research: ResearchOutput,
+		factCheck: FactCheckOutput,
+	): Promise<{ result: StageResult<ResearchOutput>; summary: string }> {
+		const startTime = Date.now();
+
+		const blocklist = formatBlockedDomainsPrompt(getBlockedDomains(loadDomainTracker()));
+
+		const flaggedClaims =
+			(factCheck.unverifiedClaims || [])
+				.map((c) => `- CLAIM: ${c.claim}\n  PROBLEM: ${c.reason}`)
+				.join("\n") || "(none)";
+		const missingPerspectives =
+			(factCheck.missingPerspectives || []).map((p) => `- ${p}`).join("\n") || "(none)";
+		const recommendations =
+			(factCheck.recommendations || []).map((r) => `- ${r}`).join("\n") || "(none)";
+
+		const systemPrompt = `<original_research>
+${JSON.stringify(research, null, 2)}
+</original_research>
+
+<fact_check_findings>
+Overall credibility: ${factCheck.overallCredibility}/10 (must reach ${this.options.qualityThreshold}+)
+Fact-checker's summary: ${factCheck.summary}
+
+Flagged claims:
+${flaggedClaims}
+
+Missing perspectives:
+${missingPerspectives}
+
+Recommendations:
+${recommendations}
+</fact_check_findings>${blocklist}`;
+
+		const mcpConfigPath = join(__dirname, "../../..", ".mcp.json");
+		const result = await this.executeClaudeStage<ResearchOutput>({
+			name: "Stage 1b: Research Revision",
+			stage: "research",
+			emoji: "🔧",
+			promptFile: "research-reviser.md",
+			systemPrompt,
+			allowedTools: RESEARCH_ALLOWED_TOOLS,
+			mcpConfig: mcpConfigPath,
+			schema: ResearchOutputSchema,
+			jsonSchema: getResearchJsonSchema(),
+			effort: "high",
+			timeout: 1800000, // 30 min — same budget as research; fixes require real tool calls
+		});
+
+		return this.processResearchResult(result, startTime);
 	}
 
 	/**
@@ -1626,7 +1689,7 @@ If the draft has anglicisms, fix them in the revised article.
 		}
 		result.stages.research = researchResult;
 
-		// Stage 2: Fact-Check
+		// Stage 2: Fact-Check (with a research-revision loop for fixable issues)
 		let factCheckResult: StageResult<FactCheckOutput>;
 		const cachedFactCheck = resume
 			? loadOutput<FactCheckOutput>(outputDir, "fact-check.json")
@@ -1647,10 +1710,47 @@ If the draft has anglicisms, fix them in the revised article.
 		} else {
 			this.options.onStageChange?.({ stage: "factCheck", status: "running" });
 			factCheckResult = await this.runFactCheck(researchResult.data);
-			// Always save fact-check output for debugging (even on failure)
 			if (factCheckResult.data) {
 				saveOutput(outputDir, "fact-check.json", factCheckResult.data);
 			}
+
+			// verdict "revise" means specific, fixable claims — not fabrication or
+			// systemic bias ("reject"). Feed the flagged claims back into a targeted
+			// research correction and re-check, mirroring the Review↔Authoring loop
+			// below. "reject" skips straight to hard failure: no automated revision
+			// rescues fabricated quotes or systematic bias.
+			let researchRevisionCount = 0;
+			while (
+				factCheckResult.data &&
+				factCheckResult.data.overallCredibility < this.options.qualityThreshold &&
+				factCheckResult.data.verdict !== "reject" &&
+				researchRevisionCount < this.options.maxRevisions
+			) {
+				const fc = factCheckResult.data;
+				this.logger.log(
+					`   📝 Kreditbarhet ${fc.overallCredibility}/10 — reviderar research (försök ${researchRevisionCount + 1}/${this.options.maxRevisions})`,
+				);
+				this.options.onStageChange?.({
+					stage: "research",
+					status: "running",
+					summary: `Reviderar research (fact-check ${fc.overallCredibility}/10)`,
+				});
+				const revision = await this.runResearchRevision(researchResult.data, fc);
+				if (!(revision.result.success && revision.result.data)) {
+					this.logger.warn("   ⚠️  Research-revidering misslyckades — avbryter revideringar");
+					break;
+				}
+				researchResult = { ...researchResult, data: revision.result.data };
+				saveOutput(outputDir, "research.json", researchResult.data);
+				researchRevisionCount++;
+
+				this.options.onStageChange?.({ stage: "factCheck", status: "running" });
+				factCheckResult = await this.runFactCheck(researchResult.data);
+				if (factCheckResult.data) {
+					saveOutput(outputDir, "fact-check.json", factCheckResult.data);
+				}
+			}
+
 			if (!(factCheckResult.success && factCheckResult.data)) {
 				this.options.onStageChange?.({
 					stage: "factCheck",
@@ -1658,6 +1758,7 @@ If the draft has anglicisms, fix them in the revised article.
 					duration: factCheckResult.duration,
 					error: factCheckResult.error,
 				});
+				result.stages.research = researchResult;
 				result.stages.factCheck = factCheckResult;
 				result.totalDuration = Date.now() - startTime;
 				return result;
@@ -1666,9 +1767,10 @@ If the draft has anglicisms, fix them in the revised article.
 				stage: "factCheck",
 				status: "complete",
 				duration: factCheckResult.duration,
-				summary: `Score: ${factCheckResult.data.overallCredibility}/10`,
+				summary: `Score: ${factCheckResult.data.overallCredibility}/10${researchRevisionCount > 0 ? ` (efter ${researchRevisionCount} researchrevidering${researchRevisionCount > 1 ? "ar" : ""})` : ""}`,
 			});
 		}
+		result.stages.research = researchResult;
 		result.stages.factCheck = factCheckResult;
 
 		// Stage 3: Authoring

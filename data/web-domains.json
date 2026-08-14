@@ -54,12 +54,12 @@
       "avgScore": 8.6
     },
     "en.wikipedia.org": {
-      "total": 105,
-      "ok": 104,
+      "total": 108,
+      "ok": 107,
       "failed": 1,
-      "lastChecked": "2026-06-05T22:12:48.427Z",
-      "publishedIn": 85,
-      "avgScore": 8.608235294117659,
+      "lastChecked": "2026-08-14T19:04:24.897Z",
+      "publishedIn": 87,
+      "avgScore": 8.61034482758622,
       "lastError": "fetch failed"
     },
     "www.academia.edu": {
@@ -97,12 +97,12 @@
       "lastChecked": "2026-02-11T19:36:58.813Z"
     },
     "fof.se": {
-      "total": 4,
-      "ok": 4,
+      "total": 6,
+      "ok": 6,
       "failed": 0,
-      "lastChecked": "2026-06-05T20:13:30.786Z",
-      "publishedIn": 3,
-      "avgScore": 8.533333333333333
+      "lastChecked": "2026-08-14T19:04:24.897Z",
+      "publishedIn": 4,
+      "avgScore": 8.575
     },
     "www.slu.se": {
       "total": 1,
@@ -165,12 +165,12 @@
       "avgScore": 8.7
     },
     "www.regeringen.se": {
-      "total": 2,
-      "ok": 2,
+      "total": 4,
+      "ok": 4,
       "failed": 0,
-      "lastChecked": "2026-02-13T20:20:55.030Z",
-      "publishedIn": 2,
-      "avgScore": 8.649999999999999
+      "lastChecked": "2026-08-14T19:04:24.897Z",
+      "publishedIn": 3,
+      "avgScore": 8.666666666666666
     },
     "www.folkhalsomyndigheten.se": {
       "total": 4,
@@ -327,12 +327,12 @@
       "avgScore": 8.5
     },
     "www.so-rummet.se": {
-      "total": 2,
-      "ok": 2,
+      "total": 4,
+      "ok": 4,
       "failed": 0,
-      "lastChecked": "2026-08-09T21:10:34.549Z",
-      "publishedIn": 2,
-      "avgScore": 8.6
+      "lastChecked": "2026-08-14T19:04:24.897Z",
+      "publishedIn": 3,
+      "avgScore": 8.633333333333333
     },
     "www.culawreview.org": {
       "total": 1,
@@ -367,12 +367,12 @@
       "lastChecked": "2026-02-12T13:39:17.867Z"
     },
     "www.svt.se": {
-      "total": 9,
-      "ok": 9,
+      "total": 10,
+      "ok": 10,
       "failed": 0,
-      "lastChecked": "2026-06-05T19:19:13.620Z",
-      "publishedIn": 7,
-      "avgScore": 8.571428571428571
+      "lastChecked": "2026-08-14T19:04:24.897Z",
+      "publishedIn": 8,
+      "avgScore": 8.5875
     },
     "www.genteknik.se": {
       "total": 1,
@@ -579,12 +579,12 @@
       "avgScore": 8.7
     },
     "www.riksdagen.se": {
-      "total": 10,
-      "ok": 10,
+      "total": 16,
+      "ok": 16,
       "failed": 0,
-      "lastChecked": "2026-08-05T20:51:26.433Z",
-      "publishedIn": 8,
-      "avgScore": 8.612500000000002
+      "lastChecked": "2026-08-14T19:04:24.897Z",
+      "publishedIn": 12,
+      "avgScore": 8.64166666666667
     },
     "www.tandfonline.com": {
       "total": 6,
@@ -1025,12 +1025,12 @@
       "avgScore": 8.6
     },
     "www.sverigesradio.se": {
-      "total": 5,
-      "ok": 5,
+      "total": 7,
+      "ok": 7,
       "failed": 0,
-      "lastChecked": "2026-08-09T21:10:34.549Z",
-      "publishedIn": 5,
-      "avgScore": 8.580000000000002
+      "lastChecked": "2026-08-14T19:04:24.897Z",
+      "publishedIn": 6,
+      "avgScore": 8.600000000000001
     },
     "kyrkaochfolk.se": {
       "total": 1,
@@ -1418,12 +1418,12 @@
       "avgScore": 8.5
     },
     "www.britannica.com": {
-      "total": 2,
-      "ok": 2,
+      "total": 4,
+      "ok": 4,
       "failed": 0,
-      "lastChecked": "2026-06-05T18:09:17.138Z",
-      "publishedIn": 2,
-      "avgScore": 8.8
+      "lastChecked": "2026-08-14T19:04:24.897Z",
+      "publishedIn": 3,
+      "avgScore": 8.766666666666667
     },
     "www.vikingeskibsmuseet.dk": {
       "total": 1,
@@ -1722,12 +1722,12 @@
       "avgScore": 8.7
     },
     "www.islamweb.net": {
-      "total": 5,
-      "ok": 5,
+      "total": 6,
+      "ok": 6,
       "failed": 0,
-      "lastChecked": "2026-07-27T20:48:06.913Z",
-      "publishedIn": 3,
-      "avgScore": 8.633333333333333
+      "lastChecked": "2026-08-14T19:04:24.897Z",
+      "publishedIn": 4,
+      "avgScore": 8.649999999999999
     },
     "www.ncbi.nlm.nih.gov": {
       "total": 1,
@@ -2020,6 +2020,54 @@
       "ok": 1,
       "failed": 0,
       "lastChecked": "2026-08-09T21:10:34.549Z",
+      "publishedIn": 1,
+      "avgScore": 8.7
+    },
+    "www.corren.se": {
+      "total": 4,
+      "ok": 4,
+      "failed": 0,
+      "lastChecked": "2026-08-14T19:04:24.897Z",
+      "publishedIn": 2,
+      "avgScore": 8.7
+    },
+    "www.encyclopedia.com": {
+      "total": 2,
+      "ok": 2,
+      "failed": 0,
+      "lastChecked": "2026-08-14T19:04:24.897Z",
+      "publishedIn": 1,
+      "avgScore": 8.7
+    },
+    "www.sh.se": {
+      "total": 2,
+      "ok": 2,
+      "failed": 0,
+      "lastChecked": "2026-08-14T19:04:24.897Z",
+      "publishedIn": 1,
+      "avgScore": 8.7
+    },
+    "en.m.wikipedia.org": {
+      "total": 1,
+      "ok": 1,
+      "failed": 0,
+      "lastChecked": "2026-08-14T19:04:24.897Z",
+      "publishedIn": 1,
+      "avgScore": 8.7
+    },
+    "cup.columbia.edu": {
+      "total": 2,
+      "ok": 2,
+      "failed": 0,
+      "lastChecked": "2026-08-14T19:04:24.897Z",
+      "publishedIn": 2,
+      "avgScore": 8.7
+    },
+    "portal.research.lu.se": {
+      "total": 1,
+      "ok": 1,
+      "failed": 0,
+      "lastChecked": "2026-08-14T19:04:24.897Z",
       "publishedIn": 1,
       "avgScore": 8.7
     }

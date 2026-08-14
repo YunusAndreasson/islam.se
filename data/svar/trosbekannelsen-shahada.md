@@ -80,7 +80,7 @@ Det andra vittnesmålet binder den troende vid profeten Muhammed. Enligt al-ʿUt
 
 ## Hur blir man muslim genom shahada?
 
-Man blir muslim genom att uttala trosbekännelsen med både tunga och hjärta: orden ska sägas, och deras innebörd omfattas med övertygelse. Senare lärda har sammanställt sju villkor för att vittnesmålet ska vara giltigt (jämför Ibn Abī al-ʿIzz' kommentar till *at-Tahāwiyya*): att man vet vad orden betyder, är viss utan tvivel, menar dem uppriktigt och talar sanning, tar emot dem, underkastar sig dem och älskar dem. Ett vittnesmål som bara rör läpparna men inte hjärtat gör ingen till troende. Omvänt krävs ingen ceremoni och ingen mellanhand: den som med uppriktigt hjärta säger orden har trätt in i islam i samma stund. I praktiken sker inträdet ofta i en moské, där den nye muslimen uttalar orden högt och får hjälp med uttalet, men giltigheten avgörs av hjärtat och tungan.
+Man blir muslim genom att uttala trosbekännelsen med både tunga och hjärta: orden ska sägas, och deras innebörd omfattas med övertygelse. Senare lärda har sammanställt sju villkor för att vittnesmålet ska vara giltigt (jämför Ibn Abī al-ʿIzz i hans kommentar till *at-Tahāwiyya*): att man vet vad orden betyder, är viss utan tvivel, menar dem uppriktigt och talar sanning, tar emot dem, underkastar sig dem och älskar dem. Ett vittnesmål som bara rör läpparna men inte hjärtat gör ingen till troende. Omvänt krävs ingen ceremoni och ingen mellanhand: den som med uppriktigt hjärta säger orden har trätt in i islam i samma stund. I praktiken sker inträdet ofta i en moské, där den nye muslimen uttalar orden högt och får hjälp med uttalet, men giltigheten avgörs av hjärtat och tungan.
 
 ## Varför är trosbekännelsen islams första pelare?
 
@@ -95,6 +95,6 @@ Vilken tyngd orden *lā ilāha illā Allāh* bär beskriver Ibn al-Qayyim i *ad-
 
 Vittnesmålet genomsyrar sedan hela livet: det ropas ut i böneutropet (*adhān*), upprepas i varje föreskriven bön i *tashahhud* och viskas helst som en muslims sista ord.
 
-Att formeln är lika gammal som den är spridd går att se med egna ögon. I Klippdomen i Jerusalem (som står inom al-Aqsa) löper den i guldkufi längs arkaderna, i en inskrift som daterar sig själv till år 72 efter hijra, alltså 691–692. Tvåhundra år senare nådde den svensk jord: arabiska dirhemer, präglade med trosbekännelsen i kufisk skrift, är den vanligaste mynttypen i svenska vikingatida skattfynd, och i Spillingsskatten på Gotland utgör de merparten av omkring 14 300 mynt.
+Att formeln är lika gammal som den är spridd går att se med egna ögon. I Klippdomen i Jerusalem (som står inom al-Aqsa) löper den i guldkufi längs arkaderna, i en inskrift som själv anger året 72 efter hijra, alltså 691–692. Tvåhundra år senare nådde den svensk jord: arabiska dirhemer, präglade med trosbekännelsen i kufisk skrift, är den vanligaste mynttypen i svenska vikingatida skattfynd, och i Spillingsskatten på Gotland utgör de merparten av omkring 14 300 mynt.
 
 Tretton sekler skiljer guldskriften i Jerusalem från den *tashahhud* som läses i en svensk moské i dag, och formeln är oförändrad. Bland världens omkring två miljarder muslimer är shahada den enda mening som alla delar, oavsett språk och rättsskola.

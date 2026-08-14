@@ -77,7 +77,7 @@ Klassiska lärda delar in tecknen i mindre och större. De mindre tecknen (*ʿal
 
 ## Vad händer på själva domedagen?
 
-Förloppet inleds när ängeln blåser i basunen (*as-sūr*): vid det första stötet förgås allt levande utom den Gud vill skona, vid det andra reser sig alla och ser sig omkring (Koranen 39:68). Människorna samlas (*al-hashr*) barfota och nakna inför Gud. Enligt hadithen om den stora förbönen (*ash-shafāʿa*) vänder de sig i sin nöd till profet efter profet för att någon ska be Gud inleda domen, till dess att Muhammed med Guds tillstånd träder fram (Sahīh al-Bukhārī 7510). Därefter börjar *al-hisāb*, räkenskapen: var och en får boken över sina gärningar – i höger hand för de räddade, i vänster för de fördömda. Sedan ställs *al-mīzān*, vågen, upp:
+Förloppet inleds när ängeln blåser i basunen (*as-sūr*): vid den första stöten förgås allt levande utom den Gud vill skona, vid den andra reser sig alla och ser sig omkring (Koranen 39:68). Människorna samlas (*al-hashr*) barfota och nakna inför Gud. Enligt hadithen om den stora förbönen (*ash-shafāʿa*) vänder de sig i sin nöd till profet efter profet för att någon ska be Gud inleda domen, till dess att Muhammed med Guds tillstånd träder fram (Sahīh al-Bukhārī 7510). Därefter börjar *al-hisāb*, räkenskapen: var och en får boken över sina gärningar – i höger hand för de räddade, i vänster för de fördömda. Sedan ställs *al-mīzān*, vågen, upp:
 
 > På Uppståndelsens dag skall Vi ställa fram rättvisande vågar och ingen skall då lida den minsta orätt. [Allt,] till och med det som väger så litet som ett senapskorn, skall Vi dra fram i ljuset.
 > — Koranen 21:47
