@@ -14,8 +14,14 @@ import CollectionIndexPage from "../components/CollectionIndexPage.astro";
 import DefinitionList from "../components/DefinitionList.astro";
 import MarkesdagList from "../components/MarkesdagList.astro";
 import TitledSection from "../components/TitledSection.astro";
+import { fastRows } from "../lib/fastelangd";
 import { breadcrumbList, faqPageJsonLd } from "../lib/jsonld";
-import { type Markesdag, getUpcomingMarkesdagar, gregorian } from "../lib/markesdagar";
+import {
+	type Markesdag,
+	getUpcomingMarkesdagar,
+	gregorian,
+	gregorianShort,
+} from "../lib/markesdagar";
 
 const events = getUpcomingMarkesdagar();
 
@@ -89,12 +95,42 @@ const leadSummary =
 		: "";
 
 const faqLd = dateFaq.length > 0 ? [faqPageJsonLd(dateFaq)] : [];
+
+// The whole SEO argument for this page in three lines. "ramadan <år>" is a
+// known-answer query: Google prints the date in the result list, which is why
+// position 3–4 still only converts 0,5 % of 13 354 impressions. A title and a
+// description that restate the date compete with an answer the searcher already
+// has. So the title carries the answer (exact-match relevance, and it is no
+// secret — every competitor's snippet shows it too) and the description carries
+// the one thing no date snippet can compute: how long the fast actually is where
+// the reader lives. The section below has to deliver that immediately, or the
+// click bounces straight back.
+const ramadanYear = ramadan?.startISO.slice(0, 4);
+const fast = ramadan ? fastRows(ramadan.startISO, ramadan.endISO ?? ramadan.startISO) : [];
+const fastSouth = fast[0];
+const fastNorth = fast.at(-1);
+
+const pageTitle =
+	ramadan && eidFitr
+		? `Ramadan ${ramadanYear}: ${gregorianShort(ramadan.startISO)}–${gregorianShort(
+				ramadan.endISO ?? ramadan.startISO,
+			)}, Eid ${gregorianShort(eidFitr.startISO)} — islam.se`
+		: "Det islamiska året — islam.se";
+
+const description =
+	ramadan && eidFitr && fastSouth && fastNorth
+		? `Ramadan ${ramadanYear} varar ${gregorianShort(ramadan.startISO)}–${gregorianShort(
+				ramadan.endISO ?? ramadan.startISO,
+			)} och Eid al-fitr infaller ${gregorianShort(eidFitr.startISO)}. Fastan är kortare i norr: ${
+				fastNorth.first
+			} i ${fastNorth.name} mot ${fastSouth.first} i ${fastSouth.name}.`
+		: "Ramadan, Eid al-fitr, Eid al-adha, Arafa, Ashura och hajj — datum i både gregoriansk och islamisk kalender (Umm al-Qura).";
 ---
 
 <CollectionIndexPage
 	title="Det islamiska året"
-	pageTitle={`${ramadan ? `Ramadan ${ramadan.startISO.slice(0, 4)} & ` : ""}Det islamiska året — islam.se`}
-	description={`${ramadan ? `Ramadan ${ramadan.startISO.slice(0, 4)}, ` : ""}Eid al-fitr, Eid al-adha, Arafa, Ashura och hajj — datum i både gregoriansk och islamisk kalender (Umm al-Qura).`}
+	pageTitle={pageTitle}
+	description={description}
 	lead="De återkommande högtiderna och fastedagarna, räknade från utvandringen (hijra) till Medina år 622. Datumen följer Umm al-Qura-kalendern och visas här mot den gregorianska; eftersom varje månad inleds med den nya månens iakttagelse kan en dag infalla tidigare eller senare. Endast det som har stöd i hadith tas upp."
 	mainClass="home md-page"
 	jsonLd={[
@@ -113,6 +149,46 @@ const faqLd = dateFaq.length > 0 ? [faqPageJsonLd(dateFaq)] : [];
 			<span class="nav-dot" aria-hidden="true">&middot;</span>
 			<a href="/det-islamiska-aret.ics">Ladda ner (.ics)</a>
 		</p>
+
+		{fastSouth && fastNorth && (
+			<section class="md-fast">
+				<h2 class="md-fast-head">Hur lång är fastan i Sverige under ramadan {ramadanYear}?</h2>
+				<p class="md-fast-answer">
+					Den första dagen är fastan <strong>{fastSouth.first}</strong> i {fastSouth.name} och{" "}
+					<strong>{fastNorth.first}</strong> i {fastNorth.name}. När ramadan infaller på vintern är
+					dygnet kortare ju längre norrut man kommer, alltså tvärtom mot sommaren, då norra Sverige
+					fastar längst. Mot slutet av månaden har skillnaden nästan jämnats ut.
+				</p>
+				<table class="md-fast-table">
+					<thead>
+						<tr>
+							<th scope="col">Ort</th>
+							<th scope="col">Första dagen</th>
+							<th scope="col">Sista dagen</th>
+						</tr>
+					</thead>
+					<tbody>
+						{fast.map((r) => (
+							<tr>
+								<th scope="row">
+									<a href={`/bonetider/${r.slug}/`}>{r.name}</a>
+									<span class="md-fast-lat">{r.latText}</span>
+								</th>
+								<td>{r.first}</td>
+								<td>{r.last}</td>
+							</tr>
+						))}
+					</tbody>
+				</table>
+				<p class="md-fast-note">
+					Räknat från fajr till maghrib efter Muslim World League, samma inställningar som
+					<a href="/bonetider/"> bönetiderna</a> använder. Norr om polcirkeln är tiderna omtvistade och
+					löses i praktiken med en regel för höga latituder eller en sydligare tidtabell.
+					<a href="/fordjupning/ramadan/">Fördjupningen om ramadan</a> går igenom hur den ordningen
+					kom till.
+				</p>
+			</section>
+		)}
 
 		{groups.map((g) => (
 			<section class="md-year" data-year>
@@ -190,6 +266,80 @@ const faqLd = dateFaq.length > 0 ? [faqPageJsonLd(dateFaq)] : [];
 				border-radius: var(--radius-xs);
 			}
 		}
+	}
+
+	/* The same quiet reference table as the bönetider pages' daylight gradient
+	   (components/bonetider/DaylightLatitude.astro) — three columns, tabular
+	   figures, city as the row header. Prose stays on the reading measure; only
+	   the table is allowed to be its own width. */
+	.md-fast {
+		margin: var(--space-unit) 0 var(--space-phi2);
+		max-width: var(--content-width);
+	}
+
+	.md-fast-head {
+		font-family: var(--font-heading);
+		font-size: var(--step-1-sans);
+		font-weight: 620;
+		margin: 0 0 var(--space-half);
+	}
+
+	.md-fast-answer {
+		margin: 0 0 var(--space-unit);
+	}
+
+	.md-fast-table {
+		width: 100%;
+		max-width: 32rem;
+		border-collapse: collapse;
+		font-family: var(--font-body);
+		font-size: var(--step--2);
+	}
+
+	.md-fast-table :is(th, td) {
+		padding: 0.45rem 0.5rem;
+		text-align: end;
+		white-space: nowrap;
+	}
+
+	.md-fast-table thead th {
+		color: var(--color-muted);
+		font-weight: 600;
+		font-size: var(--step--3);
+		border-bottom: 1px solid var(--color-divider);
+	}
+
+	.md-fast-table tbody th[scope="row"] {
+		text-align: start;
+		display: flex;
+		flex-direction: column;
+		gap: 0.05rem;
+	}
+
+	.md-fast-table tbody td {
+		color: var(--color-text);
+		font-variant-numeric: lining-nums tabular-nums;
+	}
+
+	.md-fast-table tbody tr:not(:last-child) :is(th, td) {
+		border-bottom: 1px solid color-mix(in srgb, var(--color-divider), transparent 40%);
+	}
+
+	.md-fast-lat {
+		/* The row header is a <th>, so this would inherit the UA's bold and be set
+		   heavier than the city name it annotates. It is the quietest thing in the
+		   row; it should be the lightest. */
+		font-size: var(--step--4);
+		font-weight: 400;
+		color: var(--color-muted);
+		font-variant-numeric: lining-nums tabular-nums;
+	}
+
+	.md-fast-note {
+		font-size: var(--step--3);
+		line-height: 1.5;
+		color: var(--color-muted);
+		margin: var(--space-half) 0 0;
 	}
 
 	.md-year {

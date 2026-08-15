@@ -213,6 +213,13 @@ function fmt(isoDate: string, withYear: boolean): string {
 	});
 }
 
+/** "27 maj" — no year. For the page title, where the year is already in the query
+ *  the title answers ("Ramadan 2027: 8 februari–8 mars") and repeating it would
+ *  spend characters Google truncates. */
+export function gregorianShort(isoDate: string): string {
+	return fmt(isoDate, false);
+}
+
 /** "27 maj 2026" for a point; "25–30 maj 2026" within a month; "18 maj – 1 juni 2026" across months. */
 export function gregorian(startISO: string, endISO?: string): string {
 	if (!endISO) return fmt(startISO, true);
