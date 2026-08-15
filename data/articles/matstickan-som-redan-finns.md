@@ -1,9 +1,10 @@
 ---
 title: "Mätstickan som redan finns"
 publishedAt: "2026-08-14T20:06:49.457Z"
-wordCount: 2952
+wordCount: 2950
 qualityScore: 8.7
-description: "Vad skiljer ett bönehus från ett maktmedel? Plan- och bygglagen får inte fråga, och de två stora svenska försöken att ändå avgöra saken slutade båda i strid. Traditionen bär ett eget prov, ställt en gång mot en moské i Medina: det frågar efter pengar och ansvarskedja, aldrig efter tro."
+description: "År 9 e.H. underkände Koranen en moské i Medina. Skälen den räknar upp handlar alla om vad huset var rest till och åt vem – aldrig om hur det såg ut eller vad byggarna trodde. Fjorton sekler senare prövar Sverige samma fråga, med instrument som mäter något annat."
+seoDescription: "Koranen underkände en moské för vad den var rest till, aldrig för vad byggarna trodde. Sverige prövar samma fråga med andra instrument."
 imageAlt: "Man med kort skägg sitter vid ett skrivbord i dunkelt vinterljus och läser i en uppslagen bok, med inramad arabisk kalligrafi på väggen, inbundna band i hyllan bakom och snötäckta tak utanför fönstret."
 imageCaption: "Provet står i böckerna, inte i misstanken."
 category: "Samhälle"
@@ -18,17 +19,17 @@ Att islam är politisk avgör ingenting; all religion får politiska följder, S
 
 ## Ett begrepp lånat av dem det beskriver
 
-Hela debatten vilar på en formel: islam är religion och stat, *al-islam din wa dawla*. Den citeras av larmaren som bevis och av rörelsen som program. Ingendera brukar fråga varifrån den kommer.
+Hela debatten vilar på en paroll: *al-islam din wa dawla*, islam som religion och stat. Larmaren citerar den som bevis, rörelsen som program. Ingendera brukar fråga varifrån den kommer.
 
-Vintern 1922–23 publicerade Rashid Rida i tidskriften al-Manar en artikelserie om kalifatet, utgiven som bok året därpå.[^6] Anledningen var inte kalifatets avskaffande, som låg två år fram i tiden, utan att det osmanska sultanatet upplösts i november 1922. Rida myntade inte parollen; den fick sin spridning först i kalifatfrågans efterdyningar, framför allt genom Hasan al-Banna, flitig läsare av al-Manar. Enligt den pakistanske idéhistorikern Qamaruddin Khan användes uttrycket *dawla islamiyya*, islamisk stat, aldrig i muslimsk statslära eller statspraktik före nittonhundratalet.[^7]
+Vintern 1922–23 publicerade Rashid Rida i tidskriften al-Manar en artikelserie om kalifatet, utgiven som bok året därpå.[^6] Anledningen var inte kalifatets avskaffande, som låg två år fram i tiden, utan att det osmanska sultanatet upplösts i november 1922. Rida myntade inte parollen; den fick sin spridning först i kalifatfrågans efterdyningar, framför allt genom Hasan al-Banna, flitig läsare av al-Manar. Enligt den pakistanske idéhistorikern Qamaruddin Khan förekommer uttrycket *dawla islamiyya* varken i muslimsk statslära eller statspraktik före nittonhundratalet.[^7]
 
 Här måste man vara ärlig mot sitt material. På 1000-talet skriver al-Mawardi att imamatet är instiftat "för att efterträda profetskapet i att vaka över religionen och sköta de världsliga angelägenheterna". Religion och styre i samma mening, sekler före Rida. Men ämbetets uppgifter räknas därefter upp i tio punkter, och de handlar om annat: att döma mellan tvistande så att ingen förtryckare går för långt och ingen förtryckt lämnas svag, att försvara landet så att människor kan färdas trygga till liv och egendom, att befästa gränserna så att fienden inte överraskar.[^8]
 
 Rättskipning, hemfrid, trygga vägar. Detta är förvaltningslära, *siyasa shar'iyya*: hur ett ämbete sköts, inte en teori om suveränitet, medborgarskap och lagstiftande monopol. Khans påstående gäller det senare.
 
-Wael Hallaq hävdar det rakt motsatta: förmodern islamisk styrning var så tätt sammanvävd med lagen att det är just den *moderna staten* som gör den omöjlig. Patricia Crone beskriver medeltidens islam som en gemenskap där religiös auktoritet och politisk makt var invävda i varandra.[^9] Nybildningstesen är en ståndpunkt i en levande strid. Forskningens dom är den inte.
+Wael Hallaq hävdar det rakt motsatta: förmodernt muslimskt styre var så tätt sammanvävt med lagen att det är just den *moderna staten* som gör det omöjligt. Patricia Crone beskriver medeltidens islam som en gemenskap där religiös auktoritet och politisk makt var invävda i varandra.[^9] Nybildningstesen är en ståndpunkt i en levande strid. Forskningens dom är den inte.
 
-Men striden slutar på samma ställe. Om Khan har rätt är formeln en nybildning från nittonhundratalet. Om Hallaq har rätt är den något värre: den kräver av islam just den statsform han menar gör islamisk styrning omöjlig. Åt vilket håll man än läser forskningen, beskriver formeln ett modernt program snarare än ett klassiskt arv. Därmed har svensk debatt övertagit rörelsens egen självbeskrivning och kallat den islam. Larmaren och islamisten är ense om vad islam är; de skiljer sig bara i värderingen. Erik Gustaf Geijer sade det utan omsvep:
+Men striden slutar på samma ställe. Om Khan har rätt är formeln en nybildning från nittonhundratalet. Om Hallaq har rätt är den något värre: den begär av islam just den moderna statsform som enligt honom gör det äldre styret omöjligt. Åt vilket håll man än läser forskningen, beskriver formeln ett modernt program snarare än ett klassiskt arv. Därmed har svensk debatt övertagit rörelsens egen självbeskrivning och kallat den islam. Larmaren och islamisten är ense om vad islam är; de skiljer sig bara i värderingen. Erik Gustaf Geijer sade det utan omsvep:
 
 > Nu är politiken vida mäktigare än religionen och nytjar denna ofta såsom medel och vet rätt väl deraf.[^10]
 
@@ -100,7 +101,7 @@ Två gånger har frågan ställts, två gånger har svaret blivit omtvistat. Utr
 
 Ibn Taymiyya sammanfattar vad ett ämbete kräver i två ord: *quwwa* och *amana*, förmåga och pålitlighet, hämtade ur versen om att återlämna det anförtrodda till dess rättmätiga ägare och döma med rättvisa.[^27] Båda är prövbara på gärningar, ingendera på tro. Förmågan syns i om arbetet blir gjort, pålitligheten i om kassan stämmer när någon räknar efter.
 
-Mohammad Fazlhashemi har pekat på precis det som betyder något i ett sådant ärende: främmande stater som finansierar bönehus brukar begära inflytande i utbyte, platser i styrelsen, anpassning i lärofrågor.[^28] Han är själv part i den svenska striden, en av MSB-rapportens kritiker, och det bör sägas. Men ingen tro prövas där. Iakttagelsen gäller vem som håller i huset, just vad det klassiska provet efterfrågar.
+Mohammad Fazlhashemi har pekat på precis det som betyder något i ett sådant ärende: främmande stater som finansierar bönehus brukar begära inflytande i utbyte, platser i styrelsen, anpassning i lärofrågor.[^28] Han är själv part i den svenska debatten, en av MSB-rapportens kritiker, och det bör sägas. Men ingen tro prövas där. Iakttagelsen gäller vem som håller i huset, just vad det klassiska provet efterfrågar.
 
 Plan- och bygglagens ideologiblindhet är en princip, inte en lucka: likhet inför lagen, neutralitet inför åskådningar. Handläggaren som mäter takhöjd frågar inte vad byggherren tror. Konstitutionsutskottets avslag var ett övervägt ställningstagande, och det klassiska provet hotar inte den principen — lika lite som lagen frågar det efter tro. Sverigedemokraternas motion ville väga in ideologi, Kristdemokraternas förbjuda utländska pengar; riksdagen avslog båda. Dirar-kriteriet begär ingen sådan förbudsregel: det väger pengar, styrning och ansvarskedja, och lämnar tron ifred.
 
