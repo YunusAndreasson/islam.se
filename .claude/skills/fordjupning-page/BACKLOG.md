@@ -107,6 +107,14 @@ Swedish legal fact (bygglov, böneutrop, MUCF-statistik) — the directory keeps
 misses entirely — *är sunni eller shia strängast* 53i p7. `/svar/sunni-och-shia/` already takes
 3 207i at p7 for **21 clicks**, which is the same thin-page-on-a-broad-topic pattern as the phrases
 above. **Spokes:** `sunni-och-shia`, `de-rattledda-kaliferna`, `vad-ar-sufism`, `vad-ar-sunna`.
+⚠️ **Framing, decided 2026-08-15:** write it as a comparison **from the Sunni position** — that is
+what islam.se is. Comparing the two openly is wanted; what is not wanted is the neutral both-sides
+register that presents shia doctrine as co-normative. The test is the page's voice, not the word
+»shia«: a page that compares may name shia positions throughout, while a *doctrinal* page covers
+the four Sunni schools and stops. That distinction cost `/fordjupning/uttryck` a paragraph, which
+had slotted jaʿfaritisk rätt in beside the four madhhabs under the heading »Rättsskolorna och shia«.
+**The producer does not know this rule** — grep every draft
+(`grep -niE "shia|shiit|jaʿfar|tolvshi" <fil>`) and judge each hit by the voice test.
 
 ### P4 · Bönen (salat) — 850i / 29c / p10 → **+25–40c**
 
