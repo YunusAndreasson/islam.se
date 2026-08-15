@@ -59,7 +59,12 @@ function dayStats(
 	return { dayHours: (above / samples) * 24, minAlt, maxAlt };
 }
 
-function formatHours(hours: number): string {
+/** "18 tim 32 min", or "13 tim" on the hour. The site's single duration format —
+ *  the calendar page's fasting lengths (lib/fastelangd.ts) render through it too,
+ *  so a day length and a fast length never read as two different conventions.
+ *  The `min === 60` carry is load-bearing: rounding the remainder alone renders
+ *  12,995 h as "12 tim 60 min". */
+export function formatHours(hours: number): string {
 	const h = Math.floor(hours);
 	const min = Math.round((hours - h) * 60);
 	if (min === 60) return `${h + 1} tim`;
