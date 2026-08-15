@@ -61,7 +61,28 @@ questions earning impressions with no page that answers them — not by orphaned
 
 ---
 
-## P1 — New pages, in order
+## P1 — ⛔ WITHDRAWN 2026-08-15: every page below was already written
+
+Checked against all 73 live pages (64 `/svar/` + 9 `/fordjupning/`). The list conflated *"we rank
+badly for this query"* with *"we have no page for this query"*. Only the second justifies a new
+text; the first is a rescue pass. **N1 shipped; N2–N5 must not be produced as new pages.**
+
+| item | status | who already owns it |
+|---|---|---|
+| N1 `vad-ar-en-kadi` | ✅ shipped 2026-08-08 | measure from 2026-09-05 |
+| N2 `varfor-bar-muslimska-kvinnor-sloja` | **already written** | `vad-ar-hijab` carries the H2, the keyword *and* the FAQ question verbatim; `/fordjupning/hijab` holds 24:31/33:59 |
+| N3 `vad-betyder-halal-och-haram` | **already written** | `/fordjupning/halal` — titled "Halal och haram", keywords "vad betyder halal", "halal och haram" |
+| N4 `vad-betyder-inshallah` | **already written** | `vad-betyder-alhamdulillah` — the title names all three phrases |
+| N5 `vad-betyder-mashallah` | **already written** | same page |
+
+N2 and N4/N5 remain defensible as deliberate *intent splits*, but not as two simultaneous ones —
+and the phrase cluster now has a pillar ahead of it in
+`.claude/skills/fordjupning-page/BACKLOG.md` (P1). Decide the pillar first, then the split.
+
+The mandatory coverage gate that would have caught this is written up in that file. Run it before
+adding any candidate here.
+
+## P1 (withdrawn) — New pages, in order
 
 ### N1 · `vad-ar-en-kadi` — "Vad är en kadi (islamisk domare)?" — 3 085i / **2c**
 
