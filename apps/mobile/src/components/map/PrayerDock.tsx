@@ -44,10 +44,12 @@ import { hapticLight, hapticSelection } from '@/lib/haptics';
 import { formatGregorian, formatHijri } from '@/lib/hijri';
 import {
   computeNightTimes,
+  crossedMidnightLabel,
   NIGHT_ICONS,
   NIGHT_LABELS,
   NIGHT_ORDER,
   NIGHT_SWEDISH_NAMES,
+  nightCaption,
   type NightTimes,
 } from '@/lib/night-times';
 import { relativeDayLabel } from '@/lib/relative-day';
@@ -59,7 +61,7 @@ import {
   type PrayerKey,
 } from '@/lib/prayer-times';
 import type { PrayerSettings } from '@/lib/settings/types';
-import { startOfStockholmDay, stockholmPrayerDate } from '@/lib/stockholm-time';
+import { stockholmPrayerDate } from '@/lib/stockholm-time';
 import { nightColorFor, prayerColorFor } from '@/lib/solar/palette';
 import { MAX_DAY_OFFSET, type SolarClock } from '@/lib/solar/useSolarClock';
 import { motion, type Palette, radius, shadow, space, type } from '@/theme/tokens';
@@ -853,9 +855,11 @@ function ScheduleRow({
  *     of the wrong day and light up ʿIshāʾ as "current" — a lie with no visible cause.
  *  2. **Muted label ink, tinted glyph only.** These are voluntary. Painting them at the
  *     same strength as the five obligations is the one thing this group must never do.
- *  3. **A "+1" after a post-midnight time.** The card is headed by a date; "01:06" under
- *     "20 mars" belongs to the 21st. The suffix is what keeps the row honest without
- *     spending a second line on it.
+ *  3. **The night is NAMED, and crossing rows say so.** The card is headed by the evening's
+ *     date, so "01:06" under "20 mars" belongs to the 21st. The heading is Swedish's own
+ *     idiom for this — "Natten mot måndag" — and a row that lands on the morning side
+ *     carries the short weekday. It used to be a bare "+1", which is a developer's
+ *     shorthand: it presumes the reader knows what is being incremented.
  */
 function NightGroup({
   styles,
@@ -903,16 +907,17 @@ function NightGroup({
       >
         {visible ? (
           <Text style={styles.nightCaption} accessibilityRole="header">
-            Natten
+            {nightCaption(dayStart)}
           </Text>
         ) : null}
       </Animated.View>
       {NIGHT_ORDER.map((key, i) => {
         const at = night[key];
         const time = formatTime(at);
-        // Stockholm-day comparison, not `at.getDate()`: the app is pinned to
-        // Europe/Stockholm and the device may be in another zone entirely.
-        const nextDay = at !== null && startOfStockholmDay(at.getTime()) !== dayStart;
+        // Undefined when the landmark falls on the evening's own date. The comparison is
+        // Stockholm-day based, not `at.getDate()`: the app is pinned to Europe/Stockholm
+        // and the device may be in another zone entirely.
+        const morning = at === null ? undefined : crossedMidnightLabel(at, dayStart);
         return (
           <ScheduleRow
             key={key}
@@ -926,13 +931,13 @@ function NightGroup({
             icon={NIGHT_ICONS[key]}
             iconColor={nightColorFor(key, scheme)}
             time={at === null ? '—' : time}
-            suffix={nextDay ? '+1' : undefined}
+            suffix={morning}
             muted
             visible={visible}
             accessibilityLabel={
               at === null
                 ? `${NIGHT_SWEDISH_NAMES[key]}, kan inte beräknas`
-                : `${NIGHT_SWEDISH_NAMES[key]} ${time}${nextDay ? ', efter midnatt' : ''}`
+                : `${NIGHT_SWEDISH_NAMES[key]} ${time}${morning ? ', efter midnatt' : ''}`
             }
           />
         );
@@ -1280,9 +1285,10 @@ function makeStyles(c: Palette) {
     // Voluntary rows step down one ink tier. That difference IS the hierarchy: the five
     // obligations keep `ink`, everything the reader is not obliged to pray reads quieter.
     listLabelMuted: { color: c.inkMuted },
-    // "+1" after a night time that lands past midnight. Sits in the faint tier and takes
-    // no width from the time column, so the six prayer times above stay aligned.
-    listSuffix: { ...type.micro, color: c.inkFaint, marginLeft: 2, width: 14 },
+    // The short weekday after a night time that lands on the morning side of midnight.
+    // Fixed width so the six prayer times above stay aligned with these two; right-aligned
+    // so the abbreviation hangs off the time rather than pushing it.
+    listSuffix: { ...type.micro, color: c.inkFaint, marginLeft: 4, width: 26 },
 
     // The night group's separator. Its own rule + caption rather than another list row,
     // so a glance can tell where the obligations stop and the voluntary times begin.
