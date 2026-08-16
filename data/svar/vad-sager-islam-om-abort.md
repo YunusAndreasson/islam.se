@@ -3,6 +3,7 @@ title: "Vad säger islam om abort? Gränsen vid 120 dagar"
 question: "Vad säger islam om abort?"
 description: "Islam förbjuder abort i grunden – men en gräns vid 120 dagar avgör det mesta. Vad händer när själen blåses in, och när väger moderns liv tyngre än fostrets?"
 publishedAt: "2026-06-20T00:00:00Z"
+updatedAt: "2026-08-16T00:00:00Z"
 keywords:
   - "vad säger islam om abort"
   - "abort islam"
@@ -62,4 +63,4 @@ Före själens inblåsning råder oenighet mellan de fyra klassiska lagskolorna 
 
 ## När är abort tillåtet – och när är det inte det?
 
-Det starkaste och mest samstämmiga undantaget är fara för moderns liv. Står valet mellan modern och fostret väger moderns redan etablerade liv tyngst, och abort tillåts även efter 120 dagar. Vid våldtäkt eller säkerställd, svår fosterskada tillåter en del lärda abort i ett tidigt skede, före 40 eller 120 dagar, medan andra håller fast vid förbudet, eftersom fostret är oskyldigt till hur det blivit till. Däremot avvisar samtliga skolor abort som preventivmedel eller av sociala och ekonomiska bekvämlighetsskäl. För en svensk läsare är tidslinjen talande: gränsen vid 120 dagar infaller kring graviditetsvecka 17 – nästan exakt där den svenska abortlagens fria gräns vid vecka 18 går. Där den svenska lagen ser ett fritt val, ser islam en själ som just fått sitt liv.
+Det starkaste och mest samstämmiga undantaget är fara för moderns liv. Står valet mellan modern och fostret väger moderns redan etablerade liv tyngst, och abort tillåts även efter 120 dagar. Vid våldtäkt eller säkerställd, svår fosterskada tillåter en del lärda abort i ett tidigt skede, före 40 eller 120 dagar, medan andra håller fast vid förbudet, eftersom fostret är oskyldigt till hur det blivit till. Däremot avvisar samtliga skolor abort som preventivmedel eller av sociala och ekonomiska bekvämlighetsskäl. För en svensk läsare är tidslinjen talande. De 120 dagarna räknas från befruktningen, medan svensk mödravård räknar graviditetsveckor från senaste mens, ungefär två veckor tidigare; besjälningen infaller därför kring **graviditetsvecka 19**. Den fria aborträtten i Sverige sträcker sig till och med vecka 18 – alltså fram till strax innan den gräns där islam ser ett foster med själ. De två linjerna löper nära varandra, men de dras av olika skäl: den svenska av lagstiftaren, den islamiska av uppenbarelsen.

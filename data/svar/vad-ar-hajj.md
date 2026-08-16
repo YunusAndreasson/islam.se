@@ -3,7 +3,7 @@ title: "Vad är hajj? Vallfärden till Mecka förklarad"
 question: "Vad är hajj (vallfärden)?"
 description: "Hajj är islams femte pelare: vallfärden till Mecka. Vem är skyldig att resa, vilka riter ingår och varför sägs pilgrimen återvända syndfri som en nyfödd?"
 publishedAt: "2026-06-20T00:00:00Z"
-updatedAt: "2026-07-26T00:00:00Z"
+updatedAt: "2026-08-16T00:00:00Z"
 keywords:
   - "vad är hajj"
   - "hajj vallfärden"
@@ -85,7 +85,7 @@ Plikten är knuten till just förmågan: den fattige eller sjuke bär ingen skul
 
 ## Vad skiljer hajj från umra?
 
-*Umra*, den "lilla vallfärden", förväxlas ofta med hajj men är en kortare och enklare rit. Den omfattar ihrām, tawāf runt Kaba och saʿy mellan Safa och Marwa, men varken ʿArafat, Muzdalifa eller stening. Umra kan dessutom utföras när som helst under året, medan hajj endast kan ske under dhū-l-hijja. Till skillnad från pelaren hajj är umra enligt de flesta lärda en starkt rekommenderad handling snarare än en absolut plikt. De två kan också kombineras, och klassisk rätt skiljer på tre former av hajj: *tamattuʿ*, där pilgrimen först gör umra och sedan hajj samma år med en ny vigning däremellan; *qirān*, där umra och hajj fullgörs i ett och samma ihrām; och *ifrād*, enbart hajj. Den som väljer tamattuʿ eller qirān ska också ge ett offerdjur, medan ifrād inte kräver något sådant. Många långväga pilgrimer väljer i dag formen tamattuʿ.
+*Umra*, den "lilla vallfärden", förväxlas ofta med hajj men är en kortare och enklare rit. Den omfattar ihrām, tawāf runt Kaba och saʿy mellan Safa och Marwa, men varken ʿArafat, Muzdalifa eller stening. Umra kan dessutom utföras när som helst under året, medan hajj endast kan ske under dhū-l-hijja. Till skillnad från pelaren hajj är umras status omtvistad: *shāfiʿī*- och *hanbalī*-skolorna räknar den som obligatorisk (*wājib*) en gång i livet, medan *hanafī* och *mālikī* håller den för en starkt rekommenderad *sunna*. De två kan också kombineras, och klassisk rätt skiljer på tre former av hajj: *tamattuʿ*, där pilgrimen först gör umra och sedan hajj samma år med en ny vigning däremellan; *qirān*, där umra och hajj fullgörs i ett och samma ihrām; och *ifrād*, enbart hajj. Den som väljer tamattuʿ eller qirān ska också ge ett offerdjur, medan ifrād inte kräver något sådant. Många långväga pilgrimer väljer i dag formen tamattuʿ.
 
 ## Vad är belöningen för en godtagen hajj?
 

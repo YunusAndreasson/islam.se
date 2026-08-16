@@ -3,6 +3,7 @@ title: "Vad är en moské? Böneplats och samlingspunkt"
 question: "Vad är en moské?"
 description: "En moské är muslimernas hus för bön – men ordet betyder 'platsen för nedfall' och profeten sa att hela jorden är en moské. Vad gör då en byggnad helig?"
 publishedAt: "2026-06-20T00:00:00Z"
+updatedAt: "2026-08-16T00:00:00Z"
 keywords:
   - "vad är en moské"
   - "moské betydelse"
@@ -41,8 +42,6 @@ sources:
     url: "https://sunnah.com/bukhari:1390"
   - name: "al-ibadah.com – Moskén"
     url: "https://al-ibadah.com/bon/mosken"
-  - name: "Wikipedia – Islam i Sverige"
-    url: "https://sv.wikipedia.org/wiki/Islam_i_Sverige"
 related:
   - "vad-ar-kaba"
   - "sa-ber-man-steg-for-steg"
@@ -85,4 +84,4 @@ Helgden gäller dock dyrkan av Gud allena. Koranens ord om böneplatserna är ot
 
 ## Hur många moskéer finns det i Sverige?
 
-Det finns ingen officiell räkning av moskéer i Sverige; Myndigheten för stöd till trossamfund för ingen sådan statistik. Uppskattningar talar om ett tiotal egentliga, ändamålsbyggda moskéer med minaret och kupol, medan antalet enklare bönelokaler (*musallā*), ofta inredda i källare eller industrilokaler, rör sig kring 300 (Wikipedia: Islam i Sverige). Drygt två tredjedelar av Sveriges muslimer räknas som sunnimuslimer. Skillnaden mellan en påkostad moské och ett undanskymt källarrum betyder dock mindre än man tror: för den troende börjar moskén där pannan möter marken.
+Det finns ingen officiell räkning av moskéer i Sverige; Myndigheten för stöd till trossamfund för ingen sådan statistik. Egentliga, ändamålsbyggda moskéer med minaret och kupol är få – ett tiotal, beroende på hur man räknar. Desto fler är de enklare bönelokalerna (*musallā*), ofta inredda i källare, föreningslokaler eller industrifastigheter; uppskattningarna varierar kraftigt och är alla osäkra. Skillnaden mellan en påkostad moské och ett undanskymt källarrum betyder dock mindre än man tror: för den troende börjar moskén där pannan möter marken.

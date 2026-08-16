@@ -3,6 +3,7 @@ title: "Vad var den islamiska guldåldern? 500 år av vetenskap"
 question: "Vad var den islamiska guldåldern?"
 description: "Mellan 750 och 1258 ledde muslimer världen i matematik, medicin och astronomi från Vishetens hus i Bagdad. Men vad var det egentligen som släckte guldåldern?"
 publishedAt: "2026-06-23T00:00:00Z"
+updatedAt: "2026-08-16T00:00:00Z"
 keywords:
   - "islamiska guldåldern"
   - "vad var den islamiska guldåldern"
@@ -70,7 +71,7 @@ Drivkraften var en religiös plikt snarare än sekulär nyfikenhet. Det allra f�
 > LÄS I din Herres namn, Han som har skapat – skapat människan av en grodd som sätter sig fast! Läs! Din Herre är den Främste Givaren, som har lärt [människan] pennans [bruk], lärt människan vad hon inte visste!
 > — Koranen 96:1–5
 
-Koranen återkommer ständigt till klyftan mellan vetande och okunnighet: "Kan de som vet likställas med de som inte vet?" (Koranen 39:9). Profeten sade vidare: "Att söka kunskap är en plikt för varje muslim" (Sunan Ibn Mājah 224). För den troende var det att studera stjärnorna, kroppen eller talen ett sätt att läsa Guds tecken, *āyāt*, i skapelsen. Att lära känna det skapade var att närma sig Skaparen, och så blev vetandet en del av *tawhīd*. Plikten var dessutom handfast: böneriktningen mot Kaba, de fem dagliga bönetiderna och nymånen som inleder ramadan kunde inte fastställas utan astronomi och matematik. Fromheten ställde frågorna som vetenskapen fick besvara.
+Koranen återkommer ständigt till klyftan mellan vetande och okunnighet: "Kan de som vet likställas med de som inte vet?" (Koranen 39:9). Ett välkänt profetord lyder: "Att söka kunskap är en plikt för varje muslim" (Sunan Ibn Mājah 224) – en hadith vars kedja de lärda bedömt olika, men vars innebörd Koranen själv redan bär. För den troende var det att studera stjärnorna, kroppen eller talen ett sätt att läsa Guds tecken, *āyāt*, i skapelsen. Att lära känna det skapade var att närma sig Skaparen, och så blev vetandet en del av *tawhīd*. Plikten var dessutom handfast: böneriktningen mot Kaba, de fem dagliga bönetiderna och nymånen som inleder ramadan kunde inte fastställas utan astronomi och matematik. Fromheten ställde frågorna som vetenskapen fick besvara.
 
 ## Stred tron mot vetenskapen, och varför tog guldåldern slut?
 

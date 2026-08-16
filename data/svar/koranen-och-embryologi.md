@@ -3,6 +3,7 @@ title: "Vad säger Koranen om fostrets utveckling?"
 question: "Vad säger Koranen om människans utveckling i moderlivet?"
 description: "Koranen skildrar fostret i stadier – droppe, fastsittande grodd, köttklump, ben klätt med kött. Men är det verkligen embryologi, och när får fostret sin själ?"
 publishedAt: "2026-06-20T00:00:00Z"
+updatedAt: "2026-08-16T00:00:00Z"
 keywords:
   - "koranen embryologi"
   - "fostrets utveckling i koranen"
@@ -70,4 +71,6 @@ Det placerar besjälningen omkring 120 dagar efter befruktningen, en gräns som 
 
 Här krävs både ärlighet och måtta. En populär apologetik, förknippad bland andra med predikanten Zakir Naik, framställer verserna som ett *iʿjāz ʿilmī*, ett naturvetenskapligt under som en oläskunnig man på 600-talet omöjligt kunde ha känt till. Kritiker invänder att en stadieindelad embryologi fanns redan i antikens medicin, hos den grekiske läkaren Galenos, och att sådana föreställningar levde kvar i senantikens lärda värld.
 
-Den klassiska hållningen behöver inte ta strid om den frågan. Att Koranens bilder så nära följer fostrets verkliga utveckling får gärna stärka den troendes förundran – men verserna är ingen lärobok, och deras sanning hänger inte på en modern jämförelse. Koranen vill inte vinna en laboratorietvist; den vill att moderlivet läses som ett tecken, och tecknet pekar bortom embryot – mot den som formar det.
+Invändningen är värd att prövas, och den håller inte hela vägen. Att en stadietanke fanns hos Galenos är riktigt, men stadierna är inte desamma: Galenos räknar med sädesvätska, därefter en blodfylld och oformad massa, och sedan organens utveckling – han känner ingen *ʿalaqa*, ingenting som "hänger fast", och hans ordning mellan ben och kött är inte Koranens. Orden i 23:12–14 är dessutom vanlig arabiska, bilder hämtade ur vardagen (en droppe, en igel eller något som fastnar, en tuggad tugga), inte grekiska fackord i översättning. Och den lärda värld som gjorde Galenos tillgänglig på arabiska växte fram med översättningsrörelsen under 700- och 800-talen i Bagdad, generationer efter Mecka. Att förklara verserna som ett lån kräver alltså en väg för lånet som ingen har kunnat visa.
+
+Men den klassiska hållningen vilar ändå inte på den jämförelsen. Att Koranens bilder så nära följer fostrets verkliga utveckling får gärna stärka den troendes förundran – verserna är ingen lärobok, och deras sanning hänger inte på vad ett laboratorium säger nästa år. Koranen vill inte vinna en laboratorietvist; den vill att moderlivet läses som ett tecken, och tecknet pekar bortom embryot – mot den som formar det.

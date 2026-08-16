@@ -3,7 +3,7 @@ title: "Hur ser islam på Gud? Islams gudssyn"
 question: "Hur ser islam på Gud?"
 description: "Islam ser Gud som en enda, oskapad skapare – fullkomligt olik allt skapat, ändå nära människan genom sitt vetande. Om tawhīd, Guds namn och tron på Allah."
 publishedAt: "2026-06-20T00:00:00Z"
-updatedAt: "2026-07-26T00:00:00Z"
+updatedAt: "2026-08-16T00:00:00Z"
 keywords:
   - "islams gudssyn"
   - "hur ser islam på gud"
@@ -14,7 +14,7 @@ keywords:
   - "guds egenskaper i islam"
 faq:
   - q: "Är Allah samma Gud som i kristendomen och judendomen?"
-    a: "Ja. Allah är det arabiska ordet för Gud och syftar på Abrahams, Moses och Jesu Gud. Skillnaden ligger i hur Gud beskrivs: islam avvisar treenigheten och tanken att Gud skulle ha en son."
+    a: "Allah är helt enkelt det arabiska ordet för Gud, och islam lär att det är samme Skapare som uppenbarade sig för Abraham, Mose och Jesus. Men gudsbilden är inte densamma: islam avvisar bestämt treenigheten och tanken att Gud skulle ha en son, och en beskrivning som ger Gud en son beskriver enligt islam inte längre Gud som Han är."
   - q: "Hur många gudar tror muslimer på?"
     a: "En enda. Tron på Guds absoluta enhet (tawhīd) är islams kärna, och att sätta något vid Guds sida (shirk) räknas som den allvarligaste synden."
   - q: "Har Gud ett kön i islam?"

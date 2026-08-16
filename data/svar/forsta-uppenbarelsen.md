@@ -3,6 +3,7 @@ title: "Hur började uppenbarelsen av Koranen?"
 question: "Hur började uppenbarelsen av Koranen?"
 description: "År 610 drog sig Muhammed undan i grottan Hira, och en natt under Ramadan kom ängeln Jibril med ett enda ord: Läs. Så inleddes Koranens 23-åriga nedstigning."
 publishedAt: "2026-06-23T00:00:00Z"
+updatedAt: "2026-08-16T00:00:00Z"
 keywords:
   - "första uppenbarelsen"
   - "hur började uppenbarelsen av koranen"
@@ -67,7 +68,7 @@ Att den första uppenbarelsen kom just under Ramadan hör samman med månadens h
 > För att ge människorna vägledning [inleddes] i månaden Ramadan uppenbarelsen av Koranen
 > — Koranen 2:185
 
-Den natt då uppenbarelsen började kallas *Laylat al-Qadr*, Allmaktens Natt, som en egen sura beskriver: "SE, VI har uppenbarat denna [heliga Skrift] under Allmaktens Natt" (Koranen 97:1). Samma sura säger att natten är mera värd än tusen månader. De lärda förklarar att hela Koranen denna natt först sänktes ned till den nedersta himlen, för att därifrån ges till profeten del för del under tjugotre år. Så blir både månadens ära och den gradvisa uppenbarelsen sanna på en gång. Det är därför muslimer fastar och vakar särskilt under Ramadans sista tio nätter, i hopp om att träffa just den natt då Koranens ord en gång steg ned från himlen.
+Den natt då uppenbarelsen började kallas *Laylat al-Qadr*, Maktens natt, som en egen sura beskriver: "SE, VI har uppenbarat denna [heliga Skrift] under Maktens natt" (Koranen 97:1). Samma sura säger att natten är mera värd än tusen månader. De lärda förklarar att hela Koranen denna natt först sänktes ned till den nedersta himlen, för att därifrån ges till profeten del för del under tjugotre år. Så blir både månadens ära och den gradvisa uppenbarelsen sanna på en gång. Det är därför muslimer fastar och vakar särskilt under Ramadans sista tio nätter, i hopp om att träffa just den natt då Koranens ord en gång steg ned från himlen.
 
 ## Hur fortsatte uppenbarelsen efter den första natten?
 

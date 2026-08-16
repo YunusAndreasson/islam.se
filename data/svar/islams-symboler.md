@@ -3,6 +3,7 @@ title: "Vad betyder islams symboler som halvmånen?"
 question: "Vad betyder islams symboler som halvmånen?"
 description: "Halvmånen och stjärnan kallas islams symboler – men de saknar grund i Koranen och i profetens tid. Här är vad de egentligen betyder och varifrån de kom."
 publishedAt: "2026-06-20T00:00:00Z"
+updatedAt: "2026-08-16T00:00:00Z"
 keywords:
   - "islams symboler"
   - "halvmånen islam betydelse"
@@ -13,7 +14,7 @@ keywords:
   - "muslimska symboler"
 faq:
   - q: "Är halvmånen en islamisk symbol?"
-    a: "Nej. Halvmånen har ingen grund i Koranen eller sunna. Den blev förknippad med islam först genom Osmanska riket efter erövringen av Konstantinopel 1453."
+    a: "Nej. Halvmånen har ingen grund i Koranen eller sunna. Den är ett förislamiskt tecken som blev förknippat med islam först genom Osmanska riket, som gjorde den till rikets kännetecken."
   - q: "Vilken färg representerar islam?"
     a: "Grönt förknippas traditionellt med islam och med paradisets dräkter, som Koranen beskriver i grönt siden. Att färgen skulle ha varit profeten Muhammeds favoritfärg vilar däremot på en svag berättarkedja. Det är en sed, inte en föreskrift."
   - q: "Vad betyder halvmånen (hilāl)?"
@@ -27,8 +28,8 @@ sources:
     url: "https://quran.com/2/189?translations=48"
   - name: "Koranen 18:31"
     url: "https://quran.com/18/31?translations=48"
-  - name: "Grokipedia – Green in Islam"
-    url: "https://grokipedia.com/page/Green_in_Islam"
+  - name: "al-Albānī om berättelsen att grönt var profetens favoritfärg"
+    url: "https://thealbaani.site/2011/06/03/the-prophets-favourite-colour/"
   - name: "islamqa.info (Muhammad Sālih al-Munajjid) – Har islam en symbol?"
     url: "https://islamqa.info/en/answers/1528"
   - name: "islamqa.info (Muhammad Sālih al-Munajjid) – Halvmåne på minaret"
@@ -56,7 +57,7 @@ Den klassiske kommentatorn Ibn Kathīr förklarar nymånarna som tecken för nä
 
 ## Varför förknippas halvmånen och stjärnan med islam?
 
-Symbolens väg in i den muslimska världen går genom en erövrad stad, inte genom en uppenbarelse. Halvmånen var ett gammalt tecken för Konstantinopel och spåras av historiker till grekiskt eller persiskt ursprung. När osmanerna intog Konstantinopel 1453 övertog de stadens befintliga märke, satte det på flaggor och moskékupoler och gjorde det till rikets kännetecken. Först på 1700- och 1800-talet kombinerades halvmånen med en stjärna till den form vi känner i dag. Därifrån spreds den till andra muslimska länders flaggor och till hjälporganisationen Röda halvmånen, som svar på det kristna Röda korset. Det som i dag kröner kupoler kom inte från Medina utan från Konstantinopel.
+Symbolens väg in i den muslimska världen går genom politiken, inte genom en uppenbarelse. Halvmånen är ett urgammalt tecken med förislamiska rötter i Mellanöstern och Medelhavsvärlden, och den var bland annat knuten till Konstantinopel. Hur den blev osmansk är omtvistat: den vanliga berättelsen är att osmanerna övertog den erövrade stadens märke 1453, medan andra historiker pekar på att månskäran förekom i turkiskt och tidigt osmanskt bruk redan dessförinnan. Säkert är att den blev rikets kännetecken under osmanerna, sattes på flaggor och moskékupoler, och att den först på 1700- och 1800-talet kombinerades med en stjärna till den form vi känner i dag. Därifrån spreds den till andra muslimska länders flaggor och till hjälporganisationen Röda halvmånen, som svar på det kristna Röda korset. Det som i dag kröner kupoler kom inte från Medina utan från Konstantinopel.
 
 ## Är det tillåtet att använda halvmånen som symbol?
 
@@ -64,4 +65,4 @@ Att använda halvmånen är inte i sig en synd, men den saknar religiös grund. 
 
 ## Vilka tecken använde de tidiga muslimerna?
 
-I stället för bilder lutade sig de första muslimerna mot färg, ord och skrift. Grönt förknippas traditionellt med islam och med paradisets dräkter, som Koranen klär i grönt siden (18:31). Att färgen också skulle ha varit profeten Muhammeds egen favoritfärg är däremot en sedvänja utan fast grund: berättelsen förs tillbaka på Anas ibn Mālik men går genom en svag kedja, och ingen tillförlitlig hadith gör grönt till sunna. Profetens fanor var enfärgade och utan figurer. Till och med Kaba, islams mittpunkt, bär inga bilder – dess svarta täcke (*kiswa*) är broderat med Koranens ord i guld. Det närmaste islam har ett samlande kännetecken är trosbekännelsen, *shahada*: orden som gör en människa till muslim och som binder samman alla som följer profetens väg, *ahl as-sunna*. Även kalligrafin av Guds namn fyller den rollen bättre än någon halvmåne. Den enda symbol islam självt reser är en mening: "Det finns ingen gud utom Gud."
+I stället för bilder lutade sig de första muslimerna mot färg, ord och skrift. Grönt förknippas traditionellt med islam och med paradisets dräkter, som Koranen klär i grönt siden (18:31). Att färgen också skulle ha varit profeten Muhammeds egen favoritfärg vilar däremot på svagare mark: berättelsen förs tillbaka på Anas ibn Mālik genom en svag kedja, som en del lärda visserligen stärker med stödjande berättelser, men ingen entydig hadith gör grönt till *sunna*. Profetens fanor var enfärgade och utan figurer. Till och med Kaba, islams mittpunkt, bär inga bilder – dess svarta täcke (*kiswa*) är broderat med Koranens ord i guld. Det närmaste islam har ett samlande kännetecken är trosbekännelsen, *shahada*: orden som gör en människa till muslim och som binder samman alla som följer profetens väg, *ahl as-sunna*. Även kalligrafin av Guds namn fyller den rollen bättre än någon halvmåne. Den enda symbol islam självt reser är en mening: "Det finns ingen gud utom Gud."

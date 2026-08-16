@@ -3,6 +3,7 @@ title: "Vad är sufism? Islams mystik och dess gränser"
 question: "Vad är sufism?"
 description: "Sufism kallas ofta islams mystik – men ordet saknas i Koranen. Så skiljer klassisk islam själens rening från det som korsar gränsen till bidʿa och shirk."
 publishedAt: "2026-06-20T00:00:00Z"
+updatedAt: "2026-08-16T00:00:00Z"
 keywords:
   - "vad är sufism"
   - "sufism islam"
@@ -17,7 +18,7 @@ faq:
   - q: "Finns ordet sufism i Koranen?"
     a: "Nej. Varken tasawwuf eller sufi förekommer i Koranen eller hos de tre första generationerna; orden växte fram under 700- och 800-talen."
   - q: "Vad är skillnaden mellan sufism och sunniislam?"
-    a: "Sufism är ingen egen lära vid sidan av sunni eller shia, utan en mystisk strömning som kan finnas inom båda. Klassisk islam prövar varje sufisk sed mot Koranen och sunna."
+    a: "Sufism är ingen gren av islam och ingen egen lära, utan en samlingsbeteckning på mystiska strömningar. Klassisk islam prövar varje sufisk sed mot Koranen och sunna: det som stämmer är helt enkelt islam, det som saknar grund är bidʿa."
   - q: "Vad är en tariqa?"
     a: "En tariqa är en sufisk orden samlad kring en mästare (shaykh) och en kedja av lärare, med egna böneformler (awrād) och former av gemensam dhikr."
   - q: "Vad menas med dhikr?"
@@ -46,7 +47,7 @@ essays:
   - "ormboet-i-hjartat"
 ---
 
-**Sufism (arabiska *tasawwuf*) är islams mystiska, inåtvända strömning – strävan att rena själen och dyrka Gud med fullkomlig uppriktighet (*ihsān*).** Själva ordet och den organiserade rörelsen växte dock fram långt efter profeten Muhammeds tid. Klassisk islam tar därför emot kärnan, själens rening, men prövar varje sufisk sed mot Koranen och *sunna*, och avvisar det som korsar gränsen till otillåten nyhet (*bidʿa*) eller avgudadyrkan (*shirk*).
+**Sufism (arabiska *tasawwuf*) är en samlingsbeteckning på de mystiska, inåtvända strömningar som växt fram inom den muslimska världen – med anspråket att rena själen och dyrka Gud med fullkomlig uppriktighet (*ihsān*).** Det är alltså ingen gren av islam och ingen egen lära, och varken ordet eller den organiserade rörelsen fanns på profeten Muhammeds tid. Klassisk islam tar därför emot kärnan, själens rening, men prövar varje sufisk sed mot Koranen och *sunna*, och avvisar det som korsar gränsen till otillåten nyhet (*bidʿa*) eller avgudadyrkan (*shirk*).
 
 ## Var kommer ordet "sufism" ifrån?
 
@@ -63,7 +64,7 @@ Sufismens uttalade mål är *tazkiyat an-nafs*, själens rening, och *ihsān*, a
 
 ## Vad är en sufiorden (tariqa)?
 
-Sufismen är ingen egen inriktning vid sidan av sunni och shia, utan en strömning som löper genom båda. Från 1100- och 1200-talen kristalliserades mystiken i *tarīqa* (plural *turuq*): andliga ordnar samlade kring en mästare (*shaykh*) och en kedja av lärare. Bland de stora finns Qādiriyya (efter ʿAbd al-Qādir al-Jīlānī, d. 1166), Shādhiliyya, Naqshbandiyya och Mevlevi, grundad i kretsen kring poeten Rūmī (d. 1273). Varje orden har sina egna *awrād* (regelbundna böneformler) och ofta gemensam, rytmisk *dhikr* med rörelse, sång eller dans (*samāʿ*). De turkiska "virvlande dervischerna" är den mest kända bilden. Anslutningen varierar kraftigt mellan länder: i Senegal uppger hela 92 procent av muslimerna att de tillhör en sufiorden, den högsta andel Pew uppmätte (2012), medan tillhörigheten på många andra håll bara omfattar en liten minoritet. Här delar sig vägarna även i lärofrågor: filosofen Ibn ʿArabī (d. 1240) formulerade läran om *wahdat al-wujūd*, "varats enhet", som suddar ut gränsen mellan Skaparen och det skapade. När den gränsen försvinner är det inte längre fromhet utan en lära som river *tawhīds* grundmur.
+Sufismen är ingen egen rättsskola och ingen gren av islam, utan en samlingsbeteckning på seder och strömningar som måste prövas var för sig mot Koranen och sunna. Från 1100- och 1200-talen kristalliserades mystiken i *tarīqa* (plural *turuq*): andliga ordnar samlade kring en mästare (*shaykh*) och en kedja av lärare. Bland de stora finns Qādiriyya (efter ʿAbd al-Qādir al-Jīlānī, d. 1166), Shādhiliyya, Naqshbandiyya och Mevlevi, grundad i kretsen kring poeten Rūmī (d. 1273). Varje orden har sina egna *awrād* (regelbundna böneformler) och ofta gemensam, rytmisk *dhikr* med rörelse, sång eller dans (*samāʿ*). De turkiska "virvlande dervischerna" är den mest kända bilden. Anslutningen varierar kraftigt mellan länder: i Senegal uppger hela 92 procent av muslimerna att de tillhör en sufiorden, den högsta andel Pew uppmätte (2012), medan tillhörigheten på många andra håll bara omfattar en liten minoritet. Här delar sig vägarna även i lärofrågor: filosofen Ibn ʿArabī (d. 1240) formulerade läran om *wahdat al-wujūd*, "varats enhet", som suddar ut gränsen mellan Skaparen och det skapade. När den gränsen försvinner är det inte längre fromhet utan en lära som river *tawhīds* grundmur.
 
 ## Är sufism tillåtet enligt islam?
 
