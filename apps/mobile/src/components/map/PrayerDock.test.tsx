@@ -229,16 +229,24 @@ describe('PrayerDock night group', () => {
     expect(screen.queryByText(NIGHT_LABELS.lastThird)).toBeNull();
   });
 
-  it('shows both landmarks under their own caption when enabled', () => {
+  // NOW is a Saturday in Stockholm, so the night it heads leads into Sunday.
+  const CAPTION = 'Natten mot söndag';
+
+  it('is absent until asked for (caption)', () => {
+    render(<PrayerDock {...dockProps(true)} />);
+    expect(screen.queryByText(CAPTION)).toBeNull();
+  });
+
+  it('shows both landmarks under a caption that names the night', () => {
     render(<PrayerDock {...nightProps(true)} />);
-    expect(screen.getByText('Natten')).toBeTruthy();
+    expect(screen.getByText(CAPTION)).toBeTruthy();
     expect(screen.getByText(NIGHT_LABELS.middleOfNight)).toBeTruthy();
     expect(screen.getByText(NIGHT_LABELS.lastThird)).toBeTruthy();
   });
 
   it('stays inside the expanded card — nothing leaks into the collapsed dock', () => {
     render(<PrayerDock {...nightProps(false)} />);
-    expect(screen.queryByText('Natten')).toBeNull();
+    expect(screen.queryByText(CAPTION)).toBeNull();
     expect(screen.queryByText(NIGHT_LABELS.lastThird)).toBeNull();
   });
 
@@ -261,10 +269,11 @@ describe('PrayerDock night group', () => {
     expect(props.clock.setInstant).not.toHaveBeenCalled();
   });
 
-  // The card is headed by a date. On 1 August at Stockholm the last third lands after
-  // midnight, so the row must say which side of it the time is on — otherwise "01:2x"
-  // under "1 augusti" quietly names a time that has already passed.
-  it('marks a landmark that falls after midnight', () => {
+  // The card is headed by the EVENING's date. On 1 August at Stockholm the last third
+  // lands after midnight, so the row must say which morning it belongs to — otherwise
+  // "01:2x" under "1 augusti" quietly names a time that has already passed. It used to
+  // read "+1", which presumes the reader knows what is being incremented.
+  it('names the morning for a landmark that falls after midnight', () => {
     render(<PrayerDock {...nightProps(true)} />);
     const times = computePrayerTimes(STOCKHOLM, new Date(NOW), DEFAULT_SETTINGS);
     const night = computeNightTimes(times);
@@ -279,7 +288,9 @@ describe('PrayerDock night group', () => {
     for (const key of afterMidnight) {
       expect(screen.getByLabelText(new RegExp(`^${NIGHT_SWEDISH_NAMES[key]}.*efter midnatt$`))).toBeTruthy();
     }
-    expect(screen.getAllByText('+1').length).toBe(afterMidnight.length);
+    // The weekday the caption already promised — spelled out, not a bare increment.
+    expect(screen.getAllByText('sön').length).toBe(afterMidnight.length);
+    expect(screen.queryByText('+1')).toBeNull();
   });
 
   // computeNightTimes returns null where the division would be meaningless (see
