@@ -17,6 +17,7 @@ module.exports = {
     'src/lib/coordinates.ts',
     'src/lib/intro.ts',
     'src/lib/prayer-times.ts',
+    'src/lib/night-times.ts',
     'src/lib/hijri.ts',
     'src/lib/qibla.ts',
     'src/lib/relative-day.ts',

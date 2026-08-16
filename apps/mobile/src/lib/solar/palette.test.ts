@@ -13,9 +13,12 @@ import { describe, expect, it } from '@jest/globals';
 
 import { lc, wcagContrast } from '@/test-utils/contrast';
 
+import { NIGHT_ORDER, type NightKey } from '@/lib/night-times';
 import { PRAYER_ORDER, type PrayerKey } from '@/lib/prayer-times';
 import {
   mix,
+  NIGHT_COLORS,
+  nightColorFor,
   PRAYER_COLORS,
   PRAYER_TEXT_COLORS,
   prayerColorFor,
@@ -286,6 +289,62 @@ describe('PRAYER_TEXT_COLORS — legible on the pill, and still the line’s hue
       expect(order(tr, tg, tb)).toBe(order(lr, lg, lb));
       // And it must genuinely be DARKER, not merely different.
       expect(tr + tg + tb).toBeLessThan(lr + lg + lb);
+    }
+  });
+});
+
+// The night's two voluntary landmarks. They live in their own table (NIGHT_COLORS) rather
+// than in PRAYER_COLORS because neither is a solar event that can be drawn as a contour —
+// see lib/night-times.ts. But they render on the same two grounds, so they answer to the
+// same floors.
+describe('NIGHT_COLORS — the voluntary night landmarks', () => {
+  // The dock's card ground, which is what the night glyphs actually sit on. Same values
+  // the prayer pills use, so a colour that clears here clears everywhere it appears.
+  const GROUND_LIGHT = '#fffdf8';
+  const GROUND_DARK = '#222840';
+
+  it.each(NIGHT_ORDER as readonly NightKey[])(
+    '%s — dark variant is brighter than light variant',
+    (key) => {
+      expect(relativeLuminance(NIGHT_COLORS[key].dark)).toBeGreaterThan(
+        relativeLuminance(NIGHT_COLORS[key].light),
+      );
+    },
+  );
+
+  // These are GLYPHS, not text: the dock paints each night row's label in the chrome ink
+  // and tints only the icon, which is what keeps the voluntary rows quieter than the five
+  // obligatory ones. So the floor is the graphics tier (Lc 45), the same one PRAYER_COLORS
+  // targets — not the Lc 62 text floor the pill labels answer to.
+  it.each(NIGHT_ORDER as readonly NightKey[])('%s clears the APCA graphics floor in both schemes', (key) => {
+    expect(lc(NIGHT_COLORS[key].light, GROUND_LIGHT)).toBeGreaterThanOrEqual(45);
+    expect(lc(NIGHT_COLORS[key].dark, GROUND_DARK)).toBeGreaterThanOrEqual(45);
+  });
+
+  // The pair must read as ONE group sitting between ʿIshāʾ and Fajr — that is what says
+  // "these two belong to the night", rather than "here are two more prayer colours". Both
+  // are blue-dominant with R and G close (the indigo/violet family ʿIshāʾ and Fajr share),
+  // and the last third is the lighter of the two because it leans toward the dawn.
+  it.each(['light', 'dark'] as const)('%s: both sit in the isha→fajr indigo family', (scheme) => {
+    for (const key of NIGHT_ORDER) {
+      const [r, g, b] = [1, 3, 5].map((i) => Number.parseInt(NIGHT_COLORS[key][scheme].slice(i, i + 2), 16));
+      expect(b).toBeGreaterThan(r);
+      expect(b).toBeGreaterThan(g);
+      expect(Math.abs(r - g)).toBeLessThan(40);
+    }
+  });
+
+  it.each(['light', 'dark'] as const)('%s: the last third is lifted toward Fajr’s dawn violet', (scheme) => {
+    expect(relativeLuminance(NIGHT_COLORS.lastThird[scheme])).toBeGreaterThan(
+      relativeLuminance(NIGHT_COLORS.middleOfNight[scheme]),
+    );
+  });
+
+  it('nightColorFor resolves the scheme exactly as prayerColorFor does', () => {
+    for (const key of NIGHT_ORDER) {
+      expect(nightColorFor(key, 'dark')).toBe(NIGHT_COLORS[key].dark);
+      expect(nightColorFor(key, 'light')).toBe(NIGHT_COLORS[key].light);
+      expect(nightColorFor(key, 'unspecified')).toBe(NIGHT_COLORS[key].light);
     }
   });
 });

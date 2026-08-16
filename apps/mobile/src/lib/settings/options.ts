@@ -216,6 +216,11 @@ export const calculationSummary = (s: PrayerSettings): string => {
  *  consistently so the summary reads as a list of section names. It is a constant, not
  *  a function of the settings like {@link calculationSummary}, because naming the
  *  group's breadth is the whole point. */
-export const VISNING_SUMMARY: string = ['Tema', 'Moskéer', 'Qibla', 'Avrundning', 'Hijri'].join(
-  ' · ',
-);
+export const VISNING_SUMMARY: string = [
+  'Tema',
+  'Moskéer',
+  'Qibla',
+  'Natten',
+  'Avrundning',
+  'Hijri',
+].join(' · ');

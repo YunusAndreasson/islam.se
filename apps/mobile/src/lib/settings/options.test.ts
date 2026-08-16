@@ -159,7 +159,9 @@ describe('label helpers', () => {
     // Moskéer and Qibla were added to the card but not to this line, so the two map
     // toggles were unreachable by recognition: nothing on the collapsed header hinted
     // that "show mosques" lived behind "Utseende". Every sub-section gets named.
-    expect(VISNING_SUMMARY).toBe(['Tema', 'Moskéer', 'Qibla', 'Avrundning', 'Hijri'].join(' · '));
+    expect(VISNING_SUMMARY).toBe(
+      ['Tema', 'Moskéer', 'Qibla', 'Natten', 'Avrundning', 'Hijri'].join(' · '),
+    );
   });
 
   it('signedMinutes always shows the sign for non-zero values', () => {

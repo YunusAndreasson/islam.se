@@ -27,6 +27,7 @@ const MUTATION: Partial<PrayerSettings> = {
   theme: 'dark',
   showMosques: false,
   showQibla: false,
+  showNightTimes: true,
   haptics: false,
   locationMode: 'manual',
   manualLocation: { name: 'Malmö', latitude: 55.605, longitude: 13.0038 },
@@ -44,6 +45,8 @@ const MUTATION: Partial<PrayerSettings> = {
       maghrib: 'silent',
       isha: 'silent',
     },
+    lastThird: true,
+    lastThirdSound: 'silent',
   },
 };
 

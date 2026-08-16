@@ -189,6 +189,12 @@ function sanitizeSettings(parsed: unknown): PrayerSettings {
       // load-then-save cycle. No storage-key bump needed.
       lead: sanitizeNotificationLead(rawNotifications.lead, rawNotifications.leadMinutes),
       sound: sanitizeNotificationSounds(rawNotifications.sound),
+      lastThird: booleanValue(rawNotifications.lastThird, DEFAULT_SETTINGS.notifications.lastThird),
+      lastThirdSound: enumValue(
+        rawNotifications.lastThirdSound,
+        NOTIFICATION_SOUNDS,
+        DEFAULT_SETTINGS.notifications.lastThirdSound,
+      ),
       prayers: {
         fajr: booleanValue(rawPrayers.fajr, DEFAULT_SETTINGS.notifications.prayers.fajr),
         dhuhr: booleanValue(rawPrayers.dhuhr, DEFAULT_SETTINGS.notifications.prayers.dhuhr),
@@ -212,6 +218,7 @@ function sanitizeSettings(parsed: unknown): PrayerSettings {
     theme: enumValue(raw.theme, THEMES, DEFAULT_SETTINGS.theme),
     showMosques: booleanValue(raw.showMosques, DEFAULT_SETTINGS.showMosques),
     showQibla: booleanValue(raw.showQibla, DEFAULT_SETTINGS.showQibla),
+    showNightTimes: booleanValue(raw.showNightTimes, DEFAULT_SETTINGS.showNightTimes),
     haptics: booleanValue(raw.haptics, DEFAULT_SETTINGS.haptics),
   };
 }

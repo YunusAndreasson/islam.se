@@ -114,6 +114,17 @@ export interface NotificationSettings {
   lead: PerPrayerSlot<number>;
   /** Which sound each alert plays. Per-slot for the same reason as `lead`. */
   sound: PerPrayerSlot<NotificationSoundKey>;
+  /** Opt-in reminder at the start of the night's last third — the time the scholars single
+   *  out for the voluntary night prayer. Off by default.
+   *
+   *  Its sound is a SCALAR beside it rather than a seventh slot in the records above.
+   *  Widening PerPrayerSlot would have dragged in PRAYER_SLOT_KEYS, all three of its
+   *  instantiations, setAllSounds and the literal objects in a dozen tests — for a slot
+   *  that is not a prayer and is not covered by the "Gäller alla" bulk controls anyway.
+   *  There is deliberately no `lead`: a warning BEFORE the last third begins is not a thing
+   *  anyone wants, and leaving it out is one control fewer to explain. */
+  lastThird: boolean;
+  lastThirdSound: NotificationSoundKey;
 }
 
 export interface PrayerSettings {
@@ -143,6 +154,13 @@ export interface PrayerSettings {
    *  is computed, which is why it belongs to COSMETIC_KEYS in ./compute-signature.
    *  See src/components/map/skia/QiblaArc.tsx. */
   showQibla: boolean;
+  /** Show the night's two voluntary landmarks — its midpoint and the start of its last
+   *  third — as a separate group under the six prayer rows. Off by default: they are not
+   *  prayer times, and a reader who has not asked for them should not have them appear in
+   *  a list of obligations. Cosmetic in the COMPUTE_KEYS sense — the times it reveals are
+   *  derived from the same adhan day the map already computes, so nothing is invalidated.
+   *  See src/lib/night-times.ts. */
+  showNightTimes: boolean;
   /** Haptic feedback (selection ticks, snaps, the qibla-lock confirm). On by
    *  default; turning it off silences every haptic app-wide via the haptics
    *  wrapper's module flag (see src/lib/haptics.ts + ./context.tsx). */
@@ -179,12 +197,15 @@ export const DEFAULT_SETTINGS: PrayerSettings = {
       maghrib: 'default',
       isha: 'default',
     },
+    lastThird: false,
+    lastThirdSound: 'default',
   },
   locationMode: 'gps',
   manualLocation: null,
   theme: 'system',
   showMosques: true,
   showQibla: true,
+  showNightTimes: false,
   haptics: true,
 };
 

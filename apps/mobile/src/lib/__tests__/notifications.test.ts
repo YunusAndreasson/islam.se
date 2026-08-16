@@ -18,6 +18,7 @@ import {
   resetSyncStateForTests,
   syncPrayerNotifications,
 } from '@/lib/notifications';
+import { formatTime } from '@/lib/prayer-times';
 import { stockholmParts } from '@/lib/stockholm-time';
 import { DEFAULT_SETTINGS, type PrayerSettings } from '@/lib/settings/types';
 
@@ -450,7 +451,13 @@ describe('notification permission', () => {
 // The alert content the scheduler produced, typed loosely — jest.setup's mock records the
 // raw argument object, and these tests reach into fields the narrow mock type omits.
 type ScheduledCall = {
-  content: { title: string; body: string; sound: unknown; data?: { silent?: boolean } };
+  content: {
+    title: string;
+    body: string;
+    sound: unknown;
+    data?: { silent?: boolean };
+    interruptionLevel?: string;
+  };
   trigger: { date: Date; channelId?: string };
 };
 const scheduled = (): ScheduledCall[] =>
@@ -500,10 +507,14 @@ describe('notification horizon', () => {
     expect(horizonDays(6, 400)).toBe(MAX_DAYS_AHEAD); // Android: clamped, not 66
   });
 
-  it('counts the enabled prayers plus the optional Fajr-window marker', () => {
+  it('counts the enabled prayers plus the two optional non-prayer markers', () => {
     const n = DEFAULT_SETTINGS.notifications;
     expect(alertsPerDay(n)).toBe(5);
     expect(alertsPerDay({ ...n, fajrWindowEnd: true })).toBe(6);
+    expect(alertsPerDay({ ...n, lastThird: true })).toBe(6);
+    // Both markers on: the horizon math must see 7, or the scheduler over-books the
+    // platform's pending budget and the last days of the run are silently dropped.
+    expect(alertsPerDay({ ...n, fajrWindowEnd: true, lastThird: true })).toBe(7);
     expect(alertsPerDay({ ...n, prayers: onlyPrayers('fajr') })).toBe(1);
     expect(alertsPerDay({ ...n, prayers: onlyPrayers() })).toBe(0);
   });
@@ -763,5 +774,91 @@ describe('Fajr-window alert', () => {
     const warnings = scheduled().filter((c) => /Fajr-tiden/.test(c.content.title));
     expect(warnings.length).toBeGreaterThan(0);
     expect(warnings[0].content.title).toBe('Fajr-tiden är slut');
+  });
+});
+
+// The night's last third is the second non-prayer alert, and the only one that is not
+// keyed by a PrayerKey at all. It rides outside the PRAYER_ORDER loop; these tests are the
+// guard that it did not get quietly folded back in (which would put it in the "Gäller
+// alla" bulk controls and in the per-prayer settings list, where it does not belong).
+describe('night’s-last-third alert', () => {
+  beforeEach(async () => {
+    scheduleMock.mockClear();
+    jest.clearAllMocks();
+    scheduleMock.mockImplementation(async () => 'id');
+    getAllScheduledMock.mockImplementation(async () => []);
+    resetSyncStateForTests();
+    await AsyncStorage.clear();
+  });
+
+  const nightAlerts = () => scheduled().filter((c) => /sista tredjedel/i.test(c.content.title));
+
+  it('schedules nothing by default', async () => {
+    await syncPrayerNotifications(STOCKHOLM, withUniformLead(0));
+    expect(nightAlerts()).toHaveLength(0);
+  });
+
+  it('fires at the moment the last third begins, with no lead', async () => {
+    await syncPrayerNotifications(STOCKHOLM, withNotifications({ lastThird: true }));
+    const alerts = nightAlerts();
+    expect(alerts.length).toBeGreaterThan(0);
+    expect(alerts[0].content.title).toBe('Nattens sista tredjedel');
+    expect(alerts[0].content.body).toMatch(/^Klockan \d{2}:\d{2}$/);
+    // The body names the trigger instant itself — there is no lead to reconcile, so any
+    // divergence here means the alert is claiming a time it will not fire at.
+    expect(alerts[0].content.body).toBe(`Klockan ${formatTime(alerts[0].trigger.date)}`);
+  });
+
+  it('is a formal reminder like the prayers: time-sensitive, on the chosen channel', async () => {
+    await withPlatform('android', async () => {
+      await syncPrayerNotifications(
+        STOCKHOLM,
+        withNotifications({ lastThird: true, lastThirdSound: 'silent' }),
+      );
+      const alert = nightAlerts()[0];
+      expect(alert.content.interruptionLevel).toBe('timeSensitive');
+      expect(alert.content.data?.silent).toBe(true);
+      expect(alert.trigger.channelId).toBe(channelIdFor('silent'));
+    });
+  });
+
+  // Its sound is a scalar beside the per-prayer records, so a per-prayer sound must not
+  // reach it and vice versa — that separation is what keeps "Gäller alla" honest when it
+  // says it changes all the PRAYERS.
+  it('takes its sound from lastThirdSound, not from the per-prayer records', async () => {
+    await withPlatform('android', async () => {
+      await syncPrayerNotifications(
+        STOCKHOLM,
+        withNotifications({
+          lastThird: true,
+          lastThirdSound: 'silent',
+          sound: {
+            fajr: 'default',
+            sunrise: 'default',
+            dhuhr: 'default',
+            asr: 'default',
+            maghrib: 'default',
+            isha: 'default',
+          },
+        }),
+      );
+      expect(nightAlerts()[0].trigger.channelId).toBe(channelIdFor('silent'));
+    });
+  });
+
+  it('costs a day of horizon, exactly as the Fajr-window marker does', async () => {
+    await withPlatform('ios', async () => {
+      await syncPrayerNotifications(STOCKHOLM, withUniformLead(0));
+      const withoutIt = daysSpanned();
+
+      scheduleMock.mockClear();
+      resetSyncStateForTests();
+      await AsyncStorage.clear();
+      await syncPrayerNotifications(STOCKHOLM, withUniformLead(0, { lastThird: true }));
+      // 5 alerts/day reaches further than 6 under the same fixed pending budget. If this
+      // ever comes out equal, alertsPerDay stopped counting the night alert and the run is
+      // over-booking the OS.
+      expect(daysSpanned()).toBeLessThan(withoutIt);
+    });
   });
 });

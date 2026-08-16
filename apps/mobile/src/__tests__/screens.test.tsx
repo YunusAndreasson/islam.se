@@ -516,6 +516,36 @@ describe('tab screens', () => {
     });
   });
 
+  // The night times are the opposite default: OFF, because they are not prayer times and a
+  // reader who has not asked for them must not find them in a list of obligations. Same
+  // reach-persistence claim as the qibla switch — the dock reads settings.showNightTimes
+  // straight off the store, so a toggle that renders but writes nothing would look right
+  // and change nothing.
+  it('persists the night-times switch from Utseende, and it starts off', async () => {
+    await renderSettled(withProviders(<Installningar />));
+    await waitFor(() => expect(screen.getByText('Inställningar')).toBeTruthy());
+    fireEvent.press(screen.getByRole('button', { name: /^Utseende,/ }));
+
+    const toggle = screen.getByRole('switch', { name: /Visa nattens tider/ });
+    expect(toggle.props.value).toBe(false);
+
+    fireEvent(toggle, 'valueChange', true);
+
+    await waitFor(async () => {
+      const saved = JSON.parse((await AsyncStorage.getItem(SETTINGS_KEY)) ?? '{}');
+      expect(saved.showNightTimes).toBe(true);
+    });
+  });
+
+  // The collapsed header is the only thing that says what lives behind the group. A toggle
+  // that is not named there is unreachable by recognition — the reason VISNING_SUMMARY
+  // exists at all.
+  it('names the night times on the collapsed Utseende header', async () => {
+    await renderSettled(withProviders(<Installningar />));
+    await waitFor(() => expect(screen.getByText('Inställningar')).toBeTruthy());
+    expect(screen.getByRole('button', { name: /^Utseende,.*Natten/ })).toBeTruthy();
+  });
+
   it('renders the Om screen as an identity page (masthead + integritet + fine-print credits)', () => {
     // Om is the calm identity page: a masthead (wordmark + one-line lead), a privacy
     // promise, support links, and an imprint colophon with the version + the map

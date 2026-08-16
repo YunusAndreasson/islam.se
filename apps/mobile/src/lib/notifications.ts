@@ -9,6 +9,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Platform } from 'react-native';
 
 import { brand } from '@/theme/tokens';
+import { computeNightTimes } from './night-times';
 import {
   computePrayerTimes,
   formatTime,
@@ -144,10 +145,15 @@ export function isAlertEnabled(n: NotificationSettings, key: PrayerKey): boolean
   return key === 'sunrise' ? n.fajrWindowEnd : n.prayers[key];
 }
 
-/** Alerts this settings object produces per FULL day: the enabled prayers plus the
- *  optional Fajr-window marker. Drives the horizon — turning prayers off buys days. */
+/** Alerts this settings object produces per FULL day: the enabled prayers plus the two
+ *  optional non-prayer markers (the Fajr window closing, the night's last third). Drives
+ *  the horizon — turning alerts off buys days, turning them on costs days. */
 export function alertsPerDay(n: NotificationSettings): number {
-  return NOTIFY_PRAYERS.filter((k) => n.prayers[k]).length + (n.fajrWindowEnd ? 1 : 0);
+  return (
+    NOTIFY_PRAYERS.filter((k) => n.prayers[k]).length +
+    (n.fajrWindowEnd ? 1 : 0) +
+    (n.lastThird ? 1 : 0)
+  );
 }
 
 /**
@@ -182,6 +188,19 @@ export function alertContent(
     // Lead with the glanceable answer in the bold title — which prayer, how soon — and
     // demote the exact clock time to the lighter body as the durable fact.
     title: lead > 0 ? `${label} om ${lead} min` : `Dags för ${label}`,
+    body: `Klockan ${formatTime(at)}`,
+  };
+}
+
+/**
+ * The night's-last-third alert. A function of its own rather than a branch in
+ * {@link alertContent} because it is not keyed by a PrayerKey and takes no lead — it fires
+ * exactly when the last third begins. The Swedish name carries it: the transliteration
+ * that heads the dock row is the wrong register for a lock screen at one in the morning.
+ */
+export function nightAlertContent(at: Date): { title: string; body: string } {
+  return {
+    title: 'Nattens sista tredjedel',
     body: `Klockan ${formatTime(at)}`,
   };
 }
@@ -493,6 +512,38 @@ export async function syncPrayerNotifications(
           }),
         );
       }
+
+      // The night's last third — the one alert that is not keyed by a prayer, so it rides
+      // outside the loop above rather than widening PRAYER_ORDER (see lib/night-times.ts).
+      // It belongs to the night that BEGINS on this day, so it routinely fires after
+      // midnight, on the following calendar date; that is fine, the trigger is an absolute
+      // instant. `null` means the night has no meaningful division today and there is
+      // nothing honest to alert about.
+      if (n.lastThird && scheduledIds.length + batch.length < budget) {
+        const at = computeNightTimes(times).lastThird;
+        if (at && at.getTime() > now + 60_000) {
+          const sound = n.lastThirdSound;
+          batch.push(
+            Notifications.scheduleNotificationAsync({
+              content: {
+                ...nightAlertContent(at),
+                sound: iosSoundFor(sound),
+                data: { key: 'lastThird', silent: resolveSound(sound) === 'silent', source: PRAYER_TAG },
+                // Same level as the prayers: a reminder that arrives at 01:30 is worthless
+                // if Sleep Focus eats it, and being woken is the entire point of this one.
+                interruptionLevel: 'timeSensitive',
+                categoryIdentifier: CATEGORY_ID,
+              },
+              trigger: {
+                type: Notifications.SchedulableTriggerInputTypes.DATE,
+                date: at,
+                channelId: channelIdFor(sound),
+              },
+            }),
+          );
+        }
+      }
+
       scheduledIds.push(...(await Promise.all(batch)));
     }
     if (generation !== syncGeneration) {

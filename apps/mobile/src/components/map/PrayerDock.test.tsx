@@ -2,6 +2,12 @@ import { describe, expect, it, jest } from '@jest/globals';
 import { fireEvent, render, screen } from '@testing-library/react-native';
 import { router } from 'expo-router';
 
+import {
+  computeNightTimes,
+  NIGHT_LABELS,
+  NIGHT_ORDER,
+  NIGHT_SWEDISH_NAMES,
+} from '@/lib/night-times';
 import { computePrayerTimes, PRAYER_ORDER } from '@/lib/prayer-times';
 import { DEFAULT_SETTINGS } from '@/lib/settings/types';
 import { MAX_DAY_OFFSET, type SolarClock } from '@/lib/solar/useSolarClock';
@@ -204,5 +210,95 @@ describe('PrayerDock day navigation', () => {
     expect(props.clock.goToDay).toHaveBeenCalledTimes(1);
     // It hands over an instant inside the chosen day; the clock resolves which day that is.
     expect(typeof (props.clock.goToDay as jest.Mock).mock.calls[0][0]).toBe('number');
+  });
+});
+
+// The night group. Everything asserted here is a deliberate DIFFERENCE from the six prayer
+// rows above it, and each difference exists for a reason a later "make it consistent"
+// refactor would erase.
+describe('PrayerDock night group', () => {
+  const nightProps = (revealSchedule: boolean) => {
+    const props = dockProps(revealSchedule);
+    return { ...props, settings: { ...DEFAULT_SETTINGS, showNightTimes: true } };
+  };
+
+  it('is absent until asked for', () => {
+    render(<PrayerDock {...dockProps(true)} />);
+    expect(screen.queryByText('Natten')).toBeNull();
+    expect(screen.queryByText(NIGHT_LABELS.middleOfNight)).toBeNull();
+    expect(screen.queryByText(NIGHT_LABELS.lastThird)).toBeNull();
+  });
+
+  it('shows both landmarks under their own caption when enabled', () => {
+    render(<PrayerDock {...nightProps(true)} />);
+    expect(screen.getByText('Natten')).toBeTruthy();
+    expect(screen.getByText(NIGHT_LABELS.middleOfNight)).toBeTruthy();
+    expect(screen.getByText(NIGHT_LABELS.lastThird)).toBeTruthy();
+  });
+
+  it('stays inside the expanded card — nothing leaks into the collapsed dock', () => {
+    render(<PrayerDock {...nightProps(false)} />);
+    expect(screen.queryByText('Natten')).toBeNull();
+    expect(screen.queryByText(NIGHT_LABELS.lastThird)).toBeNull();
+  });
+
+  // THE LIE THIS GUARDS. Prayer rows scrub the timeline to their instant, but
+  // clock.setInstant CLAMPS to the viewed day — and the last third routinely falls after
+  // midnight. Making these rows pressable "for consistency" would land the scrubber on
+  // 23:59 of the wrong day and light ʿIshāʾ up as current, with nothing on screen
+  // admitting it. They are announced, not operable.
+  it('does not offer the night rows as buttons', () => {
+    const props = nightProps(true);
+    render(<PrayerDock {...props} />);
+    // The prayer rows above still are, so this is a difference, not a broken list.
+    expect(screen.getByRole('button', { name: /^Fajr / })).toBeTruthy();
+    for (const key of NIGHT_ORDER) {
+      expect(
+        screen.queryByRole('button', { name: new RegExp(`^${NIGHT_SWEDISH_NAMES[key]}`) }),
+      ).toBeNull();
+      expect(screen.getByLabelText(new RegExp(`^${NIGHT_SWEDISH_NAMES[key]}`))).toBeTruthy();
+    }
+    expect(props.clock.setInstant).not.toHaveBeenCalled();
+  });
+
+  // The card is headed by a date. On 1 August at Stockholm the last third lands after
+  // midnight, so the row must say which side of it the time is on — otherwise "01:2x"
+  // under "1 augusti" quietly names a time that has already passed.
+  it('marks a landmark that falls after midnight', () => {
+    render(<PrayerDock {...nightProps(true)} />);
+    const times = computePrayerTimes(STOCKHOLM, new Date(NOW), DEFAULT_SETTINGS);
+    const night = computeNightTimes(times);
+    const dayStart = startOfStockholmDay(NOW);
+    const afterMidnight = NIGHT_ORDER.filter((key) => {
+      const at = night[key];
+      return at !== null && startOfStockholmDay(at.getTime()) !== dayStart;
+    });
+    // Guard the guard: if the fixture day stops producing a post-midnight landmark this
+    // test would pass vacuously.
+    expect(afterMidnight.length).toBeGreaterThan(0);
+    for (const key of afterMidnight) {
+      expect(screen.getByLabelText(new RegExp(`^${NIGHT_SWEDISH_NAMES[key]}.*efter midnatt$`))).toBeTruthy();
+    }
+    expect(screen.getAllByText('+1').length).toBe(afterMidnight.length);
+  });
+
+  // computeNightTimes returns null where the division would be meaningless (see
+  // lib/night-times.ts). The dock must render that as the same em dash an unresolved
+  // prayer gets, not as a blank row or a fabricated time.
+  it('renders an unusable night as “—”, like any other unresolved time', () => {
+    const props = nightProps(true);
+    render(
+      <PrayerDock
+        {...props}
+        settings={{ ...props.settings, highLatitudeRule: 'middleOfTheNight' }}
+        times={computePrayerTimes(STOCKHOLM, new Date(Date.UTC(2026, 5, 21, 12)), {
+          ...DEFAULT_SETTINGS,
+          highLatitudeRule: 'middleOfTheNight',
+        })}
+      />,
+    );
+    for (const key of NIGHT_ORDER) {
+      expect(screen.getByLabelText(`${NIGHT_SWEDISH_NAMES[key]}, kan inte beräknas`)).toBeTruthy();
+    }
   });
 });

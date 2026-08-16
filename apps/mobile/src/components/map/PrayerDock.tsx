@@ -22,6 +22,7 @@
 // flipping under the user's hands. The wash and prayer-line colours are still
 // sun-driven (the map IS a live sky), but the dock stays anchored to one OS theme.
 import { MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
+import type { PrayerTimes } from 'adhan';
 import { router } from 'expo-router';
 import { useCallback, useEffect, useEffectEvent, useMemo, useRef, useState } from 'react';
 import { type ColorSchemeName, Pressable, StyleSheet, Text, View } from 'react-native';
@@ -41,6 +42,14 @@ import { scheduleOnRN } from 'react-native-worklets';
 
 import { hapticLight, hapticSelection } from '@/lib/haptics';
 import { formatGregorian, formatHijri } from '@/lib/hijri';
+import {
+  computeNightTimes,
+  NIGHT_ICONS,
+  NIGHT_LABELS,
+  NIGHT_ORDER,
+  NIGHT_SWEDISH_NAMES,
+  type NightTimes,
+} from '@/lib/night-times';
 import { relativeDayLabel } from '@/lib/relative-day';
 import {
   formatTime,
@@ -50,8 +59,8 @@ import {
   type PrayerKey,
 } from '@/lib/prayer-times';
 import type { PrayerSettings } from '@/lib/settings/types';
-import { stockholmPrayerDate } from '@/lib/stockholm-time';
-import { prayerColorFor } from '@/lib/solar/palette';
+import { startOfStockholmDay, stockholmPrayerDate } from '@/lib/stockholm-time';
+import { nightColorFor, prayerColorFor } from '@/lib/solar/palette';
 import { MAX_DAY_OFFSET, type SolarClock } from '@/lib/solar/useSolarClock';
 import { motion, type Palette, radius, shadow, space, type } from '@/theme/tokens';
 import { useActiveScheme, useColors } from '@/theme/useColors';
@@ -99,6 +108,14 @@ export const DOCK_COLLAPSED_BASE = 136;
 // height also sets the clearance between the handle and the date — kept generous
 // enough that the date never crowds the handle (handle-to-date gap ≈ EXPANDED − Hc − 44).
 const DOCK_EXPANDED_BASE = 396;
+// Added to the EXPANDED height only while `showNightTimes` is on: a hairline + the
+// "Natten" caption + two 36 dp rows. Growing the EXPANDED height is safe; growing
+// DOCK_COLLAPSED_BASE is not (see its comment above), which is why the night group lives
+// at the bottom of the schedule and never in the collapsed card.
+const NIGHT_GROUP_HEIGHT = 108;
+/** Stable identity so the `night` memo doesn't hand a fresh object down every render
+ *  while the group is off. */
+const EMPTY_NIGHT: NightTimes = { middleOfNight: null, lastThird: null };
 
 export interface NextPrayer {
   key: PrayerKey;
@@ -118,8 +135,11 @@ export interface DayMark {
 
 interface Props {
   clock: SolarClock;
-  /** The user's own prayer times for today (adhan PrayerTimes — Date per prayer). */
-  times: Record<PrayerKey, Date>;
+  /** The user's own prayer times for the viewed day, straight from adhan. Typed as the
+   *  library's own object rather than a `Record<PrayerKey, Date>` projection because the
+   *  night group derives from the whole day (SunnahTimes needs the coordinates and
+   *  parameters that ride along on it), and every caller already has one. */
+  times: PrayerTimes;
   marks: DayMark[];
   next: NextPrayer | null;
   locationLabel: string;
@@ -185,7 +205,10 @@ export function PrayerDock({
   // Card heights are the card itself; the float + safe-area inset live in the
   // position (bottom), so the card sits clear above the gesture bar.
   const COLLAPSED = DOCK_COLLAPSED_BASE;
-  const EXPANDED = DOCK_EXPANDED_BASE;
+  // The night group is opt-in, so the open card grows only for the readers who asked for
+  // it. Everyone else sees the dock they had.
+  const showNight = settings.showNightTimes;
+  const EXPANDED = DOCK_EXPANDED_BASE + (showNight ? NIGHT_GROUP_HEIGHT : 0);
   const MID = (COLLAPSED + EXPANDED) / 2;
 
   const height = useSharedValue(COLLAPSED);
@@ -252,10 +275,16 @@ export function PrayerDock({
   // callback, and re-running on ITS identity would reopen the dock on an unrelated parent
   // render. The Effect Event always calls the LATEST onExpandedChange without being a
   // dependency, so the effect below can list just [revealSchedule].
-  const onReveal = useEffectEvent((open: boolean) => {
+  // Springs the card to `open`'s height and tells the host, WITHOUT touching React state —
+  // so it can also serve the height re-sync below, where the open/closed flag is already
+  // correct and setting it again would only cascade a render.
+  const springTo = useEffectEvent((open: boolean) => {
     height.value = withSpring(open ? EXPANDED : COLLAPSED, SPRING);
-    setExpanded(open);
     onExpandedChange?.(open, EXPANDED);
+  });
+  const onReveal = useEffectEvent((open: boolean) => {
+    springTo(open);
+    setExpanded(open);
   });
   useEffect(() => {
     // Skip the mount pass: `revealSchedule` starts false and the dock is already collapsed,
@@ -266,6 +295,18 @@ export function PrayerDock({
     }
     onReveal(revealSchedule);
   }, [revealSchedule]);
+
+  // `height` is a shared value seeded once, so toggling the night group while the dock is
+  // OPEN would leave the card at the old height and clip (or strand blank space under) the
+  // new rows. Re-spring to the new target — and tell the host, whose map padding is keyed
+  // to the expanded height. Goes through springTo rather than onReveal: the open/closed
+  // flag is already true here, and setting it again would only cascade a render.
+  const onExpandedHeightChange = useEffectEvent(() => {
+    if (expanded) springTo(true);
+  });
+  useEffect(() => {
+    onExpandedHeightChange();
+  }, [EXPANDED]);
 
   // Handle: drag OR tap toggles. Hero: drag-only — a Pan needs movement to activate,
   // so a tap on the hero's "Nu" chip (preview mode) still reaches its Pressable
@@ -318,6 +359,18 @@ export function PrayerDock({
     },
     [clock],
   );
+
+  // The night that BEGINS on the viewed day. Derived from the same `times` object the
+  // rows above render, so the two can never disagree; computeNightTimes returns null where
+  // the values would be meaningless (see lib/night-times.ts). Skipped entirely when the
+  // group is off, so a reader who never asked pays nothing for it.
+  const night = useMemo(
+    () => (showNight ? computeNightTimes(times) : EMPTY_NIGHT),
+    [showNight, times],
+  );
+  // Drives the reveal stagger, which is reversed (bottom row first) — so the night rows,
+  // being last, are the first to appear as the growing bottom edge uncovers them.
+  const rowCount = PRAYER_ORDER.length + (showNight ? NIGHT_ORDER.length : 0);
 
   const cd = next ? countdownParts(next.at - clock.now) : null;
 
@@ -494,25 +547,45 @@ export function PrayerDock({
               {PRAYER_ORDER.map((key, i) => {
                 const date = times[key];
                 const at = date instanceof Date ? date.getTime() : Number.NaN;
+                const valid = Number.isFinite(at);
                 return (
                   <ScheduleRow
                     key={key}
                     styles={styles}
                     index={i}
-                    total={PRAYER_ORDER.length}
+                    total={rowCount}
                     dockHeight={height}
                     collapsed={COLLAPSED}
                     expanded={EXPANDED}
-                    prayerKey={key}
-                    date={date}
-                    settings={settings}
+                    label={PRAYER_LABELS[key]}
+                    icon={PRAYER_ICONS[key]}
+                    iconColor={prayerColorFor(key, scheme)}
+                    time={valid ? formatTime(date) : '—'}
                     visible={expanded}
                     isNext={next?.key === key && !next.nextDay}
-                    onPress={() => scrubTo(at)}
-                    iconColor={prayerColorFor(key, scheme)}
+                    accessibilityLabel={`${PRAYER_LABELS[key]} ${valid ? formatTime(date) : 'kan inte beräknas'}`}
+                    onPress={valid ? () => scrubTo(at) : undefined}
                   />
                 );
               })}
+
+              {/* The night's two voluntary landmarks, when asked for. Set apart by a rule
+                  and a caption rather than merged into the list above: a reader glancing
+                  at this card must be able to see where the obligations stop. */}
+              {showNight ? (
+                <NightGroup
+                  styles={styles}
+                  night={night}
+                  dayStart={clock.dayStart}
+                  firstIndex={PRAYER_ORDER.length}
+                  total={rowCount}
+                  dockHeight={height}
+                  collapsed={COLLAPSED}
+                  expanded={EXPANDED}
+                  visible={expanded}
+                  scheme={scheme}
+                />
+              ) : null}
             </View>
           </View>
 
@@ -669,13 +742,16 @@ function ScheduleRow({
   dockHeight,
   collapsed,
   expanded,
-  prayerKey,
-  date,
-  settings,
+  label,
+  icon,
+  iconColor,
+  time,
+  suffix,
+  muted,
   visible,
   isNext,
   onPress,
-  iconColor,
+  accessibilityLabel,
 }: {
   styles: DockStyles;
   index: number;
@@ -683,15 +759,20 @@ function ScheduleRow({
   dockHeight: SharedValue<number>;
   collapsed: number;
   expanded: number;
-  prayerKey: PrayerKey;
-  date: Date;
-  settings: PrayerSettings;
-  visible: boolean;
-  isNext: boolean;
-  onPress: () => void;
+  label: string;
+  icon: keyof typeof MaterialCommunityIcons.glyphMap;
   iconColor: string;
+  time: string;
+  /** A quiet qualifier after the time — "+1" when a night landmark lands after midnight. */
+  suffix?: string;
+  /** Render the label in the muted ink tier: this row is not an obligation. */
+  muted?: boolean;
+  visible: boolean;
+  isNext?: boolean;
+  /** Omitted = the row is not pressable. The night landmarks pass nothing (see NightGroup). */
+  onPress?: () => void;
+  accessibilityLabel: string;
 }) {
-  const valid = date instanceof Date && Number.isFinite(date.getTime());
   const reveal = useAnimatedStyle(() => {
     const p = (dockHeight.value - collapsed) / (expanded - collapsed);
     // Reversed: bottom row (highest index) starts at 0, top row last (~0.375).
@@ -707,17 +788,20 @@ function ScheduleRow({
           "where in the day" (dawn / noon / sunset / night), colour preserves
           the existing link with the map pills (PRAYER_COLORS, per-theme). */}
       <MaterialCommunityIcons
-        name={PRAYER_ICONS[prayerKey]}
+        name={icon}
         size={18}
         color={iconColor}
         style={styles.listIcon}
         accessibilityElementsHidden
         importantForAccessibility="no"
       />
-      <Text style={[styles.listLabel, isNext && styles.nextEmphasis]}>{PRAYER_LABELS[prayerKey]}</Text>
-      <Text style={[styles.listTime, isNext && styles.nextEmphasis]}>
-        {valid ? formatTime(date) : '—'}
+      <Text style={[styles.listLabel, muted && styles.listLabelMuted, isNext && styles.nextEmphasis]}>
+        {label}
       </Text>
+      <Text style={[styles.listTime, muted && styles.listLabelMuted, isNext && styles.nextEmphasis]}>
+        {time}
+      </Text>
+      {suffix ? <Text style={styles.listSuffix}>{suffix}</Text> : null}
     </>
   );
 
@@ -734,18 +818,126 @@ function ScheduleRow({
       importantForAccessibility={visible ? 'auto' : 'no-hide-descendants'}
     >
       {visible ? (
-        <Pressable
-          disabled={!valid}
-          onPress={onPress}
-          style={({ pressed }) => [styles.listRow, isNext && styles.listRowNext, pressed && styles.listRowPressed]}
-          accessibilityRole="button"
-          accessibilityLabel={`${PRAYER_LABELS[prayerKey]} ${valid ? formatTime(date) : 'kan inte beräknas'}`}
-          accessibilityHint="Tryck för att flytta tidslinjen till den här bönen."
-        >
-          {content}
-        </Pressable>
+        onPress ? (
+          <Pressable
+            onPress={onPress}
+            style={({ pressed }) => [styles.listRow, isNext && styles.listRowNext, pressed && styles.listRowPressed]}
+            accessibilityRole="button"
+            accessibilityLabel={accessibilityLabel}
+            accessibilityHint="Tryck för att flytta tidslinjen till den här bönen."
+          >
+            {content}
+          </Pressable>
+        ) : (
+          // Not every row can be scrubbed to. A plain View (rather than a disabled
+          // Pressable) is what stops a screen reader announcing "knapp, inaktiverad" for a
+          // row that was never meant to be one.
+          <View accessible accessibilityLabel={accessibilityLabel} style={styles.listRow}>
+            {content}
+          </View>
+        )
       ) : null}
     </Animated.View>
+  );
+}
+
+/**
+ * The night's midpoint and last third, below the six prayers and visibly apart from them.
+ *
+ * Three deliberate departures from the rows above, each of which a later refactor would
+ * plausibly "tidy" back into a bug:
+ *
+ *  1. **Not pressable.** Every prayer row scrubs the timeline to its instant, but
+ *     `clock.setInstant` clamps to the VIEWED day (see useSolarClock). The last third
+ *     routinely falls after midnight, so a tap would silently land the scrubber on 23:59
+ *     of the wrong day and light up ʿIshāʾ as "current" — a lie with no visible cause.
+ *  2. **Muted label ink, tinted glyph only.** These are voluntary. Painting them at the
+ *     same strength as the five obligations is the one thing this group must never do.
+ *  3. **A "+1" after a post-midnight time.** The card is headed by a date; "01:06" under
+ *     "20 mars" belongs to the 21st. The suffix is what keeps the row honest without
+ *     spending a second line on it.
+ */
+function NightGroup({
+  styles,
+  night,
+  dayStart,
+  firstIndex,
+  total,
+  dockHeight,
+  collapsed,
+  expanded,
+  visible,
+  scheme,
+}: {
+  styles: DockStyles;
+  night: NightTimes;
+  /** Stockholm midnight of the day the card is showing — the "+1" reference. */
+  dayStart: number;
+  firstIndex: number;
+  total: number;
+  dockHeight: SharedValue<number>;
+  collapsed: number;
+  expanded: number;
+  visible: boolean;
+  scheme: ColorSchemeName;
+}) {
+  const reveal = useAnimatedStyle(() => {
+    // Rides the LAST row's window so the rule and caption uncover with the group they
+    // introduce, rather than hanging in the air above it.
+    const p = (dockHeight.value - collapsed) / (expanded - collapsed);
+    const start = ((total - 1 - firstIndex) / total) * 0.45;
+    return { opacity: interpolate(p, [start, start + 0.55], [0, 1], Extrapolation.CLAMP) };
+  });
+
+  return (
+    <>
+      {/* Announced as a heading, so a screen reader hears where the obligations stop —
+          but only while the dock is open. The caption is unmounted when it is not, for the
+          same measured reason ScheduleRow unmounts its rows: on Android the a11y props
+          alone do not prune text behind a closed card. */}
+      <Animated.View
+        style={[styles.nightRule, reveal]}
+        pointerEvents="none"
+        accessibilityElementsHidden={!visible}
+        importantForAccessibility={visible ? 'auto' : 'no-hide-descendants'}
+      >
+        {visible ? (
+          <Text style={styles.nightCaption} accessibilityRole="header">
+            Natten
+          </Text>
+        ) : null}
+      </Animated.View>
+      {NIGHT_ORDER.map((key, i) => {
+        const at = night[key];
+        const time = formatTime(at);
+        // Stockholm-day comparison, not `at.getDate()`: the app is pinned to
+        // Europe/Stockholm and the device may be in another zone entirely.
+        const nextDay = at !== null && startOfStockholmDay(at.getTime()) !== dayStart;
+        return (
+          <ScheduleRow
+            key={key}
+            styles={styles}
+            index={firstIndex + i}
+            total={total}
+            dockHeight={dockHeight}
+            collapsed={collapsed}
+            expanded={expanded}
+            label={NIGHT_LABELS[key]}
+            icon={NIGHT_ICONS[key]}
+            iconColor={nightColorFor(key, scheme)}
+            time={at === null ? '—' : time}
+            suffix={nextDay ? '+1' : undefined}
+            muted
+            visible={visible}
+            accessibilityLabel={
+              at === null
+                ? `${NIGHT_SWEDISH_NAMES[key]}, kan inte beräknas`
+                : `${NIGHT_SWEDISH_NAMES[key]} ${time}${nextDay ? ', efter midnatt' : ''}`
+            }
+          />
+        );
+      })}
+    </>
   );
 }
 
@@ -1085,6 +1277,22 @@ function makeStyles(c: Palette) {
     listIcon: { width: 18, textAlign: 'center' },
     listLabel: { ...type.callout, flex: 1, color: c.ink },
     listTime: { ...type.callout, color: c.ink, fontVariant: ['tabular-nums'] },
+    // Voluntary rows step down one ink tier. That difference IS the hierarchy: the five
+    // obligations keep `ink`, everything the reader is not obliged to pray reads quieter.
+    listLabelMuted: { color: c.inkMuted },
+    // "+1" after a night time that lands past midnight. Sits in the faint tier and takes
+    // no width from the time column, so the six prayer times above stay aligned.
+    listSuffix: { ...type.micro, color: c.inkFaint, marginLeft: 2, width: 14 },
+
+    // The night group's separator. Its own rule + caption rather than another list row,
+    // so a glance can tell where the obligations stop and the voluntary times begin.
+    nightRule: {
+      marginTop: space.sm,
+      paddingTop: space.xs,
+      borderTopWidth: StyleSheet.hairlineWidth,
+      borderTopColor: c.hairline,
+    },
+    nightCaption: { ...type.caption, color: c.inkFaint, marginBottom: space.xs },
     // The next prayer = brass everywhere (here, the countdown, the map pill), so
     // "what's coming" reads in one colour across the dock and the map.
     nextEmphasis: { color: c.highlightText, fontWeight: '700' },
