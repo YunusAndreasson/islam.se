@@ -5,14 +5,15 @@
 //
 // THE POLICY — the single source of truth for *when* to buzz. Haptics fire only
 // for these four classes of moment, and never otherwise:
-//   1. An OUTCOME is reached            → hapticSuccess  (qibla lock, GPS fix confirmed)
+//   1. An OUTCOME is reached            → hapticSuccess  (qibla lock, GPS fix confirmed,
+//                                          finishing the introduction)
 //   2. A negative OUTCOME is reached    → hapticWarning  (GPS/permission denied, notifications
 //                                          blocked). Only for a discrete failure the user just
 //                                          triggered — never for a continuously-flipping state
 //                                          (e.g. losing qibla alignment as the phone moves).
 //   3. The finger moves through DISCRETE → hapticSelection (scrubber crossing a prayer,
 //      VALUES                              scrub-to-prayer, reset-to-now, OptionGroup change,
-//                                          picking a city)
+//                                          picking a city, stepping the introduction)
 //   4. A custom CONTROL SNAPS under      → hapticLight    (dock open/close, scrubber
 //      direct manipulation                 grab/release, Stepper step, a command button
 //                                           whose result lands synchronously on the tap)
@@ -21,6 +22,11 @@
 // accordions (a content reveal, treated like navigation), and native controls that carry
 // their own platform affordance (the Switch in Toggle). Overusing haptics on routine
 // transitions drains the signal value of the meaningful ones (Apple HIG).
+//
+// The introduction's step buttons look like they fall under that exclusion and do not:
+// what advances is the progress MARK (IntroMarkProgress), a discrete 1-of-4 counter the
+// button steps through, which is class 3 above — not a move between screens. See
+// app/valkommen.tsx, where the cue sits on the state change rather than on either button.
 //
 // PLATFORM MAPPING. On iOS the helpers hit the Taptic Engine directly (selection / impact /
 // notification generators). On Android, expo-haptics' selectionAsync/impactAsync/

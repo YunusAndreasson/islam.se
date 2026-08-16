@@ -26,6 +26,7 @@ import { IntroStep } from '@/components/intro/IntroStep';
 import { StepLocation } from '@/components/intro/StepLocation';
 import { StepMethod } from '@/components/intro/StepMethod';
 import { StepNotifications } from '@/components/intro/StepNotifications';
+import { hapticSelection, hapticSuccess } from '@/lib/haptics';
 import { useIntro } from '@/lib/intro-context';
 import { useSettings } from '@/lib/settings/context';
 import { useColors } from '@/theme/useColors';
@@ -48,9 +49,24 @@ export default function Valkommen() {
     router.replace('/bonetider');
   };
 
+  // Advancing is felt, not just seen. This looks at first like the "navigation" case the
+  // haptics policy excludes, and it is not: the intro's progress mark (IntroMarkProgress)
+  // is a DISCRETE value the button steps through — 1 of 4 to 2 of 4 — which is the same
+  // class as the scrubber crossing a prayer or an OptionGroup changing. Hence the selection
+  // tick, and hence it lives in `next()` rather than on the button: it describes the state
+  // change, so "Hoppa över" on a middle step (which also advances) gets it too.
+  //
+  // The last step is a different kind of moment — the intro is done and the map is what
+  // comes next — so it lands on the success cue instead. Reaching the end of onboarding is
+  // an OUTCOME; the three steps before it are not.
   const next = (): void => {
-    if (step >= TOTAL_STEPS - 1) finish();
-    else setStep((s) => s + 1);
+    if (step >= TOTAL_STEPS - 1) {
+      hapticSuccess();
+      finish();
+    } else {
+      hapticSelection();
+      setStep((s) => s + 1);
+    }
   };
 
   if (!loaded) {
