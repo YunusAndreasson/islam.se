@@ -11,7 +11,7 @@
 // Stockholm (see lib/location/resolve), which the dock is honest about.
 import { MaterialIcons } from '@expo/vector-icons';
 import { useMemo, useRef, useState } from 'react';
-import { Linking, Pressable, StyleSheet, Text, View } from 'react-native';
+import { ActivityIndicator, Linking, Pressable, StyleSheet, Text, View } from 'react-native';
 
 import { PlacePicker } from '@/components/settings/PlacePicker';
 import { hapticSuccess, hapticWarning } from '@/lib/haptics';
@@ -43,29 +43,32 @@ export function StepLocation() {
     inFlight.current = true;
     setBusy(true);
     void (async () => {
-      const outcome = await refresh();
-      if (outcome === 'busy') {
-        // A fix was already in flight, so nothing was asked and nothing was answered.
+      try {
+        const outcome = await refresh();
+        if (outcome === 'busy') {
+          // A fix was already in flight, so nothing was asked and nothing was answered.
+          return;
+        }
+        // The OS gave a definitive answer, so the map's soft-ask card has nothing left to
+        // offer — record it against the same store the card uses. Skipping this step
+        // deliberately records NOTHING, which is what leaves the card its later chance.
+        await noteLocationResolved();
+        if (outcome === 'ok') {
+          hapticSuccess();
+          // GPS is already the default mode, but say so explicitly: a user replaying the
+          // intro after having picked a city expects "Använd min plats" to mean it.
+          update({ locationMode: 'gps' });
+          setPhase('granted');
+          return;
+        }
+        hapticWarning();
+        setPhase(outcome === 'denied' ? 'denied' : 'error');
+      } finally {
+        // Always released, including on the 'ok' path: `error` keeps the button on screen
+        // for a second attempt, so a guard left stuck true would make that button dead.
         inFlight.current = false;
         setBusy(false);
-        return;
       }
-      // The OS gave a definitive answer, so the map's soft-ask card has nothing left to
-      // offer — record it against the same store the card uses. Skipping this step
-      // deliberately records NOTHING, which is what leaves the card its later chance.
-      await noteLocationResolved();
-      if (outcome === 'ok') {
-        hapticSuccess();
-        // GPS is already the default mode, but say so explicitly: a user replaying the
-        // intro after having picked a city expects "Använd min plats" to mean it.
-        update({ locationMode: 'gps' });
-        setPhase('granted');
-        return;
-      }
-      hapticWarning();
-      setPhase(outcome === 'denied' ? 'denied' : 'error');
-      inFlight.current = false;
-      setBusy(false);
     })();
   };
 
@@ -107,17 +110,33 @@ export function StepLocation() {
             </Text>
           ) : null}
 
-          {phase === 'ask' ? (
+          {/* `error` means services off or a timed-out fix (see GpsOutcome) — transient,
+              unlike `denied`, which the OS will not re-prompt for. So the button stays on
+              screen after an error: the message above tells the user what to check, and
+              this is what they tap once they have. Offering only "Välj stad i stället"
+              there made one indoor timeout the end of the recommended path.
+
+              Its label never changes. The same action keeps the same name across the
+              whole flow, matching Inställningar's own "Uppdatera plats" row, which is
+              likewise stable across outcomes — the error text carries the news, not the
+              button. */}
+          {phase === 'ask' || phase === 'error' ? (
             <Pressable
               onPress={onUseGps}
               disabled={busy}
               accessibilityRole="button"
-              accessibilityLabel="Använd min plats"
-              accessibilityState={{ disabled: busy }}
+              // A fix can take tens of seconds on a cold start, so the wait is announced
+              // as well as drawn — the same wording Inställningar uses while locating.
+              accessibilityLabel={busy ? 'Hämtar plats' : 'Använd min plats'}
+              accessibilityState={{ disabled: busy, busy }}
               style={({ pressed }) => [styles.cta, pressed && styles.pressed]}
             >
-              <MaterialIcons name="my-location" size={18} color={c.onAccent} />
-              <Text style={styles.ctaText}>Använd min plats</Text>
+              {busy ? (
+                <ActivityIndicator size="small" color={c.onAccent} />
+              ) : (
+                <MaterialIcons name="my-location" size={18} color={c.onAccent} />
+              )}
+              <Text style={styles.ctaText}>{busy ? 'Hämtar plats…' : 'Använd min plats'}</Text>
             </Pressable>
           ) : null}
 
