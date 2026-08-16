@@ -229,8 +229,7 @@ describe('PrayerDock night group', () => {
     expect(screen.queryByText(NIGHT_LABELS.lastThird)).toBeNull();
   });
 
-  // NOW is a Saturday in Stockholm, so the night it heads leads into Sunday.
-  const CAPTION = 'Natten mot söndag';
+  const CAPTION = 'Natten';
 
   it('is absent until asked for (caption)', () => {
     render(<PrayerDock {...dockProps(true)} />);
@@ -269,11 +268,11 @@ describe('PrayerDock night group', () => {
     expect(props.clock.setInstant).not.toHaveBeenCalled();
   });
 
-  // The card is headed by the EVENING's date. On 1 August at Stockholm the last third
-  // lands after midnight, so the row must say which morning it belongs to — otherwise
-  // "01:2x" under "1 augusti" quietly names a time that has already passed. It used to
-  // read "+1", which presumes the reader knows what is being incremented.
-  it('names the morning for a landmark that falls after midnight', () => {
+  // These times routinely land after midnight under a card headed with the EVENING's date.
+  // Three ways of flagging that were tried and removed — "+1", a per-row weekday, and a
+  // "Natten mot söndag" heading — because the clock face already answers it. This pins the
+  // outcome: a name and a time, nothing else hanging off the row.
+  it('carries no midnight qualifier — the clock already says it', () => {
     render(<PrayerDock {...nightProps(true)} />);
     const times = computePrayerTimes(STOCKHOLM, new Date(NOW), DEFAULT_SETTINGS);
     const night = computeNightTimes(times);
@@ -282,15 +281,17 @@ describe('PrayerDock night group', () => {
       const at = night[key];
       return at !== null && startOfStockholmDay(at.getTime()) !== dayStart;
     });
-    // Guard the guard: if the fixture day stops producing a post-midnight landmark this
-    // test would pass vacuously.
+    // Guard the guard: if the fixture day stops producing a post-midnight landmark, the
+    // absence assertions below would pass vacuously.
     expect(afterMidnight.length).toBeGreaterThan(0);
-    for (const key of afterMidnight) {
-      expect(screen.getByLabelText(new RegExp(`^${NIGHT_SWEDISH_NAMES[key]}.*efter midnatt$`))).toBeTruthy();
-    }
-    // The weekday the caption already promised — spelled out, not a bare increment.
-    expect(screen.getAllByText('sön').length).toBe(afterMidnight.length);
+
+    expect(screen.getByText(CAPTION)).toBeTruthy();
     expect(screen.queryByText('+1')).toBeNull();
+    expect(screen.queryByText('sön')).toBeNull();
+    for (const key of afterMidnight) {
+      // The row announces its name and its time — no trailing qualifier.
+      expect(screen.getByLabelText(new RegExp(`^${NIGHT_SWEDISH_NAMES[key]} \\d{2}:\\d{2}$`))).toBeTruthy();
+    }
   });
 
   // computeNightTimes returns null where the division would be meaningless (see
