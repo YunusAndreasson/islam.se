@@ -245,4 +245,34 @@ describe('notification lead + sound migration', () => {
     );
     expect((await loadSettings()).notifications.fajrWindowEnd).toBe(true);
   });
+
+  it('defaults the last-third alert to off and accepts a persisted true', async () => {
+    expect(DEFAULT_SETTINGS.notifications.lastThird).toBe(false);
+    await AsyncStorage.setItem(
+      STORAGE_KEY,
+      JSON.stringify({ notifications: { lastThird: true, lastThirdSound: 'adhan' } }),
+    );
+    const loaded = await loadSettings();
+    expect(loaded.notifications.lastThird).toBe(true);
+    expect(loaded.notifications.lastThirdSound).toBe('adhan');
+  });
+
+  it('falls back to the default sound when lastThirdSound is not a known key', async () => {
+    await AsyncStorage.setItem(
+      STORAGE_KEY,
+      JSON.stringify({ notifications: { lastThird: 'yes', lastThirdSound: 'trumpet' } }),
+    );
+    const loaded = await loadSettings();
+    // A non-boolean is not "truthy enough" — the sanitiser demands the real type.
+    expect(loaded.notifications.lastThird).toBe(false);
+    expect(loaded.notifications.lastThirdSound).toBe('default');
+  });
+
+  it('defaults the night times to hidden and accepts a persisted true', async () => {
+    expect(DEFAULT_SETTINGS.showNightTimes).toBe(false);
+    await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify({ showNightTimes: true }));
+    expect((await loadSettings()).showNightTimes).toBe(true);
+    await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify({ showNightTimes: 'ja' }));
+    expect((await loadSettings()).showNightTimes).toBe(false);
+  });
 });

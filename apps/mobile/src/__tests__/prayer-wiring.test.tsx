@@ -25,6 +25,7 @@ import Berakning from '@/app/(settings)/berakning';
 import Installningar from '@/app/(settings)/installningar';
 import { IntroProvider } from '@/lib/intro-context';
 import { LocationProvider } from '@/lib/location/context';
+import { computeNightTimes, NIGHT_ORDER } from '@/lib/night-times';
 import {
   formatTime,
   type LatLng,
@@ -230,5 +231,42 @@ describe('changing a setting recomputes the displayed times (the core user flow)
         expect(shown(other)).toBe(before[other]);
       }
     });
+  });
+});
+
+// The night group in the Förhandsvisning. Same B-layer claim as the prayers above: the
+// times the SCREEN shows must equal what adhan produces for the same day, so a wiring
+// mistake between the toggle, the hook and the row cannot hide behind a plausible-looking
+// clock face.
+describe('the night times reach the preview only when asked for', () => {
+  async function enableNightTimes(): Promise<void> {
+    fireEvent.press(screen.getByRole('button', { name: /^Utseende,/ }));
+    fireEvent(screen.getByRole('switch', { name: /Visa nattens tider/ }), 'valueChange', true);
+    await waitFor(() => expect(screen.queryByTestId('preview-time-lastThird')).toBeTruthy());
+  }
+
+  it('shows no night rows by default', async () => {
+    await renderSettings();
+    expect(screen.queryByTestId('preview-time-middleOfNight')).toBeNull();
+    expect(screen.queryByTestId('preview-time-lastThird')).toBeNull();
+  });
+
+  it('renders exactly the times adhan produces, once enabled', async () => {
+    await renderSettings();
+    await enableNightTimes();
+
+    const night = computeNightTimes(oracleTimes(STOCKHOLM, new Date()));
+    for (const key of NIGHT_ORDER) {
+      expect(screen.getByTestId(`preview-time-${key}`).props.children).toBe(formatTime(night[key]));
+    }
+  });
+
+  // The six obligatory rows must be untouched by the toggle — it reveals a group, it does
+  // not renumber or recompute the prayers.
+  it('leaves the six prayer rows exactly as they were', async () => {
+    await renderSettings();
+    const before = snapshot();
+    await enableNightTimes();
+    for (const key of PRAYER_ORDER) expect(shown(key)).toBe(before[key]);
   });
 });

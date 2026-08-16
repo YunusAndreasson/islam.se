@@ -13,6 +13,7 @@
 // light-mode Prussian indigo collapses against the navy basemap.
 import type { ColorSchemeName } from 'react-native';
 
+import type { NightKey } from '@/lib/night-times';
 import type { PrayerKey } from '@/lib/prayer-times';
 
 /** [r, g, b, a] with a in 0..1. */
@@ -116,6 +117,33 @@ export function prayerColorFor(
   scheme: ColorSchemeName,
 ): string {
   return scheme === 'dark' ? PRAYER_COLORS[prayer].dark : PRAYER_COLORS[prayer].light;
+}
+
+/**
+ * The night's two voluntary landmarks. A table of their own, NOT two more entries in
+ * PRAYER_COLORS — that record is keyed by PrayerKey and drives the map's contour lines,
+ * and neither of these is a solar event that can be drawn as an isoline (see
+ * lib/night-times.ts).
+ *
+ * Both sit in the same indigo→violet corridor as the prayers that bracket them —
+ * ʿIshāʾ (#33437a / #94a2dd) at the night's start, Fajr (#7c84ba / #a4adde) at its end —
+ * with the midpoint deeper and the last third lifted toward the dawn. So the pair DRAWS
+ * the night's progression, and reads as one group that belongs between those two rather
+ * than as a seventh and eighth prayer colour.
+ *
+ * They are used as GLYPHS, not text: the dock renders each row's label in the chrome ink
+ * and only tints the icon, which is what keeps the voluntary rows quieter than the five.
+ * So the floor they must clear is the graphics tier (APCA Lc 45), the same one
+ * PRAYER_COLORS targets — pinned in palette.test.ts.
+ */
+export const NIGHT_COLORS: Record<NightKey, PrayerColors> = {
+  middleOfNight: { light: '#4c5286', dark: '#9ba1ce' }, // deep indigo — the night at its darkest
+  lastThird: { light: '#66699c', dark: '#b3b2de' }, //     lifted toward Fajr's dawn violet
+};
+
+/** Pick a night landmark's glyph colour for the active OS appearance. */
+export function nightColorFor(key: NightKey, scheme: ColorSchemeName): string {
+  return scheme === 'dark' ? NIGHT_COLORS[key].dark : NIGHT_COLORS[key].light;
 }
 
 /**

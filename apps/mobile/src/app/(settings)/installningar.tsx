@@ -284,16 +284,16 @@ export default function Installningar() {
                   importantForAccessibility="no"
                 />
                 <View style={styles.previewLabelWrap}>
-                  <Text style={[styles.previewLabel, p.key === 'sunrise' && styles.previewMarkerText]}>
+                  <Text style={[styles.previewLabel, p.muted && styles.previewMarkerText]}>
                     {p.label}
                   </Text>
-                  <Text style={[styles.previewSwedish, p.key === 'sunrise' && styles.previewMarkerSub]}>
+                  <Text style={[styles.previewSwedish, p.muted && styles.previewMarkerSub]}>
                     {p.swedishName}
                   </Text>
                 </View>
                 <Text
                   testID={`preview-time-${p.key}`}
-                  style={[styles.previewTime, p.key === 'sunrise' && styles.previewMarkerText]}
+                  style={[styles.previewTime, p.muted && styles.previewMarkerText]}
                 >
                   {p.time}
                 </Text>
@@ -390,6 +390,19 @@ export default function Installningar() {
             description="En linje på kartan mot Mecka från din plats."
             value={settings.showQibla}
             onValueChange={(showQibla) => update({ showQibla })}
+            divider
+          />
+
+          {/* Nattens tider — nattens mitt och sista tredjedel, räknade från Maghrib till
+              nästa Fajr. Av som standard: det är frivilliga hållpunkter, inte bönetider,
+              och en läsare som inte bett om dem ska inte få dem i en lista över
+              förpliktelser. Visas som en egen grupp under de sex raderna, aldrig blandade
+              in bland dem. Se lib/night-times.ts. */}
+          <Toggle
+            label="Visa nattens tider"
+            description="Nattens mitt och sista tredjedel, räknat från Maghrib till Fajr."
+            value={settings.showNightTimes}
+            onValueChange={(showNightTimes) => update({ showNightTimes })}
             divider
           />
 

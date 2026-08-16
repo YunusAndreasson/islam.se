@@ -152,6 +152,36 @@ export default function Notiser() {
             ) : null}
           </DisclosureGroup>
         </SettingSection>
+
+        {/* Its own section for the same reason Fajr-fönstret has one: it is not a prayer,
+            and nothing here may read as a sixth or seventh obligation. Note the "Gäller
+            alla" controls above deliberately do NOT reach this sound — their footnote says
+            "alla böner", and this is not one. */}
+        <SettingSection
+          title="Nattens sista tredjedel"
+          footnote="Nattens sista tredjedel räknas från Maghrib till nästa Fajr – den tid de lärda framhåller för den frivilliga nattbönen. Det är ingen bönetid, och påminnelsen fyller en plats i notisbudgeten."
+        >
+          <DisclosureGroup
+            title="Påminn i nattens sista tredjedel"
+            summary={n.lastThird ? soundLabel(n.lastThirdSound) : 'Av'}
+          >
+            <Toggle
+              label="Påminn när sista tredjedelen börjar"
+              description="Notisen kommer exakt när tiden går in."
+              value={n.lastThird}
+              onValueChange={(lastThird) => patch({ lastThird })}
+            />
+            {n.lastThird ? (
+              <SubGroup styles={styles} title="Ljud" divider>
+                <OptionGroup
+                  options={SOUND_OPTIONS}
+                  value={n.lastThirdSound}
+                  onChange={(lastThirdSound) => patch({ lastThirdSound })}
+                />
+              </SubGroup>
+            ) : null}
+          </DisclosureGroup>
+        </SettingSection>
       </ScrollView>
     </SafeAreaView>
   );
