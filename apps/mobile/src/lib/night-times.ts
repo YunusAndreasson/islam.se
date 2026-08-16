@@ -15,8 +15,6 @@
 // union is what makes the blast radius equal to the surfaces we actually opted into.
 import { type PrayerTimes, SunnahTimes } from 'adhan';
 
-import { startOfStockholmDay } from './stockholm-time';
-
 /** The night's landmarks, chronologically. */
 export const NIGHT_ORDER = ['middleOfNight', 'lastThird'] as const;
 export type NightKey = (typeof NIGHT_ORDER)[number];
@@ -67,68 +65,6 @@ export const NIGHT_ICONS = {
 
 /** Both landmarks for one night. `null` = the night has no meaningful division today. */
 export type NightTimes = Record<NightKey, Date | null>;
-
-// Swedish names the night by the morning it leads into — "natten mot måndag" — which is
-// also how anyone actually says it. That idiom does the work a bare "+1" was failing at:
-// these times belong to a night that STRADDLES midnight, under a card headed with the
-// evening's date, and a reader setting an alarm for 01:31 has to know which morning.
-const TIME_ZONE = 'Europe/Stockholm';
-let weekdayFmt: { long?: Intl.DateTimeFormat | null; short?: Intl.DateTimeFormat | null } = {};
-function getWeekdayFmt(style: 'long' | 'short'): Intl.DateTimeFormat | null {
-  const cached = weekdayFmt[style];
-  if (cached !== undefined) return cached;
-  let built: Intl.DateTimeFormat | null;
-  try {
-    // Pinned to Swedish civil time like every other date in the app, so a device in
-    // another zone can't roll the weekday to the wrong day near midnight.
-    built = new Intl.DateTimeFormat('sv-SE', { timeZone: TIME_ZONE, weekday: style });
-  } catch {
-    built = null;
-  }
-  weekdayFmt[style] = built;
-  return built;
-}
-
-/** Reset the memoised formatters. Test-only. */
-export function resetNightFormattersForTests(): void {
-  weekdayFmt = {};
-}
-
-/**
- * The night group's heading: "Natten mot måndag" — the night that BEGINS on `dayStart`
- * (a Stockholm-midnight epoch) and ends at the following dawn. Falls back to a bare
- * "Natten" on a runtime without full Intl data rather than printing a wrong weekday.
- */
-export function nightCaption(dayStart: number): string {
-  const fmt = getWeekdayFmt('long');
-  if (!fmt) return 'Natten';
-  // Noon-anchored, like every other day step in this app: a Stockholm day is 23, 24 or 25
-  // hours, and `+ 86_400_000` lands on the same date once a year (see stockholm-time.ts).
-  const noonNextDay = new Date(dayStart + 36 * 3_600_000);
-  try {
-    return `Natten mot ${fmt.format(noonNextDay)}`;
-  } catch {
-    return 'Natten';
-  }
-}
-
-/**
- * Short Swedish weekday ("mån") for a landmark that lands on the morning side of midnight.
- * Returned per row because only SOME of them cross: in winter the midpoint falls at 22:41
- * on the evening's own date while the last third falls at 01:06 on the next, and the
- * heading alone cannot say which is which.
- */
-export function crossedMidnightLabel(at: Date, dayStart: number): string | undefined {
-  if (startOfStockholmDay(at.getTime()) === dayStart) return undefined;
-  const fmt = getWeekdayFmt('short');
-  if (!fmt) return undefined;
-  try {
-    // sv-SE renders these as "mån"/"tis"/…; some ICU builds append a period.
-    return fmt.format(at).replace('.', '');
-  } catch {
-    return undefined;
-  }
-}
 
 const EMPTY: NightTimes = { middleOfNight: null, lastThird: null };
 

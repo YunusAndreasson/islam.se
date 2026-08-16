@@ -4,17 +4,14 @@
 // run. The relations asserted (ordering against the prayers, the 2:1 ratio of the two
 // offsets from maghrib) hold for every latitude and every method, so they keep their
 // meaning if the default calculation method ever changes.
-import { afterEach, beforeEach, describe, expect, it } from '@jest/globals';
+import { describe, expect, it } from '@jest/globals';
 
 import {
   computeNightTimes,
-  crossedMidnightLabel,
   NIGHT_ICONS,
   NIGHT_LABELS,
   NIGHT_ORDER,
   NIGHT_SWEDISH_NAMES,
-  nightCaption,
-  resetNightFormattersForTests,
 } from './night-times';
 import { computePrayerTimes } from './prayer-times';
 import { addStockholmDays, startOfStockholmDay, stockholmPrayerDate } from './stockholm-time';
@@ -199,107 +196,5 @@ describe('the night tables', () => {
       expect(NIGHT_ICONS[key]).not.toMatch(/moon|crescent/);
       expect(NIGHT_ICONS[key]).toMatch(/^circle-/);
     }
-  });
-});
-
-describe('naming the night', () => {
-  beforeEach(() => resetNightFormattersForTests());
-
-  // Swedish names a night by the morning it leads into, which is the whole point: these
-  // times straddle midnight under a card headed with the EVENING's date.
-  it('names the night by the morning it leads into', () => {
-    // Sunday 16 Aug 2026 → the night leading into Monday.
-    const dayStart = startOfStockholmDay(new Date(2026, 7, 16, 12).getTime());
-    expect(nightCaption(dayStart)).toBe('Natten mot måndag');
-  });
-
-  // The caption steps a Stockholm day, which is 23, 24 or 25 hours long. A naive
-  // `+ 86_400_000` lands on the SAME date on the 25-hour day — once a year, silently.
-  it.each([
-    ['spring forward (23 h)', new Date(2026, 2, 28, 12), 'Natten mot söndag'],
-    ['autumn back (25 h)', new Date(2026, 9, 24, 12), 'Natten mot söndag'],
-  ])('steps a real Stockholm day: %s', (_label, day, expected) => {
-    expect(nightCaption(startOfStockholmDay(day.getTime()))).toBe(expected);
-  });
-
-  it('marks only the landmarks that land on the morning side of midnight', () => {
-    const dayStart = startOfStockholmDay(new Date(2026, 7, 16, 12).getTime());
-    const evening = new Date(2026, 7, 16, 22, 41);
-    const morning = new Date(2026, 7, 17, 1, 6);
-    expect(crossedMidnightLabel(evening, dayStart)).toBeUndefined();
-    expect(crossedMidnightLabel(morning, dayStart)).toBe('mån');
-  });
-
-  // The dock re-renders this caption on every clock tick (every 30 s in live mode), so the
-  // formatter is built once and memoised — the same reason hijri.ts and prayer-times.ts
-  // cache theirs. Constructing an Intl.DateTimeFormat per tick was pure waste.
-  it('builds each formatter once, however often it is asked', () => {
-    const RealFmt = Intl.DateTimeFormat;
-    let constructed = 0;
-    Object.defineProperty(Intl, 'DateTimeFormat', {
-      configurable: true,
-      value: function (...args: unknown[]) {
-        constructed++;
-        return new (RealFmt as unknown as new (...a: unknown[]) => Intl.DateTimeFormat)(...args);
-      },
-    });
-    try {
-      resetNightFormattersForTests();
-      const dayStart = startOfStockholmDay(new Date(2026, 7, 16, 12).getTime());
-      const morning = new Date(2026, 7, 17, 1, 6);
-      for (let i = 0; i < 5; i++) {
-        nightCaption(dayStart);
-        crossedMidnightLabel(morning, dayStart);
-      }
-      // One 'long' for the caption, one 'short' for the row marker. Not ten.
-      expect(constructed).toBe(2);
-    } finally {
-      Object.defineProperty(Intl, 'DateTimeFormat', { configurable: true, value: RealFmt });
-      resetNightFormattersForTests();
-    }
-  });
-
-  // Hermes can ship without full ICU (the reason prayer-times.ts carries fallbackFormat at
-  // all). A weekday is not worth guessing: naming the WRONG morning is worse than naming
-  // none, so the caption degrades to a bare "Natten" and the row drops its marker rather
-  // than inventing one.
-  describe('on a runtime without full Intl data', () => {
-    const RealFmt = Intl.DateTimeFormat;
-    afterEach(() => {
-      Object.defineProperty(Intl, 'DateTimeFormat', { configurable: true, value: RealFmt });
-      resetNightFormattersForTests();
-    });
-
-    it('degrades to an unqualified caption rather than a wrong weekday', () => {
-      Object.defineProperty(Intl, 'DateTimeFormat', {
-        configurable: true,
-        value: () => {
-          throw new Error('no ICU');
-        },
-      });
-      resetNightFormattersForTests();
-      const dayStart = startOfStockholmDay(new Date(2026, 7, 16, 12).getTime());
-      expect(nightCaption(dayStart)).toBe('Natten');
-      expect(crossedMidnightLabel(new Date(2026, 7, 17, 1, 6), dayStart)).toBeUndefined();
-    });
-
-    // A constructor that builds but throws at format() time is the other half of the same
-    // failure, and it must not take the dock down with it.
-    it('survives a formatter that throws while formatting', () => {
-      Object.defineProperty(Intl, 'DateTimeFormat', {
-        configurable: true,
-        value: function () {
-          return {
-            format: () => {
-              throw new Error('boom');
-            },
-          };
-        },
-      });
-      resetNightFormattersForTests();
-      const dayStart = startOfStockholmDay(new Date(2026, 7, 16, 12).getTime());
-      expect(nightCaption(dayStart)).toBe('Natten');
-      expect(crossedMidnightLabel(new Date(2026, 7, 17, 1, 6), dayStart)).toBeUndefined();
-    });
   });
 });
