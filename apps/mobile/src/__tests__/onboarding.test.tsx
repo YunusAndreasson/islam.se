@@ -22,8 +22,20 @@ import Valkommen from '@/app/valkommen';
 import { IntroProvider } from '@/lib/intro-context';
 import { LocationProvider } from '@/lib/location/context';
 import { resetLocationLaunchCountForTests } from '@/lib/location-hint';
+import { hapticSelection, hapticSuccess } from '@/lib/haptics';
 import { resetNotificationLaunchCountForTests } from '@/lib/notification-hint';
 import { SettingsProvider } from '@/lib/settings/context';
+
+// The cues are stubbed at the wrapper, so the assertions read "which cue did this step
+// deserve" rather than "which native taptic API did that reach on this platform" — the
+// second is lib/haptics' contract and is covered by its own test.
+jest.mock('@/lib/haptics', () => ({
+  hapticSelection: jest.fn(),
+  hapticSuccess: jest.fn(),
+  hapticLight: jest.fn(),
+  hapticWarning: jest.fn(),
+  setHapticsEnabled: jest.fn(),
+}));
 
 const INTRO_KEY = 'introSeen:v1';
 const SETTINGS_KEY = 'prayerSettings:v1';
@@ -117,6 +129,40 @@ describe('the introduction', () => {
     // map (see MapLessonCard and intro-context.test.tsx's mapLessonPending coverage).
     await press('Visa bönetider');
     expect(await AsyncStorage.getItem(INTRO_KEY)).not.toBeNull();
+  });
+
+  // Each step is FELT, not only seen. The three advancing taps land a selection tick — the
+  // intro's progress mark is a discrete 1-of-4 counter the button steps through, the same
+  // class as the scrubber crossing a prayer — and the last one lands the success cue,
+  // because finishing onboarding is an outcome rather than another step. The cue sits on
+  // the state change in valkommen's next(), not on the button, which is why "Hoppa över"
+  // on a middle step ticks too: it advances the same counter.
+  it('ticks through the steps and confirms at the end', async () => {
+    await launch();
+
+    await press('Kom igång');
+    await press('Nästa');
+    await press('Nästa');
+    // Asserted at the CUE, not at the native call: which taptic API that reaches is
+    // lib/haptics' business (and differs by platform), while valkommen's contract is
+    // which of the four cues each step deserves.
+    expect(hapticSelection).toHaveBeenCalledTimes(3);
+    expect(hapticSuccess).not.toHaveBeenCalled();
+
+    await press('Visa bönetider');
+    // Confirm, not a fourth tick — the intro is done and the map is what comes next.
+    expect(hapticSuccess).toHaveBeenCalledTimes(1);
+    expect(hapticSelection).toHaveBeenCalledTimes(3);
+  });
+
+  // Skipping from the FIRST step ends the intro without completing it. That is a dismissal,
+  // and the policy in lib/haptics gives dismissals no cue — so this one stays silent while
+  // the middle steps' skip (which advances the counter) does not.
+  it('stays silent when the intro is dismissed outright', async () => {
+    await launch();
+    await press('Hoppa över');
+    expect(hapticSelection).not.toHaveBeenCalled();
+    expect(hapticSuccess).not.toHaveBeenCalled();
   });
 
   it('records itself as seen when skipped outright', async () => {
