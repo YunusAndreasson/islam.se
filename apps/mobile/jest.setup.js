@@ -211,6 +211,10 @@ jest.mock('@shopify/react-native-skia', () => {
     Skia: {
       RuntimeEffect: { Make: () => null },
       PathBuilder: { Make: stubBuilder },
+      // Static shape factories (Skia.Path.Circle and friends) are the current API for
+      // whole shapes — the builder is for paths assembled segment by segment. The intro's
+      // progress mark uses Circle for its base disc and its completed ring.
+      Path: { Circle: () => ({}) },
       XYWHRect: (x, y, width, height) => ({ x, y, width, height }),
     },
   };

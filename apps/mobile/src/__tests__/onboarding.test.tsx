@@ -164,6 +164,44 @@ describe('the introduction', () => {
       expect(screen.getByText('Välj stad i stället')).toBeTruthy();
     });
 
+    it('lets the user try again after a fix that timed out, and the retry really fires', async () => {
+      // The OS said YES; the fix itself failed — services off, or no satellite before the
+      // timeout. That is `error`, not `denied`, and the difference is the whole point:
+      // nothing was refused, so the very next tap can succeed. The bug was that the
+      // "Använd min plats" button rendered only in the `ask` phase, so a single indoor
+      // timeout — the most ordinary outcome there is — deleted the recommended path for
+      // the rest of the flow and left the city list as the only way forward, under a
+      // message that tells the user to go switch location services on.
+      // Deliberately NOT answerLocation(), which also makes the read-only check report
+      // granted — that would let LocationProvider's mount effect fetch a fix of its own and
+      // swallow the one rejection below. Granting only the REQUEST is the true first-run
+      // shape anyway: undetermined on the read, granted once the user taps.
+      jest
+        .mocked(Location.requestForegroundPermissionsAsync)
+        .mockResolvedValue(permission('granted') as never);
+      jest.mocked(Location.getLastKnownPositionAsync).mockResolvedValue(null);
+      jest
+        .mocked(Location.getCurrentPositionAsync)
+        .mockRejectedValueOnce(new Error('location services off'));
+
+      await launch();
+      await press('Kom igång');
+      await press('Använd min plats');
+
+      expect(screen.getByText(/Kontrollera att platstjänster är på/)).toBeTruthy();
+      expect(screen.getByText('Använd min plats')).toBeTruthy();
+
+      // And the second tap must actually reach the OS: the in-flight guard is released in
+      // a `finally`, so a phase that keeps the button alive can never leave it inert.
+      jest.mocked(Location.getCurrentPositionAsync).mockResolvedValue({
+        coords: { latitude: 59.3293, longitude: 18.0686 },
+      } as never);
+      await press('Använd min plats');
+
+      expect(Location.getCurrentPositionAsync).toHaveBeenCalledTimes(2);
+      expect(screen.getByText(/Tiderna räknas ut för/)).toBeTruthy();
+    });
+
     it('leaves the map card its second chance when the step is skipped', async () => {
       await launch();
       await press('Kom igång');

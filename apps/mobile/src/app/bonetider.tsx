@@ -320,10 +320,27 @@ export default function Bonetider() {
   // them, and hiding them would turn a degraded map into a dead screen. We say what
   // happened instead, and let the rest keep working.
   const [styleFailed, setStyleFailed] = useState(false);
+  // Measured, not assumed: the notice's copy wraps to a second line on a narrow screen or
+  // at a large font scale, so its height is the only honest way to place anything beneath
+  // it. Feeds `hintTop` below — see there for what was colliding.
+  const [noticeHeight, setNoticeHeight] = useState(0);
 
   // Flips true as soon as the user has noticeably panned or zoomed away from the
   // initial framing. Drives the floating "Visa hela Sverige" reset chip.
   const [moved, setMoved] = useState(false);
+
+  // Where the top region's two full-width callouts sit. HINT_TOP_OFFSET only ever cleared
+  // the nav discs and the Återställ chip's row; it never accounted for the basemap-failure
+  // notice, which shares the SAME left/right band and starts 10dp ABOVE it — and, being
+  // rendered last, drew straight over the hint card's icon and title. The two are fully
+  // independent (styleFailed comes from onDidFailLoadingMap; the offer queue only waits on
+  // cameraReady), so the collision is not a corner case: it is what a first launch on a
+  // weak connection looks like, which is exactly when both have something to say.
+  const noticeTop = insets.top + space.lg + MAP_ERROR_OFFSET;
+  const hintTop = Math.max(
+    insets.top + HINT_TOP_OFFSET,
+    styleFailed && noticeHeight > 0 ? noticeTop + noticeHeight + space.sm : 0,
+  );
 
   const publishCamera = useCallback(
     (next: MapCamera, syncReact = true) => {
@@ -954,12 +971,12 @@ export default function Bonetider() {
           sit below the two nav discs, colliding with neither them nor the Återställ chip,
           and share one `top` so the two cards are visually interchangeable. */}
       {phase === 'hint-location' && (
-        <LocationHint top={insets.top + HINT_TOP_OFFSET} onClose={() => setPhase('done')} />
+        <LocationHint top={hintTop} onClose={() => setPhase('done')} />
       )}
 
       {phase === 'hint-notifications' && (
         <NotificationHint
-          top={insets.top + HINT_TOP_OFFSET}
+          top={hintTop}
           onEnable={() => update({ notifications: { ...settings.notifications, enabled: true } })}
           onClose={() => setPhase('done')}
         />
@@ -1014,8 +1031,14 @@ export default function Bonetider() {
           underneath. Sits below the reset chip's row so the two never collide. */}
       {styleFailed && (
         <View
-          style={[styles.mapErrorWrap, { top: insets.top + space.lg + MAP_ERROR_OFFSET }]}
+          style={[styles.mapErrorWrap, { top: noticeTop }]}
           pointerEvents="none"
+          // Reports the notice's real height so a hint card below it can clear it; the
+          // copy wraps to two lines on narrow screens, so a constant would be a guess.
+          onLayout={(e) => {
+            const { height } = e.nativeEvent.layout;
+            setNoticeHeight((prev) => (Math.abs(prev - height) < 1 ? prev : height));
+          }}
         >
           <GlassSurface style={styles.mapErrorNotice} borderRadius={radius.lg} tint={colors.cardGlass}>
             <MaterialIcons name="cloud-off" size={16} color={colors.inkMuted} />

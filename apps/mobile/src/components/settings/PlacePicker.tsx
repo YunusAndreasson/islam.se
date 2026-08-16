@@ -74,6 +74,20 @@ export function PlacePicker({ selected, onPick }: Props) {
     return SEARCH_PLACES.filter((entry) => entry.searchText.includes(q)).map((entry) => entry.place);
   }, [query]);
 
+  // Open on the city that is already chosen. The list is population-sorted, so anyone who
+  // did not pick one of the handful of biggest places had their selection rendered — tinted
+  // row, check mark — hundreds of rows below the fold, with nothing on screen to say so or
+  // to say where. Read only at mount by FlatList, which is the right lifetime: once the
+  // user types, the results are theirs to scroll and re-anchoring would fight them.
+  // Exact because getItemLayout above gives the list a real pitch to count in.
+  const initialIndex = useMemo(() => {
+    if (!selectedKey) return undefined;
+    const i = PLACES.findIndex(
+      (p) => keyFor({ name: p.name, latitude: p.lat, longitude: p.lon }) === selectedKey,
+    );
+    return i >= 0 ? i : undefined;
+  }, [selectedKey]);
+
   const renderItem = ({ item }: ListRenderItemInfo<SwedishPlace>): React.ReactElement => {
     const isSelected =
       keyFor({ name: item.name, latitude: item.lat, longitude: item.lon }) === selectedKey;
@@ -137,6 +151,7 @@ export function PlacePicker({ selected, onPick }: Props) {
         keyExtractor={(p) => `${p.name}|${p.lat}|${p.lon}`}
         renderItem={renderItem}
         getItemLayout={(_, index) => ({ length: ROW_PITCH, offset: ROW_PITCH * index, index })}
+        initialScrollIndex={initialIndex}
         initialNumToRender={20}
         windowSize={11}
         keyboardShouldPersistTaps="handled"
