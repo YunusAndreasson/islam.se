@@ -3,6 +3,7 @@ title: "Vad säger islam om deism och sekularism?"
 question: "Vad säger islam om deism och sekularism?"
 description: "Deismen behåller en avlägsen skapare och förkastar uppenbarelsen; sekularismen medger Gud men förvisar honom ur lag och politik. Båda gör förnuftet till högsta domare, och där går islams gräns."
 publishedAt: "2026-06-23T00:00:00Z"
+updatedAt: "2026-08-16T00:00:00Z"
 keywords:
   - "deism islam"
   - "sekularism islam"
@@ -61,7 +62,7 @@ Deisten erkänner att en skapare finns, och i islamisk terminologi är detta *ta
 
 ## Vad säger islam om sekularism?
 
-I islam finns ingen skiljelinje mellan det heliga och det världsliga: *dīn*, tron, rymmer lika mycket bön och övertygelse som lag, handel och styre. Att lyfta ut Guds vägledning ur det offentliga och låta enbart mänskliga lagar råda krockar med grundsatsen att rätten att stifta lag tillhör Gud (*hākimiyya*):
+I islam finns ingen skiljelinje mellan det heliga och det världsliga: *dīn*, tron, rymmer lika mycket bön och övertygelse som lag, handel och styre. Att lyfta ut Guds vägledning ur det offentliga och låta enbart mänskliga lagar råda krockar med grundsatsen att rätten att avgöra vad som är tillåtet och förbjudet tillhör Gud:
 
 > Vad ni dyrkar vid sidan av Honom är ingenting annat än namn som ni har tänkt ut, ni och era förfäder; Gud har inte gett er tillstånd till detta. Ingen dömer utom Gud; Han befaller er att dyrka Honom ensam. Detta är den evigt sanna tron, men de flesta människor har ingen kunskap [om detta].
 > — Koranen 12:40
@@ -75,7 +76,9 @@ Sekularismen låter alltså Gud behålla himlen men avskedar Honom ur lagboken; 
 
 ## Är deism och sekularism samma sak som ateism?
 
-Nej, och skillnaderna spelar roll. Ateismen förnekar att Gud över huvud taget finns. Deismen behåller Gud men berövar Honom uppenbarelsens röst och varje ingripande i världen. Sekularismen kan tillåta en privat tro men stänger ute den ur lag och samhälle. För islam är ingen av dessa en neutral medelväg: även den som behåller en skapare men förnekar att Han talar och stiftar lag har övergett *tawhīd al-ulūhiyya* och fallit i en form av *shirk*. Graden skiljer dem åt: ateisten stryker Gud, deisten tystar Honom, sekularisten avsätter Honom som lagstiftare. Ingen av de tre når ända fram till att dyrka Gud som den ende.
+Nej, och skillnaderna spelar roll. Ateismen förnekar att Gud över huvud taget finns. Deismen behåller Gud men berövar Honom uppenbarelsens röst och varje ingripande i världen. Sekularismen kan tillåta en privat tro men stänger ute den ur lag och samhälle. För islam är ingen av dessa en neutral medelväg: att erkänna en skapare men förneka att Han talar och stiftar lag når inte fram till *tawhīd al-ulūhiyya*. Graden skiljer dem åt: ateisten stryker Gud, deisten tystar Honom, sekularisten avsätter Honom som lagstiftare. Ingen av de tre når ända fram till att dyrka Gud som den ende.
+
+Här gäller samtidigt en klassisk försiktighetsregel som lätt glöms bort. *Ahl as-sunna* skiljer mellan domen över en **lära** och domen över en **människa**: att en ståndpunkt i sig strider mot *tawhīd* betyder inte att var och en som råkat omfatta den därmed är dömd. Innan ett sådant omdöme får fällas om en bestämd person krävs enligt Ibn Taymiyya att budskapet nått fram och att hindren undanröjts – okunnighet, feltolkning och tvång. Det är just denna åtskillnad som skiljer *ahl as-sunna* från *khawārij*, som fällde domen rakt över människor. Läran prövas hårt; den enskilde överlämnas åt Gud.
 
 ## Hur skiljer sig islams hållning från kristendomens?
 

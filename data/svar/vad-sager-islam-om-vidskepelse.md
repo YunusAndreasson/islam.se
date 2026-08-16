@@ -3,6 +3,7 @@ title: "Vad säger islam om vidskepelse och det onda ögat?"
 question: "Vad säger islam om vidskepelse, amuletter och det onda ögat?"
 description: "Att tro på onda omen och bära amuletter är shirk i islam, men det onda ögat är verkligt. Så lär profetens sunna oss skilja vidskepelse från verkligt skydd."
 publishedAt: "2026-06-20T00:00:00Z"
+updatedAt: "2026-08-16T00:00:00Z"
 keywords:
   - "vidskepelse islam"
   - "amuletter islam"
@@ -67,7 +68,7 @@ Vidskepelse i islamisk mening är *tatayyur* (även *tiyara*): att läsa olycka 
 
 ## Är det tillåtet att bära amuletter (*tamāʾim*)?
 
-Nej. Att bära *tamāʾim* (amuletter, talismaner och knutna trådar) för att avvärja ont är förbjudet och räknas som *shirk*. ʿAbdullāh ibn Masʿūd återgav profetens ord: "Besvärjelser, amuletter och kärleksamuletter (*ruqā*, *tamāʾim* och *tiwala*) är *shirk*" (Abū Dāwūd 3883; Ibn Mājah 3530). ʿUqba ibn ʿĀmir hörde honom säga: "Den som bär en amulett har begått *shirk*" (Musnad Ahmad 16969). De lärda är eniga om att amuletter med oklara tecken eller åkallan till andra än Gud är otillåtna. Om amuletter som innehåller rena koranverser rådde oenighet bland de tidiga lärda, men den starkare åsikten, som den Permanenta kommittén (*al-Lajna ad-Dāʾima*) och lärda som Ibn Bāz företräder, är att även dessa bör undvikas, eftersom hadithernas ordalydelse är allmän och gränsen mot otillåten praxis lätt suddas ut. Att binda Guds skydd vid en läderpåse är att söka hjälp på fel adress.
+Nej. Att bära *tamāʾim* (amuletter, talismaner och knutna trådar) för att avvärja ont är förbjudet och räknas som *shirk*. ʿAbdullāh ibn Masʿūd återgav profetens ord: "Besvärjelser, amuletter och kärleksamuletter (*ruqā*, *tamāʾim* och *tiwala*) är *shirk*" (Abū Dāwūd 3883; Ibn Mājah 3530). De *ruqā* som fördöms här är de hedniska besvärjelserna, formler med oklara ord eller åkallan av andra än Gud – inte den tillåtna recitationen av Koranen, som profeten själv utövade och som behandlas nedan. ʿUqba ibn ʿĀmir hörde honom säga: "Den som bär en amulett har begått *shirk*" (Musnad Ahmad 16969). De lärda är eniga om att amuletter med oklara tecken eller åkallan till andra än Gud är otillåtna. Om amuletter som innehåller rena koranverser rådde oenighet bland de tidiga lärda, men den starkare åsikten, som den Permanenta kommittén (*al-Lajna ad-Dāʾima*) och lärda som Ibn Bāz företräder, är att även dessa bör undvikas, eftersom hadithernas ordalydelse är allmän och gränsen mot otillåten praxis lätt suddas ut. Att binda Guds skydd vid en läderpåse är att söka hjälp på fel adress.
 
 ## Är det onda ögat verkligt?
 

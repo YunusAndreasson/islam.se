@@ -3,6 +3,7 @@ title: "Vad säger islam om omskärelse av pojkar?"
 question: "Vad säger islam om omskärelse av pojkar?"
 description: "Är omskärelse av pojkar ett krav i islam eller en frivillig sed? De fyra rättsskolorna svarar olika – och skälet bottnar i fitra och renheten inför bönen."
 publishedAt: "2026-06-20T00:00:00Z"
+updatedAt: "2026-08-16T00:00:00Z"
 keywords:
   - "omskärelse islam"
   - "omskärelse av pojkar islam"
@@ -67,7 +68,7 @@ Här skiljer sig de fyra klassiska rättsskolorna åt. Hanafī- och Mālikī-sko
 
 ## Varför omskärs muslimska pojkar?
 
-Tre skäl återkommer. Först renheten (*tahāra*): under förhuden kan urindroppar samlas och göra den fullständiga renhet som bönen kräver svår att uppnå. Därför knyter Shāfiʿī- och Hanbalī-skolorna ingreppet direkt till giltig bön. Sedan *fitra*: omskärelsen räknas som en del av människans ursprungliga, sunda läggning. Och slutligen tillhörigheten: den är ett synligt tecken på att höra till *ahl as-sunna*, muslimernas gemenskap, i Abrahams efterföljd. Statistiskt avtecknar sig detta skarpt: enligt en studie från University of Sydney (2016) är omskärelse nära nog allmän i muslimska länder, omkring 100 procent i Iran, 99 procent i Irak och 93 procent i Indonesien, världens folkrikaste muslimska land, medan andelen globalt ligger kring 38 procent. Få trosseder ritar in sig så entydigt på kartan: där islam slår rot, följer omskärelsen med.
+Tre skäl återkommer. Först renheten (*tahāra*): under förhuden kan urindroppar samlas och göra den fullständiga renhet som bönen kräver svår att uppnå. Därför knyter Shāfiʿī- och Hanbalī-skolorna ingreppet direkt till giltig bön. Sedan *fitra*: omskärelsen räknas som en del av människans ursprungliga, sunda läggning. Och slutligen tillhörigheten: den är ett synligt tecken på att höra till muslimernas gemenskap, i Abrahams efterföljd. Statistiskt avtecknar sig detta skarpt: enligt en studie från University of Sydney (2016) är omskärelse nära nog allmän i muslimska länder, omkring 100 procent i Iran, 99 procent i Irak och 93 procent i Indonesien, världens folkrikaste muslimska land, medan andelen globalt ligger kring 38 procent. Få trosseder ritar in sig så entydigt på kartan: där islam slår rot, följer omskärelsen med.
 
 ## När ska en pojke omskäras?
 

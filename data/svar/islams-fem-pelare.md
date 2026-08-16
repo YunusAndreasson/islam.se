@@ -3,7 +3,7 @@ title: "Vad är islams fem pelare? – arkan al-islam"
 question: "Vad är islams fem pelare?"
 description: "Islams fem pelare – shahada, bön, zakat, fasta och hajj – utgör arkan al-islam. Här är vad var och en kräver och varför trosbekännelsen räknas som den första."
 publishedAt: "2026-06-20T00:00:00Z"
-updatedAt: "2026-07-26T00:00:00Z"
+updatedAt: "2026-08-16T00:00:00Z"
 keywords:
   - "islams fem pelare"
   - "arkan al-islam"
@@ -57,7 +57,7 @@ De fem pelarna räknas upp i en välkänd hadith som återberättas av profetens
 > Islam är byggd på fem [pelare]: vittnesbördet att ingen har rätt att dyrkas utom Gud och att Muhammed är Guds sändebud, att förrätta bönen, att ge allmoseskatten, att vallfärda till Huset och att fasta under ramadan.
 > — Sahīh al-Bukhārī 8
 
-Hadithen finns i de två mest tillförlitliga samlingarna, *Sahīh al-Bukhārī* (nr 8) och *Sahīh Muslim* (nr 16); hos Muslim nämns fastan före vallfärden, i övrigt är innehållet detsamma. Själva pelarbilden är hadithens egen: islam liknas vid en byggnad som vilar på fem bärande stöd. Den första pelaren skiljer sig till sin art från de andra: den är ett vittnesbörd, en trosakt, medan de fyra övriga är handlingar som förutsätter den. Om någon av de fyra sviktar hos en troende, av svaghet eller lättja, står huset ändå kvar. Men rivs den första, rasar allt.
+Hadithen finns i de två mest tillförlitliga samlingarna, *Sahīh al-Bukhārī* (nr 8) och *Sahīh Muslim* (nr 16); hos Muslim nämns fastan före vallfärden, i övrigt är innehållet detsamma. Själva pelarbilden är hadithens egen: islam liknas vid en byggnad som vilar på fem bärande stöd. Den första pelaren skiljer sig till sin art från de andra: den är ett vittnesbörd, en trosakt, medan de fyra övriga är handlingar som förutsätter den. Om någon av de fyra sviktar hos en troende, av svaghet eller lättja, står huset ändå kvar. Bönen är dock det omtvistade undantaget: de lärda är oense om huruvida den som medvetet överger bönen därmed lämnar islam, och flera av de tyngsta hävdar att han gör det. Men rivs den första, rasar allt.
 
 ## Varför är trosbekännelsen den första pelaren?
 

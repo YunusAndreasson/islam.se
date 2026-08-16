@@ -3,6 +3,7 @@ title: "Vad säger islam om ateism? Koranens svar"
 question: "Vad säger islam om ateism?"
 description: "Ateism räknas i islam som otro (kufr), men Koranen kallar gudstron medfödd. Vad säger fitra, dahriyya och de klassiska lärde om förnekandet av den ende Guden?"
 publishedAt: "2026-06-23T00:00:00Z"
+updatedAt: "2026-08-16T00:00:00Z"
 keywords:
   - "vad säger islam om ateism"
   - "ateism islam"
@@ -17,7 +18,7 @@ faq:
   - q: "Vad är skillnaden mellan ateism och agnosticism i islam?"
     a: "Ateisten förnekar att Gud finns, medan agnostikern menar att frågan inte kan avgöras. Båda räknas som avsteg från *fitra*, men agnostikerns tvivel ligger närmare ett öppet sökande än ateistens slutna förnekelse."
   - q: "Föds alla människor som muslimer?"
-    a: "Enligt en känd hadith föds varje barn i enlighet med *fitra*, en naturlig läggning mot tron på en Gud; det är uppväxten som sedan formar barnet åt ett visst håll (Sahīh al-Bukhārī 1358)."
+    a: "Enligt en känd hadith föds varje barn i enlighet med *fitra*, en naturlig läggning mot tron på en Gud; det är uppväxten som sedan formar barnet åt ett visst håll (Sahīh al-Bukhārī 1385)."
   - q: "Hur bevisar islam att Gud finns?"
     a: "Koranen argumenterar främst utifrån skapelsen: ordningen i himlarna och i människan själv förutsätter en Skapare (Koranen 52:35–36). Tron räknas dessutom som medfödd, så Koranen behandlar Guds existens som självklar snarare än som ett påstående som först måste bevisas."
 sources:
@@ -31,8 +32,8 @@ sources:
     url: "https://quran.com/45/24?translations=48"
   - name: "Koranen 52:35–36"
     url: "https://quran.com/52/35-36?translations=48"
-  - name: "Sahīh al-Bukhārī 1358"
-    url: "https://sunnah.com/bukhari:1358"
+  - name: "Sahīh al-Bukhārī 1385"
+    url: "https://sunnah.com/bukhari:1385"
   - name: "Sahīh Muslim 2658"
     url: "https://sunnah.com/muslim:2658"
   - name: "al-ibadah.com – Monoteism (tawhīd)"
@@ -67,7 +68,7 @@ Koranens grundpåstående är att människan inte börjar som ett oskrivet blad.
 > GE DIG hän med hela din själ ... åt den rena, ursprungliga tron, den tro som Gud vid skapelsen lade ned som en naturens norm i människan.
 > — Koranen 30:30
 
-Profeten Muhammed uttryckte samma sak: "Inget barn föds annat än i enlighet med *fitra*; det är dess föräldrar som gör det till jude, kristen eller zoroastrier" (Sahīh al-Bukhārī 1358; Sahīh Muslim 2658, berättad av Abū Hurayra). Ibn Taymiyya och Ibn al-Qayyim drog slutsatsen att gudsmedvetandet är förinställt i själen. Lämnad orörd dras människan mot sin Herre lika självklart som ögat vänder sig mot ljuset.
+Profeten Muhammed uttryckte samma sak: "Inget barn föds annat än i enlighet med *fitra*; det är dess föräldrar som gör det till jude, kristen eller zoroastrier" (Sahīh al-Bukhārī 1385; Sahīh Muslim 2658, berättad av Abū Hurayra). Ibn Taymiyya och Ibn al-Qayyim drog slutsatsen att gudsmedvetandet är förinställt i själen. Lämnad orörd dras människan mot sin Herre lika självklart som ögat vänder sig mot ljuset.
 
 ## Hur bemöter Koranen ateismens argument?
 
