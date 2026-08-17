@@ -29,6 +29,17 @@
 // twilight is the point. The wash overlay is pointerEvents="none", so a tap falls
 // straight through to the symbol layer and onPress fires (default 44×44 hitbox).
 //
+// ⚠️ TWO SOURCES over the same points, and the split is load-bearing: only the GLYPH tier
+// may be tapped. A pressable source hit-tests EVERY layer it owns —
+// `queryRenderedFeatures(pointWithHitbox, *pressableSource.getLayerIDs())` in the binding's
+// MLRNMapView — so while the dust shared the pressable source, the 44×44 hitbox meant a tap
+// anywhere within ~22 dp of a 1.2 px, 42 %-opacity speck opened a detail card. Below z7 the
+// glyph layer does not exist at all, so at the national view the dust was the ONLY tap
+// target: tapping southern Sweden reliably opened a card for a mosque nobody could see, let
+// alone aim at. Across the z7–8 overlap both tiers answered and features[0] could be a dust
+// dot belonging to a DIFFERENT mosque than the glyph under the finger. A second, plain
+// GeoJSONSource (no onPress) makes the dust inert; 234 points indexed twice is nothing.
+//
 // The glyph isn't a bundled asset: we render MaterialCommunityIcons' `mosque` to a
 // bitmap at the current theme's muted-ink colour (getImageSource) and register it via
 // <Images>. That keeps a real mosque silhouette without shipping an SDF, and it re-tints
@@ -44,6 +55,7 @@ import { type Mosque, mosqueById, toFeatureCollection } from '@/lib/mosques';
 import { useActiveScheme, useColors } from '@/theme/useColors';
 
 const SOURCE_ID = 'mosques';
+const DUST_SOURCE_ID = 'mosques-dust';
 const LAYER_ID = 'mosque-symbols';
 const DUST_LAYER_ID = 'mosque-dust';
 // Rendered glyph size in px; scaled DOWN on the map by icon-size so the marker stays a
@@ -126,6 +138,12 @@ export function MosqueLayer({ onSelect }: Props) {
     if (typeof id !== 'string') return;
     const mosque = mosqueById(id);
     if (!mosque) return;
+    // A source press BUBBLES to <Map onPress>, which clears the selection — so opening a
+    // card would immediately close it again. Stopping here is the pairing the binding
+    // documents on MapProps.onPress ("to prevent this use event.stopPropagation() in the
+    // Source handler"). Called only on a real hit, so a tap that finds no mosque still
+    // reaches the map and dismisses whatever card is open.
+    e.stopPropagation();
     // A control landing synchronously under the finger — the one place the haptics
     // policy allows a tick on a tap (opening a screen is otherwise silent feedback).
     hapticLight();
@@ -140,8 +158,11 @@ export function MosqueLayer({ onSelect }: Props) {
           few-ms raster is long done, and gating the country-scale view on a city-scale
           glyph would be backwards. */}
       {icon && <Images images={{ 'mosque-pin': { source: icon, sdf: false } }} />}
-      <GeoJSONSource id={SOURCE_ID} data={data} onPress={handlePress}>
-        {/* DUST — the national-view "snow": one tiny soft dot per mosque. maxzoom caps native
+      {/* DUST — its own source, deliberately WITHOUT onPress (see the header): the specks
+          are a hint to zoom in, never a tap target. Declared first so it keeps drawing
+          beneath the glyphs across the z7–8 crossfade. */}
+      <GeoJSONSource id={DUST_SOURCE_ID} data={data}>
+        {/* The national-view "snow": one tiny soft dot per mosque. maxzoom caps native
             work once the crossfade has handed off to the glyphs (opacity already 0 by then). */}
         <Layer
           id={DUST_LAYER_ID}
@@ -173,8 +194,10 @@ export function MosqueLayer({ onSelect }: Props) {
             ],
           }}
         />
-        {/* GLYPHS — the city-view place marks. Only mount once the icon bitmap exists so
-            the layer never paints a "missing image" box. */}
+      </GeoJSONSource>
+      {/* GLYPHS — the city-view place marks, and the ONLY tappable tier. Only mount once
+          the icon bitmap exists so the layer never paints a "missing image" box. */}
+      <GeoJSONSource id={SOURCE_ID} data={data} onPress={handlePress}>
         {icon && (
           <Layer
             id={LAYER_ID}
@@ -187,13 +210,26 @@ export function MosqueLayer({ onSelect }: Props) {
               // Icons thin themselves out at low zoom instead of clumping (POI behaviour).
               'icon-allow-overlap': false,
               'icon-optional': false,
+              // WHICH mosque survives that thinning. With both allow-overlaps false, the
+              // spec's default symbol-z-order ("auto") falls back to SOURCE order — so in
+              // Malmö (twelve mosques) placement was decided by how data.json happens to be
+              // sorted, i.e. by county spelling, and the survivors reshuffled on every pan.
+              // `sort` is the opening year, undated mosques last (see toFeatureCollection):
+              // lower key = placed first, so the established ones hold the crowded views.
+              'symbol-sort-key': ['get', 'sort'],
               // The name is a bonus, not required — it drops before the icon does.
               'text-optional': true,
               'text-field': ['get', 'name'],
               'text-font': ['Noto Sans Regular'],
               // Labels appear only when zoomed in close: size interpolates up from 0.
               'text-size': ['interpolate', ['linear'], ['zoom'], 11.5, 0, 13, 11.5],
-              'text-anchor': 'top',
+              // A name that collides above its icon gets to try the other three sides
+              // before it gives up, instead of vanishing outright — which is what a fixed
+              // 'text-anchor': 'top' meant in exactly the dense city views where the names
+              // matter most. `text-anchor` is @disabledBy this and so is gone; `text-offset`
+              // stays and is read as an ABSOLUTE distance, applied per winning anchor.
+              'text-variable-anchor': ['top', 'bottom', 'left', 'right'],
+              'text-justify': 'auto',
               'text-offset': [0, 0.85],
               'text-allow-overlap': false,
               'text-padding': 6,
