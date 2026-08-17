@@ -257,6 +257,16 @@ jest.mock('expo-mail-composer', () => ({
   isAvailableAsync: jest.fn(async () => true),
   composeAsync: jest.fn(async () => ({ status: 'sent' })),
 }));
+// The native splash screen (src/lib/splash). `preventAutoHideAsync` and `setOptions` fire at
+// module scope on import — the API's own requirement, since a call from inside a component
+// arrives after the splash has already auto-hidden — so they must exist before any tree that
+// reaches SplashGate renders. `hide` is what the gate's test asserts on.
+jest.mock('expo-splash-screen', () => ({
+  preventAutoHideAsync: jest.fn(async () => true),
+  setOptions: jest.fn(),
+  hide: jest.fn(),
+  hideAsync: jest.fn(async () => undefined),
+}));
 // The mosque correction form (src/app/moske-rattelse) is the app's ONLY outbound request.
 // Default it to a successful submission so screens that merely render the form don't hit
 // the network; tests that care about a specific response override global.fetch themselves.
