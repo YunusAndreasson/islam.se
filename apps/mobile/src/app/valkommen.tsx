@@ -26,6 +26,7 @@ import { IntroStep } from '@/components/intro/IntroStep';
 import { StepLocation } from '@/components/intro/StepLocation';
 import { StepMethod } from '@/components/intro/StepMethod';
 import { StepNotifications } from '@/components/intro/StepNotifications';
+import { StepWelcome } from '@/components/intro/StepWelcome';
 import { hapticSelection, hapticSuccess } from '@/lib/haptics';
 import { useIntro } from '@/lib/intro-context';
 import { useSettings } from '@/lib/settings/context';
@@ -90,11 +91,15 @@ export default function Valkommen() {
             index={0}
             total={TOTAL_STEPS}
             title="Bönetider för Sverige"
-            lead="Tiderna räknas ut på din enhet – ingenting skickas vidare. Tre korta frågor, sedan visar vi kartan."
+            // The privacy line this lead used to open with now sits in StepWelcome, as one
+            // of the three things the app promises — see that file for why.
+            lead="Tre korta frågor, sedan visar vi kartan."
             nextLabel="Kom igång"
             onNext={next}
             onSkip={finish}
-          />
+          >
+            <StepWelcome />
+          </IntroStep>
         ) : null}
 
         {step === 1 ? (
@@ -105,6 +110,9 @@ export default function Valkommen() {
             lead="Bönetiderna beror på var du står. Appen kan använda din plats, eller så väljer du en stad."
             footnote="Platsen stannar i din enhet."
             nextLabel="Nästa"
+            // The step's own "Använd min plats" is the filled action here; the footer only
+            // means "move on". See IntroStep's note on one filled accent per screen.
+            nextTone="quiet"
             onNext={next}
             onSkip={next}
             // The city list is a FlatList and must never be wrapped in a ScrollView.
@@ -122,6 +130,8 @@ export default function Valkommen() {
             lead="Få en notis när det är dags för bön. Tiderna planeras lokalt på din enhet – inget skickas online."
             footnote="Du kan ändra det här när som helst under Inställningar → Notiser."
             nextLabel="Nästa"
+            // Same reasoning as the location step: "Slå på påminnelser" owns the fill.
+            nextTone="quiet"
             onNext={next}
             onSkip={next}
           >

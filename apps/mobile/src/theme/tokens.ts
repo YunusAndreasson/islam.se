@@ -241,6 +241,12 @@ export const type = {
   display: { fontSize: 34, fontWeight: '700', letterSpacing: 0, lineHeight: 40 },
   title: { fontSize: 28, fontWeight: '700', letterSpacing: 0, lineHeight: 34 },
   headline: { fontSize: 20, fontWeight: '700', letterSpacing: 0, lineHeight: 26 },
+  // The one paragraph that sits under a hero title (the introduction's `lead`). A tier of
+  // its own rather than `body`, because `body` is also what the CONTROLS underneath it are
+  // set in — a lead at the same size and weight as the option labels it introduces reads
+  // as one more row rather than as the sentence that frames them. One step up in size and
+  // line-height is enough to put it in a different voice without crowding the title.
+  lead: { fontSize: 17, fontWeight: '400', lineHeight: 25 },
   bodyStrong: { fontSize: 16, fontWeight: '600', lineHeight: 22 },
   body: { fontSize: 16, fontWeight: '400', lineHeight: 24 },
   callout: { fontSize: 15, fontWeight: '400', lineHeight: 22 },
