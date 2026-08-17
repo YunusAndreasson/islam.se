@@ -32,6 +32,7 @@ import {
 	hashIp,
 	isRateLimited,
 	notifyMailer,
+	readJsonObject,
 } from "./_corrections.js";
 
 const LIMITS = {
@@ -74,12 +75,8 @@ export async function onRequestPost(context) {
 		return fail("server_misconfigured", 500);
 	}
 
-	let body;
-	try {
-		body = await request.json();
-	} catch {
-		return fail("bad_json", 400);
-	}
+	const body = await readJsonObject(request);
+	if (!body) return fail("bad_json", 400);
 
 	const mosqueId = field(body, "mosque_id");
 	const mosqueName = field(body, "mosque_name");

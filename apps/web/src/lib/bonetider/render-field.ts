@@ -11,7 +11,13 @@
 
 import { invMercY, mercX, mercY } from "./map/projection";
 import { NEIGHBORS_OUTLINE } from "./neighbors-outline";
-import { computePrayerTimes, nextPrayerKeyAt, PRAYER_LABELS, type PrayerKey } from "./prayer-times";
+import {
+	computePrayerTimes,
+	nextPrayerKeyAt,
+	PRAYER_LABELS,
+	type PrayerKey,
+	stockholmDayKey,
+} from "./prayer-times";
 import type { PrayerSettings } from "./settings";
 import {
 	buildGridAsync,
@@ -224,8 +230,13 @@ export function createFieldRenderer(canvas: HTMLCanvasElement) {
 	let grid: SolarGrid | null = null;
 	let gridKey = "";
 
+	// Keyed on the STOCKHOLM day, because that is the day the lattice holds: every cell comes
+	// from computePrayerTimes, which resolves the Swedish day from the instant it is handed.
+	// Under the visitor's local day the key outlived the Stockholm midnight it had to
+	// invalidate, so a reader abroad kept yesterday's wash and contours for the hours between
+	// the two midnights. See stockholmDayKey.
 	const gridKeyFor = (now: Date, settings: PrayerSettings, variant: Variant) =>
-		`${now.getFullYear()}-${now.getMonth()}-${now.getDate()}|${variant}|${JSON.stringify(settings)}`;
+		`${stockholmDayKey(now)}|${variant}|${JSON.stringify(settings)}`;
 
 	/** The cached lattice, or null when it still has to be built. */
 	function cachedGrid(now: Date, settings: PrayerSettings, variant: Variant): SolarGrid | null {
