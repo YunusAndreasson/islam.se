@@ -13,6 +13,10 @@ import type { LatLng } from '@/lib/prayer-times';
 import { notificationSignature, widgetSignature } from '@/lib/settings/compute-signature';
 import { SettingsProvider, useSettings } from '@/lib/settings/context';
 import type { PrayerSettings } from '@/lib/settings/types';
+// Imported for its module-scope side effect as well as the component: the splash must be
+// pinned before the first render, so this import has to land before RootLayout runs. See
+// @/lib/splash for what the gate waits for and, more importantly, what it refuses to.
+import { SplashGate } from '@/lib/splash';
 import { syncPrayerLiveActivity } from '@/widget/live-activity';
 import { syncPrayerWidget } from '@/widget/sync';
 import { useActiveScheme, useColors } from '@/theme/useColors';
@@ -121,6 +125,10 @@ export default function RootLayout() {
       <SafeAreaProvider>
         <SettingsProvider>
           <IntroProvider>
+            {/* Outside LocationProvider on purpose — the splash waits for the two storage
+                reads that decide WHICH screen this launch is, never for a location fix or
+                for basemap tiles. See @/lib/splash. */}
+            <SplashGate />
             <LocationProvider>
               {/* Opaque paper ground so screen-to-screen transitions never flash the
                   map through an incoming page. Qibla and the Settings group present as
