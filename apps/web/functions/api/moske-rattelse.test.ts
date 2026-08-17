@@ -108,6 +108,19 @@ describe("POST /api/moske-rattelse", () => {
 		expect(res.body.error).toBe("bad_json");
 	});
 
+	// ⚠️ `null` is valid JSON, so request.json() resolved and the parse guard never fired —
+	// then `body[name]` threw TypeError and an unhandled throw here is a 500, not the 400
+	// this endpoint means. `curl -d null` was enough. See readJsonObject.
+	it.each([
+		["null", null],
+		["a bare number", 5],
+		["an array", []],
+	])("answers 400 for %s instead of throwing", async (_label, body) => {
+		const res = await call(body);
+		expect(res.status).toBe(400);
+		expect(res.body.error).toBe("bad_json");
+	});
+
 	describe("mosque identity", () => {
 		// The id is interpolated into the notification mail and printed by `pnpm rattelser`.
 		// A slug shape is the cheap guard that keeps anything else out of both.

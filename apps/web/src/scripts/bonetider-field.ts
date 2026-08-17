@@ -9,6 +9,7 @@ import {
 	PRAYER_ORDER,
 	PRAYER_SWEDISH_NAMES,
 	type PrayerKey,
+	stockholmDayKey,
 } from "../lib/bonetider/prayer-times";
 // Type-only: the renderer itself is imported dynamically in mountOne. It drags in the Sweden
 // and neighbour outlines plus the marching-squares contour build, and this module is mounted by
@@ -252,8 +253,11 @@ function ensureState(
 	location: FieldLocation,
 	settings: PrayerSettings,
 ): PrayerState {
-	const dayKey = `${now.getFullYear()}-${now.getMonth()}-${now.getDate()}`;
-	const key = `${dayKey}|${cachedSettingsKey}|${location.latitude},${location.longitude}`;
+	// ⚠️ The STOCKHOLM day, not the visitor's — see stockholmDayKey for what the local-day
+	// version cost. resolveNext's "all of today has passed" branch made it worse: fed a
+	// stale day it rolled a FURTHER day forward, so a reader abroad was told the next
+	// prayer was Fajr "om 24 tim" under a caption that correctly named the new Swedish day.
+	const key = `${stockholmDayKey(now)}|${cachedSettingsKey}|${location.latitude},${location.longitude}`;
 	let st = inst.state;
 	if (!st || st.key !== key) {
 		const today = computePrayerTimes(location, now, settings);
@@ -448,6 +452,21 @@ function repaintAll(): void {
 	for (const inst of instances) paint(inst, now);
 }
 
+// The canvas reads its palette from schemeNow() at paint time, so a theme change is only
+// visible once something repaints — and the tick only repaints on a MINUTE boundary. The
+// OS-level media query was wired up, but the site's own System/Ljust/Mörkt switch stamps
+// `data-theme` on <html> instead of touching it, so choosing "Mörkt" left the field's wash
+// and contours light under an already-dark page for up to a minute. Watch the attribute the
+// switch actually writes. (Mirrors the same observer in scripts/moskeer-map.ts.)
+let paintedScheme: Scheme | null = null;
+function onThemeChange(): void {
+	const next = schemeNow();
+	if (next === paintedScheme) return; // an astro:after-swap re-stamp of the same choice
+	paintedScheme = next;
+	const now = new Date();
+	for (const inst of instances) paint(inst, now);
+}
+
 function mountAll(): void {
 	for (const el of document.querySelectorAll<HTMLElement>(
 		".bonetider-field, .bonetider-strip, .bonetider-mast",
@@ -466,10 +485,17 @@ function boot(): void {
 		return;
 	}
 	booted = true;
+	paintedScheme = schemeNow();
 	startClock();
 	wireGeolocation();
 	window.addEventListener(CHANGE_EVENT, repaintAll);
-	window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", repaintAll);
+	window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", onThemeChange);
+	// The theme switch (and the head script's re-stamp on navigation) writes data-theme on
+	// <html>; nothing else tells us the reader chose a scheme that differs from the OS.
+	new MutationObserver(onThemeChange).observe(document.documentElement, {
+		attributes: true,
+		attributeFilter: ["data-theme"],
+	});
 }
 
 // Mount on first load and after every Astro view transition.

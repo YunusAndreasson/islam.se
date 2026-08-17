@@ -313,7 +313,13 @@ async function mount() {
 				best = m;
 			}
 		}
-		if (best) selectMosque(best.id, true);
+		// Not opened by a list row, so nothing to hand focus back to. Without this the
+		// callout for the NEAREST mosque inherited whatever row was clicked earlier, and
+		// Esc then threw the reader down the list to an unrelated mosque.
+		if (best) {
+			lastTrigger = null;
+			selectMosque(best.id, true);
+		}
 	});
 	geolocate.on("error", () => {
 		geoBtn?.removeAttribute("aria-busy");
@@ -423,12 +429,20 @@ async function mount() {
 		] as never);
 	}
 
-	function closeCallout() {
+	/** `restoreFocus` returns focus to the row that opened the callout — right when the reader
+	 *  dismissed it themselves (× or Esc), and WRONG when the filter dismissed it: syncMap
+	 *  closes the callout as soon as the query stops matching the selected mosque, which
+	 *  happens while the reader is still typing. Focusing a `<button class="mk-item">` then
+	 *  took the caret out of the search field on the FIRST keystroke and scrolled the page
+	 *  ~300 px down to the list, so every character after it went nowhere. (Measured in Zen:
+	 *  activeElement lands on `body`, not the row — syncList hides the now-unmatched row
+	 *  immediately after, and focus falls off the hidden element.) */
+	function closeCallout(restoreFocus = true) {
 		if (callout) callout.hidden = true;
 		for (const it of items) it.classList.remove("is-active");
 		activeId = "";
 		setActiveRing("");
-		lastTrigger?.focus();
+		if (restoreFocus) lastTrigger?.focus();
 		lastTrigger = null;
 	}
 
@@ -481,7 +495,9 @@ async function mount() {
 				<a href="${escapeXml(mapHref(m.google))}" class="map-dir-btn">Google Maps</a>
 			</div>`;
 		callout.hidden = false;
-		callout.querySelector(".mk-callout-close")?.addEventListener("click", closeCallout);
+		// Wrapped, not passed directly: closeCallout now takes `restoreFocus`, and handing it
+		// to addEventListener would feed it the click Event as that argument.
+		callout.querySelector(".mk-callout-close")?.addEventListener("click", () => closeCallout());
 	}
 
 	// ── Filtering: search + län drive the map source, the list, and the count together ──
@@ -497,7 +513,8 @@ async function mount() {
 			const okLan = lan === "" || lanById.get(m.id) === lan;
 			return okQ && okLan;
 		});
-		if (activeId && !visible.some((m) => m.id === activeId)) closeCallout();
+		// The reader is typing — leave the caret where it is (see closeCallout).
+		if (activeId && !visible.some((m) => m.id === activeId)) closeCallout(false);
 		// setData is async in maplibre 6; nothing waits on it, but the rejection has
 		// to go somewhere.
 		const src = map.getSource("mosques") as GeoJSONSource | undefined;

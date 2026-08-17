@@ -127,6 +127,25 @@ export function stockholmDateParts(date: Date): StockholmDateParts {
 	};
 }
 
+/**
+ * Cache key for anything derived from a Swedish calendar day — the day's prayer times, the
+ * solar lattice behind the field canvas.
+ *
+ * ⚠️ It must be the STOCKHOLM day, never the visitor's. computePrayerTimes always resolves
+ * the Swedish day from the instant it is handed, so a key built from the reader's local
+ * getFullYear/getMonth/getDate named a day the cached value did not hold — and then failed
+ * to expire at the Stockholm midnight it existed to catch. Both callers had that shape and
+ * both were wrong for every reader outside Europe/Stockholm: measured against a from-scratch
+ * recomputation at 15-minute steps over 40 days, the field's next-prayer readout disagreed
+ * on 222/3840 samples from New York and 2593/3840 from Riyadh (worst case 22.8 hours out,
+ * announcing Fajr "om 24 tim" while Sweden was mid-morning), and 0/3840 from Stockholm —
+ * which is exactly why it survived so long.
+ */
+export function stockholmDayKey(date: Date): string {
+	const { year, month, day } = stockholmDateParts(date);
+	return `${year}-${month}-${day}`;
+}
+
 /** An instant safely inside the requested Stockholm calendar day. */
 export function dateForStockholmDay(year: number, month: number, day: number): Date {
 	return new Date(Date.UTC(year, month, day, 12, 0, 0));

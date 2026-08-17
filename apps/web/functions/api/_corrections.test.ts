@@ -1,7 +1,14 @@
 import { describe, expect, it, vi } from "vitest";
 
 // A plain JS module — it runs on the Workers runtime; types are inferred via `allowJs`.
-import { clampField, hashIp, isRateLimited, MAX_PER_HOUR, notifyMailer } from "./_corrections.js";
+import {
+	clampField,
+	hashIp,
+	isRateLimited,
+	MAX_PER_HOUR,
+	notifyMailer,
+	readJsonObject,
+} from "./_corrections.js";
 
 /** A D1 stand-in whose COUNT(*) answers with `n`. */
 function db(n: number) {
@@ -23,6 +30,41 @@ describe("clampField", () => {
 		expect(clampField({ a: null }, "a", 10)).toBe("");
 		expect(clampField({}, "a", 10)).toBe("");
 		expect(clampField({ a: { toString: () => "sneaky" } }, "a", 10)).toBe("");
+	});
+});
+
+describe("readJsonObject", () => {
+	const req = (json: () => Promise<unknown>) => ({ json });
+	const ok = (body: unknown) => req(async () => body);
+
+	it("returns the parsed object", async () => {
+		await expect(readJsonObject(ok({ page: "/x/" }))).resolves.toEqual({ page: "/x/" });
+	});
+
+	// ⚠️ THE BUG THIS EXISTS FOR: `null` is valid JSON, so `request.json()` resolved and the
+	// try/catch never fired — then the first field read threw TypeError ("Cannot read
+	// properties of null"), and an unhandled throw in a Pages Function is a 500. One
+	// `curl -d null` produced a server error on BOTH correction endpoints where a 400 was
+	// intended. Anything that is not a JSON object must come back as null so the caller
+	// answers bad_json.
+	it.each([
+		["null", null],
+		["a number", 5],
+		["a string", "hi"],
+		["a boolean", true],
+		["an array", []],
+	])("refuses %s", async (_label, body) => {
+		await expect(readJsonObject(ok(body))).resolves.toBeNull();
+	});
+
+	it("refuses a body that is not JSON at all", async () => {
+		await expect(
+			readJsonObject(
+				req(async () => {
+					throw new SyntaxError("Unexpected token <");
+				}),
+			),
+		).resolves.toBeNull();
 	});
 });
 

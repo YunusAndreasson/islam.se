@@ -17,6 +17,34 @@ export function fail(error, status) {
 	return Response.json({ ok: false, error }, { status });
 }
 
+/**
+ * The request body as a JSON *object*, or null when it is anything else.
+ *
+ * ⚠️ `request.json()` resolves for any JSON value, and `null` is valid JSON — so a body of
+ * literally `null` sailed straight through the try/catch and then threw TypeError on the
+ * first field read (`body.website` in rattelse, `body[name]` via clampField in
+ * moske-rattelse). An unhandled throw in a Pages Function is a 500, so one `curl -d null`
+ * turned an intended 400 into a server error plus a logged exception, on both endpoints.
+ * Primitives happened to survive (`(5).mosque_id` is undefined, so every field read "" and
+ * validation answered 400) — but surviving by accident is not the same as being handled.
+ *
+ * Arrays are refused too: a correction is an object, and `[]` reaching the field readers
+ * only ever produced a misleading `bad_page` / `bad_mosque`.
+ *
+ * Both endpoints read fields directly off the parsed body, so this check belongs here with
+ * the rest of what must not drift between them.
+ */
+export async function readJsonObject(request) {
+	let body;
+	try {
+		body = await request.json();
+	} catch {
+		return null;
+	}
+	if (typeof body !== "object" || body === null || Array.isArray(body)) return null;
+	return body;
+}
+
 /** A trimmed, length-clamped string field. Anything non-string reads as "". */
 export function clampField(body, name, max) {
 	const raw = body[name];
