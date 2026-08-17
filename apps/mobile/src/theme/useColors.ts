@@ -24,9 +24,16 @@ import { darkPalette, lightPalette, type Palette } from './tokens';
 export function useActiveScheme(): Extract<ColorSchemeName, 'light' | 'dark'> {
   const os = useColorScheme();
   const ctx = useOptionalSettings();
-  // No provider (e.g. the ErrorScreen used as expo-router's app-wide boundary),
-  // or still hydrating → defer to the OS scheme. Same answer as the 'system'
-  // preference, so the first frame after launch doesn't flash the wrong palette.
+  // No provider (e.g. the ErrorScreen used as expo-router's app-wide boundary), or still
+  // hydrating → defer to the OS scheme.
+  //
+  // That is the same answer as the 'system' preference, so for users on it — the default —
+  // there is nothing to flash. It does NOT save a user who has LOCKED the opposite theme in
+  // Inställningar → Visning: their pre-hydration frames necessarily read the OS, because the
+  // preference that overrides it is still on disk. What covers those frames is the splash,
+  // which is held until this very read lands (see @/lib/splash), so the mismatch now happens
+  // behind it instead of in front of the reader. The one part no JS can reach is the NATIVE
+  // splash's own colour — app.json picks that by OS appearance before the bundle runs.
   const preference = ctx?.loaded ? ctx.settings.theme : 'system';
   if (preference === 'light' || preference === 'dark') return preference;
   return os === 'dark' ? 'dark' : 'light';

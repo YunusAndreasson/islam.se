@@ -284,7 +284,26 @@ function buildStyle(c: BasemapPalette, name: string): StyleSpecification {
             9, c.reliefStops[2],
             12, c.reliefStops[3],
           ],
-          resampling: 'linear',
+          // NO `resampling: 'linear'` here, deliberately. It is a real paint_hillshade
+          // property in the style spec (24.8.5) — which is why the style validates clean —
+          // but MapLibre GL NATIVE has not implemented it: the spec's own sdk-support entry
+          // gives `js: 5.20.0` and, for android and ios, a link to the still-open
+          // maplibre-native issue 4117. Native 13.4.1 confirms it, carrying the string
+          // `raster-resampling` (a raster-layer property) and no bare `resampling` at all.
+          //
+          // So it was rejected on every single launch, which is the ONLY ParseStyle warning
+          // this style produced:
+          //
+          //     W Mbgl: {se.islam.mobile}[ParseStyle]: layer doesn't support this property
+          //
+          // And it bought nothing even where it works: the spec's default for it is already
+          // `linear`. A permanent warning that means nothing is worse than no warning — it
+          // is what teaches you to skim past ParseStyle lines, and the next one will be real.
+          //
+          // (Everything else in this layer IS supported. `hillshade-method:
+          // 'multidirectional'` and the three-light arrays above were checked against the
+          // same binary before trusting them — see this file's header for the version that
+          // landed them.)
         },
       },
 
