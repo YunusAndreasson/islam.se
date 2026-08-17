@@ -91,13 +91,27 @@ export interface MosqueFeatureCollection {
   features: {
     type: 'Feature';
     geometry: { type: 'Point'; coordinates: [number, number] };
-    properties: { id: string; name: string };
+    properties: { id: string; name: string; sort: number };
   }[];
 }
 
-/** GeoJSON for the MapLibre SymbolLayer source. Properties stay lean — just id + name
- *  (the name doubles as the deep-zoom label); heavy per-mosque detail is looked up by
- *  id on tap. Mirrors toFeatureCollection() in apps/web/src/lib/moskeer/index.ts. */
+/** Placement rank for mosques with no recorded opening year — sorts them behind every
+ *  dated one. Past any real year in the set (1977–2026) and past any plausible future
+ *  addition, so a new mosque never lands after the undated tail by accident. */
+export const UNDATED_SORT = 9999;
+
+/** GeoJSON for the MapLibre symbol layer source. Properties stay lean — id, name (the
+ *  name doubles as the deep-zoom label) and `sort`; heavy per-mosque detail is looked up
+ *  by id on tap.
+ *
+ *  ⚠️ `sort` is not decoration. MosqueLayer's glyph layer runs with
+ *  icon-allow-overlap: false, and the style spec's default symbol-z-order ("auto") only
+ *  sorts by viewport y when an allow-overlap is TRUE — otherwise symbols are placed in
+ *  SOURCE order. data.json is ordered by län then name, so without a sort key, which of
+ *  Malmö's twelve mosques survives the collision was decided by county spelling. Feeding
+ *  this into symbol-sort-key ("features with lower sort keys are drawn and placed first")
+ *  makes an established, dated mosque outrank an undated one — and, more importantly,
+ *  makes the surviving set stable instead of incidental. */
 export function toFeatureCollection(
   mosques: readonly Mosque[] = MOSQUES,
 ): MosqueFeatureCollection {
@@ -106,7 +120,7 @@ export function toFeatureCollection(
     features: mosques.map((m) => ({
       type: 'Feature',
       geometry: { type: 'Point', coordinates: [m.lng, m.lat] },
-      properties: { id: m.id, name: m.name },
+      properties: { id: m.id, name: m.name, sort: m.opened ?? UNDATED_SORT },
     })),
   };
 }

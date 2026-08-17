@@ -799,6 +799,11 @@ export default function Bonetider() {
         // rate while the tiles beneath it step. Asking for 120 lets both keep up on
         // ProMotion and high-refresh Android; devices that can't simply cap themselves.
         preferredFramesPerSecond={120}
+        // Tap the map to put the mosque card away. Until now its own × was the only way
+        // out, which is not how a card floating over a map is expected to behave.
+        // A tap that HITS a mosque never gets here: MosqueLayer's source handler calls
+        // stopPropagation(), so a hit opens (or swaps) the card and a miss closes it.
+        onPress={() => setSelectedMosque(null)}
         onRegionIsChanging={onRegionIsChanging}
         onRegionDidChange={onRegionDidChange}
         // Recovery is automatic: MapLibre keeps retrying tiles, so a style that comes

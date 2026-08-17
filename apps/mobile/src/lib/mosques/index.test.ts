@@ -8,6 +8,7 @@ import {
   type Mosque,
   mosqueById,
   toFeatureCollection,
+  UNDATED_SORT,
 } from './index';
 
 // The vendored dataset is the ground truth the map layer and the detail card both read,
@@ -56,7 +57,11 @@ describe('toFeatureCollection', () => {
     // GeoJSON is [lng, lat] — the reverse of a lat/lng pair. Guarding the order stops
     // the classic bug where every pin lands in the wrong hemisphere.
     expect(first.geometry.coordinates).toEqual([m.lng, m.lat]);
-    expect(first.properties).toEqual({ id: m.id, name: m.name });
+    expect(first.properties).toEqual({
+      id: m.id,
+      name: m.name,
+      sort: m.opened ?? UNDATED_SORT,
+    });
 
     // Every feature's coordinate[0] is a longitude (10–25), coordinate[1] a latitude
     // (55–70) — a property-based check that the order holds for all 236, not just the first.
@@ -72,6 +77,37 @@ describe('toFeatureCollection', () => {
   it('respects a filtered mosque list', () => {
     const subset = getMosques().slice(0, 3);
     expect(toFeatureCollection(subset).features.length).toBe(3);
+  });
+
+  // THE BUG THIS GUARDS: the glyph layer runs icon-allow-overlap: false, and the style
+  // spec's default symbol-z-order ("auto") only sorts by viewport y when an allow-overlap
+  // is true — otherwise placement follows SOURCE order. data.json is ordered by län then
+  // name, so which of Malmö's twelve mosques survived a collision came down to county
+  // spelling, and the survivors changed as you panned. `sort` feeds symbol-sort-key
+  // (lower places first). If this contract breaks, nothing fails visibly: the labels just
+  // go back to being arbitrary, which is invisible in a screenshot and impossible to
+  // notice in review.
+  it('ranks dated mosques ahead of undated ones for symbol-sort-key', () => {
+    const dated: Mosque = { ...getMosques()[0], id: 'dated', opened: 1984 };
+    const undated: Mosque = { ...getMosques()[1], id: 'undated', opened: undefined };
+    const [a, b] = toFeatureCollection([dated, undated]).features;
+
+    expect(a.properties.sort).toBe(1984);
+    expect(b.properties.sort).toBe(UNDATED_SORT);
+    // Lower key = placed first, so a dated mosque must outrank an undated one.
+    expect(a.properties.sort).toBeLessThan(b.properties.sort);
+    // And the fallback has to sit past every real year in the set, or a late-opening
+    // mosque would silently sort behind the undated tail.
+    const years = getMosques()
+      .map((m) => m.opened)
+      .filter((y): y is number => typeof y === 'number');
+    expect(Math.max(...years)).toBeLessThan(UNDATED_SORT);
+  });
+
+  it('gives every feature a numeric sort key', () => {
+    for (const f of toFeatureCollection().features) {
+      expect(Number.isFinite(f.properties.sort)).toBe(true);
+    }
   });
 });
 
