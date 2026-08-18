@@ -1,0 +1,146 @@
+{
+  "overallCredibility": 8.2,
+  "verdict": "pass",
+  "summary": "No fabrications found. All 20 database quote IDs resolve with authors and works matching the research's attributions, and every falsifiable web statistic I checked matched its source exactly — several verbatim (MUCF's six 2024 figures, Pew's seven country estimates plus its own uncertainty caveat, SVT's 60+/~40/26/15/7/4 breakdown, ECtHR 12–5 and 16–1, both MIG 2017:6 quotations, Amman Message points 1–2). The falsifiable negative about Skolverket holds: \"sunni\" and \"shia\" do not appear in the Lgr22 syllabus. The research is also creditably honest about its own limits (unfetchable PDFs, a missing work title, a statistic it flags as needing control). Two substantive problems keep this from a higher score. First, the article's headline \"surprising finding\" — that Zayd b. Arqam lists the Prophet's wives among ahl al-bayt — rests on one riwāya while a second chain in the same Sahih Muslim has Zayd explicitly excluding them (\"لا وايم الله\"); Ibn Kathīr cites both, Ibn Qudāma cites only the excluding version. That is cherry-picking within a single collection to manufacture the article's most quotable moment. Second, the article's central thesis is the established sectarianization thesis (Hashemi & Postel 2017) presented as a novel angle, with neither the literature nor its critics (Fanar Haddad) engaged. Both are \"add the other side\" problems, not falsity — hence a pass with clear revision requests.",
+  "verifiedClaims": [
+    {
+      "claim": "All 20 attributed quotes (Ibn Taymiyya, Ibn al-Jawzi, Ibn Rajab, al-Mawardi, Söderberg, Rydberg, Topelius, Lagerlöf)",
+      "status": "verified",
+      "method": "get_quote_by_id batch lookup of all 20 IDs in a single call",
+      "notes": "Every ID resolves; authors and work titles match the research's claims. ID 64617 (Rydberg) returns Work: Unknown, exactly as the research flagged — the honest flag is confirmed, and it must not be blockquoted without checking the printed edition. Hadith texts quoted inside Ibn Taymiyya's and Ibn al-Jawzi's works (7780, 36614, 7666) are correctly presented as prophetic reports transmitted via those authors rather than as the authors' own words."
+    },
+    {
+      "claim": "MUCF 2024: ISS 35 388 betjänade; FIFS 61 350; SMF 50 479; IKUS 27 711; BIS 19 440; IFBS 9 295; 2 500-threshold from 1 Jan 2025",
+      "status": "verified",
+      "method": "WebFetch of the MUCF statistics page",
+      "notes": "All six figures exact. The legal definition of 'betjänade' (member or regular participant) also matches, which supports the research's own caveat that it is not a confessional measure."
+    },
+    {
+      "claim": "MIG 2017:6: shiitiska hazarer do not generally risk persecution; Taliban has no sectarian agenda; alternative protection granted on vulnerability grounds",
+      "status": "verified",
+      "method": "WebFetch of lagen.nu court record",
+      "notes": "Both Swedish phrases confirmed verbatim, along with case number UM 911-16, date 2017-03-17, and the grounds (unaccompanied child without network, not ethnicity or religion)."
+    },
+    {
+      "claim": "Amman Message recognizes eight schools including ja'fari and zaydi; takfir between them impermissible; ~200 scholars from 50+ countries, July 2005; OIC Mecca endorsement Dec 2005",
+      "status": "verified",
+      "method": "WebFetch of ammanmessage.com plus independent WebSearch",
+      "notes": "Points 1 and 2 verbatim from the primary document, including 'Declaring that person an apostate is impossible and impermissible.' The scholar/country counts and OIC Mecca endorsement are not on that page but were independently confirmed."
+    },
+    {
+      "claim": "Pew: 10–13% of Muslims are Shia (154–200 million); 68–80% in four countries; per-country figures; explicit uncertainty caveat",
+      "status": "verified",
+      "method": "WebFetch of the Pew 2009 report",
+      "notes": "All figures exact, including the caveat that numbers are 'broad ranges and should be treated as approximate.' Caveat: Pew's Turkey figure (7–11 million) counts Alevis as Shia — the article uses this number while separately arguing the Alevi classification is unresolved."
+    },
+    {
+      "claim": "SVT Uppdrag granskning: 60+ congregations, ~40 contacted, 26 responded, 15 offered, 7 declined, 4 rejected; 14 million kr in grants; Stenkula on human trafficking",
+      "status": "verified",
+      "method": "WebFetch of the SVT investigation page",
+      "notes": "Every number exact. Stenkula's actual wording is conditional ('If I had been an investigation leader, I probably would have filed a report on human trafficking') — quote it as such, not as a flat assertion that it constitutes trafficking."
+    },
+    {
+      "claim": "İzzettin Doğan v. Turkey: 26 April 2016, Art. 9 violation 12–5, Art. 14+9 violation 16–1, 'objective and non-discriminatory criteria', cemevi holding",
+      "status": "verified",
+      "method": "WebFetch of Strasbourg Observers analysis",
+      "notes": "All vote counts and the quoted formulation confirmed."
+    },
+    {
+      "claim": "The words 'sunni' and 'shia' do not appear in the Lgr22 religionskunskap syllabus",
+      "status": "verified",
+      "method": "WebFetch of the Skolverket syllabus page",
+      "notes": "Falsifiable negative confirmed. But the research's phrase 'olika tolkningar och varierande praktiker' is a paraphrase — the actual text reads 'Likheter och skillnader i religiösa tolkningar och praktiker mellan och inom olika religioner.' Do not present the paraphrase as a quotation."
+    },
+    {
+      "claim": "Khamenei's 2010 fatwa wording as quoted in the research",
+      "status": "verified",
+      "method": "WebSearch confirming the text against khamenei.ir official English",
+      "notes": "The research's version matches the official site. An alternate rendering circulates in the same Wikipedia article; the research picked the correct one. Missing nuance: the fatwa binds only Khamenei's muqallidun — followers of other maraji are not obliged and some act against it."
+    },
+    {
+      "claim": "Säpo assessed Imam Ali Center as an Iranian intelligence platform; chief imam Mohsen Hakimollahi expelled Feb 2025",
+      "status": "verified",
+      "method": "WebSearch producing independent confirmation from Mitt i (mainstream local press)",
+      "notes": "Important, because doku.nu is a niche outlet with a distinct editorial line. The core claims hold up in mainstream reporting, so doku.nu can be used — but cite the mainstream corroboration alongside it."
+    },
+    {
+      "claim": "Shaltut's 1959 al-Azhar fatwa permitting the ja'fari school; 2012 counter-fatwa; Nasser's influence",
+      "status": "verified",
+      "method": "WebFetch of the Wikipedia article",
+      "notes": "Confirmed, plus an additional corrective the research omits: the 1959 fatwa faced contemporaneous internal opposition from senior al-Azhar figures including Muhammad Hasanayn Makhluf. That strengthens the research's own point that the rapprochement was never settled."
+    },
+    {
+      "claim": "ISS: founded 1991; 26 341 members (2011); 53 föreningar / 32 639 (2021); no state grants for 2022",
+      "status": "verified",
+      "method": "fetch_wikipedia full-text of the Swedish article",
+      "notes": "All confirmed. 'Ordförande Haider Ibrahim' is sourced to a 2022 context — verify he still holds the post before writing it in the present tense in 2026."
+    },
+    {
+      "claim": "All 14 Quran verse numbers match their quoted content",
+      "status": "verified",
+      "method": "Direct check of each reference against the cited text",
+      "notes": "33:33, 42:23, 9:100, 48:18, 48:29, 59:10, 4:59, 6:159, 30:32, 3:103, 42:14, 49:9, 49:10, 33:6 all correct. The research also correctly identifies the disputed partitive 'minhum' clause at the end of 48:29."
+    },
+    {
+      "claim": "Ibn Taymiyya holds Husayn was unjustly killed as a martyr, and concedes hadith al-manzila is authentic while disputing the inference",
+      "status": "verified",
+      "method": "Cross-check against the supplied Minhaj al-sunna passages (vols. 4 and 7)",
+      "notes": "Both directly supported by the cited Arabic text ('قتل مظلوما شهيدا' and 'هذا الحديث ثبت في الصحيح'). These are genuinely counter-stereotypical and well-evidenced — the strongest material in the research."
+    }
+  ],
+  "unverifiedClaims": [
+    {
+      "claim": "Zayd b. Arqam in Sahih Muslim 'räknar upp āl Alī, āl Aqīl, āl Ja'far, āl Abbās och profetens hustrur' — presented as the article's key surprise about the scope of ahl al-bayt",
+      "status": "unverified",
+      "reason": "One-sided. Sahih Muslim contains two chains. The version the research uses has Zayd say the wives ARE ahl al-bayt but then restricts the term to those forbidden sadaqa. A second chain in the same Sahih (Muhammad b. Bakkar b. al-Rayyan → Hassan b. Ibrahim → Sa'id b. Masruq → Yazid b. Hayyan) has Zayd answer 'لا وايم الله' — no, by God — and exclude the wives entirely. Ibn Kathir's Tafsir cites both; Ibn Qudama's al-Mughni cites only the excluding version. The article must present both riwayat or the finding is cherry-picked within a single collection, which is exactly what a critic will attack."
+    },
+    {
+      "claim": "'سلمان منا أهل البيت' shows that ahl al-bayt in early sources could include non-relatives",
+      "status": "unverified",
+      "reason": "Cited without grading for a substantive doctrinal claim. The report is widely graded weak (da'if) by hadith critics. Complicating it further, Sifat al-Safwa carries closely parallel wording ('ذلك امرؤ منا والينا أهل البيت') attributed to Ali, not to the Prophet. State the grading and the attribution problem, or drop the doctrinal weight placed on it."
+    },
+    {
+      "claim": "ISS's ~17% share of betjänade is 'märkbart högre än shias globala andel på 10–13 %'",
+      "status": "unverified",
+      "reason": "Arithmetic is right (35 388/203 673 = 17.4%) but the comparison is apples-to-oranges. 'Betjänade' is a grant-eligibility headcount, not a census; it excludes Muslims in no state-funded samfund; alevis are counted in a separate samfund entirely; and Pew's own Turkey figure counts alevis as Shia. The research flags that betjänade is not a confessional measure and then draws the inference anyway. Either drop the comparison or state all four distortions explicitly."
+    },
+    {
+      "claim": "'Sverige 2013 formellt erkände alevismen som en självständig trosuppfattning'",
+      "status": "unverified",
+      "reason": "Overstated. Sweden has no legal mechanism for recognizing religions. What happened (confirmed by independent search) is a June 2013 government decision granting Alevitiska Riksförbundet statsbidrag as its own trossamfund. The '2013 recognition' phrasing comes from the organization's own self-description. Write it as 'beviljades statsbidrag som eget trossamfund', which is both accurate and still supports the article's point."
+    },
+    {
+      "claim": "Larsson & Thurfjell's 165 000 estimate and count of 39 shia congregations (2012–13)",
+      "status": "unverified",
+      "reason": "The MUCF landing page confirms the report, the 'mycket underforskat ämne' characterization, and the methodology, but not these two numbers — they sit in the PDF, which cannot be fetched. Not doubted, but attribute them to the printed report with a page reference rather than to the landing page."
+    }
+  ],
+  "missingPerspectives": [
+    "The sectarianization literature. The article's central thesis — that much of the '632 schism' framing is a modern political construction — is the sectarianization thesis of Hashemi & Postel (Sectarianization, Hurst/OUP 2017). Presenting it as a fresh angle without citing it is the biggest scholarly gap. Its most important internal critic, Fanar Haddad, argues that sectarian identity had genuine pre-modern salience even if political sectarianism is modern — that is the counter-argument the article most needs.",
+    "Pre-modern evidence against the 'modern phenomenon' framing: the Buyid-era Sunni–Shia riots in 10th–11th century Baghdad, and the Ottoman–Safavid confessionalization of the 16th century. These are the standard historical rebuttals and the article will look naive without addressing them.",
+    "No Shia authority speaks in its own voice. Every Arabic quote is Sunni (Ibn Taymiyya ×8, Ibn al-Jawzi, Ibn Rajab, al-Mawardi), and al-'Allama al-Hilli appears only as quoted inside Ibn Taymiyya's refutation of him — i.e. filtered through his opponent. For an article whose premise is even-handedness, this is a structural imbalance. Add al-Kulayni, al-Tusi, al-Sharif al-Murtada, al-Khu'i or al-Sistani directly. The al-islam.org source on tahrif helps but is not sufficient.",
+    "The ECtHR nuance cuts against the article's framing. İzzettin Doğan holds that the state must NOT assess the legitimacy of religious beliefs. So Sweden's 2013 decision is better read as granting eligibility precisely by declining to adjudicate theology — not as 'the state took a position in a twelve-century classification dispute'. The article's most rhetorically attractive claim is the one the case law least supports.",
+    "The ISS 2022→2024 gap. ISS received no state grants for 2022 after Uppdrag granskning, yet MUCF reports 35 388 betjänade for ISS in 2024. What happened in between — reinstatement, conditions, reforms — is central to the article's own story about the state adjudicating intra-Islamic questions, and it is simply absent.",
+    "Ibn Taymiyya risks being softened. The claim that his harshest rulings target the Nusayris rather than the Imamiyya is defensible but needs care: Minhaj al-sunna is a full-scale refutation of Twelver Shi'ism and he issued severe rulings against the Rafida. Keep the counterweight visible.",
+    "No shia-internal diversity on the political questions: quietist maraji (Sistani) versus wilayat al-faqih (Khomeini/Khamenei) is the distinction that most directly bears on the Swedish security-policy sections, and it is missing.",
+    "The religious-freedom counter-argument to the mosque-closure demand is named as something the article 'should test' but no source on RF 2 kap. or ECHR Art. 9 jurisprudence is actually provided."
+  ],
+  "sourceAssessment": {
+    "totalSources": 24,
+    "highCredibility": 14
+  },
+  "recommendations": [
+    "Fix the ahl al-bayt passage before anything else. Present both Sahih Muslim chains — the one where Zayd includes the wives and then restricts the term, and the one where he answers 'لا وايم الله' and excludes them. Cite Ibn Kathir (who gives both) and Ibn Qudama (who gives only the excluding one). The honest version of this finding is more interesting than the cherry-picked one: the same collection preserves two answers to the same question.",
+    "Add the sectarianization literature (Hashemi & Postel 2017) and its critic Fanar Haddad. Position the article's thesis within that debate rather than presenting it as novel. Address Buyid Baghdad and Ottoman–Safavid confessionalization as the pre-modern counter-evidence.",
+    "Give the Shia tradition its own voice. Quote al-Kulayni, al-Tusi, al-Murtada or a modern marja directly, not only as refuted by Ibn Taymiyya. As written, the source base cannot support a claim to even-handedness.",
+    "Reframe the alevi claim as 'beviljades statsbidrag som eget trossamfund (regeringsbeslut juni 2013)', not 'formellt erkände'. Then note that İzzettin Doğan holds states must not adjudicate religious legitimacy — which complicates rather than confirms the 'state took a side' thesis. Say so.",
+    "Either drop the ISS-17%-versus-Pew-10–13% comparison or state all four distortions: betjänade is a grant count not a census; unaffiliated Muslims are excluded; alevis are in a separate samfund; and Pew's Turkey figure counts alevis as Shia.",
+    "Add the grading of 'سلمان منا أهل البيت' (generally weak) and note the parallel Sifat al-Safwa wording attributed to Ali rather than the Prophet. Do not rest a doctrinal claim about the scope of ahl al-bayt on it.",
+    "State that Khamenei's 2010 fatwa binds only his muqallidun. This strengthens the research's own point that sabb al-sahaba is a live internal dispute rather than a fixed doctrine — but as drafted the article risks implying it binds 'the Shia'.",
+    "Close the ISS 2022→2024 loop: explain how an organisation denied grants for 2022 appears with 35 388 betjänade in the 2024 statistics.",
+    "Quote Stenkula's statement in its conditional form ('om jag hade varit förundersökningsledare hade jag nog gjort en anmälan om människohandel'), not as a finding that trafficking occurred.",
+    "Cite the Larsson & Thurfjell figures (165 000, 39 församlingar) to the printed report with page references, since the PDF is not machine-fetchable. Likewise control the 'över 60 procent avslag' figure against Migrationsverket's own statistics before publication, as the research itself notes.",
+    "Attribute the Säpo claims to the mainstream corroboration (Mitt i) alongside doku.nu, given the latter's distinct editorial line.",
+    "Verify that Haider Ibrahim is still ISS chair in 2026 before using the present tense, and confirm the work title for quote 64617 against the printed Rydberg edition before any blockquote."
+  ]
+}
