@@ -25,8 +25,10 @@
 //
 // The introduction's step buttons look like they fall under that exclusion and do not:
 // what advances is the progress MARK (IntroMarkProgress), a discrete 1-of-4 counter the
-// button steps through, which is class 3 above — not a move between screens. See
-// app/valkommen.tsx, where the cue sits on the state change rather than on either button.
+// button steps through, which is class 3 above — not a move between screens. Stepping BACK
+// is the same counter moving the other way and carries the same tick. See app/valkommen.tsx,
+// where the cue sits on the state change rather than on any of the controls that cause it —
+// which is why "Hoppa över" on a middle step and the Android back gesture tick too.
 //
 // PLATFORM MAPPING. On iOS the helpers hit the Taptic Engine directly (selection / impact /
 // notification generators). On Android, expo-haptics' selectionAsync/impactAsync/

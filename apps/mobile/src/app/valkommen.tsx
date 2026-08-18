@@ -18,8 +18,8 @@
 // reminders, and the default method — so a wizard that refuses to let go would be
 // pretending the setup matters more than it does.
 import { router } from 'expo-router';
-import { useState } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { useEffect, useState } from 'react';
+import { BackHandler, StyleSheet, View } from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 
 import { IntroStep } from '@/components/intro/IntroStep';
@@ -70,6 +70,38 @@ export default function Valkommen() {
     }
   };
 
+  // Going back is the same class of moment as going forward — the progress mark stepping
+  // through a discrete 1-of-4 — so it carries the same selection tick, and for the same
+  // reason it lives on the state change rather than on the control (see the note on
+  // `next`, and the policy in lib/haptics).
+  //
+  // A step the user returns to shows whatever they already chose: every step writes
+  // straight to settings, so there is no wizard-local draft to restore and nothing is
+  // re-asked. In particular, returning to the location or reminder step does NOT re-fire
+  // the OS permission prompt — those steps only prompt on their own button.
+  const back = (): void => {
+    hapticSelection();
+    setStep((s) => Math.max(0, s - 1));
+  };
+
+  // Android's hardware/gesture back has to mean "previous step" here. Without this it
+  // falls through to the navigator, which on a fullScreenModal means leaving the
+  // introduction entirely — a very different answer from the one the gesture implies, and
+  // the gesture is the one people use without thinking.
+  //
+  // On the first step the event is passed BACK to the system (return false) rather than
+  // swallowed: there is no previous step, and consuming it would make the OS back gesture
+  // do nothing at all, which reads as a frozen app rather than as a boundary.
+  useEffect(() => {
+    const sub = BackHandler.addEventListener('hardwareBackPress', () => {
+      if (step === 0) return false;
+      hapticSelection();
+      setStep((s) => Math.max(0, s - 1));
+      return true;
+    });
+    return () => sub.remove();
+  }, [step]);
+
   if (!loaded) {
     // A bare themed ground for the one frame the AsyncStorage read takes. An indicator
     // here would flash on every launch of a fresh install for no information.
@@ -115,6 +147,7 @@ export default function Valkommen() {
             nextTone="quiet"
             onNext={next}
             onSkip={next}
+            onBack={back}
             // The city list is a FlatList and must never be wrapped in a ScrollView.
             scroll={false}
           >
@@ -134,6 +167,7 @@ export default function Valkommen() {
             nextTone="quiet"
             onNext={next}
             onSkip={next}
+            onBack={back}
           >
             <StepNotifications />
           </IntroStep>
@@ -155,6 +189,7 @@ export default function Valkommen() {
             footnote="Sveriges ljusa sommarnätter hanteras automatiskt."
             nextLabel="Visa bönetider"
             onNext={next}
+            onBack={back}
           >
             <StepMethod />
           </IntroStep>
