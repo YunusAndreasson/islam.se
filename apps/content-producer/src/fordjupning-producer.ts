@@ -45,6 +45,23 @@ const ABANDON_FINAL_SCORE = 6;
 const MIN_REVISION_RATIO = 0.6;
 
 /**
+ * Why the review loop ran out of rounds. Two independent conditions gate a page —
+ * `finalScore >= MIN_FINAL_SCORE` and `verdict === "publish"` — and reporting the score
+ * one for both produced "nådde 8.4/10 … under ribban 8", which reads as a broken pipeline
+ * rather than a reviewer that never said »publish«.
+ */
+export function reviewLoopFailure(
+	finalScore: number,
+	verdict: string,
+	maxRevisions: number,
+): string {
+	if (finalScore < MIN_FINAL_SCORE) {
+		return `nådde ${finalScore}/10 efter ${maxRevisions} revisioner, under ribban ${MIN_FINAL_SCORE}`;
+	}
+	return `poängen ${finalScore}/10 klarade ribban ${MIN_FINAL_SCORE} men utfallet stannade på »${verdict}« efter ${maxRevisions} revisioner`;
+}
+
+/**
  * Body of a `---meta---\nbody` response, recovered without parsing the metadata.
  * ⚠️ Only safe for stages whose metadata is a report rather than a contract — the caller
  * must independently establish that the recovered text is good.
@@ -709,13 +726,26 @@ export class FordjupningProducer {
 					`   ⚠️  Utfallet var »publish« men ${review.finalScore} < ${MIN_FINAL_SCORE} — tvingar revision.`,
 				);
 			}
+			// ⚠️ Adopt and dump BEFORE the round-limit check. Both used to sit after it, so a
+			// run that exhausted its revisions returned without adopting — and since
+			// review-N.json keeps only revisedTextChars, the reviewer's edits existed nowhere
+			// on disk. Three rounds of revision were unrecoverable; only the pre-review
+			// draft-raw-N.md survived. Not named draft-raw-N: the author loop owns that series
+			// and a second author attempt would collide. `--resume` therefore still restarts
+			// from the author's draft — copy a review body over it to resume from the text
+			// the run actually reached.
+			body = this.adopt(review, body);
+			this.dump(
+				`review-body-${round + 1}.md`,
+				`---\n${JSON.stringify(draft.fm, null, 2)}\n---\n\n${body}`,
+			);
+
 			if (round === maxRevisions) {
 				return {
 					ok: false,
-					error: `nådde ${review.finalScore}/10 efter ${maxRevisions} revisioner, under ribban ${MIN_FINAL_SCORE}`,
+					error: reviewLoopFailure(review.finalScore, review.verdict, maxRevisions),
 				};
 			}
-			body = this.adopt(review, body);
 			previous = review;
 			gates.revisions = round + 1;
 		}
