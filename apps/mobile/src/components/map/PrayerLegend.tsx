@@ -8,18 +8,15 @@
 // GRAPHICS (the dash), prayerTextColorFor() is for TEXT (the label). They are not the same
 // value, and using the line colour as text would leave five of six labels below the
 // contrast floor in light mode.
-import { useMemo } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
 import { PRAYER_LABELS, PRAYER_ORDER, PRAYER_SWEDISH_NAMES } from '@/lib/prayer-times';
 import { prayerColorFor, prayerTextColorFor } from '@/lib/solar/palette';
-import { type Palette, radius, space, type } from '@/theme/tokens';
-import { useActiveScheme, useColors } from '@/theme/useColors';
+import { radius, space, type } from '@/theme/tokens';
+import { useActiveScheme } from '@/theme/useColors';
 
 export function PrayerLegend() {
-  const c = useColors();
   const scheme = useActiveScheme();
-  const styles = useMemo(() => makeStyles(c), [c]);
 
   return (
     <View style={styles.wrap}>
@@ -40,19 +37,20 @@ export function PrayerLegend() {
   );
 }
 
-function makeStyles(c: Palette) {
-  return StyleSheet.create({
-    wrap: {
-      flexDirection: 'row',
-      flexWrap: 'wrap',
-      justifyContent: 'center',
-      columnGap: space.lg,
-      rowGap: space.sm,
-    },
-    item: { flexDirection: 'row', alignItems: 'center', gap: space.xs },
-    // A short bar rather than a dot: it is a LINE on the map, and the swatch should say
-    // so.
-    dash: { width: 14, height: 3, borderRadius: radius.round },
-    label: { ...type.caption },
-  });
-}
+// Module-level, not a per-theme makeStyles(): every value here is a static token. The
+// only theme-dependent parts are the dash fill and the label colour, and both are set
+// inline from `scheme` at the call sites above.
+const styles = StyleSheet.create({
+  wrap: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'center',
+    columnGap: space.lg,
+    rowGap: space.sm,
+  },
+  item: { flexDirection: 'row', alignItems: 'center', gap: space.xs },
+  // A short bar rather than a dot: it is a LINE on the map, and the swatch should say
+  // so.
+  dash: { width: 14, height: 3, borderRadius: radius.round },
+  label: { ...type.caption },
+});
