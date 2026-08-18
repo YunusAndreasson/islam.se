@@ -131,6 +131,55 @@ describe('the introduction', () => {
     expect(await AsyncStorage.getItem(INTRO_KEY)).not.toBeNull();
   });
 
+  // Going back is a real requirement, not a nicety: the location and method steps both
+  // ask something the user may want to reconsider once they have seen the next question,
+  // and a wizard that only moves forward turns a misread into a reinstall.
+  it('steps back through the introduction, and keeps what the user chose', async () => {
+    await launch();
+
+    await press('Kom igång');
+    expect(screen.getByText('Var är du?')).toBeTruthy();
+    await press('Nästa');
+    expect(screen.getByText('Ska vi påminna dig?')).toBeTruthy();
+
+    await press('Tillbaka');
+    expect(screen.getByText('Var är du?')).toBeTruthy();
+    // Returning to a step must not re-ask the OS. Each step writes straight to settings
+    // and only prompts from its own button, so coming back is a view of what is already
+    // chosen — not a second dialog the user has to dismiss again.
+    expect(Location.requestForegroundPermissionsAsync).not.toHaveBeenCalled();
+
+    // And forward again from where they left off, not from the beginning.
+    await press('Nästa');
+    expect(screen.getByText('Ska vi påminna dig?')).toBeTruthy();
+  });
+
+  it('offers no way back from the first step', async () => {
+    await launch();
+
+    // Absent rather than disabled: a control that is visible but never usable is a dead
+    // end the user has to press to understand.
+    expect(screen.queryByText('Tillbaka')).toBeNull();
+    await press('Kom igång');
+    expect(screen.getByText('Tillbaka')).toBeTruthy();
+  });
+
+  it('keeps a way back on the last step, which has no skip', async () => {
+    // The final step drops "Hoppa över" so the finishing CTA is the only way out. Back
+    // must survive that: the method choice is the one most worth reconsidering, and it is
+    // the last thing the user sees before the map.
+    await launch();
+
+    await press('Kom igång');
+    await press('Nästa');
+    await press('Nästa');
+    expect(screen.getByText('Hur ska tiderna räknas ut?')).toBeTruthy();
+    expect(screen.queryByText('Hoppa över')).toBeNull();
+
+    await press('Tillbaka');
+    expect(screen.getByText('Ska vi påminna dig?')).toBeTruthy();
+  });
+
   // Each step is FELT, not only seen. The three advancing taps land a selection tick — the
   // intro's progress mark is a discrete 1-of-4 counter the button steps through, the same
   // class as the scrubber crossing a prayer — and the last one lands the success cue,

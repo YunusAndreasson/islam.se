@@ -3,7 +3,7 @@
 //   header    progress chip (mark + "Steg 2 av 4") — chrome, pinned to the top edge
 //   message   title + lead — top-anchored, the same pixel on every step
 //   band      the step's own controls — FLEXIBLE, and where the slack goes
-//   actions   one primary, one quiet skip beneath it
+//   actions   one primary, and beneath it a quiet row: back on the left, skip centred
 //
 // Written as a shell rather than four near-identical screens so the rhythm is identical
 // everywhere — same heading size, same gaps, same action geometry whether the step holds
@@ -57,6 +57,10 @@ interface Props {
   /** Omitted on the last step, where "Visa bönetider" is the only way out. */
   onSkip?: () => void;
   skipLabel?: string;
+  /** Step back. Omitted on the first step, where there is nowhere to go — absent rather
+   *  than disabled, because a greyed control that never becomes usable is a dead end the
+   *  user has to test to understand. */
+  onBack?: () => void;
   /** Steps whose content scrolls itself (the city list) opt out of the ScrollView, which
    *  must never wrap a VirtualizedList. */
   scroll?: boolean;
@@ -74,6 +78,7 @@ export function IntroStep({
   nextTone = 'primary',
   onSkip,
   skipLabel = 'Hoppa över',
+  onBack,
   scroll = true,
 }: Props) {
   const c = useColors();
@@ -165,11 +170,36 @@ export function IntroStep({
         >
           <Text style={[styles.nextLabel, quiet && styles.nextLabelQuiet]}>{nextLabel}</Text>
         </Pressable>
-        {/* The skip line's height is reserved even on the step that has no skip, so the
-            primary button lands under the same thumb position on all four — and on that
-            last step the reserved line simply becomes breathing room above the home
-            indicator, which it needs anyway. */}
-        <View style={styles.skipSlot}>
+        {/* The secondary line's height is reserved even on the step that has neither of
+            its controls, so the primary button lands under the same thumb position on all
+            four — and on that last step the reserved line simply becomes breathing room
+            above the home indicator, which it needs anyway.
+
+            BACK LIVES HERE, not as a chevron in the top-left. This screen is a
+            fullScreenModal with no navigation bar, so a lone chevron up there would be
+            new chrome with nothing to belong to, sharing the top edge with the progress
+            chip and competing with it — and any room made for it would come out of a
+            vertical rhythm this file spends three paragraphs getting right. Down here it
+            joins the band that is already the screen's navigation zone, within reach of
+            the thumb that just pressed "Nästa", and costs no layout at all.
+
+            Three cells rather than two so the skip stays on the exact optical centre
+            whether or not a back control is present: the flexible side cells are equal,
+            so adding back on step 2 does not nudge "Hoppa över" sideways from where it
+            sat on step 1. */}
+        <View style={styles.secondary}>
+          <View style={styles.secondarySide}>
+            {onBack ? (
+              <Pressable
+                onPress={onBack}
+                accessibilityRole="button"
+                accessibilityLabel="Tillbaka till föregående steg"
+                style={({ pressed }) => [styles.back, pressed && styles.pressedQuiet]}
+              >
+                <Text style={styles.backLabel}>Tillbaka</Text>
+              </Pressable>
+            ) : null}
+          </View>
           {onSkip ? (
             <Pressable
               onPress={onSkip}
@@ -179,6 +209,7 @@ export function IntroStep({
               <Text style={styles.skipLabel}>{skipLabel}</Text>
             </Pressable>
           ) : null}
+          <View style={styles.secondarySide} />
         </View>
       </View>
     </View>
@@ -258,10 +289,24 @@ function makeStyles(c: Palette) {
     nextQuiet: { backgroundColor: c.accentSoft, borderWidth: 1, borderColor: c.accent },
     nextLabel: { ...type.bodyStrong, color: c.onAccent },
     nextLabelQuiet: { color: c.accent },
-    // 44 pt minimums on both actions — this is the row every user touches.
-    skipSlot: { height: 44, alignItems: 'center', justifyContent: 'center' },
+    // 44 pt minimums on every action — this is the row every user touches.
+    secondary: { height: 44, flexDirection: 'row', alignItems: 'center' },
+    // Equal flexible cells flanking the skip. `flexShrink` lets them give way rather than
+    // push the skip off centre on a narrow screen.
+    secondarySide: { flex: 1, flexShrink: 1 },
     skip: { minHeight: 44, justifyContent: 'center', paddingHorizontal: space.xl },
     skipLabel: { ...type.body, color: c.inkMuted },
+    // Aligned to the start of its cell so the label sits on the same left gutter as the
+    // title, lead and primary button. Quieter than the skip: going back is a correction,
+    // not one of the two things the step is asking. Padding is narrower than the skip's so
+    // the two cannot collide on a small screen.
+    back: {
+      minHeight: 44,
+      alignSelf: 'flex-start',
+      justifyContent: 'center',
+      paddingRight: space.md,
+    },
+    backLabel: { ...type.body, color: c.inkFaint },
     pressed: { opacity: 0.85 },
     pressedQuiet: { opacity: 0.6 },
   });
