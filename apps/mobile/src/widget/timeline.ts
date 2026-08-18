@@ -105,4 +105,4 @@ export function buildTimeline(
     .map((at) => ({ date: new Date(at), props: buildPayloadAt(coords, settings, at, location, resolveDay) }));
 }
 
-export { SPAN_DAYS, SPAN_MS, MAX_ENTRIES, BOUNDARY_EPSILON_MS };
+export { SPAN_DAYS, SPAN_MS, MAX_ENTRIES };

@@ -116,10 +116,6 @@ export const lightPalette = {
   scrubberKnob: brand.gold.light,
   scrubberRing: brand.blue.light,
 
-  // Glass fallback (Android / iOS < 26, where expo-glass-effect is a plain View)
-  glass: 'rgba(255,253,248,0.85)',
-  glassRim: 'rgba(255,255,255,0.55)',
-
   // Map prayer-pill surface. Opaque on purpose: the pills float over the changing
   // wash and basemap, so a translucent border composites unevenly behind the rounded
   // caps and they read as ragged. Opaque fill + opaque border = uniform smooth edge.
@@ -128,7 +124,6 @@ export const lightPalette = {
   pillSurface: '#fffdf8',
 
   shadow: '#1c150b', //       warm shadow (was cool #0b1220)
-  white: '#ffffff',
 } as const;
 
 /** The shared shape both palettes satisfy — every surface reads these names. */
@@ -220,16 +215,12 @@ export const darkPalette: Palette = {
   scrubberKnob: brand.gold.dark,
   scrubberRing: brand.blue.dark,
 
-  glass: 'rgba(29,34,51,0.85)',
-  glassRim: 'rgba(225,232,255,0.14)',
-
   // Map prayer-pill surface (dark). A touch LIGHTER than `paper`/`surface` so pills lift
   // off the night basemap as discrete elements; opaque so their rounded caps stay smooth
   // over the changing wash. (Border = the prayer's line hue, set at the call site.)
   pillSurface: '#222840',
 
   shadow: '#000000',
-  white: '#ffffff',
 };
 
 // Type scale. System font (SF / Roboto — both clean and Nordic-friendly) with a
@@ -238,7 +229,6 @@ export const darkPalette: Palette = {
 // the object can be `as const` (literal weights) and spread straight into styles;
 // tabular figures live in `mono` below.
 export const type = {
-  display: { fontSize: 34, fontWeight: '700', letterSpacing: 0, lineHeight: 40 },
   title: { fontSize: 28, fontWeight: '700', letterSpacing: 0, lineHeight: 34 },
   headline: { fontSize: 20, fontWeight: '700', letterSpacing: 0, lineHeight: 26 },
   // The one paragraph that sits under a hero title (the introduction's `lead`). A tier of
