@@ -28,16 +28,27 @@ function channels(hex: string): [number, number, number] {
 
 /** WCAG 2.x relative luminance. */
 function luminance(hex: string): number {
-  const [r, g, b] = channels(hex).map((c) => {
+  // Applied per channel rather than through `.map()`: mapping a 3-tuple yields a plain
+  // number[], which drops the "there are exactly three of these" fact and makes the
+  // destructure below three possibly-undefined values feeding a weighted sum. Naming
+  // the transfer function keeps the triple a triple.
+  const linear = (c: number): number => {
     const x = c / 255;
     return x <= 0.03928 ? x / 12.92 : ((x + 0.055) / 1.055) ** 2.4;
-  });
-  return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+  };
+  const [r, g, b] = channels(hex);
+  return 0.2126 * linear(r) + 0.7152 * linear(g) + 0.0722 * linear(b);
 }
 
 /** WCAG 2.x contrast ratio, 1..21. Order-independent. */
 export function wcagContrast(a: string, b: string): number {
-  const [hi, lo] = [luminance(a), luminance(b)].sort((x, y) => y - x);
+  const la = luminance(a);
+  const lb = luminance(b);
+  // Compared directly rather than sorted into a destructured pair: `.sort()` on an array
+  // literal returns number[], so `[hi, lo]` came back possibly-undefined and the ratio
+  // could have been NaN without anything saying so.
+  const hi = Math.max(la, lb);
+  const lo = Math.min(la, lb);
   return (hi + 0.05) / (lo + 0.05);
 }
 
@@ -61,8 +72,10 @@ const LO_OFFSET = 0.027;
 
 /** Screen luminance for APCA (a different, simpler TRC than WCAG's). */
 function apcaY(hex: string): number {
-  const [r, g, b] = channels(hex).map((c) => (c / 255) ** MAIN_TRC);
-  return 0.2126729 * r + 0.7151522 * g + 0.072175 * b;
+  // Per channel rather than through `.map()`, for the same reason as `luminance` above.
+  const trc = (c: number): number => (c / 255) ** MAIN_TRC;
+  const [r, g, b] = channels(hex);
+  return 0.2126729 * trc(r) + 0.7151522 * trc(g) + 0.072175 * trc(b);
 }
 
 /**

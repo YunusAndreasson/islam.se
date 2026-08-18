@@ -109,7 +109,19 @@ def main() -> None:
         out.write("  readonly lat: number;\n")
         out.write("  readonly lon: number;\n")
         out.write("}\n\n")
-        out.write("export const PLACES: readonly SwedishPlace[] = [\n")
+        # Non-empty tuple type — nearestPlace()'s "always returns a match" contract
+        # is checked by the compiler only if the first element is known to exist.
+        out.write(
+            "/** Every populated place in the bundled dataset, sorted by population descending.\n"
+            " *\n"
+            " *  A NON-EMPTY tuple type, not a plain array: `nearestPlace` documents that it always\n"
+            " *  returns a match, and that promise rests entirely on this list having a first element.\n"
+            " *  Typed as `readonly SwedishPlace[]` the compiler could not tell the difference, so the\n"
+            " *  seed read came back `SwedishPlace | undefined` and the guarantee lived only in a\n"
+            " *  comment. Spelled this way the generator emitting an empty list is a type error here\n"
+            " *  rather than a crash at the first GPS fix. */\n"
+            "export const PLACES: readonly [SwedishPlace, ...SwedishPlace[]] = [\n"
+        )
         for n, c, p, la, lo in places:
             nm = n.replace("\\", "\\\\").replace("'", "\\'")
             cn = c.replace("\\", "\\\\").replace("'", "\\'")

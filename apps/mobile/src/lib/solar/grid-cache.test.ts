@@ -8,6 +8,7 @@ import { computeSignature } from '@/lib/settings/compute-signature';
 import { DEFAULT_SETTINGS, type PrayerSettings } from '@/lib/settings/types';
 import { addStockholmDays, startOfStockholmDay } from '@/lib/stockholm-time';
 import { __resetGridCache, gridForDay } from './grid-cache';
+import { first, last } from '@/test-utils/at';
 
 const TODAY = startOfStockholmDay(Date.UTC(2026, 6, 15, 12));
 const SIG = computeSignature(DEFAULT_SETTINGS);
@@ -37,7 +38,9 @@ describe('gridForDay', () => {
     // Not just a different object — different TIMES. A cache keyed wrongly (say, on the
     // signature alone) would hand back the same object and the map would show one day's
     // prayer lines for every date.
-    expect(tomorrow.pt[0][0].fajr).not.toBe(today.pt[0][0].fajr);
+    expect(first(first(tomorrow.pt, 'pt'), 'pt row').fajr).not.toBe(
+      first(first(today.pt, 'pt'), 'pt row').fajr,
+    );
 
     expect(gridForDay(TODAY, DEFAULT_SETTINGS, SIG)).toBe(today);
   });
@@ -72,7 +75,9 @@ describe('gridForDay', () => {
 
     expect(after).not.toBe(before);
     // ʿAsr is the prayer the madhab moves, so a stale cache would show visibly wrong lines.
-    expect(after.pt[0][0].asr).not.toBe(before.pt[0][0].asr);
+    expect(first(first(after.pt, 'pt'), 'pt row').asr).not.toBe(
+      first(first(before.pt, 'pt'), 'pt row').asr,
+    );
 
     // And going back re-builds rather than resurrecting the old object — the whole map is
     // cleared on a signature change, not just the entry that was asked for.
@@ -92,7 +97,7 @@ describe('the grid is always unresolved and unrounded', () => {
     const grid = gridForDay(winter, aqrab, computeSignature(aqrab));
 
     // The northernmost row on a polar-night date has no sunrise anywhere along it.
-    const top = grid.pt[grid.pt.length - 1];
+    const top = last(grid.pt, 'grid.pt');
     expect(top.every((p) => Number.isNaN(p.sunrise))).toBe(true);
   });
 

@@ -1,10 +1,12 @@
 import { describe, expect, it } from '@jest/globals';
 
+import { at, first, last } from '@/test-utils/at';
+
 import type { FeatureCollection } from 'geojson';
 
 import { computePrayerTimes } from '@/lib/prayer-times';
 import { DEFAULT_SETTINGS } from '@/lib/settings/types';
-import { buildGrid, buildLines } from './field';
+import { buildGrid, buildLines, type SolarGrid } from './field';
 
 // A coarse grid keeps these fast while still spanning the default bounds, which are
 // generous enough to cover the whole map viewport (lat 50→73, lon 0→34).
@@ -36,7 +38,7 @@ describe('buildGrid', () => {
     const jLon = grid.lons.indexOf(15);
     expect(iLat).toBeGreaterThanOrEqual(0);
     expect(jLon).toBeGreaterThanOrEqual(0);
-    const t = grid.pt[iLat][jLon];
+    const t = at(at(grid.pt, iLat, 'grid.pt'), jLon, 'grid.pt row');
     expect(t.fajr).toBeLessThan(t.sunrise);
     expect(t.sunrise).toBeLessThan(t.dhuhr);
     expect(t.dhuhr).toBeLessThan(t.asr);
@@ -54,11 +56,70 @@ describe('buildGrid', () => {
       latStep: 0.42,
       lonStep: 0.52,
     });
-    expect(grid.lats[grid.lats.length - 1]).toBe(51); // not 50.84
-    expect(grid.lons[grid.lons.length - 1]).toBe(1); // not 0.52
+    expect(last(grid.lats, 'grid.lats')).toBe(51); // not 50.84
+    expect(last(grid.lons, 'grid.lons')).toBe(1); // not 0.52
     // Still monotonic with no duplicated final point from the appended max.
-    for (let i = 1; i < grid.lats.length; i++) expect(grid.lats[i]).toBeGreaterThan(grid.lats[i - 1]);
-    for (let j = 1; j < grid.lons.length; j++) expect(grid.lons[j]).toBeGreaterThan(grid.lons[j - 1]);
+    for (let i = 1; i < grid.lats.length; i++) {
+      expect(at(grid.lats, i, 'grid.lats')).toBeGreaterThan(at(grid.lats, i - 1, 'grid.lats'));
+    }
+    for (let j = 1; j < grid.lons.length; j++) {
+      expect(at(grid.lons, j, 'grid.lons')).toBeGreaterThan(at(grid.lons, j - 1, 'grid.lons'));
+    }
+  });
+});
+
+// buildLines fills ONE scratch buffer and re-reads it for each of the six prayers (a
+// deliberate allocation saving — it re-runs on every scrub frame). These pin what the
+// caller can rely on when the lattice is malformed: a hole must never reach the screen
+// as geometry, and one prayer's line must not depend on which prayers were computed
+// before it into the same buffer.
+//
+// NOTE ON WHAT THESE DO NOT PROVE: the unconditional NaN write in buildLines is not
+// currently falsifiable by a test. A hole is a whole missing PointTimes, so it is a hole
+// for every prayer, and skipping the write is observationally identical to writing NaN.
+// Swapping the write for a skip leaves all three of these green — checked. They cover
+// the contract, not that one line.
+describe('buildLines — a malformed lattice must not reach the screen as geometry', () => {
+  // A row that stops short of the longitude axis — what a malformed grid actually looks
+  // like from the inside: the row is present, but it does not span the lons it claims to.
+  const holedGrid = (): SolarGrid => {
+    const grid = buildGrid(DATE, DEFAULT_SETTINGS, GRID_OPTS);
+    const midIdx = Math.floor(grid.pt.length / 2);
+    const pt = grid.pt.map((row, i) => (i === midIdx ? row.slice(0, -2) : [...row]));
+    return { ...grid, pt };
+  };
+
+  const coordsOf = (fc: { features: { properties: unknown; geometry: unknown }[] }, prayer: string) =>
+    fc.features.find((f) => (f.properties as { prayer?: string } | null)?.prayer === prayer)
+      ?.geometry;
+
+  it('gives the same line for a prayer whether or not another was computed first', () => {
+    const grid = holedGrid();
+    const central = computePrayerTimes({ latitude: 62, longitude: 15.5 }, DATE, DEFAULT_SETTINGS);
+    const now = central.maghrib.getTime();
+
+    // Order-independence is the property the shared buffer has to keep: Maghrib's line
+    // must not depend on whether Fajr was drawn into the same slots just before it.
+    const afterFajr = buildLines(grid, now, undefined, ['fajr', 'maghrib']);
+    const alone = buildLines(grid, now, undefined, ['maghrib']);
+    expect(coordsOf(afterFajr.lines, 'maghrib')).toEqual(coordsOf(alone.lines, 'maghrib'));
+  });
+
+  it('never emits a NaN coordinate from the hole', () => {
+    const grid = holedGrid();
+    const central = computePrayerTimes({ latitude: 62, longitude: 15.5 }, DATE, DEFAULT_SETTINGS);
+    const { lines } = buildLines(grid, central.maghrib.getTime());
+    for (const v of flattenCoords(lines)) expect(Number.isNaN(v)).toBe(false);
+  });
+
+  it('drops rows the latitude axis does not size a buffer for', () => {
+    // `field` is sized from `lats` but walked over `pt`; a short axis means the trailing
+    // rows have nowhere to be written, and contouring them would read another row's data.
+    const grid = buildGrid(DATE, DEFAULT_SETTINGS, GRID_OPTS);
+    const short: SolarGrid = { ...grid, lats: grid.lats.slice(0, -2) };
+    const central = computePrayerTimes({ latitude: 62, longitude: 15.5 }, DATE, DEFAULT_SETTINGS);
+    const { lines } = buildLines(short, central.maghrib.getTime());
+    for (const v of flattenCoords(lines)) expect(Number.isNaN(v)).toBe(false);
   });
 });
 
@@ -90,10 +151,10 @@ describe('buildLines', () => {
     for (const f of lines.features) {
       if (f.geometry.type !== 'MultiLineString') continue;
       for (const line of f.geometry.coordinates as [number, number][][]) {
-        const first = line[0];
-        const last = line[line.length - 1];
-        const closed = first[0] === last[0] && first[1] === last[1];
-        if (!closed) expect(first[1]).toBeGreaterThanOrEqual(last[1]);
+        const head = first(line, 'polyline');
+        const tail = last(line, 'polyline');
+        const closed = head[0] === tail[0] && head[1] === tail[1];
+        if (!closed) expect(head[1]).toBeGreaterThanOrEqual(tail[1]);
       }
     }
   });

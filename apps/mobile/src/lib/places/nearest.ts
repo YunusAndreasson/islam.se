@@ -35,15 +35,18 @@ export function nearestPlace(lat: number, lon: number): NearestPlaceMatch {
   if (!isValidLatLng({ latitude: lat, longitude: lon })) {
     throw new RangeError('nearestPlace requires finite latitude/longitude within ±90/±180');
   }
-  let bestIdx = 0;
-  let bestKm = Number.POSITIVE_INFINITY;
-  for (let i = 0; i < PLACES.length; i++) {
-    const p = PLACES[i];
-    const km = haversineKm(lat, lon, p.lat, p.lon);
+  // Seeded from PLACES[0] rather than tracked as an index: PLACES is a non-empty tuple
+  // (see ./data.ts), so element 0 is known to exist and `best` is a SwedishPlace the whole
+  // way through — the "always returns a match" contract holds by construction instead of
+  // by a re-read the compiler has to take on faith.
+  let best: SwedishPlace = PLACES[0];
+  let bestKm = haversineKm(lat, lon, best.lat, best.lon);
+  for (const candidate of PLACES) {
+    const km = haversineKm(lat, lon, candidate.lat, candidate.lon);
     if (km < bestKm) {
       bestKm = km;
-      bestIdx = i;
+      best = candidate;
     }
   }
-  return { place: PLACES[bestIdx], distanceKm: bestKm };
+  return { place: best, distanceKm: bestKm };
 }

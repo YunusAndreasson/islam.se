@@ -13,6 +13,7 @@ import { DEFAULT_SETTINGS } from '@/lib/settings/types';
 import { MAX_DAY_OFFSET, type SolarClock } from '@/lib/solar/useSolarClock';
 import { startOfStockholmDay } from '@/lib/stockholm-time';
 import { type DayMark, PrayerDock } from './PrayerDock';
+import { first } from '@/test-utils/at';
 
 const STOCKHOLM = { latitude: 59.3293, longitude: 18.0686 };
 const NOW = Date.UTC(2026, 7, 1, 12, 0, 0);
@@ -209,7 +210,8 @@ describe('PrayerDock day navigation', () => {
 
     expect(props.clock.goToDay).toHaveBeenCalledTimes(1);
     // It hands over an instant inside the chosen day; the clock resolves which day that is.
-    expect(typeof (props.clock.goToDay as jest.Mock).mock.calls[0][0]).toBe('number');
+    const goToDayCalls = (props.clock.goToDay as jest.Mock).mock.calls;
+    expect(typeof first(first(goToDayCalls, 'goToDay calls'), 'goToDay arg')).toBe('number');
   });
 });
 

@@ -3,6 +3,7 @@ import { fireEvent, render, screen } from '@testing-library/react-native';
 
 import { addStockholmDays, startOfStockholmDay, stockholmParts } from '@/lib/stockholm-time';
 import { adjacentMonth, DayPicker, monthGrid } from './DayPicker';
+import { first } from '@/test-utils/at';
 
 const day = (y: number, m: number, d: number) => startOfStockholmDay(Date.UTC(y, m - 1, d, 12));
 
@@ -98,7 +99,7 @@ describe('DayPicker', () => {
     fireEvent.press(screen.getByRole('button', { name: /^3 september 2026/ }));
 
     expect(onPick).toHaveBeenCalledTimes(1);
-    expect(onPick.mock.calls[0][0]).toBe(day(2026, 9, 3));
+    expect(first(first(onPick.mock.calls, 'onPick calls'), 'onPick arg')).toBe(day(2026, 9, 3));
   });
 
   // The spoken label anchors the number: "3" alone tells a screen-reader user nothing

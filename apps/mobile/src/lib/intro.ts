@@ -53,11 +53,12 @@ export function decideIntroStatus(
  */
 export async function loadIntroStatus(): Promise<'pending' | 'done'> {
   try {
-    const [[, introRaw], [, settingsRaw]] = await AsyncStorage.multiGet([
-      STORAGE_KEY,
-      SETTINGS_STORAGE_KEY,
-    ]);
-    return decideIntroStatus(introRaw ?? null, settingsRaw ?? null);
+    // Indexed rather than destructured two levels deep: multiGet's result length is the
+    // platform module's promise, not ours, and a short array would make the nested
+    // `[, settingsRaw]` pattern throw on undefined — landing in the catch below and
+    // silently reporting 'done', i.e. skipping the intro for a first-time user.
+    const pairs = await AsyncStorage.multiGet([STORAGE_KEY, SETTINGS_STORAGE_KEY]);
+    return decideIntroStatus(pairs[0]?.[1] ?? null, pairs[1]?.[1] ?? null);
   } catch {
     return 'done';
   }

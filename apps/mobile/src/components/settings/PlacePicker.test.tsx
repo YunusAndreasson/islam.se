@@ -11,10 +11,11 @@ import { render, screen } from '@testing-library/react-native';
 
 import { PlacePicker } from './PlacePicker';
 import { PLACES } from '@/lib/places/data';
+import { at } from '@/test-utils/at';
 
 // Deep enough into the population-sorted list that it can only be on screen because the
 // list opened there — not because it happened to fall in the first window.
-const DEEP = PLACES[300];
+const DEEP = at(PLACES, 300, 'PLACES');
 
 describe('PlacePicker', () => {
   it('opens on the already-chosen city instead of the top of the list', () => {

@@ -21,6 +21,7 @@ import { IntroProvider } from '@/lib/intro-context';
 import { LocationProvider } from '@/lib/location/context';
 import { SettingsProvider } from '@/lib/settings/context';
 import { DEFAULT_SETTINGS } from '@/lib/settings/types';
+import { first } from '@/test-utils/at';
 
 const SETTINGS_KEY = 'prayerSettings:v1';
 
@@ -431,7 +432,7 @@ describe('tab screens', () => {
     // "Fajr" also prefixes the Fajr-fönstret group's title, so take the first match —
     // the per-prayer group, which renders above it.
     await waitFor(() => expect(screen.getAllByRole('button', { name: /^Fajr/ }).length).toBeGreaterThan(0));
-    fireEvent.press(screen.getAllByRole('button', { name: /^Fajr/ })[0]);
+    fireEvent.press(first(screen.getAllByRole('button', { name: /^Fajr/ }), 'Fajr buttons'));
     expect(screen.getByLabelText('Påminnelse, Gryningsbönen')).toBeTruthy();
   });
 

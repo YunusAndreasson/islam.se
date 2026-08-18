@@ -69,7 +69,7 @@ import { DayPicker } from './DayPicker';
 
 const DAY_MS = 86_400_000;
 /** Hours the ruler under the scrubber labels. Positioned by their true fraction of the
- *  viewed day (see tickFractions) rather than spaced evenly, so the ruler agrees with the
+ *  viewed day (see `ticks`) rather than spaced evenly, so the ruler agrees with the
  *  prayer marks and thumb — which have always been placed off the REAL 23/24/25 h day. */
 const HOUR_TICKS = [0, 6, 12, 18, 24];
 /** Height of the band the track/thumb live in. The day chevrons take the SAME height so
@@ -971,10 +971,19 @@ function SolarTimeline({
   // 02:00/03:00 local, so by 06:00 a transition day has already gained or lost its whole
   // hour — every tick from 06 on carries the full delta, and 00 is the day's start by
   // definition. On an ordinary day the delta is 0 and this is plain quarters.
-  const tickFractions = useMemo(() => {
+  // Each labelled hour carries its own fraction rather than living in a second array
+  // read back by index at render. Two arrays walked by a shared `i` is a standing
+  // invitation: if they ever fall out of step the read is `undefined`, `undefined *
+  // trackW` is NaN, and a NaN `left` is a layout value React Native does not reject —
+  // the ruler simply stops being where it says it is. One array, no index to keep
+  // honest.
+  const ticks = useMemo(() => {
     const dayHours = dayLength / 3_600_000;
     const shift = dayHours - 24;
-    return HOUR_TICKS.map((h) => (h === 0 ? 0 : (h + shift) / dayHours));
+    return HOUR_TICKS.map((hour) => ({
+      hour,
+      fraction: hour === 0 ? 0 : (hour + shift) / dayHours,
+    }));
   }, [dayLength]);
   // Two disjoint shared values, by design (see also react-hooks/immutability): the
   // gesture writes ONLY `prog`/`dragging`; the reconcile effect writes ONLY `follow`.
@@ -1021,6 +1030,7 @@ function SolarTimeline({
       // Selection tick when the thumb sweeps past one of the day's prayers.
       for (let i = 0; i < markFractions.length; i++) {
         const m = markFractions[i];
+        if (m === undefined) continue;
         if ((lastHaptic.value < m && f >= m) || (lastHaptic.value > m && f <= m)) {
           scheduleOnRN(hapticSelection);
           break;
@@ -1141,14 +1151,14 @@ function SolarTimeline({
         </View>
         <View style={styles.ticks} pointerEvents="none">
           {trackW > 0 &&
-            HOUR_TICKS.map((h, i) => (
+            ticks.map(({ hour, fraction: tickFraction }) => (
               <Text
-                key={h}
-                style={[styles.tick, { left: tickFractions[i] * trackW }]}
+                key={hour}
+                style={[styles.tick, { left: tickFraction * trackW }]}
                 accessibilityElementsHidden
                 importantForAccessibility="no"
               >
-                {String(h).padStart(2, '0')}
+                {String(hour).padStart(2, '0')}
               </Text>
             ))}
         </View>

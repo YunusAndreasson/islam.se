@@ -4,7 +4,7 @@
 // and UI-free so the compass screen and its tests can both call it.
 import { Coordinates, Qibla } from 'adhan';
 
-import { isValidLatLng } from './coordinates';
+import { isValidLatLng, lonLatOf, type LonLat } from './coordinates';
 import type { LatLng } from './prayer-times';
 
 /** The Kaaba, Mecca. */
@@ -51,7 +51,7 @@ const deg = (r: number) => (r * 180) / Math.PI;
  * entire arc inside a 30°-wide band of eastern longitudes; qibla.props.test.ts pins that
  * invariant. Anything spanning the Pacific needs a split this function does not do.
  */
-export function greatCirclePoints(from: LatLng, to: LatLng, samples: number): [number, number][] {
+export function greatCirclePoints(from: LatLng, to: LatLng, samples: number): LonLat[] {
   if (!isValidLatLng(from) || !isValidLatLng(to)) {
     throw new RangeError('greatCirclePoints requires valid coordinates');
   }
@@ -78,22 +78,22 @@ export function greatCirclePoints(from: LatLng, to: LatLng, samples: number): [n
   const omega = Math.acos(dot);
   const sinOmega = Math.sin(omega);
 
-  const out: [number, number][] = [];
+  const out: LonLat[] = [];
   for (let i = 0; i < samples; i++) {
     const t = i / (samples - 1);
     if (i === 0) {
-      out.push([from.longitude, from.latitude]);
+      out.push(lonLatOf(from));
       continue;
     }
     if (i === samples - 1) {
-      out.push([to.longitude, to.latitude]);
+      out.push(lonLatOf(to));
       continue;
     }
     // Coincident (omega → 0) or antipodal (omega → π) points have no unique great circle,
     // and sinOmega → 0 would divide by zero. Neither can happen for a Swedish origin and
     // Mecca, but a degenerate call must return a usable degenerate path, not NaNs.
     if (sinOmega < 1e-12) {
-      out.push([from.longitude, from.latitude]);
+      out.push(lonLatOf(from));
       continue;
     }
     const a = Math.sin((1 - t) * omega) / sinOmega;
@@ -162,7 +162,7 @@ export function qiblaAligned(delta: number, wasAligned: boolean): boolean {
 }
 
 /** Degrees within which the readout encourages "you're on your way" (but not yet locked). */
-export const QIBLA_NEAR_TOL = 30;
+const QIBLA_NEAR_TOL = 30;
 /** Beyond this many degrees off, the "getting warmer" proximity feedback is fully cold. */
 export const QIBLA_PROX_RANGE = 45;
 

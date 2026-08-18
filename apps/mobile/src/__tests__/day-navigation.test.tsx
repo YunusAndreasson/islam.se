@@ -64,8 +64,32 @@ async function step(direction: 'Nästa dag' | 'Föregående dag'): Promise<void>
   });
 }
 
+// A fixed Stockholm mid-morning. Two tests below assert the dock is NOT showing
+// "i morgon", which is only true while the day still has a prayer ahead of it — so on the
+// real wall clock this suite went green all day and red every evening after ʿIshāʾ, on an
+// unchanged commit. Only `Date` is faked; every timer API is left real so React Testing
+// Library's async `act()` still flushes normally.
+const PINNED_NOW = Date.UTC(2026, 4, 20, 7, 0, 0); // 20 May 2026, 09:00 Europe/Stockholm
+const REAL_TIMER_APIS = [
+  'setTimeout',
+  'clearTimeout',
+  'setInterval',
+  'clearInterval',
+  'setImmediate',
+  'clearImmediate',
+  'nextTick',
+  'queueMicrotask',
+  'requestAnimationFrame',
+  'cancelAnimationFrame',
+  'requestIdleCallback',
+  'cancelIdleCallback',
+  'performance',
+  'hrtime',
+] as const;
+
 describe('stepping days on the map', () => {
   beforeEach(async () => {
+    jest.useFakeTimers({ now: PINNED_NOW, doNotFake: [...REAL_TIMER_APIS] });
     await AsyncStorage.clear();
     jest.restoreAllMocks();
     jest.clearAllMocks();
@@ -77,6 +101,10 @@ describe('stepping days on the map', () => {
     // sets its own permissions.)
     jest.mocked(Location.getForegroundPermissionsAsync).mockResolvedValue(permission('granted') as never);
     jest.mocked(Notifications.getPermissionsAsync).mockResolvedValue(permission('granted') as never);
+  });
+
+  afterEach(() => {
+    jest.useRealTimers();
   });
 
   it(

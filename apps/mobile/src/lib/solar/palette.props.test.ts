@@ -29,7 +29,9 @@ describe('mix — blend invariants', () => {
     fc.assert(
       fc.property(rgba, rgba, t, (a, b, k) => {
         const m = mix(a, b, k);
-        for (let i = 0; i < 3; i++) {
+        // `[0, 1, 2] as const` rather than a counter: RGBA is a 4-tuple, and a literal
+        // index reads as a definite `number` while a widened `number` index does not.
+        for (const i of [0, 1, 2] as const) {
           const lo = Math.min(a[i], b[i]);
           const hi = Math.max(a[i], b[i]);
           expect(m[i]).toBeGreaterThanOrEqual(lo);

@@ -2,12 +2,30 @@
   "extends": "expo/tsconfig.base",
   "compilerOptions": {
     "strict": true,
-    // Bug-catching flags beyond `strict` (all currently clean — pure future insurance):
+    // Bug-catching flags beyond `strict`:
     "noImplicitReturns": true,          // every code path in a value-returning fn must return
     "noFallthroughCasesInSwitch": true, // a missing `break` in the contour marching-squares switch is a bug
     "noImplicitOverride": true,         // `override` keyword required so renamed base methods don't silently detach
     "allowUnreachableCode": false,      // dead code after return/throw is an error, not a warning
     "allowUnusedLabels": false,
+    // `arr[i]` is `T | undefined`. This app is a numeric one — a marching-squares lattice,
+    // a prayer-time grid, Mercator point buffers, a 2,100-row place dataset — and every
+    // one of those is read by index. Off, TypeScript hands back a confident `number` for a
+    // read that is genuinely out of bounds, and the mistake surfaces downstream as a NaN
+    // in a Skia path (a blank overlay) or an `undefined` SF Symbol (a blank widget), miles
+    // from its cause. On, the bound has to be proven or checked at the read. Where a loop
+    // already proves it, the code is shaped so the compiler can see the proof rather than
+    // asserting past it — see contour.ts and PLACES' non-empty tuple type.
+    "noUncheckedIndexedAccess": true,
+    // NOT enabled: "exactOptionalPropertyTypes". It was measured on this tree and pays
+    // nothing here. Its value is in SERIALISED shapes, where `{ lead: undefined }` and
+    // `{}` round-trip differently — but this app's persisted shapes (PrayerSettings,
+    // WidgetPayload) deliberately use REQUIRED fields with explicit defaults so an OTA
+    // rollback can't read a missing key (see NotificationSettings.lead's migration note).
+    // Every site it actually flagged was React prop interop — `ref={ref ?? undefined}`,
+    // Reanimated's `entering`, BlurView's `blurTarget` — where the library treats absent
+    // and undefined identically and the only available fix is `{...(x ? { x } : {})}`
+    // spread noise in eight JSX files. Cost without a bug behind it.
     "paths": {
       "@/*": ["./src/*"]
     }

@@ -6,6 +6,7 @@ import * as fc from 'fast-check';
 
 import { PLACES } from './data';
 import { haversineKm, nearestPlace } from './nearest';
+import { at } from '@/test-utils/at';
 
 const lat = fc.double({ min: -90, max: 90, noNaN: true });
 const lon = fc.double({ min: -180, max: 180, noNaN: true });
@@ -64,7 +65,7 @@ describe('nearestPlace — snapping is idempotent', () => {
     // place's exact location is itself — the GPS-snap and picker paths both depend on this.
     fc.assert(
       fc.property(fc.nat({ max: PLACES.length - 1 }), (i) => {
-        const p = PLACES[i];
+        const p = at(PLACES, i, 'PLACES');
         const match = nearestPlace(p.lat, p.lon);
         expect(match.place.lat).toBe(p.lat);
         expect(match.place.lon).toBe(p.lon);

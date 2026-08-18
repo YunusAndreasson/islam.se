@@ -57,6 +57,51 @@ module.exports = defineConfig([
       // Remove dead `as` casts that don't change the type (auto-fixable; can
       // also surface a real type mismatch hiding under the assertion).
       '@typescript-eslint/no-unnecessary-type-assertion': 'error',
+      // A new PrayerKey, ThemePreference or NotificationSoundKey must be handled
+      // everywhere it is switched on, not silently fall through to a default. The
+      // unions here are small and long-lived, which is exactly when a missed arm goes
+      // unnoticed — it renders nothing rather than crashing.
+      '@typescript-eslint/switch-exhaustiveness-check': 'error',
+      // `a + b` where one side is not a number: in a codebase where nearly every value
+      // is an epoch millisecond, a minute offset or a degree, string concatenation
+      // where arithmetic was meant produces a plausible-looking wrong answer.
+      '@typescript-eslint/restrict-plus-operands': 'error',
+      // `.sort()` with no comparator compares STRINGIFIED elements, so [2, 10] sorts to
+      // [10, 2]. This app sorts prayer instants, timeline boundaries and place
+      // distances; a lexicographic sort of epoch numbers is a silent reordering.
+      '@typescript-eslint/require-array-sort-compare': 'error',
+      // Catches an object reaching a template literal as "[object Object]". The strings
+      // here are user-facing on a lock screen and in a widget, where a botched
+      // interpolation ships to the device and is invisible in a unit test that only
+      // checks the string is non-empty.
+      '@typescript-eslint/no-base-to-string': 'error',
+      // `delete arr[i]` leaves a HOLE rather than shortening the array — every later
+      // index shifts nowhere and the read comes back undefined. Nearly always splice()
+      // was meant.
+      '@typescript-eslint/no-array-delete': 'error',
+      // A `.catch(e => …)` parameter is `any` by default, which re-opens the hole
+      // `useUnknownInCatchVariables` closes for `try`/`catch`.
+      '@typescript-eslint/use-unknown-in-catch-callback-variable': 'error',
+      // `string | 'fajr'` collapses to `string`: a union that has silently lost its
+      // narrowing usually means a type moved and nobody noticed.
+      '@typescript-eslint/no-redundant-type-constituents': 'error',
+      '@typescript-eslint/no-duplicate-type-constituents': 'error',
+
+      // DELIBERATELY NOT ENABLED — measured on this tree, and both would cost safety:
+      //
+      // '@typescript-eslint/no-unnecessary-condition' (21 hits). Nearly all of them are
+      // defensive checks at the native boundary, which is exactly where this app's types
+      // are known to lie: expo-location types `trueHeading` as a plain number when -1 is
+      // a real runtime value (src/app/qibla.tsx), the widget layouts re-validate a
+      // payload that arrives from UserDefaults as untyped JSON, and
+      // notifications.ts's `ADHAN_SOUND_FILE !== null` is a build-time switch whose
+      // `string | null` annotation exists so flipping it stays a one-line change. The
+      // rule would have each of those deleted to satisfy a type that is not trustworthy.
+      //
+      // '@typescript-eslint/prefer-nullish-coalescing' (2 hits). In mosques/report.ts the
+      // `||` is load-bearing: with noUncheckedIndexedAccess an unknown error code reads
+      // as undefined AND an empty message should fall back to the generic text. `??`
+      // would let an empty string through as if it were a message.
     },
   },
 ]);

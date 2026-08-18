@@ -19,6 +19,7 @@ import {
   qiblaProximity,
   shortestTurn,
 } from './qibla';
+import { at } from '@/test-utils/at';
 
 // Compass bearings live in [0, 360). noNaN keeps the generator on real angles.
 const bearing = fc.double({ min: 0, max: 360, noNaN: true, maxExcluded: true });
@@ -180,7 +181,8 @@ describe('shortestTurn — the dial-unwrap step', () => {
     // Stepping a quarter-turn at a time all the way around must total a full +360 (and −360 the
     // other way): the running sum the screen feeds the dial rotation never snaps back at the
     // seam. A single long-way step anywhere would blow this far past ±360.
-    const round = (path: number[]) => path.slice(1).reduce((sum, h, i) => sum + shortestTurn(path[i], h), 0);
+    const round = (path: number[]) =>
+      path.slice(1).reduce((sum, h, i) => sum + shortestTurn(at(path, i, 'heading path'), h), 0);
     expect(round([0, 90, 180, 270, 0])).toBeCloseTo(360, 9);
     expect(round([0, 270, 180, 90, 0])).toBeCloseTo(-360, 9);
   });
@@ -327,9 +329,9 @@ describe('greatCirclePoints — arc invariants for Swedish origins', () => {
         const pts = greatCirclePoints({ latitude, longitude }, KAABA, 33);
         const steps: number[] = [];
         for (let i = 1; i < pts.length; i++) {
-          steps.push(
-            haversineKm(pts[i - 1][1], pts[i - 1][0], pts[i][1], pts[i][0]),
-          );
+          const prev = at(pts, i - 1, 'arc points');
+          const cur = at(pts, i, 'arc points');
+          steps.push(haversineKm(prev[1], prev[0], cur[1], cur[0]));
         }
         const min = Math.min(...steps);
         const max = Math.max(...steps);

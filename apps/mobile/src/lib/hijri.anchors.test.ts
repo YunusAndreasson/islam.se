@@ -20,6 +20,7 @@
 import { describe, expect, it } from '@jest/globals';
 
 import { gregorianToJDN, islamicToJDN, jdnToIslamic, toHijri } from './hijri';
+import { at } from '@/test-utils/at';
 
 const ISLAMIC_EPOCH_JDN = 1948440;
 
@@ -84,7 +85,10 @@ describe('modern Gregorian → tabular-Hijri anchors (via the JDN bridge)', () =
   for (const { iso, jdn, hijri } of anchors) {
     it(`${iso} ⇒ ${hijri.day}/${hijri.month}/${hijri.year} AH`, () => {
       // The Gregorian date's JDN matches the external constant…
-      const [y, m, d] = iso.split('-').map(Number);
+      const parts = iso.split('-').map(Number);
+      const y = at(parts, 0, `${iso} (year)`);
+      const m = at(parts, 1, `${iso} (month)`);
+      const d = at(parts, 2, `${iso} (day)`);
       expect(gregorianToJDN(y, m, d)).toBe(jdn);
       // …and that JDN converts to the external tabular Hijri date.
       expect(jdnToIslamic(jdn)).toEqual(hijri);

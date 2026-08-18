@@ -24,6 +24,7 @@ import { resetLocationLaunchCountForTests } from '@/lib/location-hint';
 import { resetNotificationLaunchCountForTests } from '@/lib/notification-hint';
 import { SettingsProvider } from '@/lib/settings/context';
 import { __resetDemoCache, MAP_LESSON_EXAMPLES } from '@/lib/solar/demo-year';
+import { at, first } from '@/test-utils/at';
 
 // Mirrors bonetider.tsx's own beats — duplicated rather than imported so this asserts the
 // SEQUENCE, not the numbers (same reasoning soft-ask-queue.test.tsx gives).
@@ -108,7 +109,7 @@ describe('the map lesson', () => {
     async () => {
       await launchWithLessonPending();
 
-      expect(screen.getByText(MAP_LESSON_EXAMPLES[0].fact)).toBeTruthy();
+      expect(screen.getByText(first(MAP_LESSON_EXAMPLES, 'MAP_LESSON_EXAMPLES').fact)).toBeTruthy();
       expect(screen.getByLabelText('Nästa exempel')).toBeTruthy();
       // The dock it replaced is gone, not just covered — same slot, mutually exclusive.
       expect(screen.queryByLabelText('Föregående dag')).toBeNull();
@@ -122,11 +123,11 @@ describe('the map lesson', () => {
       await launchWithLessonPending();
 
       fireEvent.press(screen.getByLabelText('Nästa exempel'));
-      expect(screen.getByText(MAP_LESSON_EXAMPLES[1].fact)).toBeTruthy();
-      expect(screen.queryByText(MAP_LESSON_EXAMPLES[0].fact)).toBeNull();
+      expect(screen.getByText(at(MAP_LESSON_EXAMPLES, 1, 'MAP_LESSON_EXAMPLES').fact)).toBeTruthy();
+      expect(screen.queryByText(first(MAP_LESSON_EXAMPLES, 'MAP_LESSON_EXAMPLES').fact)).toBeNull();
 
       fireEvent.press(screen.getByLabelText('Föregående exempel'));
-      expect(screen.getByText(MAP_LESSON_EXAMPLES[0].fact)).toBeTruthy();
+      expect(screen.getByText(first(MAP_LESSON_EXAMPLES, 'MAP_LESSON_EXAMPLES').fact)).toBeTruthy();
     },
     MAP_RENDER_TIMEOUT,
   );
@@ -157,7 +158,7 @@ describe('the map lesson', () => {
 
       fireEvent.press(screen.getByLabelText('Stäng'));
 
-      expect(screen.queryByText(MAP_LESSON_EXAMPLES[0].fact)).toBeNull();
+      expect(screen.queryByText(first(MAP_LESSON_EXAMPLES, 'MAP_LESSON_EXAMPLES').fact)).toBeNull();
       // The dock is back — same slot the lesson borrowed.
       expect(screen.queryByLabelText('Föregående dag')).toBeTruthy();
     },

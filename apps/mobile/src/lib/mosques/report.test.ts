@@ -12,6 +12,7 @@ import {
   submitMosqueReport,
   validateReport,
 } from './report';
+import { jsonBodyOf } from '@/test-utils/fetch-body';
 
 const MOSQUE: Mosque = {
   id: 'alsalam-moske-karlshamn',
@@ -147,7 +148,7 @@ describe('submitMosqueReport', () => {
     const [url, init] = fetchMock.mock.calls[0] as unknown as [string, RequestInit];
     expect(url).toBe(REPORT_ENDPOINT);
     expect(init.method).toBe('POST');
-    expect(JSON.parse(String(init.body))).toEqual(payload);
+    expect(JSON.parse(jsonBodyOf(init))).toEqual(payload);
   });
 
   // The rate limit is the endpoint's only real abuse control, so its message has to be
