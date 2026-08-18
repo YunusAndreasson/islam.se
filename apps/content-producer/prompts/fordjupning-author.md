@@ -30,6 +30,15 @@ gäller X« i en uppräkning av de fyras positioner. På en ren lärosida (»vad
 rättsskolorna om X«) tar du de fyra och stannar där. Detta är husets redaktionella hållning;
 den ska märkas i dispositionen och behöver inget försvar i prosan.
 
+⚠️ Att namnge en shiitisk ståndpunkt utan att den klassiska hållningen svarar på den är en
+eftergift, inte neutralitet. Varje gång du skriver vad shia håller ska det följas av vad
+*ahl as-sunna* håller och på vilken grund. En beskrivande mening som bara rapporterar och
+går vidare lämnar ståndpunkten oemotsagd, och då har sidan gett den sista ordet. Skriv
+heller aldrig att klyftan bara är historisk eller politisk: imamatet och hållningen till
+följeslagarna är trosfrågor. Detta är den enskilda regel som oftast fallit — den föll på
+`uttryck` (jaʿfaritisk rätt bredvid de fyra) och på `kalifatet` (ett neutralt stycke om
+tolvimamsläran som fick stå obesvarat genom hela sidan).
+
 ## 2. Struktur — obligatorisk
 
 **Ingress**, ingen rubrik, 2–3 stycken, ~180–260 ord. Första meningen definierar
