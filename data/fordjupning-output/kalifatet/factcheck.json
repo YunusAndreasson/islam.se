@@ -1,0 +1,144 @@
+{
+  "overallCredibility": 8.5,
+  "verdict": "pass",
+  "summary": "Unusually well-sourced research with no fabrications. All 21 database quotes verified by direct ID lookup with matching authors and works. Every load-bearing historical, legal and textual claim I tested held up, including a hard Arabic-source check that confirmed the article's headline thesis (al-Qurtubi's geographic exception permitting two imams) verbatim. The Swedish legal apparatus — statute, penalties, court ruling, SOU, threat levels — checks out in detail. The research also shows strong self-awareness, pre-flagging the weak hadith status of the Mawardi saying, the Pew data's inapplicability, the Bernstrom translation problem, and the false-equivalence trap in the Swedish intellectual-history section. Deductions are for framing precision and omission, not accuracy: a truncated ministerial quote that shifts meaning, an overstated \"refusal\", an incomplete characterisation of the NPOF decision on a named living researcher, one claim unsupported by its cited source, and a significant structural gap — Shia doctrine of the imamate is entirely absent from an article whose central question is whether the caliphate is creedal dogma. All are correctable at the writing stage.",
+  "verifiedClaims": [
+    {
+      "claim": "All 21 quotes attributed to specific authors (Ibn Khaldun, Ibn al-Jawzi, Ibn Taymiyya, Ibn Qayyim, al-Mawardi, Geijer, Bellarminus, Tegner, Blanche, Rydberg, Topelius, Ibn Battuta)",
+      "status": "verified",
+      "method": "get_quote_by_id batch lookup of all 21 IDs",
+      "notes": "Every ID resolved with matching author and work. Two refinements: quote-25219 is fuller in the DB than in the research excerpt ('...som utovar den faktiska makten'); quote-2330 is filed under Viktor Rydberg with no speaker field, so the 'Teodoros' attribution rests on the book-passage corpus, not the quote DB — verify in the novel text before writing 'Teodoros sager'."
+    },
+    {
+      "claim": "al-Qurtubi expressly permits two imams when regions are widely separated, 'som al-Andalus och Khurasan'",
+      "status": "verified",
+      "method": "WebFetch of al-Qurtubi's Arabic tafsir on 2:30 via quran.com",
+      "notes": "Confirmed verbatim: 'تباعدت الأقطار وتباينت كالأندلس وخراسان' ... 'جاز ذلك'. CRITICAL FRAMING CAVEAT: in the same section al-Qurtubi also states that two or three imams in one era and one land is forbidden by ijma, and the research's own book passage quotes him saying this is 'the strongest proof for prohibiting two imams'. The permission is an EXCEPTION to his own baseline prohibition and must be presented as such, not as his general position. Also note the mas'ala numbering: quran.com places the two-imams discussion at mas'ala 17, while the research's book-passage header says 'frågorna 15-16'. Check the number before citing it."
+    },
+    {
+      "claim": "Svea hovratt B 3053-25, 5 June 2025: three acquitted, the one who swore bay'a sentenced to 4 years 10 months; sympathy expression insufficient",
+      "status": "verified",
+      "method": "WebFetch of domstol.se press release",
+      "notes": "Reasoning confirmed: 'concrete and qualified connection to the organisation' required. TWO OMISSIONS: the convicted person was convicted of deltagande i terroristorganisation, GROVT brott; and the three acquitted of the terror charge were convicted of grovt vapenbrott. Writing 'tre frikandes' unqualified is misleading."
+    },
+    {
+      "claim": "Terroristbrottslag 4 kap. 4 a §: up to 4 years; 2-8 grovt; 2-18 or life for leaders; introduced by SFS 2023:227, in force 1 June 2023",
+      "status": "verified",
+      "method": "WebFetch of lagen.nu/2022:666",
+      "notes": "All penalty ranges, the SFS number and the commencement date confirmed exactly as stated."
+    },
+    {
+      "claim": "Bernstrom renders khalifa in 38:26 as 'makt och myndighet', not 'stallforetradare'",
+      "status": "verified",
+      "method": "WebFetch of quran.com/38/26?translations=48",
+      "notes": "Confirmed; 'stallforetradare' does not appear. This is a genuinely substantive and publishable philological observation."
+    },
+    {
+      "claim": "Tirmidhi 2226: 'The caliphate in my umma is thirty years, then kingship'; narrator Safina; graded hasan",
+      "status": "verified",
+      "method": "WebFetch of hadithunlocked.com/tirmidhi:2226",
+      "notes": "Arabic text, chain (Sa'id b. Jumhan > Safina) and hasan grading (Ali Za'i) all confirmed."
+    },
+    {
+      "claim": "ECtHR Refah Partisi, 13 February 2003, Grand Chamber, unanimous; §§ 119 and 123 as quoted; state need not wait until a party seizes power",
+      "status": "verified",
+      "method": "WebFetch of ICNL case summary",
+      "notes": "Both paragraph quotations are accurate verbatim. Pre-emptive dissolution reasoning is at §§ 99-103, not 119/123 — cite accordingly. Two concurring opinions were filed, consistent with 'enhalligt'."
+    },
+    {
+      "claim": "Caliphate abolished 3 March 1924; sultanate 1 Nov 1922; Abdulmecid elected caliph 19 Nov 1922; Ataturk's 'historic relic'; 13+ candidates; conferences 1924/1926/1931; al-Jizawi resolution March 1924",
+      "status": "verified",
+      "method": "fetch_wikipedia full article, Abolition of the Caliphate",
+      "notes": "All dates, the Ataturk quotation and the al-Jizawi resolution confirmed. Hizb ut-Tahrir founding (1953, Jerusalem, al-Nabhani, 50+ countries, tens of thousands to ~1 million) also confirmed here."
+    },
+    {
+      "claim": "Ali Abd al-Raziq 1925: caliphate has no basis in Quran, Sunna or ijma; al-Azhar stripped him of his scholarly status",
+      "status": "verified",
+      "method": "fetch_wikipedia full article",
+      "notes": "Thesis and sanction both confirmed. IMPORTANT OMISSION: he regained his position in the 1940s and twice served as Minister of Endowments. The research's 'betalade priset' framing is true but incomplete and risks a martyrdom narrative. Also: Rashid Rida did not merely oppose him — Rida pronounced takfir on him and praised the Azhar verdict. That is stronger and better material than the research's 'motpol' framing suggests."
+    },
+    {
+      "claim": "Sapo terror threat level 4 of 5 in February 2025, lowered to 3 on 23 May 2025",
+      "status": "verified",
+      "method": "WebFetch of Sapo assessment plus independent WebSearch",
+      "notes": "Reduction to level 3 on 23 May 2025 independently confirmed. Precision point: the level-4 decision was taken by the Sapo chief in JANUARY 2025; 12 February 2025 is the publication date of the assessment. The research's observation that the assessment never names IS or caliphate ideology is confirmed and is a genuinely sharp point."
+    },
+    {
+      "claim": "Open Letter to al-Baghdadi, 19 September 2014, 126 scholars, 24 points: 'It is forbidden in Islam to declare a caliphate without consensus from all Muslims'",
+      "status": "verified",
+      "method": "WebFetch of Wilson Center plus independent WebSearch",
+      "notes": "The research is MORE accurate than its own cited source: Wilson Center says 'more than 120' and dates it 24 September, while independent sources confirm 19 September 2014, 126 signatories, 17 pages, 24 points. Cite a better source than Wilson Center for these specifics."
+    },
+    {
+      "claim": "SOU 2026:21, delivered 18 March 2026, proposes revocation of citizenship for dual nationals; two alternative crime catalogues; entry into force 1 January 2028; requires constitutional amendment via prop. 2025/26:78",
+      "status": "verified",
+      "method": "WebFetch of regeringen.se",
+      "notes": "All confirmed. Two notes: the page identifies the inquiry as Ju 2025:12 and does not name Anita Linder as sarskild utredare — verify before naming. The SOU also covers revocation where citizenship was obtained through false information or bribery, a ground the research's summary omits."
+    },
+    {
+      "claim": "Robert Hannah (L) question answered by Morgan Johansson 3 March 2021; government did not ban Hizb ut-Tahrir",
+      "status": "verified",
+      "method": "WebFetch of riksdagen.se",
+      "notes": "Actors and date confirmed. See unverified claims for two framing problems with how this source is used."
+    }
+  ],
+  "unverifiedClaims": [
+    {
+      "claim": "'Regeringens vagran 2021 att forbjuda Hizb ut-Tahrir med hanvisning till fri asiktsbildning'",
+      "status": "unverified",
+      "reason": "Overstated. The minister did not issue a refusal; he declined to commit and deflected to the pending constitutional inquiry on limiting freedom of association. More seriously, the research quotes only 'Det demokratiska statsskicket i Sverige bygger bland annat pa fri asiktsbildning' and omits the immediately following sentence: 'Detta innebar inte att man har ratt att bega brott genom att till exempel uttrycka asikter.' Quoting only the first half reverses the emphasis of the answer. Either quote both sentences or do not lean on this source for the 'Sweden does not criminalise the caliphate idea' point — the Svea hovratt reasoning carries that argument on its own and carries it better."
+    },
+    {
+      "claim": "'Namnden for provning av oredlighet i forskning (NPOF) friade Egyptson fran oredlighet' (presented without qualification)",
+      "status": "unverified",
+      "reason": "Materially incomplete. NPOF cleared him of oredlighet on intent grounds, but found FIVE remaining cases constituting serious deviations from good research practice (allvarliga avvikelser fran god forskningssed). Presenting this as a clean acquittal misrepresents the decision, and this concerns a named living researcher and a named organisation. State both findings."
+    },
+    {
+      "claim": "'Islamiska forbundet i Sverige tillbakavisar konsekvent kopplingen till Muslimska brodraskapet'",
+      "status": "unverified",
+      "reason": "The cited SVT article contains no statement from Islamiska forbundet. The claim is plausible and probably true, but it is attributed to a source that does not support it. Find a direct IFiS statement before publishing, or drop the sentence. This is a reputational claim about a named organisation and needs its own source."
+    },
+    {
+      "claim": "Anita Linder as sarskild utredare for SOU 2026:21 (appointed 22 May 2025, dir. 2025:51)",
+      "status": "unverified",
+      "reason": "The regeringen.se page identifies the inquiry only as 'Utredningen om aterkallelse av medborgarskap (Ju 2025:12)' and does not name the investigator. Verify the name against the directive before printing it."
+    },
+    {
+      "claim": "al-Qurtubi book passage cited as 'kommentar till 2:30 (frågorna 15-16)'",
+      "status": "unverified",
+      "reason": "quran.com places the two-imams discussion at mas'ala 17, not 15-16. The substance is verified; the internal citation number is not. Fix the mas'ala number or cite without it."
+    },
+    {
+      "claim": "Pew Research 2013 figures on support for sharia as official law",
+      "status": "unverified",
+      "reason": "Not contradicted, but fieldwork ran 2008-2012 — the data is 14-18 years old, Sweden was not surveyed, and the survey does not measure caliphate support at all. The research flags this correctly and honestly. My recommendation is stronger: either omit the numbers entirely or confine them to a single sentence about the dispersion of Muslim opinion. In a 2026 article they cannot bear any argumentative weight."
+    }
+  ],
+  "missingPerspectives": [
+    "SHIA DOCTRINE OF THE IMAMATE IS ENTIRELY ABSENT — the single largest gap. The article's framing question is whether the caliphate is creedal dogma, legal institution or historical polity. For Twelver Shia the imamate is usul al-din, a matter of creed, and imams are divinely designated rather than elected or acclaimed by bay'a. An article that answers 'not dogma' while consulting only Sunni sources has answered a narrower question than the one it poses. At minimum, state that the article treats the Sunni tradition and that the Shia answer differs at the root.",
+    "THE RESEARCH'S OWN SOURCE CUTS AGAINST ITS THESIS AND IT HAS NOT NOTICED. Sharh al-Aqida al-Tahawiyya is a CREED commentary, and the cited passage discusses the ranking of the rightly-guided caliphs within it. The same is true of al-Iji's al-Mawaqif and al-Taftazani's Sharh al-Maqasid, which treat the imamate inside kalam works while insisting it is not a matter of usul. This complicates the clean separation between (2) theological memory and (3) juristic imama doctrine that the article's four-part structure depends on. Address it directly — it is the strongest internal objection to the thesis and engaging it will make the article better, not weaker.",
+    "IBN TAYMIYYA IS UNDERUSED. He is quoted only for the 'wilaya is amana' ethic, but in Minhaj al-sunna he notably does not treat a single universal caliphate as obligatory and accepts the legitimacy of multiple rulers. He is the strongest internal witness for the article's own argument and the research leaves that on the table.",
+    "NO SWEDISH MUSLIM VOICES. For an islam.se article whose centre of gravity is Sweden, the Swedish source base consists of state agencies, courts, government inquiries and one contested academic controversy. No Swedish imam, mosque federation, or Muslim scholar speaks about the caliphate anywhere in the material. Muslims are the object of the Swedish sections and never a subject in them. This is both an editorial and a fairness problem.",
+    "THE OTTOMAN CLAIM TO THE CALIPHATE IS ITSELF HISTORICALLY CONTESTED. The story that the caliphate passed from the last Abbasid to Selim I in 1517 is regarded by most historians as a later (largely 18th-century) construction. This is directly on-thesis for an article about retroactive juristic normation, and its absence is a missed opportunity rather than an error.",
+    "NO NAMED CRITIC OF REFAH PARTISI. The research rightly says the academic criticism of the judgment's generalisation about 'sharia' should be reported, but names no critic and cites no critical article. Without a name the caveat will read as throat-clearing.",
+    "HIZB UT-TAHRIR'S OWN SELF-DESCRIPTION IS PLANNED BUT UNSOURCED. The research says to report their claim that they do not seek a caliphate in Sweden, but no material from hizb-ut-tahrir.se was gathered. Either fetch it or drop the claim — do not paraphrase an organisation's position from memory.",
+    "NO SERIOUS CONTEMPORARY SCHOLARLY CALIPHATE ADVOCACY. The modern section runs from Hizb ut-Tahrir to IS, i.e. from banned to genocidal. There are contemporary academic projects arguing for the caliphate on scholarly grounds (Ummatics is the obvious example, and it surfaced during my own verification). Excluding them lets the article present the modern choice as 'extremists versus the secular state', which is exactly the flattening the article elsewhere sets out to resist."
+  ],
+  "sourceAssessment": {
+    "totalSources": 24,
+    "highCredibility": 18
+  },
+  "recommendations": [
+    "Fix the Morgan Johansson quote first — it is the clearest accuracy problem. Quote both sentences including 'Detta innebar inte att man har ratt att bega brott genom att till exempel uttrycka asikter', and change 'vagran' to something accurate such as 'regeringen avstod fran att forbjuda och hanvisade till den pagaende grundlagsutredningen'.",
+    "Present al-Qurtubi's two-imam permission as an exception to his own stated prohibition, not as his position. He holds both: ijma against two imams in one land, and permission where regions are as far apart as al-Andalus and Khurasan. Stating only the second would be cherry-picking and a knowledgeable reader will catch it. Verify the mas'ala number (quran.com shows 17, not 15-16) before citing it.",
+    "Correct the Egyptson passage to state both halves of the NPOF decision: cleared of oredlighet, but five serious deviations from good research practice found. Drop or independently source the claim about Islamiska forbundet — it is not in the cited SVT article.",
+    "Add a sentence establishing that the article treats the Sunni tradition, and that in Twelver Shia doctrine the imamate is a matter of creed rather than law. Without this the article's central question is answered on a partial evidence base.",
+    "Engage the kalam objection rather than avoiding it: the imamate does appear in creed manuals (al-Iji, al-Taftazani, and the article's own Sharh al-Aqida al-Tahawiyya source). Meeting this objection head-on will strengthen the four-part distinction; ignoring it leaves the article's structure exposed at its weakest joint.",
+    "Complete the Svea hovratt account: the convicted defendant was convicted of grovt brott, and the three acquitted of the terrorism charge were convicted of grovt vapenbrott. 'Tre frikandes' unqualified is misleading, and the bay'a-as-dividing-line argument survives the correction intact.",
+    "Complete the Abd al-Raziq account: he regained his position in the 1940s and twice served as Minister of Endowments. Add Rashid Rida's takfir of him and his praise of the Azhar verdict — it is sharper material than the current 'motpol' framing and it strengthens the section.",
+    "Cite something other than Wilson Center for the Open Letter's specifics. The research's figures (19 September 2014, 126 signatories, 24 points) are correct, but the cited page says 'more than 120' and gives a different date, so a fact-checking reader comparing them will find an apparent error that is not actually there.",
+    "Either cut the Pew figures or confine them to one sentence about dispersion of opinion. Fieldwork from 2008-2012, no Swedish sample, and no measurement of caliphate support means they cannot carry argumentative weight in 2026 no matter how well caveated.",
+    "Find at least one Swedish Muslim voice on the caliphate. As the material stands, the Swedish sections are entirely about Muslims and never by them, which for this publication is a structural weakness independent of factual accuracy.",
+    "Keep the existing internal warnings — they are correct and unusually disciplined. In particular: do not present the al-Mawardi saying (quote-59413) as an authentic prophetic hadith; keep the Geijer/Bellarminus material strictly descriptive of a parallel European debate; and treat the Ibn Khaldun Swedish lines as paraphrase summaries rather than citable translations with page references."
+  ]
+}

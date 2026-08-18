@@ -1,0 +1,118 @@
+{
+  "overallCredibility": 8.5,
+  "verdict": "pass",
+  "summary": "No fabrications found. All 14 database quote IDs resolve to the claimed author and work with exact text; all 6 Quran verse numbers match their content; four load-bearing Arabic book passages (Ibn Qudama's mas'ala 291 on ghusl, al-Nawawi's parallel, al-Mawardi on the female apostate, Ibn Rajab on the apostate's repentance) verified verbatim in the database. The two most important statistics — Pew's 160,000 net switching loss and Konvertitutredningen's 619 converts / 68 percent rejection — were independently confirmed, as were the 1858 Svea hovratt banishment of six women, the Kokkinakis details, and the text of Religionsfrihetslagen 1951:680 (section 4). The research displays unusually good hygiene: it pre-flags its own weakest links (the Ibn Rajab author-field ambiguity, the kandidatuppsats sample size, Sultan Sjoqvist as theory not empirics, the exmuslim.net vs Humanists International country-count discrepancy, and the false-equivalence risk in the Swedish history section). Three real problems: (1) one angle claim — \"Ibn al-Qayyim's three riwayat from Ahmad on whether the second shahada alone suffices\" — has no supporting passage and my targeted search found different material instead; (2) the article's central epistemological tension rests on Bernstrom's interpretive rendering of 60:10, where the literal Arabic is comparative, not exclusive; (3) the apostasy section bundles a stricter outlier (al-Hasan al-Basri) with lenient ones and cites only the revisionist side of the modern debate.",
+  "verifiedClaims": [
+    {
+      "claim": "All 13 attributed quotes (Prophet via Ibn Rajab, Ellen Key x2, Topelius x2, Strindberg x2, Soderberg, Rydberg, Blanche, Geijer, Ibn Taymiyya)",
+      "status": "verified",
+      "method": "get_quote_by_id batch lookup of all 14 IDs including the cross-reference 43383",
+      "notes": "Every ID resolves to the claimed author and work with exactly matching text. The research honestly pre-flags that quote-41306's database author field names Ibn Rajab as the book's author while the speaker is the Prophet — a disclosure, not an error."
+    },
+    {
+      "claim": "Quran 2:256, 49:14, 60:10, 3:85 and 9:11 verse numbers match the quoted content",
+      "status": "verified",
+      "method": "search_quran semantic lookups on the content of each verse, cross-checked against a different Swedish translation than Bernstrom's",
+      "notes": "Each verse returned as the top hit for its own content. 3:19 was not directly returned (3:20 surfaced instead) but its text is standard and the Bernstrom quotation is accurate."
+    },
+    {
+      "claim": "Ibn Qudama, al-Mughni mas'ala 291: ghusl obligatory per Malik, Abu Thawr, Ibn al-Mundhir; Abu Bakr says recommended (= Shafi'i's madhhab); Abu Hanifa does not require it, citing Mu'adh sent to Yemen with only shahada and zakat",
+      "status": "verified",
+      "method": "search_books returned the passage verbatim (ID 134527)",
+      "notes": "Matches the research description in every particular, including the Mu'adh argument."
+    },
+    {
+      "claim": "al-Nawawi, al-Majmu': ghusl on conversion is mustahabb not wajib 'bila khilaf 'indana'; al-Khattabi attributes the same to Abu Hanifa and most scholars; Malik, Ahmad and Abu Thawr require it",
+      "status": "verified",
+      "method": "search_books returned the Arabic verbatim (ID 150952)",
+      "notes": "Consistent with the al-Mughni passage; the two sources corroborate each other on the madhhab map."
+    },
+    {
+      "claim": "al-Mawardi, al-Ahkam al-sultaniyya: 'ومن أقام على ردته ولم يتب وجب قتله رجلا كان أو امرأة. وقال أبو حنيفة: لا أقتل المرأة بالردة'",
+      "status": "verified",
+      "method": "search_books returned the passage verbatim (ID 129479)",
+      "notes": "Verified, but the research omits the immediately following clause in which al-Mawardi rebuts Abu Hanifa by citing the killing of a woman called Umm Ruman. See unverified/flagged items."
+    },
+    {
+      "claim": "Ibn Rajab argues the apostasy penalty attaches to a presently subsisting state, not a past crime — the in-tradition opening",
+      "status": "verified",
+      "method": "search_books returned Jami al-ulum wa-l-hikam verbatim (ID 274890)",
+      "notes": "Strongest verification in the set. The Arabic reads 'وأما المرتد، فإنما قتل لوصف قائم به في الحال... فإذا عاد إلى دينه... فتزول إباحة دمه'. The same passage confirms al-Hasan's position that the apostate's repentance is not accepted, and the al-Layth/Ahmad/Ishaq distinction between born Muslims and converts."
+    },
+    {
+      "claim": "Ibn Rushd, Bidayat al-mujtahid on washing a non-Muslim relative's corpse; Malik prohibits except to avoid the body being lost; al-Shafi'i, Abu Thawr and Abu Hanifa permit; the cause of disagreement is whether ghusl is 'ibada or nazafa",
+      "status": "verified",
+      "method": "search_books returned the passage verbatim (ID 132082)",
+      "notes": "Matches exactly, including the 'sabab al-khilaf' formulation."
+    },
+    {
+      "claim": "Pew: 160,000 more people switched out of Islam than into it in Europe 2010-2016; Sweden 8 percent Muslim in 2016; 2050 projections 11/21/31 percent",
+      "status": "verified",
+      "method": "WebFetch of the Pew report itself",
+      "notes": "Verbatim confirmation of the 160,000 figure and the 8 percent. Research's decimals (11.1/20.5/30.6) round correctly to Pew's headline figures. Caveat: Pew itself calls switching's impact 'modest compared with births, deaths and migration' — the research should carry that qualifier."
+    },
+    {
+      "claim": "Konvertitutredningen (March 2019): 619 baptised Afghan asylum seekers, 68 percent rejected on grounds the faith was not judged genuine",
+      "status": "verified",
+      "method": "WebSearch independent confirmation across multiple Swedish outlets (Dagen, Justly, Manniskorattsadvokaterna)",
+      "notes": "Confirmed, and the search surfaced stronger detail the research missed: 81 percent rejection where conversion was raised late in the process, and lay-judge voting in migration courts running 93 percent reject (SD) vs 15 percent (V) — direct evidence for the arbitrariness thesis."
+    },
+    {
+      "claim": "1858: six Swedish women, including Anna Schutze, sentenced by Svea hovratt to loss of citizenship and banishment for converting to Catholicism",
+      "status": "verified",
+      "method": "WebSearch independent confirmation",
+      "notes": "Confirmed, including the causal chain the research asserts: foreign outrage over the verdict led to the first Dissenter Act of 1860."
+    },
+    {
+      "claim": "Religionsfrihetslag (1951:680) entered into force 1 January 1952, removed the requirement to join another community, and was repealed 1 January 2000 by SFS 1998:1593",
+      "status": "verified",
+      "method": "WebFetch of riksdagen plus independent WebSearch",
+      "notes": "Section 4 verified verbatim: 'Ej må någon vara skyldig tillhöra trossamfund'. Note the independent source frames the change as superseding the 1873 dissenter law, not 1860 — see recommendations."
+    },
+    {
+      "claim": "Kokkinakis v. Greece: application 14307/88, 25 May 1993, violation found 6-3; improper proselytism includes 'material or social advantages' and 'improper pressure on people in distress or in need'",
+      "status": "verified",
+      "method": "WebFetch of the case article",
+      "notes": "All details confirmed verbatim. One nuance: the 'first Article 9 case' characterisation comes from a judge's separate observation that this was 'the first real case concerning freedom of religion to have come before the Court since it was set up', not from a formal holding. Attribute it as such."
+    }
+  ],
+  "unverifiedClaims": [
+    {
+      "claim": "'Ibn al-Qayyims tre riwayat fran Ahmad om huruvida enbart den andra shahadan duger'",
+      "status": "unverified",
+      "reason": "No passage in the research supports this, and a targeted Arabic search of the book database did not locate it. What the database does contain is materially different: three riwayat from Ahmad in Ibn Taymiyya's Kitab al-Iman (IDs 108082-108083) concern whether abandoning one of the four pillars constitutes kufr; and al-Mughni (ID 146266) records TWO riwayat from Ahmad about a non-Muslim who utters the shahadatayn then says he did not intend Islam. Neither is 'Ibn al-Qayyim's three riwayat on the second shahada'. Either cite the precise volume and page in Zad al-ma'ad or Ahkam ahl al-dhimma, or drop the claim. The underlying substantive point — that the bare shahadatayn may not suffice depending on the convert's starting position — IS well supported by al-Mughni ID 146265 ('من كفر بجحد نبي أو كتاب أو فريضة... فلا يصير مسلما بذلك'), so the section survives without the unsourced detail."
+    },
+    {
+      "claim": "Quran 60:10 'slar fast att uppriktighet ar oatkomlig for manniskor' (establishes that sincerity is inaccessible to humans)",
+      "status": "unverified",
+      "reason": "Bernstrom's Swedish wording is verified verbatim, but it is an interpretive rendering. The Arabic 'اللَّهُ أَعْلَمُ بِإِيمَانِهِنَّ' is a comparative (afal al-tafdil) — 'God knows best their faith' — not the exclusive 'no one but God knows'. The database's own Swedish translation reads 'Allah känner deras tro bäst'. The verse then commands 'فَإِنْ عَلِمْتُمُوهُنَّ مُؤْمِنَاتٍ' ('if you ascertain them to be believers'), which presupposes humans CAN reach a working judgment, and classical tafsir treats the imtihan as a concrete oath, not an impossible test. The article's central paradox is therefore overstated as written. Since the research already scrutinises Bernstrom's choices on 3:19 vs 3:85, it must apply the same scrutiny here."
+    },
+    {
+      "claim": "Conversion in Sweden 'saknar all civilrattslig verkan' (has no civil-law effect whatsoever)",
+      "status": "unverified",
+      "reason": "Overstated superlative. Conversion produces no change of personal status, which is the real point — but religion can become legally relevant in custody disputes under barnets basta and in questions of a child's religious upbringing. Soften to 'ingen statusrattslig verkan' or add the qualifier."
+    }
+  ],
+  "missingPerspectives": [
+    "The mainstream defence of the classical apostasy ruling is entirely absent. The research cites Saeed and Saeed — the leading revisionist case — with no counterweight: no engagement with the hadith 'man baddala dinahu fa-qtuluhu' (Bukhari), no treatment of the claimed ijma, and no representation of contemporary scholars who maintain the classical position. An article promising to face 'the strongest objection' that presents only one side of the internal debate is cherry-picking in the other direction.",
+    "The strongest modern reformist argument is missing: that the classical ruling attached to public, political apostasy amounting to treason or hiraba rather than to private change of belief. This is the natural companion to Ibn Rajab's 'ongoing state' argument the research already has, and its absence leaves the in-tradition opening weaker than it needs to be.",
+    "Abu Hanifa's exemption of women from the death penalty is presented as evidence of leniency without the Hanafi remainder — that the female apostate is imprisoned and coerced until she returns, not freed. And the cited al-Mawardi passage immediately rebuts Abu Hanifa with the report of Umm Ruman. Both omissions make the example carry more weight than it bears.",
+    "al-Hasan al-Basri is bundled with al-Nakha'i and Sufyan al-Thawri under 'the tradition is not unanimous', but his position — that the apostate's repentance is not accepted at all — is HARSHER, not more lenient. Disaggregate, or a critical reader will note that the diversity cuts both ways.",
+    "No Swedish Muslim convert organisation or first-person convert account appears as a primary source. The research draws on academic work, free-church studies and ex-Muslim critics — good range on the critical side — but for an islam.se article the absence of converts speaking for themselves about entry into Islam is conspicuous.",
+    "Pew's own caveat is unused: the report calls switching's impact 'modest compared with births, deaths and migration'. Deploying the 160,000 figure against 'the popular image of mass conversion' without that qualifier invites the charge that the article uses switching data to defuse a demographic argument it never actually addresses."
+  ],
+  "sourceAssessment": {
+    "totalSources": 26,
+    "highCredibility": 19
+  },
+  "recommendations": [
+    "Cut or precisely source the 'Ibn al-Qayyim's three riwayat from Ahmad' claim. It is the only assertion in the research with no traceable support. The substantive point it serves is already carried by al-Mughni ID 146265 on why the bare shahadatayn may not suffice for someone who denied a prophet, a scripture or an obligation.",
+    "Add one sentence on Bernstrom's rendering of 60:10. The literal Arabic is comparative ('God knows best'), the database's alternative Swedish translation reads 'Allah känner deras tro bäst', and the verse's own next clause commands ascertainment. This actually STRENGTHENS the article: the Quranic standard is a workable human judgment under acknowledged uncertainty, which is a much closer and more defensible parallel to Migrationsverket than an impossible test would be.",
+    "Use al-Mughni section 7114 — it is the best unexploited material in the set. al-Shafi'i distinguishes a non-Muslim who prays in dar al-harb from one who prays in dar al-islam, because in the latter 'يحتمل أنه صلى رياء وتقية' (he may have prayed out of show or dissimulation). A classical jurist reasoning about whether an outward religious act performed where it yields advantage evidences inward conversion is the exact Migrationsverket problem, and it beats the current framing of that section.",
+    "Strengthen the Konvertitutredningen passage with the two details the source page omitted but independent reporting confirms: 81 percent rejection where conversion was raised late, and lay-judge voting in migration courts at 93 percent reject (SD) against 15 percent (V). The second is far more damning evidence of arbitrariness than the 68 percent alone.",
+    "Balance the apostasy section by presenting the classical position in its own strongest form — the Bukhari hadith and the ijma claim — before the Ibn Rajab and Saeed counter-arguments. Currently only the revisionist side is represented, which mirrors the very selectivity the research warns itself against.",
+    "Fix the dissenter-law chronology. The operative pre-1951 rule was the 1873 law, not 1860. Keep the 1860 point about exit only into an approved Christian body, but note that 1873 still required joining an approved community and that approval was in practice confined to Christian bodies — that is what makes the 'no legal route out of Christianity' claim true in substance.",
+    "Attribute the Kokkinakis 'first Article 9 case' superlative to the judge's separate observation rather than to the Court, and note the Court was established in 1959 while the Convention dates from 1950.",
+    "Soften 'saknar all civilrattslig verkan' to a claim about personal status. Religion can bear on custody and a child's upbringing."
+  ]
+}
