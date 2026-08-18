@@ -4,20 +4,36 @@ import { type FeatureExtractionPipeline, pipeline } from "@huggingface/transform
 const LOCAL_MODEL = "Xenova/multilingual-e5-small";
 const LOCAL_EMBEDDING_DIMENSIONS = 384;
 
-let extractor: FeatureExtractionPipeline | null = null;
+// ⚠️ Caches the PROMISE, not the resolved pipeline. Caching the resolved value left a
+// window between the null check and the await in which every concurrent caller also saw
+// null and started its own load. The corpus stage fans its angle searches out through
+// nested Promise.all, so ~24 of them raced and each held a separate ~200MB model: the
+// fordjupning run died with "Ineffective mark-compacts near heap limit" at 4GB, inside
+// a stage whose log ("Local embedding model loaded." ×24) had shown the cause all along.
+let extractorPromise: Promise<FeatureExtractionPipeline> | null = null;
 
 /**
  * Initializes the local embedding model (lazy loading)
  */
-async function getExtractor(): Promise<FeatureExtractionPipeline> {
-	if (!extractor) {
+function getExtractor(): Promise<FeatureExtractionPipeline> {
+	if (!extractorPromise) {
 		console.log("Loading local embedding model (first time may download ~470MB)...");
-		extractor = await pipeline("feature-extraction", LOCAL_MODEL, {
+		extractorPromise = pipeline("feature-extraction", LOCAL_MODEL, {
 			dtype: "fp32",
-		});
-		console.log("Local embedding model loaded.");
+		}).then(
+			(loaded) => {
+				console.log("Local embedding model loaded.");
+				return loaded;
+			},
+			(err) => {
+				// A rejected promise must not stay cached, or one transient failure poisons
+				// every later call for the life of the process.
+				extractorPromise = null;
+				throw err;
+			},
+		);
 	}
-	return extractor;
+	return extractorPromise;
 }
 
 /**

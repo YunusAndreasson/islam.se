@@ -4,8 +4,36 @@ import {
 	bodyAfterFrontmatter,
 	looseNameMatch,
 	normaliseQuote,
+	reviewLoopFailure,
 	UNVERIFIABLE_DEEP_LINK,
 } from "./fordjupning-producer.js";
+
+describe("reviewLoopFailure", () => {
+	// The kalifatet run (2026-08-17) scored 7,2 → 8,4 → 8,4 with verdict »revise« every
+	// round. It failed correctly — a page needs BOTH score ≥ 8 and a »publish« verdict —
+	// but reported "nådde 8.4/10 efter 2 revisioner, under ribban 8". A message asserting
+	// that 8,4 is under 8 sends the reader to look for a broken gate instead of to the
+	// reviewer's punch-list, which was where the actual blocker (four footnotes marked as
+	// having no source) was written down.
+	it("does not blame the score when the score cleared the bar", () => {
+		const msg = reviewLoopFailure(8.4, "revise", 2);
+		expect(msg).not.toMatch(/under ribban/);
+		expect(msg).toContain("revise");
+		expect(msg).toContain("8.4");
+	});
+
+	it("blames the score when the score is what fell short", () => {
+		const msg = reviewLoopFailure(7.2, "revise", 2);
+		expect(msg).toMatch(/under ribban 8/);
+		expect(msg).toContain("7.2");
+	});
+
+	// A page exactly on the bar is a pass on the score condition, so a failure there can
+	// only be the verdict.
+	it("treats a score exactly on the bar as cleared", () => {
+		expect(reviewLoopFailure(8, "revise", 2)).not.toMatch(/under ribban/);
+	});
+});
 
 describe("bodyAfterFrontmatter", () => {
 	// On the ramadan run the eval-correction stage returned a valid rewrite whose metadata
