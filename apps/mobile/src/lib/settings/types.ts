@@ -40,19 +40,42 @@ export type Rounding = 'nearest' | 'up' | 'none';
 export type ThemePreference = 'system' | 'light' | 'dark';
 
 /**
- * One value per computed time slot — the five obligatory prayers plus the sunrise
- * marker. These are the same six keys adhan exposes (PRAYER_ORDER in ../prayer-times),
- * declared here so this module stays framework-agnostic: prayer-times imports FROM
+ * The six computed time slots in chronological order — the five obligatory prayers plus
+ * the sunrise marker. These are the keys adhan exposes, declared HERE rather than in
+ * ../prayer-times so this module stays framework-agnostic: prayer-times imports FROM
  * types, never the other way round.
+ *
+ * This is the ONE list. `PRAYER_ORDER` / `PrayerKey` (../prayer-times), `PerPrayerSlot`
+ * below, the store's slot sanitiser and `NOTIFY_PRAYERS` (../notifications) are all
+ * derived from it. They used to be four hand-written copies that had to agree with
+ * nothing checking that they did, and the way that fails is quiet: a seventh slot added
+ * to PRAYER_ORDER alone would leave `PerPrayerSlot` without a place to persist it and
+ * `NOTIFY_PRAYERS` without an alert for it — no type error, just a prayer that never
+ * notifies. Derivation makes the disagreement unrepresentable rather than merely
+ * discouraged.
  */
-export interface PerPrayerSlot<T> {
-  fajr: T;
-  sunrise: T;
-  dhuhr: T;
-  asr: T;
-  maghrib: T;
-  isha: T;
-}
+export const PRAYER_SLOT_KEYS = [
+  'fajr',
+  'sunrise',
+  'dhuhr',
+  'asr',
+  'maghrib',
+  'isha',
+] as const;
+
+/** One of the six computed time slots. `PrayerKey` in ../prayer-times is this type. */
+export type PrayerSlotKey = (typeof PRAYER_SLOT_KEYS)[number];
+
+/** One value per computed time slot. */
+export type PerPrayerSlot<T> = Record<PrayerSlotKey, T>;
+
+/**
+ * The five obligatory prayers — every slot except Shurūq, which is a MARKER closing
+ * Fajr's window rather than a prayer. Derived by exclusion rather than re-listed, so
+ * adding a slot cannot leave a prayer with no toggle and no alert. `NotifyPrayerKey` in
+ * ../notifications is this type.
+ */
+export type ObligatoryPrayerKey = Exclude<PrayerSlotKey, 'sunrise'>;
 
 /** The six computed prayer slots plus sunrise, used as adjustment keys. */
 export type PrayerAdjustments = PerPrayerSlot<number>;
@@ -88,13 +111,7 @@ export type LocationMode = 'gps' | 'manual';
     permission prompt. Per-prayer toggles cover the five obligatory prayers. */
 export interface NotificationSettings {
   enabled: boolean;
-  prayers: {
-    fajr: boolean;
-    dhuhr: boolean;
-    asr: boolean;
-    maghrib: boolean;
-    isha: boolean;
-  };
+  prayers: Record<ObligatoryPrayerKey, boolean>;
   /** Shurūq is a MARKER, not a prayer — it closes Fajr's window. That framing is why it
    *  is not a sixth key in `prayers` and why NOTIFY_PRAYERS still lists five. This is the
    *  one non-prayer alert: an opt-in warning that time for Fajr is running out. Its lead

@@ -13,6 +13,7 @@ import {
   qiblaBearing,
   qiblaDistanceKm,
 } from './qibla';
+import { at } from '@/test-utils/at';
 
 const STOCKHOLM = { latitude: 59.3293, longitude: 18.0686 };
 
@@ -159,7 +160,10 @@ describe('greatCirclePoints', () => {
   // ends at the Kaaba, but leaves Stockholm ~10° off the qibla.
   it('leaves the origin on the qibla bearing the compass reports', () => {
     const pts = greatCirclePoints(STOCKHOLM, KAABA, 96);
-    expect(initialBearing(pts[0], pts[1])).toBeCloseTo(qiblaBearing(STOCKHOLM), 1);
+    expect(initialBearing(at(pts, 0, 'arc points'), at(pts, 1, 'arc points'))).toBeCloseTo(
+      qiblaBearing(STOCKHOLM),
+      1,
+    );
   });
 
   // A great circle has ONE plane, so the forward azimuth measured toward the Kaaba from
@@ -179,7 +183,7 @@ describe('greatCirclePoints', () => {
   // slipping past the endpoint tests above (a lerp hits both ends exactly too).
   it('bows north of a straight lon/lat interpolation', () => {
     const lerpLat = (STOCKHOLM.latitude + KAABA.latitude) / 2;
-    const [, arcLat] = greatCirclePoints(STOCKHOLM, KAABA, 3)[1];
+    const [, arcLat] = at(greatCirclePoints(STOCKHOLM, KAABA, 3), 1, 'arc points');
     // ~0.5° ≈ 50 km off the lerp from Stockholm: small in degrees, plainly visible as a
     // curve across the map, and far above any floating-point noise.
     expect(arcLat - lerpLat).toBeGreaterThan(0.3);
@@ -190,7 +194,7 @@ describe('greatCirclePoints', () => {
     for (let i = 0; i < pts.length; i++) {
       const t = i / (pts.length - 1);
       const lerp = STOCKHOLM.latitude + (KAABA.latitude - STOCKHOLM.latitude) * t;
-      expect(pts[i][1]).toBeGreaterThanOrEqual(lerp - 1e-9);
+      expect(at(pts, i, 'arc points')[1]).toBeGreaterThanOrEqual(lerp - 1e-9);
     }
   });
 

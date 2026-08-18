@@ -1,4 +1,4 @@
-import { beforeEach, describe, expect, it, jest } from '@jest/globals';
+import { afterEach, beforeEach, describe, expect, it, jest } from '@jest/globals';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { PermissionStatus } from 'expo-modules-core';
 import * as Notifications from 'expo-notifications';
@@ -21,6 +21,7 @@ import {
 import { formatTime } from '@/lib/prayer-times';
 import { stockholmParts } from '@/lib/stockholm-time';
 import { DEFAULT_SETTINGS, type PrayerSettings } from '@/lib/settings/types';
+import { first } from '@/test-utils/at';
 
 // Stockholm — below the Arctic Circle, so all five prayers resolve to valid times
 // across the 7-day scheduling window (no polar-circle NaNs to muddy the comparison).
@@ -150,7 +151,7 @@ describe('syncPrayerNotifications lead time', () => {
   // defeats the feature, so lock the copy contract for both lead modes.
   it('leads the title with a countdown when a lead offset is set', async () => {
     await syncPrayerNotifications(STOCKHOLM, withUniformLead(15));
-    const { content } = scheduleMock.mock.calls[0][0];
+    const { content } = first(first(scheduleMock.mock.calls, 'schedule calls'), 'schedule arg');
     // Title: "<prayer> om 15 min" — the countdown is the headline, not an
     // afterthought. The space before "min" is NBSP (fast mellanslag) so the
     // unit never wraps away from its number in a narrow banner.
@@ -161,7 +162,7 @@ describe('syncPrayerNotifications lead time', () => {
 
   it('says it is time now when there is no lead offset', async () => {
     await syncPrayerNotifications(STOCKHOLM, withUniformLead(0));
-    const { content } = scheduleMock.mock.calls[0][0];
+    const { content } = first(first(scheduleMock.mock.calls, 'schedule calls'), 'schedule arg');
     expect(content.title).toMatch(/^Dags för /);
     expect(content.body).toMatch(/^Klockan \d{2}:\d{2}$/);
   });
@@ -190,7 +191,7 @@ describe('syncPrayerNotifications lead time', () => {
 
     expect(cancelMock.mock.calls).toHaveLength(0);
     expect(cancelScheduledMock.mock.calls).toHaveLength(scheduledCount);
-    expect(cancelScheduledMock.mock.calls[0][0]).toBe('prayer-1');
+    expect(first(first(cancelScheduledMock.mock.calls, 'cancel calls'), 'cancel arg')).toBe('prayer-1');
     expect(scheduleMock.mock.calls).toHaveLength(0);
   });
 
@@ -486,8 +487,32 @@ function onlyPrayers(...keys: readonly string[]): PrayerSettings['notifications'
 // as long as the platform will hold them, not stop a week after the user last opened the
 // app. iOS caps PENDING requests at 64 and silently drops the rest, so the window has to
 // be derived from how many alerts a day actually produces.
+// A fixed Stockholm mid-morning, for the same reason day-navigation.test.tsx pins one:
+// `daysSpanned()` counts the distinct calendar days the sync covered, and late in the day
+// the FIRST day contributes nothing (its prayers are already past) — so the Android
+// horizon measured 29 rather than MAX_DAYS_AHEAD every evening, on an unchanged commit.
+// Only `Date` is faked; the timer APIs stay real so the awaits below behave normally.
+const PINNED_NOW = Date.UTC(2026, 4, 20, 7, 0, 0); // 20 May 2026, 09:00 Europe/Stockholm
+const REAL_TIMER_APIS = [
+  'setTimeout',
+  'clearTimeout',
+  'setInterval',
+  'clearInterval',
+  'setImmediate',
+  'clearImmediate',
+  'nextTick',
+  'queueMicrotask',
+  'requestAnimationFrame',
+  'cancelAnimationFrame',
+  'requestIdleCallback',
+  'cancelIdleCallback',
+  'performance',
+  'hrtime',
+] as const;
+
 describe('notification horizon', () => {
   beforeEach(async () => {
+    jest.useFakeTimers({ now: PINNED_NOW, doNotFake: [...REAL_TIMER_APIS] });
     scheduleMock.mockClear();
     jest.clearAllMocks();
     scheduleMock.mockImplementation(async () => 'id');
@@ -496,6 +521,10 @@ describe('notification horizon', () => {
     getAllScheduledMock.mockImplementation(async () => []);
     resetSyncStateForTests();
     await AsyncStorage.clear();
+  });
+
+  afterEach(() => {
+    jest.useRealTimers();
   });
 
   it('divides the budget by the per-day alert count, clamped to the month', () => {
@@ -759,8 +788,8 @@ describe('Fajr-window alert', () => {
     const warnings = scheduled().filter((c) => /Fajr-tiden/.test(c.content.title));
     expect(warnings.length).toBeGreaterThan(0);
     // Literal NBSP before the unit, like every other numeral+unit pair in the app.
-    expect(warnings[0].content.title).toBe('Fajr-tiden slutar om 15 min');
-    expect(warnings[0].content.body).toMatch(/^Soluppgång \d{2}:\d{2}$/);
+    expect(first(warnings, 'fajr-window warnings').content.title).toBe('Fajr-tiden slutar om 15 min');
+    expect(first(warnings, 'fajr-window warnings').content.body).toMatch(/^Soluppgång \d{2}:\d{2}$/);
   });
 
   it('says the window is closed when there is no lead', async () => {
@@ -773,7 +802,7 @@ describe('Fajr-window alert', () => {
     );
     const warnings = scheduled().filter((c) => /Fajr-tiden/.test(c.content.title));
     expect(warnings.length).toBeGreaterThan(0);
-    expect(warnings[0].content.title).toBe('Fajr-tiden är slut');
+    expect(first(warnings, 'fajr-window warnings').content.title).toBe('Fajr-tiden är slut');
   });
 });
 
@@ -802,11 +831,11 @@ describe('night’s-last-third alert', () => {
     await syncPrayerNotifications(STOCKHOLM, withNotifications({ lastThird: true }));
     const alerts = nightAlerts();
     expect(alerts.length).toBeGreaterThan(0);
-    expect(alerts[0].content.title).toBe('Nattens sista tredjedel');
-    expect(alerts[0].content.body).toMatch(/^Klockan \d{2}:\d{2}$/);
+    expect(first(alerts, 'night alerts').content.title).toBe('Nattens sista tredjedel');
+    expect(first(alerts, 'night alerts').content.body).toMatch(/^Klockan \d{2}:\d{2}$/);
     // The body names the trigger instant itself — there is no lead to reconcile, so any
     // divergence here means the alert is claiming a time it will not fire at.
-    expect(alerts[0].content.body).toBe(`Klockan ${formatTime(alerts[0].trigger.date)}`);
+    expect(first(alerts, 'night alerts').content.body).toBe(`Klockan ${formatTime(first(alerts, 'night alerts').trigger.date)}`);
   });
 
   it('is a formal reminder like the prayers: time-sensitive, on the chosen channel', async () => {
@@ -815,7 +844,7 @@ describe('night’s-last-third alert', () => {
         STOCKHOLM,
         withNotifications({ lastThird: true, lastThirdSound: 'silent' }),
       );
-      const alert = nightAlerts()[0];
+      const alert = first(nightAlerts(), 'night alerts');
       expect(alert.content.interruptionLevel).toBe('timeSensitive');
       expect(alert.content.data?.silent).toBe(true);
       expect(alert.trigger.channelId).toBe(channelIdFor('silent'));
@@ -842,7 +871,7 @@ describe('night’s-last-third alert', () => {
           },
         }),
       );
-      expect(nightAlerts()[0].trigger.channelId).toBe(channelIdFor('silent'));
+      expect(first(nightAlerts(), 'night alerts').trigger.channelId).toBe(channelIdFor('silent'));
     });
   });
 

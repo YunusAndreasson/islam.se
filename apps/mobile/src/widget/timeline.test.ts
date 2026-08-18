@@ -6,6 +6,7 @@ import { DEFAULT_SETTINGS, type PrayerSettings } from '@/lib/settings/types';
 import { startOfStockholmDay } from '@/lib/stockholm-time';
 import { oracleTimes } from '@/test-utils/prayer-oracle';
 import { buildTimeline, MAX_ENTRIES, SPAN_DAYS, SPAN_MS } from './timeline';
+import { at, first, last } from '@/test-utils/at';
 
 const STOCKHOLM: LatLng = { latitude: 59.3293, longitude: 18.0686 };
 const KIRUNA: LatLng = { latitude: 67.8558, longitude: 20.2253 };
@@ -25,10 +26,12 @@ describe('buildTimeline', () => {
   it('starts at now and is sorted ascending within the span', () => {
     expect(entries.length).toBeGreaterThanOrEqual(2);
     expect(entries.length).toBeLessThanOrEqual(MAX_ENTRIES);
-    expect(entries[0].date.getTime()).toBe(now);
+    expect(first(entries, 'entries').date.getTime()).toBe(now);
     for (let i = 1; i < entries.length; i++) {
-      expect(entries[i].date.getTime()).toBeGreaterThan(entries[i - 1].date.getTime());
-      expect(entries[i].date.getTime()).toBeLessThanOrEqual(now + SPAN_MS);
+      expect(at(entries, i, 'entries').date.getTime()).toBeGreaterThan(
+        at(entries, i - 1, 'entries').date.getTime(),
+      );
+      expect(at(entries, i, 'entries').date.getTime()).toBeLessThanOrEqual(now + SPAN_MS);
     }
   });
 
@@ -41,8 +44,8 @@ describe('buildTimeline', () => {
   });
 
   it('the first entry points at the imminent prayer (Fajr)', () => {
-    expect(entries[0].props.nextArabic).toBe(PRAYER_LABELS.fajr);
-    expect(entries[0].props.nextIsTomorrow).toBe(false);
+    expect(first(entries, 'entries').props.nextArabic).toBe(PRAYER_LABELS.fajr);
+    expect(first(entries, 'entries').props.nextIsTomorrow).toBe(false);
   });
 
   it('the post-Isha boundary rolls the widget over to tomorrow', () => {
@@ -74,9 +77,9 @@ describe('buildTimeline', () => {
     // timeline and gets the same stored one back, because only the app can produce a
     // fresh one. A short horizon therefore froze the widget on an already-passed prayer
     // after a day and a half away. Assert the last entry really reaches near the span.
-    const last = entries[entries.length - 1].date.getTime();
+    const lastAt = last(entries, 'entries').date.getTime();
     expect(SPAN_DAYS).toBeGreaterThanOrEqual(3);
-    expect(last).toBeGreaterThan(now + SPAN_MS - 24 * 60 * 60 * 1000);
+    expect(lastAt).toBeGreaterThan(now + SPAN_MS - 24 * 60 * 60 * 1000);
     // Every day in the span contributes its midnight + prayers, and it still fits.
     expect(entries.length).toBeGreaterThanOrEqual(SPAN_DAYS * 6);
     expect(entries.length).toBeLessThanOrEqual(MAX_ENTRIES);
@@ -103,7 +106,7 @@ describe('buildTimeline', () => {
     // must be dropped, so the first real boundary after `now` is Ẓuhr+1s.
     const midday = ref.dhuhr.getTime() - 30 * 60 * 1000; // 30 min before Ẓuhr
     const fromMidday = buildTimeline(STOCKHOLM, settings(), 'Stockholm', midday);
-    expect(fromMidday[0].date.getTime()).toBe(midday);
+    expect(first(fromMidday, 'fromMidday entries').date.getTime()).toBe(midday);
     expect(fromMidday.every((e) => e.date.getTime() >= midday)).toBe(true);
     // No entry corresponds to a prayer that already happened this morning.
     expect(fromMidday.some((e) => e.date.getTime() === ref.fajr.getTime() + 1000)).toBe(false);
@@ -114,7 +117,7 @@ describe('buildTimeline', () => {
     // Stockholm is below the Arctic Circle, so today's prayers are always computable.
     const live = buildTimeline(STOCKHOLM, settings(), 'Stockholm');
     expect(live.length).toBeGreaterThanOrEqual(2);
-    expect(live[0].props.location).toBe('Stockholm');
+    expect(first(live, 'live entries').props.location).toBe('Stockholm');
   });
 
   it('skips unresolved polar slots instead of scheduling Invalid Dates', () => {

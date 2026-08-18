@@ -10,6 +10,7 @@ import {
   toFeatureCollection,
   UNDATED_SORT,
 } from './index';
+import { at, first } from '@/test-utils/at';
 
 // The vendored dataset is the ground truth the map layer and the detail card both read,
 // so these guard its integrity: every record geocoded inside Sweden with the fields the
@@ -50,14 +51,14 @@ describe('toFeatureCollection', () => {
     expect(fc.type).toBe('FeatureCollection');
     expect(fc.features.length).toBe(mosques.length);
 
-    const first = fc.features[0];
-    const m = mosques[0];
-    expect(first.type).toBe('Feature');
-    expect(first.geometry.type).toBe('Point');
+    const feature = first(fc.features, 'features');
+    const m = first(mosques, 'mosques');
+    expect(feature.type).toBe('Feature');
+    expect(feature.geometry.type).toBe('Point');
     // GeoJSON is [lng, lat] — the reverse of a lat/lng pair. Guarding the order stops
     // the classic bug where every pin lands in the wrong hemisphere.
-    expect(first.geometry.coordinates).toEqual([m.lng, m.lat]);
-    expect(first.properties).toEqual({
+    expect(feature.geometry.coordinates).toEqual([m.lng, m.lat]);
+    expect(feature.properties).toEqual({
       id: m.id,
       name: m.name,
       sort: m.opened ?? UNDATED_SORT,
@@ -88,9 +89,11 @@ describe('toFeatureCollection', () => {
   // go back to being arbitrary, which is invisible in a screenshot and impossible to
   // notice in review.
   it('ranks dated mosques ahead of undated ones for symbol-sort-key', () => {
-    const dated: Mosque = { ...getMosques()[0], id: 'dated', opened: 1984 };
-    const undated: Mosque = { ...getMosques()[1], id: 'undated', opened: undefined };
-    const [a, b] = toFeatureCollection([dated, undated]).features;
+    const dated: Mosque = { ...first(getMosques(), 'mosques'), id: 'dated', opened: 1984 };
+    const undated: Mosque = { ...at(getMosques(), 1, 'mosques'), id: 'undated', opened: undefined };
+    const features = toFeatureCollection([dated, undated]).features;
+    const a = first(features, 'features');
+    const b = at(features, 1, 'features');
 
     expect(a.properties.sort).toBe(1984);
     expect(b.properties.sort).toBe(UNDATED_SORT);
@@ -113,7 +116,7 @@ describe('toFeatureCollection', () => {
 
 describe('mosqueById', () => {
   it('resolves a known id and returns undefined for an unknown one', () => {
-    const known = getMosques()[10];
+    const known = at(getMosques(), 10, 'mosques');
     expect(mosqueById(known.id)).toBe(known);
     expect(mosqueById('no-such-mosque')).toBeUndefined();
   });

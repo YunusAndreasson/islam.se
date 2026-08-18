@@ -62,6 +62,7 @@ import {
   shouldShowNotificationHint,
 } from '@/lib/notification-hint';
 import { getNotificationPermissionState } from '@/lib/notifications';
+import { lonLatOf, type LonLat } from '@/lib/coordinates';
 import { computePrayerTimes, nextPrayerKeyAt, PRAYER_ORDER, type PrayerKey } from '@/lib/prayer-times';
 import { computeSignature } from '@/lib/settings/compute-signature';
 import { useSettings } from '@/lib/settings/context';
@@ -496,13 +497,19 @@ export default function Bonetider() {
   // `avoid` is the user's real coordinates, since their location dot is genuinely on
   // screen here (MapMarkersOverlay draws it in both modes) — unlike the old standalone
   // demo, which had no dot to keep a pill clear of.
-  const lessonFrame = mapLessonPending
+  // One lookup, shared by the frame here and the card near the bottom of the tree.
+  // Both stepper handlers clamp `lessonIndex`, so it is always in range — but holding
+  // the example as a VALUE rather than re-indexing at each use is what makes it
+  // impossible for the card to describe a different month than the map is drawing.
+  const lesson = MAP_LESSON_EXAMPLES[lessonIndex];
+  const lessonFrame =
+    mapLessonPending && lesson
     ? demoFrame(
-        MAP_LESSON_EXAMPLES[lessonIndex].month,
+        lesson.month,
         lessonToday,
         settings,
         sig,
-        [coords.longitude, coords.latitude],
+        lonLatOf(coords),
       )
     : null;
   // Own shared value rather than reusing `nowFraction` above — that one's effect is the
@@ -530,6 +537,17 @@ export default function Bonetider() {
     [clock.dayStart, settings, sig],
   );
 
+  // The user's dot as [lon, lat] — anchors the Skia arrival bloom and keeps each prayer
+  // line's label pill clear of the dot. Memoised on the two PRIMITIVES rather than on
+  // `coords`, so a new coords object carrying the same position doesn't churn every
+  // overlay memo downstream. It is the one conversion of the user's position into
+  // MapLibre order in this file; `solar` below takes the result rather than spelling
+  // `[longitude, latitude]` a second time.
+  const { latitude: userLat, longitude: userLon } = coords;
+  const userPoint = useMemo<LonLat>(
+    () => lonLatOf({ latitude: userLat, longitude: userLon }),
+    [userLat, userLon],
+  );
   // The sweeping prayer lines for this instant — the level-0 contour of (prayerTime −
   // now) per prayer (appears/sweeps/vanishes on its own). Computed in JS here (cheap
   // arithmetic on the cached grid); the Skia overlay projects them to screen-space paths
@@ -537,16 +555,7 @@ export default function Bonetider() {
   // `avoid` keeps each line's pill clear of the user's dot (see buildLines): when a
   // prayer's line sweeps through the user's city the pill would otherwise sit right
   // on the brass dot + city name.
-  const solar = useMemo(
-    () => buildLines(grid, clock.now, [coords.longitude, coords.latitude]),
-    [grid, clock.now, coords.longitude, coords.latitude],
-  );
-  // The user's dot as [lon, lat] — anchors the Skia arrival bloom. Stable identity so
-  // the overlay's memoised props don't churn on unrelated renders.
-  const userPoint = useMemo<[number, number]>(
-    () => [coords.longitude, coords.latitude],
-    [coords.longitude, coords.latitude],
-  );
+  const solar = useMemo(() => buildLines(grid, clock.now, userPoint), [grid, clock.now, userPoint]);
   const prayerLines = useMemo<PrayerLineData[]>(
     () =>
       solar.lines.features.map((f) => ({
@@ -911,9 +920,9 @@ export default function Bonetider() {
           full schedule — but for the one landing right after onboarding, the map lesson
           takes this slot instead. Mutually exclusive, so there is never a moment where
           both compete for the same strip of screen. */}
-      {mapLessonPending && lessonFrame ? (
+      {mapLessonPending && lesson && lessonFrame ? (
         <MapLessonCard
-          fact={MAP_LESSON_EXAMPLES[lessonIndex].fact}
+          fact={lesson.fact}
           monthLabel={lessonFrame.monthLabel}
           timeLabel={lessonFrame.timeLabel}
           index={lessonIndex}

@@ -9,15 +9,26 @@
 // The countdown itself is `Text timerInterval … countsDown` — rendered live BY THE SYSTEM,
 // so it ticks every second with zero JS execution, no pushes and no background tasks.
 //
-// KNOWN CEILING, not an oversight: when the prayer arrives the countdown reaches 00:00 and
-// STAYS there until the app is next foregrounded (which re-points or ends the activity).
-// Rolling over on the device would need ActivityKit's stale state (`Activity.isStale` /
-// `staleDate`), and expo-widgets exposes neither `staleDate` on start/update nor `isStale`
-// in LiveActivityEnvironment — the environment carries only colorScheme,
-// isLuminanceReduced, isActivityFullscreen, isActivityUpdateReduced, activityFamily and
-// levelOfDetail. An earlier version shipped a preloaded `after*` prop set for that
-// transition behind a hard-coded `const advanced = false`; it could never fire, so it was
-// removed rather than left looking implemented.
+// KNOWN CEILING: when the prayer arrives the countdown reaches 00:00 and STAYS there until
+// the app is next foregrounded (which re-points or ends the activity).
+//
+// Rolling the CONTENT over on the device would need ActivityKit's stale state
+// (`Activity.isStale` / `staleDate`). expo-widgets 57.0.10 does not merely leave that
+// unexposed in JS — its native bridge passes `staleDate: nil` on every path
+// (ios/LiveActivityFactory.swift:30, ios/LiveActivity.swift:23,35) and omits `isStale`
+// from LiveActivityEnvironment, which carries only colorScheme, isLuminanceReduced,
+// isActivityFullscreen, isActivityUpdateReduced, activityFamily and levelOfDetail. So the
+// layout cannot re-render itself at the boundary; that would take a fork of the module.
+// An earlier version shipped a preloaded `after*` prop set for the transition behind a
+// hard-coded `const advanced = false`; it could never fire, so it was removed rather than
+// left looking implemented.
+//
+// What the module DOES expose, and what any fix has to be built on, is the dismissal
+// policy: `end(after(date), props)` is wired end-to-end (JS `after()` → `afterDate` →
+// Swift `.after(date)`), and iOS removes an ended activity from the Lock Screen at that
+// date without the app running. The cost is that ending also drops it from the Dynamic
+// Island immediately, and this layout serves a full Dynamic Island presentation
+// (compactLeading/compactTrailing/minimal/expanded*) — so it is a trade, not a free win.
 import { HStack, Image, Spacer, Text, VStack } from '@expo/ui/swift-ui';
 import {
   font,
@@ -99,7 +110,10 @@ function PrayerLiveActivityLayout(
         highlight: '#d2a04c', // bright gold — the prayer icon
         highlightText: '#d8a44c', // bright gold — the prayer name
       };
-  const SF: Record<string, SFSymbol> = {
+  // Untrusted lookup, exactly as in PrayerTimesWidget: `p` is cast from ActivityKit's
+  // stored props, so `nextKey` can be a slot this map does not carry. `| undefined`
+  // keeps the fallback below mandatory rather than merely customary.
+  const SF: Record<string, SFSymbol | undefined> = {
     fajr: 'moon.stars.fill',
     sunrise: 'sunrise.fill',
     dhuhr: 'sun.max.fill',
@@ -107,11 +121,12 @@ function PrayerLiveActivityLayout(
     maghrib: 'sunset.fill',
     isha: 'moon.fill',
   };
+  const SF_FALLBACK: SFSymbol = 'moon.stars.fill';
 
   // Null/partial-safe, like the widget: never throw inside the extension.
   const p = (rawProps ?? {}) as Partial<PrayerActivityProps>;
 
-  const icon: SFSymbol = (typeof p.nextKey === 'string' && SF[p.nextKey]) || SF.fajr;
+  const icon: SFSymbol = (typeof p.nextKey === 'string' ? SF[p.nextKey] : undefined) ?? SF_FALLBACK;
   const name = typeof p.nextArabic === 'string' && p.nextArabic ? p.nextArabic : 'Bönetider';
   const swedish = typeof p.nextSwedish === 'string' ? p.nextSwedish : '';
   const time = typeof p.nextTime === 'string' && p.nextTime ? p.nextTime : '—';

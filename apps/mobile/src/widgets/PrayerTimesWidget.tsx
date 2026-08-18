@@ -72,7 +72,13 @@ function PrayerTimesWidgetLayout(rawPayload: WidgetPayload, environment: WidgetE
     highlight: '#ffffff',
     highlightText: '#ffffff',
   };
-  const SF: Record<string, SFSymbol> = {
+  // Keyed by PrayerKey, but typed as an UNTRUSTED lookup on purpose. `rows` below is
+  // cast from app-group JSON, never parsed, so a version-skewed payload — an OTA
+  // rollback putting older JS in front of newer stored data, or a slot key added later —
+  // can carry a `key` this map has never heard of. An undefined SF Symbol renders the
+  // widget blank, which is the worst failure a widget has. `| undefined` here makes the
+  // fallback below a type error to forget.
+  const SF: Record<string, SFSymbol | undefined> = {
     fajr: 'moon.stars.fill',
     sunrise: 'sunrise.fill',
     dhuhr: 'sun.max.fill',
@@ -80,6 +86,7 @@ function PrayerTimesWidgetLayout(rawPayload: WidgetPayload, environment: WidgetE
     maghrib: 'sunset.fill',
     isha: 'moon.fill',
   };
+  const SF_FALLBACK: SFSymbol = 'moon.stars.fill';
 
   // Null/partial-safe: WidgetKit renders a placeholder with null props before the app
   // pushes data; reading fields off null would throw → black.
@@ -98,7 +105,7 @@ function PrayerTimesWidgetLayout(rawPayload: WidgetPayload, environment: WidgetE
   const nextTime = typeof p.nextTime === 'string' && p.nextTime ? p.nextTime : '—';
   const nextAtMs = typeof p.nextAtMs === 'number' ? p.nextAtMs : null;
   const nextRow = rows.find((r) => r.isNext);
-  const nextIcon: SFSymbol = nextRow ? SF[nextRow.key] : SF.fajr;
+  const nextIcon: SFSymbol = (nextRow ? SF[nextRow.key] : undefined) ?? SF_FALLBACK;
   const nextKindLabel = nextRow?.isMarker ? 'NÄSTA TID' : 'NÄSTA BÖN';
   // Post-Isha the hero shows tomorrow's Fajr — say so (app convention: "i morgon").
   // Two widths: the narrow families (small, accessoryRectangular) can't fit

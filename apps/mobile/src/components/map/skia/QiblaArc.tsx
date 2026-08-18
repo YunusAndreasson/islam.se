@@ -19,6 +19,7 @@ import { LinearGradient, Path, Skia } from '@shopify/react-native-skia';
 import { useMemo } from 'react';
 import { type SharedValue, useDerivedValue } from 'react-native-reanimated';
 
+import { latLngOf, type LonLat } from '@/lib/coordinates';
 import { type Camera, mercX, mercY, project, worldSize } from '@/lib/map/projection';
 import { greatCirclePoints, KAABA } from '@/lib/qibla';
 import { useColors } from '@/theme/useColors';
@@ -40,7 +41,7 @@ interface Props {
   /** Map camera (centre/zoom/viewport), updated from MapLibre region events. */
   camera: SharedValue<Camera>;
   /** The user's position as [lon, lat] — the same point the brass dot is drawn at. */
-  from: [number, number];
+  from: LonLat;
 }
 
 export function QiblaArc({ camera, from }: Props) {
@@ -50,12 +51,16 @@ export function QiblaArc({ camera, from }: Props) {
   // Float64Array keeps the per-frame worklet below allocation-free. Same two-stage shape
   // as PrayerLine — see its comment for why the split matters.
   const merc = useMemo(() => {
-    const points = greatCirclePoints({ longitude: from[0], latitude: from[1] }, KAABA, ARC_SAMPLES);
+    const points = greatCirclePoints(latLngOf(from), KAABA, ARC_SAMPLES);
     const arr = new Float64Array(points.length * 2);
-    for (let i = 0; i < points.length; i++) {
-      arr[i * 2] = mercX(points[i][0]);
-      arr[i * 2 + 1] = mercY(points[i][1]);
-    }
+    // forEach rather than an index loop: the callback hands back the point itself, so
+    // there is no indexed read to prove in bounds — and no chance of writing a hole into
+    // the buffer, which would project to Mercator (0, 0) and draw the arc through the
+    // Gulf of Guinea.
+    points.forEach((p, i) => {
+      arr[i * 2] = mercX(p[0]);
+      arr[i * 2 + 1] = mercY(p[1]);
+    });
     return arr;
   }, [from]);
 
@@ -68,8 +73,15 @@ export function QiblaArc({ camera, from }: Props) {
     const oy = cam.height / 2 - mercY(cam.lat) * ws;
     const b = Skia.PathBuilder.Make();
     for (let i = 0; i < merc.length; i += 2) {
-      const x = merc[i] * ws + ox;
-      const y = merc[i + 1] * ws + oy;
+      const mx = merc[i];
+      const my = merc[i + 1];
+      // The buffer is filled in (x, y) pairs, so a half-pair cannot occur. Stopping if
+      // it ever did is the point: an undefined read becomes NaN, and a single NaN
+      // vertex makes Skia discard the ENTIRE path — the arc would not degrade, it would
+      // disappear. A short arc is a far better failure than no arc.
+      if (mx === undefined || my === undefined) break;
+      const x = mx * ws + ox;
+      const y = my * ws + oy;
       if (i === 0) b.moveTo(x, y);
       else b.lineTo(x, y);
     }

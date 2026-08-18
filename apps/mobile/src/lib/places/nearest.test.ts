@@ -6,6 +6,7 @@ import { describe, expect, it } from '@jest/globals';
 
 import { PLACES } from './data';
 import { haversineKm, nearestPlace } from './nearest';
+import { first } from '@/test-utils/at';
 
 describe('haversineKm', () => {
   it('returns 0 for identical points', () => {
@@ -94,10 +95,10 @@ describe('nearestPlace', () => {
     // because regressions there would be the most user-visible.
     const samples = [
       ...PLACES.slice(0, 5), // 5 biggest by population
-      [...PLACES].sort((a, b) => b.lat - a.lat)[0], // northernmost
-      [...PLACES].sort((a, b) => a.lat - b.lat)[0], // southernmost
-      [...PLACES].sort((a, b) => b.lon - a.lon)[0], // easternmost
-      [...PLACES].sort((a, b) => a.lon - b.lon)[0], // westernmost
+      first([...PLACES].sort((a, b) => b.lat - a.lat), 'PLACES by lat desc'), // northernmost
+      first([...PLACES].sort((a, b) => a.lat - b.lat), 'PLACES by lat'), // southernmost
+      first([...PLACES].sort((a, b) => b.lon - a.lon), 'PLACES by lon desc'), // easternmost
+      first([...PLACES].sort((a, b) => a.lon - b.lon), 'PLACES by lon'), // westernmost
     ];
     for (const p of samples) {
       const { place } = nearestPlace(p.lat, p.lon);

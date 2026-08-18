@@ -122,7 +122,11 @@ describe.each([
     const paint = layer(style, 'relief').paint as Record<string, unknown[]>;
 
     expect(paint['hillshade-method']).toBe('multidirectional');
-    const lights = paint['hillshade-illumination-direction'].length;
+    const directions = paint['hillshade-illumination-direction'];
+    // Named rather than chained off the index read: absent, `.length` would throw a bare
+    // "of undefined" instead of saying which paint property the relief layer lost.
+    expect(directions).toBeDefined();
+    const lights = directions?.length ?? 0;
     expect(lights).toBeGreaterThan(1);
     expect(paint['hillshade-illumination-altitude']).toHaveLength(lights);
     expect(paint['hillshade-shadow-color']).toHaveLength(lights);

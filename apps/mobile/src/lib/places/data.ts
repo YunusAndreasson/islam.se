@@ -16,7 +16,15 @@ export interface SwedishPlace {
   readonly lon: number;
 }
 
-export const PLACES: readonly SwedishPlace[] = [
+/** Every populated place in the bundled dataset, sorted by population descending.
+ *
+ *  A NON-EMPTY tuple type, not a plain array: `nearestPlace` documents that it always
+ *  returns a match, and that promise rests entirely on this list having a first element.
+ *  Typed as `readonly SwedishPlace[]` the compiler could not tell the difference, so the
+ *  seed read came back `SwedishPlace | undefined` and the guarantee lived only in a
+ *  comment. Spelled this way the generator emitting an empty list is a type error here
+ *  rather than a crash at the first GPS fix. */
+export const PLACES: readonly [SwedishPlace, ...SwedishPlace[]] = [
   { name: 'Stockholm', county: 'Stockholm', population: 1515017, lat: 59.32938, lon: 18.06871 },
   { name: 'Göteborg', county: 'Västra Götaland', population: 608462, lat: 57.70716, lon: 11.96679 },
   { name: 'Malmö', county: 'Skåne', population: 362133, lat: 55.60587, lon: 13.00073 },

@@ -21,6 +21,7 @@ import {
   type PrayerSettings,
 } from './settings/types';
 import { oracleTimes } from '@/test-utils/prayer-oracle';
+import { at } from '@/test-utils/at';
 
 const STOCKHOLM = { latitude: 59.3293, longitude: 18.0686 };
 const KIRUNA = { latitude: 67.8558, longitude: 20.2253 };
@@ -77,7 +78,9 @@ describe('computePrayerTimes', () => {
     }
     // Times must be strictly increasing across the day.
     for (let i = 1; i < order.length; i++) {
-      expect(order[i].getTime()).toBeGreaterThan(order[i - 1].getTime());
+      expect(at(order, i, 'prayer order').getTime()).toBeGreaterThan(
+        at(order, i - 1, 'prayer order').getTime(),
+      );
     }
   });
 

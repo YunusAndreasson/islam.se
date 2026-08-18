@@ -12,11 +12,13 @@ import {
   Shafaq,
 } from 'adhan';
 
-import type {
-  CalculationMethodKey,
-  HighLatitudeRuleKey,
-  PolarCircleResolutionKey,
-  PrayerSettings,
+import {
+  type CalculationMethodKey,
+  type HighLatitudeRuleKey,
+  type PolarCircleResolutionKey,
+  type PrayerSettings,
+  PRAYER_SLOT_KEYS,
+  type PrayerSlotKey,
 } from './settings/types';
 import { isValidLatLng } from './coordinates';
 
@@ -110,16 +112,15 @@ export function computePrayerTimes(
   return new PrayerTimes(c, date, params);
 }
 
-/** The six daily prayers plus sunrise, in chronological order, with Swedish labels. */
-export const PRAYER_ORDER = [
-  'fajr',
-  'sunrise',
-  'dhuhr',
-  'asr',
-  'maghrib',
-  'isha',
-] as const;
-export type PrayerKey = (typeof PRAYER_ORDER)[number];
+/**
+ * The six daily prayers plus sunrise, in chronological order.
+ *
+ * Re-exported from settings/types rather than re-listed: that module owns the slot key
+ * set because it must not import from here (see PRAYER_SLOT_KEYS for why the single list
+ * matters). This name is the one the prayer domain reads by, and it stays the same tuple.
+ */
+export const PRAYER_ORDER = PRAYER_SLOT_KEYS;
+export type PrayerKey = PrayerSlotKey;
 
 /**
  * The prayer to treat as "current / next" at the instant `now` (ms epoch): the first in

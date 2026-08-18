@@ -1,5 +1,7 @@
 import { describe, expect, it } from '@jest/globals';
 
+import { at, first } from '@/test-utils/at';
+
 import {
   catmullRom,
   chainSegments,
@@ -57,7 +59,7 @@ describe('marchingSquares', () => {
     const segs = marchingSquares([0, 10], [0, 10], field, 0);
     expect(segs).toHaveLength(1);
     // Both endpoints land at latitude 5 (halfway between 0 and 10).
-    for (const [, lat] of segs[0]) {
+    for (const [, lat] of first(segs, 'segments')) {
       expect(lat).toBeCloseTo(5, 6);
     }
   });
@@ -69,6 +71,68 @@ describe('marchingSquares', () => {
     ];
     // The only cell has a NaN corner → no contour, no crash, no NaN coordinates.
     expect(marchingSquares([0, 10], [0, 10], field, 0)).toHaveLength(0);
+  });
+});
+
+// A ragged grid — `values` whose rows don't match the lats/lons axes they were built for
+// — is a CALLER bug, and the first test below is the one with teeth: fewer rows than the
+// latitude axis used to make `values[i][j]` throw outright, on the scrub path, from a
+// merely malformed grid. Removing that guard turns it red.
+//
+// The other two pin the softer half of the contract (ragged input yields no NaN
+// geometry). They are honest coverage of the documented behaviour but they do NOT
+// distinguish the current code from the old: a missing corner arrives as NaN either way,
+// and the NaN skip that exists for polar gaps already absorbs it. Checked by mutation,
+// recorded here so a future session doesn't read more assurance into them than they give.
+describe('marchingSquares — malformed input', () => {
+  const lats = [55, 60, 65];
+  const lons = [10, 15, 20];
+
+  it('skips a band whose row is missing rather than contouring undefined corners', () => {
+    // Three declared latitudes but only two rows of values: the second band (rows 1→2)
+    // has no bottom row at all.
+    const short: number[][] = [
+      [1, 1, 1],
+      [-1, -1, -1],
+    ];
+    const segs = marchingSquares(lats, lons, short, 0);
+    // The first band still crosses and contributes; the missing one contributes nothing
+    // — and critically, nothing NaN.
+    expect(segs.length).toBeGreaterThan(0);
+    for (const [a, b] of segs) {
+      for (const v of [...a, ...b]) expect(Number.isNaN(v)).toBe(false);
+    }
+    // Every crossing must come from the one real band (latitudes 55–60), never from the
+    // phantom one above it.
+    for (const [a, b] of segs) {
+      expect(a[1]).toBeLessThanOrEqual(60);
+      expect(b[1]).toBeLessThanOrEqual(60);
+    }
+  });
+
+  it('skips cells whose row is shorter than the longitude axis', () => {
+    // Row 1 stops one column early, so the rightmost cell of that band has no corner.
+    const ragged: number[][] = [
+      [1, 1, 1],
+      [-1, -1],
+    ];
+    const segs = marchingSquares(lats.slice(0, 2), lons, ragged, 0);
+    for (const [a, b] of segs) {
+      for (const v of [...a, ...b]) expect(Number.isNaN(v)).toBe(false);
+    }
+    // The truncated column cannot have produced a crossing, so nothing reaches the
+    // easternmost longitude.
+    for (const [a, b] of segs) {
+      expect(Math.max(a[0], b[0])).toBeLessThan(20);
+    }
+  });
+
+  it('contours nothing when the longitude axis outruns every row', () => {
+    const values: number[][] = [
+      [1],
+      [-1],
+    ];
+    expect(marchingSquares([55, 60], lons, values, 0)).toHaveLength(0);
   });
 });
 
@@ -277,10 +341,10 @@ describe('catmullRom', () => {
       [1, 3],
       [-0.5, 1.5],
     ];
-    const loopA: [number, number][] = [...base, base[0]];
+    const loopA: [number, number][] = [...base, first(base, 'base')];
     // Rotate the cut by one vertex: same cycle, different arbitrary start.
-    const rot = [...base.slice(1), base[0]];
-    const loopB: [number, number][] = [...rot, rot[0]];
+    const rot = [...base.slice(1), first(base, 'base')];
+    const loopB: [number, number][] = [...rot, first(rot, 'rotated base')];
 
     const a = catmullRom(loopA, 10);
     const b = catmullRom(loopB, 10);
@@ -302,8 +366,11 @@ describe('smoothChain', () => {
   const turning = (line: [number, number][]): number => {
     let sum = 0;
     for (let i = 1; i < line.length - 1; i++) {
-      const a = Math.atan2(line[i][1] - line[i - 1][1], line[i][0] - line[i - 1][0]);
-      const b = Math.atan2(line[i + 1][1] - line[i][1], line[i + 1][0] - line[i][0]);
+      const prev = at(line, i - 1, 'line');
+      const cur = at(line, i, 'line');
+      const next = at(line, i + 1, 'line');
+      const a = Math.atan2(cur[1] - prev[1], cur[0] - prev[0]);
+      const b = Math.atan2(next[1] - cur[1], next[0] - cur[0]);
       let d = Math.abs(b - a);
       if (d > Math.PI) d = 2 * Math.PI - d;
       sum += d;
@@ -394,7 +461,12 @@ describe('orientNorthFirst', () => {
       [15, 67.5],
     ];
     const out = orientNorthFirst(line);
-    expect([...out].sort()).toEqual([...line].sort());
+    // An explicit comparator: bare `.sort()` compares the STRINGIFIED tuples, so the
+    // ordering it produces is lexicographic ("15,67.5" before "16,56.1") and depends on
+    // decimal formatting rather than on the numbers. Both sides happened to agree, which
+    // is precisely the kind of accidental pass that survives until the fixture changes.
+    const byPoint = (a: [number, number], b: [number, number]) => a[0] - b[0] || a[1] - b[1];
+    expect([...out].sort(byPoint)).toEqual([...line].sort(byPoint));
   });
 
   it('does not mutate its input when reversing', () => {

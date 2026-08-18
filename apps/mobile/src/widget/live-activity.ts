@@ -4,9 +4,26 @@
 // foregrounded — so this runs on launch/foreground/settings change (app/_layout.tsx →
 // WidgetSync), alongside the widget timeline push.
 //
-// The countdown itself is system-rendered (Text timerInterval), so once started it
-// ticks with no JS. ActivityKit marks the content stale at the prayer boundary; the
-// layout then switches to a preloaded following prayer without waking the app.
+// The countdown itself is system-rendered (Text timerInterval), so once started it ticks
+// with no JS. Nothing in this module runs between foregrounds — and that is the whole
+// design problem it has to solve.
+//
+// WHY THE BANNER USED TO STRAND AT 0:00. The layout cannot re-render itself at the prayer
+// boundary: expo-widgets hard-codes `staleDate: nil` on start, update and end
+// (ios/LiveActivityFactory.swift:30, ios/LiveActivity.swift:23,35) and omits `isStale`
+// from LiveActivityEnvironment, so ActivityKit never marks the content stale and the view
+// never gets a reason to change. (An older version of this comment claimed it did, and
+// that the layout swapped to a preloaded following prayer — it never did in shipped code.)
+// With the only trigger being an AppState 'active' edge, a prayer that arrived while the
+// phone was locked left the countdown reading 0:00 until the user next opened the app:
+// after ʿIshāʾ, all night.
+//
+// WHAT FIXES IT. `end(dismissalPolicy)` accepts `{ after: date }`, and an activity ended
+// that way stays on the Lock Screen — still rendering, still counting — until iOS removes
+// it at that date, with the app closed. So every activity started here is handed its own
+// removal time (the prayer instant) the moment it starts; see reconcileActivity. The cost
+// is the Dynamic Island, which drops an ended activity immediately — a deliberate trade,
+// documented at the call site.
 import { Platform } from 'react-native';
 
 import type { LatLng } from '@/lib/prayer-times';
@@ -80,10 +97,28 @@ export function resetLiveActivityStateForTests(): void {
   reconcileQueue = Promise.resolve();
 }
 
-/** One running activity, as far as this module is concerned. */
+/**
+ * How a banner is removed.
+ *  – `'immediate'` takes it down now.
+ *  – `{ after: date }` ends the activity but LEAVES IT ON SCREEN, rendering the final
+ *    content, until iOS removes it at `date`. That is the whole mechanism behind the
+ *    auto-dismiss: the removal is scheduled with the system, so it happens at the prayer
+ *    whether or not the app ever runs again.
+ *
+ * The object literal is exactly what expo-widgets' `after(date)` helper returns, and its
+ * `end()` branches on `'after' in policy`. Built here rather than imported so this module
+ * keeps its top-level import list free of 'expo-widgets' — the native module is reached
+ * only through the dynamic import in syncPrayerLiveActivity, which is what lets Jest load
+ * this file at all.
+ */
+type DismissalPolicy = 'immediate' | { after: Date };
+
+/** One running activity, as far as this module is concerned. There is deliberately no
+ *  `update`: every activity this module starts is ended immediately with a future
+ *  dismissal date, and ActivityKit ignores updates to an ended activity — so the only
+ *  way to change what is on screen is to remove it and start a new one. */
 interface LiveActivityHandle {
-  update(props: PrayerActivityProps): Promise<void>;
-  end(policy: 'immediate'): Promise<void>;
+  end(policy: DismissalPolicy, props?: PrayerActivityProps): Promise<void>;
 }
 
 /**
@@ -95,7 +130,7 @@ interface LiveActivityHandle {
  * through that path silently lands in the catch below and does nothing at all.
  */
 export interface LiveActivityApi {
-  start(props: PrayerActivityProps): unknown;
+  start(props: PrayerActivityProps): LiveActivityHandle | undefined;
   getInstances(): LiveActivityHandle[];
 }
 
@@ -120,6 +155,19 @@ export function applyPrayerActivity(
   return run;
 }
 
+/** Take every one of these banners down now.
+ *
+ *  Iterates a COPY. `getInstances()` is free to hand back a live view of ActivityKit's
+ *  list rather than a snapshot, and ending an activity removes it from that list — so
+ *  walking the original skips every second entry, which is exactly how a duplicate
+ *  survived a sync that was supposed to clear it. Not a hypothetical: the duplicates test
+ *  caught it. */
+async function endAll(instances: readonly LiveActivityHandle[]): Promise<void> {
+  for (const activity of [...instances]) {
+    await activity.end('immediate');
+  }
+}
+
 async function reconcileActivity(
   api: LiveActivityApi,
   props: PrayerActivityProps | null,
@@ -127,30 +175,51 @@ async function reconcileActivity(
   const instances = api.getInstances();
 
   if (!props) {
-    // Nothing to count down to — clear whatever lingers (e.g. yesterday's 00:00).
-    for (const activity of instances) {
-      await activity.end('immediate');
-    }
+    // Nothing to count down to — clear whatever lingers.
+    await endAll(instances);
     appliedContentKey = null;
     return;
   }
-  if (instances.length === 0) {
-    api.start(props);
-    appliedContentKey = activityContentKey(props);
-    return;
-  }
-  // End accidental duplicates first, whatever happens to the survivor.
-  for (const extra of instances.slice(1)) {
-    await extra.end('immediate');
-  }
-  // Refresh the survivor only when it would actually look different — this runs on
-  // EVERY foreground, and iOS budgets Live Activity updates (it starts reducing the
-  // synchronisation rate of an activity that is updated often; see the environment's
-  // `isActivityUpdateReduced`). Re-pushing a byte-identical countdown is precisely the
-  // waste that budget exists to punish.
+
+  // Already showing exactly this, and it already carries its own dismissal date — leave
+  // it alone. This skip is what keeps the ActivityKit budget intact: reconcile runs on
+  // EVERY foreground, and iOS reduces the sync rate of an activity it sees churned (see
+  // the environment's `isActivityUpdateReduced`). The instance count is part of the test
+  // so a duplicate still gets cleaned up rather than being skipped past.
   const key = activityContentKey(props);
-  if (key === appliedContentKey) return;
-  await instances[0].update(props);
+  if (key === appliedContentKey && instances.length === 1) return;
+
+  // Everything else is a REPLACEMENT, never an update. Each activity started below is
+  // ended straight away with a future dismissal date, and an ended activity cannot be
+  // updated — while still being listed by getInstances(), because that is
+  // `Activity.activities`, which includes ended-but-not-yet-dismissed ones. Calling
+  // update() on it would therefore be silently ignored and the banner would keep showing
+  // the previous prayer. Remove and re-create is the only thing that actually changes
+  // what is on screen. It costs a start+end pair per content change, which happens once
+  // per prayer or on a settings edit — not per foreground.
+  await endAll(instances);
+
+  const started = api.start(props);
+  // Hand it its own removal time immediately. This does NOT take the banner down: an
+  // activity ended with `{ after: date }` stays on the Lock Screen rendering the final
+  // content we pass here, and iOS removes it at `date` — with the app closed, which is
+  // the entire point. `nextAtMs` is the prayer instant, so the countdown reaches 0:00 and
+  // the banner disappears in the same moment instead of sitting there until the user
+  // next opens the app.
+  //
+  // ⚠️ TWO BEHAVIOURS TO CONFIRM ON A DEVICE BUILD (neither is reachable from Jest — the
+  // whole ActivityKit path is behind a dynamic import this suite cannot execute):
+  //   1. The countdown must KEEP TICKING while ended. `Text(timerInterval:)` is
+  //      system-rendered and is expected to, but if it instead freezes at the value it
+  //      held when ended, the banner would show a static ~59:00 for the whole window —
+  //      worse than the 0:00 this replaces. Check the Lock Screen a minute after the
+  //      activity appears; the number must have moved.
+  //   2. The Dynamic Island drops an ended activity right away, so the
+  //      compact/expanded presentations in PrayerLiveActivity.tsx will not appear. That
+  //      is the accepted cost of this approach, not a bug.
+  // If (1) fails, the fallback is to end late instead of at start — keep the activity
+  // active and only convert it to `{ after: nextAtMs }` on a sync close to the prayer.
+  await started?.end({ after: new Date(props.nextAtMs) }, props);
   appliedContentKey = key;
 }
 
@@ -160,6 +229,14 @@ async function reconcileActivity(
  * window. Best-effort and idempotent, exactly like syncPrayerWidget — wrapped so a
  * missing extension or ActivityKit denial (user toggled Live Activities off in
  * Settings) can never crash the app.
+ *
+ * WHEN THIS RUNS is why the banner has to carry its own removal date. Its only triggers
+ * are app/_layout.tsx → WidgetSync → useForegroundSync, which fires once after settings
+ * hydrate and then on each AppState 'active' edge. There is no timer and no boundary
+ * hook, so nothing here observes the prayer arriving — not while the phone is locked, and
+ * not even while the app is open ('active' does not re-fire, and the sync key
+ * widgetSignature|coords|label carries no clock). Reconciling on foreground is correct
+ * but always late, which is why the removal is scheduled with iOS instead.
  */
 export async function syncPrayerLiveActivity(
   coords: LatLng,

@@ -38,6 +38,7 @@ import { scheduleOnRN } from 'react-native-worklets';
 
 import { type PrayerKey } from '@/lib/prayer-times';
 import { type Camera, mercX, mercY, project, worldSize } from '@/lib/map/projection';
+import type { LonLat } from '@/lib/coordinates';
 import { prayerColorFor, washStopsFor } from '@/lib/solar/palette';
 import { type PolarBoundary, solarParams } from '@/lib/solar/sun';
 import { useActiveScheme } from '@/theme/useColors';
@@ -427,7 +428,7 @@ function PrayerLine({
   imminent,
   color,
 }: {
-  polylines: [number, number][][];
+  polylines: LonLat[][];
   camera: SharedValue<Camera>;
   /** UI-thread solar drift (normalised-Mercator x) — see driftMerc in the parent. */
   drift: SharedValue<number>;
@@ -458,10 +459,12 @@ function PrayerLine({
     () =>
       drawPolylines.map((line) => {
         const arr = new Float64Array(line.length * 2);
-        for (let i = 0; i < line.length; i++) {
-          arr[i * 2] = mercX(line[i][0]);
-          arr[i * 2 + 1] = mercY(line[i][1]);
-        }
+        // forEach rather than an index loop — see QiblaArc for why: no indexed read to
+        // prove, and no way to leave a hole that projects to Mercator (0, 0).
+        line.forEach((p, i) => {
+          arr[i * 2] = mercX(p[0]);
+          arr[i * 2 + 1] = mercY(p[1]);
+        });
         return arr;
       }),
     [drawPolylines],
@@ -480,8 +483,14 @@ function PrayerLine({
     const b = Skia.PathBuilder.Make();
     for (const arr of merc) {
       for (let i = 0; i < arr.length; i += 2) {
-        const x = (arr[i] + dx) * ws + ox;
-        const y = arr[i + 1] * ws + oy;
+        const mx = arr[i];
+        const my = arr[i + 1];
+        // Pairs by construction; breaking on a half-pair keeps a NaN out of the path.
+        // One NaN vertex costs the whole path, which here is every prayer line at once
+        // — the overlay would go blank rather than lose a line.
+        if (mx === undefined || my === undefined) break;
+        const x = (mx + dx) * ws + ox;
+        const y = my * ws + oy;
         if (i === 0) b.moveTo(x, y);
         else b.lineTo(x, y);
       }

@@ -18,16 +18,30 @@ import {
   PRAYER_ORDER,
   type PrayerKey,
 } from './prayer-times';
-import type { NotificationSettings, NotificationSoundKey, PrayerSettings } from './settings/types';
+import type {
+  NotificationSettings,
+  NotificationSoundKey,
+  ObligatoryPrayerKey,
+  PrayerSettings,
+} from './settings/types';
 import { notificationSignature } from './settings/compute-signature';
 import { stockholmParts, stockholmPrayerDate } from './stockholm-time';
 
-// The five obligatory prayers. Sunrise marks the end of Fajr's window, not a prayer
-// — so it is offered through settings.notifications.fajrWindowEnd instead of living
-// here. Keeping it OUT of this constant is what makes that framing survive the next
-// refactor; notifications.test.ts asserts it.
-export const NOTIFY_PRAYERS = ['fajr', 'dhuhr', 'asr', 'maghrib', 'isha'] as const;
-export type NotifyPrayerKey = (typeof NOTIFY_PRAYERS)[number];
+/** One of the five obligatory prayers — a slot key that is not the sunrise marker. */
+export type NotifyPrayerKey = ObligatoryPrayerKey;
+
+// The five obligatory prayers, in chronological order. Sunrise marks the end of Fajr's
+// window, not a prayer — so it is offered through settings.notifications.fajrWindowEnd
+// instead of living here. Keeping it OUT of this list is what makes that framing survive
+// the next refactor; notifications.test.ts asserts it.
+//
+// FILTERED from PRAYER_ORDER rather than re-typed. As a hand-written list this was the
+// quietest of the four copies of the slot key set: adding a prayer everywhere else and
+// forgetting it here produces no type error anywhere — the prayer simply never notifies,
+// which no screen shows and no test would think to look for.
+export const NOTIFY_PRAYERS: readonly NotifyPrayerKey[] = PRAYER_ORDER.filter(
+  (key): key is NotifyPrayerKey => key !== 'sunrise',
+);
 export type NotificationPermissionState = 'unknown' | 'granted' | 'denied' | 'undetermined';
 
 const CATEGORY_ID = 'prayer-reminder';

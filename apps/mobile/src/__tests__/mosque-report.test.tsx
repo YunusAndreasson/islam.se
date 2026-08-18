@@ -6,6 +6,7 @@ import MoskeRattelse from '@/app/moske-rattelse';
 import { MosqueCard } from '@/components/map/MosqueCard';
 import { mosqueById } from '@/lib/mosques';
 import { REPORT_ENDPOINT } from '@/lib/mosques/report';
+import { jsonBodyOf } from '@/test-utils/fetch-body';
 
 // A real record from the vendored dataset — using a fixture would let the test pass while
 // the screen mis-reads the actual shape (it resolves the mosque through mosqueById).
@@ -116,7 +117,7 @@ describe('mosque correction form', () => {
     await waitFor(() => expect(fetchMock).toHaveBeenCalled());
     const [url, init] = fetchMock.mock.calls[0] as unknown as [string, RequestInit];
     expect(url).toBe(REPORT_ENDPOINT);
-    const sent = JSON.parse(String(init.body));
+    const sent = JSON.parse(jsonBodyOf(init));
     expect(sent.mosque_id).toBe(MOSQUE_ID);
     expect(sent.reason).toBe('adress');
     expect(sent.description).toBe(text);
@@ -142,7 +143,11 @@ describe('mosque correction form', () => {
 
     await waitFor(() => expect(fetchMock).toHaveBeenCalled());
     const [, init] = fetchMock.mock.calls[0] as unknown as [string, RequestInit];
-    expect(String(init.body)).not.toMatch(/latitude|longitude|user_/);
+    // Through jsonBodyOf, not String(): this is the assertion that the report carries no
+    // location or user identifier, and `String()` of a non-string body is the constant
+    // "[object Object]" — which satisfies `.not.toMatch(...)` no matter what was actually
+    // sent. A privacy check that cannot fail is worse than none.
+    expect(jsonBodyOf(init)).not.toMatch(/latitude|longitude|user_/);
   });
 
   // A failed submission must never eat what the user wrote: they would have to retype the

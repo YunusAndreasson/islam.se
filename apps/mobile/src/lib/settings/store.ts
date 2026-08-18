@@ -10,6 +10,7 @@ import {
   NOTIFICATION_LEAD_MIN,
   PRAYER_ADJUSTMENT_MAX,
   PRAYER_ADJUSTMENT_MIN,
+  PRAYER_SLOT_KEYS,
   type CalculationMethodKey,
   type HighLatitudeRuleKey,
   type LocationMode,
@@ -63,9 +64,10 @@ const SHAFAQS = ['general', 'ahmer', 'abyad'] as const satisfies readonly Shafaq
 const ROUNDINGS = ['nearest', 'up', 'none'] as const satisfies readonly Rounding[];
 const LOCATION_MODES = ['gps', 'manual'] as const satisfies readonly LocationMode[];
 const THEMES = ['system', 'light', 'dark'] as const satisfies readonly ThemePreference[];
-// The six computed slots. Shared by all three per-slot records (adjustments, notification
-// lead, notification sound) — they are keyed identically by construction (PerPrayerSlot).
-const PRAYER_SLOT_KEYS = ['fajr', 'sunrise', 'dhuhr', 'asr', 'maghrib', 'isha'] as const;
+// The six computed slots, from the one list in ./types. Shared by all three per-slot
+// records (adjustments, notification lead, notification sound) — they are keyed
+// identically by construction (PerPrayerSlot).
+
 const NOTIFICATION_SOUNDS = [
   'default',
   'silent',

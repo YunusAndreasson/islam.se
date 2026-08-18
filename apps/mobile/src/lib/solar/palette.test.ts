@@ -261,8 +261,15 @@ describe('PRAYER_TEXT_COLORS — legible on the pill, and still the line’s hue
   // is allowed, changing which channel dominates is not — a terracotta maghrib label must
   // not drift blue just because it was lifted.
   it('keeps each dark text colour in its line’s hue family', () => {
-    const rgb = (h: string) => [1, 3, 5].map((i) => Number.parseInt(h.slice(i, i + 2), 16));
-    const order = ([r, g, b]: number[]) => [r >= g, g >= b, r >= b].join();
+    // Spelled out rather than mapped: `.map()` over [1, 3, 5] returns number[], which
+    // loses the fact that a colour has exactly three channels — and a destructure of it
+    // hands the comparisons below possibly-undefined values.
+    const rgb = (h: string): [number, number, number] => [
+      Number.parseInt(h.slice(1, 3), 16),
+      Number.parseInt(h.slice(3, 5), 16),
+      Number.parseInt(h.slice(5, 7), 16),
+    ];
+    const order = ([r, g, b]: [number, number, number]) => [r >= g, g >= b, r >= b].join();
     for (const prayer of PRAYER_ORDER) {
       expect(order(rgb(PRAYER_TEXT_COLORS[prayer].dark))).toBe(
         order(rgb(PRAYER_COLORS[prayer].dark)),
@@ -279,7 +286,14 @@ describe('PRAYER_TEXT_COLORS — legible on the pill, and still the line’s hue
       const line = PRAYER_COLORS[prayer].light;
       const text = PRAYER_TEXT_COLORS[prayer].light;
       if (line === text) continue; // isha needed no adjustment
-      const rgb = (h: string) => [1, 3, 5].map((i) => Number.parseInt(h.slice(i, i + 2), 16));
+      // Spelled out rather than mapped: `.map()` over [1, 3, 5] returns number[], which
+    // loses the fact that a colour has exactly three channels — and a destructure of it
+    // hands the comparisons below possibly-undefined values.
+    const rgb = (h: string): [number, number, number] => [
+      Number.parseInt(h.slice(1, 3), 16),
+      Number.parseInt(h.slice(3, 5), 16),
+      Number.parseInt(h.slice(5, 7), 16),
+    ];
       const [lr, lg, lb] = rgb(line);
       const [tr, tg, tb] = rgb(text);
       // Ordering of the channels (which is what "hue family" means at this resolution)
@@ -327,7 +341,10 @@ describe('NIGHT_COLORS — the voluntary night landmarks', () => {
   // and the last third is the lighter of the two because it leans toward the dawn.
   it.each(['light', 'dark'] as const)('%s: both sit in the isha→fajr indigo family', (scheme) => {
     for (const key of NIGHT_ORDER) {
-      const [r, g, b] = [1, 3, 5].map((i) => Number.parseInt(NIGHT_COLORS[key][scheme].slice(i, i + 2), 16));
+      const hex = NIGHT_COLORS[key][scheme];
+      const r = Number.parseInt(hex.slice(1, 3), 16);
+      const g = Number.parseInt(hex.slice(3, 5), 16);
+      const b = Number.parseInt(hex.slice(5, 7), 16);
       expect(b).toBeGreaterThan(r);
       expect(b).toBeGreaterThan(g);
       expect(Math.abs(r - g)).toBeLessThan(40);

@@ -7,6 +7,7 @@ import {
   routeToPrayerTimes,
   subscribeNotificationRouting,
 } from '@/lib/notification-routing';
+import { first } from '@/test-utils/at';
 
 const listenerMock =
   Notifications.addNotificationResponseReceivedListener as unknown as jest.MockedFunction<
@@ -25,7 +26,7 @@ describe('notification routing', () => {
     // way of the "/" redirect, but a warm app used to just foreground whichever sheet
     // was open — so tapping a prayer reminder could land you in Inställningar.
     subscribeNotificationRouting();
-    const handler = listenerMock.mock.calls[0][0];
+    const handler = first(first(listenerMock.mock.calls, 'listener calls'), 'listener arg');
     handler({} as never);
     expect(navigateMock).toHaveBeenCalledWith(PRAYER_TIMES_ROUTE);
   });

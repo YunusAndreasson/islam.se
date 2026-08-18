@@ -11,6 +11,7 @@
 // expensive step — then per displayed instant it's cheap arithmetic on the cache.
 import type { Feature, FeatureCollection, MultiLineString } from 'geojson';
 
+import type { LonLat } from '@/lib/coordinates';
 import { computePrayerTimes, PRAYER_ORDER, type PrayerKey } from '@/lib/prayer-times';
 import type { PrayerSettings } from '@/lib/settings/types';
 import {
@@ -100,9 +101,9 @@ export function buildGrid(
 
 export interface PrayerLineLabel {
   prayer: PrayerKey;
-  lngLat: [number, number];
+  lngLat: LonLat;
   /** Unit direction of the line at `lngLat`, in [lon, lat] space. */
-  tangent: [number, number];
+  tangent: LonLat;
 }
 
 export interface SolarLines {
@@ -129,7 +130,7 @@ const LABEL_AVOID_RADIUS = 0.9;
 export function buildLines(
   grid: SolarGrid,
   now: number,
-  avoid?: [number, number],
+  avoid?: LonLat,
   prayers: readonly PrayerKey[] = PRAYER_ORDER,
 ): SolarLines {
   const { lats, lons, pt } = grid;
@@ -145,7 +146,21 @@ export function buildLines(
     for (let i = 0; i < pt.length; i++) {
       const row = pt[i];
       const frow = field[i];
-      for (let j = 0; j < row.length; j++) frow[j] = row[j][prayer] - now;
+      // `field` is sized from `lats` while this walks `pt`; the two come off the same
+      // axes, so a missing row means the grid is malformed rather than merely polar.
+      if (!row || !frow) continue;
+      for (let j = 0; j < row.length; j++) {
+        const cell = row[j];
+        // Written UNCONDITIONALLY — NaN for a hole rather than leaving the slot alone.
+        // Today the two are equivalent: a hole is a whole missing PointTimes, so it is
+        // a hole for all six prayers and no stale value can survive a pass. The
+        // unconditional form is what keeps that true if the shape ever changes, since
+        // `field` is one buffer shared by every prayer (see above) and a slot left
+        // untouched would carry the previous prayer's value into this one's contour —
+        // a line drawn at a moment nobody's day contains. NaN is what marchingSquares
+        // already reads as "no data".
+        frow[j] = cell ? cell[prayer] - now : Number.NaN;
+      }
     }
     const segments: Segment[] = marchingSquares(lats, lons, field, 0);
     if (segments.length === 0) continue;
