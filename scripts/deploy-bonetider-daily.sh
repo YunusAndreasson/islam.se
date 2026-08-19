@@ -37,6 +37,16 @@
 #   CLOUDFLARE_ACCOUNT_ID=…
 #   30 1 * * * /path/to/islam.se/scripts/deploy-bonetider-daily.sh >> /var/log/islam-se-deploy.log 2>&1
 #
+# INSTALLED ON hetzner AS A SYSTEMD TIMER (the box already drives zuhd.news the same way):
+#   /etc/systemd/system/islam-se-deploy.service   oneshot, EnvironmentFile=/etc/islam-se-deploy.env
+#   /etc/systemd/system/islam-se-deploy.timer     OnCalendar=*-*-* 01:30 Europe/Stockholm
+#   journalctl -u islam-se-deploy -n 60           read the last run
+#
+# SHIP GUARD
+#   Refuses to publish when the repo root holds a `.no-ship` file, or when any commit since
+#   the last successful deploy says EJ GRANSKAD / FÅR INTE SHIPPAS / DO NOT SHIP. Override
+#   once, after review, with SKIP_SHIP_GUARD=1.
+#
 # Smoke-test it the way cron will run it, not the way your shell does — PATH and auth
 # failures only show up under a stripped environment:
 #   env -i HOME="$HOME" PATH=/usr/local/bin:/usr/bin:/bin \
@@ -65,9 +75,38 @@ if [ "${SKIP_GIT_PULL:-0}" != "1" ]; then
 	git pull --ff-only 2>/dev/null || log "git pull skipped (non-ff, dirty tree, or offline)"
 fi
 
+# An unattended deploy publishes whatever master holds, and master is a working surface:
+# 86e0719 committed a finished /svar/ page with "EJ GRANSKAD, får inte shippas ännu" in its
+# message precisely so it could sit unshipped until a human had reviewed it. Scanning only
+# HEAD would clear that commit the moment anything landed on top of it, so the range runs
+# from the last SHA this script actually deployed — recorded in .git after each success, and
+# absent on the first run, when an operator is watching anyway.
+#
+# To publish past a blocked commit once the content has been reviewed:
+#   SKIP_SHIP_GUARD=1 scripts/deploy-bonetider-daily.sh
+DEPLOYED_SHA_FILE="${DEPLOYED_SHA_FILE:-$REPO_DIR/.git/islam-se-last-deployed-sha}"
+if [ "${SKIP_SHIP_GUARD:-0}" != "1" ]; then
+	if [ -f "$REPO_DIR/.no-ship" ]; then
+		log "refusing: .no-ship exists in the repo root — remove it to resume deploys"
+		exit 1
+	fi
+	last_deployed="$(cat "$DEPLOYED_SHA_FILE" 2>/dev/null || true)"
+	if [ -n "$last_deployed" ] && git cat-file -e "$last_deployed^{commit}" 2>/dev/null; then
+		if git log --format=%B "$last_deployed..HEAD" |
+			grep -qiE 'EJ GRANSKAD|FÅR INTE SHIPPAS|DO NOT SHIP'; then
+			log "refusing: a commit since $(git rev-parse --short "$last_deployed") is marked as not shippable"
+			log "review it, then re-run once with SKIP_SHIP_GUARD=1"
+			exit 1
+		fi
+	fi
+fi
+
 # Fast no-op on days the lockfile is unchanged; installs new deps after a pull.
+# Filtered to the web package: it has no workspace deps, while a full workspace install
+# pulls @huggingface/transformers and onnxruntime for packages this build never touches
+# (2,1 GB against a few hundred MB) — weight the deploy host has no use for.
 log "installing deps"
-pnpm install --frozen-lockfile
+pnpm install --filter "@islam-se/web..." --frozen-lockfile
 
 # Parity check against adhan, run on the actual build date so a DST or edge-date regression
 # fails here instead of shipping 2 118 pages of wrong times.
@@ -94,5 +133,8 @@ pnpm --filter @islam-se/web exec wrangler pages deploy dist \
 	--project-name islam-se \
 	--branch master \
 	--commit-dirty=true
+
+# Only a deploy that actually happened moves the mark the ship guard reads from.
+git rev-parse HEAD >"$DEPLOYED_SHA_FILE"
 
 log "done"
