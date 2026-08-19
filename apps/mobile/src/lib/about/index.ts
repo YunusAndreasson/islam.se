@@ -64,7 +64,13 @@ export const OTA_LABEL: string = (() => {
 
 // The questions a reader actually has, answered truthfully. Kept as data so the
 // copy lives in one place and the FAQ screen just maps over it.
-export const FAQ: readonly { question: string; answer: string }[] = [
+export const FAQ: readonly {
+  question: string;
+  answer: string;
+  /** Render the map's colour key under this answer. Kept as a flag rather than a node so
+   *  this module stays copy-and-data — the FAQ screen decides what to draw. */
+  legend?: true;
+}[] = [
   {
     question: 'Hur räknas bönetiderna ut?',
     answer:
@@ -95,6 +101,12 @@ export const FAQ: readonly { question: string; answer: string }[] = [
     // onboarding finishes). The intro runs once; this is where the answer lives for
     // everyone who skipped it, installed the app before it existed, or simply wants to
     // read it again.
+    // The prose can describe what a line IS; it cannot say which colour is Maghrib. That
+    // key (components/map/PrayerLegend) used to be rendered in exactly ONE place — inside
+    // MapLessonCard, which shows once per install behind an in-memory flag. Dismiss it and
+    // the key to the app's central graphic was gone for good. It belongs here, behind the
+    // question a reader opens to ask precisely this.
+    legend: true,
     question: 'Vad betyder linjerna på kartan?',
     answer:
       'Varje linje är en bön. Maghrib-linjen visar var i landet klockan just nu är exakt Maghrib – den vandrar västerut med jordens rotation, tänds, sveper över kartan och slocknar. Färgtoningen är något annat: solens höjd under horisonten, punkt för punkt, vilket är därför sommarnatten i söder är djupblå men aldrig svart. Norr om den streckade linjen går solen inte ner på sommaren (och inte upp på vintern) – där saknar Fajr och ʿIshāʾ tider, och deras linjer tonar bort. Du hittar hela genomgången under Inställningar → Visa introduktionen igen.',

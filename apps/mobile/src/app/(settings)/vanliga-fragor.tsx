@@ -7,6 +7,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useMemo } from 'react';
 
 import { FaqItem } from '@/components/about/FaqItem';
+import { PrayerLegend } from '@/components/map/PrayerLegend';
 import { SettingSection } from '@/components/settings/SettingSection';
 import { ModalBar } from '@/components/ui/ModalBar';
 import { FAQ } from '@/lib/about';
@@ -24,7 +25,13 @@ export default function VanligaFragor() {
         <Text style={styles.header}>Vanliga frågor</Text>
         <SettingSection title="Frågor och svar">
           {FAQ.map((item, i) => (
-            <FaqItem key={item.question} question={item.question} answer={item.answer} divider={i > 0} />
+            <FaqItem
+              key={item.question}
+              question={item.question}
+              answer={item.answer}
+              extra={item.legend ? <PrayerLegend /> : undefined}
+              divider={i > 0}
+            />
           ))}
         </SettingSection>
       </ScrollView>

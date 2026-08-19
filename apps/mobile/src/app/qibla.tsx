@@ -16,15 +16,28 @@
 import { MaterialIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import * as Location from 'expo-location';
-import { useFocusEffect } from 'expo-router';
+import { router, useFocusEffect } from 'expo-router';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { StyleSheet, Text, useWindowDimensions, View } from 'react-native';
+import {
+  AccessibilityInfo,
+  Pressable,
+  StyleSheet,
+  Text,
+  useWindowDimensions,
+  View,
+} from 'react-native';
 import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { ModalBar } from '@/components/ui/ModalBar';
-import { hapticSuccess } from '@/lib/haptics';
+import { hapticLight, hapticSuccess } from '@/lib/haptics';
 import { useLocation } from '@/lib/location/context';
+import {
+  openSystemSettings,
+  openSystemSettingsA11yLabel,
+  openSystemSettingsLabel,
+  systemSettingsName,
+} from '@/lib/system-settings';
 import { deriveQiblaStatus, formatKm, normalizeHeading, qiblaBearing, qiblaDistanceKm, qiblaProximity, type QiblaStatus, shortestTurn } from '@/lib/qibla';
 import { mono, motion, type Palette, radius, shadow, space, type } from '@/theme/tokens';
 import { useColors } from '@/theme/useColors';
@@ -54,10 +67,18 @@ function hexToRgba(hex: string, a: number): string {
 }
 
 export default function Qibla() {
-  const { coords, label } = useLocation();
+  const { coords, label, source } = useLocation();
   const c = useColors();
   const styles = useMemo(() => makeStyles(c), [c]);
+  // A resolved place carries its own qualifier ("Stockholm (standard)") when it is the
+  // fallback rather than a real fix. Stripping that produced a confident "Stockholm"
+  // above a precise bearing and distance computed for a city the reader may be nowhere
+  // near — the same lie the dock already refuses to tell (see bonetider's locationIsFallback
+  // and PrayerDock's "Välj plats"). So strip it only when there IS a place; when the
+  // location is the fallback we say so and offer the way out instead.
+  const locationIsFallback = source === 'default';
   const placeLabel = label.replace(/\s*\([^)]*\)\s*$/, '');
+  const settingsName = systemSettingsName();
   const { width } = useWindowDimensions();
   const dial = Math.min(width - space.xxl * 2, 320);
   const r = dial / 2;
@@ -79,7 +100,14 @@ export default function Qibla() {
   // on the UI thread, and React only re-renders when the user crosses a band (cold → on your
   // way → locked). `noCompass` is its own flag (set by the no-event timeout / permission denial).
   const [status, setStatus] = useState<QiblaStatus>(COLD);
+  // Two DIFFERENT facts, kept apart. `noCompass` means the hardware never spoke (emulator,
+  // a tablet without a magnetometer); `permissionDenied` means it would have, but heading
+  // needs the location permission and the user said no. They used to share one flag, so a
+  // denial printed "Ingen kompass på den här enheten" — a sentence about the device that
+  // was simply false, on a screen with no way to fix it. Now each says its own truth, and
+  // the denial carries the route to the OS settings that the sentence names.
   const [noCompass, setNoCompass] = useState(false);
+  const [permissionDenied, setPermissionDenied] = useState(false);
   // Latest reading, kept out of state. `accRef` is the expo-location calibration level (0–3);
   // below MEDIUM (2) the magnetometer is mid-calibration and can be tens of degrees off — the
   // "wrong at first, then right" warm-up — so we don't trust it for the lock.
@@ -125,6 +153,7 @@ export default function Qibla() {
       prox.value = withTiming(p, { duration: motion.quick });
       applyStatus(norm, acc, bearingRef.current);
       setNoCompass((v) => (v ? false : v));
+      setPermissionDenied((v) => (v ? false : v));
     },
     [roseDeg, prox, applyStatus],
   );
@@ -145,9 +174,12 @@ export default function Qibla() {
       let sub: Location.LocationSubscription | null = null;
       let cancelled = false;
       let gotEvent = false;
-      const timer = setTimeout(() => {
-        if (!gotEvent) setNoCompass(true);
-      }, 2500);
+      // Armed only AFTER the permission question is settled, never alongside it. Started
+      // up front, this timer runs while the OS dialog is still on screen waiting for an
+      // answer — and a reader who takes more than 2.5 s to decide was told, underneath
+      // their own open dialog, that the device has no compass. The silence during a
+      // prompt is not evidence about hardware.
+      let timer: ReturnType<typeof setTimeout> | null = null;
 
       // Errors are handled inside; `void` marks the IIFE as intentionally floating.
       void (async () => {
@@ -159,9 +191,18 @@ export default function Qibla() {
           const { granted } = await Location.requestForegroundPermissionsAsync();
           if (cancelled) return;
           if (!granted) {
-            setNoCompass(true);
+            setPermissionDenied(true);
             return;
           }
+          // Clear it HERE, not only when a heading arrives. On a device with no
+          // magnetometer the reader who denies, walks to the OS settings, grants, and
+          // comes back would otherwise be stuck: no heading event ever fires, so nothing
+          // would ever retract "Platsåtkomst nekad" — leaving the screen offering a
+          // settings link for a permission it already has.
+          setPermissionDenied(false);
+          timer = setTimeout(() => {
+            if (!gotEvent) setNoCompass(true);
+          }, 2500);
           const s = await Location.watchHeadingAsync((h) => {
             // TRUE heading (declination-corrected) when the OS can provide it; -1 means it
             // can't yet. The magHeading fallback is knowingly imperfect — in Sweden the
@@ -185,7 +226,7 @@ export default function Qibla() {
 
       return () => {
         cancelled = true;
-        clearTimeout(timer);
+        if (timer) clearTimeout(timer);
         sub?.remove();
       };
     }, [onHeading]),
@@ -197,8 +238,15 @@ export default function Qibla() {
   const { aligned, near, calibrating } = status;
 
   // A single confirming tap the moment you line up (not on every frame while held).
+  // The pill below is a `accessibilityLiveRegion="polite"` node, which React Native only
+  // honours on Android — so on iOS the one moment this screen exists for went unannounced,
+  // and the dial itself is hidden from assistive tech. Announce it explicitly here, in the
+  // effect that already owns this exact edge.
   useEffect(() => {
-    if (aligned && !wasAligned.current) hapticSuccess();
+    if (aligned && !wasAligned.current) {
+      hapticSuccess();
+      AccessibilityInfo.announceForAccessibility('Du är vänd mot Mecka');
+    }
     wasAligned.current = aligned;
   }, [aligned]);
 
@@ -220,9 +268,29 @@ export default function Qibla() {
       <ModalBar variant="close" fallback="/bonetider" />
       <View style={styles.header}>
         <Text style={styles.title}>Qibla</Text>
-        <Text style={styles.subtitle} numberOfLines={1}>
-          {placeLabel}
-        </Text>
+        {locationIsFallback ? (
+          // No place of the user's own — the bearing below is Stockholm's. Same offer the
+          // dock makes in the same situation, same icon, same route.
+          <Pressable
+            onPress={() => {
+              hapticLight();
+              router.push('/(settings)/byt-plats');
+            }}
+            hitSlop={{ top: 10, bottom: 10, left: 8, right: 8 }}
+            style={({ pressed }) => [styles.placePick, pressed && styles.pressed]}
+            accessibilityRole="button"
+            accessibilityLabel="Ingen plats vald – riktningen gäller standardplatsen. Tryck för att välja stad"
+          >
+            <MaterialIcons name="place" size={14} color={c.accent} />
+            <Text style={styles.placePickText} numberOfLines={1}>
+              Välj plats
+            </Text>
+          </Pressable>
+        ) : (
+          <Text style={styles.subtitle} numberOfLines={1}>
+            {placeLabel}
+          </Text>
+        )}
       </View>
 
       {/* The dial is a purely visual instrument — its rotating letters (N/O/S/V) and ticks
@@ -361,7 +429,7 @@ export default function Qibla() {
                 ? 'check-circle'
                 : calibrating
                   ? 'compass-calibration'
-                  : noCompass
+                  : noCompass || permissionDenied
                     ? 'explore'
                     : 'navigation'
             }
@@ -373,7 +441,7 @@ export default function Qibla() {
               ? 'Du är vänd mot Mecka'
               : calibrating
                 ? 'Kalibrera – rör telefonen i en åtta'
-                : noCompass
+                : noCompass || permissionDenied
                   ? 'Qibla räknat från norr'
                   : near
                     ? 'Du är på väg…'
@@ -402,7 +470,24 @@ export default function Qibla() {
           Mecka · {formatKm(distanceKm)}
         </Text>
 
-        {noCompass ? (
+        {permissionDenied ? (
+          <>
+            <Text style={styles.note}>
+              Platsåtkomst nekad – nålen visar qibla räknad från norr. Tillåt i {settingsName}.
+            </Text>
+            {/* The remedy the sentence above names, made reachable. Nothing is added to the
+                healthy screen: this exists only in the state that needs it. */}
+            <Pressable
+              onPress={openSystemSettings}
+              accessibilityRole="button"
+              accessibilityLabel={openSystemSettingsA11yLabel('plats')}
+              style={({ pressed }) => [styles.link, pressed && styles.pressed]}
+            >
+              <Text style={styles.linkText}>{openSystemSettingsLabel()}</Text>
+              <MaterialIcons name="open-in-new" size={18} color={c.accent} />
+            </Pressable>
+          </>
+        ) : noCompass ? (
           <Text style={styles.note}>
             Ingen kompass på den här enheten – nålen visar qibla räknat från norr.
           </Text>
@@ -568,5 +653,13 @@ function makeStyles(c: Palette) {
     factLabel: { ...type.body, color: c.inkMuted, marginBottom: 13 },
     distance: { ...type.callout, color: c.inkMuted, marginTop: 2, ...mono },
     note: { ...type.caption, color: c.inkFaint, textAlign: 'center', marginTop: space.lg, maxWidth: 300 },
+    // The place-offer and the settings link — the two controls this screen grows only in
+    // the states where it owes the reader a way forward. Both borrow the dock's and the
+    // hint cards' existing shapes rather than inventing a third.
+    placePick: { flexDirection: 'row', alignItems: 'center', gap: 3, marginTop: 2 },
+    placePickText: { ...type.callout, color: c.accent, fontWeight: '600', flexShrink: 1 },
+    link: { flexDirection: 'row', alignItems: 'center', gap: space.xs, minHeight: 44, paddingHorizontal: space.sm },
+    linkText: { ...type.bodyStrong, color: c.accent },
+    pressed: { opacity: 0.6 },
   });
 }

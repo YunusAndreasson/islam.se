@@ -72,6 +72,11 @@ const DAY_MS = 86_400_000;
  *  viewed day (see `ticks`) rather than spaced evenly, so the ruler agrees with the
  *  prayer marks and thumb — which have always been placed off the REAL 23/24/25 h day. */
 const HOUR_TICKS = [0, 6, 12, 18, 24];
+// The timeline declares accessibilityRole="adjustable"; these are the actions that role
+// promises. Module-level so the array identity is stable across renders.
+const TIMELINE_ACTIONS = [{ name: 'increment' }, { name: 'decrement' }] as const;
+/** Fallback step for the adjustable timeline where there is no further prayer to land on. */
+const TIMELINE_STEP_MS = 15 * 60_000;
 /** Height of the band the track/thumb live in. The day chevrons take the SAME height so
  *  the row centres them on the track's centre line rather than on the whole column
  *  (track band + hour ruler) — that 13 px ruler underneath is what used to push both
@@ -311,6 +316,15 @@ export function PrayerDock({
   // Handle: drag OR tap toggles. Hero: drag-only — a Pan needs movement to activate,
   // so a tap on the hero's "Nu" chip (preview mode) still reaches its Pressable
   // instead of being stolen by a toggle-tap.
+  //
+  // Making the hero itself tappable was tried and reverted (2026-08-19). Wrapping its
+  // layers in a Pressable inside this GestureDetector does not give the nested chip and
+  // "Välj plats" button the touch the way plain nested Pressables would: on Android a tap
+  // on the chip fired BOTH — the clock returned to live AND the dock toggled — while taps
+  // on the hero's own empty spacer registered inconsistently. Doing it properly needs
+  // Gesture.Native() on each nested button plus blocksExternalGesture() on a hero
+  // Gesture.Tap, which is a lot of arbitration to hang on the dock's two most delicate
+  // controls. The handle above remains the toggle.
   const gesture = Gesture.Exclusive(makeTogglePan(), tap);
   const heroGesture = makeTogglePan();
 
@@ -447,6 +461,10 @@ export function PrayerDock({
       // the same journey — only the name of the thing being restored changes.
       <Pressable
         onPress={resetToNow}
+        // This chip is the ONLY way out of scrub mode, and it is a 12 pt label in a hero
+        // whose height is fixed at 44 and must not grow — so the target is bought with
+        // slop, which costs no layout. Same reach as the "Välj plats" offer below.
+        hitSlop={{ top: 12, bottom: 12, left: 10, right: 10 }}
         style={({ pressed }) => [styles.previewBadge, pressed && styles.pressed]}
         accessibilityRole="button"
         accessibilityLabel={onToday ? 'Återgå till nu' : 'Återgå till i dag'}
@@ -468,7 +486,11 @@ export function PrayerDock({
         router.push('/(settings)/byt-plats');
       }}
       // The row is only caption-height, so widen the target without touching layout —
-      // the hero's height is fixed at 44 and must not grow.
+      // the hero's height is fixed at 44 and must not grow. Kept at 10: reaching further
+      // up sends this button's slop into `heroTop`, where the "Nu" chip sits, and heroSub
+      // is the later sibling — so wherever the two line up horizontally on a narrow screen
+      // a tap meant for the chip would land here and navigate away instead. The chip is
+      // the only way out of scrub mode; it does not lose ties to a place picker.
       hitSlop={{ top: 10, bottom: 10, left: 8, right: 8 }}
       style={({ pressed }) => [styles.placePick, pressed && styles.pressed]}
       accessibilityRole="button"
@@ -563,7 +585,11 @@ export function PrayerDock({
                     time={valid ? formatTime(date) : '—'}
                     visible={expanded}
                     isNext={next?.key === key && !next.nextDay}
-                    accessibilityLabel={`${PRAYER_LABELS[key]} ${valid ? formatTime(date) : 'kan inte beräknas'}`}
+                    // The brass row is the answer to "which prayer is next" for a sighted
+                    // reader; without this it was the one thing the label never carried.
+                    accessibilityLabel={`${PRAYER_LABELS[key]} ${valid ? formatTime(date) : 'kan inte beräknas'}${
+                      next?.key === key && !next.nextDay ? ', nästa bön' : ''
+                    }`}
                     onPress={valid ? () => scrubTo(at) : undefined}
                   />
                 );
@@ -689,6 +715,7 @@ export function PrayerDock({
             onScrub={clock.setFraction}
             onStepDay={clock.stepDay}
             dayOffset={clock.dayOffset}
+            dayStart={clock.dayStart}
             scheme={scheme}
           />
         </View>
@@ -952,6 +979,7 @@ function SolarTimeline({
   onScrub,
   onStepDay,
   dayOffset,
+  dayStart,
   scheme,
 }: {
   styles: DockStyles;
@@ -959,6 +987,9 @@ function SolarTimeline({
   marks: DayMark[];
   /** Real length of the viewed Stockholm day in ms — 23/24/25 h across DST. */
   dayLength: number;
+  /** Start of the viewed Stockholm day — with `dayLength`, turns `fraction` into a clock
+   *  time for the adjustable's spoken value. */
+  dayStart: number;
   onScrub: (f: number) => void;
   /** Move the viewed day by ±1. The chevrons flanking the track. */
   onStepDay: (delta: number) => void;
@@ -996,6 +1027,28 @@ function SolarTimeline({
   const lastSent = useSharedValue(fraction);
 
   const markFractions = useMemo(() => marks.map((m) => m.fraction), [marks]);
+
+  // The role was declared and then not honoured: an "adjustable" with no accessibilityValue
+  // and no actions announces a control whose increment/decrement gestures do nothing and
+  // whose position is never spoken — while the map it drives is itself hidden from assistive
+  // tech. The value is the time being viewed; the steps walk the day's prayers, which are the
+  // landmarks a listener is actually navigating between, and fall back to a quarter-hour past
+  // the last one. Both go through the same `onScrub` the finger uses.
+  const viewedTime = formatTime(new Date(dayStart + fraction * dayLength));
+  const stepTime = useCallback(
+    (dir: 1 | -1) => {
+      const ordered = markFractions.filter(Number.isFinite).sort((a, b) => a - b);
+      const epsilon = 1e-4;
+      const landing =
+        dir === 1
+          ? ordered.find((f) => f > fraction + epsilon)
+          : ordered.reverse().find((f) => f < fraction - epsilon);
+      const target = landing ?? fraction + dir * (TIMELINE_STEP_MS / dayLength);
+      hapticSelection();
+      onScrub(Math.max(0, Math.min(1, target)));
+    },
+    [markFractions, fraction, dayLength, onScrub],
+  );
 
   // Mirror the clock into `follow` (eased) whenever the prop moves. Easing makes a
   // tapped row time-travel legibly; more importantly the style reads `follow` (a
@@ -1106,6 +1159,12 @@ function SolarTimeline({
           accessibilityRole="adjustable"
           accessibilityLabel="Dagens tidslinje"
           accessibilityHint="Dra för att resa genom dygnet och se bönetiderna."
+          accessibilityValue={{ text: viewedTime }}
+          accessibilityActions={TIMELINE_ACTIONS}
+          onAccessibilityAction={(e) => {
+            if (e.nativeEvent.actionName === 'increment') stepTime(1);
+            else if (e.nativeEvent.actionName === 'decrement') stepTime(-1);
+          }}
         >
         <View style={styles.trackBand}>
           <View style={styles.trackBase} />

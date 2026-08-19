@@ -219,6 +219,73 @@ export function nightAlertContent(at: Date): { title: string; body: string } {
   };
 }
 
+/** The next alert this settings object will produce, and when it fires. */
+export interface NextAlert {
+  /** Which slot — a prayer key, or the night's last third, which is keyed by nothing. */
+  key: PrayerKey | 'lastThird';
+  /** What the alert is ABOUT: the prayer time, or the moment the last third begins. */
+  at: Date;
+  /** When the alert actually arrives — `at` minus the slot's lead. */
+  fireAt: Date;
+}
+
+/**
+ * When will the next reminder actually arrive?
+ *
+ * The Påminnelser screen lets a reader set a lead per prayer, a sound per prayer, a
+ * Fajr-window marker and a night alert, and used to show none of them landing anywhere:
+ * changing a lead from 0 to 20 moved the string "20 min innan" and nothing else, while
+ * the scheduling itself happens silently in a root-level effect. A setting whose effect
+ * the reader cannot see is a setting they cannot judge — the same reason the calculation
+ * screen grew a pinned preview strip.
+ *
+ * Derived from the scheduler's OWN rules rather than a second opinion about them, so the
+ * two cannot drift: {@link isAlertEnabled} decides which slots count, the lead is
+ * subtracted exactly as {@link syncPrayerNotifications} subtracts it, and the "already
+ * past, or too soon to be useful" cutoff is the same one minute. Candidates from today
+ * and tomorrow are collected and the earliest wins, because a lead can pull an alert
+ * across midnight and the night's last third belongs to the day whose evening began it.
+ *
+ * Pure — no OS, no permission read. Returns null when nothing is scheduled at all
+ * (reminders off, every slot off, or a polar day where no time resolves).
+ */
+export function nextAlertAt(
+  coords: LatLng,
+  settings: PrayerSettings,
+  now: number,
+): NextAlert | null {
+  const n = settings.notifications;
+  if (!n.enabled) return null;
+
+  const cutoff = now + 60_000;
+  let best: NextAlert | null = null;
+  const consider = (key: PrayerKey | 'lastThird', at: Date, lead: number): void => {
+    if (Number.isNaN(at.getTime())) return;
+    const fireAt = new Date(at.getTime() - lead * 60_000);
+    if (fireAt.getTime() <= cutoff) return;
+    if (best && best.fireAt.getTime() <= fireAt.getTime()) return;
+    best = { key, at, fireAt };
+  };
+
+  // Two days is enough: every slot on day 0 that is still ahead fires before any slot on
+  // day 1, and day 1 covers the case where day 0 has nothing left.
+  for (let d = 0; d < 2; d++) {
+    const times = computePrayerTimes(coords, stockholmPrayerDate(now, d), settings);
+    for (const key of PRAYER_ORDER) {
+      if (!isAlertEnabled(n, key)) continue;
+      const at = times[key];
+      if (!(at instanceof Date)) continue;
+      consider(key, at, Math.max(0, n.lead[key]));
+    }
+    if (n.lastThird) {
+      const at = computeNightTimes(times).lastThird;
+      // No lead: this one fires exactly when the last third begins.
+      if (at) consider('lastThird', at, 0);
+    }
+  }
+  return best;
+}
+
 /**
  * Will the OS actually deliver our alerts?
  *

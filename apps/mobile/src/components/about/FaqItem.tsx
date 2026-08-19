@@ -1,5 +1,5 @@
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
-import { useEffect, useMemo, useState } from 'react';
+import { type ReactNode, useEffect, useMemo, useState } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import Animated, {
   useAnimatedStyle,
@@ -27,11 +27,17 @@ import { useColors } from '@/theme/useColors';
 export function FaqItem({
   question,
   answer,
+  extra,
   divider = false,
   defaultExpanded = false,
 }: {
   question: string;
   answer: string;
+  /** Something the prose cannot say. Rendered under the answer, inside the same measured
+   *  reveal — so it is included in the natural height onLayout reports and is hidden from
+   *  the screen reader while collapsed, exactly like the text above it. Used by the map
+   *  question, whose answer describes six coloured lines it cannot name the colours of. */
+  extra?: ReactNode;
   divider?: boolean;
   defaultExpanded?: boolean;
 }) {
@@ -85,7 +91,8 @@ export function FaqItem({
           style={styles.measure}
           onLayout={(e) => setContentHeight(e.nativeEvent.layout.height)}
         >
-          <Text style={styles.answer}>{answer}</Text>
+          <Text style={[styles.answer, extra ? styles.answerWithExtra : null]}>{answer}</Text>
+          {extra ? <View style={styles.extra}>{extra}</View> : null}
         </View>
       </Animated.View>
     </View>
@@ -118,5 +125,9 @@ function makeStyles(c: Palette) {
       paddingHorizontal: space.lg,
       paddingBottom: space.lg,
     },
+    // The answer keeps its own bottom padding when it is the last thing in the reveal;
+    // with an extra below, that padding moves to the extra so the two sit together.
+    answerWithExtra: { paddingBottom: space.md },
+    extra: { paddingHorizontal: space.lg, paddingBottom: space.lg },
   });
 }
