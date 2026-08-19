@@ -76,7 +76,8 @@
 			"!**/.wrangler",
 			"!**/articles-data.json",
 			"!**/verses.json",
-			"!.markdownlint-rules"
+			"!.markdownlint-rules",
+			"!**/.claude/settings.local.json"
 		]
 	}
 }
