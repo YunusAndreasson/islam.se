@@ -136,7 +136,14 @@ export function PlacePicker({ selected, onPick }: Props) {
           accessibilityLabel="Sök stad"
         />
         {query ? (
-          <Pressable onPress={() => setQuery('')} hitSlop={10} accessibilityLabel="Rensa sökning">
+          <Pressable
+            onPress={() => setQuery('')}
+            // 18 pt of glyph: the slop is the whole target. The role was the one missing
+            // from any Pressable in the app — an icon-only control announced as plain text.
+            hitSlop={14}
+            accessibilityRole="button"
+            accessibilityLabel="Rensa sökning"
+          >
             <MaterialIcons name="close" size={18} color={colors.textMuted} />
           </Pressable>
         ) : null}

@@ -18,12 +18,17 @@
 // the same family as the dock and the nav discs rather than reading as an ad banner.
 import { MaterialIcons } from '@expo/vector-icons';
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { Linking, Pressable, StyleSheet, Text, View } from 'react-native';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
 import Animated, { FadeInUp, FadeOutUp, useReducedMotion } from 'react-native-reanimated';
 
 import { hapticSuccess, hapticWarning } from '@/lib/haptics';
 import { noteNotificationResolved } from '@/lib/notification-hint';
-import { systemSettingsName } from '@/lib/system-settings';
+import {
+  openSystemSettings,
+  openSystemSettingsA11yLabel,
+  openSystemSettingsLabel,
+  systemSettingsName,
+} from '@/lib/system-settings';
 import {
   type NotificationPermissionState,
   requestNotificationPermission,
@@ -161,12 +166,12 @@ export function NotificationHint({ top, onEnable, onClose }: Props) {
               Notiser är blockerade. Öppna {settingsName} för att tillåta dem.
             </Text>
             <Pressable
-              onPress={() => void Linking.openSettings()}
+              onPress={openSystemSettings}
               accessibilityRole="button"
-              accessibilityLabel={`Öppna ${settingsName} för notiser`}
+              accessibilityLabel={openSystemSettingsA11yLabel('notiser')}
               style={({ pressed }) => [styles.link, pressed && styles.linkPressed]}
             >
-              <Text style={styles.linkText}>Öppna {settingsName}</Text>
+              <Text style={styles.linkText}>{openSystemSettingsLabel()}</Text>
               <MaterialIcons name="open-in-new" size={18} color={c.accent} />
             </Pressable>
           </>

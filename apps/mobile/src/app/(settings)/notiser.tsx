@@ -14,7 +14,8 @@
 //   2. Varje bön     — the per-prayer detail, folded away until asked for.
 //   3. Fajr-fönstret — the one NON-prayer alert (Shurūq closes Fajr's window), kept
 //      visibly apart so it never reads as a sixth prayer.
-import { useMemo } from 'react';
+import { useIsFocused } from 'expo-router';
+import { useEffect, useMemo, useState } from 'react';
 import { ScrollView, StyleSheet, Text } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -25,8 +26,11 @@ import { Stepper } from '@/components/settings/Stepper';
 import { type SettingsColors, useSettingsColors } from '@/components/settings/theme';
 import { Toggle } from '@/components/settings/Toggle';
 import { ModalBar } from '@/components/ui/ModalBar';
-import { NOTIFY_PRAYERS, type NotifyPrayerKey } from '@/lib/notifications';
-import { PRAYER_LABELS, PRAYER_SWEDISH_NAMES } from '@/lib/prayer-times';
+import { useLocation } from '@/lib/location/context';
+import { alertsPerDay, nextAlertAt, NOTIFY_PRAYERS, type NotifyPrayerKey } from '@/lib/notifications';
+import { useNotificationPermission } from '@/lib/notifications-permission';
+import { formatTime, PRAYER_LABELS, PRAYER_SWEDISH_NAMES } from '@/lib/prayer-times';
+import { relativeDayLabel } from '@/lib/relative-day';
 import { useSettings } from '@/lib/settings/context';
 import {
   MIXED_LABEL,
@@ -46,6 +50,8 @@ import {
   type NotificationSettings,
   type NotificationSoundKey,
 } from '@/lib/settings/types';
+import { startOfStockholmDay } from '@/lib/stockholm-time';
+import { systemSettingsName } from '@/lib/system-settings';
 import { space, type } from '@/theme/tokens';
 
 const LEAD_STEP = 5;
@@ -64,11 +70,67 @@ export default function Notiser() {
   const mixedLead = mixedPrayerLead(n);
   const sharedSound = commonSound(n);
 
+  // Every control on this screen configures something the reader cannot see happen: the
+  // scheduling runs in a root-level effect, sounds cannot be previewed, and the summaries
+  // only echo the settings back. So the screen says the one fact that closes the loop —
+  // when the next reminder actually arrives. It moves the moment a lead or a toggle
+  // moves, which is what makes those controls judgeable at all. Ticked by the minute
+  // while focused (same reason as the Inställningar preview: a screen left open must not
+  // go on naming a time that has passed), and paused off-focus.
+  const { coords } = useLocation();
+  const isFocused = useIsFocused();
+  // The OS's answer, not just our own switch. Without it this line names a precise arrival
+  // time in the one state where nothing is scheduled at all: the toggle is on, the reader
+  // refused the system prompt, syncPrayerNotifications bails at its permission check — and
+  // the status line would go on promising a reminder that can never come, which is the
+  // exact lie it exists to remove.
+  const { blocked } = useNotificationPermission(isFocused);
+  const [now, setNow] = useState(() => Date.now());
+  useEffect(() => {
+    if (!isFocused) return;
+    const tick = (): void => setNow(Date.now());
+    tick();
+    const id = setInterval(tick, 60_000);
+    return () => clearInterval(id);
+  }, [isFocused]);
+  const nextReminder = useMemo(() => {
+    if (blocked) return `Notiser är blockerade – inget schemaläggs förrän du tillåter dem i ${systemSettingsName()}.`;
+    // Two different silences, told apart before they are described. Every slot switched
+    // off is a choice the reader made and can see in the toggles below; no COMPUTABLE
+    // time (Kiruna in June with polarCircleResolution 'unresolved', where Fajr and ʿIshāʾ
+    // have no solution) is the app failing to find one, and saying "inga påminnelser är
+    // påslagna" to someone looking at switches that are visibly on would be nonsense.
+    if (alertsPerDay(settings.notifications) === 0) {
+      return 'Inga påminnelser är påslagna – ingenting schemaläggs.';
+    }
+    const next = nextAlertAt(coords, settings, now);
+    if (!next) return 'Ingen tid går att räkna ut för det närmaste dygnet här.';
+    const label =
+      next.key === 'lastThird'
+        ? 'Nattens sista tredjedel'
+        : // NOT PRAYER_LABELS['sunrise'] — that is "Shurūq", a word this screen never uses:
+          // the section controlling it is titled "Fajr-fönstret" and the alert the OS will
+          // show reads "Fajr-tiden slutar". A status line naming something the reader
+          // cannot map back to a control is not closing the loop.
+          next.key === 'sunrise'
+          ? 'Fajr-fönstret'
+          : PRAYER_LABELS[next.key];
+    const days = Math.round(
+      (startOfStockholmDay(next.fireAt.getTime()) - startOfStockholmDay(now)) / 86_400_000,
+    );
+    return `Nästa påminnelse: ${label} ${formatTime(next.fireAt)} ${relativeDayLabel(days)}.`;
+  }, [blocked, coords, settings, now]);
+
   return (
     <SafeAreaView style={styles.safe} edges={['top']}>
       <ModalBar variant="back" fallback="/installningar" />
       <ScrollView contentContainerStyle={styles.content}>
         <Text style={styles.header}>Påminnelser</Text>
+        {/* Quiet status under the title, not a card: it is the consequence of everything
+            below, so it belongs to the screen rather than to any one section. */}
+        <Text style={styles.status} accessibilityLiveRegion="polite">
+          {nextReminder}
+        </Text>
 
         <SettingSection
           title="Gäller alla"
@@ -266,7 +328,10 @@ function makeStyles(colors: SettingsColors) {
   return StyleSheet.create({
     safe: { flex: 1, backgroundColor: colors.bg },
     content: { padding: space.lg, paddingBottom: space.xxxl + space.lg },
-    header: { ...type.title, color: colors.text, marginBottom: space.xl, marginTop: space.xs },
+    // The title gives up its bottom margin to the status line below it — the two read as
+    // one block, and the section cards keep the same distance from the top as before.
+    header: { ...type.title, color: colors.text, marginTop: space.xs },
+    status: { ...type.callout, color: colors.textMuted, marginTop: space.xs, marginBottom: space.xl },
     subTitle: {
       ...type.label,
       color: colors.textMuted,

@@ -197,6 +197,15 @@ export function DayPicker({ dayStart, todayStart, onPick, onClose }: Props) {
                   Math.round((day - todayStart) / 86_400_000),
                 )}`}
                 accessibilityState={{ selected, disabled: outOfRange }}
+                // No hitSlop, deliberately. The cell is 40 pt (3 pt of padding around a
+                // 34 pt bubble) and 4 pt short of the target minimum, but slop cannot buy
+                // it here: the 42 cells are SIBLINGS in one wrapping row, so a symmetric
+                // ±3 makes each cell's region overlap the row below's, and both platforms
+                // resolve sibling overlap in favour of the LAST matching child (Android's
+                // TouchTargetHelper and iOS's hitTest: both walk subviews in reverse).
+                // The row beneath therefore wins the shared band: the cell is still 40 pt,
+                // only shifted up, and a tap in its bottom padding now picks the day below
+                // it. Trading the wrong day for four points is not a trade worth making.
                 style={({ pressed }) => [styles.cell, pressed && styles.pressed]}
               >
                 <View style={[styles.dayBubble, selected && styles.daySelected]}>

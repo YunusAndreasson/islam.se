@@ -11,7 +11,7 @@
 // Stockholm (see lib/location/resolve), which the dock is honest about.
 import { MaterialIcons } from '@expo/vector-icons';
 import { useMemo, useRef, useState } from 'react';
-import { ActivityIndicator, Linking, Pressable, StyleSheet, Text, View } from 'react-native';
+import { ActivityIndicator, Pressable, StyleSheet, Text, View } from 'react-native';
 
 import { PlacePicker } from '@/components/settings/PlacePicker';
 import { hapticSuccess, hapticWarning } from '@/lib/haptics';
@@ -19,7 +19,12 @@ import { useLocationStatus } from '@/lib/location/context';
 import { noteLocationResolved } from '@/lib/location-hint';
 import type { SwedishPlace } from '@/lib/places/data';
 import { useSettings } from '@/lib/settings/context';
-import { systemSettingsName } from '@/lib/system-settings';
+import {
+  openSystemSettings,
+  openSystemSettingsA11yLabel,
+  openSystemSettingsLabel,
+  systemSettingsName,
+} from '@/lib/system-settings';
 import { type Palette, radius, space, type } from '@/theme/tokens';
 import { useColors } from '@/theme/useColors';
 
@@ -142,12 +147,12 @@ export function StepLocation() {
 
           {phase === 'denied' ? (
             <Pressable
-              onPress={() => void Linking.openSettings()}
+              onPress={openSystemSettings}
               accessibilityRole="button"
-              accessibilityLabel={`Öppna ${settingsName} för plats`}
+              accessibilityLabel={openSystemSettingsA11yLabel('plats')}
               style={({ pressed }) => [styles.link, pressed && styles.pressedQuiet]}
             >
-              <Text style={styles.linkText}>Öppna {settingsName}</Text>
+              <Text style={styles.linkText}>{openSystemSettingsLabel()}</Text>
               <MaterialIcons name="open-in-new" size={18} color={c.accent} />
             </Pressable>
           ) : null}

@@ -11,7 +11,7 @@
 // would be worse.
 import { MaterialIcons } from '@expo/vector-icons';
 import { useMemo, useRef, useState } from 'react';
-import { Linking, Pressable, StyleSheet, Text, View } from 'react-native';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
 
 import { SettingSection } from '@/components/settings/SettingSection';
 import { Toggle } from '@/components/settings/Toggle';
@@ -21,7 +21,12 @@ import { NOTIFY_PRAYERS } from '@/lib/notifications';
 import { useNotificationPermission } from '@/lib/notifications-permission';
 import { PRAYER_LABELS, PRAYER_SWEDISH_NAMES } from '@/lib/prayer-times';
 import { useSettings } from '@/lib/settings/context';
-import { systemSettingsName } from '@/lib/system-settings';
+import {
+  openSystemSettings,
+  openSystemSettingsA11yLabel,
+  openSystemSettingsLabel,
+  systemSettingsName,
+} from '@/lib/system-settings';
 import { type Palette, radius, space, type } from '@/theme/tokens';
 import { useColors } from '@/theme/useColors';
 
@@ -88,12 +93,12 @@ export function StepNotifications() {
           Notiser är blockerade. Öppna {settingsName} för att tillåta dem.
         </Text>
         <Pressable
-          onPress={() => void Linking.openSettings()}
+          onPress={openSystemSettings}
           accessibilityRole="button"
-          accessibilityLabel={`Öppna ${settingsName} för notiser`}
+          accessibilityLabel={openSystemSettingsA11yLabel('notiser')}
           style={({ pressed }) => [styles.link, pressed && styles.pressedQuiet]}
         >
-          <Text style={styles.linkText}>Öppna {settingsName}</Text>
+          <Text style={styles.linkText}>{openSystemSettingsLabel()}</Text>
           <MaterialIcons name="open-in-new" size={18} color={c.accent} />
         </Pressable>
       </View>

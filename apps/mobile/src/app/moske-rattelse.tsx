@@ -61,6 +61,12 @@ import { useColors } from '@/theme/useColors';
 // than anyone writes here, so it stays hidden for every realistic report.
 const COUNTER_FROM = MAX_DESCRIPTION - 400;
 
+// What happens to an address the reader gives us. Stated wherever the field is, in every
+// state the field can be in — a retention promise that blinks out while the value is being
+// typed is not a promise.
+const EMAIL_DISCLOSURE =
+  'Frivilligt. Vi använder den bara om vi behöver fråga om något är oklart, och raderar den när ärendet är hanterat.';
+
 type Phase = { state: 'editing'; error?: string } | { state: 'sending' } | { state: 'sent' };
 
 export default function MoskeRattelse() {
@@ -88,7 +94,17 @@ export default function MoskeRattelse() {
   }
 
   const spec = reason ? reasonSpec(reason) : null;
-  const valid = reason !== null && validateReport(reason, description, email).ok;
+  // The submit button is disabled while the form is invalid, which means submit()'s own
+  // validation branch — the one that produces the message explaining what is wrong — can
+  // never be reached: the control that would surface it is dimmed for exactly as long as
+  // the message applies. A reader who picks "Adressen stämmer inte" and types nothing was
+  // left with a dead button and no reason at all. validateReport already returns WHICH
+  // field is at fault and that answer was being thrown away; keep the whole result so each
+  // field can carry its own requirement in the footnote slot it already has. Neither
+  // footnote is styled as an error — nothing has failed yet, the form is simply not done.
+  const check = reason === null ? null : validateReport(reason, description, email);
+  const valid = check?.ok === true;
+  const pendingField = check?.ok === false ? check.field : null;
   const sending = phase.state === 'sending';
 
   const submit = (): void => {
@@ -189,7 +205,13 @@ export default function MoskeRattelse() {
           {spec ? (
             <SettingSection
               title={spec.prompt}
-              footnote={spec.requiresText ? undefined : 'Frivilligt.'}
+              footnote={
+                spec.requiresText
+                  ? pendingField === 'description'
+                    ? 'Behövs för att vi ska kunna rätta uppgiften.'
+                    : undefined
+                  : 'Frivilligt.'
+              }
             >
               <TextInput
                 style={styles.textArea}
@@ -213,7 +235,15 @@ export default function MoskeRattelse() {
 
           <SettingSection
             title="Din e-post"
-            footnote="Frivilligt. Vi använder den bara om vi behöver fråga om något är oklart, och raderar den när ärendet är hanterat."
+            // The correction JOINS the disclosure, it does not replace it. Swapping it out
+            // removed the promise about what happens to the address for every keystroke of
+            // a half-typed one — that is, for exactly as long as the reader is still
+            // deciding whether to hand it over.
+            footnote={
+              pendingField === 'email'
+                ? `Kontrollera e-postadressen, eller lämna fältet tomt. ${EMAIL_DISCLOSURE}`
+                : EMAIL_DISCLOSURE
+            }
           >
             <TextInput
               style={styles.input}

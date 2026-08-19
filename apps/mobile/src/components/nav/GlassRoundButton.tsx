@@ -55,18 +55,26 @@ export function GlassRoundButton({
       accessibilityState={disabled ? { disabled: true } : undefined}
       hitSlop={8}
     >
-      <GlassSurface
-        style={[
-          styles.button,
-          { width: size, height: size, borderRadius: radius, borderColor: rim },
-          disabled && styles.disabled,
-        ]}
-        borderRadius={radius}
-        interactive
-        tint={tint}
-      >
-        {children}
-      </GlassSurface>
+      {({ pressed }) => (
+        <GlassSurface
+          style={[
+            styles.button,
+            { width: size, height: size, borderRadius: radius, borderColor: rim },
+            // The touch has to land visibly. `interactive` above only does anything on
+            // iOS 26's Liquid Glass, so without this every disc in the app — compass,
+            // cog, each modal ✕ / ←, the lesson chevrons — acknowledged nothing at all
+            // on Android and older iOS: no press state, and no haptic either (by the
+            // policy above). Same dimming the dock rows and the calendar already use.
+            pressed && styles.pressed,
+            disabled && styles.disabled,
+          ]}
+          borderRadius={radius}
+          interactive
+          tint={tint}
+        >
+          {children}
+        </GlassSurface>
+      )}
     </Pressable>
   );
 }
@@ -78,5 +86,6 @@ const styles = StyleSheet.create({
     borderWidth: StyleSheet.hairlineWidth,
     ...shadow.button,
   },
+  pressed: { opacity: 0.6 },
   disabled: { opacity: 0.3 },
 });

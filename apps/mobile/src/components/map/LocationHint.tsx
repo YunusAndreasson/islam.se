@@ -20,13 +20,18 @@
 import { MaterialIcons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { Linking, Pressable, StyleSheet, Text, View } from 'react-native';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
 import Animated, { FadeInUp, FadeOutUp, useReducedMotion } from 'react-native-reanimated';
 
 import { hapticSuccess, hapticWarning } from '@/lib/haptics';
 import { useLocationStatus } from '@/lib/location/context';
 import { noteLocationResolved } from '@/lib/location-hint';
-import { systemSettingsName } from '@/lib/system-settings';
+import {
+  openSystemSettings,
+  openSystemSettingsA11yLabel,
+  openSystemSettingsLabel,
+  systemSettingsName,
+} from '@/lib/system-settings';
 import { motion, type Palette, radius, shadow, space, type } from '@/theme/tokens';
 import { useColors } from '@/theme/useColors';
 import { GlassRoundButton } from '@/components/nav/GlassRoundButton';
@@ -185,12 +190,12 @@ export function LocationHint({ top, onClose }: Props) {
 
         {state === 'denied' ? (
           <Pressable
-            onPress={() => void Linking.openSettings()}
+            onPress={openSystemSettings}
             accessibilityRole="button"
-            accessibilityLabel={`Öppna ${settingsName} för plats`}
+            accessibilityLabel={openSystemSettingsA11yLabel('plats')}
             style={({ pressed }) => [styles.link, pressed && styles.linkPressed]}
           >
-            <Text style={styles.linkText}>Öppna {settingsName}</Text>
+            <Text style={styles.linkText}>{openSystemSettingsLabel()}</Text>
             <MaterialIcons name="open-in-new" size={18} color={c.accent} />
           </Pressable>
         ) : null}

@@ -7,7 +7,7 @@ import {
 } from '@maplibre/maplibre-react-native';
 import { useIsFocused } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useDeferredValue, useEffect, useMemo, useRef, useState } from 'react';
 import { MaterialIcons } from '@expo/vector-icons';
 import {
   type NativeSyntheticEvent,
@@ -640,12 +640,30 @@ export default function Bonetider() {
   //
   // The cache is what makes day stepping usable: without it, stepping forward and back
   // would pay that cost twice for a grid that has not changed at all.
+  //
+  // That cost used to be paid in the SAME render pass as everything else, so stepping a
+  // day bought a selection haptic and then a frozen screen: the date, the countdown, the
+  // six times and the map's lines all appeared together, several hundred milliseconds
+  // after the tap. No spinner could have covered it — JS is the thread that is blocked.
+  // Deferring the day the FIELD is built for splits the two: the cheap, per-user work
+  // below (userTimes, marks, the dock's date crown and countdown) commits on the tap,
+  // and the whole-country lattice catches up in the low-priority pass right behind it.
+  // The map trails by a beat instead of the whole screen stopping.
+  const fieldDayStart = useDeferredValue(clock.dayStart);
+  // During that one trailing pass `fieldDayStart` is still the previous day while
+  // `clock.now` has already moved to the new one — and buildLines contours (prayerTime −
+  // now) per cell, so feeding it the two mismatched would paint a frame of nonsense.
+  // Carry the time-of-day across instead: the field keeps drawing the day it has, at the
+  // instant it is already showing, until its own day arrives. On a scrub (same day) the
+  // two are always equal and this is exactly today's behaviour.
+  const fieldNow =
+    fieldDayStart === clock.dayStart ? clock.now : fieldDayStart + (clock.now - clock.dayStart);
   const grid = useMemo(
-    () => gridForDay(clock.dayStart, settings, sig),
+    () => gridForDay(fieldDayStart, settings, sig),
     // A cosmetic settings change re-runs this memo, but gridForDay returns the SAME
     // cached object for an unchanged signature — so `grid`'s identity, and every memo
     // downstream of it, stays stable.
-    [clock.dayStart, settings, sig],
+    [fieldDayStart, settings, sig],
   );
 
   // The user's dot as [lon, lat] — anchors the Skia arrival bloom and keeps each prayer
@@ -666,7 +684,7 @@ export default function Bonetider() {
   // `avoid` keeps each line's pill clear of the user's dot (see buildLines): when a
   // prayer's line sweeps through the user's city the pill would otherwise sit right
   // on the brass dot + city name.
-  const solar = useMemo(() => buildLines(grid, clock.now, userPoint), [grid, clock.now, userPoint]);
+  const solar = useMemo(() => buildLines(grid, fieldNow, userPoint), [grid, fieldNow, userPoint]);
   const prayerLines = useMemo<PrayerLineData[]>(
     () =>
       solar.lines.features.map((f) => ({
@@ -684,9 +702,11 @@ export default function Bonetider() {
   // sunrise/fajr/maghrib/ishaʾ have no defined time, so their sweeping lines simply stop.
   // Null near the equinoxes when it climbs off the top of the map. Derived from the day's
   // solar declination; coincides with adhan's NaN boundary (see polar-boundary.test.ts).
+  // Keyed to the FIELD's day, not the dock's: it is drawn on the map beside the lines it
+  // explains, so it has to arrive with them rather than a pass ahead of them.
   const polarBoundary = useMemo(
-    () => polarBoundaryFor(new Date(clock.dayStart + clock.dayLength / 2)),
-    [clock.dayStart, clock.dayLength],
+    () => polarBoundaryFor(new Date(fieldDayStart + clock.dayLength / 2)),
+    [fieldDayStart, clock.dayLength],
   );
 
   // The user's own prayer times for today — drives the "next prayer", the day
@@ -1202,6 +1222,7 @@ export default function Bonetider() {
             }}
             accessibilityRole="button"
             accessibilityLabel="Återställ kartan"
+            style={({ pressed }) => (pressed ? styles.chipPressed : null)}
           >
             <GlassSurface
               style={[styles.resetChip, { borderColor: colors.accent }]}
@@ -1270,6 +1291,10 @@ const styles = StyleSheet.create({
   container: { flex: 1 },
   // Centred row that hosts the chip — top inset already accounted for by `top`.
   resetWrap: { position: 'absolute', left: 0, right: 0, alignItems: 'center' },
+  // The chip vanishes the moment it is tapped (setMoved(false)) while the camera flies
+  // home for motion.slow — so without a press state the only feedback for the tap was a
+  // haptic, invisible to anyone who turned haptics off.
+  chipPressed: { opacity: 0.6 },
   // Pill-shaped Liquid Glass chip with a clear accent ring + icon, so it reads as a
   // button (a one-word label alone read as a banner the user wasn't sure was tappable).
   resetChip: {

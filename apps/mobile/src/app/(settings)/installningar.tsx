@@ -31,7 +31,7 @@
 import { MaterialIcons } from '@expo/vector-icons';
 import { router, useIsFocused } from 'expo-router';
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { ActivityIndicator, Alert, Linking, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { ActivityIndicator, Alert, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { OptionGroup } from '@/components/settings/OptionGroup';
@@ -59,7 +59,12 @@ import {
   notificationSummary,
   THEME_OPTIONS,
 } from '@/lib/settings/options';
-import { systemSettingsName } from '@/lib/system-settings';
+import {
+  openSystemSettings,
+  openSystemSettingsA11yLabel,
+  openSystemSettingsLabel,
+  systemSettingsName,
+} from '@/lib/system-settings';
 import { radius, space, type } from '@/theme/tokens';
 
 export default function Installningar() {
@@ -188,7 +193,13 @@ export default function Installningar() {
                 ? 'Kunde inte hämta din plats. Kontrollera att platstjänster är på.'
                 : permissionStatus === 'denied'
                   ? `Platsåtkomst nekad – visar standardplats. Tillåt i ${settingsName}.`
-                  : 'Använder enhetens plats.'
+                  : // "Använder enhetens plats." was printed here in every non-denied state —
+                    // including the one where no fix has landed and the row's value reads "—".
+                    // The card then claimed to be using a location while showing none. Say
+                    // which of the two is actually true.
+                    source === 'gps'
+                    ? 'Använder enhetens plats.'
+                    : 'Ingen plats hämtad ännu – visar standardplats.'
               : undefined
           }
         >
@@ -198,38 +209,56 @@ export default function Installningar() {
             onChange={(locationMode) => update({ locationMode })}
           />
           {settings.locationMode === 'gps' ? (
-            // "Uppdatera plats" is an action — accent reads as a tappable verb
-            // (matches the iOS-Settings "Tap to share" pattern), with the resolved
-            // place name muted on the right. After the GPS fix resolves we flash
-            // "Uppdaterad ✓" briefly so the user knows the tap landed: a fresh fix
-            // often returns the SAME tätort and the muted value on the right would
-            // look unchanged otherwise. Paired with a hapticSuccess in onRefreshTap.
-            <Pressable
-              onPress={() => void onRefreshTap()}
-              style={({ pressed }) => [styles.row, pressed && styles.rowPressed]}
-              accessibilityRole="button"
-              accessibilityLabel={
-                locating
-                  ? 'Hämtar plats'
-                  : justUpdated
-                    ? 'Plats uppdaterad'
-                    : 'Uppdatera plats'
-              }
-            >
-              {justUpdated && !locating ? (
-                <View style={styles.rowActionConfirm}>
-                  <MaterialIcons name="check-circle" size={18} color={colors.accent} />
-                  <Text style={styles.rowAction}>Uppdaterad</Text>
-                </View>
-              ) : (
-                <Text style={styles.rowAction}>
-                  {locating ? 'Hämtar plats…' : 'Uppdatera plats'}
+            <>
+              {/* "Uppdatera plats" is an action — accent reads as a tappable verb
+                  (matches the iOS-Settings "Tap to share" pattern), with the resolved
+                  place name muted on the right. After the GPS fix resolves we flash
+                  "Uppdaterad ✓" briefly so the user knows the tap landed: a fresh fix
+                  often returns the SAME tätort and the muted value on the right would
+                  look unchanged otherwise. Paired with a hapticSuccess in onRefreshTap. */}
+              <Pressable
+                onPress={() => void onRefreshTap()}
+                style={({ pressed }) => [styles.row, pressed && styles.rowPressed]}
+                accessibilityRole="button"
+                accessibilityLabel={
+                  locating
+                    ? 'Hämtar plats'
+                    : justUpdated
+                      ? 'Plats uppdaterad'
+                      : 'Uppdatera plats'
+                }
+              >
+                {justUpdated && !locating ? (
+                  <View style={styles.rowActionConfirm}>
+                    <MaterialIcons name="check-circle" size={18} color={colors.accent} />
+                    <Text style={styles.rowAction}>Uppdaterad</Text>
+                  </View>
+                ) : (
+                  <Text style={styles.rowAction}>
+                    {locating ? 'Hämtar plats…' : 'Uppdatera plats'}
+                  </Text>
+                )}
+                <Text style={styles.rowValue} numberOfLines={1}>
+                  {source === 'gps' ? label : '—'}
                 </Text>
-              )}
-              <Text style={styles.rowValue} numberOfLines={1}>
-                {source === 'gps' ? label : '—'}
-              </Text>
-            </Pressable>
+              </Pressable>
+              {/* The footnote above names iOS-inställningar as the remedy; without this row
+                  it named it and left the reader there. Meanwhile "Uppdatera plats" is a
+                  button that CANNOT work once permission is denied — it re-asks, the OS
+                  refuses silently, and the tap buys a warning buzz. This is the same row the
+                  Notiser section below already uses for the same problem. */}
+              {permissionStatus === 'denied' ? (
+                <Pressable
+                  onPress={openSystemSettings}
+                  accessibilityRole="button"
+                  accessibilityLabel={openSystemSettingsA11yLabel('plats')}
+                  style={({ pressed }) => [styles.row, pressed && styles.rowPressed]}
+                >
+                  <Text style={styles.rowAction}>{openSystemSettingsLabel()}</Text>
+                  <MaterialIcons name="open-in-new" size={18} color={colors.accent} />
+                </Pressable>
+              ) : null}
+            </>
           ) : (
             // "Stad" is a label, not an action — ink, not accent. Value muted +
             // chevron on the right, like iOS's "Land · Sverige ›" pattern.
@@ -307,12 +336,12 @@ export default function Installningar() {
           />
           {notificationsBlocked ? (
             <Pressable
-              onPress={() => void Linking.openSettings()}
+              onPress={openSystemSettings}
               accessibilityRole="button"
-              accessibilityLabel={`Öppna ${settingsName} för notiser`}
+              accessibilityLabel={openSystemSettingsA11yLabel('notiser')}
               style={({ pressed }) => [styles.row, pressed && styles.rowPressed]}
             >
-              <Text style={styles.rowAction}>Öppna {settingsName}</Text>
+              <Text style={styles.rowAction}>{openSystemSettingsLabel()}</Text>
               <MaterialIcons name="open-in-new" size={18} color={colors.accent} />
             </Pressable>
           ) : null}
