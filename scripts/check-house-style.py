@@ -446,12 +446,70 @@ def rule_fordjupning_generic_headings(doc: Doc) -> list[dict]:
     ]
 
 
+# Shiitiska auktoriteter. Att citera en av dem som det som AVGÖR en fråga är en
+# överträdelse; att nämna en ståndpunkt och besvara den är tillåtet. Kontrollen kan
+# inte avgöra vilket, så namnen fäller och blotta omnämnandet varnar.
+SHIA_AUTHORITIES = (
+    r"al-Kulayn[īi]", r"al-Majlis[īi]", r"al-Ṭūs[īi]", r"al-T[ūu]s[īi]",
+    r"al-Murtaḍ[āa]", r"al-Murtad[āa]", r"al-Khūʾ[īi]", r"al-Khu'?[īi]",
+    r"Sistani", r"al-Sistani", r"Khomeini", r"al-Ṣadūq", r"al-Saduq",
+)
+
+# Att underkänna en auktoritet på genre, epok eller motiv i stället för på belägg.
+GENRE_DISMISSAL = (
+    r"h[äa]mtat? ur en stridsskrift",
+    r"skriv(en|et) i polemiskt syfte",
+    r"medeltida (manliga )?jurist",
+    r"[äa]r part i m[åa]let",
+    r"partsinlaga",
+)
+
+
+def rule_shia_sufi_mention(doc: Doc) -> list[dict]:
+    """Varje shia-/sufiomnämnande måste bedömas för hand: visar det ståndpunkten fel?"""
+    hits = []
+    for n, line in doc.prose():
+        if re.search(r"\b(de\s+)?fem\s+(rätts)?skolor", line, re.IGNORECASE):
+            hits.append(_hit("fem-skolor", ERROR, n, line,
+                             "rättsskolorna är fyra — hanafi, maliki, shafii, hanbali"))
+        for pat in SHIA_AUTHORITIES:
+            if re.search(pat, line):
+                # WARN, inte ERROR: att NAMNGE en shiitisk auktoritet för att
+                # vederlägga den är tillåtet (sunni-och-shia gör det fyra gånger).
+                # Att låta den AVGÖRA frågan är det inte, och det kan bara en
+                # människa skilja — så kontrollen tvingar fram blicken, inte fällan.
+                hits.append(_hit("shia-auktoritet", WARN, n, line,
+                                 "avgör för hand: citeras auktoriteten som det som AVGÖR "
+                                 "frågan? då ska den bort. namnges den för att vederläggas "
+                                 "är den tillåten"))
+                break
+        else:
+            if re.search(r"shia|shiit|jaʿfar|jafarit|tolvshi|tolvimam|imamit|"
+                         r"sufi|tariqa|tasawwuf", line, re.IGNORECASE):
+                hits.append(_hit("shia-sufi-omnamnande", WARN, n, line,
+                                 "bedöm för hand: visar meningen ståndpunkten FEL? "
+                                 "ett neutralt omnämnande som lämnas stående ska bort"))
+    return hits
+
+
+def rule_genre_dismissal(doc: Doc) -> list[dict]:
+    """En norm prövas mot sina belägg, aldrig mot vem som bär den."""
+    return [
+        _hit("genre-avfardande", ERROR, n, line,
+             "underkänner en auktoritet på genre/epok/motiv i stället för på belägg "
+             "— redovisa invändningen sakligt eller stryk den")
+        for n, line in doc.prose()
+        if any(re.search(pat, line, re.IGNORECASE) for pat in GENRE_DISMISSAL)
+    ]
+
+
 RULES = [
     rule_em_dash, rule_guillemets, rule_curly_quotes, rule_idag, rule_mekka,
     rule_double_space, rule_unspaced_dash, rule_du_tilltal, rule_body_kallor,
     rule_dropcap_opening, rule_sunnitisk, rule_dot_under, rule_seesaw_closers,
     rule_dash_budget, rule_quran_scan_artifacts, rule_athari,
     rule_fordjupning_verse_attribution, rule_fordjupning_generic_headings,
+    rule_shia_sufi_mention, rule_genre_dismissal,
 ]
 
 

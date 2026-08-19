@@ -1,0 +1,114 @@
+{
+  "overallCredibility": 8.3,
+  "verdict": "pass",
+  "summary": "Unusually well-sourced research with no fabrications. All 25 database quotes verified by direct ID lookup — every author and work field matches the research's claims, including two places where the research pre-emptively flagged its own attribution caveats (an honesty signal, not a defect). All statistics verified against primary sources and match to the digit (Novus 38%, Pew 8%/11.1%/20.5%/30.6%, Birmingham 568–645 CE at 95.4%). The entire Swedish legal chain verified end to end, including the article's key surprise: Prop. 2025/26:133 and betänkande JuU32 both confirm the adopted law stops at \"säkerheten för människors liv eller hälsa\" and does not incorporate the Sveriges säkerhet ground proposed in SOU 2024:52. All eight Quran verse numbers correctly match their content, and every technical qirāʾāt claim confirms against independent sources. The significant defect is analytical rather than factual: the angle's framing of \"två oförenliga svar på samma handling\" is contradicted by the research's own source note, since Najem was convicted for statements made during the burnings, not for the burning itself. Secondary issues: Luxenberg is named in the angle with zero sourcing and is mischaracterised as a strong objection; Denmark's December 2023 law criminalising exactly this conduct is entirely absent despite being the obvious comparison; Neuwirth/Corpus Coranicum is missing from the scholarship survey.",
+  "verifiedClaims": [
+    {
+      "claim": "All 25 quotes attributed to specific scholars and authors (Ibn Taymiyya, al-Suyūṭī, Ibn Qayyim, Ibn Abbas, Ibn Daqīq al-ʿĪd, Ibn Sīrīn, Bremer, Key, Söderberg, Topelius)",
+      "status": "verified",
+      "method": "get_quote_by_id on all 25 IDs in two batches — every ID exists and author/work fields match the research's claims exactly",
+      "notes": "No hallucinated quotes. The research honestly pre-flagged two attribution subtleties: quote 11790 (speaker Ibn Masʿūd, database author field al-Suyūṭī) and quote 12111 (correctly attributed to Ibn Abbas in the database). Quote 60217 (Ibn Taymiyya on mockery of God's signs as kufr) confirmed in al-Istighātha."
+    },
+    {
+      "claim": "Prop. 2025/26:133, published 24 Feb 2026, in force 1 July 2026; police may change time/place; grounds are life and health, NOT the Sveriges säkerhet ground proposed in SOU 2024:52",
+      "status": "verified",
+      "method": "WebFetch of regeringen.se proposition page plus WebFetch of riksdagen.se betänkande JuU32",
+      "notes": "Both sources independently confirm the ground is 'säkerheten för människors liv eller hälsa'. The betänkande fetch explicitly confirms national security is not a separate ground in the new provisions. This is the article's central 'surprise' and it holds."
+    },
+    {
+      "claim": "Riksdagen adopted the proposals 7 May 2026, in force 1 July 2026; criminal to organise a gathering contrary to the new decisions",
+      "status": "verified",
+      "method": "WebFetch of riksdagen.se betänkande 2025/26:JuU32",
+      "notes": "Confirmed. The fetch added a detail the research omits: the penalty scale is fines or up to six months imprisonment. Worth including."
+    },
+    {
+      "claim": "Förvaltningsrätten i Stockholm, 4 April 2023, mål nr 2741-23 and 2925-23 — police lacked legal grounds to refuse permits; Säpo's assessment not concretely tied to these gatherings",
+      "status": "verified",
+      "method": "WebFetch of domstol.se news page",
+      "notes": "Confirmed verbatim, including the reasoning that police needed 'relatively concrete circumstances' tied to the specific events. Presiding judge Eva-Lotta Hedin."
+    },
+    {
+      "claim": "Najem verdict chain: convicted 3 Feb 2025 (conditional sentence and day fines); Svea hovrätt upheld 7 Nov 2025; HD refused prövningstillstånd, laga kraft January 2026",
+      "status": "verified",
+      "method": "WebFetch of svt.se, blt.se and lt.se; independent WebSearch corroborated the conviction and appeal",
+      "notes": "Full chain confirmed. lt.se article dated 14 Jan 2026 confirms HD 'tar inte upp hans överklagan' and the verdict is final. The research's observation that there is no HD precedent — prejudikatvärdet rests with the hovrätt — is correct and important."
+    },
+    {
+      "claim": "Novus July 2023: 38% want to ban Quran burning; roughly equal support for banning burning of the Swedish flag, Torah and Bible; 96% say defending free expression is important; field period 24–26 July 2023, n=1000, ages 18–84, Novus own initiative",
+      "status": "verified",
+      "method": "WebFetch of novus.se survey page",
+      "notes": "Exact match on every figure. The page adds the breakdown 68% 'very important' + 28% 'fairly important' = 96%. The research's point that support is not Quran-specific is directly supported."
+    },
+    {
+      "claim": "Birmingham manuscript: two parchment leaves, radiocarbon dated at Oxford to 568–645 CE with 95.4% probability, containing parts of suras 18–20",
+      "status": "verified",
+      "method": "WebFetch of birmingham.ac.uk news page",
+      "notes": "All details confirmed. The research's caveat that C-14 dates the animal's death rather than the writing is genuinely supported by the page, which notes the dating reflects when 'the animal from which it was taken was alive'."
+    },
+    {
+      "claim": "Pew: Sweden ~8% Muslim mid-2016; 2050 projections 11.1% (zero migration), 20.5% (medium), 30.6% (high); 'Muslim' means self-identification",
+      "status": "verified",
+      "method": "WebFetch of pewresearch.org report",
+      "notes": "All four figures match exactly. Pew's own text confirms the definitional caveat the research flags — that levels of religious commitment vary and some counted as Muslim do not treat it as central."
+    },
+    {
+      "claim": "Qirāʾāt technicalities: ten canonised readings; the first seven selected by Ibn Mujāhid (d. 324/936), roughly two centuries after the readers (d. 118–229 AH); variants span iʿjām, ḥarakāt and rasm producing materially different readings; the global standard text is the 1924 Cairo edition following Ḥafṣ ʿan ʿĀṣim; Warsh ʿan Nāfiʿ used in Northwest Africa",
+      "status": "verified",
+      "method": "fetch_wikipedia (full) of the Qira'at article",
+      "notes": "Every element confirmed, including the phrase 'materially different readings' and the 1924 Cairo edition claim. This is the research's most technically exposed section and it is accurate."
+    },
+    {
+      "claim": "Quran verse numbers: 15:9 (preservation), 2:23 (taḥaddī), 17:88, 4:82, 3:7 (muḥkam/mutashābih), 2:106 (nasḵ), 12:2 (Arabic Quran), 75:17 (jamʿ)",
+      "status": "verified",
+      "method": "Cross-checked each citation against the Arabic text and standard content; verse numbering is correct in all eight cases",
+      "notes": "The research's note on 3:7 — that the verse's own meaning depends on where the reader stops ('except God' vs 'except God and those firmly grounded in knowledge') — is a genuine classical crux, correctly characterised."
+    },
+    {
+      "claim": "Salwan Najem was convicted for statements made during the burnings rather than for the act of burning",
+      "status": "verified",
+      "method": "WebFetch of svt.se — SVT states explicitly he was convicted for 'uttalanden vid koranbränningar', not the act",
+      "notes": "The research records this correctly in its source notes but contradicts it in the developed angle. See unverifiedClaims."
+    }
+  ],
+  "unverifiedClaims": [
+    {
+      "claim": "That Swedish law gives 'två oförenliga svar på samma handling' — that the administrative courts and the criminal courts reached contradictory conclusions about the same act (koranbränning)",
+      "status": "unverified",
+      "reason": "Contradicted by the research's own sources. SVT confirms Najem was convicted for uttalanden made during the burnings, not for burning. The administrative courts decided a different legal question — whether police may refuse a permit for an assembly in advance (prior restraint under ordningslagen) — while the criminal court decided ex post liability for expression under BrB 16:8. Different legal objects and different tests, so not 'oförenliga svar' and not 'samma handling'. Rewrite the thesis: the state must permit the gathering yet may punish what is said at it. That formulation is both accurate and still genuinely surprising, and it survives the objection a lawyer would immediately raise."
+    },
+    {
+      "claim": "Luxenberg belongs among 'den moderna textkritikens starkaste invändningar' alongside Wansbrough and the Ṣanʿāʾ palimpsest",
+      "status": "unverified",
+      "reason": "No source is provided for Luxenberg anywhere in the 36-source list, and the characterisation inverts the field's assessment. WebSearch confirms his thesis 'goes beyond the mainstream scholarly consensus' and that his methodology 'is not universally accepted, with criticisms around speculation and overreliance on linguistic parallels'. He is the most notorious revisionist, not the strongest. Either drop him, or source him properly and present him explicitly as the outlier whose method the field — including Sinai, whom the research cites approvingly — largely rejects. Presenting him as a strong objection and then knocking him down would also be a straw man of a different kind: it would make the critical case look weaker than it is."
+    },
+    {
+      "claim": "That the classical Islamic literature contains 'ett prejudikat för att bränna koranexemplar' (a precedent for burning copies of the Quran)",
+      "status": "unverified",
+      "reason": "The underlying al-Qurtubi passage is genuine and the research correctly identifies the decisive qualifier — that the difference is intent, not the act. But the claim as phrased in the angle is a quotable sentence that inverts its own source: al-Qurtubi and al-Bāqillānī describe burning as ikrām, an act of reverence protecting the text from being trodden underfoot, which is the opposite of burning as public humiliation. Ibn Taymiyya (quote 60217) supplies the contrasting category. The distinction must be inseparably attached to the claim in every place it appears, never as a later clarification, or the article will be quoted against itself."
+    }
+  ],
+  "missingPerspectives": [
+    "Denmark's law of 7 December 2023 criminalising improper treatment of religious scriptures (passed 94–77; fines or up to two years' imprisonment) is entirely absent. This is the single most obvious comparison available: two Nordic neighbours faced identical diplomatic and security pressure in 2023 and diverged completely, with Denmark legislating exactly what Sweden's government declined to legislate in 2026. Its absence is the largest gap in the article.",
+    "Angelika Neuwirth and the Corpus Coranicum project are missing from the survey of critical scholarship. Neuwirth is arguably the most important living scholar of Quranic studies and Sinai — the research's chosen modern reference — is from her school. A survey naming Wansbrough, Luxenberg, van Putten, Sadeghi and Sinai but not Neuwirth has a conspicuous hole.",
+    "The Shia perspective is represented only through Ibn Taymiyya's anti-Shia polemic in Minhāj al-sunna. Citing a hostile source on a group's position without the group's own mainstream view is unfair: mainstream Twelver Shia scholarship affirms the Uthmanic text and rejects taḥrīf of the Quran. As written, the article would leave readers with a distorted impression of Shia belief about the codex.",
+    "No voice arguing that the correct Muslim response to provocation is deliberate non-reaction. Khalfi supplies condemnation of the burnings but not the substantial strand of Muslim argument that outrage rewards the provocateur. Without it the Muslim reaction is represented one-dimensionally.",
+    "The 'heckler's veto' objection is noted as appearing inside SOU 2024:52 but is not developed as a live argument. It is the strongest principled case against restriction and deserves to be stated in its own voice, not merely reported as something the inquiry mentioned.",
+    "No perspective from those who defend the burnings on secular-liberal grounds beyond Bauhn's critique of the hovrätt. Bauhn argues about the verdict, not about whether the act itself has value — leaving the pro-burning position represented only by people the article treats as provocateurs."
+  ],
+  "sourceAssessment": {
+    "totalSources": 36,
+    "highCredibility": 28
+  },
+  "recommendations": [
+    "Rewrite the central thesis. Replace 'två oförenliga svar på samma handling' with the accurate and still-striking formulation: the administrative courts held that the assembly must be permitted, while the criminal courts held that what was said at it was punishable. Different legal questions, not contradictory answers. The research's own SVT note already contains the correct fact — the angle simply overstates it.",
+    "Add Denmark's December 2023 law as an explicit comparative section. Sweden and Denmark diverging under identical pressure is the strongest structural evidence that the Swedish outcome was a choice rather than an inevitability, and it directly reinforces the article's point about the 2026 legislative decision.",
+    "Either drop Luxenberg or source him and reframe him as the outlier whose method the field largely rejects. Do not present him as among the 'strongest' objections — that is not the scholarly assessment, and Sinai, whom the research relies on, is among his critics.",
+    "Attach the ikrām/istihzāʾ distinction to the al-Qurtubi/al-Bāqillānī material every single time it appears. Never let 'classical Islam permits burning Qurans' stand as a detachable sentence. Pair it with Ibn Taymiyya (quote 60217) in the same passage so the categories are visible together.",
+    "Add Neuwirth/Corpus Coranicum to the scholarship section, and give the mainstream Twelver Shia position alongside Ibn Taymiyya's polemic rather than letting the polemic stand alone.",
+    "Verify the Swedish wording of every Quran verse against Bernström's printed Koranens budskap before publication. The in-house Quran database returns a different Swedish translation, so pulling verses from the database while citing Bernström would be a misattribution.",
+    "Report both opinion polls together with the reason they differ. Novus 38% and Kantar 53% are both verified and both correctly described; the gap is a question-wording effect and showing it is more honest and more interesting than picking one.",
+    "Add the penalty scale from JuU32 — fines or up to six months' imprisonment for organising a gathering contrary to the new decisions — which the research omits.",
+    "Present quote 12114 ('sextio tusen förståelsesätt') as a reported piety topos, not as a factual claim about the Quran. It is verified as existing in the database but it is devotional hyperbole, and stating it flatly would undercut the article's analytical credibility.",
+    "State plainly that the Najem verdict's precedential weight rests with Svea hovrätt, since the Supreme Court declined review. The research already grasps this; make it explicit for readers, as it materially limits how settled the law actually is."
+  ]
+}
