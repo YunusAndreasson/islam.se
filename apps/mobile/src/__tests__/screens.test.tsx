@@ -11,6 +11,7 @@ import type { ReactElement, ReactNode } from 'react';
 import { AppState, type AppStateStatus, Platform } from 'react-native';
 
 import Bonetider from '@/app/bonetider';
+import Berakning from '@/app/(settings)/berakning';
 import BytPlats from '@/app/(settings)/byt-plats';
 import Installningar from '@/app/(settings)/installningar';
 import Notiser from '@/app/(settings)/notiser';
@@ -384,11 +385,10 @@ describe('tab screens', () => {
       await renderSettled(withProviders(<Installningar />));
       // The header appears after the async settings hydration flips `loaded` (settled above).
       await waitFor(() => expect(screen.getByText('Inställningar')).toBeTruthy());
-      // The "Förhandsvisning" preview is now folded into a DisclosureGroup
-      // (collapsed by default), so its prayer labels are hidden from queries until opened.
-      // Expanding it and finding a prayer label proves the live preview — and thus the
-      // calculation module — ran end-to-end inside the screen.
-      fireEvent.press(screen.getByRole('button', { name: /^Förhandsvisning/ }));
+      // The "Förhandsvisning" strip is open — no disclosure to expand. Finding a prayer
+      // label with no interaction at all is the claim: the live preview (and thus the
+      // calculation module) ran end-to-end inside the screen, and a user sees it without
+      // having to discover a fold first.
       expect(screen.getAllByText(/Fajr/).length).toBeGreaterThan(0);
     },
     MAP_RENDER_TIMEOUT,
@@ -539,35 +539,13 @@ describe('tab screens', () => {
     expect(router.back).toHaveBeenCalled();
   });
 
-  // Progressive disclosure: the "Utseende" group lives in a collapsible
-  // card that starts closed (so a first-time user isn't faced with the whole tweaks
-  // panel) and opens on a header press. Guards the DisclosureGroup wiring on the screen.
-  // (Beräkning used to be a disclosure too — it's now a pushed screen, see
-  // src/app/(settings)/berakning.tsx — and "Manuella justeringar" recently
-  // moved there alongside the other adhan calculation knobs, so what's left in
-  // this group is purely display-side: Avrundning + Hijri-justering.)
-  it('keeps advanced settings collapsed until their group header is pressed', async () => {
+  // The qibla arc's switch, now in the "Karta" section and reachable with no disclosure
+  // to open first. What matters is that the control reaches persistence: the map reads
+  // settings.showQibla straight off the store, so a toggle that renders but writes
+  // nothing would look completely correct on screen while the arc never moved.
+  it('persists the qibla-arc switch from Karta', async () => {
     await renderSettled(withProviders(<Installningar />));
     await waitFor(() => expect(screen.getByText('Inställningar')).toBeTruthy());
-
-    const header = screen.getByRole('button', { name: /^Utseende,/ });
-    expect(header.props.accessibilityState.expanded).toBe(false);
-
-    fireEvent.press(header);
-    expect(
-      screen.getByRole('button', { name: /^Utseende,/ }).props.accessibilityState.expanded,
-    ).toBe(true);
-  });
-
-  // The qibla arc's switch. It lives inside the collapsed "Utseende" group, so the test
-  // opens the group first — the same path a user takes. What matters is that the control
-  // reaches persistence: the map reads settings.showQibla straight off the store, so a
-  // toggle that renders but writes nothing would look completely correct on screen while
-  // the arc never moved.
-  it('persists the qibla-arc switch from Utseende', async () => {
-    await renderSettled(withProviders(<Installningar />));
-    await waitFor(() => expect(screen.getByText('Inställningar')).toBeTruthy());
-    fireEvent.press(screen.getByRole('button', { name: /^Utseende,/ }));
 
     // On by default — the arc is a feature, not an opt-in.
     const toggle = screen.getByRole('switch', { name: /Visa qibla-riktning/ });
@@ -586,10 +564,9 @@ describe('tab screens', () => {
   // reach-persistence claim as the qibla switch — the dock reads settings.showNightTimes
   // straight off the store, so a toggle that renders but writes nothing would look right
   // and change nothing.
-  it('persists the night-times switch from Utseende, and it starts off', async () => {
+  it('persists the night-times switch from Förhandsvisning, and it starts off', async () => {
     await renderSettled(withProviders(<Installningar />));
     await waitFor(() => expect(screen.getByText('Inställningar')).toBeTruthy());
-    fireEvent.press(screen.getByRole('button', { name: /^Utseende,/ }));
 
     const toggle = screen.getByRole('switch', { name: /Visa nattens tider/ });
     expect(toggle.props.value).toBe(false);
@@ -602,13 +579,58 @@ describe('tab screens', () => {
     });
   });
 
-  // The collapsed header is the only thing that says what lives behind the group. A toggle
-  // that is not named there is unreachable by recognition — the reason VISNING_SUMMARY
-  // exists at all.
-  it('names the night times on the collapsed Utseende header', async () => {
+  // THE BUG THIS GUARDS: these four switches used to sit inside a collapsed "Utseende"
+  // group, so the only thing announcing them was that header's summary line — and when a
+  // toggle was added to the card but not to the summary, it became unreachable by
+  // recognition entirely. Recognition over recall means the control itself is on the
+  // screen, not a promise that it exists behind a fold. If a future change hides any of
+  // these again, this fails.
+  it('shows every display switch without opening anything first', async () => {
     await renderSettled(withProviders(<Installningar />));
     await waitFor(() => expect(screen.getByText('Inställningar')).toBeTruthy());
-    expect(screen.getByRole('button', { name: /^Utseende,.*Natten/ })).toBeTruthy();
+
+    expect(screen.getByRole('switch', { name: /Visa moskéer/ })).toBeTruthy();
+    expect(screen.getByRole('switch', { name: /Visa qibla-riktning/ })).toBeTruthy();
+    expect(screen.getByRole('switch', { name: /Visa nattens tider/ })).toBeTruthy();
+    expect(screen.getByRole('switch', { name: /Haptisk återkoppling/ })).toBeTruthy();
+    // The theme picker and the Hijri stepper likewise — both were behind the same fold.
+    expect(screen.getByRole('radio', { name: /Följ system/ })).toBeTruthy();
+    expect(screen.getByLabelText('Dagar')).toBeTruthy();
+  });
+
+  // THE BUG THIS GUARDS: Beräkning is where a user changes the method, the madhab, the
+  // high-latitude rule and six per-prayer offsets — and it used to show no times at all,
+  // so every tap moved a checkmark and nothing else. The introduction had already fixed
+  // exactly this for itself (components/intro/StepMethod: "a setting you can watch land
+  // is a setting you can judge") and the lesson never crossed over. The pinned
+  // PreviewStrip is that fix; this asserts the loop is actually closed, by picking the
+  // one option whose consequence is unambiguous — Hanafi computes a LATER ʿAṣr.
+  it('moves a visible time when Beräkning changes the madhab', async () => {
+    await renderSettled(withProviders(<Berakning />));
+
+    const asrBefore = screen.getByTestId('preview-time-asr').props.children as string;
+    expect(asrBefore).toMatch(/^\d{2}:\d{2}$/);
+
+    fireEvent.press(screen.getByRole('radio', { name: /^Hanafi/ }));
+
+    await waitFor(() => {
+      const asrAfter = screen.getByTestId('preview-time-asr').props.children as string;
+      expect(asrAfter).not.toBe(asrBefore);
+      expect(asrAfter > asrBefore).toBe(true); // "16:29" > "15:42" lexicographically for HH:mm
+    });
+  });
+
+  // Avrundning followed the other adhan CalculationParameters to Beräkning — it shapes a
+  // computed time (and rounding Maghrib the wrong way moves when a fast ends), so it
+  // never belonged among theme and map toggles.
+  it('offers Avrundning on Beräkning, not on Inställningar', async () => {
+    await renderSettled(withProviders(<Berakning />));
+    expect(screen.getByRole('radio', { name: /Närmaste minut/ })).toBeTruthy();
+
+    screen.unmount();
+    await renderSettled(withProviders(<Installningar />));
+    await waitFor(() => expect(screen.getByText('Inställningar')).toBeTruthy());
+    expect(screen.queryByRole('radio', { name: /Närmaste minut/ })).toBeNull();
   });
 
   it('renders the Om screen as an identity page (masthead + integritet + fine-print credits)', () => {

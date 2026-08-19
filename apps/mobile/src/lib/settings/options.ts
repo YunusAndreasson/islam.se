@@ -207,20 +207,3 @@ export const calculationSummary = (s: PrayerSettings): string => {
   if (s.highLatitudeRule !== 'auto') parts.push(labelOf(HIGHLAT_OPTIONS, s.highLatitudeRule));
   return parts.filter(Boolean).join(' · ');
 };
-
-/** Collapsed-header summary for the "Utseende och format" disclosure group: the AREAS
- *  it covers, not their values. Showing only the rounding label ("Närmaste minut") made
- *  the group look like it did just that, hiding Tema / Avrundning / Hijri — so instead
- *  we name the scope and let the values live inside the card. The topics are listed in
- *  the same order as the sub-sections render inside the card and capitalised
- *  consistently so the summary reads as a list of section names. It is a constant, not
- *  a function of the settings like {@link calculationSummary}, because naming the
- *  group's breadth is the whole point. */
-export const VISNING_SUMMARY: string = [
-  'Tema',
-  'Moskéer',
-  'Qibla',
-  'Natten',
-  'Avrundning',
-  'Hijri',
-].join(' · ');
