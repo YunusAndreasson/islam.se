@@ -42,14 +42,13 @@ allowBuilds:
   # webtransport binding, this is the line to flip.
   '@fails-components/webtransport-transport-http3-quiche': false
 
+# Each entry deliberately bypasses pnpm's 24 h supply-chain delay for ONE exact version,
+# and only ever as a stopgap: the delay is doing real work for every other package, so a
+# line here is a debt to pay off, not a setting. An entry stops doing anything once its
+# version is a day old — the argent@0.20.0 entry that lived here was removed on
+# 2026-08-19 when the project moved to 0.21.0, which was already two days published and
+# needed no exemption at all.
 minimumReleaseAgeExclude:
-  # Deliberately bypasses pnpm's 24 h supply-chain delay for ONE version. 0.20.0 was
-  # published 2026-08-10T17:46Z, so the delay would have pinned this project at 0.19.0
-  # until the following evening while the machine's global argent — which the MCP server
-  # ran from, and which npm installed with no delay at all — was already on 0.20.0. A
-  # tool that reports one version and runs another is worse than the few hours saved.
-  # Drop this line once 0.20.0 is a day old; it does nothing after that.
-  - '@swmansion/argent@0.20.0'
   - '@expo/cli@57.0.14'
   - '@expo/fingerprint@0.20.7'
   - '@expo/inline-modules@0.1.5'
