@@ -85,7 +85,8 @@ function noteContent(li: HastElement): HastNode[] {
 	// The overwhelmingly common shape is one <p>; lift it so the span carries inline
 	// content and the float behaves as a single block. A multi-paragraph note keeps
 	// its <p>s (a <p> inside a floated span is legal once the span is blockified).
-	if (elements.length === 1 && elements[0].tagName === "p") return elements[0].children;
+	const only = elements[0];
+	if (elements.length === 1 && only?.tagName === "p") return only.children;
 	return cloned;
 }
 
@@ -113,7 +114,8 @@ function indexNotes(tree: HastNode): Map<string, HastNode[]> {
 		if (isElement(node) && node.tagName === "li") {
 			const id = typeof node.properties?.id === "string" ? node.properties.id : "";
 			const m = FN_ID.exec(id);
-			if (m) notes.set(m[1], noteContent(node));
+			const noteId = m?.[1];
+			if (noteId) notes.set(noteId, noteContent(node));
 		}
 		for (const child of childrenOf(node)) visit(child);
 	};
@@ -135,7 +137,8 @@ function refIdOf(sup: HastElement): string | null {
 		if (!hasProp(child, "dataFootnoteRef")) continue;
 		const href = typeof child.properties?.href === "string" ? child.properties.href : "";
 		const m = FN_ID.exec(href.replace(/^#/, ""));
-		if (m) return m[1];
+		const noteId = m?.[1];
+		if (noteId) return noteId;
 	}
 	return null;
 }
@@ -166,7 +169,7 @@ export function rehypeSidenotes() {
 			const children = childrenOf(node);
 			for (let i = 0; i < children.length; i++) {
 				const child = children[i];
-				if (!isElement(child)) continue;
+				if (!(child && isElement(child))) continue;
 
 				if (!blocked) {
 					const note = noteFor(child);

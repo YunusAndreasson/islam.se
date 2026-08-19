@@ -28,7 +28,7 @@ const FUZZY_MIN = 4;
 export function closeEnough(token: string, word: string): boolean {
 	if (token.length < FUZZY_MIN || word.length < FUZZY_MIN) return false;
 	if (token.startsWith(word) || word.startsWith(token)) return true;
-	if (token[0] !== word[0]) return false;
+	if (token.charAt(0) !== word.charAt(0)) return false;
 	return withinEdits(token, word, token.length >= 8 ? 2 : 1);
 }
 
@@ -37,23 +37,28 @@ export function closeEnough(token: string, word: string): boolean {
 function withinEdits(a: string, b: string, max: number): boolean {
 	if (Math.abs(a.length - b.length) > max) return false;
 
-	const d: number[][] = [];
-	for (let i = 0; i <= a.length; i++) d.push(new Array<number>(b.length + 1).fill(0));
-	for (let i = 0; i <= a.length; i++) d[i][0] = i;
-	for (let j = 0; j <= b.length; j++) d[0][j] = j;
+	const d = Array.from({ length: a.length + 1 }, (_, i) =>
+		Array.from({ length: b.length + 1 }, (_, j) => (i === 0 ? j : j === 0 ? i : 0)),
+	);
 
 	for (let i = 1; i <= a.length; i++) {
-		let best = d[i][0];
+		const row = d[i] ?? [];
+		const previous = d[i - 1] ?? [];
+		let best = row[0] ?? Number.POSITIVE_INFINITY;
 		for (let j = 1; j <= b.length; j++) {
 			const cost = a[i - 1] === b[j - 1] ? 0 : 1;
-			let v = Math.min(d[i - 1][j] + 1, d[i][j - 1] + 1, d[i - 1][j - 1] + cost);
+			let v = Math.min(
+				(previous[j] ?? Number.POSITIVE_INFINITY) + 1,
+				(row[j - 1] ?? Number.POSITIVE_INFINITY) + 1,
+				(previous[j - 1] ?? Number.POSITIVE_INFINITY) + cost,
+			);
 			if (i > 1 && j > 1 && a[i - 1] === b[j - 2] && a[i - 2] === b[j - 1]) {
-				v = Math.min(v, d[i - 2][j - 2] + 1);
+				v = Math.min(v, (d[i - 2]?.[j - 2] ?? Number.POSITIVE_INFINITY) + 1);
 			}
-			d[i][j] = v;
+			row[j] = v;
 			if (v < best) best = v;
 		}
 		if (best > max) return false;
 	}
-	return d[a.length][b.length] <= max;
+	return (d[a.length]?.[b.length] ?? Number.POSITIVE_INFINITY) <= max;
 }

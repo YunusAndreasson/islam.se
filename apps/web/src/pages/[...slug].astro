@@ -39,13 +39,19 @@ const amne = article.category ? amneByName.get(article.category) : undefined;
 
 // Quran verses this essay cites in its footnotes → machine-readable citation[] on
 // the Article JSON-LD. Derived from the corpus, ordered surah:ayah.
-const citedAyahs = [...((await getVersesByEssay()).get(article.slug) ?? [])].sort((a, b) => {
-	const [sa, aa] = a.split(":").map(Number);
-	const [sb, ab] = b.split(":").map(Number);
-	return sa - sb || aa - ab;
-});
-const citations = citedAyahs.map((key) => {
-	const [surah, ayah] = key.split(":");
+const parseAyahKey = (key: string): { key: string; surah: number; ayah: number } => {
+	const match = /^(\d+):(\d+)/.exec(key);
+	const surah = Number(match?.[1]);
+	const ayah = Number(match?.[2]);
+	if (!Number.isFinite(surah) || !Number.isFinite(ayah)) {
+		throw new Error(`Invalid Quran citation key in ${article.slug}: ${key}`);
+	}
+	return { key, surah, ayah };
+};
+const citedAyahs = [...((await getVersesByEssay()).get(article.slug) ?? [])]
+	.map(parseAyahKey)
+	.sort((a, b) => a.surah - b.surah || a.ayah - b.ayah);
+const citations = citedAyahs.map(({ key, surah, ayah }) => {
 	return { name: `Koranen ${key}`, url: `https://quran.com/${surah}/${ayah}` };
 });
 
@@ -59,11 +65,22 @@ if (article.heroImage) {
 		contentUrl: new URL(rendition.src, Astro.site).href,
 		url: new URL(Astro.url.pathname, Astro.site).href,
 		name: article.imageAlt ?? article.title,
-		caption: article.imageCaption,
+		...(article.imageCaption === undefined ? {} : { caption: article.imageCaption }),
 		width: 1200,
 		height: Math.round((1200 * article.heroImage.height) / article.heroImage.width),
 	});
 }
+
+const structuredArticle = {
+	publishedAt: article.publishedAt,
+	...(article.updatedAt === undefined ? {} : { updatedAt: article.updatedAt }),
+	wordCount: article.wordCount,
+	description: article.description,
+	slug: article.slug,
+	...(article.category === undefined ? {} : { section: article.category }),
+	citations,
+	...(heroImageObject === undefined ? {} : { image: heroImageObject }),
+};
 ---
 
 {/* `description` is the visible deck and runs well past the ~155 characters a
@@ -74,7 +91,7 @@ if (article.heroImage) {
 	title={`${article.title} — islam.se`}
 	description={article.seoDescription ?? article.description}
 	ogImage={`/og/${article.slug}.png`}
-	articleMeta={{ publishedAt: article.publishedAt, updatedAt: article.updatedAt, wordCount: article.wordCount, description: article.description, slug: article.slug, section: article.category, citations, image: heroImageObject }}
+	articleMeta={structuredArticle}
 	preloadArabicFont
 >
 	<main id="main" class="reading reading--notes">
@@ -86,13 +103,17 @@ if (article.heroImage) {
 			    between the headline and the first paragraph. */}
 			<ArticleHeader
 				title={article.title}
-				kicker={amne?.name}
-				kickerHref={amne ? `/amnen/${amne.slug}` : undefined}
+				{...(amne ? { kicker: amne.name, kickerHref: `/amnen/${amne.slug}` } : {})}
 				kickerClass="article-kicker"
 				leadHtml={inlineMarkdown(article.description)}
 				leadClass="article-standfirst"
 			>
-				<ArticleMeta class="label article-meta" publishedAt={article.publishedAt} updatedAt={article.updatedAt} readingTime={article.readingTime} />
+				<ArticleMeta
+					class="label article-meta"
+					publishedAt={article.publishedAt}
+					{...(article.updatedAt === undefined ? {} : { updatedAt: article.updatedAt })}
+					readingTime={article.readingTime}
+				/>
 			</ArticleHeader>
 
 			{article.heroImage && (
@@ -114,7 +135,13 @@ if (article.heroImage) {
 				</figure>
 			)}
 
-			{article.audioFile && <AudioPlayer src={`/audio/${article.audioFile}`} title={article.title} artwork={article.heroImage?.src} />}
+			{article.audioFile && (
+				<AudioPlayer
+					src={`/audio/${article.audioFile}`}
+					title={article.title}
+					{...(article.heroImage ? { artwork: article.heroImage.src } : {})}
+				/>
+			)}
 
 			<div class="article-body prose">
 				<Content />
@@ -418,8 +445,10 @@ if (article.heroImage) {
 			let startT = 0;
 			let eligible = false;
 			document.addEventListener("touchstart", (e) => {
-				startX = e.touches[0].clientX;
-				startY = e.touches[0].clientY;
+				const touch = e.touches[0];
+				if (!touch) return;
+				startX = touch.clientX;
+				startY = touch.clientY;
 				startT = performance.now();
 				// Edge starts belong to the browser's back/forward gesture.
 				eligible = e.touches.length === 1 && startX >= 28 && startX <= window.innerWidth - 28;
@@ -428,8 +457,10 @@ if (article.heroImage) {
 				if (!eligible || e.changedTouches.length !== 1) return;
 				if (performance.now() - startT > 700) return;
 				if (document.getSelection()?.toString()) return;
-				const dx = e.changedTouches[0].clientX - startX;
-				const dy = e.changedTouches[0].clientY - startY;
+				const touch = e.changedTouches[0];
+				if (!touch) return;
+				const dx = touch.clientX - startX;
+				const dy = touch.clientY - startY;
 				if (Math.abs(dx) > 80 && Math.abs(dx) > Math.abs(dy) * 2) {
 					if (dx > 0 && prevLink) navigate(prevLink.href);
 					else if (dx < 0 && nextLink) navigate(nextLink.href);

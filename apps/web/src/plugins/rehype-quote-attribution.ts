@@ -83,7 +83,7 @@ function lastMeaningfulIndex(children: HastNode[]): number {
 	let end = children.length - 1;
 	while (end >= 0) {
 		const n = children[end];
-		if (isText(n) && n.value.trim() === "") end--;
+		if (n && isText(n) && n.value.trim() === "") end--;
 		else break;
 	}
 	return end;
@@ -93,7 +93,7 @@ function lastMeaningfulIndex(children: HastNode[]): number {
 function markWholeParagraph(paras: HastElement[], last: HastElement): boolean {
 	if (paras.length <= 1 || last.children.length !== 1) return false;
 	const only = last.children[0];
-	if (!(isText(only) && WHOLE_ATTRIBUTION.test(only.value.trim()))) return false;
+	if (!(only && isText(only) && WHOLE_ATTRIBUTION.test(only.value.trim()))) return false;
 	last.properties = { ...(last.properties ?? {}), className: ["q-attr-p"] };
 	return true;
 }
@@ -102,11 +102,13 @@ function markWholeParagraph(paras: HastElement[], last: HastElement): boolean {
  *  the same text node. */
 function markTrailingText(last: HastElement, end: number): boolean {
 	const tail = last.children[end];
-	if (!isText(tail)) return false;
+	if (!(tail && isText(tail))) return false;
 	const m = TRAILING_ATTRIBUTION.exec(tail.value);
 	if (!m) return false;
 	tail.value = tail.value.slice(0, m.index);
-	last.children.splice(end + 1, last.children.length - end - 1, cite(m[1]));
+	const attribution = m[1];
+	if (!attribution) return false;
+	last.children.splice(end + 1, last.children.length - end - 1, cite(attribution));
 	return true;
 }
 
@@ -115,16 +117,16 @@ function markTrailingText(last: HastElement, end: number): boolean {
  *  the citation is styled display:block, so keeping it would open a blank line above. */
 function markAfterHardBreak(last: HastElement, end: number): boolean {
 	const tail = last.children[end];
-	if (!(isText(tail) && WHOLE_ATTRIBUTION.test(tail.value.trim()))) return false;
+	if (!(tail && isText(tail) && WHOLE_ATTRIBUTION.test(tail.value.trim()))) return false;
 	let br = end - 1;
 	while (br >= 0) {
 		const n = last.children[br];
-		if (isText(n) && n.value.trim() === "") br--;
+		if (n && isText(n) && n.value.trim() === "") br--;
 		else break;
 	}
 	if (br < 0) return false;
 	const before = last.children[br];
-	if (!isElement(before) || before.tagName !== "br") return false;
+	if (!(before && isElement(before)) || before.tagName !== "br") return false;
 	last.children.splice(br, last.children.length - br, cite(tail.value.trim()));
 	return true;
 }

@@ -83,17 +83,21 @@ const yBottom = y(0);
 const yTop = y(1440);
 const fajr = series.fajr;
 const isha = series.isha;
+const fajrFirst = fajr[0];
+const fajrLast = fajr[fajr.length - 1];
+const ishaFirst = isha[0];
+const ishaLast = isha[isha.length - 1];
 const nightBottom =
-	fajr.length > 0
-		? `M ${fajr[0].x.toFixed(1)} ${yBottom.toFixed(1)} ` +
+	fajrFirst && fajrLast
+		? `M ${fajrFirst.x.toFixed(1)} ${yBottom.toFixed(1)} ` +
 			fajr.map((p) => `L ${p.x.toFixed(1)} ${p.y.toFixed(1)}`).join(" ") +
-			` L ${fajr[fajr.length - 1].x.toFixed(1)} ${yBottom.toFixed(1)} Z`
+			` L ${fajrLast.x.toFixed(1)} ${yBottom.toFixed(1)} Z`
 		: "";
 const nightTop =
-	isha.length > 0
-		? `M ${isha[0].x.toFixed(1)} ${yTop.toFixed(1)} ` +
+	ishaFirst && ishaLast
+		? `M ${ishaFirst.x.toFixed(1)} ${yTop.toFixed(1)} ` +
 			isha.map((p) => `L ${p.x.toFixed(1)} ${p.y.toFixed(1)}`).join(" ") +
-			` L ${isha[isha.length - 1].x.toFixed(1)} ${yTop.toFixed(1)} Z`
+			` L ${ishaLast.x.toFixed(1)} ${yTop.toFixed(1)} Z`
 		: "";
 
 const monthShort = (m: number): string =>

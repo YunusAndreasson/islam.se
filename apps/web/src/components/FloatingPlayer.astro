@@ -410,8 +410,9 @@ import PodcastSubscribeLinks from "./PodcastSubscribeLinks.astro";
 		speedBtn.addEventListener("click", () => {
 			if (!audio) return;
 			const idx = (speeds.indexOf(audio.playbackRate) + 1) % speeds.length;
-			audio.playbackRate = speeds[idx];
-			speedBtn.textContent = `${speeds[idx]}×`;
+			const speed = speeds[idx] ?? 1;
+			audio.playbackRate = speed;
+			speedBtn.textContent = `${speed}×`;
 			posState();
 		}, { signal: sig });
 

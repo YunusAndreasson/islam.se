@@ -54,6 +54,14 @@ interface EventDef {
 	endExclusive?: boolean;
 }
 
+/** Build an optional property without assigning `undefined` to it. */
+function optionalProperty<K extends string, V>(
+	key: K,
+	value: V | undefined,
+): Partial<Record<K, V>> {
+	return value === undefined ? {} : ({ [key]: value } as Record<K, V>);
+}
+
 // In Hijri-year order. Only observances established in hadith (§7.9) — nothing
 // contested (no Mawlid, no Isra wa Miʿraj), no toggle.
 const EVENTS: EventDef[] = [
@@ -179,9 +187,9 @@ export function getMarkesdagar(now = new Date()): Markesdag[] {
 
 			events.push({
 				name: def.name,
-				note: def.note,
+				...optionalProperty("note", def.note),
 				startISO: iso(startDate),
-				endISO: endDate ? iso(endDate) : undefined,
+				...optionalProperty("endISO", endDate && iso(endDate)),
 				hijriLabel: label(gregorianToHijri(startDate), endHijri),
 				hijriYear: y,
 			});

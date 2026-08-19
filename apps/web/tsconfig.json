@@ -1,5 +1,21 @@
 {
 	"extends": "astro/tsconfigs/strict",
+	"compilerOptions": {
+		// Keep omission distinct from an explicitly undefined value. This catches
+		// accidental `{ optionalField: maybeUndefined }` objects at their boundary.
+		"exactOptionalPropertyTypes": true,
+		// Array and index-signature lookups can miss at runtime; require callers to
+		// prove or handle that case instead of receiving an unsound bare value.
+		"noUncheckedIndexedAccess": true,
+		// Require subclasses to acknowledge overrides when base APIs evolve.
+		"noImplicitOverride": true,
+		"noImplicitReturns": true,
+		"noFallthroughCasesInSwitch": true,
+		"noUnusedLocals": true,
+		"noUnusedParameters": true,
+		"allowUnreachableCode": false,
+		"allowUnusedLabels": false
+	},
 	// `dist` is excluded by the base config; `dist-check` (the local verification build)
 	// is not, so a leftover one fails `pnpm check` on its own minified output. Biome
 	// already skips both — keep the two lists in step.

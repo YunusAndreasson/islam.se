@@ -107,6 +107,7 @@ export function mosquesByCity(): MosqueCityGroup[] {
 	return [...Map.groupBy(MOSQUES, (m) => m.citySlug).values()]
 		.map((mosques) => {
 			const first = mosques[0];
+			if (!first) throw new Error("Map.groupBy produced an empty mosque group");
 			return {
 				citySlug: first.citySlug,
 				city: first.city,

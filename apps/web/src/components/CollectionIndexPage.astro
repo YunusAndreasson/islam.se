@@ -28,7 +28,12 @@ const {
 } = Astro.props;
 ---
 
-<Base title={pageTitle} description={description} ogImageAlt={ogImageAlt} jsonLd={jsonLd}>
+<Base
+	title={pageTitle}
+	description={description}
+	{...(ogImageAlt === undefined ? {} : { ogImageAlt })}
+	jsonLd={jsonLd}
+>
 	<main id="main" class={mainClass}>
 		<PageHead title={title}>
 			{lead}

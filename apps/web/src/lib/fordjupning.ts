@@ -67,7 +67,7 @@ export async function resolveHero(
 		return {
 			src: bespoke,
 			alt: entry.data.imageAlt ?? "",
-			caption: entry.data.imageCaption,
+			...(entry.data.imageCaption === undefined ? {} : { caption: entry.data.imageCaption }),
 		};
 	}
 
@@ -89,6 +89,6 @@ export async function resolveHero(
 		// The borrowed photo's own description travels with it; the page only overrides
 		// when it has authored something more specific.
 		alt: entry.data.imageAlt ?? essay.imageAlt ?? "",
-		caption: entry.data.imageCaption,
+		...(entry.data.imageCaption === undefined ? {} : { caption: entry.data.imageCaption }),
 	};
 }

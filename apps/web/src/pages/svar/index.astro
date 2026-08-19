@@ -131,11 +131,11 @@ const description =
 							{pelarKort.map(({ entry: f, hero }) => (
 								<li class="archive-item essay-card">
 									<a href={`/fordjupning/${f.id}/`}>
-										{hero && (
-											<div class="essay-card-media media-frame">
-												<EssayImage
-													src={hero.src}
-													article={hero.article}
+									{hero && (
+										<div class="essay-card-media media-frame">
+											<EssayImage
+												{...(hero.src === undefined ? {} : { src: hero.src })}
+												{...(hero.article === undefined ? {} : { article: hero.article })}
 													alt=""
 													widths={CARD_WIDTHS}
 													sizes="(max-width: 600px) 100vw, 20rem"

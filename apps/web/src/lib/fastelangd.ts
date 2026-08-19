@@ -34,6 +34,7 @@ export interface FastRow {
  *  motorn inte kan lösa dygnet (polarnatt utan högbreddsregel). */
 function fastHours(lat: number, lon: number, isoDate: string): number | null {
 	const [y, m, d] = isoDate.split("-").map(Number);
+	if (y === undefined || m === undefined || d === undefined) return null;
 	const times = computePrayerTimes(
 		{ latitude: lat, longitude: lon },
 		dateForStockholmDay(y, m - 1, d),

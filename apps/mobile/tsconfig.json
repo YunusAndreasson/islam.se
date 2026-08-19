@@ -8,6 +8,22 @@
     "noImplicitOverride": true,         // `override` keyword required so renamed base methods don't silently detach
     "allowUnreachableCode": false,      // dead code after return/throw is an error, not a warning
     "allowUnusedLabels": false,
+    // Keep stale code out of both production and tests. Besides reducing noise, these catch
+    // misspelled callback parameters and imports left behind after an API is reshaped.
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    // A typo in a bare import otherwise produces no TypeScript error because there is no
+    // imported binding to resolve. This matters for native setup/polyfill imports whose only
+    // job is their side effect.
+    "noUncheckedSideEffectImports": true,
+    // Make the runtime boundary explicit: values use normal imports and types use `import
+    // type`. Metro then sees exactly the module graph TypeScript checked, with no heuristic
+    // import elision that can hide a missing runtime export.
+    "verbatimModuleSyntax": true,
+    // Expo strips types rather than asking TypeScript to emit JavaScript. Reject constructs
+    // such as enums and namespaces that require TypeScript-specific code generation, so a
+    // file accepted by `tsc` cannot fail later in Metro's type-stripping pipeline.
+    "erasableSyntaxOnly": true,
     // `arr[i]` is `T | undefined`. This app is a numeric one — a marching-squares lattice,
     // a prayer-time grid, Mercator point buffers, a 2,100-row place dataset — and every
     // one of those is read by index. Off, TypeScript hands back a confident `number` for a

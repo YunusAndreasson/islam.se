@@ -24,8 +24,9 @@ try {
 	for (const file of readdirSync(articlesDir).filter((f) => f.endsWith(".md"))) {
 		const content = readFileSync(join(articlesDir, file), "utf-8");
 		const match = content.match(/publishedAt:\s*"([^"]+)"/);
-		if (match) {
-			articleDates[file.replace(/\.md$/, "")] = match[1];
+		const publishedAt = match?.[1];
+		if (publishedAt) {
+			articleDates[file.replace(/\.md$/, "")] = publishedAt;
 		}
 	}
 } catch {

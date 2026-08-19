@@ -55,10 +55,12 @@ const heroPreload = feature?.heroImage
 <Base
 	title="Islam: fakta om tron, reglerna och livet som muslim — islam.se"
 	description="Fakta om islam på svenska: tron och de fem pelarna, reglerna för mat, klädsel och bön, och livet som muslim i Sverige. Källbelagda svar ur Koranen och sunna."
-	ogImage={ogImage?.src}
-	preloadImageSrcset={heroPreload?.srcSet.attribute}
+	{...(ogImage ? { ogImage: ogImage.src } : {})}
+	{...(heroPreload ? { preloadImageSrcset: heroPreload.srcSet.attribute } : {})}
 	preloadImageSizes={FEATURE_HERO_SIZES}
-	preloadImageType={heroPreload ? (import.meta.env.DEV ? "image/webp" : "image/avif") : undefined}
+	{...(heroPreload
+		? { preloadImageType: import.meta.env.DEV ? "image/webp" : "image/avif" }
+		: {})}
 >
 	<main id="main" class="home">
 		<h1 class="sr-only">islam.se — kunskap om islam på svenska</h1>

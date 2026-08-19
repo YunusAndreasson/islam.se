@@ -207,8 +207,8 @@ const aboutCity = cityPlace({
 	county: place.county,
 	lat: place.lat,
 	lon: place.lon,
-	kommun: place.kommun,
-	population: hasScb ? pop : undefined,
+	...(place.kommun === undefined ? {} : { kommun: place.kommun }),
+	...(hasScb ? { population: pop } : {}),
 	populationYear: SCB_POP_YEAR,
 });
 if (hasMosquePage) {

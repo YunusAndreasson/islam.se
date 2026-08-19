@@ -45,8 +45,8 @@ const Title = titleElement;
 				{item.image && (
 					<span class="text-row-thumb media-frame">
 						<EssayImage
-							src={item.image.src}
-							article={item.image.article}
+							{...(item.image.src === undefined ? {} : { src: item.image.src })}
+							{...(item.image.article === undefined ? {} : { article: item.image.article })}
 							alt=""
 							widths={item.image.widths}
 							sizes={item.image.sizes}

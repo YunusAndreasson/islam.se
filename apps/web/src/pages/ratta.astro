@@ -115,7 +115,7 @@ const description =
 ></script>
 
 <script>
-	const ERRORS: Record<string, string> = {
+	const ERRORS = {
 		bad_page: "Adressen till sidan ser inte ut att höra till islam.se.",
 		description_too_short: "Skriv några ord till om vad som är fel.",
 		bad_email: "E-postadressen ser inte riktig ut.",
@@ -123,7 +123,9 @@ const description =
 		turnstile_failed: "Kontrollen gick inte igenom. Ladda om sidan och försök igen.",
 		rate_limited: "Du har skickat flera rättelser den senaste timmen. Försök igen om en stund.",
 		server_misconfigured: "Formuläret är ur funktion just nu. Skriv till support@islam.se i stället.",
-	};
+	} as const;
+	const isErrorCode = (value: unknown): value is keyof typeof ERRORS =>
+		typeof value === "string" && value in ERRORS;
 
 	// Mirrors isSitePath() in functions/api/rattelse.js: a leading "//" is a
 	// protocol-relative URL, not a path on this site.
@@ -153,8 +155,10 @@ const description =
 		const renderWidget = () => {
 			const turnstile = (window as { turnstile?: TurnstileGlobal }).turnstile;
 			if (!turnstile || !widget || widget.dataset.rendered === "true") return;
+			const sitekey = widget.dataset.sitekey;
+			if (!sitekey) return;
 			widget.dataset.rendered = "true";
-			widgetId = turnstile.render(widget, { sitekey: widget.dataset.sitekey, language: "sv" });
+			widgetId = turnstile.render(widget, { sitekey, language: "sv" });
 		};
 		renderWidget();
 		// The script may still be in flight on first paint.
@@ -197,9 +201,13 @@ const description =
 					headers: { "content-type": "application/json" },
 					body: JSON.stringify(body),
 				});
-				const result = await res.json();
+				const result: unknown = await res.json();
+				const resultRecord =
+					typeof result === "object" && result !== null
+						? (result as Record<string, unknown>)
+						: {};
 
-				if (res.ok && result.ok) {
+				if (res.ok && resultRecord.ok === true) {
 					status.textContent = "";
 					form.hidden = true;
 					done.hidden = false;
@@ -210,7 +218,8 @@ const description =
 
 				status.dataset.tone = "error";
 				status.textContent =
-					ERRORS[result.error] ?? "Något gick fel när rättelsen skulle skickas. Försök igen.";
+					(isErrorCode(resultRecord.error) ? ERRORS[resultRecord.error] : undefined) ??
+					"Något gick fel när rättelsen skulle skickas. Försök igen.";
 				turnstile?.reset(widgetId);
 			} catch {
 				status.dataset.tone = "error";

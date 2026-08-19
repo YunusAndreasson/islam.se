@@ -2,7 +2,13 @@ import { describe, expect, it } from "vitest";
 import { rehypeQuoteAttribution } from "./rehype-quote-attribution";
 
 // Minimal hast builders — the plugin only reads type/tagName/children/value.
-type Node = Record<string, unknown>;
+interface Node {
+	type: string;
+	tagName?: string;
+	value?: string;
+	properties?: Record<string, unknown>;
+	children?: Node[];
+}
 type QuoteAttributionTree = Parameters<ReturnType<typeof rehypeQuoteAttribution>>[0];
 const t = (value: string): Node => ({ type: "text", value });
 const el = (tagName: string, children: Node[]): Node => ({
@@ -15,12 +21,13 @@ const root = (children: Node[]): Node => ({ type: "root", children });
 const run = (tree: Node) => rehypeQuoteAttribution()(tree as QuoteAttributionTree);
 
 function citeOf(blockquote: Node): string | null {
-	const p = (blockquote.children as Node[])[0];
-	const kids = p.children as Node[];
+	const p = blockquote.children?.[0];
+	if (!p) return null;
+	const kids = p.children ?? [];
 	const c = kids.find((k) => k.type === "element" && k.tagName === "cite");
 	if (!c) return null;
 	const text = (n: Node): string =>
-		n.type === "text" ? (n.value as string) : ((n.children as Node[]) ?? []).map(text).join("");
+		n.type === "text" ? (n.value ?? "") : (n.children ?? []).map(text).join("");
 	return text(c);
 }
 
@@ -52,11 +59,9 @@ describe("rehypeQuoteAttribution", () => {
 	it("keeps the italics as markup inside the cite, not flattened text", () => {
 		const bq = el("blockquote", [el("p", [t("Citat.\n— Karin Boye, "), el("em", [t("Astarte")])])]);
 		run(root([bq]));
-		const p = (bq.children as Node[])[0];
-		const c = (p.children as Node[]).find(
-			(k) => k.type === "element" && k.tagName === "cite",
-		) as Node;
-		const hasEm = (c.children as Node[]).some((k) => k.type === "element" && k.tagName === "em");
+		const p = bq.children?.[0];
+		const c = p?.children?.find((k) => k.type === "element" && k.tagName === "cite");
+		const hasEm = c?.children?.some((k) => k.type === "element" && k.tagName === "em");
 		expect(hasEm).toBe(true);
 	});
 
@@ -74,7 +79,7 @@ describe("rehypeQuoteAttribution", () => {
 		const tree = root([bq]);
 		run(tree);
 		run(tree);
-		const kids = ((bq.children as Node[])[0].children as Node[]).filter(
+		const kids = (bq.children?.[0]?.children ?? []).filter(
 			(k) => k.type === "element" && k.tagName === "cite",
 		);
 		expect(kids).toHaveLength(1);

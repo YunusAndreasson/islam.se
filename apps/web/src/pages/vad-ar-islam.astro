@@ -140,7 +140,13 @@ const jsonLd = [
 					</header>
 					<div class="fakta-grid">
 						{c.cards.map((cd) => (
-							<FaktaCard href={cd.href} label={cd.label} blurb={cd.blurb} art={cd.art} image={cd.image} />
+							<FaktaCard
+								href={cd.href}
+								label={cd.label}
+								blurb={cd.blurb}
+								{...(cd.art === undefined ? {} : { art: cd.art })}
+								{...(cd.image === undefined ? {} : { image: cd.image })}
+							/>
 						))}
 					</div>
 				</section>
