@@ -36,9 +36,30 @@
 // anywhere within ~22 dp of a 1.2 px, 42 %-opacity speck opened a detail card. Below z7 the
 // glyph layer does not exist at all, so at the national view the dust was the ONLY tap
 // target: tapping southern Sweden reliably opened a card for a mosque nobody could see, let
-// alone aim at. Across the z7–8 overlap both tiers answered and features[0] could be a dust
-// dot belonging to a DIFFERENT mosque than the glyph under the finger. A second, plain
+// alone aim at. Across the z7–8 overlap both tiers answered and the first feature in the
+// result could belong to a DIFFERENT mosque than the glyph under the finger. A second, plain
 // GeoJSONSource (no onPress) makes the dust inert; 234 points indexed twice is nothing.
+// (That last symptom had a second cause, which the split did not fix: the handler took
+// features[0]. It now takes the nearest — see mosqueForPress — and the hitbox below is
+// tighter, so a crowded city answers with the mosque that was actually aimed at.)
+//
+// SELECTION. Tapping a mosque opens MosqueCard, and until now the map said nothing about
+// WHICH pin the card belonged to — in a city with a dozen mosques the reader had to infer it
+// from the finger they had just lifted. A third layer draws a thin gold ring around the
+// selected mosque: on the DUST source, deliberately, because that source has no onPress. A
+// ring on the pressable source would become a tap target of its own, and at the national
+// view (no glyph layer at all) it would be the ONLY one — re-opening the card the user is
+// trying to dismiss. It carries no minzoom, so zooming out with the card open still shows
+// where its mosque is, and it is mounted from the start rather than on selection — see the
+// ⚠️ at the layer itself for why that is what keeps it BENEATH the glyph.
+//
+// DRAW ORDER. Both sources are appended after every basemap layer, so these draw above the
+// basemap's own labels. That is not the same thing as winning a COLLISION: MapLibre Native
+// has collided symbols across sources since v4.0, so mosque glyphs and town labels already
+// keep out of each other's way, and which one yields is decided by MapLibre's placement
+// order — which we have NOT verified against the native renderer. If mosque names start
+// losing to town names in the dense city views, `beforeId` on these layers is the knob; do
+// not turn it blind, because guessing the direction wrong drops mosque glyphs instead.
 //
 // The glyph isn't a bundled asset: we render MaterialCommunityIcons' `mosque` to a
 // bitmap at the current theme's muted-ink colour (getImageSource) and register it via
@@ -51,16 +72,29 @@ import { useEffect, useMemo, useState } from 'react';
 import type { ImageSourcePropType, NativeSyntheticEvent } from 'react-native';
 
 import { hapticLight } from '@/lib/haptics';
-import { type Mosque, mosqueById, toFeatureCollection } from '@/lib/mosques';
+import { type Mosque, mosqueForPress, toFeatureCollection } from '@/lib/mosques';
 import { useActiveScheme, useColors } from '@/theme/useColors';
 
 const SOURCE_ID = 'mosques';
 const DUST_SOURCE_ID = 'mosques-dust';
 const LAYER_ID = 'mosque-symbols';
 const DUST_LAYER_ID = 'mosque-dust';
+const SELECTED_LAYER_ID = 'mosque-selected';
 // Rendered glyph size in px; scaled DOWN on the map by icon-size so the marker stays a
 // quiet ~20–26 px place mark, never a billboard.
 const GLYPH_PX = 48;
+
+// The tap target around a glyph, replacing the binding's default 22 dp in each direction
+// (a 44×44 box — MLRNPressableSource.DEFAULT_HITBOX). 44×44 is an Apple-HIG *button* size
+// and it is the wrong shape for a POI: MapLibre hit-tests every symbol whose rendered box
+// meets this one, so the effective reach is the box plus half a glyph. At z7, where the
+// glyphs first appear, 22 dp is about seven kilometres of ground — a tap meant to dismiss
+// the open card could land on a mosque in the next town instead.
+//
+// 14 dp keeps a comfortable target (the glyph is ~19 dp wide at z7 and ~35 dp at z13, so
+// tapping the glyph itself always hits) while roughly halving the phantom reach. It is the
+// second half of the fix; which of several hits WINS is settled by mosqueForPress.
+const GLYPH_HITBOX = { top: 14, right: 14, bottom: 14, left: 14 } as const;
 
 // Each mosque is one tiny, soft warm dot — a "snow" dusting, not a glow. A per-scheme colour +
 // master opacity (`peak`) is all the circle layer needs; radius / blur / the zoom crossfade live
@@ -86,9 +120,12 @@ const SNOW_LIGHT: DotStyle = { color: '#967038', peak: 0.42 };
 interface Props {
   /** Tapped-mosque callback — the map screen lifts this into the detail card. */
   onSelect: (mosque: Mosque) => void;
+  /** The mosque whose card is open, if any — gets a ring so the card has a visible anchor
+   *  on the map. Null clears it. */
+  selectedId?: string | null;
 }
 
-export function MosqueLayer({ onSelect }: Props) {
+export function MosqueLayer({ onSelect, selectedId }: Props) {
   const c = useColors();
   const scheme = useActiveScheme();
   // Warm — a mosque reads as emitted place-light against the cool field.
@@ -133,10 +170,10 @@ export function MosqueLayer({ onSelect }: Props) {
   }, [glyphColor]);
 
   const handlePress = (e: NativeSyntheticEvent<PressEventWithFeatures>) => {
-    const feature = e.nativeEvent?.features?.[0];
-    const id = feature?.properties?.id;
-    if (typeof id !== 'string') return;
-    const mosque = mosqueById(id);
+    // The NEAREST hit, not the first one: MapLibre returns every symbol whose box meets the
+    // hitbox, in no particular order, so features[0] could be a mosque the finger never
+    // touched. See mosqueForPress in lib/mosques for the bug that motivated it.
+    const mosque = mosqueForPress(e.nativeEvent?.features, e.nativeEvent?.lngLat);
     if (!mosque) return;
     // A source press BUBBLES to <Map onPress>, which clears the selection — so opening a
     // card would immediately close it again. Stopping here is the pairing the binding
@@ -194,10 +231,34 @@ export function MosqueLayer({ onSelect }: Props) {
             ],
           }}
         />
+        {/* The selection ring (see the header for why it lives on this source and not the
+            pressable one). Sized to sit just outside the glyph it circles, and a plain
+            stroke: the fill stays fully transparent so the basemap and the wash read through
+            it, and it never becomes a second dot.
+        
+            ⚠️ ALWAYS MOUNTED, filtered to nothing when no card is open — never conditionally
+            rendered. A layer added at runtime is APPENDED to the top of the style
+            (MLRNLayer.add() calls style.addLayer with no anchor, and MLRNMapView.layerAdded
+            does no reordering), so a ring that mounted on selection would paint OVER the
+            mosque glyph and its label halo instead of around them. Mounting it with the rest
+            of the style is what makes the declaration order above hold at runtime. The empty
+            id matches no mosque, so the layer draws nothing until one is selected. */}
+        <Layer
+          id={SELECTED_LAYER_ID}
+          type="circle"
+          filter={['==', ['get', 'id'], selectedId ?? '']}
+          paint={{
+            'circle-opacity': 0,
+            'circle-radius': ['interpolate', ['linear'], ['zoom'], 4, 7, 7, 13, 13, 20],
+            'circle-stroke-color': snow.color,
+            'circle-stroke-width': 1.5,
+            'circle-stroke-opacity': 0.9,
+          }}
+        />
       </GeoJSONSource>
       {/* GLYPHS — the city-view place marks, and the ONLY tappable tier. Only mount once
           the icon bitmap exists so the layer never paints a "missing image" box. */}
-      <GeoJSONSource id={SOURCE_ID} data={data} onPress={handlePress}>
+      <GeoJSONSource id={SOURCE_ID} data={data} onPress={handlePress} hitbox={GLYPH_HITBOX}>
         {icon && (
           <Layer
             id={LAYER_ID}

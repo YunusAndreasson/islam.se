@@ -38,6 +38,7 @@ function dockProps(revealSchedule: boolean, clockOverrides: Partial<SolarClock> 
       stepDay: jest.fn(),
       goToDay: jest.fn(),
       reset: jest.fn(),
+      flush: jest.fn(),
       ...clockOverrides,
     },
     times,

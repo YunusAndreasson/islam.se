@@ -14,7 +14,7 @@
 // (23/24/25 h) rather than a fixed 86_400_000, so the slider stays aligned on the two
 // DST-transition days each year (otherwise the 25 h day clamps its last hour at the far
 // right and the 23 h day's "24:00" lands at 01:00 the next day).
-import { useCallback, useEffect, useEffectEvent, useMemo, useState } from 'react';
+import { useCallback, useEffect, useEffectEvent, useMemo, useRef, useState } from 'react';
 
 import { addStockholmDays, startOfStockholmDay, stockholmDayLength } from '@/lib/stockholm-time';
 
@@ -70,6 +70,9 @@ export interface SolarClock {
   setInstant: (ms: number) => void;
   /** Return to following the real clock. */
   reset: () => void;
+  /** Run a tick that `shouldDefer` held back, and nothing otherwise. The caller that
+   *  deferred is the one that must call this — see the `shouldDefer` parameter. */
+  flush: () => void;
 }
 
 const clamp01 = (x: number): number => (x < 0 ? 0 : x > 1 ? 1 : x);
@@ -79,8 +82,24 @@ const clamp01 = (x: number): number => (x < 0 ? 0 : x > 1 ? 1 : x);
  * behind another route), the live tick is paused so the whole-country solar field
  * isn't rebuilt every 30 s in the background; on re-activation the clock snaps to the
  * real now. Defaults to true so non-navigated callers (and tests) behave as before.
+ *
+ * @param shouldDefer Asked at each tick whether this is a bad moment to advance. The map
+ * says yes while the camera is moving: a tick rebuilds the whole-country field (six
+ * prayers over ~3752 cells, then marching squares, chaining, smoothing and Catmull-Rom)
+ * and re-renders the screen, all on the JS thread — which is the same thread that must
+ * forward the next camera frame to the Skia overlay, so a tick landing mid-pan shows up as
+ * the overlay stalling against the basemap. Deferring is cheap because the overlay already
+ * carries the sun between rebuilds (see driftMerc in SolarSkiaOverlay): the lines simply
+ * hold their position for the length of the pan instead of drifting wrongly.
+ *
+ * At most ONE tick in a row is ever held back. That bounds the worst case at one skipped
+ * rebuild — 60 s between fields rather than 30 — and, more importantly, means a caller
+ * whose "am I moving?" flag somehow sticks true cannot freeze the clock: the very next tick
+ * goes through regardless. Call {@link SolarClock.flush} when the moment passes to collect
+ * the held-back tick immediately; a flush with nothing held back does nothing, which is
+ * what keeps an ordinary pan from rebuilding the field on every settle.
  */
-export function useSolarClock(active = true): SolarClock {
+export function useSolarClock(active = true, shouldDefer?: () => boolean): SolarClock {
   const [now, setNow] = useState(() => Date.now());
   const [mode, setMode] = useState<ClockMode>('live');
   // The Stockholm midnight the day slider spans from. Re-anchored at the live midnight
@@ -114,11 +133,27 @@ export function useSolarClock(active = true): SolarClock {
   // thing that actually protects the battery, by stopping the field rebuild — is untouched.
   // React 19.2's Effect Event lets every tick read the latest mode without tearing down
   // and recreating the native interval when the user starts or stops scrubbing.
+  // True when a tick was held back and is waiting for `flush`. A ref, not state: holding a
+  // tick must not itself cause the render the deferral exists to avoid.
+  const heldBack = useRef(false);
+
   const syncClock = useEffectEvent(() => {
     const t = Date.now();
     const today = startOfStockholmDay(t);
+    // Tracked in EVERY mode and NEVER deferred: this is the cheap half (React bails out on
+    // all but one tick a day) and it is what re-labels a parked day when real midnight
+    // passes. Holding it back would let the dock go on calling today "i morgon" for the
+    // length of a pan, to save nothing.
     setTodayStart((prev) => (prev === today ? prev : today));
     if (mode !== 'live') return;
+    // The expensive half — a new `now` rebuilds the whole-country field and re-renders the
+    // map screen. One tick in a row may be held back; see the `shouldDefer` docs for why the
+    // bound matters.
+    if (!heldBack.current && shouldDefer?.() === true) {
+      heldBack.current = true;
+      return;
+    }
+    heldBack.current = false;
     setNow(t);
     setDayStart((prev) => (prev === today ? prev : today));
   });
@@ -158,6 +193,28 @@ export function useSolarClock(active = true): SolarClock {
     setDayStart(today);
     setTodayStart(today);
   }, []);
+
+  // Collecting a held-back tick goes through a state token rather than calling `syncClock`
+  // directly. That is not ceremony: `syncClock` is an Effect Event, and an Effect Event may
+  // only be called from an Effect (or another Effect Event) in the same component — calling
+  // it from a callback the MAP holds would reach across both of those lines. Bumping a token
+  // and letting an Effect do the call keeps the rule intact and keeps `flush` stable, which
+  // is what lets the map's settled-camera handler depend on it without being rebuilt on
+  // every tick.
+  //
+  // Deliberately does nothing when no tick was held back: that handler fires on every pan and
+  // zoom, and syncing unconditionally would rebuild the whole-country field each time the map
+  // came to rest — the very cost the deferral exists to avoid.
+  const [flushToken, setFlushToken] = useState(0);
+  const flush = useCallback(() => {
+    if (heldBack.current) setFlushToken((n) => n + 1);
+  }, []);
+  useEffect(() => {
+    // Skips the mount pass; from then on every bump is a tick somebody asked for.
+    if (flushToken === 0) return;
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- Effect Event reads the clock before updating state
+    syncClock();
+  }, [flushToken]);
 
   const fraction = clamp01((now - dayStart) / dayLength);
 
@@ -219,6 +276,7 @@ export function useSolarClock(active = true): SolarClock {
       stepDay,
       goToDay,
       reset,
+      flush,
     }),
     [
       now,
@@ -233,6 +291,7 @@ export function useSolarClock(active = true): SolarClock {
       stepDay,
       goToDay,
       reset,
+      flush,
     ],
   );
 }

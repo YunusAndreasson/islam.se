@@ -9,7 +9,7 @@
 import { afterEach, beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { act, renderHook } from '@testing-library/react-native';
 
-import { useSolarClock } from './useSolarClock';
+import { LIVE_TICK_MS, useSolarClock } from './useSolarClock';
 
 const HOUR = 60 * 60 * 1000;
 
@@ -294,5 +294,83 @@ describe('useSolarClock day navigation', () => {
     // The viewed day did not move; its NAME did.
     expect(result.current.dayStart).toBe(parked);
     expect(result.current.dayOffset).toBe(0);
+  });
+});
+
+// A live tick is not free: it rebuilds the whole-country prayer field (six prayers over
+// ~3752 cells, marching squares, chaining, smoothing, Catmull-Rom) and re-renders the map
+// screen, all on the JS thread — the same thread that forwards each camera frame to the
+// Skia overlay. Landing mid-pan, that shows up as the overlay stalling against the basemap
+// while the finger keeps moving. So the map can ask for a tick to be held, and collect it
+// when the camera comes to rest.
+//
+// Full fake timers here (the file's default leaves the interval real), so the 30 s tick can
+// be made to fire on demand — advanceTimersByTime moves Date.now() with it.
+describe('useSolarClock defers a tick while the map is moving', () => {
+  beforeEach(() => {
+    jest.useFakeTimers();
+    freeze('2026-07-01T12:00:00Z');
+  });
+
+  /** Renders the clock with a caller-controlled "am I moving?" flag. */
+  function movingClock() {
+    const state = { moving: false };
+    const { result } = renderHook(() => useSolarClock(true, () => state.moving));
+    return { result, state };
+  }
+
+  it('holds the tick back while the map moves, and flush collects it', () => {
+    const { result, state } = movingClock();
+    const before = result.current.now;
+
+    state.moving = true;
+    act(() => jest.advanceTimersByTime(LIVE_TICK_MS));
+    // Held. The overlay carries the sun in the meantime (driftMerc), so nothing on screen
+    // is wrong — the lines simply hold position for the length of the gesture.
+    expect(result.current.now).toBe(before);
+
+    state.moving = false;
+    act(() => result.current.flush());
+    expect(result.current.now).toBe(before + LIVE_TICK_MS);
+  });
+
+  // THE FAILURE THIS FORBIDS: a caller whose "moving" flag sticks true — an interrupted
+  // gesture, a screen torn down mid-fling — would otherwise freeze the displayed time for
+  // the rest of the session, on a map whose whole job is to say what time it is now. At most
+  // one tick in a row may be held, so the clock always heals itself.
+  it('never holds two ticks in a row, even if the caller stays "moving" forever', () => {
+    const { result, state } = movingClock();
+    const before = result.current.now;
+    state.moving = true;
+
+    act(() => jest.advanceTimersByTime(LIVE_TICK_MS));
+    expect(result.current.now).toBe(before);
+
+    // Still moving — and the tick goes through anyway.
+    act(() => jest.advanceTimersByTime(LIVE_TICK_MS));
+    expect(result.current.now).toBe(before + 2 * LIVE_TICK_MS);
+  });
+
+  // The map calls flush on EVERY settled camera event, which is every pan, fling and pinch.
+  // If flush synced unconditionally it would rebuild the field each time the map came to
+  // rest — a cost the deferral was supposed to remove, paid on every gesture instead.
+  it('flushes nothing when no tick was held back', () => {
+    const { result } = movingClock();
+    const before = result.current.now;
+
+    act(() => jest.advanceTimersByTime(LIVE_TICK_MS));
+    const ticked = result.current.now;
+    expect(ticked).toBe(before + LIVE_TICK_MS);
+
+    act(() => jest.advanceTimersByTime(5_000));
+    act(() => result.current.flush());
+    expect(result.current.now).toBe(ticked);
+  });
+
+  it('ticks normally for callers that ask for no deferral at all', () => {
+    const { result } = renderHook(() => useSolarClock(true));
+    const before = result.current.now;
+    act(() => jest.advanceTimersByTime(LIVE_TICK_MS));
+    expect(result.current.now).toBe(before + LIVE_TICK_MS);
   });
 });
