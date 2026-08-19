@@ -118,8 +118,8 @@ importers:
         specifier: ^9.6.1
         version: 9.6.1(@stryker-mutator/core@9.6.1(@types/node@26.2.0))
       '@swmansion/argent':
-        specifier: ^0.20.0
-        version: 0.20.0(zod@4.4.3)
+        specifier: ^0.21.0
+        version: 0.21.0(zod@4.4.3)
       '@testing-library/react-native':
         specifier: ^13.3.3
         version: 13.3.3(jest@29.7.0(@types/node@26.2.0))(react-native@0.86.2(@babel/core@7.29.7)(@react-native/jest-preset@0.86.2(@babel/core@7.29.7)(react@19.2.3))(@react-native/metro-config@0.86.2(@babel/core@7.29.7))(@types/react@19.2.18)(react@19.2.3))(react-test-renderer@19.2.3(react@19.2.3))(react@19.2.3)
@@ -1581,8 +1581,8 @@ packages:
   '@stryker-mutator/util@9.6.1':
     resolution: {integrity: sha512-Lk/ALVctJjFv1vvwR+CFoKzDCWvsBlq7flDUnmnpuwTrGbm156EdZD1Jjq4o8KdOap0ezUZqQNE9OAI1m2+pUQ==}
 
-  '@swmansion/argent@0.20.0':
-    resolution: {integrity: sha512-MQMmfCKufi2MPZHsBuQ9hRiLVhtbt2G9SRBEprVFNceCCb1UeNNLKwNAdsjOXR0lX21CCs18xb6ICYJKekD//A==}
+  '@swmansion/argent@0.21.0':
+    resolution: {integrity: sha512-j5jYq5Hsy+4eW8g63V5Y7a5ex7OoytnRs4WzaPHofxzIPLP84vBnV2ZgurW2vE9mXaDd9LBHwnp+p4dKC+c69w==}
     engines: {node: '>=20.12.0'}
     hasBin: true
 
@@ -7470,7 +7470,9 @@ snapshots:
       metro-runtime: 0.84.4
     transitivePeerDependencies:
       - '@babel/core'
+      - bufferutil
       - supports-color
+      - utf-8-validate
 
   '@react-native/normalize-colors@0.86.2': {}
 
@@ -7581,7 +7583,7 @@ snapshots:
 
   '@stryker-mutator/util@9.6.1': {}
 
-  '@swmansion/argent@0.20.0(zod@4.4.3)':
+  '@swmansion/argent@0.21.0(zod@4.4.3)':
     dependencies:
       '@fails-components/webtransport': 1.6.7
       '@fails-components/webtransport-transport-http3-quiche': 1.6.7
