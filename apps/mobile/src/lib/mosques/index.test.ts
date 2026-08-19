@@ -7,6 +7,7 @@ import {
   locationLabel,
   type Mosque,
   mosqueById,
+  mosqueForPress,
   toFeatureCollection,
   UNDATED_SORT,
 } from './index';
@@ -157,5 +158,87 @@ describe('formatMosqueDistance', () => {
 
   it('shows whole kilometres from 10 km up', () => {
     expect(formatMosqueDistance(42.4)).toBe('42 km');
+  });
+});
+
+// THE BUG THESE GUARD: the map handler took `features[0]`. MapLibre's hit test returns every
+// symbol whose rendered box meets a box around the touch point, in no defined order, so in a
+// crowded city the card could describe a mosque the finger never touched — confidently, with
+// no clue for the reader beyond a name they did not aim at. The tap's own coordinate is in
+// the event, so the nearest hit is the answer.
+describe('mosqueForPress', () => {
+  /** A hit-test result for a mosque, as MapLibre hands it over (only `properties.id` is
+   *  read — the geometry is deliberately ignored, see the function's comment). */
+  function hit(m: Mosque): GeoJSON.Feature {
+    return {
+      type: 'Feature',
+      geometry: { type: 'Point', coordinates: [m.lng, m.lat] },
+      properties: { id: m.id, name: m.name, sort: m.opened ?? UNDATED_SORT },
+    };
+  }
+
+  /** Two real mosques far enough apart that "nearest" is unambiguous. */
+  const mosques = getMosques();
+  const north = at(
+    mosques.filter((m) => m.lat > 63),
+    0,
+    'northern mosques',
+  );
+  const south = at(
+    mosques.filter((m) => m.lat < 57),
+    0,
+    'southern mosques',
+  );
+
+  it('picks the hit nearest the finger, not the first one MapLibre returned', () => {
+    // The finger is on the southern mosque; the northern one is listed first.
+    const tapped = mosqueForPress([hit(north), hit(south)], [south.lng, south.lat]);
+    expect(tapped?.id).toBe(south.id);
+
+    // And the same list resolves the other way when the finger moves — the order of the
+    // features must have no say at all.
+    expect(mosqueForPress([hit(north), hit(south)], [north.lng, north.lat])?.id).toBe(north.id);
+  });
+
+  it('resolves a genuinely crowded tap to the closest of the crowd', () => {
+    const crowd = mosques.filter((m) => m.city === south.city);
+    // A point nudged towards the LAST of the crowd — the one features[0] can never be.
+    const target = crowd.length > 1 ? at(crowd, crowd.length - 1, 'city crowd') : south;
+    const tapped = mosqueForPress(crowd.map(hit), [target.lng + 0.0001, target.lat - 0.0001]);
+    expect(tapped?.id).toBe(target.id);
+  });
+
+  it('answers nothing for an empty or missing hit list', () => {
+    expect(mosqueForPress([], [18.07, 59.33])).toBeUndefined();
+    expect(mosqueForPress(undefined, [18.07, 59.33])).toBeUndefined();
+  });
+
+  it('ignores features that are not mosques we know', () => {
+    const stranger: GeoJSON.Feature = {
+      type: 'Feature',
+      geometry: { type: 'Point', coordinates: [18.07, 59.33] },
+      properties: { id: 'inte-en-moske' },
+    };
+    const idless: GeoJSON.Feature = {
+      type: 'Feature',
+      geometry: { type: 'Point', coordinates: [18.07, 59.33] },
+      properties: null,
+    };
+    // Both strangers sit exactly under the finger and must still lose to the real mosque
+    // hundreds of kilometres away — an unknown id is not a mosque, however close it is.
+    expect(mosqueForPress([stranger, idless, hit(north)], [18.07, 59.33])?.id).toBe(north.id);
+    expect(mosqueForPress([stranger, idless], [18.07, 59.33])).toBeUndefined();
+  });
+
+  it('keeps the first of two mosques at the same spot, so a near-duplicate is stable', () => {
+    // The dataset carries near duplicates (the sync guard warns under 150 m). Whichever card
+    // opens, it must be the SAME one every time — a tie that flips on re-render would read
+    // as the map changing its mind.
+    const twin: Mosque = { ...south, id: `${south.id}-tvilling` };
+    const features = [hit(south), hit(twin)];
+    // The twin is not in the dataset, so it cannot win; the point is that the resolved
+    // answer does not depend on where in the list the real one sits.
+    expect(mosqueForPress(features, [south.lng, south.lat])?.id).toBe(south.id);
+    expect(mosqueForPress([...features].reverse(), [south.lng, south.lat])?.id).toBe(south.id);
   });
 });

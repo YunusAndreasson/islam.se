@@ -22,8 +22,20 @@ import { LocationProvider } from '@/lib/location/context';
 import { SettingsProvider } from '@/lib/settings/context';
 import { DEFAULT_SETTINGS } from '@/lib/settings/types';
 import { first } from '@/test-utils/at';
+import { LogManager } from '@maplibre/maplibre-react-native';
 
 const SETTINGS_KEY = 'prayerSettings:v1';
+
+// Replays one of MapLibre's own "could not fetch that" log lines — the shape mbgl emits when
+// a vector tile cannot be reached. The mocked LogManager in jest.setup holds whichever
+// handler the screen installed.
+function tileFetchFailed(): void {
+  (LogManager as unknown as { __emit: (log: object) => void }).__emit({
+    level: 'warn',
+    tag: 'Mbgl-HttpRequest',
+    message: 'Request failed due to a connection error: Unable to resolve host',
+  });
+}
 
 // Bönetider and Inställningar read settings + location context, so wrap them as
 // the app does.
@@ -126,6 +138,58 @@ describe('tab screens', () => {
       // Zoom stays available — the projection handles zoom exactly, and locking it would
       // cost the city-level view the mosque layer and the qibla arc are drawn for.
       expect(map.props.touchZoom).not.toBe(false);
+    },
+    MAP_RENDER_TIMEOUT,
+  );
+
+  // THE GAP THIS GUARDS: offline, the basemap's style loads perfectly — it is inline JSON,
+  // so there is nothing to fetch — and then every tile behind it fails, which fires no map
+  // event at all. The reader got flat land, correct prayer lines floating on it, and no word
+  // about which half was broken. MapLibre's native log stream is the only channel that sees
+  // a tile fail; the notice is driven from there now (lib/map/map-diagnostics).
+  it(
+    'says the map has no connection once its tiles stop arriving',
+    async () => {
+      await renderSettled(withProviders(<Bonetider />));
+
+      // One failure is a transient 500 on a working connection, which MapLibre retries away.
+      // A notice for it would flash on a perfectly good map.
+      await act(async () => tileFetchFailed());
+      expect(screen.queryByText(/Ingen anslutning till kartan/)).toBeNull();
+
+      // A burst is what a dead tile host looks like — they arrive in the same frame. All
+      // three go in ONE act deliberately: the burst is counted against a real 4 s window, so
+      // splitting them around a full-tree query would let a slow machine age the first one
+      // out and fail a test with nothing wrong in the code.
+      await act(async () => {
+        tileFetchFailed();
+        tileFetchFailed();
+        tileFetchFailed();
+      });
+
+      // And the promise the notice exists to make: the map is broken, the times are not.
+      expect(screen.getByText(/Ingen anslutning till kartan. Bönetiderna stämmer ändå./)).toBeTruthy();
+      // Recovery is unit-tested (createTroubleBurst's `quiet`): the notice clears on the
+      // next fully-rendered frame, but only once the failures have actually stopped.
+    },
+    MAP_RENDER_TIMEOUT,
+  );
+
+  // A 30 s live tick rebuilds the whole-country field and re-renders this screen on the JS
+  // thread — the thread that also forwards each camera frame to the Skia overlay. Landing
+  // mid-pan, the overlay stalls against the basemap. So the screen tells the clock when the
+  // camera is moving and collects the held-back tick when it settles; this pins that the
+  // wiring is present, since only `onRegionWillChange` can open that window.
+  // The behaviour itself is tested at the hook (lib/solar/useSolarClock.test.ts): held back
+  // once, never twice in a row, and a flush with nothing held back does nothing.
+  it(
+    'tells the clock when the camera starts moving, so a field rebuild can wait',
+    async () => {
+      await renderSettled(withProviders(<Bonetider />));
+      const map = screen.getByTestId('sweden-map');
+
+      expect(typeof map.props.onRegionWillChange).toBe('function');
+      expect(typeof map.props.onRegionDidChange).toBe('function');
     },
     MAP_RENDER_TIMEOUT,
   );

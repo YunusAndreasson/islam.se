@@ -41,6 +41,25 @@ jest.mock('@maplibre/maplibre-react-native', () => ({
   Images: 'Images',
   ViewAnnotation: 'ViewAnnotation',
   Marker: 'Marker',
+  // The basemap cache cap (lib/map/offline) — the map screen sets it on mount.
+  OfflineManager: {
+    setMaximumAmbientCacheSize: jest.fn(async () => {}),
+  },
+  // The native log stream (lib/map/map-diagnostics watches it for failed tiles, which is the
+  // only channel that sees a basemap whose tiles are not arriving). `onLog` stores the
+  // handler so a test can drive it: `LogManager.__emit({ level, tag, message })`.
+  LogManager: {
+    __handler: () => false,
+    onLog(handler) {
+      this.__handler = handler;
+    },
+    __emit(log) {
+      this.__handler(log);
+    },
+    setLogLevel: jest.fn(),
+    start: jest.fn(),
+    stop: jest.fn(),
+  },
 }));
 
 // AsyncStorage's official in-memory jest mock — lets the settings store/context

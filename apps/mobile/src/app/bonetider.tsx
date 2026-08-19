@@ -2,6 +2,7 @@ import {
   Camera,
   type CameraRef,
   Map,
+  type MapRef,
   type ViewStateChangeEvent,
 } from '@maplibre/maplibre-react-native';
 import { useIsFocused } from 'expo-router';
@@ -60,6 +61,9 @@ import {
   shouldShowLocationHint,
 } from '@/lib/location-hint';
 import { type Camera as MapCamera, invMercY, mercY } from '@/lib/map/projection';
+import { createTroubleBurst, watchResourceFailures } from '@/lib/map/map-diagnostics';
+import { ensureBasemapCache } from '@/lib/map/offline';
+import { reportProjectionDrift } from '@/lib/map/projection-guard';
 import type { Mosque } from '@/lib/mosques';
 import { basemapGroundFor, nordicMapStyleFor } from '@/lib/map/nordicStyle';
 import {
@@ -232,6 +236,11 @@ export default function Bonetider() {
   const scheme = useActiveScheme();
   const colors = useColors();
   const cameraRef = useRef<CameraRef>(null);
+  // Only the development-only projection guard uses this — it asks MapLibre where a few
+  // Swedish cities are and compares with where lib/map/projection.ts puts them, so a
+  // camera-mirror bug is caught on the first settled frame instead of by a reader noticing
+  // that Stockholm has moved. Compiled out of release builds; see the module's header.
+  const mapRef = useRef<MapRef>(null);
   // The initial framing — captured from the first settled region event after the
   // fitBounds-on-mount. Used as the comparison anchor for "has the user moved the
   // map?" (so the Reset chip appears when they have) and as the target the Reset
@@ -241,6 +250,15 @@ export default function Bonetider() {
   // re-anchors `initialFrame` instead of being measured against it. See the comment
   // at the check in onRegionDidChange.
   const resetPending = useRef(false);
+  // True from the first camera-move event until the camera comes to rest — a pan, a fling,
+  // a pinch or one of our own fitBounds animations. The solar clock reads it to keep a
+  // 30 s tick from landing mid-gesture: a tick rebuilds the whole-country field and
+  // re-renders this screen on the JS thread, which is the same thread that must forward the
+  // next camera frame to the Skia overlay, so the overlay stalls against the basemap for as
+  // long as the rebuild takes. A ref, not state, so the gesture itself causes no render;
+  // see useSolarClock's `shouldDefer` for the bound that keeps this from ever sticking.
+  const mapMoving = useRef(false);
+  const isMapMoving = useCallback(() => mapMoving.current, []);
 
   const insets = useSafeAreaInsets();
   const { width: screenW, height: screenH } = useWindowDimensions();
@@ -266,7 +284,11 @@ export default function Bonetider() {
   // Pause the clock's live tick while another route is on top, so the map's field
   // isn't rebuilt in the background (e.g. every 30 s while the user is on Inställningar).
   const isFocused = useIsFocused();
-  const clock = useSolarClock(isFocused);
+  const clock = useSolarClock(isFocused, isMapMoving);
+  // Stable across renders (useSolarClock memoises it with no deps), unlike `clock` itself —
+  // so the settled-camera handler below can depend on it without being rebuilt on every
+  // tick and every scrub frame.
+  const flushClock = clock.flush;
   // 'done' when there is no provider (the screen tests mount this on its own), so the
   // soft-ask queue behaves exactly as it did before the introduction existed.
   const introStatus = useOptionalIntroStatus();
@@ -324,18 +346,39 @@ export default function Bonetider() {
   const [cameraReady, setCameraReady] = useState(false);
   const reduceMotion = useReducedMotion();
 
-  // The basemap style is fetched over the network at runtime (vector tiles + glyphs from
+  // The basemap is fetched over the network at runtime (vector tiles + glyphs from
   // OpenFreeMap/MapTiler, elevation from the DEM host), so it can simply fail — offline,
   // captive portal, provider outage, expired key. Until now that failure was completely
   // silent: MapLibre renders nothing, the Skia wash and the prayer lines carry on
   // painting perfectly over the void, and the screen reads as "the map is broken" with
   // no way to tell whether it's the app or the network.
   //
+  // TWO shapes of failure, and they need different words:
+  //   • 'style'   — onDidFailLoadingMap. Rare here by construction: the style is inline JSON
+  //                 (lib/map/nordicStyle), so there is no style document to fetch and fail.
+  //   • 'network' — the ordinary one, and the one that used to be invisible. The style loads
+  //                 fine and every tile, glyph and TileJSON behind it fails, which fires no
+  //                 map event whatsoever. MapLibre's native log stream is the only channel
+  //                 that sees it; see lib/map/map-diagnostics.
+  //
   // The overlay is deliberately NOT gated on this. Its geometry comes from the solar
   // engine, not from tiles — the prayer lines are still true without a basemap under
   // them, and hiding them would turn a degraded map into a dead screen. We say what
   // happened instead, and let the rest keep working.
-  const [styleFailed, setStyleFailed] = useState(false);
+  const [mapTrouble, setMapTrouble] = useState<'style' | 'network' | null>(null);
+  // Counts resource failures in a sliding window, so one transient 500 on a working
+  // connection cannot flash a notice, and so a "finished rendering fully" event is only
+  // believed as recovery once the failures have actually stopped.
+  const troubleBurst = useMemo(() => createTroubleBurst(), []);
+  useEffect(() => {
+    return watchResourceFailures((at) => {
+      if (troubleBurst.hit(at)) {
+        // 'network' outranks a style failure in the copy: with an inline style, a style
+        // error is a bug in our own JSON, while this is the one the reader can act on.
+        setMapTrouble('network');
+      }
+    });
+  }, [troubleBurst]);
 
   // THE REVEAL. MapLibre paints its own surface a pale grey until the first tiles
   // composite — on a dark screen that is a bright flash between the introduction and the
@@ -349,6 +392,20 @@ export default function Bonetider() {
   // afterwards, and a cover that could come back would blink over the map on every pan.
   const [mapPainted, setMapPainted] = useState(false);
   const revealMap = useCallback(() => setMapPainted(true), []);
+  // Every tile in view has arrived and composited. That is the honest recovery signal for a
+  // network failure — but only once the failures have stopped: the renderer can report a
+  // finished frame while requests are still erroring, and clearing on that would blink the
+  // notice off in front of a map that is still empty.
+  const noteFullRender = useCallback(() => {
+    revealMap();
+    setMapTrouble((prev) => {
+      if (prev !== 'network' || !troubleBurst.quiet(Date.now())) return prev;
+      // Hand the counter a clean slate along with the notice, or the next outage would be
+      // counting from failures this one already spent.
+      troubleBurst.clear();
+      return null;
+    });
+  }, [revealMap, troubleBurst]);
   // The safety net. `…MapFully` means every tile in view arrived, so a phone on a bad
   // train connection could wait on it far longer than anyone should look at a flat
   // ground — and offline it never fires at all. After this the cover goes regardless:
@@ -360,6 +417,14 @@ export default function Bonetider() {
     const timer = setTimeout(revealMap, MAP_REVEAL_TIMEOUT_MS);
     return () => clearTimeout(timer);
   }, [revealMap]);
+
+  // Let MapLibre keep the basemap it has already fetched instead of re-fetching it every
+  // launch (see lib/map/offline for why this is a cache cap and not an offline download).
+  // Fire-and-forget on mount: it is an optimisation, and a phone that refuses it still gets a
+  // map. Runs once — the value it sets is stored in MapLibre's own database, not in state.
+  useEffect(() => {
+    void ensureBasemapCache();
+  }, []);
   // Measured, not assumed: the notice's copy wraps to a second line on a narrow screen or
   // at a large font scale, so its height is the only honest way to place anything beneath
   // it. Feeds `hintTop` below — see there for what was colliding.
@@ -379,8 +444,14 @@ export default function Bonetider() {
   const noticeTop = insets.top + space.lg + MAP_ERROR_OFFSET;
   const hintTop = Math.max(
     insets.top + HINT_TOP_OFFSET,
-    styleFailed && noticeHeight > 0 ? noticeTop + noticeHeight + space.sm : 0,
+    mapTrouble != null && noticeHeight > 0 ? noticeTop + noticeHeight + space.sm : 0,
   );
+
+  // Bumped on every camera publish. The projection guard samples it before asking MapLibre
+  // where a coordinate is, and compares afterwards: anything published in between means the
+  // map moved during the round-trip, so the answer describes a different camera than the one
+  // being checked. A ref, because this must not cause a render of its own.
+  const publishSeq = useRef(0);
 
   const publishCamera = useCallback(
     (next: MapCamera, syncReact = true) => {
@@ -389,6 +460,7 @@ export default function Bonetider() {
       // for a React render before receiving live camera coordinates.
       // eslint-disable-next-line react-hooks/immutability
       cam.value = next;
+      publishSeq.current += 1;
       if (syncReact) setCamState(next);
     },
     [cam],
@@ -694,6 +766,12 @@ export default function Bonetider() {
   // While the map is moving, track the live camera so the overlays follow it:
   // both the Skia field canvas and the RN marker layer read the `cam` shared
   // value and re-project on the UI thread, so no React render happens per frame.
+  // The camera has started moving — see `mapMoving`. Fires for gestures and for our own
+  // fitBounds animations alike, and both are moments where a field rebuild is unwelcome.
+  const onRegionWillChange = useCallback(() => {
+    mapMoving.current = true;
+  }, []);
+
   const onRegionIsChanging = useCallback(
     (e: NativeSyntheticEvent<ViewStateChangeEvent>) => {
       const { zoom, bounds } = e.nativeEvent;
@@ -712,6 +790,13 @@ export default function Bonetider() {
 
   const onRegionDidChange = useCallback(
     (e: NativeSyntheticEvent<ViewStateChangeEvent>) => {
+      // At rest again. Do this before any of the early returns below: every one of them is
+      // a legitimate settle, and a tick held back during the gesture must be collected on
+      // all of them or the clock waits for the next 30 s boundary. `flush` is a no-op when
+      // nothing was held back, so an ordinary pan does not rebuild the field on settle.
+      mapMoving.current = false;
+      flushClock();
+
       const { zoom, bounds } = e.nativeEvent;
       const [west, south, east, north] = bounds;
       const vc = viewportCentreFromBounds(west, south, east, north);
@@ -719,8 +804,26 @@ export default function Bonetider() {
       // reported `center` (which is the padded camera target in v11/GL JS) — see
       // viewportCentreFromBounds's comment.
       if (zoom > 1) {
-        publishCamera({ lon: vc.lon, lat: vc.lat, zoom, width: camState.width, height: camState.height });
+        const next = {
+          lon: vc.lon,
+          lat: vc.lat,
+          zoom,
+          width: camState.width,
+          height: camState.height,
+        };
+        publishCamera(next);
         if (!cameraReady) setCameraReady(true);
+        // Deliberately not awaited: the handler's job is to move the map's overlays, not to
+        // wait on a diagnostic. The sequence check is what keeps the answer honest — a settle
+        // is very often followed straight away by another gesture, and a reading taken across
+        // that reports a drift nobody has (measured: 253 dp of pure fiction from two swipes).
+        const seq = publishSeq.current;
+        void reportProjectionDrift(
+          mapRef.current,
+          next,
+          undefined,
+          () => publishSeq.current === seq,
+        );
       }
       // The first qualifying settled event (zoom > 1) is the initial fit. Record it
       // as the comparison anchor for the "moved?" detector below; never enforce.
@@ -790,7 +893,7 @@ export default function Bonetider() {
         Math.abs(vc.lon - init.lon) > 0.5;
       if (drifted !== moved) setMoved(drifted);
     },
-    [publishCamera, camState.width, camState.height, cameraReady, moved],
+    [publishCamera, camState.width, camState.height, cameraReady, moved, flushClock],
   );
 
   return (
@@ -814,6 +917,7 @@ export default function Bonetider() {
           behind-content blur needs an explicit render source there, unlike iOS). */}
       <GlassBackdropTarget style={StyleSheet.absoluteFill}>
       <Map
+        ref={mapRef}
         testID="sweden-map"
         style={StyleSheet.absoluteFill}
         mapStyle={nordicMapStyleFor(scheme)}
@@ -852,23 +956,24 @@ export default function Bonetider() {
         // A tap that HITS a mosque never gets here: MosqueLayer's source handler calls
         // stopPropagation(), so a hit opens (or swaps) the card and a miss closes it.
         onPress={() => setSelectedMosque(null)}
+        onRegionWillChange={onRegionWillChange}
         onRegionIsChanging={onRegionIsChanging}
         onRegionDidChange={onRegionDidChange}
         // Recovery is automatic: MapLibre keeps retrying tiles, so a style that comes
         // back on its own clears the notice without the user doing anything.
-        onDidFinishLoadingStyle={() => setStyleFailed(false)}
+        onDidFinishLoadingStyle={() => setMapTrouble((prev) => (prev === 'style' ? null : prev))}
         // The map's first paint, and the cue that ends the reveal cover below. It is the
         // EARLIEST honest one: onDidFinishLoadingStyle fires while the surface is still
         // MapLibre's pale grey (measured six seconds early on a cold emulator), and
         // onDidFinishRenderingFrame fires for frames that have nothing in them yet.
         // onDidFinishRenderingFrameFully lands within ~10 ms of this, so there is nothing
         // to gain by preferring it.
-        onDidFinishRenderingMapFully={revealMap}
+        onDidFinishRenderingMapFully={noteFullRender}
         // A style that never arrives must not leave the cover up: the notice below needs
         // to be readable, and a map that has given up is better shown as the flat ground
         // it will stay than as a screen still pretending to load.
         onDidFailLoadingMap={() => {
-          setStyleFailed(true);
+          setMapTrouble((prev) => prev ?? 'style');
           revealMap();
         }}
       >
@@ -892,7 +997,9 @@ export default function Bonetider() {
             hit-testing for free. It draws under the wash/lines above, which is right: a
             mosque is a place on the ground, not chrome floating over the sky. Off when
             the user hides it in Inställningar. */}
-        {settings.showMosques && <MosqueLayer onSelect={setSelectedMosque} />}
+        {settings.showMosques && (
+          <MosqueLayer onSelect={setSelectedMosque} selectedId={selectedMosque?.id ?? null} />
+        )}
       </Map>
 
       {/* The reveal cover. Sits directly ON the basemap and UNDER everything the app
@@ -1111,7 +1218,8 @@ export default function Bonetider() {
         </View>
       )}
 
-      {/* The basemap failed to load. Deliberately a NOTICE, not a card with a retry
+      {/* The basemap could not be drawn — no network for its tiles, or (rarely) a style that
+          would not load. Deliberately a NOTICE, not a card with a retry
           button: MapLibre already retries on its own, and there is nothing useful for a
           tap to do that waiting doesn't. It says which half is broken — the map, not the
           times — so a user staring at a blank screen behind correct prayer lines knows
@@ -1119,7 +1227,7 @@ export default function Bonetider() {
           Rendered outside GlassBackdropTarget, like the hint cards, so the glass samples
           the map rather than itself; `pointerEvents="none"` keeps the map draggable
           underneath. Sits below the reset chip's row so the two never collide. */}
-      {styleFailed && (
+      {mapTrouble != null && (
         <View
           style={[styles.mapErrorWrap, { top: noticeTop }]}
           pointerEvents="none"
@@ -1131,9 +1239,15 @@ export default function Bonetider() {
           }}
         >
           <GlassSurface style={styles.mapErrorNotice} borderRadius={radius.lg} tint={colors.cardGlass}>
-            <MaterialIcons name="cloud-off" size={16} color={colors.inkMuted} />
+            <MaterialIcons
+              name={mapTrouble === 'network' ? 'wifi-off' : 'cloud-off'}
+              size={16}
+              color={colors.inkMuted}
+            />
             <Text style={[styles.mapErrorText, { color: colors.inkMuted }]}>
-              Kartan kunde inte laddas. Bönetiderna stämmer ändå.
+              {mapTrouble === 'network'
+                ? 'Ingen anslutning till kartan. Bönetiderna stämmer ändå.'
+                : 'Kartan kunde inte laddas. Bönetiderna stämmer ändå.'}
             </Text>
           </GlassSurface>
         </View>
