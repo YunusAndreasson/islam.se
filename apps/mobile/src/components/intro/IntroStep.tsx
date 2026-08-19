@@ -3,7 +3,7 @@
 //   header    progress chip (mark + "Steg 2 av 4") — chrome, pinned to the top edge
 //   message   title + lead — top-anchored, the same pixel on every step
 //   band      the step's own controls — FLEXIBLE, and where the slack goes
-//   actions   one primary, and beneath it a quiet row: back on the left, skip centred
+//   actions   one primary, and beneath it at most ONE quiet way past
 //
 // Written as a shell rather than four near-identical screens so the rhythm is identical
 // everywhere — same heading size, same gaps, same action geometry whether the step holds
@@ -11,13 +11,22 @@
 // steps reads as four screens someone happened to put in a row.
 //
 // ── Where the empty space lives ───────────────────────────────────────────────────────
-// The first cut stacked everything in one top-anchored column, which meant a short step
-// (welcome, location) put its whole message in the top 45% of the screen and left a single
-// dead half below it, with the actions marooned at the bottom. `band` fixes that: it is
-// flex:1 and CENTRES its content, so the slack is split above and below the controls
-// instead of pooling in one hole. When the content is taller than the band (the method
-// step's two option lists) `flexGrow: 1` has nothing to grow into, centring becomes a
-// no-op and it simply scrolls — the same style covers both cases.
+// `band` is flex:1, so on a short step (welcome, location, reminders) it holds a lot of
+// slack. All of it sits BELOW the content, and that is a grouping decision rather than a
+// taste one.
+//
+// Space between two things says they are different things. The gap below the controls
+// separates them from the action bar — genuinely different, so space belongs there. A gap
+// above them would separate them from the question they answer, which is the one thing on
+// the screen they must NOT be separated from: an earlier cut split the slack above and
+// below, and it put "Slå på påminnelser" a third of a screen beneath "Ska vi påminna dig?",
+// far enough that the button stopped reading as the answer and started reading as the next
+// item on a page. So the controls hang from the message at one fixed 32pt gap — the same
+// 32pt on every step, scrolling or not — and the screen's remaining air pools once, at the
+// bottom, where it reads as the margin it is.
+//
+// When the content is taller than the band (the method step's two option lists) there is no
+// slack to place, the spacer collapses, and it simply scrolls — one rule, both cases.
 //
 // ── One filled accent per screen ──────────────────────────────────────────────────────
 // `nextTone` exists because the footer is NOT the primary action on every step. On the
@@ -26,6 +35,22 @@
 // filled accent pills on one screen ask the user to rank them, which is the frame's job,
 // not theirs. So those steps pass `quiet` and the footer drops to a tinted pill: still
 // obviously the way forward, no longer competing for the eye.
+//
+// ── One way forward, and it is never drawn twice ──────────────────────────────────────
+// `onSkip` is for a step where skipping is a DIFFERENT destination from advancing — on the
+// welcome step it abandons the introduction outright. The location and reminder steps used
+// to render it too, beside "Nästa", where both controls called the same function: one
+// action, two labels, two weights, stacked one above the other, asking the reader to tell
+// apart two things that were never different. They now pass no `onSkip` at all, so those
+// steps offer exactly one way on.
+//
+// There is likewise no back control. Every step writes straight to settings the moment it
+// is answered and every one of those settings has a permanent home in Inställningar (which
+// two of the steps say in their own footnote), so nothing here is a decision the reader is
+// sealed into — which leaves a "Tillbaka" as a third tier of chrome under an action bar
+// that already had too many, and, on the last step, a lone grey word marooned in an
+// otherwise empty row. The Android back GESTURE still steps backwards (see
+// app/valkommen.tsx); it is the affordance without the furniture.
 import { useMemo } from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import type { ReactNode } from 'react';
@@ -54,13 +79,9 @@ interface Props {
   onNext: () => void;
   /** `quiet` on steps whose own content already owns a filled CTA — see the note above. */
   nextTone?: 'primary' | 'quiet';
-  /** Omitted on the last step, where "Visa bönetider" is the only way out. */
+  /** Only for a step where skipping goes somewhere ADVANCING does not — see above. That is
+   *  the welcome step alone, so the label is fixed rather than a prop. */
   onSkip?: () => void;
-  skipLabel?: string;
-  /** Step back. Omitted on the first step, where there is nowhere to go — absent rather
-   *  than disabled, because a greyed control that never becomes usable is a dead end the
-   *  user has to test to understand. */
-  onBack?: () => void;
   /** Steps whose content scrolls itself (the city list) opt out of the ScrollView, which
    *  must never wrap a VirtualizedList. */
   scroll?: boolean;
@@ -77,8 +98,6 @@ export function IntroStep({
   onNext,
   nextTone = 'primary',
   onSkip,
-  skipLabel = 'Hoppa över',
-  onBack,
   scroll = true,
 }: Props) {
   const c = useColors();
@@ -138,23 +157,20 @@ export function IntroStep({
             contentContainerStyle={styles.bandContent}
             keyboardShouldPersistTaps="handled"
           >
-            {/* Two unequal spacers rather than `justifyContent: 'center'`: dead centre put
-                the welcome step's three lines adrift halfway down the screen, a good 200pt
-                below the sentence they belong to. 2:3 lands them on the optical centre —
-                near enough to the message to still read as part of it, far enough from the
-                actions that the screen has a middle. Both collapse to nothing when the
-                content is taller than the band (the method step), so they cost that step
-                no scroll length. */}
-            <View style={styles.slackTop} />
+            {/* ALL the slack goes below the content — see the note on where empty space
+                belongs, above. It collapses to nothing when the content is taller than the
+                band (the method step), so that step pays no scroll length for it. */}
             {content}
-            <View style={styles.slackBottom} />
+            <View style={styles.slack} />
           </ScrollView>
         ) : (
           // Gives PlacePicker's own `flex: 1` FlatList (rendered as `children` once the
-          // location step switches to city search) a bounded box to grow into — which is
-          // also why this branch centres instead of using the spacers above: a flex child
-          // competing with them for the slack would be squeezed into a quarter of the band.
-          <View style={[styles.band, styles.bandContent, styles.bandCentred]}>{content}</View>
+          // location step switches to city search) a bounded box to grow into. No spacer
+          // here: a flex child would compete with it for the slack and end up squeezed into
+          // a fraction of the band, and none is needed — the picker grows to fill on its
+          // own, and this step's small "ask" content hangs from the same 32pt gap under the
+          // message that every other step's does.
+          <View style={[styles.band, styles.bandContent]}>{content}</View>
         )}
       </Animated.View>
 
@@ -170,46 +186,21 @@ export function IntroStep({
         >
           <Text style={[styles.nextLabel, quiet && styles.nextLabelQuiet]}>{nextLabel}</Text>
         </Pressable>
-        {/* The secondary line's height is reserved even on the step that has neither of
-            its controls, so the primary button lands under the same thumb position on all
-            four — and on that last step the reserved line simply becomes breathing room
-            above the home indicator, which it needs anyway.
-
-            BACK LIVES HERE, not as a chevron in the top-left. This screen is a
-            fullScreenModal with no navigation bar, so a lone chevron up there would be
-            new chrome with nothing to belong to, sharing the top edge with the progress
-            chip and competing with it — and any room made for it would come out of a
-            vertical rhythm this file spends three paragraphs getting right. Down here it
-            joins the band that is already the screen's navigation zone, within reach of
-            the thumb that just pressed "Nästa", and costs no layout at all.
-
-            Three cells rather than two so the skip stays on the exact optical centre
-            whether or not a back control is present: the flexible side cells are equal,
-            so adding back on step 2 does not nudge "Hoppa över" sideways from where it
-            sat on step 1. */}
+        {/* Height reserved on the three steps that have no skip, so the primary button
+            lands under the same thumb position on all four — and where it is empty it
+            simply becomes breathing room above the home indicator, which the bar needs
+            anyway. One centred cell, because there is never more than one control in it:
+            see the note on `onSkip` above. */}
         <View style={styles.secondary}>
-          <View style={styles.secondarySide}>
-            {onBack ? (
-              <Pressable
-                onPress={onBack}
-                accessibilityRole="button"
-                accessibilityLabel="Tillbaka till föregående steg"
-                style={({ pressed }) => [styles.back, pressed && styles.pressedQuiet]}
-              >
-                <Text style={styles.backLabel}>Tillbaka</Text>
-              </Pressable>
-            ) : null}
-          </View>
           {onSkip ? (
             <Pressable
               onPress={onSkip}
               accessibilityRole="button"
               style={({ pressed }) => [styles.skip, pressed && styles.pressedQuiet]}
             >
-              <Text style={styles.skipLabel}>{skipLabel}</Text>
+              <Text style={styles.skipLabel}>Hoppa över</Text>
             </Pressable>
           ) : null}
-          <View style={styles.secondarySide} />
         </View>
       </View>
     </View>
@@ -256,9 +247,7 @@ function makeStyles(c: Palette) {
       paddingTop: space.xxxl,
       paddingBottom: space.xl,
     },
-    bandCentred: { justifyContent: 'center' },
-    slackTop: { flexGrow: 2, flexShrink: 1, flexBasis: 0 },
-    slackBottom: { flexGrow: 3, flexShrink: 1, flexBasis: 0 },
+    slack: { flexGrow: 1, flexShrink: 1, flexBasis: 0 },
     footnote: { ...type.caption, color: c.inkFaint, marginTop: space.lg },
 
     actions: {
@@ -289,24 +278,11 @@ function makeStyles(c: Palette) {
     nextQuiet: { backgroundColor: c.accentSoft, borderWidth: 1, borderColor: c.accent },
     nextLabel: { ...type.bodyStrong, color: c.onAccent },
     nextLabelQuiet: { color: c.accent },
-    // 44 pt minimums on every action — this is the row every user touches.
-    secondary: { height: 44, flexDirection: 'row', alignItems: 'center' },
-    // Equal flexible cells flanking the skip. `flexShrink` lets them give way rather than
-    // push the skip off centre on a narrow screen.
-    secondarySide: { flex: 1, flexShrink: 1 },
+    // A fixed 44 pt whether or not it holds anything, so the primary above it never moves
+    // between steps; when it does hold the skip, 44 pt is that control's own touch minimum.
+    secondary: { height: 44, alignItems: 'center', justifyContent: 'center' },
     skip: { minHeight: 44, justifyContent: 'center', paddingHorizontal: space.xl },
     skipLabel: { ...type.body, color: c.inkMuted },
-    // Aligned to the start of its cell so the label sits on the same left gutter as the
-    // title, lead and primary button. Quieter than the skip: going back is a correction,
-    // not one of the two things the step is asking. Padding is narrower than the skip's so
-    // the two cannot collide on a small screen.
-    back: {
-      minHeight: 44,
-      alignSelf: 'flex-start',
-      justifyContent: 'center',
-      paddingRight: space.md,
-    },
-    backLabel: { ...type.body, color: c.inkFaint },
     pressed: { opacity: 0.85 },
     pressedQuiet: { opacity: 0.6 },
   });

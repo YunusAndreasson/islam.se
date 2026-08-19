@@ -39,6 +39,23 @@ export function StepMethod() {
 
   return (
     <View style={styles.wrap}>
+      {/* The consequence of the two pickers, ABOVE them rather than under them. It used to
+          sit at the bottom, which on every phone we tried put it below the fold — the one
+          element on the riskiest step that turns "Fajr 18°, Isha 17°" from noise into two
+          numbers the reader recognises, and it was the one element nobody ever saw. It is
+          also the step's only feedback: with the line underneath, tapping a method changed
+          numbers that were off-screen, so the lists answered nothing. Here the first thing
+          under the question is what the current answer produces, and it visibly moves on
+          the very next tap.
+
+          Left-aligned on the same gutter as the title and lead, not centred as it was in
+          the old position: up here it continues the message column, and a centred line
+          directly beneath left-aligned prose reads as a stray. Tabular figures so the times
+          don't jitter sideways as the user tries different methods. */}
+      <Text style={styles.preview}>
+        I dag i {place}: Fajr {fajr?.time ?? '—'} · Maghrib {maghrib?.time ?? '—'}
+      </Text>
+
       <SettingSection title="Beräkningsmetod">
         <OptionGroup
           options={METHOD_OPTIONS}
@@ -58,11 +75,6 @@ export function StepMethod() {
         />
       </SettingSection>
 
-      {/* The consequence of the two pickers above, in one line. Tabular figures so the
-          times don't jitter sideways as the user tries different methods. */}
-      <Text style={styles.preview}>
-        I dag i {place}: Fajr {fajr?.time ?? '—'} · Maghrib {maghrib?.time ?? '—'}
-      </Text>
     </View>
   );
 }
@@ -73,9 +85,8 @@ function makeStyles(c: Palette) {
     preview: {
       ...type.callout,
       color: c.ink,
-      textAlign: 'center',
       fontVariant: ['tabular-nums'],
-      marginTop: space.xs,
+      marginBottom: space.md,
     },
   });
 }
