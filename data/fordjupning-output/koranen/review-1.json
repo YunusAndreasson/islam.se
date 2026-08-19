@@ -1,0 +1,32 @@
+{
+  "finalScore": 7.6,
+  "verdict": "revise",
+  "revisedTextChars": 34568,
+  "summary": "Välskriven och ovanligt välkällad text med ett Sverigeavsnitt som verkligen bär sidan (lagrum 1686/1734/1864/1949/1970, målnummer, prop. och utskottsbetänkande, två opinionsmätningar med motiverad skillnad) och med rättsskolornas oenighet redovisad med namngivna företrädare på tre skilda frågor. Utkastet förbigår dock flera uttryckliga anmärkningar från faktagranskningen: Danmarks lag av den 7 december 2023 saknas helt trots att den pekats ut som artikelns största lucka, Neuwirth och Corpus Coranicum saknas, den shiitiska hållningen företräds enbart av Ibn Taymiyyas stridsskrift mot shiiterna, Ibn Taymiyya-citatet om hån mot Guds tecken (60217) är inte inarbetat i bränningsavsnittet, straffskalan i JuU32 saknas, Luxenberg presenteras utan att hans metod placeras utanför huvudfåran, och den centrala tesen står kvar i sin överdrivna form (»motsatta svar på samma handling«). Två blockcitat (Ibn Qudāma, al-Qurtubi) finns inte bland de verifierade citaten och har i revisionen gjorts om till attribuerat referat i löpande text tills ordalydelsen kan kontrolleras. AVSNITTSAVSLUT: utkastet hade 3 av 7 på förbjuden konstruktion (semikolonpivot i avsnitt 2 och 4, »inte X utan Y« i avsnitt 7) mot tillåtna 2; den reviderade texten har 0 av 7. Streckräkning: inga em-streck i egen prosa, endast i blockcitatattribution; en-streck endast i intervall och i Bernströms citerade text — inom budget. Inga underpunkter, makron behållna. Idéhistorieavsnittet klarar sig: det avvisar uttryckligen parallellen som argument och används som kontrast, vilket är rätt grepp.",
+  "strengths": [
+    "Alla sju ##-rubriker bär ämnesordet och fungerar var för sig som sökfras utan sidans titel.",
+    "Sverigeavsnittet har verkligt innehåll: hädelselagstiftningens tre avvecklingssteg, Förvaltningsrätten 4 april 2023 med målnummer, Kammarrätten 12 juni 2023, tingsrättsdomen 3 februari 2025, Svea hovrätt 7 november 2025 och HD:s uteblivna prövningstillstånd, SOU 2024:52, prop. 2025/26:133 och JuU32.",
+    "Rättsskolornas oenighet redovisas med namn och på tre separata frågor (recitation i översättning, basmalan som vers, beröring av mushaf) i stället för som en allmän formulering om att de lärda är oense.",
+    "Idéhistorieavsnittet håller isär praktiken och läran och säger uttryckligen att de två skriftkulturerna vilar på oförenliga uppfattningar — ingen legitimerande parallell.",
+    "Invändningsavsnittet återger insamlingsinvändningen i dess starkaste form och medger öppet att den bygger på muslimska källor; van Putten, Birmingham och Sanaa används korrekt och inte överdrivet."
+  ],
+  "issues": [
+    "CITAT UTAN VERIFIERING: blockcitatet ur Ibn Qudāma, al-Mughnī (»Koranen är ett mirakel till både ordalydelse och innebörd …«) finns inte bland de verifierade citaten. Omgjort till attribuerat referat; ska kontrolleras mot tryckt utgåva innan det får återinföras som ordagrant citat.",
+    "CITAT UTAN VERIFIERING: blockcitatet ur al-Qurtubi om de sju läsarterna och de sju ahruf finns inte bland de verifierade citaten. Samma åtgärd och samma krav.",
+    "CITAT UTAN VERIFIERING: den inline citerade repliken av ʿAlī (»Då har du gått under och dragit andra med dig«) finns inte i underlaget. Behållen som återgiven replik med källhänvisning, men bör kontrolleras.",
+    "TES ÖVERDRIVEN: utkastets »gav två grenar av rättsväsendet motsatta svar på samma handling« och »Två grenar av rättsväsendet har gett motsatta svar på samma handling« stod kvar trots uttrycklig anmärkning. Omskrivet till att domstolsslagen prövade olika frågor och landade i besked som drar åt olika håll.",
+    "SAKNAD JÄMFÖRELSE: Danmarks lag av den 7 december 2023 (böter eller fängelse i högst två år, antagen med 94 mot 77) fanns inte i utkastet. Tillagd som eget stycke i Sverigeavsnittet.",
+    "OBALANSERAD FRAMSTÄLLNING AV SHIA: den shiitiska hållningen företräddes enbart av Ibn Taymiyyas polemik i Minhāj al-sunna. Den tolvimamitiska huvudlinjen (al-Sharīf al-Murtadā, al-Tūsī, al-Khūʾī) är tillagd med källa.",
+    "SAKNAD FORSKNING: Neuwirth och Corpus Coranicum saknades helt i översikten över modern forskning. Tillagda.",
+    "LUXENBERG: presenterades utan att metoden placerades utanför forskningens huvudfåra. Kompletterat med kritiken och med att Sinai hör till kritikerna.",
+    "IKRĀM/ISTIHZĀʾ: al-Qurtubi- och al-Bāqillānī-materialet stod utan Ibn Taymiyya-citatet om hån mot Guds tecken (verifierat citat 60217). Citatet är inarbetat i samma stycke, och slutsatsen att det inte finns något prejudikat för hånbränning är utskriven.",
+    "STRAFFSKALA: böter eller fängelse i högst sex månader för den som anordnar en sammankomst i strid med de nya besluten saknades. Tillagd.",
+    "PÖBELVETOT: invändningen refererades bara som något utredningen nämner. Utvecklad i egen rätt.",
+    "SAKNADE RÖSTER: varken den strikt liberala hållningen som försvarar själva handlingen eller den muslimska linjen att medveten icke-reaktion är rätt svar fanns med. Båda tillagda, men UTAN namngivna företrädare — redaktionen bör knyta minst en namngiven svensk röst till vardera innan publicering.",
+    "AVSNITTSAVSLUT: tre av sju avslutades på förbjuden konstruktion (semikolonpivot i avsnitt 2 och 4, »inte X utan Y« i avsnitt 7). Samtliga omskrivna.",
+    "SPRÅKFEL: »geografisk pynt« (fel genus, dessutom oklart uttryck), »senare lärde« och »domare och lärde« (ska vara »lärda«), »på quraysh dialekt« (saknar bindestreck), »sluta glappet« (kalk på close the gap), »Glappet mäter avståndet« (tautologi), »två grenar av rättsväsendet« (organisk metafor på strykningslistan). Samtliga rättade.",
+    "KÄLLHÄNVISNING SAKNADES: al-Suyutis bedömning av iʿjāz i sista invändningen stod utan fotnot. Ersatt med det verifierade citatet och försedd med källa.",
+    "FRONTMATTER (kan ej rättas här): kontrollera att fältet sources upptar Danmarks straffelov § 110 e, al-Khūʾīs al-Bayān, Ibn Taymiyyas al-Istighātha och Corpus Coranicum, som nu är citerade i prosan.",
+    "FRONTMATTER (kan ej rättas här): koranverserna ser ut att följa Bernströms lydelse, men samtliga tre bör slutkontrolleras mot tryckt utgåva av Koranens budskap före publicering, i enlighet med faktagranskningens anmärkning om att husets korandatabas ger en annan svensk översättning."
+  ]
+}

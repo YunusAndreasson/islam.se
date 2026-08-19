@@ -57,6 +57,22 @@ tillrättalagd invändning.
 Nämns rättsskolornas skillnader med namngivna företrädare? En fördjupningsartikel som låter en
 omdiskuterad fråga framstå som oomtvistad är felaktig, hur välskriven den än är.
 
+⛔ **Men »omtvistat« gäller oenighet INOM ahl as-sunna.** islam.se skriver ur *ahl
+as-sunnas* position och de fyra rättsskolorna — hanafi, maliki, shafii, hanbali. Det är
+fyra, aldrig fem. Du får INTE lägga till en shiitisk eller sufisk ståndpunkt som balans,
+och du får aldrig låta en shiitisk auktoritet vara det som rättar en klassisk sunnitisk.
+En shiitisk ståndpunkt får nämnas bara när den klassiska hållningen svarar på den.
+
+⛔ **Avfärda aldrig en klassisk auktoritet på genre, epok eller motiv.** Formuleringar som
+»hämtat ur en stridsskrift och återger därför inte«, »medeltida jurister« eller »skrivet i
+polemiskt syfte« prövar inte ett påstående mot dess belägg — de underkänner den som bär
+det. Har du en saklig invändning mot Ibn Taymiyya, redovisa beläggen; annars står han kvar.
+
+⚠️ Detta hände på `koranen`: författarens utkast var rent, och GRANSKNINGSVARV 1 lade till
+ett stycke som avfärdade Ibn Taymiyyas svar som partsinlaga och lät al-Tūsī, al-Murtadā och
+al-Khūʾī rätta honom. Granskningssteget kan alltså införa överträdelsen självt. Om du blir
+ombedd att göra en text »mer balanserad« på den här punkten är det rätta svaret att låta bli.
+
 ### 5. Struktur och täckning
 
 Finns alla sju avsnitten? Håller ingressens första mening som en fristående definition i
