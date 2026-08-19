@@ -95,6 +95,12 @@ export default function Notiser() {
   }, [isFocused]);
   const nextReminder = useMemo(() => {
     if (blocked) return `Notiser är blockerade – inget schemaläggs förrän du tillåter dem i ${systemSettingsName()}.`;
+    // The master switch is a different kind of silence from either an empty selection or
+    // an unresolvable polar-day time. nextAlertAt correctly returns null while it is off;
+    // name that state before interpreting the null as a calculation failure.
+    if (!settings.notifications.enabled) {
+      return 'Påminnelser är avstängda – ingenting schemaläggs.';
+    }
     // Two different silences, told apart before they are described. Every slot switched
     // off is a choice the reader made and can see in the toggles below; no COMPUTABLE
     // time (Kiruna in June with polarCircleResolution 'unresolved', where Fajr and ʿIshāʾ

@@ -15,14 +15,31 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { PlacePicker } from '@/components/settings/PlacePicker';
 import { useSettingsColors, type SettingsColors } from '@/components/settings/theme';
 import { ModalBar } from '@/components/ui/ModalBar';
+import { nearestPlace } from '@/lib/places/nearest';
 import type { SwedishPlace } from '@/lib/places/data';
 import { useSettings } from '@/lib/settings/context';
+import { DEFAULT_COORDS } from '@/lib/settings/types';
 import { space, type } from '@/theme/tokens';
+
+// Manual mode has an honest fallback: Stockholm is already the coordinate used for
+// prayer times when no city has been persisted yet. Pass its canonical dataset point to
+// the picker as the effective selection so the screen does not claim that nothing is
+// selected while the rest of the app is visibly using Stockholm. The introduction still
+// passes `null` directly and therefore keeps its genuine first-choice state.
+const defaultPlace = nearestPlace(DEFAULT_COORDS.latitude, DEFAULT_COORDS.longitude).place;
+const DEFAULT_PICKER_LOCATION = {
+  name: defaultPlace.name,
+  latitude: defaultPlace.lat,
+  longitude: defaultPlace.lon,
+};
 
 export default function BytPlats() {
   const { settings, update } = useSettings();
   const colors = useSettingsColors();
   const styles = useMemo(() => makeStyles(colors), [colors]);
+  const selected =
+    settings.manualLocation ??
+    (settings.locationMode === 'manual' ? DEFAULT_PICKER_LOCATION : null);
 
   const handlePick = (p: SwedishPlace): void => {
     update({
@@ -38,7 +55,7 @@ export default function BytPlats() {
       <ModalBar variant="back" fallback="/(settings)/installningar" />
       <View style={styles.content}>
         <Text style={styles.header}>Välj stad</Text>
-        <PlacePicker selected={settings.manualLocation} onPick={handlePick} />
+        <PlacePicker selected={selected} onPick={handlePick} />
       </View>
     </SafeAreaView>
   );

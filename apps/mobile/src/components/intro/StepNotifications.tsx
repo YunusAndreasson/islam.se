@@ -35,7 +35,10 @@ export function StepNotifications() {
   const styles = useMemo(() => makeStyles(c), [c]);
   const { settings, update } = useSettings();
   const notifications = useNotificationPermission();
-  const [answered, setAnswered] = useState(false);
+  // Replaying the introduction is a review of existing choices, not a fresh permission
+  // funnel. If reminders are already enabled, show their current prayer choices instead
+  // of asking the reader to "turn on" something that is visibly on in Settings.
+  const [answered, setAnswered] = useState(() => settings.notifications.enabled);
   // Synchronous double-tap guard, same reasoning as NotificationHint's.
   const inFlight = useRef(false);
   const [busy, setBusy] = useState(false);

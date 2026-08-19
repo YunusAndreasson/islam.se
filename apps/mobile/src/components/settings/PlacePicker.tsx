@@ -79,7 +79,11 @@ export function PlacePicker({ selected, onPick }: Props) {
   // row, check mark — hundreds of rows below the fold, with nothing on screen to say so or
   // to say where. Read only at mount by FlatList, which is the right lifetime: once the
   // user types, the results are theirs to scroll and re-anchoring would fight them.
-  // Exact because getItemLayout above gives the list a real pitch to count in.
+  // Exact because getItemLayout above gives the list a real pitch to count in. FlatList
+  // validates this prop on every render even though it only uses it at mount, so remove it
+  // once search narrows the data. Keeping (say) Stockholm's index 7 against a one-row
+  // result set is invalid and can make native VirtualizedList attempt an out-of-range
+  // initial render while the user is typing.
   const initialIndex = useMemo(() => {
     if (!selectedKey) return undefined;
     const i = PLACES.findIndex(
@@ -101,6 +105,7 @@ export function PlacePicker({ selected, onPick }: Props) {
         }}
         accessibilityRole="button"
         accessibilityLabel={`${item.name}, ${item.county}`}
+        accessibilityState={{ selected: isSelected }}
         style={({ pressed }) => [
           styles.row,
           isSelected && styles.rowSelected,
@@ -158,7 +163,7 @@ export function PlacePicker({ selected, onPick }: Props) {
         keyExtractor={(p) => `${p.name}|${p.lat}|${p.lon}`}
         renderItem={renderItem}
         getItemLayout={(_, index) => ({ length: ROW_PITCH, offset: ROW_PITCH * index, index })}
-        initialScrollIndex={initialIndex}
+        initialScrollIndex={query ? undefined : initialIndex}
         initialNumToRender={20}
         windowSize={11}
         keyboardShouldPersistTaps="handled"

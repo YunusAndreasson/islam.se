@@ -103,7 +103,7 @@ describe('tab screens', () => {
       await renderSettled(withProviders(<Bonetider />));
 
       // Prefix match: the compass button's label carries its live state — plain "Qibla"
-      // with a heading, "…du är vänd mot Mecka" on lock, "…riktningen är inte tillgänglig"
+      // with a heading, "…du är vänd mot Mecka" on lock, "…kompassen är inte tillgänglig"
       // with no magnetometer (which is the case under test). What this asserts is the
       // ROUTE, so pinning the exact wording would only make it break on a copy tweak.
       fireEvent.press(screen.getByRole('button', { name: /^Qibla/ }));
@@ -481,6 +481,17 @@ describe('tab screens', () => {
     expect(router.push).toHaveBeenCalledWith('/(settings)/notiser');
   });
 
+  it('names the master-off notification state instead of blaming prayer-time calculation', async () => {
+    await renderSettled(withProviders(<Notiser />));
+
+    await waitFor(() =>
+      expect(
+        screen.getByText('Påminnelser är avstängda – ingenting schemaläggs.'),
+      ).toBeTruthy(),
+    );
+    expect(screen.queryByText(/Ingen tid går att räkna ut/)).toBeNull();
+  });
+
   it('announces Swedish prayer names on the alert detail screen', async () => {
     await AsyncStorage.setItem(
       SETTINGS_KEY,
@@ -514,6 +525,25 @@ describe('tab screens', () => {
     expect(screen.getByText('1 träff')).toBeTruthy();
     expect(screen.getByText('Umeå')).toBeTruthy();
     expect(screen.queryByText('Stockholm')).toBeNull();
+  });
+
+  it('shows Stockholm as selected when manual mode is using its default city', async () => {
+    await AsyncStorage.setItem(
+      SETTINGS_KEY,
+      JSON.stringify({ ...DEFAULT_SETTINGS, locationMode: 'manual', manualLocation: null }),
+    );
+
+    await renderSettled(
+      <SettingsProvider>
+      <IntroProvider>
+        <BytPlats />
+      </IntroProvider>
+    </SettingsProvider>,
+    );
+
+    expect(screen.getByRole('button', { name: /^Stockholm,/ }).props.accessibilityState).toEqual({
+      selected: true,
+    });
   });
 
   it('selecting a city persists manual location mode and returns', async () => {
