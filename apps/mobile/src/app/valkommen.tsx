@@ -13,10 +13,13 @@
 // object. It now lives on bonetider.tsx itself (MapLessonCard), driving the REAL map the
 // user is about to use. complete() arms it; see lib/intro-context's mapLessonPending.
 //
-// Deliberately NOT blocking: every step can be skipped, and skipping is a real answer.
-// The app is fully usable with no location (Stockholm fallback, and the dock says so), no
-// reminders, and the default method — so a wizard that refuses to let go would be
-// pretending the setup matters more than it does.
+// Deliberately NOT blocking: every step can be walked past, and walking past one is a real
+// answer. The app is fully usable with no location (Stockholm fallback, and the dock says
+// so), no reminders, and the default method — so a wizard that refuses to let go would be
+// pretending the setup matters more than it does. On the two question steps that IS what
+// "Nästa" does, which is why they no longer draw a separate "Hoppa över" beside it: one
+// action does not get two labels. The welcome step keeps its skip, because there it means
+// something different — leave the introduction now, not answer this question later.
 import { router } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { BackHandler, StyleSheet, View } from 'react-native';
@@ -70,24 +73,27 @@ export default function Valkommen() {
     }
   };
 
-  // Going back is the same class of moment as going forward — the progress mark stepping
-  // through a discrete 1-of-4 — so it carries the same selection tick, and for the same
-  // reason it lives on the state change rather than on the control (see the note on
-  // `next`, and the policy in lib/haptics).
-  //
-  // A step the user returns to shows whatever they already chose: every step writes
-  // straight to settings, so there is no wizard-local draft to restore and nothing is
-  // re-asked. In particular, returning to the location or reminder step does NOT re-fire
-  // the OS permission prompt — those steps only prompt on their own button.
-  const back = (): void => {
-    hapticSelection();
-    setStep((s) => Math.max(0, s - 1));
-  };
-
   // Android's hardware/gesture back has to mean "previous step" here. Without this it
   // falls through to the navigator, which on a fullScreenModal means leaving the
   // introduction entirely — a very different answer from the one the gesture implies, and
   // the gesture is the one people use without thinking.
+  //
+  // This is the ONLY way back, on purpose. There is no "Tillbaka" control: every step
+  // writes straight to settings the moment it is answered, and every one of those answers
+  // has a permanent home in Inställningar — so a step behind you is a thing you can change
+  // later, not a thing you are sealed into. A visible back button therefore bought very
+  // little and cost a third tier of chrome in an action bar that already had too many
+  // (see IntroStep). The gesture costs nothing and is what an Android reader reaches for
+  // anyway; iOS has no equivalent to honour, and nothing to correct there either.
+  //
+  // A step the gesture returns to shows whatever was already chosen — there is no
+  // wizard-local draft to restore and nothing is re-asked. In particular it does NOT
+  // re-fire an OS permission prompt: those steps only prompt from their own button.
+  //
+  // Stepping back is the same class of moment as stepping forward — the progress mark
+  // moving through a discrete 1-of-4 — so it carries the same selection tick, and for the
+  // same reason the tick sits on the state change rather than on whatever caused it (see
+  // the note on `next`, and the policy in lib/haptics).
   //
   // On the first step the event is passed BACK to the system (return false) rather than
   // swallowed: there is no previous step, and consuming it would make the OS back gesture
@@ -145,9 +151,13 @@ export default function Valkommen() {
             // The step's own "Använd min plats" is the filled action here; the footer only
             // means "move on". See IntroStep's note on one filled accent per screen.
             nextTone="quiet"
+            // No onSkip. Skipping this step and advancing it are the same journey to the
+            // same place — walk past without touching the button and nothing is asked,
+            // nothing is recorded, and the map keeps its own later chance to ask (see the
+            // noteXResolved note at the top of this file). Rendering that one action twice,
+            // once as "Nästa" and once as "Hoppa över", only asked the reader to tell apart
+            // two controls that ran the identical line of code.
             onNext={next}
-            onSkip={next}
-            onBack={back}
             // The city list is a FlatList and must never be wrapped in a ScrollView.
             scroll={false}
           >
@@ -163,20 +173,20 @@ export default function Valkommen() {
             lead="Få en notis när det är dags för bön. Tiderna planeras lokalt på din enhet – inget skickas online."
             footnote="Du kan ändra det här när som helst under Inställningar → Notiser."
             nextLabel="Nästa"
-            // Same reasoning as the location step: "Slå på påminnelser" owns the fill.
+            // Same reasoning as the location step: "Slå på påminnelser" owns the fill, and
+            // "Nästa" is the one way on — walking past it asks the OS nothing.
             nextTone="quiet"
             onNext={next}
-            onSkip={next}
-            onBack={back}
           >
             <StepNotifications />
           </IntroStep>
         ) : null}
 
         {step === 3 ? (
-          // The last step: no onSkip, same precedent the old final step set — the
-          // finishing CTA is the only way out, and "Visa bönetider" already reads as
-          // "move on without fussing over this" just as well as a separate skip would.
+          // The last step: no onSkip — the finishing CTA is the only way out, and "Visa
+          // bönetider" already reads as "move on without fussing over this" just as well
+          // as a separate skip would. The two steps before it now say the same thing with
+          // "Nästa", so this is the rule rather than the exception it once was.
           // NOT "Öppna kartan": the user has never seen the map at this point (that's
           // still three steps back, one throwaway mention in the welcome lead) — naming
           // the screen assumes knowledge they don't have. "Visa bönetider" instead
@@ -189,7 +199,6 @@ export default function Valkommen() {
             footnote="Sveriges ljusa sommarnätter hanteras automatiskt."
             nextLabel="Visa bönetider"
             onNext={next}
-            onBack={back}
           >
             <StepMethod />
           </IntroStep>

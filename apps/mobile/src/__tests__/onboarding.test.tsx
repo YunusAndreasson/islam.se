@@ -17,6 +17,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { act, fireEvent, render, screen } from '@testing-library/react-native';
 import * as Location from 'expo-location';
 import * as Notifications from 'expo-notifications';
+import { BackHandler } from 'react-native';
 
 import Valkommen from '@/app/valkommen';
 import { IntroProvider } from '@/lib/intro-context';
@@ -88,10 +89,32 @@ async function press(label: string): Promise<void> {
   await act(async () => {});
 }
 
+/** Fire Android's back gesture the way the OS does — by calling the handler the screen
+ *  registered, since there is no control on screen to press. Returns that handler's own
+ *  answer: `true` means the introduction consumed the gesture, `false` means it handed it
+ *  back to the navigator (which, on a fullScreenModal, is what leaves the flow).
+ *
+ *  The LAST registration is the live one: the effect re-subscribes on every step change,
+ *  so an earlier call in the list belongs to a listener that has already been removed. */
+async function pressAndroidBack(): Promise<boolean> {
+  const calls = jest.mocked(BackHandler.addEventListener).mock.calls;
+  const handler = calls.filter(([event]) => event === 'hardwareBackPress').at(-1)?.[1];
+  if (!handler) throw new Error('no hardwareBackPress listener was registered');
+  let answered = false;
+  await act(async () => {
+    answered = (handler as () => boolean)();
+  });
+  await act(async () => {});
+  return answered;
+}
+
 describe('the introduction', () => {
   beforeEach(async () => {
     await AsyncStorage.clear();
     jest.clearAllMocks();
+    // Spied, not stubbed: the screen calls `sub.remove()` on cleanup, so the real
+    // subscription has to keep working — this only records what was registered.
+    jest.spyOn(BackHandler, 'addEventListener');
     resetLocationLaunchCountForTests();
     resetNotificationLaunchCountForTests();
     jest
@@ -131,10 +154,29 @@ describe('the introduction', () => {
     expect(await AsyncStorage.getItem(INTRO_KEY)).not.toBeNull();
   });
 
-  // Going back is a real requirement, not a nicety: the location and method steps both
-  // ask something the user may want to reconsider once they have seen the next question,
-  // and a wizard that only moves forward turns a misread into a reinstall.
-  it('steps back through the introduction, and keeps what the user chose', async () => {
+  // Going back is the Android gesture and NOTHING ELSE — there is no "Tillbaka" control
+  // on any step. Every step writes straight to settings the moment it is answered and
+  // every answer has a permanent home in Inställningar, so a step behind you is a thing
+  // you can change later rather than one you are sealed into; the visible control bought
+  // that little and cost a third tier of chrome in the action bar. The gesture is free,
+  // and without this handler it would fall through to the navigator and drop the user out
+  // of the introduction entirely — the opposite of what it implies.
+  it('draws no back control on any step', async () => {
+    await launch();
+    expect(screen.queryByText('Tillbaka')).toBeNull();
+
+    await press('Kom igång');
+    expect(screen.queryByText('Tillbaka')).toBeNull();
+
+    await press('Nästa');
+    expect(screen.queryByText('Tillbaka')).toBeNull();
+
+    await press('Nästa');
+    expect(screen.getByText('Hur ska tiderna räknas ut?')).toBeTruthy();
+    expect(screen.queryByText('Tillbaka')).toBeNull();
+  });
+
+  it('steps back on the Android gesture, and keeps what the user chose', async () => {
     await launch();
 
     await press('Kom igång');
@@ -142,7 +184,7 @@ describe('the introduction', () => {
     await press('Nästa');
     expect(screen.getByText('Ska vi påminna dig?')).toBeTruthy();
 
-    await press('Tillbaka');
+    expect(await pressAndroidBack()).toBe(true);
     expect(screen.getByText('Var är du?')).toBeTruthy();
     // Returning to a step must not re-ask the OS. Each step writes straight to settings
     // and only prompts from its own button, so coming back is a view of what is already
@@ -154,20 +196,19 @@ describe('the introduction', () => {
     expect(screen.getByText('Ska vi påminna dig?')).toBeTruthy();
   });
 
-  it('offers no way back from the first step', async () => {
+  it('hands the gesture back to the system on the first step', async () => {
     await launch();
 
-    // Absent rather than disabled: a control that is visible but never usable is a dead
-    // end the user has to press to understand.
-    expect(screen.queryByText('Tillbaka')).toBeNull();
-    await press('Kom igång');
-    expect(screen.getByText('Tillbaka')).toBeTruthy();
+    // There is no previous step, and swallowing the gesture here would make the OS back
+    // do nothing at all — which reads as a frozen app rather than as a boundary.
+    expect(await pressAndroidBack()).toBe(false);
+    expect(screen.getByText('Bönetider för Sverige')).toBeTruthy();
   });
 
-  it('keeps a way back on the last step, which has no skip', async () => {
-    // The final step drops "Hoppa över" so the finishing CTA is the only way out. Back
-    // must survive that: the method choice is the one most worth reconsidering, and it is
-    // the last thing the user sees before the map.
+  it('reaches the last step from the one before it, gesture included', async () => {
+    // The final step has no skip: "Visa bönetider" is the only control in the bar. The
+    // gesture is therefore the only way to revisit the method choice, and it is the one
+    // choice most worth revisiting — so it must survive that emptier bar.
     await launch();
 
     await press('Kom igång');
@@ -176,16 +217,36 @@ describe('the introduction', () => {
     expect(screen.getByText('Hur ska tiderna räknas ut?')).toBeTruthy();
     expect(screen.queryByText('Hoppa över')).toBeNull();
 
-    await press('Tillbaka');
+    expect(await pressAndroidBack()).toBe(true);
     expect(screen.getByText('Ska vi påminna dig?')).toBeTruthy();
+  });
+
+  // "Nästa" and "Hoppa över" ran the IDENTICAL line of code on the two middle steps —
+  // `onNext` and `onSkip` were both `next`. Two labels, two weights, stacked one above the
+  // other, for one action: the reader was being asked to tell apart two controls that were
+  // never different. Skipping is only a separate offer where it goes somewhere advancing
+  // does not, which is the welcome step alone — there it abandons the introduction.
+  it('offers exactly one way forward on the steps where skipping is not a different door', async () => {
+    await launch();
+
+    // The welcome step keeps its skip: that one really does leave.
+    expect(screen.getByText('Hoppa över')).toBeTruthy();
+
+    await press('Kom igång');
+    expect(screen.getByText('Var är du?')).toBeTruthy();
+    expect(screen.queryByText('Hoppa över')).toBeNull();
+
+    await press('Nästa');
+    expect(screen.getByText('Ska vi påminna dig?')).toBeTruthy();
+    expect(screen.queryByText('Hoppa över')).toBeNull();
   });
 
   // Each step is FELT, not only seen. The three advancing taps land a selection tick — the
   // intro's progress mark is a discrete 1-of-4 counter the button steps through, the same
   // class as the scrubber crossing a prayer — and the last one lands the success cue,
   // because finishing onboarding is an outcome rather than another step. The cue sits on
-  // the state change in valkommen's next(), not on the button, which is why "Hoppa över"
-  // on a middle step ticks too: it advances the same counter.
+  // the state change in valkommen's next(), not on the control, which is why the Android
+  // back gesture ticks too: it moves the same counter, the other way.
   it('ticks through the steps and confirms at the end', async () => {
     await launch();
 
@@ -297,10 +358,12 @@ describe('the introduction', () => {
       expect(screen.getByText(/Tiderna räknas ut för/)).toBeTruthy();
     });
 
-    it('leaves the map card its second chance when the step is skipped', async () => {
+    it('leaves the map card its second chance when the step is walked past', async () => {
       await launch();
       await press('Kom igång');
-      await press('Hoppa över');
+      // "Nästa" without touching the step's own button IS the skip — one control, both
+      // meanings, which is why the step no longer draws a second one beside it.
+      await press('Nästa');
 
       // THE asymmetry. Nothing was asked, so nothing is recorded, so the map may still
       // offer its location card on a later launch — see lib/hints for that policy. Writing
@@ -353,11 +416,13 @@ describe('the introduction', () => {
       expect(screen.getByText(/Notiser är blockerade/)).toBeTruthy();
     });
 
-    it('leaves the map card its second chance when the step is skipped', async () => {
+    it('leaves the map card its second chance when the step is walked past', async () => {
       await launch();
       await press('Kom igång');
       await press('Nästa');
-      await press('Hoppa över');
+      // Same as the location step: advancing without pressing "Slå på påminnelser" asks
+      // the OS nothing, so nothing is recorded.
+      await press('Nästa');
 
       expect(await AsyncStorage.getItem(NOTIFICATION_HINT_KEY)).toBeNull();
       expect(Notifications.requestPermissionsAsync).not.toHaveBeenCalled();
