@@ -1,7 +1,7 @@
 // The settings screen renders OPTIONS lists for each typed key, and falls back to '' (a
 // blank summary line) when a value has no matching option. So a key added to the type
 // union but not to the OPTIONS list breaks SILENTLY: a user picks the new method, the
-// disclosure group's header shows nothing, and there is no runtime error to notice.
+// Beräkning row's summary shows nothing, and there is no runtime error to notice.
 // These tests force every typed key to be representable, and pin the few specific
 // defaults the rest of the app's UX depends on.
 import { describe, expect, it } from '@jest/globals';
@@ -17,7 +17,6 @@ import {
   madhabLabel,
   methodLabel,
   signedMinutes,
-  VISNING_SUMMARY,
 } from './options';
 import {
   type CalculationMethodKey,
@@ -145,22 +144,6 @@ describe('label helpers', () => {
   it('keeps a readable summary for persisted back-compat methods hidden from the picker', () => {
     expect(calculationSummary({ ...DEFAULT_SETTINGS, calculationMethod: 'Karachi' })).toBe(
       'Karachi · Standard',
-    );
-  });
-
-  it('VISNING_SUMMARY names the group topics (scope), not their values', () => {
-    // The collapsed-header summary names the AREAS the Utseende-och-format group
-    // controls so it never undersells itself — the old value summary showed only
-    // "Närmaste minut" and hid Tema / Avrundning / Hijri, making the group look like it
-    // did just rounding. It is value-INDEPENDENT on purpose: the same scope regardless
-    // of the user's choices (the values live inside the expanded card). Topics are
-    // capitalised consistently (section names), so the casing is part of the contract,
-    // and they appear in the order the sub-sections render inside the card.
-    // Moskéer and Qibla were added to the card but not to this line, so the two map
-    // toggles were unreachable by recognition: nothing on the collapsed header hinted
-    // that "show mosques" lived behind "Utseende". Every sub-section gets named.
-    expect(VISNING_SUMMARY).toBe(
-      ['Tema', 'Moskéer', 'Qibla', 'Natten', 'Avrundning', 'Hijri'].join(' · '),
     );
   });
 

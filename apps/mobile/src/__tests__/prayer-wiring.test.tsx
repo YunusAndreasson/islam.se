@@ -25,7 +25,7 @@ import Berakning from '@/app/(settings)/berakning';
 import Installningar from '@/app/(settings)/installningar';
 import { IntroProvider } from '@/lib/intro-context';
 import { LocationProvider } from '@/lib/location/context';
-import { computeNightTimes, NIGHT_ORDER } from '@/lib/night-times';
+import { computeNightTimes, type NightKey, NIGHT_ORDER } from '@/lib/night-times';
 import {
   formatTime,
   type LatLng,
@@ -43,9 +43,24 @@ import { oracleTimes } from '@/test-utils/prayer-oracle';
 const STOCKHOLM: LatLng = { latitude: DEFAULT_COORDS.latitude, longitude: DEFAULT_COORDS.longitude };
 const MALMO: LatLng = { latitude: 55.605, longitude: 13.0038 }; // from SWEDISH_CITIES
 
-// The time the screen actually displays for a prayer (its preview row's testID).
-function shown(key: PrayerKey): string {
-  return screen.getByTestId(`preview-time-${key}`).props.children as string;
+// The time the screen actually displays for a prayer (its preview cell's testID).
+//
+// renderSettingsWithBerakning() mounts BOTH screens under one SettingsProvider, and both
+// now draw a PreviewStrip — so a testID legitimately matches twice. They must AGREE: two
+// screens rendering different times for the same setting and the same location would be
+// exactly the wiring bug this file exists to catch. So read every match, assert they are
+// one value, and return it.
+function shown(key: PrayerKey | NightKey): string {
+  const values = screen
+    .getAllByTestId(`preview-time-${key}`)
+    .map((n) => n.props.children as string);
+  expect(new Set(values).size).toBe(1);
+  return values[0] as string;
+}
+
+/** Is this preview cell on screen at all? (The night rows are conditional.) */
+function isShown(key: NightKey): boolean {
+  return screen.queryAllByTestId(`preview-time-${key}`).length > 0;
 }
 
 function snapshot(): Record<PrayerKey, string> {
@@ -64,14 +79,6 @@ function toMin(hhmm: string): number {
   return h * 60 + m;
 }
 
-// The "Förhandsvisning" preview is collapsed-by-default (a DisclosureGroup) —
-// its children are mounted but the parent sets accessibilityElementsHidden when
-// closed, which hides the testID-bearing rows from queries. Expand it once at
-// render time so the existing `shown()` lookups keep working unchanged.
-function expandPreview(): void {
-  fireEvent.press(screen.getByRole('button', { name: /Förhandsvisning/ }));
-}
-
 async function renderSettings(): Promise<void> {
   render(
     <SettingsProvider>
@@ -84,7 +91,6 @@ async function renderSettings(): Promise<void> {
   );
   // The header appears only after settings hydrate (loaded flips true).
   await waitFor(() => expect(screen.getByText('Inställningar')).toBeTruthy());
-  expandPreview();
 }
 
 // Renders Installningar AND the Beräkning sub-screen side by side so a test
@@ -104,7 +110,6 @@ async function renderSettingsWithBerakning(): Promise<void> {
     </SettingsProvider>,
   );
   await waitFor(() => expect(screen.getByText('Inställningar')).toBeTruthy());
-  expandPreview();
 }
 
 // Each test must start from the persisted defaults: the store writes every change to
@@ -246,15 +251,14 @@ describe('changing a setting recomputes the displayed times (the core user flow)
 // clock face.
 describe('the night times reach the preview only when asked for', () => {
   async function enableNightTimes(): Promise<void> {
-    fireEvent.press(screen.getByRole('button', { name: /^Utseende,/ }));
     fireEvent(screen.getByRole('switch', { name: /Visa nattens tider/ }), 'valueChange', true);
-    await waitFor(() => expect(screen.queryByTestId('preview-time-lastThird')).toBeTruthy());
+    await waitFor(() => expect(isShown('lastThird')).toBe(true));
   }
 
   it('shows no night rows by default', async () => {
     await renderSettings();
-    expect(screen.queryByTestId('preview-time-middleOfNight')).toBeNull();
-    expect(screen.queryByTestId('preview-time-lastThird')).toBeNull();
+    expect(isShown('middleOfNight')).toBe(false);
+    expect(isShown('lastThird')).toBe(false);
   });
 
   it('renders exactly the times adhan produces, once enabled', async () => {
@@ -263,7 +267,7 @@ describe('the night times reach the preview only when asked for', () => {
 
     const night = computeNightTimes(oracleTimes(STOCKHOLM, new Date()));
     for (const key of NIGHT_ORDER) {
-      expect(screen.getByTestId(`preview-time-${key}`).props.children).toBe(formatTime(night[key]));
+      expect(shown(key)).toBe(formatTime(night[key]));
     }
   });
 

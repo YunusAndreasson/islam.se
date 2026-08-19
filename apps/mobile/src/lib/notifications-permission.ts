@@ -24,8 +24,6 @@ export interface NotificationPermissionControl {
   permission: NotificationPermissionState;
   /** Reminders are ON but the OS will not deliver them — the recovery state. */
   blocked: boolean;
-  /** 'Tillåtet' · 'Blockerat' · 'Kontrollerar…' */
-  statusLabel: string;
   /** The section footnote that matches the current state, or undefined when reminders
    *  are off (there is nothing to explain yet). */
   footnote: string | undefined;
@@ -99,7 +97,6 @@ export function useNotificationPermission(active = true): NotificationPermission
   // link, leaving reminders silently dead. Any non-grant while the toggle is on is
   // therefore "blocked".
   const blocked = enabled && (permission === 'denied' || permission === 'undetermined');
-  const statusLabel = permission === 'granted' ? 'Tillåtet' : blocked ? 'Blockerat' : 'Kontrollerar…';
   const footnote = !enabled
     ? undefined
     : blocked
@@ -108,5 +105,5 @@ export function useNotificationPermission(active = true): NotificationPermission
         ? 'Planeras lokalt på din enhet – inget skickas online.'
         : undefined;
 
-  return { permission, blocked, statusLabel, footnote, setEnabled };
+  return { permission, blocked, footnote, setEnabled };
 }

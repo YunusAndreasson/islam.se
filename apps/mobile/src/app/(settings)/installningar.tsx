@@ -2,24 +2,40 @@
 // in priority order for a Swedish-Muslim user:
 //   1. Plats             — GPS or one of ~2,100 Swedish towns.
 //   2. Beräkning         — calculation method, madhab, high-lat rule, polar resolution,
-//      shafaq, per-prayer minute offsets (pushed page).
-//   3. Förhandsvisning   — today's times for the resolved location, COLLAPSED by default
-//      (a DisclosureGroup that folds out inside this screen). This is a *verifier*,
-//      not the screen's purpose: the dock already shows the next prayer, and the
-//      settings screen is for setting up the app. Folding it keeps the configuration
-//      surfaces (Plats, Beräkning, Notiser) above the fold.
+//      shafaq, avrundning, per-prayer minute offsets (pushed page).
+//   3. Förhandsvisning   — today's times for the resolved location, ALWAYS VISIBLE as a
+//      compact strip, with the night-times switch in the same card so the toggle's
+//      effect appears directly above the control that caused it.
 //   4. Notiser           — local reminders per prayer.
-//   5. Visning           — rounding + Hijri-day offset + theme (collapsed by default).
-//   6. Stöd (untitled)   — Vanliga frågor / Kontakt / Om appen (clustered into one
+//   5. Karta             — the two map layers (moskéer, qibla).
+//   6. Utseende          — theme.
+//   7. Hijri-kalender    — the day offset for local moon sighting.
+//   8. Haptik            — app-wide haptic feedback.
+//   9. Stöd (untitled)   — Vanliga frågor / Kontakt / Om appen (clustered into one
 //      list-style card, visually demoted with extra top air).
-import { MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
+//
+// No accordions here. Sections 3 and 5–7 used to be two DisclosureGroups: a folded
+// "Förhandsvisning" and an "Utseende" group that had quietly become a junk drawer —
+// theme, mosque pins, the qibla line, night times, rounding and the Hijri offset under
+// one word. The tell was its own summary line: calculationSummary can say what the
+// Beräkning row is SET to, while that group could only list the topics it contained,
+// because no single value described it. A group that cannot state its own state is the
+// wrong group, so it was split by what the settings actually govern, and Avrundning
+// followed the other adhan CalculationParameters to Beräkning.
+//
+// Folding the verifier was the more costly half. It meant a user could change every
+// time-affecting setting in the app without ever seeing a time — the exact failure the
+// introduction had already diagnosed and fixed for itself (components/intro/StepMethod:
+// "a setting you can watch land is a setting you can judge"). The strip is cheap enough
+// in height to simply stay open, and Beräkning now pins its own copy.
+import { MaterialIcons } from '@expo/vector-icons';
 import { router, useIsFocused } from 'expo-router';
-import { type ReactNode, useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { ActivityIndicator, Alert, Linking, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import { DisclosureGroup } from '@/components/settings/DisclosureGroup';
 import { OptionGroup } from '@/components/settings/OptionGroup';
+import { PreviewStrip } from '@/components/settings/PreviewStrip';
 import { SettingSection } from '@/components/settings/SettingSection';
 import { Stepper } from '@/components/settings/Stepper';
 import { type SettingsColors, useSettingsColors } from '@/components/settings/theme';
@@ -35,17 +51,16 @@ import { usePrayerPreview } from '@/lib/settings/usePrayerPreview';
 import {
   HIJRI_OFFSET_MAX,
   HIJRI_OFFSET_MIN,
+  isDefaultSettings,
 } from '@/lib/settings/types';
 import {
   LOCATION_MODE_OPTIONS,
   calculationSummary,
   notificationSummary,
-  ROUNDING_OPTIONS,
   THEME_OPTIONS,
-  VISNING_SUMMARY,
 } from '@/lib/settings/options';
 import { systemSettingsName } from '@/lib/system-settings';
-import { mono, radius, space, type } from '@/theme/tokens';
+import { radius, space, type } from '@/theme/tokens';
 
 export default function Installningar() {
   const { settings, loaded, update, reset } = useSettings();
@@ -153,7 +168,6 @@ export default function Installningar() {
 
   const cityValue = settings.manualLocation?.name ?? 'Stockholm';
   const notificationsBlocked = notifications.blocked;
-  const notificationStatus = notifications.statusLabel;
   const calcSummary = calculationSummary(settings);
   const settingsName = systemSettingsName();
   const notificationFootnote = notifications.footnote;
@@ -163,8 +177,6 @@ export default function Installningar() {
       <ModalBar variant="close" fallback="/bonetider" />
       <ScrollView contentContainerStyle={styles.content}>
         <Text style={styles.header}>Inställningar</Text>
-
-        {/* --- Core IA: Plats / Beräkning / Förhandsvisning / Notiser / Utseende --- */}
 
         <SettingSection
           title="Plats"
@@ -257,56 +269,35 @@ export default function Installningar() {
           </View>
         </Pressable>
 
-        {/* Förhandsvisning — collapsed by default. A verifier folded inside the
-            settings screen (NOT a separate route) so the user can confirm that
-            their picks produce sensible times for today, without the prayer
-            list occupying the prime above-the-fold real estate of a screen
-            whose job is configuration. Summary line carries today's date +
-            place so the collapsed header alone still says "what this would
-            show". */}
-        <DisclosureGroup title="Förhandsvisning" summary={preview.gregorian}>
-          <View>
-            <View style={styles.previewHead}>
-              <Text style={styles.previewDate}>{preview.gregorian}</Text>
-              <Text style={styles.previewHijri}>{preview.hijri}</Text>
-            </View>
-            {preview.times.map((p, i) => (
-              <View key={p.key} style={[styles.previewRow, i > 0 && styles.previewDivider]}>
-                {/* Decorative: the row's text already names the prayer. Icon fonts render
-                    their glyph as a private-use codepoint, so left in the tree a screen
-                    reader announces "󰼱" as an unknown symbol before every prayer. */}
-                <MaterialCommunityIcons
-                  name={p.icon}
-                  size={22}
-                  color={colors.textMuted}
-                  style={styles.previewIcon}
-                  accessibilityElementsHidden
-                  importantForAccessibility="no"
-                />
-                <View style={styles.previewLabelWrap}>
-                  <Text style={[styles.previewLabel, p.muted && styles.previewMarkerText]}>
-                    {p.label}
-                  </Text>
-                  <Text style={[styles.previewSwedish, p.muted && styles.previewMarkerSub]}>
-                    {p.swedishName}
-                  </Text>
-                </View>
-                <Text
-                  testID={`preview-time-${p.key}`}
-                  style={[styles.previewTime, p.muted && styles.previewMarkerText]}
-                >
-                  {p.time}
-                </Text>
-              </View>
-            ))}
-          </View>
-        </DisclosureGroup>
+        {/* Förhandsvisning — the verifier, open. It answers the two sections above it:
+            "given this place and this method, here is today." The night-times switch
+            shares the card on purpose — flipping it adds the two landmarks to the strip
+            immediately above the switch, which is as short as the distance between a
+            control and its effect can get. */}
+        <SettingSection title="Förhandsvisning">
+          <PreviewStrip preview={preview} />
+          {/* Nattens tider — nattens mitt och sista tredjedel, räknade från Maghrib till
+              nästa Fajr. Av som standard: det är frivilliga hållpunkter, inte bönetider,
+              och en läsare som inte bett om dem ska inte få dem i en lista över
+              förpliktelser. Visas som egna rader under de sex, aldrig blandade in bland
+              dem. Se lib/night-times.ts. */}
+          <Toggle
+            label="Visa nattens tider"
+            description="Nattens mitt och sista tredjedel, räknat från Maghrib till Fajr."
+            value={settings.showNightTimes}
+            onValueChange={(showNightTimes) => update({ showNightTimes })}
+            divider
+          />
+        </SettingSection>
 
         <SettingSection
           title="Notiser"
           // Quiet privacy reassurance — 2026 expectation, especially for a faith
           // app. Only shown when notifications are on (where the user has just
           // granted OS permission and is most likely to wonder where the data goes).
+          // When they are BLOCKED it carries the reason instead, which is why there is
+          // no separate "Status" row any more: the footnote said it, a status row said
+          // it again, and the action row below said it a third time.
           footnote={notificationFootnote}
         >
           <Toggle
@@ -314,16 +305,6 @@ export default function Installningar() {
             value={settings.notifications.enabled}
             onValueChange={onNotificationsToggle}
           />
-          {settings.notifications.enabled ? (
-            <View style={[styles.row, styles.rowDivider]}>
-              <Text style={styles.rowLabel}>Status</Text>
-              <Text
-                style={[styles.rowValue, notificationsBlocked && styles.rowValueWarning]}
-              >
-                {notificationStatus}
-              </Text>
-            </View>
-          ) : null}
           {notificationsBlocked ? (
             <Pressable
               onPress={() => void Linking.openSettings()}
@@ -355,23 +336,10 @@ export default function Installningar() {
           ) : null}
         </SettingSection>
 
-        {/* Utseende och format — appearance first (Tema), then the format knobs
-            (Avrundning, Hijri). The order mirrors the group title ("utseende" then
-            "format") and the collapsed summary, and surfaces the one control a
-            user actually reaches for here — the light/dark theme — at the very top. */}
-        <DisclosureGroup title="Utseende" summary={VISNING_SUMMARY}>
-          {/* Tema — Apple Maps-style theme override; defaults to "Följ system" (the OS
-              Display setting decides). The dock, basemap, wash and prayer-line colours
-              all swap together the instant the user picks a row, via useActiveScheme().
-              Titled "Tema" (not "Utseende") so it doesn't echo the group name. */}
-          <SubGroup styles={styles} title="Tema" footnote="Påverkar kartan och hela appen.">
-            <OptionGroup
-              options={THEME_OPTIONS}
-              value={settings.theme}
-              onChange={(theme) => update({ theme })}
-            />
-          </SubGroup>
-
+        {/* Karta — the two optional layers. Both toggles' own descriptions already say
+            "på kartan", which is the clue that they never belonged under "Utseende":
+            they are not how the app looks, they are what the map draws. */}
+        <SettingSection title="Karta">
           {/* Moskéer — Sweden's mosques as quiet POIs, revealed as you zoom into a
               city. On by default; off leaves a pure solar field. See MosqueLayer. */}
           <Toggle
@@ -379,9 +347,7 @@ export default function Installningar() {
             description="Moskéer visas på kartan när du zoomar in."
             value={settings.showMosques}
             onValueChange={(showMosques) => update({ showMosques })}
-            divider
           />
-
           {/* Qibla — the great-circle direction to Mecca, drawn from your dot. On by
               default: it works where the compass doesn't (indoors, near metal) and is an
               independent check on the Qibla sheet. See skia/QiblaArc. */}
@@ -392,52 +358,43 @@ export default function Installningar() {
             onValueChange={(showQibla) => update({ showQibla })}
             divider
           />
+        </SettingSection>
 
-          {/* Nattens tider — nattens mitt och sista tredjedel, räknade från Maghrib till
-              nästa Fajr. Av som standard: det är frivilliga hållpunkter, inte bönetider,
-              och en läsare som inte bett om dem ska inte få dem i en lista över
-              förpliktelser. Visas som en egen grupp under de sex raderna, aldrig blandade
-              in bland dem. Se lib/night-times.ts. */}
-          <Toggle
-            label="Visa nattens tider"
-            description="Nattens mitt och sista tredjedel, räknat från Maghrib till Fajr."
-            value={settings.showNightTimes}
-            onValueChange={(showNightTimes) => update({ showNightTimes })}
-            divider
+        {/* Tema — Apple Maps-style theme override; defaults to "Följ system" (the OS
+            Display setting decides). The dock, basemap, wash and prayer-line colours
+            all swap together the instant the user picks a row, via useActiveScheme().
+            Alone in its section now: with the map layers and the calendar offset moved
+            out, "Utseende" finally means only what it says. */}
+        <SettingSection title="Utseende" footnote="Påverkar kartan och hela appen.">
+          <OptionGroup
+            options={THEME_OPTIONS}
+            value={settings.theme}
+            onChange={(theme) => update({ theme })}
           />
+        </SettingSection>
 
-          {/* Avrundning shapes the displayed time string. Per-prayer minute offsets
-              used to live here too — they moved to Beräkning, alongside the other
-              adhan CalculationParameters, where they conceptually belong. */}
-          <SubGroup styles={styles} title="Avrundning" divider>
-            <OptionGroup
-              options={ROUNDING_OPTIONS}
-              value={settings.rounding}
-              onChange={(rounding) => update({ rounding })}
-            />
-          </SubGroup>
-
-          <SubGroup
-            styles={styles}
-            title="Hijri-justering"
-            footnote={`I dag: ${preview.hijri}. Justera för att matcha lokal månsiktning.`}
-            divider
-          >
-            <Stepper
-              label="Dagar"
-              value={settings.hijriOffset}
-              min={HIJRI_OFFSET_MIN}
-              max={HIJRI_OFFSET_MAX}
-              format={(v) => `${v > 0 ? '+' : ''}${v} d`}
-              onChange={(hijriOffset) => update({ hijriOffset })}
-            />
-          </SubGroup>
-        </DisclosureGroup>
+        {/* Hijri-kalender — a ±2-day nudge so the app's Hijri date matches the local
+            moon sighting the reader follows. A calendar correction, never an appearance
+            one; the footnote shows the resulting date so the stepper has the same
+            watch-it-land feedback the strip gives the times. */}
+        <SettingSection
+          title="Hijri-kalender"
+          footnote={`I dag: ${preview.hijri}. Justera för att matcha lokal månsiktning.`}
+        >
+          <Stepper
+            label="Dagar"
+            value={settings.hijriOffset}
+            min={HIJRI_OFFSET_MIN}
+            max={HIJRI_OFFSET_MAX}
+            format={(v) => `${v > 0 ? '+' : ''}${v} d`}
+            onChange={(hijriOffset) => update({ hijriOffset })}
+          />
+        </SettingSection>
 
         {/* Haptik — a single app-wide on/off for haptic feedback. Its own titled
-            section (not folded into Utseende) because it governs *feel*, not
-            appearance, and is a set-once preference worth surfacing. The Switch
-            itself stays haptic-free: a native control carries its own affordance. */}
+            section because it governs *feel*, not appearance, and is a set-once
+            preference worth surfacing. The Switch itself stays haptic-free: a native
+            control carries its own affordance. */}
         <SettingSection title="Haptik">
           <Toggle
             label="Haptisk återkoppling"
@@ -501,17 +458,26 @@ export default function Installningar() {
 
         {/* Återställ till standard — a global reset at the foot of the screen (the
             conventional terminal-action slot, below the support shelf, above the
-            colophon). Quiet by default; the native confirm in confirmReset is the
-            real guard against an accidental wipe. */}
-        <Pressable
-          onPress={confirmReset}
-          accessibilityRole="button"
-          accessibilityLabel="Återställ alla inställningar till appens standard"
-          style={({ pressed }) => [styles.resetButton, pressed && styles.rowPressed]}
-        >
-          <MaterialIcons name="settings-backup-restore" size={18} color={colors.accent} />
-          <Text style={styles.resetLabel}>Återställ appens standard</Text>
-        </Pressable>
+            colophon).
+            
+            Two guards, in order of strength. It is ABSENT while every preference is
+            still at its default: the wipe cannot change anything then, and a user who
+            has never touched a setting never meets the one destructive control on the
+            screen. And it is drawn in muted ink rather than the accent the screen uses
+            for its safe verbs ("Uppdatera plats", "Öppna inställningar") — wearing the
+            same colour as those made it read as an equally harmless tap. The native
+            confirm in confirmReset stays the real guard against an accidental wipe. */}
+        {isDefaultSettings(settings) ? null : (
+          <Pressable
+            onPress={confirmReset}
+            accessibilityRole="button"
+            accessibilityLabel="Återställ alla inställningar till appens standard"
+            style={({ pressed }) => [styles.resetButton, pressed && styles.rowPressed]}
+          >
+            <MaterialIcons name="settings-backup-restore" size={18} color={colors.textMuted} />
+            <Text style={styles.resetLabel}>Återställ appens standard</Text>
+          </Pressable>
+        )}
 
         {/* A quiet sign-off at the end of the screen — project line + version +
             © in the faintest ink tier, the natural imprint position. The OTA line
@@ -522,31 +488,6 @@ export default function Installningar() {
         <Text style={styles.colophonSub}>{OTA_LABEL}</Text>
       </ScrollView>
     </SafeAreaView>
-  );
-}
-
-// One labelled sub-section inside a DisclosureGroup: a muted title, the control, and
-// an optional footnote. `divider` draws the hairline that separates it from the
-// sub-section above (the first one sits flush under the group header's own divider).
-function SubGroup({
-  styles,
-  title,
-  footnote,
-  divider,
-  children,
-}: {
-  styles: ReturnType<typeof makeStyles>;
-  title: string;
-  footnote?: string;
-  divider?: boolean;
-  children: ReactNode;
-}) {
-  return (
-    <View style={[styles.sub, divider && styles.subDivider]}>
-      <Text style={styles.subTitle}>{title}</Text>
-      {children}
-      {footnote ? <Text style={styles.subFootnote}>{footnote}</Text> : null}
-    </View>
   );
 }
 
@@ -592,38 +533,6 @@ function makeStyles(colors: SettingsColors) {
     // Editorial screen title — same token as Qibla's title so the sibling sheets share rhythm.
     header: { ...type.title, color: colors.text, marginBottom: space.xl, marginTop: space.xs },
 
-    // --- Förhandsvisning (inside DisclosureGroup; the group provides the outer
-    // card chrome, so the head and rows here only carry padding + dividers). ---
-    previewHead: {
-      paddingVertical: space.md,
-      paddingHorizontal: space.lg,
-      borderBottomWidth: StyleSheet.hairlineWidth,
-      borderBottomColor: colors.separator,
-    },
-    // Headline rhythm: date is the *answer*, Hijri the calendar pair under it.
-    previewDate: { ...type.headline, color: colors.text },
-    previewHijri: { ...type.caption, color: colors.textMuted, marginTop: 2 },
-    previewRow: {
-      flexDirection: 'row',
-      justifyContent: 'space-between',
-      alignItems: 'center',
-      paddingVertical: space.md,
-      paddingHorizontal: space.lg,
-      minHeight: 52,
-    },
-    previewDivider: { borderTopWidth: StyleSheet.hairlineWidth, borderTopColor: colors.separator },
-    // Solar-cycle glyph on the left of each row — small, ink-muted, sits in
-    // the same vertical rhythm as the two-line label block beside it.
-    previewIcon: { marginRight: space.md, width: 22 },
-    // Two-line label block: transliterated name body weight, Swedish translation
-    // caption-muted below.
-    previewLabelWrap: { flex: 1 },
-    previewLabel: { ...type.body, color: colors.text },
-    previewSwedish: { ...type.caption, color: colors.textMuted, marginTop: 1 },
-    previewTime: { ...type.body, ...mono, color: colors.text },
-    previewMarkerText: { color: colors.textMuted },
-    previewMarkerSub: { opacity: 0.8 },
-
     // --- Generic in-card row (used inside Plats, and as the Beräkning card) -
     // 48pt min — comfortable touch target without feeling cramped.
     row: {
@@ -638,7 +547,6 @@ function makeStyles(colors: SettingsColors) {
       gap: space.md,
     },
     rowPressed: { backgroundColor: colors.accentSoft },
-    rowDivider: { borderTopWidth: StyleSheet.hairlineWidth, borderTopColor: colors.separator },
     rowLabel: { ...type.body, color: colors.text, flexShrink: 0 }, // labels: ink (not accent)
     rowAction: { ...type.body, color: colors.accent, flexShrink: 0 }, // verbs: accent
     // The momentary "Uppdaterad ✓" confirmation slot — icon + accent text in the same
@@ -647,7 +555,6 @@ function makeStyles(colors: SettingsColors) {
     // Trailing values yield before the leading label/action. Together with `row.gap`,
     // this prevents joined text such as "Uppdatera platsDin plats" on compact screens.
     rowValue: { ...type.body, color: colors.textMuted, flexShrink: 1, textAlign: 'right' },
-    rowValueWarning: { color: colors.accent, fontWeight: '600' },
     rowTrailing: { flexDirection: 'row', alignItems: 'center', gap: 2, flexShrink: 1 },
 
     // Single-row card variant for the Beräkning push.
@@ -683,9 +590,10 @@ function makeStyles(colors: SettingsColors) {
     linkRowDivider: { borderTopWidth: StyleSheet.hairlineWidth, borderTopColor: colors.separator },
     linkLabel: { ...type.body, color: colors.text, flex: 1 },
 
-    // Reset action: centred icon + accent label (the screen's "verbs are accent"
-    // rule), self-sizing so the tap target hugs the text rather than spanning the
-    // width like a primary CTA — a deliberate, demoted control.
+    // Reset action: centred icon + MUTED label — the one control on the screen that
+    // must not invite a tap, so it deliberately sits outside the "verbs are accent"
+    // rule the rest of the screen follows. Self-sizing so the tap target hugs the text
+    // rather than spanning the width like a primary CTA.
     resetButton: {
       flexDirection: 'row',
       alignItems: 'center',
@@ -697,7 +605,7 @@ function makeStyles(colors: SettingsColors) {
       paddingHorizontal: space.lg,
       borderRadius: radius.md,
     },
-    resetLabel: { ...type.body, color: colors.accent, fontWeight: '600' },
+    resetLabel: { ...type.body, color: colors.textMuted },
 
     // Centered, faintest ink, no card chrome — a paper-edge colophon. The palette's
     // faint tier (not an opacity over muted) so secondary text steps down the same
@@ -717,23 +625,6 @@ function makeStyles(colors: SettingsColors) {
       textAlign: 'center',
       opacity: 0.65,
       marginBottom: space.lg,
-    },
-
-    // --- Sub-sections within a DisclosureGroup ----------------------------
-    sub: { paddingBottom: space.md },
-    subDivider: { borderTopWidth: StyleSheet.hairlineWidth, borderTopColor: colors.separator },
-    subTitle: {
-      ...type.label,
-      color: colors.textMuted,
-      paddingHorizontal: space.lg,
-      paddingTop: 14,
-      paddingBottom: space.xs,
-    },
-    subFootnote: {
-      ...type.caption,
-      color: colors.textMuted,
-      paddingHorizontal: space.lg,
-      paddingTop: space.sm,
     },
   });
 }

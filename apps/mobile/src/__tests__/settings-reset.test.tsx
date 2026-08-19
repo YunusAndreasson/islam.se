@@ -12,7 +12,7 @@ import Installningar from '@/app/(settings)/installningar';
 import { IntroProvider } from '@/lib/intro-context';
 import { LocationProvider } from '@/lib/location/context';
 import { SettingsProvider, useSettings } from '@/lib/settings/context';
-import { DEFAULT_SETTINGS, type PrayerSettings } from '@/lib/settings/types';
+import { DEFAULT_SETTINGS, isDefaultSettings, type PrayerSettings } from '@/lib/settings/types';
 
 // A patch that differs from DEFAULT_SETTINGS in every field (incl. the nested objects),
 // so "reset restores defaults" is a real claim and not vacuously true.
@@ -179,5 +179,74 @@ describe('MUTATION covers every settings field', () => {
         [key]: DEFAULT_SETTINGS[key as keyof PrayerSettings],
       });
     }
+  });
+});
+
+// isDefaultSettings decides whether the reset control renders at all, so a field it fails
+// to notice is a field whose change leaves the button hidden — the user's only escape
+// hatch, missing precisely because they used the app. Reuses MUTATION so a newly added
+// setting forces an edit here too.
+describe('isDefaultSettings', () => {
+  it('is true for the defaults, and for a value-equal copy with reordered keys', () => {
+    expect(isDefaultSettings(DEFAULT_SETTINGS)).toBe(true);
+    // THE BUG THIS GUARDS: the obvious implementation is
+    // JSON.stringify(s) === JSON.stringify(DEFAULT_SETTINGS), which compares key ORDER.
+    // A settings blob rehydrated from AsyncStorage carries whatever order its writer
+    // used, so an untouched install could report "changed" and show a reset button that
+    // resets nothing.
+    const reordered = Object.fromEntries(
+      Object.entries(DEFAULT_SETTINGS).reverse(),
+    ) as unknown as PrayerSettings;
+    expect(isDefaultSettings(reordered)).toBe(true);
+  });
+
+  it('is false when any single field moves off its default', () => {
+    for (const [key, value] of Object.entries(MUTATION)) {
+      expect(
+        isDefaultSettings({ ...DEFAULT_SETTINGS, [key]: value }),
+      ).toBe(false);
+    }
+  });
+
+  it('notices a change nested inside notifications', () => {
+    expect(
+      isDefaultSettings({
+        ...DEFAULT_SETTINGS,
+        notifications: { ...DEFAULT_SETTINGS.notifications, lastThird: true },
+      }),
+    ).toBe(false);
+  });
+});
+
+// The reset row is ABSENT until there is something to reset. Prevention by absence: a
+// user who has never changed a setting never meets the one destructive control on the
+// screen, and the button that IS there always does something. (The confirmed-reset test
+// above still finds the button because it presses probe-mutate first.)
+describe('Inställningar — the reset row appears only once something has changed', () => {
+  it('is not rendered on a clean install', async () => {
+    render(
+      <SettingsProvider>
+      <IntroProvider>
+        <LocationProvider>
+          <Installningar />
+          <Probe />
+        </LocationProvider>
+      </IntroProvider>
+    </SettingsProvider>,
+    );
+    await waitFor(() => expect(screen.getByText('Inställningar')).toBeTruthy());
+    expect(dump()).toEqual(DEFAULT_SETTINGS);
+
+    expect(
+      screen.queryByLabelText('Återställ alla inställningar till appens standard'),
+    ).toBeNull();
+
+    // …and it arrives the moment a preference moves.
+    fireEvent.press(screen.getByTestId('probe-mutate'));
+    await waitFor(() =>
+      expect(
+        screen.getByLabelText('Återställ alla inställningar till appens standard'),
+      ).toBeTruthy(),
+    );
   });
 });

@@ -235,3 +235,30 @@ export const DEFAULT_COORDS: NamedLocation = {
   latitude: 59.3293,
   longitude: 18.0686,
 };
+
+/** Deep value-equality across the settings shape (plain objects, primitives, null — the
+ *  blob has no arrays). Deliberately NOT `JSON.stringify(a) === JSON.stringify(b)`: that
+ *  compares key ORDER too, and the order of a blob rehydrated from AsyncStorage is
+ *  whatever the writer happened to use. A harmless reshuffle would then read as "the user
+ *  changed something". */
+const sameValue = (a: unknown, b: unknown): boolean => {
+  if (a === b) return true;
+  if (typeof a !== 'object' || typeof b !== 'object' || a === null || b === null) return false;
+  const ka = Object.keys(a);
+  const kb = Object.keys(b);
+  if (ka.length !== kb.length) return false;
+  return ka.every(
+    (k) =>
+      kb.includes(k) &&
+      sameValue((a as Record<string, unknown>)[k], (b as Record<string, unknown>)[k]),
+  );
+};
+
+/** Is every preference still at the app's default?
+ *
+ *  Drives whether "Återställ appens standard" renders at all on Inställningar. An action
+ *  that cannot change anything is better absent than present-and-inert, and absence is
+ *  the strongest form of error prevention there is: the one destructive control on the
+ *  screen simply isn't on the path of a user who has never changed a setting. Mirrors
+ *  the `hasAdjustments` guard behind Beräkning's "Återställ alla". */
+export const isDefaultSettings = (s: PrayerSettings): boolean => sameValue(s, DEFAULT_SETTINGS);

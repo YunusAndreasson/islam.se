@@ -1,4 +1,7 @@
-// Today's six times for the resolved location, formatted for display.
+// Today's six times for the resolved location, formatted for display. Just the label,
+// the time, and whether the row is an obligation — the Swedish translation and the
+// solar glyph went out with the full-row preview card that used to render them
+// (see components/settings/PreviewStrip, which is compact by design).
 //
 // Lifted out of (settings)/installningar so the introduction's calculation step can show
 // the same numbers under the method picker — a setting the user cannot see land is a
@@ -14,20 +17,16 @@ import { useMemo } from 'react';
 import { formatGregorian, formatHijri } from '@/lib/hijri';
 import {
   computeNightTimes,
-  NIGHT_ICONS,
   NIGHT_LABELS,
   NIGHT_ORDER,
-  NIGHT_SWEDISH_NAMES,
   type NightKey,
 } from '@/lib/night-times';
 import {
   computePrayerTimes,
   formatTime,
   type PrayerKey,
-  PRAYER_ICONS,
   PRAYER_LABELS,
   PRAYER_ORDER,
-  PRAYER_SWEDISH_NAMES,
   type LatLng,
 } from '@/lib/prayer-times';
 import { stockholmPrayerDate } from '@/lib/stockholm-time';
@@ -36,8 +35,6 @@ import type { PrayerSettings } from './types';
 export interface PrayerPreviewRow {
   key: PrayerKey | NightKey;
   label: string;
-  swedishName: string;
-  icon: (typeof PRAYER_ICONS)[PrayerKey] | (typeof NIGHT_ICONS)[NightKey];
   time: string;
   /** Render quieter than an obligatory prayer. True for Shurūq (a marker that closes
    *  Fajr's window) and for the night's two voluntary landmarks — everything in this list
@@ -72,8 +69,6 @@ export function usePrayerPreview(
         ...PRAYER_ORDER.map((key) => ({
           key,
           label: PRAYER_LABELS[key],
-          swedishName: PRAYER_SWEDISH_NAMES[key],
-          icon: PRAYER_ICONS[key],
           time: formatTime(pt[key]),
           // Shurūq is a marker, not a prayer — it is when Fajr's window closes.
           muted: key === 'sunrise',
@@ -87,8 +82,6 @@ export function usePrayerPreview(
           ? NIGHT_ORDER.map((key) => ({
               key,
               label: NIGHT_LABELS[key],
-              swedishName: NIGHT_SWEDISH_NAMES[key],
-              icon: NIGHT_ICONS[key],
               time: formatTime(night[key]),
               muted: true,
             }))
