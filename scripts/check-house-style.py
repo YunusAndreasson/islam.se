@@ -86,6 +86,19 @@ class Doc:
     def is_footnote_def(line: str) -> bool:
         return bool(re.match(r"^\[\^[^\]]+\]:", line))
 
+    def doctrine(self) -> list[tuple[int, str]]:
+        """Varenda textrad i brödtexten — rubriker, blockcitat och fotnoter inräknade.
+
+        Trosreglerna får inte läsa samma smala urval som registerreglerna. `prose()`
+        sållar bort rubriker, citat och fotnotsdefinitioner, och alla tre är ställen där
+        en överträdelse hör hemma: CLAUDE.md förbjuder uttryckligen en rubrik av formen
+        "Rättsskolorna och shia om X", källapparaten är precis där en shiitisk auktoritet
+        bärs in som det som avgör en fråga, och ett blockcitat som lämnas att avgöra saken
+        avgör den lika mycket som en mening i brödtexten. Med prose() passerade allt det
+        här grinden orört.
+        """
+        return [(n, line) for n, line in self.body if line.strip() not in ("", "---")]
+
     def prose(self) -> list[tuple[int, str]]:
         """Författarens egen brödtext — inte citat, rubriker eller fotnoter."""
         out = []
@@ -455,6 +468,16 @@ SHIA_AUTHORITIES = (
     r"Sistani", r"al-Sistani", r"Khomeini", r"al-Ṣadūq", r"al-Saduq",
 )
 
+# Utgående länkar till shiitiska sajter. CLAUDE.md räknar upp dem vid namn ("länka ut
+# till shiasajter (al-islam.org, sistani.org och liknande)"), och till skillnad från ett
+# omnämnande finns det ingen läsning där en sådan länk är tillåten — den gör sajten till
+# vidare läsning. Därför ERROR, inte WARN. Matchade varken namnlistan ovan eller den
+# allmänna regeln nedan: en URL bär inga av de orden.
+SHIA_DOMAINS = (
+    r"al-islam\.org", r"sistani\.org", r"shia\.es", r"duas\.org",
+    r"imamreza\.net", r"rafed\.net", r"shiavault\.com",
+)
+
 # Att underkänna en auktoritet på genre, epok eller motiv i stället för på belägg.
 GENRE_DISMISSAL = (
     r"h[äa]mtat? ur en stridsskrift",
@@ -468,12 +491,18 @@ GENRE_DISMISSAL = (
 def rule_shia_sufi_mention(doc: Doc) -> list[dict]:
     """Varje shia-/sufiomnämnande måste bedömas för hand: visar det ståndpunkten fel?"""
     hits = []
-    for n, line in doc.prose():
+    for n, line in doc.doctrine():
+        for pat in SHIA_DOMAINS:
+            if re.search(pat, line, re.IGNORECASE):
+                hits.append(_hit("shia-lank", ERROR, n, line,
+                                 "länka aldrig ut till en shiasajt — ta bort länken och "
+                                 "hänvisa till en klassisk sunnitisk källa i stället"))
+                break
         if re.search(r"\b(de\s+)?fem\s+(rätts)?skolor", line, re.IGNORECASE):
             hits.append(_hit("fem-skolor", ERROR, n, line,
                              "rättsskolorna är fyra — hanafi, maliki, shafii, hanbali"))
         for pat in SHIA_AUTHORITIES:
-            if re.search(pat, line):
+            if re.search(pat, line, re.IGNORECASE):
                 # WARN, inte ERROR: att NAMNGE en shiitisk auktoritet för att
                 # vederlägga den är tillåtet (sunni-och-shia gör det fyra gånger).
                 # Att låta den AVGÖRA frågan är det inte, och det kan bara en
@@ -485,7 +514,8 @@ def rule_shia_sufi_mention(doc: Doc) -> list[dict]:
                 break
         else:
             if re.search(r"shia|shiit|jaʿfar|jafarit|tolvshi|tolvimam|imamit|"
-                         r"sufi|tariqa|tasawwuf", line, re.IGNORECASE):
+                         r"sufi|tariqa|tasawwuf|\bkhamsa\b|\bmarjaʿ?\b", line,
+                         re.IGNORECASE):
                 hits.append(_hit("shia-sufi-omnamnande", WARN, n, line,
                                  "bedöm för hand: visar meningen ståndpunkten FEL? "
                                  "ett neutralt omnämnande som lämnas stående ska bort"))
@@ -498,7 +528,7 @@ def rule_genre_dismissal(doc: Doc) -> list[dict]:
         _hit("genre-avfardande", ERROR, n, line,
              "underkänner en auktoritet på genre/epok/motiv i stället för på belägg "
              "— redovisa invändningen sakligt eller stryk den")
-        for n, line in doc.prose()
+        for n, line in doc.doctrine()
         if any(re.search(pat, line, re.IGNORECASE) for pat in GENRE_DISMISSAL)
     ]
 
@@ -548,7 +578,100 @@ def print_report(result: dict) -> None:
         print(f"             → {h['fix']}")
 
 
+# ──────────────────────────────────────────────
+# Självtest
+# ──────────────────────────────────────────────
+
+# Varje fall är en rad som SKA fällas, och den radklass den står i. Klassen är själva
+# poängen: trosreglerna läste länge bara prose(), som sållar bort rubriker, blockcitat
+# och fotnoter — så en shiitisk auktoritet buren i källapparaten, eller en rubrik av den
+# form CLAUDE.md förbjuder vid namn, passerade grinden orörd. De fallen står först.
+DOCTRINE_CASES = [
+    ("## Rättsskolorna och shia om tvagning", "shia-sufi-omnamnande",
+     "rubrik — prose() ser inga rubriker"),
+    ("[^1]: al-Sharīf al-Murtadā avgör frågan i sin helhet.", "shia-auktoritet",
+     "fotnotsdefinition — prose() ser inga fotnoter"),
+    ("> Detta avgörs av al-Khūʾī och ingen annan.", "shia-auktoritet",
+     "blockcitat — prose() ser inga citat"),
+    ("Detta avgörs av al-khūʾī och ingen annan.", "shia-auktoritet",
+     "gemener — namnlistan matchades skiftlägeskänsligt"),
+    ("Läs vidare hos [al-islam.org](https://al-islam.org/x).", "shia-lank",
+     "utgående shialänk — en URL bär inga av de sökta orden"),
+    ("Han var en marjaʿ i Najaf.", "shia-sufi-omnamnande",
+     "marjaʿ — saknades trots att CLAUDE.md:s egen grep har det"),
+    ("Begreppet khamsa hör hit.", "shia-sufi-omnamnande",
+     "khamsa — samma sak"),
+    ("De fem rättsskolorna är oense.", "fem-skolor",
+     "rättsskolorna är fyra"),
+    ("Svaret är hämtat ur en stridsskrift och saknar värde.", "genre-avfardande",
+     "underkänner på genre"),
+    ("Det är medeltida manliga jurister som talar.", "genre-avfardande",
+     "underkänner på epok"),
+    ("Den som fäller domen är part i målet.", "genre-avfardande",
+     "underkänner på motiv"),
+]
+
+# Rader som INTE får fällas. Utan dem kan självtestet passera med en regel som fäller allt.
+DOCTRINE_CLEAN = [
+    "De fyra rättsskolorna är oense om saken.",
+    "Ibn Taymiyya svarar att Zayd var med vid den sista genomgången.",
+    "Salah al-Din grundade dynastin.",
+]
+
+
+def _self_test_doc(lines: list[str]) -> Doc:
+    """En Doc över textrader, utan att röra disken."""
+    doc = Doc.__new__(Doc)
+    doc.path = Path("data/fordjupning/sjalvtest.md")
+    doc.frontmatter = []
+    doc.body = [(i + 1, l) for i, l in enumerate(lines)]
+    doc.genre = "fordjupning"
+    return doc
+
+
+def self_test() -> int:
+    """Kör trosgrindarna mot kända fall. Inga filer, inget nät."""
+    print("Självtest av check-house-style\n")
+
+    # ⚠️ Metagrind. Om doctrine() någonsin slutar returnera rader blir varje regel tyst
+    # och testet nedan skulle rapportera idel OK utan att ha läst någonting alls.
+    probe = _self_test_doc(["## Rubrik", "", "Brödtext.", "> Citat.", "[^1]: Fotnot."])
+    if len(probe.doctrine()) != 4:
+        print(f"ABORT: doctrine() gav {len(probe.doctrine())} rader, väntade 4 — kontrollen är trasig")
+        return 2
+
+    failures = 0
+    for line, rule, why in DOCTRINE_CASES:
+        doc = _self_test_doc([line])
+        rules = rule_shia_sufi_mention(doc) + rule_genre_dismissal(doc)
+        ok = any(h["rule"] == rule for h in rules)
+        failures += 0 if ok else 1
+        print(f"  {'OK ' if ok else 'FEL'} {rule:20s} {why}")
+        if not ok:
+            print(f"      fick {[h['rule'] for h in rules]} för: {line[:60]}")
+
+    for line in DOCTRINE_CLEAN:
+        doc = _self_test_doc([line])
+        rules = rule_shia_sufi_mention(doc) + rule_genre_dismissal(doc)
+        ok = not rules
+        failures += 0 if ok else 1
+        print(f"  {'OK ' if ok else 'FEL'} {'(ska passera)':20s} {line[:50]}")
+        if not ok:
+            print(f"      fälldes av {[h['rule'] for h in rules]}")
+
+    total = len(DOCTRINE_CASES) + len(DOCTRINE_CLEAN)
+    print()
+    if failures:
+        print(f"⛔ {failures} av {total} fall fel — rätta innan du litar på kontrollen")
+        return 1
+    print(f"✅ {total} av {total} fall rätt")
+    return 0
+
+
 def main() -> int:
+    if len(sys.argv) > 1 and sys.argv[1] == "--self-test":
+        return self_test()
+
     parser = argparse.ArgumentParser(description="Husstilskontroll för islam.se-texter")
     parser.add_argument("files", nargs="+", help="Markdownfiler att kontrollera")
     parser.add_argument("--json", action="store_true", help="JSON i stället för text")
