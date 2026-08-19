@@ -63,6 +63,14 @@ export default function Valkommen() {
   // The last step is a different kind of moment — the intro is done and the map is what
   // comes next — so it lands on the success cue instead. Reaching the end of onboarding is
   // an OUTCOME; the three steps before it are not.
+  // One way back, used by both the Android hardware gesture and the chrome control the
+  // steps render. Sharing it is the point: they were two different behaviours on two
+  // platforms before, which is how iOS ended up with none at all.
+  const back = (): void => {
+    hapticSelection();
+    setStep((s) => Math.max(0, s - 1));
+  };
+
   const next = (): void => {
     if (step >= TOTAL_STEPS - 1) {
       hapticSuccess();
@@ -84,7 +92,11 @@ export default function Valkommen() {
   // later, not a thing you are sealed into. A visible back button therefore bought very
   // little and cost a third tier of chrome in an action bar that already had too many
   // (see IntroStep). The gesture costs nothing and is what an Android reader reaches for
-  // anyway; iOS has no equivalent to honour, and nothing to correct there either.
+  // anyway — but it is Android's alone, and iOS presents this screen as a fullScreenModal
+  // with gestureEnabled false, so for a while there was no way back on iOS at all. The
+  // steps now render a quiet back control in their chrome row (see IntroStep), which is
+  // what makes the two platforms behave the same; this handler stays because an Android
+  // reader reaches for the gesture before they reach for anything on screen.
   //
   // A step the gesture returns to shows whatever was already chosen — there is no
   // wizard-local draft to restore and nothing is re-asked. In particular it does NOT
@@ -101,8 +113,7 @@ export default function Valkommen() {
   useEffect(() => {
     const sub = BackHandler.addEventListener('hardwareBackPress', () => {
       if (step === 0) return false;
-      hapticSelection();
-      setStep((s) => Math.max(0, s - 1));
+      back();
       return true;
     });
     return () => sub.remove();
@@ -158,6 +169,7 @@ export default function Valkommen() {
             // once as "Nästa" and once as "Hoppa över", only asked the reader to tell apart
             // two controls that ran the identical line of code.
             onNext={next}
+            onBack={back}
             // The city list is a FlatList and must never be wrapped in a ScrollView.
             scroll={false}
           >
@@ -177,6 +189,7 @@ export default function Valkommen() {
             // "Nästa" is the one way on — walking past it asks the OS nothing.
             nextTone="quiet"
             onNext={next}
+            onBack={back}
           >
             <StepNotifications />
           </IntroStep>
@@ -199,6 +212,7 @@ export default function Valkommen() {
             footnote="Sveriges ljusa sommarnätter hanteras automatiskt."
             nextLabel="Visa bönetider"
             onNext={next}
+            onBack={back}
           >
             <StepMethod />
           </IntroStep>

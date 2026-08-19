@@ -44,13 +44,22 @@
 // apart two things that were never different. They now pass no `onSkip` at all, so those
 // steps offer exactly one way on.
 //
-// There is likewise no back control. Every step writes straight to settings the moment it
-// is answered and every one of those settings has a permanent home in Inställningar (which
-// two of the steps say in their own footnote), so nothing here is a decision the reader is
-// sealed into — which leaves a "Tillbaka" as a third tier of chrome under an action bar
-// that already had too many, and, on the last step, a lone grey word marooned in an
-// otherwise empty row. The Android back GESTURE still steps backwards (see
-// app/valkommen.tsx); it is the affordance without the furniture.
+// Going back is NOT a third tier in the action bar. A "Tillbaka" beside "Nästa" was tried
+// and removed: it stacked a second word under an action row that already had too many and,
+// on the last step, left a lone grey word marooned in an otherwise empty row.
+//
+// But removing it left the way back on the Android hardware gesture alone (see
+// app/valkommen.tsx), and iOS has no equivalent — the screen is a fullScreenModal with
+// gestureEnabled false, so there was no way back on iOS AT ALL. "Every answer has a
+// permanent home in Inställningar" is true and is why this can be quiet furniture rather
+// than loud, but it is not a reason for the same introduction to be reversible on one
+// platform and one-way on the other.
+//
+// So the control lives in the chrome row at the top, next to the progress mark that
+// already says where the reader is — the one place on the screen whose job is already
+// "where am I", and the only slot that costs no new tier. It renders only when there is a
+// step to go back to, so the first step is unchanged.
+import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { useMemo } from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import type { ReactNode } from 'react';
@@ -82,6 +91,9 @@ interface Props {
   /** Only for a step where skipping goes somewhere ADVANCING does not — see above. That is
    *  the welcome step alone, so the label is fixed rather than a prop. */
   onSkip?: () => void;
+  /** Step back one. Omitted on the first step, where there is nowhere to go — the caller
+   *  decides that, so this component never has to know what step 0 means. */
+  onBack?: () => void;
   /** Steps whose content scrolls itself (the city list) opt out of the ScrollView, which
    *  must never wrap a VirtualizedList. */
   scroll?: boolean;
@@ -98,6 +110,7 @@ export function IntroStep({
   onNext,
   nextTone = 'primary',
   onSkip,
+  onBack,
   scroll = true,
 }: Props) {
   const c = useColors();
@@ -124,16 +137,34 @@ export function IntroStep({
           floats free of the composition; on the gutter it starts the same vertical line
           the title, lead, controls and actions all sit on.
 
-          One accessibility element, not two: the wedge and its caption say the same
-          thing, and `accessibilityValue.text` is what actually gets announced. */}
-      <View
-        style={styles.header}
-        accessible
-        accessibilityRole="progressbar"
-        accessibilityValue={{ min: 1, max: total, now: index + 1, text: stepLabel(index, total) }}
-      >
-        <IntroMarkProgress index={index} total={total} size={MARK_SIZE} />
-        <Text style={styles.counter}>{stepLabel(index, total)}</Text>
+          The back control shares the row rather than taking one of its own — a second
+          chrome row would reintroduce exactly the tier this design removed. */}
+      <View style={styles.header}>
+        {onBack ? (
+          <Pressable
+            onPress={onBack}
+            // The glyph is 24pt; the slop is what makes the target. It sits in the gutter
+            // ahead of the mark, so the row's own left edge stays the page's vertical line.
+            hitSlop={12}
+            accessibilityRole="button"
+            accessibilityLabel="Tillbaka till föregående steg"
+            style={({ pressed }) => [styles.back, pressed && styles.backPressed]}
+          >
+            <MaterialIcons name="arrow-back" size={24} color={c.inkFaint} />
+          </Pressable>
+        ) : null}
+        {/* One accessibility element for the mark and its caption: they say the same thing,
+            and `accessibilityValue.text` is what actually gets announced. The back button
+            above is deliberately OUTSIDE this node — grouping them would swallow it. */}
+        <View
+          style={styles.progress}
+          accessible
+          accessibilityRole="progressbar"
+          accessibilityValue={{ min: 1, max: total, now: index + 1, text: stepLabel(index, total) }}
+        >
+          <IntroMarkProgress index={index} total={total} size={MARK_SIZE} />
+          <Text style={styles.counter}>{stepLabel(index, total)}</Text>
+        </View>
       </View>
 
       <Animated.View
@@ -226,7 +257,12 @@ function makeStyles(c: Palette) {
       paddingHorizontal: space.lg,
       paddingTop: space.lg,
     },
+    progress: { flexDirection: 'row', alignItems: 'center', gap: space.md },
     counter: { ...type.label, color: c.inkFaint },
+    // Quiet by design: this is a way back, not an invitation to take one. Same faint ink
+    // as the step counter it stands beside, so the row reads as one band of chrome.
+    back: { marginRight: space.xs },
+    backPressed: { opacity: 0.5 },
 
     flow: { flex: 1 },
     message: { paddingHorizontal: space.lg, paddingTop: space.xxl },
