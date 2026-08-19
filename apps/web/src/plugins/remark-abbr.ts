@@ -29,6 +29,10 @@ function splitAcronyms(text: string): { type: string; value: string }[] | null {
 	while (m !== null) {
 		if (m.index > last) nodes.push({ type: "text", value: text.slice(last, m.index) });
 		const full = m[1];
+		if (!full) {
+			m = ACRONYM_RE.exec(text);
+			continue;
+		}
 		const colonIdx = full.indexOf(":");
 		if (colonIdx === -1) {
 			nodes.push({ type: "html", value: `<abbr>${full}</abbr>` });
@@ -64,7 +68,9 @@ function walk(node: MdastNode, index: number | null, parent: MdastNode | null): 
 	if (Array.isArray(node.children)) {
 		for (let i = 0; i < node.children.length; i++) {
 			const before = node.children.length;
-			walk(node.children[i], i, node);
+			const child = node.children[i];
+			if (!child) continue;
+			walk(child, i, node);
 			i += node.children.length - before; // adjust for any insertions
 		}
 	}

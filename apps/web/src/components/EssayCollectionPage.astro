@@ -32,7 +32,12 @@ const {
 } = Astro.props;
 ---
 
-<Base title={`${title} — islam.se`} description={description} ogImage={ogImage} jsonLd={jsonLd}>
+<Base
+	title={`${title} — islam.se`}
+	description={description}
+	{...(ogImage === undefined ? {} : { ogImage })}
+	jsonLd={jsonLd}
+>
 	<main id="main" class="home">
 		<ArticleHeader title={title} kicker={kicker} lead={lead}>
 			<p class="label collection-count">{countText}</p>

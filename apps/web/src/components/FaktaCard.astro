@@ -21,14 +21,14 @@ interface Props {
 
 const { href, label, blurb, art, image } = Astro.props;
 const hasPhoto = Boolean(art ?? image?.heroImage);
+const imageSource = art ? { src: art } : image ? { article: image } : {};
 ---
 
 <a class="fakta-card" href={href} data-astro-prefetch="viewport">
 	{hasPhoto && (
 		<div class="fakta-card-media media-frame">
 			<EssayImage
-				src={art}
-				article={image}
+				{...imageSource}
 				alt=""
 				widths={CARD_WIDTHS}
 				sizes="(max-width: 768px) 50vw, 14rem"

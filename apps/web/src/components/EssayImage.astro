@@ -58,7 +58,7 @@ const mobile =
 // matters and local previews stay un-broken in every browser. webp is the universal
 // fallback in both.
 const FORMATS = import.meta.env.DEV ? (["webp"] as const) : (["avif", "webp"] as const);
-const MIME: Record<string, string> = { avif: "image/avif", webp: "image/webp" };
+const MIME = { avif: "image/avif", webp: "image/webp" } as const;
 const MOBILE_WIDTHS = [360, 540, 720, 1080];
 
 // The rare art-directed path (a few essays ship a landscape -mobile crop) hand-rolls

@@ -67,7 +67,10 @@ const { entry, related, essays, pillar } = Astro.props;
 const { data } = entry;
 const { Content } = await render(entry);
 const url = `https://islam.se/svar/${entry.id}/`;
-const sourceItems = (data.sources ?? []).map((s) => ({ label: s.name, href: s.url }));
+const sourceItems = (data.sources ?? []).map((s) => ({
+	label: s.name,
+	...(s.url === undefined ? {} : { href: s.url }),
+}));
 const relatedItems = related.map((r) => ({ label: r.data.title, href: `/svar/${r.id}/` }));
 const essayItems = essays.map((e) => ({ label: e.title, href: `/${e.slug}` }));
 
@@ -165,14 +168,18 @@ if (data.faq && data.faq.length > 0) jsonLd.push(faqPageJsonLd(data.faq));
 				    and to a crawler weighing freshness. Published always; revised only
 				    when a page genuinely was. Long Swedish form via the same helper the
 				    essays use, not the raw ISO slice this printed before. */}
-				<ArticleMeta class="meta-line" publishedAt={data.publishedAt} updatedAt={data.updatedAt} />
+				<ArticleMeta
+					class="meta-line"
+					publishedAt={data.publishedAt}
+					{...(data.updatedAt === undefined ? {} : { updatedAt: data.updatedAt })}
+				/>
 			</header>
 
 			{(heroArt ?? heroArticle?.heroImage) && (
 				<div class="svar-hero media-frame">
 					<EssayImage
-						src={heroArt}
-						article={heroArticle}
+						{...(heroArt === undefined ? {} : { src: heroArt })}
+						{...(heroArticle === undefined ? {} : { article: heroArticle })}
 						alt=""
 						widths={PAGE_HERO_WIDTHS}
 						sizes={PAGE_HERO_SIZES}

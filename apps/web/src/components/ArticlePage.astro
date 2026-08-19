@@ -12,7 +12,12 @@ interface Props {
 const { title, description, jsonLd, noindex = false } = Astro.props;
 ---
 
-<Base title={title} description={description} jsonLd={jsonLd} noindex={noindex}>
+<Base
+	title={title}
+	{...(description === undefined ? {} : { description })}
+	{...(jsonLd === undefined ? {} : { jsonLd })}
+	noindex={noindex}
+>
 	<main id="main" class="content-column">
 		<ArticleHeader title={title.replace(/ — islam\.se$/, "")}>
 			<slot name="header" />

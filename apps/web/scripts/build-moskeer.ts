@@ -126,6 +126,7 @@ function normalizeKommun(k: string): string {
 // citySlug is guaranteed resolvable and is identical to the place's /bonetider slug.
 function nearestPlace(lat: number, lng: number): IndexedPlace {
 	let best = INDEXED_PLACES[0];
+	if (!best) throw new Error("Cannot match mosque coordinates: the place index is empty");
 	let bestD = Number.POSITIVE_INFINITY;
 	for (const p of INDEXED_PLACES) {
 		const d = haversineKm(lat, lng, p);
@@ -250,7 +251,11 @@ function cleanAddress(raw: string): { address?: string; postalCode?: string } {
 		if (/^sverige$/i.test(part)) continue; // country
 		kept.push(part);
 	}
-	return { address: kept.join(", ") || undefined, postalCode };
+	const address = kept.join(", ");
+	return {
+		...(address ? { address } : {}),
+		...(postalCode ? { postalCode } : {}),
+	};
 }
 
 /** Stable, unique slug for a mosque: name → kebab, qualified by kommun on collision,
@@ -312,6 +317,7 @@ async function main() {
 		"sources",
 		"n_records",
 	];
+	if (!header) throw new Error("The mosque CSV is empty");
 	if (header.join(",") !== expected.join(",")) {
 		throw new Error(
 			`Unexpected CSV header:\n  got: ${header.join(",")}\n  want: ${expected.join(",")}`,
@@ -326,6 +332,7 @@ async function main() {
 
 	for (let i = 1; i < rows.length; i++) {
 		const r = rows[i];
+		if (!r) continue;
 		const lat = Number.parseFloat(col(r, "lat"));
 		const lng = Number.parseFloat(col(r, "lng"));
 		if (!(Number.isFinite(lat) && Number.isFinite(lng))) {

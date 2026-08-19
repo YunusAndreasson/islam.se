@@ -51,7 +51,7 @@ export const GET = ogEndpoint<{ article: Article }>(
 			kicker: amne?.name ?? "Essä",
 			title: article.title,
 			framing: article.description,
-			bgImage,
+			...(bgImage === undefined ? {} : { bgImage }),
 		};
 	},
 	({ article }) =>

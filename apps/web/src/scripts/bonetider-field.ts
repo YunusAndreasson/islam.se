@@ -168,7 +168,6 @@ function mountOne(el: HTMLElement): void {
 		fixed,
 		base,
 		visible: true,
-		render: undefined,
 		readout: {
 			nextName: el.querySelector(".bf-next-name"),
 			nextSub: el.querySelector(".bf-next-sub"),
@@ -352,6 +351,7 @@ function wireGeolocation(): void {
 				// the initial bundle just to name a GPS fix.
 				const { INDEXED_PLACES } = await import("../lib/bonetider/places-index");
 				let best = INDEXED_PLACES[0];
+				if (!best) return finish("Platsregistret är tomt");
 				let bestD = Infinity;
 				for (const p of INDEXED_PLACES) {
 					// Great-circle distance, not flat lat/lon — degrees of longitude shrink fast
@@ -403,6 +403,7 @@ function runTick(): void {
 	// Iterate backwards so detached fields (after a view transition) can be pruned.
 	for (let i = instances.length - 1; i >= 0; i--) {
 		const inst = instances[i];
+		if (!inst) continue;
 		if (!inst.el.isConnected) {
 			visObserver?.unobserve(inst.el);
 			instances.splice(i, 1);

@@ -52,7 +52,7 @@ async function build(): Promise<Tankare[]> {
 			slug: entry.data.slug,
 			tradition: entry.data.tradition,
 			framing: entry.data.framing,
-			sameAs: entry.data.sameAs,
+			...(entry.data.sameAs === undefined ? {} : { sameAs: entry.data.sameAs }),
 			essays,
 		};
 	});

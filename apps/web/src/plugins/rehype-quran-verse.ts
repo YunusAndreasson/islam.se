@@ -92,8 +92,10 @@ function buildFootnoteMap(section: HastElement): Map<string, { ayahKey: string; 
 			if (typeof id === "string" && id.includes("fn-")) {
 				const m = CITATION.exec(textOf(node));
 				if (m) {
-					const refName = m[1].trim().replace(/[.,;:]+$/, "");
-					map.set(id, { ayahKey: verseKey(m[2], m[3], m[4]), refName });
+					const [, rawName, surah, from, to] = m;
+					if (!(rawName && surah && from)) return;
+					const refName = rawName.trim().replace(/[.,;:]+$/, "");
+					map.set(id, { ayahKey: verseKey(surah, from, to), refName });
 				}
 			}
 			return; // definitions don't nest
@@ -210,8 +212,9 @@ function verseKey(surah: string, from: string, to?: string): string {
 
 /** Human citation for a key: "112:1–4" (en dash, as the page writes it). */
 function citeRange(key: string): string {
-	const [surah, ayahs] = key.split(":");
-	return `${surah}:${ayahs.replace("-", "–")}`;
+	const separator = key.indexOf(":");
+	if (separator < 0) return key;
+	return `${key.slice(0, separator)}:${key.slice(separator + 1).replace("-", "–")}`;
 }
 
 /** The verse a blockquote attributes itself to, if we have audio for it.
@@ -233,12 +236,15 @@ function attributedVerse(block: HastNode): string | null {
 	if (!last) return null;
 	const m = SVAR_ATTRIBUTION.exec(textOf(last).trim());
 	if (!m) return null;
-	const key = verseKey(m[1], m[2], m[3]);
+	const [, surah, from, to] = m;
+	if (!(surah && from)) return null;
+	const key = verseKey(surah, from, to);
 	return VERSES[key] ? key : null;
 }
 
 function buildPlayer(ayahKey: string, refName: string): HastElement {
 	const v = VERSES[ayahKey];
+	if (!v) throw new Error(`Missing generated Quran verse data for ${ayahKey}`);
 	const tokens = tokenizeArabic(v.textArabic);
 	const words = tokens.map((t) =>
 		t.word === null

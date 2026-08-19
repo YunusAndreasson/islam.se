@@ -84,8 +84,13 @@ interface ArticleMeta {
 function parseFrontmatter(raw: string): { meta: ArticleMeta; body: string } {
 	const match = raw.match(/^---\n([\s\S]*?)\n---\n([\s\S]*)$/);
 	if (!match) return { meta: { title: "", publishedAt: "", wordCount: 0 }, body: raw };
+	const frontmatter = match[1];
+	const body = match[2];
+	if (frontmatter === undefined || body === undefined) {
+		return { meta: { title: "", publishedAt: "", wordCount: 0 }, body: raw };
+	}
 	const pairs: Record<string, string> = {};
-	for (const line of match[1].split("\n")) {
+	for (const line of frontmatter.split("\n")) {
 		const idx = line.indexOf(":");
 		if (idx > 0) {
 			const key = line.slice(0, idx).trim();
@@ -102,7 +107,7 @@ function parseFrontmatter(raw: string): { meta: ArticleMeta; body: string } {
 			publishedAt: pairs.publishedAt || "",
 			wordCount: Number.parseInt(pairs.wordCount || "0", 10),
 		},
-		body: match[2],
+		body,
 	};
 }
 

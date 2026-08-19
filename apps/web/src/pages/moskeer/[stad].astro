@@ -31,6 +31,8 @@ export function getStaticPaths() {
 type Props = MosqueCityGroup;
 const { citySlug, city, kommun, lan, lanLabel, mosques } = Astro.props;
 const n = mosques.length;
+const firstMosque = mosques[0];
+if (!firstMosque) throw new Error(`moskeer/${citySlug}: city group contains no mosques`);
 
 // Place context (geo + official population) from the shared bönetider dataset. citySlug
 // is generated FROM the bönetider place index (scripts/build-moskeer.ts), so a miss here
@@ -92,10 +94,10 @@ const faq = [
 		a: `Enligt vår sammanställning finns ${pluralMoske(n, true)} i ${city}. Uppgifterna kan vara ofullständiga.`,
 	},
 	{
-		q: `Var ligger ${mosques[0].name}?`,
-		a: mosques[0].address
-			? `${mosques[0].name} ligger på ${mosques[0].address}${mosques[0].postalCode ? `, ${mosques[0].postalCode}` : ""}, i ${kommun} kommun (${lanLabel}). På sidan finns vägbeskrivning via Apple Maps och Google Maps.`
-			: `${mosques[0].name} ligger i ${kommun} kommun (${lanLabel}). På sidan finns vägbeskrivning via Apple Maps och Google Maps.`,
+		q: `Var ligger ${firstMosque.name}?`,
+		a: firstMosque.address
+			? `${firstMosque.name} ligger på ${firstMosque.address}${firstMosque.postalCode ? `, ${firstMosque.postalCode}` : ""}, i ${kommun} kommun (${lanLabel}). På sidan finns vägbeskrivning via Apple Maps och Google Maps.`
+			: `${firstMosque.name} ligger i ${kommun} kommun (${lanLabel}). På sidan finns vägbeskrivning via Apple Maps och Google Maps.`,
 	},
 ];
 if (oldest?.opened) {
@@ -131,8 +133,8 @@ if (oldest?.opened) {
 					// ⚠️ The PLACE record's kommun, not the mosque's — /bonetider/[stad] passes
 					// the same field, and sourcing them differently gave 14 towns two City nodes
 					// that disagreed about the kommun ring.
-					kommun: place?.kommun,
-					population: hasScb ? pop : undefined,
+					...(place?.kommun === undefined ? {} : { kommun: place.kommun }),
+					...(hasScb ? { population: pop } : {}),
 					populationYear: SCB_POP_YEAR,
 				}),
 				// City→Mosque containment by @id — the same nodes the ItemList below defines

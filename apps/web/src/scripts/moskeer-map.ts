@@ -119,7 +119,7 @@ const RESET_ICON =
 // "Visa hela Sverige" — refit the whole country. MapLibre ships no home/reset control, so
 // this minimal IControl drops one button into the top-right control group.
 class ResetViewControl implements maplibregl.IControl {
-	private map?: maplibregl.Map;
+	private map: maplibregl.Map | undefined;
 	private container?: HTMLDivElement;
 
 	onAdd(map: maplibregl.Map): HTMLElement {
@@ -650,6 +650,7 @@ async function mount() {
 		// Cluster click → zoom to expand.
 		map.on("click", "mk-clusters", async (e) => {
 			const f = map.queryRenderedFeatures(e.point, { layers: ["mk-clusters"] })[0];
+			if (!f) return;
 			const clusterId = f?.properties?.cluster_id;
 			if (clusterId == null) return;
 			const src = map.getSource("mosques") as GeoJSONSource;

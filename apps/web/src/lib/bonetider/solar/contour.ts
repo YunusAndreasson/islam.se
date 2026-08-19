@@ -6,6 +6,14 @@
 /** A line segment as two [lon, lat] points. */
 export type Segment = [[number, number], [number, number]];
 
+/** Array access whose bounds are an algorithm invariant. Throwing here turns a
+ * malformed grid or broken chain into a useful failure instead of NaN geometry. */
+function requiredAt<T>(items: readonly T[], index: number, context: string): T {
+	const value = items[index];
+	if (value === undefined) throw new RangeError(`${context}: missing element ${index}`);
+	return value;
+}
+
 // Linear-interpolate the [lon,lat] point on the edge p1→p2 where the field
 // crosses `level`. Caller guarantees v1 and v2 straddle the level.
 function crossing(
@@ -33,21 +41,43 @@ export function marchingSquares(
 ): Segment[] {
 	const segments: Segment[] = [];
 	for (let i = 0; i < lats.length - 1; i++) {
+		const row = values[i];
+		const nextRow = values[i + 1];
+		const lat = lats[i];
+		const nextLat = lats[i + 1];
+		// A malformed/ragged field should shorten the contour, not crash the renderer.
+		if (!(row && nextRow) || lat === undefined || nextLat === undefined) continue;
 		for (let j = 0; j < lons.length - 1; j++) {
+			const cTL = row[j];
+			const cTR = row[j + 1];
+			const cBR = nextRow[j + 1];
+			const cBL = nextRow[j];
+			const lon = lons[j];
+			const nextLon = lons[j + 1];
+			if (
+				cTL === undefined ||
+				cTR === undefined ||
+				cBR === undefined ||
+				cBL === undefined ||
+				lon === undefined ||
+				nextLon === undefined
+			) {
+				continue;
+			}
 			// Corner values relative to the level. TL/TR/BR/BL go clockwise from the
 			// top-left of the cell (lower lat index = "top").
-			const vTL = values[i][j] - level;
-			const vTR = values[i][j + 1] - level;
-			const vBR = values[i + 1][j + 1] - level;
-			const vBL = values[i + 1][j] - level;
+			const vTL = cTL - level;
+			const vTR = cTR - level;
+			const vBR = cBR - level;
+			const vBL = cBL - level;
 			if (Number.isNaN(vTL) || Number.isNaN(vTR) || Number.isNaN(vBR) || Number.isNaN(vBL)) {
 				continue;
 			}
 
-			const TL: [number, number] = [lons[j], lats[i]];
-			const TR: [number, number] = [lons[j + 1], lats[i]];
-			const BR: [number, number] = [lons[j + 1], lats[i + 1]];
-			const BL: [number, number] = [lons[j], lats[i + 1]];
+			const TL: [number, number] = [lon, lat];
+			const TR: [number, number] = [nextLon, lat];
+			const BR: [number, number] = [nextLon, nextLat];
+			const BL: [number, number] = [lon, nextLat];
 
 			// 4-bit case: each corner contributes a bit when it is above the level.
 			const code = (vTL > 0 ? 8 : 0) + (vTR > 0 ? 4 : 0) + (vBR > 0 ? 2 : 0) + (vBL > 0 ? 1 : 0);
@@ -115,7 +145,7 @@ function representativePoint(segments: Segment[]): [number, number] | null {
 	}
 	const cx = sx / n;
 	const cy = sy / n;
-	let best: [number, number] = segments[0][0];
+	let best: [number, number] = requiredAt(segments, 0, "representativePoint")[0];
 	let bestD = Infinity;
 	for (const [a, b] of segments) {
 		for (const p of [a, b]) {
@@ -167,7 +197,7 @@ export function labelPlacement(segments: Segment[]): LabelPlacement | null {
 // interpolation) but may differ by a float ULP, so we key nodes at 6-decimal
 // precision (≈0.1 m — far finer than the ~30 km grid, so distinct crossings never
 // collide).
-function ptKey(p: readonly number[]): string {
+function ptKey(p: readonly [number, number]): string {
 	return `${p[0].toFixed(6)},${p[1].toFixed(6)}`;
 }
 
@@ -196,7 +226,7 @@ export function chainSegments(segments: Segment[]): [number, number][][] {
 		if (!cands) return null;
 		for (const i of cands) {
 			if (used[i]) continue;
-			const [a, b] = segments[i];
+			const [a, b] = requiredAt(segments, i, "chainSegments incident segment");
 			const next = ptKey(a) === k ? b : a;
 			return { seg: i, next, nextKey: ptKey(next) };
 		}
@@ -207,7 +237,7 @@ export function chainSegments(segments: Segment[]): [number, number][][] {
 	for (let s = 0; s < segments.length; s++) {
 		if (used[s]) continue;
 		used[s] = true;
-		const [a, b] = segments[s];
+		const [a, b] = requiredAt(segments, s, "chainSegments source segment");
 		const line: [number, number][] = [a, b];
 		// Extend forward from b, then backward from a.
 		for (let nx = step(ptKey(b)); nx; nx = step(nx.nextKey)) {
@@ -227,7 +257,7 @@ export function chainSegments(segments: Segment[]): [number, number][][] {
 function isClosedLine(line: readonly [number, number][]): boolean {
 	const first = line[0];
 	const last = line[line.length - 1];
-	return first[0] === last[0] && first[1] === last[1];
+	return !!first && !!last && first[0] === last[0] && first[1] === last[1];
 }
 
 /**
@@ -253,17 +283,17 @@ export function smoothChain(line: [number, number][], iterations = 3): [number, 
 		const out: [number, number][] = new Array(m);
 		for (let i = 0; i < m; i++) {
 			if (!closed && (i === 0 || i === m - 1)) {
-				out[i] = pts[i];
+				out[i] = requiredAt(pts, i, "smoothChain endpoint");
 				continue;
 			}
-			const a = pts[(i - 1 + m) % m];
-			const b = pts[i];
-			const c = pts[(i + 1) % m];
+			const a = requiredAt(pts, (i - 1 + m) % m, "smoothChain previous point");
+			const b = requiredAt(pts, i, "smoothChain point");
+			const c = requiredAt(pts, (i + 1) % m, "smoothChain next point");
 			out[i] = [0.25 * a[0] + 0.5 * b[0] + 0.25 * c[0], 0.25 * a[1] + 0.5 * b[1] + 0.25 * c[1]];
 		}
 		pts = out;
 	}
-	return closed ? [...pts, pts[0]] : pts;
+	return closed ? [...pts, requiredAt(pts, 0, "smoothChain closing point")] : pts;
 }
 
 /**
@@ -311,7 +341,11 @@ export function catmullRom(line: [number, number][], samples = 12): [number, num
 	// Control point at index k: wrap around the loop when closed, clamp to the ends when
 	// open (so the open curve still passes through and pins its real endpoints).
 	const at = (k: number): [number, number] =>
-		closed ? pts[((k % m) + m) % m] : pts[k < 0 ? 0 : k >= m ? m - 1 : k];
+		requiredAt(
+			pts,
+			closed ? ((k % m) + m) % m : k < 0 ? 0 : k >= m ? m - 1 : k,
+			"catmullRom control point",
+		);
 
 	// Centripetal knot spacing uses sqrt of the chord length; guard zero-length spans
 	// (coincident crossings) so no knot delta is 0 and nothing divides by zero.

@@ -54,24 +54,32 @@ const mobileImageMap = buildImageMap((path) => path.includes("-mobile."), /-mobi
 async function buildArticles(): Promise<Article[]> {
 	const entries = await getCollection("articles");
 	const built = entries
-		.map((entry) => ({
-			slug: entry.id,
-			title: entry.data.title,
-			publishedAt: entry.data.publishedAt,
-			updatedAt: entry.data.updatedAt,
-			wordCount: entry.data.wordCount,
-			readingTime: Math.ceil(entry.data.wordCount / 200),
-			description: entry.data.description,
-			seoDescription: entry.data.seoDescription,
-			category: entry.data.category,
-			imageAlt: entry.data.imageAlt,
-			imageCaption: entry.data.imageCaption,
-			audioFile: entry.data.audioFile,
-			audioDuration: entry.data.audioDuration,
-			heroImage: heroImageMap.get(entry.id),
-			mobileHeroImage: mobileImageMap.get(entry.id),
-			entry,
-		}))
+		.map((entry) => {
+			const heroImage = heroImageMap.get(entry.id);
+			const mobileHeroImage = mobileImageMap.get(entry.id);
+			return {
+				slug: entry.id,
+				title: entry.data.title,
+				publishedAt: entry.data.publishedAt,
+				...(entry.data.updatedAt === undefined ? {} : { updatedAt: entry.data.updatedAt }),
+				wordCount: entry.data.wordCount,
+				readingTime: Math.ceil(entry.data.wordCount / 200),
+				description: entry.data.description,
+				...(entry.data.seoDescription === undefined
+					? {}
+					: { seoDescription: entry.data.seoDescription }),
+				...(entry.data.category === undefined ? {} : { category: entry.data.category }),
+				...(entry.data.imageAlt === undefined ? {} : { imageAlt: entry.data.imageAlt }),
+				...(entry.data.imageCaption === undefined ? {} : { imageCaption: entry.data.imageCaption }),
+				...(entry.data.audioFile === undefined ? {} : { audioFile: entry.data.audioFile }),
+				...(entry.data.audioDuration === undefined
+					? {}
+					: { audioDuration: entry.data.audioDuration }),
+				...(heroImage === undefined ? {} : { heroImage }),
+				...(mobileHeroImage === undefined ? {} : { mobileHeroImage }),
+				entry,
+			};
+		})
 		.sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime());
 
 	// Guardrail: a hero image without image-specific alt silently regresses to the

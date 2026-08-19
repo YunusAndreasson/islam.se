@@ -20,6 +20,7 @@ const total = mosques.length;
 const cityCount = new Set(mosques.map((m) => m.citySlug)).size;
 // Län with the most mosques, for the FAQ answer.
 const biggestLan = [...groups].sort((a, b) => b.mosques.length - a.mosques.length)[0];
+if (!biggestLan) throw new Error("The mosque dataset contains no county groups");
 
 // Founding-year growth: mosques with a known `opened` year, bucketed by decade. Drives the
 // inline bar chart in the history section. Computed from the data so it tracks any refresh.

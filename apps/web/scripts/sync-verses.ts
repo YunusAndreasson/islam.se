@@ -112,7 +112,10 @@ async function svarQuotedKeys(): Promise<string[]> {
 	const set = new Set<string>();
 	for (const f of files) {
 		const body = await readFile(join(svarDir, f), "utf8");
-		for (const m of body.matchAll(SVAR_ATTRIBUTION)) set.add(verseKey(m[1], m[2], m[3]));
+		for (const m of body.matchAll(SVAR_ATTRIBUTION)) {
+			const [, surah, from, to] = m;
+			if (surah && from) set.add(verseKey(surah, from, to));
+		}
 	}
 	return [...set];
 }
@@ -221,6 +224,7 @@ function repairTrailingArtifact(segments: Segment[]): Segment[] {
 	const maxWord = Math.max(...segments.map((s) => s[0]));
 	const last = segments[segments.length - 1];
 	const prev = segments[segments.length - 2];
+	if (!(last && prev)) return segments;
 	if (last[0] < prev[0] && last[0] !== maxWord) {
 		return [...segments.slice(0, -1), [maxWord, last[1], last[2]]];
 	}
@@ -298,7 +302,9 @@ async function fetchVerse(key: string, qulSegments: Record<string, QulVerse>): P
 		// Slice at QUL's own boundaries (so the cut shares one clock with the timing),
 		// trimming the gap before the first word and ringing out the last. Offsets are
 		// normalized to the saved clip.
-		const firstStart = merged[0][1];
+		const first = merged[0];
+		if (!first) throw new Error("Expected at least one merged timing segment");
+		const firstStart = first[1];
 		const lastEnd = Math.max(...merged.map((s) => s[2]));
 		const sliceStart = Math.max(0, firstStart - LEAD_PAD_MS);
 		const sliceEnd = lastEnd + TAIL_PAD_MS;

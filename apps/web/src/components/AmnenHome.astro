@@ -73,7 +73,10 @@ if (limit) {
 	// while Samhälle, where the newest work is, would never appear. Choosing by the
 	// freshest essay and then re-sorting back into the daʿwah order gives an edited
 	// page that still reads in the site's fixed sequence.
-	const freshest = (d: Dept) => new Date(d.shown[0].publishedAt).getTime();
+	const freshest = (d: Dept) => {
+		const first = d.shown[0];
+		return first ? new Date(first.publishedAt).getTime() : Number.NEGATIVE_INFINITY;
+	};
 	const chosen = new Set(
 		[...groups]
 			.sort((a, b) => freshest(b) - freshest(a))

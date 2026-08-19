@@ -133,6 +133,7 @@ function walk(node: HastNode, insert: boolean): void {
 
 	for (let i = 0; i < node.children.length; i++) {
 		const child = node.children[i];
+		if (!child) continue;
 		if (child.type === "text") {
 			const before = node.children.length;
 			visitText(child as HastText, i, node as HastElement, insert);

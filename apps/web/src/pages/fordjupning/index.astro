@@ -18,8 +18,8 @@ const fordjupningRows = entries.map(({ entry: e, hero }) => ({
 	title: e.data.term,
 	description: e.data.blurb ?? e.data.seoDescription ?? e.data.description,
 	image: hero && {
-		src: hero.src,
-		article: hero.article,
+		...(hero.src === undefined ? {} : { src: hero.src }),
+		...(hero.article === undefined ? {} : { article: hero.article }),
 		widths: [200, 400],
 		sizes: "120px",
 	},

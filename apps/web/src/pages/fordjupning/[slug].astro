@@ -56,7 +56,7 @@ const relatedItems = related.map((r) => ({ label: r.question, href: `/svar/${r.s
 const essayItems = essays.map((e) => ({ label: e.title, href: `/${e.slug}` }));
 const sourceItems = data.sources
 	.filter((s) => s.url)
-	.map((s) => ({ label: s.name, href: s.url }));
+	.map((s) => ({ label: s.name, ...(s.url === undefined ? {} : { href: s.url }) }));
 
 const hero = await resolveHero(entry);
 // The clean photograph, not the text-laden OG card, is the Article's representative
@@ -69,7 +69,7 @@ if (heroSource) {
 		contentUrl: new URL(rendition.src, Astro.site).href,
 		url: new URL(Astro.url.pathname, Astro.site).href,
 		name: hero?.alt || data.term,
-		caption: hero?.caption,
+		...(hero?.caption === undefined ? {} : { caption: hero.caption }),
 		width: 1200,
 		height: Math.round((1200 * heroSource.height) / heroSource.width),
 	});
@@ -135,7 +135,11 @@ if (data.faq.length > 0) jsonLd.push(faqPageJsonLd(data.faq));
 			<header class="fordjupning-header">
 				<Breadcrumb items={crumbs} />
 				<h1>{data.term}</h1>
-				<ArticleMeta class="meta-line" publishedAt={data.publishedAt} updatedAt={data.updatedAt} />
+				<ArticleMeta
+					class="meta-line"
+					publishedAt={data.publishedAt}
+					{...(data.updatedAt === undefined ? {} : { updatedAt: data.updatedAt })}
+				/>
 				<p class="lead fordjupning-lead">{data.description}</p>
 			</header>
 
@@ -143,8 +147,8 @@ if (data.faq.length > 0) jsonLd.push(faqPageJsonLd(data.faq));
 				<figure class="fordjupning-hero">
 					<div class="fordjupning-hero-frame media-frame">
 						<EssayImage
-							src={hero.src}
-							article={hero.article}
+							{...(hero.src === undefined ? {} : { src: hero.src })}
+							{...(hero.article === undefined ? {} : { article: hero.article })}
 							alt={hero.alt}
 							widths={PAGE_HERO_WIDTHS}
 							sizes={PAGE_HERO_SIZES}
