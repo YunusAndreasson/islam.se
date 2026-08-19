@@ -644,6 +644,21 @@ export function nordicMapStyleFor(scheme: ColorSchemeName): StyleSpecification {
   return scheme === 'dark' ? NORDIC_DARK : NORDIC_LIGHT;
 }
 
+/** The basemap's own land colour — the flat ground every other layer is drawn over.
+ *
+ *  Exported because bonetider.tsx has to paint that exact colour ITSELF for the first
+ *  moment of the map's life. MapLibre fills its surface with a pale grey of its own until
+ *  the first tiles composite (there is no prop for it — see the reveal note in
+ *  bonetider.tsx), so on a dark screen the map arrives as a bright flash. The screen
+ *  covers it with this colour and dissolves the cover once the map has really drawn,
+ *  which works precisely because it is the same value as the `background` layer below:
+ *  the cover does not "disappear", the land it was standing in for simply gains its
+ *  detail. Read from the same palette the style is built from, never re-typed, so the
+ *  two can't drift. */
+export function basemapGroundFor(scheme: ColorSchemeName): string {
+  return (scheme === 'dark' ? DARK : LIGHT).LAND;
+}
+
 /** Tile provider used by the Nordic style — drives the credits line in Om appen. */
 export const TILES_PROVIDER: 'maptiler' | 'openfreemap' = USE_MAPTILER ? 'maptiler' : 'openfreemap';
 

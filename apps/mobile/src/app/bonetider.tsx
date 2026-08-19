@@ -17,7 +17,13 @@ import {
   View,
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { Easing, useSharedValue, withTiming } from 'react-native-reanimated';
+import Animated, {
+  Easing,
+  FadeOut,
+  useReducedMotion,
+  useSharedValue,
+  withTiming,
+} from 'react-native-reanimated';
 
 import { hapticLight } from '@/lib/haptics';
 
@@ -55,7 +61,7 @@ import {
 } from '@/lib/location-hint';
 import { type Camera as MapCamera, invMercY, mercY } from '@/lib/map/projection';
 import type { Mosque } from '@/lib/mosques';
-import { nordicMapStyleFor } from '@/lib/map/nordicStyle';
+import { basemapGroundFor, nordicMapStyleFor } from '@/lib/map/nordicStyle';
 import {
   noteNotificationLaunch,
   noteNotificationShown,
@@ -150,6 +156,14 @@ const DOCK_MARGIN = space.lg;
 // sit over a bit of the south coast instead of forcing that zoom-out was the trade the
 // product call landed on.
 const LESSON_CARD_HEIGHT = 360;
+
+// How long the reveal cover waits for the map before giving up on it — see `mapPainted`.
+// Long, on purpose: what it is covering is not a wait, it is the map's land without its
+// detail, so overshooting costs nothing and undershooting brings the flash back.
+const MAP_REVEAL_TIMEOUT_MS = 8000;
+// The dissolve itself. Slower than `motion.base`, because this is one continuous surface
+// gaining detail rather than an element arriving — at 240 ms the tiles read as popping in.
+const MAP_REVEAL_MS = 520;
 
 // How close (ms) the next prayer must be before its line starts breathing — the
 // "prayer is about to begin" signal. Ten minutes: matches the common adhan-reminder
@@ -308,6 +322,7 @@ export default function Bonetider() {
   // off where the basemap actually rendered after fitBounds. By waiting for the first
   // settled event, the overlay never paints against a stale camera.
   const [cameraReady, setCameraReady] = useState(false);
+  const reduceMotion = useReducedMotion();
 
   // The basemap style is fetched over the network at runtime (vector tiles + glyphs from
   // OpenFreeMap/MapTiler, elevation from the DEM host), so it can simply fail — offline,
@@ -321,6 +336,30 @@ export default function Bonetider() {
   // them, and hiding them would turn a degraded map into a dead screen. We say what
   // happened instead, and let the rest keep working.
   const [styleFailed, setStyleFailed] = useState(false);
+
+  // THE REVEAL. MapLibre paints its own surface a pale grey until the first tiles
+  // composite — on a dark screen that is a bright flash between the introduction and the
+  // map, and there is no prop for it (v11's Map takes no background/load colour, and
+  // androidView="texture" was tried and makes no difference: the fill is the renderer's,
+  // not the surface's). So the screen paints the basemap's OWN land colour over the map
+  // and dissolves it once the map has really drawn — see the cover below `Map`.
+  //
+  // Latched, never un-set: this is the first paint of the session, not a state the map
+  // returns to. onDidFinishRenderingMapFully fires again on every settled render
+  // afterwards, and a cover that could come back would blink over the map on every pan.
+  const [mapPainted, setMapPainted] = useState(false);
+  const revealMap = useCallback(() => setMapPainted(true), []);
+  // The safety net. `…MapFully` means every tile in view arrived, so a phone on a bad
+  // train connection could wait on it far longer than anyone should look at a flat
+  // ground — and offline it never fires at all. After this the cover goes regardless:
+  // the worst case is the flash we started with, which is a better failure than a map
+  // that never appears. Deliberately generous, because the cover is not a spinner — it
+  // is the map's own land colour, so a reader waiting behind it is looking at Sweden
+  // without its detail rather than at a loading screen.
+  useEffect(() => {
+    const timer = setTimeout(revealMap, MAP_REVEAL_TIMEOUT_MS);
+    return () => clearTimeout(timer);
+  }, [revealMap]);
   // Measured, not assumed: the notice's copy wraps to a second line on a narrow screen or
   // at a large font scale, so its height is the only honest way to place anything beneath
   // it. Feeds `hintTop` below — see there for what was colliding.
@@ -818,7 +857,20 @@ export default function Bonetider() {
         // Recovery is automatic: MapLibre keeps retrying tiles, so a style that comes
         // back on its own clears the notice without the user doing anything.
         onDidFinishLoadingStyle={() => setStyleFailed(false)}
-        onDidFailLoadingMap={() => setStyleFailed(true)}
+        // The map's first paint, and the cue that ends the reveal cover below. It is the
+        // EARLIEST honest one: onDidFinishLoadingStyle fires while the surface is still
+        // MapLibre's pale grey (measured six seconds early on a cold emulator), and
+        // onDidFinishRenderingFrame fires for frames that have nothing in them yet.
+        // onDidFinishRenderingFrameFully lands within ~10 ms of this, so there is nothing
+        // to gain by preferring it.
+        onDidFinishRenderingMapFully={revealMap}
+        // A style that never arrives must not leave the cover up: the notice below needs
+        // to be readable, and a map that has given up is better shown as the flat ground
+        // it will stay than as a screen still pretending to load.
+        onDidFailLoadingMap={() => {
+          setStyleFailed(true);
+          revealMap();
+        }}
       >
         <Camera
           ref={cameraRef}
@@ -842,6 +894,30 @@ export default function Bonetider() {
             the user hides it in Inställningar. */}
         {settings.showMosques && <MosqueLayer onSelect={setSelectedMosque} />}
       </Map>
+
+      {/* The reveal cover. Sits directly ON the basemap and UNDER everything the app
+          draws itself, which is the whole point of putting it here rather than over the
+          screen: the wash, the prayer lines and the markers come up on schedule against a
+          calm ground, and the basemap's detail resolves beneath them. A cover over the
+          whole screen would have hidden the app's own graphics too and turned the first
+          seconds into a splash — this hides only the part that isn't ready.
+
+          Its colour is the basemap's own LAND (basemapGroundFor), not `paper` or
+          `paperSunken`: the cover is standing in for the map's ground, so when it goes
+          nothing changes colour and the moment reads as detail arriving rather than as a
+          layer being removed.
+
+          `exiting` rather than an opacity spring, because the cover is unmounted for good
+          once it goes and Reanimated's exit animation is exactly that shape — and under
+          Reduce Motion it simply disappears, which is what the setting asks for. */}
+      {!mapPainted && (
+        <Animated.View
+          testID="map-reveal-cover"
+          pointerEvents="none"
+          exiting={reduceMotion ? undefined : FadeOut.duration(MAP_REVEAL_MS)}
+          style={[StyleSheet.absoluteFill, { backgroundColor: basemapGroundFor(scheme) }]}
+        />
+      )}
 
       {/* The custom graphics ride ABOVE the basemap on a Skia canvas: the GPU twilight
           wash + the sweeping prayer lines, projected from the camera shared value so they
