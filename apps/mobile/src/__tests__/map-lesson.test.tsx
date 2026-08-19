@@ -32,6 +32,9 @@ const REVEAL_DELAY_MS = 300;
 const REVEAL_HOLD_MS = 2500;
 const HINT_AFTER_REVEAL_MS = 700;
 const MAP_RENDER_TIMEOUT = 20_000;
+// bonetider.tsx's own safety net for the reveal cover. Duplicated rather than imported
+// for the same reason as the beats above: this asserts that a net EXISTS, not its value.
+const MAP_REVEAL_TIMEOUT_MS = 8000;
 
 function permission(status: 'granted' | 'denied' | 'undetermined') {
   return { status, granted: status === 'granted', canAskAgain: status !== 'denied', expires: 'never' };
@@ -185,4 +188,67 @@ describe('the map lesson', () => {
     },
     MAP_RENDER_TIMEOUT,
   );
+
+  // THE BUG: MapLibre fills its own surface with a pale grey until the first tiles
+  // composite, so this landing — the very first time the map is ever drawn — arrived as a
+  // near-white flash across a dark screen, seconds long on a cold cache. There is no prop
+  // for that fill (v11's Map takes no load colour, and androidView="texture" makes no
+  // difference: it belongs to the renderer, not the surface), so the screen covers the
+  // basemap itself until it has really drawn.
+  //
+  // The cover is asserted by TESTID rather than by colour: what must hold is that the
+  // basemap is hidden exactly between mount and first paint. Which colour hides it is
+  // nordicStyle's business, and basemapGroundFor is what keeps it honest.
+  describe('the map reveal', () => {
+    it(
+      'covers the basemap from the first frame, and uncovers it only once it has drawn',
+      async () => {
+        await launchWithLessonPending();
+
+        // Present before the map says anything at all: the flash happened in the very
+        // first frames, so a cover that waited for an event would arrive after it.
+        expect(screen.queryByTestId('map-reveal-cover')).toBeTruthy();
+
+        await act(async () => {
+          fireEvent(screen.getByTestId('sweden-map'), 'didFinishRenderingMapFully');
+        });
+
+        expect(screen.queryByTestId('map-reveal-cover')).toBeNull();
+      },
+      MAP_RENDER_TIMEOUT,
+    );
+
+    it(
+      'gives up on a map that never finishes, rather than covering it forever',
+      async () => {
+        await launchWithLessonPending();
+        expect(screen.queryByTestId('map-reveal-cover')).toBeTruthy();
+
+        // `…MapFully` means every tile in view arrived, which offline never does. Without
+        // this net the cover would be permanent and the map simply unreachable — a far
+        // worse failure than the flash it exists to hide.
+        await advance(MAP_REVEAL_TIMEOUT_MS);
+
+        expect(screen.queryByTestId('map-reveal-cover')).toBeNull();
+      },
+      MAP_RENDER_TIMEOUT,
+    );
+
+    it(
+      'uncovers a map that failed outright, so the notice about it can be read',
+      async () => {
+        await launchWithLessonPending();
+        expect(screen.queryByTestId('map-reveal-cover')).toBeTruthy();
+
+        await act(async () => {
+          fireEvent(screen.getByTestId('sweden-map'), 'didFailLoadingMap');
+        });
+
+        // A map that has given up should be shown as the flat ground it is going to stay,
+        // with its notice on top — not as a screen still pretending to load.
+        expect(screen.queryByTestId('map-reveal-cover')).toBeNull();
+      },
+      MAP_RENDER_TIMEOUT,
+    );
+  });
 });
