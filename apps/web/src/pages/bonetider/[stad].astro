@@ -15,9 +15,11 @@ import { nf0, nf1 } from "../../lib/format";
 import { SCB_POP_YEAR, SCB_REF, SCB_SOURCE } from "../../lib/bonetider/meta";
 import { placeFacts } from "../../lib/bonetider/place-facts";
 import { type IndexedPlace, INDEXED_PLACES, nearbyPlaces, officialPopulation, OG_POPULATION } from "../../lib/bonetider/places-index";
-import { stockholmMonthLabel } from "../../lib/bonetider/prayer-times";
+import { computePrayerTimes, formatTime, stockholmMonthLabel } from "../../lib/bonetider/prayer-times";
+import { DEFAULT_SETTINGS } from "../../lib/bonetider/settings";
 import { slugify } from "../../lib/bonetider/slug";
 import { cityBySlug, directionsLinks, locationLabel, mosqueUrl, nearestMosques } from "../../lib/moskeer";
+import { hijriLabel } from "../../lib/markesdagar";
 
 // These 2 118 pages are 84 % of the whole build (75 s of 90 s). They only change when
 // the day rolls over, so `pnpm build:fast` sets BONETIDER_SAMPLE to build a handful
@@ -97,6 +99,30 @@ const year = new Intl.DateTimeFormat("sv-SE", { year: "numeric", timeZone: "Euro
 // Same source as PrayerTable's caption, so heading and table can never name different months.
 const monthLabel = stockholmMonthLabel(now);
 
+// The same six values PrayerField renders below, computed once here so the meta
+// description and the "idag"-FAQ can quote them. DEFAULT_SETTINGS is what the no-JS
+// baseline shows, so the snippet promises exactly what a reader without stored
+// settings sees. ⚠️ Only honest while scripts/deploy-bonetider-daily.sh runs nightly —
+// a snippet quoting last week's Fajr is worse than one quoting none.
+const todayTimes = computePrayerTimes(location, now, DEFAULT_SETTINGS);
+const t = {
+	fajr: formatTime(todayTimes.fajr),
+	sunrise: formatTime(todayTimes.sunrise),
+	dhuhr: formatTime(todayTimes.dhuhr),
+	asr: formatTime(todayTimes.asr),
+	maghrib: formatTime(todayTimes.maghrib),
+	isha: formatTime(todayTimes.isha),
+};
+// formatTime renders an unresolvable slot as "—". Only quote the times when all six
+// resolved; a description reading "Fajr —" is worse than the evergreen one.
+const hasTimes = ![t.fajr, t.sunrise, t.dhuhr, t.asr, t.maghrib, t.isha].includes("—");
+
+// Umm al-Qura, spelled as /det-islamiska-aret spells it. Noon UTC of the Swedish
+// calendar day, not `now`: the nightly build runs at 01:30 Stockholm, which is still
+// yesterday in UTC, and hijriLabel reads its instant there. The reader's own
+// hijriOffset is applied client-side; this is the crawled, offset-free value.
+const hijriToday = hijriLabel(new Date(`${todayIso}T12:00:00Z`));
+
 // One array feeds both the visible trail and the JSON-LD, so they cannot drift apart.
 // ⚠️ Trailing slashes are load-bearing here, unlike in a JSON-LD-only crumb list:
 // breadcrumbList() normalises through pageUrl(), the visible href does not, and
@@ -175,7 +201,17 @@ const descPlace =
 // the county — every page that ranks today keeps its title byte-for-byte.
 const ambiguous = place.slug !== slugify(place.name);
 const titlePlace = ambiguous && place.county ? `${place.name} (${place.county})` : place.name;
-const description = `Bönetider för ${descPlace} ${year}: exakta tider för Fajr, Shurūq, Ẓuhr, ʿAṣr, Maghrib och ʿIshāʾ varje dag, beräknade efter solens läge.${descTail}`;
+// Lead with today's actual times. The query is answered in the snippet, which is the
+// only place left where a prayer-time page can win a click: Google answers most of
+// these on the results page itself, and the site's CTR at position 3 is 1,9 %. The
+// evergreen sentence stays as the fallback for places whose times cannot be resolved.
+const timesLine = `Fajr ${t.fajr} · Ẓuhr ${t.dhuhr} · ʿAṣr ${t.asr} · Maghrib ${t.maghrib} · ʿIshāʾ ${t.isha}`;
+// A shorter mosque hook than descTail's: the times cost ~60 characters of the ~155
+// Google shows, so the tail has to earn its place in what is left.
+const shortTail = hasMosquePage ? ` Även moskéerna i ${place.name}.` : "";
+const description = hasTimes
+	? `Bönetider i ${titlePlace} idag: ${timesLine}. Uppdateras varje dygn.${shortTail}`
+	: `Bönetider för ${descPlace} ${year}: exakta tider för Fajr, Shurūq, Ẓuhr, ʿAṣr, Maghrib och ʿIshāʾ varje dag, beräknade efter solens läge.${descTail}`;
 
 const ogImage = place.population >= OG_POPULATION ? `/bonetider/${place.slug}/og.png` : "/bonetider/og.png";
 
@@ -216,6 +252,17 @@ if (hasMosquePage) {
 }
 
 const faq = [
+	// The question the traffic actually asks — "bönetider <stad> idag" — answered with
+	// the day's six values rather than a pointer to the block above it. Dropped where the
+	// times could not be resolved, and rebuilt nightly like everything else here.
+	...(hasTimes
+		? [
+				{
+					q: `Vilka bönetider gäller i ${place.name} idag?`,
+					a: `I dag, ${todayLabel}, är Fajr ${t.fajr}, Shurūq ${t.sunrise}, Ẓuhr ${t.dhuhr}, ʿAṣr ${t.asr}, Maghrib ${t.maghrib} och ʿIshāʾ ${t.isha} i ${place.name}. Tiderna räknas om varje dygn efter solens verkliga läge på ${lat1}° N, ${lon1}° O, och listan högst upp på sidan ändras direkt om du väljer en annan beräkningsmetod eller madhhab.`,
+				},
+			]
+		: []),
 	{
 		q: `När börjar Fajr i ${place.name}?`,
 		a: `Fajr är dagens första bön och inträder vid gryningen, strax före soluppgången (Shurūq). Dygnets längd i ${place.name} svänger kraftigt över året – kring midsommar ${midsummerDesc}, kring midvinter ${midwinterDesc} – så Fajr-tiden varierar mycket mellan sommar och vinter. Den exakta tiden räknas om automatiskt varje dygn och står högst upp under Dagens bönetider.`,
@@ -253,7 +300,7 @@ if (hasScb) {
 ---
 
 <Base
-	title={`Bönetider i ${titlePlace} ${year} — islam.se`}
+	title={`Bönetider i ${titlePlace} idag · ${year} — islam.se`}
 	description={description}
 	ogImage={ogImage}
 	ogImageAlt={`Bönetider i ${place.name} — dagens tider för Fajr, Shurūq, Ẓuhr, ʿAṣr, Maghrib och ʿIshāʾ`}
@@ -285,7 +332,9 @@ if (hasScb) {
 	<main id="main" class="home bonetider-stad">
 		<header class="bt-stad-header">
 			<Breadcrumb items={crumbs} />
-			<h1>Bönetider i {place.name} {year}</h1>
+			{/* `titlePlace`, not `place.name`: 150 pages shared an H1 with the town that owns
+			    the bare slug (two "Bönetider i Alvik"), while their titles already differed. */}
+			<h1>Bönetider i {titlePlace} idag</h1>
 			<p class="bt-stad-sub">
 				{place.county ? `${place.county} · ` : ""}{lat1}° N, {lon1}° O
 			</p>
@@ -298,7 +347,7 @@ if (hasScb) {
 		    readout instead of introducing a second copy. */}
 		<TitledSection class="bt-stad-section bt-stad-idag" id="bt-stad-idag" title={`Dagens bönetider i ${place.name}`}>
 			<p class="meta-line bt-stad-date">
-				I dag · <time datetime={todayIso} class="bt-today-date">{todayLabel}</time>
+				I dag · <time datetime={todayIso} class="bt-today-date">{todayLabel}</time> · <span class="bt-today-hijri">{hijriToday}</span>
 			</p>
 			<PrayerField location={location} variant="full" fixed={true} />
 			<p class="bt-stad-note">
@@ -569,6 +618,10 @@ if (hasScb) {
 </style>
 
 <script>
+	import { MS_PER_DAY } from "../../lib/daily";
+	import { hijriLabel } from "../../lib/markesdagar";
+	import { loadSettings } from "../../lib/bonetider/storage";
+
 	// The page is statically built, so the server-rendered date is the build date.
 	// Refresh it to the reader's real today on load (and across view-transition
 	// navigations) so "Dagens bönetider" always names the correct day. Times zone =
@@ -578,7 +631,8 @@ if (hasScb) {
 		if (!el) return;
 		const now = new Date();
 		const tz = { timeZone: "Europe/Stockholm" } as const;
-		el.setAttribute("datetime", now.toLocaleDateString("sv-SE", tz));
+		const isoToday = now.toLocaleDateString("sv-SE", tz);
+		el.setAttribute("datetime", isoToday);
 		el.textContent = now.toLocaleDateString("sv-SE", {
 			weekday: "long",
 			day: "numeric",
@@ -586,5 +640,15 @@ if (hasScb) {
 			year: "numeric",
 			...tz,
 		});
+
+		// The Hijri date beside it is the one thing on this page the reader's own
+		// settings may legitimately move: `hijriOffset` exists so a household can match
+		// its local moon sighting. It shifts the label only — the prayer times are
+		// astronomical and never move with it. Noon UTC of the Swedish calendar day,
+		// because hijriLabel reads its instant in UTC.
+		const hijriEl = document.querySelector<HTMLElement>(".bt-today-hijri");
+		if (!hijriEl) return;
+		const offset = loadSettings().hijriOffset;
+		hijriEl.textContent = hijriLabel(new Date(Date.parse(`${isoToday}T12:00:00Z`) + offset * MS_PER_DAY));
 	});
 </script>

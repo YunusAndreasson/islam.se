@@ -61,6 +61,15 @@ cd "$REPO_DIR"
 
 log() { printf '[deploy-bonetider-daily %s] %s\n' "$(date -u +%FT%TZ)" "$*"; }
 
+# Check the credential BEFORE the seven-minute build, not at the deploy step after it.
+# On the unattended host the build peaks around 7 GB RSS; discovering a missing token
+# then means the box has swapped itself hoarse for nothing. An interactive `wrangler
+# login` (the config below) counts too — that is how this runs from a laptop.
+if [ -z "${CLOUDFLARE_API_TOKEN:-}" ] && [ ! -f "${HOME:-/root}/.config/.wrangler/config/default.toml" ]; then
+	log "no CLOUDFLARE_API_TOKEN and no wrangler login — refusing to build something it cannot deploy"
+	exit 1
+fi
+
 # A slow run must not have the next night's run building on top of it. Exit 0, not 1 — an
 # overlap is a skipped refresh, not a failure worth mailing the operator about.
 exec 9>"${TMPDIR:-/tmp}/islam-se-daily-deploy.lock"

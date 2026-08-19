@@ -43,6 +43,20 @@ export function gregorianToHijri(date: Date): Hijri {
 	return { y: get("year"), m: get("month"), d: get("day") };
 }
 
+/**
+ * One Umm al-Qura date, spelled the way the rest of the site spells them —
+ * "6 Rabīʿ al-awwal 1448".
+ *
+ * ⚠️ `hijriFmt` reads the date in UTC, so pass an instant that lands inside the
+ * intended Swedish day (noon UTC is the safe choice). A caller that hands over
+ * `new Date()` shortly after Swedish midnight gets yesterday's Hijri date, which
+ * is exactly when the nightly rebuild runs.
+ */
+export function hijriLabel(date: Date): string {
+	const h = gregorianToHijri(date);
+	return `${h.d} ${HIJRI_MONTHS[h.m]} ${h.y}`;
+}
+
 type MonthDay = [month: number, day: number];
 
 interface EventDef {

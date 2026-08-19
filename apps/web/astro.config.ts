@@ -683,7 +683,17 @@ export default defineConfig({
 	// the partial /bonetider sample, which makes `pnpm run build:fast` flaky.
 	// inlineStylesheets stays "always": it costs ~5 s of build and buys the
 	// render-blocking-request-free FCP the Lighthouse pass depends on.
-	build: { inlineStylesheets: "always", concurrency: process.env.BONETIDER_SAMPLE ? 1 : 4 },
+	// `concurrency` is page-render parallelism, and 4 suits a developer machine. The
+	// nightly deploy host is an 8 GB Hetzner box that also carries two other projects,
+	// where 4 took the build to 6,3 GB RSS and the kernel's OOM reaper killed it 868 city
+	// pages in — exit 137, caught by scripts/assert-full-build.mjs before it could ship a
+	// dist with 1 260 missing towns. ASTRO_BUILD_CONCURRENCY lets that host ask for less
+	// without changing what anyone else gets; unset, the value is the old 4.
+	build: {
+		inlineStylesheets: "always",
+		concurrency:
+			Number(process.env.ASTRO_BUILD_CONCURRENCY) || (process.env.BONETIDER_SAMPLE ? 1 : 4),
+	},
 	// Astro 7 defaults this to "warn". Nearly every route here is generated from a DERIVED
 	// slug — ~2100 bonetider/[stad] pages plus moskeer/[stad] and moskeer/lan/[lan] — and a
 	// collision means one page silently overwrites another (we have already been bitten by
