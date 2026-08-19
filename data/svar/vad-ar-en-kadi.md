@@ -65,14 +65,12 @@ Rollen skiljer sig från muftins. Ibn al-Qayyim drar gränsen i *Iʿlām al-muwa
 Grunden för ämbetet är två koranställen. Det första riktar sig till alla som anförtrotts makt över andra:
 
 > GUD befaller er att till dem som med rätta väntar det återlämna det som anförtrotts åt er och att, när ni dömer mellan människor, döma rättvist.
-
-— Koranen 4:58
+> — Koranen 4:58
 
 Det andra riktas till profeten David, som i Koranen framställs som förebilden för den dömande makten:
 
 > David! Vi har gett dig makt och myndighet på jorden. Döm därför mellan människor med sanning och rättvisa och lyssna inte till [dina] önskningar och begär, så att de leder dig bort från Guds väg.
-
-— Koranen 38:26
+> — Koranen 38:26
 
 Sunna skärper varningen. Buraida ibn al-Husaib återger att profeten delade in domarna i tre slag, ett i Paradiset och två i Elden: den som känner sanningen och dömer efter den, den som känner sanningen men dömer mot den, och den som dömer i okunnighet (Sunan Abi Dawud 3573). Två av de tre slagen hamnar i Elden. Det ena visste bättre.
 
@@ -86,7 +84,7 @@ Villkoren för den enskilde är stränga. Kadin ska vara myndig muslim vid sina 
 
 ## Hur gick en rättegång inför en kadi till?
 
-Den mest citerade instruktionen är kalifen Umar ibn al-Khattabs brev till sin domare Abu Musa al-Ashari, återgivet och kommenterat av Ibn al-Qayyim i *Iʿlām al-muwaqqiʿīn*. Umar skriver att domarämbetet är en fastställd plikt och en sunna som ska följas, och fortsätter: behandla människorna lika i ditt ansikte, i din rättvisa och i din sittning, så att ingen förnäm hoppas på din partiskhet och ingen svag misströstar om din rättvisa. Därefter följer den regel som blivit islamisk rätts bevisrättsliga huvudsats: beviset åligger den som hävdar, eden den som förnekar.
+Den mest citerade instruktionen är kalifen Umar ibn al-Khattabs brev till sin domare Abu Musa al-Ashari, återgivet och kommenterat av Ibn al-Qayyim i *Iʿlām al-muwaqqiʿīn*. Umar skriver att domarämbetet är en fastställd plikt och en sunna som ska följas, och fortsätter: "behandla människorna lika i ditt ansikte, i din rättvisa och i din sittning, så att ingen förnäm hoppas på din partiskhet och ingen svag misströstar om din rättvisa". Därefter följer den regel som blivit islamisk rätts bevisrättsliga huvudsats: beviset åligger den som hävdar, eden den som förnekar.
 
 Ash-Shāfiʿī beskriver i *al-Umm* själva förfarandet. Kadin ska sitta på en öppen plats, ta målen i den ordning parterna kommit, höra en motpart i taget och inte avkunna dom förrän saken står klar för honom. Han får inte döma i eget mål, och inte heller till förmån för sitt barn eller sin förälder. Den som inte kunde styrka sitt anspråk förlorade målet, hur sant det än var.
 
