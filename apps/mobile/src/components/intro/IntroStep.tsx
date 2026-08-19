@@ -31,7 +31,7 @@
 // ── One filled accent per screen ──────────────────────────────────────────────────────
 // `nextTone` exists because the footer is NOT the primary action on every step. On the
 // location and reminder steps the recommended action is the step's own filled CTA ("Använd
-// min plats", "Slå på påminnelser") and the footer only means "move on" — two identically
+// min plats", "Slå på påminnelser") and the footer is the quiet alternative — two identically
 // filled accent pills on one screen ask the user to rank them, which is the frame's job,
 // not theirs. So those steps pass `quiet` and the footer drops to a tinted pill: still
 // obviously the way forward, no longer competing for the eye.
@@ -39,7 +39,7 @@
 // ── One way forward, and it is never drawn twice ──────────────────────────────────────
 // `onSkip` is for a step where skipping is a DIFFERENT destination from advancing — on the
 // welcome step it abandons the introduction outright. The location and reminder steps used
-// to render it too, beside "Nästa", where both controls called the same function: one
+// to render it too, beside the footer action, where both controls called the same function: one
 // action, two labels, two weights, stacked one above the other, asking the reader to tell
 // apart two things that were never different. They now pass no `onSkip` at all, so those
 // steps offer exactly one way on.

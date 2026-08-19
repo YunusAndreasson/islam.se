@@ -80,7 +80,7 @@ export function CompassButton({ active }: { active: boolean }) {
         aligned
           ? 'Qibla — du är vänd mot Mecka'
           : heading == null
-            ? 'Qibla — riktningen är inte tillgänglig'
+            ? 'Qibla — kompassen är inte tillgänglig'
             : 'Qibla'
       }
       onPress={() => router.navigate('/qibla')}

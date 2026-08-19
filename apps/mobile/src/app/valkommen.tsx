@@ -16,10 +16,10 @@
 // Deliberately NOT blocking: every step can be walked past, and walking past one is a real
 // answer. The app is fully usable with no location (Stockholm fallback, and the dock says
 // so), no reminders, and the default method — so a wizard that refuses to let go would be
-// pretending the setup matters more than it does. On the two question steps that IS what
-// "Nästa" does, which is why they no longer draw a separate "Hoppa över" beside it: one
-// action does not get two labels. The welcome step keeps its skip, because there it means
-// something different — leave the introduction now, not answer this question later.
+// pretending the setup matters more than it does. Each question has one quiet way past:
+// the neutral location step says "Nästa", while declining the explicit notification ask
+// says "Inte nu". The welcome step keeps its skip, because there it means something
+// different — leave the introduction now, not answer this question later.
 import { router } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { BackHandler, StyleSheet, View } from 'react-native';
@@ -43,7 +43,7 @@ export default function Valkommen() {
   // The steps write settings, so none of them may run before the persisted blob has
   // hydrated: SettingsProvider skips its persist effect until `loaded`, so an early
   // update() would be silently overwritten by the load that follows it.
-  const { loaded } = useSettings();
+  const { loaded, settings } = useSettings();
   const [step, setStep] = useState(0);
 
   const finish = (): void => {
@@ -184,9 +184,11 @@ export default function Valkommen() {
             title="Ska vi påminna dig?"
             lead="Få en notis när det är dags för bön. Tiderna planeras lokalt på din enhet – inget skickas online."
             footnote="Du kan ändra det här när som helst under Inställningar → Notiser."
-            nextLabel="Nästa"
+            nextLabel={settings.notifications.enabled ? 'Nästa' : 'Inte nu'}
             // Same reasoning as the location step: "Slå på påminnelser" owns the fill, and
-            // "Nästa" is the one way on — walking past it asks the OS nothing.
+            // the quiet footer is the one way on. Before an answer, "Inte nu" names the
+            // choice plainly; on replay (or after enabling), "Nästa" moves on without
+            // pretending reminders still need to be enabled.
             nextTone="quiet"
             onNext={next}
             onBack={back}

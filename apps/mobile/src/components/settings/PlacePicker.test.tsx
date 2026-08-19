@@ -7,7 +7,8 @@
 // is what closes that, and it is only exact because getItemLayout gives the list a real
 // row pitch to count in, so both belong to this one behaviour.
 import { describe, expect, it, jest } from '@jest/globals';
-import { render, screen } from '@testing-library/react-native';
+import { fireEvent, render, screen } from '@testing-library/react-native';
+import { FlatList } from 'react-native';
 
 import { PlacePicker } from './PlacePicker';
 import { PLACES } from '@/lib/places/data';
@@ -39,5 +40,21 @@ describe('PlacePicker', () => {
     // The introduction renders this picker with no prior selection, so "no selection" must
     // stay the plain first-run list rather than an arbitrary scroll position.
     expect(screen.getByText(PLACES[0].name)).toBeTruthy();
+  });
+
+  it('drops the initial index when search replaces the full data set', () => {
+    const selected = at(PLACES, 7, 'PLACES');
+    render(
+      <PlacePicker
+        selected={{ name: selected.name, latitude: selected.lat, longitude: selected.lon }}
+        onPick={jest.fn()}
+      />,
+    );
+
+    expect(screen.UNSAFE_getByType(FlatList).props.initialScrollIndex).toBe(7);
+
+    fireEvent.changeText(screen.getByLabelText('Sök stad'), DEEP.name);
+
+    expect(screen.UNSAFE_getByType(FlatList).props.initialScrollIndex).toBeUndefined();
   });
 });

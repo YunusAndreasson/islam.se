@@ -144,7 +144,7 @@ describe('the introduction', () => {
     await press('Nästa');
     expect(screen.getByText('Ska vi påminna dig?')).toBeTruthy();
 
-    await press('Nästa');
+    await press('Inte nu');
     expect(screen.getByText('Hur ska tiderna räknas ut?')).toBeTruthy();
 
     // The last step: no separate skip, "Visa bönetider" is the only way out — the map
@@ -171,7 +171,7 @@ describe('the introduction', () => {
     await press('Nästa');
     expect(screen.queryByText('Tillbaka')).toBeNull();
 
-    await press('Nästa');
+    await press('Inte nu');
     expect(screen.getByText('Hur ska tiderna räknas ut?')).toBeTruthy();
     expect(screen.queryByText('Tillbaka')).toBeNull();
   });
@@ -213,7 +213,7 @@ describe('the introduction', () => {
 
     await press('Kom igång');
     await press('Nästa');
-    await press('Nästa');
+    await press('Inte nu');
     expect(screen.getByText('Hur ska tiderna räknas ut?')).toBeTruthy();
     expect(screen.queryByText('Hoppa över')).toBeNull();
 
@@ -239,6 +239,7 @@ describe('the introduction', () => {
     await press('Nästa');
     expect(screen.getByText('Ska vi påminna dig?')).toBeTruthy();
     expect(screen.queryByText('Hoppa över')).toBeNull();
+    expect(screen.getByText('Inte nu')).toBeTruthy();
   });
 
   // Each step is FELT, not only seen. The three advancing taps land a selection tick — the
@@ -252,7 +253,7 @@ describe('the introduction', () => {
 
     await press('Kom igång');
     await press('Nästa');
-    await press('Nästa');
+    await press('Inte nu');
     // Asserted at the CUE, not at the native call: which taptic API that reaches is
     // lib/haptics' business (and differs by platform), while valkommen's contract is
     // which of the four cues each step deserves.
@@ -420,20 +421,39 @@ describe('the introduction', () => {
       await launch();
       await press('Kom igång');
       await press('Nästa');
-      // Same as the location step: advancing without pressing "Slå på påminnelser" asks
-      // the OS nothing, so nothing is recorded.
-      await press('Nästa');
+      // Declining without pressing "Slå på påminnelser" asks the OS nothing, so nothing
+      // is recorded. The explicit label keeps that choice from masquerading as navigation.
+      await press('Inte nu');
 
       expect(await AsyncStorage.getItem(NOTIFICATION_HINT_KEY)).toBeNull();
       expect(Notifications.requestPermissionsAsync).not.toHaveBeenCalled();
     });
   });
 
+  it('treats enabled reminders as already answered when the introduction is replayed', async () => {
+    answerNotifications('granted');
+    await AsyncStorage.setItem(
+      SETTINGS_KEY,
+      JSON.stringify({
+        notifications: { enabled: true },
+      }),
+    );
+
+    await launch();
+    await press('Kom igång');
+    await press('Nästa');
+
+    expect(screen.getByText('Vilka böner?')).toBeTruthy();
+    expect(screen.queryByText('Slå på påminnelser')).toBeNull();
+    expect(screen.getByText('Nästa')).toBeTruthy();
+    expect(Notifications.requestPermissionsAsync).not.toHaveBeenCalled();
+  });
+
   it('writes the calculation method the user picks', async () => {
     await launch();
     await press('Kom igång');
     await press('Nästa');
-    await press('Nästa');
+    await press('Inte nu');
 
     await press('Muslim World League');
 
