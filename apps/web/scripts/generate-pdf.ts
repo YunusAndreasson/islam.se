@@ -13,6 +13,8 @@ import { execFileSync } from "node:child_process";
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
+import { chartCaptionText, renderChartSvg } from "../src/lib/chart/render";
+import { parseChartSpec } from "../src/lib/chart/spec";
 import { type Article, loadArticles, type MdastNode } from "./lib/essay-corpus";
 
 // ---------------------------------------------------------------------------
@@ -57,6 +59,11 @@ function esc(s: string): string {
 // ---------------------------------------------------------------------------
 // MDAST → Typst conversion
 // ---------------------------------------------------------------------------
+
+// Charts written out beside book.typ for Typst's image() to pick up. Collected while the
+// AST is walked, flushed in main() before the compile. Module-level because this script
+// builds exactly one book and the Ctx is per-essay.
+const chartFiles: { name: string; svg: string }[] = [];
 
 interface Ctx {
 	footnoteDefs: Map<string, string>;
@@ -136,6 +143,27 @@ function blockToTypst(node: MdastNode, ctx: Ctx): string {
 
 		case "html":
 			return "";
+
+		// Without this a ```chart fence falls through `default` and the figure vanishes
+		// from the book in silence, leaving the prose around it pointing at nothing. The
+		// SVG is rendered in print mode (literal colours — Typst has no CSS variables) and
+		// written beside book.typ for image() to resolve.
+		case "code": {
+			if (node.lang !== "chart") return "";
+			const spec = parseChartSpec(node.value ?? "");
+			const name = `chart-${chartFiles.length + 1}.svg`;
+			chartFiles.push({ name, svg: renderChartSvg(spec) });
+			return [
+				"#block(breakable: false, above: 16pt, below: 4pt)[",
+				`  #image("${name}", width: 100%)`,
+				"]",
+				"#block(above: 0pt, below: 16pt)[",
+				"  #set text(8pt, fill: luma(120))",
+				"  #set par(first-line-indent: 0pt, leading: 0.6em)",
+				`  ${esc(chartCaptionText(spec))}`,
+				"]",
+			].join("\n");
+		}
 
 		default:
 			return "";
@@ -467,7 +495,13 @@ async function main() {
 	mkdirSync(BUILD_DIR, { recursive: true });
 	writeFileSync(join(BUILD_DIR, "ornament.svg"), ORNAMENT_SVG);
 	writeFileSync(join(BUILD_DIR, "brand-mark.svg"), MARK_SVG);
+	// buildDocument walks every AST, which is what fills chartFiles — so the charts can
+	// only be written after it has run, never before.
 	writeFileSync(join(BUILD_DIR, "book.typ"), buildDocument(articles));
+	for (const chart of chartFiles) {
+		writeFileSync(join(BUILD_DIR, chart.name), chart.svg);
+	}
+	if (chartFiles.length > 0) console.log(`${chartFiles.length} diagram`);
 
 	// Compile with Typst
 	if (!existsSync(DIST)) mkdirSync(DIST, { recursive: true });

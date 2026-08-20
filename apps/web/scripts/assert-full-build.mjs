@@ -128,6 +128,72 @@ if (cities !== null && cities >= MIN_CITIES && pdfCount < 200) {
 	);
 }
 
+// Charts are the one content element whose rendering can fail SILENTLY and still build.
+// rehypeShiki is registered above the user rehype plugins inside @astrojs/markdown-remark,
+// so if `syntaxHighlight.excludeLangs` in astro.config.ts ever loses "chart", every fence
+// becomes a syntax-highlighted code listing on the page instead of a figure — a defect the
+// reader sees and the build does not. Counted from source so it cannot drift.
+const CORPORA = ["articles", "svar", "fordjupning"];
+let chartFences = 0;
+for (const corpus of CORPORA) {
+	const dir = new URL(`../../../data/${corpus}/`, import.meta.url).pathname;
+	if (!existsSync(dir)) continue;
+	for (const file of readdirSync(dir).filter((f) => f.endsWith(".md"))) {
+		chartFences += (readFileSync(join(dir, file), "utf8").match(/^```chart$/gm) ?? []).length;
+	}
+}
+let chartFigures = 0;
+let leakedFences = 0;
+const weldedTwins = [];
+const scanHtml = (dir) => {
+	for (const entry of readdirSync(dir, { withFileTypes: true })) {
+		const full = join(dir, entry.name);
+		if (entry.isDirectory()) scanHtml(full);
+		else if (entry.name === "index.html") {
+			const html = readFileSync(full, "utf8");
+			chartFigures += (html.match(/<figure class="chart chart--/g) ?? []).length;
+			leakedFences += (html.match(/language-chart/g) ?? []).length;
+		} else if (entry.name === "index.md") {
+			// The markdown twin is built from the rendered HTML, where a chart's label and
+			// value are adjacent inline spans. node-html-markdown joins them with nothing,
+			// so the griskött chart shipped as "Griskött29,3" — every number in the corpus
+			// welded to its label, invisible on the web and only in the AI-facing twin.
+			// generate-markdown.ts flattens the figure to its aria-label sentence instead;
+			// this asserts that it still runs. A digit hard against a letter is the signature.
+			for (const hit of readFileSync(full, "utf8").match(/^[A-ZÅÄÖ][\wåäöÅÄÖ]+\d+[,.]\d+$/gm) ??
+				[]) {
+				weldedTwins.push(`${full.slice(DIST.length)}: ${hit}`);
+			}
+		}
+	}
+};
+if (existsSync(DIST)) scanHtml(DIST);
+if (chartFences > 0 && chartFigures < chartFences) {
+	failures.push(
+		`${chartFences} \`\`\`chart fences in data/, but only ${chartFigures} chart figures in dist.\n` +
+			"    rehype-chart did not run on all of them. Check that astro.config.ts still has\n" +
+			'    `syntaxHighlight: { type: "shiki", excludeLangs: ["chart"] }` and that rehypeChart\n' +
+			"    is in the rehypePlugins array.",
+	);
+}
+if (weldedTwins.length > 0) {
+	failures.push(
+		`${weldedTwins.length} markdown twin(s) have a chart label welded to its value:\n` +
+			weldedTwins
+				.slice(0, 3)
+				.map((t) => `      ${t}`)
+				.join("\n") +
+			"\n    flattenCharts() in scripts/generate-markdown.ts stopped matching — most likely\n" +
+			"    the figure's class or the aria-label moved off .chart-plot.",
+	);
+}
+if (leakedFences > 0) {
+	failures.push(
+		`${leakedFences} chart fences reached dist as <code class="language-chart"> — the reader\n` +
+			"    is being shown the raw spec. See the note above.",
+	);
+}
+
 for (const [rel, note] of [
 	["sitemap-index.xml", "the sitemap Search Console is subscribed to"],
 	[
@@ -146,5 +212,5 @@ if (failures.length > 0) {
 }
 
 console.log(
-	`✓ deploy guard: ${cities} bönetider city pages, ${icsCount} kalendrar, ${pdfCount} månads-PDF:er, ${svarBuilt} svar pages, sitemap + PDF present`,
+	`✓ deploy guard: ${cities} bönetider city pages, ${icsCount} kalendrar, ${pdfCount} månads-PDF:er, ${svarBuilt} svar pages, ${chartFigures} diagram, sitemap + PDF present`,
 );
