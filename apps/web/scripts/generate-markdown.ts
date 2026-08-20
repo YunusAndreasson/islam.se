@@ -43,12 +43,42 @@ function extractMain(html: string): string {
 	// page reaching this line should carry one. If either guard ever slips, a twin
 	// that repeats every footnote mid-sentence is a silent corruption of the whole
 	// AI-facing corpus — cheaper to strip unconditionally than to notice later.
-	return stripSidenotes(fragment)
+	return flattenCharts(stripSidenotes(fragment))
 		.replace(/<script\b[\s\S]*?<\/script>/gi, "")
 		.replace(/<style\b[\s\S]*?<\/style>/gi, "")
 		.replace(/<svg\b[\s\S]*?<\/svg>/gi, "")
 		.replace(/<canvas\b[\s\S]*?<\/canvas>/gi, "")
 		.replace(/<noscript\b[\s\S]*?<\/noscript>/gi, "");
+}
+
+// A chart figure has to be flattened BEFORE node-html-markdown sees it, and before the
+// <svg> strip below removes half of it.
+//
+// Two things go wrong if it is left alone. The CSS forms (`bars`, `columns`, `stack`) are
+// adjacent inline spans, and the converter joins them with no separator — the griskött
+// chart came out as "Griskött29,3" on three orphaned lines, and the caption as
+// "Kilo per person.Källa:". The SVG forms (`line`, `slope`) fare worse: the strip removes
+// the plot entirely, so the twin keeps a caption for a figure whose numbers are gone.
+//
+// The fix is the text we already guarantee is correct: the `aria-label` on `.chart-plot`,
+// a complete Swedish sentence carrying every label and value, asserted non-empty by
+// chart.test.ts and identical in web and print mode. Emitting it gives the markdown reader
+// exactly what the screen-reader user gets — parity, which is this file's whole premise.
+//
+// Essays are unaffected and must stay that way: they ship a hand-authored twin from
+// src/pages/[slug].md.ts that emits the SOURCE body, so an essay's machine twin carries
+// the raw ```chart spec — strictly better than any prose rendering of it.
+const CHART_FIGURE = /<figure class="chart[^"]*"[^>]*>([\s\S]*?)<\/figure>/gi;
+
+function flattenCharts(fragment: string): string {
+	return fragment.replace(CHART_FIGURE, (whole, inner: string) => {
+		const aria = /aria-label="([^"]*)"/i.exec(inner)?.[1];
+		const caption = /<figcaption\b[^>]*>([\s\S]*?)<\/figcaption>/i.exec(inner)?.[1];
+		if (!aria) return whole; // shape changed — leave it rather than silently drop data
+		// The caption's sentences live in sibling <span>s that abut with no whitespace.
+		const spaced = caption?.replace(/<\/span><span/gi, "</span> <span") ?? "";
+		return `<p>${aria}</p>${spaced ? `<p>${spaced}</p>` : ""}`;
+	});
 }
 
 let generated = 0;

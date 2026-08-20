@@ -35,6 +35,8 @@ import { fileURLToPath } from "node:url";
 import rehypeStringify from "rehype-stringify";
 import remarkRehype from "remark-rehype";
 import { unified } from "unified";
+import { buildChartHast } from "../src/lib/chart/render";
+import { parseChartSpec } from "../src/lib/chart/spec";
 import { type Article, loadArticles, REPO_ROOT } from "./lib/essay-corpus";
 
 const SCRIPT_DIR = dirname(fileURLToPath(import.meta.url));
@@ -64,7 +66,36 @@ const renderer = unified()
 	// `allowDangerousHtml` is deliberately OFF: the essays contain a little inline HTML
 	// for the web (the honorific glyph, verse players) which has no meaning in a book and
 	// would be invalid XHTML besides. remark-rehype drops it, which is the wanted result.
-	.use(remarkRehype)
+	// ⚠️ Without this handler a ```chart fence becomes a visible <pre><code> — the reader
+	// of the book would be shown the raw spec where the figure belongs. Routed through the
+	// same renderer the website uses, in print mode: EPUB has no CSS custom properties, so
+	// var(--color-brass) would paint nothing at all.
+	.use(remarkRehype, {
+		handlers: {
+			code(_state: unknown, node: { lang?: string; value?: string }) {
+				if (node.lang === "chart") {
+					return buildChartHast(parseChartSpec(node.value ?? ""), "print");
+				}
+				// The plain <pre><code> remark-rehype would have produced, written out rather
+				// than imported: mdast-util-to-hast is remark-rehype's own dependency and pnpm's
+				// strict layout does not expose it here, and it is not worth a direct dependency
+				// for three lines. The corpus contains no code fences other than charts anyway.
+				return {
+					type: "element",
+					tagName: "pre",
+					properties: {},
+					children: [
+						{
+							type: "element",
+							tagName: "code",
+							properties: node.lang ? { className: [`language-${node.lang}`] } : {},
+							children: [{ type: "text", value: node.value ?? "" }],
+						},
+					],
+				};
+			},
+		},
+	})
 	.use(rehypeStringify, {
 		// XHTML, not HTML: EPUB documents are parsed by an XML parser, so <br> and <img>
 		// must close and every entity must be defined. This is the whole difference
