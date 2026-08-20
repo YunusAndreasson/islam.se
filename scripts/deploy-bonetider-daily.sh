@@ -144,6 +144,24 @@ if [ "${SKIP_SHIP_GUARD:-0}" != "1" ]; then
 	fi
 fi
 
+# Astro's content layer caches rendered markdown in node_modules/.astro/data-store.json,
+# and its cache key does NOT include the rehype/remark chain. So a commit that changes how
+# markdown renders — a plugin edit, a new pipeline step — produces a build that silently
+# re-serves the OLD markup. The first night this bit us, the whole fördjupning corpus came
+# out without its margin notes and the deploy guard (correctly) refused to ship it.
+#
+# The store is only a cache: dropping it costs one content re-sync, some fifteen seconds.
+# Do it whenever HEAD has moved since the last successful deploy — that is exactly the set
+# of nights where content or code could have changed, and it costs nothing on the nights
+# it hasn't. Compared against the recorded SHA rather than a before/after of the pull, so
+# it still holds after the re-exec above (which skips the pull by design).
+head_now="$(git rev-parse HEAD 2>/dev/null || true)"
+last_shipped="$(cat "$DEPLOYED_SHA_FILE" 2>/dev/null || true)"
+if [ "$head_now" != "$last_shipped" ]; then
+	log "HEAD moved since the last deploy — dropping the content cache so markdown re-renders"
+	find "$REPO_DIR/apps/web/node_modules/.astro" -maxdepth 1 -name data-store.json -delete 2>/dev/null || true
+fi
+
 # Fast no-op on days the lockfile is unchanged; installs new deps after a pull.
 # Filtered to the web package: it has no workspace deps, while a full workspace install
 # pulls @huggingface/transformers and onnxruntime for packages this build never touches
