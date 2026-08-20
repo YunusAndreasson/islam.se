@@ -164,6 +164,19 @@ Runt 92 000 personer avlider i Sverige varje år; 2024 var siffran omkring 91 30
 
 Den mest konkreta konflikten gäller tid. Islamisk norm är skyndsam gravsättning, i svenskt informationsmaterial ofta angiven som inom trettiosex till fyrtioåtta timmar.[^27] Begravningslagen kräver att stoftet kremeras eller gravsätts snarast möjligt och senast en månad efter dödsfallet; fristen kortades från två månader till en månad den 1 maj 2012.[^28] Men den faktiska väntetiden hör till de längsta i världen. Enligt Sveriges kyrkogårds- och krematorieförbund steg genomsnittstiden från dödsfall till begravning eller kremering från 21,6 dagar 2012 till 23,2 dagar 2019 och 25,4 dagar 2023.[^29] Lagen är alltså inte hindret. Flaskhalsen ligger i dödsbevis och intyg, bårhusrutiner, tillgång till lokal och personal, och i att anhöriga ska hinna samlas. För en muslimsk familj innebär det att normen är praktiskt ouppnåelig även när ingen motsätter sig den. Trettiosex timmar efter dödsfallet väntar familjen fortfarande på ett intyg.
 
+```chart
+type: bars
+unit: dygn
+caption: Hur länge ett stoft får, eller brukar, vänta på gravsättning.
+source: Begravningslag (1990:1144); Sveriges kyrkogårds- och krematorieförbund, genomsnitt 2023; svenskt informationsmaterial om islamisk begravningssed
+note: Tre olika slags mått på samma tidsaxel – en religiös norm, ett uppmätt genomsnitt och en yttersta laglig frist. De svarar inte på samma fråga, och avståndet mellan det första och det andra är det som en familj möter i praktiken.
+emphasis: Islamisk norm
+data:
+  Lagens yttersta frist: 30
+  Faktisk väntetid 2023: 25,4
+  Islamisk norm: 2
+```
+
 En betydande del av de muslimska dödsfallen i Sverige följs av hemsändning i stället för gravsättning här. För att föra en avliden ut ur landet krävs passersedel för lik, som utfärdas av Polismyndigheten, tillsammans med dödsbevis och handlingar från mottagarlandets beskickning. Kroppen balsameras för att uppfylla transportkraven. Hemsändningen förlänger därmed tiden till gravsättning ytterligare, samtidigt som balsamering och andra ingrepp i kroppen annars undviks. Också tillåtligheten är omtvistad bland de lärda: en utbredd hållning är att den döde bör begravas där döden inträffade och att transport utan starka skäl bör undvikas, medan andra godtar den när familjen och gravplatsen finns i ursprungslandet.[^30]
 
 Kremering är förbjuden enligt alla fyra rättsskolorna. Den svenska kremationsfrekvensen låg på 82,8 procent 2020 och fortsätter stiga, men den siffran gäller befolkningen i stort och omfattar i praktiken inga muslimska begravningar.[^31] Det som blir en kapacitetsfråga är i stället tillgången till kistgravplatser med rätt orientering mot Mecka. Begravningslagens 2 kap. 2 § ålägger huvudmannen att tillhandahålla särskilda gravplatser för dem som inte tillhör något kristet samfund, och kapitlet föreskriver samråd med företrädare för andra trossamfund vid anläggning eller väsentlig ändring av begravningsplats.[^32]

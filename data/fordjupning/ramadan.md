@@ -34,6 +34,8 @@ faq:
   - q: "Vad är Laylat al-Qadr och när infaller den?"
     a: "Natten då Koranens uppenbarelse inleddes, av Koranen kallad bättre än tusen månader. Den infaller enligt hadithkorpusen bland de udda nätterna under ramadans sista tio, men vilken natt exakt är avsiktligt oklart. Den 27:e natten är den vanligaste förmodan i praxis utan att vara fastslagen."
 sources:
+  - name: "islam.se: Iftar- och suhūr-tider för svenska orter (egen beräkning)"
+    url: "https://islam.se/bonetider/ramadan/"
   - name: "Koranen 2:183–187 (Knut Bernströms översättning)"
     url: "https://quran.com/2/183-187?translations=48"
   - name: "Koranen 97 (al-Qadr)"
@@ -94,6 +96,28 @@ Tvisten skärps av att Koranen definierar fastetiden optiskt och månaden astron
 
 Ordet *ramadān* kommer av roten r-m-d, som betecknar stark hetta, förbränd mark, solstekta stenar. *al-Ramdāʾ* är den brännheta sanden. Månaden fick sitt namn i förislamisk tid, då den arabiska kalendern ännu justerades mot solåret och månaden alltså föll under sommarhettan. Efter att interkaleringen förbjöds, av Koranen kallad *al-nasīʾ*, ett tillägg till otron, blev kalendern strikt lunär, och ramadan vandrar sedan dess elva dagar bakåt genom solåret. Namnet minner alltså om en årstid månaden inte längre har.
 
+```chart
+type: line
+unit: timmar
+caption: Fastedygnets längd i Stockholm den femtonde i varje månad, räknat från fajr till maghrib.
+source: islam.se, iftar- och suhūr-tider för svenska orter, egen beräkning 2027
+sourceUrl: https://islam.se/bonetider/ramadan/
+note: Samma stad, samma regel, tio timmars skillnad. Vilken av kurvans punkter en fastande möter avgörs av var i solåret ramadan råkar ligga det året, och ingenting annat.
+data:
+  Januari: 9,3
+  Februari: 11,4
+  Mars: 13,5
+  April: 15,8
+  Maj: 18,0
+  Juni: 19,3
+  Juli: 18,7
+  Augusti: 16,8
+  September: 14,5
+  Oktober: 12,2
+  November: 10,0
+  December: 8,7
+```
+
 Själva handlingen heter inte ramadan utan *sawm* eller *siyām*, av en rot som betyder att hålla inne, avstå, hålla stilla. Grundbetydelsen är vidare än matavhållsamhet: en häst som står stilla sägs *sāʾim*, och Marias löfte i sura 19 att hon avlagt en *sawm* åt den Nåderike gäller tystnad, inte hunger. Den juridiska definitionen snävar in ordet till att avhålla sig från de fastebrytande handlingarna från gryning till solnedgång med föreliggande avsikt. Kvar i den vidare betydelsen finns ändå något igenkännbart: den som håller inne med ett svar den redan formulerat.
 
 Kring kärnbegreppet ligger ett fält av tekniska termer som återkommer i varje diskussion om månaden. *Niyya* är avsikten, som ska föreligga för varje fastedag. *Suhūr* är måltiden före gryningen, *iftār* den som bryter fastan. *Imsāk* betecknar avhållandet som sådant och, i vissa kalendrar, en säkerhetsmarginal före den egentliga gryningen. *Qadāʾ* är att ta igen missade dagar, *fidya* den kompensation i mat som ges av den som aldrig kan ta igen dem, och *kaffāra* det tyngre sonandet för den som medvetet brutit fastan. *Iʿtikāf* är den tillbakadragenhet i moskén som traditionellt hålls under månadens sista tio dagar, *tarāwīh* nattbönen, och *laylat al-qadr* den natt som är månadens teologiska mittpunkt. Hela den rättsliga oenigheten är ordnad under dessa kategorier, och de återkommer i varje avsnitt som följer.
@@ -146,7 +170,27 @@ Nymånefrågan politiserades under samma århundrade. När telegrafen och senare
 
 Hur många i Sverige som fastar är oklart, och de siffror som finns mäter helt olika saker. Pew Research Center uppskattar antalet personer med muslimsk bakgrund till omkring en miljon. De statsbidragsberättigade muslimska riksorganisationerna hade drygt 200 000 medlemmar 2021 enligt Myndigheten för stöd till trossamfund. SOM-institutets undersökningar ger den snävaste siffran: omkring 90 000 personer är både medlemmar i en muslimsk församling och har besökt en moské under det gångna året.[^18] Svensk Handel lät i februari 2024 fråga tusen svenskar och fick att åtta procent avsåg delta i ramadan och nio procent fira eid al-fitr, alltså ungefär en av tio. Siffrorna ska läsas med den reservation källorna själva gör: allt beror på hur muslim definieras. Åtta procent av befolkningen ligger dessutom i överkant av varje befolkningsuppskattning som finns, och skulle innebära att i stort sett varje person med muslimsk bakgrund i landet deltar. Någon undersökning som direkt mäter hur många som faktiskt fastar hela månaden finns inte.[^19]
 
-Den svenska särfrågan är dygnet. I Gällivare, tio mil norr om polcirkeln, inträffade under vissa år mellan 2012 och 2020 solnedgången mellan 23.40 och 01.20, vilket lämnade knappt två timmar för mat och dryck; andra år hade fastan varit tjugotvå timmar om den räknats efter solen.[^20] Det innebär en middag som äts strax efter midnatt och en frukost som ska hinnas med före två. Europeiska fatwarådet har mött problemet genom att dela Norden i tre zoner. Zon 2, mellan 48:e och 66:e breddgraden, vilket i Sverige omfattar allt från Trelleborg till Boden, får beräkna fajr och ishāʾ efter breddgrad 45 med Malmö som referenspunkt. Zon 3, norr om Boden, knyts på motsvarande sätt till en sydligare tidtabell. Hur den regeln exakt lyder återges på skilda sätt i andrahandskällorna, dels som att man följer klockslagen vid latitud 45, dels som att man helt enkelt följer Malmös tidtabell. Skillnaden är i praktiken liten men inte obefintlig, och den som vill tillämpa regeln bör gå till fatwatexten själv.[^21]
+Den svenska särfrågan är dygnet. I Gällivare, tio mil norr om polcirkeln, inträffade under vissa år mellan 2012 och 2020 solnedgången mellan 23.40 och 01.20, vilket lämnade knappt två timmar för mat och dryck; andra år hade fastan varit tjugotvå timmar om den räknats efter solen.[^20] Det innebär en middag som äts strax efter midnatt och en frukost som ska hinnas med före två.
+
+```chart
+type: bars
+unit: timmar
+caption: Fastedygnets längd från fajr till maghrib vid midsommar, räknat efter solen.
+source: islam.se, iftar- och suhūr-tider för svenska orter, egen beräkning för midsommardagen 2027
+sourceUrl: https://islam.se/bonetider/ramadan/
+note: Ramadan vandrar genom solåret och inföll senast vid midsommar 2016. Norr om polcirkeln har beräkningen ingen lösning – solen sjunker aldrig tillräckligt djupt för att gryningen ska infalla – och de orterna står därför tomma. Det är inte ett fel i tabellen utan själva saken.
+data:
+  Luleå: 23,2
+  Umeå: 21,3
+  Sundsvall: 20,5
+  Stockholm: 19,4
+  Göteborg: 19,0
+  Malmö: 18,5
+  Gällivare: -
+  Kiruna: -
+```
+
+Europeiska fatwarådet har mött problemet genom att dela Norden i tre zoner. Zon 2, mellan 48:e och 66:e breddgraden, vilket i Sverige omfattar allt från Trelleborg till Boden, får beräkna fajr och ishāʾ efter breddgrad 45 med Malmö som referenspunkt. Zon 3, norr om Boden, knyts på motsvarande sätt till en sydligare tidtabell. Hur den regeln exakt lyder återges på skilda sätt i andrahandskällorna, dels som att man följer klockslagen vid latitud 45, dels som att man helt enkelt följer Malmös tidtabell. Skillnaden är i praktiken liten men inte obefintlig, och den som vill tillämpa regeln bör gå till fatwatexten själv.[^21]
 
 Därmed kunde saken ha varit avgjord. Den blev det inte. I maj 2016 beslutade Sveriges imamråd, med Stockholmsmoskéns imam Mahmoud Khalfi som ordförande, att i stället följa den turkiska hanafiska kalendern, vars senare gryningsdefinition i praktiken förkortar fastedagen.[^22] Hur länge det beslutet har följts framgår inte av tillgängliga källor, och Khalfi har medverkat i båda processerna, vilket gör bilden av två rivaliserande läger mindre skarp än den ibland framställs. Det som däremot är väl dokumenterat är mångfalden. I Norrland förekommer i praktiken minst sju parallella lösningar: saudisk tidtabell, Istanbultidtabell, Stockholmstider, lokala tider, naturligt dagsljus, fatwarådets zonmodell och Meckas tider. Någon allmän regel finns fortfarande inte. Vad den astronomiska beräkningen ger, ort för ort, står i [iftar- och suhūr-tiderna för svenska orter](/bonetider/ramadan/); vilken tidtabell en församling sedan följer är just den fråga som avsnittet ovan visar är oavgjord.
 

@@ -174,7 +174,22 @@ Under de senaste decennierna har frågan politiserats i Europa. Den rättsliga r
 
 ## Griskött i Sverige
 
-Proportionerna är värda att slå fast först. Griskött är Sveriges största enskilda köttslag med 29,3 kilo per person under 2025, före fjäderfä med 23,4 och nöt med 22,4, av en total köttkonsumtion på 79,9 kilo.[^26] Under 2024 slaktades 2 579 100 grisar i landet, med en sammanlagd slaktvikt på 245 700 ton.[^27] Pew Research Center uppskattade 2016 antalet muslimer i Sverige till omkring 810 000, ungefär åtta procent av befolkningen, men siffran mäter religiös bakgrund och säger ingenting om hur många som faktiskt undviker griskött.[^28]
+Proportionerna är värda att slå fast först. Griskött är Sveriges största enskilda köttslag, av en total köttkonsumtion på 79,9 kilo per person under 2025.[^26]
+
+```chart
+type: bars
+unit: kilo per person
+source: Jordbruksverket, "Livsmedelskonsumtion av animalier. Preliminära uppgifter 2025", 19 mars 2026
+sourceUrl: https://jordbruksverket.se/om-jordbruksverket/jordbruksverkets-officiella-statistik/jordbruksverkets-statistikrapporter/statistik/2026-03-19-livsmedelskonsumtion-av-animalier.-preliminara-uppgifter-2025
+note: Totalkonsumtion mäter råvaran som går till livsmedel, inklusive innehållet i förädlade produkter – inte vad en enskild person äter.
+emphasis: Griskött
+data:
+  Griskött: 29,3
+  Fjäderfä: 23,4
+  Nötkött: 22,4
+```
+
+Under 2024 slaktades 2 579 100 grisar i landet, med en sammanlagd slaktvikt på 245 700 ton.[^27] Pew Research Center uppskattade 2016 antalet muslimer i Sverige till omkring 810 000, ungefär åtta procent av befolkningen, men siffran mäter religiös bakgrund och säger ingenting om hur många som faktiskt undviker griskött.[^28]
 
 Svensk rätt reglerar inte saken. Skollagen kräver att eleverna utan kostnad erbjuds näringsriktiga skolmåltider, men säger ingenting om innehåll eller religion. Det enda rättsliga verktyget är diskrimineringslagen, och Diskrimineringsombudsmannen har använt det i två riktningar inom loppet av ett år. I december 2023 meddelade DO att myndigheten avsåg att stämma en skola i Stockholms tingsrätt och kräva 50 000 kronor sedan en elev nekats koschermat; skolan fick ett utkast till stämningsansökan och tid att svara till den 15 januari. Myndighetens formulering var att skolan, genom att som enda alternativ erbjuda vegetarisk mat som inte tillagats enligt koscherreglerna, särskilt missgynnade praktiserande judar.[^29] Att en till synes neutral ordning särskilt missgynnar en grupp är rekvisitet för indirekt diskriminering i lagens mening, även om DO inte använder den termen i sitt pressmeddelande. Någon stämning lämnades aldrig in. Ärendet avslutades i februari 2024, sedan skolan meddelat att eleven skulle få koschermat och betalat ersättningen. Avgörande för DO var kostnaden: ökningen kunde inte anses så hög att den motiverade ett nej.[^30]
 
@@ -185,6 +200,18 @@ Bakgrunden var Uddevalla, som inför skolstarten 2024 antog en måltidspolicy me
 I Kungsbacka avskaffade nämnden för gymnasium och arbetsmarknad den 18 december 2025 religiöst motiverad specialkost, efter en motion från SD med stöd av M och KD. Beslutet omfattar gymnasieskolan. Enligt Sebastian Lindberg (V) levererar kommunen omkring 13 300 luncher om dagen, varav 249 är religiöst motiverad specialkost till samtliga skolformer, alltså knappt två procent. Knappt fem månader senare, i maj 2026, beskriver Stefan Jägnert (SD) i en debattartikel hur samma ordning införs också i förskola och grundskola.[^33]
 
 Utvecklingen är bred. En enkät från SVT, besvarad av 158 av 290 kommuner, visade att 61 procent av dem skärpt kraven för anpassad skolmat under tre år. Livsmedelsverkets riktlinjer från 2022 skiljer religion från politiska, etiska och filosofiska värderingar och slår fast att någon skyldighet att tillmötesgå de senare inte finns. I Sollentuna sjönk antalet elever med individanpassad kost från 419 till 155 sedan en daglig pastarätt införts som standardalternativ.[^34] Kontrasten mot kriminalvården är påfallande: där får över hälften av de intagna specialkost, var fjärde av religiösa skäl, utan att myndigheten redovisar det som ett problem.[^35]
+
+```chart
+type: bars
+unit: procent
+caption: Andel som får religiöst motiverad specialkost, 2025.
+source: Sebastian Lindberg (V) om Kungsbacka kommun 2025; Göteborgs-Posten om kriminalvården 2025
+note: Två olika institutioner och två olika underlag – skolsiffran gäller en kommuns samtliga skolformer, anstaltssiffran hela kriminalvården. De är ändå det närmaste en jämförelse som finns, och de pekar åt motsatt håll mot debatten: den anpassning som avskaffas i skolan är rutin i anstalt.
+emphasis: Skolan i Kungsbacka
+data:
+  Kriminalvården: 25
+  Skolan i Kungsbacka: 1,9
+```
 
 Vid sidan av matsalarna finns förtroendefrågan. När Livsmedelsverket 2013 analyserade 99 produkter innehöll nio odeklarerat griskött, åtta av dem under en procent, men en halalmärkt salami från Slovenien låg på omkring tio procent, en nivå myndigheten inte trodde var oavsiktlig.[^36] Samma år visade tester av kebab från tio försäljningsställen i Malmö att tre serverade kött med inslag av gris, i ett fall upp till 18 procent. Professor Mohammad Fazlhashemi konstaterade att tilliten skadas, men tillade att det inte faller någon skugga över dem som ätit i god tro.[^37] Halalcertifiering i Sverige sköts av privata aktörer och står inte under myndighetstillsyn.
 

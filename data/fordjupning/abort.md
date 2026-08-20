@@ -34,6 +34,8 @@ faq:
   - q: "Gör muslimska kvinnor i Sverige fler aborter än andra?"
     a: "Det finns ingen svensk statistik som redovisar aborter efter religionstillhörighet, och rättsvetaren Mosa Sayed varnar uttryckligen för att tillskriva svenska muslimer en enhetlig abortsyn. Gruppen är heterogen och löst sammansatt."
 sources:
+  - name: "Socialstyrelsens rättsliga råd, ärendestatistik om sena aborter 2025"
+    url: "https://www.socialstyrelsen.se/publikationer/statistik-om-aborter-2025-2026-6-10342/"
   - name: "Koranen 23:12–14 (Knut Bernströms översättning)"
     url: "https://quran.com/23/14?translations=48"
   - name: "Koranen 17:31 (Knut Bernströms översättning)"
@@ -62,6 +64,8 @@ sources:
     url: "https://www.socialstyrelsen.se/kunskapsstod-och-regler/regler-och-riktlinjer/foreskrifter-och-allmanna-rad/konsoliderade-foreskrifter/200915-om-abort2/"
   - name: "Socialstyrelsen, Statistik om aborter"
     url: "https://www.socialstyrelsen.se/statistik-och-data/statistik/alla-statistikamnen/aborter/"
+  - name: "Socialstyrelsen, Statistik om aborter 2025 (art.nr 2026-6-10342), tabell 3"
+    url: "https://www.socialstyrelsen.se/publikationer/statistik-om-aborter-2025-2026-6-10342/"
   - name: "SOU 2025:10 En förändrad abortlag"
     url: "https://www.regeringen.se/rattsliga-dokument/statens-offentliga-utredningar/2025/02/sou-202510/"
   - name: "Marc Bygdeman och Anita Ahlenius, Läkartidningen nr 8/2005, om aborter efter vecka 18"
@@ -170,9 +174,36 @@ För muslimer i Europa finns dessutom ett organ med anspråk på just denna geog
 
 Abortlag (1974:595) trädde i kraft den 1 januari 1975 och bygger på tre bestämmelser. Enligt 1 § får abort utföras på kvinnans begäran om åtgärden vidtas före utgången av artonde havandeskapsveckan, och under förutsättning att ingreppet inte på grund av sjukdom hos henne kan antas medföra allvarlig fara för hennes eget liv eller hälsa. Enligt 3 § krävs därefter tillstånd av Socialstyrelsen, som får ges endast om synnerliga skäl föreligger, och inte om det finns anledning anta att fostret är livsdugligt. Enligt 6 § får Socialstyrelsen lämna tillstånd till avbrytande oavsett hur långt havandeskapet framskridit, om det kan antas medföra allvarlig fara för kvinnans liv eller hälsa på grund av sjukdom eller kroppsfel hos henne. Också den sista vägen går alltså via myndigheten, inte förbi den.[^20] Siffran vecka 22, som ofta uppges vara den yttersta gränsen, förekommer inte i lagtexten. Den är administrativ praxis, härledd ur det lagfästa livsduglighetskriteriet och ur vad neonatalvården vid varje tid klarar. Också den svenska yttersta spärren är alltså rörlig: den flyttas av det som händer på en neonatalavdelning, inte av det som beslutas i en kammare.
 
-År 2025 rapporterades cirka 34 100 aborter till Socialstyrelsen, vilket motsvarar drygt 18 aborter per 1 000 kvinnor i åldern 15 till 44 år. Nästan 65 procent utfördes före vecka 7 och knappt 98 procent med medicinsk metod.[^21] RFSU redovisar för 2021 att drygt en procent av ingreppen, 516 stycken, utfördes efter vecka 18.[^22]
+År 2025 rapporterades cirka 34 100 aborter till Socialstyrelsen, vilket motsvarar drygt 18 aborter per 1 000 kvinnor i åldern 15 till 44 år, och knappt 98 procent utfördes med medicinsk metod.[^21] RFSU redovisar för 2021 att drygt en procent av ingreppen, 516 stycken, utfördes efter vecka 18.[^22]
+
+```chart
+type: stack
+caption: Aborter i Sverige 2025, efter graviditetslängd.
+source: Socialstyrelsen, "Statistik om aborter 2025", tabell 3
+sourceUrl: https://www.socialstyrelsen.se/publikationer/statistik-om-aborter-2025-2026-6-10342/
+note: Graviditetslängden räknas från sista menstruationens första dag, omkring två veckor mer än från befruktningen – de klassiska hundratjugo dagarna motsvarar därför ungefär vecka 19. För 39 av årets 34 098 aborter saknas uppgift om längd, och de ingår inte.
+data:
+  Före vecka 7: 22011
+  Vecka 7–9: 7608
+  Vecka 9–12: 2384
+  Vecka 12–18: 1704
+  Efter vecka 18: 352
+```
 
 De sena aborternas karaktär har förändrats. Marc Bygdeman och Anita Ahlenius granskade 2005 materialet från år 2002: 322 ärenden avseende 316 kvinnor, varav 268 ansökningar beviljades och 48 avslogs. Bland de 268 beviljade angavs fosterskada i 143 fall, psykosociala skäl i 102 och sjukdom hos kvinnan i 23. Räknat på de beviljade ansökningarna hade andelen fosterskada 1987 varit 34,8 procent mot 53,4 procent 2002, alltså 143 av 268, en förskjutning författarna tillskriver den rutinmässiga ultraljudsscreeningen.[^23] Socialstyrelsens föreskrifter reglerar stödsamtal, preventivmedelsrådgivning och ansökningsförfarandet vid sen abort.[^24] Lagen håller på att ändras. Utredningen SOU 2025:10 överlämnades i februari 2025, och den 21 maj 2026 lade regeringen fram proposition 2025/26:271, *En förändrad abortlag*. Förslaget förtydligar att en gravid kvinna får göra abort till och med graviditetsvecka 18, öppnar för att ingreppet utförs utanför sjukhus i verksamhet som Inspektionen för vård och omsorg har godkänt för ändamålet, och moderniserar lagens språk. Propositionen bereds i socialutskottet och är ännu inte beslutad.[^25]
+
+```chart
+type: bars
+unit: procent
+caption: Andel av de beviljade sena aborterna där fosterskada angavs som skäl.
+source: Marc Bygdeman och Anita Ahlenius, Läkartidningen nr 8/2005 (1987 och 2002); Socialstyrelsens rättsliga råd, ärendestatistik 2025
+note: Serien är sammanfogad ur två underlag och årtalen är glesa. Talet för 2025 avser 409 av 547 beviljade tillstånd; ansökningar efter vecka 22 ingår inte i redovisningen.
+emphasis: 2025
+data:
+  2025: 74,8
+  2002: 53,4
+  1987: 34,8
+```
 
 Två svenska strider är särskilt relevanta för muslimska läsare. Den första gäller samvetsfrihet. Barnmorskan Ellinor Grimmark nekades anställning sedan hon uppgett att hon inte kunde medverka vid abort. Jönköpings tingsrätt avgjorde målet till regionens fördel den 12 november 2015, och Arbetsdomstolen gjorde detsamma den 12 april 2017.[^26] Domen sammanfattas ofta felaktigt i debatten. Prövningen gällde en avgränsad fråga: om regionen gjort sig skyldig till diskriminering och otillåten inskränkning av religionsfriheten i det enskilda anställningsärendet. Om samvetsfrihet i allmänhet bör införas i svensk vård prövades aldrig. Utgången fick också kännbara ekonomiska följder, eftersom Grimmark ålades att ersätta motpartens rättegångskostnader med omkring 926 000 kronor efter tingsrättens dom och ytterligare cirka 606 000 kronor efter Arbetsdomstolens. Europadomstolen avvisade den 11 februari 2020 hennes och Linda Steens klagomål som uppenbart ogrundade. Domstolen erkände att vägran att medverka är en religionsyttring som skyddas av artikel 9, men fann inskränkningen laglig, berättigad och proportionerlig, och slog fast att Sverige har en positiv skyldighet att organisera vården så att tjänsterna faktiskt tillhandahålls.[^27]
 

@@ -23,6 +23,8 @@ faq:
   - q: "Vad gör man om man missar en bön?"
     a: "Den tas igen (qadāʾ) så snart man minns den. Profeten sade att den som sover förbi en bön eller glömmer den ska be den när han minns det (Sahīh Muslim 684)."
 sources:
+  - name: "islam.se, bönetider för svenska orter (egen beräkning 2027)"
+    url: "https://islam.se/bonetider/"
   - name: "Koranen 1 (al-Fātiha)"
     url: "https://quran.com/1?translations=48"
   - name: "Koranen 4:103"
@@ -89,6 +91,28 @@ Islam föreskriver fem obligatoriska (*fard*) böner per dygn, var och en knuten
 > — Koranen 4:103
 
 Det ger sammanlagt sjutton obligatoriska rakaʿāt: Fajr i gryningen (2), Dhuhr efter middagshöjd (4), Asr på eftermiddagen (4), Maghrib strax efter solnedgången (3) och Isha på natten (4). Tiderna styrs av solens gång och skiftar över året och med platsen; därför räknas bönetabeller ut lokalt. Den som är på resa får korta bönerna med fyra rakaʿāt till två. Utöver de fem finns frivilliga böner (*nawāfil*), bland dem *witr* som avslutar natten och de regelbundna *sunna*-bönerna kring de föreskrivna, men de fem är pliktens kärna.
+
+```chart
+type: line
+unit: timmar
+caption: Tiden mellan isha och nästa fajr i Stockholm, den femtonde i varje månad.
+source: islam.se, bönetider för svenska orter, egen beräkning 2027
+sourceUrl: https://islam.se/bonetider/
+note: Nattens längd mellan den sista och den första bönen, alltså det fönster som återstår för sömn och för suhūr under fastan. Från maj till juli nås aldrig den skymningsvinkel isha annars räknas från; den delen av kurvan följer högbreddsregeln sjundedelen av natten och inte solen direkt.
+data:
+  Januari: 12,3
+  Februari: 10,5
+  Mars: 8,7
+  April: 6,8
+  Maj: 5,1
+  Juni: 3,9
+  Juli: 4,4
+  Augusti: 6,0
+  September: 7,9
+  Oktober: 9,9
+  November: 11,6
+  December: 12,8
+```
 
 ## Varför ber muslimer på just detta sätt?
 

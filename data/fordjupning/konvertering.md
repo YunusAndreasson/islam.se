@@ -31,6 +31,8 @@ faq:
   - q: "Kan en konvertering vara ogiltig om den sker för äktenskaps skull?"
     a: "Juristerna dömer efter den yttre handlingen, eftersom bara den är åtkomlig för människor. Koranen 49:14 medger uttryckligen att yttre underkastelse kan finnas utan inre tro utan att det yttre därför upphävs. Uppriktigheten avgörs av Gud, och den som uttalat bekännelsen behandlas som muslim i rättsligt hänseende."
 sources:
+  - name: "Svenska kyrkan, Medlemmar i Svenska kyrkan 1972–2025"
+    url: "https://www.svenskakyrkan.se/statistik"
   - name: "Koranen 2:256 (Knut Bernströms översättning)"
     url: "https://quran.com/2/256?translations=48"
   - name: "Koranen 49:14 (Knut Bernströms översättning)"
@@ -168,9 +170,37 @@ Svensk rätt känner inte konverteringen. Den påverkar inte någons personrätt
 
 Den enda formella åtgärd en konvertit i praktiken kan behöva vidta är utträde ur Svenska kyrkan, för den som är medlem. Under 2024 lämnade omkring 38 000 personer kyrkan, det lägsta talet på över tjugo år, samtidigt som antalet inträden var det högsta på lika lång tid.[^28] Det religiösa Sverige som konvertiten träder in i är alltså inte i entydig avveckling.
 
+```chart
+type: line
+unit: procent
+caption: Andel av Sveriges befolkning som är medlemmar i Svenska kyrkan.
+source: Svenska kyrkan, Medlemmar i Svenska kyrkan 1972–2025
+sourceUrl: https://www.svenskakyrkan.se/statistik
+note: Måttet är formellt medlemskap och inte tro. Kyrkan pekar själv ut tre orsaker till fallet: äldre medlemmar dör utan att lika många döps, sedan 1996 föds ingen till medlemskap, och invandringen ökar folkmängden så att andelen sjunker utan att någon träder ut.
+data:
+  1972: 95,2
+  1980: 92,9
+  1990: 89,0
+  2000: 82,9
+  2010: 70,0
+  2020: 55,2
+  2025: 50,7
+```
+
 Siffrorna för den muslimska sidan mäter olika saker. Islamiska samarbetsrådets samfund redovisade 203 663 betjänade för 2024, där "betjänad" enligt lagen om trossamfund betyder medlem eller person som regelbundet deltar i verksamheten – inte en trosbekännelse.[^29] Pew uppskattade Sveriges muslimska befolkning till omkring 8 procent 2016, men utgick då i huvudsak från bakgrund och ursprungsland.[^27] SOM-institutets nationella undersökning 2019 gav 2,5 procent av de svarande som identifierade sig som muslimer.[^30] Spännvidden mellan dessa tal är inte ett fel i undersökningarna; den speglar att de mäter medlemskap, härkomst och självbild var för sig.
 
 Där svensk förvaltning ändå tvingas bedöma en trosövergång uppstår samma problem som i 60:10. Migrationsverket antog i december 2018 ett rättsligt ställningstagande om konversion och ateism, betecknat SR 46/2018, som ersatte ett från 2012. Tyngdpunkten flyttades från kunskapsfrågor till hur genuin övertygelsen är, hur processen fram till trosbytet gått till och hur den kommer att ta sig uttryck vid ett återvändande.[^31] Konvertitutredningen, presenterad i mars 2019 av Pingst tillsammans med Skandinaviska människorättsjuristerna och fyra andra frikyrkosamfund, byggde på 619 afghanska medborgare som konverterat till kristendomen. Av dem hade 503 åberopat konversionen som asylskäl, och bland de 458 som hunnit få beslut hade 68 procent fått avslag med motiveringen att tron inte bedömdes genuin. I de ärenden där konversionen åberopats sent i processen steg avslagsandelen till 81 procent. Mest talande är nämndemännens röstning i migrationsdomstolarna: ledamöter nominerade av Sverigedemokraterna röstade för avslag i 93 procent av fallen, ledamöter nominerade av Vänsterpartiet i 15 procent.[^32] Den spridningen är ett starkare belägg för godtycke än totalsiffran.
+
+```chart
+type: bars
+unit: procent
+caption: Andel avslag i migrationsdomstolarna, efter vilket parti som nominerat nämndemannen.
+source: Konvertitutredningen, mars 2019, byggd på 619 afghanska medborgare som konverterat till kristendomen
+note: Samma sorts ärenden, olika utfall. Avslagsandelen i samtliga avgjorda beslut var 68 procent, och 81 procent när konversionen åberopats sent i processen.
+data:
+  Nominerade av Sverigedemokraterna: 93
+  Nominerade av Vänsterpartiet: 15
+```
 
 Att svårigheten är gammal framgår av en passage hos Ibn Qudama. al-Shafii skiljer där mellan en icke-muslim som ber i fiendeland och en som ber i muslimskt land: i det första fallet talar handlingen för att han blivit muslim, i det andra inte, eftersom han där kan tänkas ha bett för syns skull eller av försiktighet, *riyāʾ* och *taqiyya*.[^33] En klassisk jurist resonerar där om huruvida en yttre religiös handling, utförd på en plats där den ger fördelar, bevisar en inre förändring. Problemet att läsa av en inre förändring ur en yttre handling är alltså inte nytt.
 

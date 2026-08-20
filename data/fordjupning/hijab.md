@@ -32,6 +32,8 @@ faq:
   - q: "Finns det muslimska lärda som förnekar att hijab är obligatorisk?"
     a: "Ja, men de utgör en tydlig minoritet. Den egyptiske domaren Muhammad Said al-Ashmawi, Gamal al-Banna och syriern Muhammad Shahrur har alla hävdat att huvudtäckning inte är en religiös plikt. Positionen avvisas av det stora flertalet lärda i samtliga rättsskolor."
 sources:
+  - name: "Brå, tabellsamling Polisanmälda hatbrott 2020–2024"
+    url: "https://bra.se/statistik/statistik-om-rattsvasendet/hatbrottsstatistik"
   - name: "Koranen 24:30"
     url: "https://quran.com/24/30?translations=48"
   - name: "Koranen 24:31"
@@ -153,6 +155,25 @@ I arbetslivet blev utfallet det motsatta. Arbetsdomstolen prövade den 13 decemb
 Diskrimineringsombudsmannens praxis fyller ut bilden. I ett rekryteringsärende 2013 fick en kvinna som sökte städarbete på ett hotell beskedet att huvudduk inte var förenlig med klädkoden; DO bedömde det som indirekt diskriminering och ärendet förliktes den 15 mars 2013 mot 50 000 kronor i ersättning.[^24] I fråga om ansiktsslöja har DO slagit fast att generella förbud strider mot diskrimineringslagen och att varje fall kräver individuell prövning. Skolverkets juridiska vägledning från 2025 följer samma linje: heltäckande slöja får inte förbjudas generellt, men förbud i enskilda situationer kan godtas, exempelvis vid laborationer eller när plagget påtagligt försvårar samspelet mellan lärare och elev.[^25]
 
 Utsattheten är dokumenterad. Brås rapport om islamofobiska hatbrott, byggd på närmare femhundra polisanmälningar och ett femtiotal intervjuer, redovisar ett tydligt könsmönster: män utsätts oftare på arbetsplatsen eller nära hemmet, medan kvinnor oftare drabbas av okända personer på internet eller på allmän plats, exempelvis när de bär slöja.[^26] Rapporten ger däremot ingen separat statistik för kvinnor med huvudduk, och den luckan bör anges öppet i stället för att fyllas med gissningar. Frågan är samtidigt fortsatt politiskt levande: moderata och sverigedemokratiska riksdagsmotioner om ett lagstadgat slöjförbud i förskola och grundskola har lagts flera gånger efter domen och avslagits utan undantag.[^27]
+
+```chart
+type: bars
+unit: brott
+caption: Polisanmälda hatbrott med islamofobiskt motiv 2024, efter brottstyp.
+source: Brå, tabellsamling Polisanmälda hatbrott 2020–2024, tabell 7C
+sourceUrl: https://bra.se/statistik/statistik-om-rattsvasendet/hatbrottsstatistik
+note: Två tredjedelar av brotten är ord och inte våld. Statistiken räknar polisanmälningar, och Brå bedömer själv att mörkertalet är stort – den mäter alltså vad som anmäls, inte vad som sker.
+data:
+  Ofredande: 99
+  Hets mot folkgrupp: 59
+  Ärekränkning: 40
+  Olaga hot: 30
+  Skadegörelse: 23
+  Misshandel: 15
+  Övriga brott: 5
+  Frihets- och integritetsbrott: 4
+  Olaga diskriminering: 1
+```
 
 ## Hijab i svensk idéhistoria
 

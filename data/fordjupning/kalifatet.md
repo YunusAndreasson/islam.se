@@ -32,6 +32,7 @@ faq:
   - q: "Vad är skillnaden mellan kalif och imam?"
     a: "I den klassiska statsrätten är orden i praktiken utbytbara: ämbetet kallas al-imama al-uzma, det stora imamatet, i analogi med den som leder bönen. Ibn Khaldun noterar att följeslagarna använde just bönens imamat som argument för Abu Bakrs upphöjelse. Ordet imam används dessutom om den som leder bönen."
 sources:
+  - name: "Kalifatets historia från 632 till 1924 – årtalen sammanställda ur artikelns egna uppgifter"
   - name: "Koranen 2:30 (Knut Bernströms översättning)"
     url: "https://quran.com/2/30?translations=48"
   - name: "Koranen 38:26 (Knut Bernströms översättning)"
@@ -165,6 +166,21 @@ Efter 661 blev ämbetet ärftligt under umayyaderna i Damaskus, och från 750 un
 Mongolerna intog Bagdad 1258, och ett skuggkalifat fortlevde i Kairo under mamlukerna till 1517. Att titeln vid den erövringen skulle ha överlåtits från den siste abbasiden till Selim I är däremot en berättelse som saknar stöd i samtida källor och som förekommer först i senare osmansk historieskrivning. Det osmanska anspråket på överhöghet över muslimer utanför riket går däremot tillbaka till 1500-talet, och de anspråk som restes på nytt under sent 1700- och tidigt 1800-tal vilade alltså inte helt på en nykonstruktion.[^42]
 
 Slutet kom i två steg. Sultanatet avskaffades den 1 november 1922, och Abdülmecid II valdes den 19 november samma år till kalif med rent ceremoniell ställning. Den 3 mars 1924 avskaffade nationalförsamlingen ämbetet och landsförvisade honom med det osmanska husets övriga medlemmar.[^23] Kalifatkommittéer bildades därefter i flera länder, och två kongresser samlades: i Kairo 1926, där församlingen enades om att tiden inte var lämplig, och i Jerusalem 1931. Ingen av dem lyckades utse en efterträdare.
+
+```chart
+type: bars
+unit: år
+caption: Kalifatets epoker, räknade i år.
+source: Kalifatets historia från 632 till 1924, årtalen som de anges i artikeln
+note: Den period traditionen behandlar som normerande är den kortaste av alla. Att titeln skulle ha överlåtits till Selim I vid erövringen 1517 saknar stöd i samtida källor; det osmanska anspråket dateras här från samma år eftersom det är därifrån det räknas.
+emphasis: De rättledda kaliferna
+data:
+  Abbasiderna i Bagdad: 508
+  Osmanska kalifatet: 407
+  Skuggkalifatet i Kairo: 259
+  Umayyaderna: 89
+  De rättledda kaliferna: 29
+```
 
 ## Kalifatet i svensk rätt och svensk debatt
 
