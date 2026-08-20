@@ -17,6 +17,24 @@
 #   * Renders the PDF. ⚠️ NOT optional, despite being irrelevant to prayer times: a Pages
 #     deploy is a full SNAPSHOT of dist/, so omitting `pnpm pdf` 404s the already-live
 #     /samlingsvolym.pdf that BookPod links to.
+#
+# WHAT THE NIGHT ACTUALLY COSTS (measured 2026-08-20, 8-core dev box, 2 473 pages)
+#   ~125 s on an ordinary night, ~310 s on the first night of a month.
+#
+#   The difference is the per-town artefacts. A month's prayer times are the same on the
+#   1st as on the 28th, so the .ics calendars (2 128) and the month PDFs (272) are
+#   deterministic per (ort, år, månad) and cached on disk under node_modules/.astro —
+#   recomputed when the month turns, copied every other night. Byte-identical output also
+#   means wrangler uploads none of those 101 MB again until the month rolls.
+#
+#   ⚠️ That cache lives in node_modules. A deploy host that wipes node_modules pays the
+#   cold cost (~310 s) on the next run — correct, just slower. Never "clean" it nightly.
+#
+#   The 2 265 HTML pages that carry a date DO need re-rendering every night: 2 128 city
+#   pages, 137 mosque pages, and the mast prayer chip on every page. Astro's experimental
+#   incremental build does not help here — it keys on getStaticPaths cacheKey plus the
+#   module graph, neither of which sees "the date changed", so it would either skip the
+#   very pages the job exists to refresh or invalidate them all anyway.
 #   * Deploys the static `dist/` to Cloudflare Pages, production branch `master`.
 #
 # REQUIREMENTS (for cron / CI, non-interactive)

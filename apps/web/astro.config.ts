@@ -676,23 +676,26 @@ export default defineConfig({
 	// mobile browsers fire mouseover on tap ahead of click, and Astro already downgrades on
 	// saveData/2g.
 	prefetch: { defaultStrategy: "hover" },
-	// concurrency: measured 102 s -> 86 s on this 8-core box. Do NOT raise it to 8 —
-	// page rendering is CPU-bound and single-threaded, so 8 measured SLOWER (98 s) than
-	// 4 through contention. The sampled validation build is deliberately serial: Astro's
-	// parallel prerender can intermittently ENOENT a freshly-created route directory in
-	// the partial /bonetider sample, which makes `pnpm run build:fast` flaky.
+	// The concurrency note that used to sit here recorded 102 s -> 86 s for 4 workers and
+	// warned only against 8. It never tested 1, and 1 turned out to be the answer — see
+	// the measurement in `build` below. The instinct it recorded was right (rendering is
+	// single-threaded and contends) and simply did not go far enough down.
 	// inlineStylesheets stays "always": it costs ~5 s of build and buys the
 	// render-blocking-request-free FCP the Lighthouse pass depends on.
-	// `concurrency` is page-render parallelism, and 4 suits a developer machine. The
-	// nightly deploy host is an 8 GB Hetzner box that also carries two other projects,
-	// where 4 took the build to 6,3 GB RSS and the kernel's OOM reaper killed it 868 city
-	// pages in — exit 137, caught by scripts/assert-full-build.mjs before it could ship a
-	// dist with 1 260 missing towns. ASTRO_BUILD_CONCURRENCY lets that host ask for less
-	// without changing what anyone else gets; unset, the value is the old 4.
+	// `concurrency` is page-render parallelism. This was 4 for a long time on the
+	// assumption that more workers meant a faster build. Measured on the full 2 473-page
+	// build, 2026-08-20:
+	//
+	//     concurrency 1 → 221 s      concurrency 2 → 215 s      concurrency 4 → 279 s
+	//
+	// Four was the SLOWEST, and it was also what took the 8 GB deploy host to 6,3 GB RSS
+	// and got the build OOM-killed 868 city pages in. Astro's own reference says why and
+	// says to leave it alone: page rendering is single-threaded JavaScript, so extra
+	// workers buy no CPU while multiplying peak memory. 1 is Astro's default; the env var
+	// stays as an escape hatch for measuring this again rather than guessing.
 	build: {
 		inlineStylesheets: "always",
-		concurrency:
-			Number(process.env.ASTRO_BUILD_CONCURRENCY) || (process.env.BONETIDER_SAMPLE ? 1 : 4),
+		concurrency: Number(process.env.ASTRO_BUILD_CONCURRENCY) || 1,
 	},
 	// Astro 7 defaults this to "warn". Nearly every route here is generated from a DERIVED
 	// slug — ~2100 bonetider/[stad] pages plus moskeer/[stad] and moskeer/lan/[lan] — and a
