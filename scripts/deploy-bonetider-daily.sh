@@ -47,6 +47,8 @@
 # REQUIREMENTS (for cron / CI, non-interactive)
 #   * pnpm + Node installed and on PATH.
 #   * The `typst` binary on PATH — scripts/generate-pdf.ts shells out to it.
+#   * The `zip` binary on PATH — scripts/generate-epub.ts builds the EPUB container with
+#     it. Ubuntu server images do not all ship it; `apt-get install zip`.
 #   * Wrangler authenticated WITHOUT a browser: export CLOUDFLARE_API_TOKEN (a token with the
 #     "Cloudflare Pages: Edit" permission) and CLOUDFLARE_ACCOUNT_ID in the environment.
 #     ⚠️ Set them in cron's own environment; cron does not read your shell profile.
@@ -85,6 +87,19 @@ REPO_DIR="${REPO_DIR:-$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)}"
 cd "$REPO_DIR"
 
 log() { printf '[deploy-bonetider-daily %s] %s\n' "$(date -u +%FT%TZ)" "$*"; }
+
+# Every external binary this run needs, checked before the build rather than after it.
+# `zip` was the one that taught the lesson: the EPUB step shells out to it, the deploy
+# host did not have it, and the failure surfaced as `spawnSync zip ENOENT` seven minutes
+# and 6,5 CPU-minutes into a run that had already rebuilt the whole site. A build machine
+# is not a developer machine, and "it is installed everywhere" is a guess about someone
+# else's box.
+for binary in node pnpm wrangler typst zip git; do
+	command -v "$binary" >/dev/null || {
+		log "missing required binary: $binary — refusing to start a build that cannot finish"
+		exit 1
+	}
+done
 
 # Check the credential BEFORE the seven-minute build, not at the deploy step after it.
 # On the unattended host the build peaks around 7 GB RSS; discovering a missing token
