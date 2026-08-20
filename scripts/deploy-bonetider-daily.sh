@@ -81,7 +81,16 @@ fi
 # Pick up any newly committed code. Freshness itself needs no new commit (the build stamps
 # today's date), so a non-fast-forward or offline box must not abort the daily refresh.
 if [ "${SKIP_GIT_PULL:-0}" != "1" ]; then
+	# bash reads a script incrementally, by byte offset, WHILE running it — so a pull that
+	# rewrites this file mid-run makes the shell resume at an offset that now points into
+	# different text. Re-exec when the pull changed us, and pass a marker so the new process
+	# does not pull (and re-exec) again.
+	before="$(cksum <"${BASH_SOURCE[0]}")"
 	git pull --ff-only 2>/dev/null || log "git pull skipped (non-ff, dirty tree, or offline)"
+	if [ "$(cksum <"${BASH_SOURCE[0]}")" != "$before" ]; then
+		log "the pull updated this script — re-executing the new version"
+		SKIP_GIT_PULL=1 exec "${BASH_SOURCE[0]}" "$@"
+	fi
 fi
 
 # An unattended deploy publishes whatever master holds, and master is a working surface:
