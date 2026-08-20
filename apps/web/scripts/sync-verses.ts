@@ -398,13 +398,22 @@ async function main() {
 		for (const s of skipped) console.log(`  – ${s.key}: ${s.reason}`);
 	}
 
-	// Astro's content layer caches each entry's RENDERED html (node_modules/.astro/
-	// data-store.json), keyed only by the markdown digest — it has no idea the rehype
-	// verse-player output also depends on this map. So when the map changes but the
-	// essays don't, the next `astro build` (incl. `pnpm ship`) re-emits the OLD players
-	// from cache. Invalidate the store so the next build re-renders; Astro rebuilds it.
-	const dataStore = join(webRoot, "node_modules/.astro/data-store.json");
-	if (existsSync(dataStore)) {
+	// Astro's content layer caches each entry's RENDERED html, keyed only by the markdown
+	// digest — it has no idea the rehype verse-player output also depends on this map. So
+	// when the map changes but the essays don't, the next `astro build` (incl. `pnpm ship`)
+	// re-emits the OLD players from cache. Invalidate the store so the next build
+	// re-renders; Astro rebuilds it.
+	//
+	// ⚠️ This pointed at `node_modules/.astro/data-store.json` until 2026-08-20, which under
+	// Astro 7 does not exist — so the guard silently deleted nothing and every verse-map
+	// change since then shipped with stale players. Both paths are tried now: whichever
+	// exists is the store.
+	const stores = [
+		join(webRoot, ".astro/data-store.json"),
+		join(webRoot, "node_modules/.astro/data-store.json"),
+	];
+	const dataStore = stores.find((path) => existsSync(path));
+	if (dataStore) {
 		await rm(dataStore);
 		console.log("Invalidated Astro content cache → next build re-renders the players.");
 	}

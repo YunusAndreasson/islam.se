@@ -33,13 +33,19 @@
  * breakpoint, the print apparatus, and the source the footnote popover clones from.
  *
  * ⚠️ EDITING THIS FILE DOES NOT INVALIDATE THE CONTENT CACHE. Astro's content layer
- * stores rendered HTML in `node_modules/.astro/data-store.json`, and its key does not
- * include the rehype chain — so a build after a change here silently re-serves the
- * markup the OLD plugin produced. (The `.astro/data-store.json` at the project root is
- * a different, smaller file; deleting that one changes nothing.) Symptom: the edit
- * appears to do nothing at all, repeatably. Cure:
+ * stores rendered HTML keyed by the markdown digest alone — the key does not include the
+ * rehype chain — so a build after a change here silently re-serves the markup the OLD
+ * plugin produced. Symptom: the edit appears to do nothing at all, repeatably. Cure:
  *
- *     find apps/web/node_modules/.astro -maxdepth 1 -name data-store.json -delete
+ *     rm -f apps/web/.astro/data-store.json
+ *
+ * ⚠️⚠️ THE PATH MOVED, AND THIS NOTE USED TO NAME THE WRONG ONE. Under Astro 7 the store
+ * is `apps/web/.astro/data-store.json` (5+ MB). `apps/web/node_modules/.astro/` no longer
+ * contains a data-store.json at all — only the og/ics/pdf caches this repo puts there
+ * itself — so the old cure deleted nothing and reported success. That is the worst shape
+ * a documented fix can take: it looks applied, and you go on to verify stale output and
+ * believe it. Found 2026-08-20, when a chart caption kept rendering with the wrong quotes
+ * through two dev-server restarts. Delete both paths if in doubt; only one exists.
  *
  * Touching astro.config.ts also works, since a config change clears the store — which
  * is why an edit made alongside a config change seems to apply and one made alone does
