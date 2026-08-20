@@ -30,6 +30,13 @@
 #   ⚠️ That cache lives in node_modules. A deploy host that wipes node_modules pays the
 #   cold cost (~310 s) on the next run — correct, just slower. Never "clean" it nightly.
 #
+#   ⚠️ Do NOT set ASTRO_BUILD_CONCURRENCY on a memory-tight host. It looks like the knob
+#   for "build gently", and it is the opposite: astro.config.ts already sets 1 (Astro's
+#   default and the fastest value measured), and anything higher multiplies peak RSS.
+#   The first real run on hetzner had =2 pinned in the systemd unit, which put the build
+#   over MemoryHigh; the kernel started reclaiming and page renders went from 300 ms to
+#   17 s each. Removing the override fixed it — the same run then finished in ~5 min.
+#
 #   The 2 265 HTML pages that carry a date DO need re-rendering every night: 2 128 city
 #   pages, 137 mosque pages, and the mast prayer chip on every page. Astro's experimental
 #   incremental build does not help here — it keys on getStaticPaths cacheKey plus the
