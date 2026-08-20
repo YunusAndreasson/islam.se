@@ -19,9 +19,9 @@ import AppPromo from "./AppPromo.astro";
 //
 // ⚠️ It lives in its own file rather than as an AppPromo variant, and that is a
 // budget decision, not tidiness. AppPromo renders on 2 121 pages — the hub, all
-// 2 118 city pages, /bonetider/metod/ and /app/ — and with `inlineStylesheets:
+// 2 128 city pages, /bonetider/metod/ and /app/ — and with `inlineStylesheets:
 // "always"` every byte of its scoped CSS is inlined into all of them. Carried as a
-// variant, these ~1.5 kB shipped to 2 118 pages that never render a screenshot.
+// variant, these ~1.5 kB shipped to 2 128 pages that never render a screenshot.
 
 const SHOTS = [
 	{ src: appTider, alt: "Appens bönetidsvy med dygnets fem böner." },

@@ -1,6 +1,6 @@
 // Per-place, latitude-driven daylight facts for the /bonetider/[stad] pages.
 //
-// These are what make each of the 2,118 city pages genuinely *different* rather than
+// These are what make each of the 2,128 city pages genuinely *different* rather than
 // a name-swapped template: midsummer/midwinter day length, whether the place gets
 // midnight sun or polar night, and — the number that actually explains the prayer
 // schedule — how far the sun sinks below the horizon at the summer-solstice solar

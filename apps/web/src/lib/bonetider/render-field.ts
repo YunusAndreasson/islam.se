@@ -461,7 +461,7 @@ export function createFieldRenderer(canvas: HTMLCanvasElement) {
 	/** ⚠️ The marker names itself. Every reference city on the map carried its name
 	 *  while the one the page is ABOUT was the single unlabelled dot — drawAnchors
 	 *  drops any anchor sitting under the marker, and that dropped the name with the
-	 *  dot. Naming it here rather than in ANCHORS covers all 2 118 towns, not the 7
+	 *  dot. Naming it here rather than in ANCHORS covers all 2 128 towns, not the 7
 	 *  anchors. Flipped to the left when the marker sits near the right edge so the
 	 *  name never runs off the canvas. */
 	function drawMarker(t: Transform, loc: FieldLocation, scheme: Scheme, variant: Variant): void {

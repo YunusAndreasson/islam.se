@@ -3,7 +3,15 @@ import SectionOrnament from "../components/SectionOrnament.astro";
 import Base from "../layouts/Base.astro";
 ---
 
-<Base title="Sidan finns inte — islam.se" description="Sidan du söker finns inte.">
+{/* Cloudflare Pages serves this file with a real HTTP 404, so it is not indexable in
+    practice — but it is reachable at /404/ as an ordinary page, where it would emit a
+    self-referencing canonical and an index directive for a page that says "här finns
+    ingenting". `noindex, follow` costs nothing and removes the ambiguity. */}
+<Base
+	title="Sidan finns inte — islam.se"
+	description="Sidan du söker finns inte."
+	noindex={true}
+>
 	<main id="main" class="content-column notfound">
 		<p class="label notfound-code">404</p>
 		<h1 class="notfound-title">Här finns ingenting</h1>

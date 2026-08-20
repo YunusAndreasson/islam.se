@@ -185,7 +185,7 @@ const yieldToMain = (): Promise<void> =>
  *
  *  ⚠️ The `full` variant is 56 × 64 = 3 584 cells and each one runs a complete adhan
  *  solve, which measured as ONE 690 ms main-thread task — the page froze for two
- *  thirds of a second on all 2 118 city pages.
+ *  thirds of a second on all 2 128 city pages.
  *
  *  ⚠️ Size this against a THROTTLED row, not a desktop one. A row is ~12 ms here but
  *  ~49 ms on the 4×-slowed CPU that Lighthouse mobile (and a mid-range phone) models,
