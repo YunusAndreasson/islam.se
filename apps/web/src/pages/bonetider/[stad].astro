@@ -72,7 +72,12 @@ const cityMosquePhrase = cityMosqueCount === 1 ? "en registrerad moské" : `${ci
 // the exact target query) when it has them, else the nearest within 20 km. Capped so a
 // metro's page stays a teaser that hands off to the full /moskeer/[stad] list.
 const featuredMosques = (hasMosquePage ? cityMosques : nearbyMosques).slice(0, 6);
-const featuredMosquesTitle = `${featuredMosques.length === 1 ? "Moské" : "Moskéer"} ${hasMosquePage ? "i" : "nära"} ${place.name}`;
+// 54 queries pair "moské" with "bönetider" for one town, and this heading carried only
+// the first word while the FAQ below carried neither. The reciprocal section on
+// /moskeer/[stad] now shows the same times, so both entry points answer the pair.
+const featuredMosquesTitle = hasMosquePage
+	? `Moskéer och bönetider i ${place.name}`
+	: `${featuredMosques.length === 1 ? "Moské" : "Moskéer"} nära ${place.name}`;
 
 // Official SCB statistics are present only where we matched a tätort. Everything in
 // the stat block + the population claims is gated on this, so unmatched places never
@@ -285,6 +290,13 @@ if (hasMosquePage) {
 	faq.push({
 		q: `Finns det någon moské i ${place.name}?`,
 		a: `Ja. Enligt vår karta över moskéer i Sverige finns ${cityMosquePhrase} i ${place.name}. Adress, öppningsår och vägbeskrivning visas längre ned på sidan.`,
+	});
+	// Everything else on this page answers when a prayer ENTERS. A reader heading for a
+	// mosque needs to know that is not when the congregation forms — and that we do not
+	// know the second number. Saying so is better than letting the silence imply we do.
+	faq.push({
+		q: `Vilka bönetider gäller i ${cityMosqueCount === 1 ? "moskén" : "moskéerna"} i ${place.name}?`,
+		a: `Tiderna här är astronomiska: de säger när varje bön går in i ${place.name}. Den gemensamma bönen (jamāʿa) hålls oftast en stund senare – ${cityMosqueCount === 1 ? "moskén" : "varje moské"} sätter sin egen iqāma-tid så att de som kommer hinner fram, och fredagsbönen har ett fast klockslag. Vi publicerar inte enskilda moskéers jamāʿa-tider; fråga moskén inför besöket.`,
 	});
 }
 if (hasScb) {

@@ -2,6 +2,7 @@
 import DefinitionList from "../../components/DefinitionList.astro";
 import MosqueList from "../../components/moskeer/MosqueList.astro";
 import MosquePageHeader from "../../components/moskeer/MosquePageHeader.astro";
+import PrayerField from "../../components/bonetider/PrayerField.astro";
 import NearbyLinkList from "../../components/NearbyLinkList.astro";
 import SectionLink from "../../components/SectionLink.astro";
 import TitledSection from "../../components/TitledSection.astro";
@@ -9,6 +10,8 @@ import Base from "../../layouts/Base.astro";
 import { formatDate } from "../../lib/articles";
 import { SCB_POP_YEAR } from "../../lib/bonetider/meta";
 import { nearbyPlaces, officialPopulation, placeBySlug } from "../../lib/bonetider/places-index";
+import { computePrayerTimes, formatTime } from "../../lib/bonetider/prayer-times";
+import { DEFAULT_SETTINGS } from "../../lib/bonetider/settings";
 import { nf0 } from "../../lib/format";
 import { ORG_ID, breadcrumbList, cityPlace, faqPageJsonLd } from "../../lib/jsonld";
 import {
@@ -52,6 +55,23 @@ const pop = officialPopulation(place);
 
 const popText = nf0.format(pop);
 
+// The town's own prayer times, from the same coordinates and defaults /bonetider/[stad]
+// uses — one calculation, two pages, never two answers. 54 queries pair the two words
+// ("gävle moské bönetider", "fittja moske bönetider"), 1 999 impressions at position 8,1
+// over 90 days, and neither page answered them: this one had the mosques and no times,
+// that one the times and only a list of names.
+const location = { name: city, latitude: lat, longitude: lon };
+const now = new Date();
+const times = computePrayerTimes(location, now, DEFAULT_SETTINGS);
+const t = {
+	fajr: formatTime(times.fajr),
+	dhuhr: formatTime(times.dhuhr),
+	asr: formatTime(times.asr),
+	maghrib: formatTime(times.maghrib),
+	isha: formatTime(times.isha),
+};
+const hasTimes = ![t.fajr, t.dhuhr, t.asr, t.maghrib, t.isha].includes("—");
+
 // Nearby towns that ALSO have a moské page — webs the city pages together for crawl
 // depth and gives the reader a sensible next step.
 const nearbyCities = nearbyPlaces(place, 8)
@@ -86,7 +106,18 @@ const lead = `I ${city}${whereKommun} finns ${pluralMoske(n, true)}. Här hittar
 // "Örebro (Örebro län)" in a snippet. ⚠️ Test the SHORT county form: `lanLabel` is
 // "Stockholms län", which never starts with "Stockholm " and let the shape through.
 const descPlace = lan === city ? city : `${city} (${lanLabel})`;
-const description = `Moskéer i ${descPlace}: adress, öppningsår, huvudman och vägbeskrivning till ${n === 1 ? "moskén" : "varje moské"}. Se även bönetider för ${city}.`;
+// The times lead, then the addresses. "Moskéer" stays the first word so this page and
+// /bonetider/[stad] never compete for the same query: that one owns "bönetider {stad}",
+// this one owns "{stad} moské bönetider".
+// The title already says "Moské i Gävle" where there is one; the description said
+// "Moskéer i Gävle" beside it. Same noun in both, decided by the same count.
+const mosqueNoun = n === 1 ? "Moské" : "Moskéer";
+const description = hasTimes
+	// ~62 of the ~155 characters Google renders are the five times, so everything else is
+	// on a budget: the town is named once (not twice), and the county parenthetical is
+	// dropped when the times are there — the H1 and the page itself still carry it.
+	? `${mosqueNoun} i ${city} med adress och vägbeskrivning. Bönetider idag: Fajr ${t.fajr} · Ẓuhr ${t.dhuhr} · ʿAṣr ${t.asr} · Maghrib ${t.maghrib} · ʿIshāʾ ${t.isha}.`
+	: `${mosqueNoun} i ${descPlace}: adress, öppningsår, huvudman och vägbeskrivning till ${n === 1 ? "moskén" : "varje moské"}. Se även bönetider för ${city}.`;
 
 const faq = [
 	{
@@ -100,6 +131,17 @@ const faq = [
 			: `${firstMosque.name} ligger i ${kommun} kommun (${lanLabel}). På sidan finns vägbeskrivning via Apple Maps och Google Maps.`,
 	},
 ];
+// The honest answer, and the one no calculator gives: our times are astronomical, the
+// mosque's congregation is a human decision that usually sits a little later. A reader
+// who walks in at the computed Maghrib and finds the row not yet formed was misled by a
+// page that pretended the two are the same thing.
+if (hasTimes) {
+	faq.push({
+		q: `Vilka bönetider gäller i ${n === 1 ? "moskén" : "moskéerna"} i ${city}?`,
+		a: `Tiderna på den här sidan är beräknade efter solens läge i ${city} och säger när varje bön går in: i dag Fajr ${t.fajr}, Ẓuhr ${t.dhuhr}, ʿAṣr ${t.asr}, Maghrib ${t.maghrib} och ʿIshāʾ ${t.isha}. När den gemensamma bönen (jamāʿa) hålls är en annan sak – ${n === 1 ? "moskén" : "varje moské"} sätter sin egen iqāma-tid, oftast en stund efter att tiden gått in så att de som kommer hinner fram, och fredagsbönen har ett fast klockslag. Vi publicerar inte enskilda moskéers jamāʿa-tider; fråga moskén inför besöket.`,
+	});
+}
+
 if (oldest?.opened) {
 	faq.push({
 		q: n === 1 ? `När öppnade moskén i ${city}?` : `När öppnade den äldsta moskén i ${city}?`,
@@ -112,7 +154,7 @@ if (oldest?.opened) {
 ---
 
 <Base
-	title={`${n === 1 ? "Moské" : "Moskéer"} i ${city} — adress och vägbeskrivning — islam.se`}
+	title={`${n === 1 ? "Moské" : "Moskéer"} i ${city} — bönetider, adress och vägbeskrivning — islam.se`}
 	description={description}
 	jsonLd={[
 		{
@@ -182,6 +224,22 @@ if (oldest?.opened) {
 						<MosqueList mosques={g.mosques} cityLink={true} />
 					</section>
 				))}
+			</TitledSection>
+		)}
+
+		{hasTimes && (
+			<TitledSection
+				class="mk-section mk-times"
+				id="mk-stad-tider"
+				title={`Bönetider i ${city} i dag`}
+			>
+				<PrayerField location={location} variant="full" fixed={true} caption={true} />
+				<p class="mk-stad-note">
+					Tiderna gäller när bönen går in, beräknat efter solens läge i {city}. Den
+					gemensamma bönen (jamāʿa) hålls oftast en stund senare – {n === 1 ? "moskén" : "varje moské"}
+					{" "}sätter sin egen iqāma-tid.
+					<SectionLink href={`/bonetider/${citySlug}/`}>Månadens alla bönetider i {city}</SectionLink>
+				</p>
 			</TitledSection>
 		)}
 
