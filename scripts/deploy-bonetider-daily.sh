@@ -15,8 +15,8 @@
 #   * Builds ONLY the web package (`pnpm --filter @islam-se/web run build`). The web app has no
 #     workspace deps, so core/quotes/orchestrator are not rebuilt.
 #   * Renders the PDF. ⚠️ NOT optional, despite being irrelevant to prayer times: a Pages
-#     deploy is a full SNAPSHOT of dist/, so omitting `pnpm pdf` 404s the already-live
-#     /samlingsvolym.pdf that BookPod links to.
+#     deploy is a full SNAPSHOT of dist/, so omitting the book step 404s the already-live
+#     /samlingsvolym.pdf and /samlingsvolym.epub that BookPod links to.
 #
 # WHAT THE NIGHT ACTUALLY COSTS (measured 2026-08-20, 8-core dev box, 2 473 pages)
 #   ~125 s on an ordinary night, ~310 s on the first night of a month.
@@ -180,8 +180,8 @@ rm -rf "$REPO_DIR/apps/web/dist"
 log "building web (astro + markdown)"
 pnpm --filter @islam-se/web run build
 
-log "rendering pdf (typst)"
-pnpm --filter @islam-se/web run pdf
+log "rendering the books (pdf via typst, epub via zip)"
+pnpm --filter @islam-se/web run books
 
 # Last gate before the snapshot replaces the live site.
 log "running deploy guard"

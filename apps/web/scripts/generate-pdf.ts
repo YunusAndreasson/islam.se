@@ -10,13 +10,10 @@
  */
 
 import { execFileSync } from "node:child_process";
-import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
-import remarkGfm from "remark-gfm";
-import remarkParse from "remark-parse";
-import remarkSmartypants from "remark-smartypants";
-import { unified } from "unified";
+import { type Article, loadArticles, type MdastNode } from "./lib/essay-corpus";
 
 // ---------------------------------------------------------------------------
 // Paths
@@ -24,24 +21,9 @@ import { unified } from "unified";
 
 const SCRIPT_DIR = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(SCRIPT_DIR, "../../..");
-const ARTICLES_DIR = join(ROOT, "data/articles");
 const DIST = join(SCRIPT_DIR, "../dist");
 const OUTPUT = join(DIST, "samlingsvolym.pdf");
 const BUILD_DIR = "/tmp/islam-se-pdf";
-
-// ---------------------------------------------------------------------------
-// Minimal MDAST node shape — the script reads .type/.children/.value etc.
-// Defined locally to avoid adding @types/mdast just for this build script.
-// ---------------------------------------------------------------------------
-
-interface MdastNode {
-	type: string;
-	value?: string;
-	children?: MdastNode[];
-	identifier?: string;
-	depth?: number;
-	ordered?: boolean;
-}
 
 // ---------------------------------------------------------------------------
 // Ornament SVG (rub el-hizb)
@@ -59,83 +41,10 @@ const ORNAMENT_SVG = readFileSync(join(process.cwd(), "public/ornament.svg"), "u
 const MARK_SVG = readFileSync(join(process.cwd(), "public/brand-mark.svg"), "utf8");
 
 // ---------------------------------------------------------------------------
-// Markdown processor
+// Articles — corpus, frontmatter and the house punctuation come from
+// ./lib/essay-corpus, shared with generate-epub.ts so the two books can never
+// disagree about what a book contains.
 // ---------------------------------------------------------------------------
-
-const processor = unified()
-	.use(remarkParse)
-	.use(remarkGfm)
-	.use(remarkSmartypants, {
-		openingQuotes: { double: "\u00BB", single: "\u2019" },
-		closingQuotes: { double: "\u00AB", single: "\u2019" },
-		dashes: "oldschool",
-	});
-
-// ---------------------------------------------------------------------------
-// Frontmatter
-// ---------------------------------------------------------------------------
-
-interface ArticleMeta {
-	title: string;
-	publishedAt: string;
-	wordCount: number;
-}
-
-function parseFrontmatter(raw: string): { meta: ArticleMeta; body: string } {
-	const match = raw.match(/^---\n([\s\S]*?)\n---\n([\s\S]*)$/);
-	if (!match) return { meta: { title: "", publishedAt: "", wordCount: 0 }, body: raw };
-	const frontmatter = match[1];
-	const body = match[2];
-	if (frontmatter === undefined || body === undefined) {
-		return { meta: { title: "", publishedAt: "", wordCount: 0 }, body: raw };
-	}
-	const pairs: Record<string, string> = {};
-	for (const line of frontmatter.split("\n")) {
-		const idx = line.indexOf(":");
-		if (idx > 0) {
-			const key = line.slice(0, idx).trim();
-			const val = line
-				.slice(idx + 1)
-				.trim()
-				.replace(/^"(.*)"$/, "$1");
-			pairs[key] = val;
-		}
-	}
-	return {
-		meta: {
-			title: pairs.title || "",
-			publishedAt: pairs.publishedAt || "",
-			wordCount: Number.parseInt(pairs.wordCount || "0", 10),
-		},
-		body,
-	};
-}
-
-// ---------------------------------------------------------------------------
-// Articles
-// ---------------------------------------------------------------------------
-
-interface Article {
-	slug: string;
-	meta: ArticleMeta;
-	ast: MdastNode;
-}
-
-function loadArticles(): Article[] {
-	return readdirSync(ARTICLES_DIR)
-		.filter((f) => f.endsWith(".md"))
-		.sort()
-		.map((file) => {
-			const raw = readFileSync(join(ARTICLES_DIR, file), "utf-8");
-			const { meta, body } = parseFrontmatter(raw);
-			const tree = processor.parse(body);
-			return {
-				slug: file.replace(".md", ""),
-				meta,
-				ast: processor.runSync(tree) as unknown as MdastNode,
-			};
-		});
-}
 
 // ---------------------------------------------------------------------------
 // Typst escaping — only for raw text content, never for generated markup

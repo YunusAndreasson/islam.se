@@ -15,13 +15,14 @@
 		"cli": "pnpm --filter @islam-se/cli run cli",
 		"produce": "pnpm --filter @islam-se/content-producer run produce",
 		"tui": "ISLAM_OUTPUT_DIR=$(pwd)/apps/content-producer/output pnpm --filter @islam-se/tui run dev",
-		"pdf": "pnpm --filter @islam-se/web run pdf",
+		"pdf": "pnpm books",
 		"rattelser": "pnpm --filter @islam-se/web run rattelser",
-		"ship": "pnpm build && pnpm pdf && cd apps/web && node scripts/assert-full-build.mjs && wrangler pages deploy dist --project-name islam-se --branch master --commit-dirty=true",
+		"ship": "pnpm build && pnpm books && cd apps/web && node scripts/assert-full-build.mjs && wrangler pages deploy dist --project-name islam-se --branch master --commit-dirty=true",
 		"ship:mailer": "cd apps/web/workers/rattelse-mailer && wrangler deploy",
 		"deploy": "pnpm ship",
 		"test:checkers": "python3 scripts/check-quran-quotes.py --self-test && python3 scripts/check-book-passages.py --self-test && python3 scripts/check-house-style.py --self-test",
-		"typecheck:web": "pnpm --filter @islam-se/web run check"
+		"typecheck:web": "pnpm --filter @islam-se/web run check",
+		"books": "pnpm --filter @islam-se/web run books"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "^2.5.7",
