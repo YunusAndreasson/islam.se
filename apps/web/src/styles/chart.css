@@ -1,0 +1,328 @@
+/* Charts in article bodies (```chart fences) and on hand-composed pages (Chart.astro).
+ *
+ * GLOBAL, not scoped, for the same reason quran-verse.css is: these elements are built by
+ * a rehype plugin at compile time and can never carry Astro's scoped-style hash.
+ *
+ * ⚠️ WEIGHT. `inlineStylesheets: "always"` inlines this into all 2 400+ pages, against
+ * DESIGN.md's 30 kB HTML+CSS budget — including the ~2 100 bönetider pages that will never
+ * hold a chart. Keep it small. If a form needs more than a screenful of rules, the form is
+ * too elaborate for this site.
+ *
+ * ONE DATA COLOUR. Brass encodes; muted recedes. Series are told apart by direct labels
+ * and by position, never by hue (DESIGN.md Principle 4 and 7). There is deliberately no
+ * rule here that introduces a third.
+ */
+
+@layer components {
+	.chart {
+		margin: var(--space-unit) 0;
+		max-width: min(var(--content-width), 100%);
+	}
+
+	/* ---- The plot ------------------------------------------------------- */
+
+	.chart-svg {
+		display: block;
+		width: 100%;
+		height: auto;
+	}
+
+	/* SVG text does not reflow, so below a floor the chart scrolls inside its own box
+	   rather than shrinking its labels into illegibility. The PAGE never scrolls
+	   sideways — only this container does, and only on a narrow phone. */
+	.chart--line .chart-plot,
+	.chart--slope .chart-plot {
+		max-width: 100%;
+		overflow-x: auto;
+		overscroll-behavior-x: contain;
+	}
+
+	.chart--line .chart-svg,
+	.chart--slope .chart-svg {
+		min-width: 32rem;
+	}
+
+	/* The legend is the small-screen stand-in for the in-SVG end labels. */
+	.chart--line .chart-legend {
+		display: none;
+	}
+
+	/* Numerals in a chart are a column of figures, not prose. The body default is
+	   oldstyle-nums (typography.css), whose varying heights and widths stop a stack of
+	   values from lining up. */
+	.chart-bar-value,
+	.chart-col-value,
+	.chart-col-label,
+	.chart-stack-val {
+		font-variant-numeric: lining-nums tabular-nums;
+	}
+
+	/* ---- bars: ranked horizontal, the default form ---------------------- */
+
+	.chart-bars {
+		display: grid;
+		gap: 0.5rem;
+	}
+
+	.chart-bar-row {
+		display: grid;
+		grid-template-columns: minmax(0, 9rem) 1fr max-content;
+		align-items: center;
+		gap: 0.7rem;
+		font-family: var(--font-body);
+		font-size: var(--step--2);
+	}
+
+	.chart-bar-label {
+		color: var(--color-text);
+		text-wrap: pretty;
+	}
+
+	.chart-bar-track {
+		display: block;
+		height: 0.8rem;
+		border-radius: var(--radius-xs);
+		background: color-mix(in srgb, var(--color-divider), transparent 55%);
+	}
+
+	.chart-bar-fill {
+		display: block;
+		height: 100%;
+		min-width: 2px;
+		border-radius: var(--radius-xs);
+		background: var(--color-brass);
+	}
+
+	.chart-bar-value {
+		color: var(--color-muted);
+	}
+
+	/* The one-vs-rest form: the emphasised row keeps brass, everything else steps back. */
+	.chart-bar-row.is-dim .chart-bar-fill {
+		background: var(--color-muted);
+	}
+
+	.chart-bar-row.is-dim .chart-bar-label {
+		color: var(--color-muted);
+	}
+
+	/* ---- columns: vertical, ordinal x axis ------------------------------ */
+
+	.chart-col-grid {
+		display: flex;
+		align-items: stretch;
+		gap: 0.4rem;
+		height: 190px;
+	}
+
+	.chart-col {
+		flex: 1 1 0;
+		min-width: 0;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 0.35rem;
+	}
+
+	.chart-col-track {
+		flex: 1;
+		width: 100%;
+		display: flex;
+		flex-direction: column;
+		justify-content: flex-end;
+		align-items: center;
+	}
+
+	.chart-col-value {
+		flex: none;
+		margin-bottom: 0.2rem;
+		font-family: var(--font-body);
+		font-size: var(--step--3);
+		color: var(--color-muted);
+	}
+
+	.chart-col-bars {
+		flex: none;
+		height: 100%;
+		width: 100%;
+		display: flex;
+		align-items: flex-end;
+		justify-content: center;
+		gap: 2px;
+	}
+
+	.chart-col-bar {
+		flex: none;
+		width: 62%;
+		max-width: 2.6rem;
+		min-height: 3px;
+		border-radius: 3px 3px 0 0;
+		background: var(--color-brass);
+	}
+
+	.chart-col-bars .chart-col-bar {
+		flex: 1 1 0;
+		width: auto;
+		align-self: flex-end;
+	}
+
+	.chart-col-bar.is-second {
+		background: var(--color-muted);
+	}
+
+	.chart-col-label {
+		font-family: var(--font-body);
+		font-size: var(--step--4);
+		color: var(--color-muted);
+		white-space: nowrap;
+	}
+
+	/* ---- stack: parts of a whole. The pie this site does not have. ------- */
+
+	.chart-stack-bar {
+		display: flex;
+		gap: 1.5px;
+		height: 2rem;
+		border-radius: var(--radius-xs);
+		overflow: hidden;
+	}
+
+	.chart-stack-seg {
+		display: block;
+		min-width: 1px;
+	}
+
+	.chart-stack-key {
+		list-style: none;
+		margin: var(--space-half) 0 0;
+		padding: 0;
+		display: grid;
+		gap: 0.15rem;
+	}
+
+	.chart-stack-key li {
+		display: grid;
+		grid-template-columns: 0.7rem 1fr max-content;
+		align-items: baseline;
+		gap: 0.5rem;
+		font-family: var(--font-body);
+		font-size: var(--step--2);
+	}
+
+	.chart-stack-chip {
+		align-self: center;
+		width: 0.7rem;
+		height: 0.7rem;
+		border-radius: var(--radius-xs);
+	}
+
+	.chart-stack-val {
+		color: var(--color-muted);
+	}
+
+	/* ---- legend: only where a direct label genuinely will not fit -------- */
+
+	.chart-legend {
+		list-style: none;
+		margin: var(--space-half) 0 0;
+		padding: 0;
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.3rem 0.9rem;
+		font-family: var(--font-body);
+		font-size: var(--step--3);
+		color: var(--color-muted);
+	}
+
+	.chart-legend li {
+		display: flex;
+		align-items: center;
+		gap: 0.35rem;
+	}
+
+	.chart-legend-chip {
+		width: 0.7rem;
+		height: 0.7rem;
+		border-radius: var(--radius-xs);
+		background: var(--color-brass);
+	}
+
+	.chart-legend-chip.is-second {
+		background: var(--color-muted);
+	}
+
+	/* ---- caption -------------------------------------------------------- */
+
+	.chart-cap {
+		display: flex;
+		flex-direction: column;
+		gap: 0.1rem;
+		margin: var(--space-half) 0 0;
+		font-family: var(--font-body);
+		font-size: var(--step--3);
+		line-height: 1.5;
+		color: var(--color-muted);
+		text-wrap: pretty;
+	}
+
+	.chart-cap-lead {
+		color: var(--text-quiet);
+	}
+
+	/* ---- mobile --------------------------------------------------------- */
+
+	/* Under 480px a 9rem label column leaves no bar. The row becomes two lines instead:
+	   label and value on top, the full-width track beneath. Nothing rotates, nothing
+	   scrolls sideways, and the labels stay real wrapping text. */
+	@media (width <= 480px) {
+		/* Thin the axis out and hand the series names to the legend: at this width the
+		   chart is already scrolling, and a crowded axis is worse than a sparse one. */
+		.chart-tick.is-minor,
+		.chart-endlabel {
+			display: none;
+		}
+
+		.chart--line .chart-legend {
+			display: flex;
+		}
+
+		.chart-bar-row {
+			grid-template-columns: 1fr max-content;
+			gap: 0.15rem 0.6rem;
+		}
+
+		.chart-bar-label {
+			grid-column: 1;
+			grid-row: 1;
+		}
+
+		.chart-bar-value {
+			grid-column: 2;
+			grid-row: 1;
+		}
+
+		.chart-bar-track {
+			grid-column: 1 / -1;
+			grid-row: 2;
+		}
+
+		.chart-bars {
+			gap: 0.75rem;
+		}
+
+		.chart-col-grid {
+			height: 150px;
+		}
+
+		.chart-col-label {
+			font-size: var(--step--5);
+		}
+	}
+
+	/* A chart is ink on paper; the brass and the rules must survive the printer. */
+	@media print {
+		.chart {
+			break-inside: avoid;
+		}
+	}
+}

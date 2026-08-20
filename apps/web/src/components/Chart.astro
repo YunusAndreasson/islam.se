@@ -1,0 +1,31 @@
+---
+/**
+ * A chart on a hand-composed page. The markdown twin is src/plugins/rehype-chart.ts.
+ *
+ * Same doctrine as QuranVerse.astro states for its own pair: one markup shape, one
+ * stylesheet (src/styles/chart.css), one renderer — reached from a rehype plugin when the
+ * source is markdown, and from this component when the source is an .astro page. The two
+ * can therefore never drift apart, because neither of them owns the geometry.
+ *
+ *   <Chart spec={`
+ *     type: bars
+ *     source: SCB, folkmängd efter födelseland, 31 december 2024
+ *     data:
+ *       Syrien: 196000
+ *   `} />
+ *
+ * A malformed spec throws at build time — see spec.ts on why that is the wanted result.
+ */
+import { renderChartMarkup } from "../lib/chart/render";
+import { parseChartSpec } from "../lib/chart/spec";
+
+interface Props {
+	/** The body of a ```chart fence, verbatim. */
+	spec: string;
+}
+
+const { spec } = Astro.props;
+const markup = renderChartMarkup(parseChartSpec(spec));
+---
+
+<Fragment set:html={markup} />

@@ -7,6 +7,7 @@ import { defineConfig, fontProviders } from "astro/config";
 import remarkSmartypants from "remark-smartypants";
 import { BONETIDER_DATA_DATE } from "./src/lib/bonetider/meta";
 import { MOSKEER_DATA_DATE } from "./src/lib/moskeer/meta";
+import { rehypeChart } from "./src/plugins/rehype-chart";
 import { rehypeHonorific } from "./src/plugins/rehype-honorific";
 import { rehypeQuoteAttribution } from "./src/plugins/rehype-quote-attribution";
 import { rehypeQuranVerse } from "./src/plugins/rehype-quran-verse";
@@ -731,6 +732,14 @@ export default defineConfig({
 		},
 	},
 	markdown: {
+		// ⚠️ `excludeLangs: ["chart"]` is load-bearing, not tidying. rehypeShiki is registered
+		// ABOVE the user rehypePlugins inside @astrojs/markdown-remark, so without this a
+		// ```chart fence reaches rehype-chart as <pre class="astro-code"> full of <span>s with
+		// `language-chart` already stripped — the plugin matches nothing and the READER gets a
+		// syntax-highlighted code listing where the figure should be. Silent, and on the page.
+		// Passing `syntaxHighlight` here (a sibling of `processor`, not an option to it) works
+		// because unified() hands the rest of this config through to createMarkdownProcessor.
+		syntaxHighlight: { type: "shiki", excludeLangs: ["chart"] },
 		// Astro 7 made Sätteri (Rust) the default Markdown processor, and deprecated the
 		// top-level `remarkPlugins`/`rehypePlugins` keys — they only still work through a
 		// compatibility shim that silently swaps in `unified()` and warns on every build.
@@ -768,7 +777,16 @@ export default defineConfig({
 			// rehypeQuranVerse in particular scans paragraph text to decide where a
 			// recitation player belongs, and would otherwise be reading note text that
 			// is not part of the paragraph at all.
-			rehypePlugins: [rehypeHonorific, rehypeQuranVerse, rehypeQuoteAttribution, rehypeSidenotes],
+			// rehypeChart runs LAST, after rehypeSidenotes. Every pass before it reads a document
+			// shape that predates the figure, and the figure contains no prose for any of them to
+			// act on — no verse to find, no attribution to wrap, no footnote to relocate.
+			rehypePlugins: [
+				rehypeHonorific,
+				rehypeQuranVerse,
+				rehypeQuoteAttribution,
+				rehypeSidenotes,
+				rehypeChart,
+			],
 		}),
 	},
 	fonts: [
