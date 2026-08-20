@@ -1,5 +1,5 @@
 ---
-import { Download } from "@lucide/astro";
+import { BookOpen, Download } from "@lucide/astro";
 import PodcastSubscribeLinks from "./PodcastSubscribeLinks.astro";
 
 interface Props {
@@ -24,13 +24,25 @@ const year = new Date().getFullYear();
 		<div class="bookpod-text">
 			{variant === "about" && <h2 id="bookpod-heading" class="bookpod-about-heading">Boken &amp; podden</h2>}
 			<p class="bookpod-lead">
-				De {count} essäerna finns samlade i en bok &mdash; och inlästa som podd.
+				De {count} essäerna finns samlade i en bok &mdash; som e-bok för läsplattan, som PDF
+				för utskrift &mdash; och inlästa som podd.
 			</p>
 			<div class="bookpod-actions">
-				<a class="bookpod-action" href="/samlingsvolym.pdf" download>
-					<Download size={14} stroke-width={1.75} />
-					Ladda ner PDF
-				</a>
+				{/* Two formats, one book, and they are not interchangeable: the PDF is the
+				    typeset page — right for a desk, a printer, a big screen — while the EPUB
+				    reflows, so it is the one that works on a phone or an e-reader. Naming
+				    what each is FOR beats a row of file extensions; a reader who has to
+				    guess picks the one they know and is sometimes wrong. */}
+				<span class="bookpod-formats">
+					<a class="bookpod-action" href="/samlingsvolym.epub" download>
+						<BookOpen size={14} stroke-width={1.75} />
+						E-bok
+					</a>
+					<a class="bookpod-action" href="/samlingsvolym.pdf" download>
+						<Download size={14} stroke-width={1.75} />
+						PDF
+					</a>
+				</span>
 				<PodcastSubscribeLinks class="bookpod-listen" actionClass="bookpod-action" />
 			</div>
 		</div>
@@ -166,6 +178,23 @@ const year = new Date().getFullYear();
 	.bookpod-action {
 		min-height: 2.75rem;
 	}
+
+	/* The two book formats belong together and apart from the podcast links: they are
+	   one object offered twice, not three separate things to choose between. A tighter
+	   gap than .bookpod-actions' own says so without a heading. */
+	.bookpod-formats {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		/* 0.75rem, not the 1.25rem the outer row uses. Two things: it marks the two
+		   formats as one group against the podcast links beside them, and it is what
+		   makes the pair fit the about-page column — 432rem-worth of text column after
+		   the cover and the gutter, against ~420 of buttons. At 1.25 they wrapped, and a
+		   stacked pair beside a paired set of podcast links reads as four choices rather
+		   than one book and one podcast. */
+		gap: 0.5rem 0.75rem;
+	}
+
 
 	/* Match the homepage inter-movement rhythm (.home-movement). */
 	.bookpod--home {

@@ -132,8 +132,9 @@ for (const [rel, note] of [
 	["sitemap-index.xml", "the sitemap Search Console is subscribed to"],
 	[
 		"samlingsvolym.pdf",
-		"linked from BookPod; produced by `pnpm pdf`, which needs the typst binary",
+		"linked from BookPod; produced by `pnpm books`, which needs the typst binary",
 	],
+	["samlingsvolym.epub", "linked from BookPod; produced by `pnpm books`, which needs `zip`"],
 ]) {
 	if (!existsSync(join(DIST, rel))) failures.push(`dist/${rel} is missing — ${note}`);
 }
