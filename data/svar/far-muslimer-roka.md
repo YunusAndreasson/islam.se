@@ -23,6 +23,8 @@ faq:
   - q: "Är passiv rökning en synd mot andra?"
     a: "Att utsätta andra för sin rök bryter mot principen ’ingen skada och ingen skadegörelse’, vilket väger ytterligare mot rökning."
 sources:
+  - name: "WHO, Global Health Observatory – tobaksbruk"
+    url: "https://www.who.int/data/gho/data/themes/topics/sdg-target-3_a-tobacco-control"
   - name: "Koranen 2:195"
     url: "https://quran.com/2/195?translations=48"
   - name: "Koranen 7:157"
@@ -64,6 +66,26 @@ Kroppen är i islam en *amāna*, ett anförtrott lån som människan en dag ska 
 ## Varför har muslimska lärda inte alltid varit eniga?
 
 Tobak var okänt i den islamiska världen ända fram till slutet av 1500-talet; växten nådde Marocko omkring 1598. Redan 1602, under sultan Ahmad al-Mansur, kom en av de första fatworna mot den, men många lärda tvekade eftersom skadan ännu inte var fastställd: somliga sade *makrūh*, andra *harām*. Den moderna samsynen är enkel: när det väl blev klarlagt att tobak skadar hälsan upplöstes oenigheten, eftersom alla lärda är ense om att ett bevisat skadligt ämne är förbjudet. År 2000 förklarade Egyptens dåvarande stormufti Nasr Farid Wasil rökning *harām*. Oenigheten gällde fakta, aldrig principen.
+
+```chart
+type: bars
+unit: procent
+caption: Andel män från 15 år som brukar tobak, 2022.
+source: WHO, Global Health Observatory, uppskattat tobaksbruk 2022
+sourceUrl: https://www.who.int/data/gho/data/themes/topics/sdg-target-3_a-tobacco-control
+note: Avser allt tobaksbruk, inte bara cigaretter, och enbart män – kvinnors bruk är i flera av länderna en bråkdel av männens. Domen om tobak är sen och omtvistad i en mening som domen om alkohol aldrig var, och avståndet mellan norm och praktik är därefter.
+emphasis: Sverige
+data:
+  Indonesien: 59,8
+  Bangladesh: 49,5
+  Egypten: 48,0
+  Turkiet: 43,0
+  Pakistan: 28,1
+  Saudiarabien: 27,2
+  Sverige: 26,9
+  Marocko: 25,0
+  Iran: 24,5
+```
 
 ## Bryter rökning fastan i ramadan?
 

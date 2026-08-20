@@ -154,6 +154,19 @@ Den asymmetrin gör att den judiska minoriteten träffas hårdare än den muslim
 
 Det är i bedövningsmetoden konflikten blir konkret. Jordbruksverket tillåter elbedövning för fjäderfä och får, men kräver bultpistol eller motsvarande för nötkreatur. En översikt i *Translational Animal Science* från 2021 bedömer elektrisk huvudbedövning som den ur halalsynpunkt mest lämpliga metoden, eftersom den är reversibel, och avråder uttryckligen från penetrerande bultbedövning, som orsakar irreversibel hjärnskada.[^24] Svensk lag kräver alltså för nötkreatur precis den metod som den halalvänliga forskningen avvisar. Enligt samma översikt bedövas omkring 84 procent av fjäderfä, 75 procent av nötkreatur och 63 procent av får och getter inom halalslakt globalt.
 
+```chart
+type: bars
+unit: procent
+caption: Andel av halalslakten som sker med bedövning, globalt.
+source: M. Riaz m.fl., "Pros and cons of different stunning methods from a Halal perspective: a review", Translational Animal Science 5:4, 2021
+note: Siffrorna gäller halalslakt i världen, inte i Sverige – här för ingen myndighet statistik över halalcertifierad slakt. Nötkreatur är framhävt därför att svensk lag för just dem kräver den metod översikten avråder från.
+emphasis: Nötkreatur
+data:
+  Fjäderfä: 84
+  Nötkreatur: 75
+  Får och getter: 63
+```
+
 Hur mycket halal som slaktas i Sverige går inte att ange med säkerhet, eftersom ingen myndighet för statistik över halalcertifierad slakt. Tre saker går däremot att belägga. Branschorganisationen Svensk Fågel uppger att inget av dess slakterier utför halalslakt, och framhåller frånvaron som ett försäljningsargument.[^25] Bedövad halalslakt förekommer men i liten skala: SVT rapporterade 2012 om Qibbla Halal Kött utanför Stockholm, med slakt i Scans anläggningar under myndighetstillsyn, och idéhistorikern Mohammad Fazlhashemi uppskattade då att omkring 100 000 muslimer i Sverige accepterade den tolkningen. Och importerat kött omfattas inte av det svenska bedövningskravet. Djurens Rätt formulerar den sista punkten skarpt: allt kött som importeras från länder där obedövad slakt förekommer kan komma från djur som inte bedövats.[^26]
 
 Här saknas dessutom det led som skulle göra saken kontrollerbar för konsumenten. EU:s informationsförordning (EU) nr 1169/2011 kräver ingen uppgift om slaktmetod på förpackningen.[^27] En svensk kund kan därför inte utläsa om ett importerat kött kommer från ett bedövat eller obedövat djur, och det inhemska förbudet får ingen motsvarighet i märkningen av det som förs in i landet. Det är den luckan som yrkandet om varningsmärkning i riksdagen riktar sig mot.

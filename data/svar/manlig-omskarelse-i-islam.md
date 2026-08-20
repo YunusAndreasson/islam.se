@@ -70,6 +70,20 @@ Här skiljer sig de fyra klassiska rättsskolorna åt. Hanafī- och Mālikī-sko
 
 Tre skäl återkommer. Först renheten (*tahāra*): under förhuden kan urindroppar samlas och göra den fullständiga renhet som bönen kräver svår att uppnå. Därför knyter Shāfiʿī- och Hanbalī-skolorna ingreppet direkt till giltig bön. Sedan *fitra*: omskärelsen räknas som en del av människans ursprungliga, sunda läggning. Och slutligen tillhörigheten: den är ett synligt tecken på att höra till muslimernas gemenskap, i Abrahams efterföljd. Statistiskt avtecknar sig detta skarpt: enligt en studie från University of Sydney (2016) är omskärelse nära nog allmän i muslimska länder, omkring 100 procent i Iran, 99 procent i Irak och 93 procent i Indonesien, världens folkrikaste muslimska land, medan andelen globalt ligger kring 38 procent. Få trosseder ritar in sig så entydigt på kartan: där islam slår rot, följer omskärelsen med.
 
+```chart
+type: bars
+unit: procent
+caption: Andel omskurna män.
+source: University of Sydney, global översikt 2016
+note: Ett mått på utbredning, inte på religiös tillhörighet – siffrorna avser hela den manliga befolkningen i respektive land.
+emphasis: Världen totalt
+data:
+  Iran: 100
+  Irak: 99
+  Indonesien: 93
+  Världen totalt: 38
+```
+
 ## När ska en pojke omskäras?
 
 Islam fastställer ingen exakt ålder. Källorna anger inget bestämt datum, och i praktiken sker omskärelsen någon gång mellan födelsen och puberteten beroende på land och familjetradition. De flesta lärda förordar tidig barndom, och gärna före den ålder då pojken börjar be regelbundet, så att han kan utföra bönen i full renhet; vissa pekar på sjunde dagen efter födelsen som en lämplig tidpunkt. Ofta firas dagen som en familjehögtid. Tidpunkten är vägledning, inte villkor: det avgörande är *att* pojken omskärs, inte exakt *när*.

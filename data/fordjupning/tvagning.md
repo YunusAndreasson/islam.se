@@ -123,6 +123,18 @@ Den moderna vändningen kom med rinnande vatten. Tayammum, som i ökenmiljö var
 
 Hur många i Sverige som faktiskt utför tvagning dagligen vet ingen. Två slags siffror cirkulerar och mäter olika saker. Myndigheten för ungdoms- och civilsamhällesfrågor redovisar antalet betjänade i statsbidragsberättigade trossamfund, med revisorsintygade uppgifter: för 2024 sammanlagt 203 663 personer i de islamiska samfunden inom Islamiska samarbetsrådet, fördelade på bland andra Förenade islamiska föreningar i Sverige 61 350, Sveriges muslimska förbund 50 479 och Bosniakiska islamiska samfundet 19 440.[^30] Pew Research Centers ofta citerade uppskattning på omkring 810 000, eller 8,1 procent av befolkningen i beräkningen från 2017, mäter i stället muslimsk bakgrund.[^31] Skillnaden mellan siffrorna är skillnaden mellan härkomst och praktik.
 
+```chart
+type: bars
+unit: personer
+caption: Två mått som ofta ställs mot varandra, men som räknar olika saker.
+source: MUCF, Trossamfund – antal betjänade, officiell statistik 2024; Pew Research Center, beräkning 2017
+note: Det lägre talet är betjänade i de statsbidragsberättigade islamiska samfunden – medlemmar eller regelbundna deltagare, revisorsintygat. Det högre är en uppskattning av hur många som har muslimsk bakgrund, räknad på härkomst. Avståndet mellan dem är avståndet mellan organiserad praktik och härkomst, inte en osäkerhet i mätningen.
+emphasis: Betjänade i islamiska samfund, 2024
+data:
+  Muslimsk bakgrund enligt Pew, 2016: 810000
+  Betjänade i islamiska samfund, 2024: 203663
+```
+
 Den enda svenska domen som direkt träffar frågan kom från Förvaltningsrätten i Malmö. Bromölla kommun hade 2019 antagit en riktlinje om att bön under betald arbetstid inte var tillåten. Rätten upphävde beslutet den 11 september 2020 i mål 7680-19. Skälet var inte att en anställd har rätt att avstå från sina arbetsuppgifter; rådmannen Henrik Hedberg konstaterade tvärtom att religionsfriheten i princip inte innebär det. Skälet var att riktlinjen var utformad som ett generellt förbud utan utrymme för individuell prövning, och därmed stred mot regeringsformen och Europakonventionen.[^32] Eftersom wudu i praktiken föregår varje bön gäller avgörandet också tvagningen.
 
 Arbetsdomstolen prövade två år tidigare en angränsande fråga. I AD 2018 nr 51, meddelad den 15 augusti 2018, hade en kvinna avbrutits i en rekryteringsprocess sedan hon av religiösa skäl avstått från att ta en manlig företrädare i hand. Domstolen fann att hon utsatts för indirekt diskriminering och tillerkände henne diskrimineringsersättning. Beloppet bestämdes samtidigt återhållsamt: det var ovisst om hon över huvud taget hade fått anställningen, och arbetsgivarens syfte hade varit att behandla kvinnor och män lika snarare än att missgynna henne.[^33] Kopplingen till detta ämne görs sällan i svensk debatt: den norm som ligger under handskakningsvägran är samma fiqh-regel som hos shafiiter gör hudkontakt med motsatt kön till något som bryter wudu. Det är alltså inte två frågor utan en.

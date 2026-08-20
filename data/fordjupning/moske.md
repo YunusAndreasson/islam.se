@@ -31,6 +31,8 @@ faq:
   - q: "Är böneutrop olagligt i Sverige?"
     a: "Nej, men det är tillståndspliktigt. Böneutrop prövas som en allmän sammankomst för religionsutövning enligt ordningslagen. Tre moskéer har polistillstånd för utrop varje fredag: Fittja, Kungsmarken i Karlskrona och Araby i Växjö. Tillstånden gäller tolv månader och måste förnyas."
 sources:
+  - name: "islam.se: Moskéer och böneplatser i Sverige (sammanställning, 27 juni 2026)"
+    url: "https://islam.se/moskeer"
   - name: "Koranen 9:18 (Bernström)"
     url: "https://quran.com/9/18?translations=48"
   - name: "Koranen 9:108 (Bernström)"
@@ -159,7 +161,39 @@ Muslimsk gudstjänst hölls i Sverige första gången i Karlskrona. När Karl XI
 
 Därefter är historien länge en historia om frånvaro. Vid den sista folkräkning som frågade efter trosuppfattning, 1930, uppgav femton personer att de var muslimer; 1953 uppskattades antalet till omkring femhundra. Sveriges första muslimska kulturförening bildades i Stockholm 1949 av Ebrahim Umerkajeff, Akif Arhan, Osman Soukkan och Ali Zakerov. Riksorganisationen Förenade islamiska föreningar i Sverige grundades 1973 och blev statsbidragsberättigad två år senare.[^37] Inte förrän 1976 stod Nasirmoskén i Göteborg färdig som landets första särskilt uppförda moskébyggnad. Den restes av Ahmadiyyarörelsen, som står utanför Islamiska samarbetsrådet och av flertalet muslimska samfund inte räknas som muslimsk, vilket gör superlativet mindre entydigt än det låter.[^38] Malmö moské följde 1983 och Trollhättans moské 1985.
 
-Att antalet byggda moskéer förblivit litet innebär inte att antalet böneplatser är det. Svenska moskéer är oftast inflyttade i befintliga lokaler, och begreppet källarmoské betecknar ett utrymme som används som moské trots att det inte är anpassat för ändamålet. Sveriges Radios Ekot uppskattade 2005 att de var omkring 120.[^39] Något statligt register över moskéer finns inte. Den enda officiella siffra som nämnts i riksdagen är 235 registrerade muslimska församlingar knutna till statsbidragsberättigade riksorganisationer; uppgiften lämnades i en interpellationsdebatt och härrör från Myndigheten för stöd till trossamfund.[^40] De sex medlemsorganisationerna i Islamiska samarbetsrådet redovisade tillsammans 203 663 betjänade för 2024 enligt Myndigheten för ungdoms- och civilsamhällesfrågor, varav Förenade islamiska föreningar i Sverige 61 350 och Sveriges muslimska förbund 50 479. Betjänad betyder medlem eller person som regelbundet deltar i verksamheten, inte troende.[^41] Uppskattningarna av hur många i Sverige som identifierar sig som muslimer varierar mellan 260 000 och 810 000. Spannet beror på metod: den lägre änden bygger på samfundstillhörighet och självidentifikation, den högre på ursprungsland, och mellan en femtedel och en tredjedel av dem med muslimsk kulturbakgrund bedöms vara aktiva utövare.[^42]
+Att antalet byggda moskéer förblivit litet innebär inte att antalet böneplatser är det. Svenska moskéer är oftast inflyttade i befintliga lokaler, och begreppet källarmoské betecknar ett utrymme som används som moské trots att det inte är anpassat för ändamålet. Sveriges Radios Ekot uppskattade 2005 att de var omkring 120.[^39] Något statligt register över moskéer finns inte. Den enda officiella siffra som nämnts i riksdagen är 235 registrerade muslimska församlingar knutna till statsbidragsberättigade riksorganisationer; uppgiften lämnades i en interpellationsdebatt och härrör från Myndigheten för stöd till trossamfund.[^40] Någon fullständig förteckning finns alltså inte, men en sammanställning adress för adress ger åtminstone en storleksordning.
+
+```chart
+type: bars
+caption: Moskéer och böneplatser i Sverige, länsvis.
+source: islam.se, sammanställning av moskéer och böneplatser, 27 juni 2026
+sourceUrl: https://islam.se/moskeer
+note: Något statligt register över moskéer finns inte. Sammanställningen bygger på öppna källor – bland dem OpenStreetMap – och gör inte anspråk på att vara fullständig. Den räknar böneplatser, inte särskilt uppförda moskébyggnader, som är långt färre.
+data:
+  Stockholm: 44
+  Skåne: 36
+  Västra Götaland: 36
+  Jönköping: 12
+  Södermanland: 12
+  Östergötland: 11
+  Halland: 10
+  Västmanland: 10
+  Kalmar: 9
+  Kronoberg: 7
+  Värmland: 7
+  Norrbotten: 6
+  Uppsala: 6
+  Dalarna: 5
+  Gävleborg: 5
+  Västernorrland: 5
+  Örebro: 5
+  Blekinge: 3
+  Västerbotten: 3
+  Gotland: 1
+  Jämtland: 1
+```
+
+De sex medlemsorganisationerna i Islamiska samarbetsrådet redovisade tillsammans 203 663 betjänade för 2024 enligt Myndigheten för ungdoms- och civilsamhällesfrågor, varav Förenade islamiska föreningar i Sverige 61 350 och Sveriges muslimska förbund 50 479. Betjänad betyder medlem eller person som regelbundet deltar i verksamheten, inte troende.[^41] Uppskattningarna av hur många i Sverige som identifierar sig som muslimer varierar mellan 260 000 och 810 000. Spannet beror på metod: den lägre änden bygger på samfundstillhörighet och självidentifikation, den högre på ursprungsland, och mellan en femtedel och en tredjedel av dem med muslimsk kulturbakgrund bedöms vara aktiva utövare.[^42]
 
 Den rättsliga konstruktionen kring böneutropet är säregen. Ordningslagen räknar uttryckligen sammankomster som anordnas för religionsutövning till allmänna sammankomster, och sådana får inte hållas på offentlig plats utan tillstånd.[^43] Böneutropet tillståndsprövas alltså som gudstjänst och inte som buller. Tre moskéer har tillstånd för fredagsutrop: Fittja i Botkyrka, Kungsmarken i Karlskrona och Araby i Växjö. Tillstånden gäller tolv månader och måste förnyas hos polisen.[^44] Växjöfallet prövades i domstol: Kammarrätten i Göteborg fastställde den 24 april 2019 polisens beslut om ett utrop på tre minuter och fyrtiofem sekunder en gång i veckan, med ljudnivå enligt Folkhälsomyndighetens riktvärden, och fann tillståndet proportionerligt och väl avvägt.[^45]
 
@@ -170,6 +204,22 @@ Bygglovsprövningen är utförligast dokumenterad i Karlstad. Detaljplanen för 
 Frågan har återkommit i riksdagen. Richard Jomshof (SD) har föreslagit förbud mot alla former av böneutrop från religiösa byggnader och stopp för utländsk finansiering av moskéer, det senare med hänvisning till att minst sex svenska moskéer fått pengar från Saudiarabien och fyra från Qatar. Uppgifterna härrör ur religionsvetenskaplig forskning om islam i Sverige, främst Simon Sorgenfreis vid Södertörns högskola, och refereras i motionen i andra hand.[^48] Jonas Andersson med flera har föreslagit att kommuner ska ges utökade möjligheter att stoppa moskébyggen. Motionerna avslogs, och liknande yrkanden har lagts av Hans Eklind (KD). Frågan är alltså ingen enpartifråga.[^49] Motionen om kommunala befogenheter erkänner själv den avgörande rättsliga knuten: plan- och bygglagen prövar byggnaden och markanvändningen, inte byggherrens ideologi eller pengar.
 
 Moskéns utsatthet är samtidigt officiellt erkänd. SVT:s Uppdrag granskning sammanställde ett tjugotal misstänkta hatbrott mot muslimska lokaler mellan januari 2014 och januari 2015, däribland åtta hakkors sprejade på en mosképort på Södermalm, bränder på ett moskébygge i Norrköping och en brandbomb mot moskéfasaden i Uppsala på nyårsdagen 2015.[^50] Brå redovisar 62 polisanmälda hatbrott med islamofobiskt motiv under hösten 2023, mot 50 samma period året innan, med en kraftig förskjutning mot digitala miljöer.[^51] Statsbidraget för säkerhetshöjande åtgärder till trossamfund gick 2023 upp från 44 till 74 miljoner kronor per år, med motiveringen att staten har ett grundläggande ansvar för att människor tryggt ska kunna utöva sin tro.[^52]
+
+```chart
+type: slope
+series: 2020 | 2024
+unit: motiv
+caption: Polisanmälda hatbrott mot religiösa grupper, efter motiv.
+source: Brå, tabellsamling Polisanmälda hatbrott 2020–2024, tabell 7A
+sourceUrl: https://bra.se/statistik/statistik-om-rattsvasendet/hatbrottsstatistik
+note: Tabellen räknar motiv och inte anmälningar – en anmälan kan bära mer än ett motiv. Brå redovisar numera vartannat år, så 2021 och 2023 saknas. Att de islamofobiska brotten minskar i statistiken säger ingenting om hur många som anmäls.
+emphasis: Islamofobiska
+data:
+  Islamofobiska: 328 | 199
+  Antisemitiska: 170 | 217
+  Kristofobiska: 73 | 36
+  Övriga motiv: 67 | 52
+```
 
 Två svenska särdrag återstår. Imamutbildningsutredningen avstyrkte 2009 en statlig imamutbildning med motiveringen att en statlig auktorisation av vissa religiösa ledare skulle innebära inblandning i inre församlingsangelägenheter, trots att 84 procent av de tillfrågade imamerna ville ha vidareutbildning, främst i svenska, juridik och samhällskunskap.[^53] Och bönetiderna är i Sverige en fiqh-fråga av eget slag, eftersom solen sommartid aldrig sjunker tillräckligt långt under horisonten för att gryningsbönen och nattbönen ska kunna bestämmas på vanligt sätt. Sveriges imamråd behandlade 2013 en fatwa som norr om latitud 66 grader hänvisar till Malmös tider, med stöd i regeln att svårighet medför lättnad.[^54] Olika svenska moskéer följer olika beräkningar, vilket innebär att inte ens böneutropets klockslag är enhetligt.
 

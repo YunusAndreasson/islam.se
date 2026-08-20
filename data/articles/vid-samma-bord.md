@@ -112,11 +112,44 @@ Koranen ålägger den troende samma krav: "Allah förbjuder er inte att vara god
 
 Hur många muslimer finns i Sverige? Ingen vet. Uppskattningarna av hur många som identifierar sig som muslimer spänner från omkring 260 000 i SOM-institutets mätning 2019 till en halv miljon i en studie från 2020 och 810 000 i Pew Research Centers beräkning från 2017, en spridning på det tredubbla.[^22]
 
-Att siffran är okänd beror på att Sverige förbjöd religiös registrering. Det är en anständig ordning: staten vet inte vad medborgarna tror, därför att den beslutat att inte veta. Räkningen måste därför bli uppskattning, och varje sådan tvingas först välja vad en muslim är: den som bekänner sig, eller den som kommer från ett land där andra gör det. De låga siffrorna räknar tro, de höga räknar härkomst. Spridningen är alltså inget mätfel utan själva oenigheten om huruvida islam är en lära eller ett folk, omräknad till statistik. Gruppen rymmer dessutom så många språk, härkomster, klasser och sätt att praktisera att kategorin blir svår att hålla samman. Simon Sorgenfrei har visat att islams historia i Sverige mäts i mer än tusen år, inte i decennier.[^23]
+```chart
+type: bars
+unit: personer
+caption: Uppskattningar av hur många i Sverige som identifierar sig som muslimer.
+source: SOM-institutets mätning 2019, en studie från 2020 och Pew Research Center 2017
+note: De tre talen mäter inte samma sak. De låga bygger på tro och självidentifikation, det höga på ursprungsland – spridningen är oenigheten om vad en muslim är, omräknad till statistik.
+data:
+  Pew Research Center, 2017: 810000
+  Studie, 2020: 500000
+  SOM-institutet, 2019: 260000
+```
+
+Att siffran är okänd beror på att Sverige förbjöd religiös registrering. Det är en anständig ordning: staten vet inte vad medborgarna tror, därför att den beslutat att inte veta. Räkningen måste därför bli uppskattning, och varje sådan tvingas först välja vad en muslim är: den som bekänner sig, eller den som kommer från ett land där andra gör det. De låga siffrorna räknar tro, de höga räknar härkomst.[^23] Spridningen är alltså inget mätfel utan själva oenigheten om huruvida islam är en lära eller ett folk, omräknad till statistik. Gruppen rymmer dessutom så många språk, härkomster, klasser och sätt att praktisera att kategorin blir svår att hålla samman. Simon Sorgenfrei har visat att islams historia i Sverige mäts i mer än tusen år, inte i decennier.[^24]
+
+```chart
+type: bars
+unit: personer
+caption: Utrikes födda i Sverige 2025, från de största ursprungsländerna med muslimsk majoritet.
+source: Statistiska centralbyrån, Utrikes födda efter födelseland, tabell TAB6658, 2025
+sourceUrl: https://www.statistikdatabasen.scb.se/
+note: SCB registrerar födelseland och inte tro. Talen säger ingenting om hur många av de födda i respektive land som är muslimer, och flera av länderna har stora icke-muslimska minoriteter. Det är just det här slaget av underlag de höga uppskattningarna vilar på.
+data:
+  Syrien: 194606
+  Irak: 141451
+  Iran: 87292
+  Afghanistan: 68819
+  Somalia: 65960
+  Bosnien och Hercegovina: 58749
+  Turkiet: 57783
+  Pakistan: 32075
+  Libanon: 29576
+  Marocko: 12973
+  Egypten: 11108
+```
 
 Erik Gustaf Geijer, som få skulle misstänka för mångkulturell iver, skrev:
 
-> Föraktet för det heliga är döden i samhället och upplöser alla band. Ty samhället är sjelfvt en förening på god tro; och ingen tro finnes utan tron på det högsta.[^24]
+> Föraktet för det heliga är döden i samhället och upplöser alla band. Ty samhället är sjelfvt en förening på god tro; och ingen tro finnes utan tron på det högsta.[^25]
 
 Ständigt förnyade trosbevis upplöser just en sådan förening på god tro, eftersom kravet är dess motsats: misstro satt i system, handen som räcks fram en halv sekund för sent.
 
@@ -128,13 +161,13 @@ Ett skikt av ständigt misstänkta: människor födda här, med svenskt medborga
 
 Hjalmar Söderberg, sällan anklagad för sentimentalitet, skrev:
 
-> Hemkänslan, liksom religionen, är mystik. De trådar, som binda oss vid hemmets jord, äro av ogripbart stoff; kanhända är det därför de äro så svåra att slita.[^25]
+> Hemkänslan, liksom religionen, är mystik. De trådar, som binda oss vid hemmets jord, äro av ogripbart stoff; kanhända är det därför de äro så svåra att slita.[^26]
 
-Om trådarna är av ogripbart stoff, varför skulle de vara ärftliga? Ellen Key drog samma slutsats om tvånget: "lika litet som fosterlands- eller föräldrakärlek inpräglas genom tvångsmedel, kan gudsfruktan sålunda inpräglas."[^26] Ingen tillhörighet som är värd namnet kan framtvingas, varken av staten från den troende eller av gruppen från konvertiten.
+Om trådarna är av ogripbart stoff, varför skulle de vara ärftliga? Ellen Key drog samma slutsats om tvånget: "lika litet som fosterlands- eller föräldrakärlek inpräglas genom tvångsmedel, kan gudsfruktan sålunda inpräglas."[^27] Ingen tillhörighet som är värd namnet kan framtvingas, varken av staten från den troende eller av gruppen från konvertiten.
 
-En mening av August Blanche håller ännu: "En man bör vara medborgare innan man blir affärsman."[^27] Medborgare först, inte trosfrände, inte stamfrände, inte kandidat på prövotid.
+En mening av August Blanche håller ännu: "En man bör vara medborgare innan man blir affärsman."[^28] Medborgare först, inte trosfrände, inte stamfrände, inte kandidat på prövotid.
 
-Profeten ﷺ sade: "Gud ser inte till era anor, inte till era härkomstled, inte till era kroppar och inte till era ägodelar – Han ser till era hjärtan."[^28] Meningen är svårare än den låter i en strid om tillhörighet, eftersom den flyttar avgörandet till en plats dit ingen granskare når.
+Profeten ﷺ sade: "Gud ser inte till era anor, inte till era härkomstled, inte till era kroppar och inte till era ägodelar – Han ser till era hjärtan."[^29] Meningen är svårare än den låter i en strid om tillhörighet, eftersom den flyttar avgörandet till en plats dit ingen granskare når.
 
 Frågan om man kan vara svensk och muslim behöver inte besvaras utan upplösas, och till det räcker två meningar: att ingen arab har företräde framför en icke-arab utom genom gudsfruktan, och att ingen människa vet vad som ryms i en annans hjärta.
 
@@ -164,9 +197,10 @@ Salman hade sitt svar färdigt den dag någon bad honom räkna upp sina fäder, 
 [^20]: al-Mumtahana 60:8.
 [^21]: al-Anʿam 6:152.
 [^22]: SOM-institutets mätning 2019 (ca 260 000), en studie från 2020 (ca 500 000) och Pew Research Center 2017 (ca 810 000). Skattningar av antalet personer med bakgrund i muslimska miljöer ligger betydligt högre, omkring en miljon.
-[^23]: Simon Sorgenfrei, *Islam i Sverige – de första 1300 åren* (Myndigheten för stöd till trossamfund, 2018). Se även Göran Larsson, *Islam och muslimer i Sverige – en kunskapsöversikt* (MUCF).
-[^24]: Erik Gustaf Geijer, *Tal vid jubelfesten 1817*.
-[^25]: Hjalmar Söderberg, recensionstext om Heidenstam.
-[^26]: Ellen Key, *Lifslinjer*, andra delen.
-[^27]: August Blanche, *Sonen af söder och nord*.
-[^28]: Abu Malik al-Ashʿari, återgiven hos al-Qurtubi, *al-Jamiʿ li-ahkam al-Quran*, kommentar till 49:13. En besläktad lydelse finns i Sahih Muslim ("era gestalter och era ägodelar … era hjärtan och era handlingar"). Översatt från arabiska.
+[^23]: Statistiska centralbyrån, Utrikes födda efter födelseland, tabell TAB6658, 2025.
+[^24]: Simon Sorgenfrei, *Islam i Sverige – de första 1300 åren* (Myndigheten för stöd till trossamfund, 2018). Se även Göran Larsson, *Islam och muslimer i Sverige – en kunskapsöversikt* (MUCF).
+[^25]: Erik Gustaf Geijer, *Tal vid jubelfesten 1817*.
+[^26]: Hjalmar Söderberg, recensionstext om Heidenstam.
+[^27]: Ellen Key, *Lifslinjer*, andra delen.
+[^28]: August Blanche, *Sonen af söder och nord*.
+[^29]: Abu Malik al-Ashʿari, återgiven hos al-Qurtubi, *al-Jamiʿ li-ahkam al-Quran*, kommentar till 49:13. En besläktad lydelse finns i Sahih Muslim ("era gestalter och era ägodelar … era hjärtan och era handlingar"). Översatt från arabiska.

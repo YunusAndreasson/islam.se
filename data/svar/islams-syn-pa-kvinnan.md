@@ -24,6 +24,8 @@ faq:
   - q: "Är hijab obligatorisk för kvinnan?"
     a: "Ja. De klassiska rättslärda är eniga om att täckande klädsel inför icke-mahram är ett påbud (fard), medan de är oense om ansiktet och händerna. Påbudet riktar sig till kvinnan själv inför Gud och säger ingenting om hennes värde. Läs mer på sidan om hijab."
 sources:
+  - name: "Världsbanken, World Development Indicators – läskunnighet bland kvinnor"
+    url: "https://data.worldbank.org/indicator/SE.ADT.LITR.FE.ZS"
   - name: "Koranen 4:1"
     url: "https://quran.com/4/1?translations=48"
   - name: "Koranen 33:35"
@@ -64,6 +66,26 @@ Den som gör gott, "man eller kvinna", utlovas "ett gott liv" (Koranen 16:97), o
 ## Vilka rättigheter ger islam kvinnan?
 
 Kvinnan i islam har en helt självständig rättslig ställning. Hon äger sin egendom på egen hand före, under och efter ett äktenskap, och varken make eller far får förfoga över den. Hon har en garanterad arvsandel:
+
+```chart
+type: bars
+unit: procent
+caption: Läskunnighet bland kvinnor från 15 år, i muslimska majoritetsländer.
+source: Världsbanken, World Development Indicators, SE.ADT.LITR.FE.ZS, hämtad 2026
+sourceUrl: https://api.worldbank.org/v2/country/all/indicator/SE.ADT.LITR.FE.ZS?format=json&date=2024
+note: Senast tillgängliga år för varje land, mellan 2020 och 2024, så talen är inte helt jämförbara. Spännvidden på sjuttio enheter mellan länder med samma lära visar att utfallet följer skolsystem och lag och inte trosläran – vilket också syns på att listan toppas av Saudiarabien.
+data:
+  Saudiarabien: 96,7
+  Turkiet: 95,3
+  Indonesien: 94,6
+  Jordanien: 92,0
+  Iran: 85,1
+  Tunisien: 80,1
+  Bangladesh: 76,5
+  Egypten: 73,3
+  Pakistan: 48,5
+  Afghanistan: 26,6
+```
 
 > MÄN HAR rätt till en andel av vad föräldrar och nära anhöriga efterlämnar och kvinnor har rätt till en andel av vad föräldrar och nära anhöriga efterlämnar, vare sig det är litet eller mycket – en andel föreskriven [av Gud].
 > — Koranen 4:7

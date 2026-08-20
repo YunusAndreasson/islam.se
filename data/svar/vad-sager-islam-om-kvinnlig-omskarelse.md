@@ -34,6 +34,8 @@ sources:
     url: "https://sunnah.com/ibnmajah:2341"
   - name: "Dar al-Iftaʾ (Egypten) – Könsstympning är förbjuden"
     url: "https://www.dar-alifta.org/en/article/details/40/female-genital-mutilation"
+  - name: "UNICEF – global databas om kvinnlig könsstympning (SDMX)"
+    url: "https://sdmx.data.unicef.org/"
   - name: "WHO – Female genital mutilation (faktablad)"
     url: "https://www.who.int/news-room/fact-sheets/detail/female-genital-mutilation"
 related:
@@ -64,6 +66,25 @@ Ja. När ingreppet skär bort frisk vävnad faller det under entydiga förbud. P
 ## Hur vanlig är seden, och var praktiseras den?
 
 Könsstympning är geografiskt koncentrerad, inte allmänt muslimsk. WHO uppskattar att mer än 230 miljoner nu levande flickor och kvinnor har utsatts, nästan uteslutande i ett trettiotal länder i Afrika, Mellanöstern och Asien, och ingreppet sker oftast före femton års ålder. I samma regioner förekommer seden även bland kristna och anhängare av traditionella religioner – ett tydligt tecken på att den följer geografi och kultur, inte tro. Världens stora muslimska befolkningar i Turkiet, Iran, Marocko och Sydostasien känner den knappt. Och profeten Muhammed lät ingen av sina fyra döttrar genomgå något sådant. En sed som de fromma förebilderna aldrig praktiserade kan svårligen göras till en plikt i deras namn.
+
+```chart
+type: bars
+unit: procent
+caption: Andel kvinnor 15–49 år som utsatts för könsstympning, i muslimska majoritetsländer.
+source: UNICEF, global databas om kvinnlig könsstympning, hämtad 2026
+sourceUrl: https://sdmx.data.unicef.org/
+note: Alla länder i diagrammet har muslimsk majoritet, och spännvidden är själva beviset – följde seden tron skulle talen ligga nära varandra. Mätåren skiljer sig (2012–2024). UNICEF redovisar de länder där seden förekommer i mätbar omfattning; Turkiet, Iran, Saudiarabien och Pakistan ingår inte i underlaget.
+data:
+  Somalia: 99,2
+  Egypten: 87,2
+  Sudan: 86,6
+  Mauretanien: 63,9
+  Indonesien: 50,8
+  Senegal: 20,1
+  Jemen: 18,5
+  Irak: 7,4
+  Niger: 2,0
+```
 
 ## Vad gäller i Sverige?
 

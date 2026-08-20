@@ -22,6 +22,7 @@ faq:
   - q: "Hur dog de fyra kaliferna?"
     a: "Abu Bakr dog av sjukdom; Umar, Uthman och Ali mördades alla tre – Umar 644, Uthman 656 och Ali 661."
 sources:
+  - name: "Årtalen som de anges i artikeln, 632–661"
   - name: "Koranen 24:55"
     url: "https://quran.com/24/55?translations=48"
   - name: "Sunan Abī Dāwūd 4607"
@@ -56,6 +57,19 @@ Löftet är villkorat: makten tillfaller dem som dyrkar Gud allena utan att sät
 ## Vilka var de fyra – och hur länge styrde var och en?
 
 **Abu Bakr** (632–634) höll samman umman genom *ridda*-upproren och lät påbörja insamlingen av Koranen i skrift. **Umar ibn al-Khattab** (634–644) ledde de stora erövringarna, då Egypten, Persien och stora delar av Levanten kom under muslimskt styre, och byggde en förvaltning med register, domare och den islamiska *hijrī*-kalendern. **Uthman ibn Affan** (644–656) lät sammanställa en enhetlig text av Koranen, den standardiserade *mushaf* som hela den muslimska världen läser i dag. **Ali ibn Abi Talib** (656–661) styrde under den första *fitnan*, det inbördeskrig som skakade samfundet inifrån. Tillsammans omfattade deras tid drygt 29 år. Tre av de fyra mördades – Umar, Uthman och Ali. Ledarskapet i tidig islam var ingen värdighet man bekläddes med, utan en post man dog på.
+
+```chart
+type: bars
+unit: år
+caption: De fyra kalifernas tid vid makten.
+source: Årtalen som de anges i artikeln, 632–661
+note: De trettio år traditionen håller för normerande var fyra mycket ojämna ämbetstider. Abu Bakr dog av sjukdom; de tre övriga mördades.
+data:
+  Uthman ibn Affan: 12
+  Umar ibn al-Khattab: 10
+  Ali ibn Abi Talib: 5
+  Abu Bakr as-Siddiq: 2
+```
 
 ## Varför rankas de i ordningen Abu Bakr, Umar, Uthman, Ali?
 

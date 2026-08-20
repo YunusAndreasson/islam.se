@@ -23,6 +23,8 @@ faq:
   - q: "Vad är den egentliga anledningen till förbudet?"
     a: "Att skydda förnuftet (ʿaql), en av de fem nödvändigheter som sharia bevarar. Rus fördunklar omdömet, väcker fiendskap och får människan att glömma Gud."
 sources:
+  - name: "WHO, Global Health Observatory – alkoholkonsumtion per person (15+)"
+    url: "https://www.who.int/data/gho/data/indicators/indicator-details/GHO/total-(recorded-unrecorded)-alcohol-per-capita-(15-)-consumption"
   - name: "Koranen 2:219"
     url: "https://quran.com/2/219?translations=48"
   - name: "Koranen 4:43"
@@ -68,6 +70,26 @@ Förbudet gäller dessutom oavsett mängd. I en annan välkänd hadith fastslog 
 ## Varför är alkohol förbjudet – vad är den egentliga anledningen?
 
 De hälsoskador alkoholen orsakar är verkliga nog, men de är inte huvudskälet. Islams lärda räknar förnuftet (*ʿaql*) till de fem nödvändigheter (*darūriyyāt*) som hela sharia finns till för att bevara – tron, livet, förnuftet, släkten och egendomen – så som *al-Ghazālī* och senare *ash-Shātibī* formulerade dem. Alkohol angriper just förnuftet, och Koranen pekar själv ut vart angreppet leder: Djävulen vill "med hjälp av rusdrycker och spel om pengar framkalla fiendskap och hat mellan er och få er att glömma Gud och plikten att förrätta bönen" (Koranen 5:91). Den värsta skadan är alltså andlig: ett grumlat sinne glömmer sin Herre och lämnar bönen. Vad islam värnar är förnuftet – den gåva som gör människan ansvarig inför Gud, och som ruset är först att släcka.
+
+```chart
+type: bars
+unit: liter
+caption: Alkoholkonsumtion per person från 15 år, i liter ren alkohol, 2019.
+source: WHO, Global Health Observatory, indikator SA_0000001688, 2019
+sourceUrl: https://www.who.int/data/gho/data/indicators/indicator-details/GHO/total-(recorded-unrecorded)-alcohol-per-capita-(15-)-consumption
+note: Måttet avser hela befolkningen i respektive land och inte muslimer särskilt. WHO räknar in uppskattad oregistrerad konsumtion, men just den är svårast att mäta där alkohol är förbjuden – talen i botten av listan är därför sannolikt något för låga.
+emphasis: Sverige
+data:
+  Frankrike: 12,01
+  Sverige: 8,99
+  Turkiet: 1,82
+  Marocko: 0,44
+  Egypten: 0,10
+  Indonesien: 0,10
+  Pakistan: 0,09
+  Iran: 0,02
+  Bangladesh: 0,00
+```
 
 ## Är det bara att dricka som är förbjudet, eller även att sälja och servera?
 

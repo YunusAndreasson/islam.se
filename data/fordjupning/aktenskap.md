@@ -32,6 +32,8 @@ faq:
   - q: "Hur många muslimer lever i polygama äktenskap?"
     a: "Få. Pew Research Center uppskattar att omkring två procent av världens befolkning lever i polygama hushåll, och att företeelsen är koncentrerad till ett bälte i Väst- och Centralafrika, inte till muslimska länder i allmänhet. I Sverige identifierade Skatteverket 169 fall av månggifte i folkbokföringen 2021–2023."
 sources:
+  - name: "UNICEF, global databas om barnäktenskap"
+    url: "https://sdmx.data.unicef.org/"
   - name: "Koranen 30:21 (Bernström)"
     url: "https://quran.com/30/21?translations=48"
   - name: "Koranen 4:34 (Bernström)"
@@ -138,6 +140,26 @@ Under de två första islamiska århundradena formaliserades detta till rättsve
 Praxis under de följande århundradena var mer varierad än rättslitteraturen antyder. Bevarade äktenskapskontrakt från mamlukisk och osmansk tid visar hustrur som skriver in villkor, kvinnor som driver skilsmässoprocesser inför qadin och brudgåvor uppdelade i en del vid vigseln och en uppskjuten del som förfaller vid upplösning eller mannens död. Den uppskjutna delen kunde alltså krävas ut i det ögonblick mannen uttalade ordet. Den senare konstruktionen fungerade i praktiken som ekonomiskt skydd mot godtycklig *talāq*.
 
 Politiseringen kom med kodifieringen. Det osmanska familjelagsdekretet 1917 var det första försöket att lagfästa islamisk familjerätt i modern form. Turkiet ersatte det i sin helhet 1926 med en civillag efter schweiziskt mönster. Tunisien förbjöd polygami 1956 med ett argument hämtat inifrån traditionen: eftersom Koranen kräver rättvisa och själv förklarar den ogenomförbar, är tillståndet villkorat bort. Egypten reformerade i etapper från 1920 och framåt, Marocko genom *Mudawwana* 2004, som höjde giftasåldern till 18 år för båda parter, gjorde skilsmässa till en domstolsfråga och krävde tillstånd för polygami. Indien förbjöd trippel-*talāq*, tre uppsägningar i ett andetag, genom lag 2019, efter att Högsta domstolen underkänt praktiken 2017. Domstolens grund var konstitutionell, inte rättsskolans: praktiken underkändes som godtycklig. Att en sådan förklaring i stället räknas som en enda återkallelig uppsägning är en hållning som Ibn Taymiyya drev, men den bröt mot hans egen skolas etablerade lära, där Ahmad ibn Hanbal räknade de tre som tre, och den kostade honom fängelse. Den är alltså inte den hanbalitiska traditionens hållning utan en omstridd minoritetsuppfattning inom den.
+
+```chart
+type: bars
+unit: procent
+caption: Andel kvinnor 20–24 år som gifte sig före 18 års ålder.
+source: UNICEF, global databas om barnäktenskap, hämtad 2026
+sourceUrl: https://sdmx.data.unicef.org/
+note: Ett urval länder som spänner hela intervallet; alla har muslimsk majoritet. Mätåren skiljer sig kraftigt (2006–2025) och talen är därför inte helt jämförbara. Spännvidden följer lagstiftning och landsbygd, inte rättsskola.
+data:
+  Niger: 76,3
+  Mali: 48,5
+  Bangladesh: 47,2
+  Somalia: 45,3
+  Irak: 27,9
+  Pakistan: 18,3
+  Egypten: 15,8
+  Turkiet: 14,7
+  Marocko: 13,7
+  Tunisien: 2,4
+```
 
 Ibn Taymiyya sammanfattar själv en punkt där de lärda inte tvistar: skilsmässa är förbjuden när makarnas förhållande är i sin ordning.[^25] Den hadith som brukar anföras, att det tillåtna Gud avskyr mest är skilsmässan, är däremot omdiskuterad. Al-Hākim bedömde den som autentisk, medan Abū Hātim menade att den starkare överföringskedjan saknar följeslagarled.[^26]
 
