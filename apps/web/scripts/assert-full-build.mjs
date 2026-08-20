@@ -62,29 +62,52 @@ if (svarExpected > 0 && svarBuilt !== svarExpected) {
 	);
 }
 
-// Sidenotes belong to essays only. The markdown processor in astro.config.ts is
-// GLOBAL — it renders svar and fördjupning through the same rehype chain — and the
-// only thing keeping margin notes out of them is a path check inside
-// src/plugins/rehype-sidenotes.ts. If that check ever stops matching, those pages
-// silently start carrying every footnote twice (once mid-sentence, once in their own
-// "Noter" apparatus) and nothing else in the build would notice.
-for (const section of ["svar", "fordjupning"]) {
+// The markdown processor in astro.config.ts is GLOBAL — essays, svar and fördjupning
+// all run through the same rehype chain — so which corpora get margin notes is decided
+// entirely by the path list in src/plugins/rehype-sidenotes.ts. That list and the
+// `reading--notes` class on each template have to agree, and nothing else in the build
+// would notice if they stopped: a page with the class but no projection silently loses
+// its apparatus to the wrong column, and a page with the projection but no class
+// carries every footnote twice.
+//
+// Essays and fördjupning project; /svar/ does not, and cannot — its 64 pages have no
+// footnotes at all (they cite through a `sources:` array), so a hit there means the
+// gate has started matching a corpus it was never meant to.
+const sidenotePages = (section) => {
 	const dir = join(DIST, section);
-	if (!existsSync(dir)) continue;
-	const leaked = readdirSync(dir, { withFileTypes: true })
+	if (!existsSync(dir)) return null;
+	return readdirSync(dir, { withFileTypes: true })
 		.filter((e) => e.isDirectory())
 		.filter((e) => {
 			const page = join(dir, e.name, "index.html");
 			return existsSync(page) && readFileSync(page, "utf8").includes('class="sidenote"');
 		})
 		.map((e) => e.name);
-	if (leaked.length > 0) {
-		failures.push(
-			`sidenotes leaked into dist/${section}: ${leaked.slice(0, 5).join(", ")}` +
-				`${leaked.length > 5 ? ` (+${leaked.length - 5} more)` : ""}.\n` +
-				"    The essay path gate in src/plugins/rehype-sidenotes.ts is not matching.",
-		);
-	}
+};
+
+const leaked = sidenotePages("svar") ?? [];
+if (leaked.length > 0) {
+	failures.push(
+		`sidenotes leaked into dist/svar: ${leaked.slice(0, 5).join(", ")}` +
+			`${leaked.length > 5 ? ` (+${leaked.length - 5} more)` : ""}.\n` +
+			"    The path gate in src/plugins/rehype-sidenotes.ts is matching a corpus that has no footnotes.",
+	);
+}
+
+// Counted from source so adding a pillar page cannot silently lower the bar. Every
+// fördjupning page in the corpus carries footnotes today; if one legitimately stops,
+// this is the line to revisit rather than the plugin.
+const pillarSrc = new URL("../../../data/fordjupning/", import.meta.url).pathname;
+const pillarsExpected = existsSync(pillarSrc)
+	? readdirSync(pillarSrc).filter((f) => f.endsWith(".md")).length
+	: 0;
+const pillarsWithNotes = sidenotePages("fordjupning");
+if (pillarsExpected > 0 && pillarsWithNotes !== null && pillarsWithNotes.length < pillarsExpected) {
+	failures.push(
+		`only ${pillarsWithNotes.length} of ${pillarsExpected} fördjupning pages have margin notes.\n` +
+			"    Either the path gate in src/plugins/rehype-sidenotes.ts dropped /data/fordjupning/,\n" +
+			"    or the `reading--notes` class came off src/pages/fordjupning/[slug].astro.",
+	);
 }
 
 // A Pages deploy is a snapshot: a file missing from dist becomes a 404 live, and the

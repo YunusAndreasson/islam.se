@@ -130,7 +130,11 @@ if (data.faq.length > 0) jsonLd.push(faqPageJsonLd(data.faq));
 	jsonLd={jsonLd}
 	preloadArabicFont
 >
-	<main id="main" class="fordjupning-page reading">
+	{/* `reading--notes` opts this page into the margin apparatus (styles/layout.css).
+	    The projection itself is done at build time by rehype-sidenotes, which gates on
+	    the source directory — both halves must agree, and scripts/assert-full-build.mjs
+	    checks that they do. */}
+	<main id="main" class="fordjupning-page reading reading--notes">
 		<article>
 			<header class="fordjupning-header">
 				<Breadcrumb items={crumbs} />
