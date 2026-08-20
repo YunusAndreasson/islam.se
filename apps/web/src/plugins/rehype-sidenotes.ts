@@ -31,6 +31,19 @@
  *
  * The `<section data-footnotes>` is left INTACT. It is the fallback below the
  * breakpoint, the print apparatus, and the source the footnote popover clones from.
+ *
+ * ⚠️ EDITING THIS FILE DOES NOT INVALIDATE THE CONTENT CACHE. Astro's content layer
+ * stores rendered HTML in `node_modules/.astro/data-store.json`, and its key does not
+ * include the rehype chain — so a build after a change here silently re-serves the
+ * markup the OLD plugin produced. (The `.astro/data-store.json` at the project root is
+ * a different, smaller file; deleting that one changes nothing.) Symptom: the edit
+ * appears to do nothing at all, repeatably. Cure:
+ *
+ *     find apps/web/node_modules/.astro -maxdepth 1 -name data-store.json -delete
+ *
+ * Touching astro.config.ts also works, since a config change clears the store — which
+ * is why an edit made alongside a config change seems to apply and one made alone does
+ * not. That asymmetry is what makes this cost an hour instead of a minute.
  */
 
 interface HastText {
@@ -53,8 +66,19 @@ function childrenOf(node: HastNode): HastNode[] {
 	return "children" in node && Array.isArray(node.children) ? node.children : [];
 }
 
-/** Only the essay corpus. `data/svar` and `data/fordjupning` share this processor. */
-const ESSAY_PATH = "/data/articles/";
+/** The corpora that render notes in the margin. `data/svar` shares this processor and
+ *  is deliberately absent: its 64 pages carry no footnotes at all — they cite through a
+ *  `sources:` array in frontmatter — so there is nothing to project and the gate would
+ *  only be a lie about what the page does.
+ *
+ *  Fördjupning was added 2026-08-20. It looked too dense to work — 46 notes a page
+ *  against an essay's 16,6 — but the pages are proportionally longer, so the density
+ *  that actually governs the margin is 1 note per 76 words against the essay's 1 per 84.
+ *  What differs is what the notes SAY: an essay's are discursive, a pillar page's are
+ *  bare citations ("Koranen, al-Hijr 15:9"). In the margin of a doctrinal page that is
+ *  the better object of the two — a reader sees at a glance which claim rests on the
+ *  Qurʾān and which on a jurist, without leaving the line. */
+const NOTE_PATHS = ["/data/articles/", "/data/fordjupning/"];
 
 /** GFM's id scheme, both ends of the pair. */
 const FN_ID = /^user-content-fn-(.+)$/;
@@ -145,7 +169,8 @@ function refIdOf(sup: HastElement): string | null {
 
 export function rehypeSidenotes() {
 	return (tree: HastNode, file?: { path?: string }) => {
-		if (!String(file?.path ?? "").includes(ESSAY_PATH)) return;
+		const path = String(file?.path ?? "");
+		if (!NOTE_PATHS.some((dir) => path.includes(dir))) return;
 
 		const notes = indexNotes(tree);
 		if (notes.size === 0) return;

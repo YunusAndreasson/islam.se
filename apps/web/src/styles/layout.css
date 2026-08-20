@@ -1781,9 +1781,139 @@
    they inherited the full 64rem frame and set at 136 characters a line, the
    widest text on the site. They are the sources: they belong at the same
    measure as the prose that cites them. */
+	.reading .hero-caption,
 	.reading .footnotes-relocated {
 		max-width: var(--content-width);
-		margin-inline: auto;
+		/* `auto auto` centres, which is the default every reading page wants. A page
+		   that projects its notes into the margin sets --reading-inline-start below,
+		   and the whole column shifts left as one — without this list being written
+		   out a second time in a second file, which is how it drifted before: the
+		   essay template shifted seven blocks by name while this rule centred
+		   thirteen, and .innehall was in one list and not the other. */
+		margin-inline: var(--reading-inline-start, auto) auto;
+	}
+
+	/* ============================================================
+   Sidenotes — the apparatus in the margin.
+
+   Two corpora project their footnotes beside the line that cites them: the
+   essays (mean 16,6 notes) and, since 2026-08-20, the fördjupning pillar
+   pages (mean 46 — but over 2 800–4 500 words, so 1 note per 76 running
+   words against the essays' 1 per 84; the margin carries the same load).
+   /svar/ is absent by nature, not by rule: those 64 pages carry no footnotes
+   at all, citing through a `sources:` array instead.
+
+   The relocation happens at BUILD time in src/plugins/rehype-sidenotes.ts —
+   see the reasoning there for why it is not a browser-side placement pass.
+   These rules only decide whether the margin copy is shown, and where the
+   column sits when it is.
+   ============================================================ */
+	/* Off by default, at every width and in print. The gutter they live in only
+	   exists once .reading has reached its 64rem max-width, so this is the honest
+	   default and the wide branch below is the exception. Below it the page behaves
+	   exactly as it always has: notes relocated to the bottom, popovers on hover. */
+	.reading--notes .sidenote {
+		display: none;
+	}
+
+	/* The gutter appears when .reading stops growing — viewport = --home-width, i.e.
+	   64rem — and does not widen after. 65rem, not 64, is one rem of cushion for the
+	   classic-scrollbar discrepancy between engines (reset.css reserves the gutter
+	   with scrollbar-gutter: stable, so the media query and the layout box disagree
+	   by the scrollbar width on Firefox). Range form, per the house rule. */
+	@media (width >= 65rem) {
+		.reading--notes {
+			--sn-width: 13.5rem; /* 216px ≈ 38 characters at --step--4 */
+			--sn-gap: 1.5rem;
+			--sn-track: calc(var(--sn-width) + var(--sn-gap));
+			/* The FRAME does not move — .reading keeps its 64rem, so the hero still
+			   spans it and the page width never flicks between an index and an
+			   article. Only the text column's axis shifts left, by exactly what is
+			   left over: 64 − 2×1.5 (padding) − 42 (measure) − 15 (note track) = 4rem.
+			   Derived from the tokens rather than typed, so it cannot drift when one
+			   of them changes. Consumed by the .reading block list above. */
+			--reading-inline-start: calc(
+				var(--home-width) -
+				2 *
+				var(--padding-inline) -
+				var(--content-width) -
+				var(--sn-track)
+			);
+		}
+
+		/* Tufte's mechanism, and the reason no measurement is needed: a float whose
+		   negative right margin EXCEEDS its own width has a margin box of zero or less,
+		   so the prose is not displaced at all — the note simply hangs beside the line
+		   that introduced it. Floats also begin at the current line box, which is what
+		   aligns the note to its marker for free.
+		   `clear: right` stacks two notes that fall close together instead of letting
+		   them overlap; the second drifts a line or two below its marker, which is the
+		   one thing a JavaScript placement pass would do better and is not worth
+		   shipping a resize observer for. */
+		.reading--notes .sidenote {
+			display: block;
+			float: right;
+			clear: right;
+			width: var(--sn-width);
+			margin-right: calc(-1 * var(--sn-track));
+			margin-bottom: var(--space-half);
+			font-family: var(--font-heading);
+			font-size: var(--step--4);
+			line-height: 1.45;
+			color: var(--color-muted);
+			/* A marker can sit inside <em> or <cite>; the note must not inherit either. */
+			font-style: normal;
+			font-weight: 400;
+			/* .prose sets `> p + p { text-indent: 1.618em }` and text-indent INHERITS
+			   into block descendants — without this every note after the first would
+			   open with a 31px indent. */
+			text-indent: 0;
+			/* .prose sets hyphens: auto for 42rem of Swedish. At 38 characters it is
+			   brutal. body sets hanging-punctuation: first last, which would hang a
+			   note opening on » outside the note box. */
+			hyphens: none;
+			hanging-punctuation: none;
+			text-align: start;
+		}
+
+		.reading--notes .sidenote-num {
+			margin-right: 0.35em;
+			font-variant-numeric: lining-nums;
+			color: var(--color-warm);
+		}
+
+		/* Work titles inside a note keep the book face — the note is set in the
+		   apparatus voice, but a cited title is still a title. */
+		.reading--notes .sidenote em {
+			font-family: var(--font-body);
+		}
+
+		.reading--notes .sidenote a {
+			color: var(--color-accent);
+		}
+
+		/* With every note in the margin, the relocated list is the same text a second
+		   time. Kept in the DOM — print restores it, and the popover script clones
+		   from it — but not shown. */
+		.reading--notes .footnotes-relocated {
+			display: none;
+		}
+	}
+
+	/* Print has no gutter and no hover: the apparatus goes back to the foot, and
+	   the column back to centre. */
+	@media print {
+		.reading--notes {
+			--reading-inline-start: auto;
+		}
+
+		.reading--notes .sidenote {
+			display: none;
+		}
+
+		.reading--notes .footnotes-relocated {
+			display: block;
+		}
 	}
 
 	/* ============================================================
