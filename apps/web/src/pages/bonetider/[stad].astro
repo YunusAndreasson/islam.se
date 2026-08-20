@@ -20,6 +20,7 @@ import { DEFAULT_SETTINGS } from "../../lib/bonetider/settings";
 import { slugify } from "../../lib/bonetider/slug";
 import { cityBySlug, directionsLinks, locationLabel, mosqueUrl, nearestMosques } from "../../lib/moskeer";
 import { hijriLabel } from "../../lib/markesdagar";
+import { nextRamadan, ramadanRange, ramadanTimes } from "../../lib/bonetider/ramadan";
 
 // These 2 128 pages are 84 % of the whole build (75 s of 90 s). They only change when
 // the day rolls over, so `pnpm build:fast` sets BONETIDER_SAMPLE to build a handful
@@ -128,6 +129,15 @@ const hasTimes = ![t.fajr, t.sunrise, t.dhuhr, t.asr, t.maghrib, t.isha].include
 // hijriOffset is applied client-side; this is the crawled, offset-free value.
 const hijriToday = hijriLabel(new Date(`${todayIso}T12:00:00Z`));
 
+// Ramadan for this town. "ramadan 2027" already takes 7 935 impressions at position 4
+// with 0,5 % CTR — the date cannot win a click Google prints in the result itself. What
+// it does not print is the iftar clock where the reader lives, and across Sweden that
+// differs by about an hour with a fast-length spread of three. Both numbers come from
+// the same engine and defaults as the table further down this page.
+const ramadan = nextRamadan(now);
+const ramadanTider = ramadan ? ramadanTimes(place.lat, place.lon, ramadan) : null;
+const ramadanSpan = ramadan ? ramadanRange(ramadan) : "";
+
 // One array feeds both the visible trail and the JSON-LD, so they cannot drift apart.
 // ⚠️ Trailing slashes are load-bearing here, unlike in a JSON-LD-only crumb list:
 // breadcrumbList() normalises through pageUrl(), the visible href does not, and
@@ -219,6 +229,10 @@ const description = hasTimes
 	: `Bönetider för ${descPlace} ${year}: exakta tider för Fajr, Shurūq, Ẓuhr, ʿAṣr, Maghrib och ʿIshāʾ varje dag, beräknade efter solens läge.${descTail}`;
 
 const ogImage = place.population >= OG_POPULATION ? `/bonetider/${place.slug}/og.png` : "/bonetider/og.png";
+// Samma tröskel styr den utskrivbara månadstabellen — 273 orter, se lib/bonetider/pdf.ts.
+// Länken får inte visas där filen inte byggs: en död länk på 1 855 sidor är värre än
+// ingen länk alls.
+const hasPdf = place.population >= OG_POPULATION;
 
 // Machine-readable provenance for the WebPage (isBasedOn) – the same sources as
 // the visible footer attribution, so the data origin is legible to crawlers.
@@ -297,6 +311,20 @@ if (hasMosquePage) {
 	faq.push({
 		q: `Vilka bönetider gäller i ${cityMosqueCount === 1 ? "moskén" : "moskéerna"} i ${place.name}?`,
 		a: `Tiderna här är astronomiska: de säger när varje bön går in i ${place.name}. Den gemensamma bönen (jamāʿa) hålls oftast en stund senare – ${cityMosqueCount === 1 ? "moskén" : "varje moské"} sätter sin egen iqāma-tid så att de som kommer hinner fram, och fredagsbönen har ett fast klockslag. Vi publicerar inte enskilda moskéers jamāʿa-tider; fråga moskén inför besöket.`,
+	});
+}
+if (ramadan && ramadanTider) {
+	faq.push({
+		q: `När är ramadan ${ramadan.year} i ${place.name}?`,
+		a: `Ramadan ${ramadan.hijriYear} e.H. infaller ${ramadanSpan} enligt Umm al-Qura-kalendern. Första fastedagen i ${place.name} börjar suhūr-gränsen (Fajr) ${ramadanTider.first.suhur} och fastan bryts (Maghrib) ${ramadanTider.first.iftar}; sista dagen ${ramadanTider.last.suhur} respektive ${ramadanTider.last.iftar}. Den exakta första dagen bekräftas genom månsiktning och kan skilja sig en dag.`,
+	});
+	faq.push({
+		q: `Vilken tid är iftar i ${place.name} under ramadan ${ramadan.year}?`,
+		a: `Iftar är samma sak som Maghrib, tiden då solen gått ner. I ${place.name} infaller den ${ramadanTider.first.iftar} på ramadans första dag och ${ramadanTider.last.iftar} på den sista – tiden flyttas fram några minuter varje dygn allteftersom dagarna blir längre. Dagens Maghrib-tid står högst upp på sidan, och månadens alla tider i tabellen.`,
+	});
+	faq.push({
+		q: `Hur lång är fastan i ${place.name} under ramadan ${ramadan.year}?`,
+		a: `Från Fajr till Maghrib blir fastan ${ramadanTider.first.length} första dagen och ${ramadanTider.last.length} den sista. Eftersom ramadan ${ramadan.year} infaller på vinterhalvåret är fastan kortare ju längre norrut man kommer – tvärtemot sommarens ljusa dygn, då förhållandet är det omvända.`,
 	});
 }
 if (hasScb) {
@@ -408,7 +436,72 @@ if (hasScb) {
 
 		<TitledSection class="bt-stad-section" id="bt-stad-month" title={`Bönetider i ${place.name} – ${monthLabel}`}>
 			<PrayerTable location={location} labelledBy="bt-stad-month" />
+			{/* En prenumeration är det enda på den här sidan som kräver ett klick och
+			    finns kvar efteråt — allt annat kan Google svara på i resultatlistan.
+			    webcal:// får kalenderappen att ta över i stället för webbläsaren; .ics
+			    står kvar som länk för den som hellre sparar filen. */}
+			<p class="bt-stad-note bt-stad-kalender">
+				Ta med tiderna:
+				<a href={`webcal://islam.se/bonetider/${place.slug}/kalender.ics`}>Lägg till i kalendern</a>
+				<span aria-hidden="true"> · </span>
+				<a href={`/bonetider/${place.slug}/kalender.ics`} type="text/calendar">Hämta .ics-filen</a>
+				{hasPdf && (
+					<>
+						<span aria-hidden="true"> · </span>
+						<a href={`/bonetider/${place.slug}/kalender.pdf`} type="application/pdf">
+							Månadens tider som PDF
+						</a>
+					</>
+				)}
+				<br />
+				Kalendern rymmer månadens fem böner och fylls på varje natt; PDF:en är ett A4-ark
+				att skriva ut. Båda följer standardmetoden (Muslim World League) – egna
+				inställningar gäller på sidan, inte i filerna.
+			</p>
 		</TitledSection>
+
+		{ramadan && ramadanTider && (
+			<TitledSection
+				class="bt-stad-section bt-stad-ramadan"
+				id="bt-stad-ramadan"
+				title={`Ramadan ${ramadan.year} i ${place.name}`}
+			>
+				<p class="meta-line">{ramadanSpan} · {ramadan.hijriYear} e.H.</p>
+				<table class="bt-ramadan-table">
+					<caption class="sr-only">
+						Suhūr, iftar och fastans längd i {place.name} under ramadan {ramadan.year}
+					</caption>
+					<thead>
+						<tr>
+							<th scope="col">Dag</th>
+							<th scope="col">Suhūr slutar</th>
+							<th scope="col">Iftar</th>
+							<th scope="col">Fastans längd</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<th scope="row">Första dagen</th>
+							<td>{ramadanTider.first.suhur}</td>
+							<td>{ramadanTider.first.iftar}</td>
+							<td>{ramadanTider.first.length}</td>
+						</tr>
+						<tr>
+							<th scope="row">Sista dagen</th>
+							<td>{ramadanTider.last.suhur}</td>
+							<td>{ramadanTider.last.iftar}</td>
+							<td>{ramadanTider.last.length}</td>
+						</tr>
+					</tbody>
+				</table>
+				<p class="bt-stad-note">
+					Suhūr slutar när Fajr går in och fastan bryts vid Maghrib – samma tider som
+					sidans egen tabell, dag för dag. Datumen följer Umm al-Qura; den första dagen
+					bekräftas genom månsiktning och kan skilja sig en dag.
+					<SectionLink href="/bonetider/ramadan/">Ramadan {ramadan.year} i hela Sverige</SectionLink>
+				</p>
+			</TitledSection>
+		)}
 
 		<TitledSection class="bt-stad-section" id="bt-stad-faq" title="Vanliga frågor">
 			<DefinitionList items={faq} />
@@ -632,6 +725,7 @@ if (hasScb) {
 <script>
 	import { MS_PER_DAY } from "../../lib/daily";
 	import { hijriLabel } from "../../lib/markesdagar";
+import { nextRamadan, ramadanRange, ramadanTimes } from "../../lib/bonetider/ramadan";
 	import { loadSettings } from "../../lib/bonetider/storage";
 
 	// The page is statically built, so the server-rendered date is the build date.

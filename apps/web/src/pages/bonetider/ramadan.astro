@@ -1,0 +1,283 @@
+---
+import AppPromo from "../../components/AppPromo.astro";
+import Breadcrumb from "../../components/Breadcrumb.astro";
+import DefinitionList from "../../components/DefinitionList.astro";
+import SectionLink from "../../components/SectionLink.astro";
+import TitledSection from "../../components/TitledSection.astro";
+import Base from "../../layouts/Base.astro";
+import { INDEXED_PLACES } from "../../lib/bonetider/places-index";
+import { nextRamadan, ramadanRange, ramadanTimes } from "../../lib/bonetider/ramadan";
+import { ORG_ID, breadcrumbList, faqPageJsonLd } from "../../lib/jsonld";
+
+// The head page for the ramadan half of the prayer-time surface. /det-islamiska-aret
+// owns the DATE (»när är ramadan 2027« — 7 935 visningar, position 4) and keeps it;
+// this page owns the CLOCK, which is the part a search-result snippet cannot compute:
+// iftar and suhūr for the reader's own town, and the fast length that follows from it.
+// Every number below comes from ../../lib/bonetider/ramadan.ts, which shares its engine
+// and defaults with /bonetider/<stad> — one calculation, several pages, one answer.
+
+const now = new Date();
+const ramadan = nextRamadan(now);
+// getMarkesdagar scans ~1 150 days ahead, so a null here means the Hijri table stopped
+// reaching a Ramadan — a build-breaking condition, not a page to render half of.
+if (!ramadan) {
+	throw new Error(
+		"bonetider/ramadan: no upcoming Ramadan in the Umm al-Qura table — check src/lib/markesdagar.ts",
+	);
+}
+const span = ramadanRange(ramadan);
+
+// South to north. The spread is the story: in a winter ramadan the fast SHORTENS
+// towards the north, the reverse of what everyone expects from the summer nights, and
+// a table is the only honest way to show a three-hour range across one country.
+const CITY_NAMES = [
+	"Malmö",
+	"Helsingborg",
+	"Göteborg",
+	"Jönköping",
+	"Linköping",
+	"Norrköping",
+	"Örebro",
+	"Stockholm",
+	"Uppsala",
+	"Västerås",
+	"Gävle",
+	"Sundsvall",
+	"Umeå",
+	"Luleå",
+	"Kiruna",
+] as const;
+
+const rows = CITY_NAMES.map((name) => {
+	const place = INDEXED_PLACES.find((p) => p.name === name);
+	if (!place) return null;
+	const t = ramadanTimes(place.lat, place.lon, ramadan);
+	return t ? { name: place.name, slug: place.slug, lat: place.lat, ...t } : null;
+}).filter((r): r is NonNullable<typeof r> => r !== null);
+
+const first = rows[0];
+const last = rows[rows.length - 1];
+
+const description = `Ramadan ${ramadan.year} infaller ${span}. Iftar och suhūr för din ort, dag för dag – och hur lång fastan blir från Malmö till Kiruna, beräknat efter solens läge.`;
+
+const crumbs = [
+	{ name: "Hem", url: "/" },
+	{ name: "Bönetider", url: "/bonetider/" },
+	{ name: `Ramadan ${ramadan.year}`, url: "/bonetider/ramadan/" },
+];
+
+const faq = [
+	{
+		q: `När är ramadan ${ramadan.year}?`,
+		a: `Ramadan ${ramadan.hijriYear} e.H. infaller ${span} enligt Umm al-Qura-kalendern. Den exakta första dagen bekräftas genom månsiktning och kan skilja sig en dag. islam.se driver inget eget system för månsiktning.`,
+	},
+	{
+		q: "Vilken tid är iftar?",
+		a: `Iftar är samma tid som Maghrib – bönen direkt efter solnedgången. Den skiljer sig mellan orter: ramadans första dag bryts fastan ${first ? `${first.first.iftar} i ${first.name}` : ""} och ${last ? `${last.first.iftar} i ${last.name}` : ""}. Välj din ort för tiderna dag för dag.`,
+	},
+	{
+		q: "När slutar suhūr?",
+		a: "Suhūr, måltiden före gryningen, tar slut när Fajr går in – samma tid som dagens första bön. Efter det varken äter eller dricker man till Maghrib.",
+	},
+	{
+		q: `Hur lång är fastan i Sverige under ramadan ${ramadan.year}?`,
+		a: first && last
+			? `Ramadans första dag är fastan ${first.first.length} i ${first.name} och ${last.first.length} i ${last.name}; sista dagen ${first.last.length} respektive ${last.last.length}. Eftersom ramadan ${ramadan.year} infaller på vinterhalvåret blir fastan kortare ju längre norrut man kommer – tvärtemot sommarens ljusa dygn.`
+			: `Fastan varar från Fajr till Maghrib och blir olika lång beroende på ortens latitud och tiden på året.`,
+	},
+	{
+		q: "Räknas tiderna om varje dag?",
+		a: "Ja. Tiderna beräknas ur solens verkliga läge för varje orts position och räknas om varje dygn, så iftar flyttas fram några minuter dag för dag under månaden.",
+	},
+];
+
+const definitions = [
+	{ term: "Suhūr", description: "måltiden före gryningen. Den tar slut när Fajr går in." },
+	{ term: "Fajr", description: "gryningsbönen, och därmed fastans början varje dygn." },
+	{ term: "Maghrib", description: "bönen direkt efter solnedgången – tiden då fastan bryts." },
+	{ term: "Iftar", description: "måltiden som bryter fastan, vid Maghrib." },
+	{ term: "Tarāwīh", description: "de frivilliga nattbönerna under ramadan, efter ʿIshāʾ." },
+	{ term: "Laylat al-qadr", description: "Maktens natt, sökt bland de udda nätterna i månadens sista tio." },
+];
+---
+
+<Base
+	title={`Ramadan ${ramadan.year} — iftar och suhūr för din ort — islam.se`}
+	description={description}
+	ogImage="/bonetider/og.png"
+	ogImageAlt={`Ramadan ${ramadan.year} — iftar och suhūr för svenska orter, beräknat efter solens läge`}
+	jsonLd={[
+		{
+			"@context": "https://schema.org",
+			"@type": "WebPage",
+			name: `Ramadan ${ramadan.year} — iftar och suhūr för din ort`,
+			description,
+			url: "https://islam.se/bonetider/ramadan/",
+			inLanguage: "sv",
+			dateModified: now.toISOString().slice(0, 10),
+			about: {
+				"@type": "Event",
+				name: `Ramadan ${ramadan.year}`,
+				startDate: ramadan.startISO,
+				endDate: ramadan.endISO,
+				eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
+				eventStatus: "https://schema.org/EventScheduled",
+				location: { "@type": "Country", name: "Sverige" },
+				description: `Fastemånaden ramadan ${ramadan.hijriYear} e.H., ${span} enligt Umm al-Qura-kalendern.`,
+			},
+			publisher: { "@id": ORG_ID },
+		},
+		faqPageJsonLd(faq),
+		breadcrumbList(crumbs),
+	]}
+>
+	<main id="main" class="home bonetider-ramadan bt-prose">
+		<header class="bt-ramadan-header">
+			<Breadcrumb items={crumbs} />
+			<h1>Ramadan {ramadan.year}</h1>
+			<p class="meta-line">{span} · {ramadan.hijriYear} e.H.</p>
+			<p class="bt-ramadan-lead">
+				Ramadan {ramadan.year} infaller {span}. Fastan varar från Fajr till Maghrib varje dygn:
+				suhūr tar slut när Fajr går in, och fastan bryts vid Maghrib. Båda tiderna beror på var i
+				landet du är – välj din ort för tiderna dag för dag.
+			</p>
+		</header>
+
+		<TitledSection class="bt-section" id="bt-ramadan-orter" title={`Iftar och fastans längd, ${first?.name} till ${last?.name}`}>
+			<p>
+				Tiderna gäller ramadans första och sista dag och är beräknade efter solens läge på varje
+				orts position. Eftersom ramadan {ramadan.year} infaller på vinterhalvåret blir fastan
+				kortare ju längre norrut man kommer – tvärtemot sommarens ljusa dygn, då Norrland fastar
+				längst.
+			</p>
+			<div class="bt-table-wrap">
+				<table class="bt-ramadan-table">
+					<caption class="sr-only">
+						Suhūr, iftar och fastans längd per ort under ramadan {ramadan.year}
+					</caption>
+					<thead>
+						<tr>
+							<th scope="col">Ort</th>
+							<th scope="col">Iftar, första dagen</th>
+							<th scope="col">Fastans längd</th>
+							<th scope="col">Iftar, sista dagen</th>
+							<th scope="col">Fastans längd</th>
+						</tr>
+					</thead>
+					<tbody>
+						{rows.map((r) => (
+							<tr>
+								<th scope="row"><a href={`/bonetider/${r.slug}/`}>{r.name}</a></th>
+								<td>{r.first.iftar}</td>
+								<td>{r.first.length}</td>
+								<td>{r.last.iftar}</td>
+								<td>{r.last.length}</td>
+							</tr>
+						))}
+					</tbody>
+				</table>
+			</div>
+			<p class="bt-ramadan-note">
+				Suhūr slutar vid Fajr, som står på varje orts egen sida tillsammans med månadens alla
+				tider.
+				<SectionLink href="/bonetider/">Bönetider för din ort</SectionLink>
+			</p>
+		</TitledSection>
+
+		<TitledSection class="bt-section" id="bt-ramadan-ord" title="Orden">
+			<DefinitionList items={definitions} />
+		</TitledSection>
+
+		<TitledSection class="bt-section" id="bt-ramadan-faq" title="Vanliga frågor">
+			<DefinitionList items={faq} />
+		</TitledSection>
+
+		<TitledSection class="bt-section" id="bt-ramadan-vidare" title="Läs vidare">
+			<p>
+				Den här sidan svarar på klockslagen. Vad fastan är, vem som är befriad från den och vad
+				som bryter den hör hemma i texterna:
+			</p>
+			<p><SectionLink href="/fordjupning/ramadan/">Fördjupning: ramadan</SectionLink></p>
+			<p><SectionLink href="/svar/vad-ar-ramadan/">Vad är ramadan?</SectionLink></p>
+			<p><SectionLink href="/det-islamiska-aret/">Det islamiska året – alla högtider</SectionLink></p>
+			<p><SectionLink href="/bonetider/metod/">Så beräknas bönetiderna</SectionLink></p>
+		</TitledSection>
+
+		<AppPromo variant="section" />
+	</main>
+</Base>
+
+<style>
+	.bonetider-ramadan {
+		margin-block: var(--space-phi);
+	}
+
+	.bt-ramadan-lead {
+		font-family: var(--font-body);
+		font-size: var(--step--1);
+		line-height: 1.6;
+		color: var(--text-body);
+		max-width: var(--content-width);
+		margin: var(--space-unit) 0 0;
+		text-wrap: pretty;
+	}
+
+	.bonetider-ramadan h2 {
+		font-size: var(--step-1-sans);
+	}
+
+	.bt-prose p {
+		font-family: var(--font-body);
+		font-size: var(--step--1);
+		line-height: 1.6;
+		color: var(--text-body);
+		max-width: var(--content-width);
+		margin: var(--space-half) 0;
+		text-wrap: pretty;
+	}
+
+	.bt-prose a {
+		color: var(--color-accent);
+	}
+
+	/* A five-column table has no business forcing the page to scroll sideways on a
+	   phone, and 88 % of this surface's traffic is mobile. The wrapper scrolls; the
+	   document does not. */
+	.bt-table-wrap {
+		overflow-x: auto;
+		margin: var(--space-unit) 0;
+	}
+
+	.bt-ramadan-table {
+		border-collapse: collapse;
+		font-family: var(--font-body);
+		font-size: var(--step--1);
+		min-width: 34rem;
+	}
+
+	.bt-ramadan-table th,
+	.bt-ramadan-table td {
+		text-align: left;
+		padding: 0.35rem 1rem 0.35rem 0;
+		border-bottom: 1px solid var(--color-rule);
+		white-space: nowrap;
+	}
+
+	.bt-ramadan-table thead th {
+		font-family: var(--font-heading);
+		font-size: var(--step--2);
+		text-transform: uppercase;
+		letter-spacing: 0.06em;
+		color: var(--color-muted);
+		font-weight: 400;
+	}
+
+	.bt-ramadan-table tbody th {
+		font-weight: 400;
+	}
+
+	.bt-ramadan-note {
+		font-size: var(--step--1);
+		color: var(--color-muted);
+	}
+</style>

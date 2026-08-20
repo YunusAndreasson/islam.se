@@ -19,6 +19,17 @@ const MIN_CITIES = 1000;
 
 const failures = [];
 
+/** How many town directories under dist/<rel> contain a file called <name>. */
+const countFiles = (rel, name) => {
+	try {
+		return readdirSync(join(DIST, rel), { withFileTypes: true }).filter(
+			(e) => e.isDirectory() && existsSync(join(DIST, rel, e.name, name)),
+		).length;
+	} catch {
+		return 0;
+	}
+};
+
 const countDirs = (rel) => {
 	try {
 		return readdirSync(join(DIST, rel), { withFileTypes: true }).filter((e) => e.isDirectory())
@@ -76,6 +87,24 @@ for (const section of ["svar", "fordjupning"]) {
 	}
 }
 
+// A Pages deploy is a snapshot: a file missing from dist becomes a 404 live, and the
+// city pages link to both of these. The counts are derived, not hardcoded, so adding a
+// town cannot silently lower the bar.
+const icsCount = countFiles("bonetider", "kalender.ics");
+if (cities !== null && cities >= MIN_CITIES && icsCount < MIN_CITIES) {
+	failures.push(
+		`only ${icsCount} kalender.ics files for ${cities} city pages — every town page links to one`,
+	);
+}
+const pdfCount = countFiles("bonetider", "kalender.pdf");
+// The PDF is built only above OG_POPULATION (273 towns as of 2026-08); 200 is a floor
+// that catches "typst was missing and every one silently failed", not an exact count.
+if (cities !== null && cities >= MIN_CITIES && pdfCount < 200) {
+	failures.push(
+		`only ${pdfCount} kalender.pdf files — expected one per town above OG_POPULATION (typst missing?)`,
+	);
+}
+
 for (const [rel, note] of [
 	["sitemap-index.xml", "the sitemap Search Console is subscribed to"],
 	[
@@ -93,5 +122,5 @@ if (failures.length > 0) {
 }
 
 console.log(
-	`✓ deploy guard: ${cities} bönetider city pages, ${svarBuilt} svar pages, sitemap + PDF present`,
+	`✓ deploy guard: ${cities} bönetider city pages, ${icsCount} kalendrar, ${pdfCount} månads-PDF:er, ${svarBuilt} svar pages, sitemap + PDF present`,
 );
