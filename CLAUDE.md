@@ -97,7 +97,8 @@ pnpm check                      # Run Biome linting
 pnpm check:fix                  # Fix linting issues
 pnpm knip                       # Find dead code/unused exports
 pnpm test                       # Run vitest tests
-pnpm verify                     # check + test + build (full check — run before finishing)
+pnpm verify                     # check + typecheck + test + house style + build (run before finishing)
+pnpm typecheck:web              # astro check alone (~21s) while iterating on apps/web
 pnpm tui                        # Launch terminal UI (Ink)
 pnpm deploy                     # Alias for pnpm ship (build + pdf + deploy web app)
 
