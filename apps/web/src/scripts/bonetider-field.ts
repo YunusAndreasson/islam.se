@@ -347,7 +347,7 @@ function wireGeolocation(): void {
 		};
 		navigator.geolocation.getCurrentPosition(
 			async (pos) => {
-				// Load the 2 118-place dataset only on demand — it's far too big to ship in
+				// Load the 2 128-place dataset only on demand — it's far too big to ship in
 				// the initial bundle just to name a GPS fix.
 				const { INDEXED_PLACES } = await import("../lib/bonetider/places-index");
 				let best = INDEXED_PLACES[0];

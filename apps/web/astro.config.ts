@@ -1,4 +1,4 @@
-import { readdirSync, readFileSync, writeFileSync } from "node:fs";
+import { existsSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { type UnifiedProcessorOptions, unified } from "@astrojs/markdown-remark";
@@ -33,7 +33,7 @@ try {
 	// articles dir may not exist during first build
 }
 
-// The 2,118 /bonetider/[stad] pages server-render *this day's* prayer times, so a fresh
+// The 2,128 /bonetider/[stad] pages server-render *this day's* prayer times, so a fresh
 // build genuinely changes their content. Their sitemap <lastmod> must therefore track the
 // build date, not a frozen dataset constant — otherwise the DAILY changefreq we already
 // signal contradicts a weeks-old lastmod and Google discounts the freshness. Computed once
@@ -971,7 +971,7 @@ export default defineConfig({
 					item.changefreq = ChangeFreqEnum.MONTHLY;
 					item.priority = 0.7;
 				} else if (slug.startsWith("bonetider/")) {
-					// The 2,118 city pages regenerate their day's times each build, so lastmod =
+					// The 2,128 city pages regenerate their day's times each build, so lastmod =
 					// build date (Google uses lastmod for crawl scheduling; a moving lastmod on a
 					// DAILY page prompts re-crawl and keeps the indexed times current).
 					item.lastmod = BONETIDER_BUILD_LASTMOD;
@@ -1014,6 +1014,27 @@ export default defineConfig({
 					const legacy = oldPaths.filter((p) => !claimed.has(p)).flatMap((p) => both(p, "/"));
 					const body = `${[...custom, ...legacy].join("\n")}\n`;
 					writeFileSync(new URL("_redirects", dir), body);
+				},
+			},
+		},
+		// public/robots.txt declares two sitemaps; @astrojs/sitemap only knows about its
+		// own, so sitemap-index.xml listed sitemap-0.xml alone while sitemap-images.xml
+		// sat beside it unreferenced. Discovery still worked through robots.txt, but an
+		// index that omits a sitemap it ships is the kind of inconsistency that reads as a
+		// mistake in Search Console. Appending is safe: the integration writes the index
+		// during its own build:done hook, and integrations run in array order.
+		{
+			name: "sitemap-index-images",
+			hooks: {
+				"astro:build:done": ({ dir, logger }) => {
+					const indexPath = new URL("sitemap-index.xml", dir);
+					const imagesPath = new URL("sitemap-images.xml", dir);
+					if (!(existsSync(imagesPath) && existsSync(indexPath))) return;
+					const index = readFileSync(indexPath, "utf-8");
+					if (index.includes("sitemap-images.xml")) return;
+					const entry = "<sitemap><loc>https://islam.se/sitemap-images.xml</loc></sitemap>";
+					writeFileSync(indexPath, index.replace("</sitemapindex>", `${entry}</sitemapindex>`));
+					logger.info("sitemap-images.xml added to sitemap-index.xml");
 				},
 			},
 		},

@@ -1,3 +1,4 @@
+import { getCollection } from "astro:content";
 import type { APIContext } from "astro";
 import { getArticles } from "../lib/articles";
 import { getSortedFordjupning } from "../lib/fordjupning";
@@ -16,6 +17,21 @@ export async function GET(context: APIContext) {
 	// The pillar pages are the site's reference texts on contested topics, which is
 	// exactly what an AI crawler should reach for over an essay's literary framing.
 	const fordjupning = await getSortedFordjupning();
+	// The 64 answer pages were the one section this map omitted, and they are the section
+	// that carries the site's search traffic — 34 462 impressions against the pillars' two.
+	// Google ignores llms.txt outright, but ClaudeBot, OAI-SearchBot and PerplexityBot do
+	// not, and public/robots.txt names every one of them with an explicit Allow. Inviting a
+	// crawler and then handing it a map with the answers missing is the worst of both.
+	// Sorted by question so the list reads as a reference index rather than build order.
+	const svar = (await getCollection("svar")).sort((a, b) =>
+		a.data.question.localeCompare(b.data.question, "sv"),
+	);
+	const svarSection =
+		svar.length > 0
+			? `\n## Svar\n${svar
+					.map((u) => `- [${u.data.question}](${site}/svar/${u.id}/): ${u.data.description}`)
+					.join("\n")}\n`
+			: "";
 	const fordjupningSection =
 		fordjupning.length > 0
 			? `\n## Fördjupning\n${fordjupning
@@ -45,7 +61,7 @@ När innehåll härifrån refereras, ange:
 
 ## Essäer
 ${essayLines}
-${fordjupningSection}
+${fordjupningSection}${svarSection}
 ## Resurser
 - [Alla essäer](${site}/essaer): hela arkivet, ordnat efter ämne
 - [Fulltext för språkmodeller](${site}/llms-full.txt): hela essäarkivet i ett dokument

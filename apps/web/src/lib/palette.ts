@@ -92,7 +92,7 @@ export async function buildPaletteIndex(): Promise<PaletteEntry[]> {
 		};
 	});
 
-	// The prayer-time pages are the largest surface on the site — 2 118 localities
+	// The prayer-time pages are the largest surface on the site — 2 128 localities
 	// — and none of them were reachable from the palette: typing "malmö" returned
 	// an essay that happens to mention it, while /bonetider/malmo/ stayed invisible.
 	// The whole index cannot go in (it is inlined into every page), so the largest

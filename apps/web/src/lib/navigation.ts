@@ -82,7 +82,7 @@ const pages = {
 // svar · Essäer · Bönetider · Moskéer · App · Podd — so the publication competed
 // for attention with a prayer clock.
 //
-// NOTHING IS REMOVED. Bönetider alone is 2 118 of the 2 464 built pages and the
+// NOTHING IS REMOVED. Bönetider alone is 2 128 of the 2 471 built pages and the
 // mosque map is another 158; dropping either from the mast would put real traffic
 // at risk to win an argument about tone. They move to a quieter second rail, and
 // the three curated axes that were footer-only (Ämnen, Trådar, Tänkare) come up
@@ -117,7 +117,7 @@ export const MAST_SECTION_LINKS: NavLink[] = [pages.pillars, pages.svar, pages.e
  *  line with two registers rather than two rows of unequal length.
  *
  *  App is NOT here. The app IS prayer times — that is its whole first screen — and
- *  <AppPromo> already runs on /bonetider/, on all 2 118 city pages and on
+ *  <AppPromo> already runs on /bonetider/, on all 2 128 city pages and on
  *  /bonetider/metod/. A standing mast link sent the reader to a promo page for
  *  something the page they were already on offers them. It keeps its page, its
  *  palette entry and those promos. */

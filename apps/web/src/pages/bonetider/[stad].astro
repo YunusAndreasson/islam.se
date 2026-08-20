@@ -21,12 +21,12 @@ import { slugify } from "../../lib/bonetider/slug";
 import { cityBySlug, directionsLinks, locationLabel, mosqueUrl, nearestMosques } from "../../lib/moskeer";
 import { hijriLabel } from "../../lib/markesdagar";
 
-// These 2 118 pages are 84 % of the whole build (75 s of 90 s). They only change when
+// These 2 128 pages are 84 % of the whole build (75 s of 90 s). They only change when
 // the day rolls over, so `pnpm build:fast` sets BONETIDER_SAMPLE to build a handful
 // instead — a design/essay iteration does not need every town in Sweden.
 //
 // ⚠️ OPT-IN, and it must stay that way: an unset variable builds all of them. A sampled
-// build is NOT deployable — shipping one strands 2 118 live URLs. `pnpm ship` never
+// build is NOT deployable — shipping one strands 2 128 live URLs. `pnpm ship` never
 // sets it, and scripts/assert-full-build.mjs blocks the deploy if one slips through.
 // ⚠️ Read INSIDE getStaticPaths: Astro hoists this function into its own chunk, so a
 // module-level const declared out here is not defined when it runs.
