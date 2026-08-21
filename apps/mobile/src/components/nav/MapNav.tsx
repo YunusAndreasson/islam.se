@@ -9,7 +9,6 @@
 // the warm parchment basemap, dark glass on the deep-navy basemap. The earlier sun-driven
 // flip was retired here too (see PrayerDock): chrome stays anchored to one OS theme so it
 // doesn't shift under the user's hand at dusk.
-import { MaterialIcons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import { StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -17,6 +16,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useColors } from '@/theme/useColors';
 import { CompassButton } from './CompassButton';
 import { GlassRoundButton } from './GlassRoundButton';
+import { Icon } from '@/components/ui/Icon';
 
 export function MapNav({ active }: { active: boolean }) {
   const insets = useSafeAreaInsets();
@@ -34,7 +34,7 @@ export function MapNav({ active }: { active: boolean }) {
           accessibilityLabel="Inställningar"
           onPress={() => router.navigate('/installningar')}
         >
-          <MaterialIcons name="settings" size={24} color={c.ink} />
+          <Icon name="settings" size={24} color={c.ink} />
         </GlassRoundButton>
       </View>
     </View>

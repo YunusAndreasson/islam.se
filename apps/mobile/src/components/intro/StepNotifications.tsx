@@ -9,11 +9,11 @@
 // Asking "which prayers?" before "do you want reminders at all?" is a question about a
 // thing that does not exist yet, and showing five dead toggles under a blocked permission
 // would be worse.
-import { MaterialIcons } from '@expo/vector-icons';
 import { useMemo, useRef, useState } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 
 import { SettingSection } from '@/components/settings/SettingSection';
+import { Icon } from '@/components/ui/Icon';
 import { Toggle } from '@/components/settings/Toggle';
 import { hapticSuccess } from '@/lib/haptics';
 import { noteNotificationResolved } from '@/lib/notification-hint';
@@ -82,7 +82,7 @@ export function StepNotifications() {
           accessibilityState={{ disabled: busy }}
           style={({ pressed }) => [styles.cta, pressed && styles.pressed]}
         >
-          <MaterialIcons name="notifications-none" size={18} color={c.onAccent} />
+          <Icon name="notificationsOff" size={18} color={c.onAccent} />
           <Text style={styles.ctaText}>Slå på påminnelser</Text>
         </Pressable>
       </View>
@@ -102,7 +102,7 @@ export function StepNotifications() {
           style={({ pressed }) => [styles.link, pressed && styles.pressedQuiet]}
         >
           <Text style={styles.linkText}>{openSystemSettingsLabel()}</Text>
-          <MaterialIcons name="open-in-new" size={18} color={c.accent} />
+          <Icon name="externalLink" size={18} color={c.accent} />
         </Pressable>
       </View>
     );
@@ -111,7 +111,7 @@ export function StepNotifications() {
   return (
     <View style={styles.wrap}>
       <View style={styles.done}>
-        <MaterialIcons name="check-circle" size={20} color={c.highlight} />
+        <Icon name="checkCircle" size={20} color={c.highlight} />
         <Text style={styles.doneText}>Du får en notis när det är dags för bön.</Text>
       </View>
       {/* Sunrise is deliberately absent: Shurūq is a MARKER that closes Fajr's window,

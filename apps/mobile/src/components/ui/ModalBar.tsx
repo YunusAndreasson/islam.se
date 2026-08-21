@@ -16,7 +16,6 @@
 // router.back() fails silently when there is no entry to pop (cold-start / deep link
 // straight into a sheet); `fallback` is the route to fall back to so the control
 // never dead-ends.
-import { MaterialIcons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import type { Href } from 'expo-router';
 import { StyleSheet, View } from 'react-native';
@@ -25,6 +24,7 @@ import { space } from '@/theme/tokens';
 import { useColors } from '@/theme/useColors';
 
 import { GlassRoundButton } from '@/components/nav/GlassRoundButton';
+import { Icon } from './Icon';
 
 interface Props {
   variant: 'close' | 'back';
@@ -44,7 +44,7 @@ export function ModalBar({ variant, fallback }: Props) {
         accessibilityLabel={isClose ? 'Stäng' : 'Tillbaka'}
         onPress={() => (router.canGoBack() ? router.back() : router.replace(fallback))}
       >
-        <MaterialIcons name={isClose ? 'close' : 'arrow-back'} size={20} color={c.inkMuted} />
+        <Icon name={isClose ? 'close' : 'back'} size={20} color={c.inkMuted} />
       </GlassRoundButton>
     </View>
   );

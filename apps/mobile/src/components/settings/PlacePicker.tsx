@@ -10,7 +10,6 @@
 // a/a/o fold + lower-case happens on both query and place name before comparison. The
 // list is sorted by population descending so the recognisable big places sit at the top
 // when the user just scrolls.
-import { MaterialIcons } from '@expo/vector-icons';
 import { useMemo, useState } from 'react';
 import {
   FlatList,
@@ -23,6 +22,7 @@ import {
 } from 'react-native';
 
 import { useSettingsColors, type SettingsColors } from '@/components/settings/theme';
+import { Icon } from '@/components/ui/Icon';
 import { hapticSelection } from '@/lib/haptics';
 import { PLACES, type SwedishPlace } from '@/lib/places/data';
 import type { NamedLocation } from '@/lib/settings/types';
@@ -120,7 +120,7 @@ export function PlacePicker({ selected, onPick }: Props) {
             {`${NUMBER_FMT.format(item.population)} inv.`}
           </Text>
         </View>
-        {isSelected ? <MaterialIcons name="check" size={20} color={colors.highlightText} /> : null}
+        {isSelected ? <Icon name="check" size={20} color={colors.highlightText} /> : null}
       </Pressable>
     );
   };
@@ -128,7 +128,7 @@ export function PlacePicker({ selected, onPick }: Props) {
   return (
     <View style={styles.wrap}>
       <View style={styles.searchWrap}>
-        <MaterialIcons name="search" size={18} color={colors.textMuted} />
+        <Icon name="search" size={18} color={colors.textMuted} />
         <TextInput
           style={styles.searchInput}
           placeholder="Sök stad eller län"
@@ -149,7 +149,7 @@ export function PlacePicker({ selected, onPick }: Props) {
             accessibilityRole="button"
             accessibilityLabel="Rensa sökning"
           >
-            <MaterialIcons name="close" size={18} color={colors.textMuted} />
+            <Icon name="close" size={18} color={colors.textMuted} />
           </Pressable>
         ) : null}
       </View>

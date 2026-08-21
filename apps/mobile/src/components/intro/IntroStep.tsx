@@ -59,12 +59,12 @@
 // already says where the reader is — the one place on the screen whose job is already
 // "where am I", and the only slot that costs no new tier. It renders only when there is a
 // step to go back to, so the first step is unchanged.
-import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { useMemo } from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import type { ReactNode } from 'react';
 import Animated, { FadeIn, useReducedMotion } from 'react-native-reanimated';
 
+import { Icon } from '@/components/ui/Icon';
 import { IntroMarkProgress } from './IntroMarkProgress';
 import { motion, type Palette, radius, space, type } from '@/theme/tokens';
 import { useColors } from '@/theme/useColors';
@@ -150,7 +150,7 @@ export function IntroStep({
             accessibilityLabel="Tillbaka till föregående steg"
             style={({ pressed }) => [styles.back, pressed && styles.backPressed]}
           >
-            <MaterialIcons name="arrow-back" size={24} color={c.inkFaint} />
+            <Icon name="back" size={24} color={c.inkFaint} />
           </Pressable>
         ) : null}
         {/* One accessibility element for the mark and its caption: they say the same thing,

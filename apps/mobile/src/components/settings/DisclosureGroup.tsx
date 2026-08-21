@@ -1,4 +1,3 @@
-import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { type ReactNode, useEffect, useMemo, useState } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import Animated, {
@@ -9,6 +8,7 @@ import Animated, {
 } from 'react-native-reanimated';
 
 import { motion, radius, space, type } from '@/theme/tokens';
+import { Icon } from '@/components/ui/Icon';
 import { type SettingsColors, useSettingsColors } from './theme';
 
 // A collapsible card for advanced settings. Collapsed, it shows its category title
@@ -109,7 +109,7 @@ export function DisclosureGroup({
               its own form — same accent colour still marks it interactive. One glyph
               family per behaviour keeps the affordances predictable. */}
           <Animated.View style={chevronStyle}>
-            <MaterialIcons name="expand-more" size={22} color={colors.accent} />
+            <Icon name="chevronDown" size={22} color={colors.accent} />
           </Animated.View>
         </Pressable>
 

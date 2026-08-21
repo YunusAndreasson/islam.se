@@ -24,7 +24,6 @@
 //                     visible in-flight state and a real success screen.
 //
 // Failure never loses work: an error keeps everything typed and offers the button again.
-import { MaterialIcons } from '@expo/vector-icons';
 import { router, useLocalSearchParams } from 'expo-router';
 import { useMemo, useState } from 'react';
 import {
@@ -41,6 +40,7 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { OptionGroup } from '@/components/settings/OptionGroup';
+import { Icon } from '@/components/ui/Icon';
 import { SettingSection } from '@/components/settings/SettingSection';
 import { ModalBar } from '@/components/ui/ModalBar';
 import { hapticSuccess, hapticWarning } from '@/lib/haptics';
@@ -140,7 +140,7 @@ export default function MoskeRattelse() {
         <ModalBar variant="close" fallback="/bonetider" />
         <View style={styles.done}>
           <View style={styles.doneMark}>
-            <MaterialIcons name="check" size={30} color={c.onAccent} />
+            <Icon name="check" size={30} color={c.onAccent} />
           </View>
           <Text style={styles.doneTitle}>Tack</Text>
           {/* Honest about what happens next: a person reads it, and the map does not
@@ -278,7 +278,7 @@ export default function MoskeRattelse() {
 
           {phase.state === 'editing' && phase.error ? (
             <View style={styles.error} accessibilityLiveRegion="polite">
-              <MaterialIcons name="error-outline" size={18} color={c.highlightText} />
+              <Icon name="errorOutline" size={18} color={c.highlightText} />
               <Text style={styles.errorText}>{phase.error}</Text>
             </View>
           ) : null}

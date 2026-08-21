@@ -8,7 +8,6 @@ import {
 import { useIsFocused } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { useCallback, useDeferredValue, useEffect, useMemo, useRef, useState } from 'react';
-import { MaterialIcons } from '@expo/vector-icons';
 import {
   type NativeSyntheticEvent,
   Pressable,
@@ -36,6 +35,7 @@ import {
   PrayerDock,
 } from '@/components/map/PrayerDock';
 import { MapLessonCard } from '@/components/map/MapLessonCard';
+import { Icon } from '@/components/ui/Icon';
 import { MapMarkersOverlay } from '@/components/map/MapMarkersOverlay';
 import { MosqueCard } from '@/components/map/MosqueCard';
 import { LocationHint } from '@/components/map/LocationHint';
@@ -1230,7 +1230,7 @@ export default function Bonetider() {
               interactive
               tint={colors.cardGlass}
             >
-              <MaterialIcons name="center-focus-strong" size={16} color={colors.accent} />
+              <Icon name="recenter" size={16} color={colors.accent} />
               <Text style={[styles.resetText, { color: colors.ink }]}>
                 Återställ
               </Text>
@@ -1260,8 +1260,8 @@ export default function Bonetider() {
           }}
         >
           <GlassSurface style={styles.mapErrorNotice} borderRadius={radius.lg} tint={colors.cardGlass}>
-            <MaterialIcons
-              name={mapTrouble === 'network' ? 'wifi-off' : 'cloud-off'}
+            <Icon
+              name={mapTrouble === 'network' ? 'wifiOff' : 'cloudOff'}
               size={16}
               color={colors.inkMuted}
             />

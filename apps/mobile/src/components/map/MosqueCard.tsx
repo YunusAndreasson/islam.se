@@ -16,7 +16,6 @@
 // this is where a correction is worth asking for. It is deliberately a quiet text link,
 // not a second button — the card keeps one primary action and the report reads as
 // subordinate to it.
-import { MaterialIcons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import { useMemo } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
@@ -31,6 +30,7 @@ import { motion, mono, type Palette, radius, shadow, space, type } from '@/theme
 import { useColors } from '@/theme/useColors';
 import { GlassRoundButton } from '@/components/nav/GlassRoundButton';
 import { GlassSurface } from '@/components/ui/GlassSurface';
+import { Icon } from '@/components/ui/Icon';
 
 interface Props {
   mosque: Mosque;
@@ -81,7 +81,7 @@ export function MosqueCard({ mosque, userCoords, bottom, onClose }: Props) {
             rim={c.hairline}
             size={34}
           >
-            <MaterialIcons name="close" size={18} color={c.inkMuted} />
+            <Icon name="close" size={18} color={c.inkMuted} />
           </GlassRoundButton>
         </View>
 
@@ -102,7 +102,7 @@ export function MosqueCard({ mosque, userCoords, bottom, onClose }: Props) {
           accessibilityLabel={`Vägbeskrivning till ${mosque.name}`}
           style={({ pressed }) => [styles.directions, pressed && styles.directionsPressed]}
         >
-          <MaterialIcons name="directions" size={18} color={c.onAccent} />
+          <Icon name="directions" size={18} color={c.onAccent} />
           <Text style={styles.directionsText}>Vägbeskrivning</Text>
         </Pressable>
 

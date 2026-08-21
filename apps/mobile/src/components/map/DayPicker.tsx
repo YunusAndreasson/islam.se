@@ -9,7 +9,6 @@
 // of spare vertical space collapsed and none expanded. Ownership: the clock lives inside
 // bonetider, so a separate route would need a shared store to reach it — a lot of new
 // machinery to move one number.
-import { MaterialIcons } from '@expo/vector-icons';
 import { useMemo, useState } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import Animated, { FadeIn, FadeOut, useReducedMotion } from 'react-native-reanimated';
@@ -21,6 +20,7 @@ import { addStockholmDays, stockholmParts } from '@/lib/stockholm-time';
 import { motion, type Palette, radius, space, type } from '@/theme/tokens';
 import { useColors } from '@/theme/useColors';
 import { GlassSurface } from '@/components/ui/GlassSurface';
+import { Icon } from '@/components/ui/Icon';
 
 // Monday-first, as Swedish calendars are. Single letters would be ambiguous (måndag and
 // onsdag both start with m/o pairs that collide), so two letters — the standard Swedish
@@ -135,7 +135,7 @@ export function DayPicker({ dayStart, todayStart, onPick, onClose }: Props) {
             accessibilityState={{ disabled: !canPageBack }}
             style={({ pressed }) => [styles.pager, !canPageBack && styles.off, pressed && styles.pressed]}
           >
-            <MaterialIcons name="chevron-left" size={22} color={c.accent} />
+            <Icon name="chevronLeft" size={22} color={c.accent} />
           </Pressable>
           <Text style={styles.title} numberOfLines={1}>
             {grid.title}
@@ -149,7 +149,7 @@ export function DayPicker({ dayStart, todayStart, onPick, onClose }: Props) {
             accessibilityState={{ disabled: !canPageForward }}
             style={({ pressed }) => [styles.pager, !canPageForward && styles.off, pressed && styles.pressed]}
           >
-            <MaterialIcons name="chevron-right" size={22} color={c.accent} />
+            <Icon name="chevronRight" size={22} color={c.accent} />
           </Pressable>
           <Pressable
             onPress={onClose}
@@ -158,7 +158,7 @@ export function DayPicker({ dayStart, todayStart, onPick, onClose }: Props) {
             accessibilityLabel="Stäng kalendern"
             style={({ pressed }) => [styles.pager, pressed && styles.pressed]}
           >
-            <MaterialIcons name="close" size={20} color={c.inkMuted} />
+            <Icon name="close" size={20} color={c.inkMuted} />
           </Pressable>
         </View>
 

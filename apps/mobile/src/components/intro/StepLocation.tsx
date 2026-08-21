@@ -9,12 +9,12 @@
 // consolation prize, and it opens the same PlacePicker the settings route uses. That is
 // also why this step never blocks: the user can walk past it and the app falls back to
 // Stockholm (see lib/location/resolve), which the dock is honest about.
-import { MaterialIcons } from '@expo/vector-icons';
 import { useMemo, useRef, useState } from 'react';
 import { ActivityIndicator, Pressable, StyleSheet, Text, View } from 'react-native';
 
 import { PlacePicker } from '@/components/settings/PlacePicker';
 import { hapticSuccess, hapticWarning } from '@/lib/haptics';
+import { Icon } from '@/components/ui/Icon';
 import { useLocationStatus } from '@/lib/location/context';
 import { noteLocationResolved } from '@/lib/location-hint';
 import type { SwedishPlace } from '@/lib/places/data';
@@ -96,7 +96,7 @@ export function StepLocation() {
     <View style={styles.wrap}>
       {phase === 'granted' ? (
         <View style={styles.done}>
-          <MaterialIcons name="check-circle" size={20} color={c.highlight} />
+          <Icon name="checkCircle" size={20} color={c.highlight} />
           <Text style={styles.doneText}>Tiderna räknas ut för {chosen ?? 'din plats'}.</Text>
         </View>
       ) : (
@@ -139,7 +139,7 @@ export function StepLocation() {
               {busy ? (
                 <ActivityIndicator size="small" color={c.onAccent} />
               ) : (
-                <MaterialIcons name="my-location" size={18} color={c.onAccent} />
+                <Icon name="myLocation" size={18} color={c.onAccent} />
               )}
               <Text style={styles.ctaText}>{busy ? 'Hämtar plats…' : 'Använd min plats'}</Text>
             </Pressable>
@@ -153,7 +153,7 @@ export function StepLocation() {
               style={({ pressed }) => [styles.link, pressed && styles.pressedQuiet]}
             >
               <Text style={styles.linkText}>{openSystemSettingsLabel()}</Text>
-              <MaterialIcons name="open-in-new" size={18} color={c.accent} />
+              <Icon name="externalLink" size={18} color={c.accent} />
             </Pressable>
           ) : null}
 

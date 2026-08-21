@@ -17,7 +17,6 @@
 // frame while held) and a small spring scale-up so the lock feels physical.
 //
 // Theming: OS-themed via useColors (Apple Maps-style chrome; see MapNav).
-import { MaterialIcons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import { useEffect, useMemo, useRef } from 'react';
 import Animated, { useAnimatedStyle, useSharedValue, withSpring } from 'react-native-reanimated';
@@ -27,6 +26,7 @@ import { useLocation } from '@/lib/location/context';
 import { angleDelta, QIBLA_ALIGN_TOL, qiblaBearing } from '@/lib/qibla';
 import { useHeading } from '@/lib/useHeading';
 import { useColors } from '@/theme/useColors';
+import { Icon } from '@/components/ui/Icon';
 import { GlassRoundButton } from './GlassRoundButton';
 
 /** Glyph size inside the 46 dp disc. */
@@ -90,10 +90,10 @@ export function CompassButton({ active }: { active: boolean }) {
         // arrow always claims a direction, and an upright one here would claim "Mecca is
         // straight ahead" to anyone who happened to be facing north-ish. The rose says
         // "compass" while pointing nowhere, which is the honest state.
-        <MaterialIcons name="explore" size={GLYPH} color={c.inkMuted} />
+        <Icon name="compassRose" size={GLYPH} color={c.inkMuted} />
       ) : (
         <Animated.View style={needleStyle}>
-          <MaterialIcons name="navigation" size={GLYPH} color={arrowHue} />
+          <Icon name="navigationArrow" size={GLYPH} color={arrowHue} />
         </Animated.View>
       )}
     </GlassRoundButton>

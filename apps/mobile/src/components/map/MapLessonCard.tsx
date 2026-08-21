@@ -14,13 +14,13 @@
 // itself, to build the demoFrame that feeds the map's own overlay while this card is up)
 // and dismissal — there is no autoplay, so every example on screen is one the user tapped
 // to. This component only renders what it's handed and reports taps upward.
-import { MaterialIcons } from '@expo/vector-icons';
 import { useMemo } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import Animated, { FadeInDown, FadeOutDown, useReducedMotion } from 'react-native-reanimated';
 
 import { GlassRoundButton } from '@/components/nav/GlassRoundButton';
 import { GlassSurface } from '@/components/ui/GlassSurface';
+import { Icon } from '@/components/ui/Icon';
 import { hapticSelection } from '@/lib/haptics';
 import { motion, type Palette, radius, shadow, space, type } from '@/theme/tokens';
 import { useColors } from '@/theme/useColors';
@@ -88,7 +88,7 @@ export function MapLessonCard({
             rim={c.hairline}
             size={34}
           >
-            <MaterialIcons name="close" size={18} color={c.inkMuted} />
+            <Icon name="close" size={18} color={c.inkMuted} />
           </GlassRoundButton>
         </View>
 
@@ -104,7 +104,7 @@ export function MapLessonCard({
             rim={c.hairline}
             size={34}
           >
-            <MaterialIcons name="chevron-left" size={20} color={c.accent} />
+            <Icon name="chevronLeft" size={20} color={c.accent} />
           </GlassRoundButton>
 
           <Text
@@ -126,7 +126,7 @@ export function MapLessonCard({
             rim={c.hairline}
             size={34}
           >
-            <MaterialIcons name={atEnd ? 'check' : 'chevron-right'} size={20} color={c.accent} />
+            <Icon name={atEnd ? 'check' : 'chevronRight'} size={20} color={c.accent} />
           </GlassRoundButton>
         </View>
 

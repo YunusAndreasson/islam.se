@@ -13,7 +13,6 @@
 // 0 by 45° off) drives a graded indigo→brass transition on the beam, the Kaaba
 // glow, the needle and the index — so you feel yourself closing in *before* the
 // hard ≤4° lock, not just a binary on/off.
-import { MaterialIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import * as Location from 'expo-location';
 import { router, useFocusEffect } from 'expo-router';
@@ -30,6 +29,7 @@ import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-na
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { ModalBar } from '@/components/ui/ModalBar';
+import { Icon } from '@/components/ui/Icon';
 import { hapticLight, hapticSuccess } from '@/lib/haptics';
 import { useLocation } from '@/lib/location/context';
 import {
@@ -281,7 +281,7 @@ export default function Qibla() {
             accessibilityRole="button"
             accessibilityLabel="Ingen plats vald – riktningen gäller standardplatsen. Tryck för att välja stad"
           >
-            <MaterialIcons name="place" size={14} color={c.accent} />
+            <Icon name="place" size={14} color={c.accent} />
             <Text style={styles.placePickText} numberOfLines={1}>
               Välj plats
             </Text>
@@ -423,15 +423,15 @@ export default function Qibla() {
           accessibilityRole="text"
           accessibilityLiveRegion="polite"
         >
-          <MaterialIcons
+          <Icon
             name={
               aligned
-                ? 'check-circle'
+                ? 'checkCircle'
                 : calibrating
-                  ? 'compass-calibration'
+                  ? 'compassCalibration'
                   : noCompass || permissionDenied
-                    ? 'explore'
-                    : 'navigation'
+                    ? 'compassRose'
+                    : 'navigationArrow'
             }
             size={16}
             color={aligned ? c.onHighlight : near ? c.highlightText : c.accent}
@@ -484,7 +484,7 @@ export default function Qibla() {
               style={({ pressed }) => [styles.link, pressed && styles.pressed]}
             >
               <Text style={styles.linkText}>{openSystemSettingsLabel()}</Text>
-              <MaterialIcons name="open-in-new" size={18} color={c.accent} />
+              <Icon name="externalLink" size={18} color={c.accent} />
             </Pressable>
           </>
         ) : noCompass ? (
