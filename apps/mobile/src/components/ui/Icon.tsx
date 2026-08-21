@@ -19,13 +19,30 @@
 //    a partial. The names are not interchangeable: SF uses dotted paths
 //    ('chevron.right'), Material Symbols uses snake_case ('chevron_right').
 //
-// 2. Sizes are not directly comparable to the old ones. A Material Icons glyph fills its
-//    em square; an SF Symbol is drawn to an optical baseline and letterboxed into the box
-//    by `resizeMode: 'scaleAspectFit'`. A narrow symbol (chevron, plus) therefore reads
-//    SMALLER on iOS at the same `size` number. The numbers here are carried over verbatim
-//    from the MaterialIcons call sites so this change is a pure swap; if iOS chrome looks
-//    undersized on a device, calibrate per-icon at the CALL SITE, not by scaling everything
-//    here.
+// 2. `ink` is why iOS icons are not twice too big. The two libraries disagree about what
+//    `size` MEANS, and the disagreement is not subtle:
+//
+//      • A Material Icons glyph is drawn INSET in its em square. Measured off
+//        MaterialIcons.ttf, `chevron_right`'s outline spans 0.50 of the em and `check`
+//        spans 0.73 — so at size 22 the old chevron inked 11 pt, not 22.
+//      • expo-symbols builds its image at a FIXED `UIImage.SymbolConfiguration(pointSize:
+//        UIFont.systemFontSize)` — 17 pt, ignoring `size` entirely — and then hands it to a
+//        UIImageView whose frame is size × size with `.scaleAspectFit` (SymbolView.swift,
+//        `layoutSubviews` + `getSymbolConfig`). Aspect-fit means the glyph's LONG axis is
+//        stretched to exactly `size`. Nothing is inset. A chevron therefore inked the full
+//        22 pt — double its predecessor, which is exactly what the first TestFlight build
+//        of this looked like.
+//
+//    So `ink` is the measured long-axis fraction of the em box that the MaterialIcons (or
+//    MaterialCommunityIcons) glyph this entry replaced actually covered. On iOS the symbol
+//    is rendered into a `size * ink` box centred inside a full `size` footprint, which
+//    reproduces the previous optical weight without moving any layout. Android needs none
+//    of this: its SymbolView path is a <Text> at fontSize `size`, so the glyph is inset in
+//    the em box exactly as Material Icons was, and applying `ink` there would shrink icons
+//    that are already correct.
+//
+//    To re-derive a number, measure the glyph, do not guess:
+//      fontTools → BoundsPen over MaterialIcons.ttf, max(width, height) / unitsPerEm.
 //
 // 3. What is deliberately NOT here, and why neither case is a matter of taste:
 //      • The dock's semantic glyphs — the prayer rows (PRAYER_ICONS in lib/prayer-times)
@@ -49,7 +66,17 @@ import { loadAsync } from 'expo-font';
 import { SymbolView, type AndroidSymbol } from 'expo-symbols';
 import materialSymbolsRegular from 'expo-symbols/androidWeights/regular';
 import type { SFSymbol } from 'sf-symbols-typescript';
-import { Platform, type ColorValue, type StyleProp, type ViewProps, type ViewStyle } from 'react-native';
+import {
+  Platform,
+  StyleSheet,
+  View,
+  type ColorValue,
+  type StyleProp,
+  type ViewProps,
+  type ViewStyle,
+} from 'react-native';
+
+const IOS = Platform.OS === 'ios';
 
 // Android renders the symbol as a glyph in a font that has to load before it can draw
 // anything — SymbolView shows an empty box until then, so without this the chrome pops in
@@ -58,7 +85,7 @@ import { Platform, type ColorValue, type StyleProp, type ViewProps, type ViewSty
 // real screen through (lib/splash). expo-font dedupes by family name and shares the
 // in-flight promise, so SymbolView's own load resolves against this one rather than
 // racing it. Fire-and-forget: a failed icon font is a blank glyph, never a blank app.
-if (Platform.OS === 'android') {
+if (!IOS) {
   void loadAsync({ [materialSymbolsRegular.name]: materialSymbolsRegular.font }).catch(() => {});
 }
 
@@ -69,51 +96,51 @@ if (Platform.OS === 'android') {
  */
 const ICONS = {
   // Navigation and dismissal
-  close: { ios: 'xmark', android: 'close' },
-  back: { ios: 'chevron.backward', android: 'arrow_back' },
-  chevronRight: { ios: 'chevron.right', android: 'chevron_right' },
-  chevronLeft: { ios: 'chevron.left', android: 'chevron_left' },
-  chevronDown: { ios: 'chevron.down', android: 'expand_more' },
+  close: { ios: 'xmark', android: 'close', ink: 0.58 },
+  back: { ios: 'chevron.backward', android: 'arrow_back', ink: 0.67 },
+  chevronRight: { ios: 'chevron.right', android: 'chevron_right', ink: 0.5 },
+  chevronLeft: { ios: 'chevron.left', android: 'chevron_left', ink: 0.5 },
+  chevronDown: { ios: 'chevron.down', android: 'expand_more', ink: 0.5 },
   // Affirmation and arithmetic
-  check: { ios: 'checkmark', android: 'check' },
-  checkCircle: { ios: 'checkmark.circle.fill', android: 'check_circle' },
-  add: { ios: 'plus', android: 'add' },
-  remove: { ios: 'minus', android: 'remove' },
+  check: { ios: 'checkmark', android: 'check', ink: 0.73 },
+  checkCircle: { ios: 'checkmark.circle.fill', android: 'check_circle', ink: 0.83 },
+  add: { ios: 'plus', android: 'add', ink: 0.58 },
+  remove: { ios: 'minus', android: 'remove', ink: 0.58 },
   // Chrome
-  search: { ios: 'magnifyingglass', android: 'search' },
-  externalLink: { ios: 'arrow.up.forward.square', android: 'open_in_new' },
-  settings: { ios: 'gearshape', android: 'settings' },
-  settingsRestore: { ios: 'arrow.counterclockwise', android: 'settings_backup_restore' },
-  recenter: { ios: 'scope', android: 'center_focus_strong' },
-  errorOutline: { ios: 'exclamationmark.circle', android: 'error_outline' },
-  lock: { ios: 'lock', android: 'lock' },
-  shieldCheck: { ios: 'checkmark.shield', android: 'verified_user' },
+  search: { ios: 'magnifyingglass', android: 'search', ink: 0.73 },
+  externalLink: { ios: 'arrow.up.forward.square', android: 'open_in_new', ink: 0.75 },
+  settings: { ios: 'gearshape', android: 'settings', ink: 0.83 },
+  settingsRestore: { ios: 'arrow.counterclockwise', android: 'settings_backup_restore', ink: 0.88 },
+  recenter: { ios: 'scope', android: 'center_focus_strong', ink: 0.75 },
+  errorOutline: { ios: 'exclamationmark.circle', android: 'error_outline', ink: 0.83 },
+  lock: { ios: 'lock', android: 'lock', ink: 0.88 },
+  shieldCheck: { ios: 'checkmark.shield', android: 'verified_user', ink: 0.92 },
   // Dates
-  calendar: { ios: 'calendar', android: 'event' },
-  today: { ios: 'calendar.badge.clock', android: 'today' },
-  restore: { ios: 'clock.arrow.circlepath', android: 'restore' },
+  calendar: { ios: 'calendar', android: 'event', ink: 0.83 },
+  today: { ios: 'calendar.badge.clock', android: 'today', ink: 0.83 },
+  restore: { ios: 'clock.arrow.circlepath', android: 'restore', ink: 0.88 },
   // Place and direction
-  map: { ios: 'map', android: 'map' },
-  place: { ios: 'mappin.and.ellipse', android: 'place' },
-  directions: { ios: 'arrow.triangle.turn.up.right.diamond.fill', android: 'directions' },
-  locationOn: { ios: 'location.fill', android: 'location_on' },
-  locationOff: { ios: 'location.slash', android: 'location_off' },
-  myLocation: { ios: 'location.circle', android: 'my_location' },
+  map: { ios: 'map', android: 'map', ink: 0.75 },
+  place: { ios: 'mappin.and.ellipse', android: 'place', ink: 0.83 },
+  directions: { ios: 'arrow.triangle.turn.up.right.diamond.fill', android: 'directions', ink: 0.83 },
+  locationOn: { ios: 'location.fill', android: 'location_on', ink: 0.83 },
+  locationOff: { ios: 'location.slash', android: 'location_off', ink: 0.83 },
+  myLocation: { ios: 'location.circle', android: 'my_location', ink: 0.92 },
   // The two Plats modes in Inställningar (lib/settings/options).
-  gps: { ios: 'location.circle.fill', android: 'gps_fixed' },
-  city: { ios: 'building.2.fill', android: 'location_city' },
+  gps: { ios: 'location.circle.fill', android: 'gps_fixed', ink: 0.92 },
+  city: { ios: 'building.2.fill', android: 'location_city', ink: 0.79 },
   // The qibla compass. `compassRose` is the no-heading state — a rose claims no direction,
   // which an arrow always would; see components/nav/CompassButton for why that matters.
-  compassRose: { ios: 'safari', android: 'explore' },
-  navigationArrow: { ios: 'location.north.fill', android: 'navigation' },
-  compassCalibration: { ios: 'arrow.triangle.2.circlepath', android: 'compass_calibration' },
+  compassRose: { ios: 'safari', android: 'explore', ink: 0.83 },
+  navigationArrow: { ios: 'location.north.fill', android: 'navigation', ink: 0.79 },
+  compassCalibration: { ios: 'arrow.triangle.2.circlepath', android: 'compass_calibration', ink: 0.83 },
   // Alerts
-  notificationsOff: { ios: 'bell', android: 'notifications' },
-  notificationsOn: { ios: 'bell.badge.fill', android: 'notifications_active' },
+  notificationsOff: { ios: 'bell', android: 'notifications', ink: 0.81 },
+  notificationsOn: { ios: 'bell.badge.fill', android: 'notifications_active', ink: 0.83 },
   // Degraded-network notices on the map
-  wifiOff: { ios: 'wifi.slash', android: 'wifi_off' },
-  cloudOff: { ios: 'icloud.slash', android: 'cloud_off' },
-} as const satisfies Record<string, { ios: SFSymbol; android: AndroidSymbol }>;
+  wifiOff: { ios: 'wifi.slash', android: 'wifi_off', ink: 0.92 },
+  cloudOff: { ios: 'icloud.slash', android: 'cloud_off', ink: 1.0 },
+} as const satisfies Record<string, { ios: SFSymbol; android: AndroidSymbol; ink: number }>;
 
 export type IconName = keyof typeof ICONS;
 
@@ -134,5 +161,25 @@ type IconProps = {
  * the symbol is a native view with no text for a screen reader to stumble into.
  */
 export function Icon({ name, size = 24, color, style, ...rest }: IconProps) {
-  return <SymbolView name={ICONS[name]} size={size} tintColor={color} style={style} {...rest} />;
+  const icon = ICONS[name];
+
+  // Android already inks correctly (see note 2), so it renders exactly what it rendered
+  // when this was <MaterialIcons> — one node, no wrapper, verified on device.
+  if (!IOS) {
+    return <SymbolView name={icon} size={size} tintColor={color} style={style} {...rest} />;
+  }
+
+  // iOS: the symbol shrinks to its measured ink, then is centred inside a FULL `size` box.
+  // The footprint is what every row was laid out against, so only the ink moves — without
+  // the wrapper, `ink` would drag the layout in with it and every icon+label pair would
+  // retighten by a few points.
+  return (
+    <View style={[{ width: size, height: size }, styles.centre, style]} {...rest}>
+      <SymbolView name={icon} size={Math.round(size * icon.ink)} tintColor={color} />
+    </View>
+  );
 }
+
+const styles = StyleSheet.create({
+  centre: { alignItems: 'center', justifyContent: 'center' },
+});
