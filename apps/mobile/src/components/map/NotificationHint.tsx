@@ -16,7 +16,6 @@
 // Visually it is MosqueCard's twin — same glass material, radius, hairline, shadow and
 // filled-accent CTA — just anchored to the top instead of the bottom, so it belongs to
 // the same family as the dock and the nav discs rather than reading as an ad banner.
-import { MaterialIcons } from '@expo/vector-icons';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import Animated, { FadeInUp, FadeOutUp, useReducedMotion } from 'react-native-reanimated';
@@ -37,6 +36,7 @@ import { motion, type Palette, radius, shadow, space, type } from '@/theme/token
 import { useColors } from '@/theme/useColors';
 import { GlassRoundButton } from '@/components/nav/GlassRoundButton';
 import { GlassSurface } from '@/components/ui/GlassSurface';
+import { Icon } from '@/components/ui/Icon';
 
 /** How long the "Påminnelser är på" confirmation lingers before the card retires itself. */
 const CONFIRM_MS = 1600;
@@ -117,8 +117,8 @@ export function NotificationHint({ top, onEnable, onClose }: Props) {
     >
       <GlassSurface style={styles.card} borderRadius={radius.xl} tint={c.cardGlass}>
         <View style={styles.header}>
-          <MaterialIcons
-            name={state === 'granted' ? 'notifications-active' : 'notifications-none'}
+          <Icon
+            name={state === 'granted' ? 'notificationsOn' : 'notificationsOff'}
             size={20}
             color={state === 'granted' ? c.highlight : c.accent}
             style={styles.icon}
@@ -136,7 +136,7 @@ export function NotificationHint({ top, onEnable, onClose }: Props) {
             rim={c.hairline}
             size={34}
           >
-            <MaterialIcons name="close" size={18} color={c.inkMuted} />
+            <Icon name="close" size={18} color={c.inkMuted} />
           </GlassRoundButton>
         </View>
 
@@ -172,7 +172,7 @@ export function NotificationHint({ top, onEnable, onClose }: Props) {
               style={({ pressed }) => [styles.link, pressed && styles.linkPressed]}
             >
               <Text style={styles.linkText}>{openSystemSettingsLabel()}</Text>
-              <MaterialIcons name="open-in-new" size={18} color={c.accent} />
+              <Icon name="externalLink" size={18} color={c.accent} />
             </Pressable>
           </>
         ) : null}

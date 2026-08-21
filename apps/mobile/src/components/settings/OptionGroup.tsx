@@ -1,19 +1,19 @@
-import { MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
 import { useMemo } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 
 import { hapticSelection } from '@/lib/haptics';
 import { space, type } from '@/theme/tokens';
+import { Icon, type IconName } from '@/components/ui/Icon';
 import { type SettingsColors, useSettingsColors } from './theme';
 
 export interface Option<T extends string> {
   value: T;
   label: string;
   description?: string;
-  /** Optional leading MaterialCommunityIcons glyph — adds semantic
-   *  differentiation when a value choice carries visual meaning (e.g. GPS vs
-   *  city selector on Plats). Plain text-only rows omit this. */
-  icon?: keyof typeof MaterialCommunityIcons.glyphMap;
+  /** Optional leading glyph — adds semantic differentiation when a value choice
+   *  carries visual meaning (e.g. GPS vs city selector on Plats). Plain text-only
+   *  rows omit this. */
+  icon?: IconName;
 }
 
 // A vertical single-select list. The chosen row shows a check; the whole row is a
@@ -62,7 +62,7 @@ export function OptionGroup<T extends string>({
             ]}
           >
             {opt.icon ? (
-              <MaterialCommunityIcons
+              <Icon
                 name={opt.icon}
                 size={20}
                 color={colors.textMuted}
@@ -76,7 +76,7 @@ export function OptionGroup<T extends string>({
               {opt.description ? <Text style={styles.description}>{opt.description}</Text> : null}
             </View>
             {selected ? (
-              <MaterialIcons
+              <Icon
                 name="check"
                 size={22}
                 color={colors.accent}

@@ -21,7 +21,7 @@
 // flip was retired here — atmosphere comes from the basemap + wash, not from chrome
 // flipping under the user's hands. The wash and prayer-line colours are still
 // sun-driven (the map IS a live sky), but the dock stays anchored to one OS theme.
-import { MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import type { PrayerTimes } from 'adhan';
 import { router } from 'expo-router';
 import { useCallback, useEffect, useEffectEvent, useMemo, useRef, useState } from 'react';
@@ -66,6 +66,7 @@ import { motion, type Palette, radius, shadow, space, type } from '@/theme/token
 import { useActiveScheme, useColors } from '@/theme/useColors';
 import { GlassSurface } from '@/components/ui/GlassSurface';
 import { DayPicker } from './DayPicker';
+import { Icon } from '@/components/ui/Icon';
 
 const DAY_MS = 86_400_000;
 /** Hours the ruler under the scrubber labels. Positioned by their true fraction of the
@@ -469,7 +470,7 @@ export function PrayerDock({
         accessibilityRole="button"
         accessibilityLabel={onToday ? 'Återgå till nu' : 'Återgå till i dag'}
       >
-        <MaterialIcons name={onToday ? 'restore' : 'today'} size={13} color={c.accent} />
+        <Icon name={onToday ? 'restore' : 'today'} size={13} color={c.accent} />
         <Text style={styles.previewBadgeText}>{onToday ? 'Nu' : 'I dag'}</Text>
       </Pressable>
     );
@@ -496,7 +497,7 @@ export function PrayerDock({
       accessibilityRole="button"
       accessibilityLabel="Ingen plats vald – tryck för att välja stad"
     >
-      <MaterialIcons name="place" size={13} color={c.accent} />
+      <Icon name="place" size={13} color={c.accent} />
       <Text style={styles.placePickText} numberOfLines={1}>
         Välj plats
       </Text>
@@ -561,7 +562,7 @@ export function PrayerDock({
                     {gregorianLabel}
                   </Text>
                 </View>
-                <MaterialIcons name="event" size={18} color={c.accent} />
+                <Icon name="calendar" size={18} color={c.accent} />
               </Pressable>
             </Animated.View>
 
@@ -1268,8 +1269,8 @@ function DayChevron({
       accessibilityState={{ disabled }}
       style={({ pressed }) => [styles.dayStep, disabled && styles.dayStepOff, pressed && styles.pressed]}
     >
-      <MaterialIcons
-        name={forward ? 'chevron-right' : 'chevron-left'}
+      <Icon
+        name={forward ? 'chevronRight' : 'chevronLeft'}
         size={22}
         color={c.accent}
       />

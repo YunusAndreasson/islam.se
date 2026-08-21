@@ -1,4 +1,3 @@
-import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { type ReactNode, useEffect, useMemo, useState } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import Animated, {
@@ -8,6 +7,7 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 
+import { Icon } from '@/components/ui/Icon';
 import { motion, type Palette, space, type } from '@/theme/tokens';
 import { useColors } from '@/theme/useColors';
 
@@ -77,7 +77,7 @@ export function FaqItem({
       >
         <Text style={styles.question}>{question}</Text>
         <Animated.View style={chevronStyle}>
-          <MaterialIcons name="chevron-right" size={24} color={c.accent} />
+          <Icon name="chevronRight" size={24} color={c.accent} />
         </Animated.View>
       </Pressable>
 

@@ -1,9 +1,9 @@
-import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { useMemo } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 
 import { hapticLight } from '@/lib/haptics';
 import { radius, space, type } from '@/theme/tokens';
+import { Icon } from '@/components/ui/Icon';
 import { type SettingsColors, useSettingsColors } from './theme';
 
 // A labelled −/value/+ stepper row for integer settings (minute adjustments,
@@ -56,7 +56,7 @@ export function Stepper({
           accessibilityLabel={`Minska ${label}`}
           style={({ pressed }) => [styles.btn, pressed && styles.pressed, value <= min && styles.disabled]}
         >
-          <MaterialIcons name="remove" size={20} color={value <= min ? colors.textMuted : colors.accent} />
+          <Icon name="remove" size={20} color={value <= min ? colors.textMuted : colors.accent} />
         </Pressable>
         <Text style={styles.value}>{display}</Text>
         <Pressable
@@ -66,7 +66,7 @@ export function Stepper({
           accessibilityLabel={`Öka ${label}`}
           style={({ pressed }) => [styles.btn, pressed && styles.pressed, value >= max && styles.disabled]}
         >
-          <MaterialIcons name="add" size={20} color={value >= max ? colors.textMuted : colors.accent} />
+          <Icon name="add" size={20} color={value >= max ? colors.textMuted : colors.accent} />
         </Pressable>
       </View>
     </View>

@@ -17,7 +17,6 @@
 // stället". Location is the one permission with a real alternative — picking a city by
 // hand gives correct times without granting anything — so the card offers that door in
 // every state where the primary path has not succeeded, including a refusal.
-import { MaterialIcons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
@@ -36,6 +35,7 @@ import { motion, type Palette, radius, shadow, space, type } from '@/theme/token
 import { useColors } from '@/theme/useColors';
 import { GlassRoundButton } from '@/components/nav/GlassRoundButton';
 import { GlassSurface } from '@/components/ui/GlassSurface';
+import { Icon } from '@/components/ui/Icon';
 
 /** How long the "Använder din plats" confirmation lingers before the card retires itself. */
 const CONFIRM_MS = 1600;
@@ -131,9 +131,9 @@ export function LocationHint({ top, onClose }: Props) {
     >
       <GlassSurface style={styles.card} borderRadius={radius.xl} tint={c.cardGlass}>
         <View style={styles.header}>
-          <MaterialIcons
+          <Icon
             name={
-              state === 'granted' ? 'location-on' : state === 'ask' ? 'my-location' : 'location-off'
+              state === 'granted' ? 'locationOn' : state === 'ask' ? 'myLocation' : 'locationOff'
             }
             size={20}
             color={state === 'granted' ? c.highlight : c.accent}
@@ -152,7 +152,7 @@ export function LocationHint({ top, onClose }: Props) {
             rim={c.hairline}
             size={34}
           >
-            <MaterialIcons name="close" size={18} color={c.inkMuted} />
+            <Icon name="close" size={18} color={c.inkMuted} />
           </GlassRoundButton>
         </View>
 
@@ -196,7 +196,7 @@ export function LocationHint({ top, onClose }: Props) {
             style={({ pressed }) => [styles.link, pressed && styles.linkPressed]}
           >
             <Text style={styles.linkText}>{openSystemSettingsLabel()}</Text>
-            <MaterialIcons name="open-in-new" size={18} color={c.accent} />
+            <Icon name="externalLink" size={18} color={c.accent} />
           </Pressable>
         ) : null}
 
@@ -213,7 +213,7 @@ export function LocationHint({ top, onClose }: Props) {
             style={({ pressed }) => [styles.link, pressed && styles.linkPressed]}
           >
             <Text style={styles.linkText}>Välj stad i stället</Text>
-            <MaterialIcons name="chevron-right" size={18} color={c.accent} />
+            <Icon name="chevronRight" size={18} color={c.accent} />
           </Pressable>
         )}
       </GlassSurface>

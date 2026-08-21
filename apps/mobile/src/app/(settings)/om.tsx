@@ -13,13 +13,12 @@
 // developer's manifest — no real user recognises those names. The attribution that's
 // actually required now lives as one muted footnote at the very bottom, where map
 // credits belong; everything above it is human-facing.
-import { MaterialIcons } from '@expo/vector-icons';
-import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import { useMemo } from 'react';
 import { Image, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { SettingSection } from '@/components/settings/SettingSection';
+import { Icon } from '@/components/ui/Icon';
 import { ModalBar } from '@/components/ui/ModalBar';
 import {
   ADHAN_URL,
@@ -75,8 +74,8 @@ export default function Om() {
           {/* Shield + paragraph reads as one block: the icon is a small leading
               visual mark that gives the privacy promise the weight it deserves. */}
           <View style={styles.integrityRow}>
-            <MaterialCommunityIcons
-              name="shield-check-outline"
+            <Icon
+              name="shieldCheck"
               size={22}
               color={c.accent}
               style={styles.integrityIcon}
@@ -158,8 +157,8 @@ function LinkRow({
       style={({ pressed }) => [styles.row, divider && styles.rowDivider, pressed && styles.rowPressed]}
     >
       <Text style={styles.rowLabel}>{label}</Text>
-      <MaterialIcons
-        name={external ? 'open-in-new' : 'chevron-right'}
+      <Icon
+        name={external ? 'externalLink' : 'chevronRight'}
         size={external ? 18 : 22}
         color={colors.inkMuted}
       />

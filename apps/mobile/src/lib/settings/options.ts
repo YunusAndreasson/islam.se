@@ -24,7 +24,7 @@ import type {
 // *_OPTIONS so the Inställningar screen passes a stable reference (the inline literal
 // was rebuilt on every screen render — including the per-minute clock tick).
 export const LOCATION_MODE_OPTIONS: readonly Option<LocationMode>[] = [
-  { value: 'gps', label: 'GPS (min plats)', icon: 'crosshairs-gps' },
+  { value: 'gps', label: 'GPS (min plats)', icon: 'gps' },
   { value: 'manual', label: 'Välj stad', icon: 'city' },
 ];
 

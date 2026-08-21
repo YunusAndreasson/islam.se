@@ -28,13 +28,13 @@
 // introduction had already diagnosed and fixed for itself (components/intro/StepMethod:
 // "a setting you can watch land is a setting you can judge"). The strip is cheap enough
 // in height to simply stay open, and Beräkning now pins its own copy.
-import { MaterialIcons } from '@expo/vector-icons';
 import { router, useIsFocused } from 'expo-router';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { ActivityIndicator, Alert, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { OptionGroup } from '@/components/settings/OptionGroup';
+import { Icon } from '@/components/ui/Icon';
 import { PreviewStrip } from '@/components/settings/PreviewStrip';
 import { SettingSection } from '@/components/settings/SettingSection';
 import { Stepper } from '@/components/settings/Stepper';
@@ -230,7 +230,7 @@ export default function Installningar() {
               >
                 {justUpdated && !locating ? (
                   <View style={styles.rowActionConfirm}>
-                    <MaterialIcons name="check-circle" size={18} color={colors.accent} />
+                    <Icon name="checkCircle" size={18} color={colors.accent} />
                     <Text style={styles.rowAction}>Uppdaterad</Text>
                   </View>
                 ) : (
@@ -255,7 +255,7 @@ export default function Installningar() {
                   style={({ pressed }) => [styles.row, pressed && styles.rowPressed]}
                 >
                   <Text style={styles.rowAction}>{openSystemSettingsLabel()}</Text>
-                  <MaterialIcons name="open-in-new" size={18} color={colors.accent} />
+                  <Icon name="externalLink" size={18} color={colors.accent} />
                 </Pressable>
               ) : null}
             </>
@@ -273,7 +273,7 @@ export default function Installningar() {
                 <Text style={styles.rowValue} numberOfLines={1}>
                   {cityValue}
                 </Text>
-                <MaterialIcons name="chevron-right" size={22} color={colors.textMuted} />
+                <Icon name="chevronRight" size={22} color={colors.textMuted} />
               </View>
             </Pressable>
           )}
@@ -294,7 +294,7 @@ export default function Installningar() {
           <Text style={styles.rowLabel}>Beräkning</Text>
           <View style={styles.rowTrailing}>
             <Text style={styles.rowValue}>{calcSummary}</Text>
-            <MaterialIcons name="chevron-right" size={22} color={colors.textMuted} />
+            <Icon name="chevronRight" size={22} color={colors.textMuted} />
           </View>
         </Pressable>
 
@@ -342,7 +342,7 @@ export default function Installningar() {
               style={({ pressed }) => [styles.row, pressed && styles.rowPressed]}
             >
               <Text style={styles.rowAction}>{openSystemSettingsLabel()}</Text>
-              <MaterialIcons name="open-in-new" size={18} color={colors.accent} />
+              <Icon name="externalLink" size={18} color={colors.accent} />
             </Pressable>
           ) : null}
           {/* The per-alert detail — lead time and sound, per prayer, plus the
@@ -359,7 +359,7 @@ export default function Installningar() {
               <Text style={styles.rowLabel}>Påminnelser</Text>
               <View style={styles.rowTrailing}>
                 <Text style={styles.rowValue}>{notificationSummary(settings)}</Text>
-                <MaterialIcons name="chevron-right" size={22} color={colors.textMuted} />
+                <Icon name="chevronRight" size={22} color={colors.textMuted} />
               </View>
             </Pressable>
           ) : null}
@@ -503,7 +503,7 @@ export default function Installningar() {
             accessibilityLabel="Återställ alla inställningar till appens standard"
             style={({ pressed }) => [styles.resetButton, pressed && styles.rowPressed]}
           >
-            <MaterialIcons name="settings-backup-restore" size={18} color={colors.textMuted} />
+            <Icon name="settingsRestore" size={18} color={colors.textMuted} />
             <Text style={styles.resetLabel}>Återställ appens standard</Text>
           </Pressable>
         )}
@@ -548,7 +548,7 @@ function LinkRow({
       ]}
     >
       <Text style={styles.linkLabel}>{label}</Text>
-      <MaterialIcons name="chevron-right" size={22} color={colors.textMuted} />
+      <Icon name="chevronRight" size={22} color={colors.textMuted} />
     </Pressable>
   );
 }

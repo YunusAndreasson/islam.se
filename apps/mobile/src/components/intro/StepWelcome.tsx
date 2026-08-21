@@ -17,17 +17,17 @@
 // moved onto bönetider itself (MapLessonCard) because "kartan" means nothing to someone
 // who has not seen one yet — naming the map as a feature is fine, teaching its language
 // before it is on screen is not.
-import { MaterialIcons } from '@expo/vector-icons';
 import { useMemo } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
+import { Icon, type IconName } from '@/components/ui/Icon';
 import { type Palette, radius, space, type } from '@/theme/tokens';
 import { useColors } from '@/theme/useColors';
 
-const POINTS: readonly { icon: keyof typeof MaterialIcons.glyphMap; text: string }[] = [
+const POINTS: readonly { icon: IconName; text: string }[] = [
   { icon: 'map', text: 'Bönetider för hela Sverige, på en karta' },
-  { icon: 'notifications-none', text: 'Påminnelser när du vill ha dem' },
-  { icon: 'lock-outline', text: 'Allt räknas ut på din enhet' },
+  { icon: 'notificationsOff', text: 'Påminnelser när du vill ha dem' },
+  { icon: 'lock', text: 'Allt räknas ut på din enhet' },
 ];
 
 export function StepWelcome() {
@@ -47,7 +47,7 @@ export function StepWelcome() {
           accessible
           accessibilityLabel={point.text}
         >
-          <MaterialIcons
+          <Icon
             name={point.icon}
             size={22}
             color={c.accent}
